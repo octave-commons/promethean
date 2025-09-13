@@ -3,9 +3,8 @@
   "type": "module",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "test": "pnpm build && ava",
-    "coverage": "pnpm build && c8 ava",
-    "doc:dev-ui": "pnpm build && node ./dist/dev-ui.js --dir ../../docs/unique --collection docs-cosine --port 3939"
+    "test": "pnpm run build && ava --config ../../config/ava.config.mjs",
+    "coverage": "pnpm build && c8 ava"
   },
   "dependencies": {
     "@chroma-core/ollama": "^0.1.7",
@@ -25,6 +24,7 @@
     "unist-util-visit": "^5.0.0",
     "uuid": "^12.0.0",
     "yaml": "^2.8.1",
-    "zod": "^4.1.5"
+    "zod": "^4.1.5",
+    "@promethean/fs": "workspace:*"
   }
 }

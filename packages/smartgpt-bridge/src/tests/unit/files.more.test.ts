@@ -1,4 +1,3 @@
-// @ts-nocheck
 import path from "node:path";
 
 import test from "ava";
@@ -10,7 +9,7 @@ import {
   normalizeToRoot,
 } from "../../files.js";
 
-const ROOT = path.join(process.cwd(), "src", "tests", "fixtures");
+const ROOT = path.join(process.cwd(), "tests", "fixtures");
 
 test("locateStacktrace: Node style with function (nodeB)", async (t) => {
   const p = path.join(ROOT, "hello.ts");
@@ -42,12 +41,18 @@ test("resolvePath returns null for non-existent", async (t) => {
   t.is(p, null);
 });
 
+test("resolvePath rejects absolute paths outside root", async (t) => {
+  const outside = path.resolve(ROOT, "..", "outside.txt");
+  const p = await resolvePath(ROOT, outside);
+  t.is(p, null);
+});
+
 test("viewFile throws when file missing", async (t) => {
   await t.throwsAsync(() => viewFile(ROOT, "nope.txt", 1, 1));
 });
 
 test("normalizeToRoot treats leading slash as repo root", (t) => {
-  const p1 = normalizeToRoot(process.cwd(), "src/tests/fixtures/readme.md");
+  const p1 = normalizeToRoot(process.cwd(), "tests/fixtures/readme.md");
   const p2 = normalizeToRoot(process.cwd(), "/tests/fixtures/readme.md");
   t.is(p1, p2);
 });

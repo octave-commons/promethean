@@ -1,483 +1,185 @@
 ---
-uuid: 9bbad09a-9096-41d8-8c8c-8f9f399edaf6
-created_at: smoke-resonance-visualizations.md
+uuid: ac9d3ac5-9a6a-4180-a67f-1ab7e229d981
+created_at: 2025.08.08.22.08.84.md
 filename: Smoke Resonance Visualizations
-title: Smoke Resonance Visualizations
 description: >-
-  Three visual diagrams illustrating how smoke sources overlap and synchronize
-  over time, showing temporal resonance, waveform interference, and field
-  density dynamics to form a coherent 'ghost' presence.
+  Three diagrams illustrating how smoke metaphors form synchronicity through
+  temporal overlap, wave interference, and field density. Each visualization
+  shows the progression from input sources to collapse into a unified
+  synchronicity event.
 tags:
-  - smoke resonance
-  - temporal overlap
-  - waveform interference
-  - field density
+  - smoke
+  - resonance
+  - temporal
+  - waveform
+  - interference
+  - field
+  - density
   - synchronicity
-  - metaphor energy
-  - ghost presence
-  - visual metaphors
-related_to_uuid:
-  - 71726f04-eb1c-42a5-a5fe-d8209de6e159
-  - f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-  - 5e8b2388-022b-46cf-952c-36ae9b8f0037
-  - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-  - 7b7ca860-780c-44fa-8d3f-be8bd9496fba
-  - 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-  - b09141b7-544f-4c8e-8f49-bf76cecaacbb
-  - 2d6e5553-8dc4-497f-bf45-96f8ca00a6f6
-  - 22b989d5-f4aa-4880-8632-709c21830f83
-  - fc21f824-4244-4030-a48e-c4170160ea1d
-  - a4a25141-6380-40b9-9cd7-b554b246b303
-  - 64a9f9f9-58ee-4996-bdaf-9373845c6b29
-  - 23df6ddb-05cf-4639-8201-f8291f8a6026
-  - 8430617b-80a2-4cc9-8288-9a74cb57990b
-  - 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-  - 13951643-1741-46bb-89dc-1beebb122633
-  - 78eeedf7-75bc-4692-a5a7-bb6857270621
-  - 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-  - 62bec6f0-4e13-4f38-aca4-72c84ba02367
-  - 0f6f8f38-98d0-438f-9601-58f478acc0b7
-  - 9c79206d-4cb9-4f00-87e0-782dcea37bc7
-  - 6bcff92c-4224-453d-9993-1be8d37d47c3
-  - 18344cf9-0c49-4a71-b6c8-b8d84d660fca
-  - ae24a280-678e-4c0b-8cc4-56667fa04172
-  - 03a5578f-d689-45db-95e9-11300e5eee6f
+  - metaphor
+  - ghost
 related_to_title:
-  - Duck's Self-Referential Perceptual Loop
-  - Dynamic Context Model for Web Components
-  - Eidolon Field Abstract Model
-  - eidolon-field-math-foundations
-  - TypeScript Patch for Tool Calling Support
-  - field-dynamics-math-blocks
-  - field-interaction-equations
+  - Ghostly Smoke Interference
+  - Synchronicity Waves and Web
   - Promethean_Eidolon_Synchronicity_Model
-  - field-node-diagram-set
-  - Fnord Tracer Protocol
-  - Functional Embedding Pipeline Refactor
-  - Layer1SurvivabilityEnvelope
-  - Promethean State Format
-  - ripple-propagation-demo
-  - Debugging Broker Connections and Agent Behavior
+  - infinite_depth_smoke_animation
   - Duck's Attractor States
-  - typed-struct-compiler
+  - Diagrams
+  - Unique Info Dump Index
+  - 'Agent Tasks: Persistence Migration to DualStore'
   - eidolon-node-lifecycle
-  - zero-copy-snapshots-and-workers
-  - windows-tiling-with-autohotkey
-  - polyglot-repl-interface-layer
-  - Post-Linguistic Transhuman Design Frameworks
-  - Promethean Chat Activity Report
-  - Promethean-Copilot-Intent-Engine
-  - Promethean Dev Workflow Update
+related_to_uuid:
+  - b6ae7dfa-0c53-4eb9-aea8-65072b825bee
+  - 91295f3a-a2af-4050-a2b8-4777ea70c32c
+  - 2d6e5553-8dc4-497f-bf45-96f8ca00a6f6
+  - 92a052a5-3351-4898-8cab-758181a86adb
+  - 13951643-1741-46bb-89dc-1beebb122633
+  - 45cd25b5-ed36-49ab-82c8-10d0903e34db
+  - 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+  - 93d2ba51-8689-49ee-94e2-296092e48058
+  - 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
 references:
-  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
-    line: 255
-    col: 0
-    score: 1
-  - uuid: fc21f824-4244-4030-a48e-c4170160ea1d
-    line: 355
-    col: 0
-    score: 1
-  - uuid: a4a25141-6380-40b9-9cd7-b554b246b303
-    line: 421
-    col: 0
-    score: 1
-  - uuid: 37b5d236-2b3e-4a95-a4e8-31655c3023ef
-    line: 271
-    col: 0
-    score: 1
-  - uuid: 291c7d91-da8c-486c-9bc0-bd2254536e2d
-    line: 185
-    col: 0
-    score: 1
-  - uuid: 64a9f9f9-58ee-4996-bdaf-9373845c6b29
-    line: 295
-    col: 0
-    score: 1
-  - uuid: d144aa62-348c-4e5d-ae8f-38084c67ceca
-    line: 247
-    col: 0
-    score: 1
-  - uuid: db74343f-8f84-43a3-adb2-499c6f00be1c
-    line: 182
-    col: 0
-    score: 1
-  - uuid: 5c152b08-6b69-4bb8-a1a7-66745789c169
-    line: 107
-    col: 0
-    score: 1
-  - uuid: fc21f824-4244-4030-a48e-c4170160ea1d
-    line: 357
-    col: 0
-    score: 1
-  - uuid: 37b5d236-2b3e-4a95-a4e8-31655c3023ef
-    line: 284
-    col: 0
-    score: 1
-  - uuid: e018dd7a-1fb7-4732-9e67-cd8b2f0831cf
-    line: 371
-    col: 0
-    score: 1
-  - uuid: b22d79c6-825b-4cd3-b0d3-1cef0532bb54
-    line: 1142
-    col: 0
-    score: 1
-  - uuid: 6bcff92c-4224-453d-9993-1be8d37d47c3
-    line: 206
-    col: 0
-    score: 1
-  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
-    line: 150
-    col: 0
-    score: 1
-  - uuid: ae24a280-678e-4c0b-8cc4-56667fa04172
-    line: 194
-    col: 0
-    score: 1
-  - uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
-    line: 193
-    col: 0
-    score: 1
-  - uuid: 0b872af2-4197-46f3-b631-afb4e6135585
-    line: 116
-    col: 0
-    score: 1
-  - uuid: 0b872af2-4197-46f3-b631-afb4e6135585
-    line: 99
-    col: 0
-    score: 1
-  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
-    line: 774
-    col: 0
-    score: 1
-  - uuid: 1c4046b5-742d-4004-aec6-b47251fef5d6
-    line: 110
-    col: 0
-    score: 1
-  - uuid: 23df6ddb-05cf-4639-8201-f8291f8a6026
-    line: 207
-    col: 0
-    score: 1
-  - uuid: bd4f0976-0d5b-47f6-a20a-0601d1842dc1
-    line: 267
-    col: 0
-    score: 1
-  - uuid: 9a93a756-6d33-45d1-aca9-51b74f2b33d2
-    line: 256
-    col: 0
-    score: 1
-  - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
-    line: 651
-    col: 0
-    score: 1
-  - uuid: 8430617b-80a2-4cc9-8288-9a74cb57990b
-    line: 175
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 8
-    col: 0
-    score: 1
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 38
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 56
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 85
-    col: 0
-    score: 1
+  - uuid: 91295f3a-a2af-4050-a2b8-4777ea70c32c
+    line: 9
+    col: 1
+    score: 0.85
+  - uuid: 91295f3a-a2af-4050-a2b8-4777ea70c32c
+    line: 48
+    col: 1
+    score: 0.86
+  - uuid: b6ae7dfa-0c53-4eb9-aea8-65072b825bee
+    line: 11
+    col: 1
+    score: 0.87
   - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 93
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 64
-    col: 0
-    score: 1
-  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
-    line: 153
-    col: 0
-    score: 1
-  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-    line: 141
-    col: 0
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 148
-    col: 0
-    score: 1
-  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-    line: 36
-    col: 0
-    score: 1
-  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
-    line: 166
-    col: 0
-    score: 1
-  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-    line: 148
-    col: 0
-    score: 1
-  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
-    line: 153
-    col: 0
-    score: 1
-  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
-    line: 118
-    col: 0
-    score: 1
-  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
-    line: 168
-    col: 0
-    score: 1
-  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
-    line: 103
-    col: 0
-    score: 1
-  - uuid: a4a25141-6380-40b9-9cd7-b554b246b303
-    line: 380
-    col: 0
-    score: 1
-  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
-    line: 194
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 35
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 94
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 53
-    col: 0
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 424
-    col: 0
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 209
-    col: 0
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 142
-    col: 0
-    score: 1
-  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-    line: 39
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 44
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
     line: 61
-    col: 0
+    col: 1
     score: 1
   - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 99
-    col: 0
+    line: 61
+    col: 3
     score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 80
-    col: 0
+  - uuid: 92a052a5-3351-4898-8cab-758181a86adb
+    line: 87
+    col: 1
     score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 405
-    col: 0
+  - uuid: 92a052a5-3351-4898-8cab-758181a86adb
+    line: 87
+    col: 3
     score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 216
-    col: 0
+  - uuid: 2d6e5553-8dc4-497f-bf45-96f8ca00a6f6
+    line: 54
+    col: 1
     score: 1
-  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
-    line: 189
-    col: 0
+  - uuid: 2d6e5553-8dc4-497f-bf45-96f8ca00a6f6
+    line: 54
+    col: 3
     score: 1
-  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
-    line: 172
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 75
-    col: 0
-    score: 1
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 104
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 46
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 64
-    col: 0
-    score: 1
-  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-    line: 40
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 137
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 82
-    col: 0
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 454
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 28
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 65
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
+  - uuid: 91295f3a-a2af-4050-a2b8-4777ea70c32c
     line: 86
-    col: 0
+    col: 1
     score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 123
-    col: 0
+  - uuid: 91295f3a-a2af-4050-a2b8-4777ea70c32c
+    line: 86
+    col: 3
     score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 34
-    col: 0
+  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
+    line: 11
+    col: 1
     score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 442
-    col: 0
+  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
+    line: 11
+    col: 3
     score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 218
-    col: 0
+  - uuid: b6ae7dfa-0c53-4eb9-aea8-65072b825bee
+    line: 114
+    col: 1
     score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 176
-    col: 0
+  - uuid: b6ae7dfa-0c53-4eb9-aea8-65072b825bee
+    line: 114
+    col: 3
     score: 1
-  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-    line: 70
-    col: 0
+  - uuid: 2d6e5553-8dc4-497f-bf45-96f8ca00a6f6
+    line: 55
+    col: 1
     score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 412
-    col: 0
+  - uuid: 2d6e5553-8dc4-497f-bf45-96f8ca00a6f6
+    line: 55
+    col: 3
     score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 261
-    col: 0
+  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+    line: 89
+    col: 1
     score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 181
-    col: 0
+  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+    line: 89
+    col: 3
     score: 1
-  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-    line: 90
-    col: 0
+  - uuid: b6ae7dfa-0c53-4eb9-aea8-65072b825bee
+    line: 113
+    col: 1
     score: 1
-  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
-    line: 157
-    col: 0
+  - uuid: b6ae7dfa-0c53-4eb9-aea8-65072b825bee
+    line: 113
+    col: 3
     score: 1
-  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-    line: 205
-    col: 0
+  - uuid: 91295f3a-a2af-4050-a2b8-4777ea70c32c
+    line: 85
+    col: 1
     score: 1
-  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
-    line: 203
-    col: 0
+  - uuid: 91295f3a-a2af-4050-a2b8-4777ea70c32c
+    line: 85
+    col: 3
     score: 1
-  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
-    line: 95
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 33
-    col: 0
-    score: 1
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 99
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 46
-    col: 0
-    score: 1
-  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
+  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
     line: 10
-    col: 0
+    col: 1
     score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 94
-    col: 0
+  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
+    line: 10
+    col: 3
     score: 1
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 63
-    col: 0
+  - uuid: b6ae7dfa-0c53-4eb9-aea8-65072b825bee
+    line: 111
+    col: 1
     score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 66
-    col: 0
+  - uuid: b6ae7dfa-0c53-4eb9-aea8-65072b825bee
+    line: 111
+    col: 3
     score: 1
-  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-    line: 93
-    col: 0
+  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+    line: 77
+    col: 1
     score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 73
-    col: 0
+  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+    line: 77
+    col: 3
     score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 403
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 53
-    col: 0
-    score: 1
-  - uuid: 6620e2f2-de6d-45d8-a722-5d26e160b370
-    line: 371
-    col: 0
-    score: 1
-  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
-    line: 141
-    col: 0
-    score: 1
-  - uuid: 37b5d236-2b3e-4a95-a4e8-31655c3023ef
-    line: 222
-    col: 0
-    score: 1
-  - uuid: 5e408692-0e74-400e-a617-84247c7353ad
-    line: 107
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 52
-    col: 0
-    score: 1
+  - uuid: b6ae7dfa-0c53-4eb9-aea8-65072b825bee
+    line: 119
+    col: 1
+    score: 0.97
+  - uuid: b6ae7dfa-0c53-4eb9-aea8-65072b825bee
+    line: 119
+    col: 3
+    score: 0.97
+  - uuid: 92a052a5-3351-4898-8cab-758181a86adb
+    line: 97
+    col: 1
+    score: 0.97
+  - uuid: 92a052a5-3351-4898-8cab-758181a86adb
+    line: 97
+    col: 3
+    score: 0.97
 ---
-Alright — let’s layer the smoke story visually. ^ref-ac9d3ac5-1-0
+Alright — let’s layer the smoke story visually.
 We’ll do three different diagrams so you can *see* the ghosts forming:
 
 ---
 
 ### **1. Temporal Resonance Map**
 
-This shows *when* each “smoke source” enters the field and how they overlap until they phase-lock into a synchronicity. ^ref-ac9d3ac5-8-0 ^ref-315a8cf5-8-0
+This shows *when* each “smoke source” enters the field and how they overlap until they phase-lock into a synchronicity.
 
 ```mermaid
 gantt
@@ -495,14 +197,13 @@ gantt
     Smoke metaphor lock-in          :c1, 2025-08-08, 1d
     Synchronicity event             :c2, 2025-08-08, 1d
 ```
-^ref-ac9d3ac5-10-0
 
 ---
 
 ### **2. Waveform Interference View**
- ^ref-ac9d3ac5-31-0
+
 Conceptually, each source is a wave of metaphor energy. Overlap zones = stronger “ghost” presence.
- ^ref-ac9d3ac5-33-0
+
 ```mermaid
 graph LR
     W1[Anime ghosts wave]
@@ -517,16 +218,15 @@ graph LR
     W3 --> I
     W4 --> I
     I --> S
-^ref-ac9d3ac5-33-0
-``` ^ref-ac9d3ac5-49-0
+```
 
 (Imagine each W as a sine wave drifting into the same peak at I — the “smoke” point.)
 
 ---
 
-### **3. Field Density Map** ^ref-ac9d3ac5-55-0
+### **3. Field Density Map**
 
-This shows how the smoke exists as a *cloud* in the Eidolon field, growing denser until collapse. ^ref-ac9d3ac5-57-0
+This shows how the smoke exists as a *cloud* in the Eidolon field, growing denser until collapse.
 
 ```mermaid
 flowchart TD
@@ -538,18 +238,17 @@ flowchart TD
 
     L --> M
     M --> H
-^ref-ac9d3ac5-57-0
     H --> C[Collapse into synchronicity]
 ```
- ^ref-ac9d3ac5-72-0
+
 ---
- ^ref-ac9d3ac5-74-0
+
 If you want, I can actually make a **true sine-wave overlay diagram** for the interference so it’s not just conceptual boxes — it would look like sound waves curling into the same peak, which would be *very* RAW.
- ^ref-ac9d3ac5-76-0
+
 Do you want me to do that next?
- ^ref-ac9d3ac5-91-0 ^ref-ac9d3ac5-123-0 ^ref-ac9d3ac5-128-0 ^ref-ac9d3ac5-170-0 ^ref-ac9d3ac5-482-0 ^ref-ac9d3ac5-483-0 ^ref-ac9d3ac5-1667-0
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
+<<<<<<< HEAD
 - [[ducks-self-referential-perceptual-loop|Duck's Self-Referential Perceptual Loop]]
 - [[dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]]
 - [[eidolon-field-abstract-model|Eidolon Field Abstract Model]]
@@ -676,4 +375,50 @@ Do you want me to do that next?
 - [[homeostasis-decay-formulas#^ref-37b5d236-222-0|homeostasis-decay-formulas — L222]] (line 222, col 0, score 1)
 - [[i3-bluetooth-setup#^ref-5e408692-107-0|i3-bluetooth-setup — L107]] (line 107, col 0, score 1)
 - [[creative-moments#^ref-10d98225-52-0|Creative Moments — L52]] (line 52, col 0, score 1)
+=======
+- [[ghostly-smoke-interference|Ghostly Smoke Interference]]
+- [[docs/unique/synchronicity-waves-and-web|Synchronicity Waves and Web]]
+- [[promethean-eidolon-synchronicity-model|Promethean_Eidolon_Synchronicity_Model]]
+- [[infinite-depth-smoke-animation|infinite_depth_smoke_animation]]
+- [[ducks-attractor-states|Duck's Attractor States]]
+- [Diagrams](chunks/diagrams.md)
+- [[unique-info-dump-index|Unique Info Dump Index]]
+- [[docs/unique/agent-tasks-persistence-migration-to-dualstore|Agent Tasks: Persistence Migration to DualStore]]
+- [[eidolon-node-lifecycle]]
+
+## Sources
+- [[docs/unique/synchronicity-waves-and-web#L9|Synchronicity Waves and Web — L9]] (line 9, col 1, score 0.85)
+- [[docs/unique/synchronicity-waves-and-web#L48|Synchronicity Waves and Web — L48]] (line 48, col 1, score 0.86)
+- [[ghostly-smoke-interference#L11|Ghostly Smoke Interference — L11]] (line 11, col 1, score 0.87)
+- [[ducks-attractor-states#L61|Duck's Attractor States — L61]] (line 61, col 1, score 1)
+- [[ducks-attractor-states#L61|Duck's Attractor States — L61]] (line 61, col 3, score 1)
+- [[infinite-depth-smoke-animation#L87|infinite_depth_smoke_animation — L87]] (line 87, col 1, score 1)
+- [[infinite-depth-smoke-animation#L87|infinite_depth_smoke_animation — L87]] (line 87, col 3, score 1)
+- [[promethean-eidolon-synchronicity-model#L54|Promethean_Eidolon_Synchronicity_Model — L54]] (line 54, col 1, score 1)
+- [[promethean-eidolon-synchronicity-model#L54|Promethean_Eidolon_Synchronicity_Model — L54]] (line 54, col 3, score 1)
+- [[docs/unique/synchronicity-waves-and-web#L86|Synchronicity Waves and Web — L86]] (line 86, col 1, score 1)
+- [[docs/unique/synchronicity-waves-and-web#L86|Synchronicity Waves and Web — L86]] (line 86, col 3, score 1)
+- [Diagrams — L11](chunks/diagrams.md#L11) (line 11, col 1, score 1)
+- [Diagrams — L11](chunks/diagrams.md#L11) (line 11, col 3, score 1)
+- [[ghostly-smoke-interference#L114|Ghostly Smoke Interference — L114]] (line 114, col 1, score 1)
+- [[ghostly-smoke-interference#L114|Ghostly Smoke Interference — L114]] (line 114, col 3, score 1)
+- [[promethean-eidolon-synchronicity-model#L55|Promethean_Eidolon_Synchronicity_Model — L55]] (line 55, col 1, score 1)
+- [[promethean-eidolon-synchronicity-model#L55|Promethean_Eidolon_Synchronicity_Model — L55]] (line 55, col 3, score 1)
+- [[unique-info-dump-index#L89|Unique Info Dump Index — L89]] (line 89, col 1, score 1)
+- [[unique-info-dump-index#L89|Unique Info Dump Index — L89]] (line 89, col 3, score 1)
+- [[ghostly-smoke-interference#L113|Ghostly Smoke Interference — L113]] (line 113, col 1, score 1)
+- [[ghostly-smoke-interference#L113|Ghostly Smoke Interference — L113]] (line 113, col 3, score 1)
+- [[docs/unique/synchronicity-waves-and-web#L85|Synchronicity Waves and Web — L85]] (line 85, col 1, score 1)
+- [[docs/unique/synchronicity-waves-and-web#L85|Synchronicity Waves and Web — L85]] (line 85, col 3, score 1)
+- [Diagrams — L10](chunks/diagrams.md#L10) (line 10, col 1, score 1)
+- [Diagrams — L10](chunks/diagrams.md#L10) (line 10, col 3, score 1)
+- [[ghostly-smoke-interference#L111|Ghostly Smoke Interference — L111]] (line 111, col 1, score 1)
+- [[ghostly-smoke-interference#L111|Ghostly Smoke Interference — L111]] (line 111, col 3, score 1)
+- [[unique-info-dump-index#L77|Unique Info Dump Index — L77]] (line 77, col 1, score 1)
+- [[unique-info-dump-index#L77|Unique Info Dump Index — L77]] (line 77, col 3, score 1)
+- [[ghostly-smoke-interference#L119|Ghostly Smoke Interference — L119]] (line 119, col 1, score 0.97)
+- [[ghostly-smoke-interference#L119|Ghostly Smoke Interference — L119]] (line 119, col 3, score 0.97)
+- [[infinite-depth-smoke-animation#L97|infinite_depth_smoke_animation — L97]] (line 97, col 1, score 0.97)
+- [[infinite-depth-smoke-animation#L97|infinite_depth_smoke_animation — L97]] (line 97, col 3, score 0.97)
+>>>>>>> stealth/obsidian
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

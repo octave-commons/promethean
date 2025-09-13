@@ -2,6 +2,8 @@ import * as path from "path";
 import { promises as fs } from "fs";
 
 import * as chokidar from "chokidar";
+import AjvModule from "ajv";
+import { globby } from "globby";
 
 import {
   FileSchema,
@@ -19,18 +21,53 @@ import {
   runTSModule,
   writeText,
 } from "./fsutils.js";
-import { stepFingerprint } from "./hash.js";
+import { fingerprintFromGlobs, stepFingerprint } from "./hash.js";
 import { topoSort } from "./lib/graph.js";
 import { semaphore } from "./lib/concurrency.js";
-import { loadState, saveState, RunState } from "./lib/state.js";
+import { loadState, saveState, RunState, type Step } from "./lib/state.js";
 import { renderReport } from "./lib/report.js";
-import { emitEvent } from "./lib/events.js";
+import { emitEvent, type PiperEvent } from "./lib/events.js";
+
+type ValidateFn = {
+  (data: unknown): boolean;
+  errors?: unknown;
+};
+
+type AjvLike = {
+  compile(schema: unknown): ValidateFn;
+  errorsText(errors?: unknown): string;
+};
+
+const AjvCtor = AjvModule as unknown as new () => AjvLike;
+const ajv: AjvLike = new AjvCtor();
 
 function slug(s: string) {
   return s
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
+}
+
+async function validateFiles(
+  files: string[],
+  schemaPath: string,
+  cwd: string,
+  kind: "input" | "output",
+) {
+  if (!files.length) return;
+  const absSchema = path.resolve(cwd, schemaPath);
+  const schema = JSON.parse(await fs.readFile(absSchema, "utf-8"));
+  const validate = ajv.compile(schema);
+  for (const f of files) {
+    const absFile = path.resolve(cwd, f);
+    const data = JSON.parse(await fs.readFile(absFile, "utf-8"));
+    const ok = validate(data);
+    if (!ok) {
+      throw new Error(
+        `${kind} schema mismatch for ${f}: ${ajv.errorsText(validate.errors)}`,
+      );
+    }
+  }
 }
 
 async function readConfig(p: string): Promise<PiperFile> {
@@ -58,12 +95,18 @@ function shouldSkip(
   step: PiperStep,
   state: RunState,
   fp: string,
+  outHash: string | undefined,
   haveOutputs: boolean,
   force: boolean | undefined,
 ) {
   if (force) return { skip: false, reason: "" };
   const prev = state.steps[step.id];
-  if (prev && prev.fingerprint === fp && haveOutputs) {
+  if (
+    prev &&
+    prev.fingerprint === fp &&
+    haveOutputs &&
+    prev.outputHash === outHash
+  ) {
     return {
       skip: true,
       reason: "cache clean (fingerprint & outputs unchanged)",
@@ -75,13 +118,17 @@ function shouldSkip(
 export async function runPipeline(
   configPath: string,
   pipelineName: string,
-  opts: RunOptions & { json?: boolean },
+  opts: RunOptions & {
+    json?: boolean;
+    emit?: (ev: PiperEvent, json: boolean) => void;
+  },
 ): Promise<readonly StepResult[]> {
   const cfg = await readConfig(configPath);
   const pipeline = cfg.pipelines.find((p) => p.name === pipelineName);
   if (!pipeline) throw new Error(`pipeline '${pipelineName}' not found`);
   const steps = topoSort(pipeline.steps);
   const state = await loadState(pipeline.name);
+  const emit = opts.emit ?? emitEvent;
 
   const sem = semaphore(Math.max(1, opts.concurrency ?? 2));
   // Serialize JS module steps to avoid in-proc global-state races.
@@ -89,30 +136,64 @@ export async function runPipeline(
 
   const results: StepResult[] = [];
   const runMap = new Map<string, Promise<void>>();
+  const resultMap = new Map<string, StepResult>();
 
   const runStep = async (s: PiperStep): Promise<void> => {
     // ensure deps completed
-    for (const d of s.deps) await runMap.get(d);
+    let depsChanged = false;
+    for (const d of s.deps) {
+      await runMap.get(d);
+      const dep = resultMap.get(d);
+      if (dep) {
+        if (!dep.skipped && dep.exitCode !== 0) {
+          const reason = `dependency ${d} failed`;
+          const res: StepResult = { id: s.id, skipped: true, reason };
+          results.push(res);
+          resultMap.set(s.id, res);
+          emit(
+            {
+              type: "skip",
+              stepId: s.id,
+              at: new Date().toISOString(),
+              reason,
+            },
+            opts.json ?? false,
+          );
+          return;
+        }
+        if (!dep.skipped) depsChanged = true;
+      }
+    }
 
     await sem.take();
     try {
       const cwd = path.resolve(s.cwd || ".");
-      const fp = await stepFingerprint(s, cwd, !!opts.contentHash);
+      const fp = await stepFingerprint(
+        s,
+        cwd,
+        !!opts.contentHash,
+        opts.extraEnv,
+      );
       const haveOutputs = s.outputs.length
         ? await listOutputsExist(s.outputs, cwd)
         : false;
+      const outHash = haveOutputs
+        ? await fingerprintFromGlobs(
+            s.outputs,
+            cwd,
+            opts.contentHash ? "content" : "mtime",
+          )
+        : undefined;
 
-      const { skip, reason } = shouldSkip(
-        s,
-        state,
-        fp,
-        haveOutputs,
-        opts.force,
-      );
+      const { skip, reason } = depsChanged
+        ? { skip: false, reason: "" }
+        : shouldSkip(s, state, fp, outHash, haveOutputs, opts.force);
 
       if (opts.dryRun) {
-        results.push({ id: s.id, skipped: true, reason: "dry-run" });
-        emitEvent(
+        const res: StepResult = { id: s.id, skipped: true, reason: "dry-run" };
+        results.push(res);
+        resultMap.set(s.id, res);
+        emit(
           {
             type: "skip",
             stepId: s.id,
@@ -124,8 +205,10 @@ export async function runPipeline(
         return;
       }
       if (skip) {
-        results.push({ id: s.id, skipped: true, reason });
-        emitEvent(
+        const res: StepResult = { id: s.id, skipped: true, reason };
+        results.push(res);
+        resultMap.set(s.id, res);
+        emit(
           { type: "skip", stepId: s.id, at: new Date().toISOString(), reason },
           opts.json ?? false,
         );
@@ -133,32 +216,107 @@ export async function runPipeline(
       }
 
       const startedAt = new Date().toISOString();
-      emitEvent(
-        { type: "start", stepId: s.id, at: startedAt },
-        opts.json ?? false,
-      );
+      emit({ type: "start", stepId: s.id, at: startedAt }, opts.json ?? false);
 
-      const execRes = await (async () => {
-        if (s.shell) return runShell(s.shell, cwd, s.env, s.timeoutMs);
-        if (s.node) return runNode(s.node, s.args, cwd, s.env, s.timeoutMs);
-        if (s.ts) return runTSModule(s, cwd, s.env, s.timeoutMs);
-        if (s.js) {
-          const needJsLock = s.js?.isolate !== "worker";
-          if (needJsLock) await jsSem.take();
-          try {
-            return await runJSModule(s, cwd, s.env, fp, s.timeoutMs);
-          } catch (e: unknown) {
-            const stderr =
-              e instanceof Error ? e.stack ?? e.message : String(e);
-            return { code: 1, stdout: "", stderr } as const;
-          } finally {
-            if (needJsLock) jsSem.release();
+      const runOnce = async () => {
+        for (const pat of s.inputs) {
+          const matches = await globby(pat, { cwd });
+          if (matches.length === 0) {
+            return {
+              code: 1,
+              stdout: "",
+              stderr: `missing input: ${pat}`,
+            } as const;
           }
         }
-        return { code: 0, stdout: "", stderr: "" } as const;
-      })();
+        if (s.inputSchema) {
+          try {
+            const inFiles = await globby(s.inputs, { cwd });
+            await validateFiles(inFiles, s.inputSchema, cwd, "input");
+          } catch (e: unknown) {
+            const stderr = e instanceof Error ? e.message : String(e);
+            return { code: 1, stdout: "", stderr } as const;
+          }
+        }
+
+        const envMerged = {
+          ...(s.env || {}),
+          ...(opts.extraEnv || {}),
+        } as Record<string, string>;
+        const base = await (async () => {
+          if (s.shell) return runShell(s.shell, cwd, envMerged, s.timeoutMs);
+          if (s.node)
+            return runNode(s.node, s.args, cwd, envMerged, s.timeoutMs);
+          if (s.ts) return runTSModule(s, cwd, envMerged, s.timeoutMs);
+          if (s.js) {
+            const needJsLock = s.js?.isolate !== "worker";
+            if (needJsLock) await jsSem.take();
+            try {
+              return await runJSModule(s, cwd, envMerged, fp, s.timeoutMs);
+            } catch (e: unknown) {
+              const stderr =
+                e instanceof Error ? e.stack ?? e.message : String(e);
+              return { code: 1, stdout: "", stderr } as const;
+            } finally {
+              if (needJsLock) jsSem.release();
+            }
+          }
+          return { code: 0, stdout: "", stderr: "" } as const;
+        })();
+
+        if (base.code === 0 && s.outputSchema) {
+          try {
+            const outFiles = await globby(s.outputs, { cwd });
+            await validateFiles(outFiles, s.outputSchema, cwd, "output");
+            return base;
+          } catch (e: unknown) {
+            return {
+              code: 1,
+              stdout: base.stdout,
+              stderr: e instanceof Error ? e.message : String(e),
+            } as const;
+          }
+        }
+        return base;
+      };
+
+      type ExecRes = Readonly<{
+        code: number | null;
+        stdout: string;
+        stderr: string;
+      }>;
+      const maxRetry = Math.max(0, Math.floor(s.retry ?? 0));
+      const execRes: ExecRes = await (async function attemptRun(
+        attempt: number,
+      ): Promise<ExecRes> {
+        const res = await runOnce();
+        if (res.code === 0 || attempt >= maxRetry) return res;
+        const nextAttempt = attempt + 1;
+        emit(
+          {
+            type: "retry",
+            stepId: s.id,
+            at: new Date().toISOString(),
+            attempt: nextAttempt,
+            exitCode: res.code,
+          },
+          opts.json ?? false,
+        );
+        console.log(
+          `[piper] step ${s.id} failed (exit ${res.code}); retry ${nextAttempt}/${maxRetry}`,
+        );
+        return attemptRun(nextAttempt);
+      })(0);
 
       const endedAt = new Date().toISOString();
+      const outHashAfter = s.outputs.length
+        ? await fingerprintFromGlobs(
+            s.outputs,
+            cwd,
+            opts.contentHash ? "content" : "mtime",
+          )
+        : undefined;
+
       const out: StepResult = {
         id: s.id,
         skipped: false,
@@ -171,10 +329,17 @@ export async function runPipeline(
         fingerprint: fp,
       };
       results.push(out);
+      resultMap.set(s.id, out);
 
-      state.steps[s.id] = { fingerprint: fp, endedAt, exitCode: execRes.code };
+      const stepState: Step = {
+        fingerprint: fp,
+        endedAt,
+        exitCode: execRes.code,
+        ...(outHashAfter !== undefined ? { outputHash: outHashAfter } : {}),
+      };
+      state.steps[s.id] = stepState;
       await saveState(pipeline.name, state);
-      emitEvent(
+      emit(
         { type: "end", stepId: s.id, at: endedAt, result: out },
         opts.json ?? false,
       );
@@ -188,6 +353,14 @@ export async function runPipeline(
     runMap.set(s.id, p);
   }
   await Promise.all(runMap.values());
+  const failed = results.find(
+    (r) => !r.skipped && typeof r.exitCode === "number" && r.exitCode !== 0,
+  );
+  if (failed) {
+    throw new Error(
+      `step ${failed.id} failed with exit code ${failed.exitCode}`,
+    );
+  }
 
   // write report
   if (opts.reportDir) {

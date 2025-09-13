@@ -4,6 +4,7 @@ import { once } from "node:events";
 import { createWriteStream } from "node:fs";
 import { randomUUID as nodeRandomUUID } from "node:crypto";
 
+import { listFiles } from "@promethean/fs";
 import { unified } from "unified";
 import remarkParse from "remark-parse";
 import { visit } from "unist-util-visit";
@@ -35,18 +36,10 @@ export async function listFilesRec(
   root: string,
   exts: Set<string>,
 ): Promise<string[]> {
-  const out: string[] = [];
-  async function walk(dir: string) {
-    const ents = await fs.readdir(dir, { withFileTypes: true });
-    for (const ent of ents) {
-      const p = path.join(dir, ent.name);
-      if (ent.isDirectory()) await walk(p);
-      else out.push(p);
-    }
-  }
-  await walk(root);
+  const files = await listFiles(root, { includeHidden: false });
   return (
-    out
+    files
+      .map((f) => f.path)
       // exclude Emacs lockfiles like .#file.md which can cause crashes
       .filter((p) => !path.basename(p).startsWith(".#"))
       .filter((p) => exts.has(path.extname(p).toLowerCase()))
@@ -269,7 +262,7 @@ export function injectAnchors(
     return i;
   };
   for (const { line, id } of anchors) {
-    let idx = Math.max(1, Math.min(line, lines.length)) - 1;
+    const idx = Math.max(1, Math.min(line, lines.length)) - 1;
     if (hasIdOnOrNext(idx, id)) continue;
     if (inside[idx]) {
       const j = nextOutsideIdx(idx + 1);

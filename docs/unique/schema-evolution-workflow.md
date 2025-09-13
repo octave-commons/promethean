@@ -1,477 +1,491 @@
 ---
-uuid: 4c83910b-b306-4867-baf2-106528953972
-created_at: schema-evolution-workflow.md
+uuid: d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
+created_at: 2025.08.08.20.08.52.md
 filename: schema-evolution-workflow
-title: schema-evolution-workflow
 description: >-
-  Describes a schema evolution workflow using dual-write and upcasters for
-  handling schema changes in event streams, with DLQ for replay and MongoDB
-  changefeeds. Includes a CI linter for topic/schema hygiene.
+  Implements schema evolution with dual-write for writers and upcasters for
+  readers, using a registry to manage versioned topics and schema validation.
 tags:
-  - schema-evolution
+  - schema
+  - evolution
   - dual-write
   - upcasters
-  - dlq
-  - mongodb
-  - ci-linter
-  - event-streams
-related_to_uuid:
-  - 54382370-1931-4a19-a634-46735708a9ea
-  - bd4f0976-0d5b-47f6-a20a-0601d1842dc1
-  - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-  - 4330e8f0-5f46-4235-918b-39b6b93fa561
-  - 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-  - c03020e1-e3e7-48bf-aa7e-aa740c601b63
-  - 5020e892-8f18-443a-b707-6d0f3efcfe22
-  - a4a25141-6380-40b9-9cd7-b554b246b303
-  - f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-  - f5579967-762d-4cfd-851e-4f71b4cb77a1
-  - 5e8b2388-022b-46cf-952c-36ae9b8f0037
-  - d144aa62-348c-4e5d-ae8f-38084c67ceca
-  - 9c79206d-4cb9-4f00-87e0-782dcea37bc7
-  - 0f6f8f38-98d0-438f-9601-58f478acc0b7
-  - 13951643-1741-46bb-89dc-1beebb122633
-  - 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-  - 7b7ca860-780c-44fa-8d3f-be8bd9496fba
-  - 78eeedf7-75bc-4692-a5a7-bb6857270621
-  - 62bec6f0-4e13-4f38-aca4-72c84ba02367
-  - 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-  - b09141b7-544f-4c8e-8f49-bf76cecaacbb
-  - 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-  - 71726f04-eb1c-42a5-a5fe-d8209de6e159
-  - b22d79c6-825b-4cd3-b0d3-1cef0532bb54
-  - 03a5578f-d689-45db-95e9-11300e5eee6f
+  - registry
+  - topics
+  - validation
 related_to_title:
-  - Migrate to Provider-Tenant Architecture
-  - Prompt_Folder_Bootstrap
-  - eidolon-field-math-foundations
+  - State Snapshots API and Transactional Projector
+  - prom-lib-rate-limiters-and-replay-api
   - Stateful Partitions and Rebalancing
+  - Event Bus MVP
+  - Services
   - Unique Info Dump Index
-  - Per-Domain Policy System for JS Crawler
-  - Chroma Toolkit Consolidation Plan
-  - Functional Embedding Pipeline Refactor
-  - Dynamic Context Model for Web Components
-  - Performance-Optimized-Polyglot-Bridge
-  - Eidolon Field Abstract Model
-  - Model Selection for Lightweight Conversational Tasks
+  - Mongo Outbox Implementation
+  - Cross-Language Runtime Polymorphism
+  - WebSocket Gateway Implementation
+  - aionian-circuit-math
+  - archetype-ecs
+  - Diagrams
+  - DSL
+  - Promethean-native config design
+  - Promethean Event Bus MVP v0.1
+  - observability-infrastructure-setup
+  - ecs-offload-workers
+  - Cross-Target Macro System in Sibilant
   - polyglot-repl-interface-layer
-  - windows-tiling-with-autohotkey
-  - Duck's Attractor States
-  - Debugging Broker Connections and Agent Behavior
-  - TypeScript Patch for Tool Calling Support
-  - typed-struct-compiler
-  - zero-copy-snapshots-and-workers
-  - eidolon-node-lifecycle
-  - field-interaction-equations
-  - field-dynamics-math-blocks
-  - Duck's Self-Referential Perceptual Loop
-  - plan-update-confirmation
-  - Promethean Dev Workflow Update
+  - polymorphic-meta-programming-engine
+  - Chroma Toolkit Consolidation Plan
+  - Migrate to Provider-Tenant Architecture
+  - 'Agent Tasks: Persistence Migration to DualStore'
+related_to_uuid:
+  - 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
+  - aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
+  - 4330e8f0-5f46-4235-918b-39b6b93fa561
+  - 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+  - 75ea4a6a-8270-488d-9d37-799c288e5f70
+  - 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+  - 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+  - c34c36a6-80c9-4b44-a200-6448543b1b33
+  - e811123d-5841-4e52-bf8c-978f26db4230
+  - f2d83a77-7f86-4c56-8538-1350167a0c6c
+  - 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+  - 45cd25b5-ed36-49ab-82c8-10d0903e34db
+  - e87bc036-1570-419e-a558-f45b9c0db698
+  - ab748541-020e-4a7e-b07d-28173bd5bea2
+  - fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
+  - b4e64f8c-4dc9-4941-a877-646c5ada068e
+  - 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+  - 5f210ca2-54e9-445b-afe4-fb340d4992c5
+  - 9c79206d-4cb9-4f00-87e0-782dcea37bc7
+  - 7bed0b9a-8b22-4b1f-be81-054a179453cb
+  - 5020e892-8f18-443a-b707-6d0f3efcfe22
+  - 54382370-1931-4a19-a634-46735708a9ea
+  - 93d2ba51-8689-49ee-94e2-296092e48058
 references:
-  - uuid: d771154e-a7ef-44ca-b69c-a1626cf94fbf
-    line: 95
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 28
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 65
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 86
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 123
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 34
-    col: 0
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 442
-    col: 0
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 218
-    col: 0
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 176
-    col: 0
-    score: 1
-  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-    line: 70
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 75
-    col: 0
-    score: 1
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 104
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 46
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 64
-    col: 0
-    score: 1
-  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-    line: 40
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 137
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 82
-    col: 0
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 454
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 8
-    col: 0
-    score: 1
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 38
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 56
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 38
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 51
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 79
-    col: 0
-    score: 1
-  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-    line: 77
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 115
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 61
-    col: 0
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 212
-    col: 0
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 150
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 35
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 94
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 53
-    col: 0
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 424
-    col: 0
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 209
-    col: 0
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 142
-    col: 0
-    score: 1
-  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-    line: 39
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 44
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 61
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 99
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 80
-    col: 0
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 405
-    col: 0
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 216
-    col: 0
-    score: 1
-  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
-    line: 189
-    col: 0
-    score: 1
-  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
-    line: 172
-    col: 0
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 412
-    col: 0
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 261
-    col: 0
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 181
-    col: 0
-    score: 1
-  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+  - uuid: 4330e8f0-5f46-4235-918b-39b6b93fa561
+    line: 267
+    col: 1
+    score: 0.92
+  - uuid: aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
     line: 90
-    col: 0
+    col: 1
     score: 1
-  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
-    line: 157
-    col: 0
+  - uuid: 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
+    line: 233
+    col: 1
     score: 1
-  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-    line: 205
-    col: 0
+  - uuid: 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
+    line: 160
+    col: 1
+    score: 0.88
+  - uuid: 4330e8f0-5f46-4235-918b-39b6b93fa561
+    line: 351
+    col: 1
+    score: 0.88
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 509
+    col: 1
+    score: 0.87
+  - uuid: 4330e8f0-5f46-4235-918b-39b6b93fa561
+    line: 520
+    col: 1
+    score: 0.91
+  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
+    line: 11
+    col: 1
     score: 1
-  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
-    line: 203
-    col: 0
+  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
+    line: 11
+    col: 3
     score: 1
-  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
-    line: 95
-    col: 0
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 554
+    col: 1
     score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 33
-    col: 0
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 554
+    col: 3
     score: 1
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 99
-    col: 0
+  - uuid: 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+    line: 553
+    col: 1
     score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 46
-    col: 0
+  - uuid: 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+    line: 553
+    col: 3
     score: 1
-  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-    line: 10
-    col: 0
+  - uuid: aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
+    line: 382
+    col: 1
     score: 1
-  - uuid: 6620e2f2-de6d-45d8-a722-5d26e160b370
-    line: 371
-    col: 0
+  - uuid: aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
+    line: 382
+    col: 3
     score: 1
-  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
-    line: 141
-    col: 0
+  - uuid: 93d2ba51-8689-49ee-94e2-296092e48058
+    line: 136
+    col: 1
     score: 1
-  - uuid: 37b5d236-2b3e-4a95-a4e8-31655c3023ef
-    line: 222
-    col: 0
+  - uuid: 93d2ba51-8689-49ee-94e2-296092e48058
+    line: 136
+    col: 3
     score: 1
-  - uuid: 5e408692-0e74-400e-a617-84247c7353ad
-    line: 107
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 50
-    col: 0
-    score: 1
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 89
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 32
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 49
-    col: 0
-    score: 1
-  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-    line: 95
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 133
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 59
-    col: 0
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 252
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 85
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 93
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 64
-    col: 0
-    score: 1
-  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
-    line: 153
-    col: 0
-    score: 1
-  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-    line: 141
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 94
-    col: 0
-    score: 1
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 63
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 66
-    col: 0
-    score: 1
-  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-    line: 93
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 73
-    col: 0
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 403
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 53
-    col: 0
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 148
-    col: 0
-    score: 1
-  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-    line: 36
-    col: 0
-    score: 1
-  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
     line: 166
-    col: 0
+    col: 1
     score: 1
-  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-    line: 148
-    col: 0
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 166
+    col: 3
     score: 1
-  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
-    line: 153
-    col: 0
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 551
+    col: 1
     score: 1
-  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
-    line: 118
-    col: 0
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 551
+    col: 3
     score: 1
-  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
-    line: 168
-    col: 0
+  - uuid: 54382370-1931-4a19-a634-46735708a9ea
+    line: 284
+    col: 1
     score: 1
-  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
-    line: 103
-    col: 0
+  - uuid: 54382370-1931-4a19-a634-46735708a9ea
+    line: 284
+    col: 3
     score: 1
-  - uuid: a4a25141-6380-40b9-9cd7-b554b246b303
-    line: 380
-    col: 0
+  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
+    line: 14
+    col: 1
     score: 1
-  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
-    line: 194
-    col: 0
+  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
+    line: 14
+    col: 3
     score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 52
-    col: 0
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 553
+    col: 1
     score: 1
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 71
-    col: 0
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 553
+    col: 3
     score: 1
-  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-    line: 99
-    col: 0
+  - uuid: 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+    line: 559
+    col: 1
     score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 47
-    col: 0
+  - uuid: 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+    line: 559
+    col: 3
     score: 1
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 105
-    col: 0
+  - uuid: aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
+    line: 388
+    col: 1
     score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 97
-    col: 0
+  - uuid: aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
+    line: 388
+    col: 3
     score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 128
-    col: 0
+  - uuid: 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+    line: 552
+    col: 1
     score: 1
-  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-    line: 31
-    col: 0
+  - uuid: 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+    line: 552
+    col: 3
     score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 90
-    col: 0
+  - uuid: aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
+    line: 386
+    col: 1
     score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 33
-    col: 0
+  - uuid: aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
+    line: 386
+    col: 3
     score: 1
+  - uuid: fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
+    line: 881
+    col: 1
+    score: 1
+  - uuid: fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
+    line: 881
+    col: 3
+    score: 1
+  - uuid: 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
+    line: 341
+    col: 1
+    score: 1
+  - uuid: 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
+    line: 341
+    col: 3
+    score: 1
+  - uuid: 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+    line: 557
+    col: 1
+    score: 1
+  - uuid: 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+    line: 557
+    col: 3
+    score: 1
+  - uuid: 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
+    line: 337
+    col: 1
+    score: 1
+  - uuid: 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
+    line: 337
+    col: 3
+    score: 1
+  - uuid: 4330e8f0-5f46-4235-918b-39b6b93fa561
+    line: 533
+    col: 1
+    score: 1
+  - uuid: 4330e8f0-5f46-4235-918b-39b6b93fa561
+    line: 533
+    col: 3
+    score: 1
+  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+    line: 68
+    col: 1
+    score: 1
+  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+    line: 68
+    col: 3
+    score: 1
+  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
+    line: 158
+    col: 1
+    score: 1
+  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
+    line: 158
+    col: 3
+    score: 1
+  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+    line: 457
+    col: 1
+    score: 1
+  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+    line: 457
+    col: 3
+    score: 1
+  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
+    line: 9
+    col: 1
+    score: 1
+  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
+    line: 9
+    col: 3
+    score: 1
+  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
+    line: 10
+    col: 1
+    score: 1
+  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
+    line: 10
+    col: 3
+    score: 1
+  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
+    line: 13
+    col: 1
+    score: 1
+  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
+    line: 13
+    col: 3
+    score: 1
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 467
+    col: 1
+    score: 1
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 467
+    col: 3
+    score: 1
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 549
+    col: 1
+    score: 1
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 549
+    col: 3
+    score: 1
+  - uuid: b4e64f8c-4dc9-4941-a877-646c5ada068e
+    line: 364
+    col: 1
+    score: 1
+  - uuid: b4e64f8c-4dc9-4941-a877-646c5ada068e
+    line: 364
+    col: 3
+    score: 1
+  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
+    line: 173
+    col: 1
+    score: 1
+  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
+    line: 173
+    col: 3
+    score: 1
+  - uuid: 9c79206d-4cb9-4f00-87e0-782dcea37bc7
+    line: 156
+    col: 1
+    score: 1
+  - uuid: 9c79206d-4cb9-4f00-87e0-782dcea37bc7
+    line: 156
+    col: 3
+    score: 1
+  - uuid: 7bed0b9a-8b22-4b1f-be81-054a179453cb
+    line: 200
+    col: 1
+    score: 1
+  - uuid: 7bed0b9a-8b22-4b1f-be81-054a179453cb
+    line: 200
+    col: 3
+    score: 1
+  - uuid: ab748541-020e-4a7e-b07d-28173bd5bea2
+    line: 389
+    col: 1
+    score: 1
+  - uuid: ab748541-020e-4a7e-b07d-28173bd5bea2
+    line: 389
+    col: 3
+    score: 1
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 465
+    col: 1
+    score: 1
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 465
+    col: 3
+    score: 1
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 548
+    col: 1
+    score: 1
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 548
+    col: 3
+    score: 1
+  - uuid: 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+    line: 551
+    col: 1
+    score: 1
+  - uuid: 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+    line: 551
+    col: 3
+    score: 1
+  - uuid: fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
+    line: 883
+    col: 1
+    score: 1
+  - uuid: fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
+    line: 883
+    col: 3
+    score: 1
+  - uuid: 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
+    line: 349
+    col: 1
+    score: 0.99
+  - uuid: 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
+    line: 349
+    col: 3
+    score: 0.99
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 559
+    col: 1
+    score: 0.98
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 559
+    col: 3
+    score: 0.98
+  - uuid: fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
+    line: 906
+    col: 1
+    score: 0.98
+  - uuid: fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
+    line: 906
+    col: 3
+    score: 0.98
+  - uuid: fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
+    line: 905
+    col: 1
+    score: 0.97
+  - uuid: fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
+    line: 905
+    col: 3
+    score: 0.97
+  - uuid: aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
+    line: 396
+    col: 1
+    score: 1
+  - uuid: aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
+    line: 396
+    col: 3
+    score: 1
+  - uuid: e811123d-5841-4e52-bf8c-978f26db4230
+    line: 646
+    col: 1
+    score: 0.99
+  - uuid: e811123d-5841-4e52-bf8c-978f26db4230
+    line: 646
+    col: 3
+    score: 0.99
+  - uuid: aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
+    line: 397
+    col: 1
+    score: 0.99
+  - uuid: aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
+    line: 397
+    col: 3
+    score: 0.99
+  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
+    line: 25
+    col: 1
+    score: 0.98
+  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
+    line: 25
+    col: 3
+    score: 0.98
+  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+    line: 160
+    col: 1
+    score: 0.99
+  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+    line: 160
+    col: 3
+    score: 0.99
+  - uuid: 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+    line: 564
+    col: 1
+    score: 0.98
+  - uuid: 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+    line: 564
+    col: 3
+    score: 0.98
+  - uuid: e811123d-5841-4e52-bf8c-978f26db4230
+    line: 645
+    col: 1
+    score: 0.98
+  - uuid: e811123d-5841-4e52-bf8c-978f26db4230
+    line: 645
+    col: 3
+    score: 0.98
+  - uuid: aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
+    line: 398
+    col: 1
+    score: 0.98
+  - uuid: aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
+    line: 398
+    col: 3
+    score: 0.98
+  - uuid: fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
+    line: 898
+    col: 1
+    score: 0.97
+  - uuid: fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
+    line: 898
+    col: 3
+    score: 0.97
 ---
-Note: Consolidated here → ../notes/services/schema-evolution-dlq-changefeed.md ^ref-d8059b6a-1-0
+Note: Consolidated here → ../notes/services/schema-evolution-dlq-changefeed.md
 
-Alright, **Part 6**: schema evolution workflow (dual-write + upcasters), a **DLQ** with replay, **Mongo changefeeds** → topics, and a tiny **CI linter** for topic/schema hygiene. Paste under `shared/js/prom-lib/` + a small `scripts/` dir. ^ref-d8059b6a-3-0
+Alright, **Part 6**: schema evolution workflow (dual-write + upcasters), a **DLQ** with replay, **Mongo changefeeds** → topics, and a tiny **CI linter** for topic/schema hygiene. Paste under `shared/js/prom-lib/` + a small `scripts/` dir.
 
 ---
 
@@ -483,21 +497,20 @@ export const TOPIC_RE = /^[a-z0-9]+(\.[a-z0-9]+)*(\.v\d+)?$/; // dot segments, o
 export function isValidTopic(t: string) { return TOPIC_RE.test(t); }
 export function headerOk(h: string) { return /^x-[a-z0-9-]+$/.test(h); } // custom headers
 ```
-^ref-d8059b6a-9-0 ^ref-d8059b6a-15-0
 
 ---
 
 # 1) Schema Evolution Workflow
- ^ref-d8059b6a-20-0
+
 Approach:
- ^ref-d8059b6a-22-0
-* **Registry** holds versions. ^ref-d8059b6a-23-0
-* Writers **dual-write** for one deploy window (old & new topic OR same topic with `x-schema-version`). ^ref-d8059b6a-24-0
-* Readers use **upcasters** to normalize older versions to **latest**. ^ref-d8059b6a-25-0
+
+* **Registry** holds versions.
+* Writers **dual-write** for one deploy window (old & new topic OR same topic with `x-schema-version`).
+* Readers use **upcasters** to normalize older versions to **latest**.
 * Optional **cutover** job to backfill snapshots/materializations.
 
 ## 1a) Upcasters (N → N+1 → … → latest)
- ^ref-d8059b6a-29-0
+
 ```ts
 // shared/js/prom-lib/schema/upcast.ts
 import { EventRecord } from "../event/types";
@@ -536,10 +549,9 @@ export class UpcastChain {
     return cur;
   }
 }
-^ref-d8059b6a-29-0
 ```
 
-## 1b) Dual-write helper (same topic, stamped versions) ^ref-d8059b6a-71-0
+## 1b) Dual-write helper (same topic, stamped versions)
 
 ```ts
 // shared/js/prom-lib/schema/dualwrite.ts
@@ -563,11 +575,9 @@ export function withDualWrite(bus: EventBus, reg: SchemaRegistry): EventBus {
       return bus.publish(topic, payload, opts);
     }
   };
-^ref-d8059b6a-71-0
 }
 ```
-^ref-d8059b6a-73-0
- ^ref-d8059b6a-98-0
+
 ## 1c) Subscriber wrapper that **upcasts** then validates
 
 ```ts
@@ -589,33 +599,31 @@ export async function subscribeNormalized(
     const norm = up.toLatest(topic, e, reg);
     reg.validate(topic, norm.payload, Number(norm.headers?.["x-schema-version"]));
     await handler(norm);
-^ref-d8059b6a-98-0
   }, opts);
 }
-``` ^ref-d8059b6a-123-0
- ^ref-d8059b6a-124-0
+```
+
 ## 1d) Evolution playbook (dump this as doc)
- ^ref-d8059b6a-126-0
+
 1. **Register** new schema `v+1` (`compat: backward` recommended).
-2. **Deploy writers** with `withDualWrite` (stamps `x-schema-version`, dual to `*.vN`). ^ref-d8059b6a-128-0
+2. **Deploy writers** with `withDualWrite` (stamps `x-schema-version`, dual to `*.vN`).
 3. **Deploy readers** with `subscribeNormalized` + upcasters.
-4. Let traffic bake; verify dashboards. ^ref-d8059b6a-130-0
+4. Let traffic bake; verify dashboards.
 5. Switch materializers to read `*.vN` only (optional).
-6. Remove dual-write after cutover; keep upcasters for replay. ^ref-d8059b6a-132-0
+6. Remove dual-write after cutover; keep upcasters for replay.
 
 **Mermaid:**
 
 ```mermaid
 flowchart LR
   Writer -->|publish vN & stamp| Topic[topic]
-^ref-d8059b6a-132-0
   Writer -->|dual| VTopic[topic.vN]
   Sub[Subscriber] -->|fetch| Topic
   Sub -->|upcast->latest| Handler
 ```
 
 ---
- ^ref-d8059b6a-146-0
+
 # 2) Dead Letter Queue (DLQ) + Replay
 
 ## 2a) DLQ event shape
@@ -627,13 +635,11 @@ export interface DLQRecord {
   original: any;            // original EventRecord
   err: string;              // error message/stack
   ts: number;
-^ref-d8059b6a-146-0
   attempts?: number;
 }
 export const DLQ_TOPIC_PREFIX = "dlq.";
 export const dlqTopic = (t: string) => `${DLQ_TOPIC_PREFIX}${t}`;
-``` ^ref-d8059b6a-164-0
-^ref-d8059b6a-161-0
+```
 
 ## 2b) Subscribe wrapper with DLQ
 
@@ -668,15 +674,12 @@ export function withDLQ(
           attempts.delete(e.id);
         } else {
           throw err; // cause redelivery
-^ref-d8059b6a-161-0
         }
       }
     }, opts);
   };
 }
-^ref-d8059b6a-201-0
-``` ^ref-d8059b6a-207-0
-^ref-d8059b6a-201-0
+```
 
 ## 2c) DLQ replayer
 
@@ -693,36 +696,24 @@ export async function replayDLQ(
   const dlq = dlqTopic(topic);
   const batch = await store.scan(dlq, { ts: 0, limit });
   for (const rec of batch) {
-^ref-d8059b6a-201-0
-    const orig = (rec.payload as any)?.original as EventRecord; ^ref-d8059b6a-222-0
+    const orig = (rec.payload as any)?.original as EventRecord;
     if (!orig) continue;
     const tweaked = transform ? (transform(orig) || orig) : orig;
     await bus.publish(tweaked.topic, tweaked.payload, { headers: tweaked.headers, key: tweaked.key, sid: tweaked.sid, caused_by: (tweaked.caused_by || []).concat(rec.id) });
   }
-^ref-d8059b6a-224-0
-^ref-d8059b6a-222-0
 }
-^ref-d8059b6a-224-0
-^ref-d8059b6a-222-0
-``` ^ref-d8059b6a-236-0
-^ref-d8059b6a-224-0
-^ref-d8059b6a-222-0
+```
 
 **Mermaid:**
 
 ```mermaid
 sequenceDiagram
-^ref-d8059b6a-224-0
   participant B as EventBus
   participant C as Consumer
   participant D as DLQ
   B-->>C: EVENT
-  C-->>B: NACK (after N tries) ^ref-d8059b6a-239-0 ^ref-d8059b6a-243-0
-^ref-d8059b6a-243-0
-^ref-d8059b6a-239-0
+  C-->>B: NACK (after N tries)
   C->>B: publish dlq.topic { original, err }
-^ref-d8059b6a-243-0
-^ref-d8059b6a-239-0
   Note right of D: Later...\nReplay scans dlq.* and republishes
 ```
 
@@ -768,14 +759,11 @@ export async function startMongoChangefeed(db: Db, bus: EventBus, opts: Changefe
       await bus.publish(opts.topic, payload, {
         key: String(doc._id),
         headers: { "x-mongo-op": change.operationType, "x-change-clusterTime": String(change.clusterTime) }
-^ref-d8059b6a-243-0
       });
 
       if (opts.resumeTokenStore && change._id) await opts.resumeTokenStore.save(change._id);
     }
   })().catch(() => { /* log, retry/backoff in real code */ });
-^ref-d8059b6a-289-0
-^ref-d8059b6a-289-0
 
   return () => { stopped = true; cs.close(); };
 }
@@ -790,18 +778,11 @@ import type { Db, ResumeToken } from "mongodb";
 export function tokenStore(db: Db, key = "changefeed:default") {
   const coll = db.collection<{ _id: string; token: any }>("changefeed_tokens");
   return {
-^ref-d8059b6a-289-0
     async load(): Promise<ResumeToken | null> {
       const d = await coll.findOne({ _id: key });
       return (d?.token as any) ?? null;
     },
-    async save(token: ResumeToken) { ^ref-d8059b6a-311-0
-^ref-d8059b6a-313-0
-^ref-d8059b6a-311-0
-^ref-d8059b6a-313-0
-^ref-d8059b6a-311-0
-^ref-d8059b6a-313-0
-^ref-d8059b6a-311-0
+    async save(token: ResumeToken) {
       await coll.updateOne({ _id: key }, { $set: { token } }, { upsert: true });
     }
   };
@@ -837,9 +818,9 @@ function walk(dir: string): string[] {
 }
 
 // very naive grep; good enough for CI guardrails
-const PUB_RE = /publish\(\s*"'`["'`]/g;
+const PUB_RE = /publish\(\s*["'`]([a-zA-Z0-9\.\-:]+)["'`]/g;
 const HDR_RE = /headers\s*:\s*\{([^}]+)\}/g;
-const HDR_KEY_RE = /"'`["'`]\s*:/g;
+const HDR_KEY_RE = /["'`]([a-zA-Z0-9\-\_]+)["'`]\s*:/g;
 
 let errors: string[] = [];
 
@@ -870,23 +851,13 @@ function checkFile(p: string) {
 for (const d of SRC_DIRS) {
   const abs = path.join(ROOT, d);
   if (!fs.existsSync(abs)) continue;
-^ref-d8059b6a-313-0
-  for (const f of walk(abs)) checkFile(f); ^ref-d8059b6a-381-0
+  for (const f of walk(abs)) checkFile(f);
 }
 
 if (errors.length) {
   console.error("Topic/Schema/Header lints failed:");
-^ref-d8059b6a-383-0 ^ref-d8059b6a-393-0
-^ref-d8059b6a-381-0
-^ref-d8059b6a-393-0
-^ref-d8059b6a-383-0
-^ref-d8059b6a-381-0
-^ref-d8059b6a-393-0
-^ref-d8059b6a-383-0
-^ref-d8059b6a-381-0
   for (const e of errors) console.error(" -", e);
   process.exit(1);
-^ref-d8059b6a-383-0
 } else {
   console.log("Topic/Schema/Header lints OK");
 }
@@ -943,87 +914,56 @@ async function main() {
     // ... handle ...
   }, { from: "earliest" });
 
-^ref-d8059b6a-393-0
   // changefeed: mirror 'processes' collection -> topic 'processes.changed'
   await startMongoChangefeed(db, bus, {
     collection: "processes",
     topic: "processes.changed",
     fullDocument: "updateLookup",
-^ref-d8059b6a-469-0
-^ref-d8059b6a-468-0
-^ref-d8059b6a-467-0
-^ref-d8059b6a-466-0 ^ref-d8059b6a-473-0
-^ref-d8059b6a-465-0
-^ref-d8059b6a-464-0 ^ref-d8059b6a-475-0
-^ref-d8059b6a-463-0 ^ref-d8059b6a-476-0
-^ref-d8059b6a-482-0
-^ref-d8059b6a-478-0
-^ref-d8059b6a-477-0
-^ref-d8059b6a-476-0
-^ref-d8059b6a-475-0 ^ref-d8059b6a-491-0
-^ref-d8059b6a-473-0 ^ref-d8059b6a-492-0
-^ref-d8059b6a-469-0
-^ref-d8059b6a-468-0
-^ref-d8059b6a-467-0
-^ref-d8059b6a-466-0
-^ref-d8059b6a-465-0
-^ref-d8059b6a-464-0
-^ref-d8059b6a-463-0
-^ref-d8059b6a-450-0 ^ref-d8059b6a-477-0
-    resumeTokenStore: tokenStore(db, "cf:processes"), ^ref-d8059b6a-478-0
+    resumeTokenStore: tokenStore(db, "cf:processes"),
     map: (doc) => ({ id: String(doc._id), ...doc })
-  }); ^ref-d8059b6a-463-0
- ^ref-d8059b6a-464-0
+  });
+
   console.log("[evolve] up");
-^ref-d8059b6a-502-0
 }
 main().catch((e)=>{ console.error(e); process.exit(1); });
-^ref-d8059b6a-450-0
 ```
 
-^ref-d8059b6a-482-0
 ---
 
-^ref-d8059b6a-469-0 ^ref-d8059b6a-473-0 ^ref-d8059b6a-491-0 ^ref-d8059b6a-515-0
-^ref-d8059b6a-468-0 ^ref-d8059b6a-492-0
-^ref-d8059b6a-467-0 ^ref-d8059b6a-475-0
-^ref-d8059b6a-466-0 ^ref-d8059b6a-476-0
-^ref-d8059b6a-465-0 ^ref-d8059b6a-477-0
-# 6) Sibilant sprinkles (pseudo) ^ref-d8059b6a-463-0 ^ref-d8059b6a-478-0 ^ref-d8059b6a-521-0
- ^ref-d8059b6a-464-0 ^ref-d8059b6a-522-0
-```lisp ^ref-d8059b6a-465-0
-; shared/sibilant/prom/evolve.sib (pseudo) ^ref-d8059b6a-466-0
-(defn upcast->latest [topic e] ^ref-d8059b6a-467-0 ^ref-d8059b6a-482-0
-  (.toLatest up topic e schema-reg)) ^ref-d8059b6a-468-0
- ^ref-d8059b6a-469-0 ^ref-d8059b6a-502-0
+# 6) Sibilant sprinkles (pseudo)
+
+```lisp
+; shared/sibilant/prom/evolve.sib (pseudo)
+(defn upcast->latest [topic e]
+  (.toLatest up topic e schema-reg))
+
 (defmacro dual-write! [bus topic payload]
   `(.publish ~bus ~topic ~payload {:headers {"x-source" "sib"}}))
-^ref-d8059b6a-522-0
 ```
- ^ref-d8059b6a-473-0 ^ref-d8059b6a-532-0
+
 ---
- ^ref-d8059b6a-475-0
-# 7) Kanban adds ^ref-d8059b6a-476-0 ^ref-d8059b6a-491-0 ^ref-d8059b6a-533-0
- ^ref-d8059b6a-477-0 ^ref-d8059b6a-492-0
-* [ ] Register **v+1** schema for any evolving topic and write minimal **upcaster** ^ref-d8059b6a-478-0
+
+# 7) Kanban adds
+
+* [ ] Register **v+1** schema for any evolving topic and write minimal **upcaster**
 * [ ] Wrap writers with **withDualWrite**
 * [ ] Switch critical readers to **subscribeNormalized**
-* [ ] Add **withDLQ** around risky consumers; set `maxAttempts` ^ref-d8059b6a-538-0
-* [ ] Deploy **changefeed** for collections you want mirrored to topics ^ref-d8059b6a-482-0 ^ref-d8059b6a-515-0
+* [ ] Add **withDLQ** around risky consumers; set `maxAttempts`
+* [ ] Deploy **changefeed** for collections you want mirrored to topics
 * [ ] Enable **scripts/lint-topics.ts** in CI
 * [ ] Write a small **cutover** script to replay historical events through upcasters into snapshots
 
---- ^ref-d8059b6a-543-0
- ^ref-d8059b6a-502-0
+---
+
 Want **Part 7** next? I can ship:
 
-* **State snapshots API** (read models with ETags + caching), ^ref-d8059b6a-547-0
-* **Transactional projector** (Mongo session/txn around multi-collection updates), ^ref-d8059b6a-491-0
-* **Time Travel** query helper (reconstruct state at T using snapshots + deltas), ^ref-d8059b6a-492-0
+* **State snapshots API** (read models with ETags + caching),
+* **Transactional projector** (Mongo session/txn around multi-collection updates),
+* **Time Travel** query helper (reconstruct state at T using snapshots + deltas),
 * and a **dev harness** that spins in-memory bus + fake services for integration tests.
- ^ref-d8059b6a-556-0 ^ref-d8059b6a-566-0 ^ref-d8059b6a-570-0 ^ref-d8059b6a-574-0 ^ref-d8059b6a-578-0 ^ref-d8059b6a-589-0 ^ref-d8059b6a-595-0 ^ref-d8059b6a-603-0 ^ref-d8059b6a-620-0 ^ref-d8059b6a-625-0 ^ref-d8059b6a-631-0 ^ref-d8059b6a-634-0 ^ref-d8059b6a-645-0 ^ref-d8059b6a-650-0 ^ref-d8059b6a-662-0 ^ref-d8059b6a-710-0 ^ref-d8059b6a-741-0 ^ref-d8059b6a-759-0 ^ref-d8059b6a-833-0 ^ref-d8059b6a-1285-0 ^ref-d8059b6a-2565-0
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
+<<<<<<< HEAD
 - [[migrate-to-provider-tenant-architecture|Migrate to Provider-Tenant Architecture]]
 - [[prompt-folder-bootstrap|Prompt_Folder_Bootstrap]]
 - [[docs/unique/eidolon-field-math-foundations|eidolon-field-math-foundations]]
@@ -1150,4 +1090,136 @@ Want **Part 7** next? I can ship:
 - [DuckDuckGoSearchPipeline — L31](duckduckgosearchpipeline.md#^ref-e979c50f-31-0) (line 31, col 0, score 1)
 - [[ducks-attractor-states#^ref-13951643-90-0|Duck's Attractor States — L90]] (line 90, col 0, score 1)
 - [[ducks-self-referential-perceptual-loop#^ref-71726f04-33-0|Duck's Self-Referential Perceptual Loop — L33]] (line 33, col 0, score 1)
+=======
+- [[state-snapshots-api-and-transactional-projector|State Snapshots API and Transactional Projector]]
+- [[prom-lib-rate-limiters-and-replay-api]]
+- [[stateful-partitions-and-rebalancing|Stateful Partitions and Rebalancing]]
+- [[docs/unique/event-bus-mvp|Event Bus MVP]]
+- [Services](chunks/services.md)
+- [[unique-info-dump-index|Unique Info Dump Index]]
+- [[mongo-outbox-implementation|Mongo Outbox Implementation]]
+- [[cross-language-runtime-polymorphism|Cross-Language Runtime Polymorphism]]
+- [[websocket-gateway-implementation|WebSocket Gateway Implementation]]
+- [[docs/unique/aionian-circuit-math|aionian-circuit-math]]
+- [[docs/unique/archetype-ecs|archetype-ecs]]
+- [Diagrams](chunks/diagrams.md)
+- [DSL](chunks/dsl.md)
+- [[promethean-native-config-design|Promethean-native config design]]
+- [Promethean Event Bus MVP v0.1](promethean-event-bus-mvp-v0-1.md)
+- [[observability-infrastructure-setup]]
+- [[docs/unique/ecs-offload-workers|ecs-offload-workers]]
+- [[cross-target-macro-system-in-sibilant|Cross-Target Macro System in Sibilant]]
+- [[polyglot-repl-interface-layer]]
+- [[polymorphic-meta-programming-engine]]
+- [[chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]]
+- [[migrate-to-provider-tenant-architecture|Migrate to Provider-Tenant Architecture]]
+- [[docs/unique/agent-tasks-persistence-migration-to-dualstore|Agent Tasks: Persistence Migration to DualStore]]
+
+## Sources
+- [[stateful-partitions-and-rebalancing#L267|Stateful Partitions and Rebalancing — L267]] (line 267, col 1, score 0.92)
+- [[prom-lib-rate-limiters-and-replay-api#L90|prom-lib-rate-limiters-and-replay-api — L90]] (line 90, col 1, score 1)
+- [[state-snapshots-api-and-transactional-projector#L233|State Snapshots API and Transactional Projector — L233]] (line 233, col 1, score 1)
+- [[state-snapshots-api-and-transactional-projector#L160|State Snapshots API and Transactional Projector — L160]] (line 160, col 1, score 0.88)
+- [[stateful-partitions-and-rebalancing#L351|Stateful Partitions and Rebalancing — L351]] (line 351, col 1, score 0.88)
+- [[docs/unique/event-bus-mvp#L509|Event Bus MVP — L509]] (line 509, col 1, score 0.87)
+- [[stateful-partitions-and-rebalancing#L520|Stateful Partitions and Rebalancing — L520]] (line 520, col 1, score 0.91)
+- [Services — L11](chunks/services.md#L11) (line 11, col 1, score 1)
+- [Services — L11](chunks/services.md#L11) (line 11, col 3, score 1)
+- [[docs/unique/event-bus-mvp#L554|Event Bus MVP — L554]] (line 554, col 1, score 1)
+- [[docs/unique/event-bus-mvp#L554|Event Bus MVP — L554]] (line 554, col 3, score 1)
+- [[mongo-outbox-implementation#L553|Mongo Outbox Implementation — L553]] (line 553, col 1, score 1)
+- [[mongo-outbox-implementation#L553|Mongo Outbox Implementation — L553]] (line 553, col 3, score 1)
+- [[prom-lib-rate-limiters-and-replay-api#L382|prom-lib-rate-limiters-and-replay-api — L382]] (line 382, col 1, score 1)
+- [[prom-lib-rate-limiters-and-replay-api#L382|prom-lib-rate-limiters-and-replay-api — L382]] (line 382, col 3, score 1)
+- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L136|Agent Tasks: Persistence Migration to DualStore — L136]] (line 136, col 1, score 1)
+- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L136|Agent Tasks: Persistence Migration to DualStore — L136]] (line 136, col 3, score 1)
+- [[chroma-toolkit-consolidation-plan#L166|Chroma Toolkit Consolidation Plan — L166]] (line 166, col 1, score 1)
+- [[chroma-toolkit-consolidation-plan#L166|Chroma Toolkit Consolidation Plan — L166]] (line 166, col 3, score 1)
+- [[docs/unique/event-bus-mvp#L551|Event Bus MVP — L551]] (line 551, col 1, score 1)
+- [[docs/unique/event-bus-mvp#L551|Event Bus MVP — L551]] (line 551, col 3, score 1)
+- [[migrate-to-provider-tenant-architecture#L284|Migrate to Provider-Tenant Architecture — L284]] (line 284, col 1, score 1)
+- [[migrate-to-provider-tenant-architecture#L284|Migrate to Provider-Tenant Architecture — L284]] (line 284, col 3, score 1)
+- [Services — L14](chunks/services.md#L14) (line 14, col 1, score 1)
+- [Services — L14](chunks/services.md#L14) (line 14, col 3, score 1)
+- [[docs/unique/event-bus-mvp#L553|Event Bus MVP — L553]] (line 553, col 1, score 1)
+- [[docs/unique/event-bus-mvp#L553|Event Bus MVP — L553]] (line 553, col 3, score 1)
+- [[mongo-outbox-implementation#L559|Mongo Outbox Implementation — L559]] (line 559, col 1, score 1)
+- [[mongo-outbox-implementation#L559|Mongo Outbox Implementation — L559]] (line 559, col 3, score 1)
+- [[prom-lib-rate-limiters-and-replay-api#L388|prom-lib-rate-limiters-and-replay-api — L388]] (line 388, col 1, score 1)
+- [[prom-lib-rate-limiters-and-replay-api#L388|prom-lib-rate-limiters-and-replay-api — L388]] (line 388, col 3, score 1)
+- [[mongo-outbox-implementation#L552|Mongo Outbox Implementation — L552]] (line 552, col 1, score 1)
+- [[mongo-outbox-implementation#L552|Mongo Outbox Implementation — L552]] (line 552, col 3, score 1)
+- [[prom-lib-rate-limiters-and-replay-api#L386|prom-lib-rate-limiters-and-replay-api — L386]] (line 386, col 1, score 1)
+- [[prom-lib-rate-limiters-and-replay-api#L386|prom-lib-rate-limiters-and-replay-api — L386]] (line 386, col 3, score 1)
+- [Promethean Event Bus MVP v0.1 — L881](promethean-event-bus-mvp-v0-1.md#L881) (line 881, col 1, score 1)
+- [Promethean Event Bus MVP v0.1 — L881](promethean-event-bus-mvp-v0-1.md#L881) (line 881, col 3, score 1)
+- [[state-snapshots-api-and-transactional-projector#L341|State Snapshots API and Transactional Projector — L341]] (line 341, col 1, score 1)
+- [[state-snapshots-api-and-transactional-projector#L341|State Snapshots API and Transactional Projector — L341]] (line 341, col 3, score 1)
+- [[mongo-outbox-implementation#L557|Mongo Outbox Implementation — L557]] (line 557, col 1, score 1)
+- [[mongo-outbox-implementation#L557|Mongo Outbox Implementation — L557]] (line 557, col 3, score 1)
+- [[state-snapshots-api-and-transactional-projector#L337|State Snapshots API and Transactional Projector — L337]] (line 337, col 1, score 1)
+- [[state-snapshots-api-and-transactional-projector#L337|State Snapshots API and Transactional Projector — L337]] (line 337, col 3, score 1)
+- [[stateful-partitions-and-rebalancing#L533|Stateful Partitions and Rebalancing — L533]] (line 533, col 1, score 1)
+- [[stateful-partitions-and-rebalancing#L533|Stateful Partitions and Rebalancing — L533]] (line 533, col 3, score 1)
+- [[unique-info-dump-index#L68|Unique Info Dump Index — L68]] (line 68, col 1, score 1)
+- [[unique-info-dump-index#L68|Unique Info Dump Index — L68]] (line 68, col 3, score 1)
+- [[docs/unique/aionian-circuit-math#L158|aionian-circuit-math — L158]] (line 158, col 1, score 1)
+- [[docs/unique/aionian-circuit-math#L158|aionian-circuit-math — L158]] (line 158, col 3, score 1)
+- [[docs/unique/archetype-ecs#L457|archetype-ecs — L457]] (line 457, col 1, score 1)
+- [[docs/unique/archetype-ecs#L457|archetype-ecs — L457]] (line 457, col 3, score 1)
+- [Diagrams — L9](chunks/diagrams.md#L9) (line 9, col 1, score 1)
+- [Diagrams — L9](chunks/diagrams.md#L9) (line 9, col 3, score 1)
+- [DSL — L10](chunks/dsl.md#L10) (line 10, col 1, score 1)
+- [DSL — L10](chunks/dsl.md#L10) (line 10, col 3, score 1)
+- [Services — L13](chunks/services.md#L13) (line 13, col 1, score 1)
+- [Services — L13](chunks/services.md#L13) (line 13, col 3, score 1)
+- [[docs/unique/ecs-offload-workers#L467|ecs-offload-workers — L467]] (line 467, col 1, score 1)
+- [[docs/unique/ecs-offload-workers#L467|ecs-offload-workers — L467]] (line 467, col 3, score 1)
+- [[docs/unique/event-bus-mvp#L549|Event Bus MVP — L549]] (line 549, col 1, score 1)
+- [[docs/unique/event-bus-mvp#L549|Event Bus MVP — L549]] (line 549, col 3, score 1)
+- [[observability-infrastructure-setup#L364|observability-infrastructure-setup — L364]] (line 364, col 1, score 1)
+- [[observability-infrastructure-setup#L364|observability-infrastructure-setup — L364]] (line 364, col 3, score 1)
+- [[cross-target-macro-system-in-sibilant#L173|Cross-Target Macro System in Sibilant — L173]] (line 173, col 1, score 1)
+- [[cross-target-macro-system-in-sibilant#L173|Cross-Target Macro System in Sibilant — L173]] (line 173, col 3, score 1)
+- [[polyglot-repl-interface-layer#L156|polyglot-repl-interface-layer — L156]] (line 156, col 1, score 1)
+- [[polyglot-repl-interface-layer#L156|polyglot-repl-interface-layer — L156]] (line 156, col 3, score 1)
+- [[polymorphic-meta-programming-engine#L200|polymorphic-meta-programming-engine — L200]] (line 200, col 1, score 1)
+- [[polymorphic-meta-programming-engine#L200|polymorphic-meta-programming-engine — L200]] (line 200, col 3, score 1)
+- [[promethean-native-config-design#L389|Promethean-native config design — L389]] (line 389, col 1, score 1)
+- [[promethean-native-config-design#L389|Promethean-native config design — L389]] (line 389, col 3, score 1)
+- [[docs/unique/ecs-offload-workers#L465|ecs-offload-workers — L465]] (line 465, col 1, score 1)
+- [[docs/unique/ecs-offload-workers#L465|ecs-offload-workers — L465]] (line 465, col 3, score 1)
+- [[docs/unique/event-bus-mvp#L548|Event Bus MVP — L548]] (line 548, col 1, score 1)
+- [[docs/unique/event-bus-mvp#L548|Event Bus MVP — L548]] (line 548, col 3, score 1)
+- [[mongo-outbox-implementation#L551|Mongo Outbox Implementation — L551]] (line 551, col 1, score 1)
+- [[mongo-outbox-implementation#L551|Mongo Outbox Implementation — L551]] (line 551, col 3, score 1)
+- [Promethean Event Bus MVP v0.1 — L883](promethean-event-bus-mvp-v0-1.md#L883) (line 883, col 1, score 1)
+- [Promethean Event Bus MVP v0.1 — L883](promethean-event-bus-mvp-v0-1.md#L883) (line 883, col 3, score 1)
+- [[state-snapshots-api-and-transactional-projector#L349|State Snapshots API and Transactional Projector — L349]] (line 349, col 1, score 0.99)
+- [[state-snapshots-api-and-transactional-projector#L349|State Snapshots API and Transactional Projector — L349]] (line 349, col 3, score 0.99)
+- [[docs/unique/event-bus-mvp#L559|Event Bus MVP — L559]] (line 559, col 1, score 0.98)
+- [[docs/unique/event-bus-mvp#L559|Event Bus MVP — L559]] (line 559, col 3, score 0.98)
+- [Promethean Event Bus MVP v0.1 — L906](promethean-event-bus-mvp-v0-1.md#L906) (line 906, col 1, score 0.98)
+- [Promethean Event Bus MVP v0.1 — L906](promethean-event-bus-mvp-v0-1.md#L906) (line 906, col 3, score 0.98)
+- [Promethean Event Bus MVP v0.1 — L905](promethean-event-bus-mvp-v0-1.md#L905) (line 905, col 1, score 0.97)
+- [Promethean Event Bus MVP v0.1 — L905](promethean-event-bus-mvp-v0-1.md#L905) (line 905, col 3, score 0.97)
+- [[prom-lib-rate-limiters-and-replay-api#L396|prom-lib-rate-limiters-and-replay-api — L396]] (line 396, col 1, score 1)
+- [[prom-lib-rate-limiters-and-replay-api#L396|prom-lib-rate-limiters-and-replay-api — L396]] (line 396, col 3, score 1)
+- [[websocket-gateway-implementation#L646|WebSocket Gateway Implementation — L646]] (line 646, col 1, score 0.99)
+- [[websocket-gateway-implementation#L646|WebSocket Gateway Implementation — L646]] (line 646, col 3, score 0.99)
+- [[prom-lib-rate-limiters-and-replay-api#L397|prom-lib-rate-limiters-and-replay-api — L397]] (line 397, col 1, score 0.99)
+- [[prom-lib-rate-limiters-and-replay-api#L397|prom-lib-rate-limiters-and-replay-api — L397]] (line 397, col 3, score 0.99)
+- [Services — L25](chunks/services.md#L25) (line 25, col 1, score 0.98)
+- [Services — L25](chunks/services.md#L25) (line 25, col 3, score 0.98)
+- [[unique-info-dump-index#L160|Unique Info Dump Index — L160]] (line 160, col 1, score 0.99)
+- [[unique-info-dump-index#L160|Unique Info Dump Index — L160]] (line 160, col 3, score 0.99)
+- [[mongo-outbox-implementation#L564|Mongo Outbox Implementation — L564]] (line 564, col 1, score 0.98)
+- [[mongo-outbox-implementation#L564|Mongo Outbox Implementation — L564]] (line 564, col 3, score 0.98)
+- [[websocket-gateway-implementation#L645|WebSocket Gateway Implementation — L645]] (line 645, col 1, score 0.98)
+- [[websocket-gateway-implementation#L645|WebSocket Gateway Implementation — L645]] (line 645, col 3, score 0.98)
+- [[prom-lib-rate-limiters-and-replay-api#L398|prom-lib-rate-limiters-and-replay-api — L398]] (line 398, col 1, score 0.98)
+- [[prom-lib-rate-limiters-and-replay-api#L398|prom-lib-rate-limiters-and-replay-api — L398]] (line 398, col 3, score 0.98)
+- [Promethean Event Bus MVP v0.1 — L898](promethean-event-bus-mvp-v0-1.md#L898) (line 898, col 1, score 0.97)
+- [Promethean Event Bus MVP v0.1 — L898](promethean-event-bus-mvp-v0-1.md#L898) (line 898, col 3, score 0.97)
+>>>>>>> stealth/obsidian
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

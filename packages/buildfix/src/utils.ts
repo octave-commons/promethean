@@ -7,19 +7,6 @@ import { Project } from "ts-morph";
 
 export const OLLAMA_URL = process.env.OLLAMA_URL ?? "http://localhost:11434";
 
-export function parseArgs(def: Record<string, string>) {
-  const out = { ...def };
-  const a = process.argv.slice(2);
-  for (let i = 0; i < a.length; i++) {
-    const k = a[i]!;
-    if (!k.startsWith("--")) continue;
-    const v =
-      a[i + 1] !== undefined && !a[i + 1]!.startsWith("--") ? a[++i]! : "true";
-    out[k] = v;
-  }
-  return out;
-}
-
 export function sha1(s: string) {
   let h = 2166136261 >>> 0;
   for (let i = 0; i < s.length; i++) {
@@ -39,7 +26,7 @@ export async function run(
       { cwd, maxBuffer: 1024 * 1024 * 64, env: { ...process.env } },
       (e, stdout, stderr) => {
         res({
-          code: e ? (e as any).code ?? 1 : 0,
+          code: e ? ((e as any).code ?? 1) : 0,
           out: String(stdout),
           err: String(stderr),
         });
@@ -166,7 +153,7 @@ export async function git(cmd: string, cwd = process.cwd()) {
         { cwd, maxBuffer: 1024 * 1024 * 64, env: { ...process.env } },
         (e, stdout, stderr) => {
           resolve({
-            code: e ? (e as any).code ?? 1 : 0,
+            code: e ? ((e as any).code ?? 1) : 0,
             out: String(stdout).trim(),
             err: String(stderr).trim(),
           });

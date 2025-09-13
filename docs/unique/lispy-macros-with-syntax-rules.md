@@ -1,323 +1,499 @@
 ---
-uuid: 3a5c8986-257e-4e1e-a005-dd40bb4103c8
-created_at: lispy-macros-with-syntax-rules.md
-filename: Lispy Macros with Syntax Rules
-title: Lispy Macros with Syntax Rules
+uuid: cbfe3513-6a4a-4d2e-915d-ddfab583b2de
+created_at: 2025.08.08.23.08.84.md
+filename: Lispy Macros with syntax-rules
 description: >-
-  This document explains how to implement Lispy macros using `syntax-rules` for
-  hygienic macro expansion, enhance Lisp syntax with `and`/`or` and n-ary
-  operators, and enable seamless integration of host functions like `print`
-  through externs.
+  Implements hygienic-like Lisp macros using syntax-rules for pattern matching
+  and variable binding, enhancing the Lisp front-end with n-ary operators and
+  externs for host functions.
 tags:
-  - Lispy
-  - syntax-rules
-  - hygienic
-  - macros
   - Lisp
+  - macros
+  - syntax-rules
+  - hygiene
   - n-ary
+  - operators
   - externs
-  - compiler
-related_to_uuid:
-  - cce2f5f9-557e-4d35-9dff-5c29ca71efd2
-  - ac9d3ac5-9a6a-4180-a67f-1ab7e229d981
-  - 4330e8f0-5f46-4235-918b-39b6b93fa561
-  - c3cd4f65-2bb3-4fca-a32e-2ac667e03f40
-  - ba11486b-b0b0-4d9d-a0d1-1d91ae34de55
-  - 78eeedf7-75bc-4692-a5a7-bb6857270621
-  - 7b7ca860-780c-44fa-8d3f-be8bd9496fba
-  - ed6f3fc9-5eb1-482c-8b3c-f0abc5aff2a2
-  - 62bec6f0-4e13-4f38-aca4-72c84ba02367
-  - 1b1338fc-bb4d-41df-828f-e219cc9442eb
-  - 1f32c94a-4da4-4266-8ac0-6c282cfb401f
-  - 22b989d5-f4aa-4880-8632-709c21830f83
-  - 2792d448-c3b5-4050-93dd-93768529d99c
-  - e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
-  - fc21f824-4244-4030-a48e-c4170160ea1d
-  - a4a25141-6380-40b9-9cd7-b554b246b303
-  - 6620e2f2-de6d-45d8-a722-5d26e160b370
-  - dd00677a-2280-45a7-91af-0728b21af3ad
-  - 5e408692-0e74-400e-a617-84247c7353ad
-  - 291c7d91-da8c-486c-9bc0-bd2254536e2d
-  - dd89372d-10de-42a9-8c96-6bc13ea36d02
-  - 64a9f9f9-58ee-4996-bdaf-9373845c6b29
-  - bb7f0835-c347-474f-bfad-eabd873b51ad
-  - 930054b3-ba95-4acf-bb92-0e3ead25ed0b
-  - 5020e892-8f18-443a-b707-6d0f3efcfe22
+  - JS
 related_to_title:
-  - ollama-llm-provider-for-pseudo-code-transpiler
-  - Smoke Resonance Visualizations
-  - Stateful Partitions and Rebalancing
-  - Tracing the Signal
-  - ts-to-lisp-transpiler
-  - typed-struct-compiler
-  - TypeScript Patch for Tool Calling Support
-  - Unique Concepts
+  - set-assignment-in-lisp-ast
+  - compiler-kit-foundations
+  - Interop and Source Maps
+  - Lisp-Compiler-Integration
+  - template-based-compilation
+  - 'Polyglot S-expr Bridge: Python-JS-Lisp Interop'
+  - Language-Agnostic Mirror System
+  - js-to-lisp-reverse-compiler
+  - ecs-scheduler-and-prefabs
+  - DSL
+  - ecs-offload-workers
+  - Cross-Target Macro System in Sibilant
+  - aionian-circuit-math
+  - Cross-Language Runtime Polymorphism
+  - archetype-ecs
   - zero-copy-snapshots-and-workers
-  - Canonical Org-Babel Matplotlib Animation Template
-  - field-node-diagram-outline
-  - field-node-diagram-set
-  - Docops Feature Updates
-  - field-node-diagram-visualizations
-  - Fnord Tracer Protocol
-  - Functional Embedding Pipeline Refactor
-  - graph-ds
-  - heartbeat-fragment-demo
-  - i3-bluetooth-setup
-  - Ice Box Reorganization
-  - komorebi-group-window-hack
-  - Layer1SurvivabilityEnvelope
-  - Agent Reflections and Prompt Evolution
-  - ChatGPT Custom Prompts
-  - Chroma Toolkit Consolidation Plan
+related_to_uuid:
+  - c5fba0a0-9196-468d-a0f3-51c99e987263
+  - 01b21543-7e03-4129-8fe4-b6306be69dee
+  - cdfac40c-00e4-458f-96a7-4c37d0278731
+  - cfee6d36-b9f5-4587-885a-cdfddb4f054e
+  - f8877e5e-1e4f-4478-93cd-a0bf86d26a41
+  - 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+  - d2b3628c-6cad-4664-8551-94ef8280851d
+  - 58191024-d04a-4520-8aae-a18be7b94263
+  - c62a1815-c43b-4a3b-88e6-d7fa008a155e
+  - e87bc036-1570-419e-a558-f45b9c0db698
+  - 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+  - 5f210ca2-54e9-445b-afe4-fb340d4992c5
+  - f2d83a77-7f86-4c56-8538-1350167a0c6c
+  - c34c36a6-80c9-4b44-a200-6448543b1b33
+  - 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+  - 62bec6f0-4e13-4f38-aca4-72c84ba02367
 references:
-  - uuid: ac9d3ac5-9a6a-4180-a67f-1ab7e229d981
-    line: 483
-    col: 0
-    score: 1
-  - uuid: 4330e8f0-5f46-4235-918b-39b6b93fa561
-    line: 1321
-    col: 0
-    score: 1
-  - uuid: c3cd4f65-2bb3-4fca-a32e-2ac667e03f40
-    line: 561
-    col: 0
-    score: 1
-  - uuid: ba11486b-b0b0-4d9d-a0d1-1d91ae34de55
-    line: 522
-    col: 0
-    score: 1
-  - uuid: 78eeedf7-75bc-4692-a5a7-bb6857270621
-    line: 1015
-    col: 0
-    score: 1
-  - uuid: 7b7ca860-780c-44fa-8d3f-be8bd9496fba
-    line: 1228
-    col: 0
-    score: 1
-  - uuid: ed6f3fc9-5eb1-482c-8b3c-f0abc5aff2a2
-    line: 173
-    col: 0
-    score: 1
-  - uuid: 62bec6f0-4e13-4f38-aca4-72c84ba02367
-    line: 1057
-    col: 0
-    score: 1
-  - uuid: 1b1338fc-bb4d-41df-828f-e219cc9442eb
-    line: 513
-    col: 0
-    score: 1
-  - uuid: bb7f0835-c347-474f-bfad-eabd873b51ad
-    line: 618
-    col: 0
-    score: 1
-  - uuid: 930054b3-ba95-4acf-bb92-0e3ead25ed0b
-    line: 187
-    col: 0
-    score: 1
-  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
-    line: 999
-    col: 0
-    score: 1
-  - uuid: 78eeedf7-75bc-4692-a5a7-bb6857270621
-    line: 1016
-    col: 0
-    score: 1
-  - uuid: ed6f3fc9-5eb1-482c-8b3c-f0abc5aff2a2
-    line: 175
-    col: 0
-    score: 1
-  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-    line: 1221
-    col: 0
-    score: 1
-  - uuid: 62bec6f0-4e13-4f38-aca4-72c84ba02367
-    line: 1058
-    col: 0
-    score: 1
-  - uuid: 1b1338fc-bb4d-41df-828f-e219cc9442eb
-    line: 515
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 251
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 559
-    col: 0
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 1033
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 226
-    col: 0
-    score: 1
-  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
-    line: 705
-    col: 0
-    score: 1
-  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
-    line: 719
-    col: 0
-    score: 1
-  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
-    line: 601
-    col: 0
-    score: 1
-  - uuid: fc21f824-4244-4030-a48e-c4170160ea1d
-    line: 1060
-    col: 0
-    score: 1
-  - uuid: a4a25141-6380-40b9-9cd7-b554b246b303
-    line: 726
-    col: 0
-    score: 1
-  - uuid: 6620e2f2-de6d-45d8-a722-5d26e160b370
-    line: 996
-    col: 0
-    score: 1
-  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
-    line: 667
-    col: 0
-    score: 1
-  - uuid: 5e408692-0e74-400e-a617-84247c7353ad
-    line: 736
-    col: 0
-    score: 1
-  - uuid: 291c7d91-da8c-486c-9bc0-bd2254536e2d
-    line: 645
-    col: 0
-    score: 1
-  - uuid: dd89372d-10de-42a9-8c96-6bc13ea36d02
-    line: 739
-    col: 0
-    score: 1
-  - uuid: 64a9f9f9-58ee-4996-bdaf-9373845c6b29
-    line: 816
-    col: 0
-    score: 1
-  - uuid: cce2f5f9-557e-4d35-9dff-5c29ca71efd2
-    line: 1
-    col: 0
-    score: 1
-  - uuid: cce2f5f9-557e-4d35-9dff-5c29ca71efd2
-    line: 7
-    col: 0
-    score: 1
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 113
-    col: 0
-    score: 0.95
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 151
-    col: 0
-    score: 0.95
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 110
-    col: 0
-    score: 0.95
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 492
-    col: 0
-    score: 0.95
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 265
-    col: 0
-    score: 0.95
-  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
-    line: 253
-    col: 0
-    score: 0.95
-  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-    line: 224
-    col: 0
-    score: 0.95
-  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
-    line: 196
-    col: 0
-    score: 0.95
-  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
-    line: 222
-    col: 0
-    score: 0.95
-  - uuid: a4a25141-6380-40b9-9cd7-b554b246b303
-    line: 409
-    col: 0
-    score: 0.95
-  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
-    line: 227
-    col: 0
-    score: 0.95
-  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
-    line: 200
-    col: 0
-    score: 0.95
+  - uuid: cfee6d36-b9f5-4587-885a-cdfddb4f054e
+    line: 291
+    col: 1
+    score: 0.88
   - uuid: c5fba0a0-9196-468d-a0f3-51c99e987263
-    line: 60
-    col: 0
+    line: 58
+    col: 1
     score: 0.94
   - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
-    line: 366
-    col: 0
+    line: 359
+    col: 1
     score: 0.94
   - uuid: cdfac40c-00e4-458f-96a7-4c37d0278731
-    line: 322
-    col: 0
+    line: 319
+    col: 1
     score: 0.93
-  - uuid: 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
-    line: 303
-    col: 0
-    score: 0.91
-  - uuid: cdfac40c-00e4-458f-96a7-4c37d0278731
-    line: 426
-    col: 0
-    score: 0.87
   - uuid: cfee6d36-b9f5-4587-885a-cdfddb4f054e
-    line: 459
-    col: 0
-    score: 0.87
-  - uuid: 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
-    line: 280
-    col: 0
-    score: 0.87
-  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
-    line: 427
-    col: 0
-    score: 0.87
-  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
-    line: 527
-    col: 0
-    score: 0.87
-  - uuid: af5d2824-faad-476c-a389-e912d9bc672c
-    line: 120
-    col: 0
-    score: 0.87
-  - uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
-    line: 134
-    col: 0
-    score: 0.86
+    line: 440
+    col: 1
+    score: 0.92
   - uuid: cdfac40c-00e4-458f-96a7-4c37d0278731
-    line: 498
-    col: 0
-    score: 0.86
-  - uuid: fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
-    line: 973
-    col: 0
-    score: 0.86
-  - uuid: 41ce0216-f8cc-4eed-8d9a-fcc25be21425
-    line: 10
-    col: 0
-    score: 0.85
+    line: 421
+    col: 1
+    score: 0.9
+  - uuid: cfee6d36-b9f5-4587-885a-cdfddb4f054e
+    line: 491
+    col: 1
+    score: 0.92
+  - uuid: cdfac40c-00e4-458f-96a7-4c37d0278731
+    line: 470
+    col: 1
+    score: 0.89
+  - uuid: cfee6d36-b9f5-4587-885a-cdfddb4f054e
+    line: 529
+    col: 1
+    score: 0.9
+  - uuid: cfee6d36-b9f5-4587-885a-cdfddb4f054e
+    line: 529
+    col: 3
+    score: 0.9
+  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
+    line: 607
+    col: 1
+    score: 1
+  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
+    line: 607
+    col: 3
+    score: 1
+  - uuid: cdfac40c-00e4-458f-96a7-4c37d0278731
+    line: 514
+    col: 1
+    score: 1
+  - uuid: cdfac40c-00e4-458f-96a7-4c37d0278731
+    line: 514
+    col: 3
+    score: 1
   - uuid: 58191024-d04a-4520-8aae-a18be7b94263
-    line: 343
-    col: 0
-    score: 0.85
+    line: 411
+    col: 1
+    score: 1
+  - uuid: 58191024-d04a-4520-8aae-a18be7b94263
+    line: 411
+    col: 3
+    score: 1
+  - uuid: d2b3628c-6cad-4664-8551-94ef8280851d
+    line: 535
+    col: 1
+    score: 1
+  - uuid: d2b3628c-6cad-4664-8551-94ef8280851d
+    line: 535
+    col: 3
+    score: 1
+  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
+    line: 13
+    col: 1
+    score: 1
+  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
+    line: 13
+    col: 3
+    score: 1
+  - uuid: cdfac40c-00e4-458f-96a7-4c37d0278731
+    line: 513
+    col: 1
+    score: 1
+  - uuid: cdfac40c-00e4-458f-96a7-4c37d0278731
+    line: 513
+    col: 3
+    score: 1
+  - uuid: cfee6d36-b9f5-4587-885a-cdfddb4f054e
+    line: 539
+    col: 1
+    score: 1
+  - uuid: cfee6d36-b9f5-4587-885a-cdfddb4f054e
+    line: 539
+    col: 3
+    score: 1
+  - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+    line: 515
+    col: 1
+    score: 1
+  - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+    line: 515
+    col: 3
+    score: 1
+  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
+    line: 11
+    col: 1
+    score: 1
+  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
+    line: 11
+    col: 3
+    score: 1
+  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
+    line: 606
+    col: 1
+    score: 1
+  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
+    line: 606
+    col: 3
+    score: 1
+  - uuid: 58191024-d04a-4520-8aae-a18be7b94263
+    line: 422
+    col: 1
+    score: 1
+  - uuid: 58191024-d04a-4520-8aae-a18be7b94263
+    line: 422
+    col: 3
+    score: 1
+  - uuid: d2b3628c-6cad-4664-8551-94ef8280851d
+    line: 534
+    col: 1
+    score: 1
+  - uuid: d2b3628c-6cad-4664-8551-94ef8280851d
+    line: 534
+    col: 3
+    score: 1
+  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
+    line: 610
+    col: 1
+    score: 1
+  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
+    line: 610
+    col: 3
+    score: 1
+  - uuid: cdfac40c-00e4-458f-96a7-4c37d0278731
+    line: 515
+    col: 1
+    score: 1
+  - uuid: cdfac40c-00e4-458f-96a7-4c37d0278731
+    line: 515
+    col: 3
+    score: 1
+  - uuid: 58191024-d04a-4520-8aae-a18be7b94263
+    line: 423
+    col: 1
+    score: 1
+  - uuid: 58191024-d04a-4520-8aae-a18be7b94263
+    line: 423
+    col: 3
+    score: 1
+  - uuid: d2b3628c-6cad-4664-8551-94ef8280851d
+    line: 532
+    col: 1
+    score: 1
+  - uuid: d2b3628c-6cad-4664-8551-94ef8280851d
+    line: 532
+    col: 3
+    score: 1
+  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
+    line: 155
+    col: 1
+    score: 1
+  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
+    line: 155
+    col: 3
+    score: 1
+  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
+    line: 609
+    col: 1
+    score: 1
+  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
+    line: 609
+    col: 3
+    score: 1
+  - uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
+    line: 203
+    col: 1
+    score: 1
+  - uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
+    line: 203
+    col: 3
+    score: 1
+  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
+    line: 168
+    col: 1
+    score: 1
+  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
+    line: 168
+    col: 3
+    score: 1
+  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
+    line: 611
+    col: 1
+    score: 1
+  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
+    line: 611
+    col: 3
+    score: 1
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 462
+    col: 1
+    score: 1
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 462
+    col: 3
+    score: 1
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 398
+    col: 1
+    score: 1
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 398
+    col: 3
+    score: 1
+  - uuid: cdfac40c-00e4-458f-96a7-4c37d0278731
+    line: 517
+    col: 1
+    score: 1
+  - uuid: cdfac40c-00e4-458f-96a7-4c37d0278731
+    line: 517
+    col: 3
+    score: 1
+  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+    line: 458
+    col: 1
+    score: 1
+  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+    line: 458
+    col: 3
+    score: 1
+  - uuid: cdfac40c-00e4-458f-96a7-4c37d0278731
+    line: 521
+    col: 1
+    score: 1
+  - uuid: cdfac40c-00e4-458f-96a7-4c37d0278731
+    line: 521
+    col: 3
+    score: 1
+  - uuid: 58191024-d04a-4520-8aae-a18be7b94263
+    line: 413
+    col: 1
+    score: 1
+  - uuid: 58191024-d04a-4520-8aae-a18be7b94263
+    line: 413
+    col: 3
+    score: 1
+  - uuid: cfee6d36-b9f5-4587-885a-cdfddb4f054e
+    line: 542
+    col: 1
+    score: 1
+  - uuid: cfee6d36-b9f5-4587-885a-cdfddb4f054e
+    line: 542
+    col: 3
+    score: 1
+  - uuid: cdfac40c-00e4-458f-96a7-4c37d0278731
+    line: 527
+    col: 1
+    score: 1
+  - uuid: cdfac40c-00e4-458f-96a7-4c37d0278731
+    line: 527
+    col: 3
+    score: 1
+  - uuid: 62bec6f0-4e13-4f38-aca4-72c84ba02367
+    line: 374
+    col: 1
+    score: 0.99
+  - uuid: 62bec6f0-4e13-4f38-aca4-72c84ba02367
+    line: 374
+    col: 3
+    score: 0.99
+  - uuid: cdfac40c-00e4-458f-96a7-4c37d0278731
+    line: 526
+    col: 1
+    score: 0.99
+  - uuid: cdfac40c-00e4-458f-96a7-4c37d0278731
+    line: 526
+    col: 3
+    score: 0.99
+  - uuid: cdfac40c-00e4-458f-96a7-4c37d0278731
+    line: 534
+    col: 1
+    score: 0.99
+  - uuid: cdfac40c-00e4-458f-96a7-4c37d0278731
+    line: 534
+    col: 3
+    score: 0.99
+  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
+    line: 624
+    col: 1
+    score: 1
+  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
+    line: 624
+    col: 3
+    score: 1
+  - uuid: cdfac40c-00e4-458f-96a7-4c37d0278731
+    line: 529
+    col: 1
+    score: 1
+  - uuid: cdfac40c-00e4-458f-96a7-4c37d0278731
+    line: 529
+    col: 3
+    score: 1
+  - uuid: cfee6d36-b9f5-4587-885a-cdfddb4f054e
+    line: 558
+    col: 1
+    score: 0.99
+  - uuid: cfee6d36-b9f5-4587-885a-cdfddb4f054e
+    line: 558
+    col: 3
+    score: 0.99
+  - uuid: 58191024-d04a-4520-8aae-a18be7b94263
+    line: 427
+    col: 1
+    score: 0.99
+  - uuid: 58191024-d04a-4520-8aae-a18be7b94263
+    line: 427
+    col: 3
+    score: 0.99
+  - uuid: c5fba0a0-9196-468d-a0f3-51c99e987263
+    line: 159
+    col: 1
+    score: 1
+  - uuid: c5fba0a0-9196-468d-a0f3-51c99e987263
+    line: 159
+    col: 3
+    score: 1
+  - uuid: cdfac40c-00e4-458f-96a7-4c37d0278731
+    line: 528
+    col: 1
+    score: 1
+  - uuid: cdfac40c-00e4-458f-96a7-4c37d0278731
+    line: 528
+    col: 3
+    score: 1
+  - uuid: c5fba0a0-9196-468d-a0f3-51c99e987263
+    line: 157
+    col: 1
+    score: 0.98
+  - uuid: c5fba0a0-9196-468d-a0f3-51c99e987263
+    line: 157
+    col: 3
+    score: 0.98
+  - uuid: f8877e5e-1e4f-4478-93cd-a0bf86d26a41
+    line: 122
+    col: 1
+    score: 0.98
+  - uuid: f8877e5e-1e4f-4478-93cd-a0bf86d26a41
+    line: 122
+    col: 3
+    score: 0.98
+  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
+    line: 623
+    col: 1
+    score: 1
+  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
+    line: 623
+    col: 3
+    score: 1
+  - uuid: c5fba0a0-9196-468d-a0f3-51c99e987263
+    line: 158
+    col: 1
+    score: 1
+  - uuid: c5fba0a0-9196-468d-a0f3-51c99e987263
+    line: 158
+    col: 3
+    score: 1
+  - uuid: cfee6d36-b9f5-4587-885a-cdfddb4f054e
+    line: 555
+    col: 1
+    score: 0.98
+  - uuid: cfee6d36-b9f5-4587-885a-cdfddb4f054e
+    line: 555
+    col: 3
+    score: 0.98
+  - uuid: cfee6d36-b9f5-4587-885a-cdfddb4f054e
+    line: 559
+    col: 1
+    score: 0.98
+  - uuid: cfee6d36-b9f5-4587-885a-cdfddb4f054e
+    line: 559
+    col: 3
+    score: 0.98
+  - uuid: cdfac40c-00e4-458f-96a7-4c37d0278731
+    line: 531
+    col: 1
+    score: 1
+  - uuid: cdfac40c-00e4-458f-96a7-4c37d0278731
+    line: 531
+    col: 3
+    score: 1
+  - uuid: c5fba0a0-9196-468d-a0f3-51c99e987263
+    line: 162
+    col: 1
+    score: 0.99
+  - uuid: c5fba0a0-9196-468d-a0f3-51c99e987263
+    line: 162
+    col: 3
+    score: 0.99
+  - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+    line: 523
+    col: 1
+    score: 0.98
+  - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+    line: 523
+    col: 3
+    score: 0.98
+  - uuid: cfee6d36-b9f5-4587-885a-cdfddb4f054e
+    line: 551
+    col: 1
+    score: 0.98
+  - uuid: cfee6d36-b9f5-4587-885a-cdfddb4f054e
+    line: 551
+    col: 3
+    score: 0.98
+  - uuid: cfee6d36-b9f5-4587-885a-cdfddb4f054e
+    line: 553
+    col: 1
+    score: 0.99
+  - uuid: cfee6d36-b9f5-4587-885a-cdfddb4f054e
+    line: 553
+    col: 3
+    score: 0.99
+  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
+    line: 621
+    col: 1
+    score: 0.99
+  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
+    line: 621
+    col: 3
+    score: 0.99
 ---
-Alright, **Part next**: we wire **Lispy macros up a notch** with `syntax-rules` (hygienic-ish), make the Lisp front-end nicer (`and`/`or`, *n*-ary `+ - * /`), and let you **seed externs** so host functions like `print` compile cleanly to JS imports. ^ref-cbfe3513-1-0
+Alright, **Part next**: we wire **Lispy macros up a notch** with `syntax-rules` (hygienic-ish), make the Lisp front-end nicer (`and`/`or`, *n*-ary `+ - * /`), and let you **seed externs** so host functions like `print` compile cleanly to JS imports.
 
-Drop these in alongside your compiler stuff: ^ref-cbfe3513-3-0
+Drop these in alongside your compiler stuff:
 
 ---
 
@@ -528,10 +704,9 @@ export function makeSyntaxRules(defForm: List) {
   return { name, expand };
 }
 ```
-^ref-cbfe3513-9-0
- ^ref-cbfe3513-215-0
+
 Hook it into your macro environment:
- ^ref-cbfe3513-217-0
+
 ```ts
 // shared/js/prom-lib/compiler/lisp/expand.ts (additions)
 import { makeSyntaxRules } from "./syntax-rules";
@@ -550,14 +725,13 @@ function expand(x:S, M: MacroEnv): S {
   // existing defmacro, macro call, etc...
   // ...
 }
-^ref-cbfe3513-217-0
 ```
 
 ---
 
 # 2) Friendlier Lisp core: `and`, `or`, var-arity `+ - * /`
 
-### 2a) Macros for `and` / `or` ^ref-cbfe3513-243-0
+### 2a) Macros for `and` / `or`
 
 ```ts
 // shared/js/prom-lib/compiler/lisp/macros.ts (append in installCoreMacros)
@@ -577,7 +751,6 @@ M.define("or", (form) => {
   // (or a b c) => (if a a (or b c))
   const [a, ...rest] = xs;
   return list([sym("if"), a, a, list([sym("or"), ...rest])]);
-^ref-cbfe3513-243-0
 });
 ```
 
@@ -613,9 +786,9 @@ if (hd.t==="sym" && ["+","-","*","/","%","<",">","<=",">=","==","!="].includes(h
 ```
 
 ---
- ^ref-cbfe3513-299-0
+
 # 3) Externs (host imports) without “unbound” errors
- ^ref-cbfe3513-301-0
+
 Add an overload that seeds the lowerer’s environment with extern names, so `print`, `sin`, etc. are treated as bound variables (to be imported in JS).
 
 ```ts
@@ -630,13 +803,9 @@ export function lowerWithExterns(ast: any, externs: string[] = []): Module {
   const result = lowerExpr(ast, env, stmts);
   stmts.push({ k:"ret", s: result });
   const main: Fun = { params: [], body: stmts };
-^ref-cbfe3513-301-0
-  return { funs: [], main }; ^ref-cbfe3513-317-0
+  return { funs: [], main };
 }
 ```
-^ref-29676fd0-304-0
-^ref-cbfe3513-304-0
-^ref-cbfe3513-319-0
 
 Use it in the Lisp driver:
 
@@ -651,14 +820,12 @@ export function compileLispToJS(src: string, { pretty=false, importNames=[] as s
   const program = expanded.length===1 ? expanded[0] : { t:"list", xs:[{t:"sym",name:"begin"}, ...expanded] } as any;
   const ast = toExpr(program as any);
   const ir = lowerWithExterns(ast, importNames);
-^ref-cbfe3513-319-0
   const js = emitJS(ir, { iife:false, importNames, pretty });
   return { forms, expanded, ast, ir, js };
 }
 ```
-^ref-cbfe3513-325-0
- ^ref-cbfe3513-339-0 ^ref-cbfe3513-341-0
---- ^ref-cbfe3513-341-0
+
+---
 
 # 4) Tiny stdlib (userland) you can require
 
@@ -678,19 +845,16 @@ You can load this as the first form in your Lisp source or pre-concatenate it:
 
 (define-syntax -> 
   (syntax-rules ()
-^ref-cbfe3513-341-0
     ((-> x) x)
     ((-> x (f args ...) rest ...) (-> (f x args ...) rest ...))))
 
 ; You can add more: cond, let*, etc., using syntax-rules now.
-^ref-cbfe3513-365-0
-^ref-cbfe3513-365-0
 ```
 
 ---
 
 # 5) Quick demo
- ^ref-cbfe3513-375-0
+
 ```ts
 import { compileLispToJS } from "./compiler/lisp/driver";
 
@@ -703,124 +867,153 @@ const src = `
     (when (< x 10)
       (print (-> x inc inc (+ 38)))))
 `;
-^ref-cbfe3513-365-0
 
 const { js } = compileLispToJS(src, { pretty:true, importNames:["print"] });
 console.log(js);
 // run it:
-^ref-cbfe3513-389-0 ^ref-cbfe3513-390-0
-^ref-cbfe3513-392-0 ^ref-cbfe3513-393-0
-^ref-cbfe3513-391-0
-^ref-cbfe3513-390-0 ^ref-cbfe3513-395-0
-^ref-cbfe3513-389-0
-^ref-cbfe3513-388-0 ^ref-cbfe3513-397-0
-^ref-cbfe3513-373-0
-(0, eval)(js)({ print: console.log });  // => 42 ^ref-cbfe3513-388-0 ^ref-cbfe3513-391-0 ^ref-cbfe3513-399-0
-^ref-cbfe3513-375-0
-``` ^ref-cbfe3513-389-0 ^ref-cbfe3513-392-0
-^ref-cbfe3513-376-0
-^ref-cbfe3513-389-0 ^ref-cbfe3513-393-0
-^ref-cbfe3513-388-0 ^ref-cbfe3513-402-0
- ^ref-cbfe3513-390-0 ^ref-cbfe3513-393-0 ^ref-cbfe3513-395-0
---- ^ref-cbfe3513-391-0
- ^ref-cbfe3513-392-0 ^ref-cbfe3513-395-0 ^ref-cbfe3513-397-0
-# 6) What’s next (pick a lane) ^ref-cbfe3513-393-0 ^ref-cbfe3513-406-0
- ^ref-cbfe3513-397-0 ^ref-cbfe3513-399-0
-* **Hygiene**: add scope-sets to `Sym` and a resolver so macros can’t accidentally capture user vars. ^ref-cbfe3513-395-0 ^ref-cbfe3513-408-0
-* **Modules**: `(require "prelude.lisp")` with caching + macro phase separation (so required macros expand at compile time). ^ref-cbfe3513-399-0
-* **Pattern goodness**: a `match` macro (built on `syntax-rules` or `syntax-case`) with guards. ^ref-cbfe3513-397-0 ^ref-cbfe3513-402-0
+(0, eval)(js)({ print: console.log });  // => 42
+```
+
+---
+
+# 6) What’s next (pick a lane)
+
+* **Hygiene**: add scope-sets to `Sym` and a resolver so macros can’t accidentally capture user vars.
+* **Modules**: `(require "prelude.lisp")` with caching + macro phase separation (so required macros expand at compile time).
+* **Pattern goodness**: a `match` macro (built on `syntax-rules` or `syntax-case`) with guards.
 * **Interop**: `(js . ...)` macro for direct JS property/method calls safely.
-* **Optimizations**: const folding & DCE over ANF IR before JS emission. ^ref-cbfe3513-399-0 ^ref-cbfe3513-402-0 ^ref-cbfe3513-412-0
+* **Optimizations**: const folding & DCE over ANF IR before JS emission.
 * **Source maps**: map Lisp spans → JS for friendly stack traces.
- ^ref-cbfe3513-406-0
+
 Tell me which slice you want next and I’ll shovel more code.
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [ollama-llm-provider-for-pseudo-code-transpiler](ollama-llm-provider-for-pseudo-code-transpiler.md)
-- [Smoke Resonance Visualizations](smoke-resonance-visualizations.md)
-- [Stateful Partitions and Rebalancing](stateful-partitions-and-rebalancing.md)
-- [Tracing the Signal](tracing-the-signal.md)
-- [ts-to-lisp-transpiler](ts-to-lisp-transpiler.md)
-- [typed-struct-compiler](typed-struct-compiler.md)
-- [TypeScript Patch for Tool Calling Support](typescript-patch-for-tool-calling-support.md)
-- [Unique Concepts](unique-concepts.md)
-- [zero-copy-snapshots-and-workers](zero-copy-snapshots-and-workers.md)
-- [Canonical Org-Babel Matplotlib Animation Template](canonical-org-babel-matplotlib-animation-template.md)
-- [field-node-diagram-outline](field-node-diagram-outline.md)
-- [field-node-diagram-set](field-node-diagram-set.md)
-- [Docops Feature Updates](docops-feature-updates.md)
-- [field-node-diagram-visualizations](field-node-diagram-visualizations.md)
-- [Fnord Tracer Protocol](fnord-tracer-protocol.md)
-- [Functional Embedding Pipeline Refactor](functional-embedding-pipeline-refactor.md)
-- [graph-ds](graph-ds.md)
-- [heartbeat-fragment-demo](heartbeat-fragment-demo.md)
-- [i3-bluetooth-setup](i3-bluetooth-setup.md)
-- [Ice Box Reorganization](ice-box-reorganization.md)
-- [komorebi-group-window-hack](komorebi-group-window-hack.md)
-- [Layer1SurvivabilityEnvelope](layer1survivabilityenvelope.md)
-- [Agent Reflections and Prompt Evolution](agent-reflections-and-prompt-evolution.md)
-- [ChatGPT Custom Prompts](chatgpt-custom-prompts.md)
-- [Chroma Toolkit Consolidation Plan](chroma-toolkit-consolidation-plan.md)
+- [[set-assignment-in-lisp-ast]]
+- [[docs/unique/compiler-kit-foundations|compiler-kit-foundations]]
+- [[docs/unique/interop-and-source-maps|Interop and Source Maps]]
+- [[lisp-compiler-integration]]
+- [[docs/unique/template-based-compilation|template-based-compilation]]
+- [[polyglot-s-expr-bridge-python-js-lisp-interop|Polyglot S-expr Bridge: Python-JS-Lisp Interop]]
+- [[language-agnostic-mirror-system|Language-Agnostic Mirror System]]
+- [[js-to-lisp-reverse-compiler]]
+- [[ecs-scheduler-and-prefabs]]
+- [DSL](chunks/dsl.md)
+- [[docs/unique/ecs-offload-workers|ecs-offload-workers]]
+- [[cross-target-macro-system-in-sibilant|Cross-Target Macro System in Sibilant]]
+- [[docs/unique/aionian-circuit-math|aionian-circuit-math]]
+- [[cross-language-runtime-polymorphism|Cross-Language Runtime Polymorphism]]
+- [[docs/unique/archetype-ecs|archetype-ecs]]
+- [[docs/unique/zero-copy-snapshots-and-workers|zero-copy-snapshots-and-workers]]
+
 ## Sources
-- [Smoke Resonance Visualizations — L483](smoke-resonance-visualizations.md#^ref-ac9d3ac5-483-0) (line 483, col 0, score 1)
-- [Stateful Partitions and Rebalancing — L1321](stateful-partitions-and-rebalancing.md#^ref-4330e8f0-1321-0) (line 1321, col 0, score 1)
-- [Tracing the Signal — L561](tracing-the-signal.md#^ref-c3cd4f65-561-0) (line 561, col 0, score 1)
-- [ts-to-lisp-transpiler — L522](ts-to-lisp-transpiler.md#^ref-ba11486b-522-0) (line 522, col 0, score 1)
-- [typed-struct-compiler — L1015](typed-struct-compiler.md#^ref-78eeedf7-1015-0) (line 1015, col 0, score 1)
-- [TypeScript Patch for Tool Calling Support — L1228](typescript-patch-for-tool-calling-support.md#^ref-7b7ca860-1228-0) (line 1228, col 0, score 1)
-- [Unique Concepts — L173](unique-concepts.md#^ref-ed6f3fc9-173-0) (line 173, col 0, score 1)
-- [zero-copy-snapshots-and-workers — L1057](zero-copy-snapshots-and-workers.md#^ref-62bec6f0-1057-0) (line 1057, col 0, score 1)
-- [Canonical Org-Babel Matplotlib Animation Template — L513](canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-513-0) (line 513, col 0, score 1)
-- [Agent Reflections and Prompt Evolution — L618](agent-reflections-and-prompt-evolution.md#^ref-bb7f0835-618-0) (line 618, col 0, score 1)
-- [ChatGPT Custom Prompts — L187](chatgpt-custom-prompts.md#^ref-930054b3-187-0) (line 187, col 0, score 1)
-- [Chroma Toolkit Consolidation Plan — L999](chroma-toolkit-consolidation-plan.md#^ref-5020e892-999-0) (line 999, col 0, score 1)
-- [typed-struct-compiler — L1016](typed-struct-compiler.md#^ref-78eeedf7-1016-0) (line 1016, col 0, score 1)
-- [Unique Concepts — L175](unique-concepts.md#^ref-ed6f3fc9-175-0) (line 175, col 0, score 1)
-- [Unique Info Dump Index — L1221](unique-info-dump-index.md#^ref-30ec3ba6-1221-0) (line 1221, col 0, score 1)
-- [zero-copy-snapshots-and-workers — L1058](zero-copy-snapshots-and-workers.md#^ref-62bec6f0-1058-0) (line 1058, col 0, score 1)
-- [Canonical Org-Babel Matplotlib Animation Template — L515](canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-515-0) (line 515, col 0, score 1)
-- [Creative Moments — L251](creative-moments.md#^ref-10d98225-251-0) (line 251, col 0, score 1)
-- [Duck's Attractor States — L559](ducks-attractor-states.md#^ref-13951643-559-0) (line 559, col 0, score 1)
-- [eidolon-field-math-foundations — L1033](eidolon-field-math-foundations.md#^ref-008f2ac0-1033-0) (line 1033, col 0, score 1)
-- [Docops Feature Updates — L226](docops-feature-updates.md#^ref-2792d448-226-0) (line 226, col 0, score 1)
-- [field-node-diagram-outline — L705](field-node-diagram-outline.md#^ref-1f32c94a-705-0) (line 705, col 0, score 1)
-- [field-node-diagram-set — L719](field-node-diagram-set.md#^ref-22b989d5-719-0) (line 719, col 0, score 1)
-- [field-node-diagram-visualizations — L601](field-node-diagram-visualizations.md#^ref-e9b27b06-601-0) (line 601, col 0, score 1)
-- [Fnord Tracer Protocol — L1060](fnord-tracer-protocol.md#^ref-fc21f824-1060-0) (line 1060, col 0, score 1)
-- [Functional Embedding Pipeline Refactor — L726](functional-embedding-pipeline-refactor.md#^ref-a4a25141-726-0) (line 726, col 0, score 1)
-- [graph-ds — L996](graph-ds.md#^ref-6620e2f2-996-0) (line 996, col 0, score 1)
-- [heartbeat-fragment-demo — L667](heartbeat-fragment-demo.md#^ref-dd00677a-667-0) (line 667, col 0, score 1)
-- [i3-bluetooth-setup — L736](i3-bluetooth-setup.md#^ref-5e408692-736-0) (line 736, col 0, score 1)
-- [Ice Box Reorganization — L645](ice-box-reorganization.md#^ref-291c7d91-645-0) (line 645, col 0, score 1)
-- [komorebi-group-window-hack — L739](komorebi-group-window-hack.md#^ref-dd89372d-739-0) (line 739, col 0, score 1)
-- [Layer1SurvivabilityEnvelope — L816](layer1survivabilityenvelope.md#^ref-64a9f9f9-816-0) (line 816, col 0, score 1)
-- [ollama-llm-provider-for-pseudo-code-transpiler — L1](ollama-llm-provider-for-pseudo-code-transpiler.md#^ref-cce2f5f9-1-0) (line 1, col 0, score 1)
-- [ollama-llm-provider-for-pseudo-code-transpiler — L7](ollama-llm-provider-for-pseudo-code-transpiler.md#^ref-cce2f5f9-7-0) (line 7, col 0, score 1)
-- [Debugging Broker Connections and Agent Behavior — L113](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-113-0) (line 113, col 0, score 0.95)
-- [Duck's Attractor States — L151](ducks-attractor-states.md#^ref-13951643-151-0) (line 151, col 0, score 0.95)
-- [Duck's Self-Referential Perceptual Loop — L110](ducks-self-referential-perceptual-loop.md#^ref-71726f04-110-0) (line 110, col 0, score 0.95)
-- [Dynamic Context Model for Web Components — L492](dynamic-context-model-for-web-components.md#^ref-f7702bf8-492-0) (line 492, col 0, score 0.95)
-- [Eidolon Field Abstract Model — L265](eidolon-field-abstract-model.md#^ref-5e8b2388-265-0) (line 265, col 0, score 0.95)
-- [Factorio AI with External Agents — L253](factorio-ai-with-external-agents.md#^ref-a4d90289-253-0) (line 253, col 0, score 0.95)
-- [field-dynamics-math-blocks — L224](field-dynamics-math-blocks.md#^ref-7cfc230d-224-0) (line 224, col 0, score 0.95)
-- [field-node-diagram-outline — L196](field-node-diagram-outline.md#^ref-1f32c94a-196-0) (line 196, col 0, score 0.95)
-- [field-node-diagram-set — L222](field-node-diagram-set.md#^ref-22b989d5-222-0) (line 222, col 0, score 0.95)
-- [Functional Embedding Pipeline Refactor — L409](functional-embedding-pipeline-refactor.md#^ref-a4a25141-409-0) (line 409, col 0, score 0.95)
-- [Functional Refactor of TypeScript Document Processing — L227](functional-refactor-of-typescript-document-processing.md#^ref-1cfae310-227-0) (line 227, col 0, score 0.95)
-- [heartbeat-fragment-demo — L200](heartbeat-fragment-demo.md#^ref-dd00677a-200-0) (line 200, col 0, score 0.95)
-- [set-assignment-in-lisp-ast — L60](set-assignment-in-lisp-ast.md#^ref-c5fba0a0-60-0) (line 60, col 0, score 0.94)
-- [compiler-kit-foundations — L366](compiler-kit-foundations.md#^ref-01b21543-366-0) (line 366, col 0, score 0.94)
-- [Interop and Source Maps — L322](interop-and-source-maps.md#^ref-cdfac40c-322-0) (line 322, col 0, score 0.93)
-- [State Snapshots API and Transactional Projector — L303](state-snapshots-api-and-transactional-projector.md#^ref-509e1cd5-303-0) (line 303, col 0, score 0.91)
-- [Interop and Source Maps — L426](interop-and-source-maps.md#^ref-cdfac40c-426-0) (line 426, col 0, score 0.87)
-- [Lisp-Compiler-Integration — L459](lisp-compiler-integration.md#^ref-cfee6d36-459-0) (line 459, col 0, score 0.87)
-- [Voice Access Layer Design — L280](voice-access-layer-design.md#^ref-543ed9b3-280-0) (line 280, col 0, score 0.87)
-- [ecs-offload-workers — L427](ecs-offload-workers.md#^ref-6498b9d7-427-0) (line 427, col 0, score 0.87)
-- [Event Bus MVP — L527](event-bus-mvp.md#^ref-534fe91d-527-0) (line 527, col 0, score 0.87)
-- [Sibilant Meta-Prompt DSL — L120](sibilant-meta-prompt-dsl.md#^ref-af5d2824-120-0) (line 120, col 0, score 0.87)
-- [Cross-Language Runtime Polymorphism — L134](cross-language-runtime-polymorphism.md#^ref-c34c36a6-134-0) (line 134, col 0, score 0.86)
-- [Interop and Source Maps — L498](interop-and-source-maps.md#^ref-cdfac40c-498-0) (line 498, col 0, score 0.86)
-- [Promethean Event Bus MVP v0.1 — L973](promethean-event-bus-mvp-v0-1.md#^ref-fe7193a2-973-0) (line 973, col 0, score 0.86)
-- [refactor-relations — L10](refactor-relations.md#^ref-41ce0216-10-0) (line 10, col 0, score 0.85)
-- [js-to-lisp-reverse-compiler — L343](js-to-lisp-reverse-compiler.md#^ref-58191024-343-0) (line 343, col 0, score 0.85)
+- [[lisp-compiler-integration#L291|Lisp-Compiler-Integration — L291]] (line 291, col 1, score 0.88)
+- [[set-assignment-in-lisp-ast#L58|set-assignment-in-lisp-ast — L58]] (line 58, col 1, score 0.94)
+- [[docs/unique/compiler-kit-foundations#L359|compiler-kit-foundations — L359]] (line 359, col 1, score 0.94)
+- [[docs/unique/interop-and-source-maps#L319|Interop and Source Maps — L319]] (line 319, col 1, score 0.93)
+- [[lisp-compiler-integration#L440|Lisp-Compiler-Integration — L440]] (line 440, col 1, score 0.92)
+- [[docs/unique/interop-and-source-maps#L421|Interop and Source Maps — L421]] (line 421, col 1, score 0.9)
+- [[lisp-compiler-integration#L491|Lisp-Compiler-Integration — L491]] (line 491, col 1, score 0.92)
+- [[docs/unique/interop-and-source-maps#L470|Interop and Source Maps — L470]] (line 470, col 1, score 0.89)
+- [[lisp-compiler-integration#L529|Lisp-Compiler-Integration — L529]] (line 529, col 1, score 0.9)
+- [[lisp-compiler-integration#L529|Lisp-Compiler-Integration — L529]] (line 529, col 3, score 0.9)
+- [[docs/unique/compiler-kit-foundations#L607|compiler-kit-foundations — L607]] (line 607, col 1, score 1)
+- [[docs/unique/compiler-kit-foundations#L607|compiler-kit-foundations — L607]] (line 607, col 3, score 1)
+- [[docs/unique/interop-and-source-maps#L514|Interop and Source Maps — L514]] (line 514, col 1, score 1)
+- [[docs/unique/interop-and-source-maps#L514|Interop and Source Maps — L514]] (line 514, col 3, score 1)
+- [[js-to-lisp-reverse-compiler#L411|js-to-lisp-reverse-compiler — L411]] (line 411, col 1, score 1)
+- [[js-to-lisp-reverse-compiler#L411|js-to-lisp-reverse-compiler — L411]] (line 411, col 3, score 1)
+- [[language-agnostic-mirror-system#L535|Language-Agnostic Mirror System — L535]] (line 535, col 1, score 1)
+- [[language-agnostic-mirror-system#L535|Language-Agnostic Mirror System — L535]] (line 535, col 3, score 1)
+- [DSL — L13](chunks/dsl.md#L13) (line 13, col 1, score 1)
+- [DSL — L13](chunks/dsl.md#L13) (line 13, col 3, score 1)
+- [[docs/unique/interop-and-source-maps#L513|Interop and Source Maps — L513]] (line 513, col 1, score 1)
+- [[docs/unique/interop-and-source-maps#L513|Interop and Source Maps — L513]] (line 513, col 3, score 1)
+- [[lisp-compiler-integration#L539|Lisp-Compiler-Integration — L539]] (line 539, col 1, score 1)
+- [[lisp-compiler-integration#L539|Lisp-Compiler-Integration — L539]] (line 539, col 3, score 1)
+- [[polyglot-s-expr-bridge-python-js-lisp-interop#L515|Polyglot S-expr Bridge: Python-JS-Lisp Interop — L515]] (line 515, col 1, score 1)
+- [[polyglot-s-expr-bridge-python-js-lisp-interop#L515|Polyglot S-expr Bridge: Python-JS-Lisp Interop — L515]] (line 515, col 3, score 1)
+- [DSL — L11](chunks/dsl.md#L11) (line 11, col 1, score 1)
+- [DSL — L11](chunks/dsl.md#L11) (line 11, col 3, score 1)
+- [[docs/unique/compiler-kit-foundations#L606|compiler-kit-foundations — L606]] (line 606, col 1, score 1)
+- [[docs/unique/compiler-kit-foundations#L606|compiler-kit-foundations — L606]] (line 606, col 3, score 1)
+- [[js-to-lisp-reverse-compiler#L422|js-to-lisp-reverse-compiler — L422]] (line 422, col 1, score 1)
+- [[js-to-lisp-reverse-compiler#L422|js-to-lisp-reverse-compiler — L422]] (line 422, col 3, score 1)
+- [[language-agnostic-mirror-system#L534|Language-Agnostic Mirror System — L534]] (line 534, col 1, score 1)
+- [[language-agnostic-mirror-system#L534|Language-Agnostic Mirror System — L534]] (line 534, col 3, score 1)
+- [[docs/unique/compiler-kit-foundations#L610|compiler-kit-foundations — L610]] (line 610, col 1, score 1)
+- [[docs/unique/compiler-kit-foundations#L610|compiler-kit-foundations — L610]] (line 610, col 3, score 1)
+- [[docs/unique/interop-and-source-maps#L515|Interop and Source Maps — L515]] (line 515, col 1, score 1)
+- [[docs/unique/interop-and-source-maps#L515|Interop and Source Maps — L515]] (line 515, col 3, score 1)
+- [[js-to-lisp-reverse-compiler#L423|js-to-lisp-reverse-compiler — L423]] (line 423, col 1, score 1)
+- [[js-to-lisp-reverse-compiler#L423|js-to-lisp-reverse-compiler — L423]] (line 423, col 3, score 1)
+- [[language-agnostic-mirror-system#L532|Language-Agnostic Mirror System — L532]] (line 532, col 1, score 1)
+- [[language-agnostic-mirror-system#L532|Language-Agnostic Mirror System — L532]] (line 532, col 3, score 1)
+- [[docs/unique/aionian-circuit-math#L155|aionian-circuit-math — L155]] (line 155, col 1, score 1)
+- [[docs/unique/aionian-circuit-math#L155|aionian-circuit-math — L155]] (line 155, col 3, score 1)
+- [[docs/unique/compiler-kit-foundations#L609|compiler-kit-foundations — L609]] (line 609, col 1, score 1)
+- [[docs/unique/compiler-kit-foundations#L609|compiler-kit-foundations — L609]] (line 609, col 3, score 1)
+- [[cross-language-runtime-polymorphism#L203|Cross-Language Runtime Polymorphism — L203]] (line 203, col 1, score 1)
+- [[cross-language-runtime-polymorphism#L203|Cross-Language Runtime Polymorphism — L203]] (line 203, col 3, score 1)
+- [[cross-target-macro-system-in-sibilant#L168|Cross-Target Macro System in Sibilant — L168]] (line 168, col 1, score 1)
+- [[cross-target-macro-system-in-sibilant#L168|Cross-Target Macro System in Sibilant — L168]] (line 168, col 3, score 1)
+- [[docs/unique/compiler-kit-foundations#L611|compiler-kit-foundations — L611]] (line 611, col 1, score 1)
+- [[docs/unique/compiler-kit-foundations#L611|compiler-kit-foundations — L611]] (line 611, col 3, score 1)
+- [[docs/unique/ecs-offload-workers#L462|ecs-offload-workers — L462]] (line 462, col 1, score 1)
+- [[docs/unique/ecs-offload-workers#L462|ecs-offload-workers — L462]] (line 462, col 3, score 1)
+- [[ecs-scheduler-and-prefabs#L398|ecs-scheduler-and-prefabs — L398]] (line 398, col 1, score 1)
+- [[ecs-scheduler-and-prefabs#L398|ecs-scheduler-and-prefabs — L398]] (line 398, col 3, score 1)
+- [[docs/unique/interop-and-source-maps#L517|Interop and Source Maps — L517]] (line 517, col 1, score 1)
+- [[docs/unique/interop-and-source-maps#L517|Interop and Source Maps — L517]] (line 517, col 3, score 1)
+- [[docs/unique/archetype-ecs#L458|archetype-ecs — L458]] (line 458, col 1, score 1)
+- [[docs/unique/archetype-ecs#L458|archetype-ecs — L458]] (line 458, col 3, score 1)
+- [[docs/unique/interop-and-source-maps#L521|Interop and Source Maps — L521]] (line 521, col 1, score 1)
+- [[docs/unique/interop-and-source-maps#L521|Interop and Source Maps — L521]] (line 521, col 3, score 1)
+- [[js-to-lisp-reverse-compiler#L413|js-to-lisp-reverse-compiler — L413]] (line 413, col 1, score 1)
+- [[js-to-lisp-reverse-compiler#L413|js-to-lisp-reverse-compiler — L413]] (line 413, col 3, score 1)
+- [[lisp-compiler-integration#L542|Lisp-Compiler-Integration — L542]] (line 542, col 1, score 1)
+- [[lisp-compiler-integration#L542|Lisp-Compiler-Integration — L542]] (line 542, col 3, score 1)
+- [[docs/unique/interop-and-source-maps#L527|Interop and Source Maps — L527]] (line 527, col 1, score 1)
+- [[docs/unique/interop-and-source-maps#L527|Interop and Source Maps — L527]] (line 527, col 3, score 1)
+- [[docs/unique/zero-copy-snapshots-and-workers#L374|zero-copy-snapshots-and-workers — L374]] (line 374, col 1, score 0.99)
+- [[docs/unique/zero-copy-snapshots-and-workers#L374|zero-copy-snapshots-and-workers — L374]] (line 374, col 3, score 0.99)
+- [[docs/unique/interop-and-source-maps#L526|Interop and Source Maps — L526]] (line 526, col 1, score 0.99)
+- [[docs/unique/interop-and-source-maps#L526|Interop and Source Maps — L526]] (line 526, col 3, score 0.99)
+- [[docs/unique/interop-and-source-maps#L534|Interop and Source Maps — L534]] (line 534, col 1, score 0.99)
+- [[docs/unique/interop-and-source-maps#L534|Interop and Source Maps — L534]] (line 534, col 3, score 0.99)
+- [[docs/unique/compiler-kit-foundations#L624|compiler-kit-foundations — L624]] (line 624, col 1, score 1)
+- [[docs/unique/compiler-kit-foundations#L624|compiler-kit-foundations — L624]] (line 624, col 3, score 1)
+- [[docs/unique/interop-and-source-maps#L529|Interop and Source Maps — L529]] (line 529, col 1, score 1)
+- [[docs/unique/interop-and-source-maps#L529|Interop and Source Maps — L529]] (line 529, col 3, score 1)
+- [[lisp-compiler-integration#L558|Lisp-Compiler-Integration — L558]] (line 558, col 1, score 0.99)
+- [[lisp-compiler-integration#L558|Lisp-Compiler-Integration — L558]] (line 558, col 3, score 0.99)
+- [[js-to-lisp-reverse-compiler#L427|js-to-lisp-reverse-compiler — L427]] (line 427, col 1, score 0.99)
+- [[js-to-lisp-reverse-compiler#L427|js-to-lisp-reverse-compiler — L427]] (line 427, col 3, score 0.99)
+- [[set-assignment-in-lisp-ast#L159|set-assignment-in-lisp-ast — L159]] (line 159, col 1, score 1)
+- [[set-assignment-in-lisp-ast#L159|set-assignment-in-lisp-ast — L159]] (line 159, col 3, score 1)
+- [[docs/unique/interop-and-source-maps#L528|Interop and Source Maps — L528]] (line 528, col 1, score 1)
+- [[docs/unique/interop-and-source-maps#L528|Interop and Source Maps — L528]] (line 528, col 3, score 1)
+- [[set-assignment-in-lisp-ast#L157|set-assignment-in-lisp-ast — L157]] (line 157, col 1, score 0.98)
+- [[set-assignment-in-lisp-ast#L157|set-assignment-in-lisp-ast — L157]] (line 157, col 3, score 0.98)
+- [[docs/unique/template-based-compilation#L122|template-based-compilation — L122]] (line 122, col 1, score 0.98)
+- [[docs/unique/template-based-compilation#L122|template-based-compilation — L122]] (line 122, col 3, score 0.98)
+- [[docs/unique/compiler-kit-foundations#L623|compiler-kit-foundations — L623]] (line 623, col 1, score 1)
+- [[docs/unique/compiler-kit-foundations#L623|compiler-kit-foundations — L623]] (line 623, col 3, score 1)
+- [[set-assignment-in-lisp-ast#L158|set-assignment-in-lisp-ast — L158]] (line 158, col 1, score 1)
+- [[set-assignment-in-lisp-ast#L158|set-assignment-in-lisp-ast — L158]] (line 158, col 3, score 1)
+- [[lisp-compiler-integration#L555|Lisp-Compiler-Integration — L555]] (line 555, col 1, score 0.98)
+- [[lisp-compiler-integration#L555|Lisp-Compiler-Integration — L555]] (line 555, col 3, score 0.98)
+- [[lisp-compiler-integration#L559|Lisp-Compiler-Integration — L559]] (line 559, col 1, score 0.98)
+- [[lisp-compiler-integration#L559|Lisp-Compiler-Integration — L559]] (line 559, col 3, score 0.98)
+- [[docs/unique/interop-and-source-maps#L531|Interop and Source Maps — L531]] (line 531, col 1, score 1)
+- [[docs/unique/interop-and-source-maps#L531|Interop and Source Maps — L531]] (line 531, col 3, score 1)
+- [[set-assignment-in-lisp-ast#L162|set-assignment-in-lisp-ast — L162]] (line 162, col 1, score 0.99)
+- [[set-assignment-in-lisp-ast#L162|set-assignment-in-lisp-ast — L162]] (line 162, col 3, score 0.99)
+- [[polyglot-s-expr-bridge-python-js-lisp-interop#L523|Polyglot S-expr Bridge: Python-JS-Lisp Interop — L523]] (line 523, col 1, score 0.98)
+- [[polyglot-s-expr-bridge-python-js-lisp-interop#L523|Polyglot S-expr Bridge: Python-JS-Lisp Interop — L523]] (line 523, col 3, score 0.98)
+- [[lisp-compiler-integration#L551|Lisp-Compiler-Integration — L551]] (line 551, col 1, score 0.98)
+- [[lisp-compiler-integration#L551|Lisp-Compiler-Integration — L551]] (line 551, col 3, score 0.98)
+- [[lisp-compiler-integration#L553|Lisp-Compiler-Integration — L553]] (line 553, col 1, score 0.99)
+- [[lisp-compiler-integration#L553|Lisp-Compiler-Integration — L553]] (line 553, col 3, score 0.99)
+- [[docs/unique/compiler-kit-foundations#L621|compiler-kit-foundations — L621]] (line 621, col 1, score 0.99)
+- [[docs/unique/compiler-kit-foundations#L621|compiler-kit-foundations — L621]] (line 621, col 3, score 0.99)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

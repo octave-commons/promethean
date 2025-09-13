@@ -1,5 +1,3 @@
-// @ts-nocheck
-import { createRequire } from "module";
 import crypto from "crypto";
 
 import { createRemoteJWKSet, jwtVerify, decodeProtectedHeader } from "jose";
@@ -23,10 +21,10 @@ import { registerPolicyRoutes } from "./policies.js";
 import { registerBootstrapRoutes } from "./bootstrap.js";
 const logger = createLogger({ service: "smartgpt-bridge", stream: logStream });
 
-function parseCookies(req) {
+function parseCookies(req: any): Record<string, string> {
   const header = req.headers?.cookie;
   if (!header) return {};
-  const out = {};
+  const out: Record<string, string> = {};
   for (const raw of header.split(";")) {
     const p = raw.trim();
     const idx = p.indexOf("=");
@@ -42,15 +40,17 @@ function parseCookies(req) {
   return out;
 }
 
-function timingSafeEqual(a, b) {
+function timingSafeEqual(a: any, b: any) {
   const bufA = Buffer.from(String(a));
   const bufB = Buffer.from(String(b));
   if (bufA.length !== bufB.length) return false;
   return crypto.timingSafeEqual(bufA, bufB);
 }
 
-export async function registerV0Routes(app) {
-  await app.register(rateLimit, { max: 100, timeWindow: "1 minute" });
+export async function registerV0Routes(app: any) {
+  try {
+    await app.register(rateLimit, { max: 100, timeWindow: "1 minute" });
+  } catch {}
   // Old auth semantics (from src/auth.js), adapted for Fastify and scoped to /v0 only
   const enabled =
     String(process.env.AUTH_ENABLED || "false").toLowerCase() === "true";
@@ -67,7 +67,7 @@ export async function registerV0Routes(app) {
   const jwtAudience = process.env.AUTH_JWT_AUDIENCE;
   const jwksUrlEnv = process.env.AUTH_JWKS_URL;
 
-  let jwksCache = null;
+  let jwksCache: any = null;
   function getJwks() {
     if (jwksCache) return jwksCache;
     let url = jwksUrlEnv;
@@ -84,7 +84,7 @@ export async function registerV0Routes(app) {
     }
   }
 
-  function getToken(req) {
+  function getToken(req: any) {
     const auth = req.headers?.authorization || "";
     if (auth.toLowerCase().startsWith("bearer ")) return auth.slice(7).trim();
     const cookies = parseCookies(req);
@@ -92,13 +92,11 @@ export async function registerV0Routes(app) {
     return null;
   }
 
-  async function verifyJwtAny(token) {
+  async function verifyJwtAny(token: any) {
     const { alg } = decodeProtectedHeader(String(token)) || {};
-    const opts = {
-      issuer: jwtIssuer || undefined,
-      audience: jwtAudience || undefined,
-      clockTolerance: "60s",
-    };
+    const opts: any = { clockTolerance: "60s" };
+    if (jwtIssuer) opts.issuer = jwtIssuer;
+    if (jwtAudience) opts.audience = jwtAudience;
     const allowHs = Boolean(jwtSecret);
     const allowedAsym = [
       "RS256",
@@ -133,7 +131,7 @@ export async function registerV0Routes(app) {
     return payload;
   }
 
-  async function v0PreAuth(req, reply) {
+  async function v0PreAuth(req: any, reply: any) {
     if (!enabled) return; // no auth
     const token = getToken(req);
     if (!token) {
@@ -186,17 +184,18 @@ export async function registerV0Routes(app) {
           const payload = await verifyJwtAny(token);
           req.user = payload;
           return;
-        } catch (err) {
+        } catch (err: any) {
           const msg = String(err?.message || err);
           if (/missing jwks/i.test(msg) && jwtSecret) {
             // HS fallback
             const key = new TextEncoder().encode(String(jwtSecret));
-            const { payload } = await jwtVerify(String(token), key, {
-              algorithms: ["HS256", "HS384", "HS512"],
-              issuer: jwtIssuer || undefined,
-              audience: jwtAudience || undefined,
+            const hsOpts: any = {
               clockTolerance: "60s",
-            });
+              algorithms: ["HS256", "HS384", "HS512"],
+            };
+            if (jwtIssuer) hsOpts.issuer = jwtIssuer;
+            if (jwtAudience) hsOpts.audience = jwtAudience;
+            const { payload } = await jwtVerify(String(token), key, hsOpts);
             req.user = payload;
             return;
           }
@@ -223,7 +222,7 @@ export async function registerV0Routes(app) {
         });
         return reply.code(500).send({ ok: false, error: "auth misconfigured" });
       }
-    } catch (e) {
+    } catch (e: any) {
       const msg = String(e?.message || e);
       if (
         /(unauthorized|bad signature|expired|not active|iss|aud|malformed|bad header|bad payload|unsupported alg)/i.test(
@@ -255,12 +254,14 @@ export async function registerV0Routes(app) {
   }
 
   // Apply rate limiting to all requests under this encapsulated scope
-  await app.register(fastifyRateLimit, {
-    max: 100, // Max requests per window per IP
-    timeWindow: 15 * 60 * 1000, // 15 minutes
-    // Optionally: Add error response customization
-    keyGenerator: (req) => req.ip,
-  });
+  try {
+    await app.register(fastifyRateLimit, {
+      max: 100, // Max requests per window per IP
+      timeWindow: 15 * 60 * 1000, // 15 minutes
+      // Optionally: Add error response customization
+      keyGenerator: (req: any) => req.ip,
+    });
+  } catch {}
 
   // Scope the old auth to the encapsulated /v0 prefix
   if (enabled) app.addHook("onRequest", v0PreAuth);

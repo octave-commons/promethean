@@ -7,20 +7,22 @@ Requirements
 
 Install & Run
 - npm ci
-- npm test
+- pnpm -w -r --filter @promethean/smartgpt-bridge... run --if-present build
+- pnpm --filter @promethean/smartgpt-bridge test
 
 Notes
-- Uses AVA for tests, Supertest for HTTP, Sinon for timers/mocks.
-- Server exposes buildApp(ROOT_PATH) for integration tests (no listen).
-- Agent supervisor exposes createSupervisor({ spawnImpl, killImpl }) for mocked system tests.
-- Fixtures live under tests/fixtures/ and are kept < 2KB.
-- Total runtime stays under ~10 seconds on a laptop.
- - OpenAPI servers entry is derived from `PUBLIC_BASE_URL` (fallback `http://localhost:${PORT||3210}`).
+- Uses AVA for tests, Supertest/fastify.inject for HTTP, Sinon for timers only.
+- Native ESM only; tests run against compiled `dist`. Relative imports in TS end with `.js`.
+- Server factory: `createServer(root, deps)` enables dependency injection in tests.
+  - Pass `{ registerSinks: async () => {} }` to avoid external Chroma during tests.
+  - For semantic search/indexer tests, use `setChromaClient()` and `setEmbeddingFactory()` from `dist/indexer.js`.
+- Fixtures live under `tests/fixtures/`.
+- OpenAPI base URL derives from `PUBLIC_BASE_URL` (fallback `http://localhost:${PORT||3210}`).
 
 Scripts
-- npm test — run all tests once
-- npm run test:watch — watch mode
-- npm run test:coverage — generate c8 coverage (text, lcov, html)
+- pnpm --filter @promethean/smartgpt-bridge test — build then run tests once
+- pnpm --filter @promethean/smartgpt-bridge test:watch — watch mode (if present)
+- pnpm --filter @promethean/smartgpt-bridge test:coverage — c8 coverage (if present)
 
 Coverage
 - Uses c8 (v8 coverage). Reports to stdout and writes lcov and HTML to ./coverage.

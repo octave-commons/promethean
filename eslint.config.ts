@@ -3,6 +3,8 @@ import tsParser from "@typescript-eslint/parser";
 import functional from "eslint-plugin-functional";
 import importPlugin from "eslint-plugin-import";
 import promise from "eslint-plugin-promise";
+import sonarjs from "eslint-plugin-sonarjs";
+import ava from "eslint-plugin-ava";
 
 export default [
   {
@@ -20,9 +22,21 @@ export default [
       "@typescript-eslint": tseslint,
       functional,
       import: importPlugin,
+      sonarjs,
       promise,
+      ava,
     },
     rules: {
+      "sonarjs/cognitive-complexity": ["error", 15],
+      "sonarjs/no-collapsible-if": "warn",
+      "sonarjs/no-inverted-boolean-check": "warn",
+      "max-lines": [
+        "error",
+        { max: 300, skipBlankLines: true, skipComments: true },
+      ],
+      "max-lines-per-function": ["error", { max: 50, IIFEs: true }],
+      "max-params": ["error", 4],
+      complexity: ["error", 15],
       // TypeScript strictness (lint-side)
       "@typescript-eslint/consistent-type-definitions": ["error", "type"],
       "@typescript-eslint/no-unnecessary-type-assertion": "error",
@@ -40,7 +54,20 @@ export default [
           // allow: [{ from: "lib", name: ["HTMLElement", "Event"] }]
         },
       ],
-
+      "no-var": "error",
+      "prefer-const": "error",
+      "no-restricted-syntax": [
+        "error",
+        {
+          selector: "CallExpression[callee.name='require']",
+          message: "ESM only",
+        },
+        {
+          selector:
+            "MemberExpression[object.name='module'][property.name='exports']",
+          message: "ESM only",
+        },
+      ],
       // FP: immutability & purity
       "functional/no-let": "error",
       "functional/no-try-statements": "warn", // flip to "warn" if you want
@@ -51,6 +78,11 @@ export default [
           ignoreInferredTypes: true, // avoids noise on inferred literals
         },
       ],
+      "@typescript-eslint/no-unsafe-assignment": "error",
+      "@typescript-eslint/no-unsafe-call": "error",
+      "@typescript-eslint/no-unsafe-member-access": "error",
+      "@typescript-eslint/no-unsafe-argument": "error",
+      "@typescript-eslint/switch-exhaustiveness-check": "error",
       "functional/immutable-data": ["warn", { ignoreClasses: "fieldsOnly" }],
       "functional/no-loop-statements": "warn",
       "functional/no-method-signature": "off", // keep TS ergonomics
@@ -87,7 +119,12 @@ export default [
       "**/*.spec.{ts,tsx,js}",
       "**/tests/**/*.{ts,tsx,js}",
     ],
+    plugins: { ava },
     rules: {
+      "ava/no-only-test": "error",
+      "ava/no-identical-title": "error",
+      "ava/test-title": "warn",
+      // your existing no-restricted-syntax for setTimeout
       "no-restricted-syntax": [
         "error",
         {

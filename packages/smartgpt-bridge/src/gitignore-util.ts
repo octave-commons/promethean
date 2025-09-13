@@ -1,4 +1,3 @@
-// @ts-nocheck
 // Utility to load and merge .gitignore files from root to a given directory
 import fs from "fs/promises";
 import path from "path";
@@ -9,9 +8,9 @@ import ignore from "ignore";
  * Loads and merges all .gitignore files from ROOT_PATH down to targetDir.
  * Returns an ignore matcher instance.
  */
-export async function loadGitIgnore(ROOT_PATH, targetDir) {
+export async function loadGitIgnore(ROOT_PATH: string, targetDir: string) {
   const ig = ignore();
-  let current = path.resolve(ROOT_PATH);
+  const current = path.resolve(ROOT_PATH);
   const target = path.resolve(targetDir);
   const parts = target.replace(current, "").split(path.sep).filter(Boolean);
   for (let i = 0; i <= parts.length; ++i) {

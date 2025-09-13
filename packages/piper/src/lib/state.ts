@@ -5,6 +5,7 @@ export type Step = Readonly<{
   fingerprint: string;
   endedAt: string;
   exitCode: number | null;
+  outputHash?: string;
 }>;
 
 export const isValidStep = (val: unknown): val is Step =>
@@ -12,7 +13,10 @@ export const isValidStep = (val: unknown): val is Step =>
   val !== null &&
   typeof (val as any).fingerprint === "string" &&
   typeof (val as any).endedAt === "string" &&
-  (typeof (val as any).exitCode === "number" || (val as any).exitCode === null);
+  (typeof (val as any).exitCode === "number" ||
+    (val as any).exitCode === null) &&
+  ((val as any).outputHash === undefined ||
+    typeof (val as any).outputHash === "string");
 
 export type RunState = {
   steps: Record<string, Step>;
@@ -39,8 +43,6 @@ export async function loadState(pipeline: string): Promise<RunState> {
         isValidStep(val)
       ) {
         steps[key] = val;
-      }
-    }
       }
     }
     return { steps };

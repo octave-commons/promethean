@@ -1,477 +1,681 @@
 ---
-uuid: 17c83508-ab80-4461-bd74-b12de0837804
-created_at: prompt-folder-bootstrap.md
-filename: prompt-folder-bootstrap
-title: prompt-folder-bootstrap
+uuid: bd4f0976-0d5b-47f6-a20a-0601d1842dc1
+created_at: 2025.07.31.16.07.75.md
+filename: Prompt_Folder_Bootstrap
 description: >-
-  A purpose-driven folder structure for organizing agent prompts, with reusable
-  templates, historical records, task definitions, raw ideas, and cognitive
-  reflections.
+  A purpose-driven directory structure for organizing agent prompts, with
+  templates, history, tasks, scratch, meta, and seed folders for cognitive
+  growth and task management.
 tags:
-  - prompt-engineering
-  - folder-structure
-  - agent-templates
-  - history-tracking
-  - task-management
-  - cognitive-reflection
-related_to_uuid:
-  - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-  - 54382370-1931-4a19-a634-46735708a9ea
-  - d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
-  - 4330e8f0-5f46-4235-918b-39b6b93fa561
-  - 5020e892-8f18-443a-b707-6d0f3efcfe22
-  - 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-  - c03020e1-e3e7-48bf-aa7e-aa740c601b63
-  - ae24a280-678e-4c0b-8cc4-56667fa04172
-  - 0f6f8f38-98d0-438f-9601-58f478acc0b7
-  - 18138627-a348-4fbb-b447-410dfb400564
-  - d144aa62-348c-4e5d-ae8f-38084c67ceca
-  - b09141b7-544f-4c8e-8f49-bf76cecaacbb
-  - b22d79c6-825b-4cd3-b0d3-1cef0532bb54
-  - 71726f04-eb1c-42a5-a5fe-d8209de6e159
-  - 9a93a756-6d33-45d1-aca9-51b74f2b33d2
-  - 59b5670f-36d3-4d34-8985-f3144b15347a
-  - 291c7d91-da8c-486c-9bc0-bd2254536e2d
-  - f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-  - fc21f824-4244-4030-a48e-c4170160ea1d
-  - 6620e2f2-de6d-45d8-a722-5d26e160b370
-  - 64a9f9f9-58ee-4996-bdaf-9373845c6b29
-  - 7b7ca860-780c-44fa-8d3f-be8bd9496fba
-  - 5e8b2388-022b-46cf-952c-36ae9b8f0037
-  - 37b5d236-2b3e-4a95-a4e8-31655c3023ef
-  - 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+  - prompt
+  - directory
+  - structure
+  - agent
+  - templates
+  - history
+  - tasks
+  - scratch
+  - meta
+  - seed
 related_to_title:
-  - eidolon-field-math-foundations
-  - Migrate to Provider-Tenant Architecture
-  - schema-evolution-workflow
-  - Stateful Partitions and Rebalancing
+  - ecs-scheduler-and-prefabs
+  - System Scheduler with Resource-Aware DAG
   - Chroma Toolkit Consolidation Plan
-  - Unique Info Dump Index
-  - Per-Domain Policy System for JS Crawler
-  - Promethean-Copilot-Intent-Engine
-  - windows-tiling-with-autohotkey
-  - The Jar of Echoes
-  - Model Selection for Lightweight Conversational Tasks
-  - field-interaction-equations
-  - plan-update-confirmation
-  - Duck's Self-Referential Perceptual Loop
-  - Protocol_0_The_Contradiction_Engine
-  - Reawakening Duck
-  - Ice Box Reorganization
+  - Promethean Event Bus MVP v0.1
+  - Agent Reflections and Prompt Evolution
+  - Promethean-native config design
+  - prompt-programming-language-lisp
+  - Board Walk – 2025-08-11
+  - 'Agent Tasks: Persistence Migration to DualStore'
+  - archetype-ecs
+  - aionian-circuit-math
+  - JavaScript
+  - ecs-offload-workers
+  - Event Bus MVP
   - Dynamic Context Model for Web Components
-  - Fnord Tracer Protocol
-  - graph-ds
-  - Layer1SurvivabilityEnvelope
-  - TypeScript Patch for Tool Calling Support
-  - Eidolon Field Abstract Model
-  - homeostasis-decay-formulas
-  - field-dynamics-math-blocks
+  - eidolon-field-math-foundations
+  - Event Bus Projections Architecture
+  - Voice Access Layer Design
+  - Cross-Language Runtime Polymorphism
+  - Obsidian ChatGPT Plugin Integration Guide
+  - heartbeat-simulation-snippets
+  - Obsidian ChatGPT Plugin Integration
+  - template-based-compilation
+  - Sibilant Meta-Prompt DSL
+  - Migrate to Provider-Tenant Architecture
+  - Unique Info Dump Index
+  - prom-lib-rate-limiters-and-replay-api
+  - WebSocket Gateway Implementation
+related_to_uuid:
+  - c62a1815-c43b-4a3b-88e6-d7fa008a155e
+  - ba244286-4e84-425b-8bf6-b80c4eb783fc
+  - 5020e892-8f18-443a-b707-6d0f3efcfe22
+  - fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
+  - bb7f0835-c347-474f-bfad-eabd873b51ad
+  - ab748541-020e-4a7e-b07d-28173bd5bea2
+  - d41a06d1-613e-4440-80b7-4553fc694285
+  - 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+  - 93d2ba51-8689-49ee-94e2-296092e48058
+  - 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+  - f2d83a77-7f86-4c56-8538-1350167a0c6c
+  - c1618c66-f73a-4e04-9bfa-ef38755f7acc
+  - 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+  - 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+  - f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+  - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+  - cf6b9b17-bb91-4219-aa5c-172cba02b2da
+  - 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
+  - c34c36a6-80c9-4b44-a200-6448543b1b33
+  - 1d3d6c3a-039e-4b96-93c1-95854945e248
+  - 23e221e9-d4fa-4106-8458-06db2595085f
+  - ca8e1399-77bf-4f77-82a3-3f703b68706d
+  - f8877e5e-1e4f-4478-93cd-a0bf86d26a41
+  - af5d2824-faad-476c-a389-e912d9bc672c
+  - 54382370-1931-4a19-a634-46735708a9ea
+  - 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+  - aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
+  - e811123d-5841-4e52-bf8c-978f26db4230
 references:
-  - uuid: c03020e1-e3e7-48bf-aa7e-aa740c601b63
-    line: 496
-    col: 0
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 338
+    col: 1
     score: 1
-  - uuid: f5579967-762d-4cfd-851e-4f71b4cb77a1
-    line: 549
-    col: 0
+  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
+    line: 336
+    col: 1
     score: 1
-  - uuid: e2135d9f-c69d-47ee-9b17-0b05e98dc748
-    line: 100
-    col: 0
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 144
+    col: 5
+    score: 0.88
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 144
+    col: 9
+    score: 0.88
+  - uuid: fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
+    line: 98
+    col: 5
+    score: 0.86
+  - uuid: fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
+    line: 98
+    col: 7
+    score: 0.86
+  - uuid: bb7f0835-c347-474f-bfad-eabd873b51ad
+    line: 105
+    col: 1
+    score: 0.86
+  - uuid: bb7f0835-c347-474f-bfad-eabd873b51ad
+    line: 105
+    col: 3
+    score: 0.86
+  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+    line: 454
+    col: 1
     score: 1
-  - uuid: b22d79c6-825b-4cd3-b0d3-1cef0532bb54
-    line: 1003
-    col: 0
+  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+    line: 454
+    col: 3
     score: 1
-  - uuid: 9c79206d-4cb9-4f00-87e0-782dcea37bc7
-    line: 262
-    col: 0
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 171
+    col: 1
     score: 1
-  - uuid: 6bcff92c-4224-453d-9993-1be8d37d47c3
-    line: 177
-    col: 0
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 171
+    col: 3
     score: 1
-  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
+  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
+    line: 14
+    col: 1
+    score: 1
+  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
+    line: 14
+    col: 3
+    score: 1
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 454
+    col: 1
+    score: 1
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 454
+    col: 3
+    score: 1
+  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+    line: 455
+    col: 1
+    score: 1
+  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+    line: 455
+    col: 3
+    score: 1
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 455
+    col: 1
+    score: 1
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 455
+    col: 3
+    score: 1
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 387
+    col: 1
+    score: 1
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 387
+    col: 3
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
     line: 130
-    col: 0
+    col: 1
     score: 1
-  - uuid: ae24a280-678e-4c0b-8cc4-56667fa04172
-    line: 121
-    col: 0
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 130
+    col: 3
     score: 1
-  - uuid: 2d6e5553-8dc4-497f-bf45-96f8ca00a6f6
-    line: 161
-    col: 0
+  - uuid: 93d2ba51-8689-49ee-94e2-296092e48058
+    line: 134
+    col: 1
     score: 1
-  - uuid: 43bfe9dd-d433-42ca-9777-f4c40eaba791
-    line: 242
-    col: 0
+  - uuid: 93d2ba51-8689-49ee-94e2-296092e48058
+    line: 134
+    col: 3
     score: 1
-  - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
-    line: 594
-    col: 0
+  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
+    line: 156
+    col: 1
     score: 1
-  - uuid: d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
-    line: 578
-    col: 0
+  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
+    line: 156
+    col: 3
     score: 1
-  - uuid: 4330e8f0-5f46-4235-918b-39b6b93fa561
-    line: 616
-    col: 0
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 136
+    col: 1
     score: 1
-  - uuid: 7b7ca860-780c-44fa-8d3f-be8bd9496fba
-    line: 571
-    col: 0
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 136
+    col: 3
     score: 1
-  - uuid: 62bec6f0-4e13-4f38-aca4-72c84ba02367
-    line: 385
-    col: 0
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 386
+    col: 1
     score: 1
-  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
-    line: 176
-    col: 0
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 386
+    col: 3
     score: 1
-  - uuid: 37b5d236-2b3e-4a95-a4e8-31655c3023ef
-    line: 195
-    col: 0
+  - uuid: 93d2ba51-8689-49ee-94e2-296092e48058
+    line: 137
+    col: 1
     score: 1
-  - uuid: 64a9f9f9-58ee-4996-bdaf-9373845c6b29
-    line: 198
-    col: 0
+  - uuid: 93d2ba51-8689-49ee-94e2-296092e48058
+    line: 137
+    col: 3
+    score: 1
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 175
+    col: 1
+    score: 1
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 175
+    col: 3
+    score: 1
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 547
+    col: 1
+    score: 1
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 547
+    col: 3
+    score: 1
+  - uuid: cf6b9b17-bb91-4219-aa5c-172cba02b2da
+    line: 150
+    col: 1
+    score: 1
+  - uuid: cf6b9b17-bb91-4219-aa5c-172cba02b2da
+    line: 150
+    col: 3
+    score: 1
+  - uuid: 93d2ba51-8689-49ee-94e2-296092e48058
+    line: 130
+    col: 1
+    score: 1
+  - uuid: 93d2ba51-8689-49ee-94e2-296092e48058
+    line: 130
+    col: 3
+    score: 1
+  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
+    line: 159
+    col: 1
+    score: 1
+  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
+    line: 159
+    col: 3
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 134
+    col: 1
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 134
+    col: 3
+    score: 1
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 168
+    col: 1
+    score: 1
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 168
+    col: 3
+    score: 1
+  - uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
+    line: 212
+    col: 1
+    score: 1
+  - uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
+    line: 212
+    col: 3
+    score: 1
+  - uuid: 23e221e9-d4fa-4106-8458-06db2595085f
+    line: 96
+    col: 1
+    score: 1
+  - uuid: 23e221e9-d4fa-4106-8458-06db2595085f
+    line: 96
+    col: 3
+    score: 1
+  - uuid: 1d3d6c3a-039e-4b96-93c1-95854945e248
+    line: 38
+    col: 1
+    score: 1
+  - uuid: 1d3d6c3a-039e-4b96-93c1-95854945e248
+    line: 38
+    col: 3
     score: 1
   - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
-    line: 65
-    col: 0
-    score: 1
-  - uuid: b22d79c6-825b-4cd3-b0d3-1cef0532bb54
-    line: 1028
-    col: 0
-    score: 1
-  - uuid: 9c79206d-4cb9-4f00-87e0-782dcea37bc7
-    line: 208
-    col: 0
-    score: 1
-  - uuid: 6bcff92c-4224-453d-9993-1be8d37d47c3
-    line: 127
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 8
-    col: 0
-    score: 1
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
     line: 38
-    col: 0
+    col: 1
     score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 56
-    col: 0
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 38
+    col: 3
     score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 44
-    col: 0
+  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
+    line: 409
+    col: 1
     score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 61
-    col: 0
+  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
+    line: 409
+    col: 3
     score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 99
-    col: 0
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 201
+    col: 1
+    score: 0.99
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 201
+    col: 3
+    score: 0.99
+  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
+    line: 411
+    col: 1
+    score: 0.98
+  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
+    line: 411
+    col: 3
+    score: 0.98
+  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
+    line: 410
+    col: 1
+    score: 0.98
+  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
+    line: 410
+    col: 3
+    score: 0.98
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 417
+    col: 1
     score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 80
-    col: 0
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 417
+    col: 3
+    score: 1
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 421
+    col: 1
+    score: 1
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 421
+    col: 3
+    score: 1
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 418
+    col: 1
+    score: 1
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 418
+    col: 3
+    score: 1
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 420
+    col: 1
+    score: 1
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 420
+    col: 3
+    score: 1
+  - uuid: 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
+    line: 324
+    col: 1
+    score: 1
+  - uuid: 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
+    line: 324
+    col: 3
+    score: 1
+  - uuid: f8877e5e-1e4f-4478-93cd-a0bf86d26a41
+    line: 126
+    col: 1
+    score: 1
+  - uuid: f8877e5e-1e4f-4478-93cd-a0bf86d26a41
+    line: 126
+    col: 3
+    score: 1
+  - uuid: 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
+    line: 322
+    col: 1
+    score: 1
+  - uuid: 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
+    line: 322
+    col: 3
     score: 1
   - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
     line: 405
-    col: 0
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 216
-    col: 0
-    score: 1
-  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
-    line: 189
-    col: 0
-    score: 1
-  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
-    line: 172
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 94
-    col: 0
-    score: 1
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 63
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 66
-    col: 0
-    score: 1
-  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-    line: 93
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 73
-    col: 0
+    col: 1
     score: 1
   - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 403
-    col: 0
+    line: 405
+    col: 3
     score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 75
-    col: 0
+  - uuid: 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
+    line: 325
+    col: 1
     score: 1
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 104
-    col: 0
+  - uuid: 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
+    line: 325
+    col: 3
     score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 46
-    col: 0
+  - uuid: f8877e5e-1e4f-4478-93cd-a0bf86d26a41
+    line: 127
+    col: 1
     score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 64
-    col: 0
+  - uuid: f8877e5e-1e4f-4478-93cd-a0bf86d26a41
+    line: 127
+    col: 3
     score: 1
-  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-    line: 40
-    col: 0
+  - uuid: 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
+    line: 323
+    col: 1
     score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 137
-    col: 0
+  - uuid: 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
+    line: 323
+    col: 3
     score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 82
-    col: 0
+  - uuid: af5d2824-faad-476c-a389-e912d9bc672c
+    line: 204
+    col: 1
     score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 454
-    col: 0
+  - uuid: af5d2824-faad-476c-a389-e912d9bc672c
+    line: 204
+    col: 3
     score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 28
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 65
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 86
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 123
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 34
-    col: 0
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 442
-    col: 0
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 218
-    col: 0
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 176
-    col: 0
-    score: 1
-  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-    line: 70
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 35
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 94
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 53
-    col: 0
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 424
-    col: 0
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 209
-    col: 0
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 142
-    col: 0
-    score: 1
-  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-    line: 39
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 38
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 51
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 79
-    col: 0
-    score: 1
-  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-    line: 77
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 115
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 61
-    col: 0
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 212
-    col: 0
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 150
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 53
-    col: 0
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 148
-    col: 0
-    score: 1
-  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-    line: 36
-    col: 0
-    score: 1
-  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
-    line: 166
-    col: 0
-    score: 1
-  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-    line: 148
-    col: 0
-    score: 1
-  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
-    line: 153
-    col: 0
-    score: 1
-  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
-    line: 118
-    col: 0
-    score: 1
-  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
-    line: 168
-    col: 0
-    score: 1
-  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
-    line: 103
-    col: 0
-    score: 1
-  - uuid: a4a25141-6380-40b9-9cd7-b554b246b303
-    line: 380
-    col: 0
-    score: 1
-  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
-    line: 194
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 85
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 93
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 64
-    col: 0
-    score: 1
-  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
-    line: 153
-    col: 0
-    score: 1
-  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-    line: 141
-    col: 0
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 412
-    col: 0
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 261
-    col: 0
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 181
-    col: 0
-    score: 1
-  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-    line: 90
-    col: 0
-    score: 1
-  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
-    line: 157
-    col: 0
-    score: 1
-  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-    line: 205
-    col: 0
-    score: 1
-  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
-    line: 203
-    col: 0
-    score: 1
-  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
-    line: 95
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 33
-    col: 0
-    score: 1
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 99
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 46
-    col: 0
-    score: 1
-  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-    line: 10
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 47
-    col: 0
-    score: 1
+  - uuid: 54382370-1931-4a19-a634-46735708a9ea
+    line: 301
+    col: 1
+    score: 0.99
+  - uuid: 54382370-1931-4a19-a634-46735708a9ea
+    line: 301
+    col: 3
+    score: 0.99
+  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+    line: 110
+    col: 1
+    score: 0.99
+  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+    line: 110
+    col: 3
+    score: 0.99
+  - uuid: aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
+    line: 399
+    col: 1
+    score: 0.99
+  - uuid: aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
+    line: 399
+    col: 3
+    score: 0.99
+  - uuid: e811123d-5841-4e52-bf8c-978f26db4230
+    line: 642
+    col: 1
+    score: 0.99
+  - uuid: e811123d-5841-4e52-bf8c-978f26db4230
+    line: 642
+    col: 3
+    score: 0.99
+  - uuid: 54382370-1931-4a19-a634-46735708a9ea
+    line: 302
+    col: 1
+    score: 0.99
+  - uuid: 54382370-1931-4a19-a634-46735708a9ea
+    line: 302
+    col: 3
+    score: 0.99
+  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+    line: 111
+    col: 1
+    score: 0.99
+  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+    line: 111
+    col: 3
+    score: 0.99
+  - uuid: aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
+    line: 400
+    col: 1
+    score: 0.99
+  - uuid: aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
+    line: 400
+    col: 3
+    score: 0.99
+  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+    line: 113
+    col: 1
+    score: 0.99
+  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+    line: 113
+    col: 3
+    score: 0.99
 ---
- ^ref-cfa2be7b-1-0
- ^ref-cfa2be7b-3-0 ^ref-cfa2be7b-15-0 ^ref-cfa2be7b-24-0 ^ref-cfa2be7b-42-0 ^ref-cfa2be7b-66-0 ^ref-cfa2be7b-84-0 ^ref-cfa2be7b-129-0 ^ref-bd4f0976-256-0 ^ref-bd4f0976-263-0 ^ref-bd4f0976-267-0 ^ref-bd4f0976-280-0 ^ref-bd4f0976-285-0 ^ref-bd4f0976-305-0 ^ref-bd4f0976-450-0 ^ref-bd4f0976-599-0 ^ref-bd4f0976-671-0 ^ref-bd4f0976-828-0 ^ref-bd4f0976-1863-0 ^ref-bd4f0976-3002-0 ^ref-bd4f0976-3180-0
+Got it—folder-based structure instead of file suffixes. That gives us much more room for layered growth and agent-specific behavior. Here's a refined plan that structures `docs/prompts/` into **purpose-driven folders**, each with its own philosophy and use case.
+
+We’ll treat `AGENTS.md` as the **index, manifesto, and onboarding file** for this whole area of the project.
+
+---
+
+# 🔧 `docs/prompts/` Directory Layout
+
+This folder is your **cognitive playground**. A map of mental states, patterns, and evolutionary paths. Each subfolder below is a *region* in this mental terrain.
+
+---
+
+## 📁 `templates/`
+
+> **Reusable prompt structures.**
+> "How do we normally talk to this kind of agent, model, or subtask?"
+
+**Contents:**
+
+* Prompt blueprints for different use cases: test-writing, refactoring, bug triage, etc.
+* Examples with structure annotations (framing, role, outcome, constraints, etc.).
+* Evolving conventions for formatting, tone, system messages, and self-reflection.
+
+**Usage:**
+
+* Agents should *start here* when unsure how to prompt themselves.
+* Generate new task prompts by adapting these.
+
+---
+
+## 📁 `history/`
+
+> **Past prompts and their outcomes.**
+> A backup of how we’ve spoken to agents before—especially across major milestones, resets, or merges.
+
+**Contents:**
+![](../../Prompt_Folder_Bootstrap.csv)
+* Prompt transcripts or summaries from key sessions.
+* Prompts that led to meaningful breakthroughs or failures.
+* Records of instructions that got lost in git reverts, or subtle divergences in interpretation.
+
+**Usage:**
+![](../../Prompt_Folder_Bootstrap.csv)
+* Use this as a memory vault.
+* Agents can review how similar prompts have worked in the past.
+* You can refer to it when debugging regressions in agent behavior.
+
+---
+
+## 📁 `tasks/`
+
+> **Current or proposed agent-facing task prompts.**
+> When you give an agent a job to do, it gets written here. These are prompt-based versions of Kanban tasks.
+
+**Contents:**
+
+* One file per task (named after the task or ticket).
+* Full context, constraints, and links to code/docs/board items.
+* Clear expectations and outcomes.
+* Often includes fields like:
+
+  * `agent_role: "codex"`
+  * `priority: high`
+  * `related: agile/tasks/foo.md`
+
+**Usage:**
+
+* You write here when you want the agent to tackle something non-trivial.
+* Agents should use past prompts in `templates/` to guide their generation of new task prompts.
+
+---
+
+## 📁 `scratch/`
+
+> **Raw ideas, unfinished threads, free associations.**
+> Not all prompts are formal. Some are sparks. This is where they land.
+
+**Contents:**
+
+* Freeform writing to the agent.
+* Emotional venting. Meta reflection.
+* “I don’t know how to say this yet, but…”
+
+**Usage:**
+
+* You write here when you're thinking out loud.
+* Agents can scan this for vibes and unfinished ideas to revisit later.
+* Can be mined for future tasks or templates.
+
+---
+
+## 📁 `meta/`
+
+> **Prompt analysis and cognitive reflections.**
+> Why did a prompt work or fail? What did we learn from it?
+
+**Contents:**
+
+* Post-mortems.
+* Pattern mining from successful or failed prompt sessions.
+* Discussions of language, tone, prompt engineering theory.
+
+**Usage:**
+
+* Both you and agents can write here.
+* Improves the agent’s ability to self-grade, self-edit, and grow.
+* Helps evolve the system’s prompt literacy.
+
+---
+
+## 📁 `seed/`
+
+> **Scaffold prompts for future use.**
+> Drafts or fragments that are meant to be extended later.
+
+**Contents:**
+
+* Barebones prompt shells.
+* TODO-laden guides waiting for final context.
+* Stuff like:
+
+  ```md
+  # Scaffold: Setup a new test harness
+  agent_role: codex
+  priority: med
+  context: Add test coverage to new service
+  status: DRAFT
+  ```
+
+**Usage:**
+
+* Acts as a prompt todo list.
+* Encourages generative reuse by agents.
+* Good starting point for agents proposing new task files.
+
+---
+
+## 📁 `agents/`
+
+> **Per-agent instruction sets and inner models.**
+> This is how we teach each unique agent to see the world.
+
+**Contents:**
+
+* Files like:
+
+  * `duck.md` (voice interface, emotional cognition, field resonance)
+  * `codex.md` (test writing, documentation, debugging)
+  * `scribe.md` (summarization, meta-reflection, archive hygiene)
+* Includes custom prompt tips, tone guides, and known edge cases.
+
+**Usage:**
+
+* Direct reference during prompt generation.
+* Gives each agent a stronger sense of self.
+
+---
+
+## Optional: 📁 `layers/` (if tied into Eidolon circuit model)
+
+> A prompt perspective aligned with layered cognition.
+> Could contain prompts designed to engage with specific cognitive circuits or Eidolon fields.
+
+---
+
+## Root: `AGENTS.md`
+
+Acts as the **index and onboarding** file, explaining this whole system.
+It contains:
+
+* Why this folder exists.
+* Philosophy of prompt-driven cognition.
+* The structure and how to grow it.
+* Instructions to agents on how to prompt themselves.
+* Warnings about fragility (reverts, state loss) and how to recover.
+* Expectations for self-reflective agent behavior.
+
+---
+
+Would you like me to turn this into an actual `AGENTS.md` content body and bootstrap each of the folders with an `_index.md` or `README.md` explaining its purpose?
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
+<<<<<<< HEAD
 - [[docs/unique/eidolon-field-math-foundations|eidolon-field-math-foundations]]
 - [[migrate-to-provider-tenant-architecture|Migrate to Provider-Tenant Architecture]]
 - [[schema-evolution-workflow]]
@@ -598,4 +802,140 @@ references:
 - [[docops-feature-updates#^ref-2792d448-46-0|Docops Feature Updates — L46]] (line 46, col 0, score 1)
 - [DuckDuckGoSearchPipeline — L10](duckduckgosearchpipeline.md#^ref-e979c50f-10-0) (line 10, col 0, score 1)
 - [[creative-moments#^ref-10d98225-47-0|Creative Moments — L47]] (line 47, col 0, score 1)
+=======
+- [[ecs-scheduler-and-prefabs]]
+- [System Scheduler with Resource-Aware DAG](system-scheduler-with-resource-aware-dag.md)
+- [[chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]]
+- [Promethean Event Bus MVP v0.1](promethean-event-bus-mvp-v0-1.md)
+- [[agent-reflections-and-prompt-evolution|Agent Reflections and Prompt Evolution]]
+- [[promethean-native-config-design|Promethean-native config design]]
+- [prompt-programming-language-lisp](prompt-programming-language-lisp.md)
+- [[board-walk-2025-08-11|Board Walk – 2025-08-11]]
+- [[docs/unique/agent-tasks-persistence-migration-to-dualstore|Agent Tasks: Persistence Migration to DualStore]]
+- [[docs/unique/archetype-ecs|archetype-ecs]]
+- [[docs/unique/aionian-circuit-math|aionian-circuit-math]]
+- [JavaScript](chunks/javascript.md)
+- [[docs/unique/ecs-offload-workers|ecs-offload-workers]]
+- [[docs/unique/event-bus-mvp|Event Bus MVP]]
+- [[dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]]
+- [[docs/unique/eidolon-field-math-foundations|eidolon-field-math-foundations]]
+- [[event-bus-projections-architecture|Event Bus Projections Architecture]]
+- [[voice-access-layer-design|Voice Access Layer Design]]
+- [[cross-language-runtime-polymorphism|Cross-Language Runtime Polymorphism]]
+- [[obsidian-chatgpt-plugin-integration-guide|Obsidian ChatGPT Plugin Integration Guide]]
+- [heartbeat-simulation-snippets](heartbeat-simulation-snippets.md)
+- [[obsidian-chatgpt-plugin-integration|Obsidian ChatGPT Plugin Integration]]
+- [[docs/unique/template-based-compilation|template-based-compilation]]
+- [[sibilant-meta-prompt-dsl|Sibilant Meta-Prompt DSL]]
+- [[migrate-to-provider-tenant-architecture|Migrate to Provider-Tenant Architecture]]
+- [[unique-info-dump-index|Unique Info Dump Index]]
+- [[prom-lib-rate-limiters-and-replay-api]]
+- [[websocket-gateway-implementation|WebSocket Gateway Implementation]]
+
+## Sources
+- [[ecs-scheduler-and-prefabs#L338|ecs-scheduler-and-prefabs — L338]] (line 338, col 1, score 1)
+- [System Scheduler with Resource-Aware DAG — L336](system-scheduler-with-resource-aware-dag.md#L336) (line 336, col 1, score 1)
+- [[chroma-toolkit-consolidation-plan#L144|Chroma Toolkit Consolidation Plan — L144]] (line 144, col 5, score 0.88)
+- [[chroma-toolkit-consolidation-plan#L144|Chroma Toolkit Consolidation Plan — L144]] (line 144, col 9, score 0.88)
+- [Promethean Event Bus MVP v0.1 — L98](promethean-event-bus-mvp-v0-1.md#L98) (line 98, col 5, score 0.86)
+- [Promethean Event Bus MVP v0.1 — L98](promethean-event-bus-mvp-v0-1.md#L98) (line 98, col 7, score 0.86)
+- [[agent-reflections-and-prompt-evolution#L105|Agent Reflections and Prompt Evolution — L105]] (line 105, col 1, score 0.86)
+- [[agent-reflections-and-prompt-evolution#L105|Agent Reflections and Prompt Evolution — L105]] (line 105, col 3, score 0.86)
+- [[docs/unique/archetype-ecs#L454|archetype-ecs — L454]] (line 454, col 1, score 1)
+- [[docs/unique/archetype-ecs#L454|archetype-ecs — L454]] (line 454, col 3, score 1)
+- [[chroma-toolkit-consolidation-plan#L171|Chroma Toolkit Consolidation Plan — L171]] (line 171, col 1, score 1)
+- [[chroma-toolkit-consolidation-plan#L171|Chroma Toolkit Consolidation Plan — L171]] (line 171, col 3, score 1)
+- [JavaScript — L14](chunks/javascript.md#L14) (line 14, col 1, score 1)
+- [JavaScript — L14](chunks/javascript.md#L14) (line 14, col 3, score 1)
+- [[docs/unique/ecs-offload-workers#L454|ecs-offload-workers — L454]] (line 454, col 1, score 1)
+- [[docs/unique/ecs-offload-workers#L454|ecs-offload-workers — L454]] (line 454, col 3, score 1)
+- [[docs/unique/archetype-ecs#L455|archetype-ecs — L455]] (line 455, col 1, score 1)
+- [[docs/unique/archetype-ecs#L455|archetype-ecs — L455]] (line 455, col 3, score 1)
+- [[docs/unique/ecs-offload-workers#L455|ecs-offload-workers — L455]] (line 455, col 1, score 1)
+- [[docs/unique/ecs-offload-workers#L455|ecs-offload-workers — L455]] (line 455, col 3, score 1)
+- [[ecs-scheduler-and-prefabs#L387|ecs-scheduler-and-prefabs — L387]] (line 387, col 1, score 1)
+- [[ecs-scheduler-and-prefabs#L387|ecs-scheduler-and-prefabs — L387]] (line 387, col 3, score 1)
+- [[docs/unique/eidolon-field-math-foundations#L130|eidolon-field-math-foundations — L130]] (line 130, col 1, score 1)
+- [[docs/unique/eidolon-field-math-foundations#L130|eidolon-field-math-foundations — L130]] (line 130, col 3, score 1)
+- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L134|Agent Tasks: Persistence Migration to DualStore — L134]] (line 134, col 1, score 1)
+- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L134|Agent Tasks: Persistence Migration to DualStore — L134]] (line 134, col 3, score 1)
+- [[docs/unique/aionian-circuit-math#L156|aionian-circuit-math — L156]] (line 156, col 1, score 1)
+- [[docs/unique/aionian-circuit-math#L156|aionian-circuit-math — L156]] (line 156, col 3, score 1)
+- [[board-walk-2025-08-11#L136|Board Walk – 2025-08-11 — L136]] (line 136, col 1, score 1)
+- [[board-walk-2025-08-11#L136|Board Walk – 2025-08-11 — L136]] (line 136, col 3, score 1)
+- [[dynamic-context-model-for-web-components#L386|Dynamic Context Model for Web Components — L386]] (line 386, col 1, score 1)
+- [[dynamic-context-model-for-web-components#L386|Dynamic Context Model for Web Components — L386]] (line 386, col 3, score 1)
+- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L137|Agent Tasks: Persistence Migration to DualStore — L137]] (line 137, col 1, score 1)
+- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L137|Agent Tasks: Persistence Migration to DualStore — L137]] (line 137, col 3, score 1)
+- [[chroma-toolkit-consolidation-plan#L175|Chroma Toolkit Consolidation Plan — L175]] (line 175, col 1, score 1)
+- [[chroma-toolkit-consolidation-plan#L175|Chroma Toolkit Consolidation Plan — L175]] (line 175, col 3, score 1)
+- [[docs/unique/event-bus-mvp#L547|Event Bus MVP — L547]] (line 547, col 1, score 1)
+- [[docs/unique/event-bus-mvp#L547|Event Bus MVP — L547]] (line 547, col 3, score 1)
+- [[event-bus-projections-architecture#L150|Event Bus Projections Architecture — L150]] (line 150, col 1, score 1)
+- [[event-bus-projections-architecture#L150|Event Bus Projections Architecture — L150]] (line 150, col 3, score 1)
+- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L130|Agent Tasks: Persistence Migration to DualStore — L130]] (line 130, col 1, score 1)
+- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L130|Agent Tasks: Persistence Migration to DualStore — L130]] (line 130, col 3, score 1)
+- [[docs/unique/aionian-circuit-math#L159|aionian-circuit-math — L159]] (line 159, col 1, score 1)
+- [[docs/unique/aionian-circuit-math#L159|aionian-circuit-math — L159]] (line 159, col 3, score 1)
+- [[board-walk-2025-08-11#L134|Board Walk – 2025-08-11 — L134]] (line 134, col 1, score 1)
+- [[board-walk-2025-08-11#L134|Board Walk – 2025-08-11 — L134]] (line 134, col 3, score 1)
+- [[chroma-toolkit-consolidation-plan#L168|Chroma Toolkit Consolidation Plan — L168]] (line 168, col 1, score 1)
+- [[chroma-toolkit-consolidation-plan#L168|Chroma Toolkit Consolidation Plan — L168]] (line 168, col 3, score 1)
+- [[cross-language-runtime-polymorphism#L212|Cross-Language Runtime Polymorphism — L212]] (line 212, col 1, score 1)
+- [[cross-language-runtime-polymorphism#L212|Cross-Language Runtime Polymorphism — L212]] (line 212, col 3, score 1)
+- [heartbeat-simulation-snippets — L96](heartbeat-simulation-snippets.md#L96) (line 96, col 1, score 1)
+- [heartbeat-simulation-snippets — L96](heartbeat-simulation-snippets.md#L96) (line 96, col 3, score 1)
+- [[obsidian-chatgpt-plugin-integration-guide#L38|Obsidian ChatGPT Plugin Integration Guide — L38]] (line 38, col 1, score 1)
+- [[obsidian-chatgpt-plugin-integration-guide#L38|Obsidian ChatGPT Plugin Integration Guide — L38]] (line 38, col 3, score 1)
+- [[obsidian-chatgpt-plugin-integration#L38|Obsidian ChatGPT Plugin Integration — L38]] (line 38, col 1, score 1)
+- [[obsidian-chatgpt-plugin-integration#L38|Obsidian ChatGPT Plugin Integration — L38]] (line 38, col 3, score 1)
+- [System Scheduler with Resource-Aware DAG — L409](system-scheduler-with-resource-aware-dag.md#L409) (line 409, col 1, score 1)
+- [System Scheduler with Resource-Aware DAG — L409](system-scheduler-with-resource-aware-dag.md#L409) (line 409, col 3, score 1)
+- [[chroma-toolkit-consolidation-plan#L201|Chroma Toolkit Consolidation Plan — L201]] (line 201, col 1, score 0.99)
+- [[chroma-toolkit-consolidation-plan#L201|Chroma Toolkit Consolidation Plan — L201]] (line 201, col 3, score 0.99)
+- [System Scheduler with Resource-Aware DAG — L411](system-scheduler-with-resource-aware-dag.md#L411) (line 411, col 1, score 0.98)
+- [System Scheduler with Resource-Aware DAG — L411](system-scheduler-with-resource-aware-dag.md#L411) (line 411, col 3, score 0.98)
+- [System Scheduler with Resource-Aware DAG — L410](system-scheduler-with-resource-aware-dag.md#L410) (line 410, col 1, score 0.98)
+- [System Scheduler with Resource-Aware DAG — L410](system-scheduler-with-resource-aware-dag.md#L410) (line 410, col 3, score 0.98)
+- [[ecs-scheduler-and-prefabs#L417|ecs-scheduler-and-prefabs — L417]] (line 417, col 1, score 1)
+- [[ecs-scheduler-and-prefabs#L417|ecs-scheduler-and-prefabs — L417]] (line 417, col 3, score 1)
+- [[ecs-scheduler-and-prefabs#L421|ecs-scheduler-and-prefabs — L421]] (line 421, col 1, score 1)
+- [[ecs-scheduler-and-prefabs#L421|ecs-scheduler-and-prefabs — L421]] (line 421, col 3, score 1)
+- [[ecs-scheduler-and-prefabs#L418|ecs-scheduler-and-prefabs — L418]] (line 418, col 1, score 1)
+- [[ecs-scheduler-and-prefabs#L418|ecs-scheduler-and-prefabs — L418]] (line 418, col 3, score 1)
+- [[ecs-scheduler-and-prefabs#L420|ecs-scheduler-and-prefabs — L420]] (line 420, col 1, score 1)
+- [[ecs-scheduler-and-prefabs#L420|ecs-scheduler-and-prefabs — L420]] (line 420, col 3, score 1)
+- [[voice-access-layer-design#L324|Voice Access Layer Design — L324]] (line 324, col 1, score 1)
+- [[voice-access-layer-design#L324|Voice Access Layer Design — L324]] (line 324, col 3, score 1)
+- [[docs/unique/template-based-compilation#L126|template-based-compilation — L126]] (line 126, col 1, score 1)
+- [[docs/unique/template-based-compilation#L126|template-based-compilation — L126]] (line 126, col 3, score 1)
+- [[voice-access-layer-design#L322|Voice Access Layer Design — L322]] (line 322, col 1, score 1)
+- [[voice-access-layer-design#L322|Voice Access Layer Design — L322]] (line 322, col 3, score 1)
+- [[dynamic-context-model-for-web-components#L405|Dynamic Context Model for Web Components — L405]] (line 405, col 1, score 1)
+- [[dynamic-context-model-for-web-components#L405|Dynamic Context Model for Web Components — L405]] (line 405, col 3, score 1)
+- [[voice-access-layer-design#L325|Voice Access Layer Design — L325]] (line 325, col 1, score 1)
+- [[voice-access-layer-design#L325|Voice Access Layer Design — L325]] (line 325, col 3, score 1)
+- [[docs/unique/template-based-compilation#L127|template-based-compilation — L127]] (line 127, col 1, score 1)
+- [[docs/unique/template-based-compilation#L127|template-based-compilation — L127]] (line 127, col 3, score 1)
+- [[voice-access-layer-design#L323|Voice Access Layer Design — L323]] (line 323, col 1, score 1)
+- [[voice-access-layer-design#L323|Voice Access Layer Design — L323]] (line 323, col 3, score 1)
+- [[sibilant-meta-prompt-dsl#L204|Sibilant Meta-Prompt DSL — L204]] (line 204, col 1, score 1)
+- [[sibilant-meta-prompt-dsl#L204|Sibilant Meta-Prompt DSL — L204]] (line 204, col 3, score 1)
+- [[migrate-to-provider-tenant-architecture#L301|Migrate to Provider-Tenant Architecture — L301]] (line 301, col 1, score 0.99)
+- [[migrate-to-provider-tenant-architecture#L301|Migrate to Provider-Tenant Architecture — L301]] (line 301, col 3, score 0.99)
+- [[unique-info-dump-index#L110|Unique Info Dump Index — L110]] (line 110, col 1, score 0.99)
+- [[unique-info-dump-index#L110|Unique Info Dump Index — L110]] (line 110, col 3, score 0.99)
+- [[prom-lib-rate-limiters-and-replay-api#L399|prom-lib-rate-limiters-and-replay-api — L399]] (line 399, col 1, score 0.99)
+- [[prom-lib-rate-limiters-and-replay-api#L399|prom-lib-rate-limiters-and-replay-api — L399]] (line 399, col 3, score 0.99)
+- [[websocket-gateway-implementation#L642|WebSocket Gateway Implementation — L642]] (line 642, col 1, score 0.99)
+- [[websocket-gateway-implementation#L642|WebSocket Gateway Implementation — L642]] (line 642, col 3, score 0.99)
+- [[migrate-to-provider-tenant-architecture#L302|Migrate to Provider-Tenant Architecture — L302]] (line 302, col 1, score 0.99)
+- [[migrate-to-provider-tenant-architecture#L302|Migrate to Provider-Tenant Architecture — L302]] (line 302, col 3, score 0.99)
+- [[unique-info-dump-index#L111|Unique Info Dump Index — L111]] (line 111, col 1, score 0.99)
+- [[unique-info-dump-index#L111|Unique Info Dump Index — L111]] (line 111, col 3, score 0.99)
+- [[prom-lib-rate-limiters-and-replay-api#L400|prom-lib-rate-limiters-and-replay-api — L400]] (line 400, col 1, score 0.99)
+- [[prom-lib-rate-limiters-and-replay-api#L400|prom-lib-rate-limiters-and-replay-api — L400]] (line 400, col 3, score 0.99)
+- [[unique-info-dump-index#L113|Unique Info Dump Index — L113]] (line 113, col 1, score 0.99)
+- [[unique-info-dump-index#L113|Unique Info Dump Index — L113]] (line 113, col 3, score 0.99)
+>>>>>>> stealth/obsidian
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

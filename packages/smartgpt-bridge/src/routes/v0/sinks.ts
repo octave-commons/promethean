@@ -1,7 +1,6 @@
-// @ts-nocheck
 import { contextStore } from "../../sinks.js";
 
-export function registerSinkRoutes(app) {
+export function registerSinkRoutes(app: any) {
   app.get("/sinks/list", {
     preHandler: [app.authUser, app.requirePolicy("read", "sinks")],
     schema: { operationId: "listSinks", tags: ["Sinks"] },
@@ -13,7 +12,7 @@ export function registerSinkRoutes(app) {
   app.post("/sinks/:name/query", {
     preHandler: [
       app.authUser,
-      app.requirePolicy("read", (req) => req.params.name),
+      app.requirePolicy("read", (req: any) => req.params.name),
     ],
     schema: {
       summary: "Query sink in Mongo (structured filter)",
@@ -27,7 +26,7 @@ export function registerSinkRoutes(app) {
         },
       },
     },
-    handler: async (req) => {
+    handler: async (req: any) => {
       const { name } = req.params;
       const { filter, limit } = req.body || {};
       const store = contextStore.getCollection(name);
@@ -43,7 +42,7 @@ export function registerSinkRoutes(app) {
   app.post("/sinks/:name/search", {
     preHandler: [
       app.authUser,
-      app.requirePolicy("read", (req) => req.params.name),
+      app.requirePolicy("read", (req: any) => req.params.name),
     ],
     schema: {
       summary: "Semantic search in sink (Chroma)",
@@ -59,7 +58,7 @@ export function registerSinkRoutes(app) {
         },
       },
     },
-    handler: async (req) => {
+    handler: async (req: any) => {
       const { name } = req.params;
       const { q, n, where } = req.body || {};
       const store = contextStore.getCollection(name);

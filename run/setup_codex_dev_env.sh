@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# discover all env vars
+set
+
+
 command -v uvx >/dev/null || { echo "uvx not found on PATH after install" >&2; exit 1; }
 # If there isn't a pre-commit file, we have a problem.
 
@@ -19,7 +23,9 @@ apt-get install -y jq moreutils ripgrep
 bash ./run/install_gyp.sh
 
 
-pnpm install --no-frozen-lockfile
+corepack enable
+corepack prepare pnpm@9.0.0 --activate
+pnpm install --frozen-lockfile
 
 bash ./run/setup_playwright.sh
 
