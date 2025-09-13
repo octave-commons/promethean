@@ -48,13 +48,12 @@ const UI_COMPONENTS_DIST = path.resolve(
   "../node_modules/@promethean/ui-components/dist",
 );
 
-async function loadConfig() {
-  const raw = await fs.readFile(CONFIG_PATH, "utf-8");
-  const parsed = FileSchema.safeParse(JSON.parse(raw));
-  if (!parsed.success) throw new Error(parsed.error.message);
-  return parsed.data;
-}
-
+// async function loadConfig() {
+//   const raw = await fs.readFile(CONFIG_PATH, "utf-8");
+//   const parsed = FileSchema.safeParse(JSON.parse(raw));
+//   if (!parsed.success) throw new Error(parsed.error.message);
+//   return parsed.data;
+// }
 
 function errToString(e: unknown): string {
   return String((e as { message?: unknown })?.message ?? e);
