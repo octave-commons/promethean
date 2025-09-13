@@ -1,5 +1,5 @@
 import test from "ava";
-import { sleep } from "@promethean/test-utils/dist/sleep.js";
+import { sleep } from "@promethean/utils";
 
 import { mockSpawnFactory, type MockStep } from "../helpers/mockSpawn.js";
 import { createSupervisor } from "../../agent.js";
