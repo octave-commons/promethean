@@ -4,7 +4,8 @@ import * as path from "path";
 import { globby } from "globby";
 import { Project } from "ts-morph";
 
-import { parseArgs, writeJSON, rel } from "./utils.js";
+import { parseArgs } from "@promethean/utils";
+import { writeJSON, rel } from "./utils.js";
 import type { ExportScan, ExportSymbol } from "./types.js";
 
 const args = parseArgs({
