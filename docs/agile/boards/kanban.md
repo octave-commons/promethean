@@ -260,6 +260,7 @@ kanban-plugin: board
 
 ## Breakdown (13)
 
+- [ ] [[scripts_group_docs_utilities|scripts group docs utilities]] #scripts #docs #organization #accepted
 - [ ] [[frontend-build-tool-chain|frontend build tool chain]] #devops #devops #Ready #todo
 - [ ] codex cloud setup script generates a startup report
 - [ ] [[evaluate-docker-npu-compatability]]
@@ -267,7 +268,6 @@ kanban-plugin: board
 - [ ] [[clean_up_notes_into_design_docs_md|clean up notes into design docs md]] #accepted
 - [ ] [[scripts_update_ci_and_refs|scripts update ci and refs]] #scripts #ci #organization #accepted
 - [ ] [[scripts_audit_and_standardize_cli_flags|scripts audit and standardize cli flags]] #scripts #cli #dx #accepted
-- [ ] [[scripts_group_docs_utilities|scripts group docs utilities]] #scripts #docs #organization #accepted
 - [ ] [[kanban-processor]] #scripts #kanban #organization #accepted
 - [ ] [[write_end_to_end_tests_md_md|write end to end tests md md]] #accepted
 - [ ] [[scripts_group_indexing_tools|scripts group indexing tools]] #scripts #indexing #organization #accepted
