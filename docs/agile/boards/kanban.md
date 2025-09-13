@@ -236,6 +236,8 @@ kanban-plugin: board
 
 ## Incoming
 
+- [ ] Get existing pipelines to work through UI
+- [ ] recover broker code
 
 
 ## Accepted
@@ -277,6 +279,7 @@ kanban-plugin: board
 - [ ] [[migrate legacy js services to ts]]
 - [ ] [[pin_versions_in_configs_md|pin versions in configs md]] #ops #codex-task #release-engineering #ci #sre #supply-chain #promethean #ops #codex-task #tags #promethean #versioning #pinning #ci #docker #uv #ollama #openvino #sre #supplychain #in-review
 - [ ] [[describe_github_branching_workflow_md|describe github branching workflow md]] #todo
+- [ ] [[create-a-generic-markdown-helper-module|create a generic markdown helper module]] #framework-core #framework-core #Ready #todo
 
 
 ## Todo (13)
@@ -294,7 +297,6 @@ kanban-plugin: board
 
 ## In Progress (4)
 
-- [ ] [[create-a-generic-markdown-helper-module|create a generic markdown helper module]] #framework-core #framework-core #Ready #todo
 
 
 ## In Review (8)
