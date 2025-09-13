@@ -29,14 +29,26 @@ tags:
 ---
 # Legacy JS services are migrated to TS
 
-I had failed to move several of these to the new packages before, I reoc
-## Services
+I had failed to move several of these to the new packages before, I recovered them from the git history. Now they need to be integrated
+
+## Goals
+- The legacy projects have their package name field updated to reflect the new namespace
+- The legacy projects are refactored under the new tsconfig
+- The legacy projects work as they used to.
+
+## Nessisary Services
    - [ ] broker
+   - [ ] heartbeat
+   - [ ] vision
    - [ ] eidolon-field
-   - [ ] eslint.config.js
+   
+## Maybe services
    - [ ] event-gateway
    - [ ] event-hub
    - [ ] health
-   - [ ] heartbeat
    - [ ] proxy
-   - [ ] vision
+
+## Notes
+
+It may not be worth it to  migrate the proxy service.
+The 

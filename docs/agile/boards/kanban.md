@@ -228,6 +228,8 @@ kanban-plugin: board
 
 ## Incoming
 
+- [ ] discord text mode
+- [ ] discord mixed mode
 
 
 ## Accepted
@@ -246,7 +248,6 @@ kanban-plugin: board
 ## Breakdown (13)
 
 - [ ] codex cloud setup script generates a startup report
-- [ ] [[migrate legacy js services to ts]]
 - [ ] [[evaluate-docker-npu-compatability]]
 - [ ] [[add-docker-compose-files-to-services]]
 - [ ] [[clean_up_notes_into_design_docs_md|clean up notes into design docs md]] #accepted
@@ -261,6 +262,7 @@ kanban-plugin: board
 
 ## Ready
 
+- [ ] [[migrate legacy js services to ts]]
 - [ ] [[pin_versions_in_configs_md|pin versions in configs md]] #ops #codex-task #release-engineering #ci #sre #supply-chain #promethean #ops #codex-task #tags #promethean #versioning #pinning #ci #docker #uv #ollama #openvino #sre #supplychain #in-review
 - [ ] [[describe_github_branching_workflow_md|describe github branching workflow md]] #todo
 - [ ] [[add_twitch_chat_integration_md_md|add twitch chat integration md md]] #breakdown
@@ -282,7 +284,6 @@ kanban-plugin: board
 - [ ] [[docs/agile/tasks/smart_task_templater_md|smart task templater md]] #framework-core #ready
 - [ ] [[script-for-getting-github-action-workflow-states-for-a-branch|script for getting github action workflow states for a branch]] #ready
 - [ ] [[scripts_add_folder_readmes_and_usage|scripts add folder readmes and usage]] #scripts #docs #ready
-- [ ] [[docs/agile/tasks/smart_task_templater_md|smart task templater md]] #breakdown
 - [ ] [[add_semantic_overlays_for_layer1_through_layer8_md_md|Add semantic overlays for layer1 through layer8]] #todo
 
 
@@ -355,12 +356,10 @@ kanban-plugin: board
 
 ## Archive
 
-- [ ] [[Decouple Audio Processing Logic From Discord.md|Decouple Audio Processing Logic From Discord]] #todo
 - [ ] [[Curate code from personal repository.md|Curate code from personal repository]] #todo
 - [ ] [[migrating_relevant_modules_from_riatzukiza_github_md|Migrating relevant modules from `riatzukiza.github.io` to `/sites/` and `/docs/`]] #accepted
 - [ ] [[migrate_portfolio_client_code_to_promethean_md|Migrate portfolio client code to Promethean]] #accepted
 - [ ] [[Add tool calls to codex context.md|Add tool calls to codex context]] #todo
-- [ ] [[Finish work on gptbridge agent integration.md|Finish work on gptbridge agent integration]] #todo
 - [ ] [[migrating_relevant_modules_from_riatzukiza_github_io_to_-site-_and_-docs-_md|Migrating relevant modules from riatzukiza.github.io to -site- and -docs-]] #ready
 - [ ] [[extract_docs_from_riatzukiza_github_io_md_md|Extract docs from riatzukiza.github.io]] #accepted
 - [ ] [[add_unit_tests_for_gui_helpers_md_md|Add unit tests for GUI helpers]] #archive
