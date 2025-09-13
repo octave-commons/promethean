@@ -163,52 +163,52 @@ references:
  ^ref-af5d2824-120-0
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [Recursive Prompt Construction Engine](recursive-prompt-construction-engine.md)
-- [The Jar of Echoes](the-jar-of-echoes.md)
-- [Promethean Chat Activity Report](promethean-chat-activity-report.md)
-- [Promethean Dev Workflow Update](promethean-dev-workflow-update.md)
-- [Obsidian Task Generation](obsidian-task-generation.md)
-- [eidolon-field-math-foundations](eidolon-field-math-foundations.md)
-- [Functional Refactor of TypeScript Document Processing](functional-refactor-of-typescript-document-processing.md)
-- [Performance-Optimized-Polyglot-Bridge](performance-optimized-polyglot-bridge.md)
-- [State Snapshots API and Transactional Projector](state-snapshots-api-and-transactional-projector.md)
-- [EidolonField](eidolonfield.md)
-- [ecs-offload-workers](ecs-offload-workers.md)
-- [Eidolon Field Abstract Model](eidolon-field-abstract-model.md)
-- [Lispy Macros with syntax-rules](lispy-macros-with-syntax-rules.md)
-- [Matplotlib Animation with Async Execution](matplotlib-animation-with-async-execution.md)
-- [Local-Only-LLM-Workflow](local-only-llm-workflow.md)
-- [observability-infrastructure-setup](observability-infrastructure-setup.md)
-- [mystery-lisp-search-session](mystery-lisp-search-session.md)
+- [[recursive-prompt-construction-engine|Recursive Prompt Construction Engine]]
+- [[the-jar-of-echoes|The Jar of Echoes]]
+- [[promethean-chat-activity-report|Promethean Chat Activity Report]]
+- [[promethean-dev-workflow-update|Promethean Dev Workflow Update]]
+- [[obsidian-task-generation|Obsidian Task Generation]]
+- [[docs/unique/eidolon-field-math-foundations|eidolon-field-math-foundations]]
+- [[functional-refactor-of-typescript-document-processing|Functional Refactor of TypeScript Document Processing]]
+- [[performance-optimized-polyglot-bridge]]
+- [[state-snapshots-api-and-transactional-projector|State Snapshots API and Transactional Projector]]
+- [[eidolonfield]]
+- [[docs/unique/ecs-offload-workers|ecs-offload-workers]]
+- [[eidolon-field-abstract-model|Eidolon Field Abstract Model]]
+- [[lispy-macros-with-syntax-rules|Lispy Macros with syntax-rules]]
+- [[matplotlib-animation-with-async-execution|Matplotlib Animation with Async Execution]]
+- [[local-only-llm-workflow]]
+- [[observability-infrastructure-setup]]
+- [[mystery-lisp-search-session]]
 - [System Scheduler with Resource-Aware DAG](system-scheduler-with-resource-aware-dag.md)
-- [Local-Offline-Model-Deployment-Strategy](local-offline-model-deployment-strategy.md)
-- [Pure-Node Crawl Stack with Playwright and Crawlee](pure-node-crawl-stack-with-playwright-and-crawlee.md)
-- [Exception Layer Analysis](exception-layer-analysis.md)
-- [WebSocket Gateway Implementation](websocket-gateway-implementation.md)
-- [Universal Lisp Interface](universal-lisp-interface.md)
-- [Event Bus MVP](event-bus-mvp.md)
-- [Dynamic Context Model for Web Components](dynamic-context-model-for-web-components.md)
+- [[local-offline-model-deployment-strategy]]
+- [[pure-node-crawl-stack-with-playwright-and-crawlee|Pure-Node Crawl Stack with Playwright and Crawlee]]
+- [[exception-layer-analysis|Exception Layer Analysis]]
+- [[websocket-gateway-implementation|WebSocket Gateway Implementation]]
+- [[docs/unique/universal-lisp-interface|Universal Lisp Interface]]
+- [[docs/unique/event-bus-mvp|Event Bus MVP]]
+- [[dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]]
 ## Sources
-- [Recursive Prompt Construction Engine — L6](recursive-prompt-construction-engine.md#^ref-babdb9eb-6-0) (line 6, col 0, score 0.91)
-- [Promethean Chat Activity Report — L8780](promethean-chat-activity-report.md#^ref-18344cf9-8780-0) (line 8780, col 0, score 0.89)
-- [The Jar of Echoes — L13928](the-jar-of-echoes.md#^ref-18138627-13928-0) (line 13928, col 0, score 0.89)
-- [Obsidian Task Generation — L1088](obsidian-task-generation.md#^ref-9b694a91-1088-0) (line 1088, col 0, score 0.89)
-- [Promethean Dev Workflow Update — L18703](promethean-dev-workflow-update.md#^ref-03a5578f-18703-0) (line 18703, col 0, score 0.89)
-- [eidolon-field-math-foundations — L22280](eidolon-field-math-foundations.md#^ref-008f2ac0-22280-0) (line 22280, col 0, score 0.89)
-- [Functional Refactor of TypeScript Document Processing — L3462](functional-refactor-of-typescript-document-processing.md#^ref-1cfae310-3462-0) (line 3462, col 0, score 0.89)
-- [Promethean Dev Workflow Update — L14097](promethean-dev-workflow-update.md#^ref-03a5578f-14097-0) (line 14097, col 0, score 0.89)
-- [Performance-Optimized-Polyglot-Bridge — L2504](performance-optimized-polyglot-bridge.md#^ref-f5579967-2504-0) (line 2504, col 0, score 0.89)
-- [State Snapshots API and Transactional Projector — L303](state-snapshots-api-and-transactional-projector.md#^ref-509e1cd5-303-0) (line 303, col 0, score 0.89)
-- [ecs-offload-workers — L427](ecs-offload-workers.md#^ref-6498b9d7-427-0) (line 427, col 0, score 0.88)
-- [EidolonField — L207](eidolonfield.md#^ref-49d1e1e5-207-0) (line 207, col 0, score 0.88)
-- [Eidolon Field Abstract Model — L144](eidolon-field-abstract-model.md#^ref-5e8b2388-144-0) (line 144, col 0, score 0.87)
-- [Matplotlib Animation with Async Execution — L16](matplotlib-animation-with-async-execution.md#^ref-687439f9-16-0) (line 16, col 0, score 0.87)
-- [Lispy Macros with syntax-rules — L376](lispy-macros-with-syntax-rules.md#^ref-cbfe3513-376-0) (line 376, col 0, score 0.87)
-- [Eidolon Field Abstract Model — L159](eidolon-field-abstract-model.md#^ref-5e8b2388-159-0) (line 159, col 0, score 0.86)
-- [observability-infrastructure-setup — L348](observability-infrastructure-setup.md#^ref-b4e64f8c-348-0) (line 348, col 0, score 0.86)
+- [[recursive-prompt-construction-engine#^ref-babdb9eb-6-0|Recursive Prompt Construction Engine — L6]] (line 6, col 0, score 0.91)
+- [[promethean-chat-activity-report#^ref-18344cf9-8780-0|Promethean Chat Activity Report — L8780]] (line 8780, col 0, score 0.89)
+- [[the-jar-of-echoes#^ref-18138627-13928-0|The Jar of Echoes — L13928]] (line 13928, col 0, score 0.89)
+- [[obsidian-task-generation#^ref-9b694a91-1088-0|Obsidian Task Generation — L1088]] (line 1088, col 0, score 0.89)
+- [[promethean-dev-workflow-update#^ref-03a5578f-18703-0|Promethean Dev Workflow Update — L18703]] (line 18703, col 0, score 0.89)
+- [[docs/unique/eidolon-field-math-foundations#^ref-008f2ac0-22280-0|eidolon-field-math-foundations — L22280]] (line 22280, col 0, score 0.89)
+- [[functional-refactor-of-typescript-document-processing#^ref-1cfae310-3462-0|Functional Refactor of TypeScript Document Processing — L3462]] (line 3462, col 0, score 0.89)
+- [[promethean-dev-workflow-update#^ref-03a5578f-14097-0|Promethean Dev Workflow Update — L14097]] (line 14097, col 0, score 0.89)
+- [[performance-optimized-polyglot-bridge#^ref-f5579967-2504-0|Performance-Optimized-Polyglot-Bridge — L2504]] (line 2504, col 0, score 0.89)
+- [[state-snapshots-api-and-transactional-projector#^ref-509e1cd5-303-0|State Snapshots API and Transactional Projector — L303]] (line 303, col 0, score 0.89)
+- [[docs/unique/ecs-offload-workers#^ref-6498b9d7-427-0|ecs-offload-workers — L427]] (line 427, col 0, score 0.88)
+- [[eidolonfield#^ref-49d1e1e5-207-0|EidolonField — L207]] (line 207, col 0, score 0.88)
+- [[eidolon-field-abstract-model#^ref-5e8b2388-144-0|Eidolon Field Abstract Model — L144]] (line 144, col 0, score 0.87)
+- [[matplotlib-animation-with-async-execution#^ref-687439f9-16-0|Matplotlib Animation with Async Execution — L16]] (line 16, col 0, score 0.87)
+- [[lispy-macros-with-syntax-rules#^ref-cbfe3513-376-0|Lispy Macros with syntax-rules — L376]] (line 376, col 0, score 0.87)
+- [[eidolon-field-abstract-model#^ref-5e8b2388-159-0|Eidolon Field Abstract Model — L159]] (line 159, col 0, score 0.86)
+- [[observability-infrastructure-setup#^ref-b4e64f8c-348-0|observability-infrastructure-setup — L348]] (line 348, col 0, score 0.86)
 - [System Scheduler with Resource-Aware DAG — L358](system-scheduler-with-resource-aware-dag.md#^ref-ba244286-358-0) (line 358, col 0, score 0.86)
-- [mystery-lisp-search-session — L106](mystery-lisp-search-session.md#^ref-513dc4c7-106-0) (line 106, col 0, score 0.86)
-- [Local-Only-LLM-Workflow — L129](local-only-llm-workflow.md#^ref-9a8ab57e-129-0) (line 129, col 0, score 0.86)
-- [Eidolon Field Abstract Model — L176](eidolon-field-abstract-model.md#^ref-5e8b2388-176-0) (line 176, col 0, score 0.85)
-- [Local-Offline-Model-Deployment-Strategy — L232](local-offline-model-deployment-strategy.md#^ref-ad7f1ed3-232-0) (line 232, col 0, score 0.85)
+- [[mystery-lisp-search-session#^ref-513dc4c7-106-0|mystery-lisp-search-session — L106]] (line 106, col 0, score 0.86)
+- [[local-only-llm-workflow#^ref-9a8ab57e-129-0|Local-Only-LLM-Workflow — L129]] (line 129, col 0, score 0.86)
+- [[eidolon-field-abstract-model#^ref-5e8b2388-176-0|Eidolon Field Abstract Model — L176]] (line 176, col 0, score 0.85)
+- [[local-offline-model-deployment-strategy#^ref-ad7f1ed3-232-0|Local-Offline-Model-Deployment-Strategy — L232]] (line 232, col 0, score 0.85)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
