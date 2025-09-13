@@ -98,10 +98,10 @@ function comparePkg(oldP: any, curP: any): DiffResult {
           required = maxSemver(required, addedAreOptional ? "minor" : "major");
         } else {
           // same count; check optionality/return type change
-          const optTightened = newParams.some(
-            (p, i) =>
-              !!p && !!oldParams[i] && oldParams[i].optional && !p.optional,
-          );
+          const optTightened = newParams.some((p, i) => {
+            const oldParam = oldParams[i];
+            return p && oldParam && oldParam.optional && !p.optional;
+          });
           if (optTightened) {
             changes.push({
               name,

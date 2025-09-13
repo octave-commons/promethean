@@ -6,6 +6,8 @@ import {
   EndBehaviorType,
   StreamType,
   VoiceConnection,
+  VoiceReceiver,
+  AudioReceiveStream,
   createAudioPlayer,
   createAudioResource,
   getVoiceConnection,
@@ -13,11 +15,11 @@ import {
 } from "@discordjs/voice";
 import * as discord from "discord.js";
 
-import { Speaker } from "./speaker";
+import { Speaker } from "./speaker.js";
 // import {Transcript} from "./transcript"
-import { Transcriber } from "./transcriber";
-import { VoiceRecorder } from "./voice-recorder";
-import { VoiceSynth } from "./voice-synth";
+import { Transcriber } from "./transcriber.js";
+import { VoiceRecorder } from "./voice-recorder.js";
+import { VoiceSynth } from "./voice-synth.js";
 
 /**
    Handles all things voice. Emits an event when a user begins speaking, and when they stop speaking
@@ -52,10 +54,10 @@ export class VoiceSession extends EventEmitter {
     this.recorder = new VoiceRecorder();
     this.voiceSynth = new VoiceSynth();
   }
-  get receiver() {
+  get receiver(): VoiceReceiver | undefined {
     return this.connection?.receiver;
   }
-  start() {
+  start(): void {
     const existingConnection = getVoiceConnection(this.guild.id);
     if (existingConnection) {
       throw new Error(
@@ -70,43 +72,44 @@ export class VoiceSession extends EventEmitter {
       selfMute: false,
     });
     try {
-      this.connection.receiver.speaking.on("start", (userId) => {
-        const speaker = this.speakers.get(userId);
-        if (speaker) {
-          if (speaker.stream) return;
-          speaker.isSpeaking = true;
-
-          if (!speaker.stream)
-            speaker.stream = this.getOpusStreamForUser(userId);
-          if (speaker.stream) {
-            speaker.stream.on("end", () => {
-              try {
-                speaker.stream?.destroy(); // prevents any more `push` calls
-              } catch (e) {
-                console.warn("Failed to destroy stream cleanly", e);
-              }
-            });
-
-            speaker.stream.on("error", (err: any) => {
-              console.warn(`Stream error for ${userId}:`, err);
-            });
-
-            // NEW: Prevent pushing to an ended stream by checking
-            speaker.stream.on("close", () => {
-              console.log(`Stream closed for ${userId}`);
-              speaker.stream = null;
-            });
-
-            speaker.handleSpeakingStart(speaker.stream);
-          }
-        }
-      });
+      this.registerSpeakingListener();
     } catch (err) {
       console.error(err);
       throw new Error("Something went wrong starting the voice session");
     }
   }
-  getOpusStreamForUser(userId: string) {
+
+  private registerSpeakingListener(): void {
+    this.connection!.receiver.speaking.on("start", (userId) => {
+      const speaker = this.speakers.get(userId);
+      if (speaker) {
+        speaker.isSpeaking = true;
+        if (speaker.stream) return;
+        if (!speaker.stream) speaker.stream = this.getOpusStreamForUser(userId);
+        if (speaker.stream) {
+          speaker.stream.on("end", () => {
+            try {
+              speaker.stream?.destroy();
+            } catch (e) {
+              console.warn("Failed to destroy stream cleanly", e);
+            }
+          });
+
+          speaker.stream.on("error", (err: unknown) => {
+            console.warn(`Stream error for ${userId}:`, err);
+          });
+
+          speaker.stream.on("close", () => {
+            console.log(`Stream closed for ${userId}`);
+            speaker.stream = null;
+          });
+
+          void speaker.handleSpeakingStart(speaker.stream);
+        }
+      }
+    });
+  }
+  getOpusStreamForUser(userId: string): AudioReceiveStream | undefined {
     return this.receiver?.subscribe(userId, {
       end: {
         behavior: EndBehaviorType.AfterSilence,
@@ -114,15 +117,15 @@ export class VoiceSession extends EventEmitter {
       },
     });
   }
-  async stop() {
+  async stop(): Promise<void> {
     if (this.connection) {
       this.connection.destroy();
       this.speakers.clear();
     }
   }
-  async addSpeaker(user: discord.User) {
+  async addSpeaker(user: discord.User): Promise<void> {
     if (this.speakers.has(user.id)) return;
-    return this.speakers.set(
+    this.speakers.set(
       user.id,
       new Speaker({
         user,
@@ -131,32 +134,35 @@ export class VoiceSession extends EventEmitter {
       }),
     );
   }
-  async removeSpeaker(user: discord.User) {
+  async removeSpeaker(user: discord.User): Promise<void> {
     this.speakers.delete(user.id);
   }
-  async startSpeakerRecord(user: discord.User) {
+  async startSpeakerRecord(user: discord.User): Promise<void> {
     const speaker = this.speakers.get(user.id);
     if (speaker) {
       speaker.isRecording = true;
     }
   }
-  async startSpeakerTranscribe(user: discord.User, log: boolean = false) {
+  async startSpeakerTranscribe(
+    user: discord.User,
+    log: boolean = false,
+  ): Promise<void> {
     const speaker = this.speakers.get(user.id);
     if (speaker) {
       speaker.isTranscribing = true;
       speaker.logTranscript = log;
     }
   }
-  async stopSpeakerRecord(user: discord.User) {
+  async stopSpeakerRecord(user: discord.User): Promise<void> {
     const speaker = this.speakers.get(user.id);
     if (speaker) speaker.isRecording = false;
   }
-  async stopSpeakerTranscribe(user: discord.User) {
+  async stopSpeakerTranscribe(user: discord.User): Promise<void> {
     const speaker = this.speakers.get(user.id);
     if (speaker) speaker.isTranscribing = false;
   }
-  async playVoice(text: string) {
-    return new Promise(async (resolve, _) => {
+  playVoice(text: string): Promise<VoiceSession> {
+    return new Promise(async (resolve, _reject) => {
       if (!this.connection) throw new Error("No connection");
       const player = createAudioPlayer();
       const { stream, cleanup } =

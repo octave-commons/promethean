@@ -1,6 +1,6 @@
 import path from "path";
 import { fileURLToPath } from "url";
-import { defineApp } from '@promethean/pm2-helpers';
+import { defineApp } from "@promethean/pm2-helpers";
 import deps from "./ecosystem.dependencies.js";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -13,7 +13,7 @@ if (!process.env.PROMETHEAN_ROOT_ECOSYSTEM) {
 }
 
 const apps = [
-  defineApp("broker", "index.js", [], {
+  defineApp("broker", "dist/src/index.js", [], {
     cwd: __dirname,
     watch: [__dirname],
   }),

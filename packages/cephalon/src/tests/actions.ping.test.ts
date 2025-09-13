@@ -5,14 +5,28 @@ import runPing from "../actions/ping.js";
 import type { PingScope } from "../actions/ping.scope.js";
 
 function makeScope(allow = true): PingScope {
+  const logger = {
+    debug() {},
+    info() {},
+    warn() {},
+    error() {},
+    audit(_msg: string, _fields?: unknown) {},
+    child() {
+      return logger;
+    },
+  };
   return {
-    logger: { debug() {}, info() {}, warn() {}, error() {} },
+    logger,
     policy: {
-      async assertAllowed(subject: string) {
+      async assertAllowed(
+        subject: string,
+        _action: string,
+        _resource?: string,
+      ) {
         if (!allow || subject === "deny")
           throw new NotAllowedError("Permission denied");
       },
-      async checkCapability(_agentId?: unknown, _cap?: unknown) {},
+      async checkCapability(_agentId: string, _cap: unknown) {},
     },
     time: () => new Date("2020-01-01T00:00:00Z"),
   };

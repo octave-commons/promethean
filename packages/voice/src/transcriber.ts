@@ -4,7 +4,7 @@ import { PassThrough } from "node:stream";
 
 import { User } from "discord.js";
 
-import { Speaker } from "./speaker";
+import type { Speaker } from "./speaker.js";
 
 export type TranscriberOptions = {
   hostname: string;
@@ -54,17 +54,18 @@ export class Transcriber extends EventEmitter {
     startTime: number,
     speaker: Speaker,
     pcmStream: PassThrough,
-  ) {
+  ): http.ClientRequest {
     this.emit("transcriptStart", { startTime, speaker });
     // ✅ Pipe PCM directly into the HTTP request
     return pcmStream.pipe(
       http
         .request(this.httpOptions, (res) => {
           const transcriptChunks: TranscriptChunk[] = [];
-          res.on("data", (chunk) => {
+          res.on("data", (chunk: Buffer) => {
             const chunkStr = chunk.toString();
             console.log(chunkStr);
-            const transcript = JSON.parse(chunkStr).transcription;
+            const parsed = JSON.parse(chunkStr) as { transcription: string };
+            const transcript = parsed.transcription;
             console.log(`Transcription chunk: ${transcript}`);
             const transcriptObject: TranscriptChunk = {
               startTime,
