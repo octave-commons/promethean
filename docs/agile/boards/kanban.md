@@ -110,6 +110,7 @@ kanban-plugin: board
 
 ## Blocked
 
+- [ ] [[phase-out-proxy-in-favor-of-bridge-service|Phase out proxy in favor of bridge service]] #framework-core #framework-core #Todo #in-progress
 - [ ] [[cephalon_context_window_from_collections|cephalon context window from collections]] #incoming
 - [ ] [[cephalon_event_schema_updates|cephalon event schema updates]] #cephalon #events #schemas #breakdown
 - [ ] [[cephalon_backfill_conversation_history|cephalon backfill conversation history]] #incoming
@@ -231,7 +232,6 @@ kanban-plugin: board
 
 ## Accepted
 
-- [ ] [[migrate legacy js services to ts]]
 - [ ] codex cloud setup script generates a startup report
 - [ ] whole project builds with new stricter tsconfig
 - [ ] [[github-crawler]]
@@ -246,13 +246,14 @@ kanban-plugin: board
 
 ## Breakdown (13)
 
+- [ ] [[migrate legacy js services to ts]]
 - [ ] [[evaluate-docker-npu-compatability]]
 - [ ] [[add-docker-compose-files-to-services]]
 - [ ] [[clean_up_notes_into_design_docs_md|clean up notes into design docs md]] #accepted
 - [ ] [[scripts_update_ci_and_refs|scripts update ci and refs]] #scripts #ci #organization #accepted
 - [ ] [[scripts_audit_and_standardize_cli_flags|scripts audit and standardize cli flags]] #scripts #cli #dx #accepted
 - [ ] [[scripts_group_docs_utilities|scripts group docs utilities]] #scripts #docs #organization #accepted
-- [ ] [[scripts_group_kanban_remaining|scripts group kanban remaining]] #scripts #kanban #organization #accepted
+- [ ] [[kanban-processor]] #scripts #kanban #organization #accepted
 - [ ] [[write_end_to_end_tests_md_md|write end to end tests md md]] #accepted
 - [ ] [[scripts_group_indexing_tools|scripts group indexing tools]] #scripts #indexing #organization #accepted
 - [ ] [[clearly-document-new-repository-layout]] #devops #architectural-decisions #monorepo #packages #package-manager #runtime #multiruntime #accepted
@@ -262,7 +263,6 @@ kanban-plugin: board
 
 - [ ] [[pin_versions_in_configs_md|pin versions in configs md]] #ops #codex-task #release-engineering #ci #sre #supply-chain #promethean #ops #codex-task #tags #promethean #versioning #pinning #ci #docker #uv #ollama #openvino #sre #supplychain #in-review
 - [ ] [[describe_github_branching_workflow_md|describe github branching workflow md]] #todo
-- [ ] [[phase-out-proxy-in-favor-of-bridge-service|Phase out proxy in favor of bridge service]] #framework-core #framework-core #Todo #in-progress
 - [ ] [[add_twitch_chat_integration_md_md|add twitch chat integration md md]] #breakdown
 - [ ] [[twitch_stream_title_generator_md_md|twitch stream title generator md md]] #framework-core #ollama-integration #stream-automation #in-review
 - [ ] [[scripts_add_folder_readmes_and_usage|scripts add folder readmes and usage]] #incoming
@@ -276,7 +276,7 @@ kanban-plugin: board
 
 - [ ] [[task-generator-system|task generator system]] #framework-core #framework-core #Ready #todo
 - [ ] [[convert-current-services-to-packages--then-redefine-the-services-using-config-files|convert current services to packages, then redefine the services using config files]] #framework-core #framework-core #Ready #ready
-- [ ] [[integrate_synthesis-agent_pass_on_unique_to_produce_draft_docs_1_md|Integrate synthesis-agent pass on `unique/` to produce draft docs]] #framework-core #IceBox #ready
+- [ ] [[Docops pipeline]] #framework-core #IceBox #ready
 - [ ] [[dockerize-the-system|dockerize the system]] #devops #devops #Ready #todo
 - [ ] [[structure_vault_to_mirror_services_agents_docs_md_md|Document-Driven Development for Service Scripts]] #breakdown
 - [ ] [[docs/agile/tasks/smart_task_templater_md|smart task templater md]] #framework-core #ready
