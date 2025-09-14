@@ -1,10 +1,13 @@
-import test from "ava";
 import { PassThrough } from "node:stream";
 import { mkdtempSync, existsSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, relative } from "node:path";
-import { VoiceRecorder, type RecordingMetaData } from "../voice-recorder.js";
+
+import test from "ava";
 import type { User } from "discord.js";
+
+import { VoiceRecorder, type RecordingMetaData } from "../voice-recorder.js";
+
 
 test("saves pcm stream to wav file", async (t) => {
   const dir = mkdtempSync(join(tmpdir(), "voice-recorder-"));

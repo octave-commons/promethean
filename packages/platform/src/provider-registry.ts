@@ -1,7 +1,6 @@
 import path from 'node:path';
 
 import { z } from 'zod';
-
 import { fileBackedRegistry as makeFileBackedRegistry } from '@promethean/utils';
 
 // Define the schema first, then infer the TS type from it to

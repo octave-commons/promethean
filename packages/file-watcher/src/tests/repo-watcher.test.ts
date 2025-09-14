@@ -1,5 +1,4 @@
 import test from "ava";
-
 import { sleep } from "@promethean/utils";
 
 import { createRepoWatcher } from "../repo-watcher.js";

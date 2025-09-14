@@ -1,4 +1,6 @@
 import * as path from "path";
+
+import * as ts from "typescript";
 export {
   sha1,
   cosine,
@@ -6,8 +8,6 @@ export {
   getNodeText,
   parseArgs,
 } from "@promethean/utils";
-
-import * as ts from "typescript";
 
 export function makeProgram(rootFiles: string[], tsconfigPath?: string) {
   let options: ts.CompilerOptions = {

@@ -3,8 +3,9 @@ import { promises as fs } from "node:fs";
 import * as path from "node:path";
 import { pathToFileURL } from "node:url";
 
-import { parseArgs, stripGeneratedSections } from "./utils.js";
 import { listFilesRec } from "@promethean/utils";
+
+import { parseArgs, stripGeneratedSections } from "./utils.js";
 
 // CLI entry
 

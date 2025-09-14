@@ -2,10 +2,10 @@ import * as path from "path";
 import { promises as fs } from "fs";
 
 import { globby } from "globby";
-
 import { parseArgs } from "@promethean/utils";
-import { writeJSON } from "./utils.js";
 import { relFromRepo } from "@promethean/utils";
+
+import { writeJSON } from "./utils.js";
 import type { CoverageIndex, FileCoverage } from "./types.js";
 
 const args = parseArgs({

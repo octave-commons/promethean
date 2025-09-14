@@ -1,4 +1,5 @@
 import test from "ava";
+
 import {
   designTokens,
   applyDesignTokens,
@@ -23,7 +24,7 @@ test("applyDesignTokens sets CSS variables", (t) => {
 
 test("registerUiComponents registers custom elements", (t) => {
   const registry: Record<string, unknown> = {};
-  interface SimpleRegistry {
+  type SimpleRegistry = {
     readonly define: (n: string, c: CustomElementConstructor) => void;
     readonly get: (n: string) => CustomElementConstructor | undefined;
   }

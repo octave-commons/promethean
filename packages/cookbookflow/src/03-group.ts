@@ -1,8 +1,9 @@
 import { promises as fs } from "fs";
 import * as path from "path";
 
-import { parseArgs, writeJSON } from "./utils.js";
 import { cosine } from "@promethean/utils";
+
+import { parseArgs, writeJSON } from "./utils.js";
 import type { ClassesFile, GroupsFile, Group } from "./types.js";
 
 const args = parseArgs({

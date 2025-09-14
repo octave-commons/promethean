@@ -2,6 +2,7 @@ import * as path from "path";
 import { promises as fs } from "fs";
 
 import { parseArgs } from "@promethean/utils";
+
 import { writeJSON, readJSON, applySnippetToProject } from "./utils.js";
 import type { ErrorList, History, Attempt, Summary } from "./types.js";
 import { requestPlan, writePlanFile } from "./iter/plan.js";
@@ -46,17 +47,17 @@ function makeBranch(err: any) {
 }
 
 async function main() {
-  const errors = await readJSON<ErrorList>(path.resolve(args["--errors"]!));
+  const errors = await readJSON<ErrorList>(path.resolve(args["--errors"]));
   if (!errors) throw new Error("errors.json not found");
   const tsconfig = args["--tsconfig"] || errors.tsconfig;
   const onlyCode = (args["--only-code"] || "").trim();
   const onlyFile = (args["--only-file"] || "").trim();
   const maxCycles = Number(args["--max-cycles"]);
-  const OUT = path.resolve(args["--out"]!);
+  const OUT = path.resolve(args["--out"]);
 
   const useGit = args["--git"] !== "off" && (await isGitRepo());
   const commitOn = (args["--commit-on"] as "always" | "success") || "always";
-  const remote = args["--remote"]!;
+  const remote = args["--remote"];
   const push = args["--push"] === "true";
   const useGh = args["--use-gh"] === "true";
   const doRollback = args["--rollback-on-regress"] === "true";
@@ -106,7 +107,7 @@ async function main() {
       // 1) Plan
       let plan;
       try {
-        plan = await requestPlan(args["--model"]!, err, history);
+        plan = await requestPlan(args["--model"], err, history);
       } catch (e) {
         console.error(`✖ plan failed for ${err.key}:`, e);
         break;

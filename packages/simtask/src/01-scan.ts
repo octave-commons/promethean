@@ -2,8 +2,6 @@ import { promises as fs } from "fs";
 import * as path from "path";
 
 import * as ts from "typescript";
-
-import { makeProgram, sha1 } from "./utils.js";
 import {
   posToLine,
   getJsDocText,
@@ -12,6 +10,8 @@ import {
   parseArgs,
   listFilesRec,
 } from "@promethean/utils";
+
+import { makeProgram, sha1 } from "./utils.js";
 import type { FunctionInfo, ScanResult, FnKind } from "./types.js";
 
 const args = parseArgs({
