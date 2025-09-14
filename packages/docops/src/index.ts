@@ -10,3 +10,4 @@ export {
   checkDuplicateFragments,
   changelogModified,
 } from "./changelog/check.js";
+export { convertWikilinks } from "./convert-wikilinks.js";
