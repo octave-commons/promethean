@@ -4,8 +4,7 @@ import { promises as fs } from "fs";
 
 import matter from "gray-matter";
 
-import { slug, relFromRepo } from "@promethean/utils";
-import { parseArgs, writeText } from "./utils.js";
+import { slug, relFromRepo, parseArgs, writeText } from "@promethean/utils";
 import type { EvalItem } from "./types.js";
 
 const args = parseArgs({
