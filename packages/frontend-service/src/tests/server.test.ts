@@ -1,4 +1,5 @@
 import test from "ava";
+
 import { createServer } from "../index.js";
 
 async function build() {
@@ -18,8 +19,16 @@ test("diagnostics route responds", async (t) => {
   t.is(res.statusCode, 200);
 });
 
-test("serves existing frontend assets", async (t) => {
+test("serves piper frontend asset", async (t) => {
   const app = await build();
   const res = await app.inject("/piper/main.js");
   t.is(res.statusCode, 200);
+});
+
+["llm-chat-frontend", "smart-chat-frontend"].forEach((pkg) => {
+  test(`serves static asset for ${pkg}`, async (t) => {
+    const app = await build();
+    const res = await app.inject(`/${pkg}/static/index.html`);
+    t.is(res.statusCode, 200);
+  });
 });
