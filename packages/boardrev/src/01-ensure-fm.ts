@@ -2,15 +2,15 @@ import * as path from "path";
 import { randomUUID as nodeRandomUUID } from "node:crypto";
 
 import matter from "gray-matter";
-import { createLogger, slug } from "@promethean/utils";
-
 import {
-  parseArgs,
-  listTaskFiles,
   readMaybe,
   writeText,
-  normStatus,
-} from "./utils.js";
+  parseArgs,
+  createLogger,
+  slug,
+} from "@promethean/utils";
+
+import { listTaskFiles, normStatus } from "./utils.js";
 import type { TaskFM } from "./types.js";
 import { Priority } from "./types.js";
 

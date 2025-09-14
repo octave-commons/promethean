@@ -4,8 +4,8 @@ import { promises as fs } from "fs";
 import matter from "gray-matter";
 import { z } from "zod";
 
-import { parseArgs, normStatus, writeText } from "./utils.js";
-import { ollamaJSON } from "@promethean/utils";
+import { normStatus } from "./utils.js";
+import { parseArgs, ollamaJSON, writeText } from "@promethean/utils";
 import type { PromptChunk, TaskContext, EvalItem } from "./types.js";
 
 const args = parseArgs({

@@ -1,7 +1,6 @@
 import test from "ava";
 
-import { parseArgs } from "../utils.js";
-import { cosine } from "@promethean/utils";
+import { cosine, parseArgs } from "@promethean/utils";
 
 test("parseArgs merges defaults and argv", (t) => {
   const prev = process.argv;

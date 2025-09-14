@@ -3,8 +3,7 @@ import { promises as fs } from "fs";
 
 import { globby } from "globby";
 
-import { parseArgs, writeText } from "./utils.js";
-import { ollamaEmbed } from "@promethean/utils";
+import { ollamaEmbed, parseArgs, writeText } from "@promethean/utils";
 import type { RepoDoc, Embeddings } from "./types.js";
 
 const args = parseArgs({
