@@ -55,7 +55,14 @@ async function validateFiles(
   const validate = ajv.compile(schema);
   for (const f of jsonFiles) {
     const absFile = path.resolve(cwd, f);
-    const data = JSON.parse(await fs.readFile(absFile, "utf-8"));
+    let data: unknown;
+    try {
+      const raw = await fs.readFile(absFile, "utf-8");
+      data = JSON.parse(raw);
+    } catch (e: unknown) {
+      const msg = e instanceof Error ? e.message : String(e);
+      throw new Error(`failed to parse JSON file ${f}: ${msg}`);
+    }
     const ok = validate(data);
     if (!ok) {
       throw new Error(
