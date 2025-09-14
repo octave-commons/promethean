@@ -3,7 +3,6 @@ import { promises as fs } from "fs";
 import * as path from "path";
 import { once } from "node:events";
 import { createWriteStream } from "node:fs";
-import { randomUUID as nodeRandomUUID } from "node:crypto";
 
 import { unified } from "unified";
 import remarkParse from "remark-parse";
@@ -15,6 +14,7 @@ export {
   stripGeneratedSections,
   START_MARK,
   END_MARK,
+  randomUUID,
 } from "@promethean/utils";
 
 export const OLLAMA_URL = process.env.OLLAMA_URL ?? "http://localhost:11434";
@@ -35,10 +35,6 @@ export function parseArgs(
     }
   }
   return out;
-}
-
-export function randomUUID(): string {
-  return (globalThis as any).crypto?.randomUUID?.() ?? nodeRandomUUID();
 }
 
 export function slugify(s: string): string {

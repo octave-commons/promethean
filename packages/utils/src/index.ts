@@ -20,3 +20,4 @@ export {
   START_MARK,
   END_MARK,
 } from "./strip-generated-sections.js";
+export { randomUUID } from "./uuid.js";
