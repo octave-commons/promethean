@@ -1,20 +1,18 @@
 import { promises as fs } from "fs";
 import * as path from "path";
+import { fileURLToPath } from "url";
 
 import matter from "gray-matter";
 
 import { parseArgs } from "./utils.js";
 import type { DocMap, ScanResult, SymbolInfo } from "./types.js";
 
-const args = parseArgs({
-  "--scan": ".cache/symdocs/symbols.json",
-  "--docs": ".cache/symdocs/docs.json",
-  "--out": "docs/packages",
-  "--granularity": "module", // "module" | "symbol"
-});
-
-const OUT_ROOT = path.resolve(String(args["--out"]));
-const GRANULARITY = String(args["--granularity"]) as "module" | "symbol";
+export type WriteOptions = {
+  scan?: string;
+  docs?: string;
+  out?: string;
+  granularity?: "module" | "symbol";
+};
 
 type GroupKey = string; // pkg|moduleRel
 
@@ -25,23 +23,36 @@ function endMark() {
   return "<!-- SYMDOCS:END -->";
 }
 
-async function main() {
+export async function runWrite(opts: WriteOptions = {}) {
+  const OUT_ROOT = path.resolve(opts.out ?? "docs/packages");
+  const GRANULARITY = (opts.granularity ?? "module") as "module" | "symbol";
+
   const scan: ScanResult = JSON.parse(
-    await fs.readFile(path.resolve(String(args["--scan"])), "utf-8"),
+    await fs.readFile(
+      path.resolve(opts.scan ?? ".cache/symdocs/symbols.json"),
+      "utf-8",
+    ),
   );
   const docs: DocMap = JSON.parse(
-    await fs.readFile(path.resolve(String(args["--docs"])), "utf-8"),
+    await fs.readFile(
+      path.resolve(opts.docs ?? ".cache/symdocs/docs.json"),
+      "utf-8",
+    ),
   );
 
   if (GRANULARITY === "symbol") {
-    await writeOnePerSymbol(scan.symbols, docs);
+    await writeOnePerSymbol(OUT_ROOT, scan.symbols, docs);
   } else {
-    await writeOnePerModule(scan.symbols, docs);
+    await writeOnePerModule(OUT_ROOT, scan.symbols, docs);
   }
   console.log("Write complete.");
 }
 
-async function writeOnePerModule(symbols: SymbolInfo[], docs: DocMap) {
+async function writeOnePerModule(
+  OUT_ROOT: string,
+  symbols: SymbolInfo[],
+  docs: DocMap,
+) {
   // group by module
   const groups = new Map<GroupKey, SymbolInfo[]>();
   for (const s of symbols) {
@@ -99,7 +110,11 @@ async function writeOnePerModule(symbols: SymbolInfo[], docs: DocMap) {
   }
 }
 
-async function writeOnePerSymbol(symbols: SymbolInfo[], docs: DocMap) {
+async function writeOnePerSymbol(
+  OUT_ROOT: string,
+  symbols: SymbolInfo[],
+  docs: DocMap,
+) {
   for (const s of symbols) {
     const outPath = path.join(
       OUT_ROOT,
@@ -185,7 +200,20 @@ function stripBetween(text: string, start: string, end: string) {
   return text.trimEnd();
 }
 
-main().catch((e) => {
-  console.error(e);
-  process.exit(1);
-});
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  const args = parseArgs({
+    "--scan": ".cache/symdocs/symbols.json",
+    "--docs": ".cache/symdocs/docs.json",
+    "--out": "docs/packages",
+    "--granularity": "module",
+  });
+  runWrite({
+    scan: String(args["--scan"]),
+    docs: String(args["--docs"]),
+    out: String(args["--out"]),
+    granularity: String(args["--granularity"]) as "module" | "symbol",
+  }).catch((e) => {
+    console.error(e);
+    process.exit(1);
+  });
+}

@@ -1,21 +1,22 @@
 import { promises as fs } from "fs";
 import * as path from "path";
 import { randomUUID } from "crypto";
+import { pathToFileURL } from "url";
 
 import matter from "gray-matter";
 
 import { parseArgs } from "./utils.js";
 import type { ScanResult, Cluster, Plan, FunctionInfo } from "./types.js";
 
-const args = parseArgs({
-  "--scan": ".cache/simtasks/functions.json",
-  "--clusters": ".cache/simtasks/clusters.json",
-  "--plans": ".cache/simtasks/plans.json",
-  "--out": "docs/agile/tasks",
-  "--priority": "P2",
-  "--status": "todo",
-  "--label": "duplication,refactor,consolidation",
-});
+export interface WriteArgs {
+  "--scan"?: string;
+  "--clusters"?: string;
+  "--plans"?: string;
+  "--out"?: string;
+  "--priority"?: string;
+  "--status"?: string;
+  "--label"?: string;
+}
 
 const START = "<!-- SIMTASKS:BEGIN -->";
 const END = "<!-- SIMTASKS:END -->";
@@ -54,7 +55,7 @@ function escapeMd(s: string) {
   return s.replace(/"/g, '\\"');
 }
 
-async function main() {
+export async function writeTasks(args: WriteArgs) {
   const SCAN = path.resolve(args["--scan"] ?? ".cache/simtasks/functions.json");
   const CLS = path.resolve(
     args["--clusters"] ?? ".cache/simtasks/clusters.json",
@@ -201,7 +202,18 @@ async function readMaybe(p: string) {
   }
 }
 
-main().catch((e) => {
-  console.error(e);
-  process.exit(1);
-});
+if (import.meta.url === pathToFileURL(process.argv[1] ?? "").href) {
+  const args = parseArgs({
+    "--scan": ".cache/simtasks/functions.json",
+    "--clusters": ".cache/simtasks/clusters.json",
+    "--plans": ".cache/simtasks/plans.json",
+    "--out": "docs/agile/tasks",
+    "--priority": "P2",
+    "--status": "todo",
+    "--label": "duplication,refactor,consolidation",
+  });
+  writeTasks(args).catch((e) => {
+    console.error(e);
+    process.exit(1);
+  });
+}

@@ -2,31 +2,33 @@ import * as path from "node:path";
 
 import { globby } from "globby";
 import { parseArgs } from "@promethean/utils";
+import { fileURLToPath } from "node:url";
 
 import { tsc, codeFrame, writeJSON } from "./utils.js";
 import type { ErrorList, BuildError } from "./types.js";
 
-const args = parseArgs({
-  "--tsconfig": "tsconfig.json",
-  "--root": "",
-  "--out": ".cache/buildfix/errors.json",
-});
+export type ErrorOptions = {
+  readonly tsconfig?: string;
+  readonly root?: string | boolean;
+  readonly out?: string;
+};
 
-const rawRoot: unknown = args["--root"];
-const disableRoot =
-  rawRoot === false ||
-  rawRoot === 0 ||
-  (typeof rawRoot === "string" &&
-    ["false", "no", "0"].includes(rawRoot.toLowerCase()));
-const root: string | undefined = disableRoot
-  ? undefined
-  : rawRoot === true ||
-      rawRoot === undefined ||
-      rawRoot === null ||
-      (typeof rawRoot === "string" && rawRoot.trim() === "") ||
-      (typeof rawRoot === "string" && rawRoot.toLowerCase() === "true")
-    ? process.cwd()
-    : String(rawRoot).trim();
+function resolveRoot(raw: string | boolean | undefined): string | undefined {
+  const disable =
+    raw === false ||
+    (typeof raw === "string" &&
+      ["false", "no", "0"].includes(raw.toLowerCase()));
+  if (disable) return undefined;
+  if (
+    raw === true ||
+    raw === undefined ||
+    raw === null ||
+    (typeof raw === "string" && raw.trim() === "") ||
+    (typeof raw === "string" && raw.toLowerCase() === "true")
+  )
+    return process.cwd();
+  return String(raw).trim();
+}
 
 async function collectForTsconfig(tsconfigPath: string): Promise<BuildError[]> {
   const { diags } = await tsc(tsconfigPath);
@@ -49,11 +51,12 @@ async function collectForTsconfig(tsconfigPath: string): Promise<BuildError[]> {
   return errors;
 }
 
-async function main() {
-  const outFile = path.resolve(args["--out"]);
+export async function run(opts: ErrorOptions = {}): Promise<void> {
+  const outFile = path.resolve(opts.out ?? ".cache/buildfix/errors.json");
   let errors: BuildError[] = [];
   let tsconfig: string | undefined;
 
+  const root = resolveRoot(opts.root);
   if (root) {
     const rootAbs = path.resolve(root);
     const tsconfigs = await globby(["**/tsconfig.json"], {
@@ -70,7 +73,7 @@ async function main() {
     }
     tsconfig = `workspace:${rootAbs}`;
   } else {
-    const single = path.resolve(args["--tsconfig"]);
+    const single = path.resolve(opts.tsconfig ?? "tsconfig.json");
     tsconfig = single;
     errors = await collectForTsconfig(single);
   }
@@ -82,11 +85,27 @@ async function main() {
   };
   await writeJSON(outFile, out);
   console.log(
-    `buildfix: collected ${errors.length} error(s) → ${args["--out"]}`,
+    `buildfix: collected ${errors.length} error(s) → ${path.relative(
+      process.cwd(),
+      outFile,
+    )}`,
   );
 }
 
-main().catch((e) => {
-  console.error(e);
-  process.exit(1);
-});
+export default run;
+
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  const args = parseArgs({
+    "--tsconfig": "tsconfig.json",
+    "--root": "",
+    "--out": ".cache/buildfix/errors.json",
+  });
+  run({
+    tsconfig: args["--tsconfig"],
+    root: args["--root"],
+    out: args["--out"],
+  }).catch((e) => {
+    console.error(e);
+    process.exit(1);
+  });
+}
