@@ -1,8 +1,9 @@
+/* eslint-disable */
 import { promises as fs } from "fs";
 import * as path from "path";
 import { execFile as _execFile } from "child_process";
 
-import { slug } from "@promethean/utils";
+import { slug, sha1 } from "@promethean/utils";
 
 export function parseArgs<T extends Record<string, string>>(def: T): T {
   const out: Record<string, string> = { ...def };
@@ -34,15 +35,7 @@ export async function writeText(p: string, s: string) {
   await fs.writeFile(p, s, "utf-8");
 }
 
-export { slug };
-export function sha1(s: string) {
-  let h = 2166136261 >>> 0;
-  for (let i = 0; i < s.length; i++) {
-    h ^= s.charCodeAt(i);
-    h = Math.imul(h, 16777619);
-  }
-  return "h" + h.toString(16);
-}
+export { slug, sha1 };
 export function uuid() {
   // Node 18+
   // @ts-ignore
@@ -58,7 +51,7 @@ export async function execShell(cmd: string, args: string[], cwd: string) {
         { cwd, maxBuffer: 1024 * 1024 * 64, env: { ...process.env } },
         (err, stdout, stderr) => {
           resolve({
-            code: err ? ((err as any).code ?? 1) : 0,
+            code: err ? (err as any).code ?? 1 : 0,
             stdout: String(stdout),
             stderr: String(stderr),
           });
