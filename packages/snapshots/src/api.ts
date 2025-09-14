@@ -1,4 +1,5 @@
-import crypto from 'crypto';
+/* eslint-disable */
+import { sha1 } from '@promethean/utils';
 
 import express from 'express';
 import type { Db } from 'mongodb';
@@ -12,7 +13,7 @@ export type SnapshotApiOptions = {
 
 function etagOf(doc: any) {
     const s = JSON.stringify(doc);
-    return '"' + crypto.createHash('sha1').update(s).digest('hex') + '"';
+    return '"' + sha1(s) + '"';
 }
 
 export function startSnapshotApi(db: Db, port = 8091, opts: SnapshotApiOptions) {
