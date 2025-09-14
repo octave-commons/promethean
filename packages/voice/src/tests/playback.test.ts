@@ -1,20 +1,29 @@
-import test from "ava";
-import { Guild } from "discord.js";
+import type { Server } from "http";
+import type { AddressInfo } from "node:net";
 import { PassThrough } from "stream";
-import { createVoiceService } from "../index.js";
+
+import test from "ava";
+import type { Guild, User } from "discord.js";
+import type { AudioPlayer } from "@discordjs/voice";
 
 if (process.env.SKIP_NETWORK_TESTS === "1") {
   test("voice playback network tests skipped in sandbox", (t) => t.pass());
 } else {
   test("speak endpoint plays voice", async (t) => {
+    const { createVoiceService } = await import("../index.js");
     const service = createVoiceService("tok");
     // stub guild and user fetching
-    service.client.guilds.fetch = async (id: string) => new Guild(id);
-    service.client.users.fetch = async (id: string) =>
-      ({ id, username: "bob" }) as any;
+    const fetchGuildStub = async (id: string): Promise<Guild> =>
+      ({ id, voiceAdapterCreator: {} }) as unknown as Guild;
+    service.client.guilds.fetch =
+      fetchGuildStub as typeof service.client.guilds.fetch;
+    const fetchUserStub = async (id: string): Promise<User> =>
+      ({ id, username: "bob" }) as unknown as User;
+    service.client.users.fetch =
+      fetchUserStub as typeof service.client.users.fetch;
 
-    const server: any = await service.start(0);
-    const port = (server.address() as any).port;
+    const server: Server = await service.start(0);
+    const port = (server.address() as AddressInfo).port;
 
     await fetch(`http://localhost:${port}/join`, {
       method: "POST",
@@ -32,7 +41,7 @@ if (process.env.SKIP_NETWORK_TESTS === "1") {
       const stream = new PassThrough();
       process.nextTick(() => {
         stream.end();
-        session.emit("audioPlayerStop", {} as any);
+        session.emit("audioPlayerStop", {} as AudioPlayer);
       });
       return { stream, cleanup: () => {} };
     };
@@ -44,7 +53,7 @@ if (process.env.SKIP_NETWORK_TESTS === "1") {
     });
 
     t.true(res.ok);
-    const data = await res.json();
+    const data = (await res.json()) as { readonly status: string };
     t.is(data.status, "ok");
 
     server.close();
