@@ -94,22 +94,6 @@ export function frontToYAML(front: Front): string {
   return yaml.stringify(front, { indent: 2, simpleKeys: true });
 }
 
-export function cosine(a: number[], b: number[]): number {
-  let dot = 0,
-    na = 0,
-    nb = 0;
-  const n = Math.min(a.length, b.length);
-  for (let i = 0; i < n; i++) {
-    const ai = a[i]!;
-    const bi = b[i]!;
-    dot += ai * bi;
-    na += ai * ai;
-    nb += bi * bi;
-  }
-  if (na === 0 || nb === 0) return 0;
-  return dot / (Math.sqrt(na) * Math.sqrt(nb));
-}
-
 export function parseMarkdownChunks(markdown: string): Chunk[] {
   const ast = unified().use(remarkParse).parse(markdown) as any;
   const chunks: Chunk[] = [];
