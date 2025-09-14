@@ -19,6 +19,7 @@ import { promises as fs } from "fs";
 import * as path from "path";
 import matter from "gray-matter";
 import * as yaml from "yaml";
+import { listFilesRec } from "@promethean/utils/list-files-rec";
 import {
   stripGeneratedSections,
   START_MARK,
@@ -75,20 +76,6 @@ function parseArgs(defaults: Record<string, string>): Record<string, string> {
     }
   }
   return out;
-}
-
-async function listFilesRec(root: string): Promise<string[]> {
-  const out: string[] = [];
-  async function walk(dir: string) {
-    const ents = await fs.readdir(dir, { withFileTypes: true });
-    for (const ent of ents) {
-      const p = path.join(dir, ent.name);
-      if (ent.isDirectory()) await walk(p);
-      else out.push(p);
-    }
-  }
-  await walk(root);
-  return out.filter((p) => EXTS.has(path.extname(p).toLowerCase()));
 }
 
 function anchorId(docUuid: string, line: number, col: number) {
@@ -234,7 +221,7 @@ function nearestHeadingAnchor(
 }
 
 async function main() {
-  const files = await listFilesRec(ROOT_DIR);
+  const files = await listFilesRec(ROOT_DIR, EXTS);
   console.log(`Found ${files.length} file(s) in ${ROOT_DIR}`);
 
   // Pass 1: read all frontmatters; map uuid -> { path, title }
