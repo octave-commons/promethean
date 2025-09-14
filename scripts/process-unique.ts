@@ -28,6 +28,7 @@ import {
   END_MARK,
 } from "@promethean/utils";
 import { listFilesRec } from "@promethean/utils/list-files-rec";
+import { openLevelCache } from "@promethean/level-cache";
 
 type Front = {
   uuid?: string;
@@ -67,8 +68,6 @@ type QueryHit = {
   startCol: number;
 };
 
-type QueryCache = Record<string, QueryHit[]>; // key=chunk.id
-
 const OLLAMA_URL = process.env.OLLAMA_URL ?? "http://localhost:11434";
 
 const args = parseArgs({
@@ -92,9 +91,9 @@ const EXTS = new Set(
 );
 
 const CACHE_DIR = path.join(process.cwd(), ".cache");
-const CHUNK_CACHE_FILE = path.join(CACHE_DIR, "unique-chunks.json");
-const EMBED_CACHE_FILE = path.join(CACHE_DIR, "unique-embeddings.json");
-const QUERY_CACHE_FILE = path.join(CACHE_DIR, "unique-queries.json");
+const CHUNK_CACHE_PATH = path.join(CACHE_DIR, "unique-chunks");
+const EMBED_CACHE_PATH = path.join(CACHE_DIR, "unique-embeddings");
+const QUERY_CACHE_PATH = path.join(CACHE_DIR, "unique-queries");
 function relMdLink(
   fromFileAbs: string,
   toFileAbs: string,
@@ -332,30 +331,17 @@ function sentenceSplit(s: string, maxLen: number): string[] {
   return final;
 }
 
-async function readOrEmptyJSON<T>(file: string, fallback: T): Promise<T> {
-  try {
-    const s = await fs.readFile(file, "utf-8");
-    return JSON.parse(s) as T;
-  } catch {
-    return fallback;
-  }
-}
-
 function frontToYAML(front: Front): string {
   return yaml.stringify(front, { indent: 2, simpleKeys: true });
 }
 
 async function main() {
   await fs.mkdir(CACHE_DIR, { recursive: true });
-  const chunkCache: Record<string, Chunk[]> = await readOrEmptyJSON(
-    CHUNK_CACHE_FILE,
-    {},
-  );
-  const embedCache: Record<string, number[]> = await readOrEmptyJSON(
-    EMBED_CACHE_FILE,
-    {},
-  );
-  const queryCache: QueryCache = await readOrEmptyJSON(QUERY_CACHE_FILE, {});
+  const chunkCache = await openLevelCache<Chunk>({ path: CHUNK_CACHE_PATH });
+  const embedCache = await openLevelCache<number[]>({ path: EMBED_CACHE_PATH });
+  const queryCache = await openLevelCache<QueryHit[]>({
+    path: QUERY_CACHE_PATH,
+  });
 
   // STEP 1: scan files and frontmatter
   const files = await listFilesRec(ROOT_DIR, EXTS);
@@ -523,13 +509,17 @@ async function main() {
       }),
     );
 
-    // Embeddings with simple cache keyed by chunk.id
+    // Embeddings with cache keyed by chunk.id
     for (const ch of chunks) {
       const cacheKey = ch.id;
-      if (!embedCache[cacheKey]) {
-        embedCache[cacheKey] = await ollamaEmbed(EMBED_MODEL, ch.text);
+      let embedding = await embedCache.get(cacheKey);
+      if (!embedding) {
+        embedding = await ollamaEmbed(EMBED_MODEL, ch.text);
+        if (!DRY_RUN) {
+          await embedCache.set(cacheKey, embedding);
+        }
       }
-      ch.embedding = embedCache[cacheKey];
+      ch.embedding = embedding;
     }
 
     allChunks.push(...chunks);
@@ -551,18 +541,18 @@ async function main() {
 
   // Persist chunk+embed cache
   if (!DRY_RUN) {
-    await fs.writeFile(
-      CHUNK_CACHE_FILE,
-      JSON.stringify(groupByDoc(allChunks), null, 2),
-      "utf-8",
-    );
-    await fs.writeFile(EMBED_CACHE_FILE, JSON.stringify(embedCache), "utf-8");
+    for (const ch of allChunks) {
+      const cacheVal = { ...ch };
+      delete (cacheVal as any).embedding;
+      await chunkCache.set(ch.id, cacheVal);
+    }
   }
 
   // STEP 3: per-chunk queries
   for (const ch of allChunks) {
     const qkey = ch.id;
-    if (queryCache[qkey]) continue;
+    const existing = await queryCache.get(qkey);
+    if (existing) continue;
 
     const hits = index
       .queryByEmbedding(ch.embedding!, 8, (m) => m.docUuid !== ch.docUuid)
@@ -574,15 +564,9 @@ async function main() {
         startCol: h.meta.startCol,
       }));
 
-    queryCache[qkey] = hits;
-  }
-
-  if (!DRY_RUN) {
-    await fs.writeFile(
-      QUERY_CACHE_FILE,
-      JSON.stringify(queryCache, null, 2),
-      "utf-8",
-    );
+    if (!DRY_RUN) {
+      await queryCache.set(qkey, hits);
+    }
   }
 
   // STEP 4: doc-to-doc similarity aggregation
@@ -593,7 +577,7 @@ async function main() {
   }
 
   for (const ch of allChunks) {
-    const hits = queryCache[ch.id] || [];
+    const hits = (await queryCache.get(ch.id)) ?? [];
     for (const h of hits) {
       addPair(ch.docUuid, h.docUuid, h.score);
     }
@@ -637,7 +621,7 @@ async function main() {
     const seen = new Set(refs.map((r) => `${r.uuid}:${r.line}:${r.col}`));
 
     for (const ch of myChunks) {
-      const hits = (queryCache[ch.id] || []).filter(
+      const hits = ((await queryCache.get(ch.id)) ?? []).filter(
         (h) => h.score >= REF_THRESHOLD,
       );
       for (const h of hits) {
@@ -726,15 +710,11 @@ async function main() {
     }
   }
 
-  // Final cache write
-  if (!DRY_RUN) {
-    await fs.writeFile(
-      QUERY_CACHE_FILE,
-      JSON.stringify(queryCache, null, 2),
-      "utf-8",
-    );
-  }
-
+  await Promise.all([
+    chunkCache.close(),
+    embedCache.close(),
+    queryCache.close(),
+  ]);
   console.log("Done.");
 }
 
@@ -757,26 +737,9 @@ function dedupeStrings(arr: string[]): string[] {
   return Array.from(s);
 }
 
-function groupByDoc(chunks: Chunk[]): Record<string, Chunk[]> {
-  const m: Record<string, Chunk[]> = {};
-  for (const c of chunks) {
-    (m[c.docUuid] ||= []).push(c);
-  }
-  return m;
-}
-
 function round2(n: number | undefined): number | undefined {
   if (n == null) return n;
   return Math.round(n * 100) / 100;
-}
-
-function fileExists(p: string): boolean {
-  try {
-    require("fs").accessSync(p);
-    return true;
-  } catch {
-    return false;
-  }
 }
 
 main().catch((e) => {
