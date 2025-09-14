@@ -22,8 +22,11 @@
         },
         {
           "id": "br-index",
-          "deps": ["br-fm"],
+          "deps": ["br-fm", "OLLAMA_URL"],
           "shell": "pnpm --filter @promethean/boardrev br:03-index --globs \"{README.md,docs/**/*.md,packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}}\"",
+          "env": {
+            "OLLAMA_URL": "${OLLAMA_URL}"
+          },
           "inputs": [
             "README.md",
             "docs/**/*.md",
@@ -53,6 +56,9 @@
           "id": "br-eval",
           "deps": ["br-match"],
           "shell": "pnpm --filter @promethean/boardrev br:05-eval --model qwen3:4b",
+          "env": {
+            "OLLAMA_URL": "${OLLAMA_URL}"
+          },
           "inputs": [
             ".cache/boardrev/prompts.json",
             ".cache/boardrev/context.json"
