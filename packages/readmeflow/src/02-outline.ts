@@ -120,6 +120,8 @@ export async function outline(
   );
 }
 
+export default outline;
+
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const args = parseArgs({
     "--cache": ".cache/readmes",
