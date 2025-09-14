@@ -10,11 +10,13 @@
     "lint": "eslint -c ../eslint.config.js ."
   },
   "dependencies": {
+    "@promethean/legacy": "workspace:*",
     "@types/node": "^24.3.0",
     "redis": "^4.6.7",
     "ws": "^8.18.0"
   },
   "devDependencies": {
+    "@promethean/pm2-helpers": "workspace:*",
     "ava": "^6.4.1",
     "c8": "^9.1.0"
   },
