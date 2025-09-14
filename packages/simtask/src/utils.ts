@@ -1,10 +1,7 @@
-import { promises as fs } from "fs";
 import * as path from "path";
 import * as crypto from "crypto";
 
 import * as ts from "typescript";
-
-export const OLLAMA_URL = process.env.OLLAMA_URL ?? "http://localhost:11434";
 
 export function parseArgs(defaults: Record<string, string>) {
   const out = { ...defaults };
@@ -25,38 +22,8 @@ export function parseArgs(defaults: Record<string, string>) {
   return out;
 }
 
-export async function listFilesRec(root: string, exts: Set<string>) {
-  const out: string[] = [];
-  async function walk(d: string) {
-    const ents = await fs.readdir(d, { withFileTypes: true });
-    for (const e of ents) {
-      const p = path.join(d, e.name);
-      if (e.isDirectory()) {
-        if (
-          [
-            "node_modules",
-            "dist",
-            "build",
-            "coverage",
-            ".turbo",
-            ".next",
-          ].includes(e.name)
-        )
-          continue;
-        await walk(p);
-      } else if (exts.has(path.extname(p).toLowerCase())) out.push(p);
-    }
-  }
-  await walk(root);
-  return out;
-}
-
 export function sha1(s: string) {
   return crypto.createHash("sha1").update(s).digest("hex");
-}
-
-export function relFromRepo(abs: string) {
-  return path.relative(process.cwd(), abs).replace(/\\/g, "/");
 }
 
 export function makeProgram(rootFiles: string[], tsconfigPath?: string) {
@@ -96,7 +63,6 @@ export function getJsDocText(node: ts.Node): string | undefined {
 export function getNodeText(src: string, node: ts.Node): string {
   return src.slice(node.getFullStart(), node.getEnd());
 }
-
 export function cosine(a: number[], b: number[]) {
   let dot = 0,
     na = 0,

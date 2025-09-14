@@ -5,7 +5,6 @@ import test from "ava";
 
 import {
   parseArgs,
-  listFilesRec,
   randomUUID,
   slugify,
   extnamePrefer,
@@ -15,6 +14,7 @@ import {
   stripGeneratedSections,
   frontToYAML,
 } from "../utils.js";
+import { listFilesRec } from "@promethean/utils";
 
 async function withTmp(fn: (dir: string) => Promise<void> | void) {
   const dir = path.join(

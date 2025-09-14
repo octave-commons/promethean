@@ -27,6 +27,8 @@
     "format": "pnpm exec prettier --write ."
   },
   "module": "dist/index.js",
-  "dependencies": {},
+  "dependencies": {
+    "@promethean/platform": "workspace:*"
+  },
   "license": "GPL-3.0-only"
 }

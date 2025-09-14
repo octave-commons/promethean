@@ -4,7 +4,6 @@ import { once } from "node:events";
 import { createWriteStream } from "node:fs";
 import { randomUUID as nodeRandomUUID } from "node:crypto";
 
-import { listFiles } from "@promethean/fs";
 import { unified } from "unified";
 import remarkParse from "remark-parse";
 import { visit } from "unist-util-visit";
@@ -30,20 +29,6 @@ export function parseArgs(
     }
   }
   return out;
-}
-
-export async function listFilesRec(
-  root: string,
-  exts: Set<string>,
-): Promise<string[]> {
-  const files = await listFiles(root, { includeHidden: false });
-  return (
-    files
-      .map((f) => f.path)
-      // exclude Emacs lockfiles like .#file.md which can cause crashes
-      .filter((p) => !path.basename(p).startsWith(".#"))
-      .filter((p) => exts.has(path.extname(p).toLowerCase()))
-  );
 }
 
 export function randomUUID(): string {
@@ -92,22 +77,6 @@ export function stripGeneratedSections(body: string): string {
 
 export function frontToYAML(front: Front): string {
   return yaml.stringify(front, { indent: 2, simpleKeys: true });
-}
-
-export function cosine(a: number[], b: number[]): number {
-  let dot = 0,
-    na = 0,
-    nb = 0;
-  const n = Math.min(a.length, b.length);
-  for (let i = 0; i < n; i++) {
-    const ai = a[i]!;
-    const bi = b[i]!;
-    dot += ai * bi;
-    na += ai * ai;
-    nb += bi * bi;
-  }
-  if (na === 0 || nb === 0) return 0;
-  return dot / (Math.sqrt(na) * Math.sqrt(nb));
 }
 
 export function parseMarkdownChunks(markdown: string): Chunk[] {
