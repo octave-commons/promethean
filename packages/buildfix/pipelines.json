@@ -10,9 +10,9 @@
             "packages/buildfix/tsconfig.json",
             "packages/buildfix/src/**/*"
           ],
-          "outputs": [
-            "packages/buildfix/dist/**"
-          ]
+          "inputSchema": "packages/buildfix/schemas/io.schema.json",
+          "outputs": ["packages/buildfix/dist/**"],
+          "outputSchema": "packages/buildfix/schemas/io.schema.json"
         },
         {
           "id": "bf-errors",
@@ -21,9 +21,9 @@
             "tsconfig.json",
             "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"
           ],
-          "outputs": [
-            ".cache/buildfix/errors.json"
-          ]
+          "inputSchema": "packages/buildfix/schemas/io.schema.json",
+          "outputs": [".cache/buildfix/errors.json"],
+          "outputSchema": "packages/buildfix/schemas/io.schema.json"
         },
         {
           "id": "bf-iterate",
@@ -37,23 +37,23 @@
             "tsconfig.json",
             "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"
           ],
+          "inputSchema": "packages/buildfix/schemas/io.schema.json",
           "outputs": [
             ".cache/buildfix/summary.json",
             ".cache/buildfix/history/**",
             ".cache/buildfix/snippets/**"
-          ]
+          ],
+          "outputSchema": "packages/buildfix/schemas/io.schema.json"
         },
         {
           "id": "bf-report",
           "deps": ["bf-build", "bf-iterate"],
 
           "shell": "pnpm --filter @promethean/buildfix bf:03-report --summary .cache/buildfix/summary.json --history-root .cache/buildfix/history --out docs/agile/reports/buildfix",
-          "inputs": [
-            ".cache/buildfix/summary.json"
-          ],
-          "outputs": [
-            "docs/agile/reports/buildfix/*.md"
-          ]
+          "inputs": [".cache/buildfix/summary.json"],
+          "inputSchema": "packages/buildfix/schemas/io.schema.json",
+          "outputs": ["docs/agile/reports/buildfix/*.md"],
+          "outputSchema": "packages/buildfix/schemas/io.schema.json"
         }
       ]
     }

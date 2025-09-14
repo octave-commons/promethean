@@ -1,18 +1,20 @@
-/* eslint-disable */
 import * as path from "path";
 import { randomUUID as nodeRandomUUID } from "node:crypto";
 
 import matter from "gray-matter";
-
-import { slug } from "@promethean/utils";
 import {
-  parseArgs,
-  listTaskFiles,
   readMaybe,
   writeText,
-  normStatus,
-} from "./utils.js";
+  parseArgs,
+  createLogger,
+  slug,
+} from "@promethean/utils";
+
+import { listTaskFiles, normStatus } from "./utils.js";
 import type { TaskFM } from "./types.js";
+import { Priority } from "./types.js";
+
+const logger = createLogger({ service: "boardrev" });
 
 const args = parseArgs({
   "--dir": "docs/agile/tasks",
@@ -24,41 +26,48 @@ function randomUUID() {
   return globalThis.crypto?.randomUUID?.() ?? nodeRandomUUID();
 }
 
-async function main() {
-  const dir = path.resolve(args["--dir"]!);
+export async function ensureFM({
+  dir,
+  defaultPriority,
+  defaultStatus,
+}: Readonly<{
+  dir: string;
+  defaultPriority: Priority;
+  defaultStatus: string;
+}>): Promise<number> {
   const files = await listTaskFiles(dir);
-  let updated = 0;
+  const results = await Promise.all(
+    files.map(async (file) => {
+      const raw = await readMaybe(file);
+      if (!raw) return 0;
+      const gm = matter(raw);
+      const fm = gm.data as Partial<TaskFM>;
+      if (!needsFM(fm)) return 0;
+      const title =
+        fm.title ??
+        inferTitle(gm.content) ??
+        slug(path.basename(file, ".md")).replace(/-/g, " ");
+      const payload: Readonly<TaskFM> = {
+        uuid: fm.uuid ?? (await randomUUID()),
+        title,
+        status: normStatus(fm.status ?? defaultStatus),
+        priority: fm.priority ?? defaultPriority,
+        labels: Array.isArray(fm.labels) ? fm.labels : [],
+        created_at: fm.created_at ?? new Date().toISOString(),
+        ...(fm.assignee ? { assignee: fm.assignee } : {}),
+      };
+      const final = matter.stringify(gm.content.trimStart() + "\n", payload, {
+        language: "yaml",
+      });
+      await writeText(file, final);
+      return 1;
+    }),
+  );
+  return results.reduce((a: number, b) => a + b, 0);
+}
 
-  for (const f of files) {
-    const raw = await readMaybe(f);
-    if (!raw) continue;
-    const gm = matter(raw);
-    const fm = gm.data as Partial<TaskFM>;
-    const needs = !fm || !fm.title || !fm.uuid || !fm.status || !fm.priority;
-
-    if (!needs) continue;
-
-    const title =
-      fm.title ??
-      inferTitle(gm.content) ??
-      slug(path.basename(f, ".md")).replace(/-/g, " ");
-    const payload: TaskFM = {
-      uuid: fm.uuid ?? (await randomUUID()),
-      title,
-      status: normStatus(fm.status ?? args["--default-status"]!),
-      priority: (fm.priority as any) ?? args["--default-priority"]!,
-      labels: Array.isArray(fm.labels) ? fm.labels : [],
-      created_at: fm.created_at ?? new Date().toISOString(),
-      ...(fm.assignee ? { assignee: fm.assignee } : {}),
-    };
-
-    const final = matter.stringify(gm.content.trimStart() + "\n", payload, {
-      language: "yaml",
-    });
-    await writeText(f, final);
-    updated++;
-  }
-  console.log(`boardrev: ensured front matter on ${updated} file(s)`);
+function needsFM(fm?: Readonly<Partial<TaskFM>>) {
+  return !fm || !fm.title || !fm.uuid || !fm.status || !fm.priority;
 }
 
 function inferTitle(body: string) {
@@ -66,7 +75,17 @@ function inferTitle(body: string) {
   return m?.[1]?.trim();
 }
 
-main().catch((e) => {
-  console.error(e);
-  process.exit(1);
-});
+if (import.meta.main) {
+  const dir = path.resolve(args["--dir"]!);
+  const defaultPriority = args["--default-priority"]! as Priority;
+  const defaultStatus = args["--default-status"]!;
+
+  ensureFM({ dir, defaultPriority, defaultStatus })
+    .then((updated) => {
+      logger.info(`boardrev: ensured front matter on ${updated} file(s)`);
+    })
+    .catch((err) => {
+      logger.error((err as Error).message);
+      throw err;
+    });
+}

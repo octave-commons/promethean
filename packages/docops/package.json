@@ -27,6 +27,7 @@
     "uuid": "^12.0.0",
     "yaml": "^2.8.1",
     "zod": "^4.1.5",
-    "@promethean/fs": "workspace:*"
+    "@promethean/fs": "workspace:*",
+    "@promethean/utils": "workspace:*"
   }
 }

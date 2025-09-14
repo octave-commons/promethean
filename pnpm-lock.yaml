@@ -161,6 +161,9 @@ importers:
       typescript-eslint:
         specifier: 8.42.0
         version: 8.42.0(eslint@9.33.0(jiti@2.5.1))(typescript@5.4.5)
+      typescript-language-server:
+        specifier: 4.4.1
+        version: 4.4.1
 
   packages/agent:
     dependencies:
@@ -401,6 +404,10 @@ importers:
       zod:
         specifier: ^3.25.76
         version: 3.25.76
+    devDependencies:
+      esmock:
+        specifier: ^2.7.3
+        version: 2.7.3
 
   packages/boardrev:
     dependencies:
@@ -723,6 +730,9 @@ importers:
 
   packages/codemods:
     dependencies:
+      '@promethean/utils':
+        specifier: workspace:*
+        version: link:../utils
       diff:
         specifier: ^5.2.0
         version: 5.2.0
@@ -745,6 +755,9 @@ importers:
       '@promethean/fs':
         specifier: workspace:*
         version: link:../fs
+      '@promethean/utils':
+        specifier: workspace:*
+        version: link:../utils
       gray-matter:
         specifier: 4.0.3
         version: 4.0.3
@@ -1370,6 +1383,9 @@ importers:
       '@promethean/fs':
         specifier: workspace:*
         version: link:../fs
+      '@promethean/utils':
+        specifier: workspace:*
+        version: link:../utils
       '@types/level':
         specifier: ^8.0.0
         version: 8.0.0
@@ -2907,9 +2923,15 @@ importers:
       '@promethean/test-utils':
         specifier: workspace:*
         version: link:../test-utils
+      happy-dom:
+        specifier: 18.0.1
+        version: 18.0.1
 
   packages/platform:
     dependencies:
+      '@promethean/utils':
+        specifier: workspace:*
+        version: link:../utils
       '@types/javascript-time-ago':
         specifier: ^2.5.0
         version: 2.5.0
@@ -3287,10 +3309,17 @@ importers:
         specifier: ^8.5.9
         version: 8.18.1
 
-  packages/security: {}
+  packages/security:
+    dependencies:
+      '@promethean/platform':
+        specifier: workspace:*
+        version: link:../platform
 
   packages/semvergaurd:
     dependencies:
+      '@promethean/utils':
+        specifier: workspace:*
+        version: link:../utils
       globby:
         specifier: ^14.0.2
         version: 14.0.2
@@ -3313,6 +3342,9 @@ importers:
 
   packages/simtask:
     dependencies:
+      '@promethean/utils':
+        specifier: workspace:*
+        version: link:../utils
       gray-matter:
         specifier: ^4.0.3
         version: 4.0.3
@@ -3606,6 +3638,9 @@ importers:
 
   packages/symdocs:
     dependencies:
+      '@promethean/utils':
+        specifier: workspace:*
+        version: link:../utils
       gray-matter:
         specifier: ^4.0.3
         version: 4.0.3
@@ -3932,7 +3967,14 @@ importers:
 
   packages/ui-components: {}
 
-  packages/utils: {}
+  packages/utils:
+    dependencies:
+      yaml:
+        specifier: ^2.5.1
+        version: 2.8.1
+      zod:
+        specifier: ^3.23.8
+        version: 3.25.76
 
   packages/voice:
     dependencies:
@@ -5718,6 +5760,9 @@ packages:
 
   '@types/webidl-conversions@7.0.3':
     resolution: {integrity: sha512-CiJJvcRtIgzadHCYXw7dqEnMNRjhGZlYK05Mj9OyktqV8uVT8fD2BFOB7S1uwBE3Kj2Z+4UyPmFw/Ixgw/LAlA==}
+
+  '@types/whatwg-mimetype@3.0.2':
+    resolution: {integrity: sha512-c2AKvDT8ToxLIOUlN51gTiHXflsfIFisS4pO7pDPoKouJCESkhZnEy623gwP9laCy5lnLDAw1vAzu2vM2YLOrA==}
 
   '@types/whatwg-url@11.0.5':
     resolution: {integrity: sha512-coYR071JRaHa+xoEvvYqvnIHaVqaYrLPbsufM9BF63HkwI5Lgmy2QR8Q5K/lYDYo5AK82wOvSOS0UsLTpTG7uQ==}
@@ -7645,6 +7690,10 @@ packages:
     resolution: {integrity: sha512-/ilhkWbW4FXgQpRbS0LZpKG1AFkiFZkmapP/868Lqa4hSKgKVtMilFXlQrIMssLzyvpeDVg2Q9L3VInnqYoTAg==}
     engines: {node: '>=14.16.0'}
 
+  esmock@2.7.3:
+    resolution: {integrity: sha512-/M/YZOjgyLaVoY6K83pwCsGE1AJQnj4S4GyXLYgi/Y79KL8EeW6WU7Rmjc89UO7jv6ec8+j34rKeWOfiLeEu0A==}
+    engines: {node: '>=14.16.0'}
+
   espree@10.4.0:
     resolution: {integrity: sha512-j6PAQ2uUr79PZhBjP5C5fhl8e39FmRnOjsD5lGnWrFU8i2G776tBK7+nP8KuQUTTyAZUwfQqXAgrVH5MbH9CYQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
@@ -8160,6 +8209,10 @@ packages:
     resolution: {integrity: sha512-vafaFqs8MZkRrSX7sFVUdo3ap/eNiLnb4IakshzvP56X5Nr1iGKAIqdX6tMlm6HcNRIkr6AxO5jFEoJzzpT8aQ==}
     engines: {node: '>=0.4.7'}
     hasBin: true
+
+  happy-dom@18.0.1:
+    resolution: {integrity: sha512-qn+rKOW7KWpVTtgIUi6RVmTBZJSe2k0Db0vh1f7CWrWclkkc7/Q+FrOfkZIb2eiErLyqu5AXEzE7XthO9JVxRA==}
+    engines: {node: '>=20.0.0'}
 
   has-bigints@1.1.0:
     resolution: {integrity: sha512-R3pbpkcIqv2Pm3dUwgjclDRVmWpTJW2DcMzcIhEXEx1oh/CEMObMm3KLmRJOdvhM7o4uQBnwr8pzRK2sJWIqfg==}
@@ -11074,6 +11127,11 @@ packages:
       eslint: ^8.57.0 || ^9.0.0
       typescript: '>=4.8.4 <6.0.0'
 
+  typescript-language-server@4.4.1:
+    resolution: {integrity: sha512-vEvDw+cjY75afMN2rhx0z8sQtFDAUHoBniksBmB6NUZlDt0rEIwQq01VMiqyXFm9uZwcED2475cmDeXxoDHleg==}
+    engines: {node: '>=18'}
+    hasBin: true
+
   typescript@5.4.5:
     resolution: {integrity: sha512-vcI4UpRgg81oIRUFwR0WSIHKt11nJ7SAVlYNIu+QpqeyXP+gpQJy/Z4+F0aGxSE4MqwjyXvW/TzgkLAx2AGHwQ==}
     engines: {node: '>=14.17'}
@@ -11270,6 +11328,20 @@ packages:
     resolution: {integrity: sha512-sfAcO2yeSU0CSPFI/DmZp3FsFE9T+8913nv1xWBOyzODv13fwkn6Vl7HqxGpkr9F608M+8SuFId3s+BlZqfXww==}
     engines: {node: '>=4.0'}
 
+  vscode-jsonrpc@5.0.1:
+    resolution: {integrity: sha512-JvONPptw3GAQGXlVV2utDcHx0BiY34FupW/kI6mZ5x06ER5DdPG/tXWMVHjTNULF5uKPOUUD0SaXg5QaubJL0A==}
+    engines: {node: '>=8.0.0 || >=10.0.0'}
+
+  vscode-jsonrpc@8.2.0:
+    resolution: {integrity: sha512-C+r0eKJUIfiDIfwJhria30+TYWPtuHJXHtI7J0YlOmKAo7ogxP20T0zxB7HZQIFhIyvoBPwWskjxrvAtfjyZfA==}
+    engines: {node: '>=14.0.0'}
+
+  vscode-languageserver-protocol@3.17.5:
+    resolution: {integrity: sha512-mb1bvRJN8SVznADSGWM9u/b07H7Ecg0I3OgXDuLdn307rl/J3A9YD6/eYOssqhecL27hK1IPZAsaqh00i/Jljg==}
+
+  vscode-languageserver-types@3.17.5:
+    resolution: {integrity: sha512-Ld1VelNuX9pdF39h2Hgaeb5hEZM2Z3jUrrMgWQAu82jMtZp7p3vJT3BzToKtZI7NgQssZje5o0zryOrhQvzQAg==}
+
   vue-eslint-parser@9.4.3:
     resolution: {integrity: sha512-2rYRLWlIpaiN8xbPiDyXZXRgLGOtWxERV7ND5fFAv5qo1D2N9Fu9MNajBNc6o13lZ+24DAWCkQCvj4klgmcITg==}
     engines: {node: ^14.17.0 || >=16.0.0}
@@ -11311,6 +11383,10 @@ packages:
 
   whatwg-fetch@3.6.20:
     resolution: {integrity: sha512-EqhiFU6daOA8kpjOWTL0olhVOF3i7OrFzSYiGsEMB8GcXS+RrzauAERX65xMeNWVqxA6HXH2m69Z9LaKKdisfg==}
+
+  whatwg-mimetype@3.0.0:
+    resolution: {integrity: sha512-nt+N2dzIutVRxARx1nghPKGv1xHikU7HKdfafKkLNLindmPU/ch3U31NOCGGA/dmPcmb1VlofO0vnKAcsm0o/Q==}
+    engines: {node: '>=12'}
 
   whatwg-url@14.2.0:
     resolution: {integrity: sha512-De72GdQZzNTUBBChsXueQUnPKDkg/5A5zp7pFDuQAj5UFoENpiACU0wlCvzpAGnTkj++ihpKwKyYewn/XNUbKw==}
@@ -12113,7 +12189,7 @@ snapshots:
   '@eslint/config-array@0.21.0':
     dependencies:
       '@eslint/object-schema': 2.1.6
-      debug: 4.4.1
+      debug: 4.4.3
       minimatch: 3.1.2
     transitivePeerDependencies:
       - supports-color
@@ -12127,7 +12203,7 @@ snapshots:
   '@eslint/eslintrc@2.1.4':
     dependencies:
       ajv: 6.12.6
-      debug: 4.4.1
+      debug: 4.4.3
       espree: 9.6.1
       globals: 13.24.0
       ignore: 5.3.2
@@ -12141,7 +12217,7 @@ snapshots:
   '@eslint/eslintrc@3.3.1':
     dependencies:
       ajv: 6.12.6
-      debug: 4.4.1
+      debug: 4.4.3
       espree: 10.4.0
       globals: 14.0.0
       ignore: 5.3.2
@@ -12284,7 +12360,7 @@ snapshots:
   '@humanwhocodes/config-array@0.13.0':
     dependencies:
       '@humanwhocodes/object-schema': 2.0.3
-      debug: 4.4.1
+      debug: 4.4.3
       minimatch: 3.1.2
     transitivePeerDependencies:
       - supports-color
@@ -13420,6 +13496,8 @@ snapshots:
 
   '@types/webidl-conversions@7.0.3': {}
 
+  '@types/whatwg-mimetype@3.0.2': {}
+
   '@types/whatwg-url@11.0.5':
     dependencies:
       '@types/webidl-conversions': 7.0.3
@@ -14169,7 +14247,7 @@ snapshots:
 
   axios@1.11.0:
     dependencies:
-      follow-redirects: 1.15.11(debug@4.4.1)
+      follow-redirects: 1.15.11(debug@4.3.7)
       form-data: 4.0.4
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -14321,7 +14399,7 @@ snapshots:
     dependencies:
       bytes: 3.1.2
       content-type: 1.0.5
-      debug: 4.4.1
+      debug: 4.4.3
       http-errors: 2.0.0
       iconv-lite: 0.6.3
       on-finished: 2.4.1
@@ -15830,6 +15908,8 @@ snapshots:
 
   esmock@2.7.2: {}
 
+  esmock@2.7.3: {}
+
   espree@10.4.0:
     dependencies:
       acorn: 8.15.0
@@ -16164,7 +16244,7 @@ snapshots:
 
   finalhandler@2.1.0:
     dependencies:
-      debug: 4.4.1
+      debug: 4.4.3
       encodeurl: 2.0.0
       escape-html: 1.0.3
       on-finished: 2.4.1
@@ -16482,6 +16562,12 @@ snapshots:
     optionalDependencies:
       uglify-js: 3.19.3
 
+  happy-dom@18.0.1:
+    dependencies:
+      '@types/node': 20.19.11
+      '@types/whatwg-mimetype': 3.0.2
+      whatwg-mimetype: 3.0.0
+
   has-bigints@1.1.0: {}
 
   has-flag@4.0.0: {}
@@ -16541,7 +16627,7 @@ snapshots:
   http-proxy@1.18.1:
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.15.11(debug@4.4.1)
+      follow-redirects: 1.15.11(debug@4.3.7)
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
@@ -19281,7 +19367,7 @@ snapshots:
 
   router@2.2.0:
     dependencies:
-      debug: 4.4.1
+      debug: 4.4.3
       depd: 2.0.0
       is-promise: 4.0.0
       parseurl: 1.3.3
@@ -19398,7 +19484,7 @@ snapshots:
 
   send@1.2.0:
     dependencies:
-      debug: 4.4.1
+      debug: 4.4.3
       encodeurl: 2.0.0
       escape-html: 1.0.3
       etag: 1.8.1
@@ -20223,6 +20309,11 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  typescript-language-server@4.4.1:
+    dependencies:
+      vscode-jsonrpc: 5.0.1
+      vscode-languageserver-protocol: 3.17.5
+
   typescript@5.4.5: {}
 
   typescript@5.9.2: {}
@@ -20479,6 +20570,17 @@ snapshots:
       ini: 1.3.8
       js-git: 0.7.8
 
+  vscode-jsonrpc@5.0.1: {}
+
+  vscode-jsonrpc@8.2.0: {}
+
+  vscode-languageserver-protocol@3.17.5:
+    dependencies:
+      vscode-jsonrpc: 8.2.0
+      vscode-languageserver-types: 3.17.5
+
+  vscode-languageserver-types@3.17.5: {}
+
   vue-eslint-parser@9.4.3(eslint@8.57.1):
     dependencies:
       debug: 4.4.1
@@ -20525,6 +20627,8 @@ snapshots:
   well-known-symbols@2.0.0: {}
 
   whatwg-fetch@3.6.20: {}
+
+  whatwg-mimetype@3.0.0: {}
 
   whatwg-url@14.2.0:
     dependencies:

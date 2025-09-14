@@ -3,7 +3,7 @@ import { promises as fs } from "fs";
 
 import { globby } from "globby";
 
-import { parseArgs, ollamaEmbed, writeText } from "./utils.js";
+import { ollamaEmbed, parseArgs, writeText } from "@promethean/utils";
 import type { RepoDoc, Embeddings } from "./types.js";
 
 const args = parseArgs({
@@ -41,7 +41,10 @@ async function main() {
     }
   }
 
-  await writeText(path.resolve(args["--out-index"]!), JSON.stringify({ docs: index }, null, 2));
+  await writeText(
+    path.resolve(args["--out-index"]!),
+    JSON.stringify({ docs: index }, null, 2),
+  );
   await writeText(path.resolve(args["--out-emb"]!), JSON.stringify(embeddings));
   console.log(`boardrev: indexed ${index.length} repo docs`);
 }
