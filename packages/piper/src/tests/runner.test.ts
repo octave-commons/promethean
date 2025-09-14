@@ -3,7 +3,7 @@ import * as path from "path";
 
 import test from "ava";
 
-import { runPipeline } from "../runner.js";
+import { runPipeline, StepError } from "../runner.js";
 
 async function withTmp(fn: { (dir: any): Promise<void>; (arg0: string): any }) {
   const dir = path.join(
@@ -125,7 +125,7 @@ test.serial(
                   outputs: ["b.txt"],
                   cache: "content",
                   // Force a non-zero exit to simulate failure
-                  shell: "sh -c 'echo will-fail; exit 2'",
+                  shell: "sh -c 'echo err >&2; echo will-fail; exit 2'",
                 },
                 {
                   id: "downstream",
@@ -143,15 +143,18 @@ test.serial(
         const pipelinesPath = path.join(dir, "pipelines.json");
         await fs.writeFile(pipelinesPath, JSON.stringify(cfg, null, 2), "utf8");
 
-        await t.throwsAsync(
+        const err = await t.throwsAsync(
           () =>
             runPipeline(pipelinesPath, "fail-deps", {
               concurrency: 2,
               contentHash: true,
             }),
-          { instanceOf: Error },
+          { instanceOf: StepError },
           "pipeline should throw when a step fails",
         );
+        t.true(err!.message.includes("boom"));
+        t.true(err!.message.includes("echo err >&2; echo will-fail; exit 2"));
+        t.true(err!.message.includes("stderr: err"));
 
         // Upstream succeeded
         t.truthy(await fs.readFile(path.join(dir, "a.txt"), "utf8"));
