@@ -2,17 +2,15 @@
   "name": "@promethean/docops",
   "type": "module",
   "bin": {
-    "convert-wikilinks": "dist/convert-wikilinks.js"
+    "convert-wikilinks": "dist/convert-wikilinks.js",
+    "docops-check-changelog": "dist/changelog/check.js"
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "test": "pnpm run build && ava --config ../../config/ava.config.mjs",
+    "test": "pnpm run build && ava dist/tests/**/*.test.js --config ../../config/ava.config.mjs",
     "coverage": "pnpm build && c8 ava",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "clean": "rimraf dist"
-  },
-  "bin": {
-    "docops-check-changelog": "dist/changelog/check.js"
   },
   "dependencies": {
     "@chroma-core/ollama": "^0.1.7",
@@ -34,6 +32,7 @@
     "yaml": "^2.8.1",
     "zod": "^4.1.5",
     "@promethean/fs": "workspace:*",
-    "@promethean/utils": "workspace:*"
+    "@promethean/utils": "workspace:*",
+    "@promethean/docops-frontend": "workspace:*"
   }
 }

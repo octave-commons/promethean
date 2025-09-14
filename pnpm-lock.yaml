@@ -1409,6 +1409,9 @@ importers:
       '@fastify/websocket':
         specifier: 11.2.0
         version: 11.2.0
+      '@promethean/docops-frontend':
+        specifier: workspace:*
+        version: link:../docops-frontend
       '@promethean/fs':
         specifier: workspace:*
         version: link:../fs
@@ -1460,6 +1463,8 @@ importers:
       zod:
         specifier: ^4.1.5
         version: 4.1.5
+
+  packages/docops-frontend: {}
 
   packages/ds:
     dependencies:
