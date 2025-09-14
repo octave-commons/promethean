@@ -50,7 +50,15 @@
       "steps": [
         {
           "id": "simtasks-scan",
-          "shell": "pnpm --filter @promethean/simtasks sim:01-scan --root packages --tsconfig ./tsconfig.json",
+          "js": {
+            "module": "packages/simtask/dist/01-scan.js",
+            "export": "scan",
+            "args": {
+              "--root": "packages",
+              "--tsconfig": "./tsconfig.json"
+            },
+            "isolate": "worker"
+          },
           "inputs": ["packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"],
           "outputs": [".cache/simtasks/functions.json"],
           "inputSchema": "packages/simtask/schemas/io.schema.json",
@@ -59,7 +67,16 @@
         {
           "id": "simtasks-embed",
           "deps": ["simtasks-scan"],
-          "shell": "pnpm --filter @promethean/simtasks sim:02-embed --embed-model nomic-embed-text:latest",
+          "js": {
+            "module": "packages/simtask/dist/02-embed.js",
+            "export": "embed",
+            "args": {
+              "--in": ".cache/simtasks/functions.json",
+              "--out": ".cache/simtasks/embeddings.json",
+              "--embed-model": "nomic-embed-text:latest"
+            },
+            "isolate": "worker"
+          },
           "env": { "OLLAMA_URL": "${OLLAMA_URL}" },
           "inputs": [".cache/simtasks/functions.json"],
           "outputs": [".cache/simtasks/embeddings.json"],
@@ -69,7 +86,19 @@
         {
           "id": "simtasks-cluster",
           "deps": ["simtasks-embed"],
-          "shell": "pnpm --filter @promethean/simtasks sim:03-cluster --sim-threshold 0.86 --k 12 --min-size 2",
+          "js": {
+            "module": "packages/simtask/dist/03-cluster.js",
+            "export": "cluster",
+            "args": {
+              "--scan": ".cache/simtasks/functions.json",
+              "--embeds": ".cache/simtasks/embeddings.json",
+              "--out": ".cache/simtasks/clusters.json",
+              "--sim-threshold": "0.86",
+              "--k": "12",
+              "--min-size": "2"
+            },
+            "isolate": "worker"
+          },
           "inputs": [".cache/simtasks/embeddings.json"],
           "outputs": [".cache/simtasks/clusters.json"],
           "inputSchema": "packages/simtask/schemas/io.schema.json",
@@ -78,7 +107,18 @@
         {
           "id": "simtasks-plan",
           "deps": ["simtasks-cluster"],
-          "shell": "pnpm --filter @promethean/simtasks sim:04-plan --model qwen3:4b --base-dir packages",
+          "js": {
+            "module": "packages/simtask/dist/04-plan.js",
+            "export": "plan",
+            "args": {
+              "--scan": ".cache/simtasks/functions.json",
+              "--clusters": ".cache/simtasks/clusters.json",
+              "--out": ".cache/simtasks/plans.json",
+              "--model": "qwen3:4b",
+              "--base-dir": "packages"
+            },
+            "isolate": "worker"
+          },
           "env": { "OLLAMA_URL": "${OLLAMA_URL}" },
           "inputs": [".cache/simtasks/clusters.json"],
           "outputs": [".cache/simtasks/plans.json"],
@@ -88,7 +128,17 @@
         {
           "id": "simtasks-write",
           "deps": ["simtasks-plan"],
-          "shell": "pnpm --filter @promethean/simtasks sim:05-write --out docs/agile/tasks",
+          "js": {
+            "module": "packages/simtask/dist/05-write.js",
+            "export": "writeTasks",
+            "args": {
+              "--scan": ".cache/simtasks/functions.json",
+              "--clusters": ".cache/simtasks/clusters.json",
+              "--plans": ".cache/simtasks/plans.json",
+              "--out": "docs/agile/tasks"
+            },
+            "isolate": "worker"
+          },
           "inputs": [".cache/simtasks/plans.json"],
           "outputs": ["docs/agile/tasks/*.md"],
           "inputSchema": "packages/simtask/schemas/io.schema.json",
