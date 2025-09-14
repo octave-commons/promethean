@@ -401,6 +401,10 @@ importers:
       zod:
         specifier: ^3.25.76
         version: 3.25.76
+    devDependencies:
+      esmock:
+        specifier: ^2.7.3
+        version: 2.7.3
 
   packages/boardrev:
     dependencies:
@@ -7658,6 +7662,10 @@ packages:
 
   esmock@2.7.2:
     resolution: {integrity: sha512-/ilhkWbW4FXgQpRbS0LZpKG1AFkiFZkmapP/868Lqa4hSKgKVtMilFXlQrIMssLzyvpeDVg2Q9L3VInnqYoTAg==}
+    engines: {node: '>=14.16.0'}
+
+  esmock@2.7.3:
+    resolution: {integrity: sha512-/M/YZOjgyLaVoY6K83pwCsGE1AJQnj4S4GyXLYgi/Y79KL8EeW6WU7Rmjc89UO7jv6ec8+j34rKeWOfiLeEu0A==}
     engines: {node: '>=14.16.0'}
 
   espree@10.4.0:
@@ -15844,6 +15852,8 @@ snapshots:
   esmock@2.5.0: {}
 
   esmock@2.7.2: {}
+
+  esmock@2.7.3: {}
 
   espree@10.4.0:
     dependencies:
