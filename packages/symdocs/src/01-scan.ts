@@ -1,7 +1,12 @@
 import { promises as fs } from "fs";
 import * as path from "path";
 
-import * as ts from "typescript";
+import type * as ts from "typescript";
+import tsModule from "typescript";
+
+// Normalize TypeScript import for both ESM and CJS builds.
+const tsc: typeof ts = ((tsModule as unknown as { default?: typeof ts })
+  .default ?? tsModule) as typeof ts;
 import {
   getJsDocText,
   getNodeText,
@@ -36,6 +41,7 @@ const EXTS = new Set(
 const OUT = path.resolve(String(args["--out"]));
 const repoRoot = process.cwd();
 
+/* eslint-disable-next-line max-lines-per-function */
 async function main() {
   const files = await listFilesRec(ROOT, EXTS);
   if (files.length === 0) {
@@ -59,6 +65,7 @@ async function main() {
     const pkg = bits[1] ?? "";
     const moduleRel = bits.slice(2).join("/");
 
+    /* eslint-disable-next-line max-params */
     function pushSymbol(
       kind: SymKind,
       name: string,
@@ -95,16 +102,17 @@ async function main() {
       });
     }
 
+    /* eslint-disable-next-line max-lines-per-function */
     const visit = (node: ts.Node) => {
       // Function declarations
-      if (ts.isFunctionDeclaration(node) && node.name) {
+      if (tsc.isFunctionDeclaration(node) && node.name) {
         const exported = hasExport(node);
         const sig = signatureForFunction(checker, node);
         pushSymbol("function", node.name.text, node, exported, sig);
       }
 
       // Class declarations
-      if (ts.isClassDeclaration(node) && node.name) {
+      if (tsc.isClassDeclaration(node) && node.name) {
         const exported = hasExport(node);
         pushSymbol(
           "class",
@@ -116,7 +124,7 @@ async function main() {
       }
 
       // Type aliases
-      if (ts.isTypeAliasDeclaration(node)) {
+      if (tsc.isTypeAliasDeclaration(node)) {
         const exported = hasExport(node);
         pushSymbol(
           "type",
@@ -130,7 +138,7 @@ async function main() {
       }
 
       // Interfaces (treat as 'type')
-      if (ts.isInterfaceDeclaration(node)) {
+      if (tsc.isInterfaceDeclaration(node)) {
         const exported = hasExport(node);
         pushSymbol(
           "type",
@@ -142,7 +150,7 @@ async function main() {
       }
 
       // Variables
-      if (ts.isVariableStatement(node)) {
+      if (tsc.isVariableStatement(node)) {
         const exported = hasExport(node);
         for (const decl of node.declarationList.declarations) {
           const name = decl.name.getText();
@@ -156,7 +164,7 @@ async function main() {
         }
       }
 
-      ts.forEachChild(node, visit);
+      tsc.forEachChild(node, visit);
     };
 
     visit(sf);
@@ -171,9 +179,10 @@ async function main() {
 }
 
 function hasExport(node: ts.Node): boolean {
-  const m = ts.getCombinedModifierFlags(node as any);
+  const m = tsc.getCombinedModifierFlags(node as unknown as ts.Declaration);
   return (
-    (m & ts.ModifierFlags.Export) !== 0 || (m & ts.ModifierFlags.Default) !== 0
+    (m & tsc.ModifierFlags.Export) !== 0 ||
+    (m & tsc.ModifierFlags.Default) !== 0
   );
 }
 

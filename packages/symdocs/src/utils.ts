@@ -1,6 +1,13 @@
 import * as path from "path";
 
-import * as ts from "typescript";
+import type * as ts from "typescript";
+import tsModule from "typescript";
+
+// Support both ESM and CJS builds of the TypeScript compiler.
+// When imported via ESM, `typescript` exposes its API under the `default` key.
+// Normalise so `tsc` always references the compiler object regardless of import style.
+const tsc: typeof ts = ((tsModule as unknown as { default?: typeof ts })
+  .default ?? tsModule) as typeof ts;
 export { sha1 } from "@promethean/utils";
 
 export function parseArgs(
@@ -35,31 +42,31 @@ export function makeProgram(
   tsconfigPath?: string,
 ): ts.Program {
   const baseOptions: ts.CompilerOptions = {
-    target: ts.ScriptTarget.ES2022,
-    module: ts.ModuleKind.ESNext,
+    target: tsc.ScriptTarget.ES2022,
+    module: tsc.ModuleKind.ESNext,
     strict: true,
   };
-  const options = tsconfigPath
+  const options: ts.CompilerOptions = tsconfigPath
     ? (() => {
-        const configFile = ts.readConfigFile(tsconfigPath, ts.sys.readFile);
+        const configFile = tsc.readConfigFile(tsconfigPath, tsc.sys.readFile);
         if (configFile.error) {
           throw new Error(
-            ts.formatDiagnosticsWithColorAndContext([configFile.error], {
+            tsc.formatDiagnosticsWithColorAndContext([configFile.error], {
               getCanonicalFileName: (f) => f,
-              getCurrentDirectory: ts.sys.getCurrentDirectory,
-              getNewLine: () => ts.sys.newLine,
+              getCurrentDirectory: tsc.sys.getCurrentDirectory,
+              getNewLine: () => tsc.sys.newLine,
             }),
           );
         }
-        const parse = ts.parseJsonConfigFileContent(
-          configFile.config,
-          ts.sys,
+        const parse = tsc.parseJsonConfigFileContent(
+          configFile.config as unknown,
+          tsc.sys,
           path.dirname(tsconfigPath),
         );
-        return { ...parse.options, ...baseOptions };
+        return { ...parse.options, ...baseOptions } as ts.CompilerOptions;
       })()
     : baseOptions;
-  return ts.createProgram(rootFiles, options);
+  return tsc.createProgram(rootFiles, options);
 }
 
 export function signatureForFunction(
