@@ -4,6 +4,8 @@
   "type": "module",
   "private": true,
   "scripts": {
+    "test": "echo 'no tests'",
+    "lint": "pnpm exec eslint .",
     "code:01-extract": "tsx src/01-extract.ts --dir docs/unique",
     "code:02-embed": "tsx src/02-embed.ts",
     "code:03-cluster": "tsx src/03-cluster.ts --sim-threshold 0.82 --k 8",
@@ -14,6 +16,7 @@
   "dependencies": {
     "@promethean/fs": "workspace:*",
     "@promethean/utils": "workspace:*",
+    "@promethean/level-cache": "workspace:*",
     "gray-matter": "4.0.3",
     "remark-parse": "11.0.0",
     "unified": "11.0.4",

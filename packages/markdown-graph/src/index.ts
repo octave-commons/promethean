@@ -1,13 +1,13 @@
 import express, { Application } from "express";
 import bodyParser from "body-parser";
-
 import { GraphDB } from "./graph.js";
 
 export async function createApp(
   repoPath: string,
   coldStart = false,
+  store?: any,
 ): Promise<Application> {
-  const db = await GraphDB.create(repoPath);
+  const db = await GraphDB.create(repoPath, store);
   if (coldStart) {
     await db.coldStart();
   }

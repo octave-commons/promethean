@@ -1,13 +1,16 @@
 // src/03-cluster.ts
 import { promises as fs } from "fs";
 import * as path from "path";
-import { parseArgs } from "./utils.js";
+
 import { cosine } from "@promethean/utils";
+import { openLevelCache } from "@promethean/level-cache";
+
+import { parseArgs } from "./utils.js";
 import type { BlockManifest, EmbeddingMap, Cluster } from "./types.js";
 
 const args = parseArgs({
   "--blocks": ".cache/codepack/blocks.json",
-  "--embeds": ".cache/codepack/embeddings.json",
+  "--cache": ".cache/codepack/embeds",
   "--out": ".cache/codepack/clusters.json",
   "--sim-threshold": "0.82", // connect if cosine >= threshold
   "--k": "8", // top-k neighbors to consider per node
@@ -31,27 +34,44 @@ function unionFindClusters(ids: string[], edges: Array<[string, string]>) {
   return Array.from(groups.values());
 }
 
+async function loadEmbeddings(
+  blocks: readonly BlockManifest["blocks"],
+  cachePath: string,
+): Promise<EmbeddingMap> {
+  const cache = await openLevelCache<number[]>({
+    path: cachePath,
+    namespace: "embeds",
+  });
+  const entries: EmbeddingMap = {};
+  for (const b of blocks) {
+    const v = await cache.get(b.id);
+    if (v) entries[b.id] = v;
+  }
+  await cache.close();
+  return entries;
+}
+
 async function main() {
   const blocksPath = path.resolve(args["--blocks"]);
-  const embedsPath = path.resolve(args["--embeds"]);
+  const cachePath = path.resolve(args["--cache"]);
   const outPath = path.resolve(args["--out"]);
   const TH = Number(args["--sim-threshold"]);
   const K = Number(args["--k"]);
 
-  const { blocks }: BlockManifest = JSON.parse(
+  const manifest = JSON.parse(
     await fs.readFile(blocksPath, "utf-8"),
-  );
-  const embeds: EmbeddingMap = JSON.parse(
-    await fs.readFile(embedsPath, "utf-8"),
-  );
+  ) as BlockManifest;
+  const { blocks } = manifest;
+  const embeds = await loadEmbeddings(blocks, cachePath);
 
   // build neighbor edges
-  const ids = blocks.map((b) => b.id);
+  const available = blocks.filter((b) => embeds[b.id] !== undefined);
+  const ids = available.map((b) => b.id);
   const edges: Array<[string, string]> = [];
 
-  for (const a of blocks) {
+  for (const a of available) {
     const av = embeds[a.id];
-    const scores = blocks
+    const scores = available
       .filter((b) => b.id !== a.id)
       .map((b) => ({ id: b.id, s: cosine(av, embeds[b.id]) }))
       .sort((x, y) => y.s - x.s)

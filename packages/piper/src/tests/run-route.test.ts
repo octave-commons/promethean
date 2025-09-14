@@ -11,6 +11,8 @@ const PKG_ROOT = path.resolve(
   "..",
 );
 
+const SCHEMA = "schema-empty.json";
+
 test.serial("dev-ui runs full pipeline via /api/run", async (t) => {
   const tmpParent = path.join(PKG_ROOT, "test-tmp");
   await fs.mkdir(tmpParent, { recursive: true });
@@ -26,6 +28,11 @@ test.serial("dev-ui runs full pipeline via /api/run", async (t) => {
       "export default () => { console.log('two'); }\n",
       "utf8",
     );
+    await fs.writeFile(
+      path.join(dir, SCHEMA),
+      JSON.stringify({ type: "object" }),
+      "utf8",
+    );
     const cfg = {
       pipelines: [
         {
@@ -37,6 +44,8 @@ test.serial("dev-ui runs full pipeline via /api/run", async (t) => {
               deps: [],
               inputs: [],
               outputs: [],
+              inputSchema: SCHEMA,
+              outputSchema: SCHEMA,
               cache: "none",
               js: { module: "./s1.js", export: "default" },
             },
@@ -46,6 +55,8 @@ test.serial("dev-ui runs full pipeline via /api/run", async (t) => {
               deps: ["s1"],
               inputs: [],
               outputs: [],
+              inputSchema: SCHEMA,
+              outputSchema: SCHEMA,
               cache: "none",
               js: { module: "./s2.js", export: "default" },
             },
