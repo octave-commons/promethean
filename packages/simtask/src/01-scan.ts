@@ -5,7 +5,6 @@ import * as ts from "typescript";
 
 import {
   parseArgs,
-  listFilesRec,
   makeProgram,
   posToLine,
   getJsDocText,
@@ -13,6 +12,7 @@ import {
   relFromRepo,
   sha1,
 } from "./utils.js";
+import { listFilesRec } from "@promethean/utils";
 import type { FunctionInfo, ScanResult, FnKind } from "./types.js";
 
 const args = parseArgs({

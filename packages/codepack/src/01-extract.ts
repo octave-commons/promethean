@@ -2,8 +2,9 @@
 import { promises as fs } from "fs";
 import * as path from "path";
 import matter from "gray-matter";
-import { parseArgs, listFilesRec, relPath, sha1 } from "./utils.js";
+import { parseArgs, relPath, sha1 } from "./utils.js";
 import { extractCodeBlocksWithContext, detectFilenameHint } from "./utils.js";
+import { listFilesRec } from "@promethean/utils";
 import type { BlockManifest, CodeBlock } from "./types.js";
 
 const args = parseArgs({

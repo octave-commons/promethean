@@ -17,6 +17,7 @@
     "unified": "11.0.4",
     "unist-util-visit": "5.0.0",
     "zod": "3.23.8",
-    "@promethean/fs": "workspace:*"
+    "@promethean/fs": "workspace:*",
+    "@promethean/utils": "workspace:*"
   }
 }

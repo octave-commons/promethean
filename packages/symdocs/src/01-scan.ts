@@ -5,7 +5,6 @@ import * as ts from "typescript";
 
 import {
   parseArgs,
-  listFilesRec,
   makeProgram,
   getJsDocText,
   getNodeText,
@@ -16,6 +15,7 @@ import {
   signatureForFunction,
   typeToString,
 } from "./utils.js";
+import { listFilesRec } from "@promethean/utils";
 import type { SymKind, SymbolInfo, ScanResult } from "./types.js";
 
 const args = parseArgs({
