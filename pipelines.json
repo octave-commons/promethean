@@ -6,7 +6,11 @@
         {
           "id": "symdocs-scan",
           "cwd": ".",
-          "shell": "pnpm --filter @promethean/symdocs symdocs:01-scan",
+          "js": {
+            "module": "scripts/piper-symdocs.mjs",
+            "export": "scan",
+            "isolate": "worker"
+          },
           "inputs": ["packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"],
           "outputs": [".cache/symdocs/symbols.json"],
           "inputSchema": "packages/symdocs/schemas/io.schema.json",
@@ -15,7 +19,12 @@
         {
           "id": "symdocs-docs",
           "deps": ["symdocs-scan"],
-          "shell": "pnpm --filter @promethean/symdocs symdocs:02-docs --model qwen3:4b",
+          "js": {
+            "module": "scripts/piper-symdocs.mjs",
+            "export": "docs",
+            "args": { "model": "qwen3:4b" },
+            "isolate": "worker"
+          },
           "env": { "OLLAMA_URL": "${OLLAMA_URL}" },
           "inputs": [".cache/symdocs/symbols.json"],
           "outputs": [".cache/symdocs/docs.json"],
@@ -25,7 +34,12 @@
         {
           "id": "symdocs-write",
           "deps": ["symdocs-docs"],
-          "shell": "pnpm --filter @promethean/symdocs symdocs:03-write --out docs/packages --granularity module",
+          "js": {
+            "module": "scripts/piper-symdocs.mjs",
+            "export": "write",
+            "args": { "out": "docs/packages", "granularity": "module" },
+            "isolate": "worker"
+          },
           "inputs": [".cache/symdocs/docs.json"],
           "outputs": ["docs/packages/**/**/*.md"],
           "inputSchema": "packages/symdocs/schemas/io.schema.json",
@@ -34,7 +48,11 @@
         {
           "id": "symdocs-graph",
           "deps": ["symdocs-scan"],
-          "shell": "pnpm --filter @promethean/symdocs symdocs:04-graph",
+          "js": {
+            "module": "scripts/piper-symdocs.mjs",
+            "export": "graph",
+            "isolate": "worker"
+          },
           "inputs": [
             "packages/**/package.json",
             "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"
