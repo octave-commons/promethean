@@ -15,7 +15,12 @@
           "outputSchema": "packages/testgap/schemas/io.schema.json"
         },
         {
+          "id": "tg-tests",
+          "shell": "pnpm -w -r test -- --coverage"
+        },
+        {
           "id": "tg-coverage",
+          "deps": ["tg-tests"],
           "shell": "pnpm --filter @promethean/testgap tg:02-read-coverage --lcov-globs \"{coverage/lcov.info,packages/**/coverage/lcov.info}\" --out .cache/testgap/coverage.json",
           "inputs": ["coverage/lcov.info", "packages/**/coverage/lcov.info"],
           "inputSchema": "packages/testgap/schemas/io.schema.json",

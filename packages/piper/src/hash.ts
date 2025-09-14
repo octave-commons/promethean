@@ -2,14 +2,11 @@ import { promises as fs } from "fs";
 import type { Stats } from "fs";
 import * as path from "path";
 import * as crypto from "crypto";
+import { sha1 } from "@promethean/utils";
 import { pathToFileURL, fileURLToPath } from "url";
 
 import { globby } from "globby";
 import { init, parse } from "es-module-lexer";
-
-export function sha1(s: string) {
-  return crypto.createHash("sha1").update(s).digest("hex");
-}
 
 export async function fingerprintFromGlobs(
   globs: string[],

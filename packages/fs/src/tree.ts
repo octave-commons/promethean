@@ -83,8 +83,9 @@ export async function buildTree(root: string, opts: TreeOptions = {}): Promise<T
             return null;
         }
 
-        if (typeFilter !== 'any' && type !== typeFilter && type === 'dir') {
+        if (typeFilter !== 'any' && type !== typeFilter && type !== 'dir') {
             return null;
+        }
         }
 
         const baseNode: TreeNode = {

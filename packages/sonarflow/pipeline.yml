@@ -3,7 +3,7 @@ pipelines:
     steps:
       - id: sonar-scan
         cwd: .
-        shell: "sonar-scanner"          # expects sonar-project.properties in repo OR env overrides
+        shell: "sonar-scanner" # expects sonar-project.properties in repo OR env overrides
         env:
           SONAR_HOST_URL: "${SONAR_HOST_URL}"
           SONAR_TOKEN: "${SONAR_TOKEN}"
@@ -12,14 +12,20 @@ pipelines:
           - "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"
           - "sonar-project.properties"
         outputs:
-          - ".cache/sonar/scan.touch"   # marker file we create after scan
+          - ".cache/sonar/scan.touch" # marker file we create after scan
       - id: sonar-fetch
         deps: ["sonar-scan"]
+        env:
+          SONAR_HOST_URL: "${SONAR_HOST_URL}"
+          SONAR_TOKEN: "${SONAR_TOKEN}"
+          SONAR_PROJECT_KEY: "${SONAR_PROJECT_KEY}"
         shell: "pnpm --filter @promethean/sonarflow sonar:fetch --project ${SONAR_PROJECT_KEY} --out .cache/sonar/issues.json"
         inputs: []
         outputs: [".cache/sonar/issues.json"]
       - id: sonar-plan
         deps: ["sonar-fetch"]
+        env:
+          OLLAMA_URL: "${OLLAMA_URL}"
         shell: "pnpm --filter @promethean/sonarflow sonar:plan --in .cache/sonar/issues.json --out .cache/sonar/plans.json --group-by rule+prefix --prefix-depth 2 --min-group 2 --model qwen3:4b"
         inputs: [".cache/sonar/issues.json"]
         outputs: [".cache/sonar/plans.json"]

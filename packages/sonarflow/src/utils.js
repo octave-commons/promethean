@@ -1,6 +1,6 @@
 import { promises as fs } from "fs";
 import * as path from "path";
-import * as crypto from "crypto";
+export { sha1 } from "@promethean/utils";
 export function parseArgs(defaults) {
   const out = { ...defaults };
   const a = process.argv.slice(2);
@@ -11,9 +11,6 @@ export function parseArgs(defaults) {
     out[k] = v;
   }
   return out;
-}
-export function sha1(s) {
-  return crypto.createHash("sha1").update(s).digest("hex");
 }
 export async function writeJSON(p, data) {
   await fs.mkdir(path.dirname(p), { recursive: true });
