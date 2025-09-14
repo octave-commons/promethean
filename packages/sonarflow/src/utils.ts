@@ -1,6 +1,6 @@
 import { promises as fs } from "fs";
 import * as path from "path";
-import * as crypto from "crypto";
+export { sha1 } from "@promethean/utils";
 
 export function parseArgs(
   defaults: Readonly<Record<string, string>>,
@@ -14,10 +14,6 @@ export function parseArgs(
     },
     { ...defaults },
   );
-}
-
-export function sha1(s: string): string {
-  return crypto.createHash("sha1").update(s).digest("hex");
 }
 
 export async function writeJSON(p: string, data: unknown): Promise<void> {
