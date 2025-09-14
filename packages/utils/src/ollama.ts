@@ -1,9 +1,10 @@
 export const OLLAMA_URL = process.env.OLLAMA_URL ?? "http://localhost:11434";
 
-async function check(res: Response, ctx: string) {
+async function check(res: globalThis.Response, ctx: string) {
   if (!res.ok) {
     const text = await res.text().catch(() => "");
-    throw new Error(`ollama ${ctx} ${res.status}${text ? `: ${text}` : ""}`);
+    const snippet = text ? `: ${text.slice(0, 400)}${text.length > 400 ? "…" : ""}` : "";
+    throw new Error(`ollama ${ctx} ${res.status}${snippet}`);
   }
   return res;
 }
