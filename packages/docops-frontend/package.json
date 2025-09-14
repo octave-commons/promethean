@@ -1,0 +1,32 @@
+{
+  "name": "@promethean/docops-frontend",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/frontend/index.cjs",
+  "module": "dist/frontend/index.js",
+  "types": "dist/frontend/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/frontend/index.d.ts",
+      "import": "./dist/frontend/index.js",
+      "require": "./dist/frontend/index.cjs"
+    },
+    "./dist/*": "./dist/*",
+    "./*": "./dist/*"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "clean": "rimraf dist",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "pnpm run build && ava",
+    "lint": "pnpm exec eslint .",
+    "coverage": "pnpm run build && c8 ava",
+    "format": "pnpm exec prettier --write ."
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
