@@ -13,16 +13,26 @@ export async function ollamaEmbed(
   model: string,
   text: string,
 ): Promise<number[]> {
+  const ac = new AbortController();
+  const timer = setTimeout(() => ac.abort(), 60_000);
   const res = await fetch(`${OLLAMA_URL}/api/embeddings`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ model, prompt: text }),
+    // send both fields for wider server compatibility
+    body: JSON.stringify({ model, prompt: text, input: text }),
+    signal: ac.signal,
   });
-  await check(res, "embeddings");
+  try {
+    await check(res, "embeddings");
+  } finally {
+    clearTimeout(timer);
+  }
   const data: any = await res.json();
   const embedding = data?.embedding ?? data?.data?.[0]?.embedding;
-  if (!Array.isArray(embedding)) throw new Error("invalid embeddings response");
-  return embedding as number[];
+  if (!Array.isArray(embedding) || !embedding.every((n: any) => typeof n === "number")) {
+    throw new Error("invalid embeddings response");
+  }
+  return embedding;
 }
 
 export async function ollamaJSON(model: string, prompt: string): Promise<any> {
