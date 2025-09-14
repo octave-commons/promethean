@@ -1,6 +1,9 @@
 {
   "name": "@promethean/docops",
   "type": "module",
+  "bin": {
+    "convert-wikilinks": "dist/convert-wikilinks.js"
+  },
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "test": "pnpm run build && ava --config ../../config/ava.config.mjs",
