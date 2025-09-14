@@ -543,7 +543,8 @@
             "args": {
               "dir": "docs/unique",
               "genModel": "qwen3:4b"
-            }
+            },
+            "isolate": "worker"
           },
           "env": {
             "OLLAMA_URL": "${OLLAMA_URL}"
@@ -563,7 +564,8 @@
               "dir": "docs/unique",
               "embedModel": "nomic-embed-text:latest",
               "collection": "docs"
-            }
+            },
+            "isolate": "worker"
           },
           "env": {
             "OLLAMA_URL": "${OLLAMA_URL}"
@@ -583,7 +585,8 @@
               "embedModel": "nomic-embed-text:latest",
               "collection": "docs",
               "k": 16
-            }
+            },
+            "isolate": "worker"
           },
           "env": {
             "OLLAMA_URL": "${OLLAMA_URL}"
@@ -603,7 +606,8 @@
               "dir": "docs/unique",
               "docThreshold": 0.78,
               "refThreshold": 0.6
-            }
+            },
+            "isolate": "worker"
           },
           "inputs": ["docs/unique/**/*.md"],
           "outputs": [],
@@ -621,7 +625,8 @@
               "anchorStyle": "block",
               "includeRelated": true,
               "includeSources": true
-            }
+            },
+            "isolate": "worker"
           },
           "inputs": ["docs/unique/**/*.md"],
           "outputs": [],
@@ -636,7 +641,8 @@
             "export": "rename",
             "args": {
               "dir": "docs/unique"
-            }
+            },
+            "isolate": "worker"
           },
           "inputs": ["docs/unique/**/*.md"],
           "outputs": [],
