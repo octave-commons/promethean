@@ -113,7 +113,7 @@ function expr(n: EST.Expression, opts: Js2LispOptions): S {
             return list([sym('/*unary*/'), str(n.operator), a]);
         }
         case 'BinaryExpression': {
-            const a = expr(n.left as EST.Expression, opts),
+            const a = expr(n.left, opts),
                 b = expr(n.right, opts);
             return list([sym(n.operator as any), a, b]);
         }
