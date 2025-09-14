@@ -107,13 +107,18 @@
             ".cache/simtasks/functions.json",
             ".cache/simtasks/clusters.json",
             ".cache/simtasks/plans.json"
-          ]
+          ],
+          "outputSchema": "packages/simtask/schemas/io.schema.json"
         },
         {
           "id": "mods-spec",
           "deps": ["mods-simtasks"],
           "shell": "pnpm --filter @promethean/codemods mods:01-spec --tsconfig ./tsconfig.json",
-          "inputs": [".cache/simtasks/{functions,clusters,plans}.json"],
+          "inputs": [
+            ".cache/simtasks/functions.json",
+            ".cache/simtasks/clusters.json",
+            ".cache/simtasks/plans.json"
+          ],
           "outputs": [".cache/codemods/specs.json"],
           "inputSchema": "packages/codemods/schemas/io.schema.json",
           "outputSchema": "packages/codemods/schemas/io.schema.json"
@@ -395,7 +400,9 @@
             "packages/buildfix/tsconfig.json",
             "packages/buildfix/src/**/*"
           ],
-          "outputs": ["packages/buildfix/dist/**"]
+          "outputs": ["packages/buildfix/dist/**"],
+          "inputSchema": "packages/buildfix/schemas/io.schema.json",
+          "outputSchema": "packages/buildfix/schemas/io.schema.json"
         },
         {
           "id": "bf-errors",
