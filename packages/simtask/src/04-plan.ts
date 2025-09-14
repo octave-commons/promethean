@@ -1,5 +1,6 @@
 import { promises as fs } from "fs";
 import * as path from "path";
+import { pathToFileURL } from "url";
 
 import { z } from "zod";
 import { ollamaJSON } from "@promethean/utils";
@@ -7,14 +8,14 @@ import { ollamaJSON } from "@promethean/utils";
 import { parseArgs } from "./utils.js";
 import type { ScanResult, Cluster, Plan } from "./types.js";
 
-const args = parseArgs({
-  "--scan": ".cache/simtasks/functions.json",
-  "--clusters": ".cache/simtasks/clusters.json",
-  "--out": ".cache/simtasks/plans.json",
-  "--model": "qwen3:4b",
-  "--base-dir": "packages",
-  "--force": "false",
-});
+export interface PlanArgs {
+  "--scan"?: string;
+  "--clusters"?: string;
+  "--out"?: string;
+  "--model"?: string;
+  "--base-dir"?: string;
+  "--force"?: string;
+}
 
 const PlanSchema = z.object({
   title: z.string().min(1),
@@ -27,7 +28,7 @@ const PlanSchema = z.object({
   acceptance: z.array(z.string()).optional(),
 });
 
-async function main() {
+export async function plan(args: PlanArgs) {
   const SCAN = path.resolve(args["--scan"] ?? ".cache/simtasks/functions.json");
   const CLS = path.resolve(
     args["--clusters"] ?? ".cache/simtasks/clusters.json",
@@ -132,7 +133,17 @@ async function readJSON(p: string): Promise<any | undefined> {
   }
 }
 
-main().catch((e) => {
-  console.error(e);
-  process.exit(1);
-});
+if (import.meta.url === pathToFileURL(process.argv[1] ?? "").href) {
+  const args = parseArgs({
+    "--scan": ".cache/simtasks/functions.json",
+    "--clusters": ".cache/simtasks/clusters.json",
+    "--out": ".cache/simtasks/plans.json",
+    "--model": "qwen3:4b",
+    "--base-dir": "packages",
+    "--force": "false",
+  });
+  plan(args).catch((e) => {
+    console.error(e);
+    process.exit(1);
+  });
+}

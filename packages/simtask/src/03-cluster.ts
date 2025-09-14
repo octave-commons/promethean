@@ -1,18 +1,19 @@
 import { promises as fs } from "fs";
 import * as path from "path";
+import { pathToFileURL } from "url";
 
 import { cosine, parseArgs } from "@promethean/utils";
 
 import type { ScanResult, EmbeddingMap, Cluster } from "./types.js";
 
-const args = parseArgs({
-  "--scan": ".cache/simtasks/functions.json",
-  "--embeds": ".cache/simtasks/embeddings.json",
-  "--out": ".cache/simtasks/clusters.json",
-  "--sim-threshold": "0.84",
-  "--k": "10",
-  "--min-size": "2",
-});
+export interface ClusterArgs {
+  "--scan"?: string;
+  "--embeds"?: string;
+  "--out"?: string;
+  "--sim-threshold"?: string;
+  "--k"?: string;
+  "--min-size"?: string;
+}
 
 function unionFindClusters(ids: string[], edges: Array<[string, string]>) {
   const parent = new Map<string, string>(ids.map((i) => [i, i]));
@@ -32,7 +33,7 @@ function unionFindClusters(ids: string[], edges: Array<[string, string]>) {
   return Array.from(groups.values());
 }
 
-async function main() {
+export async function cluster(args: ClusterArgs) {
   const SCAN = path.resolve(args["--scan"] ?? ".cache/simtasks/functions.json");
   const EMB = path.resolve(
     args["--embeds"] ?? ".cache/simtasks/embeddings.json",
@@ -99,7 +100,17 @@ function round2(n: number) {
   return Math.round(n * 100) / 100;
 }
 
-main().catch((e) => {
-  console.error(e);
-  process.exit(1);
-});
+if (import.meta.url === pathToFileURL(process.argv[1] ?? "").href) {
+  const args = parseArgs({
+    "--scan": ".cache/simtasks/functions.json",
+    "--embeds": ".cache/simtasks/embeddings.json",
+    "--out": ".cache/simtasks/clusters.json",
+    "--sim-threshold": "0.84",
+    "--k": "10",
+    "--min-size": "2",
+  });
+  cluster(args).catch((e) => {
+    console.error(e);
+    process.exit(1);
+  });
+}

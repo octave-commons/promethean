@@ -1,19 +1,20 @@
 import { promises as fs } from "fs";
 import * as path from "path";
+import { pathToFileURL } from "url";
 
 import { ollamaEmbed, parseArgs } from "@promethean/utils";
 
 import type { ScanResult, EmbeddingMap } from "./types.js";
 
-const args = parseArgs({
-  "--in": ".cache/simtasks/functions.json",
-  "--out": ".cache/simtasks/embeddings.json",
-  "--embed-model": "nomic-embed-text:latest",
-  "--include-jsdoc": "true",
-  "--include-snippet": "true",
-});
+export interface EmbedArgs {
+  "--in"?: string;
+  "--out"?: string;
+  "--embed-model"?: string;
+  "--include-jsdoc"?: string;
+  "--include-snippet"?: string;
+}
 
-async function main() {
+export async function embed(args: EmbedArgs) {
   const IN = path.resolve(args["--in"] ?? ".cache/simtasks/functions.json");
   const OUT = path.resolve(args["--out"] ?? ".cache/simtasks/embeddings.json");
   const model = args["--embed-model"] ?? "nomic-embed-text:latest";
@@ -47,7 +48,16 @@ async function main() {
   );
 }
 
-main().catch((e) => {
-  console.error(e);
-  process.exit(1);
-});
+if (import.meta.url === pathToFileURL(process.argv[1] ?? "").href) {
+  const args = parseArgs({
+    "--in": ".cache/simtasks/functions.json",
+    "--out": ".cache/simtasks/embeddings.json",
+    "--embed-model": "nomic-embed-text:latest",
+    "--include-jsdoc": "true",
+    "--include-snippet": "true",
+  });
+  embed(args).catch((e) => {
+    console.error(e);
+    process.exit(1);
+  });
+}
