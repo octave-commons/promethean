@@ -238,7 +238,7 @@ kanban-plugin: board
 ## Incoming
 
 - [ ] Get existing pipelines to work through UI
-- [ ] get all existing pipelines functional
+- [ ] [[get all existing pipelines functional]]
 - [ ] pin all versioned anything
 
 
