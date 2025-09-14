@@ -1,5 +1,6 @@
 /* eslint-disable */
 import test from "ava";
+import path from "node:path";
 import { InMemoryEventBus } from "@promethean/event/memory.js";
 import {
   GatewayPublisher,
@@ -7,6 +8,14 @@ import {
   indexMessage,
   embedMessage,
 } from "@promethean/discord";
+
+type EmbedEvt = {
+  readonly provider: string;
+  readonly tenant: string;
+  readonly message_id: string;
+  readonly space_urn: string;
+  readonly text: string;
+};
 // fallback mock: real package unavailable
 async function embedAttachments(evt: any) {
   return { ids: evt.attachments?.map((a: any) => a.id) || [] };
@@ -23,12 +32,13 @@ test("end-to-end: raw -> normalized -> index + embed", async (t) => {
 
   const seen = { indexed: 0, attachments: 0, embeddedMsg: 0, embeddedAtt: 0 };
   await bus.subscribe(normTopic, "workers", async (e) => {
-    const evt = e.payload;
+    const evt = e.payload as EmbedEvt;
     const msg = await indexMessage(evt);
     if (msg) seen.indexed++;
     const atts = await indexAttachments(evt);
     seen.attachments += atts.length;
-    const em = await embedMessage(evt);
+    const cfg = path.join(process.cwd(), "config", "providers.yml");
+    const em = await embedMessage(evt, { configPath: cfg });
     if (em) seen.embeddedMsg++;
     const ea = await embedAttachments(evt);
     seen.embeddedAtt += ea.ids?.length || 0;
@@ -52,6 +62,7 @@ test("end-to-end: raw -> normalized -> index + embed", async (t) => {
   };
   await pub.publishRaw(provider, tenant, raw);
   await pub.publishNormalized(provider, tenant, raw);
+  await new Promise((r) => setTimeout(r, 0));
 
   t.is(seen.indexed, 1);
   t.is(seen.attachments, 1);
