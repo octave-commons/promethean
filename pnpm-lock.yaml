@@ -3334,7 +3334,7 @@ importers:
         specifier: workspace:*
         version: link:../platform
 
-  packages/semvergaurd:
+  packages/semverguard:
     dependencies:
       '@promethean/utils':
         specifier: workspace:*
