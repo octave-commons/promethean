@@ -25,7 +25,7 @@ function endMark() {
 
 export async function runWrite(opts: WriteOptions = {}) {
   const OUT_ROOT = path.resolve(opts.out ?? "docs/packages");
-  const GRANULARITY = (opts.granularity ?? "module") as "module" | "symbol";
+  const GRANULARITY = opts.granularity ?? "module";
 
   const scan: ScanResult = JSON.parse(
     await fs.readFile(

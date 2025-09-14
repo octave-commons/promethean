@@ -1,9 +1,9 @@
 import * as path from "path";
+import { fileURLToPath } from "node:url";
 
 import { z } from "zod";
 import { openLevelCache } from "@promethean/level-cache";
 import { parseArgs, ollamaJSON } from "@promethean/utils";
-import { fileURLToPath } from "node:url";
 
 import type { ScanOut, Outline, OutlinesFile } from "./types.js";
 

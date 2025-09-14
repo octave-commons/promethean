@@ -1,6 +1,5 @@
 /* eslint-disable functional/no-let, functional/no-loop-statements, functional/no-try-statements */
 import type { Db, ChangeStreamDocument, Collection, Document } from 'mongodb';
-
 import type { EventBus } from '@promethean/event/types.js';
 import { retry, createLogger } from '@promethean/utils';
 
@@ -64,7 +63,7 @@ export async function startMongoChangefeed<TDoc extends Document & { _id?: unkno
 
 function extractDoc<TDoc extends Document>(change: ChangeStreamDocument<TDoc>): TDoc | undefined {
     if ('fullDocument' in change && change.fullDocument) {
-        return change.fullDocument as TDoc;
+        return change.fullDocument;
     }
     const docId = (change as { documentKey?: { _id?: unknown } }).documentKey?._id;
     return docId !== undefined ? ({ _id: docId } as unknown as TDoc) : undefined;

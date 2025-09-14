@@ -1,8 +1,8 @@
 import * as path from "path";
 import { promises as fs } from "fs";
+import { fileURLToPath } from "node:url";
 
 import { parseArgs } from "@promethean/utils";
-import { fileURLToPath } from "node:url";
 
 import { readJSON } from "./utils.js";
 import type { Summary, History } from "./types.js";

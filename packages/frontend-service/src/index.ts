@@ -1,8 +1,9 @@
-import Fastify from "fastify";
-import fastifyStatic from "@fastify/static";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 import fs from "node:fs";
+
+import fastifyStatic from "@fastify/static";
+import Fastify from "fastify";
 import {
   registerHealthRoute,
   registerDiagnosticsRoute,

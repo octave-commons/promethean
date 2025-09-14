@@ -6,14 +6,14 @@ import { cosine, parseArgs } from "@promethean/utils";
 
 import type { ScanResult, EmbeddingMap, Cluster } from "./types.js";
 
-export interface ClusterArgs {
+export type ClusterArgs = {
   "--scan"?: string;
   "--embeds"?: string;
   "--out"?: string;
   "--sim-threshold"?: string;
   "--k"?: string;
   "--min-size"?: string;
-}
+};
 
 function unionFindClusters(ids: string[], edges: Array<[string, string]>) {
   const parent = new Map<string, string>(ids.map((i) => [i, i]));

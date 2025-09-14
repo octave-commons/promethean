@@ -8,14 +8,14 @@ import { ollamaJSON } from "@promethean/utils";
 import { parseArgs } from "./utils.js";
 import type { ScanResult, Cluster, Plan } from "./types.js";
 
-export interface PlanArgs {
+export type PlanArgs = {
   "--scan"?: string;
   "--clusters"?: string;
   "--out"?: string;
   "--model"?: string;
   "--base-dir"?: string;
   "--force"?: string;
-}
+};
 
 const PlanSchema = z.object({
   title: z.string().min(1),
