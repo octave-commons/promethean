@@ -2,9 +2,9 @@ import * as path from "path";
 import { promises as fs } from "fs";
 
 import { z } from "zod";
+import { ollamaJSON } from "@promethean/utils";
 
 import { parseArgs, writeJSON } from "./utils.js";
-import { ollamaJSON } from "@promethean/utils";
 import type { PlansFile, ApiChange } from "./types.js";
 
 const args = parseArgs({

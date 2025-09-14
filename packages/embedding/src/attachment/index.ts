@@ -7,7 +7,7 @@ import {
 } from "../embedder.js";
 import { makeChromaWrapper } from "../chroma.js";
 
-export interface AttachmentInfo {
+export type AttachmentInfo = {
   urn: string;
   url: string;
   content_type?: string;
@@ -15,14 +15,14 @@ export interface AttachmentInfo {
   sha256?: string;
 }
 
-export interface AttachmentEvent {
+export type AttachmentEvent = {
   provider: string;
   tenant: string;
   message_id: string;
   attachments: AttachmentInfo[];
 }
 
-export interface AttachmentEmbeddingConfig {
+export type AttachmentEmbeddingConfig = {
   chromaUrl: string;
   dim: number;
   textModelId: string;

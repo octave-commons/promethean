@@ -2,6 +2,7 @@ import * as path from "path";
 import * as fs from "fs/promises";
 
 import test from "ava";
+import { cosine } from "@promethean/utils";
 
 import {
   parseMarkdownChunks,
@@ -12,7 +13,6 @@ import {
   writeNDJSON,
   safeReplacer,
 } from "../utils.js";
-import { cosine } from "@promethean/utils";
 
 async function withTmp(fn: (dir: string) => Promise<void> | void) {
   const dir = path.join(

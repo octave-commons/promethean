@@ -7,10 +7,10 @@ import { pathToFileURL } from "node:url";
 import matter from "gray-matter";
 import { z } from "zod";
 import ollama from "ollama";
+import { listFilesRec } from "@promethean/utils";
 
 import { openDB } from "./db.js";
 import { parseArgs, randomUUID } from "./utils.js";
-import { listFilesRec } from "@promethean/utils";
 import type { Front } from "./types.js";
 import type { DBs } from "./db.js";
 

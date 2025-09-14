@@ -2,8 +2,8 @@ import * as path from "path";
 import { promises as fs } from "fs";
 
 import matter from "gray-matter";
-
 import { cosine, parseArgs, ollamaEmbed, writeText } from "@promethean/utils";
+
 import { listTaskFiles } from "./utils.js";
 import type { RepoDoc, Embeddings, TaskContext } from "./types.js";
 
@@ -17,14 +17,14 @@ const args = parseArgs({
 });
 
 async function main() {
-  const tasksDir = path.resolve(args["--tasks"]!);
+  const tasksDir = path.resolve(args["--tasks"]);
   const files = await listTaskFiles(tasksDir);
 
   const index: { docs: RepoDoc[] } = JSON.parse(
-    await fs.readFile(path.resolve(args["--index"]!), "utf-8"),
+    await fs.readFile(path.resolve(args["--index"]), "utf-8"),
   );
   const repoEmb: Embeddings = JSON.parse(
-    await fs.readFile(path.resolve(args["--emb"]!), "utf-8"),
+    await fs.readFile(path.resolve(args["--emb"]), "utf-8"),
   );
   const k = Number(args["--k"]);
 
@@ -38,7 +38,7 @@ async function main() {
       `STATUS: ${gm.data?.status ?? ""}  PRIORITY: ${gm.data?.priority ?? ""}`,
       gm.content,
     ].join("\n");
-    const vec = await ollamaEmbed(args["--embed-model"]!, text);
+    const vec = await ollamaEmbed(args["--embed-model"], text);
 
     const scored = index.docs
       .map((d) => ({
@@ -59,7 +59,7 @@ async function main() {
   }
 
   await writeText(
-    path.resolve(args["--out"]!),
+    path.resolve(args["--out"]),
     JSON.stringify({ contexts: out }, null, 2),
   );
   console.log(`boardrev: matched context for ${out.length} task(s)`);

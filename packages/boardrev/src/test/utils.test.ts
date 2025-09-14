@@ -1,5 +1,4 @@
 import test from "ava";
-
 import { cosine, parseArgs } from "@promethean/utils";
 
 test("parseArgs merges defaults and argv", (t) => {

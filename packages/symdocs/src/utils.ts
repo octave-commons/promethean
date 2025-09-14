@@ -1,7 +1,7 @@
 import * as path from "path";
-import * as crypto from "crypto";
 
 import * as ts from "typescript";
+export { sha1 } from "@promethean/utils";
 
 export function parseArgs(
   defaults: Record<string, string>,
@@ -20,10 +20,6 @@ export function parseArgs(
     return parse(nextIndex, { ...acc, [key]: value });
   };
   return parse(0, { ...defaults });
-}
-
-export function sha1(s: string): string {
-  return crypto.createHash("sha1").update(s).digest("hex");
 }
 
 export function getLangFromExt(p: string): "ts" | "tsx" | "js" | "jsx" {

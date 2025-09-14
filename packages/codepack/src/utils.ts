@@ -1,10 +1,9 @@
 import * as path from "path";
-import matter from "gray-matter";
 import { unified } from "unified";
 import remarkParse from "remark-parse";
 import { visit } from "unist-util-visit";
-import * as crypto from "crypto";
 import { ensureDir } from "@promethean/fs";
+export { sha1, cosine } from "@promethean/utils";
 
 export { ensureDir };
 
@@ -20,10 +19,6 @@ export function parseArgs(defaults: Record<string, string>) {
     out[k] = v;
   }
   return out;
-}
-
-export function sha1(s: string): string {
-  return crypto.createHash("sha1").update(s).digest("hex");
 }
 
 export function relPath(fromRoot: string, fileAbs: string) {

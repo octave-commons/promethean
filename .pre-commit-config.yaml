@@ -25,6 +25,5 @@ repos:
         pass_filenames: false
       - id: eslint-diff
         name: ESLint on diff from main
-        entry: pnpm lint:diff
+        entry: eslint --cache --pass-on-no-patterns
         language: system
-        pass_filenames: false

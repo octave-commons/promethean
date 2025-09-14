@@ -2,6 +2,7 @@ import * as path from "path";
 import * as fs from "fs/promises";
 
 import test from "ava";
+import { listFilesRec } from "@promethean/utils";
 
 import {
   parseArgs,
@@ -14,7 +15,6 @@ import {
   stripGeneratedSections,
   frontToYAML,
 } from "../utils.js";
-import { listFilesRec } from "@promethean/utils";
 
 async function withTmp(fn: (dir: string) => Promise<void> | void) {
   const dir = path.join(

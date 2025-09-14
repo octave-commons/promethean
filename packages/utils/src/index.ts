@@ -14,3 +14,4 @@ export { getJsDocText, getNodeText, posToLine } from "./ts-ast.js";
 export { listFilesRec } from "./list-files-rec.js";
 export { OLLAMA_URL, ollamaEmbed, ollamaJSON } from "./ollama.js";
 export { readText, writeText, readMaybe } from "./files.js";
+export { sha1 } from "./hash.js";
