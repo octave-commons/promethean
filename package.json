@@ -102,7 +102,10 @@
     "overrides": {
       "fastify": "5.0.0",
       "@fastify/static": "8.2.0",
-      "@fastify/websocket": "11.2.0"
+      "@fastify/websocket": "11.2.0",
+      "@fastify/rate-limit": "10.3.0",
+      "@fastify/swagger": "9.5.1",
+      "@fastify/swagger-ui": "5.2.3"
     }
   }
 }
