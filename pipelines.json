@@ -90,14 +90,14 @@
             "export": "embed",
             "args": {
               "--in": ".cache/simtasks/functions.json",
-              "--out": ".cache/simtasks/embeddings.json",
+              "--out": ".cache/simtasks/embeddings",
               "--embed-model": "nomic-embed-text:latest"
             },
             "isolate": "worker"
           },
           "env": { "OLLAMA_URL": "${OLLAMA_URL}" },
           "inputs": [".cache/simtasks/functions.json"],
-          "outputs": [".cache/simtasks/embeddings.json"],
+          "outputs": [".cache/simtasks/embeddings"],
           "inputSchema": "packages/simtask/schemas/io.schema.json",
           "outputSchema": "packages/simtask/schemas/io.schema.json"
         },
@@ -109,7 +109,7 @@
             "export": "cluster",
             "args": {
               "--scan": ".cache/simtasks/functions.json",
-              "--embeds": ".cache/simtasks/embeddings.json",
+              "--embeds": ".cache/simtasks/embeddings",
               "--out": ".cache/simtasks/clusters.json",
               "--sim-threshold": "0.86",
               "--k": "12",
@@ -117,7 +117,7 @@
             },
             "isolate": "worker"
           },
-          "inputs": [".cache/simtasks/embeddings.json"],
+          "inputs": [".cache/simtasks/embeddings"],
           "outputs": [".cache/simtasks/clusters.json"],
           "inputSchema": "packages/simtask/schemas/io.schema.json",
           "outputSchema": "packages/simtask/schemas/io.schema.json"
