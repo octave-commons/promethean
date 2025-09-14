@@ -8,6 +8,9 @@
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "clean": "rimraf dist"
   },
+  "bin": {
+    "docops-check-changelog": "dist/changelog/check.js"
+  },
   "dependencies": {
     "@chroma-core/ollama": "^0.1.7",
     "@fastify/static": "^8.2.0",
