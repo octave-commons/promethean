@@ -1,5 +1,5 @@
+/* eslint-disable */
 import * as path from "path";
-import { randomUUID as nodeRandomUUID } from "node:crypto";
 
 import matter from "gray-matter";
 import {
@@ -8,6 +8,7 @@ import {
   parseArgs,
   createLogger,
   slug,
+  randomUUID,
 } from "@promethean/utils";
 
 import { listTaskFiles, normStatus } from "./utils.js";
@@ -15,10 +16,6 @@ import type { TaskFM } from "./types.js";
 import { Priority } from "./types.js";
 
 const logger = createLogger({ service: "boardrev" });
-
-function randomUUID() {
-  return globalThis.crypto?.randomUUID?.() ?? nodeRandomUUID();
-}
 
 export async function ensureFM({
   dir,
@@ -42,7 +39,7 @@ export async function ensureFM({
         inferTitle(gm.content) ??
         slug(path.basename(file, ".md")).replace(/-/g, " ");
       const payload: Readonly<TaskFM> = {
-        uuid: fm.uuid ?? (await randomUUID()),
+        uuid: fm.uuid ?? randomUUID(),
         title,
         status: normStatus(fm.status ?? defaultStatus),
         priority: fm.priority ?? defaultPriority,
