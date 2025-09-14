@@ -4,8 +4,7 @@ import * as path from "path";
 import { z } from "zod";
 import { parseArgs } from "./utils.js";
 import type { BlockManifest, Cluster, NamePlan } from "./types.js";
-
-const OLLAMA_URL = process.env.OLLAMA_URL ?? "http://localhost:11434";
+import { ollamaJSON } from "@promethean/utils";
 
 const args = parseArgs({
   "--blocks": ".cache/codepack/blocks.json",
@@ -38,31 +37,6 @@ const ResponseSchema = z.object({
     }),
   ),
 });
-
-async function ollamaJSON(model: string, prompt: string) {
-  const res = await fetch(`${OLLAMA_URL}/api/generate`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      model,
-      prompt,
-      stream: false,
-      options: { temperature: 0 },
-      format: "json",
-    }),
-  });
-  if (!res.ok) throw new Error(`ollama generate ${res.status}`);
-  const data = await res.json();
-  const text =
-    typeof data.response === "string"
-      ? data.response
-      : JSON.stringify(data.response);
-  const cleaned = text
-    .replace(/```json\s*/g, "")
-    .replace(/```\s*$/g, "")
-    .trim();
-  return JSON.parse(cleaned);
-}
 
 async function main() {
   const blocksPath = path.resolve(args["--blocks"]);

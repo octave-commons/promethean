@@ -3,8 +3,7 @@ import { promises as fs } from "fs";
 import * as path from "path";
 import { parseArgs } from "./utils.js";
 import type { BlockManifest, EmbeddingMap } from "./types.js";
-
-const OLLAMA_URL = process.env.OLLAMA_URL ?? "http://localhost:11434";
+import { ollamaEmbed } from "@promethean/utils";
 
 const args = parseArgs({
   "--blocks": ".cache/codepack/blocks.json",
@@ -12,17 +11,6 @@ const args = parseArgs({
   "--embed-model": "nomic-embed-text:latest",
   "--mix-context": "true", // include before/after in embedding
 });
-
-async function ollamaEmbed(model: string, text: string): Promise<number[]> {
-  const res = await fetch(`${OLLAMA_URL}/api/embeddings`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ model, prompt: text }),
-  });
-  if (!res.ok) throw new Error(`ollama embeddings ${res.status}`);
-  const data = await res.json();
-  return data.embedding as number[];
-}
 
 async function main() {
   const blocksPath = path.resolve(args["--blocks"]);
