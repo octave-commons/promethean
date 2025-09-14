@@ -2,8 +2,9 @@ import { promises as fs } from "fs";
 import * as path from "path";
 
 import { z } from "zod";
+import { ollamaJSON } from "@promethean/utils";
 
-import { parseArgs, ollamaJSON, writeJSON, uuid } from "./utils.js";
+import { parseArgs, writeJSON, uuid } from "./utils.js";
 import type {
   ScanOutput,
   ClassesFile,
@@ -17,7 +18,7 @@ const args = parseArgs({
   "--classes": ".cache/cookbook/classes.json",
   "--groups": ".cache/cookbook/groups.json",
   "--out": ".cache/cookbook/plan.json",
-  "--llm": "qwen3:4b"
+  "--llm": "qwen3:4b",
 } as const);
 
 const RecipeSchema = z.object({

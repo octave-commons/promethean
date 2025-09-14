@@ -2,6 +2,7 @@ import { promises as fs } from "fs";
 import * as path from "path";
 
 import { z } from "zod";
+import { ollamaJSON } from "@promethean/utils";
 
 import { parseArgs } from "./utils.js";
 import type { ScanResult, Cluster, Plan } from "./types.js";
@@ -25,34 +26,6 @@ const PlanSchema = z.object({
   steps: z.array(z.string()).optional(),
   acceptance: z.array(z.string()).optional(),
 });
-
-async function ollamaJSON(model: string, prompt: string) {
-  const res = await fetch(
-    `${process.env.OLLAMA_URL ?? "http://localhost:11434"}/api/generate`,
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        model,
-        prompt,
-        stream: false,
-        options: { temperature: 0 },
-        format: "json",
-      }),
-    },
-  );
-  if (!res.ok) throw new Error(`ollama generate ${res.status}`);
-  const data: any = await res.json();
-  const raw =
-    typeof data.response === "string"
-      ? data.response
-      : JSON.stringify(data.response);
-  const cleaned = raw
-    .replace(/```json\s*/g, "")
-    .replace(/```\s*$/g, "")
-    .trim();
-  return JSON.parse(cleaned);
-}
 
 async function main() {
   const SCAN = path.resolve(args["--scan"] ?? ".cache/simtasks/functions.json");

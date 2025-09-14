@@ -1,6 +1,7 @@
 import test from 'ava';
 import type { Db, ResumeToken } from 'mongodb';
 import type { EventBus } from '@promethean/event/types.js';
+
 import { startMongoChangefeed } from '../mongo.js';
 
 test('changefeed publishes mapped payloads and saves resume token', async (t) => {
@@ -12,7 +13,7 @@ test('changefeed publishes mapped payloads and saves resume token', async (t) =>
             fullDocument: { _id: 1, foo: 'bar' },
             operationType: 'insert',
             clusterTime: 1 as any,
-            _id: { token: 1 } as unknown as ResumeToken,
+            _id: { token: 1 } as unknown,
         },
     ];
 
@@ -65,5 +66,5 @@ test('changefeed publishes mapped payloads and saves resume token', async (t) =>
     t.deepEqual(published, ['bar']);
     t.is(published.length, 1);
     t.is(saved.length, 1);
-    t.deepEqual(saved[0]!, events[0]!._id as ResumeToken);
+    t.deepEqual(saved[0]!, events[0]!._id);
 });

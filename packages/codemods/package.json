@@ -20,7 +20,8 @@
     "diff": "^5.2.0",
     "globby": "^14.0.2",
     "ts-morph": "^22.0.0",
-    "yaml": "^2.5.0"
+    "yaml": "^2.5.0",
+    "@promethean/utils": "workspace:*"
   },
   "devDependencies": {
     "tsx": "^4.19.2"

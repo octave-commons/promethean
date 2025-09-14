@@ -1,7 +1,8 @@
 import { randomUUID, UUID } from "crypto";
-import EventEmitter from "events";
+import { EventEmitter } from "node:events";
 
 import {
+  AudioPlayer,
   AudioPlayerStatus,
   EndBehaviorType,
   StreamType,
@@ -14,6 +15,7 @@ import {
   joinVoiceChannel,
 } from "@discordjs/voice";
 import * as discord from "discord.js";
+import { createLogger } from "@promethean/utils";
 
 import { Speaker } from "./speaker.js";
 // import {Transcript} from "./transcript"
@@ -30,7 +32,12 @@ export type VoiceSessionOptions = {
   voiceChannelId: string;
   guild: discord.Guild;
 };
-export class VoiceSession extends EventEmitter {
+export type VoiceSessionEvents = {
+  readonly audioPlayerStart: [AudioPlayer];
+  readonly audioPlayerStop: [AudioPlayer];
+};
+
+export class VoiceSession extends EventEmitter<VoiceSessionEvents> {
   id: UUID;
   guild: discord.Guild;
   voiceChannelId: string;
@@ -41,6 +48,7 @@ export class VoiceSession extends EventEmitter {
   transcriber: Transcriber;
   recorder: VoiceRecorder;
   voiceSynth: VoiceSynth;
+  #log = createLogger({ service: "voice:session" });
   constructor(options: VoiceSessionOptions) {
     super();
     this.id = randomUUID();
@@ -74,7 +82,7 @@ export class VoiceSession extends EventEmitter {
     try {
       this.registerSpeakingListener();
     } catch (err) {
-      console.error(err);
+      this.#log.error("failed to register speaking listener", { err });
       throw new Error("Something went wrong starting the voice session");
     }
   }
@@ -91,16 +99,16 @@ export class VoiceSession extends EventEmitter {
             try {
               speaker.stream?.destroy();
             } catch (e) {
-              console.warn("Failed to destroy stream cleanly", e);
+              this.#log.warn("failed to destroy stream cleanly", { err: e });
             }
           });
 
           speaker.stream.on("error", (err: unknown) => {
-            console.warn(`Stream error for ${userId}:`, err);
+            this.#log.warn("stream error", { userId, err });
           });
 
           speaker.stream.on("close", () => {
-            console.log(`Stream closed for ${userId}`);
+            this.#log.info("stream closed", { userId });
             speaker.stream = null;
           });
 

@@ -1,7 +1,8 @@
 import { promises as fs } from "fs";
 import * as path from "path";
 
-import { parseArgs, cosine } from "./utils.js";
+import { cosine, parseArgs } from "@promethean/utils";
+
 import type { ScanResult, EmbeddingMap, Cluster } from "./types.js";
 
 const args = parseArgs({

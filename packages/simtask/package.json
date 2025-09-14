@@ -20,6 +20,7 @@
     "sim:all": "pnpm sim:01-scan && pnpm sim:02-embed && pnpm sim:03-cluster && pnpm sim:04-plan && pnpm sim:05-write"
   },
   "dependencies": {
+    "@promethean/utils": "workspace:*",
     "gray-matter": "^4.0.3",
     "yaml": "^2.5.0",
     "zod": "^3.23.8"

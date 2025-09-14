@@ -4,8 +4,9 @@ import { pathToFileURL } from "node:url";
 
 import { Project, SyntaxKind } from "ts-morph";
 import { diffLines } from "diff";
+import { relFromRepo } from "@promethean/utils";
 
-import { listCodeFiles, relFromRepo } from "./utils.js";
+import { listCodeFiles } from "./utils.js";
 
 const args = parseArgs({
   "--root": "packages",
@@ -15,7 +16,7 @@ const args = parseArgs({
   "--specs": ".cache/codemods/specs.json",
   "--delete-duplicates": "true",
 });
- 
+
 const specsPath = args["--specs"];
 
 function parseArgs<T extends Record<string, string>>(defaults: T): T {
@@ -117,7 +118,7 @@ async function main() {
 
       if (MODE === "dry") {
         const diffs = diffLines(before, after);
-         
+
         const pretty = diffs
           .map((part: any) => {
             const prefix = part.added ? "+" : part.removed ? "-" : " ";

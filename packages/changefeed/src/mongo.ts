@@ -1,5 +1,4 @@
-/* eslint-disable functional/no-let, functional/no-loop-statements, functional/no-try-statements, max-lines-per-function */
-import type { Db, ChangeStreamDocument } from 'mongodb';
+import type { Db } from 'mongodb';
 import type { EventBus } from '@promethean/event/types.js';
 import { retry, createLogger } from '@promethean/utils';
 
@@ -51,7 +50,7 @@ export async function startMongoChangefeed<TDoc extends { _id?: unknown }, TPayl
                         try {
                             for await (const change of cs) {
                                 if (stopped) break;
-                                const c = change as ChangeStreamDocument<TDoc>;
+                                const c = change;
                                 const doc =
                                     'fullDocument' in c && (c as any).fullDocument
                                         ? ((c as any).fullDocument as TDoc)

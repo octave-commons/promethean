@@ -2,10 +2,10 @@ import * as path from "path";
 import * as fs from "fs/promises";
 
 import test from "ava";
+import { listFilesRec } from "@promethean/utils";
 
 import {
   parseArgs,
-  listFilesRec,
   randomUUID,
   slugify,
   extnamePrefer,

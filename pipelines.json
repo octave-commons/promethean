@@ -1,28 +1,35 @@
 {
   "pipelines": [
     {
-      "name": "docs",
+      "name": "symdocs",
       "steps": [
         {
           "id": "symdocs-scan",
           "cwd": ".",
-          "shell": "pnpm --filter @promethean/symdocs symdocs:01-scan --root packages --tsconfig ./config/tsconfig.base.json",
+          "shell": "pnpm --filter @promethean/symdocs symdocs:01-scan",
           "inputs": ["packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"],
-          "outputs": [".cache/symdocs/symbols.json"]
+          "outputs": [".cache/symdocs/symbols.json"],
+          "inputSchema": "packages/symdocs/schemas/io.schema.json",
+          "outputSchema": "packages/symdocs/schemas/io.schema.json"
         },
         {
           "id": "symdocs-docs",
           "deps": ["symdocs-scan"],
           "shell": "pnpm --filter @promethean/symdocs symdocs:02-docs --model qwen3:4b",
+          "env": { "OLLAMA_URL": "${OLLAMA_URL}" },
           "inputs": [".cache/symdocs/symbols.json"],
-          "outputs": [".cache/symdocs/docs.json"]
+          "outputs": [".cache/symdocs/docs.json"],
+          "inputSchema": "packages/symdocs/schemas/io.schema.json",
+          "outputSchema": "packages/symdocs/schemas/io.schema.json"
         },
         {
           "id": "symdocs-write",
           "deps": ["symdocs-docs"],
           "shell": "pnpm --filter @promethean/symdocs symdocs:03-write --out docs/packages --granularity module",
           "inputs": [".cache/symdocs/docs.json"],
-          "outputs": ["docs/packages/**/**/*.md"]
+          "outputs": ["docs/packages/**/**/*.md"],
+          "inputSchema": "packages/symdocs/schemas/io.schema.json",
+          "outputSchema": "packages/symdocs/schemas/io.schema.json"
         },
         {
           "id": "symdocs-graph",
@@ -32,7 +39,9 @@
             "packages/**/package.json",
             "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"
           ],
-          "outputs": ["docs/packages/README.md", "docs/packages/**/README.md"]
+          "outputs": ["docs/packages/README.md", "docs/packages/**/README.md"],
+          "inputSchema": "packages/symdocs/schemas/io.schema.json",
+          "outputSchema": "packages/symdocs/schemas/io.schema.json"
         }
       ]
     },
@@ -43,35 +52,47 @@
           "id": "simtasks-scan",
           "shell": "pnpm --filter @promethean/simtasks sim:01-scan --root packages --tsconfig ./tsconfig.json",
           "inputs": ["packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"],
-          "outputs": [".cache/simtasks/functions.json"]
+          "outputs": [".cache/simtasks/functions.json"],
+          "inputSchema": "packages/simtask/schemas/io.schema.json",
+          "outputSchema": "packages/simtask/schemas/io.schema.json"
         },
         {
           "id": "simtasks-embed",
           "deps": ["simtasks-scan"],
           "shell": "pnpm --filter @promethean/simtasks sim:02-embed --embed-model nomic-embed-text:latest",
+          "env": { "OLLAMA_URL": "${OLLAMA_URL}" },
           "inputs": [".cache/simtasks/functions.json"],
-          "outputs": [".cache/simtasks/embeddings.json"]
+          "outputs": [".cache/simtasks/embeddings.json"],
+          "inputSchema": "packages/simtask/schemas/io.schema.json",
+          "outputSchema": "packages/simtask/schemas/io.schema.json"
         },
         {
           "id": "simtasks-cluster",
           "deps": ["simtasks-embed"],
           "shell": "pnpm --filter @promethean/simtasks sim:03-cluster --sim-threshold 0.86 --k 12 --min-size 2",
           "inputs": [".cache/simtasks/embeddings.json"],
-          "outputs": [".cache/simtasks/clusters.json"]
+          "outputs": [".cache/simtasks/clusters.json"],
+          "inputSchema": "packages/simtask/schemas/io.schema.json",
+          "outputSchema": "packages/simtask/schemas/io.schema.json"
         },
         {
           "id": "simtasks-plan",
           "deps": ["simtasks-cluster"],
           "shell": "pnpm --filter @promethean/simtasks sim:04-plan --model qwen3:4b --base-dir packages",
+          "env": { "OLLAMA_URL": "${OLLAMA_URL}" },
           "inputs": [".cache/simtasks/clusters.json"],
-          "outputs": [".cache/simtasks/plans.json"]
+          "outputs": [".cache/simtasks/plans.json"],
+          "inputSchema": "packages/simtask/schemas/io.schema.json",
+          "outputSchema": "packages/simtask/schemas/io.schema.json"
         },
         {
           "id": "simtasks-write",
           "deps": ["simtasks-plan"],
           "shell": "pnpm --filter @promethean/simtasks sim:05-write --out docs/agile/tasks",
           "inputs": [".cache/simtasks/plans.json"],
-          "outputs": ["docs/agile/tasks/*.md"]
+          "outputs": ["docs/agile/tasks/*.md"],
+          "inputSchema": "packages/simtask/schemas/io.schema.json",
+          "outputSchema": "packages/simtask/schemas/io.schema.json"
         }
       ]
     },
@@ -79,17 +100,32 @@
       "name": "codemods",
       "steps": [
         {
+          "id": "mods-simtasks",
+          "shell": "bash -lc 'if [ ! -f .cache/simtasks/functions.json ] || [ ! -f .cache/simtasks/clusters.json ] || [ ! -f .cache/simtasks/plans.json ]; then pnpm --filter @promethean/piper piper run simtasks --config pipelines.json; fi'",
+          "inputs": [],
+          "outputs": [
+            ".cache/simtasks/functions.json",
+            ".cache/simtasks/clusters.json",
+            ".cache/simtasks/plans.json"
+          ]
+        },
+        {
           "id": "mods-spec",
+          "deps": ["mods-simtasks"],
           "shell": "pnpm --filter @promethean/codemods mods:01-spec --tsconfig ./tsconfig.json",
           "inputs": [".cache/simtasks/{functions,clusters,plans}.json"],
-          "outputs": [".cache/codemods/specs.json"]
+          "outputs": [".cache/codemods/specs.json"],
+          "inputSchema": "packages/codemods/schemas/io.schema.json",
+          "outputSchema": "packages/codemods/schemas/io.schema.json"
         },
         {
           "id": "mods-generate",
           "deps": ["mods-spec"],
           "shell": "pnpm --filter @promethean/codemods mods:02-generate",
           "inputs": [".cache/codemods/specs.json"],
-          "outputs": ["codemods/**/transform.ts"]
+          "outputs": ["codemods/**/transform.ts"],
+          "inputSchema": "packages/codemods/schemas/io.schema.json",
+          "outputSchema": "packages/codemods/schemas/io.schema.json"
         },
         {
           "id": "mods-dry-run",
@@ -99,14 +135,18 @@
             "codemods/**/transform.ts",
             "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"
           ],
-          "outputs": ["docs/agile/tasks/codemods/*.md"]
+          "outputs": ["docs/agile/tasks/codemods/*.md"],
+          "inputSchema": "packages/codemods/schemas/io.schema.json",
+          "outputSchema": "packages/codemods/schemas/io.schema.json"
         },
         {
           "id": "mods-apply",
           "deps": ["mods-dry-run"],
           "shell": "pnpm --filter @promethean/codemods mods:03-apply --root packages --report docs/agile/tasks/codemods --specs .cache/codemods/specs.json --delete-duplicates true",
           "inputs": ["codemods/**/transform.ts"],
-          "outputs": [".cache/codemods/run-apply.json"]
+          "outputs": [".cache/codemods/run-apply.json"],
+          "inputSchema": "packages/codemods/schemas/io.schema.json",
+          "outputSchema": "packages/codemods/schemas/io.schema.json"
         },
         {
           "id": "mods-verify",
@@ -116,7 +156,9 @@
           "outputs": [
             "docs/agile/tasks/codemods/verify-after.md",
             "docs/agile/tasks/codemods/VERIFY.md"
-          ]
+          ],
+          "inputSchema": "packages/codemods/schemas/io.schema.json",
+          "outputSchema": "packages/codemods/schemas/io.schema.json"
         }
       ]
     },
@@ -130,28 +172,37 @@
             "packages/**/package.json",
             "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"
           ],
-          "outputs": [".cache/semverguard/snapshot.json"]
+          "outputs": [".cache/semverguard/snapshot.json"],
+          "inputSchema": "packages/semvergaurd/schemas/io.schema.json",
+          "outputSchema": "packages/semvergaurd/schemas/io.schema.json"
         },
         {
           "id": "sv-diff",
           "deps": ["sv-snapshot"],
           "shell": "pnpm --filter @promethean/semverguard sv:02-diff --current .cache/semverguard/snapshot.json --baseline git:origin/main:.cache/semverguard/snapshot.json --out .cache/semverguard/diff.json",
           "inputs": [".cache/semverguard/snapshot.json"],
-          "outputs": [".cache/semverguard/diff.json"]
+          "outputs": [".cache/semverguard/diff.json"],
+          "inputSchema": "packages/semvergaurd/schemas/io.schema.json",
+          "outputSchema": "packages/semvergaurd/schemas/io.schema.json"
         },
         {
           "id": "sv-plan",
           "deps": ["sv-diff"],
           "shell": "pnpm --filter @promethean/semverguard sv:03-plan --diff .cache/semverguard/diff.json --out .cache/semverguard/plans.json --model qwen3:4b",
+          "env": { "OLLAMA_URL": "${OLLAMA_URL}" },
           "inputs": [".cache/semverguard/diff.json"],
-          "outputs": [".cache/semverguard/plans.json"]
+          "outputs": [".cache/semverguard/plans.json"],
+          "inputSchema": "packages/semvergaurd/schemas/io.schema.json",
+          "outputSchema": "packages/semvergaurd/schemas/io.schema.json"
         },
         {
           "id": "sv-write",
           "deps": ["sv-plan"],
           "shell": "pnpm --filter @promethean/semverguard sv:04-write --plans .cache/semverguard/plans.json --out docs/agile/tasks/semver",
           "inputs": [".cache/semverguard/plans.json"],
-          "outputs": ["docs/agile/tasks/semver/*.md"]
+          "outputs": ["docs/agile/tasks/semver/*.md"],
+          "inputSchema": "packages/semvergaurd/schemas/io.schema.json",
+          "outputSchema": "packages/semvergaurd/schemas/io.schema.json"
         },
         {
           "id": "sv-pr",
@@ -161,7 +212,9 @@
             ".cache/semverguard/plans.json",
             "packages/**/package.json"
           ],
-          "outputs": [".cache/semverguard/pr/summary.json"]
+          "outputs": [".cache/semverguard/pr/summary.json"],
+          "inputSchema": "packages/semvergaurd/schemas/io.schema.json",
+          "outputSchema": "packages/semvergaurd/schemas/io.schema.json"
         }
       ]
     },
@@ -172,14 +225,18 @@
           "id": "br-fm",
           "shell": "pnpm --filter @promethean/boardrev br:01-fm",
           "inputs": ["docs/agile/tasks/**/*.md"],
-          "outputs": ["docs/agile/tasks/**/*.md"]
+          "outputs": ["docs/agile/tasks/**/*.md"],
+          "inputSchema": "packages/boardrev/schemas/io.schema.json",
+          "outputSchema": "packages/boardrev/schemas/io.schema.json"
         },
         {
           "id": "br-prompts",
           "deps": ["br-fm"],
           "shell": "pnpm --filter @promethean/boardrev br:02-prompts --process docs/agile/Process.md --out .cache/boardrev/prompts.json",
           "inputs": ["docs/agile/Process.md"],
-          "outputs": [".cache/boardrev/prompts.json"]
+          "outputs": [".cache/boardrev/prompts.json"],
+          "inputSchema": "packages/boardrev/schemas/io.schema.json",
+          "outputSchema": "packages/boardrev/schemas/io.schema.json"
         },
         {
           "id": "br-index",
@@ -193,7 +250,9 @@
           "outputs": [
             ".cache/boardrev/repo-index.json",
             ".cache/boardrev/repo-embeddings.json"
-          ]
+          ],
+          "inputSchema": "packages/boardrev/schemas/io.schema.json",
+          "outputSchema": "packages/boardrev/schemas/io.schema.json"
         },
         {
           "id": "br-match",
@@ -204,24 +263,32 @@
             ".cache/boardrev/repo-index.json",
             ".cache/boardrev/repo-embeddings.json"
           ],
-          "outputs": [".cache/boardrev/context.json"]
+          "outputs": [".cache/boardrev/context.json"],
+          "inputSchema": "packages/boardrev/schemas/io.schema.json",
+          "outputSchema": "packages/boardrev/schemas/io.schema.json"
         },
         {
           "id": "br-eval",
           "deps": ["br-match"],
           "shell": "pnpm --filter @promethean/boardrev br:05-eval --model qwen3:4b",
+          "env": { "OLLAMA_URL": "${OLLAMA_URL}" },
+
           "inputs": [
             ".cache/boardrev/prompts.json",
             ".cache/boardrev/context.json"
           ],
-          "outputs": [".cache/boardrev/evals.json"]
+          "outputs": [".cache/boardrev/evals.json"],
+          "inputSchema": "packages/boardrev/schemas/io.schema.json",
+          "outputSchema": "packages/boardrev/schemas/io.schema.json"
         },
         {
           "id": "br-report",
           "deps": ["br-eval"],
           "shell": "pnpm --filter @promethean/boardrev br:06-report --outDir docs/agile/reports",
           "inputs": [".cache/boardrev/evals.json"],
-          "outputs": ["docs/agile/reports/*.md"]
+          "outputs": ["docs/agile/reports/*.md"],
+          "inputSchema": "packages/boardrev/schemas/io.schema.json",
+          "outputSchema": "packages/boardrev/schemas/io.schema.json"
         }
       ]
     },
@@ -241,28 +308,45 @@
             "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}",
             "sonar-project.properties"
           ],
-          "outputs": [".cache/sonar/scan.touch"]
+          "outputs": [".cache/sonar/scan.touch"],
+          "inputSchema": "packages/sonarflow/schemas/io.schema.json",
+          "outputSchema": "packages/sonarflow/schemas/io.schema.json"
         },
         {
           "id": "sonar-fetch",
           "deps": ["sonar-scan"],
+          "env": {
+            "SONAR_HOST_URL": "${SONAR_HOST_URL}",
+            "SONAR_TOKEN": "${SONAR_TOKEN}",
+            "SONAR_PROJECT_KEY": "${SONAR_PROJECT_KEY}"
+          },
           "shell": "pnpm --filter @promethean/sonarflow sonar:fetch --project ${SONAR_PROJECT_KEY} --out .cache/sonar/issues.json",
           "inputs": [],
-          "outputs": [".cache/sonar/issues.json"]
+          "outputs": [".cache/sonar/issues.json"],
+          "inputSchema": "packages/sonarflow/schemas/io.schema.json",
+          "outputSchema": "packages/sonarflow/schemas/io.schema.json"
         },
         {
           "id": "sonar-plan",
           "deps": ["sonar-fetch"],
+          "env": {
+            "OLLAMA_URL": "${OLLAMA_URL}"
+          },
           "shell": "pnpm --filter @promethean/sonarflow sonar:plan --in .cache/sonar/issues.json --out .cache/sonar/plans.json --group-by rule+prefix --prefix-depth 2 --min-group 2 --model qwen3:4b",
+          "env": { "OLLAMA_URL": "${OLLAMA_URL}" },
           "inputs": [".cache/sonar/issues.json"],
-          "outputs": [".cache/sonar/plans.json"]
+          "outputs": [".cache/sonar/plans.json"],
+          "inputSchema": "packages/sonarflow/schemas/io.schema.json",
+          "outputSchema": "packages/sonarflow/schemas/io.schema.json"
         },
         {
           "id": "sonar-write",
           "deps": ["sonar-plan"],
           "shell": "pnpm --filter @promethean/sonarflow sonar:write --in .cache/sonar/plans.json --out docs/agile/tasks/sonar",
           "inputs": [".cache/sonar/plans.json"],
-          "outputs": ["docs/agile/tasks/sonar/*.md"]
+          "outputs": ["docs/agile/tasks/sonar/*.md"],
+          "inputSchema": "packages/sonarflow/schemas/io.schema.json",
+          "outputSchema": "packages/sonarflow/schemas/io.schema.json"
         }
       ]
     },
@@ -272,7 +356,8 @@
         {
           "id": "rm-scan",
           "shell": "pnpm --filter @promethean/readmeflow rm:01-scan --root packages",
-          "inputs": ["packages/**/package.json", "packages/**/tsconfig.json"]
+          "inputs": ["packages/**/package.json", "packages/**/tsconfig.json"],
+          "inputSchema": "packages/readmeflow/schemas/io.schema.json"
         },
         {
           "id": "rm-outline",
@@ -286,14 +371,17 @@
           "id": "rm-write",
           "deps": ["rm-outline"],
           "shell": "pnpm --filter @promethean/readmeflow rm:03-write --mermaid true",
-          "outputs": ["packages/**/README.md"]
+          "outputs": ["packages/**/README.md"],
+          "outputSchema": "packages/readmeflow/schemas/io.schema.json"
         },
         {
           "id": "rm-verify",
           "deps": ["rm-write"],
           "shell": "pnpm --filter @promethean/readmeflow rm:04-verify --root packages --out docs/agile/reports/readmes",
           "inputs": ["packages/**/README.md"],
-          "outputs": ["docs/agile/reports/readmes/*.md"]
+          "outputs": ["docs/agile/reports/readmes/*.md"],
+          "inputSchema": "packages/readmeflow/schemas/io.schema.json",
+          "outputSchema": "packages/readmeflow/schemas/io.schema.json"
         }
       ]
     },
@@ -301,17 +389,29 @@
       "name": "buildfix",
       "steps": [
         {
+          "id": "bf-build",
+          "shell": "pnpm --filter @promethean/buildfix build",
+          "inputs": [
+            "packages/buildfix/tsconfig.json",
+            "packages/buildfix/src/**/*"
+          ],
+          "outputs": ["packages/buildfix/dist/**"]
+        },
+        {
           "id": "bf-errors",
+          "deps": ["bf-build"],
           "shell": "pnpm --filter @promethean/buildfix bf:01-errors --tsconfig tsconfig.json --out .cache/buildfix/errors.json",
           "inputs": [
             "tsconfig.json",
             "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"
           ],
-          "outputs": [".cache/buildfix/errors.json"]
+          "outputs": [".cache/buildfix/errors.json"],
+          "inputSchema": "packages/buildfix/schemas/io.schema.json",
+          "outputSchema": "packages/buildfix/schemas/io.schema.json"
         },
         {
           "id": "bf-iterate",
-          "deps": ["bf-errors"],
+          "deps": ["bf-build", "bf-errors"],
           "shell": "pnpm --filter @promethean/buildfix bf:02-iterate --errors .cache/buildfix/errors.json --out .cache/buildfix --model qwen3:4b --max-cycles 5 --git per-error --commit-on always --branch-prefix buildfix --remote origin --push false --use-gh false --rollback-on-regress true\n",
           "env": {
             "OLLAMA_URL": "${OLLAMA_URL}"
@@ -325,14 +425,18 @@
             ".cache/buildfix/summary.json",
             ".cache/buildfix/history/**",
             ".cache/buildfix/snippets/**"
-          ]
+          ],
+          "inputSchema": "packages/buildfix/schemas/io.schema.json",
+          "outputSchema": "packages/buildfix/schemas/io.schema.json"
         },
         {
           "id": "bf-report",
-          "deps": ["bf-iterate"],
+          "deps": ["bf-build", "bf-iterate"],
           "shell": "pnpm --filter @promethean/buildfix bf:03-report --summary .cache/buildfix/summary.json --history-root .cache/buildfix/history --out docs/agile/reports/buildfix",
           "inputs": [".cache/buildfix/summary.json"],
-          "outputs": ["docs/agile/reports/buildfix/*.md"]
+          "outputs": ["docs/agile/reports/buildfix/*.md"],
+          "inputSchema": "packages/buildfix/schemas/io.schema.json",
+          "outputSchema": "packages/buildfix/schemas/io.schema.json"
         }
       ]
     },
@@ -346,13 +450,22 @@
             "packages/**/package.json",
             "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"
           ],
-          "outputs": [".cache/testgap/exports.json"]
+          "outputs": [".cache/testgap/exports.json"],
+          "inputSchema": "packages/testgap/schemas/io.schema.json",
+          "outputSchema": "packages/testgap/schemas/io.schema.json"
+        },
+        {
+          "id": "tg-tests",
+          "shell": "pnpm -w -r test -- --coverage"
         },
         {
           "id": "tg-coverage",
+          "deps": ["tg-tests"],
           "shell": "pnpm --filter @promethean/testgap tg:02-read-coverage --lcov-globs \"{coverage/lcov.info,packages/**/coverage/lcov.info}\" --out .cache/testgap/coverage.json",
           "inputs": ["coverage/lcov.info", "packages/**/coverage/lcov.info"],
-          "outputs": [".cache/testgap/coverage.json"]
+          "outputs": [".cache/testgap/coverage.json"],
+          "inputSchema": "packages/testgap/schemas/io.schema.json",
+          "outputSchema": "packages/testgap/schemas/io.schema.json"
         },
         {
           "id": "tg-map",
@@ -362,21 +475,27 @@
             ".cache/testgap/exports.json",
             ".cache/testgap/coverage.json"
           ],
-          "outputs": [".cache/testgap/gaps.json"]
+          "outputs": [".cache/testgap/gaps.json"],
+          "inputSchema": "packages/testgap/schemas/io.schema.json",
+          "outputSchema": "packages/testgap/schemas/io.schema.json"
         },
         {
           "id": "tg-gate",
           "deps": ["tg-map"],
           "shell": "pnpm --filter @promethean/testgap tg:08-gate --gaps .cache/testgap/gaps.json --out .cache/testgap/gate.json --threshold 0.70 --metric symbols",
           "inputs": [".cache/testgap/gaps.json"],
-          "outputs": [".cache/testgap/gate.json"]
+          "outputs": [".cache/testgap/gate.json"],
+          "inputSchema": "packages/testgap/schemas/io.schema.json",
+          "outputSchema": "packages/testgap/schemas/io.schema.json"
         },
         {
           "id": "tg-cookbook",
           "deps": ["tg-map"],
           "shell": "pnpm --filter @promethean/testgap tg:04-cookbook-cross --recipes docs/cookbook/**/*.md --out .cache/testgap/cookbook.json",
           "inputs": ["docs/cookbook/**/*.md"],
-          "outputs": [".cache/testgap/cookbook.json"]
+          "outputs": [".cache/testgap/cookbook.json"],
+          "inputSchema": "packages/testgap/schemas/io.schema.json",
+          "outputSchema": "packages/testgap/schemas/io.schema.json"
         },
         {
           "id": "tg-plan",
@@ -389,21 +508,27 @@
             ".cache/testgap/gaps.json",
             ".cache/testgap/cookbook.json"
           ],
-          "outputs": [".cache/testgap/plans.json"]
+          "outputs": [".cache/testgap/plans.json"],
+          "inputSchema": "packages/testgap/schemas/io.schema.json",
+          "outputSchema": "packages/testgap/schemas/io.schema.json"
         },
         {
           "id": "tg-write",
           "deps": ["tg-plan"],
           "shell": "pnpm --filter @promethean/testgap tg:06-write --plans .cache/testgap/plans.json --out docs/agile/tasks/test-gaps",
           "inputs": [".cache/testgap/plans.json"],
-          "outputs": ["docs/agile/tasks/test-gaps/*.md"]
+          "outputs": ["docs/agile/tasks/test-gaps/*.md"],
+          "inputSchema": "packages/testgap/schemas/io.schema.json",
+          "outputSchema": "packages/testgap/schemas/io.schema.json"
         },
         {
           "id": "tg-report",
           "deps": ["tg-map"],
           "shell": "pnpm --filter @promethean/testgap tg:07-report --gaps .cache/testgap/gaps.json --out docs/agile/reports/test-gaps",
           "inputs": [".cache/testgap/gaps.json"],
-          "outputs": ["docs/agile/reports/test-gaps/*.md"]
+          "outputs": ["docs/agile/reports/test-gaps/*.md"],
+          "inputSchema": "packages/testgap/schemas/io.schema.json",
+          "outputSchema": "packages/testgap/schemas/io.schema.json"
         }
       ]
     },
@@ -415,11 +540,18 @@
           "js": {
             "module": "scripts/piper-docops.mjs",
             "export": "frontmatter",
-            "args": { "dir": "docs/unique", "genModel": "qwen3:4b" }
+            "args": {
+              "dir": "docs/unique",
+              "genModel": "qwen3:4b"
+            }
           },
-          "env": { "OLLAMA_URL": "${OLLAMA_URL}" },
+          "env": {
+            "OLLAMA_URL": "${OLLAMA_URL}"
+          },
           "inputs": ["docs/unique/**/*.md"],
-          "outputs": []
+          "outputs": [],
+          "inputSchema": "packages/docops/schemas/io.schema.json",
+          "outputSchema": "packages/docops/schemas/io.schema.json"
         },
         {
           "id": "doc-index",
@@ -433,9 +565,13 @@
               "collection": "docs"
             }
           },
-          "env": { "OLLAMA_URL": "${OLLAMA_URL}" },
+          "env": {
+            "OLLAMA_URL": "${OLLAMA_URL}"
+          },
           "inputs": ["docs/unique/**/*.md"],
-          "outputs": []
+          "outputs": [],
+          "inputSchema": "packages/docops/schemas/io.schema.json",
+          "outputSchema": "packages/docops/schemas/io.schema.json"
         },
         {
           "id": "doc-similarity",
@@ -449,9 +585,13 @@
               "k": 16
             }
           },
-          "env": { "OLLAMA_URL": "${OLLAMA_URL}" },
+          "env": {
+            "OLLAMA_URL": "${OLLAMA_URL}"
+          },
           "inputs": [],
-          "outputs": []
+          "outputs": [],
+          "inputSchema": "packages/docops/schemas/io.schema.json",
+          "outputSchema": "packages/docops/schemas/io.schema.json"
         },
         {
           "id": "doc-related",
@@ -466,9 +606,10 @@
             }
           },
           "inputs": ["docs/unique/**/*.md"],
-          "outputs": []
+          "outputs": [],
+          "inputSchema": "packages/docops/schemas/io.schema.json",
+          "outputSchema": "packages/docops/schemas/io.schema.json"
         },
-
         {
           "id": "doc-footer",
           "deps": ["doc-related"],
@@ -483,7 +624,9 @@
             }
           },
           "inputs": ["docs/unique/**/*.md"],
-          "outputs": []
+          "outputs": [],
+          "inputSchema": "packages/docops/schemas/io.schema.json",
+          "outputSchema": "packages/docops/schemas/io.schema.json"
         },
         {
           "id": "doc-rename",
@@ -491,10 +634,14 @@
           "js": {
             "module": "scripts/piper-docops.mjs",
             "export": "rename",
-            "args": { "dir": "docs/unique" }
+            "args": {
+              "dir": "docs/unique"
+            }
           },
           "inputs": ["docs/unique/**/*.md"],
-          "outputs": []
+          "outputs": [],
+          "inputSchema": "packages/docops/schemas/io.schema.json",
+          "outputSchema": "packages/docops/schemas/io.schema.json"
         }
       ]
     }
