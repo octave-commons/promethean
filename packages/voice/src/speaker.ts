@@ -4,7 +4,7 @@
 // import { once } from 'node:events';
 import { PassThrough } from "node:stream";
 import { Transform, TransformCallback } from "node:stream";
-import EventEmitter from "node:events";
+import { EventEmitter } from "node:events";
 
 import { AudioReceiveStream } from "@discordjs/voice";
 import { User } from "discord.js";
@@ -12,6 +12,9 @@ import * as prism from "prism-media";
 
 import type { Transcriber } from "./transcriber.js";
 import type { VoiceRecorder } from "./voice-recorder.js";
+
+export type SpeakerEvents = Record<string, never>;
+
 class OpusSilenceFilter extends Transform {
   override _transform(
     chunk: Buffer,
@@ -38,7 +41,7 @@ export type SpeakerOptions = {
   recorder: VoiceRecorder;
 };
 
-export class Speaker extends EventEmitter {
+export class Speaker extends EventEmitter<SpeakerEvents> {
   logTranscript?: boolean;
   isRecording: boolean = false;
   isTranscribing: boolean = false;

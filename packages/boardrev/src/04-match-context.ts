@@ -3,13 +3,8 @@ import { promises as fs } from "fs";
 
 import matter from "gray-matter";
 
-import {
-  parseArgs,
-  listTaskFiles,
-  ollamaEmbed,
-  cosine,
-  writeText,
-} from "./utils.js";
+import { cosine, parseArgs, ollamaEmbed, writeText } from "@promethean/utils";
+import { listTaskFiles } from "./utils.js";
 import type { RepoDoc, Embeddings, TaskContext } from "./types.js";
 
 const args = parseArgs({
@@ -25,8 +20,12 @@ async function main() {
   const tasksDir = path.resolve(args["--tasks"]!);
   const files = await listTaskFiles(tasksDir);
 
-  const index: { docs: RepoDoc[] } = JSON.parse(await fs.readFile(path.resolve(args["--index"]!), "utf-8"));
-  const repoEmb: Embeddings = JSON.parse(await fs.readFile(path.resolve(args["--emb"]!), "utf-8"));
+  const index: { docs: RepoDoc[] } = JSON.parse(
+    await fs.readFile(path.resolve(args["--index"]!), "utf-8"),
+  );
+  const repoEmb: Embeddings = JSON.parse(
+    await fs.readFile(path.resolve(args["--emb"]!), "utf-8"),
+  );
   const k = Number(args["--k"]);
 
   const out: TaskContext[] = [];
@@ -53,13 +52,16 @@ async function main() {
       .slice(0, k);
 
     const links = Array.from(raw.matchAll(/\[[^\]]*?\]\(([^)]+)\)/g))
-      .map(m => m[1])
+      .map((m) => m[1])
       .filter((x): x is string => Boolean(x));
 
-      out.push({ taskFile: f.replace(/\\/g,"/"), hits: scored, links });
+    out.push({ taskFile: f.replace(/\\/g, "/"), hits: scored, links });
   }
 
-  await writeText(path.resolve(args["--out"]!), JSON.stringify({ contexts: out }, null, 2));
+  await writeText(
+    path.resolve(args["--out"]!),
+    JSON.stringify({ contexts: out }, null, 2),
+  );
   console.log(`boardrev: matched context for ${out.length} task(s)`);
 }
 
