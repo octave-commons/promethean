@@ -107,7 +107,8 @@
             ".cache/simtasks/functions.json",
             ".cache/simtasks/clusters.json",
             ".cache/simtasks/plans.json"
-          ]
+          ],
+          "outputSchema": "packages/simtask/schemas/io.schema.json"
         },
         {
           "id": "mods-spec",
@@ -395,7 +396,9 @@
             "packages/buildfix/tsconfig.json",
             "packages/buildfix/src/**/*"
           ],
-          "outputs": ["packages/buildfix/dist/**"]
+          "outputs": ["packages/buildfix/dist/**"],
+          "inputSchema": "packages/buildfix/schemas/io.schema.json",
+          "outputSchema": "packages/buildfix/schemas/io.schema.json"
         },
         {
           "id": "bf-errors",
