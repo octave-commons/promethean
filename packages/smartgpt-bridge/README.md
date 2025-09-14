@@ -43,7 +43,7 @@ export AGENT_RESTORE_ON_START=true             # load past agents as historical 
 npm i
 npm start
 # http://0.0.0.0:3210/openapi.json
-# Dashboard now served via `pnpm serve:sites`:
+# Dashboard now served via `frontend-service`:
 #   http://localhost:4500/smartgpt-dashboard/
 ```
 
