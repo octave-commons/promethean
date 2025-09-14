@@ -90,27 +90,6 @@ export function makeProgram(
   return ts.createProgram(rootFiles, options);
 }
 
-export function getJsDocText(node: ts.Node): string | undefined {
-  const jsdocs = ts.getJSDocCommentsAndTags(node);
-  if (!jsdocs?.length) return undefined;
-  const texts: string[] = [];
-  for (const d of jsdocs) {
-    if ("comment" in d && typeof d.comment === "string") {
-      texts.push(d.comment);
-    }
-  }
-  return texts.join("\n\n").trim() || undefined;
-}
-
-export function getNodeText(src: string, node: ts.Node): string {
-  return src.slice(node.getFullStart(), node.getEnd());
-}
-
-export function posToLine(sf: ts.SourceFile, pos: number): number {
-  const { line } = sf.getLineAndCharacterOfPosition(pos);
-  return line + 1;
-}
-
 export function signatureForFunction(
   checker: ts.TypeChecker,
   decl: ts.FunctionLikeDeclarationBase,

@@ -7,15 +7,13 @@ import {
   parseArgs,
   listFilesRec,
   makeProgram,
-  getJsDocText,
-  getNodeText,
-  posToLine,
   sha1,
   relFromRepo,
   getLangFromExt,
   signatureForFunction,
   typeToString,
 } from "./utils.js";
+import { getJsDocText, getNodeText, posToLine } from "@promethean/utils";
 import type { SymKind, SymbolInfo, ScanResult } from "./types.js";
 
 const args = parseArgs({
