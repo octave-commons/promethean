@@ -1,4 +1,3 @@
-import { promises as fs } from "fs";
 import * as path from "path";
 import matter from "gray-matter";
 import { unified } from "unified";
@@ -21,22 +20,6 @@ export function parseArgs(defaults: Record<string, string>) {
     out[k] = v;
   }
   return out;
-}
-
-export async function listFilesRec(root: string, exts: Set<string>) {
-  const out: string[] = [];
-  async function walk(d: string) {
-    const ents = await fs.readdir(d, { withFileTypes: true });
-    for (const e of ents) {
-      const p = path.join(d, e.name);
-      if (e.isDirectory()) await walk(p);
-      else out.push(p);
-    }
-  }
-  await walk(root);
-  return out.filter((p) =>
-    exts.size ? exts.has(path.extname(p).toLowerCase()) : true,
-  );
 }
 
 export function sha1(s: string): string {

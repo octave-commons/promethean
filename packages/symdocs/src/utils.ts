@@ -1,4 +1,3 @@
-import { promises as fs } from "fs";
 import * as path from "path";
 import * as crypto from "crypto";
 
@@ -23,23 +22,6 @@ export function parseArgs(
     return parse(nextIndex, { ...acc, [key]: value });
   };
   return parse(0, { ...defaults });
-}
-
-export async function listFilesRec(
-  root: string,
-  exts: Set<string>,
-): Promise<string[]> {
-  const out: string[] = [];
-  async function walk(d: string) {
-    const ents = await fs.readdir(d, { withFileTypes: true });
-    for (const e of ents) {
-      const p = path.join(d, e.name);
-      if (e.isDirectory()) await walk(p);
-      else out.push(p);
-    }
-  }
-  await walk(root);
-  return out.filter((p) => exts.has(path.extname(p).toLowerCase()));
 }
 
 export function sha1(s: string): string {

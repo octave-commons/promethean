@@ -11,3 +11,4 @@ export type { Registry } from "./fileBackedRegistry.js";
 export { relFromRepo } from "./path.js";
 export { cosine } from "./cosine.js";
 export { getJsDocText, getNodeText, posToLine } from "./ts-ast.js";
+export { listFilesRec } from "./list-files-rec.js";
