@@ -127,6 +127,64 @@ function makeRunStepHandler(
   };
 }
 
+function makePipelineEmit(send: (s: string) => void) {
+  return (ev: PiperEvent) => {
+    if (ev.type === "start") send(`START ${ev.stepId}`);
+    else if (ev.type === "skip") send(`SKIP ${ev.stepId} ${ev.reason}`);
+    else if (ev.type === "retry")
+      send(
+        `RETRY ${ev.stepId} attempt=${ev.attempt} exit=${
+          ev.exitCode ?? "null"
+        }`,
+      );
+    else if (ev.type === "end") {
+      if (ev.result.stdout) send(`${ev.stepId} ${ev.result.stdout}`);
+      if (ev.result.stderr) send(`${ev.stepId} ${ev.result.stderr}`);
+      send(`EXIT ${ev.stepId} ${ev.result.exitCode}`);
+    }
+  };
+}
+
+function makeRunPipelineHandler(
+  CONFIG_PATH: string,
+  errToString: (e: unknown) => string,
+) {
+  return async (
+    req: FastifyRequest<{ Querystring: Record<string, string | undefined> }>,
+    reply: FastifyReply,
+  ) => {
+    const pipeline = req.query.pipeline ?? "";
+    const send = sseInit(reply);
+
+    if (!pipeline) {
+      send("missing pipeline");
+      reply.raw.end();
+      return;
+    }
+
+    const cfg = await loadConfig(CONFIG_PATH);
+    const pl = cfg.pipelines.find((p) => p.name === pipeline);
+    if (!pl) {
+      send(`pipeline '${pipeline}' not found`);
+      reply.raw.end();
+      return;
+    }
+    const emit = makePipelineEmit(send);
+
+    try {
+      await runPipeline(CONFIG_PATH, pipeline, {
+        json: true,
+        force: req.query.force === "true",
+        emit,
+      });
+    } catch (e: unknown) {
+      send(errToString(e));
+    }
+
+    reply.raw.end();
+  };
+}
+
 export async function registerPipelineRoutes(
   app: FastifyInstance,
   opts: { CONFIG_PATH: string; errToString: (e: unknown) => string },
@@ -143,6 +201,12 @@ export async function registerPipelineRoutes(
     "/api/pipelines",
     { config: { rateLimit: { max: 30, timeWindow: "1 minute" } } },
     makePipelinesListHandler(CONFIG_PATH, errToString),
+  );
+
+  app.get<{ Querystring: Record<string, string | undefined> }>(
+    "/api/run",
+    { config: { rateLimit: { max: 5, timeWindow: "1 minute" } } },
+    makeRunPipelineHandler(CONFIG_PATH, errToString),
   );
 
   app.get<{ Querystring: Record<string, string | undefined> }>(

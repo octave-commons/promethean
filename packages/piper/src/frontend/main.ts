@@ -1,5 +1,5 @@
 /* eslint-disable max-lines */
-import { setSelection } from "./selection.js";
+import { setSelection, getSelection } from "./selection.js";
 import "./components/piper-step.js";
 
 export type PipelineStep = Record<string, unknown>;
@@ -36,6 +36,23 @@ function startHMR() {
   }
 }
 startHMR();
+
+function runPipeline(name: string): void {
+  const params = new URLSearchParams({ pipeline: name });
+  const files = getSelection();
+  if (files.length) params.set("files", files.join(","));
+  const logEl = document.getElementById("logs") as HTMLPreElement | null;
+  if (logEl) logEl.textContent = "";
+  const es = new EventSource(`/api/run?${params.toString()}`);
+  es.onmessage = (ev: MessageEvent) => {
+    if (!logEl) return;
+    logEl.textContent += (ev.data || "") + "\n";
+    (
+      logEl as unknown as { scrollTop: number; scrollHeight: number }
+    ).scrollTop = (logEl as unknown as { scrollHeight: number }).scrollHeight;
+  };
+  es.onerror = () => es.close();
+}
 
 type FileNode = {
   type: string;
@@ -247,6 +264,10 @@ async function init(): Promise<void> {
     h.style.margin = "0";
     hdr.appendChild(btn);
     hdr.appendChild(h);
+    const runBtn = document.createElement("button");
+    runBtn.textContent = "Run Pipeline";
+    runBtn.onclick = () => runPipeline(p.name);
+    hdr.appendChild(runBtn);
     section.appendChild(hdr);
     const list = document.createElement("div");
     const key = `piper:collapse:${p.name}`;
