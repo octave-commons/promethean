@@ -3,13 +3,17 @@ import { topic } from "@promethean/platform";
 
 // Stub REST proxy: subscribes to rest.request and would call Discord REST.
 async function main() {
-  const reg = fileBackedRegistry();
-  const tenants = (await reg.list()) as Array<{
-    provider: string;
-    tenant: string;
-  }>;
+  const registryFn = fileBackedRegistry as unknown as () => {
+    readonly list: () => Promise<unknown[]>;
+  };
+  const reg = registryFn();
+  const raw = await reg.list();
+  const tenants = raw.map((r) => {
+    const { provider, tenant } = r as { provider: string; tenant: string };
+    return { provider, tenant };
+  });
   // In real service, subscribe per-tenant topic and forward requests.
-  for (const t of tenants) {
+  tenants.forEach((t) => {
     const reqTopic = topic({
       provider: t.provider,
       tenant: t.tenant,
@@ -17,7 +21,7 @@ async function main() {
       name: "request",
     });
     console.log(`[discord-rest] listening on ${reqTopic}`);
-  }
+  });
 
   // Example mapping for PostMessage -> REST route
   // function mapPostMessage(cmd: PostMessage) {
