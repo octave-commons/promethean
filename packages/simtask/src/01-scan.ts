@@ -4,15 +4,11 @@ import * as path from "path";
 import * as ts from "typescript";
 
 import {
-  parseArgs,
   listFilesRec,
   makeProgram,
-  posToLine,
-  getJsDocText,
-  getNodeText,
   sha1,
 } from "./utils.js";
-import { relFromRepo } from "@promethean/utils";
+import { posToLine, getJsDocText, getNodeText, relFromRepo, parseArgs} from "@promethean/utils";
 import type { FunctionInfo, ScanResult, FnKind } from "./types.js";
 
 const args = parseArgs({
