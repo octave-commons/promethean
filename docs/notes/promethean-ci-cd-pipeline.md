@@ -104,8 +104,22 @@ pipelines:
 
   - name: codemods
     steps:
+      - id: mods-simtasks
+        inputs: []
+        outputs:
+          [
+            ".cache/simtasks/functions.json",
+            ".cache/simtasks/clusters.json",
+            ".cache/simtasks/plans.json",
+          ]
       - id: mods-spec
-        inputs: [".cache/simtasks/{functions,clusters,plans}.json"]
+        deps: ["mods-simtasks"]
+        inputs:
+          [
+            ".cache/simtasks/functions.json",
+            ".cache/simtasks/clusters.json",
+            ".cache/simtasks/plans.json",
+          ]
         outputs: [".cache/codemods/specs.json"]
       - id: mods-generate
         deps: ["mods-spec"]
