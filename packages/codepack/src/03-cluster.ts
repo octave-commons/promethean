@@ -1,7 +1,8 @@
 // src/03-cluster.ts
 import { promises as fs } from "fs";
 import * as path from "path";
-import { parseArgs, cosine } from "./utils.js";
+import { parseArgs } from "./utils.js";
+import { cosine } from "@promethean/utils";
 import type { BlockManifest, EmbeddingMap, Cluster } from "./types.js";
 
 const args = parseArgs({

@@ -8,11 +8,11 @@ import {
   injectAnchors,
   anchorId,
   relMdLink,
-  cosine,
   writeJSONArrayStream,
   writeNDJSON,
   safeReplacer,
 } from "../utils.js";
+import { cosine } from "@promethean/utils";
 
 async function withTmp(fn: (dir: string) => Promise<void> | void) {
   const dir = path.join(

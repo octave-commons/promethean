@@ -1,10 +1,7 @@
-import { promises as fs } from "fs";
 import * as path from "path";
 import * as crypto from "crypto";
 
 import * as ts from "typescript";
-
-export const OLLAMA_URL = process.env.OLLAMA_URL ?? "http://localhost:11434";
 
 export function parseArgs(
   defaults: Record<string, string>,
@@ -25,29 +22,8 @@ export function parseArgs(
   return parse(0, { ...defaults });
 }
 
-export async function listFilesRec(
-  root: string,
-  exts: Set<string>,
-): Promise<string[]> {
-  const out: string[] = [];
-  async function walk(d: string) {
-    const ents = await fs.readdir(d, { withFileTypes: true });
-    for (const e of ents) {
-      const p = path.join(d, e.name);
-      if (e.isDirectory()) await walk(p);
-      else out.push(p);
-    }
-  }
-  await walk(root);
-  return out.filter((p) => exts.has(path.extname(p).toLowerCase()));
-}
-
 export function sha1(s: string): string {
   return crypto.createHash("sha1").update(s).digest("hex");
-}
-
-export function relFromRepo(abs: string): string {
-  return path.relative(process.cwd(), abs).replace(/\\/g, "/");
 }
 
 export function getLangFromExt(p: string): "ts" | "tsx" | "js" | "jsx" {
@@ -88,27 +64,6 @@ export function makeProgram(
       })()
     : baseOptions;
   return ts.createProgram(rootFiles, options);
-}
-
-export function getJsDocText(node: ts.Node): string | undefined {
-  const jsdocs = ts.getJSDocCommentsAndTags(node);
-  if (!jsdocs?.length) return undefined;
-  const texts: string[] = [];
-  for (const d of jsdocs) {
-    if ("comment" in d && typeof d.comment === "string") {
-      texts.push(d.comment);
-    }
-  }
-  return texts.join("\n\n").trim() || undefined;
-}
-
-export function getNodeText(src: string, node: ts.Node): string {
-  return src.slice(node.getFullStart(), node.getEnd());
-}
-
-export function posToLine(sf: ts.SourceFile, pos: number): number {
-  const { line } = sf.getLineAndCharacterOfPosition(pos);
-  return line + 1;
 }
 
 export function signatureForFunction(
