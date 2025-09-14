@@ -1,3 +1,5 @@
+/* eslint-disable max-lines */
+import { getSelection } from "./selection.js";
 import "./file-tree.js";
 import "./components/piper-step.js";
 
@@ -33,6 +35,23 @@ function startHMR() {
 }
 startHMR();
 
+function runPipeline(name: string): void {
+  const params = new URLSearchParams({ pipeline: name });
+  const files = getSelection();
+  if (files.length) params.set("files", files.join(","));
+  const logEl = document.getElementById("logs") as HTMLPreElement | null;
+  if (logEl) logEl.textContent = "";
+  const es = new EventSource(`/api/run?${params.toString()}`);
+  es.onmessage = (ev: MessageEvent) => {
+    if (!logEl) return;
+    logEl.textContent += (ev.data || "") + "\n";
+    (
+      logEl as unknown as { scrollTop: number; scrollHeight: number }
+    ).scrollTop = (logEl as unknown as { scrollHeight: number }).scrollHeight;
+  };
+  es.onerror = () => es.close();
+}
+
 async function fetchPipelines(
   logs: HTMLElement | null,
 ): Promise<Pipeline[] | null> {
@@ -49,21 +68,30 @@ async function fetchPipelines(
 
 function renderPipelineSection(container: HTMLElement, p: Pipeline): void {
   const section = document.createElement("section");
+
   const hdr = document.createElement("div");
   hdr.style.display = "flex";
   hdr.style.alignItems = "center";
   hdr.style.gap = "8px";
+
   const btn = document.createElement("button");
   btn.textContent = "▼";
   btn.title = "Collapse/Expand";
   btn.style.border = "none";
   btn.style.background = "transparent";
   btn.style.cursor = "pointer";
+
   const h = document.createElement("h2");
   h.textContent = p.name;
   h.style.margin = "0";
-  hdr.append(btn, h);
+
+  const runBtn = document.createElement("button");
+  runBtn.textContent = "Run Pipeline";
+  runBtn.onclick = () => runPipeline(p.name);
+
+  hdr.append(btn, h, runBtn);
   section.appendChild(hdr);
+
   const list = document.createElement("div");
   const key = `piper:collapse:${p.name}`;
   const setCollapsed = (c: boolean) => {
@@ -78,12 +106,14 @@ function renderPipelineSection(container: HTMLElement, p: Pipeline): void {
     (typeof localStorage !== "undefined" ? localStorage.getItem(key) : null) ===
     "1";
   setCollapsed(saved);
+
   for (const s of p.steps) {
     type PiperStepEl = HTMLElement & { data?: unknown };
     const el = document.createElement("piper-step") as PiperStepEl;
     el.data = { pipeline: p.name, step: s } as unknown;
     list.appendChild(el);
   }
+
   section.appendChild(list);
   container.appendChild(section);
 }
@@ -125,6 +155,7 @@ const renderTabs = (
       (t.active ? "● " : "○ ") + (t.path.split("/").slice(-1)[0] || t.path);
     el.className = "tab-button";
     el.onclick = () => set(t.path);
+
     const x = document.createElement("span");
     x.textContent = " ×";
     x.className = "tab-close";
@@ -135,6 +166,7 @@ const renderTabs = (
       const next = openTabs[idx] || openTabs[idx - 1] || openTabs[0];
       set(next ? next.path : "");
     };
+
     el.appendChild(x);
     tabsEl.appendChild(el);
   }
@@ -171,8 +203,10 @@ function setupEditor(
     status,
     render: () => renderTabs(tabsEl, openTabs, (q) => setActive(ctx, q)),
   };
+
   const setActiveBound = (p: string): void => setActive(ctx, p);
   ctx.render = () => renderTabs(tabsEl, openTabs, setActiveBound);
+
   const openFileBound = (p: string) => openFile(openTabs, p, setActiveBound);
   window.addEventListener("piper:open-file", (ev: Event) => {
     const p = (ev as CustomEvent<{ path?: string }>).detail?.path;
@@ -221,7 +255,7 @@ const bindRevert = (
     t.content = j.content ?? "";
     t.saved = t.content;
     editor.value = t.content;
-    status.textContent = t.path;
+    status.textContent = t.path ?? "";
     render();
   });
 };
@@ -235,8 +269,10 @@ async function init(): Promise<void> {
   ) as HTMLTextAreaElement | null;
   const status = document.getElementById("editorStatus");
   if (!container || !tabs || !editor || !status) return;
+
   const pipelines = await fetchPipelines(logs);
   if (!pipelines) return;
+
   pipelines.forEach((p) => renderPipelineSection(container, p));
   setupEditor(tabs, editor, status);
 }
