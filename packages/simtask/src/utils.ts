@@ -4,8 +4,6 @@ import * as crypto from "crypto";
 
 import * as ts from "typescript";
 
-export const OLLAMA_URL = process.env.OLLAMA_URL ?? "http://localhost:11434";
-
 export function parseArgs(defaults: Record<string, string>) {
   const out = { ...defaults };
   const a = process.argv.slice(2);
