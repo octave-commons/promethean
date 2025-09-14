@@ -6,6 +6,7 @@ kanban-plugin: board
 
 ## Rejected
 
+- [ ] [[docs/agile/boards/consolidate-all-configs-into---config--as--.edn--files]] #incoming
 - [ ] [[scripts_add_folder_readmes_and_usage|scripts add folder readmes and usage]] #incoming
 - [ ] codex action build file contextualizer.
 - [ ] universal package manager
@@ -238,6 +239,7 @@ kanban-plugin: board
 
 - [ ] Get existing pipelines to work through UI
 - [ ] get all existing pipelines functional
+- [ ] pin all versioned anything
 
 
 ## Accepted
@@ -249,7 +251,6 @@ kanban-plugin: board
 - [ ] discord mixed mode
 - [ ] [[dev mode for each package]]
 - [ ] [[github-crawler]]
-- [ ] [[docs/agile/boards/consolidate-all-configs-into---config--as--.edn--files]] #incoming
 - [ ] [[ci-passses]] #incoming
 - [ ] [[docker-compose-edn-template-system]]
 - [ ] [[integrate-sonarqube-into-devops]] #incoming
