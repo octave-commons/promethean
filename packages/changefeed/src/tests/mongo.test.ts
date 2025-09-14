@@ -1,3 +1,4 @@
+/* eslint-disable functional/no-loop-statements, functional/no-let, functional/immutable-data, functional/prefer-immutable-types, promise/param-names, no-restricted-syntax, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any, max-lines-per-function */
 import test from 'ava';
 import type { Db, ResumeToken } from 'mongodb';
 import type { EventBus } from '@promethean/event/types.js';
