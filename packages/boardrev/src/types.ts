@@ -1,29 +1,37 @@
+export enum Priority {
+  P0 = "P0",
+  P1 = "P1",
+  P2 = "P2",
+  P3 = "P3",
+  P4 = "P4",
+}
+
 export type TaskFM = {
   uuid: string;
   title: string;
-  status: string;     // e.g., backlog|todo|doing|review|blocked|done
-  priority: "P0"|"P1"|"P2"|"P3"|"P4";
+  status: string; // e.g., backlog|todo|doing|review|blocked|done
+  priority: Priority;
   labels?: string[];
   created_at?: string;
   assignee?: string;
 };
 
 export type TaskDoc = {
-  file: string;          // repo-relative path
+  file: string; // repo-relative path
   fm: TaskFM;
-  content: string;       // body without FM
+  content: string; // body without FM
 };
 
 export type PromptChunk = {
-  heading: string;       // e.g., "todo"
-  prompt: string;        // markdown body under that heading
+  heading: string; // e.g., "todo"
+  prompt: string; // markdown body under that heading
 };
 
 export type RepoDoc = {
-  path: string;          // repo-relative
-  kind: "code"|"doc";
+  path: string; // repo-relative
+  kind: "code" | "doc";
   size: number;
-  excerpt: string;       // first N lines
+  excerpt: string; // first N lines
 };
 
 export type Embeddings = Record<string, number[]>; // key -> vector
@@ -31,20 +39,20 @@ export type Embeddings = Record<string, number[]>; // key -> vector
 export type ContextHit = {
   path: string;
   score: number;
-  kind: "code"|"doc";
+  kind: "code" | "doc";
   excerpt: string;
 };
 
 export type TaskContext = {
   taskFile: string;
   hits: ContextHit[];
-  links: string[];     // explicit links found in task
+  links: string[]; // explicit links found in task
 };
 
 export type EvalItem = {
   taskFile: string;
   inferred_status: string;
-  confidence: number;  // 0..1
+  confidence: number; // 0..1
   summary: string;
   suggested_actions: string[];
   blockers?: string[];
