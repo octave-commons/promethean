@@ -41,3 +41,6 @@ export async function ollamaJSON(model: string, prompt: string) {
       .trim(),
   );
 }
+export function rel(p: string) {
+  return p.replace(process.cwd().replace(/\\/g, "/") + "/", "");
+}

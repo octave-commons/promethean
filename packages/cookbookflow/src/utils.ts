@@ -3,8 +3,6 @@ import * as path from "path";
 import { execFile as _execFile } from "child_process";
 import { slug } from "@promethean/utils";
 
-export const OLLAMA_URL = process.env.OLLAMA_URL ?? "http://localhost:11434";
-
 export function parseArgs<T extends Record<string, string>>(def: T): T {
   const out: Record<string, string> = { ...def };
   const a = process.argv.slice(2);
@@ -50,46 +48,6 @@ export function uuid() {
   return globalThis.crypto?.randomUUID?.() ?? require("crypto").randomUUID();
 }
 
-export async function ollamaEmbed(
-  model: string,
-  text: string,
-): Promise<number[]> {
-  const res = await fetch(`${OLLAMA_URL}/api/embeddings`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ model, prompt: text }),
-  });
-  if (!res.ok) throw new Error(`ollama embeddings ${res.status}`);
-  const data: unknown = await res.json();
-  const embedding = (data as any)?.embedding;
-  if (!Array.isArray(embedding)) throw new Error("invalid embeddings response");
-  return embedding as number[];
-}
-export async function ollamaJSON(model: string, prompt: string): Promise<any> {
-  const res = await fetch(`${OLLAMA_URL}/api/generate`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      model,
-      prompt,
-      stream: false,
-      options: { temperature: 0 },
-      format: "json",
-    }),
-  });
-  if (!res.ok) throw new Error(`ollama ${res.status}`);
-  const data: unknown = await res.json();
-  const response = (data as any)?.response;
-  const raw =
-    typeof response === "string" ? response : JSON.stringify(response);
-  return JSON.parse(
-    String(raw)
-      .replace(/```json\s*/g, "")
-      .replace(/```\s*$/g, "")
-      .trim(),
-  );
-}
-
 export async function execShell(cmd: string, args: string[], cwd: string) {
   return new Promise<{ code: number | null; stdout: string; stderr: string }>(
     (resolve) => {
@@ -99,7 +57,7 @@ export async function execShell(cmd: string, args: string[], cwd: string) {
         { cwd, maxBuffer: 1024 * 1024 * 64, env: { ...process.env } },
         (err, stdout, stderr) => {
           resolve({
-            code: err ? (err as any).code ?? 1 : 0,
+            code: err ? ((err as any).code ?? 1) : 0,
             stdout: String(stdout),
             stderr: String(stderr),
           });
