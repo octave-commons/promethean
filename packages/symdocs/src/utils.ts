@@ -46,10 +46,6 @@ export function sha1(s: string): string {
   return crypto.createHash("sha1").update(s).digest("hex");
 }
 
-export function relFromRepo(abs: string): string {
-  return path.relative(process.cwd(), abs).replace(/\\/g, "/");
-}
-
 export function getLangFromExt(p: string): "ts" | "tsx" | "js" | "jsx" {
   const e = path.extname(p).toLowerCase();
   if (e === ".ts") return "ts";

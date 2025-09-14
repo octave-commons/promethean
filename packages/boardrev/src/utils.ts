@@ -61,10 +61,6 @@ export function normStatus(s: string) {
   return "todo";
 }
 
-export function relFromRepo(abs: string) {
-  return path.relative(process.cwd(), abs).replace(/\\/g, "/");
-}
-
 /**
  * Ollama embeddings.
  * NOTE: Some tooling/docs reference /api/embed; /api/embeddings is widely used.

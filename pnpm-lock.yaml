@@ -723,6 +723,9 @@ importers:
 
   packages/codemods:
     dependencies:
+      '@promethean/utils':
+        specifier: workspace:*
+        version: link:../utils
       diff:
         specifier: ^5.2.0
         version: 5.2.0
@@ -3615,6 +3618,9 @@ importers:
 
   packages/symdocs:
     dependencies:
+      '@promethean/utils':
+        specifier: workspace:*
+        version: link:../utils
       gray-matter:
         specifier: ^4.0.3
         version: 4.0.3
