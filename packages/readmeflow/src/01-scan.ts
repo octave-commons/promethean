@@ -3,17 +3,15 @@ import * as path from "node:path";
 
 import { openLevelCache } from "@promethean/level-cache";
 import { parseArgs } from "@promethean/utils";
+import { fileURLToPath } from "node:url";
 
 import { readMaybe } from "./utils.js";
 import type { PkgInfo, ScanOut } from "./types.js";
 
-const args = parseArgs({
-  "--root": "packages",
-  "--cache": ".cache/readmes",
-});
-
-async function main() {
-  const ROOT = path.resolve(args["--root"]);
+export async function scan(
+  options: { root?: string; cache?: string } = {},
+): Promise<void> {
+  const ROOT = path.resolve(options.root ?? "packages");
   const dirs = (await fs.readdir(ROOT, { withFileTypes: true }))
     .filter((e) => e.isDirectory())
     .map((e) => e.name);
@@ -77,15 +75,26 @@ async function main() {
     graphMermaid: lines.join("\n"),
   };
   const cache = await openLevelCache<ScanOut>({
-    path: path.resolve(args["--cache"]),
+    path: path.resolve(options.cache ?? ".cache/readmes"),
   });
   await cache.set("scan", out);
   await cache.close();
   console.log(
-    `readmeflow: scanned ${pkgMap.size} packages → ${args["--cache"]}`,
+    `readmeflow: scanned ${pkgMap.size} packages → ${
+      options.cache ?? ".cache/readmes"
+    }`,
   );
 }
-main().catch((e) => {
-  console.error(e);
-  process.exit(1);
-});
+
+export default scan;
+
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  const args = parseArgs({
+    "--root": "packages",
+    "--cache": ".cache/readmes",
+  });
+  scan({ root: args["--root"], cache: args["--cache"] }).catch((e) => {
+    console.error(e);
+    process.exit(1);
+  });
+}
