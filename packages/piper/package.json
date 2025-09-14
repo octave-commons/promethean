@@ -38,6 +38,7 @@
     "@promethean/ui-components": "workspace:*"
   },
   "devDependencies": {
-    "@promethean/test-utils": "workspace:*"
+    "@promethean/test-utils": "workspace:*",
+    "happy-dom": "18.0.1"
   }
 }

@@ -1,7 +1,8 @@
 import { promises as fs } from "fs";
 import * as path from "path";
 
-import { parseArgs, OLLAMA_URL } from "./utils.js";
+import { parseArgs } from "./utils.js";
+import { ollamaEmbed } from "@promethean/utils";
 import type { ScanResult, EmbeddingMap } from "./types.js";
 
 const args = parseArgs({
@@ -11,17 +12,6 @@ const args = parseArgs({
   "--include-jsdoc": "true",
   "--include-snippet": "true",
 });
-
-async function ollamaEmbed(model: string, text: string): Promise<number[]> {
-  const res = await fetch(`${OLLAMA_URL}/api/embeddings`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ model, prompt: text }),
-  });
-  if (!res.ok) throw new Error(`ollama embeddings ${res.status}`);
-  const data: any = await res.json();
-  return data.embedding as number[];
-}
 
 async function main() {
   const IN = path.resolve(args["--in"] ?? ".cache/simtasks/functions.json");
