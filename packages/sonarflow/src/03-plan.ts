@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { ollamaJSON } from "@promethean/utils";
 
 import {
   parseArgs,
@@ -7,7 +8,6 @@ import {
   pathPrefix,
   severityToPriority,
 } from "./utils.js";
-import { ollamaJSON } from "@promethean/utils";
 import type {
   FetchPayload,
   IssueBundle,

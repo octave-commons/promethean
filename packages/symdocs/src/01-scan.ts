@@ -2,6 +2,13 @@ import { promises as fs } from "fs";
 import * as path from "path";
 
 import * as ts from "typescript";
+import {
+  getJsDocText,
+  getNodeText,
+  posToLine,
+  relFromRepo,
+  listFilesRec,
+} from "@promethean/utils";
 
 import {
   parseArgs,
@@ -11,13 +18,6 @@ import {
   signatureForFunction,
   typeToString,
 } from "./utils.js";
-import {
-  getJsDocText,
-  getNodeText,
-  posToLine,
-  relFromRepo,
-  listFilesRec,
-} from "@promethean/utils";
 import type { SymKind, SymbolInfo, ScanResult } from "./types.js";
 
 const args = parseArgs({

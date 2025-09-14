@@ -3,9 +3,9 @@ import { promises as fs } from "fs";
 
 import matter from "gray-matter";
 import { z } from "zod";
+import { parseArgs, ollamaJSON, writeText } from "@promethean/utils";
 
 import { normStatus } from "./utils.js";
-import { parseArgs, ollamaJSON, writeText } from "@promethean/utils";
 import type { PromptChunk, TaskContext, EvalItem } from "./types.js";
 
 const args = parseArgs({
@@ -28,10 +28,10 @@ const EvalSchema = z.object({
 
 async function main() {
   const prompts: { prompts: PromptChunk[] } = JSON.parse(
-    await fs.readFile(path.resolve(args["--prompts"]!), "utf-8"),
+    await fs.readFile(path.resolve(args["--prompts"]), "utf-8"),
   );
   const contexts: { contexts: TaskContext[] } = JSON.parse(
-    await fs.readFile(path.resolve(args["--context"]!), "utf-8"),
+    await fs.readFile(path.resolve(args["--context"]), "utf-8"),
   );
 
   const items: EvalItem[] = [];
@@ -75,7 +75,7 @@ async function main() {
     let obj: any;
     try {
       obj = await ollamaJSON(
-        args["--model"]!,
+        args["--model"],
         `SYSTEM:\n${sys}\n\nUSER:\n${user}`,
       );
     } catch {
@@ -115,7 +115,7 @@ async function main() {
   }
 
   await writeText(
-    path.resolve(args["--out"]!),
+    path.resolve(args["--out"]),
     JSON.stringify({ evals: items }, null, 2),
   );
   console.log(`boardrev: evaluated ${items.length} task(s)`);

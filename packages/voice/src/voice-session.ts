@@ -15,13 +15,13 @@ import {
   joinVoiceChannel,
 } from "@discordjs/voice";
 import * as discord from "discord.js";
+import { createLogger } from "@promethean/utils";
 
 import { Speaker } from "./speaker.js";
 // import {Transcript} from "./transcript"
 import { Transcriber } from "./transcriber.js";
 import { VoiceRecorder } from "./voice-recorder.js";
 import { VoiceSynth } from "./voice-synth.js";
-import { createLogger } from "@promethean/utils";
 
 /**
    Handles all things voice. Emits an event when a user begins speaking, and when they stop speaking

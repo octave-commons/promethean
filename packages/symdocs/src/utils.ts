@@ -1,7 +1,7 @@
 import * as path from "path";
-export { sha1 } from "@promethean/utils";
 
 import * as ts from "typescript";
+export { sha1 } from "@promethean/utils";
 
 export function parseArgs(
   defaults: Record<string, string>,

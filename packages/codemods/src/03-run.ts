@@ -4,9 +4,9 @@ import { pathToFileURL } from "node:url";
 
 import { Project, SyntaxKind } from "ts-morph";
 import { diffLines } from "diff";
+import { relFromRepo } from "@promethean/utils";
 
 import { listCodeFiles } from "./utils.js";
-import { relFromRepo } from "@promethean/utils";
 
 const args = parseArgs({
   "--root": "packages",

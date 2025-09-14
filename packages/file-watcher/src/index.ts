@@ -1,12 +1,14 @@
 import { join } from "path";
+
 import { BrokerClient } from "@shared/js/brokerClient.js";
+import { configDotenv } from "dotenv";
+
 import { createBoardWatcher } from "./board-watcher.js";
 import { createTasksWatcher } from "./tasks-watcher.js";
 import { createRepoWatcher } from "./repo-watcher.js";
-import { configDotenv } from "dotenv";
 configDotenv();
 
-export interface FileWatcherOptions {
+export type FileWatcherOptions = {
   repoRoot?: string;
   publish?: (type: string, payload: any) => void;
   maxConcurrentLLMTasks?: number;

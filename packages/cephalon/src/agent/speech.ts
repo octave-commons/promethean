@@ -1,6 +1,7 @@
 import { randomUUID } from "crypto";
 
 import { createAudioResource, StreamType } from "@discordjs/voice";
+import { sleep } from "@promethean/utils";
 
 import {
   splitSentances,
@@ -8,7 +9,6 @@ import {
   classifyPause,
   estimatePauseDuration,
 } from "../tokenizers.js";
-import { sleep } from "@promethean/utils";
 
 import { Utterance } from "./speechCoordinator.js";
 

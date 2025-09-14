@@ -8,10 +8,10 @@ import matter from "gray-matter";
 import { Ollama } from "ollama";
 import { ChromaClient } from "chromadb";
 import { OllamaEmbeddingFunction } from "@chroma-core/ollama";
+import { listFilesRec } from "@promethean/utils";
 
 import { DBs } from "./db.js";
 import { parseArgs, parseMarkdownChunks, OLLAMA_URL } from "./utils.js";
-import { listFilesRec } from "@promethean/utils";
 import { Chunk } from "./types.js";
 // CLI entry
 

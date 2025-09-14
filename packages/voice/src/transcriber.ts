@@ -3,9 +3,9 @@ import http, { RequestOptions } from "node:http";
 import { PassThrough } from "node:stream";
 
 import { User } from "discord.js";
+import { createLogger } from "@promethean/utils";
 
 import type { Speaker } from "./speaker.js";
-import { createLogger } from "@promethean/utils";
 
 export type TranscriberOptions = {
   hostname: string;

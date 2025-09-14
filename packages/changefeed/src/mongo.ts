@@ -51,7 +51,7 @@ export async function startMongoChangefeed<TDoc extends { _id?: unknown }, TPayl
                         try {
                             for await (const change of cs) {
                                 if (stopped) break;
-                                const c = change as ChangeStreamDocument<TDoc>;
+                                const c = change;
                                 const doc =
                                     'fullDocument' in c && (c as any).fullDocument
                                         ? ((c as any).fullDocument as TDoc)

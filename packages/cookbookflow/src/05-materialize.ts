@@ -2,9 +2,9 @@ import { promises as fs } from "fs";
 import * as path from "path";
 
 import matter from "gray-matter";
+import { slug } from "@promethean/utils";
 
 import { parseArgs, writeText } from "./utils.js";
-import { slug } from "@promethean/utils";
 import type { PlanFile } from "./types.js";
 
 const args = parseArgs({
