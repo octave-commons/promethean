@@ -1,20 +1,21 @@
-import { ChildProcessWithoutNullStreams, spawn } from "child_process";
+import { ChildProcessByStdio, spawn } from "child_process";
 import { EventEmitter } from "node:events";
 import { IncomingMessage, request } from "http";
-import { Readable } from "stream";
+import { Readable, Writable } from "stream";
+
 import { createLogger } from "@promethean/utils";
 export type VoiceSynthOptions = {
-  host: string;
-  endpoint: string;
-  port: number;
+  readonly host: string;
+  readonly endpoint: string;
+  readonly port: number;
 };
 export type VoiceSynthEvents = Record<string, never>;
 
 export class VoiceSynth extends EventEmitter<VoiceSynthEvents> {
-  host: string;
-  endpoint: string;
-  port: number;
-  #log = createLogger({ service: "voice:synth" });
+  readonly host: string;
+  readonly endpoint: string;
+  readonly port: number;
+  readonly #log = createLogger({ service: "voice:synth" });
   constructor(
     options: VoiceSynthOptions = {
       host: "localhost",
@@ -28,7 +29,7 @@ export class VoiceSynth extends EventEmitter<VoiceSynthEvents> {
     this.port = options.port;
   }
 
-  spawnFfmpeg(): ChildProcessWithoutNullStreams {
+  spawnFfmpeg(): ChildProcessByStdio<Writable, Readable, null> {
     const args = [
       "-f",
       "s16le",
