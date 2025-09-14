@@ -14,7 +14,7 @@ manager is missing):
 
 POST `/generate` with JSON containing `prompt`, `context` and optional `format` to receive the generated reply.
 
-Serve the chat interface via `pnpm serve:sites` and open `http://localhost:4500/llm-chat/` to try it in your browser.
+Start the `frontend-service` with `pnpm --filter @promethean/frontend-service dev` and open `http://localhost:4500/llm-chat/` to try it in your browser.
 
 ## Configuration
 

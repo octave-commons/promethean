@@ -1,3 +1,4 @@
+/* eslint-disable */
 import * as path from "path";
 import { promises as fs } from "fs";
 
@@ -7,14 +8,6 @@ import { parseArgs, ollamaJSON, writeText } from "@promethean/utils";
 
 import { normStatus } from "./utils.js";
 import type { PromptChunk, TaskContext, EvalItem } from "./types.js";
-
-const args = parseArgs({
-  "--tasks": "docs/agile/tasks",
-  "--prompts": ".cache/boardrev/prompts.json",
-  "--context": ".cache/boardrev/context.json",
-  "--model": "qwen3:4b",
-  "--out": ".cache/boardrev/evals.json",
-});
 
 const EvalSchema = z.object({
   inferred_status: z.string().min(1),
@@ -26,12 +19,17 @@ const EvalSchema = z.object({
   suggested_assignee: z.string().optional(),
 });
 
-async function main() {
+export async function evaluate({
+  prompts: promptsPath,
+  context: contextPath,
+  model,
+  out,
+}: Readonly<{ prompts: string; context: string; model: string; out: string }>) {
   const prompts: { prompts: PromptChunk[] } = JSON.parse(
-    await fs.readFile(path.resolve(args["--prompts"]), "utf-8"),
+    await fs.readFile(path.resolve(promptsPath), "utf-8"),
   );
   const contexts: { contexts: TaskContext[] } = JSON.parse(
-    await fs.readFile(path.resolve(args["--context"]), "utf-8"),
+    await fs.readFile(path.resolve(contextPath), "utf-8"),
   );
 
   const items: EvalItem[] = [];
@@ -74,10 +72,7 @@ async function main() {
 
     let obj: any;
     try {
-      obj = await ollamaJSON(
-        args["--model"],
-        `SYSTEM:\n${sys}\n\nUSER:\n${user}`,
-      );
+      obj = await ollamaJSON(model, `SYSTEM:\n${sys}\n\nUSER:\n${user}`);
     } catch {
       obj = {
         inferred_status: status,
@@ -114,14 +109,25 @@ async function main() {
     items.push(item);
   }
 
-  await writeText(
-    path.resolve(args["--out"]),
-    JSON.stringify({ evals: items }, null, 2),
-  );
+  await writeText(path.resolve(out), JSON.stringify({ evals: items }, null, 2));
   console.log(`boardrev: evaluated ${items.length} task(s)`);
 }
 
-main().catch((e) => {
-  console.error(e);
-  process.exit(1);
-});
+if (import.meta.main) {
+  const args = parseArgs({
+    "--tasks": "docs/agile/tasks",
+    "--prompts": ".cache/boardrev/prompts.json",
+    "--context": ".cache/boardrev/context.json",
+    "--model": "qwen3:4b",
+    "--out": ".cache/boardrev/evals.json",
+  });
+  evaluate({
+    prompts: args["--prompts"],
+    context: args["--context"],
+    model: args["--model"],
+    out: args["--out"],
+  }).catch((e) => {
+    console.error(e);
+    process.exit(1);
+  });
+}

@@ -1,6 +1,7 @@
 /* eslint-disable */
 import { promises as fs } from "fs";
 import * as path from "path";
+import { pathToFileURL } from "url";
 
 import ts from "typescript";
 import {
@@ -15,22 +16,22 @@ import {
 import { makeProgram, sha1 } from "./utils.js";
 import type { FunctionInfo, ScanResult, FnKind } from "./types.js";
 
-const args = parseArgs({
-  "--root": "packages",
-  "--ext": ".ts,.tsx,.js,.jsx",
-  "--tsconfig": "",
-  "--out": ".cache/simtasks/functions.json",
-});
+export type ScanArgs = {
+  "--root"?: string;
+  "--ext"?: string;
+  "--tsconfig"?: string;
+  "--out"?: string;
+};
 
-const ROOT = path.resolve(args["--root"] ?? "packages");
-const EXTS = new Set(
-  (args["--ext"] ?? ".ts,.tsx,.js,.jsx")
-    .split(",")
-    .map((s) => s.trim().toLowerCase()),
-);
-const OUT = path.resolve(args["--out"] ?? ".cache/simtasks/functions.json");
+export async function scan(args: ScanArgs) {
+  const ROOT = path.resolve(args["--root"] ?? "packages");
+  const EXTS = new Set(
+    (args["--ext"] ?? ".ts,.tsx,.js,.jsx")
+      .split(",")
+      .map((s) => s.trim().toLowerCase()),
+  );
+  const OUT = path.resolve(args["--out"] ?? ".cache/simtasks/functions.json");
 
-async function main() {
   const files = await listFilesRec(ROOT, EXTS);
   const program = makeProgram(files, args["--tsconfig"] || undefined);
   const checker = program.getTypeChecker();
@@ -184,7 +185,15 @@ async function main() {
   );
 }
 
-main().catch((e) => {
-  console.error(e);
-  process.exit(1);
-});
+if (import.meta.url === pathToFileURL(process.argv[1] ?? "").href) {
+  const args = parseArgs({
+    "--root": "packages",
+    "--ext": ".ts,.tsx,.js,.jsx",
+    "--tsconfig": "",
+    "--out": ".cache/simtasks/functions.json",
+  });
+  scan(args).catch((e) => {
+    console.error(e);
+    process.exit(1);
+  });
+}

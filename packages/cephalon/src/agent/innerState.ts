@@ -1,7 +1,7 @@
-import { writeFile } from "fs/promises";
-
 import { choice } from "../util.js";
-import { innerStateFormat } from "../prompts.js";
+import { defaultState, innerStateFormat } from "../prompts.js";
+import { openLevelCache } from "@promethean/level-cache";
+import type { Cache } from "@promethean/level-cache";
 import type { AgentInnerState } from "../types.js";
 
 import type { AIAgent } from "./index.js";
@@ -9,6 +9,8 @@ let AGENT_NAME = "Agent";
 try {
   ({ AGENT_NAME } = await import("@promethean/legacy/env.js"));
 } catch {}
+const DB_PATH = ".cache/cephalon.level";
+const STATE_KEY = `${AGENT_NAME}-inner-state`;
 
 export async function generateInnerState(this: AIAgent) {
   this.isThinking = true;
@@ -72,8 +74,41 @@ export async function updateInnerState(
       Object.entries(newState).filter(([_, v]) => v !== undefined),
     ),
   };
+  let cache: Cache<AgentInnerState> | undefined;
+  try {
+    cache = await openLevelCache<AgentInnerState>({ path: DB_PATH });
+    await cache.set(STATE_KEY, this.innerState);
+  } catch {
+    // ignore persistence errors
+  } finally {
+    if (cache) {
+      try {
+        await cache.close();
+      } catch {
+        // ignore close errors
+      }
+    }
+  }
+}
 
-  await writeFile("./state.json", JSON.stringify(this.innerState), {
-    encoding: "utf8",
-  });
+export async function loadInnerState(this: AIAgent) {
+  let cache: Cache<AgentInnerState> | undefined;
+  try {
+    cache = await openLevelCache<AgentInnerState>({ path: DB_PATH });
+    const stored = await cache.get(STATE_KEY);
+    this.innerState = stored ?? defaultState;
+    if (stored === undefined) {
+      await cache.set(STATE_KEY, this.innerState);
+    }
+  } catch {
+    this.innerState = defaultState;
+  } finally {
+    if (cache) {
+      try {
+        await cache.close();
+      } catch {
+        // ignore close errors
+      }
+    }
+  }
 }

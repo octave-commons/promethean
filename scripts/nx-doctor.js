@@ -1,11 +1,13 @@
 #!/usr/bin/env node
 import { promises as fs } from "node:fs";
 import path from "node:path";
+import { listFilesRec } from "@promethean/utils";
 
 const REPO = process.cwd();
 const ROOTS = ["shared/ts"]; // add more roots if needed
 const SRC_DIR_NAME = "src";
 const exts = [".ts", ".tsx", ".mts", ".cts", ".js", ".mjs", ".cjs"];
+const EXT_SET = new Set(exts);
 
 async function exists(p) {
   try {
@@ -13,34 +15,6 @@ async function exists(p) {
     return true;
   } catch {
     return false;
-  }
-}
-
-async function* walkDirs(root, depth = 2) {
-  // depth 0 = root only, 1 = children, etc.
-  if (depth < 0) return;
-  const entries = await fs
-    .readdir(root, { withFileTypes: true })
-    .catch(() => []);
-  for (const e of entries) {
-    if (!e.isDirectory()) continue;
-    const p = path.join(root, e.name);
-    yield p;
-    yield* walkDirs(p, depth - 1);
-  }
-}
-
-async function* walkFiles(dir) {
-  const entries = await fs
-    .readdir(dir, { withFileTypes: true })
-    .catch(() => []);
-  for (const e of entries) {
-    const p = path.join(dir, e.name);
-    if (e.isDirectory()) {
-      yield* walkFiles(p);
-    } else if (exts.some((x) => p.endsWith(x))) {
-      yield p;
-    }
   }
 }
 
@@ -58,19 +32,18 @@ async function main() {
   for (const root of ROOTS) {
     const abs = path.join(REPO, root);
     if (!(await exists(abs))) continue;
-    for await (const cand of walkDirs(abs, 1)) {
-      // immediate children by default
-      const pkgJson = path.join(cand, "package.json");
+    const files = await listFilesRec(abs, new Set([".json"]));
+    for (const pj of files) {
+      if (path.basename(pj) !== "package.json") continue;
+      const cand = path.dirname(pj);
       const srcDir = path.join(cand, SRC_DIR_NAME);
-      if (await exists(pkgJson)) {
-        const pj = JSON.parse(await fs.readFile(pkgJson, "utf8"));
-        pkgs.push({
-          dir: cand,
-          name: pj.name ?? path.basename(cand),
-          hasSrc: await exists(srcDir),
-          src: srcDir,
-        });
-      }
+      const pjData = JSON.parse(await fs.readFile(pj, "utf8"));
+      pkgs.push({
+        dir: cand,
+        name: pjData.name ?? path.basename(cand),
+        hasSrc: await exists(srcDir),
+        src: srcDir,
+      });
     }
   }
 
@@ -87,12 +60,12 @@ async function main() {
   const samples = [];
   for (const p of pkgs.slice(0, 5)) {
     if (!p.hasSrc) continue;
-    for await (const f of walkFiles(p.src)) {
-      const code = await fs.readFile(f, "utf8");
-      const imps = parseImports(code).slice(0, 5);
-      samples.push({ file: path.relative(REPO, f), imports: imps });
-      break;
-    }
+    const files = await listFilesRec(p.src, EXT_SET);
+    if (!files.length) continue;
+    const f = files[0];
+    const code = await fs.readFile(f, "utf8");
+    const imps = parseImports(code).slice(0, 5);
+    samples.push({ file: path.relative(REPO, f), imports: imps });
   }
 
   console.log("\nSample imports:");
