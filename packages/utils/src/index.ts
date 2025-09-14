@@ -6,3 +6,5 @@ export { retry } from "./retry.js";
 export type { RetryOptions } from "./retry.js";
 export { slug } from "./slug.js";
 export { parseArgs } from "./parse-args.js";
+export { fileBackedRegistry } from "./fileBackedRegistry.js";
+export type { Registry } from "./fileBackedRegistry.js";
