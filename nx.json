@@ -23,6 +23,12 @@
     }
   },
   "projects": {
-    "tools": "tools"
+    "tools": "tools",
+    "health-dashboard-frontend": "packages/health-dashboard-frontend",
+    "llm-chat-frontend": "packages/llm-chat-frontend",
+    "markdown-graph-frontend": "packages/markdown-graph-frontend",
+    "portfolio-frontend": "packages/portfolio-frontend",
+    "smart-chat-frontend": "packages/smart-chat-frontend",
+    "smartgpt-dashboard-frontend": "packages/smartgpt-dashboard-frontend"
   }
 }
