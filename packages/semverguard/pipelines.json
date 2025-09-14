@@ -4,7 +4,15 @@
     "steps": [
       {
         "id": "sv-snapshot",
-        "shell": "pnpm --filter @promethean/semverguard sv:01-snapshot --root packages --tsconfig ./tsconfig.json --out .cache/semverguard/snapshot.json",
+        "js": {
+          "module": "scripts/piper-semverguard.mjs",
+          "export": "snapshot",
+          "args": {
+            "root": "packages",
+            "tsconfig": "./tsconfig.json",
+            "out": ".cache/semverguard/snapshot.json"
+          }
+        },
         "inputs": [
           "packages/**/package.json",
           "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"
@@ -16,7 +24,15 @@
       {
         "id": "sv-diff",
         "deps": ["sv-snapshot"],
-        "shell": "pnpm --filter @promethean/semverguard sv:02-diff --current .cache/semverguard/snapshot.json --baseline git:origin/main:.cache/semverguard/snapshot.json --out .cache/semverguard/diff.json",
+        "js": {
+          "module": "scripts/piper-semverguard.mjs",
+          "export": "diff",
+          "args": {
+            "current": ".cache/semverguard/snapshot.json",
+            "baseline": "git:origin/main:.cache/semverguard/snapshot.json",
+            "out": ".cache/semverguard/diff.json"
+          }
+        },
         "inputs": [".cache/semverguard/snapshot.json"],
         "inputSchema": "packages/semverguard/schemas/io.schema.json",
         "outputs": [".cache/semverguard/diff.json"],
@@ -25,7 +41,15 @@
       {
         "id": "sv-plan",
         "deps": ["sv-diff"],
-        "shell": "pnpm --filter @promethean/semverguard sv:03-plan --diff .cache/semverguard/diff.json --out .cache/semverguard/plans.json --model qwen3:4b",
+        "js": {
+          "module": "scripts/piper-semverguard.mjs",
+          "export": "plan",
+          "args": {
+            "diff": ".cache/semverguard/diff.json",
+            "out": ".cache/semverguard/plans.json",
+            "model": "qwen3:4b"
+          }
+        },
         "inputs": [".cache/semverguard/diff.json"],
         "inputSchema": "packages/semverguard/schemas/io.schema.json",
         "outputs": [".cache/semverguard/plans.json"],
@@ -34,7 +58,14 @@
       {
         "id": "sv-write",
         "deps": ["sv-plan"],
-        "shell": "pnpm --filter @promethean/semverguard sv:04-write --plans .cache/semverguard/plans.json --out docs/agile/tasks/semver",
+        "js": {
+          "module": "scripts/piper-semverguard.mjs",
+          "export": "write",
+          "args": {
+            "plans": ".cache/semverguard/plans.json",
+            "out": "docs/agile/tasks/semver"
+          }
+        },
         "inputs": [".cache/semverguard/plans.json"],
         "inputSchema": "packages/semverguard/schemas/io.schema.json",
         "outputs": ["docs/agile/tasks/semver/*.md"],
@@ -43,7 +74,17 @@
       {
         "id": "sv-pr",
         "deps": ["sv-write"],
-        "shell": "pnpm --filter @promethean/semverguard sv:05-pr --plans .cache/semverguard/plans.json --root packages --mode prepare --update-dependents true --dep-range preserve",
+        "js": {
+          "module": "scripts/piper-semverguard.mjs",
+          "export": "pr",
+          "args": {
+            "plans": ".cache/semverguard/plans.json",
+            "root": "packages",
+            "mode": "prepare",
+            "updateDependents": true,
+            "depRange": "preserve"
+          }
+        },
         "inputs": [".cache/semverguard/plans.json", "packages/**/package.json"],
         "inputSchema": "packages/semverguard/schemas/io.schema.json",
         "outputs": [".cache/semverguard/pr/summary.json"],

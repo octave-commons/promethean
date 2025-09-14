@@ -11,6 +11,8 @@ const PKG_ROOT = path.resolve(
   "..",
 );
 
+const SCHEMA = "schema-empty.json";
+
 // Ensure dev-ui runs JS steps with arg.* without creating a TS step
 // that would otherwise crash the runner.
 test.serial("dev-ui runs JS step with args", async (t) => {
@@ -21,6 +23,11 @@ test.serial("dev-ui runs JS step with args", async (t) => {
     await fs.writeFile(
       path.join(dir, "step.js"),
       "export default ({name}) => { console.log('hello '+name); }\n",
+      "utf8",
+    );
+    await fs.writeFile(
+      path.join(dir, SCHEMA),
+      JSON.stringify({ type: "object" }),
       "utf8",
     );
     const cfg = {
@@ -34,6 +41,8 @@ test.serial("dev-ui runs JS step with args", async (t) => {
               deps: [],
               inputs: [],
               outputs: [],
+              inputSchema: SCHEMA,
+              outputSchema: SCHEMA,
               cache: "content",
               js: { module: "./step.js", export: "default" },
             },

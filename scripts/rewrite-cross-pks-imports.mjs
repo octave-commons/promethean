@@ -1,12 +1,14 @@
 #!/usr/bin/env node
 import fs from "node:fs/promises";
 import path from "node:path";
+import { listFilesRec } from "@promethean/utils";
 
 const WRITE = process.argv.includes("--write");
 const REPO = process.cwd();
 const ROOT = path.join(REPO, "shared/ts");
 const SCOPE = "@promethean";
 const exts = [".ts", ".tsx", ".mts", ".cts", ".js", ".mjs", ".cjs"];
+const EXT_SET = new Set(exts);
 
 const exists = async (p) => !!(await fs.stat(p).catch(() => null));
 
@@ -40,14 +42,6 @@ function* importMatches(code) {
     const spec = m[1] ?? m[2];
     if (spec?.startsWith("../"))
       yield { spec, start: m.index, end: re.lastIndex };
-  }
-}
-
-async function* walk(dir) {
-  for (const e of await fs.readdir(dir, { withFileTypes: true })) {
-    const p = path.join(dir, e.name);
-    if (e.isDirectory()) yield* walk(p);
-    else if (exts.some((x) => p.endsWith(x))) yield p;
   }
 }
 
@@ -109,7 +103,8 @@ async function main() {
 
   for (const pkg of pkgs) {
     let pkgTouched = false;
-    for await (const file of walk(pkg.src)) {
+    const files = await listFilesRec(pkg.src, EXT_SET);
+    for (const file of files) {
       const original = await fs.readFile(file, "utf8");
       let code = original;
 

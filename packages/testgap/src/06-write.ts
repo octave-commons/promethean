@@ -1,8 +1,9 @@
+/* eslint-disable */
 import * as path from "path";
 import { promises as fs } from "fs";
 
 import matter from "gray-matter";
-import { parseArgs } from "@promethean/utils";
+import { parseArgs, randomUUID } from "@promethean/utils";
 
 import type { PlanFile } from "./types.js";
 
@@ -30,10 +31,6 @@ function slug(s: string) {
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
 }
-function uuid() {
-  // @ts-ignore
-  return globalThis.crypto?.randomUUID?.() ?? require("crypto").randomUUID();
-}
 
 async function main() {
   const plans = JSON.parse(
@@ -60,7 +57,7 @@ async function main() {
       const gm = existing ? matter(existing) : { content: "", data: {} as any };
       const fm = {
         ...(gm as any).data,
-        uuid: gm?.data?.uuid ?? uuid(),
+        uuid: gm?.data?.uuid ?? randomUUID(),
         title: t.title,
         package: pkg,
         status: args["--status"] ?? "todo",

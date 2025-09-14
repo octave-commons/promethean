@@ -1,47 +1,55 @@
 // src/02-embed.ts
 import { promises as fs } from "fs";
 import * as path from "path";
-import { parseArgs } from "./utils.js";
-import type { BlockManifest, EmbeddingMap } from "./types.js";
+
 import { ollamaEmbed } from "@promethean/utils";
+import { openLevelCache } from "@promethean/level-cache";
+
+import { parseArgs } from "./utils.js";
+import type { BlockManifest } from "./types.js";
 
 const args = parseArgs({
   "--blocks": ".cache/codepack/blocks.json",
-  "--out": ".cache/codepack/embeddings.json",
+  "--cache": ".cache/codepack/embeds",
   "--embed-model": "nomic-embed-text:latest",
   "--mix-context": "true", // include before/after in embedding
 });
 
 async function main() {
   const blocksPath = path.resolve(args["--blocks"]);
-  const outPath = path.resolve(args["--out"]);
+  const cachePath = path.resolve(args["--cache"]);
   const model = args["--embed-model"];
   const mix = args["--mix-context"] === "true";
 
-  const { blocks }: BlockManifest = JSON.parse(
+  const manifest = JSON.parse(
     await fs.readFile(blocksPath, "utf-8"),
+  ) as BlockManifest;
+  const { blocks } = manifest;
+
+  const cache = await openLevelCache<number[]>({
+    path: cachePath,
+    namespace: "embeds",
+  });
+
+  const wrote = await Promise.all(
+    blocks.map(async (b) => {
+      if (await cache.has(b.id)) return false;
+      const text = mix
+        ? `FILE:${b.hintedName ?? ""}\nPATH:${b.relPath}\nLANG:${
+            b.lang ?? ""
+          }\nCONTEXT_BEFORE:\n${b.contextBefore}\nCODE:\n${
+            b.code
+          }\nCONTEXT_AFTER:\n${b.contextAfter}`
+        : b.code;
+      await cache.set(b.id, await ollamaEmbed(model, text));
+      return true;
+    }),
   );
-  const embeds: EmbeddingMap = {};
 
-  for (const b of blocks) {
-    if (embeds[b.id]) continue;
-    const text = mix
-      ? `FILE:${b.hintedName ?? ""}\nPATH:${b.relPath}\nLANG:${
-          b.lang ?? ""
-        }\nCONTEXT_BEFORE:\n${b.contextBefore}\nCODE:\n${
-          b.code
-        }\nCONTEXT_AFTER:\n${b.contextAfter}`
-      : b.code;
-    embeds[b.id] = await ollamaEmbed(model, text);
-  }
-
-  await fs.mkdir(path.dirname(outPath), { recursive: true });
-  await fs.writeFile(outPath, JSON.stringify(embeds), "utf-8");
+  await cache.close();
+  const count = wrote.filter(Boolean).length;
   console.log(
-    `embedded ${Object.keys(embeds).length} blocks -> ${path.relative(
-      process.cwd(),
-      outPath,
-    )}`,
+    `embedded ${count} blocks -> ${path.relative(process.cwd(), cachePath)}`,
   );
 }
 main().catch((e) => {
