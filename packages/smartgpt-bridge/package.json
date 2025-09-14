@@ -20,8 +20,8 @@
   },
   "dependencies": {
     "@fastify/rate-limit": "^10.3.0",
-    "@fastify/swagger": "^8.15.0",
-    "@fastify/swagger-ui": "^1.10.2",
+    "@fastify/swagger": "^9.5.1",
+    "@fastify/swagger-ui": "^5.2.3",
     "@promethean/embedding": "workspace:*",
     "@promethean/fs": "workspace:*",
     "@promethean/persistence": "workspace:*",
