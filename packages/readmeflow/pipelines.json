@@ -5,14 +5,22 @@
       "steps": [
         {
           "id": "rm-scan",
-          "shell": "pnpm --filter @promethean/readmeflow rm:01-scan --root packages",
+          "js": {
+            "module": "packages/readmeflow/dist/01-scan.js",
+            "args": { "root": "packages", "cache": ".cache/readmes" },
+            "isolate": "worker"
+          },
           "inputs": ["packages/**/package.json", "packages/**/tsconfig.json"],
           "inputSchema": "packages/readmeflow/schemas/io.schema.json"
         },
         {
           "id": "rm-outline",
           "deps": ["rm-scan"],
-          "shell": "pnpm --filter @promethean/readmeflow rm:02-outline --model qwen3:4b",
+          "js": {
+            "module": "packages/readmeflow/dist/02-outline.js",
+            "args": { "cache": ".cache/readmes", "model": "qwen3:4b" },
+            "isolate": "worker"
+          },
           "env": {
             "OLLAMA_URL": "${OLLAMA_URL}"
           }
@@ -20,14 +28,26 @@
         {
           "id": "rm-write",
           "deps": ["rm-outline"],
-          "shell": "pnpm --filter @promethean/readmeflow rm:03-write --mermaid true",
+          "js": {
+            "module": "packages/readmeflow/dist/03-write.js",
+            "args": { "cache": ".cache/readmes", "mermaid": true },
+            "isolate": "worker"
+          },
           "outputs": ["packages/**/README.md"],
           "outputSchema": "packages/readmeflow/schemas/io.schema.json"
         },
         {
           "id": "rm-verify",
           "deps": ["rm-write"],
-          "shell": "pnpm --filter @promethean/readmeflow rm:04-verify --root packages --out docs/agile/reports/readmes",
+          "js": {
+            "module": "packages/readmeflow/dist/04-verify.js",
+            "args": {
+              "root": "packages",
+              "out": "docs/agile/reports/readmes",
+              "max": 200
+            },
+            "isolate": "worker"
+          },
           "inputs": ["packages/**/README.md"],
           "inputSchema": "packages/readmeflow/schemas/io.schema.json",
           "outputs": ["docs/agile/reports/readmes/*.md"],
