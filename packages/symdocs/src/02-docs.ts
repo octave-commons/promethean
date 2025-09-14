@@ -2,9 +2,9 @@ import { promises as fs } from "fs";
 import * as path from "path";
 
 import { z } from "zod";
+import { ollamaJSON } from "@promethean/utils";
 
 import { parseArgs, sha1 } from "./utils.js";
-import { ollamaJSON } from "@promethean/utils";
 import type { DocDraft, DocMap, ScanResult } from "./types.js";
 
 const args = parseArgs({

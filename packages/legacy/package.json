@@ -7,7 +7,8 @@
       "types": "./index.d.ts"
     },
     "./env.js": "./env.js",
-    "./brokerClient.js": "./brokerClient.js"
+    "./brokerClient.js": "./brokerClient.js",
+    "./queueManager.js": "./queueManager.js"
   },
   "dependencies": {
     "@types/estree": "^1.0.5",

@@ -1,8 +1,8 @@
 import { promises as fs } from "fs";
 import * as path from "path";
 
-import { parseArgs } from "./utils.js";
-import { ollamaEmbed } from "@promethean/utils";
+import { ollamaEmbed, parseArgs } from "@promethean/utils";
+
 import type { ScanResult, EmbeddingMap } from "./types.js";
 
 const args = parseArgs({

@@ -76,9 +76,9 @@ function inferTitle(body: string) {
 }
 
 if (import.meta.main) {
-  const dir = path.resolve(args["--dir"]!);
-  const defaultPriority = args["--default-priority"]! as Priority;
-  const defaultStatus = args["--default-status"]!;
+  const dir = path.resolve(args["--dir"]);
+  const defaultPriority = args["--default-priority"] as Priority;
+  const defaultStatus = args["--default-status"];
 
   ensureFM({ dir, defaultPriority, defaultStatus })
     .then((updated) => {

@@ -1,4 +1,5 @@
 import test from "ava";
+
 import { OLLAMA_URL, ollamaEmbed, ollamaJSON } from "../ollama.js";
 
 // simple fetch mock helper

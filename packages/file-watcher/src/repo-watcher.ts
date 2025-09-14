@@ -1,7 +1,8 @@
-import chokidar from "chokidar";
 import { execFile } from "child_process";
 
-export interface RepoWatcherOptions {
+import chokidar from "chokidar";
+
+export type RepoWatcherOptions = {
   repoRoot: string;
   bridgeUrl: string;
   debounceMs?: number;

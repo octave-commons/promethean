@@ -1,4 +1,5 @@
 import test from "ava";
+
 import { slug } from "../slug.js";
 
 test("slug basic rules", (t) => {
