@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { promises as fs } from "node:fs";
 import path from "node:path";
+import { fileExists } from "@promethean/utils/fs";
 
 const DRY = process.argv.includes("--dry");
 const REPO = process.cwd();
@@ -10,14 +11,6 @@ const exts = [".ts", ".tsx", ".mts", ".cts", ".js", ".mjs", ".cjs"];
 
 const isRel = (s) => s?.startsWith("./") || s?.startsWith("../");
 
-async function exists(p) {
-  try {
-    await fs.stat(p);
-    return true;
-  } catch {
-    return false;
-  }
-}
 async function readJSON(p) {
   return JSON.parse(await fs.readFile(p, "utf8"));
 }
@@ -76,10 +69,10 @@ async function collectPackages() {
   const pkgs = [];
   for (const root of PKG_ROOTS) {
     const abs = path.join(REPO, root);
-    if (!(await exists(abs))) continue;
+    if (!(await fileExists(abs))) continue;
     for await (const d of walkDirs(abs, 1)) {
       const pj = path.join(d, "package.json");
-      if (!(await exists(pj))) continue;
+      if (!(await fileExists(pj))) continue;
       const pkg = await readJSON(pj);
       const src = path.join(d, SRC_DIR_NAME);
       pkgs.push({
@@ -87,7 +80,7 @@ async function collectPackages() {
         name: pkg.name ?? path.basename(d),
         short: path.basename(d), // directory name
         src,
-        hasSrc: await exists(src),
+        hasSrc: await fileExists(src),
       });
     }
   }
@@ -123,7 +116,7 @@ async function main() {
         if (!s) continue;
         if (isRel(s)) {
           for (const cand of resolveRelative(f, s)) {
-            if (await exists(cand)) {
+            if (await fileExists(cand)) {
               // which package owns this file?
               for (const other of pkgs) {
                 if (
@@ -157,7 +150,7 @@ async function main() {
     const list = [...deps.get(p.name)].sort();
     const tsPath = path.join(p.dir, "tsconfig.json");
     const pjPath = path.join(p.dir, "package.json");
-    const ts = (await exists(tsPath))
+    const ts = (await fileExists(tsPath))
       ? await readJSON(tsPath)
       : {
           extends: "../../config/tsconfig.base.json",
@@ -190,7 +183,7 @@ async function main() {
 
   // root tsconfig
   const rootTsPath = path.join(REPO, "tsconfig.json");
-  const root = (await exists(rootTsPath))
+  const root = (await fileExists(rootTsPath))
     ? await readJSON(rootTsPath)
     : { files: [] };
   root.references = pkgs.map((p) => ({

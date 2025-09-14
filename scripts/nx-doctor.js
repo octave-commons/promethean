@@ -1,20 +1,12 @@
 #!/usr/bin/env node
 import { promises as fs } from "node:fs";
 import path from "node:path";
+import { fileExists } from "@promethean/utils/fs";
 
 const REPO = process.cwd();
 const ROOTS = ["shared/ts"]; // add more roots if needed
 const SRC_DIR_NAME = "src";
 const exts = [".ts", ".tsx", ".mts", ".cts", ".js", ".mjs", ".cjs"];
-
-async function exists(p) {
-  try {
-    await fs.stat(p);
-    return true;
-  } catch {
-    return false;
-  }
-}
 
 async function* walkDirs(root, depth = 2) {
   // depth 0 = root only, 1 = children, etc.
@@ -57,17 +49,17 @@ async function main() {
   const pkgs = [];
   for (const root of ROOTS) {
     const abs = path.join(REPO, root);
-    if (!(await exists(abs))) continue;
+    if (!(await fileExists(abs))) continue;
     for await (const cand of walkDirs(abs, 1)) {
       // immediate children by default
       const pkgJson = path.join(cand, "package.json");
       const srcDir = path.join(cand, SRC_DIR_NAME);
-      if (await exists(pkgJson)) {
+      if (await fileExists(pkgJson)) {
         const pj = JSON.parse(await fs.readFile(pkgJson, "utf8"));
         pkgs.push({
           dir: cand,
           name: pj.name ?? path.basename(cand),
-          hasSrc: await exists(srcDir),
+          hasSrc: await fileExists(srcDir),
           src: srcDir,
         });
       }
@@ -103,7 +95,7 @@ async function main() {
 
   // Root tsconfig + workspace
   const rootTs = path.join(REPO, "tsconfig.json");
-  if (await exists(rootTs)) {
+  if (await fileExists(rootTs)) {
     const ts = JSON.parse(await fs.readFile(rootTs, "utf8"));
     const refs = (ts.references || []).map((r) => r.path);
     console.log(`\nRoot tsconfig references: ${refs.length}`);
@@ -114,7 +106,7 @@ async function main() {
 
   const ws = path.join(REPO, "pnpm-workspace.yaml");
   console.log(
-    (await exists(ws))
+    (await fileExists(ws))
       ? "\nFound pnpm-workspace.yaml"
       : "\nNo pnpm-workspace.yaml",
   );

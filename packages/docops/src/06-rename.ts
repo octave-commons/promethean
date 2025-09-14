@@ -4,54 +4,51 @@ import { pathToFileURL } from "node:url";
 
 import matter from "gray-matter";
 import { listFilesRec } from "@promethean/utils";
+import { fileExists } from "@promethean/utils/fs.js";
 
 import { parseArgs, slugify, extnamePrefer } from "./utils.js";
 import type { Front } from "./types.js";
 // CLI
 
 export type RenameOptions = { dir: string; dryRun?: boolean; files?: string[] };
-let ROOT = path.resolve("docs/unique");
-let DRY = false;
 
-async function exists(p: string) {
-  try {
-    await fs.stat(p);
-    return true;
-  } catch {
-    return false;
-  }
-}
+const uniqueTarget = async (
+  dir: string,
+  base: string,
+  ext: string,
+  i = 0,
+): Promise<string> => {
+  const candidate = path.join(dir, `${base}${i ? `-${i}` : ""}${ext}`);
+  return (await fileExists(candidate))
+    ? uniqueTarget(dir, base, ext, i + 1)
+    : candidate;
+};
 
-export async function runRename(opts: RenameOptions) {
-  ROOT = path.resolve(opts.dir);
-  DRY = Boolean(opts.dryRun);
-  let files = await listFilesRec(ROOT, new Set([".md", ".mdx", ".txt"]));
-  if (opts.files && opts.files.length) {
-    const wanted = new Set(opts.files.map((p) => path.resolve(p)));
-    files = files.filter((f: string) => wanted.has(path.resolve(f)));
-  }
-  for (const f of files) {
-    const raw = await fs.readFile(f, "utf-8");
-    const fm = (matter(raw).data || {}) as Front;
-    if (!fm.filename) continue;
+export async function runRename(opts: RenameOptions): Promise<void> {
+  const root = path.resolve(opts.dir);
+  const dry = Boolean(opts.dryRun);
+  const files = await listFilesRec(root, new Set([".md", ".mdx", ".txt"]));
+  const wanted = opts.files?.length
+    ? new Set(opts.files.map((p) => path.resolve(p)))
+    : null;
+  const targets = wanted
+    ? files.filter((f: string) => wanted.has(path.resolve(f)))
+    : files;
+  await Promise.all(
+    targets.map(async (f: string) => {
+      const raw = await fs.readFile(f, "utf-8");
+      const fm = (matter(raw).data || {}) as Front;
+      if (!fm.filename) return;
 
-    const want = slugify(fm.filename) + extnamePrefer(f);
-    const dir = path.dirname(f);
-    const currentBase = path.basename(f);
-    if (currentBase === want) continue;
-
-    let target = path.join(dir, want);
-    let i = 1;
-    while (await exists(target)) {
-      const base = slugify(fm.filename) + (i > 1 ? `-${i}` : "");
-      target = path.join(dir, base + extnamePrefer(f));
-      i++;
-    }
-    if (DRY) console.log(`Would rename: ${f} -> ${target}`);
-    else {
-      await fs.rename(f, target);
-    }
-  }
+      const dir = path.dirname(f);
+      const base = slugify(fm.filename);
+      const ext = extnamePrefer(f);
+      const target = await uniqueTarget(dir, base, ext);
+      if (path.basename(f) === path.basename(target)) return;
+      if (dry) console.log(`Would rename: ${f} -> ${target}`);
+      else await fs.rename(f, target);
+    }),
+  );
   console.log("06-rename: done.");
 }
 const isDirect =

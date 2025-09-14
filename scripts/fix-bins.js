@@ -3,20 +3,12 @@
  * Walk all workspace packages, read their package.json, find "bin" entries,
  * and chmod +x each target. Cross-platform (no shx), minimal deps.
  */
-const { promises: fs } = require("fs");
-const path = require("path");
+import { promises as fs } from "node:fs";
+import path from "node:path";
+import { fileExists } from "@promethean/utils/fs";
 
 async function readJSON(p) {
   return JSON.parse(await fs.readFile(p, "utf8"));
-}
-
-async function exists(p) {
-  try {
-    await fs.access(p);
-    return true;
-  } catch {
-    return false;
-  }
 }
 
 async function chmodX(p) {
@@ -30,7 +22,7 @@ async function chmodX(p) {
 
 async function fixPackage(pkgDir) {
   const pkgPath = path.join(pkgDir, "package.json");
-  if (!(await exists(pkgPath))) return;
+  if (!(await fileExists(pkgPath))) return;
   const pkg = await readJSON(pkgPath);
   if (!pkg.bin) return;
 
@@ -38,7 +30,7 @@ async function fixPackage(pkgDir) {
 
   for (const rel of bins) {
     const abs = path.join(pkgDir, rel);
-    if (await exists(abs)) {
+    if (await fileExists(abs)) {
       // ensure shebang exists (best effort, don’t mutate if missing)
       // You can enforce shebang by uncommenting the block below.
       // const content = await fs.readFile(abs, 'utf8');
@@ -56,7 +48,7 @@ async function main() {
   // Simpler: walk ./packages/* (adjust if your layout differs).
   const root = process.cwd();
   const pkgsRoot = path.join(root, "packages");
-  if (!(await exists(pkgsRoot))) return;
+  if (!(await fileExists(pkgsRoot))) return;
 
   const entries = await fs.readdir(pkgsRoot, { withFileTypes: true });
   for (const ent of entries) {

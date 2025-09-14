@@ -1,6 +1,7 @@
 // src/05-materialize.ts
 import { promises as fs } from "fs";
 import * as path from "path";
+import { fileExists } from "@promethean/utils/fs.js";
 import { parseArgs, ensureDir } from "./utils.js";
 import type { BlockManifest, NamePlan } from "./types.js";
 
@@ -15,15 +16,6 @@ function safeJoin(...parts: string[]) {
   const p = path.join(...parts).replace(/\\/g, "/");
   if (p.includes("..")) throw new Error("refusing to write paths with ..");
   return p;
-}
-
-async function exists(p: string) {
-  try {
-    await fs.stat(p);
-    return true;
-  } catch {
-    return false;
-  }
 }
 
 async function main() {
@@ -73,12 +65,12 @@ async function main() {
 
       // avoid clobbering existing files: append -1, -2,...
       let outPath = target;
-      if (await exists(outPath)) {
+      if (await fileExists(outPath)) {
         const ext = path.extname(target);
         const base = path.basename(target, ext);
         const dir = path.dirname(target);
         let i = 1;
-        while (await exists(path.join(dir, `${base}-${i}${ext}`))) i++;
+        while (await fileExists(path.join(dir, `${base}-${i}${ext}`))) i++;
         outPath = path.join(dir, `${base}-${i}${ext}`);
       }
 

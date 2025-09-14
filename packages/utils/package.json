@@ -14,6 +14,16 @@
     "./dist/*": "./dist/*",
     "./*": "./dist/*"
   },
+  "typesVersions": {
+    "*": {
+      "fs": [
+        "dist/fs.d.ts"
+      ],
+      "*": [
+        "dist/*"
+      ]
+    }
+  },
   "files": [
     "dist"
   ],

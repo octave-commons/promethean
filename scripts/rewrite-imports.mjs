@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { promises as fs } from "node:fs";
 import path from "node:path";
+import { fileExists } from "@promethean/utils/fs";
 
 const WRITE = process.argv.includes("--write");
 const REPO = process.cwd();
@@ -8,14 +9,6 @@ const PKG_ROOTS = ["shared/ts"];
 const SRC_DIR_NAME = "src";
 const exts = [".ts", ".tsx", ".mts", ".cts", ".js", ".mjs", ".cjs"];
 
-async function exists(p) {
-  try {
-    await fs.stat(p);
-    return true;
-  } catch {
-    return false;
-  }
-}
 async function readJSON(p) {
   return JSON.parse(await fs.readFile(p, "utf8"));
 }
@@ -74,13 +67,13 @@ async function collectPackages() {
   const pkgs = [];
   for (const root of PKG_ROOTS) {
     const abs = path.join(REPO, root);
-    if (!(await exists(abs))) continue;
+    if (!(await fileExists(abs))) continue;
     for await (const d of walkDirs(abs, 1)) {
       const pj = path.join(d, "package.json");
-      if (!(await exists(pj))) continue;
+      if (!(await fileExists(pj))) continue;
       const pkg = await readJSON(pj);
       const src = path.join(d, SRC_DIR_NAME);
-      if (!(await exists(src))) continue;
+      if (!(await fileExists(src))) continue;
       pkgs.push({ name: pkg.name, dir: d, src });
     }
   }
@@ -109,7 +102,7 @@ async function main() {
 
       for (const m of parseMatches(code)) {
         for (const cand of resolveCandidates(f, m.spec)) {
-          if (!(await exists(cand))) continue;
+          if (!(await fileExists(cand))) continue;
           const owner = findOwner(cand, pkgs);
           if (owner && owner.name !== pkg.name) {
             const newSpec = owner.name; // e.g. @promethean/agent
