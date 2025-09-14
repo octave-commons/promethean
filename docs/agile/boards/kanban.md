@@ -237,7 +237,7 @@ kanban-plugin: board
 ## Incoming
 
 - [ ] Get existing pipelines to work through UI
-- [ ] recover broker code
+- [ ] [[recover broker code]]
 
 
 ## Accepted
