@@ -1,5 +1,4 @@
-/* eslint-disable functional/no-let, functional/no-loop-statements, functional/no-try-statements, max-lines-per-function */
-import type { Db, ChangeStreamDocument } from 'mongodb';
+import type { Db } from 'mongodb';
 import type { EventBus } from '@promethean/event/types.js';
 import { retry, createLogger } from '@promethean/utils';
 
