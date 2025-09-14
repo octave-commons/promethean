@@ -1,3 +1,6 @@
+import { pathToFileURL } from "url";
+import { promises as fs } from "fs";
+
 import { z } from "zod";
 import { ollamaJSON } from "@promethean/utils";
 
@@ -16,14 +19,14 @@ import type {
   SonarIssue,
 } from "./types.js";
 
-const args = parseArgs({
-  "--in": ".cache/sonar/issues.json",
-  "--out": ".cache/sonar/plans.json",
-  "--group-by": "rule+prefix", // "rule" | "prefix" | "rule+prefix"
-  "--prefix-depth": "2",
-  "--min-group": "2",
-  "--model": "qwen3:4b",
-});
+export type PlanOpts = {
+  input: string;
+  output: string;
+  groupBy: string;
+  prefixDepth: number;
+  minGroup: number;
+  model: string;
+};
 
 const TaskSchema = z.object({
   title: z.string().min(1),
@@ -49,24 +52,24 @@ function bundleTitle(k: string) {
   return parts.join(" • ");
 }
 
-async function main() {
-  const inPath = String(args["--in"]);
-  const outPath = String(args["--out"]);
-  const model = String(args["--model"]);
+export async function plan(opts: PlanOpts) {
+  const inPath = opts.input;
+  const outPath = opts.output;
+  const model = opts.model;
 
   const { issues, project } = JSON.parse(
-    await (await fetch("file://" + process.cwd() + "/" + inPath)).text(),
+    await fs.readFile(inPath, "utf-8"),
   ) as FetchPayload;
 
-  const depth = Number(args["--prefix-depth"]);
-  const mode = String(args["--group-by"]);
+  const depth = opts.prefixDepth;
+  const mode = opts.groupBy;
   const groups = new Map<string, SonarIssue[]>();
   for (const it of issues) {
     const k = bundleKey(it, mode, depth);
     (groups.get(k) ?? groups.set(k, []).get(k)!).push(it);
   }
 
-  const min = Number(args["--min-group"]);
+  const min = opts.minGroup;
   const bundles: IssueBundle[] = [];
   for (const [k, arr] of groups) {
     if (arr.length < min) continue;
@@ -96,7 +99,6 @@ async function main() {
 
   const tasks: PlanTask[] = [];
   for (const b of bundles) {
-    // Prepare compact context for LLM
     const bullets = b.issues
       .slice(0, 30)
       .map((i) => {
@@ -135,7 +137,6 @@ async function main() {
       const parsed = TaskSchema.safeParse(obj);
       if (!parsed.success) throw new Error("invalid LLM JSON");
     } catch {
-      // Fallback
       obj = {
         title: `[${b.severityTop}] ${b.title}`,
         summary: `Address ${b.issues.length} SonarQube finding(s) related to ${
@@ -188,7 +189,26 @@ async function main() {
   console.log(`sonarflow: planned ${tasks.length} tasks → ${outPath}`);
 }
 
-main().catch((e) => {
-  console.error(e);
-  process.exit(1);
-});
+if (import.meta.url === pathToFileURL(process.argv[1]!).href) {
+  const args = parseArgs({
+    "--in": ".cache/sonar/issues.json",
+    "--out": ".cache/sonar/plans.json",
+    "--group-by": "rule+prefix",
+    "--prefix-depth": "2",
+    "--min-group": "2",
+    "--model": "qwen3:4b",
+  });
+  plan({
+    input: String(args["--in"]),
+    output: String(args["--out"]),
+    groupBy: String(args["--group-by"]),
+    prefixDepth: Number(args["--prefix-depth"]),
+    minGroup: Number(args["--min-group"]),
+    model: String(args["--model"]),
+  }).catch((e) => {
+    console.error(e);
+    process.exit(1);
+  });
+}
+
+export default plan;

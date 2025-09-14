@@ -1,3 +1,4 @@
+/* eslint-disable */
 import * as path from "path";
 import * as fs from "fs/promises";
 
@@ -13,6 +14,8 @@ import {
   readJSON,
   writeJSON,
   stripGeneratedSections,
+  START_MARK,
+  END_MARK,
   frontToYAML,
 } from "../utils.js";
 
@@ -100,16 +103,10 @@ test.serial(
 );
 
 test("stripGeneratedSections removes markers and keeps above", (t) => {
-  const s = [
-    "top",
-    "<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->",
-    "stuff",
-    "<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->",
-    "tail",
-  ].join("\n");
-  const out = stripGeneratedSections(s);
+  const s = ["top", START_MARK, "stuff", END_MARK, "tail"].join("\n");
+  const out = stripGeneratedSections(s, START_MARK, END_MARK);
   t.is(out, "top");
-  const out2 = stripGeneratedSections("no markers\n");
+  const out2 = stripGeneratedSections("no markers\n", START_MARK, END_MARK);
   t.is(out2, "no markers\n");
 });
 

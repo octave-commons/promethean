@@ -1,12 +1,14 @@
 #!/usr/bin/env node
 import { promises as fs } from "node:fs";
 import path from "node:path";
+import { listFilesRec } from "@promethean/utils";
 
 const DRY = process.argv.includes("--dry");
 const REPO = process.cwd();
 const PKG_ROOTS = ["shared/ts"]; // add more roots if needed
 const SRC_DIR_NAME = "src";
 const exts = [".ts", ".tsx", ".mts", ".cts", ".js", ".mjs", ".cjs"];
+const EXT_SET = new Set(exts);
 
 const isRel = (s) => s?.startsWith("./") || s?.startsWith("../");
 
@@ -24,33 +26,6 @@ async function readJSON(p) {
 async function writeJSON(p, obj) {
   const s = JSON.stringify(obj, null, 2) + "\n";
   if (!DRY) await fs.writeFile(p, s, "utf8");
-}
-
-async function* walkDirs(root, depth = 2) {
-  if (depth < 0) return;
-  const entries = await fs
-    .readdir(root, { withFileTypes: true })
-    .catch(() => []);
-  for (const e of entries) {
-    if (!e.isDirectory()) continue;
-    const p = path.join(root, e.name);
-    yield p;
-    yield* walkDirs(p, depth - 1);
-  }
-}
-
-async function* walkFiles(dir) {
-  const entries = await fs
-    .readdir(dir, { withFileTypes: true })
-    .catch(() => []);
-  for (const e of entries) {
-    const p = path.join(dir, e.name);
-    if (e.isDirectory()) {
-      yield* walkFiles(p);
-    } else if (exts.some((x) => p.endsWith(x))) {
-      yield p;
-    }
-  }
 }
 
 function parseSpecs(code) {
@@ -77,15 +52,16 @@ async function collectPackages() {
   for (const root of PKG_ROOTS) {
     const abs = path.join(REPO, root);
     if (!(await exists(abs))) continue;
-    for await (const d of walkDirs(abs, 1)) {
-      const pj = path.join(d, "package.json");
-      if (!(await exists(pj))) continue;
+    const files = await listFilesRec(abs, new Set([".json"]));
+    for (const pj of files) {
+      if (path.basename(pj) !== "package.json") continue;
+      const d = path.dirname(pj);
       const pkg = await readJSON(pj);
       const src = path.join(d, SRC_DIR_NAME);
       pkgs.push({
         dir: d,
         name: pkg.name ?? path.basename(d),
-        short: path.basename(d), // directory name
+        short: path.basename(d),
         src,
         hasSrc: await exists(src),
       });
@@ -117,7 +93,8 @@ async function main() {
 
   // detect deps from imports
   for (const p of pkgs) {
-    for await (const f of walkFiles(p.src)) {
+    const files = await listFilesRec(p.src, EXT_SET);
+    for (const f of files) {
       const code = await fs.readFile(f, "utf8");
       for (const s of parseSpecs(code)) {
         if (!s) continue;

@@ -38,14 +38,24 @@ export const StepSchema = z
   .refine((s) => !!(s.shell || s.node || s.ts || s.js), {
     message: "step must define shell|node|ts|js",
   })
-  .refine((s) => s.inputs.length === 0 || !!s.inputSchema, {
-    message: "inputSchema required when inputs declared",
-    path: ["inputSchema"],
-  })
-  .refine((s) => s.outputs.length === 0 || !!s.outputSchema, {
-    message: "outputSchema required when outputs declared",
-    path: ["outputSchema"],
-  });
+  .refine(
+    (s) =>
+      s.inputs.every((i) => !i.toLowerCase().endsWith(".json")) ||
+      !!s.inputSchema,
+    {
+      message: "inputSchema required when inputs declared",
+      path: ["inputSchema"],
+    },
+  )
+  .refine(
+    (s) =>
+      s.outputs.every((o) => !o.toLowerCase().endsWith(".json")) ||
+      !!s.outputSchema,
+    {
+      message: "outputSchema required when outputs declared",
+      path: ["outputSchema"],
+    },
+  );
 
 export const PipelineSchema = z.object({
   name: z.string().min(1),
