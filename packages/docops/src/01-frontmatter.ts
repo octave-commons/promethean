@@ -9,7 +9,8 @@ import { z } from "zod";
 import ollama from "ollama";
 
 import { openDB } from "./db.js";
-import { parseArgs, listFilesRec, randomUUID } from "./utils.js";
+import { parseArgs, randomUUID } from "./utils.js";
+import { listFilesRec } from "@promethean/utils";
 import type { Front } from "./types.js";
 import type { DBs } from "./db.js";
 

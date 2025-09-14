@@ -3,8 +3,7 @@ import * as path from "path";
 import { z } from "zod";
 import { openLevelCache } from "@promethean/level-cache";
 
-import { parseArgs } from "@promethean/utils";
-import { ollamaJSON } from "./utils.js";
+import { parseArgs, ollamaJSON } from "@promethean/utils";
 import type { ScanOut, Outline, OutlinesFile } from "./types.js";
 
 const args = parseArgs({

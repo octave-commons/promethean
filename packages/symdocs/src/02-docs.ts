@@ -3,7 +3,8 @@ import * as path from "path";
 
 import { z } from "zod";
 
-import { parseArgs, OLLAMA_URL, sha1 } from "./utils.js";
+import { parseArgs, sha1 } from "./utils.js";
+import { ollamaJSON } from "@promethean/utils";
 import type { DocDraft, DocMap, ScanResult } from "./types.js";
 
 const args = parseArgs({
@@ -23,31 +24,6 @@ const DraftSchema = z.object({
   tags: z.array(z.string()).optional(),
   mermaid: z.string().optional(),
 });
-
-async function ollamaJSON(model: string, prompt: string): Promise<any> {
-  const res = await fetch(`${OLLAMA_URL}/api/generate`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      model,
-      prompt,
-      stream: false,
-      options: { temperature: 0 },
-      format: "json",
-    }),
-  });
-  if (!res.ok) throw new Error(`Ollama error ${res.status}`);
-  const data: any = await res.json();
-  const raw =
-    typeof data.response === "string"
-      ? data.response
-      : JSON.stringify(data.response);
-  const cleaned = raw
-    .replace(/```json\s*/g, "")
-    .replace(/```\s*$/g, "")
-    .trim();
-  return JSON.parse(cleaned);
-}
 
 function semaphore(max: number) {
   let cur = 0;
