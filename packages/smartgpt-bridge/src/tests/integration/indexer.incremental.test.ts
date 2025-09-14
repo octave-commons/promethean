@@ -86,7 +86,9 @@ test.serial(
     t.is(s1.mode, "indexed");
     const stateFile = await loadBootstrapState(ROOT);
     t.truthy(stateFile);
-    t.true(["indexed", "bootstrap"].includes(stateFile.mode));
+    if (stateFile) {
+      t.true(["indexed", "bootstrap"].includes(stateFile.mode ?? ""));
+    }
 
     // Clear call history for incremental phase
     col.upserts = [];

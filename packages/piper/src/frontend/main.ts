@@ -1,4 +1,3 @@
-/* eslint-disable max-lines */
 import { getSelection } from "./selection.js";
 import "./file-tree.js";
 import "./components/piper-step.js";

@@ -17,14 +17,14 @@ export class GraphDB {
     this.hashtags = hashtags;
   }
 
-  static async create(repoPath: string): Promise<GraphDB> {
-    const store = new ContextStore();
-    const links = await store.createCollection(
+  static async create(repoPath: string, store?: any): Promise<GraphDB> {
+    const ctx = store ?? new ContextStore();
+    const links = await ctx.createCollection(
       "markdown_graph_links",
       "text",
       "timestamp",
     );
-    const hashtags = await store.createCollection(
+    const hashtags = await ctx.createCollection(
       "markdown_graph_hashtags",
       "text",
       "timestamp",

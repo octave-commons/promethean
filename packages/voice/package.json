@@ -5,8 +5,8 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
-    "test": "cross-env TS_NODE_TRANSPILE_ONLY=1 ava --config ../../../config/ava.config.mjs \"src/tests/**/*.ts\"",
-    "coverage": "cross-env TS_NODE_TRANSPILE_ONLY=1 c8 ava \"src/tests/**/*.ts\"",
+    "test": "cross-env TS_NODE_TRANSPILE_ONLY=1 ava --config ../../../config/ava.config.mjs \"tests/**/*.ts\" \"src/tests/**/*.ts\"",
+    "coverage": "cross-env TS_NODE_TRANSPILE_ONLY=1 c8 ava \"tests/**/*.ts\" \"src/tests/**/*.ts\"",
     "lint": "pnpm exec eslint . || true",
     "format": "pnpm exec prettier --write ."
   },
@@ -29,6 +29,7 @@
       "ts": "module"
     },
     "files": [
+      "tests/**/*.ts",
       "src/tests/**/*.ts"
     ],
     "nodeArguments": [

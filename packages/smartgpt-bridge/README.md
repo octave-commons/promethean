@@ -43,7 +43,7 @@ export AGENT_RESTORE_ON_START=true             # load past agents as historical 
 npm i
 npm start
 # http://0.0.0.0:3210/openapi.json
-# Dashboard now served via `pnpm serve:sites`:
+# Dashboard now served via `frontend-service`:
 #   http://localhost:4500/smartgpt-dashboard/
 ```
 
@@ -250,11 +250,11 @@ If auth is enabled, paste a bearer token in the token box and Save. The UI store
 
 ### Indexer bootstrap + incremental cursor
 
-- On first launch, the service enters "bootstrap" mode and enumerates files once.
-- Progress is saved to `logs/indexer/<ROOT_PATH_SAFE>/bootstrap.json` so restarts resume from the last processed file.
-- While bootstrapping, status includes `{ bootstrap: { total, cursor, remaining } }`.
-- After finishing, it switches to `indexed` mode and, on subsequent starts, performs an incremental scan to enqueue only new/changed files and purge removed files.
-- To force a full rebuild, delete the corresponding `bootstrap.json` and restart.
+  - On first launch, the service enters "bootstrap" mode and enumerates files once.
+  - Progress is cached under `.cache/smartgpt-bridge` keyed by root path so restarts resume from the last processed file.
+  - While bootstrapping, status includes `{ bootstrap: { total, cursor, remaining } }`.
+  - After finishing, it switches to `indexed` mode and, on subsequent starts, performs an incremental scan to enqueue only new/changed files and purge removed files.
+  - To force a full rebuild, clear the cached state for that root path and restart.
 
 ## Funnel for Custom GPT
 

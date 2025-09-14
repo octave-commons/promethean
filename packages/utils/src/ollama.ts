@@ -1,12 +1,48 @@
 export const OLLAMA_URL = process.env.OLLAMA_URL ?? "http://localhost:11434";
 
-async function check(res: globalThis.Response, ctx: string) {
+async function check(res: Readonly<Response>, ctx: string) {
   if (!res.ok) {
     const text = await res.text().catch(() => "");
-    const snippet = text ? `: ${text.slice(0, 400)}${text.length > 400 ? "…" : ""}` : "";
+    const snippet = text
+      ? `: ${text.slice(0, 400)}${text.length > 400 ? "…" : ""}`
+      : "";
     throw new Error(`ollama ${ctx} ${res.status}${snippet}`);
   }
   return res;
+}
+
+function isNumberArray(val: unknown): val is number[] {
+  return Array.isArray(val) && val.every((n) => typeof n === "number");
+}
+
+export type EmbeddingResponse = {
+  embedding: number[];
+};
+
+export type BatchEmbeddingResponse = {
+  data: { embedding: number[] }[];
+};
+
+function isEmbeddingResponse(val: unknown): val is EmbeddingResponse {
+  return (
+    typeof val === "object" &&
+    val !== null &&
+    "embedding" in val &&
+    isNumberArray((val as { embedding: unknown }).embedding)
+  );
+}
+
+function isBatchEmbeddingResponse(val: unknown): val is BatchEmbeddingResponse {
+  if (typeof val !== "object" || val === null || !("data" in val)) return false;
+  const data = (val as { data: unknown }).data;
+  return (
+    Array.isArray(data) &&
+    data.length > 0 &&
+    typeof data[0] === "object" &&
+    data[0] !== null &&
+    "embedding" in data[0] &&
+    isNumberArray((data[0] as { embedding: unknown }).embedding)
+  );
 }
 
 export async function ollamaEmbed(
@@ -27,15 +63,24 @@ export async function ollamaEmbed(
   } finally {
     clearTimeout(timer);
   }
-  const data: any = await res.json();
-  const embedding = data?.embedding ?? data?.data?.[0]?.embedding;
-  if (!Array.isArray(embedding) || !embedding.every((n: any) => typeof n === "number")) {
-    throw new Error("invalid embeddings response");
-  }
-  return embedding;
+  const data: unknown = await res.json();
+  if (isEmbeddingResponse(data)) return data.embedding;
+  if (isBatchEmbeddingResponse(data)) return data.data[0]!.embedding;
+  throw new Error("invalid embeddings response");
 }
 
-export async function ollamaJSON(model: string, prompt: string): Promise<any> {
+export type GenerateResponse = {
+  readonly response: unknown;
+};
+
+function isGenerateResponse(val: unknown): val is GenerateResponse {
+  return typeof val === "object" && val !== null && "response" in val;
+}
+
+export async function ollamaJSON(
+  model: string,
+  prompt: string,
+): Promise<unknown> {
   const res = await fetch(`${OLLAMA_URL}/api/generate`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -48,7 +93,8 @@ export async function ollamaJSON(model: string, prompt: string): Promise<any> {
     }),
   });
   await check(res, "generate");
-  const data: any = await res.json();
+  const data: unknown = await res.json();
+  if (!isGenerateResponse(data)) throw new Error("invalid generate response");
   const raw =
     typeof data.response === "string"
       ? data.response
