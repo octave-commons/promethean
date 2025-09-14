@@ -1862,6 +1862,18 @@ importers:
         specifier: ^3.4.2
         version: 3.6.2
 
+  packages/frontend-service:
+    dependencies:
+      '@fastify/static':
+        specifier: 8.2.0
+        version: 8.2.0
+      '@promethean/web-utils':
+        specifier: workspace:*
+        version: link:../web-utils
+      fastify:
+        specifier: 5.0.0
+        version: 5.0.0
+
   packages/fs:
     dependencies:
       '@promethean/stream':
@@ -4053,6 +4065,10 @@ importers:
       zod:
         specifier: 3.23.8
         version: 3.23.8
+    devDependencies:
+      fastify:
+        specifier: 5.0.0
+        version: 5.0.0
 
   packages/worker:
     dependencies:
