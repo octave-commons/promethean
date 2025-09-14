@@ -14,6 +14,7 @@
           "id": "symdocs-docs",
           "deps": ["symdocs-scan"],
           "shell": "pnpm --filter @promethean/symdocs symdocs:02-docs --model qwen3:4b",
+          "env": { "OLLAMA_URL": "${OLLAMA_URL}" },
           "inputs": [".cache/symdocs/symbols.json"],
           "outputs": [".cache/symdocs/docs.json"]
         },
@@ -49,6 +50,7 @@
           "id": "simtasks-embed",
           "deps": ["simtasks-scan"],
           "shell": "pnpm --filter @promethean/simtasks sim:02-embed --embed-model nomic-embed-text:latest",
+          "env": { "OLLAMA_URL": "${OLLAMA_URL}" },
           "inputs": [".cache/simtasks/functions.json"],
           "outputs": [".cache/simtasks/embeddings.json"]
         },
@@ -63,6 +65,7 @@
           "id": "simtasks-plan",
           "deps": ["simtasks-cluster"],
           "shell": "pnpm --filter @promethean/simtasks sim:04-plan --model qwen3:4b --base-dir packages",
+          "env": { "OLLAMA_URL": "${OLLAMA_URL}" },
           "inputs": [".cache/simtasks/clusters.json"],
           "outputs": [".cache/simtasks/plans.json"]
         },
@@ -143,6 +146,7 @@
           "id": "sv-plan",
           "deps": ["sv-diff"],
           "shell": "pnpm --filter @promethean/semverguard sv:03-plan --diff .cache/semverguard/diff.json --out .cache/semverguard/plans.json --model qwen3:4b",
+          "env": { "OLLAMA_URL": "${OLLAMA_URL}" },
           "inputs": [".cache/semverguard/diff.json"],
           "outputs": [".cache/semverguard/plans.json"]
         },
@@ -210,6 +214,7 @@
           "id": "br-eval",
           "deps": ["br-match"],
           "shell": "pnpm --filter @promethean/boardrev br:05-eval --model qwen3:4b",
+          "env": { "OLLAMA_URL": "${OLLAMA_URL}" },
           "inputs": [
             ".cache/boardrev/prompts.json",
             ".cache/boardrev/context.json"
@@ -254,6 +259,7 @@
           "id": "sonar-plan",
           "deps": ["sonar-fetch"],
           "shell": "pnpm --filter @promethean/sonarflow sonar:plan --in .cache/sonar/issues.json --out .cache/sonar/plans.json --group-by rule+prefix --prefix-depth 2 --min-group 2 --model qwen3:4b",
+          "env": { "OLLAMA_URL": "${OLLAMA_URL}" },
           "inputs": [".cache/sonar/issues.json"],
           "outputs": [".cache/sonar/plans.json"]
         },

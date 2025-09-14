@@ -23,8 +23,7 @@
     "@promethean/utils": "workspace:*",
     "gray-matter": "^4.0.3",
     "yaml": "^2.5.0",
-    "zod": "^3.23.8",
-    "@promethean/utils": "workspace:*"
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "tsx": "^4.19.2"
