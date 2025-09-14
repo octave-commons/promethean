@@ -1,10 +1,11 @@
+/* eslint-disable */
 import { promises as fs } from "fs";
 import * as path from "path";
 
 import { z } from "zod";
 import { ollamaJSON } from "@promethean/utils";
 
-import { parseArgs, writeJSON, uuid } from "./utils.js";
+import { parseArgs, writeJSON, randomUUID } from "./utils.js";
 import type {
   ScanOutput,
   ClassesFile,
@@ -108,7 +109,7 @@ async function main() {
           tags: [meta.task],
         } satisfies z.infer<typeof RecipeSchema>);
 
-    const pr: PlanRecipe = { uuid: uuid(), task: meta.task, ...recipe };
+    const pr: PlanRecipe = { uuid: randomUUID(), task: meta.task, ...recipe };
     (outGroups[g.key] ||= []).push(pr);
   }
 

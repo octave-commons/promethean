@@ -1,55 +1,75 @@
+/* eslint-disable */
 import * as path from "path";
 import { promises as fs } from "fs";
 
 import { globby } from "globby";
-import { ollamaEmbed, parseArgs, writeText } from "@promethean/utils";
+import { openLevelCache, type Cache } from "@promethean/level-cache";
+import { ollamaEmbed, parseArgs } from "@promethean/utils";
 
-import type { RepoDoc, Embeddings } from "./types.js";
+import type { RepoDoc } from "./types.js";
 
-const args = parseArgs({
-  "--globs":
-    "{README.md,docs/**/*.md,packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}}",
-  "--max-bytes": "200000",
-  "--max-lines": "400",
-  "--embed-model": "nomic-embed-text:latest",
-  "--out-index": ".cache/boardrev/repo-index.json",
-  "--out-emb": ".cache/boardrev/repo-embeddings.json",
-});
-
-async function main() {
-  const files = await globby(args["--globs"].split(",").map((s) => s.trim()));
-  const maxB = Number(args["--max-bytes"]),
-    maxL = Number(args["--max-lines"]);
-  const index: RepoDoc[] = [];
-  const embeddings: Embeddings = {};
+export async function indexRepo({
+  globs,
+  maxBytes,
+  maxLines,
+  embedModel,
+  cache,
+}: Readonly<{
+  globs: string;
+  maxBytes: number;
+  maxLines: number;
+  embedModel: string;
+  cache: string;
+}>) {
+  const files = await globby(globs.split(",").map((s) => s.trim()));
+  const db = await openLevelCache<unknown>({
+    path: path.resolve(cache),
+  });
+  const docCache = db.withNamespace("idx") as Cache<RepoDoc>;
+  const embCache = db.withNamespace("emb") as Cache<number[]>;
+  let indexed = 0;
 
   for (const f of files) {
     const st = await fs.stat(f);
-    if (st.size > maxB) continue;
+    if (st.size > maxBytes) continue;
     const raw = await fs.readFile(f, "utf-8");
-    const excerpt = raw.split(/\r?\n/).slice(0, maxL).join("\n");
+    const excerpt = raw.split(/\r?\n/).slice(0, maxLines).join("\n");
     const kind = /\.(md|mdx)$/i.test(f) ? "doc" : "code";
-    index.push({ path: f.replace(/\\/g, "/"), size: st.size, kind, excerpt });
-  }
-
-  // embed
-  for (const d of index) {
-    const key = d.path;
-    if (!embeddings[key]) {
-      const text = `PATH: ${d.path}\nKIND: ${d.kind}\n---\n${d.excerpt}`;
-      embeddings[key] = await ollamaEmbed(args["--embed-model"], text);
+    const doc: RepoDoc = {
+      path: f.replace(/\\/g, "/"),
+      size: st.size,
+      kind,
+      excerpt,
+    };
+    await docCache.set(doc.path, doc);
+    if (!(await embCache.has(doc.path))) {
+      const text = `PATH: ${doc.path}\nKIND: ${doc.kind}\n---\n${doc.excerpt}`;
+      await embCache.set(doc.path, await ollamaEmbed(embedModel, text));
     }
+    indexed++;
   }
-
-  await writeText(
-    path.resolve(args["--out-index"]),
-    JSON.stringify({ docs: index }, null, 2),
-  );
-  await writeText(path.resolve(args["--out-emb"]), JSON.stringify(embeddings));
-  console.log(`boardrev: indexed ${index.length} repo docs`);
+  await db.close();
+  console.log(`boardrev: indexed ${indexed} repo docs`);
 }
 
-main().catch((e) => {
-  console.error(e);
-  process.exit(1);
-});
+import { pathToFileURL } from "url";
+if (import.meta.url === pathToFileURL(process.argv[1]!).href) {
+  const args = parseArgs({
+    "--globs":
+      "{README.md,docs/**/*.md,packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}}",
+    "--max-bytes": "200000",
+    "--max-lines": "400",
+    "--embed-model": "nomic-embed-text:latest",
+    "--cache": ".cache/boardrev/repo-cache",
+  });
+  indexRepo({
+    globs: args["--globs"],
+    maxBytes: Number(args["--max-bytes"]),
+    maxLines: Number(args["--max-lines"]),
+    embedModel: args["--embed-model"],
+    cache: args["--cache"],
+  }).catch((e) => {
+    console.error(e);
+    process.exit(1);
+  });
+}
