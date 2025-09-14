@@ -4,23 +4,21 @@ import * as path from "path";
 import { slug, parseArgs, writeText, readMaybe } from "@promethean/utils";
 import type { PromptChunk } from "./types.js";
 
-const args = parseArgs({
-  "--process": "docs/agile/Process.md",
-  "--out": ".cache/boardrev/prompts.json",
-  "--min-level": "2",
-});
-
-async function main() {
-  const p = path.resolve(args["--process"]!);
+export async function processPrompts({
+  process,
+  out,
+  minLevel,
+}: Readonly<{ process: string; out: string; minLevel: number }>) {
+  const p = path.resolve(process);
   const raw = await readMaybe(p);
   const chunks: PromptChunk[] = raw
-    ? sliceByHeading(raw, Number(args["--min-level"]))
+    ? sliceByHeading(raw, minLevel)
     : defaultPrompts();
   await writeText(
-    path.resolve(args["--out"]!),
+    path.resolve(out),
     JSON.stringify({ prompts: chunks }, null, 2),
   );
-  console.log(`boardrev: prompts → ${args["--out"]!} (${chunks.length})`);
+  console.log(`boardrev: prompts → ${out} (${chunks.length})`);
 }
 
 function sliceByHeading(md: string, minLevel: number): PromptChunk[] {
@@ -96,7 +94,18 @@ function defaultPrompts(): PromptChunk[] {
   ];
 }
 
-main().catch((e) => {
-  console.error(e);
-  process.exit(1);
-});
+if (import.meta.main) {
+  const args = parseArgs({
+    "--process": "docs/agile/Process.md",
+    "--out": ".cache/boardrev/prompts.json",
+    "--min-level": "2",
+  });
+  processPrompts({
+    process: args["--process"],
+    out: args["--out"],
+    minLevel: Number(args["--min-level"]),
+  }).catch((e) => {
+    console.error(e);
+    process.exit(1);
+  });
+}
