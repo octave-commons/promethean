@@ -2926,6 +2926,9 @@ importers:
 
   packages/platform:
     dependencies:
+      '@promethean/utils':
+        specifier: workspace:*
+        version: link:../utils
       '@types/javascript-time-ago':
         specifier: ^2.5.0
         version: 2.5.0
@@ -3303,7 +3306,11 @@ importers:
         specifier: ^8.5.9
         version: 8.18.1
 
-  packages/security: {}
+  packages/security:
+    dependencies:
+      '@promethean/platform':
+        specifier: workspace:*
+        version: link:../platform
 
   packages/semvergaurd:
     dependencies:
@@ -3954,7 +3961,14 @@ importers:
 
   packages/ui-components: {}
 
-  packages/utils: {}
+  packages/utils:
+    dependencies:
+      yaml:
+        specifier: ^2.5.1
+        version: 2.8.1
+      zod:
+        specifier: ^3.23.8
+        version: 3.25.76
 
   packages/voice:
     dependencies:
