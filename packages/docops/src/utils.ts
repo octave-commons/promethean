@@ -4,7 +4,6 @@ import { once } from "node:events";
 import { createWriteStream } from "node:fs";
 import { randomUUID as nodeRandomUUID } from "node:crypto";
 
-import { listFiles } from "@promethean/fs";
 import { unified } from "unified";
 import remarkParse from "remark-parse";
 import { visit } from "unist-util-visit";
@@ -30,20 +29,6 @@ export function parseArgs(
     }
   }
   return out;
-}
-
-export async function listFilesRec(
-  root: string,
-  exts: Set<string>,
-): Promise<string[]> {
-  const files = await listFiles(root, { includeHidden: false });
-  return (
-    files
-      .map((f) => f.path)
-      // exclude Emacs lockfiles like .#file.md which can cause crashes
-      .filter((p) => !path.basename(p).startsWith(".#"))
-      .filter((p) => exts.has(path.extname(p).toLowerCase()))
-  );
 }
 
 export function randomUUID(): string {

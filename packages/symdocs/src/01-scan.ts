@@ -5,7 +5,6 @@ import * as ts from "typescript";
 
 import {
   parseArgs,
-  listFilesRec,
   makeProgram,
   sha1,
   getLangFromExt,
@@ -17,6 +16,7 @@ import {
   getNodeText,
   posToLine,
   relFromRepo,
+  listFilesRec,
 } from "@promethean/utils";
 import type { SymKind, SymbolInfo, ScanResult } from "./types.js";
 

@@ -3,12 +3,15 @@ import * as path from "path";
 
 import * as ts from "typescript";
 
+import { makeProgram, sha1 } from "./utils.js";
 import {
+  posToLine,
+  getJsDocText,
+  getNodeText,
+  relFromRepo,
+  parseArgs,
   listFilesRec,
-  makeProgram,
-  sha1,
-} from "./utils.js";
-import { posToLine, getJsDocText, getNodeText, relFromRepo, parseArgs} from "@promethean/utils";
+} from "@promethean/utils";
 import type { FunctionInfo, ScanResult, FnKind } from "./types.js";
 
 const args = parseArgs({
