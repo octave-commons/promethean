@@ -18,6 +18,7 @@ import {
   saveBootstrapState,
   deleteBootstrapState,
 } from "./indexerState.js";
+import type { BootstrapState } from "./indexerState.js";
 
 const logger = createLogger({ service: "smartgpt-bridge", stream: logStream });
 
@@ -28,13 +29,13 @@ export type CollectionLike = {
   get?(...args: any[]): Promise<any>;
   count?(): Promise<number>;
   add?(...args: any[]): Promise<void>;
-}
+};
 
 export type ChromaLike = {
   getOrCreateCollection(
     args: GetOrCreateCollectionParams,
   ): Promise<CollectionLike>;
-}
+};
 
 let CHROMA: ChromaLike | null = null; // lazily created to avoid holding open handles during import
 let EMBEDDING_FACTORY: (() => Promise<any>) | null = null; // optional override for tests
@@ -398,12 +399,13 @@ class IndexerManager {
           this.bootstrap.fileList[this.bootstrap.cursor] === rel
         ) {
           this.bootstrap.cursor++;
-          await saveBootstrapState(this.rootPath!, {
+          const nextState1: Omit<BootstrapState, "rootPath"> = {
             mode: "bootstrap",
             cursor: this.bootstrap.cursor,
             fileList: this.bootstrap.fileList,
-            startedAt: this.startedAt,
-          });
+            ...(this.startedAt !== null ? { startedAt: this.startedAt } : {}),
+          };
+          await saveBootstrapState(this.rootPath!, nextState1);
         }
       } catch (e: any) {
         this.errors.push(String(e?.message || e));
@@ -415,12 +417,13 @@ class IndexerManager {
           this.bootstrap.fileList[this.bootstrap.cursor] === rel
         ) {
           this.bootstrap.cursor++;
-          await saveBootstrapState(this.rootPath!, {
+          const nextState2: Omit<BootstrapState, "rootPath"> = {
             mode: "bootstrap",
             cursor: this.bootstrap.cursor,
             fileList: this.bootstrap.fileList,
-            startedAt: this.startedAt,
-          });
+            ...(this.startedAt !== null ? { startedAt: this.startedAt } : {}),
+          };
+          await saveBootstrapState(this.rootPath!, nextState2);
         }
       }
       if (this.queue.length) await new Promise((r) => setTimeout(r, delayMs));
@@ -436,14 +439,15 @@ class IndexerManager {
       ) {
         this.mode = "indexed";
         const { files, fileInfo } = await scanFiles(this.rootPath!);
-        await saveBootstrapState(this.rootPath!, {
+        const nextState3: Omit<BootstrapState, "rootPath"> = {
           mode: "indexed",
           cursor: this.bootstrap.cursor,
           fileList: files,
           fileInfo,
-          startedAt: this.startedAt,
-          finishedAt: this.finishedAt,
-        });
+          ...(this.startedAt !== null ? { startedAt: this.startedAt } : {}),
+          ...(this.finishedAt !== null ? { finishedAt: this.finishedAt } : {}),
+        };
+        await saveBootstrapState(this.rootPath!, nextState3);
       }
     }
     logger.info("indexer drain complete", {
@@ -667,7 +671,7 @@ export async function search(_rootPath: string, q: string, n = 8) {
     text: string;
   }> = [];
   for (let i = 0; i < docs.length; i++) {
-    const m = (metas[i]) || {};
+    const m = metas[i] || {};
     const s = dists[i];
     const item: {
       id: string;
