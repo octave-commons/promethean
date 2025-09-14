@@ -16,12 +16,6 @@ import { Priority } from "./types.js";
 
 const logger = createLogger({ service: "boardrev" });
 
-const args = parseArgs({
-  "--dir": "docs/agile/tasks",
-  "--default-priority": "P3",
-  "--default-status": "todo",
-});
-
 function randomUUID() {
   return globalThis.crypto?.randomUUID?.() ?? nodeRandomUUID();
 }
@@ -76,6 +70,11 @@ function inferTitle(body: string) {
 }
 
 if (import.meta.main) {
+  const args = parseArgs({
+    "--dir": "docs/agile/tasks",
+    "--default-priority": "P3",
+    "--default-status": "todo",
+  });
   const dir = path.resolve(args["--dir"]);
   const defaultPriority = args["--default-priority"] as Priority;
   const defaultStatus = args["--default-status"];

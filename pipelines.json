@@ -333,7 +333,16 @@
       "steps": [
         {
           "id": "br-fm",
-          "shell": "pnpm --filter @promethean/boardrev br:01-fm",
+          "js": {
+            "module": "packages/boardrev/dist/01-ensure-fm.js",
+            "export": "ensureFM",
+            "args": {
+              "dir": "docs/agile/tasks",
+              "defaultPriority": "P3",
+              "defaultStatus": "todo"
+            },
+            "isolate": "worker"
+          },
           "inputs": ["docs/agile/tasks/**/*.md"],
           "outputs": ["docs/agile/tasks/**/*.md"],
           "inputSchema": "packages/boardrev/schemas/io.schema.json",
@@ -342,7 +351,16 @@
         {
           "id": "br-prompts",
           "deps": ["br-fm"],
-          "shell": "pnpm --filter @promethean/boardrev br:02-prompts --process docs/agile/Process.md --out .cache/boardrev/prompts.json",
+          "js": {
+            "module": "packages/boardrev/dist/02-process-prompts.js",
+            "export": "processPrompts",
+            "args": {
+              "process": "docs/agile/Process.md",
+              "out": ".cache/boardrev/prompts.json",
+              "minLevel": 2
+            },
+            "isolate": "worker"
+          },
           "inputs": ["docs/agile/Process.md"],
           "outputs": [".cache/boardrev/prompts.json"],
           "inputSchema": "packages/boardrev/schemas/io.schema.json",
@@ -351,7 +369,20 @@
         {
           "id": "br-index",
           "deps": ["br-fm"],
-          "shell": "pnpm --filter @promethean/boardrev br:03-index --globs \"{README.md,docs/**/*.md,packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}}\"",
+          "js": {
+            "module": "packages/boardrev/dist/03-index-repo.js",
+            "export": "indexRepo",
+            "args": {
+              "globs": "{README.md,docs/**/*.md,packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}}",
+              "maxBytes": 200000,
+              "maxLines": 400,
+              "embedModel": "nomic-embed-text:latest",
+              "outIndex": ".cache/boardrev/repo-index.json",
+              "outEmb": ".cache/boardrev/repo-embeddings.json"
+            },
+            "isolate": "worker"
+          },
+          "env": { "OLLAMA_URL": "${OLLAMA_URL}" },
           "inputs": [
             "README.md",
             "docs/**/*.md",
@@ -367,7 +398,19 @@
         {
           "id": "br-match",
           "deps": ["br-prompts", "br-index"],
-          "shell": "pnpm --filter @promethean/boardrev br:04-match --tasks docs/agile/tasks --k 8",
+          "js": {
+            "module": "packages/boardrev/dist/04-match-context.js",
+            "export": "matchContext",
+            "args": {
+              "tasks": "docs/agile/tasks",
+              "index": ".cache/boardrev/repo-index.json",
+              "emb": ".cache/boardrev/repo-embeddings.json",
+              "embedModel": "nomic-embed-text:latest",
+              "k": 8,
+              "out": ".cache/boardrev/context.json"
+            },
+            "isolate": "worker"
+          },
           "inputs": [
             "docs/agile/tasks/**/*.md",
             ".cache/boardrev/repo-index.json",
@@ -380,9 +423,18 @@
         {
           "id": "br-eval",
           "deps": ["br-match"],
-          "shell": "pnpm --filter @promethean/boardrev br:05-eval --model qwen3:4b",
+          "js": {
+            "module": "packages/boardrev/dist/05-evaluate.js",
+            "export": "evaluate",
+            "args": {
+              "prompts": ".cache/boardrev/prompts.json",
+              "context": ".cache/boardrev/context.json",
+              "model": "qwen3:4b",
+              "out": ".cache/boardrev/evals.json"
+            },
+            "isolate": "worker"
+          },
           "env": { "OLLAMA_URL": "${OLLAMA_URL}" },
-
           "inputs": [
             ".cache/boardrev/prompts.json",
             ".cache/boardrev/context.json"
@@ -394,7 +446,15 @@
         {
           "id": "br-report",
           "deps": ["br-eval"],
-          "shell": "pnpm --filter @promethean/boardrev br:06-report --outDir docs/agile/reports",
+          "js": {
+            "module": "packages/boardrev/dist/06-report.js",
+            "export": "report",
+            "args": {
+              "evals": ".cache/boardrev/evals.json",
+              "outDir": "docs/agile/reports"
+            },
+            "isolate": "worker"
+          },
           "inputs": [".cache/boardrev/evals.json"],
           "outputs": ["docs/agile/reports/*.md"],
           "inputSchema": "packages/boardrev/schemas/io.schema.json",
