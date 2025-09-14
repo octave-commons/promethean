@@ -5,6 +5,8 @@ import test from "ava";
 
 import { runPipeline } from "../runner.js";
 
+const SCHEMA = "schema-empty.json";
+
 async function withTmp(fn: (dir: string) => Promise<void>) {
   const dir = path.join(
     process.cwd(),
@@ -12,6 +14,11 @@ async function withTmp(fn: (dir: string) => Promise<void>) {
     String(Date.now()) + "-" + Math.random().toString(36).slice(2),
   );
   await fs.mkdir(dir, { recursive: true });
+  await fs.writeFile(
+    path.join(dir, SCHEMA),
+    JSON.stringify({ type: "object" }),
+    "utf8",
+  );
   try {
     await fn(dir);
   } finally {
@@ -35,6 +42,8 @@ test("runPipeline retries failed steps", async (t) => {
                 deps: [],
                 inputs: [],
                 outputs: [],
+                inputSchema: SCHEMA,
+                outputSchema: SCHEMA,
                 cache: "content",
                 retry: 1,
                 shell:

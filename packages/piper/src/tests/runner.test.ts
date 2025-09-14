@@ -5,6 +5,8 @@ import test from "ava";
 
 import { runPipeline, StepError } from "../runner.js";
 
+const SCHEMA = "schema-empty.json";
+
 async function withTmp(fn: { (dir: any): Promise<void>; (arg0: string): any }) {
   const dir = path.join(
     process.cwd(),
@@ -12,6 +14,11 @@ async function withTmp(fn: { (dir: any): Promise<void>; (arg0: string): any }) {
     String(Date.now()) + "-" + Math.random().toString(36).slice(2),
   );
   await fs.mkdir(dir, { recursive: true });
+  await fs.writeFile(
+    path.join(dir, SCHEMA),
+    JSON.stringify({ type: "object" }),
+    "utf8",
+  );
   try {
     await fn(dir);
   } finally {
@@ -37,6 +44,8 @@ test.serial(
                   deps: [],
                   inputs: [],
                   outputs: ["out.txt"],
+                  inputSchema: SCHEMA,
+                  outputSchema: SCHEMA,
                   cache: "content",
                   shell: "echo hello > out.txt",
                 },
@@ -46,6 +55,8 @@ test.serial(
                   deps: ["make"],
                   inputs: ["out.txt"],
                   outputs: ["out2.txt"],
+                  inputSchema: SCHEMA,
+                  outputSchema: SCHEMA,
                   cache: "content",
                   shell: "cat out.txt > out2.txt",
                 },
@@ -114,6 +125,8 @@ test.serial(
                   deps: [],
                   inputs: [],
                   outputs: ["a.txt"],
+                  inputSchema: SCHEMA,
+                  outputSchema: SCHEMA,
                   cache: "content",
                   shell: "echo A > a.txt",
                 },
@@ -123,6 +136,8 @@ test.serial(
                   deps: ["make"],
                   inputs: ["a.txt"],
                   outputs: ["b.txt"],
+                  inputSchema: SCHEMA,
+                  outputSchema: SCHEMA,
                   cache: "content",
                   // Force a non-zero exit to simulate failure
                   shell: "sh -c 'echo err >&2; echo will-fail; exit 2'",
@@ -133,6 +148,8 @@ test.serial(
                   deps: ["boom"],
                   inputs: ["b.txt"],
                   outputs: ["c.txt"],
+                  inputSchema: SCHEMA,
+                  outputSchema: SCHEMA,
                   cache: "content",
                   shell: "cat b.txt > c.txt",
                 },
@@ -219,6 +236,8 @@ test.serial("runPipeline detects cyclic dependencies", async (t) => {
                 deps: ["c"], // cycle back from c
                 inputs: [],
                 outputs: ["a.txt"],
+                inputSchema: SCHEMA,
+                outputSchema: SCHEMA,
                 cache: "content",
                 shell: "echo A > a.txt",
               },
@@ -228,6 +247,8 @@ test.serial("runPipeline detects cyclic dependencies", async (t) => {
                 deps: ["a"],
                 inputs: ["a.txt"],
                 outputs: ["b.txt"],
+                inputSchema: SCHEMA,
+                outputSchema: SCHEMA,
                 cache: "content",
                 shell: "cat a.txt > b.txt",
               },
@@ -237,6 +258,8 @@ test.serial("runPipeline detects cyclic dependencies", async (t) => {
                 deps: ["b"],
                 inputs: ["b.txt"],
                 outputs: ["c.txt"],
+                inputSchema: SCHEMA,
+                outputSchema: SCHEMA,
                 cache: "content",
                 shell: "cat b.txt > c.txt",
               },
@@ -280,6 +303,8 @@ test.serial(
                   deps: [],
                   inputs: ["nonexistent.txt"], // declared but not produced
                   outputs: ["out.txt"],
+                  inputSchema: SCHEMA,
+                  outputSchema: SCHEMA,
                   cache: "content",
                   shell: "cat nonexistent.txt > out.txt",
                 },
@@ -330,6 +355,8 @@ test.serial(
                   deps: [],
                   inputs: [],
                   outputs: ["x.txt"],
+                  inputSchema: SCHEMA,
+                  outputSchema: SCHEMA,
                   cache: "content",
                   shell: "echo X > x.txt",
                 },
@@ -339,6 +366,8 @@ test.serial(
                   deps: [],
                   inputs: [],
                   outputs: ["y.txt"],
+                  inputSchema: SCHEMA,
+                  outputSchema: SCHEMA,
                   cache: "content",
                   shell: "echo Y > y.txt",
                 },
@@ -348,6 +377,8 @@ test.serial(
                   deps: ["make1", "make2"],
                   inputs: ["x.txt", "y.txt"],
                   outputs: ["z.txt"],
+                  inputSchema: SCHEMA,
+                  outputSchema: SCHEMA,
                   cache: "content",
                   shell: "cat x.txt y.txt > z.txt",
                 },
