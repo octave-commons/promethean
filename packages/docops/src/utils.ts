@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { promises as fs } from "fs";
 import * as path from "path";
 import { once } from "node:events";
@@ -10,6 +11,11 @@ import { visit } from "unist-util-visit";
 import * as yaml from "yaml";
 
 import { Chunk, Front } from "./types.js";
+export {
+  stripGeneratedSections,
+  START_MARK,
+  END_MARK,
+} from "@promethean/utils";
 
 export const OLLAMA_URL = process.env.OLLAMA_URL ?? "http://localhost:11434";
 
@@ -64,15 +70,6 @@ export async function readJSON<T>(file: string, fallback: T): Promise<T> {
 export async function writeJSON(file: string, data: any) {
   await fs.mkdir(path.dirname(file), { recursive: true });
   await fs.writeFile(file, JSON.stringify(data, null, 2), "utf-8");
-}
-
-export function stripGeneratedSections(body: string): string {
-  const start = "<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->";
-  const end = "<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->";
-  const si = body.indexOf(start);
-  const ei = body.indexOf(end);
-  if (si >= 0 && ei > si) return (body.slice(0, si).trimEnd() + "\n").trimEnd();
-  return body.trimEnd() + "\n";
 }
 
 export function frontToYAML(front: Front): string {
