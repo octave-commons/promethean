@@ -44,6 +44,7 @@ import {
   generateInnerState as generateInnerStateFn,
   think as thinkFn,
   updateInnerState as updateInnerStateFn,
+  loadInnerState as loadInnerStateFn,
 } from "./innerState.js";
 import { SpeechArbiter, TurnManager } from "./speechCoordinator.js";
 
@@ -116,6 +117,7 @@ export class AIAgent extends EventEmitter {
     this.turnManager.on("turn", (id: number) =>
       this.speechArbiter.setTurnId(id),
     );
+    void this.loadInnerState();
   }
   speak = speakAction;
   storeAgentMessage = storeAgentMessageAction;
@@ -131,6 +133,7 @@ export class AIAgent extends EventEmitter {
   generateInnerState = generateInnerStateFn;
   think = thinkFn;
   updateInnerState = updateInnerStateFn;
+  loadInnerState = loadInnerStateFn;
 
   /** external VAD should call this with raw activity booleans frequently */
   public updateVad(rawActive: boolean) {
