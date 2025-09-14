@@ -4,8 +4,7 @@ import { promises as fs } from "fs";
 
 import matter from "gray-matter";
 
-import { slug } from "@promethean/utils";
-import { parseArgs, writeText } from "./utils.js";
+import { slug, relFromRepo, parseArgs, writeText } from "@promethean/utils";
 import type { EvalItem } from "./types.js";
 
 const args = parseArgs({
@@ -105,10 +104,6 @@ async function main() {
     `# Board Reports\n\n- [Latest](${path.basename(out)})\n`,
   );
   console.log(`boardrev: wrote report → ${path.relative(process.cwd(), out)}`);
-}
-
-function relFromRepo(abs: string) {
-  return abs.replace(process.cwd().replace(/\\/g, "/") + "/", "");
 }
 
 main().catch((e) => {

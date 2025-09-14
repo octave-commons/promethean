@@ -2,8 +2,6 @@ import { promises as fs } from "node:fs";
 import * as path from "node:path";
 import { slug } from "@promethean/utils";
 
-export const OLLAMA_URL = process.env.OLLAMA_URL ?? "http://localhost:11434";
-
 export async function readMaybe(p: string): Promise<string | undefined> {
   try {
     return await fs.readFile(p, "utf-8");
@@ -17,31 +15,3 @@ export async function writeText(p: string, s: string): Promise<void> {
 }
 
 export { slug };
-
-export async function ollamaJSON(
-  model: string,
-  prompt: string,
-): Promise<unknown> {
-  const res = await fetch(`${OLLAMA_URL}/api/generate`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      model,
-      prompt,
-      stream: false,
-      options: { temperature: 0 },
-      format: "json",
-    }),
-  });
-  if (!res.ok) throw new Error(`ollama ${res.status}`);
-  const data: unknown = await res.json();
-  const response = (data as { response?: unknown } | undefined)?.response;
-  const raw =
-    typeof response === "string" ? response : JSON.stringify(response);
-  return JSON.parse(
-    String(raw)
-      .replace(/```json\s*/g, "")
-      .replace(/```\s*$/g, "")
-      .trim(),
-  ) as unknown;
-}
