@@ -43,20 +43,6 @@ export function sha1(s: string): string {
   return crypto.createHash("sha1").update(s).digest("hex");
 }
 
-export function cosine(a: number[], b: number[]) {
-  let dot = 0,
-    na = 0,
-    nb = 0;
-  const n = Math.min(a.length, b.length);
-  for (let i = 0; i < n; i++) {
-    dot += a[i] * b[i];
-    na += a[i] * a[i];
-    nb += b[i] * b[i];
-  }
-  if (!na || !nb) return 0;
-  return dot / (Math.sqrt(na) * Math.sqrt(nb));
-}
-
 export function relPath(fromRoot: string, fileAbs: string) {
   return path.relative(fromRoot, fileAbs).replace(/\\/g, "/");
 }

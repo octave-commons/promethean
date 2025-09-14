@@ -114,17 +114,3 @@ export async function ollamaJSON(model: string, prompt: string): Promise<any> {
 }
 
 /** Cosine similarity: safe when vectors differ in length. */
-export function cosine(a: number[], b: number[]) {
-  let dot = 0,
-    na = 0,
-    nb = 0;
-  const n = Math.min(a.length, b.length);
-  for (let i = 0; i < n; i++) {
-    const ai = a[i]!;
-    const bi = b[i]!;
-    dot += ai * bi;
-    na += ai * ai;
-    nb += bi * bi;
-  }
-  return !na || !nb ? 0 : dot / (Math.sqrt(na) * Math.sqrt(nb));
-}
