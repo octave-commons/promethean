@@ -4,8 +4,8 @@ import matter from "gray-matter";
 import { unified } from "unified";
 import remarkParse from "remark-parse";
 import { visit } from "unist-util-visit";
-import * as crypto from "crypto";
 import { ensureDir } from "@promethean/fs";
+export { sha1 } from "@promethean/utils";
 
 export { ensureDir };
 
@@ -37,10 +37,6 @@ export async function listFilesRec(root: string, exts: Set<string>) {
   return out.filter((p) =>
     exts.size ? exts.has(path.extname(p).toLowerCase()) : true,
   );
-}
-
-export function sha1(s: string): string {
-  return crypto.createHash("sha1").update(s).digest("hex");
 }
 
 export function cosine(a: number[], b: number[]) {
