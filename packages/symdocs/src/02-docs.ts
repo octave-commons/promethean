@@ -1,5 +1,6 @@
 import { promises as fs } from "fs";
 import * as path from "path";
+import { fileURLToPath } from "url";
 
 import { z } from "zod";
 import { ollamaJSON } from "@promethean/utils";
@@ -7,13 +8,13 @@ import { ollamaJSON } from "@promethean/utils";
 import { parseArgs, sha1 } from "./utils.js";
 import type { DocDraft, DocMap, ScanResult } from "./types.js";
 
-const args = parseArgs({
-  "--scan": ".cache/symdocs/symbols.json",
-  "--out": ".cache/symdocs/docs.json",
-  "--model": "qwen3:4b",
-  "--force": "false",
-  "--concurrency": "4",
-});
+export type DocsOptions = {
+  scan?: string;
+  out?: string;
+  model?: string;
+  force?: boolean;
+  concurrency?: number;
+};
 
 const DraftSchema = z.object({
   title: z.string().min(1),
@@ -43,12 +44,12 @@ function semaphore(max: number) {
   return { take, release };
 }
 
-async function main() {
-  const scanPath = path.resolve(String(args["--scan"]));
-  const outPath = path.resolve(String(args["--out"]));
-  const model = String(args["--model"]);
-  const force = String(args["--force"]) === "true";
-  const conc = parseInt(String(args["--concurrency"]), 10) || 4;
+export async function runDocs(opts: DocsOptions = {}) {
+  const scanPath = path.resolve(opts.scan ?? ".cache/symdocs/symbols.json");
+  const outPath = path.resolve(opts.out ?? ".cache/symdocs/docs.json");
+  const model = String(opts.model ?? "qwen3:4b");
+  const force = Boolean(opts.force ?? false);
+  const conc = Math.max(1, opts.concurrency ?? 4);
 
   const { symbols }: ScanResult = JSON.parse(
     await fs.readFile(scanPath, "utf-8"),
@@ -151,7 +152,22 @@ async function readJSON(p: string): Promise<any | undefined> {
   }
 }
 
-main().catch((e) => {
-  console.error(e);
-  process.exit(1);
-});
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  const args = parseArgs({
+    "--scan": ".cache/symdocs/symbols.json",
+    "--out": ".cache/symdocs/docs.json",
+    "--model": "qwen3:4b",
+    "--force": "false",
+    "--concurrency": "4",
+  });
+  runDocs({
+    scan: String(args["--scan"]),
+    out: String(args["--out"]),
+    model: String(args["--model"]),
+    force: String(args["--force"]) === "true",
+    concurrency: parseInt(String(args["--concurrency"]), 10) || 4,
+  }).catch((e) => {
+    console.error(e);
+    process.exit(1);
+  });
+}
