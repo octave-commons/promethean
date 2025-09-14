@@ -1,16 +1,20 @@
-import { spawn } from "child_process";
-import EventEmitter from "events";
+import { ChildProcessWithoutNullStreams, spawn } from "child_process";
+import { EventEmitter } from "node:events";
 import { IncomingMessage, request } from "http";
 import { Readable } from "stream";
+import { createLogger } from "@promethean/utils";
 export type VoiceSynthOptions = {
   host: string;
   endpoint: string;
   port: number;
 };
-export class VoiceSynth extends EventEmitter {
+export type VoiceSynthEvents = Record<string, never>;
+
+export class VoiceSynth extends EventEmitter<VoiceSynthEvents> {
   host: string;
   endpoint: string;
   port: number;
+  #log = createLogger({ service: "voice:synth" });
   constructor(
     options: VoiceSynthOptions = {
       host: "localhost",
@@ -22,6 +26,30 @@ export class VoiceSynth extends EventEmitter {
     this.host = options.host;
     this.endpoint = options.endpoint;
     this.port = options.port;
+  }
+
+  spawnFfmpeg(): ChildProcessWithoutNullStreams {
+    const args = [
+      "-f",
+      "s16le",
+      "-ar",
+      "22050",
+      "-ac",
+      "1",
+      "-i",
+      "pipe:0",
+      "-f",
+      "s16le",
+      "-ar",
+      "48000",
+      "-ac",
+      "2",
+      "pipe:1",
+    ];
+    return spawn("ffmpeg", args, {
+      stdio: ["pipe", "pipe", "ignore"],
+      windowsHide: true,
+    });
   }
   async generateAndUpsampleVoice(
     text: string,
@@ -45,37 +73,12 @@ export class VoiceSynth extends EventEmitter {
     return new Promise((resolve, reject) => {
       req
         .on("response", (res) => {
-          const ffmpeg = spawn(
-            "ffmpeg",
-            [
-              "-f",
-              "s16le",
-              "-ar",
-              "22050",
-              "-ac",
-              "1",
-              "-i",
-              "pipe:0",
-              "-f",
-              "s16le",
-              "-ar",
-              "48000",
-              "-ac",
-              "2",
-              "pipe:1",
-            ],
-            {
-              stdio: ["pipe", "pipe", "ignore"],
-              windowsHide: true,
-            },
-          );
-
+          const ffmpeg = this.spawnFfmpeg();
           const cleanup = () => {
             res.unpipe(ffmpeg.stdin);
             ffmpeg.stdin.destroy(); // prevent EPIPE
             ffmpeg.kill("SIGTERM");
           };
-
           res.pipe(ffmpeg.stdin);
           resolve({ stream: ffmpeg.stdout, cleanup });
         })
@@ -83,7 +86,7 @@ export class VoiceSynth extends EventEmitter {
     });
   }
   async generateVoice(text: string): Promise<IncomingMessage> {
-    console.log("generate voice for", text);
+    this.#log.info("generate voice", { text });
     // Pipe the PCM stream directly
     return new Promise((resolve, reject) => {
       const req = request(
