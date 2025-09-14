@@ -1,27 +1,41 @@
+/**
+ * Minimal CLI argument parser.
+ */
+/**
+ * Parse command-line arguments using provided defaults.
+ *
+ * @typeParam T - Map of flag names to their default value types.
+ * @param defaults - Expected flags with their default values.
+ * @param argv - Arguments to parse, defaulting to `process.argv.slice(2)`.
+ * @returns An object with the same keys as `defaults`; boolean defaults yield
+ * booleans, others yield strings.
+ */
 export function parseArgs<T extends Record<string, string | boolean>>(
   defaults: Readonly<T>,
   argv: ReadonlyArray<string> = process.argv.slice(2),
 ): { [K in keyof T]: T[K] extends boolean ? boolean : string } {
-  const out: Record<string, string | boolean> = { ...defaults };
-  for (let i = 0; i < argv.length; i++) {
-    const k = argv[i]!;
-    if (!k.startsWith("--")) continue;
-    const next = argv[i + 1];
+  const parse = (
+    index: number,
+    acc: Record<string, string | boolean>,
+  ): Record<string, string | boolean> => {
+    if (index >= argv.length) return acc;
+    const key = argv[index]!;
+    if (!key.startsWith("--")) return parse(index + 1, acc);
+    const next = argv[index + 1];
     const hasValue = typeof next === "string" && !next.startsWith("--");
-    const def = defaults[k];
-    let v: string | boolean;
-    if (typeof def === "boolean") {
-      if (hasValue) {
-        v = next === "true" || next === "1";
-        i++;
-      } else {
-        v = true;
-      }
-    } else {
-      v = hasValue ? next! : "true";
-      if (hasValue) i++;
-    }
-    out[k] = v;
-  }
-  return out as { [K in keyof T]: T[K] extends boolean ? boolean : string };
+    const def = defaults[key];
+    const value =
+      typeof def === "boolean"
+        ? hasValue
+          ? next === "true" || next === "1"
+          : true
+        : hasValue
+          ? next
+          : "true";
+    const nextIndex = hasValue ? index + 2 : index + 1;
+    return parse(nextIndex, { ...acc, [key]: value });
+  };
+  return parse(0, { ...defaults }) as unknown as {
+    [K in keyof T]: T[K] extends boolean ? boolean : string;
+  };
 }
