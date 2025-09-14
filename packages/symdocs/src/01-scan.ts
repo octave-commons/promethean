@@ -1,5 +1,6 @@
 import { promises as fs } from "fs";
 import * as path from "path";
+import { fileURLToPath } from "url";
 
 import * as ts from "typescript";
 import {
@@ -20,30 +21,34 @@ import {
 } from "./utils.js";
 import type { SymKind, SymbolInfo, ScanResult } from "./types.js";
 
-const args = parseArgs({
-  "--root": "packages",
-  "--tsconfig": "",
-  "--ext": ".ts,.tsx,.js,.jsx",
-  "--out": ".cache/symdocs/symbols.json",
-});
+export type ScanOptions = {
+  root?: string;
+  tsconfig?: string;
+  ext?: string;
+  out?: string;
+  files?: readonly string[];
+};
 
-const ROOT = path.resolve(String(args["--root"]));
-const EXTS = new Set(
-  String(args["--ext"])
-    .split(",")
-    .map((s) => s.trim().toLowerCase()),
-);
-const OUT = path.resolve(String(args["--out"]));
-const repoRoot = process.cwd();
+export async function runScan(opts: ScanOptions = {}) {
+  const ROOT = path.resolve(opts.root ?? "packages");
+  const EXTS = new Set(
+    (opts.ext ?? ".ts,.tsx,.js,.jsx")
+      .split(",")
+      .map((s) => s.trim().toLowerCase()),
+  );
+  const OUT = path.resolve(opts.out ?? ".cache/symdocs/symbols.json");
+  const repoRoot = process.cwd();
 
-async function main() {
-  const files = await listFilesRec(ROOT, EXTS);
+  const files =
+    opts.files && opts.files.length > 0
+      ? opts.files.map((f) => path.resolve(f))
+      : await listFilesRec(ROOT, EXTS);
   if (files.length === 0) {
     console.log("No files found.");
     return;
   }
 
-  const program = makeProgram(files, args["--tsconfig"] || undefined);
+  const program = makeProgram(files, opts.tsconfig);
   const checker = program.getTypeChecker();
 
   const symbols: SymbolInfo[] = [];
@@ -177,7 +182,20 @@ function hasExport(node: ts.Node): boolean {
   );
 }
 
-main().catch((e) => {
-  console.error(e);
-  process.exit(1);
-});
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  const args = parseArgs({
+    "--root": "packages",
+    "--tsconfig": "",
+    "--ext": ".ts,.tsx,.js,.jsx",
+    "--out": ".cache/symdocs/symbols.json",
+  });
+  runScan({
+    root: String(args["--root"]),
+    tsconfig: args["--tsconfig"] || undefined,
+    ext: String(args["--ext"]),
+    out: String(args["--out"]),
+  }).catch((e) => {
+    console.error(e);
+    process.exit(1);
+  });
+}

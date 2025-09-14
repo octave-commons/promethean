@@ -11,3 +11,11 @@ export {
   changelogModified,
 } from "./changelog/check.js";
 export { convertWikilinks } from "./convert-wikilinks.js";
+export {
+  getFiles,
+  readFileText,
+  searchSemantic,
+  getStatus,
+  type GetFilesOptions,
+  type GetStatusOptions,
+} from "@promethean/docops-frontend";

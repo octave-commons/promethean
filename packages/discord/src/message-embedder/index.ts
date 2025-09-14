@@ -1,10 +1,24 @@
-import { fileBackedRegistry } from "@promethean/platform";
+import {
+  fileBackedRegistry,
+  type ProviderRegistry,
+} from "@promethean/platform";
 import { makeChromaWrapper } from "@promethean/migrations/chroma.js";
 import { makeDeterministicEmbedder } from "@promethean/migrations/embedder.js";
 
-export async function embedMessage(evt: any) {
+type EmbedMessageEvent = {
+  readonly provider: string;
+  readonly tenant: string;
+  readonly message_id: string;
+  readonly space_urn: string;
+  readonly text: string;
+};
+
+export async function embedMessage(
+  evt: Readonly<EmbedMessageEvent>,
+  cfg?: { readonly registry?: ProviderRegistry; readonly configPath?: string },
+): Promise<{ readonly ns: string; readonly id: string } | null> {
   if (!evt.text || !evt.text.trim()) return null;
-  const reg = fileBackedRegistry();
+  const reg = cfg?.registry ?? fileBackedRegistry(cfg?.configPath);
   const tenantCfg = await reg.get(evt.provider, evt.tenant);
   const ns = `${tenantCfg.storage.chroma_ns}__messages`;
   const dim = Number(process.env.EMBEDDING_DIM || "1536");

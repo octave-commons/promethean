@@ -1,23 +1,22 @@
 import test from 'ava';
 
-import { buildSnapshot, commitSnapshot, type WorldLike, type ComponentRef } from './snapshot.js';
+import { buildSnapshot, commitSnapshot, type WorldLike, type ComponentRef, type ComponentData } from './snapshot.js';
 import { markChanged } from './layout.js';
 
 class MockWorld implements WorldLike {
-    comps = new Map<number, Map<number, any>>();
-    makeQuery(spec: any) {
+    comps = new Map<number, Map<number, unknown>>();
+    makeQuery(spec: unknown) {
         return spec;
     }
-    *iter(_query: any) {
+    *iter(_query: unknown) {
         for (const eid of this.comps.keys()) yield [eid] as [number];
     }
-    get(eid: number, type: ComponentRef) {
-        return this.comps.get(eid)?.get(type.id);
+    get<T extends ComponentData>(eid: number, type: ComponentRef<T>): T | undefined {
+        return this.comps.get(eid)?.get(type.id) as T | undefined;
     }
-    set(eid: number, type: ComponentRef, value: any) {
-        let m = this.comps.get(eid);
-        if (!m) {
-            m = new Map();
+    set<T extends ComponentData>(eid: number, type: ComponentRef<T>, value: T): void {
+        const m = this.comps.get(eid) ?? new Map<number, unknown>();
+        if (!this.comps.has(eid)) {
             this.comps.set(eid, m);
         }
         m.set(type.id, value);

@@ -7,19 +7,16 @@ import matter from "gray-matter";
 import { slug, relFromRepo, parseArgs, writeText } from "@promethean/utils";
 import type { EvalItem } from "./types.js";
 
-const args = parseArgs({
-  "--tasks": "docs/agile/tasks",
-  "--evals": ".cache/boardrev/evals.json",
-  "--outDir": "docs/agile/reports",
-});
-
-async function main() {
+export async function report({
+  evals: evalsPath,
+  outDir,
+}: Readonly<{ evals: string; outDir: string }>) {
   const evals: { evals: EvalItem[] } = JSON.parse(
-    await fs.readFile(path.resolve(args["--evals"]!), "utf-8"),
+    await fs.readFile(path.resolve(evalsPath), "utf-8"),
   );
-  await fs.mkdir(path.resolve(args["--outDir"]!), { recursive: true });
+  await fs.mkdir(path.resolve(outDir), { recursive: true });
   const ts = new Date().toISOString().replace(/[:.]/g, "-");
-  const out = path.join(args["--outDir"]!, `board-${ts}.md`);
+  const out = path.join(outDir, `board-${ts}.md`);
 
   // group by inferred status
   const groups = new Map<string, EvalItem[]>();
@@ -100,13 +97,20 @@ async function main() {
 
   await writeText(out, md);
   await writeText(
-    path.join(args["--outDir"]!, "README.md"),
+    path.join(outDir, "README.md"),
     `# Board Reports\n\n- [Latest](${path.basename(out)})\n`,
   );
   console.log(`boardrev: wrote report → ${path.relative(process.cwd(), out)}`);
 }
 
-main().catch((e) => {
-  console.error(e);
-  process.exit(1);
-});
+if (import.meta.main) {
+  const args = parseArgs({
+    "--tasks": "docs/agile/tasks",
+    "--evals": ".cache/boardrev/evals.json",
+    "--outDir": "docs/agile/reports",
+  });
+  report({ evals: args["--evals"], outDir: args["--outDir"]! }).catch((e) => {
+    console.error(e);
+    process.exit(1);
+  });
+}
