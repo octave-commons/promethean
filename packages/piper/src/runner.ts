@@ -309,6 +309,15 @@ export async function runPipeline(
         return attemptRun(nextAttempt);
       })(0);
 
+      if (execRes.code !== 0) {
+        const parts = [
+          `[piper] step ${s.id} failed with exit code ${execRes.code}`,
+        ];
+        if (execRes.stderr) parts.push(`stderr:\n${execRes.stderr}`);
+        if (execRes.stdout) parts.push(`stdout:\n${execRes.stdout}`);
+        console.error(parts.join("\n"));
+      }
+
       const endedAt = new Date().toISOString();
       const outHashAfter = s.outputs.length
         ? await fingerprintFromGlobs(
