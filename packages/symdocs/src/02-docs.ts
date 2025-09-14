@@ -6,7 +6,7 @@ import { z } from "zod";
 import { ollamaJSON } from "@promethean/utils";
 
 import { parseArgs, sha1 } from "./utils.js";
-import type { DocDraft, DocMap, ScanResult } from "./types.js";
+import type { DocDraft, ScanResult, SymbolInfo } from "./types.js";
 
 export type DocsOptions = {
   scan?: string;
@@ -27,111 +27,128 @@ const DraftSchema = z.object({
 });
 
 function semaphore(max: number) {
-  let cur = 0;
+  const state = { cur: 0 };
   const q: Array<() => void> = [];
   const take = () =>
-    new Promise<void>((res) => {
-      if (cur < max) {
-        cur++;
-        res();
-      } else q.push(res);
+    new Promise<void>((resolve) => {
+      if (state.cur < max) {
+        state.cur++;
+        resolve();
+      } else q.push(resolve);
     });
   const release = () => {
-    cur--;
+    state.cur--;
     const f = q.shift();
     if (f) f();
   };
   return { take, release };
 }
+type DraftWithCache = DocDraft & { _cacheKey?: string };
 
-export async function runDocs(opts: DocsOptions = {}) {
+type GenerateCtx = {
+  model: string;
+  force: boolean;
+  next: Record<string, DraftWithCache>;
+  sem: ReturnType<typeof semaphore>;
+  done: { value: number };
+  total: number;
+};
+
+function buildPrompt(s: SymbolInfo): string {
+  const sys = [
+    "You are a senior library author generating concise, practical docs.",
+    "Return ONLY JSON with keys: title, summary, usage?, details?, pitfalls?, tags?, mermaid?",
+    "summary: 1-2 sentences tops. usage: one code fence. pitfalls: 0-5 bullets. tags: 3-10.",
+    "mermaid (optional): small diagram if helpful (class/sequence/flow); omit if unsure.",
+  ].join("\n");
+
+  const user = [
+    `SYMBOL`,
+    `- name: ${s.name}`,
+    `- kind: ${s.kind}`,
+    `- exported: ${s.exported}`,
+    s.signature ? `- signature: ${s.signature}` : "",
+    `- file: ${s.fileRel}:${s.startLine}-${s.endLine}`,
+    s.jsdoc ? `- jsdoc:\n${s.jsdoc}` : "- jsdoc: (none)",
+    `- snippet:\n${s.snippet}`,
+  ]
+    .filter(Boolean)
+    .join("\n");
+
+  return `SYSTEM:\n${sys}\n\nUSER:\n${user}`;
+}
+
+function fallbackDraft(s: SymbolInfo): z.infer<typeof DraftSchema> {
+  return {
+    title: `${s.name} (${s.kind})`,
+    summary: s.signature ? s.signature : `Auto-doc for ${s.kind} ${s.name}`,
+    usage:
+      s.kind === "function"
+        ? `\n\`\`\`${s.lang}\n// Example\n${s.name}(...args)\n\`\`\`\n`
+        : undefined,
+    pitfalls: [],
+  };
+}
+
+async function generateDoc(s: SymbolInfo, ctx: GenerateCtx): Promise<void> {
+  const cacheKey =
+    s.id + "::" + sha1([s.signature ?? "", s.jsdoc ?? "", s.snippet].join("|"));
+  if (!ctx.force && ctx.next[s.id]?._cacheKey === cacheKey) {
+    ctx.done.value++;
+    return;
+  }
+  await ctx.sem.take();
+  try {
+    const prompt = buildPrompt(s);
+    const raw = await ollamaJSON(ctx.model, prompt);
+    const parsed = DraftSchema.safeParse(raw);
+    const obj: z.infer<typeof DraftSchema> = parsed.success
+      ? parsed.data
+      : fallbackDraft(s);
+
+    const draft: DraftWithCache = {
+      id: s.id,
+      name: s.name,
+      kind: s.kind,
+      title: obj.title,
+      summary: obj.summary,
+      usage: obj.usage,
+      details: obj.details,
+      pitfalls: obj.pitfalls,
+      tags: obj.tags,
+      mermaid: obj.mermaid,
+      _cacheKey: cacheKey,
+    };
+    ctx.next[s.id] = draft;
+    ctx.done.value++;
+    if (ctx.done.value % 20 === 0)
+      console.log(`generated ${ctx.done.value}/${ctx.total}…`);
+  } finally {
+    ctx.sem.release();
+  }
+}
+
+export async function runDocs(opts: DocsOptions = {}): Promise<void> {
   const scanPath = path.resolve(opts.scan ?? ".cache/symdocs/symbols.json");
   const outPath = path.resolve(opts.out ?? ".cache/symdocs/docs.json");
   const model = String(opts.model ?? "qwen3:4b");
   const force = Boolean(opts.force ?? false);
   const conc = Math.max(1, opts.concurrency ?? 4);
 
-  const { symbols }: ScanResult = JSON.parse(
-    await fs.readFile(scanPath, "utf-8"),
-  );
-  const cache: DocMap = (await readJSON(outPath)) ?? {};
+  const scanRaw: unknown = JSON.parse(await fs.readFile(scanPath, "utf-8"));
+  const { symbols } = scanRaw as ScanResult;
+  const cache: Record<string, DraftWithCache> =
+    ((await readJSON(outPath)) as Record<string, DraftWithCache> | undefined) ??
+    {};
 
   const sem = semaphore(conc);
-  const next: DocMap = { ...cache };
-  let done = 0;
+  const next: Record<string, DraftWithCache> = { ...cache };
+  const done = { value: 0 };
 
   await Promise.all(
-    symbols.map(async (s) => {
-      const cacheKey =
-        s.id +
-        "::" +
-        sha1([s.signature ?? "", s.jsdoc ?? "", s.snippet].join("|"));
-      if (!force && next[s.id] && (next[s.id] as any)._cacheKey === cacheKey) {
-        done++;
-        return;
-      }
-
-      await sem.take();
-      try {
-        const sys = [
-          "You are a senior library author generating concise, practical docs.",
-          "Return ONLY JSON with keys: title, summary, usage?, details?, pitfalls?, tags?, mermaid?",
-          "summary: 1-2 sentences tops. usage: one code fence. pitfalls: 0-5 bullets. tags: 3-10.",
-          "mermaid (optional): small diagram if helpful (class/sequence/flow); omit if unsure.",
-        ].join("\n");
-
-        const user = [
-          `SYMBOL`,
-          `- name: ${s.name}`,
-          `- kind: ${s.kind}`,
-          `- exported: ${s.exported}`,
-          s.signature ? `- signature: ${s.signature}` : "",
-          `- file: ${s.fileRel}:${s.startLine}-${s.endLine}`,
-          s.jsdoc ? `- jsdoc:\n${s.jsdoc}` : "- jsdoc: (none)",
-          `- snippet:\n${s.snippet}`,
-        ]
-          .filter(Boolean)
-          .join("\n");
-
-        const prompt = `SYSTEM:\n${sys}\n\nUSER:\n${user}`;
-        let obj = await ollamaJSON(model, prompt);
-        const parsed = DraftSchema.safeParse(obj);
-        if (!parsed.success) {
-          // Minimal fallback
-          obj = {
-            title: `${s.name} (${s.kind})`,
-            summary: s.signature
-              ? s.signature
-              : `Auto-doc for ${s.kind} ${s.name}`,
-            usage:
-              s.kind === "function"
-                ? `\n\`\`\`${s.lang}\n// Example\n${s.name}(...args)\n\`\`\`\n`
-                : undefined,
-            pitfalls: [],
-          };
-        }
-
-        const draft: DocDraft = {
-          id: s.id,
-          name: s.name,
-          kind: s.kind,
-          title: obj.title,
-          summary: obj.summary,
-          usage: obj.usage,
-          details: obj.details,
-          pitfalls: obj.pitfalls,
-          tags: obj.tags,
-          mermaid: obj.mermaid,
-        };
-        (draft as any)._cacheKey = cacheKey; // non-persisted? we’ll persist but ignore when writing md
-        next[s.id] = draft;
-        done++;
-        if (done % 20 === 0)
-          console.log(`generated ${done}/${symbols.length}…`);
-      } finally {
-        sem.release();
-      }
-    }),
+    symbols.map((s) =>
+      generateDoc(s, { model, force, next, sem, done, total: symbols.length }),
+    ),
   );
 
   await fs.mkdir(path.dirname(outPath), { recursive: true });
@@ -144,7 +161,7 @@ export async function runDocs(opts: DocsOptions = {}) {
   );
 }
 
-async function readJSON(p: string): Promise<any | undefined> {
+async function readJSON(p: string): Promise<unknown | undefined> {
   try {
     return JSON.parse(await fs.readFile(p, "utf-8"));
   } catch {
@@ -166,7 +183,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     model: String(args["--model"]),
     force: String(args["--force"]) === "true",
     concurrency: parseInt(String(args["--concurrency"]), 10) || 4,
-  }).catch((e) => {
+  }).catch((e: unknown) => {
     console.error(e);
     process.exit(1);
   });
