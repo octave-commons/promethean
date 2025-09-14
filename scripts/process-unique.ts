@@ -27,6 +27,7 @@ import {
   START_MARK,
   END_MARK,
 } from "@promethean/utils";
+import { listFilesRec } from "@promethean/utils/list-files-rec";
 
 type Front = {
   uuid?: string;
@@ -129,20 +130,6 @@ function slugify(s: string): string {
 function extnamePrefer(originalPath: string): string {
   const e = path.extname(originalPath);
   return e || ".md";
-}
-
-async function listFilesRec(root: string): Promise<string[]> {
-  const out: string[] = [];
-  async function walk(dir: string) {
-    const ents = await fs.readdir(dir, { withFileTypes: true });
-    for (const ent of ents) {
-      const p = path.join(dir, ent.name);
-      if (ent.isDirectory()) await walk(p);
-      else out.push(p);
-    }
-  }
-  await walk(root);
-  return out.filter((p) => EXTS.has(path.extname(p).toLowerCase()));
 }
 
 const GenSchema = z.object({
@@ -371,7 +358,7 @@ async function main() {
   const queryCache: QueryCache = await readOrEmptyJSON(QUERY_CACHE_FILE, {});
 
   // STEP 1: scan files and frontmatter
-  const files = await listFilesRec(ROOT_DIR);
+  const files = await listFilesRec(ROOT_DIR, EXTS);
   console.log(`Found ${files.length} file(s) in ${ROOT_DIR}`);
 
   const docsFront: Record<string, Front> = {};
