@@ -6,8 +6,6 @@ import * as path from "path";
 
 import { globby } from "globby";
 
-export const OLLAMA_URL = process.env.OLLAMA_URL ?? "http://localhost:11434";
-
 /**
  * Minimal, side-effect-free arg parser.
  * Keeps your existing convention of keys including the leading `--`.
@@ -65,48 +63,5 @@ export function normStatus(s: string) {
  * Ollama embeddings.
  * NOTE: Some tooling/docs reference /api/embed; /api/embeddings is widely used.
  */
-export async function ollamaEmbed(
-  model: string,
-  text: string,
-): Promise<number[]> {
-  const res = await fetch(`${OLLAMA_URL}/api/embeddings`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ model, prompt: text }),
-  });
-  if (!res.ok) throw new Error(`ollama embeddings ${res.status}`);
-  const data: any = await res.json();
-  return data.embedding as number[];
-}
-
-/**
- * Ask Ollama for strict JSON.
- * We still defensively strip ```json fences if a model ignores format.
- */
-export async function ollamaJSON(model: string, prompt: string): Promise<any> {
-  const res = await fetch(`${OLLAMA_URL}/api/generate`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      model,
-      prompt, // Ideally also instruct in the prompt to respond with JSON.
-      stream: false,
-      options: { temperature: 0 },
-      format: "json",
-    }),
-  });
-  if (!res.ok) throw new Error(`ollama ${res.status}`);
-  const data: any = await res.json();
-  const raw =
-    typeof data.response === "string"
-      ? data.response
-      : JSON.stringify(data.response);
-  return JSON.parse(
-    raw
-      .replace(/```json\s*/g, "")
-      .replace(/```\s*$/g, "")
-      .trim(),
-  );
-}
 
 /** Cosine similarity: safe when vectors differ in length. */

@@ -3,8 +3,13 @@ import { promises as fs } from "fs";
 
 import matter from "gray-matter";
 
-import { parseArgs, listTaskFiles, ollamaEmbed, writeText } from "./utils.js";
-import { cosine } from "@promethean/utils";
+import {
+  cosine,
+  parseArgs,
+  listTaskFiles,
+  ollamaEmbed,
+  writeText,
+} from "@promethean/utils";
 import type { RepoDoc, Embeddings, TaskContext } from "./types.js";
 
 const args = parseArgs({
