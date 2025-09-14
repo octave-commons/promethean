@@ -30,3 +30,8 @@ temperature: 0.7
 <hr class="__chatgpt_plugin">
 
 We want for each service to be basically a config file.
+though I keep thinking about this...
+
+most of the time a service is a thing that is running by its self, and there is only 1 of them (or a cluster of splinters) 
+
+Why did I split everything up in the first place...
