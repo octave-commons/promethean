@@ -4,7 +4,7 @@ const EVENTS = {
   change: "file-watcher-task-change",
 };
 
-export interface TasksWatcherOptions {
+export type TasksWatcherOptions = {
   tasksPath: string;
   publish: (type: string, payload: any) => void;
   runPython?: (path: string) => Promise<any>;

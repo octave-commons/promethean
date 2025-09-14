@@ -4,7 +4,7 @@ declare module '@promethean/event/types.js' {
         key?: string;
         headers?: Record<string, string>;
     } & Record<string, unknown>;
-    export interface EventBus {
+    export type EventBus = {
         publish<T>(topic: string, payload: T, opts?: PublishOptions): Promise<EventRecord<T>>;
     }
 }

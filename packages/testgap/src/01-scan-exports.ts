@@ -3,9 +3,10 @@ import * as path from "path";
 
 import { globby } from "globby";
 import { Project } from "ts-morph";
-
 import { parseArgs } from "@promethean/utils";
-import { writeJSON, rel } from "./utils.js";
+import { relFromRepo } from "@promethean/utils";
+
+import { writeJSON } from "./utils.js";
 import type { ExportScan, ExportSymbol } from "./types.js";
 
 const args = parseArgs({
@@ -38,7 +39,7 @@ async function main() {
     for (const sf of project
       .getSourceFiles()
       .filter((s) => s.getFilePath().startsWith(pkgRoot))) {
-      const file = rel(sf.getFilePath().replace(/\\/g, "/"));
+      const file = relFromRepo(sf.getFilePath().replace(/\\/g, "/"));
       for (const [name, decls] of sf.getExportedDeclarations()) {
         const d = decls[0];
         if (!d) continue;

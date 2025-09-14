@@ -1,8 +1,9 @@
-import EventEmitter from "node:events";
+import { EventEmitter } from "node:events";
 import http, { RequestOptions } from "node:http";
 import { PassThrough } from "node:stream";
 
 import { User } from "discord.js";
+import { createLogger } from "@promethean/utils";
 
 import type { Speaker } from "./speaker.js";
 
@@ -26,8 +27,20 @@ export type FinalTranscript = {
   transcript: string;
   originalTranscript?: string;
 };
-export class Transcriber extends EventEmitter {
+export type TranscriberEvents = {
+  readonly transcriptStart: [
+    {
+      startTime: number;
+      speaker: Speaker;
+    },
+  ];
+  readonly transcriptChunk: [TranscriptChunk];
+  readonly transcriptEnd: [FinalTranscript];
+};
+
+export class Transcriber extends EventEmitter<TranscriberEvents> {
   httpOptions: RequestOptions;
+  #log = createLogger({ service: "voice:transcriber" });
 
   constructor(
     options: TranscriberOptions = {
@@ -63,10 +76,10 @@ export class Transcriber extends EventEmitter {
           const transcriptChunks: TranscriptChunk[] = [];
           res.on("data", (chunk: Buffer) => {
             const chunkStr = chunk.toString();
-            console.log(chunkStr);
+            this.#log.debug("chunk", { chunk: chunkStr });
             const parsed = JSON.parse(chunkStr) as { transcription: string };
             const transcript = parsed.transcription;
-            console.log(`Transcription chunk: ${transcript}`);
+            this.#log.info("transcription chunk", { transcript });
             const transcriptObject: TranscriptChunk = {
               startTime,
               speaker,
@@ -77,7 +90,7 @@ export class Transcriber extends EventEmitter {
             this.emit("transcriptChunk", transcriptObject);
           });
           res.on("end", async () => {
-            console.log("Transcription ended");
+            this.#log.info("transcription ended");
 
             const originalTranscript = transcriptChunks
               .map((t) => t.text)
@@ -95,7 +108,7 @@ export class Transcriber extends EventEmitter {
           });
         })
         .on("error", (err) => {
-          console.error("Transcription request error:", err);
+          this.#log.error("transcription request error", { err });
         }),
     );
   }

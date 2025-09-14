@@ -1,6 +1,8 @@
 import { promises as fs } from "fs";
 import * as path from "path";
 
+import { listFilesRec } from "@promethean/utils";
+
 type Pkg = {
   name: string; // npm name, e.g. @promethean/foo
   folder: string; // folder under packages/, e.g. foo  OR apps/web
@@ -349,37 +351,6 @@ function collectDeclaredDeps(pkg: any): Set<string> {
     for (const k of Object.keys(o)) names.add(k);
   }
   return names;
-}
-
-async function listFilesRec(
-  root: string,
-  exts: Set<string>,
-): Promise<string[]> {
-  const out: string[] = [];
-  async function walk(d: string) {
-    const ents = await fs.readdir(d, { withFileTypes: true });
-    for (const e of ents) {
-      const p = path.join(d, e.name);
-      if (e.isDirectory()) {
-        if (
-          [
-            "node_modules",
-            "dist",
-            "build",
-            "coverage",
-            ".turbo",
-            ".next",
-          ].includes(e.name)
-        )
-          continue;
-        await walk(p);
-      } else {
-        if (exts.has(path.extname(p).toLowerCase())) out.push(p);
-      }
-    }
-  }
-  await walk(root);
-  return out;
 }
 
 const IMPORT_RE = [

@@ -1,6 +1,6 @@
 import test from "ava";
-
 import { parseArgs } from "@promethean/utils";
+
 import { parseTsc, sanitizeBranch } from "../utils.js";
 
 test("parseArgs overrides defaults with CLI values", (t) => {
@@ -9,8 +9,8 @@ test("parseArgs overrides defaults with CLI values", (t) => {
     "bar",
     "--flag",
   ]);
-  t.is(out["--foo"] as string, "bar");
-  t.is(out["--flag"] as boolean, true);
+  t.is(out["--foo"], "bar");
+  t.is(out["--flag"], true);
 });
 
 test("parseTsc extracts diagnostics", (t) => {

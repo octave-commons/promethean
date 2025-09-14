@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { ollamaJSON } from "@promethean/utils";
 
 import {
   parseArgs,
@@ -23,35 +24,6 @@ const args = parseArgs({
   "--min-group": "2",
   "--model": "qwen3:4b",
 });
-
-async function ollamaJSON(model: string, prompt: string): Promise<any> {
-  const url = `${
-    process.env.OLLAMA_URL ?? "http://localhost:11434"
-  }/api/generate`;
-  const res = await fetch(url, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      model,
-      prompt,
-      stream: false,
-      options: { temperature: 0 },
-      format: "json",
-    }),
-  });
-  if (!res.ok) throw new Error(`ollama ${res.status}`);
-  const data: any = await res.json();
-  const raw =
-    typeof data.response === "string"
-      ? data.response
-      : JSON.stringify(data.response);
-  return JSON.parse(
-    raw
-      .replace(/```json\s*/g, "")
-      .replace(/```\s*$/g, "")
-      .trim(),
-  );
-}
 
 const TaskSchema = z.object({
   title: z.string().min(1),

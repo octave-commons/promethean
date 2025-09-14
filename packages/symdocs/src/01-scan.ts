@@ -2,16 +2,18 @@ import { promises as fs } from "fs";
 import * as path from "path";
 
 import * as ts from "typescript";
-
 import {
-  parseArgs,
-  listFilesRec,
-  makeProgram,
   getJsDocText,
   getNodeText,
   posToLine,
-  sha1,
   relFromRepo,
+  listFilesRec,
+} from "@promethean/utils";
+
+import {
+  parseArgs,
+  makeProgram,
+  sha1,
   getLangFromExt,
   signatureForFunction,
   typeToString,

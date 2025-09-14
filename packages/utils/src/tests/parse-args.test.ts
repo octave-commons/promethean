@@ -1,4 +1,5 @@
 import test from "ava";
+
 import { parseArgs } from "../parse-args.js";
 
 test("overrides defaults with cli values", (t) => {

@@ -26,6 +26,14 @@ export type TreeOptions = {
 
 const isHidden = (name: string) => name.startsWith('.');
 
+async function statOrLstat(p: string, followSymlinks: boolean, onError: (arg0: Error, arg1: string) => void) {
+    try {
+        return followSymlinks ? await fs.stat(p) : await fs.lstat(p);
+    } catch (e) {
+        onError(e as Error, p);
+        return null;
+    }
+}
 export async function buildTree(root: string, opts: TreeOptions = {}): Promise<TreeNode> {
     const {
         includeHidden = false,
@@ -40,15 +48,6 @@ export async function buildTree(root: string, opts: TreeOptions = {}): Promise<T
     const absRoot = path.resolve(root);
     const rootName = path.basename(absRoot);
 
-    async function statOrLstat(p: string) {
-        try {
-            return followSymlinks ? await fs.stat(p) : await fs.lstat(p);
-        } catch (e) {
-            onError(e, p);
-            return null;
-        }
-    }
-
     async function readDir(p: string): Promise<Dirent[]> {
         try {
             return await fs.readdir(p, { withFileTypes: true });
@@ -59,7 +58,7 @@ export async function buildTree(root: string, opts: TreeOptions = {}): Promise<T
     }
 
     async function nodeFromPath(p: string, base: string, depth: number): Promise<TreeNode | null> {
-        const s = await statOrLstat(p);
+        const s = await statOrLstat(p, followSymlinks, onError);
         if (!s) return null;
 
         const name = path.basename(p);
@@ -84,9 +83,8 @@ export async function buildTree(root: string, opts: TreeOptions = {}): Promise<T
             return null;
         }
 
-        if (typeFilter !== 'any' && type !== typeFilter) {
-            // If this is a dir but filtered out, we still *don’t* walk it.
-            if (type === 'dir') return null;
+        if (typeFilter !== 'any' && type !== typeFilter && type !== 'dir') {
+            return null;
         }
 
         const baseNode: TreeNode = {

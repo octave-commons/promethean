@@ -1,6 +1,5 @@
 import { promises as fs } from "fs";
 import * as path from "path";
-
 export const OLLAMA_URL = process.env.OLLAMA_URL ?? "http://localhost:11434";
 
 export async function writeJSON(p: string, data: any) {
@@ -17,10 +16,6 @@ export async function readMaybe(p: string) {
     return undefined;
   }
 }
-export function rel(p: string) {
-  return p.replace(process.cwd().replace(/\\/g, "/") + "/", "");
-}
-
 export async function ollamaJSON(model: string, prompt: string) {
   const res = await fetch(`${OLLAMA_URL}/api/generate`, {
     method: "POST",
@@ -45,4 +40,7 @@ export async function ollamaJSON(model: string, prompt: string) {
       .replace(/```\s*$/g, "")
       .trim(),
   );
+}
+export function rel(p: string) {
+  return p.replace(process.cwd().replace(/\\/g, "/") + "/", "");
 }

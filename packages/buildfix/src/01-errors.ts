@@ -2,6 +2,7 @@ import * as path from "node:path";
 
 import { globby } from "globby";
 import { parseArgs } from "@promethean/utils";
+
 import { tsc, codeFrame, writeJSON } from "./utils.js";
 import type { ErrorList, BuildError } from "./types.js";
 
@@ -49,7 +50,7 @@ async function collectForTsconfig(tsconfigPath: string): Promise<BuildError[]> {
 }
 
 async function main() {
-  const outFile = path.resolve(args["--out"] as string);
+  const outFile = path.resolve(args["--out"]);
   let errors: BuildError[] = [];
   let tsconfig: string | undefined;
 
@@ -69,7 +70,7 @@ async function main() {
     }
     tsconfig = `workspace:${rootAbs}`;
   } else {
-    const single = path.resolve(args["--tsconfig"] as string);
+    const single = path.resolve(args["--tsconfig"]);
     tsconfig = single;
     errors = await collectForTsconfig(single);
   }

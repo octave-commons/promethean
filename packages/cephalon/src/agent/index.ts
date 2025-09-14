@@ -12,6 +12,7 @@ import EventEmitter from "events";
 
 import { AudioPlayer, createAudioPlayer } from "@discordjs/voice";
 import { Message } from "ollama";
+import { sleep } from "@promethean/utils";
 
 import {
   DesktopCaptureManager,
@@ -25,7 +26,6 @@ import {
   GenerateResponseOptions,
 } from "../types.js";
 import { defaultPrompt, defaultState, generatePrompt } from "../prompts.js";
-import { sleep } from "@promethean/utils";
 
 import {
   speak as speakAction,

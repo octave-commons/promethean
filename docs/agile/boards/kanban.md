@@ -6,6 +6,8 @@ kanban-plugin: board
 
 ## Rejected
 
+- [ ] [[docs/agile/boards/consolidate-all-configs-into---config--as--.edn--files]] #incoming
+- [ ] [[scripts_add_folder_readmes_and_usage|scripts add folder readmes and usage]] #incoming
 - [ ] codex action build file contextualizer.
 - [ ] universal package manager
 - [ ] [[scripts_add_make_targets_and_aliases|scripts add make targets and aliases]] #scripts #make #dx #accepted
@@ -110,6 +112,9 @@ kanban-plugin: board
 
 ## Blocked
 
+- [ ] [[twitch_stream_title_generator_md_md|twitch stream title generator md md]] #framework-core #ollama-integration #stream-automation #in-review
+- [ ] [[tamper-monkey-script-for-using-templates-defined-in-the-vault|tamper monkey script for using templates defined in the vault]] #todo
+- [ ] [[gpt-bridge-fuzzy-lookup-should-return-multiple-matches-when-it-is-used.|gpt bridge fuzzy lookup should return multiple matches when it is used.]] #framework-core #ready
 - [ ] [[phase-out-proxy-in-favor-of-bridge-service|Phase out proxy in favor of bridge service]] #framework-core #framework-core #Todo #in-progress
 - [ ] [[cephalon_context_window_from_collections|cephalon context window from collections]] #incoming
 - [ ] [[cephalon_event_schema_updates|cephalon event schema updates]] #cephalon #events #schemas #breakdown
@@ -208,6 +213,10 @@ kanban-plugin: board
 
 ## Ice Box
 
+- [ ] [[add-codex-layer-to-emacs|Add codex layer to emacs]] #ready
+- [ ] [[add_twitch_chat_integration_md_md|add twitch chat integration md md]] #breakdown
+- [ ] [[twitch_discord_general_auto_mod_md_md|twitch discord general auto mod md md]] #framework-core #observability #multimodal-context #risk #IceBox #todo
+- [ ] [[harden-precommit-hooks|harden precommit hooks]] #ready
 - [ ] [[design-vision-pipeline-mvp]]
 - [ ] [[design-audio-pipeline-mvp]]
 - [ ] [[kubernetes-configurations-for-secure-distributed-deployment-on-local-net]]
@@ -228,13 +237,20 @@ kanban-plugin: board
 
 ## Incoming
 
+- [ ] Get existing pipelines to work through UI
+- [ ] [[get all existing pipelines functional]]
+- [ ] pin all versioned anything
 
 
 ## Accepted
 
-- [ ] whole project builds with new stricter tsconfig
+- [ ] make cephalon work again with new project layout
+- [ ] Use clojure elisp tree sitter package to generate mcp.el valid s-expr
+- [ ] discord text mode
+- [ ] PM2 works again
+- [ ] discord mixed mode
+- [ ] [[dev mode for each package]]
 - [ ] [[github-crawler]]
-- [ ] [[docs/agile/boards/consolidate-all-configs-into---config--as--.edn--files]] #incoming
 - [ ] [[ci-passses]] #incoming
 - [ ] [[docker-compose-edn-template-system]]
 - [ ] [[integrate-sonarqube-into-devops]] #incoming
@@ -245,14 +261,14 @@ kanban-plugin: board
 
 ## Breakdown (13)
 
+- [ ] [[scripts_group_docs_utilities|scripts group docs utilities]] #scripts #docs #organization #accepted
+- [ ] [[frontend-build-tool-chain|frontend build tool chain]] #devops #devops #Ready #todo
 - [ ] codex cloud setup script generates a startup report
-- [ ] [[migrate legacy js services to ts]]
 - [ ] [[evaluate-docker-npu-compatability]]
 - [ ] [[add-docker-compose-files-to-services]]
 - [ ] [[clean_up_notes_into_design_docs_md|clean up notes into design docs md]] #accepted
 - [ ] [[scripts_update_ci_and_refs|scripts update ci and refs]] #scripts #ci #organization #accepted
 - [ ] [[scripts_audit_and_standardize_cli_flags|scripts audit and standardize cli flags]] #scripts #cli #dx #accepted
-- [ ] [[scripts_group_docs_utilities|scripts group docs utilities]] #scripts #docs #organization #accepted
 - [ ] [[kanban-processor]] #scripts #kanban #organization #accepted
 - [ ] [[write_end_to_end_tests_md_md|write end to end tests md md]] #accepted
 - [ ] [[scripts_group_indexing_tools|scripts group indexing tools]] #scripts #indexing #organization #accepted
@@ -261,15 +277,10 @@ kanban-plugin: board
 
 ## Ready
 
+- [ ] [[migrate legacy js services to ts]]
 - [ ] [[pin_versions_in_configs_md|pin versions in configs md]] #ops #codex-task #release-engineering #ci #sre #supply-chain #promethean #ops #codex-task #tags #promethean #versioning #pinning #ci #docker #uv #ollama #openvino #sre #supplychain #in-review
 - [ ] [[describe_github_branching_workflow_md|describe github branching workflow md]] #todo
-- [ ] [[add_twitch_chat_integration_md_md|add twitch chat integration md md]] #breakdown
-- [ ] [[twitch_stream_title_generator_md_md|twitch stream title generator md md]] #framework-core #ollama-integration #stream-automation #in-review
-- [ ] [[scripts_add_folder_readmes_and_usage|scripts add folder readmes and usage]] #incoming
-- [ ] [[add-codex-layer-to-emacs|Add codex layer to emacs]] #ready
-- [ ] [[twitch_discord_general_auto_mod_md_md|twitch discord general auto mod md md]] #framework-core #observability #multimodal-context #risk #IceBox #todo
-- [ ] [[gpt-bridge-fuzzy-lookup-should-return-multiple-matches-when-it-is-used.|gpt bridge fuzzy lookup should return multiple matches when it is used.]] #framework-core #ready
-- [ ] [[tamper-monkey-script-for-using-templates-defined-in-the-vault|tamper monkey script for using templates defined in the vault]] #todo
+- [ ] [[create-a-generic-markdown-helper-module|create a generic markdown helper module]] #framework-core #framework-core #Ready #todo
 
 
 ## Todo (13)
@@ -282,24 +293,22 @@ kanban-plugin: board
 - [ ] [[docs/agile/tasks/smart_task_templater_md|smart task templater md]] #framework-core #ready
 - [ ] [[script-for-getting-github-action-workflow-states-for-a-branch|script for getting github action workflow states for a branch]] #ready
 - [ ] [[scripts_add_folder_readmes_and_usage|scripts add folder readmes and usage]] #scripts #docs #ready
-- [ ] [[docs/agile/tasks/smart_task_templater_md|smart task templater md]] #breakdown
 - [ ] [[add_semantic_overlays_for_layer1_through_layer8_md_md|Add semantic overlays for layer1 through layer8]] #todo
 
 
 ## In Progress (4)
 
-- [ ] [[docs/agile/tasks/file-explorer|File explorer]] #framework-core #ready
-- [ ] [[harden-precommit-hooks|harden precommit hooks]] #ready
-- [ ] [[frontend-build-tool-chain|frontend build tool chain]] #devops #devops #Ready #todo
-- [ ] [[create-a-generic-markdown-helper-module|create a generic markdown helper module]] #framework-core #framework-core #Ready #todo
 
 
 ## In Review (8)
 
+- [ ] [[docs/agile/tasks/file-explorer|File explorer]] #framework-core #ready
+- [ ] [[recover broker code]]
 
 
 ## Done
 
+- [ ] whole project builds with new stricter tsconfig
 - [ ] [[fp-ts-config-and-linting]]
 - [ ] [[refactor_any_python_modules_not_currently_for_ml_stuff_discord_etc_2_md|refactor any python modules not currently for ml stuff discord etc 2 md]] #breakdown
 - [ ] [[breakdown-makefile.hy|breakdown Makefile.hy]] #framework-core #ready
@@ -355,12 +364,10 @@ kanban-plugin: board
 
 ## Archive
 
-- [ ] [[Decouple Audio Processing Logic From Discord.md|Decouple Audio Processing Logic From Discord]] #todo
 - [ ] [[Curate code from personal repository.md|Curate code from personal repository]] #todo
 - [ ] [[migrating_relevant_modules_from_riatzukiza_github_md|Migrating relevant modules from `riatzukiza.github.io` to `/sites/` and `/docs/`]] #accepted
 - [ ] [[migrate_portfolio_client_code_to_promethean_md|Migrate portfolio client code to Promethean]] #accepted
 - [ ] [[Add tool calls to codex context.md|Add tool calls to codex context]] #todo
-- [ ] [[Finish work on gptbridge agent integration.md|Finish work on gptbridge agent integration]] #todo
 - [ ] [[migrating_relevant_modules_from_riatzukiza_github_io_to_-site-_and_-docs-_md|Migrating relevant modules from riatzukiza.github.io to -site- and -docs-]] #ready
 - [ ] [[extract_docs_from_riatzukiza_github_io_md_md|Extract docs from riatzukiza.github.io]] #accepted
 - [ ] [[add_unit_tests_for_gui_helpers_md_md|Add unit tests for GUI helpers]] #archive
@@ -406,6 +413,6 @@ kanban-plugin: board
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","list-collapse":[true,true,true,false,false,false,false,false,false,false,false,false,false,false,false],"new-note-template":"docs/agile/templates/task.stub.template.md","new-note-folder":"docs/agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
+{"kanban-plugin":"board","list-collapse":[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false],"new-note-template":"docs/agile/templates/task.stub.template.md","new-note-folder":"docs/agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
 ```
 %%
