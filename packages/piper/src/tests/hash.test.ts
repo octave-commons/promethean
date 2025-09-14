@@ -5,6 +5,8 @@ import test, { ExecutionContext } from "ava";
 
 import { fingerprintFromGlobs, stepFingerprint } from "../hash.js";
 
+const SCHEMA = "schema-empty.json";
+
 async function withTmp(
   _t: ExecutionContext<unknown>,
   fn: {
@@ -19,6 +21,11 @@ async function withTmp(
     String(Date.now()) + "-" + Math.random().toString(36).slice(2),
   );
   await fs.mkdir(dir, { recursive: true });
+  await fs.writeFile(
+    path.join(dir, SCHEMA),
+    JSON.stringify({ type: "object" }),
+    "utf8",
+  );
   try {
     await fn(dir);
   } finally {
@@ -65,6 +72,8 @@ test("stepFingerprint covers inputs and config", async (t) => {
       inputs: ["a.txt"],
       outputs: [],
       cache: "content",
+      inputSchema: SCHEMA,
+      outputSchema: SCHEMA,
     };
 
     const fp1 = await stepFingerprint(step, dir, true);
@@ -92,6 +101,8 @@ test("stepFingerprint includes js step config", async (t) => {
       inputs: [],
       outputs: [],
       cache: "content",
+      inputSchema: SCHEMA,
+      outputSchema: SCHEMA,
       js: { module: "./a.js", export: "default", args: { x: 1 } },
     };
     const fp1 = await stepFingerprint(base, dir, true);
