@@ -1,20 +1,8 @@
-import { promises as fs } from "fs";
 import * as path from "path";
+export { readJSON, writeJSON } from "@promethean/utils";
 
 import { SourceFile, SyntaxKind } from "ts-morph";
 import { globby } from "globby";
-
-export async function readJSON<T>(p: string, fallback: T): Promise<T> {
-  try {
-    return JSON.parse(await fs.readFile(p, "utf-8")) as T;
-  } catch {
-    return fallback;
-  }
-}
-export async function writeJSON(p: string, data: any) {
-  await fs.mkdir(path.dirname(p), { recursive: true });
-  await fs.writeFile(p, JSON.stringify(data, null, 2), "utf-8");
-}
 
 export async function listCodeFiles(root: string) {
   const patterns = [

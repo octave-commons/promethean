@@ -15,6 +15,7 @@ export { listFilesRec } from "./list-files-rec.js";
 export { OLLAMA_URL, ollamaEmbed, ollamaJSON } from "./ollama.js";
 export { readText, writeText, readMaybe } from "./files.js";
 export { sha1 } from "./hash.js";
+export { readJSON, writeJSON } from "./json.js";
 export {
   stripGeneratedSections,
   START_MARK,

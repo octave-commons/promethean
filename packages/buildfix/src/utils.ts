@@ -4,7 +4,7 @@ import * as path from "path";
 import { pathToFileURL } from "url";
 
 import { Project } from "ts-morph";
-export { sha1 } from "@promethean/utils";
+export { sha1, readJSON, writeJSON } from "@promethean/utils";
 
 export const OLLAMA_URL = process.env.OLLAMA_URL ?? "http://localhost:11434";
 
@@ -73,23 +73,6 @@ export async function tsc(tsconfig: string) {
   const text = out + "\n" + err;
   const diags = parseTsc(text);
   return { ok: code === 0, text, diags };
-}
-
-export async function ensureDir(p: string) {
-  await fs.mkdir(p, { recursive: true });
-}
-
-export async function writeJSON(p: string, data: any) {
-  await ensureDir(path.dirname(p));
-  await fs.writeFile(p, JSON.stringify(data, null, 2), "utf-8");
-}
-
-export async function readJSON<T>(p: string): Promise<T | undefined> {
-  try {
-    return JSON.parse(await fs.readFile(p, "utf-8"));
-  } catch {
-    return undefined;
-  }
 }
 
 export async function importSnippet(snippetPath: string) {

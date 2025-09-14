@@ -15,6 +15,8 @@ export {
   stripGeneratedSections,
   START_MARK,
   END_MARK,
+  readJSON,
+  writeJSON,
 } from "@promethean/utils";
 
 export const OLLAMA_URL = process.env.OLLAMA_URL ?? "http://localhost:11434";
@@ -56,20 +58,6 @@ export function extnamePrefer(originalPath: string): string {
 
 export function dedupe<T>(arr: T[]): T[] {
   return Array.from(new Set(arr));
-}
-
-export async function readJSON<T>(file: string, fallback: T): Promise<T> {
-  try {
-    const s = await fs.readFile(file, "utf-8");
-    return JSON.parse(s) as T;
-  } catch {
-    return fallback;
-  }
-}
-
-export async function writeJSON(file: string, data: any) {
-  await fs.mkdir(path.dirname(file), { recursive: true });
-  await fs.writeFile(file, JSON.stringify(data, null, 2), "utf-8");
 }
 
 export function frontToYAML(front: Front): string {

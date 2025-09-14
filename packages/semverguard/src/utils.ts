@@ -1,5 +1,5 @@
-import { promises as fs } from "fs";
 import * as path from "path";
+export { readJSON, writeJSON } from "@promethean/utils";
 
 export function parseArgs(def: Record<string, string>) {
   const out = { ...def };
@@ -14,17 +14,6 @@ export function parseArgs(def: Record<string, string>) {
     out[k] = v;
   }
   return out as Record<string, string>;
-}
-export async function readJSON<T>(p: string): Promise<T | undefined> {
-  try {
-    return JSON.parse(await fs.readFile(p, "utf-8")) as T;
-  } catch {
-    return undefined;
-  }
-}
-export async function writeJSON(p: string, data: any) {
-  await fs.mkdir(path.dirname(p), { recursive: true });
-  await fs.writeFile(p, JSON.stringify(data, null, 2), "utf-8");
 }
 
 export function rel(abs: string) {

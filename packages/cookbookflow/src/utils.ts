@@ -1,8 +1,5 @@
-import { promises as fs } from "fs";
-import * as path from "path";
 import { execFile as _execFile } from "child_process";
-
-import { slug } from "@promethean/utils";
+export { slug, readMaybe, writeJSON, writeText } from "@promethean/utils";
 
 export function parseArgs<T extends Record<string, string>>(def: T): T {
   const out: Record<string, string> = { ...def };
@@ -18,23 +15,6 @@ export function parseArgs<T extends Record<string, string>>(def: T): T {
   }
   return out as T;
 }
-export async function readMaybe(p: string) {
-  try {
-    return await fs.readFile(p, "utf-8");
-  } catch {
-    return undefined;
-  }
-}
-export async function writeJSON(p: string, data: any) {
-  await fs.mkdir(path.dirname(p), { recursive: true });
-  await fs.writeFile(p, JSON.stringify(data, null, 2), "utf-8");
-}
-export async function writeText(p: string, s: string) {
-  await fs.mkdir(path.dirname(p), { recursive: true });
-  await fs.writeFile(p, s, "utf-8");
-}
-
-export { slug };
 export function sha1(s: string) {
   let h = 2166136261 >>> 0;
   for (let i = 0; i < s.length; i++) {
@@ -58,7 +38,7 @@ export async function execShell(cmd: string, args: string[], cwd: string) {
         { cwd, maxBuffer: 1024 * 1024 * 64, env: { ...process.env } },
         (err, stdout, stderr) => {
           resolve({
-            code: err ? ((err as any).code ?? 1) : 0,
+            code: err ? (err as any).code ?? 1 : 0,
             stdout: String(stdout),
             stderr: String(stderr),
           });

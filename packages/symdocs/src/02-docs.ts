@@ -3,7 +3,7 @@ import * as path from "path";
 import { fileURLToPath } from "url";
 
 import { z } from "zod";
-import { ollamaJSON } from "@promethean/utils";
+import { ollamaJSON, readJSON } from "@promethean/utils";
 
 import { parseArgs, sha1 } from "./utils.js";
 import type { DocDraft, DocMap, ScanResult } from "./types.js";
@@ -142,14 +142,6 @@ export async function runDocs(opts: DocsOptions = {}) {
       outPath,
     )}`,
   );
-}
-
-async function readJSON(p: string): Promise<any | undefined> {
-  try {
-    return JSON.parse(await fs.readFile(p, "utf-8"));
-  } catch {
-    return undefined;
-  }
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
