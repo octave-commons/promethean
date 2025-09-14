@@ -29,3 +29,4 @@ temperature: 0.7
 ---
 <hr class="__chatgpt_plugin">
 
+We want for each service to be basically a config file.
