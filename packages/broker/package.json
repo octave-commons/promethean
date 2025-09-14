@@ -5,9 +5,12 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "ava --config ../../../config/ava.config.mjs",
+    "build": "true",
+    "clean": "rimraf coverage .turbo .cache || true",
+    "typecheck": "echo \"no types to check (JS package)\"",
+    "test": "pnpm run build && ava --config ../../../config/ava.config.mjs",
     "coverage": "c8 ava --config ../../../config/ava.config.mjs",
-    "lint": "eslint -c ../eslint.config.js ."
+    "lint": "pnpm -w exec eslint ."
   },
   "dependencies": {
     "@promethean/legacy": "workspace:*",
