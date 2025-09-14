@@ -6,13 +6,13 @@ import { ollamaEmbed, parseArgs } from "@promethean/utils";
 
 import type { ScanResult, EmbeddingMap } from "./types.js";
 
-export interface EmbedArgs {
+export type EmbedArgs = {
   "--in"?: string;
   "--out"?: string;
   "--embed-model"?: string;
   "--include-jsdoc"?: string;
   "--include-snippet"?: string;
-}
+};
 
 export async function embed(args: EmbedArgs) {
   const IN = path.resolve(args["--in"] ?? ".cache/simtasks/functions.json");

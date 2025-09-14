@@ -8,7 +8,7 @@ import matter from "gray-matter";
 import { parseArgs } from "./utils.js";
 import type { ScanResult, Cluster, Plan, FunctionInfo } from "./types.js";
 
-export interface WriteArgs {
+export type WriteArgs = {
   "--scan"?: string;
   "--clusters"?: string;
   "--plans"?: string;
@@ -16,7 +16,7 @@ export interface WriteArgs {
   "--priority"?: string;
   "--status"?: string;
   "--label"?: string;
-}
+};
 
 const START = "<!-- SIMTASKS:BEGIN -->";
 const END = "<!-- SIMTASKS:END -->";

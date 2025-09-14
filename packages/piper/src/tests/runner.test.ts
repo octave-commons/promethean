@@ -152,9 +152,9 @@ test.serial(
           { instanceOf: StepError },
           "pipeline should throw when a step fails",
         );
-        t.true(err!.message.includes("boom"));
-        t.true(err!.message.includes("echo err >&2; echo will-fail; exit 2"));
-        t.true(err!.message.includes("stderr: err"));
+        t.true(err.message.includes("boom"));
+        t.true(err.message.includes("echo err >&2; echo will-fail; exit 2"));
+        t.true(err.message.includes("stderr: err"));
 
         // Upstream succeeded
         t.truthy(await fs.readFile(path.join(dir, "a.txt"), "utf8"));

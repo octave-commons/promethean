@@ -15,12 +15,12 @@ import {
 import { makeProgram, sha1 } from "./utils.js";
 import type { FunctionInfo, ScanResult, FnKind } from "./types.js";
 
-export interface ScanArgs {
+export type ScanArgs = {
   "--root"?: string;
   "--ext"?: string;
   "--tsconfig"?: string;
   "--out"?: string;
-}
+};
 
 export async function scan(args: ScanArgs) {
   const ROOT = path.resolve(args["--root"] ?? "packages");
