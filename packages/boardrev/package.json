@@ -24,12 +24,14 @@
   },
   "dependencies": {
     "@promethean/utils": "workspace:*",
+    "@promethean/level-cache": "workspace:*",
     "globby": "^14.0.2",
     "gray-matter": "^4.0.3",
     "yaml": "^2.5.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "esmock": "^2.7.3",
     "tsx": "^4.19.2"
   }
 }

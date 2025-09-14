@@ -377,8 +377,7 @@
               "maxBytes": 200000,
               "maxLines": 400,
               "embedModel": "nomic-embed-text:latest",
-              "outIndex": ".cache/boardrev/repo-index.json",
-              "outEmb": ".cache/boardrev/repo-embeddings.json"
+              "cache": ".cache/boardrev/repo-cache"
             },
             "isolate": "worker"
           },
@@ -388,10 +387,7 @@
             "docs/**/*.md",
             "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"
           ],
-          "outputs": [
-            ".cache/boardrev/repo-index.json",
-            ".cache/boardrev/repo-embeddings.json"
-          ],
+          "outputs": [".cache/boardrev/repo-cache"],
           "inputSchema": "packages/boardrev/schemas/io.schema.json",
           "outputSchema": "packages/boardrev/schemas/io.schema.json"
         },
@@ -403,19 +399,14 @@
             "export": "matchContext",
             "args": {
               "tasks": "docs/agile/tasks",
-              "index": ".cache/boardrev/repo-index.json",
-              "emb": ".cache/boardrev/repo-embeddings.json",
+              "cache": ".cache/boardrev/repo-cache",
               "embedModel": "nomic-embed-text:latest",
               "k": 8,
               "out": ".cache/boardrev/context.json"
             },
             "isolate": "worker"
           },
-          "inputs": [
-            "docs/agile/tasks/**/*.md",
-            ".cache/boardrev/repo-index.json",
-            ".cache/boardrev/repo-embeddings.json"
-          ],
+          "inputs": ["docs/agile/tasks/**/*.md", ".cache/boardrev/repo-cache"],
           "outputs": [".cache/boardrev/context.json"],
           "inputSchema": "packages/boardrev/schemas/io.schema.json",
           "outputSchema": "packages/boardrev/schemas/io.schema.json"

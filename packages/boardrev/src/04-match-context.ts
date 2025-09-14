@@ -3,6 +3,7 @@ import * as path from "path";
 import { promises as fs } from "fs";
 
 import matter from "gray-matter";
+import { openLevelCache, type Cache } from "@promethean/level-cache";
 import { cosine, parseArgs, ollamaEmbed, writeText } from "@promethean/utils";
 
 import { listTaskFiles } from "./utils.js";
@@ -10,28 +11,31 @@ import type { RepoDoc, Embeddings, TaskContext } from "./types.js";
 
 export async function matchContext({
   tasks,
-  index,
-  emb,
+  cache,
   embedModel,
   k,
   out,
 }: Readonly<{
   tasks: string;
-  index: string;
-  emb: string;
+  cache: string;
   embedModel: string;
   k: number;
   out: string;
 }>) {
   const tasksDir = path.resolve(tasks);
   const files = await listTaskFiles(tasksDir);
-
-  const repoIndex: { docs: RepoDoc[] } = JSON.parse(
-    await fs.readFile(path.resolve(index), "utf-8"),
-  );
-  const repoEmb: Embeddings = JSON.parse(
-    await fs.readFile(path.resolve(emb), "utf-8"),
-  );
+  const db = await openLevelCache<unknown>({
+    path: path.resolve(cache),
+  });
+  const docCache = db.withNamespace("idx") as Cache<RepoDoc>;
+  const embCache = db.withNamespace("emb") as Cache<number[]>;
+  const repoIndex: RepoDoc[] = [];
+  const repoEmb: Embeddings = {};
+  for await (const [p, d] of docCache.entries()) {
+    repoIndex.push(d);
+    const v = await embCache.get(p);
+    if (v) repoEmb[p] = v;
+  }
 
   const outData: TaskContext[] = [];
 
@@ -45,7 +49,7 @@ export async function matchContext({
     ].join("\n");
     const vec = await ollamaEmbed(embedModel, text);
 
-    const scored = repoIndex.docs
+    const scored = repoIndex
       .map((d) => ({
         path: d.path,
         kind: d.kind,
@@ -67,22 +71,21 @@ export async function matchContext({
     path.resolve(out),
     JSON.stringify({ contexts: outData }, null, 2),
   );
+  await db.close();
   console.log(`boardrev: matched context for ${outData.length} task(s)`);
 }
 
 if (import.meta.main) {
   const args = parseArgs({
     "--tasks": "docs/agile/tasks",
-    "--index": ".cache/boardrev/repo-index.json",
-    "--emb": ".cache/boardrev/repo-embeddings.json",
+    "--cache": ".cache/boardrev/repo-cache",
     "--embed-model": "nomic-embed-text:latest",
     "--k": "8",
     "--out": ".cache/boardrev/context.json",
   });
   matchContext({
     tasks: args["--tasks"],
-    index: args["--index"],
-    emb: args["--emb"],
+    cache: args["--cache"],
     embedModel: args["--embed-model"],
     k: Number(args["--k"]),
     out: args["--out"],
