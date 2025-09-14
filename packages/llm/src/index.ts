@@ -88,31 +88,34 @@ app.post('/generate', async (req: Request, res: Response) => {
     }
 });
 
-export async function start(port = Number(process.env.LLM_PORT) || 8888): Promise<http.Server> {
-    if (process.env.DISABLE_BROKER !== '1') {
-        // eslint-disable-next-line functional/no-try-statements
-        try {
-            const { startService } = (await import('@shared/js/serviceTemplate.js')) as {
-                startService(opts: {
-                    id: string;
-                    queues: readonly string[];
-                    handleTask: (task: BrokerTask) => Promise<void>;
-                }): Promise<Broker>;
-            };
-            broker = await startService({
-                id: process.env.name || 'llm',
-                queues: ['llm.generate'],
-                handleTask,
-            });
-        } catch (err) {
-            log.error('Failed to initialize broker', { err: err as Error });
-        }
-        const { HeartbeatClient } = await import('@promethean/legacy/heartbeat/index.js');
-        const hb = new HeartbeatClient({ name: process.env.name || 'llm' });
-        await hb.sendOnce();
-        hb.start();
+export async function initBroker(): Promise<void> {
+    // eslint-disable-next-line functional/no-try-statements
+    try {
+        const { startService } = (await import('@shared/js/serviceTemplate.js')) as {
+            startService(opts: {
+                id: string;
+                queues: readonly string[];
+                handleTask: (task: BrokerTask) => Promise<void>;
+            }): Promise<Broker>;
+        };
+        broker = await startService({
+            id: process.env.name || 'llm',
+            queues: ['llm.generate'],
+            handleTask,
+        });
+    } catch (err) {
+        log.error('Failed to initialize broker', { err: err as Error });
     }
+}
 
+export async function initHeartbeat(): Promise<void> {
+    const { HeartbeatClient } = await import('@promethean/legacy/heartbeat/index.js');
+    const hb = new HeartbeatClient({ name: process.env.name || 'llm' });
+    await hb.sendOnce();
+    hb.start();
+}
+
+export async function initServer(port: number): Promise<http.Server> {
     const server = http.createServer(app);
     const wss = new WebSocketServer({ server, path: '/generate' });
     wss.on('connection', (ws: WebSocket) => {
@@ -133,6 +136,14 @@ export async function start(port = Number(process.env.LLM_PORT) || 8888): Promis
     return new Promise<http.Server>((resolve) => {
         const s = server.listen(port, () => resolve(s));
     });
+}
+
+export async function start(port = Number(process.env.LLM_PORT) || 8888): Promise<http.Server> {
+    if (process.env.DISABLE_BROKER !== '1') {
+        await initBroker();
+        await initHeartbeat();
+    }
+    return initServer(port);
 }
 
 if (process.env.NODE_ENV !== 'test') {
