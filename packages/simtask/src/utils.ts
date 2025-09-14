@@ -77,26 +77,6 @@ export function makeProgram(rootFiles: string[], tsconfigPath?: string) {
   return ts.createProgram(rootFiles, options);
 }
 
-export function posToLine(sf: ts.SourceFile, pos: number) {
-  return sf.getLineAndCharacterOfPosition(pos).line + 1;
-}
-
-export function getJsDocText(node: ts.Node): string | undefined {
-  const jsdocs = ts.getJSDocCommentsAndTags(node) ?? [];
-  if (jsdocs.length === 0) return undefined;
-  const texts: string[] = [];
-  for (const d of jsdocs) {
-    // @ts-ignore
-    const c = (d as any).comment;
-    if (typeof c === "string") texts.push(c);
-  }
-  return texts.join("\n\n").trim() || undefined;
-}
-
-export function getNodeText(src: string, node: ts.Node): string {
-  return src.slice(node.getFullStart(), node.getEnd());
-}
-
 export function cosine(a: number[], b: number[]) {
   let dot = 0,
     na = 0,
