@@ -19,13 +19,23 @@ import { promises as fs } from "fs";
 import * as path from "path";
 import matter from "gray-matter";
 import * as yaml from "yaml";
+import {
+  stripGeneratedSections,
+  START_MARK,
+  END_MARK,
+} from "@promethean/utils";
 
 type Front = {
   uuid?: string;
   filename?: string;
   related_to_title?: string[];
   related_to_uuid?: string[];
-  references?: Array<{ uuid: string; line: number; col: number; score?: number }>;
+  references?: Array<{
+    uuid: string;
+    line: number;
+    col: number;
+    score?: number;
+  }>;
   [k: string]: any;
 };
 
@@ -35,14 +45,16 @@ const args = parseArgs({
   "--anchor-style": "block", // "block" | "heading" | "none"
   "--include-related": "true",
   "--include-sources": "true",
-  "--frontmatter-trim": "false",     // if true, trim FM lists to max below
+  "--frontmatter-trim": "false", // if true, trim FM lists to max below
   "--max-fm-related": "15",
   "--max-fm-refs": "25",
   "--dry-run": "false",
 });
 
 const ROOT_DIR = path.resolve(process.cwd(), args["--dir"]);
-const EXTS = new Set(args["--ext"].split(",").map((s) => s.trim().toLowerCase()));
+const EXTS = new Set(
+  args["--ext"].split(",").map((s) => s.trim().toLowerCase()),
+);
 const ANCHOR_STYLE = args["--anchor-style"] as "block" | "heading" | "none";
 const INCLUDE_RELATED = args["--include-related"] === "true";
 const INCLUDE_SOURCES = args["--include-sources"] === "true";
@@ -51,16 +63,14 @@ const MAX_FM_RELATED = Number(args["--max-fm-related"]);
 const MAX_FM_REFS = Number(args["--max-fm-refs"]);
 const DRY_RUN = args["--dry-run"] === "true";
 
-const START_MARK = "<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->";
-const END_MARK = "<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->";
-
 function parseArgs(defaults: Record<string, string>): Record<string, string> {
   const out = { ...defaults };
   const argv = process.argv.slice(2);
   for (let i = 0; i < argv.length; i++) {
     const k = argv[i];
     if (k.startsWith("--")) {
-      const v = argv[i + 1] && !argv[i + 1].startsWith("--") ? argv[++i] : "true";
+      const v =
+        argv[i + 1] && !argv[i + 1].startsWith("--") ? argv[++i] : "true";
       out[k] = v;
     }
   }
@@ -86,19 +96,15 @@ function anchorId(docUuid: string, line: number, col: number) {
   return `ref-${short}-${line}-${col}`;
 }
 
-function relMdLink(fromFileAbs: string, toFileAbs: string, anchor?: string): string {
-  const rel = path.relative(path.dirname(fromFileAbs), toFileAbs).replace(/\\/g, "/");
+function relMdLink(
+  fromFileAbs: string,
+  toFileAbs: string,
+  anchor?: string,
+): string {
+  const rel = path
+    .relative(path.dirname(fromFileAbs), toFileAbs)
+    .replace(/\\/g, "/");
   return anchor ? `${rel}#${anchor}` : rel;
-}
-
-// Strip previous generated section (if any)
-function stripGeneratedSections(body: string): string {
-  const si = body.indexOf(START_MARK);
-  const ei = body.indexOf(END_MARK);
-  if (si >= 0 && ei > si) {
-    return (body.slice(0, si).trimEnd() + "\n").trimEnd();
-  }
-  return body.trimEnd() + "\n";
 }
 
 function slugify(s: string): string {
@@ -140,7 +146,11 @@ function computeFenceMap(lines: string[]): boolean[] {
       inside[i] = true;
       // closing fence must match same char and length
       const m = L.match(fenceRe);
-      if (m && (m[2][0] as "`" | "~") === fenceChar && m[2].length >= fenceLen) {
+      if (
+        m &&
+        (m[2][0] as "`" | "~") === fenceChar &&
+        m[2].length >= fenceLen
+      ) {
         // this line is still "inside"; next line is outside
         inFence = false;
       }
@@ -152,7 +162,10 @@ function computeFenceMap(lines: string[]): boolean[] {
 // Inject ^block IDs without breaking code blocks:
 //  - if target line inside a fenced block -> place "^id" on the line AFTER the closing fence
 //  - else append " ^id" at the end of the target line (idempotent)
-function injectAnchors(content: string, want: Array<{ line: number; id: string }>): string {
+function injectAnchors(
+  content: string,
+  want: Array<{ line: number; id: string }>,
+): string {
   if (!want.length) return content;
   const lines = content.split("\n");
   const inside = computeFenceMap(lines);
@@ -201,7 +214,10 @@ function injectAnchors(content: string, want: Array<{ line: number; id: string }
 }
 
 // For heading-style anchors, generate slug from the nearest heading above a line
-function nearestHeadingAnchor(content: string, line: number): string | undefined {
+function nearestHeadingAnchor(
+  content: string,
+  line: number,
+): string | undefined {
   const lines = content.split("\n");
   for (let i = Math.max(1, line) - 1; i >= 0; i--) {
     const m = lines[i].match(/^\s{0,3}#{1,6}\s+(.*)$/);
@@ -263,7 +279,10 @@ async function main() {
   }
 
   // If block anchors are requested, gather all needed anchors per target doc
-  const anchorsNeededByDoc: Record<string, Array<{ line: number; id: string }>> = {};
+  const anchorsNeededByDoc: Record<
+    string,
+    Array<{ line: number; id: string }>
+  > = {};
   if (ANCHOR_STYLE === "block") {
     for (const f of files) {
       const fm = frontsByPath[f];
@@ -330,7 +349,9 @@ async function main() {
 
         const href = relMdLink(me, ref.path, anchor || undefined);
         const title = ref.title || r.uuid;
-        const meta = ` (line ${r.line}, col ${r.col}${r.score != null ? `, score ${round2(r.score)}` : ""})`;
+        const meta = ` (line ${r.line}, col ${r.col}${
+          r.score != null ? `, score ${round2(r.score)}` : ""
+        })`;
         sourceLines.push(`- [${title} — L${r.line}](${href})${meta}`);
       }
       if (sourceLines.length === 0) sourceLines.push("- _None_");
@@ -350,8 +371,10 @@ async function main() {
       .filter((x) => x !== "")
       .join("\n");
 
-    const cleaned = stripGeneratedSections(content);
-    const finalMd = matter.stringify(cleaned + footer, fm, { language: "yaml" });
+    const cleaned = stripGeneratedSections(content, START_MARK, END_MARK);
+    const finalMd = matter.stringify(cleaned + footer, fm, {
+      language: "yaml",
+    });
 
     if (DRY_RUN) {
       console.log(`Would update: ${path.relative(process.cwd(), f)}`);

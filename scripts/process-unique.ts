@@ -22,16 +22,26 @@ import remarkParse from "remark-parse";
 import { visit } from "unist-util-visit";
 import { z } from "zod";
 import * as yaml from "yaml";
+import {
+  stripGeneratedSections,
+  START_MARK,
+  END_MARK,
+} from "@promethean/utils";
 
 type Front = {
   uuid?: string;
   created_at?: string; // original filename as requested
-  filename?: string;   // title/sluggy name (no extension enforced)
+  filename?: string; // title/sluggy name (no extension enforced)
   description?: string;
   tags?: string[];
   related_to_title?: string[];
   related_to_uuid?: string[];
-  references?: Array<{ uuid: string; line: number; col: number; score?: number }>;
+  references?: Array<{
+    uuid: string;
+    line: number;
+    col: number;
+    score?: number;
+  }>;
   [k: string]: any;
 };
 
@@ -76,14 +86,22 @@ const EMBED_MODEL = args["--embed-model"];
 const DOC_THRESHOLD = Number(args["--doc-threshold"]);
 const REF_THRESHOLD = Number(args["--ref-threshold"]);
 const DRY_RUN = args["--dry-run"] === "true";
-const EXTS = new Set(args["--ext"].split(",").map((s) => s.trim().toLowerCase()));
+const EXTS = new Set(
+  args["--ext"].split(",").map((s) => s.trim().toLowerCase()),
+);
 
 const CACHE_DIR = path.join(process.cwd(), ".cache");
 const CHUNK_CACHE_FILE = path.join(CACHE_DIR, "unique-chunks.json");
 const EMBED_CACHE_FILE = path.join(CACHE_DIR, "unique-embeddings.json");
 const QUERY_CACHE_FILE = path.join(CACHE_DIR, "unique-queries.json");
-function relMdLink(fromFileAbs: string, toFileAbs: string, anchor?: string): string {
-  const rel = path.relative(path.dirname(fromFileAbs), toFileAbs).replace(/\\/g, "/");
+function relMdLink(
+  fromFileAbs: string,
+  toFileAbs: string,
+  anchor?: string,
+): string {
+  const rel = path
+    .relative(path.dirname(fromFileAbs), toFileAbs)
+    .replace(/\\/g, "/");
   return anchor ? `${rel}#${anchor}` : rel;
 }
 
@@ -94,7 +112,9 @@ function ensureArray<T>(x: T | T[] | undefined): T[] {
 
 function randomUUID(): string {
   // Node 18+: crypto.randomUUID available
-  return (globalThis as any).crypto?.randomUUID?.() ?? require("crypto").randomUUID();
+  return (
+    (globalThis as any).crypto?.randomUUID?.() ?? require("crypto").randomUUID()
+  );
 }
 
 function slugify(s: string): string {
@@ -150,7 +170,9 @@ async function ollamaGenerateJSON(model: string, prompt: string): Promise<any> {
   const data = await res.json();
   // data.response might be JSON or JSON string—handle both
   try {
-    return typeof data.response === "string" ? JSON.parse(data.response) : data.response;
+    return typeof data.response === "string"
+      ? JSON.parse(data.response)
+      : data.response;
   } catch (e) {
     // Sometimes models wrap code fences—strip and retry
     const cleaned = String(data.response ?? "")
@@ -167,13 +189,18 @@ async function ollamaEmbed(model: string, text: string): Promise<number[]> {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ model, prompt: text }),
   });
-  if (!res.ok) throw new Error(`Ollama /embeddings failed: ${res.status} ${res.statusText}`);
+  if (!res.ok)
+    throw new Error(
+      `Ollama /embeddings failed: ${res.status} ${res.statusText}`,
+    );
   const data = await res.json();
   return data.embedding as number[];
 }
 
 function cosine(a: number[], b: number[]): number {
-  let dot = 0, na = 0, nb = 0;
+  let dot = 0,
+    na = 0,
+    nb = 0;
   const n = Math.min(a.length, b.length);
   for (let i = 0; i < n; i++) {
     dot += a[i] * b[i];
@@ -190,11 +217,18 @@ class InMemoryChroma {
 
   add(ids: string[], embeddings: number[][], metadatas: any[]) {
     for (let i = 0; i < ids.length; i++) {
-      this.vectors.set(ids[i], { embedding: embeddings[i], meta: metadatas[i] });
+      this.vectors.set(ids[i], {
+        embedding: embeddings[i],
+        meta: metadatas[i],
+      });
     }
   }
 
-  queryByEmbedding(qEmbedding: number[], k = 5, filter?: (meta: any) => boolean) {
+  queryByEmbedding(
+    qEmbedding: number[],
+    k = 5,
+    filter?: (meta: any) => boolean,
+  ) {
     const scores: Array<{ id: string; score: number; meta: any }> = [];
     for (const [id, { embedding, meta }] of this.vectors) {
       if (filter && !filter(meta)) continue;
@@ -231,7 +265,10 @@ function parseMarkdownChunks(markdown: string): Array<{
     if (node.type === "heading") {
       currentHeading = (node.children || [])
         .filter((c: any) => c.type === "text" || c.value)
-        .map((c: any) => c.value || c.children?.map((cc: any) => cc.value).join(" ") || "")
+        .map(
+          (c: any) =>
+            c.value || c.children?.map((cc: any) => cc.value).join(" ") || "",
+        )
         .join(" ")
         .trim();
     }
@@ -240,7 +277,7 @@ function parseMarkdownChunks(markdown: string): Array<{
     if (["paragraph", "listItem", "code"].includes(node.type)) {
       const pos = node.position;
       if (!pos) return;
-      const raw = node.type === "code" ? (node.value || "") : extractText(node);
+      const raw = node.type === "code" ? node.value || "" : extractText(node);
       const trimmed = (raw || "").trim();
       if (!trimmed) return;
 
@@ -301,7 +338,8 @@ function sentenceSplit(s: string, maxLen: number): string[] {
   for (const c of chunks) {
     if (c.length <= maxLen) final.push(c);
     else {
-      for (let i = 0; i < c.length; i += maxLen) final.push(c.slice(i, i + maxLen));
+      for (let i = 0; i < c.length; i += maxLen)
+        final.push(c.slice(i, i + maxLen));
     }
   }
   return final;
@@ -322,8 +360,14 @@ function frontToYAML(front: Front): string {
 
 async function main() {
   await fs.mkdir(CACHE_DIR, { recursive: true });
-  const chunkCache: Record<string, Chunk[]> = await readOrEmptyJSON(CHUNK_CACHE_FILE, {});
-  const embedCache: Record<string, number[]> = await readOrEmptyJSON(EMBED_CACHE_FILE, {});
+  const chunkCache: Record<string, Chunk[]> = await readOrEmptyJSON(
+    CHUNK_CACHE_FILE,
+    {},
+  );
+  const embedCache: Record<string, number[]> = await readOrEmptyJSON(
+    EMBED_CACHE_FILE,
+    {},
+  );
   const queryCache: QueryCache = await readOrEmptyJSON(QUERY_CACHE_FILE, {});
 
   // STEP 1: scan files and frontmatter
@@ -355,7 +399,9 @@ async function main() {
     }
 
     // generate missing fields iteratively with Ollama
-    const haveAll = Boolean(fm.filename && fm.description && ensureArray(fm.tags).length);
+    const haveAll = Boolean(
+      fm.filename && fm.description && ensureArray(fm.tags).length,
+    );
     if (!haveAll) {
       const need: Array<keyof GenResult> = [];
       if (!fm.filename) need.push("filename");
@@ -370,7 +416,9 @@ async function main() {
         const askKeys = [...need];
         const sys = [
           `You are generating concise frontmatter for a document.`,
-          `Return ONLY a compact JSON object with these keys: ${askKeys.join(", ")}`,
+          `Return ONLY a compact JSON object with these keys: ${askKeys.join(
+            ", ",
+          )}`,
           `Definitions:`,
           ` - filename: A human-friendly title for the doc; avoid extension; no slashes.`,
           ` - description: 1–3 sentence summary.`,
@@ -389,7 +437,7 @@ async function main() {
               tags: fm.tags ?? null,
             },
             null,
-            2
+            2,
           ),
           `Content preview:\n${preview}`,
         ].join("\n");
@@ -399,16 +447,21 @@ async function main() {
         try {
           obj = await ollamaGenerateJSON(GEN_MODEL, payload);
         } catch (e) {
-          console.warn(`Ollama gen error on ${originalName}: ${(e as Error).message}`);
+          console.warn(
+            `Ollama gen error on ${originalName}: ${(e as Error).message}`,
+          );
           break;
         }
 
         // validate partial for chosen keys
         // Build a dynamic schema with just askKeys as required
         const partialShape: any = {};
-        if (askKeys.includes("filename")) partialShape.filename = z.string().min(1);
-        if (askKeys.includes("description")) partialShape.description = z.string().min(1);
-        if (askKeys.includes("tags")) partialShape.tags = z.array(z.string()).min(1);
+        if (askKeys.includes("filename"))
+          partialShape.filename = z.string().min(1);
+        if (askKeys.includes("description"))
+          partialShape.description = z.string().min(1);
+        if (askKeys.includes("tags"))
+          partialShape.tags = z.array(z.string()).min(1);
 
         const PartialSchema = z.object(partialShape);
         const parsed = PartialSchema.safeParse(obj);
@@ -416,14 +469,20 @@ async function main() {
           current = { ...current, ...parsed.data };
           // remove fulfilled keys
           for (const k of askKeys) {
-            if ((current as any)[k] != null && (k !== "tags" || (current.tags && current.tags.length))) {
+            if (
+              (current as any)[k] != null &&
+              (k !== "tags" || (current.tags && current.tags.length))
+            ) {
               const idx = need.indexOf(k);
               if (idx >= 0) need.splice(idx, 1);
             }
           }
         } else {
           // try to be resilient; next round will re-ask
-          console.warn(`Validation failed for ${originalName}, round ${round + 1}:`, parsed.error.issues);
+          console.warn(
+            `Validation failed for ${originalName}, round ${round + 1}:`,
+            parsed.error.issues,
+          );
         }
       }
 
@@ -443,7 +502,10 @@ async function main() {
     }
 
     docsFront[f] = fm;
-    docsByUuid[fm.uuid!] = { path: f, title: fm.filename ?? path.parse(f).name };
+    docsByUuid[fm.uuid!] = {
+      path: f,
+      title: fm.filename ?? path.parse(f).name,
+    };
 
     // Only write here if we changed basic ids/dates BEFORE later steps
     if (changed && !DRY_RUN) {
@@ -460,17 +522,19 @@ async function main() {
     const gm = matter(raw);
     const fm = docsFront[f];
     const uuid = fm.uuid!;
-    const chunks = parseMarkdownChunks(gm.content).map((c, i): Chunk => ({
-      id: `${uuid}:${i}`,
-      docUuid: uuid,
-      docPath: f,
-      startLine: c.startLine,
-      startCol: c.startCol,
-      endLine: c.endLine,
-      endCol: c.endCol,
-      text: c.text,
-      title: c.title,
-    }));
+    const chunks = parseMarkdownChunks(gm.content).map(
+      (c, i): Chunk => ({
+        id: `${uuid}:${i}`,
+        docUuid: uuid,
+        docPath: f,
+        startLine: c.startLine,
+        startCol: c.startCol,
+        endLine: c.endLine,
+        endCol: c.endCol,
+        text: c.text,
+        title: c.title,
+      }),
+    );
 
     // Embeddings with simple cache keyed by chunk.id
     for (const ch of chunks) {
@@ -495,12 +559,16 @@ async function main() {
       startCol: c.startCol,
       endLine: c.endLine,
       endCol: c.endCol,
-    }))
+    })),
   );
 
   // Persist chunk+embed cache
   if (!DRY_RUN) {
-    await fs.writeFile(CHUNK_CACHE_FILE, JSON.stringify(groupByDoc(allChunks), null, 2), "utf-8");
+    await fs.writeFile(
+      CHUNK_CACHE_FILE,
+      JSON.stringify(groupByDoc(allChunks), null, 2),
+      "utf-8",
+    );
     await fs.writeFile(EMBED_CACHE_FILE, JSON.stringify(embedCache), "utf-8");
   }
 
@@ -523,7 +591,11 @@ async function main() {
   }
 
   if (!DRY_RUN) {
-    await fs.writeFile(QUERY_CACHE_FILE, JSON.stringify(queryCache, null, 2), "utf-8");
+    await fs.writeFile(
+      QUERY_CACHE_FILE,
+      JSON.stringify(queryCache, null, 2),
+      "utf-8",
+    );
   }
 
   // STEP 4: doc-to-doc similarity aggregation
@@ -553,8 +625,14 @@ async function main() {
       .filter(Boolean) as string[];
     const relatedUuids = peers.map(([uuid]) => uuid);
 
-    fm.related_to_title = dedupeStrings([...(fm.related_to_title ?? []), ...relatedTitles]);
-    fm.related_to_uuid = dedupeStrings([...(fm.related_to_uuid ?? []), ...relatedUuids]);
+    fm.related_to_title = dedupeStrings([
+      ...(fm.related_to_title ?? []),
+      ...relatedTitles,
+    ]);
+    fm.related_to_uuid = dedupeStrings([
+      ...(fm.related_to_uuid ?? []),
+      ...relatedUuids,
+    ]);
   }
 
   // STEP 5: per-chunk high-confidence refs into frontmatter
@@ -563,18 +641,28 @@ async function main() {
   for (const f of files) {
     const fm = docsFront[f];
     const myChunks = allChunks.filter((c) => c.docUuid === fm.uuid!);
-    const refs: Array<{ uuid: string; line: number; col: number; score?: number }> = fm.references
-      ? [...fm.references]
-      : [];
+    const refs: Array<{
+      uuid: string;
+      line: number;
+      col: number;
+      score?: number;
+    }> = fm.references ? [...fm.references] : [];
     const seen = new Set(refs.map((r) => `${r.uuid}:${r.line}:${r.col}`));
 
     for (const ch of myChunks) {
-      const hits = (queryCache[ch.id] || []).filter((h) => h.score >= REF_THRESHOLD);
+      const hits = (queryCache[ch.id] || []).filter(
+        (h) => h.score >= REF_THRESHOLD,
+      );
       for (const h of hits) {
         const key = `${h.docUuid}:${h.startLine}:${h.startCol}`;
         if (seen.has(key)) continue;
         seen.add(key);
-        refs.push({ uuid: h.docUuid, line: h.startLine, col: h.startCol, score: round2(h.score) });
+        refs.push({
+          uuid: h.docUuid,
+          line: h.startLine,
+          col: h.startCol,
+          score: round2(h.score),
+        });
       }
     }
 
@@ -584,66 +672,80 @@ async function main() {
   const plannedPathByUuid: Record<string, string> = {};
   for (const f of files) {
     const fm = docsFront[f];
-    const wantBase = fm.filename ? slugify(fm.filename) : path.basename(f, path.extname(f));
+    const wantBase = fm.filename
+      ? slugify(fm.filename)
+      : path.basename(f, path.extname(f));
     const ext = extnamePrefer(f);
-    plannedPathByUuid[fm.uuid!] = path.join(path.dirname(f), `${wantBase}${ext}`);
+    plannedPathByUuid[fm.uuid!] = path.join(
+      path.dirname(f),
+      `${wantBase}${ext}`,
+    );
   }
 
-// STEP 6–9: write frontmatter + footers and rename
-for (const f of files) {
-  const raw = await fs.readFile(f, "utf-8");
-  const gm = matter(raw);
-  const fm = docsFront[f];
-  const body = gm.content;
-  const myPlanned = plannedPathByUuid[fm.uuid!];
+  // STEP 6–9: write frontmatter + footers and rename
+  for (const f of files) {
+    const raw = await fs.readFile(f, "utf-8");
+    const gm = matter(raw);
+    const fm = docsFront[f];
+    const body = gm.content;
+    const myPlanned = plannedPathByUuid[fm.uuid!];
 
-  // Build Related content as links to the planned paths
-  const relatedLines = (fm.related_to_uuid ?? []).map((u) => {
-    const title = docsByUuid[u]?.title ?? u;
-    const targetAbs = plannedPathByUuid[u] ?? docsByUuid[u]?.path ?? "";
-    const href = relMdLink(myPlanned, targetAbs);
-    return `- [${title}](${href})`;
-  });
+    // Build Related content as links to the planned paths
+    const relatedLines = (fm.related_to_uuid ?? []).map((u) => {
+      const title = docsByUuid[u]?.title ?? u;
+      const targetAbs = plannedPathByUuid[u] ?? docsByUuid[u]?.path ?? "";
+      const href = relMdLink(myPlanned, targetAbs);
+      return `- [${title}](${href})`;
+    });
 
-  // Build Sources with line anchors (#L<number>) to the planned paths
-  const sourcesLines = (fm.references ?? []).map((r) => {
-    const title = docsByUuid[r.uuid]?.title ?? r.uuid;
-    const targetAbs = plannedPathByUuid[r.uuid] ?? docsByUuid[r.uuid]?.path ?? "";
-    const href = relMdLink(myPlanned, targetAbs, `L${r.line}`);
-    const meta = ` (line ${r.line}, col ${r.col}${r.score != null ? `, score ${r.score}` : ""})`;
-    return `- [${title} — L${r.line}](${href})${meta}`;
-  });
+    // Build Sources with line anchors (#L<number>) to the planned paths
+    const sourcesLines = (fm.references ?? []).map((r) => {
+      const title = docsByUuid[r.uuid]?.title ?? r.uuid;
+      const targetAbs =
+        plannedPathByUuid[r.uuid] ?? docsByUuid[r.uuid]?.path ?? "";
+      const href = relMdLink(myPlanned, targetAbs, `L${r.line}`);
+      const meta = ` (line ${r.line}, col ${r.col}${
+        r.score != null ? `, score ${r.score}` : ""
+      })`;
+      return `- [${title} — L${r.line}](${href})${meta}`;
+    });
 
-  const footer = [
-    "",
-    "<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->",
-    "## Related content",
-    ...(relatedLines.length ? relatedLines : ["- _None_"]),
-    "",
-    "## Sources",
-    ...(sourcesLines.length ? sourcesLines : ["- _None_"]),
-    "<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->",
-    "",
-  ].join("\n");
+    const footer = [
+      "",
+      START_MARK,
+      "## Related content",
+      ...(relatedLines.length ? relatedLines : ["- _None_"]),
+      "",
+      "## Sources",
+      ...(sourcesLines.length ? sourcesLines : ["- _None_"]),
+      END_MARK,
+      "",
+    ].join("\n");
 
-  const cleanedBody = stripGeneratedSections(body);
-  const newFile = matter.stringify(cleanedBody + footer, fm, { language: "yaml" });
+    const cleanedBody = stripGeneratedSections(body, START_MARK, END_MARK);
+    const newFile = matter.stringify(cleanedBody + footer, fm, {
+      language: "yaml",
+    });
 
-  if (!DRY_RUN) {
-    await fs.writeFile(f, newFile, "utf-8");
+    if (!DRY_RUN) {
+      await fs.writeFile(f, newFile, "utf-8");
+    }
+
+    // Rename to the planned file name
+    const planned = plannedPathByUuid[fm.uuid!];
+    if (planned && planned !== f && !DRY_RUN) {
+      await fs.rename(f, planned);
+      docsByUuid[fm.uuid!].path = planned; // keep registry in sync
+    }
   }
-
-  // Rename to the planned file name
-  const planned = plannedPathByUuid[fm.uuid!];
-  if (planned && planned !== f && !DRY_RUN) {
-    await fs.rename(f, planned);
-    docsByUuid[fm.uuid!].path = planned; // keep registry in sync
-  }
-}
 
   // Final cache write
   if (!DRY_RUN) {
-    await fs.writeFile(QUERY_CACHE_FILE, JSON.stringify(queryCache, null, 2), "utf-8");
+    await fs.writeFile(
+      QUERY_CACHE_FILE,
+      JSON.stringify(queryCache, null, 2),
+      "utf-8",
+    );
   }
 
   console.log("Done.");
@@ -655,22 +757,12 @@ function parseArgs(defaults: Record<string, string>): Record<string, string> {
   for (let i = 0; i < argv.length; i++) {
     const k = argv[i];
     if (k.startsWith("--")) {
-      const v = argv[i + 1] && !argv[i + 1].startsWith("--") ? argv[++i] : "true";
+      const v =
+        argv[i + 1] && !argv[i + 1].startsWith("--") ? argv[++i] : "true";
       out[k] = v;
     }
   }
   return out;
-}
-
-function stripGeneratedSections(body: string): string {
-  const start = "<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->";
-  const end = "<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->";
-  const si = body.indexOf(start);
-  const ei = body.indexOf(end);
-  if (si >= 0 && ei > si) {
-    return (body.slice(0, si).trimEnd() + "\n").trimEnd();
-  }
-  return body.trimEnd() + "\n";
 }
 
 function dedupeStrings(arr: string[]): string[] {
