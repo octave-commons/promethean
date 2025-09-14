@@ -23,7 +23,7 @@ Provide a lightweight file explorer for navigating repository contents through t
 
 - [ ] Outline UX and permission constraints.
 - [x] Implement backend API for listing and reading files.
-- [ ] Add UI component or chat command for navigation.
+- [x] Add UI component or chat command for navigation. ✅ 2025-09-13
 - [x] Include tests covering permission and search cases.
 - [x] Document usage with examples.
 
@@ -47,7 +47,7 @@ Nothing
 
 ## 🔍 Relevant Links
 
-- [kanban](kanban.md)
+- [[kanban]]
 
 
 ## Notes
