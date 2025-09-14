@@ -182,7 +182,11 @@
           "id": "mods-spec",
           "deps": ["mods-simtasks"],
           "shell": "pnpm --filter @promethean/codemods mods:01-spec --tsconfig ./tsconfig.json",
-          "inputs": [".cache/simtasks/{functions,clusters,plans}.json"],
+          "inputs": [
+            ".cache/simtasks/functions.json",
+            ".cache/simtasks/clusters.json",
+            ".cache/simtasks/plans.json"
+          ],
           "outputs": [".cache/codemods/specs.json"],
           "inputSchema": "packages/codemods/schemas/io.schema.json",
           "outputSchema": "packages/codemods/schemas/io.schema.json"
