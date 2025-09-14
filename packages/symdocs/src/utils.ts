@@ -1,6 +1,6 @@
 import { promises as fs } from "fs";
 import * as path from "path";
-import * as crypto from "crypto";
+export { sha1 } from "@promethean/utils";
 
 import * as ts from "typescript";
 
@@ -40,10 +40,6 @@ export async function listFilesRec(
   }
   await walk(root);
   return out.filter((p) => exts.has(path.extname(p).toLowerCase()));
-}
-
-export function sha1(s: string): string {
-  return crypto.createHash("sha1").update(s).digest("hex");
 }
 
 export function relFromRepo(abs: string): string {
