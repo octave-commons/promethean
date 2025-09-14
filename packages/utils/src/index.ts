@@ -8,3 +8,4 @@ export { slug } from "./slug.js";
 export { parseArgs } from "./parse-args.js";
 export { relFromRepo } from "./path.js";
 export { cosine } from "./cosine.js";
+export { getJsDocText, getNodeText, posToLine } from "./ts-ast.js";

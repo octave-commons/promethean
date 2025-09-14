@@ -92,3 +92,18 @@ export function getJsDocText(node: ts.Node): string | undefined {
 export function getNodeText(src: string, node: ts.Node): string {
   return src.slice(node.getFullStart(), node.getEnd());
 }
+export function cosine(a: number[], b: number[]) {
+  let dot = 0,
+    na = 0,
+    nb = 0;
+  const n = Math.min(a.length, b.length);
+  for (let i = 0; i < n; i++) {
+    const av = a[i]!;
+    const bv = b[i]!;
+    dot += av * bv;
+    na += av * av;
+    nb += bv * bv;
+  }
+  if (!na || !nb) return 0;
+  return dot / (Math.sqrt(na) * Math.sqrt(nb));
+}
