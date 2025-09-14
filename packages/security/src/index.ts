@@ -1,3 +1,2 @@
-export * from './policy.js';
-
-export * from './registry.js';
+export * from "./policy.js";
+export { fileBackedRegistry } from "@promethean/platform";

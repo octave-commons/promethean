@@ -27,12 +27,28 @@ tags:
   - priority/p3
   - epic/EPC-000
 ---
-  drwxrwxr-x  3 err err 4096 Sep 12 14:19   broker
-  drwxrwxr-x  3 err err 4096 Sep 12 14:19   eidolon-field
-  -rw-rw-r--  1 err err  183 Sep 12 14:19   eslint.config.js
-  drwxrwxr-x  2 err err 4096 Sep 12 14:19   event-gateway
-  drwxrwxr-x  2 err err 4096 Sep 12 14:19   event-hub
-  drwxrwxr-x  3 err err 4096 Sep 12 14:19   health
-  drwxrwxr-x  3 err err 4096 Sep 12 14:19   heartbeat
-  drwxrwxr-x  3 err err 4096 Sep 12 14:19   proxy
-  drwxrwxr-x  3 err err 4096 Sep 12 14:19   vision
+# Legacy JS services are migrated to TS
+
+I had failed to move several of these to the new packages before, I recovered them from the git history. Now they need to be integrated
+
+## Goals
+- The legacy projects have their package name field updated to reflect the new namespace
+- The legacy projects are refactored under the new tsconfig
+- The legacy projects work as they used to.
+
+## Nessisary Services
+   - [ ] broker
+   - [ ] heartbeat
+   - [ ] vision
+   - [ ] eidolon-field
+   
+## Maybe services
+   - [ ] event-gateway
+   - [ ] event-hub
+   - [ ] health
+   - [ ] proxy
+
+## Notes
+
+It may not be worth it to  migrate the proxy service.
+The 

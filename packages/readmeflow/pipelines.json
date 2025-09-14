@@ -6,16 +6,12 @@
         {
           "id": "rm-scan",
           "shell": "pnpm --filter @promethean/readmeflow rm:01-scan --root packages",
-          "inputs": [
-            "packages/**/package.json",
-            "packages/**/tsconfig.json"
-          ]
+          "inputs": ["packages/**/package.json", "packages/**/tsconfig.json"],
+          "inputSchema": "packages/readmeflow/schemas/io.schema.json"
         },
         {
           "id": "rm-outline",
-          "deps": [
-            "rm-scan"
-          ],
+          "deps": ["rm-scan"],
           "shell": "pnpm --filter @promethean/readmeflow rm:02-outline --model qwen3:4b",
           "env": {
             "OLLAMA_URL": "${OLLAMA_URL}"
@@ -23,26 +19,19 @@
         },
         {
           "id": "rm-write",
-          "deps": [
-            "rm-outline"
-          ],
+          "deps": ["rm-outline"],
           "shell": "pnpm --filter @promethean/readmeflow rm:03-write --mermaid true",
-          "outputs": [
-            "packages/**/README.md"
-          ]
+          "outputs": ["packages/**/README.md"],
+          "outputSchema": "packages/readmeflow/schemas/io.schema.json"
         },
         {
           "id": "rm-verify",
-          "deps": [
-            "rm-write"
-          ],
+          "deps": ["rm-write"],
           "shell": "pnpm --filter @promethean/readmeflow rm:04-verify --root packages --out docs/agile/reports/readmes",
-          "inputs": [
-            "packages/**/README.md"
-          ],
-          "outputs": [
-            "docs/agile/reports/readmes/*.md"
-          ]
+          "inputs": ["packages/**/README.md"],
+          "inputSchema": "packages/readmeflow/schemas/io.schema.json",
+          "outputs": ["docs/agile/reports/readmes/*.md"],
+          "outputSchema": "packages/readmeflow/schemas/io.schema.json"
         }
       ]
     }
