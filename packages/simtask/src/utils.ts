@@ -55,10 +55,6 @@ export function sha1(s: string) {
   return crypto.createHash("sha1").update(s).digest("hex");
 }
 
-export function relFromRepo(abs: string) {
-  return path.relative(process.cwd(), abs).replace(/\\/g, "/");
-}
-
 export function makeProgram(rootFiles: string[], tsconfigPath?: string) {
   let options: ts.CompilerOptions = {
     target: ts.ScriptTarget.ES2022,

@@ -11,11 +11,11 @@ import {
   getNodeText,
   posToLine,
   sha1,
-  relFromRepo,
   getLangFromExt,
   signatureForFunction,
   typeToString,
 } from "./utils.js";
+import { relFromRepo } from "@promethean/utils";
 import type { SymKind, SymbolInfo, ScanResult } from "./types.js";
 
 const args = parseArgs({
