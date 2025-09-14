@@ -237,7 +237,7 @@ kanban-plugin: board
 ## Incoming
 
 - [ ] Get existing pipelines to work through UI
-- [ ] [[recover broker code]]
+- [ ] get all existing pipelines functional
 
 
 ## Accepted
@@ -302,6 +302,7 @@ kanban-plugin: board
 ## In Review (8)
 
 - [ ] [[docs/agile/tasks/file-explorer|File explorer]] #framework-core #ready
+- [ ] [[recover broker code]]
 
 
 ## Done
