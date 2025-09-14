@@ -1,6 +1,6 @@
 import test from "ava";
 import { Guild, User } from "discord.js";
-import { VoiceSession } from "../src/voice-session.ts";
+import { VoiceSession } from "../voice-session.js";
 
 test("recording state toggles with start/stop", async (t) => {
   const guild = new Guild("1");

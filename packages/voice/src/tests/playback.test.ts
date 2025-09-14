@@ -1,7 +1,7 @@
 import test from "ava";
 import { Guild } from "discord.js";
 import { PassThrough } from "stream";
-import { createVoiceService } from "../src/index.ts";
+import { createVoiceService } from "../index.js";
 
 if (process.env.SKIP_NETWORK_TESTS === "1") {
   test("voice playback network tests skipped in sandbox", (t) => t.pass());
