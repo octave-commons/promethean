@@ -1,8 +1,13 @@
-import Fastify from "fastify";
-import fastifyStatic from "@fastify/static";
-import { fileURLToPath } from "node:url";
-import path from "node:path";
 import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+import Fastify, {
+  type FastifyInstance,
+  type FastifyReply,
+  type FastifyRequest,
+} from "fastify";
+import fastifyStatic from "@fastify/static";
 import {
   registerHealthRoute,
   registerDiagnosticsRoute,
@@ -11,7 +16,7 @@ import {
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-async function mountFrontends(app: any) {
+async function mountFrontends(app: FastifyInstance): Promise<void> {
   const repoRoot = path.resolve(__dirname, "..", "..", "..");
   const packagesDir = path.join(repoRoot, "packages");
   const dirs = fs.readdirSync(packagesDir, { withFileTypes: true });
@@ -21,8 +26,15 @@ async function mountFrontends(app: any) {
     const pkgPath = path.join(packagesDir, dir.name);
     const pkgJsonPath = path.join(pkgPath, "package.json");
     if (!fs.existsSync(pkgJsonPath)) continue;
-    const pkg = JSON.parse(fs.readFileSync(pkgJsonPath, "utf8"));
-    const name: string = pkg.name ?? dir.name;
+    const pkgRaw = JSON.parse(fs.readFileSync(pkgJsonPath, "utf8")) as unknown;
+    const pkgName =
+      typeof pkgRaw === "object" &&
+      pkgRaw !== null &&
+      "name" in pkgRaw &&
+      typeof (pkgRaw as { name?: unknown }).name === "string"
+        ? (pkgRaw as { name: string }).name
+        : undefined;
+    const name = pkgName ?? dir.name;
     const prefix = name.startsWith("@promethean/") ? name.split("/")[1] : name;
     const distFrontend = path.join(pkgPath, "dist", "frontend");
     const staticDir = path.join(pkgPath, "static");
@@ -31,6 +43,7 @@ async function mountFrontends(app: any) {
       app.register(fastifyStatic, {
         root: distFrontend,
         prefix: `/${prefix}/`,
+        decorateReply: false,
       });
     }
 
@@ -38,16 +51,28 @@ async function mountFrontends(app: any) {
       app.register(fastifyStatic, {
         root: staticDir,
         prefix: `/${prefix}/static/`,
+        decorateReply: false,
       });
     }
   }
 }
 
-export async function createServer() {
+export async function createServer(): Promise<FastifyInstance> {
   const app = Fastify();
   await mountFrontends(app);
-  await registerHealthRoute(app, { serviceName: "frontend-service" });
-  await registerDiagnosticsRoute(app, { serviceName: "frontend-service" });
+  const registerHealthRouteTyped = registerHealthRoute as (
+    app: FastifyInstance,
+    opts: { serviceName?: string },
+  ) => Promise<void>;
+  const registerDiagnosticsRouteTyped = registerDiagnosticsRoute as (
+    app: FastifyInstance,
+    opts: { serviceName?: string },
+  ) => Promise<void>;
+  await registerHealthRouteTyped(app, { serviceName: "frontend-service" });
+  await registerDiagnosticsRouteTyped(app, { serviceName: "frontend-service" });
+  app.get("/version", async (_req: FastifyRequest, reply: FastifyReply) =>
+    reply.send({ version: "1.0.0" }),
+  );
   await app.ready();
   return app;
 }
