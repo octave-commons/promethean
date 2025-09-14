@@ -1,8 +1,7 @@
-import { ChildProcessByStdio, spawn } from "child_process";
+import { spawn, type ChildProcessByStdio } from "child_process";
 import { EventEmitter } from "node:events";
 import { IncomingMessage, request } from "http";
-import { Readable, Writable } from "stream";
-
+import { Readable, type Writable } from "stream";
 import { createLogger } from "@promethean/utils";
 export type VoiceSynthOptions = {
   readonly host: string;

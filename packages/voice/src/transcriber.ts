@@ -28,12 +28,14 @@ export type FinalTranscript = {
   originalTranscript?: string;
 };
 export type TranscriberEvents = {
-  readonly transcriptStart: (data: {
-    startTime: number;
-    speaker: Speaker;
-  }) => void;
-  readonly transcriptChunk: (chunk: TranscriptChunk) => void;
-  readonly transcriptEnd: (final: FinalTranscript) => void;
+  readonly transcriptStart: [
+    {
+      startTime: number;
+      speaker: Speaker;
+    },
+  ];
+  readonly transcriptChunk: [TranscriptChunk];
+  readonly transcriptEnd: [FinalTranscript];
 };
 
 export class Transcriber extends EventEmitter<TranscriberEvents> {

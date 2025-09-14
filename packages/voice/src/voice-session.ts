@@ -33,8 +33,8 @@ export type VoiceSessionOptions = {
   guild: discord.Guild;
 };
 export type VoiceSessionEvents = {
-  readonly audioPlayerStart: (player: AudioPlayer) => void;
-  readonly audioPlayerStop: (player: AudioPlayer) => void;
+  readonly audioPlayerStart: [AudioPlayer];
+  readonly audioPlayerStop: [AudioPlayer];
 };
 
 export class VoiceSession extends EventEmitter<VoiceSessionEvents> {
