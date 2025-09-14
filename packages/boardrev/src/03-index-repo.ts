@@ -51,7 +51,8 @@ export async function indexRepo({
   console.log(`boardrev: indexed ${index.length} repo docs`);
 }
 
-if (import.meta.main) {
+import { pathToFileURL } from "url";
+if (import.meta.url === pathToFileURL(process.argv[1]!).href) {
   const args = parseArgs({
     "--globs":
       "{README.md,docs/**/*.md,packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}}",
