@@ -8,5 +8,12 @@
     "declaration": true
   },
   "include": ["src/**/*", "./types/**/*.d.ts"],
-  "references": [{ "path": "../test-utils" }]
+  "references": [
+    {
+      "path": "../test-utils"
+    },
+    {
+      "path": "../docops-frontend"
+    }
+  ]
 }
