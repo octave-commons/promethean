@@ -1,14 +1,15 @@
 import { promises as fs } from "fs";
 import * as path from "path";
 
-import { parseArgs, ollamaEmbed, ollamaJSON, writeJSON } from "./utils.js";
+import { parseArgs, writeJSON } from "./utils.js";
+import { ollamaEmbed, ollamaJSON } from "@promethean/utils";
 import type { ScanOutput, ClassesFile, ClassEntry } from "./types.js";
 
 const args = parseArgs({
   "--in": ".cache/cookbook/blocks.json",
   "--out": ".cache/cookbook/classes.json",
   "--embed-model": "nomic-embed-text:latest",
-  "--llm": "qwen3:4b"
+  "--llm": "qwen3:4b",
 } as const);
 
 async function main() {

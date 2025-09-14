@@ -29,10 +29,6 @@ export async function listCodeFiles(root: string) {
   return globby(patterns);
 }
 
-export function relFromRepo(abs: string) {
-  return path.relative(process.cwd(), abs).replace(/\\/g, "/");
-}
-
 export function importPathRelative(
   fromFileAbs: string,
   canonicalFileAbs: string,
