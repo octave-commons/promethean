@@ -210,6 +210,9 @@
           "id": "br-eval",
           "deps": ["br-match"],
           "shell": "pnpm --filter @promethean/boardrev br:05-eval --model qwen3:4b",
+          "env": {
+            "OLLAMA_URL": "${OLLAMA_URL}"
+          },
           "inputs": [
             ".cache/boardrev/prompts.json",
             ".cache/boardrev/context.json"
