@@ -19,13 +19,19 @@ import { promises as fs } from "fs";
 import * as path from "path";
 import matter from "gray-matter";
 import * as yaml from "yaml";
+import { listFilesRec } from "@promethean/utils/list-files-rec";
 
 type Front = {
   uuid?: string;
   filename?: string;
   related_to_title?: string[];
   related_to_uuid?: string[];
-  references?: Array<{ uuid: string; line: number; col: number; score?: number }>;
+  references?: Array<{
+    uuid: string;
+    line: number;
+    col: number;
+    score?: number;
+  }>;
   [k: string]: any;
 };
 
@@ -35,14 +41,16 @@ const args = parseArgs({
   "--anchor-style": "block", // "block" | "heading" | "none"
   "--include-related": "true",
   "--include-sources": "true",
-  "--frontmatter-trim": "false",     // if true, trim FM lists to max below
+  "--frontmatter-trim": "false", // if true, trim FM lists to max below
   "--max-fm-related": "15",
   "--max-fm-refs": "25",
   "--dry-run": "false",
 });
 
 const ROOT_DIR = path.resolve(process.cwd(), args["--dir"]);
-const EXTS = new Set(args["--ext"].split(",").map((s) => s.trim().toLowerCase()));
+const EXTS = new Set(
+  args["--ext"].split(",").map((s) => s.trim().toLowerCase()),
+);
 const ANCHOR_STYLE = args["--anchor-style"] as "block" | "heading" | "none";
 const INCLUDE_RELATED = args["--include-related"] === "true";
 const INCLUDE_SOURCES = args["--include-sources"] === "true";
@@ -60,25 +68,12 @@ function parseArgs(defaults: Record<string, string>): Record<string, string> {
   for (let i = 0; i < argv.length; i++) {
     const k = argv[i];
     if (k.startsWith("--")) {
-      const v = argv[i + 1] && !argv[i + 1].startsWith("--") ? argv[++i] : "true";
+      const v =
+        argv[i + 1] && !argv[i + 1].startsWith("--") ? argv[++i] : "true";
       out[k] = v;
     }
   }
   return out;
-}
-
-async function listFilesRec(root: string): Promise<string[]> {
-  const out: string[] = [];
-  async function walk(dir: string) {
-    const ents = await fs.readdir(dir, { withFileTypes: true });
-    for (const ent of ents) {
-      const p = path.join(dir, ent.name);
-      if (ent.isDirectory()) await walk(p);
-      else out.push(p);
-    }
-  }
-  await walk(root);
-  return out.filter((p) => EXTS.has(path.extname(p).toLowerCase()));
 }
 
 function anchorId(docUuid: string, line: number, col: number) {
@@ -86,8 +81,14 @@ function anchorId(docUuid: string, line: number, col: number) {
   return `ref-${short}-${line}-${col}`;
 }
 
-function relMdLink(fromFileAbs: string, toFileAbs: string, anchor?: string): string {
-  const rel = path.relative(path.dirname(fromFileAbs), toFileAbs).replace(/\\/g, "/");
+function relMdLink(
+  fromFileAbs: string,
+  toFileAbs: string,
+  anchor?: string,
+): string {
+  const rel = path
+    .relative(path.dirname(fromFileAbs), toFileAbs)
+    .replace(/\\/g, "/");
   return anchor ? `${rel}#${anchor}` : rel;
 }
 
@@ -140,7 +141,11 @@ function computeFenceMap(lines: string[]): boolean[] {
       inside[i] = true;
       // closing fence must match same char and length
       const m = L.match(fenceRe);
-      if (m && (m[2][0] as "`" | "~") === fenceChar && m[2].length >= fenceLen) {
+      if (
+        m &&
+        (m[2][0] as "`" | "~") === fenceChar &&
+        m[2].length >= fenceLen
+      ) {
         // this line is still "inside"; next line is outside
         inFence = false;
       }
@@ -152,7 +157,10 @@ function computeFenceMap(lines: string[]): boolean[] {
 // Inject ^block IDs without breaking code blocks:
 //  - if target line inside a fenced block -> place "^id" on the line AFTER the closing fence
 //  - else append " ^id" at the end of the target line (idempotent)
-function injectAnchors(content: string, want: Array<{ line: number; id: string }>): string {
+function injectAnchors(
+  content: string,
+  want: Array<{ line: number; id: string }>,
+): string {
   if (!want.length) return content;
   const lines = content.split("\n");
   const inside = computeFenceMap(lines);
@@ -201,7 +209,10 @@ function injectAnchors(content: string, want: Array<{ line: number; id: string }
 }
 
 // For heading-style anchors, generate slug from the nearest heading above a line
-function nearestHeadingAnchor(content: string, line: number): string | undefined {
+function nearestHeadingAnchor(
+  content: string,
+  line: number,
+): string | undefined {
   const lines = content.split("\n");
   for (let i = Math.max(1, line) - 1; i >= 0; i--) {
     const m = lines[i].match(/^\s{0,3}#{1,6}\s+(.*)$/);
@@ -218,7 +229,7 @@ function nearestHeadingAnchor(content: string, line: number): string | undefined
 }
 
 async function main() {
-  const files = await listFilesRec(ROOT_DIR);
+  const files = await listFilesRec(ROOT_DIR, EXTS);
   console.log(`Found ${files.length} file(s) in ${ROOT_DIR}`);
 
   // Pass 1: read all frontmatters; map uuid -> { path, title }
@@ -263,7 +274,10 @@ async function main() {
   }
 
   // If block anchors are requested, gather all needed anchors per target doc
-  const anchorsNeededByDoc: Record<string, Array<{ line: number; id: string }>> = {};
+  const anchorsNeededByDoc: Record<
+    string,
+    Array<{ line: number; id: string }>
+  > = {};
   if (ANCHOR_STYLE === "block") {
     for (const f of files) {
       const fm = frontsByPath[f];
@@ -330,7 +344,9 @@ async function main() {
 
         const href = relMdLink(me, ref.path, anchor || undefined);
         const title = ref.title || r.uuid;
-        const meta = ` (line ${r.line}, col ${r.col}${r.score != null ? `, score ${round2(r.score)}` : ""})`;
+        const meta = ` (line ${r.line}, col ${r.col}${
+          r.score != null ? `, score ${round2(r.score)}` : ""
+        })`;
         sourceLines.push(`- [${title} — L${r.line}](${href})${meta}`);
       }
       if (sourceLines.length === 0) sourceLines.push("- _None_");
@@ -351,7 +367,9 @@ async function main() {
       .join("\n");
 
     const cleaned = stripGeneratedSections(content);
-    const finalMd = matter.stringify(cleaned + footer, fm, { language: "yaml" });
+    const finalMd = matter.stringify(cleaned + footer, fm, {
+      language: "yaml",
+    });
 
     if (DRY_RUN) {
       console.log(`Would update: ${path.relative(process.cwd(), f)}`);
