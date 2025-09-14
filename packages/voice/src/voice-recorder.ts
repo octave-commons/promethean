@@ -20,8 +20,8 @@ export type VoiceRecorderOptions = {
 };
 
 export type VoiceRecorderEvents = {
-  readonly saved: (data: RecordingMetaData) => void;
-  readonly error: (err: unknown) => void;
+  readonly saved: [RecordingMetaData];
+  readonly error: [unknown];
 };
 
 export class VoiceRecorder extends EventEmitter<VoiceRecorderEvents> {

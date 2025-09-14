@@ -3,7 +3,7 @@ import { PassThrough } from "node:stream";
 import { mkdtempSync, existsSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, relative } from "node:path";
-import { VoiceRecorder } from "../voice-recorder.js";
+import { VoiceRecorder, type RecordingMetaData } from "../voice-recorder.js";
 import type { User } from "discord.js";
 
 test("saves pcm stream to wav file", async (t) => {
@@ -18,13 +18,13 @@ test("saves pcm stream to wav file", async (t) => {
   recorder.recordPCMStream(saveTime, user, pcm);
 
   const done = new Promise<void>((resolve, reject) => {
-    recorder.once("saved", (meta) => {
+    recorder.once("saved", (meta: RecordingMetaData) => {
       t.true(existsSync(meta.filename));
       rmSync(meta.filename);
       rmSync(dir, { recursive: true, force: true });
       resolve();
     });
-    recorder.once("error", reject);
+    recorder.once("error", (err: unknown) => reject(err));
   });
 
   pcm.end(Buffer.alloc(2));
@@ -39,7 +39,7 @@ test("emits error when write fails", async (t) => {
   const saveTime = Date.now();
   recorder.recordPCMStream(saveTime, user, pcm);
   const err = await new Promise<unknown>((resolve) => {
-    recorder.once("error", resolve);
+    recorder.once("error", (e: unknown) => resolve(e));
     pcm.end(Buffer.alloc(2));
   });
   t.truthy(err);
