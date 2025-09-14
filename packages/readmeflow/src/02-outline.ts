@@ -17,6 +17,7 @@ const OutlineSchema = z.object({
   badges: z.array(z.string()).optional(),
 });
 
+// eslint-disable-next-line max-lines-per-function, complexity, sonarjs/cognitive-complexity
 export async function outline(
   options: { cache?: string; model?: string } = {},
 ): Promise<void> {
@@ -24,6 +25,7 @@ export async function outline(
     path: path.resolve(options.cache ?? ".cache/readmes"),
   });
   const scan = (await cache.get("scan")) as ScanOut;
+  // eslint-disable-next-line functional/no-let
   let outlines: Record<string, Outline> = {};
 
   for (const pkg of scan.packages) {
@@ -50,6 +52,7 @@ export async function outline(
       "If the repo uses Piper pipelines, mention how to run the relevant pipeline.",
     ].join("\n");
 
+    // eslint-disable-next-line functional/no-let
     let obj: unknown;
     try {
       obj = await ollamaJSON(
@@ -90,7 +93,7 @@ export async function outline(
           sections: [
             { heading: "Install", body: `pnpm add ${pkg.name}` },
             { heading: "Usage", body: "(coming soon)" },
-            { heading: "License", body: "MIT" },
+            { heading: "License", body: "GPLv3" },
           ],
         };
 
