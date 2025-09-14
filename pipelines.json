@@ -6,7 +6,7 @@
         {
           "id": "symdocs-scan",
           "cwd": ".",
-          "shell": "pnpm --filter @promethean/symdocs symdocs:01-scan --root packages --tsconfig ./config/tsconfig.base.json",
+          "shell": "pnpm --filter @promethean/symdocs symdocs:01-scan",
           "inputs": ["packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"],
           "outputs": [".cache/symdocs/symbols.json"],
           "inputSchema": "packages/symdocs/schemas/io.schema.json",
@@ -16,6 +16,7 @@
           "id": "symdocs-docs",
           "deps": ["symdocs-scan"],
           "shell": "pnpm --filter @promethean/symdocs symdocs:02-docs --model qwen3:4b",
+          "env": { "OLLAMA_URL": "${OLLAMA_URL}" },
           "inputs": [".cache/symdocs/symbols.json"],
           "outputs": [".cache/symdocs/docs.json"],
           "inputSchema": "packages/symdocs/schemas/io.schema.json",
