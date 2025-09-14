@@ -3,14 +3,10 @@ import * as path from "path";
 import matter from "gray-matter";
 import { openLevelCache } from "@promethean/level-cache";
 import { parseArgs } from "@promethean/utils";
+import { fileURLToPath } from "node:url";
 
 import { writeText, readMaybe } from "./utils.js";
 import type { ScanOut, OutlinesFile, Outline } from "./types.js";
-
-const args = parseArgs({
-  "--cache": ".cache/readmes",
-  "--mermaid": "true",
-});
 
 const START = "<!-- READMEFLOW:BEGIN -->";
 const END = "<!-- READMEFLOW:END -->";
@@ -45,9 +41,11 @@ function makeReadme(_pkg: unknown, outline: Outline, mermaid?: string) {
   ].join("\n");
 }
 
-async function main() {
+export async function writeReadmes(
+  options: { cache?: string; mermaid?: boolean } = {},
+): Promise<void> {
   const cache = await openLevelCache<ScanOut | OutlinesFile>({
-    path: path.resolve(args["--cache"]),
+    path: path.resolve(options.cache ?? ".cache/readmes"),
   });
   const scan = (await cache.get("scan")) as ScanOut;
   const outlines = (await cache.get("outlines")) as OutlinesFile;
@@ -65,11 +63,7 @@ async function main() {
     const stripped = stripGenerated(gm.content);
     const content =
       (stripped ? `${stripped}\n\n` : "") +
-      makeReadme(
-        pkg,
-        out,
-        args["--mermaid"] === "true" ? scan.graphMermaid : undefined,
-      );
+      makeReadme(pkg, out, options.mermaid ? scan.graphMermaid : undefined);
 
     const fm = { ...gm.data };
     const final = matter.stringify(content, fm, { language: "yaml" });
@@ -78,7 +72,19 @@ async function main() {
   await cache.close();
   console.log(`readmeflow: wrote ${scan.packages.length} README(s)`);
 }
-main().catch((e) => {
-  console.error(e);
-  process.exit(1);
-});
+
+export default writeReadmes;
+
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  const args = parseArgs({
+    "--cache": ".cache/readmes",
+    "--mermaid": "true",
+  });
+  writeReadmes({
+    cache: args["--cache"],
+    mermaid: args["--mermaid"] === "true",
+  }).catch((e) => {
+    console.error(e);
+    process.exit(1);
+  });
+}
