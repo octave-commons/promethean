@@ -5,6 +5,7 @@ import * as chokidar from "chokidar";
 import AjvModule from "ajv";
 import { globby } from "globby";
 import { slug } from "@promethean/utils";
+import { parse as parseJSONC, type ParseError } from "jsonc-parser";
 
 import {
   FileSchema,
@@ -51,11 +52,25 @@ async function validateFiles(
   const jsonFiles = files.filter((f) => f.toLowerCase().endsWith(".json"));
   if (!jsonFiles.length) return;
   const absSchema = path.resolve(cwd, schemaPath);
-  const schema = JSON.parse(await fs.readFile(absSchema, "utf-8"));
+  const schemaRaw = await fs.readFile(absSchema, "utf-8");
+  const schemaErrors: ParseError[] = [];
+  const schema = parseJSONC(schemaRaw, schemaErrors, {
+    allowTrailingComma: true,
+  }) as unknown;
+  if (schemaErrors.length) {
+    throw new Error(`invalid JSON schema: ${schemaPath}`);
+  }
   const validate = ajv.compile(schema);
   for (const f of jsonFiles) {
     const absFile = path.resolve(cwd, f);
-    const data = JSON.parse(await fs.readFile(absFile, "utf-8"));
+    const fileRaw = await fs.readFile(absFile, "utf-8");
+    const fileErrors: ParseError[] = [];
+    const data = parseJSONC(fileRaw, fileErrors, {
+      allowTrailingComma: true,
+    }) as unknown;
+    if (fileErrors.length) {
+      throw new Error(`invalid JSON file: ${f}`);
+    }
     const ok = validate(data);
     if (!ok) {
       throw new Error(
@@ -171,10 +186,16 @@ export async function runPipeline(
   const resultMap = new Map<string, StepResult>();
 
   const runStep = async (s: PiperStep): Promise<void> => {
-    if (s.inputs.length && !s.inputSchema) {
+    if (
+      s.inputs.some((i) => i.toLowerCase().endsWith(".json")) &&
+      !s.inputSchema
+    ) {
       throw new Error(`step ${s.id} declares inputs but missing inputSchema`);
     }
-    if (s.outputs.length && !s.outputSchema) {
+    if (
+      s.outputs.some((o) => o.toLowerCase().endsWith(".json")) &&
+      !s.outputSchema
+    ) {
       throw new Error(`step ${s.id} declares outputs but missing outputSchema`);
     }
     // ensure deps completed
