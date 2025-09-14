@@ -3,13 +3,9 @@ import * as path from "path";
 import { z } from "zod";
 import { openLevelCache } from "@promethean/level-cache";
 import { parseArgs, ollamaJSON } from "@promethean/utils";
+import { fileURLToPath } from "node:url";
 
 import type { ScanOut, Outline, OutlinesFile } from "./types.js";
-
-const args = parseArgs({
-  "--cache": ".cache/readmes",
-  "--model": "qwen3:4b",
-});
 
 const OutlineSchema = z.object({
   title: z.string().min(1),
@@ -21,9 +17,11 @@ const OutlineSchema = z.object({
   badges: z.array(z.string()).optional(),
 });
 
-async function main() {
+export async function outline(
+  options: { cache?: string; model?: string } = {},
+): Promise<void> {
   const cache = await openLevelCache<ScanOut | OutlinesFile>({
-    path: path.resolve(args["--cache"]),
+    path: path.resolve(options.cache ?? ".cache/readmes"),
   });
   const scan = (await cache.get("scan")) as ScanOut;
   let outlines: Record<string, Outline> = {};
@@ -55,7 +53,7 @@ async function main() {
     let obj: unknown;
     try {
       obj = await ollamaJSON(
-        args["--model"],
+        options.model ?? "qwen3:4b",
         `SYSTEM:\n${sys}\n\nUSER:\n${user}`,
       );
     } catch {
@@ -114,11 +112,20 @@ async function main() {
   await cache.close();
   console.log(
     `readmeflow: outlined ${Object.keys(outlines).length} README(s) → ${
-      args["--cache"]
+      options.cache ?? ".cache/readmes"
     }`,
   );
 }
-main().catch((e) => {
-  console.error(e);
-  process.exit(1);
-});
+
+export default outline;
+
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  const args = parseArgs({
+    "--cache": ".cache/readmes",
+    "--model": "qwen3:4b",
+  });
+  outline({ cache: args["--cache"], model: args["--model"] }).catch((e) => {
+    console.error(e);
+    process.exit(1);
+  });
+}

@@ -1,15 +1,17 @@
 /* eslint-disable */
+import { pathToFileURL } from "url";
+
 import { parseArgs, SONAR_URL, authHeader, writeJSON } from "./utils.js";
 import type { SonarIssue, FetchPayload } from "./types.js";
 
-const args = parseArgs({
-  "--project": process.env.SONAR_PROJECT_KEY ?? "",
-  "--out": ".cache/sonar/issues.json",
-  "--statuses": "OPEN,REOPENED,CONFIRMED",
-  "--types": "BUG,VULNERABILITY,CODE_SMELL,SECURITY_HOTSPOT",
-  "--severities": "BLOCKER,CRITICAL,MAJOR,MINOR,INFO",
-  "--pageSize": "500",
-});
+export type FetchOpts = {
+  project: string;
+  out: string;
+  statuses: string;
+  types: string;
+  severities: string;
+  pageSize: number;
+};
 
 async function sonarGet(
   pathname: string,
@@ -23,11 +25,11 @@ async function sonarGet(
   return data;
 }
 
-async function main() {
-  const project = args["--project"]!;
-  if (!project) throw new Error("Provide --project or SONAR_PROJECT_KEY");
+export async function fetchIssues(opts: FetchOpts) {
+  const project = opts.project;
+  if (!project) throw new Error("Provide project");
 
-  const pageSize = Number(args["--pageSize"]);
+  const pageSize = Number(opts.pageSize);
   const issues: SonarIssue[] = [];
   let page = 1,
     total = 0;
@@ -35,9 +37,9 @@ async function main() {
   do {
     const data = await sonarGet("/api/issues/search", {
       projectKeys: project,
-      statuses: args["--statuses"]!,
-      types: args["--types"]!,
-      severities: args["--severities"]!,
+      statuses: opts.statuses,
+      types: opts.types,
+      severities: opts.severities,
       p: page,
       ps: pageSize,
       additionalFields: "_all",
@@ -68,15 +70,32 @@ async function main() {
     project,
   };
 
-  await writeJSON(args["--out"]!, payload);
+  await writeJSON(opts.out, payload);
   console.log(
-    `sonarflow: fetched ${issues.length} issues for ${project} → ${args[
-      "--out"
-    ]!}`,
+    `sonarflow: fetched ${issues.length} issues for ${project} → ${opts.out}`,
   );
 }
 
-main().catch((e) => {
-  console.error(e);
-  process.exit(1);
-});
+if (import.meta.url === pathToFileURL(process.argv[1]!).href) {
+  const args = parseArgs({
+    "--project": process.env.SONAR_PROJECT_KEY ?? "",
+    "--out": ".cache/sonar/issues.json",
+    "--statuses": "OPEN,REOPENED,CONFIRMED",
+    "--types": "BUG,VULNERABILITY,CODE_SMELL,SECURITY_HOTSPOT",
+    "--severities": "BLOCKER,CRITICAL,MAJOR,MINOR,INFO",
+    "--pageSize": "500",
+  });
+  fetchIssues({
+    project: args["--project"]!,
+    out: args["--out"]!,
+    statuses: args["--statuses"]!,
+    types: args["--types"]!,
+    severities: args["--severities"]!,
+    pageSize: Number(args["--pageSize"]),
+  }).catch((e) => {
+    console.error(e);
+    process.exit(1);
+  });
+}
+
+export default fetchIssues;

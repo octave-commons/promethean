@@ -52,9 +52,6 @@ importers:
       http-proxy:
         specifier: 1.18.1
         version: 1.18.1
-      jiti:
-        specifier: 2.5.1
-        version: 2.5.1
       mongodb:
         specifier: 6.18.0
         version: 6.18.0(socks@2.8.7)
@@ -137,6 +134,9 @@ importers:
       jest:
         specifier: 30.0.5
         version: 30.0.5(@types/node@24.3.1)(ts-node@10.9.2(@types/node@24.3.1)(typescript@5.4.5))
+      jiti:
+        specifier: 2.5.1
+        version: 2.5.1
       node-gyp:
         specifier: 11.4.2
         version: 11.4.2
@@ -14334,7 +14334,7 @@ snapshots:
 
   axios@1.11.0:
     dependencies:
-      follow-redirects: 1.15.11(debug@4.3.7)
+      follow-redirects: 1.15.11(debug@4.4.3)
       form-data: 4.0.4
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -16726,7 +16726,7 @@ snapshots:
   http-proxy@1.18.1:
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.15.11(debug@4.3.7)
+      follow-redirects: 1.15.11(debug@4.4.3)
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
