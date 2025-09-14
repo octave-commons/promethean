@@ -1,6 +1,5 @@
 import { promises as fs } from "fs";
 import * as path from "path";
-
 export const OLLAMA_URL = process.env.OLLAMA_URL ?? "http://localhost:11434";
 
 export function parseArgs(def: Record<string, string>) {
@@ -27,10 +26,6 @@ export async function readJSON<T>(p: string): Promise<T | undefined> {
 export async function writeJSON(p: string, data: any) {
   await fs.mkdir(path.dirname(p), { recursive: true });
   await fs.writeFile(p, JSON.stringify(data, null, 2), "utf-8");
-}
-
-export function rel(abs: string) {
-  return path.relative(process.cwd(), abs).replace(/\\/g, "/");
 }
 
 export async function ollamaJSON(model: string, prompt: string) {

@@ -6,4 +6,5 @@ export { retry } from "./retry.js";
 export type { RetryOptions } from "./retry.js";
 export { slug } from "./slug.js";
 export { parseArgs } from "./parse-args.js";
+export { relFromRepo } from "./path.js";
 export { cosine } from "./cosine.js";
