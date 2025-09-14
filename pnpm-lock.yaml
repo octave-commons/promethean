@@ -433,6 +433,9 @@ importers:
 
   packages/broker:
     dependencies:
+      '@promethean/legacy':
+        specifier: workspace:*
+        version: link:../legacy
       '@types/node':
         specifier: ^24.3.0
         version: 24.3.1
@@ -443,6 +446,9 @@ importers:
         specifier: ^8.18.0
         version: 8.18.3
     devDependencies:
+      '@promethean/pm2-helpers':
+        specifier: workspace:*
+        version: link:../pm2-helpers
       ava:
         specifier: ^6.4.1
         version: 6.4.1(encoding@0.1.13)
