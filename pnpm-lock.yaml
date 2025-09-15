@@ -25,6 +25,9 @@ importers:
       '@promethean/legacy':
         specifier: workspace:*
         version: link:packages/legacy
+      '@promethean/level-cache':
+        specifier: workspace:*
+        version: link:packages/level-cache
       '@promethean/llm-chat-frontend':
         specifier: workspace:*
         version: link:packages/llm-chat-frontend
