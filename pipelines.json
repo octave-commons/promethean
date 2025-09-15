@@ -22,10 +22,14 @@
           "js": {
             "module": "scripts/piper-symdocs.mjs",
             "export": "docs",
-            "args": { "model": "qwen3:4b" },
+            "args": {
+              "model": "qwen3:4b"
+            },
             "isolate": "worker"
           },
-          "env": { "OLLAMA_URL": "${OLLAMA_URL}" },
+          "env": {
+            "OLLAMA_URL": "${OLLAMA_URL}"
+          },
           "inputs": [".cache/symdocs/symbols.json"],
           "outputs": [".cache/symdocs/docs.json"],
           "inputSchema": "packages/symdocs/schemas/io.schema.json",
@@ -37,7 +41,10 @@
           "js": {
             "module": "scripts/piper-symdocs.mjs",
             "export": "write",
-            "args": { "out": "docs/packages", "granularity": "module" },
+            "args": {
+              "out": "docs/packages",
+              "granularity": "module"
+            },
             "isolate": "worker"
           },
           "inputs": [".cache/symdocs/docs.json"],
@@ -95,7 +102,9 @@
             },
             "isolate": "worker"
           },
-          "env": { "OLLAMA_URL": "${OLLAMA_URL}" },
+          "env": {
+            "OLLAMA_URL": "${OLLAMA_URL}"
+          },
           "inputs": [".cache/simtasks/functions.json"],
           "outputs": [".cache/simtasks/embeddings"],
           "inputSchema": "packages/simtask/schemas/io.schema.json",
@@ -137,7 +146,9 @@
             },
             "isolate": "worker"
           },
-          "env": { "OLLAMA_URL": "${OLLAMA_URL}" },
+          "env": {
+            "OLLAMA_URL": "${OLLAMA_URL}"
+          },
           "inputs": [".cache/simtasks/clusters.json"],
           "outputs": [".cache/simtasks/plans.json"],
           "inputSchema": "packages/simtask/schemas/io.schema.json",
@@ -286,7 +297,9 @@
               "model": "qwen3:4b"
             }
           },
-          "env": { "OLLAMA_URL": "${OLLAMA_URL}" },
+          "env": {
+            "OLLAMA_URL": "${OLLAMA_URL}"
+          },
           "inputs": [".cache/semverguard/diff.json"],
           "outputs": [".cache/semverguard/plans.json"],
           "inputSchema": "packages/semverguard/schemas/io.schema.json",
@@ -385,7 +398,9 @@
             },
             "isolate": "worker"
           },
-          "env": { "OLLAMA_URL": "${OLLAMA_URL}" },
+          "env": {
+            "OLLAMA_URL": "${OLLAMA_URL}"
+          },
           "inputs": [
             "README.md",
             "docs/**/*.md",
@@ -429,7 +444,9 @@
             },
             "isolate": "worker"
           },
-          "env": { "OLLAMA_URL": "${OLLAMA_URL}" },
+          "env": {
+            "OLLAMA_URL": "${OLLAMA_URL}"
+          },
           "inputs": [
             ".cache/boardrev/prompts.json",
             ".cache/boardrev/context.json"
@@ -498,7 +515,6 @@
             "OLLAMA_URL": "${OLLAMA_URL}"
           },
           "shell": "pnpm --filter @promethean/sonarflow sonar:plan --in .cache/sonar/issues.json --out .cache/sonar/plans.json --group-by rule+prefix --prefix-depth 2 --min-group 2 --model qwen3:4b",
-          "env": { "OLLAMA_URL": "${OLLAMA_URL}" },
           "inputs": [".cache/sonar/issues.json"],
           "outputs": [".cache/sonar/plans.json"],
           "inputSchema": "packages/sonarflow/schemas/io.schema.json",
@@ -522,7 +538,10 @@
           "id": "rm-scan",
           "js": {
             "module": "packages/readmeflow/dist/01-scan.js",
-            "args": { "root": "packages", "cache": ".cache/readmes" },
+            "args": {
+              "root": "packages",
+              "cache": ".cache/readmes"
+            },
             "isolate": "worker"
           },
           "inputs": ["packages/**/package.json", "packages/**/tsconfig.json"],
@@ -533,7 +552,10 @@
           "deps": ["rm-scan"],
           "js": {
             "module": "packages/readmeflow/dist/02-outline.js",
-            "args": { "cache": ".cache/readmes", "model": "qwen3:4b" },
+            "args": {
+              "cache": ".cache/readmes",
+              "model": "qwen3:4b"
+            },
             "isolate": "worker"
           },
           "env": {
@@ -545,7 +567,10 @@
           "deps": ["rm-outline"],
           "js": {
             "module": "packages/readmeflow/dist/03-write.js",
-            "args": { "cache": ".cache/readmes", "mermaid": true },
+            "args": {
+              "cache": ".cache/readmes",
+              "mermaid": true
+            },
             "isolate": "worker"
           },
           "outputs": ["packages/**/README.md"],
@@ -829,6 +854,38 @@
           "outputs": [],
           "inputSchema": "packages/docops/schemas/io.schema.json",
           "outputSchema": "packages/docops/schemas/io.schema.json"
+        }
+      ]
+    },
+    {
+      "name": "eslint-tasks",
+      "steps": [
+        {
+          "id": "eslint-report",
+          "shell": "pnpm exec eslint packages --format json > .cache/eslint/report.json",
+          "inputs": ["packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"],
+          "outputs": [".cache/eslint/report.json"],
+          "outputSchema": "scripts/eslint.schema.json"
+        },
+        {
+          "id": "eslint-tasks",
+          "deps": ["eslint-report"],
+          "js": {
+            "module": "scripts/piper-eslint-tasks.mjs",
+            "export": "tasks",
+            "args": {
+              "report": ".cache/eslint/report.json",
+              "outDir": "docs/agile/tasks",
+              "model": "qwen3:4b"
+            },
+            "isolate": "worker"
+          },
+          "env": {
+            "OLLAMA_URL": "${OLLAMA_URL}"
+          },
+          "inputs": [".cache/eslint/report.json"],
+          "inputSchema": "scripts/eslint.schema.json",
+          "outputs": ["docs/agile/tasks/*.md"]
         }
       ]
     }
