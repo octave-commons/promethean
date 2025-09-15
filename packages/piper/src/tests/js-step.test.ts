@@ -2,10 +2,12 @@ import * as fs from "node:fs/promises";
 import * as path from "node:path";
 
 import test from "ava";
-import { sleep } from "@promethean/test-utils/dist/sleep.js";
+import { sleep } from "@promethean/utils";
 
 import { runPipeline } from "../runner.js";
 import { runJSFunction } from "../fsutils.js";
+
+const SCHEMA = "schema-empty.json";
 
 async function withTmp(fn: (dir: string) => Promise<void>) {
   const parent = path.join(process.cwd(), "test-tmp");
@@ -14,6 +16,11 @@ async function withTmp(fn: (dir: string) => Promise<void>) {
   const prevCwd = process.cwd();
   process.chdir(dir);
   try {
+    await fs.writeFile(
+      path.join(dir, SCHEMA),
+      JSON.stringify({ type: "object" }),
+      "utf8",
+    );
     await fn(dir);
     // small grace period for any async file watchers/flushes
     await sleep(50);
@@ -45,6 +52,8 @@ test.serial("runPipeline executes js + shell steps (make → cat)", async (t) =>
               deps: [],
               inputs: [],
               outputs: ["out.txt"],
+              inputSchema: SCHEMA,
+              outputSchema: SCHEMA,
               cache: "content",
               js: {
                 module: "./lib.js",
@@ -58,6 +67,8 @@ test.serial("runPipeline executes js + shell steps (make → cat)", async (t) =>
               deps: ["make"],
               inputs: ["out.txt"],
               outputs: ["out2.txt"],
+              inputSchema: SCHEMA,
+              outputSchema: SCHEMA,
               cache: "content",
               shell: "cat out.txt > out2.txt",
             },
@@ -97,6 +108,8 @@ test.serial("JS steps isolate process.env when run concurrently", async (t) => {
               deps: [],
               inputs: [],
               outputs: ["a.txt"],
+              inputSchema: SCHEMA,
+              outputSchema: SCHEMA,
               cache: "content",
               env: { V: "1" },
               js: {
@@ -111,6 +124,8 @@ test.serial("JS steps isolate process.env when run concurrently", async (t) => {
               deps: [],
               inputs: [],
               outputs: ["b.txt"],
+              inputSchema: SCHEMA,
+              outputSchema: SCHEMA,
               cache: "content",
               env: { V: "2" },
               js: {
@@ -176,6 +191,8 @@ test.serial(
                 deps: [],
                 inputs: [],
                 outputs: [],
+                inputSchema: SCHEMA,
+                outputSchema: SCHEMA,
                 cache: "none",
                 timeoutMs: 100,
                 env: { LEAK: "1" },
@@ -187,6 +204,8 @@ test.serial(
                 deps: [],
                 inputs: [],
                 outputs: [],
+                inputSchema: SCHEMA,
+                outputSchema: SCHEMA,
                 cache: "none",
                 js: { module: "./after.js" },
               },
@@ -245,6 +264,8 @@ test.serial(
                 deps: [],
                 inputs: [],
                 outputs: [],
+                inputSchema: SCHEMA,
+                outputSchema: SCHEMA,
                 cache: "none",
                 timeoutMs: 10,
                 env: { TEST_VAR: "changed" },
@@ -284,6 +305,8 @@ test.serial("worker js step: crash rejects instead of hanging", async (t) => {
               deps: [],
               inputs: [],
               outputs: [],
+              inputSchema: SCHEMA,
+              outputSchema: SCHEMA,
               cache: "content",
               js: { module: "./bad.js", isolate: "worker" },
             },
@@ -317,6 +340,8 @@ test.serial("worker js step: export name is respected (one/two)", async (t) => {
               deps: [],
               inputs: [],
               outputs: [],
+              inputSchema: SCHEMA,
+              outputSchema: SCHEMA,
               cache: "content",
               js: { module: "./mod.js", export: "one", isolate: "worker" },
             },
@@ -326,6 +351,8 @@ test.serial("worker js step: export name is respected (one/two)", async (t) => {
               deps: ["a"],
               inputs: [],
               outputs: [],
+              inputSchema: SCHEMA,
+              outputSchema: SCHEMA,
               cache: "content",
               js: { module: "./mod.js", export: "two", isolate: "worker" },
             },
@@ -374,6 +401,8 @@ test.serial(
                 deps: [],
                 inputs: [],
                 outputs: [],
+                inputSchema: SCHEMA,
+                outputSchema: SCHEMA,
                 cache: "content",
                 js: { module: "./mod.js", isolate: "worker" },
               },
@@ -430,6 +459,8 @@ test.serial(
                 deps: [],
                 inputs: [],
                 outputs: [],
+                inputSchema: SCHEMA,
+                outputSchema: SCHEMA,
                 cache: "content",
                 ...(timeoutMs ? { timeoutMs } : {}),
                 ...(env ? { env } : {}),

@@ -21,6 +21,18 @@
   {:command "npx"
    :args ["-y" "@pinkpixel/npm-helper-mcp"]}
 
+  ;; :eslint-official
+  ;; {:command "npx"
+  ;;  :args ["-y" "@eslint/mcp@latest"]}
+
+  :eslint
+  {:command "npx" :args ["-y"
+                         "@uplinq/mcp-eslint"]}
+
+  :playwright
+  {:command "npx"
+   :args ["@playwright/mcp@latest"]}
+
   :ts-ls-lsp
   {:command "npx"
    :args ["tritlo/lsp-mcp"
@@ -33,7 +45,7 @@
    :args ["haiku-rag"
           "serve"
           "--stdio"
-          "--db" "/home/err/.local/share/haiku-rag/db"]}
+          "--db" "/home/err/.local/share/haiku-rag"]}
 
   :backseat-driver
   {:command "/home/err/.config/calva/backseat-driver/calva-mcp-server.js"

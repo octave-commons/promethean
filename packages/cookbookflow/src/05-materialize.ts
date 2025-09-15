@@ -2,13 +2,14 @@ import { promises as fs } from "fs";
 import * as path from "path";
 
 import matter from "gray-matter";
+import { slug } from "@promethean/utils";
 
-import { parseArgs, writeText, slug } from "./utils.js";
+import { parseArgs, writeText } from "./utils.js";
 import type { PlanFile } from "./types.js";
 
 const args = parseArgs({
   "--plan": ".cache/cookbook/plan.json",
-  "--out": "docs/cookbook"
+  "--out": "docs/cookbook",
 } as const);
 
 const START = "<!-- COOKBOOK:BEGIN -->";

@@ -278,7 +278,7 @@ function intersection<T>(a: Set<T>, b: Set<T>): Set<T> {
 function topoSortGraph<ND, ED>(g: Graph<ND, ED>): string[] {
     const inDeg = new Map<string | number, number>();
     for (const { id } of g.nodes()) inDeg.set(id, 0);
-    for (const { u, v } of g.edges()) inDeg.set(v, (inDeg.get(v) ?? 0) + 1);
+    for (const { v } of g.edges()) inDeg.set(v, (inDeg.get(v) ?? 0) + 1);
     const q: (string | number)[] = [];
     for (const [id, deg] of inDeg) if (deg === 0) q.push(id);
     const order: (string | number)[] = [];

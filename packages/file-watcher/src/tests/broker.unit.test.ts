@@ -1,13 +1,15 @@
-import test from "ava";
 import { promises as fs, mkdtempSync, writeFileSync } from "fs";
 import { join } from "path";
 import { tmpdir } from "os";
-import { startFileWatcher } from "../index.js";
+
+import test from "ava";
 import {
   getMemoryBroker,
   resetMemoryBroker,
 } from "@promethean/test-utils/broker.js";
 import { sleep } from "@promethean/utils/sleep.js";
+
+import { startFileWatcher } from "../index.js";
 
 test("publishes board/task events via memory broker", async (t) => {
   resetMemoryBroker("fw-unit");

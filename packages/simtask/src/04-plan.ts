@@ -1,19 +1,22 @@
 import { promises as fs } from "fs";
 import * as path from "path";
+import { pathToFileURL } from "url";
 
 import { z } from "zod";
+import { openLevelCache } from "@promethean/level-cache";
+import { ollamaJSON } from "@promethean/utils";
 
 import { parseArgs } from "./utils.js";
-import type { ScanResult, Cluster, Plan } from "./types.js";
+import type { FunctionInfo, Cluster, Plan } from "./types.js";
 
-const args = parseArgs({
-  "--scan": ".cache/simtasks/functions.json",
-  "--clusters": ".cache/simtasks/clusters.json",
-  "--out": ".cache/simtasks/plans.json",
-  "--model": "qwen3:4b",
-  "--base-dir": "packages",
-  "--force": "false",
-});
+export type PlanArgs = {
+  "--scan"?: string;
+  "--clusters"?: string;
+  "--out"?: string;
+  "--model"?: string;
+  "--base-dir"?: string;
+  "--force"?: string;
+};
 
 const PlanSchema = z.object({
   title: z.string().min(1),
@@ -26,36 +29,8 @@ const PlanSchema = z.object({
   acceptance: z.array(z.string()).optional(),
 });
 
-async function ollamaJSON(model: string, prompt: string) {
-  const res = await fetch(
-    `${process.env.OLLAMA_URL ?? "http://localhost:11434"}/api/generate`,
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        model,
-        prompt,
-        stream: false,
-        options: { temperature: 0 },
-        format: "json",
-      }),
-    },
-  );
-  if (!res.ok) throw new Error(`ollama generate ${res.status}`);
-  const data: any = await res.json();
-  const raw =
-    typeof data.response === "string"
-      ? data.response
-      : JSON.stringify(data.response);
-  const cleaned = raw
-    .replace(/```json\s*/g, "")
-    .replace(/```\s*$/g, "")
-    .trim();
-  return JSON.parse(cleaned);
-}
-
-async function main() {
-  const SCAN = path.resolve(args["--scan"] ?? ".cache/simtasks/functions.json");
+export async function plan(args: PlanArgs) {
+  const SCAN = path.resolve(args["--scan"] ?? ".cache/simtasks/functions");
   const CLS = path.resolve(
     args["--clusters"] ?? ".cache/simtasks/clusters.json",
   );
@@ -64,9 +39,9 @@ async function main() {
   const baseDir = args["--base-dir"] ?? "packages";
   const force = args["--force"] === "true";
 
-  const { functions }: ScanResult = JSON.parse(
-    await fs.readFile(SCAN, "utf-8"),
-  );
+  const fnCache = await openLevelCache<FunctionInfo[]>({ path: SCAN });
+  const functions = (await fnCache.get("functions")) ?? [];
+  await fnCache.close();
   const clusters: Cluster[] = JSON.parse(await fs.readFile(CLS, "utf-8"));
 
   const byId = new Map(functions.map((f) => [f.id, f]));
@@ -159,7 +134,17 @@ async function readJSON(p: string): Promise<any | undefined> {
   }
 }
 
-main().catch((e) => {
-  console.error(e);
-  process.exit(1);
-});
+if (import.meta.url === pathToFileURL(process.argv[1] ?? "").href) {
+  const args = parseArgs({
+    "--scan": ".cache/simtasks/functions",
+    "--clusters": ".cache/simtasks/clusters.json",
+    "--out": ".cache/simtasks/plans.json",
+    "--model": "qwen3:4b",
+    "--base-dir": "packages",
+    "--force": "false",
+  });
+  plan(args).catch((e) => {
+    console.error(e);
+    process.exit(1);
+  });
+}

@@ -1,0 +1,101 @@
+[
+  {
+    "name": "semver-guard",
+    "steps": [
+      {
+        "id": "sv-snapshot",
+        "js": {
+          "module": "scripts/piper-semverguard.mjs",
+          "export": "snapshot",
+          "args": {
+            "root": "packages",
+            "tsconfig": "./tsconfig.json",
+            "cache": ".cache/semverguard",
+            "ns": "snapshot"
+          }
+        },
+        "inputs": [
+          "packages/**/package.json",
+          "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"
+        ],
+        "inputSchema": "packages/semverguard/schemas/io.schema.json",
+        "outputs": [],
+        "outputSchema": "packages/semverguard/schemas/io.schema.json"
+      },
+      {
+        "id": "sv-diff",
+        "deps": ["sv-snapshot"],
+        "js": {
+          "module": "scripts/piper-semverguard.mjs",
+          "export": "diff",
+          "args": {
+            "cache": ".cache/semverguard",
+            "currentNs": "snapshot",
+            "baselineNs": "baseline",
+            "diffNs": "diff"
+          }
+        },
+        "inputs": [],
+        "inputSchema": "packages/semverguard/schemas/io.schema.json",
+        "outputs": [],
+        "outputSchema": "packages/semverguard/schemas/io.schema.json"
+      },
+      {
+        "id": "sv-plan",
+        "deps": ["sv-diff"],
+        "js": {
+          "module": "scripts/piper-semverguard.mjs",
+          "export": "plan",
+          "args": {
+            "cache": ".cache/semverguard",
+            "diffNs": "diff",
+            "planNs": "plan",
+            "model": "qwen3:4b"
+          }
+        },
+        "env": { "OLLAMA_URL": "${OLLAMA_URL}" },
+        "inputs": [],
+        "inputSchema": "packages/semverguard/schemas/io.schema.json",
+        "outputs": [],
+        "outputSchema": "packages/semverguard/schemas/io.schema.json"
+      },
+      {
+        "id": "sv-write",
+        "deps": ["sv-plan"],
+        "js": {
+          "module": "scripts/piper-semverguard.mjs",
+          "export": "write",
+          "args": {
+            "cache": ".cache/semverguard",
+            "planNs": "plan",
+            "out": "docs/agile/tasks/semver"
+          }
+        },
+        "inputs": [],
+        "inputSchema": "packages/semverguard/schemas/io.schema.json",
+        "outputs": ["docs/agile/tasks/semver/*.md"],
+        "outputSchema": "packages/semverguard/schemas/io.schema.json"
+      },
+      {
+        "id": "sv-pr",
+        "deps": ["sv-write"],
+        "js": {
+          "module": "scripts/piper-semverguard.mjs",
+          "export": "pr",
+          "args": {
+            "cache": ".cache/semverguard",
+            "planNs": "plan",
+            "root": "packages",
+            "mode": "prepare",
+            "updateDependents": true,
+            "depRange": "preserve"
+          }
+        },
+        "inputs": ["packages/**/package.json"],
+        "inputSchema": "packages/semverguard/schemas/io.schema.json",
+        "outputs": [".cache/semverguard/pr/summary.json"],
+        "outputSchema": "packages/semverguard/schemas/io.schema.json"
+      }
+    ]
+  }
+]

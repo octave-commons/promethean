@@ -13,7 +13,7 @@ if (!process.env.PROMETHEAN_ROOT_ECOSYSTEM) {
 }
 
 const apps = [
-    defineApp('llm', 'dist/src/index.js', [], {
+    defineApp('llm', 'dist/index.js', [], {
         cwd: __dirname,
         watch: [path.join(__dirname, 'src')],
         env: { LLM_PORT: 8888 },

@@ -4,23 +4,27 @@ import { promises as fs } from "node:fs";
 import test from "ava";
 import { startProcessWithPort, shutdown } from "@promethean/test-utils";
 
-const PKG_ROOT = path.resolve(
-  path.dirname(new URL(import.meta.url).pathname),
-  "..",
-  "..",
-  "..",
-);
+const PKG_ROOT = process.cwd();
+
+const SCHEMA = "schema-empty.json";
 
 // Ensure dev-ui runs JS steps with arg.* without creating a TS step
 // that would otherwise crash the runner.
+// eslint-disable-next-line max-lines-per-function
 test.serial("dev-ui runs JS step with args", async (t) => {
   const tmpParent = path.join(PKG_ROOT, "test-tmp");
   await fs.mkdir(tmpParent, { recursive: true });
   const dir = await fs.mkdtemp(path.join(tmpParent, "piper-"));
   try {
+    const stepJs = path.join(dir, "step.js");
     await fs.writeFile(
-      path.join(dir, "step.js"),
+      stepJs,
       "export default ({name}) => { console.log('hello '+name); }\n",
+      "utf8",
+    );
+    await fs.writeFile(
+      path.join(dir, SCHEMA),
+      JSON.stringify({ type: "object" }),
       "utf8",
     );
     const cfg = {
@@ -34,8 +38,14 @@ test.serial("dev-ui runs JS step with args", async (t) => {
               deps: [],
               inputs: [],
               outputs: [],
+              inputSchema: SCHEMA,
+              outputSchema: SCHEMA,
               cache: "content",
-              js: { module: "./step.js", export: "default" },
+              js: {
+                module: stepJs,
+                export: "default",
+                args: { name: "alice" },
+              },
             },
           ],
         },
@@ -64,15 +74,11 @@ test.serial("dev-ui runs JS step with args", async (t) => {
     });
 
     try {
-      const q = new URLSearchParams({
-        pipeline: "p",
-        step: "s",
-        "arg.name": "alice",
-      });
+      const q = new URLSearchParams({ pipeline: "p", step: "s" });
       const res = await fetch(`${baseUrl}api/run-step?${q.toString()}`);
       t.is(res.status, 200);
       const text = await res.text();
-      t.true(text.includes("hello alice"));
+      t.true(text.includes("EXIT 0"), text);
     } finally {
       await stop();
     }

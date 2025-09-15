@@ -2,9 +2,11 @@ import * as fs from "node:fs/promises";
 import * as path from "node:path";
 
 import test from "ava";
-import { sleep } from "@promethean/test-utils/dist/sleep.js";
+import { sleep } from "@promethean/utils";
 
 import { runPipeline } from "../runner.js";
+
+const SCHEMA = "schema-empty.json";
 
 async function withTmp(fn: (dir: string) => Promise<void>) {
   const parent = path.join(process.cwd(), "test-tmp");
@@ -13,6 +15,11 @@ async function withTmp(fn: (dir: string) => Promise<void>) {
   const prevCwd = process.cwd();
   process.chdir(dir);
   try {
+    await fs.writeFile(
+      path.join(dir, SCHEMA),
+      JSON.stringify({ type: "object" }),
+      "utf8",
+    );
     await fn(dir);
     await sleep(50);
   } finally {
@@ -45,6 +52,8 @@ test.serial("js step (worker isolate) basic smoke", async (t) => {
               deps: [],
               inputs: [],
               outputs: [],
+              inputSchema: SCHEMA,
+              outputSchema: SCHEMA,
               cache: "content",
               env: { WENV: "X" },
               js: { module: "./m.js", isolate: "worker", args: { msg: "ok" } },

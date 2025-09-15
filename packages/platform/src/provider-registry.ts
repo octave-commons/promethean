@@ -1,15 +1,14 @@
-import fs from 'node:fs';
 import path from 'node:path';
 
 import { z } from 'zod';
-import YAML from 'yaml';
+import { fileBackedRegistry as makeFileBackedRegistry } from '@promethean/utils';
 
 // Define the schema first, then infer the TS type from it to
 // keep runtime validation and static types perfectly aligned.
 
 export type ProviderRegistry = {
     get(provider: string, tenant: string): Promise<ProviderTenant>;
-    list(provider?: string): Promise<ProviderTenant[]>;
+    list(provider?: string): Promise<readonly ProviderTenant[]>;
 };
 
 const CredentialsSchema = z.record(z.string());
@@ -39,37 +38,19 @@ export type ProviderTenant = z.infer<typeof ProviderTenantSchema>;
 export const ProvidersFileSchema = z.object({ providers: z.array(ProviderTenantSchema) });
 
 export function fileBackedRegistry(configPath = path.resolve(process.cwd(), 'config/providers.yml')): ProviderRegistry {
-    let cache: ProviderTenant[] | null = null;
-
-    async function load(): Promise<ProviderTenant[]> {
-        if (cache) return cache;
-        const file = fs.readFileSync(configPath, 'utf8');
-        const raw = YAML.parse(file);
-        const parsed = ProvidersFileSchema.parse(raw);
-        const processed = parsed.providers.map((p) => ({
-            ...p,
-            credentials: Object.fromEntries(Object.entries(p.credentials).map(([k, v]) => [k, expandEnv(String(v))])),
-        }));
-        cache = processed;
-        return processed;
-    }
-
-    async function get(provider: string, tenant: string): Promise<ProviderTenant> {
-        const all = await load();
-        const found = all.find((p) => p.provider === provider && p.tenant === tenant);
-        if (!found) throw new Error(`Provider tenant not found: ${provider}/${tenant}`);
-        return found;
-    }
-
-    async function list(provider?: string): Promise<ProviderTenant[]> {
-        const all = await load();
-        return provider ? all.filter((p) => p.provider === provider) : all;
-    }
-
-    return { get, list };
+    return makeFileBackedRegistry<ProviderTenant>({
+        configPath,
+        schema: ProvidersFileSchema,
+        map: (p) => ({
+            ...(p as ProviderTenant),
+            credentials: Object.fromEntries(
+                Object.entries((p as ProviderTenant).credentials).map(([k, v]) => [k, expandEnv(String(v))]),
+            ),
+        }),
+    });
 }
 
 export function expandEnv(value: string): string {
     // supports ${VAR} expansion; leaves unknowns as-is
-    return value.replace(/\$\{([A-Z0-9_]+)\}/g, (_, name) => process.env[name] ?? '');
+    return value.replace(/\$\{([A-Z0-9_]+)\}/g, (_: string, name: string) => process.env[name] ?? '');
 }

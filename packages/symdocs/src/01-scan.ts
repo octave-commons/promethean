@@ -1,47 +1,55 @@
-import { promises as fs } from "fs";
+/* eslint-disable */
 import * as path from "path";
+import { fileURLToPath } from "url";
 
 import * as ts from "typescript";
-
 import {
-  parseArgs,
-  listFilesRec,
-  makeProgram,
   getJsDocText,
   getNodeText,
   posToLine,
-  sha1,
   relFromRepo,
+  listFilesRec,
+} from "@promethean/utils";
+
+import {
+  parseArgs,
+  makeProgram,
+  sha1,
   getLangFromExt,
   signatureForFunction,
   typeToString,
 } from "./utils.js";
-import type { SymKind, SymbolInfo, ScanResult } from "./types.js";
+import type { SymKind, SymbolInfo } from "./types.js";
+import { openLevelCache } from "@promethean/level-cache";
 
-const args = parseArgs({
-  "--root": "packages",
-  "--tsconfig": "",
-  "--ext": ".ts,.tsx,.js,.jsx",
-  "--out": ".cache/symdocs/symbols.json",
-});
+export type ScanOptions = {
+  root?: string;
+  tsconfig?: string;
+  ext?: string;
+  cache?: string;
+  files?: readonly string[];
+};
 
-const ROOT = path.resolve(String(args["--root"]));
-const EXTS = new Set(
-  String(args["--ext"])
-    .split(",")
-    .map((s) => s.trim().toLowerCase()),
-);
-const OUT = path.resolve(String(args["--out"]));
-const repoRoot = process.cwd();
+export async function runScan(opts: ScanOptions = {}) {
+  const ROOT = path.resolve(opts.root ?? "packages");
+  const EXTS = new Set(
+    (opts.ext ?? ".ts,.tsx,.js,.jsx")
+      .split(",")
+      .map((s) => s.trim().toLowerCase()),
+  );
+  const CACHE_PATH = path.resolve(opts.cache ?? ".cache/symdocs.level");
+  const repoRoot = process.cwd();
 
-async function main() {
-  const files = await listFilesRec(ROOT, EXTS);
+  const files =
+    opts.files && opts.files.length > 0
+      ? opts.files.map((f) => path.resolve(f))
+      : await listFilesRec(ROOT, EXTS);
   if (files.length === 0) {
     console.log("No files found.");
     return;
   }
 
-  const program = makeProgram(files, args["--tsconfig"] || undefined);
+  const program = makeProgram(files, opts.tsconfig);
   const checker = program.getTypeChecker();
 
   const symbols: SymbolInfo[] = [];
@@ -160,11 +168,19 @@ async function main() {
     visit(sf);
   }
 
-  await fs.mkdir(path.dirname(OUT), { recursive: true });
-  const payload: ScanResult = { symbols };
-  await fs.writeFile(OUT, JSON.stringify(payload, null, 2), "utf-8");
+  const cache = await openLevelCache<SymbolInfo>({
+    path: CACHE_PATH,
+    namespace: "symbols",
+  });
+  for (const s of symbols) {
+    await cache.set(s.id, s);
+  }
+  await cache.close();
   console.log(
-    `Scanned ${symbols.length} symbols → ${path.relative(repoRoot, OUT)}`,
+    `Scanned ${symbols.length} symbols → ${path.relative(
+      repoRoot,
+      CACHE_PATH,
+    )}`,
   );
 }
 
@@ -175,7 +191,20 @@ function hasExport(node: ts.Node): boolean {
   );
 }
 
-main().catch((e) => {
-  console.error(e);
-  process.exit(1);
-});
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  const args = parseArgs({
+    "--root": "packages",
+    "--tsconfig": "",
+    "--ext": ".ts,.tsx,.js,.jsx",
+    "--cache": ".cache/symdocs.level",
+  });
+  runScan({
+    root: String(args["--root"]),
+    tsconfig: args["--tsconfig"] || undefined,
+    ext: String(args["--ext"]),
+    cache: String(args["--cache"]),
+  }).catch((e: unknown) => {
+    console.error(e);
+    process.exit(1);
+  });
+}

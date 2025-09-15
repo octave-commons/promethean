@@ -1,0 +1,34 @@
+{
+  "name": "broker-service",
+  "version": "0.0.1",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "build": "true",
+    "clean": "rimraf coverage .turbo .cache || true",
+    "typecheck": "echo \"no types to check (JS package)\"",
+    "test": "pnpm run build && ava --config ../../../config/ava.config.mjs",
+    "coverage": "c8 ava --config ../../../config/ava.config.mjs",
+    "lint": "pnpm -w exec eslint ."
+  },
+  "dependencies": {
+    "@promethean/legacy": "workspace:*",
+    "@types/node": "^24.3.0",
+    "redis": "^4.6.7",
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "@promethean/pm2-helpers": "workspace:*",
+    "ava": "^6.4.1",
+    "c8": "^9.1.0"
+  },
+  "ava": {
+    "files": [
+      "tests/**/*.js"
+    ],
+    "extensions": {
+      "js": true
+    }
+  }
+}

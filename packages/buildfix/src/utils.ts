@@ -4,17 +4,9 @@ import * as path from "path";
 import { pathToFileURL } from "url";
 
 import { Project } from "ts-morph";
+export { sha1 } from "@promethean/utils";
 
 export const OLLAMA_URL = process.env.OLLAMA_URL ?? "http://localhost:11434";
-
-export function sha1(s: string) {
-  let h = 2166136261 >>> 0;
-  for (let i = 0; i < s.length; i++) {
-    h ^= s.charCodeAt(i);
-    h = Math.imul(h, 16777619);
-  }
-  return "h" + h.toString(16);
-}
 
 export async function run(
   cmd: string,
@@ -26,7 +18,7 @@ export async function run(
       { cwd, maxBuffer: 1024 * 1024 * 64, env: { ...process.env } },
       (e, stdout, stderr) => {
         res({
-          code: e ? ((e as any).code ?? 1) : 0,
+          code: e ? (e as any).code ?? 1 : 0,
           out: String(stdout),
           err: String(stderr),
         });
@@ -118,31 +110,6 @@ export async function applySnippetToProject(
 }
 
 // TODO: Refactor all of these calls to ollama to use the ollama npm package.
-export async function ollamaJSON(model: string, prompt: string) {
-  const res = await fetch(`${OLLAMA_URL}/api/generate`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      model,
-      prompt,
-      stream: false,
-      options: { temperature: 0 },
-      format: "json",
-    }),
-  });
-  if (!res.ok) throw new Error(`ollama ${res.status}`);
-  const data: any = await res.json();
-  const raw =
-    typeof data.response === "string"
-      ? data.response
-      : JSON.stringify(data.response);
-  return JSON.parse(
-    raw
-      .replace(/```json\s*/g, "")
-      .replace(/```\s*$/g, "")
-      .trim(),
-  );
-}
 // ...
 
 export async function git(cmd: string, cwd = process.cwd()) {
@@ -153,7 +120,7 @@ export async function git(cmd: string, cwd = process.cwd()) {
         { cwd, maxBuffer: 1024 * 1024 * 64, env: { ...process.env } },
         (e, stdout, stderr) => {
           resolve({
-            code: e ? ((e as any).code ?? 1) : 0,
+            code: e ? (e as any).code ?? 1 : 0,
             out: String(stdout).trim(),
             err: String(stderr).trim(),
           });

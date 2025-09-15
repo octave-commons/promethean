@@ -1,57 +1,20 @@
+/* eslint-disable */
+import { pathToFileURL } from "url";
 import { z } from "zod";
+import { ollamaJSON } from "@promethean/utils";
+import { openLevelCache } from "@promethean/level-cache";
 
-import {
-  parseArgs,
-  writeJSON,
-  sha1,
-  pathPrefix,
-  severityToPriority,
-} from "./utils.js";
-import type {
-  FetchPayload,
-  IssueBundle,
-  PlanPayload,
-  PlanTask,
-  SonarIssue,
-} from "./types.js";
+import { parseArgs, sha1, pathPrefix, severityToPriority } from "./utils.js";
+import type { IssueBundle, PlanTask, SonarIssue } from "./types.js";
 
-const args = parseArgs({
-  "--in": ".cache/sonar/issues.json",
-  "--out": ".cache/sonar/plans.json",
-  "--group-by": "rule+prefix", // "rule" | "prefix" | "rule+prefix"
-  "--prefix-depth": "2",
-  "--min-group": "2",
-  "--model": "qwen3:4b",
-});
-
-async function ollamaJSON(model: string, prompt: string): Promise<any> {
-  const url = `${
-    process.env.OLLAMA_URL ?? "http://localhost:11434"
-  }/api/generate`;
-  const res = await fetch(url, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      model,
-      prompt,
-      stream: false,
-      options: { temperature: 0 },
-      format: "json",
-    }),
-  });
-  if (!res.ok) throw new Error(`ollama ${res.status}`);
-  const data: any = await res.json();
-  const raw =
-    typeof data.response === "string"
-      ? data.response
-      : JSON.stringify(data.response);
-  return JSON.parse(
-    raw
-      .replace(/```json\s*/g, "")
-      .replace(/```\s*$/g, "")
-      .trim(),
-  );
-}
+export type PlanOpts = {
+  input: string;
+  output: string;
+  groupBy: string;
+  prefixDepth: number;
+  minGroup: number;
+  model: string;
+};
 
 const TaskSchema = z.object({
   title: z.string().min(1),
@@ -77,24 +40,33 @@ function bundleTitle(k: string) {
   return parts.join(" • ");
 }
 
-async function main() {
-  const inPath = String(args["--in"]);
-  const outPath = String(args["--out"]);
-  const model = String(args["--model"]);
+export async function plan(opts: PlanOpts) {
+  const inPath = opts.input;
+  const outPath = opts.output;
+  const model = opts.model;
 
-  const { issues, project } = JSON.parse(
-    await (await fetch("file://" + process.cwd() + "/" + inPath)).text(),
-  ) as FetchPayload;
+  const issueCache = await openLevelCache<SonarIssue | { project: string }>({
+    path: inPath,
+  });
+  const issues: SonarIssue[] = [];
+  const meta = (await issueCache.get("__meta__")) as
+    | { project: string }
+    | undefined;
+  for await (const [k, v] of issueCache.entries()) {
+    if (k !== "__meta__") issues.push(v as SonarIssue);
+  }
+  await issueCache.close();
+  const project = meta?.project ?? "";
 
-  const depth = Number(args["--prefix-depth"]);
-  const mode = String(args["--group-by"]);
+  const depth = opts.prefixDepth;
+  const mode = opts.groupBy;
   const groups = new Map<string, SonarIssue[]>();
   for (const it of issues) {
     const k = bundleKey(it, mode, depth);
     (groups.get(k) ?? groups.set(k, []).get(k)!).push(it);
   }
 
-  const min = Number(args["--min-group"]);
+  const min = opts.minGroup;
   const bundles: IssueBundle[] = [];
   for (const [k, arr] of groups) {
     if (arr.length < min) continue;
@@ -124,7 +96,6 @@ async function main() {
 
   const tasks: PlanTask[] = [];
   for (const b of bundles) {
-    // Prepare compact context for LLM
     const bullets = b.issues
       .slice(0, 30)
       .map((i) => {
@@ -163,7 +134,6 @@ async function main() {
       const parsed = TaskSchema.safeParse(obj);
       if (!parsed.success) throw new Error("invalid LLM JSON");
     } catch {
-      // Fallback
       obj = {
         title: `[${b.severityTop}] ${b.title}`,
         summary: `Address ${b.issues.length} SonarQube finding(s) related to ${
@@ -207,16 +177,46 @@ async function main() {
     });
   }
 
-  const out: PlanPayload = {
-    tasks,
-    plannedAt: new Date().toISOString(),
-    project,
-  };
-  await writeJSON(outPath, out);
+  const planCache = await openLevelCache<
+    PlanTask | { project: string; plannedAt: string }
+  >({
+    path: outPath,
+  });
+  for await (const [k] of planCache.entries()) {
+    await planCache.del(k);
+  }
+  await planCache.batch([
+    {
+      type: "put",
+      key: "__meta__",
+      value: { project, plannedAt: new Date().toISOString() },
+    },
+    ...tasks.map((t) => ({ type: "put" as const, key: t.id, value: t })),
+  ]);
+  await planCache.close();
   console.log(`sonarflow: planned ${tasks.length} tasks → ${outPath}`);
 }
 
-main().catch((e) => {
-  console.error(e);
-  process.exit(1);
-});
+if (import.meta.url === pathToFileURL(process.argv[1]!).href) {
+  const args = parseArgs({
+    "--in": ".cache/sonar/issues",
+    "--out": ".cache/sonar/plans",
+    "--group-by": "rule+prefix",
+    "--prefix-depth": "2",
+    "--min-group": "2",
+    "--model": "qwen3:4b",
+  });
+  plan({
+    input: String(args["--in"]),
+    output: String(args["--out"]),
+    groupBy: String(args["--group-by"]),
+    prefixDepth: Number(args["--prefix-depth"]),
+    minGroup: Number(args["--min-group"]),
+    model: String(args["--model"]),
+  }).catch((e) => {
+    console.error(e);
+    process.exit(1);
+  });
+}
+
+export default plan;

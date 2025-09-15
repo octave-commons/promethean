@@ -4,6 +4,8 @@ import { promises as fs } from "fs";
 import * as chokidar from "chokidar";
 import AjvModule from "ajv";
 import { globby } from "globby";
+import { slug } from "@promethean/utils";
+import { parse as parseJSONC, type ParseError } from "jsonc-parser";
 
 import {
   FileSchema,
@@ -28,6 +30,23 @@ import { loadState, saveState, RunState, type Step } from "./lib/state.js";
 import { renderReport } from "./lib/report.js";
 import { emitEvent, type PiperEvent } from "./lib/events.js";
 
+function expandEnvVars(
+  env: Readonly<Record<string, string>>,
+): Record<string, string> {
+  const out: Record<string, string> = {};
+  for (const [k, v] of Object.entries(env)) {
+    const match = /^\$\{(\w+)\}$/.exec(v);
+    if (match) {
+      const key = match[1]!;
+      const actual = process.env[key];
+      if (actual !== undefined) out[k] = actual;
+    } else {
+      out[k] = v;
+    }
+  }
+  return out;
+}
+
 type ValidateFn = {
   (data: unknown): boolean;
   errors?: unknown;
@@ -41,26 +60,34 @@ type AjvLike = {
 const AjvCtor = AjvModule as unknown as new () => AjvLike;
 const ajv: AjvLike = new AjvCtor();
 
-function slug(s: string) {
-  return s
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-}
-
 async function validateFiles(
   files: string[],
   schemaPath: string,
   cwd: string,
   kind: "input" | "output",
 ) {
-  if (!files.length) return;
+  const jsonFiles = files.filter((f) => f.toLowerCase().endsWith(".json"));
+  if (!jsonFiles.length) return;
   const absSchema = path.resolve(cwd, schemaPath);
-  const schema = JSON.parse(await fs.readFile(absSchema, "utf-8"));
+  const schemaRaw = await fs.readFile(absSchema, "utf-8");
+  const schemaErrors: ParseError[] = [];
+  const schema = parseJSONC(schemaRaw, schemaErrors, {
+    allowTrailingComma: true,
+  }) as unknown;
+  if (schemaErrors.length) {
+    throw new Error(`invalid JSON schema: ${schemaPath}`);
+  }
   const validate = ajv.compile(schema);
-  for (const f of files) {
+  for (const f of jsonFiles) {
     const absFile = path.resolve(cwd, f);
-    const data = JSON.parse(await fs.readFile(absFile, "utf-8"));
+    const fileRaw = await fs.readFile(absFile, "utf-8");
+    const fileErrors: ParseError[] = [];
+    const data = parseJSONC(fileRaw, fileErrors, {
+      allowTrailingComma: true,
+    }) as unknown;
+    if (fileErrors.length) {
+      throw new Error(`invalid JSON file: ${f}`);
+    }
     const ok = validate(data);
     if (!ok) {
       throw new Error(
@@ -88,7 +115,12 @@ async function readConfig(p: string): Promise<PiperFile> {
   if (!parsed.success) {
     throw new Error("pipelines config invalid: " + parsed.error.message);
   }
-  return parsed.data;
+  return {
+    pipelines: parsed.data.pipelines.map((p) => ({
+      ...p,
+      steps: p.steps.map((s) => ({ ...s, env: expandEnvVars(s.env) })),
+    })),
+  };
 }
 
 function shouldSkip(
@@ -115,6 +147,42 @@ function shouldSkip(
   return { skip: false, reason: "" };
 }
 
+export class StepError extends Error {
+  stepId: string;
+  command: string;
+  exitCode: number | null | undefined;
+  stderr: string | undefined;
+  stdout: string | undefined;
+
+  constructor(step: PiperStep, result: StepResult) {
+    const command = (() => {
+      if (step.shell) return `shell: ${step.shell}`;
+      if (step.node) return `node: ${step.node}`;
+      if (step.ts) return `ts: ${step.ts.module}`;
+      if (step.js) return `js: ${step.js.module}`;
+      return "unknown";
+    })();
+    const parts = [
+      `step ${step.id} failed with exit code ${result.exitCode}`,
+      `command: ${command}`,
+    ];
+    if (result.stderr) parts.push(`stderr: ${result.stderr.trim()}`);
+    if (result.stdout) {
+      const out =
+        result.stdout.length > 200
+          ? `${result.stdout.slice(0, 200)}...`
+          : result.stdout;
+      parts.push(`stdout: ${out.trim()}`);
+    }
+    super(parts.join("\n"));
+    this.stepId = step.id;
+    this.command = command;
+    this.exitCode = result.exitCode;
+    this.stderr = result.stderr;
+    this.stdout = result.stdout;
+  }
+}
+
 export async function runPipeline(
   configPath: string,
   pipelineName: string,
@@ -127,6 +195,7 @@ export async function runPipeline(
   const pipeline = cfg.pipelines.find((p) => p.name === pipelineName);
   if (!pipeline) throw new Error(`pipeline '${pipelineName}' not found`);
   const steps = topoSort(pipeline.steps);
+  const stepMap = new Map(steps.map((s) => [s.id, s]));
   const state = await loadState(pipeline.name);
   const emit = opts.emit ?? emitEvent;
 
@@ -139,6 +208,18 @@ export async function runPipeline(
   const resultMap = new Map<string, StepResult>();
 
   const runStep = async (s: PiperStep): Promise<void> => {
+    if (
+      s.inputs.some((i) => i.toLowerCase().endsWith(".json")) &&
+      !s.inputSchema
+    ) {
+      throw new Error(`step ${s.id} declares inputs but missing inputSchema`);
+    }
+    if (
+      s.outputs.some((o) => o.toLowerCase().endsWith(".json")) &&
+      !s.outputSchema
+    ) {
+      throw new Error(`step ${s.id} declares outputs but missing outputSchema`);
+    }
     // ensure deps completed
     let depsChanged = false;
     for (const d of s.deps) {
@@ -255,7 +336,7 @@ export async function runPipeline(
               return await runJSModule(s, cwd, envMerged, fp, s.timeoutMs);
             } catch (e: unknown) {
               const stderr =
-                e instanceof Error ? e.stack ?? e.message : String(e);
+                e instanceof Error ? (e.stack ?? e.message) : String(e);
               return { code: 1, stdout: "", stderr } as const;
             } finally {
               if (needJsLock) jsSem.release();
@@ -308,6 +389,15 @@ export async function runPipeline(
         return attemptRun(nextAttempt);
       })(0);
 
+      if (execRes.code !== 0) {
+        const parts = [
+          `[piper] step ${s.id} failed with exit code ${execRes.code}`,
+        ];
+        if (execRes.stderr) parts.push(`stderr:\n${execRes.stderr}`);
+        if (execRes.stdout) parts.push(`stdout:\n${execRes.stdout}`);
+        console.error(parts.join("\n"));
+      }
+
       const endedAt = new Date().toISOString();
       const outHashAfter = s.outputs.length
         ? await fingerprintFromGlobs(
@@ -357,6 +447,8 @@ export async function runPipeline(
     (r) => !r.skipped && typeof r.exitCode === "number" && r.exitCode !== 0,
   );
   if (failed) {
+    const step = stepMap.get(failed.id);
+    if (step) throw new StepError(step, failed);
     throw new Error(
       `step ${failed.id} failed with exit code ${failed.exitCode}`,
     );

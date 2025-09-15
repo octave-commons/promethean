@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 
 import test from "ava";
-import { sleep } from "@promethean/test-utils/dist/sleep.js";
+import { sleep } from "@promethean/utils";
 import type {
   UpsertRecordsParams,
   DeleteParams,
@@ -86,7 +86,9 @@ test.serial(
     t.is(s1.mode, "indexed");
     const stateFile = await loadBootstrapState(ROOT);
     t.truthy(stateFile);
-    t.true(["indexed", "bootstrap"].includes(stateFile.mode));
+    if (stateFile) {
+      t.true(["indexed", "bootstrap"].includes(stateFile.mode ?? ""));
+    }
 
     // Clear call history for incremental phase
     col.upserts = [];
@@ -111,7 +113,7 @@ test.serial(
     const upsertPaths = new Set(
       col.upserts.flatMap((u) => {
         const metas = Array.isArray(u.metadatas) ? u.metadatas : [];
-        return metas.map((m: any) => (m && (m).path) as string);
+        return metas.map((m: any) => (m && m.path) as string);
       }),
     );
     t.true(upsertPaths.has("b.txt"));

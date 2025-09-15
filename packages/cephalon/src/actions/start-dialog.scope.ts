@@ -6,6 +6,7 @@ import { createAgentWorld } from "@promethean/agent-ecs/world.js";
 import { OrchestratorSystem } from "@promethean/agent-ecs/systems/orchestrator.js";
 import { enqueueUtterance } from "@promethean/agent-ecs/helpers/enqueueUtterance.js";
 import { AGENT_NAME } from "@promethean/legacy/env.js";
+import { sleep } from "@promethean/utils";
 
 import type { Bot } from "../bot.js";
 import type { FinalTranscript } from "../transcriber.js";
@@ -16,7 +17,6 @@ import {
   seperateSpeechFromThought,
   splitSentances,
 } from "../tokenizers.js";
-import { sleep } from "../util.js";
 
 export type StartDialogInput = { bot: Bot };
 export type StartDialogOutput = { started: boolean };

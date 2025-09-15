@@ -1,17 +1,20 @@
 import { promises as fs } from "fs";
 import * as path from "path";
+import { pathToFileURL } from "url";
 
-import { parseArgs, cosine } from "./utils.js";
-import type { ScanResult, EmbeddingMap, Cluster } from "./types.js";
+import { openLevelCache } from "@promethean/level-cache";
+import { cosine, parseArgs } from "@promethean/utils";
 
-const args = parseArgs({
-  "--scan": ".cache/simtasks/functions.json",
-  "--embeds": ".cache/simtasks/embeddings.json",
-  "--out": ".cache/simtasks/clusters.json",
-  "--sim-threshold": "0.84",
-  "--k": "10",
-  "--min-size": "2",
-});
+import type { FunctionInfo, Cluster } from "./types.js";
+
+export type ClusterArgs = {
+  "--scan"?: string;
+  "--embeds"?: string; // level cache directory
+  "--out"?: string;
+  "--sim-threshold"?: string;
+  "--k"?: string;
+  "--min-size"?: string;
+};
 
 function unionFindClusters(ids: string[], edges: Array<[string, string]>) {
   const parent = new Map<string, string>(ids.map((i) => [i, i]));
@@ -31,58 +34,31 @@ function unionFindClusters(ids: string[], edges: Array<[string, string]>) {
   return Array.from(groups.values());
 }
 
-async function main() {
-  const SCAN = path.resolve(args["--scan"] ?? ".cache/simtasks/functions.json");
-  const EMB = path.resolve(
-    args["--embeds"] ?? ".cache/simtasks/embeddings.json",
+export async function cluster(args: Readonly<ClusterArgs>): Promise<void> {
+  const SCAN = path.resolve(args["--scan"] ?? ".cache/simtasks/functions");
+  const CACHE_PATH = path.resolve(
+    args["--embeds"] ?? ".cache/simtasks/embeddings",
   );
   const OUT = path.resolve(args["--out"] ?? ".cache/simtasks/clusters.json");
   const TH = Number(args["--sim-threshold"] ?? "0.84");
   const K = Number(args["--k"] ?? "10");
   const MIN = Number(args["--min-size"] ?? "2");
 
-  const { functions } = JSON.parse(
-    await fs.readFile(SCAN, "utf-8"),
-  ) as ScanResult;
-  const embeds: EmbeddingMap = JSON.parse(await fs.readFile(EMB, "utf-8"));
+  const fnCache = await openLevelCache<FunctionInfo[]>({ path: SCAN });
+  const functions = (await fnCache.get("functions")) ?? [];
+  await fnCache.close();
+  const cache = await openLevelCache<number[]>({ path: CACHE_PATH });
+  const embeds = new Map<string, number[]>();
+  for (const f of functions) {
+    const v = await cache.get(f.id);
+    if (v) embeds.set(f.id, v);
+  }
+  await cache.close();
 
   const ids = functions.map((f) => f.id);
-  const edges: Array<[string, string]> = [];
-
-  for (const a of functions) {
-    const av = embeds[a.id]!;
-    const scores = functions
-      .filter((b) => b.id !== a.id)
-      .map((b) => ({ id: b.id, s: cosine(av, embeds[b.id]!) }))
-      .sort((x, y) => y.s - x.s)
-      .slice(0, K);
-    for (const { id, s } of scores) {
-      if (s >= TH) edges.push([a.id, id]);
-    }
-  }
-
+  const edges = buildEdges(functions, embeds, TH, K);
   const groups = unionFindClusters(ids, edges).filter((g) => g.length >= MIN);
-  const clusters: Cluster[] = groups.map((members, i) => {
-    // compute stats
-    let maxSim = 0,
-      sum = 0,
-      cnt = 0;
-    for (let x = 0; x < members.length; x++) {
-      for (let y = x + 1; y < members.length; y++) {
-        const s = cosine(embeds[members[x]!]!, embeds[members[y]!]!);
-        if (s > maxSim) maxSim = s;
-        sum += s;
-        cnt++;
-      }
-    }
-    const avg = cnt ? sum / cnt : 0;
-    return {
-      id: `cluster-${i + 1}`,
-      memberIds: members,
-      maxSim: round2(maxSim),
-      avgSim: round2(avg),
-    };
-  });
+  const clusters: Cluster[] = groups.map(clusterFromMembers(embeds));
 
   await fs.mkdir(path.dirname(OUT), { recursive: true });
   await fs.writeFile(OUT, JSON.stringify(clusters, null, 2), "utf-8");
@@ -98,7 +74,55 @@ function round2(n: number) {
   return Math.round(n * 100) / 100;
 }
 
-main().catch((e) => {
-  console.error(e);
-  process.exit(1);
-});
+function buildEdges(
+  functions: ReadonlyArray<FunctionInfo>,
+  embeds: ReadonlyMap<string, number[]>,
+  TH: number,
+  K: number,
+): Array<[string, string]> {
+  return functions.flatMap((a) => {
+    const av = embeds.get(a.id)!;
+    return functions
+      .filter((b) => b.id !== a.id)
+      .map((b) => ({ id: b.id, s: cosine(av, embeds.get(b.id)!) }))
+      .sort((x, y) => y.s - x.s)
+      .slice(0, K)
+      .filter(({ s }) => s >= TH)
+      .map(({ id }) => [a.id, id] as [string, string]);
+  });
+}
+
+const clusterFromMembers =
+  (embeds: ReadonlyMap<string, number[]>) =>
+  (members: string[], i: number): Cluster => {
+    const sims = members.flatMap((idA, idx) =>
+      members
+        .slice(idx + 1)
+        .map((idB) => cosine(embeds.get(idA)!, embeds.get(idB)!)),
+    );
+    const maxSim = round2(sims.reduce((m, s) => (s > m ? s : m), 0));
+    const avgSim = round2(
+      sims.length ? sims.reduce((sum, s) => sum + s, 0) / sims.length : 0,
+    );
+    return {
+      id: `cluster-${i + 1}`,
+      memberIds: members,
+      maxSim,
+      avgSim,
+    };
+  };
+
+if (import.meta.url === pathToFileURL(process.argv[1] ?? "").href) {
+  const args = parseArgs({
+    "--scan": ".cache/simtasks/functions",
+    "--embeds": ".cache/simtasks/embeddings",
+    "--out": ".cache/simtasks/clusters.json",
+    "--sim-threshold": "0.84",
+    "--k": "10",
+    "--min-size": "2",
+  });
+  cluster(args).catch((e) => {
+    console.error(e);
+    process.exit(1);
+  });
+}

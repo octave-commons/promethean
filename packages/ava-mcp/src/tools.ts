@@ -17,6 +17,58 @@ const EXEC_OPTS: ExecFileOptions & { encoding: "utf8" } = {
   maxBuffer: 10 * 1024 * 1024,
 };
 
+function createWatch() {
+  let proc: ReturnType<typeof spawn> | null = null;
+  let buffer = "";
+  let done: Promise<void> | null = null;
+
+  return {
+    start: (input: { files?: string[]; match?: string[] }) => {
+      if (proc) throw new Error("watch already running");
+      const { files, match } = input;
+      const args = ["--yes", "ava", "--watch"] as string[];
+      match?.forEach((m: string) => {
+        args.push("--match", m);
+      });
+      if (files?.length) args.push(...files);
+      buffer = "";
+      proc = spawn("npx", args, { stdio: ["pipe", "pipe", "pipe"] });
+      done = new Promise((resolve) => {
+        proc!.once("exit", () => {
+          proc = null;
+          resolve();
+        });
+        proc!.once("error", (err) => {
+          buffer += err.toString();
+          proc = null;
+          resolve();
+        });
+      });
+      proc.stdout?.on("data", (d) => {
+        buffer += d.toString();
+      });
+      proc.stderr?.on("data", (d) => {
+        buffer += d.toString();
+      });
+      return { started: true } as const;
+    },
+    getChanges: () => {
+      if (!proc) throw new Error("watch not running");
+      const out = buffer;
+      buffer = "";
+      return { output: out } as const;
+    },
+    stop: async () => {
+      if (!proc) return { stopped: false } as const;
+      proc.kill();
+      await done;
+      const out = buffer;
+      buffer = "";
+      return { stopped: true, output: out } as const;
+    },
+  };
+}
+
 /**
  * Registers a set of TDD-related tools on the provided Server instance.
  *
@@ -33,8 +85,7 @@ const EXEC_OPTS: ExecFileOptions & { encoding: "utf8" } = {
 export function registerTddTools(server: Server) {
   // biome-ignore lint/suspicious/noExplicitAny: server typing is dynamic
   const s = server as any;
-  let watchProc: ReturnType<typeof spawn> | null = null;
-  let watchBuffer = "";
+  const watch = createWatch();
   // scaffoldTest
   s.registerTool(
     "tdd.scaffoldTest",
@@ -117,14 +168,23 @@ test("${testName}", t => {
       inputSchema: z.object({
         files: z.array(z.string()).optional(),
         match: z.array(z.string()).optional(),
+        tap: z.boolean().optional(),
+        watch: z.boolean().optional(),
       }),
     },
-    async (input: { files?: string[]; match?: string[] }) => {
-      const { files, match } = input;
+    async (input: {
+      files?: string[];
+      match?: string[];
+      tap?: boolean;
+      watch?: boolean;
+    }) => {
+      const { files, match, tap, watch } = input;
       const args = ["--yes", "ava", "--json"];
       if (tap) args.push("--tap");
       if (watch) args.push("--watch");
-      match?.forEach((m: string) => args.push("--match", m));
+      match?.forEach((m: string) => {
+        args.push("--match", m);
+      });
       if (files?.length) args.push(...files);
 
       const { stdout } = await execFileAsync("npx", args, EXEC_OPTS);
@@ -133,10 +193,12 @@ test("${testName}", t => {
         passed: result.stats.passed,
         failed: result.stats.failed,
         durationMs: result.stats.duration,
-        failures: result.failures?.map((f: any) => ({
-          title: f.title,
-          error: f.error,
-        })),
+        failures: result.failures?.map(
+          (f: { title: string; error: string }) => ({
+            title: f.title,
+            error: f.error,
+          }),
+        ),
       };
     },
   );
@@ -150,43 +212,18 @@ test("${testName}", t => {
         match: z.array(z.string()).optional(),
       }),
     },
-    async (input: { files?: string[]; match?: string[] }) => {
-      if (watchProc) throw new Error("watch already running");
-      const { files, match } = input;
-      const args = ["--yes", "ava", "--watch"] as string[];
-      match?.forEach((m: string) => args.push("--match", m));
-      if (files?.length) args.push(...files);
-      watchBuffer = "";
-      watchProc = spawn("npx", args, { stdio: ["pipe", "pipe", "pipe"] });
-      watchProc.stdout?.on("data", (d) => {
-        watchBuffer += d.toString();
-      });
-      watchProc.stderr?.on("data", (d) => {
-        watchBuffer += d.toString();
-      });
-      return { started: true };
-    },
+    async (input: { files?: string[]; match?: string[] }) => watch.start(input),
   );
 
   s.registerTool(
     "tdd.getWatchChanges",
     { inputSchema: z.object({}) },
-    async () => {
-      if (!watchProc) throw new Error("watch not running");
-      const out = watchBuffer;
-      watchBuffer = "";
-      return { output: out };
-    },
+    async () => watch.getChanges(),
   );
 
-  s.registerTool("tdd.stopWatch", { inputSchema: z.object({}) }, async () => {
-    if (!watchProc) return { stopped: false };
-    watchProc.kill();
-    watchProc = null;
-    const out = watchBuffer;
-    watchBuffer = "";
-    return { stopped: true, output: out };
-  });
+  s.registerTool("tdd.stopWatch", { inputSchema: z.object({}) }, async () =>
+    watch.stop(),
+  );
 
   // coverage
   s.registerTool(
@@ -264,8 +301,7 @@ test("${testName}", t => {
     }) => {
       const { propertyModule, propertyExport, runs } = input;
       const mod = await import(pathToFileURL(propertyModule).href);
-      // biome-ignore lint/suspicious/noExplicitAny: dynamic import
-      const propertyFactory = (mod)[propertyExport];
+      const propertyFactory = mod[propertyExport];
       if (typeof propertyFactory !== "function") {
         throw new Error(`Export "${propertyExport}" is not a function`);
       }

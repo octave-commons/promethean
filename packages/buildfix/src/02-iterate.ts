@@ -1,9 +1,17 @@
 import * as path from "path";
 import { promises as fs } from "fs";
+import { fileURLToPath } from "node:url";
 
 import { parseArgs } from "@promethean/utils";
+
 import { writeJSON, readJSON, applySnippetToProject } from "./utils.js";
-import type { ErrorList, History, Attempt, Summary } from "./types.js";
+import type {
+  ErrorList,
+  History,
+  Attempt,
+  Summary,
+  BuildError,
+} from "./types.js";
 import { requestPlan, writePlanFile } from "./iter/plan.js";
 import { materializeSnippet } from "./iter/dsl.js";
 import { buildAndJudge } from "./iter/eval.js";
@@ -17,49 +25,47 @@ import {
   rollbackWorktree,
 } from "./iter/git.js";
 
-const args = parseArgs({
-  "--errors": ".cache/buildfix/errors.json",
-  "--out": ".cache/buildfix",
-  "--model": "qwen3:4b",
-  "--max-cycles": "5",
-  "--only-code": "",
-  "--only-file": "",
-  "--tsconfig": "",
-  // git
-  "--git": "off", // off | per-error
-  "--commit-on": "always", // always | success
-  "--branch-prefix": "buildfix",
-  "--remote": "origin",
-  "--push": "false",
-  "--use-gh": "false",
-  // rollback
-  "--rollback-on-regress": "true", // if after error count > before, undo worktree changes
-});
+export type IterateOptions = {
+  readonly errors?: string;
+  readonly out?: string;
+  readonly model?: string;
+  readonly maxCycles?: number;
+  readonly onlyCode?: string;
+  readonly onlyFile?: string;
+  readonly tsconfig?: string;
+  readonly git?: string;
+  readonly commitOn?: "always" | "success";
+  readonly branchPrefix?: string;
+  readonly remote?: string;
+  readonly push?: boolean;
+  readonly useGh?: boolean;
+  readonly rollbackOnRegress?: boolean;
+};
 
-function makeBranch(err: any) {
+function makeBranch(err: BuildError, branchPrefix: string): string {
   const fileSlug = err.file
     .replace(process.cwd() + path.sep, "")
     .replace(/[\/\\\.]/g, "-");
-  return sanitizeBranch(
-    `${args["--branch-prefix"]}/${err.code}/${fileSlug}/${err.line}`,
-  );
+  return sanitizeBranch(`${branchPrefix}/${err.code}/${fileSlug}/${err.line}`);
 }
 
-async function main() {
-  const errors = await readJSON<ErrorList>(path.resolve(args["--errors"]!));
+export async function run(opts: IterateOptions = {}): Promise<void> {
+  const errors = await readJSON<ErrorList>(
+    path.resolve(opts.errors ?? ".cache/buildfix/errors.json"),
+  );
   if (!errors) throw new Error("errors.json not found");
-  const tsconfig = args["--tsconfig"] || errors.tsconfig;
-  const onlyCode = (args["--only-code"] || "").trim();
-  const onlyFile = (args["--only-file"] || "").trim();
-  const maxCycles = Number(args["--max-cycles"]);
-  const OUT = path.resolve(args["--out"]!);
+  const tsconfig = opts.tsconfig || errors.tsconfig;
+  const onlyCode = (opts.onlyCode ?? "").trim();
+  const onlyFile = (opts.onlyFile ?? "").trim();
+  const maxCycles = opts.maxCycles ?? 5;
+  const OUT = path.resolve(opts.out ?? ".cache/buildfix");
 
-  const useGit = args["--git"] !== "off" && (await isGitRepo());
-  const commitOn = (args["--commit-on"] as "always" | "success") || "always";
-  const remote = args["--remote"]!;
-  const push = args["--push"] === "true";
-  const useGh = args["--use-gh"] === "true";
-  const doRollback = args["--rollback-on-regress"] === "true";
+  const useGit = opts.git !== "off" && (await isGitRepo());
+  const commitOn = opts.commitOn || "always";
+  const remote = opts.remote || "origin";
+  const push = opts.push ?? false;
+  const useGh = opts.useGh ?? false;
+  const doRollback = opts.rollbackOnRegress ?? true;
 
   const todo = errors.errors.filter(
     (e) =>
@@ -85,8 +91,8 @@ async function main() {
     };
 
     let branch: string | undefined;
-    if (useGit && args["--git"] === "per-error") {
-      branch = makeBranch(err);
+    if (useGit && opts.git === "per-error") {
+      branch = makeBranch(err, opts.branchPrefix || "buildfix");
       await ensureBranch(branch);
     }
 
@@ -106,7 +112,7 @@ async function main() {
       // 1) Plan
       let plan;
       try {
-        plan = await requestPlan(args["--model"]!, err, history);
+        plan = await requestPlan(opts.model ?? "qwen3:4b", err, history);
       } catch (e) {
         console.error(`✖ plan failed for ${err.key}:`, e);
         break;
@@ -225,7 +231,42 @@ async function main() {
   );
 }
 
-main().catch((e) => {
-  console.error(e);
-  process.exit(1);
-});
+export default run;
+
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  const args = parseArgs({
+    "--errors": ".cache/buildfix/errors.json",
+    "--out": ".cache/buildfix",
+    "--model": "qwen3:4b",
+    "--max-cycles": "5",
+    "--only-code": "",
+    "--only-file": "",
+    "--tsconfig": "",
+    "--git": "off",
+    "--commit-on": "always",
+    "--branch-prefix": "buildfix",
+    "--remote": "origin",
+    "--push": "false",
+    "--use-gh": "false",
+    "--rollback-on-regress": "true",
+  });
+  run({
+    errors: args["--errors"],
+    out: args["--out"],
+    model: args["--model"],
+    maxCycles: Number(args["--max-cycles"]),
+    onlyCode: args["--only-code"],
+    onlyFile: args["--only-file"],
+    tsconfig: args["--tsconfig"],
+    git: args["--git"],
+    commitOn: args["--commit-on"] as "always" | "success",
+    branchPrefix: args["--branch-prefix"],
+    remote: args["--remote"],
+    push: args["--push"] === "true",
+    useGh: args["--use-gh"] === "true",
+    rollbackOnRegress: args["--rollback-on-regress"] === "true",
+  }).catch((e) => {
+    console.error(e);
+    process.exit(1);
+  });
+}

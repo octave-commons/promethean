@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/prefer-readonly-parameter-types, functional/prefer-immutable-types */
 import http from 'http';
 
 import type { Request, Response, Express } from 'express';
@@ -32,107 +33,151 @@ export type Broker = {
 
 export const app: Express = express();
 app.use(express.json({ limit: '500mb' }));
-
-/* eslint-disable functional/no-let */
-let driver: LLMDriver | null = null;
-
-export async function loadModel(): Promise<LLMDriver> {
-    if (!driver) driver = await loadDriver();
-    return driver;
-}
+export const loadModel = (() => {
+    /* eslint-disable functional/no-let */
+    let driver: LLMDriver | null = null;
+    /* eslint-enable functional/no-let */
+    return async (): Promise<LLMDriver> => {
+        if (!driver) driver = await loadDriver();
+        return driver;
+    };
+})();
 
 const log = createLogger({ service: 'llm' });
 
-let generateFn = async ({ prompt, context = [], format, tools = [] }: GenerateArgs): Promise<unknown> => {
-    const d = await loadModel();
-    return d.generate({ prompt, context: context as ContextItem[], format, tools });
-};
+type GenerateFn = (args: GenerateArgs) => Promise<unknown>;
 
-export function setGenerateFn(fn: typeof generateFn): void {
-    generateFn = fn;
+const generateState = (() => {
+    /* eslint-disable functional/no-let */
+    let fn: GenerateFn = async ({ prompt, context = [], format, tools = [] }: GenerateArgs): Promise<unknown> => {
+        const d = await loadModel();
+        return d.generate({ prompt, context: context as ContextItem[], format, tools });
+    };
+    /* eslint-enable functional/no-let */
+    return {
+        get: (): GenerateFn => fn,
+        set: (newFn: GenerateFn): void => {
+            fn = newFn;
+        },
+    };
+})();
+
+export function setGenerateFn(fn: GenerateFn): void {
+    generateState.set(fn);
 }
 
 export const generate = async (args: Readonly<GenerateArgs>): Promise<unknown> => {
-    return retry(() => generateFn({ ...args }), {
+    return retry(() => generateState.get()({ ...args }), {
         attempts: 6,
         backoff: (a: number) => (a - 1) * 1610,
     });
 };
 
-let broker: Broker | null = null;
-/* eslint-enable functional/no-let */
+const brokerState = (() => {
+    /* eslint-disable functional/no-let */
+    let b: Broker | null = null;
+    /* eslint-enable functional/no-let */
+    return {
+        get: (): Broker | null => b,
+        set: (broker: Broker): void => {
+            b = broker;
+        },
+    };
+})();
 
-export function setBroker(b: Broker): void {
-    broker = b;
+export function setBroker(b: Readonly<Broker>): void {
+    brokerState.set(b);
 }
 
-export async function handleTask(task: BrokerTask): Promise<void> {
+export async function handleTask(task: Readonly<BrokerTask>): Promise<void> {
     const payload = task.payload ?? ({} as TaskPayload);
     const { prompt, context = [], format = null, tools = [], replyTopic } = payload;
     const reply = await generate({ prompt, context, format, tools });
     log.info('handling llm task', { task });
-    if (replyTopic && broker) {
-        broker.publish(replyTopic, { reply, taskId: task.id });
+    const b = brokerState.get();
+    if (replyTopic && b) {
+        b.publish(replyTopic, { reply, taskId: task.id });
     }
 }
 
-app.post('/generate', async (req: Request, res: Response) => {
+app.post('/generate', (req: Request, res: Response) => {
     const { prompt, context = [], format = null, tools = [] } = (req.body || {}) as GenerateArgs;
-    // eslint-disable-next-line functional/no-try-statements
-    try {
-        const reply = await generate({ prompt, context, format, tools });
-        res.json({ reply });
-    } catch (err) {
-        const error = err as Error;
-        res.status(500).json({ error: error.message });
-    }
+    generate({ prompt, context, format, tools })
+        .then((reply) => {
+            res.json({ reply });
+        })
+        .catch((err) => {
+            const error = err as Error;
+            res.status(500).json({ error: error.message });
+        });
 });
 
-export async function start(port = Number(process.env.LLM_PORT) || 8888): Promise<http.Server> {
-    if (process.env.DISABLE_BROKER !== '1') {
-        // eslint-disable-next-line functional/no-try-statements
-        try {
-            const { startService } = (await import('@shared/js/serviceTemplate.js')) as {
-                startService(opts: {
-                    id: string;
-                    queues: readonly string[];
-                    handleTask: (task: BrokerTask) => Promise<void>;
-                }): Promise<Broker>;
-            };
-            broker = await startService({
-                id: process.env.name || 'llm',
-                queues: ['llm.generate'],
-                handleTask,
-            });
-        } catch (err) {
+export function initBroker(): Promise<void> {
+    return import('@shared/js/serviceTemplate.js')
+        .then(
+            ({
+                startService,
+            }: Readonly<{
+                startService(
+                    opts: Readonly<{
+                        id: string;
+                        queues: readonly string[];
+                        handleTask: (task: Readonly<BrokerTask>) => Promise<void>;
+                    }>,
+                ): Promise<Broker>;
+            }>) =>
+                startService({
+                    id: process.env.name || 'llm',
+                    queues: ['llm.generate'],
+                    handleTask,
+                }),
+        )
+        .then((b) => {
+            setBroker(b);
+        })
+        .catch((err) => {
             log.error('Failed to initialize broker', { err: err as Error });
-        }
-        const { HeartbeatClient } = await import('@promethean/legacy/heartbeat/index.js');
-        const hb = new HeartbeatClient({ name: process.env.name || 'llm' });
-        await hb.sendOnce();
-        hb.start();
-    }
+        });
+}
 
+export async function initHeartbeat(): Promise<void> {
+    const { HeartbeatClient } = await import('@promethean/legacy/heartbeat/index.js');
+    const hb = new HeartbeatClient({ name: process.env.name || 'llm' });
+    await hb.sendOnce();
+    hb.start();
+}
+
+export async function initServer(port: number): Promise<http.Server> {
     const server = http.createServer(app);
     const wss = new WebSocketServer({ server, path: '/generate' });
     wss.on('connection', (ws: WebSocket) => {
-        ws.on('message', async (data: RawData) => {
-            // eslint-disable-next-line functional/no-try-statements
-            try {
-                const parsed = JSON.parse(data.toString()) as unknown;
-                const { prompt, context = [], format = null, tools = [] } = parsed as GenerateArgs;
-                const reply = await generate({ prompt, context, format, tools });
-                ws.send(JSON.stringify({ reply }));
-            } catch (err) {
-                const error = err as Error;
-                ws.send(JSON.stringify({ error: error.message }));
-            }
+        ws.on('message', (data: RawData) => {
+            Promise.resolve()
+                .then(() => JSON.parse(data.toString()) as GenerateArgs)
+                .then(({ prompt, context = [], format = null, tools = [] }) =>
+                    generate({ prompt, context, format, tools }),
+                )
+                .then((reply) => {
+                    ws.send(JSON.stringify({ reply }));
+                })
+                .catch((err) => {
+                    const error = err as Error;
+                    ws.send(JSON.stringify({ error: error.message }));
+                });
         });
     });
 
     return new Promise<http.Server>((resolve) => {
         const s = server.listen(port, () => resolve(s));
     });
+}
+
+export async function start(port = Number(process.env.LLM_PORT) || 8888): Promise<http.Server> {
+    if (process.env.DISABLE_BROKER !== '1') {
+        await initBroker();
+        await initHeartbeat();
+    }
+    return initServer(port);
 }
 
 if (process.env.NODE_ENV !== 'test') {
