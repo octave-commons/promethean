@@ -1,3 +1,11 @@
+---
+uuid: 1b93f3eb-202f-4d47-b4d0-b69286b8c2a3
+title: Replace <SHA> with the commit from step 1
+status: todo
+priority: P3
+labels: []
+created_at: '2025-09-15T02:02:58.518Z'
+---
 ## 0) Safety first
 
 Make sure you don’t have local changes you care about:
@@ -481,3 +489,4 @@ your repo. If you tell me:
    present
 
 I’ll help figure the exact commit and path so you can restore.
+

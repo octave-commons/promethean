@@ -1,4 +1,11 @@
-
+---
+uuid: fb040f44-7250-4828-9f2b-c36f65ed35e3
+title: integrate sonarqube into devops
+status: todo
+priority: P3
+labels: []
+created_at: '2025-09-15T02:02:58.515Z'
+---
 ### **Task: Integrate SonarQube into DevOps Pipeline**  
 **Description**:  
 Add SonarQube to your DevOps pipeline to enforce code quality checks, detect bugs, and ensure compliance with coding standards. This involves configuring SonarQube analysis within your CI/CD workflow and aligning it with your team’s development practices.  
@@ -17,3 +24,4 @@ Add SonarQube to your DevOps pipeline to enforce code quality checks, detect bug
 - Append additional notes or adjustments to this task as needed for your specific DevOps tools or team workflows.  
 - Ensure alignment with existing processes outlined in [[integrate-sonarqube-into-devops]].  
 #incoming
+
