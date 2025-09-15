@@ -80,10 +80,10 @@ export function registerAgentRoutes(fastify: any) {
           bypassApprovals,
           sandbox,
           tty,
-        } = (req.body) || {};
+        } = req.body || {};
         const mode = sandbox === "nsjail" ? "nsjail" : "default";
         const sup = getSup(fastify, mode);
-        const id = sup.start({
+        const { id } = await sup.start({
           prompt,
           env,
           bypassApprovals: Boolean(bypassApprovals),
