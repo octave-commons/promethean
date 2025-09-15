@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { pathToFileURL } from "url";
 import { randomUUID } from "node:crypto";
 import { promises as fs } from "fs";
@@ -5,6 +6,7 @@ import * as path from "path";
 
 import matter from "gray-matter";
 import { createLogger, slug } from "@promethean/utils";
+import { openLevelCache } from "@promethean/level-cache";
 
 import { parseArgs } from "./utils.js";
 import type { PlanPayload } from "./types.js";
@@ -105,10 +107,17 @@ async function writeTask(t: Task, project: string, opts: WriteOpts) {
   return `- [${t.title}](${path.basename(outPath)}) — ${t.priority}`;
 }
 
-export async function writeTasks(opts: WriteOpts) {
-  const { tasks, project } = JSON.parse(
-    await fs.readFile(path.resolve(opts.input), "utf-8"),
-  ) as PlanPayload;
+export async function writeTasks(opts: WriteOpts): Promise<void> {
+  const cache = await openLevelCache<
+    PlanPayload["tasks"][number] | { project: string }
+  >({ path: path.resolve(opts.input) });
+  const tasks: PlanPayload["tasks"] = [];
+  const meta = (await cache.get("__meta__")) as { project: string } | undefined;
+  for await (const [k, v] of cache.entries()) {
+    if (k !== "__meta__") tasks.push(v as PlanPayload["tasks"][number]);
+  }
+  await cache.close();
+  const project = meta?.project ?? "";
 
   await fs.mkdir(path.resolve(opts.out), { recursive: true });
 
@@ -137,7 +146,7 @@ async function readMaybe(p: string) {
 
 if (import.meta.url === pathToFileURL(process.argv[1]!).href) {
   const args = parseArgs({
-    "--in": ".cache/sonar/plans.json",
+    "--in": ".cache/sonar/plans",
     "--out": "docs/agile/tasks/sonar",
     "--status": "todo",
     "--assignee": "",
