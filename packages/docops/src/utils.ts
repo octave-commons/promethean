@@ -87,23 +87,24 @@ export function parseMarkdownChunks(markdown: string): Chunk[] {
   function sentenceSplit(s: string, maxLen: number): string[] {
     if (s.length <= maxLen) return [s];
     const parts = s.split(/(?<=[\.\!\?])\s+/);
-    const chunks: string[] = [];
     let buf = "";
-    for (const p of parts) {
+    const chunks = parts.reduce<string[]>((acc, p, idx) => {
       if ((buf + " " + p).trim().length > maxLen) {
-        if (buf) chunks.push(buf.trim());
+        if (buf) acc.push(buf.trim());
         buf = p;
-      } else buf = (buf ? buf + " " : "") + p;
-    }
-    if (buf) chunks.push(buf.trim());
-    const final: string[] = [];
-    for (const c of chunks) {
-      if (c.length <= maxLen) final.push(c);
-      else
-        for (let i = 0; i < c.length; i += maxLen)
-          final.push(c.slice(i, i + maxLen));
-    }
-    return final;
+      } else {
+        buf = (buf ? `${buf} ` : "") + p;
+      }
+      if (idx === parts.length - 1 && buf) acc.push(buf.trim());
+      return acc;
+    }, []);
+    return chunks.flatMap((c) =>
+      c.length <= maxLen
+        ? [c]
+        : Array.from({ length: Math.ceil(c.length / maxLen) }, (_, i) =>
+            c.slice(i * maxLen, i * maxLen + maxLen),
+          ),
+    );
   }
 
   visit(ast, (node: any) => {
