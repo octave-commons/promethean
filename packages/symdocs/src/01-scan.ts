@@ -1,4 +1,4 @@
-import { promises as fs } from "fs";
+/* eslint-disable */
 import * as path from "path";
 import { fileURLToPath } from "url";
 
@@ -19,13 +19,14 @@ import {
   signatureForFunction,
   typeToString,
 } from "./utils.js";
-import type { SymKind, SymbolInfo, ScanResult } from "./types.js";
+import type { SymKind, SymbolInfo } from "./types.js";
+import { openLevelCache } from "@promethean/level-cache";
 
 export type ScanOptions = {
   root?: string;
   tsconfig?: string;
   ext?: string;
-  out?: string;
+  cache?: string;
   files?: readonly string[];
 };
 
@@ -36,7 +37,7 @@ export async function runScan(opts: ScanOptions = {}) {
       .split(",")
       .map((s) => s.trim().toLowerCase()),
   );
-  const OUT = path.resolve(opts.out ?? ".cache/symdocs/symbols.json");
+  const CACHE_PATH = path.resolve(opts.cache ?? ".cache/symdocs.level");
   const repoRoot = process.cwd();
 
   const files =
@@ -167,11 +168,19 @@ export async function runScan(opts: ScanOptions = {}) {
     visit(sf);
   }
 
-  await fs.mkdir(path.dirname(OUT), { recursive: true });
-  const payload: ScanResult = { symbols };
-  await fs.writeFile(OUT, JSON.stringify(payload, null, 2), "utf-8");
+  const cache = await openLevelCache<SymbolInfo>({
+    path: CACHE_PATH,
+    namespace: "symbols",
+  });
+  for (const s of symbols) {
+    await cache.set(s.id, s);
+  }
+  await cache.close();
   console.log(
-    `Scanned ${symbols.length} symbols → ${path.relative(repoRoot, OUT)}`,
+    `Scanned ${symbols.length} symbols → ${path.relative(
+      repoRoot,
+      CACHE_PATH,
+    )}`,
   );
 }
 
@@ -187,14 +196,14 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     "--root": "packages",
     "--tsconfig": "",
     "--ext": ".ts,.tsx,.js,.jsx",
-    "--out": ".cache/symdocs/symbols.json",
+    "--cache": ".cache/symdocs.level",
   });
   runScan({
     root: String(args["--root"]),
     tsconfig: args["--tsconfig"] || undefined,
     ext: String(args["--ext"]),
-    out: String(args["--out"]),
-  }).catch((e) => {
+    cache: String(args["--cache"]),
+  }).catch((e: unknown) => {
     console.error(e);
     process.exit(1);
   });

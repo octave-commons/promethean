@@ -12,7 +12,7 @@
             "isolate": "worker"
           },
           "inputs": ["packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"],
-          "outputs": [".cache/symdocs/symbols.json"],
+          "outputs": [".cache/symdocs.level"],
           "inputSchema": "packages/symdocs/schemas/io.schema.json",
           "outputSchema": "packages/symdocs/schemas/io.schema.json"
         },
@@ -26,8 +26,8 @@
             "isolate": "worker"
           },
           "env": { "OLLAMA_URL": "${OLLAMA_URL}" },
-          "inputs": [".cache/symdocs/symbols.json"],
-          "outputs": [".cache/symdocs/docs.json"],
+          "inputs": [".cache/symdocs.level"],
+          "outputs": [".cache/symdocs.level"],
           "inputSchema": "packages/symdocs/schemas/io.schema.json",
           "outputSchema": "packages/symdocs/schemas/io.schema.json"
         },
@@ -40,7 +40,7 @@
             "args": { "out": "docs/packages", "granularity": "module" },
             "isolate": "worker"
           },
-          "inputs": [".cache/symdocs/docs.json"],
+          "inputs": [".cache/symdocs.level"],
           "outputs": ["docs/packages/**/**/*.md"],
           "inputSchema": "packages/symdocs/schemas/io.schema.json",
           "outputSchema": "packages/symdocs/schemas/io.schema.json"
