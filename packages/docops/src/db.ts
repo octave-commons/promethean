@@ -1,8 +1,16 @@
+/// <reference lib="esnext" />
+
 // src/db.ts
 import { Level } from "level";
 import type { AbstractSublevel } from "abstract-level";
 
 import type { Chunk, QueryHit } from "./types.js";
+
+declare global {
+  interface ArrayConstructor {
+    fromAsync<T>(iterable: Iterable<T> | AsyncIterable<T>): Promise<T[]>;
+  }
+}
 
 export type DBs = {
   root: Level<string, unknown>;
@@ -103,8 +111,4 @@ export const withDb = async <R>(
 };
 
 export const collect = <T>(xs: Iterable<T> | AsyncIterable<T>) =>
-  (async () => {
-    const out: T[] = [];
-    for await (const x of xs as any) out.push(x);
-    return out;
-  })();
+  Array.fromAsync(xs as any);
