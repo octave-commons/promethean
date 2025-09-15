@@ -4,9 +4,10 @@ import { randomUUID } from "crypto";
 import { pathToFileURL } from "url";
 
 import matter from "gray-matter";
+import { openLevelCache } from "@promethean/level-cache";
 
 import { parseArgs } from "./utils.js";
-import type { ScanResult, Cluster, Plan, FunctionInfo } from "./types.js";
+import type { Cluster, Plan, FunctionInfo } from "./types.js";
 
 export type WriteArgs = {
   "--scan"?: string;
@@ -56,7 +57,7 @@ function escapeMd(s: string) {
 }
 
 export async function writeTasks(args: WriteArgs) {
-  const SCAN = path.resolve(args["--scan"] ?? ".cache/simtasks/functions.json");
+  const SCAN = path.resolve(args["--scan"] ?? ".cache/simtasks/functions");
   const CLS = path.resolve(
     args["--clusters"] ?? ".cache/simtasks/clusters.json",
   );
@@ -69,9 +70,9 @@ export async function writeTasks(args: WriteArgs) {
     .map((s) => s.trim())
     .filter(Boolean);
 
-  const { functions }: ScanResult = JSON.parse(
-    await fs.readFile(SCAN, "utf-8"),
-  );
+  const fnCache = await openLevelCache<FunctionInfo[]>({ path: SCAN });
+  const functions = (await fnCache.get("functions")) ?? [];
+  await fnCache.close();
   const clusters: Cluster[] = JSON.parse(await fs.readFile(CLS, "utf-8"));
   const plans: Record<string, Plan> = JSON.parse(
     await fs.readFile(PLANS, "utf-8"),
@@ -204,7 +205,7 @@ async function readMaybe(p: string) {
 
 if (import.meta.url === pathToFileURL(process.argv[1] ?? "").href) {
   const args = parseArgs({
-    "--scan": ".cache/simtasks/functions.json",
+    "--scan": ".cache/simtasks/functions",
     "--clusters": ".cache/simtasks/clusters.json",
     "--plans": ".cache/simtasks/plans.json",
     "--out": "docs/agile/tasks",

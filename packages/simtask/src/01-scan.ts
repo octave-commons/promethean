@@ -13,8 +13,9 @@ import {
   listFilesRec,
 } from "@promethean/utils";
 
+import { openLevelCache } from "@promethean/level-cache";
 import { makeProgram, sha1 } from "./utils.js";
-import type { FunctionInfo, ScanResult, FnKind } from "./types.js";
+import type { FunctionInfo, FnKind } from "./types.js";
 
 export type ScanArgs = {
   "--root"?: string;
@@ -30,7 +31,7 @@ export async function scan(args: ScanArgs) {
       .split(",")
       .map((s) => s.trim().toLowerCase()),
   );
-  const OUT = path.resolve(args["--out"] ?? ".cache/simtasks/functions.json");
+  const OUT = path.resolve(args["--out"] ?? ".cache/simtasks/functions");
 
   const files = await listFilesRec(ROOT, EXTS);
   const program = makeProgram(files, args["--tsconfig"] || undefined);
@@ -174,9 +175,9 @@ export async function scan(args: ScanArgs) {
     visit(sf);
   }
 
-  await fs.mkdir(path.dirname(OUT), { recursive: true });
-  const payload: ScanResult = { functions };
-  await fs.writeFile(OUT, JSON.stringify(payload, null, 2), "utf-8");
+  const cache = await openLevelCache<FunctionInfo[]>({ path: OUT });
+  await cache.set("functions", functions);
+  await cache.close();
   console.log(
     `simtasks: scanned ${functions.length} functions -> ${path.relative(
       process.cwd(),
@@ -190,7 +191,7 @@ if (import.meta.url === pathToFileURL(process.argv[1] ?? "").href) {
     "--root": "packages",
     "--ext": ".ts,.tsx,.js,.jsx",
     "--tsconfig": "",
-    "--out": ".cache/simtasks/functions.json",
+    "--out": ".cache/simtasks/functions",
   });
   scan(args).catch((e) => {
     console.error(e);
