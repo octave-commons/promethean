@@ -123,22 +123,24 @@ export function parseMarkdownChunks(markdown: string): Chunk[] {
       const raw = node.type === "code" ? node.value || "" : extractText(node);
       const trimmed = (raw || "").trim();
       if (!trimmed) return;
-      const kind = node.type === "code" ? "code" : "text";
-      for (const s of sentenceSplit(trimmed, 1200)) {
-        const base: any = {
-          id: "",
-          docUuid: "",
-          docPath: "",
-          startLine: pos.start.line,
-          startCol: pos.start.column,
-          endLine: pos.end.line,
-          endCol: pos.end.column,
-          text: s,
-          kind,
-        };
-        if (currentHeading) base.title = currentHeading;
-        chunks.push(base as Chunk);
-      }
+      const kind: Chunk["kind"] = node.type === "code" ? "code" : "text";
+      chunks.push(
+        ...sentenceSplit(trimmed, 1200).map(
+          (s) =>
+            ({
+              id: "",
+              docUuid: "",
+              docPath: "",
+              startLine: pos.start.line,
+              startCol: pos.start.column,
+              endLine: pos.end.line,
+              endCol: pos.end.column,
+              text: s,
+              kind,
+              ...(currentHeading ? { title: currentHeading } : {}),
+            }) as Chunk,
+        ),
+      );
     }
   });
 
