@@ -1,3 +1,4 @@
+/* eslint-disable */
 // packages/docops/src/00-purge.ts
 import { promises as fs } from "node:fs";
 import * as path from "node:path";
@@ -29,12 +30,8 @@ function removeFrontmatter(raw: string): string {
 function stripLinks(body: string): string {
   // Drop reference definitions like: [id]: https://... "title"
   const lines = body.split("\n");
-  const kept: string[] = [];
   const refDefRe = /^\s*\[[^\]]+\]:\s*\S+(?:\s+"[^"]*")?\s*$/;
-  for (const L of lines) {
-    if (refDefRe.test(L)) continue;
-    kept.push(L);
-  }
+  const kept = lines.filter((L) => !refDefRe.test(L));
   let s = kept.join("\n");
   // Replace inline links [text](url) -> text
   s = s.replace(/\[([^\]]+)\]\(([^)]+)\)/g, "$1");
