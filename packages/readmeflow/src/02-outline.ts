@@ -5,7 +5,7 @@ import { z } from "zod";
 import { openLevelCache } from "@promethean/level-cache";
 import { parseArgs, ollamaJSON } from "@promethean/utils";
 
-import type { ScanOut, Outline, OutlinesFile } from "./types.js";
+import type { ScanOut, Outline, OutlinesFile, PkgInfo } from "./types.js";
 
 const OutlineSchema = z.object({
   title: z.string().min(1),
@@ -17,17 +17,16 @@ const OutlineSchema = z.object({
   badges: z.array(z.string()).optional(),
 });
 
-type Pkg = ScanOut["packages"][number];
-type OutlineRaw = z.infer<typeof OutlineSchema>;
+type Prompts = { readonly sys: string; readonly user: string };
 
-const SYS_PROMPT = [
-  "You write tight, practical READMEs for dev tools. Use short sections and code blocks when useful.",
-  "Return ONLY JSON: { title, tagline, includeTOC?, sections:[{heading, body}], badges?[] }",
-  "Prefer concise install, quickstart, CLI/API usage, configuration, and troubleshooting.",
-].join("\n");
+export function buildPrompts(pkg: Readonly<PkgInfo>): Prompts {
+  const sys = [
+    "You write tight, practical READMEs for dev tools. Use short sections and code blocks when useful.",
+    "Return ONLY JSON: { title, tagline, includeTOC?, sections:[{heading, body}], badges?[] }",
+    "Prefer concise install, quickstart, CLI/API usage, configuration, and troubleshooting.",
+  ].join("\n");
 
-const userPrompt = (pkg: Pkg): string =>
-  [
+  const user = [
     `PACKAGE: ${pkg.name} v${pkg.version}`,
     `DESC: ${pkg.description ?? "(none)"}`,
     `HAS_TS: ${pkg.hasTsConfig}`,
@@ -44,55 +43,76 @@ const userPrompt = (pkg: Pkg): string =>
     "If the repo uses Piper pipelines, mention how to run the relevant pipeline.",
   ].join("\n");
 
-const fallbackOutline = (pkg: Pkg): OutlineRaw => ({
-  title: pkg.name,
-  tagline: pkg.description ?? "",
-  includeTOC: true,
-  sections: [
-    { heading: "Install", body: `pnpm add ${pkg.name}` },
-    { heading: "Usage", body: "(coming soon)" },
-    { heading: "License", body: "GPLv3" },
-  ],
-});
+  return { sys, user };
+}
 
-const outlineFromRaw = (pkg: Pkg, raw: OutlineRaw): Outline => ({
-  name: pkg.name,
-  title: raw.title,
-  tagline: raw.tagline,
-  includeTOC: raw.includeTOC,
-  sections: raw.sections,
-  ...(raw.badges?.length ? { badges: raw.badges } : {}),
-});
-
-const fetchOutline = async (pkg: Pkg, model: string): Promise<Outline> => {
-  const prompt = `SYSTEM:\n${SYS_PROMPT}\n\nUSER:\n${userPrompt(pkg)}`;
-  const obj = await ollamaJSON(model, prompt).catch(() => fallbackOutline(pkg));
+export async function fetchOutline(
+  pkg: Readonly<PkgInfo>,
+  model = "qwen3:4b",
+): Promise<Readonly<Outline>> {
+  const { sys, user } = buildPrompts(pkg);
+  const obj = await ollamaJSON(
+    model,
+    `SYSTEM:\n${sys}\n\nUSER:\n${user}`,
+  ).catch(() => ({
+    title: pkg.name,
+    tagline: pkg.description ?? "",
+    includeTOC: true,
+    sections: [
+      {
+        heading: "Install",
+        body: `\`\`\`bash\npnpm -w add -D ${pkg.name}\n\`\`\``,
+      },
+      { heading: "Quickstart", body: "```ts\n// usage example\n```" },
+      {
+        heading: "Commands",
+        body:
+          Object.keys(pkg.scripts ?? {})
+            .map((k) => `- \`${k}\``)
+            .join("\n") || "N/A",
+      },
+    ],
+  }));
   const parsed = OutlineSchema.safeParse(obj);
-  const raw = parsed.success ? parsed.data : fallbackOutline(pkg);
-  return outlineFromRaw(pkg, raw);
-};
+  const outlineRaw = parsed.success
+    ? parsed.data
+    : {
+        title: pkg.name,
+        tagline: pkg.description ?? "",
+        includeTOC: true,
+        sections: [
+          { heading: "Install", body: `pnpm add ${pkg.name}` },
+          { heading: "Usage", body: "(coming soon)" },
+          { heading: "License", body: "GPLv3" },
+        ],
+      };
 
-const buildOutlines = async (
-  pkgs: Pkg[],
-  model: string,
-): Promise<Record<string, Outline>> =>
-  Object.fromEntries(
-    await Promise.all(
-      pkgs.map(
-        async (pkg) => [pkg.name, await fetchOutline(pkg, model)] as const,
-      ),
-    ),
-  );
+  return {
+    name: pkg.name,
+    title: outlineRaw.title,
+    tagline: outlineRaw.tagline,
+    includeTOC: outlineRaw.includeTOC,
+    sections: outlineRaw.sections,
+    ...(outlineRaw.badges?.length ? { badges: outlineRaw.badges } : {}),
+  };
+}
 
 export async function outline(
-  options: { cache?: string; model?: string } = {},
+  options: Readonly<{ cache?: string; model?: string }> = {},
 ): Promise<void> {
   const cache = await openLevelCache<ScanOut | OutlinesFile>({
     path: path.resolve(options.cache ?? ".cache/readmes"),
   });
   const scan = (await cache.get("scan")) as ScanOut;
-  const model = options.model ?? "qwen3:4b";
-  const outlines = await buildOutlines(scan.packages, model);
+
+  const outlines = await scan.packages.reduce<
+    Promise<Record<string, Readonly<Outline>>>
+  >(async (accP, pkg) => {
+    const acc = await accP;
+    const outlinePkg = await fetchOutline(pkg, options.model);
+    return { ...acc, [pkg.name]: outlinePkg };
+  }, Promise.resolve({}));
+
   const out: OutlinesFile = { plannedAt: new Date().toISOString(), outlines };
   await cache.set("outlines", out);
   await cache.close();
