@@ -1,4 +1,3 @@
-/* eslint-disable */
 import * as path from "path";
 import * as fs from "fs/promises";
 
@@ -68,7 +67,7 @@ test.serial(
 
 test("randomUUID returns unique-like ids", (t) => {
   const ids = new Set<string>();
-  for (let i = 0; i < 10; i++) ids.add(randomUUID());
+  Array.from({ length: 10 }).forEach(() => ids.add(randomUUID()));
   t.is(ids.size, 10);
 });
 
@@ -91,10 +90,10 @@ test.serial(
   async (t) => {
     await withTmp(async (dir) => {
       const file = path.join(dir, "data.json");
-      const fb = { a: 1 };
+      const fb = { a: 1, b: "" };
       const got = await readJSON(file, fb);
       t.deepEqual(got, fb);
-      const data = { a: 2, b: "x" } as any;
+      const data = { a: 2, b: "x" };
       await writeJSON(file, data);
       const got2 = await readJSON<typeof data>(file, fb);
       t.deepEqual(got2, data);
