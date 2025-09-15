@@ -1,5 +1,6 @@
 import test from "ava";
 import { RemoteEmbeddingFunction } from "@promethean/embedding";
+import type { BrokerClient } from "@promethean/legacy/brokerClient.js";
 
 type BrokerEvent = { replyTo: string; payload: { embeddings: number[][] } };
 type BrokerClientLike = {
@@ -32,7 +33,7 @@ test("requests embeddings via mocked broker", async (t) => {
     undefined,
     undefined,
     undefined,
-    mock as BrokerClientLike,
+    mock as unknown as BrokerClient,
   );
   const result = await fn.generate(["a", "b"]);
   t.deepEqual(result, [[0], [1]]);
