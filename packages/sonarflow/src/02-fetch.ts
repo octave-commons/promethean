@@ -1,8 +1,9 @@
 /* eslint-disable */
 import { pathToFileURL } from "url";
 
-import { parseArgs, SONAR_URL, authHeader, writeJSON } from "./utils.js";
-import type { SonarIssue, FetchPayload } from "./types.js";
+import { parseArgs, SONAR_URL, authHeader } from "./utils.js";
+import { openLevelCache } from "@promethean/level-cache";
+import type { SonarIssue } from "./types.js";
 
 export type FetchOpts = {
   project: string;
@@ -64,13 +65,25 @@ export async function fetchIssues(opts: FetchOpts) {
     page++;
   } while ((page - 1) * pageSize < total);
 
-  const payload: FetchPayload = {
-    issues,
-    fetchedAt: new Date().toISOString(),
-    project,
-  };
+  const cache = await openLevelCache<
+    SonarIssue | { project: string; fetchedAt: string }
+  >({
+    path: opts.out,
+  });
 
-  await writeJSON(opts.out, payload);
+  for await (const [k] of cache.entries()) {
+    await cache.del(k);
+  }
+
+  await cache.batch([
+    {
+      type: "put",
+      key: "__meta__",
+      value: { project, fetchedAt: new Date().toISOString() },
+    },
+    ...issues.map((i) => ({ type: "put" as const, key: i.key, value: i })),
+  ]);
+  await cache.close();
   console.log(
     `sonarflow: fetched ${issues.length} issues for ${project} → ${opts.out}`,
   );
@@ -79,7 +92,7 @@ export async function fetchIssues(opts: FetchOpts) {
 if (import.meta.url === pathToFileURL(process.argv[1]!).href) {
   const args = parseArgs({
     "--project": process.env.SONAR_PROJECT_KEY ?? "",
-    "--out": ".cache/sonar/issues.json",
+    "--out": ".cache/sonar/issues",
     "--statuses": "OPEN,REOPENED,CONFIRMED",
     "--types": "BUG,VULNERABILITY,CODE_SMELL,SECURITY_HOTSPOT",
     "--severities": "BLOCKER,CRITICAL,MAJOR,MINOR,INFO",
