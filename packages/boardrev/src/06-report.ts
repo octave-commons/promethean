@@ -1,19 +1,28 @@
-/* eslint-disable */
 import * as path from "path";
 import { promises as fs } from "fs";
 
 import matter from "gray-matter";
 
-import { slug, relFromRepo, parseArgs, writeText } from "@promethean/utils";
-import type { EvalItem } from "./types.js";
+import {
+  slug,
+  relFromRepo,
+  parseArgs,
+  writeText,
+  createLogger,
+} from "@promethean/utils";
+import type { EvalItem, TaskFM } from "./types.js";
 
+const logger = createLogger({ service: "boardrev" });
+
+// eslint-disable-next-line max-lines-per-function, complexity, sonarjs/cognitive-complexity
 export async function report({
   evals: evalsPath,
   outDir,
-}: Readonly<{ evals: string; outDir: string }>) {
-  const evals: { evals: EvalItem[] } = JSON.parse(
+}: Readonly<{ evals: string; outDir: string }>): Promise<void> {
+  const evalsData: unknown = JSON.parse(
     await fs.readFile(path.resolve(evalsPath), "utf-8"),
   );
+  const evals = evalsData as { evals: EvalItem[] };
   await fs.mkdir(path.resolve(outDir), { recursive: true });
   const ts = new Date().toISOString().replace(/[:.]/g, "-");
   const out = path.join(outDir, `board-${ts}.md`);
@@ -31,8 +40,9 @@ export async function report({
   for (const e of evals.evals) {
     const raw = await fs.readFile(e.taskFile, "utf-8");
     const gm = matter(raw);
-    const title = gm.data?.title ?? slug(path.basename(e.taskFile, ".md"));
-    const prio = gm.data?.priority ?? "P3";
+    const fm = gm.data as Partial<TaskFM>;
+    const title = fm.title ?? slug(path.basename(e.taskFile, ".md"));
+    const prio = fm.priority ?? "P3";
     const link = relFromRepo(e.taskFile);
     rows.push(
       `| ${prio} | [${title}](${link}) | ${e.inferred_status} | ${(
@@ -54,7 +64,8 @@ export async function report({
     details.push(`## ${s} (${list.length})`, "");
     for (const e of list) {
       const gm = matter(await fs.readFile(e.taskFile, "utf-8"));
-      const title = gm.data?.title ?? e.taskFile;
+      const fm = gm.data as Partial<TaskFM>;
+      const title = fm.title ?? e.taskFile;
       const link = relFromRepo(e.taskFile);
       details.push(
         `### ${title}  \n(${link})`,
@@ -100,7 +111,7 @@ export async function report({
     path.join(outDir, "README.md"),
     `# Board Reports\n\n- [Latest](${path.basename(out)})\n`,
   );
-  console.log(`boardrev: wrote report → ${path.relative(process.cwd(), out)}`);
+  logger.info(`boardrev: wrote report → ${path.relative(process.cwd(), out)}`);
 }
 
 if (import.meta.main) {
@@ -109,8 +120,8 @@ if (import.meta.main) {
     "--evals": ".cache/boardrev/evals.json",
     "--outDir": "docs/agile/reports",
   });
-  report({ evals: args["--evals"], outDir: args["--outDir"]! }).catch((e) => {
-    console.error(e);
+  report({ evals: args["--evals"], outDir: args["--outDir"] }).catch((e) => {
+    logger.error((e as Error).message);
     process.exit(1);
   });
 }
