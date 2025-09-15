@@ -1,9 +1,9 @@
 import * as path from "path";
-import { promises as fs } from "fs";
+import { openLevelCache } from "@promethean/level-cache";
 
-import { parseArgs, writeJSON } from "./utils.js";
+import { parseArgs } from "./utils.js";
 import type {
-  WorkspaceSnapshot,
+  PkgSnapshot,
   DiffResult,
   ApiChange,
   FnSig,
@@ -11,25 +11,11 @@ import type {
 } from "./types.js";
 
 const args = parseArgs({
-  "--current": ".cache/semverguard/snapshot.json",
-  "--baseline": ".cache/semverguard/baseline.json", // OR git:<ref>:path/to/file.json
-  "--out": ".cache/semverguard/diff.json",
+  "--cache": ".cache/semverguard",
+  "--current-ns": "snapshot",
+  "--baseline-ns": "baseline",
+  "--diff-ns": "diff",
 });
-
-async function readSnap(spec: string): Promise<WorkspaceSnapshot> {
-  if (spec.startsWith("git:")) {
-    // format git:<ref>:<path>
-    const m = spec.match(/^git:([^:]+):(.+)$/);
-    if (!m) throw new Error("baseline git spec must be git:<ref>:<path>");
-    const [, ref, file] = m;
-    const { execSync } = await import("child_process");
-    const buf = execSync(`git show ${ref}:${file}`, {
-      stdio: ["ignore", "pipe", "pipe"],
-    });
-    return JSON.parse(buf.toString("utf-8"));
-  }
-  return JSON.parse(await fs.readFile(path.resolve(spec), "utf-8"));
-}
 
 function maxSemver(
   a: DiffResult["required"],
@@ -211,30 +197,27 @@ function comparePkg(oldP: any, curP: any): DiffResult {
 }
 
 async function main() {
-  const current = await readSnap(
-    args["--current"] ?? ".cache/semverguard/snapshot.json",
-  );
-  const baseline = await readSnap(
-    args["--baseline"] ?? ".cache/semverguard/baseline.json",
-  );
+  const cache = await openLevelCache<PkgSnapshot | DiffResult>({
+    path: path.resolve(args["--cache"] ?? ".cache/semverguard"),
+  });
+  const current = cache.withNamespace(args["--current-ns"] ?? "snapshot");
+  const baseline = cache.withNamespace(args["--baseline-ns"] ?? "baseline");
+  const out = cache.withNamespace(args["--diff-ns"] ?? "diff");
 
-  const out: Record<string, DiffResult> = {};
-  const names = new Set<string>([
-    ...Object.keys(baseline.packages),
-    ...Object.keys(current.packages),
-  ]);
+  const names = new Set<string>();
+  for await (const [k] of current.entries()) names.add(k);
+  for await (const [k] of baseline.entries()) names.add(k);
+
   for (const name of names) {
-    out[name] = comparePkg(baseline.packages[name], current.packages[name]);
+    const res = comparePkg(await baseline.get(name), await current.get(name));
+    await out.set(name, res);
   }
-
-  await writeJSON(
-    path.resolve(args["--out"] ?? ".cache/semverguard/diff.json"),
-    {
-      comparedAt: new Date().toISOString(),
-      results: out,
-    },
+  await cache.close();
+  console.log(
+    `semverguard: diff → ${args["--diff-ns"] ?? "diff"} (${
+      names.size
+    } packages)`,
   );
-  console.log(`semverguard: diff → ${args["--out"]}`);
 }
 
 main().catch((e) => {

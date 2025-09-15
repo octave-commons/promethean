@@ -23,7 +23,8 @@
     "ts-morph": "^22.0.0",
     "yaml": "^2.5.0",
     "zod": "^3.23.8",
-    "@promethean/utils": "workspace:*"
+    "@promethean/utils": "workspace:*",
+    "@promethean/level-cache": "workspace:*"
   },
   "devDependencies": {
     "tsx": "^4.19.2"
