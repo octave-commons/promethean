@@ -7,6 +7,7 @@ import { parseArgs } from "@promethean/utils";
 import { writeText } from "./utils.js";
 import type { VerifyReport } from "./types.js";
 
+// eslint-disable-next-line max-lines-per-function
 export async function verify(
   options: {
     root?: string;

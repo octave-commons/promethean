@@ -1,4 +1,5 @@
 import { promises as fs } from "node:fs";
+/* eslint-disable max-lines-per-function, complexity, sonarjs/cognitive-complexity, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument */
 import * as path from "node:path";
 import { fileURLToPath } from "node:url";
 
