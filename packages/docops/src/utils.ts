@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* eslint-disable functional/no-let, functional/no-loop-statements, functional/immutable-data, functional/prefer-immutable-types, @typescript-eslint/prefer-readonly-parameter-types, @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unnecessary-type-assertion, max-lines-per-function, sonarjs/cognitive-complexity */
 import { promises as fs } from "fs";
 import * as path from "path";
 import { once } from "node:events";
@@ -8,6 +8,8 @@ import { unified } from "unified";
 import remarkParse from "remark-parse";
 import { visit } from "unist-util-visit";
 import * as yaml from "yaml";
+import type { Code, Content, Heading, Root, Text } from "mdast";
+import type { Position } from "unist";
 
 import { Chunk, Front } from "./types.js";
 export {
@@ -63,7 +65,7 @@ export async function readJSON<T>(file: string, fallback: T): Promise<T> {
   }
 }
 
-export async function writeJSON(file: string, data: any) {
+export async function writeJSON<T>(file: string, data: T): Promise<void> {
   await fs.mkdir(path.dirname(file), { recursive: true });
   await fs.writeFile(file, JSON.stringify(data, null, 2), "utf-8");
 }
@@ -73,14 +75,14 @@ export function frontToYAML(front: Front): string {
 }
 
 export function parseMarkdownChunks(markdown: string): Chunk[] {
-  const ast = unified().use(remarkParse).parse(markdown) as any;
+  const ast = unified().use(remarkParse).parse(markdown) as Root;
   const chunks: Chunk[] = [];
   let currentHeading: string | undefined;
 
-  function extractText(node: any): string {
+  function extractText(node: Content): string {
     let out = "";
-    visit(node, (n: any) => {
-      if (n.type === "text") out += n.value ?? "";
+    visit(node, (n) => {
+      if (n.type === "text") out += (n as Text).value ?? "";
     });
     return out;
   }
@@ -106,26 +108,29 @@ export function parseMarkdownChunks(markdown: string): Chunk[] {
     return final;
   }
 
-  visit(ast, (node: any) => {
+  visit(ast, (node) => {
     if (!node?.type) return;
     if (node.type === "heading") {
-      currentHeading = (node.children || [])
-        .map(
-          (c: any) =>
-            c.value || c.children?.map((cc: any) => cc.value).join(" ") || "",
-        )
+      const heading = node as Heading;
+      currentHeading = (heading.children || [])
+        .map((c) => (c as Text).value ?? "")
         .join(" ")
         .trim();
     }
-    if (["paragraph", "listItem", "code"].includes(node.type)) {
-      const pos = node.position;
+    if (
+      node.type === "paragraph" ||
+      node.type === "listItem" ||
+      node.type === "code"
+    ) {
+      const pos = node.position as Position | undefined;
       if (!pos) return;
-      const raw = node.type === "code" ? node.value || "" : extractText(node);
-      const trimmed = (raw || "").trim();
+      const raw =
+        node.type === "code" ? (node as Code).value ?? "" : extractText(node);
+      const trimmed = raw.trim();
       if (!trimmed) return;
-      const kind = node.type === "code" ? "code" : "text";
+      const kind: Chunk["kind"] = node.type === "code" ? "code" : "text";
       for (const s of sentenceSplit(trimmed, 1200)) {
-        const base: any = {
+        const chunk: Chunk = {
           id: "",
           docUuid: "",
           docPath: "",
@@ -136,8 +141,8 @@ export function parseMarkdownChunks(markdown: string): Chunk[] {
           text: s,
           kind,
         };
-        if (currentHeading) base.title = currentHeading;
-        chunks.push(base as Chunk);
+        if (currentHeading) chunk.title = currentHeading;
+        chunks.push(chunk);
       }
     }
   });
