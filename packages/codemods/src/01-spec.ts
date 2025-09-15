@@ -2,11 +2,12 @@ import * as path from "path";
 
 import { Project } from "ts-morph";
 
+import { openLevelCache } from "@promethean/level-cache";
 import { readJSON, writeJSON } from "./utils.js";
 import type { ModSpecFile, ModSpec } from "./types.js";
 
 const args = parseArgs({
-  "--scan": ".cache/simtasks/functions.json",
+  "--scan": ".cache/simtasks/functions",
   "--clusters": ".cache/simtasks/clusters.json",
   "--plans": ".cache/simtasks/plans.json",
   "--out": ".cache/codemods/specs.json",
@@ -67,10 +68,10 @@ function buildParamMap(canon: string[], dup: string[]): number[] {
 }
 
 async function main() {
-  const scanData = await readJSON<{ functions: Fn[] }>(path.resolve(scan), {
-    functions: [],
-  });
-  const byId = new Map<string, Fn>(scanData.functions.map((f) => [f.id, f]));
+  const scanCache = await openLevelCache<Fn[]>({ path: path.resolve(scan) });
+  const scanFns = (await scanCache.get("functions")) ?? [];
+  await scanCache.close();
+  const byId = new Map<string, Fn>(scanFns.map((f) => [f.id, f]));
   const clustersData = await readJSON<Cluster[]>(path.resolve(clusters), []);
   const plansData = await readJSON<Record<string, Plan>>(
     path.resolve(plans),

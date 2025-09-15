@@ -5,7 +5,7 @@ import { pathToFileURL } from "url";
 import { openLevelCache } from "@promethean/level-cache";
 import { cosine, parseArgs } from "@promethean/utils";
 
-import type { ScanResult, Cluster } from "./types.js";
+import type { FunctionInfo, Cluster } from "./types.js";
 
 export type ClusterArgs = {
   "--scan"?: string;
@@ -35,7 +35,7 @@ function unionFindClusters(ids: string[], edges: Array<[string, string]>) {
 }
 
 export async function cluster(args: Readonly<ClusterArgs>): Promise<void> {
-  const SCAN = path.resolve(args["--scan"] ?? ".cache/simtasks/functions.json");
+  const SCAN = path.resolve(args["--scan"] ?? ".cache/simtasks/functions");
   const CACHE_PATH = path.resolve(
     args["--embeds"] ?? ".cache/simtasks/embeddings",
   );
@@ -44,9 +44,9 @@ export async function cluster(args: Readonly<ClusterArgs>): Promise<void> {
   const K = Number(args["--k"] ?? "10");
   const MIN = Number(args["--min-size"] ?? "2");
 
-  const { functions } = JSON.parse(
-    await fs.readFile(SCAN, "utf-8"),
-  ) as ScanResult;
+  const fnCache = await openLevelCache<FunctionInfo[]>({ path: SCAN });
+  const functions = (await fnCache.get("functions")) ?? [];
+  await fnCache.close();
   const cache = await openLevelCache<number[]>({ path: CACHE_PATH });
   const embeds = new Map<string, number[]>();
   for (const f of functions) {
@@ -75,7 +75,7 @@ function round2(n: number) {
 }
 
 function buildEdges(
-  functions: ReadonlyArray<ScanResult["functions"][number]>,
+  functions: ReadonlyArray<FunctionInfo>,
   embeds: ReadonlyMap<string, number[]>,
   TH: number,
   K: number,
@@ -114,7 +114,7 @@ const clusterFromMembers =
 
 if (import.meta.url === pathToFileURL(process.argv[1] ?? "").href) {
   const args = parseArgs({
-    "--scan": ".cache/simtasks/functions.json",
+    "--scan": ".cache/simtasks/functions",
     "--embeds": ".cache/simtasks/embeddings",
     "--out": ".cache/simtasks/clusters.json",
     "--sim-threshold": "0.84",
