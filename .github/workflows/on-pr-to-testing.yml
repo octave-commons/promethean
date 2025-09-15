@@ -1,0 +1,16 @@
+# .github/workflows/on-pr-to-testing.yml
+name: on-pr-to-testing
+on: { pull_request: { branches: ['dev/testing'] } }
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: actions/setup-node@v4
+        with: { node-version: 20, cache: pnpm }
+      - run: corepack enable && pnpm i --frozen-lockfile
+      - uses: nrwl/nx-set-shas@v4
+
+      - run: pnpm nx affected -t lint
+      - run: pnpm nx affected -t test --parallel

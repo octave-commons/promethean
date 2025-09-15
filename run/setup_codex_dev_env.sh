@@ -28,6 +28,10 @@ corepack prepare pnpm@9.0.0 --activate
 pnpm install --frozen-lockfile
 
 bash ./run/setup_playwright.sh
+# Install the CLI
+bash ./run/install_gh_cli.sh
+# Recreate login to gh cli and recreate origin.
+bash ./run/setup_gh_cli.sh
 
 # start the server if not running
 curl -fsS http://127.0.0.1:8000/api/v2/heartbeat >/dev/null 2>&1 || \
