@@ -1,7 +1,9 @@
 import { pathToFileURL } from "url";
 
-import { parseArgs, SONAR_URL, authHeader } from "./utils.js";
 import { openLevelCache } from "@promethean/level-cache";
+import type { ReadonlyDeep } from "type-fest";
+
+import { parseArgs, SONAR_URL, authHeader } from "./utils.js";
 import type { SonarIssue } from "./types.js";
 
 export type FetchOpts = {
@@ -26,18 +28,6 @@ async function sonarGet<T extends Record<string, unknown>>(
   return (await res.json()) as T;
 }
 
-async function fetchIssuePage(project: string, opts: FetchOpts, page: number) {
-  return sonarGet("/api/issues/search", {
-    projectKeys: project,
-    statuses: opts.statuses,
-    types: opts.types,
-    severities: opts.severities,
-    p: page,
-    ps: opts.pageSize,
-    additionalFields: "_all",
-  });
-}
-
 export function toSonarIssue(raw: Record<string, unknown>): SonarIssue {
   return {
     key: String(raw.key ?? ""),
@@ -52,34 +42,66 @@ export function toSonarIssue(raw: Record<string, unknown>): SonarIssue {
     tags: Array.isArray(raw.tags) ? raw.tags.map((t) => String(t)) : [],
   };
 }
+type SonarSearchResults = {
+  total: number;
+  issues: Array<Record<string, unknown>>;
+};
+export const sonarSearch = (
+  opts: ReadonlyDeep<FetchOpts>,
+): Promise<ReadonlyDeep<SonarSearchResults>> =>
+  sonarGet<SonarSearchResults>("/api/issues/search", {
+    projectKeys: opts.project,
+    statuses: opts.statuses,
+    types: opts.types,
+    severities: opts.severities,
+    ps: opts.pageSize,
+    additionalFields: "_all",
+  });
 
 export async function fetchIssues(opts: FetchOpts) {
   const project = opts.project;
   if (!project) throw new Error("Provide project");
-  const issues: SonarIssue[] = [];
-  let page = 1,
-    total = 0;
 
-  do {
-    const data = await sonarGet<{
-      total: number;
-      issues: Array<Record<string, unknown>>;
-    }>("/api/issues/search", {
-      projectKeys: project,
-      statuses: opts.statuses,
-      types: opts.types,
-      severities: opts.severities,
-      p: page,
-      ps: pageSize,
-      additionalFields: "_all",
-    });
+  const total = (
+    await sonarGet<{ total: number; issues: Array<Record<string, unknown>> }>(
+      "/api/issues/search",
+      {
+        projectKeys: project,
+        statuses: opts.statuses,
+        types: opts.types,
+        severities: opts.severities,
+        ps: opts.pageSize,
+        additionalFields: "_all",
+      },
+    )
+  ).total;
 
-    total = data.total;
-    for (const it of data.issues as Array<Record<string, unknown>>) {
-      issues.push(toSonarIssue(it));
-    }
-    page++;
-  } while ((page - 1) * opts.pageSize < total);
+  const issues = await Promise.all(
+    Array(Math.ceil(total / opts.pageSize))
+      .fill(0)
+      .reduce((acc: ReadonlyDeep<Array<SonarSearchResults>>, _, i) => {
+        return [
+          ...acc,
+          sonarGet<SonarSearchResults>("/api/issues/search", {
+            projectKeys: project,
+            statuses: opts.statuses,
+            types: opts.types,
+            severities: opts.severities,
+            p: i + 1,
+            ps: opts.pageSize,
+            additionalFields: "_all",
+          }).then((data) => ({
+            total: data.total,
+            issues: data.issues.map((it) => toSonarIssue(it)),
+          })),
+        ];
+      }, [] as Array<SonarSearchResults>),
+  ).then((results) =>
+    results.reduce(
+      (acc, result) => [...acc, ...result.issues],
+      ([] as SonarIssue[]).fill(null, 0, Math.ceil(total / opts.pageSize)),
+    ),
+  );
 
   const cache = await openLevelCache<
     SonarIssue | { project: string; fetchedAt: string }
