@@ -36,6 +36,7 @@
     "@promethean/piper": "workspace:*",
     "@promethean/pm2-helpers": "workspace:*",
     "@promethean/utils": "workspace:*",
+    "@promethean/level-cache": "workspace:*",
     "@promethean/health-dashboard-frontend": "workspace:*",
     "@promethean/llm-chat-frontend": "workspace:*",
     "@promethean/markdown-graph-frontend": "workspace:*",
