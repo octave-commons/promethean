@@ -1,7 +1,10 @@
+/* eslint-disable */
 import { promises as fs } from "fs";
 import * as path from "path";
 
 import { listFilesRec } from "@promethean/utils";
+import { openLevelCache } from "@promethean/level-cache";
+import type { SymbolInfo } from "./types.js";
 
 type Pkg = {
   name: string; // npm name, e.g. @promethean/foo
@@ -23,6 +26,7 @@ const args = parseArgs({
   "--domain-depth": "1", // how many path segments under packages/ define a domain
   "--rdeps-table": "true",
   "--max-rdeps-list": "12", // show up to N dependents in the table cells
+  "--cache": ".cache/symdocs.level",
 });
 
 const ROOT = path.resolve(String(args["--root"]));
@@ -44,6 +48,7 @@ const MAX_RDEPS_LIST = Math.max(
   0,
   parseInt(String(args["--max-rdeps-list"]), 10) || 0,
 );
+const CACHE_PATH = path.resolve(String(args["--cache"]));
 
 const GLOBAL_START = "<!-- SYMPKG:BEGIN -->";
 const GLOBAL_END = "<!-- SYMPKG:END -->";
@@ -51,7 +56,17 @@ const PKG_START = "<!-- SYMPKG:PKG:BEGIN -->";
 const PKG_END = "<!-- SYMPKG:PKG:END -->";
 
 async function main() {
-  const pkgs = await findWorkspacePackages(ROOT, DOMAIN_DEPTH);
+  const symDb = await openLevelCache<SymbolInfo>({
+    path: CACHE_PATH,
+    namespace: "symbols",
+  });
+  const symbolPkgs = new Set<string>();
+  for await (const [, sym] of symDb.entries()) symbolPkgs.add(sym.pkg);
+  await symDb.close();
+
+  const pkgs = (await findWorkspacePackages(ROOT, DOMAIN_DEPTH)).filter((p) =>
+    symbolPkgs.has(p.folder.replace(/\\/g, "/")),
+  );
   if (pkgs.length === 0) {
     console.log("No packages found under", ROOT);
     return;
@@ -635,7 +650,7 @@ function hash(s: string) {
   return h;
 }
 
-main().catch((e) => {
+main().catch((e: unknown) => {
   console.error(e);
   process.exit(1);
 });

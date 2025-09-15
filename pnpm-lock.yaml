@@ -3744,6 +3744,9 @@ importers:
 
   packages/symdocs:
     dependencies:
+      '@promethean/level-cache':
+        specifier: workspace:*
+        version: link:../level-cache
       '@promethean/utils':
         specifier: workspace:*
         version: link:../utils
