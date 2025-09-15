@@ -2,12 +2,13 @@ import * as path from "path";
 import { promises as fs } from "fs";
 
 import matter from "gray-matter";
+import { openLevelCache } from "@promethean/level-cache";
 
 import { parseArgs } from "./utils.js";
-import type { PlansFile } from "./types.js";
 
 const args = parseArgs({
-  "--plans": ".cache/semverguard/plans.json",
+  "--cache": ".cache/semverguard",
+  "--plan-ns": "plan",
   "--out": "docs/agile/tasks/semver",
   "--status": "todo",
   "--priority": "P2",
@@ -35,15 +36,25 @@ function uuid() {
 }
 
 async function main() {
-  const plansPath = path.resolve(
-    args["--plans"] ?? ".cache/semverguard/plans.json",
-  );
+  const cache = await openLevelCache<any>({
+    path: path.resolve(args["--cache"] ?? ".cache/semverguard"),
+  });
+  const plans = cache.withNamespace(args["--plan-ns"] ?? "plan");
   const outDir = path.resolve(args["--out"] ?? "docs/agile/tasks/semver");
-  const plans = JSON.parse(await fs.readFile(plansPath, "utf-8")) as PlansFile;
   await fs.mkdir(outDir, { recursive: true });
 
   const index: string[] = ["# Semver guard tasks", ""];
-  for (const [pkg, p] of Object.entries(plans.packages)) {
+  for await (const [pkg, raw] of plans.entries()) {
+    const p = raw as {
+      required: string;
+      changes: Array<{
+        severity: string;
+        kind: string;
+        name: string;
+        detail: string;
+      }>;
+      task: { steps: string[]; acceptance: string[]; labels?: string[] };
+    };
     const title = `[${p.required}] bump for ${pkg}`;
     const fname = `${slug(pkg)}-semver-${p.required}.md`;
     const outPath = path.join(outDir, fname);
@@ -68,11 +79,11 @@ async function main() {
       "",
       "## Steps",
       "",
-      ...p.task.steps.map((s, i) => `${i + 1}. ${s}`),
+      ...p.task.steps.map((s: string, i: number) => `${i + 1}. ${s}`),
       "",
       "## Acceptance",
       "",
-      ...p.task.acceptance.map((a) => `- [ ] ${a}`),
+      ...p.task.acceptance.map((a: string) => `- [ ] ${a}`),
       "",
       END,
       "",
@@ -103,6 +114,7 @@ async function main() {
     index.join("\n") + "\n",
     "utf-8",
   );
+  await cache.close();
   console.log(`semverguard: wrote tasks → ${outDir}`);
 }
 

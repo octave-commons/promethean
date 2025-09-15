@@ -1,15 +1,16 @@
 import * as path from "path";
-import { promises as fs } from "fs";
 
 import { z } from "zod";
 import { ollamaJSON } from "@promethean/utils";
+import { openLevelCache } from "@promethean/level-cache";
 
-import { parseArgs, writeJSON } from "./utils.js";
-import type { PlansFile, ApiChange } from "./types.js";
+import { parseArgs } from "./utils.js";
+import type { ApiChange, DiffResult } from "./types.js";
 
 const args = parseArgs({
-  "--diff": ".cache/semverguard/diff.json",
-  "--out": ".cache/semverguard/plans.json",
+  "--cache": ".cache/semverguard",
+  "--diff-ns": "diff",
+  "--plan-ns": "plan",
   "--model": "qwen3:4b",
 });
 
@@ -22,15 +23,18 @@ const TaskSchema = z.object({
 });
 
 async function main() {
-  const diffPath = path.resolve(
-    args["--diff"] ?? ".cache/semverguard/diff.json",
-  );
-  const diff = JSON.parse(await fs.readFile(diffPath, "utf-8")) as {
-    results: Record<string, { required: any; changes: ApiChange[] }>;
-  };
+  const cache = await openLevelCache<unknown>({
+    path: path.resolve(args["--cache"] ?? ".cache/semverguard"),
+  });
+  const diff = cache.withNamespace(args["--diff-ns"] ?? "diff");
+  const plans = cache.withNamespace(args["--plan-ns"] ?? "plan");
 
-  const packages: PlansFile["packages"] = {};
-  for (const [pkg, res] of Object.entries(diff.results)) {
+  let count = 0;
+  for await (const [pkg, raw] of diff.entries()) {
+    const res = raw as {
+      required: DiffResult["required"];
+      changes: ApiChange[];
+    };
     if (!res) continue;
 
     const sys = [
@@ -78,7 +82,7 @@ async function main() {
           acceptance: ["Version bumped", "CI green"],
         };
 
-    packages[pkg] = {
+    await plans.set(pkg, {
       required: res.required,
       changes: res.changes,
       task: {
@@ -87,16 +91,12 @@ async function main() {
           new Set([...(task.labels ?? []), "semver", "release"]),
         ),
       },
-    };
+    });
+    count++;
   }
-
-  const out: PlansFile = { plannedAt: new Date().toISOString(), packages };
-  const outPath = path.resolve(
-    args["--out"] ?? ".cache/semverguard/plans.json",
-  );
-  await writeJSON(outPath, out);
+  await cache.close();
   console.log(
-    `semverguard: plans → ${args["--out"] ?? ".cache/semverguard/plans.json"}`,
+    `semverguard: plans → ${args["--plan-ns"] ?? "plan"} (${count} packages)`,
   );
 }
 
