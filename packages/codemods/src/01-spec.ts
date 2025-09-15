@@ -69,7 +69,7 @@ function buildParamMap(canon: string[], dup: string[]): number[] {
 
 async function main() {
   const scanCache = await openLevelCache<Fn[]>({ path: path.resolve(scan) });
-  const scanFns = (await scanCache.get("functions")) ?? [];
+  const scanFns = (await scanCache.get("functions")) ?? ([] as Fn[]);
   await scanCache.close();
   const byId = new Map<string, Fn>(scanFns.map((f) => [f.id, f]));
   const clustersData = await readJSON<Cluster[]>(path.resolve(clusters), []);
