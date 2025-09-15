@@ -12,7 +12,7 @@ export { relFromRepo } from "./path.js";
 export { cosine } from "./cosine.js";
 export { getJsDocText, getNodeText, posToLine } from "./ts-ast.js";
 export { listFilesRec } from "./list-files-rec.js";
-export { OLLAMA_URL, ollamaEmbed, ollamaJSON } from "./ollama.js";
+export { OLLAMA_URL, ollamaEmbed, ollamaJSON, OllamaError } from "./ollama.js";
 export { readText, writeText, readMaybe } from "./files.js";
 export { sha1 } from "./hash.js";
 export {

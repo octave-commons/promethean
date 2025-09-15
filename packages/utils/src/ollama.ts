@@ -1,4 +1,15 @@
+import { retry } from "./retry.js";
+
 export const OLLAMA_URL = process.env.OLLAMA_URL ?? "http://localhost:11434";
+
+export class OllamaError extends Error {
+  constructor(
+    public readonly status: number,
+    message: string,
+  ) {
+    super(message);
+  }
+}
 
 async function check(res: Readonly<Response>, ctx: string) {
   if (!res.ok) {
@@ -6,7 +17,7 @@ async function check(res: Readonly<Response>, ctx: string) {
     const snippet = text
       ? `: ${text.slice(0, 400)}${text.length > 400 ? "…" : ""}`
       : "";
-    throw new Error(`ollama ${ctx} ${res.status}${snippet}`);
+    throw new OllamaError(res.status, `ollama ${ctx} ${res.status}${snippet}`);
   }
   return res;
 }
@@ -49,24 +60,33 @@ export async function ollamaEmbed(
   model: string,
   text: string,
 ): Promise<number[]> {
-  const ac = new AbortController();
-  const timer = setTimeout(() => ac.abort(), 60_000);
-  const res = await fetch(`${OLLAMA_URL}/api/embeddings`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    // send both fields for wider server compatibility
-    body: JSON.stringify({ model, prompt: text, input: text }),
-    signal: ac.signal,
-  });
-  try {
-    await check(res, "embeddings");
-  } finally {
-    clearTimeout(timer);
-  }
-  const data: unknown = await res.json();
-  if (isEmbeddingResponse(data)) return data.embedding;
-  if (isBatchEmbeddingResponse(data)) return data.data[0]!.embedding;
-  throw new Error("invalid embeddings response");
+  return retry(
+    async () => {
+      const ac = new AbortController();
+      const timer = setTimeout(() => ac.abort(), 60_000);
+      try {
+        const res = await fetch(`${OLLAMA_URL}/api/embeddings`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          // send both fields for wider server compatibility
+          body: JSON.stringify({ model, prompt: text, input: text }),
+          signal: ac.signal,
+        });
+        await check(res, "embeddings");
+        const data: unknown = await res.json();
+        if (isEmbeddingResponse(data)) return data.embedding;
+        if (isBatchEmbeddingResponse(data)) return data.data[0]!.embedding;
+        throw new Error("invalid embeddings response");
+      } finally {
+        clearTimeout(timer);
+      }
+    },
+    {
+      attempts: 3,
+      backoff: (n) => 1_000 * n,
+      shouldRetry: (err) => err instanceof OllamaError && err.status >= 500,
+    },
+  );
 }
 
 export type GenerateResponse = {
