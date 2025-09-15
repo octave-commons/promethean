@@ -36,18 +36,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PtyUnavailableError = void 0;
 exports.getPty = getPty;
 exports.spawnPty = spawnPty;
-var _pty; // undefined: not loaded, null: unavailable, object: loaded
+var _pty; // undefined: not loaded
 function getPty() {
-  if (process.env.NODE_PTY_DISABLED === "1") return null;
-  if (_pty !== undefined) return _pty;
-  try {
-    // dynamic require to avoid ESM import errors when missing
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    var mod = require("node-pty");
-    _pty = mod && (mod.default || mod);
-  } catch (_a) {
-    _pty = null;
-  }
+  if (process.env.NODE_PTY_DISABLED === "1") return Promise.resolve(null);
+  if (_pty) return _pty;
+  _pty = import("node-pty")
+    .then(function (mod) {
+      return mod.default || mod;
+    })
+    .catch(function () {
+      return null;
+    });
   return _pty;
 }
 var PtyUnavailableError = /** @class */ (function (_super) {
@@ -64,7 +63,8 @@ function spawnPty(file, args, opts) {
   if (opts === void 0) {
     opts = {};
   }
-  var pty = getPty();
-  if (!pty) throw new PtyUnavailableError();
-  return pty.spawn(file, args, opts);
+  return getPty().then(function (pty) {
+    if (!pty) throw new PtyUnavailableError();
+    return pty.spawn(file, args, opts);
+  });
 }
