@@ -23,6 +23,36 @@ export type ScanArgs = {
   "--out"?: string;
 };
 
+export async function collectSourceFiles(
+  root: string,
+  exts: Set<string>,
+): Promise<string[]> {
+  return listFilesRec(root, exts);
+}
+
+export async function gatherFunctionInfo(
+  program: ts.Program,
+): Promise<FunctionInfo[]> {
+  const checker = program.getTypeChecker();
+  const rootFiles = new Set(
+    program.getRootFileNames().map((f) => path.resolve(f)),
+  );
+  const results: FunctionInfo[] = [];
+  for (const sf of program.getSourceFiles()) {
+    const fileAbs = path.resolve(sf.fileName);
+    if (!rootFiles.has(fileAbs)) continue;
+    const infos = await gatherFromSourceFile(sf, checker);
+    results.push(...infos);
+  }
+  return results;
+}
+
+export async function writeResults(outPath: string, functions: FunctionInfo[]) {
+  const cache = await openLevelCache<FunctionInfo[]>({ path: outPath });
+  await cache.set("functions", functions);
+  await cache.close();
+}
+
 export async function scan(args: ScanArgs) {
   const ROOT = path.resolve(args["--root"] ?? "packages");
   const EXTS = new Set(
@@ -32,158 +62,195 @@ export async function scan(args: ScanArgs) {
   );
   const OUT = path.resolve(args["--out"] ?? ".cache/simtasks/functions");
 
-  const files = await listFilesRec(ROOT, EXTS);
+  const files = await collectSourceFiles(ROOT, EXTS);
   const program = makeProgram(files, args["--tsconfig"] || undefined);
-  const checker = program.getTypeChecker();
-
-  const functions: FunctionInfo[] = [];
-
-  for (const sf of program.getSourceFiles()) {
-    const fileAbs = path.resolve(sf.fileName);
-    if (!fileAbs.startsWith(ROOT)) continue;
-    const src = sf.getFullText();
-    const fileRel = relFromRepo(fileAbs);
-
-    const bits = fileRel.split("/");
-    if (bits[0] !== "packages" || bits.length < 2) continue;
-    const pkgFolder = bits[1]!;
-    const pkgRoot = path.join(process.cwd(), "packages", pkgFolder);
-    const pkgJson: { name?: string } = JSON.parse(
-      await fs.readFile(path.join(pkgRoot, "package.json"), "utf-8"),
-    );
-    const pkgName = pkgJson.name ?? "";
-    const moduleRel = bits.slice(2).join("/");
-
-    const visit = (node: ts.Node) => {
-      // Named function declarations
-      if (ts.isFunctionDeclaration(node) && node.name) {
-        push(
-          "function",
-          node.name.text,
-          node,
-          hasExport(node),
-          signatureFromDecl(node),
-        );
-      }
-
-      // Variable => function/arrow
-      if (ts.isVariableStatement(node)) {
-        const exported = hasExport(node);
-        for (const decl of node.declarationList.declarations) {
-          const name = decl.name.getText();
-          const init = decl.initializer;
-          if (!init) continue;
-          if (ts.isFunctionExpression(init)) {
-            push("function", name, decl, exported, signatureFromFuncExpr(init));
-          } else if (ts.isArrowFunction(init)) {
-            push("arrow", name, decl, exported, signatureFromArrow(init));
-          }
-        }
-      }
-
-      // Class methods
-      if (ts.isClassDeclaration(node) && node.name) {
-        const className = node.name.text;
-        for (const m of node.members) {
-          if (ts.isMethodDeclaration(m) && m.name && ts.isIdentifier(m.name)) {
-            const exported = hasExport(node); // class export implies method export context
-            push(
-              "method",
-              m.name.text,
-              m,
-              exported,
-              signatureFromMethod(m),
-              className,
-            );
-          }
-        }
-      }
-
-      ts.forEachChild(node, visit);
-    };
-
-    const push = (
-      kind: FnKind,
-      name: string,
-      node: ts.Node,
-      exported: boolean,
-      signature?: string,
-      className?: string,
-    ) => {
-      const startLine = posToLine(sf, node.getStart());
-      const endLine = posToLine(sf, node.getEnd());
-      const jsdoc = getJsDocText(node);
-      const snippet = getNodeText(src, node);
-      const id = sha1(
-        [
-          pkgName,
-          moduleRel,
-          kind,
-          className ?? "",
-          name,
-          signature ?? "",
-          startLine,
-          endLine,
-        ].join("|"),
-      );
-      const base: FunctionInfo = {
-        id,
-        pkgName,
-        pkgFolder,
-        fileAbs,
-        fileRel,
-        moduleRel,
-        name,
-        kind,
-        exported,
-        startLine,
-        endLine,
-        snippet,
-        ...(className && { className }),
-        ...(signature && { signature }),
-        ...(jsdoc && { jsdoc }),
-      };
-      functions.push(base);
-    };
-
-    const signatureFromDecl = (d: ts.FunctionDeclaration) => {
-      const sig = checker.getSignatureFromDeclaration(d);
-      return sig ? checker.signatureToString(sig) : undefined;
-    };
-    const signatureFromFuncExpr = (d: ts.FunctionExpression) => {
-      const sig = checker.getSignatureFromDeclaration(d);
-      return sig ? checker.signatureToString(sig) : undefined;
-    };
-    const signatureFromArrow = (d: ts.ArrowFunction) => {
-      const sig = checker.getSignatureFromDeclaration(
-        d as ts.SignatureDeclaration,
-      );
-      return sig ? checker.signatureToString(sig) : undefined;
-    };
-    const signatureFromMethod = (d: ts.MethodDeclaration) => {
-      const sig = checker.getSignatureFromDeclaration(d);
-      return sig ? checker.signatureToString(sig) : undefined;
-    };
-
-    const hasExport = (node: ts.Node) => {
-      const m = ts.getCombinedModifierFlags(node as ts.Declaration);
-      return (
-        (m & ts.ModifierFlags.Export) !== 0 ||
-        (m & ts.ModifierFlags.Default) !== 0
-      );
-    };
-
-    visit(sf);
-  }
-
-  const cache = await openLevelCache<FunctionInfo[]>({ path: OUT });
-  await cache.set("functions", functions);
-  await cache.close();
+  const functions = await gatherFunctionInfo(program);
+  await writeResults(OUT, functions);
   console.log(
     `simtasks: scanned ${functions.length} functions -> ${path.relative(
       process.cwd(),
       OUT,
     )}`,
+  );
+}
+
+async function gatherFromSourceFile(
+  sf: ts.SourceFile,
+  checker: ts.TypeChecker,
+): Promise<FunctionInfo[]> {
+  const fileAbs = path.resolve(sf.fileName);
+  const src = sf.getFullText();
+  const fileRel = relFromRepo(fileAbs);
+
+  const bits = fileRel.split("/");
+  if (bits[0] !== "packages" || bits.length < 2) return [];
+
+  const pkgFolder = bits[1]!;
+  const pkgRoot = path.join(process.cwd(), "packages", pkgFolder);
+  const pkgJson = JSON.parse(
+    await fs.readFile(path.join(pkgRoot, "package.json"), "utf-8"),
+  );
+  const pkgName = pkgJson.name as string;
+  const moduleRel = bits.slice(2).join("/");
+
+  const functions: FunctionInfo[] = [];
+  const ctx: VisitContext = {
+    sf,
+    src,
+    pkgName,
+    pkgFolder,
+    fileAbs,
+    fileRel,
+    moduleRel,
+    checker,
+    functions,
+  };
+  visit(ctx, sf);
+  return functions;
+}
+
+type VisitContext = {
+  sf: ts.SourceFile;
+  src: string;
+  pkgName: string;
+  pkgFolder: string;
+  fileAbs: string;
+  fileRel: string;
+  moduleRel: string;
+  checker: ts.TypeChecker;
+  functions: FunctionInfo[];
+};
+
+function visit(ctx: VisitContext, node: ts.Node): void {
+  if (ts.isFunctionDeclaration(node) && node.name) {
+    const signature = getSignature(ctx.checker, node);
+    push(ctx, {
+      kind: "function",
+      name: node.name.text,
+      node,
+      exported: hasExport(node),
+      ...(signature ? { signature } : {}),
+    });
+  }
+
+  if (ts.isVariableStatement(node)) {
+    const exported = hasExport(node);
+    for (const decl of node.declarationList.declarations) {
+      const name = decl.name.getText();
+      const init = (decl as any).initializer as ts.Node | undefined;
+      if (!init) continue;
+      if (ts.isFunctionExpression(init)) {
+        const signature = getSignature(ctx.checker, init);
+        push(ctx, {
+          kind: "function",
+          name,
+          node: decl,
+          exported,
+          ...(signature ? { signature } : {}),
+        });
+      } else if (ts.isArrowFunction(init)) {
+        const signature = getSignature(ctx.checker, init);
+        push(ctx, {
+          kind: "arrow",
+          name,
+          node: decl,
+          exported,
+          ...(signature ? { signature } : {}),
+        });
+      }
+    }
+  }
+
+  if (ts.isClassDeclaration(node) && node.name) {
+    const className = node.name.text;
+    for (const m of node.members) {
+      if (ts.isMethodDeclaration(m) && m.name && ts.isIdentifier(m.name)) {
+        const exported = hasExport(node);
+        const signature = getSignature(ctx.checker, m);
+        push(ctx, {
+          kind: "method",
+          name: m.name.text,
+          node: m,
+          exported,
+          ...(signature ? { signature } : {}),
+          className,
+        });
+      }
+    }
+  }
+
+  ts.forEachChild(node, (n) => visit(ctx, n));
+}
+
+type PushArgs = {
+  kind: FnKind;
+  name: string;
+  node: ts.Node;
+  exported: boolean;
+  signature?: string;
+  className?: string;
+};
+
+function push(ctx: VisitContext, args: PushArgs): void {
+  const {
+    sf,
+    src,
+    pkgName,
+    pkgFolder,
+    fileAbs,
+    fileRel,
+    moduleRel,
+    functions,
+  } = ctx;
+  const { kind, name, node, exported, signature, className } = args;
+  const startLine = posToLine(sf, node.getStart());
+  const endLine = posToLine(sf, node.getEnd());
+  const jsdoc = getJsDocText(node);
+  const snippet = getNodeText(src, node);
+  const id = sha1(
+    [
+      pkgName,
+      moduleRel,
+      kind,
+      className ?? "",
+      name,
+      signature ?? "",
+      startLine,
+      endLine,
+    ].join("|"),
+  );
+  const base: any = {
+    id,
+    pkgName,
+    pkgFolder,
+    fileAbs,
+    fileRel,
+    moduleRel,
+    name,
+    kind,
+    exported,
+    startLine,
+    endLine,
+    snippet,
+  };
+  if (className) base.className = className;
+  if (signature) base.signature = signature;
+  if (jsdoc) base.jsdoc = jsdoc;
+  functions.push(base as FunctionInfo);
+}
+
+function getSignature(
+  checker: ts.TypeChecker,
+  node: ts.SignatureDeclaration | ts.ArrowFunction,
+): string | undefined {
+  const sig = checker.getSignatureFromDeclaration(node as any);
+  return sig ? checker.signatureToString(sig) : undefined;
+}
+
+function hasExport(node: ts.Node): boolean {
+  const m = ts.getCombinedModifierFlags(node as any);
+  return (
+    (m & ts.ModifierFlags.Export) !== 0 || (m & ts.ModifierFlags.Default) !== 0
   );
 }
 
