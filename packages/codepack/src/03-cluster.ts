@@ -43,10 +43,12 @@ async function loadEmbeddings(
     namespace: "embeds",
   });
   const entries: EmbeddingMap = {};
-  for (const b of blocks) {
-    const v = await cache.get(b.id);
-    if (v) entries[b.id] = v;
-  }
+  await Promise.all(
+    blocks.map(async (b) => {
+      const v = await cache.get(b.id);
+      if (v) entries[b.id] = v;
+    }),
+  );
   await cache.close();
   return entries;
 }
@@ -67,19 +69,16 @@ async function main() {
   // build neighbor edges
   const available = blocks.filter((b) => embeds[b.id] !== undefined);
   const ids = available.map((b) => b.id);
-  const edges: Array<[string, string]> = [];
-
-  for (const a of available) {
+  const edges: Array<[string, string]> = available.flatMap((a) => {
     const av = embeds[a.id];
-    const scores = available
+    return available
       .filter((b) => b.id !== a.id)
       .map((b) => ({ id: b.id, s: cosine(av, embeds[b.id]) }))
       .sort((x, y) => y.s - x.s)
-      .slice(0, K);
-    for (const { id, s } of scores) {
-      if (s >= TH) edges.push([a.id, id]);
-    }
-  }
+      .slice(0, K)
+      .filter(({ s }) => s >= TH)
+      .map(({ id }) => [a.id, id] as [string, string]);
+  });
 
   const groups = unionFindClusters(ids, edges).filter((g) => g.length >= 1);
   const clusters: Cluster[] = groups.map((memberIds, i) => ({
