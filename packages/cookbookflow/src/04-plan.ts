@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { promises as fs } from "fs";
 import * as path from "path";
 
@@ -68,7 +67,7 @@ async function main() {
       })
       .join("\n\n");
 
-    let obj: any;
+    let obj: unknown;
     try {
       obj = await ollamaJSON(
         args["--llm"],

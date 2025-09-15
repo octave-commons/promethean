@@ -1,8 +1,7 @@
-/* eslint-disable */
 import { sha1 } from '@promethean/utils';
 
 import express from 'express';
-import type { Db } from 'mongodb';
+import type { Db, Document, Filter } from 'mongodb';
 
 export type SnapshotApiOptions = {
     collection: string; // e.g., "processes.snapshot"
@@ -11,7 +10,7 @@ export type SnapshotApiOptions = {
     maxAgeSeconds?: number; // default 5 (client cache)
 };
 
-function etagOf(doc: any) {
+function etagOf(doc: Document): string {
     const s = JSON.stringify(doc);
     return '"' + sha1(s) + '"';
 }
@@ -49,11 +48,11 @@ export function startSnapshotApi(db: Db, port = 8091, opts: SnapshotApiOptions) 
     app.get('/list', async (req, res): Promise<void> => {
         const limit = Math.min(Number(req.query.limit ?? 100), 1000);
         const offset = Number(req.query.offset ?? 0);
-        const q: any = {};
+        const q: Filter<Document> = {};
         // simple filters
         for (const k of Object.keys(req.query)) {
             if (['limit', 'offset'].includes(k)) continue;
-            q[k] = req.query[k];
+            q[k] = req.query[k] as unknown;
         }
         const cursor = coll.find(q).sort({ _ts: -1 }).skip(offset).limit(limit);
         const items = await cursor.toArray();

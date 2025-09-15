@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { promises as fs } from "fs";
 import * as path from "path";
 import { pathToFileURL } from "url";
@@ -49,10 +48,10 @@ export async function scan(args: ScanArgs) {
     if (bits[0] !== "packages" || bits.length < 2) continue;
     const pkgFolder = bits[1]!;
     const pkgRoot = path.join(process.cwd(), "packages", pkgFolder);
-    const pkgJson = JSON.parse(
+    const pkgJson: { name?: string } = JSON.parse(
       await fs.readFile(path.join(pkgRoot, "package.json"), "utf-8"),
     );
-    const pkgName = pkgJson.name as string;
+    const pkgName = pkgJson.name ?? "";
     const moduleRel = bits.slice(2).join("/");
 
     const visit = (node: ts.Node) => {
@@ -72,7 +71,7 @@ export async function scan(args: ScanArgs) {
         const exported = hasExport(node);
         for (const decl of node.declarationList.declarations) {
           const name = decl.name.getText();
-          const init = (decl as any).initializer as ts.Node | undefined;
+          const init = decl.initializer;
           if (!init) continue;
           if (ts.isFunctionExpression(init)) {
             push("function", name, decl, exported, signatureFromFuncExpr(init));
@@ -127,7 +126,7 @@ export async function scan(args: ScanArgs) {
           endLine,
         ].join("|"),
       );
-      const base = {
+      const base: FunctionInfo = {
         id,
         pkgName,
         pkgFolder,
@@ -140,11 +139,11 @@ export async function scan(args: ScanArgs) {
         startLine,
         endLine,
         snippet,
-      } as any;
-      if (className) base.className = className;
-      if (signature) base.signature = signature;
-      if (jsdoc) base.jsdoc = jsdoc;
-      functions.push(base as FunctionInfo);
+        ...(className && { className }),
+        ...(signature && { signature }),
+        ...(jsdoc && { jsdoc }),
+      };
+      functions.push(base);
     };
 
     const signatureFromDecl = (d: ts.FunctionDeclaration) => {
@@ -156,7 +155,9 @@ export async function scan(args: ScanArgs) {
       return sig ? checker.signatureToString(sig) : undefined;
     };
     const signatureFromArrow = (d: ts.ArrowFunction) => {
-      const sig = checker.getSignatureFromDeclaration(d as any);
+      const sig = checker.getSignatureFromDeclaration(
+        d as ts.SignatureDeclaration,
+      );
       return sig ? checker.signatureToString(sig) : undefined;
     };
     const signatureFromMethod = (d: ts.MethodDeclaration) => {
@@ -165,7 +166,7 @@ export async function scan(args: ScanArgs) {
     };
 
     const hasExport = (node: ts.Node) => {
-      const m = ts.getCombinedModifierFlags(node as any);
+      const m = ts.getCombinedModifierFlags(node as ts.Declaration);
       return (
         (m & ts.ModifierFlags.Export) !== 0 ||
         (m & ts.ModifierFlags.Default) !== 0
