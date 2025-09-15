@@ -1,23 +1,11 @@
+/* eslint-disable */
 import { pathToFileURL } from "url";
-import { promises as fs } from "fs";
-
 import { z } from "zod";
 import { ollamaJSON } from "@promethean/utils";
+import { openLevelCache } from "@promethean/level-cache";
 
-import {
-  parseArgs,
-  writeJSON,
-  sha1,
-  pathPrefix,
-  severityToPriority,
-} from "./utils.js";
-import type {
-  FetchPayload,
-  IssueBundle,
-  PlanPayload,
-  PlanTask,
-  SonarIssue,
-} from "./types.js";
+import { parseArgs, sha1, pathPrefix, severityToPriority } from "./utils.js";
+import type { IssueBundle, PlanTask, SonarIssue } from "./types.js";
 
 export type PlanOpts = {
   input: string;
@@ -57,9 +45,18 @@ export async function plan(opts: PlanOpts) {
   const outPath = opts.output;
   const model = opts.model;
 
-  const { issues, project } = JSON.parse(
-    await fs.readFile(inPath, "utf-8"),
-  ) as FetchPayload;
+  const issueCache = await openLevelCache<SonarIssue | { project: string }>({
+    path: inPath,
+  });
+  const issues: SonarIssue[] = [];
+  const meta = (await issueCache.get("__meta__")) as
+    | { project: string }
+    | undefined;
+  for await (const [k, v] of issueCache.entries()) {
+    if (k !== "__meta__") issues.push(v as SonarIssue);
+  }
+  await issueCache.close();
+  const project = meta?.project ?? "";
 
   const depth = opts.prefixDepth;
   const mode = opts.groupBy;
@@ -180,19 +177,30 @@ export async function plan(opts: PlanOpts) {
     });
   }
 
-  const out: PlanPayload = {
-    tasks,
-    plannedAt: new Date().toISOString(),
-    project,
-  };
-  await writeJSON(outPath, out);
+  const planCache = await openLevelCache<
+    PlanTask | { project: string; plannedAt: string }
+  >({
+    path: outPath,
+  });
+  for await (const [k] of planCache.entries()) {
+    await planCache.del(k);
+  }
+  await planCache.batch([
+    {
+      type: "put",
+      key: "__meta__",
+      value: { project, plannedAt: new Date().toISOString() },
+    },
+    ...tasks.map((t) => ({ type: "put" as const, key: t.id, value: t })),
+  ]);
+  await planCache.close();
   console.log(`sonarflow: planned ${tasks.length} tasks → ${outPath}`);
 }
 
 if (import.meta.url === pathToFileURL(process.argv[1]!).href) {
   const args = parseArgs({
-    "--in": ".cache/sonar/issues.json",
-    "--out": ".cache/sonar/plans.json",
+    "--in": ".cache/sonar/issues",
+    "--out": ".cache/sonar/plans",
     "--group-by": "rule+prefix",
     "--prefix-depth": "2",
     "--min-group": "2",

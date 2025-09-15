@@ -498,9 +498,9 @@
             "SONAR_TOKEN": "${SONAR_TOKEN}",
             "SONAR_PROJECT_KEY": "${SONAR_PROJECT_KEY}"
           },
-          "shell": "pnpm --filter @promethean/sonarflow sonar:fetch --project ${SONAR_PROJECT_KEY} --out .cache/sonar/issues.json",
+          "shell": "pnpm --filter @promethean/sonarflow sonar:fetch --project ${SONAR_PROJECT_KEY} --out .cache/sonar/issues",
           "inputs": [],
-          "outputs": [".cache/sonar/issues.json"],
+          "outputs": [".cache/sonar/issues"],
           "inputSchema": "packages/sonarflow/schemas/io.schema.json",
           "outputSchema": "packages/sonarflow/schemas/io.schema.json"
         },
@@ -510,17 +510,18 @@
           "env": {
             "OLLAMA_URL": "${OLLAMA_URL}"
           },
-          "shell": "pnpm --filter @promethean/sonarflow sonar:plan --in .cache/sonar/issues.json --out .cache/sonar/plans.json --group-by rule+prefix --prefix-depth 2 --min-group 2 --model qwen3:4b",
-          "inputs": [".cache/sonar/issues.json"],
-          "outputs": [".cache/sonar/plans.json"],
+          "shell": "pnpm --filter @promethean/sonarflow sonar:plan --in .cache/sonar/issues --out .cache/sonar/plans --group-by rule+prefix --prefix-depth 2 --min-group 2 --model qwen3:4b",
+          "env": { "OLLAMA_URL": "${OLLAMA_URL}" },
+          "inputs": [".cache/sonar/issues"],
+          "outputs": [".cache/sonar/plans"],
           "inputSchema": "packages/sonarflow/schemas/io.schema.json",
           "outputSchema": "packages/sonarflow/schemas/io.schema.json"
         },
         {
           "id": "sonar-write",
           "deps": ["sonar-plan"],
-          "shell": "pnpm --filter @promethean/sonarflow sonar:write --in .cache/sonar/plans.json --out docs/agile/tasks/sonar",
-          "inputs": [".cache/sonar/plans.json"],
+          "shell": "pnpm --filter @promethean/sonarflow sonar:write --in .cache/sonar/plans --out docs/agile/tasks/sonar",
+          "inputs": [".cache/sonar/plans"],
           "outputs": ["docs/agile/tasks/sonar/*.md"],
           "inputSchema": "packages/sonarflow/schemas/io.schema.json",
           "outputSchema": "packages/sonarflow/schemas/io.schema.json"
