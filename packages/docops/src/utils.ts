@@ -96,14 +96,13 @@ export function parseMarkdownChunks(markdown: string): Chunk[] {
       } else buf = (buf ? buf + " " : "") + p;
     }
     if (buf) chunks.push(buf.trim());
-    const final: string[] = [];
-    for (const c of chunks) {
-      if (c.length <= maxLen) final.push(c);
-      else
-        for (let i = 0; i < c.length; i += maxLen)
-          final.push(c.slice(i, i + maxLen));
-    }
-    return final;
+    return chunks.flatMap((c) =>
+      c.length <= maxLen
+        ? [c]
+        : Array.from({ length: Math.ceil(c.length / maxLen) }, (_, i) =>
+            c.slice(i * maxLen, (i + 1) * maxLen),
+          ),
+    );
   }
 
   visit(ast, (node: any) => {
