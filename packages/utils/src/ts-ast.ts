@@ -1,10 +1,10 @@
 import ts from "typescript";
+import type { ReadonlyDeep } from "type-fest";
 
 /**
  * Extracts concatenated JSDoc comments from a node, if any.
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
-export function getJsDocText(node: Readonly<ts.Node>): string | undefined {
+export function getJsDocText(node: ReadonlyDeep<ts.Node>): string | undefined {
   const jsdocs = ts.getJSDocCommentsAndTags(node);
   if (!jsdocs?.length) return undefined;
   const texts = jsdocs
@@ -18,16 +18,17 @@ export function getJsDocText(node: Readonly<ts.Node>): string | undefined {
 /**
  * Returns the source text for a node from the given source string.
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
-export function getNodeText(src: string, node: Readonly<ts.Node>): string {
+export function getNodeText(src: string, node: ReadonlyDeep<ts.Node>): string {
   return src.slice(node.getFullStart(), node.getEnd());
 }
 
 /**
  * Converts a position in a SourceFile to a 1-based line number.
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
-export function posToLine(sf: Readonly<ts.SourceFile>, pos: number): number {
+export function posToLine(
+  sf: ReadonlyDeep<ts.SourceFile>,
+  pos: number,
+): number {
   const { line } = sf.getLineAndCharacterOfPosition(pos);
   return line + 1;
 }
