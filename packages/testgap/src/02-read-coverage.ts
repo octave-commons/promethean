@@ -2,9 +2,10 @@ import * as path from "path";
 import { promises as fs } from "fs";
 
 import { globby } from "globby";
-
 import { parseArgs } from "@promethean/utils";
-import { writeJSON, rel } from "./utils.js";
+import { relFromRepo } from "@promethean/utils";
+
+import { writeJSON } from "./utils.js";
 import type { CoverageIndex, FileCoverage } from "./types.js";
 
 const args = parseArgs({
@@ -23,7 +24,7 @@ function parseLCOV(raw: string): FileCoverage[] {
       covered = 0;
     const coveredLines: number[] = [];
     for (const line of lines) {
-      if (line.startsWith("SF:")) file = rel(line.slice(3).trim());
+      if (line.startsWith("SF:")) file = relFromRepo(line.slice(3).trim());
       if (line.startsWith("DA:")) {
         const [nStr, hitsStr] = line.slice(3).split(",");
         const n = Number(nStr),

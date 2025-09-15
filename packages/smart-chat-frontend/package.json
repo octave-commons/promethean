@@ -1,0 +1,14 @@
+{
+  "name": "@promethean/smart-chat-frontend",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "files": [
+    "dist",
+    "static"
+  ],
+  "scripts": {
+    "build": "rimraf dist && tsc",
+    "clean": "rimraf dist"
+  }
+}

@@ -1,16 +1,23 @@
+/* eslint-disable functional/no-let, functional/no-loop-statements, functional/immutable-data, functional/prefer-immutable-types, @typescript-eslint/prefer-readonly-parameter-types, @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unnecessary-type-assertion, max-lines-per-function, sonarjs/cognitive-complexity */
 import { promises as fs } from "fs";
 import * as path from "path";
 import { once } from "node:events";
 import { createWriteStream } from "node:fs";
-import { randomUUID as nodeRandomUUID } from "node:crypto";
 
-import { listFiles } from "@promethean/fs";
 import { unified } from "unified";
 import remarkParse from "remark-parse";
 import { visit } from "unist-util-visit";
 import * as yaml from "yaml";
+import type { Code, Content, Heading, Root, Text } from "mdast";
+import type { Position } from "unist";
 
 import { Chunk, Front } from "./types.js";
+export {
+  stripGeneratedSections,
+  START_MARK,
+  END_MARK,
+  randomUUID,
+} from "@promethean/utils";
 
 export const OLLAMA_URL = process.env.OLLAMA_URL ?? "http://localhost:11434";
 
@@ -30,24 +37,6 @@ export function parseArgs(
     }
   }
   return out;
-}
-
-export async function listFilesRec(
-  root: string,
-  exts: Set<string>,
-): Promise<string[]> {
-  const files = await listFiles(root, { includeHidden: false });
-  return (
-    files
-      .map((f) => f.path)
-      // exclude Emacs lockfiles like .#file.md which can cause crashes
-      .filter((p) => !path.basename(p).startsWith(".#"))
-      .filter((p) => exts.has(path.extname(p).toLowerCase()))
-  );
-}
-
-export function randomUUID(): string {
-  return (globalThis as any).crypto?.randomUUID?.() ?? nodeRandomUUID();
 }
 
 export function slugify(s: string): string {
@@ -76,49 +65,24 @@ export async function readJSON<T>(file: string, fallback: T): Promise<T> {
   }
 }
 
-export async function writeJSON(file: string, data: any) {
+export async function writeJSON<T>(file: string, data: T): Promise<void> {
   await fs.mkdir(path.dirname(file), { recursive: true });
   await fs.writeFile(file, JSON.stringify(data, null, 2), "utf-8");
-}
-
-export function stripGeneratedSections(body: string): string {
-  const start = "<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->";
-  const end = "<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->";
-  const si = body.indexOf(start);
-  const ei = body.indexOf(end);
-  if (si >= 0 && ei > si) return (body.slice(0, si).trimEnd() + "\n").trimEnd();
-  return body.trimEnd() + "\n";
 }
 
 export function frontToYAML(front: Front): string {
   return yaml.stringify(front, { indent: 2, simpleKeys: true });
 }
 
-export function cosine(a: number[], b: number[]): number {
-  let dot = 0,
-    na = 0,
-    nb = 0;
-  const n = Math.min(a.length, b.length);
-  for (let i = 0; i < n; i++) {
-    const ai = a[i]!;
-    const bi = b[i]!;
-    dot += ai * bi;
-    na += ai * ai;
-    nb += bi * bi;
-  }
-  if (na === 0 || nb === 0) return 0;
-  return dot / (Math.sqrt(na) * Math.sqrt(nb));
-}
-
 export function parseMarkdownChunks(markdown: string): Chunk[] {
-  const ast = unified().use(remarkParse).parse(markdown) as any;
+  const ast = unified().use(remarkParse).parse(markdown) as Root;
   const chunks: Chunk[] = [];
   let currentHeading: string | undefined;
 
-  function extractText(node: any): string {
+  function extractText(node: Content): string {
     let out = "";
-    visit(node, (n: any) => {
-      if (n.type === "text") out += n.value ?? "";
+    visit(node, (n) => {
+      if (n.type === "text") out += (n as Text).value ?? "";
     });
     return out;
   }
@@ -144,26 +108,29 @@ export function parseMarkdownChunks(markdown: string): Chunk[] {
     return final;
   }
 
-  visit(ast, (node: any) => {
+  visit(ast, (node) => {
     if (!node?.type) return;
     if (node.type === "heading") {
-      currentHeading = (node.children || [])
-        .map(
-          (c: any) =>
-            c.value || c.children?.map((cc: any) => cc.value).join(" ") || "",
-        )
+      const heading = node as Heading;
+      currentHeading = (heading.children || [])
+        .map((c) => (c as Text).value ?? "")
         .join(" ")
         .trim();
     }
-    if (["paragraph", "listItem", "code"].includes(node.type)) {
-      const pos = node.position;
+    if (
+      node.type === "paragraph" ||
+      node.type === "listItem" ||
+      node.type === "code"
+    ) {
+      const pos = node.position as Position | undefined;
       if (!pos) return;
-      const raw = node.type === "code" ? node.value || "" : extractText(node);
-      const trimmed = (raw || "").trim();
+      const raw =
+        node.type === "code" ? (node as Code).value ?? "" : extractText(node);
+      const trimmed = raw.trim();
       if (!trimmed) return;
-      const kind = node.type === "code" ? "code" : "text";
+      const kind: Chunk["kind"] = node.type === "code" ? "code" : "text";
       for (const s of sentenceSplit(trimmed, 1200)) {
-        const base: any = {
+        const chunk: Chunk = {
           id: "",
           docUuid: "",
           docPath: "",
@@ -174,8 +141,8 @@ export function parseMarkdownChunks(markdown: string): Chunk[] {
           text: s,
           kind,
         };
-        if (currentHeading) base.title = currentHeading;
-        chunks.push(base as Chunk);
+        if (currentHeading) chunk.title = currentHeading;
+        chunks.push(chunk);
       }
     }
   });

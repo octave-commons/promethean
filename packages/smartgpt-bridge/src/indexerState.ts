@@ -1,47 +1,53 @@
-import fs from "fs/promises";
-import path from "path";
-import { fileURLToPath } from "url";
+import { openLevelCache } from "@promethean/level-cache";
+import type { Cache } from "@promethean/level-cache";
 
-function baseDir() {
-  const __dirname = path.dirname(fileURLToPath(import.meta.url));
-  return path.join(__dirname, "../logs/indexer");
-}
+export type BootstrapState = Readonly<{
+  rootPath: string;
+  mode?: string;
+  cursor?: number;
+  fileList?: ReadonlyArray<string>;
+  startedAt?: number;
+  finishedAt?: number;
+  fileInfo?: Record<
+    string,
+    { readonly size: number; readonly mtimeMs: number }
+  >;
+}>;
 
-function safeName(s: string) {
-  return String(s || "").replace(/[^a-zA-Z0-9._-]/g, "_");
-}
+const CACHE_PATH = ".cache/smartgpt-bridge";
 
-export function stateDirForRoot(rootPath: string) {
-  return path.join(baseDir(), safeName(rootPath || "root"));
-}
-
-async function ensureDir(p: string) {
-  await fs.mkdir(p, { recursive: true });
-}
-
-export async function loadBootstrapState(rootPath: string) {
-  const dir = stateDirForRoot(rootPath);
-  const p = path.join(dir, "bootstrap.json");
+async function withCache<T>(
+  fn: (cache: Cache<BootstrapState>) => Promise<T>,
+): Promise<T> {
+  const cache = await openLevelCache<BootstrapState>({ path: CACHE_PATH });
   try {
-    const raw = await fs.readFile(p, "utf8");
-    const state = JSON.parse(raw);
-    if (state && state.rootPath === rootPath) return state;
-  } catch {}
-  return null;
+    return await fn(cache);
+  } finally {
+    await cache.close().catch(() => {});
+  }
 }
 
-export async function saveBootstrapState(rootPath: string, state: any) {
-  const dir = stateDirForRoot(rootPath);
-  await ensureDir(dir);
-  const p = path.join(dir, "bootstrap.json");
-  const next = { ...state, rootPath };
-  await fs.writeFile(p, JSON.stringify(next, null, 2), "utf8");
+export function loadBootstrapState(
+  rootPath: string,
+): Promise<BootstrapState | null> {
+  return withCache(async (cache) => {
+    const state = await cache.get(rootPath);
+    return state && state.rootPath === rootPath ? state : null;
+  }).catch(() => null);
 }
 
-export async function deleteBootstrapState(rootPath: string) {
-  const dir = stateDirForRoot(rootPath);
-  const p = path.join(dir, "bootstrap.json");
-  try {
-    await fs.unlink(p);
-  } catch {}
+export function saveBootstrapState(
+  rootPath: string,
+  state: Readonly<Omit<BootstrapState, "rootPath">>,
+): Promise<void> {
+  return withCache(async (cache) => {
+    const next: BootstrapState = { ...state, rootPath };
+    await cache.set(rootPath, next);
+  }).catch(() => {});
+}
+
+export function deleteBootstrapState(rootPath: string): Promise<void> {
+  return withCache(async (cache) => {
+    await cache.del(rootPath);
+  }).catch(() => {});
 }

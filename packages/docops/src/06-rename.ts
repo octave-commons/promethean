@@ -3,8 +3,9 @@ import * as path from "path";
 import { pathToFileURL } from "node:url";
 
 import matter from "gray-matter";
+import { listFilesRec } from "@promethean/utils";
 
-import { parseArgs, slugify, extnamePrefer, listFilesRec } from "./utils.js";
+import { parseArgs, slugify, extnamePrefer } from "./utils.js";
 import type { Front } from "./types.js";
 // CLI
 

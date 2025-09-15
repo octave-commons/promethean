@@ -1,30 +1,29 @@
+/* eslint-disable */
+import { pathToFileURL } from "url";
+import { randomUUID } from "node:crypto";
 import { promises as fs } from "fs";
 import * as path from "path";
 
 import matter from "gray-matter";
-import * as yaml from "yaml";
+import { createLogger, slug } from "@promethean/utils";
+import { openLevelCache } from "@promethean/level-cache";
 
 import { parseArgs } from "./utils.js";
 import type { PlanPayload } from "./types.js";
 
-const args = parseArgs({
-  "--in": ".cache/sonar/plans.json",
-  "--out": "docs/agile/tasks/sonar",
-  "--status": "todo",
-  "--assignee": "",
-  "--label": "sonarqube,quality,remediation",
-});
+export type WriteOpts = {
+  input: string;
+  out: string;
+  status: string;
+  assignee: string;
+  label: string;
+};
 
 const START = "<!-- SONARFLOW:BEGIN -->";
 const END = "<!-- SONARFLOW:END -->";
 
-function slug(s: string) {
-  return s
-    .trim()
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-}
+const log = createLogger({ service: "sonarflow" });
+
 function stripGenerated(text: string) {
   const si = text.indexOf(START),
     ei = text.indexOf(END);
@@ -32,96 +31,110 @@ function stripGenerated(text: string) {
   return text.trimEnd();
 }
 
-async function main() {
-  const { tasks, project } = JSON.parse(
-    await fs.readFile(path.resolve(args["--in"]), "utf-8"),
-  ) as PlanPayload;
+type Task = PlanPayload["tasks"][number];
+function buildFrontMatter(t: Task, project: string, opts: WriteOpts) {
+  return {
+    uuid: randomUUID(),
+    title: t.title,
+    project,
+    priority: t.priority,
+    status: opts.status,
+    labels: Array.from(
+      new Set([
+        ...opts.label
+          .split(",")
+          .map((s) => s.trim())
+          .filter(Boolean),
+        ...(t.labels ?? []),
+      ]),
+    ),
+    created_at: new Date().toISOString(),
+    assignee: opts.assignee || undefined,
+  };
+}
 
-  await fs.mkdir(path.resolve(args["--out"]), { recursive: true });
-  const index: string[] = [
+function buildRefsTable(t: Task) {
+  return [
+    "| Issue key | File |",
+    "|---|---|",
+    ...t.refs.map(
+      (r) => `| \`${r.key}\` | \`${r.file}${r.line ? ":" + r.line : ""}\` |`,
+    ),
+  ].join("\n");
+}
+
+function buildBody(t: Task, refsTable: string) {
+  return [
+    START,
+    `# ${t.title}`,
+    "",
+    t.summary,
+    "",
+    "## Steps",
+    "",
+    ...t.steps.map((s, i) => `${i + 1}. ${s}`),
+    "",
+    "## Acceptance criteria",
+    "",
+    ...t.acceptance.map((a) => `- [ ] ${a}`),
+    "",
+    "## References",
+    "",
+    refsTable,
+    "",
+    END,
+    "",
+  ].join("\n");
+}
+
+async function writeTask(t: Task, project: string, opts: WriteOpts) {
+  const fname = `${slug(t.title)}.md`;
+  const outPath = path.join(opts.out, fname);
+
+  const fm = buildFrontMatter(t, project, opts);
+  const body = buildBody(t, buildRefsTable(t));
+
+  const existing = await readMaybe(outPath);
+  const gm = existing ? matter(existing) : { content: "", data: {} };
+  const preserved = stripGenerated(gm.content);
+  const final = matter.stringify(
+    (preserved ? preserved + "\n\n" : "") + body,
+    { ...gm.data, ...fm },
+    { language: "yaml" },
+  );
+
+  await fs.writeFile(outPath, final, "utf-8");
+  return `- [${t.title}](${path.basename(outPath)}) — ${t.priority}`;
+}
+
+export async function writeTasks(opts: WriteOpts): Promise<void> {
+  const cache = await openLevelCache<
+    PlanPayload["tasks"][number] | { project: string }
+  >({ path: path.resolve(opts.input) });
+  const tasks: PlanPayload["tasks"] = [];
+  const meta = (await cache.get("__meta__")) as { project: string } | undefined;
+  for await (const [k, v] of cache.entries()) {
+    if (k !== "__meta__") tasks.push(v as PlanPayload["tasks"][number]);
+  }
+  await cache.close();
+  const project = meta?.project ?? "";
+
+  await fs.mkdir(path.resolve(opts.out), { recursive: true });
+
+  const index = [
     "# SonarQube remediation tasks",
     "",
     `Project: \`${project}\``,
     "",
+    ...(await Promise.all(tasks.map((t) => writeTask(t, project, opts)))),
   ];
 
-  for (const t of tasks) {
-    const fname = `${slug(t.title)}.md`;
-    const outPath = path.join(args["--out"], fname);
-
-    const fm = {
-      uuid: cryptoRandomUUID(),
-      title: t.title,
-      project,
-      priority: t.priority,
-      status: args["--status"],
-      labels: Array.from(
-        new Set([
-          ...args["--label"]
-            .split(",")
-            .map((s) => s.trim())
-            .filter(Boolean),
-          ...(t.labels ?? []),
-        ]),
-      ),
-      created_at: new Date().toISOString(),
-    };
-
-    const refsTable = [
-      "| Issue key | File |",
-      "|---|---|",
-      ...t.refs.map(
-        (r) => `| \`${r.key}\` | \`${r.file}${r.line ? ":" + r.line : ""}\` |`,
-      ),
-    ].join("\n");
-
-    const body = [
-      START,
-      `# ${t.title}`,
-      "",
-      t.summary,
-      "",
-      "## Steps",
-      "",
-      ...t.steps.map((s, i) => `${i + 1}. ${s}`),
-      "",
-      "## Acceptance criteria",
-      "",
-      ...t.acceptance.map((a) => `- [ ] ${a}`),
-      "",
-      "## References",
-      "",
-      refsTable,
-      "",
-      END,
-      "",
-    ].join("\n");
-
-    const existing = await readMaybe(outPath);
-    const gm = existing ? matter(existing) : { content: "", data: {} };
-    const preserved = stripGenerated(gm.content);
-    const final = matter.stringify(
-      (preserved ? preserved + "\n\n" : "") + body,
-      { ...gm.data, ...fm },
-      { language: "yaml" },
-    );
-
-    await fs.writeFile(outPath, final, "utf-8");
-    index.push(`- [${t.title}](${path.basename(outPath)}) — ${t.priority}`);
-  }
-
   await fs.writeFile(
-    path.join(args["--out"], "README.md"),
+    path.join(opts.out, "README.md"),
     index.join("\n") + "\n",
     "utf-8",
   );
-  console.log(`sonarflow: wrote ${tasks.length} task files → ${args["--out"]}`);
-}
-
-function cryptoRandomUUID() {
-  // Node 18+
-  // @ts-ignore
-  return globalThis.crypto?.randomUUID?.() ?? require("crypto").randomUUID();
+  log.info(`wrote ${tasks.length} task files → ${opts.out}`);
 }
 async function readMaybe(p: string) {
   try {
@@ -131,7 +144,24 @@ async function readMaybe(p: string) {
   }
 }
 
-main().catch((e) => {
-  console.error(e);
-  process.exit(1);
-});
+if (import.meta.url === pathToFileURL(process.argv[1]!).href) {
+  const args = parseArgs({
+    "--in": ".cache/sonar/plans",
+    "--out": "docs/agile/tasks/sonar",
+    "--status": "todo",
+    "--assignee": "",
+    "--label": "sonarqube,quality,remediation",
+  });
+  writeTasks({
+    input: args["--in"]!,
+    out: args["--out"]!,
+    status: args["--status"]!,
+    assignee: args["--assignee"]!,
+    label: args["--label"]!,
+  }).catch((e) => {
+    log.error("write failed", { err: e });
+    process.exit(1);
+  });
+}
+
+export default writeTasks;

@@ -8,12 +8,21 @@ import ava from "eslint-plugin-ava";
 
 export default [
   {
+    ignores: [
+      "**/dist/**",
+      "**/.cache/**",
+      "./scripts/**",
+      "./templates/**",
+      "./eslint.config.ts",
+    ],
+  },
+  {
     files: ["**/*.{ts,tsx}"],
-    ignores: ["**/dist/**", "**/.cache/**", "./scripts/**", "./templates/**"],
     languageOptions: {
       parser: tsParser,
       parserOptions: {
         projectService: true, // uses your tsconfig.* automatically
+        allowDefaultProject: true,
         ecmaVersion: "latest",
         sourceType: "module",
       },

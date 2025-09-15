@@ -2,10 +2,10 @@ import * as path from "path";
 import * as fs from "fs/promises";
 
 import test from "ava";
+import { listFilesRec } from "@promethean/utils";
 
 import {
   parseArgs,
-  listFilesRec,
   randomUUID,
   slugify,
   extnamePrefer,
@@ -13,6 +13,8 @@ import {
   readJSON,
   writeJSON,
   stripGeneratedSections,
+  START_MARK,
+  END_MARK,
   frontToYAML,
 } from "../utils.js";
 
@@ -65,7 +67,7 @@ test.serial(
 
 test("randomUUID returns unique-like ids", (t) => {
   const ids = new Set<string>();
-  for (let i = 0; i < 10; i++) ids.add(randomUUID());
+  Array.from({ length: 10 }).forEach(() => ids.add(randomUUID()));
   t.is(ids.size, 10);
 });
 
@@ -88,10 +90,10 @@ test.serial(
   async (t) => {
     await withTmp(async (dir) => {
       const file = path.join(dir, "data.json");
-      const fb = { a: 1 };
+      const fb = { a: 1, b: "" };
       const got = await readJSON(file, fb);
       t.deepEqual(got, fb);
-      const data = { a: 2, b: "x" } as any;
+      const data = { a: 2, b: "x" };
       await writeJSON(file, data);
       const got2 = await readJSON<typeof data>(file, fb);
       t.deepEqual(got2, data);
@@ -100,16 +102,10 @@ test.serial(
 );
 
 test("stripGeneratedSections removes markers and keeps above", (t) => {
-  const s = [
-    "top",
-    "<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->",
-    "stuff",
-    "<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->",
-    "tail",
-  ].join("\n");
-  const out = stripGeneratedSections(s);
+  const s = ["top", START_MARK, "stuff", END_MARK, "tail"].join("\n");
+  const out = stripGeneratedSections(s, START_MARK, END_MARK);
   t.is(out, "top");
-  const out2 = stripGeneratedSections("no markers\n");
+  const out2 = stripGeneratedSections("no markers\n", START_MARK, END_MARK);
   t.is(out2, "no markers\n");
 });
 

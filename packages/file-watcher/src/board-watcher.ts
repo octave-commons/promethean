@@ -1,7 +1,7 @@
 import chokidar from "chokidar";
 const EVENT = "file-watcher-board-change";
 
-export interface BoardWatcherOptions {
+export type BoardWatcherOptions = {
   boardPath: string;
   publish: (type: string, payload: any) => void;
 }

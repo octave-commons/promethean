@@ -4,7 +4,7 @@ import { spawn } from "child_process";
 
 import { WebSocketServer } from "ws";
 import test from "ava";
-import { sleep } from "@promethean/test-utils/sleep";
+import { sleep } from "@promethean/utils";
 
 test.skip("forwards stdin lines to websocket and prints responses", async (t) => {
   const wss = new WebSocketServer({ port: 0 });

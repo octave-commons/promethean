@@ -19,15 +19,19 @@
     "br:04-match": "tsx src/04-match-context.ts",
     "br:05-eval": "tsx src/05-evaluate.ts",
     "br:06-report": "tsx src/06-report.ts",
-    "br:all": "pnpm br:01-fm && pnpm br:02-prompts && pnpm br:03-index && pnpm br:04-match && pnpm br:05-eval && pnpm br:06-report"
+    "br:all": "pnpm br:01-fm && pnpm br:02-prompts && pnpm br:03-index && pnpm br:04-match && pnpm br:05-eval && pnpm br:06-report",
+    "test": "pnpm run build && ava --config ../../config/ava.config.mjs"
   },
   "dependencies": {
+    "@promethean/utils": "workspace:*",
+    "@promethean/level-cache": "workspace:*",
     "globby": "^14.0.2",
     "gray-matter": "^4.0.3",
     "yaml": "^2.5.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "esmock": "^2.7.3",
     "tsx": "^4.19.2"
   }
 }

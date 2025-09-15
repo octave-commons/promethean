@@ -7,8 +7,8 @@
   "scripts": {
     "build": "tsc -b",
     "start": "node dist/index.js",
-    "test": "pnpm run build && SKIP_NETWORK_TESTS=1 ava --config ../../../config/ava.config.mjs tests/smoke.test.js --node-arguments='--enable-source-maps'",
-    "coverage": "pnpm run build && SKIP_NETWORK_TESTS=1 c8 ava --config ../../../config/ava.config.mjs tests/smoke.test.js --node-arguments='--enable-source-maps'",
+    "test": "pnpm run build && SKIP_NETWORK_TESTS=1 ava --config ../../../config/ava.config.mjs \"tests/**/*.test.js\" --node-arguments='--enable-source-maps'",
+    "coverage": "pnpm run build && SKIP_NETWORK_TESTS=1 c8 ava --config ../../../config/ava.config.mjs \"tests/**/*.test.js\" --node-arguments='--enable-source-maps'",
     "build:check": "tsc --noEmit --incremental false -p .",
     "deploy": "pnpm run build && node --env-file=../../.env dist/util/deploy.js",
     "lint": "pnpm exec eslint . || true",
@@ -32,6 +32,7 @@
     "@discordjs/voice": "^0.18.0",
     "@promethean/agent-ecs": "workspace:*",
     "@promethean/embedding": "workspace:*",
+    "@promethean/level-cache": "workspace:*",
     "@promethean/legacy": "workspace:*",
     "@promethean/llm": "workspace:*",
     "@promethean/persistence": "workspace:*",

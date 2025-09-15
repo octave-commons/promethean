@@ -2,8 +2,9 @@ import { promises as fs } from "fs";
 import * as path from "path";
 
 import { z } from "zod";
+import { ollamaJSON } from "@promethean/utils";
 
-import { parseArgs, ollamaJSON, writeJSON, uuid } from "./utils.js";
+import { parseArgs, writeJSON, randomUUID } from "./utils.js";
 import type {
   ScanOutput,
   ClassesFile,
@@ -17,7 +18,7 @@ const args = parseArgs({
   "--classes": ".cache/cookbook/classes.json",
   "--groups": ".cache/cookbook/groups.json",
   "--out": ".cache/cookbook/plan.json",
-  "--llm": "qwen3:4b"
+  "--llm": "qwen3:4b",
 } as const);
 
 const RecipeSchema = z.object({
@@ -66,7 +67,7 @@ async function main() {
       })
       .join("\n\n");
 
-    let obj: any;
+    let obj: unknown;
     try {
       obj = await ollamaJSON(
         args["--llm"],
@@ -107,7 +108,7 @@ async function main() {
           tags: [meta.task],
         } satisfies z.infer<typeof RecipeSchema>);
 
-    const pr: PlanRecipe = { uuid: uuid(), task: meta.task, ...recipe };
+    const pr: PlanRecipe = { uuid: randomUUID(), task: meta.task, ...recipe };
     (outGroups[g.key] ||= []).push(pr);
   }
 

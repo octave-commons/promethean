@@ -1,59 +1,57 @@
 // src/02-embed.ts
-import { promises as fs } from "fs";
 import * as path from "path";
-import { parseArgs } from "./utils.js";
-import type { BlockManifest, EmbeddingMap } from "./types.js";
 
-const OLLAMA_URL = process.env.OLLAMA_URL ?? "http://localhost:11434";
+import { ollamaEmbed } from "@promethean/utils";
+import { openLevelCache } from "@promethean/level-cache";
+
+import { parseArgs } from "./utils.js";
+import type { CodeBlock } from "./types.js";
 
 const args = parseArgs({
-  "--blocks": ".cache/codepack/blocks.json",
-  "--out": ".cache/codepack/embeddings.json",
+  "--blocks": ".cache/codepack/blocks",
+  "--cache": ".cache/codepack/embeds",
   "--embed-model": "nomic-embed-text:latest",
   "--mix-context": "true", // include before/after in embedding
 });
 
-async function ollamaEmbed(model: string, text: string): Promise<number[]> {
-  const res = await fetch(`${OLLAMA_URL}/api/embeddings`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ model, prompt: text }),
-  });
-  if (!res.ok) throw new Error(`ollama embeddings ${res.status}`);
-  const data = await res.json();
-  return data.embedding as number[];
-}
-
 async function main() {
   const blocksPath = path.resolve(args["--blocks"]);
-  const outPath = path.resolve(args["--out"]);
+  const cachePath = path.resolve(args["--cache"]);
   const model = args["--embed-model"];
   const mix = args["--mix-context"] === "true";
 
-  const { blocks }: BlockManifest = JSON.parse(
-    await fs.readFile(blocksPath, "utf-8"),
+  const blockCache = await openLevelCache<CodeBlock>({
+    path: blocksPath,
+    namespace: "blocks",
+  });
+  const blocks: CodeBlock[] = [];
+  for await (const [, b] of blockCache.entries()) blocks.push(b);
+  await blockCache.close();
+
+  const cache = await openLevelCache<number[]>({
+    path: cachePath,
+    namespace: "embeds",
+  });
+
+  const wrote = await Promise.all(
+    blocks.map(async (b) => {
+      if (await cache.has(b.id)) return false;
+      const text = mix
+        ? `FILE:${b.hintedName ?? ""}\nPATH:${b.relPath}\nLANG:${
+            b.lang ?? ""
+          }\nCONTEXT_BEFORE:\n${b.contextBefore}\nCODE:\n${
+            b.code
+          }\nCONTEXT_AFTER:\n${b.contextAfter}`
+        : b.code;
+      await cache.set(b.id, await ollamaEmbed(model, text));
+      return true;
+    }),
   );
-  const embeds: EmbeddingMap = {};
 
-  for (const b of blocks) {
-    if (embeds[b.id]) continue;
-    const text = mix
-      ? `FILE:${b.hintedName ?? ""}\nPATH:${b.relPath}\nLANG:${
-          b.lang ?? ""
-        }\nCONTEXT_BEFORE:\n${b.contextBefore}\nCODE:\n${
-          b.code
-        }\nCONTEXT_AFTER:\n${b.contextAfter}`
-      : b.code;
-    embeds[b.id] = await ollamaEmbed(model, text);
-  }
-
-  await fs.mkdir(path.dirname(outPath), { recursive: true });
-  await fs.writeFile(outPath, JSON.stringify(embeds), "utf-8");
+  await cache.close();
+  const count = wrote.filter(Boolean).length;
   console.log(
-    `embedded ${Object.keys(embeds).length} blocks -> ${path.relative(
-      process.cwd(),
-      outPath,
-    )}`,
+    `embedded ${count} blocks -> ${path.relative(process.cwd(), cachePath)}`,
   );
 }
 main().catch((e) => {

@@ -1,13 +1,29 @@
 // loosen typing to avoid cross-package type coupling
-import { CompLayout, Snap, allocColumns, canUseSAB, isChanged } from './layout.js';
+import {
+    type Columns,
+    type CompLayout,
+    type Snap,
+    type CompColumns,
+    allocColumns,
+    canUseSAB,
+    isChanged,
+} from './layout.js';
+
 type Transferable = ArrayBuffer | SharedArrayBuffer;
 
-export type ComponentRef = any;
+export type ComponentData = {
+    [field: string]: number;
+};
 
-export type WorldLike = {
-    iter(query: any): IterableIterator<[number, ...any[]]>;
-    get(eid: number, type: ComponentRef): any;
-    set(eid: number, type: ComponentRef, value: any): void;
+export type ComponentRef<T extends ComponentData = ComponentData> = {
+    id: number;
+    __type?: T;
+};
+
+export type WorldLike<Q = unknown> = {
+    iter(query: Q): IterableIterator<[number, ...unknown[]]>;
+    get<T extends ComponentData>(eid: number, type: ComponentRef<T>): T | undefined;
+    set<T extends ComponentData>(eid: number, type: ComponentRef<T>, value: T): void;
     isAlive(eid: number): boolean;
 };
 
@@ -16,70 +32,88 @@ export type BuildSpec = {
     types: Record<number, ComponentRef>;
 };
 
-export function buildSnapshot(world: WorldLike, spec: BuildSpec, query: any): { snap: Snap; transfer: Transferable[] } {
-    const shared = canUseSAB();
-    let rows = 0;
-    for (const _ of world.iter(query)) rows++;
+function countRows<Q>(world: WorldLike<Q>, query: Q): number {
+    return [...world.iter(query)].length;
+}
 
-    const eids = (() => {
-        const buf = shared
-            ? new SharedArrayBuffer(Int32Array.BYTES_PER_ELEMENT * rows)
-            : new ArrayBuffer(Int32Array.BYTES_PER_ELEMENT * rows);
-        return new Int32Array(buf);
-    })();
+function createEidBuffer(rows: number, shared: boolean): Int32Array {
+    const buf = shared
+        ? new SharedArrayBuffer(Int32Array.BYTES_PER_ELEMENT * rows)
+        : new ArrayBuffer(Int32Array.BYTES_PER_ELEMENT * rows);
+    return new Int32Array(buf);
+}
 
+function initComponents(rows: number, spec: BuildSpec, shared: boolean): Snap['comps'] {
     const comps: Snap['comps'] = {};
     for (const L of spec.layouts) comps[L.cid] = allocColumns(rows, L, shared);
+    return comps;
+}
 
-    let i = 0;
-    for (const [e] of world.iter(query)) {
-        eids[i] = e;
+function populateSnapshot<Q>(world: WorldLike<Q>, spec: BuildSpec, query: Q, snap: Snap): void {
+    [...world.iter(query)].forEach(([e], i) => {
+        snap.eids[i] = e;
         for (const L of spec.layouts) {
-            const ctype = spec.types[L.cid];
+            const ctype = spec.types[L.cid]!;
             const v = world.get(e, ctype);
             if (v == null) continue;
             for (const field of Object.keys(L.fields)) {
-                (comps[L.cid].fields[field] as any)[i] = v[field] ?? 0;
+                const arr = snap.comps[L.cid]!.fields[field] as Columns[string];
+                arr[i] = v[field] ?? 0;
             }
         }
-        i++;
-    }
+    });
+}
 
-    const snap: Snap = { shared, rows, eids, comps };
+function collectTransferables(spec: BuildSpec, snap: Snap, shared: boolean): Transferable[] {
     const transfer: Transferable[] = [];
     if (!shared) {
         transfer.push(snap.eids.buffer);
         for (const L of spec.layouts) {
-            for (const arr of Object.values(snap.comps[L.cid].fields)) transfer.push((arr as any).buffer);
-            transfer.push(snap.comps[L.cid].changed.buffer);
+            for (const arr of Object.values(snap.comps[L.cid]!.fields)) transfer.push(arr.buffer);
+            transfer.push(snap.comps[L.cid]!.changed.buffer);
         }
     }
+    return transfer;
+}
+
+export function buildSnapshot<Q>(
+    world: WorldLike<Q>,
+    spec: BuildSpec,
+    query: Q,
+): { snap: Snap; transfer: Transferable[] } {
+    const shared = canUseSAB();
+    const rows = countRows(world, query);
+    const eids = createEidBuffer(rows, shared);
+    const comps = initComponents(rows, spec, shared);
+    const snap: Snap = { shared, rows, eids, comps };
+    populateSnapshot(world, spec, query, snap);
+    const transfer = collectTransferables(spec, snap, shared);
     return { snap, transfer };
 }
 
-export function commitSnapshot(world: WorldLike, spec: BuildSpec, snap: Snap) {
-    const rows = snap.rows;
-    for (const L of spec.layouts) {
-        const ctype = spec.types[L.cid];
-        const cols = snap.comps[L.cid];
-        const changed = cols.changed;
-        let any = false;
-        for (let b = 0; b < changed.length; b++)
-            if (changed[b]) {
-                any = true;
-                break;
-            }
-        if (!any) continue;
+function hasChanges(changed: Uint8Array): boolean {
+    return changed.some((b) => b !== 0);
+}
 
-        for (let i = 0; i < rows; i++) {
-            if (!isChanged(changed, i)) continue;
-            const eid = snap.eids[i];
-            if (!world.isAlive(eid)) continue;
-            const cur = world.get(eid, ctype) ?? {};
-            for (const [field, arr] of Object.entries(cols.fields)) {
-                cur[field] = (arr as any)[i];
-            }
-            world.set(eid, ctype, cur);
+function applyLayout(world: WorldLike, ctype: ComponentRef, cols: CompColumns, snap: Snap): void {
+    snap.eids.forEach((eid, i) => {
+        if (i >= snap.rows) return;
+        if (!isChanged(cols.changed, i)) return;
+        if (!world.isAlive(eid)) return;
+        const cur = world.get(eid, ctype) ?? {};
+        const updated: ComponentData = { ...cur };
+        for (const [field, arr] of Object.entries(cols.fields)) {
+            updated[field] = arr[i]!;
         }
+        world.set(eid, ctype, updated);
+    });
+}
+
+export function commitSnapshot(world: WorldLike, spec: BuildSpec, snap: Snap): void {
+    for (const L of spec.layouts) {
+        const ctype = spec.types[L.cid]!;
+        const cols = snap.comps[L.cid]!;
+        if (!hasChanges(cols.changed)) continue;
+        applyLayout(world, ctype, cols, snap);
     }
 }

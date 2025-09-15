@@ -1,11 +1,9 @@
-import { promises as fs } from "fs";
 import * as path from "path";
-import matter from "gray-matter";
 import { unified } from "unified";
 import remarkParse from "remark-parse";
 import { visit } from "unist-util-visit";
-import * as crypto from "crypto";
 import { ensureDir } from "@promethean/fs";
+export { sha1, cosine } from "@promethean/utils";
 
 export { ensureDir };
 
@@ -21,40 +19,6 @@ export function parseArgs(defaults: Record<string, string>) {
     out[k] = v;
   }
   return out;
-}
-
-export async function listFilesRec(root: string, exts: Set<string>) {
-  const out: string[] = [];
-  async function walk(d: string) {
-    const ents = await fs.readdir(d, { withFileTypes: true });
-    for (const e of ents) {
-      const p = path.join(d, e.name);
-      if (e.isDirectory()) await walk(p);
-      else out.push(p);
-    }
-  }
-  await walk(root);
-  return out.filter((p) =>
-    exts.size ? exts.has(path.extname(p).toLowerCase()) : true,
-  );
-}
-
-export function sha1(s: string): string {
-  return crypto.createHash("sha1").update(s).digest("hex");
-}
-
-export function cosine(a: number[], b: number[]) {
-  let dot = 0,
-    na = 0,
-    nb = 0;
-  const n = Math.min(a.length, b.length);
-  for (let i = 0; i < n; i++) {
-    dot += a[i] * b[i];
-    na += a[i] * a[i];
-    nb += b[i] * b[i];
-  }
-  if (!na || !nb) return 0;
-  return dot / (Math.sqrt(na) * Math.sqrt(nb));
 }
 
 export function relPath(fromRoot: string, fileAbs: string) {

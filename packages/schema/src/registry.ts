@@ -1,4 +1,4 @@
-import { z, ZodTypeAny } from 'zod';
+import { ZodTypeAny } from 'zod';
 
 export type Compat = 'none' | 'backward' | 'forward';
 export type TopicId = string;
@@ -13,15 +13,15 @@ export type TopicSchema = {
 export class SchemaRegistry {
     private versions = new Map<TopicId, TopicSchema[]>(); // ascending by version
 
-    register(def: TopicSchema) {
+    register(def: TopicSchema): void {
         const list = this.versions.get(def.topic) ?? [];
         // ensure monotonic
-        if (list.length && def.version <= list[list.length - 1].version) {
+        if (list.length > 0 && def.version <= list[list.length - 1]!.version) {
             throw new Error(`version must increase for ${def.topic}`);
         }
         // validate compatibility (very light check via zod "shape" introspection best-effort)
-        if (list.length && def.compat !== 'none') {
-            const prev = list[list.length - 1];
+        if (list.length > 0 && def.compat !== 'none') {
+            const prev = list[list.length - 1]!;
             checkCompat(prev.schema, def.schema, def.compat);
         }
         list.push(def);
@@ -34,25 +34,25 @@ export class SchemaRegistry {
         return list[list.length - 1];
     }
 
-    validate(topic: TopicId, payload: unknown, version?: number) {
+    validate(topic: TopicId, payload: unknown, version?: number): void {
         const list = this.versions.get(topic);
-        if (!list || !list.length) return; // no schema → allow
-        const schema = version ? list.find((s) => s.version === version)?.schema : list[list.length - 1].schema;
+        if (!list || list.length === 0) return; // no schema → allow
+        const schema = version ? list.find((s) => s.version === version)?.schema : list[list.length - 1]!.schema;
         schema?.parse(payload);
     }
 }
 
-function checkCompat(prev: ZodTypeAny, next: ZodTypeAny, compat: Compat) {
+function checkCompat(prev: ZodTypeAny, next: ZodTypeAny, compat: Compat): void {
     // Minimal heuristic:
     // - backward: next must accept all fields prev accepted (no required field added)
     // - forward: prev must accept all fields next accepted (no required field removed)
     // We approximate using `.partial()` and safeParse roundtrips.
     if (compat === 'backward') {
-        const res = next.safeParse((prev as any).parse({} as any));
+        const res = next.safeParse(prev.parse({} as unknown));
         if (!res.success) throw new Error('backward compatibility check failed');
     }
     if (compat === 'forward') {
-        const res = prev.safeParse((next as any).parse({} as any));
+        const res = prev.safeParse(next.parse({} as unknown));
         if (!res.success) throw new Error('forward compatibility check failed');
     }
 }

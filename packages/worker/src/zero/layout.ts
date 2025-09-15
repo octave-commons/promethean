@@ -41,7 +41,6 @@ export function allocColumns(rows: number, layout: CompLayout, shared: boolean):
         const buf = shared
             ? new SharedArrayBuffer(Ctor.BYTES_PER_ELEMENT * rows)
             : new ArrayBuffer(Ctor.BYTES_PER_ELEMENT * rows);
-        // @ts-expect-error dynamic constructor
         fields[k] = new Ctor(buf);
     }
     const chBuf = shared ? new SharedArrayBuffer(Math.ceil(rows / 8)) : new ArrayBuffer(Math.ceil(rows / 8));
@@ -54,5 +53,5 @@ export function markChanged(bitset: Uint8Array, i: number) {
 }
 
 export function isChanged(bitset: Uint8Array, i: number) {
-    return (bitset[i >> 3] & (1 << (i & 7))) !== 0;
+    return (bitset[i >> 3]! & (1 << (i & 7))) !== 0;
 }

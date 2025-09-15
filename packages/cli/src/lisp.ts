@@ -95,26 +95,26 @@ async function cmdRun(args: Argv) {
     const importSpecs = args.filter((a) => a.startsWith('--import'));
     // remove all --import entries and their values if split form used
     for (let i = 0; i < args.length; ) {
-    // Collect --import specs in both forms and remove them from args
-    const merged: string[] = [];
-    for (let i = 0; i < args.length; ) {
-        const ai = args[i];
-        if (ai === '--import') {
-            const v = args[i + 1];
-            if (!v || v.startsWith('-')) {
-                throw new Error('--import requires name=path[:export]');
+        // Collect --import specs in both forms and remove them from args
+        const merged: string[] = [];
+        for (let i = 0; i < args.length; ) {
+            const ai = args[i]!;
+            if (ai === '--import') {
+                const v = args[i + 1];
+                if (!v || v.startsWith('-')) {
+                    throw new Error('--import requires name=path[:export]');
+                }
+                merged.push(v);
+                args.splice(i, 2);
+            } else if (ai.startsWith('--import=')) {
+                merged.push(ai.slice('--import='.length));
+                args.splice(i, 1);
+            } else {
+                i++;
             }
-            merged.push(v);
-            args.splice(i, 2);
-        } else if (ai.startsWith('--import=')) {
-            merged.push(ai.slice('--import='.length));
-            args.splice(i, 1);
-        } else {
-            i++;
         }
-    }
 
-    // merged now contains only 'name=path[:export]' specs
+        // merged now contains only 'name=path[:export]' specs
     }
     const file = args.shift();
     if (!file) return printUsage();

@@ -1,0 +1,98 @@
+{
+  "pipelines": [
+    {
+      "name": "sonar",
+      "steps": [
+        {
+          "id": "sonar-scan",
+          "cwd": ".",
+          "shell": "sonar-scanner && touch .cache/sonar/scan.touch",
+          "env": {
+            "SONAR_HOST_URL": "${SONAR_HOST_URL}",
+            "SONAR_TOKEN": "${SONAR_TOKEN}",
+            "SONAR_PROJECT_KEY": "${SONAR_PROJECT_KEY}"
+          },
+          "inputs": [
+            "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}",
+            "sonar-project.properties"
+          ],
+          "outputs": [".cache/sonar/scan.touch"],
+          "inputSchema": "packages/sonarflow/schemas/io.schema.json",
+          "outputSchema": "packages/sonarflow/schemas/io.schema.json"
+        },
+        {
+          "id": "sonar-fetch",
+          "deps": ["sonar-scan"],
+          "cwd": "packages/sonarflow",
+          "env": {
+            "SONAR_HOST_URL": "${SONAR_HOST_URL}",
+            "SONAR_TOKEN": "${SONAR_TOKEN}",
+            "SONAR_PROJECT_KEY": "${SONAR_PROJECT_KEY}"
+          },
+          "js": {
+            "module": "dist/02-fetch.js",
+            "export": "default",
+            "args": {
+              "project": "${SONAR_PROJECT_KEY}",
+              "out": ".cache/sonar/issues",
+              "statuses": "OPEN,REOPENED,CONFIRMED",
+              "types": "BUG,VULNERABILITY,CODE_SMELL,SECURITY_HOTSPOT",
+              "severities": "BLOCKER,CRITICAL,MAJOR,MINOR,INFO",
+              "pageSize": 500
+            },
+            "isolate": "worker"
+          },
+          "inputs": [],
+          "outputs": [".cache/sonar/issues"],
+          "outputSchema": "packages/sonarflow/schemas/io.schema.json"
+        },
+        {
+          "id": "sonar-plan",
+          "deps": ["sonar-fetch"],
+          "cwd": "packages/sonarflow",
+          "env": {
+            "OLLAMA_URL": "${OLLAMA_URL}"
+          },
+          "js": {
+            "module": "dist/03-plan.js",
+            "export": "default",
+            "args": {
+              "input": ".cache/sonar/issues",
+              "output": ".cache/sonar/plans",
+              "groupBy": "rule+prefix",
+              "prefixDepth": 2,
+              "minGroup": 2,
+              "model": "qwen3:4b"
+            },
+            "isolate": "worker"
+          },
+          "inputs": [".cache/sonar/issues"],
+          "outputs": [".cache/sonar/plans"],
+          "inputSchema": "packages/sonarflow/schemas/io.schema.json",
+          "outputSchema": "packages/sonarflow/schemas/io.schema.json"
+        },
+        {
+          "id": "sonar-write",
+          "deps": ["sonar-plan"],
+          "cwd": "packages/sonarflow",
+          "js": {
+            "module": "dist/04-write.js",
+            "export": "default",
+            "args": {
+              "input": ".cache/sonar/plans",
+              "out": "docs/agile/tasks/sonar",
+              "status": "todo",
+              "assignee": "",
+              "label": "sonarqube,quality,remediation"
+            },
+            "isolate": "worker"
+          },
+          "inputs": [".cache/sonar/plans"],
+          "outputs": ["docs/agile/tasks/sonar/*.md"],
+          "inputSchema": "packages/sonarflow/schemas/io.schema.json",
+          "outputSchema": "packages/sonarflow/schemas/io.schema.json"
+        }
+      ]
+    }
+  ]
+}
