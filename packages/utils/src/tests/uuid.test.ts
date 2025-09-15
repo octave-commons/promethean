@@ -9,16 +9,16 @@ test("randomUUID returns unique-like ids", (t) => {
 
 test("randomUUID falls back when crypto.randomUUID unavailable", (t) => {
   const g = globalThis as { crypto?: typeof globalThis.crypto };
-  const old = g.crypto;
-  // eslint-disable-next-line functional/immutable-data
-  delete g.crypto;
+  const desc = Object.getOwnPropertyDescriptor(g, "crypto");
+  Object.defineProperty(g, "crypto", { value: undefined, configurable: true });
   t.teardown(() => {
-    if (old === undefined) {
-      // eslint-disable-next-line functional/immutable-data
-      delete g.crypto;
+    if (desc) {
+      Object.defineProperty(g, "crypto", desc);
     } else {
-      // eslint-disable-next-line functional/immutable-data
-      g.crypto = old;
+      Object.defineProperty(g, "crypto", {
+        value: undefined,
+        configurable: true,
+      });
     }
   });
   const id = randomUUID();
