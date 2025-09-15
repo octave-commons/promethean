@@ -2,6 +2,7 @@ import { readFile, stat } from "node:fs/promises";
 import path from "node:path";
 
 import { listFiles } from "@promethean/fs";
+import type { PipelineType } from "@xenova/transformers";
 
 export type BrokenImageLink = {
   readonly file: string;
@@ -10,12 +11,10 @@ export type BrokenImageLink = {
 };
 
 async function pathExists(p: string): Promise<boolean> {
-  try {
-    await stat(p);
-    return true;
-  } catch {
-    return false;
-  }
+  return stat(p).then(
+    () => true,
+    () => false,
+  );
 }
 
 export async function findBrokenImageLinks(
@@ -24,31 +23,35 @@ export async function findBrokenImageLinks(
   const files = (await listFiles(root, { includeHidden: false }))
     .map((e) => e.path)
     .filter((p) => p.endsWith(".md") || p.endsWith(".org"));
-  const results: BrokenImageLink[] = [];
-  for (const file of files) {
-    const content = await readFile(file, "utf8");
-    // markdown ![alt](url)
-    const mdRegex = /!\[(.*?)\]\((.*?)\)/g;
-    let match: RegExpExecArray | null;
-    while ((match = mdRegex.exec(content)) !== null) {
-      const alt = match[1] ?? "";
-      const url = match[2]!;
-      const imgPath = path.resolve(path.dirname(file), url);
-      if (!(await pathExists(imgPath))) {
-        results.push({ file, url, alt });
-      }
-    }
-    // org [[file:img.png][alt]] or [[img.png]]
-    const orgRegex = /\[\[(?:file:)?([^\]\[]+?)\](?:\[([^\]]*?)\])?\]/g;
-    while ((match = orgRegex.exec(content)) !== null) {
-      const url = match[1]!;
-      const alt = match[2] ?? "";
-      const imgPath = path.resolve(path.dirname(file), url);
-      if (!(await pathExists(imgPath))) {
-        results.push({ file, url, alt });
-      }
-    }
-  }
+  const results = (
+    await Promise.all(
+      files.map(async (file) => {
+        const content = await readFile(file, "utf8");
+        const brokenLinks: BrokenImageLink[] = [];
+        // markdown ![alt](url)
+        const mdRegex = /!\[(.*?)\]\((.*?)\)/g;
+        for (const match of content.matchAll(mdRegex)) {
+          const alt = match[1] ?? "";
+          const url = match[2]!;
+          const imgPath = path.resolve(path.dirname(file), url);
+          if (!(await pathExists(imgPath))) {
+            brokenLinks.push({ file, url, alt });
+          }
+        }
+        // org [[file:img.png][alt]] or [[img.png]]
+        const orgRegex = /\[\[(?:file:)?([^\]\[]+?)\](?:\[([^\]]*?)\])?\]/g;
+        for (const match of content.matchAll(orgRegex)) {
+          const url = match[1]!;
+          const alt = match[2] ?? "";
+          const imgPath = path.resolve(path.dirname(file), url);
+          if (!(await pathExists(imgPath))) {
+            brokenLinks.push({ file, url, alt });
+          }
+        }
+        return brokenLinks;
+      }),
+    )
+  ).flat();
   return results;
 }
 
@@ -57,18 +60,22 @@ export type ImageGenerator = (
   outputPath: string,
 ) => Promise<void>;
 
+type Image = { save: (p: string) => Promise<void> };
+type TextToImageResult = { images: readonly Image[] };
+type TextToImagePipeline = (p: string) => Promise<TextToImageResult>;
+
 export async function defaultImageGenerator(
   prompt: string,
   outputPath: string,
 ): Promise<void> {
   const { pipeline } = await import("@xenova/transformers");
-  const pipe: any = await pipeline(
-    "text-to-image" as any,
-    "stabilityai/stable-diffusion-2-1-base" as any,
-  );
-  const result: any = await pipe(prompt);
+  const pipe = (await pipeline(
+    "text-to-image" as unknown as PipelineType,
+    "stabilityai/stable-diffusion-2-1-base",
+  )) as unknown as TextToImagePipeline;
+  const result = await pipe(prompt);
   // transformers.js Image type supports .save()
-  await result.images[0].save(outputPath);
+  await result.images[0]?.save(outputPath);
 }
 
 export async function fixBrokenImageLinks(
