@@ -25,44 +25,49 @@ async function sonarGet(
   return data;
 }
 
+async function fetchIssuePage(project: string, opts: FetchOpts, page: number) {
+  return sonarGet("/api/issues/search", {
+    projectKeys: project,
+    statuses: opts.statuses,
+    types: opts.types,
+    severities: opts.severities,
+    p: page,
+    ps: opts.pageSize,
+    additionalFields: "_all",
+  });
+}
+
+export function toSonarIssue(raw: Record<string, unknown>): SonarIssue {
+  return {
+    key: String(raw.key ?? ""),
+    rule: String(raw.rule ?? ""),
+    severity: String(raw.severity ?? "") as SonarIssue["severity"],
+    type: String(raw.type ?? "") as SonarIssue["type"],
+    component: String(raw.component ?? ""),
+    project: String(raw.project ?? ""),
+    line: typeof raw.line === "number" ? raw.line : undefined,
+    message: String(raw.message ?? ""),
+    debt: String(raw.debt ?? ""),
+    tags: Array.isArray(raw.tags) ? raw.tags.map((t) => String(t)) : [],
+  };
+}
+
 export async function fetchIssues(opts: FetchOpts) {
   const project = opts.project;
   if (!project) throw new Error("Provide project");
-
-  const pageSize = Number(opts.pageSize);
   const issues: SonarIssue[] = [];
   let page = 1,
     total = 0;
 
   do {
-    const data = await sonarGet("/api/issues/search", {
-      projectKeys: project,
-      statuses: opts.statuses,
-      types: opts.types,
-      severities: opts.severities,
-      p: page,
-      ps: pageSize,
-      additionalFields: "_all",
-    });
+    const data = await fetchIssuePage(project, opts, page);
 
     total = data.total;
     for (const it of data.issues as Array<Record<string, unknown>>) {
-      const issue: SonarIssue = {
-        key: String(it.key ?? ""),
-        rule: String(it.rule ?? ""),
-        severity: String(it.severity ?? "") as SonarIssue["severity"],
-        type: String(it.type ?? "") as SonarIssue["type"],
-        component: String(it.component ?? ""),
-        project: String(it.project ?? ""),
-        line: typeof it.line === "number" ? it.line : undefined,
-        message: String(it.message ?? ""),
-        debt: String(it.debt ?? ""),
-        tags: Array.isArray(it.tags) ? it.tags.map((t) => String(t)) : [],
-      };
-      issues.push(issue);
+      issues.push(toSonarIssue(it));
     }
     page++;
-  } while ((page - 1) * pageSize < total);
+  } while ((page - 1) * opts.pageSize < total);
 
   const payload: FetchPayload = {
     issues,
