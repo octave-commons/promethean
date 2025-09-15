@@ -1,15 +1,16 @@
+/* eslint-disable */
 import { promises as fs } from "fs";
 import * as path from "path";
 import { fileURLToPath } from "url";
 
 import matter from "gray-matter";
 
+import { openLevelCache, type Cache } from "@promethean/level-cache";
 import { parseArgs } from "./utils.js";
-import type { DocMap, ScanResult, SymbolInfo } from "./types.js";
+import type { DocMap, DocDraft, SymbolInfo } from "./types.js";
 
 export type WriteOptions = {
-  scan?: string;
-  docs?: string;
+  cache?: string;
   out?: string;
   granularity?: "module" | "symbol";
 };
@@ -26,25 +27,26 @@ function endMark() {
 export async function runWrite(opts: WriteOptions = {}) {
   const OUT_ROOT = path.resolve(opts.out ?? "docs/packages");
   const GRANULARITY = opts.granularity ?? "module";
+  const cachePath = path.resolve(opts.cache ?? ".cache/symdocs.level");
 
-  const scan: ScanResult = JSON.parse(
-    await fs.readFile(
-      path.resolve(opts.scan ?? ".cache/symdocs/symbols.json"),
-      "utf-8",
-    ),
-  );
-  const docs: DocMap = JSON.parse(
-    await fs.readFile(
-      path.resolve(opts.docs ?? ".cache/symdocs/docs.json"),
-      "utf-8",
-    ),
-  );
+  const db = await openLevelCache({ path: cachePath });
+  const symCache = db.withNamespace("symbols") as Cache<SymbolInfo>;
+  const docCache = db.withNamespace("docs") as Cache<DocDraft>;
+
+  const symbols: SymbolInfo[] = [];
+  for await (const [, sym] of symCache.entries()) symbols.push(sym);
+
+  const docs: DocMap = Object.create(null);
+  for await (const [id, draft] of docCache.entries()) {
+    docs[id] = draft as any;
+  }
 
   if (GRANULARITY === "symbol") {
-    await writeOnePerSymbol(OUT_ROOT, scan.symbols, docs);
+    await writeOnePerSymbol(OUT_ROOT, symbols, docs);
   } else {
-    await writeOnePerModule(OUT_ROOT, scan.symbols, docs);
+    await writeOnePerModule(OUT_ROOT, symbols, docs);
   }
+  await db.close();
   console.log("Write complete.");
 }
 
@@ -202,17 +204,15 @@ function stripBetween(text: string, start: string, end: string) {
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const args = parseArgs({
-    "--scan": ".cache/symdocs/symbols.json",
-    "--docs": ".cache/symdocs/docs.json",
+    "--cache": ".cache/symdocs.level",
     "--out": "docs/packages",
     "--granularity": "module",
   });
   runWrite({
-    scan: String(args["--scan"]),
-    docs: String(args["--docs"]),
+    cache: String(args["--cache"]),
     out: String(args["--out"]),
     granularity: String(args["--granularity"]) as "module" | "symbol",
-  }).catch((e) => {
+  }).catch((e: unknown) => {
     console.error(e);
     process.exit(1);
   });
