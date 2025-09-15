@@ -3,10 +3,11 @@ import * as path from "path";
 import { pathToFileURL } from "url";
 
 import { z } from "zod";
+import { openLevelCache } from "@promethean/level-cache";
 import { ollamaJSON } from "@promethean/utils";
 
 import { parseArgs } from "./utils.js";
-import type { ScanResult, Cluster, Plan } from "./types.js";
+import type { FunctionInfo, Cluster, Plan } from "./types.js";
 
 export type PlanArgs = {
   "--scan"?: string;
@@ -29,7 +30,7 @@ const PlanSchema = z.object({
 });
 
 export async function plan(args: PlanArgs) {
-  const SCAN = path.resolve(args["--scan"] ?? ".cache/simtasks/functions.json");
+  const SCAN = path.resolve(args["--scan"] ?? ".cache/simtasks/functions");
   const CLS = path.resolve(
     args["--clusters"] ?? ".cache/simtasks/clusters.json",
   );
@@ -38,9 +39,9 @@ export async function plan(args: PlanArgs) {
   const baseDir = args["--base-dir"] ?? "packages";
   const force = args["--force"] === "true";
 
-  const { functions }: ScanResult = JSON.parse(
-    await fs.readFile(SCAN, "utf-8"),
-  );
+  const fnCache = await openLevelCache<FunctionInfo[]>({ path: SCAN });
+  const functions = (await fnCache.get("functions")) ?? [];
+  await fnCache.close();
   const clusters: Cluster[] = JSON.parse(await fs.readFile(CLS, "utf-8"));
 
   const byId = new Map(functions.map((f) => [f.id, f]));
@@ -135,7 +136,7 @@ async function readJSON(p: string): Promise<any | undefined> {
 
 if (import.meta.url === pathToFileURL(process.argv[1] ?? "").href) {
   const args = parseArgs({
-    "--scan": ".cache/simtasks/functions.json",
+    "--scan": ".cache/simtasks/functions",
     "--clusters": ".cache/simtasks/clusters.json",
     "--out": ".cache/simtasks/plans.json",
     "--model": "qwen3:4b",
