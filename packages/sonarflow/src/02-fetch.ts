@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { pathToFileURL } from "url";
 
 import { parseArgs, SONAR_URL, authHeader, writeJSON } from "./utils.js";
@@ -13,16 +12,17 @@ export type FetchOpts = {
   pageSize: number;
 };
 
-async function sonarGet(
+async function sonarGet<T extends Record<string, unknown>>(
   pathname: string,
   params: Record<string, string | number>,
-) {
-  const qs = new URLSearchParams(params as any).toString();
+): Promise<T> {
+  const qs = new URLSearchParams(
+    Object.entries(params).map(([k, v]) => [k, String(v)]),
+  ).toString();
   const url = `${SONAR_URL}${pathname}?${qs}`;
   const res = await fetch(url, { headers: { ...authHeader() } });
   if (!res.ok) throw new Error(`Sonar API ${res.status} ${pathname}`);
-  const data: any = await res.json();
-  return data;
+  return (await res.json()) as T;
 }
 
 export async function fetchIssues(opts: FetchOpts) {
@@ -35,7 +35,10 @@ export async function fetchIssues(opts: FetchOpts) {
     total = 0;
 
   do {
-    const data = await sonarGet("/api/issues/search", {
+    const data = await sonarGet<{
+      total: number;
+      issues: Array<Record<string, unknown>>;
+    }>("/api/issues/search", {
       projectKeys: project,
       statuses: opts.statuses,
       types: opts.types,
