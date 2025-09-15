@@ -1,15 +1,15 @@
 // src/04-name.ts
-import { promises as fs } from "fs";
 import * as path from "path";
 import { z } from "zod";
+import { openLevelCache } from "@promethean/level-cache";
 import { parseArgs } from "./utils.js";
-import type { BlockManifest, Cluster, NamePlan } from "./types.js";
+import type { CodeBlock, Cluster, NamedGroup } from "./types.js";
 import { ollamaJSON } from "@promethean/utils";
 
 const args = parseArgs({
-  "--blocks": ".cache/codepack/blocks.json",
-  "--clusters": ".cache/codepack/clusters.json",
-  "--out": ".cache/codepack/names.json",
+  "--blocks": ".cache/codepack/blocks",
+  "--clusters": ".cache/codepack/clusters",
+  "--out": ".cache/codepack/names",
   "--gen-model": "qwen3:4b",
   "--base-dir": "packages", // suggested project-relative base
 });
@@ -45,12 +45,20 @@ async function main() {
   const model = args["--gen-model"];
   const baseDir = args["--base-dir"];
 
-  const { blocks }: BlockManifest = JSON.parse(
-    await fs.readFile(blocksPath, "utf-8"),
-  );
-  const clusters: Cluster[] = JSON.parse(
-    await fs.readFile(clustersPath, "utf-8"),
-  );
+  const blockCache = await openLevelCache<CodeBlock>({
+    path: blocksPath,
+    namespace: "blocks",
+  });
+  const blocks: CodeBlock[] = [];
+  for await (const [, b] of blockCache.entries()) blocks.push(b);
+  await blockCache.close();
+  const clusterCache = await openLevelCache<Cluster>({
+    path: clustersPath,
+    namespace: "clusters",
+  });
+  const clusters: Cluster[] = [];
+  for await (const [, c] of clusterCache.entries()) clusters.push(c);
+  await clusterCache.close();
 
   const byId = new Map(blocks.map((b) => [b.id, b]));
 
@@ -106,9 +114,18 @@ async function main() {
     groups.push({ clusterId: c.id, ...obj });
   }
 
-  const plan: NamePlan = { groups };
-  await fs.mkdir(path.dirname(outPath), { recursive: true });
-  await fs.writeFile(outPath, JSON.stringify(plan, null, 2), "utf-8");
+  const nameCache = await openLevelCache<NamedGroup>({
+    path: outPath,
+    namespace: "names",
+  });
+  await nameCache.batch(
+    groups.map((g) => ({
+      type: "put" as const,
+      key: g.clusterId,
+      value: g,
+    })),
+  );
+  await nameCache.close();
   console.log(
     `named ${groups.length} groups -> ${path.relative(process.cwd(), outPath)}`,
   );
