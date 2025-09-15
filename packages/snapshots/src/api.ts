@@ -1,7 +1,9 @@
-import { sha1 } from '@promethean/utils';
+/* eslint functional/prefer-immutable-types: "off", @typescript-eslint/prefer-readonly-parameter-types: "off" */
+import type { Server } from 'http';
 
-import express from 'express';
-import type { Db, Document, Filter } from 'mongodb';
+import express, { type RequestHandler } from 'express';
+import type { Db, Collection } from 'mongodb';
+import { sha1 } from '@promethean/utils';
 
 export type SnapshotApiOptions = {
     collection: string; // e.g., "processes.snapshot"
@@ -10,22 +12,13 @@ export type SnapshotApiOptions = {
     maxAgeSeconds?: number; // default 5 (client cache)
 };
 
-function etagOf(doc: Document): string {
+function etagOf(doc: unknown) {
     const s = JSON.stringify(doc);
     return '"' + sha1(s) + '"';
 }
 
-export function startSnapshotApi(db: Db, port = 8091, opts: SnapshotApiOptions) {
-    const app = express();
-    app.set('etag', false);
-    app.use(express.json({ limit: opts.bodyLimit ?? '200kb' }));
-
-    const coll = db.collection(opts.collection);
-    const keyField = opts.keyField ?? '_key';
-    const cacheCtl = `public, max-age=${opts.maxAgeSeconds ?? 5}`;
-
-    // GET /snap/:key
-    app.get('/snap/:key', async (req, res): Promise<void> => {
+export function getSnap(coll: Collection, keyField: string, cacheCtl: string): RequestHandler {
+    return async (req, res): Promise<void> => {
         const key = req.params.key;
         const doc = await coll.findOne({ [keyField]: key });
         if (!doc) {
@@ -41,28 +34,26 @@ export function startSnapshotApi(db: Db, port = 8091, opts: SnapshotApiOptions) 
         res.setHeader('ETag', etag);
         res.setHeader('Cache-Control', cacheCtl);
         res.json(doc);
-        return;
-    });
+    };
+}
 
-    // GET /list?offset=0&limit=100&status=alive
-    app.get('/list', async (req, res): Promise<void> => {
+export function listSnaps(coll: Collection, _keyField: string, _cacheCtl: string): RequestHandler {
+    return async (req, res): Promise<void> => {
         const limit = Math.min(Number(req.query.limit ?? 100), 1000);
         const offset = Number(req.query.offset ?? 0);
-        const q: Filter<Document> = {};
-        // simple filters
-        for (const k of Object.keys(req.query)) {
-            if (['limit', 'offset'].includes(k)) continue;
-            q[k] = req.query[k] as unknown;
-        }
+        const q = Object.entries(req.query).reduce<Record<string, unknown>>(
+            (acc, [k, v]) => (k === 'limit' || k === 'offset' ? acc : { ...acc, [k]: v }),
+            {},
+        );
         const cursor = coll.find(q).sort({ _ts: -1 }).skip(offset).limit(limit);
         const items = await cursor.toArray();
         res.setHeader('Cache-Control', 'no-store');
         res.json({ offset, limit, count: items.length, items });
-        return;
-    });
+    };
+}
 
-    // HEAD /snap/:key (for cheap freshness checks)
-    app.head('/snap/:key', async (req, res): Promise<void> => {
+export function headSnap(coll: Collection, keyField: string, cacheCtl: string): RequestHandler {
+    return async (req, res): Promise<void> => {
         const key = req.params.key;
         const doc = await coll.findOne({ [keyField]: key }, { projection: { _id: 0, _ts: 1 } });
         if (!doc) {
@@ -77,8 +68,21 @@ export function startSnapshotApi(db: Db, port = 8091, opts: SnapshotApiOptions) 
         res.setHeader('ETag', etag);
         res.setHeader('Cache-Control', cacheCtl);
         res.status(200).end();
-        return;
-    });
+    };
+}
+
+export function startSnapshotApi(db: Db, port = 8091, opts: SnapshotApiOptions): Server {
+    const app = express();
+    app.set('etag', false);
+    app.use(express.json({ limit: opts.bodyLimit ?? '200kb' }));
+
+    const coll = db.collection(opts.collection);
+    const keyField = opts.keyField ?? '_key';
+    const cacheCtl = `public, max-age=${opts.maxAgeSeconds ?? 5}`;
+
+    app.get('/snap/:key', getSnap(coll, keyField, cacheCtl));
+    app.get('/list', listSnaps(coll, keyField, cacheCtl));
+    app.head('/snap/:key', headSnap(coll, keyField, cacheCtl));
 
     return app.listen(port, () => console.log(`[snapshot-api] on :${port} (${opts.collection})`));
 }
