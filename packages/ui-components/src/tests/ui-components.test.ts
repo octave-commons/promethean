@@ -7,37 +7,39 @@ import {
 } from "../index.js";
 
 test("applyDesignTokens sets CSS variables", (t) => {
-  const style: Record<string, string> = {};
+  // eslint-disable-next-line functional/no-let
+  let styleEntries: Array<[string, string]> = [];
   const root = {
     style: {
       setProperty: (k: string, v: string): void => {
-        // eslint-disable-next-line functional/immutable-data
-        style[k] = v;
+        styleEntries = [...styleEntries, [k, v]];
       },
     },
   } as unknown as HTMLElement;
   applyDesignTokens(root);
+  const style = Object.fromEntries(styleEntries);
   Object.keys(designTokens).forEach((k) => {
     t.truthy(style[`--${k.replace(/[A-Z]/g, (m) => "-" + m.toLowerCase())}`]);
   });
 });
 
 test("registerUiComponents registers custom elements", (t) => {
-  const registry: Record<string, unknown> = {};
   type SimpleRegistry = {
     readonly define: (n: string, c: CustomElementConstructor) => void;
     readonly get: (n: string) => CustomElementConstructor | undefined;
-  }
+  };
+  // eslint-disable-next-line functional/no-let
+  let registry: Array<[string, CustomElementConstructor]> = [];
   const customEls: SimpleRegistry = {
     define: (n, c) => {
-      // eslint-disable-next-line functional/immutable-data
-      registry[n] = c;
+      registry = [...registry, [n, c]];
     },
-    get: (n) => registry[n] as CustomElementConstructor | undefined,
+    get: (n) => registry.find(([name]) => name === n)?.[1],
   };
+  // eslint-disable-next-line functional/immutable-data
   (globalThis as unknown as { customElements: SimpleRegistry }).customElements =
     customEls;
   registerUiComponents();
-  t.truthy(registry["ui-file-explorer"]);
-  t.truthy(registry["ui-chat-panel"]);
+  t.truthy(customEls.get("ui-file-explorer"));
+  t.truthy(customEls.get("ui-chat-panel"));
 });
