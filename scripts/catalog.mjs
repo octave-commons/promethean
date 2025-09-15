@@ -144,26 +144,21 @@ function skipByName(p) {
 async function readTextSmart(p) {
   const stat = await fsp.stat(p);
   if (stat.size === 0) return { skip: true, reason: "empty" };
-  if (stat.size > MAX_BYTES) {
-    // Read head only, but still index; description will mention truncation
-    const fd = await fsp.open(p, "r");
-    const buf = Buffer.alloc(Math.min(MAX_BYTES, 8192));
-    await fd.read(buf, 0, buf.length, 0);
-    await fd.close();
-    if (looksBinary(buf)) return { skip: true, reason: "binary/large" };
-    const head = await fsp
-      .readFile(p, { encoding: "utf8" })
-      .then((s) => s.slice(0, MAX_BYTES));
-    return { text: head, truncated: true };
-  } else {
-    const fd = await fsp.open(p, "r");
-    const buf = Buffer.alloc(Math.min(stat.size, 8192));
-    await fd.read(buf, 0, buf.length, 0);
-    await fd.close();
-    if (looksBinary(buf)) return { skip: true, reason: "binary" };
-    const text = await fsp.readFile(p, "utf8");
-    return { text, truncated: false };
+  const fd = await fsp.open(p, "r");
+  const buf = Buffer.alloc(Math.min(stat.size, MAX_BYTES));
+  const { bytesRead } = await fd.read(buf, 0, buf.length, 0);
+  await fd.close();
+  const sample = buf.slice(0, bytesRead);
+  if (looksBinary(sample)) {
+    return {
+      skip: true,
+      reason: stat.size > MAX_BYTES ? "binary/large" : "binary",
+    };
   }
+  return {
+    text: sample.toString("utf8"),
+    truncated: bytesRead === MAX_BYTES,
+  };
 }
 
 function langFromExt(p) {
