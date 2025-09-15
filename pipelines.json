@@ -78,7 +78,7 @@
             "isolate": "worker"
           },
           "inputs": ["packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"],
-          "outputs": [".cache/simtasks/functions.json"],
+          "outputs": [".cache/simtasks/functions"],
           "inputSchema": "packages/simtask/schemas/io.schema.json",
           "outputSchema": "packages/simtask/schemas/io.schema.json"
         },
@@ -89,14 +89,14 @@
             "module": "packages/simtask/dist/02-embed.js",
             "export": "embed",
             "args": {
-              "--in": ".cache/simtasks/functions.json",
+              "--in": ".cache/simtasks/functions",
               "--out": ".cache/simtasks/embeddings",
               "--embed-model": "nomic-embed-text:latest"
             },
             "isolate": "worker"
           },
           "env": { "OLLAMA_URL": "${OLLAMA_URL}" },
-          "inputs": [".cache/simtasks/functions.json"],
+          "inputs": [".cache/simtasks/functions"],
           "outputs": [".cache/simtasks/embeddings"],
           "inputSchema": "packages/simtask/schemas/io.schema.json",
           "outputSchema": "packages/simtask/schemas/io.schema.json"
@@ -108,7 +108,7 @@
             "module": "packages/simtask/dist/03-cluster.js",
             "export": "cluster",
             "args": {
-              "--scan": ".cache/simtasks/functions.json",
+              "--scan": ".cache/simtasks/functions",
               "--embeds": ".cache/simtasks/embeddings",
               "--out": ".cache/simtasks/clusters.json",
               "--sim-threshold": "0.86",
@@ -129,7 +129,7 @@
             "module": "packages/simtask/dist/04-plan.js",
             "export": "plan",
             "args": {
-              "--scan": ".cache/simtasks/functions.json",
+              "--scan": ".cache/simtasks/functions",
               "--clusters": ".cache/simtasks/clusters.json",
               "--out": ".cache/simtasks/plans.json",
               "--model": "qwen3:4b",
@@ -150,7 +150,7 @@
             "module": "packages/simtask/dist/05-write.js",
             "export": "writeTasks",
             "args": {
-              "--scan": ".cache/simtasks/functions.json",
+              "--scan": ".cache/simtasks/functions",
               "--clusters": ".cache/simtasks/clusters.json",
               "--plans": ".cache/simtasks/plans.json",
               "--out": "docs/agile/tasks"
@@ -169,10 +169,10 @@
       "steps": [
         {
           "id": "mods-simtasks",
-          "shell": "bash -lc 'if [ ! -f .cache/simtasks/functions.json ] || [ ! -f .cache/simtasks/clusters.json ] || [ ! -f .cache/simtasks/plans.json ]; then pnpm --filter @promethean/piper piper run simtasks --config pipelines.json; fi'",
+          "shell": "bash -lc 'if [ ! -d .cache/simtasks/functions ] || [ ! -f .cache/simtasks/clusters.json ] || [ ! -f .cache/simtasks/plans.json ]; then pnpm --filter @promethean/piper piper run simtasks --config pipelines.json; fi'",
           "inputs": [],
           "outputs": [
-            ".cache/simtasks/functions.json",
+            ".cache/simtasks/functions",
             ".cache/simtasks/clusters.json",
             ".cache/simtasks/plans.json"
           ],
@@ -183,7 +183,7 @@
           "deps": ["mods-simtasks"],
           "shell": "pnpm --filter @promethean/codemods mods:01-spec --tsconfig ./tsconfig.json",
           "inputs": [
-            ".cache/simtasks/functions.json",
+            ".cache/simtasks/functions",
             ".cache/simtasks/clusters.json",
             ".cache/simtasks/plans.json"
           ],
