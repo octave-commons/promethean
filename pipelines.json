@@ -253,14 +253,15 @@
             "args": {
               "root": "packages",
               "tsconfig": "./tsconfig.json",
-              "out": ".cache/semverguard/snapshot.json"
+              "cache": ".cache/semverguard",
+              "ns": "snapshot"
             }
           },
           "inputs": [
             "packages/**/package.json",
             "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"
           ],
-          "outputs": [".cache/semverguard/snapshot.json"],
+          "outputs": [],
           "inputSchema": "packages/semverguard/schemas/io.schema.json",
           "outputSchema": "packages/semverguard/schemas/io.schema.json"
         },
@@ -271,13 +272,14 @@
             "module": "scripts/piper-semverguard.mjs",
             "export": "diff",
             "args": {
-              "current": ".cache/semverguard/snapshot.json",
-              "baseline": "git:origin/main:.cache/semverguard/snapshot.json",
-              "out": ".cache/semverguard/diff.json"
+              "cache": ".cache/semverguard",
+              "currentNs": "snapshot",
+              "baselineNs": "baseline",
+              "diffNs": "diff"
             }
           },
-          "inputs": [".cache/semverguard/snapshot.json"],
-          "outputs": [".cache/semverguard/diff.json"],
+          "inputs": [],
+          "outputs": [],
           "inputSchema": "packages/semverguard/schemas/io.schema.json",
           "outputSchema": "packages/semverguard/schemas/io.schema.json"
         },
@@ -288,16 +290,15 @@
             "module": "scripts/piper-semverguard.mjs",
             "export": "plan",
             "args": {
-              "diff": ".cache/semverguard/diff.json",
-              "out": ".cache/semverguard/plans.json",
+              "cache": ".cache/semverguard",
+              "diffNs": "diff",
+              "planNs": "plan",
               "model": "qwen3:4b"
             }
           },
-          "env": {
-            "OLLAMA_URL": "${OLLAMA_URL}"
-          },
-          "inputs": [".cache/semverguard/diff.json"],
-          "outputs": [".cache/semverguard/plans.json"],
+          "env": { "OLLAMA_URL": "${OLLAMA_URL}" },
+          "inputs": [],
+          "outputs": [],
           "inputSchema": "packages/semverguard/schemas/io.schema.json",
           "outputSchema": "packages/semverguard/schemas/io.schema.json"
         },
@@ -308,11 +309,12 @@
             "module": "scripts/piper-semverguard.mjs",
             "export": "write",
             "args": {
-              "plans": ".cache/semverguard/plans.json",
+              "cache": ".cache/semverguard",
+              "planNs": "plan",
               "out": "docs/agile/tasks/semver"
             }
           },
-          "inputs": [".cache/semverguard/plans.json"],
+          "inputs": [],
           "outputs": ["docs/agile/tasks/semver/*.md"],
           "inputSchema": "packages/semverguard/schemas/io.schema.json",
           "outputSchema": "packages/semverguard/schemas/io.schema.json"
@@ -324,17 +326,15 @@
             "module": "scripts/piper-semverguard.mjs",
             "export": "pr",
             "args": {
-              "plans": ".cache/semverguard/plans.json",
+              "cache": ".cache/semverguard",
+              "planNs": "plan",
               "root": "packages",
               "mode": "prepare",
               "updateDependents": true,
               "depRange": "preserve"
             }
           },
-          "inputs": [
-            ".cache/semverguard/plans.json",
-            "packages/**/package.json"
-          ],
+          "inputs": ["packages/**/package.json"],
           "outputs": [".cache/semverguard/pr/summary.json"],
           "inputSchema": "packages/semverguard/schemas/io.schema.json",
           "outputSchema": "packages/semverguard/schemas/io.schema.json"
