@@ -245,7 +245,7 @@ kanban-plugin: board
 
 ## Accepted
 
-- [ ] [[get all existing pipelines functional]]
+- [ ] [[get all existing piper pipelines functional]]
 - [ ] make cephalon work again with new project layout
 - [ ] Use clojure elisp tree sitter package to generate mcp.el valid s-expr
 - [ ] discord text mode
