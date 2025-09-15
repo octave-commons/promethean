@@ -1,11 +1,10 @@
-import { promises as fs } from "fs";
 import * as path from "path";
 import { pathToFileURL } from "url";
 
 import { openLevelCache } from "@promethean/level-cache";
 import { ollamaEmbed, parseArgs } from "@promethean/utils";
 
-import type { ScanResult } from "./types.js";
+import type { FunctionInfo } from "./types.js";
 
 export type EmbedArgs = {
   "--in"?: string;
@@ -16,7 +15,7 @@ export type EmbedArgs = {
 };
 
 export async function embed(args: Readonly<EmbedArgs>): Promise<void> {
-  const IN = path.resolve(args["--in"] ?? ".cache/simtasks/functions.json");
+  const IN = path.resolve(args["--in"] ?? ".cache/simtasks/functions");
   const CACHE_PATH = path.resolve(
     args["--out"] ?? ".cache/simtasks/embeddings",
   );
@@ -24,9 +23,9 @@ export async function embed(args: Readonly<EmbedArgs>): Promise<void> {
   const withDoc = args["--include-jsdoc"] === "true";
   const withSnippet = args["--include-snippet"] === "true";
 
-  const { functions } = JSON.parse(
-    await fs.readFile(IN, "utf-8"),
-  ) as ScanResult;
+  const scanCache = await openLevelCache<FunctionInfo[]>({ path: IN });
+  const functions = (await scanCache.get("functions")) ?? [];
+  await scanCache.close();
   const cache = await openLevelCache<number[]>({ path: CACHE_PATH });
   const toEmbed: typeof functions = [];
   for (const f of functions) {
@@ -58,7 +57,7 @@ export async function embed(args: Readonly<EmbedArgs>): Promise<void> {
 
 if (import.meta.url === pathToFileURL(process.argv[1] ?? "").href) {
   const args = parseArgs({
-    "--in": ".cache/simtasks/functions.json",
+    "--in": ".cache/simtasks/functions",
     "--out": ".cache/simtasks/embeddings",
     "--embed-model": "nomic-embed-text:latest",
     "--include-jsdoc": "true",
