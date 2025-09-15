@@ -1,3 +1,11 @@
+---
+uuid: 1ca3cb3e-b00a-457d-83a9-d0df3c1159ce
+title: frontend build tool chain
+status: todo
+priority: P3
+labels: []
+created_at: '2025-09-15T02:02:58.514Z'
+---
 ## 🛠️ Description
 
 Establish a repeatable build pipeline for the `sites/` frontend that shares TypeScript code with `shared/` and participates in CI.
@@ -49,4 +57,5 @@ Nothing
 - [kanban](kanban.md)
 
 #devops #Ready
+
 

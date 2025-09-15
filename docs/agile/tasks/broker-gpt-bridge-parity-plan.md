@@ -1,3 +1,11 @@
+---
+uuid: 63fd4d57-aa99-4b77-9de6-fa7acf6e6d83
+title: Broker ↔ GPT Bridge Parity Test Plan
+status: todo
+priority: P3
+labels: []
+created_at: '2025-09-15T02:02:58.508Z'
+---
 # Broker ↔ GPT Bridge Parity Test Plan
 
 **Owner:** Codex / Agent
@@ -313,3 +321,4 @@ test(parity): add broker↔bridge parity suites + normalizers + CI gate
 \#tags #broker #gptbridge #parity #ws #http #testing #ci #observability #promethean
 
 #in-review
+
