@@ -298,6 +298,12 @@ export async function runPipeline(
           }
         }
 
+        for (const out of s.outputs) {
+          if (!/[?*\[\]{}]/.test(out)) {
+            await ensureDir(path.resolve(cwd, path.dirname(out)));
+          }
+        }
+
         const envMerged = {
           ...(s.env || {}),
           ...(opts.extraEnv || {}),
