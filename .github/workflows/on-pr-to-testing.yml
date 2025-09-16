@@ -17,5 +17,5 @@ jobs:
       - name: Install deps
         run: pnpm install --frozen-lockfile
 
-      - run: pnpm nx affected -t lint
-      - run: pnpm nx affected -t test --parallel
+      - run: pnpm exec nx affected -t lint
+      - run: pnpm exec nx affected -t test --parallel
