@@ -18,4 +18,4 @@ jobs:
       # Optional: spin up Nx Cloud agents to parallelize
       # - run: npx nx start-ci-run --distribute-on="3 linux-medium-js" --stop-agents-after="build"
 
-      - run: pnpm nx affected -t lint test build
+      - run: pnpm exec nx affected -t lint test build

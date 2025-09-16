@@ -23,4 +23,4 @@ jobs:
         # (works for PRs and pushes)
 
       # Build only what changed
-      - run: pnpm nx affected -t build
+      - run: pnpm exec nx affected -t build
