@@ -293,7 +293,7 @@ function normalizeIgnoreSegments(
   return Array.from(ignoreDirs)
     .map((value) => value?.trim())
     .filter(isNonEmpty)
-    .map((value) => value.replace(/[\\/]+$/, ""))
+    .map(trimTrailingSlashes)
     .filter(isNonEmpty)
     .map((value) =>
       path.isAbsolute(value) ? path.relative(root, value) : value,
@@ -307,4 +307,20 @@ function normalizeIgnoreSegments(
 
 function isNonEmpty(value: string | undefined | null): value is string {
   return typeof value === "string" && value.length > 0;
+}
+
+function trimTrailingSlashes(value: string): string {
+  const end = findLastNonSlashIndex(value, value.length - 1);
+  return end < 0 ? "" : value.slice(0, end + 1);
+}
+
+function findLastNonSlashIndex(value: string, index: number): number {
+  if (index < 0) {
+    return -1;
+  }
+  const code = value.charCodeAt(index);
+  if (code === 47 || code === 92) {
+    return findLastNonSlashIndex(value, index - 1);
+  }
+  return index;
 }
