@@ -30,5 +30,5 @@ repos:
       - id: eslint-diff
         name: ESLint on diff from main
         pass_filenames: false
-        entry: pnpm nx affected -t lint test build
+        entry: pnpm exec nx affected -t lint test build
         language: system
