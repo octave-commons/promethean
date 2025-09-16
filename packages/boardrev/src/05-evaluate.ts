@@ -1,13 +1,19 @@
-/* eslint-disable */
 import * as path from "path";
 import { promises as fs } from "fs";
 
 import matter from "gray-matter";
 import { z } from "zod";
-import { parseArgs, ollamaJSON, writeText } from "@promethean/utils";
+import {
+  parseArgs,
+  ollamaJSON,
+  writeText,
+  createLogger,
+} from "@promethean/utils";
 
 import { normStatus } from "./utils.js";
-import type { PromptChunk, TaskContext, EvalItem } from "./types.js";
+import type { PromptChunk, TaskContext, EvalItem, TaskFM } from "./types.js";
+
+const logger = createLogger({ service: "boardrev" });
 
 const EvalSchema = z.object({
   inferred_status: z.string().min(1),
@@ -19,25 +25,34 @@ const EvalSchema = z.object({
   suggested_assignee: z.string().optional(),
 });
 
+// eslint-disable-next-line max-lines-per-function, complexity, sonarjs/cognitive-complexity
 export async function evaluate({
   prompts: promptsPath,
   context: contextPath,
   model,
   out,
-}: Readonly<{ prompts: string; context: string; model: string; out: string }>) {
-  const prompts: { prompts: PromptChunk[] } = JSON.parse(
+}: Readonly<{
+  prompts: string;
+  context: string;
+  model: string;
+  out: string;
+}>): Promise<void> {
+  const promptsData: unknown = JSON.parse(
     await fs.readFile(path.resolve(promptsPath), "utf-8"),
   );
-  const contexts: { contexts: TaskContext[] } = JSON.parse(
+  const prompts = promptsData as { prompts: PromptChunk[] };
+  const contextsData: unknown = JSON.parse(
     await fs.readFile(path.resolve(contextPath), "utf-8"),
   );
+  const contexts = contextsData as { contexts: TaskContext[] };
 
   const items: EvalItem[] = [];
 
   for (const ctx of contexts.contexts) {
     const raw = await fs.readFile(ctx.taskFile, "utf-8");
     const gm = matter(raw);
-    const status = normStatus(gm.data?.status ?? "todo");
+    const fm = gm.data as Partial<TaskFM>;
+    const status = normStatus(fm.status ?? "todo");
     const p =
       prompts.prompts.find((x) => x.heading === status) ??
       prompts.prompts.find((x) => x.heading === "general");
@@ -51,8 +66,8 @@ export async function evaluate({
     const user = [
       `PROCESS_PROMPT: ${p?.prompt ?? ""}`,
       "",
-      `TASK_TITLE: ${gm.data?.title ?? ""}`,
-      `TASK_STATUS: ${status}  PRIORITY: ${gm.data?.priority ?? ""}`,
+      `TASK_TITLE: ${fm.title ?? ""}`,
+      `TASK_STATUS: ${status}  PRIORITY: ${fm.priority ?? ""}`,
       "",
       "TASK_BODY:",
       (gm.content || "").slice(0, 4000),
@@ -70,17 +85,15 @@ export async function evaluate({
       .filter(Boolean)
       .join("\n");
 
-    let obj: any;
-    try {
-      obj = await ollamaJSON(model, `SYSTEM:\n${sys}\n\nUSER:\n${user}`);
-    } catch {
-      obj = {
-        inferred_status: status,
-        confidence: 0.5,
-        summary: "Review failed; keep current status.",
-        suggested_actions: ["Manually review this task."],
-      };
-    }
+    const obj: unknown = await ollamaJSON(
+      model,
+      `SYSTEM:\n${sys}\n\nUSER:\n${user}`,
+    ).catch(() => ({
+      inferred_status: status,
+      confidence: 0.5,
+      summary: "Review failed; keep current status.",
+      suggested_actions: ["Manually review this task."],
+    }));
 
     const parsed = EvalSchema.safeParse(obj);
     const clean = parsed.success
@@ -110,7 +123,7 @@ export async function evaluate({
   }
 
   await writeText(path.resolve(out), JSON.stringify({ evals: items }, null, 2));
-  console.log(`boardrev: evaluated ${items.length} task(s)`);
+  logger.info(`boardrev: evaluated ${items.length} task(s)`);
 }
 
 if (import.meta.main) {
@@ -127,7 +140,7 @@ if (import.meta.main) {
     model: args["--model"],
     out: args["--out"],
   }).catch((e) => {
-    console.error(e);
+    logger.error((e as Error).message);
     process.exit(1);
   });
 }

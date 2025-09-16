@@ -1,15 +1,14 @@
 // src/02-embed.ts
-import { promises as fs } from "fs";
 import * as path from "path";
 
 import { ollamaEmbed } from "@promethean/utils";
 import { openLevelCache } from "@promethean/level-cache";
 
 import { parseArgs } from "./utils.js";
-import type { BlockManifest } from "./types.js";
+import type { CodeBlock } from "./types.js";
 
 const args = parseArgs({
-  "--blocks": ".cache/codepack/blocks.json",
+  "--blocks": ".cache/codepack/blocks",
   "--cache": ".cache/codepack/embeds",
   "--embed-model": "nomic-embed-text:latest",
   "--mix-context": "true", // include before/after in embedding
@@ -21,10 +20,13 @@ async function main() {
   const model = args["--embed-model"];
   const mix = args["--mix-context"] === "true";
 
-  const manifest = JSON.parse(
-    await fs.readFile(blocksPath, "utf-8"),
-  ) as BlockManifest;
-  const { blocks } = manifest;
+  const blockCache = await openLevelCache<CodeBlock>({
+    path: blocksPath,
+    namespace: "blocks",
+  });
+  const blocks: CodeBlock[] = [];
+  for await (const [, b] of blockCache.entries()) blocks.push(b);
+  await blockCache.close();
 
   const cache = await openLevelCache<number[]>({
     path: cachePath,

@@ -1,25 +1,11 @@
 ---
-promptId: smart_task_templater_md
-name: "tree-diffing-tools"
-description: A task on the kanban of the promethean system.
-author: Aaron Beavers
-tags:
-  - prompt-refinement
-  - promptcompiler
-  - "#metaprogramming"
-  - "#metacompiler"
-version: 0.0.1
-disableProvider: false
-provider: ollama
-commands: generate
-mode: replace
-streaming: "true"
-model: llama3.2
-prompt: "tree-diffing-tools"
-task-id: TASK-2025-08-30
+uuid: 7ac178ae-b95a-465c-a3e7-603c5a4b64b4
+title: tree diffing tools
+status: todo
 priority: p3
+labels: []
+created_at: '2025-09-15T02:02:58.523Z'
 ---
-
 <hr class="__chatgpt_plugin">
 
 <span style="font-size: small;"> (llama3.2:latest)</span>
@@ -69,3 +55,4 @@ You might find [this](link) useful while working on this task.
 <hr class="__chatgpt_plugin">
 
 ### role::user
+

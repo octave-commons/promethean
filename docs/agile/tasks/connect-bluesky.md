@@ -1,3 +1,11 @@
+---
+uuid: 49a002af-c299-402a-b922-8308556c437b
+title: Description
+status: todo
+priority: P3
+labels: []
+created_at: '2025-09-15T02:02:58.509Z'
+---
 # Description
 
 Enable agents to interact with Bluesky using the AT Protocol APIs and app-password authentication.
@@ -52,3 +60,4 @@ Useful for agents to engage in append only conversations about this task.
 
 #Ready
 #ready
+

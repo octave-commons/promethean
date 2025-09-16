@@ -1,3 +1,11 @@
+---
+uuid: b2d63853-2a8e-4e5c-a196-3fc69299d876
+title: WebSocket Broker API Parity with GPT Bridge
+status: todo
+priority: P3
+labels: []
+created_at: '2025-09-15T02:02:58.510Z'
+---
 # WebSocket Broker API Parity with GPT Bridge
 
 **Owner:** Codex / Agent
@@ -186,3 +194,4 @@ Bring the **WebSocket broker API** up to full parity with the existing **GPT Bri
 Append-only thread for agents to log discovered gaps, schema changes, or overload handling notes.
 
 #ready
+

@@ -1,3 +1,11 @@
+---
+uuid: f446af1c-3616-478b-8bef-4e682d3ef17c
+title: Description
+status: todo
+priority: P3
+labels: []
+created_at: '2025-09-15T02:02:58.510Z'
+---
 # Description
 
 Integrate Wikipedia article lookup using the MediaWiki API for knowledge retrieval.
@@ -72,3 +80,4 @@ No blockers.
 
 #Ready
 #ready
+

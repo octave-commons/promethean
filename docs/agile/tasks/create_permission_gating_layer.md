@@ -1,3 +1,11 @@
+---
+uuid: a5b35121-160a-496a-ac7b-94e405294888
+title: create permission gating layer
+status: todo
+priority: P3
+labels: []
+created_at: '2025-09-15T02:02:58.510Z'
+---
 ## 🛠️ Task: Create permission gating layer
 
 Introduce a middleware layer that checks whether an action or
@@ -56,3 +64,4 @@ is based on the "Dorian Permission Gate" equations in our math notes.
 - What format should permission rules use—YAML or JSON?
 - Do we need real-time updates or is a static config sufficient?
 #done
+
