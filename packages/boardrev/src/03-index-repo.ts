@@ -1,12 +1,14 @@
-/* eslint-disable */
 import * as path from "path";
+import { pathToFileURL } from "url";
 import { promises as fs } from "fs";
 
 import { globby } from "globby";
 import { openLevelCache, type Cache } from "@promethean/level-cache";
-import { ollamaEmbed, parseArgs } from "@promethean/utils";
+import { ollamaEmbed, parseArgs, createLogger } from "@promethean/utils";
 
 import type { RepoDoc } from "./types.js";
+
+const logger = createLogger({ service: "boardrev" });
 
 export async function indexRepo({
   globs,
@@ -20,39 +22,40 @@ export async function indexRepo({
   maxLines: number;
   embedModel: string;
   cache: string;
-}>) {
+}>): Promise<void> {
   const files = await globby(globs.split(",").map((s) => s.trim()));
   const db = await openLevelCache<unknown>({
     path: path.resolve(cache),
   });
   const docCache = db.withNamespace("idx") as Cache<RepoDoc>;
   const embCache = db.withNamespace("emb") as Cache<number[]>;
-  let indexed = 0;
 
-  for (const f of files) {
-    const st = await fs.stat(f);
-    if (st.size > maxBytes) continue;
-    const raw = await fs.readFile(f, "utf-8");
-    const excerpt = raw.split(/\r?\n/).slice(0, maxLines).join("\n");
-    const kind = /\.(md|mdx)$/i.test(f) ? "doc" : "code";
-    const doc: RepoDoc = {
-      path: f.replace(/\\/g, "/"),
-      size: st.size,
-      kind,
-      excerpt,
-    };
-    await docCache.set(doc.path, doc);
-    if (!(await embCache.has(doc.path))) {
-      const text = `PATH: ${doc.path}\nKIND: ${doc.kind}\n---\n${doc.excerpt}`;
-      await embCache.set(doc.path, await ollamaEmbed(embedModel, text));
-    }
-    indexed++;
-  }
+  const indexed = await Promise.all<number>(
+    files.map(async (f): Promise<number> => {
+      const st = await fs.stat(f);
+      if (st.size > maxBytes) return 0;
+      const raw = await fs.readFile(f, "utf-8");
+      const excerpt = raw.split(/\r?\n/).slice(0, maxLines).join("\n");
+      const kind = /\.(md|mdx)$/i.test(f) ? "doc" : "code";
+      const doc: RepoDoc = {
+        path: f.replace(/\\/g, "/"),
+        size: st.size,
+        kind,
+        excerpt,
+      };
+      await docCache.set(doc.path, doc);
+      if (!(await embCache.has(doc.path))) {
+        const text = `PATH: ${doc.path}\nKIND: ${doc.kind}\n---\n${doc.excerpt}`;
+        await embCache.set(doc.path, await ollamaEmbed(embedModel, text));
+      }
+      return 1;
+    }),
+  ).then((arr) => arr.reduce((a, b) => a + b, 0));
+
   await db.close();
-  console.log(`boardrev: indexed ${indexed} repo docs`);
+  logger.info(`boardrev: indexed ${indexed} repo docs`);
 }
 
-import { pathToFileURL } from "url";
 if (import.meta.url === pathToFileURL(process.argv[1]!).href) {
   const args = parseArgs({
     "--globs":
@@ -69,7 +72,7 @@ if (import.meta.url === pathToFileURL(process.argv[1]!).href) {
     embedModel: args["--embed-model"],
     cache: args["--cache"],
   }).catch((e) => {
-    console.error(e);
+    logger.error((e as Error).message);
     process.exit(1);
   });
 }

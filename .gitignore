@@ -115,3 +115,7 @@ packages/piper/test-tmp/
 packages/buildfix/test-tmp/
 
 packages/docops/test-tmp/
+# codex artifacts
+docs/reports/codex_cloud/describe/
+docs/reports/codex_cloud/runs/
+docs/reports/codex_cloud/latest

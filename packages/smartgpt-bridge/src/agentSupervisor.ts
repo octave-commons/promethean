@@ -56,7 +56,7 @@ export class AgentSupervisor {
     if (!fs.existsSync(logDir)) fs.mkdirSync(logDir, { recursive: true });
   }
 
-  start({
+  async start({
     prompt,
     tty: _tty = true,
     env = {},
@@ -66,7 +66,7 @@ export class AgentSupervisor {
     tty?: boolean;
     env?: Record<string, string>;
     bypassApprovals?: boolean;
-  }) {
+  }): Promise<string> {
     const id = nanoid();
     const logBuffer = new LogBuffer();
     const logfile = path.join(this.logDir, `${id}.log`);
@@ -101,7 +101,7 @@ export class AgentSupervisor {
       ];
     }
 
-    const pty = getPty();
+    const pty = await getPty();
     if (!pty) {
       throw new PtyUnavailableError();
     }

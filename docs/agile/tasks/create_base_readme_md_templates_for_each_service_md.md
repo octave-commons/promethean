@@ -1,3 +1,11 @@
+---
+uuid: 7c508df7-4463-461a-8549-0ac8dd256192
+title: create base readme md templates for each service md
+status: todo
+priority: P3
+labels: []
+created_at: '2025-09-15T02:02:58.510Z'
+---
 ## 🧠 Description
 
 Each service in `services/` should include a minimal `README.md` explaining its purpose, how to start it, and any dependencies. This task enforces that standard.
@@ -35,3 +43,4 @@ Most directories currently lack a README, so we need to create them using a comm
 
 
 #archive
+

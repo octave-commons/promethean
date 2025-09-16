@@ -1,41 +1,13 @@
 ---
-task-id: TASK-{{YYYYMMDD-hhmmss}}-{{rand4}}
+uuid: 19470007-2c10-46f3-a5bf-afe2f5ad72d5
 title: <verb> <thing> <qualifier>
-state: New
-prev:
-txn: "{{ISO8601}}-{{rand4}}"
-owner: err
+status: todo
 priority: p3
-size: m
-epic: EPC-000
-depends_on: []
 labels:
-  - board:auto
-  - lang:ts
-due:
-links: []
-artifacts: []
-rationale: <why this matters in 1–4 sentences>
-proposed_transitions:
-  - New->Accepted
-  - Accepted->Breakdown
-tags:
-  - task/TASK-{{YYYYMMDD-hhmmss}}-{{rand4}}
-  - board/kanban
-  - state/New
-  - owner/err
-  - priority/p3
-  - epic/EPC-000
-  - "#devops"
-  - migration
-  - "#architectural-decisions"
-  - "#monorepo"
-  - "#packages"
-  - "#package-manager"
-  - "#runtime"
-  - "#multiruntime"
+  - 'board:auto'
+  - 'lang:ts'
+created_at: '2025-09-15T02:02:58.509Z'
 ---
-
 ## Context
 
 - Shared package monolith creep was affecting us in difficult to understand ways
@@ -65,3 +37,4 @@ You might find [this] useful while working on this task
 ## Notes
 - …
 #accepted
+

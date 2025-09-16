@@ -7,11 +7,13 @@ import { globby } from "globby";
  * Find markdown task files (skip READMEs).
  * Globs require forward slashes; normalize on Windows.
  */
-export async function listTaskFiles(dir: string) {
-  return globby([`${dir.replace(/\\/g, "/")}/**/*.md`, "!**/README.md"]); // forward slashes per globby docs
+export async function listTaskFiles(
+  dir: string,
+): Promise<ReadonlyArray<string>> {
+  return globby([`${dir.replace(/\\/g, "/")}/**/*.md`, "!**/README.md"]);
 }
 
-export function normStatus(s: string) {
+export function normStatus(s: string): string {
   const t = (s || "").toLowerCase();
   if (/backlog/.test(t)) return "backlog";
   if (/todo|to[-\s]?do/.test(t)) return "todo";

@@ -1,3 +1,11 @@
+---
+uuid: 9a9e9c97-fbaa-4580-90ac-2d1f17eebbec
+title: redefine all existing lambdas with high order functions incoming
+status: todo
+priority: P3
+labels: []
+created_at: '2025-09-15T02:02:58.518Z'
+---
 ## 🛠️ Description
 
 Replace ad‑hoc anonymous lambdas with well‑named higher‑order functions to clarify intent and improve reuse.
@@ -53,4 +61,5 @@ Nothing
 - [kanban](kanban.md)
 
 #framework-core #Ready
+
 
