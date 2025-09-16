@@ -1,3 +1,11 @@
+---
+uuid: 8663f3b7-58fc-407b-b3fe-8460f47c7083
+title: identify ancestral resonance patterns md md
+status: todo
+priority: P3
+labels: []
+created_at: '2025-09-15T02:02:58.514Z'
+---
 ## 🛠️ Task: Identify ancestral resonance patterns
 
 Research how ideas echo through the system over time and across
@@ -55,3 +63,4 @@ fragments or emotional states that reappear in different contexts.
 - Should resonance search include emotional embeddings or just lexical ones?
 - What time span of logs is considered "ancestral" for this project?
 #IceBox
+

@@ -1,5 +1,11 @@
-
-
+---
+uuid: ce8a026c-7d8c-41fe-9f48-e1b6a36e5dc0
+title: design vision pipeline mvp
+status: todo
+priority: P3
+labels: []
+created_at: '2025-09-15T02:02:58.511Z'
+---
 <hr class="__chatgpt_plugin">
 
 ### role::assistant<span style="font-size: small;"> (llama3.2:latest)</span>
@@ -95,4 +101,5 @@ true
 <hr class="__chatgpt_plugin">
 
 ### role::user
+
 

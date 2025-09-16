@@ -1,3 +1,11 @@
+---
+uuid: 709c00c8-6e75-4719-850b-d58ea26ab255
+title: make the system hashtag aware
+status: todo
+priority: P3
+labels: []
+created_at: '2025-09-15T02:02:58.516Z'
+---
 ## 🛠️ Description
 
 We want agents to be aware of the available hashtags using the vault graph service
@@ -31,3 +39,4 @@ Useful for agents to engage in append only conversations about this task.
 - Assumptions: A consistent hashtag taxonomy is available.
 - Dependencies: Vault graph service and parsing hooks.
 #ready
+

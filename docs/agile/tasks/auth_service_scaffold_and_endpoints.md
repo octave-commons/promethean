@@ -1,3 +1,11 @@
+---
+uuid: ef909fd1-19f0-43d4-b022-35d29ec053c7
+title: auth service scaffold and endpoints
+status: todo
+priority: P3
+labels: []
+created_at: '2025-09-15T02:02:58.508Z'
+---
 Auth Service: Scaffold + Endpoints
 
 Goal: Implement a minimal OAuth2.1 service for internal use.
@@ -18,4 +26,5 @@ Exit Criteria:
 - Basic tests for token issuance, expiration, invalid secret, and JWKS fetch.
 
 #incoming #auth #oauth #service
+
 
