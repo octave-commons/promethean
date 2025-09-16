@@ -9,9 +9,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with: { fetch-depth: 0 }
+      - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with: { node-version: 20, cache: pnpm }
-      - run: corepack enable && pnpm i --frozen-lockfile
       - uses: nrwl/nx-set-shas@v4
 
       # Optional: spin up Nx Cloud agents to parallelize
