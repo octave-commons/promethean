@@ -133,13 +133,12 @@ export async function syncBoardStatuses(board: MarkdownBoard, opts: SyncOptions)
 }
 
 export function detectPendingChanges(board: MarkdownBoard, opts: SyncOptions): boolean {
-    for (const col of board.listColumns()) {
+    return board.listColumns().some((col) => {
         const status = headerToStatus(col.name);
-        for (const card of board.listCards(col.name)) {
-            if (cardNeedsStatusUpdate(card, status) || cardNeedsLink(card, opts.createMissingTasks)) return true;
-        }
-    }
-    return false;
+        return board
+            .listCards(col.name)
+            .some((card) => cardNeedsStatusUpdate(card, status) || cardNeedsLink(card, opts.createMissingTasks));
+    });
 }
 
 export async function applyUpdates(board: MarkdownBoard, opts: SyncOptions): Promise<boolean> {
