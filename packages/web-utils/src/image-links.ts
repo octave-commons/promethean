@@ -17,6 +17,20 @@ async function pathExists(p: string): Promise<boolean> {
   );
 }
 
+function isRemoteOrData(u: string): boolean {
+  return /^(?:https?:|data:|mailto:|tel:)/i.test(u);
+}
+
+function normalizeLocalUrl(raw: string): string | null {
+  const trimmed = raw.trim();
+  const unwrapped =
+    trimmed.startsWith("<") && trimmed.endsWith(">")
+      ? trimmed.slice(1, -1).trim()
+      : trimmed;
+  if (!unwrapped || isRemoteOrData(unwrapped)) return null;
+  return unwrapped;
+}
+
 export async function findBrokenImageLinks(
   root: string,
 ): Promise<BrokenImageLink[]> {
@@ -29,10 +43,12 @@ export async function findBrokenImageLinks(
         const content = await readFile(file, "utf8");
         const brokenLinks: BrokenImageLink[] = [];
         // markdown ![alt](url)
-        const mdRegex = /!\[(.*?)\]\((.*?)\)/g;
+        const mdRegex =
+          /!\[([^\]]*?)\]\(\s*(<[^>]+>|[^)\s]+(?:\s[^)"']+)*)\s*(?:("[^"]*"|'[^']*'|\([^)]*\)))?\s*\)/g;
         for (const match of content.matchAll(mdRegex)) {
           const alt = match[1] ?? "";
-          const url = match[2]!;
+          const url = normalizeLocalUrl(match[2] ?? "");
+          if (!url) continue;
           const imgPath = path.resolve(path.dirname(file), url);
           if (!(await pathExists(imgPath))) {
             brokenLinks.push({ file, url, alt });
@@ -41,8 +57,9 @@ export async function findBrokenImageLinks(
         // org [[file:img.png][alt]] or [[img.png]]
         const orgRegex = /\[\[(?:file:)?([^\]\[]+?)\](?:\[([^\]]*?)\])?\]/g;
         for (const match of content.matchAll(orgRegex)) {
-          const url = match[1]!;
+          const url = normalizeLocalUrl(match[1] ?? "");
           const alt = match[2] ?? "";
+          if (!url) continue;
           const imgPath = path.resolve(path.dirname(file), url);
           if (!(await pathExists(imgPath))) {
             brokenLinks.push({ file, url, alt });
