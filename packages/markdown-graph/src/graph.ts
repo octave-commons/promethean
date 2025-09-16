@@ -38,19 +38,11 @@ export class GraphDB {
   }
 
   private parseLinks(content: string): string[] {
-    const results: string[] = [];
-    for (const match of content.matchAll(LINK_PATTERN)) {
-      results.push(match[1]!);
-    }
-    return results;
+    return Array.from(content.matchAll(LINK_PATTERN), (m) => m[1]!);
   }
 
   private parseTags(content: string): string[] {
-    const results: string[] = [];
-    for (const match of content.matchAll(TAG_PATTERN)) {
-      results.push(match[1]!);
-    }
-    return results;
+    return Array.from(content.matchAll(TAG_PATTERN), (m) => m[1]!);
   }
 
   async updateFile(filePath: string, content: string): Promise<void> {
