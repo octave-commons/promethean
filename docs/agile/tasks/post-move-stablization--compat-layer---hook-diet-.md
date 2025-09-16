@@ -1,29 +1,13 @@
 ---
-task-id: TASK-{{YYYYMMDD-hhmmss}}-{{rand4}}
-title: "<verb> <thing> <qualifier>"
-state: New
-prev:
-txn: "{{ISO8601}}-{{rand4}}"
-owner: err
+uuid: f40d381b-9c48-4dfc-9f89-51577c10c024
+title: <verb> <thing> <qualifier>
+status: todo
 priority: p3
-size: m
-epic: EPC-000
-depends_on: []
-labels: ["board:auto", "lang:ts"]
-due:
-links: []
-artifacts: []
-rationale: "<why this matters in 1–4 sentences>"
-proposed_transitions: ["New->Accepted","Accepted->Breakdown"]
-tags:
-  - task/TASK-{{YYYYMMDD-hhmmss}}-{{rand4}}
-  - board/kanban
-  - state/New
-  - owner/err
-  - priority/p3
-  - epic/EPC-000
+labels:
+  - 'board:auto'
+  - 'lang:ts'
+created_at: '2025-09-15T02:02:58.517Z'
 ---
-
 # Task: Post-move stabilization (compat layer + hook diet)
 
 ## Objective
@@ -216,3 +200,4 @@ pre-commit run -a            # full sweep
 
 #precommit #refactor #typescript #python #imports #compat #monorepo #tooling #stabilization
 #accepted
+

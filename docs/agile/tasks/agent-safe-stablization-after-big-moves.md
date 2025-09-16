@@ -1,27 +1,12 @@
 ---
-task-id: TASK-{{YYYYMMDD-hhmmss}}-{{rand4}}
-title: "<verb> <thing> <qualifier>"
-state: New
-prev:
-txn: "{{ISO8601}}-{{rand4}}"
-owner: err
+uuid: 16c70e8b-51cf-4580-ab53-a35d7ac0f6a9
+title: <verb> <thing> <qualifier>
+status: todo
 priority: p3
-size: m
-epic: EPC-000
-depends_on: []
-labels: ["board:auto", "lang:ts"]
-due:
-links: []
-artifacts: []
-rationale: "<why this matters in 1–4 sentences>"
-proposed_transitions: ["New->Accepted","Accepted->Breakdown"]
-tags:
-  - task/TASK-{{YYYYMMDD-hhmmss}}-{{rand4}}
-  - board/kanban
-  - state/New
-  - owner/err
-  - priority/p3
-  - epic/EPC-000
+labels:
+  - 'board:auto'
+  - 'lang:ts'
+created_at: '2025-09-15T02:02:58.506Z'
 ---
 # Task: Agent-safe stabilization after big moves (local hooks, zero-risk edits)
 
@@ -283,3 +268,4 @@ If you want, I can convert this into a one-shot `stabilize-local.sh` that implem
 
 \#precommit #stabilization #monorepo #typescript #python #hy #agents #safety #playbook
 #accepted
+

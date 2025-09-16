@@ -3,6 +3,7 @@ import path from "node:path";
 
 import YAML from "yaml";
 import { z } from "zod";
+import pMemoize from "p-memoize";
 
 export type Registry<T> = {
   readonly get: (provider: string, tenant: string) => Promise<T>;
@@ -23,17 +24,12 @@ export function fileBackedRegistry<T extends ProviderLike>({
   readonly schema: z.ZodType<{ providers: ReadonlyArray<unknown> }>;
   readonly map?: (p: unknown) => T;
 }): Registry<T> {
-  // eslint-disable-next-line functional/no-let
-  let cache: readonly T[] | null = null;
-
-  const load = async (): Promise<readonly T[]> => {
-    if (cache) return cache;
+  const load = pMemoize(async (): Promise<readonly T[]> => {
     const file = fs.readFileSync(configPath, "utf8");
     const raw: unknown = YAML.parse(file);
     const parsed = schema.parse(raw);
-    cache = parsed.providers.map(map);
-    return cache;
-  };
+    return parsed.providers.map(map);
+  });
 
   const get = async (provider: string, tenant: string): Promise<T> => {
     const all = await load();

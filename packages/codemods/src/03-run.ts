@@ -48,14 +48,21 @@ async function loadTransforms(modsDir: string) {
     const id = d.name;
     const js = path.join(modsDir, id, "transform.js");
     const ts = path.join(modsDir, id, "transform.ts");
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- transforms may export any shape
-    let mod: any;
+    let mod: unknown;
     try {
       mod = await import(pathToFileURL(js).href);
     } catch {
       mod = await import(pathToFileURL(ts).href);
     }
-    if (mod?.runTransform) loaders.push({ id, run: mod.runTransform });
+    if (mod && typeof mod === "object" && "runTransform" in mod) {
+      const { runTransform } = mod as {
+        runTransform: (
+          p: Project,
+          f: string,
+        ) => Promise<{ changed: boolean; notes: string[] }>;
+      };
+      loaders.push({ id, run: runTransform });
+    }
   }
   return loaders;
 }
@@ -119,8 +126,9 @@ async function main() {
       if (MODE === "dry") {
         const diffs = diffLines(before, after);
 
+        type DiffPart = { added?: boolean; removed?: boolean; value: string };
         const pretty = diffs
-          .map((part: any) => {
+          .map((part: DiffPart) => {
             const prefix = part.added ? "+" : part.removed ? "-" : " ";
             return part.value
               .split("\n")

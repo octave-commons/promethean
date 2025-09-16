@@ -1,19 +1,12 @@
 // Lazy/optional node-pty wrapper so tests and unsupported runtimes don't explode.
 // If NODE_PTY_DISABLED=1, this returns null or throws a typed error via helpers.
 
-let _pty: any | null | undefined; // undefined: not loaded, null: unavailable, object: loaded
+let _pty: Promise<any | null> | undefined; // undefined: not loaded
 
-export function getPty(): any | null {
+export async function getPty(): Promise<any | null> {
   if (process.env.NODE_PTY_DISABLED === "1") return null;
-  if (_pty !== undefined) return _pty;
-  try {
-    // dynamic require to avoid ESM import errors when missing
-
-    const mod = require("node-pty");
-    _pty = mod && (mod.default || mod);
-  } catch {
-    _pty = null;
-  }
+  if (_pty) return _pty;
+  _pty = import("node-pty").then((mod) => mod.default ?? mod).catch(() => null);
   return _pty;
 }
 
@@ -24,12 +17,12 @@ export class PtyUnavailableError extends Error {
   }
 }
 
-export function spawnPty(
+export async function spawnPty(
   file: string,
   args: string[],
   opts: Record<string, unknown> = {},
 ) {
-  const pty = getPty();
+  const pty = await getPty();
   if (!pty) throw new PtyUnavailableError();
   return pty.spawn(file, args, opts);
 }

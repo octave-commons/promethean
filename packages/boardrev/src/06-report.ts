@@ -1,38 +1,47 @@
-/* eslint-disable */
 import * as path from "path";
 import { promises as fs } from "fs";
 
 import matter from "gray-matter";
+import {
+  slug,
+  relFromRepo,
+  parseArgs,
+  writeText,
+  createLogger,
+} from "@promethean/utils";
 
-import { slug, relFromRepo, parseArgs, writeText } from "@promethean/utils";
 import type { EvalItem } from "./types.js";
 
-export async function report({
-  evals: evalsPath,
-  outDir,
-}: Readonly<{ evals: string; outDir: string }>) {
-  const evals: { evals: EvalItem[] } = JSON.parse(
-    await fs.readFile(path.resolve(evalsPath), "utf-8"),
-  );
-  await fs.mkdir(path.resolve(outDir), { recursive: true });
-  const ts = new Date().toISOString().replace(/[:.]/g, "-");
-  const out = path.join(outDir, `board-${ts}.md`);
+const statusOrder = ["backlog", "todo", "doing", "review", "blocked", "done"];
+const logger = createLogger({ service: "06-report-board-review" });
 
-  // group by inferred status
-  const groups = new Map<string, EvalItem[]>();
-  for (const e of evals.evals)
-    (
-      groups.get(e.inferred_status) ??
-      groups.set(e.inferred_status, []).get(e.inferred_status)!
-    ).push(e);
+export async function loadEvals(evalsPath: string): Promise<EvalItem[]> {
+  const raw = await fs.readFile(path.resolve(evalsPath), "utf-8");
+  const parsed = JSON.parse(raw) as unknown as { evals: EvalItem[] };
+  return parsed.evals;
+}
 
-  // load titles/priorities
+export function groupEvals(
+  evals: readonly EvalItem[],
+): Map<string, EvalItem[]> {
+  return evals.reduce((map, e) => {
+    const list = map.get(e.inferred_status) ?? [];
+    list.push(e);
+    map.set(e.inferred_status, list);
+    return map;
+  }, new Map<string, EvalItem[]>());
+}
+
+async function buildTableRows(evals: readonly EvalItem[]): Promise<string[]> {
   const rows: string[] = [];
-  for (const e of evals.evals) {
+  for (const e of evals) {
     const raw = await fs.readFile(e.taskFile, "utf-8");
-    const gm = matter(raw);
-    const title = gm.data?.title ?? slug(path.basename(e.taskFile, ".md"));
-    const prio = gm.data?.priority ?? "P3";
+    const gm = matter(raw) as unknown as { data: Record<string, unknown> };
+    const title =
+      typeof gm.data.title === "string"
+        ? gm.data.title
+        : slug(path.basename(e.taskFile, ".md"));
+    const prio = typeof gm.data.priority === "string" ? gm.data.priority : "P3";
     const link = relFromRepo(e.taskFile);
     rows.push(
       `| ${prio} | [${title}](${link}) | ${e.inferred_status} | ${(
@@ -40,42 +49,69 @@ export async function report({
       ).toFixed(0)}% | ${e.suggested_actions[0] ?? ""} |`,
     );
   }
+  return rows;
+}
 
-  // summary
-  const statusOrder = ["backlog", "todo", "doing", "review", "blocked", "done"];
-  const counts = statusOrder
+function buildStatusCounts(groups: Map<string, EvalItem[]>): string {
+  return statusOrder
     .map((s) => `- **${s}**: ${groups.get(s)?.length ?? 0}`)
     .join("\n");
+}
 
+async function buildStatusDetails(
+  groups: Map<string, EvalItem[]>,
+): Promise<string[]> {
   const details: string[] = [];
   for (const s of statusOrder) {
     const list = groups.get(s) ?? [];
-    if (!list.length) continue;
+    if (list.length === 0) continue;
     details.push(`## ${s} (${list.length})`, "");
-    for (const e of list) {
-      const gm = matter(await fs.readFile(e.taskFile, "utf-8"));
-      const title = gm.data?.title ?? e.taskFile;
-      const link = relFromRepo(e.taskFile);
-      details.push(
-        `### ${title}  \n(${link})`,
-        "",
-        `**Confidence:** ${(e.confidence * 100).toFixed(0)}%`,
-        "",
-        "**Suggested next actions:**",
-        ...e.suggested_actions.map((a) => `- ${a}`),
-        e.blockers?.length
-          ? "\n**Blockers:**\n" + e.blockers.map((b) => `- ${b}`).join("\n")
-          : "",
-        e.suggested_assignee
-          ? `\n**Suggested assignee:** ${e.suggested_assignee}\n`
-          : "",
-        e.suggested_labels?.length
-          ? `\n**Suggested labels:** ${e.suggested_labels.join(", ")}\n`
-          : "",
-        "",
-      );
-    }
+    for (const e of list) details.push(...(await buildDetail(e)));
   }
+  return details;
+}
+
+async function buildDetail(e: EvalItem): Promise<string[]> {
+  const raw = await fs.readFile(e.taskFile, "utf-8");
+  const gm = matter(raw) as unknown as { data: Record<string, unknown> };
+  const title = typeof gm.data.title === "string" ? gm.data.title : e.taskFile;
+  const link = relFromRepo(e.taskFile);
+  const blockers = e.blockers?.length
+    ? ["", "**Blockers:**", ...e.blockers.map((b) => `- ${b}`)]
+    : [];
+  const assignee = e.suggested_assignee
+    ? ["", `**Suggested assignee:** ${e.suggested_assignee}`]
+    : [];
+  const labels = e.suggested_labels?.length
+    ? ["", `**Suggested labels:** ${e.suggested_labels.join(", ")}`]
+    : [];
+  return [
+    `### ${title}  \n(${link})`,
+    "",
+    `**Confidence:** ${(e.confidence * 100).toFixed(0)}%`,
+    "",
+    "**Suggested next actions:**",
+    ...e.suggested_actions.map((a) => `- ${a}`),
+    ...blockers,
+    ...assignee,
+    ...labels,
+    "",
+  ];
+}
+
+export async function renderReport(
+  groups: Map<string, EvalItem[]>,
+  outDir: string,
+): Promise<void> {
+  await fs.mkdir(path.resolve(outDir), { recursive: true });
+  const ts = new Date().toISOString().replace(/[:.]/g, "-");
+  const out = path.join(outDir, `board-${ts}.md`);
+  const evals = [...groups.values()].flat();
+  const [rows, counts, details] = await Promise.all([
+    buildTableRows(evals),
+    Promise.resolve(buildStatusCounts(groups)),
+    buildStatusDetails(groups),
+  ]);
 
   const md = [
     "# Board Review Report",
@@ -100,7 +136,16 @@ export async function report({
     path.join(outDir, "README.md"),
     `# Board Reports\n\n- [Latest](${path.basename(out)})\n`,
   );
-  console.log(`boardrev: wrote report → ${path.relative(process.cwd(), out)}`);
+  logger.info(`boardrev: wrote report → ${path.relative(process.cwd(), out)}`);
+}
+
+export async function report({
+  evals: evalsPath,
+  outDir,
+}: Readonly<{ evals: string; outDir: string }>): Promise<void> {
+  const evals = await loadEvals(evalsPath);
+  const groups = groupEvals(evals);
+  await renderReport(groups, outDir);
 }
 
 if (import.meta.main) {
@@ -109,7 +154,7 @@ if (import.meta.main) {
     "--evals": ".cache/boardrev/evals.json",
     "--outDir": "docs/agile/reports",
   });
-  report({ evals: args["--evals"], outDir: args["--outDir"]! }).catch((e) => {
+  report({ evals: args["--evals"], outDir: args["--outDir"] }).catch((e) => {
     console.error(e);
     process.exit(1);
   });

@@ -1,3 +1,11 @@
+---
+uuid: cb45d915-0601-4df8-997d-71ca913ad9f6
+title: cephalon persist llm replies to agent messages
+status: todo
+priority: P3
+labels: []
+created_at: '2025-09-15T02:02:58.509Z'
+---
 Cephalon: Persist LLM replies to `agent_messages`
 
 Goal: When the ECS orchestrator receives an LLM reply (current handler in `services/ts/cephalon/src/bot.ts` subscribing to `agent.llm.result`), persist the reply text and metadata to the `agent_messages` collection via `ContextManager`/`CollectionManager`.
@@ -14,3 +22,4 @@ Exit Criteria:
 - Unit test simulating `agent.llm.result` that asserts Mongo insert and Chroma add.
 
 #incoming #cephalon #persistence #agent_messages
+

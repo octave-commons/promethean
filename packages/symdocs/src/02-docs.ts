@@ -1,16 +1,16 @@
-import { promises as fs } from "fs";
+/* eslint-disable */
 import * as path from "path";
 import { fileURLToPath } from "url";
 
 import { z } from "zod";
 import { ollamaJSON } from "@promethean/utils";
+import { openLevelCache, type Cache } from "@promethean/level-cache";
 
 import { parseArgs, sha1 } from "./utils.js";
-import type { DocDraft, ScanResult, SymbolInfo } from "./types.js";
+import type { DocDraft, SymbolInfo } from "./types.js";
 
 export type DocsOptions = {
-  scan?: string;
-  out?: string;
+  cache?: string;
   model?: string;
   force?: boolean;
   concurrency?: number;
@@ -129,17 +129,22 @@ async function generateDoc(s: SymbolInfo, ctx: GenerateCtx): Promise<void> {
 }
 
 export async function runDocs(opts: DocsOptions = {}): Promise<void> {
-  const scanPath = path.resolve(opts.scan ?? ".cache/symdocs/symbols.json");
-  const outPath = path.resolve(opts.out ?? ".cache/symdocs/docs.json");
+  const cachePath = path.resolve(opts.cache ?? ".cache/symdocs.level");
   const model = String(opts.model ?? "qwen3:4b");
   const force = Boolean(opts.force ?? false);
   const conc = Math.max(1, opts.concurrency ?? 4);
 
-  const scanRaw: unknown = JSON.parse(await fs.readFile(scanPath, "utf-8"));
-  const { symbols } = scanRaw as ScanResult;
-  const cache: Record<string, DraftWithCache> =
-    ((await readJSON(outPath)) as Record<string, DraftWithCache> | undefined) ??
-    {};
+  const db: Cache<unknown> = await openLevelCache({ path: cachePath });
+  const symCache = db.withNamespace("symbols") as Cache<SymbolInfo>;
+  const docCache = db.withNamespace("docs") as Cache<DraftWithCache>;
+
+  const symbols: SymbolInfo[] = [];
+  for await (const [, sym] of symCache.entries()) symbols.push(sym);
+
+  const cache: Record<string, DraftWithCache> = Object.create(null);
+  for await (const [id, draft] of docCache.entries()) {
+    cache[id] = draft;
+  }
 
   const sem = semaphore(conc);
   const next: Record<string, DraftWithCache> = { ...cache };
@@ -151,35 +156,27 @@ export async function runDocs(opts: DocsOptions = {}): Promise<void> {
     ),
   );
 
-  await fs.mkdir(path.dirname(outPath), { recursive: true });
-  await fs.writeFile(outPath, JSON.stringify(next, null, 2), "utf-8");
+  await Promise.all(
+    Object.entries(next).map(([id, draft]) => docCache.set(id, draft)),
+  );
+  await db.close();
   console.log(
     `Docs generated for ${Object.keys(next).length} symbols → ${path.relative(
       process.cwd(),
-      outPath,
+      cachePath,
     )}`,
   );
 }
 
-async function readJSON(p: string): Promise<unknown | undefined> {
-  try {
-    return JSON.parse(await fs.readFile(p, "utf-8"));
-  } catch {
-    return undefined;
-  }
-}
-
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const args = parseArgs({
-    "--scan": ".cache/symdocs/symbols.json",
-    "--out": ".cache/symdocs/docs.json",
+    "--cache": ".cache/symdocs.level",
     "--model": "qwen3:4b",
     "--force": "false",
     "--concurrency": "4",
   });
   runDocs({
-    scan: String(args["--scan"]),
-    out: String(args["--out"]),
+    cache: String(args["--cache"]),
     model: String(args["--model"]),
     force: String(args["--force"]) === "true",
     concurrency: parseInt(String(args["--concurrency"]), 10) || 4,

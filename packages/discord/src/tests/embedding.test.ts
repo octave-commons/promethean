@@ -1,23 +1,29 @@
-/* eslint-disable */
 import test from "ava";
 import { RemoteEmbeddingFunction } from "@promethean/embedding";
+import type { BrokerClient } from "@promethean/legacy/brokerClient.js";
 
-class MockBrokerClient {
-  handlers: Record<string, ((e: any) => void)[]> = {};
-  socket: { close: () => void } = { close: () => {} };
-  async connect() {
-    return;
-  }
-  subscribe(topic: string, cb: (e: any) => void) {
+type BrokerEvent = { replyTo: string; payload: { embeddings: number[][] } };
+type BrokerClientLike = {
+  connect(): Promise<void>;
+  subscribe(topic: string, cb: (e: BrokerEvent) => void): void;
+  enqueue(queue: string, payload: { items: unknown[]; replyTo: string }): void;
+  socket: { close: () => void };
+};
+
+class MockBrokerClient implements BrokerClientLike {
+  handlers: Record<string, Array<(e: BrokerEvent) => void>> = {};
+  socket = { close: () => {} };
+  async connect() {}
+  subscribe(topic: string, cb: (e: BrokerEvent) => void) {
     if (!this.handlers[topic]) this.handlers[topic] = [];
+    // eslint-disable-next-line functional/immutable-data
     this.handlers[topic]!.push(cb);
   }
-  enqueue(queue: string, payload: any) {
+  enqueue(queue: string, payload: { items: unknown[]; replyTo: string }) {
     if (queue !== "embedding.generate") return;
-    const items = payload.items || [];
-    const embeddings = items.map((_: unknown, i: number) => [i]);
+    const embeddings = payload.items.map((_, i) => [i]);
     const ev = { replyTo: payload.replyTo, payload: { embeddings } };
-    for (const cb of this.handlers["embedding.result"] || []) cb(ev);
+    (this.handlers["embedding.result"] || []).forEach((cb) => cb(ev));
   }
 }
 
@@ -27,7 +33,7 @@ test("requests embeddings via mocked broker", async (t) => {
     undefined,
     undefined,
     undefined,
-    mock as any,
+    mock as unknown as BrokerClient,
   );
   const result = await fn.generate(["a", "b"]);
   t.deepEqual(result, [[0], [1]]);
