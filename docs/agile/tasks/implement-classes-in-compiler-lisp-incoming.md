@@ -1,3 +1,11 @@
+---
+uuid: 035cede1-531f-4070-aa80-841a9cf83631
+title: "\U0001F6E0️ Task: Implement Classes in Lisp Compiler"
+status: todo
+priority: P3
+labels: []
+created_at: '2025-09-15T02:02:58.515Z'
+---
 # 🛠️ Task: Implement Classes in Lisp Compiler
 
 ## 📖 Description
@@ -58,3 +66,4 @@ Append-only thread for collaboration by agents implementing class support.
 - Story Points: 5
 
 #in-progress
+

@@ -10,7 +10,7 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "mods:01-spec": "tsx src/01-spec.ts --scan .cache/simtasks/functions.json --clusters .cache/simtasks/clusters.json --plans .cache/simtasks/plans.json",
+    "mods:01-spec": "tsx src/01-spec.ts --scan .cache/simtasks/functions --clusters .cache/simtasks/clusters.json --plans .cache/simtasks/plans.json",
     "mods:02-generate": "tsx src/02-generate.ts",
     "mods:03-dry-run": "tsx src/03-run.ts --mode dry --root packages --report docs/agile/tasks/codemods",
     "mods:03-apply": "tsx src/03-run.ts --mode apply --root packages --report docs/agile/tasks/codemods",
@@ -21,7 +21,8 @@
     "globby": "^14.0.2",
     "ts-morph": "^22.0.0",
     "yaml": "^2.5.0",
-    "@promethean/utils": "workspace:*"
+    "@promethean/utils": "workspace:*",
+    "@promethean/level-cache": "workspace:*"
   },
   "devDependencies": {
     "tsx": "^4.19.2"

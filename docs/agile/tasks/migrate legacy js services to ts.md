@@ -1,31 +1,12 @@
 ---
-task-id: TASK-2025-09-12
+uuid: 907f268b-ced3-4206-aa3e-82b56dc811a1
 title: <verb> <thing> <qualifier>
-state: New
-prev:
-txn: "{{ISO8601}}-{{rand4}}"
-owner: err
+status: todo
 priority: p3
-size: m
-epic: EPC-000
-depends_on: []
 labels:
-  - board:auto
-  - lang:ts
-due:
-links: []
-artifacts: []
-rationale:
-proposed_transitions:
-  - New->Accepted
-  - Accepted->Breakdown
-tags:
-  - task/TASK-{{YYYYMMDD-hhmmss}}-{{rand4}}
-  - board/kanban
-  - state/New
-  - owner/err
-  - priority/p3
-  - epic/EPC-000
+  - 'board:auto'
+  - 'lang:ts'
+created_at: '2025-09-15T02:02:58.517Z'
 ---
 # Legacy JS services are migrated to TS
 
@@ -52,3 +33,4 @@ I had failed to move several of these to the new packages before, I recovered th
 
 It may not be worth it to  migrate the proxy service.
 The 
+

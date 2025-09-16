@@ -1,3 +1,11 @@
+---
+uuid: 89643344-84c1-499f-82cc-9b5430fffb72
+title: define permission schema in agents 1 md
+status: todo
+priority: P3
+labels: []
+created_at: '2025-09-15T02:02:58.511Z'
+---
 ## 🛠️ Task: Define permission schema in AGENTS.md
 
 Create a concise section in the root `AGENTS.md` explaining how agents declare
@@ -68,3 +76,4 @@ Nothing
 
 - Should permissions support wildcards for actions or be explicit only?
 #ice-box
+

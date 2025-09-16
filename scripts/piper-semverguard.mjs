@@ -16,7 +16,8 @@ function run(command, args) {
 export async function snapshot(opts = {}) {
   const root = opts.root ?? "packages";
   const tsconfig = opts.tsconfig ?? "./tsconfig.json";
-  const out = opts.out ?? ".cache/semverguard/snapshot.json";
+  const cache = opts.cache ?? ".cache/semverguard";
+  const ns = opts.ns ?? "snapshot";
   await run("pnpm", [
     "--filter",
     "@promethean/semverguard",
@@ -25,61 +26,73 @@ export async function snapshot(opts = {}) {
     root,
     "--tsconfig",
     tsconfig,
-    "--out",
-    out,
+    "--cache",
+    cache,
+    "--ns",
+    ns,
   ]);
 }
 
 export async function diff(opts = {}) {
-  const current = opts.current ?? ".cache/semverguard/snapshot.json";
-  const baseline = opts.baseline ?? ".cache/semverguard/baseline.json";
-  const out = opts.out ?? ".cache/semverguard/diff.json";
+  const cache = opts.cache ?? ".cache/semverguard";
+  const currentNs = opts.currentNs ?? "snapshot";
+  const baselineNs = opts.baselineNs ?? "baseline";
+  const diffNs = opts.diffNs ?? "diff";
   await run("pnpm", [
     "--filter",
     "@promethean/semverguard",
     "sv:02-diff",
-    "--current",
-    current,
-    "--baseline",
-    baseline,
-    "--out",
-    out,
+    "--cache",
+    cache,
+    "--current-ns",
+    currentNs,
+    "--baseline-ns",
+    baselineNs,
+    "--diff-ns",
+    diffNs,
   ]);
 }
 
 export async function plan(opts = {}) {
-  const diff = opts.diff ?? ".cache/semverguard/diff.json";
-  const out = opts.out ?? ".cache/semverguard/plans.json";
+  const cache = opts.cache ?? ".cache/semverguard";
+  const diffNs = opts.diffNs ?? "diff";
+  const planNs = opts.planNs ?? "plan";
   const model = opts.model ?? "qwen3:4b";
   await run("pnpm", [
     "--filter",
     "@promethean/semverguard",
     "sv:03-plan",
-    "--diff",
-    diff,
-    "--out",
-    out,
+    "--cache",
+    cache,
+    "--diff-ns",
+    diffNs,
+    "--plan-ns",
+    planNs,
     "--model",
     model,
   ]);
 }
 
 export async function write(opts = {}) {
-  const plans = opts.plans ?? ".cache/semverguard/plans.json";
+  const cache = opts.cache ?? ".cache/semverguard";
+  const planNs = opts.planNs ?? "plan";
   const out = opts.out ?? "docs/agile/tasks/semver";
   await run("pnpm", [
     "--filter",
     "@promethean/semverguard",
     "sv:04-write",
-    "--plans",
-    plans,
+    "--cache",
+    cache,
+    "--plan-ns",
+    planNs,
     "--out",
     out,
   ]);
 }
 
 export async function pr(opts = {}) {
-  const plans = opts.plans ?? ".cache/semverguard/plans.json";
+  const cache = opts.cache ?? ".cache/semverguard";
+  const planNs = opts.planNs ?? "plan";
   const root = opts.root ?? "packages";
   const mode = opts.mode ?? "prepare";
   const updateDependents = String(opts.updateDependents ?? true);
@@ -88,8 +101,10 @@ export async function pr(opts = {}) {
     "--filter",
     "@promethean/semverguard",
     "sv:05-pr",
-    "--plans",
-    plans,
+    "--cache",
+    cache,
+    "--plan-ns",
+    planNs,
     "--root",
     root,
     "--mode",
