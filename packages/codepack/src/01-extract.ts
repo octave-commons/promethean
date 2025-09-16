@@ -1,7 +1,9 @@
 // src/01-extract.ts
 import { promises as fs } from "fs";
 import * as path from "path";
+
 import matter from "gray-matter";
+
 import { openLevelCache } from "@promethean/level-cache";
 import { parseArgs, relPath, sha1 } from "./utils.js";
 import { extractCodeBlocksWithContext, detectFilenameHint } from "./utils.js";
@@ -22,30 +24,33 @@ const CACHE = path.resolve(args["--cache"]);
 
 async function main() {
   const files = await listFilesRec(ROOT, EXTS);
-  const blocks: CodeBlock[] = [];
+  const blocks = (
+    await Promise.all(
+      files.map(async (f) => {
+        const raw = await fs.readFile(f, "utf-8");
+        const { content } = matter(raw); // ignore frontmatter, operate on content
+        const found = extractCodeBlocksWithContext(content);
+        const rel = relPath(ROOT, f);
 
-  for (const f of files) {
-    const raw = await fs.readFile(f, "utf-8");
-    const { content } = matter(raw); // ignore frontmatter, operate on content
-    const found = extractCodeBlocksWithContext(content);
-    const rel = relPath(ROOT, f);
+        return found.map((b) => {
+          const id = sha1([f, b.startLine, b.endLine, sha1(b.value)].join("|"));
+          return {
+            id,
+            srcPath: f,
+            relPath: rel,
+            lang: b.lang,
+            startLine: b.startLine,
+            endLine: b.endLine,
+            code: b.value,
+            contextBefore: b.beforeText,
+            contextAfter: b.afterText,
+            hintedName: detectFilenameHint(b),
+          } satisfies CodeBlock;
+        });
+      }),
+    )
+  ).flat();
 
-    found.forEach((b, idx) => {
-      const id = sha1([f, b.startLine, b.endLine, sha1(b.value)].join("|"));
-      blocks.push({
-        id,
-        srcPath: f,
-        relPath: rel,
-        lang: b.lang,
-        startLine: b.startLine,
-        endLine: b.endLine,
-        code: b.value,
-        contextBefore: b.beforeText,
-        contextAfter: b.afterText,
-        hintedName: detectFilenameHint(b),
-      });
-    });
-  }
 
   const cache = await openLevelCache<CodeBlock>({
     path: CACHE,
