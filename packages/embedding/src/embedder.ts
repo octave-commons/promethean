@@ -15,17 +15,17 @@ export type Embedder = {
 export function makeDeterministicEmbedder(cfg: EmbedderConfig): Embedder {
   function hashToVec(s: string, dim: number): number[] {
     // Simple deterministic pseudo-embedding for scaffolding/testing only.
-    const out = new Array(dim).fill(0);
-    let h = 2166136261 >>> 0;
-    for (let i = 0; i < s.length; i++) {
-      h ^= s.charCodeAt(i);
-      h = Math.imul(h, 16777619);
-    }
-    for (let i = 0; i < dim; i++) {
-      h ^= i;
-      h = Math.imul(h, 16777619);
-      out[i] = ((h >>> 0) % 1000) / 1000; // [0,1)
-    }
+    const mapper = ((hVal: number) => (_: unknown, i: number) => {
+      hVal ^= i;
+      hVal = Math.imul(hVal, 16777619);
+      return ((hVal >>> 0) % 1000) / 1000; // [0,1)
+    })(
+      Array.from(s).reduce((acc, ch) => {
+        acc ^= ch.charCodeAt(0);
+        return Math.imul(acc, 16777619);
+      }, 2166136261 >>> 0),
+    );
+    const out = Array.from({ length: dim }, mapper);
     return out;
   }
 
@@ -53,7 +53,7 @@ export function makeDeterministicEmbedder(cfg: EmbedderConfig): Embedder {
   };
 }
 
-export function assertDim(vec: number[] | number[][], dim: number) {
+export function assertDim(vec: number[] | number[][], dim: number): void {
   if (Array.isArray(vec[0])) {
     for (const v of vec as number[][])
       if (v.length !== dim)
