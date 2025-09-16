@@ -8,18 +8,23 @@ export type DBs = {
   root: Level<string, unknown>;
   docs: AbstractSublevel<
     Level<string, unknown>,
-    any,
+    string,
     string,
     { path: string; title: string }
   >;
   chunks: AbstractSublevel<
     Level<string, unknown>,
-    any,
+    string,
     string,
     readonly Chunk[]
   >;
-  fp: AbstractSublevel<Level<string, unknown>, any, string, string>;
-  q: AbstractSublevel<Level<string, unknown>, any, string, readonly QueryHit[]>;
+  fp: AbstractSublevel<Level<string, unknown>, string, string, string>;
+  q: AbstractSublevel<
+    Level<string, unknown>,
+    string,
+    string,
+    readonly QueryHit[]
+  >;
 };
 
 export const openDB = async (
@@ -71,7 +76,7 @@ export const range = (prefix: string): Range => ({
 export const usingIterator = async <T>(
   it: AsyncIterable<[string, T]>,
   onItem: (kv: readonly [string, T]) => void | Promise<void>,
-) => {
+): Promise<void> => {
   // Level iterators are also closable; we rely on caller to pass the actual iterator
   // @ts-ignore - Level iterator types can be loose; we call close in finally.
   const iterator = it as unknown as {
@@ -102,9 +107,19 @@ export const withDb = async <R>(
   }
 };
 
-export const collect = <T>(xs: Iterable<T> | AsyncIterable<T>) =>
-  (async () => {
-    const out: T[] = [];
-    for await (const x of xs as any) out.push(x);
-    return out;
-  })();
+export const collect = async <T>(
+  xs: Iterable<T> | AsyncIterable<T>,
+): Promise<readonly T[]> => {
+  const acc: T[] = [];
+  const asyncIterator = (xs as AsyncIterable<T>)[Symbol.asyncIterator];
+  if (typeof asyncIterator === "function") {
+    for await (const item of xs as AsyncIterable<T>) {
+      acc.push(item);
+    }
+  } else {
+    for (const item of xs as Iterable<T>) {
+      acc.push(item);
+    }
+  }
+  return acc;
+};
