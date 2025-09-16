@@ -2,6 +2,7 @@
 import type { Server } from 'http';
 
 import express, { type RequestHandler } from 'express';
+import rateLimit from 'express-rate-limit';
 import type { Db, Collection } from 'mongodb';
 import { sha1 } from '@promethean/utils';
 
@@ -75,6 +76,15 @@ export function startSnapshotApi(db: Db, port = 8091, opts: SnapshotApiOptions):
     const app = express();
     app.set('etag', false);
     app.use(express.json({ limit: opts.bodyLimit ?? '200kb' }));
+
+    // Rate limiter: max 100 requests per 15 minutes per IP
+    const limiter = rateLimit({
+        windowMs: 15 * 60 * 1000, // 15 minutes
+        max: 100, // limit each IP to 100 requests per windowMs
+        standardHeaders: true,
+        legacyHeaders: false,
+    });
+    app.use(limiter);
 
     const coll = db.collection(opts.collection);
     const keyField = opts.keyField ?? '_key';
