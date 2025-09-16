@@ -25,6 +25,9 @@ importers:
       '@promethean/legacy':
         specifier: workspace:*
         version: link:packages/legacy
+      '@promethean/level-cache':
+        specifier: workspace:*
+        version: link:packages/level-cache
       '@promethean/llm-chat-frontend':
         specifier: workspace:*
         version: link:packages/llm-chat-frontend
@@ -94,6 +97,9 @@ importers:
       ts-node:
         specifier: 10.9.2
         version: 10.9.2(@types/node@24.3.1)(typescript@5.4.5)
+      type-fest:
+        specifier: ^4.41.0
+        version: 4.41.0
       unified:
         specifier: 11.0.5
         version: 11.0.5
@@ -789,6 +795,9 @@ importers:
 
   packages/codemods:
     dependencies:
+      '@promethean/level-cache':
+        specifier: workspace:*
+        version: link:../level-cache
       '@promethean/utils':
         specifier: workspace:*
         version: link:../utils
@@ -1454,6 +1463,12 @@ importers:
       '@types/level':
         specifier: ^8.0.0
         version: 8.0.0
+      '@types/mdast':
+        specifier: ^3.0.15
+        version: 3.0.15
+      '@types/unist':
+        specifier: ^3.0.2
+        version: 3.0.3
       '@types/uuid':
         specifier: ^9.0.7
         version: 9.0.8
@@ -3407,6 +3422,9 @@ importers:
 
   packages/semverguard:
     dependencies:
+      '@promethean/level-cache':
+        specifier: workspace:*
+        version: link:../level-cache
       '@promethean/utils':
         specifier: workspace:*
         version: link:../utils
@@ -3637,6 +3655,9 @@ importers:
 
   packages/sonarflow:
     dependencies:
+      '@promethean/level-cache':
+        specifier: workspace:*
+        version: link:../level-cache
       '@promethean/utils':
         specifier: workspace:*
         version: link:../utils
@@ -3741,6 +3762,9 @@ importers:
 
   packages/symdocs:
     dependencies:
+      '@promethean/level-cache':
+        specifier: workspace:*
+        version: link:../level-cache
       '@promethean/utils':
         specifier: workspace:*
         version: link:../utils
@@ -4072,6 +4096,12 @@ importers:
 
   packages/utils:
     dependencies:
+      p-memoize:
+        specifier: ^8.0.0
+        version: 8.0.0
+      type-fest:
+        specifier: ^4.41.0
+        version: 4.41.0
       yaml:
         specifier: ^2.5.1
         version: 2.8.1
@@ -5797,6 +5827,9 @@ packages:
 
   '@types/long@4.0.2':
     resolution: {integrity: sha512-MqTGEo5bj5t157U6fA/BiDynNkn0YknVdh48CMPkTSpFTVmvao5UQmm7uEF6xBEo7qIMAlY/JSleYaE6VOdpaA==}
+
+  '@types/mdast@3.0.15':
+    resolution: {integrity: sha512-LnwD+mUEfxWMa1QpDraczIn6k0Ee3SMicuYSSzS6ZYl2gKS09EClnJYGd8Du6rfc5r/GZEk5o1mRb8TaTj03sQ==}
 
   '@types/mdast@4.0.4':
     resolution: {integrity: sha512-kGaNbPh1k7AFzgpud/gMdvIm5xuECykRR+JnWKQno9TAXVa6WIVCGTPvYGekIDL4uwCZQSYbUxNBSb1aUo79oA==}
@@ -9930,6 +9963,10 @@ packages:
     resolution: {integrity: sha512-VkndIv2fIB99swvQoA65bm+fsmt6UNdGeIB0oxBs+WhAhdh08QA04JXpI7rbB9r08/nkbysKoya9rtDERYOYMA==}
     engines: {node: '>=18'}
 
+  p-memoize@8.0.0:
+    resolution: {integrity: sha512-jdZ10MCxavHoIHwJ5oweOtYy6ElPixEHaMkz0AuaEMovR1MRpVvYFzIEHRxgMEpXYzNpRVByFAniAzwmd1/uug==}
+    engines: {node: '>=20'}
+
   p-try@2.2.0:
     resolution: {integrity: sha512-R4nPAVTAU0B9D35/Gk3uJf/7XYbQcyohSKdvAxIRSNghFl4e71hVoGnBNQz9cWaXxO2I10KTC+3jMdvvoKw6dQ==}
     engines: {node: '>=6'}
@@ -13525,6 +13562,10 @@ snapshots:
       level: 10.0.0
 
   '@types/long@4.0.2': {}
+
+  '@types/mdast@3.0.15':
+    dependencies:
+      '@types/unist': 2.0.11
 
   '@types/mdast@4.0.4':
     dependencies:
@@ -18771,6 +18812,11 @@ snapshots:
       p-limit: 3.1.0
 
   p-map@7.0.3: {}
+
+  p-memoize@8.0.0:
+    dependencies:
+      mimic-function: 5.0.1
+      type-fest: 4.41.0
 
   p-try@2.2.0: {}
 

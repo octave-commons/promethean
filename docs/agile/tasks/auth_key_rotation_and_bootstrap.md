@@ -1,3 +1,11 @@
+---
+uuid: 5334798c-3a31-4edc-822b-e761c0354509
+title: auth key rotation and bootstrap
+status: todo
+priority: P3
+labels: []
+created_at: '2025-09-15T02:02:58.508Z'
+---
 Auth: Key rotation and bootstrap
 
 Goal: Establish a secure bootstrap and rotation procedure for the auth service.
@@ -12,4 +20,5 @@ Exit Criteria:
 - Rotation works without downtime; old tokens valid until expiry; new tokens issued with new kid.
 
 #incoming #auth #security #rotation
+
 

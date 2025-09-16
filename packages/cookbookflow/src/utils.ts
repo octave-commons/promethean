@@ -1,7 +1,10 @@
-/* eslint-disable */
 import { promises as fs } from "fs";
 import * as path from "path";
-import { execFile as _execFile } from "child_process";
+import {
+  execFile as _execFile,
+  type ExecFileException,
+  type ExecFileOptions,
+} from "child_process";
 
 import { randomUUID, slug, sha1 } from "@promethean/utils";
 
@@ -26,7 +29,7 @@ export async function readMaybe(p: string) {
     return undefined;
   }
 }
-export async function writeJSON(p: string, data: any) {
+export async function writeJSON<T>(p: string, data: T): Promise<void> {
   await fs.mkdir(path.dirname(p), { recursive: true });
   await fs.writeFile(p, JSON.stringify(data, null, 2), "utf-8");
 }
@@ -38,15 +41,26 @@ export async function writeText(p: string, s: string) {
 export { slug, sha1, randomUUID };
 
 export async function execShell(cmd: string, args: string[], cwd: string) {
+  const opts: ExecFileOptions = {
+    cwd,
+    maxBuffer: 1024 * 1024 * 64,
+    env: { ...process.env },
+  };
   return new Promise<{ code: number | null; stdout: string; stderr: string }>(
     (resolve) => {
       const child = _execFile(
         cmd,
         args,
-        { cwd, maxBuffer: 1024 * 1024 * 64, env: { ...process.env } },
-        (err, stdout, stderr) => {
+        opts,
+        (
+          err: ExecFileException | null,
+          stdout: string | Buffer,
+          stderr: string | Buffer,
+        ) => {
+          const exitCode =
+            typeof err?.code === "number" ? err.code : err ? 1 : 0;
           resolve({
-            code: err ? (err as any).code ?? 1 : 0,
+            code: exitCode,
             stdout: String(stdout),
             stderr: String(stderr),
           });

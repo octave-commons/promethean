@@ -1,8 +1,8 @@
-/* eslint-disable */
 import * as path from "path";
 import { promises as fs } from "fs";
 
 import matter from "gray-matter";
+import type { GrayMatterFile } from "gray-matter";
 import { parseArgs, randomUUID } from "@promethean/utils";
 
 import type { PlanFile } from "./types.js";
@@ -54,16 +54,24 @@ async function main() {
           return undefined;
         }
       })();
-      const gm = existing ? matter(existing) : { content: "", data: {} as any };
+      const gm: GrayMatterFile<string> = existing
+        ? matter(existing)
+        : ({ content: "", data: {} } as GrayMatterFile<string>);
+      const gmData = gm.data as Record<string, unknown>;
       const fm = {
-        ...(gm as any).data,
-        uuid: gm?.data?.uuid ?? randomUUID(),
+        ...gmData,
+        uuid: typeof gmData.uuid === "string" ? gmData.uuid : randomUUID(),
         title: t.title,
         package: pkg,
         status: args["--status"] ?? "todo",
         priority: args["--priority"] ?? "P2",
         labels: Array.from(
-          new Set([...(gm?.data?.labels ?? []), ...(t.labels ?? [])]),
+          new Set([
+            ...(Array.isArray(gmData.labels)
+              ? (gmData.labels as unknown[]).map((l) => String(l))
+              : []),
+            ...(t.labels ?? []),
+          ]),
         ),
       };
 

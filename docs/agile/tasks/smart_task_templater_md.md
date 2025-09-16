@@ -1,3 +1,11 @@
+---
+uuid: 58e246ed-a8e3-4942-bf8d-73532959156e
+title: smart task templater md
+status: todo
+priority: P3
+labels: []
+created_at: '2025-09-15T02:02:58.520Z'
+---
 ## 🛠️ Description
 **Status:** blocked
 
@@ -55,3 +63,4 @@ Nothing
 
 ## Blockers
 - No active owner or unclear scope
+

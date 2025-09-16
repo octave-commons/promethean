@@ -226,14 +226,14 @@ pipelines:
       - id: sonar-fetch
         deps: ["sonar-scan"]
         inputs: []
-        outputs: [".cache/sonar/issues.json"]
+        outputs: [".cache/sonar/issues"]
       - id: sonar-plan
         deps: ["sonar-fetch"]
-        inputs: [".cache/sonar/issues.json"]
-        outputs: [".cache/sonar/plans.json"]
+        inputs: [".cache/sonar/issues"]
+        outputs: [".cache/sonar/plans"]
       - id: sonar-write
         deps: ["sonar-plan"]
-        inputs: [".cache/sonar/plans.json"]
+        inputs: [".cache/sonar/plans"]
         outputs: ["docs/agile/tasks/sonar/*.md"]
   - name: readmes
     steps:

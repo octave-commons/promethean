@@ -1,4 +1,5 @@
 // GPL-3.0-only
+/* eslint-disable functional/no-let, max-lines-per-function, @typescript-eslint/no-unsafe-argument */
 import * as path from "node:path";
 import * as url from "node:url";
 import { promises as fs } from "node:fs";
@@ -9,6 +10,7 @@ import {
   withPage,
   shutdown,
   startProcessWithPort,
+  type Deps,
 } from "@promethean/test-utils";
 
 import { ensureServices } from "../helpers/services.js";
@@ -81,19 +83,10 @@ test.serial(
   "DocOps E2E: refresh picks up new files in file-tree and doclist",
   withPage,
   { baseUrl: () => state?.baseUrl },
-  async (t, fixtures) => {
-    const page =
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- test-utils does not type fixtures
-      (fixtures as any).page ??
-      (await (async () => {
-        const res = await fixtures.pageGoto?.("/");
-        t.truthy(res, "app responded at /");
-        throw new Error(
-          "withPage did not expose a Playwright `page`. Extend @promethean/test-utils to provide it.",
-        );
-      })());
+  async (t, { page, pageGoto }: Deps) => {
+    const res = await pageGoto("/");
+    t.truthy(res, "app responded at /");
 
-     
     await page.goto(`${state!.baseUrl}`, { waitUntil: "domcontentloaded" });
 
     await page.fill(byId("dir"), DOC_FIXTURE_PATH);

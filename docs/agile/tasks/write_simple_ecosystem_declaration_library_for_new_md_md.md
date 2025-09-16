@@ -1,3 +1,11 @@
+---
+uuid: 5c8d8016-f4b8-421d-b335-73f7646173af
+title: write simple ecosystem declaration library for new md md
+status: todo
+priority: P3
+labels: []
+created_at: '2025-09-15T02:02:58.524Z'
+---
 ## 🛠️ Task: write simple ecosystem declaration library for new agents
 
 Create a lightweight module that lets each agent declare which
@@ -58,3 +66,4 @@ spawn the correct services for an agent.
 - Should PM2 remain the default process manager or is a custom tool planned?
 - How will per-agent environment variables be stored?
 #done
+

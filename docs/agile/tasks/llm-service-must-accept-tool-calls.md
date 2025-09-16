@@ -1,3 +1,11 @@
+---
+uuid: c858464b-c43b-4521-80b9-12fa3d5cd464
+title: llm service must accept tool calls
+status: todo
+priority: P3
+labels: []
+created_at: '2025-09-15T02:02:58.516Z'
+---
 ## 🛠️ Description
 
 Extend the LLM service to support tool/function calls so agents can request structured actions.
@@ -50,3 +58,4 @@ Nothing
 - [kanban](kanban.md)
 
 #framework-core #Ready #ready
+

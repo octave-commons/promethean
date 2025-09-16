@@ -34,7 +34,7 @@
             "export": "default",
             "args": {
               "project": "${SONAR_PROJECT_KEY}",
-              "out": ".cache/sonar/issues.json",
+              "out": ".cache/sonar/issues",
               "statuses": "OPEN,REOPENED,CONFIRMED",
               "types": "BUG,VULNERABILITY,CODE_SMELL,SECURITY_HOTSPOT",
               "severities": "BLOCKER,CRITICAL,MAJOR,MINOR,INFO",
@@ -43,7 +43,7 @@
             "isolate": "worker"
           },
           "inputs": [],
-          "outputs": [".cache/sonar/issues.json"],
+          "outputs": [".cache/sonar/issues"],
           "outputSchema": "packages/sonarflow/schemas/io.schema.json"
         },
         {
@@ -57,8 +57,8 @@
             "module": "dist/03-plan.js",
             "export": "default",
             "args": {
-              "input": ".cache/sonar/issues.json",
-              "output": ".cache/sonar/plans.json",
+              "input": ".cache/sonar/issues",
+              "output": ".cache/sonar/plans",
               "groupBy": "rule+prefix",
               "prefixDepth": 2,
               "minGroup": 2,
@@ -66,8 +66,8 @@
             },
             "isolate": "worker"
           },
-          "inputs": [".cache/sonar/issues.json"],
-          "outputs": [".cache/sonar/plans.json"],
+          "inputs": [".cache/sonar/issues"],
+          "outputs": [".cache/sonar/plans"],
           "inputSchema": "packages/sonarflow/schemas/io.schema.json",
           "outputSchema": "packages/sonarflow/schemas/io.schema.json"
         },
@@ -79,7 +79,7 @@
             "module": "dist/04-write.js",
             "export": "default",
             "args": {
-              "input": ".cache/sonar/plans.json",
+              "input": ".cache/sonar/plans",
               "out": "docs/agile/tasks/sonar",
               "status": "todo",
               "assignee": "",
@@ -87,7 +87,7 @@
             },
             "isolate": "worker"
           },
-          "inputs": [".cache/sonar/plans.json"],
+          "inputs": [".cache/sonar/plans"],
           "outputs": ["docs/agile/tasks/sonar/*.md"],
           "inputSchema": "packages/sonarflow/schemas/io.schema.json",
           "outputSchema": "packages/sonarflow/schemas/io.schema.json"

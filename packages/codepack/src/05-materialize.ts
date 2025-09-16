@@ -1,12 +1,13 @@
 // src/05-materialize.ts
 import { promises as fs } from "fs";
 import * as path from "path";
+import { openLevelCache } from "@promethean/level-cache";
 import { parseArgs, ensureDir } from "./utils.js";
-import type { BlockManifest, NamePlan } from "./types.js";
+import type { CodeBlock, NamedGroup } from "./types.js";
 
 const args = parseArgs({
-  "--blocks": ".cache/codepack/blocks.json",
-  "--names": ".cache/codepack/names.json",
+  "--blocks": ".cache/codepack/blocks",
+  "--names": ".cache/codepack/names",
   "--out": "out/code_groups",
   "--dry-run": "false",
 });
@@ -32,14 +33,25 @@ async function main() {
   const outRoot = path.resolve(args["--out"]);
   const dry = args["--dry-run"] === "true";
 
-  const { blocks }: BlockManifest = JSON.parse(
-    await fs.readFile(blocksPath, "utf-8"),
-  );
-  const plan: NamePlan = JSON.parse(await fs.readFile(namesPath, "utf-8"));
+  const blockCache = await openLevelCache<CodeBlock>({
+    path: blocksPath,
+    namespace: "blocks",
+  });
+  const byId = new Map<string, CodeBlock>();
+  for await (const [id, b] of blockCache.entries()) {
+    byId.set(id, b);
+  }
+  await blockCache.close();
 
-  const byId = new Map(blocks.map((b) => [b.id, b]));
+  const nameCache = await openLevelCache<NamedGroup>({
+    path: namesPath,
+    namespace: "names",
+  });
+  const groups: NamedGroup[] = [];
+  for await (const [, g] of nameCache.entries()) groups.push(g);
+  await nameCache.close();
 
-  for (const group of plan.groups) {
+  for (const group of groups) {
     const dirAbs = safeJoin(outRoot, group.dir);
     if (!dry) await ensureDir(dirAbs);
 

@@ -22,7 +22,7 @@
 //       [--dist 2] [--ratio 0.12]  # filename clustering fuzz (BK-tree + Levenshtein)
 //       [--taskdist 3] [--taskratio 0.14] # cluster→task title matching fuzz
 //       [--rename-solo]            # also rename singletons (clusters with 1 file)
-//       [--plan out.json]          # write a JSON change plan (preview or audit)
+//       [--plan id]               # cache change plan in LevelCache under id (default timestamp)
 //
 // DEFAULT BOARD (per your project setting #75):
 //   https://raw.githubusercontent.com/riatzukiza/promethean/dev/docs/agile/boards/kanban.md
@@ -32,27 +32,36 @@
 //   • Use --apply to enact. Use --rm to permanently delete instead of moving to trash.
 //   • If a Kanban title contains a '/' (rare), we SKIP renaming that cluster and warn.
 
-import { readdir, stat, mkdir, rename, rm, writeFile, readFile } from 'fs/promises';
-import { join, resolve } from 'path';
-import https from 'https';
+import { readdir, stat, mkdir, rename, rm, readFile } from "fs/promises";
+import { join, resolve } from "path";
+import https from "https";
+import { openLevelCache } from "@promethean/level-cache";
 
 // ---------- CLI ----------
 const args = process.argv.slice(2);
-const DIR = resolve(args[0] || '.');
-const APPLY = args.includes('--apply');
-const PERMA = args.includes('--rm');
-const DO_RENAME = args.includes('--rename');
-const RENAME_SOLO = args.includes('--rename-solo');
-const ONLY_EXT = getFlag('--ext'); // e.g. 'md'
+const DIR = resolve(args[0] || ".");
+const APPLY = args.includes("--apply");
+const PERMA = args.includes("--rm");
+const DO_RENAME = args.includes("--rename");
+const RENAME_SOLO = args.includes("--rename-solo");
+const ONLY_EXT = getFlag("--ext"); // e.g. 'md'
 
-const BASE_DIST = toInt(getFlag('--dist'), 2);
-const RATIO = toFloat(getFlag('--ratio'), 0.12);
-const TASK_BASE_DIST = toInt(getFlag('--taskdist'), 3);
-const TASK_RATIO = toFloat(getFlag('--taskratio'), 0.14);
-const PLAN_OUT = getFlag('--plan');
+const BASE_DIST = toInt(getFlag("--dist"), 2);
+const RATIO = toFloat(getFlag("--ratio"), 0.12);
+const TASK_BASE_DIST = toInt(getFlag("--taskdist"), 3);
+const TASK_RATIO = toFloat(getFlag("--taskratio"), 0.14);
+const PLAN_IDX = args.indexOf("--plan");
+const PLAN_ID =
+  PLAN_IDX >= 0
+    ? args[PLAN_IDX + 1] && !args[PLAN_IDX + 1].startsWith("--")
+      ? args[PLAN_IDX + 1]
+      : new Date().toISOString()
+    : null;
+const CACHE_DIR = join(process.cwd(), ".cache");
+const PLAN_CACHE_PATH = join(CACHE_DIR, "dedupe-versions");
 const BOARD =
-  getFlag('--board') ||
-  'https://raw.githubusercontent.com/riatzukiza/promethean/dev/docs/agile/boards/kanban.md';
+  getFlag("--board") ||
+  "https://raw.githubusercontent.com/riatzukiza/promethean/dev/docs/agile/boards/kanban.md";
 
 function getFlag(name) {
   const i = args.indexOf(name);
@@ -67,11 +76,11 @@ function toFloat(v, d) {
 
 function removeDuplicateExtensions(path) {
   const extensionRegex = /\.[a-zA-Z0-9]+$/g;
-  let currentExtension = '';
+  let currentExtension = "";
 
   return path.replace(extensionRegex, (match) => {
     if (currentExtension === match.slice(1)) {
-      return '';
+      return "";
     } else {
       currentExtension = match.slice(1);
       return match;
@@ -81,32 +90,33 @@ function removeDuplicateExtensions(path) {
 
 // ---------- String & filename helpers ----------
 function stripTrailingBak(name) {
-  return name.endsWith('.bak') ? name.slice(0, -4) : name;
+  return name.endsWith(".bak") ? name.slice(0, -4) : name;
 }
 function splitNameAndExtNoBak(filename) {
   const noBak = stripTrailingBak(filename);
-  const dot = noBak.lastIndexOf('.');
-  if (dot < 0) return { base: noBak, ext: '' };
+  const dot = noBak.lastIndexOf(".");
+  if (dot < 0) return { base: noBak, ext: "" };
   return { base: noBak.slice(0, dot), ext: noBak.slice(dot) };
 }
 
-const VERSIONY = /(?:[\s_-]*(?:\d+|v\d+|ver\d+|final|draft|copy|old|new|backup|bak))$/i;
+const VERSIONY =
+  /(?:[\s_-]*(?:\d+|v\d+|ver\d+|final|draft|copy|old|new|backup|bak))$/i;
 function stripVersiony(base) {
   let s = base;
   for (let i = 0; i < 4; i++) {
-    const t = s.replace(VERSIONY, '');
+    const t = s.replace(VERSIONY, "");
     if (t === s) break;
     s = t;
   }
-  return s.replace(/[\s_-]+$/g, '').trim();
+  return s.replace(/[\s_-]+$/g, "").trim();
 }
 function sanitizeForKey(base) {
   // for fuzzy comparison only
   return base
     .toLowerCase()
-    .replace(/[._-]+/g, ' ')
-    .replace(/\s+/g, ' ')
-    .replace(/[^a-z0-9 ]+/g, '')
+    .replace(/[._-]+/g, " ")
+    .replace(/\s+/g, " ")
+    .replace(/[^a-z0-9 ]+/g, "")
     .trim();
 }
 
@@ -175,7 +185,7 @@ class BKTree {
 async function readBoardMarkdown(src) {
   if (/^https?:\/\//i.test(src)) return await httpGet(src);
   const p = resolve(src);
-  return (await readFile(p)).toString('utf8');
+  return (await readFile(p)).toString("utf8");
 }
 function httpGet(url) {
   return new Promise((resolve, reject) => {
@@ -189,12 +199,13 @@ function httpGet(url) {
         ) {
           return resolve(httpGet(res.headers.location));
         }
-        if (res.statusCode !== 200) return reject(new Error(`HTTP ${res.statusCode} for ${url}`));
+        if (res.statusCode !== 200)
+          return reject(new Error(`HTTP ${res.statusCode} for ${url}`));
         const chunks = [];
-        res.on('data', (d) => chunks.push(d));
-        res.on('end', () => resolve(Buffer.concat(chunks).toString('utf8')));
+        res.on("data", (d) => chunks.push(d));
+        res.on("end", () => resolve(Buffer.concat(chunks).toString("utf8")));
       })
-      .on('error', reject);
+      .on("error", reject);
   });
 }
 function extractKanbanTasks(md) {
@@ -217,8 +228,8 @@ function extractKanbanTasks(md) {
 function hasWantedExt(name) {
   if (!ONLY_EXT) return true;
   return (
-    name.toLowerCase().endsWith('.' + ONLY_EXT.toLowerCase()) ||
-    name.toLowerCase().endsWith('.' + ONLY_EXT.toLowerCase() + '.bak')
+    name.toLowerCase().endsWith("." + ONLY_EXT.toLowerCase()) ||
+    name.toLowerCase().endsWith("." + ONLY_EXT.toLowerCase() + ".bak")
   );
 }
 function fileInfo(direntName) {
@@ -242,7 +253,7 @@ for (const de of dirents) {
   files.push({ path: abs, size: st.size, mtimeMs: st.mtimeMs, ...info });
 }
 if (files.length === 0) {
-  console.log('No files to process.');
+  console.log("No files to process.");
   process.exit(0);
 }
 
@@ -260,7 +271,7 @@ let tasks = [];
 try {
   const md = await readBoardMarkdown(BOARD);
   tasks = extractKanbanTasks(md);
-  if (tasks.length === 0) console.warn('Warning: No tasks found in board.');
+  if (tasks.length === 0) console.warn("Warning: No tasks found in board.");
 } catch (e) {
   console.warn(`Warning: Failed to read board (${BOARD}):`, e.message);
 }
@@ -278,9 +289,14 @@ for (const [ext, map] of byExt) {
     const near = tree.near(k, maxDist).filter((x) => !visited.has(x));
     near.forEach((x) => visited.add(x));
     const mergedFiles = near.flatMap((x) => map.get(x));
-    const candidateBases = Array.from(new Set(mergedFiles.map((f) => f.cleanBase))).sort();
+    const candidateBases = Array.from(
+      new Set(mergedFiles.map((f) => f.cleanBase)),
+    ).sort();
     // Label (only for display / fallback): choose the shortest clean base
-    const label = candidateBases.sort((a, b) => a.length - b.length || a.localeCompare(b))[0] || k;
+    const label =
+      candidateBases.sort(
+        (a, b) => a.length - b.length || a.localeCompare(b),
+      )[0] || k;
     clusters.push({ ext, keys: near, files: mergedFiles, label });
   }
 }
@@ -304,7 +320,10 @@ function bestTaskMatch(labelSanitized, tasksList) {
       best = t;
     }
   }
-  const maxDist = Math.max(TASK_BASE_DIST, Math.ceil(labelSanitized.length * TASK_RATIO));
+  const maxDist = Math.max(
+    TASK_BASE_DIST,
+    Math.ceil(labelSanitized.length * TASK_RATIO),
+  );
   return bestDist <= maxDist ? best : null;
 }
 
@@ -325,7 +344,9 @@ for (const cl of clusters) {
     const task = bestTaskMatch(labelSan, tasks);
     if (task) {
       if (isOSUnsafeFilename(task.title)) {
-        console.warn(`Skipping rename: task title has OS-unsafe character '/' → ${task.title}`);
+        console.warn(
+          `Skipping rename: task title has OS-unsafe character '/' → ${task.title}`,
+        );
       } else {
         matchedTask = task.title; // exact title as filename stem
         const keepExt = splitNameAndExtNoBak(keep.name).ext; // base ext (ignoring .bak)
@@ -346,18 +367,21 @@ for (const cl of clusters) {
 
 // Report plan
 for (const a of actions) {
-  const header = `\nCluster (ext=${a.ext || '(none)'}): label "${a.label}"`;
+  const header = `\nCluster (ext=${a.ext || "(none)"}): label "${a.label}"`;
   console.log(header);
   if (a.matchedTask) console.log(`  ↳ matches Kanban: "${a.matchedTask}"`);
   console.log(
     `  KEEP -> ${rel(a.keep.path)} (${a.keep.size} bytes)` +
-      (a.desiredName ? `  ⇒  ${a.desiredName}` : ''),
+      (a.desiredName ? `  ⇒  ${a.desiredName}` : ""),
   );
-  for (const d of a.drops) console.log(`  drop -> ${rel(d.path)} (${d.size} bytes)`);
+  for (const d of a.drops)
+    console.log(`  drop -> ${rel(d.path)} (${d.size} bytes)`);
 }
 
-// Optionally write a plan JSON
-if (PLAN_OUT) {
+// Optionally cache the plan
+if (PLAN_ID) {
+  await mkdir(CACHE_DIR, { recursive: true });
+  const cache = await openLevelCache({ path: PLAN_CACHE_PATH });
   const plan = actions.map((a) => ({
     label: a.label,
     ext: a.ext,
@@ -366,20 +390,21 @@ if (PLAN_OUT) {
     renameTo: a.desiredName || null,
     matchedTask: a.matchedTask || null,
   }));
-  await writeFile(resolve(PLAN_OUT), JSON.stringify(plan, null, 2));
-  console.log(`\nWrote plan → ${PLAN_OUT}`);
+  await cache.set(PLAN_ID, plan);
+  await cache.close();
+  console.log(`\nCached plan → key ${PLAN_ID}`);
 }
 
 if (!APPLY) {
   console.log(
-    `\nDry run. Use --apply to make changes. Flags: [--rename] [--rm] [--board <path|url>] [--ext md] [--dist N] [--ratio 0.12] [--taskdist N] [--taskratio 0.14] [--rename-solo] [--plan out.json]`,
+    `\nDry run. Use --apply to make changes. Flags: [--rename] [--rm] [--board <path|url>] [--ext md] [--dist N] [--ratio 0.12] [--taskdist N] [--taskratio 0.14] [--rename-solo] [--plan id]`,
   );
   process.exit(0);
 }
 
 let trashDir = null;
 if (!PERMA) {
-  const ts = new Date().toISOString().replace(/[:.]/g, '-');
+  const ts = new Date().toISOString().replace(/[:.]/g, "-");
   trashDir = join(DIR, `.dedupe_trash_${ts}`);
   await mkdir(trashDir, { recursive: true });
 }
@@ -390,16 +415,19 @@ for (const a of actions) {
     await rm(d.path);
   }
   if (a.desiredName) {
-    if (a.desiredName !== a.keep.path) await rename(a.keep.path, join(DIR, a.desiredName));
+    if (a.desiredName !== a.keep.path)
+      await rename(a.keep.path, join(DIR, a.desiredName));
   }
 }
 
 console.log(
-  PERMA ? '\nDeleted extras.' : `\nMoved extras to ${trashDir ? rel(trashDir) : '(none)'}.`,
+  PERMA
+    ? "\nDeleted extras."
+    : `\nMoved extras to ${trashDir ? rel(trashDir) : "(none)"}.`,
 );
-if (DO_RENAME) console.log('Renamed keepers where a Kanban match existed.');
+if (DO_RENAME) console.log("Renamed keepers where a Kanban match existed.");
 
 // ---------- helpers ----------
 function rel(p) {
-  return p.replace(DIR + '/', '');
+  return p.replace(DIR + "/", "");
 }
