@@ -60,27 +60,28 @@ async function main() {
     if (!dry) await fs.writeFile(readmeAbs, group.readme, "utf-8");
 
     // write files
-    const perFile: Record<string, string[]> = {};
-    for (const f of group.files) {
-      (perFile[f.filename] ||= []).push(f.id);
-    }
+    const perFile = group.files.reduce<Record<string, string[]>>((acc, f) => {
+      (acc[f.filename] ||= []).push(f.id);
+      return acc;
+    }, {});
 
     for (const [filename, ids] of Object.entries(perFile)) {
       const target = path.join(dirAbs, filename);
 
       // if multiple ids to same filename, concatenate with clear separators
-      const parts: string[] = [];
-      for (let i = 0; i < ids.length; i++) {
-        const b = byId.get(ids[i]);
-        if (!b) continue;
-        const header = [
-          `/* source: ${b.relPath}:${b.startLine}-${b.endLine} */`,
-          b.hintedName ? `/* hinted: ${b.hintedName} */` : "",
-        ]
-          .filter(Boolean)
-          .join("\n");
-        parts.push(`${header}\n${b.code.trim()}\n`);
-      }
+      const parts = ids
+        .map((id) => {
+          const b = byId.get(id);
+          if (!b) return undefined;
+          const header = [
+            `/* source: ${b.relPath}:${b.startLine}-${b.endLine} */`,
+            b.hintedName ? `/* hinted: ${b.hintedName} */` : "",
+          ]
+            .filter(Boolean)
+            .join("\n");
+          return `${header}\n${b.code.trim()}\n`;
+        })
+        .filter((p): p is string => Boolean(p));
       const content = parts.join("\n/* --- next-part --- */\n\n");
 
       // avoid clobbering existing files: append -1, -2,...

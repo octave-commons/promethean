@@ -1,3 +1,11 @@
+---
+uuid: 87df3419-fc1f-4adc-b258-dcf5b47da9d1
+title: start eidolon
+status: todo
+priority: P3
+labels: []
+created_at: '2025-09-15T02:02:58.521Z'
+---
 ## 🛠️ Task: Start Eidolon
 
 Bootstrap the **Eidolon** service that manages emotion-state tracking and
@@ -60,3 +68,4 @@ Nothing
 - [kanban](../boards/kanban.md)
 
 #done
+

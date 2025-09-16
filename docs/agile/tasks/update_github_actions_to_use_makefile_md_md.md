@@ -1,3 +1,11 @@
+---
+uuid: cd2f96f3-bd40-410b-94f2-f7d0dbce4da4
+title: update github actions to use makefile md md
+status: todo
+priority: P3
+labels: []
+created_at: '2025-09-15T02:02:58.523Z'
+---
 ## 🛠️ Task: update GitHub Actions to use Makefile
 
 CI workflows should call standardized Makefile targets rather than duplicating commands. This keeps automation consistent with the design docs.
@@ -49,3 +57,4 @@ Testing should run within each service directory to better reflect microservice 
 - [kanban](../boards/kanban.md)
 - [process](process.md)
 #done
+

@@ -1,3 +1,11 @@
+---
+uuid: 22f37fa8-12de-4f22-993f-e0704bbe49c0
+title: twitch discord general auto mod md md
+status: todo
+priority: P3
+labels: []
+created_at: '2025-09-15T02:02:58.522Z'
+---
 Got you. Here’s a tightened, build-ready version with the “learned rules + formal policy” vibe, plus a quick diagram.
 
 ---
@@ -129,3 +137,4 @@ flowchart LR
 
 If you want, I can spin this into a canvas-ready policy DSL starter (schema + a few exemplar rules) so you can start committing rules immediately.
 #IceBox
+

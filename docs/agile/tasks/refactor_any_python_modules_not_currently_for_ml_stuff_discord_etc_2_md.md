@@ -1,3 +1,11 @@
+---
+uuid: fe5eb9d4-18ff-46e5-8a30-81dffe1f711f
+title: refactor any python modules not currently for ml stuff discord etc 2 md
+status: todo
+priority: P3
+labels: []
+created_at: '2025-09-15T02:02:58.518Z'
+---
 ## 🛠️ Description
 **Status:** blocked
 
@@ -48,3 +56,4 @@ The aim is to reduce Python’s footprint in the system, improve performance, an
 - No active owner or unclear scope
 
 #breakdown
+
