@@ -241,6 +241,7 @@ kanban-plugin: board
 
 - [ ] Get existing pipelines to work through UI
 - [ ] pin all versioned anything
+- [ ] get project build to work `tsc -b tsconfig.build.json`
 
 
 ## Accepted
