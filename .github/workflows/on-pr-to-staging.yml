@@ -1,6 +1,6 @@
 # .github/workflows/on-pr-to-staging.yml
 name: on-pr-to-staging
-on: { pull_request: { branches: ['dev/staging'] } }
+on: { pull_request: { branches: ["dev/staging"] } }
 jobs:
   ci:
     runs-on: ubuntu-latest

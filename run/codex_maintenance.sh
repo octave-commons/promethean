@@ -19,3 +19,6 @@ if ! timeout 60s bash -c 'until curl -fsS http://127.0.0.1:11434/api/tags >/dev/
     echo "Ollama daemon failed to become ready in 60s" >&2
     exit 1
 fi
+
+pnpm -r --no-bail build > docs/reports/codex_cloud/maintenance_build.txt
+eslint --cache > docs/reports/codex_cloud/maintenance_eslint.txt

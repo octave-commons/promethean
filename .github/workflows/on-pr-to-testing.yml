@@ -1,6 +1,6 @@
 # .github/workflows/on-pr-to-testing.yml
 name: on-pr-to-testing
-on: { pull_request: { branches: ['dev/testing'] } }
+on: { pull_request: { branches: ["dev/testing"] } }
 jobs:
   ci:
     runs-on: ubuntu-latest
