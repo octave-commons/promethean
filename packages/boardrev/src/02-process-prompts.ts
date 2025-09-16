@@ -1,14 +1,25 @@
-/* eslint-disable */
 import * as path from "path";
 
-import { slug, parseArgs, writeText, readMaybe } from "@promethean/utils";
+import {
+  slug,
+  parseArgs,
+  writeText,
+  readMaybe,
+  createLogger,
+} from "@promethean/utils";
 import type { PromptChunk } from "./types.js";
+
+const logger = createLogger({ service: "boardrev" });
 
 export async function processPrompts({
   process,
   out,
   minLevel,
-}: Readonly<{ process: string; out: string; minLevel: number }>) {
+}: Readonly<{
+  process: string;
+  out: string;
+  minLevel: number;
+}>): Promise<void> {
   const p = path.resolve(process);
   const raw = await readMaybe(p);
   const chunks: PromptChunk[] = raw
@@ -18,39 +29,46 @@ export async function processPrompts({
     path.resolve(out),
     JSON.stringify({ prompts: chunks }, null, 2),
   );
-  console.log(`boardrev: prompts → ${out} (${chunks.length})`);
+  logger.info(`boardrev: prompts → ${out} (${chunks.length})`);
 }
 
 function sliceByHeading(md: string, minLevel: number): PromptChunk[] {
-  const lines = md.split(/\r?\n/);
-  const out: PromptChunk[] = [];
-  let cur: { heading: string; buf: string[] } | null = null;
+  const { out, cur } = md.split(/\r?\n/).reduce(
+    (acc, line) => {
+      const m = line.match(/^(#{1,6})\s+(.*)$/);
+      if (m) {
+        const level = m[1]?.length ?? 0;
+        if (level >= minLevel) {
+          const updated = acc.cur
+            ? acc.out.concat({
+                heading: normalize(acc.cur.heading),
+                prompt: acc.cur.buf.join("\n").trim(),
+              })
+            : acc.out;
+          return {
+            out: updated,
+            cur: { heading: (m[2] ?? "").trim(), buf: [] },
+          };
+        }
+      }
+      const cur = acc.cur ?? { heading: "general", buf: [] };
+      return {
+        out: acc.out,
+        cur: { heading: cur.heading, buf: [...cur.buf, line] },
+      };
+    },
+    {
+      out: [] as PromptChunk[],
+      cur: null as { heading: string; buf: string[] } | null,
+    },
+  );
 
-  const flush = () => {
-    if (cur)
-      out.push({
+  return cur
+    ? out.concat({
         heading: normalize(cur.heading),
         prompt: cur.buf.join("\n").trim(),
-      });
-  };
-
-  for (const line of lines) {
-    const m = line.match(/^(#{1,6})\s+(.*)$/);
-    if (m) {
-      const level = m[1]?.length ?? 0;
-      if (level >= minLevel) {
-        flush();
-        cur = { heading: (m[2] ?? "").trim(), buf: [] };
-        continue;
-      }
-    }
-    if (!cur) {
-      cur = { heading: "general", buf: [] };
-    }
-    cur.buf.push(line);
-  }
-  flush();
-  return out;
+      })
+    : out;
 }
 
 function normalize(h: string) {
@@ -105,7 +123,7 @@ if (import.meta.main) {
     out: args["--out"],
     minLevel: Number(args["--min-level"]),
   }).catch((e) => {
-    console.error(e);
+    logger.error((e as Error).message);
     process.exit(1);
   });
 }

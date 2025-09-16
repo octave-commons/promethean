@@ -1,17 +1,16 @@
 // src/03-cluster.ts
-import { promises as fs } from "fs";
 import * as path from "path";
 
 import { cosine } from "@promethean/utils";
 import { openLevelCache } from "@promethean/level-cache";
 
 import { parseArgs } from "./utils.js";
-import type { BlockManifest, EmbeddingMap, Cluster } from "./types.js";
+import type { CodeBlock, EmbeddingMap, Cluster } from "./types.js";
 
 const args = parseArgs({
-  "--blocks": ".cache/codepack/blocks.json",
+  "--blocks": ".cache/codepack/blocks",
   "--cache": ".cache/codepack/embeds",
-  "--out": ".cache/codepack/clusters.json",
+  "--out": ".cache/codepack/clusters",
   "--sim-threshold": "0.82", // connect if cosine >= threshold
   "--k": "8", // top-k neighbors to consider per node
 });
@@ -35,7 +34,7 @@ function unionFindClusters(ids: string[], edges: Array<[string, string]>) {
 }
 
 async function loadEmbeddings(
-  blocks: readonly BlockManifest["blocks"],
+  blocks: readonly CodeBlock[],
   cachePath: string,
 ): Promise<EmbeddingMap> {
   const cache = await openLevelCache<number[]>({
@@ -43,10 +42,12 @@ async function loadEmbeddings(
     namespace: "embeds",
   });
   const entries: EmbeddingMap = {};
-  for (const b of blocks) {
-    const v = await cache.get(b.id);
-    if (v) entries[b.id] = v;
-  }
+  await Promise.all(
+    blocks.map(async (b) => {
+      const v = await cache.get(b.id);
+      if (v) entries[b.id] = v;
+    }),
+  );
   await cache.close();
   return entries;
 }
@@ -58,28 +59,28 @@ async function main() {
   const TH = Number(args["--sim-threshold"]);
   const K = Number(args["--k"]);
 
-  const manifest = JSON.parse(
-    await fs.readFile(blocksPath, "utf-8"),
-  ) as BlockManifest;
-  const { blocks } = manifest;
+  const blockCache = await openLevelCache<CodeBlock>({
+    path: blocksPath,
+    namespace: "blocks",
+  });
+  const blocks: CodeBlock[] = [];
+  for await (const [, b] of blockCache.entries()) blocks.push(b);
+  await blockCache.close();
   const embeds = await loadEmbeddings(blocks, cachePath);
 
   // build neighbor edges
   const available = blocks.filter((b) => embeds[b.id] !== undefined);
   const ids = available.map((b) => b.id);
-  const edges: Array<[string, string]> = [];
-
-  for (const a of available) {
+  const edges: Array<[string, string]> = available.flatMap((a) => {
     const av = embeds[a.id];
-    const scores = available
+    return available
       .filter((b) => b.id !== a.id)
       .map((b) => ({ id: b.id, s: cosine(av, embeds[b.id]) }))
       .sort((x, y) => y.s - x.s)
-      .slice(0, K);
-    for (const { id, s } of scores) {
-      if (s >= TH) edges.push([a.id, id]);
-    }
-  }
+      .slice(0, K)
+      .filter(({ s }) => s >= TH)
+      .map(({ id }) => [a.id, id] as [string, string]);
+  });
 
   const groups = unionFindClusters(ids, edges).filter((g) => g.length >= 1);
   const clusters: Cluster[] = groups.map((memberIds, i) => ({
@@ -87,8 +88,14 @@ async function main() {
     memberIds,
   }));
 
-  await fs.mkdir(path.dirname(outPath), { recursive: true });
-  await fs.writeFile(outPath, JSON.stringify(clusters, null, 2), "utf-8");
+  const clusterCache = await openLevelCache<Cluster>({
+    path: outPath,
+    namespace: "clusters",
+  });
+  await clusterCache.batch(
+    clusters.map((c) => ({ type: "put" as const, key: c.id, value: c })),
+  );
+  await clusterCache.close();
   console.log(
     `clusters: ${clusters.length} groups -> ${path.relative(
       process.cwd(),

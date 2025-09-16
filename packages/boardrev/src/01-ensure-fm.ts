@@ -1,4 +1,3 @@
-/* eslint-disable */
 import * as path from "path";
 
 import matter from "gray-matter";

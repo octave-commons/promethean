@@ -1,3 +1,11 @@
+---
+uuid: 4abed2f3-350f-4ec5-ac22-7e9d3882a7c9
+title: summarize clarified priorities for next sprint md md
+status: todo
+priority: P3
+labels: []
+created_at: '2025-09-15T02:02:58.522Z'
+---
 ## 🛠️ Task: Summarize clarified priorities for next sprint
 
 After the alignment meeting, document the agreed-upon priorities and share them with the team.
@@ -44,3 +52,4 @@ Nothing
 
 ## Reason for rejection
 #rejected
+

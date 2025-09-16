@@ -1,3 +1,11 @@
+---
+uuid: d51d697f-2c46-42f1-a402-694f9f376bca
+title: add starter notes eidolon fields cephalon inner monologue 1 md
+status: todo
+priority: P3
+labels: []
+created_at: '2025-09-15T02:02:58.505Z'
+---
 ## 🛠️ Task: Add starter notes - eidolon_fields, cephalon_inner_monologue
 
 Create initial documentation for two key areas of the emotional model.
@@ -70,3 +78,4 @@ Nothing
 
 - [kanban](../boards/kanban.md)
 #done
+

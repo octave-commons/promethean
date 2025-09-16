@@ -1,5 +1,11 @@
-
-
+---
+uuid: 07e85844-1390-4c3c-80d4-251254f71b4e
+title: design audio pipeline mvp
+status: todo
+priority: P3
+labels: []
+created_at: '2025-09-15T02:02:58.511Z'
+---
 <hr class="__chatgpt_plugin">
 
 ### role::assistant<span style="font-size: small;"> (llama3.2:latest)</span>
@@ -107,4 +113,5 @@ It seems like you've started writing in your Markdown document, but I didn't rec
 <hr class="__chatgpt_plugin">
 
 ### role::user
+
 

@@ -1,5 +1,11 @@
-
-
+---
+uuid: 20d0dc48-0832-4800-a541-ffbcf88305a5
+title: many batmen
+status: todo
+priority: P3
+labels: []
+created_at: '2025-09-15T02:02:58.516Z'
+---
 <hr class="__chatgpt_plugin">
 
 ### role::assistant<span style="font-size: small;"> (llama3.2:latest)</span>
@@ -90,3 +96,4 @@ Using this title write a reasonable task kanban task document:
 <hr class="__chatgpt_plugin">
 
 ### role::user
+

@@ -5,9 +5,9 @@
 set -euo pipefail
 
 #--- Helpers ---------------------------------------------------------------
-log() { printf "\033[1;32m[setup]\033[0m %s\n" "$*"; }
-warn() { printf "\033[1;33m[warn]\033[0m %s\n" "$*"; }
-die() { printf "\033[1;31m[err]\033[0m %s\n" "$*"; exit 1; }
+log() { builtin printf -- "\033[1;32m[setup]\033[0m %s\n" "$*"; }
+warn() { builtin printf -- "\033[1;33m[warn]\033[0m %s\n" "$*"; }
+die() { builtin printf -- "\033[1;31m[err]\033[0m %s\n" "$*"; exit 1; }
 
 #--- OS guard --------------------------------------------------------------
 if ! command -v apt-get >/dev/null 2>&1; then

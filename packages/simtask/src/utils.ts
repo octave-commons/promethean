@@ -1,6 +1,6 @@
 import * as path from "path";
 
-import * as ts from "typescript";
+import ts from "typescript";
 export {
   sha1,
   cosine,
@@ -9,20 +9,24 @@ export {
   parseArgs,
 } from "@promethean/utils";
 
-export function makeProgram(rootFiles: string[], tsconfigPath?: string) {
-  let options: ts.CompilerOptions = {
+export function makeProgram(
+  rootFiles: readonly string[],
+  tsconfigPath?: string,
+): ts.Program {
+  const baseOptions: Readonly<ts.CompilerOptions> = {
     target: ts.ScriptTarget.ES2022,
     module: ts.ModuleKind.ESNext,
     strict: true,
   };
-  if (tsconfigPath) {
-    const cfg = ts.readConfigFile(tsconfigPath, ts.sys.readFile);
-    const parsed = ts.parseJsonConfigFileContent(
-      cfg.config,
-      ts.sys,
-      path.dirname(tsconfigPath),
-    );
-    options = { ...parsed.options, ...options };
-  }
+  const options: ts.CompilerOptions = tsconfigPath
+    ? {
+        ...ts.parseJsonConfigFileContent(
+          ts.readConfigFile(tsconfigPath, ts.sys.readFile).config,
+          ts.sys,
+          path.dirname(tsconfigPath),
+        ).options,
+        ...baseOptions,
+      }
+    : baseOptions;
   return ts.createProgram(rootFiles, options);
 }

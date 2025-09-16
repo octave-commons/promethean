@@ -30,6 +30,23 @@ import { loadState, saveState, RunState, type Step } from "./lib/state.js";
 import { renderReport } from "./lib/report.js";
 import { emitEvent, type PiperEvent } from "./lib/events.js";
 
+function expandEnvVars(
+  env: Readonly<Record<string, string>>,
+): Record<string, string> {
+  const out: Record<string, string> = {};
+  for (const [k, v] of Object.entries(env)) {
+    const match = /^\$\{(\w+)\}$/.exec(v);
+    if (match) {
+      const key = match[1]!;
+      const actual = process.env[key];
+      if (actual !== undefined) out[k] = actual;
+    } else {
+      out[k] = v;
+    }
+  }
+  return out;
+}
+
 type ValidateFn = {
   (data: unknown): boolean;
   errors?: unknown;
@@ -98,7 +115,12 @@ async function readConfig(p: string): Promise<PiperFile> {
   if (!parsed.success) {
     throw new Error("pipelines config invalid: " + parsed.error.message);
   }
-  return parsed.data;
+  return {
+    pipelines: parsed.data.pipelines.map((p) => ({
+      ...p,
+      steps: p.steps.map((s) => ({ ...s, env: expandEnvVars(s.env) })),
+    })),
+  };
 }
 
 function shouldSkip(
@@ -320,7 +342,7 @@ export async function runPipeline(
               return await runJSModule(s, cwd, envMerged, fp, s.timeoutMs);
             } catch (e: unknown) {
               const stderr =
-                e instanceof Error ? e.stack ?? e.message : String(e);
+                e instanceof Error ? (e.stack ?? e.message) : String(e);
               return { code: 1, stdout: "", stderr } as const;
             } finally {
               if (needJsLock) jsSem.release();

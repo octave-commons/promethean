@@ -1,3 +1,13 @@
+---
+uuid: cbc70baa-3202-4eb0-a4ef-aec84d3e3bbf
+title: >-
+  Task: Structural code editing AI tool (tree-diffs, not text-diffs) — with
+  immediate validation
+status: todo
+priority: P3
+labels: []
+created_at: '2025-09-15T02:02:58.521Z'
+---
 # Task: Structural code editing AI tool (tree-diffs, not text-diffs) — with immediate validation
 
 **Slug:** `structural-code-editing-ai-tool-that-uses-tree-diffs-instead-of-string-based-universal-diffs--ensuring-generated-results-are-always-immediately-validatable`
@@ -267,3 +277,4 @@ Usage:
   "exclude_outlinks": false
 }
 ```
+

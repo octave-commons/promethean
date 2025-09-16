@@ -1,31 +1,10 @@
 ---
-promptId: smart_task_templater_md
-name: add-docker-compose-files-to-services
-description: A task on the kanban of the promethean system.
-author: Aaron Beavers
-tags:
-  - prompt-refinement
-  - promptcompiler
-  - "#metaprogramming"
-  - "#metacompiler"
-version: 0.0.1
-disableProvider: false
-provider: ollama
-commands: generate
-mode: replace
-streaming: "true"
-model: ollama@llama3.2:latest
-prompt: add-docker-compose-files-to-services
-task-id: TASK-2025-08-30
+uuid: 0a4d6f50-753a-48ef-a9a0-10f279eb621b
+title: add docker compose files to services
+status: todo
 priority: p3
-system_commands:
-  - You are a helpful assistant.
-frequency_penalty: 0
-max_tokens: 400
-odel:
-presence_penalty: 0
-stream: true
-temperature: 0.7
+labels: []
+created_at: '2025-09-15T02:02:58.504Z'
 ---
 <hr class="__chatgpt_plugin">
 
@@ -35,3 +14,4 @@ though I keep thinking about this...
 most of the time a service is a thing that is running by its self, and there is only 1 of them (or a cluster of splinters) 
 
 Why did I split everything up in the first place...
+

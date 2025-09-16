@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/prefer-readonly-parameter-types, functional/prefer-immutable-types */
 declare module '@shared/js/serviceTemplate.js' {
     export type Broker = {
         publish(topic: string, message: unknown): void;
