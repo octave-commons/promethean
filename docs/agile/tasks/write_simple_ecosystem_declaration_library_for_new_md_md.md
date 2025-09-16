@@ -59,7 +59,7 @@ spawn the correct services for an agent.
 
 ## 🔍 Relevant Links
 
-- [kanban](../boards/kanban.md)
+- [[kanban]]
 
 ## ❓ Questions
 

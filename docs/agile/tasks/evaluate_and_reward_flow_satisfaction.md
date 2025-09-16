@@ -38,7 +38,7 @@ Generated from [../unique/2025.07.28.18.07.20.md](../unique/2025.07.28.18.07.20.
 - [ ] Add a small Python module to compute satisfaction (0‑1 scale)
 - [ ] Update Eidolon to accept a reward event
 - [ ] Write a minimal visualization notebook
-- [ ] Link baseline metrics from [eidolon-field-math](../../notes/math/eidolon-field-math.md)
+- [ ] Link baseline metrics from [[eidolon-field-math]]
 
 ---
 
@@ -50,7 +50,7 @@ Generated from [../unique/2025.07.28.18.07.20.md](../unique/2025.07.28.18.07.20.
 
 ## ⛓️ Blocked By
 
-- Needs baseline emotion metrics from [Eidolon Fields](../../notes/math/eidolon-field-math.md)
+- Needs baseline emotion metrics from [[eidolon-field-math|Eidolon Fields]]
 
 ## ⛓️ Blocks
 
@@ -60,7 +60,7 @@ Generated from [../unique/2025.07.28.18.07.20.md](../unique/2025.07.28.18.07.20.
 
 ## 🔍 Relevant Links
 
-- [kanban](../boards/kanban.md)
+- [[kanban]]
 
 ## ❓ Questions
 

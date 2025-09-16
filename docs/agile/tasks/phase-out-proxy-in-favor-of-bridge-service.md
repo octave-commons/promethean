@@ -61,7 +61,7 @@ Nothing
 ## 🔍 Relevant Links
 
 - [API spec](https://err-stealth-16-ai-studio-a1vgg.tailbe888a.ts.net/v1/openapi.json)
-- [kanban](kanban.md)
+- [[kanban]]
 
 #framework-core #Todo
 

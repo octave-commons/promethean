@@ -56,7 +56,7 @@ fragments or emotional states that reappear in different contexts.
 
 ## 🔍 Relevant Links
 
-- [kanban](../boards/kanban.md)
+- [[kanban]]
 
 ## ❓ Questions
 

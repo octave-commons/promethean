@@ -44,7 +44,7 @@ Nothing
 ---
 
 ## 🔍 Relevant Links
-- [kanban](../boards/kanban.md)
+- [[kanban]]
 - [python-tests.yml](../../services/stt/.github/workflows/python-tests.yml)
 
 

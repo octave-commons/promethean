@@ -47,7 +47,7 @@ Nothing
 ---
 
 ## 🔍 Relevant Links
-- [kanban](../boards/kanban.md)
+- [[kanban]]
 - [Board Sync Workflow](../../board_sync.md)
 
 
