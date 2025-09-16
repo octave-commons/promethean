@@ -17,7 +17,7 @@ mkdir -p "$LOG_DIR" "$STEP_DIR"
 
 SUMMARY_TSV="$RUN_DIR/summary.tsv"
 SUMMARY_JSON="$RUN_DIR/summary.jsonl"   # JSONL per step (easy to stream/parse)
-printf 'ts\tname\trc\tsignal\tstatus\tlog_out\tlog_err\n' > "$SUMMARY_TSV"
+builtin printf -- 'ts\tname\trc\tsignal\tstatus\tlog_out\tlog_err\n' > "$SUMMARY_TSV"
 
 _have() { command -v "$1" >/dev/null 2>&1; }
 
@@ -110,7 +110,7 @@ describe() {
     ' | tee "$STEP_DIR/${name}.json" >> "$SUMMARY_JSON"
   fi
 
-  printf '%s\t%s\t%d\t%s\t%s\t%s\t%s\n' \
+  builtin printf -- '%s\t%s\t%d\t%s\t%s\t%s\t%s\n' \
     "$started" "$name" "$rc" "${signal:-}" "$status" "$out" "$err" >> "$SUMMARY_TSV"
 
   # never fail outward

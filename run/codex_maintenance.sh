@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
+# debug trap: print the exact failing command and location
+set -o errtrace
+trap 'code=$?; echo "ERR $BASH_SOURCE:$LINENO: $BASH_COMMAND (rc=$code)" >&2' ERR
+
 
 # ---------- run context ----------
 ART_ROOT="${ART_ROOT:-docs/reports/codex_cloud}"
@@ -62,9 +66,9 @@ make_index() {
     echo "# Codex Maintenance — $RUN_TS"
     echo ""
     echo "## Quick status"
-    printf "- Build: **%s**\n"   "$([ "${rc_build:-0}" -eq 0 ] && echo PASS || echo FAIL)"
-    printf "- Lint:  **%s**  (errors: %s, warnings: %s)\n" "$([ "${rc_lint:-0}" -eq 0 ] && echo PASS || echo FAIL)" "$e_err" "$e_warn"
-    printf "- Test:  **%s**\n"   "$([ "${rc_test:-0}" -eq 0 ] && echo PASS || echo FAIL)"
+    builtin printf -- "- Build: **%s**\n"   "$([ "${rc_build:-0}" -eq 0 ] && echo PASS || echo FAIL)"
+    builtin printf -- "- Lint:  **%s**  (errors: %s, warnings: %s)\n" "$([ "${rc_lint:-0}" -eq 0 ] && echo PASS || echo FAIL)" "$e_err" "$e_warn"
+    builtin printf -- "- Test:  **%s**\n"   "$([ "${rc_test:-0}" -eq 0 ] && echo PASS || echo FAIL)"
     echo ""
     echo "## Artifacts"
     echo "- Summary table: \`$(basename "$SUMMARY_TSV")\`"
