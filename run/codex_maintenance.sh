@@ -21,7 +21,7 @@ describe env-dump            bash -lc '(set -o posix; set)'
 describe pnpm-install        pnpm install --no-frozen-lockfile
 
 # gh wiring + origin
-describe setup-gh-cli        bash -lc '"$(dirname "$0")/setup_gh_cli.sh"'
+# describe setup-gh-cli        bash -lc '"$(dirname "$0")/setup_gh_cli.sh"'
 
 # services
 describe chroma-standup      bash -lc '"$(dirname "$0")/standup_chroma_nohup.sh"'
