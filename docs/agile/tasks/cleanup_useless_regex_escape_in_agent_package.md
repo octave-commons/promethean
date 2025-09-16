@@ -1,3 +1,11 @@
+---
+uuid: d3e6cca5-2b2f-4cd9-8131-db74ebe7c8f9
+title: Clean up useless regex escape in agent package
+status: todo
+priority: P3
+labels: []
+created_at: '2025-09-15T02:02:58.509Z'
+---
 # Clean up useless regex escape in agent package
 
 ## Description
@@ -15,3 +23,4 @@ The `noUselessEscapeInRegex` rule flagged an unnecessary escape in `packages/age
 - [ ] Ensure associated tests still pass.
 
 #Todo #codex-task
+

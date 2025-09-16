@@ -1,14 +1,22 @@
-/* eslint-disable */
 import * as path from "path";
 import { promises as fs } from "fs";
 
 import matter from "gray-matter";
 import { openLevelCache, type Cache } from "@promethean/level-cache";
-import { cosine, parseArgs, ollamaEmbed, writeText } from "@promethean/utils";
+import {
+  cosine,
+  parseArgs,
+  ollamaEmbed,
+  writeText,
+  createLogger,
+} from "@promethean/utils";
 
 import { listTaskFiles } from "./utils.js";
 import type { RepoDoc, Embeddings, TaskContext } from "./types.js";
 
+const logger = createLogger({ service: "boardrev" });
+
+// eslint-disable-next-line max-lines-per-function
 export async function matchContext({
   tasks,
   cache,
@@ -21,7 +29,7 @@ export async function matchContext({
   embedModel: string;
   k: number;
   out: string;
-}>) {
+}>): Promise<void> {
   const tasksDir = path.resolve(tasks);
   const files = await listTaskFiles(tasksDir);
   const db = await openLevelCache<unknown>({
@@ -72,7 +80,7 @@ export async function matchContext({
     JSON.stringify({ contexts: outData }, null, 2),
   );
   await db.close();
-  console.log(`boardrev: matched context for ${outData.length} task(s)`);
+  logger.info(`boardrev: matched context for ${outData.length} task(s)`);
 }
 
 if (import.meta.main) {
@@ -90,7 +98,7 @@ if (import.meta.main) {
     k: Number(args["--k"]),
     out: args["--out"],
   }).catch((e) => {
-    console.error(e);
+    logger.error((e as Error).message);
     process.exit(1);
   });
 }

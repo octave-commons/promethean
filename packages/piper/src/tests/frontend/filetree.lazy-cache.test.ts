@@ -8,13 +8,9 @@ import {
   withPage,
   Deps,
 } from "@promethean/test-utils";
+import type { Route, Response } from "playwright";
 
-const PKG_ROOT = path.resolve(
-  path.dirname(new URL(import.meta.url).pathname),
-  "..",
-  "..",
-  "..",
-);
+const PKG_ROOT = process.cwd();
 
 async function write(p: string, s: string) {
   await fs.mkdir(path.dirname(p), { recursive: true });
@@ -52,6 +48,7 @@ test.serial(
   "file-tree lazy loads and caches directory contents",
   withPage,
   { baseUrl: () => baseUrl },
+  // eslint-disable-next-line max-lines-per-function
   async (t, { pageGoto, page }: Deps) => {
     // Count API calls to /api/files
 
@@ -62,15 +59,15 @@ test.serial(
     // Minimal pipelines to satisfy dev-ui start (not used by file-tree)
     await write(cfgPath, JSON.stringify({ pipelines: [] }, null, 2));
     const apiCalls: string[] = [];
-    await page.route("**/api/files**", (route: any) => {
+    await page.route("**/api/files**", (route: Route) => {
       apiCalls.push(route.request().url());
-      route.continue();
+      void route.continue();
     });
 
     await pageGoto("/");
-    await page.waitForResponse(
-      (r: any) => r.url().includes("/api/files") && r.ok(),
-    );
+    await page.waitForResponse((r: Response) => {
+      return r.url().includes("/api/files") && r.ok();
+    });
 
     // Expand test-tmp
     await page.waitForSelector("file-tree");
@@ -78,7 +75,7 @@ test.serial(
     const clickDirByLabel = async (label: string) => {
       await page.waitForFunction((text: string) => {
         const el = document.querySelector("file-tree");
-        const root = (el?.shadowRoot as ShadowRoot) || undefined;
+        const root = el?.shadowRoot;
         if (!root) return false;
         const dirs = Array.from(root.querySelectorAll(".dir-line"));
         return !!dirs.find(
@@ -88,7 +85,7 @@ test.serial(
       }, label);
       await page.evaluate((text: string) => {
         const el = document.querySelector("file-tree")!;
-        const root = el.shadowRoot as ShadowRoot;
+        const root = el.shadowRoot!;
         const dirs = Array.from(root.querySelectorAll(".dir-line"));
         const target = dirs.find(
           (d) =>
@@ -107,24 +104,34 @@ test.serial(
 
     // When expanding lazy-2, its sub UL should momentarily show a loading indicator
     // We check existence of any .loading element at some point during expansion
-    const sawLoading = await page.evaluate(async () => {
-      const el = document.querySelector("file-tree")!;
-      const root = el.shadowRoot as ShadowRoot;
-      const start = performance.now();
-      while (performance.now() - start < 1500) {
-        if (root.querySelector(".loading")) return true;
-        await new Promise((r) => setTimeout(r, 50));
-      }
-      return false;
-    });
+    const sawLoading = await page
+      .waitForFunction(
+        () => {
+          const el = document.querySelector("file-tree");
+          const root = el?.shadowRoot;
+          return !!root?.querySelector(".loading");
+        },
+        { timeout: 1500 },
+      )
+      .then(() => true)
+      .catch(() => false);
     t.true(sawLoading, "shows loading indicator during fetch");
 
     await clickDirByLabel("lazy-3");
+    // Wait for leaf to render inside the shadow DOM
+    await page.waitForFunction(() => {
+      const el = document.querySelector("file-tree");
+      const root = el?.shadowRoot;
+      if (!root) return false;
+      return Array.from(root.querySelectorAll(".file")).some(
+        (n) => (n as HTMLElement).textContent?.trim() === "deep.md",
+      );
+    });
 
-    // Leaf should be visible
+    // Leaf should now be visible
     const leafVisible = await page.evaluate(() => {
       const el = document.querySelector("file-tree")!;
-      const root = el.shadowRoot as ShadowRoot;
+      const root = el.shadowRoot!;
       const file = Array.from(root.querySelectorAll(".file")).find(
         (n) => (n as HTMLElement).textContent?.trim() === "deep.md",
       );

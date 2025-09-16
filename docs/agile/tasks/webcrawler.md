@@ -1,3 +1,13 @@
+---
+uuid: 0d89cdd7-1a6c-4477-9cbc-d12472564b58
+title: >-
+  Web Crawler Agent → Hyperlink Graph → LLM Summaries/#Tags → Chroma Search
+  (Dual-Sink)
+status: todo
+priority: P3
+labels: []
+created_at: '2025-09-15T02:02:58.523Z'
+---
 # Web Crawler Agent → Hyperlink Graph → LLM Summaries/#Tags → Chroma Search (Dual-Sink)
 
 **Owner:** Codex / Agent
@@ -296,3 +306,4 @@ Append-only thread: record domain-specific deny-lists, prompt tweaks, and any in
 - Story Points: 8
 
 #in-progress
+

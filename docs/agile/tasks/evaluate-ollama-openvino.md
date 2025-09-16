@@ -1,33 +1,11 @@
 ---
-promptId: smart_task_templater_md
-name: "evaluate-ollama-openvino"
-description: A task on the kanban of the promethean system.
-author: Aaron Beavers
-tags:
-  - prompt-refinement
-  - promptcompiler
-  - "#metaprogramming"
-  - "#metacompiler"
-version: 0.0.1
-disableProvider: false
-provider: ollama
-commands: generate
-mode: replace
-streaming: "true"
-model: ollama@llama3.2:latest
-prompt: "evaluate-ollama-openvino"
-task-id: TASK-2025-08-30
+uuid: a08e1032-c149-4060-831d-97e43d707132
+title: evaluate ollama openvino
+status: todo
 priority: p3
-system_commands: ['You are a helpful assistant.']
-frequency_penalty: 0
-max_tokens: 400
-presence_penalty: 0
-stream: true
-temperature: 0.7
+labels: []
+created_at: '2025-09-15T02:02:58.513Z'
 ---
-
-
-
 ### **Smart ChatGPT Configuration**
 ```smart-chatgpt
 ```
@@ -111,4 +89,5 @@ temperature: 0.7
   "exclude_outlinks": false
 }
 ```
+
 

@@ -1,11 +1,11 @@
 import { promises as fs } from "node:fs";
+/* eslint-disable max-lines-per-function, complexity, sonarjs/cognitive-complexity, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument */
 import * as path from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { openLevelCache } from "@promethean/level-cache";
-import { parseArgs } from "@promethean/utils";
+import { parseArgs, readMaybe } from "@promethean/utils";
 
-import { readMaybe } from "./utils.js";
 import type { PkgInfo, ScanOut } from "./types.js";
 
 export async function scan(
