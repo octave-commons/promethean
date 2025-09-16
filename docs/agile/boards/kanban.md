@@ -215,7 +215,6 @@ kanban-plugin: board
 
 ## Ice Box
 
-- [ ] [[add-codex-layer-to-emacs|Add codex layer to emacs]] #ready
 - [ ] [[add_twitch_chat_integration_md_md|add twitch chat integration md md]] #breakdown
 - [ ] [[twitch_discord_general_auto_mod_md_md|twitch discord general auto mod md md]] #framework-core #observability #multimodal-context #risk #IceBox #todo
 - [ ] [[harden-precommit-hooks|harden precommit hooks]] #ready
@@ -239,13 +238,14 @@ kanban-plugin: board
 
 ## Incoming
 
-- [ ] Get existing pipelines to work through UI
-- [ ] pin all versioned anything
-- [ ] get project build to work `tsc -b tsconfig.build.json`
+- [ ] [[add-codex-layer-to-emacs|Add codex layer to emacs]] #ready
 
 
 ## Accepted
 
+- [ ] get project build to work `tsc -b tsconfig.build.json`
+- [ ] pin all versioned anything
+- [ ] Get existing pipelines to work through UI
 - [ ] [[get all existing piper pipelines functional]]
 - [ ] make cephalon work again with new project layout
 - [ ] Use clojure elisp tree sitter package to generate mcp.el valid s-expr
