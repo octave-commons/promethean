@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+echo "# Codex Cloud Setup Report Start:$(date +"%Y.%m.%d.%H.%M.%S")"
+
 ART_DIR="docs/reports/codex_cloud"
 mkdir -p "$ART_DIR"
 
@@ -31,27 +33,12 @@ bash ./run/setup_playwright.sh >"$ART_DIR/setup_playwright.txt" 2>&1 || true
 bash ./run/install_gh_cli.sh >"$ART_DIR/install_gh_cli.txt" 2>&1
 bash ./run/setup_gh_cli.sh >"$ART_DIR/setup_gh_cli.txt" 2>&1
 
-# start chroma if not running
-if ! curl -fsS http://127.0.0.1:8000/api/v2/heartbeat >/dev/null 2>&1; then
-  nohup uvx --from chromadb chroma run --host 127.0.0.1 --port 8000 >"$ART_DIR/chromadb_nohup.txt" 2>&1 &
-fi
+bash ./run/standup_chroma_nohup.sh
 
-if ! timeout 60s bash -c 'until curl -fsS http://127.0.0.1:8000/api/v2/heartbeat >/dev/null; do sleep 1; done'; then
-  echo "ChromaDB failed to become healthy in 60s" | tee -a "$ART_DIR/chromadb_health.txt" >&2
-  exit 1
-fi
-
-# install & start ollama
+# install
 curl -fsSL https://ollama.com/install.sh | sh >"$ART_DIR/ollama_install.txt" 2>&1
-pgrep -f 'ollama serve' >/dev/null || nohup ollama serve >"$ART_DIR/ollama_nohup.txt" 2>&1 &
-
-if ! timeout 60s bash -c 'until curl -fsS http://127.0.0.1:11434/api/tags >/dev/null; do sleep 1; done'; then
-  echo "Ollama daemon failed to become ready in 60s" | tee -a "$ART_DIR/ollama_health.txt" >&2
-  exit 1
-fi
-
-ollama pull qwen2.5:0.5b >"$ART_DIR/ollama_pull_qwen.txt" 2>&1 || true
-ollama pull nomic-embed-text >"$ART_DIR/ollama_pull_embed.txt" 2>&1 || true
+# Start ollama if it isn't already running
+bash ./run/standup_ollama_nohup.sh
 
 npm install --global corepack@latest >"$ART_DIR/npm_corepack.txt" 2>&1 || true
 npm install -g eslint >"$ART_DIR/npm_eslint.txt" 2>&1 || true
@@ -122,6 +109,16 @@ echo "  Build log:     $BUILD_LOG"
 echo "  ESLint log:    $LINT_LOG"
 echo "  ESLint JSON:   $LINT_JSON"
 echo "  Summary JSON:  $SUMMARY_JSON"
+# Prime caches & collect Nx artifacts without failing the job
+NX_BASE="${NX_BASE:-origin/main}" \
+       NX_HEAD="${NX_HEAD:-HEAD}" \
+       NX_STRICT="${NX_STRICT:-0}" \
+       ART_ROOT="docs/reports/codex_cloud" \
+       bash ./run/nx_artifacts.sh || true
+
+echo "# Codex Cloud Setup Report End:$(date +"%Y.%m.%d.%H.%M.%S")"
+# If you ever want the whole script to fail at the end based on Nx:
+# NX_STRICT=1 bash ./run/nx_artifacts.sh
 
 # Exit policy
 if [ "$SOFT_FAIL" -eq 1 ]; then

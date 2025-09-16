@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
+
+echo "# Codex Cloud Maintenance Report Start:$(date +"%Y.%m.%d.%H.%M.%S")"
 pnpm install --no-frozen-lockfile
+
+bash ./run/setup_gh_cli.sh >"$ART_DIR/setup_gh_cli.txt" 2>&1
 
 # start the server if not running
 curl -fsS http://127.0.0.1:8000/api/v2/heartbeat >/dev/null 2>&1 || \
@@ -13,12 +17,18 @@ if ! timeout 60s bash -c 'until curl -fsS http://127.0.0.1:8000/api/v2/heartbeat
 fi
 
 
-pgrep -f 'ollama serve' >/dev/null || nohup ollama serve >/dev/null 2>&1 &
+# Start ollama if it isn't already running
+bash ./run/standup_ollama_nohup.sh
 
-if ! timeout 60s bash -c 'until curl -fsS http://127.0.0.1:11434/api/tags >/dev/null; do sleep 1; done'; then
-    echo "Ollama daemon failed to become ready in 60s" >&2
-    exit 1
-fi
 
-pnpm -r --no-bail build > docs/reports/codex_cloud/maintenance_build.txt
-eslint --cache > docs/reports/codex_cloud/maintenance_eslint.txt
+bash ./run/standup_chroma_nohup.sh
+
+
+# Prime caches & collect Nx artifacts without failing the job
+NX_BASE="${NX_BASE:-origin/main}" \
+       NX_HEAD="${NX_HEAD:-HEAD}" \
+       NX_STRICT="${NX_STRICT:-0}" \
+       ART_ROOT="docs/reports/codex_cloud" \
+       bash ./run/nx_artifacts.sh || true
+
+echo "# Codex Cloud Maintenance Report End:$(date +"%Y.%m.%d.%H.%M.%S")"
