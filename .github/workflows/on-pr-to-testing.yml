@@ -14,5 +14,8 @@ jobs:
         with: { node-version: 20, cache: pnpm }
       - uses: nrwl/nx-set-shas@v4
 
+      - name: Install deps
+        run: pnpm install --frozen-lockfile
+
       - run: pnpm nx affected -t lint
       - run: pnpm nx affected -t test --parallel
