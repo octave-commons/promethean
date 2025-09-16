@@ -55,6 +55,6 @@ Nothing
 
 ## 🔍 Relevant Links
 
-- [[kanban.md]]
+- [[kanban]]
 #ice-box
 
