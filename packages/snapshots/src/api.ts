@@ -2,6 +2,7 @@
 import type { Server } from 'http';
 
 import express, { type RequestHandler } from 'express';
+import rateLimit from 'express-rate-limit';
 import type { Db, Collection } from 'mongodb';
 import { sha1 } from '@promethean/utils';
 
@@ -79,10 +80,16 @@ export function startSnapshotApi(db: Db, port = 8091, opts: SnapshotApiOptions):
     const coll = db.collection(opts.collection);
     const keyField = opts.keyField ?? '_key';
     const cacheCtl = `public, max-age=${opts.maxAgeSeconds ?? 5}`;
+    const snapshotLimiter = rateLimit({
+        windowMs: 60_000,
+        max: 120,
+        standardHeaders: true,
+        legacyHeaders: false,
+    });
 
-    app.get('/snap/:key', getSnap(coll, keyField, cacheCtl));
-    app.get('/list', listSnaps(coll, keyField, cacheCtl));
-    app.head('/snap/:key', headSnap(coll, keyField, cacheCtl));
+    app.get('/snap/:key', snapshotLimiter, getSnap(coll, keyField, cacheCtl));
+    app.get('/list', snapshotLimiter, listSnaps(coll, keyField, cacheCtl));
+    app.head('/snap/:key', snapshotLimiter, headSnap(coll, keyField, cacheCtl));
 
     return app.listen(port, () => console.log(`[snapshot-api] on :${port} (${opts.collection})`));
 }
