@@ -83,18 +83,31 @@ describe() {
 
   read -r status signal <<< "$(_classify "$rc" "$out" "$err" "${cmd[*]}" "$name")"
 
-  # write per-step JSON (plus JSONL line)
+  # ensure JSONL exists (before first append)
+  : > "$SUMMARY_JSON"
+
   if _have jq; then
-    jq -n \
-      --arg name "$name" --arg cmd "${cmd[*]}" \
-      --arg started "$started" --arg ended "$ended" \
-      --arg out "$out" --arg err "$err" --arg merged "$merged" \
-      --arg status "$status" --argjson rc "$rc" --arg signal "${signal:-}" \
-      '{
-        name:$name, cmd:$cmd, started:$started, ended:$ended,
-        logs:{out:$out, err:$err, merged:$merged},
-        result:{rc:$rc, status:$status} + ( $signal|length>0 ? {signal:($signal|tonumber)} : {} )
-      }' | tee "$STEP_DIR/${name}.json" >> "$SUMMARY_JSON"
+      jq -n \
+         --arg name "$name" --arg cmd "${cmd[*]}" \
+         --arg started "$started" --arg ended "$ended" \
+         --arg out "$out" --arg err "$err" --arg merged "$merged" \
+         --arg status "$status" --argjson rc "$rc" --arg signal "${signal:-}" \
+         '
+    def maybe_signal(s):
+      if (s|type) == "string" and (s|length) > 0
+      then { signal: (s|tonumber) }
+      else {}
+      end;
+
+    {
+      name:    $name,
+      cmd:     $cmd,
+      started: $started,
+      ended:   $ended,
+      logs: { out:$out, err:$err, merged:$merged },
+      result: ( { rc:$rc, status:$status } + maybe_signal($signal) )
+    }
+    ' | tee "$STEP_DIR/${name}.json" >> "$SUMMARY_JSON"
   fi
 
   printf '%s\t%s\t%d\t%s\t%s\t%s\t%s\n' \
