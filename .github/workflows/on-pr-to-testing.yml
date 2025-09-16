@@ -1,5 +1,7 @@
 # .github/workflows/on-pr-to-testing.yml
 name: on-pr-to-testing
+permissions:
+  contents: read
 on: { pull_request: { branches: ["dev/testing"] } }
 jobs:
   ci:

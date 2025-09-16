@@ -1,6 +1,8 @@
 # .github/workflows/on-pr-to-dev.yml
 name: on-pr-to-dev
 on: { pull_request: { branches: ["dev/**"] } }
+permissions:
+  contents: read
 jobs:
   ci:
     runs-on: ubuntu-latest
