@@ -1,133 +1,112 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-echo "# Codex Cloud Setup Report Start:$(date +"%Y.%m.%d.%H.%M.%S")"
+# ---------- run context ----------
+ART_ROOT="${ART_ROOT:-docs/reports/codex_cloud}"
+RUN_TS="${RUN_TS:-$(date -u +"%Y.%m.%d.%H.%M.%S")}"
+ART_ROOT="$ART_ROOT" RUN_TS="$RUN_TS" source "$(dirname "$0")/describe.sh"
 
-ART_DIR="docs/reports/codex_cloud"
-mkdir -p "$ART_DIR"
+# ---------- base/tooling ----------
+describe env-dump               bash -lc '(set -o posix; set)'
 
-# capture env for debugging instead of spamming stdout
-(set -o posix; set) > "$ART_DIR/env.txt" 2>&1 || true
+# pre-commit
+describe uvx-precommit-install  uvx pre-commit install
+describe uvx-hook-install       uvx pre-commit install --install-hooks
+describe uvx-hook-commit-msg    uvx pre-commit install --hook-type commit-msg
+describe uvx-hook-pre-merge     uvx pre-commit install --hook-type pre-merge-commit
 
-command -v uvx >/dev/null || { echo "uvx not found on PATH after install" >&2; exit 1; }
+# OS deps
+describe apt-update             bash -lc 'export DEBIAN_FRONTEND=noninteractive; apt-get update -y'
+describe apt-build-tools        bash -lc 'apt-get install -y build-essential python3 make g++ pkg-config'
+describe apt-extras             bash -lc 'apt-get install -y git ca-certificates jq moreutils ripgrep'
 
-uvx pre-commit install
-uvx pre-commit install --install-hooks
-uvx pre-commit install --hook-type commit-msg
-uvx pre-commit install --hook-type pre-merge-commit
+# native toolchain + node-gyp helpers
+describe install-gyp            bash -lc '"$(dirname "$0")/install_gyp.sh"'
 
-# base toolchain (noninteractive so CI won’t hang)
-export DEBIAN_FRONTEND=noninteractive
-apt-get update -y >"$ART_DIR/apt_update.txt" 2>&1
-apt-get install -y build-essential python3 make g++ pkg-config >"$ART_DIR/apt_build_tools.txt" 2>&1
-apt-get install -y git ca-certificates jq moreutils ripgrep >"$ART_DIR/apt_extras.txt" 2>&1
+# node toolchain
+describe corepack-enable        corepack enable
+describe pnpm-activate          corepack prepare pnpm@9.0.0 --activate
+describe pnpm-install           pnpm install --frozen-lockfile
 
-bash ./run/install_gyp.sh >"$ART_DIR/install_gyp.txt" 2>&1
+# playwright
+describe setup-playwright       bash -lc '"$(dirname "$0")/setup_playwright.sh"'
 
-corepack enable >"$ART_DIR/corepack_enable.txt" 2>&1
-corepack prepare pnpm@9.0.0 --activate >"$ART_DIR/corepack_prepare.txt" 2>&1
-pnpm install --frozen-lockfile >"$ART_DIR/pnpm_install.txt" 2>&1
+# gh CLI + origin
+describe install-gh-cli         bash -lc '"$(dirname "$0")/install_gh_cli.sh"'
+describe setup-gh-cli           bash -lc '"$(dirname "$0")/setup_gh_cli.sh"'
 
-bash ./run/setup_playwright.sh >"$ART_DIR/setup_playwright.txt" 2>&1 || true
+# services: chroma + ollama
+describe chroma-standup         bash -lc '"$(dirname "$0")/standup_chroma_nohup.sh"'
+describe ollama-install         bash -lc 'curl -fsSL https://ollama.com/install.sh | sh'
+describe ollama-standup         bash -lc '"$(dirname "$0")/standup_ollama_nohup.sh"'
 
-bash ./run/install_gh_cli.sh >"$ART_DIR/install_gh_cli.txt" 2>&1
-bash ./run/setup_gh_cli.sh >"$ART_DIR/setup_gh_cli.txt" 2>&1
+# helpful globals (non-fatal)
+describe npm-corepack-latest    bash -lc 'npm i -g corepack@latest'
+describe npm-eslint-global      bash -lc 'npm i -g eslint'
 
-bash ./run/standup_chroma_nohup.sh
+# ---------- project checks / caches ----------
+BASE="${NX_BASE:-origin/main}"
+HEAD="${NX_HEAD:-HEAD}"
 
-# install
-curl -fsSL https://ollama.com/install.sh | sh >"$ART_DIR/ollama_install.txt" 2>&1
-# Start ollama if it isn't already running
-bash ./run/standup_ollama_nohup.sh
-
-npm install --global corepack@latest >"$ART_DIR/npm_corepack.txt" 2>&1 || true
-npm install -g eslint >"$ART_DIR/npm_eslint.txt" 2>&1 || true
-
-# --------------------------
-# Check phase: never bail early; capture artifacts
-# --------------------------
-SOFT_FAIL="${SOFT_FAIL:-1}"  # 1 = always exit 0 (soft), 0 = fail at end (hard)
-BUILD_LOG="$ART_DIR/initial_build.txt"
-LINT_LOG="$ART_DIR/initial_eslint.txt"
-LINT_JSON="$ART_DIR/initial_eslint.json"
-SUMMARY_JSON="$ART_DIR/summary.json"
-
-# Decide how to run: Nx affected speeds things up if present
-NX_RUNNER="pnpm -s -r --no-bail build"
 if pnpm exec nx --version >/dev/null 2>&1; then
-  # Prime Nx graph & cache info; prefer affected if git is available
-  if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-    NX_RUNNER="pnpm exec nx affected -t build --parallel --output-style=stream"
-  else
-    NX_RUNNER="pnpm exec nx run-many -t build --parallel --output-style=stream"
+  describe nx-affected-build    pnpm exec nx affected -t build --parallel --output-style=stream --base="$BASE" --head="$HEAD"
+  describe nx-affected-lint     pnpm exec nx affected -t lint  --parallel --output-style=stream --base="$BASE" --head="$HEAD"
+  describe nx-affected-test     pnpm exec nx affected -t test  --parallel --output-style=stream --base="$BASE" --head="$HEAD"
+  describe nx-graph             pnpm exec nx graph --affected --base="$BASE" --head="$HEAD" --file="$RUN_DIR/affected-graph.html"
+else
+  describe pnpm-build           pnpm -r --no-bail build
+fi
+
+describe eslint-stylish         pnpm exec eslint --cache -f stylish .
+describe eslint-json            bash -lc 'pnpm exec eslint --cache -f json . > "'"$RUN_DIR"'/eslint.json"'
+
+# ---------- per-run INDEX + global rollup ----------
+make_index() {
+  local idx="$RUN_DIR/INDEX.md"
+  local rc_build= rc_lint= rc_test=
+  rc_build=$(awk -F'\t' '$2~/nx-affected-build|pnpm-build/ {st=$3} END{print st+0}' "$SUMMARY_TSV" 2>/dev/null || echo 0)
+  rc_lint=$(awk  -F'\t' '$2~/nx-affected-lint/ {st=$3} END{print st+0}' "$SUMMARY_TSV" 2>/dev/null || echo 0)
+  rc_test=$(awk  -F'\t' '$2~/nx-affected-test/ {st=$3} END{print st+0}' "$SUMMARY_TSV" 2>/dev/null || echo 0)
+  local e_err=0 e_warn=0
+  if command -v jq >/dev/null 2>&1 && [ -s "$RUN_DIR/eslint.json" ]; then
+    read -r e_err e_warn < <(
+      jq -r 'reduce .[] as $f ({e:0,w:0}; .e += ($f.errorCount // 0) | .w += ($f.warningCount // 0)) | "\(.e) \(.w)"' "$RUN_DIR/eslint.json"
+    )
   fi
-fi
 
-# run build + lint without -e so we can collect exit codes
-set +e
-/usr/bin/time -p bash -c "$NX_RUNNER" >"$BUILD_LOG" 2>&1
-build_rc=$?
+  {
+    echo "# Codex Setup — $RUN_TS"
+    echo ""
+    echo "## Quick status"
+    printf "- Build: **%s**\n"   "$([ "${rc_build:-0}" -eq 0 ] && echo PASS || echo FAIL)"
+    printf "- Lint:  **%s**  (errors: %s, warnings: %s)\n" "$([ "${rc_lint:-0}" -eq 0 ] && echo PASS || echo FAIL)" "$e_err" "$e_warn"
+    printf "- Test:  **%s**\n"   "$([ "${rc_test:-0}" -eq 0 ] && echo PASS || echo FAIL)"
+    echo ""
+    echo "## Artifacts"
+    echo "- Summary table: \`$(basename "$SUMMARY_TSV")\`"
+    [ -f "$SUMMARY_JSON" ] && echo "- Summary JSONL: \`$(basename "$SUMMARY_JSON")\`"
+    echo "- ESLint JSON: \`eslint.json\`"
+    [ -f "$RUN_DIR/affected-graph.html" ] && echo "- Nx affected graph: \`affected-graph.html\`"
+    echo ""
+    echo "## Logs"
+    echo "<details><summary>per-step logs</summary>"
+    echo ""
+    for f in "$LOG_DIR"/*.log; do
+      [ -f "$f" ] || continue
+      echo "- \`logs/$(basename "$f")\`"
+    done
+    echo ""
+    echo "</details>"
+  } > "$idx"
 
-# produce both human and machine-readable lint artifacts
-/usr/bin/time -p pnpm exec eslint --cache -f stylish . >"$LINT_LOG" 2>&1
-eslint_rc=$?
+  ln -sfn "$RUN_DIR" "$ART_ROOT/latest"
+  local rel="${RUN_DIR#$ART_ROOT/}"
+  {
+    echo "- [$RUN_TS]($rel/INDEX.md)"
+  } >> "$ART_ROOT/INDEX.md"
+  awk '!seen[$0]++' "$ART_ROOT/INDEX.md" > "$ART_ROOT/.INDEX.md.tmp" && mv "$ART_ROOT/.INDEX.md.tmp" "$ART_ROOT/INDEX.md"
+}
+make_index
 
-# JSON report (for agents to parse quickly)
-pnpm exec eslint --cache -f json . >"$LINT_JSON" 2>&1
-eslint_json_rc=$?
-set -e
-
-# Summarize for the agent
-jq -n \
-  --arg now "$(date -Is)" \
-  --arg nx_runner "$NX_RUNNER" \
-  --arg build_log "$BUILD_LOG" \
-  --arg lint_log "$LINT_LOG" \
-  --arg lint_json "$LINT_JSON" \
-  --arg pnpm_version "$(pnpm --version 2>/dev/null || echo unknown)" \
-  --arg eslint_version "$(pnpm exec eslint --version 2>/dev/null || echo unknown)" \
-  --arg node_version "$(node --version 2>/dev/null || echo unknown)" \
-  --argjson build_rc "$build_rc" \
-  --argjson eslint_rc "$eslint_rc" \
-  --argjson eslint_json_rc "$eslint_json_rc" \
-  '{
-     timestamp: $now,
-     runner: $nx_runner,
-     env: { pnpm: $pnpm_version, eslint: $eslint_version, node: $node_version },
-     artifacts: { build_log: $build_log, lint_log: $lint_log, lint_json: $lint_json },
-     status: { build: $build_rc, eslint_stylish: $eslint_rc, eslint_json: $eslint_json_rc },
-     advice: [
-       "Open \( $build_log ) for build errors.",
-       "Open \( $lint_log ) for human readable lint output.",
-       "Open \( $lint_json ) to programmatically inspect lint issues."
-     ]
-   }' >"$SUMMARY_JSON"
-
-# Friendly pointers on stdout for the agent
-echo "Artifacts ready:"
-echo "  Build log:     $BUILD_LOG"
-echo "  ESLint log:    $LINT_LOG"
-echo "  ESLint JSON:   $LINT_JSON"
-echo "  Summary JSON:  $SUMMARY_JSON"
-# Prime caches & collect Nx artifacts without failing the job
-NX_BASE="${NX_BASE:-origin/main}" \
-       NX_HEAD="${NX_HEAD:-HEAD}" \
-       NX_STRICT="${NX_STRICT:-0}" \
-       ART_ROOT="docs/reports/codex_cloud" \
-       bash ./run/nx_artifacts.sh || true
-
-echo "# Codex Cloud Setup Report End:$(date +"%Y.%m.%d.%H.%M.%S")"
-# If you ever want the whole script to fail at the end based on Nx:
-# NX_STRICT=1 bash ./run/nx_artifacts.sh
-
-# Exit policy
-if [ "$SOFT_FAIL" -eq 1 ]; then
-  exit 0
-fi
-
-# Hard fail at the very end if either check failed
-if [ "$build_rc" -ne 0 ] || [ "$eslint_rc" -ne 0 ] || [ "$eslint_json_rc" -ne 0 ]; then
-  exit 1
-fi
-
-exit 0
+# ---------- exit policy ----------
+describe_finalize
