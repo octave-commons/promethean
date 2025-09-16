@@ -36,8 +36,8 @@ describe pnpm-install           pnpm install --frozen-lockfile
 describe setup-playwright       bash -lc '"$(dirname "$0")/setup_playwright.sh"'
 
 # gh CLI + origin
-describe install-gh-cli         bash -lc '"$(dirname "$0")/install_gh_cli.sh"'
-describe setup-gh-cli           bash -lc '"$(dirname "$0")/setup_gh_cli.sh"'
+# describe install-gh-cli         bash -lc '"$(dirname "$0")/install_gh_cli.sh"'
+# describe setup-gh-cli           bash -lc '"$(dirname "$0")/setup_gh_cli.sh"'
 
 # services: chroma + ollama
 describe chroma-standup         bash -lc '"$(dirname "$0")/standup_chroma_nohup.sh"'
