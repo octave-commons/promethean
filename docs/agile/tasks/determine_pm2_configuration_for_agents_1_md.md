@@ -1,3 +1,11 @@
+---
+uuid: e6bbd2be-7191-4b32-ba5c-d82f1771b520
+title: determine pm2 configuration for agents 1 md
+status: todo
+priority: P3
+labels: []
+created_at: '2025-09-15T02:02:58.511Z'
+---
 ## 🛠️ Task: Determine PM2 configuration for agents
 
 Establish a shared PM2 ecosystem or alternative process manager setup that all
@@ -65,3 +73,4 @@ Nothing
 - Then please.
 - How will service logs be aggregated when using PM2?
 #done
+

@@ -6,7 +6,7 @@
 
 set -euo pipefail
 
-log() { printf "\033[1;32m[playwright-setup]\033[0m %s\n" "$*"; }
+log() { builtin printf -- "\033[1;32m[playwright-setup]\033[0m %s\n" "$*"; }
 
 # 0) Detect package manager (Debian/Ubuntu expected in most CI)
 if command -v apt-get >/dev/null 2>&1; then

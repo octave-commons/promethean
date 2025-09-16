@@ -3,10 +3,10 @@ import { promises as fs } from "fs";
 
 import { globby } from "globby";
 import { Project } from "ts-morph";
+import { openLevelCache } from "@promethean/level-cache";
 
-import { parseArgs, writeJSON, hashSignature } from "./utils.js";
+import { parseArgs, hashSignature } from "./utils.js";
 import type {
-  WorkspaceSnapshot,
   PkgSnapshot,
   ApiItem,
   FnSig,
@@ -16,8 +16,9 @@ import type {
 
 const args = parseArgs({
   "--root": "packages",
-  "--out": ".cache/semverguard/snapshot.json",
   "--tsconfig": "tsconfig.json",
+  "--cache": ".cache/semverguard",
+  "--ns": "snapshot",
 });
 
 async function main() {
@@ -30,12 +31,12 @@ async function main() {
     tsConfigFilePath: path.resolve(args["--tsconfig"] ?? "tsconfig.json"),
     skipAddingFilesFromTsConfig: true,
   });
+  const cache = await openLevelCache<PkgSnapshot>({
+    path: path.resolve(args["--cache"] ?? ".cache/semverguard"),
+    namespace: args["--ns"] ?? "snapshot",
+  });
 
-  const workspace: WorkspaceSnapshot = {
-    createdAt: new Date().toISOString(),
-    packages: {},
-  };
-
+  let count = 0;
   for (const dir of pkgs) {
     const pkgRoot = path.join(ROOT, dir);
     const pkgJsonPath = path.join(pkgRoot, "package.json");
@@ -175,17 +176,12 @@ async function main() {
     }
 
     const snap: PkgSnapshot = { pkgName, version, exports };
-    workspace.packages[pkgName] = snap;
+    await cache.set(pkgName, snap);
+    count++;
   }
-
-  const outPath = path.resolve(
-    args["--out"] ?? ".cache/semverguard/snapshot.json",
-  );
-  await writeJSON(outPath, workspace);
+  await cache.close();
   console.log(
-    `semverguard: snapshot → ${
-      args["--out"] ?? ".cache/semverguard/snapshot.json"
-    } (${Object.keys(workspace.packages).length} packages)`,
+    `semverguard: snapshot → ${args["--ns"] ?? "snapshot"} (${count} packages)`,
   );
 }
 

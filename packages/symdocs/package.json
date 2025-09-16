@@ -17,11 +17,11 @@
     "symdocs:all": "pnpm symdocs:01-scan && pnpm symdocs:02-docs && pnpm symdocs:03-write"
   },
   "dependencies": {
+    "@promethean/level-cache": "workspace:*",
     "@promethean/utils": "workspace:*",
     "gray-matter": "^4.0.3",
     "yaml": "^2.5.0",
-    "zod": "^3.23.8",
-    "@promethean/utils": "workspace:*"
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "tsx": "^4.19.2"

@@ -1,31 +1,11 @@
 ---
-promptId: smart_task_templater_md
-name: "{{title}}"
-description: A task on the kanban of the promethean system.
-author: Aaron Beavers
-tags:
-  - prompt-refinement
-  - promptcompiler
-  - "#metaprogramming"
-  - "#metacompiler"
-version: 0.0.1
-disableProvider: false
-provider: ollama
-commands: generate
-mode: replace
-streaming: "true"
-model: ollama@llama3.2:latest
-prompt: "{{title}}"
-task-id: TASK-{{date}}
+uuid: d70ed8c5-4885-450f-b1bc-9f8d6b0e94f2
+title: docker compose edn template system
+status: todo
 priority: p3
-system_commands: ['You are a helpful assistant.']
-frequency_penalty: 0
-max_tokens: 400
-presence_penalty: 0
-stream: true
-temperature: 0.7
+labels: []
+created_at: '2025-09-15T02:02:58.512Z'
 ---
-
 <hr class="__chatgpt_plugin">
 
 <span style="font-size: small;"> (llama3.2:latest)</span>
@@ -85,4 +65,5 @@ true
 <hr class="__chatgpt_plugin">
 
 ### role::user
+
 

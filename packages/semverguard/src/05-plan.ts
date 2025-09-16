@@ -1,8 +1,9 @@
 import { promises as fs } from "fs";
 import * as path from "path";
 import { exec as _exec } from "child_process";
+import { openLevelCache } from "@promethean/level-cache";
 
-import { parseArgs, readJSON, writeJSON } from "./utils.js";
+import { parseArgs, writeJSON } from "./utils.js";
 
 const exec = (cmd: string, cwd = process.cwd()) =>
   new Promise<{ code: number | null; out: string; err: string }>((resolve) => {
@@ -23,7 +24,8 @@ const exec = (cmd: string, cwd = process.cwd()) =>
   });
 
 const args = parseArgs({
-  "--plans": ".cache/semverguard/plans.json",
+  "--cache": ".cache/semverguard",
+  "--plan-ns": "plan",
   "--root": "packages",
   "--out": ".cache/semverguard/pr",
   "--mode": "prepare", // prepare | git
@@ -195,10 +197,16 @@ async function loadWorkspacePackages(root: string) {
 }
 
 async function main() {
-  const plans = await readJSON<Plans>(
-    path.resolve(args["--plans"] ?? ".cache/semverguard/plans.json"),
-  );
-  if (!plans) throw new Error("plans not found");
+  const cache = await openLevelCache<any>({
+    path: path.resolve(args["--cache"] ?? ".cache/semverguard"),
+  });
+  const planCache = cache.withNamespace(args["--plan-ns"] ?? "plan");
+  const planMap: Plans["packages"] = {};
+  for await (const [pkg, plan] of planCache.entries()) {
+    planMap[pkg] = plan as any;
+  }
+  await cache.close();
+  const plans: Plans = { packages: planMap };
   const ROOT = path.resolve(args["--root"] ?? "packages");
   const OUT = path.resolve(args["--out"] ?? ".cache/semverguard/pr");
   const MODE = args["--mode"] ?? "prepare";
