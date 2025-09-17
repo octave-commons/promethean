@@ -239,6 +239,7 @@ kanban-plugin: board
 ## Incoming
 
 - [ ] [[add-codex-layer-to-emacs|Add codex layer to emacs]] #ready
+- [ ] discord bot squad
 
 
 ## Accepted
