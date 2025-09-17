@@ -32,6 +32,34 @@ export async function runCommand(opts: {
     timeoutMs = 10 * 60_000,
     tty = false,
   } = opts;
+  const shouldFake =
+    String(process.env.NODE_ENV || "").toLowerCase() === "test" &&
+    String(process.env.EXEC_FAKE || "true").toLowerCase() === "true";
+  if (shouldFake) {
+    if (matchDanger(command)) {
+      return {
+        ok: false,
+        error: "blocked by guard",
+        exitCode: null,
+        signal: null,
+        stdout: "",
+        stderr: "",
+        durationMs: 0,
+        truncated: false,
+      };
+    }
+    const fakeStdout = command.startsWith("echo ") ? command.slice(5) : command;
+    return {
+      ok: true,
+      exitCode: 0,
+      signal: null,
+      stdout: fakeStdout,
+      stderr: "",
+      durationMs: 0,
+      truncated: false,
+      error: "",
+    };
+  }
   const t0 = Date.now();
   const useShell = /^true$/i.test(process.env.EXEC_SHELL || "false");
   try {

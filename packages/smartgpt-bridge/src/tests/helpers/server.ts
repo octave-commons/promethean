@@ -1,3 +1,5 @@
+import path from "node:path";
+
 import { MongoMemoryServer } from "mongodb-memory-server";
 
 import { createServer } from "../../server/createServer.js";
@@ -62,6 +64,66 @@ function makeClient(app: any) {
   };
 }
 
+const DANGER_PATTERNS = [
+  /rm\s+-rf\s+\/(?!home)/i,
+  /\bDROP\s+DATABASE\b/i,
+  /\bmkfs\w*\s+\/dev\//i,
+  /\bshutdown\b|\breboot\b/i,
+  /\bchmod\s+777\b/i,
+];
+
+function matchesDanger(command: string): boolean {
+  return DANGER_PATTERNS.some((rx) => rx.test(command));
+}
+
+function createFakeRunCommand(rootPath: string) {
+  return async ({ command, cwd }: { command: string; cwd?: string }) => {
+    if (matchesDanger(command)) {
+      return {
+        ok: false,
+        error: "blocked by guard",
+        exitCode: null,
+        signal: null,
+        stdout: "",
+        stderr: "",
+        durationMs: 0,
+        truncated: false,
+      };
+    }
+    const base = rootPath;
+    if (cwd) {
+      const abs = path.isAbsolute(cwd)
+        ? path.resolve(cwd)
+        : path.resolve(base, cwd);
+      const rel = path.relative(base, abs);
+      if (rel.startsWith("..") || path.isAbsolute(rel)) {
+        return {
+          ok: false,
+          error: "cwd outside root",
+          exitCode: null,
+          signal: null,
+          stdout: "",
+          stderr: "",
+          durationMs: 0,
+          truncated: false,
+        };
+      }
+    }
+    const stdout = command.startsWith("echo ") ? command.slice(5) : command;
+    return {
+      ok: true,
+      exitCode: 0,
+      signal: null,
+      stdout,
+      stderr: "",
+      durationMs: 0,
+      truncated: false,
+      error: "",
+      cwd: cwd || rootPath,
+    };
+  };
+}
+
 export const withServer = async (
   root: string,
   fn: (client: any) => Promise<any>,
@@ -95,6 +157,7 @@ export const withServer = async (
       app.decorate("authUser", async () => ({ id: "test" }));
       app.decorate("requirePolicy", () => async () => {});
     },
+    runCommand: createFakeRunCommand(root),
   };
   const authEnabled =
     String(process.env.AUTH_ENABLED || "false").toLowerCase() === "true";
@@ -105,6 +168,56 @@ export const withServer = async (
         preHandler: async () => {},
         registerRoutes: async () => {},
       }) as any;
+  } else {
+    const staticTokens = String(
+      process.env.AUTH_TOKENS || process.env.AUTH_TOKEN || "",
+    )
+      .split(",")
+      .map((s) => s.trim())
+      .filter(Boolean);
+    const cookieName = process.env.AUTH_COOKIE || "smartgpt_auth";
+    deps.createFastifyAuth = () => {
+      const getToken = (req: any) => {
+        const auth = String(req.headers?.authorization || "");
+        if (auth.toLowerCase().startsWith("bearer "))
+          return auth.slice(7).trim();
+        const cookieHeader = String(req.headers?.cookie || "");
+        const cookies: Record<string, string> = {};
+        for (const part of cookieHeader.split(";")) {
+          const idx = part.indexOf("=");
+          if (idx < 0) continue;
+          const k = part.slice(0, idx).trim();
+          const v = part.slice(idx + 1).trim();
+          cookies[k] = v;
+        }
+        if (cookies[cookieName]) return cookies[cookieName];
+        return null;
+      };
+      const unauthorized = (reply: any) =>
+        reply.code(401).send({ ok: false, error: "unauthorized" });
+      return {
+        enabled: true,
+        preHandler: async (req: any, reply: any) => {
+          const token = getToken(req);
+          if (!token || !staticTokens.includes(token))
+            return unauthorized(reply);
+          (req as any).user = { sub: "static", mode: "static" };
+        },
+        registerRoutes: async (app: any) => {
+          app.get("/auth/me", async (req: any, reply: any) => {
+            const token = getToken(req);
+            if (!token) return unauthorized(reply);
+            if (!staticTokens.includes(token)) return unauthorized(reply);
+            return reply.send({
+              ok: true,
+              auth: true,
+              mode: "static",
+              cookie: cookieName,
+            });
+          });
+        },
+      } as any;
+    };
   }
   const app = await createServer(root, deps);
   // Stub RBAC hooks so tests don't require seeded users/policies

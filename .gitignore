@@ -119,3 +119,7 @@ packages/docops/test-tmp/
 docs/reports/codex_cloud/describe/
 docs/reports/codex_cloud/runs/
 docs/reports/codex_cloud/latest
+
+test-tmp/
+
+docs/codex-context/requests/

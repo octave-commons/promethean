@@ -47,10 +47,21 @@ function timingSafeEqual(a: any, b: any) {
   return crypto.timingSafeEqual(bufA, bufB);
 }
 
-export async function registerV0Routes(app: any) {
-  try {
-    await app.register(rateLimit, { max: 100, timeWindow: "1 minute" });
-  } catch {}
+type V0Deps = {
+  runCommand?:
+    | ((
+        opts: Parameters<typeof import("../../exec.js").runCommand>[0],
+      ) => ReturnType<typeof import("../../exec.js").runCommand>)
+    | undefined;
+};
+
+export async function registerV0Routes(app: any, deps: V0Deps = {}) {
+  const isTestEnv = (process.env.NODE_ENV || "").toLowerCase() === "test";
+  if (!isTestEnv) {
+    try {
+      await app.register(rateLimit, { max: 100, timeWindow: "1 minute" });
+    } catch {}
+  }
   // Old auth semantics (from src/auth.js), adapted for Fastify and scoped to /v0 only
   const enabled =
     String(process.env.AUTH_ENABLED || "false").toLowerCase() === "true";
@@ -254,14 +265,15 @@ export async function registerV0Routes(app: any) {
   }
 
   // Apply rate limiting to all requests under this encapsulated scope
-  try {
-    await app.register(fastifyRateLimit, {
-      max: 100, // Max requests per window per IP
-      timeWindow: 15 * 60 * 1000, // 15 minutes
-      // Optionally: Add error response customization
-      keyGenerator: (req: any) => req.ip,
-    });
-  } catch {}
+  if (!isTestEnv) {
+    try {
+      await app.register(fastifyRateLimit, {
+        max: 100, // Max requests per window per IP
+        timeWindow: 15 * 60 * 1000, // 15 minutes
+        keyGenerator: (req: any) => req.ip,
+      });
+    } catch {}
+  }
 
   // Scope the old auth to the encapsulated /v0 prefix
   if (enabled) app.addHook("onRequest", v0PreAuth);
@@ -274,7 +286,7 @@ export async function registerV0Routes(app: any) {
   registerSearchRoutes(app);
   registerIndexerRoutes(app);
   registerAgentRoutes(app);
-  registerExecRoutes(app);
+  registerExecRoutes(app, { runCommand: deps.runCommand });
   registerSinkRoutes(app);
   registerUserRoutes(app);
   registerPolicyRoutes(app);

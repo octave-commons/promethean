@@ -1,38 +1,29 @@
-import path from "node:path";
-
 import test from "ava";
 
+import {
+  RemoteEmbeddingFunction,
+  setEmbeddingOverride,
+} from "../../remoteEmbedding.js";
+
 test.serial(
-  "RemoteEmbeddingFunction: times out when no response",
+  "RemoteEmbeddingFunction: times out when embedding is slow",
   async (t) => {
-    const prev = {
-      SHARED_IMPORT: process.env.SHARED_IMPORT,
-      EMBEDDING_TIMEOUT_MS: process.env.EMBEDDING_TIMEOUT_MS,
-    };
+    const prevTimeout = process.env.EMBEDDING_TIMEOUT_MS;
     try {
-      const abs = path.join(
-        process.cwd(),
-        "dist",
-        "tests",
-        "helpers",
-        "slowBroker.js",
-      );
-      process.env.SHARED_IMPORT = "file://" + abs;
       process.env.EMBEDDING_TIMEOUT_MS = "50";
-      const { RemoteEmbeddingFunction } = await import(
-        "../../remoteEmbedding.js"
-      );
+      setEmbeddingOverride(async () => {
+        await new Promise((resolve) => setTimeout(resolve, 200));
+        return [[0.5, 0.5, 0.5]];
+      });
       const ref = new RemoteEmbeddingFunction(undefined, "driverX", "fnY");
       await t.throwsAsync(() => ref.generate(["hello"]), {
         message: /embedding timeout/i,
       });
-      ref?.dispose?.();
+      ref.dispose();
     } finally {
-      if (prev.SHARED_IMPORT === undefined) delete process.env.SHARED_IMPORT;
-      else process.env.SHARED_IMPORT = prev.SHARED_IMPORT;
-      if (prev.EMBEDDING_TIMEOUT_MS === undefined)
-        delete process.env.EMBEDDING_TIMEOUT_MS;
-      else process.env.EMBEDDING_TIMEOUT_MS = prev.EMBEDDING_TIMEOUT_MS;
+      setEmbeddingOverride(null);
+      if (prevTimeout === undefined) delete process.env.EMBEDDING_TIMEOUT_MS;
+      else process.env.EMBEDDING_TIMEOUT_MS = prevTimeout;
     }
   },
 );
