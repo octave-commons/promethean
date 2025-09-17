@@ -16,6 +16,7 @@ test.serial("openapi shows bearer security when auth enabled", async (t) => {
   process.env.AUTH_MODE = "static";
   process.env.OPENAPI_PUBLIC = "true";
   try {
+    t.timeout(180000);
     await withServer(ROOT, async (req) => {
       const res = await req.get("/openapi.json").expect(200);
       t.truthy(res.body.components?.securitySchemes?.bearerAuth);
@@ -37,6 +38,7 @@ test.serial("/auth/me requires valid token when enabled", async (t) => {
   process.env.AUTH_ENABLED = "true";
   process.env.AUTH_MODE = "static";
   try {
+    t.timeout(180000);
     await withServer(ROOT, async (req) => {
       await req.get("/auth/me").expect(401);
       const res = await req

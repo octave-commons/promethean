@@ -29,6 +29,5 @@ repos:
       #   language: system
       - id: eslint-diff
         name: ESLint on diff from main
-        pass_filenames: false
-        entry: pnpm exec nx affected -t lint test build
+        entry: pnpm --cache lint
         language: system

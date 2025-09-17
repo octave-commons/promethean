@@ -94,6 +94,11 @@ Each entry is either:
     ;; (setq lsp-typescript-tsserver-log 'verbose)
     ;; (setq lsp-typescript-tsserver-trace 'verbose)  ;; optional but useful
     ;; (setq lsp-eslint-run "onSave")
+    ;; Always update imports when a TS/TSX file is moved/renamed via LSP
+    (setq lsp-typescript-update-imports-on-file-move-enabled 'always)
+    ;; other reasonable TS opts...
+    (setq lsp-typescript-validate-enable t)
+
     (setq lsp-typescript-initialization-options
           `(:tsserver
             (:logDirectory ,(expand-file-name ".lsp-tsserver-logs" user-emacs-directory)

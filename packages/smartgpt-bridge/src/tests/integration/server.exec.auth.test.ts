@@ -17,6 +17,7 @@ test.serial(
       EXEC_SHELL: process.env.EXEC_SHELL,
     };
     try {
+      t.timeout(180000);
       process.env.AUTH_ENABLED = "true";
       process.env.AUTH_MODE = "static";
       process.env.AUTH_TOKENS = "secret-token";

@@ -18,6 +18,11 @@ type BridgeDeps = {
   createFastifyAuth?: () => ReturnType<typeof createFastifyAuth>;
   indexerManager?: typeof defaultIndexerManager;
   registerRbac?: (app: any) => void | Promise<void>;
+  runCommand?:
+    | ((
+        args: Parameters<typeof import("./exec.js").runCommand>[0],
+      ) => ReturnType<typeof import("./exec.js").runCommand>)
+    | undefined;
 };
 
 export async function buildFastifyApp(
@@ -28,6 +33,7 @@ export async function buildFastifyApp(
   const authFactory = deps.createFastifyAuth || createFastifyAuth;
   const indexerManager = deps.indexerManager || defaultIndexerManager;
   const registerRbac = deps.registerRbac || defaultRegisterRbac;
+  const isTestEnv = (process.env.NODE_ENV || "").toLowerCase() === "test";
 
   await registerSinks();
   const app = Fastify({
@@ -125,6 +131,10 @@ export async function buildFastifyApp(
       type: { type: "string", enum: ["dir", "file"] },
       size: { type: ["integer", "null"] },
       mtimeMs: { type: ["number", "null"] },
+      children: {
+        type: "array",
+        items: { $ref: "FileTreeNodeChild#" },
+      },
     },
     additionalProperties: false,
   });
@@ -208,7 +218,9 @@ export async function buildFastifyApp(
 
   try {
     app.register(swagger, swaggerOpts);
-    app.register(swaggerUi, { routePrefix: "/docs" });
+    if (!isTestEnv) {
+      app.register(swaggerUi, { routePrefix: "/docs" });
+    }
   } catch {}
 
   const getOpenapiDoc = () =>
@@ -224,7 +236,7 @@ export async function buildFastifyApp(
   // Mount legacy routes under /v0 with old auth scoped inside
   app.register(
     async (v0) => {
-      await registerV0Routes(v0);
+      await registerV0Routes(v0, { runCommand: deps.runCommand });
     },
     { prefix: "/v0" },
   );
@@ -234,12 +246,14 @@ export async function buildFastifyApp(
   app.register(
     async (v1Scope) => {
       // Register rate limiting for v1 routes (best-effort; ignore version mismatches)
-      try {
-        await v1Scope.register(rateLimit, {
-          max: 100, // max 100 requests per windowMs
-          timeWindow: 15 * 60 * 1000, // 15 minutes
-        });
-      } catch {}
+      if (!isTestEnv) {
+        try {
+          await v1Scope.register(rateLimit, {
+            max: 100, // max 100 requests per windowMs
+            timeWindow: 15 * 60 * 1000, // 15 minutes
+          });
+        } catch {}
+      }
 
       const v1Auth = authFactory();
       if (v1Auth.enabled) v1Scope.addHook("onRequest", v1Auth.preHandler);
@@ -249,7 +263,7 @@ export async function buildFastifyApp(
   );
 
   // Initialize indexer bootstrap/incremental state unless in test
-  if ((process.env.NODE_ENV || "").toLowerCase() !== "test") {
+  if (!isTestEnv) {
     indexerManager.ensureBootstrap(ROOT_PATH).catch(() => {});
     const restoreAllowed =
       String(process.env.AGENT_RESTORE_ON_START || "true") !== "false";

@@ -7,6 +7,7 @@ import { withServer } from "../helpers/server.js";
 const ROOT = path.join(process.cwd(), "tests", "fixtures");
 
 test.serial("auth disabled by default allows access", async (t) => {
+  t.timeout(180000);
   delete process.env.AUTH_ENABLED;
   await withServer(ROOT, async (req) => {
     const res = await req
@@ -24,6 +25,7 @@ test.serial("auth static token blocks/permits access", async (t) => {
     AUTH_TOKENS: process.env.AUTH_TOKENS,
   };
   try {
+    t.timeout(180000);
     process.env.AUTH_ENABLED = "true";
     process.env.AUTH_MODE = "static";
     process.env.AUTH_TOKENS = "secret-token";

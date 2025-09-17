@@ -430,7 +430,6 @@ class IndexerManager {
     }
     this.active = false;
     this.finishedAt = Date.now();
-    this._draining = false;
     if (this.mode === "bootstrap") {
       // If finished processing bootstrap files, mark complete
       if (
@@ -450,6 +449,7 @@ class IndexerManager {
         await saveBootstrapState(this.rootPath!, nextState3);
       }
     }
+    this._draining = false;
     logger.info("indexer drain complete", {
       processedFiles: this.processedFiles,
       errors: this.errors.length,

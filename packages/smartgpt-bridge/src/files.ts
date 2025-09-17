@@ -110,7 +110,7 @@ export async function locateStacktrace(
       if (!m) break;
       const g = m.groups as Record<string, string> | undefined;
       const file = g?.file;
-      const line = Number((g?.line) || 1);
+      const line = Number(g?.line || 1);
       const col = g?.col ? Number(g.col) : undefined;
       if (!file) continue;
       const snippet = await safeView(ROOT_PATH, file, line, context);
@@ -226,4 +226,34 @@ export async function treeDirectory(
     return base;
   }
   return { ok: true, base: relBase, tree: mapNode(raw) };
+}
+
+export async function writeFileContent(
+  ROOT_PATH: string,
+  filePath: string,
+  content: string,
+) {
+  const abs = normalizeToRoot(ROOT_PATH, filePath);
+  await fs.writeFile(abs, content, "utf8");
+  return { path: filePath };
+}
+
+export async function writeFileLines(
+  ROOT_PATH: string,
+  filePath: string,
+  lines: string[],
+  startLine: number,
+) {
+  const abs = normalizeToRoot(ROOT_PATH, filePath);
+  let fileLines: string[] = [];
+  try {
+    const raw = await fs.readFile(abs, "utf8");
+    fileLines = raw.split(/\r?\n/);
+  } catch {
+    // treat as empty file when the target does not exist yet
+  }
+  const idx = Math.max(0, startLine - 1);
+  fileLines.splice(idx, lines.length, ...lines);
+  await fs.writeFile(abs, fileLines.join("\n"), "utf8");
+  return { path: filePath };
 }

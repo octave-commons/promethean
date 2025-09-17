@@ -13,7 +13,7 @@ if (!process.env.PROMETHEAN_ROOT_ECOSYSTEM) {
 }
 
 const apps = [
-  defineApp("broker", "dist/src/index.js", [], {
+  defineApp("kanban-processor", "dist/src/index.js", [], {
     cwd: __dirname,
     watch: [__dirname],
   }),
