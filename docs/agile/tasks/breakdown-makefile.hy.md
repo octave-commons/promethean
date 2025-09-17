@@ -1,3 +1,11 @@
+---
+uuid: b27a270a-d257-40ca-bfc2-438afeeca829
+title: breakdown makefile hy
+status: todo
+priority: P3
+labels: []
+created_at: '2025-09-15T02:02:58.508Z'
+---
 ## 🛠️ Description
 **Status:** blocked
 
@@ -54,3 +62,4 @@ Nothing
 
 ## Blockers
 - No active owner or unclear scope
+

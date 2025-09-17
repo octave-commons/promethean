@@ -1,3 +1,11 @@
+---
+uuid: 0427985f-f4ad-4f85-975f-9c085bcc452a
+title: Install Biome dependency for cephalon-discord
+status: todo
+priority: P3
+labels: []
+created_at: '2025-09-15T02:02:58.515Z'
+---
 # Install Biome dependency for cephalon-discord
 
 ## Description
@@ -16,3 +24,4 @@
 - [ ] Run the package lint script to confirm.
 
 #Todo #codex-task
+

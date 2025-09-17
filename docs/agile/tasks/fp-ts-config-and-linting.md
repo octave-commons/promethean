@@ -1,25 +1,11 @@
 ---
-promptId: smart_task_templater_md
-name: "fp-ts-config-and-linting"
-description: A task on the kanban of the promethean system.
-author: Aaron Beavers
-tags:
-  - prompt-refinement
-  - promptcompiler
-  - "#metaprogramming"
-  - "#metacompiler"
-version: 0.0.1
-disableProvider: false
-provider: ollama
-commands: generate
-mode: replace
-streaming: "true"
-model: llama3.2
-prompt: "fp-ts-config-and-linting"
-task-id: TASK-2025-08-30
+uuid: 2c69e218-bbe0-4c5b-ab1b-d19b88496b57
+title: fp ts config and linting
+status: todo
 priority: p3
+labels: []
+created_at: '2025-09-15T02:02:58.514Z'
 ---
-
 <hr class="__chatgpt_plugin">
 
 <span style="font-size: small;"> (llama3.2:latest)</span>
@@ -84,5 +70,6 @@ Help me write this task
 <hr class="__chatgpt_plugin">
 
 ### role::user
+
 
 

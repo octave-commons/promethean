@@ -2,11 +2,18 @@ import * as path from "path";
 import { promises as fs } from "fs";
 
 import matter from "gray-matter";
-import { slug, relFromRepo, parseArgs, writeText } from "@promethean/utils";
+import {
+  slug,
+  relFromRepo,
+  parseArgs,
+  writeText,
+  createLogger,
+} from "@promethean/utils";
 
 import type { EvalItem } from "./types.js";
 
 const statusOrder = ["backlog", "todo", "doing", "review", "blocked", "done"];
+const logger = createLogger({ service: "06-report-board-review" });
 
 export async function loadEvals(evalsPath: string): Promise<EvalItem[]> {
   const raw = await fs.readFile(path.resolve(evalsPath), "utf-8");
