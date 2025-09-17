@@ -320,10 +320,26 @@ export async function runPipeline(
           }
         }
 
-        for (const out of s.outputs) {
-          if (!/[?*\[\]{}]/.test(out)) {
-            await ensureDir(path.resolve(cwd, path.dirname(out)));
+        // Ensure parent dirs only for truly static outputs (no globs, no negation).
+        // Matches: ?, *, [, ], {, }, (, ) or leading '!'.
+        const dynRe = /(^!)|[?*\[\]{}()]/;
+        try {
+          const dirs = new Set<string>();
+          for (const out of s.outputs) {
+            if (dynRe.test(out)) continue;
+            const dir = path.resolve(cwd, path.dirname(out));
+            dirs.add(dir);
           }
+          for (const dir of dirs) {
+            await ensureDir(dir);
+          }
+        } catch (e) {
+          const msg = e instanceof Error ? e.message : String(e);
+          return {
+            code: 1,
+            stdout: "",
+            stderr: `failed to ensure output directories: ${msg}`,
+          } as const;
         }
 
         const envMerged = {
@@ -342,7 +358,7 @@ export async function runPipeline(
               return await runJSModule(s, cwd, envMerged, fp, s.timeoutMs);
             } catch (e: unknown) {
               const stderr =
-                e instanceof Error ? (e.stack ?? e.message) : String(e);
+                e instanceof Error ? e.stack ?? e.message : String(e);
               return { code: 1, stdout: "", stderr } as const;
             } finally {
               if (needJsLock) jsSem.release();
