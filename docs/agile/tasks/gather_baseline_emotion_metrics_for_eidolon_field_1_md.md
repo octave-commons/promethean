@@ -1,3 +1,11 @@
+---
+uuid: db083776-2697-432a-8aba-3e4639648867
+title: gather baseline emotion metrics for eidolon field 1 md
+status: todo
+priority: P3
+labels: []
+created_at: '2025-09-15T02:02:58.514Z'
+---
 ## 🛠️ Task: Gather baseline emotion metrics for Eidolon field
 
 Collect initial emotional state data to seed analysis and reward calculations.
@@ -63,3 +71,4 @@ Nothing
 - How much historical data is needed for a meaningful baseline?
 #IceBox
 #rejected
+

@@ -1,3 +1,11 @@
+---
+uuid: 8b3c665c-d6ff-4a0a-9fb9-b2dbefa35fb4
+title: Get all existing pipelines functional
+status: todo
+priority: P3
+labels: []
+created_at: '2025-09-15T02:02:58.514Z'
+---
 # Get all existing pipelines functional
 We've started working on several pipelines but only one of them works to any meaningful extant.
 Most of them were set up before I thought about a "piper".
@@ -38,3 +46,4 @@ but they do not work with piper
 "name": "buildfix",
 
 "name": "test-gap",
+

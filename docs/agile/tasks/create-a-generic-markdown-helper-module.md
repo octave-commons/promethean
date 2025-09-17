@@ -1,3 +1,11 @@
+---
+uuid: e6b0e9e7-5967-4b97-bded-0ac50646bb29
+title: create a generic markdown helper module
+status: todo
+priority: P3
+labels: []
+created_at: '2025-09-15T02:02:58.510Z'
+---
 ## 🛠️ Description
 
 Develop a shared module for reading, writing, and manipulating markdown files used across documentation scripts.
@@ -54,4 +62,5 @@ Nothing
 - [kanban](kanban.md)
 
 #framework-core #Ready
+
 

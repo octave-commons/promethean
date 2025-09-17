@@ -1,3 +1,11 @@
+---
+uuid: b67ff78e-f1b8-4cdf-ba1c-d2ed622a4882
+title: set up makefile for python js build test dev md
+status: todo
+priority: P3
+labels: []
+created_at: '2025-09-15T02:02:58.520Z'
+---
 ## 🛠️ Task: Set up Makefile for Python + JS build test dev
 
 A unified Makefile (or equivalent script) will streamline development. It should bootstrap dependencies, start services, run tests and clean artifacts.
@@ -48,3 +56,4 @@ Nothing
 
 
 #archive
+

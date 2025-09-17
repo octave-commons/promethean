@@ -1,3 +1,11 @@
+---
+uuid: e4b85f6b-4112-4c52-84d2-17695ae5e67c
+title: auth shared clients and middleware
+status: todo
+priority: P3
+labels: []
+created_at: '2025-09-15T02:02:58.508Z'
+---
 Auth: Shared clients and middleware (TS + Python)
 
 Goal: Provide small libraries to fetch/verify tokens and inject auth into HTTP/WebSocket requests.
@@ -13,4 +21,5 @@ Exit Criteria:
 - Example snippets integrated in service READMEs.
 
 #incoming #auth #libraries #ts #python
+
 

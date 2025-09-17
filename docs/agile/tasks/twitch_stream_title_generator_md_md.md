@@ -1,3 +1,11 @@
+---
+uuid: edaa3887-de50-422c-8c8f-6d624329465b
+title: twitch stream title generator md md
+status: todo
+priority: P3
+labels: []
+created_at: '2025-09-15T02:02:58.523Z'
+---
 Here’s a refined version of your task that keeps it tied to your streaming workflow but makes it concrete enough to move forward:
 
 ---
@@ -59,3 +67,4 @@ That would make expansion easier later.
 - Story Points: 3
 
 #in-progress
+

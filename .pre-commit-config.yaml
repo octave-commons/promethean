@@ -13,17 +13,22 @@ repos:
         entry: pnpm --filter @promethean/piper build
         language: system
         pass_filenames: false
-      - id: gen-ecosystem
-        name: Generate ecosystem config
-        entry: pnpm gen:ecosystem
-        language: system
-        pass_filenames: false
-      - id: generate-layer-images
-        name: Generate missing layer images
-        entry: bash -lc 'pnpm --filter @promethean/image-link-generator run build && pnpm tsx scripts/generate-layer-images.ts'
-        language: system
-        pass_filenames: false
+      # - id: gen-ecosystem
+      #   name: Generate ecosystem config
+      #   entry: pnpm gen:ecosystem
+      #   language: system
+      #   pass_filenames: false
+      # # - id: generate-layer-images
+      # #   name: Generate missing layer images
+      # #   entry: bash -lc 'pnpm --filter @promethean/image-link-generator run build && pnpm tsx scripts/generate-layer-images.ts'
+      # #   language: system
+      # #   pass_filenames: false
+      # - id: eslint-diff
+      #   name: ESLint on diff from main
+      #   entry: pnpm exec eslint --cache --pass-on-no-patterns
+      #   language: system
       - id: eslint-diff
         name: ESLint on diff from main
-        entry: pnpm exec eslint --cache --pass-on-no-patterns
+        pass_filenames: false
+        entry: pnpm exec nx affected -t lint test build
         language: system
