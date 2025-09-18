@@ -222,7 +222,9 @@ export function createVoiceService(
     port: number = parseInt(process.env.PORT || "4000", 10),
   ): Promise<Server> {
     const { HeartbeatClient } = await importHeartbeat();
-    const hb = new HeartbeatClient({ name: process.env.name || "voice-service" });
+    const hb = new HeartbeatClient({
+      name: process.env.name || "voice-service",
+    });
     await hb.sendOnce();
     hb.start();
     await client.login(token);

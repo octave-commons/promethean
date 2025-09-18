@@ -1,9 +1,6 @@
 import test from "ava";
 
-import {
-  RemoteEmbeddingFunction,
-  setEmbeddingOverride,
-} from "../remote.js";
+import { RemoteEmbeddingFunction, setEmbeddingOverride } from "../remote.js";
 
 test.afterEach.always(() => {
   setEmbeddingOverride(null);
