@@ -265,7 +265,6 @@ kanban-plugin: board
 
 ## Breakdown (13)
 
-- [ ] codex cloud setup script generates a startup report
 - [ ] [[evaluate-docker-npu-compatability]]
 - [ ] [[add-docker-compose-files-to-services]]
 - [ ] [[clean_up_notes_into_design_docs_md|clean up notes into design docs md]] #accepted
@@ -287,8 +286,6 @@ kanban-plugin: board
 
 ## Todo (13)
 
-- [ ] [[task-generator-system|task generator system]] #framework-core #framework-core #Ready #todo
-- [ ] [[convert-current-services-to-packages--then-redefine-the-services-using-config-files|convert current services to packages, then redefine the services using config files]] #framework-core #framework-core #Ready #ready
 - [ ] [[Docops pipeline]] #framework-core #IceBox #ready
 - [ ] [[dockerize-the-system|dockerize the system]] #devops #devops #Ready #todo
 - [ ] [[structure_vault_to_mirror_services_agents_docs_md_md|Document-Driven Development for Service Scripts]] #breakdown
@@ -300,16 +297,19 @@ kanban-plugin: board
 
 ## In Progress (4)
 
+- [ ] [[task-generator-system|task generator system]] #framework-core #framework-core #Ready #todo
+- [ ] [[file-explorer|File explorer]] #framework-core #ready
 
 
 ## In Review (8)
 
-- [ ] [[file-explorer|File explorer]] #framework-core #ready
-- [ ] [[recover broker code]]
 
 
 ## Done
 
+- [ ] [[convert-current-services-to-packages--then-redefine-the-services-using-config-files|convert current services to packages, then redefine the services using config files]] #framework-core #framework-core #Ready #ready
+- [ ] codex cloud setup script generates a startup report
+- [ ] [[recover broker code]]
 - [ ] whole project builds with new stricter tsconfig
 - [ ] [[fp-ts-config-and-linting]]
 - [ ] [[refactor_any_python_modules_not_currently_for_ml_stuff_discord_etc_2_md|refactor any python modules not currently for ml stuff discord etc 2 md]] #breakdown
@@ -366,10 +366,8 @@ kanban-plugin: board
 
 ## Archive
 
-- [ ] [[Curate code from personal repository.md|Curate code from personal repository]] #todo
 - [ ] [[migrating_relevant_modules_from_riatzukiza_github_md|Migrating relevant modules from `riatzukiza.github.io` to `/sites/` and `/docs/`]] #accepted
 - [ ] [[migrate_portfolio_client_code_to_promethean_md|Migrate portfolio client code to Promethean]] #accepted
-- [ ] [[Add tool calls to codex context.md|Add tool calls to codex context]] #todo
 - [ ] [[migrating_relevant_modules_from_riatzukiza_github_io_to_-site-_and_-docs-_md|Migrating relevant modules from riatzukiza.github.io to -site- and -docs-]] #ready
 - [ ] [[extract_docs_from_riatzukiza_github_io_md_md|Extract docs from riatzukiza.github.io]] #accepted
 - [ ] [[add_unit_tests_for_gui_helpers_md_md|Add unit tests for GUI helpers]] #archive
@@ -415,6 +413,6 @@ kanban-plugin: board
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","list-collapse":[false,false,true,false,false,false,false,false,false,false,false,false,false,false,false],"new-note-template":"docs/agile/templates/task.stub.template.md","new-note-folder":"docs/agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
+{"kanban-plugin":"board","list-collapse":[false,false,true,false,false,false,false,false,false,false,false,true,false,false,false],"new-note-template":"docs/agile/templates/task.stub.template.md","new-note-folder":"docs/agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
 ```
 %%
