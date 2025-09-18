@@ -4,7 +4,7 @@ import swagger from "@fastify/swagger";
 import swaggerUi from "@fastify/swagger-ui";
 
 import { createFastifyAuth } from "./fastifyAuth.js";
-// import { registerV0Routes } from "./routes/v0/index.js";
+import { registerV0Routes } from "./routes/v0/index.js";
 import { indexerManager as defaultIndexerManager } from "./indexer.js";
 import { restoreAgentsFromStore } from "./agent.js";
 import { registerSinks as defaultRegisterSinks } from "./sinks.js";
@@ -176,7 +176,7 @@ export async function buildFastifyApp(
       console.error.bind(null, "There was an error in registering the sinks."),
     );
   const app = Fastify({
-    logger: { level: "trace" },
+    logger: { level: "info" },
     trustProxy: true,
     ajv: {
       customOptions: { allowUnionTypes: true },
@@ -192,7 +192,7 @@ export async function buildFastifyApp(
     `http://localhost:${process.env.PORT || 3210}`;
   // Register new-auth helper endpoint at root for dashboard compatibility
   const auth = authFactory();
-  auth.registerRoutes(app); // adds /auth/me; protection handled inside
+  await auth.registerRoutes(app); // adds /auth/me; protection handled inside
 
   // this is a hard type signature to crack...
   const schemas: Record<string, unknown> = {
@@ -248,12 +248,12 @@ export async function buildFastifyApp(
   await registerRbac(app);
 
   // Mount legacy routes under /v0 with old auth scoped inside
-  // app.register(
-  //   async (v0) => {
-  //     await registerV0Routes(v0, { runCommand: deps.runCommand });
-  //   },
-  //   { prefix: "/v0" },
-  // );
+  await app.register(
+    async (v0) => {
+      await registerV0Routes(v0, { runCommand: deps.runCommand });
+    },
+    { prefix: "/v0" },
+  );
 
   // Mount v1 routes with new auth scoped to /v1
 
@@ -261,6 +261,7 @@ export async function buildFastifyApp(
     async (v1Scope) => {
       // Register rate limiting for v1 routes (best-effort; ignore version mismatches)
       if (!isTestEnv) {
+        await registerV1Routes(v1Scope);
       }
 
       const v1Auth = authFactory();
