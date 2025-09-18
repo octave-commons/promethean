@@ -9,8 +9,8 @@
     `main`.
 
 - **Typical Workflow:**
-  1. `codex/<task>` -> `dev/<hostname>` -> `main`
-  2. `feat/codex-<task>` indicates Codex started work.
+  1. `codex/<task>` -> `dev/codex-staging` -> `main`
+  2. `feat/codex-<task>` indicates a human operator has taken over a Codex task.
   3. `<type>/<task>` branches for specific tasks.
 
 - **Branching Rules:**
@@ -18,8 +18,8 @@
   - Others are my responsibility unless default merging causes issues.
 
 - **Obsidian Workflow:**
-  1. `obsidian/<hostname>` -> `dev/<hostname>` -> `main`
-  2. Ideal flow: `<describer>/<task>` -> `dev/testing` -> `dev/staging` ->
+  1. `obsidian/<hostname>` -> `obsidian/staging` -> `obsidian/main` -> `docs/main` -> `docs/staging`
+  2. Ideal flow: `<describer>/<task>` -> `obsidian/testing` -> `dev/staging` ->
      `main`
 
 - **Documentation Flow:**
