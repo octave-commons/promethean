@@ -133,9 +133,11 @@ const createHeaders = (
 export const createSmartGptBridgeV1Client = (
   config: SmartGptBridgeV1ClientConfig,
 ): SmartGptBridgeV1Client => {
-  const fetchImpl = config.fetchImpl ?? fetch;
+  const fetchImpl = config.fetchImpl ?? globalThis.fetch;
   if (typeof fetchImpl !== "function") {
-    throw new Error("A fetch implementation must be provided");
+    throw new Error(
+      "No fetch implementation available. Provide config.fetchImpl or ensure globalThis.fetch is defined.",
+    );
   }
   const baseHeaders = { ...(config.defaultHeaders ?? {}) };
 
