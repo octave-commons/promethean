@@ -62,7 +62,7 @@ Nothing
 ---
 
 ## 🔍 Relevant Links
-- [kanban](../boards/kanban.md)
+- [[kanban]]
 - [file-structure](../file-structure.md)
 - [MIGRATION_PLAN](../MIGRATION_PLAN.md)
 #done

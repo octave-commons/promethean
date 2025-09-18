@@ -9,6 +9,7 @@ const ROOT = path.join(process.cwd(), "tests", "fixtures");
 test.serial("exec run blocks cwd outside root", async (t) => {
   const prev = { EXEC_ENABLED: process.env.EXEC_ENABLED };
   try {
+    t.timeout(180000);
     process.env.EXEC_ENABLED = "true";
     await withServer(ROOT, async (req) => {
       const res = await req

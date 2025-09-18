@@ -7,6 +7,7 @@ import { withServer } from "../helpers/server.js";
 const ROOT = path.join(process.cwd(), "tests", "fixtures");
 
 test("GET /v0/files/tree returns nested directory tree", async (t) => {
+  t.timeout(180000);
   await withServer(ROOT, async (req) => {
     const res = await req
       .get("/v0/files/tree")

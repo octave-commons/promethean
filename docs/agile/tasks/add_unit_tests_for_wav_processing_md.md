@@ -44,7 +44,7 @@ Nothing
 ---
 
 ## 🔍 Relevant Links
-- [kanban](../boards/kanban.md)
+- [[kanban]]
 - [Untested modules](../../untested-code.md)
 #done
 

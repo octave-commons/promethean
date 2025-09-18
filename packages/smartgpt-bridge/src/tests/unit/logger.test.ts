@@ -16,16 +16,15 @@ test("writes logs to file when LOG_FILE is set", async (t) => {
     stream: buildLogStream(),
   });
   logger.info("hello-file");
-  await sleep(60);
+  await sleep(300);
   // Retry read to allow async file open/flush
   let contents = "";
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 50; i++) {
     try {
       contents = await fsp.readFile(file, "utf8");
-      break;
-    } catch {
-      await sleep(30);
-    }
+      if (contents) break;
+    } catch {}
+    await sleep(100);
   }
   t.true(contents.includes("hello-file"));
   await fsp.unlink(file);

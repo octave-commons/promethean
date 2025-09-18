@@ -55,7 +55,7 @@ git checkout main
 git merge staging && git push origin main
 ```
 
-See the [contribution guidelines](readme.md) for general workflow
+See the [[README|contribution guidelines]] for general workflow
 details.
 
 ---
@@ -105,7 +105,7 @@ Nothing
 
 ## 🔍 Relevant Links
 
-- [kanban](../boards/kanban.md)
+- [[kanban]]
 #agent-thinking
 #Breakdown
 

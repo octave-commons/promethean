@@ -16,6 +16,7 @@ export type AppDefinition = {
   readonly exec_mode?: string;
   readonly cwd?: string;
   readonly watch?: string | readonly string[];
+  readonly ignore_watch?: string | readonly string[];
   readonly env_file?: string;
   readonly out_file?: string;
   readonly error_file?: string;
@@ -70,6 +71,8 @@ export function defineApp(
     ...base,
     ...(cwd ? { cwd } : {}),
     ...(watch ? { watch } : {}),
+    ignore_watch: ["node_modules", "logs", "tmp", ".git"],
+
     ...(env_file ? { env_file } : {}),
   };
 }

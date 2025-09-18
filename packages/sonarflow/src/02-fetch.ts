@@ -76,32 +76,26 @@ export async function fetchIssues(opts: FetchOpts) {
     )
   ).total;
 
-  const issues = await Promise.all(
-    Array(Math.ceil(total / opts.pageSize))
-      .fill(0)
-      .reduce((acc: ReadonlyDeep<Array<SonarSearchResults>>, _, i) => {
-        return [
-          ...acc,
+  const pageCount = Math.ceil(total / opts.pageSize);
+  const pageRequests: Array<Promise<{ total: number; issues: SonarIssue[] }>> =
+    pageCount === 0
+      ? []
+      : Array.from({ length: pageCount }, (_, index) =>
           sonarGet<SonarSearchResults>("/api/issues/search", {
             projectKeys: project,
             statuses: opts.statuses,
             types: opts.types,
             severities: opts.severities,
-            p: i + 1,
+            p: index + 1,
             ps: opts.pageSize,
             additionalFields: "_all",
           }).then((data) => ({
             total: data.total,
             issues: data.issues.map((it) => toSonarIssue(it)),
           })),
-        ];
-      }, [] as Array<SonarSearchResults>),
-  ).then((results) =>
-    results.reduce(
-      (acc, result) => [...acc, ...result.issues],
-      ([] as SonarIssue[]).fill(null, 0, Math.ceil(total / opts.pageSize)),
-    ),
-  );
+        );
+  const pageResults = await Promise.all(pageRequests);
+  const issues = pageResults.flatMap((result) => result.issues);
 
   const cache = await openLevelCache<
     SonarIssue | { project: string; fetchedAt: string }

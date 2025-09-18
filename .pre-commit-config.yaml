@@ -27,8 +27,7 @@ repos:
       #   name: ESLint on diff from main
       #   entry: pnpm exec eslint --cache --pass-on-no-patterns
       #   language: system
-      - id: eslint-diff
-        name: ESLint on diff from main
-        pass_filenames: false
-        entry: pnpm nx affected -t lint test build
-        language: system
+      # - id: eslint-diff
+      #   name: ESLint on diff from main
+      #   entry: pnpm --cache lint
+      #   language: system

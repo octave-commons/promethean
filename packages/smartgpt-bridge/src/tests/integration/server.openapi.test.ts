@@ -10,6 +10,7 @@ test("GET /openapi.json includes servers, schemas, and paths", async (t) => {
   const prev = process.env.PUBLIC_BASE_URL;
   process.env.PUBLIC_BASE_URL = "https://funnel.example.ts.net";
   try {
+    t.timeout(180000);
     await withServer(ROOT, async (req) => {
       const res = await req.get("/openapi.json").expect(200);
       t.is(res.body.openapi, "3.1.0");

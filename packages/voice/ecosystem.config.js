@@ -13,7 +13,7 @@ if (!process.env.PROMETHEAN_ROOT_ECOSYSTEM) {
 }
 
 const apps = [
-  defineApp("broker", "dist/index.js", [], {
+  defineApp("voice", "dist/index.js", [], {
     cwd: __dirname,
     watch: [__dirname],
   }),

@@ -1,6 +1,6 @@
 import path from "path";
 import { fileURLToPath } from "url";
-import { defineApp } from '@promethean/pm2-helpers';
+import { defineApp } from "@promethean/pm2-helpers";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -11,8 +11,10 @@ if (!process.env.PROMETHEAN_ROOT_ECOSYSTEM) {
   defineApp.HEARTBEAT_PORT = 5005;
 }
 
+const scriptPath = path.join(__dirname, "dist/index.js");
+
 const apps = [
-  defineApp("auth-service", "dist/index.js", [], {
+  defineApp("auth-service", scriptPath, [], {
     cwd: __dirname,
     watch: [__dirname],
     env: {
