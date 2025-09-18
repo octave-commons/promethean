@@ -14,6 +14,10 @@ export async function initMongo() {
     !process.env.MONGODB_URI || process.env.MONGODB_URI === "memory";
   let uri = process.env.MONGODB_URI;
 
+  if (uri && /^disabled$/i.test(uri)) {
+    return mongoose;
+  }
+
   // TODO: No testing logic in business logic
   if (isTest && wantsMemory) {
     if (!_memory) {

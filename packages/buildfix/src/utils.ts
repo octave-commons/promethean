@@ -8,6 +8,14 @@ export { sha1 } from "@promethean/utils";
 
 export const OLLAMA_URL = process.env.OLLAMA_URL ?? "http://localhost:11434";
 
+export const WORKSPACE_ROOT = path.resolve(
+  process.env.INIT_CWD ?? process.cwd(),
+);
+
+export function resolveFromWorkspace(p: string): string {
+  return path.isAbsolute(p) ? p : path.resolve(WORKSPACE_ROOT, p);
+}
+
 export async function run(
   cmd: string,
   cwd = process.cwd(),

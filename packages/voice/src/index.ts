@@ -2,9 +2,43 @@ import { Server } from "http";
 
 import express, { Application } from "express";
 import { Client, GatewayIntentBits, User } from "discord.js";
-import { HeartbeatClient } from "@promethean/legacy/heartbeat/index.js";
 
 import { VoiceSession } from "./voice-session.js";
+
+const heartbeatFallback = new URL(
+  "../../legacy/heartbeat/index.js",
+  import.meta.url,
+).href;
+
+async function importHeartbeat(): Promise<{
+  readonly HeartbeatClient: new (...args: readonly unknown[]) => {
+    sendOnce(): Promise<void>;
+    start(): void;
+  };
+}> {
+  const specifiers = [
+    process.env.VOICE_HEARTBEAT_MODULE,
+    "@promethean/legacy/heartbeat/index.js",
+    heartbeatFallback,
+  ] as const;
+  let lastError: Error | undefined;
+  for (const spec of specifiers) {
+    if (!spec) continue;
+    try {
+      return (await import(spec)) as {
+        readonly HeartbeatClient: new (...args: readonly unknown[]) => {
+          sendOnce(): Promise<void>;
+          start(): void;
+        };
+      };
+    } catch (err) {
+      const error = err as Error & { readonly code?: string };
+      lastError = error;
+    }
+  }
+  if (lastError) throw lastError;
+  throw new Error("Unable to resolve heartbeat module");
+}
 
 function setupDiscordClient(): Client {
   const client = new Client({
@@ -187,7 +221,10 @@ export function createVoiceService(
   async function start(
     port: number = parseInt(process.env.PORT || "4000", 10),
   ): Promise<Server> {
-    const hb = new HeartbeatClient();
+    const { HeartbeatClient } = await importHeartbeat();
+    const hb = new HeartbeatClient({
+      name: process.env.name || "voice-service",
+    });
     await hb.sendOnce();
     hb.start();
     await client.login(token);

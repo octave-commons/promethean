@@ -126,9 +126,7 @@ export async function start(port = process.env.PORT || 7000) {
       try {
         const ctx = { ws, id, data, msg };
         if (actions.listenerCount(action)) {
-          for (const handler of actions.listeners(action)) {
-            await handler(ctx);
-          }
+          actions.emit(action, ctx);
         } else {
           ws.send(JSON.stringify({ error: "unknown action" }));
         }
@@ -166,6 +164,7 @@ export async function start(port = process.env.PORT || 7000) {
 
 export async function stop(server) {
   if (!server) return;
+  console.log("I'm stoppin");
   for (const ws of server.clients) {
     try {
       ws.terminate();

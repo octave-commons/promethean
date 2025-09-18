@@ -55,7 +55,7 @@ Nothing
 
 ## 🔍 Relevant Links
 
-- [kanban](kanban.md)
+- [[kanban]]
 
 #framework-core #Ready #ready
 

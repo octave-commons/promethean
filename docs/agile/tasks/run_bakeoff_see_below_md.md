@@ -28,7 +28,7 @@ Generated from [../unique/2025.08.08.16.08.27.md](../unique/2025.08.08.16.08.27.
 ---
 # Reason for rejection
 
-Duplicate of [[run_model_bakeoff_md.md|Run model bakeoff]].
+Duplicate of [[run_model_bakeoff_md|Run model bakeoff]].
 
 #rejected
 
