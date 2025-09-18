@@ -42,7 +42,7 @@ docker compose up
 Set `AGENT_NAME` in your environment before launching agent services to isolate collections and data.
 Promethean is a modular cognitive architecture for building embodied AI agents. It breaks the system
 into small services that handle speech-to-text, text-to-speech, memory, and higher level reasoning.
-📖 For a high-level overview, see [[vision|docs/vision.md]].
+📖 For a high-level overview, see [Vision Overview](docs/design/overview.md).
 📊 For architecture roadmaps and visualizations, see [[docs/architecture/index|docs/architecture/index.md]].
 📦 Data migration conventions and runbooks live under [[docs/data/contracts/readme|docs/data]].
 
