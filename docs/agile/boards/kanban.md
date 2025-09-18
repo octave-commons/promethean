@@ -286,8 +286,6 @@ kanban-plugin: board
 
 ## Todo (13)
 
-- [ ] [[Docops pipeline]] #framework-core #IceBox #ready
-- [ ] [[dockerize-the-system|dockerize the system]] #devops #devops #Ready #todo
 - [ ] [[structure_vault_to_mirror_services_agents_docs_md_md|Document-Driven Development for Service Scripts]] #breakdown
 - [ ] [[docs/agile/tasks/smart_task_templater_md|smart task templater md]] #framework-core #ready
 - [ ] [[script-for-getting-github-action-workflow-states-for-a-branch|script for getting github action workflow states for a branch]] #ready
@@ -297,6 +295,8 @@ kanban-plugin: board
 
 ## In Progress (4)
 
+- [ ] [[dockerize-the-system|dockerize the system]] #devops #devops #Ready #todo
+- [ ] [[Docops pipeline]] #framework-core #IceBox #ready
 - [ ] [[task-generator-system|task generator system]] #framework-core #framework-core #Ready #todo
 - [ ] [[file-explorer|File explorer]] #framework-core #ready
 
