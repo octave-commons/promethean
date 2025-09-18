@@ -21,6 +21,8 @@ describe env-dump            bash -lc '(set -o posix; set)'
 describe pnpm-install        pnpm install --no-frozen-lockfile
 
 # gh wiring + origin
+# Doesn't seem work.
+# It probably installs, but the agent won't use it.
 # describe setup-gh-cli        bash -lc '"$(dirname "$0")/setup_gh_cli.sh"'
 
 # services
