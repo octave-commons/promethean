@@ -51,6 +51,114 @@ into small services that handle speech-to-text, text-to-speech, memory, and high
 - Prefer immutable data; avoid in-place object mutation.
 - Use key-value caches like `@promethean/level-cache` instead of JSON files for intermediate data.
 
+## Automation pipelines
+
+Automation flows live in [`pipelines.json`](./pipelines.json). The table below
+documents what each pipeline assembles and how the steps cooperate so operators
+know which caches, models, and outputs are involved when a run is triggered.
+
+### `symdocs`
+- **Purpose:** Generate symbol-aware package documentation and dependency graphs.
+- **Steps:**
+  1. `symdocs-scan` indexes package sources into `.cache/symdocs.level` using
+     `scripts/piper-symdocs.mjs`.
+  2. `symdocs-docs` calls the same module with the `docs` export (model
+     `qwen3:4b`) to enrich the cache.
+  3. `symdocs-write` materialises module docs under `docs/packages`.
+  4. `symdocs-graph` emits package README files and graphs from the indexed
+     sources.【F:pipelines.json†L3-L67】
+
+### `simtasks`
+- **Purpose:** Produce task backlogs from code structure analysis.
+- **Steps:**
+  1. `simtasks-scan` records exported functions per package.
+  2. `simtasks-embed` and `simtasks-cluster` embed and group functions using
+     Ollama hosted `nomic-embed-text:latest`.
+  3. `simtasks-plan` drafts plans with `qwen3:4b`.
+  4. `simtasks-write` writes Markdown tasks into `docs/agile/tasks`.
+     【F:pipelines.json†L71-L171】
+
+### `codemods`
+- **Purpose:** Generate, dry-run, and verify automated codemod transforms.
+- **Steps:**
+  1. `mods-simtasks` ensures the `simtasks` caches exist, invoking that pipeline
+     if needed.
+  2. `mods-spec` derives codemod specifications from the caches.
+  3. `mods-generate` writes transform stubs, `mods-dry-run` previews their
+     effects, and `mods-apply` executes approved transforms.
+  4. `mods-verify` runs repository tests and captures verification reports.
+     【F:pipelines.json†L175-L242】
+
+### `semver-guard`
+- **Purpose:** Detect API changes and prepare release guidance.
+- **Steps:**
+  1. `sv-snapshot` captures current package signatures.
+  2. `sv-diff` and `sv-plan` compute differences and summarise impacts with
+     `qwen3:4b`.
+  3. `sv-write` writes follow-up tasks, and `sv-pr` prepares dependency update
+     metadata for PR automation.【F:pipelines.json†L246-L341】
+
+### `board-review`
+- **Purpose:** Audit task hygiene against the documented agile process.
+- **Steps:**
+  1. `br-fm` normalises task frontmatter defaults.
+  2. `br-prompts` extracts review prompts from `docs/agile/Process.md` while
+     `br-index` embeds repository context via `nomic-embed-text:latest`.
+  3. `br-match` associates tasks with context, `br-eval` scores them with
+     `qwen3:4b`, and `br-report` emits review reports.【F:pipelines.json†L345-L470】
+
+### `sonar`
+- **Purpose:** Pull SonarQube issues and turn them into actionable tasks.
+- **Steps:**
+  1. `sonar-scan` runs `sonar-scanner` with the configured project key.
+  2. `sonar-fetch` downloads the issue payload into `.cache/sonar/issues`.
+  3. `sonar-plan` clusters issues with `qwen3:4b`, and `sonar-write` exports
+     grouped tasks under `docs/agile/tasks/sonar`.【F:pipelines.json†L474-L528】
+
+### `readmes`
+- **Purpose:** Keep package README files fresh.
+- **Steps:**
+  1. `rm-scan` inventories package manifests into `.cache/readmes`.
+  2. `rm-outline` drafts outlines with `qwen3:4b`.
+  3. `rm-write` emits README updates and `rm-verify` logs QA reports to
+     `docs/agile/reports/readmes`.【F:pipelines.json†L532-L592】
+
+### `buildfix`
+- **Purpose:** Iterate on build failures until the workspace compiles.
+- **Steps:**
+  1. `bf-build` builds the `@promethean/buildfix` package.
+  2. `bf-errors` captures TypeScript diagnostics for the workspace.
+  3. `bf-iterate` uses `qwen3:4b` to propose fixes with guarded git operations.
+  4. `bf-report` summarises attempts in `docs/agile/reports/buildfix`.
+     【F:pipelines.json†L596-L648】
+
+### `test-gap`
+- **Purpose:** Identify code without automated test coverage and plan remedies.
+- **Steps:**
+  1. `tg-exports` maps exported symbols; `tg-tests` runs the full workspace test
+     suite with coverage.
+  2. `tg-coverage` and `tg-map` combine exports and coverage into gap data.
+  3. `tg-gate` enforces thresholds, `tg-cookbook` links docs, `tg-plan` drafts
+     remediation plans with `qwen3:4b`, and `tg-write` plus `tg-report` publish
+     tasks and reports.【F:pipelines.json†L653-L742】
+
+### `docops`
+- **Purpose:** Maintain the curated `docs/unique` knowledge base.
+- **Steps:**
+  1. `doc-fm` standardises frontmatter using `qwen3:4b`.
+  2. `doc-index` and `doc-similarity` embed documents via
+     `nomic-embed-text:latest`.
+  3. `doc-related`, `doc-footer`, and `doc-rename` manage cross-links, footers,
+     and filenames.【F:pipelines.json†L745-L855】
+
+### `eslint-tasks`
+- **Purpose:** Turn ESLint findings into follow-up tasks.
+- **Steps:**
+  1. `eslint-report` generates `.cache/eslint/report.json` with
+     `pnpm exec eslint`.
+  2. `eslint-tasks` converts the report into Markdown tasks inside
+     `docs/agile/tasks`.【F:pipelines.json†L858-L886】
+
 ### Nx workspace
 
 Build tooling is managed with [Nx](https://nx.dev). See [[nx-workspace|docs/nx-workspace.md]] for common commands.
