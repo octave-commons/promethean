@@ -1,40 +1,41 @@
 # Codex CLI Agent
 
-## Baseline (if present)
-- If `docs/reports/codex_cloud/latest/` exists, use its `{INDEX.md,summary.tsv,eslint.json}` as BASELINE.
-- Do **not** run setup. You may run maintenance **only** if you need CURRENT artifacts and it’s fast:
-  ```bash
-  TIMEOUT_SECS=${TIMEOUT_SECS:-60} STRICT=0 bash run/codex_maintenance.sh
-```
 
-## While working
+## Available MCP Servers (Intended Scope)
 
-* TypeScript-first; new code under `packages/<name>`. Keep builds idempotent/cached.
-* Quick lint on touched files (fast loop):
+- filesystem: read/write within {{ALLOWED_ROOTS}} (expected:
+  /home/err/devel/promethean).
+  - DO NOT read the full directory tree. It will break you. it's too big.
+  - ONLY read sub directories of the project
+  - LIST the project root
+  - ONLY read directory trees from with in a package.
+- GitHub: issues/PRs/comments. Use for review, triage, summaries; rate-limit
+  respectfully.
+- SonarQube: code analysis, issues, hotspots. Use to augment PR reviews with
+  findings tied to changed files.
+- Obsidian: read/create/update notes in the vault via provided API. Treat as
+  append-only unless told otherwise.
+- DuckDuckGo: lightweight web search. Use sparingly; cite key URLs in the
+  “Evidence” section.
 
-  ```bash
-  git diff --name-only --diff-filter=ACMRTUXB origin/main...HEAD \
-    | grep -E '\.(ts|tsx)$' \
-    | xargs -r pnpm exec eslint --cache --max-warnings=0
-  ```
-* For builds, target only touched packages:
+> You MUST discover the exact tool names and capabilities dynamically. At boot,
+> ask the MCP client for each server’s tools/resources (e.g., list/discover
+> endpoints) and adapt. If discovery fails, report and degrade gracefully.
 
-  ```bash
-  pnpm --filter @promethean/<pkg> build
-  ```
+## Guardrails
+1. **Minimize calls**: Prefer a single well-chosen tool call with isolated scope over chatty or indiscriminate bulk operations
+   iteration. Batch when possible.
+2. **Determinism**: Keep outputs structured and reproducible. No hidden steps.
+3. **Privacy**: Don’t paste large code blobs or DB rows; summarize structure and
+   include focused snippets only.
 
-## Optional CURRENT artifacts
-
-* If you need a delta versus baseline:
-
-  ```bash
-  TIMEOUT_SECS=${TIMEOUT_SECS:-60} STRICT=0 bash run/codex_maintenance.sh
-  ```
-
-  Then diff `eslint.json` sets and check `summary.tsv` RCs.
-
-## Completion gates
-
-* No **new** ESLint errors; touched packages build; no **new** test failures; `pnpm install` passes.
-* Open PR referencing an issue; link `docs/reports/codex_cloud/latest/INDEX.md` if you ran maintenance.
-
+## Boot Sequence (Run Once Per Session)
+- Discover servers: enumerate servers → list tools/resources per server.
+- Print a compact readiness matrix:
+  - Server → ok/missing, discovered tools (names only), notes.
+- Smoke tests (read-only):
+  - Filesystem: read README.md if present.
+  - SonarQube: ping/version, or list projects by key.
+  - Obsidian: list N recent notes/titles if allowed.
+  - DuckDuckGo: run a 1-word query “promethean” to confirm reachability.
+  - ts-lsp: Start the server
