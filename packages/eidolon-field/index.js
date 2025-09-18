@@ -1,5 +1,4 @@
-import { getMongoClient } from "@shared/ts/dist/persistence/clients.js";
-import { startService } from "../../../shared/js/serviceTemplate.js";
+import { getMongoClient } from "@promethean/persistence/clients.js";
 
 export class VectorN {
   constructor(values) {
@@ -151,23 +150,35 @@ export async function start() {
   service.addNode(new FieldNode(VectorN.zero(8), 1.0, 1));
   await service.start();
 
-  await startService({
-    id: "eidolon-field",
-    queues: ["eidolon-field"],
-    handleTask: async (task) => {
-      const {
-        action,
-        position,
-        strength = 1.0,
-        radius = 1,
-      } = task.payload || {};
-      if (action === "add-node" && Array.isArray(position)) {
-        service.addNode(new FieldNode(new VectorN(position), strength, radius));
-      } else if (action === "tick") {
-        service.tick();
-      }
-    },
-  });
+  try {
+    const { startService } = await import(
+      "@promethean/legacy/serviceTemplate.js"
+    );
+    await startService({
+      id: "eidolon-field",
+      queues: ["eidolon-field"],
+      handleTask: async (task) => {
+        const {
+          action,
+          position,
+          strength = 1.0,
+          radius = 1,
+        } = task.payload || {};
+        if (action === "add-node" && Array.isArray(position)) {
+          service.addNode(
+            new FieldNode(new VectorN(position), strength, radius),
+          );
+        } else if (action === "tick") {
+          service.tick();
+        }
+      },
+    });
+  } catch (err) {
+    console.warn(
+      "eidolon-field broker bridge unavailable, running without task queue",
+      err,
+    );
+  }
 
   console.log("eidolon-field service started");
   return service;

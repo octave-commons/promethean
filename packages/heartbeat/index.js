@@ -1,4 +1,4 @@
-import { getMongoClient } from "@shared/ts/dist/persistence/clients.js";
+import { getMongoClient } from "@promethean/persistence/clients.js";
 import { createRequire } from "module";
 import path from "path";
 import fs from "fs";
