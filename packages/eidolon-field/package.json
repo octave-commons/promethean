@@ -10,11 +10,13 @@
     "lint": "eslint -c ../eslint.config.js ."
   },
   "dependencies": {
+    "@promethean/persistence": "workspace:*",
     "@types/node": "^24.3.0",
     "mongodb": "^6.8.0",
     "ws": "^8.18.0"
   },
   "devDependencies": {
+    "@promethean/test-utils": "workspace:*",
     "ava": "^6.4.1",
     "c8": "^9.1.0",
     "mongodb-memory-server": "^10.1.4"

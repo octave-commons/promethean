@@ -8,7 +8,9 @@
     },
     "./env.js": "./env.js",
     "./brokerClient.js": "./brokerClient.js",
-    "./queueManager.js": "./queueManager.js"
+    "./queueManager.js": "./queueManager.js",
+    "./serviceTemplate.js": "./serviceTemplate.js",
+    "./heartbeat/index.js": "./heartbeat/index.js"
   },
   "dependencies": {
     "@types/estree": "^1.0.5",
@@ -31,7 +33,7 @@
     "eslint": "^8.57.0"
   },
   "scripts": {
-    "test": "ava --config ../../config/ava.config.mjs"
+    "test": "ava tests/*.test.js --config ../../config/ava.config.mjs"
   },
   "bin": {
     "apply_patch": "./scripts/apply_patch.js"
