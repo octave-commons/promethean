@@ -55,6 +55,6 @@ Nothing
 ## 🔍 Relevant Links
 
 - [file structure](../file-structure.md)
-- [kanban](../boards/kanban.md)
+- [[kanban]]
 #done
 

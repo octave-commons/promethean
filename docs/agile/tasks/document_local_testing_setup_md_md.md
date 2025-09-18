@@ -44,7 +44,7 @@ Nothing
 ---
 
 ## 🔍 Relevant Links
-- [kanban](../boards/kanban.md)
-- [ci docs](../../ci.md)
+- [[kanban]]
+- [[ci|ci docs]]
 #done
 

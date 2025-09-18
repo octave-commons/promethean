@@ -36,7 +36,7 @@ Capture existing prompt and specification documents into the repository so they 
 
 ## 🔍 Relevant Links
 
-- [kanban](../boards/kanban.md)
+- [[kanban]]
 
 #IceBox
 #ready

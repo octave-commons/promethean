@@ -57,7 +57,7 @@ Nothing
 
 ## 🔍 Relevant Links
 
-- [kanban](kanban.md)
+- [[kanban]]
 
 #accepted
 

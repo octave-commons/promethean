@@ -6,6 +6,8 @@ kanban-plugin: board
 
 ## Rejected
 
+- [ ] [[frontend-build-tool-chain|frontend build tool chain]] #devops #devops #Ready #todo
+- [ ] [[scripts_group_docs_utilities|scripts group docs utilities]] #scripts #docs #organization #accepted
 - [ ] [[docs/agile/boards/consolidate-all-configs-into---config--as--.edn--files]] #incoming
 - [ ] [[scripts_add_folder_readmes_and_usage|scripts add folder readmes and usage]] #incoming
 - [ ] codex action build file contextualizer.
@@ -213,7 +215,6 @@ kanban-plugin: board
 
 ## Ice Box
 
-- [ ] [[add-codex-layer-to-emacs|Add codex layer to emacs]] #ready
 - [ ] [[add_twitch_chat_integration_md_md|add twitch chat integration md md]] #breakdown
 - [ ] [[twitch_discord_general_auto_mod_md_md|twitch discord general auto mod md md]] #framework-core #observability #multimodal-context #risk #IceBox #todo
 - [ ] [[harden-precommit-hooks|harden precommit hooks]] #ready
@@ -237,13 +238,16 @@ kanban-plugin: board
 
 ## Incoming
 
-- [ ] Get existing pipelines to work through UI
-- [ ] [[get all existing pipelines functional]]
-- [ ] pin all versioned anything
+- [ ] [[add-codex-layer-to-emacs|Add codex layer to emacs]] #ready
+- [ ] discord bot squad
 
 
 ## Accepted
 
+- [ ] get project build to work `tsc -b tsconfig.build.json`
+- [ ] pin all versioned anything
+- [ ] Get existing pipelines to work through UI
+- [ ] [[get all existing piper pipelines functional]]
 - [ ] make cephalon work again with new project layout
 - [ ] Use clojure elisp tree sitter package to generate mcp.el valid s-expr
 - [ ] discord text mode
@@ -261,8 +265,6 @@ kanban-plugin: board
 
 ## Breakdown (13)
 
-- [ ] [[scripts_group_docs_utilities|scripts group docs utilities]] #scripts #docs #organization #accepted
-- [ ] [[frontend-build-tool-chain|frontend build tool chain]] #devops #devops #Ready #todo
 - [ ] codex cloud setup script generates a startup report
 - [ ] [[evaluate-docker-npu-compatability]]
 - [ ] [[add-docker-compose-files-to-services]]

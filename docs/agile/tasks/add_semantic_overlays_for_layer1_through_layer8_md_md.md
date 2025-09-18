@@ -54,7 +54,7 @@ Nothing
 
 ## 🔍 Relevant Links
 
-- [design overview](../../design/overview.md)
-- [kanban](../boards/kanban.md)
+- [[docs/design/overview|design overview]]
+- [[kanban]]
 #IceBox
 

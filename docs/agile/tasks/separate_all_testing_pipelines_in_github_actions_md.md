@@ -58,7 +58,7 @@ Nothing
 ---
 
 ## 🔍 Relevant Links
-- [kanban](../boards/kanban.md)
+- [[kanban]]
 - [ci](../ci.md)
 #done
 

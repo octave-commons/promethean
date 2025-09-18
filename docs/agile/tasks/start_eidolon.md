@@ -65,7 +65,7 @@ Nothing
 
 ## 🔍 Relevant Links
 
-- [kanban](../boards/kanban.md)
+- [[kanban]]
 
 #done
 

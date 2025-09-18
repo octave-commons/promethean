@@ -8,7 +8,7 @@ created_at: '2025-09-15T02:02:58.505Z'
 ---
 ## 🛠️ Task: Add **startChangelogProjector** for any compaction-like topic you want live-queryable
 
-Generated from [[2025.08.08.20.08.56.md]]
+Generated from [[2025.08.08.20.08.56]]
 
 ---
 
