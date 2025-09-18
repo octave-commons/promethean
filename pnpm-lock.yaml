@@ -1708,6 +1708,9 @@ importers:
 
   packages/eidolon-field:
     dependencies:
+      '@promethean/persistence':
+        specifier: workspace:*
+        version: link:../persistence
       '@types/node':
         specifier: ^24.3.0
         version: 24.3.1
@@ -1718,6 +1721,9 @@ importers:
         specifier: ^8.18.0
         version: 8.18.3
     devDependencies:
+      '@promethean/test-utils':
+        specifier: workspace:*
+        version: link:../test-utils
       ava:
         specifier: ^6.4.1
         version: 6.4.1(encoding@0.1.13)
@@ -2088,6 +2094,9 @@ importers:
       '@promethean/legacy':
         specifier: workspace:*
         version: link:../legacy
+      '@promethean/persistence':
+        specifier: workspace:*
+        version: link:../persistence
       '@types/node':
         specifier: ^24.3.0
         version: 24.3.1
@@ -2101,6 +2110,9 @@ importers:
         specifier: ^8.18.0
         version: 8.18.3
     devDependencies:
+      '@promethean/test-utils':
+        specifier: workspace:*
+        version: link:../test-utils
       ava:
         specifier: ^6.4.1
         version: 6.4.1(encoding@0.1.13)
@@ -4239,6 +4251,9 @@ importers:
 
   packages/vision:
     dependencies:
+      '@promethean/legacy':
+        specifier: workspace:*
+        version: link:../legacy
       '@types/node':
         specifier: ^24.3.0
         version: 24.3.1
@@ -4252,6 +4267,9 @@ importers:
         specifier: ^8.18.3
         version: 8.18.3
     devDependencies:
+      '@promethean/test-utils':
+        specifier: workspace:*
+        version: link:../test-utils
       ava:
         specifier: ^6.4.1
         version: 6.4.1(encoding@0.1.13)
@@ -14711,7 +14729,7 @@ snapshots:
 
   axios@1.11.0:
     dependencies:
-      follow-redirects: 1.15.11(debug@4.4.3)
+      follow-redirects: 1.15.11(debug@4.3.7)
       form-data: 4.0.4
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -17169,7 +17187,7 @@ snapshots:
   http-proxy@1.18.1:
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.15.11(debug@4.4.3)
+      follow-redirects: 1.15.11(debug@4.3.7)
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
