@@ -327,4 +327,5 @@ export interface SmartGptBridgeV1ClientConfig {
   readonly baseUrl: string;
   readonly fetchImpl?: typeof fetch;
   readonly defaultHeaders?: Record<string, string>;
+  readonly pathPrefix?: string;
 }
