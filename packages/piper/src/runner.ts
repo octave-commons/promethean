@@ -191,7 +191,9 @@ export async function runPipeline(
     emit?: (ev: PiperEvent, json: boolean) => void;
   },
 ): Promise<readonly StepResult[]> {
-  const cfg = await readConfig(configPath);
+  const absConfigPath = path.resolve(configPath);
+  const configDir = path.dirname(absConfigPath);
+  const cfg = await readConfig(absConfigPath);
   const pipeline = cfg.pipelines.find((p) => p.name === pipelineName);
   if (!pipeline) throw new Error(`pipeline '${pipelineName}' not found`);
   const steps = topoSort(pipeline.steps);
@@ -248,7 +250,7 @@ export async function runPipeline(
 
     await sem.take();
     try {
-      const cwd = path.resolve(s.cwd || ".");
+      const cwd = path.resolve(configDir, s.cwd ?? ".");
       const fp = await stepFingerprint(
         s,
         cwd,
@@ -336,7 +338,7 @@ export async function runPipeline(
               return await runJSModule(s, cwd, envMerged, fp, s.timeoutMs);
             } catch (e: unknown) {
               const stderr =
-                e instanceof Error ? (e.stack ?? e.message) : String(e);
+                e instanceof Error ? e.stack ?? e.message : String(e);
               return { code: 1, stdout: "", stderr } as const;
             } finally {
               if (needJsLock) jsSem.release();
@@ -477,18 +479,22 @@ export async function watchPipeline(
   pipelineName: string,
   opts: RunOptions,
 ): Promise<void> {
-  const cfg = await readConfig(configPath);
+  const absConfigPath = path.resolve(configPath);
+  const configDir = path.dirname(absConfigPath);
+  const cfg = await readConfig(absConfigPath);
   const pipeline = cfg.pipelines.find((p) => p.name === pipelineName);
   if (!pipeline) throw new Error(`pipeline '${pipelineName}' not found`);
   const allInputs = new Set<string>();
   pipeline.steps.forEach((s) =>
-    s.inputs.forEach((i) => allInputs.add(path.resolve(s.cwd ?? ".", i))),
+    s.inputs.forEach((i) =>
+      allInputs.add(path.resolve(configDir, s.cwd ?? ".", i)),
+    ),
   );
   console.log(`[piper] watching ${allInputs.size} input patterns…`);
-  await runPipeline(configPath, pipelineName, { ...opts, dryRun: false });
+  await runPipeline(absConfigPath, pipelineName, { ...opts, dryRun: false });
   const watcher = chokidar.watch(Array.from(allInputs));
   watcher.on("all", async () => {
     console.log(`[piper] change detected — re-running ${pipelineName}`);
-    await runPipeline(configPath, pipelineName, { ...opts, dryRun: false });
+    await runPipeline(absConfigPath, pipelineName, { ...opts, dryRun: false });
   });
 }

@@ -1,10 +1,11 @@
 import { parentPort, workerData } from "node:worker_threads";
 
-const { modUrl, exportName, args, env } = workerData as {
+const { modUrl, exportName, args, env, cwd } = workerData as {
   modUrl: string;
   exportName?: string;
   args: any;
   env: Record<string, string>;
+  cwd: string;
 };
 
 (async () => {
@@ -12,6 +13,7 @@ const { modUrl, exportName, args, env } = workerData as {
   const origEnv = { ...process.env };
   const origStdout = process.stdout.write;
   const origStderr = process.stderr.write;
+  const origCwd = process.cwd();
   const keepAlive = setInterval(() => {}, 1 << 30);
 
   // Apply step env
@@ -34,6 +36,9 @@ const { modUrl, exportName, args, env } = workerData as {
   };
 
   try {
+    if (cwd) {
+      process.chdir(cwd);
+    }
     const mod: any = await import(modUrl);
     const fn =
       (exportName && mod && mod[exportName]) || (mod && mod.default) || mod;
@@ -67,5 +72,15 @@ const { modUrl, exportName, args, env } = workerData as {
     (process.stdout.write as any) = origStdout;
     (process.stderr.write as any) = origStderr;
     (process.env as any) = origEnv;
+    if (cwd) {
+      try {
+        process.chdir(origCwd);
+      } catch (err) {
+        parentPort?.postMessage({
+          type: "stderr",
+          data: err instanceof Error ? err.stack ?? err.message : String(err),
+        });
+      }
+    }
   }
 })();
