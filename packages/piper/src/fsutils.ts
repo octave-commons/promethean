@@ -170,12 +170,13 @@ async function runJSModuleWorker(
   exportName: string | undefined,
   args: any,
   env: Record<string, string>,
+  cwd: string,
   timeoutMs?: number,
 ) {
   return new Promise<{ code: number | null; stdout: string; stderr: string }>(
     (resolve) => {
       const worker = new Worker(new URL("./js-worker.js", import.meta.url), {
-        workerData: { modUrl, exportName, args, env },
+        workerData: { modUrl, exportName, args, env, cwd },
       });
 
       let stdout = "";
@@ -264,12 +265,19 @@ export async function runJSModule(
       step.js!.export,
       step.js!.args ?? {},
       env,
+      cwd,
       timeoutMs,
     );
   }
   const mod: any = await import(url.href);
   const fn = (step.js!.export && mod[step.js!.export]) || mod.default || mod;
-  return runJSFunction(fn, step.js!.args ?? {}, env, timeoutMs);
+  const prevCwd = process.cwd();
+  try {
+    process.chdir(cwd);
+    return await runJSFunction(fn, step.js!.args ?? {}, env, timeoutMs);
+  } finally {
+    process.chdir(prevCwd);
+  }
 }
 
 export async function runTSModule(
