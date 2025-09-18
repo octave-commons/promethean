@@ -122,6 +122,15 @@ gantt
 #### Quick Setup
 
 ```bash
+git clone https://github.com/PrometheanAI/promethean.git
+cd promethean
+
+# Enable pnpm 9 via Corepack (required by the repo)
+corepack enable && corepack prepare pnpm@9 --activate
+
+# Install dependencies and launch all package dev servers
+pnpm install
+pnpm dev:all
 ```
 
 ### Node (pnpm required)
