@@ -315,12 +315,14 @@ function trimTrailingSlashes(value: string): string {
 }
 
 function findLastNonSlashIndex(value: string, index: number): number {
-  if (index < 0) {
-    return -1;
-  }
-  const code = value.charCodeAt(index);
-  if (code === 47 || code === 92) {
-    return findLastNonSlashIndex(value, index - 1);
-  }
-  return index;
+  const searchLength = Math.min(Math.max(index + 1, 0), value.length);
+  return searchLength <= 0
+    ? -1
+    : Array.from(value.slice(0, searchLength)).reduceRight<number>(
+        (candidate, character, currentIndex) =>
+          candidate >= 0 || character === "/" || character === "\\"
+            ? candidate
+            : currentIndex,
+        -1,
+      );
 }
