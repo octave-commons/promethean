@@ -702,31 +702,6 @@ importers:
         specifier: ^8.5.9
         version: 8.18.1
 
-  packages/chrome-debugger-mcp:
-    dependencies:
-      '@modelcontextprotocol/sdk':
-        specifier: ^0.4.0
-        version: 0.4.0
-      chrome-remote-interface:
-        specifier: ^0.33.0
-        version: 0.33.3
-      zod:
-        specifier: ^3.23.8
-        version: 3.25.76
-    devDependencies:
-      '@types/node':
-        specifier: ^22.5.0
-        version: 22.18.1
-      ava:
-        specifier: ^6.1.2
-        version: 6.4.1(encoding@0.1.13)
-      tsx:
-        specifier: ^4.16.0
-        version: 4.20.3
-      typescript:
-        specifier: ^5.6.2
-        version: 5.9.2
-
   packages/cli:
     dependencies:
       '@promethean/compiler':
@@ -5573,9 +5548,6 @@ packages:
   '@microsoft/tsdoc@0.14.2':
     resolution: {integrity: sha512-9b8mPpKrfeGRuhFH5iO1iwCLeIIsV6+H1sRfxbkoGXIyQE2BTsPd9zqSqQJ+pv5sJ/hT5M1zvOFL02MnEezFug==}
 
-  '@modelcontextprotocol/sdk@0.4.0':
-    resolution: {integrity: sha512-79gx8xh4o9YzdbtqMukOe5WKzvEZpvBA1x8PAgJWL7J5k06+vJx8NK2kWzOazPgqnfDego7cNEO8tjai/nOPAA==}
-
   '@modelcontextprotocol/sdk@1.17.5':
     resolution: {integrity: sha512-QakrKIGniGuRVfWBdMsDea/dx1PNE739QJ7gCM41s9q+qaCYTHCdsIBXQVVXry3mfWAiaM9kT22Hyz53Uw8mfg==}
     engines: {node: '>=18'}
@@ -7122,10 +7094,6 @@ packages:
     engines: {node: '>=20'}
     hasBin: true
 
-  chrome-remote-interface@0.33.3:
-    resolution: {integrity: sha512-zNnn0prUL86Teru6UCAZ1yU1XeXljHl3gj7OrfPcarEfU62OUU4IujDPdTDW3dAWwRqN3ZMG/Chhkh2gPL/wiw==}
-    hasBin: true
-
   chromium-bidi@7.2.0:
     resolution: {integrity: sha512-gREyhyBstermK+0RbcJLbFhcQctg92AGgDe/h/taMJEOLRdtSswBAO9KmvltFSQWgM2LrwWu5SIuEUbdm3JsyQ==}
     peerDependencies:
@@ -7230,9 +7198,6 @@ packages:
   commander@14.0.0:
     resolution: {integrity: sha512-2uM9rYjPvyq39NwLRqaiLtWHyDC1FvryJDa2ATTVims5YAS4PupsEQsDvP14FqhFr0P49CYDugi59xaxJlTXRA==}
     engines: {node: '>=20'}
-
-  commander@2.11.0:
-    resolution: {integrity: sha512-b0553uYA5YAEGgyYIGYROzKQ7X5RAqedkfjiZxwi0kL1g3bOaBNNZfYkzt/CL0umgD5wc9Jec2FbB98CjkMRvQ==}
 
   commander@2.15.1:
     resolution: {integrity: sha512-VlfT9F3V0v+jr4yxPc5gg9s62/fIVWsd2Bk2iD435um1NlGMYdVCq+MjcXnhYq2icNOizHr1kK+5TI6H0Hy0ag==}
@@ -13204,12 +13169,6 @@ snapshots:
 
   '@microsoft/tsdoc@0.14.2': {}
 
-  '@modelcontextprotocol/sdk@0.4.0':
-    dependencies:
-      content-type: 1.0.5
-      raw-body: 3.0.1
-      zod: 3.25.76
-
   '@modelcontextprotocol/sdk@1.17.5':
     dependencies:
       ajv: 6.12.6
@@ -15168,14 +15127,6 @@ snapshots:
       chromadb-js-bindings-linux-x64-gnu: 1.0.5
       chromadb-js-bindings-win32-x64-msvc: 1.0.5
 
-  chrome-remote-interface@0.33.3:
-    dependencies:
-      commander: 2.11.0
-      ws: 7.5.10
-    transitivePeerDependencies:
-      - bufferutil
-      - utf-8-validate
-
   chromium-bidi@7.2.0(devtools-protocol@0.0.1475386):
     dependencies:
       devtools-protocol: 0.0.1475386
@@ -15270,8 +15221,6 @@ snapshots:
       delayed-stream: 1.0.0
 
   commander@14.0.0: {}
-
-  commander@2.11.0: {}
 
   commander@2.15.1: {}
 
