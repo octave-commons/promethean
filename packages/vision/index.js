@@ -1,9 +1,9 @@
 // vision service
 import express from "express";
 import { spawn } from "node:child_process";
-import { HeartbeatClient } from "../../../shared/js/heartbeat/index.js";
+import { HeartbeatClient } from "@promethean/legacy/heartbeat/index.js";
 import { WebSocketServer } from "ws";
-import { BrokerClient } from "../../../shared/js/brokerClient.js";
+import { BrokerClient } from "@promethean/legacy/brokerClient.js";
 
 export const app = express();
 

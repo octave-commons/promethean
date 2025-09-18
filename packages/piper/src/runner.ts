@@ -322,6 +322,28 @@ export async function runPipeline(
           }
         }
 
+        // Ensure parent dirs only for truly static outputs (no globs, no negation).
+        // Matches: ?, *, [, ], {, }, (, ) or leading '!'.
+        const dynRe = /(^!)|[?*\[\]{}()]/;
+        try {
+          const dirs = new Set<string>();
+          for (const out of s.outputs) {
+            if (dynRe.test(out)) continue;
+            const dir = path.resolve(cwd, path.dirname(out));
+            dirs.add(dir);
+          }
+          for (const dir of dirs) {
+            await ensureDir(dir);
+          }
+        } catch (e) {
+          const msg = e instanceof Error ? e.message : String(e);
+          return {
+            code: 1,
+            stdout: "",
+            stderr: `failed to ensure output directories: ${msg}`,
+          } as const;
+        }
+
         const envMerged = {
           ...(s.env || {}),
           ...(opts.extraEnv || {}),
