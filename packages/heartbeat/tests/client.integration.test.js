@@ -1,11 +1,11 @@
 // integration
 import test from "ava";
-import { installInMemoryPersistence } from "@shared/ts/dist/test-utils/persistence.js";
+import { installInMemoryPersistence } from "@promethean/test-utils/persistence.js";
 import path from "path";
 import { fileURLToPath } from "url";
 // No real broker; use memory broker via BrokerClient memory:// scheme
 import { start, stop } from "../index.js";
-import { HeartbeatClient } from "../../../../shared/js/heartbeat/index.js";
+import { HeartbeatClient } from "@promethean/legacy/heartbeat/index.js";
 
 let pers;
 let brokerPort;

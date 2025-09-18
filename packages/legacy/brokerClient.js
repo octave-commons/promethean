@@ -28,7 +28,7 @@ export class BrokerClient {
       if (this.url.startsWith("memory://")) {
         // Lazy import memory broker for tests
         const ns = this.url.slice("memory://".length) || "default";
-        import("@shared/ts/dist/test-utils/broker.js")
+        import("@promethean/test-utils/broker.js")
           .then((m) => {
             this._memory = { ns, broker: m.getMemoryBroker(ns) };
             resolve();

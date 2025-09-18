@@ -2,7 +2,7 @@ import test from "ava";
 import {
   getMemoryBroker,
   resetMemoryBroker,
-} from "@shared/ts/dist/test-utils/broker.js";
+} from "@promethean/test-utils/broker.js";
 
 test("memory broker task produces vision-capture event", async (t) => {
   resetMemoryBroker("vision");
