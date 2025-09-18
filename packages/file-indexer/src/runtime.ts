@@ -293,16 +293,39 @@ function normalizeIgnoreSegments(
   return Array.from(ignoreDirs)
     .map((value) => value?.trim())
     .filter(isNonEmpty)
-    .map(trimTrailingSlashes)
+    .map(trimTrailingSeparators)
+    //.map(trimTrailingSlashes)
     .filter(isNonEmpty)
     .map((value) =>
       path.isAbsolute(value) ? path.relative(root, value) : value,
     )
-    .map((value) => value.replace(/^[.\\/]+/, ""))
+    .map(trimLeadingDotsAndSeparators)
     .filter(isNonEmpty)
     .map((value) => path.normalize(value))
     .filter((value) => value.length > 0 && !value.startsWith(".."))
     .map((value) => value.split(path.sep).filter(Boolean));
+}
+
+function trimTrailingSeparators(value: string): string {
+  if (value.length === 0) {
+    return value;
+  }
+  const code = value.charCodeAt(value.length - 1);
+  if (code === 47 || code === 92) {
+    return trimTrailingSeparators(value.slice(0, -1));
+  }
+  return value;
+}
+
+function trimLeadingDotsAndSeparators(value: string): string {
+  if (value.length === 0) {
+    return value;
+  }
+  const code = value.charCodeAt(0);
+  if (code === 46 || code === 47 || code === 92) {
+    return trimLeadingDotsAndSeparators(value.slice(1));
+  }
+  return value;
 }
 
 function isNonEmpty(value: string | undefined | null): value is string {

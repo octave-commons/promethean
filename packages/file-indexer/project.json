@@ -20,6 +20,7 @@
     },
     "test": {
       "executor": "nx:run-commands",
+      "dependsOn": ["build"],
       "options": {
         "command": "ava",
         "cwd": "packages/file-indexer"
