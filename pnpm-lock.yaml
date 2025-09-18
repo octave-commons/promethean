@@ -1922,6 +1922,12 @@ importers:
         specifier: ^8.5.9
         version: 8.18.1
 
+  packages/file-indexer:
+    dependencies:
+      '@promethean/utils':
+        specifier: workspace:*
+        version: link:../utils
+
   packages/file-watcher:
     dependencies:
       '@promethean/embedding':
