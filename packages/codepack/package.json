@@ -4,7 +4,8 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "test": "echo 'no tests'",
+    "build": "tsc -p tsconfig.json",
+    "test": "pnpm run build && ava 'dist/tests/**/*.test.js' --config ../../config/ava.config.mjs",
     "lint": "pnpm exec eslint .",
     "code:01-extract": "tsx src/01-extract.ts --dir docs/unique",
     "code:02-embed": "tsx src/02-embed.ts",
@@ -21,6 +22,7 @@
     "remark-parse": "11.0.0",
     "unified": "11.0.4",
     "unist-util-visit": "5.0.0",
-    "zod": "3.23.8"
+    "zod": "3.23.8",
+    "@promethean/file-indexer": "workspace:*"
   }
 }

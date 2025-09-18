@@ -32,7 +32,6 @@
     "dotenv": "^17.2.1",
     "duckduckgo-search": "^1.0.7",
     "execa": "^9.6.0",
-    "fast-glob": "^3.3.2",
     "fastify": "^5.3.2",
     "ignore": "^7.0.5",
     "jose": "^5.10.0",
@@ -41,7 +40,8 @@
     "nanoid": "^5.0.7",
     "node-fetch": "^3.3.2",
     "node-pty": "^1.0.0",
-    "uuid": "^9.0.1"
+    "uuid": "^9.0.1",
+    "@promethean/file-indexer": "workspace:*"
   },
   "devDependencies": {
     "@promethean/test-utils": "workspace:*",

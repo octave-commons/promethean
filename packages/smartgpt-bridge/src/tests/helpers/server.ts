@@ -230,12 +230,15 @@ export const withServer = async (
   } finally {
     await app.close();
     if (mms) await mms.stop();
-    try {
-      const { getMongoClient } = await import(
-        "@promethean/persistence/clients.js"
-      );
-      const mongo = await getMongoClient();
-      await mongo.close();
-    } catch {}
+    const mongoUri = String(process.env.MONGODB_URI || "");
+    if (mongoUri && mongoUri !== "disabled") {
+      try {
+        const { getMongoClient } = await import(
+          "@promethean/persistence/clients.js"
+        );
+        const mongo = await getMongoClient();
+        await mongo.close();
+      } catch {}
+    }
   }
 };

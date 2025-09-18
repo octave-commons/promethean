@@ -7,7 +7,7 @@ import { Writable } from "node:stream";
 import test from "ava";
 import { createLogger, sleep } from "@promethean/utils";
 
-test("writes logs to file when LOG_FILE is set", async (t) => {
+test.serial("writes logs to file when LOG_FILE is set", async (t) => {
   const file = path.join(os.tmpdir(), `smartgpt-log-${Date.now()}.log`);
   process.env.LOG_FILE = file;
   const { buildLogStream } = await import(`../../log-stream.js?${Date.now()}`);
@@ -31,7 +31,7 @@ test("writes logs to file when LOG_FILE is set", async (t) => {
   delete process.env.LOG_FILE;
 });
 
-test("falls back to stdout when log file stream errors", async (t) => {
+test.serial("falls back to stdout when log file stream errors", async (t) => {
   process.env.LOG_FILE = path.join(
     os.tmpdir(),
     `smartgpt-log-${Date.now()}.log`,
