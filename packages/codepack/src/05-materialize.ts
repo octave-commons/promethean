@@ -28,10 +28,10 @@ async function exists(p: string) {
 }
 
 async function main() {
-  const blocksPath = path.resolve(args["--blocks"]);
-  const namesPath = path.resolve(args["--names"]);
-  const outRoot = path.resolve(args["--out"]);
-  const dry = args["--dry-run"] === "true";
+  const blocksPath = path.resolve(args["--blocks"] ?? ".cache/codepack/blocks");
+  const namesPath = path.resolve(args["--names"] ?? ".cache/codepack/names");
+  const outRoot = path.resolve(args["--out"] ?? "out/code_groups");
+  const dry = (args["--dry-run"] ?? "false") === "true";
 
   const blockCache = await openLevelCache<CodeBlock>({
     path: blocksPath,

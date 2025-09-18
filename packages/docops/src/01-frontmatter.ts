@@ -7,7 +7,8 @@ import { pathToFileURL } from "node:url";
 import matter from "gray-matter";
 import { z } from "zod";
 import ollama from "ollama";
-import { listFilesRec } from "@promethean/utils";
+import { scanFiles } from "@promethean/file-indexer";
+import type { IndexedFile, ScanProgress } from "@promethean/file-indexer";
 
 import { openDB } from "./db.js";
 import { parseArgs, randomUUID } from "./utils.js";
@@ -161,58 +162,64 @@ export async function runFrontmatter(
       }),
     ]).then(() => undefined);
 
-  const processFile = (fpath: string) =>
-    fs.readFile(fpath, "utf8").then((raw) => {
-      const gm = matter(raw);
-      const base = ensureBaseFront(fpath, (gm.data || {}) as Front);
-      const hasAll =
-        Boolean(base.filename) &&
-        Boolean(base.description) &&
-        Boolean(base.tags && base.tags.length);
+  const processFile = (fpath: string, raw: string) => {
+    const gm = matter(raw);
+    const base = ensureBaseFront(fpath, (gm.data || {}) as Front);
+    const hasAll =
+      Boolean(base.filename) &&
+      Boolean(base.description) &&
+      Boolean(base.tags && base.tags.length);
 
-      const preview = gm.content.slice(0, 4000);
+    const preview = gm.content.slice(0, 4000);
 
-      // Single-shot model call; fallback to derived values on failure
-      const genP = hasAll
-        ? Promise.resolve<Partial<z.infer<typeof GenSchema>>>({})
-        : askModel(GEN_MODEL, buildPrompt(fpath, base, preview)).then((obj) => {
-            const valid = validateGen(obj);
-            return valid ?? {};
-          });
+    const genP = hasAll
+      ? Promise.resolve<Partial<z.infer<typeof GenSchema>>>({})
+      : askModel(GEN_MODEL, buildPrompt(fpath, base, preview)).then((obj) => {
+          const valid = validateGen(obj);
+          return valid ?? {};
+        });
 
-      return genP.then((gen) => {
-        const next = mergeFront(base, gen, fpath);
+    return genP.then((gen) => {
+      const next = mergeFront(base, gen, fpath);
 
-        // Only write if anything actually changed
-        const changed =
-          next.uuid !== (gm.data as Front)?.uuid ||
-          next.created_at !== (gm.data as Front)?.created_at ||
-          next.filename !== (gm.data as Front)?.filename ||
-          next.description !== (gm.data as Front)?.description ||
-          JSON.stringify(uniq(next.tags)) !==
-            JSON.stringify(uniq((gm.data as Front)?.tags));
+      const changed =
+        next.uuid !== (gm.data as Front)?.uuid ||
+        next.created_at !== (gm.data as Front)?.created_at ||
+        next.filename !== (gm.data as Front)?.filename ||
+        next.description !== (gm.data as Front)?.description ||
+        JSON.stringify(uniq(next.tags)) !==
+          JSON.stringify(uniq((gm.data as Front)?.tags));
 
-        return (
-          changed
-            ? writeFrontmatter(fpath, gm.content, next)
-            : Promise.resolve()
-        )
-          .then(() => persistKV(next.uuid!, fpath, next))
-          .then(() => undefined);
-      });
+      return (
+        changed ? writeFrontmatter(fpath, gm.content, next) : Promise.resolve()
+      )
+        .then(() => persistKV(next.uuid!, fpath, next))
+        .then(() => undefined);
     });
+  };
 
-  let files = await listFilesRec(ROOT, EXTS);
-  if (opts.files && opts.files.length) {
-    const wanted = new Set(opts.files.map((p) => path.resolve(p)));
-    files = files.filter((f: string) => wanted.has(path.resolve(f)));
-  }
+  const wanted =
+    opts.files && opts.files.length
+      ? new Set(opts.files.map((p) => path.resolve(p)))
+      : null;
   let done = 0;
-  for (const f of files) {
-    await processFile(f);
-    done++;
-    onProgress?.({ step: "frontmatter", done, total: files.length });
-  }
+  await scanFiles({
+    root: ROOT,
+    exts: EXTS,
+    readContent: true,
+    onFile: async (file: IndexedFile, progress: ScanProgress) => {
+      const abs = path.resolve(file.path);
+      if (wanted && !wanted.has(abs)) return;
+      const raw = file.content ?? (await fs.readFile(abs, "utf8"));
+      await processFile(abs, raw);
+      done++;
+      onProgress?.({
+        step: "frontmatter",
+        done,
+        total: wanted ? wanted.size : progress.total,
+      });
+    },
+  });
 }
 const isDirect =
   !!process.argv[1] && pathToFileURL(process.argv[1]).href === import.meta.url;

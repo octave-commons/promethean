@@ -35,6 +35,7 @@
     "zod": "^4.1.5",
     "@promethean/fs": "workspace:*",
     "@promethean/utils": "workspace:*",
-    "@promethean/docops-frontend": "workspace:*"
+    "@promethean/docops-frontend": "workspace:*",
+    "@promethean/file-indexer": "workspace:*"
   }
 }
