@@ -99,12 +99,28 @@ const ensureOkJson = async <T>(response: Response): Promise<T> => {
   return (await response.json()) as T;
 };
 
+const toPathSegments = (value: string | undefined | null): string[] =>
+  value ? value.split("/").filter(Boolean) : [];
+
+const joinPathSegments = (segments: string[]): string =>
+  segments.length > 0 ? `/${segments.join("/")}` : "/";
+
 const buildUrl = (
   baseUrl: string,
+  baseSegments: readonly string[],
+  prefixSegments: readonly string[],
   path: string,
   query?: Record<string, unknown>,
 ): string => {
-  const url = new URL(path, baseUrl);
+  const url = new URL(baseUrl);
+  const segments = [
+    ...baseSegments,
+    ...prefixSegments,
+    ...toPathSegments(path),
+  ];
+  url.pathname = joinPathSegments(segments);
+  url.search = "";
+  url.hash = "";
   if (query && Object.keys(query).length > 0) {
     const pairs = toPairs(query);
     if (pairs.length > 0) {
@@ -140,6 +156,13 @@ export const createSmartGptBridgeV1Client = (
     );
   }
   const baseHeaders = { ...(config.defaultHeaders ?? {}) };
+  const baseUrl = new URL(config.baseUrl);
+  const baseSegments = toPathSegments(baseUrl.pathname);
+  baseUrl.pathname = "/";
+  baseUrl.search = "";
+  baseUrl.hash = "";
+  const normalizedBaseUrl = baseUrl.toString();
+  const prefixSegments = toPathSegments(config.pathPrefix ?? "");
 
   const withSignal = (init: RequestInit, signal?: AbortSignal): RequestInit =>
     signal ? { ...init, signal } : init;
@@ -150,7 +173,13 @@ export const createSmartGptBridgeV1Client = (
     query?: Record<string, unknown>,
     signal?: AbortSignal,
   ): Promise<T> => {
-    const url = buildUrl(config.baseUrl, path, query);
+    const url = buildUrl(
+      normalizedBaseUrl,
+      baseSegments,
+      prefixSegments,
+      path,
+      query,
+    );
     const response = await fetchImpl(url, withSignal(init, signal));
     return ensureOkJson<T>(response);
   };
@@ -161,7 +190,13 @@ export const createSmartGptBridgeV1Client = (
     query?: Record<string, unknown>,
     signal?: AbortSignal,
   ): Promise<Response> => {
-    const url = buildUrl(config.baseUrl, path, query);
+    const url = buildUrl(
+      normalizedBaseUrl,
+      baseSegments,
+      prefixSegments,
+      path,
+      query,
+    );
     const response = await fetchImpl(url, withSignal(init, signal));
     if (!response.ok) {
       const body = await parseBody(response);

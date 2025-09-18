@@ -58,9 +58,26 @@ test("listFiles encodes path segments and filters query params", async (t) => {
   t.is(calls.length, 1);
   t.is(
     calls[0]?.input,
-    "https://bridge.test/v1/files/src/index.ts?tree=true&depth=1",
+    "https://bridge.test/api/v1/files/src/index.ts?tree=true&depth=1",
   );
   t.is(calls[0]?.init?.method, "GET");
+});
+
+test("respects optional path prefix for all requests", async (t) => {
+  const calls: Array<string> = [];
+  const fetchStub: typeof fetch = async (input) => {
+    calls.push(typeof input === "string" ? input : input.toString());
+    return jsonResponse({ ok: true, agents: [] });
+  };
+  const client = createSmartGptBridgeV1Client({
+    baseUrl: "https://bridge.test/bridge", // base includes its own path
+    pathPrefix: "/api", // optional prefix should be appended after base path
+    fetchImpl: fetchStub,
+  });
+
+  await client.listAgents();
+
+  t.deepEqual(calls, ["https://bridge.test/bridge/api/v1/agents"]);
 });
 
 test("runCommand surfaces SmartGptBridgeError on failure", async (t) => {
