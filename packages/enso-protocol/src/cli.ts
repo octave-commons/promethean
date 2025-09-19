@@ -2,12 +2,14 @@
 import { argv, exit } from "node:process";
 import { ContextRegistry } from "./registry.js";
 import type { ContextInit } from "./types/context.js";
+import { runTwoAgentConversation } from "./conversation.js";
 
 export interface CliDependencies {
   registry?: ContextRegistry;
   log?: (message: string) => void;
   error?: (message: string) => void;
   exit?: (code: number) => never;
+  args?: string[];
 }
 
 const defaultRegistry = new ContextRegistry();
@@ -47,6 +49,7 @@ Commands:
   help                  Show this message
   list-sources          Print registered data sources
   create-demo-context   Register a demo source and emit a context snapshot
+  two-agent-chat        Start a dual-agent conversation (optional arg: agentA,agentB)
 `);
 }
 
@@ -66,6 +69,15 @@ export async function runCliCommand(command: string, deps: CliDependencies = {})
     case "create-demo-context":
       await createDemoContext(registry, log);
       return;
+    case "two-agent-chat": {
+      const agentNames = deps.args?.[0] ? deps.args[0].split(",") : undefined;
+      await runTwoAgentConversation({
+        ...(agentNames ? { agentNames } : {}),
+        log,
+        error,
+      });
+      return;
+    }
     default:
       error(`Unknown command: ${command}`);
       exitFn(1);
@@ -73,8 +85,8 @@ export async function runCliCommand(command: string, deps: CliDependencies = {})
 }
 
 async function main(): Promise<void> {
-  const [command = "help"] = argv.slice(2);
-  await runCliCommand(command);
+  const [command = "help", ...args] = argv.slice(2);
+  await runCliCommand(command, { args });
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {
