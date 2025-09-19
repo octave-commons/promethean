@@ -17,14 +17,17 @@ test("local transport negotiates capabilities and emits presence", async (t) => 
   const client = new EnsoClient(new ContextRegistry());
   const acceptedEvents: Envelope[] = [];
   const presenceEvents: Envelope[] = [];
+  const presenceParts: Envelope[] = [];
   client.on("event:privacy.accepted", (env) => acceptedEvents.push(env));
   client.on("event:presence.join", (env) => presenceEvents.push(env));
+  client.on("event:presence.part", (env) => presenceParts.push(env));
 
-  const { session } = connectLocal(client, server, HELLO, {
+  const connection = connectLocal(client, server, HELLO, {
     adjustCapabilities: (caps) => [...caps, "can.context.apply"],
     privacyProfile: "persistent",
     wantsE2E: true,
   });
+  const { session } = connection;
 
   t.is(acceptedEvents.length, 1);
   t.is(presenceEvents.length, 1);
@@ -51,13 +54,19 @@ test("local transport negotiates capabilities and emits presence", async (t) => 
 
   await client.post({ role: "human", parts: [{ kind: "text", text: "hello" }] });
   t.is(received.length, 1);
+
+  connection.disconnect();
+  t.is(server.getSessionInfo(session.id), undefined);
+  t.is(presenceParts.length, 1);
+  t.like(presenceParts[0]?.payload, { session: session.id });
 });
 
 test("local transport preserves capability enforcement", async (t) => {
   const server = new EnsoServer();
   const client = new EnsoClient(new ContextRegistry());
-  connectLocal(client, server, HELLO);
+  const connection = connectLocal(client, server, HELLO);
   await t.throwsAsync(() => client.assets.putFile("/tmp/demo", "text/plain"), {
     message: /missing capability: can.asset.put/,
   });
+  connection.disconnect();
 });

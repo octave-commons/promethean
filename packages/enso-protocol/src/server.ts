@@ -25,6 +25,7 @@ interface SessionRecord {
   agent?: HelloCaps["agent"];
   cache?: HelloCaps["cache"];
   connectedAt: string;
+  auditLog: Envelope[];
 }
 
 /** Result of a successful handshake. */
@@ -70,6 +71,7 @@ export class EnsoServer extends EventEmitter {
   private readonly validate: (raw: unknown) => Envelope;
   private readonly sessions = new Map<string, SessionRecord>();
   private readonly guardrails: GuardrailManager;
+  private readonly complianceLog: Envelope[] = [];
 
   constructor(options: EnsoServerOptions = {}) {
     super();
@@ -107,6 +109,7 @@ export class EnsoServer extends EventEmitter {
       agent: hello.agent,
       cache: hello.cache,
       connectedAt: new Date().toISOString(),
+      auditLog: [],
     };
     this.sessions.set(session.id, record);
     this.guardrails.setEvaluationMode(session.id, options.evaluationMode ?? false);
@@ -117,10 +120,14 @@ export class EnsoServer extends EventEmitter {
       agent: hello.agent,
       cache: hello.cache,
     });
+    record.auditLog.push(accepted);
+    this.complianceLog.push(accepted);
     const presence = mkEnvelope("presence.join", {
       session: session.id,
       caps: negotiatedCaps,
     });
+    record.auditLog.push(presence);
+    this.complianceLog.push(presence);
     this.emit("message", session, presence);
     return { session, accepted, presence };
   }
@@ -134,12 +141,33 @@ export class EnsoServer extends EventEmitter {
     return {
       ...record,
       capabilities: [...record.capabilities],
+      auditLog: [...record.auditLog],
     };
+  }
+
+  /** Retrieve an immutable copy of the compliance log. */
+  getComplianceLog(): Envelope[] {
+    return [...this.complianceLog];
   }
 
   /** Toggle evaluation mode guardrails for a session. */
   enableEvaluationMode(sessionId: string, enabled: boolean): void {
     this.guardrails.setEvaluationMode(sessionId, enabled);
+  }
+
+  /**
+   * Disconnect a session, emit `presence.part`, and purge stored state.
+   */
+  disconnectSession(sessionId: string, reason: string = "client-closed"): void {
+    const record = this.sessions.get(sessionId);
+    if (!record) {
+      return;
+    }
+    this.guardrails.setEvaluationMode(sessionId, false);
+    const part = mkEnvelope("presence.part", { session: sessionId, reason });
+    this.recordAudit(sessionId, part);
+    this.emit("message", { id: sessionId }, part);
+    this.sessions.delete(sessionId);
   }
 
   /** Dispatch an inbound envelope through the registered router. */
@@ -150,6 +178,7 @@ export class EnsoServer extends EventEmitter {
         const payload = envelope.payload as { callId?: string } | undefined;
         if (payload?.callId) {
           this.guardrails.recordRationale(session.id, payload.callId, payload);
+          this.recordAudit(session.id, envelope);
         }
       }
       if (envelope.type === "tool.call") {
@@ -167,14 +196,26 @@ export class EnsoServer extends EventEmitter {
         if (callId) {
           this.guardrails.consumeRationale(session.id, callId);
         }
+        this.recordAudit(session.id, envelope);
       }
     }
     await this.router.handle(
       {
         sessionId: session.id,
-        send: (response) => this.emit("message", session, response),
+        send: (response) => {
+          this.recordAudit(session.id, response);
+          this.emit("message", session, response);
+        },
       },
       envelope,
     );
+  }
+
+  private recordAudit(sessionId: string, envelope: Envelope): void {
+    const record = this.sessions.get(sessionId);
+    if (record) {
+      record.auditLog.push(envelope);
+    }
+    this.complianceLog.push(envelope);
   }
 }
