@@ -17,9 +17,6 @@
 import { promises as fs } from "fs";
 import * as path from "path";
 import matter from "gray-matter";
-import { unified } from "unified";
-import remarkParse from "remark-parse";
-import { visit } from "unist-util-visit";
 import { z } from "zod";
 import * as yaml from "yaml";
 import {
@@ -29,6 +26,10 @@ import {
 } from "@promethean/utils";
 import { listFilesRec } from "@promethean/utils/list-files-rec";
 import { openLevelCache } from "@promethean/level-cache";
+import {
+  parseMarkdownChunks,
+  type MarkdownChunk,
+} from "@promethean/markdown/chunking.js";
 
 type Front = {
   uuid?: string;
@@ -47,17 +48,11 @@ type Front = {
   [k: string]: any;
 };
 
-type Chunk = {
+type Chunk = MarkdownChunk & {
   id: string; // docUuid:chunkIndex
   docUuid: string;
   docPath: string;
-  startLine: number;
-  startCol: number;
-  endLine: number;
-  endCol: number;
-  text: string;
   embedding?: number[];
-  title?: string; // closest heading if any
 };
 
 type QueryHit = {
@@ -223,112 +218,6 @@ class InMemoryChroma {
     scores.sort((a, b) => b.score - a.score);
     return scores.slice(0, k);
   }
-}
-
-function parseMarkdownChunks(markdown: string): Array<{
-  text: string;
-  startLine: number;
-  startCol: number;
-  endLine: number;
-  endCol: number;
-  title?: string;
-}> {
-  const ast = unified().use(remarkParse).parse(markdown) as any;
-  const chunks: Array<{
-    text: string;
-    startLine: number;
-    startCol: number;
-    endLine: number;
-    endCol: number;
-    title?: string;
-  }> = [];
-
-  let currentHeading: string | undefined;
-
-  visit(ast, (node: any) => {
-    if (!node || !node.type) return;
-
-    if (node.type === "heading") {
-      currentHeading = (node.children || [])
-        .filter((c: any) => c.type === "text" || c.value)
-        .map(
-          (c: any) =>
-            c.value || c.children?.map((cc: any) => cc.value).join(" ") || "",
-        )
-        .join(" ")
-        .trim();
-    }
-
-    // chunk paragraphs, list items, code blocks
-    if (["paragraph", "listItem", "code"].includes(node.type)) {
-      const pos = node.position;
-      if (!pos) return;
-      const raw = node.type === "code" ? node.value || "" : extractText(node);
-      const trimmed = (raw || "").trim();
-      if (!trimmed) return;
-
-      // If a chunk is extremely long, split on sentences to keep embedding sane
-      const sentencey = sentenceSplit(trimmed, 1200);
-      for (const s of sentencey) {
-        chunks.push({
-          text: s,
-          startLine: pos.start.line,
-          startCol: pos.start.column,
-          endLine: pos.end.line,
-          endCol: pos.end.column,
-          title: currentHeading,
-        });
-      }
-    }
-  });
-
-  // fallback: whole doc as one chunk if we found nothing
-  if (chunks.length === 0 && markdown.trim().length > 0) {
-    chunks.push({
-      text: markdown.trim(),
-      startLine: 1,
-      startCol: 1,
-      endLine: markdown.split("\n").length,
-      endCol: 1,
-      title: undefined,
-    });
-  }
-
-  return chunks;
-}
-
-function extractText(node: any): string {
-  let out = "";
-  visit(node, (n: any) => {
-    if (n.type === "text") out += n.value ?? "";
-  });
-  return out;
-}
-
-function sentenceSplit(s: string, maxLen: number): string[] {
-  if (s.length <= maxLen) return [s];
-  const parts = s.split(/(?<=[\.\!\?])\s+/);
-  const chunks: string[] = [];
-  let buf = "";
-  for (const p of parts) {
-    if ((buf + " " + p).trim().length > maxLen) {
-      if (buf) chunks.push(buf.trim());
-      buf = p;
-    } else {
-      buf = (buf ? buf + " " : "") + p;
-    }
-  }
-  if (buf) chunks.push(buf.trim());
-  // still too long? hard wrap
-  const final: string[] = [];
-  for (const c of chunks) {
-    if (c.length <= maxLen) final.push(c);
-    else {
-      for (let i = 0; i < c.length; i += maxLen)
-        final.push(c.slice(i, i + maxLen));
-    }
-  }
-  return final;
 }
 
 function frontToYAML(front: Front): string {
@@ -497,15 +386,10 @@ async function main() {
     const uuid = fm.uuid!;
     const chunks = parseMarkdownChunks(gm.content).map(
       (c, i): Chunk => ({
+        ...c,
         id: `${uuid}:${i}`,
         docUuid: uuid,
         docPath: f,
-        startLine: c.startLine,
-        startCol: c.startCol,
-        endLine: c.endLine,
-        endCol: c.endCol,
-        text: c.text,
-        title: c.title,
       }),
     );
 
