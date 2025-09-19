@@ -36,7 +36,7 @@ test("mount<%= className %>Component renders heading and message", (t) => {
 });
 
 test("define<%= className %>Component registers once", (t) => {
-  const registry = new CustomElementRegistry();
+  const registry = customElements;
   const first = define<%= className %>Component(registry);
   const second = define<%= className %>Component(registry);
   t.is(first, second);
