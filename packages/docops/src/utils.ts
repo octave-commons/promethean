@@ -6,7 +6,7 @@ import { createWriteStream } from "node:fs";
 
 import * as yaml from "yaml";
 
-import { Front } from "./types.js";
+import type { Front } from "./types.js";
 export {
   stripGeneratedSections,
   START_MARK,
@@ -69,7 +69,7 @@ export function frontToYAML(front: Front): string {
   return yaml.stringify(front, { indent: 2, simpleKeys: true });
 }
 
-export { parseMarkdownChunks } from "@promethean/markdown/chunking.js";
+export { parseMarkdownChunks } from "@promethean/markdown";
 
 export function relMdLink(
   fromFileAbs: string,
