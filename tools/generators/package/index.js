@@ -37,6 +37,9 @@ export default async function generator(tree, schema) {
     serviceName: normalized.fileName,
     serviceTitle,
   });
+  if (!preset) {
+    tree.delete(joinPathFragments(projectRoot, "fastify-service"));
+  }
   // templates include pipelines.json for DocOps-style pipelines
   await formatFiles(tree);
 }
