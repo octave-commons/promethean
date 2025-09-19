@@ -4,10 +4,16 @@ Promethean packages are scaffolded with Nx so every service, library, and fronte
 
 ## Nx generator presets
 
+### Prerequisites
+
+- Ensure `tools/generators/package` exists in the workspace.
+- Confirm the generator path is registered under the `"plugins"` key in `nx.json`.
+- Verify a base TypeScript config is present at `config/tsconfig.base.json`.
+
 Run the shared generator from the repository root:
 
 ```bash
-nx g tools:package <name> --preset <type>
+pnpm exec nx g tools:package <name> --preset <type>
 ```
 
 Use one of the supported presets:
