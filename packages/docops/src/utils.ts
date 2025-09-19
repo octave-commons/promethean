@@ -1,6 +1,12 @@
 /* eslint-disable functional/no-let, functional/no-loop-statements, functional/immutable-data, functional/prefer-immutable-types, @typescript-eslint/prefer-readonly-parameter-types, @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unnecessary-type-assertion, max-lines-per-function, sonarjs/cognitive-complexity */
 import { promises as fs } from "fs";
 import * as path from "path";
+import {
+  anchorId,
+  computeFenceMap,
+  injectAnchors,
+  relMdLink,
+} from "@promethean/markdown/anchors.js";
 import { once } from "node:events";
 import { createWriteStream } from "node:fs";
 
@@ -18,6 +24,8 @@ export {
   END_MARK,
   randomUUID,
 } from "@promethean/utils";
+
+export { anchorId, computeFenceMap, injectAnchors, relMdLink };
 
 export const OLLAMA_URL = process.env.OLLAMA_URL ?? "http://localhost:11434";
 
@@ -164,85 +172,6 @@ export function parseMarkdownChunks(markdown: string): Chunk[] {
     });
   }
   return chunks;
-}
-
-export function relMdLink(
-  fromFileAbs: string,
-  toFileAbs: string,
-  anchor?: string,
-): string {
-  const rel = path
-    .relative(path.dirname(fromFileAbs), toFileAbs)
-    .replace(/\\/g, "/");
-  return anchor ? `${rel}#${anchor}` : rel;
-}
-
-export function anchorId(docUuid: string, line: number, col: number) {
-  return `ref-${(docUuid ?? "nouuid").slice(0, 8)}-${line}-${col}`;
-}
-
-export function computeFenceMap(lines: string[]): boolean[] {
-  const inside: boolean[] = new Array(lines.length).fill(false);
-  let inFence = false,
-    fenceChar: "`" | "~" | null = null,
-    fenceLen = 0;
-  const fenceRe = /^(\s*)(`{3,}|~{3,})(.*)$/;
-  for (let i = 0; i < lines.length; i++) {
-    const L = lines[i] ?? "";
-    if (!inFence) {
-      const m = L.match(fenceRe);
-      if (m) {
-        inFence = true;
-        const grp = m[2] ?? "";
-        fenceChar = grp[0] as any;
-        fenceLen = grp.length;
-        inside[i] = true;
-        continue;
-      }
-    } else {
-      inside[i] = true;
-      const m = L.match(fenceRe);
-      if (m) {
-        const grp = m[2] ?? "";
-        if ((grp[0] as any) === fenceChar && grp.length >= fenceLen) {
-          inFence = false;
-        }
-      }
-    }
-  }
-  return inside;
-}
-
-export function injectAnchors(
-  content: string,
-  want: Array<{ line: number; id: string }>,
-): string {
-  if (!want.length) return content;
-  const lines = content.split("\n");
-  const inside = computeFenceMap(lines);
-  const uniq = new Map<string, { line: number; id: string }>();
-  for (const w of want) uniq.set(`${w.line}:${w.id}`, w);
-  const anchors = Array.from(uniq.values()).sort((a, b) => a.line - b.line);
-  const hasIdOnOrNext = (idx: number, id: string) =>
-    (lines[idx] ?? "").includes(`^${id}`) ||
-    (lines[idx + 1] ?? "").trim() === `^${id}`;
-  const nextOutsideIdx = (idx: number) => {
-    let i = Math.min(idx, lines.length - 1);
-    while (i < lines.length && inside[i]) i++;
-    return i;
-  };
-  for (const { line, id } of anchors) {
-    const idx = Math.max(1, Math.min(line, lines.length)) - 1;
-    if (hasIdOnOrNext(idx, id)) continue;
-    if (inside[idx]) {
-      const j = nextOutsideIdx(idx + 1);
-      if (j >= lines.length) lines.push(`^${id}`);
-      else if (!hasIdOnOrNext(j, id)) lines.splice(j, 0, `^${id}`);
-    } else {
-      lines[idx] = (lines[idx] ?? "").replace(/\s*$/, ` ^${id}`);
-    }
-  }
-  return lines.join("\n");
 }
 
 // Replacer that avoids cycles, BigInt, gigantic strings, and serializes typed arrays sanely.
