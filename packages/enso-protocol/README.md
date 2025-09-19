@@ -226,7 +226,8 @@ pnpm --filter @promethean/enso-protocol exec node dist/cli.js help
 pnpm --filter @promethean/enso-protocol exec node dist/cli.js list-sources
 pnpm --filter @promethean/enso-protocol exec node dist/cli.js create-demo-context
 pnpm --filter @promethean/enso-protocol exec node dist/cli.js two-agent-chat duckduckgo,github
- ```
+pnpm --filter @promethean/enso-protocol exec node dist/cli.js two-agent-chat --ollama
+```
 
 When adding new features, follow the design notes in
 [`docs/design/enso-protocol/`](../../docs/design/enso-protocol/) and extend the
