@@ -30,7 +30,7 @@ long results remain accessible.
 
 ## Consent and Audit
 
-* Consent receipts document when content may be exported outside the room.
+* `consent.record` receipts document when content may be exported outside the room.
 * Transparency logs can capture `tool.call` metadata in persistent rooms.
 * Ephemeral/ghost rooms suppress detailed logging; only aggregate counters are
   retained when policy allows.
