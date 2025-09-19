@@ -45,6 +45,12 @@ export interface DataSourceMeta {
   contentHints?: { lang?: string; mime?: string; schema?: string };
 }
 
+export interface DataSourceInit
+  extends Omit<DataSourceMeta, "createdAt" | "updatedAt"> {
+  createdAt?: string;
+  updatedAt?: string;
+}
+
 export type ContextState =
   | "active"
   | "inactive"
@@ -82,6 +88,14 @@ export interface Context {
   rules?: { include?: RuleExpr[]; exclude?: RuleExpr[]; caps?: string[] };
   privacy?: { inheritRoom: boolean; messageTTLOverrideSeconds?: number };
 }
+
+export interface ContextInit
+  extends Omit<Context, "ctxId" | "createdAt" | "updatedAt"> {
+  ctxId?: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+export type ContextViewState = "active" | "standby" | "ignored";
 export interface LlmView {
   ctxId: string;
   active: DataSourceMeta[];
@@ -94,4 +108,61 @@ export interface LlmView {
     uri: string;
     mime: string;
   }>;
+}
+
+export interface ContextParticipant {
+  id: string;
+  roles?: string[];
+  groups?: string[];
+  tags?: string[];
+}
+
+export interface ContextEnvironment {
+  now: Date;
+  contextName: string;
+  contextTags?: string[];
+  roomMembers: string[];
+  participantIds: string[];
+}
+
+export interface ApprovalRequest {
+  id: string;
+  ctxId: string;
+  dataSource: DataSourceId;
+  condition: Condition;
+  reason: "soft-condition" | "hard-condition-approval";
+  prompt?: string;
+}
+
+export interface AvailabilityResult {
+  status: "granted" | "denied" | "pending";
+  approvals: ApprovalRequest[];
+  reason?: string;
+}
+
+export interface DeniedDataSource {
+  id: DataSourceId;
+  reason: string;
+}
+
+export interface ContextDiff {
+  added: DataSourceId[];
+  removed: DataSourceId[];
+  stateChanged: Array<{ id: DataSourceId; from: ContextViewState; to: ContextViewState }>;
+}
+
+export interface ContextApplication {
+  view: LlmView;
+  approvals: ApprovalRequest[];
+  denied: DeniedDataSource[];
+  diff?: ContextDiff;
+}
+
+export interface ContextApplyOptions {
+  participants: ContextParticipant[];
+  requester?: string;
+  contextTags?: string[];
+  now?: Date;
+  previousView?: LlmView;
+  includeInactive?: boolean;
 }
