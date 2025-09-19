@@ -68,7 +68,9 @@ export async function runPurge(
     exts: EXTS,
     readContent: true,
     onFile: async (file: IndexedFile, progress: ScanProgress) => {
-      const abs = path.resolve(file.path);
+      const abs = path.isAbsolute(file.path)
+        ? path.resolve(file.path)
+        : path.resolve(ROOT, file.path);
       if (wanted && !wanted.has(abs)) return;
       const rel = path.relative(process.cwd(), abs);
       const raw = file.content ?? (await fs.readFile(abs, "utf8"));

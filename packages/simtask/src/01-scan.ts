@@ -33,7 +33,11 @@ export async function collectSourceFiles(
     exts,
     collect: true,
   });
-  return (result.files ?? []).map((file) => path.resolve(file.path));
+  return (result.files ?? []).map((file) =>
+    path.isAbsolute(file.path)
+      ? path.resolve(file.path)
+      : path.resolve(resolvedRoot, file.path),
+  );
 }
 
 export async function gatherFunctionInfo(

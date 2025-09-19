@@ -36,7 +36,9 @@ export async function runRename(opts: RenameOptions) {
     exts,
     readContent: true,
     onFile: async (file: IndexedFile) => {
-      const abs = path.resolve(file.path);
+      const abs = path.isAbsolute(file.path)
+        ? path.resolve(file.path)
+        : path.resolve(ROOT, file.path);
       if (wanted && !wanted.has(abs)) return;
       const raw = file.content ?? (await fs.readFile(abs, "utf-8"));
       const fm = (matter(raw).data || {}) as Front;

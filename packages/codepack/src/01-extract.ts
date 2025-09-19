@@ -38,7 +38,9 @@ export async function collectCodeBlocks(
     exts: extSet,
     readContent: true,
     onFile: async (file: IndexedFile) => {
-      const abs = path.resolve(file.path);
+      const abs = path.isAbsolute(file.path)
+        ? path.resolve(file.path)
+        : path.resolve(root, file.path);
       const raw = file.content ?? (await fs.readFile(abs, "utf-8"));
       const { content } = matter(raw);
       const rel = relPath(root, abs);
