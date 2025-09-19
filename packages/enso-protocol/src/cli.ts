@@ -7,6 +7,7 @@ export interface CliDependencies {
   registry?: ContextRegistry;
   log?: (message: string) => void;
   error?: (message: string) => void;
+  exit?: (code: number) => never;
 }
 
 const defaultRegistry = new ContextRegistry();
@@ -53,6 +54,7 @@ export async function runCliCommand(command: string, deps: CliDependencies = {})
   const registry = deps.registry ?? defaultRegistry;
   const log = deps.log ?? console.log;
   const error = deps.error ?? console.error;
+  const exitFn = deps.exit ?? exit;
 
   switch (command) {
     case "help":
@@ -66,7 +68,7 @@ export async function runCliCommand(command: string, deps: CliDependencies = {})
       return;
     default:
       error(`Unknown command: ${command}`);
-      exit(1);
+      exitFn(1);
   }
 }
 
