@@ -78,7 +78,7 @@ test("enso client event flow", async (t) => {
   t.truthy(client.contexts.get(context.ctxId));
 });
 
-test("enso client enforces handshake before sending", (t) => {
+test("enso client enforces handshake before sending", async (t) => {
   const client = new EnsoClient(new ContextRegistry());
   const envelope: Envelope = {
     id: "evt-1",
@@ -89,8 +89,7 @@ test("enso client enforces handshake before sending", (t) => {
     type: "content.post",
     payload: {},
   };
-  const error = t.throws(() => client.send(envelope), { message: /must be connected/ });
-  t.regex(error?.message ?? "", /Client must be connected/);
+  await t.throwsAsync(() => client.send(envelope), { message: /must be connected/ });
 });
 
 test("enso client requires capabilities for actions", async (t) => {
