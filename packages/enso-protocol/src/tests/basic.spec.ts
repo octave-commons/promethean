@@ -7,8 +7,6 @@ import type {
   DataSourceInit,
 } from "../types.js";
 
-const defaultParticipants: ContextParticipant[] = [{ id: "user-1" }];
-
 test("applyContext returns active view for pinned entries", (t) => {
   const registry = new ContextRegistry();
   const source: DataSourceInit = {
