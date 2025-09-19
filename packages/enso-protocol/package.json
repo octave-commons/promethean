@@ -10,10 +10,5 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "ava": "workspace:*",
-    "c8": "workspace:*",
-    "typescript": "workspace:*"
-  }
+  "license": "GPL-3.0-only"
 }
