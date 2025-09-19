@@ -1721,6 +1721,8 @@ importers:
         specifier: 3.0.14
         version: 3.0.14
 
+  packages/enso-protocol: {}
+
   packages/event:
     dependencies:
       '@types/javascript-time-ago':
@@ -2042,6 +2044,8 @@ importers:
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
+
+  packages/fsm: {}
 
   packages/health:
     dependencies:
