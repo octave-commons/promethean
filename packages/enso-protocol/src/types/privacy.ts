@@ -11,7 +11,7 @@ export interface HelloCaps {
     name: string;
     version: string;
   };
-  privacy: {
+  privacy?: {
     profile: PrivacyProfile;
     wantsE2E?: boolean;
     allowLogging?: boolean;
@@ -23,4 +23,19 @@ export interface HelloCaps {
     supportsPartial?: boolean;
     maxBytes?: number;
   };
+}
+
+export type HelloPrivacy = NonNullable<HelloCaps["privacy"]>;
+
+export const DEFAULT_PRIVACY_PROFILE: PrivacyProfile = "pseudonymous";
+
+export function resolveHelloPrivacy(
+  hello: HelloCaps,
+  fallbackProfile: PrivacyProfile = DEFAULT_PRIVACY_PROFILE,
+): HelloPrivacy {
+  const provided = hello.privacy;
+  if (!provided) {
+    return { profile: fallbackProfile };
+  }
+  return { ...provided, profile: provided.profile ?? fallbackProfile };
 }
