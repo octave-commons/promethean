@@ -208,7 +208,9 @@ export async function runFrontmatter(
     exts: EXTS,
     readContent: true,
     onFile: async (file: IndexedFile, progress: ScanProgress) => {
-      const abs = path.resolve(file.path);
+      const abs = path.isAbsolute(file.path)
+        ? path.resolve(file.path)
+        : path.resolve(ROOT, file.path);
       if (wanted && !wanted.has(abs)) return;
       const raw = file.content ?? (await fs.readFile(abs, "utf8"));
       await processFile(abs, raw);

@@ -7,6 +7,11 @@ import { scanFiles } from "@promethean/file-indexer";
 import type { IndexedFile } from "@promethean/file-indexer";
 
 import { normalizeToRoot, isInsideRoot } from "./files.js";
+import {
+  createInclusionChecker,
+  deriveExtensions,
+  toPosixPath,
+} from "./glob.js";
 
 type SymbolEntry = {
   path: string;
@@ -32,8 +37,6 @@ function defaultExcludes(): string[] {
     : ["node_modules/**", ".git/**", "dist/**", "build/**", ".obsidian/**"];
 }
 
-const toPosixPath = (value: string) => value.split(path.sep).join("/");
-
 function toIgnoreDirs(patterns: readonly string[]): string[] {
   return patterns
     .map((raw) => raw.trim())
@@ -46,83 +49,6 @@ function toIgnoreDirs(patterns: readonly string[]): string[] {
     .map((value) => value.replace(/\/$/, ""))
     .filter((value) => value.length > 0)
     .map((value) => path.normalize(value));
-}
-
-const globSpecials = /[\\^$.*+?()[\]{}|]/g;
-const escapeRegExp = (value: string) => value.replace(globSpecials, "\\$&");
-
-function expandBraces(pattern: string): string[] {
-  const match = pattern.match(/\{([^}]+)\}/);
-  if (!match) return [pattern];
-  const raw = match[0] ?? pattern;
-  const body = match[1];
-  if (!body) return [pattern];
-  return body
-    .split(",")
-    .map((segment) => segment.trim())
-    .filter((segment) => segment.length > 0)
-    .flatMap((segment) => expandBraces(pattern.replace(raw, segment)));
-}
-
-function globToRegExp(pattern: string): RegExp {
-  const normalized = toPosixPath(pattern);
-  let regex = "";
-  for (let i = 0; i < normalized.length; i++) {
-    const char = normalized[i] ?? "";
-    if (char === "*") {
-      if (normalized[i + 1] === "*") {
-        if (normalized[i + 2] === "/") {
-          regex += "(?:.*/)?";
-          i += 2;
-        } else {
-          regex += ".*";
-          i += 1;
-        }
-      } else {
-        regex += "[^/]*";
-      }
-      continue;
-    }
-    if (char === "?") {
-      regex += "[^/]";
-      continue;
-    }
-    regex += escapeRegExp(char);
-  }
-  return new RegExp(`^${regex}$`);
-}
-
-function createInclusionChecker(
-  patterns: readonly string[],
-): (relPath: string) => boolean {
-  if (!patterns.length) return () => true;
-  const regexes = patterns.flatMap(expandBraces).map(globToRegExp);
-  return (relPath: string) =>
-    regexes.some((rx) => rx.test(toPosixPath(relPath)));
-}
-
-function deriveExtensions(
-  patterns: readonly string[],
-): Set<string> | undefined {
-  if (!patterns.length) return undefined;
-  const expanded = patterns.flatMap(expandBraces);
-  const exts = new Set<string>();
-  for (const pattern of expanded) {
-    const normalized = toPosixPath(pattern);
-    const lastSlash = normalized.lastIndexOf("/");
-    const lastDot = normalized.lastIndexOf(".");
-    if (lastDot <= lastSlash) return undefined;
-    const candidate = normalized.slice(lastDot).toLowerCase();
-    if (
-      candidate.includes("*") ||
-      candidate.includes("?") ||
-      candidate.includes("[")
-    ) {
-      return undefined;
-    }
-    exts.add(candidate);
-  }
-  return exts;
 }
 
 function kindOf(node: ts.Node): string {

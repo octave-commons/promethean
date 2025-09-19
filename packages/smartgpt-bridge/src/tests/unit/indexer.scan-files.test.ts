@@ -65,6 +65,28 @@ test("gatherRepoFiles honors include and exclude patterns", async (t) => {
   });
 });
 
+test("gatherRepoFiles rejects oversized glob inputs", async (t) => {
+  await withTmp(async (dir) => {
+    const root = path.join(dir, "repo");
+    await fs.mkdir(root, { recursive: true });
+    const longSegment = "a".repeat(1001);
+    await t.throwsAsync(
+      gatherRepoFiles(root, {
+        include: [`**/${longSegment}.ts`],
+      }),
+      { message: /maximum length/i },
+    );
+
+    const manyPatterns = Array.from({ length: 501 }, (_, i) => `file${i}.ts`);
+    await t.throwsAsync(
+      gatherRepoFiles(root, {
+        include: manyPatterns,
+      }),
+      { message: /too many glob patterns/i },
+    );
+  });
+});
+
 test.serial("symbolsIndex skips excluded directories", async (t) => {
   await withTmp(async (dir) => {
     const root = path.join(dir, "repo");
@@ -94,5 +116,22 @@ test.serial("symbolsIndex skips excluded directories", async (t) => {
     });
     t.is(result.files, 1);
     t.true(result.symbols >= 1);
+  });
+});
+
+test("symbolsIndex enforces glob limits", async (t) => {
+  await withTmp(async (dir) => {
+    const root = path.join(dir, "repo");
+    await fs.mkdir(root, { recursive: true });
+    const longSegment = "b".repeat(2000);
+    await t.throwsAsync(
+      symbolsIndex(root, { paths: [`**/${longSegment}.ts`] }),
+      { message: /maximum length/i },
+    );
+
+    const manyPatterns = Array.from({ length: 600 }, (_, i) => `file${i}.ts`);
+    await t.throwsAsync(symbolsIndex(root, { paths: manyPatterns }), {
+      message: /too many glob patterns/i,
+    });
   });
 });

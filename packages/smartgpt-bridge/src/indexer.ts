@@ -15,6 +15,11 @@ import type { IndexedFile } from "@promethean/file-indexer";
 import { logStream } from "./log-stream.js";
 import { RemoteEmbeddingFunction } from "./remoteEmbedding.js";
 import {
+  createInclusionChecker,
+  deriveExtensions,
+  toPosixPath,
+} from "./glob.js";
+import {
   loadBootstrapState,
   saveBootstrapState,
   deleteBootstrapState,
@@ -115,8 +120,6 @@ const DEFAULT_INCLUDE = [
   "**/*.{md,txt,js,ts,jsx,tsx,py,go,rs,json,yml,yaml,sh}",
 ];
 
-const toPosixPath = (value: string) => value.split(path.sep).join("/");
-
 function toIgnoreDirs(patterns: readonly string[]): string[] {
   return patterns
     .map((raw) => raw.trim())
@@ -131,95 +134,6 @@ function toIgnoreDirs(patterns: readonly string[]): string[] {
     .map((value) => path.normalize(value));
 }
 
-const globSpecials = /[\\^$.*+?()[\]{}|]/g;
-const escapeRegExp = (value: string) => value.replace(globSpecials, "\\$&");
-
-function expandBraces(pattern: string): string[] {
-  const match = pattern.match(/\{([^}]+)\}/);
-  if (!match) {
-    return [pattern];
-  }
-  const raw = match[0] ?? pattern;
-  const body = match[1];
-  if (!body) {
-    return [pattern];
-  }
-  return body
-    .split(",")
-    .map((segment) => segment.trim())
-    .filter((segment) => segment.length > 0)
-    .flatMap((segment) => expandBraces(pattern.replace(raw, segment)));
-}
-
-function globToRegExp(pattern: string): RegExp {
-  const normalized = toPosixPath(pattern);
-  let regex = "";
-  for (let i = 0; i < normalized.length; i++) {
-    const char = normalized[i] ?? "";
-    if (char === "*") {
-      if (normalized[i + 1] === "*") {
-        if (normalized[i + 2] === "/") {
-          regex += "(?:.*/)?";
-          i += 2;
-        } else {
-          regex += ".*";
-          i += 1;
-        }
-      } else {
-        regex += "[^/]*";
-      }
-      continue;
-    }
-    if (char === "?") {
-      regex += "[^/]";
-      continue;
-    }
-    regex += escapeRegExp(char);
-  }
-  return new RegExp(`^${regex}$`);
-}
-
-function createInclusionChecker(
-  patterns: readonly string[],
-): (relPath: string) => boolean {
-  if (!patterns.length) {
-    return () => true;
-  }
-  const regexes = patterns.flatMap(expandBraces).map(globToRegExp);
-  return (relPath: string) => {
-    const normalized = toPosixPath(relPath);
-    return regexes.some((rx) => rx.test(normalized));
-  };
-}
-
-function deriveExtensions(
-  patterns: readonly string[],
-): Set<string> | undefined {
-  if (!patterns.length) {
-    return SUPPORTED_EXTENSIONS;
-  }
-  const expanded = patterns.flatMap(expandBraces);
-  const exts = new Set<string>();
-  for (const pattern of expanded) {
-    const normalized = toPosixPath(pattern);
-    const lastSlash = normalized.lastIndexOf("/");
-    const lastDot = normalized.lastIndexOf(".");
-    if (lastDot <= lastSlash) {
-      return undefined;
-    }
-    const candidate = normalized.slice(lastDot).toLowerCase();
-    if (
-      candidate.includes("*") ||
-      candidate.includes("?") ||
-      candidate.includes("[")
-    ) {
-      return undefined;
-    }
-    exts.add(candidate);
-  }
-  return exts.size > 0 ? exts : SUPPORTED_EXTENSIONS;
-}
-
 export async function gatherRepoFiles(
   rootPath: string,
   options: Readonly<{
@@ -227,11 +141,12 @@ export async function gatherRepoFiles(
     exclude?: readonly string[];
   }> = {},
 ) {
+  const resolvedRoot = path.resolve(rootPath);
   const include = options.include ?? [];
   const exclude = options.exclude ?? defaultExcludes();
   const ignoreDirs = toIgnoreDirs(exclude);
   const extCandidates = include.length
-    ? deriveExtensions(include)
+    ? deriveExtensions(include, { fallback: SUPPORTED_EXTENSIONS })
     : SUPPORTED_EXTENSIONS;
   const shouldInclude = include.length
     ? createInclusionChecker(include)
@@ -242,12 +157,14 @@ export async function gatherRepoFiles(
   const files: string[] = [];
   const fileInfo: Record<string, { size: number; mtimeMs: number }> = {};
   await indexFiles({
-    root: rootPath,
+    root: resolvedRoot,
     ...(extCandidates ? { exts: extCandidates } : {}),
     ignoreDirs,
     onFile: async (file: IndexedFile) => {
-      const abs = path.resolve(file.path);
-      const rel = path.relative(rootPath, abs);
+      const abs = path.isAbsolute(file.path)
+        ? path.resolve(file.path)
+        : path.resolve(resolvedRoot, file.path);
+      const rel = path.relative(resolvedRoot, abs);
       if (rel.startsWith("..")) {
         return;
       }
