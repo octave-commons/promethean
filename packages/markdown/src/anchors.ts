@@ -75,10 +75,15 @@ export const injectAnchors = (content: string, want: ReadonlyArray<AnchorTarget>
         acc.set(`${anchor.line}:${anchor.id}`, anchor);
         return acc;
     }, new Map<string, AnchorTarget>());
-    const anchors = Array.from(uniq.values()).sort((a, b) => a.line - b.line);
+    // Process from bottom to top to avoid index drift while inserting
+    const anchors = Array.from(uniq.values()).sort((a, b) => b.line - a.line);
 
-    const hasIdOnOrNext = (idx: number, id: string) =>
-        (lines[idx] ?? '').includes(`^${id}`) || (lines[idx + 1] ?? '').trim() === `^${id}`;
+    const hasIdOnOrNext = (idx: number, id: string) => {
+        const cur = lines[idx] ?? '';
+        const next = (lines[idx + 1] ?? '').trim();
+        // exact next-line marker or end-of-line inline marker
+        return cur.trim() === `^${id}` || cur.trimEnd().endsWith(` ^${id}`) || next === `^${id}`;
+    };
 
     const nextOutsideIdx = (idx: number) => {
         let i = Math.min(idx, Math.max(lines.length - 1, 0));
