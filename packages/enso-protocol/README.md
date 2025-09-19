@@ -29,6 +29,8 @@ A reference implementation of the Promethean ENSO context protocol described in
   sign/verify helpers for [`06-security-and-guardrails.md`](../../docs/design/enso-protocol/06-security-and-guardrails.md).
 - `transport.ts` – Local transport wiring that links `EnsoClient` to
   `EnsoServer` with handshake + presence events for integration tests.
+- `guardrails.ts` – Morganna guardrail enforcement utilities used to require
+  tool rationales in evaluation mode.
 - `cli.ts` – Command-line utilities for listing sources and seeding demo
   contexts.
 - `policy.ts` – Published retention and cache policy defaults aligned with
@@ -157,6 +159,51 @@ await client.post({ role: "human", parts: [{ kind: "text", text: "hi" }] });
 
 Presence and other room events are emitted back through the client via
 `receive`, while outbound events travel through the server router.
+
+### Enforcing guardrails
+
+```ts
+import { EnsoClient, EnsoServer, connectLocal } from "@promethean/enso-protocol";
+import { randomUUID } from "node:crypto";
+
+const client = new EnsoClient();
+const server = new EnsoServer();
+const { session } = connectLocal(client, server, {
+  proto: "ENSO-1",
+  caps: ["can.tool.call"],
+  privacy: { profile: "pseudonymous" },
+});
+
+server.enableEvaluationMode(session.id, true);
+
+client.on("event:guardrail.violation", (event) => {
+  console.warn("guardrail violation", event.payload);
+});
+
+const callId = randomUUID();
+await client.send({
+  id: randomUUID(),
+  ts: new Date().toISOString(),
+  room: "local",
+  from: "tester",
+  kind: "event",
+  type: "act.rationale",
+  payload: { callId, rationale: "Need supporting evidence" },
+});
+
+await client.send({
+  id: randomUUID(),
+  ts: new Date().toISOString(),
+  room: "local",
+  from: "tester",
+  kind: "event",
+  type: "tool.call",
+  payload: { callId, provider: "native", name: "math.add", args: { a: 1, b: 2 } },
+});
+```
+
+If a rationale is omitted while evaluation mode is active, the server emits a
+`guardrail.violation` event and suppresses the tool call.
 
 ### Signing envelopes
 
