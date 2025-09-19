@@ -1,5 +1,5 @@
 import test from "ava";
-import { parseMcpServers, runTwoAgentConversation, type AgentMeta } from "../conversation.js";
+import { parseConversationArgs, parseMcpServers, runTwoAgentConversation, type AgentMeta } from "../conversation.js";
 import type { Interface } from "node:readline/promises";
 
 test("parseMcpServers extracts commands and args", (t) => {
@@ -11,6 +11,18 @@ test("parseMcpServers extracts commands and args", (t) => {
     { name: "duckduckgo", command: "duck", args: [] },
     { name: "github", command: "hub", args: ["--fast"] },
   ]);
+});
+
+test("parseConversationArgs handles flags", (t) => {
+  t.deepEqual(parseConversationArgs(["duck,github", "--ollama"]), {
+    agentNames: ["duck", "github"],
+    useOllama: true,
+  });
+  t.deepEqual(parseConversationArgs(["--ollama", "duck,github"]), {
+    agentNames: ["duck", "github"],
+    useOllama: true,
+  });
+  t.deepEqual(parseConversationArgs([]), { useOllama: false });
 });
 
 test("runTwoAgentConversation loops and exits", async (t) => {

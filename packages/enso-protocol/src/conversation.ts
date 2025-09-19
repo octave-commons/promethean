@@ -23,6 +23,27 @@ export interface ConversationCliOptions {
 }
 
 /**
+ * Parse conversation CLI arguments, returning selected agent identifiers and
+ * whether Ollama-backed responses should be used.
+ */
+export function parseConversationArgs(args: string[] = []): { agentNames?: string[]; useOllama: boolean } {
+  let agentNames: string[] | undefined;
+  let useOllama = false;
+  for (const token of args) {
+    if (token === "--ollama" || token === "-o") {
+      useOllama = true;
+    } else if (!agentNames) {
+      agentNames = token.split(",").filter(Boolean);
+    }
+  }
+  const result: { agentNames?: string[]; useOllama: boolean } = { useOllama };
+  if (agentNames && agentNames.length) {
+    result.agentNames = agentNames;
+  }
+  return result;
+}
+
+/**
  * Parse a minimal subset of the MCP EDN configuration to recover available
  * server commands. The parser is intentionally lightweight and only recognises
  * top-level `:mcp-servers` entries with `:command` and optional `:args`.

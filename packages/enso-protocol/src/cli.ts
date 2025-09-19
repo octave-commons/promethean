@@ -2,7 +2,7 @@
 import { argv, exit } from "node:process";
 import { ContextRegistry } from "./registry.js";
 import type { ContextInit } from "./types/context.js";
-import { runTwoAgentConversation } from "./conversation.js";
+import { parseConversationArgs, runTwoAgentConversation } from "./conversation.js";
 
 export interface CliDependencies {
   registry?: ContextRegistry;
@@ -70,9 +70,10 @@ export async function runCliCommand(command: string, deps: CliDependencies = {})
       await createDemoContext(registry, log);
       return;
     case "two-agent-chat": {
-      const agentNames = deps.args?.[0] ? deps.args[0].split(",") : undefined;
+      const parsed = parseConversationArgs(deps.args ?? []);
       await runTwoAgentConversation({
-        ...(agentNames ? { agentNames } : {}),
+        ...(parsed.agentNames ? { agentNames: parsed.agentNames } : {}),
+        useOllama: parsed.useOllama,
         log,
         error,
       });
