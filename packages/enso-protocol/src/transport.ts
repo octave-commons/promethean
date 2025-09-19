@@ -42,6 +42,13 @@ export async function connectLocal(
   hello: HelloCaps,
   options: LocalTransportOptions = {},
 ): Promise<LocalConnection> {
+  const handshakeHello: HelloCaps = {
+    ...hello,
+    caps: [...hello.caps],
+    privacy: { ...hello.privacy },
+    ...(hello.agent ? { agent: { ...hello.agent } } : {}),
+    ...(hello.cache ? { cache: { ...hello.cache } } : {}),
+  };
   let sessionHandle: ServerSession | undefined;
   let acceptedEnvelope:
     | Envelope<{
@@ -90,7 +97,12 @@ export async function connectLocal(
 
   const handshakeResult = new Promise<void>((resolve) => {
     const handler = (payload: unknown) => {
-      const { session, accepted, presence } = payload as {
+      const {
+        session,
+        accepted,
+        presence,
+        hello: emittedHello,
+      } = payload as {
         session: ServerSession;
         accepted: Envelope<{
           profile: PrivacyProfile;
@@ -100,7 +112,11 @@ export async function connectLocal(
           cache?: HelloCaps["cache"];
         }>;
         presence: Envelope<{ session: string; caps: string[] }>;
+        hello: HelloCaps;
       };
+      if (emittedHello !== handshakeHello) {
+        return;
+      }
       sessionHandle = session;
       acceptedEnvelope = accepted;
       presenceEnvelope = presence;
@@ -118,7 +134,7 @@ export async function connectLocal(
     },
   });
 
-  await client.connect(hello);
+  await client.connect(handshakeHello);
   await handshakeResult;
 
   if (!sessionHandle || !acceptedEnvelope || !presenceEnvelope) {
