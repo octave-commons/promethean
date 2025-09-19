@@ -1721,7 +1721,15 @@ importers:
         specifier: 3.0.14
         version: 3.0.14
 
-  packages/enso-protocol: {}
+  packages/enso-protocol:
+    dependencies:
+      ws:
+        specifier: ^8.17.1
+        version: 8.18.3
+    devDependencies:
+      '@types/ws':
+        specifier: ^8.5.10
+        version: 8.18.1
 
   packages/event:
     dependencies:
@@ -14698,7 +14706,7 @@ snapshots:
 
   axios@1.11.0:
     dependencies:
-      follow-redirects: 1.15.11(debug@4.3.7)
+      follow-redirects: 1.15.11(debug@4.4.3)
       form-data: 4.0.4
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -17146,7 +17154,7 @@ snapshots:
   http-proxy@1.18.1:
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.15.11(debug@4.3.7)
+      follow-redirects: 1.15.11(debug@4.4.3)
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
