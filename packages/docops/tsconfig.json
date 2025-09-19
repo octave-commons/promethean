@@ -14,6 +14,12 @@
     },
     {
       "path": "../docops-frontend"
+    },
+    {
+      "path": "../file-indexer"
+    },
+    {
+      "path": "../markdown"
     }
   ]
 }

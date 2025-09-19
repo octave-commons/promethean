@@ -31,6 +31,9 @@ importers:
       '@promethean/llm-chat-frontend':
         specifier: workspace:*
         version: link:packages/llm-chat-frontend
+      '@promethean/markdown':
+        specifier: workspace:*
+        version: link:packages/markdown
       '@promethean/markdown-graph-frontend':
         specifier: workspace:*
         version: link:packages/markdown-graph-frontend
@@ -441,6 +444,9 @@ importers:
       '@promethean/level-cache':
         specifier: workspace:*
         version: link:../level-cache
+      '@promethean/markdown':
+        specifier: workspace:*
+        version: link:../markdown
       '@promethean/utils':
         specifier: workspace:*
         version: link:../utils
@@ -1460,6 +1466,9 @@ importers:
       '@promethean/fs':
         specifier: workspace:*
         version: link:../fs
+      '@promethean/markdown':
+        specifier: workspace:*
+        version: link:../markdown
       '@promethean/utils':
         specifier: workspace:*
         version: link:../utils
@@ -2048,6 +2057,8 @@ importers:
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
+
+  packages/fsm: {}
 
   packages/health:
     dependencies:
