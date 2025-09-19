@@ -36,6 +36,7 @@
     "@promethean/fs": "workspace:*",
     "@promethean/utils": "workspace:*",
     "@promethean/docops-frontend": "workspace:*",
-    "@promethean/file-indexer": "workspace:*"
+    "@promethean/file-indexer": "workspace:*",
+    "@promethean/markdown": "workspace:*"
   }
 }
