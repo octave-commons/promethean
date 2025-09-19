@@ -219,13 +219,14 @@ The helper uses Ed25519 with the canonical JSON form (envelope minus `sig`).
 
 ### CLI
 
-After building, run the CLI to explore demo contexts:
+After building, run the CLI to explore demo contexts or start a dual-agent chat:
 
 ```bash
 pnpm --filter @promethean/enso-protocol exec node dist/cli.js help
 pnpm --filter @promethean/enso-protocol exec node dist/cli.js list-sources
 pnpm --filter @promethean/enso-protocol exec node dist/cli.js create-demo-context
-```
+pnpm --filter @promethean/enso-protocol exec node dist/cli.js two-agent-chat duckduckgo,github
+ ```
 
 When adding new features, follow the design notes in
 [`docs/design/enso-protocol/`](../../docs/design/enso-protocol/) and extend the
