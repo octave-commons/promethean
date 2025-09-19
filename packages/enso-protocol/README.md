@@ -75,7 +75,7 @@ const client = new EnsoClient(registry);
 await client.connect({
   proto: "ENSO-1",
   caps: ["can.send.text", "can.asset.put", "can.context.write", "can.context.apply"],
-  privacy: { profile: "pseudonymous" },
+  // Optional: privacy defaults to { profile: "pseudonymous" }
 });
 
 await client.post({ role: "human", parts: [{ kind: "text", text: "Hello" }] });
@@ -85,6 +85,8 @@ await client.contexts.apply(context.ctxId, [{ id: "human" }]);
 
 Missing capabilities raise informative errors (e.g. `missing capability: can.send.text`), mirroring the
 handshake rules in [`03-rooms-and-capabilities.md`](../../docs/design/enso-protocol/03-rooms-and-capabilities.md).
+Omitting the `privacy` block defaults the request to the documented `pseudonymous` profile while
+allowing the server to negotiate stricter settings if needed.
 
 ### Registering and invoking tools
 
@@ -146,7 +148,7 @@ const server = new EnsoServer();
 const hello = {
   proto: "ENSO-1" as const,
   caps: ["can.send.text"],
-  privacy: { profile: "pseudonymous" as const },
+  // privacy defaults to { profile: "pseudonymous" as const }
 };
 
 connectLocal(client, server, hello, {
@@ -171,7 +173,7 @@ const server = new EnsoServer();
 const { session } = connectLocal(client, server, {
   proto: "ENSO-1",
   caps: ["can.tool.call"],
-  privacy: { profile: "pseudonymous" },
+  // privacy defaults to { profile: "pseudonymous" }
 });
 
 server.enableEvaluationMode(session.id, true);
