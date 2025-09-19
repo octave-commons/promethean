@@ -5,9 +5,6 @@
         "outDir": "dist"
     },
     "include": [
-        "src/types/**/*.ts",
-        "src/types.ts",
-        "src/registry.ts",
-        "src/tests/**/*.ts"
+      "src/**/*.ts"
     ]
 }
