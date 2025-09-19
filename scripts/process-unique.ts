@@ -26,10 +26,8 @@ import {
 } from "@promethean/utils";
 import { listFilesRec } from "@promethean/utils/list-files-rec";
 import { openLevelCache } from "@promethean/level-cache";
-import {
-  parseMarkdownChunks,
-  type MarkdownChunk,
-} from "@promethean/markdown/chunking.js";
+import { parseMarkdownChunks } from "@promethean/markdown";
+import type { MarkdownChunk } from "@promethean/markdown/types";
 
 type Front = {
   uuid?: string;

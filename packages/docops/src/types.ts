@@ -1,4 +1,4 @@
-import type { MarkdownChunk } from "@promethean/markdown/chunking.js";
+import type { MarkdownChunk } from "@promethean/markdown/types";
 
 export type Front = {
   uuid?: string;
