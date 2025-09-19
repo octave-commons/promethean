@@ -7,10 +7,20 @@ import type {
   ContextInit,
   ContextParticipant,
 } from "./types/context.js";
-import type { HelloCaps } from "./types/privacy.js";
+import type { HelloCaps, PrivacyProfile } from "./types/privacy.js";
 import type { CID } from "./cache.js";
 
 type Handler = (env: Envelope) => void;
+
+const CAP_POST_TEXT = "can.send.text";
+const CAP_ASSET_PUT = "can.asset.put";
+const CAP_CONTEXT_WRITE = "can.context.write";
+const CAP_CONTEXT_APPLY = "can.context.apply";
+
+type ServerAdjustment = {
+  capabilities?: string[];
+  privacyProfile?: PrivacyProfile;
+};
 
 function createEnvelope<T>(partial: Omit<Envelope<T>, "id" | "ts"> & { payload: T }): Envelope<T> {
   return {
@@ -30,21 +40,37 @@ export class EnsoClient {
   private readonly registry: ContextRegistry;
   private readonly contextStore = new Map<string, Context>();
   private connected = false;
+  private capabilities = new Set<string>();
+  private privacyProfile: PrivacyProfile | undefined;
 
   constructor(registry: ContextRegistry = new ContextRegistry()) {
     this.registry = registry;
   }
 
-  async connect(hello: HelloCaps): Promise<void> {
+  async connect(hello: HelloCaps, adjustment: ServerAdjustment = {}): Promise<void> {
+    this.capabilities = new Set(adjustment.capabilities ?? hello.caps ?? []);
+    this.privacyProfile = adjustment.privacyProfile ?? hello.privacy.profile;
     this.connected = true;
     const envelope = createEnvelope({
       room: "local",
       from: "enso-client",
       kind: "event",
       type: "privacy.accepted",
-      payload: { hello },
+      payload: {
+        profile: this.privacyProfile,
+        negotiatedCaps: Array.from(this.capabilities.values()),
+        requested: hello,
+      },
     });
     this.emit(envelope);
+  }
+
+  updateCapabilities(caps: string[]): void {
+    caps.forEach((cap) => this.capabilities.add(cap));
+  }
+
+  getPrivacyProfile(): PrivacyProfile | undefined {
+    return this.privacyProfile;
   }
 
   on(key: string, fn: Handler): () => void {
@@ -62,6 +88,7 @@ export class EnsoClient {
   }
 
   async post(message: ChatMessage): Promise<void> {
+    this.requireCapability(CAP_POST_TEXT);
     const envelope = createEnvelope({
       room: "local",
       from: "enso-client",
@@ -74,6 +101,7 @@ export class EnsoClient {
 
   assets = {
     putFile: async (path: string, mime: string) => {
+      this.requireCapability(CAP_ASSET_PUT);
       const cid = computeCid(`${path}:${mime}`);
       return {
         uri: `enso://asset/${cid}`,
@@ -84,17 +112,25 @@ export class EnsoClient {
 
   contexts = {
     create: async (init: ContextInit) => {
+      this.requireCapability(CAP_CONTEXT_WRITE);
       const ctx = this.registry.createContext(init);
       this.contextStore.set(ctx.ctxId, ctx);
       return ctx;
     },
     get: (ctxId: string) => this.contextStore.get(ctxId),
     apply: async (ctxId: string, participants: ContextParticipant[]) => {
+      this.requireCapability(CAP_CONTEXT_APPLY);
       return this.registry.applyContext(ctxId, {
         participants,
       });
     },
   };
+
+  private requireCapability(cap: string): void {
+    if (!this.capabilities.has(cap)) {
+      throw new Error(`missing capability: ${cap}`);
+    }
+  }
 
   private emit(env: Envelope): void {
     const key = `${env.kind}:${env.type}`;
