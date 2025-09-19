@@ -19,6 +19,7 @@ export interface ConversationCliOptions {
   error?: (message: string) => void;
   readlineFactory?: () => Interface;
   metaOverride?: AgentMeta[];
+  useOllama?: boolean;
 }
 
 /**
@@ -85,13 +86,17 @@ export function parseMcpServers(edn: string): AgentMeta[] {
 }
 
 /**
- * Lightweight agent that produces canned responses based on its MCP command.
+ * Lightweight agent that produces canned responses based on its MCP command or
+ * forwards prompts to an Ollama model when configured.
  */
 class AgentSession {
-  constructor(private readonly meta: AgentMeta) {}
+  constructor(private readonly meta: AgentMeta, private readonly useOllama: boolean) {}
 
   /** Generate a synthetic response for demo purposes. */
-  respond(input: string): string {
+  async respond(input: string): Promise<string> {
+    if (this.useOllama) {
+      return this.runOllama(input);
+    }
     if (this.meta.command.includes("duck")) {
       return `[${this.meta.name}] (search) Top hit for "${input}" would be summarised here.`;
     }
@@ -102,6 +107,24 @@ class AgentSession {
       return `[${this.meta.name}] (fs) I'd inspect files matching "${input}".`;
     }
     return `[${this.meta.name}] Acknowledged message: ${input}`;
+  }
+
+  private async runOllama(prompt: string): Promise<string> {
+    const { spawn } = await import("node:child_process");
+    const model = this.meta.name.includes("github") ? "llama3" : "llama3:8b";
+    return new Promise<string>((resolve) => {
+      const child = spawn("ollama", ["run", model, prompt]);
+      const chunks: string[] = [];
+      child.stdout.on("data", (data) => chunks.push(data.toString()));
+      child.on("error", () => resolve(`[${this.meta.name}] (ollama) Unable to reach model.`));
+      child.on("close", (code) => {
+        if (code !== 0) {
+          resolve(`[${this.meta.name}] (ollama) Model exited with code ${code}.`);
+        } else {
+          resolve(`[${this.meta.name}] ${chunks.join("").trim()}`);
+        }
+      });
+    });
   }
 }
 
@@ -131,7 +154,8 @@ export async function runTwoAgentConversation(options: ConversationCliOptions = 
   }
 
   const [first, second] = selectAgents(servers, options.agentNames);
-  const agents = [new AgentSession(first), new AgentSession(second)];
+  const useOllama = options.useOllama ?? false;
+  const agents = [new AgentSession(first, useOllama), new AgentSession(second, useOllama)];
 
   const rl = options.readlineFactory ? options.readlineFactory() : createInterface({ input: process.stdin, output: process.stdout });
   log(`Starting ENSO dual-agent chat with ${first.name} and ${second.name}. Type 'exit' to quit.`);
@@ -146,7 +170,8 @@ export async function runTwoAgentConversation(options: ConversationCliOptions = 
         break;
       }
       for (const agent of agents) {
-        log(agent.respond(message));
+        const response = await agent.respond(message);
+        log(response);
       }
     }
   } finally {
