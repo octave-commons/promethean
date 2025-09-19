@@ -21,7 +21,7 @@
     "test": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "ava",
+        "command": "clojure -M:test",
         "cwd": "packages/clj-hacks"
       }
     },
