@@ -1,48 +1,83 @@
 #!/usr/bin/env node
-import { EnsoClient } from "@promethean/enso-client";
-import { createReadStream } from "fs";
-import { argv } from "node:process";
+import { argv, exit } from "node:process";
+import { ContextRegistry } from "./registry.js";
+import type { ContextInit } from "./types/context.js";
 
-const url = process.env.ENSO_URL ?? "ws://localhost:7747";
-const token = process.env.ENSO_TOKEN ?? "dev";
-const [cmd, arg] = argv.slice(2);
+export interface CliDependencies {
+  registry?: ContextRegistry;
+  log?: (message: string) => void;
+  error?: (message: string) => void;
+}
 
-(async () => {
-  const enso = new EnsoClient(url, token);
-  await enso.connect({
-    proto: "ENSO-1",
-    caps: ["cache.read", "cache.write", "can.asset.put"],
-    privacy: { profile: "pseudonymous" },
-  });
+const defaultRegistry = new ContextRegistry();
 
-  enso.on("event:content.message", (e) =>
-    console.log("[message]", JSON.stringify(e.payload)),
-  );
-  enso.on("event:asset.derived", (e) => console.log("[derived]", e.payload));
+async function listSources(registry: ContextRegistry, log: (message: string) => void): Promise<void> {
+  const sources = registry.listSources();
+  log(JSON.stringify(sources, null, 2));
+}
 
-  if (cmd === "say") {
-    await enso.post({
-      role: "human",
-      parts: [{ kind: "text", text: arg ?? "hello enso" }],
+async function createDemoContext(registry: ContextRegistry, log: (message: string) => void): Promise<void> {
+  if (registry.listSources().length === 0) {
+    registry.registerSource({
+      id: { kind: "enso-asset", location: "enso://asset/demo" },
+      owners: [{ userId: "demo" }],
+      discoverability: "visible",
+      availability: { mode: "public" },
+      title: "Demo Asset",
     });
-  } else if (cmd === "attach") {
-    const path = arg!;
-    const mime = "application/pdf"; // TODO: sniff
-    const { uri } = await enso.assets.putFile(path, mime);
-    await enso.post({
-      role: "human",
-      parts: [
-        { kind: "text", text: `Please summarize ${path}` },
-        { kind: "attachment", uri, mime, bytes: 0 },
-      ],
-    });
-  } else if (cmd === "context") {
-    // tiny context demo: pin two example sources
-    // enso.contexts.create("Sprint Review"); enso.contexts.pin(...); enso.contexts.apply();
-  } else {
-    console.log(`Usage:
-  enso say "hello"
-  enso attach ./docs/enso.pdf
-  enso context`);
   }
-})();
+  const demo: ContextInit = {
+    name: "demo",
+    owner: { userId: "demo" },
+    entries: registry.listSources().map((source) => ({
+      id: source.id,
+      state: "pinned",
+      permissions: { readable: true },
+    })),
+  };
+  const ctx = registry.createContext(demo);
+  log(JSON.stringify(ctx, null, 2));
+}
+
+function showHelp(log: (message: string) => void): void {
+  log(`enso-protocol CLI
+
+Commands:
+  help                  Show this message
+  list-sources          Print registered data sources
+  create-demo-context   Register a demo source and emit a context snapshot
+`);
+}
+
+export async function runCliCommand(command: string, deps: CliDependencies = {}): Promise<void> {
+  const registry = deps.registry ?? defaultRegistry;
+  const log = deps.log ?? console.log;
+  const error = deps.error ?? console.error;
+
+  switch (command) {
+    case "help":
+      showHelp(log);
+      return;
+    case "list-sources":
+      await listSources(registry, log);
+      return;
+    case "create-demo-context":
+      await createDemoContext(registry, log);
+      return;
+    default:
+      error(`Unknown command: ${command}`);
+      exit(1);
+  }
+}
+
+async function main(): Promise<void> {
+  const [command = "help"] = argv.slice(2);
+  await runCliCommand(command);
+}
+
+if (import.meta.url === `file://${process.argv[1]}`) {
+  main().catch((error) => {
+    console.error(error);
+    exit(1);
+  });
+}

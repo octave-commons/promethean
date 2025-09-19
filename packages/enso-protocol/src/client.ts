@@ -1,67 +1,104 @@
-import { Envelope } from "@promethean/enso-protocol/envelope.js";
+import { createHash, randomUUID } from "node:crypto";
+import { ContextRegistry } from "./registry.js";
+import type { Envelope } from "./types/envelope.js";
+import type { ChatMessage } from "./types/content.js";
+import type {
+  Context,
+  ContextInit,
+  ContextParticipant,
+} from "./types/context.js";
+import type { HelloCaps } from "./types/privacy.js";
+import type { CID } from "./cache.js";
 
 type Handler = (env: Envelope) => void;
 
+function createEnvelope<T>(partial: Omit<Envelope<T>, "id" | "ts"> & { payload: T }): Envelope<T> {
+  return {
+    id: randomUUID(),
+    ts: new Date().toISOString(),
+    ...partial,
+  };
+}
+
+function computeCid(input: string): CID {
+  const hash = createHash("sha256").update(input).digest("hex");
+  return `cid:sha256-${hash}` as CID;
+}
+
 export class EnsoClient {
-  private ws?: WebSocket;
-  private handlers = new Map<string, Set<Handler>>();
+  private readonly handlers = new Map<string, Set<Handler>>();
+  private readonly registry: ContextRegistry;
+  private readonly contextStore = new Map<string, Context>();
+  private connected = false;
 
-  constructor(
-    private url: string,
-    private token: string,
-  ) {}
-
-  async connect(hello: any) {
-    this.ws = new WebSocket(this.url, []);
-    await new Promise((res) => (this.ws!.onopen = res));
-    this.on("event:privacy.accepted", () => {}); // example
-    this.send({ kind: "event", type: "hello", payload: hello } as Envelope);
-    this.ws!.onmessage = (ev) => {
-      const env = JSON.parse(ev.data.toString()) as Envelope;
-      const key = `${env.kind}:${env.type}`;
-      this.handlers.get(key)?.forEach((h) => h(env));
-    };
+  constructor(registry: ContextRegistry = new ContextRegistry()) {
+    this.registry = registry;
   }
 
-  on(key: string, fn: Handler) {
-    (this.handlers.get(key) ?? this.handlers.set(key, new Set()).get(key)!).add(
-      fn,
-    );
-    return () => this.handlers.get(key)?.delete(fn);
-  }
-  send(env: Envelope) {
-    this.ws!.send(JSON.stringify(env));
+  async connect(hello: HelloCaps): Promise<void> {
+    this.connected = true;
+    const envelope = createEnvelope({
+      room: "local",
+      from: "enso-client",
+      kind: "event",
+      type: "privacy.accepted",
+      payload: { hello },
+    });
+    this.emit(envelope);
   }
 
-  // high-level helpers
-  async post(message: any) {
-    this.send({
-      id: crypto.randomUUID(),
-      ts: new Date().toISOString(),
-      room: "r1",
-      from: "",
+  on(key: string, fn: Handler): () => void {
+    const handlers = this.handlers.get(key) ?? new Set<Handler>();
+    handlers.add(fn);
+    this.handlers.set(key, handlers);
+    return () => handlers.delete(fn);
+  }
+
+  send(env: Envelope): void {
+    if (!this.connected) {
+      throw new Error("Client must be connected before sending envelopes");
+    }
+    this.emit(env);
+  }
+
+  async post(message: ChatMessage): Promise<void> {
+    const envelope = createEnvelope({
+      room: "local",
+      from: "enso-client",
       kind: "event",
       type: "content.post",
-      payload: { room: "r1", message },
+      payload: { room: "local", message },
     });
+    this.emit(envelope);
   }
+
   assets = {
     putFile: async (path: string, mime: string) => {
-      /* stream chunks via asset.put/asset.chunk */ return {
-        uri: "enso://asset/…",
-        cid: "cid:sha256-…",
+      const cid = computeCid(`${path}:${mime}`);
+      return {
+        uri: `enso://asset/${cid}`,
+        cid,
       };
     },
   };
+
   contexts = {
-    create: async (name: string) => {
-      /*…*/
+    create: async (init: ContextInit) => {
+      const ctx = this.registry.createContext(init);
+      this.contextStore.set(ctx.ctxId, ctx);
+      return ctx;
     },
-    pin: async (id: any) => {
-      /*…*/
-    },
-    apply: async () => {
-      /*…*/
+    get: (ctxId: string) => this.contextStore.get(ctxId),
+    apply: async (ctxId: string, participants: ContextParticipant[]) => {
+      return this.registry.applyContext(ctxId, {
+        participants,
+      });
     },
   };
+
+  private emit(env: Envelope): void {
+    const key = `${env.kind}:${env.type}`;
+    const handlers = this.handlers.get(key);
+    handlers?.forEach((handler) => handler(env));
+  }
 }
