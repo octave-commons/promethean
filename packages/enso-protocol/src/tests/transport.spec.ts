@@ -18,17 +18,23 @@ test("local transport negotiates capabilities and emits presence", async (t) => 
   const acceptedEvents: Envelope[] = [];
   const presenceEvents: Envelope[] = [];
   const presenceParts: Envelope[] = [];
+  const handshakes: HelloCaps[] = [];
+  server.on("handshake", (result: unknown) => {
+    const { hello } = result as { hello: HelloCaps };
+    handshakes.push(hello);
+  });
   client.on("event:privacy.accepted", (env) => acceptedEvents.push(env));
   client.on("event:presence.join", (env) => presenceEvents.push(env));
   client.on("event:presence.part", (env) => presenceParts.push(env));
 
-  const connection = connectLocal(client, server, HELLO, {
+  const connection = await connectLocal(client, server, HELLO, {
     adjustCapabilities: (caps) => [...caps, "can.context.apply"],
     privacyProfile: "persistent",
     wantsE2E: true,
   });
   const { session } = connection;
 
+  t.deepEqual(handshakes, [HELLO]);
   t.is(acceptedEvents.length, 1);
   t.is(presenceEvents.length, 1);
   const accepted = acceptedEvents[0]!;
@@ -44,7 +50,10 @@ test("local transport negotiates capabilities and emits presence", async (t) => 
 
   const sessionInfo = server.getSessionInfo(session.id);
   t.truthy(sessionInfo);
-  t.deepEqual(sessionInfo?.capabilities, ["can.send.text", "can.context.apply"]);
+  t.deepEqual(sessionInfo?.capabilities, [
+    "can.send.text",
+    "can.context.apply",
+  ]);
   t.is(sessionInfo?.privacy, "persistent");
 
   const received: Envelope[] = [];
@@ -52,7 +61,10 @@ test("local transport negotiates capabilities and emits presence", async (t) => 
     received.push(env);
   });
 
-  await client.post({ role: "human", parts: [{ kind: "text", text: "hello" }] });
+  await client.post({
+    role: "human",
+    parts: [{ kind: "text", text: "hello" }],
+  });
   t.is(received.length, 1);
 
   connection.disconnect();
@@ -64,7 +76,7 @@ test("local transport negotiates capabilities and emits presence", async (t) => 
 test("local transport preserves capability enforcement", async (t) => {
   const server = new EnsoServer();
   const client = new EnsoClient(new ContextRegistry());
-  const connection = connectLocal(client, server, HELLO);
+  const connection = await connectLocal(client, server, HELLO);
   await t.throwsAsync(() => client.assets.putFile("/tmp/demo", "text/plain"), {
     message: /missing capability: can.asset.put/,
   });

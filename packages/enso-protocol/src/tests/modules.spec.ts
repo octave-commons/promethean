@@ -6,6 +6,7 @@ import { derivedCid, derive } from "../derive.js";
 import type { DerivePlan } from "../derive.js";
 import { Router } from "../router.js";
 import { EnsoServer } from "../server.js";
+import { connectLocal } from "../transport.js";
 import { AssetStore } from "../store.js";
 import { ContextRegistry } from "../registry.js";
 import { runCliCommand } from "../cli.js";
@@ -17,10 +18,18 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 
 const OWNER: ContextParticipant = { id: "owner" };
-const CLIENT_CAPS = ["can.send.text", "can.asset.put", "can.context.write", "can.context.apply"] as const;
+const CLIENT_CAPS = [
+  "can.send.text",
+  "can.asset.put",
+  "can.context.write",
+  "can.context.apply",
+] as const;
 
 test("adapter default handlers", async (t) => {
-  const client = new McpClient({ serverId: "demo", transport: { kind: "stdio", command: "noop" } });
+  const client = new McpClient({
+    serverId: "demo",
+    transport: { kind: "stdio", command: "noop" },
+  });
   t.deepEqual(await client.listTools(), []);
   const result = await client.callTool({ name: "noop", args: {}, ttlMs: 10 });
   t.false(result.ok);
@@ -29,14 +38,21 @@ test("adapter default handlers", async (t) => {
 
 test("adapter custom handlers", async (t) => {
   const client = new McpClient(
-    { serverId: "mcp", transport: { kind: "http-stream", url: "https://mcp.example" } },
+    {
+      serverId: "mcp",
+      transport: { kind: "http-stream", url: "https://mcp.example" },
+    },
     {
       listTools: () => [{ name: "demo" }],
       callTool: async ({ name }) => ({ ok: true, result: name }),
     },
   );
   t.deepEqual(await client.listTools(), [{ name: "demo" }]);
-  const response = await client.callTool({ name: "demo", args: { q: 1 }, ttlMs: 1000 });
+  const response = await client.callTool({
+    name: "demo",
+    args: { q: 1 },
+    ttlMs: 1000,
+  });
   t.true(response.ok);
   t.is(response.result, "demo");
 });
@@ -44,7 +60,14 @@ test("adapter custom handlers", async (t) => {
 test("cache registry operations", (t) => {
   const cache = new CacheRegistry();
   const key = { cid: "cid:sha256-abc" } as const;
-  cache.put({ key, uri: "enso://asset/cid:sha256-abc", bytes: 10, mime: "text/plain", visibility: "room", ttl: 60 });
+  cache.put({
+    key,
+    uri: "enso://asset/cid:sha256-abc",
+    bytes: 10,
+    mime: "text/plain",
+    visibility: "room",
+    ttl: 60,
+  });
   t.truthy(cache.get(key));
   cache.evict(key);
   t.is(cache.get(key), undefined);
@@ -59,10 +82,15 @@ test("enso client event flow", async (t) => {
     availability: { mode: "public" },
     title: "Demo Source",
   });
+  const server = new EnsoServer();
   const client = new EnsoClient(registry);
   const received: Envelope[] = [];
   client.on("event:privacy.accepted", (env) => received.push(env));
-  await client.connect({ proto: "ENSO-1", caps: [...CLIENT_CAPS], privacy: { profile: "pseudonymous" } });
+  const connection = await connectLocal(client, server, {
+    proto: "ENSO-1",
+    caps: [...CLIENT_CAPS],
+    privacy: { profile: "pseudonymous" },
+  });
   t.is(received.length, 1);
 
   await client.post({ role: "human", parts: [{ kind: "text", text: "hi" }] });
@@ -76,6 +104,7 @@ test("enso client event flow", async (t) => {
     entries: [],
   });
   t.truthy(client.contexts.get(context.ctxId));
+  connection.disconnect();
 });
 
 test("enso client enforces handshake before sending", async (t) => {
@@ -89,7 +118,9 @@ test("enso client enforces handshake before sending", async (t) => {
     type: "content.post",
     payload: {},
   };
-  await t.throwsAsync(() => client.send(envelope), { message: /must be connected/ });
+  await t.throwsAsync(() => client.send(envelope), {
+    message: /must be connected/,
+  });
 });
 
 test("enso client requires capabilities for actions", async (t) => {
@@ -100,14 +131,21 @@ test("enso client requires capabilities for actions", async (t) => {
     discoverability: "visible",
     availability: { mode: "public" },
   });
+  const server = new EnsoServer();
   const client = new EnsoClient(registry);
-  await client.connect({
+  const connection = await connectLocal(client, server, {
     proto: "ENSO-1",
     caps: ["can.asset.put"],
     privacy: { profile: "pseudonymous" },
   });
-  await t.throwsAsync(() => client.post({ role: "human", parts: [] }), { message: /missing capability: can.send.text/ });
-  client.updateCapabilities(["can.send.text", "can.context.write", "can.context.apply"]);
+  await t.throwsAsync(() => client.post({ role: "human", parts: [] }), {
+    message: /missing capability: can.send.text/,
+  });
+  client.updateCapabilities([
+    "can.send.text",
+    "can.context.write",
+    "can.context.apply",
+  ]);
   await client.post({ role: "human", parts: [{ kind: "text", text: "ok" }] });
   const ctx = await client.contexts.create({
     name: "caps",
@@ -115,18 +153,36 @@ test("enso client requires capabilities for actions", async (t) => {
     entries: [],
   });
   await client.contexts.apply(ctx.ctxId, [{ id: OWNER.id }]);
+  connection.disconnect();
 });
 
 test("derive utilities", async (t) => {
   const params = { foo: "bar" };
-  const cidA = derivedCid("cid:sha256-source" as const, "tool", "1.0.0", params);
-  const cidB = derivedCid("cid:sha256-source" as const, "tool", "1.0.0", params);
+  const cidA = derivedCid(
+    "cid:sha256-source" as const,
+    "tool",
+    "1.0.0",
+    params,
+  );
+  const cidB = derivedCid(
+    "cid:sha256-source" as const,
+    "tool",
+    "1.0.0",
+    params,
+  );
   t.is(cidA, cidB);
 
-  const result = await derive({ purpose: "text", via: ["tool"], params }, "cid:sha256-source" as const);
+  const result = await derive(
+    { purpose: "text", via: ["tool"], params },
+    "cid:sha256-source" as const,
+  );
   t.regex(result.cid, /^cid:sha256-/);
   t.is(result.mime, "text/markdown");
-  const meta = result.meta as { plan: DerivePlan; from: string; generatedAt: string };
+  const meta = result.meta as {
+    plan: DerivePlan;
+    from: string;
+    generatedAt: string;
+  };
   t.is(meta.plan.purpose, "text");
 });
 
@@ -169,7 +225,6 @@ test("derivedCid canonicalizes nested parameters", (t) => {
   t.not(cidA, cidC);
 });
 
-
 test("router dispatch and fallback", async (t) => {
   const router = new Router();
   const hits: string[] = [];
@@ -181,8 +236,30 @@ test("router dispatch and fallback", async (t) => {
       hits.push("fallback");
     });
 
-  await router.handle({ sessionId: "s", send: () => {} }, { id: "1", ts: "", room: "", from: "", kind: "event", type: "ping", payload: {} });
-  await router.handle({ sessionId: "s", send: () => {} }, { id: "2", ts: "", room: "", from: "", kind: "event", type: "unknown", payload: {} });
+  await router.handle(
+    { sessionId: "s", send: () => {} },
+    {
+      id: "1",
+      ts: "",
+      room: "",
+      from: "",
+      kind: "event",
+      type: "ping",
+      payload: {},
+    },
+  );
+  await router.handle(
+    { sessionId: "s", send: () => {} },
+    {
+      id: "2",
+      ts: "",
+      room: "",
+      from: "",
+      kind: "event",
+      type: "unknown",
+      payload: {},
+    },
+  );
   t.deepEqual(hits, ["ping", "fallback"]);
 });
 
@@ -194,7 +271,15 @@ test("server dispatch", async (t) => {
   server.register("echo", ({ send }, env) => send(env));
 
   const session = server.createSession();
-  await server.dispatch(session, { id: "1", ts: "", room: "", from: "", kind: "event", type: "echo", payload: "hi" });
+  await server.dispatch(session, {
+    id: "1",
+    ts: "",
+    room: "",
+    from: "",
+    kind: "event",
+    type: "echo",
+    payload: "hi",
+  });
   t.is(envelopes.length, 1);
 });
 
@@ -238,8 +323,18 @@ test("asset store hashes data deterministically and supports ranges", async (t) 
 test("cli commands run without side effects", async (t) => {
   const outputs: string[] = [];
   const registry = new ContextRegistry();
-  await runCliCommand("help", { registry, log: (msg) => outputs.push(msg), error: () => {} });
-  await runCliCommand("list-sources", { registry, log: (msg) => outputs.push(msg) });
-  await runCliCommand("create-demo-context", { registry, log: (msg) => outputs.push(msg) });
+  await runCliCommand("help", {
+    registry,
+    log: (msg) => outputs.push(msg),
+    error: () => {},
+  });
+  await runCliCommand("list-sources", {
+    registry,
+    log: (msg) => outputs.push(msg),
+  });
+  await runCliCommand("create-demo-context", {
+    registry,
+    log: (msg) => outputs.push(msg),
+  });
   t.true(outputs.length >= 3);
 });

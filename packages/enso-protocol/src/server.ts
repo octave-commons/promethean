@@ -7,49 +7,49 @@ import type { ToolCall } from "./types/tools.js";
 import { GuardrailManager } from "./guardrails.js";
 
 /** Options for configuring the reference server implementation. */
-export interface EnsoServerOptions {
+export type EnsoServerOptions = {
   router?: Router;
   validate?: (raw: unknown) => Envelope;
   guardrails?: GuardrailManager;
-}
+};
 
-export interface ServerSession {
+export type ServerSession = {
   id: string;
-}
+};
 
-interface SessionRecord {
-  id: string;
-  capabilities: string[];
-  privacy: PrivacyProfile;
-  wantsE2E: boolean;
-  agent?: HelloCaps["agent"];
-  cache?: HelloCaps["cache"];
-  connectedAt: string;
-  auditLog: Envelope[];
-}
+type SessionRecord = {
+  readonly id: string;
+  readonly capabilities: string[];
+  readonly privacy: PrivacyProfile;
+  readonly wantsE2E: boolean;
+  readonly agent?: HelloCaps["agent"];
+  readonly cache?: HelloCaps["cache"];
+  readonly connectedAt: string;
+  readonly auditLog: Envelope[];
+};
 
 /** Result of a successful handshake. */
-interface HandshakeResult {
-  session: ServerSession;
-  accepted: Envelope<{
+type HandshakeResult = {
+  readonly session: ServerSession;
+  readonly accepted: Envelope<{
     profile: PrivacyProfile;
     wantsE2E: boolean;
     negotiatedCaps: string[];
     agent?: HelloCaps["agent"];
     cache?: HelloCaps["cache"];
   }>;
-  presence: Envelope<{ session: string; caps: string[] }>;
-}
+  readonly presence: Envelope<{ session: string; caps: string[] }>;
+};
 
 /**
  * Controls the server response to an incoming handshake request.
  */
-interface HandshakeOptions {
-  adjustCapabilities?: (requested: string[]) => string[];
-  privacyProfile?: PrivacyProfile;
-  wantsE2E?: boolean;
-  evaluationMode?: boolean;
-}
+type HandshakeOptions = {
+  readonly adjustCapabilities?: (requested: string[]) => string[];
+  readonly privacyProfile?: PrivacyProfile;
+  readonly wantsE2E?: boolean;
+  readonly evaluationMode?: boolean;
+};
 
 function mkEnvelope<T>(type: string, payload: T): Envelope<T> {
   return {
@@ -72,18 +72,32 @@ export class EnsoServer extends EventEmitter {
   private readonly sessions = new Map<string, SessionRecord>();
   private readonly guardrails: GuardrailManager;
   private readonly complianceLog: Envelope[] = [];
+  private handshakeOverride: ((hello: HelloCaps) => HandshakeOptions) | null =
+    null;
 
   constructor(options: EnsoServerOptions = {}) {
     super();
     this.router = options.router ?? new Router();
-    this.validate =
-      options.validate ?? ((raw) => raw as Envelope);
+    this.validate = options.validate ?? ((raw) => raw as Envelope);
     this.guardrails = options.guardrails ?? new GuardrailManager();
   }
 
   /** Register a route handler for a specific envelope type. */
   register(type: string, handler: RouteHandler): void {
     this.router.register(type, handler);
+  }
+
+  /**
+   * Configure how the next inbound handshake should be negotiated.
+   *
+   * This is primarily useful for tests that need to override capability
+   * negotiation without standing up a bespoke server implementation.
+   */
+  prepareHandshake(
+    override: HandshakeOptions | ((hello: HelloCaps) => HandshakeOptions),
+  ): void {
+    this.handshakeOverride =
+      typeof override === "function" ? override : () => override;
   }
 
   /** Create a new session descriptor and emit a lifecycle event. */
@@ -94,12 +108,16 @@ export class EnsoServer extends EventEmitter {
   }
 
   /** Accept the initial handshake and emit presence + privacy events. */
-  acceptHandshake(hello: HelloCaps, options: HandshakeOptions = {}): HandshakeResult {
+  acceptHandshake(
+    hello: HelloCaps,
+    options: HandshakeOptions = {},
+  ): HandshakeResult {
+    this.handshakeOverride = null;
     const negotiatedCaps = options.adjustCapabilities
       ? options.adjustCapabilities([...hello.caps])
       : [...hello.caps];
     const profile = options.privacyProfile ?? hello.privacy.profile;
-    const wantsE2E = options.wantsE2E ?? (hello.privacy.wantsE2E ?? false);
+    const wantsE2E = options.wantsE2E ?? hello.privacy.wantsE2E ?? false;
     const session = this.createSession();
     const record: SessionRecord = {
       id: session.id,
@@ -112,7 +130,10 @@ export class EnsoServer extends EventEmitter {
       auditLog: [],
     };
     this.sessions.set(session.id, record);
-    this.guardrails.setEvaluationMode(session.id, options.evaluationMode ?? false);
+    this.guardrails.setEvaluationMode(
+      session.id,
+      options.evaluationMode ?? false,
+    );
     const accepted = mkEnvelope("privacy.accepted", {
       profile,
       wantsE2E,
@@ -128,8 +149,11 @@ export class EnsoServer extends EventEmitter {
     });
     record.auditLog.push(presence);
     this.complianceLog.push(presence);
+    const result: HandshakeResult = { session, accepted, presence };
+    this.emit("handshake", { ...result, hello });
+    this.emit("message", session, accepted);
     this.emit("message", session, presence);
-    return { session, accepted, presence };
+    return result;
   }
 
   /** Retrieve immutable session metadata. */
@@ -171,8 +195,24 @@ export class EnsoServer extends EventEmitter {
   }
 
   /** Dispatch an inbound envelope through the registered router. */
-  async dispatch(session: ServerSession, raw: unknown): Promise<void> {
+  async dispatch(
+    session: ServerSession | undefined,
+    raw: unknown,
+  ): Promise<void> {
     const envelope = this.validate(raw);
+    if (envelope.kind === "event" && envelope.type === "hello") {
+      const hello = envelope.payload as HelloCaps;
+      const override = this.handshakeOverride;
+      this.handshakeOverride = null;
+      const options = override ? override(hello) : {};
+      this.acceptHandshake(hello, options);
+      return;
+    }
+
+    if (!session) {
+      throw new Error("Session is required after handshake completion");
+    }
+
     if (envelope.kind === "event") {
       if (envelope.type === "act.rationale") {
         const payload = envelope.payload as { callId?: string } | undefined;
