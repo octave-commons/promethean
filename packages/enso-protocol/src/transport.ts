@@ -89,6 +89,9 @@ export function connectLocal(
     accepted,
     presence,
     disconnect: () => {
+      if (sessionHandle) {
+        server.disconnectSession(sessionHandle.id);
+      }
       server.off("message", forward);
       sessionHandle = undefined;
     },
