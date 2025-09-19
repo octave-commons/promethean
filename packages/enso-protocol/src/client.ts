@@ -8,6 +8,7 @@ import type {
   ContextParticipant,
 } from "./types/context.js";
 import type { HelloCaps, PrivacyProfile } from "./types/privacy.js";
+import { resolveHelloPrivacy } from "./types/privacy.js";
 import type { CID } from "./cache.js";
 
 type Handler = (env: Envelope) => void;
@@ -23,7 +24,9 @@ type ServerAdjustment = {
   emitAccepted?: boolean;
 };
 
-function createEnvelope<T>(partial: Omit<Envelope<T>, "id" | "ts"> & { payload: T }): Envelope<T> {
+function createEnvelope<T>(
+  partial: Omit<Envelope<T>, "id" | "ts"> & { payload: T },
+): Envelope<T> {
   return {
     id: randomUUID(),
     ts: new Date().toISOString(),
@@ -49,15 +52,29 @@ export class EnsoClient {
     this.registry = registry;
   }
 
-  attachTransport(transport: { send: (env: Envelope) => Promise<void> | void }): void {
+  attachTransport(transport: {
+    send: (env: Envelope) => Promise<void> | void;
+  }): void {
     this.outbound = transport.send;
   }
 
-  async connect(hello: HelloCaps, adjustment: ServerAdjustment = {}): Promise<void> {
-    this.capabilities = new Set(adjustment.capabilities ?? hello.caps ?? []);
-    this.privacyProfile = adjustment.privacyProfile ?? hello.privacy.profile;
+  async connect(
+    hello: HelloCaps,
+    adjustment: ServerAdjustment = {},
+  ): Promise<void> {
+    const requestedPrivacy = resolveHelloPrivacy(hello);
+    const negotiatedCaps = adjustment.capabilities ?? hello.caps ?? [];
+    const negotiatedProfile =
+      adjustment.privacyProfile ?? requestedPrivacy.profile;
+
+    this.capabilities = new Set(negotiatedCaps);
+    this.privacyProfile = negotiatedProfile;
     this.connected = true;
     if (adjustment.emitAccepted !== false) {
+      const requested: HelloCaps = {
+        ...hello,
+        privacy: requestedPrivacy,
+      };
       const envelope = createEnvelope({
         room: "local",
         from: "enso-client",
@@ -66,7 +83,7 @@ export class EnsoClient {
         payload: {
           profile: this.privacyProfile,
           negotiatedCaps: Array.from(this.capabilities.values()),
-          requested: hello,
+          requested,
         },
       });
       this.emit(envelope);
