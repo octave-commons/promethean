@@ -20,25 +20,62 @@ export interface ConversationCliOptions {
   readlineFactory?: () => Interface;
   metaOverride?: AgentMeta[];
   useOllama?: boolean;
+  configPath?: string;
 }
 
 /**
  * Parse conversation CLI arguments, returning selected agent identifiers and
  * whether Ollama-backed responses should be used.
  */
-export function parseConversationArgs(args: string[] = []): { agentNames?: string[]; useOllama: boolean } {
+export function parseConversationArgs(args: string[] = []): {
+  agentNames?: string[];
+  useOllama: boolean;
+  configPath?: string;
+} {
   let agentNames: string[] | undefined;
   let useOllama = false;
+  let configPath: string | undefined;
+  let pendingEdn = false;
+
   for (const token of args) {
+    if (pendingEdn) {
+      if (!token.startsWith("-")) {
+        configPath = token;
+        pendingEdn = false;
+        continue;
+      }
+      pendingEdn = false;
+    }
+
     if (token === "--ollama" || token === "-o") {
       useOllama = true;
-    } else if (!agentNames) {
-      agentNames = token.split(",").filter(Boolean);
+      continue;
+    }
+    if (token === "--edn" || token === "-e") {
+      pendingEdn = true;
+      continue;
+    }
+    if (token.startsWith("--edn=")) {
+      const value = token.slice("--edn=".length);
+      if (value) {
+        configPath = value;
+      }
+      continue;
+    }
+    if (!agentNames) {
+      agentNames = token
+        .split(",")
+        .map((name) => name.trim())
+        .filter(Boolean);
     }
   }
-  const result: { agentNames?: string[]; useOllama: boolean } = { useOllama };
+
+  const result: { agentNames?: string[]; useOllama: boolean; configPath?: string } = { useOllama };
   if (agentNames && agentNames.length) {
     result.agentNames = agentNames;
+  }
+  if (configPath) {
+    result.configPath = configPath;
   }
   return result;
 }
@@ -149,15 +186,19 @@ class AgentSession {
   }
 }
 
-/** Resolve the absolute path to the EDN configuration file. */
-function configPath(): string {
+/** Resolve the absolute path to the MCP EDN configuration file. */
+export function resolveConfigPath(ednPath?: string): string {
+  if (ednPath && ednPath.trim()) {
+    return resolve(ednPath);
+  }
   const here = fileURLToPath(new URL(".", import.meta.url));
   return resolve(here, "../../config/mcp_servers.edn");
 }
 
-/** Load MCP server metadata from the canonical EDN configuration. */
-export function loadServerMetadata(): AgentMeta[] {
-  const contents = readFileSync(configPath(), "utf8");
+/** Load MCP server metadata from the specified or default EDN configuration. */
+export function loadServerMetadata(ednPath?: string): AgentMeta[] {
+  const target = resolveConfigPath(ednPath);
+  const contents = readFileSync(target, "utf8");
   return parseMcpServers(contents);
 }
 
@@ -168,7 +209,19 @@ export function loadServerMetadata(): AgentMeta[] {
 export async function runTwoAgentConversation(options: ConversationCliOptions = {}): Promise<void> {
   const log = options.log ?? console.log;
   const error = options.error ?? console.error;
-  const servers = options.metaOverride ?? loadServerMetadata();
+
+  let servers: AgentMeta[];
+  if (options.metaOverride) {
+    servers = options.metaOverride;
+  } else {
+    try {
+      servers = loadServerMetadata(options.configPath);
+    } catch (cause) {
+      error(`Failed to load MCP servers from ${resolveConfigPath(options.configPath)}: ${(cause as Error).message}`);
+      return;
+    }
+  }
+
   if (servers.length < 2) {
     error("Not enough MCP servers configured to start a dual-agent conversation.");
     return;

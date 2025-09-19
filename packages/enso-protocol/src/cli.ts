@@ -49,7 +49,7 @@ Commands:
   help                  Show this message
   list-sources          Print registered data sources
   create-demo-context   Register a demo source and emit a context snapshot
-  two-agent-chat        Start a dual-agent conversation (optional arg: agentA,agentB)
+  two-agent-chat        Start a dual-agent conversation (args: [agentA,agentB] [--ollama] [--edn path])
 `);
 }
 
@@ -73,6 +73,7 @@ export async function runCliCommand(command: string, deps: CliDependencies = {})
       const parsed = parseConversationArgs(deps.args ?? []);
       await runTwoAgentConversation({
         ...(parsed.agentNames ? { agentNames: parsed.agentNames } : {}),
+        ...(parsed.configPath ? { configPath: parsed.configPath } : {}),
         useOllama: parsed.useOllama,
         log,
         error,
