@@ -3,7 +3,8 @@ import * as path from "path";
 import { pathToFileURL } from "node:url";
 
 import matter from "gray-matter";
-import { listFilesRec } from "@promethean/utils";
+import { scanFiles } from "@promethean/file-indexer";
+import type { IndexedFile } from "@promethean/file-indexer";
 
 import { parseArgs, slugify, extnamePrefer } from "./utils.js";
 import type { Front } from "./types.js";
@@ -25,33 +26,42 @@ async function exists(p: string) {
 export async function runRename(opts: RenameOptions) {
   ROOT = path.resolve(opts.dir);
   DRY = Boolean(opts.dryRun);
-  let files = await listFilesRec(ROOT, new Set([".md", ".mdx", ".txt"]));
-  if (opts.files && opts.files.length) {
-    const wanted = new Set(opts.files.map((p) => path.resolve(p)));
-    files = files.filter((f: string) => wanted.has(path.resolve(f)));
-  }
-  for (const f of files) {
-    const raw = await fs.readFile(f, "utf-8");
-    const fm = (matter(raw).data || {}) as Front;
-    if (!fm.filename) continue;
+  const exts = new Set([".md", ".mdx", ".txt"]);
+  const wanted =
+    opts.files && opts.files.length
+      ? new Set(opts.files.map((p) => path.resolve(p)))
+      : null;
+  await scanFiles({
+    root: ROOT,
+    exts,
+    readContent: true,
+    onFile: async (file: IndexedFile) => {
+      const abs = path.isAbsolute(file.path)
+        ? path.resolve(file.path)
+        : path.resolve(ROOT, file.path);
+      if (wanted && !wanted.has(abs)) return;
+      const raw = file.content ?? (await fs.readFile(abs, "utf-8"));
+      const fm = (matter(raw).data || {}) as Front;
+      if (!fm.filename) return;
 
-    const want = slugify(fm.filename) + extnamePrefer(f);
-    const dir = path.dirname(f);
-    const currentBase = path.basename(f);
-    if (currentBase === want) continue;
+      const want = slugify(fm.filename) + extnamePrefer(abs);
+      const dir = path.dirname(abs);
+      const currentBase = path.basename(abs);
+      if (currentBase === want) return;
 
-    let target = path.join(dir, want);
-    let i = 1;
-    while (await exists(target)) {
-      const base = slugify(fm.filename) + (i > 1 ? `-${i}` : "");
-      target = path.join(dir, base + extnamePrefer(f));
-      i++;
-    }
-    if (DRY) console.log(`Would rename: ${f} -> ${target}`);
-    else {
-      await fs.rename(f, target);
-    }
-  }
+      let target = path.join(dir, want);
+      let i = 1;
+      while (await exists(target)) {
+        const base = slugify(fm.filename) + (i > 1 ? `-${i}` : "");
+        target = path.join(dir, base + extnamePrefer(abs));
+        i++;
+      }
+      if (DRY) console.log(`Would rename: ${abs} -> ${target}`);
+      else {
+        await fs.rename(abs, target);
+      }
+    },
+  });
   console.log("06-rename: done.");
 }
 const isDirect =
