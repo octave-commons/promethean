@@ -15,6 +15,7 @@
  */
 
 import { promises as fs } from "fs";
+import { randomUUID as nodeRandomUUID } from "node:crypto";
 import * as path from "path";
 import { unified } from "unified";
 import remarkParse from "remark-parse";
@@ -74,6 +75,15 @@ type QueryHit = {
   startCol: number;
 };
 
+const toStringArray = (value: unknown): readonly unknown[] | undefined => {
+  if (Array.isArray(value)) return value;
+  if (typeof value === "string") return [value];
+  return undefined;
+};
+
+const normalizeTags = (value: unknown): string[] =>
+  normalizeStringList(toStringArray(value));
+
 const OLLAMA_URL = process.env.OLLAMA_URL ?? "http://localhost:11434";
 
 const args = parseArgs({
@@ -113,9 +123,7 @@ function relMdLink(
 
 function randomUUID(): string {
   // Node 18+: crypto.randomUUID available
-  return (
-    (globalThis as any).crypto?.randomUUID?.() ?? require("crypto").randomUUID()
-  );
+  return (globalThis as any).crypto?.randomUUID?.() ?? nodeRandomUUID();
 }
 
 function slugify(s: string): string {
@@ -360,8 +368,12 @@ async function main() {
       createdAtFactory: ({ filePath: p }) => {
         if (!p) return undefined;
         const b = path.basename(p);
-        const m = b.match(/(\d{4})\.(\d{2})\.(\d{2})\.(\d{2})\.(\d{2})\.(\d{2})/);
-        return m ? `${m[1]}-${m[2]}-${m[3]}T${m[4]}:${m[5]}:${m[6]}Z` : undefined;
+        const m = b.match(
+          /(\d{4})\.(\d{2})\.(\d{2})\.(\d{2})\.(\d{2})\.(\d{2})/,
+        );
+        return m
+          ? `${m[1]}-${m[2]}-${m[3]}T${m[4]}:${m[5]}:${m[6]}Z`
+          : undefined;
       },
       fallbackTitle:
         (typeof originalFront.title === "string" && originalFront.title) ||
@@ -378,13 +390,13 @@ async function main() {
     const haveAll = Boolean(
       baseline.filename &&
         baseline.description &&
-        normalizeStringList(baseline.tags).length,
+        normalizeTags(baseline.tags).length,
     );
     if (!haveAll) {
       const need: Array<keyof GenResult> = [];
       if (!baseline.filename) need.push("filename");
       if (!baseline.description) need.push("description");
-      if (!normalizeStringList(baseline.tags).length) need.push("tags");
+      if (!normalizeTags(baseline.tags).length) need.push("tags");
 
       let current: Partial<GenResult> = {};
       // Provide helpful context: body (truncated) + best effort hints
@@ -471,8 +483,8 @@ async function main() {
         descriptionFallback: "",
       }) as Front;
 
-      const originalTags = normalizeStringList(originalFront.tags);
-      const mergedTags = normalizeStringList(merged.tags);
+      const originalTags = normalizeTags(originalFront.tags);
+      const mergedTags = normalizeTags(merged.tags);
 
       const changed =
         baseChanged ||
@@ -494,8 +506,8 @@ async function main() {
       }
       continue;
     }
-    const originalTags = normalizeStringList(originalFront.tags);
-    const baselineTags = normalizeStringList(baseline.tags);
+    const originalTags = normalizeTags(originalFront.tags);
+    const baselineTags = normalizeTags(baseline.tags);
     const changed =
       baseChanged ||
       baseline.filename !== originalFront.filename ||

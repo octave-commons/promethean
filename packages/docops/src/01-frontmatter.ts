@@ -38,6 +38,15 @@ const GenSchema = z.object({
   tags: z.array(z.string()).min(1),
 });
 
+const toStringArray = (value: unknown): readonly unknown[] | undefined => {
+  if (Array.isArray(value)) return value;
+  if (typeof value === "string") return [value];
+  return undefined;
+};
+
+const normalizeTags = (value: unknown): string[] =>
+  normalizeStringList(toStringArray(value));
+
 export async function runFrontmatter(
   opts: FrontmatterOptions,
   db: DBs,
@@ -106,12 +115,12 @@ export async function runFrontmatter(
       )
       .then(parseModelJSON);
 
-  const isoFromBasename = (name: string) => {
+  const isoFromBasename = (name: string): string | undefined => {
     const base = name.replace(/\.[^.]+$/, "");
     const m = base.match(
       /(\d{4})\.(\d{2})\.(\d{2})\.(\d{2})\.(\d{2})\.(\d{2})/,
     );
-    return m ? `${m[1]}-${m[2]}-${m[3]}T${m[4]}:${m[5]}:${m[6]}Z` : name;
+    return m ? `${m[1]}-${m[2]}-${m[3]}T${m[4]}:${m[5]}:${m[6]}Z` : undefined;
   };
 
   const validateGen = (obj: unknown) => {
@@ -148,7 +157,7 @@ export async function runFrontmatter(
     const hasAll =
       Boolean(base.filename) &&
       Boolean(base.description) &&
-      Boolean(normalizeStringList(base.tags).length);
+      Boolean(normalizeTags(base.tags).length);
 
     const preview = gm.content.slice(0, 4000);
 
@@ -170,8 +179,8 @@ export async function runFrontmatter(
         next.created_at !== (gm.data as Front)?.created_at ||
         next.filename !== (gm.data as Front)?.filename ||
         next.description !== (gm.data as Front)?.description ||
-        JSON.stringify(normalizeStringList(next.tags)) !==
-          JSON.stringify(normalizeStringList((gm.data as Front)?.tags));
+        JSON.stringify(normalizeTags(next.tags)) !==
+          JSON.stringify(normalizeTags((gm.data as Front)?.tags));
 
       return (
         changed ? writeFrontmatter(fpath, gm.content, next) : Promise.resolve()
