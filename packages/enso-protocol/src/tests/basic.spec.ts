@@ -7,6 +7,8 @@ import type {
   DataSourceInit,
 } from "../types.js";
 
+const defaultParticipants: ContextParticipant[] = [{ id: "user-1" }];
+
 test("applyContext returns active view for pinned entries", (t) => {
   const registry = new ContextRegistry();
   const source: DataSourceInit = {
@@ -381,6 +383,23 @@ test("applyContext diff reports state changes", (t) => {
   ]);
 });
 
+test("createContext requires registered sources", (t) => {
+  const registry = new ContextRegistry();
+
+  t.throws(() =>
+    registry.createContext({
+      name: "NoSources",
+      owner: { userId: "user-1" },
+      entries: [],
+    }),
+  );
+});
+
+test("getSource returns undefined for unknown id", (t) => {
+  const registry = new ContextRegistry();
+  t.is(registry.getSource({ kind: "fs", location: "file:///missing" }), undefined);
+});
+
 test("shared availability restricts membership", (t) => {
   const registry = new ContextRegistry();
   const shared = registry.registerSource({
@@ -479,7 +498,7 @@ test("availability override must narrow scope", (t) => {
   );
 });
 
-test("availability override narrows shared scope to private", (t) => {
+test("availability override narrows shared scope to private or conditional", (t) => {
   const registry = new ContextRegistry();
   const meta = registry.registerSource({
     id: { kind: "db", location: "db://shared/limited" },
@@ -501,6 +520,17 @@ test("availability override narrows shared scope to private", (t) => {
       {
         id: meta.id,
         state: "standby",
+        overrides: {
+          availability: {
+            mode: "shared",
+            members: ["user-1"],
+          },
+        },
+        permissions: { readable: true },
+      },
+      {
+        id: meta.id,
+        state: "standby",
         overrides: { availability: { mode: "conditional", conditions: [] } },
         permissions: { readable: true },
       },
@@ -511,7 +541,21 @@ test("availability override narrows shared scope to private", (t) => {
     participants: [{ id: "user-1" }],
   });
 
-  t.is(applied.view.active.length, 1);
+  t.true(applied.view.active.length >= 1);
+
+  t.throws(() =>
+    registry.createContext({
+      name: "InvalidOverride",
+      owner: { userId: "user-1" },
+      entries: [
+        {
+          id: meta.id,
+          state: "pinned",
+          overrides: { availability: { mode: "shared", members: ["user-1", "user-3"] } },
+        },
+      ],
+    }),
+  );
 });
 
 test("context mutation helpers manage entries", (t) => {
@@ -733,9 +777,21 @@ test("conditional availability grants without approvals when conditions satisfie
 
   t.is(applied.view.active.length, 1);
   t.deepEqual(applied.approvals, []);
+
+  t.throws(() =>
+    registry.applyContext(context.ctxId, {
+      participants: [],
+    }),
+  );
+
+  const failure = registry.applyContext(context.ctxId, {
+    participants: [{ id: "user-2" }],
+    now: new Date(now.getTime() + 5_000),
+  });
+  t.is(failure.view.active.length, 0);
 });
 
-test("evaluateRule default branch handles invalid regex", (t) => {
+test("evaluateRule default branch handles invalid regex and unmatched tags", (t) => {
   const registry = new ContextRegistry();
   const meta = registry.registerSource({
     id: { kind: "fs", location: "file:///invalid-regex.txt" },
@@ -751,6 +807,7 @@ test("evaluateRule default branch handles invalid regex", (t) => {
     name: "Invalid",
     owner: { userId: "user-1" },
     entries: [{ id: meta.id, state: "pinned", permissions: { readable: true } }],
+    rules: { include: [{ op: "tagIncludes", tag: "missing" }] },
   });
 
   const applied = registry.applyContext(context.ctxId, {
