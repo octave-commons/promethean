@@ -62,6 +62,10 @@ ly** includes `./src/**/*`
 Packages may also have:
 - `static/` files served directly by a file server.
 - `src/frontend` Frontend typescript code.
+
+## Package generator presets
+- Use `nx g tools:package <name> --preset web-frontend` to scaffold a web component-ready frontend package. The preset mirrors the `dist/frontend` layout used by existing frontends and wires Nx targets for `build`, `test`, `lint`, and `typecheck`.
+- Static assets should live under the generated `static/` directory so they can be mounted alongside `dist/frontend` by Fastify's static file handler or equivalent servers.
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
 - [Promethean Package Structure](2025.09.04.17.17.25.md)
