@@ -1,17 +1,46 @@
-import { WebSocketServer } from "ws";
-import { v4 as uuid } from "uuid";
-import { validateEnvelope } from "@promethean/enso-protocol/validate.js";
-import { Rooms } from "./state/rooms.js";
-import { Router } from "./transport/router.js";
+import { EventEmitter } from "node:events";
+import { randomUUID } from "node:crypto";
+import type { Envelope } from "./types/envelope.js";
+import { Router, type RouteHandler } from "./router.js";
 
-const wss = new WebSocketServer({ port: 7747 });
-const rooms = new Rooms();
-const router = new Router(rooms);
+export interface EnsoServerOptions {
+  router?: Router;
+  validate?: (raw: unknown) => Envelope;
+}
 
-wss.on("connection", (ws) => {
-  const sessionId = uuid();
-  ws.on("message", async (buf) => {
-    const env = validateEnvelope(buf);
-    await router.handle(ws, sessionId, env); // dispatch by type
-  });
-});
+export interface ServerSession {
+  id: string;
+}
+
+export class EnsoServer extends EventEmitter {
+  private readonly router: Router;
+  private readonly validate: (raw: unknown) => Envelope;
+
+  constructor(options: EnsoServerOptions = {}) {
+    super();
+    this.router = options.router ?? new Router();
+    this.validate =
+      options.validate ?? ((raw) => raw as Envelope);
+  }
+
+  register(type: string, handler: RouteHandler): void {
+    this.router.register(type, handler);
+  }
+
+  createSession(): ServerSession {
+    const session: ServerSession = { id: randomUUID() };
+    this.emit("session", session);
+    return session;
+  }
+
+  async dispatch(session: ServerSession, raw: unknown): Promise<void> {
+    const envelope = this.validate(raw);
+    await this.router.handle(
+      {
+        sessionId: session.id,
+        send: (response) => this.emit("message", session, response),
+      },
+      envelope,
+    );
+  }
+}
