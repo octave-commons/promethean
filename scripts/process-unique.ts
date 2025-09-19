@@ -357,8 +357,12 @@ async function main() {
     const baseline = ensureBaselineFrontmatter(originalFront, {
       filePath: f,
       uuidFactory: randomUUID,
-      createdAtFactory: ({ filePath: filePathFromOpts }) =>
-        filePathFromOpts ? path.basename(filePathFromOpts) : undefined,
+      createdAtFactory: ({ filePath: p }) => {
+        if (!p) return undefined;
+        const b = path.basename(p);
+        const m = b.match(/(\d{4})\.(\d{2})\.(\d{2})\.(\d{2})\.(\d{2})\.(\d{2})/);
+        return m ? `${m[1]}-${m[2]}-${m[3]}T${m[4]}:${m[5]}:${m[6]}Z` : undefined;
+      },
       fallbackTitle:
         (typeof originalFront.title === "string" && originalFront.title) ||
         (typeof originalFront.filename === "string" &&
