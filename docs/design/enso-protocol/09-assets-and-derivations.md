@@ -45,7 +45,16 @@ export interface AssetPut {
 ```
 
 Gateways emit `content.message` immediately, then append derived parts as they
-arrive.
+arrive. Delivery includes a stable message identifier for downstream receipts:
+
+```json
+{ "kind": "event", "type": "content.message",
+  "payload": {
+    "messageId": "msg-ax9",
+    "room": "r1",
+    "message": { "role": "agent", "parts": [{ "kind": "text", "text": "Working on it." }] }
+  }}
+```
 
 ## Derivation Requests
 

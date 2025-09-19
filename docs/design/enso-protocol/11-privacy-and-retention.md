@@ -55,7 +55,7 @@ export interface ChatMessage {
 
 ## Consent and Deletion
 
-* `consent` events capture whether storage, indexing, or export actions were
+* `consent.record` events capture whether storage, indexing, or export actions were
   approved.
 * Deletion flows use `asset.delete`, `cache.evict`, and `content.retract` events
   followed by `deleted` receipts. Ghost rooms require receipts to expire once
