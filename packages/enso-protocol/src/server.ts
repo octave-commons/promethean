@@ -3,6 +3,7 @@ import { randomUUID } from "node:crypto";
 import type { Envelope } from "./types/envelope.js";
 import { Router, type RouteHandler } from "./router.js";
 import type { HelloCaps, PrivacyProfile } from "./types/privacy.js";
+import { resolveHelloPrivacy } from "./types/privacy.js";
 import type { ToolCall } from "./types/tools.js";
 import { GuardrailManager } from "./guardrails.js";
 
@@ -76,8 +77,7 @@ export class EnsoServer extends EventEmitter {
   constructor(options: EnsoServerOptions = {}) {
     super();
     this.router = options.router ?? new Router();
-    this.validate =
-      options.validate ?? ((raw) => raw as Envelope);
+    this.validate = options.validate ?? ((raw) => raw as Envelope);
     this.guardrails = options.guardrails ?? new GuardrailManager();
   }
 
@@ -94,12 +94,16 @@ export class EnsoServer extends EventEmitter {
   }
 
   /** Accept the initial handshake and emit presence + privacy events. */
-  acceptHandshake(hello: HelloCaps, options: HandshakeOptions = {}): HandshakeResult {
+  acceptHandshake(
+    hello: HelloCaps,
+    options: HandshakeOptions = {},
+  ): HandshakeResult {
     const negotiatedCaps = options.adjustCapabilities
       ? options.adjustCapabilities([...hello.caps])
       : [...hello.caps];
-    const profile = options.privacyProfile ?? hello.privacy.profile;
-    const wantsE2E = options.wantsE2E ?? (hello.privacy.wantsE2E ?? false);
+    const requestedPrivacy = resolveHelloPrivacy(hello);
+    const profile = options.privacyProfile ?? requestedPrivacy.profile;
+    const wantsE2E = options.wantsE2E ?? requestedPrivacy.wantsE2E ?? false;
     const session = this.createSession();
     const record: SessionRecord = {
       id: session.id,
@@ -112,7 +116,10 @@ export class EnsoServer extends EventEmitter {
       auditLog: [],
     };
     this.sessions.set(session.id, record);
-    this.guardrails.setEvaluationMode(session.id, options.evaluationMode ?? false);
+    this.guardrails.setEvaluationMode(
+      session.id,
+      options.evaluationMode ?? false,
+    );
     const accepted = mkEnvelope("privacy.accepted", {
       profile,
       wantsE2E,
