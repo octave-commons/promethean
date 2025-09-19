@@ -10,6 +10,12 @@
         "$source": "argv",
         "index": 0
       }
+    },
+    "preset": {
+      "type": "string",
+      "description": "Optional template preset to scaffold specialized package layouts",
+      "enum": ["fastify-service"],
+      "default": null
     }
   },
   "required": ["name"]
