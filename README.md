@@ -45,6 +45,7 @@ into small services that handle speech-to-text, text-to-speech, memory, and high
 📖 For a high-level overview, see [Vision Overview](docs/design/overview.md).
 📊 For architecture roadmaps and visualizations, see [[docs/architecture/index|docs/architecture/index.md]].
 📦 Data migration conventions and runbooks live under [[docs/data/contracts/readme|docs/data]].
+🧰 Need a new workspace package? Follow the [Nx package workflow](docs/packages/new-package.md) for presets, directory layout, and follow-up tasks.
 
 ### Development conventions
 
