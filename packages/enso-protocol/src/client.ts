@@ -20,6 +20,7 @@ const CAP_CONTEXT_APPLY = "can.context.apply";
 type ServerAdjustment = {
   capabilities?: string[];
   privacyProfile?: PrivacyProfile;
+  emitAccepted?: boolean;
 };
 
 function createEnvelope<T>(partial: Omit<Envelope<T>, "id" | "ts"> & { payload: T }): Envelope<T> {
@@ -42,27 +43,34 @@ export class EnsoClient {
   private connected = false;
   private capabilities = new Set<string>();
   private privacyProfile: PrivacyProfile | undefined;
+  private outbound?: (env: Envelope) => Promise<void> | void;
 
   constructor(registry: ContextRegistry = new ContextRegistry()) {
     this.registry = registry;
+  }
+
+  attachTransport(transport: { send: (env: Envelope) => Promise<void> | void }): void {
+    this.outbound = transport.send;
   }
 
   async connect(hello: HelloCaps, adjustment: ServerAdjustment = {}): Promise<void> {
     this.capabilities = new Set(adjustment.capabilities ?? hello.caps ?? []);
     this.privacyProfile = adjustment.privacyProfile ?? hello.privacy.profile;
     this.connected = true;
-    const envelope = createEnvelope({
-      room: "local",
-      from: "enso-client",
-      kind: "event",
-      type: "privacy.accepted",
-      payload: {
-        profile: this.privacyProfile,
-        negotiatedCaps: Array.from(this.capabilities.values()),
-        requested: hello,
-      },
-    });
-    this.emit(envelope);
+    if (adjustment.emitAccepted !== false) {
+      const envelope = createEnvelope({
+        room: "local",
+        from: "enso-client",
+        kind: "event",
+        type: "privacy.accepted",
+        payload: {
+          profile: this.privacyProfile,
+          negotiatedCaps: Array.from(this.capabilities.values()),
+          requested: hello,
+        },
+      });
+      this.emit(envelope);
+    }
   }
 
   updateCapabilities(caps: string[]): void {
@@ -80,9 +88,13 @@ export class EnsoClient {
     return () => handlers.delete(fn);
   }
 
-  send(env: Envelope): void {
+  async send(env: Envelope): Promise<void> {
     if (!this.connected) {
       throw new Error("Client must be connected before sending envelopes");
+    }
+    if (this.outbound) {
+      await this.outbound(env);
+      return;
     }
     this.emit(env);
   }
@@ -96,7 +108,7 @@ export class EnsoClient {
       type: "content.post",
       payload: { room: "local", message },
     });
-    this.emit(envelope);
+    await this.send(envelope);
   }
 
   assets = {
@@ -125,6 +137,10 @@ export class EnsoClient {
       });
     },
   };
+
+  receive(envelope: Envelope): void {
+    this.emit(envelope);
+  }
 
   private requireCapability(cap: string): void {
     if (!this.capabilities.has(cap)) {

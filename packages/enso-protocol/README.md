@@ -27,6 +27,8 @@ A reference implementation of the Promethean ENSO context protocol described in
   [`04-flow-control-and-reliability.md`](../../docs/design/enso-protocol/04-flow-control-and-reliability.md).
 - `signature.ts` – Canonical envelope serialisation plus Ed25519
   sign/verify helpers for [`06-security-and-guardrails.md`](../../docs/design/enso-protocol/06-security-and-guardrails.md).
+- `transport.ts` – Local transport wiring that links `EnsoClient` to
+  `EnsoServer` with handshake + presence events for integration tests.
 - `cli.ts` – Command-line utilities for listing sources and seeding demo
   contexts.
 - `policy.ts` – Published retention and cache policy defaults aligned with
@@ -129,6 +131,32 @@ console.log(flow.pause("V1"));
 console.log(flow.resume("V1"));
 console.log(flow.markDegraded("V1"));
 ```
+
+### Connecting client and server in-memory
+
+```ts
+import { EnsoClient, EnsoServer, connectLocal } from "@promethean/enso-protocol";
+import { ContextRegistry } from "@promethean/enso-protocol";
+
+const client = new EnsoClient(new ContextRegistry());
+const server = new EnsoServer();
+
+const hello = {
+  proto: "ENSO-1" as const,
+  caps: ["can.send.text"],
+  privacy: { profile: "pseudonymous" as const },
+};
+
+connectLocal(client, server, hello, {
+  adjustCapabilities: (caps) => [...caps, "can.context.apply"],
+  privacyProfile: "persistent",
+});
+
+await client.post({ role: "human", parts: [{ kind: "text", text: "hi" }] });
+```
+
+Presence and other room events are emitted back through the client via
+`receive`, while outbound events travel through the server router.
 
 ### Signing envelopes
 

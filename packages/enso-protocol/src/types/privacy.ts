@@ -7,6 +7,10 @@ export type PrivacyProfile =
 export interface HelloCaps {
   proto: "ENSO-1";
   caps: string[];
+  agent?: {
+    name: string;
+    version: string;
+  };
   privacy: {
     profile: PrivacyProfile;
     wantsE2E?: boolean;
