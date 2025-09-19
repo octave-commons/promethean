@@ -16,12 +16,10 @@
 
 import { promises as fs } from "fs";
 import * as path from "path";
-import matter from "gray-matter";
 import { unified } from "unified";
 import remarkParse from "remark-parse";
 import { visit } from "unist-util-visit";
 import { z } from "zod";
-import * as yaml from "yaml";
 import {
   stripGeneratedSections,
   START_MARK,
@@ -29,6 +27,13 @@ import {
 } from "@promethean/utils";
 import { listFilesRec } from "@promethean/utils/list-files-rec";
 import { openLevelCache } from "@promethean/level-cache";
+import {
+  ensureBaselineFrontmatter,
+  mergeFrontmatterWithGenerated,
+  normalizeStringList,
+  parseFrontmatter,
+  stringifyFrontmatter,
+} from "@promethean/markdown/frontmatter";
 
 type Front = {
   uuid?: string;
@@ -36,6 +41,7 @@ type Front = {
   filename?: string; // title/sluggy name (no extension enforced)
   description?: string;
   tags?: string[];
+  title?: string;
   related_to_title?: string[];
   related_to_uuid?: string[];
   references?: Array<{
@@ -103,11 +109,6 @@ function relMdLink(
     .relative(path.dirname(fromFileAbs), toFileAbs)
     .replace(/\\/g, "/");
   return anchor ? `${rel}#${anchor}` : rel;
-}
-
-function ensureArray<T>(x: T | T[] | undefined): T[] {
-  if (!x) return [];
-  return Array.isArray(x) ? x : [x];
 }
 
 function randomUUID(): string {
@@ -331,10 +332,6 @@ function sentenceSplit(s: string, maxLen: number): string[] {
   return final;
 }
 
-function frontToYAML(front: Front): string {
-  return yaml.stringify(front, { indent: 2, simpleKeys: true });
-}
-
 async function main() {
   await fs.mkdir(CACHE_DIR, { recursive: true });
   const chunkCache = await openLevelCache<Chunk>({ path: CHUNK_CACHE_PATH });
@@ -353,33 +350,37 @@ async function main() {
   // First pass: ensure frontmatter basics
   for (const f of files) {
     const raw = await fs.readFile(f, "utf-8");
-    const gm = matter(raw);
+    const gm = parseFrontmatter<Front>(raw);
     const body = gm.content || "";
-    const fm: Front = (gm.data || {}) as Front;
+    const originalFront = gm.data ?? ({} as Front);
     const originalName = path.basename(f);
-    let changed = false;
+    const baseline = ensureBaselineFrontmatter(originalFront, {
+      filePath: f,
+      uuidFactory: randomUUID,
+      createdAtFactory: ({ filePath: filePathFromOpts }) =>
+        filePathFromOpts ? path.basename(filePathFromOpts) : undefined,
+      fallbackTitle:
+        (typeof originalFront.title === "string" && originalFront.title) ||
+        (typeof originalFront.filename === "string" &&
+          originalFront.filename) ||
+        path.parse(f).name,
+    });
 
-    // ensure uuid
-    if (!fm.uuid) {
-      fm.uuid = randomUUID();
-      changed = true;
-    }
+    const baseChanged =
+      baseline.uuid !== originalFront.uuid ||
+      baseline.created_at !== originalFront.created_at ||
+      baseline.title !== originalFront.title;
 
-    // ensure created_at per request -> original name used as "created_at"
-    if (!fm.created_at) {
-      fm.created_at = originalName;
-      changed = true;
-    }
-
-    // generate missing fields iteratively with Ollama
     const haveAll = Boolean(
-      fm.filename && fm.description && ensureArray(fm.tags).length,
+      baseline.filename &&
+        baseline.description &&
+        normalizeStringList(baseline.tags).length,
     );
     if (!haveAll) {
       const need: Array<keyof GenResult> = [];
-      if (!fm.filename) need.push("filename");
-      if (!fm.description) need.push("description");
-      if (!fm.tags || fm.tags.length === 0) need.push("tags");
+      if (!baseline.filename) need.push("filename");
+      if (!baseline.description) need.push("description");
+      if (!normalizeStringList(baseline.tags).length) need.push("tags");
 
       let current: Partial<GenResult> = {};
       // Provide helpful context: body (truncated) + best effort hints
@@ -405,9 +406,9 @@ async function main() {
           `Existing (for reference):`,
           JSON.stringify(
             {
-              filename: fm.filename ?? null,
-              description: fm.description ?? null,
-              tags: fm.tags ?? null,
+              filename: baseline.filename ?? null,
+              description: baseline.description ?? null,
+              tags: baseline.tags ?? null,
             },
             null,
             2,
@@ -460,29 +461,53 @@ async function main() {
       }
 
       // Final merge
-      if (!fm.filename && current.filename) {
-        fm.filename = current.filename;
-        changed = true;
-      }
-      if (!fm.description && current.description) {
-        fm.description = current.description;
-        changed = true;
-      }
-      if ((!fm.tags || fm.tags.length === 0) && current.tags) {
-        fm.tags = dedupeStrings(current.tags);
-        changed = true;
-      }
-    }
+      // merge generated fragments into baseline
+      const merged = mergeFrontmatterWithGenerated(baseline, current, {
+        filePath: f,
+        descriptionFallback: "",
+      }) as Front;
 
-    docsFront[f] = fm;
-    docsByUuid[fm.uuid!] = {
+      const originalTags = normalizeStringList(originalFront.tags);
+      const mergedTags = normalizeStringList(merged.tags);
+
+      const changed =
+        baseChanged ||
+        merged.filename !== originalFront.filename ||
+        merged.description !== originalFront.description ||
+        merged.title !== originalFront.title ||
+        mergedTags.length !== originalTags.length ||
+        mergedTags.some((tag, idx) => tag !== originalTags[idx]);
+
+      docsFront[f] = merged;
+      docsByUuid[merged.uuid!] = {
+        path: f,
+        title: merged.title ?? merged.filename ?? path.parse(f).name,
+      };
+
+      if (changed && !DRY_RUN) {
+        const newRaw = stringifyFrontmatter(gm.content, merged);
+        await fs.writeFile(f, newRaw, "utf-8");
+      }
+      continue;
+    }
+    const originalTags = normalizeStringList(originalFront.tags);
+    const baselineTags = normalizeStringList(baseline.tags);
+    const changed =
+      baseChanged ||
+      baseline.filename !== originalFront.filename ||
+      baseline.description !== originalFront.description ||
+      baseline.title !== originalFront.title ||
+      baselineTags.length !== originalTags.length ||
+      baselineTags.some((tag, idx) => tag !== originalTags[idx]);
+
+    docsFront[f] = baseline;
+    docsByUuid[baseline.uuid!] = {
       path: f,
-      title: fm.filename ?? path.parse(f).name,
+      title: baseline.title ?? baseline.filename ?? path.parse(f).name,
     };
 
-    // Only write here if we changed basic ids/dates BEFORE later steps
     if (changed && !DRY_RUN) {
-      const newRaw = matter.stringify(gm.content, fm, { language: "yaml" });
+      const newRaw = stringifyFrontmatter(gm.content, baseline);
       await fs.writeFile(f, newRaw, "utf-8");
     }
   }
@@ -492,7 +517,7 @@ async function main() {
   const allChunks: Chunk[] = [];
   for (const f of files) {
     const raw = await fs.readFile(f, "utf-8");
-    const gm = matter(raw);
+    const gm = parseFrontmatter<Front>(raw);
     const fm = docsFront[f];
     const uuid = fm.uuid!;
     const chunks = parseMarkdownChunks(gm.content).map(
@@ -596,14 +621,17 @@ async function main() {
       .filter(Boolean) as string[];
     const relatedUuids = peers.map(([uuid]) => uuid);
 
-    fm.related_to_title = dedupeStrings([
-      ...(fm.related_to_title ?? []),
-      ...relatedTitles,
-    ]);
-    fm.related_to_uuid = dedupeStrings([
-      ...(fm.related_to_uuid ?? []),
-      ...relatedUuids,
-    ]);
+    docsFront[f] = Object.freeze({
+      ...fm,
+      related_to_title: normalizeStringList([
+        ...(fm.related_to_title ?? []),
+        ...relatedTitles,
+      ]),
+      related_to_uuid: normalizeStringList([
+        ...(fm.related_to_uuid ?? []),
+        ...relatedUuids,
+      ]),
+    });
   }
 
   // STEP 5: per-chunk high-confidence refs into frontmatter
@@ -637,7 +665,10 @@ async function main() {
       }
     }
 
-    fm.references = refs;
+    docsFront[f] = Object.freeze({
+      ...fm,
+      references: refs,
+    });
   }
   // Compute planned final filepath for every doc (so links are stable across renames)
   const plannedPathByUuid: Record<string, string> = {};
@@ -656,7 +687,7 @@ async function main() {
   // STEP 6–9: write frontmatter + footers and rename
   for (const f of files) {
     const raw = await fs.readFile(f, "utf-8");
-    const gm = matter(raw);
+    const gm = parseFrontmatter<Front>(raw);
     const fm = docsFront[f];
     const body = gm.content;
     const myPlanned = plannedPathByUuid[fm.uuid!];
@@ -694,9 +725,7 @@ async function main() {
     ].join("\n");
 
     const cleanedBody = stripGeneratedSections(body, START_MARK, END_MARK);
-    const newFile = matter.stringify(cleanedBody + footer, fm, {
-      language: "yaml",
-    });
+    const newFile = stringifyFrontmatter(cleanedBody + footer, fm);
 
     if (!DRY_RUN) {
       await fs.writeFile(f, newFile, "utf-8");
@@ -730,11 +759,6 @@ function parseArgs(defaults: Record<string, string>): Record<string, string> {
     }
   }
   return out;
-}
-
-function dedupeStrings(arr: string[]): string[] {
-  const s = new Set(arr.map((x) => x.trim()).filter(Boolean));
-  return Array.from(s);
 }
 
 function round2(n: number | undefined): number | undefined {
