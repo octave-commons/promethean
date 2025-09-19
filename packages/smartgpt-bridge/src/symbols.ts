@@ -2,9 +2,16 @@ import path from "path";
 import fs from "fs/promises";
 
 import ts from "typescript";
-import fg from "fast-glob";
+
+import { scanFiles } from "@promethean/file-indexer";
+import type { IndexedFile } from "@promethean/file-indexer";
 
 import { normalizeToRoot, isInsideRoot } from "./files.js";
+import {
+  createInclusionChecker,
+  deriveExtensions,
+  toPosixPath,
+} from "./glob.js";
 
 type SymbolEntry = {
   path: string;
@@ -28,6 +35,20 @@ function defaultExcludes(): string[] {
   return env.length
     ? env
     : ["node_modules/**", ".git/**", "dist/**", "build/**", ".obsidian/**"];
+}
+
+function toIgnoreDirs(patterns: readonly string[]): string[] {
+  return patterns
+    .map((raw) => raw.trim())
+    .filter((value) => value.length > 0)
+    .map((value) => value.replace(/^!/, ""))
+    .map((value) => value.replace(/\\/g, "/"))
+    .map((value) => value.replace(/\/\*\*.*$/, ""))
+    .map((value) => value.replace(/^\*\*\//, ""))
+    .map((value) => value.replace(/^\//, ""))
+    .map((value) => value.replace(/\/$/, ""))
+    .filter((value) => value.length > 0)
+    .map((value) => path.normalize(value));
 }
 
 function kindOf(node: ts.Node): string {
@@ -115,30 +136,35 @@ export async function symbolsIndex(
   SYMBOL_INDEX = [];
   const include = opts.paths || ["**/*.{ts,tsx,js,jsx}"];
   const exclude = opts.exclude || defaultExcludes();
-  const files = await fg(include, {
-    cwd: ROOT_PATH,
-    ignore: exclude,
-    onlyFiles: true,
-    dot: false,
-    absolute: true,
-  });
+  const ignoreDirs = toIgnoreDirs(exclude);
+  const extCandidates = deriveExtensions(include);
+  const shouldInclude = include.length
+    ? createInclusionChecker(include)
+    : () => true;
+  const shouldExclude = exclude.length
+    ? createInclusionChecker(exclude)
+    : () => false;
   let count = 0;
-  for (const abs of files) {
-    if (!isInsideRoot(ROOT_PATH, abs)) continue;
-    let text = "";
-    try {
-      const safeAbs = path.isAbsolute(abs)
-        ? abs
-        : normalizeToRoot(ROOT_PATH, abs);
-      text = await fs.readFile(safeAbs, "utf8");
-    } catch {
-      continue;
-    }
-    const rel = path.relative(ROOT_PATH, abs);
-    const sf = ts.createSourceFile(abs, text, ts.ScriptTarget.Latest, true);
-    walk(sf, rel);
-    count++;
-  }
+  await scanFiles({
+    root: ROOT_PATH,
+    ...(extCandidates ? { exts: extCandidates } : {}),
+    ignoreDirs,
+    readContent: true,
+    onFile: async (file: IndexedFile) => {
+      const abs = path.isAbsolute(file.path)
+        ? file.path
+        : normalizeToRoot(ROOT_PATH, file.path);
+      if (!isInsideRoot(ROOT_PATH, abs)) return;
+      const rel = path.relative(ROOT_PATH, abs);
+      const normalized = toPosixPath(rel);
+      if (shouldExclude(normalized)) return;
+      if (!shouldInclude(normalized)) return;
+      const text = file.content ?? (await fs.readFile(abs, "utf8"));
+      const sf = ts.createSourceFile(abs, text, ts.ScriptTarget.Latest, true);
+      walk(sf, rel);
+      count++;
+    },
+  });
   return { files: count, symbols: SYMBOL_INDEX.length, builtAt: Date.now() };
 }
 

@@ -9,8 +9,8 @@ import {
   getNodeText,
   relFromRepo,
   parseArgs,
-  listFilesRec,
 } from "@promethean/utils";
+import { scanFiles } from "@promethean/file-indexer";
 
 import { openLevelCache } from "@promethean/level-cache";
 import { makeProgram, sha1 } from "./utils.js";
@@ -27,7 +27,17 @@ export async function collectSourceFiles(
   root: string,
   exts: Set<string>,
 ): Promise<string[]> {
-  return listFilesRec(root, exts);
+  const resolvedRoot = path.resolve(root);
+  const result = await scanFiles({
+    root: resolvedRoot,
+    exts,
+    collect: true,
+  });
+  return (result.files ?? []).map((file) =>
+    path.isAbsolute(file.path)
+      ? path.resolve(file.path)
+      : path.resolve(resolvedRoot, file.path),
+  );
 }
 
 export async function gatherFunctionInfo(

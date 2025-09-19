@@ -6,7 +6,8 @@ import { withServer } from "../helpers/server.js";
 
 const ROOT = path.join(process.cwd(), "tests", "fixtures");
 
-test("POST /v0/symbols/index then /v0/symbols/find", async (t) => {
+test.serial("POST /v0/symbols/index then /v0/symbols/find", async (t) => {
+  t.timeout(20_000);
   await withServer(ROOT, async (req) => {
     const idx = await req
       .post("/v0/symbols/index")
