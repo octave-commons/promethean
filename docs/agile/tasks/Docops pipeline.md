@@ -30,7 +30,7 @@ Run the synthesis agent over the files in `docs/unique/` to generate more polish
 
 ## 📋 Subtasks
 
-- [ ] Configure synthesis-agent to read from `docs/unique/`
+- [x] Configure synthesis-agent to read from `labeled/` (staged via `inbox/` → `doc-stage`) ✅ 2025-09-18
 - [ ] Export cleaned markdown to new folder
 - [ ] Link resulting docs on the kanban board
 
