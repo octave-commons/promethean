@@ -17,13 +17,9 @@ const CAP_ASSET_PUT = "can.asset.put";
 const CAP_CONTEXT_WRITE = "can.context.write";
 const CAP_CONTEXT_APPLY = "can.context.apply";
 
-type ServerAdjustment = {
-  capabilities?: string[];
-  privacyProfile?: PrivacyProfile;
-  emitAccepted?: boolean;
-};
-
-function createEnvelope<T>(partial: Omit<Envelope<T>, "id" | "ts"> & { payload: T }): Envelope<T> {
+function createEnvelope<T>(
+  partial: Omit<Envelope<T>, "id" | "ts"> & { payload: T },
+): Envelope<T> {
   return {
     id: randomUUID(),
     ts: new Date().toISOString(),
@@ -49,28 +45,58 @@ export class EnsoClient {
     this.registry = registry;
   }
 
-  attachTransport(transport: { send: (env: Envelope) => Promise<void> | void }): void {
+  attachTransport(transport: {
+    send: (env: Envelope) => Promise<void> | void;
+  }): void {
     this.outbound = transport.send;
   }
 
-  async connect(hello: HelloCaps, adjustment: ServerAdjustment = {}): Promise<void> {
-    this.capabilities = new Set(adjustment.capabilities ?? hello.caps ?? []);
-    this.privacyProfile = adjustment.privacyProfile ?? hello.privacy.profile;
-    this.connected = true;
-    if (adjustment.emitAccepted !== false) {
-      const envelope = createEnvelope({
-        room: "local",
-        from: "enso-client",
-        kind: "event",
-        type: "privacy.accepted",
-        payload: {
-          profile: this.privacyProfile,
-          negotiatedCaps: Array.from(this.capabilities.values()),
-          requested: hello,
-        },
-      });
-      this.emit(envelope);
+  async connect(hello: HelloCaps): Promise<void> {
+    if (!this.outbound) {
+      throw new Error("Transport must be attached before connecting");
     }
+    const acceptedPromise = new Promise<
+      Envelope<{
+        profile: PrivacyProfile;
+        negotiatedCaps: string[];
+        wantsE2E?: boolean;
+        agent?: HelloCaps["agent"];
+        cache?: HelloCaps["cache"];
+      }>
+    >((resolve) => {
+      const dispose = this.on("event:privacy.accepted", (env) => {
+        dispose();
+        resolve(
+          env as Envelope<{
+            profile: PrivacyProfile;
+            negotiatedCaps: string[];
+            wantsE2E?: boolean;
+            agent?: HelloCaps["agent"];
+            cache?: HelloCaps["cache"];
+          }>,
+        );
+      });
+    });
+    const presencePromise = new Promise<
+      Envelope<{ session: string; caps: string[] }>
+    >((resolve) => {
+      const dispose = this.on("event:presence.join", (env) => {
+        dispose();
+        resolve(env as Envelope<{ session: string; caps: string[] }>);
+      });
+    });
+    const envelope = createEnvelope({
+      room: "local",
+      from: "enso-client",
+      kind: "event",
+      type: "hello",
+      payload: hello,
+    });
+    await this.outbound(envelope);
+    const [accepted] = await Promise.all([acceptedPromise, presencePromise]);
+    this.capabilities = new Set(accepted.payload.negotiatedCaps ?? []);
+    this.privacyProfile = accepted.payload.profile;
+    this.connected = true;
   }
 
   updateCapabilities(caps: string[]): void {
