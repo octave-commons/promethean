@@ -1,0 +1,132 @@
+const tagName = "<%= name %>-root" as const;
+
+type <%= className %>State = Readonly<{
+  readonly heading: string;
+  readonly message: string;
+  readonly accent?: string;
+}>;
+
+export type <%= className %>ComponentOptions = {
+  readonly registry?: CustomElementRegistry;
+  readonly document?: Document;
+  readonly target?: Element;
+  readonly props?: Partial<<%= className %>State>;
+};
+
+const mergeState = (
+  base: <%= className %>State,
+  next: Partial<<%= className %>State> = {},
+): <%= className %>State => ({
+  ...base,
+  ...next,
+});
+
+const initialState = (next: Partial<<%= className %>State> = {}): <%= className %>State =>
+  mergeState(
+    {
+      heading: "<%= className %>",
+      message: "Frontend ready.",
+      accent: undefined,
+    } as const,
+    next,
+  );
+
+const componentTemplate = ({ heading, message, accent }: <%= className %>State): string => {
+  const accentStyle = accent ? `color: ${accent};` : "";
+  return `
+    <style>
+      :host {
+        font-family: var(--<%= name %>-font, Inter, system-ui, sans-serif);
+        display: block;
+        padding: 1rem;
+      }
+
+      h1 {
+        margin: 0 0 0.5rem 0;
+        font-size: clamp(1.5rem, 2vw + 1rem, 2.5rem);
+        ${accentStyle}
+      }
+
+      p {
+        margin: 0;
+        color: rgba(0, 0, 0, 0.75);
+        font-size: 1rem;
+        line-height: 1.4;
+      }
+    </style>
+    <section part="container">
+      <h1 part="heading">${heading}</h1>
+      <p part="message">${message}</p>
+    </section>
+  `;
+};
+
+const renderShadow = (shadow: ShadowRoot, state: <%= className %>State): void => {
+  shadow.innerHTML = componentTemplate(state);
+};
+
+export class <%= className %>Component extends HTMLElement {
+  #state: <%= className %>State;
+  readonly #shadow: ShadowRoot;
+
+  constructor() {
+    super();
+    this.#state = initialState();
+    this.#shadow = this.attachShadow({ mode: "open" });
+  }
+
+  connectedCallback(): void {
+    renderShadow(this.#shadow, this.#state);
+  }
+
+  update(next: Partial<<%= className %>State>): void {
+    this.#state = mergeState(this.#state, next);
+    renderShadow(this.#shadow, this.#state);
+  }
+}
+
+const ensureRegistry = (
+  registry: CustomElementRegistry | undefined,
+): CustomElementRegistry => {
+  const target = registry ?? globalThis.customElements;
+  if (!target) {
+    throw new Error(`Custom element registry unavailable for ${tagName}`);
+  }
+  return target;
+};
+
+export const define<%= className %>Component = (
+  registry?: CustomElementRegistry,
+): string => {
+  const resolved = ensureRegistry(registry);
+  if (!resolved.get(tagName)) {
+    resolved.define(tagName, <%= className %>Component);
+  }
+  return tagName;
+};
+
+const ensureDocument = (doc: Document | undefined): Document => {
+  const resolved = doc ?? globalThis.document;
+  if (!resolved) {
+    throw new Error(`Document unavailable for mounting ${tagName}`);
+  }
+  return resolved;
+};
+
+export const mount<%= className %>Component = (
+  options: <%= className %>ComponentOptions = {},
+): <%= className %>Component => {
+  const registry = ensureRegistry(options.registry);
+  const doc = ensureDocument(options.document);
+  const target = options.target ?? doc.body;
+  if (!target) {
+    throw new Error(`Mount target missing for ${tagName}`);
+  }
+
+  define<%= className %>Component(registry);
+  const element = doc.createElement(tagName) as <%= className %>Component;
+  const nextState = initialState(options.props);
+  element.update(nextState);
+  target.append(element);
+  return element;
+};

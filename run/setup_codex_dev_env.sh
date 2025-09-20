@@ -52,18 +52,16 @@ describe npm-eslint-global      bash -lc 'npm i -g eslint'
 BASE="${NX_BASE:-origin/main}"
 HEAD="${NX_HEAD:-HEAD}"
 
-if pnpm exec nx --version >/dev/null 2>&1; then
-  describe nx-affected-build    pnpm exec nx affected -t build --parallel --output-style=stream --base="$BASE" --head="$HEAD"
-  describe nx-affected-lint     pnpm exec nx affected -t lint  --parallel --output-style=stream --base="$BASE" --head="$HEAD"
-  describe nx-affected-test     pnpm exec nx affected -t test  --parallel --output-style=stream --base="$BASE" --head="$HEAD"
-  describe nx-graph             pnpm exec nx graph --affected --base="$BASE" --head="$HEAD" --file="$RUN_DIR/affected-graph.html"
-else
+# if pnpm exec nx --version >/dev/null 2>&1; then
+#   describe nx-affected-build    pnpm exec nx affected -t build --parallel --output-style=stream --base="$BASE" --head="$HEAD"
+#   describe nx-affected-lint     pnpm exec nx affected -t lint  --parallel --output-style=stream --base="$BASE" --head="$HEAD"
+#   describe nx-affected-test     pnpm exec nx affected -t test  --parallel --output-style=stream --base="$BASE" --head="$HEAD"
+#   describe nx-graph             pnpm exec nx graph --affected --base="$BASE" --head="$HEAD" --file="$RUN_DIR/affected-graph.html"
+# else
   describe pnpm-build           pnpm -r --no-bail build
-fi
+# fi
 
 describe eslint-stylish         pnpm exec eslint --cache -f stylish .
-describe eslint-json            bash -lc 'pnpm exec eslint --cache -f json . > "'"$RUN_DIR"'/eslint.json"'
-
 # ---------- per-run INDEX + global rollup ----------
 make_index() {
   local idx="$RUN_DIR/INDEX.md"

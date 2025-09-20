@@ -38,6 +38,15 @@ const GenSchema = z.object({
   tags: z.array(z.string()).min(1),
 });
 
+const toStringArray = (value: unknown): readonly unknown[] | undefined => {
+  if (Array.isArray(value)) return value;
+  if (typeof value === "string") return [value];
+  return undefined;
+};
+
+const normalizeTags = (value: unknown): string[] =>
+  normalizeStringList(toStringArray(value));
+
 export async function runFrontmatter(
   opts: FrontmatterOptions,
   db: DBs,
@@ -118,7 +127,7 @@ export async function runFrontmatter(
     const m = base.match(
       /(\d{4})\.(\d{2})\.(\d{2})\.(\d{2})\.(\d{2})\.(\d{2})/,
     );
-    return m ? `${m[1]}-${m[2]}-${m[3]}T${m[4]}:${m[5]}:${m[6]}Z` : name;
+    return m ? `${m[1]}-${m[2]}-${m[3]}T${m[4]}:${m[5]}:${m[6]}Z` : undefined;
   };
 
   const validateGen = (obj: unknown) => {
