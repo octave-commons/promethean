@@ -36,6 +36,7 @@
     "@promethean/image-link-generator": "workspace:*",
     "@promethean/legacy": "workspace:*",
     "@promethean/level-cache": "workspace:*",
+    "@promethean/markdown": "workspace:*",
     "@promethean/llm-chat-frontend": "workspace:*",
     "@promethean/markdown-graph-frontend": "workspace:*",
     "@promethean/piper": "workspace:*",
