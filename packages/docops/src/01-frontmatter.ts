@@ -106,6 +106,13 @@ export async function runFrontmatter(
       )
       .then(parseModelJSON);
 
+  const toStringListInput = (value: unknown): readonly unknown[] | undefined =>
+    Array.isArray(value)
+      ? value
+      : value === undefined || value === null
+        ? undefined
+        : [value];
+
   const isoFromBasename = (name: string) => {
     const base = name.replace(/\.[^.]+$/, "");
     const m = base.match(
@@ -148,7 +155,7 @@ export async function runFrontmatter(
     const hasAll =
       Boolean(base.filename) &&
       Boolean(base.description) &&
-      Boolean(normalizeStringList(base.tags).length);
+      Boolean(normalizeStringList(toStringListInput(base.tags)).length);
 
     const preview = gm.content.slice(0, 4000);
 
@@ -170,8 +177,10 @@ export async function runFrontmatter(
         next.created_at !== (gm.data as Front)?.created_at ||
         next.filename !== (gm.data as Front)?.filename ||
         next.description !== (gm.data as Front)?.description ||
-        JSON.stringify(normalizeStringList(next.tags)) !==
-          JSON.stringify(normalizeStringList((gm.data as Front)?.tags));
+        JSON.stringify(normalizeStringList(toStringListInput(next.tags))) !==
+          JSON.stringify(
+            normalizeStringList(toStringListInput((gm.data as Front)?.tags)),
+          );
 
       return (
         changed ? writeFrontmatter(fpath, gm.content, next) : Promise.resolve()

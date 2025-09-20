@@ -118,6 +118,13 @@ function randomUUID(): string {
   );
 }
 
+const toStringListInput = (value: unknown): readonly unknown[] | undefined =>
+  Array.isArray(value)
+    ? value
+    : value === undefined || value === null
+      ? undefined
+      : [value];
+
 function slugify(s: string): string {
   return s
     .trim()
@@ -360,8 +367,12 @@ async function main() {
       createdAtFactory: ({ filePath: p }) => {
         if (!p) return undefined;
         const b = path.basename(p);
-        const m = b.match(/(\d{4})\.(\d{2})\.(\d{2})\.(\d{2})\.(\d{2})\.(\d{2})/);
-        return m ? `${m[1]}-${m[2]}-${m[3]}T${m[4]}:${m[5]}:${m[6]}Z` : undefined;
+        const m = b.match(
+          /(\d{4})\.(\d{2})\.(\d{2})\.(\d{2})\.(\d{2})\.(\d{2})/,
+        );
+        return m
+          ? `${m[1]}-${m[2]}-${m[3]}T${m[4]}:${m[5]}:${m[6]}Z`
+          : undefined;
       },
       fallbackTitle:
         (typeof originalFront.title === "string" && originalFront.title) ||
@@ -378,13 +389,14 @@ async function main() {
     const haveAll = Boolean(
       baseline.filename &&
         baseline.description &&
-        normalizeStringList(baseline.tags).length,
+        normalizeStringList(toStringListInput(baseline.tags)).length,
     );
     if (!haveAll) {
       const need: Array<keyof GenResult> = [];
       if (!baseline.filename) need.push("filename");
       if (!baseline.description) need.push("description");
-      if (!normalizeStringList(baseline.tags).length) need.push("tags");
+      if (!normalizeStringList(toStringListInput(baseline.tags)).length)
+        need.push("tags");
 
       let current: Partial<GenResult> = {};
       // Provide helpful context: body (truncated) + best effort hints
@@ -471,8 +483,10 @@ async function main() {
         descriptionFallback: "",
       }) as Front;
 
-      const originalTags = normalizeStringList(originalFront.tags);
-      const mergedTags = normalizeStringList(merged.tags);
+      const originalTags = normalizeStringList(
+        toStringListInput(originalFront.tags),
+      );
+      const mergedTags = normalizeStringList(toStringListInput(merged.tags));
 
       const changed =
         baseChanged ||
@@ -494,8 +508,10 @@ async function main() {
       }
       continue;
     }
-    const originalTags = normalizeStringList(originalFront.tags);
-    const baselineTags = normalizeStringList(baseline.tags);
+    const originalTags = normalizeStringList(
+      toStringListInput(originalFront.tags),
+    );
+    const baselineTags = normalizeStringList(toStringListInput(baseline.tags));
     const changed =
       baseChanged ||
       baseline.filename !== originalFront.filename ||
