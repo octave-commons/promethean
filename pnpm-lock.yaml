@@ -444,6 +444,9 @@ importers:
       '@promethean/level-cache':
         specifier: workspace:*
         version: link:../level-cache
+      '@promethean/markdown':
+        specifier: workspace:*
+        version: link:../markdown
       '@promethean/utils':
         specifier: workspace:*
         version: link:../utils
