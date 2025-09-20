@@ -1,13 +1,9 @@
 ---
 uuid: 2d79c5b8-9f76-4d7f-9741-694d1f99ec25
-created_at: '2025-09-05T10:56:08Z'
+created_at: 2025-09-05T10:56:08Z
 filename: Promethean Build Pattern
 title: Promethean Build Pattern
-description: >-
-  A concise pattern for managing package builds with pnpm, ensuring each package
-  owns its build script while the root orchestrates workspace builds. This
-  approach minimizes duplication, handles dependencies efficiently, and supports
-  incremental builds without conflicts.
+description: A concise pattern for managing package builds with pnpm, ensuring each package owns its build script while the root orchestrates workspace builds. This approach minimizes duplication, handles dependencies efficiently, and supports incremental builds without conflicts.
 tags:
   - pnpm
   - workspace
@@ -17,7 +13,8 @@ tags:
   - incremental
 related_to_uuid: []
 related_to_title: []
-references: []
+references:
+  -
 ---
 Short version: put a *thin* `build` script in every package, then drive them from the root using pnpm’s recursive + filters. You keep per-package builds, and the root builds everything (or smart subsets) without duplication.
 

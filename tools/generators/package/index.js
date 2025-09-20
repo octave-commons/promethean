@@ -35,27 +35,12 @@ const resolveTemplateDirectory = (preset) => {
 };
 
 export default async function generator(tree, schema) {
-/*<<<<<<< codex/create-fastify-service-generator-template
-  const normalized = names(schema.name);
-  const projectRoot = joinPathFragments("packages", normalized.fileName);
-  const preset = schema.preset === "fastify-service" ? schema.preset : null;
-  const templateDir = preset
-    ? joinPathFragments(__dirname, "files", preset)
-    : joinPathFragments(__dirname, "files");
-  const serviceTitle = toTitle(normalized.fileName);
-  generateFiles(tree, templateDir, projectRoot, {
-    tmpl: "",
-    name: normalized.fileName,
-    className: normalized.className,
-    propertyName: normalized.propertyName,
-    constantName: normalized.constantName,
-=======*/
   const variants = names(schema.name);
   const normalized = variants.fileName;
-  const preset = schema.preset ?? "base";
-  const templateDirectory = joinPathFragments(__dirname, "files", preset);
+  const preset = schema.preset ?? DEFAULT_PRESET;
+  const templateDirectory = resolveTemplateDirectory(preset);
   const projectRoot = joinPathFragments("packages", normalized);
-  const templateDirectory = resolveTemplateDirectory(schema.preset);
+  const serviceTitle = toTitle(normalized);
 
   generateFiles(tree, templateDirectory, projectRoot, {
     tmpl: "",
@@ -63,16 +48,11 @@ export default async function generator(tree, schema) {
     className: variants.className,
     propertyName: variants.propertyName,
     constantName: variants.constantName,
-// >>>>>>> main
     pipelineExt: "json",
     preset,
-    serviceName: normalized.fileName,
+    serviceName: normalized,
     serviceTitle,
-    preset: schema.preset ?? DEFAULT_PRESET,
   });
-  if (!preset) {
-    tree.delete(joinPathFragments(projectRoot, "fastify-service"));
-  }
 
   // templates include pipelines.json for DocOps-style pipelines
   await formatFiles(tree);
