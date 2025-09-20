@@ -19,6 +19,7 @@ type AddInput<Metadata> = {
 
 export class InMemoryChroma<Metadata = Record<string, unknown>> {
   private readonly vectors = new Map<string, InMemoryChromaEntry<Metadata>>();
+  private dimension: number | undefined;
 
   add(
     idsOrEntries: readonly string[] | ReadonlyArray<AddInput<Metadata>>,
@@ -28,8 +29,17 @@ export class InMemoryChroma<Metadata = Record<string, unknown>> {
     const entries = this.normalizeAddArgs(idsOrEntries, embeddings, metadata);
 
     for (const entry of entries) {
+      const embeddingArray = Array.from(entry.embedding);
+      const dim = embeddingArray.length;
+      if (this.dimension === undefined) {
+        this.dimension = dim;
+      } else if (dim !== this.dimension) {
+        throw new Error(
+          `InMemoryChroma.add received embedding of dimension ${dim}, expected ${this.dimension}`,
+        );
+      }
       this.vectors.set(entry.id, {
-        embedding: Array.from(entry.embedding),
+        embedding: embeddingArray,
         metadata: entry.metadata,
       });
     }
@@ -44,6 +54,18 @@ export class InMemoryChroma<Metadata = Record<string, unknown>> {
   ): readonly InMemoryChromaQueryHit<Metadata>[] {
     const k = Math.max(0, options?.k ?? 5);
     const filter = options?.filter;
+    if (this.dimension === undefined) {
+      throw new Error(
+        "InMemoryChroma.queryByEmbedding cannot query an empty index",
+      );
+    }
+    if (queryEmbedding.length !== this.dimension) {
+      throw new Error(
+        `InMemoryChroma.queryByEmbedding received embedding of dimension ${queryEmbedding.length}, expected ${this.dimension}`,
+      );
+    }
+
+    if (k === 0) return [];
 
     const hits: InMemoryChromaQueryHit<Metadata>[] = [];
     for (const [id, entry] of this.vectors) {
@@ -61,6 +83,7 @@ export class InMemoryChroma<Metadata = Record<string, unknown>> {
 
   clear(): void {
     this.vectors.clear();
+    this.dimension = undefined;
   }
 
   get size(): number {
