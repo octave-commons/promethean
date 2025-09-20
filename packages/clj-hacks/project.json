@@ -19,7 +19,8 @@
     "test": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "bb clj-hacks:test"
+        "command": "clojure -M:test",
+        "cwd": "packages/clj-hacks"
       }
     },
     "lint": {

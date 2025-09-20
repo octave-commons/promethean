@@ -1,8 +1,10 @@
-{:deps {io.github.bonede/tree-sitter        {:mvn/version "0.25.3"}
+{:deps {org.clojure/clojure                 {:mvn/version "1.11.1"}
+        io.github.bonede/tree-sitter        {:mvn/version "0.25.3"}
         io.github.bonede/tree-sitter-elisp  {:mvn/version "1.3.0a"}}
  :aliases
  {:lint    {:extra-deps {clj-kondo/clj-kondo {:mvn/version "2024.05.240"}}
             :main-opts  ["-m" "clj-kondo.main" "--lint" "src" "test"]}
+  :validate {:main-opts ["-m" "elisp.validate"]}
   :test    {:extra-paths ["test"]
             :extra-deps {io.github.cognitect-labs/test-runner
                          {:git/url "https://github.com/cognitect-labs/test-runner"

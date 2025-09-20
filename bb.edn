@@ -6,6 +6,7 @@
   distclean        {:doc "git clean -fdX for ignored files" :task (mk.commands/distclean)}
   lint             {:doc "Lint py/js/ts" :task (mk.commands/lint)}
   lint-topics      {:doc "Lint bridge topics" :task (mk.commands/lint-topics)}
+  validate-elisp   {:doc "Validate Emacs Lisp layers" :task (mk.commands/validate-elisp)}
   test             {:doc "Run tests for all languages" :task (mk.commands/test)}
   test-integration {:doc "Run integration tests" :task (mk.commands/test-integration)}
   test-e2e         {:doc "Run e2e tests (best-effort)" :task (mk.commands/test-e2e)}
