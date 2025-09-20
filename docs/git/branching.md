@@ -126,7 +126,7 @@ DocsBranches --> Staging
 
 ## Merging Rules
 
-### any branch -> `dev/testing` 
+### any branch -> `dev/testing`
 
 To merge into `dev/testing`:
 - PR must build and install without errors.
@@ -152,8 +152,3 @@ By following these branching and merging rules, we ensure a systematic and
 error-free workflow that maintains the integrity of our codebase. This structure
 not only helps in managing changes efficiently but also ensures that any issues
 are caught early on in the development process.
-
-Feel free to adjust or refine these rules as needed based on feedback from team
-members or additional use cases.
-
-
