@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Classifying runner: executes a command, never fails the script, emits artifacts if possible.
-# Overwrite policy: default is single "latest" run dir that is fully replaced each execution.
-# Requires: bash, coreutils, (optional) jq, /usr/bin/time
+# Live streaming: stdout/stderr stream to terminal AND are saved to per-step files via tee.
+# Overwrite policy: single "latest" run dir is fully replaced each execution.
+# Requires: bash, coreutils (tee), (optional) jq, /usr/bin/time
 
 set -uo pipefail
 
@@ -12,10 +13,11 @@ RUN_DIR_NAME="${RUN_DIR_NAME:-latest}"    # used when RUN_STRATEGY=overwrite
 TIMEOUT_SECS="${TIMEOUT_SECS:-0}"         # 0 = no timeout; otherwise e.g. 600
 STRICT="${STRICT:-0}"                     # 0 = never fail; 1 = fail at end if any step failed
 DEBUG_RUNNER="${DEBUG_RUNNER:-0}"         # 1 = bash -x
-STREAM_CONSOLE="${STREAM_CONSOLE:-1}"     # 1 = emit per-step breadcrumb lines to stderr
 CONSOLE_TAIL_LINES="${CONSOLE_TAIL_LINES:-40}"
 
 (( DEBUG_RUNNER )) && { PS4='+ (${BASH_SOURCE##*/}:${LINENO}): '; set -x; }
+
+_have() { command -v "$1" >/dev/null 2>&1; }
 
 # ---- choose run directory ----
 if [[ "$RUN_STRATEGY" == "timestamp" ]]; then
@@ -27,7 +29,7 @@ fi
 LOG_DIR="$RUN_DIR/logs"
 STEP_DIR="$RUN_DIR/steps"
 
-# ---- ensure we don't accumulate stale files (overwrite mode) ----
+# ---- overwrite mode wipes stale artifacts safely ----
 if [[ "$RUN_STRATEGY" == "overwrite" ]] && [[ -d "$RUN_DIR" ]]; then
   case "$RUN_DIR" in
     */describe/*) rm -rf "$RUN_DIR" 2>/dev/null || true ;;
@@ -35,7 +37,7 @@ if [[ "$RUN_STRATEGY" == "overwrite" ]] && [[ -d "$RUN_DIR" ]]; then
   esac
 fi
 
-# ---- create dirs; fall back to /tmp; or console-only if all fails ----
+# ---- make dirs; fall back to /tmp; else console-only ----
 if ! mkdir -p "$LOG_DIR" "$STEP_DIR" 2>/dev/null; then
   printf '[runner] WARN: cannot create %s; falling back to /tmp.\n' "$RUN_DIR" >&2
   if [[ "$RUN_STRATEGY" == "timestamp" ]]; then
@@ -52,14 +54,14 @@ if ! mkdir -p "$LOG_DIR" "$STEP_DIR" 2>/dev/null; then
   }
 fi
 
-# ---- preflight: warn on low disk (<50MB free) ----
-if command -v df >/dev/null 2>&1 && [[ -n "$ART_ROOT" ]] && df -Pk "$ART_ROOT" >/dev/null 2>&1; then
+# ---- warn if low disk (<50MB free) ----
+if _have df && [[ -n "$ART_ROOT" ]] && df -Pk "$ART_ROOT" >/dev/null 2>&1; then
   avail_k=$(df -Pk "$ART_ROOT" | awk 'NR==2{print $4}')
   [[ "${avail_k:-0}" -lt 51200 ]] && \
     printf '[runner] WARN: low disk on %s (~%s KB free). Artifacts may be degraded.\n' "$ART_ROOT" "$avail_k" >&2
 fi
 
-# ---- summaries (always overwritten per run) ----
+# ---- summaries (overwritten each run) ----
 if [[ -n "$RUN_DIR" ]]; then
   SUMMARY_TSV="$RUN_DIR/summary.tsv"
   SUMMARY_JSON="$RUN_DIR/summary.jsonl"
@@ -67,19 +69,15 @@ else
   SUMMARY_TSV="/dev/null"
   SUMMARY_JSON="/dev/null"
 fi
-# header
 builtin printf -- 'ts\tname\trc\tsignal\tstatus\tlog_out\tlog_err\n' >"$SUMMARY_TSV" 2>/dev/null || true
-# ensure fresh JSONL
 : >"$SUMMARY_JSON" 2>/dev/null || true
 
-_have() { command -v "$1" >/dev/null 2>&1; }
-
-# ---- status classifier ----
+# ---- classifier ----
 _classify() {
   local rc="$1" out="$2" err="$3" cmd="$4" name="$5"
   local status="ok" signal=""
 
-  if (( rc > 128 )); then signal=$((rc-128)); status="signal:$signal"; fi
+  (( rc > 128 )) && { signal=$((rc-128)); status="signal:$signal"; }
   (( rc == 124 )) && status="timeout"
   (( rc == 126 )) && status="permission"
   (( rc == 127 )) && status="not_found"
@@ -98,7 +96,7 @@ _classify() {
 
 __RUNNER_ANY_FAIL=0
 
-# ---- run a step (always returns 0) ----
+# ---- run a step (live stream + file) ----
 describe() {
   local name="$1"; shift
   local cmd=( "$@" )
@@ -112,28 +110,40 @@ describe() {
     out="/dev/null"; err="/dev/null"; merged="/dev/null"
   fi
 
+  # ensure fresh files per step
+  : >"$out" 2>/dev/null || true
+  : >"$err" 2>/dev/null || true
+
   local started ended rc=0
   started="$(date -Is)"
 
-  set +e
-  if (( TIMEOUT_SECS > 0 )) && _have timeout; then
-    if _have /usr/bin/time; then
-      timeout --preserve-status "${TIMEOUT_SECS}s" /usr/bin/time -v "${cmd[@]}" >"$out" 2>"$err"
-    else
-      timeout --preserve-status "${TIMEOUT_SECS}s" "${cmd[@]}" >"$out" 2>"$err"
-    fi
-  else
-    if _have /usr/bin/time; then
-      /usr/bin/time -v "${cmd[@]}" >"$out" 2>"$err"
-    else
-      "${cmd[@]}" >"$out" 2>"$err"
-    fi
+  # build the runnable command vector (timeout/time wrappers if available)
+  local run_cmd=("${cmd[@]}")
+  if _have /usr/bin/time; then
+    run_cmd=(/usr/bin/time -v "${run_cmd[@]}")   # time writes to stderr (goes through tee)
   fi
-  rc=$?
-  set -e
+  if (( TIMEOUT_SECS > 0 )) && _have timeout; then
+    run_cmd=(timeout --preserve-status "${TIMEOUT_SECS}s" "${run_cmd[@]}")
+  fi
+
+  # LIVE STREAM to terminal + write to files
+  if _have tee && [[ -n "$LOG_DIR" ]]; then
+    "${run_cmd[@]}" \
+      1> >(tee "$out") \
+      2> >(tee "$err" >&2)
+    rc=$?
+  else
+    # fallback: no tee or console-only mode
+    "${run_cmd[@]}" 1>"$out" 2>"$err"
+    rc=$?
+    # echo to terminal (best-effort) so you still see something
+    cat "$out" 2>/dev/null || true
+    cat "$err" 1>&2 2>/dev/null || true
+  fi
 
   ended="$(date -Is)"
 
+  # merged log (best-effort)
   { cat "$out"; echo; echo "------ STDERR ------"; cat "$err"; } >"$merged" 2>/dev/null || true
 
   read -r status signal <<< "$(_classify "$rc" "$out" "$err" "${cmd[*]}" "$name")"
@@ -163,11 +173,11 @@ describe() {
       ' | tee "$STEP_DIR/${name}.json" > /dev/null 2>&1 || true
   fi
 
-  # append to current run summary (file itself is replaced each run)
+  # append this run’s summary rows (file itself is replaced each run)
   builtin printf -- '%s\t%s\t%d\t%s\t%s\t%s\t%s\n' \
     "$started" "$name" "$rc" "${signal:-}" "$status" "$out" "$err" >>"$SUMMARY_TSV" 2>/dev/null || true
 
-  # stream JSONL (file replaced at run start; append within the run)
+  # stream JSONL (file replaced at run start; append within run)
   if _have jq && [[ "$SUMMARY_JSON" != "/dev/null" ]]; then
     jq -n \
       --arg name "$name" --arg cmd "${cmd[*]}" \
@@ -194,10 +204,8 @@ describe() {
 
   (( rc != 0 )) && __RUNNER_ANY_FAIL=1
 
-  if (( STREAM_CONSOLE )); then
-    printf '[runner] %s name=%s rc=%d status=%s\n' "$ended" "$name" "$rc" "$status" >&2
-    (( rc != 0 )) && { printf '[runner] last %s lines of stderr:\n' "$CONSOLE_TAIL_LINES" >&2; tail -n "$CONSOLE_TAIL_LINES" "$err" 2>/dev/null >&2 || true; }
-  fi
+  # brief breadcrumb (useful with supervisors)
+  printf '[runner] %s name=%s rc=%d status=%s\n' "$ended" "$name" "$rc" "$status" >&2
 
   return 0
 }
