@@ -2919,6 +2919,21 @@ importers:
         specifier: 4.7.0
         version: 4.7.0
 
+  packages/openai-server:
+    dependencies:
+      '@fastify/static':
+        specifier: 8.2.0
+        version: 8.2.0
+      '@fastify/swagger':
+        specifier: 9.5.1
+        version: 9.5.1
+      '@fastify/swagger-ui':
+        specifier: 5.2.3
+        version: 5.2.3
+      fastify:
+        specifier: 5.0.0
+        version: 5.0.0
+
   packages/parity:
     dependencies:
       '@types/javascript-time-ago':
@@ -14935,7 +14950,7 @@ snapshots:
 
   axios@1.11.0:
     dependencies:
-      follow-redirects: 1.15.11(debug@4.4.3)
+      follow-redirects: 1.15.11(debug@4.3.7)
       form-data: 4.0.4
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -17418,7 +17433,7 @@ snapshots:
   http-proxy@1.18.1:
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.15.11(debug@4.4.3)
+      follow-redirects: 1.15.11(debug@4.3.7)
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
