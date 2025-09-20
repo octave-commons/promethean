@@ -11,6 +11,10 @@
             "import": "./dist/index.js",
             "require": "./dist/index.cjs"
         },
+        "./frontmatter": {
+            "types": "./dist/frontmatter.d.ts",
+            "import": "./dist/frontmatter.js"
+        },
         "./dist/*": "./dist/*",
         "./*": "./dist/*"
     },
