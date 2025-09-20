@@ -281,11 +281,11 @@ kanban-plugin: board
 - [ ] [[migrate legacy js services to ts]]
 - [ ] [[pin_versions_in_configs_md|pin versions in configs md]] #ops #codex-task #release-engineering #ci #sre #supply-chain #promethean #ops #codex-task #tags #promethean #versioning #pinning #ci #docker #uv #ollama #openvino #sre #supplychain #in-review
 - [ ] [[describe_github_branching_workflow_md|describe github branching workflow md]] #todo
-- [ ] [[create-a-generic-markdown-helper-module|create a generic markdown helper module]] #framework-core #framework-core #Ready #todo
 
 
 ## Todo (13)
 
+- [ ] [[dockerize-the-system|dockerize the system]] #devops #devops #Ready #todo
 - [ ] [[structure_vault_to_mirror_services_agents_docs_md_md|Document-Driven Development for Service Scripts]] #breakdown
 - [ ] [[docs/agile/tasks/smart_task_templater_md|smart task templater md]] #framework-core #ready
 - [ ] [[script-for-getting-github-action-workflow-states-for-a-branch|script for getting github action workflow states for a branch]] #ready
@@ -295,7 +295,7 @@ kanban-plugin: board
 
 ## In Progress (4)
 
-- [ ] [[dockerize-the-system|dockerize the system]] #devops #devops #Ready #todo
+- [ ] [[create-a-generic-markdown-helper-module|create a generic markdown helper module]] #framework-core #framework-core #Ready #todo
 - [ ] [[Docops pipeline]] #framework-core #IceBox #ready
 - [ ] [[task-generator-system|task generator system]] #framework-core #framework-core #Ready #todo
 - [ ] [[file-explorer|File explorer]] #framework-core #ready
