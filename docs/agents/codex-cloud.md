@@ -35,6 +35,7 @@
 
 ### Edit discipline
 - If a path is missing or a file isn’t yet committed, do **not** rm/mv; write a new note under `docs/` and link it from the task.
+- When you cannot complete the full request, check in partial artifacts (audit logs, inventories, findings) and reference them from the task so handoff is actionable.
 - At session end, if no PR is ready, produce a **task update + artifacts** and use one of the safe transitions:
   - InProgress → Todo  (coherent next step; WIP allows)
   - InProgress → Breakdown  (slice needs re-plan)

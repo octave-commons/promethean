@@ -16,6 +16,8 @@
 
 5. **Implement Slice**
    Do the smallest cohesive change that can clear gates defined in agent docs (e.g., no new ESLint errors; touched packages build; tests pass).&#x20;
+   When the scope is larger than the available session, carve off a reviewable subset and explicitly document what remains (e.g.,
+   inventory lingering files, capture blockers, link references).&#x20;
 
 6. **Review → Document**
    Move through *In Review* and *Document* then *Done* per board flow, recording evidence and summaries.&#x20;
@@ -124,6 +126,7 @@ flowchart TD
 
 * **In Progress → Todo** *(session-end handoff; no PR required)*
   Time/compute limit reached without a reviewable change. Record artifacts/notes + next step; move to **Todo** if WIP allows; else remain **In Progress** and mark a minor blocker.
+  Artifacts must include partial outputs (e.g., audit logs, findings lists, reproduction steps) so a follow-on slice can resume immediately.
 
 * **In Progress → Breakdown**
   Slice needs re-plan or is wrong shape.
