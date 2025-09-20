@@ -25,7 +25,7 @@ describe apt-build-tools        bash -lc 'apt-get install -y build-essential pyt
 describe apt-extras             bash -lc 'apt-get install -y git ca-certificates jq moreutils ripgrep'
 
 # native toolchain + node-gyp helpers
-describe install-gyp            bash -lc '"$(dirname "$0")/install_gyp.sh"'
+describe install-gyp            bash -lc '"./run/install_gyp.sh"'
 
 # node toolchain
 describe corepack-enable        corepack enable
@@ -40,9 +40,9 @@ describe setup-playwright       bash -lc '"$(dirname "$0")/setup_playwright.sh"'
 # describe setup-gh-cli           bash -lc '"$(dirname "$0")/setup_gh_cli.sh"'
 
 # services: chroma + ollama
-describe chroma-standup         bash -lc '"$(dirname "$0")/standup_chroma_nohup.sh"'
+describe chroma-standup         bash -lc '"./run/standup_chroma_nohup.sh"'
 describe ollama-install         bash -lc 'curl -fsSL https://ollama.com/install.sh | sh'
-describe ollama-standup         bash -lc '"$(dirname "$0")/standup_ollama_nohup.sh"'
+describe ollama-standup         bash -lc '"./run/standup_ollama_nohup.sh"'
 
 # helpful globals (non-fatal)
 describe npm-corepack-latest    bash -lc 'npm i -g corepack@latest'
