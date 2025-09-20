@@ -2,6 +2,12 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import type { Tool } from "./types.js";
 import type { ZodRawShape } from "zod";
+import { createRequire } from "node:module";
+const reqr = createRequire(import.meta.url);
+console.log(
+  "[mcp:server] sdk.mcp path:",
+  reqr.resolve("@modelcontextprotocol/sdk/server/mcp.js"),
+);
 
 type ToolDef = {
   title?: string;
