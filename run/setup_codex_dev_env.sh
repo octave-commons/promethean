@@ -10,9 +10,6 @@ describe env-dump               bash -lc '(set -o posix; set)'
 
 # pre-commit
 describe uvx-precommit-install  uvx pre-commit install
-describe uvx-hook-install       uvx pre-commit install --install-hooks
-describe uvx-hook-commit-msg    uvx pre-commit install --hook-type commit-msg
-describe uvx-hook-pre-merge     uvx pre-commit install --hook-type pre-merge-commit
 
 # OS deps
 describe apt-update             bash -lc 'export DEBIAN_FRONTEND=noninteractive; apt-get update -y'
