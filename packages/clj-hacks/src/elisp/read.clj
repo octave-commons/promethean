@@ -14,11 +14,16 @@
 (defn children [^TSNode n]
   (map #(.getChild n %) (range (.getChildCount n))))
 
+(defmethod node->edn "program" [n]
+  (into [:el/source]
+        (map node->edn (children n))))
+
 (defmethod node->edn "integer" [n] (Long/parseLong (.getText n)))
 (defmethod node->edn "float"   [n] (Double/parseDouble (.getText n)))
 (defmethod node->edn "string"  [n] (.getText n))                ; strip quotes if you like
 (defmethod node->edn "symbol"  [n] {:el/type :symbol :name (.getText n)}) ; preserve elisp symbolness
 (defmethod node->edn "character" [n] {:el/type :char :read (.getText n)})
+(defmethod node->edn "comment" [n] {:el/type :comment :text (.getText n)})
 
 ;; Proper list
 (defmethod node->edn "list" [n]

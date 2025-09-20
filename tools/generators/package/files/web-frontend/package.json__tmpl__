@@ -1,0 +1,34 @@
+{
+  "name": "@promethean/<%= name %>",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/frontend/index.cjs",
+  "module": "dist/frontend/index.js",
+  "types": "dist/frontend/index.d.ts",
+  "license": "GPL-3.0-only",
+  "exports": {
+    ".": {
+      "types": "./dist/frontend/index.d.ts",
+      "import": "./dist/frontend/index.js",
+      "require": "./dist/frontend/index.cjs"
+    },
+    "./dist/*": "./dist/*",
+    "./*": "./dist/*"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "clean": "rimraf dist",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "pnpm run build && ava",
+    "lint": "pnpm exec eslint ."
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@happy-dom/global-registrator": "18.0.1",
+    "happy-dom": "18.0.1"
+  }
+}
