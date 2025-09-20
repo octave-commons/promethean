@@ -1,6 +1,6 @@
 import test from "ava";
 
-import { InMemoryChroma } from "../in-memory-chroma.js";
+import { InMemoryChroma } from "../index.js";
 
 test("queryByEmbedding returns the closest matches first", (t) => {
   const index = new InMemoryChroma<{ label: string }>();
@@ -45,4 +45,42 @@ test("add throws when arrays have different lengths", (t) => {
   const index = new InMemoryChroma();
 
   t.throws(() => index.add(["x"], [[1, 0]], []), { message: /equal length/ });
+});
+
+test("add throws when embedding dimensions do not match", (t) => {
+  const index = new InMemoryChroma();
+  index.add([{ id: "a", embedding: [1, 0], metadata: {} }]);
+
+  const error = t.throws(() =>
+    index.add([{ id: "b", embedding: [1, 0, 0], metadata: {} }]),
+  );
+
+  t.regex(error?.message ?? "", /dimension 3, expected 2/);
+});
+
+test("queryByEmbedding throws when dimension mismatches", (t) => {
+  const index = new InMemoryChroma();
+  index.add([{ id: "a", embedding: [1, 0], metadata: {} }]);
+
+  t.throws(() => index.queryByEmbedding([0, 0, 1]), {
+    message: /dimension 3, expected 2/,
+  });
+});
+
+test("queryByEmbedding throws when index is empty", (t) => {
+  const index = new InMemoryChroma();
+
+  t.throws(() => index.queryByEmbedding([1, 0]), {
+    message: /cannot query an empty index/,
+  });
+});
+
+test("clear resets the expected dimension", (t) => {
+  const index = new InMemoryChroma();
+  index.add([{ id: "a", embedding: [1, 0], metadata: {} }]);
+  index.clear();
+
+  t.notThrows(() =>
+    index.add([{ id: "b", embedding: [0, 1, 0], metadata: {} }]),
+  );
 });
