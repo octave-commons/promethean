@@ -27,6 +27,12 @@
   simulate-ci      {:doc "Simulate CI locally" :task (mk.commands/simulate-ci)}
   snapshot         {:doc "Create tag snapshot-YYYY.MM.DD (PUSH=1 to push)" :task (mk.commands/snapshot)}
 
+  ;; Clojure packages
+  clj-hacks:prepare {:doc "Download deps for clj-hacks" :requires ([clj-hacks.tasks]) :task clj-hacks.tasks/prepare!}
+  clj-hacks:build   {:doc "Compile clj-hacks namespaces" :requires ([clj-hacks.tasks]) :task clj-hacks.tasks/build}
+  clj-hacks:lint    {:doc "Run clj-kondo on clj-hacks" :requires ([clj-hacks.tasks]) :task clj-hacks.tasks/lint}
+  clj-hacks:test    {:doc "Execute clj-hacks tests" :requires ([clj-hacks.tasks]) :task clj-hacks.tasks/test}
+
   ;; Language-specific tasks (mirroring Hy names)
   ;; Python
   setup-python-services     mk.python/setup-python-services
