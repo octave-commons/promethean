@@ -29,9 +29,9 @@ describe setup-playwright       bash -lc '"./run/setup_playwright.sh"'
 # describe setup-gh-cli           bash -lc '"$(dirname "$0")/setup_gh_cli.sh"'
 
 # services: chroma + ollama
-describe chroma-standup         bash -lc '"./run/standup_chroma_nohup.sh"'
-describe ollama-install         bash -lc 'curl -fsSL https://ollama.com/install.sh | sh'
-describe ollama-standup         bash -lc '"./run/standup_ollama_nohup.sh"'
+./run/standup_chroma_nohup.sh
+curl -fsSL https://ollama.com/install.sh | sh
+./run/standup_ollama_nohup.sh
 
 
 describe pnpm-build           pnpm -r --no-bail build
