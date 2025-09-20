@@ -75,3 +75,5 @@ Under no circumstances should you introduce the following to Promethean:
 - If there aren't tests, write them.
 - Do not edit config files when fixing problems unless explicitly asked. Prefer code changes in the affected modules.
 - Add a summary of what you changed to a date string named file in `changelog.d` eg `changelog.d/<YYYY.MM.DD.hh.mm.ss>.md`
+- If a task cannot be fully completed within the session, ship a partial, reviewable artifact (code, notes, or an audit log)
+  that documents the current state so the next agent has traction—never leave with only "couldn't finish".
