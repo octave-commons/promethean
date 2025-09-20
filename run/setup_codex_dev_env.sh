@@ -1,9 +1,4 @@
 #!/usr/bin/env bash
-set -euo pipefail
-# debug trap: print the exact failing command and location
-set -o errtrace
-trap 'code=$?; echo "ERR $BASH_SOURCE:$LINENO: $BASH_COMMAND (rc=$code)" >&2' ERR
-
 
 # ---------- run context ----------
 ART_ROOT="${ART_ROOT:-docs/reports/codex_cloud}"
