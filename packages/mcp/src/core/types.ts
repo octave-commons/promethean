@@ -1,10 +1,4 @@
-export type Json =
-  | null
-  | boolean
-  | number
-  | string
-  | Json[]
-  | { [k: string]: Json };
+import type { ZodRawShape } from "zod";
 
 export type ToolContext = Readonly<{
   env: Readonly<Record<string, string | undefined>>;
@@ -21,13 +15,14 @@ export type ToolContext = Readonly<{
 export type ToolSpec = Readonly<{
   name: string;
   description: string;
-  inputSchema?: Json;
-  outputSchema?: Json;
+  // IMPORTANT: the SDK expects a ZodRawShape (a plain object of fields), not a z.object(...)
+  inputSchema?: ZodRawShape;
+  outputSchema?: ZodRawShape;
 }>;
 
 export type Tool = Readonly<{
   spec: ToolSpec;
-  invoke: (args: Json) => Promise<Json>;
+  invoke: (args: unknown) => Promise<unknown>;
 }>;
 
 export type ToolFactory = (ctx: ToolContext) => Tool;

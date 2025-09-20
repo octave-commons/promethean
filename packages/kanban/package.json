@@ -9,7 +9,7 @@
     "build": "tsc -p tsconfig.json"
   },
   "dependencies": {
-    "@promethean/markdown": "*"
+    "@promethean/markdown": "workspace:*"
   },
   "devDependencies": {
     "typescript": "^5.4.0"
