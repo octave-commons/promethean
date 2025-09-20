@@ -817,6 +817,9 @@ importers:
 
   packages/codepack:
     dependencies:
+      '@promethean/file-indexer':
+        specifier: workspace:*
+        version: link:../file-indexer
       '@promethean/fs':
         specifier: workspace:*
         version: link:../fs
@@ -1451,6 +1454,9 @@ importers:
       '@promethean/docops-frontend':
         specifier: workspace:*
         version: link:../docops-frontend
+      '@promethean/file-indexer':
+        specifier: workspace:*
+        version: link:../file-indexer
       '@promethean/fs':
         specifier: workspace:*
         version: link:../fs
@@ -3572,6 +3578,9 @@ importers:
 
   packages/simtask:
     dependencies:
+      '@promethean/file-indexer':
+        specifier: workspace:*
+        version: link:../file-indexer
       '@promethean/level-cache':
         specifier: workspace:*
         version: link:../level-cache
@@ -3608,6 +3617,9 @@ importers:
       '@promethean/embedding':
         specifier: workspace:*
         version: link:../embedding
+      '@promethean/file-indexer':
+        specifier: workspace:*
+        version: link:../file-indexer
       '@promethean/fs':
         specifier: workspace:*
         version: link:../fs
@@ -3635,9 +3647,6 @@ importers:
       execa:
         specifier: ^9.6.0
         version: 9.6.0
-      fast-glob:
-        specifier: ^3.3.2
-        version: 3.3.3
       fastify:
         specifier: 5.0.0
         version: 5.0.0
@@ -3887,6 +3896,9 @@ importers:
 
   packages/symdocs:
     dependencies:
+      '@promethean/file-indexer':
+        specifier: workspace:*
+        version: link:../file-indexer
       '@promethean/level-cache':
         specifier: workspace:*
         version: link:../level-cache

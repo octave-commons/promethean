@@ -157,91 +157,53 @@ const evaluateCandidate = <
   };
 };
 
-const findTransitioned = <
+const resolveCandidates = <
   State extends string,
   Events extends Record<string, unknown>,
   Context,
   EventType extends keyof Events & string,
 >(
-  evaluations: ReadonlyArray<
-    CandidateEvaluation<State, Events, Context, EventType>
-  >,
-):
-  | Extract<
-      CandidateEvaluation<State, Events, Context, EventType>,
-      { readonly status: "transitioned" }
-    >
-  | undefined =>
-  evaluations.find(
-    (
-      evaluation,
-    ): evaluation is Extract<
-      CandidateEvaluation<State, Events, Context, EventType>,
-      { readonly status: "transitioned" }
-    > => evaluation.status === "transitioned",
-  );
-
-const findGuardRejection = <
-  State extends string,
-  Events extends Record<string, unknown>,
-  Context,
-  EventType extends keyof Events & string,
->(
-  evaluations: ReadonlyArray<
-    CandidateEvaluation<State, Events, Context, EventType>
-  >,
-):
-  | Extract<
-      CandidateEvaluation<State, Events, Context, EventType>,
-      { readonly status: "guard-rejected" }
-    >
-  | undefined =>
-  evaluations.find(
-    (
-      evaluation,
-    ): evaluation is Extract<
-      CandidateEvaluation<State, Events, Context, EventType>,
-      { readonly status: "guard-rejected" }
-    > => evaluation.status === "guard-rejected",
-  );
-
-const resolveEvaluations = <
-  State extends string,
-  Events extends Record<string, unknown>,
-  Context,
-  EventType extends keyof Events & string,
->(
-  evaluations: ReadonlyArray<
-    CandidateEvaluation<State, Events, Context, EventType>
+  candidates: ReadonlyArray<
+    TransitionForEvent<State, Events, Context, EventType>
   >,
   snapshot: MachineSnapshot<State, Context>,
   event: MachineEvent<Events, EventType>,
+  firstGuardRejection?: Extract<
+    CandidateEvaluation<State, Events, Context, EventType>,
+    { readonly status: "guard-rejected" }
+  >,
 ): TransitionResult<State, Events, Context, EventType> => {
-  const successful = findTransitioned(evaluations);
-
-  if (successful) {
+  if (candidates.length === 0) {
+    return firstGuardRejection
+      ? {
+          status: "guard-rejected",
+          snapshot,
+          event,
+          transition: firstGuardRejection.transition,
+          details: firstGuardRejection.details,
+        }
+      : { status: "no-transition", snapshot, event };
+  }
+  const [candidate, ...remaining] = candidates as readonly [
+    TransitionForEvent<State, Events, Context, EventType>,
+    ...TransitionForEvent<State, Events, Context, EventType>[],
+  ];
+  const evaluation = evaluateCandidate(candidate, snapshot, event);
+  if (evaluation.status === "transitioned") {
     return {
       status: "transitioned",
-      snapshot: successful.snapshot,
+      snapshot: evaluation.snapshot,
       event,
-      transition: successful.transition,
-      details: successful.details,
+      transition: evaluation.transition,
+      details: evaluation.details,
     };
   }
-
-  const rejection = findGuardRejection(evaluations);
-
-  if (rejection) {
-    return {
-      status: "guard-rejected",
-      snapshot,
-      event,
-      transition: rejection.transition,
-      details: rejection.details,
-    };
-  }
-
-  return { status: "no-transition", snapshot, event };
+  return resolveCandidates(
+    remaining,
+    snapshot,
+    event,
+    firstGuardRejection ?? evaluation,
+  );
 };
 
 export const transition = <
@@ -259,11 +221,7 @@ export const transition = <
     return { status: "no-transition", snapshot, event };
   }
 
-  const evaluations = candidates.map((candidate) =>
-    evaluateCandidate(candidate, snapshot, event),
-  );
-
-  return resolveEvaluations(evaluations, snapshot, event);
+  return resolveCandidates(candidates, snapshot, event);
 };
 
 export const availableTransitions = <

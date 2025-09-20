@@ -27,6 +27,23 @@ test("convertWikilinks replaces wikilinks", async (t) => {
   });
 });
 
+test("convertWikilinks preserves anchors", async (t) => {
+  await withTmp(async (dir) => {
+    const file = path.join(dir, "anchors.md");
+    await fs.writeFile(
+      file,
+      "See [[promethean-notes#^anchor]] and [[promethean-notes#^anchor|alias]]",
+      "utf8",
+    );
+    await convertWikilinks(file);
+    const out = await fs.readFile(file, "utf8");
+    t.is(
+      out,
+      "See [promethean-notes](promethean-notes.md#^anchor) and [alias](promethean-notes.md#^anchor)",
+    );
+  });
+});
+
 test("convertWikilinks no change leaves file intact", async (t) => {
   await withTmp(async (dir) => {
     const file = path.join(dir, "b.md");

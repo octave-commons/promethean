@@ -6,32 +6,32 @@
     "build": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "tsc -b",
+        "command": "pnpm run build",
         "cwd": "packages/<%= name %>"
       },
-      "outputs": ["{projectRoot}/dist"]
+      "outputs": ["{projectRoot}/dist/frontend"]
     },
     "typecheck": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "tsc -p tsconfig.json --noEmit",
+        "command": "pnpm run typecheck",
         "cwd": "packages/<%= name %>"
       }
     },
     "test": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "pnpm build && ava",
+        "command": "pnpm run test",
         "cwd": "packages/<%= name %>"
       }
     },
     "lint": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "eslint .",
+        "command": "pnpm run lint",
         "cwd": "packages/<%= name %>"
       }
     }
   },
-  "tags": ["scope:packages"]
+  "tags": ["scope:packages", "type:web-frontend"]
 }

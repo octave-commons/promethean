@@ -27,23 +27,14 @@ const GroupSchema = z.object({
   readme: z.string().min(1),
 });
 
-const ResponseSchema = z.object({
-  groups: z.array(
-    z.object({
-      clusterId: z.string(),
-      dir: z.string(),
-      files: z.array(z.object({ id: z.string(), filename: z.string() })),
-      readme: z.string(),
-    }),
-  ),
-});
-
 async function main() {
-  const blocksPath = path.resolve(args["--blocks"]);
-  const clustersPath = path.resolve(args["--clusters"]);
-  const outPath = path.resolve(args["--out"]);
-  const model = args["--gen-model"];
-  const baseDir = args["--base-dir"];
+  const blocksPath = path.resolve(args["--blocks"] ?? ".cache/codepack/blocks");
+  const clustersPath = path.resolve(
+    args["--clusters"] ?? ".cache/codepack/clusters",
+  );
+  const outPath = path.resolve(args["--out"] ?? ".cache/codepack/names");
+  const model = args["--gen-model"] ?? "qwen3:4b";
+  const baseDir = args["--base-dir"] ?? "packages";
 
   const blockCache = await openLevelCache<CodeBlock>({
     path: blocksPath,
@@ -62,7 +53,7 @@ async function main() {
 
   const byId = new Map(blocks.map((b) => [b.id, b]));
 
-  const groups = [];
+  const groups: NamedGroup[] = [];
   for (const c of clusters) {
     // build concise prompt with hints
     const items = c.memberIds
