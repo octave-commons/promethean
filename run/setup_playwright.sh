@@ -19,7 +19,6 @@ fi
 # 1) Base system deps that Playwright recommends (fonts, libs)
 #    (install-deps covers most libs; fonts help rendering)
 log "Installing base system packages…"
-sudo apt-get update -y
 sudo apt-get install -y --no-install-recommends \
   ca-certificates curl git \
   fonts-liberation fonts-noto-color-emoji \

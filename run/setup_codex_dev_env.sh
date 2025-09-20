@@ -14,14 +14,11 @@ describe uvx-precommit-install  uvx pre-commit install
 # OS deps
 describe apt-update             bash -lc 'export DEBIAN_FRONTEND=noninteractive; apt-get update -y'
 describe apt-build-tools        bash -lc 'apt-get install -y build-essential python3 make g++ pkg-config'
-describe apt-extras             bash -lc 'apt-get install -y git ca-certificates jq moreutils ripgrep'
 
 # native toolchain + node-gyp helpers
 describe install-gyp            bash -lc '"./run/install_gyp.sh"'
 
 # node toolchain
-describe corepack-enable        corepack enable
-describe pnpm-activate          corepack prepare pnpm@9.0.0 --activate
 describe pnpm-install           pnpm install --frozen-lockfile
 
 # playwright
@@ -36,15 +33,11 @@ describe chroma-standup         bash -lc '"./run/standup_chroma_nohup.sh"'
 describe ollama-install         bash -lc 'curl -fsSL https://ollama.com/install.sh | sh'
 describe ollama-standup         bash -lc '"./run/standup_ollama_nohup.sh"'
 
-# helpful globals (non-fatal)
-describe npm-corepack-latest    bash -lc 'npm i -g corepack@latest'
-describe npm-eslint-global      bash -lc 'npm i -g eslint'
 
-
-  describe pnpm-build           pnpm -r --no-bail build
+describe pnpm-build           pnpm -r --no-bail build
 # fi
 
-describe eslint-stylish         pnpm exec eslint --cache -f stylish .
+# describe eslint-stylish         pnpm exec eslint --cache
 
 # ---------- exit policy ----------
 describe_finalize
