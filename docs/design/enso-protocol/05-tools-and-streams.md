@@ -41,7 +41,8 @@ Tool lifecycles follow a simple pattern:
 ```
 
 Multiple tools can run concurrently; there is no lock-step request/response
-requirement.
+requirement. Long-running calls MAY emit `tool.partial` events with
+intermediate results before the terminal `tool.result`.
 
 ## Voice Streams and Metadata
 

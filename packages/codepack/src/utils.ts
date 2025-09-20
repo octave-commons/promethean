@@ -10,15 +10,20 @@ export { ensureDir };
 export const OLLAMA_URL = process.env.OLLAMA_URL ?? "http://localhost:11434";
 
 export function parseArgs(defaults: Record<string, string>) {
-  const out = { ...defaults };
-  const a = process.argv.slice(2);
-  for (let i = 0; i < a.length; i++) {
-    const k = a[i];
-    if (!k.startsWith("--")) continue;
-    const v = a[i + 1] && !a[i + 1].startsWith("--") ? a[++i] : "true";
-    out[k] = v;
+  const args = process.argv.slice(2);
+  let result = { ...defaults };
+  for (let index = 0; index < args.length; ) {
+    const key = args[index] ?? "";
+    if (!key.startsWith("--")) {
+      index += 1;
+      continue;
+    }
+    const candidate = args[index + 1];
+    const value = candidate && !candidate.startsWith("--") ? candidate : "true";
+    result = { ...result, [key]: value };
+    index += candidate && !candidate.startsWith("--") ? 2 : 1;
   }
-  return out;
+  return result;
 }
 
 export function relPath(fromRoot: string, fileAbs: string) {
@@ -39,14 +44,16 @@ type FoundBlock = {
 };
 
 export function extractCodeBlocksWithContext(md: string): FoundBlock[] {
-  const ast = unified().use(remarkParse).parse(md) as any;
+  const ast = unified()
+    .use(remarkParse as any)
+    .parse(md) as any;
   const blocks: FoundBlock[] = [];
   let lastHeading: string | undefined;
   const lines = md.split("\n");
   const grab = (from: number, to: number) =>
     lines.slice(Math.max(0, from), Math.min(lines.length, to)).join("\n");
 
-  visit(ast, (node: any, _idx: number, parent: any) => {
+  visit(ast, (node: any) => {
     if (!node?.type) return;
 
     if (node.type === "heading") {
@@ -64,16 +71,17 @@ export function extractCodeBlocksWithContext(md: string): FoundBlock[] {
       const { start, end } = node.position;
       const beforeText = grab(start.line - 6, start.line - 1); // 5 lines of lead-in context
       const afterText = grab(end.line, end.line + 5); // 5 lines of trailing context
-      blocks.push({
-        lang: node.lang || undefined,
-        fenceInfo: node.meta || undefined, // remark puts extra after language in node.meta
+      const block: FoundBlock = {
         startLine: start.line,
         endLine: end.line,
         value: node.value || "",
         beforeText,
         afterText,
-        nearestTitle: lastHeading,
-      });
+        ...(node.lang ? { lang: node.lang } : {}),
+        ...(node.meta ? { fenceInfo: node.meta } : {}),
+        ...(lastHeading ? { nearestTitle: lastHeading } : {}),
+      };
+      blocks.push(block);
     }
   });
 

@@ -10,6 +10,7 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
+    "test": "pnpm run build && ava dist/tests/**/*.test.js --config ../../config/ava.config.mjs",
     "symdocs:01-scan": "tsx src/01-scan.ts --root packages --tsconfig tsconfig.json",
     "symdocs:02-docs": "tsx src/02-docs.ts --model qwen3:4b",
     "symdocs:03-write": "tsx src/03-write.ts --out docs/packages",
@@ -21,7 +22,8 @@
     "@promethean/utils": "workspace:*",
     "gray-matter": "^4.0.3",
     "yaml": "^2.5.0",
-    "zod": "^3.23.8"
+    "zod": "^3.23.8",
+    "@promethean/file-indexer": "workspace:*"
   },
   "devDependencies": {
     "tsx": "^4.19.2"

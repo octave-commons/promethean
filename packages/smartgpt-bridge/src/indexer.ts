@@ -1,7 +1,6 @@
 import fs from "fs/promises";
 import path from "path";
 
-import fg from "fast-glob";
 import {
   ChromaClient,
   type UpsertRecordsParams,
@@ -10,9 +9,16 @@ import {
   type GetOrCreateCollectionParams,
 } from "chromadb";
 import { createLogger } from "@promethean/utils";
+import { scanFiles as indexFiles } from "@promethean/file-indexer";
+import type { IndexedFile } from "@promethean/file-indexer";
 
 import { logStream } from "./log-stream.js";
 import { RemoteEmbeddingFunction } from "./remoteEmbedding.js";
+import {
+  createInclusionChecker,
+  deriveExtensions,
+  toPosixPath,
+} from "./glob.js";
 import {
   loadBootstrapState,
   saveBootstrapState,
@@ -94,27 +100,93 @@ function defaultExcludes() {
     : ["node_modules/**", ".git/**", "dist/**", "build/**", ".obsidian/**"];
 }
 
-// Enumerate files + capture quick stats used for incremental comparisons
-async function scanFiles(rootPath: string) {
-  const include = ["**/*.{md,txt,js,ts,jsx,tsx,py,go,rs,json,yml,yaml,sh}"];
-  const files = await fg(include, {
-    cwd: rootPath,
-    ignore: defaultExcludes(),
-    onlyFiles: true,
-    dot: false,
-  });
+const SUPPORTED_EXTENSIONS = new Set<string>([
+  ".md",
+  ".txt",
+  ".js",
+  ".ts",
+  ".jsx",
+  ".tsx",
+  ".py",
+  ".go",
+  ".rs",
+  ".json",
+  ".yml",
+  ".yaml",
+  ".sh",
+]);
+
+const DEFAULT_INCLUDE = [
+  "**/*.{md,txt,js,ts,jsx,tsx,py,go,rs,json,yml,yaml,sh}",
+];
+
+function toIgnoreDirs(patterns: readonly string[]): string[] {
+  return patterns
+    .map((raw) => raw.trim())
+    .filter((value) => value.length > 0)
+    .map((value) => value.replace(/^!/, ""))
+    .map((value) => value.replace(/\\/g, "/"))
+    .map((value) => value.replace(/\/\*\*.*$/, ""))
+    .map((value) => value.replace(/^\*\*\//, ""))
+    .map((value) => value.replace(/^\//, ""))
+    .map((value) => value.replace(/\/$/, ""))
+    .filter((value) => value.length > 0)
+    .map((value) => path.normalize(value));
+}
+
+export async function gatherRepoFiles(
+  rootPath: string,
+  options: Readonly<{
+    include?: readonly string[];
+    exclude?: readonly string[];
+  }> = {},
+) {
+  const resolvedRoot = path.resolve(rootPath);
+  const include = options.include ?? [];
+  const exclude = options.exclude ?? defaultExcludes();
+  const ignoreDirs = toIgnoreDirs(exclude);
+  const extCandidates = include.length
+    ? deriveExtensions(include, { fallback: SUPPORTED_EXTENSIONS })
+    : SUPPORTED_EXTENSIONS;
+  const shouldInclude = include.length
+    ? createInclusionChecker(include)
+    : () => true;
+  const shouldExclude = exclude.length
+    ? createInclusionChecker(exclude)
+    : () => false;
+  const files: string[] = [];
   const fileInfo: Record<string, { size: number; mtimeMs: number }> = {};
-  for (const rel of files) {
-    try {
-      const st = await fs.stat(path.join(rootPath, rel));
-      fileInfo[rel] = {
-        size: Number(st.size),
-        mtimeMs: Number(st.mtimeMs),
-      };
-    } catch {
-      // file could disappear between listing and stat; skip
-    }
-  }
+  await indexFiles({
+    root: resolvedRoot,
+    ...(extCandidates ? { exts: extCandidates } : {}),
+    ignoreDirs,
+    onFile: async (file: IndexedFile) => {
+      const abs = path.isAbsolute(file.path)
+        ? path.resolve(file.path)
+        : path.resolve(resolvedRoot, file.path);
+      const rel = path.relative(resolvedRoot, abs);
+      if (rel.startsWith("..")) {
+        return;
+      }
+      const normalized = toPosixPath(rel);
+      if (shouldExclude(normalized)) {
+        return;
+      }
+      if (!shouldInclude(normalized)) {
+        return;
+      }
+      try {
+        const st = await fs.stat(abs);
+        files.push(normalized);
+        fileInfo[normalized] = {
+          size: Number(st.size),
+          mtimeMs: Number(st.mtimeMs),
+        };
+      } catch {
+        // file could disappear between listing and stat; skip
+      }
+    },
+  });
   return { files, fileInfo };
 }
 
@@ -317,7 +389,7 @@ class IndexerManager {
       };
       // Append any newly discovered files to the end of the bootstrap list
       try {
-        const { files: now } = await scanFiles(rootPath);
+        const { files: now } = await gatherRepoFiles(rootPath);
         const known = new Set(this.bootstrap.fileList);
         const add = now.filter((f) => !known.has(f));
         if (add.length) {
@@ -352,7 +424,7 @@ class IndexerManager {
       return;
     }
     // Fresh bootstrap: schedule all files with delay between files and create state
-    const { files, fileInfo } = await scanFiles(rootPath);
+    const { files, fileInfo } = await gatherRepoFiles(rootPath);
     logger.info("indexer bootstrap discovered files", {
       count: files.length,
       rootPath,
@@ -437,7 +509,7 @@ class IndexerManager {
         this.bootstrap.cursor >= this.bootstrap.fileList.length
       ) {
         this.mode = "indexed";
-        const { files, fileInfo } = await scanFiles(this.rootPath!);
+        const { files, fileInfo } = await gatherRepoFiles(this.rootPath!);
         const nextState3: Omit<BootstrapState, "rootPath"> = {
           mode: "indexed",
           cursor: this.bootstrap.cursor,
@@ -459,12 +531,8 @@ class IndexerManager {
   async scheduleReindexAll() {
     if (this.mode === "bootstrap")
       return { ok: true, ignored: true, mode: this.mode };
-    const include = ["**/*.{md,txt,js,ts,jsx,tsx,py,go,rs,json,yml,yaml,sh}"];
-    const files = await fg(include, {
-      cwd: this.rootPath!,
-      ignore: defaultExcludes(),
-      onlyFiles: true,
-      dot: false,
+    const { files } = await gatherRepoFiles(this.rootPath!, {
+      include: DEFAULT_INCLUDE,
     });
     this.enqueueFiles(files);
     this._drain();
@@ -474,12 +542,7 @@ class IndexerManager {
     if (this.mode === "bootstrap")
       return { ok: true, ignored: true, mode: this.mode };
     const include = Array.isArray(globs) ? globs : [String(globs)];
-    const files = await fg(include, {
-      cwd: this.rootPath!,
-      ignore: defaultExcludes(),
-      onlyFiles: true,
-      dot: false,
-    });
+    const { files } = await gatherRepoFiles(this.rootPath!, { include });
     this.enqueueFiles(files);
     this._drain();
     return { ok: true, queued: files.length };
@@ -497,9 +560,8 @@ class IndexerManager {
   }
 
   async _scheduleIncremental(prev: any) {
-    const { files: currentFiles, fileInfo: currentInfo } = await scanFiles(
-      this.rootPath!,
-    );
+    const { files: currentFiles, fileInfo: currentInfo } =
+      await gatherRepoFiles(this.rootPath!);
     const prevInfo = prev?.fileInfo || {};
     const prevSet = new Set(Object.keys(prevInfo));
     const curSet = new Set(currentFiles);
@@ -590,12 +652,7 @@ export async function reindexAll(
     dims: Number(process.env.EMBED_DIMS || 768),
   };
   const col = await collectionForFamily(family, version, cfg);
-  const files = await fg(include, {
-    cwd: rootPath,
-    ignore: exclude,
-    onlyFiles: true,
-    dot: false,
-  });
+  const { files } = await gatherRepoFiles(rootPath, { include, exclude });
   const max = limit > 0 ? Math.min(limit, files.length) : files.length;
   let processed = 0;
   for (let i = 0; i < max; i++) {
