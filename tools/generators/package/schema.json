@@ -10,6 +10,12 @@
         "$source": "argv",
         "index": 0
       }
+    },
+    "preset": {
+      "type": "string",
+      "description": "Template preset to apply",
+      "enum": ["base", "web-frontend"],
+      "default": "base"
     }
   },
   "required": ["name"]
