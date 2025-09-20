@@ -19,6 +19,7 @@ const toTitle = (value) =>
     .join(" ");
 
 export default async function generator(tree, schema) {
+/*<<<<<<< codex/create-fastify-service-generator-template
   const normalized = names(schema.name);
   const projectRoot = joinPathFragments("packages", normalized.fileName);
   const preset = schema.preset === "fastify-service" ? schema.preset : null;
@@ -32,6 +33,19 @@ export default async function generator(tree, schema) {
     className: normalized.className,
     propertyName: normalized.propertyName,
     constantName: normalized.constantName,
+=======*/
+  const variants = names(schema.name);
+  const normalized = variants.fileName;
+  const preset = schema.preset ?? "base";
+  const templateDirectory = joinPathFragments(__dirname, "files", preset);
+  const projectRoot = joinPathFragments("packages", normalized);
+  generateFiles(tree, templateDirectory, projectRoot, {
+    tmpl: "",
+    name: normalized,
+    className: variants.className,
+    propertyName: variants.propertyName,
+    constantName: variants.constantName,
+// >>>>>>> main
     pipelineExt: "json",
     preset,
     serviceName: normalized.fileName,

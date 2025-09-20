@@ -95,6 +95,7 @@
   compile-hy                mk.hy/compile-hy
   test-hy-service           mk.hy/test-hy-service
   test-hy-services          mk.hy/test-hy-services
-  test-hy                   mk.hy/test-hy}
+  test-hy                   mk.hy/test-hy
+ }
 }
 

@@ -14,7 +14,7 @@
     "preset": {
       "type": "string",
       "description": "Optional template preset to scaffold specialized package layouts",
-      "enum": ["fastify-service"],
+      "enum": ["fastify-service","base", "web-frontend"],
       "default": null
     }
   },
