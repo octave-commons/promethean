@@ -1,5 +1,5 @@
 {
-  "name": "mcp",
+  "name": "ts-mcp",
   "root": "packages/mcp",
   "sourceRoot": "packages/mcp/src",
   "targets": {
@@ -9,9 +9,7 @@
         "command": "tsc -b",
         "cwd": "packages/mcp"
       },
-      "outputs": [
-        "{projectRoot}/dist"
-      ]
+      "outputs": ["{projectRoot}/dist"]
     },
     "typecheck": {
       "executor": "nx:run-commands",
@@ -22,12 +20,9 @@
     },
     "test": {
       "executor": "nx:run-commands",
-      "dependsOn": [
-        "build"
-      ],
       "options": {
-        "command": "ava --config ../../config/ava.config.mjs",
-        "cwd": "{projectRoot}"
+        "command": "ava",
+        "cwd": "packages/mcp"
       }
     },
     "lint": {
@@ -38,7 +33,5 @@
       }
     }
   },
-  "tags": [
-    "scope:packages"
-  ]
+  "tags": ["scope:packages"]
 }
