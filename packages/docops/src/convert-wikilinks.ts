@@ -3,14 +3,36 @@ import { pathToFileURL } from "node:url";
 
 const WIKILINK_RE = /\[\[([^\]|]+)(\|([^\]]+))?\]\]/g;
 
+const encodeSpaces = (value: string): string => value.replace(/ /g, "%20");
+
+type TargetParts = {
+  readonly base: string;
+  readonly anchor: string;
+};
+
+const splitTarget = (target: string): TargetParts => {
+  const delimiterIndex = target.search(/[?#]/);
+  return delimiterIndex === -1
+    ? { base: target, anchor: "" }
+    : {
+        base: target.slice(0, delimiterIndex),
+        anchor: target.slice(delimiterIndex),
+      };
+};
+
+const toMarkdownLink = (target: string): string => {
+  const { base, anchor } = splitTarget(target);
+  const encodedBase = encodeSpaces(base);
+  const encodedAnchor = encodeSpaces(anchor);
+  return `${encodedBase}.md${encodedAnchor}`;
+};
+
 export async function convertWikilinks(file: string): Promise<void> {
   const text = await fs.readFile(file, "utf-8");
   const newText = text.replace(
     WIKILINK_RE,
-    (_match, target: string, _pipe: string, alias: string) => {
-      const link = target.replace(/ /g, "%20") + ".md";
-      return `[${alias ?? target}](${link})`;
-    },
+    (_match, target: string, _pipe: string, alias: string) =>
+      `[${alias ?? target}](${toMarkdownLink(target)})`,
   );
   if (newText !== text) {
     await fs.writeFile(file, newText, "utf-8");
