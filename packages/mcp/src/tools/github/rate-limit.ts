@@ -16,7 +16,7 @@ export const githubRateLimitTool: ToolFactory = (ctx) => {
           ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
       });
-      return await res.json();
+      return await res.json(); // typed as unknown in Tool; MCP wrapper returns as JSON content
     },
   };
 };
