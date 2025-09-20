@@ -4,6 +4,8 @@ import { visit } from 'unist-util-visit';
 import type { Code, Content, Heading, Root, Text } from 'mdast';
 import type { Position } from 'unist';
 
+import type { MarkdownChunk } from './types.js';
+
 const SENTENCE_BOUNDARY = /(?<=[.!?])\s+/u;
 
 type SentenceAggregation = {
@@ -49,16 +51,6 @@ export const sentenceSplit = (text: string, maxLen: number): readonly string[] =
     const aggregated = parts.reduce(reduceSentence(maxLen), initial);
     const combined = aggregated.buffer ? [...aggregated.chunks, aggregated.buffer.trim()] : aggregated.chunks;
     return combined.flatMap(hardWrap(maxLen));
-};
-
-export type MarkdownChunk = {
-    readonly text: string;
-    readonly startLine: number;
-    readonly startCol: number;
-    readonly endLine: number;
-    readonly endCol: number;
-    readonly kind: 'text' | 'code';
-    readonly title?: string;
 };
 
 type NodeWithPosition = {
