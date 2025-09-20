@@ -32,11 +32,30 @@
     (u/sh! "pnpm exec tsx scripts/lint-topics.ts" {:shell true})
     (u/sh! ["npx" "tsx" "scripts/lint-topics.ts"])) )
 
+(defn validate-elisp []
+  (when-not (u/has-cmd? "clojure")
+    (throw (ex-info "clojure CLI (clojure) is required for elisp validation" {})))
+  (let [root ".emacs/layers"]
+    (if-not (fs/exists? root)
+      (println "[validate-elisp] Skipping: .emacs/layers not found")
+      (let [patterns ["**/*.el" "**/*.org"]
+            files (->> patterns
+                       (mapcat #(fs/glob root %))
+                       (map fs/absolutize)
+                       (map str)
+                       sort
+                       vec)]
+        (if (seq files)
+          (u/sh! (into ["clojure" "-M:validate"] files)
+                 {:dir "packages/clj-hacks"})
+          (println "[validate-elisp] No Lisp sources found under .emacs/layers"))))))
+
 (defn test []
   (py/test-python)
   (hy/test-hy)
   (js/test-js)
-  (js/test-ts))
+  (js/test-ts)
+  (validate-elisp))
 
 (defn test-integration []
   (u/sh! "python -m pytest tests/integration" {:shell true}))
