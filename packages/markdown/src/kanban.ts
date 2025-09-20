@@ -33,7 +33,19 @@ import matter from 'gray-matter';
 import { v4 as uuidv4 } from 'uuid';
 import type { Node, Parent } from 'unist';
 function toString(node: Node): string {
-    return toStringWithNodes(node).text;
+    const result = toStringWithNodes(node).text;
+    if (result && result.trim().length > 0) return result;
+
+    if (typeof (node as any)?.value === 'string') {
+        return (node as any).value as string;
+    }
+
+    const children = (node as any)?.children;
+    if (Array.isArray(children)) {
+        return children.map((child: Node) => toString(child)).join('');
+    }
+
+    return '';
 }
 
 // ---------- Types ----------
@@ -290,7 +302,7 @@ export class MarkdownBoard {
             )}\n\`\`\`\n%%`;
             full = settingsBlock + '\n\n' + full;
         }
-        return full;
+        return full.replace(/\\\[\\\[/g, '[[').replace(/\\\]\]/g, ']]');
     }
 
     // ---------- Internal utilities ----------
