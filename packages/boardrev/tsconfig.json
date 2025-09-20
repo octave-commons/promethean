@@ -6,7 +6,7 @@
     "composite": true,
     "declaration": true
   },
-  "include": ["src/**/*", "src/test/**/*.ts"],
+  "include": ["src/**/*"],
   "references": [
     {
       "path": "../markdown"
