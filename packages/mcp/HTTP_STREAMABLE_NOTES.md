@@ -1,0 +1,1 @@
+MCP HTTP transport: fastify session doc placeholder
