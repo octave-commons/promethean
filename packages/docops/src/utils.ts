@@ -4,14 +4,9 @@ import * as path from "path";
 import { once } from "node:events";
 import { createWriteStream } from "node:fs";
 
-import { unified } from "unified";
-import remarkParse from "remark-parse";
-import { visit } from "unist-util-visit";
 import * as yaml from "yaml";
-import type { Code, Content, Heading, Root, Text } from "mdast";
-import type { Position } from "unist";
 
-import { Chunk, Front } from "./types.js";
+import { Front } from "./types.js";
 export {
   stripGeneratedSections,
   START_MARK,
@@ -74,97 +69,7 @@ export function frontToYAML(front: Front): string {
   return yaml.stringify(front, { indent: 2, simpleKeys: true });
 }
 
-export function parseMarkdownChunks(markdown: string): Chunk[] {
-  const ast = unified().use(remarkParse).parse(markdown) as Root;
-  const chunks: Chunk[] = [];
-  let currentHeading: string | undefined;
-
-  function extractText(node: Content): string {
-    let out = "";
-    visit(node, (n) => {
-      if (n.type === "text") out += (n as Text).value ?? "";
-    });
-    return out;
-  }
-  function sentenceSplit(s: string, maxLen: number): string[] {
-    if (s.length <= maxLen) return [s];
-    const parts = s.split(/(?<=[\.\!\?])\s+/);
-    let buf = "";
-    const chunks = parts.reduce<string[]>((acc, p, idx) => {
-      if ((buf + " " + p).trim().length > maxLen) {
-        if (buf) acc.push(buf.trim());
-        buf = p;
-      } else {
-        buf = (buf ? `${buf} ` : "") + p;
-      }
-      if (idx === parts.length - 1 && buf) acc.push(buf.trim());
-      return acc;
-    }, []);
-    return chunks.flatMap((c) =>
-      c.length <= maxLen
-        ? [c]
-        : Array.from({ length: Math.ceil(c.length / maxLen) }, (_, i) =>
-            c.slice(i * maxLen, i * maxLen + maxLen),
-          ),
-    );
-  }
-
-  visit(ast, (node) => {
-    if (!node?.type) return;
-    if (node.type === "heading") {
-      const heading = node as Heading;
-      currentHeading = (heading.children || [])
-        .map((c) => (c as Text).value ?? "")
-        .join(" ")
-        .trim();
-    }
-    if (
-      node.type === "paragraph" ||
-      node.type === "listItem" ||
-      node.type === "code"
-    ) {
-      const pos = node.position as Position | undefined;
-      if (!pos) return;
-      const raw =
-        node.type === "code" ? (node as Code).value ?? "" : extractText(node);
-      const trimmed = raw.trim();
-      if (!trimmed) return;
-      const kind: Chunk["kind"] = node.type === "code" ? "code" : "text";
-      chunks.push(
-        ...sentenceSplit(trimmed, 1200).map(
-          (s) =>
-            ({
-              id: "",
-              docUuid: "",
-              docPath: "",
-              startLine: pos.start.line,
-              startCol: pos.start.column,
-              endLine: pos.end.line,
-              endCol: pos.end.column,
-              text: s,
-              kind,
-              ...(currentHeading ? { title: currentHeading } : {}),
-            }) as Chunk,
-        ),
-      );
-    }
-  });
-
-  if (chunks.length === 0 && markdown.trim()) {
-    chunks.push({
-      id: "",
-      docUuid: "",
-      docPath: "",
-      startLine: 1,
-      startCol: 1,
-      endLine: markdown.split("\n").length,
-      endCol: 1,
-      text: markdown.trim(),
-      kind: "text",
-    });
-  }
-  return chunks;
-}
+export { parseMarkdownChunks } from "@promethean/markdown/chunking.js";
 
 export function relMdLink(
   fromFileAbs: string,
