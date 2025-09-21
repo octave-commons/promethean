@@ -59,3 +59,36 @@ test("generateEcosystem aggregates apps from edn files", async (t) => {
   };
   t.deepEqual(importedModule.apps, apps);
 });
+
+test("generateEcosystem resolves relative paths against the output dir", async (t) => {
+  const tmpDir = await mkdtemp(path.join(os.tmpdir(), "shadow-conf-"));
+  const inputDir = path.join(tmpDir, "input");
+  await mkdir(inputDir, { recursive: true });
+
+  const serviceDir = path.join(inputDir, "service");
+  await mkdir(serviceDir, { recursive: true });
+  await writeFile(
+    path.join(serviceDir, "ecosystem.edn"),
+    '{:apps [{:name "service" :cwd "./services/service" :script "./scripts/index.js" :watch ["./services/service" "./shared"] :env_file "./.env.local" :env {:CONFIG_PATH "./config" :PORT "8080"}}]}\n',
+    "utf8",
+  );
+
+  const outputDir = path.join(tmpDir, "out");
+  const { apps } = await generateEcosystem({ inputDir, outputDir });
+
+  t.like(apps[0], {
+    cwd: path.resolve(outputDir, "./services/service"),
+    script: path.resolve(outputDir, "./scripts/index.js"),
+    env_file: path.resolve(outputDir, "./.env.local"),
+  });
+
+  t.deepEqual(apps[0]?.watch, [
+    path.resolve(outputDir, "./services/service"),
+    path.resolve(outputDir, "./shared"),
+  ]);
+
+  t.deepEqual(apps[0]?.env, {
+    CONFIG_PATH: path.resolve(outputDir, "./config"),
+    PORT: "8080",
+  });
+});
