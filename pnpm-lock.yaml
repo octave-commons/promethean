@@ -1985,6 +1985,9 @@ importers:
 
   packages/fs:
     dependencies:
+      '@promethean/ds':
+        specifier: workspace:*
+        version: link:../ds
       '@promethean/stream':
         specifier: workspace:*
         version: link:../stream
@@ -2462,6 +2465,12 @@ importers:
 
   packages/kanban-processor:
     dependencies:
+      '@promethean/ds':
+        specifier: workspace:*
+        version: link:../ds
+      '@promethean/fs':
+        specifier: workspace:*
+        version: link:../fs
       '@promethean/legacy':
         specifier: workspace:*
         version: link:../legacy
