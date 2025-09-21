@@ -1,30 +1,12 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
 
 import { listFilesRec } from "@promethean/utils/list-files-rec.js";
 import { parseFrontmatter } from "@promethean/markdown/frontmatter.js";
 
 import type { TaskFM } from "./types.js";
-
-const ROOT = path.dirname(fileURLToPath(import.meta.url));
-const REPO = path.resolve(ROOT, "..", "..", "..", "..");
-
-const TASKS_DIR = path.join(REPO, "boards", "tasks");
-const EXTS = new Set([".md"]);
-
-const REQUIRED_FIELDS = [
-  "id",
-  "title",
-  "status",
-  "priority",
-  "owner",
-  "labels",
-  "created",
-] as const satisfies ReadonlyArray<keyof TaskFM>;
-
-const STATUS_VALUES = new Set(["open", "doing", "blocked", "done", "dropped"]);
-const PRIORITY_VALUES = new Set(["low", "medium", "high", "critical"]);
+import type { ReadonlySetLike } from "./config/shared.js";
+import { loadKanbanConfig } from "./config.js";
 
 const EMPTY_ERRORS: ReadonlyArray<string> = Object.freeze([] as string[]);
 
@@ -55,24 +37,39 @@ const toLabelArray = (value: unknown): ReadonlyArray<string> => {
 };
 
 const toTaskFM = (data: Readonly<Record<string, unknown>>): TaskFM => {
+  const rawId =
+    (data as { readonly id?: unknown }).id ??
+    (data as { readonly uuid?: unknown }).uuid;
+  const rawCreated =
+    (data as { readonly created?: unknown }).created ??
+    (data as { readonly created_at?: unknown }).created_at;
   const fm = {
-    id: toTrimmedString(data.id),
+    id: toTrimmedString(rawId),
     title: toTrimmedString(data.title),
     status: toTrimmedString(data.status) as TaskFM["status"],
     priority: toTrimmedString(data.priority) as TaskFM["priority"],
     owner: toTrimmedString(data.owner),
     labels: toLabelArray(data.labels),
-    created: toTrimmedString(data.created),
+    created: toTrimmedString(rawCreated),
     updated: toOptionalString((data as { readonly updated?: unknown }).updated),
+    uuid: toOptionalString((data as { readonly uuid?: unknown }).uuid),
+    created_at: toOptionalString(
+      (data as { readonly created_at?: unknown }).created_at,
+    ),
   } satisfies TaskFM;
   return Object.freeze(fm);
 };
 
 const filenameErrors = (
   task: Readonly<TaskFM>,
+  fmData: Readonly<Record<string, unknown>>,
   filePath: string,
 ): ReadonlyArray<string> => {
   const baseName = path.basename(filePath, ".md");
+  const hasExplicitId = typeof fmData.id === "string" && fmData.id.length > 0;
+  if (!hasExplicitId || task.id.length === 0) {
+    return EMPTY_ERRORS;
+  }
   return baseName.startsWith(task.id)
     ? EMPTY_ERRORS
     : Object.freeze([
@@ -84,46 +81,68 @@ const filenameErrors = (
 
 const requiredFieldErrors = (
   task: Readonly<TaskFM>,
+  fmData: Readonly<Record<string, unknown>>,
   filePath: string,
+  requiredFields: ReadonlyArray<string>,
 ): ReadonlyArray<string> =>
   Object.freeze(
-    REQUIRED_FIELDS.map((field) => {
-      if (field === "labels") {
-        return task.labels.length > 0
+    requiredFields
+      .map((field) => {
+        if (field === "labels") {
+          return task.labels.length > 0
+            ? undefined
+            : `${path.basename(filePath)}: missing required field '${field}'`;
+        }
+        const value = fmData[field];
+        return typeof value === "string" && value.length > 0
           ? undefined
           : `${path.basename(filePath)}: missing required field '${field}'`;
-      }
-      const value = task[field];
-      return typeof value === "string" && value.length > 0
-        ? undefined
-        : `${path.basename(filePath)}: missing required field '${field}'`;
-    }).filter((message): message is string => Boolean(message)),
+      })
+      .filter((message): message is string => Boolean(message)),
   );
 
 const enumErrors = (
   task: Readonly<TaskFM>,
   filePath: string,
+  {
+    statusValues,
+    priorityValues,
+  }: Readonly<{
+    readonly statusValues: ReadonlySetLike<string>;
+    readonly priorityValues: ReadonlySetLike<string>;
+  }>,
 ): ReadonlyArray<string> =>
   Object.freeze(
     [
-      STATUS_VALUES.has(task.status)
+      statusValues.has(task.status)
         ? undefined
         : `${path.basename(filePath)}: invalid status '${task.status}'`,
-      PRIORITY_VALUES.has(task.priority)
+      priorityValues.has(task.priority)
         ? undefined
         : `${path.basename(filePath)}: invalid priority '${task.priority}'`,
     ].filter((message): message is string => Boolean(message)),
   );
 
-const lintTaskFile = async (filePath: string): Promise<ReadonlyArray<string>> =>
+const lintTaskFile = async (
+  filePath: string,
+  {
+    requiredFields,
+    statusValues,
+    priorityValues,
+  }: Readonly<{
+    readonly requiredFields: ReadonlyArray<string>;
+    readonly statusValues: ReadonlySetLike<string>;
+    readonly priorityValues: ReadonlySetLike<string>;
+  }>,
+): Promise<ReadonlyArray<string>> =>
   readFile(filePath, "utf8")
     .then((raw) => parseFrontmatter<Readonly<Record<string, unknown>>>(raw))
-    .then(({ data }) => toTaskFM(data ?? {}))
-    .then((task) =>
+    .then(({ data }) => ({ task: toTaskFM(data ?? {}), fm: data ?? {} }))
+    .then(({ task, fm }) =>
       Object.freeze([
-        ...filenameErrors(task, filePath),
-        ...requiredFieldErrors(task, filePath),
-        ...enumErrors(task, filePath),
+        ...filenameErrors(task, fm, filePath),
+        ...requiredFieldErrors(task, fm, filePath, requiredFields),
+        ...enumErrors(task, filePath, { statusValues, priorityValues }),
       ]),
     )
     .catch((error: unknown) =>
@@ -135,8 +154,19 @@ const lintTaskFile = async (filePath: string): Promise<ReadonlyArray<string>> =>
     );
 
 const main = async (): Promise<void> => {
-  const files = await listFilesRec(TASKS_DIR, EXTS);
-  const errors = (await Promise.all(files.map(lintTaskFile))).flat();
+  const { config } = await loadKanbanConfig();
+  const files = await listFilesRec(config.tasksDir, new Set(config.exts));
+  const errors = (
+    await Promise.all(
+      files.map((filePath) =>
+        lintTaskFile(filePath, {
+          requiredFields: config.requiredFields,
+          statusValues: config.statusValues,
+          priorityValues: config.priorityValues,
+        }),
+      ),
+    )
+  ).flat();
   if (errors.length > 0) {
     errors.forEach((message) => {
       console.error(message);

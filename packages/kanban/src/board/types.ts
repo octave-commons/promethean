@@ -10,6 +10,8 @@ export type TaskFM = Readonly<{
   labels: ReadonlyArray<string>;
   created: string;
   updated?: string;
+  uuid?: string;
+  created_at?: string;
   rel?: {
     readonly blocks?: ReadonlyArray<string>;
     readonly blockedBy?: ReadonlyArray<string>;

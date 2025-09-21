@@ -1,10 +1,6 @@
 import { readFile } from "node:fs/promises";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
 
-const ROOT = path.dirname(fileURLToPath(import.meta.url));
-const REPO = path.resolve(ROOT, "..", "..", "..", "..");
-const INDEX_FILE = path.join(REPO, "boards", "index.jsonl");
+import { loadKanbanConfig } from "./config.js";
 
 type IndexedTask = {
   id: string;
@@ -15,8 +11,10 @@ type IndexedTask = {
   path: string;
 };
 
-const readIndex = async (): Promise<ReadonlyArray<IndexedTask>> => {
-  const data = await readFile(INDEX_FILE, "utf8").catch(() => "");
+const readIndex = async (
+  indexFile: string,
+): Promise<ReadonlyArray<IndexedTask>> => {
+  const data = await readFile(indexFile, "utf8").catch(() => "");
   return data
     .split("\n")
     .filter((line) => line.length > 0)
@@ -24,9 +22,10 @@ const readIndex = async (): Promise<ReadonlyArray<IndexedTask>> => {
 };
 
 const main = async (): Promise<void> => {
-  const args = new Set(process.argv.slice(2));
+  const { config, restArgs } = await loadKanbanConfig();
+  const args = new Set(restArgs);
   const apply = args.has("--apply");
-  const tasks = await readIndex();
+  const tasks = await readIndex(config.indexFile);
   if (tasks.length === 0) {
     console.error(
       "No index found. Run: pnpm tsx packages/kanban/src/board/indexer.ts --write",
