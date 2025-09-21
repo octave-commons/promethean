@@ -1,8 +1,9 @@
 (ns mk.commands
   (:require [mk.node :as js]
             [mk.util :as u]
-            [babashka.fs :as fs]
-            [clojure.string :as str]))
+            [clojure.string :as str]
+            [mk.configs :as cfg]
+            [babashka.fs :as fs]))
 
 ;; Root tasks ---------------------------------------------------------------
 (defn build []
@@ -92,6 +93,7 @@
 
 (defn setup-quick []
   (println "Quick setup using pnpm workspace installs...")
+
   (println "Installing all workspace dependencies...")
   (if (u/has-pnpm?)
     (do
