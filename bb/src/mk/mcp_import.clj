@@ -1,4 +1,3 @@
-#!/usr/bin/env bb
 (ns mk.mcp-import
   (:require
     [clojure.string :as str]
@@ -152,9 +151,11 @@
 
 (defn -main [& args]
   ;; usage:
-  ;;   bb mk/mcp-import.bb <input> [--schema codex.toml|codex.json|vscode.json|elisp]
+  ;;   clojure -M:mcp-import <input> [--schema codex.toml|codex.json|vscode.json|elisp]
   (let [[in & more] args
-        _  (when-not in (die! "usage: bb mk/mcp-import.bb <input> [--schema …]"))
+        _  (when (System/getProperty "babashka.version")
+             (die! "mk.mcp-import now requires the Clojure CLI runtime; run with `clojure -M:mcp-import`."))
+        _  (when-not in (die! "usage: clojure -M:mcp-import <input> [--schema …]"))
         opt-idx (.indexOf more "--schema")
         schema (when (<= 0 opt-idx (- (count more) 2))
                  (keyword (nth more (inc opt-idx))))

@@ -1,0 +1,14 @@
+{:paths ["bb/src"]
+ :deps {org.clojure/clojure {:mvn/version "1.11.1"}
+        cheshire/cheshire {:mvn/version "5.12.0"}
+        babashka/fs {:mvn/version "0.5.20"}
+        babashka/process {:mvn/version "0.5.21"}
+        promethean/clj-hacks {:local/root "packages/clj-hacks"}}
+ :aliases {:test {:extra-paths ["test"]
+                  :extra-deps {io.github.cognitect-labs/test-runner
+                               {:git/url "https://github.com/cognitect-labs/test-runner"
+                                :git/tag "v0.5.1"
+                                :git/sha "dfb30dd"}}
+                  :main-opts ["-m" "cognitect.test-runner" "-d" "test"]}
+           :mcp-import {:main-opts ["-m" "mk.mcp-import"]}
+           :mcp-cli {:main-opts ["-m" "mk.mcp-cli"]}}}
