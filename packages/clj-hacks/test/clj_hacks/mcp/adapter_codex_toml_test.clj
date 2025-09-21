@@ -1,7 +1,7 @@
-(ns mk.mcp-adapter-codex-toml-test
-  (:require [clojure.test :refer :all]
-            [babashka.fs :as fs]
-            [mk.mcp-adapter-codex-toml :as adapter]))
+(ns clj-hacks.mcp.adapter-codex-toml-test
+  (:require [babashka.fs :as fs]
+            [clj-hacks.mcp.adapter-codex-toml :as adapter]
+            [clojure.test :refer :all]))
 
 (def sample-toml
   (str
@@ -14,7 +14,7 @@
    "# footer\n"))
 
 (deftest read-full-extracts-tables
-  (let [tmp (fs/create-temp-file {:prefix "mcp-toml-" :suffix ".toml"})
+  (let [tmp  (fs/create-temp-file {:prefix "mcp-toml-" :suffix ".toml"})
         path (str tmp)]
     (spit path sample-toml)
     (let [{:keys [mcp rest raw]} (adapter/read-full path)
@@ -26,7 +26,7 @@
       (is (string? raw)))))
 
 (deftest write-full-renders-tables
-  (let [tmp (fs/create-temp-file {:prefix "mcp-toml-out-" :suffix ".toml"})
+  (let [tmp  (fs/create-temp-file {:prefix "mcp-toml-out-" :suffix ".toml"})
         path (str tmp)
         data {:mcp {:mcp-servers {:x {:command "cmd" :args ["a" "b"]}
                                   :y {:command "yo"}}}
