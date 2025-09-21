@@ -2,7 +2,6 @@ import {
   // dirname,
   join,
 } from "path";
-import { readdir, readFile, stat, writeFile } from "fs/promises";
 import crypto from "crypto";
 
 import { ContextStore } from "@promethean/persistence/contextStore.js";
@@ -15,6 +14,12 @@ import { MarkdownBoard } from "@promethean/markdown/kanban.js";
 import { syncBoardStatuses } from "@promethean/markdown/sync.js";
 import { MarkdownTask } from "@promethean/markdown/task.js";
 import { STATUS_SET, STATUS_ORDER } from "@promethean/markdown/statuses.js";
+import { World } from "@promethean/ds/ecs.js";
+import {
+  defineFsComponents,
+  DirectorySnapshotSystem,
+  WriteBufferSystem,
+} from "@promethean/fs";
 
 const EVENTS = {
   boardChange: "file-watcher-board-change",
@@ -60,7 +65,7 @@ function firstWiki(cardLinks: string[] | undefined): string | null {
 
 async function boardToCards(
   board: any,
-  tasksDir: string,
+  tasksFiles: Record<string, string>,
 ): Promise<KanbanCard[]> {
   const out: KanbanCard[] = [];
   for (const col of board.listColumns()) {
@@ -74,11 +79,14 @@ async function boardToCards(
       // ensure id in target task file
       if (file) {
         try {
-          const content = await readFile(join(tasksDir, file), "utf8");
-          const task = await MarkdownTask.load(content);
-          const id = task.getId() || "";
-          out.push({ id: id || c.id, title, column: col.name, link });
-          continue;
+          const normalized = file.replace(/\\/g, "/");
+          const content = tasksFiles[normalized];
+          if (typeof content === "string") {
+            const task = await MarkdownTask.load(content);
+            const id = task.getId() || "";
+            out.push({ id: id || c.id, title, column: col.name, link });
+            continue;
+          }
         } catch {
           // fallthrough
         }
@@ -89,17 +97,15 @@ async function boardToCards(
   return out;
 }
 
-async function buildBoardFromTasks(board: any, tasksDir: string) {
+async function buildBoardFromTasks(
+  board: any,
+  taskFiles: Record<string, string>,
+) {
   // Build status -> items map
-  const entries = await readdir(tasksDir);
   const tasks: { file: string; id: string; title: string; status: string }[] =
     [];
-  for (const name of entries) {
-    const p = join(tasksDir, name);
-    const st = await stat(p).catch(() => null as any);
-    if (!st || !st.isFile()) continue;
+  for (const [name, text] of Object.entries(taskFiles)) {
     if (!name.toLowerCase().endsWith(".md")) continue;
-    const text = await readFile(p, "utf8");
     const t = await MarkdownTask.load(text);
     const id = t.getId() || crypto.randomUUID();
     const title = t.getTitle() || name;
@@ -145,13 +151,14 @@ async function buildBoardFromTasks(board: any, tasksDir: string) {
   }
 }
 
-async function writeBoardFile(
+function writeBoardFile(
+  stage: (target: string, data: string) => void,
   path: string,
   lines: string[],
   modified: boolean,
 ) {
   if (modified) {
-    await writeFile(path, lines.join("\n"));
+    stage(path, lines.join("\n"));
   }
 }
 
@@ -206,6 +213,76 @@ export function startKanbanProcessor(repoRoot = defaultRepoRoot) {
   const tasksPath = join(repoRoot, "docs", "agile", "tasks");
   // const boardDir = dirname(boardPath);
 
+  const world = new World();
+  const Fs = defineFsComponents(world);
+  const fsSystems = [
+    WriteBufferSystem(world, Fs),
+    DirectorySnapshotSystem(world, Fs),
+  ];
+
+  const cmd = world.beginTick();
+  const boardEntity = cmd.createEntity();
+  cmd.add(boardEntity, Fs.DirectoryIntent, {
+    path: join(repoRoot, "docs", "agile", "boards"),
+    capture: { contents: true, suffixes: ["kanban.md"], encoding: "utf8" },
+    walk: { maxDepth: 1 },
+  });
+  cmd.add(boardEntity, Fs.WriteBuffer, { ensure: [], writes: [], deletes: [] });
+
+  const tasksEntity = cmd.createEntity();
+  cmd.add(tasksEntity, Fs.DirectoryIntent, {
+    path: tasksPath,
+    capture: { contents: true, suffixes: [".md"], encoding: "utf8" },
+  });
+  cmd.add(tasksEntity, Fs.WriteBuffer, { ensure: [], writes: [], deletes: [] });
+  cmd.flush();
+  world.endTick();
+
+  const runFsTick = async () => {
+    const exec = world.beginTick();
+    for (const system of fsSystems) await system(0);
+    exec.flush();
+    world.endTick();
+  };
+
+  let fsChain = runFsTick();
+  const nextFsTick = async () => {
+    fsChain = fsChain.then(() => runFsTick());
+    await fsChain;
+  };
+
+  const updateBuffer = (entity: number, updater: (state: any) => void) => {
+    const existing = world.get(entity, Fs.WriteBuffer) as any;
+    const next = existing
+      ? {
+          ensure: [...existing.ensure],
+          writes: [...existing.writes],
+          deletes: [...existing.deletes],
+          ...(existing.lastFlush ? { lastFlush: existing.lastFlush } : {}),
+        }
+      : { ensure: [], writes: [], deletes: [] };
+    updater(next);
+    world.set(entity, Fs.WriteBuffer, next);
+  };
+
+  const normalizedSnapshotFiles = (entity: number) => {
+    const snap = world.get(entity, Fs.DirectorySnapshot);
+    const files = snap?.files ?? {};
+    const out: Record<string, string> = {};
+    for (const [key, value] of Object.entries(files)) {
+      if (typeof value === "string") {
+        out[key.replace(/\\/g, "/")] = value;
+      }
+    }
+    return out;
+  };
+
+  const stageBoardWrite = (data: string) => {
+    updateBuffer(boardEntity, (state) => {
+      state.writes.push({ path: boardPath, data, encoding: "utf8" });
+    });
+  };
+
   const ctx = new ContextStore();
   let kanbanStore: any | null = null;
   let mongoClient: MongoClient | null = null;
@@ -243,15 +320,24 @@ export function startKanbanProcessor(repoRoot = defaultRepoRoot) {
     }
     ignoreTasks = true;
     try {
-      const text = await readFile(boardPath, "utf8");
-      const board = await MarkdownBoard.load(text);
+      await nextFsTick();
+      const boardFiles = normalizedSnapshotFiles(boardEntity);
+      const boardSource = boardFiles["kanban.md"] || "";
+      const board = await MarkdownBoard.load(boardSource);
       const changed = await syncBoardStatuses(board, {
         tasksDir: tasksPath,
         createMissingTasks: true,
       });
       const nextMd = await board.toMarkdown();
-      await writeBoardFile(boardPath, nextMd.split(/\r?\n/), changed);
-      const cards = await boardToCards(board, tasksPath);
+      writeBoardFile(
+        stageBoardWrite,
+        boardPath,
+        nextMd.split(/\r?\n/),
+        changed,
+      );
+      await nextFsTick();
+      const tasksFiles = normalizedSnapshotFiles(tasksEntity);
+      const cards = await boardToCards(board, tasksFiles);
       previousState = await projectState(
         cards,
         previousState,
@@ -275,16 +361,26 @@ export function startKanbanProcessor(repoRoot = defaultRepoRoot) {
     ignoreBoard = true;
     try {
       // Rebuild board sections from tasks while preserving settings/frontmatter
-      const text = await readFile(boardPath, "utf8");
-      const board = await MarkdownBoard.load(text);
-      await buildBoardFromTasks(board, tasksPath);
+      await nextFsTick();
+      const boardFiles = normalizedSnapshotFiles(boardEntity);
+      const boardSource = boardFiles["kanban.md"] || "";
+      const board = await MarkdownBoard.load(boardSource);
+      const taskFiles = normalizedSnapshotFiles(tasksEntity);
+      await buildBoardFromTasks(board, taskFiles);
       const changed = await syncBoardStatuses(board, {
         tasksDir: tasksPath,
         createMissingTasks: false,
       });
       const nextMd = await board.toMarkdown();
-      await writeBoardFile(boardPath, nextMd.split(/\r?\n/), true || changed);
-      const cards = await boardToCards(board, tasksPath);
+      writeBoardFile(
+        stageBoardWrite,
+        boardPath,
+        nextMd.split(/\r?\n/),
+        true || changed,
+      );
+      await nextFsTick();
+      const refreshedTaskFiles = normalizedSnapshotFiles(tasksEntity);
+      const cards = await boardToCards(board, refreshedTaskFiles);
       previousState = await projectState(
         cards,
         previousState,

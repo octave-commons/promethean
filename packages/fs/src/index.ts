@@ -8,3 +8,4 @@ export {
     type TreeNode,
     type TreeOptions,
 } from './tree.js';
+export * from './ecs/index.js';
