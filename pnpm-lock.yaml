@@ -2454,12 +2454,6 @@ importers:
         specifier: ^5.4.0
         version: 5.9.2
 
-  packages/kanban-cli:
-    dependencies:
-      '@promethean/markdown':
-        specifier: workspace:*
-        version: link:../markdown
-
   packages/kanban-processor:
     dependencies:
       '@promethean/legacy':
@@ -3637,7 +3631,7 @@ importers:
         version: 6.4.1(encoding@0.1.13)
       shadow-cljs:
         specifier: ^2.28.10
-        version: 2.28.23
+        version: 2.28.17
       typescript:
         specifier: ^5.6.2
         version: 5.9.2
@@ -3825,7 +3819,7 @@ importers:
         version: 3.0.1(ajv@8.17.1)
       chromadb:
         specifier: ^1.8.1
-        version: 1.10.5(encoding@0.1.13)(ollama@0.5.17)
+        version: 1.10.5(encoding@0.1.13)(ollama@0.5.18)
       dotenv:
         specifier: ^17.2.1
         version: 17.2.1
@@ -16027,7 +16021,7 @@ snapshots:
 
   axios@1.11.0:
     dependencies:
-      follow-redirects: 1.15.11(debug@4.4.3)
+      follow-redirects: 1.15.11(debug@4.3.7)
       form-data: 4.0.4
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -16510,12 +16504,12 @@ snapshots:
   chromadb-js-bindings-win32-x64-msvc@1.0.5:
     optional: true
 
-  chromadb@1.10.5(encoding@0.1.13)(ollama@0.5.17):
+  chromadb@1.10.5(encoding@0.1.13)(ollama@0.5.18):
     dependencies:
       cliui: 8.0.1
       isomorphic-fetch: 3.0.0(encoding@0.1.13)
     optionalDependencies:
-      ollama: 0.5.17
+      ollama: 0.5.18
     transitivePeerDependencies:
       - encoding
 
@@ -18721,7 +18715,7 @@ snapshots:
   http-proxy@1.18.1:
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.15.11(debug@4.4.3)
+      follow-redirects: 1.15.11(debug@4.3.7)
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
