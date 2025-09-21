@@ -3620,6 +3620,28 @@ importers:
         specifier: ^4.19.2
         version: 4.20.3
 
+  packages/report-forge:
+    dependencies:
+      ollama:
+        specifier: ^0.5.18
+        version: 0.5.18
+      undici:
+        specifier: ^6.19.8
+        version: 6.21.3
+    devDependencies:
+      '@types/node':
+        specifier: ^22.0.0
+        version: 22.18.1
+      ava:
+        specifier: ^6.1.1
+        version: 6.4.1(encoding@0.1.13)
+      shadow-cljs:
+        specifier: ^2.28.10
+        version: 2.28.23
+      typescript:
+        specifier: ^5.6.2
+        version: 5.9.2
+
   packages/schema:
     dependencies:
       '@promethean/event':
@@ -10788,6 +10810,9 @@ packages:
   ollama@0.5.17:
     resolution: {integrity: sha512-q5LmPtk6GLFouS+3aURIVl+qcAOPC4+Msmx7uBb3pd+fxI55WnGjmLZ0yijI/CYy79x0QPGx3BwC3u5zv9fBvQ==}
 
+  ollama@0.5.18:
+    resolution: {integrity: sha512-lTFqTf9bo7Cd3hpF6CviBe/DEhewjoZYd9N/uCe7O20qYTvGqrNOFOBDj3lbZgFWHUgDv5EeyusYxsZSLS8nvg==}
+
   on-exit-leak-free@2.1.2:
     resolution: {integrity: sha512-0eJJY6hXLGf1udHwfNftBqH+g73EU4B504nZeKpz1sYRKafAghwxEJunB2O7rDZkL4PGfsMVnTXZ2EjibbqcsA==}
     engines: {node: '>=14.0.0'}
@@ -16002,7 +16027,7 @@ snapshots:
 
   axios@1.11.0:
     dependencies:
-      follow-redirects: 1.15.11(debug@4.3.7)
+      follow-redirects: 1.15.11(debug@4.4.3)
       form-data: 4.0.4
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -18696,7 +18721,7 @@ snapshots:
   http-proxy@1.18.1:
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.15.11(debug@4.3.7)
+      follow-redirects: 1.15.11(debug@4.4.3)
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
@@ -20683,6 +20708,10 @@ snapshots:
       es-object-atoms: 1.1.1
 
   ollama@0.5.17:
+    dependencies:
+      whatwg-fetch: 3.6.20
+
+  ollama@0.5.18:
     dependencies:
       whatwg-fetch: 3.6.20
 
