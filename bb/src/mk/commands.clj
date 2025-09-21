@@ -1,10 +1,7 @@
 (ns mk.commands
-  (:require [mk.python :as py]
-            [mk.node :as js]
-            [mk.hy :as hy]
+  (:require [mk.node :as js]
             [mk.util :as u]
             [mk.configs :as cfg]
-            [babashka.process :as p]
             [babashka.fs :as fs]))
 
 ;; Root tasks ---------------------------------------------------------------
@@ -14,8 +11,7 @@
 
 (defn clean []
   (js/clean-js)
-  (js/clean-ts)
-  (py/clean-python))
+  (js/clean-ts))
 
 (defn distclean []
   (println "[distclean] Removing ignored files repo-wide via git clean -fdX")
@@ -23,7 +19,6 @@
   (println "[distclean] Done. Tracked files untouched."))
 
 (defn lint []
-  (py/lint-python)
   (js/lint-js)
   (js/lint-ts))
 
@@ -51,8 +46,6 @@
           (println "[validate-elisp] No Lisp sources found under .emacs/layers"))))))
 
 (defn test []
-  (py/test-python)
-  (hy/test-hy)
   (js/test-js)
   (js/test-ts)
   (validate-elisp))
@@ -66,28 +59,23 @@
     (u/sh! "pytest tests/e2e || true" {:shell true})))
 
 (defn format-code []
-  (py/format-python)
   (js/format-js)
   (js/format-ts))
 
 (defn coverage []
-  (py/coverage-python)
   (js/coverage-js)
   (js/coverage-ts))
 
 (defn setup []
   (println "Setting up all services...")
-  (py/setup-python)
   (js/setup-js)
   (js/setup-ts)
-  (hy/setup-hy)
   (println "[note] sibilant setup not ported; skipping")
   (when-not (u/has-cmd? "pm2")
     (u/sh! ["npm" "install" "-g" "pm2"])) )
 
 (defn setup-quick []
-  (println "Quick setup using requirements.txt files...")
-  (py/setup-python-quick)
+  (println "Quick setup using workspace dependencies...")
   ;; Use pnpm workspace for efficient install
   (println "Installing all workspace dependencies...")
   (if (u/has-pnpm?)
@@ -97,7 +85,6 @@
       ;; Build shared TS to create bin files
       (u/sh! "pnpm -r --filter @shared/ts run build" {:shell true}))
     (u/require-pnpm))
-  (hy/setup-hy)
   (println "[note] sibilant setup not ported; skipping")
   (when-not (u/has-cmd? "pm2")
     (u/sh! ["npm" "install" "-g" "pm2"])) )

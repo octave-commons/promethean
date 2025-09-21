@@ -15,7 +15,7 @@ describe pnpm-install        pnpm install --no-frozen-lockfile
 describe pnpm-build        pnpm -r --no-bail build
 
 # ESLint artifacts (human + machine)
-describe eslint-stylish      pnpm exec eslint --cache -f stylish .
+# describe eslint-stylish      pnpm exec eslint --cache -f stylish .
 # gh wiring + origin
 # Doesn't seem work.
 # It probably installs, but the agent won't use it.
