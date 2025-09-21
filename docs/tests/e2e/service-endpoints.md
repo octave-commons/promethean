@@ -14,7 +14,7 @@ These end-to-end tests verify that each networked service in the Promethean ecos
 ## Running the Tests
 
 1. Install dependencies for each service as needed (`make setup-quick SERVICE=<name>`)
-2. Start the services: `pm2 start ecosystem.config.js`
+2. Start the services: `pm2 start system/daemons/ecosystem.config.js`
 3. Execute: `pytest tests/e2e/test_service_endpoints.py`
 
 The tests will skip any service whose endpoint is unavailable.
