@@ -1,11 +1,6 @@
 import { promises as fs } from "node:fs";
+import { parseFrontmatter as parseMarkdownFrontmatter } from "@promethean/markdown/frontmatter";
 import type { Board, ColumnData, Task } from "./types.js";
-
-/**
- * Use the consolidated markdown lib only; no fallbacks.
- */
-// @ts-ignore
-const mdApi = await import("@promethean/markdown");
 
 const NOW_ISO = () => new Date().toISOString();
 
@@ -84,8 +79,8 @@ const cryptoRandomUUID = (): string =>
 type FM = Record<string, any>;
 
 const parseFrontmatter = (text: string): { fm: FM; body: string } => {
-  const res = mdApi.parseFrontmatter(text);
-  return { fm: res.frontmatter ?? {}, body: res.body || "" };
+  const res = parseMarkdownFrontmatter<FM>(text);
+  return { fm: (res.data ?? {}) as FM, body: res.content || "" };
 };
 
 const taskFromFM = (fm: FM, body: string): Task | null => {

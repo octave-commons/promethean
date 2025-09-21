@@ -8,6 +8,7 @@ import { EnsoClient } from "../client.js";
 import { EnsoServer } from "../server.js";
 import { connectLocal, connectWebSocket } from "../transport.js";
 import type { HelloCaps } from "../types/privacy.js";
+import { resolveHelloPrivacy } from "../types/privacy.js";
 import type { Envelope } from "../types/envelope.js";
 import type { ChatMessage } from "../types/content.js";
 
@@ -91,11 +92,12 @@ test("websocket transport performs handshake and maintains keepalive", async (t)
         const text = typeof raw === "string" ? raw : raw.toString();
         const frame = decodeFrame(text);
         if (frame.type === "hello") {
+          const requestedPrivacy = resolveHelloPrivacy(HELLO);
           const accepted = createEnvelope({
             kind: "event",
             type: "privacy.accepted",
             payload: {
-              profile: HELLO.privacy.profile,
+              profile: requestedPrivacy.profile,
               wantsE2E: false,
               negotiatedCaps: HELLO.caps,
             },
@@ -200,7 +202,7 @@ test("voice streaming issues flow control events", async (t) => {
     flowEvents.push(env);
   });
 
-  const connection = connectLocal(client, server, HELLO, {
+  const connection = await connectLocal(client, server, HELLO, {
     adjustCapabilities: (caps) =>
       Array.from(new Set([...caps, "can.voice.stream"])),
   });
