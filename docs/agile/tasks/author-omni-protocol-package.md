@@ -19,10 +19,9 @@ Ship the initial `@promethean/omni-protocol` package containing TypeScript inter
 ## ✅ Definition of Done
 - [ ] Package skeleton created under `packages/omni-protocol/` with GPL-3.0-only license metadata.
 - [ ] Interfaces + types exported per spec.
-- [ ] JSON schema or Zod builders for request/response envelopes.
+- [ ] Runtime validators implemented with Zod (source-of-truth) and JSON Schema emitted via zod-to-json-schema for adapters.
 - [ ] Unit tests covering envelope validation and error helpers.
 - [ ] Published API docs stub linked from `docs/packages/`.
-
 ## 🚧 Constraints
 - Maintain parity with legacy response shapes (e.g., `{ ok, base, entries }`).
 - No transport logic—pure data contracts only.
