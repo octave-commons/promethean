@@ -56,7 +56,7 @@
     (define-key gptel-mode-map (kbd "C-c m") #'gptel-mcp-dispatch)
     (setq
      gptel-model 'qwen3:8b
-     gptel-default-mode 'markdown-mode
+     gptel-default-mode 'org-mode
      gptel-backend
      (gptel-make-ollama "ollama"
        :host "localhost:11434"
