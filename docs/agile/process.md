@@ -3,10 +3,13 @@
    Find or create the task; never work off-board; do not edit the board file directly—tasks drive the board. &#x20;
 
 2. **Clarify & Scope**
-   
-
+   Anchor on the kanban card as the single source of truth and, before advancing, do the solo pass:
+   * Confirm the desired outcomes so the card reflects the slice you intend to deliver.
+   * Capture acceptance criteria or explicit exit signals on the task so "done" is unambiguous.
+   * Note any uncertainties, risks, or open questions directly on the task to surface follow-ups early.
+   * Record the scoped plan and supporting notes on the linked task before moving to step 3.
 3. **Breakdown & Estimate**
-   Break into small, testable slices; estimate **complexity, scale, time (in cloud sessions)** and assign a Fibonacci score. If **13+ ⇒ must split**; **≤5 ⇒ eligible to implement**.&#x20;
+   Break into small, testable slices; estimate **complexity, scale, time (in cloud sessions)** and assign a Fibonacci score from **1, 2, 3, 5, 8, 13** on the task card. Scores of **13+ ⇒ must split**; **8 ⇒ continue refinement before implementation**; **≤5 ⇒ eligible to implement**. Any score **>5** must cycle back through clarification/breakdown until the slice is small enough to implement, capturing the updated score on the task card.&#x20;
 
 4. **Ready Gate** *(hard stop before code)*
    Only proceed if:
