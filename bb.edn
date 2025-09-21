@@ -1,4 +1,4 @@
-{:paths ["bb/src"]
+{:paths ["bb/src" "packages/clj-hacks/src" "packages/clj-hacks/test"]
  :tasks
  {;; Root tasks
   build            {:doc "Build JavaScript and TypeScript services" :task (mk.commands/build)}
@@ -14,6 +14,7 @@
   coverage         {:doc "Coverage for JS/TS" :task (mk.commands/coverage)}
   setup            {:doc "Setup JS/TS services" :task (mk.commands/setup)}
   setup-quick      {:doc "Quick workspace setup" :task (mk.commands/setup-quick)}
+
   install          {:doc "Install deps with fallback" :task (mk.commands/install)}
   install-gha-artifacts {:doc "Install latest GHA artifacts" :task (mk.commands/install-gha-artifacts)}
   system-deps      {:doc "Install system deps (ffmpeg, uv, pnpm)" :task (mk.commands/system-deps)}
@@ -31,6 +32,7 @@
   clj-hacks:build   {:doc "Compile clj-hacks namespaces" :requires ([clj-hacks.tasks]) :task clj-hacks.tasks/build}
   clj-hacks:lint    {:doc "Run clj-kondo on clj-hacks" :requires ([clj-hacks.tasks]) :task clj-hacks.tasks/lint}
   clj-hacks:test    {:doc "Execute clj-hacks tests" :requires ([clj-hacks.tasks]) :task clj-hacks.tasks/test}
+
   ;; JS/TS
   lint-js-service           mk.node/lint-js-service
   lint-js                   mk.node/lint-js
