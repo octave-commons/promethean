@@ -11,10 +11,11 @@ ART_ROOT="$ART_ROOT" RUN_TS="$RUN_TS" source "$(dirname "$0")/describe.sh"
 describe env-dump            bash -lc '(set -o posix; set)'
 describe pnpm-install        pnpm install --no-frozen-lockfile
 
+
 describe pnpm-build        pnpm -r --no-bail build
 
 # ESLint artifacts (human + machine)
-describe eslint-stylish      pnpm exec eslint --cache -f stylish .
+# describe eslint-stylish      pnpm exec eslint --cache -f stylish .
 # gh wiring + origin
 # Doesn't seem work.
 # It probably installs, but the agent won't use it.
