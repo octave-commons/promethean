@@ -129,11 +129,36 @@ function normalizeAppPaths(app: AppRecord, baseDir: string): AppRecord {
 }
 
 function resolveRelativePath(value: string, baseDir: string): string {
-  return isRelativePath(value) ? path.resolve(baseDir, value) : value;
+  if (!isRelativePath(value)) {
+    return value;
+  }
+
+  const absolutePath = path.resolve(baseDir, value);
+  const relativePath = path.relative(baseDir, absolutePath);
+
+  return normalizeRelativePath(relativePath);
 }
 
 function isRelativePath(value: string): boolean {
   return value.startsWith("./") || value.startsWith("../");
+}
+
+function normalizeRelativePath(value: string): string {
+  if (value === "") {
+    return ".";
+  }
+
+  const posixPath = value.split(path.sep).join(path.posix.sep);
+
+  if (posixPath.startsWith("../") || posixPath === "..") {
+    return posixPath;
+  }
+
+  if (posixPath === "." || posixPath.startsWith("./")) {
+    return posixPath;
+  }
+
+  return `./${posixPath}`;
 }
 
 function formatOutput(apps: readonly AppRecord[]): string {

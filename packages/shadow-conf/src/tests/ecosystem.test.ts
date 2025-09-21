@@ -77,18 +77,15 @@ test("generateEcosystem resolves relative paths against the output dir", async (
   const { apps } = await generateEcosystem({ inputDir, outputDir });
 
   t.like(apps[0], {
-    cwd: path.resolve(outputDir, "./services/service"),
-    script: path.resolve(outputDir, "./scripts/index.js"),
-    env_file: path.resolve(outputDir, "./.env.local"),
+    cwd: "./services/service",
+    script: "./scripts/index.js",
+    env_file: "./.env.local",
   });
 
-  t.deepEqual(apps[0]?.watch, [
-    path.resolve(outputDir, "./services/service"),
-    path.resolve(outputDir, "./shared"),
-  ]);
+  t.deepEqual(apps[0]?.watch, ["./services/service", "./shared"]);
 
   t.deepEqual(apps[0]?.env, {
-    CONFIG_PATH: path.resolve(outputDir, "./config"),
+    CONFIG_PATH: "./config",
     PORT: "8080",
   });
 });
