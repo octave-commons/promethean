@@ -4,14 +4,14 @@ permissions:
 on:
   pull_request:
     paths:
-      - 'boards/**'
-      - 'tools/board/**'
-      - '.github/workflows/board-validate.yml'
+      - "docs/agile/boards/**"
+      - "packages/kanban/**"
+      - ".github/workflows/board-validate.yml"
   push:
     paths:
-      - 'boards/**'
-      - 'tools/board/**'
-      - '.github/workflows/board-validate.yml'
+      - "docs/agile/boards/**"
+      - "packages/kanban/**"
+      - ".github/workflows/board-validate.yml"
 jobs:
   validate:
     runs-on: ubuntu-latest
@@ -21,7 +21,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'pnpm'
+          cache: "pnpm"
       - run: pnpm install --frozen-lockfile=false
-      - run: pnpm tsx tools/board/lints.ts
-      - run: pnpm tsx tools/board/indexer.ts
+      - run: pnpm tsx packages/kanban/src/board/lints.ts
+      - run: pnpm tsx packages/kanban/src/board/indexer.ts
