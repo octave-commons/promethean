@@ -1,10 +1,11 @@
 import { getMongoClient } from "@shared/ts/dist/persistence/clients.js";
 import { createRequire } from "module";
 import path from "path";
-import fs from "fs";
-import pidusage from "pidusage";
 import { randomUUID } from "crypto";
+import { pathToFileURL } from "url";
 import { BrokerClient } from "@shared/js/brokerClient.js";
+
+import { createHeartbeatWorld } from "./ecs/world.js";
 
 let HEARTBEAT_TIMEOUT = 10000;
 let CHECK_INTERVAL = 5000;
@@ -12,121 +13,58 @@ let DB_NAME = "heartbeat_db";
 let COLLECTION = "heartbeats";
 let BROKER_URL = "ws://127.0.0.1:7000";
 
-let client;
-let collection;
-let interval;
-let broker;
-let allowedInstances = {};
-let SESSION_ID;
-let shuttingDown = false;
-
-async function getProcessMetrics(pid) {
-  const metrics = { cpu: 0, memory: 0, netRx: 0, netTx: 0 };
-  try {
-    const { cpu, memory } = await pidusage(pid);
-    metrics.cpu = cpu;
-    metrics.memory = memory;
-  } catch (err) {
-    console.warn(`failed to get cpu/memory for pid ${pid}`, err);
-  }
-  try {
-    const data = fs.readFileSync(`/proc/${pid}/net/dev`, "utf8");
-    for (const line of data.trim().split("\n").slice(2)) {
-      const parts = line.trim().split(/\s+/);
-      if (parts.length >= 17) {
-        metrics.netRx += parseInt(parts[1], 10) || 0;
-        metrics.netTx += parseInt(parts[9], 10) || 0;
-      }
-    }
-  } catch (err) {
-    // ignore network stats errors
-  }
-  return metrics;
-}
+const state = {
+  world: null,
+  broker: null,
+  interval: null,
+  runChain: Promise.resolve(),
+  sessionId: null,
+  shuttingDown: false,
+};
 
 function loadConfig() {
+  const require = createRequire(import.meta.url);
+  const configPath = process.env.ECOSYSTEM_CONFIG;
+  if (!configPath) return {};
   try {
-    const require = createRequire(import.meta.url);
-    const configPath =
-      process.env.ECOSYSTEM_CONFIG ||
-      path.resolve(process.cwd(), "../../../ecosystem.config.js");
     const ecosystem = require(configPath);
-    allowedInstances = {};
+    const allowed = {};
     for (const app of ecosystem.apps || []) {
       if (app?.name) {
-        allowedInstances[app.name] = app.instances || 1;
+        allowed[app.name] = app.instances || 1;
       }
     }
+    return allowed;
   } catch (err) {
     console.warn("failed to load ecosystem config", err);
-    allowedInstances = {};
+    return {};
   }
 }
 
-async function handleHeartbeat({ pid, name }) {
-  pid = parseInt(pid, 10);
-  if (!pid || !name || !collection) return;
-  const now = Date.now();
-  try {
-    const existing = await collection.findOne({ pid, sessionId: SESSION_ID });
-    if (!existing) {
-      const allowed = allowedInstances[name] ?? Infinity;
-      const count = await collection.countDocuments({
-        name,
-        sessionId: SESSION_ID,
-        last: { $gte: now - HEARTBEAT_TIMEOUT },
-        killedAt: { $exists: false },
-      });
-      if (count >= allowed) return;
-    }
-    const metrics = await getProcessMetrics(pid);
-    await collection.updateOne(
-      { pid },
-      {
-        $set: { last: now, name, sessionId: SESSION_ID, ...metrics },
-        $unset: { killedAt: "" },
-      },
-      { upsert: true },
-    );
-  } catch {
-    /* swallow processing errors */
-  }
-}
-
-export async function monitor(now = Date.now()) {
-  if (!collection) return;
-  let stale = [];
-  try {
-    stale = await collection
-      .find({
-        last: { $lt: now - HEARTBEAT_TIMEOUT },
-        killedAt: { $exists: false },
-      })
-      .toArray();
-  } catch {
-    return;
-  }
-  for (const doc of stale) {
+function queueRun(time = Date.now()) {
+  if (!state.world) return Promise.resolve();
+  const scheduled = time;
+  state.runChain = state.runChain.then(async () => {
     try {
-      // Preflight: if process does not exist, mark killed without logging noise
-      try {
-        process.kill(doc.pid, 0);
-      } catch (e) {
-        if (e && e.code === "ESRCH") {
-          await collection.updateOne(
-            { pid: doc.pid },
-            { $set: { killedAt: now } },
-          );
-          continue;
-        }
-      }
-      process.kill(doc.pid, "SIGKILL");
+      await state.world.run(scheduled);
     } catch (err) {
-      console.error(`failed to kill pid ${doc.pid}`, err);
-    } finally {
-      await collection.updateOne({ pid: doc.pid }, { $set: { killedAt: now } });
+      console.error("heartbeat frame failed", err);
     }
-  }
+  });
+  return state.runChain;
+}
+
+function queueForceMonitor(time = Date.now()) {
+  if (!state.world) return Promise.resolve();
+  const scheduled = time;
+  state.runChain = state.runChain.then(async () => {
+    try {
+      await state.world.forceMonitor(scheduled);
+    } catch (err) {
+      console.error("heartbeat monitor failed", err);
+    }
+  });
+  return state.runChain;
 }
 
 export async function start() {
@@ -136,69 +74,70 @@ export async function start() {
   COLLECTION = process.env.COLLECTION || COLLECTION;
   BROKER_URL = process.env.BROKER_URL || BROKER_URL;
 
-  loadConfig();
+  const allowedInstances = loadConfig();
+  state.sessionId = randomUUID();
 
-  SESSION_ID = randomUUID();
+  const broker = new BrokerClient({ url: BROKER_URL });
+  const world = createHeartbeatWorld({
+    sessionId: state.sessionId,
+    allowedInstances,
+    heartbeatTimeout: HEARTBEAT_TIMEOUT,
+    checkInterval: CHECK_INTERVAL,
+    dbName: DB_NAME,
+    collectionName: COLLECTION,
+    getMongoClient,
+    broker,
+  });
 
-  client = await getMongoClient();
-  collection = client.db(DB_NAME).collection(COLLECTION);
-  broker = new BrokerClient({ url: BROKER_URL });
+  state.world = world;
+  state.broker = broker;
+  await queueRun();
+
   await broker.connect();
   broker.subscribe("heartbeat", (event) => {
-    handleHeartbeat(event.payload || {}).catch(() => {});
+    if (!state.world) return;
+    state.world.enqueueHeartbeat(event.payload || {});
+    queueRun();
   });
-  interval = setInterval(() => {
-    monitor().catch(() => {});
+
+  state.interval = setInterval(() => {
+    queueRun();
   }, CHECK_INTERVAL);
 }
 
+export async function monitor(now = Date.now()) {
+  await queueForceMonitor(now);
+}
+
 export async function cleanup() {
-  if (collection) {
-    const now = Date.now();
-    try {
-      await collection.updateMany(
-        { sessionId: SESSION_ID, killedAt: { $exists: false } },
-        { $set: { killedAt: now } },
-      );
-    } catch {
-      /* ignore cleanup errors */
-    }
+  await state.runChain;
+  if (state.world) {
+    await state.world.cleanup();
   }
 }
 
 export async function stop() {
   await cleanup();
-  if (interval) {
-    clearInterval(interval);
-    interval = null;
+  if (state.interval) {
+    clearInterval(state.interval);
+    state.interval = null;
   }
-  if (broker) {
+  if (state.broker) {
     try {
-      broker.disconnect();
+      state.broker.disconnect();
     } catch {}
-    broker = null;
+    state.broker = null;
   }
-  if (client) {
-    try {
-      await client.close();
-    } catch {
-      /* ignore errors from closing */
-    }
-    client = null;
-    collection = null;
+  if (state.world) {
+    await state.world.close();
+    state.world = null;
   }
-}
-
-if (process.env.NODE_ENV !== "test") {
-  start().catch((err) => {
-    console.error("Failed to start service", err);
-    process.exit(1);
-  });
+  state.runChain = Promise.resolve();
 }
 
 async function handleSignal() {
-  if (shuttingDown) return;
-  shuttingDown = true;
+  if (state.shuttingDown) return;
+  state.shuttingDown = true;
   await stop();
   process.exit(0);
 }
@@ -210,3 +149,21 @@ for (const sig of ["SIGINT", "SIGTERM"]) {
 process.on("beforeExit", () => {
   cleanup().catch(() => {});
 });
+
+if (process.env.NODE_ENV !== "test") {
+  const entry = process.argv[1];
+  const isMain = () => {
+    if (!entry) return false;
+    try {
+      return pathToFileURL(path.resolve(entry)).href === import.meta.url;
+    } catch {
+      return false;
+    }
+  };
+  if (isMain()) {
+    start().catch((err) => {
+      console.error("Failed to start service", err);
+      process.exit(1);
+    });
+  }
+}

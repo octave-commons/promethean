@@ -15,6 +15,7 @@
     "format": "prettier --cache --write . && eslint . --fix --cache || true"
   },
   "dependencies": {
+    "@promethean/ds": "workspace:*",
     "@promethean/legacy": "workspace:*",
     "@promethean/markdown": "file:../markdown",
     "@promethean/persistence": "file:../persistence",

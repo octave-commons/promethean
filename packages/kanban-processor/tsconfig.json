@@ -24,6 +24,8 @@
     "baseUrl": ".",
     "paths": {
       "@shared/js/*": ["../../js/*"],
+      "@promethean/ds": ["../ds/dist/index"],
+      "@promethean/ds/*": ["../ds/dist/*"],
       "@promethean/persistence": ["../persistence/dist/index"],
       "@promethean/persistence/*": ["../persistence/dist/*"],
       "@promethean/markdown": ["../markdown/dist/index"],
