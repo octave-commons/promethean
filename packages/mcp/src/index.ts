@@ -1,3 +1,14 @@
+import {
+  tddScaffoldTest,
+  tddChangedFiles,
+  tddRunTests,
+  tddStartWatch,
+  tddGetWatchChanges,
+  tddStopWatch,
+  tddCoverage,
+  tddPropertyCheck,
+  tddMutationScore,
+} from "./tools/tdd.js";
 import { loadConfig } from "./config/load-config.js";
 import { buildRegistry } from "./core/registry.js";
 import { createMcpServer } from "./core/mcp-server.js";
@@ -13,6 +24,7 @@ import {
   filesWriteFileContent,
   filesWriteFileLines,
 } from "./tools/files.js";
+import { filesSearch } from "./tools/search.js";
 import type { ToolFactory } from "./core/types.js";
 
 const toolCatalog = new Map<string, ToolFactory>([
@@ -24,6 +36,16 @@ const toolCatalog = new Map<string, ToolFactory>([
   ["files.view-file", filesViewFile],
   ["files.write-content", filesWriteFileContent],
   ["files.write-lines", filesWriteFileLines],
+  ["files.search", filesSearch],
+  ["tdd.scaffoldTest", tddScaffoldTest],
+  ["tdd.changedFiles", tddChangedFiles],
+  ["tdd.runTests", tddRunTests],
+  ["tdd.startWatch", tddStartWatch],
+  ["tdd.getWatchChanges", tddGetWatchChanges],
+  ["tdd.stopWatch", tddStopWatch],
+  ["tdd.coverage", tddCoverage],
+  ["tdd.propertyCheck", tddPropertyCheck],
+  ["tdd.mutationScore", tddMutationScore],
 ]);
 
 const env = process.env;
