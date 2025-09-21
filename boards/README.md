@@ -10,6 +10,6 @@ This directory contains the file-first project board.
 Required fields: `id`, `title`, `status`, `priority`, `owner`, `labels`, `created`.
 
 ## Commands
-- Validate: `pnpm tsx tools/board/lints.ts`
-- Index (dry-run): `pnpm tsx tools/board/indexer.ts`
-- Index (write): `pnpm tsx tools/board/indexer.ts --write`
+- Validate: `pnpm tsx packages/kanban/src/board/lints.ts`
+- Index (dry-run): `pnpm tsx packages/kanban/src/board/indexer.ts`
+- Index (write): `pnpm tsx packages/kanban/src/board/indexer.ts --write`
