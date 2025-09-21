@@ -7,10 +7,10 @@ This project is licensed under the [[LICENSE.txt|GNU GPL v3]].
 This repository contains a modular multi‑agent architecture. To start shared infrastructure like speech services, run pm2 with the root configuration:
 
 ```bash
-pm2 start ecosystem.config.js
+pm2 start system/daemons/ecosystem.config.js
 ```
 
-When adding or removing packages with their own `ecosystem.config.js`, regenerate the consolidated configuration:
+When adding or removing services under `system/daemons/services/<daemon>/ecosystem.config.js`, regenerate the consolidated configuration:
 
 ```bash
 pnpm gen:ecosystem
