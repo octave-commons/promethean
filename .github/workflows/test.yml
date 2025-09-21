@@ -1,5 +1,5 @@
 # .github/workflows/on-pr-to-testing.yml
-name: on-pr-to-testing
+name: tests
 permissions:
   contents: read
 on:
