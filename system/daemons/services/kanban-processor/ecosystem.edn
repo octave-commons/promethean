@@ -17,13 +17,13 @@
         :PM2_PROCESS_NAME "kanban-processor"
         :HEARTBEAT_PORT "5005"
         :PYTHONUNBUFFERED "1"
-        :PYTHONPATH "/workspace/promethean/packages/pm2-helpers"
+        :PYTHONPATH "./packages/pm2-helpers"
         :CHECK_INTERVAL "300000"
         :HEARTBEAT_TIMEOUT "600000"
       }
-      :cwd "/workspace/promethean/packages/kanban-processor"
+      :cwd "./packages/kanban-processor"
       :watch [
-        "/workspace/promethean/packages/kanban-processor"
+        "./packages/kanban-processor"
       ]
       :ignore_watch [
         "node_modules"
