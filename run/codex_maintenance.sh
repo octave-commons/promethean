@@ -11,6 +11,7 @@ ART_ROOT="$ART_ROOT" RUN_TS="$RUN_TS" source "$(dirname "$0")/describe.sh"
 describe env-dump            bash -lc '(set -o posix; set)'
 describe pnpm-install        pnpm install --no-frozen-lockfile
 
+
 describe pnpm-build        pnpm -r --no-bail build
 
 # ESLint artifacts (human + machine)
