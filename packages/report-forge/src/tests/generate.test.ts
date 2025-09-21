@@ -1,6 +1,6 @@
 import test from "ava";
-import { generateReport } from "../src/lib/generateReport.js";
-import type { ReportInput, ReportOptions } from "../src/lib/types.js";
+import { generateReport } from "../lib/generateReport.js";
+import type { ReportInput, ReportOptions } from "../lib/types.js";
 
 const fakeLlm = {
   async complete({ prompt }: { prompt: string }) {
