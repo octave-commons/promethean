@@ -11,28 +11,17 @@
 ;; AUTO GENREATED MCP SERVER CONFIG BY mk.mcp-cli START
 (with-eval-after-load 'mcp
   (setq mcp-hub-servers
-        '(( "backseat-driver" .
-            (:command "/home/err/.config/calva/backseat-driver/calva-mcp-server.js"
-                      :args ("1664")))
-          ( "duckduckgo" .
+        '(( "duckduckgo" .
             (:command "/home/err/devel/promethean/scripts/mcp/bin/duck.sh"))
-          ( "file-system" .
-            (:command "/home/err/devel/promethean/scripts/mcp/bin/filesystem.sh"))
+          ;; ( "file-system" .
+          ;;   (:command "/home/err/devel/promethean/scripts/mcp/bin/filesystem.sh"))
           ( "github" .
             (:command "/home/err/devel/promethean/scripts/mcp/bin/github.sh"))
           ( "github-chat" .
             (:command "/home/err/devel/promethean/scripts/mcp/bin/github_chat.sh"))
-          ( "haiku-rag" .
-            (:command "uvx"
-                      :args ("haiku-rag" "serve" "--stdio" "--db" "/home/err/.local/share/haiku-rag/db")))
           ( "lsp-mcp" .
             (:command "npx"
                       :args ("tritlo/lsp-mcp" "typescript" "/home/err/.volta/bin/typescript-language-server" "--stdio")))
-          ( "npm-helper" .
-            (:command "npx"
-                      :args ("-y" "npm-helper-mcp")))
-          ( "obsidian" .
-            (:command "/home/err/devel/promethean/scripts/mcp/bin/obsidian.sh"))
           ( "sonarqube" .
             (:command "/home/err/devel/promethean/scripts/mcp/bin/sonarqube.sh"))
           )))
