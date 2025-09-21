@@ -89,14 +89,14 @@ test("local transport preserves capability enforcement", async (t) => {
   connection.disconnect();
 });
 
-test("local transport defaults privacy profile when omitted", (t) => {
+test("local transport defaults privacy profile when omitted", async (t) => {
   const server = new EnsoServer();
   const client = new EnsoClient(new ContextRegistry());
   const acceptedEvents: Envelope[] = [];
 
   client.on("event:privacy.accepted", (env) => acceptedEvents.push(env));
 
-  const connection = connectLocal(client, server, HELLO_WITHOUT_PRIVACY);
+  const connection = await connectLocal(client, server, HELLO_WITHOUT_PRIVACY);
 
   t.is(connection.accepted.payload.profile, DEFAULT_PRIVACY_PROFILE);
   t.false(connection.accepted.payload.wantsE2E);

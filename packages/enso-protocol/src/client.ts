@@ -72,13 +72,18 @@ export class EnsoClient {
     hello: HelloCaps,
     adjustment: ServerAdjustment = {},
   ): Promise<void> {
-    this.capabilities = new Set(adjustment.capabilities ?? hello.caps ?? []);
-    this.privacyProfile = adjustment.privacyProfile ?? hello.privacy.profile;
+    const requestedPrivacy = resolveHelloPrivacy(
+      hello,
+      adjustment.privacyProfile,
+    );
+    const negotiatedCaps = adjustment.capabilities ?? hello.caps ?? [];
+    this.capabilities = new Set(negotiatedCaps);
+    this.privacyProfile = adjustment.privacyProfile ?? requestedPrivacy.profile;
     this.connected = true;
     if (adjustment.emitAccepted !== false) {
       const requested: HelloCaps = {
         ...hello,
-        privacy: requestedPrivacy,
+        privacy: { ...requestedPrivacy },
       };
       const envelope = createEnvelope({
         room: "local",
