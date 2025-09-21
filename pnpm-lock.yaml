@@ -46,6 +46,9 @@ importers:
       '@promethean/portfolio-frontend':
         specifier: workspace:*
         version: link:packages/portfolio-frontend
+      '@promethean/shadow-conf':
+        specifier: workspace:*
+        version: link:packages/shadow-conf
       '@promethean/smart-chat-frontend':
         specifier: workspace:*
         version: link:packages/smart-chat-frontend
@@ -3637,7 +3640,7 @@ importers:
         version: 6.4.1(encoding@0.1.13)
       shadow-cljs:
         specifier: ^2.28.10
-        version: 2.28.23
+        version: 2.28.17
       typescript:
         specifier: ^5.6.2
         version: 5.9.2
@@ -3764,6 +3767,15 @@ importers:
         specifier: ^4.19.2
         version: 4.20.3
 
+  packages/shadow-conf:
+    dependencies:
+      '@promethean/pm2-helpers':
+        specifier: workspace:*
+        version: link:../pm2-helpers
+      jsedn:
+        specifier: 0.4.1
+        version: 0.4.1
+
   packages/simtask:
     dependencies:
       '@promethean/file-indexer':
@@ -3825,7 +3837,7 @@ importers:
         version: 3.0.1(ajv@8.17.1)
       chromadb:
         specifier: ^1.8.1
-        version: 1.10.5(encoding@0.1.13)(ollama@0.5.17)
+        version: 1.10.5(encoding@0.1.13)(ollama@0.5.18)
       dotenv:
         specifier: ^17.2.1
         version: 17.2.1
@@ -7779,6 +7791,10 @@ packages:
     resolution: {integrity: sha512-2uM9rYjPvyq39NwLRqaiLtWHyDC1FvryJDa2ATTVims5YAS4PupsEQsDvP14FqhFr0P49CYDugi59xaxJlTXRA==}
     engines: {node: '>=20'}
 
+  commander@14.0.1:
+    resolution: {integrity: sha512-2JkV3gUZUVrbNA+1sjBOYLsMZ5cEEl8GTFP2a4AVz5hvasAMCQ1D2l2le/cX+pV4N6ZU17zjUahLpIXRrnWL8A==}
+    engines: {node: '>=20'}
+
   commander@2.15.1:
     resolution: {integrity: sha512-VlfT9F3V0v+jr4yxPc5gg9s62/fIVWsd2Bk2iD435um1NlGMYdVCq+MjcXnhYq2icNOizHr1kK+5TI6H0Hy0ag==}
 
@@ -8294,6 +8310,9 @@ packages:
   env-paths@2.2.1:
     resolution: {integrity: sha512-+h1lkLKhZMTYjog1VEpJNG7NZJWcuc2DDk/qsqSTRRCOXiLjeQ1d1/udrUGhqMxUgAlwKNZ0cf2uqan5GLuS2A==}
     engines: {node: '>=6'}
+
+  equals@1.0.5:
+    resolution: {integrity: sha512-wI15a6ZoaaXPv+55+Vh2Kqn3+efKRv8QPtcGTjW5xmanMnQzESdAt566jevtMZyt3W/jwLDTzXpMph5ECDJ2zg==}
 
   err-code@2.0.3:
     resolution: {integrity: sha512-2bmlRpNKBxT/CRmPOlyISQpNj+qSeYvcym/uT0Jx2bMOlKLtSy1ZmLuVxSEKKyor/N5yhvp/ZiG1oE3DEYMSFA==}
@@ -9824,6 +9843,9 @@ packages:
   jju@1.4.0:
     resolution: {integrity: sha512-8wb9Yw966OSxApiCt0K3yNJL8pnNeIv+OEq2YMidz4FKP6nonSRoOXc80iXY4JaN2FC11B9qsNmDsm+ZOfMROA==}
 
+  jkroso-type@1.1.1:
+    resolution: {integrity: sha512-zZgay+fPG6PgMUrpyFADmQmvLo39+AZa7Gc5pZhev2RhDxwANEq2etwD8d0e6rTg5NkwOIlQmaEmns3draC6Ng==}
+
   jose@5.10.0:
     resolution: {integrity: sha512-s+3Al/p9g32Iq+oqXxkW//7jk2Vig6FF1CFqzVXoTUXt2qz89YWbL+OwS17NFYEvxC35n0FKeGO2LGYSxeM2Gg==}
 
@@ -9851,6 +9873,10 @@ packages:
   jsdoc-type-pratt-parser@4.0.0:
     resolution: {integrity: sha512-YtOli5Cmzy3q4dP26GraSOeAhqecewG04hoO8DY56CH4KJ9Fvv5qKWUCCo3HZob7esJQHCv6/+bnTy72xZZaVQ==}
     engines: {node: '>=12.0.0'}
+
+  jsedn@0.4.1:
+    resolution: {integrity: sha512-ZzdF1smvJyiydoBJFYbXLx52wz6VIaAyDT4fGTmtdP6B7zrGCBzUI/0+QFIKoUmwgbHPSpzljdjkbHQHKWf8CQ==}
+    hasBin: true
 
   jsesc@0.5.0:
     resolution: {integrity: sha512-uZz5UnB7u4T9LvwmFqXii7pZSouaRPorGs5who1Ip7VO0wxanFvBL7GkM6dTHlgX+jhBApRetaWpnDabOeTcnA==}
@@ -12313,6 +12339,9 @@ packages:
   type-check@0.4.0:
     resolution: {integrity: sha512-XleUoc9uwGXqjWwXaUTZAmzMcFZ5858QA2vvx1Ur5xIcixXIP+8LnFDgRplU30us6teqdlskFfu+ae4K79Ooew==}
     engines: {node: '>= 0.8.0'}
+
+  type-component@0.0.1:
+    resolution: {integrity: sha512-mDZRBQS2yZkwRQKfjJvQ8UIYJeBNNWCq+HBNstl9N5s9jZ4dkVYXEGkVPsSCEh5Ld4JM1kmrZTzjnrqSAIQ7dw==}
 
   type-detect@4.0.8:
     resolution: {integrity: sha512-0fr/mIH1dlO+x7TlcMy+bIDqKPsw/70tVyeHW787goQjhmqaZe10uwLujubK9q9Lg6Fiho1KUKDYz0Z7k7g5/g==}
@@ -16027,7 +16056,7 @@ snapshots:
 
   axios@1.11.0:
     dependencies:
-      follow-redirects: 1.15.11(debug@4.4.3)
+      follow-redirects: 1.15.11(debug@4.3.7)
       form-data: 4.0.4
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -16510,12 +16539,12 @@ snapshots:
   chromadb-js-bindings-win32-x64-msvc@1.0.5:
     optional: true
 
-  chromadb@1.10.5(encoding@0.1.13)(ollama@0.5.17):
+  chromadb@1.10.5(encoding@0.1.13)(ollama@0.5.18):
     dependencies:
       cliui: 8.0.1
       isomorphic-fetch: 3.0.0(encoding@0.1.13)
     optionalDependencies:
-      ollama: 0.5.17
+      ollama: 0.5.18
     transitivePeerDependencies:
       - encoding
 
@@ -16643,6 +16672,8 @@ snapshots:
   commander@12.1.0: {}
 
   commander@14.0.0: {}
+
+  commander@14.0.1: {}
 
   commander@2.15.1: {}
 
@@ -17169,6 +17200,10 @@ snapshots:
   entities@6.0.1: {}
 
   env-paths@2.2.1: {}
+
+  equals@1.0.5:
+    dependencies:
+      jkroso-type: 1.1.1
 
   err-code@2.0.3: {}
 
@@ -18721,7 +18756,7 @@ snapshots:
   http-proxy@1.18.1:
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.15.11(debug@4.4.3)
+      follow-redirects: 1.15.11(debug@4.3.7)
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
@@ -19433,6 +19468,8 @@ snapshots:
 
   jju@1.4.0: {}
 
+  jkroso-type@1.1.1: {}
+
   jose@5.10.0: {}
 
   js-git@0.7.8:
@@ -19458,6 +19495,12 @@ snapshots:
       argparse: 2.0.1
 
   jsdoc-type-pratt-parser@4.0.0: {}
+
+  jsedn@0.4.1:
+    dependencies:
+      commander: 14.0.1
+      equals: 1.0.5
+      type-component: 0.0.1
 
   jsesc@0.5.0: {}
 
@@ -22608,6 +22651,8 @@ snapshots:
   type-check@0.4.0:
     dependencies:
       prelude-ls: 1.2.1
+
+  type-component@0.0.1: {}
 
   type-detect@4.0.8: {}
 
