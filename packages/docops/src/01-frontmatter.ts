@@ -38,15 +38,6 @@ const GenSchema = z.object({
   tags: z.array(z.string()).min(1),
 });
 
-const toStringArray = (value: unknown): readonly unknown[] | undefined => {
-  if (Array.isArray(value)) return value;
-  if (typeof value === "string") return [value];
-  return undefined;
-};
-
-const normalizeTags = (value: unknown): string[] =>
-  normalizeStringList(toStringArray(value));
-
 export async function runFrontmatter(
   opts: FrontmatterOptions,
   db: DBs,

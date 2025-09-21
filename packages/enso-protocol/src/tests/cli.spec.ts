@@ -5,6 +5,7 @@ import { runCliCommand } from "../cli.js";
 import { EnsoClient } from "../client.js";
 import { createStaticCapture } from "../audio.js";
 import type { HelloCaps } from "../types/privacy.js";
+import { resolveHelloPrivacy } from "../types/privacy.js";
 import type { Envelope } from "../types/envelope.js";
 
 function registerDemoSource(registry: ContextRegistry, location: string) {
@@ -136,14 +137,15 @@ test("voice-demo command streams audio and logs agent output", async (t) => {
             sent.push(env);
           },
         });
+        const privacy = resolveHelloPrivacy(options.hello);
         void instance.connect(options.hello, {
           capabilities: options.hello.caps,
-          privacyProfile: options.hello.privacy.profile,
+          privacyProfile: privacy.profile,
           emitAccepted: false,
         });
         instance.receive(
           makeEnvelope("privacy.accepted", "event", {
-            profile: options.hello.privacy.profile,
+            profile: privacy.profile,
             wantsE2E: false,
             negotiatedCaps: options.hello.caps,
           }),
