@@ -3,7 +3,7 @@
 Where packages are generalized reusable collections of logic that are defined by
 configuration.
 
-The `promethean/system` files are `.edn`, `clj`, `.md`, or `.org` files. They
+The `promethean/system` files are `.json`, `.yml`,`.edn`, `clj`, `.md`, or `.org` files. They
 can really be anything you define a grammar for.
 
 In the case of a markdown file, an LLM interprets it based on the folder you put
