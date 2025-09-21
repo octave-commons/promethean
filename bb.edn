@@ -1,4 +1,4 @@
-{:paths ["bb/src"]
+{:paths ["bb/src" "packages/clj-hacks/src" "packages/clj-hacks/test"]
  :tasks
  {;; Root tasks
   build            {:doc "Build all languages" :task (mk.commands/build)}
