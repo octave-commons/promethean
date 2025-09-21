@@ -73,7 +73,10 @@ const createTestServer = async (): Promise<TestServer> => {
 
 const mkOutputDir = () => mkdtemp(join(tmpdir(), "webcrawler-integration-"));
 
-const applyRoutes = (target: TestServer, routes: ReadonlyArray<[string, RouteResponse]>) => {
+const applyRoutes = (
+  target: TestServer,
+  routes: ReadonlyArray<[string, RouteResponse]>,
+) => {
   routes.forEach(([path, response]) => target.setRoute(path, response));
 };
 
@@ -108,7 +111,8 @@ const configureLinkedServers = async () => {
 };
 
 const runLinkedServersScenario = async () => {
-  const { serverA, serverB, serverAHome, serverBPage } = await configureLinkedServers();
+  const { serverA, serverB, serverAHome, serverBPage } =
+    await configureLinkedServers();
 
   const outputDir = await mkOutputDir();
   const crawler = new WebCrawler({
@@ -139,7 +143,7 @@ const runLinkedServersScenario = async () => {
   } as const;
 };
 
-const buildRobotsRoutes = (homeUrl: string): ReadonlyArray<[string, RouteResponse]> => {
+const buildRobotsRoutes = (): ReadonlyArray<[string, RouteResponse]> => {
   return [
     [
       "/robots.txt",
@@ -173,14 +177,18 @@ const buildRobotsRoutes = (homeUrl: string): ReadonlyArray<[string, RouteRespons
 const configureRobotsServer = async () => {
   const server = await createTestServer();
   const homeUrl = `${server.baseUrl}/`;
-  applyRoutes(server, buildRobotsRoutes(homeUrl));
+  applyRoutes(server, buildRobotsRoutes());
   return { server, homeUrl } as const;
 };
 
 const runRobotsScenario = async () => {
   const { server, homeUrl } = await configureRobotsServer();
   const outputDir = await mkOutputDir();
-  await new WebCrawler({ seeds: [homeUrl], outputDir, requestDelayMs: 0 }).crawl();
+  await new WebCrawler({
+    seeds: [homeUrl],
+    outputDir,
+    requestDelayMs: 0,
+  }).crawl();
 
   const hostDir = join(outputDir, new URL(homeUrl).hostname.toLowerCase());
   const files = await readdir(hostDir);

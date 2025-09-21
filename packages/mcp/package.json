@@ -26,7 +26,10 @@
   "dependencies": {
     "@fastify/static": "^7.0.4",
     "@modelcontextprotocol/sdk": "^1.17.5",
+    "@stryker-mutator/core": "^8.7.1",
+    "fast-check": "^3.23.2",
     "fastify": "5.0.0",
+    "minimatch": "^9.0.5",
     "zod": "^3.23.8"
   },
   "devDependencies": {
