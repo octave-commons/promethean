@@ -1,0 +1,23 @@
+{
+  "transport": "http",
+  "tools": [
+    "github.request",
+    "github.graphql",
+    "github.rate-limit",
+    "files.list-directory",
+    "files.tree-directory",
+    "files.view-file",
+    "files.write-content",
+    "files.write-lines",
+    "files.search",
+    "tdd.scaffoldTest",
+    "tdd.changedFiles",
+    "tdd.runTests",
+    "tdd.startWatch",
+    "tdd.getWatchChanges",
+    "tdd.stopWatch",
+    "tdd.coverage",
+    "tdd.propertyCheck",
+    "tdd.mutationScore"
+  ]
+}
