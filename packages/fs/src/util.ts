@@ -5,7 +5,7 @@ export type FileEntry = {
     path: string; // full path
     relative: string; // path relative to the root
     name: string; // base filename
-    type: 'file' | 'dir';
+    type: 'file' | 'dir' | 'symlink';
 };
 
 export type WalkOptions = {
