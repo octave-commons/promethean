@@ -9,7 +9,6 @@
     "sourceMap": true,
     "resolveJsonModule": true,
     "verbatimModuleSyntax": true,
-    "allowImportingTsExtensions": true,
     "exactOptionalPropertyTypes": true,
     "noUncheckedIndexedAccess": true,
     "strict": true
