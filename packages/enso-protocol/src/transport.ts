@@ -1,6 +1,7 @@
 import { Buffer } from "node:buffer";
 import WebSocket from "ws";
 import type { HelloCaps, PrivacyProfile } from "./types/privacy.js";
+import { resolveHelloPrivacy } from "./types/privacy.js";
 import type { Envelope } from "./types/envelope.js";
 import { EnsoClient } from "./client.js";
 import { EnsoServer } from "./server.js";
@@ -152,7 +153,7 @@ export async function connectLocal(
   const handshakeHello: HelloCaps = {
     ...hello,
     caps: [...hello.caps],
-    privacy: { ...hello.privacy },
+    ...(hello.privacy ? { privacy: { ...hello.privacy } } : {}),
     ...(hello.agent ? { agent: { ...hello.agent } } : {}),
     ...(hello.cache ? { cache: { ...hello.cache } } : {}),
   };
@@ -187,12 +188,13 @@ export async function connectLocal(
   );
 
   if (shouldOverride) {
-    server.prepareHandshake((incoming) => ({
+    server.prepareHandshake(() => ({
       ...(handshakeOptions.adjustCapabilities
         ? { adjustCapabilities: handshakeOptions.adjustCapabilities }
         : {}),
-      privacyProfile:
-        handshakeOptions.privacyProfile ?? incoming.privacy.profile,
+      ...(handshakeOptions.privacyProfile
+        ? { privacyProfile: handshakeOptions.privacyProfile }
+        : {}),
       ...(handshakeOptions.wantsE2E !== undefined
         ? { wantsE2E: handshakeOptions.wantsE2E }
         : {}),
@@ -332,10 +334,12 @@ export function connectWebSocket(
       const payload = envelope.payload as
         | { negotiatedCaps?: string[]; profile?: PrivacyProfile }
         | undefined;
+      const resolvedPrivacy = resolveHelloPrivacy(hello, payload?.profile);
+      const negotiatedCaps = payload?.negotiatedCaps ?? hello.caps;
       void client
         .connect(hello, {
-          capabilities: payload?.negotiatedCaps ?? hello.caps,
-          privacyProfile: payload?.profile ?? hello.privacy.profile,
+          capabilities: negotiatedCaps,
+          privacyProfile: payload?.profile ?? resolvedPrivacy.profile,
           emitAccepted: false,
         })
         .then(() => {
