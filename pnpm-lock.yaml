@@ -2454,6 +2454,12 @@ importers:
         specifier: ^5.4.0
         version: 5.9.2
 
+  packages/kanban-cli:
+    dependencies:
+      '@promethean/markdown':
+        specifier: workspace:*
+        version: link:../markdown
+
   packages/kanban-processor:
     dependencies:
       '@promethean/legacy':
@@ -15757,7 +15763,7 @@ snapshots:
 
   axios@1.11.0:
     dependencies:
-      follow-redirects: 1.15.11(debug@4.4.3)
+      follow-redirects: 1.15.11(debug@4.3.7)
       form-data: 4.0.4
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -18294,7 +18300,7 @@ snapshots:
   http-proxy@1.18.1:
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.15.11(debug@4.4.3)
+      follow-redirects: 1.15.11(debug@4.3.7)
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
