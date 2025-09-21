@@ -43,9 +43,9 @@ export async function generateEcosystem(
     })),
   );
 
-  const apps = documents.flatMap(({ file, document }) =>
-    extractApps(document, file),
-  );
+  const apps = documents
+    .flatMap(({ file, document }) => extractApps(document, file))
+    .map((app) => normalizeAppPaths(app, outputDir));
 
   await mkdir(outputDir, { recursive: true });
   const outputPath = path.join(outputDir, fileName);
@@ -91,6 +91,49 @@ function extractApps(value: unknown, source: string): readonly AppRecord[] {
 
 function isRecord(value: unknown): value is UnknownRecord {
   return value !== null && typeof value === "object" && !Array.isArray(value);
+}
+
+function normalizeAppPaths(app: AppRecord, baseDir: string): AppRecord {
+  const result: Record<string, unknown> = { ...app };
+
+  if (typeof app.cwd === "string") {
+    result.cwd = resolveRelativePath(app.cwd, baseDir);
+  }
+
+  if (typeof app.script === "string") {
+    result.script = resolveRelativePath(app.script, baseDir);
+  }
+
+  if (typeof app.env_file === "string") {
+    result.env_file = resolveRelativePath(app.env_file, baseDir);
+  }
+
+  if (typeof app.watch === "string") {
+    result.watch = resolveRelativePath(app.watch, baseDir);
+  } else if (Array.isArray(app.watch)) {
+    result.watch = app.watch.map((item) =>
+      typeof item === "string" ? resolveRelativePath(item, baseDir) : item,
+    );
+  }
+
+  if (isRecord(app.env)) {
+    result.env = Object.fromEntries(
+      Object.entries(app.env).map(([key, value]) => [
+        key,
+        typeof value === "string" ? resolveRelativePath(value, baseDir) : value,
+      ]),
+    );
+  }
+
+  return result as AppRecord;
+}
+
+function resolveRelativePath(value: string, baseDir: string): string {
+  return isRelativePath(value) ? path.resolve(baseDir, value) : value;
+}
+
+function isRelativePath(value: string): boolean {
+  return value.startsWith("./") || value.startsWith("../");
 }
 
 function formatOutput(apps: readonly AppRecord[]): string {
