@@ -1,21 +1,17 @@
 (ns mk.mcp-adapter-elisp
   (:require [clojure.string :as str]
+            [elisp.mcp :as elisp-mcp]
             [mk.mcp-core :as core]))
 
 (def re-setq #"\(setq\s+mcp-server-programs\s+'\((?s:.*?)\)\)")
 
 (defn read-full [path]
   (let [s (slurp path)
-        ;; parse entries from our known shape (round-trip compatible)
-        re-entry #"\(\s*\"([^\"]+)\"\s*\.\s*\(\s*\"([^\"]+)\"\s*(\[.*?\])?\s*\)\s*\)"
-        ms (re-seq re-entry s)
+        pairs (elisp-mcp/parse-mcp-server-programs s)
         mcp {:mcp-servers
              (into (sorted-map)
-                   (for [[_ nm cmd args-edn] ms]
-                     [(keyword nm)
-                      (cond-> {:command cmd}
-                        (and args-edn (not (str/blank? args-edn)))
-                        (assoc :args (vec (read-string args-edn))) )]))}
+                   (for [[nm spec] pairs]
+                     [(keyword nm) spec]))}
         rest (str/replace s re-setq "")]
     {:mcp mcp :rest rest :raw s}))
 

@@ -1,10 +1,10 @@
 #!/usr/bin/env bb
 (ns mk.mcp-import
   (:require
-    [clojure.edn :as edn]
     [clojure.string :as str]
     [cheshire.core :as json]
-    [babashka.fs :as fs]))
+    [babashka.fs :as fs]
+    [elisp.mcp :as elisp-mcp]))
 
 ;; -------------------- utils --------------------
 (defn die! [msg & kvs]
@@ -118,24 +118,13 @@
 ;;         ("name" . ("cmd" ["a" "b"]))
 ;;         ("name2" . ("cmd2"))
 ;;       ))
-;;
-;; We'll capture each entry and EDN-read the vector part.
+;; We'll walk the tree-sitter AST to extract entries.
 (defn parse-elisp [path]
   (let [s (slurp path)
-        ;; Very targeted regex for our known shape:
-        ;; group1: "name"
-        ;; group2: "cmd"
-        ;; group3: optional args vector literal (printed via pr-str, i.e., valid EDN)
-        re #"\(\s*\"([^\"]+)\"\s*\.\s*\(\s*\"([^\"]+)\"\s*(\[.*?\])?\s*\)\s*\)"
-        ms (re-seq re s)]
-    (when (empty? ms)
+        entries (elisp-mcp/parse-mcp-server-programs s)]
+    (when (empty? entries)
       (die! "elisp: could not find any (\"name\" . (\"cmd\" [args])) entries"))
-    (->servers-edn
-      (for [[_ nm cmd args-edn] ms]
-        [nm {:command cmd
-             :args    (vec (if (str/blank? (or args-edn ""))
-                             []
-                             (edn/read-string args-edn)))}]))))
+    (->servers-edn entries)))
 
 ;; -------------------- detection & CLI --------------------
 (defn detect-schema [path]
