@@ -1,6 +1,7 @@
 (ns mk.commands
   (:require [mk.node :as js]
             [mk.util :as u]
+            [clojure.string :as str]
             [mk.configs :as cfg]
             [babashka.fs :as fs]))
 
@@ -50,13 +51,29 @@
   (js/test-ts)
   (validate-elisp))
 
+
+(defn- ava-files [patterns]
+  (->> patterns
+       (mapcat #(fs/glob "." %))
+       (map fs/absolutize)
+       (map str)
+       sort
+       vec))
+
+(defn- run-ava [patterns]
+  (if (u/has-pnpm?)
+    (let [files (ava-files patterns)]
+      (if (seq files)
+        (u/sh! (into ["pnpm" "exec" "ava"] files))
+        (println (format "[ava] No test files matched patterns: %s"
+                         (str/join ", " patterns)))))
+    (u/require-pnpm)))
+
 (defn test-integration []
-  (u/sh! "python -m pytest tests/integration" {:shell true}))
+  (run-ava ["tests/integration/**/*.test.js"]))
 
 (defn test-e2e []
-  (if (u/has-cmd? "pipenv")
-    (u/sh! "python -m pipenv run pytest tests/e2e || true" {:shell true})
-    (u/sh! "pytest tests/e2e || true" {:shell true})))
+  (run-ava ["tests/e2e/**/*.test.js"]))
 
 (defn format-code []
   (js/format-js)
@@ -75,8 +92,8 @@
     (u/sh! ["npm" "install" "-g" "pm2"])) )
 
 (defn setup-quick []
-  (println "Quick setup using workspace dependencies...")
-  ;; Use pnpm workspace for efficient install
+  (println "Quick setup using pnpm workspace installs...")
+
   (println "Installing all workspace dependencies...")
   (if (u/has-pnpm?)
     (do
@@ -103,22 +120,6 @@
     (doseq [wheel (fs/glob artifact-dir "*.whl")]
       (u/sh! ["pip" "install" (str wheel)]))
     (println "GitHub Actions artifact installation complete")))
-
-(defn- gpu-build? [d]
-  (= (cfg/reqs-file-for d) "requirements.gpu.in"))
-
-(defn probe-python-service []
-  (let [service (or (System/getenv "service") (System/getenv "SERVICE"))
-        d (str (fs/path "services/py" (or service "")))]
-    (when-not service (throw (ex-info "SERVICE env required" {})))
-    (if (u/has-uv?)
-      (u/cuda-probe d (gpu-build? d))
-      (println "uv not found; probe requires uv"))))
-
-(defn probe-python-services []
-  (when (u/has-uv?)
-    (doseq [d cfg/services-py]
-      (u/cuda-probe d (gpu-build? d)))))
 
 (defn system-deps []
   (if (System/getenv "SIMULATE_CI")
@@ -152,9 +153,7 @@
 (defn lint-tasks [] (u/sh! ["pnpm" "lint:tasks"]))
 
 (defn simulate-ci []
-  (if-let [job (System/getenv "SIMULATE_CI_JOB")]
-    (u/sh! ["python" "scripts/simulate_ci.py" "--job" job])
-    (u/sh! ["python" "scripts/simulate_ci.py"])) )
+  (println "[simulate-ci] No JavaScript workflow defined; skipping"))
 
 (defn snapshot []
   (let [fmt (java.text.SimpleDateFormat. "yyyy.MM.dd")
