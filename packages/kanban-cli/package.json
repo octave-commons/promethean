@@ -1,0 +1,14 @@
+{
+  "name": "@promethean/kanban-cli",
+  "version": "0.1.0",
+  "license": "GPL-3.0-only",
+  "type": "module",
+  "bin": {
+    "kanban": "dist/index.js"
+  },
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "files": ["dist"],
+  "dependencies": {"@promethean/markdown": "workspace:*"},
+  "scripts": {"build": "tsc -p tsconfig.json", "test": "ava"}}
