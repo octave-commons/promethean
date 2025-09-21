@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { writeFile } from "node:fs/promises";
 import { github } from "../dist/lib/github.js";
-import { ollama } from "../dist/lib/ollama.js";
+import { ollamaClient } from "../dist/lib/ollama.js";
 import { generateReport } from "../dist/lib/generateReport.js";
 
 const repo = process.argv[2];
@@ -13,6 +13,6 @@ if (!repo) {
 }
 const gh = github();
 const issues = await gh.listIssues(repo, { state: "all" });
-const text = await generateReport({ repo, issues }, { llm: ollama() });
+const text = await generateReport({ repo, issues }, { llm: ollamaClient() });
 await writeFile(out, text, "utf8");
 console.log("wrote", out);
