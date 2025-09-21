@@ -9,7 +9,7 @@
    * Note any uncertainties, risks, or open questions directly on the task to surface follow-ups early.
    * Record the scoped plan and supporting notes on the linked task before moving to step 3.
 3. **Breakdown & Estimate**
-   Break into small, testable slices; estimate **complexity, scale, time (in cloud sessions)** and assign a Fibonacci score. If **13+ ⇒ must split**; **≤5 ⇒ eligible to implement**.&#x20;
+   Break into small, testable slices; estimate **complexity, scale, time (in cloud sessions)** and assign a Fibonacci score from **1, 2, 3, 5, 8, 13** on the task card. Scores of **13+ ⇒ must split**; **8 ⇒ continue refinement before implementation**; **≤5 ⇒ eligible to implement**. Any score **>5** must cycle back through clarification/breakdown until the slice is small enough to implement, capturing the updated score on the task card.&#x20;
 
 4. **Ready Gate** *(hard stop before code)*
    Only proceed if:
