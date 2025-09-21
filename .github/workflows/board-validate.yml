@@ -23,5 +23,6 @@ jobs:
           node-version: 20
           cache: "pnpm"
       - run: pnpm install --frozen-lockfile=false
-      - run: pnpm tsx packages/kanban/src/board/lints.ts
-      - run: pnpm tsx packages/kanban/src/board/indexer.ts
+      - run: pnpm --filter ./packages/kanban build
+      - run: node packages/kanban/dist/board/lints.js
+      - run: node packages/kanban/dist/board/indexer.js
