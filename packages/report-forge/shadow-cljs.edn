@@ -1,0 +1,8 @@
+{:source-paths ["src/cljs"]
+ :dependencies [[org.clojure/clojurescript "1.11.132"]]
+ :builds
+ {:render
+  {:target :esm
+   :output-dir "dist/cljs"
+   :modules {:main {:entries [promethean.render]}}
+   :devtools {:enabled false}}}}
