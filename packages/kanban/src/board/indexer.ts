@@ -1,19 +1,12 @@
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
 
 import { listFilesRec } from "@promethean/utils/list-files-rec.js";
 import { parseFrontmatter } from "@promethean/markdown/frontmatter.js";
 
 import type { IndexedTask, TaskFM } from "./types.js";
-
-const ROOT = path.dirname(fileURLToPath(import.meta.url));
-const REPO = path.resolve(ROOT, "..", "..", "..", "..");
-
-const TASKS_DIR = path.join(REPO, "boards", "tasks");
-const INDEX_FILE = path.join(REPO, "boards", "index.json");
-
-const EXTS = new Set([".md"]);
+import type { ReadonlySetLike } from "./config/shared.js";
+import { loadKanbanConfig } from "./config.js";
 
 const toTrimmedString = (value: unknown, fallback = ""): string => {
   if (typeof value !== "string") return fallback;
@@ -44,18 +37,25 @@ const toLabelArray = (value: unknown): ReadonlyArray<string> => {
 const normalizeTask = (
   data: Readonly<Record<string, unknown>>,
   filePath: string,
+  repoRoot: string,
 ): IndexedTask => {
-  const id = toTrimmedString(data.id);
+  const rawId =
+    (data as { readonly id?: unknown }).id ??
+    (data as { readonly uuid?: unknown }).uuid;
+  const rawCreated =
+    (data as { readonly created?: unknown }).created ??
+    (data as { readonly created_at?: unknown }).created_at;
+  const id = toTrimmedString(rawId);
   const title = toTrimmedString(data.title, path.basename(filePath, ".md"));
   const status = toTrimmedString(data.status) as TaskFM["status"];
   const priority = toTrimmedString(data.priority) as TaskFM["priority"];
   const owner = toTrimmedString(data.owner);
   const labels = toLabelArray(data.labels);
-  const created = toTrimmedString(data.created);
+  const created = toTrimmedString(rawCreated);
   const updated = toOptionalString(
     (data as { readonly updated?: unknown }).updated,
   );
-  const rel = path.relative(REPO, filePath);
+  const rel = path.relative(repoRoot, filePath);
   const base: TaskFM = Object.freeze({
     id,
     title,
@@ -64,6 +64,10 @@ const normalizeTask = (
     owner,
     labels,
     created,
+    uuid: toOptionalString((data as { readonly uuid?: unknown }).uuid),
+    created_at: toOptionalString(
+      (data as { readonly created_at?: unknown }).created_at,
+    ),
   });
   const fm: TaskFM =
     typeof updated === "string" ? Object.freeze({ ...base, updated }) : base;
@@ -75,8 +79,16 @@ const sortTasksById = (
 ): ReadonlyArray<IndexedTask> =>
   Object.freeze([...tasks].sort((a, b) => a.id.localeCompare(b.id)));
 
-const indexTasks = async (): Promise<ReadonlyArray<IndexedTask>> => {
-  const files = await listFilesRec(TASKS_DIR, EXTS);
+const indexTasks = async ({
+  tasksDir,
+  exts,
+  repoRoot,
+}: Readonly<{
+  readonly tasksDir: string;
+  readonly exts: ReadonlySetLike<string>;
+  readonly repoRoot: string;
+}>): Promise<ReadonlyArray<IndexedTask>> => {
+  const files = await listFilesRec(tasksDir, new Set(exts));
   const tasks = await Promise.all(
     files.map((filePath) =>
       readFile(filePath, "utf8")
@@ -85,20 +97,30 @@ const indexTasks = async (): Promise<ReadonlyArray<IndexedTask>> => {
             parseFrontmatter<Readonly<Record<string, unknown>>>(raw);
           return parsed.data ?? {};
         })
-        .then((data) => normalizeTask(data, filePath)),
+        .then((data) => normalizeTask(data, filePath, repoRoot)),
     ),
   );
   return sortTasksById(tasks);
 };
 
 const main = async (): Promise<void> => {
-  const args = new Set(process.argv.slice(2));
+  const { config, restArgs } = await loadKanbanConfig();
+  const args = new Set(restArgs);
   const shouldWrite = args.has("--write");
-  const tasks: ReadonlyArray<IndexedTask> = await indexTasks();
+  const tasks: ReadonlyArray<IndexedTask> = await indexTasks({
+    tasksDir: config.tasksDir,
+    exts: config.exts,
+    repoRoot: config.repo,
+  });
   const lines = Object.freeze(tasks.map((task) => JSON.stringify(task)));
   if (shouldWrite) {
-    await writeFile(INDEX_FILE, `${lines.join("\n")}\n`, "utf8");
-    console.log(`Wrote ${tasks.length} tasks to boards/index.json`);
+    await writeFile(config.indexFile, `${lines.join("\n")}\n`, "utf8");
+    console.log(
+      `Wrote ${tasks.length} tasks to ${path.relative(
+        config.repo,
+        config.indexFile,
+      )}`,
+    );
     return;
   }
   lines.forEach((line) => {
