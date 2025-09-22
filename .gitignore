@@ -4,8 +4,6 @@ packages/**/package-lock.json
 data/*
 !data/README.md
 dist/
-!packages/promethean-cli/dist/
-!packages/promethean-cli/dist/promethean_cli.js
 !shared/ts/prom-lib/dist/intention/
 !shared/ts/prom-lib/dist/intention/**
 data/

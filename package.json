@@ -16,7 +16,7 @@
     "changelog:check": "tsx scripts/check_changelog.ts",
     "changelog:check-fragments": "tsx scripts/check_changelog_fragments.ts",
     "script:lint-tasks": "tsx --tsconfig tsconfig.scripts.json scripts/lint_tasks.ts",
-    "postinstall": "pnpm --filter @promethean/embedding^... run build && pnpm --filter @promethean/piper^... run build && pnpm --filter @promethean/piper run build && (pnpm --filter @promethean/promethean-cli run build || echo 'Skipping Promethean CLI bundle build during postinstall.')",
+    "postinstall": "pnpm --filter @promethean/embedding^... run build && pnpm --filter @promethean/piper^... run build && pnpm --filter @promethean/piper run build && pnpm --filter @promethean/promethean-cli run build",
     "generateBuildErrorReport": "pnpm -r --no-bail build | grep 'error' -i >|build-errors.txt",
     "check:flat": "node scripts/check-flat.js",
     "enforce:esm-ext": "eslint \"packages/**/src/**/*.{ts,tsx}\" --rule 'import/extensions: [2, \"always\", { ignorePackages: true }]'",
