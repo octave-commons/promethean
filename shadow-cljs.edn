@@ -1,4 +1,5 @@
-{:builds
+{:source-paths ["packages/promethean-cli/src"]
+ :builds
  {:promethean-cli
   {:target :node-script
    :main promethean.cli.core/-main
