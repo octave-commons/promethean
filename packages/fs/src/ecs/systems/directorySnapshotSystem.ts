@@ -42,7 +42,10 @@ function computeSignature(snapshot: Omit<DirectorySnapshotState, 'signature'>) {
         while (queue.length) {
             const node = queue.pop()!;
             hash.update(`${node.relative}:${node.type}:${node.mtimeMs ?? 0}:${node.size ?? 0}`);
-            if (node.children) queue.push(...node.children);
+            if (node.children) {
+                const children = [...node.children].sort((a, b) => a.relative.localeCompare(b.relative));
+                queue.push(...children);
+            }
         }
     }
 
