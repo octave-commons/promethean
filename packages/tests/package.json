@@ -24,7 +24,7 @@
         "test": "pnpm -r --filter @promethean/tests^... build && ava --config ../../config/ava.config.mjs",
         "lint": "pnpm exec eslint .",
         "lisp": "node dist/cli/lisp.js",
-        "coverage": "pnpm run build && c8 ava --config ../../config/ava.config.mjs",
+        "coverage": "pnpm -r --filter @promethean/tests^... run build && c8 --cwd ../../ --exclude-node-modules=false --all --include 'packages/**/*.js' --include 'packages/**/*.ts' --reporter=text --reporter=lcov --report-dir ../../coverage ava --config ../../config/ava.config.mjs",
         "test:markdown": "pnpm run build && ava --config ../../config/ava.config.mjs dist/tests/markdown.*.test.js",
         "format": "pnpm exec prettier --write ."
     },
