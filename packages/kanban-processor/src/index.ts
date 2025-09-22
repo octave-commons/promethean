@@ -376,7 +376,7 @@ export function startKanbanProcessor(repoRoot = defaultRepoRoot) {
         stageBoardWrite,
         boardPath,
         nextMd.split(/\r?\n/),
-        true || changed,
+        changed,
       );
       await nextFsTick();
       const refreshedTaskFiles = normalizedSnapshotFiles(tasksEntity);
