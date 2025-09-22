@@ -2,8 +2,15 @@ import {
   // dirname,
   join,
 } from "path";
-import { readdir, readFile, stat, writeFile } from "fs/promises";
 import crypto from "crypto";
+
+import { World } from "@promethean/ds/ecs.js";
+import {
+  initFsEcs,
+  type DirectorySnapshotState,
+  type DirectoryWriteBufferState,
+  type DirectoryWriteOperation,
+} from "@promethean/fs";
 
 import { ContextStore } from "@promethean/persistence/contextStore.js";
 // DualStoreManager types resolved at runtime; avoid compile-time coupling
@@ -58,27 +65,41 @@ function firstWiki(cardLinks: string[] | undefined): string | null {
   return raw.split("|")[0]!.split("#")[0]!.trim();
 }
 
+function normalizeRelativePath(rel: string | null | undefined): string {
+  if (!rel) return "";
+  return rel.replace(/\\/g, "/");
+}
+
+function readSnapshotFile(
+  snapshot: DirectorySnapshotState | undefined,
+  relative: string,
+): string | null {
+  const key = normalizeRelativePath(relative);
+  const record = snapshot?.contents?.[key];
+  return record ? record.data : null;
+}
+
 async function boardToCards(
   board: any,
-  tasksDir: string,
+  tasksSnapshot: DirectorySnapshotState | undefined,
 ): Promise<KanbanCard[]> {
   const out: KanbanCard[] = [];
   for (const col of board.listColumns()) {
     for (const c of board.listCards(col.name)) {
-      // title from card.text
       const title = c.text || firstWiki(c.links) || c.id;
       const file = firstWiki(c.links) || "";
       const link = file
         ? join("..", "tasks", encodeURI(file)).replace(/\\/g, "/")
         : "";
-      // ensure id in target task file
       if (file) {
         try {
-          const content = await readFile(join(tasksDir, file), "utf8");
-          const task = await MarkdownTask.load(content);
-          const id = task.getId() || "";
-          out.push({ id: id || c.id, title, column: col.name, link });
-          continue;
+          const content = readSnapshotFile(tasksSnapshot, file);
+          if (content) {
+            const task = await MarkdownTask.load(content);
+            const id = task.getId() || "";
+            out.push({ id: id || c.id, title, column: col.name, link });
+            continue;
+          }
         } catch {
           // fallthrough
         }
@@ -89,17 +110,16 @@ async function boardToCards(
   return out;
 }
 
-async function buildBoardFromTasks(board: any, tasksDir: string) {
-  // Build status -> items map
-  const entries = await readdir(tasksDir);
+async function buildBoardFromTasks(
+  board: any,
+  tasksSnapshot: DirectorySnapshotState | undefined,
+) {
+  const files = tasksSnapshot?.contents ?? {};
   const tasks: { file: string; id: string; title: string; status: string }[] =
     [];
-  for (const name of entries) {
-    const p = join(tasksDir, name);
-    const st = await stat(p).catch(() => null as any);
-    if (!st || !st.isFile()) continue;
+  for (const [name, file] of Object.entries(files)) {
     if (!name.toLowerCase().endsWith(".md")) continue;
-    const text = await readFile(p, "utf8");
+    const text = file.data;
     const t = await MarkdownTask.load(text);
     const id = t.getId() || crypto.randomUUID();
     const title = t.getTitle() || name;
@@ -142,16 +162,6 @@ async function buildBoardFromTasks(board: any, tasksDir: string) {
         tags: [status],
       });
     }
-  }
-}
-
-async function writeBoardFile(
-  path: string,
-  lines: string[],
-  modified: boolean,
-) {
-  if (modified) {
-    await writeFile(path, lines.join("\n"));
   }
 }
 
@@ -202,9 +212,75 @@ async function projectState(
 }
 
 export function startKanbanProcessor(repoRoot = defaultRepoRoot) {
-  const boardPath = join(repoRoot, "docs", "agile", "boards", "kanban.md");
+  const boardDir = join(repoRoot, "docs", "agile", "boards");
+  const boardRelative = "kanban.md";
   const tasksPath = join(repoRoot, "docs", "agile", "tasks");
-  // const boardDir = dirname(boardPath);
+
+  const world = new World();
+  const { components, systems } = initFsEcs(world);
+  const { DirectoryIntent, DirectorySnapshot, DirectoryWriteBuffer } =
+    components;
+  const { scan: scanSystem, write: writeSystem } = systems;
+
+  const boardEntity = world.createEntity();
+  world.addComponent(boardEntity, DirectoryIntent, {
+    root: boardDir,
+    mode: "flat",
+    loadContent: { files: [boardRelative], encoding: "utf8" },
+  });
+  world.addComponent(boardEntity, DirectoryWriteBuffer, { operations: [] });
+
+  const tasksEntity = world.createEntity();
+  world.addComponent(tasksEntity, DirectoryIntent, {
+    root: tasksPath,
+    mode: "tree",
+    loadContent: { extensions: [".md"], encoding: "utf8" },
+  });
+  world.addComponent(tasksEntity, DirectoryWriteBuffer, { operations: [] });
+
+  async function runSystem(system: (dt: number) => Promise<void>) {
+    world.beginTick();
+    await system(0);
+    world.endTick();
+  }
+
+  const refreshSnapshots = () => runSystem(scanSystem);
+  const flushWrites = () => runSystem(writeSystem);
+
+  const getBoardSnapshot = () =>
+    world.has(boardEntity, DirectorySnapshot)
+      ? (world.get(boardEntity, DirectorySnapshot) as DirectorySnapshotState)
+      : undefined;
+
+  const getTasksSnapshot = () =>
+    world.has(tasksEntity, DirectorySnapshot)
+      ? (world.get(tasksEntity, DirectorySnapshot) as DirectorySnapshotState)
+      : undefined;
+
+  function queueBoardWrite(content: string, force = false) {
+    if (!force) {
+      const current = readSnapshotFile(getBoardSnapshot(), boardRelative);
+      if (current === content) return;
+    }
+    const buffer = (world.get(
+      boardEntity,
+      DirectoryWriteBuffer,
+    ) as DirectoryWriteBufferState) ?? { operations: [] };
+    const nextOps: DirectoryWriteOperation[] = [
+      ...buffer.operations,
+      { kind: "write", relative: boardRelative, content, encoding: "utf8" },
+    ];
+    if (world.has(boardEntity, DirectoryWriteBuffer)) {
+      world.set(boardEntity, DirectoryWriteBuffer, {
+        ...buffer,
+        operations: nextOps,
+      });
+    } else {
+      world.addComponent(boardEntity, DirectoryWriteBuffer, {
+        operations: nextOps,
+      });
+    }
+  }
 
   const ctx = new ContextStore();
   let kanbanStore: any | null = null;
@@ -243,15 +319,24 @@ export function startKanbanProcessor(repoRoot = defaultRepoRoot) {
     }
     ignoreTasks = true;
     try {
-      const text = await readFile(boardPath, "utf8");
-      const board = await MarkdownBoard.load(text);
+      await refreshSnapshots();
+      const boardText = readSnapshotFile(getBoardSnapshot(), boardRelative);
+      if (!boardText) {
+        console.warn("kanban board snapshot missing; skipping board change");
+        return;
+      }
+      const board = await MarkdownBoard.load(boardText);
       const changed = await syncBoardStatuses(board, {
         tasksDir: tasksPath,
         createMissingTasks: true,
       });
       const nextMd = await board.toMarkdown();
-      await writeBoardFile(boardPath, nextMd.split(/\r?\n/), changed);
-      const cards = await boardToCards(board, tasksPath);
+      if (changed) {
+        queueBoardWrite(nextMd);
+        await flushWrites();
+      }
+      await refreshSnapshots();
+      const cards = await boardToCards(board, getTasksSnapshot());
       previousState = await projectState(
         cards,
         previousState,
@@ -274,17 +359,23 @@ export function startKanbanProcessor(repoRoot = defaultRepoRoot) {
     if (ignoreTasks) return;
     ignoreBoard = true;
     try {
-      // Rebuild board sections from tasks while preserving settings/frontmatter
-      const text = await readFile(boardPath, "utf8");
-      const board = await MarkdownBoard.load(text);
-      await buildBoardFromTasks(board, tasksPath);
-      const changed = await syncBoardStatuses(board, {
+      await refreshSnapshots();
+      const boardText = readSnapshotFile(getBoardSnapshot(), boardRelative);
+      if (!boardText) {
+        console.warn("kanban board snapshot missing; skipping tasks change");
+        return;
+      }
+      const board = await MarkdownBoard.load(boardText);
+      await buildBoardFromTasks(board, getTasksSnapshot());
+      await syncBoardStatuses(board, {
         tasksDir: tasksPath,
         createMissingTasks: false,
       });
       const nextMd = await board.toMarkdown();
-      await writeBoardFile(boardPath, nextMd.split(/\r?\n/), true || changed);
-      const cards = await boardToCards(board, tasksPath);
+      queueBoardWrite(nextMd, true);
+      await flushWrites();
+      await refreshSnapshots();
+      const cards = await boardToCards(board, getTasksSnapshot());
       previousState = await projectState(
         cards,
         previousState,
@@ -324,7 +415,15 @@ export function startKanbanProcessor(repoRoot = defaultRepoRoot) {
 
   return {
     async close() {
-      broker.socket?.close();
+      const socket = broker.socket as any;
+      if (typeof broker.disconnect === "function") {
+        broker.disconnect();
+      } else if (socket) {
+        socket.close();
+      }
+      if (socket && socket.readyState !== socket.CLOSED) {
+        await new Promise<void>((resolve) => socket.once("close", resolve));
+      }
       try {
         await mongoClient?.close();
       } catch (err) {
