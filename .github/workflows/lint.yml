@@ -1,5 +1,5 @@
 # .github/workflows/on-pr-to-staging.yml
-name: on-pr-to-staging
+name: lint
 permissions:
   contents: read
 on: { pull_request: { branches: ["dev/staging", "dev/main", "main"] } }

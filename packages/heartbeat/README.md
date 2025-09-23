@@ -19,7 +19,7 @@ On shutdown the service marks all heartbeats from its current session as killed 
 - `DB_NAME` (default `heartbeat_db`)
 - `HEARTBEAT_TIMEOUT` milliseconds before a process is considered stale (default `10000`)
 - `CHECK_INTERVAL` monitor interval in milliseconds (default `5000`)
-- `ECOSYSTEM_CONFIG` path to a PM2 ecosystem config file; defaults to `../../../ecosystem.config.js`
+- `ECOSYSTEM_CONFIG` path to a PM2 ecosystem config file; defaults to `../../system/daemons/ecosystem.config.js`
 - `BROKER_URL` WebSocket URL of the message broker (default `ws://127.0.0.1:7000`)
 
 ## Development

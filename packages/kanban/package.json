@@ -1,0 +1,17 @@
+{
+  "name": "@promethean/kanban-cli",
+  "version": "0.1.0",
+  "type": "module",
+  "bin": {
+    "kanban": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@promethean/markdown": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0"
+  }
+}

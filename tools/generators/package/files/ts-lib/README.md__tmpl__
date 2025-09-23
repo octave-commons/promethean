@@ -1,0 +1,18 @@
+<!-- READMEFLOW:BEGIN -->
+# @promethean/<%= name %>
+
+[TOC]
+
+## Install
+
+pnpm add @promethean/<%= name %>
+
+## Usage
+
+(coming soon)
+
+## License
+
+GPLv3
+
+<!-- READMEFLOW:END -->
