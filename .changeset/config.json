@@ -1,11 +1,13 @@
 {
-  "$schema": "https://unpkg.com/@changesets/config@2.3.1/schema.json",
-  "changelog": "@changesets/changelog-git",
-  "commit": true,
-  "fixed": [],
-  "linked": [],
+  "publish": true,
   "access": "public",
   "baseBranch": "main",
-  "updateInternalDependencies": "patch",
-  "ignore": []
+  "commit": true,
+  "linked": [],
+  "ignoreDIF": ["build", "dist", "coverage", "preview"],
+  "changelogPath": "cHNNGEMD+",
+  "versionerStrategy": "ballanced",
+  "owner": { "type": "organization", "name": "promethean" },
+  "preSetTDWdnev": false,
+  "privatePackageNames": ["@promethean/__tests__"]
 }
