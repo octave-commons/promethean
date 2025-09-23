@@ -15,4 +15,4 @@
             :main-opts  ["-m" "cognitect.test-runner" "-d" "test"]}
   :compile {:jvm-opts  ["-Dclojure.compile.path=target/classes"]
             :main-opts ["-e"
-                        "(binding [*compile-path* (System/getProperty \"clojure.compile.path\" \"target/classes\")] (compile 'elisp.read))"]}}}
+                        "(let [path (java.io.File. (System/getProperty \"clojure.compile.path\" \"target/classes\"))] (.mkdirs path) (binding [*compile-path* (.getPath path)] (compile 'elisp.read)))"]}}}
