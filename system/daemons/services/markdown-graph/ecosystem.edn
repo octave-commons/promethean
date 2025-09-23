@@ -1,0 +1,37 @@
+; Generated from system/daemons/services/markdown-graph/ecosystem.config.js
+{
+  :apps [
+    {
+      :name "markdown-graph"
+      :script "dist/src/index.js"
+      :args []
+      :exec_mode "fork"
+      :out_file "./logs/markdown-graph-out.log"
+      :error_file "./logs/markdown-graph-err.log"
+      :merge_logs true
+      :instances 1
+      :autorestart true
+      :restart_delay 10000
+      :kill_timeout 10000
+      :env {
+        :PORT "8123"
+        :PM2_PROCESS_NAME "markdown-graph"
+        :HEARTBEAT_PORT "5005"
+        :PYTHONUNBUFFERED "1"
+        :PYTHONPATH "./packages/pm2-helpers"
+        :CHECK_INTERVAL "300000"
+        :HEARTBEAT_TIMEOUT "600000"
+      }
+      :cwd "./packages/markdown-graph"
+      :watch [
+        "./packages/markdown-graph/src"
+      ]
+      :ignore_watch [
+        "node_modules"
+        "logs"
+        "tmp"
+        ".git"
+      ]
+    }
+  ]
+}

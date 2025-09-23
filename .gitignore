@@ -124,3 +124,7 @@ docs/reports/codex_cloud/INDEX.md
 test-tmp/
 
 docs/codex-context/requests/
+
+packages/report-forge/.shadow-cljs/
+
+.shadow-cljs/
