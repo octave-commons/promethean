@@ -1,5 +1,5 @@
 (ns clj-hacks.mcp.core-test
-  (:require [babashka.fs :as fs]
+  (:require [clj-hacks.fs :as fs]
             [clj-hacks.mcp.core :as core]
             [clojure.test :refer [deftest is testing]]))
 

@@ -1,7 +1,7 @@
 (ns clj-hacks.mcp.ops
   "High-level operations for reading and writing MCP configuration sets."
-  (:require [babashka.fs :as fs]
-            [babashka.process :as proc]
+  (:require [babashka.process :as proc]
+            [clj-hacks.fs :as fs]
             [clj-hacks.mcp.core :as core]
             [clj-hacks.mcp.merge :as m]
             [clojure.string :as str]))

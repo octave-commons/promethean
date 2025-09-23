@@ -1,6 +1,6 @@
 (ns clj-hacks.ide.core
   "Core helpers for managing IDE configuration files."
-  (:require [babashka.fs :as fs]
+  (:require [clj-hacks.fs :as fs]
             [cheshire.core :as json]
             [clojure.pprint :as pp]
             [clojure.string :as str]))

@@ -1,6 +1,6 @@
 (ns clj-hacks.ide.ops
   "Operations for synchronising canonical IDE settings with editor targets."
-  (:require [babashka.fs :as fs]
+  (:require [clj-hacks.fs :as fs]
             [clj-hacks.ide.adapter-settings-json :as sjson]
             [clj-hacks.ide.core :as core]))
 

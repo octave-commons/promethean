@@ -1,5 +1,5 @@
 (ns clj-hacks.mcp.adapter-codex-toml-test
-  (:require [babashka.fs :as fs]
+  (:require [clj-hacks.fs :as fs]
             [clj-hacks.mcp.adapter-codex-toml :as adapter]
             [clojure.test :refer :all]))
 

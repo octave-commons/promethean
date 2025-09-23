@@ -1,5 +1,5 @@
 (ns clj-hacks.mcp.adapter-mcp-json-test
-  (:require [babashka.fs :as fs]
+  (:require [clj-hacks.fs :as fs]
             [clj-hacks.mcp.adapter-mcp-json :as adapter]
             [clojure.test :refer [deftest is]]))
 

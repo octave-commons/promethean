@@ -1,6 +1,6 @@
 (ns clj-hacks.mcp.merge
   "Adapter-aware push/pull helpers for MCP configuration formats."
-  (:require [babashka.fs :as fs]
+  (:require [clj-hacks.fs :as fs]
             [clj-hacks.mcp.adapter-codex-toml :as codex-toml]
             [clj-hacks.mcp.adapter-elisp :as elisp]
             [clj-hacks.mcp.adapter-mcp-json :as mcp-json]

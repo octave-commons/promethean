@@ -1,7 +1,7 @@
 (ns clj-hacks.mcp.adapter-mcp-json
   "Adapter for official MCP JSON configuration files."
-  (:require [babashka.fs :as fs]
-            [cheshire.core :as json]
+  (:require [cheshire.core :as json]
+            [clj-hacks.fs :as fs]
             [clj-hacks.mcp.core :as core]))
 
 (defn read-full [path]

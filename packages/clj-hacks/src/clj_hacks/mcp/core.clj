@@ -1,6 +1,6 @@
 (ns clj-hacks.mcp.core
   "Shared helpers for manipulating MCP server configuration data."
-  (:require [babashka.fs :as fs]
+  (:require [clj-hacks.fs :as fs]
             [clojure.pprint :as pp]
             [clojure.string :as str]))
 
