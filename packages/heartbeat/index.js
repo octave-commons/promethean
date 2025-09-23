@@ -49,7 +49,7 @@ function loadConfig() {
     const require = createRequire(import.meta.url);
     const configPath =
       process.env.ECOSYSTEM_CONFIG ||
-      path.resolve(process.cwd(), "../../../ecosystem.config.js");
+      path.resolve(process.cwd(), "../../system/daemons/ecosystem.config.js");
     const ecosystem = require(configPath);
     allowedInstances = {};
     for (const app of ecosystem.apps || []) {

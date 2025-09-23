@@ -2,10 +2,7 @@
   (:require
    [babashka.fs :as fs]
    [babashka.process :as p]
-   [clojure.java.io :as io]
-   [clojure.string :as str])
-  (:import (java.nio.file Files Path Paths)
-           (java.nio.file.attribute FileAttribute)))
+   [clojure.string :as str]))
 
 (def protect-files #{"ecosystem.config.js" "ecosystem.config.cjs"})
 
@@ -49,55 +46,12 @@
 (defn has-cmd? [exe]
   (= 0 (:exit (p/sh "bash" "-lc" (str "command -v " (str exe) " >/dev/null")))))
 
-(defn has-uv? [] (has-cmd? "uv"))
 (defn has-pnpm? [] (has-cmd? "pnpm"))
 
 (defn require-pnpm []
   (binding [*out* *err*]
     (println "ERROR: pnpm is required for JS/TS tasks. Install via: corepack enable && corepack prepare pnpm@latest --activate, then re-run with pnpm."))
   (System/exit 1))
-
-(defn venv-site-packages [svc-dir]
-  (let [pattern (fs/path svc-dir ".venv" "lib" "python*" "site-packages")
-        hits (seq (fs/glob svc-dir (str (fs/path ".venv" "lib" "python*" "site-packages"))))]
-    (some-> hits first str)) )
-
-(defn uv-venv [d]
-  (sh! "UV_VENV_IN_PROJECT=1 uv venv" d true))
-
-(defn uv-compile [d infile lockf torch-index]
-  (if (= infile "requirements.gpu.in")
-    (sh! (format "UV_VENV_IN_PROJECT=1 uv pip compile --index %s %s -o %s --index-strategy unsafe-best-match"
-                 torch-index infile lockf)
-        d true)
-    (sh! (format "UV_VENV_IN_PROJECT=1 uv pip compile --emit-index-url %s -o %s"
-                 infile lockf)
-        d true)))
-
-(defn uv-sync [d lockf]
-  (sh! (format "UV_VENV_IN_PROJECT=1 uv pip sync %s" lockf) d true))
-
-(defn copy-file! [src dst]
-  (fs/create-dirs (fs/parent dst))
-  (fs/copy src dst {:replace-existing true}))
-
-(defn inject-sitecustomize-into-venv [svc-dir]
-  (let [src (fs/path svc-dir "sitecustomize.py")
-        dst-base (venv-site-packages svc-dir)]
-    (when (and dst-base (fs/exists? src))
-      (copy-file! (str src) (str (fs/path dst-base "sitecustomize.py")))
-      (println "sitecustomize →" dst-base))))
-
-(defn cuda-probe [svc-dir gpu?]
-  (when gpu?
-    (sh! (str
-          "UV_VENV_IN_PROJECT=1 uv run python - <<'PY'\n"
-          "import ctypes, sys\n"
-          "libs=('libcusparseLt.so.0','libcusparse.so.12','libcublasLt.so.12','libcublas.so.12','libcudnn.so.9')\n"
-          "ok=True\nfor n in libs:\n  try:\n    ctypes.CDLL(n); print('OK', n)\n  except OSError as e:\n    ok=False; print('MISS', n, '->', e)\n"
-          "sys.exit(0 if ok else 1)\n"
-          "PY")
-        svc-dir true)))
 
 (defn has-eslint-config? [d]
   (pos? (+ (count (fs/glob d ".eslintrc*"))

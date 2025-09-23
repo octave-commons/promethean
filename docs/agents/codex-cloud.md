@@ -1,14 +1,12 @@
-
 # Codex Cloud Agent
 
-## Baseline
-- Read `docs/reports/codex_cloud/latest/{INDEX.md,summary.tsv,eslint.json}` as BASELINE.
-- If `latest/` missing or older than ~8h, you MAY run:
-  ```bash
-  TIMEOUT_SECS=${TIMEOUT_SECS:-90} STRICT=0 bash run/codex_maintenance.sh
-```
+## Initialization
 
-(never run `run/setup_codex_dev_env.sh`)
+- Read `docs/reports/codex_cloud/latest/{INDEX.md,summary.tsv,eslint.json}`
+- Read `docs/agile/process.md`
+- Scan `docs/agile/boards/kanban.md` for a tasks related to your current prompt.
+  - read related tasks
+  - either pick one of these tasks or create a new task to track your work this session
 
 ## While working
 
@@ -21,17 +19,6 @@
     | grep -E '\.(ts|tsx)$' \
     | xargs -r pnpm exec eslint --cache --max-warnings=0
   ```
-
-## Create CURRENT artifacts (optional, time-boxed)
-
-* To compare your changes:
-
-  ```bash
-  TIMEOUT_SECS=${TIMEOUT_SECS:-90} STRICT=0 bash run/codex_maintenance.sh
-  ```
-
-  This writes a timestamped run and updates `docs/reports/codex_cloud/latest/`.
-
 ## Compare vs baseline
 
 * NEW/FIXED ESLint by set-diff on `file:line:col:ruleId` from `eslint.json`.
@@ -46,6 +33,10 @@
   * No **new** test failures.
   * `pnpm install` succeeds.
 
-## PR
-
-* Reference the issue and link `docs/reports/codex_cloud/latest/INDEX.md`.
+### Edit discipline
+- If a path is missing or a file isn’t yet committed, do **not** rm/mv; write a new note under `docs/` and link it from the task.
+- When you cannot complete the full request, check in partial artifacts (audit logs, inventories, findings) and reference them from the task so handoff is actionable.
+- At session end, if no PR is ready, produce a **task update + artifacts** and use one of the safe transitions:
+  - InProgress → Todo  (coherent next step; WIP allows)
+  - InProgress → Breakdown  (slice needs re-plan)
+  - Stay in InProgress with a minor blocker if WIP prevents movement.

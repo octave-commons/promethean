@@ -1,0 +1,30 @@
+{
+  "name": "@promethean/webcrawler-service",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "clean": "rimraf dist",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "pnpm run build && ava --config ../../config/ava.config.mjs",
+    "lint": "pnpm exec eslint .",
+    "coverage": "pnpm run build && c8 ava --config ../../config/ava.config.mjs",
+    "format": "pnpm exec prettier --write ."
+  },
+  "dependencies": {
+    "@promethean/web-utils": "workspace:*",
+    "cheerio": "1.0.0-rc.12",
+    "fastify": "5.3.2",
+    "robots-parser": "3.0.0",
+    "turndown": "7.2.0"
+  },
+  "devDependencies": {
+    "ava": "5.3.1"
+  }
+}
