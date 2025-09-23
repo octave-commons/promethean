@@ -277,9 +277,9 @@ export function startKanbanProcessor(repoRoot = defaultRepoRoot) {
     return out;
   };
 
-  const stageBoardWrite = (data: string) => {
+  const stageBoardWrite = (target: string, data: string) => {
     updateBuffer(boardEntity, (state) => {
-      state.writes.push({ path: boardPath, data, encoding: "utf8" });
+      state.writes.push({ path: target, data, encoding: "utf8" });
     });
   };
 
