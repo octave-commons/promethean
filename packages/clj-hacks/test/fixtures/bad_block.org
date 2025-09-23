@@ -1,0 +1,4 @@
+#+BEGIN_SRC emacs-lisp
+(defun broken-block ()
+  (message "hi")
+#+END_SRC

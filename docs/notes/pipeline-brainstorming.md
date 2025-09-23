@@ -218,13 +218,13 @@ pipelines:
   - name: board-sync
     steps:
       - id: fetch-kanban
-        cwd: tools/board
+        cwd: packages/kanban/src/board
         shell: "pnpm tsx fetch-kanban.ts --url  --out .cache/board/kanban.md"
         inputs: []
         outputs: [".cache/board/kanban.md"]
       - id: normalize
         deps: ["fetch-kanban"]
-        cwd: tools/board
+        cwd: packages/kanban/src/board
         shell: "pnpm tsx normalize-kanban.ts .cache/board/kanban.md --out .cache/board/normalized.json"
         inputs: [".cache/board/kanban.md"]
         outputs: [".cache/board/normalized.json"]

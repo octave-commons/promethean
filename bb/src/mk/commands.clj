@@ -1,10 +1,8 @@
 (ns mk.commands
-  (:require [mk.python :as py]
-            [mk.node :as js]
-            [mk.hy :as hy]
+  (:require [mk.node :as js]
             [mk.util :as u]
+            [clojure.string :as str]
             [mk.configs :as cfg]
-            [babashka.process :as p]
             [babashka.fs :as fs]))
 
 ;; Root tasks ---------------------------------------------------------------
@@ -14,8 +12,7 @@
 
 (defn clean []
   (js/clean-js)
-  (js/clean-ts)
-  (py/clean-python))
+  (js/clean-ts))
 
 (defn distclean []
   (println "[distclean] Removing ignored files repo-wide via git clean -fdX")
@@ -23,7 +20,6 @@
   (println "[distclean] Done. Tracked files untouched."))
 
 (defn lint []
-  (py/lint-python)
   (js/lint-js)
   (js/lint-ts))
 
@@ -32,44 +28,72 @@
     (u/sh! "pnpm exec tsx scripts/lint-topics.ts" {:shell true})
     (u/sh! ["npx" "tsx" "scripts/lint-topics.ts"])) )
 
+(defn validate-elisp []
+  (when-not (u/has-cmd? "clojure")
+    (throw (ex-info "clojure CLI (clojure) is required for elisp validation" {})))
+  (let [root ".emacs/layers"]
+    (if-not (fs/exists? root)
+      (println "[validate-elisp] Skipping: .emacs/layers not found")
+      (let [patterns ["**/*.el" "**/*.org"]
+            files (->> patterns
+                       (mapcat #(fs/glob root %))
+                       (map fs/absolutize)
+                       (map str)
+                       sort
+                       vec)]
+        (if (seq files)
+          (u/sh! (into ["clojure" "-M:validate"] files)
+                 {:dir "packages/clj-hacks"})
+          (println "[validate-elisp] No Lisp sources found under .emacs/layers"))))))
+
 (defn test []
-  (py/test-python)
-  (hy/test-hy)
   (js/test-js)
-  (js/test-ts))
+  (js/test-ts)
+  (validate-elisp))
+
+
+(defn- ava-files [patterns]
+  (->> patterns
+       (mapcat #(fs/glob "." %))
+       (map fs/absolutize)
+       (map str)
+       sort
+       vec))
+
+(defn- run-ava [patterns]
+  (if (u/has-pnpm?)
+    (let [files (ava-files patterns)]
+      (if (seq files)
+        (u/sh! (into ["pnpm" "exec" "ava"] files))
+        (println (format "[ava] No test files matched patterns: %s"
+                         (str/join ", " patterns)))))
+    (u/require-pnpm)))
 
 (defn test-integration []
-  (u/sh! "python -m pytest tests/integration" {:shell true}))
+  (run-ava ["tests/integration/**/*.test.js"]))
 
 (defn test-e2e []
-  (if (u/has-cmd? "pipenv")
-    (u/sh! "python -m pipenv run pytest tests/e2e || true" {:shell true})
-    (u/sh! "pytest tests/e2e || true" {:shell true})))
+  (run-ava ["tests/e2e/**/*.test.js"]))
 
 (defn format-code []
-  (py/format-python)
   (js/format-js)
   (js/format-ts))
 
 (defn coverage []
-  (py/coverage-python)
   (js/coverage-js)
   (js/coverage-ts))
 
 (defn setup []
   (println "Setting up all services...")
-  (py/setup-python)
   (js/setup-js)
   (js/setup-ts)
-  (hy/setup-hy)
   (println "[note] sibilant setup not ported; skipping")
   (when-not (u/has-cmd? "pm2")
     (u/sh! ["npm" "install" "-g" "pm2"])) )
 
 (defn setup-quick []
-  (println "Quick setup using requirements.txt files...")
-  (py/setup-python-quick)
-  ;; Use pnpm workspace for efficient install
+  (println "Quick setup using pnpm workspace installs...")
+
   (println "Installing all workspace dependencies...")
   (if (u/has-pnpm?)
     (do
@@ -78,7 +102,6 @@
       ;; Build shared TS to create bin files
       (u/sh! "pnpm -r --filter @shared/ts run build" {:shell true}))
     (u/require-pnpm))
-  (hy/setup-hy)
   (println "[note] sibilant setup not ported; skipping")
   (when-not (u/has-cmd? "pm2")
     (u/sh! ["npm" "install" "-g" "pm2"])) )
@@ -97,22 +120,6 @@
     (doseq [wheel (fs/glob artifact-dir "*.whl")]
       (u/sh! ["pip" "install" (str wheel)]))
     (println "GitHub Actions artifact installation complete")))
-
-(defn- gpu-build? [d]
-  (= (cfg/reqs-file-for d) "requirements.gpu.in"))
-
-(defn probe-python-service []
-  (let [service (or (System/getenv "service") (System/getenv "SERVICE"))
-        d (str (fs/path "services/py" (or service "")))]
-    (when-not service (throw (ex-info "SERVICE env required" {})))
-    (if (u/has-uv?)
-      (u/cuda-probe d (gpu-build? d))
-      (println "uv not found; probe requires uv"))))
-
-(defn probe-python-services []
-  (when (u/has-uv?)
-    (doseq [d cfg/services-py]
-      (u/cuda-probe d (gpu-build? d)))))
 
 (defn system-deps []
   (if (System/getenv "SIMULATE_CI")
@@ -146,9 +153,7 @@
 (defn lint-tasks [] (u/sh! ["pnpm" "lint:tasks"]))
 
 (defn simulate-ci []
-  (if-let [job (System/getenv "SIMULATE_CI_JOB")]
-    (u/sh! ["python" "scripts/simulate_ci.py" "--job" job])
-    (u/sh! ["python" "scripts/simulate_ci.py"])) )
+  (println "[simulate-ci] No JavaScript workflow defined; skipping"))
 
 (defn snapshot []
   (let [fmt (java.text.SimpleDateFormat. "yyyy.MM.dd")

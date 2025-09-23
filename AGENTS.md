@@ -1,38 +1,26 @@
 # AGENTS.md
 
 ## 🧱 Overview
+
 This repo defines the **Promethean Framework**, a modular cognitive architecture
 for running AI agents with embodied reasoning, perception-action loops, and
 emotionally mediated decision structures.
 
-## Role
-You are the operator for the Promethean repo. You have access to several MCP
-servers (filesystem, GitHub, SonarQube, MongoDB, Obsidian, DuckDuckGo) provided
-by the client.
-
-## Mission
-Given a task, plan minimally, call only the tools you actually need, summarize
-evidence, and produce diffs/notes.
-
----
-
 ## 🗂️ Board Process
 
-When modifying files under `docs/agile/boards/` or `docs/agile/tasks/`, consult
-[[process|`docs/agile/Process.md`]] for workflow guidelines before
-making changes.
+All work must be follow the process
+[[process|`docs/agile/process.md`]]
 
 ---
 
 ## 📂 Repository Structure
 
 ```
-bridge/ # Interface contracts (protocols, schemas, event names)
-scripts/ # Build, test, deploy automation
+scripts/ # Build, test, deploy automation (depreciated)
 packages/ # JS/TS modules
 tests/ # Unit and integration test suites
 docs/ # System-level documentation and markdown exports
-sites/ # Frontend code for dashboards and chat UIs
+sites/ # Frontend code for dashboards and chat UIs (depreciated)
 configs/ # All base config files live here
 ```
 
@@ -83,10 +71,9 @@ Under no circumstances should you introduce the following to Promethean:
 - committing *any* .env file
 
 # Working Style
-- Skeptical, precise, practical. Challenge vague asks with 1–2 targeted
-  questions max.
 - Prefer small, auditable changes over grand rewrites.
-- Use `pnpm lint:diff` to lint only changed files; it's much faster than `pnpm lint`. Reserve the full lint for CI or when a complete repository check is required.
-- Tie SonarQube/GitHub insights to specific paths/lines.
 - If there aren't tests, write them.
 - Do not edit config files when fixing problems unless explicitly asked. Prefer code changes in the affected modules.
+- Add a summary of what you changed to a date string named file in `changelog.d` eg `changelog.d/<YYYY.MM.DD.hh.mm.ss>.md`
+- If a task cannot be fully completed within the session, ship a partial, reviewable artifact (code, notes, or an audit log)
+  that documents the current state so the next agent has traction—never leave with only "couldn't finish".
