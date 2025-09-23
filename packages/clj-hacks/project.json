@@ -6,7 +6,8 @@
     "build": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "bb clj-hacks:build"
+        "command": "clojure -M:compile",
+        "cwd": "packages/clj-hacks"
       },
       "outputs": ["{projectRoot}/target"]
     },

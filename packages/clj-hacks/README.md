@@ -28,8 +28,8 @@ create `packages/clj-hacks/target/classes` when needed.
 
 ## Nx integration
 
-`packages/clj-hacks/project.json` is wired to the Babashka tasks, so the
-standard Nx workflows delegate to the Lisp toolchain:
+`packages/clj-hacks/project.json` is wired to the Clojure CLI aliases, so the
+standard Nx workflows delegate directly to the Lisp toolchain:
 
 ```sh
 pnpm nx run ts-clj-hacks:build
@@ -37,8 +37,8 @@ pnpm nx run ts-clj-hacks:lint
 pnpm nx run ts-clj-hacks:test
 ```
 
-These commands call the same Babashka tasks listed above, allowing Nx
-automation and local development to stay in sync.
+The build target invokes `clojure -M:compile`, while lint and test still reuse
+the Babashka entry points so automation and local development stay in sync.
 
 ## Linting and tests
 
