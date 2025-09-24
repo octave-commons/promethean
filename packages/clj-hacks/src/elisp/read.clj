@@ -1,10 +1,14 @@
 (ns elisp.read
-  (:import [org.treesitter TSParser TSNode]
+  (:import [org.treesitter TSParser TSNode TSLanguage]
            ;; class name follows the pattern used by other bundles
            [org.treesitter TreeSitterElisp]))
 
+(def ^TSLanguage elisp-language
+  "Shared Elisp grammar handle exposed by the tree-sitter bundle."
+  (TreeSitterElisp.))
+
 (defn ^TSParser mk-parser []
-  (doto (TSParser.) (.setLanguage (TreeSitterElisp/getLanguage))))
+  (doto (TSParser.) (.setLanguage elisp-language)))
 
 (defn parse-root ^TSNode [^String src]
   (let [parser (mk-parser)]
