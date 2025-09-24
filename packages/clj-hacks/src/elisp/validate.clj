@@ -2,7 +2,7 @@
   (:require [clojure.java.io :as io]
             [clojure.string :as str]
             [elisp.read :as read])
-  (:import [io.github.bonede.treesitter TSNode]
+  (:import [org.treesitter TSNode]
            [java.nio.file Paths]))
 
 (def ^:private org-lang-pattern

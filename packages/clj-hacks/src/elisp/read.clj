@@ -1,7 +1,7 @@
 (ns elisp.read
-  (:import [io.github.bonede.treesitter TSParser TSNode]
+  (:import [org.treesitter TSParser TSNode]
            ;; class name follows the pattern used by other bundles
-           [io.github.bonede.treesitter.elisp TreeSitterElisp]))
+           [org.treesitter TreeSitterElisp]))
 
 (defn ^TSParser mk-parser []
   (doto (TSParser.) (.setLanguage (TreeSitterElisp/getLanguage))))
