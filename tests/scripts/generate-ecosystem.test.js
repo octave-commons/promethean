@@ -26,17 +26,18 @@ test("aggregates apps from edn definitions", async (t) => {
   );
 
   const outputDir = path.join(tmpRoot, "out");
+  const packageRoot = path.join(process.cwd(), "packages", "shadow-conf");
+  const manifestPath = path.join(packageRoot, "package.json");
+  const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
+  const relativeBinPath = manifest.bin?.["shadow-conf"];
+  if (typeof relativeBinPath !== "string") {
+    throw new Error("shadow-conf bin path missing from package manifest");
+  }
+  const binPath = path.join(packageRoot, relativeBinPath);
+
   execFileSync(
-    "pnpm",
-    [
-      "exec",
-      "shadow-conf",
-      "ecosystem",
-      "--input-dir",
-      inputDir,
-      "--out",
-      outputDir,
-    ],
+    "node",
+    [binPath, "ecosystem", "--input-dir", inputDir, "--out", outputDir],
     { stdio: "inherit" },
   );
 
