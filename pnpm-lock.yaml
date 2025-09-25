@@ -2455,6 +2455,9 @@ importers:
       '@promethean/markdown':
         specifier: workspace:*
         version: link:../markdown
+      mongodb:
+        specifier: ^6.18.0
+        version: 6.18.0(socks@2.8.7)
     devDependencies:
       typescript:
         specifier: ^5.4.0
