@@ -241,6 +241,8 @@ kanban-plugin: board
 - [ ] [[gpt-bridge-fuzzy-lookup-should-return-multiple-matches-when-it-is-used.|gpt bridge fuzzy lookup should return multiple matches when it is used.]] #framework-core #ready
 - [ ] [[add-codex-layer-to-emacs|Add codex layer to emacs]] #ready
 - [ ] discord bot squad
+- [ ] piper mermaid diagram spec
+- [ ] documentation coverage stats
 
 
 ## Accepted
@@ -261,6 +263,7 @@ kanban-plugin: board
 - [ ] [[integrate-sonarqube-into-devops]] #incoming
 - [ ] [[tree-diffing-tools]]
 - [ ] [[Setup Identity Experiment]]
+- [ ] clojure codex web dev debug and setup
 
 
 ## Breakdown (13)
