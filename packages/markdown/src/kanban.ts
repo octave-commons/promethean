@@ -80,12 +80,13 @@ export type KanbanSettings = {
 const ID_COMMENT_PREFIX = 'id:';
 
 function unescapeAttrValue(value: string, quote: '"' | "'" | null): string {
-    let result = value.replace(/\\\\/g, '\\');
+    let result = value;
     if (quote === '"') {
         result = result.replace(/\\"/g, '"');
     } else if (quote === "'") {
         result = result.replace(/\\'/g, "'");
     }
+    result = result.replace(/\\\\/g, '\\');
     return result;
 }
 
