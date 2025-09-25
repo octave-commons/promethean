@@ -4,10 +4,10 @@ This service monitors the local kanban board and task files, and now also
 watches the entire repository for file changes to keep the SmartGPT bridge
 index up to date.
 
-- When `docs/agile/boards/kanban.md` changes it runs `kanban_to_hashtags.py` to
+- When `docs/agile/boards/kanban.md` changes it calls `pnpm kanban push` to
   update the task files.
-- When any document under `docs/agile/tasks/` changes it runs
-  `hashtags_to_kanban.py` and writes the output back to the board.
+- When any document under `docs/agile/tasks/` changes it calls
+  `pnpm kanban pull` and writes the output back to the board.
 - When a new task is created the service calls the LLM HTTP endpoint to
   generate a starter task stub.
 
