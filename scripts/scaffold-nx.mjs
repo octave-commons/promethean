@@ -132,7 +132,7 @@ async function scaffoldPackage(dirent) {
   const avaPath = path.join(pkgRoot, "ava.config.mjs");
   await writeIfMissing(
     avaPath,
-    `export { default } from "../../config/ava.config.base.mjs";\n`,
+    `export { default } from "../../config/ava.config.mjs";\n`,
   );
 
   // .eslintrc.cjs (extends)
