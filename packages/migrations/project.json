@@ -1,5 +1,5 @@
 {
-    "name": "ts-migrations",
+    "name": "@promethean/migrations",
     "root": "packages/migrations",
     "sourceRoot": "packages/migrations/src",
     "targets": {

@@ -1,5 +1,5 @@
 {
-  "name": "ts-codemods",
+  "name": "@promethean/codemods",
   "root": "packages/codemods",
   "sourceRoot": "packages/codemods/src",
   "targets": {

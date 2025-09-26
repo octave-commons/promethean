@@ -1,5 +1,5 @@
 {
-    "name": "ts-ds",
+    "name": "@promethean/ds",
     "root": "packages/ds",
     "sourceRoot": "packages/ds/src",
     "targets": {

@@ -1,5 +1,5 @@
 {
-    "name": "ts-persistence",
+    "name": "@promethean/persistence",
     "root": "packages/persistence",
     "sourceRoot": "packages/persistence/src",
     "targets": {
