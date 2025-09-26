@@ -11,7 +11,7 @@
      (str/split (str s) (re-pattern re)))))
 
 (defn- strip-quotes [s]
-  (str/replace s #"^\\\"|\\\"$" ""))
+  (str/replace s #"^\"|\"$" ""))
 
 (defn- parse-array [s]
   (let [body (subs s 1 (dec (count s)))]
