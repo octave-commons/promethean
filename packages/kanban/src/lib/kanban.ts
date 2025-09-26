@@ -1,4 +1,5 @@
 import { promises as fs } from "node:fs";
+
 import { parseFrontmatter as parseMarkdownFrontmatter } from "@promethean/markdown/frontmatter";
 import type { Board, ColumnData, Task } from "./types.js";
 
@@ -6,11 +7,12 @@ const NOW_ISO = () => new Date().toISOString();
 
 const parseLimit = (header: string): number | null => {
   // look for "(limit 3)" or "[wip:3]" or "# wip=3"
-  const m =
-    header.match(/\((?:wip|limit)\s*[:=]\s*(\d+)\)/i) ||
-    header.match(/\[\s*(?:wip|limit)\s*[:=]\s*(\d+)\s*\]/i) ||
+  const match =
+    header.match(/\((?:wip|limit)\s*[:=]\s*(\d+)\)/i) ??
+    header.match(/\[\s*(?:wip|limit)\s*[:=]\s*(\d+)\s*\]/i) ??
     header.match(/(?:wip|limit)\s*[:=]\s*(\d+)/i);
-  return m ? parseInt(m[1], 10) : null;
+  const value = match?.[1];
+  return value ? parseInt(value, 10) : null;
 };
 
 const parseColumnsFromMarkdown = (markdown: string): ColumnData[] => {
@@ -18,12 +20,11 @@ const parseColumnsFromMarkdown = (markdown: string): ColumnData[] => {
   const columns: ColumnData[] = [];
   let current: ColumnData | null = null;
 
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i];
-
-    const h = /^##\s+(.+)$/.exec(line);
-    if (h) {
-      const name = h[1].trim();
+  for (const line of lines) {
+    const headerMatch = /^##\s+(.+)$/.exec(line);
+    if (headerMatch?.[1]) {
+      const [, rawName] = headerMatch;
+      const name = rawName.trim();
       current = { name, count: 0, limit: parseLimit(name), tasks: [] };
       columns.push(current);
       continue;
@@ -33,34 +34,35 @@ const parseColumnsFromMarkdown = (markdown: string): ColumnData[] => {
 
     // list item like "- [ ] Title #label (uuid:xxx)"
     const taskMatch = /^-\s+\[(x|\s)\]\s+(.+)$/.exec(line);
-    if (taskMatch) {
-      const titlePart = taskMatch[2].trim();
+    if (taskMatch?.[2]) {
+      const [, doneFlag, rawTitle] = taskMatch;
+      const titlePart = rawTitle.trim();
       const uuidMatch = titlePart.match(/\(uuid:([0-9a-fA-F-]{8,})\)/);
-      const uuid = uuidMatch ? uuidMatch[1] : cryptoRandomUUID();
-      const labels = Array.from(titlePart.matchAll(/#([\w-]+)/g)).map(
-        (m) => m[1],
-      );
+      const uuid = uuidMatch?.[1] ?? cryptoRandomUUID();
+      const labels = Array.from(titlePart.matchAll(/#([\w-]+)/g))
+        .map(([, label]) => label)
+        .filter((label): label is string => Boolean(label));
       const prioMatch = titlePart.match(/\bprio[:=](\w+)\b/i);
-      const priority = prioMatch ? prioMatch[1] : undefined;
+      const priority = prioMatch?.[1];
       const title = titlePart
         .replace(/\(uuid:[^)]+\)/g, "")
         .replace(/#\w+/g, "")
         .replace(/\bprio[:=]\w+\b/gi, "")
         .trim();
 
-      const done = taskMatch[1] === "x";
+      const done = doneFlag === "x";
       const status = done ? "Done" : current.name;
 
       const task: Task = {
         uuid,
         title,
         status,
-        priority,
-        labels,
         created_at: NOW_ISO(),
         estimates: {},
         content: "",
       };
+      if (labels.length > 0) task.labels = labels;
+      if (priority) task.priority = priority;
       current.tasks.push(task);
       current.count += 1;
       continue;
@@ -97,8 +99,9 @@ const taskFromFM = (fm: FM, body: string): Task | null => {
         : [],
     created_at: fm.created_at ?? NOW_ISO(),
     estimates: fm.estimates ?? {},
-    content: (body ?? "").trim() || undefined,
   };
+  const trimmedBody = body.trim();
+  if (trimmedBody) t.content = trimmedBody;
   return t;
 };
 
@@ -262,8 +265,9 @@ export const moveTask = async (
       const newIdx = Math.max(0, Math.min(col.tasks.length - 1, idx + delta));
       if (newIdx !== idx) {
         const next = [...col.tasks];
-        const [t] = next.splice(idx, 1);
-        next.splice(newIdx, 0, t);
+        const removed = next.splice(idx, 1)[0];
+        if (!removed) continue;
+        next.splice(newIdx, 0, removed);
         col.tasks = next;
       }
       await writeBoard(boardPath, board);

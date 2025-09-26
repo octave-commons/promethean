@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { resolve } from "node:path";
 import { parseArgs } from "node:util";
+
 import {
   loadBoard,
   countTasks,
@@ -32,6 +33,17 @@ const { values, positionals } = parseArgs({
 const KANBAN = resolve(process.cwd(), process.env.KANBAN_PATH || values.kanban);
 const TASKS = resolve(process.cwd(), process.env.TASKS_PATH || values.tasks);
 
+const requireArg = (value: string | undefined, name: string): string => {
+  if (typeof value !== "string" || value.trim() === "") {
+    console.error(`Missing ${name} argument.`);
+    process.exit(2);
+  }
+  return value;
+};
+
+const hasStack = (error: unknown): error is { stack: unknown } =>
+  typeof error === "object" && error !== null && "stack" in error;
+
 async function main() {
   const [cmd, ...args] = positionals;
 
@@ -52,21 +64,21 @@ async function main() {
       break;
     }
     case "getColumn": {
-      const column = args[0];
+      const column = requireArg(args[0], "column");
       const board = await loadBoard(KANBAN, TASKS);
       const colData = getColumn(board, column);
       printJSONL(colData);
       break;
     }
     case "getByColumn": {
-      const column = args[0];
+      const column = requireArg(args[0], "column");
       const board = await loadBoard(KANBAN, TASKS);
       const tasks = getTasksByColumn(board, column);
       printJSONL(tasks);
       break;
     }
     case "find": {
-      const id = args[0];
+      const id = requireArg(args[0], "task id");
       const board = await loadBoard(KANBAN, TASKS);
       const t = findTaskById(board, id);
       if (t) printJSONL(t);
@@ -80,21 +92,22 @@ async function main() {
       break;
     }
     case "update_status": {
-      const [id, newStatus] = args;
+      const id = requireArg(args[0], "task id");
+      const newStatus = requireArg(args[1], "status");
       const board = await loadBoard(KANBAN, TASKS);
       const updated = await updateStatus(board, id, newStatus, KANBAN);
       printJSONL(updated);
       break;
     }
     case "move_up": {
-      const [id] = args;
+      const id = requireArg(args[0], "task id");
       const board = await loadBoard(KANBAN, TASKS);
       const res = await moveTask(board, id, -1, KANBAN);
       printJSONL(res);
       break;
     }
     case "move_down": {
-      const [id] = args;
+      const id = requireArg(args[0], "task id");
       const board = await loadBoard(KANBAN, TASKS);
       const res = await moveTask(board, id, +1, KANBAN);
       printJSONL(res);
@@ -141,7 +154,11 @@ async function main() {
   }
 }
 
-main().catch((err) => {
-  console.error(err?.stack || String(err));
+main().catch((err: unknown) => {
+  if (hasStack(err) && typeof err.stack === "string" && err.stack.trim()) {
+    console.error(err.stack);
+  } else {
+    console.error(String(err));
+  }
   process.exit(1);
 });
