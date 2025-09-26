@@ -576,6 +576,9 @@ importers:
         specifier: ^8.17.0
         version: 8.18.3
     devDependencies:
+      '@promethean/broker':
+        specifier: workspace:*
+        version: link:../broker
       '@promethean/pm2-helpers':
         specifier: workspace:*
         version: link:../pm2-helpers
