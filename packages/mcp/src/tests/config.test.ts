@@ -33,6 +33,22 @@ test("resolveHttpEndpoints normalizes endpoint paths", (t) => {
   ]);
 });
 
+test("resolveHttpEndpoints retains legacy /mcp when endpoints present", (t) => {
+  const cfg: AppConfig = {
+    transport: "http",
+    tools: ["files.view-file"],
+    endpoints: {
+      "github/mcp": { tools: ["github.request"] },
+    },
+  };
+
+  const result = resolveHttpEndpoints(cfg);
+  t.deepEqual(result, [
+    { path: "/mcp", tools: ["files.view-file"] },
+    { path: "/github/mcp", tools: ["github.request"] },
+  ]);
+});
+
 test("resolveStdioTools prefers top-level tools", (t) => {
   const cfg: AppConfig = {
     transport: "stdio",
