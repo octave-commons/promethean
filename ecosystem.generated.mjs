@@ -324,7 +324,7 @@ export const apps = [
       EMBEDDING_FUNCTION: "nomic-embed-text",
       EMBED_DIMS: "768",
       BROKER_URL: "ws://localhost:7000",
-      SHARED_IMPORT: "@shared/js/brokerClient.js",
+      SHARED_IMPORT: "@promethean/legacy/brokerClient.js",
       CODEX_BIN: "/home/err/.volta/bin/codex",
       CODEX_ARGS: "",
       AGENT_MAX_LOG_BYTES: "524288",
