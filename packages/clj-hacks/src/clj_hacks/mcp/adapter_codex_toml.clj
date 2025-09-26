@@ -36,36 +36,35 @@
 
       :else v)))
 
-(defn- flush-table [tables cur]
-  (if-let [{:keys [name entries]} cur]
-    (assoc tables name entries)
-    tables))
+(def ^:private table-header-re #"\[\s*mcp_servers\.(.+?)\s*\]")
+(def ^:private key-value-re #"^([^=\s]+)\s*=\s*(.+)$")
 
 (defn- normalize-table-name [inner]
   (-> inner str/trim strip-quotes))
 
 (defn- extract-mcp-tables [s]
   ;; Returns {:tables {name {command .. args ..}} :rest-string "..."}
-  (let [lines (str/split s #"\\r?\\n")]
+  (let [lines (str/split s #"\r?\n")]
     (loop [[ln & more] lines
-           cur nil
+           cur-name nil
+           cur-entries {}
            tables (sorted-map)
            rest-lines []]
       (if (nil? ln)
-        {:tables (flush-table tables cur)
-         :rest-string (str/join "\n" rest-lines)}
-        (if-let [[_ inner] (re-matches #"\\[\\s*mcp_servers\\.(.+?)\\s*\\]" ln)]
-          (recur more {:name (normalize-table-name inner) :entries {}}
-                 (flush-table tables cur)
-                 rest-lines)
-          (if-let [[_ k v] (re-matches #"^([^=\s]+)\\s*=\\s*(.+)$" ln)]
-            (if cur
-              (recur more
-                     (update cur :entries assoc k (parse-value v))
-                     tables
-                     rest-lines)
-              (recur more cur tables (conj rest-lines ln)))
-            (recur more cur tables (conj rest-lines ln))))))))
+        (let [tables' (cond-> tables
+                         cur-name (assoc cur-name cur-entries))]
+          {:tables tables'
+           :rest-string (str/join "\n" rest-lines)})
+        (if-let [[_ inner] (re-matches table-header-re ln)]
+          (let [tables' (cond-> tables
+                          cur-name (assoc cur-name cur-entries))
+                name (normalize-table-name inner)]
+            (recur more name {} tables' rest-lines))
+          (if-let [[_ k v] (re-matches key-value-re ln)]
+            (if cur-name
+              (recur more cur-name (assoc cur-entries k (parse-value v)) tables rest-lines)
+              (recur more cur-name cur-entries tables (conj rest-lines ln)))
+            (recur more cur-name cur-entries tables (conj rest-lines ln))))))))
 
 (defn read-full [path]
   (let [s (slurp path)
