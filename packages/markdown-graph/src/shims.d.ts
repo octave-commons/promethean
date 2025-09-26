@@ -1,2 +1,2 @@
 declare module "@promethean/persistence";
-declare module "@shared/js/serviceTemplate.js";
+declare module "@promethean/legacy/serviceTemplate.js";
