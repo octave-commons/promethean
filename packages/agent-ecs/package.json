@@ -23,7 +23,7 @@
         "typecheck": "tsc -p tsconfig.json --noEmit",
         "test": "pnpm run build && ava",
         "lint": "pnpm exec eslint .",
-        "coverage": "pnpm run build && c8 avas",
+        "coverage": "pnpm run build && c8 ava",
         "test:markdown": "pnpm run build && ava",
         "format": "pnpm exec prettier --write ."
     },
