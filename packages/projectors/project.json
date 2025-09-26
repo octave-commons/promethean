@@ -1,5 +1,5 @@
 {
-    "name": "ts-projectors",
+    "name": "@promethean/projectors",
     "root": "packages/projectors",
     "sourceRoot": "packages/projectors/src",
     "targets": {

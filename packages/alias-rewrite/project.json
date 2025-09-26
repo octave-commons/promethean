@@ -1,5 +1,5 @@
 {
-  "name": "ts-alias-rewrite",
+  "name": "@promethean/alias-rewrite",
   "root": "packages/alias-rewrite",
   "sourceRoot": "packages/alias-rewrite/src",
   "targets": {

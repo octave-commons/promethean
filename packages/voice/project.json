@@ -1,5 +1,5 @@
 {
-  "name": "ts-voice",
+  "name": "@promethean/voice-service",
   "root": "packages/voice",
   "sourceRoot": "packages/voice/src",
   "targets": {

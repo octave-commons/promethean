@@ -1,5 +1,5 @@
 {
-  "name": "ts-docops",
+  "name": "@promethean/docops",
   "root": "packages/docops",
   "sourceRoot": "packages/docops/src",
   "targets": {
