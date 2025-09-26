@@ -91,7 +91,16 @@ export const injectAnchors = (content: string, want: ReadonlyArray<AnchorTarget>
         return i;
     };
 
+    const anchorExistsOutside = (id: string): boolean =>
+        lines.some((line, idx) => {
+            if (inside[idx]) return false;
+            const trimmed = line.trim();
+            if (trimmed === `^${id}`) return true;
+            return trimmed.endsWith(` ^${id}`);
+        });
+
     for (const { line, id } of anchors) {
+        if (anchorExistsOutside(id)) continue;
         const idx = Math.max(1, Math.min(line, lines.length)) - 1;
         if (hasIdOnOrNext(idx, id)) continue;
         if (inside[idx]) {
