@@ -1,6 +1,6 @@
 import { join } from "path";
 
-import { BrokerClient } from "@shared/js/brokerClient.js";
+import { BrokerClient } from "@promethean/legacy/brokerClient.js";
 import { configDotenv } from "dotenv";
 
 import { createBoardWatcher } from "./board-watcher.js";
@@ -12,7 +12,7 @@ export type FileWatcherOptions = {
   repoRoot?: string;
   publish?: (type: string, payload: any) => void;
   maxConcurrentLLMTasks?: number;
-}
+};
 
 const defaultRepoRoot = process.env.REPO_ROOT || "";
 

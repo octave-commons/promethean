@@ -6,7 +6,7 @@
 interval based on the rate of published messages.
 
 ## Dependencies
-- @shared/js/brokerClient.js
+- @promethean/legacy/brokerClient.js
 - ./agent
 
 ## Dependents
