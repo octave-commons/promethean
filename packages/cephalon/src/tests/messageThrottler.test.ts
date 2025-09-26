@@ -1,6 +1,3 @@
-import path from "path";
-import { fileURLToPath } from "url";
-
 import test from "ava";
 import { sleep } from "@promethean/utils";
 
@@ -10,11 +7,8 @@ import type { Bot } from "../bot.js";
 import { initMessageThrottler } from "../messageThrottler.js";
 process.env.DISABLE_AUDIO = "1";
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // @ts-ignore dynamic import of JS module without types
-const brokerModule = await import(
-  path.resolve(__dirname, "../../../../js/broker/index.js")
-);
+const brokerModule = await import("@promethean/broker");
 const { start: startBroker, stop: stopBroker } = brokerModule;
 
 test.skip("throttles tick interval based on messages", async (t) => {
