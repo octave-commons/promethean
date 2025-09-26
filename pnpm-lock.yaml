@@ -416,6 +416,9 @@ importers:
         specifier: ^5.9.6
         version: 5.10.0
     devDependencies:
+      '@promethean/broker':
+        specifier: workspace:*
+        version: link:../broker
       '@promethean/pm2-helpers':
         specifier: workspace:*
         version: link:../pm2-helpers
