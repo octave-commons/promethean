@@ -1,5 +1,5 @@
 {
-  "name": "ts-buildfix",
+  "name": "@promethean/buildfix",
   "root": "packages/buildfix",
   "sourceRoot": "packages/buildfix/src",
   "targets": {
@@ -9,9 +9,7 @@
         "command": "tsc -b",
         "cwd": "packages/buildfix"
       },
-      "outputs": [
-        "{projectRoot}/dist"
-      ]
+      "outputs": ["{projectRoot}/dist"]
     },
     "typecheck": {
       "executor": "nx:run-commands",
@@ -36,8 +34,6 @@
       }
     }
   },
-  "tags": [
-    "scope:packages"
-  ],
+  "tags": ["scope:packages"],
   "pipelines": "pipelines.json"
 }

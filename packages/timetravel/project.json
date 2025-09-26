@@ -1,5 +1,5 @@
 {
-    "name": "ts-timetravel",
+    "name": "@promethean/timetravel",
     "root": "packages/timetravel",
     "sourceRoot": "packages/timetravel/src",
     "targets": {

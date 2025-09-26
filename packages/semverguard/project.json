@@ -1,5 +1,5 @@
 {
-  "name": "ts-semverguard",
+  "name": "@promethean/semverguard",
   "root": "packages/semverguard",
   "sourceRoot": "packages/semverguard/src",
   "targets": {

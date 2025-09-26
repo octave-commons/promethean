@@ -1,5 +1,5 @@
 {
-  "name": "mcp",
+  "name": "@promethean/mcp",
   "root": "packages/mcp",
   "sourceRoot": "packages/mcp/src",
   "targets": {
