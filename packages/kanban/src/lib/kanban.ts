@@ -1,4 +1,5 @@
 import { promises as fs } from "node:fs";
+import { randomUUID } from "node:crypto";
 import { parseFrontmatter as parseMarkdownFrontmatter } from "@promethean/markdown/frontmatter";
 import type { Board, ColumnData, Task } from "./types.js";
 
@@ -69,12 +70,7 @@ const parseColumnsFromMarkdown = (markdown: string): ColumnData[] => {
   return columns;
 };
 
-const cryptoRandomUUID = (): string =>
-  "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
-    const r = (Math.random() * 16) | 0;
-    const v = c === "x" ? r : (r & 0x3) | 0x8;
-    return v.toString(16);
-  });
+const cryptoRandomUUID = (): string => randomUUID();
 
 type FM = Record<string, any>;
 
