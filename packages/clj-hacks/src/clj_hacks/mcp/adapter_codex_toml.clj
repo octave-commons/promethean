@@ -15,10 +15,9 @@
 
 (defn- parse-array [s]
   (let [body (subs s 1 (dec (count s)))]
-    (->> (splitr body #"\\s*,\\s*")
-         (map str/trim)
+    (->> (str/split body #",")
+         (map #(-> % str/trim strip-quotes))
          (remove str/blank?)
-         (map strip-quotes)
          vec)))
 
 (defn- parse-value [raw]
@@ -66,15 +65,29 @@
               (recur more cur-name cur-entries tables (conj rest-lines ln)))
             (recur more cur-name cur-entries tables (conj rest-lines ln))))))))
 
+(defn- sanitize-command [c]
+  (some-> c strip-quotes))
+
+(defn- sanitize-args [args]
+  (when (seq args)
+    (->> args
+         (map strip-quotes)
+         (remove str/blank?)
+         vec)))
+
 (defn read-full [path]
   (let [s (slurp path)
         {:keys [tables rest-string]} (extract-mcp-tables s)
         mcp {:mcp-servers
              (into (sorted-map)
                    (for [[nm kv] tables]
-                     [(keyword nm)
-                      (cond-> {:command (get kv "command")}
-                        (seq (get kv "args")) (assoc :args (vec (get kv "args"))))]))}]
+                     (let [name (keyword (strip-quotes nm))
+                           command (sanitize-command (get kv "command"))
+                           args (sanitize-args (get kv "args"))
+                           entry (cond-> {}
+                                    command (assoc :command command)
+                                    (seq args) (assoc :args args))]
+                       [name entry])))}]
     {:mcp mcp :rest rest-string :raw s}))
 
 (defn- render-toml-table [[k {:keys [command args]}]]
