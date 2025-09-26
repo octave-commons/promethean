@@ -1,5 +1,5 @@
 {
-  "name": "ts-level-cache",
+  "name": "@promethean/level-cache",
   "root": "packages/level-cache",
   "sourceRoot": "packages/level-cache/src",
   "targets": {
