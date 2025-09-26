@@ -60,9 +60,10 @@
     "@promethean/security": "workspace:*"
   },
   "devDependencies": {
+    "@promethean/broker": "workspace:*",
+    "@promethean/pm2-helpers": "workspace:*",
     "@promethean/test-utils": "workspace:*",
     "@types/ws": "^8.5.12",
-    "rewrite-imports": "^3.0.0",
-    "@promethean/pm2-helpers": "workspace:*"
+    "rewrite-imports": "^3.0.0"
   }
 }
