@@ -1,5 +1,5 @@
 {
-  "name": "ts-security",
+  "name": "@promethean/security",
   "root": "packages/security",
   "sourceRoot": "packages/security/src",
   "targets": {

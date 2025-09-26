@@ -1,5 +1,5 @@
 {
-  "name": "ts-markdown-graph",
+  "name": "@promethean/markdown-graph",
   "root": "packages/markdown-graph",
   "sourceRoot": "packages/markdown-graph/src",
   "targets": {

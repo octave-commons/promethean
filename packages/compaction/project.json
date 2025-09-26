@@ -1,5 +1,5 @@
 {
-    "name": "ts-compaction",
+    "name": "@promethean/compaction",
     "root": "packages/compaction",
     "sourceRoot": "packages/compaction/src",
     "targets": {
