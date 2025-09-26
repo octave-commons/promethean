@@ -7,7 +7,6 @@
 
 ## JS Dependencies
 
-- adm-zip: 0.5.16
 - dotenv: 17.2.1
 - http-proxy: 1.18.1
 - mongodb: 6.18.0
