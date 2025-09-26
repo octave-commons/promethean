@@ -21,10 +21,23 @@ export const resolveHttpEndpoints = (
     ];
   }
 
-  return entries.map(([path, cfg]) => ({
+  const resolved = entries.map(([path, cfg]) => ({
     path: ensureLeadingSlash(path),
     tools: cfg.tools,
   }));
+
+  const shouldIncludeLegacyEndpoint =
+    config.tools.length > 0 &&
+    resolved.every((endpoint) => endpoint.path !== "/mcp");
+
+  if (shouldIncludeLegacyEndpoint) {
+    resolved.unshift({
+      path: "/mcp",
+      tools: config.tools,
+    });
+  }
+
+  return resolved;
 };
 
 export const resolveStdioTools = (config: AppConfig): readonly string[] => {
