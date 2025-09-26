@@ -1,5 +1,5 @@
 {
-  "name": "embedding",
+  "name": "@promethean/embedding",
   "root": "packages/embedding",
   "sourceRoot": "packages/embedding/src",
   "targets": {

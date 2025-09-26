@@ -1,5 +1,5 @@
 {
-  "name": "openai-server",
+  "name": "@promethean/openai-server",
   "root": "packages/openai-server",
   "sourceRoot": "packages/openai-server/src",
   "targets": {

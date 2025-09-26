@@ -1,5 +1,5 @@
 {
-    "name": "ts-markdown",
+    "name": "@promethean/markdown",
     "root": "packages/markdown",
     "sourceRoot": "packages/markdown/src",
     "targets": {

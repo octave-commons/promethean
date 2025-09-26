@@ -1,5 +1,5 @@
 {
-  "name": "tools",
+  "name": "@promethean/tools",
   "root": "tools",
   "projectType": "library",
   "targets": {},

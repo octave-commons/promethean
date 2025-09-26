@@ -1,5 +1,5 @@
 {
-  "name": "ts-symdocs",
+  "name": "@promethean/symdocs",
   "root": "packages/symdocs",
   "sourceRoot": "packages/symdocs/src",
   "targets": {
