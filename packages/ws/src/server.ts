@@ -33,7 +33,8 @@ export function startWSGateway(bus: any, port: number, opts: WSGatewayOptions = 
     wss.on('connection', (ws: WebSocket) => {
         let authed = false;
         const subs = new Map<SubKey, SubState>();
-        const connLimiter = makeConnLimiter();
+        const inboundLimiter = makeConnLimiter();
+        const outboundLimiter = makeConnLimiter();
         const topicLimiters = new Map<string, any>();
 
         const safeSend = (obj: any) => {
@@ -81,7 +82,7 @@ export function startWSGateway(bus: any, port: number, opts: WSGatewayOptions = 
 
             // PUBLISH
             if (msg.op === 'PUBLISH') {
-                if (!connLimiter.tryConsume(1)) return err('rate_limited', 'conn publish rate exceeded');
+                if (!inboundLimiter.tryConsume(1)) return err('rate_limited', 'conn publish rate exceeded');
                 const tl =
                     topicLimiters.get(msg.topic) ??
                     (topicLimiters.set(msg.topic, makeTopicLimiter(msg.topic)), topicLimiters.get(msg.topic)!);
@@ -96,6 +97,7 @@ export function startWSGateway(bus: any, port: number, opts: WSGatewayOptions = 
 
             // SUBSCRIBE
             if (msg.op === 'SUBSCRIBE') {
+                if (!inboundLimiter.tryConsume(1)) return err('rate_limited', 'conn subscribe rate exceeded');
                 const { topic, group, opts: subOpts = {} } = msg;
                 const key: SubKey = `${topic}::${group}`;
                 // prevent duplicate sub
@@ -111,7 +113,7 @@ export function startWSGateway(bus: any, port: number, opts: WSGatewayOptions = 
                     async (e: any, ctx: any) => {
                         // backpressure
                         if (state.inflight.size >= maxInflight) return; // drop; will redeliver later
-                        if (!connLimiter.tryConsume(1)) return; // slow push if client is hot
+                        if (!outboundLimiter.tryConsume(1)) return; // slow push if client is hot
                         // dedupe if same id still inflight
                         if (state.inflight.has(e.id)) return;
 
@@ -141,6 +143,7 @@ export function startWSGateway(bus: any, port: number, opts: WSGatewayOptions = 
 
             // UNSUBSCRIBE
             if (msg.op === 'UNSUBSCRIBE') {
+                if (!inboundLimiter.tryConsume(1)) return err('rate_limited', 'conn unsubscribe rate exceeded');
                 const key: SubKey = `${msg.topic}::${msg.group}`;
                 const s = subs.get(key);
                 if (!s) return err('not_subscribed', key);
@@ -151,6 +154,7 @@ export function startWSGateway(bus: any, port: number, opts: WSGatewayOptions = 
 
             // ACK / NACK / MODACK
             if (msg.op === 'ACK' || msg.op === 'NACK' || msg.op === 'MODACK') {
+                if (!inboundLimiter.tryConsume(1)) return err('rate_limited', 'conn ack rate exceeded');
                 const key: SubKey = `${msg.topic}::${msg.group}`;
                 const s = subs.get(key);
                 if (!s) return err('not_subscribed', key);
