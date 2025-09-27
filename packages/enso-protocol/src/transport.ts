@@ -170,10 +170,25 @@ export async function connectLocal(
   let presenceEnvelope:
     | Envelope<{ session: string; caps: string[] }>
     | undefined;
+  const bufferedEnvelopes: Envelope[] = [];
+  let clientConnected = false;
+
+  const flushBuffered = () => {
+    while (clientConnected && bufferedEnvelopes.length > 0) {
+      const envelope = bufferedEnvelopes.shift();
+      if (envelope) {
+        client.receive(envelope);
+      }
+    }
+  };
 
   const forward = (serverSession: ServerSession, envelope: Envelope): void => {
     if (sessionHandle && serverSession.id === sessionHandle.id) {
-      client.receive(envelope);
+      if (clientConnected) {
+        client.receive(envelope);
+        return;
+      }
+      bufferedEnvelopes.push(envelope);
     }
   };
 
@@ -225,13 +240,16 @@ export async function connectLocal(
 
   const negotiated = server.acceptHandshake(handshakeHello, handshakeOptions);
 
+  await handshakeResult;
+
   await client.connect(handshakeHello, {
     capabilities: negotiated.accepted.payload.negotiatedCaps,
     privacyProfile: negotiated.accepted.payload.profile,
     emitAccepted: false,
   });
 
-  await handshakeResult;
+  clientConnected = true;
+  flushBuffered();
 
   if (!sessionHandle || !acceptedEnvelope || !presenceEnvelope) {
     throw new Error("Handshake did not complete");
@@ -246,6 +264,8 @@ export async function connectLocal(
         server.disconnectSession(sessionHandle.id);
       }
       server.off("message", forward);
+      bufferedEnvelopes.length = 0;
+      clientConnected = false;
       sessionHandle = undefined;
     },
   };
