@@ -149,6 +149,20 @@ function appendPattern(
   return args.concat([pattern]).concat(searchTargets);
 }
 
+function expandMaxCount(
+  args: ReadonlyArray<string>,
+  maxMatches: number,
+): ReadonlyArray<string> {
+  const index = args.indexOf("--max-count");
+  if (index === -1 || index + 1 >= args.length) {
+    return args;
+  }
+  const expandedLimit = Math.max(maxMatches * 10, maxMatches + 1000);
+  const prefix = args.slice(0, index + 1);
+  const suffix = args.slice(index + 2);
+  return freezeStrings([...prefix, String(expandedLimit), ...suffix]);
+}
+
 function buildRipgrepArgs(config: BuildArgsInput): RipgrepArgs {
   const baseArgs = createBaseArgs(config);
   const pathReduction = reducePaths(baseArgs, config.paths);
@@ -319,7 +333,10 @@ export async function grep(
   const primary = await tryRunRipgrep(args.withExclude, ROOT_PATH);
   const resolved =
     primary.error && excludeGlobs.length > 0 && isGlobError(primary.error)
-      ? await tryRunRipgrep(args.withoutExclude, ROOT_PATH)
+      ? await tryRunRipgrep(
+          expandMaxCount(args.withoutExclude, maxMatches),
+          ROOT_PATH,
+        )
       : primary;
   if (resolved.error) {
     throw new Error("rg error: " + formatRipgrepError(resolved.error));
