@@ -1,4 +1,4 @@
-import { exec as _exec } from "child_process";
+import { spawn } from "child_process";
 import { promises as fs } from "fs";
 import * as path from "path";
 import { pathToFileURL } from "url";
@@ -16,22 +16,49 @@ export function resolveFromWorkspace(p: string): string {
   return path.isAbsolute(p) ? p : path.resolve(WORKSPACE_ROOT, p);
 }
 
+export type RunResult = {
+  code: number | null;
+  out: string;
+  err: string;
+};
+
+export type RunOptions = {
+  cwd?: string;
+  env?: NodeJS.ProcessEnv;
+};
+
 export async function run(
-  cmd: string,
-  cwd = process.cwd(),
-): Promise<{ code: number | null; out: string; err: string }> {
-  return new Promise((res) => {
-    _exec(
-      cmd,
-      { cwd, maxBuffer: 1024 * 1024 * 64, env: { ...process.env } },
-      (e, stdout, stderr) => {
-        res({
-          code: e ? (e as any).code ?? 1 : 0,
-          out: String(stdout),
-          err: String(stderr),
-        });
-      },
-    );
+  command: string,
+  args: ReadonlyArray<string> = [],
+  options: RunOptions = {},
+): Promise<RunResult> {
+  const cwd = options.cwd ?? process.cwd();
+  return new Promise((resolve) => {
+    const child = spawn(command, [...args], {
+      cwd,
+      env: { ...process.env, ...options.env },
+      stdio: ["ignore", "pipe", "pipe"],
+    });
+    let stdout = "";
+    let stderr = "";
+    let settled = false;
+    const finalize = (code: number | null) => {
+      if (settled) return;
+      settled = true;
+      resolve({ code, out: stdout, err: stderr });
+    };
+    child.stdout?.on("data", (chunk) => {
+      stdout += String(chunk);
+    });
+    child.stderr?.on("data", (chunk) => {
+      stderr += String(chunk);
+    });
+    child.on("error", (err) => {
+      const message = String(err?.message ?? err);
+      stderr = stderr ? `${stderr}\n${message}` : message;
+      finalize(127);
+    });
+    child.on("close", finalize);
   });
 }
 
@@ -75,9 +102,14 @@ export async function codeFrame(file: string, line: number, span = 3) {
 }
 
 export async function tsc(tsconfig: string) {
-  const { code, out, err } = await run(
-    `npx tsc -p ${tsconfig} --noEmit --pretty false`,
-  );
+  const { code, out, err } = await run("npx", [
+    "tsc",
+    "-p",
+    tsconfig,
+    "--noEmit",
+    "--pretty",
+    "false",
+  ]);
   const text = out + "\n" + err;
   const diags = parseTsc(text);
   return { ok: code === 0, text, diags };
@@ -120,26 +152,16 @@ export async function applySnippetToProject(
 // TODO: Refactor all of these calls to ollama to use the ollama npm package.
 // ...
 
-export async function git(cmd: string, cwd = process.cwd()) {
-  return new Promise<{ code: number | null; out: string; err: string }>(
-    (resolve) => {
-      _exec(
-        `git ${cmd}`,
-        { cwd, maxBuffer: 1024 * 1024 * 64, env: { ...process.env } },
-        (e, stdout, stderr) => {
-          resolve({
-            code: e ? (e as any).code ?? 1 : 0,
-            out: String(stdout).trim(),
-            err: String(stderr).trim(),
-          });
-        },
-      );
-    },
-  );
+export async function git(
+  args: ReadonlyArray<string>,
+  cwd = process.cwd(),
+): Promise<RunResult> {
+  const { code, out, err } = await run("git", args, { cwd });
+  return { code, out: out.trim(), err: err.trim() };
 }
 
 export async function isGitRepo() {
-  const r = await git("rev-parse --is-inside-work-tree");
+  const r = await git(["rev-parse", "--is-inside-work-tree"]);
   return r.code === 0 && r.out === "true";
 }
 

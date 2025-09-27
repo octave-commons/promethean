@@ -39,11 +39,17 @@ test("bf:01-errors writes error list", async (t) => {
   const outPath = path.join(dir, "errors.json");
   const tsconfig = path.join(dir, "tsconfig.json");
   const { code } = await run(
-    `node ${path.join(
-      PKG_ROOT,
-      "dist/01-errors.js",
-    )} --root false --tsconfig ${tsconfig} --out ${outPath}`,
-    PKG_ROOT,
+    "node",
+    [
+      path.join(PKG_ROOT, "dist/01-errors.js"),
+      "--root",
+      "false",
+      "--tsconfig",
+      tsconfig,
+      "--out",
+      outPath,
+    ],
+    { cwd: PKG_ROOT },
   );
   t.is(code, 0);
   const data = JSON.parse(await fs.readFile(outPath, "utf-8"));
