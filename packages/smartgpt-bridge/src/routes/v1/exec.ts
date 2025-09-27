@@ -12,6 +12,12 @@ export function registerExecRoutes(v1: any, deps: ExecDeps = {}) {
   const ROOT_PATH = v1.ROOT_PATH;
   const run = deps.runCommand ?? runCommand;
   v1.post("/exec/run", {
+    config: {
+      rateLimit: {
+        max: 5,
+        timeWindow: "1 minute",
+      },
+    },
     schema: {
       summary: "Run a shell command",
       operationId: "runCommand",
