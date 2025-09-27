@@ -7,7 +7,7 @@ const CLI_PATH = path.resolve(
   "packages",
   "promethean-cli",
   "dist",
-  "promethean_cli.js",
+  "promethean_cli.cjs",
 );
 
 const SOURCE_PATH = path.resolve(

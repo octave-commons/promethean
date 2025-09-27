@@ -10,7 +10,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const bundlePath = path.resolve(
   __dirname,
-  "../packages/promethean-cli/dist/promethean_cli.js",
+  "../packages/promethean-cli/dist/promethean_cli.cjs",
 );
 
 async function run() {
