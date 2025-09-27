@@ -17,7 +17,7 @@ if (process.env.SKIP_NETWORK_TESTS === "1") {
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
     process.env.ECOSYSTEM_CONFIG = path.resolve(
       __dirname,
-      "ecosystem.fixture.config.cjs",
+      "../fixtures/ecosystem.fixture.config.cjs",
     );
     pers = installInMemoryPersistence();
     process.env.HEARTBEAT_TIMEOUT = "1000";
