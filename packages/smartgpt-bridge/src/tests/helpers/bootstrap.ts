@@ -1,10 +1,19 @@
 import fs from "node:fs/promises";
 import { statSync } from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 function pathExists(dir: string): boolean {
   try {
     return statSync(dir).isDirectory();
+  } catch {
+    return false;
+  }
+}
+
+function hasCoreFixture(dir: string): boolean {
+  try {
+    return statSync(path.join(dir, "readme.md")).isFile();
   } catch {
     return false;
   }
@@ -24,13 +33,38 @@ async function copyDir(from: string, to: string): Promise<void> {
   }
 }
 
+function resolvePackageRoot(): string {
+  return path.resolve(fileURLToPath(new URL("../../..", import.meta.url)));
+}
+
+function findSourceDir(pkgRoot: string): string | null {
+  const candidates = [
+    path.join(pkgRoot, "tests", "fixtures"),
+    path.join(pkgRoot, "src", "tests", "fixtures"),
+  ];
+  for (const candidate of candidates) {
+    if (pathExists(candidate)) return candidate;
+  }
+  return null;
+}
+
 async function ensureFixturesDir() {
-  const cwd = process.cwd();
-  const source = path.join(cwd, "src", "tests", "fixtures");
-  if (!pathExists(source)) return;
-  const dest = path.join(cwd, "tests", "fixtures");
-  if (pathExists(dest)) return;
-  await copyDir(source, dest);
+  const pkgRoot = resolvePackageRoot();
+  const source = findSourceDir(pkgRoot);
+  if (!source) return;
+
+  const destinations = new Set([
+    path.join(process.cwd(), "tests", "fixtures"),
+    path.join(pkgRoot, "tests", "fixtures"),
+  ]);
+
+  for (const dest of destinations) {
+    const resolvedDest = path.resolve(dest);
+    if (resolvedDest === path.resolve(source)) continue;
+    if (!pathExists(resolvedDest) || !hasCoreFixture(resolvedDest)) {
+      await copyDir(source, resolvedDest);
+    }
+  }
 }
 
 await ensureFixturesDir().catch((err) => {
