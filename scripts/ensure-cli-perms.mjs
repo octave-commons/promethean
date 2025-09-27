@@ -15,7 +15,7 @@ export const defaultTargets = [
     "packages",
     "promethean-cli",
     "dist",
-    "promethean_cli.js",
+    "promethean_cli.cjs",
   ),
 ];
 
