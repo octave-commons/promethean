@@ -16,6 +16,7 @@ const testFileMatchers = [
   (name) => name.endsWith(".test.js"),
   (name) => name.endsWith(".spec.js"),
 ];
+const distTestDirNames = new Set(["tests", "test"]);
 
 const shouldSkipDir = (entryName) =>
   entryName === "node_modules" || entryName.startsWith(".");
@@ -38,10 +39,17 @@ function distContainsTests(distDir) {
         continue;
       }
 
-      if (
-        entry.isFile() &&
-        testFileMatchers.some((matcher) => matcher(entry.name))
-      ) {
+      if (!entry.isFile()) {
+        continue;
+      }
+
+      if (testFileMatchers.some((matcher) => matcher(entry.name))) {
+        return true;
+      }
+
+      const relativePath = path.relative(distDir, fullPath);
+      const [topLevelDir] = relativePath.split(path.sep);
+      if (distTestDirNames.has(topLevelDir) && entry.name.endsWith(".js")) {
         return true;
       }
     }
