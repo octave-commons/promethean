@@ -29,7 +29,7 @@ options to help you recover quickly.
 ## Development
 
 - Source lives in [`src/promethean/cli`](./src/promethean/cli/).
-- Builds are produced with `shadow-cljs` and written to `dist/promethean_cli.js`.
+- Builds are produced with `shadow-cljs` and written to `dist/promethean_cli.cjs`.
 - Tests live under [`tests/scripts`](../../tests/scripts/) and can be run with:
 
   ```sh

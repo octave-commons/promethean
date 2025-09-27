@@ -30,8 +30,8 @@
     "nx": "nx"
   },
   "bin": {
-    "prom": "./packages/promethean-cli/dist/promethean_cli.js",
-    "promethean": "./packages/promethean-cli/dist/promethean_cli.js"
+    "prom": "./packages/promethean-cli/dist/promethean_cli.cjs",
+    "promethean": "./packages/promethean-cli/dist/promethean_cli.cjs"
   },
   "dependencies": {
     "@promethean/health-dashboard-frontend": "workspace:*",
