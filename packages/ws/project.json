@@ -1,5 +1,5 @@
 {
-    "name": "ts-ws",
+    "name": "@promethean/ws",
     "root": "packages/ws",
     "sourceRoot": "packages/ws/src",
     "targets": {

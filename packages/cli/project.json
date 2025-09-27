@@ -1,5 +1,5 @@
 {
-    "name": "ts-cli",
+    "name": "@promethean/cli",
     "root": "packages/cli",
     "sourceRoot": "packages/cli/src",
     "targets": {

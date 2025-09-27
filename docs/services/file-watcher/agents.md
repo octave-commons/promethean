@@ -6,7 +6,7 @@ TODO: Add service description.
 
 ## Broker Usage
 
-Publish events via `@shared/js/brokerClient.js`. Do not instantiate raw `WebSocket` clients.
+Publish events via `@promethean/legacy/brokerClient.js`. Do not instantiate raw `WebSocket` clients.
 
 ## Paths
 

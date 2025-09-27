@@ -139,7 +139,7 @@ const heartbeatFallback = new URL('../../legacy/heartbeat/index.js', import.meta
 export function initBroker(): Promise<void> {
     const specifiers = [
         process.env.LLM_SERVICE_TEMPLATE,
-        '@shared/js/serviceTemplate.js',
+        '@promethean/legacy/serviceTemplate.js',
         serviceTemplateFallback,
     ] as const;
     return importWithFallback<{

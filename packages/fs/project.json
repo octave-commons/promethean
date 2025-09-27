@@ -1,5 +1,5 @@
 {
-    "name": "ts-fs",
+    "name": "@promethean/fs",
     "root": "packages/fs",
     "sourceRoot": "packages/fs/src",
     "targets": {

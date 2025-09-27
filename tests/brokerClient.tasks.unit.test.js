@@ -1,7 +1,7 @@
 import test from "ava";
 
 import { sleep } from "@promethean/utils";
-import { BrokerClient } from "@shared/js/brokerClient.js";
+import { BrokerClient } from "@promethean/legacy/brokerClient.js";
 import {
   getMemoryBroker,
   resetMemoryBroker,
