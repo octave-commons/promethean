@@ -5,7 +5,7 @@ import { tmpdir } from "os";
 import test from "ava";
 import { installInMemoryPersistence } from "@promethean/test-utils/persistence.js";
 
-test("cold start and update (unit, no network)", async (t) => {
+test.serial("cold start and update (unit, no network)", async (t) => {
   t.timeout(10000);
   // Wire fakes into shared persistence
   const pers = installInMemoryPersistence();
@@ -36,3 +36,28 @@ test("cold start and update (unit, no network)", async (t) => {
 
   pers.dispose();
 });
+
+test.serial(
+  "updateFile handles degenerate markdown input (unit, no network)",
+  async (t) => {
+    t.timeout(10000);
+    const pers = installInMemoryPersistence();
+    process.env.NODE_ENV = "test";
+    const { ContextStore } = await import("@promethean/persistence");
+    const { GraphDB } = await import("../src/graph.js");
+    const store = new ContextStore();
+
+    const repo = await fs.mkdtemp(join(tmpdir(), "mg-"));
+    await fs.writeFile(join(repo, "readme.md"), "#root");
+
+    const db = await GraphDB.create(repo, store);
+
+    const hostile = "[".repeat(5000) + "](" + "[".repeat(5000);
+    await t.notThrowsAsync(async () => db.updateFile("storm.md", hostile));
+
+    const links = await db.getLinks("storm.md");
+    t.deepEqual(links, []);
+
+    pers.dispose();
+  },
+);
