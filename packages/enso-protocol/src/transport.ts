@@ -183,26 +183,6 @@ export async function connectLocal(
     wantsE2E: options.wantsE2E,
     evaluationMode: options.evaluationMode,
   };
-  const shouldOverride = Object.values(handshakeOptions).some(
-    (value) => value !== undefined,
-  );
-
-  if (shouldOverride) {
-    server.prepareHandshake(() => ({
-      ...(handshakeOptions.adjustCapabilities
-        ? { adjustCapabilities: handshakeOptions.adjustCapabilities }
-        : {}),
-      ...(handshakeOptions.privacyProfile
-        ? { privacyProfile: handshakeOptions.privacyProfile }
-        : {}),
-      ...(handshakeOptions.wantsE2E !== undefined
-        ? { wantsE2E: handshakeOptions.wantsE2E }
-        : {}),
-      ...(handshakeOptions.evaluationMode !== undefined
-        ? { evaluationMode: handshakeOptions.evaluationMode }
-        : {}),
-    }));
-  }
 
   const handshakeResult = new Promise<void>((resolve) => {
     const handler = (payload: unknown) => {
@@ -243,7 +223,14 @@ export async function connectLocal(
     },
   });
 
-  await client.connect(handshakeHello);
+  const negotiated = server.acceptHandshake(handshakeHello, handshakeOptions);
+
+  await client.connect(handshakeHello, {
+    capabilities: negotiated.accepted.payload.negotiatedCaps,
+    privacyProfile: negotiated.accepted.payload.profile,
+    emitAccepted: false,
+  });
+
   await handshakeResult;
 
   if (!sessionHandle || !acceptedEnvelope || !presenceEnvelope) {
