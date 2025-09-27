@@ -2,7 +2,7 @@ import test from "ava";
 import {
   parseToolCall,
   callTool,
-} from "@promethean/llm-chat-frontend/dist/frontend/tools.js";
+} from "@promethean/llm-chat-frontend/src/frontend/tools.js";
 
 test("parseToolCall returns tool object for valid JSON", (t) => {
   const tool = parseToolCall('{"tool":"codeSearch","args":{"q":"test"}}');
