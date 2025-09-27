@@ -6,27 +6,31 @@
     "build": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "tsc -b"
+        "command": "tsc -b",
+        "cwd": "packages/webcrawler-service"
       },
       "outputs": ["{projectRoot}/dist"]
     },
     "typecheck": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "tsc -p tsconfig.json --noEmit"
+        "command": "tsc -p tsconfig.json --noEmit",
+        "cwd": "packages/webcrawler-service"
       }
     },
     "test": {
       "executor": "nx:run-commands",
       "dependsOn": ["build"],
       "options": {
-        "command": "ava"
+        "command": "ava",
+        "cwd": "packages/webcrawler-service"
       }
     },
     "lint": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "eslint ."
+        "command": "eslint .",
+        "cwd": "packages/webcrawler-service"
       }
     }
   },
