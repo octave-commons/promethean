@@ -1,5 +1,5 @@
 {
-    "name": "ts-dlq",
+    "name": "@promethean/dlq",
     "root": "packages/dlq",
     "sourceRoot": "packages/dlq/src",
     "targets": {

@@ -1,5 +1,5 @@
 {
-  "name": "ts-file-indexer",
+  "name": "@promethean/file-indexer",
   "root": "packages/file-indexer",
   "sourceRoot": "packages/file-indexer/src",
   "targets": {

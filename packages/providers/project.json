@@ -1,5 +1,5 @@
 {
-    "name": "ts-providers",
+    "name": "@promethean/providers",
     "root": "packages/providers",
     "sourceRoot": "packages/providers/src",
     "targets": {

@@ -1,5 +1,5 @@
 {
-    "name": "ts-stream",
+    "name": "@promethean/stream",
     "root": "packages/stream",
     "sourceRoot": "packages/stream/src",
     "targets": {

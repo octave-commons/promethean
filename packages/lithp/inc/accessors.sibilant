@@ -1,9 +1,0 @@
-(namespace kit)
-(macro alias (name object)
-       `(gett @name (get @object (quote @name))))
-(macro gett (name ...body)
-       ["get " `(mth @name () ...@body)])
-
-(macro sett (name val ...body)
-
-       ["set " `(mth @name (@val) ...@body)])

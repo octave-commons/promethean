@@ -1,5 +1,5 @@
 {
-    "name": "ts-schema",
+    "name": "@promethean/schema",
     "root": "packages/schema",
     "sourceRoot": "packages/schema/src",
     "targets": {

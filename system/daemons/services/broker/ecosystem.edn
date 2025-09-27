@@ -1,0 +1,36 @@
+; Generated from system/daemons/services/broker/ecosystem.config.js
+{
+  :apps [
+    {
+      :name "broker"
+      :script "index.js"
+      :args []
+      :exec_mode "fork"
+      :out_file "./logs/broker-out.log"
+      :error_file "./logs/broker-err.log"
+      :merge_logs true
+      :instances 1
+      :autorestart true
+      :restart_delay 10000
+      :kill_timeout 10000
+      :env {
+        :PM2_PROCESS_NAME "broker"
+        :HEARTBEAT_PORT "5005"
+        :PYTHONUNBUFFERED "1"
+        :PYTHONPATH "./packages/pm2-helpers"
+        :CHECK_INTERVAL "300000"
+        :HEARTBEAT_TIMEOUT "600000"
+      }
+      :cwd "./packages/broker"
+      :watch [
+        "./packages/broker"
+      ]
+      :ignore_watch [
+        "node_modules"
+        "logs"
+        "tmp"
+        ".git"
+      ]
+    }
+  ]
+}

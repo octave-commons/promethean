@@ -53,7 +53,7 @@ export async function start() {
   const app = await createApp(repo, cold);
   try {
     const { startService } = await import(
-      /* @ts-ignore */ "@shared/js/serviceTemplate.js"
+      /* @ts-ignore */ "@promethean/legacy/serviceTemplate.js"
     );
     const broker = await startService({
       id: process.env.name || "markdown-graph",

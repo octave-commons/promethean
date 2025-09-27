@@ -7,10 +7,10 @@ This project is licensed under the [[LICENSE.txt|GNU GPL v3]].
 This repository contains a modular multi‑agent architecture. To start shared infrastructure like speech services, run pm2 with the root configuration:
 
 ```bash
-pm2 start ecosystem.config.js
+pm2 start system/daemons/ecosystem.config.js
 ```
 
-When adding or removing packages with their own `ecosystem.config.js`, regenerate the consolidated configuration:
+When adding or removing services under `system/daemons/services/<daemon>/ecosystem.config.js`, regenerate the consolidated configuration:
 
 ```bash
 pnpm gen:ecosystem
@@ -51,6 +51,19 @@ into small services that handle speech-to-text, text-to-speech, memory, and high
 
 - Prefer immutable data; avoid in-place object mutation.
 - Use key-value caches like `@promethean/level-cache` instead of JSON files for intermediate data.
+
+## Kanban automation
+
+All board maintenance flows now run through `@promethean/kanban-cli`:
+
+- `pnpm kanban pull` keeps `docs/agile/boards/kanban.md` in sync with task
+  frontmatter.
+- `pnpm kanban push` projects kanban columns back to task files.
+- `pnpm kanban sync` runs both directions and reports conflicts.
+- `pnpm tsx packages/kanban/src/scripts/wip-sheriff.ts --write` audits WIP
+  limits when you need the old “WIP sheriff” tooling.
+
+Run `pnpm kanban --help` for the full list of subcommands.
 
 ## Automation pipelines
 

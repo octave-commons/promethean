@@ -1,5 +1,5 @@
 {
-    "name": "ts-llm",
+    "name": "@promethean/llm",
     "root": "packages/llm",
     "sourceRoot": "packages/llm/src",
     "targets": {

@@ -1,8 +1,9 @@
-{:deps {org.clojure/clojure                 {:mvn/version "1.11.1"}
+{:mvn/local-repo "target/m2"
+ :deps {org.clojure/clojure                 {:mvn/version "1.11.1"}
         io.github.bonede/tree-sitter        {:mvn/version "0.25.3"}
         io.github.bonede/tree-sitter-elisp  {:mvn/version "1.3.0a"}
         cheshire/cheshire                   {:mvn/version "5.13.0"}
-        io.github.babashka/fs               {:mvn/version "0.4.19"}
+        babashka/fs                         {:mvn/version "0.4.19"}
         babashka/process                    {:mvn/version "0.5.21"}}
  :aliases
  {:lint    {:extra-deps {clj-kondo/clj-kondo {:mvn/version "2024.05.240"}}

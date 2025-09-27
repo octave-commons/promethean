@@ -1,5 +1,5 @@
 {
-  "name": "ts-boardrev",
+  "name": "@promethean/boardrev",
   "root": "packages/boardrev",
   "sourceRoot": "packages/boardrev/src",
   "targets": {

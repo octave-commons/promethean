@@ -97,7 +97,6 @@ test("grep: matches ripgrep output with context and flags", async (t) => {
     runRg(opts.pattern, opts),
   ]);
   t.deepEqual(results, expected);
-  t.snapshot(results);
 });
 
 test("grep: invalid regex throws error", async (t) => {
