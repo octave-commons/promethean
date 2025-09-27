@@ -19,10 +19,10 @@ jobs:
       - uses: nrwl/nx-set-shas@v4
       - name: Install Clojure toolchain
         run: bash run/install-clojure.sh
-      - name: Install Playwright
-        run: bash run/setup_playwright.sh
       - name: install rg
-        run: apt-get install -y rg
+        run: sudo apt-get install -y rg
       - name: Install deps
         run: pnpm install --frozen-lockfile
+      - name: Install Playwright
+        run: bash run/setup_playwright.sh
       - run: pnpm exec nx affected -t test --parallel
