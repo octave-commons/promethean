@@ -13,8 +13,8 @@ type FetchInput = Parameters<typeof fetch>[0];
 type DeepReadonly<T> = T extends (...args: unknown[]) => unknown
   ? T
   : T extends object
-  ? { readonly [K in keyof T]: DeepReadonly<T[K]> }
-  : T;
+    ? { readonly [K in keyof T]: DeepReadonly<T[K]> }
+    : T;
 type SetupOptions = DeepReadonly<{
   readonly maxDepth?: number;
   readonly seeds?: readonly string[];
@@ -22,11 +22,14 @@ type SetupOptions = DeepReadonly<{
 
 test("crawls pages and stores markdown", async (t: ExecutionContext) => {
   const responses: readonly ResponseEntry[] = [
-    ["https://example.com/robots.txt", createResponse("User-agent: *\nAllow: /")],
+    [
+      "https://example.com/robots.txt",
+      createResponse("User-agent: *\nAllow: /"),
+    ],
     [
       "https://example.com/",
       createResponse(
-        "<html><head><title>Home</title></head><body><h1>Welcome</h1><a href=\"/about\">About</a></body></html>",
+        '<html><head><title>Home</title></head><body><h1>Welcome</h1><a href="/about">About</a></body></html>',
       ),
     ],
     [
@@ -62,7 +65,7 @@ test("skips disallowed paths from robots.txt", async (t: ExecutionContext) => {
     [
       "https://example.com/",
       createResponse(
-        "<html><body><a href=\"/private\">Secret</a><p>Public</p></body></html>",
+        '<html><body><a href="/private">Secret</a><p>Public</p></body></html>',
       ),
     ],
     [
@@ -80,6 +83,52 @@ test("skips disallowed paths from robots.txt", async (t: ExecutionContext) => {
 
   const stats = await stat(join(hostDir, "index.md"));
   t.true(stats.size > 0);
+});
+
+test("reuses robots.txt fetches per host", async (t: ExecutionContext) => {
+  const responses: readonly ResponseEntry[] = [
+    [
+      "https://example.com/",
+      createResponse(
+        '<html><body><a href="/about">About</a><p>Public</p></body></html>',
+      ),
+    ],
+    [
+      "https://example.com/about",
+      createResponse("<html><body>About page</body></html>"),
+    ],
+  ];
+
+  const outputDir = await mkTmpDir();
+  const responseMap: ReadonlyMap<string, Response> = new Map(responses);
+  // eslint-disable-next-line functional/no-let
+  let robotsRequests = 0;
+
+  const fetchStub: typeof fetch = async (input) => {
+    const url = requestToUrl(input);
+    if (url === "https://example.com/robots.txt") {
+      robotsRequests += 1;
+      return new Response("User-agent: *\nAllow: /", {
+        headers: { "content-type": "text/plain" },
+      });
+    }
+    const response = responseMap.get(url);
+    if (!response) {
+      throw new Error(`unexpected fetch ${url}`);
+    }
+    return response.clone();
+  };
+
+  const crawler = new WebCrawler({
+    seeds: ["https://example.com/"],
+    outputDir,
+    maxDepth: 2,
+    fetch: fetchStub,
+  });
+
+  await crawler.crawl();
+
+  t.is(robotsRequests, 1);
 });
 
 test("shouldContinue guard stops crawl", async (t: ExecutionContext) => {
@@ -115,7 +164,8 @@ const setupCrawler = async (
   return { outputDir, run: () => crawler.crawl() } as const;
 };
 
-const createFetchStub = (responses: ReadonlyMap<string, Response>): typeof fetch =>
+const createFetchStub =
+  (responses: ReadonlyMap<string, Response>): typeof fetch =>
   async (input: DeepReadonly<FetchInput>) => {
     const url = requestToUrl(input);
     const response = responses.get(url);
