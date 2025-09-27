@@ -20,7 +20,7 @@ jobs:
       - name: Install Clojure toolchain
         run: bash run/install-clojure.sh
       - name: install rg
-        run: sudo apt-get install -y rg
+        run: sudo apt-get install -y ripgrep
       - name: Install deps
         run: pnpm install --frozen-lockfile
       - name: Install Playwright
