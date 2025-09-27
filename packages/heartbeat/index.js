@@ -5,6 +5,7 @@ import fs from "fs";
 import pidusage from "pidusage";
 import { randomUUID } from "crypto";
 import { BrokerClient } from "@promethean/legacy/brokerClient.js";
+import { fileURLToPath } from "url";
 
 let HEARTBEAT_TIMEOUT = 10000;
 let CHECK_INTERVAL = 5000;
@@ -44,22 +45,52 @@ async function getProcessMetrics(pid) {
   return metrics;
 }
 
-function loadConfig() {
-  try {
-    const require = createRequire(import.meta.url);
-    const configPath =
-      process.env.ECOSYSTEM_CONFIG ||
-      path.resolve(process.cwd(), "../../system/daemons/ecosystem.config.js");
-    const ecosystem = require(configPath);
-    allowedInstances = {};
-    for (const app of ecosystem.apps || []) {
-      if (app?.name) {
-        allowedInstances[app.name] = app.instances || 1;
-      }
+function resolveConfigPath() {
+  if (process.env.ECOSYSTEM_CONFIG) {
+    return process.env.ECOSYSTEM_CONFIG;
+  }
+  const moduleDir = path.dirname(fileURLToPath(import.meta.url));
+  return path.resolve(moduleDir, "../../system/daemons/ecosystem.config.js");
+}
+
+async function loadConfig() {
+  const require = createRequire(import.meta.url);
+  const configPath = resolveConfigPath();
+  let ecosystem;
+  let failure;
+
+  if (fs.existsSync(configPath)) {
+    try {
+      ecosystem = require(configPath);
+    } catch (err) {
+      failure = err;
     }
-  } catch (err) {
-    console.warn("failed to load ecosystem config", err);
+  }
+
+  if (!ecosystem) {
+    try {
+      const fallbackModule = await import(
+        new URL("./ecosystem.dependencies.js", import.meta.url)
+      );
+      ecosystem = fallbackModule.default ?? fallbackModule;
+    } catch (err) {
+      failure = failure || err;
+    }
+  }
+
+  if (!ecosystem) {
+    if (failure) {
+      console.warn("failed to load ecosystem config", failure);
+    }
     allowedInstances = {};
+    return;
+  }
+
+  allowedInstances = {};
+  for (const app of ecosystem.apps || []) {
+    if (app?.name) {
+      allowedInstances[app.name] = app.instances || 1;
+    }
   }
 }
 
@@ -142,7 +173,7 @@ export async function start() {
   COLLECTION = process.env.COLLECTION || COLLECTION;
   BROKER_URL = process.env.BROKER_URL || BROKER_URL;
 
-  loadConfig();
+  await loadConfig();
 
   SESSION_ID = randomUUID();
 
