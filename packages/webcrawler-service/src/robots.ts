@@ -32,22 +32,19 @@ export class RobotsManager implements RobotsChecker {
 
   private fetchParser(url: string): Promise<RobotsParserInstance> {
     const parsed = new URL(url);
-    const host = parsed.host.toLowerCase();
-    const cached = this.parserCache.get(host);
+    const origin = parsed.origin.toLowerCase();
+    const cached = this.parserCache.get(origin);
     if (cached) {
       return cached;
     }
-    const robotsUrl = new URL(
-      ROBOTS_PATH,
-      `${parsed.protocol}//${parsed.host}`,
-    ).toString();
+    const robotsUrl = new URL(ROBOTS_PATH, parsed.origin).toString();
     const fetchPromise = fetchRobots(this.fetchImpl, robotsUrl, this.userAgent);
     const mutableCache = this.parserCache as Map<
       string,
       Promise<RobotsParserInstance>
     >;
     // eslint-disable-next-line functional/immutable-data
-    mutableCache.set(host, fetchPromise);
+    mutableCache.set(origin, fetchPromise);
     return fetchPromise;
   }
 }
