@@ -41,7 +41,15 @@ async function normalizeLink(
     return null;
   }
   const canonical = await canonicalizeLink(absolute);
-  return canonical && isUrlAllowed(canonical) ? canonical : null;
+  if (!canonical) {
+    return null;
+  }
+
+  if (canonical === base) {
+    return null;
+  }
+
+  return isUrlAllowed(canonical) ? canonical : null;
 }
 
 export async function crawlPage(
@@ -80,6 +88,8 @@ export async function crawlPage(
 
   const links = (
     await Promise.all(anchors.map((href) => normalizeLink(href, normalized)))
-  ).filter((link): link is string => link !== null);
+  )
+    .filter((link): link is string => link !== null)
+    .filter((link, index, all) => all.indexOf(link) === index);
   return { url: normalized, title, links };
 }
