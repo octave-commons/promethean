@@ -170,10 +170,25 @@ export async function connectLocal(
   let presenceEnvelope:
     | Envelope<{ session: string; caps: string[] }>
     | undefined;
+  const bufferedEnvelopes: Envelope[] = [];
+  let clientConnected = false;
+
+  const flushBuffered = () => {
+    while (clientConnected && bufferedEnvelopes.length > 0) {
+      const envelope = bufferedEnvelopes.shift();
+      if (envelope) {
+        client.receive(envelope);
+      }
+    }
+  };
 
   const forward = (serverSession: ServerSession, envelope: Envelope): void => {
     if (sessionHandle && serverSession.id === sessionHandle.id) {
-      client.receive(envelope);
+      if (clientConnected) {
+        client.receive(envelope);
+        return;
+      }
+      bufferedEnvelopes.push(envelope);
     }
   };
 
@@ -183,26 +198,6 @@ export async function connectLocal(
     wantsE2E: options.wantsE2E,
     evaluationMode: options.evaluationMode,
   };
-  const shouldOverride = Object.values(handshakeOptions).some(
-    (value) => value !== undefined,
-  );
-
-  if (shouldOverride) {
-    server.prepareHandshake(() => ({
-      ...(handshakeOptions.adjustCapabilities
-        ? { adjustCapabilities: handshakeOptions.adjustCapabilities }
-        : {}),
-      ...(handshakeOptions.privacyProfile
-        ? { privacyProfile: handshakeOptions.privacyProfile }
-        : {}),
-      ...(handshakeOptions.wantsE2E !== undefined
-        ? { wantsE2E: handshakeOptions.wantsE2E }
-        : {}),
-      ...(handshakeOptions.evaluationMode !== undefined
-        ? { evaluationMode: handshakeOptions.evaluationMode }
-        : {}),
-    }));
-  }
 
   const handshakeResult = new Promise<void>((resolve) => {
     const handler = (payload: unknown) => {
@@ -243,8 +238,18 @@ export async function connectLocal(
     },
   });
 
-  await client.connect(handshakeHello);
+  const negotiated = server.acceptHandshake(handshakeHello, handshakeOptions);
+
   await handshakeResult;
+
+  await client.connect(handshakeHello, {
+    capabilities: negotiated.accepted.payload.negotiatedCaps,
+    privacyProfile: negotiated.accepted.payload.profile,
+    emitAccepted: false,
+  });
+
+  clientConnected = true;
+  flushBuffered();
 
   if (!sessionHandle || !acceptedEnvelope || !presenceEnvelope) {
     throw new Error("Handshake did not complete");
@@ -259,6 +264,8 @@ export async function connectLocal(
         server.disconnectSession(sessionHandle.id);
       }
       server.off("message", forward);
+      bufferedEnvelopes.length = 0;
+      clientConnected = false;
       sessionHandle = undefined;
     },
   };

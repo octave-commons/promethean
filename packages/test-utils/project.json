@@ -1,5 +1,5 @@
 {
-    "name": "ts-test-utils",
+    "name": "@promethean/test-utils",
     "root": "packages/test-utils",
     "sourceRoot": "packages/test-utils/src",
     "targets": {

@@ -2,7 +2,7 @@
 // possible. Components can optionally implement getHotState(): unknown and
 // setHotState(state: unknown): void.
 
-import { forwardMethods } from "./forward.js";
+import { forwardAccessors, forwardMethods } from "./forward.js";
 import { HotWrapper } from "./hot-wrapper.js";
 
 export type HotLike = {
@@ -48,8 +48,12 @@ function replaceInstance<T extends HotLike>(
   Impl: ImplCtor<T>,
 ): void {
   try {
-    const prev = inst.__impl;
-    const state = prev?.getHotState ? prev.getHotState() : undefined;
+    const prevGetHotState = (inst as unknown as { getHotState?: () => unknown })
+      .getHotState;
+    const state =
+      typeof prevGetHotState === "function"
+        ? prevGetHotState.call(inst)
+        : undefined;
     const next = new Impl();
     inst.__impl = next;
     // Forward known methods to the wrapper so impl can call this.render(), etc.
@@ -57,11 +61,19 @@ function replaceInstance<T extends HotLike>(
       inst as unknown as Record<string, unknown>,
       next as unknown as Record<string, unknown>,
     );
-    if (state !== undefined && typeof next.setHotState === "function") {
-      next.setHotState(state);
+    forwardAccessors(
+      inst as unknown as Record<string, unknown>,
+      next as unknown as Record<string, unknown>,
+      Impl as { prototype?: unknown },
+    );
+    const render = next.render;
+    if (typeof render === "function") render.call(inst);
+    if (state !== undefined) {
+      const setHotState = next.setHotState;
+      if (typeof setHotState === "function") {
+        setHotState.call(inst, state);
+      }
     }
-    const r = next.render;
-    if (typeof r === "function") r.call(inst);
   } catch {
     // swallow hot errors; component can recover on next connect
   }

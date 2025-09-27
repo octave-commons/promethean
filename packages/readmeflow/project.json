@@ -1,5 +1,5 @@
 {
-  "name": "ts-readmeflow",
+  "name": "@promethean/readmeflow",
   "root": "packages/readmeflow",
   "sourceRoot": "packages/readmeflow/src",
   "targets": {

@@ -1,5 +1,5 @@
 {
-  "name": "ts-simtask",
+  "name": "@promethean/simtasks",
   "root": "packages/simtask",
   "sourceRoot": "packages/simtask/src",
   "targets": {

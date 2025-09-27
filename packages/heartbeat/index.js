@@ -68,7 +68,13 @@ async function handleHeartbeat({ pid, name }) {
   if (!pid || !name || !collection) return;
   const now = Date.now();
   try {
-    const existing = await collection.findOne({ pid, sessionId: SESSION_ID });
+    const existing =
+      typeof collection.findOne === "function"
+        ? await collection.findOne({ pid, sessionId: SESSION_ID })
+        : await collection
+            .find({ pid, sessionId: SESSION_ID })
+            .toArray()
+            .then((docs = []) => docs[0]);
     if (!existing) {
       const allowed = allowedInstances[name] ?? Infinity;
       const count = await collection.countDocuments({
@@ -83,7 +89,7 @@ async function handleHeartbeat({ pid, name }) {
     await collection.updateOne(
       { pid },
       {
-        $set: { last: now, name, sessionId: SESSION_ID, ...metrics },
+        $set: { pid, last: now, name, sessionId: SESSION_ID, ...metrics },
         $unset: { killedAt: "" },
       },
       { upsert: true },

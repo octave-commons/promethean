@@ -1,5 +1,5 @@
 {
-    "name": "ts-http",
+    "name": "@promethean/http",
     "root": "packages/http",
     "sourceRoot": "packages/http/src",
     "targets": {

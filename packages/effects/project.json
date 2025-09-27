@@ -1,5 +1,5 @@
 {
-    "name": "ts-effects",
+    "name": "@promethean/effects",
     "root": "packages/effects",
     "sourceRoot": "packages/effects/src",
     "targets": {

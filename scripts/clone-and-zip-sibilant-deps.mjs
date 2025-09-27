@@ -1,14 +1,6 @@
 import { execSync } from "child_process";
-import {
-  mkdirSync,
-  rmSync,
-  existsSync,
-  readdirSync,
-  statSync,
-  readFileSync,
-} from "fs";
+import { mkdirSync, rmSync } from "fs";
 import { join, resolve } from "path";
-import AdmZip from "adm-zip";
 
 const deps = {
   kit: "https://github.com/riatzukiza/kit.git",
@@ -30,23 +22,6 @@ mkdirSync(outDir, { recursive: true });
 rmSync(tmpDir, { recursive: true, force: true });
 mkdirSync(tmpDir);
 
-function zipDir(sourceDir, outPath) {
-  const zip = new AdmZip();
-  const addDirToZip = (dir, zipPath = "") => {
-    for (const entry of readdirSync(dir)) {
-      const fullPath = join(dir, entry);
-      const stat = statSync(fullPath);
-      if (stat.isDirectory()) {
-        addDirToZip(fullPath, join(zipPath, entry));
-      } else {
-        zip.addFile(join(zipPath, entry), readFileSync(fullPath));
-      }
-    }
-  };
-  addDirToZip(sourceDir);
-  zip.writeZip(outPath);
-}
-
 for (const [name, url] of Object.entries(deps)) {
   const path = join(tmpDir, name);
   console.log(`Cloning ${name}...`);
@@ -54,7 +29,10 @@ for (const [name, url] of Object.entries(deps)) {
 
   const zipPath = join(outDir, `${name}.zip`);
   console.log(`Zipping ${name} -> ${zipPath}`);
-  zipDir(path, zipPath);
+  execSync(`git archive --format=zip -o "${resolve(zipPath)}" HEAD`, {
+    cwd: path,
+    stdio: "inherit",
+  });
 }
 
 console.log("✅ All zipped to ./kits-zipped/");

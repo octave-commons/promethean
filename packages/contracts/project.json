@@ -1,5 +1,5 @@
 {
-    "name": "ts-contracts",
+    "name": "@promethean/contracts",
     "root": "packages/contracts",
     "sourceRoot": "packages/contracts/src",
     "targets": {

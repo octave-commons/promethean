@@ -1,5 +1,5 @@
 {
-    "name": "ts-dev",
+    "name": "@promethean/dev",
     "root": "packages/dev",
     "sourceRoot": "packages/dev/src",
     "targets": {
