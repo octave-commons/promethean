@@ -1,5 +1,5 @@
 {
-  "name": "ts-image-link-generator",
+  "name": "@promethean/image-link-generator",
   "root": "packages/image-link-generator",
   "sourceRoot": "packages/image-link-generator/src",
   "targets": {

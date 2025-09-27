@@ -54,9 +54,9 @@ function collectImports(pkgDir) {
           const depName = `@promethean/${m2[1]}`;
           results.add(depName);
         }
-        const reShared =
-          /(from\s+['"])(@shared\/js\/[^'"\n]+)(['"])|import\(\s*['"](@shared\/js\/[^'"\n]+)['"]\s*\)/g;
-        if (reShared.test(text)) results.add("@shared/js");
+        const reLegacy =
+          /(from\s+['"])(@promethean\/legacy\/[^'"\n]+)(['"])|import\(\s*['"](@promethean\/legacy\/[^'"\n]+)['"]\s*\)/g;
+        if (reLegacy.test(text)) results.add("@promethean/legacy");
       }
     }
   }
@@ -75,8 +75,8 @@ for (const [dir, pkgName] of dirToName.entries()) {
   let changed = false;
   for (const depName of needed) {
     if (deps[depName]) continue;
-    if (depName === "@shared/js") {
-      deps[depName] = "file:../../js";
+    if (depName === "@promethean/legacy") {
+      deps[depName] = "file:../../legacy";
       changed = true;
       continue;
     }

@@ -6,11 +6,16 @@ import { registerSearchRoutes } from "./search.js";
 import { registerSinkRoutes } from "./sinks.js";
 import { registerIndexerRoutes } from "./indexer.js";
 import { registerAgentRoutes } from "./agents.js";
-import { registerExecRoutes } from "./exec.js";
+import { registerExecRoutes, type ExecDeps } from "./exec.js";
 import { FastifyInstance } from "fastify";
 import rateLimit from "@fastify/rate-limit";
 
-export async function registerV1Routes(app: FastifyInstance): Promise<void> {
+type V1Deps = Pick<ExecDeps, "runCommand">;
+
+export async function registerV1Routes(
+  app: FastifyInstance,
+  deps: V1Deps = {},
+): Promise<void> {
   // Everything defined here will be reachable under /v1 because of the prefix in fastifyApp.js
   await app.register(
     async function v1(v1: FastifyInstance) {
@@ -75,7 +80,7 @@ export async function registerV1Routes(app: FastifyInstance): Promise<void> {
       registerSinkRoutes(v1);
       registerIndexerRoutes(v1);
       registerAgentRoutes(v1);
-      registerExecRoutes(v1);
+      registerExecRoutes(v1, deps);
     },
     { prefix: "/v1" },
   );

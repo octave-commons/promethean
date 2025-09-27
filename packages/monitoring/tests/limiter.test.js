@@ -1,8 +1,17 @@
 import test from "ava";
 
-import { sleep } from "@promethean/utils";
-
 import { TokenBucket } from "../dist/limiter.js";
+
+const createClock = () => {
+  let now = 0;
+  return {
+    now: () => now,
+    advance: (ms) => {
+      now += ms;
+      return now;
+    },
+  };
+};
 
 // ensure TokenBucket enforces capacity and returns deficit
 test("TokenBucket enforces capacity", (t) => {
@@ -13,25 +22,33 @@ test("TokenBucket enforces capacity", (t) => {
 });
 
 // ensure tokens refill over time
-test("TokenBucket refills over time", async (t) => {
-  t.timeout?.(5000);
-  const bucket = new TokenBucket({ capacity: 1, refillPerSec: 1 });
+test("TokenBucket refills over time", (t) => {
+  const clock = createClock();
+  const bucket = new TokenBucket({
+    capacity: 1,
+    refillPerSec: 1,
+    now: clock.now,
+  });
   t.true(bucket.tryConsume());
   t.false(bucket.tryConsume());
-  await sleep(1100);
+  clock.advance(1100);
   t.true(bucket.tryConsume());
 });
 
-test("TokenBucket limits and refills with capacity 2", async (t) => {
-  const bucket = new TokenBucket({ capacity: 2, refillPerSec: 1 });
+test("TokenBucket limits and refills with capacity 2", (t) => {
+  const clock = createClock();
+  const bucket = new TokenBucket({
+    capacity: 2,
+    refillPerSec: 1,
+    now: clock.now,
+  });
   t.true(bucket.tryConsume());
   t.true(bucket.tryConsume());
   t.false(bucket.tryConsume());
   const deficit = bucket.deficit();
   t.true(deficit > 0);
-  await sleep(1100);
+  clock.advance(1100);
   t.true(bucket.tryConsume());
-
 });
 
 test("TokenBucket drain empties remaining tokens", (t) => {

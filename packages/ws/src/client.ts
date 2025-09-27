@@ -11,7 +11,7 @@ export class EventClient {
         // Prevent misuse of this client for the broker
         if (process.env.BROKER_WS_URL && url.startsWith(process.env.BROKER_WS_URL)) {
             throw new Error(
-                'Do not use ws/client to talk to the broker. Use @shared/js/brokerClient.js (or AgentBus wrapping it).',
+                'Do not use ws/client to talk to the broker. Use @promethean/legacy/brokerClient.js (or AgentBus wrapping it).',
             );
         }
         this.ws = new WebSocket(url);
@@ -38,15 +38,19 @@ export class EventClient {
         const msg = JSON.parse(s);
         if (msg.op === 'OK' || msg.op === 'ERR') {
             const cb = this.pending.get(msg.corr);
-            if (cb) {
+            if (typeof cb === 'function') {
                 this.pending.delete(msg.corr);
                 return cb(msg.op === 'OK', msg);
             }
+            this.pending.delete(msg.corr);
         }
         if (msg.op === 'EVENT') {
             const key = `${msg.topic}::${msg.group}`;
             const h = this.handlers.get(key);
-            if (!h) return;
+            if (typeof h !== 'function') {
+                this.handlers.delete(key);
+                return;
+            }
             try {
                 await h(msg.event, msg.ctx);
                 // default: immediate ack
@@ -73,6 +77,9 @@ export class EventClient {
     }
 
     async subscribe(topic: string, group: string, handler: Handler, opts?: any) {
+        if (typeof handler !== 'function') {
+            throw new TypeError('handler must be a function');
+        }
         this.handlers.set(`${topic}::${group}`, handler);
         return this.send({ op: 'SUBSCRIBE', topic, group, opts }, true);
     }

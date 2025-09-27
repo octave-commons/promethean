@@ -1,5 +1,5 @@
 {
-    "name": "ts-event",
+    "name": "@promethean/event",
     "root": "packages/event",
     "sourceRoot": "packages/event/src",
     "targets": {
