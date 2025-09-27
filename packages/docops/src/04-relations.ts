@@ -22,16 +22,20 @@ export type RelationsOptions = {
   debug?: boolean;
   files?: string[]; // limit to subset
 };
-let ROOT = path.resolve("docs/unique");
-let DOC_THRESHOLD = 0.78;
-let REF_THRESHOLD = 0.6;
-let REF_MIN = REF_THRESHOLD;
-let REF_MAX = 1.0;
-let MAX_RELATED = 25;
-let MAX_REFERENCES = 100;
-let DEBUG = false;
-const dbg = (...xs: any[]) => {
-  if (DEBUG) console.log("[04-relations]", ...xs);
+
+const DEFAULT_DOCS_DIR = "docs/unique";
+const DEFAULT_DOC_THRESHOLD = 0.78;
+const DEFAULT_REF_THRESHOLD = 0.6;
+const DEFAULT_MAX_RELATED = 25;
+const DEFAULT_MAX_REFERENCES = 100;
+
+const clamp01 = (value: number) => Math.max(0, Math.min(1, value));
+
+const normalizeCap = (value: number | undefined, fallback: number): number => {
+  if (value == null) return fallback;
+  const numeric = Number(value);
+  if (!Number.isFinite(numeric)) return fallback;
+  return Math.max(0, Math.floor(numeric));
 };
 
 type DocInfo = { path: string; title: string };
@@ -48,22 +52,25 @@ export async function runRelations(
     message?: string;
   }) => void,
 ) {
-  ROOT = path.resolve(opts.docsDir);
-  DOC_THRESHOLD = opts.docThreshold;
-  REF_THRESHOLD = opts.refThreshold;
-  MAX_RELATED =
-    Math.max(0, Number(opts.maxRelated ?? MAX_RELATED) | 0) || MAX_RELATED;
-  MAX_REFERENCES =
-    Math.max(0, Number(opts.maxReferences ?? MAX_REFERENCES) | 0) ||
-    MAX_REFERENCES;
-  REF_MIN = Number.isFinite(opts.refMin as number)
-    ? Math.max(0, Math.min(1, Number(opts.refMin)))
-    : REF_THRESHOLD;
-  REF_MAX = Number.isFinite(opts.refMax as number)
-    ? Math.max(0, Math.min(1, Number(opts.refMax)))
+  const root = path.resolve(opts.docsDir);
+  const docThreshold = opts.docThreshold;
+  const refThreshold = opts.refThreshold;
+  let refMin = Number.isFinite(opts.refMin as number)
+    ? clamp01(Number(opts.refMin))
+    : refThreshold;
+  let refMax = Number.isFinite(opts.refMax as number)
+    ? clamp01(Number(opts.refMax))
     : 1.0;
-  if (REF_MIN > REF_MAX) [REF_MIN, REF_MAX] = [REF_MAX, REF_MIN];
-  DEBUG = Boolean(opts.debug);
+  if (refMin > refMax) [refMin, refMax] = [refMax, refMin];
+  const maxRelated = normalizeCap(opts.maxRelated, DEFAULT_MAX_RELATED);
+  const maxReferences = normalizeCap(
+    opts.maxReferences,
+    DEFAULT_MAX_REFERENCES,
+  );
+  const debug = Boolean(opts.debug);
+  const dbg = (...xs: any[]) => {
+    if (debug) console.log("[04-relations]", ...xs);
+  };
   const docsKV = db.docs; // uuid -> { path, title }
   const chunksKV = db.chunks; // uuid -> readonly Chunk[]
   const qhitsKV = db.root.sublevel<string, readonly QueryHit[]>("q", {
@@ -73,7 +80,7 @@ export async function runRelations(
   const uniq = (xs: readonly string[] = []) =>
     Array.from(new Set(xs.filter(Boolean)));
   const isDocFile = (p: string) =>
-    /\.(md|mdx|txt)$/i.test(p) && p.startsWith(ROOT);
+    /\.(md|mdx|txt)$/i.test(p) && p.startsWith(root);
   const round2 = (n?: number) => (n == null ? n : Math.round(n * 100) / 100);
 
   const collectEntries = async <K extends string, V>(
@@ -117,7 +124,7 @@ export async function runRelations(
       for (const h of hs) {
         if (!allowed.has(h.docUuid)) continue;
         const s = h.score ?? 0;
-        if (s < Math.max(threshold, REF_MIN) || s > REF_MAX) continue;
+        if (s < Math.max(threshold, refMin) || s > refMax) continue;
         // filter exact text match
         const id = String((h as any).id || "");
         const [tUuid, idxStr] = id.split(":");
@@ -143,8 +150,8 @@ export async function runRelations(
     }
     const out = Array.from(acc.values())
       .sort((a, b) => (b.score ?? 0) - (a.score ?? 0))
-      .slice(0, MAX_REFERENCES);
-    if (DEBUG)
+      .slice(0, maxReferences);
+    if (debug)
       dbg("refsForDoc", uuid, "chunks", chunks.length, "refs", out.length);
     return out;
   };
@@ -198,9 +205,9 @@ export async function runRelations(
         if (i % 20 === 0) report("peers", i + 1, chunks.length);
       }
       const peers = Array.from(maxScore.entries())
-        .filter(([, s]) => s >= DOC_THRESHOLD)
+        .filter(([, s]) => s >= docThreshold)
         .sort((a, b) => b[1] - a[1])
-        .slice(0, MAX_RELATED);
+        .slice(0, maxRelated);
       const related_to_uuid = uniq(peers.map(([u]) => u));
       const related_to_title = uniq(
         peers.map(([u]) => docsByUuid.get(u)?.title ?? u),
@@ -209,12 +216,12 @@ export async function runRelations(
       const refs = await refsForDoc(
         uuid,
         chunks,
-        REF_THRESHOLD,
+        refThreshold,
         allowed,
         chunkLoader,
         (stage, idx, of) => report(stage, idx, of),
       );
-      if (DEBUG && refs.length === 0)
+      if (debug && refs.length === 0)
         dbg("no-refs", { uuid, path: fpath, chunks: chunks.length });
       const next: Front = {
         ...fm,
@@ -268,24 +275,26 @@ const isDirect =
   !!process.argv[1] && pathToFileURL(process.argv[1]).href === import.meta.url;
 if (isDirect) {
   const args = parseArgs({
-    "--docs-dir": "docs/unique",
-    "--doc-threshold": "0.78",
-    "--ref-threshold": "0.6",
+    "--docs-dir": DEFAULT_DOCS_DIR,
+    "--doc-threshold": String(DEFAULT_DOC_THRESHOLD),
+    "--ref-threshold": String(DEFAULT_REF_THRESHOLD),
     "--ref-min": "",
     "--ref-max": "",
-    "--max-related": "25",
-    "--max-references": "100",
+    "--max-related": String(DEFAULT_MAX_RELATED),
+    "--max-references": String(DEFAULT_MAX_REFERENCES),
     "--debug": "false",
   });
-  const docsDir = args["--docs-dir"] ?? "docs/unique";
-  const docT = Number(args["--doc-threshold"] ?? "0.78");
-  const refT = Number(args["--ref-threshold"] ?? "0.6");
+  const docsDir = args["--docs-dir"] ?? DEFAULT_DOCS_DIR;
+  const docT = Number(args["--doc-threshold"] ?? DEFAULT_DOC_THRESHOLD);
+  const refT = Number(args["--ref-threshold"] ?? DEFAULT_REF_THRESHOLD);
   const refMin =
     args["--ref-min"] !== "" ? Number(args["--ref-min"]) : undefined;
   const refMax =
     args["--ref-max"] !== "" ? Number(args["--ref-max"]) : undefined;
-  const maxRel = Number(args["--max-related"] ?? "25");
-  const maxRefs = Number(args["--max-references"] ?? "100");
+  const maxRel = Number(args["--max-related"] ?? String(DEFAULT_MAX_RELATED));
+  const maxRefs = Number(
+    args["--max-references"] ?? String(DEFAULT_MAX_REFERENCES),
+  );
   const debug = (args["--debug"] ?? "false") === "true";
   console.log(
     `04-relations: ROOT=${path.resolve(
