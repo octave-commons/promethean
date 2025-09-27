@@ -85,7 +85,7 @@ test("skips disallowed paths from robots.txt", async (t: ExecutionContext) => {
   t.true(stats.size > 0);
 });
 
-test("reuses robots.txt fetches per host", async (t: ExecutionContext) => {
+test("reuses robots.txt fetches per origin", async (t: ExecutionContext) => {
   const responses: readonly ResponseEntry[] = [
     [
       "https://example.com/",
@@ -129,6 +129,56 @@ test("reuses robots.txt fetches per host", async (t: ExecutionContext) => {
   await crawler.crawl();
 
   t.is(robotsRequests, 1);
+});
+
+test("does not share robots.txt caches across origins", async (t: ExecutionContext) => {
+  const responseMap: ReadonlyMap<string, Response> = new Map([
+    [
+      "https://example.com/",
+      createResponse('<html><body><a href="/about">About</a></body></html>'),
+    ],
+    [
+      "https://example.com/about",
+      createResponse("<html><body>About https</body></html>"),
+    ],
+    [
+      "http://example.com/",
+      createResponse('<html><body><a href="/info">Info</a></body></html>'),
+    ],
+    [
+      "http://example.com/info",
+      createResponse("<html><body>Info http</body></html>"),
+    ],
+  ]);
+  const robotsCounts = new Map<string, number>([
+    ["https://example.com/robots.txt", 0],
+    ["http://example.com/robots.txt", 0],
+  ]);
+  const baseFetch = createFetchStub(responseMap);
+
+  const fetchStub: typeof fetch = async (input) => {
+    const url = requestToUrl(input);
+    const count = robotsCounts.get(url);
+    if (typeof count === "number") {
+      // eslint-disable-next-line functional/immutable-data
+      robotsCounts.set(url, count + 1);
+      return new Response("User-agent: *\\nAllow: /", {
+        headers: { "content-type": "text/plain" },
+      });
+    }
+    return baseFetch(input as FetchInput);
+  };
+
+  const crawler = new WebCrawler({
+    seeds: ["https://example.com/", "http://example.com/"],
+    outputDir: await mkTmpDir(),
+    maxDepth: 1,
+    fetch: fetchStub,
+  });
+
+  await crawler.crawl();
+
+  t.deepEqual([...robotsCounts.values()], [1, 1]);
 });
 
 test("shouldContinue guard stops crawl", async (t: ExecutionContext) => {
