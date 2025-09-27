@@ -20,7 +20,7 @@
       "executor": "nx:run-commands",
       "dependsOn": ["build"],
       "options": {
-        "command": "ava --config ../../config/ava.config.mjs \"dist/**/*.test.js\"",
+        "command": "pnpm exec ava --config ../../config/ava.config.mjs",
         "cwd": "packages/webcrawler-service"
       }
     },
