@@ -1,5 +1,5 @@
 {
-  "name": "ts-sonarflow",
+  "name": "@promethean/sonarflow",
   "root": "packages/sonarflow",
   "sourceRoot": "packages/sonarflow/src",
   "targets": {

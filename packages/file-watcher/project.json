@@ -1,5 +1,5 @@
 {
-  "name": "ts-file-watcher",
+  "name": "@promethean/file-watcher",
   "root": "packages/file-watcher",
   "sourceRoot": "packages/file-watcher/src",
   "targets": {

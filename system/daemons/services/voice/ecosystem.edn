@@ -1,0 +1,36 @@
+; Generated from system/daemons/services/voice/ecosystem.config.js
+{
+  :apps [
+    {
+      :name "voice"
+      :script "dist/index.js"
+      :args []
+      :exec_mode "fork"
+      :out_file "./logs/voice-out.log"
+      :error_file "./logs/voice-err.log"
+      :merge_logs true
+      :instances 1
+      :autorestart true
+      :restart_delay 10000
+      :kill_timeout 10000
+      :env {
+        :PM2_PROCESS_NAME "voice"
+        :HEARTBEAT_PORT "5005"
+        :PYTHONUNBUFFERED "1"
+        :PYTHONPATH "./packages/pm2-helpers"
+        :CHECK_INTERVAL "300000"
+        :HEARTBEAT_TIMEOUT "600000"
+      }
+      :cwd "./packages/voice"
+      :watch [
+        "./packages/voice"
+      ]
+      :ignore_watch [
+        "node_modules"
+        "logs"
+        "tmp"
+        ".git"
+      ]
+    }
+  ]
+}

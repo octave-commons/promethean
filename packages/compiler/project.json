@@ -1,5 +1,5 @@
 {
-    "name": "ts-compiler",
+    "name": "@promethean/compiler",
     "root": "packages/compiler",
     "sourceRoot": "packages/compiler/src",
     "targets": {

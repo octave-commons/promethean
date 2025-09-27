@@ -2,7 +2,7 @@
   (:require [clojure.java.io :as io]
             [clojure.string :as str]
             [elisp.read :as read])
-  (:import [io.github.bonede.treesitter TSNode]
+  (:import [org.treesitter TSNode]
            [java.nio.file Paths]))
 
 (def ^:private org-lang-pattern
@@ -30,7 +30,7 @@
       (let [rel (.relativize cwd target)]
         (if (str/blank? (str rel)) path (str rel)))
       (catch Exception _
-        path)))
+        path))))
 
 (defn- context-label [{:keys [file block-index start-line]}]
   (let [base (present-path file)
@@ -161,6 +161,7 @@
       [{:type :exception
         :context context
         :message (str "Exception while parsing " (context-label context) ": " (.getMessage t))}]))
+  )
 
 (defn- org-lisp-blocks [content]
   (let [matcher (re-matcher org-lang-pattern content)]

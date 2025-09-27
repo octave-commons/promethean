@@ -1,5 +1,5 @@
 {
-  "name": "ts-smartgpt-bridge",
+  "name": "@promethean/smartgpt-bridge",
   "root": "packages/smartgpt-bridge",
   "sourceRoot": "packages/smartgpt-bridge/src",
   "targets": {
