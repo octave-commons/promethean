@@ -2280,11 +2280,11 @@ importers:
         specifier: workspace:*
         version: link:../legacy
       '@promethean/markdown':
-        specifier: file:../markdown
-        version: file:packages/markdown(socks@2.8.7)
+        specifier: workspace:*
+        version: link:../markdown
       '@promethean/persistence':
-        specifier: file:../persistence
-        version: file:packages/persistence(socks@2.8.7)
+        specifier: workspace:*
+        version: link:../persistence
       mongodb:
         specifier: ^6.17.0
         version: 6.18.0(socks@2.8.7)
