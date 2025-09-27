@@ -1,21 +1,21 @@
 import { git, isGitRepo, sanitizeBranch } from "../utils.js";
 
 export async function ensureBranch(branch: string) {
-  const chk = await git(`rev-parse --verify ${branch}`);
-  if (chk.code !== 0) await git(`checkout -b ${branch}`);
-  else await git(`checkout ${branch}`);
+  const chk = await git(["rev-parse", "--verify", branch]);
+  if (chk.code !== 0) await git(["checkout", "-b", branch]);
+  else await git(["checkout", branch]);
 }
 export async function commitIfChanges(message: string) {
-  const st = await git("status --porcelain");
+  const st = await git(["status", "--porcelain"]);
   if (!st.out) return undefined;
-  await git("add -A");
-  const c = await git(`commit -m "${message.replace(/"/g, '\\"')}"`);
+  await git(["add", "-A"]);
+  const c = await git(["commit", "-m", message]);
   if (c.code !== 0) return undefined;
-  const sha = await git("rev-parse HEAD");
+  const sha = await git(["rev-parse", "HEAD"]);
   return sha.out || undefined;
 }
 export async function pushBranch(branch: string, remote: string) {
-  return (await git(`push ${remote} ${branch}`)).code === 0;
+  return (await git(["push", remote, branch])).code === 0;
 }
 export async function createPR(
   branch: string,
@@ -36,8 +36,8 @@ export async function createPR(
 }
 export async function rollbackWorktree() {
   // hard reset unstaged/staged changes; also drop untracked new files (e.g., snippets accidentally written in src/)
-  await git("reset --hard");
-  await git("clean -fd");
+  await git(["reset", "--hard"]);
+  await git(["clean", "-fd"]);
 }
 
 export { isGitRepo, sanitizeBranch };
