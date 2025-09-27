@@ -21,3 +21,7 @@ test("crawlPage fetches and extracts links", async (t) => {
   t.is(result.title, "Example");
   t.deepEqual(result.links, ["https://example.com/a", "https://example.com/b"]);
 });
+
+test("crawlPage rejects invalid URLs with a friendly error", async (t) => {
+  await t.throwsAsync(() => crawlPage("not-a-url"), { message: "invalid url" });
+});
