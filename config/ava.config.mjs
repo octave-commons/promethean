@@ -12,6 +12,7 @@ const searchRoots = [
   path.resolve(repoRoot, "../shared"),
   path.resolve(repoRoot, "../tests"),
 ];
+const mockPolyfillPath = path.join(repoRoot, "ava-mock-polyfill.cjs");
 const testFileMatchers = [
   (name) => name.endsWith(".test.js"),
   (name) => name.endsWith(".spec.js"),
@@ -99,6 +100,13 @@ if (!hasCompiledTests) {
   throw new Error(instructions.join("\n"));
 }
 
+const nodeArguments = ["--enable-source-maps"];
+
+// Enable Node's module mocking API so AVA exposes t.mock in ExecutionContext.
+if (!nodeArguments.includes("--experimental-test-module-mocks")) {
+  nodeArguments.push("--experimental-test-module-mocks");
+}
+
 export default {
   files: [
     // Compiled TS tests
@@ -109,5 +117,6 @@ export default {
   ],
   timeout: "30s",
   failFast: false,
-  nodeArguments: ["--enable-source-maps"],
+  require: [mockPolyfillPath],
+  nodeArguments,
 };
