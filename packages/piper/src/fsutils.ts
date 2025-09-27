@@ -3,7 +3,6 @@ import * as path from "path";
 import { spawn } from "child_process";
 import { Worker } from "node:worker_threads";
 import { AsyncLocalStorage } from "async_hooks";
-import * as fsSync from "node:fs";
 import { pathToFileURL } from "url";
 
 import { globby } from "globby";
@@ -232,9 +231,7 @@ function enterProcessCwd(targetCwd: string | undefined): () => void {
     return () => {};
   }
 
-  const prevCwdFn = process.cwd;
-  const prevChdir = process.chdir;
-  const prevCwd = prevCwdFn.call(process);
+  const prevCwd = process.cwd();
 
   try {
     process.chdir(targetCwd);
@@ -253,55 +250,10 @@ function enterProcessCwd(targetCwd: string | undefined): () => void {
       throw err;
     }
 
-    const virtualCwdRef = { current: prevCwd };
-
-    const chdirPolyfill = (dir: string) => {
-      if (typeof dir !== "string") {
-        throw new TypeError(
-          `The "directory" argument must be of type string. Received ${typeof dir}`,
-        );
-      }
-
-      const next = path.resolve(virtualCwdRef.current, dir);
-      const stats = fsSync.statSync(next);
-      if (!stats.isDirectory()) {
-        throw new Error(`ENOENT: not a directory, chdir '${dir}'`);
-      }
-      virtualCwdRef.current = next;
-      return virtualCwdRef.current;
-    };
-
-    const restoreVirtual = () => {
-      virtualCwdRef.current = prevCwd;
-      Object.defineProperty(process, "cwd", {
-        configurable: true,
-        value: prevCwdFn,
-      });
-      Object.defineProperty(process, "chdir", {
-        configurable: true,
-        value: prevChdir,
-      });
-    };
-
-    Object.defineProperty(process, "cwd", {
-      configurable: true,
-      value: () => virtualCwdRef.current,
-    });
-    Object.defineProperty(process, "chdir", {
-      configurable: true,
-      value: chdirPolyfill,
-    });
-
-    try {
-      chdirPolyfill(targetCwd);
-    } catch (innerErr) {
-      restoreVirtual();
-      throw innerErr;
-    }
-
-    return () => {
-      restoreVirtual();
-    };
+    throw new Error(
+      `process.chdir is not supported in worker threads; unable to enter cwd "${targetCwd}". ` +
+        'Set step.js.isolate = "worker" or execute from an environment that supports chdir.',
+    );
   }
 }
 
