@@ -1,6 +1,6 @@
 import test from "ava";
 import http from "node:http";
-import { fetchGraph } from "@promethean/markdown-graph-frontend/dist/frontend/graph.mjs";
+import { fetchGraph } from "@promethean/markdown-graph-frontend/src/frontend/graph.mjs";
 
 function closeServer(server) {
   return new Promise((resolve, reject) => {
