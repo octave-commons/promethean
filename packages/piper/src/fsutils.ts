@@ -3,6 +3,7 @@ import * as path from "path";
 import { spawn } from "child_process";
 import { Worker } from "node:worker_threads";
 import { AsyncLocalStorage } from "async_hooks";
+import * as fsSync from "node:fs";
 import { pathToFileURL } from "url";
 
 import { globby } from "globby";
@@ -226,6 +227,84 @@ async function runJSModuleWorker(
   );
 }
 
+function enterProcessCwd(targetCwd: string | undefined): () => void {
+  if (!targetCwd) {
+    return () => {};
+  }
+
+  const prevCwdFn = process.cwd;
+  const prevChdir = process.chdir;
+  const prevCwd = prevCwdFn.call(process);
+
+  try {
+    process.chdir(targetCwd);
+    return () => {
+      process.chdir(prevCwd);
+    };
+  } catch (err: any) {
+    const code = err?.code;
+    const message = err?.message ? String(err.message) : "";
+    const isWorkerCwdError =
+      code === "ERR_WORKER_UNSUPPORTED_OPERATION" ||
+      message.includes("ERR_WORKER_UNSUPPORTED_OPERATION") ||
+      message.includes("not supported in workers");
+
+    if (!isWorkerCwdError) {
+      throw err;
+    }
+
+    const virtualCwdRef = { current: prevCwd };
+
+    const chdirPolyfill = (dir: string) => {
+      if (typeof dir !== "string") {
+        throw new TypeError(
+          `The "directory" argument must be of type string. Received ${typeof dir}`,
+        );
+      }
+
+      const next = path.resolve(virtualCwdRef.current, dir);
+      const stats = fsSync.statSync(next);
+      if (!stats.isDirectory()) {
+        throw new Error(`ENOENT: not a directory, chdir '${dir}'`);
+      }
+      virtualCwdRef.current = next;
+      return virtualCwdRef.current;
+    };
+
+    const restoreVirtual = () => {
+      virtualCwdRef.current = prevCwd;
+      Object.defineProperty(process, "cwd", {
+        configurable: true,
+        value: prevCwdFn,
+      });
+      Object.defineProperty(process, "chdir", {
+        configurable: true,
+        value: prevChdir,
+      });
+    };
+
+    Object.defineProperty(process, "cwd", {
+      configurable: true,
+      value: () => virtualCwdRef.current,
+    });
+    Object.defineProperty(process, "chdir", {
+      configurable: true,
+      value: chdirPolyfill,
+    });
+
+    try {
+      chdirPolyfill(targetCwd);
+    } catch (innerErr) {
+      restoreVirtual();
+      throw innerErr;
+    }
+
+    return () => {
+      restoreVirtual();
+    };
+  }
+}
+
 /** JS module runner (default in-proc fast path).
  *  - Env is isolated and restored after run (calls serialized).
  *  - Console/stdout/stderr are captured during execution.
@@ -271,12 +350,11 @@ export async function runJSModule(
   }
   const mod: any = await import(url.href);
   const fn = (step.js!.export && mod[step.js!.export]) || mod.default || mod;
-  const prevCwd = process.cwd();
+  const restoreCwd = enterProcessCwd(cwd);
   try {
-    process.chdir(cwd);
     return await runJSFunction(fn, step.js!.args ?? {}, env, timeoutMs);
   } finally {
-    process.chdir(prevCwd);
+    restoreCwd();
   }
 }
 
