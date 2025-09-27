@@ -37,11 +37,17 @@ test("bf:03-report renders markdown report", async (t) => {
   );
   const outDir = path.join(tmp, "reports");
   const { code } = await run(
-    `node ${path.join(
-      PKG_ROOT,
-      "dist/03-report.js",
-    )} --summary ${summaryPath} --history-root ${histRoot} --out ${outDir}`,
-    PKG_ROOT,
+    "node",
+    [
+      path.join(PKG_ROOT, "dist/03-report.js"),
+      "--summary",
+      summaryPath,
+      "--history-root",
+      histRoot,
+      "--out",
+      outDir,
+    ],
+    { cwd: PKG_ROOT },
   );
   t.is(code, 0);
   const files = await fs.readdir(outDir);
