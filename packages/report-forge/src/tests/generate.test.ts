@@ -1,14 +1,18 @@
-import test from "ava";
+import avaTest, { type TestFn } from "ava";
+import type { ReadonlyDeep } from "type-fest";
+
 import { generateReport } from "../lib/generateReport.js";
 import type { ReportInput, ReportOptions } from "../lib/types.js";
 
-const fakeLlm = {
-  async complete({ prompt }: { prompt: string }) {
+const test = avaTest as unknown as TestFn<unknown>;
+
+const fakeLlm: ReportOptions["llm"] = {
+  async complete({ prompt }: Readonly<{ prompt: string }>) {
     return `OK\n${prompt.split(" ")[0]}`;
   },
 };
 
-const mkInput = (): ReportInput => ({
+const mkInput = (): ReadonlyDeep<ReportInput> => ({
   repo: "x/y",
   issues: [
     {
@@ -20,10 +24,10 @@ const mkInput = (): ReportInput => ({
       url: "",
       createdAt: "2024-01-01",
     },
-  ],
+  ] as const,
 });
 
-const mkOpts = (): ReportOptions => ({ llm: fakeLlm as any });
+const mkOpts = (): ReadonlyDeep<ReportOptions> => ({ llm: fakeLlm });
 
 test("generateReport returns markdown", async (t) => {
   const out = await generateReport(mkInput(), mkOpts());
