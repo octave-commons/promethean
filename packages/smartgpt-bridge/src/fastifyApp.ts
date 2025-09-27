@@ -2,6 +2,7 @@ import Fastify from "fastify";
 // Frontend assets are served by a standalone file server under `sites/`
 import swagger from "@fastify/swagger";
 import swaggerUi from "@fastify/swagger-ui";
+import rateLimit from "@fastify/rate-limit";
 
 import { createFastifyAuth } from "./fastifyAuth.js";
 import { registerV0Routes } from "./routes/v0/index.js";
@@ -185,6 +186,7 @@ export async function buildFastifyApp(
   });
   app.decorate("ROOT_PATH", ROOT_PATH);
   app.register(mongoChromaLogger);
+  await app.register(rateLimit, { global: false });
   registerSchema(app);
 
   const baseUrl =
@@ -241,9 +243,13 @@ export async function buildFastifyApp(
     typeof (app as any).swagger === "function"
       ? (app as any).swagger()
       : swaggerOpts.openapi;
-  app.get("/openapi.json", async (_req, rep) => {
-    return rep.type("application/json").send(getOpenapiDoc());
-  });
+  app.get(
+    "/openapi.json",
+    { config: { rateLimit: { max: 60, timeWindow: "1 minute" } } },
+    async (_req, rep) => {
+      return rep.type("application/json").send(getOpenapiDoc());
+    },
+  );
 
   await registerRbac(app);
 
