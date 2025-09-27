@@ -1,5 +1,5 @@
 {
-    "name": "ts-worker",
+    "name": "@promethean/worker",
     "root": "packages/worker",
     "sourceRoot": "packages/worker/src",
     "targets": {

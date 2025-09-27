@@ -1,7 +1,7 @@
 import test from "ava";
 
 import { sleep } from "@promethean/utils";
-import { BrokerClient } from "@shared/js/brokerClient.js";
+import { BrokerClient } from "@promethean/legacy/brokerClient.js";
 
 test("memory broker: publish delivers to subscribers and unsubscribe stops it", async (t) => {
   const url = "memory://unit-bc";

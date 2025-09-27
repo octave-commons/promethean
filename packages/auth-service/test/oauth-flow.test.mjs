@@ -1,5 +1,4 @@
-import { test } from "node:test";
-import assert from "node:assert";
+import test from "ava";
 import crypto from "node:crypto";
 import { buildServer } from "../dist/index.js";
 
@@ -14,6 +13,12 @@ function pkcePair() {
 
 test("authorization code flow issues and refreshes tokens", async (t) => {
   const app = await buildServer();
+  t.teardown(async () => {
+    if (typeof app.close === "function") {
+      await app.close();
+    }
+  });
+
   const { verifier, challenge } = pkcePair();
   const authorize = await app.inject({
     method: "GET",
@@ -22,13 +27,13 @@ test("authorization code flow issues and refreshes tokens", async (t) => {
       challenge +
       "&code_challenge_method=S256&login_hint=user1",
   });
-  assert.equal(authorize.statusCode, 302);
+  t.is(authorize.statusCode, 302);
   const loc = authorize.headers.location;
-  assert.ok(loc);
+  t.truthy(loc);
   const url = new URL(loc);
-  assert.equal(url.searchParams.get("state"), "xyz");
+  t.is(url.searchParams.get("state"), "xyz");
   const code = url.searchParams.get("code");
-  assert.ok(code);
+  t.truthy(code);
 
   const tokenRes = await app.inject({
     method: "POST",
@@ -42,10 +47,10 @@ test("authorization code flow issues and refreshes tokens", async (t) => {
       code_verifier: verifier,
     }).toString(),
   });
-  assert.equal(tokenRes.statusCode, 200);
+  t.is(tokenRes.statusCode, 200);
   const body = tokenRes.json();
-  assert.ok(body.access_token);
-  assert.ok(body.refresh_token);
+  t.truthy(body.access_token);
+  t.truthy(body.refresh_token);
 
   const refreshRes = await app.inject({
     method: "POST",
@@ -57,5 +62,5 @@ test("authorization code flow issues and refreshes tokens", async (t) => {
       client_id: "test-client",
     }).toString(),
   });
-  assert.equal(refreshRes.statusCode, 200);
+  t.is(refreshRes.statusCode, 200);
 });

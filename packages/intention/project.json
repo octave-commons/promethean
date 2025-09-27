@@ -1,5 +1,5 @@
 {
-    "name": "ts-intention",
+    "name": "@promethean/intention",
     "root": "packages/intention",
     "sourceRoot": "packages/intention/src",
     "targets": {

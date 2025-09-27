@@ -10,43 +10,70 @@
      (str/split s (re-pattern re))
      (str/split (str s) (re-pattern re)))))
 
+(defn- strip-quotes [s]
+  (str/replace s #"^\"|\"$" ""))
+
+(defn- parse-array [s]
+  (let [body (subs s 1 (dec (count s)))]
+    (->> (str/split body #",")
+         (map #(-> % str/trim strip-quotes))
+         (remove str/blank?)
+         vec)))
+
+(defn- parse-value [raw]
+  (let [v (str/trim raw)]
+    (cond
+      (and (>= (count v) 2)
+           (str/starts-with? v "[")
+           (str/ends-with? v "]"))
+      (parse-array v)
+
+      (and (>= (count v) 2)
+           (str/starts-with? v "\"")
+           (str/ends-with? v "\""))
+      (strip-quotes v)
+
+      :else v)))
+
+(def ^:private table-header-re #"\[\s*mcp_servers\.(.+?)\s*\]")
+(def ^:private key-value-re #"^([^=\s]+)\s*=\s*(.+)$")
+
+(defn- normalize-table-name [inner]
+  (-> inner str/trim strip-quotes))
+
 (defn- extract-mcp-tables [s]
   ;; Returns {:tables {name {command .. args ..}} :rest-string "..."}
-  (let [lines (str/split s #"\\r?\\n")
-        out   (volatile! {:tables {} :rest [] :cur nil :buf {}})]
-    (doseq [ln lines]
-      (if-let [[_ inner] (re-matches #"\\[\\s*mcp_servers\\.(.+?)\\s*\\]" ln)]
-        (do
-          ;; flush previous cur table into tables
-          (when-let [{:keys [name buf]} (:cur @out)]
-            (vswap! out update :tables assoc name (:buf @out)))
-          ;; start new table
-          (vswap! out assoc :cur {:name (str/replace inner #"^\\\"|\\\"$" "")
-                                  :buf {}}))
-        (if-let [m (re-matches #"^(\\w+)\\s*=\\s*(.+)$" ln)]
-          (let [[_ k v] m]
-            (if-let [{:keys [name]} (:cur @out)]
-              (let [v* (cond
-                         (str/starts-with? v "[")
-                         (->> (subs v 1 (dec (count v)))
-                              (splitr #"\\s*,\\s*")
-                              (remove str/blank?)
-                              (map #(str/replace % #"^\\\"|\\\"$" ""))
-                              vec)
-                         (str/starts-with? v "\\\"")
-                         (str/replace v #"^\\\"|\\\"$" "")
-                         :else v)]
-                (vswap! out assoc-in [:buf k] v*))
-              (vswap! out update :rest conj ln)))
-          ;; no key=value
-          (if (:cur @out)
-            (vswap! out update :rest conj)
-            (vswap! out update :rest conj ln)))))
-    ;; flush last table
-    (when-let [{:keys [name buf]} (:cur @out)]
-      (vswap! out update :tables assoc name (:buf @out)))
-    {:tables (:tables @out)
-     :rest-string (str/join "\n" (:rest @out))}))
+  (let [lines (str/split s #"\r?\n")]
+    (loop [[ln & more] lines
+           cur-name nil
+           cur-entries {}
+           tables (sorted-map)
+           rest-lines []]
+      (if (nil? ln)
+        (let [tables' (cond-> tables
+                         cur-name (assoc cur-name cur-entries))]
+          {:tables tables'
+           :rest-string (str/join "\n" rest-lines)})
+        (if-let [[_ inner] (re-matches table-header-re ln)]
+          (let [tables' (cond-> tables
+                          cur-name (assoc cur-name cur-entries))
+                name (normalize-table-name inner)]
+            (recur more name {} tables' rest-lines))
+          (if-let [[_ k v] (re-matches key-value-re ln)]
+            (if cur-name
+              (recur more cur-name (assoc cur-entries k (parse-value v)) tables rest-lines)
+              (recur more cur-name cur-entries tables (conj rest-lines ln)))
+            (recur more cur-name cur-entries tables (conj rest-lines ln))))))))
+
+(defn- sanitize-command [c]
+  (some-> c strip-quotes))
+
+(defn- sanitize-args [args]
+  (when (seq args)
+    (->> args
+         (map strip-quotes)
+         (remove str/blank?)
+         vec)))
 
 (defn read-full [path]
   (let [s (slurp path)
@@ -54,9 +81,13 @@
         mcp {:mcp-servers
              (into (sorted-map)
                    (for [[nm kv] tables]
-                     [(keyword nm)
-                      (cond-> {:command (get kv "command")}
-                        (seq (get kv "args")) (assoc :args (vec (get kv "args"))))]))}]
+                     (let [name (keyword (strip-quotes nm))
+                           command (sanitize-command (get kv "command"))
+                           args (sanitize-args (get kv "args"))
+                           entry (cond-> {}
+                                    command (assoc :command command)
+                                    (seq args) (assoc :args args))]
+                       [name entry])))}]
     {:mcp mcp :rest rest-string :raw s}))
 
 (defn- render-toml-table [[k {:keys [command args]}]]

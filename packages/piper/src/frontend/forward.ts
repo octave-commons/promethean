@@ -16,31 +16,62 @@ export function forwardMethods(
   }
 }
 
+function defineDataAccessor(
+  wrapper: Record<string, unknown>,
+  impl: Record<string, unknown>,
+  desc: Pick<PropertyDescriptor, "get" | "set">,
+): void {
+  const getter =
+    typeof desc.get === "function"
+      ? () => desc.get!.call(wrapper)
+      : () => ("data" in impl ? (impl as { data?: unknown }).data : undefined);
+  const setter =
+    typeof desc.set === "function"
+      ? (value: unknown) => {
+          desc.set!.call(wrapper, value);
+        }
+      : (value: unknown) => {
+          if ("data" in impl) {
+            (impl as { data?: unknown }).data = value;
+          }
+        };
+  Object.defineProperty(wrapper, "data", {
+    configurable: true,
+    enumerable: true,
+    get: getter,
+    set: setter,
+  });
+}
+
+function defineFallbackDataAccessor(
+  wrapper: Record<string, unknown>,
+  impl: Record<string, unknown>,
+): void {
+  Object.defineProperty(wrapper, "data", {
+    configurable: true,
+    enumerable: true,
+    get: () => (impl as { data?: unknown }).data,
+    set: (value: unknown) => {
+      (impl as { data?: unknown }).data = value;
+    },
+  });
+}
+
 export function forwardAccessors(
   wrapper: Record<string, unknown>,
   impl: Record<string, unknown>,
   Impl: { prototype?: unknown },
 ): void {
   try {
-    const hasData =
-      Object.prototype.hasOwnProperty.call(Impl.prototype || {}, "data") ||
-      "data" in impl;
-    if (hasData) {
-      Object.defineProperty(wrapper, "data", {
-        configurable: true,
-        enumerable: true,
-        get: () => {
-          if ("data" in impl) {
-            return impl["data"];
-          }
-          return undefined;
-        },
-        set: (v: unknown) => {
-          if ("data" in impl) {
-            impl["data"] = v;
-          }
-        },
-      });
+    const proto = (Impl.prototype || {}) as Record<string, unknown>;
+    const desc = Object.getOwnPropertyDescriptor(proto, "data");
+    if (desc?.get || desc?.set) {
+      defineDataAccessor(wrapper, impl, desc);
+      return;
+    }
+
+    if ("data" in impl) {
+      defineFallbackDataAccessor(wrapper, impl);
     }
   } catch {
     // Best-effort; lack of accessor forwarding should not break element creation.

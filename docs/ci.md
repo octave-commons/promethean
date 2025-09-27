@@ -21,6 +21,19 @@ step.
 Both `make test` and `make simulate-ci` should succeed before sending a pull
 request.
 
+## Lockfile healer
+
+The `lockfile-heal` workflow runs on every push to `main` and once per day via
+cron. It executes `scripts/ensure-lockfile.mjs`, which regenerates
+`pnpm-lock.yaml` and checks the repository status. If a fresh generation changes
+the lockfile, the workflow opens a pull request that commits the updated lock so
+`main` stays authoritative.
+
+Contributors should still run `pnpm install` locally whenever they add, remove,
+or upgrade dependencies. Local installs ensure the working tree is consistent
+before opening a pull request, while the healer workflow acts as a safety net in
+case drift slips through.
+
 ## Dependency caching
 
 The CI workflows cache package downloads to speed up installs:

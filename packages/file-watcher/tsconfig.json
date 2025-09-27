@@ -10,8 +10,7 @@
     "paths": {
       "@shared/ts/*": ["../shared/ts/dist/*"],
       "@promethean/test-utils/*": ["../test-utils/dist/*"],
-      "@promethean/legacy/*": ["../legacy/*"],
-      "@shared/js/*": ["../legacy/*"]
+      "@promethean/legacy/*": ["../legacy/*"]
     },
     "baseUrl": "."
   },

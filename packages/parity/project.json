@@ -1,5 +1,5 @@
 {
-    "name": "ts-parity",
+    "name": "@promethean/parity",
     "root": "packages/parity",
     "sourceRoot": "packages/parity/src",
     "targets": {

@@ -1,5 +1,5 @@
 {
-  "name": "ts-piper",
+  "name": "@promethean/piper",
   "root": "packages/piper",
   "sourceRoot": "packages/piper/src",
   "targets": {

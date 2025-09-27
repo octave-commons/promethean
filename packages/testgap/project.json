@@ -1,5 +1,5 @@
 {
-  "name": "ts-testgap",
+  "name": "@promethean/testgap",
   "root": "packages/testgap",
   "sourceRoot": "packages/testgap/src",
   "targets": {
