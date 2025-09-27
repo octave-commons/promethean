@@ -11,17 +11,18 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - run: apt-get install -y rg
       - uses: actions/checkout@v4
         with: { fetch-depth: 0 }
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with: { node-version: 20, cache: pnpm }
+      - uses: nrwl/nx-set-shas@v4
       - name: Install Clojure toolchain
         run: bash run/install-clojure.sh
       - name: Install Playwright
         run: bash run/setup_playwright.sh
-      - uses: nrwl/nx-set-shas@v4
+      - name: install rg
+        run: apt-get install -y rg
       - name: Install deps
         run: pnpm install --frozen-lockfile
       - run: pnpm exec nx affected -t test --parallel
