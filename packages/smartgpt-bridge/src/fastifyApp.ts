@@ -261,7 +261,7 @@ export async function buildFastifyApp(
     async (v1Scope) => {
       // Register rate limiting for v1 routes (best-effort; ignore version mismatches)
       if (!isTestEnv) {
-        await registerV1Routes(v1Scope);
+        await registerV1Routes(v1Scope, { runCommand: deps.runCommand });
       }
 
       const v1Auth = authFactory();
@@ -270,7 +270,7 @@ export async function buildFastifyApp(
     { prefix: "/v1" },
   );
 
-  await registerV1Routes(app);
+  await registerV1Routes(app, { runCommand: deps.runCommand });
 
   // Initialize indexer bootstrap/incremental state unless in test
   if (!isTestEnv) {
