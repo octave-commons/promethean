@@ -61,3 +61,9 @@ test('normalizeToRoot resolves "/" to repo root', (t) => {
   const p = normalizeToRoot(process.cwd(), "/");
   t.is(p, path.resolve(process.cwd()));
 });
+
+test("normalizeToRoot allows absolute paths inside root", (t) => {
+  const abs = path.join(process.cwd(), "tests", "fixtures", "hello.ts");
+  const normalized = normalizeToRoot(process.cwd(), abs);
+  t.is(normalized, abs);
+});

@@ -23,9 +23,19 @@ export function normalizeToRoot(
   const base = path.resolve(ROOT_PATH);
   const p = String(inputPath || "");
   if (p === "/" || p === "") return base;
-  const candidate = path.isAbsolute(p)
-    ? path.resolve(base, p.slice(1))
-    : path.resolve(base, p.replace(/^[\\/]+/, ""));
+  let candidate: string;
+  if (path.isAbsolute(p)) {
+    const absolute = path.resolve(p);
+    if (isInsideRoot(ROOT_PATH, absolute)) {
+      candidate = absolute;
+    } else if (p.startsWith(path.sep)) {
+      candidate = path.resolve(base, p.slice(1));
+    } else {
+      throw new Error("path outside root");
+    }
+  } else {
+    candidate = path.resolve(base, p.replace(/^[\\/]+/, ""));
+  }
   const relToBase = path.relative(base, candidate);
   if (relToBase.startsWith("..") || path.isAbsolute(relToBase)) {
     throw new Error("path outside root");
