@@ -19,6 +19,19 @@ export async function registerV1Routes(
   // Everything defined here will be reachable under /v1 because of the prefix in fastifyApp.js
   await app.register(
     async function v1(v1: FastifyInstance) {
+      type RootedFastify = FastifyInstance & { ROOT_PATH?: string };
+      const parent = app as RootedFastify;
+      const scoped = v1 as RootedFastify;
+      const rootPath = parent.ROOT_PATH ?? process.cwd();
+      const canDecorate = typeof scoped.decorate === "function";
+      const hasRootPath =
+        typeof scoped.hasDecorator === "function" &&
+        scoped.hasDecorator("ROOT_PATH");
+      if (canDecorate && !hasRootPath) {
+        scoped.decorate("ROOT_PATH", rootPath);
+      } else {
+        scoped.ROOT_PATH = rootPath;
+      }
       // Swagger JUST for v1 (encapsulation keeps it scoped)
 
       await v1.register(rateLimit, {
