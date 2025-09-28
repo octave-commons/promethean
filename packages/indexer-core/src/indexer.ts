@@ -151,10 +151,23 @@ async function resolveWithinRoot(rootPath: string, rel: string) {
     async (resolved) => {
       if (resolved !== null) return resolved;
       const parentReal = await realpathOrNull(path.dirname(candidate));
+      let attempted;
       if (parentReal !== null) {
-        return path.join(parentReal, path.basename(candidate));
+        attempted = path.join(parentReal, path.basename(candidate));
+      } else {
+        attempted = path.normalize(candidate);
       }
-      return path.normalize(candidate);
+      // Explicitly check fallback against rootAbs
+      const rootCheck = path.resolve(rootAbs);
+      const absAttempted = path.resolve(attempted);
+      const relAttempted = path.relative(rootCheck, absAttempted);
+      const escapesRootAttempted =
+        relAttempted.length > 0 &&
+        (relAttempted.startsWith("..") || path.isAbsolute(relAttempted));
+      if (escapesRootAttempted) {
+        throw new Error("Path escapes index root (fallback)");
+      }
+      return absAttempted;
     },
   );
 
