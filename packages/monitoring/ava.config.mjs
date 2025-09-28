@@ -1,2 +1,1 @@
-import base from "../../config/ava.config.mjs";
-export default { ...base, files: ["tests/**/*.test.js"] };
+export { default } from "../../config/ava.config.mjs";
