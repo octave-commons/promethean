@@ -57,6 +57,12 @@ async function writeFailingPipelineConfig(dir: string) {
 
 test("failing steps log stderr once", async (t) => {
   t.plan(3);
+  const prevSilent = process.env.PIPER_SILENT;
+  process.env.PIPER_SILENT = "false";
+  t.teardown(() => {
+    if (prevSilent === undefined) delete process.env.PIPER_SILENT;
+    else process.env.PIPER_SILENT = prevSilent;
+  });
   await withTmp(async (dir) => {
     const pipelinesPath = await writeFailingPipelineConfig(dir);
     const mockApi = (t as { mock?: unknown }).mock;
