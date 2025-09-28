@@ -130,19 +130,44 @@ const DEFAULT_INCLUDE = [
 async function resolveWithinRoot(rootPath: string, rel: string) {
   const rootAbs = path.resolve(rootPath);
   const candidate = path.resolve(rootAbs, rel);
-  // Canonicalize both the root and candidate to resolve symlinks
-  const [rootReal, candidateReal] = await Promise.all([
-    fs.realpath(rootAbs),
-    fs.realpath(candidate),
-  ]);
+
+  // Canonicalize the root to resolve symlinks
+  const rootReal = await fs.realpath(rootAbs);
+
+  let candidateReal: string;
+  try {
+    // Canonicalize candidate to resolve symlinks
+    candidateReal = await fs.realpath(candidate);
+  } catch (e: any) {
+    // If the candidate does not exist yet, do a strict containment check on its resolved parent directory
+    const candidateDir = path.dirname(candidate);
+    let candidateDirReal: string;
+    try {
+      candidateDirReal = await fs.realpath(candidateDir);
+    } catch (e2: any) {
+      throw new Error("Parent directory does not exist or is not accessible");
+    }
+    const relativeParent = path.relative(rootReal, candidateDirReal);
+    const isParentContained =
+      relativeParent === "" ||
+      (!!relativeParent &&
+        !relativeParent.startsWith("..") &&
+        !path.isAbsolute(relativeParent));
+    if (!isParentContained) {
+      throw new Error("Path escapes index root (non-existent file)");
+    }
+    candidateReal = path.join(candidateDirReal, path.basename(candidate));
+  }
+
   // More robust containment check: ensure candidateReal is inside rootReal
   const relative = path.relative(rootReal, candidateReal);
   const isContained =
-    !!relative &&
-    !relative.startsWith("..") &&
-    !path.isAbsolute(relative);
+    relative === "" ||
+    (!!relative &&
+      !relative.startsWith("..") &&
+      !path.isAbsolute(relative));
   // Optionally allow rootReal itself as valid, or disallow
-  if (!isContained && candidateReal !== rootReal) {
+  if (!isContained) {
     throw new Error("Path escapes index root");
   }
   const normalizedRel = toPosixPath(path.relative(rootReal, candidateReal));
