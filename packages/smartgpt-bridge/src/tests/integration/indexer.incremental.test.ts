@@ -15,7 +15,20 @@ import {
   resetChroma,
   indexerManager,
 } from "../../indexer.js";
-import { loadBootstrapState } from "../../indexerState.js";
+import {
+  deleteBootstrapState,
+  loadBootstrapState,
+} from "../../indexerState.js";
+
+const TEST_ROOT = path.join(
+  process.cwd(),
+  "services",
+  "ts",
+  "smartgpt-bridge",
+  "tests",
+  "tmp",
+  "inc1",
+);
 
 async function waitIdle(timeoutMs = 5000) {
   const start = Date.now();
@@ -55,19 +68,11 @@ test.serial(
     process.env.INDEXER_FILE_DELAY_MS = "0";
 
     // Create temp root
-    const ROOT = path.join(
-      process.cwd(),
-      "services",
-      "ts",
-      "smartgpt-bridge",
-      "tests",
-      "tmp",
-      "inc1",
-    );
-    await fs.mkdir(ROOT, { recursive: true });
-    const a = path.join(ROOT, "a.txt");
-    const b = path.join(ROOT, "b.txt");
-    const c = path.join(ROOT, "c.md");
+    await fs.rm(TEST_ROOT, { recursive: true, force: true });
+    await fs.mkdir(TEST_ROOT, { recursive: true });
+    const a = path.join(TEST_ROOT, "a.txt");
+    const b = path.join(TEST_ROOT, "b.txt");
+    const c = path.join(TEST_ROOT, "c.md");
     await fs.writeFile(a, "alpha");
     await fs.writeFile(b, "bravo");
     await fs.writeFile(c, "# charlie");
@@ -78,13 +83,13 @@ test.serial(
     setEmbeddingFactory(async () => ({ generate: async () => [] }));
 
     // Fresh bootstrap
-    await indexerManager.resetAndBootstrap(ROOT);
+    await indexerManager.resetAndBootstrap(TEST_ROOT);
     await waitIdle();
 
     // Confirm state saved and mode becomes indexed
     const s1 = indexerManager.status();
     t.is(s1.mode, "indexed");
-    const stateFile = await loadBootstrapState(ROOT);
+    const stateFile = await loadBootstrapState(TEST_ROOT);
     t.truthy(stateFile);
     if (stateFile) {
       t.true(["indexed", "bootstrap"].includes(stateFile.mode ?? ""));
@@ -95,7 +100,7 @@ test.serial(
     col.deletes = [];
 
     // Change files: modify b, add d, remove a
-    const d = path.join(ROOT, "d.txt");
+    const d = path.join(TEST_ROOT, "d.txt");
     await fs.appendFile(b, "++changed");
     await fs.writeFile(d, "delta");
     await fs.rm(a);
@@ -106,7 +111,7 @@ test.serial(
     indexerManager.active = false;
     indexerManager._draining = false;
 
-    await indexerManager.ensureBootstrap(ROOT);
+    await indexerManager.ensureBootstrap(TEST_ROOT);
     await waitIdle();
 
     // Validate: upserted for b and d; deleted a
@@ -132,7 +137,9 @@ test.serial(
   },
 );
 
-test.after.always(() => {
+test.after.always(async () => {
+  await deleteBootstrapState(TEST_ROOT);
+  await fs.rm(TEST_ROOT, { recursive: true, force: true });
   // Reset globals
   resetChroma();
   setEmbeddingFactory(null);
