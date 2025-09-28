@@ -1,5 +1,9 @@
+import * as path from "path";
+
 import { openLevelCache } from "@promethean/level-cache";
 import type { Cache } from "@promethean/level-cache";
+
+import { sha1 } from "@promethean/utils";
 
 export type Step = Readonly<{
   fingerprint: string;
@@ -25,12 +29,20 @@ export type RunState = {
 const DB_PATH = ".cache/piper.level";
 const saveQueues = new Map<string, Promise<void>>();
 
-export async function loadState(pipeline: string): Promise<RunState> {
+export function makePipelineNamespace(
+  configPath: string,
+  pipelineName: string,
+): string {
+  const absConfig = path.resolve(configPath);
+  return `${pipelineName}:${sha1(absConfig)}`;
+}
+
+export async function loadState(namespace: string): Promise<RunState> {
   let cache: Cache<Step> | undefined;
   try {
     cache = await openLevelCache<Step>({
       path: DB_PATH,
-      namespace: pipeline,
+      namespace,
     });
     // use a null-prototype object to prevent prototype pollution
     const steps = Object.create(null) as RunState["steps"];
@@ -60,12 +72,12 @@ export async function loadState(pipeline: string): Promise<RunState> {
   }
 }
 
-async function persistState(pipeline: string, state: RunState): Promise<void> {
+async function persistState(namespace: string, state: RunState): Promise<void> {
   let cache: Cache<Step> | undefined;
   try {
     cache = await openLevelCache<Step>({
       path: DB_PATH,
-      namespace: pipeline,
+      namespace,
     });
     for (const [k, v] of Object.entries(state.steps)) {
       await cache.set(k, v);
@@ -83,15 +95,15 @@ async function persistState(pipeline: string, state: RunState): Promise<void> {
   }
 }
 
-export async function saveState(pipeline: string, state: RunState) {
-  const run = () => persistState(pipeline, state);
-  const prev = saveQueues.get(pipeline) ?? Promise.resolve();
+export async function saveState(namespace: string, state: RunState) {
+  const run = () => persistState(namespace, state);
+  const prev = saveQueues.get(namespace) ?? Promise.resolve();
   const chained = prev.then(run, run);
   const finalPromise = chained.finally(() => {
-    if (saveQueues.get(pipeline) === finalPromise) {
-      saveQueues.delete(pipeline);
+    if (saveQueues.get(namespace) === finalPromise) {
+      saveQueues.delete(namespace);
     }
   });
-  saveQueues.set(pipeline, finalPromise);
+  saveQueues.set(namespace, finalPromise);
   return finalPromise;
 }
