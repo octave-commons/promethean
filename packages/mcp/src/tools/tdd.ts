@@ -159,14 +159,18 @@ export const tddRunTests: ToolFactory = () => {
   const spec = {
     name: "tdd.runTests",
     description:
-      "Run AVA via npx with JSON (or TAP) output and return aggregated results.",
+      "Run AVA via npx with JSON (or TAP) output and return aggregated results. For long-running watchers, use tdd.startWatch/tdd.getWatchChanges instead.",
     inputSchema: shape,
   } as const;
   const invoke = async (raw: unknown) => {
     const { files, match, tap, watch: w } = Schema.parse(raw);
+    if (w) {
+      throw new Error(
+        "tdd.runTests does not support watch mode; use tdd.startWatch/tdd.getWatchChanges",
+      );
+    }
     const args = ["--yes", "ava", "--json"];
     if (tap) args.push("--tap");
-    if (w) args.push("--watch");
     match?.forEach((m) => {
       args.push("--match", m);
     });

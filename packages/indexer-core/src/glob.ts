@@ -20,21 +20,54 @@ function normalizePattern(value: string): string {
   return toPosixPath(value.trim());
 }
 
+function findFirstBraceSegment(pattern: string): {
+  start: number;
+  end: number;
+} | null {
+  let depth = 0;
+  let start = -1;
+  for (let i = 0; i < pattern.length; i++) {
+    const ch = pattern[i];
+    if (ch === "\\") {
+      i += 1;
+      continue;
+    }
+    if (ch === "{" && depth === 0) {
+      start = i;
+      depth = 1;
+      continue;
+    }
+    if (ch === "{" && depth > 0) {
+      depth += 1;
+      continue;
+    }
+    if (ch === "}" && depth > 0) {
+      depth -= 1;
+      if (depth === 0) {
+        return { start, end: i };
+      }
+    }
+  }
+  return null;
+}
+
 export function expandBraces(pattern: string): string[] {
-  const match = pattern.match(/\{([^}]+)\}/);
-  if (!match) {
+  const segment = findFirstBraceSegment(pattern);
+  if (!segment) {
     return [pattern];
   }
-  const raw = match[0] ?? pattern;
-  const body = match[1];
-  if (!body) {
+  const { start, end } = segment;
+  const body = pattern.slice(start + 1, end);
+  if (!body.includes(",")) {
     return [pattern];
   }
+  const before = pattern.slice(0, start);
+  const after = pattern.slice(end + 1);
   return body
     .split(",")
-    .map((segment) => segment.trim())
-    .filter((segment) => segment.length > 0)
-    .flatMap((segment) => expandBraces(pattern.replace(raw, segment)));
+    .map((value) => value.trim())
+    .filter((value) => value.length > 0)
+    .flatMap((value) => expandBraces(`${before}${value}${after}`));
 }
 
 function globToRegExp(pattern: string): RegExp {

@@ -127,16 +127,40 @@ const DEFAULT_INCLUDE = [
   "**/*.{md,txt,js,ts,jsx,tsx,py,go,rs,json,yml,yaml,sh}",
 ];
 
+function resolveWithinRoot(rootPath: string, rel: string) {
+  const rootAbs = path.resolve(rootPath);
+  const candidate = path.resolve(rootAbs, rel);
+  const isSame = candidate === rootAbs;
+  const withinRoot = candidate.startsWith(`${rootAbs}${path.sep}`);
+  if (!isSame && !withinRoot) {
+    throw new Error("Path escapes index root");
+  }
+  const normalizedRel = toPosixPath(path.relative(rootAbs, candidate));
+  return { abs: candidate, rel: normalizedRel };
+}
+
 function toIgnoreDirs(patterns: readonly string[]): string[] {
+  const stripSuffix = (value: string) => {
+    const starIndex = value.indexOf("**");
+    if (starIndex === -1) return value;
+    return value.slice(0, starIndex);
+  };
+  const trimRepeatedSlashes = (value: string) => {
+    let next = value;
+    while (next.endsWith("/")) {
+      next = next.slice(0, -1);
+    }
+    return next;
+  };
   return patterns
     .map((raw) => raw.trim())
     .filter((value) => value.length > 0)
-    .map((value) => value.replace(/^!/, ""))
-    .map((value) => value.replace(/\\/g, "/"))
-    .map((value) => value.replace(/\/\*\*.*$/, ""))
-    .map((value) => value.replace(/^\*\*\//, ""))
-    .map((value) => value.replace(/^\//, ""))
-    .map((value) => value.replace(/\/$/, ""))
+    .map((value) => (value.startsWith("!") ? value.slice(1) : value))
+    .map((value) => value.split("\\").join("/"))
+    .map((value) => (value.startsWith("**/") ? value.slice(3) : value))
+    .map((value) => (value.startsWith("/") ? value.slice(1) : value))
+    .map(stripSuffix)
+    .map(trimRepeatedSlashes)
     .filter((value) => value.length > 0)
     .map((value) => path.normalize(value));
 }
@@ -263,24 +287,24 @@ export async function indexFile(
     dims: Number(process.env.EMBED_DIMS || 768),
   };
   const col = await collectionForFamily(family, version, cfg);
-  const abs = path.join(rootPath, rel);
+  const { abs, rel: safeRel } = resolveWithinRoot(rootPath, rel);
   let raw = "";
   try {
     raw = await fs.readFile(abs, "utf8");
   } catch (e: any) {
-    logger.warn("indexFile read failed", { path: rel, err: e });
+    logger.warn("indexFile read failed", { path: safeRel, err: e });
     return { ok: false, error: String(e?.message || e) };
   }
   const chunks = makeChunks(raw);
   let processed = 0;
   for (const c of chunks) {
-    const id = `${rel}#${c.index}`;
+    const id = `${safeRel}#${c.index}`;
     await col.upsert({
       ids: [id],
       documents: [c.text],
       metadatas: [
         {
-          path: rel,
+          path: safeRel,
           chunkIndex: c.index,
           startLine: c.startLine,
           endLine: c.endLine,
@@ -294,7 +318,7 @@ export async function indexFile(
     });
     processed++;
   }
-  return { ok: true, path: rel, processed };
+  return { ok: true, path: safeRel, processed };
 }
 
 export async function removeFileFromIndex(_rootPath: string, rel: string) {
@@ -306,7 +330,8 @@ export async function removeFileFromIndex(_rootPath: string, rel: string) {
   };
   const col = await collectionForFamily(family, version, cfg);
   try {
-    await col.delete({ where: { path: rel } });
+    const { rel: safeRel } = resolveWithinRoot(_rootPath, rel);
+    await col.delete({ where: { path: safeRel } });
     return { ok: true };
   } catch (e: any) {
     logger.error("removeFileFromIndex failed", { path: rel, err: e });
