@@ -22,7 +22,10 @@ function normalizeLevel(raw: string): Level {
 }
 
 export async function buildServer(options: BuildServerOptions = {}) {
-  const config = Object.keys(options).length > 0 ? { ...loadConfig(), ...options } : loadConfig();
+  const config =
+    Object.keys(options).length > 0
+      ? { ...loadConfig(), ...options }
+      : loadConfig();
 
   const level = normalizeLevel(config.logLevel);
   const logger = createLogger({ service: "indexer-service", level });
