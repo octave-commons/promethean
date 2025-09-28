@@ -1,21 +1,24 @@
+/* eslint-disable functional/no-try-statements, functional/immutable-data, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access */
+
 import path from "node:path";
 
 import test from "ava";
 
 import { withServer } from "../helpers/server.js";
+import { captureEnv, restoreEnv } from "../helpers/env.js";
 
 const ROOT = path.join(process.cwd(), "tests", "fixtures");
 
 test.serial(
   "exec requires auth when enabled and allows with token",
   async (t) => {
-    const prev = {
-      AUTH_ENABLED: process.env.AUTH_ENABLED,
-      AUTH_MODE: process.env.AUTH_MODE,
-      AUTH_TOKENS: process.env.AUTH_TOKENS,
-      EXEC_ENABLED: process.env.EXEC_ENABLED,
-      EXEC_SHELL: process.env.EXEC_SHELL,
-    };
+    const prev = captureEnv([
+      "AUTH_ENABLED",
+      "AUTH_MODE",
+      "AUTH_TOKENS",
+      "EXEC_ENABLED",
+      "EXEC_SHELL",
+    ]);
     try {
       t.timeout(180000);
       process.env.AUTH_ENABLED = "true";
@@ -38,7 +41,7 @@ test.serial(
           .send({ command: "echo hello" })
           .expect(200);
         t.true(ok.body.ok);
-        t.regex(ok.body.stdout || "", /hello/);
+        t.regex(String(ok.body.stdout || ""), /hello/);
 
         // Guard blocks dangerous command
         const blocked = await req
@@ -47,14 +50,10 @@ test.serial(
           .send({ command: "rm -rf /tmp" })
           .expect(200);
         t.false(blocked.body.ok);
-        t.regex(blocked.body.error || "", /blocked by guard/i);
+        t.regex(String(blocked.body.error || ""), /blocked by guard/i);
       });
     } finally {
-      process.env.AUTH_ENABLED = prev.AUTH_ENABLED;
-      process.env.AUTH_MODE = prev.AUTH_MODE;
-      process.env.AUTH_TOKENS = prev.AUTH_TOKENS;
-      process.env.EXEC_ENABLED = prev.EXEC_ENABLED;
-      process.env.EXEC_SHELL = prev.EXEC_SHELL;
+      restoreEnv(prev);
     }
   },
 );
