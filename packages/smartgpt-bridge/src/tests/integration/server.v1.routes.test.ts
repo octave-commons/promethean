@@ -1,10 +1,10 @@
-import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 import test from "ava";
 
 import { withServer } from "../helpers/server.js";
 
-const ROOT = path.join(process.cwd(), "tests", "fixtures");
+const ROOT = fileURLToPath(new URL("../../../tests/fixtures", import.meta.url));
 
 test("GET /v1/files/ returns flat file list", async (t) => {
   await withServer(ROOT, async (req) => {
