@@ -6,11 +6,10 @@
     "build": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "tsc -b"
+        "command": "tsc -b",
+        "cwd": "{projectRoot}"
       },
-      "outputs": [
-        "{projectRoot}/dist"
-      ]
+      "outputs": ["{projectRoot}/dist"]
     },
     "typecheck": {
       "executor": "nx:run-commands",
@@ -20,9 +19,7 @@
     },
     "test": {
       "executor": "nx:run-commands",
-      "dependsOn": [
-        "build"
-      ],
+      "dependsOn": ["build"],
       "options": {
         "command": "ava",
         "env": {
@@ -38,7 +35,5 @@
       }
     }
   },
-  "tags": [
-    "scope:packages"
-  ]
+  "tags": ["scope:packages"]
 }
