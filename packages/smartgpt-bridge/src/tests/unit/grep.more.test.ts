@@ -1,10 +1,9 @@
-import path from "node:path";
-
 import test from "ava";
 
 import { grep } from "../../grep.js";
+import { FIXTURES_ROOT } from "../helpers/fixtures.js";
 
-const ROOT = path.join(process.cwd(), "tests", "fixtures");
+const ROOT = FIXTURES_ROOT;
 
 test("grep: maxMatches limits results", async (t) => {
   const results = await grep(ROOT, {

@@ -3,8 +3,9 @@ import path from "node:path";
 import test from "ava";
 
 import { viewFile, resolvePath } from "../../files.js";
+import { FIXTURES_ROOT } from "../helpers/fixtures.js";
 
-const ROOT = path.join(process.cwd(), "tests", "fixtures");
+const ROOT = FIXTURES_ROOT;
 
 test("viewFile: returns correct window around line", async (t) => {
   const out = await viewFile(ROOT, "readme.md", 3, 2);

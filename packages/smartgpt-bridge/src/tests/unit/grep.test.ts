@@ -5,8 +5,9 @@ import test from "ava";
 import { execa } from "execa";
 
 import { grep } from "../../grep.js";
+import { FIXTURES_ROOT } from "../helpers/fixtures.js";
 
-const ROOT = path.join(process.cwd(), "tests", "fixtures");
+const ROOT = FIXTURES_ROOT;
 
 type Opts = {
   flags?: string;

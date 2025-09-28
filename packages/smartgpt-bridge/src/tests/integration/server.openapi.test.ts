@@ -1,10 +1,9 @@
-import path from "node:path";
-
 import test from "ava";
 
+import { FIXTURES_ROOT } from "../helpers/fixtures.js";
 import { withServer } from "../helpers/server.js";
 
-const ROOT = path.join(process.cwd(), "tests", "fixtures");
+const ROOT = FIXTURES_ROOT;
 
 test("GET /openapi.json includes servers, schemas, and paths", async (t) => {
   const prev = process.env.PUBLIC_BASE_URL;

@@ -1,8 +1,7 @@
-import path from "node:path";
-
 import test from "ava";
 import type { QueryRecordsParams, UpsertRecordsParams } from "chromadb";
 
+import { FIXTURES_ROOT } from "../helpers/fixtures.js";
 import { withServer } from "../helpers/server.js";
 import {
   setChromaClient,
@@ -10,7 +9,7 @@ import {
   resetChroma,
 } from "../../indexer.js";
 
-const ROOT = path.join(process.cwd(), "tests", "fixtures");
+const ROOT = FIXTURES_ROOT;
 
 class FakeCollection {
   async query(_args: QueryRecordsParams) {

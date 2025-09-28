@@ -1,10 +1,9 @@
-import path from "node:path";
-
 import test from "ava";
 
 import { symbolsIndex, symbolsFind } from "../../symbols.js";
+import { FIXTURES_ROOT } from "../helpers/fixtures.js";
 
-const ROOT = path.join(process.cwd(), "tests", "fixtures");
+const ROOT = FIXTURES_ROOT;
 
 test.serial(
   "symbols: indexes small TS fixtures and finds Greeter class",

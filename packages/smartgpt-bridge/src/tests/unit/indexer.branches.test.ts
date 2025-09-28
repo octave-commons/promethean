@@ -12,8 +12,9 @@ import {
   reindexAll,
   resetChroma,
 } from "../../indexer.js";
+import { FIXTURES_ROOT } from "../helpers/fixtures.js";
 
-const ROOT = path.join(process.cwd(), "tests", "fixtures");
+const ROOT = FIXTURES_ROOT;
 
 class EmptyCollection {
   async query(_args?: QueryRecordsParams) {

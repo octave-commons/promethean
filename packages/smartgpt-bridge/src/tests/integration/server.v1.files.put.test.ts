@@ -3,9 +3,10 @@ import path from "node:path";
 
 import test from "ava";
 
+import { FIXTURES_ROOT } from "../helpers/fixtures.js";
 import { withServer } from "../helpers/server.js";
 
-const ROOT = path.join(process.cwd(), "tests", "fixtures");
+const ROOT = FIXTURES_ROOT;
 const FILE_WRITE = "putfile.write.test.txt";
 const FILE_EDIT = "putfile.edit.test.txt";
 const FILE_MISSING = "putfile.missing.test.txt";

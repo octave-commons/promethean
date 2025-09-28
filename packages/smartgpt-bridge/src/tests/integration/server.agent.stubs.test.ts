@@ -1,12 +1,12 @@
-import path from "node:path";
-
 import test from "ava";
 import sinon from "sinon";
 
+import { FIXTURES_ROOT, packageRoot } from "../helpers/fixtures.js";
 import { withServer } from "../helpers/server.js";
 import { supervisor as defaultSupervisor } from "../../agent.js";
 
-const ROOT = path.join(process.cwd(), "tests", "fixtures");
+const ROOT = FIXTURES_ROOT;
+const PKG_ROOT = packageRoot();
 
 test("agent endpoints success paths via stubbed supervisor", async (t) => {
   const s = sinon.createSandbox();
@@ -15,7 +15,7 @@ test("agent endpoints success paths via stubbed supervisor", async (t) => {
     id: "S1",
     cmd: "codex",
     args: ["exec"],
-    cwd: process.cwd(),
+    cwd: PKG_ROOT,
     startedAt: Date.now(),
     exited: false,
     code: null,

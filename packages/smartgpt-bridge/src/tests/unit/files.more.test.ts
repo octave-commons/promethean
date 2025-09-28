@@ -8,8 +8,10 @@ import {
   viewFile,
   normalizeToRoot,
 } from "../../files.js";
+import { FIXTURES_ROOT, packageRoot } from "../helpers/fixtures.js";
 
-const ROOT = path.join(process.cwd(), "tests", "fixtures");
+const ROOT = FIXTURES_ROOT;
+const PKG_ROOT = packageRoot();
 
 test("locateStacktrace: Node style with function (nodeB)", async (t) => {
   const p = path.join(ROOT, "hello.ts");
@@ -52,18 +54,18 @@ test("viewFile throws when file missing", async (t) => {
 });
 
 test("normalizeToRoot treats leading slash as repo root", (t) => {
-  const p1 = normalizeToRoot(process.cwd(), "tests/fixtures/readme.md");
-  const p2 = normalizeToRoot(process.cwd(), "/tests/fixtures/readme.md");
+  const p1 = normalizeToRoot(PKG_ROOT, "tests/fixtures/readme.md");
+  const p2 = normalizeToRoot(PKG_ROOT, "/tests/fixtures/readme.md");
   t.is(p1, p2);
 });
 
 test('normalizeToRoot resolves "/" to repo root', (t) => {
-  const p = normalizeToRoot(process.cwd(), "/");
-  t.is(p, path.resolve(process.cwd()));
+  const p = normalizeToRoot(PKG_ROOT, "/");
+  t.is(p, path.resolve(PKG_ROOT));
 });
 
 test("normalizeToRoot allows absolute paths inside root", (t) => {
-  const abs = path.join(process.cwd(), "tests", "fixtures", "hello.ts");
-  const normalized = normalizeToRoot(process.cwd(), abs);
+  const abs = path.join(PKG_ROOT, "tests", "fixtures", "hello.ts");
+  const normalized = normalizeToRoot(PKG_ROOT, abs);
   t.is(normalized, abs);
 });
