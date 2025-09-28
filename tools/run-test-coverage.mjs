@@ -209,6 +209,9 @@ const main = async () => {
         env: {
           ...process.env,
           NODE_V8_COVERAGE: tempDir,
+          ...(process.env.LOG_SILENT === undefined
+            ? { LOG_SILENT: "true" }
+            : {}),
         },
         timeoutMs: PACKAGE_TIMEOUT_MS,
         killSignalGraceMs: CHILD_PROCESS_GRACE_MS,
