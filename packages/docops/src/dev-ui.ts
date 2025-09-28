@@ -122,8 +122,10 @@ const loadDocs = async (db: DBs) => {
   return docs;
 };
 
-const readChunks = async (db: DBs, uuid: string) =>
-  ((await db.chunks.get(uuid).catch(() => [])) as Chunk[]).map((chunk) => ({
+const readChunks = async (db: DBs, uuid: string) => {
+  const raw = await db.chunks.get(uuid).catch(() => []);
+  const chunks = Array.isArray(raw) ? (raw as Chunk[]) : [];
+  return chunks.map((chunk) => ({
     id: chunk.id,
     docUuid: chunk.docUuid,
     docPath: chunk.docPath,
@@ -133,6 +135,7 @@ const readChunks = async (db: DBs, uuid: string) =>
     startCol: chunk.startCol ?? 0,
     endCol: chunk.endCol ?? 0,
   }));
+};
 
 const buildSearchIndex = async (db: DBs) => {
   const docs = await loadDocs(db);
