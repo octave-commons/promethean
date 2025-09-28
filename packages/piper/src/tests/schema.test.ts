@@ -23,85 +23,83 @@ async function withTmp(fn: (dir: string) => Promise<void>) {
 
 test.serial("fails when input schema mismatches", async (t) => {
   await withTmp(async (dir) => {
-    const prevCwd = process.cwd();
-    process.chdir(dir);
-    try {
-      const schema = {
-        type: "object",
-        required: ["foo"],
-        properties: { foo: { type: "string" } },
-      };
-      await fs.writeFile("schema.json", JSON.stringify(schema), "utf8");
-      await fs.writeFile("in.json", JSON.stringify({ foo: 123 }), "utf8");
+    const schema = {
+      type: "object",
+      required: ["foo"],
+      properties: { foo: { type: "string" } },
+    };
+    await fs.writeFile(
+      path.join(dir, "schema.json"),
+      JSON.stringify(schema),
+      "utf8",
+    );
+    await fs.writeFile(
+      path.join(dir, "in.json"),
+      JSON.stringify({ foo: 123 }),
+      "utf8",
+    );
 
-      const cfg = {
-        pipelines: [
-          {
-            name: "demo",
-            steps: [
-              {
-                id: "s1",
-                shell: "cp in.json out.json",
-                inputs: ["in.json"],
-                outputs: ["out.json"],
-                inputSchema: "schema.json",
-                outputSchema: "schema.json",
-              },
-            ],
-          },
-        ],
-      };
-      await fs.writeFile(
-        "pipelines.json",
-        JSON.stringify(cfg, null, 2),
-        "utf8",
-      );
+    const cfg = {
+      pipelines: [
+        {
+          name: "demo",
+          steps: [
+            {
+              id: "s1",
+              shell: "cp in.json out.json",
+              inputs: ["in.json"],
+              outputs: ["out.json"],
+              inputSchema: "schema.json",
+              outputSchema: "schema.json",
+            },
+          ],
+        },
+      ],
+    };
+    const pipelinesPath = path.join(dir, "pipelines.json");
+    await fs.writeFile(pipelinesPath, JSON.stringify(cfg, null, 2), "utf8");
 
-      await t.throwsAsync(() => runPipeline("pipelines.json", "demo", {}));
-    } finally {
-      process.chdir(prevCwd);
-    }
+    await t.throwsAsync(() => runPipeline(pipelinesPath, "demo", {}));
   });
 });
 
 test.serial("fails when output schema mismatches", async (t) => {
   await withTmp(async (dir) => {
-    const prevCwd = process.cwd();
-    process.chdir(dir);
-    try {
-      const schema = {
-        type: "object",
-        required: ["foo"],
-        properties: { foo: { type: "string" } },
-      };
-      await fs.writeFile("schema.json", JSON.stringify(schema), "utf8");
-      await fs.writeFile("in.json", JSON.stringify({ foo: "ok" }), "utf8");
+    const schema = {
+      type: "object",
+      required: ["foo"],
+      properties: { foo: { type: "string" } },
+    };
+    await fs.writeFile(
+      path.join(dir, "schema.json"),
+      JSON.stringify(schema),
+      "utf8",
+    );
+    await fs.writeFile(
+      path.join(dir, "in.json"),
+      JSON.stringify({ foo: "ok" }),
+      "utf8",
+    );
 
-      const cfg = {
-        pipelines: [
-          {
-            name: "demo",
-            steps: [
-              {
-                id: "s1",
-                shell: "echo '{}' > out.json",
-                inputs: ["in.json"],
-                outputs: ["out.json"],
-                outputSchema: "schema.json",
-              },
-            ],
-          },
-        ],
-      };
-      await fs.writeFile(
-        "pipelines.json",
-        JSON.stringify(cfg, null, 2),
-        "utf8",
-      );
+    const cfg = {
+      pipelines: [
+        {
+          name: "demo",
+          steps: [
+            {
+              id: "s1",
+              shell: "echo '{}' > out.json",
+              inputs: ["in.json"],
+              outputs: ["out.json"],
+              outputSchema: "schema.json",
+            },
+          ],
+        },
+      ],
+    };
+    const pipelinesPath = path.join(dir, "pipelines.json");
+    await fs.writeFile(pipelinesPath, JSON.stringify(cfg, null, 2), "utf8");
 
-      await t.throwsAsync(() => runPipeline("pipelines.json", "demo", {}));
-    } finally {
-      process.chdir(prevCwd);
-    }
+    await t.throwsAsync(() => runPipeline(pipelinesPath, "demo", {}));
   });
 });
