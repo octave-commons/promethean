@@ -216,8 +216,9 @@ export async function treeDirectory(
   const raw = await buildTree(abs, {
     includeHidden,
     maxDepth: depth,
-    predicate: (absPath, dirent) => {
-      const relPath = path.relative(ROOT_PATH, path.join(absPath, dirent.name));
+    predicate: (absPath) => {
+      const relPath = path.relative(ROOT_PATH, absPath);
+      if (!relPath) return true;
       return !ig.ignores(relPath);
     },
   });
