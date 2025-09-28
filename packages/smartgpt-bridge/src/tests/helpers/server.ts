@@ -1,8 +1,36 @@
 import path from "node:path";
+import { statSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 
 import { MongoMemoryServer } from "mongodb-memory-server";
 
 import { createServer } from "../../server/createServer.js";
+
+const PACKAGE_ROOT = path.resolve(
+  fileURLToPath(new URL("../../..", import.meta.url)),
+);
+
+const FIXTURE_CANDIDATES = [
+  path.join(PACKAGE_ROOT, "tests", "fixtures"),
+  path.join(PACKAGE_ROOT, "src", "tests", "fixtures"),
+];
+
+function isDirectory(p: string): boolean {
+  try {
+    return statSync(p).isDirectory();
+  } catch {
+    return false;
+  }
+}
+
+function resolveRootPath(providedRoot: string): string {
+  const absolute = path.resolve(providedRoot);
+  if (isDirectory(absolute)) return absolute;
+  for (const candidate of FIXTURE_CANDIDATES) {
+    if (isDirectory(candidate)) return candidate;
+  }
+  return absolute;
+}
 
 function makeClient(app: any) {
   const u = (path: string, query?: Record<string, unknown>) => {
@@ -128,6 +156,7 @@ export const withServer = async (
   root: string,
   fn: (client: any) => Promise<any>,
 ) => {
+  const ROOT_PATH = resolveRootPath(root);
   process.env.NODE_ENV = "test";
   // Avoid native addon crashes in CI/local when ABI mismatches
   if (!process.env.NODE_PTY_DISABLED) process.env.NODE_PTY_DISABLED = "1";
@@ -157,7 +186,7 @@ export const withServer = async (
       app.decorate("authUser", async () => ({ id: "test" }));
       app.decorate("requirePolicy", () => async () => {});
     },
-    runCommand: createFakeRunCommand(root),
+    runCommand: createFakeRunCommand(ROOT_PATH),
   };
   const authEnabled =
     String(process.env.AUTH_ENABLED || "false").toLowerCase() === "true";
@@ -219,7 +248,7 @@ export const withServer = async (
       } as any;
     };
   }
-  const app = await createServer(root, deps);
+  const app = await createServer(ROOT_PATH, deps);
   // Stub RBAC hooks so tests don't require seeded users/policies
   (app as any).authUser = async () => ({ id: "test" });
   (app as any).requirePolicy = () => async () => {};
