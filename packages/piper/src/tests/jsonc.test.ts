@@ -51,30 +51,23 @@ async function withTmp(fn: (dir: string) => Promise<void>) {
     String(Date.now()) + "-" + Math.random().toString(36).slice(2),
   );
   await fs.mkdir(dir, { recursive: true });
-  try {
-    await fn(dir);
-  } finally {
+  await fn(dir).finally(async () => {
     await sleep(25);
     await fs.rm(dir, { recursive: true, force: true });
-  }
+  });
 }
 
 test("parses commented tsconfig", async (t) => {
   await withTmp(async (dir) => {
-    const prev = process.cwd();
-    process.chdir(dir);
-    try {
-      await fs.writeFile("tsconfig.schema.json", schema, "utf8");
-      await fs.writeFile("tsconfig.json", tsconfig, "utf8");
-      await fs.writeFile(
-        "pipelines.json",
-        JSON.stringify(cfg, null, 2),
-        "utf8",
-      );
-      const res = await runPipeline("pipelines.json", "demo", {});
-      t.is(res[0]?.exitCode, 0);
-    } finally {
-      process.chdir(prev);
-    }
+    const schemaPath = path.join(dir, "tsconfig.schema.json");
+    const tsconfigPath = path.join(dir, "tsconfig.json");
+    const configPath = path.join(dir, "pipelines.json");
+
+    await fs.writeFile(schemaPath, schema, "utf8");
+    await fs.writeFile(tsconfigPath, tsconfig, "utf8");
+    await fs.writeFile(configPath, JSON.stringify(cfg, null, 2), "utf8");
+
+    const res = await runPipeline(configPath, "demo", {});
+    t.is(res[0]?.exitCode, 0);
   });
 });
