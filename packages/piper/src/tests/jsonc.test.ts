@@ -61,20 +61,11 @@ async function withTmp(fn: (dir: string) => Promise<void>) {
 
 test("parses commented tsconfig", async (t) => {
   await withTmp(async (dir) => {
-    const prev = process.cwd();
-    process.chdir(dir);
-    try {
-      await fs.writeFile("tsconfig.schema.json", schema, "utf8");
-      await fs.writeFile("tsconfig.json", tsconfig, "utf8");
-      await fs.writeFile(
-        "pipelines.json",
-        JSON.stringify(cfg, null, 2),
-        "utf8",
-      );
-      const res = await runPipeline("pipelines.json", "demo", {});
-      t.is(res[0]?.exitCode, 0);
-    } finally {
-      process.chdir(prev);
-    }
+    await fs.writeFile(path.join(dir, "tsconfig.schema.json"), schema, "utf8");
+    await fs.writeFile(path.join(dir, "tsconfig.json"), tsconfig, "utf8");
+    const cfgPath = path.join(dir, "pipelines.json");
+    await fs.writeFile(cfgPath, JSON.stringify(cfg, null, 2), "utf8");
+    const res = await runPipeline(cfgPath, "demo", {});
+    t.is(res[0]?.exitCode, 0);
   });
 });
