@@ -101,14 +101,18 @@ const freezeStrings = (values: string[]): ReadonlyArray<string> =>
   Object.freeze(values);
 
 function createBaseArgs(config: BuildArgsInput): ReadonlyArray<string> {
-  const base = freezeStrings([
+  const normalizedFlags = config.flags.toLowerCase();
+  const base = [
     "--json",
     "--max-count",
     String(config.maxMatches),
     "-C",
     String(config.context),
-  ]);
-  return config.flags.includes("i") ? base.concat("-i") : base;
+  ];
+  const caseArgs = normalizedFlags.includes("i")
+    ? ["-i"]
+    : ["--case-sensitive"];
+  return freezeStrings([...base, ...caseArgs]);
 }
 
 function reducePaths(
