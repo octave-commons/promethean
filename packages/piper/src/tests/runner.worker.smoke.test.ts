@@ -12,8 +12,6 @@ async function withTmp(fn: (dir: string) => Promise<void>) {
   const parent = path.join(process.cwd(), "test-tmp");
   await fs.mkdir(parent, { recursive: true });
   const dir = await fs.mkdtemp(path.join(parent, "piper-"));
-  const prevCwd = process.cwd();
-  process.chdir(dir);
   try {
     await fs.writeFile(
       path.join(dir, SCHEMA),
@@ -23,7 +21,6 @@ async function withTmp(fn: (dir: string) => Promise<void>) {
     await fn(dir);
     await sleep(50);
   } finally {
-    process.chdir(prevCwd);
     await fs.rm(dir, { recursive: true, force: true });
   }
 }
