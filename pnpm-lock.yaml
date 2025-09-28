@@ -2173,6 +2173,45 @@ importers:
         specifier: ^5.9.2
         version: 5.9.2
 
+  packages/indexer-core:
+    dependencies:
+      '@promethean/embedding':
+        specifier: workspace:*
+        version: link:../embedding
+      '@promethean/file-indexer':
+        specifier: workspace:*
+        version: link:../file-indexer
+      '@promethean/level-cache':
+        specifier: workspace:*
+        version: link:../level-cache
+      '@promethean/utils':
+        specifier: workspace:*
+        version: link:../utils
+      chromadb:
+        specifier: ^1.8.1
+        version: 1.10.5(encoding@0.1.13)(ollama@0.5.18)
+
+  packages/indexer-service:
+    dependencies:
+      '@fastify/rate-limit':
+        specifier: 10.3.0
+        version: 10.3.0
+      '@fastify/swagger':
+        specifier: 9.5.1
+        version: 9.5.1
+      '@fastify/swagger-ui':
+        specifier: 5.2.3
+        version: 5.2.3
+      '@promethean/indexer-core':
+        specifier: workspace:*
+        version: link:../indexer-core
+      '@promethean/utils':
+        specifier: workspace:*
+        version: link:../utils
+      fastify:
+        specifier: 5.0.0
+        version: 5.0.0
+
   packages/intention:
     dependencies:
       '@types/javascript-time-ago':
@@ -3584,6 +3623,9 @@ importers:
       '@promethean/fs':
         specifier: workspace:*
         version: link:../fs
+      '@promethean/indexer-core':
+        specifier: workspace:*
+        version: link:../indexer-core
       '@promethean/level-cache':
         specifier: workspace:*
         version: link:../level-cache

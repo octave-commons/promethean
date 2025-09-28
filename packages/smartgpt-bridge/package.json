@@ -24,6 +24,7 @@
     "@fastify/swagger-ui": "^5.2.3",
     "@promethean/embedding": "workspace:*",
     "@promethean/fs": "workspace:*",
+    "@promethean/indexer-core": "workspace:*",
     "@promethean/level-cache": "workspace:*",
     "@promethean/persistence": "workspace:*",
     "@promethean/utils": "workspace:*",
