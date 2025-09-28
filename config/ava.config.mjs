@@ -11,14 +11,103 @@ if (process.env.LOG_SILENT === undefined) {
 // Centralized AVA config for the monorepo
 // Applies consistent file globs and a default timeout to prevent hanging tests.
 
-const repoRoot = path.dirname(fileURLToPath(import.meta.url));
-const searchRoots = [
-  path.resolve(repoRoot, "../packages"),
-  path.resolve(repoRoot, "../services"),
-  path.resolve(repoRoot, "../shared"),
-  path.resolve(repoRoot, "../tests"),
+const configDir = path.dirname(fileURLToPath(import.meta.url));
+const workspaceRoot = path.resolve(configDir, "..");
+const DEFAULT_SEARCH_ROOTS = [
+  path.join(workspaceRoot, "packages"),
+  path.join(workspaceRoot, "services"),
+  path.join(workspaceRoot, "shared"),
+  path.join(workspaceRoot, "tests"),
 ];
-const mockPolyfillPath = path.join(repoRoot, "ava-mock-polyfill.cjs");
+const PACKAGE_SCOPE_DIRS = new Set([
+  "packages",
+  "services",
+  "tests",
+  "sites",
+  "shared",
+]);
+const PROJECT_GRAPH_PATH = path.join(
+  workspaceRoot,
+  ".nx",
+  "workspace-data",
+  "project-graph.json",
+);
+let projectGraphCache = undefined;
+
+function loadProjectGraph() {
+  if (projectGraphCache !== undefined) {
+    return projectGraphCache;
+  }
+  try {
+    const raw = fs.readFileSync(PROJECT_GRAPH_PATH, "utf8");
+    projectGraphCache = JSON.parse(raw);
+  } catch {
+    projectGraphCache = null;
+  }
+  return projectGraphCache;
+}
+
+function findProjectRootByName(projectName) {
+  if (!projectName) {
+    return null;
+  }
+  const graph = loadProjectGraph();
+  const root = graph?.nodes?.[projectName]?.data?.root;
+  return root ? path.join(workspaceRoot, root) : null;
+}
+
+function determineProjectRoot() {
+  const envRoot = process.env.AVA_PROJECT_ROOT;
+  if (envRoot) {
+    return path.resolve(envRoot);
+  }
+  const nxProjectName =
+    process.env.NX_TASK_TARGET_PROJECT ||
+    process.env.NX_PROJECT_NAME ||
+    process.env.NX_TARGET_PROJECT;
+  const nxRoot = findProjectRootByName(nxProjectName);
+  if (nxRoot) {
+    return nxRoot;
+  }
+  const cwd = process.cwd();
+  const relativeCwd = path.relative(workspaceRoot, cwd);
+  const insideWorkspace =
+    relativeCwd !== "" &&
+    !relativeCwd.startsWith("..") &&
+    !path.isAbsolute(relativeCwd);
+  if (insideWorkspace) {
+    const [scope] = relativeCwd.split(path.sep);
+    if (!scope || PACKAGE_SCOPE_DIRS.has(scope)) {
+      return cwd;
+    }
+  }
+  return workspaceRoot;
+}
+
+function resolveSearchRoots(projectRoot) {
+  const seen = new Set();
+  const roots = [projectRoot];
+  if (projectRoot === workspaceRoot) {
+    roots.push(...DEFAULT_SEARCH_ROOTS);
+  }
+  return roots
+    .map((dir) => path.resolve(dir))
+    .filter((dir) => {
+      if (seen.has(dir)) {
+        return false;
+      }
+      seen.add(dir);
+      try {
+        return fs.statSync(dir).isDirectory();
+      } catch {
+        return false;
+      }
+    });
+}
+
+const projectRoot = determineProjectRoot();
+const searchRoots = resolveSearchRoots(projectRoot);
+const mockPolyfillPath = path.join(configDir, "ava-mock-polyfill.cjs");
 const testFileMatchers = [
   (name) => name.endsWith(".test.js"),
   (name) => name.endsWith(".spec.js"),
@@ -113,14 +202,33 @@ if (!nodeArguments.includes("--experimental-test-module-mocks")) {
   nodeArguments.push("--experimental-test-module-mocks");
 }
 
+const relativeProjectRoot = path.relative(process.cwd(), projectRoot);
+const relativeInsideWorkspace =
+  relativeProjectRoot !== "" && !relativeProjectRoot.startsWith("..");
+const globPrefix = relativeInsideWorkspace
+  ? `${relativeProjectRoot.split(path.sep).join("/")}/`
+  : "";
+
+function projectGlob(pattern) {
+  const normalizedPattern = pattern.replace(/\\/g, "/");
+  if (globPrefix) {
+    return `${globPrefix}${normalizedPattern}`;
+  }
+  if (projectRoot === process.cwd()) {
+    return normalizedPattern;
+  }
+  return path.join(projectRoot, normalizedPattern).split(path.sep).join("/");
+}
+
+const projectFileGlobs = [
+  projectGlob("dist/tests/**/*.js"),
+  projectGlob("dist/test/**/*.js"),
+  projectGlob("dist/**/*.test.js"),
+  projectGlob("dist/**/*.spec.js"),
+];
+
 export default {
-  files: [
-    // Compiled TS tests
-    "dist/tests/**/*.js",
-    "dist/test/**/*.js",
-    "dist/**/*.test.js",
-    "dist/**/*.spec.js",
-  ],
+  files: projectFileGlobs,
   timeout: "30s",
   failFast: false,
   require: [mockPolyfillPath],
