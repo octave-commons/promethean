@@ -60,6 +60,29 @@ type AjvLike = {
 const AjvCtor = AjvModule as unknown as new () => AjvLike;
 const ajv: AjvLike = new AjvCtor();
 
+const BOOL_TRUE = /^(1|true|yes)$/i;
+const BOOL_FALSE = /^(0|false|no)$/i;
+
+function isSilent(): boolean {
+  const raw = process.env.PIPER_SILENT;
+  if (raw !== undefined) {
+    if (BOOL_TRUE.test(raw)) return true;
+    if (BOOL_FALSE.test(raw)) return false;
+    return raw.length > 0;
+  }
+  return process.env.NODE_ENV === "test";
+}
+
+function logInfo(message: string) {
+  if (isSilent()) return;
+  console.log(message);
+}
+
+function logError(message: string) {
+  if (isSilent()) return;
+  console.error(message);
+}
+
 async function validateFiles(
   files: string[],
   schemaPath: string,
@@ -407,7 +430,7 @@ export async function runPipeline(
           },
           opts.json ?? false,
         );
-        console.log(
+        logInfo(
           `[piper] step ${s.id} failed (exit ${res.code}); retry ${nextAttempt}/${maxRetry}`,
         );
         return attemptRun(nextAttempt);
@@ -419,7 +442,7 @@ export async function runPipeline(
         ];
         if (execRes.stderr) parts.push(`stderr:\n${execRes.stderr}`);
         if (execRes.stdout) parts.push(`stdout:\n${execRes.stdout}`);
-        console.error(parts.join("\n"));
+        logError(parts.join("\n"));
       }
 
       const endedAt = new Date().toISOString();
@@ -492,7 +515,7 @@ export async function runPipeline(
   const ok = results.filter((r) => !r.skipped && r.exitCode === 0).length;
   const sk = results.filter((r) => r.skipped).length;
   const ko = results.filter((r) => !r.skipped && r.exitCode !== 0).length;
-  console.log(`[piper] ${pipeline.name} — OK:${ok} SKIPPED:${sk} FAIL:${ko}`);
+  logInfo(`[piper] ${pipeline.name} — OK:${ok} SKIPPED:${sk} FAIL:${ko}`);
   return results;
 }
 
@@ -512,11 +535,11 @@ export async function watchPipeline(
       allInputs.add(path.resolve(configDir, s.cwd ?? ".", i)),
     ),
   );
-  console.log(`[piper] watching ${allInputs.size} input patterns…`);
+  logInfo(`[piper] watching ${allInputs.size} input patterns…`);
   await runPipeline(absConfigPath, pipelineName, { ...opts, dryRun: false });
   const watcher = chokidar.watch(Array.from(allInputs));
   watcher.on("all", async () => {
-    console.log(`[piper] change detected — re-running ${pipelineName}`);
+    logInfo(`[piper] change detected — re-running ${pipelineName}`);
     await runPipeline(absConfigPath, pipelineName, { ...opts, dryRun: false });
   });
 }
