@@ -46,6 +46,10 @@ test("indexer manager processes files and exposes status", async (t) => {
     const manager = createIndexerManager();
     await manager.resetAndBootstrap(dir);
 
+    while (manager.isBusy()) {
+      await new Promise((resolve) => setTimeout(resolve, 25));
+    }
+
     const status = manager.status();
     t.is(status.mode, "indexed");
     t.is(status.bootstrap?.remaining, 0);
