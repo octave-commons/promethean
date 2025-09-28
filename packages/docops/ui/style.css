@@ -1,0 +1,91 @@
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background: #f7f8fb;
+  color: #1f2933;
+}
+
+header {
+  background: #1f2933;
+  color: #fff;
+  padding: 16px 24px;
+}
+
+main {
+  padding: 16px 24px 64px;
+  display: grid;
+  gap: 16px;
+}
+
+section {
+  background: #fff;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 2px 4px rgba(15, 23, 42, 0.1);
+}
+
+h1, h2 {
+  margin: 0 0 12px;
+}
+
+.grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  gap: 6px;
+}
+
+input {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  font-size: 14px;
+}
+
+.actions {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+button {
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: none;
+  background: #2563eb;
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+button:hover {
+  background: #1d4ed8;
+}
+
+pre {
+  background: #f1f5f9;
+  padding: 12px;
+  border-radius: 6px;
+  max-height: 280px;
+  overflow: auto;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+select {
+  width: 100%;
+  min-height: 160px;
+}
+
+.steps-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
