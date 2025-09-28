@@ -1,3 +1,4 @@
+import fs from "node:fs";
 import path from "node:path";
 
 import { MongoMemoryServer } from "mongodb-memory-server";
@@ -76,7 +77,44 @@ function matchesDanger(command: string): boolean {
   return DANGER_PATTERNS.some((rx) => rx.test(command));
 }
 
+function ensureRootPath(rootPath: string): string {
+  const abs = path.resolve(rootPath);
+  if (fs.existsSync(abs)) {
+    return abs;
+  }
+  const segments = abs.split(path.sep);
+  const len = segments.length;
+  const hasFixtureSuffix =
+    len >= 2 &&
+    segments[len - 2] === "tests" &&
+    segments[len - 1] === "fixtures";
+  if (!hasFixtureSuffix) {
+    return abs;
+  }
+  let current = abs;
+  while (true) {
+    const parent = path.dirname(current);
+    if (parent === current) {
+      break;
+    }
+    if (
+      path.basename(current) === "fixtures" &&
+      path.basename(parent) === "tests"
+    ) {
+      current = path.dirname(parent);
+    } else {
+      current = parent;
+    }
+    const candidate = path.join(current, "tests", "fixtures");
+    if (fs.existsSync(candidate)) {
+      return candidate;
+    }
+  }
+  return abs;
+}
+
 function createFakeRunCommand(rootPath: string) {
+  const baseRoot = ensureRootPath(rootPath);
   return async ({ command, cwd }: { command: string; cwd?: string }) => {
     if (matchesDanger(command)) {
       return {
@@ -90,7 +128,7 @@ function createFakeRunCommand(rootPath: string) {
         truncated: false,
       };
     }
-    const base = rootPath;
+    const base = baseRoot;
     if (cwd) {
       const abs = path.isAbsolute(cwd)
         ? path.resolve(cwd)
@@ -119,7 +157,7 @@ function createFakeRunCommand(rootPath: string) {
       durationMs: 0,
       truncated: false,
       error: "",
-      cwd: cwd || rootPath,
+      cwd: cwd || baseRoot,
     };
   };
 }
@@ -128,6 +166,7 @@ export const withServer = async (
   root: string,
   fn: (client: any) => Promise<any>,
 ) => {
+  const ROOT_PATH = ensureRootPath(root);
   process.env.NODE_ENV = "test";
   // Avoid native addon crashes in CI/local when ABI mismatches
   if (!process.env.NODE_PTY_DISABLED) process.env.NODE_PTY_DISABLED = "1";
@@ -157,7 +196,7 @@ export const withServer = async (
       app.decorate("authUser", async () => ({ id: "test" }));
       app.decorate("requirePolicy", () => async () => {});
     },
-    runCommand: createFakeRunCommand(root),
+    runCommand: createFakeRunCommand(ROOT_PATH),
   };
   const authEnabled =
     String(process.env.AUTH_ENABLED || "false").toLowerCase() === "true";
@@ -219,7 +258,7 @@ export const withServer = async (
       } as any;
     };
   }
-  const app = await createServer(root, deps);
+  const app = await createServer(ROOT_PATH, deps);
   // Stub RBAC hooks so tests don't require seeded users/policies
   (app as any).authUser = async () => ({ id: "test" });
   (app as any).requirePolicy = () => async () => {};
