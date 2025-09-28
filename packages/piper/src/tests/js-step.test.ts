@@ -13,21 +13,21 @@ async function withTmp(fn: (dir: string) => Promise<void>) {
   const parent = path.join(process.cwd(), "test-tmp");
   await fs.mkdir(parent, { recursive: true });
   const dir = await fs.mkdtemp(path.join(parent, "piper-"));
-  const prevCwd = process.cwd();
-  process.chdir(dir);
-  try {
-    await fs.writeFile(
-      path.join(dir, SCHEMA),
-      JSON.stringify({ type: "object" }),
-      "utf8",
-    );
-    await fn(dir);
-    // small grace period for any async file watchers/flushes
-    await sleep(50);
-  } finally {
-    process.chdir(prevCwd);
+  const cleanup = async () => {
     await fs.rm(dir, { recursive: true, force: true });
-  }
+  };
+  await Promise.resolve()
+    .then(async () => {
+      await fs.writeFile(
+        path.join(dir, SCHEMA),
+        JSON.stringify({ type: "object" }),
+        "utf8",
+      );
+      await fn(dir);
+      // small grace period for any async file watchers/flushes
+      await sleep(50);
+    })
+    .finally(cleanup);
 }
 
 /** ===== Base pipeline behavior (in-proc + shell) ===== */
