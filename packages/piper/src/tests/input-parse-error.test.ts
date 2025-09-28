@@ -21,50 +21,39 @@ async function withTmp(fn: (dir: string) => Promise<void>) {
 
 test.serial("validateFiles includes path on JSON parse error", async (t) => {
   await withTmp(async (dir) => {
-    const prevCwd = process.cwd();
-    process.chdir(dir);
-    try {
-      await fs.writeFile("bad.json", "{not json", "utf8");
-      await fs.writeFile(
-        "schema.json",
-        JSON.stringify({ type: "object" }),
-        "utf8",
-      );
-      const cfg = {
-        pipelines: [
-          {
-            name: "demo",
-            steps: [
-              {
-                id: "noop",
-                cwd: ".",
-                deps: [],
-                inputs: ["bad.json"],
-                inputSchema: "schema.json",
-                outputs: [],
-                cache: "content",
-                shell: "echo hi",
-              },
-            ],
-          },
-        ],
-      };
-      await fs.writeFile(
-        "pipelines.json",
-        JSON.stringify(cfg, null, 2),
-        "utf8",
-      );
-      const err = await t.throwsAsync(
-        () =>
-          runPipeline("pipelines.json", "demo", {
-            concurrency: 1,
-            contentHash: true,
-          }),
-        { instanceOf: StepError },
-      );
-      t.true(err?.message.includes("bad.json"));
-    } finally {
-      process.chdir(prevCwd);
-    }
+    const badJson = path.join(dir, "bad.json");
+    await fs.writeFile(badJson, "{not json", "utf8");
+    const schemaPath = path.join(dir, "schema.json");
+    await fs.writeFile(schemaPath, JSON.stringify({ type: "object" }), "utf8");
+    const cfg = {
+      pipelines: [
+        {
+          name: "demo",
+          steps: [
+            {
+              id: "noop",
+              cwd: ".",
+              deps: [],
+              inputs: ["bad.json"],
+              inputSchema: "schema.json",
+              outputs: [],
+              cache: "content",
+              shell: "echo hi",
+            },
+          ],
+        },
+      ],
+    };
+    const pipelinesPath = path.join(dir, "pipelines.json");
+    await fs.writeFile(pipelinesPath, JSON.stringify(cfg, null, 2), "utf8");
+    const err = await t.throwsAsync(
+      () =>
+        runPipeline(pipelinesPath, "demo", {
+          concurrency: 1,
+          contentHash: true,
+        }),
+      { instanceOf: StepError },
+    );
+    t.true(err?.message.includes("bad.json"));
   });
 });
