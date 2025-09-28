@@ -335,7 +335,7 @@ export async function removeFileFromIndex(_rootPath: string, rel: string) {
   };
   const col = await collectionForFamily(family, version, cfg);
   try {
-    const { rel: safeRel } = resolveWithinRoot(_rootPath, rel);
+    const { rel: safeRel } = await resolveWithinRoot(_rootPath, rel);
     await col.delete({ where: { path: safeRel } });
     return { ok: true };
   } catch (e: any) {
