@@ -104,13 +104,13 @@ const changedIds = async (
   return pairs.filter((x): x is readonly [Chunk, string, string] => !!x);
 };
 
-const ollamaClient = createOllamaClient();
 const embedBatch = async (
   model: string,
   texts: string[],
   timeoutMs = 120_000,
 ) => {
   if (texts.length === 0) return [] as number[][];
+  const ollamaClient = createOllamaClient();
   // Official API uses `.embed({ model, input })`
   const p = ollamaClient.embed({ model, input: texts }) as Promise<any>;
   const withTimeout = new Promise<any>((_resolve, reject) => {
