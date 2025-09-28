@@ -7,7 +7,7 @@ import { openLevelCache } from "@promethean/level-cache";
 import { outline } from "../02-outline.js";
 import type { OutlinesFile } from "../types.js";
 
-test("outline fallback uses GPLv3 license", async (t) => {
+test("outline fallback uses GPL-3.0-only license", async (t) => {
   const cacheDir = path.join(".cache", "readmeflow-outline-test");
   const cache = await openLevelCache({ path: cacheDir });
   await cache.set("scan", {
@@ -34,7 +34,7 @@ test("outline fallback uses GPLv3 license", async (t) => {
   const license = out.outlines["@promethean/example"]?.sections.find(
     (s) => s.heading === "License",
   );
-  t.is(license?.body, "GPLv3");
+  t.is(license?.body, "GPL-3.0-only");
 
   await fs.rm(cacheDir, { recursive: true, force: true });
 });
