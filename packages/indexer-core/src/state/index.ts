@@ -8,7 +8,10 @@ export type BootstrapState = Readonly<{
   fileList?: ReadonlyArray<string>;
   startedAt?: number;
   finishedAt?: number;
-  fileInfo?: Record<string, { readonly size: number; readonly mtimeMs: number }>;
+  fileInfo?: Record<
+    string,
+    { readonly size: number; readonly mtimeMs: number }
+  >;
 }>;
 
 export type IndexerStateBody = Readonly<Omit<BootstrapState, "rootPath">>;
@@ -44,10 +47,15 @@ export function createLevelCacheStateStore(
   return {
     async load(rootPath) {
       try {
-        const state = await withCache(cachePath, (cache) => cache.get(rootPath));
+        const state = await withCache(cachePath, (cache) =>
+          cache.get(rootPath),
+        );
         return state && state.rootPath === rootPath ? state : null;
       } catch (error: any) {
-        if (error?.code === "LEVEL_NOT_FOUND" || error?.code === "NotFoundError") {
+        if (
+          error?.code === "LEVEL_NOT_FOUND" ||
+          error?.code === "NotFoundError"
+        ) {
           return null;
         }
         return null;
@@ -59,7 +67,9 @@ export function createLevelCacheStateStore(
       ).catch(() => {});
     },
     async delete(rootPath) {
-      await withCache(cachePath, (cache) => cache.del(rootPath)).catch(() => {});
+      await withCache(cachePath, (cache) => cache.del(rootPath)).catch(
+        () => {},
+      );
     },
   };
 }
@@ -89,7 +99,9 @@ export function getIndexerStateStore(): IndexerStateStore {
   return stateStore;
 }
 
-export function loadBootstrapState(rootPath: string): Promise<BootstrapState | null> {
+export function loadBootstrapState(
+  rootPath: string,
+): Promise<BootstrapState | null> {
   return stateStore.load(rootPath);
 }
 
