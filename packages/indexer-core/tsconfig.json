@@ -1,0 +1,22 @@
+{
+  "extends": "../../config/tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist",
+    "composite": true,
+    "declaration": true,
+    "baseUrl": ".",
+    "skipLibCheck": true,
+    "paths": {
+      "@promethean/utils": ["../utils/dist/index"],
+      "@promethean/utils/*": ["../utils/dist/*"],
+      "@promethean/embedding": ["../embedding/dist/index"],
+      "@promethean/embedding/*": ["../embedding/dist/*"],
+      "@promethean/file-indexer": ["../file-indexer/dist/index"],
+      "@promethean/file-indexer/*": ["../file-indexer/dist/*"],
+      "@promethean/level-cache": ["../level-cache/dist/index"],
+      "@promethean/level-cache/*": ["../level-cache/dist/*"]
+    }
+  },
+  "include": ["src/**/*"]
+}
