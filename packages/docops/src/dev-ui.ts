@@ -151,6 +151,9 @@ const buildSearchIndex = async (db: DBs) => {
   return results;
 };
 
+const ensureArray = <T>(value: unknown): T[] =>
+  Array.isArray(value) ? (value as T[]) : [];
+
 const app = fastifyFactory({ logger: false });
 
 await app.register(fastifyStatic, {
@@ -367,7 +370,8 @@ app.get<{ Querystring: ChunkHitsQuery }>(
       reply.code(400);
       return { error: "id parameter required" };
     }
-    const items = (await db.q.get(id).catch(() => [])) as unknown[];
+    const raw = await db.q.get(id).catch(() => []);
+    const items = ensureArray<unknown>(raw);
     return { id, items };
   },
 );
