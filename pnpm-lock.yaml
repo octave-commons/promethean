@@ -3626,6 +3626,9 @@ importers:
       '@promethean/indexer-core':
         specifier: workspace:*
         version: link:../indexer-core
+      '@promethean/indexer-service':
+        specifier: workspace:*
+        version: link:../indexer-service
       '@promethean/level-cache':
         specifier: workspace:*
         version: link:../level-cache
