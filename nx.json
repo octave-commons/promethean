@@ -30,5 +30,6 @@
     "portfolio-frontend": "packages/portfolio-frontend",
     "smart-chat-frontend": "packages/smart-chat-frontend",
     "smartgpt-dashboard-frontend": "packages/smartgpt-dashboard-frontend"
-  }
+  },
+  "nxCloudId": "68d96f4023ed6608f31dc1d6"
 }

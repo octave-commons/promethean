@@ -132,3 +132,5 @@ packages/report-forge/.shadow-cljs/
 packages/clj-hacks/target/
 
 packages/clj-hacks/.cpcache/
+
+tmp-docops-test/
