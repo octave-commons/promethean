@@ -25,6 +25,7 @@
     "@promethean/embedding": "workspace:*",
     "@promethean/fs": "workspace:*",
     "@promethean/indexer-core": "workspace:*",
+    "@promethean/indexer-service": "workspace:*",
     "@promethean/level-cache": "workspace:*",
     "@promethean/persistence": "workspace:*",
     "@promethean/utils": "workspace:*",

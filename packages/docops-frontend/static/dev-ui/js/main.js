@@ -371,7 +371,19 @@ async function loadDocs() {
       state.docs.forEach((doc) => {
         const opt = document.createElement("option");
         opt.value = doc.uuid;
-        opt.textContent = doc.title || doc.path;
+        const pathText = typeof doc.path === "string" ? doc.path : "";
+        const basename = pathText ? pathText.split(/[/\\]/).pop() : "";
+        if (doc.title && basename) {
+          opt.textContent = `${doc.title} (${basename})`;
+        } else if (doc.title) {
+          opt.textContent = doc.title;
+        } else if (basename) {
+          opt.textContent = basename;
+        } else if (pathText) {
+          opt.textContent = pathText;
+        } else {
+          opt.textContent = doc.uuid;
+        }
         select.appendChild(opt);
       });
     }
