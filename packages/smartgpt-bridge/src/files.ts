@@ -100,11 +100,15 @@ export async function viewFile(
 }
 
 const RX: Record<string, RegExp> = {
-  nodeA: /\(?(?<file>[^():\n]+?):(?<line>\d+):(?<col>\d+)\)?/g,
+  nodeA: /\(?(?<file>(?:[A-Za-z]:)?[^():\n]+?):(?<line>\d+):(?<col>\d+)\)?/g,
   nodeB: /at\s+.*?\((?<file>[^()]+?):(?<line>\d+):(?<col>\d+)\)/g,
   py: /File\s+"(?<file>[^"]+)",\s+line\s+(?<line>\d+)/g,
-  go: /(?<file>[^\s:]+?):(?<line>\d+)/g,
+  go: /(?<file>(?:[A-Za-z]:)?[^\s:]+?):(?<line>\d+)/g,
 };
+
+function normalizeStacktracePath(file: string): string {
+  return file.replace(/\\/g, "/");
+}
 
 export async function locateStacktrace(
   ROOT_PATH: string,
@@ -119,7 +123,7 @@ export async function locateStacktrace(
       m = re.exec(text);
       if (!m) break;
       const g = m.groups as Record<string, string> | undefined;
-      const file = g?.file;
+      const file = g?.file ? normalizeStacktracePath(g.file) : undefined;
       const line = Number(g?.line || 1);
       const col = g?.col ? Number(g.col) : undefined;
       if (!file) continue;
