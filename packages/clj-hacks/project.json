@@ -8,7 +8,9 @@
       "options": {
         "command": "bb clj-hacks:build"
       },
-      "outputs": ["{projectRoot}/target"]
+      "outputs": [
+        "{projectRoot}/target"
+      ]
     },
     "typecheck": {
       "executor": "nx:run-commands",
@@ -20,7 +22,10 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "clojure -M:test",
-        "cwd": "packages/clj-hacks"
+        "cwd": "{projectRoot}",
+        "env": {
+          "AVA_PROJECT_ROOT": "."
+        }
       }
     },
     "lint": {
@@ -30,5 +35,7 @@
       }
     }
   },
-  "tags": ["scope:packages"]
+  "tags": [
+    "scope:packages"
+  ]
 }
