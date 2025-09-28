@@ -1,17 +1,16 @@
+/* eslint-disable functional/no-try-statements, functional/immutable-data, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access */
+
 import path from "node:path";
 
 import test from "ava";
 
 import { withServer } from "../helpers/server.js";
+import { captureEnv, restoreEnv } from "../helpers/env.js";
 
 const ROOT = path.join(process.cwd(), "tests", "fixtures");
 
 test.serial("openapi shows bearer security when auth enabled", async (t) => {
-  const prev = {
-    AUTH_ENABLED: process.env.AUTH_ENABLED,
-    AUTH_MODE: process.env.AUTH_MODE,
-    OPENAPI_PUBLIC: process.env.OPENAPI_PUBLIC,
-  };
+  const prev = captureEnv(["AUTH_ENABLED", "AUTH_MODE", "OPENAPI_PUBLIC"]);
   process.env.AUTH_ENABLED = "true";
   process.env.AUTH_MODE = "static";
   process.env.OPENAPI_PUBLIC = "true";
@@ -24,17 +23,12 @@ test.serial("openapi shows bearer security when auth enabled", async (t) => {
       t.deepEqual(res.body.security, [{ bearerAuth: [] }]);
     });
   } finally {
-    process.env.AUTH_ENABLED = prev.AUTH_ENABLED;
-    process.env.AUTH_MODE = prev.AUTH_MODE;
-    process.env.OPENAPI_PUBLIC = prev.OPENAPI_PUBLIC;
+    restoreEnv(prev);
   }
 });
 
 test.serial("/auth/me requires valid token when enabled", async (t) => {
-  const prev = {
-    AUTH_ENABLED: process.env.AUTH_ENABLED,
-    AUTH_MODE: process.env.AUTH_MODE,
-  };
+  const prev = captureEnv(["AUTH_ENABLED", "AUTH_MODE"]);
   process.env.AUTH_ENABLED = "true";
   process.env.AUTH_MODE = "static";
   try {
@@ -48,7 +42,6 @@ test.serial("/auth/me requires valid token when enabled", async (t) => {
       t.false(res.body.ok);
     });
   } finally {
-    process.env.AUTH_ENABLED = prev.AUTH_ENABLED;
-    process.env.AUTH_MODE = prev.AUTH_MODE;
+    restoreEnv(prev);
   }
 });

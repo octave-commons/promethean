@@ -19,9 +19,11 @@ async function withTmp(fn: (dir: string) => Promise<void>) {
     JSON.stringify({ type: "object" }),
     "utf8",
   );
-  await Promise.resolve(fn(dir)).finally(() =>
-    fs.rm(dir, { recursive: true, force: true }),
-  );
+  try {
+    await fn(dir);
+  } finally {
+    await fs.rm(dir, { recursive: true, force: true });
+  }
 }
 
 test("runPipeline creates output directories", async (t) => {
