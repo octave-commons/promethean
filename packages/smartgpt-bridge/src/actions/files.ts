@@ -4,7 +4,7 @@ import {
   writeFileContent,
   writeFileLines,
 } from "../files.js";
-import { indexerManager } from "../indexer.js";
+import { scheduleReindexSubset } from "../indexerClient.js";
 
 export type FileTreeNode = {
   name: string;
@@ -94,5 +94,5 @@ export async function writeFileLinesAction(args: {
 }
 
 export async function scheduleReindexAction(globs: string | string[]) {
-  return indexerManager.scheduleReindexSubset(globs);
+  return scheduleReindexSubset(globs);
 }
