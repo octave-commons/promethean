@@ -129,6 +129,9 @@ const readChunks = async (db: DBs, uuid: string) =>
     docPath: chunk.docPath,
     text: chunk.text ?? "",
     startLine: chunk.startLine,
+    endLine: chunk.endLine ?? chunk.startLine,
+    startCol: chunk.startCol ?? 0,
+    endCol: chunk.endCol ?? 0,
   }));
 
 const buildSearchIndex = async (db: DBs) => {
@@ -159,9 +162,6 @@ await app.register(fastifyStatic, {
 });
 
 const db = await openDB();
-
-const docsCachePromise = loadDocs(db);
-const searchCachePromise = buildSearchIndex(db);
 
 app.get("/favicon.ico", async (_req, reply) => {
   reply.header("content-type", "image/png");
@@ -259,7 +259,7 @@ app.get<{ Querystring: ReadQuery }>("/api/read", async (request, reply) => {
 });
 
 app.get("/api/docs", async () => {
-  const docs = await docsCachePromise;
+  const docs = await loadDocs(db);
   return docs.map((doc) => ({
     uuid: doc.uuid,
     path: doc.path,
@@ -300,7 +300,7 @@ app.get<{ Querystring: PreviewQuery }>(
 
 app.get<{ Querystring: StatusQuery }>("/api/status", async (request, reply) => {
   const query = request.query;
-  const docs = await docsCachePromise;
+  const docs = await loadDocs(db);
   const limit = clamp(
     Number.isFinite(Number(query.limit)) ? Number(query.limit) : 25,
     1,
@@ -334,7 +334,7 @@ app.get<{ Querystring: StatusQuery }>("/api/status", async (request, reply) => {
 
 app.get<{ Querystring: ChunksQuery }>("/api/chunks", async (request, reply) => {
   const query = request.query;
-  const docs = await docsCachePromise;
+  const docs = await loadDocs(db);
   if (!query.uuid && !query.file) {
     reply.code(400);
     return { error: "uuid or file parameter required" };
@@ -377,7 +377,7 @@ app.get<{ Querystring: SearchQuery }>("/api/search", async (request) => {
     1,
     50,
   );
-  const haystack = await searchCachePromise;
+  const haystack = await buildSearchIndex(db);
   const matches = haystack
     .map((doc) => {
       const idx = doc.text.toLowerCase().indexOf(q.toLowerCase());
