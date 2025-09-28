@@ -9,9 +9,7 @@
         "command": "tsc -b",
         "cwd": "packages/readmeflow"
       },
-      "outputs": [
-        "{projectRoot}/dist"
-      ]
+      "outputs": ["{projectRoot}/dist"]
     },
     "typecheck": {
       "executor": "nx:run-commands",
@@ -26,7 +24,8 @@
         "command": "ava",
         "cwd": "{projectRoot}",
         "env": {
-          "AVA_PROJECT_ROOT": "."
+          "AVA_PROJECT_ROOT": ".",
+          "OLLAMA_DISABLE": "true"
         }
       }
     },
@@ -38,7 +37,5 @@
       }
     }
   },
-  "tags": [
-    "scope:packages"
-  ]
+  "tags": ["scope:packages"]
 }
