@@ -1,0 +1,109 @@
+<!doctype html>
+<meta charset="utf-8" />
+<title>DocOps – Pipeline Dev UI</title>
+<link rel="stylesheet" href="/ui/style.css" />
+<script type="module" src="/js/main.js"></script>
+<body>
+  <header>
+    <h1>DocOps – Pipeline Dev UI</h1>
+  </header>
+  <main>
+    <section id="config">
+      <h2>Configuration</h2>
+      <div class="grid">
+        <label>
+          Docs dir
+          <input id="dir" name="dir" type="text" autocomplete="off" />
+        </label>
+        <label>
+          Collection
+          <input id="collection" name="collection" type="text" autocomplete="off" />
+        </label>
+        <label>
+          Doc Threshold
+          <input id="docT" name="docT" type="number" step="0.01" />
+        </label>
+        <label>
+          Ref Threshold
+          <input id="refT" name="refT" type="number" step="0.01" />
+        </label>
+        <label>
+          Search term
+          <input id="searchTerm" name="searchTerm" type="text" autocomplete="off" />
+        </label>
+        <label>
+          Search k
+          <input id="searchK" name="searchK" type="number" value="5" min="1" />
+        </label>
+      </div>
+      <div class="actions">
+        <button id="refresh">Refresh Docs</button>
+        <button id="renderMd">Render Selected File</button>
+        <button id="preview">Preview Frontmatter</button>
+        <button id="searchBtn">Search</button>
+        <button id="statusRefresh">Refresh Status</button>
+      </div>
+    </section>
+
+    <section id="explorer">
+      <h2>Files</h2>
+      <file-tree id="fileTree"></file-tree>
+    </section>
+
+    <section id="docs">
+      <h2>Docs</h2>
+      <select id="doclist" size="6"></select>
+    </section>
+
+    <section id="chunks">
+      <h2>Chunks</h2>
+      <div class="chunk-grid">
+        <ul id="chunksList" aria-label="Chunks"></ul>
+        <div class="chunk-detail">
+          <pre id="chunkMeta">(no chunk selected)</pre>
+          <pre id="chunkText">(no chunk selected)</pre>
+          <ul id="chunkHits" aria-label="Chunk hits">
+            <li>(no hits)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="markdown">
+      <h2>Markdown Render</h2>
+      <pre id="mdRender">(no file selected)</pre>
+    </section>
+
+    <section id="previewOut">
+      <h2>Frontmatter Preview</h2>
+      <pre id="out">(no preview)</pre>
+    </section>
+
+    <section id="searchResultsSection">
+      <h2>Search Results</h2>
+      <pre id="searchResults">(no results)</pre>
+    </section>
+
+    <section id="status">
+      <h2>Pipeline Status</h2>
+      <pre id="statusTable">(not loaded)</pre>
+    </section>
+
+    <section id="logsSection">
+      <h2>Logs</h2>
+      <pre id="logs">(no logs)</pre>
+    </section>
+
+    <section id="steps">
+      <h2>Steps</h2>
+      <div class="steps-grid">
+        <docops-step step="frontmatter" title="Frontmatter"></docops-step>
+        <docops-step step="embed" title="Embed"></docops-step>
+        <docops-step step="query" title="Query"></docops-step>
+        <docops-step step="relations" title="Relations"></docops-step>
+        <docops-step step="footers" title="Footers"></docops-step>
+        <docops-step step="rename" title="Rename"></docops-step>
+      </div>
+    </section>
+  </main>
+</body>

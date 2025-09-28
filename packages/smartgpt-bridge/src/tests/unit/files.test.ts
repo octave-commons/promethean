@@ -6,7 +6,7 @@ import test from "ava";
 import { viewFile, resolvePath } from "../../files.js";
 
 const TEST_DIR = path.dirname(fileURLToPath(import.meta.url));
-const ROOT = path.resolve(TEST_DIR, "..", "..", "..", "tests", "fixtures");
+const ROOT = path.resolve(TEST_DIR, "../../../tests/fixtures");
 
 test("viewFile: returns correct window around line", async (t) => {
   const out = await viewFile(ROOT, "readme.md", 3, 2);
