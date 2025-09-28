@@ -1,6 +1,6 @@
 import test from 'ava';
 import express from 'express';
-import { loadModel } from '../dist/index.js';
+import { loadModel } from '../../dist/index.js';
 
 test('loadModel resolves a driver', async (t) => {
     process.env.LLM_DRIVER = 'ollama';
