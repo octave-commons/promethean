@@ -17,10 +17,9 @@ jobs:
         with: { fetch-depth: 0 }
 
       - uses: pnpm/action-setup@v4
-        with: { version: 9 }                       # keep pinned
 
       - uses: actions/setup-node@v4
-        with: { node-version: 20, cache: 'pnpm' }
+        with: { cache: 'pnpm' }
 
       - uses: nrwl/nx-set-shas@v4
 
