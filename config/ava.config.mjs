@@ -2,6 +2,12 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
+// Ensure test runs default to silent logging. Individual tests can opt out
+// by setting LOG_SILENT to "false" before creating loggers.
+if (process.env.LOG_SILENT === undefined) {
+  process.env.LOG_SILENT = "true";
+}
+
 // Centralized AVA config for the monorepo
 // Applies consistent file globs and a default timeout to prevent hanging tests.
 
