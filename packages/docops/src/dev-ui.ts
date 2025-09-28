@@ -1,10 +1,12 @@
 /* eslint-disable functional/no-try-statements, functional/immutable-data, functional/no-loop-statements, functional/prefer-immutable-types, @typescript-eslint/prefer-readonly-parameter-types, max-lines, max-lines-per-function, @typescript-eslint/no-unnecessary-type-assertion, @typescript-eslint/no-unsafe-assignment */
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
+import { fileURLToPath } from "node:url";
 
 import fastifyFactory from "fastify";
 import fastifyStatic from "@fastify/static";
 import fastifyRateLimit from "@fastify/rate-limit";
+
 import { openDB } from "./db.js";
 import type { DBs } from "./db.js";
 import { buildFileTree } from "./lib/files.js";
@@ -75,7 +77,8 @@ const DEFAULT_EXTS = [".md", ".mdx", ".markdown", ".txt"] as const;
 const MAX_DEPTH_DEFAULT = 4;
 const MAX_ENTRIES_DEFAULT = 200;
 
-const UI_ROOT = path.resolve(path.dirname(path.dirname(import.meta.url)), "ui");
+const moduleDir = path.dirname(fileURLToPath(import.meta.url));
+const UI_ROOT = path.resolve(moduleDir, "../../docops-frontend/static/dev-ui");
 const JS_ROOT = path.join(UI_ROOT, "js");
 
 const ONE_PIXEL_PNG = Buffer.from(
@@ -168,7 +171,7 @@ app.get("/favicon.ico", async (_req, reply) => {
 // Register global rate limit (e.g. 100 requests every 15 minutes per IP)
 app.register(fastifyRateLimit, {
   max: 100,
-  timeWindow: '15 minutes',
+  timeWindow: "15 minutes",
 });
 
 app.get("/", async (_req, reply) => {
