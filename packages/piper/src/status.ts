@@ -3,7 +3,7 @@ import { promises as fs } from "fs";
 
 import { FileSchema, PiperFile } from "./types.js";
 import { fingerprintFromGlobs } from "./hash.js";
-import { loadState } from "./lib/state.js";
+import { loadState, makePipelineNamespace } from "./lib/state.js";
 import { listOutputsExist } from "./fsutils.js";
 
 async function readConfig(p: string): Promise<PiperFile> {
@@ -19,7 +19,8 @@ export async function showStatus(configPath: string, pipelineName: string) {
   const cfg = await readConfig(configPath);
   const pipeline = cfg.pipelines.find((p) => p.name === pipelineName);
   if (!pipeline) throw new Error(`pipeline '${pipelineName}' not found`);
-  const state = await loadState(pipeline.name);
+  const stateKey = makePipelineNamespace(configPath, pipeline.name);
+  const state = await loadState(stateKey);
 
   console.log(`# Pipeline: ${pipeline.name}`);
   console.log("| Step | Cached | Outputs | Note |");

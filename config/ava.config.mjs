@@ -186,11 +186,50 @@ const hasCompiledTests = searchRoots.some((rootDir) =>
   findCompiledTests(rootDir),
 );
 
-if (!hasCompiledTests) {
+function findDirectJsTests(rootDir) {
+  let entries;
+  try {
+    entries = fs.readdirSync(rootDir, { withFileTypes: true });
+  } catch {
+    return false;
+  }
+
+  for (const entry of entries) {
+    if (entry.isDirectory()) {
+      if (shouldSkipDir(entry.name) || entry.name === "dist") {
+        continue;
+      }
+      if (findDirectJsTests(path.join(rootDir, entry.name))) {
+        return true;
+      }
+      continue;
+    }
+
+    if (!entry.isFile()) {
+      continue;
+    }
+
+    if (
+      entry.name.endsWith(".js") &&
+      testFileMatchers.some((matcher) => matcher(entry.name))
+    ) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+const hasDirectJsTests = searchRoots.some((rootDir) =>
+  findDirectJsTests(rootDir),
+);
+
+if (!hasCompiledTests && !hasDirectJsTests) {
   const instructions = [
     "No compiled test files were found. AVA expects JavaScript tests under dist/.",
     "Run the package build step before executing tests (e.g. `pnpm --filter <pkg> build`).",
     "If you intended to run TypeScript tests directly, build first to generate dist outputs.",
+    "For packages with JavaScript tests, ensure the tests use .js extensions so they can run without compilation.",
   ];
   throw new Error(instructions.join("\n"));
 }
