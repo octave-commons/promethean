@@ -16,3 +16,26 @@ test("grep: maxMatches limits results", async (t) => {
   });
   t.is(results.length, 1);
 });
+
+test("grep: invalid maxMatches falls back to default", async (t) => {
+  const baseOptions = {
+    pattern: ".",
+    flags: "g",
+    paths: ["**/*.md", "**/*.ts"],
+    context: 0,
+  } as const;
+  const [baseline, invalid] = await Promise.all([
+    grep(ROOT, baseOptions),
+    grep(ROOT, { ...baseOptions, maxMatches: Number.NaN }),
+  ]);
+  const normalize = (
+    matches: ReadonlyArray<(typeof baseline)[number]>,
+  ): ReadonlyArray<(typeof baseline)[number]> =>
+    [...matches].sort((left, right) => {
+      if (left.path === right.path) {
+        return left.line - right.line;
+      }
+      return left.path.localeCompare(right.path);
+    });
+  t.deepEqual(normalize(invalid), normalize(baseline));
+});

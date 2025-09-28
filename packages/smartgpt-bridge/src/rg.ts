@@ -4,6 +4,12 @@ import ignore from "ignore";
 import { execa } from "execa";
 
 import { normalizeToRoot } from "./files.js";
+import {
+  buildRipgrepArgs,
+  expandMaxCount,
+  freezeStrings,
+  type RipgrepArgs,
+} from "./rgArgs.js";
 
 type GrepMatch = {
   path: string;
@@ -21,10 +27,6 @@ type ExecError = {
   stderr?: string;
   message?: string;
 };
-type RipgrepArgs = {
-  readonly withExclude: ReadonlyArray<string>;
-  readonly withoutExclude: ReadonlyArray<string>;
-};
 type RipgrepRunResult = { readonly stdout: string; readonly error?: ExecError };
 type ParsedMatch = {
   readonly path: string;
@@ -39,20 +41,28 @@ type CollectOptions = {
   readonly root: string;
   readonly ignorer: ReturnType<typeof ignore> | null;
 };
-type BuildArgsInput = {
+const DEFAULT_MAX_MATCHES = 200;
+const DEFAULT_CONTEXT = 2;
+const DEFAULT_PATH_GLOBS = Object.freeze<ReadonlyArray<string>>([
+  "**/*.{ts,tsx,js,jsx,py,go,rs,md,txt,json,yml,yaml,sh}",
+]);
+
+type NormalizedOptions = {
   readonly pattern: string;
   readonly flags: string;
   readonly paths: ReadonlyArray<string>;
   readonly excludeGlobs: ReadonlyArray<string>;
+  readonly ignorer: ReturnType<typeof ignore> | null;
   readonly maxMatches: number;
   readonly context: number;
 };
-type PathReduction = {
-  readonly includeArgs: ReadonlyArray<string>;
-  readonly searchPaths: ReadonlyArray<string>;
-};
 
-const GLOB_CHARS = /[?*{}\[\]]/;
+function normalizeNonNegativeInteger(value: number, fallback: number): number {
+  if (!Number.isFinite(value)) {
+    return fallback;
+  }
+  return Math.max(0, Math.floor(value));
+}
 
 function splitCSV(input: string | undefined): ReadonlyArray<string> {
   return Object.freeze(
@@ -62,8 +72,6 @@ function splitCSV(input: string | undefined): ReadonlyArray<string> {
       .filter((value) => value.length > 0),
   );
 }
-
-const hasGlob = (value: string): boolean => GLOB_CHARS.test(value);
 
 function defaultExcludes(): ReadonlyArray<string> {
   const env = splitCSV(process.env.EXCLUDE_GLOBS);
@@ -97,93 +105,6 @@ const tryRunRipgrep = (
 const normalizeForIgnore = (pathname: string): string =>
   pathname.replace(/\\/g, "/");
 
-const freezeStrings = (values: string[]): ReadonlyArray<string> =>
-  Object.freeze(values);
-
-function createBaseArgs(config: BuildArgsInput): ReadonlyArray<string> {
-  const base = freezeStrings([
-    "--json",
-    "--max-count",
-    String(config.maxMatches),
-    "-C",
-    String(config.context),
-  ]);
-  return config.flags.includes("i") ? base.concat("-i") : base;
-}
-
-function reducePaths(
-  initial: ReadonlyArray<string>,
-  paths: ReadonlyArray<string>,
-): PathReduction {
-  return paths.reduce<PathReduction>(
-    (state, entry) =>
-      hasGlob(entry)
-        ? {
-            includeArgs: state.includeArgs.concat(["--glob", entry]),
-            searchPaths: state.searchPaths,
-          }
-        : {
-            includeArgs: state.includeArgs,
-            searchPaths: state.searchPaths.concat([entry]),
-          },
-    { includeArgs: initial, searchPaths: [] },
-  );
-}
-
-function applyExcludes(
-  args: ReadonlyArray<string>,
-  excludeGlobs: ReadonlyArray<string>,
-): ReadonlyArray<string> {
-  return excludeGlobs.reduce<ReadonlyArray<string>>(
-    (acc, glob) => acc.concat(["--glob", `!${glob}`]),
-    args,
-  );
-}
-
-function appendPattern(
-  args: ReadonlyArray<string>,
-  pattern: string,
-  paths: ReadonlyArray<string>,
-): ReadonlyArray<string> {
-  const searchTargets = paths.length > 0 ? paths : ["."];
-  return args.concat([pattern]).concat(searchTargets);
-}
-
-function expandMaxCount(
-  args: ReadonlyArray<string>,
-  maxMatches: number,
-): ReadonlyArray<string> {
-  const index = args.indexOf("--max-count");
-  if (index === -1 || index + 1 >= args.length) {
-    return args;
-  }
-  const expandedLimit = Math.max(maxMatches * 10, maxMatches + 1000);
-  const prefix = args.slice(0, index + 1);
-  const suffix = args.slice(index + 2);
-  return freezeStrings([...prefix, String(expandedLimit), ...suffix]);
-}
-
-function buildRipgrepArgs(config: BuildArgsInput): RipgrepArgs {
-  const baseArgs = createBaseArgs(config);
-  const pathReduction = reducePaths(baseArgs, config.paths);
-  const withExclude = applyExcludes(
-    pathReduction.includeArgs,
-    config.excludeGlobs,
-  );
-  return {
-    withExclude: appendPattern(
-      withExclude,
-      config.pattern,
-      pathReduction.searchPaths,
-    ),
-    withoutExclude: appendPattern(
-      pathReduction.includeArgs,
-      config.pattern,
-      pathReduction.searchPaths,
-    ),
-  };
-}
-
 async function collectMatches(
   lines: ReadonlyArray<string>,
   options: CollectOptions,
@@ -216,7 +137,11 @@ async function collectMatches(
       return iterate(index + 1, nextCache, acc);
     }
     const nextMatch = createMatch(parsed, fileLines, options.context);
-    return iterate(index + 1, nextCache, acc.concat([nextMatch]));
+    const nextAcc = acc.concat([nextMatch]);
+    if (nextAcc.length >= options.maxMatches) {
+      return nextAcc.slice(0, options.maxMatches);
+    }
+    return iterate(index + 1, nextCache, nextAcc);
   };
   return iterate(0, new Map<string, ReadonlyArray<string>>(), []);
 }
@@ -299,45 +224,80 @@ function createMatch(
 type GrepOptions = {
   pattern: string;
   flags?: string;
-  paths?: string[];
-  exclude?: string[];
+  paths?: ReadonlyArray<string>;
+  exclude?: ReadonlyArray<string>;
   maxMatches?: number;
   context?: number;
 };
+
+function normalizeOptions(opts?: GrepOptions): NormalizedOptions {
+  const {
+    pattern,
+    flags = "g",
+    paths = DEFAULT_PATH_GLOBS,
+    exclude = defaultExcludes(),
+    maxMatches: rawMaxMatches = DEFAULT_MAX_MATCHES,
+    context: rawContext = DEFAULT_CONTEXT,
+  } = opts || {};
+  if (!pattern || typeof pattern !== "string") {
+    throw new Error("Missing regex 'pattern'");
+  }
+  const maxMatches = normalizeNonNegativeInteger(
+    rawMaxMatches,
+    DEFAULT_MAX_MATCHES,
+  );
+  const context = normalizeNonNegativeInteger(rawContext, DEFAULT_CONTEXT);
+  const excludeGlobs = exclude.length > 0 ? exclude : [];
+  const ignorer = excludeGlobs.length > 0 ? ignore().add(excludeGlobs) : null;
+  return {
+    pattern,
+    flags,
+    paths,
+    excludeGlobs,
+    ignorer,
+    maxMatches,
+    context,
+  };
+}
+
+async function runRipgrepWithFallback(
+  root: string,
+  args: RipgrepArgs,
+  maxMatches: number,
+  hasExclude: boolean,
+): Promise<RipgrepRunResult> {
+  const primary = await tryRunRipgrep(args.withExclude, root);
+  if (!primary.error) {
+    return primary;
+  }
+  if (!hasExclude || !isGlobError(primary.error)) {
+    return primary;
+  }
+  return tryRunRipgrep(expandMaxCount(args.withoutExclude, maxMatches), root);
+}
 
 export async function grep(
   ROOT_PATH: string,
   opts?: GrepOptions,
 ): Promise<GrepMatch[]> {
-  const {
-    pattern,
-    flags = "g",
-    paths = ["**/*.{ts,tsx,js,jsx,py,go,rs,md,txt,json,yml,yaml,sh}"],
-    exclude = defaultExcludes(),
-    maxMatches = 200,
-    context = 2,
-  } = opts || {};
-  if (!pattern || typeof pattern !== "string") {
-    throw new Error("Missing regex 'pattern'");
+  const normalized = normalizeOptions(opts);
+  if (normalized.maxMatches === 0) {
+    return [];
   }
-  const excludeGlobs = exclude.length > 0 ? exclude : [];
-  const ignorer = excludeGlobs.length > 0 ? ignore().add(excludeGlobs) : null;
   const args = buildRipgrepArgs({
-    pattern,
-    flags,
-    paths,
-    excludeGlobs,
-    maxMatches,
-    context,
+    pattern: normalized.pattern,
+    flags: normalized.flags,
+    paths: normalized.paths,
+    excludeGlobs: normalized.excludeGlobs,
+    maxMatches: normalized.maxMatches,
+    context: normalized.context,
   });
-  const primary = await tryRunRipgrep(args.withExclude, ROOT_PATH);
-  const resolved =
-    primary.error && excludeGlobs.length > 0 && isGlobError(primary.error)
-      ? await tryRunRipgrep(
-          expandMaxCount(args.withoutExclude, maxMatches),
-          ROOT_PATH,
-        )
-      : primary;
+  const resolved = await runRipgrepWithFallback(
+    ROOT_PATH,
+    args,
+    normalized.maxMatches,
+    normalized.excludeGlobs.length > 0,
+  );
   if (resolved.error) {
     throw new Error("rg error: " + formatRipgrepError(resolved.error));
   }
@@ -345,10 +305,10 @@ export async function grep(
     resolved.stdout.split(/\r?\n/).filter((entry) => entry.length > 0),
   );
   const matches = await collectMatches(lines, {
-    context,
-    maxMatches,
+    context: normalized.context,
+    maxMatches: normalized.maxMatches,
     root: ROOT_PATH,
-    ignorer,
+    ignorer: normalized.ignorer,
   });
   return [...matches];
 }
