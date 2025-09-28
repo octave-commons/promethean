@@ -1,4 +1,5 @@
 import * as path from "node:path";
+import { fileURLToPath } from "node:url";
 import { promises as fs } from "node:fs";
 
 import test from "ava";
@@ -10,7 +11,12 @@ import {
 } from "@promethean/test-utils";
 import type { Route, Response } from "playwright";
 
-const PKG_ROOT = process.cwd();
+const PKG_ROOT = path.resolve(
+  path.dirname(fileURLToPath(import.meta.url)),
+  "..",
+  "..",
+  "..",
+);
 
 async function write(p: string, s: string) {
   await fs.mkdir(path.dirname(p), { recursive: true });
