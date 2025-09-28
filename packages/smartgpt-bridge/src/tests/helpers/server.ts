@@ -167,12 +167,13 @@ export const withServer = async (
   fn: (client: any) => Promise<any>,
 ) => {
   const ROOT_PATH = ensureRootPath(root);
-  process.env.NODE_ENV = "test";
   const prevEnv = {
+    NODE_ENV: process.env.NODE_ENV,
     NODE_PTY_DISABLED: process.env.NODE_PTY_DISABLED,
     MONGODB_URI: process.env.MONGODB_URI,
     DUAL_WRITE_ENABLED: process.env.DUAL_WRITE_ENABLED,
   };
+  process.env.NODE_ENV = "test";
   // Avoid native addon crashes in CI/local when ABI mismatches
   if (!process.env.NODE_PTY_DISABLED) process.env.NODE_PTY_DISABLED = "1";
   // Skip Mongo unless explicitly requested via MONGODB_URI=memory
@@ -299,5 +300,7 @@ export const withServer = async (
     if (prevEnv.NODE_PTY_DISABLED === undefined)
       delete process.env.NODE_PTY_DISABLED;
     else process.env.NODE_PTY_DISABLED = prevEnv.NODE_PTY_DISABLED;
+    if (prevEnv.NODE_ENV === undefined) delete process.env.NODE_ENV;
+    else process.env.NODE_ENV = prevEnv.NODE_ENV;
   }
 };
