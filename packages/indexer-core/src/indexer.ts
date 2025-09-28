@@ -127,16 +127,21 @@ const DEFAULT_INCLUDE = [
   "**/*.{md,txt,js,ts,jsx,tsx,py,go,rs,json,yml,yaml,sh}",
 ];
 
-function resolveWithinRoot(rootPath: string, rel: string) {
+async function resolveWithinRoot(rootPath: string, rel: string) {
   const rootAbs = path.resolve(rootPath);
   const candidate = path.resolve(rootAbs, rel);
-  const isSame = candidate === rootAbs;
-  const withinRoot = candidate.startsWith(`${rootAbs}${path.sep}`);
+  // Canonicalize both the root and candidate to resolve symlinks
+  const [rootReal, candidateReal] = await Promise.all([
+    fs.realpath(rootAbs),
+    fs.realpath(candidate),
+  ]);
+  const isSame = candidateReal === rootReal;
+  const withinRoot = candidateReal.startsWith(`${rootReal}${path.sep}`);
   if (!isSame && !withinRoot) {
     throw new Error("Path escapes index root");
   }
-  const normalizedRel = toPosixPath(path.relative(rootAbs, candidate));
-  return { abs: candidate, rel: normalizedRel };
+  const normalizedRel = toPosixPath(path.relative(rootReal, candidateReal));
+  return { abs: candidateReal, rel: normalizedRel };
 }
 
 function toIgnoreDirs(patterns: readonly string[]): string[] {
@@ -287,7 +292,7 @@ export async function indexFile(
     dims: Number(process.env.EMBED_DIMS || 768),
   };
   const col = await collectionForFamily(family, version, cfg);
-  const { abs, rel: safeRel } = resolveWithinRoot(rootPath, rel);
+  const { abs, rel: safeRel } = await resolveWithinRoot(rootPath, rel);
   let raw = "";
   try {
     raw = await fs.readFile(abs, "utf8");
