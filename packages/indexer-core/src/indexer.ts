@@ -135,9 +135,14 @@ async function resolveWithinRoot(rootPath: string, rel: string) {
     fs.realpath(rootAbs),
     fs.realpath(candidate),
   ]);
-  const isSame = candidateReal === rootReal;
-  const withinRoot = candidateReal.startsWith(`${rootReal}${path.sep}`);
-  if (!isSame && !withinRoot) {
+  // More robust containment check: ensure candidateReal is inside rootReal
+  const relative = path.relative(rootReal, candidateReal);
+  const isContained =
+    !!relative &&
+    !relative.startsWith("..") &&
+    !path.isAbsolute(relative);
+  // Optionally allow rootReal itself as valid, or disallow
+  if (!isContained && candidateReal !== rootReal) {
     throw new Error("Path escapes index root");
   }
   const normalizedRel = toPosixPath(path.relative(rootReal, candidateReal));
