@@ -127,20 +127,45 @@ const DEFAULT_INCLUDE = [
   "**/*.{md,txt,js,ts,jsx,tsx,py,go,rs,json,yml,yaml,sh}",
 ];
 
+function isPathMissingError(value: unknown): value is NodeJS.ErrnoException {
+  if (!value || typeof value !== "object") return false;
+  const maybeError = value as Partial<NodeJS.ErrnoException>;
+  const code = maybeError.code;
+  return code === "ENOENT" || code === "ENOTDIR";
+}
+
+const realpathOrNull = (targetPath: string) =>
+  fs.realpath(targetPath).catch((error: unknown) => {
+    if (!isPathMissingError(error)) {
+      throw error;
+    }
+    return null;
+  });
+
 async function resolveWithinRoot(rootPath: string, rel: string) {
   const rootAbs = path.resolve(rootPath);
   const candidate = path.resolve(rootAbs, rel);
-  // Canonicalize both the root and candidate to resolve symlinks
-  const [rootReal, candidateReal] = await Promise.all([
-    fs.realpath(rootAbs),
-    fs.realpath(candidate),
-  ]);
-  const isSame = candidateReal === rootReal;
-  const withinRoot = candidateReal.startsWith(`${rootReal}${path.sep}`);
-  if (!isSame && !withinRoot) {
+  const rootReal = await fs.realpath(rootAbs);
+
+  const candidateReal = await realpathOrNull(candidate).then(
+    async (resolved) => {
+      if (resolved !== null) return resolved;
+      const parentReal = await realpathOrNull(path.dirname(candidate));
+      if (parentReal !== null) {
+        return path.join(parentReal, path.basename(candidate));
+      }
+      return path.normalize(candidate);
+    },
+  );
+
+  const relativeToRoot = path.relative(rootReal, candidateReal);
+  const escapesRoot =
+    relativeToRoot.length > 0 &&
+    (relativeToRoot.startsWith("..") || path.isAbsolute(relativeToRoot));
+  if (escapesRoot) {
     throw new Error("Path escapes index root");
   }
-  const normalizedRel = toPosixPath(path.relative(rootReal, candidateReal));
+  const normalizedRel = toPosixPath(relativeToRoot);
   return { abs: candidateReal, rel: normalizedRel };
 }
 
@@ -335,7 +360,7 @@ export async function removeFileFromIndex(_rootPath: string, rel: string) {
   };
   const col = await collectionForFamily(family, version, cfg);
   try {
-    const { rel: safeRel } = resolveWithinRoot(_rootPath, rel);
+    const { rel: safeRel } = await resolveWithinRoot(_rootPath, rel);
     await col.delete({ where: { path: safeRel } });
     return { ok: true };
   } catch (e: any) {
