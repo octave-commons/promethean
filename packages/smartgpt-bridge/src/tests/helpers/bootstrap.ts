@@ -3,6 +3,13 @@ import { statSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
+import test from "ava";
+
+import {
+  createMemoryStateStore,
+  setIndexerStateStore,
+} from "../../indexerState.js";
+
 function pathExists(dir: string): boolean {
   try {
     return statSync(dir).isDirectory();
@@ -72,3 +79,17 @@ await ensureFixturesDir().catch((err) => {
     console.error("Failed to prepare test fixtures", err);
   }
 });
+
+const shouldForceLevelDb =
+  String(
+    process.env.SMARTGPT_BRIDGE_INDEXER_STATE_STORE || "",
+  ).toLowerCase() === "leveldb";
+
+if (!shouldForceLevelDb) {
+  const resetStore = () => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+    setIndexerStateStore(createMemoryStateStore());
+  };
+  resetStore();
+  test.beforeEach(resetStore);
+}
