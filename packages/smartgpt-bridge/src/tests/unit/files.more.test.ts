@@ -1,4 +1,5 @@
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 import test from "ava";
 
@@ -9,31 +10,40 @@ import {
   normalizeToRoot,
 } from "../../files.js";
 
-const ROOT = path.join(process.cwd(), "tests", "fixtures");
+const HERE = path.dirname(fileURLToPath(import.meta.url));
+const ROOT = path.join(HERE, "../../..", "tests", "fixtures");
 
 test("locateStacktrace: Node style with function (nodeB)", async (t) => {
   const p = path.join(ROOT, "hello.ts");
   const trace = `Error at Greeter.greet (${p}:2:5)`;
-  const res = await locateStacktrace(ROOT, trace, 1);
+  const res = (await locateStacktrace(ROOT, trace, 1)) as Array<{
+    resolved: boolean;
+    path: string;
+  }>;
   t.true(res.length >= 1);
-  t.true(res[0].resolved);
-  t.is(res[0].path.endsWith("hello.ts"), true);
+  const first = res[0]!;
+  t.true(first.resolved);
+  t.is(first.path.endsWith("hello.ts"), true);
 });
 
 test("locateStacktrace: Python File:line unresolved", async (t) => {
-  const res = await locateStacktrace(
+  const res = (await locateStacktrace(
     ROOT,
     'File "/no/such/file.py", line 12',
     1,
-  );
+  )) as Array<{ resolved: boolean }>;
   t.true(res.length >= 1);
-  t.false(res[0].resolved);
+  const first = res[0]!;
+  t.false(first.resolved);
 });
 
 test("locateStacktrace: Go file:line unresolved", async (t) => {
-  const res = await locateStacktrace(ROOT, "cmd/main.go:45", 1);
+  const res = (await locateStacktrace(ROOT, "cmd/main.go:45", 1)) as Array<{
+    resolved: boolean;
+  }>;
   t.true(res.length >= 1);
-  t.false(res[0].resolved);
+  const first = res[0]!;
+  t.false(first.resolved);
 });
 
 test("resolvePath returns null for non-existent", async (t) => {
