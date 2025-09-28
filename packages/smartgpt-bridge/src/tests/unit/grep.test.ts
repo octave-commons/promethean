@@ -123,6 +123,40 @@ test("grep: matches ripgrep output with context and flags", async (t) => {
   t.deepEqual(results, expected);
 });
 
+test("grep: case-sensitive search overrides smart-case config", async (t) => {
+  const rcPath = path.join(
+    process.cwd(),
+    "tests",
+    "fixtures",
+    "ripgrep-smart-case.rc",
+  );
+  const previous = process.env.RIPGREP_CONFIG_PATH;
+  process.env.RIPGREP_CONFIG_PATH = rcPath;
+  t.teardown(() => {
+    if (previous === undefined) {
+      delete process.env.RIPGREP_CONFIG_PATH;
+    } else {
+      process.env.RIPGREP_CONFIG_PATH = previous;
+    }
+  });
+
+  const caseSensitive = await grep(ROOT, {
+    pattern: "heading",
+    flags: "g",
+    paths: ["**/*.md"],
+    context: 1,
+  });
+  t.is(caseSensitive.length, 0);
+
+  const caseInsensitive = await grep(ROOT, {
+    pattern: "heading",
+    flags: "i",
+    paths: ["**/*.md"],
+    context: 1,
+  });
+  t.true(caseInsensitive.length >= 1);
+});
+
 test("grep: invalid regex throws error", async (t) => {
   await t.throwsAsync(() =>
     grep(ROOT, { pattern: "(*invalid", paths: ["**/*.md"] }),
