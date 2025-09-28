@@ -21,9 +21,9 @@
     "build": "tsc",
     "clean": "rimraf dist",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "test": "pnpm run build && ava tests/**/*.test.js",
+    "test": "pnpm run build && ava --config ../../config/ava.config.mjs",
     "lint": "pnpm exec eslint .",
-    "coverage": "pnpm run build && c8 ava tests/**/*.test.js",
+    "coverage": "pnpm run build && c8 ava --config ../../config/ava.config.mjs",
     "format": "pnpm exec prettier --write ."
   },
   "module": "dist/index.js",
