@@ -1365,6 +1365,9 @@ importers:
       '@chroma-core/ollama':
         specifier: ^0.1.7
         version: 0.1.7(chromadb@3.0.14)
+      '@fastify/rate-limit':
+        specifier: 10.3.0
+        version: 10.3.0
       '@fastify/static':
         specifier: 8.2.0
         version: 8.2.0
@@ -5487,12 +5490,6 @@ packages:
 
   '@pm2/pm2-version-check@1.0.4':
     resolution: {integrity: sha512-SXsM27SGH3yTWKc2fKR4SYNxsmnvuBQ9dd6QHtEWmiZ/VqaOYPAIlS8+vMcn27YLtAEBGvNRSh3TPNvtjZgfqA==}
-
-  '@promethean/markdown@file:packages/markdown':
-    resolution: {directory: packages/markdown, type: directory}
-
-  '@promethean/persistence@file:packages/persistence':
-    resolution: {directory: packages/persistence, type: directory}
 
   '@protobufjs/aspromise@1.1.2':
     resolution: {integrity: sha512-j+gKExEuLmKwvz3OgROXtrJ2UG2x8Ch2YZUxahh+s1F2HZ+wAceUNLkvy6zKCPVRkU++ZWQrdxsUeQXmcg4uoQ==}
@@ -12810,86 +12807,6 @@ snapshots:
       debug: 4.4.3
     transitivePeerDependencies:
       - supports-color
-
-  '@promethean/markdown@file:packages/markdown(socks@2.8.7)':
-    dependencies:
-      '@promethean/fs': link:packages/fs
-      '@types/javascript-time-ago': 2.5.0
-      '@types/mdast': 3.0.15
-      '@types/unist': 3.0.3
-      body-parser: 1.20.3
-      chromadb: 3.0.14
-      duckduckgo-search: 1.0.7
-      express: 4.21.2
-      gray-matter: 4.0.3
-      javascript-time-ago: 2.5.11
-      mongodb: 6.18.0(socks@2.8.7)
-      ollama: 0.5.17
-      prom-client: 15.1.3
-      remark-gfm: 4.0.1
-      remark-parse: 11.0.0
-      remark-stringify: 11.0.0
-      sucrase: 3.35.0
-      unified: 11.0.5
-      unist: 0.0.1
-      unist-util-to-string-with-nodes: 0.1.1
-      unist-util-visit: 5.0.0
-      uuid: 11.1.0
-      ws: 8.18.3
-      yaml: 2.8.1
-      zod: 3.25.76
-    transitivePeerDependencies:
-      - '@aws-sdk/credential-providers'
-      - '@mongodb-js/zstd'
-      - bufferutil
-      - debug
-      - gcp-metadata
-      - kerberos
-      - mongodb-client-encryption
-      - snappy
-      - socks
-      - supports-color
-      - utf-8-validate
-
-  '@promethean/persistence@file:packages/persistence(socks@2.8.7)':
-    dependencies:
-      '@promethean/embedding': link:packages/embedding
-      '@promethean/legacy': link:packages/legacy
-      '@types/javascript-time-ago': 2.5.0
-      '@types/unist': 3.0.3
-      body-parser: 1.20.3
-      chromadb: 3.0.14
-      duckduckgo-search: 1.0.7
-      express: 4.21.2
-      gray-matter: 4.0.3
-      javascript-time-ago: 2.5.11
-      mongodb: 6.18.0(socks@2.8.7)
-      ollama: 0.5.17
-      prom-client: 15.1.3
-      remark-gfm: 4.0.1
-      remark-parse: 11.0.0
-      remark-stringify: 11.0.0
-      sucrase: 3.35.0
-      unified: 11.0.5
-      unist: 0.0.1
-      unist-util-to-string-with-nodes: 0.1.1
-      unist-util-visit: 5.0.0
-      uuid: 11.1.0
-      ws: 8.18.3
-      yaml: 2.8.1
-      zod: 3.25.76
-    transitivePeerDependencies:
-      - '@aws-sdk/credential-providers'
-      - '@mongodb-js/zstd'
-      - bufferutil
-      - debug
-      - gcp-metadata
-      - kerberos
-      - mongodb-client-encryption
-      - snappy
-      - socks
-      - supports-color
-      - utf-8-validate
 
   '@protobufjs/aspromise@1.1.2': {}
 
