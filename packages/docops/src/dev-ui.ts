@@ -198,49 +198,60 @@ app.get("/api/config", async () => ({
   ws: false,
 }));
 
-app.get<{ Querystring: FilesQuery }>("/api/files", async (request, reply) => {
-  const query = request.query;
-  const targetDir = (() => {
+app.get<{ Querystring: FilesQuery }>(
+  "/api/files",
+  {
+    config: {
+      rateLimit: {
+        max: 30,
+        timeWindow: "1 minute",
+      },
+    },
+  },
+  async (request, reply) => {
+    const query = request.query;
+    const targetDir = (() => {
+      try {
+        if (query.dir) return ensureInDir(query.dir);
+        return ROOT_DIR;
+      } catch (error) {
+        reply.code(400);
+        throw error;
+      }
+    })();
+
+    const maxDepth = clamp(
+      Number.isFinite(Number(query.maxDepth))
+        ? Number(query.maxDepth)
+        : MAX_DEPTH_DEFAULT,
+      0,
+      16,
+    );
+    const maxEntries = clamp(
+      Number.isFinite(Number(query.maxEntries))
+        ? Number(query.maxEntries)
+        : MAX_ENTRIES_DEFAULT,
+      1,
+      500,
+    );
+    const exts = toExtList(query.exts);
+    const includeMeta = asBool(query.includeMeta);
+
+    reply.header("cache-control", "no-store, no-cache, must-revalidate");
     try {
-      if (query.dir) return ensureInDir(query.dir);
-      return ROOT_DIR;
+      const tree = await buildFileTree(targetDir, {
+        maxDepth,
+        maxEntries,
+        includeMeta,
+        exts,
+      });
+      return { dir: targetDir, tree };
     } catch (error) {
-      reply.code(400);
-      throw error;
+      reply.code(500);
+      return { error: String((error as Error)?.message ?? error) };
     }
-  })();
-
-  const maxDepth = clamp(
-    Number.isFinite(Number(query.maxDepth))
-      ? Number(query.maxDepth)
-      : MAX_DEPTH_DEFAULT,
-    0,
-    16,
-  );
-  const maxEntries = clamp(
-    Number.isFinite(Number(query.maxEntries))
-      ? Number(query.maxEntries)
-      : MAX_ENTRIES_DEFAULT,
-    1,
-    500,
-  );
-  const exts = toExtList(query.exts);
-  const includeMeta = asBool(query.includeMeta);
-
-  reply.header("cache-control", "no-store, no-cache, must-revalidate");
-  try {
-    const tree = await buildFileTree(targetDir, {
-      maxDepth,
-      maxEntries,
-      includeMeta,
-      exts,
-    });
-    return { dir: targetDir, tree };
-  } catch (error) {
-    reply.code(500);
-    return { error: String((error as Error)?.message ?? error) };
-  }
-});
+  },
+);
 
 app.get<{ Querystring: ReadQuery }>("/api/read", async (request, reply) => {
   const file = request.query.file;
@@ -401,6 +412,14 @@ app.get<{ Querystring: SearchQuery }>("/api/search", async (request) => {
 
 app.get<{ Querystring: RunStepQuery }>(
   "/api/run-step",
+  {
+    config: {
+      rateLimit: {
+        max: 10,
+        timeWindow: "1 minute",
+      },
+    },
+  },
   async (request, reply) => {
     const {
       step: stepParam,
