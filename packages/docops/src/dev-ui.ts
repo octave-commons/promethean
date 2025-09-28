@@ -4,7 +4,7 @@ import * as path from "node:path";
 
 import fastifyFactory from "fastify";
 import fastifyStatic from "@fastify/static";
-
+import fastifyRateLimit from "@fastify/rate-limit";
 import { openDB } from "./db.js";
 import type { DBs } from "./db.js";
 import { buildFileTree } from "./lib/files.js";
@@ -163,6 +163,12 @@ const searchCachePromise = buildSearchIndex(db);
 app.get("/favicon.ico", async (_req, reply) => {
   reply.header("content-type", "image/png");
   reply.send(ONE_PIXEL_PNG);
+});
+
+// Register global rate limit (e.g. 100 requests every 15 minutes per IP)
+app.register(fastifyRateLimit, {
+  max: 100,
+  timeWindow: '15 minutes',
 });
 
 app.get("/", async (_req, reply) => {
