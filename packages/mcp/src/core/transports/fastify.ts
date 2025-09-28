@@ -4,6 +4,7 @@ import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import { isInitializeRequest } from "@modelcontextprotocol/sdk/types.js";
 import crypto from "node:crypto";
+import { createSessionIdGenerator } from "./session-id.js";
 
 type ServerEntries = ReadonlyArray<readonly [string, McpServer]>;
 
@@ -84,7 +85,7 @@ const createRouteHandler = (
 
         const t: StreamableHTTPServerTransport =
           new StreamableHTTPServerTransport({
-            sessionIdGenerator: crypto.randomUUID?.bind(crypto),
+            sessionIdGenerator: createSessionIdGenerator(crypto),
             onsessioninitialized: (sid: string): void => {
               sessions.set(sid, self);
             },
