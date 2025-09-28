@@ -51,6 +51,7 @@
     "mongodb": "^6.17.0",
     "node-crc": "^1.3.2",
     "ollama": "^0.5.16",
+    "opusscript": "^0.0.8",
     "pnpm": "^10.13.1",
     "prism-media": "^2.0.0-alpha.0",
     "sbd": "^1.0.19",
