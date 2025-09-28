@@ -97,7 +97,9 @@ const runCommand = (command, args, options = {}) =>
     };
 
     const hasTimeout =
-      typeof timeoutMs === "number" && Number.isFinite(timeoutMs) && timeoutMs > 0;
+      typeof timeoutMs === "number" &&
+      Number.isFinite(timeoutMs) &&
+      timeoutMs > 0;
 
     if (hasTimeout) {
       timeoutId = setTimeout(() => {
@@ -135,7 +137,9 @@ const runCommand = (command, args, options = {}) =>
       }
 
       const exitSignal = signal ? ` (signal: ${signal})` : "";
-      reject(new Error(`${commandLabel} exited with code ${code}${exitSignal}`));
+      reject(
+        new Error(`${commandLabel} exited with code ${code}${exitSignal}`),
+      );
     });
   });
 
