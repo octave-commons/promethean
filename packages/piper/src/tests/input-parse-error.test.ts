@@ -19,7 +19,7 @@ test.serial("validateFiles includes path on JSON parse error", async (t) => {
   await withTmp(async (dir) => {
     const badPath = path.join(dir, "bad.json");
     const schemaPath = path.join(dir, "schema.json");
-    const pipelinesPath = path.join(dir, "pipelines.json");
+    const configPath = path.join(dir, "pipelines.json");
 
     await fs.writeFile(badPath, "{not json", "utf8");
     await fs.writeFile(schemaPath, JSON.stringify({ type: "object" }), "utf8");
@@ -42,10 +42,10 @@ test.serial("validateFiles includes path on JSON parse error", async (t) => {
         },
       ],
     };
-    await fs.writeFile(pipelinesPath, JSON.stringify(cfg, null, 2), "utf8");
+    await fs.writeFile(configPath, JSON.stringify(cfg, null, 2), "utf8");
     const err = await t.throwsAsync(
       () =>
-        runPipeline(pipelinesPath, "demo", {
+        runPipeline(configPath, "demo", {
           concurrency: 1,
           contentHash: true,
         }),
