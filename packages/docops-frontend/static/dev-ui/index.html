@@ -55,6 +55,20 @@
       <select id="doclist" size="6"></select>
     </section>
 
+    <section id="chunks">
+      <h2>Chunks</h2>
+      <div class="chunk-grid">
+        <ul id="chunksList" aria-label="Chunks"></ul>
+        <div class="chunk-detail">
+          <pre id="chunkMeta">(no chunk selected)</pre>
+          <pre id="chunkText">(no chunk selected)</pre>
+          <ul id="chunkHits" aria-label="Chunk hits">
+            <li>(no hits)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
     <section id="markdown">
       <h2>Markdown Render</h2>
       <pre id="mdRender">(no file selected)</pre>
@@ -73,6 +87,11 @@
     <section id="status">
       <h2>Pipeline Status</h2>
       <pre id="statusTable">(not loaded)</pre>
+    </section>
+
+    <section id="logsSection">
+      <h2>Logs</h2>
+      <pre id="logs">(no logs)</pre>
     </section>
 
     <section id="steps">
