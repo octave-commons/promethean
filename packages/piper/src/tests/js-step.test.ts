@@ -1,5 +1,6 @@
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
+import { isMainThread } from "node:worker_threads";
 
 import test from "ava";
 import { sleep } from "@promethean/utils";
@@ -14,7 +15,11 @@ async function withTmp(fn: (dir: string) => Promise<void>) {
   await fs.mkdir(parent, { recursive: true });
   const dir = await fs.mkdtemp(path.join(parent, "piper-"));
   const prevCwd = process.cwd();
-  process.chdir(dir);
+  const cwdChanged = (() => {
+    if (!isMainThread || typeof process.chdir !== "function") return false;
+    process.chdir(dir);
+    return true;
+  })();
   try {
     await fs.writeFile(
       path.join(dir, SCHEMA),
@@ -25,7 +30,9 @@ async function withTmp(fn: (dir: string) => Promise<void>) {
     // small grace period for any async file watchers/flushes
     await sleep(50);
   } finally {
-    process.chdir(prevCwd);
+    if (cwdChanged) {
+      process.chdir(prevCwd);
+    }
     await fs.rm(dir, { recursive: true, force: true });
   }
 }
