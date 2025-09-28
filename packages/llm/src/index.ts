@@ -79,13 +79,13 @@ const brokerState = (() => {
     /* eslint-enable functional/no-let */
     return {
         get: (): Broker | null => b,
-        set: (broker: Broker): void => {
+        set: (broker: Readonly<Broker> | null): void => {
             b = broker;
         },
     };
 })();
 
-export function setBroker(b: Readonly<Broker>): void {
+export function setBroker(b: Readonly<Broker> | null): void {
     brokerState.set(b);
 }
 
@@ -115,22 +115,30 @@ app.post('/generate', (req: Request, res: Response) => {
 const MODULE_NOT_FOUND = 'ERR_MODULE_NOT_FOUND';
 const PACKAGE_PATH_NOT_EXPORTED = 'ERR_PACKAGE_PATH_NOT_EXPORTED';
 
-async function importWithFallback<TModule>(specs: readonly (string | undefined)[]): Promise<TModule> {
-    let lastError: Error | undefined;
-    for (const spec of specs) {
-        if (!spec) continue;
-        try {
-            return (await import(spec)) as TModule;
-        } catch (err) {
+function importWithFallback<TModule>(
+    specs: readonly (string | undefined)[],
+    index = 0,
+    lastError?: Error,
+): Promise<TModule> {
+    if (index >= specs.length) {
+        if (lastError) throw lastError;
+        throw new Error('Unable to resolve module');
+    }
+
+    const spec = specs[index];
+    if (!spec) {
+        return importWithFallback<TModule>(specs, index + 1, lastError);
+    }
+
+    return import(spec)
+        .then((module) => module as TModule)
+        .catch((err) => {
             const error = err as Error & { readonly code?: string };
-            lastError = error;
             if (error.code !== MODULE_NOT_FOUND && error.code !== PACKAGE_PATH_NOT_EXPORTED) {
                 throw error;
             }
-        }
-    }
-    if (lastError) throw lastError;
-    throw new Error('Unable to resolve module');
+            return importWithFallback<TModule>(specs, index + 1, error);
+        });
 }
 
 const serviceTemplateFallback = new URL('../../legacy/serviceTemplate.js', import.meta.url).href;

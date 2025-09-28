@@ -1,6 +1,18 @@
 import test from 'ava';
 import express from 'express';
-import { loadModel } from '../dist/index.js';
+
+let loadModel;
+
+test.before(async () => {
+    process.env.NODE_ENV = 'test';
+    ({ loadModel } = await import('../../dist/index.js'));
+});
+
+test.after.always(() => {
+    delete process.env.NODE_ENV;
+    delete process.env.LLM_DRIVER;
+    delete process.env.LLM_MODEL;
+});
 
 test('loadModel resolves a driver', async (t) => {
     process.env.LLM_DRIVER = 'ollama';

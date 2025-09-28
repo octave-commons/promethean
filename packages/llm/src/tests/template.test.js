@@ -1,5 +1,23 @@
 import test from 'ava';
-import { handleTask, setGenerateFn, setBroker } from '../dist/index.js';
+
+let handleTask;
+let setGenerateFn;
+let setBroker;
+let loadModel;
+
+test.before(async () => {
+    process.env.NODE_ENV = 'test';
+    ({ handleTask, setGenerateFn, setBroker, loadModel } = await import('../../dist/index.js'));
+});
+
+test.after.always(async () => {
+    delete process.env.NODE_ENV;
+    setBroker(null);
+    setGenerateFn(async ({ prompt, context = [], format = null, tools = [] }) => {
+        const driver = await loadModel();
+        return driver.generate({ prompt, context, format, tools });
+    });
+});
 
 test('handleTask publishes reply using broker', async (t) => {
     const messages = [];
