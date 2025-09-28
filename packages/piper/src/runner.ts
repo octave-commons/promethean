@@ -26,7 +26,13 @@ import {
 import { fingerprintFromGlobs, stepFingerprint } from "./hash.js";
 import { topoSort } from "./lib/graph.js";
 import { semaphore } from "./lib/concurrency.js";
-import { loadState, saveState, RunState, type Step } from "./lib/state.js";
+import {
+  loadState,
+  saveState,
+  RunState,
+  type Step,
+  makePipelineNamespace,
+} from "./lib/state.js";
 import { renderReport } from "./lib/report.js";
 import { emitEvent, type PiperEvent } from "./lib/events.js";
 
@@ -221,7 +227,8 @@ export async function runPipeline(
   if (!pipeline) throw new Error(`pipeline '${pipelineName}' not found`);
   const steps = topoSort(pipeline.steps);
   const stepMap = new Map(steps.map((s) => [s.id, s]));
-  const state = await loadState(pipeline.name);
+  const stateKey = makePipelineNamespace(absConfigPath, pipeline.name);
+  const state = await loadState(stateKey);
   const emit = opts.emit ?? emitEvent;
 
   const sem = semaphore(Math.max(1, opts.concurrency ?? 2));
@@ -475,7 +482,7 @@ export async function runPipeline(
         ...(outHashAfter !== undefined ? { outputHash: outHashAfter } : {}),
       };
       state.steps[s.id] = stepState;
-      await saveState(pipeline.name, state);
+      await saveState(stateKey, state);
       emit(
         { type: "end", stepId: s.id, at: endedAt, result: out },
         opts.json ?? false,
