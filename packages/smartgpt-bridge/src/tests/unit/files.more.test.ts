@@ -10,20 +10,26 @@ import {
   normalizeToRoot,
 } from "../../files.js";
 
-const HERE = path.dirname(fileURLToPath(import.meta.url));
-const ROOT = path.join(HERE, "../../..", "tests", "fixtures");
+const TEST_DIR = path.dirname(fileURLToPath(import.meta.url));
+const ROOT = path.resolve(TEST_DIR, "../../../tests/fixtures");
+
+type StacktraceHit = {
+  resolved: boolean;
+  path?: string;
+};
 
 test("locateStacktrace: Node style with function (nodeB)", async (t) => {
   const p = path.join(ROOT, "hello.ts");
   const trace = `Error at Greeter.greet (${p}:2:5)`;
-  const res = (await locateStacktrace(ROOT, trace, 1)) as Array<{
-    resolved: boolean;
-    path: string;
-  }>;
+  const res = (await locateStacktrace(ROOT, trace, 1)) as StacktraceHit[];
   t.true(res.length >= 1);
-  const first = res[0]!;
+  const first = res[0];
+  if (!first) {
+    t.fail("expected stacktrace result");
+    return;
+  }
   t.true(first.resolved);
-  t.is(first.path.endsWith("hello.ts"), true);
+  t.is(Boolean(first.path && first.path.endsWith("hello.ts")), true);
 });
 
 test("locateStacktrace: Python File:line unresolved", async (t) => {
@@ -31,18 +37,28 @@ test("locateStacktrace: Python File:line unresolved", async (t) => {
     ROOT,
     'File "/no/such/file.py", line 12',
     1,
-  )) as Array<{ resolved: boolean }>;
+  )) as StacktraceHit[];
   t.true(res.length >= 1);
-  const first = res[0]!;
+  const first = res[0];
+  if (!first) {
+    t.fail("expected stacktrace result");
+    return;
+  }
   t.false(first.resolved);
 });
 
 test("locateStacktrace: Go file:line unresolved", async (t) => {
-  const res = (await locateStacktrace(ROOT, "cmd/main.go:45", 1)) as Array<{
-    resolved: boolean;
-  }>;
+  const res = (await locateStacktrace(
+    ROOT,
+    "cmd/main.go:45",
+    1,
+  )) as StacktraceHit[];
   t.true(res.length >= 1);
-  const first = res[0]!;
+  const first = res[0];
+  if (!first) {
+    t.fail("expected stacktrace result");
+    return;
+  }
   t.false(first.resolved);
 });
 

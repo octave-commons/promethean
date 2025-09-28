@@ -1,10 +1,15 @@
 // Lightweight helpers to get a Chroma collection with Ollama embedding function
 import { OLLAMA_URL } from "../utils.js";
+import { getFakeChroma, usingFakeServices } from "./services.js";
 
 export async function getChromaCollection(opts: {
   collection: string;
   embedModel: string;
 }) {
+  if (usingFakeServices()) {
+    return getFakeChroma(opts);
+  }
+
   const { ChromaClient } = await import("chromadb");
   const { OllamaEmbeddingFunction } = await import("@chroma-core/ollama");
   const client = new ChromaClient({});
