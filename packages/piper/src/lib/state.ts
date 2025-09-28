@@ -23,6 +23,7 @@ export type RunState = {
 };
 
 const DB_PATH = ".cache/piper.level";
+const saveQueues = new Map<string, Promise<void>>();
 
 export async function loadState(pipeline: string): Promise<RunState> {
   let cache: Cache<Step> | undefined;
@@ -59,7 +60,7 @@ export async function loadState(pipeline: string): Promise<RunState> {
   }
 }
 
-export async function saveState(pipeline: string, state: RunState) {
+async function persistState(pipeline: string, state: RunState): Promise<void> {
   let cache: Cache<Step> | undefined;
   try {
     cache = await openLevelCache<Step>({
@@ -80,4 +81,17 @@ export async function saveState(pipeline: string, state: RunState) {
       }
     }
   }
+}
+
+export async function saveState(pipeline: string, state: RunState) {
+  const run = () => persistState(pipeline, state);
+  const prev = saveQueues.get(pipeline) ?? Promise.resolve();
+  const chained = prev.then(run, run);
+  const finalPromise = chained.finally(() => {
+    if (saveQueues.get(pipeline) === finalPromise) {
+      saveQueues.delete(pipeline);
+    }
+  });
+  saveQueues.set(pipeline, finalPromise);
+  return finalPromise;
 }
