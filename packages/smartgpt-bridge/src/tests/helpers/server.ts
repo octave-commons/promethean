@@ -129,6 +129,11 @@ export const withServer = async (
   fn: (client: any) => Promise<any>,
 ) => {
   process.env.NODE_ENV = "test";
+  const prevEnv = {
+    NODE_PTY_DISABLED: process.env.NODE_PTY_DISABLED,
+    MONGODB_URI: process.env.MONGODB_URI,
+    DUAL_WRITE_ENABLED: process.env.DUAL_WRITE_ENABLED,
+  };
   // Avoid native addon crashes in CI/local when ABI mismatches
   if (!process.env.NODE_PTY_DISABLED) process.env.NODE_PTY_DISABLED = "1";
   // Skip Mongo unless explicitly requested via MONGODB_URI=memory
@@ -231,14 +236,29 @@ export const withServer = async (
     await app.close();
     if (mms) await mms.stop();
     const mongoUri = String(process.env.MONGODB_URI || "");
+    let persistenceClients:
+      | typeof import("@promethean/persistence/clients.js")
+      | undefined;
     if (mongoUri && mongoUri !== "disabled") {
       try {
-        const { getMongoClient } = await import(
-          "@promethean/persistence/clients.js"
-        );
-        const mongo = await getMongoClient();
+        persistenceClients = await import("@promethean/persistence/clients.js");
+        const mongo = await persistenceClients.getMongoClient();
         await mongo.close();
       } catch {}
     }
+    try {
+      (
+        persistenceClients ||
+        (await import("@promethean/persistence/clients.js"))
+      ).__resetPersistenceClientsForTests?.();
+    } catch {}
+    if (prevEnv.MONGODB_URI === undefined) delete process.env.MONGODB_URI;
+    else process.env.MONGODB_URI = prevEnv.MONGODB_URI;
+    if (prevEnv.DUAL_WRITE_ENABLED === undefined)
+      delete process.env.DUAL_WRITE_ENABLED;
+    else process.env.DUAL_WRITE_ENABLED = prevEnv.DUAL_WRITE_ENABLED;
+    if (prevEnv.NODE_PTY_DISABLED === undefined)
+      delete process.env.NODE_PTY_DISABLED;
+    else process.env.NODE_PTY_DISABLED = prevEnv.NODE_PTY_DISABLED;
   }
 };
