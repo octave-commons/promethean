@@ -4,17 +4,21 @@ import { tmpdir } from "os";
 
 import test from "ava";
 import { installInMemoryPersistence } from "@promethean/test-utils/persistence.js";
+import { ContextStore } from "@promethean/persistence";
+import { GraphDB } from "../dist/graph.js";
 
 test.serial("cold start and update (unit, no network)", async (t) => {
   t.timeout(10000);
-  // Wire fakes into shared persistence
   const pers = installInMemoryPersistence();
-  process.env.NODE_ENV = "test";
-  const { ContextStore } = await import("@promethean/persistence");
-  const { GraphDB } = await import("../src/graph.js");
+  t.teardown(() => {
+    pers.dispose();
+  });
   const store = new ContextStore();
 
   const repo = await fs.mkdtemp(join(tmpdir(), "mg-"));
+  t.teardown(async () => {
+    await fs.rm(repo, { recursive: true, force: true });
+  });
   await fs.mkdir(join(repo, "docs"), { recursive: true });
   await fs.writeFile(join(repo, "readme.md"), `[One](docs/one.md) #root`);
   await fs.writeFile(join(repo, "docs", "one.md"), `[Two](two.md) #tag1`);
@@ -33,8 +37,6 @@ test.serial("cold start and update (unit, no network)", async (t) => {
 
   const links2 = await db.getLinks("docs/two.md");
   t.deepEqual(links2, ["docs/one.md"]);
-
-  pers.dispose();
 });
 
 test.serial(
@@ -42,12 +44,15 @@ test.serial(
   async (t) => {
     t.timeout(10000);
     const pers = installInMemoryPersistence();
-    process.env.NODE_ENV = "test";
-    const { ContextStore } = await import("@promethean/persistence");
-    const { GraphDB } = await import("../src/graph.js");
+    t.teardown(() => {
+      pers.dispose();
+    });
     const store = new ContextStore();
 
     const repo = await fs.mkdtemp(join(tmpdir(), "mg-"));
+    t.teardown(async () => {
+      await fs.rm(repo, { recursive: true, force: true });
+    });
     await fs.writeFile(join(repo, "readme.md"), "#root");
 
     const db = await GraphDB.create(repo, store);
@@ -57,7 +62,5 @@ test.serial(
 
     const links = await db.getLinks("storm.md");
     t.deepEqual(links, []);
-
-    pers.dispose();
   },
 );
