@@ -1,5 +1,5 @@
 import test from 'ava';
-import { handleTask, setGenerateFn, setBroker } from '../dist/index.js';
+import { handleTask, setGenerateFn, setBroker } from '../../dist/index.js';
 
 test('handleTask publishes reply using broker', async (t) => {
     const messages = [];
