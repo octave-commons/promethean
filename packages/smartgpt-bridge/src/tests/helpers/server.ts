@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 
+import rateLimit from "@fastify/rate-limit";
 import { MongoMemoryServer } from "mongodb-memory-server";
 
 import { createServer } from "../../server/createServer.js";
@@ -249,17 +250,36 @@ export const withServer = async (
           (req as any).user = { sub: "static", mode: "static" };
         },
         registerRoutes: async (app: any) => {
-          app.get("/auth/me", async (req: any, reply: any) => {
-            const token = getToken(req);
-            if (!token) return unauthorized(reply);
-            if (!staticTokens.includes(token)) return unauthorized(reply);
-            return reply.send({
-              ok: true,
-              auth: true,
-              mode: "static",
-              cookie: cookieName,
-            });
-          });
+          try {
+            await app.register(rateLimit, { global: false });
+          } catch (err) {
+            app.log?.error?.(
+              { err },
+              "rateLimit plugin registration failed in test helper",
+            );
+          }
+          app.get(
+            "/auth/me",
+            {
+              config: {
+                rateLimit: {
+                  max: 10,
+                  timeWindow: "1 minute",
+                },
+              },
+            },
+            async (req: any, reply: any) => {
+              const token = getToken(req);
+              if (!token) return unauthorized(reply);
+              if (!staticTokens.includes(token)) return unauthorized(reply);
+              return reply.send({
+                ok: true,
+                auth: true,
+                mode: "static",
+                cookie: cookieName,
+              });
+            },
+          );
         },
       } as any;
     };
