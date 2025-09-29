@@ -8,8 +8,16 @@ import { jwks, signAccessToken, verifyToken, initKeys } from "./keys.js";
 configDotenv();
 
 // Rate limit for /oauth/introspect endpoint
-const INTROSPECTION_RATE_LIMIT = 60; // 60 requests per minute per IP
-const INTROSPECTION_TIME_WINDOW = "1 minute";
+const INTROSPECTION_RATE_LIMIT = (() => {
+  const fallback = 60; // 60 requests per minute per IP
+  const raw = process.env.AUTH_INTROSPECT_RATE_LIMIT;
+  if (!raw) return fallback;
+  const value = Number.parseInt(raw, 10);
+  return Number.isFinite(value) && value > 0 ? value : fallback;
+})();
+
+const INTROSPECTION_TIME_WINDOW =
+  process.env.AUTH_INTROSPECT_RATE_WINDOW || "1 minute";
 type ClientDef = {
   client_secret?: string;
   scopes?: string[];
@@ -49,16 +57,6 @@ const DEFAULT_SCOPES = (process.env.AUTH_DEFAULT_SCOPES || "")
 
 const authCodes = new Map<string, AuthCode>();
 const refreshTokens = new Map<string, RefreshToken>();
-
-const INTROSPECTION_RATE_LIMIT = (() => {
-  const raw = process.env.AUTH_INTROSPECT_RATE_LIMIT;
-  if (!raw) return 30;
-  const value = Number.parseInt(raw, 10);
-  return Number.isFinite(value) && value > 0 ? value : 30;
-})();
-
-const INTROSPECTION_TIME_WINDOW =
-  process.env.AUTH_INTROSPECT_RATE_WINDOW || "1 minute";
 
 function randomString(bytes = 32) {
   return crypto.randomBytes(bytes).toString("base64url");
