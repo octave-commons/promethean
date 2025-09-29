@@ -26,7 +26,13 @@ import {
 import { fingerprintFromGlobs, stepFingerprint } from "./hash.js";
 import { topoSort } from "./lib/graph.js";
 import { semaphore } from "./lib/concurrency.js";
-import { loadState, saveState, RunState, type Step } from "./lib/state.js";
+import {
+  loadState,
+  saveState,
+  RunState,
+  type Step,
+  makePipelineNamespace,
+} from "./lib/state.js";
 import { renderReport } from "./lib/report.js";
 import { emitEvent, type PiperEvent } from "./lib/events.js";
 
@@ -59,6 +65,29 @@ type AjvLike = {
 
 const AjvCtor = AjvModule as unknown as new () => AjvLike;
 const ajv: AjvLike = new AjvCtor();
+
+const BOOL_TRUE = /^(1|true|yes)$/i;
+const BOOL_FALSE = /^(0|false|no)$/i;
+
+function isSilent(): boolean {
+  const raw = process.env.PIPER_SILENT;
+  if (raw !== undefined) {
+    if (BOOL_TRUE.test(raw)) return true;
+    if (BOOL_FALSE.test(raw)) return false;
+    return raw.length > 0;
+  }
+  return process.env.NODE_ENV === "test";
+}
+
+function logInfo(message: string) {
+  if (isSilent()) return;
+  console.log(message);
+}
+
+function logError(message: string) {
+  if (isSilent()) return;
+  console.error(message);
+}
 
 async function validateFiles(
   files: string[],
@@ -123,21 +152,49 @@ async function readConfig(p: string): Promise<PiperFile> {
   };
 }
 
+type HashMode = "content" | "mtime";
+
+function pickPreviousHash(
+  prev: Step | undefined,
+  mode: HashMode,
+): string | undefined {
+  if (!prev) return undefined;
+  if (mode === "content") {
+    if (prev.outputHashContent) return prev.outputHashContent;
+    if (prev.outputHashMode === "content" && prev.outputHash)
+      return prev.outputHash;
+  } else {
+    if (prev.outputHashMtime) return prev.outputHashMtime;
+    if (prev.outputHashMode === "mtime" && prev.outputHash)
+      return prev.outputHash;
+  }
+  if (
+    prev.outputHashContent === undefined &&
+    prev.outputHashMtime === undefined
+  ) {
+    return prev.outputHash;
+  }
+  return undefined;
+}
+
 function shouldSkip(
   step: PiperStep,
   state: RunState,
   fp: string,
   outHash: string | undefined,
   haveOutputs: boolean,
+  hashMode: HashMode,
   force: boolean | undefined,
 ) {
   if (force) return { skip: false, reason: "" };
   const prev = state.steps[step.id];
+  const prevHash = pickPreviousHash(prev, hashMode);
   if (
     prev &&
     prev.fingerprint === fp &&
     haveOutputs &&
-    prev.outputHash === outHash
+    outHash !== undefined &&
+    prevHash === outHash
   ) {
     return {
       skip: true,
@@ -198,7 +255,8 @@ export async function runPipeline(
   if (!pipeline) throw new Error(`pipeline '${pipelineName}' not found`);
   const steps = topoSort(pipeline.steps);
   const stepMap = new Map(steps.map((s) => [s.id, s]));
-  const state = await loadState(pipeline.name);
+  const stateKey = makePipelineNamespace(absConfigPath, pipeline.name);
+  const state = await loadState(stateKey);
   const emit = opts.emit ?? emitEvent;
 
   const sem = semaphore(Math.max(1, opts.concurrency ?? 2));
@@ -251,26 +309,23 @@ export async function runPipeline(
     await sem.take();
     try {
       const cwd = path.resolve(configDir, s.cwd ?? ".");
+      const hashMode: HashMode = opts.contentHash ? "content" : "mtime";
       const fp = await stepFingerprint(
         s,
         cwd,
-        !!opts.contentHash,
+        hashMode === "content",
         opts.extraEnv,
       );
       const haveOutputs = s.outputs.length
         ? await listOutputsExist(s.outputs, cwd)
         : false;
       const outHash = haveOutputs
-        ? await fingerprintFromGlobs(
-            s.outputs,
-            cwd,
-            opts.contentHash ? "content" : "mtime",
-          )
+        ? await fingerprintFromGlobs(s.outputs, cwd, hashMode)
         : undefined;
 
       const { skip, reason } = depsChanged
         ? { skip: false, reason: "" }
-        : shouldSkip(s, state, fp, outHash, haveOutputs, opts.force);
+        : shouldSkip(s, state, fp, outHash, haveOutputs, hashMode, opts.force);
 
       if (opts.dryRun) {
         const res: StepResult = { id: s.id, skipped: true, reason: "dry-run" };
@@ -407,7 +462,7 @@ export async function runPipeline(
           },
           opts.json ?? false,
         );
-        console.log(
+        logInfo(
           `[piper] step ${s.id} failed (exit ${res.code}); retry ${nextAttempt}/${maxRetry}`,
         );
         return attemptRun(nextAttempt);
@@ -419,17 +474,30 @@ export async function runPipeline(
         ];
         if (execRes.stderr) parts.push(`stderr:\n${execRes.stderr}`);
         if (execRes.stdout) parts.push(`stdout:\n${execRes.stdout}`);
-        console.error(parts.join("\n"));
+        logError(parts.join("\n"));
       }
 
       const endedAt = new Date().toISOString();
-      const outHashAfter = s.outputs.length
-        ? await fingerprintFromGlobs(
+      let outputHashContent: string | undefined;
+      let outputHashMtime: string | undefined;
+      if (s.outputs.length) {
+        if (hashMode === "content" && outHash !== undefined) {
+          outputHashContent = outHash;
+        }
+        if (hashMode === "mtime" && outHash !== undefined) {
+          outputHashMtime = outHash;
+        }
+        if (outputHashContent === undefined) {
+          outputHashContent = await fingerprintFromGlobs(
             s.outputs,
             cwd,
-            opts.contentHash ? "content" : "mtime",
-          )
-        : undefined;
+            "content",
+          );
+        }
+        if (outputHashMtime === undefined) {
+          outputHashMtime = await fingerprintFromGlobs(s.outputs, cwd, "mtime");
+        }
+      }
 
       const out: StepResult = {
         id: s.id,
@@ -449,10 +517,20 @@ export async function runPipeline(
         fingerprint: fp,
         endedAt,
         exitCode: execRes.code,
-        ...(outHashAfter !== undefined ? { outputHash: outHashAfter } : {}),
+        ...(outputHashContent ? { outputHashContent } : {}),
+        ...(outputHashMtime ? { outputHashMtime } : {}),
+        ...(() => {
+          if (!outputHashContent && !outputHashMtime) return {};
+          const hashForMode =
+            hashMode === "content" ? outputHashContent : outputHashMtime;
+          return {
+            outputHashMode: hashMode,
+            ...(hashForMode ? { outputHash: hashForMode } : {}),
+          };
+        })(),
       };
       state.steps[s.id] = stepState;
-      await saveState(pipeline.name, state);
+      await saveState(stateKey, state);
       emit(
         { type: "end", stepId: s.id, at: endedAt, result: out },
         opts.json ?? false,
@@ -492,7 +570,7 @@ export async function runPipeline(
   const ok = results.filter((r) => !r.skipped && r.exitCode === 0).length;
   const sk = results.filter((r) => r.skipped).length;
   const ko = results.filter((r) => !r.skipped && r.exitCode !== 0).length;
-  console.log(`[piper] ${pipeline.name} — OK:${ok} SKIPPED:${sk} FAIL:${ko}`);
+  logInfo(`[piper] ${pipeline.name} — OK:${ok} SKIPPED:${sk} FAIL:${ko}`);
   return results;
 }
 
@@ -512,11 +590,11 @@ export async function watchPipeline(
       allInputs.add(path.resolve(configDir, s.cwd ?? ".", i)),
     ),
   );
-  console.log(`[piper] watching ${allInputs.size} input patterns…`);
+  logInfo(`[piper] watching ${allInputs.size} input patterns…`);
   await runPipeline(absConfigPath, pipelineName, { ...opts, dryRun: false });
   const watcher = chokidar.watch(Array.from(allInputs));
   watcher.on("all", async () => {
-    console.log(`[piper] change detected — re-running ${pipelineName}`);
+    logInfo(`[piper] change detected — re-running ${pipelineName}`);
     await runPipeline(absConfigPath, pipelineName, { ...opts, dryRun: false });
   });
 }

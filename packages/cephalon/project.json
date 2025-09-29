@@ -1,5 +1,5 @@
 {
-  "name": "ts-cephalon",
+  "name": "@promethean/cephalon",
   "root": "packages/cephalon",
   "sourceRoot": "packages/cephalon/src",
   "targets": {
@@ -9,7 +9,9 @@
         "command": "tsc -b",
         "cwd": "packages/cephalon"
       },
-      "outputs": ["{projectRoot}/dist"]
+      "outputs": [
+        "{projectRoot}/dist"
+      ]
     },
     "typecheck": {
       "executor": "nx:run-commands",
@@ -22,7 +24,10 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "ava",
-        "cwd": "packages/cephalon"
+        "cwd": "{projectRoot}",
+        "env": {
+          "AVA_PROJECT_ROOT": "."
+        }
       }
     },
     "lint": {
@@ -33,5 +38,7 @@
       }
     }
   },
-  "tags": ["scope:packages"]
+  "tags": [
+    "scope:packages"
+  ]
 }

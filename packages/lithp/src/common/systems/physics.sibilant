@@ -1,7 +1,0 @@
-(import Physics "./physics/system.js")
-(import Friction Signal-field "./physics/forces.js")
-
-(const forces (lit Friction Signal-field))
-
-(export Physics)
-(export forces)

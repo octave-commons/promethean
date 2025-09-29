@@ -12,6 +12,12 @@ export function registerExecRoutes(fastify: any, deps: ExecDeps = {}) {
   const run = deps.runCommand ?? runCommand;
   const ROOT_PATH = fastify.ROOT_PATH;
   fastify.post("/exec/run", {
+    config: {
+      rateLimit: {
+        max: 5,
+        timeWindow: "1 minute",
+      },
+    },
     schema: {
       summary: "Run a shell command",
       operationId: "runCommand",

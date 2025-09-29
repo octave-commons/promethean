@@ -2,10 +2,11 @@ import Fastify from "fastify";
 // Frontend assets are served by a standalone file server under `sites/`
 import swagger from "@fastify/swagger";
 import swaggerUi from "@fastify/swagger-ui";
+import rateLimit from "@fastify/rate-limit";
 
 import { createFastifyAuth } from "./fastifyAuth.js";
 import { registerV0Routes } from "./routes/v0/index.js";
-import { indexerManager as defaultIndexerManager } from "./indexer.js";
+import { ensureIndexerBootstrap } from "./indexerClient.js";
 import { restoreAgentsFromStore } from "./agent.js";
 import { registerSinks as defaultRegisterSinks } from "./sinks.js";
 import { registerRbac as defaultRegisterRbac } from "./rbac.js";
@@ -15,13 +16,21 @@ import { mongoChromaLogger } from "./logging/index.js";
 type BridgeDeps = {
   registerSinks?: () => Promise<void>;
   createFastifyAuth?: () => ReturnType<typeof createFastifyAuth>;
-  indexerManager?: typeof defaultIndexerManager;
+  indexerManager?: unknown;
   registerRbac?: (app: any) => void | Promise<void>;
   runCommand?:
     | ((
         args: Parameters<typeof import("./exec.js").runCommand>[0],
       ) => ReturnType<typeof import("./exec.js").runCommand>)
     | undefined;
+};
+
+type BridgeConfig = {
+  readonly rateLimit?: {
+    readonly max?: number;
+    readonly timeWindow?: string | number;
+    readonly allowList?: ReadonlyArray<string>;
+  };
 };
 
 export const globalSchema = [
@@ -163,10 +172,13 @@ export function registerSchema(app: Readonly<Fastify.FastifyInstance>): void {
 export async function buildFastifyApp(
   ROOT_PATH: string,
   deps: BridgeDeps = {},
+  config: BridgeConfig = {},
 ) {
   const registerSinks = deps.registerSinks || defaultRegisterSinks;
   const authFactory = deps.createFastifyAuth || createFastifyAuth;
-  const indexerManager = deps.indexerManager || defaultIndexerManager;
+  if (deps.indexerManager) {
+    // Legacy dependency injection is no-op; indexer service overrides this path.
+  }
   const registerRbac = deps.registerRbac || defaultRegisterRbac;
   const isTestEnv = (process.env.NODE_ENV || "").toLowerCase() === "test";
 
@@ -185,12 +197,79 @@ export async function buildFastifyApp(
   });
   app.decorate("ROOT_PATH", ROOT_PATH);
   app.register(mongoChromaLogger);
+  const fallbackRateLimitMax = 300;
+  const configuredRateLimitMax = Number.parseInt(
+    String(process.env.BRIDGE_RATE_LIMIT_MAX || "").trim(),
+    10,
+  );
+  const envRateLimitMax =
+    Number.isFinite(configuredRateLimitMax) && configuredRateLimitMax > 0
+      ? configuredRateLimitMax
+      : fallbackRateLimitMax;
+  const rateLimitMax =
+    typeof config.rateLimit?.max === "number" && config.rateLimit.max > 0
+      ? config.rateLimit.max
+      : envRateLimitMax;
+  const configuredWindow = String(
+    process.env.BRIDGE_RATE_LIMIT_WINDOW || "",
+  ).trim();
+  const envRateLimitWindow = (() => {
+    if (configuredWindow.length === 0) {
+      return "1 minute";
+    }
+    if (/^[0-9]+$/.test(configuredWindow)) {
+      const numericWindow = Number.parseInt(configuredWindow, 10);
+      if (Number.isFinite(numericWindow) && numericWindow > 0) {
+        return numericWindow;
+      }
+    }
+    return configuredWindow;
+  })();
+  const rateLimitWindow =
+    typeof config.rateLimit?.timeWindow !== "undefined"
+      ? config.rateLimit.timeWindow
+      : envRateLimitWindow;
+  const envAllowList = String(process.env.BRIDGE_RATE_LIMIT_ALLOWLIST || "")
+    .split(",")
+    .map((value) => value.trim())
+    .filter(Boolean);
+  const configuredAllowList = Array.isArray(config.rateLimit?.allowList)
+    ? config.rateLimit?.allowList
+    : undefined;
+  const allowList = (configuredAllowList || envAllowList)
+    .map((value) => value.trim())
+    .filter(Boolean);
+  const rateLimitOptions: Record<string, unknown> = {
+    global: true,
+    max: rateLimitMax,
+    timeWindow: rateLimitWindow,
+    hook: "preHandler",
+    addHeaders: {
+      "x-ratelimit-limit": true,
+      "x-ratelimit-remaining": true,
+      "x-ratelimit-reset": true,
+      "retry-after": true,
+    },
+  };
+  if (allowList.length > 0) {
+    rateLimitOptions.allowList = allowList;
+  }
+  await app.register(rateLimit, rateLimitOptions);
+  // NEW: Global default rate limits for all routes (opt-out with rateLimit: false)
+  app.addHook("onRoute", (routeOptions) => {
+    if ((routeOptions as any).rateLimit === false) return;
+    (routeOptions as any).config = (routeOptions as any).config || {};
+    const cfg = (routeOptions as any).config as any;
+    if (cfg.rateLimit == null) {
+      cfg.rateLimit = { max: rateLimitMax, timeWindow: rateLimitWindow };
+    }
+  });
   registerSchema(app);
 
   const baseUrl =
     process.env.PUBLIC_BASE_URL ||
     `http://localhost:${process.env.PORT || 3210}`;
-  // Register new-auth helper endpoint at root for dashboard compatibility
+  // Register new-auth helper endpoint at root for dashboard compatiblity
   const auth = authFactory();
   await auth.registerRoutes(app); // adds /auth/me; protection handled inside
 
@@ -207,7 +286,7 @@ export async function buildFastifyApp(
   // if you try this, the above doesn't work in schema.
   // const swaggerOpts: SwaggerOptions = {
   // Maybe if we gto the schema from somewhere else?
-  // But schema are one of those things that are a type of type basicly...
+  // But schema are one of those things that are a type of type basically...
   // So "any", or "unknown" are not exactly wrong.
   // But there are keys with in the schema which are meaningful to the
   // process that consumes them.
@@ -224,7 +303,7 @@ export async function buildFastifyApp(
     swaggerOpts.openapi.components.securitySchemes = {
       bearerAuth: {
         type: "http",
-        scheme: "bearer",
+        schema: "bearer",
 
         name: "x-pi-token",
       },
@@ -241,9 +320,13 @@ export async function buildFastifyApp(
     typeof (app as any).swagger === "function"
       ? (app as any).swagger()
       : swaggerOpts.openapi;
-  app.get("/openapi.json", async (_req, rep) => {
-    return rep.type("application/json").send(getOpenapiDoc());
-  });
+  app.get(
+    "/openapi.json",
+    { config: { rateLimit: { max: 60, timeWindow: "1 minute" } } },
+    async (_req, rep) => {
+      return rep.type("application/json").send(getOpenapiDoc());
+    },
+  );
 
   await registerRbac(app);
 
@@ -261,7 +344,7 @@ export async function buildFastifyApp(
     async (v1Scope) => {
       // Register rate limiting for v1 routes (best-effort; ignore version mismatches)
       if (!isTestEnv) {
-        await registerV1Routes(v1Scope);
+        await registerV1Routes(v1Scope, { runCommand: deps.runCommand });
       }
 
       const v1Auth = authFactory();
@@ -270,11 +353,13 @@ export async function buildFastifyApp(
     { prefix: "/v1" },
   );
 
-  await registerV1Routes(app);
+  await registerV1Routes(app, { runCommand: deps.runCommand });
 
   // Initialize indexer bootstrap/incremental state unless in test
   if (!isTestEnv) {
-    indexerManager.ensureBootstrap(ROOT_PATH).catch(() => {});
+    ensureIndexerBootstrap(ROOT_PATH).catch((error) => {
+      app.log.error({ err: error }, "Failed to ensure indexer bootstrap");
+    });
     const restoreAllowed =
       String(process.env.AGENT_RESTORE_ON_START || "true") !== "false";
     if (restoreAllowed) restoreAgentsFromStore().catch(() => {});

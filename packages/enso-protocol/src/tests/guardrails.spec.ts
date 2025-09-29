@@ -33,7 +33,7 @@ test("evaluation mode blocks tool call without rationale", async (t) => {
   });
   client.on("event:guardrail.violation", (env) => violations.push(env));
 
-  const connection = connectLocal(client, server, {
+  const connection = await connectLocal(client, server, {
     proto: "ENSO-1",
     caps: ["can.tool.call"],
     privacy: { profile: "pseudonymous" },

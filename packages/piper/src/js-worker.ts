@@ -1,3 +1,5 @@
+import * as fs from "node:fs";
+import * as path from "node:path";
 import { parentPort, workerData } from "node:worker_threads";
 
 const { modUrl, exportName, args, env, cwd } = workerData as {
@@ -13,7 +15,10 @@ const { modUrl, exportName, args, env, cwd } = workerData as {
   const origEnv = { ...process.env };
   const origStdout = process.stdout.write;
   const origStderr = process.stderr.write;
-  const origCwd = process.cwd();
+  const origCwdFn = process.cwd;
+  const origChdir = process.chdir;
+  const origCwd = origCwdFn.call(process);
+  const virtualCwdRef = { current: origCwd };
   const keepAlive = setInterval(() => {}, 1 << 30);
 
   // Apply step env
@@ -35,23 +40,47 @@ const { modUrl, exportName, args, env, cwd } = workerData as {
     return true;
   };
 
+  const setVirtualCwd = (dir: string) => {
+    virtualCwdRef.current = dir;
+  };
+
+  const chdirPolyfill = (dir: string) => {
+    if (typeof dir !== "string") {
+      throw new TypeError(
+        `The "directory" argument must be of type string. Received ${typeof dir}`,
+      );
+    }
+    const next = path.resolve(virtualCwdRef.current, dir);
+    const stats = fs.statSync(next);
+    if (!stats.isDirectory()) {
+      throw new Error(`ENOENT: not a directory, chdir '${dir}'`);
+    }
+    setVirtualCwd(next);
+    return virtualCwdRef.current;
+  };
+
+  Object.defineProperty(process, "cwd", {
+    configurable: true,
+    value: () => virtualCwdRef.current,
+  });
+  Object.defineProperty(process, "chdir", {
+    configurable: true,
+    value: chdirPolyfill,
+  });
+
   try {
     if (cwd) {
-      process.chdir(cwd);
+      chdirPolyfill(cwd);
     }
     const mod: any = await import(modUrl);
     const fn =
       (exportName && mod && mod[exportName]) || (mod && mod.default) || mod;
 
     if (typeof fn !== "function") {
-      throw new Error(`export '${exportName ?? "default"}' is not a function`);
-      // const name = exportName ?? "default";
-      // const fn = (mod as any)[name];
-      // if (typeof fn !== "function") {
-      //   throw new Error(
-      //     `JS worker: export '${name}' is not a function in ${modUrl}`,
-      //   );
-      // }
+      const name = exportName ?? "default";
+      throw new Error(
+        `JS worker: export '${name}' is not a function in ${modUrl}`,
+      );
     }
 
     const res = await fn(args);
@@ -72,15 +101,14 @@ const { modUrl, exportName, args, env, cwd } = workerData as {
     (process.stdout.write as any) = origStdout;
     (process.stderr.write as any) = origStderr;
     (process.env as any) = origEnv;
-    if (cwd) {
-      try {
-        process.chdir(origCwd);
-      } catch (err) {
-        parentPort?.postMessage({
-          type: "stderr",
-          data: err instanceof Error ? err.stack ?? err.message : String(err),
-        });
-      }
-    }
+    virtualCwdRef.current = origCwd;
+    Object.defineProperty(process, "cwd", {
+      configurable: true,
+      value: origCwdFn,
+    });
+    Object.defineProperty(process, "chdir", {
+      configurable: true,
+      value: origChdir,
+    });
   }
 })();

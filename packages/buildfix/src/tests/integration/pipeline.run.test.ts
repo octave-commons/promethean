@@ -42,11 +42,17 @@ test.serial("buildfix pipeline runs end-to-end", async (t) => {
   t.is(
     (
       await run(
-        `node ${path.join(
-          PKG_ROOT,
-          "dist/01-errors.js",
-        )} --root false --tsconfig ${tsconfig} --out ${errorsPath}`,
-        PKG_ROOT,
+        "node",
+        [
+          path.join(PKG_ROOT, "dist/01-errors.js"),
+          "--root",
+          "false",
+          "--tsconfig",
+          tsconfig,
+          "--out",
+          errorsPath,
+        ],
+        { cwd: PKG_ROOT },
       )
     ).code,
     0,
@@ -56,11 +62,19 @@ test.serial("buildfix pipeline runs end-to-end", async (t) => {
   t.is(
     (
       await run(
-        `node ${path.join(
-          PKG_ROOT,
-          "dist/02-iterate.js",
-        )} --errors ${errorsPath} --out ${dir} --max-cycles 0 --git off`,
-        PKG_ROOT,
+        "node",
+        [
+          path.join(PKG_ROOT, "dist/02-iterate.js"),
+          "--errors",
+          errorsPath,
+          "--out",
+          dir,
+          "--max-cycles",
+          "0",
+          "--git",
+          "off",
+        ],
+        { cwd: PKG_ROOT },
       )
     ).code,
     0,
@@ -73,11 +87,17 @@ test.serial("buildfix pipeline runs end-to-end", async (t) => {
   t.is(
     (
       await run(
-        `node ${path.join(
-          PKG_ROOT,
-          "dist/03-report.js",
-        )} --summary ${summaryPath} --history-root ${historyRoot} --out ${reportDir}`,
-        PKG_ROOT,
+        "node",
+        [
+          path.join(PKG_ROOT, "dist/03-report.js"),
+          "--summary",
+          summaryPath,
+          "--history-root",
+          historyRoot,
+          "--out",
+          reportDir,
+        ],
+        { cwd: PKG_ROOT },
       )
     ).code,
     0,

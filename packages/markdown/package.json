@@ -11,6 +11,18 @@
             "import": "./dist/index.js",
             "require": "./dist/index.cjs"
         },
+        "./types": {
+            "types": "./dist/types.d.ts",
+            "import": "./dist/types.js"
+        },
+        "./frontmatter": {
+            "types": "./dist/frontmatter.d.ts",
+            "import": "./dist/frontmatter.js"
+        },
+        "./statuses": {
+            "types": "./dist/statuses.d.ts",
+            "import": "./dist/statuses.js"
+        },
         "./dist/*": "./dist/*",
         "./*": "./dist/*"
     },
@@ -32,6 +44,7 @@
     "dependencies": {
         "@promethean/fs": "workspace:*",
         "@types/javascript-time-ago": "^2.5.0",
+        "@types/mdast": "^3.0.15",
         "@types/unist": "^3.0.3",
         "body-parser": "^1.20.2",
         "chromadb": "^3.0.14",

@@ -1,0 +1,7 @@
+{
+  "tasksDir": "./docs/agile/tasks",
+  "boardFile": "./docs/agile/boards/generated.md",
+  "requiredFields": ["title", "status", "priority"],
+  "statusValues": ["todo", "doing", "blocked", "done", "incoming", "icebox"],
+  "priorityValues": ["P0", "P1", "P2", "P3", "P4"]
+}

@@ -68,11 +68,13 @@ package-level end-to-end workflow. Coverage reports are emitted to `coverage/`
 ### Client handshake and capability enforcement
 
 ```ts
-import { EnsoClient, ContextRegistry } from "@promethean/enso-protocol";
+import { EnsoClient, EnsoServer, ContextRegistry, connectLocal } from "@promethean/enso-protocol";
 
 const registry = new ContextRegistry();
 const client = new EnsoClient(registry);
-await client.connect({
+const server = new EnsoServer();
+
+const connection = await connectLocal(client, server, {
   proto: "ENSO-1",
   caps: ["can.send.text", "can.asset.put", "can.context.write", "can.context.apply"],
   // Optional: privacy defaults to { profile: "pseudonymous" }
@@ -81,6 +83,8 @@ await client.connect({
 await client.post({ role: "human", parts: [{ kind: "text", text: "Hello" }] });
 const context = await client.contexts.create({ name: "demo", owner: { userId: "human" }, entries: [] });
 await client.contexts.apply(context.ctxId, [{ id: "human" }]);
+
+connection.disconnect();
 ```
 
 Missing capabilities raise informative errors (e.g. `missing capability: can.send.text`), mirroring the
@@ -151,7 +155,7 @@ const hello = {
   // privacy defaults to { profile: "pseudonymous" as const }
 };
 
-connectLocal(client, server, hello, {
+await connectLocal(client, server, hello, {
   adjustCapabilities: (caps) => [...caps, "can.context.apply"],
   privacyProfile: "persistent",
 });
@@ -170,7 +174,7 @@ import { randomUUID } from "node:crypto";
 
 const client = new EnsoClient();
 const server = new EnsoServer();
-const { session } = connectLocal(client, server, {
+const { session } = await connectLocal(client, server, {
   proto: "ENSO-1",
   caps: ["can.tool.call"],
   // privacy defaults to { profile: "pseudonymous" }

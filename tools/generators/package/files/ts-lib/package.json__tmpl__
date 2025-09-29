@@ -1,0 +1,16 @@
+{
+  "name": "@promethean/<%= name %>",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "license": "GPL-3.0-only",
+  "scripts": {
+    "build": "tsc -b",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "clean": "rimraf dist",
+    "test": "pnpm build && ava",
+    "coverage": "pnpm build && c8 ava",
+    "lint": "pnpm exec eslint ."
+  },
+  "dependencies": {}
+}

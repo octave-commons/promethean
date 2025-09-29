@@ -1,26 +1,55 @@
 import test from "ava";
+import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
-import { generateEcosystem } from "../../scripts/generate-ecosystem.mjs";
 
-test("generates apps array from package configs", async (t) => {
-  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "eco-"));
-  const pkgs = path.join(tmp, "packages");
-  fs.mkdirSync(pkgs);
-  fs.mkdirSync(path.join(pkgs, "pkg1"));
+const PACKAGE_BUILD_TARGET = "@promethean/shadow-conf";
+
+test("aggregates apps from edn definitions", async (t) => {
+  execFileSync("pnpm", ["--filter", PACKAGE_BUILD_TARGET, "build"], {
+    stdio: "inherit",
+  });
+
+  const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), "ecosystem-"));
+  const inputDir = path.join(tmpRoot, "system", "daemons");
+  fs.mkdirSync(path.join(inputDir, "service-a"), { recursive: true });
   fs.writeFileSync(
-    path.join(pkgs, "pkg1", "ecosystem.config.js"),
-    "export const apps = ['a'];",
+    path.join(inputDir, "service-a", "ecosystem.edn"),
+    '{:apps [{:name "a"}]}\n',
   );
-  fs.mkdirSync(path.join(pkgs, "pkg2"));
+  fs.mkdirSync(path.join(inputDir, "service-b"), { recursive: true });
   fs.writeFileSync(
-    path.join(pkgs, "pkg2", "ecosystem.config.js"),
-    "export default { apps: ['b'] };",
+    path.join(inputDir, "service-b", "ecosystem.edn"),
+    '{:apps [{:name "b"}]}\n',
   );
-  const out = path.join(tmp, "ecosystem.generated.mjs");
-  generateEcosystem({ packagesDir: pkgs, outputFile: out });
-  const { apps } = await import(pathToFileURL(out));
-  t.deepEqual(apps, ["a", "b"]);
+
+  const outputDir = path.join(tmpRoot, "out");
+  const packageRoot = path.join(process.cwd(), "packages", "shadow-conf");
+  const manifestPath = path.join(packageRoot, "package.json");
+  const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
+  const relativeBinPath = manifest.bin?.["shadow-conf"];
+  if (typeof relativeBinPath !== "string") {
+    throw new Error("shadow-conf bin path missing from package manifest");
+  }
+  const binPath = path.join(packageRoot, relativeBinPath);
+
+  execFileSync(
+    "node",
+    [binPath, "ecosystem", "--input-dir", inputDir, "--out", outputDir],
+    { stdio: "inherit" },
+  );
+
+  const { apps } = await import(
+    pathToFileURL(path.join(outputDir, "ecosystem.generated.mjs"))
+  );
+  t.deepEqual(apps, [
+    {
+      name: "a",
+    },
+    {
+      name: "b",
+    },
+  ]);
 });

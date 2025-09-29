@@ -1,5 +1,5 @@
 {
-  "name": "ts-codepack",
+  "name": "@promethean/codepack",
   "root": "packages/codepack",
   "sourceRoot": "packages/codepack/src",
   "targets": {
@@ -9,7 +9,9 @@
         "command": "tsc -b",
         "cwd": "packages/codepack"
       },
-      "outputs": ["{projectRoot}/dist"]
+      "outputs": [
+        "{projectRoot}/dist"
+      ]
     },
     "typecheck": {
       "executor": "nx:run-commands",
@@ -22,7 +24,10 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "ava",
-        "cwd": "packages/codepack"
+        "cwd": "{projectRoot}",
+        "env": {
+          "AVA_PROJECT_ROOT": "."
+        }
       }
     },
     "lint": {
@@ -33,5 +38,7 @@
       }
     }
   },
-  "tags": ["scope:packages"]
+  "tags": [
+    "scope:packages"
+  ]
 }

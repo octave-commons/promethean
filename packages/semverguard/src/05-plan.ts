@@ -1,26 +1,41 @@
 import { promises as fs } from "fs";
 import * as path from "path";
-import { exec as _exec } from "child_process";
+import { spawn } from "child_process";
 import { openLevelCache } from "@promethean/level-cache";
 
 import { parseArgs, writeJSON } from "./utils.js";
 
-const exec = (cmd: string, cwd = process.cwd()) =>
+const exec = (
+  command: string,
+  args: ReadonlyArray<string> = [],
+  cwd = process.cwd(),
+) =>
   new Promise<{ code: number | null; out: string; err: string }>((resolve) => {
-    const child = _exec(
-      cmd,
-      { cwd, maxBuffer: 1024 * 1024 * 64, env: { ...process.env } },
-      (err, stdout, stderr) => {
-        resolve({
-          code: err ? (err as any).code ?? 1 : 0,
-          out: String(stdout),
-          err: String(stderr),
-        });
-      },
-    );
-    child.on("error", () =>
-      resolve({ code: 127, out: "", err: "spawn error" }),
-    );
+    const child = spawn(command, [...args], {
+      cwd,
+      env: { ...process.env },
+      stdio: ["ignore", "pipe", "pipe"],
+    });
+    let stdout = "";
+    let stderr = "";
+    let settled = false;
+    const finalize = (code: number | null) => {
+      if (settled) return;
+      settled = true;
+      resolve({ code, out: stdout, err: stderr });
+    };
+    child.stdout?.on("data", (chunk) => {
+      stdout += String(chunk);
+    });
+    child.stderr?.on("data", (chunk) => {
+      stderr += String(chunk);
+    });
+    child.on("error", (err) => {
+      const message = String(err?.message ?? err ?? "spawn error");
+      stderr = stderr ? `${stderr}\n${message}` : message;
+      finalize(127);
+    });
+    child.on("close", finalize);
   });
 
 const args = parseArgs({
@@ -311,29 +326,37 @@ async function main() {
 
     // 2) optionally, make a branch, commit, push
     if (MODE === "git") {
-      const { code: ck } = await exec("git rev-parse --is-inside-work-tree");
+      const { code: ck } = await exec("git", [
+        "rev-parse",
+        "--is-inside-work-tree",
+      ]);
       if (ck !== 0) {
         console.error("Not a git repo; skipping git mode.");
         continue;
       }
 
-      await exec(`git checkout -b ${branch}`).catch(() =>
-        exec(`git checkout ${branch}`),
+      await exec("git", ["checkout", "-b", branch]).catch(() =>
+        exec("git", ["checkout", branch]),
       ); // create or reuse
-      const addList = Array.from(changedFiles)
-        .map((f) => path.relative(process.cwd(), f))
-        .join(" ");
-      await exec(`git add ${addList}`);
-      await exec(`git commit -m "${title}"`);
-      await exec(`git push ${REMOTE} ${branch}`);
+      const filesToAdd = Array.from(changedFiles).map((f) =>
+        path.relative(process.cwd(), f),
+      );
+      if (filesToAdd.length > 0) {
+        await exec("git", ["add", ...filesToAdd]);
+      }
+      await exec("git", ["commit", "-m", title]);
+      await exec("git", ["push", REMOTE, branch]);
 
       if (USE_GH) {
-        await exec(
-          `gh pr create --fill --title "${title}" --body-file "${path.join(
-            prDir,
-            "PR_BODY.md",
-          )}"`,
-        ).catch(() => {});
+        await exec("gh", [
+          "pr",
+          "create",
+          "--fill",
+          "--title",
+          title,
+          "--body-file",
+          path.join(prDir, "PR_BODY.md"),
+        ]).catch(() => {});
       }
     }
   }

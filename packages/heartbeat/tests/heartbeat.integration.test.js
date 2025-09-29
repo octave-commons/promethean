@@ -5,6 +5,7 @@ import { spawn } from "child_process";
 import path from "path";
 import { fileURLToPath } from "url";
 import { BrokerClient } from "@promethean/legacy/brokerClient.js";
+import { sleep } from "@promethean/utils";
 import { start, stop } from "../index.js";
 
 let pers;
@@ -17,7 +18,7 @@ if (process.env.SKIP_NETWORK_TESTS === "1") {
     const bc = new BrokerClient({ url: process.env.BROKER_URL });
     await bc.connect();
     bc.publish("heartbeat", { pid, name });
-    await new Promise((r) => setTimeout(r, 50));
+    await sleep(20);
     bc.disconnect();
     for (let i = 0; i < 10; i++) {
       const doc = await pers.mongo
@@ -27,7 +28,7 @@ if (process.env.SKIP_NETWORK_TESTS === "1") {
         .toArray()
         .then((d) => d.find((x) => x.pid === pid));
       if (doc) break;
-      await new Promise((r) => setTimeout(r, 50));
+      await sleep(20);
     }
   }
 
@@ -35,10 +36,10 @@ if (process.env.SKIP_NETWORK_TESTS === "1") {
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
     process.env.ECOSYSTEM_CONFIG = path.resolve(
       __dirname,
-      "test-ecosystem.config.cjs",
+      "../fixtures/ecosystem.fixture.config.cjs",
     );
     pers = installInMemoryPersistence();
-    process.env.HEARTBEAT_TIMEOUT = "100";
+    process.env.HEARTBEAT_TIMEOUT = "500";
     process.env.CHECK_INTERVAL = "50";
     process.env.BROKER_URL = "memory://hb";
     await start();
@@ -59,7 +60,7 @@ if (process.env.SKIP_NETWORK_TESTS === "1") {
       }
     });
     await publish(child.pid, "kill-app");
-    await new Promise((r) => setTimeout(r, 500));
+    await sleep(500);
     const doc = (
       await pers.mongo
         .db("heartbeat_db")

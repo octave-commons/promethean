@@ -33,7 +33,19 @@ import matter from 'gray-matter';
 import { v4 as uuidv4 } from 'uuid';
 import type { Node, Parent } from 'unist';
 function toString(node: Node): string {
-    return toStringWithNodes(node).text;
+    const result = toStringWithNodes(node).text;
+    if (result && result.trim().length > 0) return result;
+
+    if (typeof (node as any)?.value === 'string') {
+        return (node as any).value as string;
+    }
+
+    const children = (node as any)?.children;
+    if (Array.isArray(children)) {
+        return children.map((child: Node) => toString(child)).join('');
+    }
+
+    return '';
 }
 
 // ---------- Types ----------
@@ -67,6 +79,17 @@ export type KanbanSettings = {
 
 const ID_COMMENT_PREFIX = 'id:';
 
+function unescapeAttrValue(value: string, quote: '"' | "'" | null): string {
+    let result = value;
+    if (quote === '"') {
+        result = result.replace(/\\"/g, '"');
+    } else if (quote === "'") {
+        result = result.replace(/\\'/g, "'");
+    }
+    result = result.replace(/\\\\/g, '\\');
+    return result;
+}
+
 function parseAttrs(braced?: string): Attrs {
     if (!braced) return {};
     const out: Attrs = {};
@@ -78,12 +101,25 @@ function parseAttrs(braced?: string): Attrs {
     while ((m = tokenRe.exec(inner))) {
         const k = m[1];
         let v = m[2];
+        let quote: '"' | "'" | null = null;
         if ((v.startsWith('"') && v.endsWith('"')) || (v.startsWith("'") && v.endsWith("'"))) {
+            quote = v[0] as '"' | "'";
             v = v.slice(1, -1);
         }
-        out[k] = v;
+        out[k] = unescapeAttrValue(v, quote);
     }
     return out;
+}
+
+function formatAttrValue(value: string): string {
+    const withEscapedBackslashes = value.replace(/\\/g, '\\\\');
+    const needsQuotes = /\s/.test(value) || value.includes('"') || value.includes("'");
+    if (!needsQuotes) return withEscapedBackslashes;
+    if (value.includes('"') && !value.includes("'")) {
+        return `'${withEscapedBackslashes}'`;
+    }
+    const withEscapedDoubleQuotes = withEscapedBackslashes.replace(/"/g, '\\"');
+    return `"${withEscapedDoubleQuotes}"`;
 }
 
 function stringifyAttrs(attrs: Attrs): string | null {
@@ -91,7 +127,7 @@ function stringifyAttrs(attrs: Attrs): string | null {
     if (!keys.length) return null;
     const parts = keys.map((k) => {
         const v = attrs[k];
-        return /\s/.test(v) ? `${k}:"${v.replace(/"/g, '\\"')}"` : `${k}:${v}`;
+        return `${k}:${formatAttrValue(v)}`;
     });
     return `{${parts.join(' ')}}`;
 }
@@ -290,7 +326,7 @@ export class MarkdownBoard {
             )}\n\`\`\`\n%%`;
             full = settingsBlock + '\n\n' + full;
         }
-        return full;
+        return full.replace(/\\\[\\\[/g, '[[').replace(/\\\]\]/g, ']]');
     }
 
     // ---------- Internal utilities ----------
