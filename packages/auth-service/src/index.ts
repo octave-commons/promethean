@@ -7,6 +7,9 @@ import { configDotenv } from "dotenv";
 import { jwks, signAccessToken, verifyToken, initKeys } from "./keys.js";
 configDotenv();
 
+// Rate limit for /oauth/introspect endpoint
+const INTROSPECTION_RATE_LIMIT = 60; // 60 requests per minute per IP
+const INTROSPECTION_TIME_WINDOW = "1 minute";
 type ClientDef = {
   client_secret?: string;
   scopes?: string[];
