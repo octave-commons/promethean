@@ -348,17 +348,15 @@ export async function indexFile(
     dims: Number(process.env.EMBED_DIMS || 768),
   };
   const col = await collectionForFamily(family, version, cfg);
-  let resolved;
-  try {
-    resolved = await resolveWithinRoot(rootPath, rel);
-  } catch (error) {
+  const resolved = await resolveWithinRoot(rootPath, rel);
+  const { abs, rel: safeRel } = resolved;
+  if (!abs) {
     logger.warn("indexFile read blocked - candidate file is outside root", {
       path: rel,
       err: error,
     });
     return { ok: false, error: "File is outside index root" };
   }
-  const { abs, rel: safeRel } = resolved;
   let raw = "";
   try {
     raw = await fs.readFile(abs, "utf8");
