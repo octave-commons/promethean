@@ -34,11 +34,19 @@ test("bf:02-iterate generates summary without attempts when max-cycles=0", async
   await fs.writeFile(errorsPath, JSON.stringify(errors, null, 2));
 
   const { code } = await run(
-    `node ${path.join(
-      PKG_ROOT,
-      "dist/02-iterate.js",
-    )} --errors ${errorsPath} --out ${tmp} --max-cycles 0 --git off`,
-    PKG_ROOT,
+    "node",
+    [
+      path.join(PKG_ROOT, "dist/02-iterate.js"),
+      "--errors",
+      errorsPath,
+      "--out",
+      tmp,
+      "--max-cycles",
+      "0",
+      "--git",
+      "off",
+    ],
+    { cwd: PKG_ROOT },
   );
   t.is(code, 0);
   const summary = JSON.parse(

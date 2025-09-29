@@ -1,0 +1,13 @@
+{
+  "pipelines": [
+    {
+      "name": "<%= name %>",
+      "steps": [
+        {
+          "id": "example",
+          "shell": "echo \"running <%= name %> pipeline\""
+        }
+      ]
+    }
+  ]
+}

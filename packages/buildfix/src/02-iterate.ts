@@ -4,7 +4,13 @@ import { fileURLToPath } from "node:url";
 
 import { parseArgs } from "@promethean/utils";
 
-import { writeJSON, readJSON, applySnippetToProject } from "./utils.js";
+import {
+  writeJSON,
+  readJSON,
+  applySnippetToProject,
+  resolveFromWorkspace,
+  WORKSPACE_ROOT,
+} from "./utils.js";
 import type {
   ErrorList,
   History,
@@ -44,21 +50,23 @@ export type IterateOptions = {
 
 function makeBranch(err: BuildError, branchPrefix: string): string {
   const fileSlug = err.file
-    .replace(process.cwd() + path.sep, "")
+    .replace(WORKSPACE_ROOT + path.sep, "")
     .replace(/[\/\\\.]/g, "-");
   return sanitizeBranch(`${branchPrefix}/${err.code}/${fileSlug}/${err.line}`);
 }
 
 export async function run(opts: IterateOptions = {}): Promise<void> {
   const errors = await readJSON<ErrorList>(
-    path.resolve(opts.errors ?? ".cache/buildfix/errors.json"),
+    resolveFromWorkspace(opts.errors ?? ".cache/buildfix/errors.json"),
   );
   if (!errors) throw new Error("errors.json not found");
-  const tsconfig = opts.tsconfig || errors.tsconfig;
+  const tsconfig = opts.tsconfig
+    ? resolveFromWorkspace(opts.tsconfig)
+    : errors.tsconfig;
   const onlyCode = (opts.onlyCode ?? "").trim();
   const onlyFile = (opts.onlyFile ?? "").trim();
   const maxCycles = opts.maxCycles ?? 5;
-  const OUT = path.resolve(opts.out ?? ".cache/buildfix");
+  const OUT = resolveFromWorkspace(opts.out ?? ".cache/buildfix");
 
   const useGit = opts.git !== "off" && (await isGitRepo());
   const commitOn = opts.commitOn || "always";

@@ -1,5 +1,5 @@
 {
-  "name": "ts-smartgpt-bridge",
+  "name": "@promethean/smartgpt-bridge",
   "root": "packages/smartgpt-bridge",
   "sourceRoot": "packages/smartgpt-bridge/src",
   "targets": {
@@ -22,7 +22,10 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "ava",
-        "cwd": "packages/smartgpt-bridge"
+        "cwd": "{projectRoot}",
+        "env": {
+          "AVA_PROJECT_ROOT": "."
+        }
       }
     },
     "lint": {

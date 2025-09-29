@@ -1,5 +1,5 @@
 {
-  "name": "ts-symdocs",
+  "name": "@promethean/symdocs",
   "root": "packages/symdocs",
   "sourceRoot": "packages/symdocs/src",
   "targets": {
@@ -22,7 +22,10 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "ava",
-        "cwd": "packages/symdocs"
+        "cwd": "{projectRoot}",
+        "env": {
+          "AVA_PROJECT_ROOT": "."
+        }
       }
     },
     "lint": {

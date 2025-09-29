@@ -1,5 +1,5 @@
 {
-    "name": "ts-agent-ecs",
+    "name": "@promethean/agent-ecs",
     "root": "packages/agent-ecs",
     "sourceRoot": "packages/agent-ecs/src",
     "targets": {
@@ -22,7 +22,10 @@
             "executor": "nx:run-commands",
             "options": {
                 "command": "ava",
-                "cwd": "packages/agent-ecs"
+                "cwd": "{projectRoot}",
+                "env": {
+                    "AVA_PROJECT_ROOT": "."
+                }
             }
         },
         "lint": {

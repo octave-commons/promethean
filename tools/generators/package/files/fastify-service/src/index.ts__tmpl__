@@ -1,0 +1,193 @@
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+import Fastify, { type FastifyInstance } from "fastify";
+import fastifyStatic from "@fastify/static";
+import swagger from "@fastify/swagger";
+import swaggerUi from "@fastify/swagger-ui";
+import {
+  registerDiagnosticsRoute,
+  registerHealthRoute,
+} from "@promethean/web-utils";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const packageRoot = path.join(__dirname, "..");
+
+type StaticMount = {
+  readonly prefix: string;
+  readonly root: string;
+};
+
+type SwaggerConfig = {
+  readonly openapi: {
+    readonly info: {
+      readonly title: string;
+      readonly description: string;
+      readonly version: string;
+    };
+    readonly servers: readonly unknown[];
+    readonly components: {
+      readonly schemas: Record<string, unknown>;
+    };
+    readonly tags: readonly unknown[];
+  };
+};
+
+type SwaggerUiConfig = {
+  readonly routePrefix: string;
+  readonly staticCSP: boolean;
+  readonly transformStaticCSP: (header: string) => string;
+  readonly uiConfig: {
+    readonly docExpansion: string;
+    readonly deepLinking: boolean;
+  };
+};
+
+const fileExists = (target: string): boolean => {
+  try {
+    fs.accessSync(target, fs.constants.F_OK);
+    return true;
+  } catch {
+    return false;
+  }
+};
+
+const toAbsolutePath = (baseDir: string, target: string): string =>
+  path.isAbsolute(target) ? target : path.resolve(baseDir, target);
+
+const normalisePrefix = (raw: string, fallback: string): string => {
+  const trimmed = raw.trim();
+  const base = trimmed.length > 0 ? trimmed : fallback;
+  const withLeading = base.startsWith("/") ? base : `/${base}`;
+  return withLeading.endsWith("/") ? withLeading : `${withLeading}/`;
+};
+
+const parseStaticEnv = (
+  baseDir: string,
+  fallbackPrefix: string,
+  rawValue: string | undefined,
+): StaticMount[] =>
+  (rawValue ?? "")
+    .split(":")
+    .map((segment) => segment.trim())
+    .filter((segment) => segment.length > 0)
+    .map((segment) => segment.split("="))
+    .filter((parts): parts is [string, string] => parts.length === 2)
+    .map(([prefix, directory]) => ({
+      prefix: normalisePrefix(prefix, fallbackPrefix),
+      root: toAbsolutePath(baseDir, directory.trim()),
+    }));
+
+const uniqueExistingMounts = (mounts: StaticMount[]): StaticMount[] =>
+  mounts
+    .filter((mount) => fileExists(mount.root))
+    .filter(
+      (mount, index, all) =>
+        all.findIndex((candidate) => candidate.prefix === mount.prefix) === index,
+    );
+
+const registerStaticMounts = async (
+  app: FastifyInstance,
+  mounts: StaticMount[],
+): Promise<void> => {
+  mounts.forEach((mount) => {
+    app.register(fastifyStatic, {
+      root: mount.root,
+      prefix: mount.prefix,
+      decorateReply: false,
+    });
+  });
+};
+
+const buildSwaggerConfig = (): SwaggerConfig => ({
+  openapi: {
+    info: {
+      title: "<%= serviceTitle %>",
+      description:
+        "Document the routes for <%= serviceTitle %> by attaching Fastify schemas.",
+      version: "0.1.0",
+    },
+    servers: [],
+    components: {
+      schemas: {},
+    },
+    tags: [],
+  },
+});
+
+const buildSwaggerUiConfig = (): SwaggerUiConfig => ({
+  routePrefix: "/docs",
+  staticCSP: true,
+  transformStaticCSP: (header: string) => header,
+  uiConfig: {
+    docExpansion: "list",
+    deepLinking: true,
+  },
+});
+
+const resolvePort = (fallback: number): number => {
+  const candidates = [process.env.SERVICE_PORT, process.env.PORT]
+    .map((value) => (value ? Number.parseInt(value, 10) : Number.NaN))
+    .filter((value) => Number.isFinite(value));
+  return candidates[0] ?? fallback;
+};
+
+export async function createServer(): Promise<FastifyInstance> {
+  const app = Fastify();
+
+  const servicePrefix = normalisePrefix("/<%= serviceName %>", "/<%= serviceName %>");
+  const serviceStaticPrefix = normalisePrefix(
+    `/<%= serviceName %>/static`,
+    `/<%= serviceName %>/static`,
+  );
+
+  const mounts = uniqueExistingMounts([
+    {
+      prefix: servicePrefix,
+      root: path.join(packageRoot, "dist", "frontend"),
+    },
+    {
+      prefix: serviceStaticPrefix,
+      root: path.join(packageRoot, "static"),
+    },
+    ...parseStaticEnv(
+      packageRoot,
+      serviceStaticPrefix,
+      process.env.SERVICE_STATIC_DIRS,
+    ),
+  ]);
+
+  await registerStaticMounts(app, mounts);
+
+  await app.register(swagger, buildSwaggerConfig());
+  await app.register(swaggerUi, buildSwaggerUiConfig());
+
+  const registerHealth = registerHealthRoute as (
+    instance: FastifyInstance,
+    options: { readonly serviceName?: string },
+  ) => Promise<void>;
+
+  const registerDiagnostics = registerDiagnosticsRoute as (
+    instance: FastifyInstance,
+    options: { readonly serviceName?: string },
+  ) => Promise<void>;
+
+  await registerHealth(app, { serviceName: "<%= serviceName %>" });
+  await registerDiagnostics(app, { serviceName: "<%= serviceName %>" });
+
+  app.get("/openapi.json", async () => app.swagger());
+
+  await app.ready();
+  return app;
+}
+
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  const port = resolvePort(4500);
+  const server = await createServer();
+  server.listen({ port, host: "0.0.0.0" }).catch((error) => {
+    console.error(error);
+    process.exit(1);
+  });
+}

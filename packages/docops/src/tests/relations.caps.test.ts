@@ -154,3 +154,108 @@ test.serial("relations cap related_to and references", async (t) => {
     t.true(fm.references.length <= 7);
   });
 });
+
+test.serial("relations caps reset between runs", async (t) => {
+  await withTmp(async (tmp: string) => {
+    const docsDir = path.join(tmp, "docs");
+    await fs.mkdir(docsDir, { recursive: true });
+
+    const makeDoc = async (uuid: string, title: string, body: string) => {
+      const file = path.join(docsDir, `${title}.md`);
+      const raw = matter.stringify(body, { uuid, filename: title });
+      await fs.writeFile(file, raw, "utf8");
+      return { file, uuid, title };
+    };
+
+    const primary = await makeDoc("u1", "Primary", "# A\nMain text.");
+    const peerA = await makeDoc("u2", "PeerA", "# B\nPeer text one.");
+    const peerB = await makeDoc("u3", "PeerB", "# C\nPeer text two.");
+
+    const docsKV = makeKV();
+    const chunksKV = makeKV();
+    const qhits = new Map<string, any[]>();
+
+    const seedDoc = async (doc: {
+      uuid: string;
+      file: string;
+      title: string;
+    }) => {
+      const body = matter.read(doc.file).content;
+      const chunks = parseMarkdownChunks(body).map((c, i) => ({
+        ...c,
+        id: `${doc.uuid}:${i}`,
+        docUuid: doc.uuid,
+        docPath: doc.file,
+      }));
+      await docsKV.put(doc.uuid, { path: doc.file, title: doc.title });
+      await chunksKV.put(doc.uuid, chunks);
+      return chunks;
+    };
+
+    const primaryChunks = await seedDoc(primary);
+    const peerAChunks = await seedDoc(peerA);
+    const peerBChunks = await seedDoc(peerB);
+
+    qhits.set(primaryChunks[0]!.id, [
+      {
+        id: peerAChunks[0]!.id,
+        docUuid: peerA.uuid,
+        startLine: 1,
+        startCol: 1,
+        score: 0.9,
+      },
+      {
+        id: peerBChunks[0]!.id,
+        docUuid: peerB.uuid,
+        startLine: 2,
+        startCol: 1,
+        score: 0.8,
+      },
+    ]);
+
+    const db = {
+      root: {
+        sublevel() {
+          return {
+            async get(k: string) {
+              return qhits.get(k) || [];
+            },
+          };
+        },
+      },
+      docs: docsKV,
+      chunks: chunksKV,
+    } as any;
+
+    const baseOpts = {
+      docsDir,
+      docThreshold: 0,
+      refThreshold: 0,
+    } as const;
+
+    await runRelations(
+      {
+        ...baseOpts,
+        maxRelated: 1,
+        maxReferences: 1,
+      },
+      db,
+    );
+
+    let fm = matter.read(primary.file).data || {};
+    t.is(fm.related_to_uuid.length, 1);
+    t.is(fm.references.length, 1);
+
+    await fs.writeFile(
+      primary.file,
+      matter.stringify("# A\nMain text.", { uuid: "u1", filename: "Primary" }),
+      "utf8",
+    );
+
+    await runRelations({ ...baseOpts }, db);
+
+    fm = matter.read(primary.file).data || {};
+    t.is(fm.related_to_uuid.length, 2);
+    t.is(fm.references.length, 2);
+  });
+});

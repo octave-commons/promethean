@@ -1,5 +1,5 @@
 {
-  "name": "ts-markdown-graph",
+  "name": "@promethean/markdown-graph",
   "root": "packages/markdown-graph",
   "sourceRoot": "packages/markdown-graph/src",
   "targets": {
@@ -22,7 +22,10 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "ava",
-        "cwd": "packages/markdown-graph"
+        "cwd": "{projectRoot}",
+        "env": {
+          "AVA_PROJECT_ROOT": "."
+        }
       }
     },
     "lint": {

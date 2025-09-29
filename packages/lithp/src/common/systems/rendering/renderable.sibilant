@@ -1,9 +1,0 @@
-(import Interface "../../kit/interface/index.js")
-(define Renderable Interface
-  (init ( layer structure))
-  (def clear ()
-    (assign this.layer null))
-
-  )
-
-(export Renderable)

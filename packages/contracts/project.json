@@ -1,5 +1,5 @@
 {
-    "name": "ts-contracts",
+    "name": "@promethean/contracts",
     "root": "packages/contracts",
     "sourceRoot": "packages/contracts/src",
     "targets": {
@@ -22,7 +22,10 @@
             "executor": "nx:run-commands",
             "options": {
                 "command": "ava",
-                "cwd": "packages/contracts"
+                "cwd": "{projectRoot}",
+                "env": {
+                    "AVA_PROJECT_ROOT": "."
+                }
             }
         },
         "lint": {

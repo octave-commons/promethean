@@ -21,6 +21,18 @@ function isRemoteOrData(u: string): boolean {
   return /^(?:https?:|data:|mailto:|tel:)/i.test(u);
 }
 
+function extractMarkdownImageTarget(raw: string): string | null {
+  const inner = raw.trim();
+  if (!inner) return null;
+  if (inner.startsWith("<")) {
+    const closing = inner.indexOf(">");
+    const enclosed = closing === -1 ? inner.slice(1) : inner.slice(1, closing);
+    return enclosed.trim() || null;
+  }
+  const extracted = reduceMarkdownDestination(inner).output.trim();
+  return extracted ? extracted : null;
+}
+
 function normalizeLocalUrl(raw: string): string | null {
   const trimmed = raw.trim();
   const unwrapped =
@@ -30,6 +42,33 @@ function normalizeLocalUrl(raw: string): string | null {
   if (!unwrapped || isRemoteOrData(unwrapped)) return null;
   return unwrapped;
 }
+
+const isBrokenLink = (
+  value: BrokenImageLink | null,
+): value is BrokenImageLink => value !== null;
+
+const toBrokenMarkdownLink = async (
+  file: string,
+  alt: string,
+  rawTarget: string,
+): Promise<BrokenImageLink | null> => {
+  const target = extractMarkdownImageTarget(rawTarget);
+  const url = target ? normalizeLocalUrl(target) : null;
+  if (!url) return null;
+  const imgPath = path.resolve(path.dirname(file), url);
+  return (await pathExists(imgPath)) ? null : { file, url, alt };
+};
+
+const toBrokenOrgLink = async (
+  file: string,
+  rawUrl: string,
+  alt: string,
+): Promise<BrokenImageLink | null> => {
+  const url = normalizeLocalUrl(rawUrl);
+  if (!url) return null;
+  const imgPath = path.resolve(path.dirname(file), url);
+  return (await pathExists(imgPath)) ? null : { file, url, alt };
+};
 
 export async function findBrokenImageLinks(
   root: string,
@@ -41,31 +80,21 @@ export async function findBrokenImageLinks(
     await Promise.all(
       files.map(async (file) => {
         const content = await readFile(file, "utf8");
-        const brokenLinks: BrokenImageLink[] = [];
         // markdown ![alt](url)
-        const mdRegex =
-          /!\[([^\]]*?)\]\(\s*(<[^>]+>|[^)\s]+(?:\s[^)"']+)*)\s*(?:("[^"]*"|'[^']*'|\([^)]*\)))?\s*\)/g;
-        for (const match of content.matchAll(mdRegex)) {
-          const alt = match[1] ?? "";
-          const url = normalizeLocalUrl(match[2] ?? "");
-          if (!url) continue;
-          const imgPath = path.resolve(path.dirname(file), url);
-          if (!(await pathExists(imgPath))) {
-            brokenLinks.push({ file, url, alt });
-          }
-        }
+        const mdRegex = /!\[([^\]]*?)\]\(([^)]*?)\)/g;
+        const mdBroken = await Promise.all(
+          Array.from(content.matchAll(mdRegex)).map((match) =>
+            toBrokenMarkdownLink(file, match[1] ?? "", match[2] ?? ""),
+          ),
+        );
         // org [[file:img.png][alt]] or [[img.png]]
         const orgRegex = /\[\[(?:file:)?([^\]\[]+?)\](?:\[([^\]]*?)\])?\]/g;
-        for (const match of content.matchAll(orgRegex)) {
-          const url = normalizeLocalUrl(match[1] ?? "");
-          const alt = match[2] ?? "";
-          if (!url) continue;
-          const imgPath = path.resolve(path.dirname(file), url);
-          if (!(await pathExists(imgPath))) {
-            brokenLinks.push({ file, url, alt });
-          }
-        }
-        return brokenLinks;
+        const orgBroken = await Promise.all(
+          Array.from(content.matchAll(orgRegex)).map((match) =>
+            toBrokenOrgLink(file, match[1] ?? "", match[2] ?? ""),
+          ),
+        );
+        return [...mdBroken, ...orgBroken].filter(isBrokenLink);
       }),
     )
   ).flat();
@@ -80,6 +109,85 @@ export type ImageGenerator = (
 type Image = { save: (p: string) => Promise<void> };
 type TextToImageResult = { images: readonly Image[] };
 type TextToImagePipeline = (p: string) => Promise<TextToImageResult>;
+
+type MarkdownState = {
+  readonly output: string;
+  readonly depth: number;
+  readonly done: boolean;
+  readonly skipNext: boolean;
+};
+
+const whitespaceCharacters = [" ", "\t", "\n", "\r"] as const;
+
+const appendOutput = (
+  state: MarkdownState,
+  addition: string,
+  overrides: Partial<MarkdownState> = {},
+): MarkdownState => ({
+  ...state,
+  ...overrides,
+  output: `${state.output}${addition}`,
+});
+
+const shouldStopAfterWhitespace = (inner: string, index: number): boolean => {
+  const rest = inner.slice(index + 1).trimStart();
+  return (
+    !rest ||
+    rest.startsWith('"') ||
+    rest.startsWith("'") ||
+    rest.startsWith("(")
+  );
+};
+
+const handleWhitespace = (
+  inner: string,
+  state: MarkdownState,
+  ch: string,
+  index: number,
+): MarkdownState =>
+  shouldStopAfterWhitespace(inner, index)
+    ? { ...state, done: true }
+    : appendOutput(state, ch);
+
+const handleClosingParenthesis = (state: MarkdownState): MarkdownState =>
+  state.depth === 0
+    ? { ...state, done: true }
+    : appendOutput(state, ")", { depth: state.depth - 1 });
+
+const advanceMarkdownState = (
+  inner: string,
+  state: MarkdownState,
+  ch: string,
+  index: number,
+): MarkdownState => {
+  if (state.skipNext) {
+    return { ...state, skipNext: false };
+  }
+  if (ch === "\\") {
+    const nextChar = inner[index + 1];
+    return nextChar ? appendOutput(state, nextChar, { skipNext: true }) : state;
+  }
+  if (
+    whitespaceCharacters.some((whitespace) => whitespace === ch) &&
+    state.depth === 0
+  ) {
+    return handleWhitespace(inner, state, ch, index);
+  }
+  if (ch === "(") {
+    return appendOutput(state, ch, { depth: state.depth + 1 });
+  }
+  if (ch === ")") {
+    return handleClosingParenthesis(state);
+  }
+  return appendOutput(state, ch);
+};
+
+const reduceMarkdownDestination = (inner: string): MarkdownState =>
+  Array.from(inner).reduce<MarkdownState>(
+    (state, ch, index) =>
+      state.done ? state : advanceMarkdownState(inner, state, ch, index),
+    { output: "", depth: 0, done: false, skipNext: false },
+  );
 
 export async function defaultImageGenerator(
   prompt: string,

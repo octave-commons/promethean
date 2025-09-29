@@ -18,15 +18,12 @@
  (nil . ((prom/unique-doc-format . "%Y.%m.%d.%H.%M.%S")
          (prom/unique-default-dir . "docs/unique")
          (prom/unique-mode-targets .
-                                   ((markdown-mode :dir "docs/unique" :ext ".md")
-                                    (org-mode :dir "docs/unique" :ext ".org")
+                                   ((markdown-mode :dir "docs/inbox" :ext ".md")
+                                    (org-mode :dir "docs/inbox" :ext ".org")
                                     (text-mode :dir "docs/text" :ext ".txt")
-                                    (js-mode :dir "pseudo/dev" :ext ".js")
-                                    (typescript-ts-mode :dir "pseudo/dev" :ext ".ts")))
+                                    (js-mode :dir "pseudo/inbox" :ext ".js")
+                                    (typescript-ts-mode :dir "pseudo/inbox" :ext ".ts")))
 
          (lsp-enable-file-watchers . t)      ;; keep watchers on, but…
          (lsp-file-watch-threshold . 1500)   ;; avoid nag; tune if needed
-         (eval . (promethean-lsp-append-gitignore-to-ignored-dirs))
-
-
-         )))
+         (eval . (promethean-lsp-append-gitignore-to-ignored-dirs)))))

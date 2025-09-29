@@ -4,24 +4,26 @@ import type { AbstractSublevel } from "abstract-level";
 
 import type { Chunk, QueryHit } from "./types.js";
 
+type KeyFormat = string | Buffer | Uint8Array;
+
 export type DBs = {
   root: Level<string, unknown>;
   docs: AbstractSublevel<
     Level<string, unknown>,
-    string,
+    KeyFormat,
     string,
     { path: string; title: string }
   >;
   chunks: AbstractSublevel<
     Level<string, unknown>,
-    string,
+    KeyFormat,
     string,
     readonly Chunk[]
   >;
-  fp: AbstractSublevel<Level<string, unknown>, string, string, string>;
+  fp: AbstractSublevel<Level<string, unknown>, KeyFormat, string, string>;
   q: AbstractSublevel<
     Level<string, unknown>,
-    string,
+    KeyFormat,
     string,
     readonly QueryHit[]
   >;
@@ -36,15 +38,17 @@ export const openDB = async (
   const docs: DBs["docs"] = root.sublevel<
     string,
     { path: string; title: string }
-  >("docs", { valueEncoding: "json" });
+  >("docs", { keyEncoding: "utf8", valueEncoding: "json" });
   const chunks: DBs["chunks"] = root.sublevel<string, readonly Chunk[]>(
     "chunks",
-    { valueEncoding: "json" },
+    { keyEncoding: "utf8", valueEncoding: "json" },
   );
   const fp: DBs["fp"] = root.sublevel<string, string>("fp", {
+    keyEncoding: "utf8",
     valueEncoding: "utf8",
   });
   const q: DBs["q"] = root.sublevel<string, readonly QueryHit[]>("q", {
+    keyEncoding: "utf8",
     valueEncoding: "json",
   });
   await root.open(); // open main DB

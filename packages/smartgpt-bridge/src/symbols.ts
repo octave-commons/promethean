@@ -2,11 +2,18 @@ import path from "path";
 import fs from "fs/promises";
 
 import ts from "typescript";
-import fg from "fast-glob";
+
+import { scanFiles } from "@promethean/file-indexer";
+import type { IndexedFile } from "@promethean/file-indexer";
 
 import { normalizeToRoot, isInsideRoot } from "./files.js";
+import {
+  createInclusionChecker,
+  deriveExtensions,
+  toPosixPath,
+} from "./glob.js";
 
-type SymbolEntry = {
+export type SymbolEntry = {
   path: string;
   name: string;
   kind: string;
@@ -16,6 +23,12 @@ type SymbolEntry = {
 };
 
 let SYMBOL_INDEX: SymbolEntry[] = []; // array of { path, name, kind, startLine, endLine, signature? }
+
+export type SymbolsSnapshot = {
+  entries: readonly SymbolEntry[];
+  builtAt: number;
+  root: string;
+};
 
 function splitCSV(s: string | undefined): string[] {
   return (s || "")
@@ -28,6 +41,20 @@ function defaultExcludes(): string[] {
   return env.length
     ? env
     : ["node_modules/**", ".git/**", "dist/**", "build/**", ".obsidian/**"];
+}
+
+function toIgnoreDirs(patterns: readonly string[]): string[] {
+  return patterns
+    .map((raw) => raw.trim())
+    .filter((value) => value.length > 0)
+    .map((value) => value.replace(/^!/, ""))
+    .map((value) => value.replace(/\\/g, "/"))
+    .map((value) => value.replace(/\/\*\*.*$/, ""))
+    .map((value) => value.replace(/^\*\*\//, ""))
+    .map((value) => value.replace(/^\//, ""))
+    .map((value) => value.replace(/\/$/, ""))
+    .filter((value) => value.length > 0)
+    .map((value) => path.normalize(value));
 }
 
 function kindOf(node: ts.Node): string {
@@ -60,7 +87,12 @@ function signatureOf(node: ts.Node, source: ts.SourceFile): string | undefined {
   }
 }
 
-function addSymbol(sourceFile: ts.SourceFile, node: ts.Node, fileRel: string) {
+function addSymbol(
+  target: SymbolEntry[],
+  sourceFile: ts.SourceFile,
+  node: ts.Node,
+  fileRel: string,
+) {
   const k = kindOf(node);
   const name =
     nameOf(node) ||
@@ -85,10 +117,14 @@ function addSymbol(sourceFile: ts.SourceFile, node: ts.Node, fileRel: string) {
   };
   const sig = signatureOf(node, sourceFile);
   if (sig !== undefined) (entry as any).signature = sig;
-  SYMBOL_INDEX.push(entry);
+  target.push(entry);
 }
 
-function walk(sourceFile: ts.SourceFile, fileRel: string) {
+function walk(
+  sourceFile: ts.SourceFile,
+  fileRel: string,
+  target: SymbolEntry[],
+) {
   function visit(node: ts.Node) {
     if (
       ts.isClassDeclaration(node) ||
@@ -100,7 +136,7 @@ function walk(sourceFile: ts.SourceFile, fileRel: string) {
       ts.isTypeAliasDeclaration(node) ||
       ts.isModuleDeclaration(node)
     ) {
-      addSymbol(sourceFile, node, fileRel);
+      addSymbol(target, sourceFile, node, fileRel);
     }
     ts.forEachChild(node, visit);
   }
@@ -111,38 +147,65 @@ type SymbolsIndexOptions = { paths?: string[]; exclude?: string[] };
 export async function symbolsIndex(
   ROOT_PATH: string,
   opts: SymbolsIndexOptions = {},
-): Promise<{ files: number; symbols: number; builtAt: number }> {
-  SYMBOL_INDEX = [];
+): Promise<{
+  files: number;
+  symbols: number;
+  builtAt: number;
+  snapshot: SymbolsSnapshot;
+}> {
   const include = opts.paths || ["**/*.{ts,tsx,js,jsx}"];
   const exclude = opts.exclude || defaultExcludes();
-  const files = await fg(include, {
-    cwd: ROOT_PATH,
-    ignore: exclude,
-    onlyFiles: true,
-    dot: false,
-    absolute: true,
-  });
+  const ignoreDirs = toIgnoreDirs(exclude);
+  const extCandidates = deriveExtensions(include);
+  const shouldInclude = include.length
+    ? createInclusionChecker(include)
+    : () => true;
+  const shouldExclude = exclude.length
+    ? createInclusionChecker(exclude)
+    : () => false;
   let count = 0;
-  for (const abs of files) {
-    if (!isInsideRoot(ROOT_PATH, abs)) continue;
-    let text = "";
-    try {
-      const safeAbs = path.isAbsolute(abs)
-        ? abs
-        : normalizeToRoot(ROOT_PATH, abs);
-      text = await fs.readFile(safeAbs, "utf8");
-    } catch {
-      continue;
-    }
-    const rel = path.relative(ROOT_PATH, abs);
-    const sf = ts.createSourceFile(abs, text, ts.ScriptTarget.Latest, true);
-    walk(sf, rel);
-    count++;
-  }
-  return { files: count, symbols: SYMBOL_INDEX.length, builtAt: Date.now() };
+  const entries: SymbolEntry[] = [];
+  await scanFiles({
+    root: ROOT_PATH,
+    ...(extCandidates ? { exts: extCandidates } : {}),
+    ignoreDirs,
+    readContent: true,
+    onFile: async (file: IndexedFile) => {
+      const abs = path.isAbsolute(file.path)
+        ? file.path
+        : normalizeToRoot(ROOT_PATH, file.path);
+      if (!isInsideRoot(ROOT_PATH, abs)) return;
+      const rel = path.relative(ROOT_PATH, abs);
+      const normalized = toPosixPath(rel);
+      if (shouldExclude(normalized)) return;
+      if (!shouldInclude(normalized)) return;
+      const text = file.content ?? (await fs.readFile(abs, "utf8"));
+      const sf = ts.createSourceFile(abs, text, ts.ScriptTarget.Latest, true);
+      walk(sf, rel, entries);
+      count++;
+    },
+  });
+  const builtAt = Date.now();
+  const snapshot: SymbolsSnapshot = {
+    entries,
+    builtAt,
+    root: path.resolve(ROOT_PATH),
+  };
+  SYMBOL_INDEX = entries;
+  return {
+    files: count,
+    symbols: entries.length,
+    builtAt,
+    snapshot,
+  };
 }
 
-type SymbolsFindOptions = { kind?: string; path?: string; limit?: number };
+type SymbolsFindOptions = {
+  kind?: string;
+  path?: string;
+  limit?: number;
+  snapshot?: SymbolsSnapshot;
+};
 export async function symbolsFind(
   query: string,
   opts: SymbolsFindOptions = {},
@@ -151,8 +214,9 @@ export async function symbolsFind(
   const kind = opts.kind ? String(opts.kind).toLowerCase() : null;
   const pathFilter = opts.path ? String(opts.path).toLowerCase() : null;
   const limit = Number(opts.limit || 200);
+  const source = opts.snapshot?.entries ?? SYMBOL_INDEX;
   const out: SymbolEntry[] = [];
-  for (const s of SYMBOL_INDEX) {
+  for (const s of source) {
     if (q && !s.name.toLowerCase().includes(q)) continue;
     if (kind && s.kind.toLowerCase() !== kind) continue;
     if (pathFilter && !s.path.toLowerCase().includes(pathFilter)) continue;

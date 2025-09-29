@@ -745,19 +745,26 @@
       "name": "docops",
       "steps": [
         {
+          "id": "doc-stage",
+          "shell": "if [ -d docs/inbox ]; then mkdir -p docs/labeled && rsync -a docs/inbox/ docs/labeled/; else echo 'doc-stage: docs/inbox directory missing' >&2; fi",
+          "inputs": ["docs/inbox/**/*"],
+          "outputs": ["docs/labeled/**/*"]
+        },
+        {
           "id": "doc-fm",
+          "deps": ["doc-stage"],
           "js": {
             "module": "scripts/piper-docops.mjs",
             "export": "frontmatter",
             "args": {
-              "dir": "docs/unique",
+              "dir": "docs/labeled",
               "genModel": "qwen3:4b"
             }
           },
           "env": {
             "OLLAMA_URL": "${OLLAMA_URL}"
           },
-          "inputs": ["docs/unique/**/*.md"],
+          "inputs": ["docs/labeled/**/*.md"],
           "outputs": [],
           "inputSchema": "packages/docops/schemas/io.schema.json",
           "outputSchema": "packages/docops/schemas/io.schema.json"
@@ -769,7 +776,7 @@
             "module": "scripts/piper-docops.mjs",
             "export": "embed",
             "args": {
-              "dir": "docs/unique",
+              "dir": "docs/labeled",
               "embedModel": "nomic-embed-text:latest",
               "collection": "docs"
             }
@@ -777,7 +784,7 @@
           "env": {
             "OLLAMA_URL": "${OLLAMA_URL}"
           },
-          "inputs": ["docs/unique/**/*.md"],
+          "inputs": ["docs/labeled/**/*.md"],
           "outputs": [],
           "inputSchema": "packages/docops/schemas/io.schema.json",
           "outputSchema": "packages/docops/schemas/io.schema.json"
@@ -809,12 +816,12 @@
             "module": "scripts/piper-docops.mjs",
             "export": "relations",
             "args": {
-              "dir": "docs/unique",
+              "dir": "docs/labeled",
               "docThreshold": 0.78,
               "refThreshold": 0.6
             }
           },
-          "inputs": ["docs/unique/**/*.md"],
+          "inputs": ["docs/labeled/**/*.md"],
           "outputs": [],
           "inputSchema": "packages/docops/schemas/io.schema.json",
           "outputSchema": "packages/docops/schemas/io.schema.json"
@@ -826,13 +833,13 @@
             "module": "scripts/piper-docops.mjs",
             "export": "footers",
             "args": {
-              "dir": "docs/unique",
+              "dir": "docs/labeled",
               "anchorStyle": "block",
               "includeRelated": true,
               "includeSources": true
             }
           },
-          "inputs": ["docs/unique/**/*.md"],
+          "inputs": ["docs/labeled/**/*.md"],
           "outputs": [],
           "inputSchema": "packages/docops/schemas/io.schema.json",
           "outputSchema": "packages/docops/schemas/io.schema.json"
@@ -844,10 +851,10 @@
             "module": "scripts/piper-docops.mjs",
             "export": "rename",
             "args": {
-              "dir": "docs/unique"
+              "dir": "docs/labeled"
             }
           },
-          "inputs": ["docs/unique/**/*.md"],
+          "inputs": ["docs/labeled/**/*.md"],
           "outputs": [],
           "inputSchema": "packages/docops/schemas/io.schema.json",
           "outputSchema": "packages/docops/schemas/io.schema.json"

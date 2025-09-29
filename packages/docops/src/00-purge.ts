@@ -4,7 +4,8 @@ import { promises as fs } from "node:fs";
 import * as path from "node:path";
 import { pathToFileURL } from "node:url";
 
-import { listFilesRec } from "@promethean/utils";
+import { scanFiles } from "@promethean/file-indexer";
+import type { IndexedFile, ScanProgress } from "@promethean/file-indexer";
 
 import { parseArgs, stripGeneratedSections } from "./utils.js";
 
@@ -57,39 +58,41 @@ export async function runPurge(
   );
   const DRY = Boolean(opts.dryRun);
 
-  let files = await listFilesRec(ROOT, EXTS);
-  if (opts.files && opts.files.length) {
-    const wanted = new Set(opts.files.map((p) => path.resolve(p)));
-    files = files.filter((f: string) => wanted.has(path.resolve(f)));
-  }
-
-  let done = 0;
-  for (const f of files) {
-    const abs = path.resolve(f);
-    const rel = path.relative(process.cwd(), abs);
-    const raw = await fs.readFile(abs, "utf8");
-    // 1) Remove frontmatter
-    let body = removeFrontmatter(raw);
-    // 2) Remove docops generated footer blocks
-    body = stripGeneratedSections(body);
-    // 3) Remove Markdown deeplinks
-    body = stripLinks(body);
-    // Normalize trailing newline
-    if (!body.endsWith("\n")) body += "\n";
-    if (DRY) {
-      console.log(`purge (dry): ${rel}`);
-    } else {
-      await fs.writeFile(abs, body, "utf8");
-      console.log(`purged: ${rel}`);
-    }
-    done++;
-    onProgress?.({
-      step: "purge",
-      done,
-      total: files.length,
-      message: path.basename(abs),
-    });
-  }
+  const wanted =
+    opts.files && opts.files.length
+      ? new Set(opts.files.map((p) => path.resolve(p)))
+      : null;
+  let processed = 0;
+  await scanFiles({
+    root: ROOT,
+    exts: EXTS,
+    readContent: true,
+    onFile: async (file: IndexedFile, progress: ScanProgress) => {
+      const abs = path.isAbsolute(file.path)
+        ? path.resolve(file.path)
+        : path.resolve(ROOT, file.path);
+      if (wanted && !wanted.has(abs)) return;
+      const rel = path.relative(process.cwd(), abs);
+      const raw = file.content ?? (await fs.readFile(abs, "utf8"));
+      let body = removeFrontmatter(raw);
+      body = stripGeneratedSections(body);
+      body = stripLinks(body);
+      if (!body.endsWith("\n")) body += "\n";
+      if (DRY) {
+        console.log(`purge (dry): ${rel}`);
+      } else {
+        await fs.writeFile(abs, body, "utf8");
+        console.log(`purged: ${rel}`);
+      }
+      processed++;
+      onProgress?.({
+        step: "purge",
+        done: processed,
+        total: wanted ? wanted.size : progress.total,
+        message: path.basename(abs),
+      });
+    },
+  });
 }
 const isDirect =
   !!process.argv[1] && pathToFileURL(process.argv[1]).href === import.meta.url;

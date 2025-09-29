@@ -23,9 +23,19 @@ export function normalizeToRoot(
   const base = path.resolve(ROOT_PATH);
   const p = String(inputPath || "");
   if (p === "/" || p === "") return base;
-  const candidate = path.isAbsolute(p)
-    ? path.resolve(base, p.slice(1))
-    : path.resolve(base, p.replace(/^[\\/]+/, ""));
+  let candidate: string;
+  if (path.isAbsolute(p)) {
+    const absolute = path.resolve(p);
+    if (isInsideRoot(ROOT_PATH, absolute)) {
+      candidate = absolute;
+    } else if (p.startsWith(path.sep)) {
+      candidate = path.resolve(base, p.slice(1));
+    } else {
+      throw new Error("path outside root");
+    }
+  } else {
+    candidate = path.resolve(base, p.replace(/^[\\/]+/, ""));
+  }
   const relToBase = path.relative(base, candidate);
   if (relToBase.startsWith("..") || path.isAbsolute(relToBase)) {
     throw new Error("path outside root");
@@ -90,11 +100,15 @@ export async function viewFile(
 }
 
 const RX: Record<string, RegExp> = {
-  nodeA: /\(?(?<file>[^():\n]+?):(?<line>\d+):(?<col>\d+)\)?/g,
+  nodeA: /\(?(?<file>(?:[A-Za-z]:)?[^():\n]+?):(?<line>\d+):(?<col>\d+)\)?/g,
   nodeB: /at\s+.*?\((?<file>[^()]+?):(?<line>\d+):(?<col>\d+)\)/g,
   py: /File\s+"(?<file>[^"]+)",\s+line\s+(?<line>\d+)/g,
-  go: /(?<file>[^\s:]+?):(?<line>\d+)/g,
+  go: /(?<file>(?:[A-Za-z]:)?[^\s:]+?):(?<line>\d+)/g,
 };
+
+function normalizeStacktracePath(file: string): string {
+  return file.replace(/\\/g, "/");
+}
 
 export async function locateStacktrace(
   ROOT_PATH: string,
@@ -109,8 +123,8 @@ export async function locateStacktrace(
       m = re.exec(text);
       if (!m) break;
       const g = m.groups as Record<string, string> | undefined;
-      const file = g?.file;
-      const line = Number((g?.line) || 1);
+      const file = g?.file ? normalizeStacktracePath(g.file) : undefined;
+      const line = Number(g?.line || 1);
       const col = g?.col ? Number(g.col) : undefined;
       if (!file) continue;
       const snippet = await safeView(ROOT_PATH, file, line, context);
@@ -206,8 +220,9 @@ export async function treeDirectory(
   const raw = await buildTree(abs, {
     includeHidden,
     maxDepth: depth,
-    predicate: (absPath, dirent) => {
-      const relPath = path.relative(ROOT_PATH, path.join(absPath, dirent.name));
+    predicate: (absPath) => {
+      const relPath = path.relative(ROOT_PATH, absPath);
+      if (!relPath) return true;
       return !ig.ignores(relPath);
     },
   });
@@ -226,4 +241,34 @@ export async function treeDirectory(
     return base;
   }
   return { ok: true, base: relBase, tree: mapNode(raw) };
+}
+
+export async function writeFileContent(
+  ROOT_PATH: string,
+  filePath: string,
+  content: string,
+) {
+  const abs = normalizeToRoot(ROOT_PATH, filePath);
+  await fs.writeFile(abs, content, "utf8");
+  return { path: filePath };
+}
+
+export async function writeFileLines(
+  ROOT_PATH: string,
+  filePath: string,
+  lines: string[],
+  startLine: number,
+) {
+  const abs = normalizeToRoot(ROOT_PATH, filePath);
+  let fileLines: string[] = [];
+  try {
+    const raw = await fs.readFile(abs, "utf8");
+    fileLines = raw.split(/\r?\n/);
+  } catch {
+    // treat as empty file when the target does not exist yet
+  }
+  const idx = Math.max(0, startLine - 1);
+  fileLines.splice(idx, lines.length, ...lines);
+  await fs.writeFile(abs, fileLines.join("\n"), "utf8");
+  return { path: filePath };
 }

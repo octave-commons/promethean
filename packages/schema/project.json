@@ -1,5 +1,5 @@
 {
-    "name": "ts-schema",
+    "name": "@promethean/schema",
     "root": "packages/schema",
     "sourceRoot": "packages/schema/src",
     "targets": {
@@ -22,7 +22,10 @@
             "executor": "nx:run-commands",
             "options": {
                 "command": "ava",
-                "cwd": "packages/schema"
+                "cwd": "{projectRoot}",
+                "env": {
+                    "AVA_PROJECT_ROOT": "."
+                }
             }
         },
         "lint": {

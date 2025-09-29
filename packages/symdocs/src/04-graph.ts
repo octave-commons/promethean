@@ -429,7 +429,7 @@ function relativeToPkgReadmeLink(fromFolder: string, toFolder: string) {
 /* ---------- Mermaid builders ---------- */
 
 function esc(s: string) {
-  return s.replace(/"/g, '\\"');
+  return s.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
 }
 
 function buildMermaidGlobal(

@@ -1,29 +1,23 @@
-import path from "node:path";
-
 import test from "ava";
 
-test("RemoteEmbeddingFunction: generate returns embeddings via fake broker", async (t) => {
-  const prev = process.env.SHARED_IMPORT;
-  try {
-    const abs = path.join(
-      process.cwd(),
-      "dist",
-      "tests",
-      "helpers",
-      "fakeBroker.js",
-    );
-    process.env.SHARED_IMPORT = "file://" + abs;
-    const mod = await import("../../remoteEmbedding.js");
-    const { RemoteEmbeddingFunction } = mod;
-    const ref = new RemoteEmbeddingFunction(undefined, "driverX", "fnY");
-    const out = await ref.generate(["hello", "world"]);
-    t.true(Array.isArray(out));
-    t.is(out.length, 2);
-    t.true(Array.isArray(out[0]));
-    await (ref as unknown as { _ready?: Promise<any> })._ready?.catch(() => {});
-    ref?.dispose?.();
-  } finally {
-    if (prev === undefined) delete process.env.SHARED_IMPORT;
-    else process.env.SHARED_IMPORT = prev;
-  }
+import {
+  RemoteEmbeddingFunction,
+  setEmbeddingOverride,
+} from "../../remoteEmbedding.js";
+
+test.afterEach.always(() => {
+  setEmbeddingOverride(null);
+});
+
+test("RemoteEmbeddingFunction: generate returns embeddings via override", async (t) => {
+  setEmbeddingOverride(async ({ inputs }) =>
+    inputs.map((input, index) => [Number(index), input.length]),
+  );
+  const ref = new RemoteEmbeddingFunction(undefined, "driverX", "fnY");
+  const out = await ref.generate(["hello", "world"]);
+  t.deepEqual(out, [
+    [0, "hello".length],
+    [1, "world".length],
+  ]);
+  ref.dispose();
 });

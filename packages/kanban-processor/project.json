@@ -1,5 +1,5 @@
 {
-  "name": "ts-kanban-processor",
+  "name": "@promethean/kanban-processor",
   "root": "packages/kanban-processor",
   "sourceRoot": "packages/kanban-processor/src",
   "targets": {
@@ -22,7 +22,10 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "ava",
-        "cwd": "packages/kanban-processor"
+        "cwd": "{projectRoot}",
+        "env": {
+          "AVA_PROJECT_ROOT": "."
+        }
       }
     },
     "lint": {

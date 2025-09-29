@@ -51,11 +51,9 @@
     (gptel-quick :location (recipe :fetcher github :repo "karthink/gptel-quick"))
     ))
 
-(defun llm/init-gptel ()
-  (use-package gptel
-    :defer t
-    :init
-    ;; Local-first defaults: Ollama on localhost
+(defun llm/pre-init-gptel ()
+  (with-eval-after-load 'gptel
+    (define-key gptel-mode-map (kbd "C-c m") #'gptel-mcp-dispatch)
     (setq
      gptel-model 'qwen3:8b
      gptel-default-mode 'org-mode
@@ -63,15 +61,15 @@
      (gptel-make-ollama "ollama"
        :host "localhost:11434"
        :stream t
-       :models '(qwen3:8b llama3.2:3b qwen2.5:7b)))
-    :config
-    ;; Helper: send region if active, else whole buffer
-    (defun llm/gptel-send-region-or-buffer ()
-      "Send active region to GPTel, else the whole buffer."
-      (interactive)
-      (if (use-region-p)
-          (gptel-send (region-beginning) (region-end))
-        (gptel-send (point-min) (point-max))))))
+       :models '(qwen3:8b llama3.2:3b qwen2.5:7b
+                          qwen2.5-coder:7b
+                          qwen2.5-instruct:3b
+                          gemma3:latest
+                          qwen3:4b
+                          llama3.1:8b
+                          )))
+    )
+  )
 
 (defun llm/init-mcp ()
   (use-package mcp
@@ -86,15 +84,17 @@
 (defun llm/init-gptel-mcp ()
   ;; Only load bridge on Emacs 30+, otherwise skip cleanly.
   (when (>= emacs-major-version 30)
+
     (use-package gptel-mcp
+      ;; Local-first defaults: Ollama on localhost
+
       :after (gptel mcp)
       :commands (gptel-mcp-dispatch)
       :init
       ;; nothing required
       :config
       ;; Also bind a convenience key in gptel buffers
-      (with-eval-after-load 'gptel
-        (define-key gptel-mode-map (kbd "C-c m") #'gptel-mcp-dispatch)))))
+      )))
 
 (defun llm/init-gptel-quick ()
   (use-package gptel-quick

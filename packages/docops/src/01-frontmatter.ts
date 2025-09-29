@@ -4,10 +4,18 @@ import { promises as fs } from "node:fs";
 import * as path from "node:path";
 import { pathToFileURL } from "node:url";
 
-import matter from "gray-matter";
 import { z } from "zod";
 import ollama from "ollama";
-import { listFilesRec } from "@promethean/utils";
+import { scanFiles } from "@promethean/file-indexer";
+import type { IndexedFile, ScanProgress } from "@promethean/file-indexer";
+import {
+  ensureBaselineFrontmatter,
+  mergeFrontmatterWithGenerated,
+  normalizeStringList,
+  parseFrontmatter,
+  stringifyFrontmatter,
+  deriveFilenameFromPath,
+} from "@promethean/markdown/frontmatter";
 
 import { openDB } from "./db.js";
 import { parseArgs, randomUUID } from "./utils.js";
@@ -50,11 +58,6 @@ export async function runFrontmatter(
     valueEncoding: "json",
   });
   const docsKV = db.docs; // from db.ts — { path, title }
-
-  const uniq = (xs: readonly string[] | undefined) =>
-    Array.from(new Set((xs ?? []).map((s) => s.trim()).filter(Boolean)));
-
-  const deriveFilename = (fpath: string) => path.parse(fpath).name;
 
   const buildPrompt = (fpath: string, fm: Front, preview: string) =>
     [
@@ -103,39 +106,22 @@ export async function runFrontmatter(
       )
       .then(parseModelJSON);
 
+  const toStringListInput = (value: unknown): readonly unknown[] | undefined =>
+    Array.isArray(value)
+      ? value
+      : value === undefined || value === null
+        ? undefined
+        : [value];
+
+  const normalizeTags = (value: unknown): string[] =>
+    normalizeStringList(toStringListInput(value));
+
   const isoFromBasename = (name: string) => {
     const base = name.replace(/\.[^.]+$/, "");
     const m = base.match(
       /(\d{4})\.(\d{2})\.(\d{2})\.(\d{2})\.(\d{2})\.(\d{2})/,
     );
-    return m ? `${m[1]}-${m[2]}-${m[3]}T${m[4]}:${m[5]}:${m[6]}Z` : name;
-  };
-
-  const ensureBaseFront = (fpath: string, fm: Front): Front => {
-    const baseName = path.basename(fpath);
-    return Object.freeze<Front>({
-      ...fm,
-      uuid: fm.uuid ?? randomUUID(),
-      created_at: fm.created_at ?? isoFromBasename(baseName),
-    });
-  };
-
-  const mergeFront = (
-    base: Front,
-    gen: Partial<z.infer<typeof GenSchema>>,
-    fpath: string,
-  ): Front => {
-    const filename = base.filename ?? gen.filename ?? deriveFilename(fpath);
-    const description = base.description ?? gen.description ?? "";
-    const tags = base.tags && base.tags.length ? base.tags : uniq(gen.tags);
-    const title = base.title ?? filename;
-    return Object.freeze<Front>({
-      ...base,
-      filename,
-      title,
-      description,
-      tags,
-    });
+    return m ? `${m[1]}-${m[2]}-${m[3]}T${m[4]}:${m[5]}:${m[6]}Z` : undefined;
   };
 
   const validateGen = (obj: unknown) => {
@@ -146,73 +132,89 @@ export async function runFrontmatter(
   const writeFrontmatter = (fpath: string, content: string, fm: Front) =>
     DRY
       ? Promise.resolve()
-      : fs.writeFile(
-          fpath,
-          matter.stringify(content, fm, { language: "yaml" }),
-          "utf8",
-        );
+      : fs.writeFile(fpath, stringifyFrontmatter(content, fm), "utf8");
 
   const persistKV = (uuid: string, fpath: string, fm: Front) =>
     Promise.all([
       frontKV.put(uuid, fm),
       docsKV.put(uuid, {
         path: fpath,
-        title: fm.title ?? fm.filename ?? deriveFilename(fpath),
+        title: fm.title ?? fm.filename ?? deriveFilenameFromPath(fpath),
       }),
     ]).then(() => undefined);
 
-  const processFile = (fpath: string) =>
-    fs.readFile(fpath, "utf8").then((raw) => {
-      const gm = matter(raw);
-      const base = ensureBaseFront(fpath, (gm.data || {}) as Front);
-      const hasAll =
-        Boolean(base.filename) &&
-        Boolean(base.description) &&
-        Boolean(base.tags && base.tags.length);
-
-      const preview = gm.content.slice(0, 4000);
-
-      // Single-shot model call; fallback to derived values on failure
-      const genP = hasAll
-        ? Promise.resolve<Partial<z.infer<typeof GenSchema>>>({})
-        : askModel(GEN_MODEL, buildPrompt(fpath, base, preview)).then((obj) => {
-            const valid = validateGen(obj);
-            return valid ?? {};
-          });
-
-      return genP.then((gen) => {
-        const next = mergeFront(base, gen, fpath);
-
-        // Only write if anything actually changed
-        const changed =
-          next.uuid !== (gm.data as Front)?.uuid ||
-          next.created_at !== (gm.data as Front)?.created_at ||
-          next.filename !== (gm.data as Front)?.filename ||
-          next.description !== (gm.data as Front)?.description ||
-          JSON.stringify(uniq(next.tags)) !==
-            JSON.stringify(uniq((gm.data as Front)?.tags));
-
-        return (
-          changed
-            ? writeFrontmatter(fpath, gm.content, next)
-            : Promise.resolve()
-        )
-          .then(() => persistKV(next.uuid!, fpath, next))
-          .then(() => undefined);
-      });
+  const processFile = (fpath: string, raw: string) => {
+    const gm = parseFrontmatter<Front>(raw);
+    const base = ensureBaselineFrontmatter(gm.data ?? ({} as Front), {
+      filePath: fpath,
+      uuidFactory: randomUUID,
+      createdAtFactory: ({ filePath }: { filePath?: string }) =>
+        filePath ? isoFromBasename(path.basename(filePath)) : undefined,
+      titleFactory: ({ frontmatter }: { frontmatter: Front }) =>
+        typeof frontmatter.filename === "string"
+          ? frontmatter.filename
+          : undefined,
     });
+    const hasAll =
+      Boolean(base.filename) &&
+      Boolean(base.description) &&
+      Boolean(normalizeTags(base.tags).length);
 
-  let files = await listFilesRec(ROOT, EXTS);
-  if (opts.files && opts.files.length) {
-    const wanted = new Set(opts.files.map((p) => path.resolve(p)));
-    files = files.filter((f: string) => wanted.has(path.resolve(f)));
-  }
+    const preview = gm.content.slice(0, 4000);
+
+    const genP = hasAll
+      ? Promise.resolve<Partial<z.infer<typeof GenSchema>>>({})
+      : askModel(GEN_MODEL, buildPrompt(fpath, base, preview)).then((obj) => {
+          const valid = validateGen(obj);
+          return valid ?? {};
+        });
+
+    return genP.then((gen) => {
+      const next = mergeFrontmatterWithGenerated(base, gen, {
+        filePath: fpath,
+        descriptionFallback: "",
+      }) as Front;
+
+      const changed =
+        next.uuid !== (gm.data as Front)?.uuid ||
+        next.created_at !== (gm.data as Front)?.created_at ||
+        next.filename !== (gm.data as Front)?.filename ||
+        next.description !== (gm.data as Front)?.description ||
+        JSON.stringify(normalizeTags(next.tags)) !==
+          JSON.stringify(normalizeTags((gm.data as Front)?.tags));
+
+      return (
+        changed ? writeFrontmatter(fpath, gm.content, next) : Promise.resolve()
+      )
+        .then(() => persistKV(next.uuid!, fpath, next))
+        .then(() => undefined);
+    });
+  };
+
+  const wanted =
+    opts.files && opts.files.length
+      ? new Set(opts.files.map((p) => path.resolve(p)))
+      : null;
   let done = 0;
-  for (const f of files) {
-    await processFile(f);
-    done++;
-    onProgress?.({ step: "frontmatter", done, total: files.length });
-  }
+  await scanFiles({
+    root: ROOT,
+    exts: EXTS,
+    readContent: true,
+    onFile: async (file: IndexedFile, progress: ScanProgress) => {
+      const abs = path.isAbsolute(file.path)
+        ? path.resolve(file.path)
+        : path.resolve(ROOT, file.path);
+      if (wanted && !wanted.has(abs)) return;
+      const raw = file.content ?? (await fs.readFile(abs, "utf8"));
+      await processFile(abs, raw);
+      done++;
+      onProgress?.({
+        step: "frontmatter",
+        done,
+        total: wanted ? wanted.size : progress.total,
+      });
+    },
+  });
 }
 const isDirect =
   !!process.argv[1] && pathToFileURL(process.argv[1]).href === import.meta.url;

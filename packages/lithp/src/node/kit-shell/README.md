@@ -1,2 +1,0 @@
-# sibilant shell kit
-

@@ -15,10 +15,10 @@ const args = parseArgs({
 });
 
 async function main() {
-  const blocksPath = path.resolve(args["--blocks"]);
-  const cachePath = path.resolve(args["--cache"]);
-  const model = args["--embed-model"];
-  const mix = args["--mix-context"] === "true";
+  const blocksPath = path.resolve(args["--blocks"] ?? ".cache/codepack/blocks");
+  const cachePath = path.resolve(args["--cache"] ?? ".cache/codepack/embeds");
+  const model = args["--embed-model"] ?? "nomic-embed-text:latest";
+  const mix = (args["--mix-context"] ?? "true") === "true";
 
   const blockCache = await openLevelCache<CodeBlock>({
     path: blocksPath,
