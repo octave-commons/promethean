@@ -6,14 +6,19 @@ let config;
 
 function loadConfig() {
   if (!config) {
-    const file = fs.readFileSync(
-      path.resolve(
-        path.dirname(new URL(import.meta.url).pathname),
-        "../permissions.yaml",
-      ),
-      "utf8",
-    );
-    config = yaml.parse(file) || {};
+    try {
+      const file = fs.readFileSync(
+        path.resolve(
+          path.dirname(new URL(import.meta.url).pathname),
+          "../permissions.yaml",
+        ),
+        "utf8",
+      );
+      config = yaml.parse(file) || {};
+    } catch (err) {
+      if (err && err.code !== "ENOENT") throw err;
+      config = {};
+    }
   }
   return config;
 }

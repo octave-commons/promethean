@@ -19,6 +19,12 @@ import { promises as fs } from "fs";
 import * as path from "path";
 import matter from "gray-matter";
 import * as yaml from "yaml";
+import {
+  anchorId,
+  computeFenceMap,
+  injectAnchors,
+  relMdLink,
+} from "@promethean/markdown/anchors.js";
 import { listFilesRec } from "@promethean/utils/list-files-rec";
 import {
   stripGeneratedSections,
@@ -78,22 +84,6 @@ function parseArgs(defaults: Record<string, string>): Record<string, string> {
   return out;
 }
 
-function anchorId(docUuid: string, line: number, col: number) {
-  const short = (docUuid ?? "nouuid").slice(0, 8);
-  return `ref-${short}-${line}-${col}`;
-}
-
-function relMdLink(
-  fromFileAbs: string,
-  toFileAbs: string,
-  anchor?: string,
-): string {
-  const rel = path
-    .relative(path.dirname(fromFileAbs), toFileAbs)
-    .replace(/\\/g, "/");
-  return anchor ? `${rel}#${anchor}` : rel;
-}
-
 function slugify(s: string): string {
   return s
     .trim()
@@ -105,99 +95,6 @@ function slugify(s: string): string {
 
 function titleFor(front: Front, filePath: string): string {
   return front.filename || path.parse(filePath).name;
-}
-
-// Lightweight code-fence tracker so we don't break fenced code
-function computeFenceMap(lines: string[]): boolean[] {
-  // true if inside a fence at that line
-  const inside: boolean[] = new Array(lines.length).fill(false);
-  let inFence = false;
-  let fenceChar: "`" | "~" | null = null;
-  let fenceLen = 0;
-
-  const fenceRe = /^(\s*)(`{3,}|~{3,})(.*)$/;
-
-  for (let i = 0; i < lines.length; i++) {
-    const L = lines[i];
-
-    if (!inFence) {
-      const m = L.match(fenceRe);
-      if (m) {
-        inFence = true;
-        fenceChar = (m[2][0] as "`" | "~") || "`";
-        fenceLen = m[2].length;
-        inside[i] = true;
-        continue;
-      }
-    } else {
-      inside[i] = true;
-      // closing fence must match same char and length
-      const m = L.match(fenceRe);
-      if (
-        m &&
-        (m[2][0] as "`" | "~") === fenceChar &&
-        m[2].length >= fenceLen
-      ) {
-        // this line is still "inside"; next line is outside
-        inFence = false;
-      }
-    }
-  }
-  return inside;
-}
-
-// Inject ^block IDs without breaking code blocks:
-//  - if target line inside a fenced block -> place "^id" on the line AFTER the closing fence
-//  - else append " ^id" at the end of the target line (idempotent)
-function injectAnchors(
-  content: string,
-  want: Array<{ line: number; id: string }>,
-): string {
-  if (!want.length) return content;
-  const lines = content.split("\n");
-  const inside = computeFenceMap(lines);
-
-  // Deduplicate targets and keep ascending order
-  const uniq = new Map<string, { line: number; id: string }>();
-  for (const w of want) uniq.set(`${w.line}:${w.id}`, w);
-  const anchors = Array.from(uniq.values()).sort((a, b) => a.line - b.line);
-
-  // Quick presence check to avoid duplicate injections
-  const hasIdOnOrNext = (idx: number, id: string) =>
-    (lines[idx] && lines[idx].includes(`^${id}`)) ||
-    (lines[idx + 1] && lines[idx + 1].trim() === `^${id}`);
-
-  // Find next line index outside fence
-  const nextOutsideIdx = (idx: number) => {
-    let i = Math.min(idx, lines.length - 1);
-    while (i < lines.length && inside[i]) i++;
-    return i;
-  };
-
-  for (const { line, id } of anchors) {
-    // 1-based -> 0-based
-    let idx = Math.max(1, Math.min(line, lines.length)) - 1;
-
-    // If already present, skip
-    if (hasIdOnOrNext(idx, id)) continue;
-
-    if (inside[idx]) {
-      // place after fence closes
-      const j = nextOutsideIdx(idx + 1);
-      if (j >= lines.length) {
-        // append at end
-        lines.push(`^${id}`);
-      } else {
-        // only inject if not present already
-        if (!hasIdOnOrNext(j, id)) lines.splice(j, 0, `^${id}`);
-      }
-    } else {
-      // add to end of the target line
-      lines[idx] = (lines[idx] ?? "").replace(/\s*$/, ` ^${id}`);
-    }
-  }
-
-  return lines.join("\n");
 }
 
 // For heading-style anchors, generate slug from the nearest heading above a line

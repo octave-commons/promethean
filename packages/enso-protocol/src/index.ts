@@ -15,3 +15,4 @@ export * from "./signature.js";
 export * from "./transport.js";
 export * from "./guardrails.js";
 export * from "./types.js";
+export * from "./audio.js";

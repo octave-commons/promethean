@@ -1,23 +1,26 @@
 /* eslint-disable functional/no-let, functional/no-loop-statements, functional/immutable-data, functional/prefer-immutable-types, @typescript-eslint/prefer-readonly-parameter-types, @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unnecessary-type-assertion, max-lines-per-function, sonarjs/cognitive-complexity */
 import { promises as fs } from "fs";
 import * as path from "path";
+import {
+  anchorId,
+  computeFenceMap,
+  injectAnchors,
+  relMdLink,
+} from "@promethean/markdown/anchors.js";
 import { once } from "node:events";
 import { createWriteStream } from "node:fs";
 
-import { unified } from "unified";
-import remarkParse from "remark-parse";
-import { visit } from "unist-util-visit";
 import * as yaml from "yaml";
-import type { Code, Content, Heading, Root, Text } from "mdast";
-import type { Position } from "unist";
 
-import { Chunk, Front } from "./types.js";
+import type { Front } from "./types.js";
 export {
   stripGeneratedSections,
   START_MARK,
   END_MARK,
   randomUUID,
 } from "@promethean/utils";
+
+export { anchorId, computeFenceMap, injectAnchors, relMdLink };
 
 export const OLLAMA_URL = process.env.OLLAMA_URL ?? "http://localhost:11434";
 
@@ -74,176 +77,7 @@ export function frontToYAML(front: Front): string {
   return yaml.stringify(front, { indent: 2, simpleKeys: true });
 }
 
-export function parseMarkdownChunks(markdown: string): Chunk[] {
-  const ast = unified().use(remarkParse).parse(markdown) as Root;
-  const chunks: Chunk[] = [];
-  let currentHeading: string | undefined;
-
-  function extractText(node: Content): string {
-    let out = "";
-    visit(node, (n) => {
-      if (n.type === "text") out += (n as Text).value ?? "";
-    });
-    return out;
-  }
-  function sentenceSplit(s: string, maxLen: number): string[] {
-    if (s.length <= maxLen) return [s];
-    const parts = s.split(/(?<=[\.\!\?])\s+/);
-    let buf = "";
-    const chunks = parts.reduce<string[]>((acc, p, idx) => {
-      if ((buf + " " + p).trim().length > maxLen) {
-        if (buf) acc.push(buf.trim());
-        buf = p;
-      } else {
-        buf = (buf ? `${buf} ` : "") + p;
-      }
-      if (idx === parts.length - 1 && buf) acc.push(buf.trim());
-      return acc;
-    }, []);
-    return chunks.flatMap((c) =>
-      c.length <= maxLen
-        ? [c]
-        : Array.from({ length: Math.ceil(c.length / maxLen) }, (_, i) =>
-            c.slice(i * maxLen, i * maxLen + maxLen),
-          ),
-    );
-  }
-
-  visit(ast, (node) => {
-    if (!node?.type) return;
-    if (node.type === "heading") {
-      const heading = node as Heading;
-      currentHeading = (heading.children || [])
-        .map((c) => (c as Text).value ?? "")
-        .join(" ")
-        .trim();
-    }
-    if (
-      node.type === "paragraph" ||
-      node.type === "listItem" ||
-      node.type === "code"
-    ) {
-      const pos = node.position as Position | undefined;
-      if (!pos) return;
-      const raw =
-        node.type === "code" ? (node as Code).value ?? "" : extractText(node);
-      const trimmed = raw.trim();
-      if (!trimmed) return;
-      const kind: Chunk["kind"] = node.type === "code" ? "code" : "text";
-      chunks.push(
-        ...sentenceSplit(trimmed, 1200).map(
-          (s) =>
-            ({
-              id: "",
-              docUuid: "",
-              docPath: "",
-              startLine: pos.start.line,
-              startCol: pos.start.column,
-              endLine: pos.end.line,
-              endCol: pos.end.column,
-              text: s,
-              kind,
-              ...(currentHeading ? { title: currentHeading } : {}),
-            }) as Chunk,
-        ),
-      );
-    }
-  });
-
-  if (chunks.length === 0 && markdown.trim()) {
-    chunks.push({
-      id: "",
-      docUuid: "",
-      docPath: "",
-      startLine: 1,
-      startCol: 1,
-      endLine: markdown.split("\n").length,
-      endCol: 1,
-      text: markdown.trim(),
-      kind: "text",
-    });
-  }
-  return chunks;
-}
-
-export function relMdLink(
-  fromFileAbs: string,
-  toFileAbs: string,
-  anchor?: string,
-): string {
-  const rel = path
-    .relative(path.dirname(fromFileAbs), toFileAbs)
-    .replace(/\\/g, "/");
-  return anchor ? `${rel}#${anchor}` : rel;
-}
-
-export function anchorId(docUuid: string, line: number, col: number) {
-  return `ref-${(docUuid ?? "nouuid").slice(0, 8)}-${line}-${col}`;
-}
-
-export function computeFenceMap(lines: string[]): boolean[] {
-  const inside: boolean[] = new Array(lines.length).fill(false);
-  let inFence = false,
-    fenceChar: "`" | "~" | null = null,
-    fenceLen = 0;
-  const fenceRe = /^(\s*)(`{3,}|~{3,})(.*)$/;
-  for (let i = 0; i < lines.length; i++) {
-    const L = lines[i] ?? "";
-    if (!inFence) {
-      const m = L.match(fenceRe);
-      if (m) {
-        inFence = true;
-        const grp = m[2] ?? "";
-        fenceChar = grp[0] as any;
-        fenceLen = grp.length;
-        inside[i] = true;
-        continue;
-      }
-    } else {
-      inside[i] = true;
-      const m = L.match(fenceRe);
-      if (m) {
-        const grp = m[2] ?? "";
-        if ((grp[0] as any) === fenceChar && grp.length >= fenceLen) {
-          inFence = false;
-        }
-      }
-    }
-  }
-  return inside;
-}
-
-export function injectAnchors(
-  content: string,
-  want: Array<{ line: number; id: string }>,
-): string {
-  if (!want.length) return content;
-  const lines = content.split("\n");
-  const inside = computeFenceMap(lines);
-  const uniq = new Map<string, { line: number; id: string }>();
-  for (const w of want) uniq.set(`${w.line}:${w.id}`, w);
-  const anchors = Array.from(uniq.values()).sort((a, b) => a.line - b.line);
-  const hasIdOnOrNext = (idx: number, id: string) =>
-    (lines[idx] ?? "").includes(`^${id}`) ||
-    (lines[idx + 1] ?? "").trim() === `^${id}`;
-  const nextOutsideIdx = (idx: number) => {
-    let i = Math.min(idx, lines.length - 1);
-    while (i < lines.length && inside[i]) i++;
-    return i;
-  };
-  for (const { line, id } of anchors) {
-    const idx = Math.max(1, Math.min(line, lines.length)) - 1;
-    if (hasIdOnOrNext(idx, id)) continue;
-    if (inside[idx]) {
-      const j = nextOutsideIdx(idx + 1);
-      if (j >= lines.length) lines.push(`^${id}`);
-      else if (!hasIdOnOrNext(j, id)) lines.splice(j, 0, `^${id}`);
-    } else {
-      lines[idx] = (lines[idx] ?? "").replace(/\s*$/, ` ^${id}`);
-    }
-  }
-  return lines.join("\n");
-}
+export { parseMarkdownChunks } from "@promethean/markdown";
 
 // Replacer that avoids cycles, BigInt, gigantic strings, and serializes typed arrays sanely.
 export function safeReplacer() {

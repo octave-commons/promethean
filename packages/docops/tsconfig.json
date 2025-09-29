@@ -5,15 +5,26 @@
     "outDir": "dist",
     "composite": true,
     "types": ["node", "ws", "ava"],
-    "declaration": true
+    "declaration": true,
+    "paths": {
+      "@shared/ts/*": ["../shared/ts/dist/*"],
+      "@promethean/test-utils/*": ["../packages/test-utils/dist/*"],
+      "@promethean/legacy/*": ["../packages/legacy/*"]
+    }
   },
-  "include": ["src/**/*", "./types/**/*.d.ts"],
+  "include": ["src/**/*"],
   "references": [
     {
       "path": "../test-utils"
     },
     {
       "path": "../docops-frontend"
+    },
+    {
+      "path": "../file-indexer"
+    },
+    {
+      "path": "../markdown"
     }
   ]
 }

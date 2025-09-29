@@ -1,81 +1,199 @@
-import express from 'express';
-import { createProxyMiddleware } from 'http-proxy-middleware';
-import { Server as SocketIOServer } from 'socket.io';
-import { dirname, join } from 'path';
-import { fileURLToPath } from 'url';
-
-export const app = express();
+import http from "node:http";
+import { readFile } from "node:fs/promises";
+import { fileURLToPath } from "node:url";
+import { dirname, join } from "node:path";
+import httpProxy from "http-proxy";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const sitesDir = join(__dirname, '..', '..', '..', 'sites');
+const repoRoot = join(__dirname, "../../..");
 
-app.use(
-    express.static(sitesDir, {
-        setHeaders: (res) => {
-            res.set('Cache-Control', 'no-cache');
-        },
-    }),
+const llmRoot = join(repoRoot, "node_modules/@promethean/llm-chat-frontend");
+const smartgptRoot = join(
+  repoRoot,
+  "node_modules/@promethean/smartgpt-dashboard-frontend",
 );
 
-const defaultRoutes = {
-    '/tts': 'http://127.0.0.1:5001',
-    '/stt': 'http://127.0.0.1:5002',
-    '/vision': 'http://127.0.0.1:9999',
-    '/llm': 'http://127.0.0.1:8888',
-    '/bridge': 'http://127.0.0.1:3210',
-};
+const staticFiles = new Map([
+  [
+    "/llm-chat",
+    {
+      path: join(llmRoot, "static/index.html"),
+      type: "text/html; charset=utf-8",
+    },
+  ],
+  [
+    "/llm-chat/",
+    {
+      path: join(llmRoot, "static/index.html"),
+      type: "text/html; charset=utf-8",
+    },
+  ],
+  [
+    "/llm-chat/chat.js",
+    {
+      path: join(llmRoot, "dist/frontend/chat.js"),
+      type: "application/javascript",
+    },
+  ],
+  [
+    "/llm-chat/tools.js",
+    {
+      path: join(llmRoot, "dist/frontend/tools.js"),
+      type: "application/javascript",
+    },
+  ],
+  [
+    "/smartgpt-dashboard",
+    {
+      path: join(smartgptRoot, "static/index.html"),
+      type: "text/html; charset=utf-8",
+    },
+  ],
+  [
+    "/smartgpt-dashboard/",
+    {
+      path: join(smartgptRoot, "static/index.html"),
+      type: "text/html; charset=utf-8",
+    },
+  ],
+  [
+    "/smartgpt-dashboard/main.js",
+    {
+      path: join(smartgptRoot, "dist/frontend/main.js"),
+      type: "application/javascript",
+    },
+  ],
+  [
+    "/smartgpt-dashboard/styles.css",
+    {
+      path: join(smartgptRoot, "static/styles.css"),
+      type: "text/css; charset=utf-8",
+    },
+  ],
+  [
+    "/smartgpt-dashboard/wc/components.js",
+    {
+      path: join(smartgptRoot, "dist/frontend/wc/components.js"),
+      type: "application/javascript",
+    },
+  ],
+  [
+    "/main.js",
+    {
+      path: join(smartgptRoot, "dist/frontend/main.js"),
+      type: "application/javascript",
+    },
+  ],
+  [
+    "/styles.css",
+    {
+      path: join(smartgptRoot, "static/styles.css"),
+      type: "text/css; charset=utf-8",
+    },
+  ],
+  [
+    "/wc/components.js",
+    {
+      path: join(smartgptRoot, "dist/frontend/wc/components.js"),
+      type: "application/javascript",
+    },
+  ],
+]);
 
-function applyRoutes(routes) {
-    for (const [prefix, target] of Object.entries(routes)) {
-        app.use(
-            prefix,
-            createProxyMiddleware({
-                target,
-                changeOrigin: true,
-                pathRewrite: { [`^${prefix}`]: '' },
-            }),
-        );
+let currentServer = null;
+let currentProxy = null;
+let currentRoutes = [];
+
+function buildRouteTable(routes) {
+  return Object.entries(routes || {})
+    .filter(
+      ([prefix, target]) =>
+        typeof prefix === "string" && prefix.startsWith("/"),
+    )
+    .map(([prefix, target]) => ({ prefix, target: String(target) }))
+    .sort((a, b) => b.prefix.length - a.prefix.length);
+}
+
+async function tryServeStatic(req, res) {
+  const url = req.url || "/";
+  const entry = staticFiles.get(url);
+  if (!entry) return false;
+  try {
+    const buf = await readFile(entry.path);
+    res.statusCode = 200;
+    res.setHeader("Content-Type", entry.type);
+    res.setHeader("Cache-Control", "no-cache");
+    res.end(buf);
+  } catch (err) {
+    res.statusCode = 404;
+    res.end("Not found");
+  }
+  return true;
+}
+
+export function start(port = 0, routes = {}) {
+  if (currentServer) {
+    throw new Error("proxy already running; call stop() before starting again");
+  }
+
+  currentRoutes = buildRouteTable(routes);
+  currentProxy = httpProxy.createProxyServer({ changeOrigin: true, ws: true });
+
+  currentProxy.on("error", (err, req, res) => {
+    if (!res || res.headersSent) return;
+    res.writeHead(502, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ error: "proxy_error", message: err.message }));
+  });
+
+  const server = http.createServer(async (req, res) => {
+    if (await tryServeStatic(req, res)) return;
+
+    const match = currentRoutes.find(({ prefix }) =>
+      (req.url || "").startsWith(prefix),
+    );
+    if (match) {
+      const originalUrl = req.url || "/";
+      const remainder = originalUrl.slice(match.prefix.length) || "/";
+      req.url = remainder.startsWith("/") ? remainder : `/${remainder}`;
+      currentProxy.web(req, res, { target: match.target, changeOrigin: true });
+      return;
     }
-}
 
-let server;
-export let io;
+    res.statusCode = 404;
+    res.end("Not found");
+  });
 
-function setupSocketIO(httpServer) {
-    io = new SocketIOServer(httpServer, {
-        cors: { origin: '*' },
+  server.on("upgrade", (req, socket, head) => {
+    const match = currentRoutes.find(({ prefix }) =>
+      (req.url || "").startsWith(prefix),
+    );
+    if (!match) {
+      socket.destroy();
+      return;
+    }
+    const remainder = (req.url || "/").slice(match.prefix.length) || "/";
+    req.url = remainder.startsWith("/") ? remainder : `/${remainder}`;
+    currentProxy.ws(req, socket, head, {
+      target: match.target,
+      changeOrigin: true,
     });
+  });
 
-    io.on('connection', (socket) => {
-        socket.onAny((event, ...args) => {
-            socket.broadcast.emit(event, ...args);
-        });
-    });
-}
-
-export async function start(port = process.env.PORT || 8080, routes = defaultRoutes) {
-    applyRoutes(routes);
-    server = app.listen(port, () => {
-        console.log(`proxy service listening on ${port}`);
-    });
-    setupSocketIO(server);
-    return server;
+  server.listen(port);
+  currentServer = server;
+  return server;
 }
 
 export async function stop() {
-    if (io) {
-        io.close();
-        io = null;
-    }
-    if (server) {
-        await new Promise((resolve) => server.close(resolve));
-        server = null;
-    }
-}
+  if (!currentServer) return;
+  const server = currentServer;
+  currentServer = null;
+  currentRoutes = [];
+  const proxy = currentProxy;
+  currentProxy = null;
 
-if (process.env.NODE_ENV !== 'test') {
-    start().catch((err) => {
-        console.error('Failed to start proxy service', err);
-        process.exit(1);
-    });
+  await new Promise((resolve) => server.close(resolve));
+  if (proxy) {
+    proxy.close();
+  }
 }

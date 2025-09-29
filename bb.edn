@@ -1,22 +1,22 @@
-{:paths ["bb/src"]
+{:paths ["bb/src" "packages/clj-hacks/src" "packages/clj-hacks/test"]
  :tasks
  {;; Root tasks
-  build            {:doc "Build all languages" :task (mk.commands/build)}
-  clean            {:doc "Clean all artifacts" :task (mk.commands/clean)}
+  build            {:doc "Build JavaScript and TypeScript services" :task (mk.commands/build)}
+  clean            {:doc "Clean JS/TS artifacts" :task (mk.commands/clean)}
   distclean        {:doc "git clean -fdX for ignored files" :task (mk.commands/distclean)}
-  lint             {:doc "Lint py/js/ts" :task (mk.commands/lint)}
+  lint             {:doc "Lint JS/TS" :task (mk.commands/lint)}
   lint-topics      {:doc "Lint bridge topics" :task (mk.commands/lint-topics)}
-  test             {:doc "Run tests for all languages" :task (mk.commands/test)}
-  test-integration {:doc "Run integration tests" :task (mk.commands/test-integration)}
-  test-e2e         {:doc "Run e2e tests (best-effort)" :task (mk.commands/test-e2e)}
-  format           {:doc "Format py/js/ts" :task (mk.commands/format-code)}
-  coverage         {:doc "Coverage across languages" :task (mk.commands/coverage)}
-  setup            {:doc "Setup all services" :task (mk.commands/setup)}
-  setup-quick      {:doc "Quick setup (scoped recommended)" :task (mk.commands/setup-quick)}
+  validate-elisp   {:doc "Validate Emacs Lisp layers" :task (mk.commands/validate-elisp)}
+  test             {:doc "Run JS/TS tests" :task (mk.commands/test)}
+  test-integration {:doc "Run JS integration tests" :task (mk.commands/test-integration)}
+  test-e2e         {:doc "Run JS end-to-end tests" :task (mk.commands/test-e2e)}
+  format           {:doc "Format JS/TS" :task (mk.commands/format-code)}
+  coverage         {:doc "Coverage for JS/TS" :task (mk.commands/coverage)}
+  setup            {:doc "Setup JS/TS services" :task (mk.commands/setup)}
+  setup-quick      {:doc "Quick workspace setup" :task (mk.commands/setup-quick)}
+
   install          {:doc "Install deps with fallback" :task (mk.commands/install)}
   install-gha-artifacts {:doc "Install latest GHA artifacts" :task (mk.commands/install-gha-artifacts)}
-  probe-python-service {:doc "CUDA probe a python service (SERVICE env)" :task (mk.commands/probe-python-service)}
-  probe-python-services {:doc "CUDA probe all python services" :task (mk.commands/probe-python-services)}
   system-deps      {:doc "Install system deps (ffmpeg, uv, pnpm)" :task (mk.commands/system-deps)}
   install-mongodb  {:doc "Install MongoDB (Linux only)" :task (mk.commands/install-mongodb)}
   start            {:doc "pm2 start" :task (mk.commands/start)}
@@ -24,40 +24,14 @@
   start-service    {:doc "pm2 start --only (SERVICE env)" :task (mk.commands/start-service)}
   stop-service     {:doc "pm2 stop (SERVICE env)" :task (mk.commands/stop-service)}
   lint-tasks       {:doc "Lint mk tasks" :task (mk.commands/lint-tasks)}
-  simulate-ci      {:doc "Simulate CI locally" :task (mk.commands/simulate-ci)}
+  simulate-ci      {:doc "Stubbed CI simulation" :task (mk.commands/simulate-ci)}
   snapshot         {:doc "Create tag snapshot-YYYY.MM.DD (PUSH=1 to push)" :task (mk.commands/snapshot)}
 
-  ;; Language-specific tasks (mirroring Hy names)
-  ;; Python
-  setup-python-services     mk.python/setup-python-services
-  setup-pipenv              mk.python/setup-pipenv
-  generate-python-shared-requirements mk.python/generate-python-shared-requirements
-  generate-python-services-requirements mk.python/generate-python-services-requirements
-  generate-requirements-service mk.python/generate-requirements-service
-  setup-shared-python       mk.python/setup-shared-python
-  lock-python-cpu           mk.python/lock-python-cpu
-  lock-python-gpu           mk.python/lock-python-gpu
-  setup-shared-python-quick mk.python/setup-shared-python-quick
-  setup-python-services-quick mk.python/setup-python-services-quick
-  setup-python              mk.python/setup-python
-  setup-python-quick        mk.python/setup-python-quick
-  build-python              mk.python/build-python
-  clean-python              mk.python/clean-python
-  setup-python-service      mk.python/setup-python-service
-  test-python-service       mk.python/test-python-service
-  test-python-services      mk.python/test-python-services
-  test-shared-python        mk.python/test-shared-python
-  test-python               mk.python/test-python
-  coverage-python-service   mk.python/coverage-python-service
-  coverage-python-services  mk.python/coverage-python-services
-  coverage-shared-python    mk.python/coverage-shared-python
-  coverage-python           mk.python/coverage-python
-  lint-python-service       mk.python/lint-python-service
-  lint-python               mk.python/lint-python
-  format-python             mk.python/format-python
-  typecheck-python          mk.python/typecheck-python
-  generate-python-requirements mk.python/generate-python-requirements
-  generate-requirements     mk.python/generate-requirements
+  ;; Clojure packages
+  clj-hacks:prepare {:doc "Download deps for clj-hacks" :requires ([clj-hacks.tasks]) :task clj-hacks.tasks/prepare!}
+  clj-hacks:build   {:doc "Compile clj-hacks namespaces" :requires ([clj-hacks.tasks]) :task clj-hacks.tasks/build}
+  clj-hacks:lint    {:doc "Run clj-kondo on clj-hacks" :requires ([clj-hacks.tasks]) :task clj-hacks.tasks/lint}
+  clj-hacks:test    {:doc "Execute clj-hacks tests" :requires ([clj-hacks.tasks]) :task clj-hacks.tasks/test}
 
   ;; JS/TS
   lint-js-service           mk.node/lint-js-service
@@ -88,14 +62,6 @@
   clean-ts                  mk.node/clean-ts
   build-ts                  mk.node/build-ts
   ts-type-check             mk.node/ts-type-check
-
-  ;; Hy
-  setup-hy                  mk.hy/setup-hy
-  setup-hy-service          mk.hy/setup-hy-service
-  compile-hy                mk.hy/compile-hy
-  test-hy-service           mk.hy/test-hy-service
-  test-hy-services          mk.hy/test-hy-services
-  test-hy                   mk.hy/test-hy
  }
 }
 

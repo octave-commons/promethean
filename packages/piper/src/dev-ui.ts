@@ -4,6 +4,7 @@ import { promises as fs } from "node:fs";
 
 import fastifyFactory from "fastify";
 import fastifyStatic from "@fastify/static";
+import rateLimit from "@fastify/rate-limit";
 import swagger from "@fastify/swagger";
 import swaggerUi from "@fastify/swagger-ui";
 import chokidar from "chokidar";
@@ -59,25 +60,46 @@ function errToString(e: unknown): string {
 }
 
 const app = fastifyFactory({ logger: false });
+// Enforce a modest per-client ceiling while allowing asset and SSE streams to flow.
+await app.register(rateLimit, {
+  max: 120,
+  timeWindow: "1 minute",
+  skipOnError: true,
+  allowList: (request) => {
+    const acceptHeader = request.headers.accept;
+    if (
+      typeof acceptHeader === "string" &&
+      acceptHeader.includes("text/event-stream")
+    ) {
+      return true;
+    }
+
+    const requestUrl = request.url ?? "";
+    return requestUrl.startsWith("/js/") || requestUrl.startsWith("/ui/");
+  },
+});
 // Development events: optional SSE stream for hot-reload signals.
 const WATCH_GLOBS = () => {
   const root = path.resolve(process.cwd(), "packages/piper/src/frontend");
   const ui = path.resolve(process.cwd(), "packages/piper/ui");
   return [`${root}/**/*.ts`, `${root}/**/*.css`, `${ui}/**/*`];
 };
-app.get("/api/dev-events", async (_req, reply) => {
-  const send = sseInit(reply);
-  // Do NOT emit an immediate update; only on file changes.
-  const watcher = chokidar.watch(WATCH_GLOBS(), { ignoreInitial: true });
-  const rebuild = async () => {
-    send("frontend:update");
-  };
-  watcher.on("all", rebuild);
-  reply.raw.on("close", () => {
-    watcher.off("all", rebuild);
-    void watcher.close();
-  });
-});
+app.get(
+  "/api/dev-events",
+  async (_req, reply) => {
+    const send = sseInit(reply);
+    // Do NOT emit an immediate update; only on file changes.
+    const watcher = chokidar.watch(WATCH_GLOBS(), { ignoreInitial: true });
+    const rebuild = async () => {
+      send("frontend:update");
+    };
+    watcher.on("all", rebuild);
+    reply.raw.on("close", () => {
+      watcher.off("all", rebuild);
+      void watcher.close();
+    });
+  },
+);
 await app.register(fastifyStatic, { root: UI_ROOT, prefix: "/ui" });
 await app.register(fastifyStatic, {
   root: FRONTEND_DIST,
@@ -89,8 +111,8 @@ await app.register(fastifyStatic, {
   prefix: "/js/ui-components",
   decorateReply: false,
 });
-// Note: No global rate-limiting in the dev server to avoid interfering
-// with HMR/EventSource reconnects and static asset loads.
+// Rate limits are applied globally, but SSE + static assets are allow-listed
+// to keep HMR/EventSource reconnects and bundle loads responsive during dev.
 
 await app.register(swagger, {
   openapi: {

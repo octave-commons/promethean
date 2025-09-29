@@ -119,7 +119,18 @@ packages/docops/test-tmp/
 docs/reports/codex_cloud/describe/
 docs/reports/codex_cloud/runs/
 docs/reports/codex_cloud/latest
+docs/reports/codex_cloud/INDEX.md
 
 test-tmp/
 
 docs/codex-context/requests/
+
+packages/report-forge/.shadow-cljs/
+
+.shadow-cljs/
+
+packages/clj-hacks/target/
+
+packages/clj-hacks/.cpcache/
+
+tmp-docops-test/

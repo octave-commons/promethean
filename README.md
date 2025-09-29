@@ -7,10 +7,10 @@ This project is licensed under the [[LICENSE.txt|GNU GPL v3]].
 This repository contains a modular multi‑agent architecture. To start shared infrastructure like speech services, run pm2 with the root configuration:
 
 ```bash
-pm2 start ecosystem.config.js
+pm2 start system/daemons/ecosystem.config.js
 ```
 
-When adding or removing packages with their own `ecosystem.config.js`, regenerate the consolidated configuration:
+When adding or removing services under `system/daemons/services/<daemon>/ecosystem.config.js`, regenerate the consolidated configuration:
 
 ```bash
 pnpm gen:ecosystem
@@ -45,11 +45,25 @@ into small services that handle speech-to-text, text-to-speech, memory, and high
 📖 For a high-level overview, see [Vision Overview](docs/design/overview.md).
 📊 For architecture roadmaps and visualizations, see [[docs/architecture/index|docs/architecture/index.md]].
 📦 Data migration conventions and runbooks live under [[docs/data/contracts/readme|docs/data]].
+🧰 Need a new workspace package? Follow the [Nx package workflow](docs/packages/new-package.md) for presets, directory layout, and follow-up tasks.
 
 ### Development conventions
 
 - Prefer immutable data; avoid in-place object mutation.
 - Use key-value caches like `@promethean/level-cache` instead of JSON files for intermediate data.
+
+## Kanban automation
+
+All board maintenance flows now run through `@promethean/kanban-cli`:
+
+- `pnpm kanban pull` keeps `docs/agile/boards/kanban.md` in sync with task
+  frontmatter.
+- `pnpm kanban push` projects kanban columns back to task files.
+- `pnpm kanban sync` runs both directions and reports conflicts.
+- `pnpm tsx packages/kanban/src/scripts/wip-sheriff.ts --write` audits WIP
+  limits when you need the old “WIP sheriff” tooling.
+
+Run `pnpm kanban --help` for the full list of subcommands.
 
 ## Automation pipelines
 
@@ -288,57 +302,12 @@ Packages using Node’s built-in test runner (e.g., `auth-service`) expose `test
 ### MongoDB
 
 Some services (for example `heartbeat`) require a running MongoDB instance.
-On Linux you can install and start MongoDB with:
-
-```bash
-make install-mongodb
-```
-
-This target adds the MongoDB apt repository and installs the `mongodb-org` package.
-On Windows, install [MongoDB Community Edition](https://www.mongodb.com/try/download/community)
-and ensure the `mongod` service is running locally before starting PM2.
-
-## Running Services
-
-Scripts in `agents/scripts/` launch commonly used services:
-
-- `duck_cephalon_run.sh` – starts the Cephalon language router
-- `duck_embedder_run.sh` – starts the Discord embedding service
-- `discord_indexer_run.sh` – runs the Discord indexer
-
-Each script assumes dependencies are installed and should be run from the repository root.
 
 ## Environment Variables
 
 The framework relies on several environment variables for configuration. See
 [[environment-variables.md|docs/environment-variables.md]] for details on
 all available settings.
-
-## Makefile Commands
-
-Common tasks are wrapped in the root `Makefile`:
-
-- `make install` – attempt a quick dependency install and fall back to full setup if needed
-- `make setup` – install dependencies across all services
-- `make build` – transpile Hy, Sibilant and TypeScript sources
-- `make start` – launch shared services defined in `ecosystem.config.js` via PM2
-- `make start:<service>` – run a service from `ecosystem.config.js` by name
-- `make stop` – stop running services
-- `make start-tts` – start the text-to-speech service
-- `make start-stt` – start the speech-to-text service
-- `make stop-tts` – stop the text-to-speech service
-- `make stop-stt` – stop the speech-to-text service
-- `make test` – run Python and JS test suites without coverage
-- `make board-sync` – sync `kanban.md` with GitHub Projects
-- `make kanban-from-tasks` – regenerate `kanban.md` from task files
-- `make kanban-to-hashtags` – update task statuses from `kanban.md`
-- `make kanban-to-issues` – create GitHub issues from the board
-- `make coverage` – run tests with coverage reports for Python, JavaScript and TypeScript services
-- `make refresh` - runs install only on packages with new depednencies.
-
-Agent-specific services may define their own `ecosystem.config.js` files.
-
-#hashtags: #promethean #framework #overview
 
 ## Obsidian Vault
 
@@ -356,31 +325,6 @@ configuration. Feel free to customize the settings or install additional
 plugins locally. See `vault-config/README.md` for more details.
 To push tasks from the board to GitHub Projects, see `docs/board_sync.md` and the
 `github_board_sync.py` script.
-
-## Tests
-
-Unit tests are located in `tests/` and run automatically on every pull request
-through [[tests.yml|GitHub Actions]].
-To run them locally:
-
-```bash
-pytest -q
-```
-
-## Converting Kanban Tasks to GitHub Issues
-
-A helper Makefile target `make kanban-to-issues` can create GitHub issues from the tasks listed in `docs/agile/boards/kanban.md`. Set the following environment variables before running it:
-
-- `GITHUB_TOKEN` – a personal access token with permission to create issues
-- `GITHUB_REPO` – the repository in `owner/repo` format
-
-Then run:
-
-```bash
-make kanban-to-issues
-```
-
-Without a token the script performs a dry run and prints the issues that would be created.
 
 ## Pre-commit Setup
 

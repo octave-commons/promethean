@@ -5,6 +5,7 @@ import fs from "fs";
 import pidusage from "pidusage";
 import { randomUUID } from "crypto";
 import { BrokerClient } from "@promethean/legacy/brokerClient.js";
+import { fileURLToPath } from "url";
 
 let HEARTBEAT_TIMEOUT = 10000;
 let CHECK_INTERVAL = 5000;
@@ -20,14 +21,30 @@ let allowedInstances = {};
 let SESSION_ID;
 let shuttingDown = false;
 
+function isMissingProcessError(err) {
+  if (!err || typeof err !== "object") return false;
+  const code = err.code;
+  if (code === "ENOENT" || code === "ESRCH") return true;
+  const message = err.message;
+  return typeof message === "string" && message.includes("No matching pid");
+}
+
 async function getProcessMetrics(pid) {
   const metrics = { cpu: 0, memory: 0, netRx: 0, netTx: 0 };
+  let processExists = true;
   try {
     const { cpu, memory } = await pidusage(pid);
     metrics.cpu = cpu;
     metrics.memory = memory;
   } catch (err) {
-    console.warn(`failed to get cpu/memory for pid ${pid}`, err);
+    if (isMissingProcessError(err)) {
+      processExists = false;
+    } else {
+      console.warn(`failed to get cpu/memory for pid ${pid}`, err);
+    }
+  }
+  if (!processExists) {
+    return metrics;
   }
   try {
     const data = fs.readFileSync(`/proc/${pid}/net/dev`, "utf8");
@@ -44,22 +61,52 @@ async function getProcessMetrics(pid) {
   return metrics;
 }
 
-function loadConfig() {
-  try {
-    const require = createRequire(import.meta.url);
-    const configPath =
-      process.env.ECOSYSTEM_CONFIG ||
-      path.resolve(process.cwd(), "../../../ecosystem.config.js");
-    const ecosystem = require(configPath);
-    allowedInstances = {};
-    for (const app of ecosystem.apps || []) {
-      if (app?.name) {
-        allowedInstances[app.name] = app.instances || 1;
-      }
+function resolveConfigPath() {
+  if (process.env.ECOSYSTEM_CONFIG) {
+    return process.env.ECOSYSTEM_CONFIG;
+  }
+  const moduleDir = path.dirname(fileURLToPath(import.meta.url));
+  return path.resolve(moduleDir, "../../system/daemons/ecosystem.config.js");
+}
+
+async function loadConfig() {
+  const require = createRequire(import.meta.url);
+  const configPath = resolveConfigPath();
+  let ecosystem;
+  let failure;
+
+  if (fs.existsSync(configPath)) {
+    try {
+      ecosystem = require(configPath);
+    } catch (err) {
+      failure = err;
     }
-  } catch (err) {
-    console.warn("failed to load ecosystem config", err);
+  }
+
+  if (!ecosystem) {
+    try {
+      const fallbackModule = await import(
+        new URL("./ecosystem.dependencies.js", import.meta.url)
+      );
+      ecosystem = fallbackModule.default ?? fallbackModule;
+    } catch (err) {
+      failure = failure || err;
+    }
+  }
+
+  if (!ecosystem) {
+    if (failure) {
+      console.warn("failed to load ecosystem config", failure);
+    }
     allowedInstances = {};
+    return;
+  }
+
+  allowedInstances = {};
+  for (const app of ecosystem.apps || []) {
+    if (app?.name) {
+      allowedInstances[app.name] = app.instances || 1;
+    }
   }
 }
 
@@ -68,7 +115,13 @@ async function handleHeartbeat({ pid, name }) {
   if (!pid || !name || !collection) return;
   const now = Date.now();
   try {
-    const existing = await collection.findOne({ pid, sessionId: SESSION_ID });
+    const existing =
+      typeof collection.findOne === "function"
+        ? await collection.findOne({ pid, sessionId: SESSION_ID })
+        : await collection
+            .find({ pid, sessionId: SESSION_ID })
+            .toArray()
+            .then((docs = []) => docs[0]);
     if (!existing) {
       const allowed = allowedInstances[name] ?? Infinity;
       const count = await collection.countDocuments({
@@ -83,7 +136,7 @@ async function handleHeartbeat({ pid, name }) {
     await collection.updateOne(
       { pid },
       {
-        $set: { last: now, name, sessionId: SESSION_ID, ...metrics },
+        $set: { pid, last: now, name, sessionId: SESSION_ID, ...metrics },
         $unset: { killedAt: "" },
       },
       { upsert: true },
@@ -136,7 +189,7 @@ export async function start() {
   COLLECTION = process.env.COLLECTION || COLLECTION;
   BROKER_URL = process.env.BROKER_URL || BROKER_URL;
 
-  loadConfig();
+  await loadConfig();
 
   SESSION_ID = randomUUID();
 
