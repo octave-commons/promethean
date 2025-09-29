@@ -341,6 +341,21 @@ export function createFastifyAuth() {
       );
     }
 
+    const defaultRouteRateLimit = { max: 60, timeWindow: "1 minute" } as const;
+    fastify.addHook("onRoute", (routeOptions: any) => {
+      const existingConfig = (routeOptions.config ?? {}) as Record<
+        string,
+        unknown
+      >;
+      if (Object.hasOwn(existingConfig, "rateLimit")) {
+        return;
+      }
+      routeOptions.config = {
+        ...existingConfig,
+        rateLimit: { ...defaultRouteRateLimit },
+      };
+    });
+
     fastify.get(
       "/auth/me",
       {

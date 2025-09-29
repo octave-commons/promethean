@@ -255,6 +255,20 @@ export async function buildFastifyApp(
     rateLimitOptions.allowList = allowList;
   }
   await app.register(rateLimit, rateLimitOptions);
+  const defaultRouteRateLimit = { max: 60, timeWindow: "1 minute" } as const;
+  app.addHook("onRoute", (routeOptions) => {
+    const existingConfig = (routeOptions.config ?? {}) as Record<
+      string,
+      unknown
+    >;
+    if (Object.hasOwn(existingConfig, "rateLimit")) {
+      return;
+    }
+    routeOptions.config = {
+      ...existingConfig,
+      rateLimit: { ...defaultRouteRateLimit },
+    };
+  });
   registerSchema(app);
 
   const baseUrl =

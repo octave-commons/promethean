@@ -142,64 +142,84 @@ const isPathWithinRoot = (rootAbs: string, candidate: string) => {
   );
 };
 
-const realpathOrNull = async (rootPath: string, targetPath: string) => {
+function sanitizeRelPath(input: string): string {
+  const raw = String(input);
+  if (raw.includes("\u0000")) throw new Error("NUL byte in path");
+  if (path.isAbsolute(raw)) throw new Error("Absolute paths are not allowed");
+  const rawParts = raw.split(/[\\/]+/);
+  if (
+    rawParts.length === 0 ||
+    rawParts.some((part) => part === "" || part === "." || part === "..")
+  ) {
+    throw new Error("Path must be a clean, simple relative path");
+  }
+  const normalized = path.normalize(raw).replaceAll("\\", path.sep);
+  const normalizedParts = normalized.split(path.sep);
+  if (
+    normalizedParts.length === 0 ||
+    normalizedParts.some((part) => part === "" || part === "." || part === "..")
+  ) {
+    throw new Error("Path must be a clean, simple relative path");
+  }
+  return normalizedParts.join(path.sep);
+}
+
+async function realpathWithinRoot(rootPath: string, rel: string) {
   const rootAbs = path.resolve(rootPath);
-  const candidate = path.resolve(rootAbs, targetPath);
+  const safeRel = sanitizeRelPath(rel);
+  const candidate = path.resolve(rootAbs, safeRel);
   if (!isPathWithinRoot(rootAbs, candidate)) {
     return null;
   }
   try {
     const resolved = await fs.realpath(candidate);
-    // Ensure the resolved path is strictly under the root directory.
-    // Avoids cases like root '/a/foo' and candidate '/a/foobar' by using path sep.
-    if (!isPathWithinRoot(rootAbs, resolved)) {
-      return null;
-    }
-    return resolved;
+    return isPathWithinRoot(rootAbs, resolved) ? resolved : null;
   } catch (error: unknown) {
     if (!isPathMissingError(error)) {
       throw error;
     }
     return null;
   }
-};
+}
 
 async function resolveWithinRoot(rootPath: string, rel: string) {
   const rootAbs = path.resolve(rootPath);
   const rootReal = await fs.realpath(rootAbs);
-  const candidate = path.resolve(rootReal, rel);
+  const safeRel = sanitizeRelPath(rel);
+  const candidate = path.resolve(rootReal, safeRel);
   if (!isPathWithinRoot(rootReal, candidate)) {
     throw new Error("Path escapes index root");
   }
 
-  const candidateReal = await realpathOrNull(rootReal, candidate).then(
-    async (resolved) => {
-      if (resolved !== null) return resolved;
-      const parentReal = await realpathOrNull(
-        rootReal,
-        path.dirname(candidate),
-      );
-      let attempted;
-      if (parentReal !== null) {
-        attempted = path.join(parentReal, path.basename(candidate));
-      } else {
-        attempted = path.normalize(candidate);
-      }
-      // Explicitly check fallback against the canonical root
-      const absAttempted = path.resolve(attempted);
-      if (!isPathWithinRoot(rootReal, absAttempted)) {
-        throw new Error("Path escapes index root (fallback)");
-      }
-      return absAttempted;
-    },
-  );
-
-  if (!isPathWithinRoot(rootReal, candidateReal)) {
-    throw new Error("Path escapes index root");
+  const resolvedCandidate = await realpathWithinRoot(rootReal, safeRel);
+  if (resolvedCandidate) {
+    if (!isPathWithinRoot(rootReal, resolvedCandidate)) {
+      throw new Error("Path escapes index root");
+    }
+    const relativeToRoot = path.relative(rootReal, resolvedCandidate);
+    const normalizedRel = toPosixPath(relativeToRoot);
+    return { abs: resolvedCandidate, rel: normalizedRel };
   }
-  const relativeToRoot = path.relative(rootReal, candidateReal);
+
+  const parentRel = path.dirname(safeRel);
+  let fallbackAbs: string;
+  if (parentRel && parentRel !== ".") {
+    const parentReal = await realpathWithinRoot(rootReal, parentRel);
+    if (parentReal) {
+      fallbackAbs = path.join(parentReal, path.basename(safeRel));
+    } else {
+      fallbackAbs = path.join(rootReal, safeRel);
+    }
+  } else {
+    fallbackAbs = path.join(rootReal, safeRel);
+  }
+  const fallbackResolved = path.resolve(fallbackAbs);
+  if (!isPathWithinRoot(rootReal, fallbackResolved)) {
+    throw new Error("Path escapes index root (fallback)");
+  }
+  const relativeToRoot = path.relative(rootReal, fallbackResolved);
   const normalizedRel = toPosixPath(relativeToRoot);
-  return { abs: candidateReal, rel: normalizedRel };
+  return { abs: fallbackResolved, rel: normalizedRel };
 }
 
 function toIgnoreDirs(patterns: readonly string[]): string[] {

@@ -65,113 +65,111 @@ type Coll = QueryColl & {
   }): Promise<unknown>;
 };
 
+type StepHandler = (
+  db: DBs,
+  args: RunArgs & Record<string, unknown>,
+  onProgress?: (p: Progress) => void,
+) => Promise<void>;
+
+const STEP_HANDLERS: Readonly<Record<StepId, StepHandler>> = {
+  purge: async (_db, args, onProgress) => {
+    const files = args.files as string[] | undefined;
+    const dir = args.dir as string;
+    const opts: PurgeOptions = { dir, ...(files ? { files } : {}) };
+    await runPurge(opts, onProgress);
+  },
+  frontmatter: async (db, args, onProgress) => {
+    const files = args.files as string[] | undefined;
+    const opts: FrontmatterOptions = {
+      dir: args.dir,
+      genModel: args.genModel || "qwen3:4b",
+      ...(files ? { files } : {}),
+    };
+    await runFrontmatter(opts, db, onProgress);
+  },
+  embed: async (db, args, onProgress) => {
+    const files = args.files as string[] | undefined;
+    const embedModel = String(args.embedModel || "nomic-embed-text:latest");
+    const { coll } = await getChromaCollection({
+      collection: String(args.collection),
+      embedModel,
+    });
+    const opts: EmbedOptions = {
+      dir: args.dir,
+      embedModel: args.embedModel || "nomic-embed-text:latest",
+      collection: args.collection,
+      ...(files ? { files } : {}),
+    };
+    await runEmbed(opts, db, coll as Coll, onProgress);
+  },
+  query: async (db, args, onProgress) => {
+    const files = args.files as string[] | undefined;
+    const embedModel = String(args.embedModel || "nomic-embed-text:latest");
+    const { coll } = await getChromaCollection({
+      collection: String(args.collection),
+      embedModel,
+    });
+    const opts: QueryOptions = {
+      embedModel: args.embedModel || "nomic-embed-text:latest",
+      collection: args.collection,
+      k: Number(args.k || 16),
+      force: !!args.force,
+      ...(files ? { files } : {}),
+    };
+    await runQuery(opts, db, coll as QueryColl, onProgress);
+  },
+  relations: async (db, args, onProgress) => {
+    const files = args.files as string[] | undefined;
+    const opts: RelationsOptions = {
+      docsDir: args.dir,
+      docThreshold: Number(args.docT ?? 0.78),
+      refThreshold: Number(args.refT ?? 0.85),
+      ...(Number.isFinite(args.maxRelated)
+        ? { maxRelated: Number(args.maxRelated) }
+        : {}),
+      ...(Number.isFinite(args.maxReferences)
+        ? { maxReferences: Number(args.maxReferences) }
+        : {}),
+      ...(Number.isFinite(args.refMin) ? { refMin: Number(args.refMin) } : {}),
+      ...(Number.isFinite(args.refMax) ? { refMax: Number(args.refMax) } : {}),
+      ...(files ? { files } : {}),
+    };
+    await runRelations(opts, db, onProgress);
+  },
+  footers: async (db, args, onProgress) => {
+    const files = args.files as string[] | undefined;
+    const opts: FootersOptions = {
+      dir: args.dir,
+      anchorStyle: args.anchorStyle || "block",
+      ...(files ? { files } : {}),
+    };
+    await runFooters(opts, db, onProgress);
+  },
+  rename: async (_db, args) => {
+    const files = args.files as string[] | undefined;
+    const opts: RenameOptions = {
+      dir: args.dir,
+      ...(files ? { files } : {}),
+    };
+    await runRename(opts);
+  },
+} as const;
+
 export async function runDocopsStep(
   db: DBs,
   step: StepId,
-  args: any,
+  args: RunArgs & Record<string, unknown>,
   onProgress?: (p: Progress) => void,
 ) {
-  const stepFn: Record<StepId, (args: any) => Promise<void>> = {
-    purge: async (args) => {
-      const files = args.files as string[] | undefined;
-      const dir = args.dir as string;
-      const opts: PurgeOptions = { dir, ...(files ? { files } : {}) };
-      await runPurge(opts, onProgress);
-    },
-    frontmatter: async (args) => {
-      const files = args.files as string[] | undefined;
-      const opts: FrontmatterOptions = {
-        dir: args.dir,
-        genModel: args.genModel || "qwen3:4b",
-        ...(files ? { files } : {}),
-      };
-      await runFrontmatter(opts, db, onProgress);
-    },
-    embed: async (args) => {
-      const files = args.files as string[] | undefined;
-      const { coll } = await getChromaCollection({
-        collection: String(args.collection),
-        embedModel: String(args.embedModel || "nomic-embed-text:latest"),
-      });
-      const opts: EmbedOptions = {
-        dir: args.dir,
-        embedModel: args.embedModel || "nomic-embed-text:latest",
-        collection: args.collection,
-        ...(files ? { files } : {}),
-      };
-      await runEmbed(opts, db, coll as Coll, onProgress);
-    },
-    query: async (args) => {
-      const files = args.files as string[] | undefined;
-      const { coll } = await getChromaCollection({
-        collection: String(args.collection),
-        embedModel: String(args.embedModel || "nomic-embed-text:latest"),
-      });
-      const opts: QueryOptions = {
-        embedModel: args.embedModel || "nomic-embed-text:latest",
-        collection: args.collection,
-        k: Number(args.k || 16),
-        force: !!args.force,
-        ...(files ? { files } : {}),
-      };
-      await runQuery(opts, db, coll as QueryColl, onProgress);
-    },
-    relations: async (args) => {
-      const files = args.files as string[] | undefined;
-      const opts: RelationsOptions = {
-        docsDir: args.dir,
-        docThreshold: Number(args.docT ?? 0.78),
-        refThreshold: Number(args.refT ?? 0.85),
-        ...(Number.isFinite(args.maxRelated)
-          ? { maxRelated: Number(args.maxRelated) }
-          : {}),
-        ...(Number.isFinite(args.maxReferences)
-          ? { maxReferences: Number(args.maxReferences) }
-          : {}),
-        ...(Number.isFinite(args.refMin)
-          ? { refMin: Number(args.refMin) }
-          : {}),
-        ...(Number.isFinite(args.refMax)
-          ? { refMax: Number(args.refMax) }
-          : {}),
-        ...(files ? { files } : {}),
-      };
-      await runRelations(opts, db, onProgress);
-    },
-    footers: async (args) => {
-      const files = args.files as string[] | undefined;
-      const opts: FootersOptions = {
-        dir: args.dir,
-        anchorStyle: args.anchorStyle || "block",
-        ...(files ? { files } : {}),
-      };
-      await runFooters(opts, db, onProgress);
-    },
-    rename: async (args) => {
-      const files = args.files as string[] | undefined;
-      const opts: RenameOptions = {
-        dir: args.dir,
-        ...(files ? { files } : {}),
-      };
-      await runRename(opts);
-    },
-  };
-
-  if (!Object.prototype.hasOwnProperty.call(stepFn, step)) {
-    const validSteps = Object.keys(stepFn).join(", ");
+  if (!Object.hasOwn(STEP_HANDLERS, step)) {
+    const validSteps = Object.keys(STEP_HANDLERS).join(", ");
     throw new Error(
       `Unknown docops step "${String(step)}". Expected one of: ${validSteps}`,
     );
   }
 
-  const handler = stepFn[step];
-  if (typeof handler !== "function") {
-    const validSteps = Object.keys(stepFn).join(", ");
-    throw new Error(
-      `Docops step "${String(step)}" is not callable. Expected one of: ${validSteps}`,
-    );
-  }
-  await handler(args);
+  const handler = STEP_HANDLERS[step];
+  await handler(db, args, onProgress);
 }
 
 export async function runDocopsPipeline(

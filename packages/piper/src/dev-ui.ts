@@ -78,28 +78,36 @@ await app.register(rateLimit, {
     return requestUrl.startsWith("/js/") || requestUrl.startsWith("/ui/");
   },
 });
+const DEFAULT_ROUTE_RATE_LIMIT = { max: 60, timeWindow: "1 minute" } as const;
+app.addHook("onRoute", (routeOptions) => {
+  const existingConfig = (routeOptions.config ?? {}) as Record<string, unknown>;
+  if (Object.hasOwn(existingConfig, "rateLimit")) {
+    return;
+  }
+  routeOptions.config = {
+    ...existingConfig,
+    rateLimit: { ...DEFAULT_ROUTE_RATE_LIMIT },
+  };
+});
 // Development events: optional SSE stream for hot-reload signals.
 const WATCH_GLOBS = () => {
   const root = path.resolve(process.cwd(), "packages/piper/src/frontend");
   const ui = path.resolve(process.cwd(), "packages/piper/ui");
   return [`${root}/**/*.ts`, `${root}/**/*.css`, `${ui}/**/*`];
 };
-app.get(
-  "/api/dev-events",
-  async (_req, reply) => {
-    const send = sseInit(reply);
-    // Do NOT emit an immediate update; only on file changes.
-    const watcher = chokidar.watch(WATCH_GLOBS(), { ignoreInitial: true });
-    const rebuild = async () => {
-      send("frontend:update");
-    };
-    watcher.on("all", rebuild);
-    reply.raw.on("close", () => {
-      watcher.off("all", rebuild);
-      void watcher.close();
-    });
-  },
-);
+app.get("/api/dev-events", async (_req, reply) => {
+  const send = sseInit(reply);
+  // Do NOT emit an immediate update; only on file changes.
+  const watcher = chokidar.watch(WATCH_GLOBS(), { ignoreInitial: true });
+  const rebuild = async () => {
+    send("frontend:update");
+  };
+  watcher.on("all", rebuild);
+  reply.raw.on("close", () => {
+    watcher.off("all", rebuild);
+    void watcher.close();
+  });
+});
 await app.register(fastifyStatic, { root: UI_ROOT, prefix: "/ui" });
 await app.register(fastifyStatic, {
   root: FRONTEND_DIST,

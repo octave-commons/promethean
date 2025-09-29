@@ -179,6 +179,18 @@ await app.register(fastifyRateLimit, {
   timeWindow: "15 minutes",
 });
 
+const DEFAULT_ROUTE_RATE_LIMIT = { max: 60, timeWindow: "1 minute" } as const;
+app.addHook("onRoute", (routeOptions) => {
+  const existingConfig = (routeOptions.config ?? {}) as Record<string, unknown>;
+  if (Object.hasOwn(existingConfig, "rateLimit")) {
+    return;
+  }
+  routeOptions.config = {
+    ...existingConfig,
+    rateLimit: { ...DEFAULT_ROUTE_RATE_LIMIT },
+  };
+});
+
 const db = await openDB();
 
 app.get(
