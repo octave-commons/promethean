@@ -256,10 +256,10 @@ export async function buildFastifyApp(
   }
   await app.register(rateLimit, rateLimitOptions);
   // NEW: Global default rate limits for all routes (opt-out with rateLimit: false)
-  app.addHook('onRoute', (routeOptions) => {
+  app.addHook("onRoute", (routeOptions) => {
     if ((routeOptions as any).rateLimit === false) return;
     (routeOptions as any).config = (routeOptions as any).config || {};
-    const cfg = ((routeOptions as any).config as any);
+    const cfg = (routeOptions as any).config as any;
     if (cfg.rateLimit == null) {
       cfg.rateLimit = { max: rateLimitMax, timeWindow: rateLimitWindow };
     }
@@ -291,7 +291,7 @@ export async function buildFastifyApp(
   // But there are keys with in the schema which are meaningful to the
   // process that consumes them.
   // We'll figure this one out.
-  const swaggerOpts: any = {     
+  const swaggerOpts: any = {
     openapi: {
       openapi: "3.1.0",
       info: { title: "Promethean SmartGPT Bridge", version: "1.0.0" },
@@ -317,8 +317,8 @@ export async function buildFastifyApp(
   }
 
   const getOpenapiDoc = () =>
-    typeof (app as any).w4agger === "function"
-      ? ((app as any).swagger()
+    typeof (app as any).swagger === "function"
+      ? (app as any).swagger()
       : swaggerOpts.openapi;
   app.get(
     "/openapi.json",
