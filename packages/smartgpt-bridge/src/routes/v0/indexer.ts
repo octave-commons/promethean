@@ -1,4 +1,12 @@
-import { indexerManager } from "../../indexer.js";
+import {
+  getIndexerStatus,
+  scheduleReindexAll,
+  scheduleReindexSubset,
+  scheduleIndexFile,
+  removeIndexedPath,
+  isIndexerBusy,
+  resetIndexer,
+} from "../../indexerClient.js";
 
 export function registerIndexerRoutes(fastify: any) {
   const ROOT_PATH = fastify.ROOT_PATH;
@@ -21,8 +29,8 @@ export function registerIndexerRoutes(fastify: any) {
     },
     handler: async (_req: any, reply: any) => {
       try {
-        const r = await indexerManager.scheduleReindexAll();
-        reply.send(r);
+        const result = await scheduleReindexAll();
+        reply.send(result);
       } catch (e: any) {
         reply.code(500).send({ ok: false, error: String(e?.message || e) });
       }
@@ -62,8 +70,8 @@ export function registerIndexerRoutes(fastify: any) {
         const globs = req.body?.path ?? req.query?.path;
         if (!globs)
           return reply.code(400).send({ ok: false, error: "Missing 'path'" });
-        const r = await indexerManager.scheduleReindexSubset(globs);
-        reply.send(r);
+        const result = await scheduleReindexSubset(globs);
+        reply.send(result);
       } catch (e: any) {
         reply.code(500).send({ ok: false, error: String(e?.message || e) });
       }
@@ -87,7 +95,8 @@ export function registerIndexerRoutes(fastify: any) {
     },
     handler: async (_req: any, reply: any) => {
       try {
-        reply.send({ ok: true, status: indexerManager.status() });
+        const status = await getIndexerStatus();
+        reply.send({ ok: true, status });
       } catch (e: any) {
         reply.code(500).send({ ok: false, error: String(e?.message || e) });
       }
@@ -116,8 +125,8 @@ export function registerIndexerRoutes(fastify: any) {
         const p = req.body?.path;
         if (!p)
           return reply.code(400).send({ ok: false, error: "Missing path" });
-        const r = await indexerManager.scheduleIndexFile(String(p));
-        reply.send(r);
+        const result = await scheduleIndexFile(String(p));
+        reply.send(result);
       } catch (e: any) {
         reply.code(500).send({ ok: false, error: String(e?.message || e) });
       }
@@ -147,8 +156,8 @@ export function registerIndexerRoutes(fastify: any) {
         if (!p)
           return reply.code(400).send({ ok: false, error: "Missing path" });
         const rel = String(p);
-        const out = await indexerManager.removeFile(rel);
-        reply.send(out);
+        const result = await removeIndexedPath(rel);
+        reply.send(result);
       } catch (e: any) {
         reply.code(500).send({ ok: false, error: String(e?.message || e) });
       }
@@ -170,9 +179,9 @@ export function registerIndexerRoutes(fastify: any) {
     },
     handler: async (_req: any, reply: any) => {
       try {
-        if (indexerManager.isBusy())
+        if (await isIndexerBusy())
           return reply.code(409).send({ ok: false, error: "Indexer busy" });
-        await indexerManager.resetAndBootstrap(ROOT_PATH);
+        await resetIndexer(ROOT_PATH);
         reply.send({ ok: true });
       } catch (e: any) {
         reply.code(500).send({ ok: false, error: String(e?.message || e) });

@@ -16,6 +16,9 @@ importers:
 
   .:
     dependencies:
+      '@nrwl/nx-cloud':
+        specifier: ^19.1.0
+        version: 19.1.0
       '@promethean/health-dashboard-frontend':
         specifier: workspace:*
         version: link:packages/health-dashboard-frontend
@@ -82,6 +85,9 @@ importers:
       mongodb:
         specifier: 6.18.0
         version: 6.18.0(socks@2.8.7)
+      nx-cloud:
+        specifier: ^19.1.0
+        version: 19.1.0
       playwright:
         specifier: 1.55.0
         version: 1.55.0
@@ -490,7 +496,7 @@ importers:
         version: 0.10.0(encoding@0.1.13)
       '@discordjs/voice':
         specifier: ^0.18.0
-        version: 0.18.0(@discordjs/opus@0.10.0(encoding@0.1.13))
+        version: 0.18.0(@discordjs/opus@0.10.0(encoding@0.1.13))(opusscript@0.0.8)
       '@promethean/agent-ecs':
         specifier: workspace:*
         version: link:../agent-ecs
@@ -557,6 +563,9 @@ importers:
       ollama:
         specifier: ^0.5.16
         version: 0.5.17
+      opusscript:
+        specifier: ^0.0.8
+        version: 0.0.8
       pnpm:
         specifier: ^10.13.1
         version: 10.15.1
@@ -1207,7 +1216,7 @@ importers:
     dependencies:
       '@discordjs/voice':
         specifier: ^0.18.0
-        version: 0.18.0(@discordjs/opus@0.10.0(encoding@0.1.13))
+        version: 0.18.0(@discordjs/opus@0.10.0(encoding@0.1.13))(opusscript@0.0.8)
       '@promethean/agent':
         specifier: workspace:*
         version: link:../agent
@@ -2173,6 +2182,45 @@ importers:
         specifier: ^5.9.2
         version: 5.9.2
 
+  packages/indexer-core:
+    dependencies:
+      '@promethean/embedding':
+        specifier: workspace:*
+        version: link:../embedding
+      '@promethean/file-indexer':
+        specifier: workspace:*
+        version: link:../file-indexer
+      '@promethean/level-cache':
+        specifier: workspace:*
+        version: link:../level-cache
+      '@promethean/utils':
+        specifier: workspace:*
+        version: link:../utils
+      chromadb:
+        specifier: ^1.8.1
+        version: 1.10.5(encoding@0.1.13)(ollama@0.5.18)
+
+  packages/indexer-service:
+    dependencies:
+      '@fastify/rate-limit':
+        specifier: 10.3.0
+        version: 10.3.0
+      '@fastify/swagger':
+        specifier: 9.5.1
+        version: 9.5.1
+      '@fastify/swagger-ui':
+        specifier: 5.2.3
+        version: 5.2.3
+      '@promethean/indexer-core':
+        specifier: workspace:*
+        version: link:../indexer-core
+      '@promethean/utils':
+        specifier: workspace:*
+        version: link:../utils
+      fastify:
+        specifier: 5.0.0
+        version: 5.0.0
+
   packages/intention:
     dependencies:
       '@types/javascript-time-ago':
@@ -2634,9 +2682,15 @@ importers:
       minimatch:
         specifier: ^9.0.5
         version: 9.0.5
+      uuid:
+        specifier: 9.0.1
+        version: 9.0.1
       zod:
         specifier: ^3.23.8
         version: 3.25.76
+      zod-to-json-schema:
+        specifier: 3.23.5
+        version: 3.23.5(zod@3.25.76)
     devDependencies:
       '@types/node':
         specifier: 20.19.11
@@ -3584,6 +3638,12 @@ importers:
       '@promethean/fs':
         specifier: workspace:*
         version: link:../fs
+      '@promethean/indexer-core':
+        specifier: workspace:*
+        version: link:../indexer-core
+      '@promethean/indexer-service':
+        specifier: workspace:*
+        version: link:../indexer-service
       '@promethean/level-cache':
         specifier: workspace:*
         version: link:../level-cache
@@ -4245,7 +4305,7 @@ importers:
         version: 0.10.0(encoding@0.1.13)
       '@discordjs/voice':
         specifier: ^0.18.0
-        version: 0.18.0(@discordjs/opus@0.10.0(encoding@0.1.13))
+        version: 0.18.0(@discordjs/opus@0.10.0(encoding@0.1.13))(opusscript@0.0.8)
       '@types/wav':
         specifier: ^1.0.4
         version: 1.0.4
@@ -4257,7 +4317,7 @@ importers:
         version: 4.21.2
       prism-media:
         specifier: ^1.3.5
-        version: 1.3.5(@discordjs/opus@0.10.0(encoding@0.1.13))
+        version: 1.3.5(@discordjs/opus@0.10.0(encoding@0.1.13))(opusscript@0.0.8)
       wav:
         specifier: ^1.0.2
         version: 1.0.2
@@ -5387,6 +5447,9 @@ packages:
   '@npmcli/promise-spawn@7.0.2':
     resolution: {integrity: sha512-xhfYPXoV5Dy4UkY0D+v2KkwvnDfiA/8Mt3sWCGI/hM03NsYIH8ZaG6QzS9x7pje5vHZBZJ2v6VRFVTWACnqcmQ==}
     engines: {node: ^16.14.0 || >=18.0.0}
+
+  '@nrwl/nx-cloud@19.1.0':
+    resolution: {integrity: sha512-krngXVPfX0Zf6+zJDtcI59/Pt3JfcMPMZ9C/+/x6rvz4WGgyv1s0MI4crEUM0Lx5ZpS4QI0WNDCFVQSfGEBXUg==}
 
   '@nx/devkit@21.4.1':
     resolution: {integrity: sha512-rWgMNG2e0tSG5L3vffuMH/aRkn+i9vYHelWkgVAslGBOaqriEg1dCSL/W9I3Fd5lnucHy3DrG1f19uDjv7Dm0A==}
@@ -7344,6 +7407,10 @@ packages:
   dotenv-expand@11.0.7:
     resolution: {integrity: sha512-zIHwmZPRshsCdpMDyVsqGmgyP0yT8GAgXUnkdAoJisxvf33k7yO6OuoKmcTGuXPWSsm8Oh88nZicRLA9Y0rUeA==}
     engines: {node: '>=12'}
+
+  dotenv@10.0.0:
+    resolution: {integrity: sha512-rlBi9d8jpv9Sf1klPjNfFAuWDjKLwTIJJ/VxtoTwIR6hnZxcEOQCZg2oIL3MWBYw5GpUDKOEnND7LXTbIpQ03Q==}
+    engines: {node: '>=10'}
 
   dotenv@16.4.7:
     resolution: {integrity: sha512-47qPchRCykZC03FhkYAhrvwU4xDBFIj1QPqaarj6mdM/hgUzfPHcpkHJOn3mJAufFeeAxAzeGsr5X0M4k6fLZQ==}
@@ -9664,6 +9731,10 @@ packages:
   nth-check@2.1.1:
     resolution: {integrity: sha512-lqjrjmaOoAnWfMmBPL+XNnynZh2+swxiX3WUE0s4yEHI6m+AwrK2UZOimIRl3X/4QctVqS8AiZjFqyOGrMXb/w==}
 
+  nx-cloud@19.1.0:
+    resolution: {integrity: sha512-f24vd5/57/MFSXNMfkerdDiK0EvScGOKO71iOWgJNgI1xVweDRmOA/EfjnPMRd5m+pnoPs/4A7DzuwSW0jZVyw==}
+    hasBin: true
+
   nx@20.0.0:
     resolution: {integrity: sha512-xfTCFiSYqxhchIXQvT6cxKcyRmReAvpzEQJbpEZTtmhMucBqvDTkK25WIhY4cW2uPPUXSOgQGbFt2uIVQz5RTw==}
     hasBin: true
@@ -9752,6 +9823,9 @@ packages:
   optionator@0.9.4:
     resolution: {integrity: sha512-6IpQ7mKUxRcZNLIObR0hz7lxsapSSIYNZJwXPGeF0mTVqGKFIXj1DQcMoT22S3ROcLyY/rz0PWaWZ9ayWmad9g==}
     engines: {node: '>= 0.8.0'}
+
+  opusscript@0.0.8:
+    resolution: {integrity: sha512-VSTi1aWFuCkRCVq+tx/BQ5q9fMnQ9pVZ3JU4UHKqTkf0ED3fKEPdr+gKAAl3IA2hj9rrP6iyq3hlcJq3HELtNQ==}
 
   ora@5.3.0:
     resolution: {integrity: sha512-zAKMgGXUim0Jyd6CXK9lraBnD3H5yPGBPPOkC23a2BG6hsm4Zu6OQSjQuEtV0BHDf4aKHcUFvJiGRrFuW3MG8g==}
@@ -11658,6 +11732,11 @@ packages:
     resolution: {integrity: sha512-zK7YHHz4ZXpW89AHXUPbQVGKI7uvkd3hzusTdotCg1UxyaVtg0zFJSTfW/Dq5f7OBBVnq6cZIaC8Ti4hb6dtCA==}
     engines: {node: '>= 14'}
 
+  zod-to-json-schema@3.23.5:
+    resolution: {integrity: sha512-5wlSS0bXfF/BrL4jPAbz9da5hDlDptdEppYfe+x4eIJ7jioqKG9uUxOwPzqof09u/XeVdrgFu29lZi+8XNDJtA==}
+    peerDependencies:
+      zod: ^3.23.3
+
   zod-to-json-schema@3.24.6:
     resolution: {integrity: sha512-h/z3PKvcTcTetyjl1fkj79MHNEjm+HpD6NXheWjzOekY7kV+lwDYnHw+ivHkijnCSMz1yJaWBD9vu/Fcmk+vEg==}
     peerDependencies:
@@ -12031,11 +12110,11 @@ snapshots:
 
   '@discordjs/util@1.1.1': {}
 
-  '@discordjs/voice@0.18.0(@discordjs/opus@0.10.0(encoding@0.1.13))':
+  '@discordjs/voice@0.18.0(@discordjs/opus@0.10.0(encoding@0.1.13))(opusscript@0.0.8)':
     dependencies:
       '@types/ws': 8.18.1
       discord-api-types: 0.37.120
-      prism-media: 1.3.5(@discordjs/opus@0.10.0(encoding@0.1.13))
+      prism-media: 1.3.5(@discordjs/opus@0.10.0(encoding@0.1.13))(opusscript@0.0.8)
       tslib: 2.8.1
       ws: 8.18.3
     transitivePeerDependencies:
@@ -12698,6 +12777,12 @@ snapshots:
   '@npmcli/promise-spawn@7.0.2':
     dependencies:
       which: 4.0.0
+
+  '@nrwl/nx-cloud@19.1.0':
+    dependencies:
+      nx-cloud: 19.1.0
+    transitivePeerDependencies:
+      - debug
 
   '@nx/devkit@21.4.1(nx@20.0.0)':
     dependencies:
@@ -14934,6 +15019,8 @@ snapshots:
   dotenv-expand@11.0.7:
     dependencies:
       dotenv: 16.4.7
+
+  dotenv@10.0.0: {}
 
   dotenv@16.4.7: {}
 
@@ -17996,6 +18083,21 @@ snapshots:
     dependencies:
       boolbase: 1.0.0
 
+  nx-cloud@19.1.0:
+    dependencies:
+      '@nrwl/nx-cloud': 19.1.0
+      axios: 1.11.0
+      chalk: 4.1.2
+      dotenv: 10.0.0
+      fs-extra: 11.3.1
+      ini: 4.1.3
+      node-machine-id: 1.1.12
+      open: 8.4.2
+      tar: 6.2.1
+      yargs-parser: 21.1.1
+    transitivePeerDependencies:
+      - debug
+
   nx@20.0.0:
     dependencies:
       '@napi-rs/wasm-runtime': 0.2.4
@@ -18144,6 +18246,8 @@ snapshots:
       prelude-ls: 1.2.1
       type-check: 0.4.0
       word-wrap: 1.2.5
+
+  opusscript@0.0.8: {}
 
   ora@5.3.0:
     dependencies:
@@ -18540,9 +18644,10 @@ snapshots:
     dependencies:
       parse-ms: 4.0.0
 
-  prism-media@1.3.5(@discordjs/opus@0.10.0(encoding@0.1.13)):
+  prism-media@1.3.5(@discordjs/opus@0.10.0(encoding@0.1.13))(opusscript@0.0.8):
     optionalDependencies:
       '@discordjs/opus': 0.10.0(encoding@0.1.13)
+      opusscript: 0.0.8
 
   prism-media@2.0.0-alpha.0:
     dependencies:
@@ -20478,6 +20583,10 @@ snapshots:
       archiver-utils: 5.0.2
       compress-commons: 6.0.2
       readable-stream: 4.7.0
+
+  zod-to-json-schema@3.23.5(zod@3.25.76):
+    dependencies:
+      zod: 3.25.76
 
   zod-to-json-schema@3.24.6(zod@3.25.76):
     dependencies:

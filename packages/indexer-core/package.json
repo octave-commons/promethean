@@ -1,0 +1,34 @@
+{
+  "name": "@promethean/indexer-core",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./*": "./dist/*"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "clean": "rimraf dist",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "pnpm exec eslint src",
+    "test": "pnpm run build && ava --config ../../config/ava.config.mjs",
+    "coverage": "pnpm run build && c8 ava --config ../../config/ava.config.mjs"
+  },
+  "dependencies": {
+    "@promethean/embedding": "workspace:*",
+    "@promethean/file-indexer": "workspace:*",
+    "@promethean/level-cache": "workspace:*",
+    "@promethean/utils": "workspace:*",
+    "chromadb": "^1.8.1"
+  }
+}

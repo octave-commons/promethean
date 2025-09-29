@@ -1,6 +1,7 @@
 // integration
 import test from "ava";
 import { installInMemoryPersistence } from "@promethean/test-utils/persistence.js";
+import { sleep } from "@promethean/utils";
 import path from "path";
 import { fileURLToPath } from "url";
 // No real broker; use memory broker via BrokerClient memory:// scheme
@@ -33,25 +34,35 @@ if (process.env.SKIP_NETWORK_TESTS === "1") {
 
   test("heartbeat client posts pid", async (t) => {
     const url = process.env.BROKER_URL;
-    const client = new HeartbeatClient({ url, pid: 999, name: "test-app" });
-    await client.sendOnce();
-    const mongoClient = pers.mongo;
-    let doc = null;
-    for (let i = 0; i < 10 && !doc; i++) {
-      doc = (
-        await mongoClient
-          .db("heartbeat_db")
-          .collection("heartbeats")
-          .find()
-          .toArray()
-      ).find((d) => d.pid === 999);
-      if (!doc) {
-        await new Promise((r) => setTimeout(r, 50));
+    const warnings = [];
+    const originalWarn = console.warn;
+    console.warn = (...args) => {
+      warnings.push(args);
+    };
+    try {
+      const client = new HeartbeatClient({ url, pid: 999, name: "test-app" });
+      await client.sendOnce();
+      const mongoClient = pers.mongo;
+      let doc = null;
+      for (let i = 0; i < 10 && !doc; i++) {
+        doc = (
+          await mongoClient
+            .db("heartbeat_db")
+            .collection("heartbeats")
+            .find()
+            .toArray()
+        ).find((d) => d.pid === 999);
+        if (!doc) {
+          await sleep(50);
+        }
       }
+      t.truthy(doc);
+      t.is(doc.name, "test-app");
+      t.is(typeof doc.cpu, "number");
+      t.deepEqual(warnings, []);
+    } finally {
+      console.warn = originalWarn;
     }
-    t.truthy(doc);
-    t.is(doc.name, "test-app");
-    t.is(typeof doc.cpu, "number");
   });
 
   test("heartbeat client invokes callback", async (t) => {

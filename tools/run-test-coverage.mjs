@@ -10,9 +10,9 @@ const coverageRoot = path.join(rootDir, "coverage");
 const aggregatedTempDir = path.join(coverageRoot, ".nyc_output");
 const perPackageTempRoot = path.join(coverageRoot, "tmp");
 
-const log = (message) => {
-  process.stdout.write(`[test:all] ${message}\n`);
-};
+const PACKAGE_TIMEOUT_MS = 10 * 60 * 1000;
+const COVERAGE_REPORT_TIMEOUT_MS = 2 * 60 * 1000;
+const CHILD_PROCESS_GRACE_MS = 5_000;
 
 const readJsonFile = async (filePath) => {
   const content = await fs.readFile(filePath, "utf8");
@@ -62,30 +62,84 @@ const listCoveragePackages = async () => {
   return result;
 };
 
-const runCommand = (command, args, options) =>
+const runCommand = (command, args, options = {}) =>
   new Promise((resolve, reject) => {
+    const {
+      timeoutMs,
+      killSignalGraceMs = CHILD_PROCESS_GRACE_MS,
+      stdio = "inherit",
+      ...spawnOptions
+    } = options;
+
+    const commandLabel = [command, ...args].filter(Boolean).join(" ");
+    const gracePeriodMs = Number.isFinite(killSignalGraceMs)
+      ? Math.max(0, killSignalGraceMs)
+      : CHILD_PROCESS_GRACE_MS;
+
     const child = spawn(command, args, {
-      stdio: "inherit",
-      ...options,
+      stdio,
+      ...spawnOptions,
     });
 
+    let timedOut = false;
+    let timeoutId;
+    let killTimeoutId;
+
+    const clearTimers = () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+        timeoutId = undefined;
+      }
+      if (killTimeoutId) {
+        clearTimeout(killTimeoutId);
+        killTimeoutId = undefined;
+      }
+    };
+
+    const hasTimeout =
+      typeof timeoutMs === "number" &&
+      Number.isFinite(timeoutMs) &&
+      timeoutMs > 0;
+
+    if (hasTimeout) {
+      timeoutId = setTimeout(() => {
+        timedOut = true;
+        child.kill("SIGTERM");
+        if (gracePeriodMs > 0) {
+          killTimeoutId = setTimeout(() => {
+            if (child.exitCode === null && child.signalCode === null) {
+              child.kill("SIGKILL");
+            }
+          }, gracePeriodMs);
+        } else if (gracePeriodMs === 0) {
+          child.kill("SIGKILL");
+        }
+      }, timeoutMs);
+    }
+
     child.on("error", (error) => {
+      clearTimers();
       reject(error);
     });
 
     child.on("exit", (code, signal) => {
+      clearTimers();
+
+      if (timedOut) {
+        const seconds = Math.ceil((timeoutMs ?? 0) / 1000);
+        reject(new Error(`${commandLabel} timed out after ${seconds}s`));
+        return;
+      }
+
       if (code === 0) {
         resolve();
-      } else {
-        const exitSignal = signal ? ` (signal: ${signal})` : "";
-        reject(
-          new Error(
-            `${command} ${args.join(
-              " ",
-            )} exited with code ${code}${exitSignal}`,
-          ),
-        );
+        return;
       }
+
+      const exitSignal = signal ? ` (signal: ${signal})` : "";
+      reject(
+        new Error(`${commandLabel} exited with code ${code}${exitSignal}`),
+      );
     });
   });
 
@@ -136,7 +190,7 @@ const copyCoverageArtifacts = async (sourceDir, destinationDir, safeName) => {
 const main = async () => {
   const packages = await listCoveragePackages();
   if (packages.length === 0) {
-    log("No packages with a coverage script were found.");
+    console.error("No packages with a coverage script were found.");
     process.exitCode = 1;
     return;
   }
@@ -152,17 +206,22 @@ const main = async () => {
     await removeDir(tempDir);
     await ensureDir(tempDir);
 
-    log(`Running coverage for ${pkg.name}`);
+    console.info(`Running coverage for ${pkg.name}`);
     try {
       await runCommand("pnpm", ["--filter", pkg.name, "run", "coverage"], {
         cwd: rootDir,
         env: {
           ...process.env,
           NODE_V8_COVERAGE: tempDir,
+          ...(process.env.LOG_SILENT === undefined
+            ? { LOG_SILENT: "true" }
+            : {}),
         },
+        timeoutMs: PACKAGE_TIMEOUT_MS,
+        killSignalGraceMs: CHILD_PROCESS_GRACE_MS,
       });
     } catch (error) {
-      log(`Coverage failed for ${pkg.name}`);
+      console.error(`Coverage failed for ${pkg.name}`);
       throw error;
     }
 
@@ -172,11 +231,11 @@ const main = async () => {
       safeName,
     );
     if (copied === 0) {
-      log(`Warning: no coverage data produced by ${pkg.name}`);
+      console.warn(`Warning: no coverage data produced by ${pkg.name}`);
     }
   }
 
-  log("Generating combined coverage report");
+  console.info("Generating combined coverage report");
   await runCommand(
     "pnpm",
     [
@@ -194,11 +253,15 @@ const main = async () => {
       "--clean=false",
       "--allowExternal",
     ],
-    { cwd: rootDir },
+    {
+      cwd: rootDir,
+      timeoutMs: COVERAGE_REPORT_TIMEOUT_MS,
+      killSignalGraceMs: CHILD_PROCESS_GRACE_MS,
+    },
   );
 };
 
 main().catch((error) => {
-  log(error.message);
+  console.error(error.message);
   process.exitCode = 1;
 });
