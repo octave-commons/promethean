@@ -51,11 +51,15 @@ test.serial("uses INIT_CWD for relative paths", async (t) => {
     t.is(
       (
         await run(
-          `node ${path.join(
-            PKG_ROOT,
-            "dist/01-errors.js",
-          )} --tsconfig tsconfig.json --out .cache/buildfix/errors.json`,
-          PKG_ROOT,
+          "node",
+          [
+            path.join(PKG_ROOT, "dist/01-errors.js"),
+            "--tsconfig",
+            "tsconfig.json",
+            "--out",
+            ".cache/buildfix/errors.json",
+          ],
+          { cwd: PKG_ROOT },
         )
       ).code,
       0,
@@ -65,11 +69,19 @@ test.serial("uses INIT_CWD for relative paths", async (t) => {
     t.is(
       (
         await run(
-          `node ${path.join(
-            PKG_ROOT,
-            "dist/02-iterate.js",
-          )} --errors .cache/buildfix/errors.json --out .cache/buildfix --max-cycles 0 --git off`,
-          PKG_ROOT,
+          "node",
+          [
+            path.join(PKG_ROOT, "dist/02-iterate.js"),
+            "--errors",
+            ".cache/buildfix/errors.json",
+            "--out",
+            ".cache/buildfix",
+            "--max-cycles",
+            "0",
+            "--git",
+            "off",
+          ],
+          { cwd: PKG_ROOT },
         )
       ).code,
       0,
@@ -79,11 +91,17 @@ test.serial("uses INIT_CWD for relative paths", async (t) => {
     t.is(
       (
         await run(
-          `node ${path.join(
-            PKG_ROOT,
-            "dist/03-report.js",
-          )} --summary .cache/buildfix/summary.json --history-root .cache/buildfix/history --out reports`,
-          PKG_ROOT,
+          "node",
+          [
+            path.join(PKG_ROOT, "dist/03-report.js"),
+            "--summary",
+            ".cache/buildfix/summary.json",
+            "--history-root",
+            ".cache/buildfix/history",
+            "--out",
+            "reports",
+          ],
+          { cwd: PKG_ROOT },
         )
       ).code,
       0,

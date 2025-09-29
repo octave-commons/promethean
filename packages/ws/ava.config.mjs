@@ -1,1 +1,1 @@
-export { default } from '../../../config/ava.config.base.mjs';
+export { default } from '../../config/ava.config.mjs';

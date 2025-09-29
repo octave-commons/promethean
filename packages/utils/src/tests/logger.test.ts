@@ -56,3 +56,59 @@ test("audit bypasses level filter", (t) => {
   t.is(obj.msg, "auth");
   t.is(obj.user, 1);
 });
+
+test.serial("defaults to silent when NODE_ENV=test", (t) => {
+  const prevNodeEnv = process.env.NODE_ENV;
+  const prevLogSilent = process.env.LOG_SILENT;
+  process.env.NODE_ENV = "test";
+  delete process.env.LOG_SILENT;
+
+  let called = false;
+  const stdout = process.stdout;
+  const originalWrite = stdout.write;
+  stdout.write = ((..._args: Parameters<typeof originalWrite>) => {
+    called = true;
+    return true;
+  }) as typeof originalWrite;
+
+  try {
+    const log = createLogger({ service: "t" });
+    log.info("quiet");
+  } finally {
+    stdout.write = originalWrite;
+    if (prevNodeEnv === undefined) delete process.env.NODE_ENV;
+    else process.env.NODE_ENV = prevNodeEnv;
+    if (prevLogSilent === undefined) delete process.env.LOG_SILENT;
+    else process.env.LOG_SILENT = prevLogSilent;
+  }
+
+  t.false(called);
+});
+
+test.serial("LOG_SILENT=false opt-in re-enables output", (t) => {
+  const prevNodeEnv = process.env.NODE_ENV;
+  const prevLogSilent = process.env.LOG_SILENT;
+  process.env.NODE_ENV = "test";
+  process.env.LOG_SILENT = "false";
+
+  let called = false;
+  const stdout = process.stdout;
+  const originalWrite = stdout.write;
+  stdout.write = ((..._args: Parameters<typeof originalWrite>) => {
+    called = true;
+    return true;
+  }) as typeof originalWrite;
+
+  try {
+    const log = createLogger({ service: "t" });
+    log.info("loud");
+  } finally {
+    stdout.write = originalWrite;
+    if (prevNodeEnv === undefined) delete process.env.NODE_ENV;
+    else process.env.NODE_ENV = prevNodeEnv;
+    if (prevLogSilent === undefined) delete process.env.LOG_SILENT;
+    else process.env.LOG_SILENT = prevLogSilent;
+  }
+
+  t.true(called);
+});

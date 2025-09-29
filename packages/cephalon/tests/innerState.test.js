@@ -1,9 +1,10 @@
-import test from "ava";
+import anyTest from "ava";
 import { rm } from "node:fs/promises";
 import { openLevelCache } from "@promethean/level-cache";
 import { loadInnerState, updateInnerState } from "../dist/agent/innerState.js";
 import { defaultState } from "../dist/prompts.js";
 
+const test = anyTest.serial;
 const CACHE_PATH = ".cache/cephalon.level";
 let STATE_KEY = "Agent-inner-state";
 try {
@@ -13,12 +14,19 @@ try {
   }
 } catch {}
 
+const rmOptions = {
+  recursive: true,
+  force: true,
+  maxRetries: 5,
+  retryDelay: 100,
+};
+
 test.beforeEach(async () => {
-  await rm(CACHE_PATH, { recursive: true, force: true });
+  await rm(CACHE_PATH, rmOptions);
 });
 
 test.afterEach.always(async () => {
-  await rm(CACHE_PATH, { recursive: true, force: true });
+  await rm(CACHE_PATH, rmOptions);
 });
 
 test("loadInnerState returns default when cache empty", async (t) => {

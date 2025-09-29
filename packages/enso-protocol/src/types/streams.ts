@@ -5,4 +5,5 @@ export interface StreamFrame {
   pts: number; // ms
   eof?: boolean;
   data: Uint8Array | string;
+  encoding?: "base64";
 }

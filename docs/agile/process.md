@@ -1,175 +1,158 @@
-# Board flow
+# Overview
+1. **Intake & Associate**
+   Find or create the task; never work off-board; do not edit the board file directly—tasks drive the board. &#x20;
 
-See [task anti-patterns](task-anti-patterns.md) for common mistakes when authoring tasks.
+2. **Clarify & Scope**
+   Anchor on the kanban card as the single source of truth and, before advancing, do the solo pass:
+   * Confirm the desired outcomes so the card reflects the slice you intend to deliver.
+   * Capture acceptance criteria or explicit exit signals on the task so "done" is unambiguous.
+   * Note any uncertainties, risks, or open questions directly on the task to surface follow-ups early.
+   * Record the scoped plan and supporting notes on the linked task before moving to step 3.
+3. **Breakdown & Estimate**
+   Break into small, testable slices; estimate **complexity, scale, time (in cloud sessions)** and assign a Fibonacci score from **1, 2, 3, 5, 8, 13** on the task card. Scores of **13+ ⇒ must split**; **8 ⇒ continue refinement before implementation**; **≤5 ⇒ eligible to implement**. Any score **>5** must cycle back through clarification/breakdown until the slice is small enough to implement, capturing the updated score on the task card.&#x20;
 
-## 🌐 Updated Kanban Flow Diagram
+4. **Ready Gate** *(hard stop before code)*
+   Only proceed if:
+
+   * A matching task is **In Progress** (or you move it there), and WIP rules aren’t violated.&#x20;
+   * The slice is scored **≤5** and fits the session after planning; otherwise continue refinement/splitting.&#x20;
+
+5. **Implement Slice**
+   Do the smallest cohesive change that can clear gates defined in agent docs (e.g., no new ESLint errors; touched packages build; tests pass).&#x20;
+   When the scope is larger than the available session, carve off a reviewable subset and explicitly document what remains (e.g.,
+   inventory lingering files, capture blockers, link references).&#x20;
+
+6. **Review → Document**
+   Move through *In Review* and *Document* then *Done* per board flow, recording evidence and summaries.&#x20;
+# Kanban as a Finite State Machine (FSM)
+
+We treat the board as an FSM over tasks.
+
+- **States (C)**: the board’s columns.
+- **Initial state (S)**: **Incoming** (new tasks land here).
+- **Transitions (T)**: moves between columns.
+- **Rules R(Tₙ, t)**: predicates over task `t` that permit or block transition `Tₙ`.
+- **Single source of status**: each task has exactly one column/status at a time.
+- **Board is law**: never edit the board file directly; tasks drive board generation.
+- **WIP**: a transition fails if the target state’s WIP cap is full.
+
+### FSM diagram
 
 ```mermaid
 flowchart TD
 
-    subgraph Brainstorm
-        IceBox["🧊 Ice Box"]
-        New["💭 New"]
-    end
+  %% ====== Lanes ======
+  subgraph Brainstorm
+    IceBox["🧊 Ice Box"]
+    Incoming["💭 Incoming"]
+  end
 
-    subgraph Planning
-        Accepted["✅ Accepted"]
-        Breakdown["🧩 Breakdown"]
-        PromptRefine["🔍 Prompt Refinement"]
-        AgentThinking["🤔 Agent Thinking"]
-        Blocked["🚧 Blocked"]
-    end
+  subgraph Planning
+    Accepted["✅ Accepted"]
+    Breakdown["🧩 Breakdown"]
+    Blocked["🚧 Blocked"]
+  end
 
-    subgraph Execution
-        Ready["🛠 Ready"]
-        Todo["🟢 To Do"]
-        InProgress["🟡 In Progress"]
-        InReview["🔍 In Review"]
-        Document["📚 Document"]
-        Done["✅ Done"]
-    end
+  subgraph Execution
+    Ready["🛠 Ready"]
+    Todo["🟢 To Do"]
+    InProgress["🟡 In Progress"]
+    InReview["🔍 In Review"]
+    Document["📚 Document"]
+    Done["✅ Done"]
+  end
 
-    subgraph Abandoned
-        Rejected["❌ Rejected"]
-    end
+  subgraph Abandoned
+    Rejected["❌ Rejected"]
+  end
 
-    IceBox --> New
-    New --> Accepted
-    New --> Rejected
-    Accepted --> Breakdown
-    Breakdown --> Ready
-    Breakdown --> Blocked
-    Breakdown --> Rejected
+  %% ====== Forward flow ======
+  IceBox --> Incoming
+  Incoming --> Accepted
+  Incoming --> Rejected
+  Incoming --> IceBox
+  Accepted --> Breakdown
+  Breakdown --> Ready
+  Ready --> Todo
+  Todo --> InProgress
+  InProgress --> InReview
+  InReview --> Document
+  InReview --> Done
+  Document --> Done
 
-    Accepted --> PromptRefine
-    PromptRefine --> CodexPrompt["🤖 Codex Prompt"]
-    PromptRefine --> AgentThinking
-    AgentThinking --> Breakdown
-    CodexPrompt --> Breakdown
+  %% ====== Cycles back to Planning / queue ======
+  Ready --> Breakdown
+  Todo --> Breakdown
+  InProgress --> Breakdown
 
-    Ready --> Todo
-    Todo --> InProgress
-    InProgress --> InReview
-    InReview --> Document
-    Document --> Done
-    InReview --> Done
+  %% ====== Session-end, no-PR handoff ======
+  InProgress --> Todo
+  Document --> InReview
 
-    Done --> IceBox
-    Blocked --> Breakdown
-    Rejected --> IceBox
-```
+  %% ====== Review crossroads (re-open work) ======
+  InReview --> InProgress
+  InReview --> Todo
 
-## 🧭 Stage Descriptions
+  %% ====== Defer / archive loops ======
+  Accepted --> IceBox
+  Breakdown --> IceBox
+  Rejected --> IceBox
 
-### Ice Box
+  %% ====== Blocked (narrow, explicit dependency) ======
+  Breakdown --> Blocked
+  Blocked --> Breakdown
+````
 
-Raw ideas, incomplete thoughts, or unclear goals. May never move forward without refinement.
+### Minimal transition rules (only what matters)
 
-### New
+* START STATE = Incoming
+  * All new tasks start as incoming
 
-A lightly-formed idea or proposal. We are not yet committed to doing it.
+* **Incoming → Accepted | Rejected | Ice Box**
+  Relevance/priority triage; allow defer to Ice Box.
 
-**Transitions:**
+* **Accepted → Breakdown | Ice Box**
+  Ready to analyze, or consciously deferred.
 
-- `New -> Accepted`: we've discussed and decided it has value.
-- `New -> Rejected`: it's a duplicate, not feasible, or not relevant.
+* **Breakdown → Ready | Rejected | Ice Box | Blocked**
+  Scoped & feasible → Ready; non-viable → Rejected; defer → Ice Box;
+  **→ Blocked** only for a true inter-task dependency with **bidirectional links** (Blocking ⇄ Blocked By).
 
-### Rejected
+* **Ready → Todo**
+  Prioritized into the execution queue (respect WIP).
 
-Explicitly considered and shelved ideas. Archived but remembered.
+* **Todo → In Progress**
+  Pulled by a worker (respect WIP).
 
-### Accepted
+* **In Progress → In Review**
+  Coherent, reviewable change exists.
 
-An idea we've acknowledged as worth exploring. Still needs structure.
+* **In Progress → Todo** *(session-end handoff; no PR required)*
+  Time/compute limit reached without a reviewable change. Record artifacts/notes + next step; move to **Todo** if WIP allows; else remain **In Progress** and mark a minor blocker.
+  Artifacts must include partial outputs (e.g., audit logs, findings lists, reproduction steps) so a follow-on slice can resume immediately.
 
-**Must go through `Breakdown` before work can begin.**
+* **In Progress → Breakdown**
+  Slice needs re-plan or is wrong shape.
 
-### Prompt Refinement
+* **In Review → In Progress** *(preferred)*
+  Changes requested; current assignee free; **In Progress** WIP allows.
 
-Used for refining fuzzy ideas into clear prompts or specs.
-The human and the agent collaborate here to shape rough thoughts into actionable items.
-The agent can suggest required files or tests and highlight missing details.
+* **In Review → Todo** *(fallback)*
+  Changes requested; assignee busy **or** **In Progress** WIP full.
 
-### Agent Thinking
+* **Document → Done | In Review**
+  Docs/evidence complete → Done; otherwise → In Review for another pass.
 
-Exploration space for free-form dialogue with the AI agent.
-The agent surfaces risks, proposes sub‑tasks, and explores implementation options.
-Items from here usually return to **Breakdown** once concrete actions emerge.
+* **Done → (no mandatory back edge)**
+  Follow-ups are modeled as new tasks (optionally seeded from Done).
 
-### Breakdown
+* **Blocked → Breakdown** *(unblock event)*
+  Fires when any linked blocker advances (e.g., to In Review/Done) or evidence shows dependency removed; return to Breakdown to re-plan.
 
-We break the idea down into requirements, values, and approaches.
-Outcomes:
+### Blocking policy
 
-- Becomes `Ready`
-- Moves to `Blocked`
-- Gets `Rejected`
-
-### Blocked
-
-Work was promising but halted due to dependencies, design holes, or undefined scope.
-
-### Ready
-
-We understand the task and could start it anytime. Not yet prioritized.
-
-### To Do
-
-Prioritized tasks queued for action.
-
-### In Progress
-
-Actively being worked on.
-
-### In Review
-
-Awaiting human or agent confirmation, test passes, or spec matching.
-
-### Document
-
-Needs written `AGENT.md`, docstrings, or Markdown notes.
-
-### Done
-
-Confirmed complete and aligned with system.
-
-## 🤖 Agent Collaboration
-
-A board manager agent keeps this flow consistent.
-
-- When ideas appear in **New** or **Accepted**, the agent can create task stubs in `agile/tasks/`.
-- During **Prompt Refinement** and **Agent Thinking**, it records decisions and links related tasks.
-- The agent verifies that each item has clear requirements before moving from **Breakdown** to **Ready**.
-- It may shift cards automatically when commits or documentation satisfy stage requirements.
-- Before marking **Done**, the agent checks that docs exist and links to code or artifacts are attached.
-
-The human contributor has final say on priorities and merges, but the agent maintains board hygiene and surfaces gaps.
-
-Codex and the board manager agent participate throughout this flow. The board
-manager keeps tasks synced between the Kanban board and `agile/tasks/`, while
-Codex provides code or documentation when a card carries the `#codex-task` tag.
-During **Prompt Refinement** and **Agent Thinking**, the user and the agent talk
-through rough ideas until they can be broken down into actionable work. The agent
-suggests board movements based on metadata and helps enforce WIP limits.
-
-### Task File Checklist
-
-Each task in `docs/agile/tasks/` must include sections for **Description**, **Goals**, **Requirements**, and **Subtasks** and contain one status hashtag such as `#Todo` or `#InProgress`. Run `make lint-tasks` to validate task files before updating the board.
-
----
-
-## 🏷 Tags
-
-- `#codex-task` → Codex should code/test/doc
-- `#agent-mode` → Discussion-style exploration
-- `#framework-core` → Related to Promethean internals
-- `#agent-specific` → Tied to a named agent (e.g., Duck, Synthesis)
-- `#layer1`, `#layer2` → Tied to Eidolon/Cephalon layers
-- `#doc-this` → Task produces documentation
-- `#rewrite-later` → Placeholder
-
----
-
-This kanban is intended to reflect the needs of a distributed hybrid development model: you, agent-mode, Duck, and Codex all work together across asynchronous phases.
-
-#agile #workflow #codex #agent-mode #promethean
+* **Minor blockers**: record briefly on the task; continue with other eligible work; resolve asynchronously.
+  * Uncertainty over a single aspect of an assignment which does not prevent completion of other aspects of the assignment
+* **Major blockers**: halt work on that task; capture evidence + attempt remediation
+  * A triggered transition rule would result in a column begin over it's WIP limit
+  * An agent's current task has only blocked sub tasks

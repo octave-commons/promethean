@@ -1,2 +1,0 @@
-(namespace repl)
-(macro fluently (...body) `(scoped ...@body this))

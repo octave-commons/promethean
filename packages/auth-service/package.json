@@ -13,11 +13,12 @@
     "lint": "prettier --cache --check . && eslint . --cache || true",
     "format": "prettier --cache --write . && eslint . --fix --cache || true",
     "test": "pnpm run test:unit",
-    "test:unit": "pnpm run build && node --test \"test/**/*.test.mjs\"",
+    "test:unit": "pnpm run build && pnpm exec ava \"test/**/*.test.mjs\"",
     "test:integration": "node -e \"console.log('no integration tests for auth-service')\"",
     "test:e2e": "node -e \"console.log('no e2e tests for auth-service')\""
   },
   "dependencies": {
+    "@fastify/rate-limit": "^10.3.0",
     "fastify": "^5.3.2",
     "jose": "^5.9.6"
   },

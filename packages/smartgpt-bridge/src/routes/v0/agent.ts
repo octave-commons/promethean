@@ -316,9 +316,11 @@ export function registerAgentRoutes(fastify: any) {
       },
       response: { 200: { type: "string" } },
     },
+    attachValidation: true,
     handler: async (req: any, reply: any) => {
       const id = String(req.query?.id || "");
-      if (!id) return reply.code(400).send();
+      if ((req as any).validationError || !id)
+        return reply.code(400).send({ ok: false, error: "id is required" });
       reply.raw.writeHead(200, {
         "Content-Type": "text/event-stream",
         "Cache-Control": "no-cache",

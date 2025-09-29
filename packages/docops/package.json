@@ -7,7 +7,7 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "test": "pnpm run build && ava dist/tests/**/*.test.js --config ../../config/ava.config.mjs",
+    "test": "pnpm run build && ava",
     "coverage": "pnpm build && c8 ava",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "clean": "rimraf dist"
@@ -36,6 +36,8 @@
     "@promethean/fs": "workspace:*",
     "@promethean/utils": "workspace:*",
     "@promethean/docops-frontend": "workspace:*",
-    "@promethean/file-indexer": "workspace:*"
+    "@promethean/file-indexer": "workspace:*",
+    "@promethean/markdown": "workspace:*",
+    "@fastify/rate-limit": "^10.3.0"
   }
 }

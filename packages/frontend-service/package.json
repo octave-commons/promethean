@@ -18,10 +18,11 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsc",
-    "clean": "rimraf dist",
+    "build": "tsc -b tsconfig.json --force",
+    "clean": "rimraf dist tsconfig.tsbuildinfo",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "pnpm run build && ava",
+    "testt": "pnpm run test",
     "lint": "pnpm exec eslint .",
     "coverage": "pnpm run build && c8 ava",
     "format": "pnpm exec prettier --write .",

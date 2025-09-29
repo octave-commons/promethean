@@ -20,8 +20,7 @@ const splitTarget = (target: string): TargetParts => {
       };
 };
 
-const toMarkdownLink = (target: string): string => {
-  const { base, anchor } = splitTarget(target);
+const toMarkdownLink = ({ base, anchor }: TargetParts): string => {
   const encodedBase = encodeSpaces(base);
   const encodedAnchor = encodeSpaces(anchor);
   return `${encodedBase}.md${encodedAnchor}`;
@@ -31,8 +30,10 @@ export async function convertWikilinks(file: string): Promise<void> {
   const text = await fs.readFile(file, "utf-8");
   const newText = text.replace(
     WIKILINK_RE,
-    (_match, target: string, _pipe: string, alias: string) =>
-      `[${alias ?? target}](${toMarkdownLink(target)})`,
+    (_match, target: string, _pipe: string, alias: string) => {
+      const parts = splitTarget(target);
+      return `[${alias ?? parts.base}](${toMarkdownLink(parts)})`;
+    },
   );
   if (newText !== text) {
     await fs.writeFile(file, newText, "utf-8");

@@ -1,6 +1,5 @@
 import * as path from "path";
 
-import matter from "gray-matter";
 import {
   readMaybe,
   writeText,
@@ -9,6 +8,11 @@ import {
   slug,
   randomUUID,
 } from "@promethean/utils";
+import {
+  ensureBaselineFrontmatter,
+  parseFrontmatter,
+  stringifyFrontmatter,
+} from "@promethean/markdown/frontmatter";
 
 import { listTaskFiles, normStatus } from "./utils.js";
 import type { TaskFM } from "./types.js";
@@ -30,25 +34,28 @@ export async function ensureFM({
     files.map(async (file) => {
       const raw = await readMaybe(file);
       if (!raw) return 0;
-      const gm = matter(raw);
-      const fm = gm.data as Partial<TaskFM>;
+      const gm = parseFrontmatter<Partial<TaskFM>>(raw);
+      const fm = gm.data ?? {};
       if (!needsFM(fm)) return 0;
-      const title =
-        fm.title ??
-        inferTitle(gm.content) ??
-        slug(path.basename(file, ".md")).replace(/-/g, " ");
+      const baseline = ensureBaselineFrontmatter(fm, {
+        filePath: file,
+        uuidFactory: randomUUID,
+        now: () => new Date().toISOString(),
+        titleFactory: ({ content }) => inferTitle(content ?? ""),
+        fallbackTitle: slug(path.basename(file, ".md")).replace(/-/g, " "),
+        content: gm.content,
+      });
       const payload: Readonly<TaskFM> = {
-        uuid: fm.uuid ?? randomUUID(),
-        title,
+        ...baseline,
         status: normStatus(fm.status ?? defaultStatus),
         priority: fm.priority ?? defaultPriority,
         labels: Array.isArray(fm.labels) ? fm.labels : [],
-        created_at: fm.created_at ?? new Date().toISOString(),
         ...(fm.assignee ? { assignee: fm.assignee } : {}),
       };
-      const final = matter.stringify(gm.content.trimStart() + "\n", payload, {
-        language: "yaml",
-      });
+      const final = stringifyFrontmatter(
+        `${gm.content.trimStart()}\n`,
+        payload,
+      );
       await writeText(file, final);
       return 1;
     }),

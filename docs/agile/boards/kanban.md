@@ -216,11 +216,11 @@ kanban-plugin: board
 
 ## Incoming
 
+- [ ] [[structure_vault_to_mirror_services_agents_docs_md_md|Document-Driven Development for Service Scripts]] #cephalon #layer1 #cicd #buildtools #devtools #devops #documentation #knowledge-graph #docdrivendev #ready
+- [ ] [[cephalon_tests_for_persistence_and_ecs|cephalon tests for persistence and ecs]] #incoming
 - [ ] [[cephalon_event_schema_updates|cephalon event schema updates]] #incoming
 - [ ] [[cephalon_store_user_transcripts_unified|cephalon store user transcripts unified]] #incoming
-- [ ] [[cephalon_tests_for_persistence_and_ecs|cephalon tests for persistence and ecs]] #incoming
 - [ ] [[seperate-discord-commands-from-the-actions-they-perform|seperate discord commands from the actions they perform]] #shared #framework-core #cephalon #dependency-injection #separation-of-concerns #actions #commands #discord #in-progress
-- [ ] [[structure_vault_to_mirror_services_agents_docs_md_md|Document-Driven Development for Service Scripts]] #cephalon #layer1 #cicd #buildtools #devtools #devops #documentation #knowledge-graph #docdrivendev #ready
 - [ ] [[cephalon_tests_for_persistence_and_ecs|cephalon tests for persistence and ecs]] #cephalon #tests #persistence #ecs #ready
 - [ ] [[ecs_persistence_integration_cephalon|ecs persistence integration cephalon]] #incoming
 - [ ] [[ecs_persistence_integration_cephalon|ecs persistence integration cephalon]] #ecs #cephalon #mongo #ready
@@ -241,6 +241,8 @@ kanban-plugin: board
 - [ ] [[gpt-bridge-fuzzy-lookup-should-return-multiple-matches-when-it-is-used.|gpt bridge fuzzy lookup should return multiple matches when it is used.]] #framework-core #ready
 - [ ] [[add-codex-layer-to-emacs|Add codex layer to emacs]] #ready
 - [ ] discord bot squad
+- [ ] piper mermaid diagram spec
+- [ ] documentation coverage stats
 
 
 ## Accepted
@@ -261,6 +263,7 @@ kanban-plugin: board
 - [ ] [[integrate-sonarqube-into-devops]] #incoming
 - [ ] [[tree-diffing-tools]]
 - [ ] [[Setup Identity Experiment]]
+- [ ] clojure codex web dev debug and setup
 
 
 ## Breakdown (13)
@@ -281,11 +284,11 @@ kanban-plugin: board
 - [ ] [[migrate legacy js services to ts]]
 - [ ] [[pin_versions_in_configs_md|pin versions in configs md]] #ops #codex-task #release-engineering #ci #sre #supply-chain #promethean #ops #codex-task #tags #promethean #versioning #pinning #ci #docker #uv #ollama #openvino #sre #supplychain #in-review
 - [ ] [[describe_github_branching_workflow_md|describe github branching workflow md]] #todo
-- [ ] [[create-a-generic-markdown-helper-module|create a generic markdown helper module]] #framework-core #framework-core #Ready #todo
 
 
 ## Todo (13)
 
+- [ ] [[dockerize-the-system|dockerize the system]] #devops #devops #Ready #todo
 - [ ] [[structure_vault_to_mirror_services_agents_docs_md_md|Document-Driven Development for Service Scripts]] #breakdown
 - [ ] [[docs/agile/tasks/smart_task_templater_md|smart task templater md]] #framework-core #ready
 - [ ] [[script-for-getting-github-action-workflow-states-for-a-branch|script for getting github action workflow states for a branch]] #ready
@@ -295,7 +298,6 @@ kanban-plugin: board
 
 ## In Progress (4)
 
-- [ ] [[dockerize-the-system|dockerize the system]] #devops #devops #Ready #todo
 - [ ] [[Docops pipeline]] #framework-core #IceBox #ready
 - [ ] [[task-generator-system|task generator system]] #framework-core #framework-core #Ready #todo
 - [ ] [[file-explorer|File explorer]] #framework-core #ready
@@ -303,6 +305,7 @@ kanban-plugin: board
 
 ## In Review (8)
 
+- [ ] [[create-a-generic-markdown-helper-module|create a generic markdown helper module]] #framework-core #framework-core #Ready #todo
 
 
 ## Done

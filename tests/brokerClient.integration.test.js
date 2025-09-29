@@ -4,7 +4,7 @@ import { WebSocketServer } from "ws";
 import { once } from "events";
 
 import { sleep } from "@promethean/utils";
-import { BrokerClient } from "@shared/js/brokerClient.js";
+import { BrokerClient } from "@promethean/legacy/brokerClient.js";
 
 test.serial("BrokerClient sends messages and handles callbacks", async (t) => {
   const wss = new WebSocketServer({ port: 0 });

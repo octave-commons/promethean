@@ -11,7 +11,10 @@ test.serial(
   async (t) => {
     const info = await symbolsIndex(ROOT, { paths: ["**/*.ts"] });
     t.true(info.files >= 1);
-    const res = await symbolsFind("Greeter", { kind: "class" });
+    const res = await symbolsFind("Greeter", {
+      kind: "class",
+      snapshot: info.snapshot,
+    });
     t.true(
       res.some((r) => r.name === "Greeter" && r.path.endsWith("hello.ts")),
     );
@@ -19,8 +22,11 @@ test.serial(
 );
 
 test.serial("symbols: tolerates broken TS file without crashing", async (t) => {
-  await symbolsIndex(ROOT, { paths: ["broken.ts"] });
-  const res = await symbolsFind("Broken", { kind: "class" });
+  const info = await symbolsIndex(ROOT, { paths: ["broken.ts"] });
+  const res = await symbolsFind("Broken", {
+    kind: "class",
+    snapshot: info.snapshot,
+  });
   // May or may not be found, but should not throw and returns array
   t.true(Array.isArray(res));
 });

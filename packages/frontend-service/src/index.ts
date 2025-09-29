@@ -2,40 +2,27 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-import Fastify, {
-  type FastifyInstance,
-  type FastifyReply,
-  type FastifyRequest,
-} from "fastify";
+import Fastify, { type FastifyInstance } from "fastify";
 import fastifyStatic from "@fastify/static";
 import {
   registerDiagnosticsRoute,
   registerHealthRoute,
 } from "@promethean/web-utils";
+import type { ReadonlyDeep } from "type-fest";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // ---- small, pure utils ------------------------------------------------------
 
-const fileExists = (p: string): boolean => {
-  try {
-    fs.accessSync(p, fs.constants.F_OK);
-    return true;
-  } catch {
-    return false;
-  }
-};
+const fileExists = (p: string): boolean => fs.existsSync(p);
 
-const readJson = <T>(p: string): T | undefined => {
-  try {
-    return JSON.parse(fs.readFileSync(p, "utf8")) as T;
-  } catch {
-    return undefined;
-  }
-};
+const readJson = <T>(p: string): T | undefined =>
+  fileExists(p) ? (JSON.parse(fs.readFileSync(p, "utf8")) as T) : undefined;
 
-const packageNameForDir = (pkgDir: string, fallback: string): string => {
+type PackageDirInfo = Readonly<{ pkgDir: string; fallback: string }>;
+
+const packageNameForDir = ({ pkgDir, fallback }: PackageDirInfo): string => {
   const pkgJsonPath = path.join(pkgDir, "package.json");
   if (!fileExists(pkgJsonPath)) return fallback;
   const raw = readJson<{ name?: unknown }>(pkgJsonPath);
@@ -46,31 +33,64 @@ const packageNameForDir = (pkgDir: string, fallback: string): string => {
   return name ?? fallback;
 };
 
-const urlPrefixFromPkgName = (name: string): string =>
+type PackageNameInfo = Readonly<{ name: string }>;
+
+const urlPrefixFromPkgName = ({ name }: PackageNameInfo): string =>
   name.startsWith("@promethean/") ? name.split("/")[1] ?? name : name;
+
+type PackageMount = Readonly<{
+  pkgPath: string;
+  prefix: string;
+}>;
+
+const discoverPackageMounts = (
+  packagesDir: string,
+): ReadonlyArray<PackageMount> => {
+  if (!fileExists(packagesDir)) {
+    return [];
+  }
+
+  return fs
+    .readdirSync(packagesDir, { withFileTypes: true })
+    .reduce<ReadonlyArray<PackageMount>>((acc, dirent) => {
+      if (!dirent.isDirectory()) {
+        return acc;
+      }
+
+      const pkgPath = path.join(packagesDir, dirent.name);
+      const pkgName = packageNameForDir({
+        pkgDir: pkgPath,
+        fallback: dirent.name,
+      });
+      const prefix = urlPrefixFromPkgName({ name: pkgName });
+
+      return [...acc, { pkgPath, prefix }];
+    }, []);
+};
 
 // ---- mounts -----------------------------------------------------------------
 
-async function mountFrontends(app: FastifyInstance): Promise<void> {
+export type CreateServerOptions = ReadonlyDeep<{
+  packagesDir?: string;
+}>;
+
+export async function createServer(
+  options?: CreateServerOptions,
+): Promise<ReadonlyDeep<FastifyInstance>> {
+  const app = Fastify();
+  const immutableApp = app as ReadonlyDeep<FastifyInstance>;
+
+  const resolvedOptions = options ?? ({} as CreateServerOptions);
   const repoRoot = path.resolve(__dirname, "..", "..", "..");
-  const packagesDir = path.join(repoRoot, "packages");
+  const defaultPackagesDir = path.join(repoRoot, "packages");
+  const packagesDir = resolvedOptions.packagesDir ?? defaultPackagesDir;
 
-  const dirs =
-    fs
-      .readdirSync(packagesDir, { withFileTypes: true })
-      .filter((d) => d.isDirectory())
-      .map((d) => d.name) ?? [];
-
-  for (const dirName of dirs) {
-    const pkgPath = path.join(packagesDir, dirName);
-    const pkgName = packageNameForDir(pkgPath, dirName);
-    const prefix = urlPrefixFromPkgName(pkgName);
-
+  discoverPackageMounts(packagesDir).forEach(({ pkgPath, prefix }) => {
     const distFrontend = path.join(pkgPath, "dist", "frontend");
     const staticDir = path.join(pkgPath, "static");
 
     if (fileExists(distFrontend)) {
-      app.register(fastifyStatic, {
+      immutableApp.register(fastifyStatic, {
         root: distFrontend,
         prefix: `/${prefix}/`,
         decorateReply: false,
@@ -78,42 +98,27 @@ async function mountFrontends(app: FastifyInstance): Promise<void> {
     }
 
     if (fileExists(staticDir)) {
-      app.register(fastifyStatic, {
+      immutableApp.register(fastifyStatic, {
         root: staticDir,
         prefix: `/${prefix}/static/`,
         decorateReply: false,
       });
     }
-  }
-}
+  });
 
-// ---- server -----------------------------------------------------------------
+  const serviceIdentity: ReadonlyDeep<{ serviceName?: string }> = {
+    serviceName: "frontend-service",
+  } as const;
 
-export async function createServer(): Promise<FastifyInstance> {
-  const app = Fastify();
+  await registerHealthRoute(app, serviceIdentity);
+  await registerDiagnosticsRoute(app, serviceIdentity);
 
-  await mountFrontends(app);
-
-  // Use permissive typings to match upstream utils without over-constraining here
-  const registerHealthRouteTyped = registerHealthRoute as (
-    app: FastifyInstance,
-    opts: { serviceName?: string },
-  ) => Promise<void>;
-
-  const registerDiagnosticsRouteTyped = registerDiagnosticsRoute as (
-    app: FastifyInstance,
-    opts: { serviceName?: string },
-  ) => Promise<void>;
-
-  await registerHealthRouteTyped(app, { serviceName: "frontend-service" });
-  await registerDiagnosticsRouteTyped(app, { serviceName: "frontend-service" });
-
-  app.get("/version", async (_req: FastifyRequest, reply: FastifyReply) =>
+  immutableApp.get("/version", async (_req, reply) =>
     reply.send({ version: "1.0.0" }),
   );
 
-  await app.ready();
-  return app;
+  await immutableApp.ready();
+  return immutableApp;
 }
 
 // ---- entrypoint -------------------------------------------------------------

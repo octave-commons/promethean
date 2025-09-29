@@ -13,9 +13,9 @@
     },
     "preset": {
       "type": "string",
-      "description": "Template preset to apply",
-      "enum": ["base", "web-frontend"],
-      "default": "base"
+      "description": "Scaffold preset to apply when generating the package",
+      "enum": ["ts-lib", "base", "web-frontend","fastify-service"],
+      "default": "ts-lib"
     }
   },
   "required": ["name"]

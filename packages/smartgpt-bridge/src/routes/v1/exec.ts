@@ -1,8 +1,23 @@
 import { runCommand } from "../../exec.js";
 
-export function registerExecRoutes(v1: any) {
+export type ExecDeps = {
+  runCommand?:
+    | ((
+        opts: Parameters<typeof runCommand>[0],
+      ) => ReturnType<typeof runCommand>)
+    | undefined;
+};
+
+export function registerExecRoutes(v1: any, deps: ExecDeps = {}) {
   const ROOT_PATH = v1.ROOT_PATH;
+  const run = deps.runCommand ?? runCommand;
   v1.post("/exec/run", {
+    config: {
+      rateLimit: {
+        max: 5,
+        timeWindow: "1 minute",
+      },
+    },
     schema: {
       summary: "Run a shell command",
       operationId: "runCommand",
@@ -43,12 +58,11 @@ export function registerExecRoutes(v1: any) {
         if (!execEnabled)
           return reply.code(403).send({ ok: false, error: "exec disabled" });
         const { command, cwd, env, timeoutMs, tty } = req.body || {};
-        console.log({ command, cwd, env, timeoutMs, tty });
         if (!command)
           return reply
             .code(400)
             .send({ ok: false, error: "Missing 'command'" });
-        const out = await runCommand({
+        const out = await run({
           command: String(command),
           cwd: cwd ? String(cwd) : ROOT_PATH,
           repoRoot: ROOT_PATH,
