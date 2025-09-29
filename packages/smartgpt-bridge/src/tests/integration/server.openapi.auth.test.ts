@@ -45,3 +45,29 @@ test.serial("/auth/me requires valid token when enabled", async (t) => {
     restoreEnv(prev);
   }
 });
+
+test.serial("/auth/me enforces per-IP rate limiting", async (t) => {
+  const prev = captureEnv(["AUTH_ENABLED", "AUTH_MODE", "AUTH_TOKEN"]);
+  process.env.AUTH_ENABLED = "true";
+  process.env.AUTH_MODE = "static";
+  process.env.AUTH_TOKEN = "secret";
+  try {
+    t.timeout(180000);
+    await withServer(ROOT, async (req) => {
+      for (let i = 0; i < 10; i++) {
+        const res = await req
+          .get("/auth/me")
+          .set("Authorization", "Bearer secret")
+          .expect(200);
+        t.true(res.body.ok);
+      }
+      const limited = await req
+        .get("/auth/me")
+        .set("Authorization", "Bearer secret")
+        .expect(429);
+      t.is(limited.status, 429);
+    });
+  } finally {
+    restoreEnv(prev);
+  }
+});
