@@ -10,6 +10,9 @@ export type Step = Readonly<{
   endedAt: string;
   exitCode: number | null;
   outputHash?: string;
+  outputHashContent?: string;
+  outputHashMtime?: string;
+  outputHashMode?: "content" | "mtime";
 }>;
 
 export const isValidStep = (val: unknown): val is Step =>
@@ -20,7 +23,14 @@ export const isValidStep = (val: unknown): val is Step =>
   (typeof (val as any).exitCode === "number" ||
     (val as any).exitCode === null) &&
   ((val as any).outputHash === undefined ||
-    typeof (val as any).outputHash === "string");
+    typeof (val as any).outputHash === "string") &&
+  ((val as any).outputHashContent === undefined ||
+    typeof (val as any).outputHashContent === "string") &&
+  ((val as any).outputHashMtime === undefined ||
+    typeof (val as any).outputHashMtime === "string") &&
+  ((val as any).outputHashMode === undefined ||
+    (val as any).outputHashMode === "content" ||
+    (val as any).outputHashMode === "mtime");
 
 export type RunState = {
   steps: Record<string, Step>;
