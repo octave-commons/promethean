@@ -213,11 +213,18 @@ export async function buildFastifyApp(
   const configuredWindow = String(
     process.env.BRIDGE_RATE_LIMIT_WINDOW || "",
   ).trim();
-  const numericWindow = Number.parseInt(configuredWindow, 10);
-  const envRateLimitWindow =
-    Number.isFinite(numericWindow) && numericWindow > 0
-      ? numericWindow
-      : configuredWindow || "1 minute";
+  const envRateLimitWindow = (() => {
+    if (configuredWindow.length === 0) {
+      return "1 minute";
+    }
+    if (/^[0-9]+$/.test(configuredWindow)) {
+      const numericWindow = Number.parseInt(configuredWindow, 10);
+      if (Number.isFinite(numericWindow) && numericWindow > 0) {
+        return numericWindow;
+      }
+    }
+    return configuredWindow;
+  })();
   const rateLimitWindow =
     typeof config.rateLimit?.timeWindow !== "undefined"
       ? config.rateLimit.timeWindow
@@ -226,9 +233,12 @@ export async function buildFastifyApp(
     .split(",")
     .map((value) => value.trim())
     .filter(Boolean);
-  const allowList =
-    config.rateLimit?.allowList?.map((value) => value.trim()).filter(Boolean) ||
-    envAllowList;
+  const configuredAllowList = Array.isArray(config.rateLimit?.allowList)
+    ? config.rateLimit?.allowList
+    : undefined;
+  const allowList = (configuredAllowList || envAllowList)
+    .map((value) => value.trim())
+    .filter(Boolean);
   const rateLimitOptions: Record<string, unknown> = {
     global: true,
     max: rateLimitMax,
