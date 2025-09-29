@@ -6,11 +6,11 @@ export type OutboxStore<T = unknown> = {
     markSent(id: UUID): Promise<void>;
     markError(id: UUID, err: string): Promise<void>;
 };
-export async function runOutboxDrainer(outbox: OutboxStore, bus: EventBus, intervalMs = 250) {
+export async function runOutboxDrainer(outbox: OutboxStore, bus: EventBus, intervalMs = 250): Promise<void> {
     while (true) {
         const batch = await outbox.claimBatch(100);
         if (batch.length === 0) {
-            await new Promise((r) => setTimeout(r, intervalMs));
+            await new Promise((resolve) => setTimeout(resolve, intervalMs));
             continue;
         }
         for (const rec of batch) {

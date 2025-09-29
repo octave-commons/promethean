@@ -30,33 +30,33 @@ test('event bus: publish/subscribe earliest', async (t) => {
 
 test('event bus: nack leaves cursor and retries', async (t) => {
     const bus = new InMemoryEventBus();
-    let attempts = 0;
+    const attempts: Array<void> = [];
 
     const unsub = await bus.subscribe(
         't.b',
         'g1',
         async (_e: EventRecord) => {
-            attempts++;
-            if (attempts === 1) throw new Error('boom');
+            attempts.push(undefined);
+            if (attempts.length === 1) throw new Error('boom');
         },
         { from: 'earliest' },
     );
 
     await bus.publish('t.b', 'x');
     await sleep(80);
-    t.true(attempts >= 2);
+    t.true(attempts.length >= 2);
     await unsub();
 });
 
 test('event bus: manual ack requires explicit ack', async (t) => {
     const bus = new InMemoryEventBus();
-    let lastId: string | undefined;
+    const deliveredIds: string[] = [];
 
     const unsub = await bus.subscribe(
         't.c',
         'g1',
         async (e: EventRecord) => {
-            lastId = e.id;
+            deliveredIds.push(e.id);
         },
         { from: 'earliest', manualAck: true },
     );
@@ -64,15 +64,16 @@ test('event bus: manual ack requires explicit ack', async (t) => {
     await bus.publish('t.c', 'one');
     await sleep(50);
 
-    let cur = await bus.getCursor('t.c', 'g1');
-    t.is(cur?.lastId, undefined);
+    const initialCursor = await bus.getCursor('t.c', 'g1');
+    t.is(initialCursor?.lastId, undefined);
 
+    const lastId = deliveredIds.at(-1);
     if (!lastId) {
         t.fail('lastId not set');
         return;
     }
     await bus.ack('t.c', 'g1', lastId);
-    cur = await bus.getCursor('t.c', 'g1');
-    t.is(cur?.lastId, lastId);
+    const ackedCursor = await bus.getCursor('t.c', 'g1');
+    t.is(ackedCursor?.lastId, lastId);
     await unsub();
 });

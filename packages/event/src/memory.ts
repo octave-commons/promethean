@@ -19,12 +19,11 @@ class InMemoryStore implements EventStore {
     private store = new Map<string, EventRecord[]>(); // topic -> events
 
     private events(topic: string) {
-        let arr = this.store.get(topic);
-        if (!arr) {
-            arr = [];
-            this.store.set(topic, arr);
-        }
-        return arr;
+        const existing = this.store.get(topic);
+        if (existing) return existing;
+        const created: EventRecord[] = [];
+        this.store.set(topic, created);
+        return created;
     }
 
     async insert<T>(e: EventRecord<T>): Promise<void> {
@@ -33,33 +32,29 @@ class InMemoryStore implements EventStore {
 
     async scan(topic: string, params: { afterId?: UUID; ts?: number; limit?: number }): Promise<EventRecord[]> {
         const evs = this.events(topic);
-        let startIndex = 0;
-        if (params.afterId) {
-            const idx = evs.findIndex((e) => e.id === params.afterId);
-            startIndex = idx >= 0 ? idx + 1 : 0;
-        } else if (params.ts) {
-            const idx = evs.findIndex((e) => e.ts >= (params.ts as number));
-            startIndex = idx >= 0 ? idx : evs.length; // if none >= ts, start at end
-        }
+        const startIndex = (() => {
+            if (params.afterId) {
+                const idx = evs.findIndex((e) => e.id === params.afterId);
+                return idx >= 0 ? idx + 1 : 0;
+            }
+            if (params.ts) {
+                const idx = evs.findIndex((e) => e.ts >= (params.ts as number));
+                return idx >= 0 ? idx : evs.length; // if none >= ts, start at end
+            }
+            return 0;
+        })();
         const end = Math.min(evs.length, startIndex + (params.limit ?? 1000));
         return evs.slice(startIndex, end);
     }
 
     async latestByKey(topic: string, keys: string[]): Promise<Record<string, EventRecord | undefined>> {
         const evs = this.events(topic);
-        const out: Record<string, EventRecord | undefined> = {};
-        for (const k of keys) {
-            // last event with matching key
-            for (let i = evs.length - 1; i >= 0; i--) {
-                const e = evs[i]!;
-                if (e.key === k) {
-                    out[k] = e;
-                    break;
-                }
-            }
-            if (!(k in out)) out[k] = undefined;
-        }
-        return out;
+        const reversed = [...evs].reverse();
+        const entries = keys.map((k) => {
+            const match = reversed.find((event) => event.key === k);
+            return [k, match] as const;
+        });
+        return Object.fromEntries(entries) as Record<string, EventRecord | undefined>;
     }
 }
 
@@ -110,29 +105,39 @@ export class InMemoryEventBus implements EventBus {
         this.cursors = cursors ?? new InMemoryCursorStore();
     }
 
-    private async ensureCursor(
-        topic: string,
-        group: string,
-        from: SubscribeOptions['from'] = 'latest',
-        ts?: number,
-        afterId?: UUID,
-    ): Promise<CursorPosition> {
-        const cur = await this.cursors.get(topic, group);
-        if (cur) return cur;
-        let lastId: UUID | undefined;
-        if (from === 'latest') {
-            const tail = await this.store.scan(topic, { limit: 1, afterId: undefined });
-            if (tail.length) lastId = tail[tail.length - 1]!.id;
-        } else if (from === 'afterId' && afterId) {
-            lastId = afterId;
-        } else if (from === 'ts' && ts) {
-            const head = await this.store.scan(topic, { ts, limit: 1 });
-            if (head.length) {
-                // start before the first >= ts
-                // simpler: set no lastId and drain logic will find first >= ts
-                lastId = undefined;
+    private async ensureCursor({
+        topic,
+        group,
+        from = 'latest',
+        ts,
+        afterId,
+    }: {
+        topic: string;
+        group: string;
+        from?: SubscribeOptions['from'];
+        ts?: number;
+        afterId?: UUID;
+    }): Promise<CursorPosition> {
+        const existing = await this.cursors.get(topic, group);
+        if (existing) return existing;
+
+        const lastId = await (async (): Promise<UUID | undefined> => {
+            if (from === 'latest') {
+                const tail = await this.store.scan(topic, { limit: 1, afterId: undefined });
+                return tail.length ? tail[tail.length - 1]!.id : undefined;
             }
-        }
+            if (from === 'afterId' && afterId) {
+                return afterId;
+            }
+            if (from === 'ts' && ts) {
+                const head = await this.store.scan(topic, { ts, limit: 1 });
+                if (head.length) {
+                    return undefined;
+                }
+            }
+            return undefined;
+        })();
+
         const pos: CursorPosition = { topic, lastId, lastTs: undefined };
         await this.cursors.set(topic, group, pos);
         return pos;
@@ -152,7 +157,7 @@ export class InMemoryEventBus implements EventBus {
         };
         await this.store.insert(rec);
         // Nudge subs for this topic
-        for (const sub of this.subs.values()) if (sub.topic === topic) this.drain(sub);
+        for (const sub of this.subs.values()) if (sub.topic === topic) void this.drain(sub);
         return rec;
     }
 
@@ -164,13 +169,13 @@ export class InMemoryEventBus implements EventBus {
     ): Promise<() => Promise<void>> {
         const key = gkey(topic, group);
         if (this.subs.has(key)) throw new Error(`Group already subscribed: ${key}`);
-        await this.ensureCursor(topic, group, opts.from, opts.ts, opts.afterId);
+        await this.ensureCursor({ topic, group, from: opts.from, ts: opts.ts, afterId: opts.afterId });
         const sub = new Subscription(topic, group, handler, {
             group,
             ...opts,
         } as SubscribeOptions);
         this.subs.set(key, sub);
-        this.drain(sub);
+        void this.drain(sub);
         return async () => {
             sub.active = false;
             if (sub.retryTimer) clearTimeout(sub.retryTimer);
@@ -186,7 +191,7 @@ export class InMemoryEventBus implements EventBus {
         const sub = this.subs.get(key);
         if (sub?.manualAck && sub.inFlightId === id) {
             sub.inFlightId = undefined;
-            this.drain(sub);
+            void this.drain(sub);
         }
         return { id, ok: true };
     }
@@ -196,11 +201,7 @@ export class InMemoryEventBus implements EventBus {
         if (sub) {
             // drop inFlight marker, schedule retry
             if (sub.inFlightId === id) sub.inFlightId = undefined;
-            if (sub.retryTimer) clearTimeout(sub.retryTimer);
-            sub.retryTimer = setTimeout(() => {
-                sub.retryTimer = undefined;
-                this.drain(sub);
-            }, sub.retryDelayMs);
+            this.scheduleRetry(sub);
         }
         return { id, ok: true };
     }
@@ -218,62 +219,84 @@ export class InMemoryEventBus implements EventBus {
         if (!sub.active || sub.draining) return;
         sub.draining = true;
         try {
-            // Pause if waiting for manual ack
-            if (sub.manualAck && sub.inFlightId) return;
+            if (this.shouldPause(sub)) return;
 
-            const cur = await this.cursors.get(sub.topic, sub.group);
-            if (!cur) return;
-            const afterId = cur.lastId;
-            const batch = await this.store.scan(sub.topic, {
-                afterId,
-                limit: 1,
-            });
-            if (!batch.length) return; // nothing to do
-            const next = batch[0]!;
+            const delivery = await this.nextDelivery(sub);
+            if (!delivery) return;
 
-            // delivery context
-            const attempt = (sub.attemptById.get(next.id) ?? 0) + 1;
-            sub.attemptById.set(next.id, attempt);
-            const ctx: DeliveryContext = {
-                attempt,
-                maxAttempts: sub.maxAttempts,
-                cursor: cur,
-            };
-
-            try {
-                await Promise.resolve(sub.handler(next, ctx));
-            } catch (_err) {
-                // schedule retry; don't advance cursor
-                if (attempt < sub.maxAttempts) {
-                    if (sub.retryTimer) clearTimeout(sub.retryTimer);
-                    sub.retryTimer = setTimeout(() => {
-                        sub.retryTimer = undefined;
-                        this.drain(sub);
-                    }, sub.retryDelayMs);
-                }
-                return;
-            }
+            const { event, cursor } = delivery;
+            const ctx = this.prepareContext(sub, cursor, event);
+            const delivered = await this.tryDeliver(sub, event, ctx);
+            if (!delivered) return;
 
             if (sub.manualAck) {
-                // wait for external ack
-                sub.inFlightId = next.id;
+                sub.inFlightId = event.id;
                 return;
             }
-            // auto-ack path: advance cursor and loop
-            await this.ack(sub.topic, sub.group, next.id);
-            // tail recurse via re-entry
-            return this.drain(sub);
+
+            await this.ack(sub.topic, sub.group, event.id);
+            await this.drain(sub);
         } finally {
             sub.draining = false;
-            // opportunistic kick if more work queued
-            const cur = await this.cursors.get(sub.topic, sub.group);
-            const batch = await this.store.scan(sub.topic, {
-                afterId: cur?.lastId,
-                limit: 1,
-            });
-            if (sub.active && !sub.draining && batch.length && (!sub.manualAck || !sub.inFlightId)) {
-                queueMicrotask(() => this.drain(sub));
+            await this.maybeKick(sub);
+        }
+    }
+
+    private shouldPause(sub: Subscription): boolean {
+        return sub.manualAck && sub.inFlightId !== undefined;
+    }
+
+    private async nextDelivery(sub: Subscription): Promise<{ event: EventRecord; cursor: CursorPosition } | null> {
+        const cursor = await this.cursors.get(sub.topic, sub.group);
+        if (!cursor) return null;
+        const batch = await this.store.scan(sub.topic, {
+            afterId: cursor.lastId,
+            limit: 1,
+        });
+        if (!batch.length) return null;
+        return { event: batch[0]!, cursor };
+    }
+
+    private prepareContext(sub: Subscription, cursor: CursorPosition, event: EventRecord): DeliveryContext {
+        const attempt = (sub.attemptById.get(event.id) ?? 0) + 1;
+        sub.attemptById.set(event.id, attempt);
+        return {
+            attempt,
+            maxAttempts: sub.maxAttempts,
+            cursor,
+        };
+    }
+
+    private async tryDeliver(sub: Subscription, event: EventRecord, ctx: DeliveryContext): Promise<boolean> {
+        try {
+            await Promise.resolve(sub.handler(event, ctx));
+            return true;
+        } catch (_err) {
+            if (ctx.attempt < sub.maxAttempts) {
+                this.scheduleRetry(sub);
             }
+            return false;
+        }
+    }
+
+    private scheduleRetry(sub: Subscription): void {
+        if (sub.retryTimer) clearTimeout(sub.retryTimer);
+        sub.retryTimer = setTimeout(() => {
+            sub.retryTimer = undefined;
+            void this.drain(sub);
+        }, sub.retryDelayMs);
+    }
+
+    private async maybeKick(sub: Subscription): Promise<void> {
+        const cursor = await this.cursors.get(sub.topic, sub.group);
+        const batch = await this.store.scan(sub.topic, {
+            afterId: cursor?.lastId,
+            limit: 1,
+        });
+        if (sub.active && !sub.draining && batch.length && (!sub.manualAck || !sub.inFlightId)) {
+            queueMicrotask(() => {
+                void this.drain(sub);
+            });
         }
     }
 }
