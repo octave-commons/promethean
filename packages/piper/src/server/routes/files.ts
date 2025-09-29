@@ -3,6 +3,7 @@ import { promises as fs } from "node:fs";
 
 import type { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import rateLimit from "@fastify/rate-limit";
+import type { RateLimitOptions } from "@fastify/rate-limit";
 import { buildTree, filterTree, type TreeNode } from "@promethean/fs";
 
 function errToString(e: unknown): string {
@@ -141,26 +142,48 @@ export async function registerFileRoutes(app: FastifyInstance): Promise<void> {
   // Register rate limit plugin for local route settings (not global)
   await app.register(rateLimit, { global: false });
 
+  const listFilesLimit = Object.freeze({
+    max: 120,
+    timeWindow: "1 minute",
+  } satisfies RateLimitOptions);
+  const readFileLimit = Object.freeze({
+    max: 10,
+    timeWindow: "1 minute",
+  } satisfies RateLimitOptions);
+  const writeFileLimit = Object.freeze({
+    max: 10,
+    timeWindow: "1 minute",
+  } satisfies RateLimitOptions);
+
   // Basic file listing for File Explorer
   app.get<{
     Querystring: ListQuery;
   }>(
     "/api/files",
-    { config: { rateLimit: { max: 120, timeWindow: "1 minute" } } },
+    {
+      preHandler: app.rateLimit({ ...listFilesLimit }),
+      config: { rateLimit: { ...listFilesLimit } },
+    },
     listFilesHandler,
   );
 
   // Read a text file (UTF-8) under the workspace
   app.get<{ Querystring: { path?: string } }>(
     "/api/read-file",
-    { config: { rateLimit: { max: 10, timeWindow: "1 minute" } } },
+    {
+      preHandler: app.rateLimit({ ...readFileLimit }),
+      config: { rateLimit: { ...readFileLimit } },
+    },
     readFileHandler,
   );
 
   // Write a text file (UTF-8) under the workspace
   app.post<{ Body: { path?: string; content?: string } }>(
     "/api/write-file",
-    { config: { rateLimit: { max: 10, timeWindow: "1 minute" } } },
+    {
+      preHandler: app.rateLimit({ ...writeFileLimit }),
+      config: { rateLimit: { ...writeFileLimit } },
+    },
     writeFileHandler,
   );
 }

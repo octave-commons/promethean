@@ -3,9 +3,13 @@ import path from "node:path";
 import { z } from "zod";
 
 const ToolId = z.string();
+const EndpointConfig = z.object({
+  tools: z.array(ToolId).default([]),
+});
 const Config = z.object({
   transport: z.enum(["stdio", "http"]).default("http"),
   tools: z.array(ToolId).default([]),
+  endpoints: z.record(EndpointConfig).default({}),
 });
 
 export type AppConfig = z.infer<typeof Config>;

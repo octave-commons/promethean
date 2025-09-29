@@ -1,4 +1,4 @@
-import { search } from "../../indexer.js";
+import { searchIndex } from "../../indexerClient.js";
 import { contextStore } from "../../sinks.js";
 
 export function registerSearchRoutes(fastify: any) {
@@ -35,7 +35,7 @@ export function registerSearchRoutes(fastify: any) {
         const { q, n } = req.body || {};
         if (!q)
           return reply.code(400).send({ ok: false, error: "Missing 'q'" });
-        const results = await search(ROOT_PATH, q, n ?? 8);
+        const results = await searchIndex(ROOT_PATH, q, n ?? 8);
         try {
           const store = contextStore.getCollection("bridge_searches");
           await store.addEntry({

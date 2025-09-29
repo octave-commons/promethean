@@ -1395,7 +1395,6 @@
 ├── models
 │   └── ov
 ├── node_modules
-│   ├── adm-zip -> .pnpm/adm-zip@0.5.16/node_modules/adm-zip
 │   ├── @angular-eslint
 │   │   ├── bundled-angular-compiler -> ../.pnpm/@angular-eslint+bundled-angular-compiler@17.5.3/node_modules/@angular-eslint/bundled-angular-compiler
 │   │   ├── eslint-plugin -> ../.pnpm/@angular-eslint+eslint-plugin@17.5.3_eslint@8.57.1_typescript@5.9.2/node_modules/@angular-eslint/eslint-plugin

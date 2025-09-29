@@ -41,7 +41,7 @@ The repository should rely solely on ES module syntax and file extensions, repla
 | --- | --- | --- |
 | Package-level `.eslintrc.cjs` files | 33 | Each extends `config/.eslintrc.base.cjs`; should migrate to a shared ESM preset. |
 | CommonJS lint scripts | 2 | `scripts/check-changelog.cjs` and `scripts/check-changelog-fragments.cjs`, consumed by AVA tests. |
-| PM2 ecosystem fixtures | 2 | Located at `packages/heartbeat/tests/test-ecosystem.config.cjs` and `services/js/heartbeat/tests/test-ecosystem.config.cjs`. |
+| PM2 ecosystem fixtures | 2 | Located at `packages/heartbeat/fixtures/ecosystem.fixture.config.cjs` and `services/js/heartbeat/tests/test-ecosystem.config.cjs`. |
 | `package.json` files exporting `dist/index.cjs` | 45 | `main` and `exports.require` rely on CommonJS build artifacts across workspace packages. |
 | Tooling & docs references | ≥6 | Includes `.pnpmfile.cjs`, `.depcruise.cjs`, and troubleshooting guides that teach `.cjs` usage. |
 

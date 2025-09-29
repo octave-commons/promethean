@@ -1,5 +1,5 @@
 {
-  "name": "ts-file-indexer",
+  "name": "@promethean/file-indexer",
   "root": "packages/file-indexer",
   "sourceRoot": "packages/file-indexer/src",
   "targets": {
@@ -9,7 +9,9 @@
         "command": "tsc -b",
         "cwd": "packages/file-indexer"
       },
-      "outputs": ["{projectRoot}/dist"]
+      "outputs": [
+        "{projectRoot}/dist"
+      ]
     },
     "typecheck": {
       "executor": "nx:run-commands",
@@ -20,10 +22,15 @@
     },
     "test": {
       "executor": "nx:run-commands",
-      "dependsOn": ["build"],
+      "dependsOn": [
+        "build"
+      ],
       "options": {
         "command": "ava",
-        "cwd": "packages/file-indexer"
+        "cwd": "{projectRoot}",
+        "env": {
+          "AVA_PROJECT_ROOT": "."
+        }
       }
     },
     "lint": {
@@ -34,5 +41,7 @@
       }
     }
   },
-  "tags": ["scope:packages"]
+  "tags": [
+    "scope:packages"
+  ]
 }

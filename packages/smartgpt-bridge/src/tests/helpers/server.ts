@@ -1,5 +1,7 @@
+import fs from "node:fs";
 import path from "node:path";
 
+import rateLimit from "@fastify/rate-limit";
 import { MongoMemoryServer } from "mongodb-memory-server";
 
 import { createServer } from "../../server/createServer.js";
@@ -76,7 +78,44 @@ function matchesDanger(command: string): boolean {
   return DANGER_PATTERNS.some((rx) => rx.test(command));
 }
 
+function ensureRootPath(rootPath: string): string {
+  const abs = path.resolve(rootPath);
+  if (fs.existsSync(abs)) {
+    return abs;
+  }
+  const segments = abs.split(path.sep);
+  const len = segments.length;
+  const hasFixtureSuffix =
+    len >= 2 &&
+    segments[len - 2] === "tests" &&
+    segments[len - 1] === "fixtures";
+  if (!hasFixtureSuffix) {
+    return abs;
+  }
+  let current = abs;
+  while (true) {
+    const parent = path.dirname(current);
+    if (parent === current) {
+      break;
+    }
+    if (
+      path.basename(current) === "fixtures" &&
+      path.basename(parent) === "tests"
+    ) {
+      current = path.dirname(parent);
+    } else {
+      current = parent;
+    }
+    const candidate = path.join(current, "tests", "fixtures");
+    if (fs.existsSync(candidate)) {
+      return candidate;
+    }
+  }
+  return abs;
+}
+
 function createFakeRunCommand(rootPath: string) {
+  const baseRoot = ensureRootPath(rootPath);
   return async ({ command, cwd }: { command: string; cwd?: string }) => {
     if (matchesDanger(command)) {
       return {
@@ -90,7 +129,7 @@ function createFakeRunCommand(rootPath: string) {
         truncated: false,
       };
     }
-    const base = rootPath;
+    const base = baseRoot;
     if (cwd) {
       const abs = path.isAbsolute(cwd)
         ? path.resolve(cwd)
@@ -119,7 +158,7 @@ function createFakeRunCommand(rootPath: string) {
       durationMs: 0,
       truncated: false,
       error: "",
-      cwd: cwd || rootPath,
+      cwd: cwd || baseRoot,
     };
   };
 }
@@ -128,6 +167,13 @@ export const withServer = async (
   root: string,
   fn: (client: any) => Promise<any>,
 ) => {
+  const ROOT_PATH = ensureRootPath(root);
+  const prevEnv = {
+    NODE_ENV: process.env.NODE_ENV,
+    NODE_PTY_DISABLED: process.env.NODE_PTY_DISABLED,
+    MONGODB_URI: process.env.MONGODB_URI,
+    DUAL_WRITE_ENABLED: process.env.DUAL_WRITE_ENABLED,
+  };
   process.env.NODE_ENV = "test";
   // Avoid native addon crashes in CI/local when ABI mismatches
   if (!process.env.NODE_PTY_DISABLED) process.env.NODE_PTY_DISABLED = "1";
@@ -157,7 +203,7 @@ export const withServer = async (
       app.decorate("authUser", async () => ({ id: "test" }));
       app.decorate("requirePolicy", () => async () => {});
     },
-    runCommand: createFakeRunCommand(root),
+    runCommand: createFakeRunCommand(ROOT_PATH),
   };
   const authEnabled =
     String(process.env.AUTH_ENABLED || "false").toLowerCase() === "true";
@@ -204,22 +250,41 @@ export const withServer = async (
           (req as any).user = { sub: "static", mode: "static" };
         },
         registerRoutes: async (app: any) => {
-          app.get("/auth/me", async (req: any, reply: any) => {
-            const token = getToken(req);
-            if (!token) return unauthorized(reply);
-            if (!staticTokens.includes(token)) return unauthorized(reply);
-            return reply.send({
-              ok: true,
-              auth: true,
-              mode: "static",
-              cookie: cookieName,
-            });
-          });
+          try {
+            await app.register(rateLimit, { global: false });
+          } catch (err) {
+            app.log?.error?.(
+              { err },
+              "rateLimit plugin registration failed in test helper",
+            );
+          }
+          app.get(
+            "/auth/me",
+            {
+              config: {
+                rateLimit: {
+                  max: 10,
+                  timeWindow: "1 minute",
+                },
+              },
+            },
+            async (req: any, reply: any) => {
+              const token = getToken(req);
+              if (!token) return unauthorized(reply);
+              if (!staticTokens.includes(token)) return unauthorized(reply);
+              return reply.send({
+                ok: true,
+                auth: true,
+                mode: "static",
+                cookie: cookieName,
+              });
+            },
+          );
         },
       } as any;
     };
   }
-  const app = await createServer(root, deps);
+  const app = await createServer(ROOT_PATH, deps);
   // Stub RBAC hooks so tests don't require seeded users/policies
   (app as any).authUser = async () => ({ id: "test" });
   (app as any).requirePolicy = () => async () => {};
@@ -231,14 +296,31 @@ export const withServer = async (
     await app.close();
     if (mms) await mms.stop();
     const mongoUri = String(process.env.MONGODB_URI || "");
+    let persistenceClients:
+      | typeof import("@promethean/persistence/clients.js")
+      | undefined;
     if (mongoUri && mongoUri !== "disabled") {
       try {
-        const { getMongoClient } = await import(
-          "@promethean/persistence/clients.js"
-        );
-        const mongo = await getMongoClient();
+        persistenceClients = await import("@promethean/persistence/clients.js");
+        const mongo = await persistenceClients.getMongoClient();
         await mongo.close();
       } catch {}
     }
+    try {
+      (
+        persistenceClients ||
+        (await import("@promethean/persistence/clients.js"))
+      ).__resetPersistenceClientsForTests?.();
+    } catch {}
+    if (prevEnv.MONGODB_URI === undefined) delete process.env.MONGODB_URI;
+    else process.env.MONGODB_URI = prevEnv.MONGODB_URI;
+    if (prevEnv.DUAL_WRITE_ENABLED === undefined)
+      delete process.env.DUAL_WRITE_ENABLED;
+    else process.env.DUAL_WRITE_ENABLED = prevEnv.DUAL_WRITE_ENABLED;
+    if (prevEnv.NODE_PTY_DISABLED === undefined)
+      delete process.env.NODE_PTY_DISABLED;
+    else process.env.NODE_PTY_DISABLED = prevEnv.NODE_PTY_DISABLED;
+    if (prevEnv.NODE_ENV === undefined) delete process.env.NODE_ENV;
+    else process.env.NODE_ENV = prevEnv.NODE_ENV;
   }
 };

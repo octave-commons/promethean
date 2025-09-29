@@ -8,7 +8,9 @@
       "options": {
         "command": "tsc -b"
       },
-      "outputs": ["{projectRoot}/dist"]
+      "outputs": [
+        "{projectRoot}/dist"
+      ]
     },
     "typecheck": {
       "executor": "nx:run-commands",
@@ -18,9 +20,15 @@
     },
     "test": {
       "executor": "nx:run-commands",
-      "dependsOn": ["build"],
+      "dependsOn": [
+        "build"
+      ],
       "options": {
-        "command": "ava"
+        "command": "ava",
+        "env": {
+          "AVA_PROJECT_ROOT": "."
+        },
+        "cwd": "{projectRoot}"
       }
     },
     "lint": {
@@ -30,5 +38,7 @@
       }
     }
   },
-  "tags": ["scope:packages"]
+  "tags": [
+    "scope:packages"
+  ]
 }

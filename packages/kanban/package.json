@@ -9,7 +9,8 @@
     "build": "tsc -p tsconfig.json"
   },
   "dependencies": {
-    "@promethean/markdown": "workspace:*"
+    "@promethean/markdown": "workspace:*",
+    "mongodb": "^6.18.0"
   },
   "devDependencies": {
     "typescript": "^5.4.0"

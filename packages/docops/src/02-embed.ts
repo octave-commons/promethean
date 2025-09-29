@@ -5,15 +5,14 @@ import { createHash } from "node:crypto";
 import { pathToFileURL } from "node:url";
 
 import matter from "gray-matter";
-import { Ollama } from "ollama";
-import { ChromaClient } from "chromadb";
-import { OllamaEmbeddingFunction } from "@chroma-core/ollama";
 import { scanFiles } from "@promethean/file-indexer";
 import type { IndexedFile, ScanProgress } from "@promethean/file-indexer";
 
 import { DBs } from "./db.js";
-import { parseArgs, parseMarkdownChunks, OLLAMA_URL } from "./utils.js";
+import { parseArgs, parseMarkdownChunks } from "./utils.js";
 import { Chunk } from "./types.js";
+import { createOllamaClient } from "./lib/services.js";
+import { getChromaCollection } from "./lib/chroma.js";
 // CLI entry
 
 type Front = { uuid?: string; filename?: string };
@@ -105,13 +104,13 @@ const changedIds = async (
   return pairs.filter((x): x is readonly [Chunk, string, string] => !!x);
 };
 
-const ollamaClient = new Ollama({ host: OLLAMA_URL });
 const embedBatch = async (
   model: string,
   texts: string[],
   timeoutMs = 120_000,
 ) => {
   if (texts.length === 0) return [] as number[][];
+  const ollamaClient = createOllamaClient();
   // Official API uses `.embed({ model, input })`
   const p = ollamaClient.embed({ model, input: texts }) as Promise<any>;
   const withTimeout = new Promise<any>((_resolve, reject) => {
@@ -278,17 +277,11 @@ if (isDirect) {
   // CLI path builds its own DB+collection when invoked directly
   const { openDB } = await import("./db.js");
   const db = await openDB();
-  const client = new ChromaClient({});
   const embedModel = args["--embed-model"] ?? "nomic-embed-text:latest";
   const collection = args["--collection"] ?? "docs";
-  const embedder = new OllamaEmbeddingFunction({
-    model: embedModel,
-    url: OLLAMA_URL,
-  });
-  const coll = await client.getOrCreateCollection({
-    name: collection,
-    metadata: { embed_model: embedModel, "hnsw:space": "cosine" },
-    embeddingFunction: embedder,
+  const { coll } = await getChromaCollection({
+    collection,
+    embedModel,
   });
   const dir = args["--dir"] ?? "docs/unique";
   const extsArg = args["--ext"] ?? ".md,.mdx,.txt";

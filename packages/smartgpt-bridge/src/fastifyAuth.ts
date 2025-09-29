@@ -166,7 +166,7 @@ export function createFastifyAuth() {
     try {
       const spec =
         typeof req.server.swagger === "function" ? req.server.swagger() : null;
-      const schemes = (spec)?.components?.securitySchemes || {};
+      const schemes = spec?.components?.securitySchemes || {};
       const names: string[] = [];
       for (const [_k, v] of Object.entries<any>(schemes)) {
         if (v && v.type === "apiKey" && v.in === "header" && v.name)
@@ -294,7 +294,7 @@ export function createFastifyAuth() {
         await initMongo();
         const user = await User.findOne({ apiKey: token });
         if (user) {
-          (req).user = user;
+          req.user = user;
           return;
         }
       } catch {}
@@ -312,7 +312,7 @@ export function createFastifyAuth() {
         });
         return unauthorized(reply);
       }
-      (req).user = vr.user;
+      req.user = vr.user;
       return;
     } catch (e: any) {
       logger.audit("auth_misconfigured", {
@@ -344,9 +344,11 @@ export function createFastifyAuth() {
     fastify.get(
       "/auth/me",
       {
-        rateLimit: {
-          max: 10, // maximum 10 requests
-          timeWindow: "1 minute", // per minute; adjust as desired
+        config: {
+          rateLimit: {
+            max: 10, // maximum 10 requests
+            timeWindow: "1 minute", // per minute; adjust as desired
+          },
         },
       },
       async (req: any, reply: any) => {
