@@ -1,6 +1,7 @@
 import crypto from "node:crypto";
 
 import Fastify from "fastify";
+import rateLimit from "@fastify/rate-limit";
 import { configDotenv } from "dotenv";
 
 import { jwks, signAccessToken, verifyToken, initKeys } from "./keys.js";
@@ -46,6 +47,16 @@ const DEFAULT_SCOPES = (process.env.AUTH_DEFAULT_SCOPES || "")
 const authCodes = new Map<string, AuthCode>();
 const refreshTokens = new Map<string, RefreshToken>();
 
+const INTROSPECTION_RATE_LIMIT = (() => {
+  const raw = process.env.AUTH_INTROSPECT_RATE_LIMIT;
+  if (!raw) return 30;
+  const value = Number.parseInt(raw, 10);
+  return Number.isFinite(value) && value > 0 ? value : 30;
+})();
+
+const INTROSPECTION_TIME_WINDOW =
+  process.env.AUTH_INTROSPECT_RATE_WINDOW || "1 minute";
+
 function randomString(bytes = 32) {
   return crypto.randomBytes(bytes).toString("base64url");
 }
@@ -57,6 +68,14 @@ function pkceChallenge(verifier: string) {
 export async function buildServer() {
   await initKeys();
   const app = Fastify({ logger: true });
+
+  try {
+    await app.register(rateLimit, {
+      global: false,
+    });
+  } catch (err) {
+    app.log.warn({ err }, "Failed to register rate limit plugin");
+  }
 
   app.addContentTypeParser(
     "application/x-www-form-urlencoded",
@@ -227,37 +246,48 @@ export async function buildServer() {
     return reply.code(400).send({ error: "unsupported_grant_type" });
   });
 
-  app.post("/oauth/introspect", async (req, reply) => {
-    const ctype = (req.headers["content-type"] || "").toString();
-    let body: any = (req as any).body || {};
-    if (
-      ctype.includes("application/x-www-form-urlencoded") &&
-      typeof body === "string"
-    ) {
-      body = Object.fromEntries(new URLSearchParams(body));
-    }
-    const token =
-      body.token ||
-      (req.headers.authorization?.startsWith("Bearer ")
-        ? req.headers.authorization.slice(7)
-        : undefined);
-    if (!token)
-      return reply.code(400).send({ active: false, error: "missing_token" });
-    try {
-      const v = await verifyToken(token);
-      return reply.send({
-        active: true,
-        iss: v.payload.iss,
-        sub: v.payload.sub,
-        aud: v.payload.aud,
-        scope: v.payload.scope,
-        exp: v.payload.exp,
-        iat: v.payload.iat,
-      });
-    } catch (e) {
-      return reply.code(200).send({ active: false });
-    }
-  });
+  app.post(
+    "/oauth/introspect",
+    {
+      config: {
+        rateLimit: {
+          max: INTROSPECTION_RATE_LIMIT,
+          timeWindow: INTROSPECTION_TIME_WINDOW,
+        },
+      },
+    },
+    async (req, reply) => {
+      const ctype = (req.headers["content-type"] || "").toString();
+      let body: any = (req as any).body || {};
+      if (
+        ctype.includes("application/x-www-form-urlencoded") &&
+        typeof body === "string"
+      ) {
+        body = Object.fromEntries(new URLSearchParams(body));
+      }
+      const token =
+        body.token ||
+        (req.headers.authorization?.startsWith("Bearer ")
+          ? req.headers.authorization.slice(7)
+          : undefined);
+      if (!token)
+        return reply.code(400).send({ active: false, error: "missing_token" });
+      try {
+        const v = await verifyToken(token);
+        return reply.send({
+          active: true,
+          iss: v.payload.iss,
+          sub: v.payload.sub,
+          aud: v.payload.aud,
+          scope: v.payload.scope,
+          exp: v.payload.exp,
+          iat: v.payload.iat,
+        });
+      } catch (e) {
+        return reply.code(200).send({ active: false });
+      }
+    },
+  );
 
   return app;
 }
