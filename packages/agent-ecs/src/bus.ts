@@ -2,60 +2,70 @@ import type { BrokerClient as JsBrokerClient } from '@promethean/legacy/brokerCl
 
 type Handler<T> = (msg: T) => void;
 
+type BusMessage = { readonly topic: string } & Record<string, unknown>;
+
+type PendingAction =
+    | { readonly kind: 'pub'; readonly topic: string; readonly payload: BusMessage }
+    | { readonly kind: 'sub'; readonly topic: string; readonly handler: Handler<unknown> }
+    | { readonly kind: 'enq'; readonly queue: string; readonly task: unknown };
+
+const extractPayload = (event: unknown): unknown =>
+    typeof event === 'object' && event !== null && 'payload' in event
+        ? (event as { payload?: unknown }).payload
+        : undefined;
+
 export class AgentBus {
     private open = false;
-    private pending: {
-        topic?: string;
-        handler?: Handler<any>;
-        payload?: any;
-        queue?: string;
-        task?: any;
-        kind: 'pub' | 'sub' | 'enq';
-    }[] = [];
+    private pending: ReadonlyArray<PendingAction> = [];
+    private handlers: Record<string, ReadonlyArray<Handler<unknown>>> = {};
 
-    constructor(private broker: JsBrokerClient) {
-        // `BrokerClient.connect()` opens the socket; mirror previous "open" behavior.
+    constructor(private readonly broker: JsBrokerClient) {
         void this.broker.connect().then(() => {
             this.open = true;
-            for (const item of this.pending) {
-                if (item.kind === 'sub' && item.handler && item.topic) {
-                    this.broker.subscribe(item.topic, (evt: any) => {
-                        const arr = this.handlers.get(item.topic!);
-                        if (arr) arr.forEach((fn) => fn(evt?.payload));
+            this.pending.forEach((action) => {
+                if (action.kind === 'sub') {
+                    this.broker.subscribe(action.topic, (evt) => {
+                        const payload = extractPayload(evt);
+                        const current = this.handlers[action.topic] ?? [];
+                        current.forEach((fn) => fn(payload));
                     });
-                } else if (item.kind === 'pub' && item.topic) {
-                    // maintain legacy shape
-                    this.broker.publish(item.topic, item.payload);
-                } else if (item.kind === 'enq' && item.queue) {
-                    this.broker.enqueue(item.queue, item.task);
+                } else if (action.kind === 'pub') {
+                    this.broker.publish(action.topic, action.payload);
+                } else if (action.kind === 'enq') {
+                    this.broker.enqueue(action.queue, action.task);
                 }
-            }
+            });
             this.pending = [];
         });
     }
 
-    private handlers = new Map<string, Handler<any>[]>();
-
-    publish<T extends { topic: string }>(msg: T) {
-        if (!this.open) this.pending.push({ kind: 'pub', topic: msg.topic, payload: msg });
-        else this.broker.publish(msg.topic, msg);
-    }
-
-    subscribe<T>(topic: string, handler: Handler<T>) {
-        const arr = this.handlers.get(topic) ?? [];
-        arr.push(handler);
-        this.handlers.set(topic, arr);
-        if (!this.open) this.pending.push({ kind: 'sub', topic, handler });
-        else {
-            this.broker.subscribe(topic, (evt: any) => {
-                const list = this.handlers.get(topic);
-                if (list) list.forEach((fn) => fn(evt?.payload));
-            });
+    publish<T extends BusMessage>(msg: T): void {
+        if (!this.open) {
+            this.pending = [...this.pending, { kind: 'pub', topic: msg.topic, payload: msg }];
+            return;
         }
+        this.broker.publish(msg.topic, msg);
     }
-    enqueue(queue: string, task: any) {
-        console.log('enqueieing to agent bus', queue);
-        if (!this.open) this.pending.push({ kind: 'enq', queue, task });
-        else this.broker.enqueue(queue, task);
+
+    subscribe<T>(topic: string, handler: Handler<T>): void {
+        const current = this.handlers[topic] ?? [];
+        this.handlers = { ...this.handlers, [topic]: [...current, handler as Handler<unknown>] };
+        if (!this.open) {
+            this.pending = [...this.pending, { kind: 'sub', topic, handler: handler as Handler<unknown> }];
+            return;
+        }
+        this.broker.subscribe(topic, (evt) => {
+            const payload = extractPayload(evt) as T;
+            const subscribers = this.handlers[topic] ?? [];
+            subscribers.forEach((fn) => fn(payload));
+        });
+    }
+
+    enqueue(queue: string, task: unknown): void {
+        if (!this.open) {
+            this.pending = [...this.pending, { kind: 'enq', queue, task }];
+            return;
+        }
+        this.broker.enqueue(queue, task);
     }
 }
