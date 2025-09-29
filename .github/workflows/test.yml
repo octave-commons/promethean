@@ -28,6 +28,13 @@ jobs:
           echo "NX_BASE=${{ github.event.pull_request.base.sha }}" >> "$GITHUB_ENV"
           echo "NX_HEAD=${{ github.sha }}" >> "$GITHUB_ENV"
 
+      - name: Fetch base commit for Nx diff
+        run: |
+          if ! git cat-file -e "${NX_BASE}^{commit}" 2>/dev/null; then
+            git fetch --no-tags origin "${{ github.event.pull_request.base.ref }}"
+            git fetch --no-tags origin "${NX_BASE}"
+          fi
+
       # Cache Clojure deps (Maven + gitlibs) to avoid redownloading
       - name: Cache Clojure deps
         uses: actions/cache@v4
