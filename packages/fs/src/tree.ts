@@ -40,7 +40,7 @@ export async function buildTree(root: string, opts: TreeOptions = {}): Promise<T
         maxDepth = Infinity,
         followSymlinks = false,
         typeFilter = 'any',
-        onError = (e, p) => console.warn(`fsTree: ${p}:`, e),
+        onError = (e, p) => console.warn('fsTree:', { path: p, error: e }),
         predicate,
     } = opts;
 
