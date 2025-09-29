@@ -274,7 +274,10 @@ app.get<{ Querystring: ReadQuery }>(
   "/api/read",
   {
     config: {
-      rateLimit: RATE_LIMIT_FS,
+      rateLimit: {
+        max: 30,
+        timeWindow: "1 minute",
+      },
     },
   },
   async (request, reply) => {
