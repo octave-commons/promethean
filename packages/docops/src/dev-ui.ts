@@ -154,6 +154,10 @@ const buildSearchIndex = async (db: DBs) => {
 const ensureArray = <T>(value: unknown): T[] =>
   Array.isArray(value) ? (value as T[]) : [];
 
+const RATE_LIMIT_FS = { max: 30, timeWindow: "1 minute" } as const;
+const RATE_LIMIT_PREVIEW = { max: 15, timeWindow: "1 minute" } as const;
+const RATE_LIMIT_SEARCH = { max: 12, timeWindow: "1 minute" } as const;
+
 const app = fastifyFactory({ logger: false });
 
 await app.register(fastifyStatic, {
@@ -196,7 +200,9 @@ app.get(
       reply.header("content-type", "text/html; charset=utf-8");
       reply.send(html);
     } catch (error) {
-      reply.code(500).send({ error: String((error as Error)?.message ?? error) });
+      reply
+        .code(500)
+        .send({ error: String((error as Error)?.message ?? error) });
     }
   },
 );
@@ -264,27 +270,35 @@ app.get<{ Querystring: FilesQuery }>(
   },
 );
 
-app.get<{ Querystring: ReadQuery }>("/api/read", async (request, reply) => {
-  const file = request.query.file;
-  if (!file) {
-    reply.code(400);
-    return { error: "file parameter required" };
-  }
-  try {
-    const abs = ensureInDir(file);
-    const ext = path.extname(abs).toLowerCase();
-    if (!DEFAULT_EXTS.includes(ext as (typeof DEFAULT_EXTS)[number])) {
+app.get<{ Querystring: ReadQuery }>(
+  "/api/read",
+  {
+    config: {
+      rateLimit: RATE_LIMIT_FS,
+    },
+  },
+  async (request, reply) => {
+    const file = request.query.file;
+    if (!file) {
       reply.code(400);
-      return { error: "only markdown and text files allowed" };
+      return { error: "file parameter required" };
     }
-    const txt = await fs.readFile(abs, "utf8");
-    reply.header("content-type", "text/plain; charset=utf-8");
-    return txt;
-  } catch (error) {
-    reply.code(400);
-    return { error: String((error as Error)?.message ?? error) };
-  }
-});
+    try {
+      const abs = ensureInDir(file);
+      const ext = path.extname(abs).toLowerCase();
+      if (!DEFAULT_EXTS.includes(ext as (typeof DEFAULT_EXTS)[number])) {
+        reply.code(400);
+        return { error: "only markdown and text files allowed" };
+      }
+      const txt = await fs.readFile(abs, "utf8");
+      reply.header("content-type", "text/plain; charset=utf-8");
+      return txt;
+    } catch (error) {
+      reply.code(400);
+      return { error: String((error as Error)?.message ?? error) };
+    }
+  },
+);
 
 app.get("/api/docs", async () => {
   const docs = await loadDocs(db);
@@ -297,6 +311,11 @@ app.get("/api/docs", async () => {
 
 app.get<{ Querystring: PreviewQuery }>(
   "/api/preview",
+  {
+    config: {
+      rateLimit: RATE_LIMIT_PREVIEW,
+    },
+  },
   async (request, reply) => {
     const query = request.query;
     if (!query.uuid && !query.file) {
@@ -360,32 +379,45 @@ app.get<{ Querystring: StatusQuery }>("/api/status", async (request, reply) => {
   return { items: slice, page, hasMore, total: filtered.length };
 });
 
-app.get<{ Querystring: ChunksQuery }>("/api/chunks", async (request, reply) => {
-  const query = request.query;
-  const docs = await loadDocs(db);
-  if (!query.uuid && !query.file) {
-    reply.code(400);
-    return { error: "uuid or file parameter required" };
-  }
-  try {
-    const uuid = (() => {
-      if (query.uuid) return query.uuid;
-      if (!query.file) return "";
-      const abs = ensureInDir(query.file);
-      const match = docs.find((doc) => doc.path === abs);
-      if (!match) throw new Error("file not indexed");
-      return match.uuid;
-    })();
-    const items = await readChunks(db, uuid);
-    return { uuid, items };
-  } catch (error) {
-    reply.code(400);
-    return { error: String((error as Error)?.message ?? error) };
-  }
-});
+app.get<{ Querystring: ChunksQuery }>(
+  "/api/chunks",
+  {
+    config: {
+      rateLimit: RATE_LIMIT_FS,
+    },
+  },
+  async (request, reply) => {
+    const query = request.query;
+    const docs = await loadDocs(db);
+    if (!query.uuid && !query.file) {
+      reply.code(400);
+      return { error: "uuid or file parameter required" };
+    }
+    try {
+      const uuid = (() => {
+        if (query.uuid) return query.uuid;
+        if (!query.file) return "";
+        const abs = ensureInDir(query.file);
+        const match = docs.find((doc) => doc.path === abs);
+        if (!match) throw new Error("file not indexed");
+        return match.uuid;
+      })();
+      const items = await readChunks(db, uuid);
+      return { uuid, items };
+    } catch (error) {
+      reply.code(400);
+      return { error: String((error as Error)?.message ?? error) };
+    }
+  },
+);
 
 app.get<{ Querystring: ChunkHitsQuery }>(
   "/api/chunk-hits",
+  {
+    config: {
+      rateLimit: RATE_LIMIT_FS,
+    },
+  },
   async (request, reply) => {
     const id = request.query.id;
     if (!id) {
@@ -398,28 +430,36 @@ app.get<{ Querystring: ChunkHitsQuery }>(
   },
 );
 
-app.get<{ Querystring: SearchQuery }>("/api/search", async (request) => {
-  const q = (request.query.q ?? "").trim();
-  if (!q) return { items: [] };
-  const k = clamp(
-    Number.isFinite(Number(request.query.k)) ? Number(request.query.k) : 10,
-    1,
-    50,
-  );
-  const haystack = await buildSearchIndex(db);
-  const matches = haystack
-    .map((doc) => {
-      const idx = doc.text.toLowerCase().indexOf(q.toLowerCase());
-      if (idx < 0) return null;
-      const start = Math.max(0, idx - 40);
-      const end = Math.min(doc.text.length, idx + q.length + 40);
-      const snippet = doc.text.slice(start, end).replace(/\s+/g, " ");
-      return { uuid: doc.uuid, path: doc.path, snippet };
-    })
-    .filter((x): x is { uuid: string; path: string; snippet: string } => !!x)
-    .slice(0, k);
-  return { items: matches };
-});
+app.get<{ Querystring: SearchQuery }>(
+  "/api/search",
+  {
+    config: {
+      rateLimit: RATE_LIMIT_SEARCH,
+    },
+  },
+  async (request) => {
+    const q = (request.query.q ?? "").trim();
+    if (!q) return { items: [] };
+    const k = clamp(
+      Number.isFinite(Number(request.query.k)) ? Number(request.query.k) : 10,
+      1,
+      50,
+    );
+    const haystack = await buildSearchIndex(db);
+    const matches = haystack
+      .map((doc) => {
+        const idx = doc.text.toLowerCase().indexOf(q.toLowerCase());
+        if (idx < 0) return null;
+        const start = Math.max(0, idx - 40);
+        const end = Math.min(doc.text.length, idx + q.length + 40);
+        const snippet = doc.text.slice(start, end).replace(/\s+/g, " ");
+        return { uuid: doc.uuid, path: doc.path, snippet };
+      })
+      .filter((x): x is { uuid: string; path: string; snippet: string } => !!x)
+      .slice(0, k);
+    return { items: matches };
+  },
+);
 
 app.get<{ Querystring: RunStepQuery }>(
   "/api/run-step",
