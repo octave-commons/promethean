@@ -1,12 +1,11 @@
 import type { AgentBus } from '../bus.js';
 
-export function OrchestratorSystem(
-    w: any,
-    bus: AgentBus,
-    C: any,
-    getContext: (text: string) => Promise<Array<{ role: 'user' | 'assistant' | 'system'; content: string }>>,
-    systemPrompt: () => string,
-) {
+type OrchestratorDeps = {
+    getContext: (text: string) => Promise<Array<{ role: 'user' | 'assistant' | 'system'; content: string }>>;
+    systemPrompt: () => string;
+};
+
+export function OrchestratorSystem(w: any, bus: AgentBus, C: any, deps: OrchestratorDeps) {
     const { Turn, TranscriptFinal, VisionRing, VisionFrame } = C;
 
     const q = w.makeQuery({
@@ -25,9 +24,9 @@ export function OrchestratorSystem(
                 .slice(-4)
                 .map((eid: number) => w.get(eid, VisionFrame)!.ref)
                 .filter(Boolean);
-            const context = await getContext(tf.text);
+            const context = await deps.getContext(tf.text);
             bus.enqueue('llm.generate', {
-                prompt: systemPrompt(),
+                prompt: deps.systemPrompt(),
                 context, // [{role, content}...]
                 format: null, // keep simple
                 replyTopic: 'agent.llm.result',

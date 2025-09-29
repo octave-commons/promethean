@@ -14,7 +14,17 @@ type Bus = {
     publish: (msg: any) => void;
 };
 
-export function VoiceSystem(w: any, agent: any, C: ReturnType<typeof defineAgentComponents>, bus: Bus, deps: Deps) {
+type VoiceSystemOptions = {
+    bus: Bus;
+    deps: Deps;
+};
+
+export function VoiceSystem(
+    w: any,
+    agent: any,
+    C: ReturnType<typeof defineAgentComponents>,
+    { bus, deps }: VoiceSystemOptions,
+) {
     const { VoiceState, AudioRef } = C;
 
     bus.subscribe('VOICE/JOIN_REQUESTED', async (e: any) => {

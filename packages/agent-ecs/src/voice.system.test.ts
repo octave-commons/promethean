@@ -38,16 +38,19 @@ test('voice system joins and leaves', (t) => {
     const { w, agent, C } = createAgentWorld(player);
     const bus = makeBus();
     let destroyed = false;
-    VoiceSystem(w, agent, C, bus, {
-        joinVoiceChannel: (_e: any) => ({
-            subscribe: (_p: any) => {},
-            destroy: () => {
-                destroyed = true;
-            },
-        }),
-        createAudioResource: (s: any) => s,
-        createAudioPlayer: () => player,
-        tts: async (text: string) => ({ stream: text, cleanup: () => {} }),
+    VoiceSystem(w, agent, C, {
+        bus,
+        deps: {
+            joinVoiceChannel: (_e: any) => ({
+                subscribe: (_p: any) => {},
+                destroy: () => {
+                    destroyed = true;
+                },
+            }),
+            createAudioResource: (s: any) => s,
+            createAudioPlayer: () => player,
+            tts: async (text: string) => ({ stream: text, cleanup: () => {} }),
+        },
     });
     bus.publish({ topic: 'VOICE/JOIN_REQUESTED', guildId: 'g', voiceChannelId: 'c' });
     const vs = w.get(agent, C.VoiceState);
@@ -62,11 +65,14 @@ test('voice system queues tts requests', (t) => {
     const player = makePlayer();
     const { w, agent, C } = createAgentWorld(player);
     const bus = makeBus();
-    VoiceSystem(w, agent, C, bus, {
-        joinVoiceChannel: (_e: any) => ({}),
-        createAudioResource: (s: any) => s,
-        createAudioPlayer: () => player,
-        tts: async (text: string) => ({ stream: text, cleanup: () => {} }),
+    VoiceSystem(w, agent, C, {
+        bus,
+        deps: {
+            joinVoiceChannel: (_e: any) => ({}),
+            createAudioResource: (s: any) => s,
+            createAudioPlayer: () => player,
+            tts: async (text: string) => ({ stream: text, cleanup: () => {} }),
+        },
     });
     // set connection so tts can proceed
     w.set(agent, C.VoiceState, { connection: {} });

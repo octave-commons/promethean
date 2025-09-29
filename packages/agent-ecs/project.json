@@ -1,5 +1,5 @@
 {
-    "name": "ts-agent-ecs",
+    "name": "@promethean/agent-ecs",
     "root": "packages/agent-ecs",
     "sourceRoot": "packages/agent-ecs/src",
     "targets": {

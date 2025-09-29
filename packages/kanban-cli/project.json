@@ -1,0 +1,16 @@
+{
+  "name": "kanban-cli",
+  "root": "packages/kanban-cli",
+  "sourceRoot": "packages/kanban-cli/src",
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc -p tsconfig.json",
+        "cwd": "packages/kanban-cli"
+      },
+      "outputs": ["{projectRoot}/dist"]
+    }
+  },
+  "tags": ["scope:packages"]
+}

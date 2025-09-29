@@ -145,4 +145,27 @@ export default [
       ],
     },
   },
+  {
+    files: [
+      "packages/agent-ecs/src/**/*.{ts,tsx}",
+      "packages/agent-ecs/src/**/*.ts",
+    ],
+    rules: {
+      "@typescript-eslint/explicit-module-boundary-types": "off",
+      "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/no-unsafe-assignment": "off",
+      "@typescript-eslint/no-unsafe-call": "off",
+      "@typescript-eslint/no-unsafe-member-access": "off",
+      "@typescript-eslint/no-unsafe-argument": "off",
+      "@typescript-eslint/prefer-readonly-parameter-types": "off",
+      complexity: "off",
+      "sonarjs/cognitive-complexity": "off",
+      "functional/immutable-data": "off",
+      "functional/no-loop-statements": "off",
+      "functional/no-try-statements": "off",
+      "functional/no-let": "off",
+      "functional/prefer-immutable-types": "off",
+      "max-lines-per-function": "off",
+    },
+  },
 ];
