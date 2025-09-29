@@ -180,15 +180,26 @@ app.register(fastifyRateLimit, {
   timeWindow: "15 minutes",
 });
 
-app.get("/", async (_req, reply) => {
-  try {
-    const html = await fs.readFile(path.join(UI_ROOT, "index.html"), "utf8");
-    reply.header("content-type", "text/html; charset=utf-8");
-    reply.send(html);
-  } catch (error) {
-    reply.code(500).send({ error: String((error as Error)?.message ?? error) });
-  }
-});
+app.get(
+  "/",
+  {
+    config: {
+      rateLimit: {
+        max: 30,
+        timeWindow: "1 minute",
+      },
+    },
+  },
+  async (_req, reply) => {
+    try {
+      const html = await fs.readFile(path.join(UI_ROOT, "index.html"), "utf8");
+      reply.header("content-type", "text/html; charset=utf-8");
+      reply.send(html);
+    } catch (error) {
+      reply.code(500).send({ error: String((error as Error)?.message ?? error) });
+    }
+  },
+);
 
 app.get("/health", async () => ({ ok: true }));
 
