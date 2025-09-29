@@ -2,7 +2,6 @@ import crypto from "crypto";
 
 import { createRemoteJWKSet, jwtVerify, decodeProtectedHeader } from "jose";
 import rateLimit from "@fastify/rate-limit";
-import fastifyRateLimit from "@fastify/rate-limit";
 // Route modules (legacy)
 import { createLogger } from "@promethean/utils";
 
@@ -60,7 +59,12 @@ export async function registerV0Routes(app: any, deps: V0Deps = {}) {
   if (!isTestEnv) {
     try {
       await app.register(rateLimit, { max: 100, timeWindow: "1 minute" });
-    } catch {}
+    } catch (err) {
+      app.log?.warn(
+        { err },
+        "rate-limit plugin registration failed for legacy /v0 scope",
+      );
+    }
   }
   // Old auth semantics (from src/auth.js), adapted for Fastify and scoped to /v0 only
   const enabled =
@@ -262,17 +266,6 @@ export async function registerV0Routes(app: any, deps: V0Deps = {}) {
       });
       return reply.code(500).send({ ok: false, error: "auth misconfigured" });
     }
-  }
-
-  // Apply rate limiting to all requests under this encapsulated scope
-  if (!isTestEnv) {
-    try {
-      await app.register(fastifyRateLimit, {
-        max: 100, // Max requests per window per IP
-        timeWindow: 15 * 60 * 1000, // 15 minutes
-        keyGenerator: (req: any) => req.ip,
-      });
-    } catch {}
   }
 
   // Scope the old auth to the encapsulated /v0 prefix
