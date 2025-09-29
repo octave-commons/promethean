@@ -134,23 +134,34 @@ function isPathMissingError(value: unknown): value is NodeJS.ErrnoException {
   return code === "ENOENT" || code === "ENOTDIR";
 }
 
-const realpathOrNull = (targetPath: string) =>
-  fs.realpath(targetPath).catch((error: unknown) => {
+const realpathOrNull = async (rootPath: string, targetPath: string) => {
+  const rootAbs = path.resolve(rootPath);
+  const candidate = path.resolve(rootAbs, targetPath);
+  try {
+    const resolved = await fs.realpath(candidate);
+    const rel = path.relative(rootAbs, resolved);
+    const escapesRoot = rel.length > 0 && (rel.startsWith("..") || path.isAbsolute(rel));
+    if (escapesRoot) {
+      return null;
+    }
+    return resolved;
+  } catch (error: unknown) {
     if (!isPathMissingError(error)) {
       throw error;
     }
     return null;
-  });
+  }
+};
 
 async function resolveWithinRoot(rootPath: string, rel: string) {
   const rootAbs = path.resolve(rootPath);
   const candidate = path.resolve(rootAbs, rel);
   const rootReal = await fs.realpath(rootAbs);
 
-  const candidateReal = await realpathOrNull(candidate).then(
+  const candidateReal = await realpathOrNull(rootReal, candidate).then(
     async (resolved) => {
       if (resolved !== null) return resolved;
-      const parentReal = await realpathOrNull(path.dirname(candidate));
+      const parentReal = await realpathOrNull(rootReal, path.dirname(candidate));
       let attempted;
       if (parentReal !== null) {
         attempted = path.join(parentReal, path.basename(candidate));
