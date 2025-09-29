@@ -3,6 +3,9 @@ import Fastify from "fastify";
 import swagger from "@fastify/swagger";
 import swaggerUi from "@fastify/swagger-ui";
 
+// Rate limiting plugin for Fastify
+import rateLimit from "@fastify/rate-limit";
+
 import { createFastifyAuth } from "./fastifyAuth.js";
 import { registerV0Routes } from "./routes/v0/index.js";
 import { indexerManager as defaultIndexerManager } from "./indexer.js";
@@ -261,6 +264,11 @@ export async function buildFastifyApp(
     async (v1Scope) => {
       // Register rate limiting for v1 routes (best-effort; ignore version mismatches)
       if (!isTestEnv) {
+        // Register rate limiting with default of 100 requests per 15 minutes per IP
+        await v1Scope.register(rateLimit, {
+          max: 100,
+          timeWindow: "15 minutes"
+        });
         await registerV1Routes(v1Scope);
       }
 
