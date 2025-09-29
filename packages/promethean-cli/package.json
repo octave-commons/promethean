@@ -7,7 +7,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "shadow-cljs release promethean-cli && chmod +x dist/promethean_cli.js",
+    "build": "shadow-cljs release promethean-cli && chmod +x dist/promethean_cli.cjs",
     "watch": "shadow-cljs watch promethean-cli",
     "clean": "rimraf dist"
   },

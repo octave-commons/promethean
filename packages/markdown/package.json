@@ -19,6 +19,10 @@
             "types": "./dist/frontmatter.d.ts",
             "import": "./dist/frontmatter.js"
         },
+        "./statuses": {
+            "types": "./dist/statuses.d.ts",
+            "import": "./dist/statuses.js"
+        },
         "./dist/*": "./dist/*",
         "./*": "./dist/*"
     },

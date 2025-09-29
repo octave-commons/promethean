@@ -26,6 +26,10 @@ import {
 } from "./tools/files.js";
 import { filesSearch } from "./tools/search.js";
 import type { ToolFactory } from "./core/types.js";
+import {
+  resolveHttpEndpoints,
+  resolveStdioTools,
+} from "./core/resolve-config.js";
 
 const toolCatalog = new Map<string, ToolFactory>([
   ["github.request", githubRequestTool],
@@ -55,11 +59,8 @@ const mkCtx = () => ({
   now: () => new Date(),
 });
 
-const main = async () => {
-  const cfg = loadConfig(env);
-  const ctx = mkCtx();
-
-  const factories = cfg.tools
+const selectFactories = (toolIds: readonly string[]): readonly ToolFactory[] =>
+  toolIds
     .map((id) => {
       const factory = toolCatalog.get(id);
       if (!factory) {
@@ -68,12 +69,36 @@ const main = async () => {
       return factory;
     })
     .filter((factory): factory is ToolFactory => Boolean(factory));
+
+const main = async () => {
+  const cfg = loadConfig(env);
+  const ctx = mkCtx();
+
+  if (cfg.transport === "http") {
+    const endpoints = resolveHttpEndpoints(cfg);
+    const servers = new Map<string, ReturnType<typeof createMcpServer>>();
+    for (const endpoint of endpoints) {
+      const factories = selectFactories(endpoint.tools);
+      const registry = buildRegistry(factories, ctx);
+      servers.set(endpoint.path, createMcpServer(registry.list()));
+    }
+
+    const transport = fastifyTransport();
+    console.log(
+      `[mcp] transport = http (${endpoints.length} endpoint${
+        endpoints.length === 1 ? "" : "s"
+      })`,
+    );
+    await transport.start(servers);
+    return;
+  }
+
+  const toolIds = resolveStdioTools(cfg);
+  const factories = selectFactories(toolIds);
   const registry = buildRegistry(factories, ctx);
   const server = createMcpServer(registry.list());
-
-  const transport =
-    cfg.transport === "stdio" ? stdioTransport() : fastifyTransport();
-  console.log(`[mcp] transport = ${cfg.transport ?? "http"}`);
+  const transport = stdioTransport();
+  console.log("[mcp] transport = stdio");
   await transport.start(server);
 };
 

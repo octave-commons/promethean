@@ -11,7 +11,7 @@ const START_DIR = path.resolve(ROOT, "shared/ts");
 function needsJs(spec) {
   if (spec.endsWith(".js") || spec.endsWith(".mjs") || spec.endsWith(".cjs"))
     return false;
-  const prefixes = ["@promethean/", "@shared/js/", "@shared/ts/"];
+  const prefixes = ["@promethean/", "@promethean/legacy/", "@shared/ts/"];
   const match = prefixes.find((p) => spec.startsWith(p));
   if (!match) return false;
   // Must be a subpath (pkg/subpath), not package root

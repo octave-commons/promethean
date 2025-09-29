@@ -1,5 +1,5 @@
 {
-  "name": "ts-buildfix",
+  "name": "@promethean/buildfix",
   "root": "packages/buildfix",
   "sourceRoot": "packages/buildfix/src",
   "targets": {
@@ -22,10 +22,15 @@
     },
     "test": {
       "executor": "nx:run-commands",
-      "dependsOn": ["build"],
+      "dependsOn": [
+        "build"
+      ],
       "options": {
         "command": "ava",
-        "cwd": "packages/buildfix"
+        "cwd": "{projectRoot}",
+        "env": {
+          "AVA_PROJECT_ROOT": "."
+        }
       }
     },
     "lint": {

@@ -128,3 +128,9 @@ docs/codex-context/requests/
 packages/report-forge/.shadow-cljs/
 
 .shadow-cljs/
+
+packages/clj-hacks/target/
+
+packages/clj-hacks/.cpcache/
+
+tmp-docops-test/

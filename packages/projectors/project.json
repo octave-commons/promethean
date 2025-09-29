@@ -1,37 +1,44 @@
 {
-    "name": "ts-projectors",
-    "root": "packages/projectors",
-    "sourceRoot": "packages/projectors/src",
-    "targets": {
-        "build": {
-            "executor": "nx:run-commands",
-            "options": {
-                "command": "tsc -b",
-                "cwd": "packages/projectors"
-            },
-            "outputs": ["{projectRoot}/dist"]
-        },
-        "typecheck": {
-            "executor": "nx:run-commands",
-            "options": {
-                "command": "tsc -p tsconfig.json --noEmit",
-                "cwd": "packages/projectors"
-            }
-        },
-        "test": {
-            "executor": "nx:run-commands",
-            "options": {
-                "command": "ava",
-                "cwd": "packages/projectors"
-            }
-        },
-        "lint": {
-            "executor": "nx:run-commands",
-            "options": {
-                "command": "eslint .",
-                "cwd": "packages/projectors"
-            }
-        }
+  "name": "@promethean/projectors",
+  "root": "packages/projectors",
+  "sourceRoot": "packages/projectors/src",
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc -b",
+        "cwd": "packages/projectors"
+      },
+      "outputs": [
+        "{projectRoot}/dist"
+      ]
     },
-    "tags": ["scope:packages"]
+    "typecheck": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc -p tsconfig.json --noEmit",
+        "cwd": "packages/projectors"
+      }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "ava",
+        "cwd": "{projectRoot}",
+        "env": {
+          "AVA_PROJECT_ROOT": "."
+        }
+      }
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "eslint .",
+        "cwd": "packages/projectors"
+      }
+    }
+  },
+  "tags": [
+    "scope:packages"
+  ]
 }

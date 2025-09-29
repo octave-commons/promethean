@@ -53,7 +53,12 @@ clojure -Sdescribe | sed -n '1,12p' || true
 # Babashka (bb)
 ############################################
 echo "==> Installing Babashka..."
-$SUDO bash < <(curl -s https://raw.githubusercontent.com/babashka/babashka/master/install)
+if command -v bb >/dev/null 2>&1; then
+  echo "bb already installed: $(bb --version | head -n 1)"
+else
+  echo "Downloading latest Babashka install script..."
+  $SUDO bash < <(curl -fsSL https://raw.githubusercontent.com/babashka/babashka/master/install)
+fi
 bb --version || true
 
 ############################################

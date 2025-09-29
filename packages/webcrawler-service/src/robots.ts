@@ -13,20 +13,39 @@ const ROBOTS_PATH = "/robots.txt";
 export class RobotsManager implements RobotsChecker {
   private readonly fetchImpl: typeof fetch;
   private readonly userAgent: string;
+  private readonly parserCache: ReadonlyMap<
+    string,
+    Promise<RobotsParserInstance>
+  >;
 
   constructor(config: Pick<CrawlConfig, "fetch" | "userAgent">) {
     this.fetchImpl = config.fetch ?? fetch;
     this.userAgent = config.userAgent ?? "PrometheanCrawler/0.1";
+    this.parserCache = new Map();
   }
 
   isAllowed(url: string): Promise<boolean> {
-    return this.fetchParser(url).then((parser) => parser?.isAllowed(url, this.userAgent) ?? true);
+    return this.fetchParser(url).then(
+      (parser) => parser?.isAllowed(url, this.userAgent) ?? true,
+    );
   }
 
   private fetchParser(url: string): Promise<RobotsParserInstance> {
     const parsed = new URL(url);
-    const robotsUrl = new URL(ROBOTS_PATH, `${parsed.protocol}//${parsed.host}`).toString();
-    return fetchRobots(this.fetchImpl, robotsUrl, this.userAgent);
+    const origin = parsed.origin.toLowerCase();
+    const cached = this.parserCache.get(origin);
+    if (cached) {
+      return cached;
+    }
+    const robotsUrl = new URL(ROBOTS_PATH, parsed.origin).toString();
+    const fetchPromise = fetchRobots(this.fetchImpl, robotsUrl, this.userAgent);
+    const mutableCache = this.parserCache as Map<
+      string,
+      Promise<RobotsParserInstance>
+    >;
+    // eslint-disable-next-line functional/immutable-data
+    mutableCache.set(origin, fetchPromise);
+    return fetchPromise;
   }
 }
 
@@ -37,7 +56,9 @@ const fetchRobots = async (
 ): Promise<RobotsParserInstance> =>
   fetchImpl(robotsUrl, { headers: { "user-agent": userAgent } })
     .then((response) =>
-      response.ok && response.status < 400 ? response.text() : Promise.resolve(null),
+      response.ok && response.status < 400
+        ? response.text()
+        : Promise.resolve(null),
     )
     .then((text) => (text ? robotsParser(robotsUrl, text) : null))
     .catch(() => null);

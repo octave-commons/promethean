@@ -19,9 +19,10 @@
     "test": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "clojure -M:test",
-        "cwd": "packages/clj-hacks"
-      }
+        "command": "node tools/scripts/run-clj-hacks-test.mjs",
+        "cwd": "."
+      },
+      "dependsOn": []
     },
     "lint": {
       "executor": "nx:run-commands",

@@ -1,5 +1,5 @@
 {
-  "name": "ts-readmeflow",
+  "name": "@promethean/readmeflow",
   "root": "packages/readmeflow",
   "sourceRoot": "packages/readmeflow/src",
   "targets": {
@@ -22,7 +22,11 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "ava",
-        "cwd": "packages/readmeflow"
+        "cwd": "{projectRoot}",
+        "env": {
+          "AVA_PROJECT_ROOT": ".",
+          "OLLAMA_DISABLE": "true"
+        }
       }
     },
     "lint": {

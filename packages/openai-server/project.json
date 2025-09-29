@@ -1,5 +1,5 @@
 {
-  "name": "openai-server",
+  "name": "@promethean/openai-server",
   "root": "packages/openai-server",
   "sourceRoot": "packages/openai-server/src",
   "targets": {
@@ -9,7 +9,9 @@
         "command": "pnpm run build",
         "cwd": "packages/openai-server"
       },
-      "outputs": ["{projectRoot}/dist"]
+      "outputs": [
+        "{projectRoot}/dist"
+      ]
     },
     "typecheck": {
       "executor": "nx:run-commands",
@@ -22,7 +24,10 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "pnpm run test",
-        "cwd": "packages/openai-server"
+        "cwd": "{projectRoot}",
+        "env": {
+          "AVA_PROJECT_ROOT": "."
+        }
       }
     },
     "lint": {
@@ -33,5 +38,7 @@
       }
     }
   },
-  "tags": ["scope:packages"]
+  "tags": [
+    "scope:packages"
+  ]
 }

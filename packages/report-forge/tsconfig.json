@@ -1,17 +1,11 @@
 {
+  "extends": "../../config/tsconfig.base.json",
   "compilerOptions": {
-    "target": "ES2022",
-    "module": "ESNext",
-    "moduleResolution": "bundler",
+    "rootDir": "src",
     "outDir": "dist",
-    "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true,
-    "resolveJsonModule": true,
-    "verbatimModuleSyntax": true,
-    "exactOptionalPropertyTypes": true,
-    "noUncheckedIndexedAccess": true,
-    "strict": true
+    "composite": true,
+    "declaration": true
   },
-  "include": ["src/**/*.ts"]
+  "include": ["src/**/*"],
+  "references": []
 }
