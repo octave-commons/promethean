@@ -1,37 +1,44 @@
 {
-    "name": "@promethean/test-utils",
-    "root": "packages/test-utils",
-    "sourceRoot": "packages/test-utils/src",
-    "targets": {
-        "build": {
-            "executor": "nx:run-commands",
-            "options": {
-                "command": "tsc -b",
-                "cwd": "packages/test-utils"
-            },
-            "outputs": ["{projectRoot}/dist"]
-        },
-        "typecheck": {
-            "executor": "nx:run-commands",
-            "options": {
-                "command": "tsc -p tsconfig.json --noEmit",
-                "cwd": "packages/test-utils"
-            }
-        },
-        "test": {
-            "executor": "nx:run-commands",
-            "options": {
-                "command": "ava",
-                "cwd": "packages/test-utils"
-            }
-        },
-        "lint": {
-            "executor": "nx:run-commands",
-            "options": {
-                "command": "eslint .",
-                "cwd": "packages/test-utils"
-            }
-        }
+  "name": "@promethean/test-utils",
+  "root": "packages/test-utils",
+  "sourceRoot": "packages/test-utils/src",
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc -b",
+        "cwd": "packages/test-utils"
+      },
+      "outputs": [
+        "{projectRoot}/dist"
+      ]
     },
-    "tags": ["scope:packages"]
+    "typecheck": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc -p tsconfig.json --noEmit",
+        "cwd": "packages/test-utils"
+      }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "ava",
+        "cwd": "{projectRoot}",
+        "env": {
+          "AVA_PROJECT_ROOT": "."
+        }
+      }
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "eslint .",
+        "cwd": "packages/test-utils"
+      }
+    }
+  },
+  "tags": [
+    "scope:packages"
+  ]
 }

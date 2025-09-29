@@ -22,7 +22,11 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "ava",
-        "cwd": "packages/readmeflow"
+        "cwd": "{projectRoot}",
+        "env": {
+          "AVA_PROJECT_ROOT": ".",
+          "OLLAMA_DISABLE": "true"
+        }
       }
     },
     "lint": {

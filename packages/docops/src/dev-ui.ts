@@ -122,14 +122,20 @@ const loadDocs = async (db: DBs) => {
   return docs;
 };
 
-const readChunks = async (db: DBs, uuid: string) =>
-  ((await db.chunks.get(uuid).catch(() => [])) as Chunk[]).map((chunk) => ({
+const readChunks = async (db: DBs, uuid: string) => {
+  const raw = await db.chunks.get(uuid).catch(() => []);
+  const chunks = Array.isArray(raw) ? (raw as Chunk[]) : [];
+  return chunks.map((chunk) => ({
     id: chunk.id,
     docUuid: chunk.docUuid,
     docPath: chunk.docPath,
     text: chunk.text ?? "",
     startLine: chunk.startLine,
+    endLine: chunk.endLine ?? chunk.startLine,
+    startCol: chunk.startCol ?? 0,
+    endCol: chunk.endCol ?? 0,
   }));
+};
 
 const buildSearchIndex = async (db: DBs) => {
   const docs = await loadDocs(db);
@@ -144,6 +150,13 @@ const buildSearchIndex = async (db: DBs) => {
   );
   return results;
 };
+
+const ensureArray = <T>(value: unknown): T[] =>
+  Array.isArray(value) ? (value as T[]) : [];
+
+const RATE_LIMIT_FS = { max: 30, timeWindow: "1 minute" } as const;
+const RATE_LIMIT_PREVIEW = { max: 15, timeWindow: "1 minute" } as const;
+const RATE_LIMIT_SEARCH = { max: 12, timeWindow: "1 minute" } as const;
 
 const app = fastifyFactory({ logger: false });
 
@@ -160,9 +173,6 @@ await app.register(fastifyStatic, {
 
 const db = await openDB();
 
-const docsCachePromise = loadDocs(db);
-const searchCachePromise = buildSearchIndex(db);
-
 app.get("/favicon.ico", async (_req, reply) => {
   reply.header("content-type", "image/png");
   reply.send(ONE_PIXEL_PNG);
@@ -174,15 +184,28 @@ app.register(fastifyRateLimit, {
   timeWindow: "15 minutes",
 });
 
-app.get("/", async (_req, reply) => {
-  try {
-    const html = await fs.readFile(path.join(UI_ROOT, "index.html"), "utf8");
-    reply.header("content-type", "text/html; charset=utf-8");
-    reply.send(html);
-  } catch (error) {
-    reply.code(500).send({ error: String((error as Error)?.message ?? error) });
-  }
-});
+app.get(
+  "/",
+  {
+    config: {
+      rateLimit: {
+        max: 30,
+        timeWindow: "1 minute",
+      },
+    },
+  },
+  async (_req, reply) => {
+    try {
+      const html = await fs.readFile(path.join(UI_ROOT, "index.html"), "utf8");
+      reply.header("content-type", "text/html; charset=utf-8");
+      reply.send(html);
+    } catch (error) {
+      reply
+        .code(500)
+        .send({ error: String((error as Error)?.message ?? error) });
+    }
+  },
+);
 
 app.get("/health", async () => ({ ok: true }));
 
@@ -192,74 +215,96 @@ app.get("/api/config", async () => ({
   ws: false,
 }));
 
-app.get<{ Querystring: FilesQuery }>("/api/files", async (request, reply) => {
-  const query = request.query;
-  const targetDir = (() => {
+app.get<{ Querystring: FilesQuery }>(
+  "/api/files",
+  {
+    config: {
+      rateLimit: {
+        max: 30,
+        timeWindow: "1 minute",
+      },
+    },
+  },
+  async (request, reply) => {
+    const query = request.query;
+    const targetDir = (() => {
+      try {
+        if (query.dir) return ensureInDir(query.dir);
+        return ROOT_DIR;
+      } catch (error) {
+        reply.code(400);
+        throw error;
+      }
+    })();
+
+    const maxDepth = clamp(
+      Number.isFinite(Number(query.maxDepth))
+        ? Number(query.maxDepth)
+        : MAX_DEPTH_DEFAULT,
+      0,
+      16,
+    );
+    const maxEntries = clamp(
+      Number.isFinite(Number(query.maxEntries))
+        ? Number(query.maxEntries)
+        : MAX_ENTRIES_DEFAULT,
+      1,
+      500,
+    );
+    const exts = toExtList(query.exts);
+    const includeMeta = asBool(query.includeMeta);
+
+    reply.header("cache-control", "no-store, no-cache, must-revalidate");
     try {
-      if (query.dir) return ensureInDir(query.dir);
-      return ROOT_DIR;
+      const tree = await buildFileTree(targetDir, {
+        maxDepth,
+        maxEntries,
+        includeMeta,
+        exts,
+      });
+      return { dir: targetDir, tree };
+    } catch (error) {
+      reply.code(500);
+      return { error: String((error as Error)?.message ?? error) };
+    }
+  },
+);
+
+app.get<{ Querystring: ReadQuery }>(
+  "/api/read",
+  {
+    config: {
+      rateLimit: {
+        max: 30,
+        timeWindow: "1 minute",
+      },
+    },
+  },
+  async (request, reply) => {
+    const file = request.query.file;
+    if (!file) {
+      reply.code(400);
+      return { error: "file parameter required" };
+    }
+    try {
+      const abs = ensureInDir(file);
+      const ext = path.extname(abs).toLowerCase();
+      if (!DEFAULT_EXTS.includes(ext as (typeof DEFAULT_EXTS)[number])) {
+        reply.code(400);
+        return { error: "only markdown and text files allowed" };
+      }
+      const txt = await fs.readFile(abs, "utf8");
+      reply.header("content-type", "text/plain; charset=utf-8");
+      return txt;
     } catch (error) {
       reply.code(400);
-      throw error;
+      return { error: String((error as Error)?.message ?? error) };
     }
-  })();
-
-  const maxDepth = clamp(
-    Number.isFinite(Number(query.maxDepth))
-      ? Number(query.maxDepth)
-      : MAX_DEPTH_DEFAULT,
-    0,
-    16,
-  );
-  const maxEntries = clamp(
-    Number.isFinite(Number(query.maxEntries))
-      ? Number(query.maxEntries)
-      : MAX_ENTRIES_DEFAULT,
-    1,
-    500,
-  );
-  const exts = toExtList(query.exts);
-  const includeMeta = asBool(query.includeMeta);
-
-  reply.header("cache-control", "no-store, no-cache, must-revalidate");
-  try {
-    const tree = await buildFileTree(targetDir, {
-      maxDepth,
-      maxEntries,
-      includeMeta,
-      exts,
-    });
-    return { dir: targetDir, tree };
-  } catch (error) {
-    reply.code(500);
-    return { error: String((error as Error)?.message ?? error) };
-  }
-});
-
-app.get<{ Querystring: ReadQuery }>("/api/read", async (request, reply) => {
-  const file = request.query.file;
-  if (!file) {
-    reply.code(400);
-    return { error: "file parameter required" };
-  }
-  try {
-    const abs = ensureInDir(file);
-    const ext = path.extname(abs).toLowerCase();
-    if (!DEFAULT_EXTS.includes(ext as (typeof DEFAULT_EXTS)[number])) {
-      reply.code(400);
-      return { error: "only markdown and text files allowed" };
-    }
-    const txt = await fs.readFile(abs, "utf8");
-    reply.header("content-type", "text/plain; charset=utf-8");
-    return txt;
-  } catch (error) {
-    reply.code(400);
-    return { error: String((error as Error)?.message ?? error) };
-  }
-});
+  },
+);
 
 app.get("/api/docs", async () => {
-  const docs = await docsCachePromise;
+  const docs = await loadDocs(db);
   return docs.map((doc) => ({
     uuid: doc.uuid,
     path: doc.path,
@@ -269,6 +314,11 @@ app.get("/api/docs", async () => {
 
 app.get<{ Querystring: PreviewQuery }>(
   "/api/preview",
+  {
+    config: {
+      rateLimit: RATE_LIMIT_PREVIEW,
+    },
+  },
   async (request, reply) => {
     const query = request.query;
     if (!query.uuid && !query.file) {
@@ -300,7 +350,7 @@ app.get<{ Querystring: PreviewQuery }>(
 
 app.get<{ Querystring: StatusQuery }>("/api/status", async (request, reply) => {
   const query = request.query;
-  const docs = await docsCachePromise;
+  const docs = await loadDocs(db);
   const limit = clamp(
     Number.isFinite(Number(query.limit)) ? Number(query.limit) : 25,
     1,
@@ -332,68 +382,98 @@ app.get<{ Querystring: StatusQuery }>("/api/status", async (request, reply) => {
   return { items: slice, page, hasMore, total: filtered.length };
 });
 
-app.get<{ Querystring: ChunksQuery }>("/api/chunks", async (request, reply) => {
-  const query = request.query;
-  const docs = await docsCachePromise;
-  if (!query.uuid && !query.file) {
-    reply.code(400);
-    return { error: "uuid or file parameter required" };
-  }
-  try {
-    const uuid = (() => {
-      if (query.uuid) return query.uuid;
-      if (!query.file) return "";
-      const abs = ensureInDir(query.file);
-      const match = docs.find((doc) => doc.path === abs);
-      if (!match) throw new Error("file not indexed");
-      return match.uuid;
-    })();
-    const items = await readChunks(db, uuid);
-    return { uuid, items };
-  } catch (error) {
-    reply.code(400);
-    return { error: String((error as Error)?.message ?? error) };
-  }
-});
+app.get<{ Querystring: ChunksQuery }>(
+  "/api/chunks",
+  {
+    config: {
+      rateLimit: RATE_LIMIT_FS,
+    },
+  },
+  async (request, reply) => {
+    const query = request.query;
+    const docs = await loadDocs(db);
+    if (!query.uuid && !query.file) {
+      reply.code(400);
+      return { error: "uuid or file parameter required" };
+    }
+    try {
+      const uuid = (() => {
+        if (query.uuid) return query.uuid;
+        if (!query.file) return "";
+        const abs = ensureInDir(query.file);
+        const match = docs.find((doc) => doc.path === abs);
+        if (!match) throw new Error("file not indexed");
+        return match.uuid;
+      })();
+      const items = await readChunks(db, uuid);
+      return { uuid, items };
+    } catch (error) {
+      reply.code(400);
+      return { error: String((error as Error)?.message ?? error) };
+    }
+  },
+);
 
 app.get<{ Querystring: ChunkHitsQuery }>(
   "/api/chunk-hits",
+  {
+    config: {
+      rateLimit: RATE_LIMIT_FS,
+    },
+  },
   async (request, reply) => {
     const id = request.query.id;
     if (!id) {
       reply.code(400);
       return { error: "id parameter required" };
     }
-    const items = (await db.q.get(id).catch(() => [])) as unknown[];
+    const raw = await db.q.get(id).catch(() => []);
+    const items = ensureArray<unknown>(raw);
     return { id, items };
   },
 );
 
-app.get<{ Querystring: SearchQuery }>("/api/search", async (request) => {
-  const q = (request.query.q ?? "").trim();
-  if (!q) return { items: [] };
-  const k = clamp(
-    Number.isFinite(Number(request.query.k)) ? Number(request.query.k) : 10,
-    1,
-    50,
-  );
-  const haystack = await searchCachePromise;
-  const matches = haystack
-    .map((doc) => {
-      const idx = doc.text.toLowerCase().indexOf(q.toLowerCase());
-      if (idx < 0) return null;
-      const start = Math.max(0, idx - 40);
-      const end = Math.min(doc.text.length, idx + q.length + 40);
-      const snippet = doc.text.slice(start, end).replace(/\s+/g, " ");
-      return { uuid: doc.uuid, path: doc.path, snippet };
-    })
-    .filter((x): x is { uuid: string; path: string; snippet: string } => !!x)
-    .slice(0, k);
-  return { items: matches };
-});
+app.get<{ Querystring: SearchQuery }>(
+  "/api/search",
+  {
+    config: {
+      rateLimit: RATE_LIMIT_SEARCH,
+    },
+  },
+  async (request) => {
+    const q = (request.query.q ?? "").trim();
+    if (!q) return { items: [] };
+    const k = clamp(
+      Number.isFinite(Number(request.query.k)) ? Number(request.query.k) : 10,
+      1,
+      50,
+    );
+    const haystack = await buildSearchIndex(db);
+    const matches = haystack
+      .map((doc) => {
+        const idx = doc.text.toLowerCase().indexOf(q.toLowerCase());
+        if (idx < 0) return null;
+        const start = Math.max(0, idx - 40);
+        const end = Math.min(doc.text.length, idx + q.length + 40);
+        const snippet = doc.text.slice(start, end).replace(/\s+/g, " ");
+        return { uuid: doc.uuid, path: doc.path, snippet };
+      })
+      .filter((x): x is { uuid: string; path: string; snippet: string } => !!x)
+      .slice(0, k);
+    return { items: matches };
+  },
+);
 
 app.get<{ Querystring: RunStepQuery }>(
   "/api/run-step",
+  {
+    config: {
+      rateLimit: {
+        max: 10,
+        timeWindow: "1 minute",
+      },
+    },
+  },
   async (request, reply) => {
     const {
       step: stepParam,

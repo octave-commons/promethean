@@ -2,6 +2,8 @@ const state = {
   config: { dir: "", collection: "" },
   selectedFile: null,
   docs: [],
+  chunks: [],
+  selectedChunkId: null,
 };
 
 const byId = (id) => document.getElementById(id);
@@ -49,6 +51,152 @@ function formatJSON(data) {
     return JSON.stringify(data, null, 2);
   } catch {
     return String(data);
+  }
+}
+
+function resetChunksView() {
+  state.chunks = [];
+  state.selectedChunkId = null;
+  const list = byId("chunksList");
+  if (list) list.innerHTML = "";
+  setText("chunkMeta", "(no chunk selected)");
+  setText("chunkText", "(no chunk selected)");
+  const hits = byId("chunkHits");
+  if (hits) {
+    hits.innerHTML = "";
+    const placeholder = document.createElement("li");
+    placeholder.textContent = "(no hits)";
+    hits.appendChild(placeholder);
+  }
+}
+
+function chunkLabel(chunk, index) {
+  const text = typeof chunk.text === "string" ? chunk.text : "";
+  const firstLine = text.split(/\r?\n/).find((line) => line.trim().length > 0);
+  const preview = (firstLine ?? text).trim().slice(0, 80);
+  return preview || `Chunk ${index + 1}`;
+}
+
+function highlightChunkSelection(chunkId) {
+  const list = byId("chunksList");
+  if (!list) return;
+  Array.from(list.children).forEach((child) => {
+    if (!(child instanceof HTMLElement)) return;
+    const isActive = chunkId && child.dataset.id === chunkId;
+    child.style.backgroundColor = isActive ? "#0ea5e9" : "#e2e8f0";
+    child.style.color = isActive ? "#fff" : "#0f172a";
+  });
+}
+
+function renderChunkList(chunks) {
+  const list = byId("chunksList");
+  if (!list) return;
+  list.innerHTML = "";
+  if (!chunks.length) {
+    const empty = document.createElement("li");
+    empty.textContent = "(no chunks)";
+    list.appendChild(empty);
+    return;
+  }
+
+  chunks.forEach((chunk, index) => {
+    const item = document.createElement("li");
+    item.dataset.id = chunk.id;
+    item.setAttribute("role", "button");
+    item.tabIndex = 0;
+    item.style.cursor = "pointer";
+    item.style.padding = "6px 10px";
+    item.style.borderRadius = "6px";
+    item.style.marginBottom = "4px";
+    item.textContent = chunkLabel(chunk, index);
+    const select = () => {
+      void selectChunk(chunk.id);
+    };
+    item.addEventListener("click", select);
+    item.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        select();
+      }
+    });
+    list.appendChild(item);
+  });
+
+  highlightChunkSelection(state.selectedChunkId);
+}
+
+async function loadChunkHits(chunkId) {
+  const hits = byId("chunkHits");
+  if (!hits) return;
+  hits.innerHTML = "";
+  try {
+    const params = new URLSearchParams({ id: chunkId });
+    const data = await fetchJSON(`/api/chunk-hits?${params.toString()}`);
+    const items = Array.isArray(data.items) ? data.items : [];
+    if (!items.length) {
+      const li = document.createElement("li");
+      li.textContent = "(no hits)";
+      hits.appendChild(li);
+      return;
+    }
+    items.forEach((hit) => {
+      const li = document.createElement("li");
+      const score =
+        typeof hit.score === "number"
+          ? hit.score.toFixed(2)
+          : String(hit.score ?? "0");
+      const target =
+        typeof hit.docUuid === "string" ? hit.docUuid : String(hit.id ?? "");
+      const position =
+        typeof hit.startLine === "number" && typeof hit.startCol === "number"
+          ? ` @ ${hit.startLine}:${hit.startCol}`
+          : "";
+      li.textContent = `${score} — ${target}${position}`;
+      hits.appendChild(li);
+    });
+  } catch (error) {
+    const li = document.createElement("li");
+    li.textContent = error instanceof Error ? error.message : String(error);
+    hits.appendChild(li);
+  }
+}
+
+async function selectChunk(chunkId) {
+  state.selectedChunkId = chunkId;
+  const chunk = state.chunks.find((item) => item.id === chunkId);
+  if (!chunk) {
+    highlightChunkSelection(null);
+    resetChunksView();
+    return;
+  }
+  const startCol = typeof chunk.startCol === "number" ? chunk.startCol : 0;
+  const endLine =
+    typeof chunk.endLine === "number" ? chunk.endLine : chunk.startLine;
+  const endCol = typeof chunk.endCol === "number" ? chunk.endCol : 0;
+  const meta = `lines: ${chunk.startLine}:${startCol} - ${endLine}:${endCol}`;
+  setText("chunkMeta", meta);
+  setText("chunkText", typeof chunk.text === "string" ? chunk.text : "");
+  highlightChunkSelection(chunkId);
+  await loadChunkHits(chunkId);
+}
+
+async function loadChunksForFile(file) {
+  resetChunksView();
+  if (!file) return;
+  const params = new URLSearchParams({ file });
+  try {
+    const data = await fetchJSON(`/api/chunks?${params.toString()}`);
+    const items = Array.isArray(data.items) ? data.items : [];
+    state.chunks = items;
+    renderChunkList(items);
+    if (items.length > 0) {
+      await selectChunk(items[0].id);
+    }
+  } catch (error) {
+    setText(
+      "chunkMeta",
+      error instanceof Error ? error.message : String(error),
+    );
   }
 }
 
@@ -223,7 +371,19 @@ async function loadDocs() {
       state.docs.forEach((doc) => {
         const opt = document.createElement("option");
         opt.value = doc.uuid;
-        opt.textContent = doc.title || doc.path;
+        const pathText = typeof doc.path === "string" ? doc.path : "";
+        const basename = pathText ? pathText.split(/[/\\]/).pop() : "";
+        if (doc.title && basename) {
+          opt.textContent = `${doc.title} (${basename})`;
+        } else if (doc.title) {
+          opt.textContent = doc.title;
+        } else if (basename) {
+          opt.textContent = basename;
+        } else if (pathText) {
+          opt.textContent = pathText;
+        } else {
+          opt.textContent = doc.uuid;
+        }
         select.appendChild(opt);
       });
     }
@@ -285,7 +445,7 @@ async function runSearch() {
   const term = byId("searchTerm")?.value?.trim() ?? "";
   const k = byId("searchK")?.value || "5";
   if (!term) {
-    setText("searchResults", "(enter a query)");
+    setText("searchResults", "Enter a query to search.");
     return;
   }
   const params = new URLSearchParams({
@@ -345,12 +505,14 @@ function wireEvents() {
     if (path) {
       state.selectedFile = path;
       void renderMarkdown();
+      void loadChunksForFile(path);
     }
   });
 }
 
 async function init() {
   wireEvents();
+  resetChunksView();
   await loadConfig();
   await Promise.all([loadDocs(), loadFiles(), loadStatus()]);
 }

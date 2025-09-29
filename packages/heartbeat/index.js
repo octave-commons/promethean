@@ -21,14 +21,30 @@ let allowedInstances = {};
 let SESSION_ID;
 let shuttingDown = false;
 
+function isMissingProcessError(err) {
+  if (!err || typeof err !== "object") return false;
+  const code = err.code;
+  if (code === "ENOENT" || code === "ESRCH") return true;
+  const message = err.message;
+  return typeof message === "string" && message.includes("No matching pid");
+}
+
 async function getProcessMetrics(pid) {
   const metrics = { cpu: 0, memory: 0, netRx: 0, netTx: 0 };
+  let processExists = true;
   try {
     const { cpu, memory } = await pidusage(pid);
     metrics.cpu = cpu;
     metrics.memory = memory;
   } catch (err) {
-    console.warn(`failed to get cpu/memory for pid ${pid}`, err);
+    if (isMissingProcessError(err)) {
+      processExists = false;
+    } else {
+      console.warn(`failed to get cpu/memory for pid ${pid}`, err);
+    }
+  }
+  if (!processExists) {
+    return metrics;
   }
   try {
     const data = fs.readFileSync(`/proc/${pid}/net/dev`, "utf8");

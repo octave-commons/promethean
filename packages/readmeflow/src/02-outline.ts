@@ -83,7 +83,7 @@ export async function fetchOutline(
         sections: [
           { heading: "Install", body: `pnpm add ${pkg.name}` },
           { heading: "Usage", body: "(coming soon)" },
-          { heading: "License", body: "GPLv3" },
+          { heading: "License", body: "GPL-3.0-only" },
         ],
       };
 
