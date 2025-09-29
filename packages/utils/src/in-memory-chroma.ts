@@ -130,6 +130,12 @@ export class InMemoryChroma<Metadata = Record<string, unknown>> {
     if (value.length === 0) {
       return !embeddings && !metadata;
     }
-    return value.every((entry) => typeof (entry as any)?.id === "string");
+    return value.every((entry): entry is AddInput<Metadata> => {
+      if (typeof entry !== "object" || entry === null) {
+        return false;
+      }
+      const candidate = entry as Partial<AddInput<Metadata>>;
+      return typeof candidate.id === "string";
+    });
   }
 }
