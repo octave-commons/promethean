@@ -139,12 +139,10 @@ const realpathOrNull = async (rootPath: string, targetPath: string) => {
   const candidate = path.resolve(rootAbs, targetPath);
   try {
     const resolved = await fs.realpath(candidate);
-    const rel = path.relative(rootAbs, resolved);
     // Ensure the resolved path is strictly under the root directory.
     // Avoids cases like root '/a/foo' and candidate '/a/foobar' by using path sep.
     const isUnderRoot =
-      resolved === rootAbs ||
-      resolved.startsWith(rootAbs + path.sep);
+      resolved === rootAbs || resolved.startsWith(rootAbs + path.sep);
     if (!isUnderRoot) {
       return null;
     }
@@ -165,7 +163,10 @@ async function resolveWithinRoot(rootPath: string, rel: string) {
   const candidateReal = await realpathOrNull(rootReal, candidate).then(
     async (resolved) => {
       if (resolved !== null) return resolved;
-      const parentReal = await realpathOrNull(rootReal, path.dirname(candidate));
+      const parentReal = await realpathOrNull(
+        rootReal,
+        path.dirname(candidate),
+      );
       let attempted;
       if (parentReal !== null) {
         attempted = path.join(parentReal, path.basename(candidate));
@@ -187,10 +188,11 @@ async function resolveWithinRoot(rootPath: string, rel: string) {
   );
 
   const relativeToRoot = path.relative(rootReal, candidateReal);
-  const absWithSep = rootReal.endsWith(path.sep) ? rootReal : rootReal + path.sep;
+  const absWithSep = rootReal.endsWith(path.sep)
+    ? rootReal
+    : rootReal + path.sep;
   const isUnderRoot =
-    candidateReal === rootReal ||
-    candidateReal.startsWith(absWithSep);
+    candidateReal === rootReal || candidateReal.startsWith(absWithSep);
   if (!isUnderRoot) {
     throw new Error("Path escapes index root");
   }
@@ -348,7 +350,9 @@ export async function indexFile(
   const col = await collectionForFamily(family, version, cfg);
   const { abs, rel: safeRel } = await resolveWithinRoot(rootPath, rel);
   if (!abs) {
-    logger.warn("indexFile read blocked - candidate file is outside root", { path: rel });
+    logger.warn("indexFile read blocked - candidate file is outside root", {
+      path: rel,
+    });
     return { ok: false, error: "File is outside index root" };
   }
   let raw = "";
