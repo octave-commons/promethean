@@ -1,5 +1,5 @@
 {
-    "name": "ts-intention",
+    "name": "@promethean/intention",
     "root": "packages/intention",
     "sourceRoot": "packages/intention/src",
     "targets": {
@@ -22,7 +22,10 @@
             "executor": "nx:run-commands",
             "options": {
                 "command": "ava",
-                "cwd": "packages/intention"
+                "cwd": "{projectRoot}",
+                "env": {
+                    "AVA_PROJECT_ROOT": "."
+                }
             }
         },
         "lint": {

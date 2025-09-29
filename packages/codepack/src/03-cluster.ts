@@ -53,11 +53,11 @@ async function loadEmbeddings(
 }
 
 async function main() {
-  const blocksPath = path.resolve(args["--blocks"]);
-  const cachePath = path.resolve(args["--cache"]);
-  const outPath = path.resolve(args["--out"]);
-  const TH = Number(args["--sim-threshold"]);
-  const K = Number(args["--k"]);
+  const blocksPath = path.resolve(args["--blocks"] ?? ".cache/codepack/blocks");
+  const cachePath = path.resolve(args["--cache"] ?? ".cache/codepack/embeds");
+  const outPath = path.resolve(args["--out"] ?? ".cache/codepack/clusters");
+  const TH = Number(args["--sim-threshold"] ?? "0.82");
+  const K = Number(args["--k"] ?? "8");
 
   const blockCache = await openLevelCache<CodeBlock>({
     path: blocksPath,
@@ -72,14 +72,26 @@ async function main() {
   const available = blocks.filter((b) => embeds[b.id] !== undefined);
   const ids = available.map((b) => b.id);
   const edges: Array<[string, string]> = available.flatMap((a) => {
-    const av = embeds[a.id];
-    return available
+    const sourceVector = embeds[a.id];
+    if (!sourceVector) {
+      return [];
+    }
+    const scored = available
       .filter((b) => b.id !== a.id)
-      .map((b) => ({ id: b.id, s: cosine(av, embeds[b.id]) }))
-      .sort((x, y) => y.s - x.s)
+      .map((b) => {
+        const targetVector = embeds[b.id];
+        return targetVector
+          ? { id: b.id, similarity: cosine(sourceVector, targetVector) }
+          : null;
+      })
+      .filter(
+        (entry): entry is { id: string; similarity: number } => entry !== null,
+      )
+      .sort((left, right) => right.similarity - left.similarity)
       .slice(0, K)
-      .filter(({ s }) => s >= TH)
+      .filter(({ similarity }) => similarity >= TH)
       .map(({ id }) => [a.id, id] as [string, string]);
+    return scored;
   });
 
   const groups = unionFindClusters(ids, edges).filter((g) => g.length >= 1);

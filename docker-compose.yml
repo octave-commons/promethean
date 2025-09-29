@@ -31,6 +31,7 @@ services:
       CUDA_VISIBLE_DEVICES: "0"
       NVIDIA_VISIBLE_DEVICES: "all"
       NVIDIA_DRIVER_CAPABILITIES: "all"
+      OLLAMA_CONTEXT_LENGTH: 32000
     healthcheck:
       test:
         [
@@ -83,9 +84,6 @@ services:
     restart: always
     ports:
       - "127.0.0.1:27017:27017"
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: password
     volumes:
       - mongo-data:/data/db
   nats:
@@ -152,16 +150,16 @@ services:
     restart: unless-stopped
 
   # ---------- OVMS (Intel iGPU/NPU) ----------
-  ovms-npu:
-    image: ${OVMS_IMAGE:-openvino/model_server:2025.2.1}
-    command: --config_path /config/config.json --rest_port 9090 --port 9001
-    ports:
-      - "9001:9001" # gRPC
-      - "9090:9090" # REST
-    volumes:
-      - ./config/ovm.json:/config/config.json:ro
-      - ./models/ov:/opt/models:ro
-    restart: unless-stopped
+  # ovms-npu:
+  #   image: ${OVMS_IMAGE:-openvino/model_server:2025.2.1}
+  #   command: --config_path /config/config.json --rest_port 9090 --port 9001
+  #   ports:
+  #     - "9001:9001" # gRPC
+  #     - "9090:9090" # REST
+  #   volumes:
+  #     - ./config/ovm.json:/config/config.json:ro
+  #     - ./models/ov:/opt/models:ro
+  #   restart: unless-stopped
 
   semgrep:
     image: ${SEMGREP_IMAGE:-semgrep/semgrep:1.92.0}

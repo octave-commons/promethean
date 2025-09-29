@@ -4,8 +4,6 @@
         "rootDir": "src",
         "outDir": "dist",
         "composite": true,
-        "declaration": true,
-        "composite": true,
         "declaration": true
     },
     "include": ["src/**/*"],

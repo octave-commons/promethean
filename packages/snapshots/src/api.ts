@@ -4,7 +4,8 @@ import type { Server } from 'http';
 import express, { type RequestHandler } from 'express';
 import rateLimit from 'express-rate-limit';
 import type { Db, Collection } from 'mongodb';
-import { sha1 } from '@promethean/utils';
+
+import { etagOf } from './etag.js';
 
 export type SnapshotApiOptions = {
     collection: string; // e.g., "processes.snapshot"
@@ -12,11 +13,6 @@ export type SnapshotApiOptions = {
     bodyLimit?: string; // default "200kb"
     maxAgeSeconds?: number; // default 5 (client cache)
 };
-
-function etagOf(doc: unknown) {
-    const s = JSON.stringify(doc);
-    return '"' + sha1(s) + '"';
-}
 
 export function getSnap(coll: Collection, keyField: string, cacheCtl: string): RequestHandler {
     return async (req, res): Promise<void> => {

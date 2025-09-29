@@ -4,10 +4,27 @@ import * as path from "path";
 import { parseArgs, writeText } from "./utils.js";
 import type { RunResultsFile, VerifyFile } from "./types.js";
 
+const escapeTableCell = (value: string) =>
+  value.replace(/\\/g, "\\\\").replace(/\|/g, "\\|").replace(/\r?\n/g, " ");
+
+const wrapInlineCode = (value: string) => {
+  const normalized = value.replace(/\r?\n/g, " ");
+  const longestBacktickSequence =
+    normalized
+      .match(/`+/g)
+      ?.reduce((length, sequence) => Math.max(length, sequence.length), 0) ?? 0;
+  const delimiter = "`".repeat(longestBacktickSequence + 1);
+  const needsPadding =
+    delimiter.length > 1 &&
+    (normalized.startsWith("`") || normalized.endsWith("`"));
+  const content = needsPadding ? ` ${normalized} ` : normalized;
+  return `${delimiter}${content}${delimiter}`;
+};
+
 const args = parseArgs({
   "--runs": ".cache/cookbook/run-results.json",
   "--verify": ".cache/cookbook/verify.json",
-  "--out": "docs/agile/reports/cookbook"
+  "--out": "docs/agile/reports/cookbook",
 } as const);
 
 async function main() {
@@ -29,9 +46,12 @@ async function main() {
         ? "OK"
         : "HASH MISMATCH"
       : `FAIL(${r.exitCode})`;
-    return `| ${status} | ${r.recipePath} | \`${v?.expected ?? ""}\` | \`${
-      r.stdoutHash ?? ""
-    }\` | ${(r.stderrPreview || "").replace(/\|/g, "\\|").slice(0, 80)} |`;
+    const stderrPreview = (r.stderrPreview || "").slice(0, 80);
+    return `| ${escapeTableCell(status)} | ${escapeTableCell(
+      r.recipePath,
+    )} | ${wrapInlineCode(v?.expected ?? "")} | ${wrapInlineCode(
+      r.stdoutHash ?? "",
+    )} | ${escapeTableCell(stderrPreview)} |`;
   });
 
   const md = [

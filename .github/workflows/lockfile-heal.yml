@@ -1,0 +1,41 @@
+name: lockfile-heal
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: "0 5 * * *"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  heal-lockfile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - name: Run lockfile healer
+        id: heal
+        run: node scripts/ensure-lockfile.mjs
+        continue-on-error: true
+      - name: Create lockfile refresh pull request
+        if: steps.heal.outcome == 'failure'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: "chore: refresh pnpm-lock.yaml"
+          title: "chore: refresh pnpm-lock.yaml"
+          body: |
+            Automated lockfile healer detected drift in `pnpm-lock.yaml` and refreshed it.
+          branch: chore/lockfile-heal
+          delete-branch: true
+          add-paths: |
+            pnpm-lock.yaml

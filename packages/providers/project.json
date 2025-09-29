@@ -1,5 +1,5 @@
 {
-    "name": "ts-providers",
+    "name": "@promethean/providers",
     "root": "packages/providers",
     "sourceRoot": "packages/providers/src",
     "targets": {
@@ -22,7 +22,10 @@
             "executor": "nx:run-commands",
             "options": {
                 "command": "ava",
-                "cwd": "packages/providers"
+                "cwd": "{projectRoot}",
+                "env": {
+                    "AVA_PROJECT_ROOT": "."
+                }
             }
         },
         "lint": {

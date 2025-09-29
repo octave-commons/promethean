@@ -5,6 +5,20 @@ import ollama, { type Message } from 'ollama';
 const SYSTEM_PROMPT = 'Generate an engaging Twitch stream title (max 60 characters) based on recent context.';
 const BANNED_WORDS = [/\bnsfw\b/i];
 
+type OllamaClient = {
+    chat: typeof ollama.chat;
+};
+
+let activeOllama: OllamaClient = ollama;
+
+export function setOllamaClient(client: OllamaClient): void {
+    activeOllama = client;
+}
+
+export function resetOllamaClient(): void {
+    activeOllama = ollama;
+}
+
 export type TitleContextSource = {
     fetch(): Promise<Message[]>;
 };
@@ -43,7 +57,7 @@ function isTitleSafe(title: string): boolean {
 }
 
 export async function generateTwitchStreamTitle(context: Message[], model = 'gemma3:latest'): Promise<string> {
-    const res = await ollama.chat({
+    const res = await activeOllama.chat({
         model,
         messages: [{ role: 'system', content: SYSTEM_PROMPT }, ...context],
     });

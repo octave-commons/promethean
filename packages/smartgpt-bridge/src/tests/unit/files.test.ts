@@ -1,10 +1,12 @@
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 import test from "ava";
 
 import { viewFile, resolvePath } from "../../files.js";
 
-const ROOT = path.join(process.cwd(), "tests", "fixtures");
+const TEST_DIR = path.dirname(fileURLToPath(import.meta.url));
+const ROOT = path.resolve(TEST_DIR, "../../../tests/fixtures");
 
 test("viewFile: returns correct window around line", async (t) => {
   const out = await viewFile(ROOT, "readme.md", 3, 2);

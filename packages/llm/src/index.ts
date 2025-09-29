@@ -112,36 +112,70 @@ app.post('/generate', (req: Request, res: Response) => {
         });
 });
 
+const MODULE_NOT_FOUND = 'ERR_MODULE_NOT_FOUND';
+const PACKAGE_PATH_NOT_EXPORTED = 'ERR_PACKAGE_PATH_NOT_EXPORTED';
+
+async function importWithFallback<TModule>(specs: readonly (string | undefined)[]): Promise<TModule> {
+    let lastError: Error | undefined;
+    for (const spec of specs) {
+        if (!spec) continue;
+        try {
+            return (await import(spec)) as TModule;
+        } catch (err) {
+            const error = err as Error & { readonly code?: string };
+            lastError = error;
+            if (error.code !== MODULE_NOT_FOUND && error.code !== PACKAGE_PATH_NOT_EXPORTED) {
+                throw error;
+            }
+        }
+    }
+    if (lastError) throw lastError;
+    throw new Error('Unable to resolve module');
+}
+
+const serviceTemplateFallback = new URL('../../legacy/serviceTemplate.js', import.meta.url).href;
+const heartbeatFallback = new URL('../../legacy/heartbeat/index.js', import.meta.url).href;
+
 export function initBroker(): Promise<void> {
-    return import('@shared/js/serviceTemplate.js')
-        .then(
-            ({
-                startService,
-            }: Readonly<{
-                startService(
-                    opts: Readonly<{
-                        id: string;
-                        queues: readonly string[];
-                        handleTask: (task: Readonly<BrokerTask>) => Promise<void>;
-                    }>,
-                ): Promise<Broker>;
-            }>) =>
-                startService({
-                    id: process.env.name || 'llm',
-                    queues: ['llm.generate'],
-                    handleTask,
-                }),
+    const specifiers = [
+        process.env.LLM_SERVICE_TEMPLATE,
+        '@promethean/legacy/serviceTemplate.js',
+        serviceTemplateFallback,
+    ] as const;
+    return importWithFallback<{
+        readonly startService: (
+            opts: Readonly<{
+                id: string;
+                queues: readonly string[];
+                handleTask: (task: Readonly<BrokerTask>) => Promise<void>;
+            }>,
+        ) => Promise<Broker>;
+    }>(specifiers)
+        .then(({ startService }) =>
+            startService({
+                id: process.env.name || 'llm',
+                queues: ['llm.generate'],
+                handleTask,
+            }),
         )
-        .then((b) => {
-            setBroker(b);
+        .then((broker) => {
+            setBroker(broker);
         })
         .catch((err) => {
-            log.error('Failed to initialize broker', { err: err as Error });
+            log.error('Failed to initialize broker', {
+                err: err as Error,
+                tried: specifiers,
+            });
         });
 }
 
 export async function initHeartbeat(): Promise<void> {
-    const { HeartbeatClient } = await import('@promethean/legacy/heartbeat/index.js');
+    const { HeartbeatClient } = await importWithFallback<{
+        readonly HeartbeatClient: new (...args: readonly unknown[]) => {
+            sendOnce(): Promise<void>;
+            start(): void;
+        };
+    }>(['@promethean/legacy/heartbeat/index.js', heartbeatFallback]);
     const hb = new HeartbeatClient({ name: process.env.name || 'llm' });
     await hb.sendOnce();
     hb.start();

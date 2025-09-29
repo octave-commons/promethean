@@ -5,14 +5,14 @@ import { createHash } from "node:crypto";
 import { pathToFileURL } from "node:url";
 
 import matter from "gray-matter";
-import { Ollama } from "ollama";
-import { ChromaClient } from "chromadb";
-import { OllamaEmbeddingFunction } from "@chroma-core/ollama";
-import { listFilesRec } from "@promethean/utils";
+import { scanFiles } from "@promethean/file-indexer";
+import type { IndexedFile, ScanProgress } from "@promethean/file-indexer";
 
 import { DBs } from "./db.js";
-import { parseArgs, parseMarkdownChunks, OLLAMA_URL } from "./utils.js";
+import { parseArgs, parseMarkdownChunks } from "./utils.js";
 import { Chunk } from "./types.js";
+import { createOllamaClient } from "./lib/services.js";
+import { getChromaCollection } from "./lib/chroma.js";
 // CLI entry
 
 type Front = { uuid?: string; filename?: string };
@@ -104,13 +104,13 @@ const changedIds = async (
   return pairs.filter((x): x is readonly [Chunk, string, string] => !!x);
 };
 
-const ollamaClient = new Ollama({ host: OLLAMA_URL });
 const embedBatch = async (
   model: string,
   texts: string[],
   timeoutMs = 120_000,
 ) => {
   if (texts.length === 0) return [] as number[][];
+  const ollamaClient = createOllamaClient();
   // Official API uses `.embed({ model, input })`
   const p = ollamaClient.embed({ model, input: texts }) as Promise<any>;
   const withTimeout = new Promise<any>((_resolve, reject) => {
@@ -156,109 +156,111 @@ export async function runEmbed(
 
   dbg("collection", opts.collection, "model", EMBED_MODEL, "batch", BATCH);
 
-  let files = await listFilesRec(ROOT, EXTS);
-  if (opts.files && opts.files.length) {
-    const wanted = new Set(opts.files.map((p) => path.resolve(p)));
-    files = files.filter((f) => wanted.has(path.resolve(f)));
-  }
-  dbg("files", files.length, "root", ROOT);
-
+  const wanted =
+    opts.files && opts.files.length
+      ? new Set(opts.files.map((p) => path.resolve(p)))
+      : null;
   let totalChunks = 0;
   let totalDeltas = 0;
   let fileDone = 0;
-  for (const f of files) {
-    const raw = await fs.readFile(f, "utf8");
-    const { data, content } = matter(raw);
-    const fm = data as Front;
-    if (!fm.uuid) continue;
+  let processedFiles = 0;
+  await scanFiles({
+    root: ROOT,
+    exts: EXTS,
+    readContent: true,
+    onFile: async (file: IndexedFile, progress: ScanProgress) => {
+      const abs = path.isAbsolute(file.path)
+        ? path.resolve(file.path)
+        : path.resolve(ROOT, file.path);
+      if (wanted && !wanted.has(abs)) return;
+      const raw = file.content ?? (await fs.readFile(abs, "utf8"));
+      const { data, content } = matter(raw);
+      const fm = data as Front;
+      if (!fm.uuid) return;
 
-    const title = fm.filename || path.parse(f).name;
+      const title = fm.filename || path.parse(abs).name;
+      const chunks = chunkDoc(abs, fm.uuid, content);
+      totalChunks += chunks.length;
 
-    // Immutable chunk array
-    const chunks = chunkDoc(f, fm.uuid, content);
-    totalChunks += chunks.length;
+      await db.docs.put(fm.uuid, { path: abs, title });
+      await db.chunks.put(fm.uuid, chunks);
 
-    // Upsert doc + chunks metadata (no vectors) into Level
-    await db.docs.put(fm.uuid, { path: f, title });
-    await db.chunks.put(fm.uuid, chunks);
-
-    // Decide which chunks actually need embeddings
-    const deltas = await changedIds(db.fp, chunks, EMBED_MODEL);
-    dbg(
-      "file",
-      f,
-      "uuid",
-      fm.uuid,
-      "chunks",
-      chunks.length,
-      "deltas",
-      deltas.length,
-    );
-    onProgress?.({
-      step: "embed",
-      done: fileDone,
-      total: files.length,
-      message: `file ${fileDone + 1}/${files.length} ${path.basename(
-        f,
-      )} chunks=${chunks.length} deltas=${deltas.length}`,
-    });
-    totalDeltas += deltas.length;
-    if (deltas.length === 0) {
-      fileDone++;
-      onProgress?.({ step: "embed", done: fileDone, total: files.length });
-      continue;
-    }
-
-    // Batch-embed with ollama and upsert to Chroma
-    const groups = groupsOf(BATCH, deltas);
-    for (let gi = 0; gi < groups.length; gi++) {
-      const group = groups[gi]!;
-      const ids = group.map(([c]) => c.id);
-      const texts = group.map(([, , text]) => text);
-      const metas = group.map(([c]) => ({
-        docUuid: c.docUuid,
-        path: c.docPath,
-        title,
-      }));
-
-      try {
-        const embs = await embedBatch(EMBED_MODEL, texts); // uses ollama JS client
-        await coll.upsert({
-          ids,
-          embeddings: embs,
-          documents: texts,
-          metadatas: metas,
-        });
-      } catch (e) {
-        dbg("embed/upsert error", {
-          file: f,
-          uuid: fm.uuid,
-          group: gi + 1,
-          of: groups.length,
-          error: String((e as any)?.message || e),
-        });
-        // continue to next group instead of stalling whole pipeline
-      }
-
-      // Persist fingerprints (immutable write: independent puts)
-      await Promise.all(group.map(async ([c, fp]) => db.fp.put(c.id, fp)));
-
-      // Fine-grained progress: advance within this file
-      const frac = (gi + 1) / groups.length;
+      const deltas = await changedIds(db.fp, chunks, EMBED_MODEL);
+      const totalFiles = wanted ? wanted.size : progress.total;
+      dbg(
+        "file",
+        abs,
+        "uuid",
+        fm.uuid,
+        "chunks",
+        chunks.length,
+        "deltas",
+        deltas.length,
+      );
       onProgress?.({
         step: "embed",
-        done: fileDone + frac,
-        total: files.length,
-        message: `file ${fileDone + 1}/${files.length} group ${gi + 1}/${
-          groups.length
-        }`,
+        done: fileDone,
+        total: totalFiles,
+        message: `file ${fileDone + 1}/${totalFiles} ${path.basename(
+          abs,
+        )} chunks=${chunks.length} deltas=${deltas.length}`,
       });
-    }
-    fileDone++;
-    onProgress?.({ step: "embed", done: fileDone, total: files.length });
-  }
+      totalDeltas += deltas.length;
+      if (deltas.length === 0) {
+        fileDone++;
+        processedFiles++;
+        onProgress?.({ step: "embed", done: fileDone, total: totalFiles });
+        return;
+      }
 
-  dbg("totals", { files: files.length, totalChunks, totalDeltas });
+      const groups = groupsOf(BATCH, deltas);
+      for (let gi = 0; gi < groups.length; gi++) {
+        const group = groups[gi]!;
+        const ids = group.map(([c]) => c.id);
+        const texts = group.map(([, , text]) => text);
+        const metas = group.map(([c]) => ({
+          docUuid: c.docUuid,
+          path: c.docPath,
+          title,
+        }));
+
+        try {
+          const embs = await embedBatch(EMBED_MODEL, texts);
+          await coll.upsert({
+            ids,
+            embeddings: embs,
+            documents: texts,
+            metadatas: metas,
+          });
+        } catch (e) {
+          dbg("embed/upsert error", {
+            file: abs,
+            uuid: fm.uuid,
+            group: gi + 1,
+            of: groups.length,
+            error: String((e as any)?.message || e),
+          });
+        }
+
+        await Promise.all(group.map(async ([c, fp]) => db.fp.put(c.id, fp)));
+
+        const frac = (gi + 1) / groups.length;
+        onProgress?.({
+          step: "embed",
+          done: fileDone + frac,
+          total: totalFiles,
+          message: `file ${fileDone + 1}/${totalFiles} group ${gi + 1}/${
+            groups.length
+          }`,
+        });
+      }
+      fileDone++;
+      processedFiles++;
+      onProgress?.({ step: "embed", done: fileDone, total: totalFiles });
+    },
+  });
+
+  dbg("totals", { files: processedFiles, totalChunks, totalDeltas });
   console.log("02-embed: done (vectors in Chroma; KV in Level).");
 }
 const isDirect =
@@ -275,17 +277,11 @@ if (isDirect) {
   // CLI path builds its own DB+collection when invoked directly
   const { openDB } = await import("./db.js");
   const db = await openDB();
-  const client = new ChromaClient({});
   const embedModel = args["--embed-model"] ?? "nomic-embed-text:latest";
   const collection = args["--collection"] ?? "docs";
-  const embedder = new OllamaEmbeddingFunction({
-    model: embedModel,
-    url: OLLAMA_URL,
-  });
-  const coll = await client.getOrCreateCollection({
-    name: collection,
-    metadata: { embed_model: embedModel, "hnsw:space": "cosine" },
-    embeddingFunction: embedder,
+  const { coll } = await getChromaCollection({
+    collection,
+    embedModel,
   });
   const dir = args["--dir"] ?? "docs/unique";
   const extsArg = args["--ext"] ?? ".md,.mdx,.txt";

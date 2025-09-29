@@ -6,7 +6,8 @@
     "build": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "tsc -b"
+        "command": "tsc -b",
+        "cwd": "{projectRoot}"
       },
       "outputs": ["{projectRoot}/dist"]
     },
@@ -20,7 +21,11 @@
       "executor": "nx:run-commands",
       "dependsOn": ["build"],
       "options": {
-        "command": "ava"
+        "command": "ava",
+        "env": {
+          "AVA_PROJECT_ROOT": "."
+        },
+        "cwd": "{projectRoot}"
       }
     },
     "lint": {

@@ -1,5 +1,5 @@
 {
-    "name": "ts-examples",
+    "name": "@promethean/examples",
     "root": "packages/examples",
     "sourceRoot": "packages/examples/src",
     "targets": {
@@ -22,7 +22,10 @@
             "executor": "nx:run-commands",
             "options": {
                 "command": "ava",
-                "cwd": "packages/examples"
+                "cwd": "{projectRoot}",
+                "env": {
+                    "AVA_PROJECT_ROOT": "."
+                }
             }
         },
         "lint": {

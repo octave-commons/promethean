@@ -1,5 +1,5 @@
 {
-  "name": "ts-docops",
+  "name": "@promethean/docops",
   "root": "packages/docops",
   "sourceRoot": "packages/docops/src",
   "targets": {
@@ -21,8 +21,11 @@
     "test": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "ava",
-        "cwd": "packages/docops"
+        "command": "ava dist/tests/**/*.test.js --config ../../config/ava.config.mjs",
+        "cwd": "{projectRoot}",
+        "env": {
+          "AVA_PROJECT_ROOT": "."
+        }
       }
     },
     "lint": {

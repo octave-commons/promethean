@@ -4,7 +4,13 @@ import { fileURLToPath } from "node:url";
 import { globby } from "globby";
 import { parseArgs } from "@promethean/utils";
 
-import { tsc, codeFrame, writeJSON } from "./utils.js";
+import {
+  tsc,
+  codeFrame,
+  writeJSON,
+  resolveFromWorkspace,
+  WORKSPACE_ROOT,
+} from "./utils.js";
 import type { ErrorList, BuildError } from "./types.js";
 
 export type ErrorOptions = {
@@ -26,8 +32,9 @@ function resolveRoot(raw: string | boolean | undefined): string | undefined {
     (typeof raw === "string" && raw.trim() === "") ||
     (typeof raw === "string" && raw.toLowerCase() === "true")
   )
-    return process.cwd();
-  return String(raw).trim();
+    return WORKSPACE_ROOT;
+  const p = String(raw).trim();
+  return resolveFromWorkspace(p);
 }
 
 async function collectForTsconfig(tsconfigPath: string): Promise<BuildError[]> {
@@ -52,13 +59,15 @@ async function collectForTsconfig(tsconfigPath: string): Promise<BuildError[]> {
 }
 
 export async function run(opts: ErrorOptions = {}): Promise<void> {
-  const outFile = path.resolve(opts.out ?? ".cache/buildfix/errors.json");
+  const outFile = resolveFromWorkspace(
+    opts.out ?? ".cache/buildfix/errors.json",
+  );
   let errors: BuildError[] = [];
   let tsconfig: string | undefined;
 
   const root = resolveRoot(opts.root);
   if (root) {
-    const rootAbs = path.resolve(root);
+    const rootAbs = root;
     const tsconfigs = await globby(["**/tsconfig.json"], {
       cwd: rootAbs,
       gitignore: true,
@@ -73,7 +82,7 @@ export async function run(opts: ErrorOptions = {}): Promise<void> {
     }
     tsconfig = `workspace:${rootAbs}`;
   } else {
-    const single = path.resolve(opts.tsconfig ?? "tsconfig.json");
+    const single = resolveFromWorkspace(opts.tsconfig ?? "tsconfig.json");
     tsconfig = single;
     errors = await collectForTsconfig(single);
   }
@@ -86,7 +95,7 @@ export async function run(opts: ErrorOptions = {}): Promise<void> {
   await writeJSON(outFile, out);
   console.log(
     `buildfix: collected ${errors.length} error(s) → ${path.relative(
-      process.cwd(),
+      WORKSPACE_ROOT,
       outFile,
     )}`,
   );

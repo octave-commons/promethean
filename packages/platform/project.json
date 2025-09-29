@@ -1,5 +1,5 @@
 {
-    "name": "ts-platform",
+    "name": "@promethean/platform",
     "root": "packages/platform",
     "sourceRoot": "packages/platform/src",
     "targets": {
@@ -22,7 +22,10 @@
             "executor": "nx:run-commands",
             "options": {
                 "command": "ava",
-                "cwd": "packages/platform"
+                "cwd": "{projectRoot}",
+                "env": {
+                    "AVA_PROJECT_ROOT": "."
+                }
             }
         },
         "lint": {

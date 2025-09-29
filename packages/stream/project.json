@@ -1,5 +1,5 @@
 {
-    "name": "ts-stream",
+    "name": "@promethean/stream",
     "root": "packages/stream",
     "sourceRoot": "packages/stream/src",
     "targets": {
@@ -22,7 +22,10 @@
             "executor": "nx:run-commands",
             "options": {
                 "command": "ava",
-                "cwd": "packages/stream"
+                "cwd": "{projectRoot}",
+                "env": {
+                    "AVA_PROJECT_ROOT": "."
+                }
             }
         },
         "lint": {

@@ -1,0 +1,24 @@
+{
+  "name": "eidolon-field",
+  "version": "0.0.1",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "ava --config ../../../config/ava.config.mjs",
+    "coverage": "c8 ava --config ../../../config/ava.config.mjs",
+    "lint": "eslint -c ../eslint.config.js ."
+  },
+  "dependencies": {
+    "@promethean/persistence": "workspace:*",
+    "@types/node": "^24.3.0",
+    "mongodb": "^6.8.0",
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "@promethean/test-utils": "workspace:*",
+    "ava": "^6.4.1",
+    "c8": "^9.1.0",
+    "mongodb-memory-server": "^10.1.4"
+  }
+}

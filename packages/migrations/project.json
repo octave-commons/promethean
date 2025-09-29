@@ -1,5 +1,5 @@
 {
-    "name": "ts-migrations",
+    "name": "@promethean/migrations",
     "root": "packages/migrations",
     "sourceRoot": "packages/migrations/src",
     "targets": {
@@ -22,7 +22,10 @@
             "executor": "nx:run-commands",
             "options": {
                 "command": "ava",
-                "cwd": "packages/migrations"
+                "cwd": "{projectRoot}",
+                "env": {
+                    "AVA_PROJECT_ROOT": "."
+                }
             }
         },
         "lint": {

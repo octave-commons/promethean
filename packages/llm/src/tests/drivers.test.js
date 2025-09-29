@@ -1,5 +1,5 @@
 import test from 'ava';
-import { loadDriver } from '../dist/drivers/index.js';
+import { loadDriver } from '../../dist/drivers/index.js';
 import ollama from 'ollama';
 
 test('loads ollama driver and generates', async (t) => {

@@ -1,5 +1,5 @@
 {
-  "name": "broker-service",
+  "name": "@promethean/broker",
   "version": "0.0.1",
   "type": "module",
   "main": "index.js",
@@ -14,7 +14,6 @@
   },
   "dependencies": {
     "@promethean/legacy": "workspace:*",
-    "@types/node": "^24.3.0",
     "redis": "^4.6.7",
     "ws": "^8.18.0"
   },

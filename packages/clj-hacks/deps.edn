@@ -1,2 +1,20 @@
-{:deps {io.github.bonede/tree-sitter        {:mvn/version "0.25.3"}
-        io.github.bonede/tree-sitter-elisp  {:mvn/version "1.3.0a"}}}
+{:mvn/local-repo "target/m2"
+ :deps {org.clojure/clojure                 {:mvn/version "1.11.1"}
+        io.github.bonede/tree-sitter        {:mvn/version "0.25.3"}
+        io.github.bonede/tree-sitter-elisp  {:mvn/version "1.3.0a"}
+        cheshire/cheshire                   {:mvn/version "5.13.0"}
+        babashka/fs                         {:mvn/version "0.4.19"}
+        babashka/process                    {:mvn/version "0.5.21"}}
+ :aliases
+ {:lint    {:extra-deps {clj-kondo/clj-kondo {:mvn/version "2024.05.240"}}
+            :main-opts  ["-m" "clj-kondo.main" "--lint" "src" "test"]}
+  :validate {:main-opts ["-m" "elisp.validate"]}
+  :test    {:extra-paths ["test"]
+            :extra-deps {io.github.cognitect-labs/test-runner
+                         {:git/url "https://github.com/cognitect-labs/test-runner"
+                          :git/tag "v0.5.1"
+                          :git/sha "dfb30dd"}}
+            :main-opts  ["-m" "cognitect.test-runner" "-d" "test"]}
+  :compile {:jvm-opts  ["-Dclojure.compile.path=target/classes"]
+            :main-opts ["-e"
+                        "(binding [*compile-path* (System/getProperty \"clojure.compile.path\" \"target/classes\")] (compile 'elisp.read))"]}}}

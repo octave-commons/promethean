@@ -1,5 +1,5 @@
 {
-  "name": "ts-piper",
+  "name": "@promethean/piper",
   "root": "packages/piper",
   "sourceRoot": "packages/piper/src",
   "targets": {
@@ -22,7 +22,10 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "ava",
-        "cwd": "packages/piper"
+        "cwd": "{projectRoot}",
+        "env": {
+          "AVA_PROJECT_ROOT": "."
+        }
       }
     },
     "lint": {

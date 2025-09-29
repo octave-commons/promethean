@@ -6,7 +6,7 @@ TODO: Add service description.
 
 ## Broker Usage
 
-Use `@shared/js/brokerClient.js` (or `AgentBus` wrapping it) for all broker communication. Avoid raw `WebSocket` clients.
+Use `@promethean/legacy/brokerClient.js` (or `AgentBus` wrapping it) for all broker communication. Avoid raw `WebSocket` clients.
 
 ## Paths
 

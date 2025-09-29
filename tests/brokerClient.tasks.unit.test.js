@@ -1,11 +1,11 @@
 import test from "ava";
 
 import { sleep } from "@promethean/utils";
-import { BrokerClient } from "@shared/js/brokerClient.js";
+import { BrokerClient } from "@promethean/legacy/brokerClient.js";
 import {
   getMemoryBroker,
   resetMemoryBroker,
-} from "@shared/ts/dist/test-utils/broker.js";
+} from "@promethean/test-utils/broker.js";
 
 test.beforeEach(() => {
   resetMemoryBroker("unit-tasks");

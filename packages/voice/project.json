@@ -1,5 +1,5 @@
 {
-  "name": "ts-voice",
+  "name": "@promethean/voice-service",
   "root": "packages/voice",
   "sourceRoot": "packages/voice/src",
   "targets": {
@@ -22,7 +22,10 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "ava",
-        "cwd": "packages/voice"
+        "cwd": "{projectRoot}",
+        "env": {
+          "AVA_PROJECT_ROOT": "."
+        }
       }
     },
     "lint": {

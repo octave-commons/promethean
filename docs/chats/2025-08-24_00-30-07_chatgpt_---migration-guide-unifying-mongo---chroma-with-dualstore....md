@@ -685,7 +685,7 @@ Replace all that with a single abstraction:
 ```ts
 import { DualStore } from "@shared/ts/persistence/dualStore";
 import { RemoteEmbeddingFunction } from "@shared/ts/embeddings/remote";
-import { AGENT_NAME } from "@shared/js/env";
+import { AGENT_NAME } from "@promethean/legacy/env";
 
 async function runDiscordEmbedder() {
   // Collection name standardized

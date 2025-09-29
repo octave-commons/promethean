@@ -1,6 +1,0 @@
-(define Gravity Physics.Force
-  (def apply (c)
-    (var v c.velocity)
-    (var collision (.get c.system.process.systems Collision c.entity))
-    (unless collision.colliding (incr-by v.yd 9.8))))
-(export Gravity)

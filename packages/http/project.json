@@ -1,5 +1,5 @@
 {
-    "name": "ts-http",
+    "name": "@promethean/http",
     "root": "packages/http",
     "sourceRoot": "packages/http/src",
     "targets": {
@@ -22,7 +22,10 @@
             "executor": "nx:run-commands",
             "options": {
                 "command": "ava",
-                "cwd": "packages/http"
+                "cwd": "{projectRoot}",
+                "env": {
+                    "AVA_PROJECT_ROOT": "."
+                }
             }
         },
         "lint": {

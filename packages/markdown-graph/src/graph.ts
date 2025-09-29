@@ -3,7 +3,6 @@ import { promises as fs } from "fs";
 
 import { ContextStore } from "@promethean/persistence";
 
-const LINK_PATTERN = /\[[^\]]*\]\(([^)]+\.md)\)/g;
 const TAG_PATTERN = /(?<!\w)#(\w+)/g;
 
 export class GraphDB {
@@ -38,7 +37,48 @@ export class GraphDB {
   }
 
   private parseLinks(content: string): string[] {
-    return Array.from(content.matchAll(LINK_PATTERN), (m) => m[1]!);
+    const results: string[] = [];
+    const extension = ".md";
+    let searchIndex = 0;
+
+    while (searchIndex < content.length) {
+      const openBracket = content.indexOf("[", searchIndex);
+      if (openBracket === -1) break;
+      searchIndex = openBracket + 1;
+
+      // Skip image links like ![alt](image.png)
+      if (openBracket > 0 && content[openBracket - 1] === "!") {
+        continue;
+      }
+
+      const closingBracket = content.indexOf("]", openBracket + 1);
+      if (closingBracket === -1) {
+        continue;
+      }
+      if (
+        closingBracket + 1 >= content.length ||
+        content[closingBracket + 1] !== "("
+      ) {
+        searchIndex = closingBracket + 1;
+        continue;
+      }
+
+      const closingParen = content.indexOf(")", closingBracket + 2);
+      if (closingParen === -1) {
+        searchIndex = closingBracket + 1;
+        continue;
+      }
+
+      const rawLink = content.slice(closingBracket + 2, closingParen);
+      const link = rawLink.trim();
+      if (link.toLowerCase().endsWith(extension)) {
+        results.push(link);
+      }
+
+      searchIndex = closingParen + 1;
+    }
+
+    return results;
   }
 
   private parseTags(content: string): string[] {

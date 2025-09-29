@@ -1,5 +1,5 @@
 {
-    "name": "ts-compaction",
+    "name": "@promethean/compaction",
     "root": "packages/compaction",
     "sourceRoot": "packages/compaction/src",
     "targets": {
@@ -22,7 +22,10 @@
             "executor": "nx:run-commands",
             "options": {
                 "command": "ava",
-                "cwd": "packages/compaction"
+                "cwd": "{projectRoot}",
+                "env": {
+                    "AVA_PROJECT_ROOT": "."
+                }
             }
         },
         "lint": {

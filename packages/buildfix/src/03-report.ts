@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 
 import { parseArgs } from "@promethean/utils";
 
-import { readJSON } from "./utils.js";
+import { readJSON, resolveFromWorkspace, WORKSPACE_ROOT } from "./utils.js";
 import type { Summary, History } from "./types.js";
 
 export type ReportOptions = {
@@ -15,16 +15,20 @@ export type ReportOptions = {
 
 export async function run(opts: ReportOptions = {}): Promise<void> {
   const sum = await readJSON<Summary>(
-    path.resolve(opts.summary ?? ".cache/buildfix/summary.json"),
+    resolveFromWorkspace(opts.summary ?? ".cache/buildfix/summary.json"),
   );
   if (!sum) throw new Error("summary not found");
 
-  const outDir = path.resolve(opts.out ?? "docs/agile/reports/buildfix");
+  const outDir = resolveFromWorkspace(
+    opts.out ?? "docs/agile/reports/buildfix",
+  );
   await fs.mkdir(outDir, { recursive: true });
   const ts = new Date().toISOString().replace(/[:.]/g, "-");
   const out = path.join(outDir, `buildfix-${ts}.md`);
 
-  const histRoot = path.resolve(opts.historyRoot ?? ".cache/buildfix/history");
+  const histRoot = resolveFromWorkspace(
+    opts.historyRoot ?? ".cache/buildfix/history",
+  );
   const rows = await Promise.all(
     sum.items.map(async (it: Summary["items"][number]) => {
       const hp = path.join(histRoot, it.key, "history.json");
@@ -54,7 +58,7 @@ export async function run(opts: ReportOptions = {}): Promise<void> {
     path.join(outDir, "README.md"),
     `# Buildfix Reports\n\n- [Latest](${path.basename(out)})\n`,
   );
-  console.log(`buildfix: report → ${path.relative(process.cwd(), out)}`);
+  console.log(`buildfix: report → ${path.relative(WORKSPACE_ROOT, out)}`);
 }
 
 export default run;

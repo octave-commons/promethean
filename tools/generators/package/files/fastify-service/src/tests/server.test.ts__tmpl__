@@ -1,0 +1,17 @@
+import test from "ava";
+
+import { createServer } from "../index.js";
+
+const build = async () => createServer();
+
+test("health route responds", async (t) => {
+  const app = await build();
+  const response = await app.inject({ method: "GET", url: "/health" });
+  t.is(response.statusCode, 200);
+});
+
+test("diagnostics route responds", async (t) => {
+  const app = await build();
+  const response = await app.inject({ method: "GET", url: "/diagnostics" });
+  t.is(response.statusCode, 200);
+});

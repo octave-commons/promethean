@@ -17,7 +17,6 @@ fi
 #--- 1) Toolchain for node-gyp (Python, make, C/C++ compiler, pkg-config) ---
 # node-gyp needs Python + make + a proper C/C++ toolchain. :contentReference[oaicite:4]{index=4}
 log "Installing core build toolchain (Python, make, g++, pkg-config)…"
-sudo apt-get update -y
 sudo apt-get install -y python3 make g++ pkg-config build-essential
 
 #--- 2) Canvas system libraries (Cairo/Pango/JPEG/GIF/SVG) -----------------
