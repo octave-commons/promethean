@@ -1,73 +1,106 @@
+import type { Entity } from '@promethean/ds/ecs.js';
 import { World } from '@promethean/ds/ecs.js';
 import { sleep } from '@promethean/utils/sleep.js';
 
 import { defineAgentComponents } from './components.js';
-import { VADUpdateSystem } from './systems/vad.js';
-import { TurnDetectionSystem } from './systems/turn.js';
+import type { AgentComponents, AudioPlayer, BargeIn } from './types.js';
 import { SpeechArbiterSystem } from './systems/speechArbiter.js';
+import { TurnDetectionSystem } from './systems/turn.js';
+import { VADUpdateSystem } from './systems/vad.js';
 
-export function createAgentWorld(audioPlayer: any) {
-    const w = new World();
-    const C = defineAgentComponents(w);
+type AgentSystem = (dtMs: number) => void | Promise<void>;
 
-    // create agent entity
-    const cmd = w.beginTick();
-    const agent = cmd.createEntity();
-    cmd.add(agent, C.Turn);
-    cmd.add(agent, C.PlaybackQ, { items: [] });
-    cmd.add(agent, C.Policy, { defaultBargeIn: 'pause' as const });
-    cmd.add(agent, C.AudioRef, { player: audioPlayer });
-    cmd.add(agent, C.RawVAD);
-    cmd.add(agent, C.VAD);
-    cmd.add(agent, C.TranscriptFinal);
-    cmd.add(agent, C.BargeState);
-    cmd.add(agent, C.VisionRing);
-    cmd.add(agent, C.VoiceState);
-    cmd.flush();
+type AgentWorldHandle = {
+    readonly w: World;
+    readonly agent: Entity;
+    readonly C: AgentComponents;
+    readonly tick: (dtMs?: number) => Promise<void>;
+    readonly addSystem: (system: AgentSystem) => void;
+    readonly start: (delay: number) => Promise<void>;
+    readonly stop: () => Promise<void>;
+};
 
-    w.endTick();
+class AgentTicker {
+    private systems: ReadonlyArray<AgentSystem>;
+    private running = false;
+    private tickPromise: Promise<void> = Promise.resolve();
 
-    const systems: Array<(dtMs: number) => void | Promise<void>> = [
-        VADUpdateSystem(w, C),
-        TurnDetectionSystem(w, C),
-        SpeechArbiterSystem(w, C),
-    ];
-
-    async function tick(dtMs = 50) {
-        const cmd = w.beginTick();
-
-        for (const s of systems) await s(dtMs);
-
-        cmd.flush();
-        w.endTick();
+    constructor(
+        private readonly world: World,
+        systems: ReadonlyArray<AgentSystem>,
+    ) {
+        this.systems = systems;
     }
 
-    function addSystem(s: (dtMs: number) => void | Promise<void>) {
-        systems.push(s);
-    }
-    let running = false;
-    let tickPromise = Promise.resolve();
-    async function start(delay: number) {
-        let tickStart,
-            tickStop,
-            dT = 0;
-        running = true;
-        while (running) {
-            tickStart = Date.now();
-            await tickPromise;
-            tickPromise = tick(dT);
-            tickStop = Date.now();
-            dT = tickStop - tickStart;
-            if (delay >= dT) {
-                await sleep(delay - dT);
-            }
-        }
-    }
-    async function stop() {
-        if (!running) throw new Error('There is no ticker to stop');
-        await tickPromise;
-        running = false;
+    async tick(dtMs = 50): Promise<void> {
+        const command = this.world.beginTick();
+        await this.systems.reduce<Promise<void>>(
+            (promise, system) => promise.then(() => Promise.resolve(system(dtMs))).then(() => undefined),
+            Promise.resolve(),
+        );
+        command.flush();
+        this.world.endTick();
     }
 
-    return { w, agent, C, tick, addSystem, start, stop };
+    addSystem(system: AgentSystem): void {
+        this.systems = [...this.systems, system];
+    }
+
+    async start(delay: number): Promise<void> {
+        if (this.running) return;
+        this.running = true;
+        const loop = async (previousDelta: number): Promise<void> => {
+            if (!this.running) return;
+            const tickStart = Date.now();
+            await this.tickPromise;
+            this.tickPromise = this.tick(previousDelta);
+            const tickStop = Date.now();
+            const elapsed = tickStop - tickStart;
+            if (delay > elapsed) await sleep(delay - elapsed);
+            await loop(elapsed);
+        };
+        await loop(0);
+    }
+
+    async stop(): Promise<void> {
+        if (!this.running) throw new Error('There is no ticker to stop');
+        await this.tickPromise;
+        this.running = false;
+    }
 }
+
+export const createAgentWorld = (audioPlayer: AudioPlayer): AgentWorldHandle => {
+    const world = new World();
+    const components = defineAgentComponents(world);
+
+    const command = world.beginTick();
+    const agent = command.createEntity();
+    command.add(agent, components.Turn);
+    command.add(agent, components.PlaybackQ, { items: [] });
+    command.add(agent, components.Policy, { defaultBargeIn: 'pause' as BargeIn });
+    command.add(agent, components.AudioRef, { player: audioPlayer });
+    command.add(agent, components.RawVAD);
+    command.add(agent, components.VAD);
+    command.add(agent, components.TranscriptFinal);
+    command.add(agent, components.BargeState);
+    command.add(agent, components.VisionRing);
+    command.add(agent, components.VoiceState);
+    command.flush();
+    world.endTick();
+
+    const ticker = new AgentTicker(world, [
+        VADUpdateSystem(world, components),
+        TurnDetectionSystem(world, components),
+        SpeechArbiterSystem(world, components),
+    ]);
+
+    return {
+        w: world,
+        agent,
+        C: components,
+        tick: (dtMs = 50) => ticker.tick(dtMs),
+        addSystem: (system: AgentSystem) => ticker.addSystem(system),
+        start: (delay: number) => ticker.start(delay),
+        stop: () => ticker.stop(),
+    };
+};
