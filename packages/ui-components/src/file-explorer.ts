@@ -4,8 +4,11 @@ const Base = (
 
 export class UiFileExplorer extends Base {
   connectedCallback(): void {
-    if (!this.isConnected) return;
-    this.innerHTML = "<slot></slot>";
-    this.style.display = "block";
+    if (!this.isConnected || this.shadowRoot !== null) return;
+    const shadow = this.attachShadow({ mode: "open" });
+    const style = document.createElement("style");
+    style.append(document.createTextNode(":host { display: block; }"));
+    const slot = document.createElement("slot");
+    shadow.append(style, slot);
   }
 }
