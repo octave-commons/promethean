@@ -157,7 +157,15 @@ export async function runDocopsStep(
     },
   };
 
-  await stepFn[step](args);
+  if (!Object.prototype.hasOwnProperty.call(stepFn, step)) {
+    const validSteps = Object.keys(stepFn).join(", ");
+    throw new Error(
+      `Unknown docops step "${String(step)}". Expected one of: ${validSteps}`,
+    );
+  }
+
+  const handler = stepFn[step];
+  await handler(args);
 }
 
 export async function runDocopsPipeline(
