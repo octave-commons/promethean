@@ -15,10 +15,8 @@ export const STATUS_ORDER = [
 
 export const STATUS_SET = new Set(STATUS_ORDER);
 
-const TRAILING_WHITESPACE = /\s+$/;
-
 function stripTrailingParenthetical(value: string): string {
-    const trimmedEnd = value.replace(TRAILING_WHITESPACE, '');
+    const trimmedEnd = value.trimEnd();
 
     if (!trimmedEnd.endsWith(')')) {
         return trimmedEnd;
@@ -31,7 +29,7 @@ function stripTrailingParenthetical(value: string): string {
     }
 
     const beforeParenthetical = trimmedEnd.slice(0, openingIndex);
-    return beforeParenthetical.replace(TRAILING_WHITESPACE, '');
+    return beforeParenthetical.trimEnd();
 }
 
 type ParentheticalState = {
