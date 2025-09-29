@@ -86,7 +86,6 @@ const WATCH_GLOBS = () => {
 };
 app.get(
   "/api/dev-events",
-  { config: { rateLimit: false } },
   async (_req, reply) => {
     const send = sseInit(reply);
     // Do NOT emit an immediate update; only on file changes.
