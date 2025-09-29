@@ -173,8 +173,8 @@ async function resolveWithinRoot(rootPath: string, rel: string) {
       } else {
         attempted = path.normalize(candidate);
       }
-      // Explicitly check fallback against rootAbs
-      const rootCheck = path.resolve(rootAbs);
+      // Explicitly check fallback against the canonical root
+      const rootCheck = path.resolve(rootReal);
       const absAttempted = path.resolve(attempted);
       const relAttempted = path.relative(rootCheck, absAttempted);
       const escapesRootAttempted =
@@ -355,6 +355,7 @@ export async function indexFile(
     });
     return { ok: false, error: "File is outside index root" };
   }
+  const { abs, rel: safeRel } = resolved;
   let raw = "";
   try {
     raw = await fs.readFile(abs, "utf8");
@@ -767,23 +768,33 @@ export async function reindexAll(
   let processed = 0;
   for (let i = 0; i < max; i++) {
     const rel = files[i]!;
-    const abs = path.join(rootPath, rel);
+    let resolved;
+    try {
+      resolved = await resolveWithinRoot(rootPath, rel);
+    } catch (error) {
+      logger.warn("reindexAll skipped file outside root", {
+        path: rel,
+        err: error,
+      });
+      continue;
+    }
+    const { abs, rel: safeRel } = resolved;
     let raw = "";
     try {
       raw = await fs.readFile(abs, "utf8");
     } catch (e: any) {
-      logger.warn("reindexAll read failed", { path: rel, err: e });
+      logger.warn("reindexAll read failed", { path: safeRel, err: e });
       continue;
     }
     const chunks = makeChunks(raw);
     for (const c of chunks) {
-      const id = `${rel}#${c.index}`;
+      const id = `${safeRel}#${c.index}`;
       await col.upsert({
         ids: [id],
         documents: [c.text],
         metadatas: [
           {
-            path: rel,
+            path: safeRel,
             chunkIndex: c.index,
             startLine: c.startLine,
             endLine: c.endLine,
