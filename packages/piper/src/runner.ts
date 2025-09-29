@@ -152,21 +152,49 @@ async function readConfig(p: string): Promise<PiperFile> {
   };
 }
 
+type HashMode = "content" | "mtime";
+
+function pickPreviousHash(
+  prev: Step | undefined,
+  mode: HashMode,
+): string | undefined {
+  if (!prev) return undefined;
+  if (mode === "content") {
+    if (prev.outputHashContent) return prev.outputHashContent;
+    if (prev.outputHashMode === "content" && prev.outputHash)
+      return prev.outputHash;
+  } else {
+    if (prev.outputHashMtime) return prev.outputHashMtime;
+    if (prev.outputHashMode === "mtime" && prev.outputHash)
+      return prev.outputHash;
+  }
+  if (
+    prev.outputHashContent === undefined &&
+    prev.outputHashMtime === undefined
+  ) {
+    return prev.outputHash;
+  }
+  return undefined;
+}
+
 function shouldSkip(
   step: PiperStep,
   state: RunState,
   fp: string,
   outHash: string | undefined,
   haveOutputs: boolean,
+  hashMode: HashMode,
   force: boolean | undefined,
 ) {
   if (force) return { skip: false, reason: "" };
   const prev = state.steps[step.id];
+  const prevHash = pickPreviousHash(prev, hashMode);
   if (
     prev &&
     prev.fingerprint === fp &&
     haveOutputs &&
-    prev.outputHash === outHash
+    outHash !== undefined &&
+    prevHash === outHash
   ) {
     return {
       skip: true,
@@ -281,26 +309,23 @@ export async function runPipeline(
     await sem.take();
     try {
       const cwd = path.resolve(configDir, s.cwd ?? ".");
+      const hashMode: HashMode = opts.contentHash ? "content" : "mtime";
       const fp = await stepFingerprint(
         s,
         cwd,
-        !!opts.contentHash,
+        hashMode === "content",
         opts.extraEnv,
       );
       const haveOutputs = s.outputs.length
         ? await listOutputsExist(s.outputs, cwd)
         : false;
       const outHash = haveOutputs
-        ? await fingerprintFromGlobs(
-            s.outputs,
-            cwd,
-            opts.contentHash ? "content" : "mtime",
-          )
+        ? await fingerprintFromGlobs(s.outputs, cwd, hashMode)
         : undefined;
 
       const { skip, reason } = depsChanged
         ? { skip: false, reason: "" }
-        : shouldSkip(s, state, fp, outHash, haveOutputs, opts.force);
+        : shouldSkip(s, state, fp, outHash, haveOutputs, hashMode, opts.force);
 
       if (opts.dryRun) {
         const res: StepResult = { id: s.id, skipped: true, reason: "dry-run" };
@@ -453,13 +478,26 @@ export async function runPipeline(
       }
 
       const endedAt = new Date().toISOString();
-      const outHashAfter = s.outputs.length
-        ? await fingerprintFromGlobs(
+      let outputHashContent: string | undefined;
+      let outputHashMtime: string | undefined;
+      if (s.outputs.length) {
+        if (hashMode === "content" && outHash !== undefined) {
+          outputHashContent = outHash;
+        }
+        if (hashMode === "mtime" && outHash !== undefined) {
+          outputHashMtime = outHash;
+        }
+        if (outputHashContent === undefined) {
+          outputHashContent = await fingerprintFromGlobs(
             s.outputs,
             cwd,
-            opts.contentHash ? "content" : "mtime",
-          )
-        : undefined;
+            "content",
+          );
+        }
+        if (outputHashMtime === undefined) {
+          outputHashMtime = await fingerprintFromGlobs(s.outputs, cwd, "mtime");
+        }
+      }
 
       const out: StepResult = {
         id: s.id,
@@ -479,7 +517,17 @@ export async function runPipeline(
         fingerprint: fp,
         endedAt,
         exitCode: execRes.code,
-        ...(outHashAfter !== undefined ? { outputHash: outHashAfter } : {}),
+        ...(outputHashContent ? { outputHashContent } : {}),
+        ...(outputHashMtime ? { outputHashMtime } : {}),
+        ...(() => {
+          if (!outputHashContent && !outputHashMtime) return {};
+          const hashForMode =
+            hashMode === "content" ? outputHashContent : outputHashMtime;
+          return {
+            outputHashMode: hashMode,
+            ...(hashForMode ? { outputHash: hashForMode } : {}),
+          };
+        })(),
       };
       state.steps[s.id] = stepState;
       await saveState(stateKey, state);
