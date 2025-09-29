@@ -580,6 +580,14 @@ export class IndexerManager {
     this._draining = true;
     const delayMs = Number(process.env.INDEXER_FILE_DELAY_MS || 250);
     while (this.queue.length) {
+      const rootPath = this.rootPath;
+      if (!rootPath) {
+        logger.warn("indexer drain aborted - root path unset");
+        this.queue = [];
+        this.active = false;
+        this._draining = false;
+        return;
+      }
       this.active = true;
       const rel = this.queue.shift()!;
       logger.info("indexer processing file", {
@@ -587,7 +595,7 @@ export class IndexerManager {
         remaining: this.queue.length,
       });
       try {
-        await indexFile(this.rootPath!, rel);
+        await indexFile(rootPath, rel);
         this.processedFiles++;
         // If this item corresponds to current bootstrap cursor, advance and persist
         if (
@@ -602,7 +610,7 @@ export class IndexerManager {
             fileList: this.bootstrap.fileList,
             ...(this.startedAt !== null ? { startedAt: this.startedAt } : {}),
           };
-          await saveBootstrapState(this.rootPath!, nextState1);
+          await saveBootstrapState(rootPath, nextState1);
         }
       } catch (e: any) {
         this.errors.push(String(e?.message || e));
@@ -620,21 +628,22 @@ export class IndexerManager {
             fileList: this.bootstrap.fileList,
             ...(this.startedAt !== null ? { startedAt: this.startedAt } : {}),
           };
-          await saveBootstrapState(this.rootPath!, nextState2);
+          await saveBootstrapState(rootPath, nextState2);
         }
       }
       if (this.queue.length) await new Promise((r) => setTimeout(r, delayMs));
     }
     this.active = false;
     this.finishedAt = Date.now();
-    if (this.mode === "bootstrap") {
+    const rootPath = this.rootPath;
+    if (this.mode === "bootstrap" && rootPath) {
       // If finished processing bootstrap files, mark complete
       if (
         this.bootstrap &&
         this.bootstrap.cursor >= this.bootstrap.fileList.length
       ) {
         this.mode = "indexed";
-        const { files, fileInfo } = await gatherRepoFiles(this.rootPath!);
+        const { files, fileInfo } = await gatherRepoFiles(rootPath);
         const nextState3: Omit<BootstrapState, "rootPath"> = {
           mode: "indexed",
           cursor: this.bootstrap.cursor,
@@ -643,7 +652,7 @@ export class IndexerManager {
           ...(this.startedAt !== null ? { startedAt: this.startedAt } : {}),
           ...(this.finishedAt !== null ? { finishedAt: this.finishedAt } : {}),
         };
-        await saveBootstrapState(this.rootPath!, nextState3);
+        await saveBootstrapState(rootPath, nextState3);
       }
     }
     this._draining = false;
