@@ -101,6 +101,9 @@ export async function ollamaJSON(
   model: string,
   prompt: string,
 ): Promise<unknown> {
+  if (String(process.env.OLLAMA_DISABLE ?? "false").toLowerCase() === "true") {
+    throw new Error("ollama disabled");
+  }
   const res = await fetch(`${OLLAMA_URL}/api/generate`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },

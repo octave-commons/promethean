@@ -1,17 +1,24 @@
 import test from "ava";
 
-import { TokenBucket } from "../dist/limiter.js";
+import { TokenBucket } from "../limiter.js";
 
-const createClock = () => {
+type FakeClock = Readonly<{
+  now: () => number;
+  advance: (ms: number) => number;
+}>;
+
+/* eslint-disable functional/no-let */
+const createClock = (): FakeClock => {
   let now = 0;
   return {
     now: () => now,
-    advance: (ms) => {
+    advance: (ms: number) => {
       now += ms;
       return now;
     },
   };
 };
+/* eslint-enable functional/no-let */
 
 // ensure TokenBucket enforces capacity and returns deficit
 test("TokenBucket enforces capacity", (t) => {

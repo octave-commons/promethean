@@ -6,7 +6,7 @@ import rateLimit from "@fastify/rate-limit";
 
 import { createFastifyAuth } from "./fastifyAuth.js";
 import { registerV0Routes } from "./routes/v0/index.js";
-import { indexerManager as defaultIndexerManager } from "./indexer.js";
+import { ensureIndexerBootstrap } from "./indexerClient.js";
 import { restoreAgentsFromStore } from "./agent.js";
 import { registerSinks as defaultRegisterSinks } from "./sinks.js";
 import { registerRbac as defaultRegisterRbac } from "./rbac.js";
@@ -16,7 +16,7 @@ import { mongoChromaLogger } from "./logging/index.js";
 type BridgeDeps = {
   registerSinks?: () => Promise<void>;
   createFastifyAuth?: () => ReturnType<typeof createFastifyAuth>;
-  indexerManager?: typeof defaultIndexerManager;
+  indexerManager?: unknown;
   registerRbac?: (app: any) => void | Promise<void>;
   runCommand?:
     | ((
@@ -167,7 +167,9 @@ export async function buildFastifyApp(
 ) {
   const registerSinks = deps.registerSinks || defaultRegisterSinks;
   const authFactory = deps.createFastifyAuth || createFastifyAuth;
-  const indexerManager = deps.indexerManager || defaultIndexerManager;
+  if (deps.indexerManager) {
+    // Legacy dependency injection is no-op; indexer service overrides this path.
+  }
   const registerRbac = deps.registerRbac || defaultRegisterRbac;
   const isTestEnv = (process.env.NODE_ENV || "").toLowerCase() === "test";
 
@@ -280,7 +282,9 @@ export async function buildFastifyApp(
 
   // Initialize indexer bootstrap/incremental state unless in test
   if (!isTestEnv) {
-    indexerManager.ensureBootstrap(ROOT_PATH).catch(() => {});
+    ensureIndexerBootstrap(ROOT_PATH).catch((error) => {
+      app.log.error({ err: error }, "Failed to ensure indexer bootstrap");
+    });
     const restoreAllowed =
       String(process.env.AGENT_RESTORE_ON_START || "true") !== "false";
     if (restoreAllowed) restoreAgentsFromStore().catch(() => {});
