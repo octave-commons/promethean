@@ -647,15 +647,22 @@ export class IndexerManager {
     return { ok: true, queued: files.length };
   }
   async scheduleIndexFile(rel: string) {
-    const fileRel = path.isAbsolute(rel)
-      ? path.relative(this.rootPath!, rel)
-      : rel;
-    this.enqueueFiles([fileRel]);
-    this._drain();
-    return { ok: true, queued: 1 };
+    try {
+      const { rel: safeRel } = await resolveWithinRoot(this.rootPath!, rel);
+      this.enqueueFiles([safeRel]);
+      this._drain();
+      return { ok: true, queued: 1 };
+    } catch (error) {
+      return { ok: false, error: "File is outside index root" };
+    }
   }
   async removeFile(rel: string) {
-    return await removeFileFromIndex(this.rootPath!, rel);
+    try {
+      const { rel: safeRel } = await resolveWithinRoot(this.rootPath!, rel);
+      return await removeFileFromIndex(this.rootPath!, safeRel);
+    } catch (error) {
+      return { ok: false, error: "File is outside index root" };
+    }
   }
 
   async _scheduleIncremental(prev: any) {
