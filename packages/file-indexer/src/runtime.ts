@@ -1,6 +1,6 @@
 import { readFile } from "fs/promises";
-import * as path from "path";
 
+import type { ReadonlyDeep } from "type-fest";
 import { listFilesRec } from "@promethean/utils";
 
 import {
@@ -10,29 +10,30 @@ import {
   type ScanFilesResult,
   type ScanProgress,
 } from "./types.js";
+import { createIgnorePredicate, normalizeExtensions } from "./path-utils.js";
 
-export type ProcessState = Readonly<{
+export type ProcessState = ReadonlyDeep<{
   processed: number;
-  collected: readonly IndexedFile[];
-  batch: readonly IndexedFile[];
+  collected: ReadonlyArray<IndexedFile>;
+  batch: ReadonlyArray<IndexedFile>;
 }>;
 
-export type ProcessDependencies = Readonly<{
+export type ProcessDependencies = ReadonlyDeep<{
   shouldCollect: boolean;
   normalizedBatchSize: number;
   shouldRead: (filePath: string) => Promise<boolean>;
   encoding: BufferEncoding;
   onFile?: (file: IndexedFile, progress: ScanProgress) => MaybePromise<void>;
   onBatch?: (
-    batch: readonly IndexedFile[],
+    batch: ReadonlyArray<IndexedFile>,
     progress: ScanProgress,
   ) => MaybePromise<void>;
   onProgress?: (progress: ScanProgress) => void;
   total: number;
-  signal?: AbortSignal;
+  signal?: Readonly<AbortSignal>;
 }>;
 
-type BuildDependenciesArgs = Readonly<{
+type BuildDependenciesArgs = ReadonlyDeep<{
   shouldCollect: boolean;
   normalizedBatchSize: number;
   shouldRead: (filePath: string) => Promise<boolean>;
@@ -41,29 +42,44 @@ type BuildDependenciesArgs = Readonly<{
   onBatch?: ProcessDependencies["onBatch"];
   onProgress?: ProcessDependencies["onProgress"];
   total: number;
-  signal?: AbortSignal;
+  signal?: Readonly<AbortSignal>;
 }>;
 
-type BuildResultArgs = Readonly<{
+type BuildResultArgs = ReadonlyDeep<{
   total: number;
   processed: number;
   durationMs: number;
-  collected: readonly IndexedFile[];
+  collected: ReadonlyArray<IndexedFile>;
   shouldCollect: boolean;
 }>;
 
-type FlushArgs = Readonly<{
-  batch: readonly IndexedFile[];
+type FlushArgs = ReadonlyDeep<{
+  batch: ReadonlyArray<IndexedFile>;
   onBatch?: ProcessDependencies["onBatch"];
   progress: ScanProgress;
 }>;
 
+const EMPTY_INDEXED_FILES: ReadonlyArray<IndexedFile> = Object.freeze(
+  [],
+) as ReadonlyArray<IndexedFile>;
+
+const INITIAL_STATE: ProcessState = {
+  processed: 0,
+  collected: EMPTY_INDEXED_FILES,
+  batch: EMPTY_INDEXED_FILES,
+};
+
+const appendIndexedFile = (
+  collection: ReadonlyArray<IndexedFile>,
+  entry: IndexedFile,
+): ReadonlyArray<IndexedFile> => [...collection, entry];
+
 export async function computeTargetFiles(
   root: string,
-  exts: Iterable<string> | undefined,
-  ignoreDirs: Iterable<string> | undefined,
-): Promise<readonly string[]> {
-  const extSet = normalizeExtensions(exts);
+  exts: ReadonlyArray<string> | undefined,
+  ignoreDirs: ReadonlyArray<string> | undefined,
+): Promise<ReadonlyArray<string>> {
+  const extSet = new Set(normalizeExtensions(exts));
   const allFiles = await listFilesRec(root, extSet);
   const shouldIgnore = createIgnorePredicate(root, ignoreDirs);
   return allFiles.filter((filePath) => !shouldIgnore(filePath));
@@ -86,13 +102,13 @@ export function buildDependencies(
 }
 
 export function processFiles(
-  files: readonly string[],
+  files: ReadonlyArray<string>,
   dependencies: ProcessDependencies,
 ): Promise<ProcessState> {
   return files.reduce(
     (promise, filePath) =>
       promise.then((state) => processSingleFile(dependencies, state, filePath)),
-    Promise.resolve<ProcessState>({ processed: 0, collected: [], batch: [] }),
+    Promise.resolve<ProcessState>(INITIAL_STATE),
   );
 }
 
@@ -152,7 +168,11 @@ export function toProgress(processed: number, total: number): ScanProgress {
   };
 }
 
-export function ensureNotAborted(signal?: AbortSignal): void {
+export function ensureNotAborted(signal?: Readonly<AbortSignal>): void {
+  ensureSignalNotAborted(signal);
+}
+
+function ensureSignalNotAborted(signal?: Readonly<AbortSignal>): void {
   if (!signal) {
     return;
   }
@@ -193,7 +213,7 @@ async function processSingleFile(
   const progress = toProgress(processedCount, dependencies.total);
 
   const collected = dependencies.shouldCollect
-    ? state.collected.concat(fileEntry)
+    ? appendIndexedFile(state.collected, fileEntry)
     : state.collected;
 
   if (dependencies.onFile) {
@@ -204,16 +224,28 @@ async function processSingleFile(
   }
 
   if (!dependencies.onBatch) {
-    return { processed: processedCount, collected, batch: [] };
+    return {
+      processed: processedCount,
+      collected,
+      batch: EMPTY_INDEXED_FILES,
+    };
   }
 
-  const updatedBatch = state.batch.concat(fileEntry);
+  const updatedBatch = appendIndexedFile(state.batch, fileEntry);
   if (updatedBatch.length >= dependencies.normalizedBatchSize) {
     await dependencies.onBatch(updatedBatch, progress);
-    return { processed: processedCount, collected, batch: [] };
+    return {
+      processed: processedCount,
+      collected,
+      batch: EMPTY_INDEXED_FILES,
+    };
   }
 
-  return { processed: processedCount, collected, batch: updatedBatch };
+  return {
+    processed: processedCount,
+    collected,
+    batch: updatedBatch,
+  };
 }
 
 async function createIndexedFile(
@@ -227,109 +259,4 @@ async function createIndexedFile(
   }
   const content = await readFile(filePath, encoding);
   return { path: filePath, content };
-}
-
-function normalizeExtensions(exts?: Iterable<string>): Set<string> {
-  if (!exts) {
-    return new Set<string>();
-  }
-  return new Set(
-    Array.from(exts)
-      .map((raw) => raw?.trim())
-      .filter(isNonEmpty)
-      .map((value) =>
-        value.startsWith(".") ? value.toLowerCase() : `.${value.toLowerCase()}`,
-      ),
-  );
-}
-
-function createIgnorePredicate(root: string, ignoreDirs?: Iterable<string>) {
-  const segmentsList = normalizeIgnoreSegments(root, ignoreDirs);
-  if (segmentsList.length === 0) {
-    return () => false;
-  }
-
-  const nameSet = new Set(
-    segmentsList
-      .filter((segments) => segments.length === 1)
-      .map((segments) => segments[0] ?? ""),
-  );
-  const pathSet = new Set(
-    segmentsList
-      .filter((segments) => segments.length > 1)
-      .map((segments) => segments.join(path.sep)),
-  );
-
-  if (nameSet.size === 0 && pathSet.size === 0) {
-    return () => false;
-  }
-
-  return (filePath: string) => {
-    const relDir = path.relative(root, path.dirname(filePath));
-    if (relDir.startsWith("..")) {
-      return false;
-    }
-
-    const parts = relDir.split(path.sep).filter(Boolean);
-    if (parts.length === 0) {
-      return pathSet.has("");
-    }
-
-    return parts.some((_, index) => {
-      const segment = parts[index] ?? "";
-      const prefix = parts.slice(0, index + 1).join(path.sep);
-      return nameSet.has(segment) || pathSet.has(prefix);
-    });
-  };
-}
-
-function normalizeIgnoreSegments(
-  root: string,
-  ignoreDirs?: Iterable<string>,
-): readonly string[][] {
-  if (!ignoreDirs) {
-    return [];
-  }
-  return (
-    Array.from(ignoreDirs)
-      .map((value) => value?.trim())
-      .filter(isNonEmpty)
-      .map(trimTrailingSeparators)
-      //.map(trimTrailingSlashes)
-      .filter(isNonEmpty)
-      .map((value) =>
-        path.isAbsolute(value) ? path.relative(root, value) : value,
-      )
-      .map(trimLeadingDotsAndSeparators)
-      .filter(isNonEmpty)
-      .map((value) => path.normalize(value))
-      .filter((value) => value.length > 0 && !value.startsWith(".."))
-      .map((value) => value.split(path.sep).filter(Boolean))
-  );
-}
-
-function trimTrailingSeparators(value: string): string {
-  if (value.length === 0) {
-    return value;
-  }
-  const code = value.charCodeAt(value.length - 1);
-  if (code === 47 || code === 92) {
-    return trimTrailingSeparators(value.slice(0, -1));
-  }
-  return value;
-}
-
-function trimLeadingDotsAndSeparators(value: string): string {
-  if (value.length === 0) {
-    return value;
-  }
-  const code = value.charCodeAt(0);
-  if (code === 46 || code === 47 || code === 92) {
-    return trimLeadingDotsAndSeparators(value.slice(1));
-  }
-  return value;
-}
-
-function isNonEmpty(value: string | undefined | null): value is string {
-  return typeof value === "string" && value.length > 0;
 }
