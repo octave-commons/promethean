@@ -255,12 +255,21 @@ export async function buildFastifyApp(
     rateLimitOptions.allowList = allowList;
   }
   await app.register(rateLimit, rateLimitOptions);
+  // NEW: Global default rate limits for all routes (opt-out with rateLimit: false)
+  app.addHook("onRoute", (routeOptions) => {
+    if ((routeOptions as any).rateLimit === false) return;
+    (routeOptions as any).config = (routeOptions as any).config || {};
+    const cfg = (routeOptions as any).config as any;
+    if (cfg.rateLimit == null) {
+      cfg.rateLimit = { max: rateLimitMax, timeWindow: rateLimitWindow };
+    }
+  });
   registerSchema(app);
 
   const baseUrl =
     process.env.PUBLIC_BASE_URL ||
     `http://localhost:${process.env.PORT || 3210}`;
-  // Register new-auth helper endpoint at root for dashboard compatibility
+  // Register new-auth helper endpoint at root for dashboard compatiblity
   const auth = authFactory();
   await auth.registerRoutes(app); // adds /auth/me; protection handled inside
 
@@ -277,7 +286,7 @@ export async function buildFastifyApp(
   // if you try this, the above doesn't work in schema.
   // const swaggerOpts: SwaggerOptions = {
   // Maybe if we gto the schema from somewhere else?
-  // But schema are one of those things that are a type of type basicly...
+  // But schema are one of those things that are a type of type basically...
   // So "any", or "unknown" are not exactly wrong.
   // But there are keys with in the schema which are meaningful to the
   // process that consumes them.
@@ -294,7 +303,7 @@ export async function buildFastifyApp(
     swaggerOpts.openapi.components.securitySchemes = {
       bearerAuth: {
         type: "http",
-        scheme: "bearer",
+        schema: "bearer",
 
         name: "x-pi-token",
       },
