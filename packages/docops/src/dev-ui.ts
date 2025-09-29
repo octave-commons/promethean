@@ -173,6 +173,12 @@ await app.register(fastifyStatic, {
   decorateReply: false,
 });
 
+// Register global rate limit (e.g. 100 requests every 15 minutes per IP)
+await app.register(fastifyRateLimit, {
+  max: 100,
+  timeWindow: "15 minutes",
+});
+
 const db = await openDB();
 
 app.get(
@@ -187,12 +193,6 @@ app.get(
     reply.send(ONE_PIXEL_PNG);
   },
 );
-
-// Register global rate limit (e.g. 100 requests every 15 minutes per IP)
-app.register(fastifyRateLimit, {
-  max: 100,
-  timeWindow: "15 minutes",
-});
 
 app.get(
   "/",
