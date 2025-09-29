@@ -25,6 +25,14 @@ type BridgeDeps = {
     | undefined;
 };
 
+type BridgeConfig = {
+  readonly rateLimit?: {
+    readonly max?: number;
+    readonly timeWindow?: string | number;
+    readonly allowList?: ReadonlyArray<string>;
+  };
+};
+
 export const globalSchema = [
   {
     $id: "GrepRequest",
@@ -164,6 +172,7 @@ export function registerSchema(app: Readonly<Fastify.FastifyInstance>): void {
 export async function buildFastifyApp(
   ROOT_PATH: string,
   deps: BridgeDeps = {},
+  config: BridgeConfig = {},
 ) {
   const registerSinks = deps.registerSinks || defaultRegisterSinks;
   const authFactory = deps.createFastifyAuth || createFastifyAuth;
@@ -188,7 +197,64 @@ export async function buildFastifyApp(
   });
   app.decorate("ROOT_PATH", ROOT_PATH);
   app.register(mongoChromaLogger);
-  await app.register(rateLimit, { global: false });
+  const fallbackRateLimitMax = 300;
+  const configuredRateLimitMax = Number.parseInt(
+    String(process.env.BRIDGE_RATE_LIMIT_MAX || "").trim(),
+    10,
+  );
+  const envRateLimitMax =
+    Number.isFinite(configuredRateLimitMax) && configuredRateLimitMax > 0
+      ? configuredRateLimitMax
+      : fallbackRateLimitMax;
+  const rateLimitMax =
+    typeof config.rateLimit?.max === "number" && config.rateLimit.max > 0
+      ? config.rateLimit.max
+      : envRateLimitMax;
+  const configuredWindow = String(
+    process.env.BRIDGE_RATE_LIMIT_WINDOW || "",
+  ).trim();
+  const envRateLimitWindow = (() => {
+    if (configuredWindow.length === 0) {
+      return "1 minute";
+    }
+    if (/^[0-9]+$/.test(configuredWindow)) {
+      const numericWindow = Number.parseInt(configuredWindow, 10);
+      if (Number.isFinite(numericWindow) && numericWindow > 0) {
+        return numericWindow;
+      }
+    }
+    return configuredWindow;
+  })();
+  const rateLimitWindow =
+    typeof config.rateLimit?.timeWindow !== "undefined"
+      ? config.rateLimit.timeWindow
+      : envRateLimitWindow;
+  const envAllowList = String(process.env.BRIDGE_RATE_LIMIT_ALLOWLIST || "")
+    .split(",")
+    .map((value) => value.trim())
+    .filter(Boolean);
+  const configuredAllowList = Array.isArray(config.rateLimit?.allowList)
+    ? config.rateLimit?.allowList
+    : undefined;
+  const allowList = (configuredAllowList || envAllowList)
+    .map((value) => value.trim())
+    .filter(Boolean);
+  const rateLimitOptions: Record<string, unknown> = {
+    global: true,
+    max: rateLimitMax,
+    timeWindow: rateLimitWindow,
+    hook: "preHandler",
+    addHeaders: {
+      "x-ratelimit-limit": true,
+      "x-ratelimit-remaining": true,
+      "x-ratelimit-reset": true,
+      "retry-after": true,
+    },
+  };
+  if (allowList.length > 0) {
+    rateLimitOptions.allowList = allowList;
+  }
+  await app.register(rateLimit, rateLimitOptions);
   registerSchema(app);
 
   const baseUrl =
