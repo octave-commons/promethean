@@ -140,8 +140,12 @@ const realpathOrNull = async (rootPath: string, targetPath: string) => {
   try {
     const resolved = await fs.realpath(candidate);
     const rel = path.relative(rootAbs, resolved);
-    const escapesRoot = rel.length > 0 && (rel.startsWith("..") || path.isAbsolute(rel));
-    if (escapesRoot) {
+    // Ensure the resolved path is strictly under the root directory.
+    // Avoids cases like root '/a/foo' and candidate '/a/foobar' by using path sep.
+    const isUnderRoot =
+      resolved === rootAbs ||
+      resolved.startsWith(rootAbs + path.sep);
+    if (!isUnderRoot) {
       return null;
     }
     return resolved;
@@ -183,10 +187,11 @@ async function resolveWithinRoot(rootPath: string, rel: string) {
   );
 
   const relativeToRoot = path.relative(rootReal, candidateReal);
-  const escapesRoot =
-    relativeToRoot.length > 0 &&
-    (relativeToRoot.startsWith("..") || path.isAbsolute(relativeToRoot));
-  if (escapesRoot) {
+  const absWithSep = rootReal.endsWith(path.sep) ? rootReal : rootReal + path.sep;
+  const isUnderRoot =
+    candidateReal === rootReal ||
+    candidateReal.startsWith(absWithSep);
+  if (!isUnderRoot) {
     throw new Error("Path escapes index root");
   }
   const normalizedRel = toPosixPath(relativeToRoot);
