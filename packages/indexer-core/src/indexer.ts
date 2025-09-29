@@ -134,16 +134,25 @@ function isPathMissingError(value: unknown): value is NodeJS.ErrnoException {
   return code === "ENOENT" || code === "ENOTDIR";
 }
 
+const isPathWithinRoot = (rootAbs: string, candidate: string) => {
+  const relative = path.relative(rootAbs, candidate);
+  return (
+    relative === "" ||
+    (!relative.startsWith("..") && !path.isAbsolute(relative))
+  );
+};
+
 const realpathOrNull = async (rootPath: string, targetPath: string) => {
   const rootAbs = path.resolve(rootPath);
   const candidate = path.resolve(rootAbs, targetPath);
+  if (!isPathWithinRoot(rootAbs, candidate)) {
+    return null;
+  }
   try {
     const resolved = await fs.realpath(candidate);
     // Ensure the resolved path is strictly under the root directory.
     // Avoids cases like root '/a/foo' and candidate '/a/foobar' by using path sep.
-    const isUnderRoot =
-      resolved === rootAbs || resolved.startsWith(rootAbs + path.sep);
-    if (!isUnderRoot) {
+    if (!isPathWithinRoot(rootAbs, resolved)) {
       return null;
     }
     return resolved;
@@ -157,8 +166,11 @@ const realpathOrNull = async (rootPath: string, targetPath: string) => {
 
 async function resolveWithinRoot(rootPath: string, rel: string) {
   const rootAbs = path.resolve(rootPath);
-  const candidate = path.resolve(rootAbs, rel);
   const rootReal = await fs.realpath(rootAbs);
+  const candidate = path.resolve(rootReal, rel);
+  if (!isPathWithinRoot(rootReal, candidate)) {
+    throw new Error("Path escapes index root");
+  }
 
   const candidateReal = await realpathOrNull(rootReal, candidate).then(
     async (resolved) => {
@@ -174,28 +186,18 @@ async function resolveWithinRoot(rootPath: string, rel: string) {
         attempted = path.normalize(candidate);
       }
       // Explicitly check fallback against the canonical root
-      const rootCheck = path.resolve(rootReal);
       const absAttempted = path.resolve(attempted);
-      const relAttempted = path.relative(rootCheck, absAttempted);
-      const escapesRootAttempted =
-        relAttempted.length > 0 &&
-        (relAttempted.startsWith("..") || path.isAbsolute(relAttempted));
-      if (escapesRootAttempted) {
+      if (!isPathWithinRoot(rootReal, absAttempted)) {
         throw new Error("Path escapes index root (fallback)");
       }
       return absAttempted;
     },
   );
 
-  const relativeToRoot = path.relative(rootReal, candidateReal);
-  const absWithSep = rootReal.endsWith(path.sep)
-    ? rootReal
-    : rootReal + path.sep;
-  const isUnderRoot =
-    candidateReal === rootReal || candidateReal.startsWith(absWithSep);
-  if (!isUnderRoot) {
+  if (!isPathWithinRoot(rootReal, candidateReal)) {
     throw new Error("Path escapes index root");
   }
+  const relativeToRoot = path.relative(rootReal, candidateReal);
   const normalizedRel = toPosixPath(relativeToRoot);
   return { abs: candidateReal, rel: normalizedRel };
 }
@@ -348,10 +350,13 @@ export async function indexFile(
     dims: Number(process.env.EMBED_DIMS || 768),
   };
   const col = await collectionForFamily(family, version, cfg);
-  const { abs, rel: safeRel } = await resolveWithinRoot(rootPath, rel);
-  if (!abs) {
+  let resolved;
+  try {
+    resolved = await resolveWithinRoot(rootPath, rel);
+  } catch (err: any) {
     logger.warn("indexFile read blocked - candidate file is outside root", {
       path: rel,
+      err,
     });
     return { ok: false, error: "File is outside index root" };
   }
