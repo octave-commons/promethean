@@ -10,8 +10,8 @@ jobs:
   test:
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/riatzukiza/play-clj:latest   # prebuilt: playwright + clojure + rg
-      options: --ipc=host                           # playwright stability
+      image: ghcr.io/riatzukiza/play-clj:latest # prebuilt: playwright + clojure + rg
+      options: --ipc=host # playwright stability
     steps:
       - uses: actions/checkout@v4
         with: { fetch-depth: 0 }
@@ -19,9 +19,14 @@ jobs:
       - uses: pnpm/action-setup@v4
 
       - uses: actions/setup-node@v4
-        with: { cache: 'pnpm' }
+        with: { cache: "pnpm" }
 
       - uses: nrwl/nx-set-shas@v4
+
+      - name: Configure Nx base/head for PR
+        run: |
+          echo "NX_BASE=${{ github.event.pull_request.base.sha }}" >> "$GITHUB_ENV"
+          echo "NX_HEAD=${{ github.sha }}" >> "$GITHUB_ENV"
 
       # Cache Clojure deps (Maven + gitlibs) to avoid redownloading
       - name: Cache Clojure deps
@@ -39,4 +44,4 @@ jobs:
       # If you rely on @playwright/test postinstall, keep it, but skip downloading:
       # - run: npx playwright install --with-deps --only-shell  # usually unnecessary in this image
 
-      - run: pnpm exec nx affected -t test --parallel
+      - run: pnpm exec nx affected -t test --parallel --base="$NX_BASE" --head="$NX_HEAD"
