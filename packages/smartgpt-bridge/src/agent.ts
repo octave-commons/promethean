@@ -1,18 +1,28 @@
-import { spawn as defaultSpawn } from "child_process";
+import { spawn as nodeSpawn } from "child_process";
 
 import { nanoid } from "nanoid";
 
 import {
-  initAgentMeta,
-  updateAgentMeta,
   appendAgentLog,
+  initAgentMeta,
   listAgentMetas,
   readAgentLogTail,
+  updateAgentMeta,
 } from "./store.js";
+import type {
+  AgentChildProcess,
+  AgentEventName,
+  AgentEventPayloadMap,
+  AgentProcess,
+  AgentProcessAgent,
+  AgentProcessPty,
+  AgentMeta,
+  PtyModule,
+  SseClient,
+} from "./types/agents.js";
 
 const ROOT_PATH = process.env.ROOT_PATH || process.cwd();
 const CODEX_BIN = process.env.CODEX_BIN || "codex";
-// We exclusively run: codex exec --full-auto --cd ROOT_PATH "<prompt>"
 const MAX_LOG_BYTES = Number(process.env.AGENT_MAX_LOG_BYTES || 512 * 1024);
 const USE_SHELL = /^true$/i.test(process.env.AGENT_SHELL || "false");
 
@@ -24,124 +34,214 @@ const DANGER_PATTERNS = [
   /\bchmod\s+777\b/i,
 ];
 
-function ringPush(buf: Buffer, chunk: Buffer | string) {
+type KillFunction = (pid: number, signal: NodeJS.Signals | number) => boolean;
+type SpawnFunction = (
+  command: string,
+  args: readonly string[],
+  options: Parameters<typeof nodeSpawn>[2],
+) => AgentChildProcess;
+
+type AgentSummary = ReturnType<typeof describeProcess>;
+
+const defaultSpawn: SpawnFunction = (command, args, options) =>
+  nodeSpawn(command, [...args], options) as AgentChildProcess;
+
+function ringPush(buffer: Buffer, chunk: Buffer | string): Buffer {
   const slice = Buffer.isBuffer(chunk) ? chunk : Buffer.from(String(chunk));
-  const combined = Buffer.concat([buf, slice]);
+  const combined = Buffer.concat([buffer, slice]);
   if (combined.length <= MAX_LOG_BYTES) return combined;
   return combined.subarray(combined.length - MAX_LOG_BYTES);
 }
-function matchDanger(s: string) {
-  return DANGER_PATTERNS.find((rx) => rx.test(s));
+
+function matchDanger(text: string): RegExp | undefined {
+  return DANGER_PATTERNS.find((rx) => rx.test(text));
 }
-// Escapes ONLY the chosen quote char inside, then wraps with it.
-// POSIX-safe: produces a single shell *argument*.
-// Works for bash/zsh/dash; prevents globbing, $ expansion, etc.
-function shQuote(s: string) {
-  const str = String(s);
-  if (str.length === 0) return "''";
-  return `'${str.replace(/'/g, `'\''`)}'`;
+
+function shQuote(value: string): string {
+  if (value.length === 0) return "''";
+  return `'${value.replace(/'/g, `'\\''`)}'`;
+}
+
+function describeProcess(process: AgentProcess) {
+  const base = {
+    id: process.id,
+    cmd: process.cmd,
+    args: process.args,
+    cwd: process.cwd,
+    startedAt: process.startedAt,
+    exited: process.exited,
+    code: process.code,
+    signal: process.signal,
+    paused_by_guard: process.paused_by_guard,
+    bytes: process.log.length,
+  };
+  if (process.mode === "pty") {
+    return { ...base, cols: process.cols, rows: process.rows };
+  }
+  return base;
+}
+
+function createErrorMessage(error: unknown): string {
+  if (error instanceof Error) return error.message;
+  return String(error);
+}
+
+function formatSse<T extends AgentEventName>(
+  event: T,
+  data: AgentEventPayloadMap[T],
+): string {
+  return `event: ${event}\ndata: ${JSON.stringify(data)}\n\n`;
+}
+
+function ensureArrayBuffer(buffer: Buffer, chunk: Buffer | string): Buffer {
+  return ringPush(buffer, chunk);
+}
+
+function toAgentMeta(state: AgentProcess, prompt: string): AgentMeta {
+  const base: AgentMeta = {
+    id: state.id,
+    mode: state.mode,
+    cmd: state.cmd,
+    args: state.args,
+    cwd: state.cwd,
+    startedAt: state.startedAt,
+    prompt,
+    code: state.code,
+    signal: state.signal,
+  };
+  if (state.mode === "pty") {
+    return {
+      ...base,
+      mode: "pty",
+      cols: state.cols,
+      rows: state.rows,
+    };
+  }
+  return base;
+}
+
+const PTY_MODULE_CACHE = new Map<string, PtyModule>();
+
+async function getPtyLib(): Promise<PtyModule> {
+  if (process.env.NODE_PTY_DISABLED === "1") {
+    const unavailable = new Error("PTY_UNAVAILABLE");
+    unavailable.name = "PTY_UNAVAILABLE";
+    throw unavailable;
+  }
+  const cached = PTY_MODULE_CACHE.get("default");
+  if (cached) return cached;
+  try {
+    const mod = await import("node-pty");
+    const resolved =
+      (mod as { default?: PtyModule }).default ?? (mod as PtyModule);
+    PTY_MODULE_CACHE.set("default", resolved);
+    return resolved;
+  } catch (error) {
+    const unavailable = new Error("PTY_UNAVAILABLE");
+    unavailable.name = "PTY_UNAVAILABLE";
+    (unavailable as Error & { cause?: unknown }).cause = error;
+    throw unavailable;
+  }
+}
+
+function mergeEnv(overrides: Record<string, string>): NodeJS.ProcessEnv {
+  return { ...process.env, CI: "1", GIT_TERMINAL_PROMPT: "0", ...overrides };
+}
+
+function guardPaused(process: AgentProcess): boolean {
+  return process.paused_by_guard;
 }
 
 export class AgentSupervisor {
-  procs: Map<string, any>;
-  subscribers: Map<string, Set<any>>;
-  _spawn: any;
-  _kill: (pid: number, signal: any) => boolean;
+  readonly procs: Map<string, AgentProcess>;
+  readonly subscribers: Map<string, Set<SseClient>>;
+  private readonly spawnImpl: SpawnFunction;
+  private readonly killImpl: KillFunction;
+
   constructor(
-    opts: {
-      spawnImpl?: any;
-      killImpl?: (pid: number, signal: any) => boolean;
-    } = {},
+    opts: { spawnImpl?: SpawnFunction; killImpl?: KillFunction } = {},
   ) {
     this.procs = new Map();
     this.subscribers = new Map();
-    this._spawn = opts.spawnImpl || defaultSpawn;
-    this._kill = opts.killImpl || ((pid, signal) => process.kill(pid, signal));
+    this.spawnImpl = opts.spawnImpl ?? defaultSpawn;
+    this.killImpl =
+      opts.killImpl ?? ((pid, signal) => process.kill(pid, signal));
   }
-  list() {
-    return Array.from(this.procs.values()).map((p) => ({
-      id: p.id,
-      cmd: p.cmd,
-      args: p.args,
-      cwd: p.cwd,
-      startedAt: p.startedAt,
-      exited: p.exited,
-      code: p.code,
-      signal: p.signal,
-      paused_by_guard: p.paused_by_guard,
-      bytes: p.log.length,
-    }));
+
+  list(): AgentSummary[] {
+    return Array.from(this.procs.values()).map(describeProcess);
   }
-  status(id: string) {
-    const p = this.procs.get(id);
-    if (!p) return null;
+
+  status(id: string): AgentSummary | null {
+    const process = this.procs.get(id);
+    if (!process) return null;
+    return describeProcess(process);
+  }
+
+  logs(id: string, since = 0): { total: number; chunk: string } | null {
+    const process = this.procs.get(id);
+    if (!process) return null;
+    const from = Math.max(0, Math.min(since, process.log.length));
     return {
-      id: p.id,
-      cmd: p.cmd,
-      args: p.args,
-      cwd: p.cwd,
-      startedAt: p.startedAt,
-      exited: p.exited,
-      code: p.code,
-      signal: p.signal,
-      paused_by_guard: p.paused_by_guard,
-      bytes: p.log.length,
+      total: process.log.length,
+      chunk: process.log.subarray(from).toString("utf8"),
     };
   }
-  logs(id: string, since: number = 0) {
-    const p = this.procs.get(id);
-    if (!p) return null;
-    const buf = p.log;
-    const from = Math.max(0, Math.min(since, buf.length));
-    return { total: buf.length, chunk: buf.subarray(from).toString("utf8") };
+
+  tail(id: string, bytes = 8192): { total: number; chunk: string } | null {
+    const process = this.procs.get(id);
+    if (!process) return null;
+    const start = Math.max(0, process.log.length - Number(bytes || 0));
+    return {
+      total: process.log.length,
+      chunk: process.log.subarray(start).toString("utf8"),
+    };
   }
-  tail(id: string, bytes: number = 8192) {
-    const p = this.procs.get(id);
-    if (!p) return null;
-    const buf = p.log;
-    const start = Math.max(0, buf.length - Number(bytes || 0));
-    return { total: buf.length, chunk: buf.subarray(start).toString("utf8") };
-  }
-  _broadcast(id: string, event: string, data: any) {
-    const subs = this.subscribers.get(id);
-    if (!subs) return;
-    const payload = `event: ${event}\ndata: ${JSON.stringify(data)}\n\n`;
-    for (const res of subs) {
-      res.write(payload);
+
+  private broadcast<T extends AgentEventName>(
+    id: string,
+    event: T,
+    data: AgentEventPayloadMap[T],
+  ): void {
+    const clients = this.subscribers.get(id);
+    if (!clients) return;
+    const payload = formatSse(event, data);
+    for (const client of clients) {
+      client.write(payload);
     }
   }
-  stream(id: string, res: any) {
+
+  stream(id: string, res: SseClient): void {
     res.writeHead(200, {
       "Content-Type": "text/event-stream",
       "Cache-Control": "no-cache",
       Connection: "keep-alive",
     });
-    if (!this.subscribers.has(id)) this.subscribers.set(id, new Set());
-    this.subscribers.get(id)?.add(res);
-    // flush headers for some proxies
-    if (typeof res.flushHeaders === "function")
+    const clients = this.subscribers.get(id) ?? new Set<SseClient>();
+    if (!this.subscribers.has(id)) this.subscribers.set(id, clients);
+    clients.add(res);
+    if (typeof res.flushHeaders === "function") {
       try {
         res.flushHeaders();
-      } catch {}
-    // greet and replay current buffer so late subscribers see context
+      } catch {
+        // ignore flush errors
+      }
+    }
     const state = this.procs.get(id);
-    const replay = state?.log?.toString("utf8") || "";
+    const replay = state?.log?.toString("utf8") ?? "";
     res.write(`event: hello\ndata: ${JSON.stringify({ id })}\n\n`);
     if (replay) {
-      res.write(
-        `event: replay\ndata: ${JSON.stringify({
-          text: replay.slice(-8192),
-        })}\n\n`,
-      );
+      const tail = replay.slice(-8192);
+      res.write(`event: replay\ndata: ${JSON.stringify({ text: tail })}\n\n`);
     }
     res.on("close", () => {
       const set = this.subscribers.get(id);
-      if (set) {
-        set.delete(res);
-        if (!set.size) this.subscribers.delete(id);
-      }
+      if (!set) return;
+      set.delete(res);
+      if (!set.size) this.subscribers.delete(id);
     });
   }
+
   start({
     prompt,
     cwd = ROOT_PATH,
@@ -152,92 +252,113 @@ export class AgentSupervisor {
     cwd?: string;
     env?: Record<string, string>;
     tty?: boolean;
-  }) {
+  }): { id: string; pid: number | undefined } {
     const id = nanoid();
     const root = process.env.ROOT_PATH || ROOT_PATH;
-    const fullArgs = ["exec", "--full-auto", "--cd", root];
-    if (prompt && String(prompt).trim()) fullArgs.push(String(prompt));
+    const args = [
+      "exec",
+      "--full-auto",
+      "--cd",
+      root,
+      ...(prompt && String(prompt).trim() ? [String(prompt)] : []),
+    ];
     const wantTty = tty || /^true$/i.test(process.env.AGENT_TTY || "false");
-    let proc;
-    if (wantTty) {
-      // Use 'script' to allocate a PTY so child sees a TTY
-      const cmd = [
-        shQuote(CODEX_BIN),
-        "exec",
-        "--full-auto",
-        "--cd",
-        shQuote(root),
-      ]
-        .concat(
-          prompt && String(prompt).trim() ? [shQuote(String(prompt))] : [],
-        )
-        .join(" ");
-      const argv = ["-qfec", cmd, "/dev/null"];
-      proc = this._spawn("script", argv, {
-        cwd,
-        env: { ...process.env, CI: "1", GIT_TERMINAL_PROMPT: "0", ...env },
-        shell: false,
-        stdio: ["pipe", "pipe", "pipe"],
-      });
-    } else {
-      proc = this._spawn(CODEX_BIN, fullArgs, {
-        cwd,
-        env: { ...process.env, CI: "1", GIT_TERMINAL_PROMPT: "0", ...env },
-        shell: USE_SHELL,
-        stdio: ["pipe", "pipe", "pipe"],
-      });
-    }
-    const state = {
+    const environment = mergeEnv(env);
+    const spawnChild = wantTty
+      ? () => {
+          const quotedArgs = [
+            shQuote(CODEX_BIN),
+            "exec",
+            "--full-auto",
+            "--cd",
+            shQuote(root),
+          ]
+            .concat(
+              prompt && String(prompt).trim() ? [shQuote(String(prompt))] : [],
+            )
+            .join(" ");
+          return this.spawnImpl("script", ["-qfec", quotedArgs, "/dev/null"], {
+            cwd,
+            env: environment,
+            shell: false,
+            stdio: ["pipe", "pipe", "pipe"],
+          });
+        }
+      : () =>
+          this.spawnImpl(CODEX_BIN, args, {
+            cwd,
+            env: environment,
+            shell: USE_SHELL,
+            stdio: ["pipe", "pipe", "pipe"],
+          });
+    const proc = spawnChild();
+    const state: AgentProcessAgent = {
       id,
       cmd: CODEX_BIN,
-      args: fullArgs,
+      args,
       cwd,
       startedAt: Date.now(),
       exited: false,
-      code: null as number | null,
-      signal: null as string | null,
+      code: null,
+      signal: null,
       paused_by_guard: false,
       log: Buffer.alloc(0),
       proc,
       mode: "agent",
-      prompt: String(prompt || ""),
+      prompt: String(prompt ?? ""),
     };
     this.procs.set(id, state);
-    // persist metadata
-    initAgentMeta({
-      id,
-      mode: "agent",
-      cmd: CODEX_BIN,
-      args: fullArgs,
-      cwd,
-      startedAt: state.startedAt,
-      prompt: state.prompt,
-    }).catch(() => {});
-    const onData = (data: Buffer | string, stream: string) => {
-      state.log = ringPush(state.log, data);
-      const text = data.toString("utf8");
-      this._broadcast(id, stream, { text });
-      appendAgentLog(id, data).catch(() => {});
-      const m = matchDanger(text);
-      if (m && !state.paused_by_guard) {
-        try {
-          this._kill(proc.pid, "SIGSTOP");
-          state.paused_by_guard = true;
-        } catch {}
-        this._broadcast(id, "guard", { paused: true, reason: m.source });
-      }
+    const meta = toAgentMeta(state, state.prompt);
+    initAgentMeta(meta).catch(() => {});
+
+    const update = (
+      updater: (current: AgentProcessAgent) => AgentProcessAgent,
+    ) => {
+      const current = this.procs.get(id);
+      if (!current || current.mode !== "agent") return;
+      this.procs.set(id, updater(current));
     };
-    proc.stdout.on("data", (d: Buffer) => onData(d, "stdout"));
-    proc.stderr.on("data", (d: Buffer) => onData(d, "stderr"));
-    proc.on("error", (err: any) => {
-      const msg = `[spawn error] ${String((err && err.message) || err)}\n`;
-      state.log = ringPush(state.log, msg);
-      appendAgentLog(id, msg).catch(() => {});
-      this._broadcast(id, "error", { message: String(err?.message || err) });
-      // mark as exited to avoid dangling entries
-      state.exited = true;
-      state.code = null;
-      state.signal = "ERROR";
+
+    const publishOutput = (
+      data: Buffer,
+      event: Extract<AgentEventName, "stdout" | "stderr">,
+    ) => {
+      update((current) => ({
+        ...current,
+        log: ensureArrayBuffer(current.log, data),
+      }));
+      const text = data.toString("utf8");
+      this.broadcast(id, event, { text });
+      appendAgentLog(id, data).catch(() => {});
+      const danger = matchDanger(text);
+      if (!danger) return;
+      const current = this.procs.get(id);
+      if (!current || current.mode !== "agent" || guardPaused(current)) return;
+      try {
+        if (typeof proc.pid === "number") {
+          this.killImpl(proc.pid, "SIGSTOP");
+        }
+      } catch {
+        // ignore kill errors
+      }
+      update((existing) => ({ ...existing, paused_by_guard: true }));
+      this.broadcast(id, "guard", { paused: true, reason: danger.source });
+    };
+
+    proc.stdout.on("data", (chunk: Buffer) => publishOutput(chunk, "stdout"));
+    proc.stderr.on("data", (chunk: Buffer) => publishOutput(chunk, "stderr"));
+
+    proc.on("error", (error: NodeJS.ErrnoException) => {
+      const message = `[spawn error] ${createErrorMessage(error)}\n`;
+      update((current) => ({
+        ...current,
+        log: ensureArrayBuffer(current.log, message),
+        exited: true,
+        code: null,
+        signal: "ERROR",
+      }));
+      appendAgentLog(id, message).catch(() => {});
+      this.broadcast(id, "error", { message: createErrorMessage(error) });
       updateAgentMeta(id, {
         exited: true,
         code: null,
@@ -245,179 +366,179 @@ export class AgentSupervisor {
         finishedAt: Date.now(),
       }).catch(() => {});
     });
-    proc.on("exit", (code: number | null, signal: any) => {
-      state.exited = true;
-      state.code = code;
-      state.signal = signal;
-      this._broadcast(id, "exit", { code, signal });
+
+    proc.on("exit", (code: number | null, signal: NodeJS.Signals | null) => {
+      update((current) => ({
+        ...current,
+        exited: true,
+        code: code ?? null,
+        signal: signal ?? null,
+      }));
+      this.broadcast(id, "exit", {
+        code: code ?? null,
+        signal: signal ?? null,
+      });
       updateAgentMeta(id, {
         exited: true,
-        code,
-        signal,
+        code: code ?? null,
+        signal: signal ?? null,
         finishedAt: Date.now(),
       }).catch(() => {});
     });
-    // We pass the prompt as argument to codex exec; no stdin writes.
+
     return { id, pid: proc.pid };
   }
-  send(id: string, input: string) {
-    const p = this.procs.get(id);
-    if (!p || p.exited) return false;
+
+  send(id: string, input: string): boolean {
+    const process = this.procs.get(id);
+    if (!process || process.mode !== "agent" || process.exited || !process.proc)
+      return false;
     try {
-      p.proc.stdin.write(String(input) + "\n");
+      process.proc.stdin.write(`${String(input)}\n`);
       return true;
     } catch {
       return false;
     }
   }
-  interrupt(id: string) {
-    const p = this.procs.get(id);
-    if (!p || p.exited) return false;
+
+  interrupt(id: string): boolean {
+    const process = this.procs.get(id);
+    if (!process || process.mode !== "agent" || process.exited || !process.proc)
+      return false;
+    if (typeof process.proc.pid !== "number") return false;
     try {
-      this._kill(p.proc.pid, "SIGINT");
+      this.killImpl(process.proc.pid, "SIGINT");
       return true;
     } catch {
       return false;
     }
   }
-  kill(id: string, force: boolean = false) {
-    const p = this.procs.get(id);
-    if (!p || p.exited) return false;
+
+  kill(id: string, force = false): boolean {
+    const process = this.procs.get(id);
+    if (!process || process.mode !== "agent" || process.exited || !process.proc)
+      return false;
+    if (typeof process.proc.pid !== "number") return false;
     try {
-      this._kill(p.proc.pid, force ? "SIGKILL" : "SIGTERM");
+      this.killImpl(process.proc.pid, force ? "SIGKILL" : "SIGTERM");
       return true;
     } catch {
       return false;
     }
   }
-  resume(id: string) {
-    const p = this.procs.get(id);
-    if (!p || !p.paused_by_guard) return false;
+
+  resume(id: string): boolean {
+    const process = this.procs.get(id);
+    if (
+      !process ||
+      process.mode !== "agent" ||
+      !process.proc ||
+      !process.paused_by_guard
+    )
+      return false;
+    if (typeof process.proc.pid !== "number") return false;
     try {
-      this._kill(p.proc.pid, "SIGCONT");
-      p.paused_by_guard = false;
-      this._broadcast(id, "guard", { paused: false });
+      this.killImpl(process.proc.pid, "SIGCONT");
+      this.procs.set(id, { ...process, paused_by_guard: false });
+      this.broadcast(id, "guard", { paused: false });
       return true;
     } catch {
       return false;
     }
   }
 }
+
 export const supervisor = new AgentSupervisor();
 
-// --- PTY-backed supervisor using node-pty (lazy loaded) ---
-let PTY_LIB: any = null;
-async function getPtyLib() {
-  if (process.env.NODE_PTY_DISABLED === "1") {
-    const err = new Error("PTY_UNAVAILABLE");
-    err.name = "PTY_UNAVAILABLE";
-    throw err;
-  }
-  if (PTY_LIB) return PTY_LIB;
-  try {
-    const mod = await import("node-pty");
-    // node-pty may export default or named
-    PTY_LIB = mod.default || mod;
-    return PTY_LIB;
-  } catch (e) {
-    const err = new Error("PTY_UNAVAILABLE");
-    err.name = "PTY_UNAVAILABLE";
-    throw err;
-  }
-}
-
 export class PTYAgentSupervisor {
-  procs: Map<string, any>;
-  subscribers: Map<string, Set<any>>;
-  _kill: (pid: number, signal: any) => boolean;
-  constructor(opts: { killImpl?: (pid: number, signal: any) => boolean } = {}) {
+  readonly procs: Map<string, AgentProcess>;
+  readonly subscribers: Map<string, Set<SseClient>>;
+  private readonly killImpl: KillFunction;
+
+  constructor(opts: { killImpl?: KillFunction } = {}) {
     this.procs = new Map();
     this.subscribers = new Map();
-    this._kill = opts.killImpl || ((pid, signal) => process.kill(pid, signal));
+    this.killImpl =
+      opts.killImpl ?? ((pid, signal) => process.kill(pid, signal));
   }
-  list() {
-    return Array.from(this.procs.values()).map((p) => ({
-      id: p.id,
-      cmd: p.cmd,
-      args: p.args,
-      cwd: p.cwd,
-      startedAt: p.startedAt,
-      exited: p.exited,
-      code: p.code,
-      signal: p.signal,
-      paused_by_guard: p.paused_by_guard,
-      bytes: p.log.length,
-      cols: p.cols,
-      rows: p.rows,
-    }));
+
+  list(): AgentSummary[] {
+    return Array.from(this.procs.values()).map(describeProcess);
   }
-  status(id: string) {
-    const p = this.procs.get(id);
-    if (!p) return null;
+
+  status(id: string): AgentSummary | null {
+    const process = this.procs.get(id);
+    if (!process) return null;
+    return describeProcess(process);
+  }
+
+  logs(id: string, since = 0): { total: number; chunk: string } | null {
+    const process = this.procs.get(id);
+    if (!process) return null;
+    const from = Math.max(0, Math.min(since, process.log.length));
     return {
-      id: p.id,
-      cmd: p.cmd,
-      args: p.args,
-      cwd: p.cwd,
-      startedAt: p.startedAt,
-      exited: p.exited,
-      code: p.code,
-      signal: p.signal,
-      paused_by_guard: p.paused_by_guard,
-      bytes: p.log.length,
-      cols: p.cols,
-      rows: p.rows,
+      total: process.log.length,
+      chunk: process.log.subarray(from).toString("utf8"),
     };
   }
-  logs(id: string, since: number = 0) {
-    const p = this.procs.get(id);
-    if (!p) return null;
-    const buf = p.log;
-    const from = Math.max(0, Math.min(since, buf.length));
-    return { total: buf.length, chunk: buf.subarray(from).toString("utf8") };
+
+  tail(id: string, bytes = 8192): { total: number; chunk: string } | null {
+    const process = this.procs.get(id);
+    if (!process) return null;
+    const start = Math.max(0, process.log.length - Number(bytes || 0));
+    return {
+      total: process.log.length,
+      chunk: process.log.subarray(start).toString("utf8"),
+    };
   }
-  tail(id: string, bytes: number = 8192) {
-    const p = this.procs.get(id);
-    if (!p) return null;
-    const buf = p.log;
-    const start = Math.max(0, buf.length - Number(bytes || 0));
-    return { total: buf.length, chunk: buf.subarray(start).toString("utf8") };
+
+  private broadcast<T extends AgentEventName>(
+    id: string,
+    event: T,
+    data: AgentEventPayloadMap[T],
+  ): void {
+    const clients = this.subscribers.get(id);
+    if (!clients) return;
+    const payload = formatSse(
+      event,
+      data as AgentEventPayloadMap[AgentEventName],
+    );
+    for (const client of clients) {
+      client.write(payload);
+    }
   }
-  _broadcast(id: string, event: string, data: any) {
-    const subs = this.subscribers.get(id);
-    if (!subs) return;
-    const payload = `event: ${event}\ndata: ${JSON.stringify(data)}\n\n`;
-    for (const res of subs) res.write(payload);
-  }
-  stream(id: string, res: any) {
+
+  stream(id: string, res: SseClient): void {
     res.writeHead(200, {
       "Content-Type": "text/event-stream",
       "Cache-Control": "no-cache",
       Connection: "keep-alive",
     });
-    if (!this.subscribers.has(id)) this.subscribers.set(id, new Set());
-    this.subscribers.get(id)?.add(res);
-    if (typeof res.flushHeaders === "function")
+    const clients = this.subscribers.get(id) ?? new Set<SseClient>();
+    if (!this.subscribers.has(id)) this.subscribers.set(id, clients);
+    clients.add(res);
+    if (typeof res.flushHeaders === "function") {
       try {
         res.flushHeaders();
-      } catch {}
+      } catch {
+        // ignore flush errors
+      }
+    }
     const state = this.procs.get(id);
-    const replay = state?.log?.toString("utf8") || "";
+    const replay = state?.log?.toString("utf8") ?? "";
     res.write(`event: hello\ndata: ${JSON.stringify({ id })}\n\n`);
-    if (replay)
-      res.write(
-        `event: replay\ndata: ${JSON.stringify({
-          text: replay.slice(-8192),
-        })}\n\n`,
-      );
+    if (replay) {
+      const tail = replay.slice(-8192);
+      res.write(`event: replay\ndata: ${JSON.stringify({ text: tail })}\n\n`);
+    }
     res.on("close", () => {
       const set = this.subscribers.get(id);
-      if (set) {
-        set.delete(res);
-        if (!set.size) this.subscribers.delete(id);
-      }
+      if (!set) return;
+      set.delete(res);
+      if (!set.size) this.subscribers.delete(id);
     });
   }
+
   async start({
     prompt,
     cwd = ROOT_PATH,
@@ -430,20 +551,25 @@ export class PTYAgentSupervisor {
     env?: Record<string, string>;
     cols?: number;
     rows?: number;
-  }) {
+  }): Promise<{ id: string; pid: number | undefined }> {
     const pty = await getPtyLib();
     const id = nanoid();
     const root = process.env.ROOT_PATH || ROOT_PATH;
-    const args = ["exec", "--full-auto", "--cd", root];
-    if (prompt && String(prompt).trim()) args.push(String(prompt));
+    const args = [
+      "exec",
+      "--full-auto",
+      "--cd",
+      root,
+      ...(prompt && String(prompt).trim() ? [String(prompt)] : []),
+    ];
     const proc = pty.spawn(CODEX_BIN, args, {
       name: "xterm-color",
       cols: Number(cols || 120),
       rows: Number(rows || 32),
       cwd,
-      env: { ...process.env, CI: "1", GIT_TERMINAL_PROMPT: "0", ...env },
+      env: mergeEnv(env),
     });
-    const state = {
+    const state: AgentProcessPty = {
       id,
       cmd: CODEX_BIN,
       args,
@@ -458,156 +584,205 @@ export class PTYAgentSupervisor {
       cols: Number(cols || 120),
       rows: Number(rows || 32),
       mode: "pty",
-      prompt: String(prompt || ""),
+      prompt: String(prompt ?? ""),
     };
     this.procs.set(id, state);
-    initAgentMeta({
-      id,
-      mode: "pty",
-      cmd: CODEX_BIN,
-      args,
-      cwd,
-      startedAt: state.startedAt,
-      prompt: state.prompt,
-      cols: state.cols,
-      rows: state.rows,
-    }).catch(() => {});
+    const meta = toAgentMeta(state, state.prompt);
+    initAgentMeta({ ...meta, cols: state.cols, rows: state.rows }).catch(
+      () => {},
+    );
+
+    const update = (updater: (current: AgentProcessPty) => AgentProcessPty) => {
+      const current = this.procs.get(id);
+      if (!current || current.mode !== "pty") return;
+      this.procs.set(id, updater(current));
+    };
+
     proc.onData((data: string) => {
-      state.log = ringPush(state.log, data);
-      this._broadcast(id, "stdout", { text: data });
+      update((current) => ({
+        ...current,
+        log: ensureArrayBuffer(current.log, data),
+      }));
+      this.broadcast(id, "stdout", { text: data });
       appendAgentLog(id, data).catch(() => {});
-      const m = matchDanger(data);
-      if (m && !state.paused_by_guard) {
-        try {
-          this._kill(proc.pid, "SIGSTOP");
-          state.paused_by_guard = true;
-        } catch {}
-        this._broadcast(id, "guard", { paused: true, reason: m.source });
+      const danger = matchDanger(data);
+      if (!danger) return;
+      const current = this.procs.get(id);
+      if (!current || current.mode !== "pty" || guardPaused(current)) return;
+      try {
+        if (typeof proc.pid === "number") {
+          this.killImpl(proc.pid, "SIGSTOP");
+        }
+      } catch {
+        // ignore kill errors
       }
+      update((existing) => ({ ...existing, paused_by_guard: true }));
+      this.broadcast(id, "guard", { paused: true, reason: danger.source });
     });
-    proc.onExit((ev: any) => {
-      const { exitCode, signal } = ev;
-      state.exited = true;
-      state.code = exitCode;
-      state.signal = signal;
-      this._broadcast(id, "exit", { code: exitCode, signal });
+
+    proc.onExit((event) => {
+      const { exitCode, signal } = event;
+      update((current) => ({
+        ...current,
+        exited: true,
+        code: exitCode ?? null,
+        signal: (signal as string | number | undefined)?.toString() ?? null,
+      }));
+      this.broadcast(id, "exit", {
+        code: exitCode ?? null,
+        signal: (signal as string | number | undefined)?.toString() ?? null,
+      });
       updateAgentMeta(id, {
         exited: true,
-        code: exitCode,
-        signal,
+        code: exitCode ?? null,
+        signal: (signal as string | number | undefined)?.toString() ?? null,
         finishedAt: Date.now(),
       }).catch(() => {});
     });
+
     return { id, pid: proc.pid };
   }
-  write(id: string, input: string) {
-    const p = this.procs.get(id);
-    if (!p || p.exited) return false;
+
+  write(id: string, input: string): boolean {
+    const process = this.procs.get(id);
+    if (!process || process.mode !== "pty" || process.exited || !process.proc)
+      return false;
     try {
-      p.proc.write(String(input));
+      process.proc.write(String(input));
       return true;
     } catch {
       return false;
     }
   }
-  send(id: string, input: string) {
-    return this.write(id, String(input) + "\r");
+
+  send(id: string, input: string): boolean {
+    return this.write(id, `${String(input)}\r`);
   }
-  resize(id: string, cols: number, rows: number) {
-    const p = this.procs.get(id);
-    if (!p || p.exited) return false;
+
+  resize(id: string, cols: number, rows: number): boolean {
+    const process = this.procs.get(id);
+    if (!process || process.mode !== "pty" || process.exited || !process.proc)
+      return false;
     try {
-      p.proc.resize(Number(cols || p.cols), Number(rows || p.rows));
-      p.cols = Number(cols || p.cols);
-      p.rows = Number(rows || p.rows);
+      process.proc.resize(
+        Number(cols || process.cols),
+        Number(rows || process.rows),
+      );
+      this.procs.set(id, {
+        ...process,
+        cols: Number(cols || process.cols),
+        rows: Number(rows || process.rows),
+      });
       return true;
     } catch {
       return false;
     }
   }
-  interrupt(id: string) {
-    const p = this.procs.get(id);
-    if (!p || p.exited) return false;
+
+  interrupt(id: string): boolean {
+    const process = this.procs.get(id);
+    if (!process || process.mode !== "pty" || process.exited || !process.proc)
+      return false;
+    if (typeof process.proc.pid !== "number") return false;
     try {
-      this._kill(p.proc.pid, "SIGINT");
+      this.killImpl(process.proc.pid, "SIGINT");
       return true;
     } catch {
       return false;
     }
   }
-  kill(id: string, force: boolean = false) {
-    const p = this.procs.get(id);
-    if (!p || p.exited) return false;
+
+  kill(id: string, force = false): boolean {
+    const process = this.procs.get(id);
+    if (!process || process.mode !== "pty" || process.exited || !process.proc)
+      return false;
+    if (typeof process.proc.pid !== "number") return false;
     try {
-      this._kill(p.proc.pid, force ? "SIGKILL" : "SIGTERM");
+      this.killImpl(process.proc.pid, force ? "SIGKILL" : "SIGTERM");
       return true;
     } catch {
       return false;
     }
   }
-  resume(id: string) {
-    const p = this.procs.get(id);
-    if (!p || !p.paused_by_guard) return false;
+
+  resume(id: string): boolean {
+    const process = this.procs.get(id);
+    if (
+      !process ||
+      process.mode !== "pty" ||
+      !process.proc ||
+      !process.paused_by_guard
+    )
+      return false;
+    if (typeof process.proc.pid !== "number") return false;
     try {
-      this._kill(p.proc.pid, "SIGCONT");
-      p.paused_by_guard = false;
-      this._broadcast(id, "guard", { paused: false });
+      this.killImpl(process.proc.pid, "SIGCONT");
+      this.procs.set(id, { ...process, paused_by_guard: false });
+      this.broadcast(id, "guard", { paused: false });
       return true;
     } catch {
       return false;
     }
   }
 }
+
 export const ptySupervisor = new PTYAgentSupervisor();
 
-// Restore previously persisted agents as historical entries (exited) on boot
-export async function restoreAgentsFromStore() {
+export async function restoreAgentsFromStore(): Promise<void> {
   const allow =
     String(process.env.AGENT_RESTORE_ON_START || "true") !== "false";
   if (!allow) return;
   const metas = await listAgentMetas();
-  for (const meta of metas) {
-    const exists = (meta.mode === "pty" ? ptySupervisor : supervisor).procs.has(
-      meta.id,
-    );
-    if (exists) continue;
-    const logTail = await readAgentLogTail(
-      meta.id,
-      Number(process.env.AGENT_RESTORE_TAIL || 65536),
-    );
-    const buf = Buffer.from(logTail || "", "utf8");
-    const base = {
-      id: meta.id,
-      cmd: meta.cmd || CODEX_BIN,
-      args: Array.isArray(meta.args) ? meta.args : [],
-      cwd: meta.cwd || process.env.ROOT_PATH || process.cwd(),
-      startedAt: meta.startedAt || Date.now(),
-      exited: true,
-      code: meta.code ?? null,
-      signal: meta.signal || "RESTORED",
-      paused_by_guard: false,
-      log:
-        buf.length > 0
-          ? buf.subarray(Math.max(0, buf.length - MAX_LOG_BYTES))
-          : Buffer.alloc(0),
-      proc: null,
-      prompt: meta.prompt || "",
-    };
-    if (meta.mode === "pty") {
-      ptySupervisor.procs.set(meta.id, {
-        ...base,
-        mode: "pty",
-        cols: meta.cols || 120,
-        rows: meta.rows || 32,
-      });
-    } else {
-      supervisor.procs.set(meta.id, { ...base, mode: "agent" });
-    }
-  }
+  await Promise.all(
+    metas.map(async (meta) => {
+      const collection = meta.mode === "pty" ? ptySupervisor : supervisor;
+      if (collection.procs.has(meta.id)) return;
+      const logTail = await readAgentLogTail(
+        meta.id,
+        Number(process.env.AGENT_RESTORE_TAIL || 65536),
+      );
+      const buffer = Buffer.from(logTail || "", "utf8");
+      const log =
+        buffer.length > 0
+          ? buffer.subarray(Math.max(0, buffer.length - MAX_LOG_BYTES))
+          : Buffer.alloc(0);
+      const baseProcess = {
+        id: meta.id,
+        cmd: meta.cmd || CODEX_BIN,
+        args: Array.isArray(meta.args) ? meta.args : [],
+        cwd: meta.cwd || process.env.ROOT_PATH || process.cwd(),
+        startedAt: meta.startedAt || Date.now(),
+        exited: true,
+        code: meta.code ?? null,
+        signal: meta.signal ?? "RESTORED",
+        paused_by_guard: false,
+        log,
+        prompt: meta.prompt || "",
+      };
+      if (meta.mode === "pty") {
+        const state: AgentProcessPty = {
+          ...baseProcess,
+          mode: "pty",
+          proc: null,
+          cols: meta.cols ?? 120,
+          rows: meta.rows ?? 32,
+        };
+        collection.procs.set(meta.id, state);
+      } else {
+        const state: AgentProcessAgent = {
+          ...baseProcess,
+          mode: "agent",
+          proc: null,
+        };
+        collection.procs.set(meta.id, state);
+      }
+    }),
+  );
 }
+
 export function createSupervisor(opts?: {
-  spawnImpl?: any;
-  killImpl?: (pid: number, signal: any) => boolean;
-}) {
+  spawnImpl?: SpawnFunction;
+  killImpl?: KillFunction;
+}): AgentSupervisor {
   return new AgentSupervisor(opts);
 }
