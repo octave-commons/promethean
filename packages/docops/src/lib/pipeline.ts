@@ -38,7 +38,7 @@ export type RunArgs = {
   genModel?: string;
   k?: number;
   force?: boolean;
-  anchorStyle?: string;
+  anchorStyle?: FootersOptions["anchorStyle"];
   // relations tuning
   maxRelated?: number;
   maxReferences?: number;
