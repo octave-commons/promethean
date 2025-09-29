@@ -347,6 +347,10 @@ export async function indexFile(
   };
   const col = await collectionForFamily(family, version, cfg);
   const { abs, rel: safeRel } = await resolveWithinRoot(rootPath, rel);
+  if (!abs) {
+    logger.warn("indexFile read blocked - candidate file is outside root", { path: rel });
+    return { ok: false, error: "File is outside index root" };
+  }
   let raw = "";
   try {
     raw = await fs.readFile(abs, "utf8");

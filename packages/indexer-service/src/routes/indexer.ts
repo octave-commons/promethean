@@ -1,7 +1,19 @@
 import type { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import type { IndexerManager } from "@promethean/indexer-core";
-
+import path from "node:path";
 type PathBody = { path?: string | string[] };
+
+// Path traversal prevention for single files
+function isSafeRelPath(rel: string): boolean {
+  // Disallow "..", "/" or "\" (for Windows), empty, or overly long paths
+  return (
+    typeof rel === "string" &&
+    rel.length > 0 &&
+    rel.length < 256 &&
+    !rel.split(/[\\/]/).includes("..") && // Disallow any ".." component
+    !path.isAbsolute(rel) // Should never be absolute
+  );
+}
 
 export function registerIndexerRoutes(
   app: FastifyInstance,
@@ -53,6 +65,11 @@ export function registerIndexerRoutes(
       const globs = request.body?.path;
       if (!globs) {
         reply.code(400).send({ ok: false, error: "Missing 'path'" });
+      // For array-of-globs, optionally check each for traversal
+      if (typeof globs === "string" && !isSafeRelPath(globs)) {
+        reply.code(400).send({ ok: false, error: "Invalid path" });
+        return;
+      }
         return;
       }
       try {
@@ -74,8 +91,8 @@ export function registerIndexerRoutes(
     ) => {
       const rel =
         typeof request.body?.path === "string" ? request.body.path : undefined;
-      if (!rel) {
-        reply.code(400).send({ ok: false, error: "Missing path" });
+      if (!rel || !isSafeRelPath(rel)) {
+        reply.code(400).send({ ok: false, error: "Invalid or missing path" });
         return;
       }
       try {
@@ -97,8 +114,8 @@ export function registerIndexerRoutes(
     ) => {
       const rel =
         typeof request.body?.path === "string" ? request.body.path : undefined;
-      if (!rel) {
-        reply.code(400).send({ ok: false, error: "Missing path" });
+      if (!rel || !isSafeRelPath(rel)) {
+        reply.code(400).send({ ok: false, error: "Invalid or missing path" });
         return;
       }
       try {
