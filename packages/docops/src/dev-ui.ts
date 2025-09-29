@@ -159,8 +159,6 @@ const RATE_LIMIT_FS = RATE_LIMIT_STANDARD;
 const RATE_LIMIT_PREVIEW = { max: 15, timeWindow: "1 minute" } as const;
 const RATE_LIMIT_SEARCH = { max: 12, timeWindow: "1 minute" } as const;
 const RATE_LIMIT_HEALTH = { max: 60, timeWindow: "1 minute" } as const;
-const RATE_LIMIT_DOCS = { max: 20, timeWindow: "1 minute" } as const;
-const RATE_LIMIT_STATUS = { max: 12, timeWindow: "1 minute" } as const;
 
 const app = fastifyFactory({ logger: false });
 
