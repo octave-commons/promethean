@@ -53,7 +53,9 @@ function mermaidForCluster(plan: Plan, members: FunctionInfo[]) {
   ].join("\n");
 }
 function escapeMd(s: string) {
-  return s.replace(/"/g, '\\"');
+  // Leverage JSON string escaping to cover quotes, backslashes, and control chars.
+  // Slice off the surrounding quotes to keep the inner escaped value.
+  return JSON.stringify(s).slice(1, -1);
 }
 
 export async function writeTasks(args: WriteArgs) {

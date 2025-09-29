@@ -23,9 +23,19 @@ export function normalizeToRoot(
   const base = path.resolve(ROOT_PATH);
   const p = String(inputPath || "");
   if (p === "/" || p === "") return base;
-  const candidate = path.isAbsolute(p)
-    ? path.resolve(base, p.slice(1))
-    : path.resolve(base, p.replace(/^[\\/]+/, ""));
+  let candidate: string;
+  if (path.isAbsolute(p)) {
+    const absolute = path.resolve(p);
+    if (isInsideRoot(ROOT_PATH, absolute)) {
+      candidate = absolute;
+    } else if (p.startsWith(path.sep)) {
+      candidate = path.resolve(base, p.slice(1));
+    } else {
+      throw new Error("path outside root");
+    }
+  } else {
+    candidate = path.resolve(base, p.replace(/^[\\/]+/, ""));
+  }
   const relToBase = path.relative(base, candidate);
   if (relToBase.startsWith("..") || path.isAbsolute(relToBase)) {
     throw new Error("path outside root");
@@ -90,11 +100,15 @@ export async function viewFile(
 }
 
 const RX: Record<string, RegExp> = {
-  nodeA: /\(?(?<file>[^():\n]+?):(?<line>\d+):(?<col>\d+)\)?/g,
+  nodeA: /\(?(?<file>(?:[A-Za-z]:)?[^():\n]+?):(?<line>\d+):(?<col>\d+)\)?/g,
   nodeB: /at\s+.*?\((?<file>[^()]+?):(?<line>\d+):(?<col>\d+)\)/g,
   py: /File\s+"(?<file>[^"]+)",\s+line\s+(?<line>\d+)/g,
-  go: /(?<file>[^\s:]+?):(?<line>\d+)/g,
+  go: /(?<file>(?:[A-Za-z]:)?[^\s:]+?):(?<line>\d+)/g,
 };
+
+function normalizeStacktracePath(file: string): string {
+  return file.replace(/\\/g, "/");
+}
 
 export async function locateStacktrace(
   ROOT_PATH: string,
@@ -109,7 +123,7 @@ export async function locateStacktrace(
       m = re.exec(text);
       if (!m) break;
       const g = m.groups as Record<string, string> | undefined;
-      const file = g?.file;
+      const file = g?.file ? normalizeStacktracePath(g.file) : undefined;
       const line = Number(g?.line || 1);
       const col = g?.col ? Number(g.col) : undefined;
       if (!file) continue;
@@ -206,8 +220,9 @@ export async function treeDirectory(
   const raw = await buildTree(abs, {
     includeHidden,
     maxDepth: depth,
-    predicate: (absPath, dirent) => {
-      const relPath = path.relative(ROOT_PATH, path.join(absPath, dirent.name));
+    predicate: (absPath) => {
+      const relPath = path.relative(ROOT_PATH, absPath);
+      if (!relPath) return true;
       return !ig.ignores(relPath);
     },
   });

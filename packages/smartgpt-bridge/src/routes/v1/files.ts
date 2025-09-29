@@ -9,6 +9,12 @@ import type { EventResponse } from "../../events/files.js";
 export function registerFilesRoutes(v1: any) {
   const ROOT_PATH = v1.ROOT_PATH || process.cwd();
 
+  const rateLimits = {
+    read: { max: 120, timeWindow: "1 minute" },
+    mutate: { max: 30, timeWindow: "1 minute" },
+    reindex: { max: 10, timeWindow: "1 minute" },
+  } as const;
+
   const handleError = (reply: any, error: unknown, fallbackStatus = 400) => {
     if (error instanceof EventError) {
       reply.code(error.status).send({ ok: false, error: error.message });
@@ -45,6 +51,7 @@ export function registerFilesRoutes(v1: any) {
   // Files
   // Unified handler for /files and /files/*
   v1.get("/files", {
+    config: { rateLimit: rateLimits.read },
     preHandler: [v1.authUser, v1.requirePolicy("read", () => "files")],
     schema: {
       summary: "List files, tree, or view file",
@@ -67,6 +74,7 @@ export function registerFilesRoutes(v1: any) {
   });
 
   v1.get("/files/*", {
+    config: { rateLimit: rateLimits.read },
     preHandler: [v1.authUser, v1.requirePolicy("read", () => "files")],
     schema: {
       summary: "List files, tree, or view file",
@@ -95,6 +103,7 @@ export function registerFilesRoutes(v1: any) {
   });
 
   v1.post("/files/reindex", {
+    config: { rateLimit: rateLimits.reindex },
     preHandler: [v1.authUser, v1.requirePolicy("write", () => "files")],
     schema: {
       summary: "Reindex files under a path",
@@ -117,6 +126,7 @@ export function registerFilesRoutes(v1: any) {
 
   // PUT /files: create, overwrite, or edit lines in a file
   v1.put("/files", {
+    config: { rateLimit: rateLimits.mutate },
     preHandler: [v1.authUser, v1.requirePolicy("write", () => "files")],
     schema: {
       summary: "Create, overwrite, or edit lines in a file",

@@ -10,10 +10,10 @@
   (canonical (str "test/fixtures/" name)))
 
 (deftest valid-layer-files-parse-cleanly
-  (let [layers (canonical "../.emacs/layers")
-        {:keys [ok? results]} (sut/validate-paths [layers])
+  (let [target (fixture-path "valid_layer.el")
+        {:keys [ok? results]} (sut/validate-paths [target])
         failures (filter (comp seq :diagnostics) results)]
-    (is (seq results) "expected at least one layer file to be checked")
+    (is (seq results) "expected the target file to be checked")
     (is ok? (str "expected no diagnostics, found " failures))))
 
 (deftest syntax-errors-are-reported

@@ -3,6 +3,6 @@
  {:promethean-cli
   {:target :node-script
    :main promethean.cli.core/-main
-   :output-to "packages/promethean-cli/dist/promethean_cli.js"
+   :output-to "packages/promethean-cli/dist/promethean_cli.cjs"
    :compiler-options {:infer-externs :auto
                       :source-map true}}}}

@@ -1,5 +1,5 @@
 {
-  "$schema": "https://json.schemastore.org/tsconfig.json",
+  "$schema": "https://legacyon.schemastore.org/tsconfig.json",
   "extends": "../../config/tsconfig.service.json",
   // Mapped from https://www.typescriptlang.org/tsconfig
   "compilerOptions": {
@@ -23,7 +23,7 @@
     "moduleResolution": "Bundler",
     "baseUrl": ".",
     "paths": {
-      "@shared/js/*": ["../../js/*"],
+      "@promethean/legacy/*": ["../legacy/*"],
       "@promethean/persistence": ["../persistence/dist/index"],
       "@promethean/persistence/*": ["../persistence/dist/*"],
       "@promethean/markdown": ["../markdown/dist/index"],

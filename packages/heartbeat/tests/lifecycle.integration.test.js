@@ -16,7 +16,7 @@ if (process.env.SKIP_NETWORK_TESTS === "1") {
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
     process.env.ECOSYSTEM_CONFIG = path.resolve(
       __dirname,
-      "test-ecosystem.config.cjs",
+      "../fixtures/ecosystem.fixture.config.cjs",
     );
     const pers = installInMemoryPersistence();
     const broker = await startBroker(0);

@@ -79,6 +79,17 @@ export type KanbanSettings = {
 
 const ID_COMMENT_PREFIX = 'id:';
 
+function unescapeAttrValue(value: string, quote: '"' | "'" | null): string {
+    let result = value;
+    if (quote === '"') {
+        result = result.replace(/\\"/g, '"');
+    } else if (quote === "'") {
+        result = result.replace(/\\'/g, "'");
+    }
+    result = result.replace(/\\\\/g, '\\');
+    return result;
+}
+
 function parseAttrs(braced?: string): Attrs {
     if (!braced) return {};
     const out: Attrs = {};
@@ -90,12 +101,25 @@ function parseAttrs(braced?: string): Attrs {
     while ((m = tokenRe.exec(inner))) {
         const k = m[1];
         let v = m[2];
+        let quote: '"' | "'" | null = null;
         if ((v.startsWith('"') && v.endsWith('"')) || (v.startsWith("'") && v.endsWith("'"))) {
+            quote = v[0] as '"' | "'";
             v = v.slice(1, -1);
         }
-        out[k] = v;
+        out[k] = unescapeAttrValue(v, quote);
     }
     return out;
+}
+
+function formatAttrValue(value: string): string {
+    const withEscapedBackslashes = value.replace(/\\/g, '\\\\');
+    const needsQuotes = /\s/.test(value) || value.includes('"') || value.includes("'");
+    if (!needsQuotes) return withEscapedBackslashes;
+    if (value.includes('"') && !value.includes("'")) {
+        return `'${withEscapedBackslashes}'`;
+    }
+    const withEscapedDoubleQuotes = withEscapedBackslashes.replace(/"/g, '\\"');
+    return `"${withEscapedDoubleQuotes}"`;
 }
 
 function stringifyAttrs(attrs: Attrs): string | null {
@@ -103,7 +127,7 @@ function stringifyAttrs(attrs: Attrs): string | null {
     if (!keys.length) return null;
     const parts = keys.map((k) => {
         const v = attrs[k];
-        return /\s/.test(v) ? `${k}:"${v.replace(/"/g, '\\"')}"` : `${k}:${v}`;
+        return `${k}:${formatAttrValue(v)}`;
     });
     return `{${parts.join(' ')}}`;
 }

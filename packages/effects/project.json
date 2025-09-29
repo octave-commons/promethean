@@ -1,37 +1,44 @@
 {
-    "name": "ts-effects",
-    "root": "packages/effects",
-    "sourceRoot": "packages/effects/src",
-    "targets": {
-        "build": {
-            "executor": "nx:run-commands",
-            "options": {
-                "command": "tsc -b",
-                "cwd": "packages/effects"
-            },
-            "outputs": ["{projectRoot}/dist"]
-        },
-        "typecheck": {
-            "executor": "nx:run-commands",
-            "options": {
-                "command": "tsc -p tsconfig.json --noEmit",
-                "cwd": "packages/effects"
-            }
-        },
-        "test": {
-            "executor": "nx:run-commands",
-            "options": {
-                "command": "ava",
-                "cwd": "packages/effects"
-            }
-        },
-        "lint": {
-            "executor": "nx:run-commands",
-            "options": {
-                "command": "eslint .",
-                "cwd": "packages/effects"
-            }
-        }
+  "name": "@promethean/effects",
+  "root": "packages/effects",
+  "sourceRoot": "packages/effects/src",
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc -b",
+        "cwd": "packages/effects"
+      },
+      "outputs": [
+        "{projectRoot}/dist"
+      ]
     },
-    "tags": ["scope:packages"]
+    "typecheck": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc -p tsconfig.json --noEmit",
+        "cwd": "packages/effects"
+      }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "ava",
+        "cwd": "{projectRoot}",
+        "env": {
+          "AVA_PROJECT_ROOT": "."
+        }
+      }
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "eslint .",
+        "cwd": "packages/effects"
+      }
+    }
+  },
+  "tags": [
+    "scope:packages"
+  ]
 }

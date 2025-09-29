@@ -52,6 +52,19 @@ into small services that handle speech-to-text, text-to-speech, memory, and high
 - Prefer immutable data; avoid in-place object mutation.
 - Use key-value caches like `@promethean/level-cache` instead of JSON files for intermediate data.
 
+## Kanban automation
+
+All board maintenance flows now run through `@promethean/kanban-cli`:
+
+- `pnpm kanban pull` keeps `docs/agile/boards/kanban.md` in sync with task
+  frontmatter.
+- `pnpm kanban push` projects kanban columns back to task files.
+- `pnpm kanban sync` runs both directions and reports conflicts.
+- `pnpm tsx packages/kanban/src/scripts/wip-sheriff.ts --write` audits WIP
+  limits when you need the old “WIP sheriff” tooling.
+
+Run `pnpm kanban --help` for the full list of subcommands.
+
 ## Automation pipelines
 
 Automation flows live in [`pipelines.json`](./pipelines.json). The table below

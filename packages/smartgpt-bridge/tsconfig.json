@@ -5,13 +5,13 @@
     "rootDir": "./src",
     "baseUrl": ".",
     "paths": {
-      "@shared/js/*": ["../../js/*"],
+      "@promethean/legacy/*": ["../legacy/*"],
       "@promethean/persistence": ["../persistence/dist/index"],
       "@promethean/persistence/*": ["../persistence/dist/*"],
       "@promethean/fs": ["../fs/dist/index"],
       "@promethean/fs/*": ["../fs/dist/*"],
       "@promethean/embedding": ["../embedding/dist/index"],
-      "@promethean/embedding/*": ["../embedding/dist/*"]
+      "@promethean/embedding/*": ["../embedding/dist/*"],
     },
     "composite": true,
     "declaration": true,

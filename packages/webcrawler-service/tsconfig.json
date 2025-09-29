@@ -8,5 +8,9 @@
     "skipLibCheck": true
   },
   "include": ["src/**/*"],
-  "references": []
+  "references": [
+    {
+      "path": "../web-utils"
+    }
+  ]
 }

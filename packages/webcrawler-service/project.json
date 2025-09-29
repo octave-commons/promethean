@@ -6,29 +6,42 @@
     "build": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "tsc -b"
+        "command": "tsc -b",
+        "cwd": "packages/webcrawler-service"
       },
-      "outputs": ["{projectRoot}/dist"]
+      "outputs": [
+        "{projectRoot}/dist"
+      ]
     },
     "typecheck": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "tsc -p tsconfig.json --noEmit"
+        "command": "tsc -p tsconfig.json --noEmit",
+        "cwd": "packages/webcrawler-service"
       }
     },
     "test": {
       "executor": "nx:run-commands",
-      "dependsOn": ["build"],
+      "dependsOn": [
+        "build"
+      ],
       "options": {
-        "command": "ava"
+        "command": "pnpm exec ava --config ../../config/ava.config.mjs",
+        "cwd": "{projectRoot}",
+        "env": {
+          "AVA_PROJECT_ROOT": "."
+        }
       }
     },
     "lint": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "eslint ."
+        "command": "eslint .",
+        "cwd": "packages/webcrawler-service"
       }
     }
   },
-  "tags": ["scope:packages"]
+  "tags": [
+    "scope:packages"
+  ]
 }
