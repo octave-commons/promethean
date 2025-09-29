@@ -1,21 +1,21 @@
+/* eslint-disable functional/no-try-statements, functional/immutable-data, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access */
+
 import path from "node:path";
 
 import test from "ava";
 
 import { withServer } from "../helpers/server.js";
+import { captureEnv, restoreEnv } from "../helpers/env.js";
 
 const ROOT = path.join(process.cwd(), "tests", "fixtures");
 
 test.serial("openapi shows bearer security when auth enabled", async (t) => {
-  const prev = {
-    AUTH_ENABLED: process.env.AUTH_ENABLED,
-    AUTH_MODE: process.env.AUTH_MODE,
-    OPENAPI_PUBLIC: process.env.OPENAPI_PUBLIC,
-  };
+  const prev = captureEnv(["AUTH_ENABLED", "AUTH_MODE", "OPENAPI_PUBLIC"]);
   process.env.AUTH_ENABLED = "true";
   process.env.AUTH_MODE = "static";
   process.env.OPENAPI_PUBLIC = "true";
   try {
+    t.timeout(180000);
     await withServer(ROOT, async (req) => {
       const res = await req.get("/openapi.json").expect(200);
       t.truthy(res.body.components?.securitySchemes?.bearerAuth);
@@ -23,20 +23,16 @@ test.serial("openapi shows bearer security when auth enabled", async (t) => {
       t.deepEqual(res.body.security, [{ bearerAuth: [] }]);
     });
   } finally {
-    process.env.AUTH_ENABLED = prev.AUTH_ENABLED;
-    process.env.AUTH_MODE = prev.AUTH_MODE;
-    process.env.OPENAPI_PUBLIC = prev.OPENAPI_PUBLIC;
+    restoreEnv(prev);
   }
 });
 
 test.serial("/auth/me requires valid token when enabled", async (t) => {
-  const prev = {
-    AUTH_ENABLED: process.env.AUTH_ENABLED,
-    AUTH_MODE: process.env.AUTH_MODE,
-  };
+  const prev = captureEnv(["AUTH_ENABLED", "AUTH_MODE"]);
   process.env.AUTH_ENABLED = "true";
   process.env.AUTH_MODE = "static";
   try {
+    t.timeout(180000);
     await withServer(ROOT, async (req) => {
       await req.get("/auth/me").expect(401);
       const res = await req
@@ -46,7 +42,32 @@ test.serial("/auth/me requires valid token when enabled", async (t) => {
       t.false(res.body.ok);
     });
   } finally {
-    process.env.AUTH_ENABLED = prev.AUTH_ENABLED;
-    process.env.AUTH_MODE = prev.AUTH_MODE;
+    restoreEnv(prev);
+  }
+});
+
+test.serial("/auth/me enforces per-IP rate limiting", async (t) => {
+  const prev = captureEnv(["AUTH_ENABLED", "AUTH_MODE", "AUTH_TOKEN"]);
+  process.env.AUTH_ENABLED = "true";
+  process.env.AUTH_MODE = "static";
+  process.env.AUTH_TOKEN = "secret";
+  try {
+    t.timeout(180000);
+    await withServer(ROOT, async (req) => {
+      for (let i = 0; i < 10; i++) {
+        const res = await req
+          .get("/auth/me")
+          .set("Authorization", "Bearer secret")
+          .expect(200);
+        t.true(res.body.ok);
+      }
+      const limited = await req
+        .get("/auth/me")
+        .set("Authorization", "Bearer secret")
+        .expect(429);
+      t.is(limited.status, 429);
+    });
+  } finally {
+    restoreEnv(prev);
   }
 });

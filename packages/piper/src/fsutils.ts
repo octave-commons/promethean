@@ -170,12 +170,13 @@ async function runJSModuleWorker(
   exportName: string | undefined,
   args: any,
   env: Record<string, string>,
+  cwd: string,
   timeoutMs?: number,
 ) {
   return new Promise<{ code: number | null; stdout: string; stderr: string }>(
     (resolve) => {
       const worker = new Worker(new URL("./js-worker.js", import.meta.url), {
-        workerData: { modUrl, exportName, args, env },
+        workerData: { modUrl, exportName, args, env, cwd },
       });
 
       let stdout = "";
@@ -225,6 +226,37 @@ async function runJSModuleWorker(
   );
 }
 
+function enterProcessCwd(targetCwd: string | undefined): () => void {
+  if (!targetCwd) {
+    return () => {};
+  }
+
+  const prevCwd = process.cwd();
+
+  try {
+    process.chdir(targetCwd);
+    return () => {
+      process.chdir(prevCwd);
+    };
+  } catch (err: any) {
+    const code = err?.code;
+    const message = err?.message ? String(err.message) : "";
+    const isWorkerCwdError =
+      code === "ERR_WORKER_UNSUPPORTED_OPERATION" ||
+      message.includes("ERR_WORKER_UNSUPPORTED_OPERATION") ||
+      message.includes("not supported in workers");
+
+    if (!isWorkerCwdError) {
+      throw err;
+    }
+
+    throw new Error(
+      `process.chdir is not supported in worker threads; unable to enter cwd "${targetCwd}". ` +
+        'Set step.js.isolate = "worker" or execute from an environment that supports chdir.',
+    );
+  }
+}
+
 /** JS module runner (default in-proc fast path).
  *  - Env is isolated and restored after run (calls serialized).
  *  - Console/stdout/stderr are captured during execution.
@@ -264,12 +296,18 @@ export async function runJSModule(
       step.js!.export,
       step.js!.args ?? {},
       env,
+      cwd,
       timeoutMs,
     );
   }
   const mod: any = await import(url.href);
   const fn = (step.js!.export && mod[step.js!.export]) || mod.default || mod;
-  return runJSFunction(fn, step.js!.args ?? {}, env, timeoutMs);
+  const restoreCwd = enterProcessCwd(cwd);
+  try {
+    return await runJSFunction(fn, step.js!.args ?? {}, env, timeoutMs);
+  } finally {
+    restoreCwd();
+  }
 }
 
 export async function runTSModule(

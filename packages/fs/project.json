@@ -1,5 +1,5 @@
 {
-    "name": "ts-fs",
+    "name": "@promethean/fs",
     "root": "packages/fs",
     "sourceRoot": "packages/fs/src",
     "targets": {
@@ -22,7 +22,10 @@
             "executor": "nx:run-commands",
             "options": {
                 "command": "ava",
-                "cwd": "packages/fs"
+                "cwd": "{projectRoot}",
+                "env": {
+                    "AVA_PROJECT_ROOT": "."
+                }
             }
         },
         "lint": {

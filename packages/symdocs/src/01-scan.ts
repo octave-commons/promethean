@@ -8,8 +8,8 @@ import {
   getNodeText,
   posToLine,
   relFromRepo,
-  listFilesRec,
 } from "@promethean/utils";
+import { scanFiles } from "@promethean/file-indexer";
 
 import {
   parseArgs,
@@ -30,6 +30,23 @@ export type ScanOptions = {
   files?: readonly string[];
 };
 
+export async function collectSourceFiles(
+  root: string,
+  exts: Set<string>,
+): Promise<string[]> {
+  const resolvedRoot = path.resolve(root);
+  const result = await scanFiles({
+    root: resolvedRoot,
+    exts,
+    collect: true,
+  });
+  return (result.files ?? []).map((file) =>
+    path.isAbsolute(file.path)
+      ? path.resolve(file.path)
+      : path.resolve(resolvedRoot, file.path),
+  );
+}
+
 export async function runScan(opts: ScanOptions = {}) {
   const ROOT = path.resolve(opts.root ?? "packages");
   const EXTS = new Set(
@@ -43,7 +60,7 @@ export async function runScan(opts: ScanOptions = {}) {
   const files =
     opts.files && opts.files.length > 0
       ? opts.files.map((f) => path.resolve(f))
-      : await listFilesRec(ROOT, EXTS);
+      : await collectSourceFiles(ROOT, EXTS);
   if (files.length === 0) {
     console.log("No files found.");
     return;

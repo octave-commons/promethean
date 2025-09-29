@@ -1,5 +1,5 @@
 {
-    "name": "ts-agent",
+    "name": "@promethean/agent",
     "root": "packages/agent",
     "sourceRoot": "packages/agent/src",
     "targets": {
@@ -23,7 +23,10 @@
             "dependsOn": ["build"],
             "options": {
                 "command": "ava",
-                "cwd": "{projectRoot}"
+                "cwd": "{projectRoot}",
+                "env": {
+                    "AVA_PROJECT_ROOT": "."
+                }
             }
         },
         "lint": {

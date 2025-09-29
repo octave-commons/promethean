@@ -1,5 +1,5 @@
 {
-    "name": "ts-test-utils",
+    "name": "@promethean/test-utils",
     "root": "packages/test-utils",
     "sourceRoot": "packages/test-utils/src",
     "targets": {
@@ -22,7 +22,10 @@
             "executor": "nx:run-commands",
             "options": {
                 "command": "ava",
-                "cwd": "packages/test-utils"
+                "cwd": "{projectRoot}",
+                "env": {
+                    "AVA_PROJECT_ROOT": "."
+                }
             }
         },
         "lint": {

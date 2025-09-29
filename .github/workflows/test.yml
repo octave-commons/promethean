@@ -1,0 +1,28 @@
+# .github/workflows/on-pr-to-testing.yml
+name: tests
+permissions:
+  contents: read
+on:
+  {
+    pull_request:
+      { branches: ["dev/testing", "dev/staging", dev/main", "main"] },
+  }
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20, cache: pnpm }
+      - uses: nrwl/nx-set-shas@v4
+      - name: Install Clojure toolchain
+        run: bash run/install-clojure.sh
+      - name: install rg
+        run: sudo apt-get install -y ripgrep
+      - name: Install deps
+        run: pnpm install --frozen-lockfile
+      - name: Install Playwright
+        run: bash run/setup_playwright.sh
+      - run: pnpm exec nx affected -t test --parallel

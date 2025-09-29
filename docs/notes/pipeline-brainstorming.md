@@ -218,13 +218,13 @@ pipelines:
   - name: board-sync
     steps:
       - id: fetch-kanban
-        cwd: tools/board
+        cwd: packages/kanban/src/board
         shell: "pnpm tsx fetch-kanban.ts --url  --out .cache/board/kanban.md"
         inputs: []
         outputs: [".cache/board/kanban.md"]
       - id: normalize
         deps: ["fetch-kanban"]
-        cwd: tools/board
+        cwd: packages/kanban/src/board
         shell: "pnpm tsx normalize-kanban.ts .cache/board/kanban.md --out .cache/board/normalized.json"
         inputs: [".cache/board/kanban.md"]
         outputs: [".cache/board/normalized.json"]
@@ -334,7 +334,7 @@ If you want, I can scaffold any of these (scripts + pnpm targets) and slot them 
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
 - [Promethean Pipelines: Local TypeScript-First Workflows](promethean-pipelines-local-typescript-first-workflow.md)
-- [Promethean Documentation Pipeline Overview](promethean-documentation-pipeline-overview.md)
+- [[promethean-documentation-pipeline-overview|Promethean Documentation Pipeline Overview]]
 ## Sources
 - [Promethean Pipelines: Local TypeScript-First Workflows — L220](promethean-pipelines-local-typescript-first-workflow.md#^ref-fda3b0d4-220-0) (line 220, col 0, score 0.95)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

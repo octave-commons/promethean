@@ -4,6 +4,7 @@ import * as path from "node:path";
 import * as url from "node:url";
 
 import test from "ava";
+import type { ExecutionContext } from "ava";
 import { v4 as uuidv4 } from "uuid";
 import {
   shutdown,
@@ -70,7 +71,80 @@ test.after.always(async () => {
 
 const byId = (id: string) => `#${id}`;
 
-async function clickFileInTree(page: Page, label: string) {
+type StepId =
+  | "frontmatter"
+  | "embed"
+  | "query"
+  | "relations"
+  | "footers"
+  | "rename";
+
+/* eslint-disable @typescript-eslint/prefer-readonly-parameter-types */
+async function configurePipelineUi(
+  t: Readonly<ExecutionContext>,
+  page: Readonly<Page>,
+  baseUrl: string,
+  collection: string,
+) {
+  await page.goto(`${baseUrl}`, { waitUntil: "domcontentloaded" });
+  await page.fill(byId("dir"), DOC_FIXTURE_PATH);
+  await page.fill(byId("collection"), collection);
+  await page.click(byId("refresh"));
+  await page.waitForFunction(() => {
+    const sel = document.getElementById("doclist");
+    return sel instanceof HTMLSelectElement;
+  });
+  await clickFileInTree(page, "run.md");
+  t.pass("Configured DocOps UI for pipeline test");
+}
+
+async function runPipelineAndVerify(
+  t: Readonly<ExecutionContext>,
+  page: Readonly<Page>,
+) {
+  const steps: ReadonlyArray<StepId> = [
+    "frontmatter",
+    "embed",
+    "query",
+    "relations",
+    "footers",
+    "rename",
+  ];
+
+  await steps.reduce<Promise<void>>(async (prev, step) => {
+    await prev;
+    await runStepFromUi(page, step);
+  }, Promise.resolve());
+
+  const frontmatterLog = await page.evaluate(() => {
+    const host = document.querySelector('docops-step[step="frontmatter"]');
+    const element = host instanceof HTMLElement ? host : null;
+    const root = element?.shadowRoot ?? null;
+    return root?.getElementById("log")?.textContent ?? "";
+  });
+  t.regex(
+    frontmatterLog,
+    /completed\./i,
+    "Frontmatter step should report completion",
+  );
+
+  await page.click(byId("refresh"));
+  await page.waitForFunction(
+    () => {
+      const sel = document.getElementById("doclist");
+      return sel instanceof HTMLSelectElement && sel.options.length > 0;
+    },
+    undefined,
+    { timeout: 60_000 },
+  );
+  const count = await page.evaluate(() => {
+    const sel = document.getElementById("doclist");
+    return sel instanceof HTMLSelectElement ? sel.options.length : 0;
+  });
+  t.true(count > 0, "Doc list repopulated after pipeline run");
+}
+
+async function clickFileInTree(page: Readonly<Page>, label: string) {
   const item = page.getByRole("treeitem", { name: label }).first();
   if (await item.count().then((n: number) => n > 0)) {
     await item.click();
@@ -96,6 +170,50 @@ async function clickFileInTree(page: Page, label: string) {
   }
 }
 
+async function runStepFromUi(page: Readonly<Page>, step: StepId) {
+  const hostLocator = page.locator(`docops-step[step="${step}"]`);
+  await hostLocator.waitFor({ state: "attached", timeout: 30_000 });
+
+  const clicked = await page.evaluate((targetStep: StepId) => {
+    const host = document.querySelector(`docops-step[step="${targetStep}"]`);
+    if (!(host instanceof HTMLElement)) return false;
+    const button = host.shadowRoot?.getElementById("runBtn");
+    if (!(button instanceof HTMLButtonElement)) return false;
+    button.click();
+    return true;
+  }, step);
+  if (!clicked) {
+    throw new Error(`Run button not found for step ${step}`);
+  }
+
+  await page.waitForFunction(
+    (targetStep: StepId) => {
+      const host = document.querySelector(`docops-step[step="${targetStep}"]`);
+      if (!(host instanceof HTMLElement)) return false;
+      const root = host.shadowRoot;
+      if (!root) return false;
+      const log = root.getElementById("log");
+      if (!log) return false;
+      const text = log.textContent ?? "";
+      return /completed\./i.test(text);
+    },
+    step,
+    { timeout: 120_000 },
+  );
+
+  const logText = await page.evaluate((targetStep: StepId) => {
+    const host = document.querySelector(`docops-step[step="${targetStep}"]`);
+    if (!(host instanceof HTMLElement)) return "";
+    const log = host.shadowRoot?.getElementById("log");
+    return log?.textContent ?? "";
+  }, step);
+
+  if (/ERROR/i.test(logText)) {
+    throw new Error(`Step ${step} finished with error: ${logText}`);
+  }
+}
+/* eslint-enable @typescript-eslint/prefer-readonly-parameter-types */
+
 test.serial(
   "DocOps Pipeline Run: executes pipeline and refreshes file tree",
   withPage,
@@ -112,60 +230,9 @@ test.serial(
       })());
 
     const { baseUrl } = await serverReady;
-    await page.goto(`${baseUrl}`, { waitUntil: "domcontentloaded" });
+    const collection = `e2e-${uuidv4().slice(0, 8)}`;
 
-    await page.fill(byId("dir"), DOC_FIXTURE_PATH);
-    const coll = `e2e-${uuidv4().slice(0, 8)}`;
-    await page.fill(byId("collection"), coll);
-
-    await page.click(byId("refresh"));
-    await page.waitForFunction(() => {
-      const sel = document.getElementById(
-        "doclist",
-      ) as HTMLSelectElement | null;
-      return !!sel && sel.options.length >= 0;
-    });
-
-    await clickFileInTree(page, "run.md");
-
-    await page.click(byId("run"));
-    const outcomeHandle = await page.waitForFunction(
-      () => {
-        const prog = document.getElementById(
-          "overallProgress",
-        ) as HTMLProgressElement | null;
-        const logs = document.getElementById("logs")?.textContent || "";
-        if (/error/i.test(logs)) return "error";
-        if ((prog && prog.value >= 100) || logs.includes("Done."))
-          return "success";
-        return false;
-      },
-      { timeout: 60_000 },
-    );
-    const outcome = await outcomeHandle.jsonValue();
-    t.is(outcome, "success", "Pipeline run should complete successfully");
-
-    const logsText = await page.textContent("#logs");
-    t.true(
-      !!logsText &&
-        logsText.split(/\n/).filter((l: string) => l.trim().length > 0)
-          .length >= 1,
-      "Logs should contain at least one line",
-    );
-    t.false(/error/i.test(logsText || ""), "Logs should not contain errors");
-
-    await page.waitForFunction(() => {
-      const sel = document.getElementById(
-        "doclist",
-      ) as HTMLSelectElement | null;
-      return !!sel && sel.options.length > 0;
-    });
-    const count = await page.evaluate(() => {
-      const sel = document.getElementById(
-        "doclist",
-      ) as HTMLSelectElement | null;
-      return sel ? sel.options.length : 0;
-    });
-    t.true(count > 0, "Doc list repopulated after run");
+    await configurePipelineUi(t, page, baseUrl, collection);
+    await runPipelineAndVerify(t, page);
   },
 );

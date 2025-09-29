@@ -1,5 +1,5 @@
 {
-    "name": "ts-dlq",
+    "name": "@promethean/dlq",
     "root": "packages/dlq",
     "sourceRoot": "packages/dlq/src",
     "targets": {
@@ -22,7 +22,10 @@
             "executor": "nx:run-commands",
             "options": {
                 "command": "ava",
-                "cwd": "packages/dlq"
+                "cwd": "{projectRoot}",
+                "env": {
+                    "AVA_PROJECT_ROOT": "."
+                }
             }
         },
         "lint": {

@@ -1,0 +1,53 @@
+; Generated from system/daemons/services/smartgpt-bridge/ecosystem.config.js
+{
+  :apps [
+    {
+      :name "smartgpt-bridge"
+      :script "dist/fastifyServer.js"
+      :args []
+      :exec_mode "fork"
+      :out_file "./logs/smartgpt-bridge-out.log"
+      :error_file "./logs/smartgpt-bridge-err.log"
+      :merge_logs true
+      :instances 1
+      :autorestart true
+      :restart_delay 10000
+      :kill_timeout 10000
+      :env {
+        :NODE_ENV "development"
+        :ROOT_PATH "./system"
+        :HOST "0.0.0.0"
+        :PORT "3210"
+        :PUBLIC_BASE_URL "https://err-stealth-16-ai-studio-a1vgg.tailbe888a.ts.net"
+        :EXCLUDE_GLOBS "**/node_modules/**,**/.git/**,**/dist/**,**/build/**,**/.obsidian/**,**/.smart_env/**,**/.pnpm/**,**/.cache/**,**/coverage/**"
+        :COLLECTION_FAMILY "repo_files"
+        :EMBED_VERSION "dev"
+        :PM2_PROCESS_NAME "smartgpt-bridge"
+        :EMBEDDING_DRIVER "ollama"
+        :EMBEDDING_FUNCTION "nomic-embed-text"
+        :EMBED_DIMS "768"
+        :BROKER_URL "ws://localhost:7000"
+        :SHARED_IMPORT "@promethean/legacy/brokerClient.js"
+        :CODEX_BIN "/home/err/.volta/bin/codex"
+        :CODEX_ARGS ""
+        :AGENT_MAX_LOG_BYTES "524288"
+        :AGENT_SHELL "true"
+        :HEARTBEAT_PORT "5005"
+        :PYTHONUNBUFFERED "1"
+        :PYTHONPATH "./packages/pm2-helpers"
+        :CHECK_INTERVAL "300000"
+        :HEARTBEAT_TIMEOUT "600000"
+      }
+      :cwd "./packages/smartgpt-bridge"
+      :watch [
+        "./packages/smartgpt-bridge/src"
+      ]
+      :ignore_watch [
+        "node_modules"
+        "logs"
+        "tmp"
+        ".git"
+      ]
+    }
+  ]
+}

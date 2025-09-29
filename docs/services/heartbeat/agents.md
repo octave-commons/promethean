@@ -6,11 +6,11 @@ TODO: Add service description.
 
 ## Broker Usage
 
-This client now relies on `@shared/js/brokerClient.js` for publishing heartbeats; avoid direct `WebSocket` use.
+This client now relies on `@promethean/legacy/brokerClient.js` for publishing heartbeats; avoid direct `WebSocket` use.
 
 ## Paths
 
-- [[heartbeat|services/js/heartbeat]]
+- [[heartbeat|services/legacy/heartbeat]]
 
 ## Tags
 

@@ -1,5 +1,5 @@
 {
-    "name": "ts-compiler",
+    "name": "@promethean/compiler",
     "root": "packages/compiler",
     "sourceRoot": "packages/compiler/src",
     "targets": {
@@ -22,7 +22,10 @@
             "executor": "nx:run-commands",
             "options": {
                 "command": "ava",
-                "cwd": "packages/compiler"
+                "cwd": "{projectRoot}",
+                "env": {
+                    "AVA_PROJECT_ROOT": "."
+                }
             }
         },
         "lint": {

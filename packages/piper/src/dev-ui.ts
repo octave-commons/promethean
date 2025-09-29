@@ -4,6 +4,7 @@ import { promises as fs } from "node:fs";
 
 import fastifyFactory from "fastify";
 import fastifyStatic from "@fastify/static";
+import rateLimit from "@fastify/rate-limit";
 import swagger from "@fastify/swagger";
 import swaggerUi from "@fastify/swagger-ui";
 import chokidar from "chokidar";
@@ -59,6 +60,24 @@ function errToString(e: unknown): string {
 }
 
 const app = fastifyFactory({ logger: false });
+// Enforce a modest per-client ceiling while allowing asset and SSE streams to flow.
+await app.register(rateLimit, {
+  max: 120,
+  timeWindow: "1 minute",
+  skipOnError: true,
+  allowList: (request) => {
+    const acceptHeader = request.headers.accept;
+    if (
+      typeof acceptHeader === "string" &&
+      acceptHeader.includes("text/event-stream")
+    ) {
+      return true;
+    }
+
+    const requestUrl = request.url ?? "";
+    return requestUrl.startsWith("/js/") || requestUrl.startsWith("/ui/");
+  },
+});
 // Development events: optional SSE stream for hot-reload signals.
 const WATCH_GLOBS = () => {
   const root = path.resolve(process.cwd(), "packages/piper/src/frontend");
@@ -89,8 +108,8 @@ await app.register(fastifyStatic, {
   prefix: "/js/ui-components",
   decorateReply: false,
 });
-// Note: No global rate-limiting in the dev server to avoid interfering
-// with HMR/EventSource reconnects and static asset loads.
+// Rate limits are applied globally, but SSE + static assets are allow-listed
+// to keep HMR/EventSource reconnects and bundle loads responsive during dev.
 
 await app.register(swagger, {
   openapi: {

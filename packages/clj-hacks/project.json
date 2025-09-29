@@ -6,30 +6,28 @@
     "build": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "tsc -b",
-        "cwd": "packages/clj-hacks"
+        "command": "bb clj-hacks:build"
       },
-      "outputs": ["{projectRoot}/dist"]
+      "outputs": ["{projectRoot}/target"]
     },
     "typecheck": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "tsc -p tsconfig.json --noEmit",
-        "cwd": "packages/clj-hacks"
+        "command": "bb clj-hacks:lint"
       }
     },
     "test": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "ava",
-        "cwd": "packages/clj-hacks"
-      }
+        "command": "node tools/scripts/run-clj-hacks-test.mjs",
+        "cwd": "."
+      },
+      "dependsOn": []
     },
     "lint": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "eslint .",
-        "cwd": "packages/clj-hacks"
+        "command": "bb clj-hacks:lint"
       }
     }
   },

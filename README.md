@@ -7,10 +7,10 @@ This project is licensed under the [[LICENSE.txt|GNU GPL v3]].
 This repository contains a modular multi‑agent architecture. To start shared infrastructure like speech services, run pm2 with the root configuration:
 
 ```bash
-pm2 start ecosystem.config.js
+pm2 start system/daemons/ecosystem.config.js
 ```
 
-When adding or removing packages with their own `ecosystem.config.js`, regenerate the consolidated configuration:
+When adding or removing services under `system/daemons/services/<daemon>/ecosystem.config.js`, regenerate the consolidated configuration:
 
 ```bash
 pnpm gen:ecosystem
@@ -42,14 +42,136 @@ docker compose up
 Set `AGENT_NAME` in your environment before launching agent services to isolate collections and data.
 Promethean is a modular cognitive architecture for building embodied AI agents. It breaks the system
 into small services that handle speech-to-text, text-to-speech, memory, and higher level reasoning.
-📖 For a high-level overview, see [[vision|docs/vision.md]].
+📖 For a high-level overview, see [[docs/design/overview|Vision Overview]].
 📊 For architecture roadmaps and visualizations, see [[docs/architecture/index|docs/architecture/index.md]].
 📦 Data migration conventions and runbooks live under [[docs/data/contracts/readme|docs/data]].
+🧰 Need a new workspace package? Follow the [[new-package|Nx package workflow]] for presets, directory layout, and follow-up tasks.
 
 ### Development conventions
 
 - Prefer immutable data; avoid in-place object mutation.
 - Use key-value caches like `@promethean/level-cache` instead of JSON files for intermediate data.
+
+## Kanban automation
+
+All board maintenance flows now run through `@promethean/kanban-cli`:
+
+- `pnpm kanban pull` keeps `docs/agile/boards/kanban.md` in sync with task
+  frontmatter.
+- `pnpm kanban push` projects kanban columns back to task files.
+- `pnpm kanban sync` runs both directions and reports conflicts.
+- `pnpm tsx packages/kanban/src/scripts/wip-sheriff.ts --write` audits WIP
+  limits when you need the old “WIP sheriff” tooling.
+
+Run `pnpm kanban --help` for the full list of subcommands.
+
+## Automation pipelines
+
+Automation flows live in [[pipelines.json|`pipelines.json`]]. The table below
+documents what each pipeline assembles and how the steps cooperate so operators
+know which caches, models, and outputs are involved when a run is triggered.
+
+### `symdocs`
+- **Purpose:** Generate symbol-aware package documentation and dependency graphs.
+- **Steps:**
+  1. `symdocs-scan` indexes package sources into `.cache/symdocs.level` using
+     `scripts/piper-symdocs.mjs`.
+  2. `symdocs-docs` calls the same module with the `docs` export (model
+     `qwen3:4b`) to enrich the cache.
+  3. `symdocs-write` materialises module docs under `docs/packages`.
+  4. `symdocs-graph` emits package README files and graphs from the indexed
+     sources.【F:pipelines.json†L3-L67】
+
+### `simtasks`
+- **Purpose:** Produce task backlogs from code structure analysis.
+- **Steps:**
+  1. `simtasks-scan` records exported functions per package.
+  2. `simtasks-embed` and `simtasks-cluster` embed and group functions using
+     Ollama hosted `nomic-embed-text:latest`.
+  3. `simtasks-plan` drafts plans with `qwen3:4b`.
+  4. `simtasks-write` writes Markdown tasks into `docs/agile/tasks`.
+     【F:pipelines.json†L71-L171】
+
+### `codemods`
+- **Purpose:** Generate, dry-run, and verify automated codemod transforms.
+- **Steps:**
+  1. `mods-simtasks` ensures the `simtasks` caches exist, invoking that pipeline
+     if needed.
+  2. `mods-spec` derives codemod specifications from the caches.
+  3. `mods-generate` writes transform stubs, `mods-dry-run` previews their
+     effects, and `mods-apply` executes approved transforms.
+  4. `mods-verify` runs repository tests and captures verification reports.
+     【F:pipelines.json†L175-L242】
+
+### `semver-guard`
+- **Purpose:** Detect API changes and prepare release guidance.
+- **Steps:**
+  1. `sv-snapshot` captures current package signatures.
+  2. `sv-diff` and `sv-plan` compute differences and summarise impacts with
+     `qwen3:4b`.
+  3. `sv-write` writes follow-up tasks, and `sv-pr` prepares dependency update
+     metadata for PR automation.【F:pipelines.json†L246-L341】
+
+### `board-review`
+- **Purpose:** Audit task hygiene against the documented agile process.
+- **Steps:**
+  1. `br-fm` normalises task frontmatter defaults.
+  2. `br-prompts` extracts review prompts from `docs/agile/Process.md` while
+     `br-index` embeds repository context via `nomic-embed-text:latest`.
+  3. `br-match` associates tasks with context, `br-eval` scores them with
+     `qwen3:4b`, and `br-report` emits review reports.【F:pipelines.json†L345-L470】
+
+### `sonar`
+- **Purpose:** Pull SonarQube issues and turn them into actionable tasks.
+- **Steps:**
+  1. `sonar-scan` runs `sonar-scanner` with the configured project key.
+  2. `sonar-fetch` downloads the issue payload into `.cache/sonar/issues`.
+  3. `sonar-plan` clusters issues with `qwen3:4b`, and `sonar-write` exports
+     grouped tasks under `docs/agile/tasks/sonar`.【F:pipelines.json†L474-L528】
+
+### `readmes`
+- **Purpose:** Keep package README files fresh.
+- **Steps:**
+  1. `rm-scan` inventories package manifests into `.cache/readmes`.
+  2. `rm-outline` drafts outlines with `qwen3:4b`.
+  3. `rm-write` emits README updates and `rm-verify` logs QA reports to
+     `docs/agile/reports/readmes`.【F:pipelines.json†L532-L592】
+
+### `buildfix`
+- **Purpose:** Iterate on build failures until the workspace compiles.
+- **Steps:**
+  1. `bf-build` builds the `@promethean/buildfix` package.
+  2. `bf-errors` captures TypeScript diagnostics for the workspace.
+  3. `bf-iterate` uses `qwen3:4b` to propose fixes with guarded git operations.
+  4. `bf-report` summarises attempts in `docs/agile/reports/buildfix`.
+     【F:pipelines.json†L596-L648】
+
+### `test-gap`
+- **Purpose:** Identify code without automated test coverage and plan remedies.
+- **Steps:**
+  1. `tg-exports` maps exported symbols; `tg-tests` runs the full workspace test
+     suite with coverage.
+  2. `tg-coverage` and `tg-map` combine exports and coverage into gap data.
+  3. `tg-gate` enforces thresholds, `tg-cookbook` links docs, `tg-plan` drafts
+     remediation plans with `qwen3:4b`, and `tg-write` plus `tg-report` publish
+     tasks and reports.【F:pipelines.json†L653-L742】
+
+### `docops`
+- **Purpose:** Maintain the curated `docs/unique` knowledge base.
+- **Steps:**
+  1. `doc-fm` standardises frontmatter using `qwen3:4b`.
+  2. `doc-index` and `doc-similarity` embed documents via
+     `nomic-embed-text:latest`.
+  3. `doc-related`, `doc-footer`, and `doc-rename` manage cross-links, footers,
+     and filenames.【F:pipelines.json†L745-L855】
+
+### `eslint-tasks`
+- **Purpose:** Turn ESLint findings into follow-up tasks.
+- **Steps:**
+  1. `eslint-report` generates `.cache/eslint/report.json` with
+     `pnpm exec eslint`.
+  2. `eslint-tasks` converts the report into Markdown tasks inside
+     `docs/agile/tasks`.【F:pipelines.json†L858-L886】
 
 ### Nx workspace
 
@@ -122,6 +244,15 @@ gantt
 #### Quick Setup
 
 ```bash
+git clone https://github.com/PrometheanAI/promethean.git
+cd promethean
+
+# Enable pnpm 9 via Corepack (required by the repo)
+corepack enable && corepack prepare pnpm@9 --activate
+
+# Install dependencies and launch all package dev servers
+pnpm install
+pnpm dev:all
 ```
 
 ### Node (pnpm required)
@@ -171,57 +302,12 @@ Packages using Node’s built-in test runner (e.g., `auth-service`) expose `test
 ### MongoDB
 
 Some services (for example `heartbeat`) require a running MongoDB instance.
-On Linux you can install and start MongoDB with:
-
-```bash
-make install-mongodb
-```
-
-This target adds the MongoDB apt repository and installs the `mongodb-org` package.
-On Windows, install [MongoDB Community Edition](https://www.mongodb.com/try/download/community)
-and ensure the `mongod` service is running locally before starting PM2.
-
-## Running Services
-
-Scripts in `agents/scripts/` launch commonly used services:
-
-- `duck_cephalon_run.sh` – starts the Cephalon language router
-- `duck_embedder_run.sh` – starts the Discord embedding service
-- `discord_indexer_run.sh` – runs the Discord indexer
-
-Each script assumes dependencies are installed and should be run from the repository root.
 
 ## Environment Variables
 
 The framework relies on several environment variables for configuration. See
 [[environment-variables.md|docs/environment-variables.md]] for details on
 all available settings.
-
-## Makefile Commands
-
-Common tasks are wrapped in the root `Makefile`:
-
-- `make install` – attempt a quick dependency install and fall back to full setup if needed
-- `make setup` – install dependencies across all services
-- `make build` – transpile Hy, Sibilant and TypeScript sources
-- `make start` – launch shared services defined in `ecosystem.config.js` via PM2
-- `make start:<service>` – run a service from `ecosystem.config.js` by name
-- `make stop` – stop running services
-- `make start-tts` – start the text-to-speech service
-- `make start-stt` – start the speech-to-text service
-- `make stop-tts` – stop the text-to-speech service
-- `make stop-stt` – stop the speech-to-text service
-- `make test` – run Python and JS test suites without coverage
-- `make board-sync` – sync `kanban.md` with GitHub Projects
-- `make kanban-from-tasks` – regenerate `kanban.md` from task files
-- `make kanban-to-hashtags` – update task statuses from `kanban.md`
-- `make kanban-to-issues` – create GitHub issues from the board
-- `make coverage` – run tests with coverage reports for Python, JavaScript and TypeScript services
-- `make refresh` - runs install only on packages with new depednencies.
-
-Agent-specific services may define their own `ecosystem.config.js` files.
-
-#hashtags: #promethean #framework #overview
 
 ## Obsidian Vault
 
@@ -239,31 +325,6 @@ configuration. Feel free to customize the settings or install additional
 plugins locally. See `vault-config/README.md` for more details.
 To push tasks from the board to GitHub Projects, see `docs/board_sync.md` and the
 `github_board_sync.py` script.
-
-## Tests
-
-Unit tests are located in `tests/` and run automatically on every pull request
-through [[tests.yml|GitHub Actions]].
-To run them locally:
-
-```bash
-pytest -q
-```
-
-## Converting Kanban Tasks to GitHub Issues
-
-A helper Makefile target `make kanban-to-issues` can create GitHub issues from the tasks listed in `docs/agile/boards/kanban.md`. Set the following environment variables before running it:
-
-- `GITHUB_TOKEN` – a personal access token with permission to create issues
-- `GITHUB_REPO` – the repository in `owner/repo` format
-
-Then run:
-
-```bash
-make kanban-to-issues
-```
-
-Without a token the script performs a dry run and prints the issues that would be created.
 
 ## Pre-commit Setup
 

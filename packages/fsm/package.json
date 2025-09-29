@@ -1,0 +1,31 @@
+{
+  "name": "@promethean/fsm",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "license": "GPL-3.0-only",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "clean": "rimraf dist",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "pnpm run build && ava",
+    "lint": "pnpm exec eslint .",
+    "coverage": "pnpm run build && c8 ava",
+    "format": "pnpm exec prettier --write ."
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

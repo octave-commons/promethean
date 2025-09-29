@@ -1,5 +1,5 @@
 {
-  "name": "ts-buildfix",
+  "name": "@promethean/buildfix",
   "root": "packages/buildfix",
   "sourceRoot": "packages/buildfix/src",
   "targets": {
@@ -9,9 +9,7 @@
         "command": "tsc -b",
         "cwd": "packages/buildfix"
       },
-      "outputs": [
-        "{projectRoot}/dist"
-      ]
+      "outputs": ["{projectRoot}/dist"]
     },
     "typecheck": {
       "executor": "nx:run-commands",
@@ -25,7 +23,10 @@
       "dependsOn": ["build"],
       "options": {
         "command": "ava",
-        "cwd": "packages/buildfix"
+        "cwd": "{projectRoot}",
+        "env": {
+          "AVA_PROJECT_ROOT": "."
+        }
       }
     },
     "lint": {
@@ -36,8 +37,6 @@
       }
     }
   },
-  "tags": [
-    "scope:packages"
-  ],
+  "tags": ["scope:packages"],
   "pipelines": "pipelines.json"
 }

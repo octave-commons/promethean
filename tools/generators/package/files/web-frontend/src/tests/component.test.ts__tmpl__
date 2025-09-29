@@ -1,0 +1,44 @@
+import test from "ava";
+import { GlobalRegistrator } from "@happy-dom/global-registrator";
+
+import { mount<%= className %>Component, define<%= className %>Component } from "../index.js";
+
+const resetDom = (): void => {
+  if (typeof document !== "undefined") {
+    document.body.innerHTML = "";
+  }
+};
+
+test.before(() => {
+  GlobalRegistrator.register();
+});
+
+test.after.always(() => {
+  resetDom();
+  GlobalRegistrator.unregister();
+});
+
+test("mount<%= className %>Component renders heading and message", (t) => {
+  const element = mount<%= className %>Component({
+    props: {
+      heading: "Hello", 
+      message: "World",
+      accent: "rgb(255, 0, 128)",
+    },
+  });
+
+  t.truthy(element.shadowRoot);
+  const heading = element.shadowRoot?.querySelector("h1");
+  const message = element.shadowRoot?.querySelector("p");
+  t.is(heading?.textContent, "Hello");
+  t.is(message?.textContent, "World");
+  t.true(heading?.getAttribute("part") === "heading");
+});
+
+test("define<%= className %>Component registers once", (t) => {
+  const registry = customElements;
+  const first = define<%= className %>Component(registry);
+  const second = define<%= className %>Component(registry);
+  t.is(first, second);
+  t.truthy(registry.get(first));
+});

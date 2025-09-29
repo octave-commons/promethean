@@ -1,0 +1,41 @@
+{
+  "name": "@promethean/report-forge",
+  "version": "0.0.1",
+  "type": "module",
+  "license": "GPL-3.0-only",
+  "bin": {
+    "report-forge": "./bin/report-forge.mjs"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "bin",
+    "README.md"
+  ],
+  "scripts": {
+    "build:cljs": "shadow-cljs release render",
+    "watch:cljs": "shadow-cljs watch render",
+    "build": "pnpm run build:cljs && tsc -p tsconfig.json",
+    "dev": "tsx watch src/cli.ts",
+    "test": "ava",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "ollama": "^0.5.18",
+    "undici": "^6.19.8"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "ava": "^6.1.1",
+    "shadow-cljs": "^2.28.10",
+    "typescript": "^5.6.2"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

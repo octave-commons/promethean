@@ -1,3 +1,3 @@
 declare module 'js-yaml';
-declare module '@shared/js/serviceTemplate.js';
-declare module '@shared/js/heartbeat/index.js';
+declare module '@promethean/legacy/serviceTemplate.js';
+declare module '@promethean/legacy/heartbeat/index.js';

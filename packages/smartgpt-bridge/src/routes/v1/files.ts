@@ -1,73 +1,57 @@
-import fs from "fs/promises";
-
-import { viewFile, treeDirectory, normalizeToRoot } from "../../files.js";
-import { indexerManager } from "../../indexer.js";
+import {
+  EventError,
+  onFilesReindexEvent,
+  onFilesRequestEvent,
+  onFilesWriteEvent,
+} from "../../events/files.js";
+import type { EventResponse } from "../../events/files.js";
 
 export function registerFilesRoutes(v1: any) {
+  const ROOT_PATH = v1.ROOT_PATH || process.cwd();
+
+  const rateLimits = {
+    read: { max: 120, timeWindow: "1 minute" },
+    mutate: { max: 30, timeWindow: "1 minute" },
+    reindex: { max: 10, timeWindow: "1 minute" },
+  } as const;
+
+  const handleError = (reply: any, error: unknown, fallbackStatus = 400) => {
+    if (error instanceof EventError) {
+      reply.code(error.status).send({ ok: false, error: error.message });
+      return;
+    }
+    const message = error instanceof Error ? error.message : String(error);
+    reply.code(fallbackStatus).send({ ok: false, error: message });
+  };
+
+  const sendResponse = (
+    reply: any,
+    result: EventResponse<any>,
+    fallbackStatus = 200,
+  ) => {
+    const status =
+      typeof result.status === "number" ? result.status : fallbackStatus;
+    reply.code(status).send(result.body);
+  };
+
+  async function filesHandler(req: any, reply: any) {
+    try {
+      const result = await onFilesRequestEvent({
+        rootPath: ROOT_PATH,
+        query: req.query ?? {},
+        params: req.params ?? {},
+      });
+      sendResponse(reply, result);
+    } catch (error) {
+      handleError(reply, error);
+    }
+  }
+
   // ------------------------------------------------------------------
   // Files
   // Unified handler for /files and /files/*
-  async function filesHandler(req: any, reply: any) {
-    const q = req.query || {};
-    const p = req.params && (req.params["*"] || req.params.path);
-    const dir = p || String(q.path || ".");
-    const hidden = String(q.hidden || "false").toLowerCase() === "true";
-    // type filter not supported for tree view here
-    const depth = typeof q.depth === "number" ? q.depth : Number(q.depth || 2);
-    const wantTree = String(q.tree || "false").toLowerCase() === "true";
-    const ROOT_PATH = v1.ROOT_PATH || process.cwd();
-    try {
-      try {
-        // If a specific file is requested (not '.'), try to view file first
-        if (dir && dir !== ".") {
-          const info = await viewFile(ROOT_PATH, dir, q.line, q.context);
-          return reply.send({ ok: true, ...info });
-        }
-        throw new Error("not a file");
-      } catch (_viewErr) {
-        // catch view error and continue to directory listing
-        // Directory listing or tree
-        if (wantTree) {
-          const treeResult = await treeDirectory(ROOT_PATH, dir, {
-            includeHidden: hidden,
-            depth,
-          });
-          reply.send({
-            ok: true,
-            base: treeResult.base,
-            tree: treeResult.tree,
-          });
-        } else {
-          const treeResult = await treeDirectory(ROOT_PATH, dir, {
-            includeHidden: hidden,
-            depth,
-          });
-          const flat: any[] = [];
-          function walkFlat(node: any) {
-            if (node.path !== undefined && node.type !== undefined) {
-              if (node.path !== "." && node.path !== "")
-                flat.push({
-                  name: node.name,
-                  path: node.path,
-                  type: node.type,
-                  size: node.size ?? null,
-                  mtimeMs: node.mtimeMs ?? null,
-                });
-            }
-            if (Array.isArray(node.children)) {
-              for (const child of node.children) walkFlat(child);
-            }
-          }
-          walkFlat(treeResult.tree);
-          reply.send({ ok: true, base: treeResult.base, entries: flat });
-        }
-      }
-    } catch (e: any) {
-      reply.code(400).send({ ok: false, error: String(e?.message || e) });
-    }
-  }
-  // ------------------------------------------------------------------
   v1.get("/files", {
+    config: { rateLimit: rateLimits.read },
     preHandler: [v1.authUser, v1.requirePolicy("read", () => "files")],
     schema: {
       summary: "List files, tree, or view file",
@@ -90,6 +74,7 @@ export function registerFilesRoutes(v1: any) {
   });
 
   v1.get("/files/*", {
+    config: { rateLimit: rateLimits.read },
     preHandler: [v1.authUser, v1.requirePolicy("read", () => "files")],
     schema: {
       summary: "List files, tree, or view file",
@@ -118,6 +103,7 @@ export function registerFilesRoutes(v1: any) {
   });
 
   v1.post("/files/reindex", {
+    config: { rateLimit: rateLimits.reindex },
     preHandler: [v1.authUser, v1.requirePolicy("write", () => "files")],
     schema: {
       summary: "Reindex files under a path",
@@ -130,19 +116,17 @@ export function registerFilesRoutes(v1: any) {
     },
     async handler(req: any, reply: any) {
       try {
-        const globs = req.body?.path;
-        if (!globs)
-          return reply.code(400).send({ ok: false, error: "Missing 'path'" });
-        const r = await indexerManager.scheduleReindexSubset(globs);
-        reply.send(r);
-      } catch (e: any) {
-        reply.code(500).send({ ok: false, error: String(e?.message || e) });
+        const result = await onFilesReindexEvent({ body: req.body ?? {} });
+        sendResponse(reply, result);
+      } catch (error) {
+        handleError(reply, error, 500);
       }
     },
   });
 
   // PUT /files: create, overwrite, or edit lines in a file
   v1.put("/files", {
+    config: { rateLimit: rateLimits.mutate },
     preHandler: [v1.authUser, v1.requirePolicy("write", () => "files")],
     schema: {
       summary: "Create, overwrite, or edit lines in a file",
@@ -150,7 +134,6 @@ export function registerFilesRoutes(v1: any) {
       tags: ["Files"],
       body: {
         type: "object",
-        required: ["path"],
         properties: {
           path: { type: "string" },
           content: {
@@ -181,36 +164,14 @@ export function registerFilesRoutes(v1: any) {
       },
     },
     async handler(req: any, reply: any) {
-      const { path: filePath, content, lines, startLine } = req.body || {};
-      const ROOT_PATH = v1.ROOT_PATH || process.cwd();
-      if (!filePath)
-        return reply.code(400).send({ ok: false, error: "Missing path" });
-      const abs = normalizeToRoot(ROOT_PATH, filePath);
       try {
-        if (typeof content === "string") {
-          await fs.writeFile(abs, content, "utf8");
-          return reply.send({ ok: true, path: filePath });
-        } else if (Array.isArray(lines) && typeof startLine === "number") {
-          let fileLines: string[] = [];
-          try {
-            const raw = await fs.readFile(abs, "utf8");
-            fileLines = raw.split(/\r?\n/);
-          } catch {
-            // If file doesn't exist, treat as empty
-          }
-          const idx = Math.max(0, startLine - 1);
-          // Insert/replace lines
-          fileLines.splice(idx, lines.length, ...lines);
-          await fs.writeFile(abs, fileLines.join("\n"), "utf8");
-          return reply.send({ ok: true, path: filePath });
-        } else {
-          return reply.code(400).send({
-            ok: false,
-            error: "Must provide content or lines+startLine",
-          });
-        }
-      } catch (e: any) {
-        reply.code(400).send({ ok: false, error: String(e?.message || e) });
+        const result = await onFilesWriteEvent({
+          rootPath: ROOT_PATH,
+          body: req.body ?? {},
+        });
+        sendResponse(reply, result);
+      } catch (error) {
+        handleError(reply, error);
       }
     },
   });

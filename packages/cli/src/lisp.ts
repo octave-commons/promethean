@@ -7,9 +7,9 @@ import { compileLispToJS, runLisp } from '@promethean/compiler/lisp/driver.js';
 import { jsToLisp } from '@promethean/compiler/lisp/js2lisp.js';
 import { tsToLisp } from '@promethean/compiler/lisp/ts2lisp.js';
 
-type Argv = string[];
+export type Argv = string[];
 
-async function readInput(arg?: string): Promise<string> {
+export async function readInput(arg?: string): Promise<string> {
     if (!arg || arg === '-' || arg === '/dev/stdin') {
         const chunks: Buffer[] = [];
         await new Promise<void>((resolve, reject) => {
@@ -22,13 +22,13 @@ async function readInput(arg?: string): Promise<string> {
     return fs.readFile(arg, 'utf8');
 }
 
-function parseFlag(args: Argv, name: string): boolean {
+export function parseFlag(args: Argv, name: string): boolean {
     const i = args.indexOf(name);
     if (i >= 0) args.splice(i, 1);
     return i >= 0;
 }
 
-function parseOption(args: Argv, name: string, fallback?: string): string | undefined {
+export function parseOption(args: Argv, name: string, fallback?: string): string | undefined {
     const i = args.indexOf(name);
     if (i >= 0) {
         args.splice(i, 1);
@@ -40,6 +40,63 @@ function parseOption(args: Argv, name: string, fallback?: string): string | unde
     }
     return fallback;
 }
+
+export function extractImportSpecs(args: Argv): string[] {
+    const specs: string[] = [];
+    for (let i = 0; i < args.length; ) {
+        const token = args[i]!;
+        if (token === '--import') {
+            const value = args[i + 1];
+            if (!value || value.startsWith('-')) {
+                throw new Error('--import requires name=path[:export]');
+            }
+            specs.push(value);
+            args.splice(i, 2);
+            continue;
+        }
+        if (token.startsWith('--import=')) {
+            const spec = token.slice('--import='.length);
+            if (!spec) {
+                throw new Error('--import requires name=path[:export]');
+            }
+            specs.push(spec);
+            args.splice(i, 1);
+            continue;
+        }
+        i += 1;
+    }
+    return specs;
+}
+
+const defaultStdout = (chunk: string) => process.stdout.write(chunk);
+
+type StdoutWriter = (chunk: string) => void;
+
+type CompileDeps = {
+    readInput?: typeof readInput;
+    compileLispToJS?: typeof compileLispToJS;
+    writeFile?: (path: string, data: string, encoding: BufferEncoding) => Promise<void>;
+    stdoutWrite?: StdoutWriter;
+};
+
+type RunDeps = {
+    readInput?: typeof readInput;
+    resolveImport?: typeof resolveImport;
+    runLisp?: typeof runLisp;
+    stdoutWrite?: StdoutWriter;
+};
+
+type Js2LispDeps = {
+    readInput?: typeof readInput;
+    jsToLisp?: typeof jsToLisp;
+    stdoutWrite?: StdoutWriter;
+};
+
+type Ts2LispDeps = {
+    readInput?: typeof readInput;
+    tsToLisp?: typeof tsToLisp;
+    stdoutWrite?: StdoutWriter;
+};
 
 function printUsage() {
     const bin = path.basename(process.argv[1] || 'prom-lisp');
@@ -60,20 +117,27 @@ Examples:
 `);
 }
 
-async function cmdCompile(args: Argv) {
+export async function cmdCompile(args: Argv, deps: CompileDeps = {}) {
     const pretty = parseFlag(args, '--pretty');
     const importsOpt = parseOption(args, '--imports');
     const out = parseOption(args, '-o');
     const file = args.shift();
     if (!file) return printUsage();
-    const src = await readInput(file);
+    const read = deps.readInput ?? readInput;
+    const compile = deps.compileLispToJS ?? compileLispToJS;
+    const writeFileFn =
+        deps.writeFile ??
+        ((filePath: string, data: string, encoding: BufferEncoding) => fs.writeFile(filePath, data, encoding));
+    const stdout = deps.stdoutWrite ?? defaultStdout;
+
+    const src = await read(file);
     const importNames = importsOpt ? importsOpt.split(',').filter(Boolean) : [];
-    const { js } = compileLispToJS(src, { pretty, importNames });
-    if (out) await fs.writeFile(out, js, 'utf8');
-    else process.stdout.write(js + '\n');
+    const { js } = compile(src, { pretty, importNames });
+    if (out) await writeFileFn(out, js, 'utf8');
+    else stdout(js + '\n');
 }
 
-async function resolveImport(spec: string): Promise<[string, any]> {
+export async function resolveImport(spec: string): Promise<[string, any]> {
     // spec: name=path[:export]
     const [name, rhs] = spec.split('=');
     if (!name || !rhs) throw new Error(`Invalid --import spec: ${spec}`);
@@ -90,71 +154,53 @@ async function resolveImport(spec: string): Promise<[string, any]> {
     return [name, value];
 }
 
-async function cmdRun(args: Argv) {
+export async function cmdRun(args: Argv, deps: RunDeps = {}) {
     const json = parseFlag(args, '--json');
-    const importSpecs = args.filter((a) => a.startsWith('--import'));
-    // remove all --import entries and their values if split form used
-    for (let i = 0; i < args.length; ) {
-        // Collect --import specs in both forms and remove them from args
-        const merged: string[] = [];
-        for (let i = 0; i < args.length; ) {
-            const ai = args[i]!;
-            if (ai === '--import') {
-                const v = args[i + 1];
-                if (!v || v.startsWith('-')) {
-                    throw new Error('--import requires name=path[:export]');
-                }
-                merged.push(v);
-                args.splice(i, 2);
-            } else if (ai.startsWith('--import=')) {
-                merged.push(ai.slice('--import='.length));
-                args.splice(i, 1);
-            } else {
-                i++;
-            }
-        }
-
-        // merged now contains only 'name=path[:export]' specs
-    }
+    const specs = extractImportSpecs(args);
     const file = args.shift();
     if (!file) return printUsage();
-    const src = await readInput(file);
 
-    // Accept both --import name=path[:export] and --import=name=path[:export]
-    const merged: string[] = [];
-    for (const s of importSpecs) {
-        const eq = s.indexOf('=');
-        if (s === '--import') continue; // handled as pair above
-        merged.push(eq >= 0 ? s.slice(eq + 1) : '');
-    }
+    const read = deps.readInput ?? readInput;
+    const resolver = deps.resolveImport ?? resolveImport;
+    const run = deps.runLisp ?? runLisp;
+    const stdout = deps.stdoutWrite ?? defaultStdout;
+
+    const src = await read(file);
     const imports: Record<string, any> = {};
-    for (const spec of merged) {
-        const [name, value] = await resolveImport(spec);
+    for (const spec of specs) {
+        const [name, value] = await resolver(spec);
         imports[name] = value;
     }
-    const result = runLisp(src, imports);
-    process.stdout.write(json ? JSON.stringify(result) + '\n' : String(result) + '\n');
+    const result = run(src, imports);
+    const output = json ? JSON.stringify(result) : String(result);
+    stdout(output + '\n');
 }
 
-async function cmdJs2Lisp(args: Argv) {
+export async function cmdJs2Lisp(args: Argv, deps: Js2LispDeps = {}) {
     const file = args.shift();
     if (!file) return printUsage();
-    const src = await readInput(file);
-    const { text } = await jsToLisp(src, { tryAcorn: true, foldLetInits: true });
-    process.stdout.write(text + '\n');
+    const read = deps.readInput ?? readInput;
+    const convert = deps.jsToLisp ?? jsToLisp;
+    const stdout = deps.stdoutWrite ?? defaultStdout;
+    const src = await read(file);
+    const { text } = await convert(src, { tryAcorn: true, foldLetInits: true });
+    stdout(text + '\n');
 }
 
-async function cmdTs2Lisp(args: Argv) {
+export async function cmdTs2Lisp(args: Argv, deps: Ts2LispDeps = {}) {
     const includeIntermediate = parseFlag(args, '--include-intermediate');
     const file = args.shift();
     if (!file) return printUsage();
-    const src = await readInput(file);
-    const res = await tsToLisp(src, { includeIntermediate });
-    const text = includeIntermediate ? res.lisp : res.lisp;
-    process.stdout.write(text + '\n');
+    const read = deps.readInput ?? readInput;
+    const transform = deps.tsToLisp ?? tsToLisp;
+    const stdout = deps.stdoutWrite ?? defaultStdout;
+    const src = await read(file);
+    const res = await transform(src, { includeIntermediate });
+    const text = res.lisp;
+    stdout(text + '\n');
 }
 
-async function main(argv: Argv) {
+export async function main(argv: Argv) {
     const [, , cmd, ...rest] = argv;
     switch (cmd) {
         case 'compile':

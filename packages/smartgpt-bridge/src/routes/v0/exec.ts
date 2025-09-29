@@ -1,8 +1,23 @@
 import { runCommand } from "../../exec.js";
 
-export function registerExecRoutes(fastify: any) {
+type ExecDeps = {
+  runCommand?:
+    | ((
+        opts: Parameters<typeof runCommand>[0],
+      ) => ReturnType<typeof runCommand>)
+    | undefined;
+};
+
+export function registerExecRoutes(fastify: any, deps: ExecDeps = {}) {
+  const run = deps.runCommand ?? runCommand;
   const ROOT_PATH = fastify.ROOT_PATH;
   fastify.post("/exec/run", {
+    config: {
+      rateLimit: {
+        max: 5,
+        timeWindow: "1 minute",
+      },
+    },
     schema: {
       summary: "Run a shell command",
       operationId: "runCommand",
@@ -48,7 +63,7 @@ export function registerExecRoutes(fastify: any) {
           return reply
             .code(400)
             .send({ ok: false, error: "Missing 'command'" });
-        const out = await runCommand({
+        const out = await run({
           command: String(command),
           cwd: cwd ? String(cwd) : ROOT_PATH,
           repoRoot: ROOT_PATH,

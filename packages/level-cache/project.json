@@ -1,5 +1,5 @@
 {
-  "name": "ts-level-cache",
+  "name": "@promethean/level-cache",
   "root": "packages/level-cache",
   "sourceRoot": "packages/level-cache/src",
   "targets": {
@@ -22,7 +22,10 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "ava",
-        "cwd": "packages/level-cache"
+        "cwd": "{projectRoot}",
+        "env": {
+          "AVA_PROJECT_ROOT": "."
+        }
       }
     },
     "lint": {

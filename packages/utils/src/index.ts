@@ -21,3 +21,8 @@ export {
   END_MARK,
 } from "./strip-generated-sections.js";
 export { randomUUID } from "./uuid.js";
+export {
+  InMemoryChroma,
+  type InMemoryChromaEntry,
+  type InMemoryChromaQueryHit,
+} from "./in-memory-chroma.js";

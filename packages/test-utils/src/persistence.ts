@@ -19,6 +19,10 @@ export class InMemoryCollection<T extends AnyDoc = AnyDoc> {
         this.data.push(structuredClone(doc));
         return { insertedId: (doc as AnyDoc).id };
     }
+    async findOne(filter: AnyDoc = {}) {
+        const doc = this.data.find((item) => matchesFilter(item, filter));
+        return doc ? (structuredClone(doc) as T) : null;
+    }
     find(filter: AnyDoc = {}) {
         const arr = this.data.filter((doc) => matchesFilter(doc, filter));
         return { toArray: async () => arr.map((d) => structuredClone(d)) } as any;

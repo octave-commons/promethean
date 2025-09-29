@@ -4,7 +4,8 @@ import { User } from "../../models/User.js";
 
 function requireLocal(req: any, reply: any, done: any) {
   const remote = req?.socket?.remoteAddress;
-  const forwarded = req.headers?.["x-forwarded-for"] || req.headers?.["forwarded"];
+  const forwarded =
+    req.headers?.["x-forwarded-for"] || req.headers?.["forwarded"];
   const isLoopback =
     remote === "127.0.0.1" || remote === "::1" || remote === "::ffff:127.0.0.1";
   if (isLoopback && !forwarded) return done();
@@ -39,8 +40,8 @@ export function registerBootstrapRoutes(app: any) {
       },
     },
     handler: async () => {
-      const count = await User.countDocuments();
-      if (count > 0) {
+      const users = await User.find({});
+      if (users.length > 0) {
         return { ok: false, error: "Already initialized" };
       }
       const apiKey = crypto.randomBytes(32).toString("hex");
