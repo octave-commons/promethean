@@ -157,6 +157,8 @@ const ensureArray = <T>(value: unknown): T[] =>
 const RATE_LIMIT_FS = { max: 30, timeWindow: "1 minute" } as const;
 const RATE_LIMIT_PREVIEW = { max: 15, timeWindow: "1 minute" } as const;
 const RATE_LIMIT_SEARCH = { max: 12, timeWindow: "1 minute" } as const;
+const RATE_LIMIT_DOCS = { max: 20, timeWindow: "1 minute" } as const;
+const RATE_LIMIT_STATUS = { max: 12, timeWindow: "1 minute" } as const;
 
 const app = fastifyFactory({ logger: false });
 
@@ -303,14 +305,22 @@ app.get<{ Querystring: ReadQuery }>(
   },
 );
 
-app.get("/api/docs", async () => {
-  const docs = await loadDocs(db);
-  return docs.map((doc) => ({
-    uuid: doc.uuid,
-    path: doc.path,
-    title: doc.title,
-  }));
-});
+app.get(
+  "/api/docs",
+  {
+    config: {
+      rateLimit: RATE_LIMIT_DOCS,
+    },
+  },
+  async () => {
+    const docs = await loadDocs(db);
+    return docs.map((doc) => ({
+      uuid: doc.uuid,
+      path: doc.path,
+      title: doc.title,
+    }));
+  },
+);
 
 app.get<{ Querystring: PreviewQuery }>(
   "/api/preview",
@@ -348,39 +358,49 @@ app.get<{ Querystring: PreviewQuery }>(
   },
 );
 
-app.get<{ Querystring: StatusQuery }>("/api/status", async (request, reply) => {
-  const query = request.query;
-  const docs = await loadDocs(db);
-  const limit = clamp(
-    Number.isFinite(Number(query.limit)) ? Number(query.limit) : 25,
-    1,
-    200,
-  );
-  const pageRaw = Number.isFinite(Number(query.page)) ? Number(query.page) : 1;
-  const page = pageRaw >= 1 ? pageRaw : 1;
-  const onlyIncomplete = asBool(query.onlyIncomplete);
+app.get<{ Querystring: StatusQuery }>(
+  "/api/status",
+  {
+    config: {
+      rateLimit: RATE_LIMIT_STATUS,
+    },
+  },
+  async (request, reply) => {
+    const query = request.query;
+    const docs = await loadDocs(db);
+    const limit = clamp(
+      Number.isFinite(Number(query.limit)) ? Number(query.limit) : 25,
+      1,
+      200,
+    );
+    const pageRaw = Number.isFinite(Number(query.page))
+      ? Number(query.page)
+      : 1;
+    const page = pageRaw >= 1 ? pageRaw : 1;
+    const onlyIncomplete = asBool(query.onlyIncomplete);
 
-  const statuses = await Promise.all(
-    docs.map((doc) => computeDocStatus(db, doc)),
-  );
-  const filtered = onlyIncomplete
-    ? statuses.filter(
-        (status) =>
-          !status.frontmatter.done ||
-          status.embed.chunks === 0 ||
-          status.query.withHits === 0 ||
-          !status.relations.present ||
-          !status.footers.present,
-      )
-    : statuses;
+    const statuses = await Promise.all(
+      docs.map((doc) => computeDocStatus(db, doc)),
+    );
+    const filtered = onlyIncomplete
+      ? statuses.filter(
+          (status) =>
+            !status.frontmatter.done ||
+            status.embed.chunks === 0 ||
+            status.query.withHits === 0 ||
+            !status.relations.present ||
+            !status.footers.present,
+        )
+      : statuses;
 
-  const start = (page - 1) * limit;
-  const slice = filtered.slice(start, start + limit);
-  const hasMore = start + slice.length < filtered.length;
+    const start = (page - 1) * limit;
+    const slice = filtered.slice(start, start + limit);
+    const hasMore = start + slice.length < filtered.length;
 
-  reply.header("cache-control", "no-store, no-cache, must-revalidate");
-  return { items: slice, page, hasMore, total: filtered.length };
-});
+    reply.header("cache-control", "no-store, no-cache, must-revalidate");
+    return { items: slice, page, hasMore, total: filtered.length };
+  },
+);
 
 app.get<{ Querystring: ChunksQuery }>(
   "/api/chunks",
