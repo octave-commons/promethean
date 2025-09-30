@@ -719,7 +719,8 @@ const fallbackTaskFromRaw = (filePath: string, raw: string): Task | null => {
   const frontmatterContent = raw.slice(cursor, boundaryIndex);
   const bodyContent = raw.slice(boundaryIndex + newlineLength + 3);
   const getValue = (key: string): string | undefined => {
-    const pattern = new RegExp(`^${key}\s*:\s*(.+)$`, "im");
+    const escapedKey = key.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const pattern = new RegExp(`^${escapedKey}\\s*:\\s*(.+)$`, "im");
     const valueMatch = frontmatterContent.match(pattern);
     if (!valueMatch || valueMatch[1] == null) {
       return undefined;
@@ -917,6 +918,7 @@ const BLOCKS_HEADING = "## ⛓️ Blocks";
 
 const escapeRegExp = (value: string): string =>
   value.replace(/[\\-/\^$*+?.()|[\]{}]/g, "\\$&");
+
 
 const formatSectionBlock = (
   heading: string,
