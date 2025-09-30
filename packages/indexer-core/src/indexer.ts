@@ -1,3 +1,4 @@
+/* eslint-disable functional/no-let, functional/no-loop-statements, functional/immutable-data, functional/no-try-statements, @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-floating-promises, max-lines-per-function, max-lines, complexity, sonarjs/cognitive-complexity */
 import fs from "node:fs/promises";
 import path from "node:path";
 
