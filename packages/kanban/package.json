@@ -6,7 +6,9 @@
     "kanban": "dist/index.js"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json"
+    "build": "tsc -p tsconfig.json",
+    "test":"pnpm run build && ava"
+
   },
   "dependencies": {
     "@promethean/markdown": "workspace:*",

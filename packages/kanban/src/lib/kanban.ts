@@ -19,6 +19,69 @@ const sanitizeFileNameBase = (value: string): string => {
   return singleSpaced.replace(/\.$/, "");
 };
 
+const STOPWORDS = new Set<string>([
+  'the',
+  'and',
+  'for',
+  'with',
+  'from',
+  'that',
+  'this',
+  'into',
+  'using',
+  'your',
+  'their',
+  'about',
+  'after',
+  'before',
+  'into',
+  'onto',
+  'under',
+  'over',
+  'todo',
+  'task',
+  'auto',
+]);
+
+const tokenizeForLabels = (text: string): ReadonlyArray<string> =>
+  text
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, ' ')
+    .split(/\s+/)
+    .filter((token) => token.length > 2 && !STOPWORDS.has(token));
+
+const generateAutoLabels = (
+  title: string,
+  body: string | undefined,
+  limit = 4,
+): ReadonlyArray<string> => {
+  const tokens = new Map<string, number>();
+  const addTokens = (source: string, weight: number) => {
+    for (const token of tokenizeForLabels(source)) {
+      tokens.set(token, (tokens.get(token) ?? 0) + weight);
+    }
+  };
+  addTokens(title, 3);
+  if (body) {
+    addTokens(body.slice(0, 500), 1);
+  }
+  const sorted = Array.from(tokens.entries())
+    .sort((a, b) => b[1] - a[1])
+    .map(([token]) => token.replace(/\s+/g, '-'));
+  return sorted.slice(0, limit);
+};
+
+const ensureLabelsPresent = (task: Task, body: string | undefined): Task => {
+  if (task.labels && task.labels.length > 0) {
+    return task;
+  }
+  const generated = generateAutoLabels(task.title ?? '', body);
+  if (generated.length === 0) {
+    return task;
+  }
+  return { ...task, labels: [...generated] };
+};
+
 const FALLBACK_SLUG_REGEX = /^task [0-9a-f]{8}(?: \d+)?$/i;
 
 const isFallbackSlug = (slug: string, uuid: string): boolean => {
@@ -255,24 +318,26 @@ const readTasksFolder = async (dir: string): Promise<Task[]> => {
         const data = JSON.parse(text);
         if (data && data.uuid && data.title) {
           const parsed = data as Task;
+          const enriched = ensureLabelsPresent(parsed, parsed.content);
           const baseName = path.basename(file, path.extname(file));
           const normalizedSlug = sanitizeFileNameBase(
-            parsed.slug ?? parsed.title ?? baseName,
+            enriched.slug ?? enriched.title ?? baseName,
           );
-          tasks.push({ ...parsed, slug: normalizedSlug, sourcePath: file });
+          tasks.push({ ...enriched, slug: normalizedSlug, sourcePath: file });
         }
       } catch {}
     } else {
       try {
         const normalized = normalizeFrontmatterForParsing(text);
         const { fm, body } = parseFrontmatter(normalized);
-        const t = taskFromFM(fm, body);
-        if (t) {
+        const parsedTask = taskFromFM(fm, body);
+        if (parsedTask) {
+          const enriched = ensureLabelsPresent(parsedTask, body);
           const baseName = path.basename(file, path.extname(file));
           const normalizedSlug = sanitizeFileNameBase(
-            t.slug ?? t.title ?? baseName,
+            enriched.slug ?? enriched.title ?? baseName,
           );
-          tasks.push({ ...t, slug: normalizedSlug, sourcePath: file });
+          tasks.push({ ...enriched, slug: normalizedSlug, sourcePath: file });
         }
       } catch (error) {
         console.error(
@@ -574,7 +639,7 @@ const fallbackTaskFromRaw = (filePath: string, raw: string): Task | null => {
         .map((entry) => entry.replace(/^['"]|['"]$/g, '').trim())
         .filter((entry) => entry.length > 0)
     : [];
-  return {
+  const baseTask: Task = {
     uuid,
     title,
     status,
@@ -586,24 +651,13 @@ const fallbackTaskFromRaw = (filePath: string, raw: string): Task | null => {
     slug: sanitizeFileNameBase(title),
     sourcePath: filePath,
   };
+  return ensureLabelsPresent(baseTask, bodyContent);
 };
 
 
 
-const normalizeFrontmatterForParsing = (raw: string): string => {
-  if (!raw.startsWith('---')) {
-    return raw;
-  }
-  const keysToQuote = ['title', 'status', 'priority', 'slug', 'created_at'];
-  let result = raw;
-  for (const key of keysToQuote) {
-    const pattern = new RegExp(`^(${key}\s*:\s*)([^"'[{\s].*)$`, 'gim');
-    result = result.replace(pattern, (_, prefix: string, value: string) => {
-      return `${prefix}${JSON.stringify(value.trim())}`;
-    });
-  }
-  return result;
-};
+const normalizeFrontmatterForParsing = (raw: string): string => raw;
+
 
 const toFrontmatter = (t: Task): string => {
   const est = t.estimates ?? {};
