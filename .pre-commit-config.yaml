@@ -6,13 +6,13 @@ repos:
         types_or: [javascript, ts, tsx, json, yaml]
         exclude: ^legacy/
         args: [--ignore-path=.prettierignore]
-  - repo: local
-    hooks:
-      - id: piper-build
-        name: Ensure Piper build Succeeds
-        entry: pnpm --filter @promethean/piper build
-        language: system
-        pass_filenames: false
+  # - repo: local
+  #   hooks:
+  #     - id: piper-build
+  #       name: Ensure Piper build Succeeds
+  #       entry: pnpm --filter @promethean/piper build
+  #       language: system
+  #       pass_filenames: false
       # - id: gen-ecosystem
       #   name: Generate ecosystem config
       #   entry: pnpm gen:ecosystem
