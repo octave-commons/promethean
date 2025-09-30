@@ -530,17 +530,14 @@ const fallbackTaskFromRaw = (filePath: string, raw: string): Task | null => {
     return null;
   }
   let cursor = 3;
-  if (raw[cursor] === '') {
+  if (raw[cursor] === '\\r') {
     cursor += 1;
   }
-  if (raw[cursor] === '
-') {
+  if (raw[cursor] === '\\n') {
     cursor += 1;
   }
-  const closingIndexLF = raw.indexOf('
----', cursor);
-  const closingIndexCRLF = raw.indexOf('
----', cursor);
+  const closingIndexLF = raw.indexOf('\\n---', cursor);
+  const closingIndexCRLF = raw.indexOf('\\r\\n---', cursor);
   let boundaryIndex = closingIndexLF;
   let newlineLength = 1;
   if (closingIndexCRLF !== -1 && (closingIndexLF === -1 || closingIndexCRLF < closingIndexLF)) {
@@ -555,10 +552,10 @@ const fallbackTaskFromRaw = (filePath: string, raw: string): Task | null => {
   const getValue = (key: string): string | undefined => {
     const pattern = new RegExp(`^${key}\s*:\s*(.+)$`, 'im');
     const valueMatch = frontmatterContent.match(pattern);
-    if (!valueMatch) {
+    if (!valueMatch || valueMatch[1] == null) {
       return undefined;
     }
-    return valueMatch[1].trim().replace(/^['"]|['"]$/g, '');
+    return valueMatch[1].trim().replace(/^['\"]|['\"]$/g, '');
   };
   const uuid = getValue('uuid');
   if (!uuid) {
