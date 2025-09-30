@@ -5,52 +5,76 @@ import { HeartbeatPayload, ProcessState } from './types.js';
 
 const STALE_MS = 15_000;
 
-export async function startProcessProjector(bus: any) {
+type ProjectorEvent = { readonly ts: number; readonly payload: HeartbeatPayload };
+type ProjectorHandler = (event: ProjectorEvent, context: Readonly<unknown>) => Promise<void>;
+type ProjectorBus = {
+    publish<T>(topic: string, payload: T, options?: Readonly<{ key?: string }>): Promise<unknown>;
+    subscribe(
+        topic: string,
+        group: string,
+        handler: ProjectorHandler,
+        options?: Readonly<Record<string, unknown>>,
+    ): Promise<() => Promise<void>>;
+};
+
+const topics = Topics as Readonly<{ HeartbeatReceived: string; ProcessState: string }>;
+
+const keyOf = (heartbeat: HeartbeatPayload) => `${heartbeat.host}:${heartbeat.name}:${heartbeat.pid}`;
+
+const toProcessState = (event: ProjectorEvent): ProcessState => {
+    const heartbeat = event.payload;
+    return {
+        processId: keyOf(heartbeat),
+        name: heartbeat.name,
+        host: heartbeat.host,
+        pid: heartbeat.pid,
+        ...(heartbeat.sid !== undefined ? { sid: heartbeat.sid } : {}),
+        cpu_pct: heartbeat.cpu_pct,
+        mem_mb: heartbeat.mem_mb,
+        last_seen_ts: event.ts,
+        status: 'alive',
+    };
+};
+
+const startStalenessScanner = (
+    cache: Map<string, ProcessState>,
+    publishState: (state: ProcessState) => Promise<void>,
+) =>
+    setInterval(async () => {
+        const now = Date.now();
+        for (const [_key, state] of cache) {
+            const status = now - state.last_seen_ts > STALE_MS ? 'stale' : 'alive';
+            if (status !== state.status) {
+                state.status = status;
+                await publishState(state);
+            }
+        }
+    }, 5_000);
+
+export async function startProcessProjector(bus: ProjectorBus): Promise<() => void> {
     const cache = new Map<string, ProcessState>();
 
-    function keyOf(h: HeartbeatPayload) {
-        return `${h.host}:${h.name}:${h.pid}`;
-    }
-
-    async function publishState(ps: ProcessState) {
-        await bus.publish(Topics.ProcessState, ps, { key: ps.processId });
+    async function publishState(ps: ProcessState): Promise<void> {
+        await bus.publish(topics.ProcessState, ps, { key: ps.processId });
     }
 
     // subscriber
-    await bus.subscribe(
-        Topics.HeartbeatReceived,
+    const unsubscribe = await bus.subscribe(
+        topics.HeartbeatReceived,
         'process-projector',
-        async (e: any) => {
-            const hb = e.payload as HeartbeatPayload;
-            const k = keyOf(hb);
-            const ps: ProcessState = {
-                processId: k,
-                name: hb.name,
-                host: hb.host,
-                pid: hb.pid,
-                ...(hb.sid !== undefined ? { sid: hb.sid } : {}),
-                cpu_pct: hb.cpu_pct,
-                mem_mb: hb.mem_mb,
-                last_seen_ts: e.ts,
-                status: 'alive',
-            };
-            cache.set(k, ps);
-            await publishState(ps);
+        async (event: ProjectorEvent) => {
+            const state = toProcessState(event);
+            cache.set(state.processId, state);
+            await publishState(state);
         },
         { from: 'earliest' },
     );
 
     // staleness scanner
-    const t = setInterval(async () => {
-        const now = Date.now();
-        for (const [_k, ps] of cache) {
-            const status = now - ps.last_seen_ts > STALE_MS ? 'stale' : 'alive';
-            if (status !== ps.status) {
-                ps.status = status;
-                await publishState(ps);
-            }
-        }
-    }, 5_000);
+    const intervalHandle = startStalenessScanner(cache, publishState);
 
-    return () => clearInterval(t);
+    return (): void => {
+        clearInterval(intervalHandle);
+        void unsubscribe();
+    };
 }
