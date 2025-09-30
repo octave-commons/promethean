@@ -54,8 +54,7 @@ test('ECS double-buffer: changed mask flags rows written last tick', (t) => {
 
     // frame 3: query 'changed' should see the entity
     const q = w.makeQuery({ changed: [Pos], all: [Pos] });
-    let seen = 0;
-    for (const [_e] of w.iter(q)) seen++;
+    const seen = Array.from(w.iter(q)).length;
     t.is(seen, 1);
 });
 
@@ -69,10 +68,9 @@ test('ECS double-buffer: double write warns once and last wins', (t) => {
 
     const origWarn = console.warn;
     let warnCount = 0;
-    // @ts-ignore
-    console.warn = (..._args: any[]) => {
+    console.warn = ((..._args: ReadonlyArray<unknown>) => {
         warnCount++;
-    };
+    }) as typeof console.warn;
     try {
         w.beginTick();
         w.set(e, Pos, { n: 1 });
