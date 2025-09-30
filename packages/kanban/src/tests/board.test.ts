@@ -1,15 +1,7 @@
 import path from "node:path";
-import {
-  mkdtemp,
-  mkdir,
-  readFile,
-  readdir,
-  rm,
-  writeFile,
-} from "node:fs/promises";
-import { tmpdir } from "node:os";
+import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 
-import test, { type ExecutionContext } from "ava";
+import test from "ava";
 
 import {
   archiveTask,
@@ -31,64 +23,14 @@ import {
   updateStatus,
   updateTaskDescription,
 } from "../lib/kanban.js";
-import type { Board, ColumnData, Task } from "../lib/types.js";
-
-const makeTask = (
-  overrides: Partial<Task> & Pick<Task, "uuid" | "title" | "status">,
-): Task => ({
-  priority: "P3",
-  labels: ["kanban"],
-  created_at: "2025-09-01T00:00:00.000Z",
-  estimates: {},
-  content: "",
-  slug: undefined,
-  ...overrides,
-});
-
-const makeBoard = (columns: ColumnData[]): Board => ({ columns });
-
-const withTempDir = async (t: ExecutionContext) => {
-  const dir = await mkdtemp(path.join(tmpdir(), "kanban-test-"));
-  t.teardown(async () => {
-    await rm(dir, { recursive: true, force: true });
-  });
-  return dir;
-};
-
-const writeTaskFile = async (
-  dir: string,
-  task: Task,
-  extra?: { content?: string; labels?: string[] },
-) => {
-  const body = extra?.content ?? "Details";
-  const labels = extra?.labels ?? task.labels ?? [];
-  const labelsLine = `labels:${
-    labels.length === 0
-      ? " []"
-      : ` [${labels.map((label) => JSON.stringify(label)).join(", ")}]`
-  }`;
-  const frontmatter = `---\nuuid: ${task.uuid}\ntitle: ${task.title}\nstatus: ${task.status}\npriority: ${task.priority ?? ""}\n${labelsLine}\ncreated_at: ${
-    task.created_at ?? "2025-09-01T00:00:00.000Z"
-  }\n---\n\n${body}\n`;
-  const filePath = path.join(dir, `${task.slug ?? task.title}.md`);
-  await writeFile(filePath, frontmatter, "utf8");
-  return filePath;
-};
-
-const getTaskFileByUuid = async (
-  dir: string,
-  uuid: string,
-): Promise<{ file: string; content: string } | undefined> => {
-  const files = await readdir(dir).catch(() => [] as string[]);
-  for (const file of files) {
-    const fullPath = path.join(dir, file);
-    const content = await readFile(fullPath, "utf8");
-    if (content.includes(`uuid: "${uuid}"`)) {
-      return { file, content };
-    }
-  }
-  return undefined;
-};
+import type { Board } from "../lib/types.js";
+import {
+  getTaskFileByUuid,
+  makeBoard,
+  makeTask,
+  withTempDir,
+  writeTaskFile,
+} from "./helpers.js";
 
 const sampleBoard = (): Board =>
   makeBoard([
