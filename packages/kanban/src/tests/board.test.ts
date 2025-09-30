@@ -30,7 +30,7 @@ import {
   makeTask,
   withTempDir,
   writeTaskFile,
-} from "./helpers.js";
+} from "../test-utils/helpers.js";
 
 const sampleBoard = (): Board =>
   makeBoard([

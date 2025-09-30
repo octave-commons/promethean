@@ -273,12 +273,17 @@ type FM = Record<string, any>;
 type CreateTaskInput = {
   title: string;
   content?: string;
+  body?: string;
   labels?: string[];
   priority?: Task["priority"];
   estimates?: Task["estimates"];
   created_at?: string;
   uuid?: string;
   slug?: string;
+  templatePath?: string;
+  defaultTemplatePath?: string;
+  blocking?: string[];
+  blockedBy?: string[];
 };
 
 const parseFrontmatter = (text: string): { fm: FM; body: string } => {
@@ -862,6 +867,118 @@ const persistBoardAndTasks = async (
   }
 };
 
+
+const BLOCKED_BY_HEADING = "## ⛓️ Blocked By";
+const BLOCKS_HEADING = "## ⛓️ Blocks";
+
+const escapeRegExp = (value: string): string =>
+  value.replace(/[-/\^$*+?.()|[\]{}]/g, "\\$&");
+
+const formatSectionBlock = (
+  heading: string,
+  items: ReadonlyArray<string>,
+): string => {
+  const lines =
+    items.length > 0 ? items.map((item) => `- ${item}`) : ["Nothing"];
+  return `${heading}\n\n${lines.join("\n")}\n\n`;
+};
+
+const setSectionItems = (
+  content: string,
+  heading: string,
+  items: ReadonlyArray<string>,
+): string => {
+  const block = formatSectionBlock(heading, items);
+  const pattern = new RegExp(
+    `^${escapeRegExp(heading)}\s*\n([\s\S]*?)(?=^##\s+|$)`,
+    "m",
+  );
+  if (pattern.test(content)) {
+    return content.replace(pattern, () => block);
+  }
+  const trimmed = content.trimEnd();
+  const prefix = trimmed.length > 0 ? `${trimmed}\n\n` : "";
+  return `${prefix}${block}`;
+};
+
+const ensureSectionExists = (content: string, heading: string): string => {
+  const pattern = new RegExp(`^${escapeRegExp(heading)}\s*$`, "m");
+  if (pattern.test(content)) {
+    return content;
+  }
+  return setSectionItems(content, heading, []);
+};
+
+const parseSectionItems = (
+  content: string,
+  heading: string,
+): ReadonlyArray<string> => {
+  const pattern = new RegExp(
+    `^${escapeRegExp(heading)}\s*\n([\s\S]*?)(?=^##\s+|$)`,
+    "m",
+  );
+  const match = pattern.exec(content);
+  if (!match) return [];
+  const sectionBody = match[1]?.trim() ?? "";
+  if (sectionBody.length === 0 || /^nothing$/i.test(sectionBody)) {
+    return [];
+  }
+  return sectionBody
+    .split(/\r?\n/)
+    .map((line) => line.replace(/^[-*]\s*/, "").trim())
+    .filter((line) => line.length > 0);
+};
+
+const mergeSectionItems = (
+  content: string,
+  heading: string,
+  additions: ReadonlyArray<string>,
+): string => {
+  const existing = parseSectionItems(content, heading);
+  const merged = new Set(existing);
+  for (const item of additions) {
+    if (item.trim().length > 0) {
+      merged.add(item.trim());
+    }
+  }
+  return setSectionItems(content, heading, Array.from(merged));
+};
+
+const applyTemplateReplacements = (
+  template: string,
+  replacements: Record<string, string>,
+): string =>
+  template.replace(/{{\s*([\w-]+)\s*}}/g, (_match, key: string) => {
+    const replacement = replacements[key];
+    return typeof replacement === "string" ? replacement : "";
+  });
+
+const uniqueStrings = (values: ReadonlyArray<string> | undefined): string[] =>
+  Array.from(
+    new Set(
+      (values ?? [])
+        .map((value) => value?.trim())
+        .filter((value): value is string => Boolean(value) && value.length > 0),
+    ),
+  );
+
+const wikiLinkForTask = (task: Task): string => {
+  const base = ensureTaskFileBase(task);
+  const display =
+    task.title && task.title.trim().length > 0 ? task.title.trim() : base;
+  return `[[${base}|${display}]]`;
+};
+
+const ensureTaskContent = (task: Task, fallback?: Task): string => {
+  const baseContent =
+    task.content && task.content.length > 0
+      ? task.content
+      : fallback?.content ?? "";
+  const withBlocked = ensureSectionExists(baseContent, BLOCKED_BY_HEADING);
+  return ensureSectionExists(withBlocked, BLOCKS_HEADING);
+};
+
+
 export const createTask = async (
   board: Board,
   column: string,
@@ -873,6 +990,40 @@ export const createTask = async (
   const baseTitle = input.title?.trim() ?? "";
   const title = baseTitle.length > 0 ? baseTitle : `Task ${uuid.slice(0, 8)}`;
   const targetColumn = ensureColumn(board, column);
+
+  const existingTasks = await readTasksFolder(tasksDir);
+  const existingById = new Map(existingTasks.map((task) => [task.uuid, task]));
+
+  const boardIndex = new Map<string, { column: ColumnData; index: number; task: Task }>();
+  board.columns.forEach((col) =>
+    col.tasks.forEach((task, index) =>
+      boardIndex.set(task.uuid, { column: col, index, task }),
+    ),
+  );
+
+  const templatePath = input.templatePath ?? input.defaultTemplatePath;
+  let templateContent: string | undefined;
+  if (templatePath) {
+    templateContent = await fs.readFile(templatePath, "utf8");
+  }
+
+  const bodyText = input.body ?? input.content ?? "";
+  let contentFromTemplate =
+    typeof templateContent === "string"
+      ? applyTemplateReplacements(templateContent, {
+          TITLE: title,
+          BODY: bodyText,
+          UUID: uuid,
+        })
+      : input.content ?? bodyText;
+
+  if (!contentFromTemplate) {
+    contentFromTemplate = "";
+  }
+
+  let newTaskContent = ensureSectionExists(contentFromTemplate, BLOCKED_BY_HEADING);
+  newTaskContent = ensureSectionExists(newTaskContent, BLOCKS_HEADING);
+
   const baseTask: Task = {
     uuid,
     title,
@@ -882,15 +1033,94 @@ export const createTask = async (
       input.labels && input.labels.length > 0 ? [...input.labels] : undefined,
     created_at: input.created_at ?? NOW_ISO(),
     estimates: input.estimates ? { ...input.estimates } : {},
-    content: input.content,
+    content: newTaskContent,
     slug: input.slug ? sanitizeFileNameBase(input.slug) : undefined,
   };
-  const enriched = ensureLabelsPresent(baseTask, input.content);
+
+  const usedSlugs = new Map<string, string>();
+  board.columns.forEach((col) => {
+    col.tasks.forEach((task) => {
+      const base = ensureTaskFileBase(task);
+      usedSlugs.set(base, task.uuid);
+    });
+  });
+
+  const baseSlug = ensureTaskFileBase(baseTask);
+  const uniqueSlug = ensureUniqueFileBase(baseSlug, usedSlugs, baseTask.uuid);
+  if (uniqueSlug !== baseTask.slug) {
+    baseTask.slug = uniqueSlug;
+  }
+  usedSlugs.set(uniqueSlug, baseTask.uuid);
+
+  const blockingIds = uniqueStrings(input.blocking);
+  const blockedByIds = uniqueStrings(input.blockedBy);
+
+  const resolveBoardTask = (id: string): Task | undefined => {
+    const entry = boardIndex.get(id);
+    if (!entry) return undefined;
+    const fallback = existingById.get(id);
+    entry.task.content = ensureTaskContent(entry.task, fallback);
+    return entry.task;
+  };
+
+  const blockingLinks: string[] = [];
+  for (const id of blockingIds) {
+    const target = resolveBoardTask(id);
+    if (!target) continue;
+    blockingLinks.push(wikiLinkForTask(target));
+  }
+
+  const blockedByLinks: string[] = [];
+  for (const id of blockedByIds) {
+    const target = resolveBoardTask(id);
+    if (!target) continue;
+    blockedByLinks.push(wikiLinkForTask(target));
+  }
+
+  newTaskContent = setSectionItems(newTaskContent, BLOCKED_BY_HEADING, blockedByLinks);
+  newTaskContent = setSectionItems(newTaskContent, BLOCKS_HEADING, blockingLinks);
+
+  const enriched = ensureLabelsPresent({ ...baseTask, content: newTaskContent }, newTaskContent);
+
+  const newTaskLink = wikiLinkForTask(enriched);
+
+  const updateBoardTask = (
+    id: string,
+    heading: string,
+  ) => {
+    const entry = boardIndex.get(id);
+    if (!entry) return;
+    const fallback = existingById.get(id);
+    const updatedContent = mergeSectionItems(
+      ensureTaskContent(entry.task, fallback),
+      heading,
+      [newTaskLink],
+    );
+    entry.column.tasks = [
+      ...entry.column.tasks.slice(0, entry.index),
+      { ...entry.task, content: updatedContent },
+      ...entry.column.tasks.slice(entry.index + 1),
+    ];
+    entry.column.count = entry.column.tasks.length;
+    const nextTask = entry.column.tasks[entry.index]!;
+    boardIndex.set(id, { column: entry.column, index: entry.index, task: nextTask });
+  };
+
+  for (const id of blockingIds) {
+    updateBoardTask(id, BLOCKED_BY_HEADING);
+  }
+
+  for (const id of blockedByIds) {
+    updateBoardTask(id, BLOCKS_HEADING);
+  }
+
   targetColumn.tasks = [...targetColumn.tasks, enriched];
   targetColumn.count = targetColumn.tasks.length;
+
   await persistBoardAndTasks(board, boardPath, tasksDir);
   return enriched;
 };
+
 
 export const archiveTask = async (
   board: Board,

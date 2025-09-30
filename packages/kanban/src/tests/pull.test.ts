@@ -6,7 +6,7 @@ import test from "ava";
 import { MarkdownBoard } from "@promethean/markdown/kanban.js";
 
 import { pullFromTasks } from "../lib/kanban.js";
-import { makeBoard, makeTask, snapshotTaskFiles, withTempDir, writeTaskFile } from "./helpers.js";
+import { makeBoard, makeTask, snapshotTaskFiles, withTempDir, writeTaskFile } from "../test-utils/helpers.js";
 
 test("There are no yaml errors in frontmatter", async (t) => {
   const tempDir = await withTempDir(t);
