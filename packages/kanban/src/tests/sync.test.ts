@@ -11,7 +11,7 @@ import {
   makeTask,
   snapshotTaskFiles,
   withTempDir,
-} from "./helpers.js";
+} from "../test-utils/helpers.js";
 
 test("There are no yaml errors in frontmatter", async (t) => {
   const tempDir = await withTempDir(t);
