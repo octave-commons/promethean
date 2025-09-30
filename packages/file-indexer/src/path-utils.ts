@@ -27,13 +27,14 @@ const trimLeadingDotsAndSeparators = (value: string): string => {
 
 const normalizeIgnoreSegments = (
   root: string,
-  ignoreDirs?: ReadonlyArray<string>,
+  ignoreDirs?: Iterable<string>,
 ): ReadonlyArray<ReadonlyArray<string>> => {
   if (!ignoreDirs) {
     return [];
   }
+  const directories = Array.from(ignoreDirs);
   return (
-    ignoreDirs
+    directories
       .map((value) => value?.trim())
       .filter(isNonEmpty)
       .map(trimTrailingSeparators)
@@ -51,7 +52,7 @@ const normalizeIgnoreSegments = (
 };
 
 export function normalizeExtensions(
-  exts?: ReadonlyArray<string>,
+  exts?: Iterable<string>,
 ): ReadonlyArray<string> {
   if (!exts) {
     return [];
@@ -66,7 +67,7 @@ export function normalizeExtensions(
 
 export function createIgnorePredicate(
   root: string,
-  ignoreDirs?: ReadonlyArray<string>,
+  ignoreDirs?: Iterable<string>,
 ): (filePath: string) => boolean {
   const segmentsList = normalizeIgnoreSegments(root, ignoreDirs);
   if (segmentsList.length === 0) {
