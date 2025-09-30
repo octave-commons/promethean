@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/consistent-type-definitions, functional/no-let */
 import { openLevelCache } from "@promethean/level-cache";
 import type { Cache } from "@promethean/level-cache";
 
@@ -51,13 +52,16 @@ export function createLevelCacheStateStore(
           cache.get(rootPath),
         );
         return state && state.rootPath === rootPath ? state : null;
-      } catch (error: any) {
-        if (
-          error?.code === "LEVEL_NOT_FOUND" ||
-          error?.code === "NotFoundError"
-        ) {
+      } catch (error: unknown) {
+        const code =
+          typeof error === "object" && error !== null && "code" in error
+            ? String((error as { readonly code?: unknown }).code ?? "")
+            : "";
+
+        if (code === "LEVEL_NOT_FOUND" || code === "NotFoundError") {
           return null;
         }
+
         return null;
       }
     },
