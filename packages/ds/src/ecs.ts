@@ -28,11 +28,16 @@ export type Query = {
 
 type Edge = Map<ComponentId, Archetype>; // add/remove graph edges for fast moves
 
+type ColumnBuffers = {
+    prev: unknown[];
+    next: unknown[];
+};
+
 class Archetype {
     mask: bigint;
     entities: Entity[] = [];
-    // per comp: [prev, next]
-    columns: Map<ComponentId, [any[], any[]]> = new Map();
+    // per comp: { prev, next }
+    columns: Map<ComponentId, ColumnBuffers> = new Map();
 
     // cached transition edges
     addEdges: Edge = new Map();
@@ -49,16 +54,16 @@ class Archetype {
         this.mask = mask;
     }
 
-    ensureColumn(cid: ComponentId) {
-        if (!this.columns.has(cid)) this.columns.set(cid, [[], []]);
+    ensureColumn(cid: ComponentId): void {
+        if (!this.columns.has(cid)) this.columns.set(cid, { prev: [], next: [] });
         if (!this.changedPrev.has(cid)) this.changedPrev.set(cid, new Set());
         if (!this.changedNext.has(cid)) this.changedNext.set(cid, new Set());
         if (!this.writtenNext.has(cid)) this.writtenNext.set(cid, new Set());
     }
 
-    swapBuffers() {
-        for (const [cid, [prev, next]] of this.columns) {
-            this.columns.set(cid, [next, prev]); // swap references
+    swapBuffers(): void {
+        for (const [cid, { prev, next }] of this.columns) {
+            this.columns.set(cid, { prev: next, next: prev }); // swap references
             // promote “this frame changed” → “prev changed”
             const nextChanged = this.changedNext.get(cid)!;
             this.changedPrev.set(cid, nextChanged);
@@ -67,15 +72,21 @@ class Archetype {
             this.writtenNext.set(cid, new Set());
         }
     }
+
+    getBuffers(cid: ComponentId): ColumnBuffers {
+        const buffers = this.columns.get(cid);
+        if (!buffers) throw new Error(`Missing column buffers for component ${cid}`);
+        return buffers;
+    }
 }
 
-function hasAll(mask: bigint, all: bigint) {
+function hasAll(mask: bigint, all: bigint): boolean {
     return (mask & all) === all;
 }
-function hasAny(mask: bigint, any: bigint) {
+function hasAny(mask: bigint, any: bigint): boolean {
     return any === 0n ? true : (mask & any) !== 0n;
 }
-function hasNone(mask: bigint, none: bigint) {
+function hasNone(mask: bigint, none: bigint): boolean {
     return (mask & none) === 0n;
 }
 
@@ -110,7 +121,7 @@ export class World {
     }
 
     // === Entities ===
-    createEntity(init?: Record<ComponentId, any> | bigint): Entity {
+    createEntity(init?: Record<ComponentId, unknown> | bigint): Entity {
         // allocate entity id
         const idx = this.freeList.length ? (this.freeList.pop() as number) : this.generations.length;
         const gen = (this.generations[idx] ?? 0) & 0xffff;
@@ -150,7 +161,7 @@ export class World {
         for (let cid = 0; cid < this.nextCompId; cid++) {
             const bit = 1n << BigInt(cid);
             if ((arch.mask & bit) !== 0n) {
-                const v = arch.columns.get(cid)![row];
+                const v = arch.getBuffers(cid).prev[row];
                 this.comps[cid]!.onRemove?.(this, e, v);
             }
         }
@@ -179,7 +190,7 @@ export class World {
             // already has: set value + mark changed
             const row = loc.row;
             from.ensureColumn(ct.id);
-            const [prev, next] = from.columns.get(ct.id)!;
+            const { prev, next } = from.getBuffers(ct.id);
             const written = from.writtenNext.get(ct.id)!;
             // write to next buffer; if no explicit value, carry prev
             next[row] = value ?? prev[row];
@@ -190,13 +201,14 @@ export class World {
         // move to new archetype with component added
         const to = this.nextArchetype(from, ct.id, true);
         const oldRow = loc.row;
-        const payloads: Record<number, any> = {};
+        const payloads: Record<number, unknown> = {};
         // carry over existing columns
-        for (const [cid, [prev]] of from.columns) payloads[cid] = prev[oldRow];
+        for (const [cid, { prev }] of from.columns) payloads[cid] = prev[oldRow];
         // new comp value (or default)
-        payloads[ct.id] = value ?? ct.defaults?.();
+        const newValue = value ?? ct.defaults?.();
+        payloads[ct.id] = newValue;
         this.move(e, from, oldRow, to, payloads);
-        ct.onAdd?.(this, e, payloads[ct.id]);
+        ct.onAdd?.(this, e, newValue as T);
     }
 
     removeComponent<T>(e: Entity, ct: ComponentType<T>): void {
@@ -207,13 +219,12 @@ export class World {
         if ((from.mask & ct.mask) === 0n) return; // nothing to do
         const to = this.nextArchetype(from, ct.id, false);
         const oldRow = loc.row;
-        const payloads: Record<number, any> = {};
+        const payloads: Record<number, unknown> = {};
         // carry over existing columns except the removed one
-        for (const [cid, [prev]] of from.columns) if (cid !== ct.id) payloads[cid] = prev[oldRow];
-        const [prev] = from.columns.get(ct.id)!;
-        const oldVal = prev[oldRow];
+        for (const [cid, { prev }] of from.columns) if (cid !== ct.id) payloads[cid] = prev[oldRow];
+        const oldVal = from.getBuffers(ct.id).prev[oldRow];
         this.move(e, from, oldRow, to, payloads);
-        ct.onRemove?.(this, e, oldVal);
+        ct.onRemove?.(this, e, oldVal as T);
     }
 
     get<T>(e: Entity, ct: ComponentType<T>): T | undefined {
@@ -222,8 +233,7 @@ export class World {
         const { arch, row } = loc;
         if ((arch.mask & ct.mask) === 0n) return undefined;
         arch.ensureColumn(ct.id);
-        const [prev] = arch.columns.get(ct.id)!;
-        return prev[row];
+        return arch.getBuffers(ct.id).prev[row] as T;
     }
 
     carry<T>(e: Entity, ct: ComponentType<T>): void {
@@ -233,7 +243,7 @@ export class World {
         const { arch, row } = loc;
         if ((arch.mask & ct.mask) === 0n) throw new Error(`entity lacks ${ct.name}`);
         arch.ensureColumn(ct.id);
-        const [prev, next] = arch.columns.get(ct.id)!;
+        const { prev, next } = arch.getBuffers(ct.id);
         // conflict detection: if another system already wrote this row, warn
         const written = arch.writtenNext.get(ct.id)!;
         if (written.has(row)) console.warn(`[ECS] double write (carry) on ${ct.name} row ${row}`);
@@ -247,7 +257,7 @@ export class World {
         const { arch, row } = loc;
         if ((arch.mask & ct.mask) === 0n) throw new Error(`entity lacks ${ct.name}`);
         arch.ensureColumn(ct.id);
-        const [prev, next] = arch.columns.get(ct.id)!;
+        const { prev, next } = arch.getBuffers(ct.id);
         const written = arch.writtenNext.get(ct.id)!;
         if (written.has(row)) console.warn(`[ECS] double write (set) on ${ct.name} row ${row}`);
         next[row] = value;
@@ -261,8 +271,13 @@ export class World {
     // convenience: only flag changed if different (uses equals | Object.is)
     setIfChanged<T>(e: Entity, ct: ComponentType<T>, value: T) {
         const prev = this.get(e, ct);
-        const eq = this.comps[ct.id]!.equals ?? Object.is;
-        if (!eq(prev as any, value)) this.set(e, ct, value);
+        if (prev === undefined) {
+            this.set(e, ct, value);
+            return;
+        }
+        const spec = this.comps[ct.id] as ComponentType<T> | null;
+        const equals: (a: T, b: T) => boolean = spec?.equals ?? ((a: T, b: T) => Object.is(a, b));
+        if (!equals(prev, value)) this.set(e, ct, value);
         else this.carry(e, ct);
     }
 
@@ -322,12 +337,11 @@ export class World {
                 const e = arch.entities[row];
                 const get = (ct: ComponentType<any>) => {
                     arch.ensureColumn(ct.id);
-                    const [prev] = arch.columns.get(ct.id)!;
-                    return prev[row];
+                    return arch.getBuffers(ct.id).prev[row];
                 };
-                const v1 = c1 ? arch.columns.get(c1.id)![0][row] : undefined;
-                const v2 = c2 ? arch.columns.get(c2.id)![0][row] : undefined;
-                const v3 = c3 ? arch.columns.get(c3.id)![0][row] : undefined;
+                const v1 = c1 ? (arch.getBuffers(c1.id).prev[row] as T1) : undefined;
+                const v2 = c2 ? (arch.getBuffers(c2.id).prev[row] as T2) : undefined;
+                const v3 = c3 ? (arch.getBuffers(c3.id).prev[row] as T3) : undefined;
                 yield [e, get, v1, v2, v3];
             }
         }
@@ -345,7 +359,7 @@ export class World {
 
         // finalize writes: fill gaps with carry and swap buffers
         for (const a of this.archetypes.values()) {
-            for (const [cid, [prev, next]] of a.columns) {
+            for (const [cid, { prev, next }] of a.columns) {
                 const written = a.writtenNext.get(cid)!;
                 const rows = a.entities.length;
                 for (let row = 0; row < rows; row++) if (!written.has(row)) next[row] = prev[row];
@@ -390,9 +404,9 @@ export class World {
         const row = arch.entities.length;
         arch.entities.push(e);
         // grow columns
-        for (const [cid, [prev, next]] of arch.columns) {
-            if (prev.length < arch.entities.length) prev.push(undefined as any);
-            if (next.length < arch.entities.length) next.push(undefined as any);
+        for (const [cid, { prev, next }] of arch.columns) {
+            if (prev.length < arch.entities.length) prev.push(undefined as unknown);
+            if (next.length < arch.entities.length) next.push(undefined as unknown);
             arch.changedNext.get(cid)!.add(row); // mark as changed on arrival
             arch.writtenNext.get(cid)!.add(row); // treat as written for coverage
         }
@@ -408,7 +422,7 @@ export class World {
         // swap-remove entity row
         arch.entities[row] = eLast;
         arch.entities.pop();
-        for (const [cid, [prev, next]] of arch.columns) {
+        for (const [cid, { prev, next }] of arch.columns) {
             prev[row] = prev[last];
             next[row] = next[last];
             prev.pop();
@@ -424,7 +438,7 @@ export class World {
         }
     }
 
-    private move(e: Entity, from: Archetype, oldRow: number, to: Archetype, payloads: Record<number, any>) {
+    private move(e: Entity, from: Archetype, oldRow: number, to: Archetype, payloads: Record<number, unknown>): void {
         // add to 'to'
         const loc = this.addRow(to, e);
         // seed columns from payloads
@@ -432,7 +446,7 @@ export class World {
         for (const [cid, val] of Object.entries(payloads)) {
             const n = Number(cid);
             to.ensureColumn(n);
-            const [prev, next] = to.columns.get(n)!;
+            const { prev, next } = to.getBuffers(n);
             next[loc.row] = val;
             // For brand-new placement this frame, mirror into prev so reads during
             // this tick see a coherent value. This preserves double-buffer semantics
@@ -445,19 +459,19 @@ export class World {
         this.removeRow(from, oldRow);
     }
 
-    private requireAlive(e: Entity) {
+    private requireAlive(e: Entity): void {
         if (!this.isAlive(e)) throw new Error(`entity ${e} is not alive or stale handle`);
     }
 }
 
 export class CommandBuffer {
-    private world: World;
-    private ops: (() => void)[] = [];
+    private readonly world: World;
+    private readonly ops: Array<() => void> = [];
     constructor(w: World) {
         this.world = w;
     }
 
-    createEntity(init?: Record<ComponentId, any> | bigint): Entity {
+    createEntity(init?: Record<ComponentId, unknown> | bigint): Entity {
         let temp: Entity = -1;
         this.ops.push(() => {
             temp = this.world.createEntity(init);
@@ -465,20 +479,20 @@ export class CommandBuffer {
         this.flush();
         return temp;
     }
-    destroyEntity(e: Entity) {
+    destroyEntity(e: Entity): void {
         this.ops.push(() => this.world.destroyEntity(e));
     }
-    add<T>(e: Entity, ct: ComponentType<T>, v?: T) {
+    add<T>(e: Entity, ct: ComponentType<T>, v?: T): void {
         this.ops.push(() => this.world.addComponent(e, ct, v));
     }
-    remove<T>(e: Entity, ct: ComponentType<T>) {
+    remove<T>(e: Entity, ct: ComponentType<T>): void {
         this.ops.push(() => this.world.removeComponent(e, ct));
     }
-    set<T>(e: Entity, ct: ComponentType<T>, v: T) {
+    set<T>(e: Entity, ct: ComponentType<T>, v: T): void {
         this.ops.push(() => this.world.set(e, ct, v));
     }
 
-    flush() {
+    flush(): void {
         for (const op of this.ops) op();
         this.ops.length = 0;
     }
