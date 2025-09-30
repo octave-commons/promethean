@@ -48,7 +48,12 @@ type TitleSafetyDependencies = {
     readonly bannedWords: ReadonlyArray<RegExp>;
 };
 
-const DEFAULT_TITLE_GENERATION = Object.freeze({
+const DEFAULT_TITLE_GENERATION: Readonly<{
+    bannedWords: ReadonlyArray<RegExp>;
+    client: OllamaClient;
+    model: string;
+    systemPrompt: string;
+}> = Object.freeze({
     bannedWords: BANNED_WORDS as ReadonlyArray<RegExp>,
     client: ollama as OllamaClient,
     model: 'gemma3:latest',
@@ -63,13 +68,32 @@ function isTitleSafe(title: string, dependencies: TitleSafetyDependencies = DEFA
 
 export type GenerateTwitchStreamTitleOptions = Partial<GenerateTitleDependencies>;
 
+type GenerateTwitchStreamTitleArgs = GenerateTwitchStreamTitleOptions | string | undefined;
+
+function normalizeGenerateTitleOptions(options: GenerateTwitchStreamTitleArgs): GenerateTwitchStreamTitleOptions {
+    if (options === undefined) {
+        return {};
+    }
+
+    if (typeof options === 'string') {
+        return { model: options } satisfies GenerateTwitchStreamTitleOptions;
+    }
+
+    if (options === null || typeof options !== 'object' || Array.isArray(options)) {
+        throw new TypeError('generateTwitchStreamTitle options must be an object or model string');
+    }
+
+    return options;
+}
+
 export async function generateTwitchStreamTitle(
     context: ReadonlyArray<Message>,
-    options: GenerateTwitchStreamTitleOptions = {},
+    options: GenerateTwitchStreamTitleOptions | string = {},
 ): Promise<string> {
+    const normalizedOptions = normalizeGenerateTitleOptions(options);
     const { bannedWords, client, model, systemPrompt } = {
         ...DEFAULT_TITLE_GENERATION,
-        ...options,
+        ...normalizedOptions,
     } satisfies GenerateTitleDependencies;
 
     const response = await client.chat({
@@ -88,7 +112,7 @@ export type GenerateAndStoreTitleOptions = GenerateTwitchStreamTitleOptions;
 export async function generateAndStoreTitle(
     source: TitleContextSource,
     store: TitleStore,
-    options: GenerateAndStoreTitleOptions = {},
+    options: GenerateAndStoreTitleOptions | string = {},
 ): Promise<string> {
     const context = await source.fetch();
     const title = await generateTwitchStreamTitle(context, options);
@@ -102,7 +126,7 @@ export function watchContextAndGenerate(
     emitter: EventEmitter,
     source: TitleContextSource,
     store: TitleStore,
-    options: WatchContextAndGenerateOptions = {},
+    options: WatchContextAndGenerateOptions | string = {},
 ): void {
     emitter.on('context', async () => {
         try {
