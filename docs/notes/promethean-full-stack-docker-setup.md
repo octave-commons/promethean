@@ -395,9 +395,10 @@ services:
     restart: unless-stopped
 
   # ---------- OVMS (Intel iGPU/NPU) ----------
+  # REST:9000 (nginx /asr/npu/) | gRPC:9001
   ovms-npu:
     image: openvino/model_server:latest
-    command: --config_path /config/config.json --rest_port 9000 --port 9000
+    command: --config_path /config/config.json --rest_port 9000 --port 9001
     volumes:
       - ./infra/ovms/config.json:/config/config.json:ro
       - ./models/ov:/opt/models:ro
