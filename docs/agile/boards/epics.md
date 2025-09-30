@@ -17,7 +17,7 @@ This document outlines high level initiatives for the Promethean Framework. Epic
 
 ## 🛠 Developer Tooling & Build Pipeline
 - Finalize `MIGRATION_PLAN.md`
-- Set up `Makefile` for Python and JS build/test
+- Document pnpm-first automation for Python and JS build/test flows
 - Provide base `README.md` templates for each service
 
 ## 🤖 Agent Ecosystem & Configuration
