@@ -3,26 +3,56 @@ name: tests
 permissions:
   contents: read
 on:
-  {
-    pull_request:
-      { branches: ["dev/testing", "dev/staging", dev/main", "main"] },
-  }
+  pull_request:
+    branches: ["dev/testing", "dev/staging", "dev/main", "main"]
+
 jobs:
   test:
     runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/riatzukiza/play-clj:latest # prebuilt: playwright + clojure + rg
+      options: --ipc=host # playwright stability
     steps:
       - uses: actions/checkout@v4
         with: { fetch-depth: 0 }
+
+      - name: Trust workspace ownership for Git
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
       - uses: pnpm/action-setup@v4
+
       - uses: actions/setup-node@v4
-        with: { node-version: 20, cache: pnpm }
+        with: { cache: "pnpm" }
+
       - uses: nrwl/nx-set-shas@v4
-      - name: Install Clojure toolchain
-        run: bash run/install-clojure.sh
-      - name: install rg
-        run: sudo apt-get install -y ripgrep
+
+      - name: Configure Nx base/head for PR
+        run: |
+          echo "NX_BASE=${{ github.event.pull_request.base.sha }}" >> "$GITHUB_ENV"
+          echo "NX_HEAD=${{ github.sha }}" >> "$GITHUB_ENV"
+
+      - name: Fetch base commit for Nx diff
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          if ! git cat-file -e "${NX_BASE}^{commit}" 2>/dev/null; then
+            git fetch --no-tags origin "${{ github.event.pull_request.base.ref }}"
+            git fetch --no-tags origin "${NX_BASE}"
+          fi
+
+      # Cache Clojure deps (Maven + gitlibs) to avoid redownloading
+      - name: Cache Clojure deps
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.m2/repository
+            ~/.gitlibs
+          key: cljdeps-${{ runner.os }}-${{ hashFiles('**/deps.edn') }}
+
       - name: Install deps
         run: pnpm install --frozen-lockfile
-      - name: Install Playwright
-        run: bash run/setup_playwright.sh
-      - run: pnpm exec nx affected -t test --parallel
+
+      # Browsers already present in the image; no playwright install step needed
+      # If you rely on @playwright/test postinstall, keep it, but skip downloading:
+      # - run: npx playwright install --with-deps --only-shell  # usually unnecessary in this image
+
+      - run: pnpm exec nx affected -t test --parallel --base="$NX_BASE" --head="$NX_HEAD"
