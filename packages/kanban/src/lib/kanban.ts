@@ -1,31 +1,136 @@
 import { promises as fs } from "node:fs";
 import { randomUUID } from "node:crypto";
+import path from "node:path";
 import { parseFrontmatter as parseMarkdownFrontmatter } from "@promethean/markdown/frontmatter";
 import type { Board, ColumnData, Task } from "./types.js";
 
 const NOW_ISO = () => new Date().toISOString();
 
+const stripDiacritics = (value: string): string =>
+  value.normalize("NFKD").replace(/[\u0300-\u036f]/g, "");
+
+const sanitizeFileNameBase = (value: string): string => {
+  const normalized = stripDiacritics(value)
+    .replace(/[\u0000-\u001f]/g, " ")
+    .replace(/[<>:"/\\|?*]/g, " ")
+    .replace(/\r?\n/g, " ")
+    .trim();
+  const singleSpaced = normalized.replace(/\s{2,}/g, " ");
+  return singleSpaced.replace(/\.$/, "");
+};
+
+const FALLBACK_SLUG_REGEX = /^task [0-9a-f]{8}(?: \d+)?$/i;
+
+const isFallbackSlug = (slug: string, uuid: string): boolean => {
+  const normalizedSlug = slug.trim().toLowerCase();
+  const normalizedUuid = uuid.replace(/[^0-9a-f]/gi, "").toLowerCase();
+  return (
+    FALLBACK_SLUG_REGEX.test(normalizedSlug) ||
+    normalizedSlug.replace(/\s+/g, "") === normalizedUuid
+  );
+};
+
+const fallbackFileBase = (uuid: string): string => `Task ${uuid.slice(0, 8)}`;
+
+const deriveFileBaseFromTask = (task: Task): string => {
+  const fromSlug =
+    typeof task.slug === "string" ? sanitizeFileNameBase(task.slug) : "";
+  if (fromSlug.length > 0 && !isFallbackSlug(fromSlug, task.uuid)) {
+    return fromSlug;
+  }
+  const fromTitle = sanitizeFileNameBase(task.title ?? "");
+  if (fromTitle.length > 0) {
+    return fromTitle;
+  }
+  return fallbackFileBase(task.uuid);
+};
+
+const ensureTaskFileBase = (task: Task): string => {
+  const base = deriveFileBaseFromTask(task);
+  if (!task.slug || task.slug !== base) {
+    task.slug = base;
+  }
+  return base;
+};
+
+const ensureUniqueFileBase = (
+  base: string,
+  used: Map<string, string>,
+  uuid: string,
+): string => {
+  const initial = base.length > 0 ? base : fallbackFileBase(uuid);
+  let candidate = initial;
+  let attempt = 1;
+  while (used.has(candidate) && used.get(candidate) !== uuid) {
+    attempt += 1;
+    candidate = `${initial} ${attempt}`;
+  }
+  return candidate;
+};
+
+const mergeColumnsCaseInsensitive = (columns: ColumnData[]): ColumnData[] => {
+  const merged = new Map<string, ColumnData>();
+  for (const column of columns) {
+    const key = column.name.trim().toLowerCase();
+    const existing = merged.get(key);
+    if (existing) {
+      const seenTasks = new Set(existing.tasks.map((task) => task.uuid));
+      for (const task of column.tasks) {
+        if (!seenTasks.has(task.uuid)) {
+          existing.tasks.push(task);
+          seenTasks.add(task.uuid);
+        }
+      }
+      existing.count = existing.tasks.length;
+      if (existing.limit == null && column.limit != null) {
+        existing.limit = column.limit;
+      }
+      if (existing.name.length === 0 && column.name.length > 0) {
+        existing.name = column.name;
+      }
+    } else {
+      merged.set(key, {
+        name: column.name,
+        count: column.tasks.length,
+        limit: column.limit,
+        tasks: [...column.tasks],
+      });
+    }
+  }
+  return Array.from(merged.values()).map((col) => ({
+    ...col,
+    count: col.tasks.length,
+  }));
+};
+
 const parseLimit = (header: string): number | null => {
   // look for "(limit 3)" or "[wip:3]" or "# wip=3"
-  const m =
-    header.match(/\((?:wip|limit)\s*[:=]\s*(\d+)\)/i) ||
-    header.match(/\[\s*(?:wip|limit)\s*[:=]\s*(\d+)\s*\]/i) ||
+  const match =
+    header.match(/\((?:wip|limit)\s*[:=]\s*(\d+)\)/i) ??
+    header.match(/\[\s*(?:wip|limit)\s*[:=]\s*(\d+)\s*\]/i) ??
     header.match(/(?:wip|limit)\s*[:=]\s*(\d+)/i);
-  return m ? parseInt(m[1], 10) : null;
+  const numeric = match?.[1];
+  return typeof numeric === "string" ? parseInt(numeric, 10) : null;
 };
 
 const parseColumnsFromMarkdown = (markdown: string): ColumnData[] => {
   const lines = markdown.split(/\r?\n/);
+
   const columns: ColumnData[] = [];
   let current: ColumnData | null = null;
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
+    if (typeof line !== "string") {
+      continue;
+    }
 
-    const h = /^##\s+(.+)$/.exec(line);
-    if (h) {
-      const name = h[1].trim();
-      current = { name, count: 0, limit: parseLimit(name), tasks: [] };
+    const headingMatch = /^##\s+(.+)$/.exec(line);
+    const headingValue = headingMatch?.[1];
+    if (typeof headingValue === "string") {
+      const name = headingValue.trim();
+      const limit = parseLimit(name);
+      current = { name, count: 0, limit, tasks: [] };
       columns.push(current);
       continue;
     }
@@ -34,22 +139,49 @@ const parseColumnsFromMarkdown = (markdown: string): ColumnData[] => {
 
     // list item like "- [ ] Title #label (uuid:xxx)"
     const taskMatch = /^-\s+\[(x|\s)\]\s+(.+)$/.exec(line);
-    if (taskMatch) {
-      const titlePart = taskMatch[2].trim();
-      const uuidMatch = titlePart.match(/\(uuid:([0-9a-fA-F-]{8,})\)/);
-      const uuid = uuidMatch ? uuidMatch[1] : cryptoRandomUUID();
-      const labels = Array.from(titlePart.matchAll(/#([\w-]+)/g)).map(
-        (m) => m[1],
-      );
-      const prioMatch = titlePart.match(/\bprio[:=](\w+)\b/i);
-      const priority = prioMatch ? prioMatch[1] : undefined;
-      const title = titlePart
+    const doneFlag = taskMatch?.[1];
+    const rawTitle = taskMatch?.[2];
+    if (typeof doneFlag === "string" && typeof rawTitle === "string") {
+      const titlePart = rawTitle.trim();
+      const uuidMatch = /\(uuid:([0-9a-fA-F-]{8,})\)/.exec(titlePart);
+      const uuidCandidate = uuidMatch?.[1];
+      const uuid =
+        typeof uuidCandidate === "string" ? uuidCandidate : cryptoRandomUUID();
+      const wikiMatch = /\[\[([^\]]+)\]\]/.exec(titlePart);
+      let linkTarget: string | undefined;
+      let displayFromWiki: string | undefined;
+      if (wikiMatch) {
+        const targetRaw = wikiMatch[1] ?? "";
+        const [targetSlug, alias] = targetRaw.split("|", 2);
+        const normalizedTarget = (targetSlug ?? "").trim();
+        if (normalizedTarget.length > 0) {
+          linkTarget = sanitizeFileNameBase(normalizedTarget);
+        }
+        const displayCandidate = (alias ?? targetSlug)?.trim();
+        if (displayCandidate && displayCandidate.length > 0) {
+          displayFromWiki = displayCandidate;
+        }
+      }
+      const labels = Array.from(titlePart.matchAll(/#([\w-]+)/g))
+        .map((match) => match[1])
+        .filter(
+          (label): label is string =>
+            typeof label === "string" && label.length > 0,
+        );
+      const prioMatch = titlePart.match(/\bprio[:=]([^\s)]+)\b/i);
+      const priority = prioMatch?.[1];
+      const titleClean = titlePart
         .replace(/\(uuid:[^)]+\)/g, "")
+        .replace(/\[\[[^\]]+\]\]/g, displayFromWiki ?? "")
         .replace(/#\w+/g, "")
-        .replace(/\bprio[:=]\w+\b/gi, "")
+        .replace(/\bprio[:=][^\s)]+\b/gi, "")
         .trim();
+      const title =
+        titleClean.length > 0
+          ? titleClean
+          : displayFromWiki ?? linkTarget ?? `Task ${uuid.slice(0, 8)}`;
 
-      const done = taskMatch[1] === "x";
+      const done = doneFlag === "x";
       const status = done ? "Done" : current.name;
 
       const task: Task = {
@@ -61,13 +193,14 @@ const parseColumnsFromMarkdown = (markdown: string): ColumnData[] => {
         created_at: NOW_ISO(),
         estimates: {},
         content: "",
+        slug: linkTarget,
       };
       current.tasks.push(task);
       current.count += 1;
       continue;
     }
   }
-  return columns;
+  return mergeColumnsCaseInsensitive(columns);
 };
 
 const cryptoRandomUUID = (): string => randomUUID();
@@ -94,6 +227,10 @@ const taskFromFM = (fm: FM, body: string): Task | null => {
     created_at: fm.created_at ?? NOW_ISO(),
     estimates: fm.estimates ?? {},
     content: (body ?? "").trim() || undefined,
+    slug:
+      typeof fm.slug === "string" && fm.slug.trim().length > 0
+        ? sanitizeFileNameBase(fm.slug.trim())
+        : undefined,
   };
   return t;
 };
@@ -116,12 +253,38 @@ const readTasksFolder = async (dir: string): Promise<Task[]> => {
     if (file.endsWith(".json")) {
       try {
         const data = JSON.parse(text);
-        if (data && data.uuid && data.title) tasks.push(data as Task);
+        if (data && data.uuid && data.title) {
+          const parsed = data as Task;
+          const baseName = path.basename(file, path.extname(file));
+          const normalizedSlug = sanitizeFileNameBase(
+            parsed.slug ?? parsed.title ?? baseName,
+          );
+          tasks.push({ ...parsed, slug: normalizedSlug, sourcePath: file });
+        }
       } catch {}
     } else {
-      const { fm, body } = parseFrontmatter(text);
-      const t = taskFromFM(fm, body);
-      if (t) tasks.push(t);
+      try {
+        const normalized = normalizeFrontmatterForParsing(text);
+        const { fm, body } = parseFrontmatter(normalized);
+        const t = taskFromFM(fm, body);
+        if (t) {
+          const baseName = path.basename(file, path.extname(file));
+          const normalizedSlug = sanitizeFileNameBase(
+            t.slug ?? t.title ?? baseName,
+          );
+          tasks.push({ ...t, slug: normalizedSlug, sourcePath: file });
+        }
+      } catch (error) {
+        console.error(
+          `Failed to parse frontmatter for ${file}: ${
+            error instanceof Error ? error.message : String(error)
+          }`,
+        );
+        const fallback = fallbackTaskFromRaw(file, text);
+        if (fallback) {
+          tasks.push(fallback);
+        }
+      }
     }
   }
   return tasks;
@@ -137,15 +300,24 @@ export const loadBoard = async (
 
   // if the board is empty or missing, synthesize from tasks folder
   const tasks = await readTasksFolder(tasksDir);
-  const byStatus = new Map<string, Task[]>();
-  for (const t of tasks) {
-    const k = String(t.status || "Todo");
-    const arr = byStatus.get(k) ?? [];
-    arr.push(t);
-    byStatus.set(k, arr);
+  const statusGroups = new Map<string, { name: string; tasks: Task[] }>();
+  for (const task of tasks) {
+    const statusRaw = String(task.status || "Todo").trim();
+    const key = statusRaw.toLowerCase();
+    const existing = statusGroups.get(key);
+    if (existing) {
+      existing.tasks.push(task);
+    } else {
+      statusGroups.set(key, { name: statusRaw, tasks: [task] });
+    }
   }
-  const cols: ColumnData[] = Array.from(byStatus.entries()).map(
-    ([name, ts]) => ({ name, count: ts.length, limit: null, tasks: ts }),
+  const cols: ColumnData[] = Array.from(statusGroups.values()).map(
+    ({ name, tasks: ts }) => ({
+      name,
+      count: ts.length,
+      limit: null,
+      tasks: ts,
+    }),
   );
   return { columns: cols };
 };
@@ -189,29 +361,88 @@ export const findTaskByTitle = (
 };
 
 const serializeBoard = (board: Board): string => {
-  const lines: string[] = [];
-  for (const col of board.columns) {
-    const header = `## ${col.name}`;
-    lines.push(header, "");
-    for (const t of col.tasks) {
+  const lines: string[] = ["---", "kanban-plugin: board", "---", ""];
+  const seenNames = new Map<string, string>();
+  const columns = mergeColumnsCaseInsensitive(board.columns);
+  for (const col of columns) {
+    lines.push(`## ${col.name}`);
+    lines.push("");
+    for (const task of col.tasks) {
       const done = /done/i.test(col.name) ? "x" : " ";
-      const labels = (t.labels ?? []).map((l) => `#${l}`).join(" ");
-      const prio = t.priority ? ` prio:${t.priority}` : "";
-      lines.push(
-        `- [${done}] ${t.title} ${labels}${prio} (uuid:${t.uuid})`.trim(),
-      );
+      const baseName = ensureTaskFileBase(task);
+      const uniqueBase = ensureUniqueFileBase(baseName, seenNames, task.uuid);
+      if (task.slug !== uniqueBase) {
+        task.slug = uniqueBase;
+      }
+      seenNames.set(uniqueBase, task.uuid);
+      const linkTarget = uniqueBase;
+      const displayTitle =
+        task.title.trim().length > 0 ? task.title.trim() : linkTarget;
+      const wikiLink =
+        displayTitle === linkTarget
+          ? `[[${linkTarget}]]`
+          : `[[${linkTarget}|${displayTitle}]]`;
+      const labelSegment =
+        (task.labels ?? []).length > 0
+          ? (task.labels ?? []).map((label) => `#${label}`).join(" ")
+          : "";
+      const priorityValue =
+        typeof task.priority === "number" || typeof task.priority === "string"
+          ? String(task.priority).trim()
+          : "";
+      const prioritySegment =
+        priorityValue.length > 0 ? `prio:${priorityValue}` : "";
+      const segments = [`- [${done}]`, wikiLink];
+      if (labelSegment.length > 0) {
+        segments.push(labelSegment);
+      }
+      if (prioritySegment.length > 0) {
+        segments.push(prioritySegment);
+      }
+      segments.push(`(uuid:${task.uuid})`);
+      lines.push(segments.filter((segment) => segment.length > 0).join(" "));
     }
     lines.push("");
   }
   return lines.join("\n");
 };
 
+const KANBAN_SETTINGS_PATTERN = /^\s*%%\s*kanban:settings\b/m;
+const DEFAULT_KANBAN_FOOTER = [
+  "%% kanban:settings",
+  "```",
+  '{"kanban-plugin":"board","list-collapse":[false,false,true,false,false,false,false,false,false,false,false,true,false,false,false],"new-note-template":"docs/agile/templates/task.stub.template.md","new-note-folder":"docs/agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}',
+  "```",
+  "%%",
+].join("\n");
+
+const resolveKanbanFooter = async (boardPath: string): Promise<string> => {
+  try {
+    const existing = await fs.readFile(boardPath, "utf8");
+    const idx = existing.search(KANBAN_SETTINGS_PATTERN);
+    if (idx >= 0) {
+      const footer = existing.slice(idx).trim();
+      if (footer.length > 0) {
+        return footer;
+      }
+    }
+  } catch {}
+  return DEFAULT_KANBAN_FOOTER;
+};
+
 const writeBoard = async (boardPath: string, board: Board): Promise<void> => {
-  const md = serializeBoard(board);
+  const md = serializeBoard(board).trimEnd();
+  const footer = await resolveKanbanFooter(boardPath);
+  const segments: string[] = [];
+  if (md.length > 0) {
+    segments.push(md);
+  }
+  segments.push(footer.trimEnd());
+  const output = `${segments.join("\n\n")}\n`;
   await fs
     .mkdir(boardPath.split("/").slice(0, -1).join("/"), { recursive: true })
     .catch(() => {});
-  await fs.writeFile(boardPath, md, "utf8");
+  await fs.writeFile(boardPath, output, "utf8");
 };
 
 export const updateStatus = async (
@@ -258,8 +489,11 @@ export const moveTask = async (
       const newIdx = Math.max(0, Math.min(col.tasks.length - 1, idx + delta));
       if (newIdx !== idx) {
         const next = [...col.tasks];
-        const [t] = next.splice(idx, 1);
-        next.splice(newIdx, 0, t);
+        const [removed] = next.splice(idx, 1);
+        if (!removed) {
+          continue;
+        }
+        next.splice(newIdx, 0, removed);
         col.tasks = next;
       }
       await writeBoard(boardPath, board);
@@ -269,28 +503,137 @@ export const moveTask = async (
   return undefined;
 };
 
-const taskPath = (dir: string, uuid: string) => `${dir}/${uuid}.md`;
+const quoteYamlString = (value: string | undefined | null): string => {
+  if (typeof value === "undefined" || value === null) {
+    return '""';
+  }
+  return JSON.stringify(String(value));
+};
+
+const formatScalar = (value: unknown): string => {
+  if (typeof value === "number") {
+    return String(value);
+  }
+  if (typeof value === "string") {
+    return JSON.stringify(value);
+  }
+  return '""';
+};
+
+const formatLabels = (labels: ReadonlyArray<string> | undefined): string =>
+  labels && labels.length > 0
+    ? `[${labels.map((label) => JSON.stringify(label)).join(", ")}]`
+    : "[]";
+
+const fallbackTaskFromRaw = (filePath: string, raw: string): Task | null => {
+  if (!raw.startsWith('---')) {
+    return null;
+  }
+  let cursor = 3;
+  if (raw[cursor] === '') {
+    cursor += 1;
+  }
+  if (raw[cursor] === '
+') {
+    cursor += 1;
+  }
+  const closingIndexLF = raw.indexOf('
+---', cursor);
+  const closingIndexCRLF = raw.indexOf('
+---', cursor);
+  let boundaryIndex = closingIndexLF;
+  let newlineLength = 1;
+  if (closingIndexCRLF !== -1 && (closingIndexLF === -1 || closingIndexCRLF < closingIndexLF)) {
+    boundaryIndex = closingIndexCRLF;
+    newlineLength = 2;
+  }
+  if (boundaryIndex === -1) {
+    return null;
+  }
+  const frontmatterContent = raw.slice(cursor, boundaryIndex);
+  const bodyContent = raw.slice(boundaryIndex + newlineLength + 3);
+  const getValue = (key: string): string | undefined => {
+    const pattern = new RegExp(`^${key}\s*:\s*(.+)$`, 'im');
+    const valueMatch = frontmatterContent.match(pattern);
+    if (!valueMatch) {
+      return undefined;
+    }
+    return valueMatch[1].trim().replace(/^['"]|['"]$/g, '');
+  };
+  const uuid = getValue('uuid');
+  if (!uuid) {
+    return null;
+  }
+  const baseName = path.basename(filePath, path.extname(filePath));
+  const title = getValue('title') ?? sanitizeFileNameBase(baseName);
+  const status = getValue('status') ?? 'Todo';
+  const priority = getValue('priority');
+  const labelsRaw = getValue('labels');
+  const labels = labelsRaw
+    ? labelsRaw
+        .replace(/^\[/, '')
+        .replace(/\]$/, '')
+        .split(/[,\s]+/)
+        .map((entry) => entry.replace(/^['"]|['"]$/g, '').trim())
+        .filter((entry) => entry.length > 0)
+    : [];
+  return {
+    uuid,
+    title,
+    status,
+    priority,
+    labels,
+    created_at: getValue('created_at') ?? NOW_ISO(),
+    estimates: {},
+    content: bodyContent.trim(),
+    slug: sanitizeFileNameBase(title),
+    sourcePath: filePath,
+  };
+};
+
+
+
+const normalizeFrontmatterForParsing = (raw: string): string => {
+  if (!raw.startsWith('---')) {
+    return raw;
+  }
+  const keysToQuote = ['title', 'status', 'priority', 'slug', 'created_at'];
+  let result = raw;
+  for (const key of keysToQuote) {
+    const pattern = new RegExp(`^(${key}\s*:\s*)([^"'[{\s].*)$`, 'gim');
+    result = result.replace(pattern, (_, prefix: string, value: string) => {
+      return `${prefix}${JSON.stringify(value.trim())}`;
+    });
+  }
+  return result;
+};
 
 const toFrontmatter = (t: Task): string => {
-  const labels = (t.labels ?? []).join(", ");
   const est = t.estimates ?? {};
-  return (
-    `---
-uuid: ${t.uuid}
-title: ${t.title}
-status: ${t.status}
-priority: ${t.priority ?? ""}
-labels: ${labels}
-created_at: ${t.created_at ?? NOW_ISO()}
-estimates:
-  complexity: ${est.complexity ?? ""}
-  scale: ${est.scale ?? ""}
-  time_to_completion: ${est.time_to_completion ?? ""}
----
-
-${t.content ?? ""}
-`.trim() + "\n"
+  const lines: string[] = [
+    "---",
+    `uuid: ${quoteYamlString(t.uuid)}`,
+    `title: ${quoteYamlString(t.title)}`,
+  ];
+  if (t.slug && t.slug.length > 0 && !isFallbackSlug(t.slug, t.uuid)) {
+    lines.push(`slug: ${quoteYamlString(t.slug)}`);
+  }
+  lines.push(
+    `status: ${quoteYamlString(t.status)}`,
+    `priority: ${quoteYamlString(
+      typeof t.priority === "number" ? String(t.priority) : t.priority,
+    )}`,
+    `labels: ${formatLabels(t.labels)}`,
+    `created_at: ${quoteYamlString(t.created_at ?? NOW_ISO())}`,
+    "estimates:",
+    `  complexity: ${formatScalar(est.complexity)}`,
+    `  scale: ${formatScalar(est.scale)}`,
+    `  time_to_completion: ${formatScalar(est.time_to_completion)}`,
+    "---",
+    "",
+    t.content ?? "",
   );
+  return lines.join("\n") + "\n";
 };
 
 export const pullFromTasks = async (
@@ -298,6 +641,7 @@ export const pullFromTasks = async (
   tasksDir: string,
   boardPath: string,
 ): Promise<{ added: number; moved: number }> => {
+  board.columns = mergeColumnsCaseInsensitive(board.columns);
   const tasks = await readTasksFolder(tasksDir);
   let added = 0,
     moved = 0;
@@ -320,6 +664,12 @@ export const pullFromTasks = async (
       col.count += 1;
       added++;
     } else {
+      const currentTask = loc.col.tasks[loc.idx];
+      loc.col.tasks[loc.idx] = {
+        ...currentTask,
+        ...t,
+        status: loc.col.name,
+      };
       if (loc.col.name.toLowerCase() !== String(t.status).toLowerCase()) {
         // remove from old
         loc.col.tasks = loc.col.tasks.filter((x) => x.uuid !== t.uuid);
@@ -348,22 +698,44 @@ export const pushToTasks = async (
 ): Promise<{ added: number; moved: number }> => {
   let added = 0,
     moved = 0;
-  const existing = new Set<string>();
-  try {
-    const files = await fs.readdir(tasksDir);
-    for (const f of files)
-      if (f.endsWith(".md")) existing.add(f.replace(/\.md$/, ""));
-  } catch {}
+  const existingTasks = await readTasksFolder(tasksDir);
+  const existingByUuid = new Map(
+    existingTasks.map((task) => [task.uuid, task]),
+  );
+  const usedNames = new Map<string, string>();
+  for (const task of existingTasks) {
+    const base = ensureTaskFileBase(task);
+    usedNames.set(base, task.uuid);
+  }
+
+  await fs.mkdir(tasksDir, { recursive: true }).catch(() => {});
 
   for (const col of board.columns) {
-    for (const t of col.tasks) {
-      const path = taskPath(tasksDir, t.uuid);
-      const exists = existing.has(t.uuid);
-      const content = toFrontmatter({ ...t, status: col.name });
-      await fs.mkdir(tasksDir, { recursive: true }).catch(() => {});
-      await fs.writeFile(path, content, "utf8");
-      if (!exists) added++;
-      else moved++;
+    for (const task of col.tasks) {
+      const baseName = ensureTaskFileBase(task);
+      const uniqueBase = ensureUniqueFileBase(baseName, usedNames, task.uuid);
+      if (task.slug !== uniqueBase) {
+        task.slug = uniqueBase;
+      }
+      usedNames.set(uniqueBase, task.uuid);
+      const filename = `${uniqueBase}.md`;
+      const targetPath = path.join(tasksDir, filename);
+      const previous = existingByUuid.get(task.uuid);
+      const previousPath = previous?.sourcePath;
+      const content = toFrontmatter({ ...task, status: col.name });
+      await fs.writeFile(targetPath, content, "utf8");
+      if (!previous) {
+        added += 1;
+      } else {
+        moved += 1;
+        if (
+          previousPath &&
+          path.resolve(previousPath) !== path.resolve(targetPath)
+        ) {
+          await fs.unlink(previousPath).catch(() => {});
+        }
+      }
+      existingByUuid.delete(task.uuid);
     }
   }
   return { added, moved };
@@ -405,15 +777,24 @@ export const regenerateBoard = async (
   boardPath: string,
 ): Promise<{ totalTasks: number }> => {
   const tasks = await readTasksFolder(tasksDir);
-  const byStatus = new Map<string, Task[]>();
-  for (const t of tasks) {
-    const k = String(t.status || "Todo");
-    const arr = byStatus.get(k) ?? [];
-    arr.push(t);
-    byStatus.set(k, arr);
+  const statusGroups = new Map<string, { name: string; tasks: Task[] }>();
+  for (const task of tasks) {
+    const statusRaw = String(task.status || "Todo").trim();
+    const key = statusRaw.toLowerCase();
+    const existing = statusGroups.get(key);
+    if (existing) {
+      existing.tasks.push(task);
+    } else {
+      statusGroups.set(key, { name: statusRaw, tasks: [task] });
+    }
   }
-  const columns: ColumnData[] = Array.from(byStatus.entries()).map(
-    ([name, ts]) => ({ name, count: ts.length, limit: null, tasks: ts }),
+  const columns: ColumnData[] = Array.from(statusGroups.values()).map(
+    ({ name, tasks: ts }) => ({
+      name,
+      count: ts.length,
+      limit: null,
+      tasks: ts,
+    }),
   );
   await writeBoard(boardPath, { columns });
   return { totalTasks: tasks.length };
