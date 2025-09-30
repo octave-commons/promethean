@@ -43,6 +43,20 @@ const STOPWORDS = new Set<string>([
   "auto",
 ]);
 
+const stripTrailingCount = (value: string): string =>
+  value.replace(/\s*\(\s*\d+\s*\)\s*$/g, "").trim();
+
+const normalizeColumnDisplayName = (value: string): string => {
+  const trimmed = stripTrailingCount(value.trim());
+  return trimmed.length > 0 ? trimmed : "Todo";
+};
+
+const columnKey = (name: string): string =>
+  normalizeColumnDisplayName(name)
+    .normalize("NFKD")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "");
+
 const tokenizeForLabels = (text: string): ReadonlyArray<string> =>
   text
     .toLowerCase()
@@ -134,11 +148,16 @@ const ensureUniqueFileBase = (
 const mergeColumnsCaseInsensitive = (columns: ColumnData[]): ColumnData[] => {
   const merged = new Map<string, ColumnData>();
   for (const column of columns) {
-    const key = column.name.trim().toLowerCase();
+    const displayName = normalizeColumnDisplayName(column.name);
+    const key = columnKey(column.name);
+    const normalizedTasks = column.tasks.map((task) => ({
+      ...task,
+      status: displayName,
+    }));
     const existing = merged.get(key);
     if (existing) {
       const seenTasks = new Set(existing.tasks.map((task) => task.uuid));
-      for (const task of column.tasks) {
+      for (const task of normalizedTasks) {
         if (!seenTasks.has(task.uuid)) {
           existing.tasks.push(task);
           seenTasks.add(task.uuid);
@@ -148,20 +167,21 @@ const mergeColumnsCaseInsensitive = (columns: ColumnData[]): ColumnData[] => {
       if (existing.limit == null && column.limit != null) {
         existing.limit = column.limit;
       }
-      if (existing.name.length === 0 && column.name.length > 0) {
-        existing.name = column.name;
+      if (existing.name.length === 0 && displayName.length > 0) {
+        existing.name = displayName;
       }
     } else {
       merged.set(key, {
-        name: column.name,
-        count: column.tasks.length,
+        name: displayName,
+        count: normalizedTasks.length,
         limit: column.limit,
-        tasks: [...column.tasks],
+        tasks: [...normalizedTasks],
       });
     }
   }
   return Array.from(merged.values()).map((col) => ({
     ...col,
+    name: normalizeColumnDisplayName(col.name),
     count: col.tasks.length,
   }));
 };
@@ -384,12 +404,16 @@ export const loadBoard = async (
   const statusGroups = new Map<string, { name: string; tasks: Task[] }>();
   for (const task of tasks) {
     const statusRaw = String(task.status || "Todo").trim();
-    const key = statusRaw.toLowerCase();
+    const displayName = normalizeColumnDisplayName(statusRaw);
+    const key = columnKey(statusRaw);
     const existing = statusGroups.get(key);
     if (existing) {
-      existing.tasks.push(task);
+      existing.tasks.push({ ...task, status: existing.name });
     } else {
-      statusGroups.set(key, { name: statusRaw, tasks: [task] });
+      statusGroups.set(key, {
+        name: displayName,
+        tasks: [{ ...task, status: displayName }],
+      });
     }
   }
   const cols: ColumnData[] = Array.from(statusGroups.values()).map(
@@ -405,17 +429,24 @@ export const loadBoard = async (
 
 export const countTasks = (board: Board, column?: string): number => {
   if (!column) return board.columns.reduce((acc, c) => acc + c.count, 0);
-  const c = board.columns.find(
-    (c) => c.name.toLowerCase() === column.toLowerCase(),
-  );
+  const targetKey = columnKey(column);
+  const c = board.columns.find((col) => columnKey(col.name) === targetKey);
   return c ? c.count : 0;
 };
 
 export const getColumn = (board: Board, column: string): ColumnData => {
-  const c = board.columns.find(
-    (c) => c.name.toLowerCase() === column.toLowerCase(),
-  );
-  return c ?? { name: column, count: 0, limit: null, tasks: [] };
+  const targetKey = columnKey(column);
+  const c = board.columns.find((col) => columnKey(col.name) === targetKey);
+  if (c) {
+    c.name = normalizeColumnDisplayName(c.name);
+    return c;
+  }
+  return {
+    name: normalizeColumnDisplayName(column),
+    count: 0,
+    limit: null,
+    tasks: [],
+  };
 };
 
 export const getTasksByColumn = (board: Board, column: string): Task[] =>
@@ -441,14 +472,19 @@ export const findTaskByTitle = (
   return undefined;
 };
 
-const columnKey = (name: string): string => name.trim().toLowerCase();
-
 const ensureColumn = (board: Board, column: string): ColumnData => {
   const key = columnKey(column);
   let existing = board.columns.find((col) => columnKey(col.name) === key);
   if (!existing) {
-    existing = { name: column, count: 0, limit: null, tasks: [] };
+    existing = {
+      name: normalizeColumnDisplayName(column),
+      count: 0,
+      limit: null,
+      tasks: [],
+    };
     board.columns = [...board.columns, existing];
+  } else if (existing.name !== normalizeColumnDisplayName(existing.name)) {
+    existing.name = normalizeColumnDisplayName(existing.name);
   }
   return existing;
 };
@@ -589,13 +625,16 @@ export const updateStatus = async (
   }
   if (!found) return undefined;
 
-  found.status = newStatus;
+  const normalizedStatus = normalizeColumnDisplayName(newStatus);
+  found.status = normalizedStatus;
   let target = board.columns.find(
-    (c) => c.name.toLowerCase() === newStatus.toLowerCase(),
+    (c) => columnKey(c.name) === columnKey(normalizedStatus),
   );
   if (!target) {
-    target = { name: newStatus, count: 0, limit: null, tasks: [] };
+    target = { name: normalizedStatus, count: 0, limit: null, tasks: [] };
     board.columns.push(target);
+  } else if (target.name !== normalizeColumnDisplayName(target.name)) {
+    target.name = normalizeColumnDisplayName(target.name);
   }
   target.tasks = [...target.tasks, found];
   target.count += 1;
@@ -765,39 +804,45 @@ export const pullFromTasks = async (
   );
 
   for (const t of tasks) {
+    const normalizedStatus = normalizeColumnDisplayName(
+      String(t.status || "Todo"),
+    );
+    const statusKey = columnKey(normalizedStatus);
+    const normalizedTask = { ...t, status: normalizedStatus };
     const loc = byId.get(t.uuid);
     if (!loc) {
-      let col = board.columns.find(
-        (c) => c.name.toLowerCase() === String(t.status).toLowerCase(),
-      );
+      let col = board.columns.find((c) => columnKey(c.name) === statusKey);
       if (!col) {
-        col = { name: t.status || "Todo", count: 0, limit: null, tasks: [] };
+        col = { name: normalizedStatus, count: 0, limit: null, tasks: [] };
         board.columns.push(col);
+      } else if (col.name !== normalizeColumnDisplayName(col.name)) {
+        col.name = normalizeColumnDisplayName(col.name);
       }
-      col.tasks = [...col.tasks, t];
-      col.count += 1;
+      col.tasks = [...col.tasks, normalizedTask];
+      col.count = col.tasks.length;
       added++;
     } else {
       const currentTask = loc.col.tasks[loc.idx];
       loc.col.tasks[loc.idx] = {
         ...currentTask,
-        ...t,
+        ...normalizedTask,
         status: loc.col.name,
       };
-      if (loc.col.name.toLowerCase() !== String(t.status).toLowerCase()) {
+      const currentKey = columnKey(loc.col.name);
+      if (currentKey !== statusKey) {
         // remove from old
         loc.col.tasks = loc.col.tasks.filter((x) => x.uuid !== t.uuid);
-        loc.col.count -= 1;
+        loc.col.count = loc.col.tasks.length;
         // add to new
-        let dest = board.columns.find(
-          (c) => c.name.toLowerCase() === String(t.status).toLowerCase(),
-        );
+        let dest = board.columns.find((c) => columnKey(c.name) === statusKey);
         if (!dest) {
-          dest = { name: t.status || "Todo", count: 0, limit: null, tasks: [] };
+          dest = { name: normalizedStatus, count: 0, limit: null, tasks: [] };
           board.columns.push(dest);
+        } else if (dest.name !== normalizeColumnDisplayName(dest.name)) {
+          dest.name = normalizeColumnDisplayName(dest.name);
         }
-        dest.tasks = [...dest.tasks, t];
-        dest.count += 1;
+        dest.tasks = [...dest.tasks, { ...normalizedTask, status: dest.name }];
+        dest.count = dest.tasks.length;
         moved++;
       }
     }
@@ -872,7 +917,8 @@ const BLOCKED_BY_HEADING = "## ⛓️ Blocked By";
 const BLOCKS_HEADING = "## ⛓️ Blocks";
 
 const escapeRegExp = (value: string): string =>
-  value.replace(/[\\^$.*+?()[\]{}|-]/g, "\\$&");
+  value.replace(/[\\-/\^$*+?.()|[\]{}]/g, "\\$&");
+
 
 const formatSectionBlock = (
   heading: string,
@@ -1278,7 +1324,7 @@ export const syncBoardAndTasks = async (
     if (!b) continue;
     if (
       (b.title ?? "") !== (t.title ?? "") ||
-      String(b.status) !== String(t.status)
+      columnKey(String(b.status ?? "")) !== columnKey(String(t.status ?? ""))
     )
       conflicting.push(id);
   }
@@ -1295,12 +1341,16 @@ export const regenerateBoard = async (
   const statusGroups = new Map<string, { name: string; tasks: Task[] }>();
   for (const task of tasks) {
     const statusRaw = String(task.status || "Todo").trim();
-    const key = statusRaw.toLowerCase();
+    const displayName = normalizeColumnDisplayName(statusRaw);
+    const key = columnKey(statusRaw);
     const existing = statusGroups.get(key);
     if (existing) {
-      existing.tasks.push(task);
+      existing.tasks.push({ ...task, status: existing.name });
     } else {
-      statusGroups.set(key, { name: statusRaw, tasks: [task] });
+      statusGroups.set(key, {
+        name: displayName,
+        tasks: [{ ...task, status: displayName }],
+      });
     }
   }
   const columns: ColumnData[] = Array.from(statusGroups.values()).map(
