@@ -4,33 +4,58 @@
 
 import { request } from 'undici';
 
+const DEFAULT_BASE_URL = 'https://api-inference.huggingface.co';
+
+const createHeaders = (apiKey: string | undefined): Readonly<Record<string, string>> =>
+    apiKey === undefined
+        ? { 'Content-Type': 'application/json' }
+        : {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${apiKey}`,
+          };
+
+const toReadonlyVector = (value: unknown): ReadonlyArray<number> => {
+    if (!Array.isArray(value)) {
+        throw new TypeError('HF embedding response must be an array of numbers');
+    }
+
+    const numbers = value.map((entry) => {
+        if (typeof entry !== 'number' || Number.isNaN(entry)) {
+            throw new TypeError('HF embedding response contains a non-numeric value');
+        }
+
+        return entry;
+    });
+
+    return Object.freeze(numbers);
+};
+
+const toReadonlyMatrix = (value: unknown): ReadonlyArray<ReadonlyArray<number>> => {
+    const rows = Array.isArray(value) ? value : [value];
+    const matrix = rows.map(toReadonlyVector);
+
+    return Object.freeze(matrix);
+};
+
 export type HfApiConfig = {
-    apiKey?: string;
-    baseUrl?: string;
+    readonly apiKey?: string;
+    readonly baseUrl?: string;
 };
 
 export class HuggingFaceClient {
-    private apiKey: string | undefined;
-    private baseUrl: string;
+    private readonly apiKey: string | undefined;
+    private readonly baseUrl: string;
 
-    constructor(config: HfApiConfig = {}) {
-        this.apiKey = config.apiKey || process.env.HF_API_KEY;
-        this.baseUrl = config.baseUrl || 'https://api-inference.huggingface.co';
+    constructor({ apiKey, baseUrl }: HfApiConfig = {}) {
+        this.apiKey = apiKey ?? process.env.HF_API_KEY;
+        this.baseUrl = baseUrl ?? DEFAULT_BASE_URL;
     }
 
     async inference(model: string, inputs: unknown): Promise<unknown> {
         const url = `${this.baseUrl}/models/${model}`;
-        const headers: Record<string, string> = {
-            'Content-Type': 'application/json',
-        };
-
-        if (this.apiKey) {
-            headers['Authorization'] = `Bearer ${this.apiKey}`;
-        }
-
         const response = await request(url, {
             method: 'POST',
-            headers,
+            headers: createHeaders(this.apiKey),
             body: JSON.stringify({ inputs }),
         });
 
@@ -41,12 +66,13 @@ export class HuggingFaceClient {
         return response.body.json();
     }
 
-    async embeddings(model: string, texts: string | string[]): Promise<number[][]> {
+    async embeddings(
+        model: string,
+        texts: string | ReadonlyArray<string>,
+    ): Promise<ReadonlyArray<ReadonlyArray<number>>> {
         const result = await this.inference(model, texts);
-        return Array.isArray(result) ? result : [result as number[]];
+        return toReadonlyMatrix(result);
     }
 }
 
-export function createHfClient(config?: HfApiConfig): HuggingFaceClient {
-    return new HuggingFaceClient(config);
-}
+export const createHfClient = (config?: HfApiConfig): HuggingFaceClient => new HuggingFaceClient(config);
