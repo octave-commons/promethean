@@ -18,7 +18,7 @@ export type SystemCtx = {
     setIfChanged: <T>(e: Entity, c: ComponentType<T>, v: T) => void;
     carry: <T>(e: Entity, c: ComponentType<T>) => void;
     iter: World['iter']; // base iterator (for custom modes)
-    iterAll: <T extends any[]>(...cs: { [K in keyof T]: ComponentType<T[K]> }[]) => IterableIterator<[Entity, ...T]>;
+    iterAll: <T extends any[]>(...cs: { [K in keyof T]: ComponentType<T[K]> }) => IterableIterator<[Entity, ...T]>;
     iterPacked: <T extends any[]>(opts: {
         comps: { [K in keyof T]: ComponentType<T[K]> };
         block?: number;
