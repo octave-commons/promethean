@@ -14,13 +14,19 @@ const createHeaders = (apiKey: string | undefined): Readonly<Record<string, stri
               Authorization: `Bearer ${apiKey}`,
           };
 
-const toReadonlyVector = (value: unknown): ReadonlyArray<number> => {
+type ReadonlyVector = ReadonlyArray<number>;
+type ReadonlyTokenVectors = ReadonlyArray<ReadonlyVector>;
+type ReadonlyEmbeddingResponse = ReadonlyArray<ReadonlyVector | ReadonlyTokenVectors>;
+
+const isNumeric = (value: unknown): value is number => typeof value === 'number' && !Number.isNaN(value);
+
+const toReadonlyVector = (value: unknown): ReadonlyVector => {
     if (!Array.isArray(value)) {
         throw new TypeError('HF embedding response must be an array of numbers');
     }
 
     const numbers = value.map((entry) => {
-        if (typeof entry !== 'number' || Number.isNaN(entry)) {
+        if (!isNumeric(entry)) {
             throw new TypeError('HF embedding response contains a non-numeric value');
         }
 
@@ -30,9 +36,31 @@ const toReadonlyVector = (value: unknown): ReadonlyArray<number> => {
     return Object.freeze(numbers);
 };
 
-const toReadonlyMatrix = (value: unknown): ReadonlyArray<ReadonlyArray<number>> => {
+const toReadonlyTokenVectors = (value: unknown): ReadonlyTokenVectors => {
+    if (!Array.isArray(value)) {
+        throw new TypeError('HF embedding token response must be an array of number arrays');
+    }
+
+    const tokens = value.map((entry) => {
+        if (!Array.isArray(entry)) {
+            throw new TypeError('HF embedding token response contains a non-array value');
+        }
+
+        return toReadonlyVector(entry);
+    });
+
+    return Object.freeze(tokens);
+};
+
+const toReadonlyEmbeddings = (value: unknown): ReadonlyEmbeddingResponse => {
     const rows = Array.isArray(value) ? value : [value];
-    const matrix = rows.map(toReadonlyVector);
+    const matrix = rows.map((entry) => {
+        if (!Array.isArray(entry)) {
+            throw new TypeError('HF embedding response must be an array');
+        }
+
+        return entry.every(isNumeric) ? toReadonlyVector(entry) : toReadonlyTokenVectors(entry);
+    });
 
     return Object.freeze(matrix);
 };
@@ -66,12 +94,9 @@ export class HuggingFaceClient {
         return response.body.json();
     }
 
-    async embeddings(
-        model: string,
-        texts: string | ReadonlyArray<string>,
-    ): Promise<ReadonlyArray<ReadonlyArray<number>>> {
+    async embeddings(model: string, texts: string | ReadonlyArray<string>): Promise<ReadonlyEmbeddingResponse> {
         const result = await this.inference(model, texts);
-        return toReadonlyMatrix(result);
+        return toReadonlyEmbeddings(result);
     }
 }
 
