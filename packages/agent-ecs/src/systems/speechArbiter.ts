@@ -89,16 +89,21 @@ type PlayContext = {
 const playUtterance = ({ world, components, player, entity, token }: PlayContext): void => {
     const audioRes = world.get(entity, components.AudioRes);
     if (!audioRes) return;
-    void audioRes.factory().then((resource) => {
-        if (resource === undefined) return;
-        const latest = world.get(entity, components.Utterance);
-        if (!latest || latest.token !== token || latest.status === 'cancelled') return;
-        try {
-            void player.play(resource);
-        } catch (error) {
-            console.warn('[arbiter] failed to play resource', error);
-        }
-    });
+    void audioRes
+        .factory()
+        .then((resource) => {
+            if (resource === undefined) return;
+            const latest = world.get(entity, components.Utterance);
+            if (!latest || latest.token !== token || latest.status === 'cancelled') return;
+            try {
+                void player.play(resource);
+            } catch (error) {
+                console.warn('[arbiter] failed to play resource', error);
+            }
+        })
+        .catch((error) => {
+            console.warn('[arbiter] failed to resolve audio resource', error);
+        });
 };
 
 export const SpeechArbiterSystem = (world: World, components: AgentComponents) => {

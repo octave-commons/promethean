@@ -24,6 +24,8 @@ class AgentTicker {
     private systems: ReadonlyArray<AgentSystem>;
     private running = false;
     private tickPromise: Promise<void> = Promise.resolve();
+    private startPromise: Promise<void> = Promise.resolve();
+    private resolveStart: (() => void) | undefined;
 
     constructor(
         private readonly world: World,
@@ -47,25 +49,46 @@ class AgentTicker {
     }
 
     async start(delay: number): Promise<void> {
-        if (this.running) return;
+        if (this.running) return this.startPromise;
         this.running = true;
-        const loop = async (previousDelta: number): Promise<void> => {
+        this.startPromise = new Promise<void>((resolve) => {
+            this.resolveStart = resolve;
+        });
+
+        const schedule = (elapsed: number): void => {
+            if (!this.running) return;
+            void iterate(elapsed).catch((error) => {
+                console.error('[agent-ecs] ticker loop failed', error);
+                this.running = false;
+                this.resolveStart?.();
+                this.resolveStart = undefined;
+            });
+        };
+
+        const iterate = async (previousDelta: number): Promise<void> => {
             if (!this.running) return;
             const tickStart = Date.now();
             await this.tickPromise;
+            if (!this.running) return;
             this.tickPromise = this.tick(previousDelta);
             const tickStop = Date.now();
             const elapsed = tickStop - tickStart;
-            if (delay > elapsed) await sleep(delay - elapsed);
-            await loop(elapsed);
+            const remaining = delay - elapsed;
+            if (remaining > 0) await sleep(remaining);
+            schedule(elapsed);
         };
-        await loop(0);
+
+        schedule(0);
+
+        return this.startPromise;
     }
 
     async stop(): Promise<void> {
         if (!this.running) throw new Error('There is no ticker to stop');
         await this.tickPromise;
         this.running = false;
+        this.resolveStart?.();
+        this.resolveStart = undefined;
     }
 }
 
