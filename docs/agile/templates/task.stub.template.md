@@ -59,30 +59,26 @@ created_at: '<% tp.date.now("YYYY-MM-DDTHH:mm:ss.SSS[Z]") %>'
 
 - Outline the task background, intent, and desired outcome.
 
----
+## Description
+- **What changed?** [Describe the key changes that have occurred, e.g., updated requirements, new feature added]
+- **Where is the impact?** [Specify the location or scope where these changes are relevant, e.g., specific project, department]
+- **Why now?** [Explain why these changes are necessary at this time, e.g., due to deadline, feedback from stakeholders]
+- **Supporting context** ([link or path] to relevant documentation, data, or assets)
 
-## 🎯 Goals
+## Goals
+- [Outline the measurable outcomes or success criteria for this task]
+- [List any dependencies, stakeholders, or milestones that must be coordinated]
 
-- [ ] Goal 1
-- [ ] Goal 2
+## Requirements
+- [ ] test X passes: [Briefly describe the testing scenario]
+- [ ] doc Y updated: [Mention the specific documentation or resource that has been updated]
+- [ ] PR merged: ([link to the PR] with a brief summary of changes)
+- [ ] Additional constraints or non-functional requirements are addressed: [List or link to relevant specifications]
 
----
-
-## 📦 Requirements
-
-- [ ] Requirement 1
-- [ ] Requirement 2
-
----
-
-## 📋 Subtasks
-
-- [ ] Step 1
-- [ ] Step 2
-
----
-
-## 🧮 Story Points
+## Subtasks
+1. … [Outline the high-level steps for completing this task, including any dependencies or resources required]
+2. …
+3. …
 
 Add the estimate here (Fibonacci: 1, 2, 3, 5, 8, 13).
 
