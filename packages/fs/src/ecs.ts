@@ -122,11 +122,9 @@ async function scanDirectoryIntents(
 ): Promise<void> {
     const intentComponents = [DirectoryIntent] as [ComponentType<DirectoryIntentState>];
     const intents = Array.from(ctx.iterAll<[DirectoryIntentState]>(...intentComponents));
-    await Promise.all(
-        intents.map(async ([entity, intent]) => {
-            await updateSnapshot(ctx, entity, intent, DirectorySnapshot);
-        }),
-    );
+    for (const [entity, intent] of intents) {
+        await updateSnapshot(ctx, entity, intent, DirectorySnapshot);
+    }
 }
 
 async function updateSnapshot(
@@ -182,27 +180,25 @@ async function flushWriteBuffers(
         ComponentType<DirectoryWriteBufferState>,
     ];
     const buffers = Array.from(ctx.iterAll<[DirectoryIntentState, DirectoryWriteBufferState]>(...bufferComponents));
-    await Promise.all(
-        buffers.map(async ([entity, intent, buffer]) => {
-            if (buffer.operations.length === 0) {
-                ctx.carry(entity, DirectoryWriteBuffer);
-                return;
-            }
-            const absRoot = path.resolve(intent.root);
-            const result = await applyOperationsSequentially(absRoot, buffer.operations);
-            const appliedHash = hashOperations(result.applied);
-            const next: DirectoryWriteBufferState = {
-                operations: result.error ? buffer.operations.slice(result.applied.length) : [],
-                ...(result.error
-                    ? { lastError: result.error }
-                    : {
-                          lastAppliedAt: Date.now(),
-                          ...(appliedHash ? { lastAppliedHash: appliedHash } : {}),
-                      }),
-            };
-            ctx.set(entity, DirectoryWriteBuffer, next);
-        }),
-    );
+    for (const [entity, intent, buffer] of buffers) {
+        if (buffer.operations.length === 0) {
+            ctx.carry(entity, DirectoryWriteBuffer);
+            continue;
+        }
+        const absRoot = path.resolve(intent.root);
+        const result = await applyOperationsSequentially(absRoot, buffer.operations);
+        const appliedHash = hashOperations(result.applied);
+        const next: DirectoryWriteBufferState = {
+            operations: result.error ? buffer.operations.slice(result.applied.length) : [],
+            ...(result.error
+                ? { lastError: result.error }
+                : {
+                      lastAppliedAt: Date.now(),
+                      ...(appliedHash ? { lastAppliedHash: appliedHash } : {}),
+                  }),
+        };
+        ctx.set(entity, DirectoryWriteBuffer, next);
+    }
 }
 
 function stableIntent(intent: DirectoryIntentState | undefined): string {
