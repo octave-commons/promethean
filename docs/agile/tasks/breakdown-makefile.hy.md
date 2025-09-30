@@ -49,7 +49,7 @@ references that must be redirected to pnpm / TypeScript tooling.
 Nothing
 
 ## ⛓️ Blocks
-- [update github actions automation to pnpm scripts](update_github_actions_to_use_makefile_md_md.md)
+- [[update_github_actions_to_use_makefile_md_md|update github actions automation to pnpm scripts]]
 
 ---
 
