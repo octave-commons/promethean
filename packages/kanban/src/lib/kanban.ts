@@ -917,7 +917,7 @@ const BLOCKED_BY_HEADING = "## ⛓️ Blocked By";
 const BLOCKS_HEADING = "## ⛓️ Blocks";
 
 const escapeRegExp = (value: string): string =>
-  value.replace(/[\\-/\^$*+?.()|[\]{}]/g, "\\$&");
+  value.replace(/[\\/\-^$*+?.()|[\]{}]/g, "\\$&");
 
 
 const formatSectionBlock = (
