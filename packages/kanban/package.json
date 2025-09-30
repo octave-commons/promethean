@@ -1,12 +1,13 @@
 {
-  "name": "@promethean/kanban-cli",
+  "name": "@promethean/kanban",
   "version": "0.1.0",
   "type": "module",
   "bin": {
     "kanban": "dist/index.js"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json"
+    "build": "tsc -p tsconfig.json",
+    "test": "pnpm run build && ava"
   },
   "dependencies": {
     "@promethean/markdown": "workspace:*",
