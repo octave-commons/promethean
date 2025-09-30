@@ -59,7 +59,7 @@ function matchDanger(text: string): RegExp | undefined {
 
 function shQuote(value: string): string {
   if (value.length === 0) return "''";
-  return `'${value.replace(/'/g, `'\\''`)}'`;
+  return `'${value.replace(/'/g, "'\\''")}'`;
 }
 
 function describeProcess(process: AgentProcess) {
