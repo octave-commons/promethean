@@ -65,12 +65,58 @@ type Coll = QueryColl & {
   }): Promise<unknown>;
 };
 
+const toFiniteNumber = (value: unknown) => {
+  if (typeof value === "number")
+    return Number.isFinite(value) ? value : undefined;
+  if (typeof value === "string") {
+    const numeric = Number(value);
+    return Number.isFinite(numeric) ? numeric : undefined;
+  }
+  return undefined;
+};
+
+const toBoolParam = (value: unknown) => {
+  if (typeof value === "boolean") return value;
+  if (typeof value === "number") return value !== 0;
+  if (typeof value === "string") {
+    const lowered = value.trim().toLowerCase();
+    if (!lowered) return undefined;
+    if (lowered === "false" || lowered === "0") return false;
+    if (lowered === "true" || lowered === "1") return true;
+  }
+  return undefined;
+};
+
+const normalizeRunArgs = (input: any) => {
+  const args: any = { ...(input ?? {}) };
+  const setFinite = (key: string) => {
+    const parsed = toFiniteNumber(args[key]);
+    if (parsed !== undefined) args[key] = parsed;
+    else delete args[key];
+  };
+
+  setFinite("docT");
+  setFinite("refT");
+  setFinite("k");
+  setFinite("maxRelated");
+  setFinite("maxReferences");
+  setFinite("refMin");
+  setFinite("refMax");
+
+  const force = toBoolParam(args.force);
+  if (typeof force === "boolean") args.force = force;
+  else delete args.force;
+
+  return args;
+};
+
 export async function runDocopsStep(
   db: DBs,
   step: StepId,
   args: any,
   onProgress?: (p: Progress) => void,
 ) {
+  const normalizedArgs = normalizeRunArgs(args);
   const stepFn: Record<StepId, (args: any) => Promise<void>> = {
     purge: async (args) => {
       const files = args.files as string[] | undefined;
@@ -168,10 +214,12 @@ export async function runDocopsStep(
   if (typeof handler !== "function") {
     const validSteps = Object.keys(stepFn).join(", ");
     throw new Error(
-      `Docops step "${String(step)}" is not callable. Expected one of: ${validSteps}`,
+      `Docops step "${String(
+        step,
+      )}" is not callable. Expected one of: ${validSteps}`,
     );
   }
-  await handler(args);
+  await handler(normalizedArgs);
 }
 
 export async function runDocopsPipeline(
