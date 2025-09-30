@@ -5,6 +5,8 @@ import { Topics } from '@promethean/event/topics.js';
 import { startProcessProjector } from '../../process/projector.js';
 import type { HeartbeatPayload, ProcessState } from '../../process/types.js';
 
+type ProjectorBus = Parameters<typeof startProcessProjector>[0];
+
 const topics = Topics as Readonly<{ HeartbeatReceived: string; ProcessState: string }>;
 
 class Deferred<T> {
@@ -37,15 +39,15 @@ class Deferred<T> {
 type PublishCall = {
     readonly topic: string;
     readonly payload: ProcessState;
-    readonly options: { readonly key: string };
+    readonly options: Readonly<{ key?: string }>;
 };
 
-type EventHandler = (event: Readonly<{ payload: HeartbeatPayload; ts: number }>) => Promise<void>;
+type EventHandler = Parameters<ProjectorBus['subscribe']>[2];
 
 type SubscriptionRecord = {
     readonly topic: string;
     readonly group: string;
-    readonly options: unknown;
+    readonly options: Parameters<ProjectorBus['subscribe']>[3];
     readonly handler: EventHandler;
 };
 
@@ -100,12 +102,12 @@ function createBus() {
     const firstPublish = new Deferred<PublishCall>();
     const secondPublish = new Deferred<PublishCall>();
 
-    const bus = {
-        async publish(topic: string, payload: Readonly<ProcessState>, options: Readonly<{ key: string }>) {
+    const bus: ProjectorBus = {
+        async publish<T>(topic: string, payload: T, options?: Readonly<{ key?: string }>) {
             const call: PublishCall = {
                 topic,
                 payload: payload as ProcessState,
-                options: { key: options.key },
+                options: options ?? {},
             };
             if (!firstPublish.isSettled()) {
                 firstPublish.resolve(call);
@@ -117,10 +119,11 @@ function createBus() {
             }
             throw new Error('received more publish calls than expected');
         },
-        async subscribe(topic: string, group: string, onEvent: EventHandler, options: unknown): Promise<void> {
+        async subscribe(topic, group, onEvent, options) {
             subscription.resolve({ topic, group, options, handler: onEvent });
+            return async () => undefined;
         },
-    } as const;
+    };
 
     return { bus, subscription, firstPublish, secondPublish };
 }
@@ -150,7 +153,7 @@ test.serial('startProcessProjector publishes fresh process state on heartbeat', 
     };
     const timestamp = 1_000;
 
-    await handler({ payload: heartbeat, ts: timestamp });
+    await handler({ payload: heartbeat, ts: timestamp }, {});
 
     const call = await firstPublish.promise;
     t.is(call.topic, topics.ProcessState);
@@ -193,7 +196,7 @@ test.serial('process projector marks entries stale when heartbeats stop arriving
     };
     const firstTimestamp = 5_000;
 
-    await handler({ payload: heartbeat, ts: firstTimestamp });
+    await handler({ payload: heartbeat, ts: firstTimestamp }, {});
     await firstPublish.promise;
 
     const originalNow = Date.now;

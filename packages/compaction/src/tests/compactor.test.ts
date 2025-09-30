@@ -1,6 +1,8 @@
 import test from 'ava';
 import { sleep } from '@promethean/utils/sleep.js';
 
+import type { CompactorBus, CompactorStore } from '../compactor.js';
+
 type CompactorModule = typeof import('../compactor.js');
 
 type StoreCall = {
@@ -8,7 +10,7 @@ type StoreCall = {
     readonly keys: ReadonlyArray<string>;
 };
 
-type PublishMessage = {
+type SnapshotPublish = {
     readonly key: string;
     readonly payload: unknown;
     readonly ts: number;
@@ -16,18 +18,9 @@ type PublishMessage = {
 
 type PublishRecord = {
     readonly topic: string;
-    readonly message: PublishMessage;
-    readonly metadata: {
-        readonly key: string;
-    };
+    readonly payload: SnapshotPublish;
+    readonly options: Readonly<{ key?: string }>;
 };
-
-type LatestByKeyRecord = {
-    readonly payload?: unknown;
-    readonly ts?: number;
-};
-
-type LatestByKeyResponse = Record<string, LatestByKeyRecord>;
 
 type Deferred<T> = {
     readonly promise: Promise<T>;
@@ -72,20 +65,24 @@ test('startCompactor publishes latest entries to the snapshot topic', async (t) 
     const storeCall = createDeferred<StoreCall>();
     const publishCall = createDeferred<PublishRecord>();
 
-    const store = {
-        latestByKey: async (topic: string, keys: ReadonlyArray<string>): Promise<LatestByKeyResponse> => {
+    const store: CompactorStore = {
+        latestByKey: async (topic, keys) => {
             storeCall.resolve({ topic, keys });
             return {
                 alpha: { payload: { foo: 'bar' }, ts: 123 },
-            } satisfies LatestByKeyResponse;
+            } satisfies Awaited<ReturnType<CompactorStore['latestByKey']>>;
         },
-    } as const;
+    };
 
-    const bus = {
-        publish: async (topic: string, message: PublishMessage, metadata: PublishRecord['metadata']): Promise<void> => {
-            publishCall.resolve({ topic, message, metadata });
+    const bus: CompactorBus = {
+        publish: async (topic, payload, options) => {
+            publishCall.resolve({
+                topic,
+                payload: payload as SnapshotPublish,
+                options: options ?? {},
+            });
         },
-    } as const;
+    };
 
     const stop = startCompactor(store, bus, {
         topic: 'state.events',
@@ -107,8 +104,8 @@ test('startCompactor publishes latest entries to the snapshot topic', async (t) 
 
     t.deepEqual(publishInvocation, {
         topic: 'state.snapshots',
-        message: { key: 'alpha', payload: { foo: 'bar' }, ts: 123 },
-        metadata: { key: 'alpha' },
+        payload: { key: 'alpha', payload: { foo: 'bar' }, ts: 123 },
+        options: { key: 'alpha' },
     });
 });
 
@@ -118,18 +115,22 @@ test('startCompactor skips publishing when no entries are available', async (t) 
     const storeCall = createDeferred<StoreCall>();
     const publishCall = createDeferred<PublishRecord>();
 
-    const store = {
-        latestByKey: async (topic: string, keys: ReadonlyArray<string>): Promise<LatestByKeyResponse> => {
+    const store: CompactorStore = {
+        latestByKey: async (topic, keys) => {
             storeCall.resolve({ topic, keys });
-            return {};
+            return {} as Awaited<ReturnType<CompactorStore['latestByKey']>>;
         },
-    } as const;
+    };
 
-    const bus = {
-        publish: async (topic: string, message: PublishMessage, metadata: PublishRecord['metadata']): Promise<void> => {
-            publishCall.resolve({ topic, message, metadata });
+    const bus: CompactorBus = {
+        publish: async (topic, payload, options) => {
+            publishCall.resolve({
+                topic,
+                payload: payload as SnapshotPublish,
+                options: options ?? {},
+            });
         },
-    } as const;
+    };
 
     const stop = startCompactor(store, bus, {
         topic: 'state.events',
