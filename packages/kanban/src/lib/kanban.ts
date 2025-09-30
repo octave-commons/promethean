@@ -936,7 +936,7 @@ const setSectionItems = (
 ): string => {
   const block = formatSectionBlock(heading, items);
   const pattern = new RegExp(
-    `^${escapeRegExp(heading)}\s*\n([\s\S]*?)(?=^##\s+|$)`,
+    `^${escapeRegExp(heading)}\\s*\\n([\\s\\S]*?)(?=^##\\s+|$)`,
     "m",
   );
   if (pattern.test(content)) {
@@ -948,7 +948,7 @@ const setSectionItems = (
 };
 
 const ensureSectionExists = (content: string, heading: string): string => {
-  const pattern = new RegExp(`^${escapeRegExp(heading)}\s*$`, "m");
+  const pattern = new RegExp(`^${escapeRegExp(heading)}\\s*$`, "m");
   if (pattern.test(content)) {
     return content;
   }
@@ -960,7 +960,7 @@ const parseSectionItems = (
   heading: string,
 ): ReadonlyArray<string> => {
   const pattern = new RegExp(
-    `^${escapeRegExp(heading)}\s*\n([\s\S]*?)(?=^##\s+|$)`,
+    `^${escapeRegExp(heading)}\\s*\\n([\\s\\S]*?)(?=^##\\s+|$)`,
     "m",
   );
   const match = pattern.exec(content);
