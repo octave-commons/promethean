@@ -17,7 +17,7 @@ This document outlines high level initiatives for the Promethean Framework. Epic
 
 ## 🛠 Developer Tooling & Build Pipeline
 - Finalize `MIGRATION_PLAN.md`
-- Set up `Makefile` for Python and JS build/test
+- Capture Babashka/Nx automation workflows for JS/TS build/test
 - Provide base `README.md` templates for each service
 
 ## 🤖 Agent Ecosystem & Configuration
@@ -28,6 +28,9 @@ This document outlines high level initiatives for the Promethean Framework. Epic
 - Ensure GitHub‑compatible markdown settings are documented
 - Expand docs describing STT/TTS/Cephalon services
 - Keep kanban board up to date with #hashtags
+
+Coordinate automation updates with the CI owners per
+[[Babashka + Nx Automation Reference|../notes/automation/bb-nx-cli.md]].
 
 ---
 
