@@ -10,7 +10,7 @@ import {
   makeTask,
   withTempDir,
   writeTaskFile,
-} from "./helpers.js";
+} from "../test-utils/helpers.js";
 
 const BLOCKED_BY_HEADING = "## ⛓️ Blocked By";
 const BLOCKS_HEADING = "## ⛓️ Blocks";
@@ -313,7 +313,7 @@ test(
     t.truthy(blockedPersisted);
     const section = extractSection(blockedPersisted!.content, BLOCKED_BY_HEADING);
     t.truthy(section);
-    t.regex(section!, /\[\[[^\]|]+\|New blocker\]\]/i);
+    t.regex(section!, /\[\[[^|]+\|New blocker\]\]/i);
     const newTask = await getTaskFileByUuid(tasksDir, created.uuid);
     t.truthy(newTask);
   },
@@ -364,7 +364,7 @@ test(
     t.truthy(blockerPersisted);
     const section = extractSection(blockerPersisted!.content, BLOCKS_HEADING);
     t.truthy(section);
-    t.regex(section!, /\[\[[^\]|]+\|Blocked task\]\]/i);
+    t.regex(section!, /\[\[[^|]+\|Blocked task\]\]/i);
     const newTask = await getTaskFileByUuid(tasksDir, created.uuid);
     t.truthy(newTask);
   },
