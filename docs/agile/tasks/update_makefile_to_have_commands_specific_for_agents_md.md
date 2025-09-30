@@ -60,6 +60,6 @@ Nothing
 ## 🔍 Relevant Links
 - [[kanban]]
 - [MIGRATION_PLAN](../MIGRATION_PLAN.md)
-- [promethean dev workflow update](promethean-dev-workflow-update.md)
+- [[promethean-dev-workflow-update|promethean dev workflow update]]
 
 #devops #todo
