@@ -76,6 +76,6 @@ Using this title write a reasonable task kanban task document: <% tp.file.title 
 
 
 
-await sleep(20)
+await tp.system.sleep(20000);
 app.commands.executeCommandById("chatgpt-md:call-chatgpt-api")
 %> 
