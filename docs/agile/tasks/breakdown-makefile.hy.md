@@ -1,65 +1,60 @@
 ---
 uuid: b27a270a-d257-40ca-bfc2-438afeeca829
-title: breakdown makefile hy
+title: audit makefile.hy remnants and confirm deprecation
 status: todo
 priority: P3
 labels: []
 created_at: '2025-09-15T02:02:58.508Z'
 ---
 ## 🛠️ Description
-**Status:** blocked
+**Status:** planning
 
-Analyze the existing `Makefile.hy` and break it into clearer, maintainable components.
+`Makefile.hy` previously orchestrated builds but is now unmaintained. The audit confirms no active workflows call into it, yet
+several documents still reference a pending breakdown. This task formalizes the retirement plan and documents any remaining
+references that must be redirected to pnpm / TypeScript tooling.
+
+## ✅ Decision
+- Treat `Makefile.hy` as legacy; do not resurrect Hy-based generators.
+- Capture any residual references so they can be re-pointed to pnpm scripts.
 
 ---
 
 ## 🎯 Goals
-
-- Understand responsibilities of each target in `Makefile.hy`.
-- Propose a structure for modularization or documentation.
+- Inventory lingering links to `Makefile.hy` and classify them (documentation vs. tooling).
+- Provide recommendations for replacing each reference with pnpm/TS equivalents.
+- Deliver a short deprecation memo so future tasks do not reintroduce the Hy pipeline.
 
 ---
 
 ## 📦 Requirements
-
-- [ ] Inventory all current targets and dependencies.
-- [ ] Identify redundant or legacy code.
-- [ ] Provide recommendations for splitting or refactoring.
+- [ ] List every reference discovered during the audit (boards, tasks, docs).
+- [ ] Note the pnpm/TypeScript alternative for each workflow.
+- [ ] Open follow-up tasks (if needed) for high-effort migrations.
 
 ---
 
 ## 📋 Subtasks
-
-- [ ] Read through `Makefile.hy` and annotate major sections.
-- [ ] Create a diagram or list of target dependencies.
-- [ ] Suggest modular layout or separate files per language.
-- [ ] Highlight areas needing tests or docs.
-- [ ] Compile findings into a summary document.
+- [ ] Search repo for `Makefile.hy` mentions and classify them.
+- [ ] Update docs/tasks inline when the fix is trivial; file follow-ups otherwise.
+- [ ] Summarize findings in `docs/notes/` alongside the Makefile retirement log.
 
 ---
 
 ## 🔗 Related Epics
-
 #framework-core
 
 ---
 
 ## ⛓️ Blocked By
-
 Nothing
 
 ## ⛓️ Blocks
-
-Nothing
+- [update github actions automation to pnpm scripts](update_github_actions_to_use_makefile_md_md.md)
 
 ---
 
 ## 🔍 Relevant Links
-
 - [[kanban]]
+- [Legacy Makefile audit note](../notes/promethean-dev-workflow-update.md)
 
-#breakdown
-
-## Blockers
-- No active owner or unclear scope
-
+#framework-core #todo
