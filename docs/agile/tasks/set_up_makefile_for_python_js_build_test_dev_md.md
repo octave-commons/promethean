@@ -1,39 +1,40 @@
 ---
 uuid: b67ff78e-f1b8-4cdf-ba1c-d2ed622a4882
-title: set up makefile for python js build test dev md
+title: replace polyglot makefile with pnpm-first workflow docs
 status: todo
 priority: P3
 labels: []
 created_at: '2025-09-15T02:02:58.520Z'
 ---
-## 🛠️ Task: Set up Makefile for Python + JS build test dev
+## 🛠️ Task: Replace polyglot Makefile with pnpm-first workflow docs
 
-A unified Makefile (or equivalent script) will streamline development. It should bootstrap dependencies, start services, run tests and clean artifacts.
+The repo already uses pnpm workspaces, TypeScript scripts, and `scripts/dev.mjs`. Instead of maintaining a cross-language
+Makefile, capture the pnpm-based workflow and retire the old automation checklist.
+
+## ✅ Decision
+- Treat this initiative as documentation/cleanup—no new Makefile to be written.
+- Publish guidance showing how pnpm covers setup, service start, testing, and cleanup.
 
 ---
 
 ## 🎯 Goals
-- Provide a quick `setup` target for all services
-- Allow starting and stopping each service individually
-- Offer a single command to run tests across languages
-- Keep the workflow cross platform when possible
+- Provide a pnpm-focused quickstart for setting up JS/TS + any remaining Python helpers.
+- Highlight existing scripts (`pnpm install`, `pnpm test:all`, `pnpm run clean`, `scripts/dev.mjs`).
+- Record that the Makefile experiment is archived and no longer required.
 
 ---
 
 ## 📦 Requirements
-- [x] `setup` installs dependencies for all services
-- [x] `start` and `stop` manage processes via PM2
-- [x] `start:<service>` and `stop:<service>` for granular control
-- [x] `test` aggregates Python and JS test suites
-- [x] `clean` removes build artifacts
+- [ ] Update onboarding docs with pnpm workflow tables.
+- [ ] Call out how to execute Python tooling (if any) directly, without Makefile wrappers.
+- [ ] Ensure the old Makefile checklist is marked as superseded.
 
 ---
 
 ## 📋 Subtasks
-- [x] Inventory current service start commands
-- [x] Draft initial Makefile structure
-- [x] Integrate PM2 ecosystem config
-- [x] Document usage in the root `README.md`
+- [ ] Draft documentation section in README or docs/notes.
+- [ ] Remove stale references to `make setup` / `make test` from guides.
+- [ ] Link to the Makefile retirement note in `docs/notes/`.
 
 ---
 
@@ -43,17 +44,15 @@ A unified Makefile (or equivalent script) will streamline development. It should
 ---
 
 ## ⛓️ Blocked By
-Nothing
+- [replace agent automation makefile targets with pnpm scripts](update_makefile_to_have_commands_specific_for_agents_md.md)
 
 ## ⛓️ Blocks
-- Future CI automation
+Nothing
 
 ---
 
 ## 🔍 Relevant Links
 - [[kanban]]
+- [Makefile retirement note](../notes/promethean-dev-workflow-update.md)
 
-
-
-#archive
-
+#cicd #buildtools #devtools #devops #archive
