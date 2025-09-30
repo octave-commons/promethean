@@ -20,8 +20,8 @@ type BatchHandler = (
 
 export type ScanFilesOptions = Readonly<{
   root: string;
-  exts?: ReadonlyArray<string>;
-  ignoreDirs?: ReadonlyArray<string>;
+  exts?: Iterable<string>;
+  ignoreDirs?: Iterable<string>;
   readContent?: boolean | ((filePath: string) => MaybePromise<boolean>);
   encoding?: BufferEncoding;
   batchSize?: number;

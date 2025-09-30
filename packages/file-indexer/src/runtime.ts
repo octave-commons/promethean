@@ -76,8 +76,8 @@ const appendIndexedFile = (
 
 export async function computeTargetFiles(
   root: string,
-  exts: ReadonlyArray<string> | undefined,
-  ignoreDirs: ReadonlyArray<string> | undefined,
+  exts: Iterable<string> | undefined,
+  ignoreDirs: Iterable<string> | undefined,
 ): Promise<ReadonlyArray<string>> {
   const extSet = new Set(normalizeExtensions(exts));
   const allFiles = await listFilesRec(root, extSet);
