@@ -1,7 +1,9 @@
-import test from "ava";
+import { randomUUID } from "node:crypto";
 import { promises as fs } from "node:fs";
 import path from "node:path";
-import { randomUUID } from "node:crypto";
+
+import test from "ava";
+import { sleep } from "@promethean/utils";
 
 import {
   createIndexerManager,
@@ -47,7 +49,7 @@ test("indexer manager processes files and exposes status", async (t) => {
     await manager.resetAndBootstrap(dir);
 
     while (manager.isBusy()) {
-      await new Promise((resolve) => setTimeout(resolve, 25));
+      await sleep(25);
     }
 
     const status = manager.status();
