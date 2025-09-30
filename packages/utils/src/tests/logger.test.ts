@@ -124,19 +124,20 @@ test.serial("LOG_SILENT=false opt-in re-enables output", (t) => {
 
   const stdout = process.stdout;
   const originalWrite = stdout.write;
-  const sentinel = new Error("stdout-write-called");
-  stdout.write = ((..._args: Parameters<typeof originalWrite>) => {
-    throw sentinel;
+  let writeCount = 0;
+  stdout.write = ((...args: Parameters<typeof originalWrite>) => {
+    writeCount += 1;
+    const maybeCallback = typeof args[1] === "function" ? args[1] : args[2];
+    if (typeof maybeCallback === "function") {
+      maybeCallback();
+    }
+    return true;
   }) as typeof originalWrite;
 
   try {
     const log = createLogger({ service: "t" });
-    t.throws(
-      () => {
-        log.info("loud");
-      },
-      { is: sentinel },
-    );
+    log.info("loud");
+    t.true(writeCount > 0);
   } finally {
     stdout.write = originalWrite;
     if (prevNodeEnv === undefined) delete process.env.NODE_ENV;
