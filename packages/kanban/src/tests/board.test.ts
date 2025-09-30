@@ -1,11 +1,21 @@
 import path from "node:path";
-import { mkdtemp, mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises";
+import {
+  mkdtemp,
+  mkdir,
+  readFile,
+  readdir,
+  rm,
+  writeFile,
+} from "node:fs/promises";
 import { tmpdir } from "node:os";
 
 import test, { type ExecutionContext } from "ava";
 
 import {
+  archiveTask,
   countTasks,
+  createTask,
+  deleteTask,
   findTaskById,
   findTaskByTitle,
   getColumn,
@@ -15,9 +25,11 @@ import {
   pullFromTasks,
   pushToTasks,
   regenerateBoard,
+  renameTask,
   searchTasks,
   syncBoardAndTasks,
   updateStatus,
+  updateTaskDescription,
 } from "../lib/kanban.js";
 import type { Board, ColumnData, Task } from "../lib/types.js";
 
@@ -63,6 +75,21 @@ const writeTaskFile = async (
   return filePath;
 };
 
+const getTaskFileByUuid = async (
+  dir: string,
+  uuid: string,
+): Promise<{ file: string; content: string } | undefined> => {
+  const files = await readdir(dir).catch(() => [] as string[]);
+  for (const file of files) {
+    const fullPath = path.join(dir, file);
+    const content = await readFile(fullPath, "utf8");
+    if (content.includes(`uuid: "${uuid}"`)) {
+      return { file, content };
+    }
+  }
+  return undefined;
+};
+
 const sampleBoard = (): Board =>
   makeBoard([
     {
@@ -78,7 +105,9 @@ const sampleBoard = (): Board =>
       name: "Doing",
       count: 1,
       limit: null,
-      tasks: [makeTask({ uuid: "doing-1", title: "Ship feature", status: "Doing" })],
+      tasks: [
+        makeTask({ uuid: "doing-1", title: "Ship feature", status: "Doing" }),
+      ],
     },
   ]);
 
@@ -99,7 +128,10 @@ test("getColumn", (t) => {
 
 test("getByColumn", (t) => {
   const board = sampleBoard();
-  t.deepEqual(getTasksByColumn(board, "Doing").map((task) => task.uuid), ["doing-1"]);
+  t.deepEqual(
+    getTasksByColumn(board, "Doing").map((task) => task.uuid),
+    ["doing-1"],
+  );
 });
 
 test("find", (t) => {
@@ -137,10 +169,10 @@ test("move_up", async (t) => {
 
   const result = await moveTask(board, "todo-2", -1, boardPath);
   t.truthy(result);
-  t.deepEqual(getColumn(board, "Todo").tasks.map((task) => task.uuid), [
-    "todo-2",
-    "todo-1",
-  ]);
+  t.deepEqual(
+    getColumn(board, "Todo").tasks.map((task) => task.uuid),
+    ["todo-2", "todo-1"],
+  );
 });
 
 test("move_down", async (t) => {
@@ -151,10 +183,10 @@ test("move_down", async (t) => {
 
   const result = await moveTask(board, "todo-1", +1, boardPath);
   t.truthy(result);
-  t.deepEqual(getColumn(board, "Todo").tasks.map((task) => task.uuid), [
-    "todo-2",
-    "todo-1",
-  ]);
+  t.deepEqual(
+    getColumn(board, "Todo").tasks.map((task) => task.uuid),
+    ["todo-2", "todo-1"],
+  );
 });
 
 test("pull", async (t) => {
@@ -165,7 +197,11 @@ test("pull", async (t) => {
   await writeFile(boardPath, "", "utf8");
   await mkdir(tasksDir, { recursive: true });
 
-  const taskFile = makeTask({ uuid: "pull-1", title: "Pull task", status: "Doing" });
+  const taskFile = makeTask({
+    uuid: "pull-1",
+    title: "Pull task",
+    status: "Doing",
+  });
   await writeTaskFile(tasksDir, taskFile);
 
   const result = await pullFromTasks(board, tasksDir, boardPath);
@@ -186,7 +222,12 @@ test("push", async (t) => {
       count: 1,
       limit: null,
       tasks: [
-        makeTask({ uuid: "push-1", title: "Push Task", status: "Todo", labels: [] }),
+        makeTask({
+          uuid: "push-1",
+          title: "Push Task",
+          status: "Todo",
+          labels: [],
+        }),
       ],
     },
   ]);
@@ -216,11 +257,14 @@ test("sync", async (t) => {
     },
   ]);
 
-  await writeTaskFile(tasksDir, makeTask({
-    uuid: "sync-1",
-    title: "Sync Task",
-    status: "Doing",
-  }));
+  await writeTaskFile(
+    tasksDir,
+    makeTask({
+      uuid: "sync-1",
+      title: "Sync Task",
+      status: "Doing",
+    }),
+  );
 
   const result = await syncBoardAndTasks(board, tasksDir, boardPath);
   t.deepEqual(result.board, { added: 0, moved: 1 });
@@ -234,11 +278,14 @@ test("regenerate", async (t) => {
   const boardPath = path.join(tempDir, "board.md");
   await mkdir(tasksDir, { recursive: true });
 
-  await writeTaskFile(tasksDir, makeTask({
-    uuid: "regen-1",
-    title: "Write overview",
-    status: "Review",
-  }));
+  await writeTaskFile(
+    tasksDir,
+    makeTask({
+      uuid: "regen-1",
+      title: "Write overview",
+      status: "Review",
+    }),
+  );
 
   const outcome = await regenerateBoard(tasksDir, boardPath);
   t.is(outcome.totalTasks, 1);
@@ -270,12 +317,148 @@ test("search", async (t) => {
   ]);
 
   const results = await searchTasks(board, "indexing");
-  t.deepEqual(results.exact.map((task) => task.uuid), ["search-1"]);
+  t.deepEqual(
+    results.exact.map((task) => task.uuid),
+    ["search-1"],
+  );
   t.deepEqual(results.similar, []);
 });
 
-test.todo("createTask");
-test.todo("archiveTask");
-test.todo("deleteTask");
-test.todo("updateTaskDescription");
-test.todo("renameTask");
+test("createTask", async (t) => {
+  const board = makeBoard([{ name: "Todo", count: 0, limit: null, tasks: [] }]);
+  const tempDir = await withTempDir(t);
+  const boardPath = path.join(tempDir, "board.md");
+  const tasksDir = path.join(tempDir, "tasks");
+  await mkdir(tasksDir, { recursive: true });
+  await writeFile(boardPath, "", "utf8");
+
+  const created = await createTask(
+    board,
+    "Todo",
+    {
+      title: "Draft release notes",
+      content: "Summarize key features for the release",
+      labels: ["release"],
+      priority: "P1",
+    },
+    tasksDir,
+    boardPath,
+  );
+
+  const todoColumn = getColumn(board, "Todo");
+  t.truthy(created.uuid);
+  t.is(todoColumn.tasks.length, 1);
+  t.is(todoColumn.tasks[0]?.title, "Draft release notes");
+  const persisted = await getTaskFileByUuid(tasksDir, created.uuid);
+  t.truthy(persisted);
+  t.regex(persisted!.content, /title: "Draft release notes"/);
+  t.regex(persisted!.content, /Summarize key features for the release/);
+  const boardFile = await readFile(boardPath, "utf8");
+  t.regex(boardFile, /Draft release notes/);
+});
+
+test("archiveTask", async (t) => {
+  const board = sampleBoard();
+  const tempDir = await withTempDir(t);
+  const boardPath = path.join(tempDir, "board.md");
+  const tasksDir = path.join(tempDir, "tasks");
+  await mkdir(tasksDir, { recursive: true });
+  await writeFile(boardPath, "", "utf8");
+  await writeTaskFile(tasksDir, board.columns[0]!.tasks[0]!);
+  await writeTaskFile(tasksDir, board.columns[0]!.tasks[1]!);
+  await writeTaskFile(tasksDir, board.columns[1]!.tasks[0]!);
+
+  const archived = await archiveTask(board, "todo-1", tasksDir, boardPath);
+  t.truthy(archived);
+  t.is(getColumn(board, "Todo").tasks.length, 1);
+  t.true(
+    getColumn(board, "Archive").tasks.some((task) => task.uuid === "todo-1"),
+  );
+  const persisted = await getTaskFileByUuid(tasksDir, "todo-1");
+  t.truthy(persisted);
+  t.regex(persisted!.content, /status: "Archive"/);
+  const boardFile = await readFile(boardPath, "utf8");
+  t.regex(boardFile, /## Archive/);
+});
+
+test("deleteTask", async (t) => {
+  const board = sampleBoard();
+  const tempDir = await withTempDir(t);
+  const boardPath = path.join(tempDir, "board.md");
+  const tasksDir = path.join(tempDir, "tasks");
+  await mkdir(tasksDir, { recursive: true });
+  await writeFile(boardPath, "", "utf8");
+  await writeTaskFile(tasksDir, board.columns[0]!.tasks[0]!);
+
+  const removed = await deleteTask(board, "todo-1", tasksDir, boardPath);
+  t.true(removed);
+  t.false(
+    getColumn(board, "Todo").tasks.some((task) => task.uuid === "todo-1"),
+  );
+  const persisted = await getTaskFileByUuid(tasksDir, "todo-1");
+  t.falsy(persisted);
+  const boardFile = await readFile(boardPath, "utf8");
+  t.false(boardFile.includes("todo-1"));
+});
+
+test("updateTaskDescription", async (t) => {
+  const board = sampleBoard();
+  const tempDir = await withTempDir(t);
+  const boardPath = path.join(tempDir, "board.md");
+  const tasksDir = path.join(tempDir, "tasks");
+  await mkdir(tasksDir, { recursive: true });
+  await writeFile(boardPath, "", "utf8");
+  await writeTaskFile(tasksDir, board.columns[0]!.tasks[0]!);
+
+  const updated = await updateTaskDescription(
+    board,
+    "todo-1",
+    "Updated task body",
+    tasksDir,
+    boardPath,
+  );
+
+  t.truthy(updated);
+  t.is(
+    getColumn(board, "Todo").tasks.find((task) => task.uuid === "todo-1")
+      ?.content,
+    "Updated task body",
+  );
+  const persisted = await getTaskFileByUuid(tasksDir, "todo-1");
+  t.truthy(persisted);
+  t.regex(persisted!.content, /Updated task body/);
+});
+
+test("renameTask", async (t) => {
+  const board = sampleBoard();
+  const tempDir = await withTempDir(t);
+  const boardPath = path.join(tempDir, "board.md");
+  const tasksDir = path.join(tempDir, "tasks");
+  await mkdir(tasksDir, { recursive: true });
+  await writeFile(boardPath, "", "utf8");
+  await pushToTasks(board, tasksDir);
+  const original = findTaskById(board, "todo-1");
+  t.truthy(original);
+  const oldSlug = original!.slug;
+
+  const renamed = await renameTask(
+    board,
+    "todo-1",
+    "Document architecture",
+    tasksDir,
+    boardPath,
+  );
+
+  t.truthy(renamed);
+  t.is(renamed!.title, "Document architecture");
+  t.not(renamed!.slug, oldSlug);
+  const persisted = await getTaskFileByUuid(tasksDir, "todo-1");
+  t.truthy(persisted);
+  t.regex(persisted!.content, /title: "Document architecture"/);
+  const files = await readdir(tasksDir);
+  if (oldSlug) {
+    t.false(files.includes(`${oldSlug}.md`));
+  }
+  const boardFile = await readFile(boardPath, "utf8");
+  t.regex(boardFile, /Document architecture/);
+});
