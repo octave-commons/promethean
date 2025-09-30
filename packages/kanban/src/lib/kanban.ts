@@ -1099,35 +1099,59 @@ export const createTask = async (
 
   const newTaskLink = wikiLinkForTask(enriched);
 
-  const updateBoardTask = (id: string, heading: string) => {
+  const updateLinkedTask = async (id: string, heading: string) => {
     const entry = boardIndex.get(id);
-    if (!entry) return;
-    const fallback = existingById.get(id);
+    if (entry) {
+      const fallback = existingById.get(id);
+      const updatedContent = mergeSectionItems(
+        ensureTaskContent(entry.task, fallback),
+        heading,
+        [newTaskLink],
+      );
+      const nextTask: Task = {
+        ...entry.task,
+        content: updatedContent,
+        sourcePath: fallback?.sourcePath ?? entry.task.sourcePath,
+      };
+      entry.column.tasks = [
+        ...entry.column.tasks.slice(0, entry.index),
+        nextTask,
+        ...entry.column.tasks.slice(entry.index + 1),
+      ];
+      entry.column.count = entry.column.tasks.length;
+      boardIndex.set(id, {
+        column: entry.column,
+        index: entry.index,
+        task: nextTask,
+      });
+      return;
+    }
+
+    const existing = existingById.get(id);
+    if (!existing?.sourcePath) return;
     const updatedContent = mergeSectionItems(
-      ensureTaskContent(entry.task, fallback),
+      ensureTaskContent(existing, existing),
       heading,
       [newTaskLink],
     );
-    entry.column.tasks = [
-      ...entry.column.tasks.slice(0, entry.index),
-      { ...entry.task, content: updatedContent },
-      ...entry.column.tasks.slice(entry.index + 1),
-    ];
-    entry.column.count = entry.column.tasks.length;
-    const nextTask = entry.column.tasks[entry.index]!;
-    boardIndex.set(id, {
-      column: entry.column,
-      index: entry.index,
-      task: nextTask,
-    });
+    const nextTask: Task = {
+      ...existing,
+      content: updatedContent,
+    };
+    await fs.writeFile(
+      existing.sourcePath,
+      toFrontmatter({ ...nextTask, status: nextTask.status ?? "Todo" }),
+      "utf8",
+    );
+    existingById.set(id, nextTask);
   };
 
   for (const id of blockingIds) {
-    updateBoardTask(id, BLOCKED_BY_HEADING);
+    await updateLinkedTask(id, BLOCKED_BY_HEADING);
   }
 
   for (const id of blockedByIds) {
-    updateBoardTask(id, BLOCKS_HEADING);
+    await updateLinkedTask(id, BLOCKS_HEADING);
   }
 
   targetColumn.tasks = [...targetColumn.tasks, enriched];
