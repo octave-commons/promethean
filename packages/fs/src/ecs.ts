@@ -120,7 +120,8 @@ async function scanDirectoryIntents(
     DirectoryIntent: ComponentType<DirectoryIntentState>,
     DirectorySnapshot: ComponentType<DirectorySnapshotState>,
 ): Promise<void> {
-    const intents = Array.from(ctx.iterAll<[DirectoryIntentState]>([DirectoryIntent]));
+    const intentComponents = [DirectoryIntent] as [ComponentType<DirectoryIntentState>];
+    const intents = Array.from(ctx.iterAll<[DirectoryIntentState]>(...intentComponents));
     await Promise.all(
         intents.map(async ([entity, intent]) => {
             await updateSnapshot(ctx, entity, intent, DirectorySnapshot);
@@ -176,9 +177,11 @@ async function flushWriteBuffers(
     DirectoryIntent: ComponentType<DirectoryIntentState>,
     DirectoryWriteBuffer: ComponentType<DirectoryWriteBufferState>,
 ): Promise<void> {
-    const buffers = Array.from(
-        ctx.iterAll<[DirectoryIntentState, DirectoryWriteBufferState]>([DirectoryIntent, DirectoryWriteBuffer]),
-    );
+    const bufferComponents = [DirectoryIntent, DirectoryWriteBuffer] as [
+        ComponentType<DirectoryIntentState>,
+        ComponentType<DirectoryWriteBufferState>,
+    ];
+    const buffers = Array.from(ctx.iterAll<[DirectoryIntentState, DirectoryWriteBufferState]>(...bufferComponents));
     await Promise.all(
         buffers.map(async ([entity, intent, buffer]) => {
             if (buffer.operations.length === 0) {
