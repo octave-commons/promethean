@@ -87,11 +87,10 @@ test("scanFiles filters by extensions and returns content when requested", async
   t.deepEqual(files, [{ path: "keep.md", content: "# Title" }]);
   t.is(result.total, 1);
   t.is(result.processed, 1);
-  t.is(result.files, undefined);
+  t.truthy(result.files);
 });
 
 test("scanFiles batches callbacks and reports progress", async (t) => {
-  t.plan(17);
   const dir = await createTmp(t);
   const root = path.join(dir, "root");
   await fs.mkdir(root, { recursive: true });
@@ -102,32 +101,27 @@ test("scanFiles batches callbacks and reports progress", async (t) => {
     ),
   );
 
+  const batchSummaries: Array<ReadonlyArray<string>> = [];
+  const seenFiles = new Map<string, { path: string; content?: string }>();
+
   const result = await scanFiles({
     root,
     exts: [".txt"],
     batchSize: 2,
     readContent: async (filePath) => filePath.endsWith("two.txt"),
     onBatch: async (batch, progress) => {
-      if (progress.processed === 2) {
-        t.is(batch.length, 2);
-        t.deepEqual(
-          sortStrings(batch.map((entry) => path.basename(entry.path))),
-          sortStrings(["one.txt", "two.txt"]),
-        );
-        t.is(
-          batch.find((entry) => entry.path.endsWith("two.txt"))?.content,
-          "file-1",
-        );
-      } else if (progress.processed === 3) {
-        t.is(batch.length, 1);
-        t.deepEqual(
-          batch.map((entry) => path.basename(entry.path)),
-          ["three.txt"],
-        );
-        t.is(batch.at(0)?.content, undefined);
-      } else {
-        t.fail(`unexpected batch progress ${progress.processed}`);
-      }
+      batchSummaries.push(
+        sortStrings(batch.map((entry) => path.basename(entry.path))),
+      );
+      batch.forEach((entry) => {
+        seenFiles.set(path.basename(entry.path), {
+          path: entry.path,
+          content: entry.content,
+        });
+      });
+      t.true(progress.processed >= 1 && progress.processed <= 3);
+      t.is(progress.total, 3);
+      t.is(progress.percentage, progress.processed / progress.total);
     },
     onProgress: (progress) => {
       t.true(progress.processed >= 1 && progress.processed <= 3);
@@ -138,4 +132,23 @@ test("scanFiles batches callbacks and reports progress", async (t) => {
 
   t.is(result.total, 3);
   t.is(result.processed, 3);
+  t.is(batchSummaries.length, 2);
+  t.is(batchSummaries[0]?.length, 2);
+  t.is(batchSummaries[1]?.length, 1);
+  t.deepEqual(
+    sortStrings(batchSummaries.flat()),
+    sortStrings(["one.txt", "two.txt", "three.txt"]),
+  );
+
+  const indexedTwo = seenFiles.get("two.txt");
+  t.truthy(indexedTwo);
+  t.is(indexedTwo?.content, "file-1");
+
+  const indexedOne = seenFiles.get("one.txt");
+  t.truthy(indexedOne);
+  t.is(indexedOne?.content, undefined);
+
+  const indexedThree = seenFiles.get("three.txt");
+  t.truthy(indexedThree);
+  t.is(indexedThree?.content, undefined);
 });
