@@ -1,4 +1,6 @@
 import { readFile } from "node:fs/promises";
+import path from "node:path";
+import { pathToFileURL } from "node:url";
 
 const DEFAULT_CONFIG_URL = new URL("../config/ovm.json", import.meta.url);
 
@@ -8,7 +10,9 @@ export async function fetchOvmModels(configUrl = DEFAULT_CONFIG_URL) {
   return model_config_list.map(({ config }) => config.name);
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+const entryPoint = process.argv[1] ? path.resolve(process.argv[1]) : undefined;
+
+if (entryPoint && import.meta.url === pathToFileURL(entryPoint).href) {
   const models = await fetchOvmModels();
   for (const name of models) {
     console.log(name);
