@@ -271,6 +271,7 @@ kanban-plugin: board
 
 ## Breakdown (13)
 
+- [ ] [[docs/agile/tasks/smart_task_templater_md|smart task templater md]] #framework-core #ready
 - [ ] [[evaluate-docker-npu-compatability]]
 - [ ] [[add-docker-compose-files-to-services]]
 - [ ] [[clean_up_notes_into_design_docs_md|clean up notes into design docs md]] #accepted
@@ -284,16 +285,15 @@ kanban-plugin: board
 
 ## Ready
 
-- [ ] [[migrate legacy js services to ts]]
 - [ ] [[pin_versions_in_configs_md|pin versions in configs md]] #ops #codex-task #release-engineering #ci #sre #supply-chain #promethean #ops #codex-task #tags #promethean #versioning #pinning #ci #docker #uv #ollama #openvino #sre #supplychain #in-review
 - [ ] [[describe_github_branching_workflow_md|describe github branching workflow md]] #todo
 
 
 ## Todo (13)
 
+- [ ] [[migrate legacy js services to ts]]
 - [ ] [[dockerize-the-system|dockerize the system]] #devops #devops #Ready #todo
 - [ ] [[structure_vault_to_mirror_services_agents_docs_md_md|Document-Driven Development for Service Scripts]] #breakdown
-- [ ] [[docs/agile/tasks/smart_task_templater_md|smart task templater md]] #framework-core #ready
 - [ ] [[script-for-getting-github-action-workflow-states-for-a-branch|script for getting github action workflow states for a branch]] #ready
 - [ ] [[scripts_add_folder_readmes_and_usage|scripts add folder readmes and usage]] #scripts #docs #ready
 - [ ] [[add_semantic_overlays_for_layer1_through_layer8_md_md|Add semantic overlays for layer1 through layer8]] #todo
@@ -301,13 +301,13 @@ kanban-plugin: board
 
 ## In Progress (4)
 
-- [ ] [[Docops pipeline]] #framework-core #IceBox #ready
-- [ ] [[task-generator-system|task generator system]] #framework-core #framework-core #Ready #todo
 - [ ] [[file-explorer|File explorer]] #framework-core #ready
+- [ ] [[task-generator-system|task generator system]] #framework-core #framework-core #Ready #todo
 
 
 ## In Review (8)
 
+- [ ] [[Docops pipeline]] #framework-core #IceBox #ready
 - [ ] [[create-a-generic-markdown-helper-module|create a generic markdown helper module]] #framework-core #framework-core #Ready #todo
 
 
