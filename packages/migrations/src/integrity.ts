@@ -1,10 +1,18 @@
 import crypto from 'node:crypto';
 
-export function sha256(s: string): string {
-    return crypto.createHash('sha256').update(s).digest('hex');
+export function sha256(input: string): string {
+    return crypto.createHash('sha256').update(input).digest('hex');
 }
 
-export function checksumFor(id: string, text: string, meta: Record<string, any>, embedDim: number, salt = 'v1') {
+export type ChecksumInput = {
+    readonly id: string;
+    readonly text: string;
+    readonly meta: Readonly<Record<string, unknown>>;
+    readonly embedDim: number;
+    readonly salt?: string;
+};
+
+export function checksumFor({ id, text, meta, embedDim, salt = 'v1' }: ChecksumInput): string {
     const payload = JSON.stringify({ id, text, meta, embedDim, salt });
     return sha256(payload);
 }
