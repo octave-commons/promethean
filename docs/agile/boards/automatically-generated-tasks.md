@@ -6,7 +6,7 @@ The following tasks were derived from notes in `docs/unique` and are intended fo
 - Migrate server-side Sibilant libraries to the Promethean architecture and annotate legacy code with migration tags
 - Develop tools such as a smart task templater and integrate Ollama; consider starting the Eidolon subsystem
 - Build utilities for fragment ingestion, memory-contradiction detection, and metaprogramming updates
-- Create foundational documentation and tooling, including README templates, Makefile integration for Python/JS, GitHub-compatible markdown settings, and an Obsidian↔GitHub board mirror system
+- Create foundational documentation and tooling, including README templates, Babashka/Nx automation notes for JS/TS, GitHub-compatible markdown settings, and an Obsidian↔GitHub board mirror system
 - Finalize `MIGRATION_PLAN.md`, mirror the vault structure to match code directories, and add vault onboarding docs and `.obsidian/` gitignore entries
 - Explore concepts such as Eidolon field structures, transcendence cascades, and board-sync or GitHub Projects workflows
 
@@ -21,3 +21,6 @@ The following tasks were derived from notes in `docs/unique` and are intended fo
 ## Interface and runtime improvements
 - Extract and classify parenthetical phrases to drive context-aware pauses in speech output
 - Design a Windows-native tiling environment using Komorebi, a custom group manager, and WSL as a headless service layer for tasks like file indexing and AI data preparation
+
+Refer to [[automation map|../../notes/automation/bb-nx-cli.md]] for the latest command inventory and coordinate reviews with CI owners.
+
