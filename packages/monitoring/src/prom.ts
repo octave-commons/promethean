@@ -1,48 +1,132 @@
-let client: any;
-try {
-    client = await import('prom-client');
-} catch {
-    client = null;
-}
+import type {
+  Counter,
+  Gauge,
+  Histogram,
+  Registry,
+  RegistryContentType,
+} from "prom-client";
+import type { ReadonlyDeep } from "type-fest";
 
-type Labels = Record<string, string>;
+type PromClientModule = typeof import("prom-client");
+
+type MetricsResponse = {
+  readonly set: (header: string, value: string) => void;
+  readonly end: (body: string) => void;
+};
+
+type MetricsHandler = (
+  request: unknown,
+  response: MetricsResponse,
+) => Promise<void>;
+
+type MetricsApp = {
+  readonly get: (path: string, handler: MetricsHandler) => void;
+};
+
+const labelNames = ["topic", "group"] as const;
+
+const loadClient = async (): Promise<ReadonlyDeep<PromClientModule> | null> =>
+  import("prom-client")
+    .then((module) => module as ReadonlyDeep<PromClientModule>)
+    .catch(() => null);
+
+const promClient = await loadClient();
+
+const createNoopMetric = <MetricType extends object>(): MetricType =>
+  new Proxy(
+    {},
+    {
+      get: (_target, property: string) => {
+        if (property === "labels") {
+          return () => createNoopMetric<MetricType>();
+        }
+        if (property === "startTimer") {
+          return () => () => undefined;
+        }
+        return () => undefined;
+      },
+    },
+  ) as MetricType;
+
+const createCounterMetric = (name: string, help: string): Counter<string> => {
+  if (!promClient) {
+    return createNoopMetric<Counter<string>>();
+  }
+
+  const existing = promClient.register.getSingleMetric(name);
+
+  if (existing instanceof promClient.Counter) {
+    return existing;
+  }
+
+  return new promClient.Counter({
+    name,
+    help,
+    labelNames,
+  });
+};
+
+const createGaugeMetric = (name: string, help: string): Gauge<string> => {
+  if (!promClient) {
+    return createNoopMetric<Gauge<string>>();
+  }
+
+  const existing = promClient.register.getSingleMetric(name);
+
+  if (existing instanceof promClient.Gauge) {
+    return existing;
+  }
+
+  return new promClient.Gauge({ name, help });
+};
+
+const createHistogramMetric = (
+  name: string,
+  help: string,
+  buckets: ReadonlyArray<number> | undefined,
+): Histogram<string> => {
+  if (!promClient) {
+    return createNoopMetric<Histogram<string>>();
+  }
+
+  const existing = promClient.register.getSingleMetric(name);
+
+  if (existing instanceof promClient.Histogram) {
+    return existing;
+  }
+
+  return new promClient.Histogram({
+    name,
+    help,
+    labelNames,
+    buckets: buckets ? [...buckets] : [5, 10, 25, 50, 100, 250, 500, 1000],
+  });
+};
+
+const exposeMetrics = (app: MetricsApp, path = "/metrics"): void => {
+  if (!promClient) {
+    return;
+  }
+
+  const registry: Registry<RegistryContentType> = promClient.register;
+
+  app.get(path, async (_req, res) => {
+    const contentType = registry.contentType;
+    res.set("Content-Type", contentType);
+    const payload = await registry.metrics();
+    res.end(payload);
+  });
+};
 
 export const metrics = {
-    counters: new Map<string, any>(),
-    histos: new Map<string, any>(),
-    gauge(name: string, help: string) {
-        if (!client) return { set: () => {} };
-        const g = new client.Gauge({ name, help });
-        return g;
-    },
-    counter(name: string, help: string) {
-        if (!client) return { inc: (_l?: Labels, _v?: number) => {} };
-        if (!metrics.counters.has(name)) {
-            metrics.counters.set(name, new client.Counter({ name, help, labelNames: ['topic', 'group'] }));
-        }
-        return metrics.counters.get(name);
-    },
-    histo(name: string, help: string, buckets?: number[]) {
-        if (!client) return { observe: (_l?: Labels, _v?: number) => {} };
-        if (!metrics.histos.has(name)) {
-            metrics.histos.set(
-                name,
-                new client.Histogram({
-                    name,
-                    help,
-                    labelNames: ['topic', 'group'],
-                    buckets: buckets ?? [5, 10, 25, 50, 100, 250, 500, 1000],
-                }),
-            );
-        }
-        return metrics.histos.get(name);
-    },
-    expose(app: any, path = '/metrics') {
-        if (!client) return;
-        const reg = client.register;
-        app.get(path, async (_req: any, res: any) => {
-            res.set('Content-Type', reg.contentType);
-            res.end(await reg.metrics());
-        });
-    },
+  gauge: (name: string, help: string): Gauge<string> =>
+    createGaugeMetric(name, help),
+  counter: (name: string, help: string): Counter<string> =>
+    createCounterMetric(name, help),
+  histo: (
+    name: string,
+    help: string,
+    buckets?: ReadonlyArray<number>,
+  ): Histogram<string> => createHistogramMetric(name, help, buckets),
+  expose: exposeMetrics,
 };
