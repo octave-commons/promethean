@@ -23,7 +23,7 @@
     "clean": "rimraf dist",
     "typecheck": "tsc -p tsconfig.json",
     "test": "pnpm run build && ava",
-    "lint": "pnpm exec eslint .",
+    "lint": "node ../../tools/scripts/run-eslint.mjs .",
     "coverage": "pnpm run build && c8 ava",
     "format": "pnpm exec prettier --write ."
   },
