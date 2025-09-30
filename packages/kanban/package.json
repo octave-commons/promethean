@@ -6,7 +6,7 @@
     "kanban": "dist/index.js"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "tsc -b tsconfig.json",
     "test": "pnpm run build && ava"
   },
   "dependencies": {
