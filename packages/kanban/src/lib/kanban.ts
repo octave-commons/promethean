@@ -270,6 +270,17 @@ const cryptoRandomUUID = (): string => randomUUID();
 
 type FM = Record<string, any>;
 
+type CreateTaskInput = {
+  title: string;
+  content?: string;
+  labels?: string[];
+  priority?: Task["priority"];
+  estimates?: Task["estimates"];
+  created_at?: string;
+  uuid?: string;
+  slug?: string;
+};
+
 const parseFrontmatter = (text: string): { fm: FM; body: string } => {
   const res = parseMarkdownFrontmatter<FM>(text);
   return { fm: (res.data ?? {}) as FM, body: res.content || "" };
@@ -423,6 +434,52 @@ export const findTaskByTitle = (
     if (t) return t;
   }
   return undefined;
+};
+
+const columnKey = (name: string): string => name.trim().toLowerCase();
+
+const ensureColumn = (board: Board, column: string): ColumnData => {
+  const key = columnKey(column);
+  let existing = board.columns.find((col) => columnKey(col.name) === key);
+  if (!existing) {
+    existing = { name: column, count: 0, limit: null, tasks: [] };
+    board.columns = [...board.columns, existing];
+  }
+  return existing;
+};
+
+const locateTask = (
+  board: Board,
+  uuid: string,
+): { column: ColumnData; index: number; task: Task } | undefined => {
+  for (const column of board.columns) {
+    const index = column.tasks.findIndex((task) => task.uuid === uuid);
+    if (index >= 0) {
+      return { column, index, task: column.tasks[index]! };
+    }
+  }
+  return undefined;
+};
+
+const resolveTaskFilePath = async (
+  task: Task | undefined,
+  tasksDir: string,
+): Promise<string | undefined> => {
+  if (!task) return undefined;
+  if (!tasksDir) return undefined;
+  if (task.sourcePath) {
+    return task.sourcePath;
+  }
+  if (task.slug) {
+    const candidate = path.join(tasksDir, `${task.slug}.md`);
+    try {
+      await fs.access(candidate);
+      return candidate;
+    } catch {}
+  }
+  const tasks = await readTasksFolder(tasksDir).catch(() => [] as Task[]);
+  const match = tasks.find((entry) => entry.uuid === task.uuid);
+  return match?.sourcePath;
 };
 
 const serializeBoard = (board: Board): string => {
@@ -790,6 +847,143 @@ export const pushToTasks = async (
     }
   }
   return { added, moved };
+};
+
+const persistBoardAndTasks = async (
+  board: Board,
+  boardPath: string | undefined,
+  tasksDir: string | undefined,
+): Promise<void> => {
+  if (boardPath) {
+    await writeBoard(boardPath, board);
+  }
+  if (tasksDir) {
+    await pushToTasks(board, tasksDir);
+  }
+};
+
+export const createTask = async (
+  board: Board,
+  column: string,
+  input: CreateTaskInput,
+  tasksDir: string,
+  boardPath: string,
+): Promise<Task> => {
+  const uuid = input.uuid ?? cryptoRandomUUID();
+  const baseTitle = input.title?.trim() ?? "";
+  const title = baseTitle.length > 0 ? baseTitle : `Task ${uuid.slice(0, 8)}`;
+  const targetColumn = ensureColumn(board, column);
+  const baseTask: Task = {
+    uuid,
+    title,
+    status: targetColumn.name,
+    priority: input.priority,
+    labels:
+      input.labels && input.labels.length > 0 ? [...input.labels] : undefined,
+    created_at: input.created_at ?? NOW_ISO(),
+    estimates: input.estimates ? { ...input.estimates } : {},
+    content: input.content,
+    slug: input.slug ? sanitizeFileNameBase(input.slug) : undefined,
+  };
+  const enriched = ensureLabelsPresent(baseTask, input.content);
+  targetColumn.tasks = [...targetColumn.tasks, enriched];
+  targetColumn.count = targetColumn.tasks.length;
+  await persistBoardAndTasks(board, boardPath, tasksDir);
+  return enriched;
+};
+
+export const archiveTask = async (
+  board: Board,
+  uuid: string,
+  tasksDir: string,
+  boardPath: string,
+  options?: { columnName?: string },
+): Promise<Task | undefined> => {
+  const located = locateTask(board, uuid);
+  if (!located) return undefined;
+  const archiveName = options?.columnName ?? "Archive";
+  const { column } = located;
+  if (columnKey(column.name) === columnKey(archiveName)) {
+    located.task.status = column.name;
+    await persistBoardAndTasks(board, boardPath, tasksDir);
+    return located.task;
+  }
+  const removed = located.task;
+  column.tasks = column.tasks.filter((task) => task.uuid !== uuid);
+  column.count = column.tasks.length;
+  const target = ensureColumn(board, archiveName);
+  const moved: Task = { ...removed, status: target.name };
+  target.tasks = [...target.tasks, moved];
+  target.count = target.tasks.length;
+  await persistBoardAndTasks(board, boardPath, tasksDir);
+  return moved;
+};
+
+export const deleteTask = async (
+  board: Board,
+  uuid: string,
+  tasksDir: string,
+  boardPath: string,
+): Promise<boolean> => {
+  const located = locateTask(board, uuid);
+  if (!located) return false;
+  const { column, task } = located;
+  column.tasks = column.tasks.filter((entry) => entry.uuid !== uuid);
+  column.count = column.tasks.length;
+  const filePath = await resolveTaskFilePath(task, tasksDir);
+  if (filePath) {
+    await fs.unlink(filePath).catch(() => {});
+  }
+  await persistBoardAndTasks(board, boardPath, tasksDir);
+  return true;
+};
+
+export const updateTaskDescription = async (
+  board: Board,
+  uuid: string,
+  content: string,
+  tasksDir: string,
+  boardPath: string,
+): Promise<Task | undefined> => {
+  const located = locateTask(board, uuid);
+  if (!located) return undefined;
+  const { column, index, task } = located;
+  const updated: Task = { ...task, content };
+  column.tasks = [
+    ...column.tasks.slice(0, index),
+    updated,
+    ...column.tasks.slice(index + 1),
+  ];
+  await persistBoardAndTasks(board, boardPath, tasksDir);
+  return updated;
+};
+
+export const renameTask = async (
+  board: Board,
+  uuid: string,
+  newTitle: string,
+  tasksDir: string,
+  boardPath: string,
+): Promise<Task | undefined> => {
+  const located = locateTask(board, uuid);
+  if (!located) return undefined;
+  const title = newTitle.trim();
+  if (title.length === 0) {
+    return undefined;
+  }
+  const { column, index, task } = located;
+  const updated: Task = {
+    ...task,
+    title,
+    slug: undefined,
+  };
+  column.tasks = [
+    ...column.tasks.slice(0, index),
+    updated,
+    ...column.tasks.slice(index + 1),
+  ];
+  await persistBoardAndTasks(board, boardPath, tasksDir);
+  return updated;
 };
 
 export const syncBoardAndTasks = async (
