@@ -1,7 +1,17 @@
 {
-  "tasksDir": "./docs/agile/tasks",
-  "boardFile": "./docs/agile/boards/generated.md",
-  "requiredFields": ["title", "status", "priority"],
-  "statusValues": ["todo", "doing", "blocked", "done", "incoming", "icebox"],
-  "priorityValues": ["P0", "P1", "P2", "P3", "P4"]
+  "tasksDir": "docs/agile/tasks",
+  "indexFile": "docs/agile/boards/index.jsonl",
+  "boardFile": "docs/agile/boards/generated.md",
+  "exts": [".md"],
+  "requiredFields": [
+    "id",
+    "title",
+    "status",
+    "priority",
+    "owner",
+    "labels",
+    "created"
+  ],
+  "statusValues": ["open", "doing", "blocked", "done", "dropped"],
+  "priorityValues": ["low", "medium", "high", "critical"]
 }
