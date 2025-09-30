@@ -6,7 +6,7 @@ The following tasks were derived from notes in `docs/unique` and are intended fo
 - Migrate server-side Sibilant libraries to the Promethean architecture and annotate legacy code with migration tags
 - Develop tools such as a smart task templater and integrate Ollama; consider starting the Eidolon subsystem
 - Build utilities for fragment ingestion, memory-contradiction detection, and metaprogramming updates
-- Create foundational documentation and tooling, including README templates, Makefile integration for Python/JS, GitHub-compatible markdown settings, and an Obsidian↔GitHub board mirror system
+- Create foundational documentation and tooling, including README templates, pnpm-based automation for Python/JS workflows, GitHub-compatible markdown settings, and an Obsidian↔GitHub board mirror system
 - Finalize `MIGRATION_PLAN.md`, mirror the vault structure to match code directories, and add vault onboarding docs and `.obsidian/` gitignore entries
 - Explore concepts such as Eidolon field structures, transcendence cascades, and board-sync or GitHub Projects workflows
 

@@ -26,12 +26,12 @@ kanban-plugin: board
 - [ ] [[setup_a_second_agent_md|setup a second agent md]] #framework-core #IceBox #todo
 - [ ] [[evaluate-ollama-openvino]]
 - [ ] [[pin_versions_in_configs_md|pin versions in configs md]] #in-progress
-- [ ] [[update_makefile_to_have_commands_specific_for_agents_md|Update Makefile to have commands specific for agents]] #devops #devops #Ready #ready
+- [ ] [[update_makefile_to_have_commands_specific_for_agents_md|Replace agent automation Makefile targets with pnpm scripts]] #devops #devops #Ready #ready
 - [ ] [[run_model_bakeoff_md|Run model bakeoff]] #todo
 - [ ] [[gather_open_questions_about_system_direction_md_md|Gather open questions about system direction]] #todo
 - [ ] [[gather_baseline_emotion_metrics_for_eidolon_field_1_md|Gather baseline emotion metrics for Eidolon field]] #todo
 - [ ] [[evaluate_and_reward_flow_satisfaction|Evaluate and reward flow satisfaction]] #todo
-- [ ] [[update_makefile_to_have_commands_specific_for_agents_md|Update Makefile to have commands specific for agents]] #todo
+- [ ] [[update_makefile_to_have_commands_specific_for_agents_md|Replace agent automation Makefile targets with pnpm scripts]] #todo
 - [ ] [[define_permission_schema_in_agents_1_md|Define permission schema in AGENTS.md]] #ice-box
 - [ ] [[extract_site_modules_from_riatzukiza_github_io_md_md|Extract site modules from riatzukiza.github.io]] #accepted
 - [ ] [[design_ollama_model_file_for_use_with_codex|Design Ollama model file for use with Codex]] #ice-box
@@ -319,7 +319,7 @@ kanban-plugin: board
 - [ ] whole project builds with new stricter tsconfig
 - [ ] [[fp-ts-config-and-linting]]
 - [ ] [[refactor_any_python_modules_not_currently_for_ml_stuff_discord_etc_2_md|refactor any python modules not currently for ml stuff discord etc 2 md]] #breakdown
-- [ ] [[breakdown-makefile.hy|breakdown Makefile.hy]] #framework-core #ready
+- [ ] [[breakdown-makefile.hy|Audit Makefile.hy remnants and confirm deprecation]] #framework-core #ready
 - [ ] [[flatten-services|flatten services]] #framework-core #framework-core #Ready #todo
 - [ ] [[refactor_any_python_modules_not_currently_for_ml_stuff_discord_etc_2_md|refactor any python modules not currently for ml stuff discord etc 2 md]] #framework-core #language-strategy #performance-optimization #ready
 - [ ] [[convert-smartgpt-bridge-to-ts|convert smartgpt bridge to ts]] #ready
@@ -366,7 +366,7 @@ kanban-plugin: board
 - [ ] [[discord_image_attachment_indexer_md|discord image attachment indexer md]] #framework-core #discord #images #attachments #indexing #memory #done
 - [ ] [[make_seperate_execution_pathways_1_md_md|make seperate execution pathways 1 md md]] #framework-core #done
 - [ ] [[separate_all_testing_pipelines_in_github_actions_md|seperate all testing pipelines in GitHub Actions]] #cicd #framework-core #done
-- [ ] [[update_github_actions_to_use_makefile_md_md|update GitHub Actions to use Makefile]] #cicd #devops #framework-core #done
+- [ ] [[update_github_actions_to_use_makefile_md_md|Update GitHub Actions automation to pnpm scripts]] #cicd #devops #framework-core #done
 - [ ] [[write_simple_ecosystem_declaration_library_for_new_md_md|write simple ecosystem declaration library for new agents]] #framework-core #done
 
 
@@ -393,7 +393,7 @@ kanban-plugin: board
 - [ ] [[document_board_sync_workflow_md_md|Document board sync workflow]] #framework-core #archive
 - [ ] [[obsidian_kanban_github_project_board_mirror_system_md_md|Obsidian Kanban Github Project Board Mirror system]] #framework-core #archive
 - [ ] [[pin_versions_in_configs_promethean_codex_md|Pin versions in configs (Promethean + Codex)]] #archive
-- [ ] [[set_up_makefile_for_python_js_build_test_dev_md|Set up Makefile for Python + JS build test dev]] #cicd #buildtools #devtools #devops #archive
+- [ ] [[set_up_makefile_for_python_js_build_test_dev_md|Replace polyglot Makefile with pnpm-first workflow docs]] #cicd #buildtools #devtools #devops #archive
 - [ ] [[create_base_readme_md_templates_for_each_service_md|create base readme md templates for each service md]] #doc-this #framework-core #ritual #archive
 - [ ] [[each_service_registers_a_pid_with_a_heartbeat_service_if_they_do_not_successfully_check_in_terminate_the_process_using_the_pid_md_md|each service registers a pid with a heartbeat service if they do not successfully check in terminate the process using the pid md md]] #framework-core #archive
 - [ ] [[look_into_why_the_state_object_never_seems_to_get_updated_md_md|look into why the state object never seems to get updated md md]] #framework-core #archive
