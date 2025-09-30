@@ -1,39 +1,70 @@
-// loosen typing to avoid cross-package type coupling
 import { SchemaRegistry } from './registry.js';
+import type { EventRecord } from './types.js';
 
-export type Upcaster = (e: any) => any;
+export type Upcaster = (event: Readonly<EventRecord>) => EventRecord;
+
+type UpcastAccumulator = {
+    readonly event: EventRecord;
+    readonly halted: boolean;
+};
+
+const UPCAST_STATE = new WeakMap<UpcastChain, ReadonlyMap<string, ReadonlyMap<number, Upcaster>>>();
 
 export class UpcastChain {
-    // map: topic -> version -> upcaster to next
-    private chains = new Map<string, Map<number, Upcaster>>();
-
-    add(topic: string, fromVersion: number, fn: Upcaster) {
-        const m = this.chains.get(topic) ?? new Map<number, Upcaster>();
-        m.set(fromVersion, fn);
-        this.chains.set(topic, m);
+    constructor() {
+        UPCAST_STATE.set(this, new Map());
     }
 
-    // walk from e.headers["x-schema-version"] up to latest
-    toLatest(topic: string, e: any, reg: SchemaRegistry): any {
-        const m = this.chains.get(topic);
+    #chains(): ReadonlyMap<string, ReadonlyMap<number, Upcaster>> {
+        return UPCAST_STATE.get(this) ?? new Map();
+    }
+
+    add(topic: string, fromVersion: number, fn: Upcaster): void {
+        const chains = this.#chains();
+        const topicEntries = [...(chains.get(topic)?.entries() ?? [])].filter(([version]) => version !== fromVersion);
+        const nextTopic = new Map<number, Upcaster>([...topicEntries, [fromVersion, fn]]);
+        const chainEntries = [...chains.entries()].filter(([key]) => key !== topic);
+        UPCAST_STATE.set(this, new Map<string, ReadonlyMap<number, Upcaster>>([...chainEntries, [topic, nextTopic]]));
+    }
+
+    toLatest(topic: string, event: Readonly<EventRecord>, reg: SchemaRegistry): EventRecord {
+        const chain = this.#chains().get(topic);
         const latest = reg.latest(topic)?.version;
-        if (!m || latest == null) return e;
 
-        const vRaw = Number(e.headers?.['x-schema-version']);
-        let v = Number.isFinite(vRaw) ? vRaw : latest; // if no version assume latest (legacy)
-        let cur = e;
-
-        while (v < latest) {
-            const step = m.get(v);
-            if (!step) break; // missing hop; best-effort
-            cur = step(cur);
-            v++;
+        if (!chain || latest == null) {
+            return {
+                ...event,
+                ...(event.headers ? { headers: { ...event.headers } } : {}),
+            };
         }
-        // stamp new version so downstream knows it’s normalized
-        cur.headers = {
-            ...(cur.headers ?? {}),
-            'x-schema-version': String(latest),
+
+        const rawVersion = Number(event.headers?.['x-schema-version']);
+        const startVersion = Number.isFinite(rawVersion) ? rawVersion : latest;
+
+        const versions = Array.from({ length: Math.max(latest - startVersion, 0) }, (_, idx) => startVersion + idx);
+
+        const { event: upcasted } = versions.reduce<UpcastAccumulator>(
+            (acc: UpcastAccumulator, version: number) => {
+                if (acc.halted) {
+                    return acc;
+                }
+
+                const step = chain.get(version);
+                if (!step) {
+                    return { ...acc, halted: true };
+                }
+
+                return { event: step(acc.event), halted: false };
+            },
+            { event: { ...event, headers: { ...(event.headers ?? {}) } }, halted: false },
+        );
+
+        return {
+            ...upcasted,
+            headers: {
+                ...(upcasted.headers ?? {}),
+                'x-schema-version': String(latest),
+            },
         };
-        return cur;
     }
 }

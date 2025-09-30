@@ -33,7 +33,7 @@ export async function startHarness({ wsPort = 9090, httpPort = 9091 }: HarnessOp
 
     const wss = startWSGateway(bus, wsPort, { auth: async () => ({ ok: true }) });
     const http = startHttpPublisher(bus, httpPort);
-    const stopProj = await startProcessProjector(bus);
+    const stopProjector = await startProcessProjector(bus);
 
     return {
         bus,
@@ -44,7 +44,7 @@ export async function startHarness({ wsPort = 9090, httpPort = 9091 }: HarnessOp
             await closeGracefully((handler) => {
                 wss.close(handler);
             });
-            stopProj();
+            await stopProjector();
         },
     };
 }

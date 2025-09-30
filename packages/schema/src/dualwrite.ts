@@ -1,24 +1,39 @@
-// loosen typing to avoid cross-package type coupling
 import { SchemaRegistry } from './registry.js';
+import type { PublishOptions, SchemaEventBus } from './types.js';
 
-export function withDualWrite(bus: any, reg: SchemaRegistry): any {
+const withSchemaHeaders = (opts: Readonly<PublishOptions>, version: number): PublishOptions => {
+    const headers = {
+        ...(opts.headers ?? {}),
+        'x-schema-version': String(version),
+    };
+
+    return {
+        ...opts,
+        headers,
+    };
+};
+
+export function withDualWrite<TBus extends SchemaEventBus>(bus: Readonly<TBus>, reg: SchemaRegistry): TBus {
+    const publish: SchemaEventBus['publish'] = async (...args: Readonly<Parameters<SchemaEventBus['publish']>>) => {
+        const [topic, payload, options] = args;
+        const latest = reg.latest(topic);
+        const baseOptions: PublishOptions = options ? { ...options } : {};
+        const nextOptions = latest ? withSchemaHeaders(baseOptions, latest.version) : baseOptions;
+
+        if (latest && !topic.endsWith(`.v${latest.version}`)) {
+            const versionedTopic = `${topic}.v${latest.version}`;
+            const versionedOptions: PublishOptions = {
+                ...nextOptions,
+                ...(nextOptions.headers ? { headers: { ...nextOptions.headers } } : {}),
+            };
+            void bus.publish(versionedTopic, payload, versionedOptions);
+        }
+
+        return bus.publish(topic, payload, nextOptions);
+    };
+
     return {
         ...bus,
-        async publish<T>(topic: string, payload: T, opts: any = {}): Promise<any> {
-            const latest = reg.latest(topic);
-            if (latest) {
-                opts.headers = {
-                    ...(opts.headers || {}),
-                    'x-schema-version': String(latest.version),
-                };
-            }
-            // optional: also write to versioned topic name e.g., foo.bar.v2
-            if (latest && !String(topic).endsWith(`.v${latest.version}`)) {
-                const vTopic = `${topic}.v${latest.version}`;
-                // fire-and-forget extra write; ignore error to avoid breaking primary path
-                bus.publish(vTopic, payload, { ...opts });
-            }
-            return bus.publish(topic, payload, opts);
-        },
-    };
+        publish,
+    } as TBus;
 }

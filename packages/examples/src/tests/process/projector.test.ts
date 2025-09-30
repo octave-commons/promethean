@@ -2,7 +2,13 @@
 import test from 'ava';
 import { Topics } from '@promethean/event/topics.js';
 
-import { startProcessProjector } from '../../process/projector.js';
+import {
+    startProcessProjector,
+    type ProcessProjectorBus,
+    type ProcessProjectorDeliveryContext,
+    type ProcessProjectorEventRecord,
+    type ProcessProjectorPublishOptions,
+} from '../../process/projector.js';
 import type { HeartbeatPayload, ProcessState } from '../../process/types.js';
 
 const topics = Topics as Readonly<{ HeartbeatReceived: string; ProcessState: string }>;
@@ -37,15 +43,18 @@ class Deferred<T> {
 type PublishCall = {
     readonly topic: string;
     readonly payload: ProcessState;
-    readonly options: { readonly key: string };
+    readonly options: ProcessProjectorPublishOptions;
 };
 
-type EventHandler = (event: Readonly<{ payload: HeartbeatPayload; ts: number }>) => Promise<void>;
+type EventHandler = (
+    event: ProcessProjectorEventRecord<HeartbeatPayload>,
+    ctx: ProcessProjectorDeliveryContext,
+) => Promise<void>;
 
 type SubscriptionRecord = {
     readonly topic: string;
     readonly group: string;
-    readonly options: unknown;
+    readonly options: Readonly<Record<string, unknown>> | undefined;
     readonly handler: EventHandler;
 };
 
@@ -99,30 +108,40 @@ function createBus() {
     const subscription = new Deferred<SubscriptionRecord>();
     const firstPublish = new Deferred<PublishCall>();
     const secondPublish = new Deferred<PublishCall>();
+    const unsubscribeDeferred = new Deferred<void>();
 
-    const bus = {
-        async publish(topic: string, payload: Readonly<ProcessState>, options: Readonly<{ key: string }>) {
+    const bus: ProcessProjectorBus = {
+        async publish(topic, payload, options = {}) {
             const call: PublishCall = {
                 topic,
                 payload: payload as ProcessState,
-                options: { key: options.key },
+                options,
             };
             if (!firstPublish.isSettled()) {
                 firstPublish.resolve(call);
-                return;
-            }
-            if (!secondPublish.isSettled()) {
+            } else if (!secondPublish.isSettled()) {
                 secondPublish.resolve(call);
-                return;
+            } else {
+                throw new Error('received more publish calls than expected');
             }
-            throw new Error('received more publish calls than expected');
-        },
-        async subscribe(topic: string, group: string, onEvent: EventHandler, options: unknown): Promise<void> {
-            subscription.resolve({ topic, group, options, handler: onEvent });
-        },
-    } as const;
 
-    return { bus, subscription, firstPublish, secondPublish };
+            return {
+                id: 'record',
+                ts: Date.now(),
+                topic,
+                payload,
+                headers: undefined,
+            };
+        },
+        async subscribe(topic, group, onEvent, options) {
+            subscription.resolve({ topic, group, options, handler: onEvent });
+            return async () => {
+                unsubscribeDeferred.resolve();
+            };
+        },
+    };
+
+    return { bus, subscription, firstPublish, secondPublish, unsubscribeDeferred };
 }
 
 test.serial('startProcessProjector publishes fresh process state on heartbeat', async (t) => {
@@ -130,7 +149,7 @@ test.serial('startProcessProjector publishes fresh process state on heartbeat', 
     t.teardown(() => {
         timers.restore();
     });
-    const { bus, subscription, firstPublish, secondPublish } = createBus();
+    const { bus, subscription, firstPublish, secondPublish, unsubscribeDeferred } = createBus();
 
     const stop = await startProcessProjector(bus);
     const handle = await timers.awaitHandle();
@@ -150,7 +169,15 @@ test.serial('startProcessProjector publishes fresh process state on heartbeat', 
     };
     const timestamp = 1_000;
 
-    await handler({ payload: heartbeat, ts: timestamp });
+    const event: ProcessProjectorEventRecord<HeartbeatPayload> = {
+        id: 'hb-1',
+        topic: topics.HeartbeatReceived,
+        payload: heartbeat,
+        ts: timestamp,
+    };
+    const ctx: ProcessProjectorDeliveryContext = { attempt: 1, maxAttempts: 1 };
+
+    await handler(event, ctx);
 
     const call = await firstPublish.promise;
     t.is(call.topic, topics.ProcessState);
@@ -167,7 +194,8 @@ test.serial('startProcessProjector publishes fresh process state on heartbeat', 
     t.deepEqual(call.options, { key: 'alpha:orchestrator:42' });
     t.false(secondPublish.isSettled());
 
-    stop();
+    await stop();
+    await unsubscribeDeferred.promise;
     const cleared = await timers.awaitCleared();
     t.is(cleared, handle);
 });
@@ -177,7 +205,7 @@ test.serial('process projector marks entries stale when heartbeats stop arriving
     t.teardown(() => {
         timers.restore();
     });
-    const { bus, subscription, firstPublish, secondPublish } = createBus();
+    const { bus, subscription, firstPublish, secondPublish, unsubscribeDeferred } = createBus();
 
     const stop = await startProcessProjector(bus);
     const handle = await timers.awaitHandle();
@@ -193,7 +221,15 @@ test.serial('process projector marks entries stale when heartbeats stop arriving
     };
     const firstTimestamp = 5_000;
 
-    await handler({ payload: heartbeat, ts: firstTimestamp });
+    const event: ProcessProjectorEventRecord<HeartbeatPayload> = {
+        id: 'hb-1',
+        topic: topics.HeartbeatReceived,
+        payload: heartbeat,
+        ts: firstTimestamp,
+    };
+    const ctx: ProcessProjectorDeliveryContext = { attempt: 1, maxAttempts: 1 };
+
+    await handler(event, ctx);
     await firstPublish.promise;
 
     const originalNow = Date.now;
@@ -221,7 +257,8 @@ test.serial('process projector marks entries stale when heartbeats stop arriving
     });
     t.deepEqual(staleCall.options, { key: 'beta:worker:7' });
 
-    stop();
+    await stop();
+    await unsubscribeDeferred.promise;
     const cleared = await timers.awaitCleared();
     t.is(cleared, handle);
 });

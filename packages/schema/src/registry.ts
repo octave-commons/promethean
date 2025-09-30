@@ -3,41 +3,57 @@ import { ZodTypeAny } from 'zod';
 export type Compat = 'none' | 'backward' | 'forward';
 export type TopicId = string;
 
-export type TopicSchema = {
+export type TopicSchema = Readonly<{
     topic: TopicId;
     version: number;
     schema: ZodTypeAny;
     compat: Compat; // evolution rule vs previous version(s)
-};
+}>;
+
+const REGISTRY_STATE = new WeakMap<SchemaRegistry, ReadonlyMap<TopicId, readonly TopicSchema[]>>();
 
 export class SchemaRegistry {
-    private versions = new Map<TopicId, TopicSchema[]>(); // ascending by version
+    constructor() {
+        REGISTRY_STATE.set(this, new Map());
+    }
+
+    #versions(): ReadonlyMap<TopicId, readonly TopicSchema[]> {
+        return REGISTRY_STATE.get(this) ?? new Map();
+    }
 
     register(def: TopicSchema): void {
-        const list = this.versions.get(def.topic) ?? [];
-        // ensure monotonic
-        if (list.length > 0 && def.version <= list[list.length - 1]!.version) {
+        const versions = this.#versions();
+        const list = versions.get(def.topic) ?? [];
+        const latest = list.at(-1);
+
+        if (latest && def.version <= latest.version) {
             throw new Error(`version must increase for ${def.topic}`);
         }
-        // validate compatibility (very light check via zod "shape" introspection best-effort)
-        if (list.length > 0 && def.compat !== 'none') {
-            const prev = list[list.length - 1]!;
-            checkCompat(prev.schema, def.schema, def.compat);
+
+        if (latest && def.compat !== 'none') {
+            checkCompat(latest.schema, def.schema, def.compat);
         }
-        list.push(def);
-        this.versions.set(def.topic, list);
+
+        const nextEntries = [...versions.entries()].filter(
+            ([topic]: readonly [TopicId, readonly TopicSchema[]]) => topic !== def.topic,
+        );
+        REGISTRY_STATE.set(this, new Map([...nextEntries, [def.topic, [...list, def]]]));
     }
 
     latest(topic: TopicId): TopicSchema | undefined {
-        const list = this.versions.get(topic);
-        if (!list || !list.length) return;
-        return list[list.length - 1];
+        const list = this.#versions().get(topic);
+        return list?.at(-1);
     }
 
     validate(topic: TopicId, payload: unknown, version?: number): void {
-        const list = this.versions.get(topic);
-        if (!list || list.length === 0) return; // no schema → allow
-        const schema = version ? list.find((s) => s.version === version)?.schema : list[list.length - 1]!.schema;
+        const list = this.#versions().get(topic);
+        if (!list?.length) {
+            return;
+        }
+
+        const schema = version
+            ? list.find((schemaEntry: TopicSchema) => schemaEntry.version === version)?.schema
+            : list.at(-1)?.schema;
         schema?.parse(payload);
     }
 }
