@@ -1,47 +1,95 @@
 // Module types resolved at runtime; loosen compile-time types here
 
-import { sleep } from '@promethean/utils/sleep.js';
+import type { EventRecord, PublishOptions } from '@promethean/event/types.js';
+import type { ReadonlyDeep } from 'type-fest';
 
-export type CompactorOptions = {
-    topic: string;
-    snapshotTopic: string;
-    keySource?: (e: any) => string | undefined; // optional, if state events are not keyed
-    intervalMs?: number; // how often to snapshot
-    batchKeys?: string[]; // optional, restrict to a key set
+type SnapshotRecord = ReadonlyDeep<Partial<EventRecord> & { readonly payload?: unknown }>;
+
+type SnapshotMessage = {
+    readonly key: string;
+    readonly payload: unknown;
+    readonly ts: number;
 };
 
-export function startCompactor(store: any, bus: any, opts: CompactorOptions) {
+export type CompactorStore = {
+    readonly latestByKey: (
+        topic: string,
+        keys: ReadonlyArray<string>,
+    ) => Promise<ReadonlyDeep<Record<string, SnapshotRecord | undefined>>>;
+};
+
+export type CompactorBus = {
+    readonly publish: <T>(topic: string, payload: ReadonlyDeep<T>, opts?: PublishOptions) => Promise<unknown>;
+};
+
+export type CompactorOptions = {
+    readonly topic: string;
+    readonly snapshotTopic: string;
+    readonly keySource?: (record: SnapshotRecord) => string | undefined;
+    readonly intervalMs?: number;
+    readonly batchKeys?: ReadonlyArray<string>;
+};
+
+const deriveKey = (recordKey: string, record: SnapshotRecord, keySource?: CompactorOptions['keySource']) =>
+    keySource?.(record) ?? record.key ?? recordKey;
+
+const toSnapshotEntries = (
+    latest: ReadonlyDeep<Record<string, SnapshotRecord | undefined>>,
+    keySource: CompactorOptions['keySource'],
+): ReadonlyArray<SnapshotMessage> =>
+    (Object.entries(latest) as ReadonlyArray<readonly [string, SnapshotRecord | undefined]>)
+        .map(([recordKey, record]: readonly [string, SnapshotRecord | undefined]) => {
+            if (!record) return null;
+            const key = deriveKey(recordKey, record, keySource);
+            if (!key) return null;
+            const ts = typeof record.ts === 'number' ? record.ts : Date.now();
+            return {
+                key,
+                payload: record.payload,
+                ts,
+            } satisfies SnapshotMessage;
+        })
+        .filter((entry): entry is SnapshotMessage => entry !== null);
+
+export function startCompactor(store: CompactorStore, bus: CompactorBus, opts: CompactorOptions): () => void {
     const every = opts.intervalMs ?? 30_000;
+    const abortController = new AbortController();
 
-    let stopped = false;
-    (async function loop() {
-        while (!stopped) {
-            try {
-                const keys = opts.batchKeys;
-                if (!store.latestByKey) throw new Error('latestByKey not supported by store');
-                const latest = await store.latestByKey(opts.topic, keys ?? []);
-                const entries = Object.entries(latest);
-                if (entries.length === 0) {
-                    await sleep(every);
-                    continue;
-                }
+    const runCycle = async (): Promise<void> => {
+        if (abortController.signal.aborted) return;
+        const latest = await store.latestByKey(opts.topic, opts.batchKeys ?? []);
+        const snapshots = toSnapshotEntries(latest, opts.keySource);
+        if (snapshots.length === 0) return;
 
-                for (const [key, rec] of entries) {
-                    await bus.publish(
-                        opts.snapshotTopic,
-                        { key, payload: (rec as any)?.payload, ts: (rec as any)?.ts ?? Date.now() },
-                        { key },
-                    );
-                }
-            } catch (e) {
-                // log and continue
-            } finally {
-                await sleep(every);
-            }
-        }
-    })();
+        await Promise.all(
+            snapshots.map(({ key, payload, ts }) => bus.publish(opts.snapshotTopic, { key, payload, ts }, { key })),
+        );
+    };
+
+    const schedule = (): void => {
+        if (abortController.signal.aborted) return;
+
+        const timer = setTimeout(() => {
+            void runCycle()
+                .catch(() => undefined)
+                .finally(() => {
+                    schedule();
+                });
+        }, every);
+
+        abortController.signal.addEventListener(
+            'abort',
+            () => {
+                clearTimeout(timer);
+            },
+            { once: true },
+        );
+    };
+
+    void runCycle().catch(() => undefined);
+    schedule();
 
     return () => {
-        stopped = true;
+        abortController.abort();
     };
 }
