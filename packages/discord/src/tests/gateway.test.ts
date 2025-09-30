@@ -7,11 +7,20 @@ test("publishes raw and normalized events to bus", async (t) => {
   const pub = new GatewayPublisher(bus);
   let rawSeen = false;
   let normSeen = false;
+  let resolveRaw!: () => void;
+  const rawDelivered = new Promise<void>((resolve) => {
+    resolveRaw = resolve;
+  });
+  let resolveNormalized!: () => void;
+  const normalizedDelivered = new Promise<void>((resolve) => {
+    resolveNormalized = resolve;
+  });
   await bus.subscribe(
     "promethean.p.discord.t.duck.gateway.raw",
     "g1",
     async () => {
       rawSeen = true;
+      resolveRaw();
     },
   );
   await bus.subscribe(
@@ -19,6 +28,7 @@ test("publishes raw and normalized events to bus", async (t) => {
     "g2",
     async () => {
       normSeen = true;
+      resolveNormalized();
     },
   );
 
@@ -32,6 +42,8 @@ test("publishes raw and normalized events to bus", async (t) => {
   };
   await pub.publishRaw("discord", "duck", raw);
   await pub.publishNormalized("discord", "duck", raw);
+  await rawDelivered;
+  await normalizedDelivered;
   t.true(rawSeen);
   t.true(normSeen);
 });
