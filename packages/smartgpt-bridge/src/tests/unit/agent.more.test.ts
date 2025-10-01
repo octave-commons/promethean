@@ -1,33 +1,33 @@
 import test from "ava";
 
+import { EventEmitter } from "node:events";
+
 import { createSupervisor } from "../../agent.js";
+import type { AgentChildProcess } from "../../types/agents.js";
 
 function makeProc() {
-  const listeners: Record<string, any> = {};
-  return {
+  const ee = new EventEmitter();
+  const proc: AgentChildProcess & {
+    emit(type: string, data?: unknown): void;
+  } = {
     pid: 999,
     stdout: {
-      on: (ev: string, cb: any) => {
-        listeners[`o_${ev}`] = cb;
-      },
+      on: (ev: "data", cb: (chunk: Buffer) => void) => ee.on(`o:${ev}`, cb),
     },
     stderr: {
-      on: (ev: string, cb: any) => {
-        listeners[`e_${ev}`] = cb;
-      },
+      on: (ev: "data", cb: (chunk: Buffer) => void) => ee.on(`e:${ev}`, cb),
     },
-    stdin: { write: () => {} },
-    on: (ev: string, cb: any) => {
-      listeners[`p_${ev}`] = cb;
+    stdin: {
+      write: () => true,
     },
-    emit(type: string, data?: any) {
-      if (type === "stdout" && listeners.o_data)
-        listeners.o_data(Buffer.from(String(data)));
-      if (type === "stderr" && listeners.e_data)
-        listeners.e_data(Buffer.from(String(data)));
-      if (type === "exit" && listeners.p_exit) listeners.p_exit(0, null);
+    on: (ev: string, cb: (...args: any[]) => void) => ee.on(ev, cb),
+    emit(type: string, data?: unknown) {
+      if (type === "stdout") ee.emit("o:data", Buffer.from(String(data ?? "")));
+      if (type === "stderr") ee.emit("e:data", Buffer.from(String(data ?? "")));
+      if (type === "exit") ee.emit("exit", 0, null);
     },
   };
+  return proc;
 }
 
 test("AgentSupervisor: send/interrupt/kill after exit return false; logs and list", async (t) => {

@@ -1,6 +1,16 @@
 import { Writable } from "node:stream";
 
+export type LogFields = Record<string, unknown>;
 export type Level = "debug" | "info" | "warn" | "error";
+export type LogMethod = (msg: string, fields?: LogFields) => void;
+export type Logger = {
+  readonly debug: LogMethod;
+  readonly info: LogMethod;
+  readonly warn: LogMethod;
+  readonly error: LogMethod;
+  readonly audit: LogMethod;
+  readonly child: (extra: LogFields) => Logger;
+};
 
 const levelOrder: Record<Level, number> = {
   debug: 10,
@@ -15,18 +25,16 @@ const NULL_STREAM = new Writable({
   },
 });
 
-export type LogFields = Record<string, unknown>;
-
 export type LoggerConfig = {
-  service: string;
-  level?: Level;
-  json?: boolean;
-  base?: LogFields;
-  stream?: NodeJS.WritableStream;
-  silent?: boolean;
+  readonly service: string;
+  readonly level?: Level;
+  readonly json?: boolean;
+  readonly base?: LogFields;
+  readonly stream?: NodeJS.WritableStream;
+  readonly silent?: boolean;
 };
 
-function parseLevel(l?: string): Level {
+function parseLevel(l?: Level | string): Level {
   const raw = (l || process.env.LOG_LEVEL || "info").toLowerCase();
   if (raw === "debug" || raw === "info" || raw === "warn" || raw === "error")
     return raw;
@@ -56,60 +64,92 @@ function resolveSilent(
   return false;
 }
 
-function now() {
+function now(): string {
   return new Date().toISOString();
 }
 
-export function createLogger(config: LoggerConfig) {
-  const { service, base = {} } = config;
-  const hasCustomStream = config.stream !== undefined;
-  const silent = resolveSilent(config.silent, hasCustomStream);
-  const level = config.level ?? parseLevel(undefined);
-  const json = config.json ?? parseJson(undefined);
-  const stream = hasCustomStream
-    ? config.stream!
-    : silent
-      ? NULL_STREAM
-      : process.stdout;
+type LoggerContext = {
+  readonly base: LogFields;
+  readonly json: boolean;
+  readonly level: Level;
+  readonly service: string;
+  readonly stream: NodeJS.WritableStream;
+};
 
-  function emit(lvl: string, msg: string, fields?: LogFields, force = false) {
-    if (!force && levelOrder[lvl as Level] < levelOrder[level]) return;
+type LevelOrAudit = Level | "audit";
+
+const formatLine = (
+  json: boolean,
+  payload: LogFields & {
+    ts: string;
+    level: string;
+    service: string;
+    msg: string;
+  },
+): string =>
+  json
+    ? JSON.stringify(payload)
+    : `[${payload.ts}] ${payload.service} ${payload.level.toUpperCase()}: ${
+        payload.msg
+      }`;
+
+const createEmitter =
+  (context: LoggerContext) =>
+  (lvl: LevelOrAudit, msg: string, fields?: LogFields, force = false): void => {
+    if (
+      !force &&
+      lvl !== "audit" &&
+      levelOrder[lvl] < levelOrder[context.level]
+    ) {
+      return;
+    }
     const payload = {
       ts: now(),
       level: lvl,
-      service,
-      ...base,
-      ...(fields || {}),
+      service: context.service,
+      ...context.base,
+      ...(fields ?? {}),
       msg,
     };
     try {
-      const line = json
-        ? JSON.stringify(payload)
-        : `[${payload.ts}] ${service} ${lvl.toUpperCase()}: ${msg}`;
-      stream.write(line + "\n");
+      const line = formatLine(context.json, payload);
+      context.stream.write(`${line}\n`);
     } catch {
       // ignore stream errors
     }
-  }
+  };
 
+const resolveStream = (
+  silent: boolean,
+  stream: NodeJS.WritableStream | undefined,
+): NodeJS.WritableStream => {
+  if (stream) return stream;
+  return silent ? NULL_STREAM : process.stdout;
+};
+
+export function createLogger(config: LoggerConfig): Logger {
+  const { service, base = {} } = config;
+  const hasCustomStream = config.stream !== undefined;
+  const silent = resolveSilent(config.silent, hasCustomStream);
+  const level = config.level ?? parseLevel();
+  const json = config.json ?? parseJson();
+  const stream = resolveStream(silent, config.stream);
+  const context: LoggerContext = { base, json, level, service, stream };
+  const emit = createEmitter(context);
   return {
-    debug: (msg: string, fields?: LogFields) => emit("debug", msg, fields),
-    info: (msg: string, fields?: LogFields) => emit("info", msg, fields),
-    warn: (msg: string, fields?: LogFields) => emit("warn", msg, fields),
-    error: (msg: string, fields?: LogFields) => emit("error", msg, fields),
-    audit: (msg: string, fields?: LogFields) =>
-      emit("audit", msg, fields, true),
-    child(extra: LogFields) {
-      return createLogger({
+    debug: (msg, fields) => emit("debug", msg, fields),
+    info: (msg, fields) => emit("info", msg, fields),
+    warn: (msg, fields) => emit("warn", msg, fields),
+    error: (msg, fields) => emit("error", msg, fields),
+    audit: (msg, fields) => emit("audit", msg, fields, true),
+    child: (extra) =>
+      createLogger({
         service,
         level,
         json,
         base: { ...base, ...extra },
         stream,
         silent,
-      });
-    },
+      }),
   };
 }
-
-export type Logger = ReturnType<typeof createLogger>;
