@@ -130,7 +130,6 @@ export const writeIndexFile = async (
   await writeFile(indexFilePath, `${lines.join("\n")}\n`, "utf8");
 };
 
-
 export const runIndexer = async (
   options?: Readonly<{
     readonly argv?: ReadonlyArray<string>;
@@ -171,7 +170,7 @@ const isCliExecution = (): boolean => {
   return path.resolve(entry) === modulePath;
 };
 
-if (isCliEntrypoint()) {
+if (isCliExecution()) {
   runIndexer().catch((err) => {
     console.error(err);
     process.exit(1);
