@@ -35,6 +35,10 @@ function toOptionalNumber(value: unknown): number | undefined {
     : undefined;
 }
 
+function toOptionalBoolean(value: unknown): boolean | undefined {
+  return typeof value === "boolean" ? value : undefined;
+}
+
 function toNumberOrNull(value: unknown): number | null {
   return typeof value === "number" && Number.isFinite(value) ? value : null;
 }
@@ -58,6 +62,7 @@ function parseAgentMeta(value: unknown): AgentMeta | null {
       ? record.startedAt
       : Date.now();
   const prompt = typeof record.prompt === "string" ? record.prompt : "";
+  const exited = toOptionalBoolean(record.exited);
   const finishedAt = toOptionalNumber(record.finishedAt);
   const code = toNumberOrNull(record.code);
   const signal = toStringOrNull(record.signal);
@@ -70,6 +75,7 @@ function parseAgentMeta(value: unknown): AgentMeta | null {
     args,
     cwd,
     startedAt,
+    exited,
     prompt,
     finishedAt,
     code,
@@ -106,6 +112,7 @@ function withMetaDefaults(
     args: meta.args ? Array.from(meta.args) : [],
     cwd: meta.cwd ?? "",
     startedAt: meta.startedAt ?? Date.now(),
+    exited: meta.exited ?? false,
     prompt: meta.prompt ?? "",
     finishedAt: meta.finishedAt,
     code: meta.code ?? null,
