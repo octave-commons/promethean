@@ -6,164 +6,202 @@ import { MarkdownTask } from './task.js';
 import { STATUS_SET, headerToStatus } from './statuses.js';
 
 export type SyncOptions = {
-    tasksDir: string;
-    createMissingTasks?: boolean;
+    readonly tasksDir: string;
+    readonly createMissingTasks?: boolean;
 };
 
-export function firstWikiTarget(card: Card): string | null {
-    if (!card.links?.length) return null;
-    const raw = card.links[0]; // may contain alias or fragment
-    // split at alias and fragment: [[file#frag|Alias]] -> file
-    const name = raw.split('|')[0].split('#')[0].trim();
-    if (!name) return null;
-    const withMd = name.toLowerCase().endsWith('.md') ? name : `${name}.md`;
-    return withMd;
-}
+const stripHash = (value: string): string => (value.startsWith('#') ? value.slice(1) : value);
 
-export function stripHash(s: string): string {
-    return s.startsWith('#') ? s.slice(1) : s;
-}
+const sanitizeFileName = (value: string): string => value.replace(/[<>:"/\\|?*]/gu, '-');
 
-export function ensureStatusInTags(card: Card, columnStatusHash: string): Card {
-    // card tags are stored WITHOUT '#'
-    const desired = stripHash(columnStatusHash);
-    const tags = new Set(card.tags || []);
-    for (const t of Array.from(tags)) if (STATUS_SET.has(`#${stripHash(t)}`)) tags.delete(t);
-    tags.add(desired);
-    return { ...card, tags: Array.from(tags) };
-}
+const ensureExtension = (value: string): string => (value.toLowerCase().endsWith('.md') ? value : `${value}.md`);
 
-export function cardNeedsStatusUpdate(card: Card, columnStatusHash: string): boolean {
-    const desired = stripHash(columnStatusHash);
-    const tags = card.tags || [];
-    const hasDesired = tags.some((t) => stripHash(t) === desired);
-    const hasOtherStatus = tags.some((t) => STATUS_SET.has(`#${stripHash(t)}`) && stripHash(t) !== desired);
-    return !hasDesired || hasOtherStatus;
-}
+const fileExists = async (abs: string): Promise<boolean> =>
+    fs.access(abs).then(
+        () => true,
+        () => false,
+    );
 
-export function cardNeedsLink(card: Card, createMissingTasks?: boolean): boolean {
-    return !firstWikiTarget(card) && !!createMissingTasks;
-}
-
-export async function ensureTaskFile(tasksDir: string, filenameStem: string, id: string): Promise<string> {
-    const safeName = filenameStem.replace(/[<>:"/\\|?*]/g, '-');
-    const fname = safeName.toLowerCase().endsWith('.md') ? safeName : `${safeName}.md`;
-    const abs = join(tasksDir, fname);
-    try {
-        await fs.access(abs);
-    } catch {
-        const task = MarkdownTask.newWithId(id);
-        const text = await task.toMarkdown();
-        await fs.writeFile(abs, text, 'utf8');
-    }
-    return fname;
-}
-
-export async function ensureCardStatus(
-    _board: MarkdownBoard,
-    _columnName: string,
-    card: Card,
-    statusHash: string,
-): Promise<boolean> {
-    const next = ensureStatusInTags(card, statusHash);
-    _board.updateCard(card.id, { tags: next.tags });
+const writeIfChanged = async (abs: string, next: string, previous: string | null): Promise<boolean> => {
+    if (previous === next) return false;
+    await fs.writeFile(abs, next, 'utf8');
     return true;
-}
+};
 
-export async function ensureCardLink(
+export const firstWikiTarget = (card: Card): string | null => {
+    const [first] = card.links ?? [];
+    if (!first) return null;
+    const beforeAlias = first.split('|')[0] ?? '';
+    const withoutFragment = beforeAlias.split('#')[0] ?? '';
+    const normalized = withoutFragment.trim();
+    if (!normalized) return null;
+    return ensureExtension(normalized);
+};
+
+const normalizeTags = (card: Card, statusHash: string): readonly string[] => {
+    const desired = stripHash(statusHash);
+    const filtered = (card.tags ?? []).map((tag) => stripHash(tag)).filter((tag) => !STATUS_SET.has(`#${tag}`));
+    const unique = filtered.reduce<readonly string[]>((acc, tag) => (acc.includes(tag) ? acc : [...acc, tag]), []);
+    return unique.includes(desired) ? unique : [...unique, desired];
+};
+
+export const ensureStatusInTags = (card: Card, columnStatusHash: string): Card => ({
+    ...card,
+    tags: normalizeTags(card, columnStatusHash),
+});
+
+export const cardNeedsStatusUpdate = (card: Card, columnStatusHash: string): boolean => {
+    const desired = stripHash(columnStatusHash);
+    const tags = card.tags ?? [];
+    const hasDesired = tags.some((tag) => stripHash(tag) === desired);
+    const hasOtherStatus = tags.some((tag) => STATUS_SET.has(`#${stripHash(tag)}`) && stripHash(tag) !== desired);
+    return !hasDesired || hasOtherStatus;
+};
+
+export const cardNeedsLink = (card: Card, createMissingTasks?: boolean): boolean =>
+    Boolean(createMissingTasks && !firstWikiTarget(card));
+
+const arraysEqual = (left: readonly string[], right: readonly string[]): boolean =>
+    left.length === right.length && left.every((value, index) => value === right[index]);
+
+const ensureCardStatus = (board: MarkdownBoard, card: Card, statusHash: string): boolean => {
+    const nextTags = normalizeTags(card, statusHash);
+    if (arraysEqual(card.tags ?? [], nextTags)) return false;
+    board.updateCard(card.id, { tags: nextTags });
+    return true;
+};
+
+const ensureTaskFile = async (
+    tasksDir: string,
+    filenameStem: string,
+    cardId: string,
+    cardTitle: string,
+): Promise<string> => {
+    const normalized = ensureExtension(sanitizeFileName(filenameStem.trim() || 'untitled'));
+    const abs = join(tasksDir, normalized);
+    const exists = await fileExists(abs);
+    if (!exists) {
+        const task = MarkdownTask.newWithId(cardId);
+        task.setTitle(cardTitle);
+        const content = await task.toMarkdown();
+        await fs.mkdir(tasksDir, { recursive: true });
+        await fs.writeFile(abs, content, 'utf8');
+    }
+    return normalized;
+};
+
+const ensureCardLink = async (
     board: MarkdownBoard,
     card: Card,
     tasksDir: string,
-    createMissing?: boolean,
-): Promise<boolean> {
+    createMissing: boolean | undefined,
+): Promise<boolean> => {
     if (!createMissing) return false;
-    const fname = firstWikiTarget(card) ?? (await ensureTaskFile(tasksDir, card.text || 'untitled', card.id));
-    const link = `${fname}|${card.text || fname}`;
+    const target =
+        firstWikiTarget(card) ?? (await ensureTaskFile(tasksDir, card.text || 'untitled', card.id, card.text));
+    const link = `${target}|${card.text || target}`;
+    const existing = card.links ?? [];
+    if (existing.length === 1 && existing[0] === link) return false;
     board.updateCard(card.id, { links: [link] });
     return true;
-}
+};
 
-export async function ensureTaskStatusForCard(
-    _board: MarkdownBoard,
-    _columnName: string,
+const loadTaskContent = async (abs: string): Promise<string | null> =>
+    fs.readFile(abs, 'utf8').then(
+        (data) => data,
+        () => null,
+    );
+
+const ensureTaskStatusForCard = async (
     card: Card,
     statusHash: string,
     tasksDir: string,
-    createMissing?: boolean,
-): Promise<boolean> {
-    // use current card view passed in (callers should pass latest card object)
-    let target = firstWikiTarget(card);
-    if (!target) {
-        if (!createMissing) return false;
-        // create file based on card text
-        target = await ensureTaskFile(tasksDir, card.text || 'untitled', card.id);
-    }
+    createMissing: boolean | undefined,
+): Promise<boolean> => {
+    const target = firstWikiTarget(card);
+    if (!target) return false;
     const abs = join(tasksDir, target);
-    let text = '';
-    try {
-        text = await fs.readFile(abs, 'utf8');
-    } catch {
-        if (!createMissing) return false;
-        // ensure we have a file now
-        await ensureTaskFile(tasksDir, target, card.id);
-        text = await fs.readFile(abs, 'utf8');
-    }
-    const task = await MarkdownTask.load(text);
+    const existing = await loadTaskContent(abs);
+    if (!existing && !createMissing) return false;
+
+    const baseline =
+        existing ??
+        (async () => {
+            const task = MarkdownTask.newWithId(card.id);
+            task.setTitle(card.text);
+            task.ensureStatus(statusHash);
+            const content = await task.toMarkdown();
+            await fs.mkdir(tasksDir, { recursive: true });
+            await fs.writeFile(abs, content, 'utf8');
+            return content;
+        })();
+
+    const content = typeof baseline === 'string' ? baseline : await baseline;
+    const task = await MarkdownTask.load(content);
     task.ensureId(card.id);
+    task.setTitle(card.text);
     task.ensureStatus(statusHash);
-    const nextMd = await task.toMarkdown();
-    if (nextMd !== text) {
-        await fs.writeFile(abs, nextMd, 'utf8');
-        return true;
-    }
-    return false;
-}
+    const next = await task.toMarkdown();
+    return writeIfChanged(abs, next, content);
+};
 
-export async function syncBoardStatuses(board: MarkdownBoard, opts: SyncOptions): Promise<boolean> {
-    const beforeMd = await board.toMarkdown();
-    // First, cheaply detect if anything needs to change
-    const pending = detectPendingChanges(board, opts);
-    // Apply updates (even if pending is false, we still apply to be idempotent)
-    const applied = await applyUpdates(board, opts);
-    let changed = pending || applied;
-    const afterMd = await board.toMarkdown();
-    if (beforeMd !== afterMd) changed = true;
-    if (changed) await normalizeBoardInstance(board, afterMd);
-    return changed;
-}
+const updateCardAndTask = async (
+    board: MarkdownBoard,
+    columnName: string,
+    card: Card,
+    statusHash: string,
+    tasksDir: string,
+    createMissing: boolean | undefined,
+): Promise<boolean> => {
+    const statusChanged = ensureCardStatus(board, card, statusHash);
+    const linkChanged = await ensureCardLink(board, card, tasksDir, createMissing);
+    const latest = board.listCards(columnName).find((current) => current.id === card.id) ?? card;
+    const taskChanged = await ensureTaskStatusForCard(latest, statusHash, tasksDir, createMissing);
+    return statusChanged || linkChanged || taskChanged;
+};
 
-export function detectPendingChanges(board: MarkdownBoard, opts: SyncOptions): boolean {
-    return board.listColumns().some((col) => {
-        const status = headerToStatus(col.name);
+const updateCardsInColumn = async (
+    board: MarkdownBoard,
+    columnName: string,
+    statusHash: string,
+    tasksDir: string,
+    createMissing: boolean | undefined,
+): Promise<boolean[]> =>
+    Promise.all(
+        board
+            .listCards(columnName)
+            .map((card) => updateCardAndTask(board, columnName, card, statusHash, tasksDir, createMissing)),
+    );
+
+export const detectPendingChanges = (board: MarkdownBoard, opts: SyncOptions): boolean =>
+    board.listColumns().some((column) => {
+        const status = headerToStatus(column.name);
         return board
-            .listCards(col.name)
+            .listCards(column.name)
             .some((card) => cardNeedsStatusUpdate(card, status) || cardNeedsLink(card, opts.createMissingTasks));
     });
-}
 
-export async function applyUpdates(board: MarkdownBoard, opts: SyncOptions): Promise<boolean> {
-    let changed = false;
-    for (const col of board.listColumns()) {
-        const status = headerToStatus(col.name);
-        for (const card of board.listCards(col.name)) {
-            // update card tags
-            if (await ensureCardStatus(board, col.name, card, status)) changed = true;
-            // possibly add link
-            if (await ensureCardLink(board, card, opts.tasksDir, opts.createMissingTasks)) changed = true;
-            // refresh card after possible updates and ensure task file status
-            const latest = board.listCards(col.name).find((c) => c.id === card.id) || card;
-            if (await ensureTaskStatusForCard(board, col.name, latest, status, opts.tasksDir, opts.createMissingTasks))
-                changed = true;
-        }
-    }
-    return changed;
-}
+const applyUpdates = async (board: MarkdownBoard, opts: SyncOptions): Promise<boolean> => {
+    const results = await Promise.all(
+        board
+            .listColumns()
+            .map((column) =>
+                updateCardsInColumn(
+                    board,
+                    column.name,
+                    headerToStatus(column.name),
+                    opts.tasksDir,
+                    opts.createMissingTasks,
+                ),
+            ),
+    );
+    return results.flat().some(Boolean);
+};
 
-export async function normalizeBoardInstance(board: MarkdownBoard, md: string): Promise<void> {
-    const reloaded = await MarkdownBoard.load(md);
-    const b: any = board as any;
-    const r: any = reloaded as any;
-    b.tree = r.tree;
-    if (r.kanbanSettings) b.kanbanSettings = r.kanbanSettings;
-    if (r.frontmatter) b.frontmatter = r.frontmatter;
-}
+export const syncBoardStatuses = async (board: MarkdownBoard, opts: SyncOptions): Promise<boolean> => {
+    const before = await board.toMarkdown();
+    const pending = detectPendingChanges(board, opts);
+    const applied = await applyUpdates(board, opts);
+    const after = await board.toMarkdown();
+    return pending || applied || before !== after;
+};
