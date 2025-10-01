@@ -1,6 +1,5 @@
 import type { MongoClient } from 'mongodb';
 import type { ChromaClient } from 'chromadb';
-
 import {
     __setMongoClientForTests,
     __setChromaClientForTests,
@@ -14,7 +13,6 @@ type UpdateDoc = {
     readonly $unset?: Record<string, unknown>;
 };
 type UpdateOptions = { readonly upsert?: boolean };
-
 type Cursor<T> = { toArray: () => Promise<T[]> };
 
 export class InMemoryCollection<T extends DocumentRecord = DocumentRecord> {
@@ -109,6 +107,7 @@ function evaluateOperators(actual: unknown, operators: Record<string, unknown>):
     }
     return Object.is(actual, operators);
 }
+
 
 function matchesFilter(doc: DocumentRecord, filter: FilterDoc): boolean {
     if (!filter || Object.keys(filter).length === 0) return true;
