@@ -11,7 +11,7 @@ created_at: '2025-09-15T02:02:58.515Z'
 Unify the historical kanban scripts into an ECS-powered experience that keeps Markdown + CLI flows authoritative while introducing modern interaction patterns.
 
 ## 📎 Attached Planning Docs
-- [ECS Board Planning Note](ecs_board_planning_note.md) ← circulate for sign-off before implementation.
+- [[ecs_board_planning_note|ECS Board Planning Note]] ← circulate for sign-off before implementation.
 
 ## ✅ Coordination Checklist
 - [ ] Share the planning note with Platform DX, Board Ops/Agents, and Product stakeholders.

@@ -1,47 +1,41 @@
 {
-  "name": "@promethean/agent",
-  "root": "packages/agent",
-  "sourceRoot": "packages/agent/src",
-  "targets": {
-    "build": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "tsc -b",
-        "cwd": "packages/agent"
-      },
-      "outputs": [
-        "{projectRoot}/dist"
-      ]
-    },
-    "typecheck": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "tsc -p tsconfig.json --noEmit",
-        "cwd": "packages/agent"
-      }
-    },
-    "test": {
-      "executor": "nx:run-commands",
-      "dependsOn": [
-        "build"
-      ],
-      "options": {
-        "command": "ava",
-        "cwd": "{projectRoot}",
-        "env": {
-          "AVA_PROJECT_ROOT": "."
+    "name": "@promethean/agent",
+    "root": "packages/agent",
+    "sourceRoot": "packages/agent/src",
+    "targets": {
+        "build": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "tsc -b",
+                "cwd": "packages/agent"
+            },
+            "outputs": ["{projectRoot}/dist"]
+        },
+        "typecheck": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "tsc -p tsconfig.json --noEmit",
+                "cwd": "packages/agent"
+            }
+        },
+        "test": {
+            "executor": "nx:run-commands",
+            "dependsOn": ["build"],
+            "options": {
+                "command": "ava",
+                "cwd": "{projectRoot}",
+                "env": {
+                    "AVA_PROJECT_ROOT": "."
+                }
+            }
+        },
+        "lint": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "eslint .",
+                "cwd": "packages/agent"
+            }
         }
-      }
     },
-    "lint": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "eslint .",
-        "cwd": "packages/agent"
-      }
-    }
-  },
-  "tags": [
-    "scope:packages"
-  ]
+    "tags": ["scope:packages"]
 }
