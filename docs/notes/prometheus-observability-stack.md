@@ -592,7 +592,7 @@ services:
 
   playwright:
     profiles: ["crawl"]
-    image: mcr.microsoft.com/playwright:v1.55.0-jammy
+    image: ${PLAYWRIGHT_IMAGE:-mcr.microsoft.com/playwright}:${PLAYWRIGHT_TAG:-v1.55.0-jammy}
     shm_size: 1gb
     environment:
       - PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
@@ -600,6 +600,9 @@ services:
       - ./infra/playwright:/work
     networks: [prom-net]
     restart: unless-stopped
+
+> ℹ️ Pin the Playwright base image once in `config/images/playwright.env` and load it with
+> `docker compose --env-file config/images/playwright.env ...` so CI and local stacks stay in sync.
 
   selenium:
     profiles: ["crawl"]
