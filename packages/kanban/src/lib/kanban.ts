@@ -3,7 +3,12 @@ import { randomUUID } from "node:crypto";
 import path from "node:path";
 import { parseFrontmatter as parseMarkdownFrontmatter } from "@promethean/markdown/frontmatter";
 import { loadKanbanConfig } from "../board/config.js";
-import { refreshTaskIndex } from "../board/indexer.js";
+import {
+  refreshTaskIndex,
+  indexTasks,
+  writeIndexFile,
+} from "../board/indexer.js";
+import type { IndexTasksOptions } from "../board/indexer.js";
 import type { Board, ColumnData, Task } from "./types.js";
 
 const NOW_ISO = () => new Date().toISOString();
@@ -118,7 +123,7 @@ const resolveTaskSlug = (task: Task, baseName: string): string => {
       ? task.slug.trim()
       : undefined;
   const fallbackSource =
-    sanitizedBase.length > 0 ? sanitizedBase : task.title ?? sanitizedBase;
+    sanitizedBase.length > 0 ? sanitizedBase : (task.title ?? sanitizedBase);
   const slugSource = explicitSlug ?? fallbackSource;
   const normalized = sanitizeFileNameBase(slugSource ?? "");
   if (normalized.length > 0) {
@@ -297,7 +302,7 @@ const parseColumnsFromMarkdown = (markdown: string): ColumnData[] => {
       const title =
         titleClean.length > 0
           ? titleClean
-          : displayFromWiki ?? linkTarget ?? `Task ${uuid.slice(0, 8)}`;
+          : (displayFromWiki ?? linkTarget ?? `Task ${uuid.slice(0, 8)}`);
 
       const done = doneFlag === "x";
       const status = done ? "Done" : current.name;
@@ -1150,7 +1155,7 @@ const ensureTaskContent = (task: Task, fallback?: Task): string => {
   const baseContent =
     task.content && task.content.length > 0
       ? task.content
-      : fallback?.content ?? "";
+      : (fallback?.content ?? "");
   const withBlocked = ensureSectionExists(baseContent, BLOCKED_BY_HEADING);
   return ensureSectionExists(withBlocked, BLOCKS_HEADING);
 };
@@ -1194,7 +1199,7 @@ export const createTask = async (
           BODY: bodyText,
           UUID: uuid,
         })
-      : input.content ?? bodyText;
+      : (input.content ?? bodyText);
 
   if (!contentFromTemplate) {
     contentFromTemplate = "";
@@ -1506,7 +1511,37 @@ const tokenize = (s: string): string[] =>
 
 export const indexForSearch = async (
   _tasksDir: string,
-): Promise<{ started: boolean }> => ({ started: true }); // noop stub – your indexer can hook here later
+  options?: Readonly<{
+    readonly argv?: ReadonlyArray<string>;
+    readonly env?: Readonly<NodeJS.ProcessEnv>;
+  }>,
+): Promise<
+  Readonly<{
+    readonly started: true;
+    readonly tasksIndexed: number;
+    readonly wroteIndexFile: boolean;
+  }>
+> => {
+  const { config, restArgs } = await loadKanbanConfig({
+    argv: options?.argv,
+    env: options?.env,
+  });
+  const tasks = await indexTasks({
+    tasksDir: config.tasksDir,
+    exts: config.exts,
+    repoRoot: config.repo,
+  } satisfies IndexTasksOptions);
+  const lines = tasksToJsonLines(tasks);
+  const shouldWrite = new Set(restArgs).has("--write");
+  if (shouldWrite) {
+    await writeIndexFile(config.indexFile, lines);
+  }
+  return Object.freeze({
+    started: true,
+    tasksIndexed: tasks.length,
+    wroteIndexFile: shouldWrite,
+  });
+};
 
 export const searchTasks = async (
   board: Board,
