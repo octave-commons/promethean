@@ -23,6 +23,11 @@
     },
     "test": {
       "dependsOn": ["build"]
+    },
+    "lint": {
+      "options": {
+        "forwardAllArgs": false
+      }
     }
   },
   "projects": {

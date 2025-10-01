@@ -1,34 +1,60 @@
 import test from 'ava';
 import { sleep } from '@promethean/utils';
 
+import type { AudioPlayer } from './types.js';
 import { createAgentWorld } from './world.js';
 import { enqueueUtterance } from './helpers/enqueueUtterance.js';
-import { OrchestratorSystem } from './systems/orchestrator.js';
+import { OrchestratorSystem, type OrchestratorBus } from './systems/orchestrator.js';
 
-function makePlayer() {
-    let playing = false;
-    const calls = { play: 0, stop: 0, pause: 0, unpause: 0 };
-    return {
-        play: (_: any) => {
-            calls.play++;
-            playing = true;
-        },
-        stop: (_: boolean) => {
-            calls.stop++;
-            playing = false;
-        },
-        pause: (_: boolean) => {
-            calls.pause++;
-            playing = false;
-        },
-        unpause: () => {
-            calls.unpause++;
-            playing = true;
-        },
-        isPlaying: () => playing,
-        __calls: calls,
-    };
+type PlayerCallCounts = {
+    readonly play: number;
+    readonly stop: number;
+    readonly pause: number;
+    readonly unpause: number;
+};
+
+class TestAudioPlayer implements AudioPlayer {
+    #playing = false;
+    #playCount = 0;
+    #stopCount = 0;
+    #pauseCount = 0;
+    #unpauseCount = 0;
+
+    play(): void {
+        this.#playCount += 1;
+        this.#playing = true;
+    }
+
+    stop(): void {
+        this.#stopCount += 1;
+        this.#playing = false;
+    }
+
+    pause(): void {
+        this.#pauseCount += 1;
+        this.#playing = false;
+    }
+
+    unpause(): void {
+        this.#unpauseCount += 1;
+        this.#playing = true;
+    }
+
+    isPlaying(): boolean {
+        return this.#playing;
+    }
+
+    get calls(): PlayerCallCounts {
+        return {
+            play: this.#playCount,
+            stop: this.#stopCount,
+            pause: this.#pauseCount,
+            unpause: this.#unpauseCount,
+        };
+    }
 }
+
+const makePlayer = (): TestAudioPlayer => new TestAudioPlayer();
 
 test('agent-ecs: enqueueUtterance visibility across ticks', async (t) => {
     const player = makePlayer();
@@ -59,21 +85,25 @@ test('agent-ecs: arbiter picks audio and marks playing', async (t) => {
     enqueueUtterance(w, agent, C, { factory: async () => ({ buf: 'audio' }) });
     w.endTick();
 
-    let pq = w.get(agent, C.PlaybackQ)!;
-    const [eid] = pq.items;
-    t.truthy(eid);
+    const initialQueue = w.get(agent, C.PlaybackQ)!;
+    const [maybeEntity] = initialQueue.items;
+    if (!maybeEntity) {
+        t.fail('expected queued utterance');
+        return;
+    }
+    const eid = maybeEntity;
 
     // run systems once: arbiter should pick and call play
     await tick(0);
     // allow async factory microtask to resolve and invoke player.play
     await sleep(0);
 
-    pq = w.get(agent, C.PlaybackQ)!;
-    t.deepEqual(pq.items, []); // dequeued
+    const afterTick = w.get(agent, C.PlaybackQ)!;
+    t.deepEqual(afterTick.items, []); // dequeued
 
     const utt = w.get(eid, C.Utterance)!;
     t.is(utt.status, 'playing');
-    t.is((player as any).__calls.play, 1);
+    t.is(player.calls.play, 1);
 });
 
 test('agent-ecs: orchestrator clears TranscriptFinal and enqueues', async (t) => {
@@ -81,13 +111,21 @@ test('agent-ecs: orchestrator clears TranscriptFinal and enqueues', async (t) =>
     const { w, agent, C } = createAgentWorld(player);
 
     // Prepare an orchestrator and mock bus
-    const calls: any[] = [];
-    const bus = {
-        enqueue: (topic: string, msg: any) => calls.push({ topic, msg }),
-    } as any;
+    const calls: Array<{ topic: string; msg: unknown }> = [];
+    const bus: OrchestratorBus = {
+        enqueue: (topic: string, msg: unknown) => {
+            calls.push({ topic, msg });
+        },
+    };
     const getContext = async (_text: string) => [{ role: 'user' as const, content: 'hi' }];
     const systemPrompt = () => 'test';
-    const orch = OrchestratorSystem(w, bus, C as any, getContext, systemPrompt);
+    const orch = OrchestratorSystem({
+        world: w,
+        bus,
+        components: C,
+        getContext,
+        systemPrompt,
+    });
 
     // Set a transcript in one frame
     const cmd = w.beginTick();
@@ -104,5 +142,10 @@ test('agent-ecs: orchestrator clears TranscriptFinal and enqueues', async (t) =>
     const tf = w.get(agent, C.TranscriptFinal)!;
     t.is(tf.text, '');
     t.is(calls.length, 1);
-    t.is(calls[0].topic, 'llm.generate');
+    const [firstCall] = calls;
+    if (!firstCall) {
+        t.fail('expected LLM enqueue');
+        return;
+    }
+    t.is(firstCall.topic, 'llm.generate');
 });

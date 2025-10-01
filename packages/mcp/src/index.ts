@@ -25,6 +25,15 @@ import {
   filesWriteFileLines,
 } from "./tools/files.js";
 import { filesSearch } from "./tools/search.js";
+import {
+  processEnqueueTask,
+  processGetQueue,
+  processGetStderr,
+  processGetStdout,
+  processGetTaskRunnerConfig,
+  processStopTask,
+  processUpdateTaskRunnerConfig,
+} from "./tools/process-manager.js";
 import type { ToolFactory } from "./core/types.js";
 import {
   resolveHttpEndpoints,
@@ -41,6 +50,13 @@ const toolCatalog = new Map<string, ToolFactory>([
   ["files.write-content", filesWriteFileContent],
   ["files.write-lines", filesWriteFileLines],
   ["files.search", filesSearch],
+  ["process.getTaskRunnerConfig", processGetTaskRunnerConfig],
+  ["process.updateTaskRunnerConfig", processUpdateTaskRunnerConfig],
+  ["process.enqueueTask", processEnqueueTask],
+  ["process.stop", processStopTask],
+  ["process.getQueue", processGetQueue],
+  ["process.getStdout", processGetStdout],
+  ["process.getStderr", processGetStderr],
   ["tdd.scaffoldTest", tddScaffoldTest],
   ["tdd.changedFiles", tddChangedFiles],
   ["tdd.runTests", tddRunTests],
