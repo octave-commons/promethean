@@ -56,7 +56,7 @@ Nothing
 ## 🔍 Relevant Links
 
 - [[kanban]]
-- [[docs/reviews/c39b94ff-file-explorer.md|Review findings (2025-09-30)]]
+- [[c39b94ff-file-explorer|Review findings (2025-09-30)]]
 
 
 ## Notes

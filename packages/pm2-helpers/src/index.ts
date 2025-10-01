@@ -2,9 +2,9 @@ import path from "node:path";
 
 export type DefineAppOptions = {
   readonly cwd?: string;
-  readonly watch?: string | string[];
+  readonly watch?: string | readonly string[];
   readonly env_file?: string;
-  readonly env?: Record<string, unknown>;
+  readonly env?: Readonly<Record<string, unknown>>;
   readonly instances?: number;
   readonly exec_mode?: string;
 };
@@ -16,7 +16,7 @@ export type AppDefinition = {
   readonly exec_mode?: string;
   readonly cwd?: string;
   readonly watch?: string | readonly string[];
-  readonly ignore_watch?: string | readonly string[];
+  readonly ignore_watch?: readonly string[];
   readonly env_file?: string;
   readonly out_file?: string;
   readonly error_file?: string;
@@ -25,15 +25,23 @@ export type AppDefinition = {
   readonly autorestart?: boolean;
   readonly restart_delay?: number;
   readonly kill_timeout?: number;
-  readonly env?: Record<string, unknown>;
+  readonly env?: Readonly<Record<string, string>>;
 };
 
-export function defineApp(
+type DefineAppFn = (
   name: string,
   script: string,
-  args: readonly string[] = [],
-  opts: DefineAppOptions = {},
-): AppDefinition {
+  args?: readonly string[],
+  opts?: DefineAppOptions,
+) => AppDefinition;
+
+const HEARTBEAT_PORT = 5005;
+const PYTHONPATH = path.resolve(
+  path.dirname(new URL(import.meta.url).pathname),
+  "..",
+);
+
+const defineAppInternal: DefineAppFn = (name, script, args = [], opts = {}) => {
   const {
     cwd,
     watch,
@@ -42,6 +50,11 @@ export function defineApp(
     instances = 1,
     exec_mode = "fork",
   } = opts;
+
+  const normalizedEnv = Object.fromEntries(
+    Object.entries(env).map(([k, v]) => [k, String(v)]),
+  );
+
   const base: AppDefinition = {
     name,
     script,
@@ -55,13 +68,11 @@ export function defineApp(
     restart_delay: 10_000,
     kill_timeout: 10_000,
     env: {
-      ...Object.fromEntries(
-        Object.entries(env).map(([k, v]) => [k, String(v)]),
-      ),
+      ...normalizedEnv,
       PM2_PROCESS_NAME: name,
-      HEARTBEAT_PORT: String(defineApp.HEARTBEAT_PORT),
+      HEARTBEAT_PORT: String(HEARTBEAT_PORT),
       PYTHONUNBUFFERED: "1",
-      PYTHONPATH: defineApp.PYTHONPATH,
+      PYTHONPATH,
       CHECK_INTERVAL: String(1000 * 60 * 5),
       HEARTBEAT_TIMEOUT: String(1000 * 60 * 10),
     },
@@ -72,15 +83,28 @@ export function defineApp(
     ...(cwd ? { cwd } : {}),
     ...(watch ? { watch } : {}),
     ignore_watch: ["node_modules", "logs", "tmp", ".git"],
-
     ...(env_file ? { env_file } : {}),
-  };
-}
+  } satisfies AppDefinition;
+};
 
-defineApp.HEARTBEAT_PORT = 5005;
-defineApp.PYTHONPATH = path.resolve(
-  path.dirname(new URL(import.meta.url).pathname),
-  "..",
+type DefineAppWithConstants = DefineAppFn & {
+  readonly HEARTBEAT_PORT: number;
+  readonly PYTHONPATH: string;
+};
+
+export const defineApp: DefineAppWithConstants = Object.freeze(
+  Object.assign(
+    ((
+      name: string,
+      script: string,
+      args: readonly string[] = [],
+      opts: DefineAppOptions = {},
+    ) => defineAppInternal(name, script, args, opts)) as DefineAppFn,
+    {
+      HEARTBEAT_PORT,
+      PYTHONPATH,
+    } as const,
+  ),
 );
 
 export function definePythonService(
@@ -105,21 +129,35 @@ export function defineNodeService(
   });
 }
 
+export type AgentAdditionalOptions = Readonly<Record<string, unknown>>;
+
+export type AgentDefinition = Readonly<{
+  readonly name: string;
+  readonly apps: readonly AppDefinition[];
+}> &
+  AgentAdditionalOptions;
+
 export function defineAgent(
   name: string,
   appDefs: readonly AppDefinition[],
-  opts: Record<string, unknown> = {},
-): Record<string, unknown> {
+  opts: AgentAdditionalOptions = Object.freeze({}) as AgentAdditionalOptions,
+): AgentDefinition {
+  const apps = Object.freeze(
+    appDefs.map(
+      (app): AppDefinition => ({
+        ...app,
+        name: `${name}_${app.name}`,
+        env: {
+          ...(app.env ?? {}),
+          AGENT_NAME: name,
+        },
+      }),
+    ),
+  );
+
   return {
     name,
-    apps: appDefs.map((app) => ({
-      ...app,
-      name: `${name}_${app.name}`,
-      env: {
-        ...(app.env || {}),
-        AGENT_NAME: name,
-      },
-    })),
+    apps,
     ...opts,
-  };
+  } as AgentDefinition;
 }
