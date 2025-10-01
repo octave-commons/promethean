@@ -42,7 +42,11 @@ function mkEnvelope<T>(type: string, payload: T): Envelope<T> {
   };
 }
 
-async function withTimeout<T>(promise: Promise<T>, ttlMs: number | undefined, onTimeout: () => void): Promise<T> {
+async function withTimeout<T>(
+  promise: Promise<T>,
+  ttlMs: number | undefined,
+  onTimeout: () => void,
+): Promise<T> {
   if (!ttlMs || ttlMs <= 0) {
     return promise;
   }
@@ -65,7 +69,11 @@ async function withTimeout<T>(promise: Promise<T>, ttlMs: number | undefined, on
 export class ToolRegistry {
   private readonly tools = new Map<string, RegisteredTool>();
 
-  register(provider: ToolProvider, definition: ToolDefinition, serverId?: string): void {
+  register(
+    provider: ToolProvider,
+    definition: ToolDefinition,
+    serverId?: string,
+  ): void {
     const key = this.key(provider, definition.name, serverId);
     const record: RegisteredTool = {
       name: definition.name,
@@ -114,7 +122,10 @@ export class ToolRegistry {
     return advert;
   }
 
-  advertisementEnvelope(provider: ToolProvider, serverId?: string): Envelope<ToolAdvertisement> {
+  advertisementEnvelope(
+    provider: ToolProvider,
+    serverId?: string,
+  ): Envelope<ToolAdvertisement> {
     return mkEnvelope("tool.advertise", this.advertisement(provider, serverId));
   }
 
@@ -123,16 +134,26 @@ export class ToolRegistry {
   }
 
   async invoke(call: ToolCall): Promise<ToolResult> {
-    const tool = this.tools.get(this.key(call.provider, call.name, call.serverId));
+    const tool = this.tools.get(
+      this.key(call.provider, call.name, call.serverId),
+    );
     if (!tool) {
-      return { callId: call.callId, ok: false, error: `unknown tool: ${call.name}` };
+      return {
+        callId: call.callId,
+        ok: false,
+        error: `unknown tool: ${call.name}`,
+      };
     }
     const ttl = call.ttlMs ?? tool.timeoutMs;
     let timedOut = false;
     try {
-      const result = await withTimeout(Promise.resolve(tool.handler(call.args)), ttl, () => {
-        timedOut = true;
-      });
+      const result = await withTimeout(
+        Promise.resolve(tool.handler(call.args)),
+        ttl,
+        () => {
+          timedOut = true;
+        },
+      );
       return {
         callId: call.callId,
         ok: true,
@@ -142,7 +163,11 @@ export class ToolRegistry {
       if (timedOut) {
         return { callId: call.callId, ok: false, error: "timeout" };
       }
-      return { callId: call.callId, ok: false, error: error instanceof Error ? error.message : String(error) };
+      return {
+        callId: call.callId,
+        ok: false,
+        error: error instanceof Error ? error.message : String(error),
+      };
     }
   }
 

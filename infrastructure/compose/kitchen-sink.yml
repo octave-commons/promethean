@@ -61,7 +61,7 @@ services:
     networks: [prom-net]
     restart: unless-stopped
 
-# ---------- OBSERVABILITY ----------
+  # ---------- OBSERVABILITY ----------
   prometheus:
     profiles: ["observability"]
     image: prom/prometheus:v3.0.0
@@ -148,7 +148,7 @@ services:
     networks: [prom-net]
     restart: unless-stopped
 
-# ---------- DATA LAYER ----------
+  # ---------- DATA LAYER ----------
   postgres:
     profiles: ["data"]
     image: postgres:16-alpine
@@ -174,7 +174,7 @@ services:
   redis:
     profiles: ["data"]
     image: redis:7-alpine
-    command: ["redis-server","--appendonly","yes"]
+    command: ["redis-server", "--appendonly", "yes"]
     volumes:
       - redis_data:/data
     ports: ["6379:6379"]
@@ -182,7 +182,7 @@ services:
     restart: unless-stopped
 
   meilisearch:
-    profiles: ["data","search"]
+    profiles: ["data", "search"]
     image: getmeili/meilisearch:v1.12
     environment:
       - MEILI_NO_ANALYTICS=true
@@ -196,7 +196,7 @@ services:
   minio:
     profiles: ["data"]
     image: minio/minio:RELEASE.2025-08-07T14-25-00Z
-    command: ["server","/data","--console-address",":9001"]
+    command: ["server", "/data", "--console-address", ":9001"]
     environment:
       - MINIO_ROOT_USER=${MINIO_ROOT_USER:-minio}
       - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD:-minio123}
@@ -209,7 +209,7 @@ services:
     restart: unless-stopped
 
   opensearch:
-    profiles: ["data","search"]
+    profiles: ["data", "search"]
     image: opensearchproject/opensearch:2.17.0
     environment:
       - discovery.type=single-node
@@ -218,14 +218,14 @@ services:
       - OPENSEARCH_JAVA_OPTS=-Xms2g -Xmx2g
     ulimits:
       memlock: { soft: -1, hard: -1 }
-      nofile:  { soft: 65535, hard: 65535 }
+      nofile: { soft: 65535, hard: 65535 }
     volumes:
       - opensearch_data:/usr/share/opensearch/data
-    ports: ["9200:9200","9600:9600"]
+    ports: ["9200:9200", "9600:9600"]
     networks: [prom-net]
     restart: unless-stopped
 
-# ---------- AI / ML ----------
+  # ---------- AI / ML ----------
   ollama:
     profiles: ["ai"]
     image: ollama/ollama:0.3.14
@@ -258,7 +258,7 @@ services:
     restart: unless-stopped
 
   tei-clip:
-    profiles: ["ai","vision"]
+    profiles: ["ai", "vision"]
     image: ghcr.io/huggingface/text-embeddings-inference:1.6
     environment:
       - MODEL_ID=${CLIP_MODEL:-openai/clip-vit-large-patch14}
@@ -268,7 +268,7 @@ services:
     restart: unless-stopped
 
   haystack:
-    profiles: ["ai","rag"]
+    profiles: ["ai", "rag"]
     image: deepset/haystack:base
     environment:
       - PIPELINE_YAML=/app/pipelines/default.yaml
@@ -279,7 +279,7 @@ services:
     restart: unless-stopped
     depends_on: [opensearch, meilisearch, postgres]
 
-# ---------- WEB SEARCH / CRAWLING ----------
+  # ---------- WEB SEARCH / CRAWLING ----------
   scrapy:
     profiles: ["crawl"]
     image: ghcr.io/scrapy/scrapy:2.11
@@ -291,7 +291,7 @@ services:
 
   playwright:
     profiles: ["crawl"]
-    image: mcr.microsoft.com/playwright:v1.47.2-jammy
+    image: ${PLAYWRIGHT_IMAGE:-mcr.microsoft.com/playwright}:${PLAYWRIGHT_TAG:-v1.55.0-jammy}
     shm_size: 1gb
     environment:
       - PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
@@ -304,11 +304,11 @@ services:
     profiles: ["crawl"]
     image: selenium/standalone-chromium:4.24.0
     shm_size: 2gb
-    ports: ["4444:4444","7900:7900"]
+    ports: ["4444:4444", "7900:7900"]
     networks: [prom-net]
     restart: unless-stopped
 
-# ---------- DEV TOOLING ----------
+  # ---------- DEV TOOLING ----------
   sonarqube:
     profiles: ["devtools"]
     image: sonarqube:lts-community
@@ -335,7 +335,7 @@ services:
     restart: unless-stopped
 
   drone-server:
-    profiles: ["devtools","ci"]
+    profiles: ["devtools", "ci"]
     image: drone/drone:2
     environment:
       - DRONE_GITEA_SERVER=http://gitea:3000
@@ -359,7 +359,7 @@ services:
     networks: [prom-net]
     restart: unless-stopped
 
-# ---------- SECURITY ----------
+  # ---------- SECURITY ----------
   vaultwarden:
     profiles: ["security"]
     image: vaultwarden/server:1.32.7
@@ -405,14 +405,14 @@ services:
     networks: [prom-net]
     restart: unless-stopped
 
-# ---------- MESSAGING ----------
+  # ---------- MESSAGING ----------
   nats:
     profiles: ["messaging"]
     image: nats:2.10
-    command: ["-js","-sd","/data"]
+    command: ["-js", "-sd", "/data"]
     volumes:
       - nats_data:/data
-    ports: ["4222:4222","8222:8222"]
+    ports: ["4222:4222", "8222:8222"]
     networks: [prom-net]
     restart: unless-stopped
 
@@ -428,16 +428,16 @@ services:
     restart: unless-stopped
 
   mosquitto:
-    profiles: ["messaging","iot"]
+    profiles: ["messaging", "iot"]
     image: eclipse-mosquitto:2.0
     volumes:
       - ./infra/mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
       - mosquitto_data:/mosquitto/data
-    ports: ["1883:1883","9002:9001"]
+    ports: ["1883:1883", "9002:9001"]
     networks: [prom-net]
     restart: unless-stopped
 
-# ---------- WORKFLOWS ----------
+  # ---------- WORKFLOWS ----------
   temporal:
     profiles: ["workflows"]
     image: temporalio/auto-setup:1.25.1
