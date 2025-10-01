@@ -16,14 +16,17 @@ export function makeBlueprint(name: string, steps: BlueprintStep[]): Blueprint {
 }
 
 export function spawn(world: World, bp: Blueprint, count = 1, overrides?: Partial<Record<number, any>>): number[] {
-    const ids: number[] = [];
-    for (let i = 0; i < count; i++) {
-        const e = world.createEntity();
-        for (const s of bp.steps) {
-            const val = typeof s.v === 'function' ? s.v(i) : s.v;
-            world.addComponent(e, s.c as any, overrides?.[s.c.id] ?? val);
-        }
-        ids.push(e);
-    }
-    return ids;
+    return Array.from({ length: count }, (_, index) => {
+        const entity = world.createEntity();
+        bp.steps.forEach((step) => {
+            const valueOrFactory = step.v;
+            const generated =
+                typeof valueOrFactory === 'function'
+                    ? (valueOrFactory as (i: number) => unknown)(index)
+                    : valueOrFactory;
+            const resolved = overrides?.[step.c.id] ?? generated;
+            world.addComponent(entity, step.c as any, resolved);
+        });
+        return entity;
+    });
 }
