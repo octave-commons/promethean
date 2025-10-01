@@ -1,6 +1,6 @@
 # .github/workflows/on-pr-to-dev.yml
 name: build
-on: { pull_request: { branches: ["dev/**"] } }
+on: { pull_request: { branches: ["dev/**", "main"] } }
 permissions:
   contents: read
 jobs:
