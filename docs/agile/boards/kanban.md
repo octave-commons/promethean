@@ -26,63 +26,9 @@ kanban-plugin: board
 - [ ] [[also-batman]]
 - [ ] [[just-so-much-batman]]
 - [ ] [[hy---js-interop|hy - js interop]] #Breakdown #todo
-- [ ] [[gather_baseline_emotion_metrics_for_eidolon_field_1_md|Gather baseline emotion metrics for Eidolon field]] #framework-core #IceBox #rejected
 - [ ] [[evaluate_and_reward_flow_satisfaction|Evaluate and reward flow satisfaction]] #framework-core #IceBox #rejected
-- [ ] [[migrate_server_side_sibilant_libs_to_promethean_ar_md|Migrate server side sibilant libs to Promethean architecture.]] #rejected
 - [ ] [[universal-package-manager]] #tags #promethean #monorepo #dependency-management #pnpm #uv #poetry #nix #mise #asdf #direnv #ci #lockfiles #reproducible-builds #architectural-decisions #5190 #rejected
-- [ ] [[detect_contradictions_in_memory_md_md|Detect contradictions in memory]] #framework-core #IceBox #rejected
-- [ ] [[implement_transcendence_cascade_md|Implement transcendence cascade]] #framework-core #IceBox #rejected
-- [ ] [[identify_ancestral_resonance_patterns_md_md|Identify ancestral resonance patterns]] #framework-core #IceBox #rejected
-- [ ] [[annotate_legacy_code_with_migration_tags_md|Annotate legacy code with migration tags]] #framework-core #rejected
 - [ ] [[find-music-that-triggered-copyright-mute-on-twitch-for-analysis-incoming|Find music that triggered copyright mute on twitch for analysis incoming]] #framework-core #rejected
-- [ ] [[add_withdlq_around_risky_consumers_set_maxattempts_md|Add **withDLQ** around risky consumers; set `maxAttempts`]] #rejected
-- [ ] [[enable_compactor_for_process_state_process_state_s_md|Enable compactor for `process.state` → `process.state.snapshot`]] #rejected
-- [ ] [[add_startchangelogprojector_for_any_compaction_lik_md|Add **startChangelogProjector** for any compaction-like topic you want live-queryable]] #rejected
-- [ ] [[add_ollama_formally_to_pipeline_md_md|Add Ollama formally to pipeline]] #rejected
-- [ ] [[run_bench_subscribe_ts_with_mongo_bus_and_record_p_md|Run `bench/subscribe.ts` with Mongo bus and record p50/p99]] #ice-box
-- [ ] [[add_prometheus_events_counters_in_ws_server_hook_p_md|Add Prometheus `events_*` counters in WS server hook points]] #rejected
-- [ ] [[add_ttls_per_topic_via_migration_script_md|Add TTLs per topic via migration script]] #rejected
-- [ ] [[add_lag_checks_to_ci_smoke_ensure_small_lag_after_md|Add `/lag` checks to CI smoke (ensure small lag after publishing bursts)]] #rejected
-- [ ] [[write_a_small_cutover_script_to_replay_historical_md|Write a small **cutover** script to replay historical events through upcasters into snapshots]] #ice-box
-- [ ] [[wire_mongoeventstore_mongocursorstore_in_place_of_md|Wire MongoEventStore + MongoCursorStore in place of InMemory]] #ice-box
-- [ ] [[add_ops_endpoint_to_list_partition_assignments_opt_md|Add `/ops` endpoint to list **partition assignments** (optional: dump coordinator state)]] #rejected
-- [ ] [[add_mongodedupe_and_replace_critical_consumers_wit_md|Add `MongoDedupe` and replace critical consumers with `subscribeExactlyOnce`]] #rejected
-- [ ] [[add_mongooutbox_to_any_service_that_writes_db_chan_md|Add `MongoOutbox` to any service that writes DB changes; swap local app emits → outbox writes]] #rejected
-- [ ] [[add_tokenbucket_to_ws_server_conn_per_topic_md|Add `TokenBucket` to WS server (conn + per-topic)]] #rejected
-- [ ] [[add_dev_harness_int_test_ts_to_ci_integration_stag_md|Add `dev.harness.int.test.ts` to CI integration stage]] #rejected
-- [ ] [[add_manualack_to_event_bus_and_re_run_tests_md|Add `manualAck` to event bus and re-run tests]] #rejected
-- [ ] [[add_process_txn_projector_to_upsert_processes_host_md|Add `process.txn` projector to upsert `processes` + `host_stats` atomically]] #rejected
-- [ ] [[add_snapshot_consumer_to_warm_cache_on_boot_md|Add snapshot consumer to warm cache on boot]] #rejected
-- [ ] [[add_vault_instructions_to_main_readme_md_md_md|Add vault instructions to main README.md]] #framework-core #rejected
-- [ ] [[define_default_scopes_publish_heartbeat_received_s_md|Define default scopes: `publish:heartbeat.received`, `subscribe:process.state`]] #rejected
-- [ ] [[deploy_changefeed_for_collections_you_want_mirrore_md|Deploy **changefeed** for collections you want mirrored to topics]] #rejected
-- [ ] [[detect_contradictions_in_memory_codex_task_md|Detect contradictions in memory #codex-task]] #codex-task #rejected
-- [ ] [[document_etag_semantics_and_cache_headers_for_snap_md|Document ETag semantics and cache headers for `/snap/:key`]] #rejected
-- [ ] [[enable_scripts_lint_topics_ts_in_ci_md|Enable **scripts/lint-topics.ts** in CI]] #rejected
-- [ ] [[ensure_github_compatible_markdown_settings_are_doc_md|Ensure GitHub-compatible markdown settings are documented]] #documentation #rejected
-- [ ] [[ensure_mongo_indexes_key_1_unique_common_query_fie_md|Ensure Mongo indexes: `{ _key: 1 } unique` + common query fields]] #rejected
-- [ ] [[expose_snapshot_api_for_processes_collection_proce_md|Expose **Snapshot API** for `processes` (collection `processes`)]] #rejected
-- [ ] [[expose_metrics_on_an_express_app_and_scrape_with_p_md|Expose `/metrics` on an express app and scrape with Prom]] #rejected
-- [ ] [[finalize_stt_workflow_md_md|Finalize STT workflow]] #codex-task #testing #rejected
-- [ ] [[identify_ancestral_resonance_patterns_framework_co_md|Identify ancestral resonance patterns #framework-core]] #framework-core #rejected
-- [ ] [[implement_pause_resume_ops_on_gateway_md|Implement `PAUSE/RESUME` ops on gateway]] #rejected
-- [ ] [[implement_timetravel_processat_processid_t_in_a_sm_md|Implement `timetravel.processAt(processId, T)` in a small CLI for debugging]] #rejected
-- [ ] [[implement_transcendence_cascade_framework_core_md|Implement transcendence cascade #framework-core]] #framework-core #rejected
-- [ ] [[launch_replayapi_on_8083_test_replay_and_export_nd_md|Launch `ReplayAPI` on `:8083`; test `/replay` and `/export?ndjson=1`]] #rejected
-- [ ] [[register_v_1_schema_for_any_evolving_topic_and_wri_md|Register **v+1** schema for any evolving topic and write minimal **upcaster**]] #rejected
-- [ ] [[run_bakeoff_see_below_md|Run bakeoff (see below)]] #rejected
-- [ ] [[spin_up_ws_gateway_ws_port_8090_ws_token_devtoken_md|Spin up WS gateway (`WS_PORT=8090 WS_TOKEN=devtoken node index.js`)]] #rejected
-- [ ] [[suggest_metaprogramming_updates_codex_task_md|Suggest metaprogramming updates #codex-task]] #codex-task #rejected
-- [ ] [[summarize_clarified_priorities_for_next_sprint_md_md|Summarize clarified priorities for next sprint]] #framework-core #reject #rejected
-- [ ] [[switch_critical_readers_to_subscribenormalized_md|Switch critical readers to **subscribeNormalized**]] #rejected
-- [ ] [[switch_gateway_auth_to_jwt_generate_temp_hs256_tok_md|Switch gateway auth to JWT; generate temp HS256 token for dev]] #rejected
-- [ ] [[use_subscribepartitioned_for_cpu_heavy_consumers_t_md|Use **subscribePartitioned** for CPU-heavy consumers; tune `partitions` (power of 2 is fine)]] #rejected
-- [ ] [[wire_runoutboxdrainer_in_event_hub_md|Wire `runOutboxDrainer` in event-hub]] #rejected
-- [ ] [[wrap_event_hub_publish_path_with_withschemavalidat_md|Wrap `event-hub` publish path with **withSchemaValidation**; fail fast on bad payloads]] #rejected
-- [ ] [[wrap_writers_with_withdualwrite_md|Wrap writers with **withDualWrite**]] #rejected
-- [ ] [[write_a_replay_job_that_replays_process_state_snap_md|Write a replay job that replays `process.state.snapshot` to warm the `processes` collection]] #rejected
-- [ ] [[write_a_smoke_test_client_subscribes_publish_10_ms_md|Write a smoke test: client subscribes, publish 10 msgs, assert all ACKed]] #rejected
-- [ ] [[move_all_testing_to_individual_services_md|move all testing to individual services md]] #Duplicate #rejected
 
 
 ## Blocked
@@ -99,42 +45,28 @@ kanban-plugin: board
 - [ ] [[create-broker-services-that-can-handle-all-the-same-tasks-as-the-gpt-bridge|Create broker services that can handle all the same tasks as the gpt bridge]] #broker #ws #api #gptbridge #parity #promethean #ops #ready
 - [ ] [[ecs_query_api_gateway|ecs query api gateway]] #ecs #api #mongo #accepted
 - [ ] [[scripts_group_audio_tools|scripts group audio tools]] #scripts #audio #organization #accepted
-- [ ] [[discord_link_indexer_md|discord link indexer md]] #framework-core #prompt-refinement #accepted
 - [ ] [[ecs_mongo_adapter_library|ecs mongo adapter library]] #ecs #mongo #orm #accepted
 - [ ] [[ecs_component_schemas_core|ecs component schemas core]] #ecs #schemas #conversation #accepted
 - [ ] [[ecs_component_schemas_core|ecs component schemas core]] #incoming
 - [ ] [[ecs_migration_path_docs|ecs migration path docs]] #incoming
-- [ ] [[discord_chat_link_traversal_md_md|discord chat link traversal md md]] #framework-core #IceBox #todo
 - [ ] [[scripts_group_audio_tools|scripts group audio tools]] #incoming
 - [ ] [[ecs_mongo_adapter_library|ecs mongo adapter library]] #incoming
-- [ ] [[discord_link_indexer_md|discord link indexer md]] #accepted
-- [ ] [[allow_configuration_of_hyperparameters_through_discord_context_size_spectrogram_resolution_interuption_threshold_md|allow configuration of hyperparameters through discord context size spectrogram resolution interuption threshold md]] #framework-core #IceBox #ready
 - [ ] [[ecs_query_api_gateway|ecs query api gateway]] #incoming
-- [ ] [[setup_services_to_recieve_work_from_the_broker_via_push_md|setup services to recieve work from the broker via push md]] #codex-task #broker #queueManager #service-oriented #push-queue #agent-mode #in-progress
 - [ ] [[ecs_projection_jobs|ecs projection jobs]] #incoming
 - [ ] [[ecs_projection_jobs|ecs projection jobs]] #ecs #projections #compaction #ready
-- [ ] [[discord_image_awareness_md_md|discord image awareness md md]] #in-progress
 - [ ] [[auth_key_rotation_and_bootstrap|auth key rotation and bootstrap]] #incoming
-- [ ] [[allow_old_unnessisary_messages_to_decay_from_database_while_retaining_index_entries_ids_md_md|allow old unnessisary messages to decay from database while retaining index entries ids md md]] #todo
 - [ ] [[llm-service-must-allow-streamed-responses|LLM service must allow streamed responses]] #ready
 - [ ] [[set-up-proper-openai-custom-gpt-compatable-oauth-login-flow|Set up proper openai custom gpt compatable oauth login flow]] #framework-core #ready
 - [ ] [[auth_migrate_services_to_jwt|auth migrate services to jwt]] #auth #migration #services #ready
 - [ ] [[chatgpt-export-injest-with-dedupe-index-and-hashes|ChatGPT export injest with dedupe index and hashes]] #ready
-- [ ] [[add_twitch_chat_integration_md_md|add twitch chat integration md md]] #framework-core #ready
-- [ ] [[full_agent_mode_text_chat_selectively_join_channels_etc_md|full agent mode text chat selectively join channels etc md]] #framework-core #ready
 - [ ] [[lsp-server-for-home-brew-lisp-incoming|LSP server for home brew lisp incoming]] #ready
-- [ ] [[finish_whisper_npu_system_md_md|finish whisper npu system md md]] #framework-core #performance-optimization #npu-integration #ready
 - [ ] [[database-migration-system|database migration system]] #ready
-- [ ] [[docs/unique/agent-tasks-persistence-migration-to-dualstore|Agent Tasks Persistence Migration to DualStore]] #ready
 - [ ] [[broker-gpt-bridge-parity-plan|broker gpt bridge parity plan]] #broker #gptbridge #testing #parity #ws #http #ci #observability #promethean #versioning #tags #broker #gptbridge #parity #ws #http #testing #ci #observability #promethean #in-review
 - [ ] [[context-service|context service]] #ready
 - [ ] [[auth_key_rotation_and_bootstrap|auth key rotation and bootstrap]] #auth #security #rotation #ready
-- [ ] [[allow_old_unnessisary_messages_to_decay_from_database_while_retaining_index_entries_ids_md_md|allow old unnessisary messages to decay from database while retaining index entries ids md md]] #framework-core #eidolon-support #IceBox #ready
 - [ ] [[audio-processing-service|audio processing service]] #framework-core #framework-core #Ready #ready
 - [ ] [[connect-wikipedia|connect wikipedia]] #Ready #Ready #ready
 - [ ] [[add-git-commands-to-gpt-bridge|Add git commands to gpt bridge]] #ready
-- [ ] [[add_semantic_overlays_for_layer1_through_layer8_md_md|Add semantic overlays for layer1 through layer8]] #layerX #framework-core #IceBox #ready
-- [ ] [[discord_image_awareness_md_md|discord image awareness md md]] #framework-core #ollama-integration #ready
 - [ ] [[connect-reddit|connect reddit]] #Ready #Ready #ready
 - [ ] [[connect-bluesky|connect bluesky]] #Ready #ready
 - [ ] [[clearly-standardize-data-models|clearly standardize data models]] #framework-core #framework-core #Ready #ready
@@ -146,15 +78,10 @@ kanban-plugin: board
 - [ ] [[promethean-health-dashboard|Promethean Health Dashboard]] #framework-core #observability #eidolon-visualization #dashboard #broker #realtime #IceBox #ready
 - [ ] [[webcrawler]] #Tags #agents #crawler #llm #summarization #chroma #mongodb #etl #dual-sink #search #observability #promethean #tag #tags #tags #c #ai #ethics #promethean #login #home #tags #promethean #agent #crawler #hyperlink-graph #summarization #tags #obsidian #chroma #mongodb #dual-sink #fastify #ollama #qwen #readability #robots #search #observability #in-progress
 - [ ] [[lisp-ecosystem-files|lisp ecosystem files]] #Breakdown #todo
-- [ ] [[reach_100_percent_complete_test_coverage_1_md_md|reach 100 percent complete test coverage 1 md md]] #framework-core #IceBox #todo
 - [ ] [[lisp-package-files|lisp package files]] #framework-core #framework-core #Ready #todo
-- [ ] [[full_agent_mode_text_chat_selectively_join_channels_etc_md|full agent mode text chat selectively join channels etc md]] #breakdown
 - [ ] [[openai-compatable-api|OpenAI compatable api]] #in-progress
-- [ ] [[refactor_speech_interuption_system_to_be_more_inteligent_using_audio_data_to_decide_if_interupted_md_md|refactor speech interuption system to be more inteligent using audio data to decide if interupted md md]] #framework-core #Breakdown #todo
 - [ ] [[implement-classes-in-compiler-lisp-incoming|implement classes in compiler lisp incoming]] #in-progress
-- [ ] [[discord_chat_link_traversal_md_md|discord chat link traversal md md]] #todo
 - [ ] [[auth_migrate_services_to_jwt|auth migrate services to jwt]] #incoming
-- [ ] [[allow_configuration_of_hyperparameters_through_discord_context_size_spectrogram_resolution_interuption_threshold_md|allow configuration of hyperparameters through discord context size spectrogram resolution interuption threshold md]] #todo
 - [ ] [[auth_service_rfc_and_architecture|auth service rfc and architecture]] #incoming
 - [ ] [[auth_ci_and_load_tests|auth ci and load tests]] #incoming
 - [ ] [[set-up-data-migration-pipeline-and-clearly-describe-conventions|set up data migration pipeline and clearly describe conventions]] #data #migrations #contracts #mongodb #chroma #testing #ci #promethean #tags #promethean #mongodb #chroma #migration #contracts #testing #ci #safety #idempotent #in-progress
@@ -165,25 +92,11 @@ kanban-plugin: board
 ## Ice Box
 
 - [ ] [[structural-code-editing-ai-tool-that-uses-tree-diffs-instead-of-string-based-universal-diffs--ensuring-generated-results-are-always-immediately-validatable]]
-- [ ] [[add_twitch_chat_integration_md_md|add twitch chat integration md md]] #breakdown
-- [ ] [[twitch_discord_general_auto_mod_md_md|twitch discord general auto mod md md]] #framework-core #observability #multimodal-context #risk #IceBox #todo
 - [ ] [[harden-precommit-hooks|harden precommit hooks]] #ready
 - [ ] [[design-vision-pipeline-mvp]]
 - [ ] [[design-audio-pipeline-mvp]]
 - [ ] [[kubernetes-configurations-for-secure-distributed-deployment-on-local-net]]
-- [ ] [[design_circular_buffers_for_inputs_with_layered_states_of_persistance_in_memory_on_disk_cold_storage_so_md|design circular buffers for inputs with layered states of persistance in memory on disk cold storage so md]] #framework-core #Breakdown #todo
 - [ ] [[redefine-all-existing-lambdas-with-high-order-functions-incoming|redefine all existing lambdas with high order functions incoming]] #framework-core #framework-core #Ready #todo
-- [ ] [[finish_whisper_npu_system_md_md|finish whisper npu system md md]] #breakdown
-- [ ] [[implement_fragment_ingestion_with_activation_vecto_md|Implement fragment ingestion with activation vectors]] #ice-box
-- [ ] [[schedule_alignment_meeting_with_stakeholders_md_md|Schedule alignment meeting with stakeholders]] #ice-box
-- [ ] [[suggest_metaprogramming_updates_md|Suggest metaprogramming updates]] #ice-box
-- [ ] [[cache_decay_mechanisim_md_md|cache decay mechanisim md md]] #ice-box
-- [ ] [[obsidian_replacement_md|obsidian replacement md]] #ice-box
-- [ ] [[implement_fragment_ingestion_with_activation_vecto_md|Implement fragment ingestion with activation vectors]] #framework-core #ice-box
-- [ ] [[schedule_alignment_meeting_with_stakeholders_md_md|Schedule alignment meeting with stakeholders]] #framework-core #ice-box
-- [ ] [[cache_decay_mechanisim_md_md|cache decay mechanisim md md]] #framework-core #ice-box
-- [ ] [[migrate_server_side_sibilant_libs_to_promethean_ar_md|Migrate server side sibilant libs to Promethean architecture.]] #accepted
-- [ ] [[tool_chain_management_system_md_md|tool chain management system md md]] #ice-box
 
 
 ## Incoming
@@ -363,6 +276,6 @@ kanban-plugin: board
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","list-collapse":[false,false,true,false,false,false,false,false,false,false,false,false,false],"new-note-template":"docs/agile/templates/task.stub.template.md","new-note-folder":"docs/agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
+{"kanban-plugin":"board","list-collapse":[false,false,false,false,false,false,false,false,false,false,false,false,false],"new-note-template":"docs/agile/templates/task.stub.template.md","new-note-folder":"docs/agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
 ```
 %%
