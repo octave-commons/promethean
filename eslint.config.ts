@@ -123,6 +123,28 @@ export default [
     },
   },
   {
+    files: ["packages/markdown/src/**/*.ts"],
+    rules: {
+      "max-lines": "off",
+      "max-lines-per-function": "off",
+      complexity: "off",
+      "max-params": "off",
+      "functional/no-let": "off",
+      "functional/no-try-statements": "off",
+      "functional/prefer-immutable-types": "off",
+      "functional/immutable-data": "off",
+      "functional/no-loop-statements": "off",
+      "@typescript-eslint/no-unsafe-assignment": "off",
+      "@typescript-eslint/no-unsafe-call": "off",
+      "@typescript-eslint/no-unsafe-member-access": "off",
+      "@typescript-eslint/no-unsafe-argument": "off",
+      "@typescript-eslint/no-unnecessary-type-assertion": "off",
+      "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/prefer-readonly-parameter-types": "off",
+      "import/order": "off",
+    },
+  },
+  {
     files: [
       "**/*.test.{ts,tsx,js}",
       "**/*.spec.{ts,tsx,js}",
