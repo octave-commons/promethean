@@ -2,6 +2,8 @@ import { promises as fs } from "node:fs";
 import { randomUUID } from "node:crypto";
 import path from "node:path";
 import { parseFrontmatter as parseMarkdownFrontmatter } from "@promethean/markdown/frontmatter";
+import { loadKanbanConfig } from "../board/config.js";
+import { refreshTaskIndex } from "../board/indexer.js";
 import type { Board, ColumnData, Task } from "./types.js";
 
 const NOW_ISO = () => new Date().toISOString();
@@ -311,25 +313,84 @@ const parseFrontmatter = (text: string): { fm: FM; body: string } => {
   return { fm: (res.data ?? {}) as FM, body: res.content || "" };
 };
 
+const coerceString = (value: unknown): string | undefined => {
+  if (typeof value === "string") {
+    const trimmed = value.trim();
+    return trimmed.length > 0 ? trimmed : undefined;
+  }
+  if (typeof value === "number" || typeof value === "bigint") {
+    return String(value);
+  }
+  if (typeof value === "boolean") {
+    return value ? "true" : "false";
+  }
+  return undefined;
+};
+
+const pickString = (
+  source: FM,
+  keys: ReadonlyArray<string>,
+): string | undefined => {
+  for (const key of keys) {
+    const candidate = coerceString((source as Record<string, unknown>)[key]);
+    if (typeof candidate === "string" && candidate.length > 0) {
+      return candidate;
+    }
+  }
+  return undefined;
+};
+
+const parseLabelList = (value: unknown): string[] => {
+  if (Array.isArray(value)) {
+    return value
+      .map((entry) => coerceString(entry))
+      .filter((entry): entry is string => typeof entry === "string")
+      .map((entry) => entry.trim())
+      .filter((entry) => entry.length > 0);
+  }
+  const text = coerceString(value);
+  if (!text) {
+    return [];
+  }
+  return text
+    .split(/[,\s]+/)
+    .map((entry) => entry.trim())
+    .filter((entry) => entry.length > 0);
+};
+
+const mergeLabels = (...values: unknown[]): string[] => {
+  const merged = new Set<string>();
+  for (const value of values) {
+    for (const entry of parseLabelList(value)) {
+      merged.add(entry);
+    }
+  }
+  return Array.from(merged);
+};
+
 const taskFromFM = (fm: FM, body: string): Task | null => {
-  if (!fm.uuid || !fm.title) return null;
+  const uuid = pickString(fm, ["uuid", "id", "task-id", "task_id", "taskId"]);
+  const title = pickString(fm, ["title", "name"]);
+  if (!uuid || !title) return null;
+  const slugValue = pickString(fm, ["slug"]);
   const t: Task = {
-    uuid: String(fm.uuid),
-    title: String(fm.title),
-    status: String(fm.status ?? "Todo"),
-    priority: fm.priority,
-    labels: Array.isArray(fm.labels)
-      ? fm.labels.map(String)
-      : typeof fm.labels === "string"
-        ? fm.labels.split(/[\s,]+/).filter(Boolean)
-        : [],
-    created_at: fm.created_at ?? NOW_ISO(),
+    uuid,
+    title,
+    status:
+      pickString(fm, ["status", "state", "column"]) ??
+      String(fm.status ?? "Todo"),
+    priority:
+      typeof fm.priority === "number"
+        ? fm.priority
+        : pickString(fm, ["priority", "prio"]),
+    labels: mergeLabels(fm.labels, fm.tags, fm.hashtags),
+    created_at:
+      pickString(fm, ["created_at", "created", "txn"]) ??
+      fm.created_at ??
+      NOW_ISO(),
     estimates: fm.estimates ?? {},
     content: (body ?? "").trim() || undefined,
-    slug:
-      typeof fm.slug === "string" && fm.slug.trim().length > 0
-        ? sanitizeFileNameBase(fm.slug.trim())
-        : undefined,
+    slug: slugValue ? sanitizeFileNameBase(slugValue) : undefined,
   };
   return t;
 };
@@ -591,6 +652,21 @@ const resolveKanbanFooter = async (boardPath: string): Promise<string> => {
     }
   } catch {}
   return DEFAULT_KANBAN_FOOTER;
+};
+
+const maybeRefreshIndex = async (tasksDir: string): Promise<void> => {
+  try {
+    const { config } = await loadKanbanConfig();
+    const resolvedInput = path.resolve(tasksDir);
+    const resolvedConfig = path.resolve(config.tasksDir);
+    if (resolvedInput !== resolvedConfig) {
+      return;
+    }
+    await refreshTaskIndex(config);
+  } catch {
+    // Ignore configuration/indexing errors when regeneration targets
+    // ad-hoc directories outside the configured workspace.
+  }
 };
 
 const writeBoard = async (boardPath: string, board: Board): Promise<void> => {
@@ -918,7 +994,6 @@ const BLOCKS_HEADING = "## ⛓️ Blocks";
 
 const escapeRegExp = (value: string): string =>
   value.replace(/[\\/\-^$*+?.()|[\]{}]/g, "\\$&");
-
 
 const formatSectionBlock = (
   heading: string,
@@ -1361,6 +1436,7 @@ export const regenerateBoard = async (
       tasks: ts,
     }),
   );
+  await maybeRefreshIndex(tasksDir);
   await writeBoard(boardPath, { columns });
   return { totalTasks: tasks.length };
 };
