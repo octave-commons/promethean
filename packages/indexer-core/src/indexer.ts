@@ -559,6 +559,13 @@ export class IndexerManager {
   async _drain() {
     if (this._draining) return;
     this._draining = true;
+    const rootPath = this.rootPath;
+    if (!rootPath) {
+      logger.warn("indexer drain skipped - no root path configured");
+      this._draining = false;
+      this.active = false;
+      return;
+    }
     const delayMs = Number(process.env.INDEXER_FILE_DELAY_MS || 250);
     while (this.queue.length) {
       this.active = true;
@@ -568,7 +575,7 @@ export class IndexerManager {
         remaining: this.queue.length,
       });
       try {
-        await indexFile(this.rootPath!, rel);
+        await indexFile(rootPath, rel);
         this.processedFiles++;
         // If this item corresponds to current bootstrap cursor, advance and persist
         if (
@@ -583,7 +590,7 @@ export class IndexerManager {
             fileList: this.bootstrap.fileList,
             ...(this.startedAt !== null ? { startedAt: this.startedAt } : {}),
           };
-          await saveBootstrapState(this.rootPath!, nextState1);
+          await saveBootstrapState(rootPath, nextState1);
         }
       } catch (e: any) {
         this.errors.push(String(e?.message || e));
@@ -601,7 +608,7 @@ export class IndexerManager {
             fileList: this.bootstrap.fileList,
             ...(this.startedAt !== null ? { startedAt: this.startedAt } : {}),
           };
-          await saveBootstrapState(this.rootPath!, nextState2);
+          await saveBootstrapState(rootPath, nextState2);
         }
       }
       if (this.queue.length) await new Promise((r) => setTimeout(r, delayMs));
@@ -615,7 +622,7 @@ export class IndexerManager {
         this.bootstrap.cursor >= this.bootstrap.fileList.length
       ) {
         this.mode = "indexed";
-        const { files, fileInfo } = await gatherRepoFiles(this.rootPath!);
+        const { files, fileInfo } = await gatherRepoFiles(rootPath);
         const nextState3: Omit<BootstrapState, "rootPath"> = {
           mode: "indexed",
           cursor: this.bootstrap.cursor,
@@ -624,7 +631,7 @@ export class IndexerManager {
           ...(this.startedAt !== null ? { startedAt: this.startedAt } : {}),
           ...(this.finishedAt !== null ? { finishedAt: this.finishedAt } : {}),
         };
-        await saveBootstrapState(this.rootPath!, nextState3);
+        await saveBootstrapState(rootPath, nextState3);
       }
     }
     this._draining = false;
@@ -637,7 +644,9 @@ export class IndexerManager {
   async scheduleReindexAll() {
     if (this.mode === "bootstrap")
       return { ok: true, ignored: true, mode: this.mode };
-    const { files } = await gatherRepoFiles(this.rootPath!, {
+    const rootPath = this.rootPath;
+    if (!rootPath) throw new Error("Indexer root path not configured");
+    const { files } = await gatherRepoFiles(rootPath, {
       include: DEFAULT_INCLUDE,
     });
     this.enqueueFiles(files);
@@ -647,15 +656,19 @@ export class IndexerManager {
   async scheduleReindexSubset(globs: string | string[]) {
     if (this.mode === "bootstrap")
       return { ok: true, ignored: true, mode: this.mode };
+    const rootPath = this.rootPath;
+    if (!rootPath) throw new Error("Indexer root path not configured");
     const include = Array.isArray(globs) ? globs : [String(globs)];
-    const { files } = await gatherRepoFiles(this.rootPath!, { include });
+    const { files } = await gatherRepoFiles(rootPath, { include });
     this.enqueueFiles(files);
     this._drain();
     return { ok: true, queued: files.length };
   }
   async scheduleIndexFile(rel: string) {
+    const rootPath = this.rootPath;
+    if (!rootPath) throw new Error("Indexer root path not configured");
     try {
-      const { rel: safeRel } = await resolveWithinRoot(this.rootPath!, rel);
+      const { rel: safeRel } = await resolveWithinRoot(rootPath, rel);
       this.enqueueFiles([safeRel]);
       this._drain();
       return { ok: true, queued: 1 };
@@ -664,17 +677,21 @@ export class IndexerManager {
     }
   }
   async removeFile(rel: string) {
+    const rootPath = this.rootPath;
+    if (!rootPath) throw new Error("Indexer root path not configured");
     try {
-      const { rel: safeRel } = await resolveWithinRoot(this.rootPath!, rel);
-      return await removeFileFromIndex(this.rootPath!, safeRel);
+      const { rel: safeRel } = await resolveWithinRoot(rootPath, rel);
+      return await removeFileFromIndex(rootPath, safeRel);
     } catch (error) {
       return { ok: false, error: "File is outside index root" };
     }
   }
 
   async _scheduleIncremental(prev: any) {
+    const rootPath = this.rootPath;
+    if (!rootPath) throw new Error("Indexer root path not configured");
     const { files: currentFiles, fileInfo: currentInfo } =
-      await gatherRepoFiles(this.rootPath!);
+      await gatherRepoFiles(rootPath);
     const prevInfo = prev?.fileInfo || {};
     const prevSet = new Set(Object.keys(prevInfo));
     const curSet = new Set(currentFiles);
@@ -716,7 +733,7 @@ export class IndexerManager {
     } else {
       logger.info("indexer incremental no changes");
     }
-    await saveBootstrapState(this.rootPath!, {
+    await saveBootstrapState(rootPath, {
       mode: "indexed",
       cursor: prev?.cursor || 0,
       fileList: currentFiles,
