@@ -5,7 +5,8 @@ It acts as the glue between human contributors and Codex by interpreting board
 states, enforcing WIP limits, and prompting Codex when a card carries the
 `#codex-task` tag. The board itself is generated from the task files in
 
-`agile/tasks/` via the `make kanban-from-tasks` target.
+`agile/tasks/` via the `pnpm kanban regenerate` command from
+`@promethean/kanban-cli`.
 
 ---
 
@@ -18,7 +19,9 @@ states, enforcing WIP limits, and prompting Codex when a card carries the
 - Agents may generate, edit, or move tasks on the board based on defined tags and the process graph.
 - The numbers in kanban column headings (e.g. "In Progress (4)") store WIP limits for the plugin. Avoid editing these counts directly.
 - Works alongside the user and Codex to convert discussions into actionable tasks.
-- All board scripts should be invoked through Makefile targets rather than directly running Python files.
+- Prefer the `pnpm kanban` CLI (see `packages/kanban/README.md`) or the
+  `bb lint-tasks` wrapper when automating board operations. Legacy Python
+  scripts have been removed.
 
 ---
 
@@ -68,7 +71,10 @@ The board columns are derived from these hashtags in each task file:
 - Before moving to `Done`, confirm:
   - The outcome is documented
   - Any generated files are linked
-  - `make test` and `make simulate-ci` run successfully
+- `pnpm exec nx affected -t test` (or `bb test`) succeeds for impacted packages
+- `bb simulate-ci` reports a completed run once the stubbed implementation in
+  [[simulate-github-actions-workflow|../prompts/simulate-github-actions-workflow.md]]
+  lands
 - When a task is added to the board with no backing file:
   - Create a markdown stub in `agile/tasks/` with metadata and checklist
   - Flag it for review in `Breakdown`
@@ -82,7 +88,14 @@ The board columns are derived from these hashtags in each task file:
 - Tasks: `agile/tasks/*.md`
 - Process flow: `agile/Process.md`
 
-The board file is regenerated whenever `make kanban-from-tasks` is run. **Do not edit `kanban.md` manually.** To move a task between columns, edit the status hashtag in its corresponding task file and rerun `make kanban-to-hashtags`.
+The board file is regenerated whenever `pnpm kanban regenerate` is run.
+**Do not edit `kanban.md` manually.** To move a task between columns, edit the
+status hashtag in its corresponding task file and rerun `pnpm kanban push` so
+the board reflects the changes.
+
+See [[Babashka + Nx Automation Reference|../notes/automation/bb-nx-cli.md]] for the
+canonical toolchain map and remember to request review from the board owners
+after documentation updates.
 
 ---
 

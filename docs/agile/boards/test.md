@@ -90,7 +90,7 @@ kanban-plugin: board
 - [ ] [[Migrate server side sibilant libs to promethean architecture.md]] #ready
 - [ ] [[Migrating relevant modules from riatzukiza.github.io to -site- and -docs-.md]] #ready
 - [ ] [[Start Eidolon 1]] #ready
-- [ ] [[Update makefile to have commands specific for agents.md|Update Makefile to have commands specific for agents]] #ready
+- [ ] [[Update makefile to have commands specific for agents.md|Replace agent automation Makefile targets with pnpm scripts]] #ready
 
 ## Todo
 
@@ -102,7 +102,7 @@ kanban-plugin: board
 - [ ] [[Make seperate execution pathways 2]] #todo
 - [ ] [[Reach 100 percent complete test coverage 2]] #todo
 - [ ] [[separate all testing pipelines in github Actions.md|Separate all testing pipelines in GitHub Actions]] #todo
-- [ ] [[Set up `Makefile` for Python + JS build test dev 1|Set up Makefile for Python + JS build test dev]] #todo
+- [ ] [[Set up `Makefile` for Python + JS build test dev 1|Replace polyglot Makefile with pnpm-first workflow docs]] #todo
 - [ ] [[Write end to end tests.md]] #todo
 - [ ] [[refactor any python modules not currently for ML stuff (discord, etc) 2]] #todo
 - [ ] [[seperate all testing pipelines in github Actions 2|seperate all testing pipelines in GitHub Actions]] #todo
@@ -111,7 +111,7 @@ kanban-plugin: board
 
 - [ ] [[Document_local_testing_setup.md|Document local testing setup]] #in-review
 - [ ] [[Update cephalon to use custom embedding function.md]] #in-review
-- [ ] [[update github actions to use makefile.md|update GitHub Actions to use Makefile]] #in-review
+- [ ] [[update github actions to use makefile.md|Update GitHub Actions automation to pnpm scripts]] #in-review
 
 ## Done
 

@@ -27,8 +27,8 @@ Develop a shared module for reading, writing, and manipulating markdown files us
 ## 📦 Requirements
 
 - [ ] Module exposes parse and render helpers
-- [ ] Handles frontmatter, links, and task lists
-- [ ] Includes unit tests
+- [x] Handles frontmatter, links, and task lists
+- [x] Includes unit tests
 
 ---
 

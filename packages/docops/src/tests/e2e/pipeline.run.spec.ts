@@ -111,13 +111,10 @@ async function runPipelineAndVerify(
     "rename",
   ];
 
-  await steps.reduce<Promise<void>>(
-    async (prev, step) => {
-      await prev;
-      await runStepFromUi(page, step);
-    },
-    Promise.resolve(),
-  );
+  await steps.reduce<Promise<void>>(async (prev, step) => {
+    await prev;
+    await runStepFromUi(page, step);
+  }, Promise.resolve());
 
   const frontmatterLog = await page.evaluate(() => {
     const host = document.querySelector('docops-step[step="frontmatter"]');
@@ -177,17 +174,14 @@ async function runStepFromUi(page: Readonly<Page>, step: StepId) {
   const hostLocator = page.locator(`docops-step[step="${step}"]`);
   await hostLocator.waitFor({ state: "attached", timeout: 30_000 });
 
-  const clicked = await page.evaluate(
-    (targetStep: StepId) => {
-      const host = document.querySelector(`docops-step[step="${targetStep}"]`);
-      if (!(host instanceof HTMLElement)) return false;
-      const button = host.shadowRoot?.getElementById("runBtn");
-      if (!(button instanceof HTMLButtonElement)) return false;
-      button.click();
-      return true;
-    },
-    step,
-  );
+  const clicked = await page.evaluate((targetStep: StepId) => {
+    const host = document.querySelector(`docops-step[step="${targetStep}"]`);
+    if (!(host instanceof HTMLElement)) return false;
+    const button = host.shadowRoot?.getElementById("runBtn");
+    if (!(button instanceof HTMLButtonElement)) return false;
+    button.click();
+    return true;
+  }, step);
   if (!clicked) {
     throw new Error(`Run button not found for step ${step}`);
   }
@@ -207,15 +201,12 @@ async function runStepFromUi(page: Readonly<Page>, step: StepId) {
     { timeout: 120_000 },
   );
 
-  const logText = await page.evaluate(
-    (targetStep: StepId) => {
-      const host = document.querySelector(`docops-step[step="${targetStep}"]`);
-      if (!(host instanceof HTMLElement)) return "";
-      const log = host.shadowRoot?.getElementById("log");
-      return log?.textContent ?? "";
-    },
-    step,
-  );
+  const logText = await page.evaluate((targetStep: StepId) => {
+    const host = document.querySelector(`docops-step[step="${targetStep}"]`);
+    if (!(host instanceof HTMLElement)) return "";
+    const log = host.shadowRoot?.getElementById("log");
+    return log?.textContent ?? "";
+  }, step);
 
   if (/ERROR/i.test(logText)) {
     throw new Error(`Step ${step} finished with error: ${logText}`);
