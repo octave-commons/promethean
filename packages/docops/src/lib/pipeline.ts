@@ -117,109 +117,118 @@ export async function runDocopsStep(
   onProgress?: (p: Progress) => void,
 ) {
   const normalizedArgs = normalizeRunArgs(args);
-  const stepFn: Record<StepId, (args: any) => Promise<void>> = {
-    purge: async (args) => {
-      const files = args.files as string[] | undefined;
-      const dir = args.dir as string;
+  switch (step) {
+    case "purge": {
+      const files = normalizedArgs.files as string[] | undefined;
+      const dir = normalizedArgs.dir as string;
       const opts: PurgeOptions = { dir, ...(files ? { files } : {}) };
       await runPurge(opts, onProgress);
-    },
-    frontmatter: async (args) => {
-      const files = args.files as string[] | undefined;
+      return;
+    }
+    case "frontmatter": {
+      const files = normalizedArgs.files as string[] | undefined;
       const opts: FrontmatterOptions = {
-        dir: args.dir,
-        genModel: args.genModel || "qwen3:4b",
+        dir: normalizedArgs.dir,
+        genModel: normalizedArgs.genModel || "qwen3:4b",
         ...(files ? { files } : {}),
       };
       await runFrontmatter(opts, db, onProgress);
-    },
-    embed: async (args) => {
-      const files = args.files as string[] | undefined;
+      return;
+    }
+    case "embed": {
+      const files = normalizedArgs.files as string[] | undefined;
       const { coll } = await getChromaCollection({
-        collection: String(args.collection),
-        embedModel: String(args.embedModel || "nomic-embed-text:latest"),
+        collection: String(normalizedArgs.collection),
+        embedModel: String(
+          normalizedArgs.embedModel || "nomic-embed-text:latest",
+        ),
       });
       const opts: EmbedOptions = {
-        dir: args.dir,
-        embedModel: args.embedModel || "nomic-embed-text:latest",
-        collection: args.collection,
+        dir: normalizedArgs.dir,
+        embedModel: normalizedArgs.embedModel || "nomic-embed-text:latest",
+        collection: normalizedArgs.collection,
         ...(files ? { files } : {}),
       };
       await runEmbed(opts, db, coll as Coll, onProgress);
-    },
-    query: async (args) => {
-      const files = args.files as string[] | undefined;
+      return;
+    }
+    case "query": {
+      const files = normalizedArgs.files as string[] | undefined;
       const { coll } = await getChromaCollection({
-        collection: String(args.collection),
-        embedModel: String(args.embedModel || "nomic-embed-text:latest"),
+        collection: String(normalizedArgs.collection),
+        embedModel: String(
+          normalizedArgs.embedModel || "nomic-embed-text:latest",
+        ),
       });
       const opts: QueryOptions = {
-        embedModel: args.embedModel || "nomic-embed-text:latest",
-        collection: args.collection,
-        k: Number(args.k || 16),
-        force: !!args.force,
+        embedModel: normalizedArgs.embedModel || "nomic-embed-text:latest",
+        collection: normalizedArgs.collection,
+        k: Number(normalizedArgs.k || 16),
+        force: !!normalizedArgs.force,
         ...(files ? { files } : {}),
       };
       await runQuery(opts, db, coll as QueryColl, onProgress);
-    },
-    relations: async (args) => {
-      const files = args.files as string[] | undefined;
+      return;
+    }
+    case "relations": {
+      const files = normalizedArgs.files as string[] | undefined;
       const opts: RelationsOptions = {
-        docsDir: args.dir,
-        docThreshold: Number(args.docT ?? 0.78),
-        refThreshold: Number(args.refT ?? 0.85),
-        ...(Number.isFinite(args.maxRelated)
-          ? { maxRelated: Number(args.maxRelated) }
+        docsDir: normalizedArgs.dir,
+        docThreshold: Number(normalizedArgs.docT ?? 0.78),
+        refThreshold: Number(normalizedArgs.refT ?? 0.85),
+        ...(Number.isFinite(normalizedArgs.maxRelated)
+          ? { maxRelated: Number(normalizedArgs.maxRelated) }
           : {}),
-        ...(Number.isFinite(args.maxReferences)
-          ? { maxReferences: Number(args.maxReferences) }
+        ...(Number.isFinite(normalizedArgs.maxReferences)
+          ? { maxReferences: Number(normalizedArgs.maxReferences) }
           : {}),
-        ...(Number.isFinite(args.refMin)
-          ? { refMin: Number(args.refMin) }
+        ...(Number.isFinite(normalizedArgs.refMin)
+          ? { refMin: Number(normalizedArgs.refMin) }
           : {}),
-        ...(Number.isFinite(args.refMax)
-          ? { refMax: Number(args.refMax) }
+        ...(Number.isFinite(normalizedArgs.refMax)
+          ? { refMax: Number(normalizedArgs.refMax) }
           : {}),
         ...(files ? { files } : {}),
       };
       await runRelations(opts, db, onProgress);
-    },
-    footers: async (args) => {
-      const files = args.files as string[] | undefined;
+      return;
+    }
+    case "footers": {
+      const files = normalizedArgs.files as string[] | undefined;
       const opts: FootersOptions = {
-        dir: args.dir,
-        anchorStyle: args.anchorStyle || "block",
+        dir: normalizedArgs.dir,
+        anchorStyle: normalizedArgs.anchorStyle || "block",
         ...(files ? { files } : {}),
       };
       await runFooters(opts, db, onProgress);
-    },
-    rename: async (args) => {
-      const files = args.files as string[] | undefined;
+      return;
+    }
+    case "rename": {
+      const files = normalizedArgs.files as string[] | undefined;
       const opts: RenameOptions = {
-        dir: args.dir,
+        dir: normalizedArgs.dir,
         ...(files ? { files } : {}),
       };
       await runRename(opts);
-    },
-  };
-
-  if (!Object.prototype.hasOwnProperty.call(stepFn, step)) {
-    const validSteps = Object.keys(stepFn).join(", ");
-    throw new Error(
-      `Unknown docops step "${String(step)}". Expected one of: ${validSteps}`,
-    );
+      return;
+    }
+    default: {
+      const validSteps: StepId[] = [
+        "purge",
+        "frontmatter",
+        "embed",
+        "query",
+        "relations",
+        "footers",
+        "rename",
+      ];
+      throw new Error(
+        `Unknown docops step "${String(
+          step,
+        )}". Expected one of: ${validSteps.join(", ")}`,
+      );
+    }
   }
-
-  const handler = stepFn[step];
-  if (typeof handler !== "function") {
-    const validSteps = Object.keys(stepFn).join(", ");
-    throw new Error(
-      `Docops step "${String(
-        step,
-      )}" is not callable. Expected one of: ${validSteps}`,
-    );
-  }
-  await handler(normalizedArgs);
 }
 
 export async function runDocopsPipeline(
