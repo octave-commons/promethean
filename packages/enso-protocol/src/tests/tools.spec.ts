@@ -23,7 +23,9 @@ test("tool registry advertises registered tools", (t) => {
 
   const advert = registry.advertisement("native");
   t.deepEqual(advert.tools, [{ name: "echo", schema: { type: "object" } }]);
-  t.deepEqual(advert.resources, [{ name: "docs", uri: "https://example.test/echo" }]);
+  t.deepEqual(advert.resources, [
+    { name: "docs", uri: "https://example.test/echo" },
+  ]);
 });
 
 test("tool invocation resolves within ttl", async (t) => {
@@ -45,7 +47,8 @@ test("tool invocation reports timeout", async (t) => {
   const registry = new ToolRegistry();
   registry.register("native", {
     name: "slow",
-    handler: () => new Promise((resolve) => setTimeout(() => resolve("done"), 100)),
+    handler: () =>
+      new Promise((resolve) => setTimeout(() => resolve("done"), 100)),
   });
   const result = await registry.invoke(createCall({ name: "slow", ttlMs: 10 }));
   t.false(result.ok);
