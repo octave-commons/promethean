@@ -32,7 +32,7 @@
             "executor": "nx:run-commands",
             "options": {
                 "command": "eslint .",
-                "cwd": "packages/fs"
+                 "cwd": "packages/fs"
             }
         }
     },
