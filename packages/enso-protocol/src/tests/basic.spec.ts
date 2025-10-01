@@ -123,7 +123,11 @@ test("include rules surface standby resources", (t) => {
   });
 
   t.is(applied.view.active.length, 1, "primary remains active");
-  t.is(applied.view.standby.length, 1, "auto-included source promoted to standby");
+  t.is(
+    applied.view.standby.length,
+    1,
+    "auto-included source promoted to standby",
+  );
   const [standbySource] = applied.view.standby;
   t.is(standbySource?.id.location, "enso://asset/derived");
 });
@@ -170,7 +174,10 @@ test("updateSource clones metadata and supports removal of optional fields", (t)
   });
   t.is(renamed.title, "renamed");
 
-  const removePatch = { tags: undefined, contentHints: undefined } as unknown as Partial<DataSourceInit>;
+  const removePatch = {
+    tags: undefined,
+    contentHints: undefined,
+  } as unknown as Partial<DataSourceInit>;
   const removed = registry.updateSource(meta.id, removePatch);
 
   t.is(removed.tags, undefined);
@@ -188,7 +195,11 @@ test("updateSource clones metadata and supports removal of optional fields", (t)
   if (listedMeta) {
     listedMeta.title = "mutated";
   }
-  t.is(registry.getSource(meta.id)?.title, "renamed", "registry keeps defensive copies");
+  t.is(
+    registry.getSource(meta.id)?.title,
+    "renamed",
+    "registry keeps defensive copies",
+  );
 });
 
 test("setDiscoverability updates room metadata and context overrides", (t) => {
@@ -265,7 +276,9 @@ test("applyContext denies private sources for non-owners", (t) => {
   const context = registry.createContext({
     name: "Secret",
     owner: { userId: "user-1" },
-    entries: [{ id: meta.id, state: "pinned", permissions: { readable: true } }],
+    entries: [
+      { id: meta.id, state: "pinned", permissions: { readable: true } },
+    ],
   });
 
   const applied = registry.applyContext(context.ctxId, {
@@ -299,7 +312,9 @@ test("hard conditions requiring approval remain pending", (t) => {
   const context = registry.createContext({
     name: "Policy Review",
     owner: { userId: "user-1" },
-    entries: [{ id: meta.id, state: "pinned", permissions: { readable: true } }],
+    entries: [
+      { id: meta.id, state: "pinned", permissions: { readable: true } },
+    ],
   });
 
   const applied = registry.applyContext(context.ctxId, {
@@ -323,7 +338,9 @@ test("includeInactive option surfaces inactive entries as standby", (t) => {
   const context = registry.createContext({
     name: "Archive",
     owner: { userId: "user-1" },
-    entries: [{ id: meta.id, state: "inactive", permissions: { readable: true } }],
+    entries: [
+      { id: meta.id, state: "inactive", permissions: { readable: true } },
+    ],
   });
 
   const defaultApplied = registry.applyContext(context.ctxId, {
@@ -351,7 +368,9 @@ test("applyContext diff reports state changes", (t) => {
   const context = registry.createContext({
     name: "Diff",
     owner: { userId: "user-1" },
-    entries: [{ id: meta.id, state: "active", permissions: { readable: true } }],
+    entries: [
+      { id: meta.id, state: "active", permissions: { readable: true } },
+    ],
   });
 
   const first = registry.applyContext(context.ctxId, {
@@ -395,7 +414,10 @@ test("createContext requires registered sources", (t) => {
 
 test("getSource returns undefined for unknown id", (t) => {
   const registry = new ContextRegistry();
-  t.is(registry.getSource({ kind: "fs", location: "file:///missing" }), undefined);
+  t.is(
+    registry.getSource({ kind: "fs", location: "file:///missing" }),
+    undefined,
+  );
 });
 
 test("shared availability restricts membership", (t) => {
@@ -410,7 +432,9 @@ test("shared availability restricts membership", (t) => {
   const context = registry.createContext({
     name: "Shared",
     owner: { userId: "user-1" },
-    entries: [{ id: shared.id, state: "pinned", permissions: { readable: true } }],
+    entries: [
+      { id: shared.id, state: "pinned", permissions: { readable: true } },
+    ],
   });
 
   const allowed = registry.applyContext(context.ctxId, {
@@ -458,7 +482,9 @@ test("include rules propagate pending approvals for conditional matches", (t) =>
   const context = registry.createContext({
     name: "Pending",
     owner: { userId: "user-1" },
-    entries: [{ id: base.id, state: "active", permissions: { readable: true } }],
+    entries: [
+      { id: base.id, state: "active", permissions: { readable: true } },
+    ],
     rules: { include: [{ op: "tagIncludes", tag: "auto-include" }] },
   });
 
@@ -549,7 +575,9 @@ test("availability override narrows shared scope to private or conditional", (t)
         {
           id: meta.id,
           state: "pinned",
-          overrides: { availability: { mode: "shared", members: ["user-1", "user-3"] } },
+          overrides: {
+            availability: { mode: "shared", members: ["user-1", "user-3"] },
+          },
         },
       ],
     }),
@@ -574,7 +602,9 @@ test("context mutation helpers manage entries", (t) => {
   const context = registry.createContext({
     name: "Mutable",
     owner: { userId: "user-1" },
-    entries: [{ id: primary.id, state: "active", permissions: { readable: true } }],
+    entries: [
+      { id: primary.id, state: "active", permissions: { readable: true } },
+    ],
   });
 
   const added = registry.addEntry(context.ctxId, {
@@ -584,7 +614,9 @@ test("context mutation helpers manage entries", (t) => {
   });
   t.is(added.state, "pinned");
 
-  const renamed = registry.updateContext(context.ctxId, { name: "Mutable-Updated" });
+  const renamed = registry.updateContext(context.ctxId, {
+    name: "Mutable-Updated",
+  });
   t.is(renamed.name, "Mutable-Updated");
 
   registry.updateEntry(context.ctxId, {
@@ -599,7 +631,12 @@ test("context mutation helpers manage entries", (t) => {
   });
   t.is(afterUpdate.view.ignored.length, 1);
 
-  t.false(registry.removeEntry(context.ctxId, { kind: "enso-asset", location: "enso://asset/missing" }));
+  t.false(
+    registry.removeEntry(context.ctxId, {
+      kind: "enso-asset",
+      location: "enso://asset/missing",
+    }),
+  );
   t.true(registry.removeEntry(context.ctxId, secondary.id));
   const afterRemove = registry.applyContext(context.ctxId, {
     participants: [{ id: "user-1" }],
@@ -621,45 +658,58 @@ test("context mutation helpers manage entries", (t) => {
   t.false(updatedContext.privacy?.inheritRoom ?? true);
 });
 
-test.serial("deepClone fallback is used when structuredClone is unavailable", (t) => {
-  t.plan(2);
-  const registry = new ContextRegistry();
-  const meta = registry.registerSource({
-    id: { kind: "fs", location: "file:///clone.txt" },
-    owners: [{ userId: "user-1" }],
-    availability: { mode: "public" },
-    discoverability: "visible",
-  });
-
-  const descriptor = Object.getOwnPropertyDescriptor(globalThis, "structuredClone");
-  Object.defineProperty(globalThis, "structuredClone", {
-    value: undefined,
-    configurable: true,
-    writable: true,
-  });
-
-  try {
-    const context = registry.createContext({
-      name: "CloneFallback",
-      owner: { userId: "user-1" },
-      entries: [{ id: meta.id, state: "pinned", permissions: { readable: true } }],
+test.serial(
+  "deepClone fallback is used when structuredClone is unavailable",
+  (t) => {
+    t.plan(2);
+    const registry = new ContextRegistry();
+    const meta = registry.registerSource({
+      id: { kind: "fs", location: "file:///clone.txt" },
+      owners: [{ userId: "user-1" }],
+      availability: { mode: "public" },
+      discoverability: "visible",
     });
-    context.name = "Mutated";
 
-    const reapplied = registry.applyContext(context.ctxId, {
-      participants: [{ id: "user-1" }],
+    const descriptor = Object.getOwnPropertyDescriptor(
+      globalThis,
+      "structuredClone",
+    );
+    Object.defineProperty(globalThis, "structuredClone", {
+      value: undefined,
+      configurable: true,
+      writable: true,
     });
-    t.is(reapplied.view.active.length, 1);
-    t.is(registry.applyContext(context.ctxId, { participants: [{ id: "user-1" }] }).view.ctxId, context.ctxId);
-  } finally {
-    if (descriptor) {
-      Object.defineProperty(globalThis, "structuredClone", descriptor);
-    } else {
-      // @ts-ignore intentional cleanup
-      delete (globalThis as Record<string, unknown>).structuredClone;
+
+    try {
+      const context = registry.createContext({
+        name: "CloneFallback",
+        owner: { userId: "user-1" },
+        entries: [
+          { id: meta.id, state: "pinned", permissions: { readable: true } },
+        ],
+      });
+      context.name = "Mutated";
+
+      const reapplied = registry.applyContext(context.ctxId, {
+        participants: [{ id: "user-1" }],
+      });
+      t.is(reapplied.view.active.length, 1);
+      t.is(
+        registry.applyContext(context.ctxId, {
+          participants: [{ id: "user-1" }],
+        }).view.ctxId,
+        context.ctxId,
+      );
+    } finally {
+      if (descriptor) {
+        Object.defineProperty(globalThis, "structuredClone", descriptor);
+      } else {
+        // @ts-ignore intentional cleanup
+        delete (globalThis as Record<string, unknown>).structuredClone;
+      }
     }
-  }
-});
+  },
+);
 
 test("computeParts infers image purpose", (t) => {
   const registry = new ContextRegistry();
@@ -756,9 +806,7 @@ test("conditional availability grants without approvals when conditions satisfie
     owners: [{ userId: "user-1" }],
     availability: {
       mode: "conditional",
-      conditions: [
-        { kind: "hard", rule: { op: "timeBetween", start, end } },
-      ],
+      conditions: [{ kind: "hard", rule: { op: "timeBetween", start, end } }],
     },
     discoverability: "visible",
   });
@@ -766,7 +814,9 @@ test("conditional availability grants without approvals when conditions satisfie
   const context = registry.createContext({
     name: "Grant",
     owner: { userId: "user-1" },
-    entries: [{ id: meta.id, state: "pinned", permissions: { readable: true } }],
+    entries: [
+      { id: meta.id, state: "pinned", permissions: { readable: true } },
+    ],
   });
 
   const applied = registry.applyContext(context.ctxId, {
@@ -796,7 +846,9 @@ test("evaluateRule default branch handles invalid regex and unmatched tags", (t)
     owners: [{ userId: "user-1" }],
     availability: {
       mode: "conditional",
-      conditions: [{ kind: "hard", rule: { op: "contextNameMatches", regex: "[" } }],
+      conditions: [
+        { kind: "hard", rule: { op: "contextNameMatches", regex: "[" } },
+      ],
     },
     discoverability: "visible",
   });
@@ -804,7 +856,9 @@ test("evaluateRule default branch handles invalid regex and unmatched tags", (t)
   const context = registry.createContext({
     name: "Invalid",
     owner: { userId: "user-1" },
-    entries: [{ id: meta.id, state: "pinned", permissions: { readable: true } }],
+    entries: [
+      { id: meta.id, state: "pinned", permissions: { readable: true } },
+    ],
     rules: { include: [{ op: "tagIncludes", tag: "missing" }] },
   });
 

@@ -43,6 +43,7 @@
     "@promethean/markdown": "workspace:*",
     "@promethean/markdown-graph-frontend": "workspace:*",
     "@promethean/piper": "workspace:*",
+    "@promethean/kanban": "workspace:*",
     "@promethean/pm2-helpers": "workspace:*",
     "@promethean/portfolio-frontend": "workspace:*",
     "@promethean/shadow-conf": "workspace:*",
