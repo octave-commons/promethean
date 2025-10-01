@@ -1,4 +1,7 @@
-import type { ScheduleResponse, ControlResponse } from "@promethean/indexer-service/client";
+import type {
+  ScheduleResponse,
+  ControlResponse,
+} from "@promethean/indexer-service/client";
 import {
   createIndexerServiceClient,
   IndexerServiceError,
@@ -67,14 +70,18 @@ export async function scheduleReindexSubset(
   return localIndexerManager.scheduleReindexSubset(globs);
 }
 
-export async function scheduleIndexFile(path: string): Promise<ScheduleResponse> {
+export async function scheduleIndexFile(
+  path: string,
+): Promise<ScheduleResponse> {
   if (serviceClient) {
     return serviceClient.indexPath(path);
   }
   return localIndexerManager.scheduleIndexFile(path);
 }
 
-export async function removeIndexedPath(path: string): Promise<ControlResponse> {
+export async function removeIndexedPath(
+  path: string,
+): Promise<ControlResponse> {
   if (serviceClient) {
     return serviceClient.removePath(path);
   }

@@ -32,6 +32,17 @@ const { values, positionals } = parseArgs({
 const KANBAN = resolve(process.cwd(), process.env.KANBAN_PATH || values.kanban);
 const TASKS = resolve(process.cwd(), process.env.TASKS_PATH || values.tasks);
 
+const requireArg = (value: string | undefined, label: string): string => {
+  if (typeof value === "string") {
+    const trimmed = value.trim();
+    if (trimmed.length > 0) {
+      return trimmed;
+    }
+  }
+  console.error(`Missing required ${label}.`);
+  process.exit(2);
+};
+
 async function main() {
   const [cmd, ...args] = positionals;
 
@@ -52,49 +63,57 @@ async function main() {
       break;
     }
     case "getColumn": {
-      const column = args[0];
+      const column = requireArg(args[0], "column name");
       const board = await loadBoard(KANBAN, TASKS);
       const colData = getColumn(board, column);
       printJSONL(colData);
       break;
     }
     case "getByColumn": {
-      const column = args[0];
+      const column = requireArg(args[0], "column name");
       const board = await loadBoard(KANBAN, TASKS);
       const tasks = getTasksByColumn(board, column);
       printJSONL(tasks);
       break;
     }
     case "find": {
-      const id = args[0];
+      const id = requireArg(args[0], "task id");
       const board = await loadBoard(KANBAN, TASKS);
       const t = findTaskById(board, id);
       if (t) printJSONL(t);
       break;
     }
     case "find-by-title": {
-      const title = args.join(" ");
+      const joined = args.join(" ").trim();
+      const title = requireArg(
+        joined.length > 0 ? joined : undefined,
+        "task title",
+      );
       const board = await loadBoard(KANBAN, TASKS);
       const t = findTaskByTitle(board, title);
       if (t) printJSONL(t);
       break;
     }
     case "update_status": {
-      const [id, newStatus] = args;
+      const [rawId, rawStatus] = args;
+      const id = requireArg(rawId, "task id");
+      const newStatus = requireArg(rawStatus, "new status");
       const board = await loadBoard(KANBAN, TASKS);
       const updated = await updateStatus(board, id, newStatus, KANBAN);
       printJSONL(updated);
       break;
     }
     case "move_up": {
-      const [id] = args;
+      const [rawId] = args;
+      const id = requireArg(rawId, "task id");
       const board = await loadBoard(KANBAN, TASKS);
       const res = await moveTask(board, id, -1, KANBAN);
       printJSONL(res);
       break;
     }
     case "move_down": {
-      const [id] = args;
+      const [rawId] = args;
+      const id = requireArg(rawId, "task id");
       const board = await loadBoard(KANBAN, TASKS);
       const res = await moveTask(board, id, +1, KANBAN);
       printJSONL(res);
@@ -129,7 +148,11 @@ async function main() {
       break;
     }
     case "search": {
-      const term = args.join(" ");
+      const joined = args.join(" ").trim();
+      const term = requireArg(
+        joined.length > 0 ? joined : undefined,
+        "search term",
+      );
       const board = await loadBoard(KANBAN, TASKS);
       const res = await searchTasks(board, term);
       printJSONL(res);

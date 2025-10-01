@@ -1,5 +1,14 @@
 # Base playwright image includes Node 20.x, browsers, and common tooling
-FROM mcr.microsoft.com/playwright:v1.46.0-jammy
+# Keep the defaults aligned with config/images/playwright.env
+ARG PLAYWRIGHT_IMAGE=mcr.microsoft.com/playwright
+ARG PLAYWRIGHT_TAG=v1.55.0-jammy
+FROM ${PLAYWRIGHT_IMAGE}:${PLAYWRIGHT_TAG}
+
+ARG PLAYWRIGHT_IMAGE
+ARG PLAYWRIGHT_TAG
+
+ENV PLAYWRIGHT_IMAGE=${PLAYWRIGHT_IMAGE} \
+    PLAYWRIGHT_TAG=${PLAYWRIGHT_TAG}
 
 ENV DEBIAN_FRONTEND=noninteractive \
     CLOJURE_VERSION=latest

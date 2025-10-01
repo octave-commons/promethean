@@ -42,10 +42,10 @@ docker compose up
 Set `AGENT_NAME` in your environment before launching agent services to isolate collections and data.
 Promethean is a modular cognitive architecture for building embodied AI agents. It breaks the system
 into small services that handle speech-to-text, text-to-speech, memory, and higher level reasoning.
-📖 For a high-level overview, see [Vision Overview](docs/design/overview.md).
+📖 For a high-level overview, see [[docs/design/overview|Vision Overview]].
 📊 For architecture roadmaps and visualizations, see [[docs/architecture/index|docs/architecture/index.md]].
 📦 Data migration conventions and runbooks live under [[docs/data/contracts/readme|docs/data]].
-🧰 Need a new workspace package? Follow the [Nx package workflow](docs/packages/new-package.md) for presets, directory layout, and follow-up tasks.
+🧰 Need a new workspace package? Follow the [[new-package|Nx package workflow]] for presets, directory layout, and follow-up tasks.
 
 ### Development conventions
 
@@ -67,7 +67,7 @@ Run `pnpm kanban --help` for the full list of subcommands.
 
 ## Automation pipelines
 
-Automation flows live in [`pipelines.json`](./pipelines.json). The table below
+Automation flows live in [[pipelines.json|`pipelines.json`]]. The table below
 documents what each pipeline assembles and how the steps cooperate so operators
 know which caches, models, and outputs are involved when a run is triggered.
 
