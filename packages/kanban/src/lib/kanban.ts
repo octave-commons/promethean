@@ -111,6 +111,22 @@ const isFallbackSlug = (slug: string, uuid: string): boolean => {
 
 const fallbackFileBase = (uuid: string): string => `Task ${uuid.slice(0, 8)}`;
 
+const resolveTaskSlug = (task: Task, baseName: string): string => {
+  const sanitizedBase = sanitizeFileNameBase(baseName);
+  const explicitSlug =
+    typeof task.slug === "string" && task.slug.trim().length > 0
+      ? task.slug.trim()
+      : undefined;
+  const fallbackSource =
+    sanitizedBase.length > 0 ? sanitizedBase : task.title ?? sanitizedBase;
+  const slugSource = explicitSlug ?? fallbackSource;
+  const normalized = sanitizeFileNameBase(slugSource ?? "");
+  if (normalized.length > 0) {
+    return normalized;
+  }
+  return fallbackFileBase(task.uuid);
+};
+
 const deriveFileBaseFromTask = (task: Task): string => {
   const fromSlug =
     typeof task.slug === "string" ? sanitizeFileNameBase(task.slug) : "";
@@ -130,6 +146,23 @@ const ensureTaskFileBase = (task: Task): string => {
     task.slug = base;
   }
   return base;
+};
+
+const slugMatchesSourcePath = (task: Task): boolean => {
+  if (!task.sourcePath) {
+    return false;
+  }
+  const normalizedSlug =
+    typeof task.slug === "string" && task.slug.length > 0
+      ? sanitizeFileNameBase(task.slug)
+      : "";
+  if (normalizedSlug.length === 0) {
+    return false;
+  }
+  const normalizedSource = sanitizeFileNameBase(
+    path.basename(task.sourcePath, path.extname(task.sourcePath)),
+  );
+  return normalizedSource.length > 0 && normalizedSlug === normalizedSource;
 };
 
 const ensureUniqueFileBase = (
@@ -417,9 +450,7 @@ const readTasksFolder = async (dir: string): Promise<Task[]> => {
           const parsed = data as Task;
           const enriched = ensureLabelsPresent(parsed, parsed.content);
           const baseName = path.basename(file, path.extname(file));
-          const normalizedSlug = sanitizeFileNameBase(
-            enriched.slug ?? enriched.title ?? baseName,
-          );
+          const normalizedSlug = resolveTaskSlug(enriched, baseName);
           tasks.push({ ...enriched, slug: normalizedSlug, sourcePath: file });
         }
       } catch {}
@@ -431,9 +462,7 @@ const readTasksFolder = async (dir: string): Promise<Task[]> => {
         if (parsedTask) {
           const enriched = ensureLabelsPresent(parsedTask, body);
           const baseName = path.basename(file, path.extname(file));
-          const normalizedSlug = sanitizeFileNameBase(
-            enriched.slug ?? enriched.title ?? baseName,
-          );
+          const normalizedSlug = resolveTaskSlug(enriched, baseName);
           tasks.push({ ...enriched, slug: normalizedSlug, sourcePath: file });
         }
       } catch (error) {
@@ -584,22 +613,45 @@ const resolveTaskFilePath = async (
   return match?.sourcePath;
 };
 
+const assignStableSlugs = (columns: ColumnData[]): Map<string, string> => {
+  const ordered: { task: Task; locked: boolean; order: number }[] = [];
+  let order = 0;
+  for (const column of columns) {
+    for (const task of column.tasks) {
+      ordered.push({ task, locked: slugMatchesSourcePath(task), order });
+      order += 1;
+    }
+  }
+  ordered.sort((a, b) => {
+    if (a.locked === b.locked) {
+      return a.order - b.order;
+    }
+    return a.locked ? -1 : 1;
+  });
+  const used = new Map<string, string>();
+  const finalSlugs = new Map<string, string>();
+  for (const entry of ordered) {
+    const baseName = ensureTaskFileBase(entry.task);
+    const uniqueBase = ensureUniqueFileBase(baseName, used, entry.task.uuid);
+    finalSlugs.set(entry.task.uuid, uniqueBase);
+    used.set(uniqueBase, entry.task.uuid);
+  }
+  return finalSlugs;
+};
+
 const serializeBoard = (board: Board): string => {
   const lines: string[] = ["---", "kanban-plugin: board", "---", ""];
-  const seenNames = new Map<string, string>();
   const columns = mergeColumnsCaseInsensitive(board.columns);
+  const finalSlugs = assignStableSlugs(columns);
   for (const col of columns) {
     lines.push(`## ${col.name}`);
     lines.push("");
     for (const task of col.tasks) {
       const done = /done/i.test(col.name) ? "x" : " ";
-      const baseName = ensureTaskFileBase(task);
-      const uniqueBase = ensureUniqueFileBase(baseName, seenNames, task.uuid);
-      if (task.slug !== uniqueBase) {
-        task.slug = uniqueBase;
+      const linkTarget = finalSlugs.get(task.uuid) ?? ensureTaskFileBase(task);
+      if (task.slug !== linkTarget) {
+        task.slug = linkTarget;
       }
-      seenNames.set(uniqueBase, task.uuid);
-      const linkTarget = uniqueBase;
       const displayTitle =
         task.title.trim().length > 0 ? task.title.trim() : linkTarget;
       const wikiLink =
@@ -820,7 +872,7 @@ const fallbackTaskFromRaw = (filePath: string, raw: string): Task | null => {
         .map((entry) => entry.replace(/^['"]|['"]$/g, "").trim())
         .filter((entry) => entry.length > 0)
     : [];
-  const baseTask: Task = {
+  const partialTask: Task = {
     uuid,
     title,
     status,
@@ -829,7 +881,11 @@ const fallbackTaskFromRaw = (filePath: string, raw: string): Task | null => {
     created_at: getValue("created_at") ?? NOW_ISO(),
     estimates: {},
     content: bodyContent.trim(),
-    slug: sanitizeFileNameBase(title),
+  };
+  const slug = resolveTaskSlug(partialTask, baseName);
+  const baseTask: Task = {
+    ...partialTask,
+    slug,
     sourcePath: filePath,
   };
   return ensureLabelsPresent(baseTask, bodyContent);
