@@ -27,8 +27,8 @@ describe setup-playwright       bash -lc '"./run/setup_playwright.sh"'
 # gh CLI + origin
 # describe install-gh-cli         bash -lc '"$(dirname "$0")/install_gh_cli.sh"'
 # describe setup-gh-cli           bash -lc '"$(dirname "$0")/setup_gh_cli.sh"'
-./install-clojure.sh
-./install-clj-python-ml.sh
+./run/install-clojure.sh
+./run/install-clj-python-ml.sh
 
 
 # services: chroma + ollama

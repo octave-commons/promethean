@@ -14,7 +14,7 @@
     "preset": {
       "type": "string",
       "description": "Scaffold preset to apply when generating the package",
-      "enum": ["ts-lib", "base", "web-frontend","fastify-service"],
+      "enum": ["ts-lib", "base", "web-frontend", "fastify-service"],
       "default": "ts-lib"
     }
   },

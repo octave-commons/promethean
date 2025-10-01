@@ -1,38 +1,63 @@
+<%*
+const statusOptions = [
+  "incoming",
+  "accepted",
+  "breakdown",
+  "ready",
+  "todo",
+  "in-progress",
+  "in-review",
+  "document",
+  "done",
+  "blocked"
+];
+const priorityOptions = ["P0", "P1", "P2", "P3", "P4"];
+const defaultStatus = "todo";
+const defaultPriority = "P3";
+const select = async (options, message, fallback) => {
+  if (tp.system?.suggester) {
+    const choice = await tp.system.suggester(options, options, false, message);
+    if (choice) {
+      return choice;
+    }
+  }
+  return fallback;
+};
+const prompt = async (message) => {
+  if (tp.system?.prompt) {
+    return await tp.system.prompt(message, "");
+  }
+  return "";
+};
+const status = await select(statusOptions, "Select task status", defaultStatus);
+const priority = await select(priorityOptions, "Select task priority", defaultPriority);
+const labelsInput = await prompt("Comma-separated labels (optional)");
+const labels = labelsInput
+  .split(",")
+  .map((value) => value.trim())
+  .filter(Boolean);
+const toHashtag = (value) =>
+  "#" +
+  value
+    .split(/[-_\s]+/)
+    .filter(Boolean)
+    .map((segment) => segment.charAt(0).toUpperCase() + segment.slice(1))
+    .join("");
+const statusHashtag = toHashtag(status);
+%>
 ---
-task-id: TASK-{{date}}
-title: <verb> <thing> <qualifier>
-state: New
-prev:
-txn: "{{ISO8601}}-{{rand4}}"
-owner: err
-priority: p3
-size: m
-epic: EPC-000
-depends_on: []
-labels:
-  - board:auto
-  - lang:ts
-due:
-links: []
-artifacts: []
-rationale:
-proposed_transitions:
-  - New->Accepted
-  - Accepted->Breakdown
-tags:
-  - task/TASK-{{YYYYMMDD-hhmmss}}-{{rand4}}
-  - board/kanban
-  - state/New
-  - owner/err
-  - priority/p3
-  - epic/EPC-000
+uuid: <% tp.user.uuidv4() %>
+title: <% tp.file.title() %>
+status: <% status %>
+priority: <% priority %>
+labels:<%* if (labels.length === 0) { tR += " []"; } else { tR += "\n" + labels.map((label) => `  - ${label}`).join("\n"); } %>
+created_at: '<% tp.date.now("YYYY-MM-DDTHH:mm:ss.SSS[Z]") %>'
 ---
-<hr class="__chatgpt_plugin">
+<% statusHashtag %>
 
-<span style="font-size: small;"> (llama3.2:latest)</span>
-### role::assistant
+## 🛠️ Description
 
-Here's a suggested revision of your context section:
+- Outline the task background, intent, and desired outcome.
 
 ## Description
 - **What changed?** [Describe the key changes that have occurred, e.g., updated requirements, new feature added]
@@ -55,32 +80,26 @@ Here's a suggested revision of your context section:
 2. …
 3. …
 
-## Relevant Resources
+Add the estimate here (Fibonacci: 1, 2, 3, 5, 8, 13).
 
-You might find [this](link) useful while working on this task.
+---
 
-### Smart Connections Configuration
-```smart-connections
-{
-  "render_markdown": true,
-  "show_full_path": false,
-  "exclude_blocks_from_source_connections": false,
-  "exclude_frontmatter_blocks": true,
-  "expanded_view": false,
-  "results_limit": "20",
-  "exclude_inlinks": false,
-  "exclude_outlinks": false
-}
-```
+## 🔗 Related Epics
 
-### Smart ChatGPT Configuration
-```smart-chatgpt
-```
-<hr class="__chatgpt_plugin">
+- [[kanban]]
 
-### role::user
+---
 
-<% tp.file.title() %>
+## ⛓️ Blocked By
 
-<% tp.app.commands.executeCommandById("chatgpt-md:call-chatgpt-api") %>
+- None
 
+## ⛓️ Blocks
+
+- None
+
+---
+
+## 🔍 Relevant Links
+
+- Link to supporting docs or references.
