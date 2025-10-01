@@ -1,0 +1,38 @@
+{
+  "name": "@promethean/ui-components",
+  "root": "packages/ui-components",
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm run build",
+        "cwd": "packages/ui-components"
+      },
+      "outputs": ["{projectRoot}/dist"]
+    },
+    "typecheck": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm run typecheck",
+        "cwd": "packages/ui-components"
+      }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm run test",
+        "cwd": "packages/ui-components"
+      }
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm run lint",
+        "cwd": "packages/ui-components",
+        "forwardAllArgs": false
+      }
+    }
+  },
+  "tags": ["scope:packages"],
+  "sourceRoot": "packages/ui-components/src"
+}
