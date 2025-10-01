@@ -1,28 +1,29 @@
 import { contextStore } from "../sinks.js";
-import type { ChromaCleanupResult, ChromaCollection } from "../types/agents.js";
+import type { ChromaCleanupResult } from "../types/agents.js";
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 
-function resolveCollection(): ChromaCollection | null {
+type BridgeChromaCollection = ReturnType<
+  ReturnType<typeof contextStore.getCollection>["getChromaCollection"]
+>;
+
+function resolveCollection(): BridgeChromaCollection | null {
   try {
-    const { chromaCollection } = contextStore.getCollection("bridge_logs") as {
-      chromaCollection?: ChromaCollection;
-    };
-    return chromaCollection ?? null;
+    return contextStore.getCollection("bridge_logs").getChromaCollection();
   } catch {
     return null;
   }
 }
 
 async function removeEntriesOlderThan(
-  collection: ChromaCollection,
+  collection: BridgeChromaCollection,
   cutoff: number,
 ): Promise<number> {
   try {
     const result = await collection.get({
       where: { timestamp: { $lt: cutoff } },
     });
-    const ids = result.ids ?? [];
+    const ids = Array.from(result.ids ?? []);
     if (!ids.length) return 0;
     await collection.delete({ ids });
     return ids.length;
@@ -32,8 +33,8 @@ async function removeEntriesOlderThan(
 }
 
 function sortByTimestamp(
-  ids: string[],
-  timestamps: Array<{ timestamp?: number }> = [],
+  ids: readonly string[],
+  timestamps: ReadonlyArray<{ timestamp?: number } | null | undefined> = [],
 ) {
   return ids
     .map((id, index) => ({
@@ -45,7 +46,7 @@ function sortByTimestamp(
 }
 
 async function removeExcessEntries(
-  collection: ChromaCollection,
+  collection: BridgeChromaCollection,
   max: number,
 ): Promise<number> {
   if (max <= 0) return 0;

@@ -21,7 +21,7 @@ export function registerSinkRoutes(v1: any) {
       },
     },
     async handler() {
-      return { ok: true, sinks: Array.from(contextStore.collections.keys()) };
+      return { ok: true, sinks: contextStore.listCollectionNames() };
     },
   });
 
@@ -61,7 +61,7 @@ export function registerSinkRoutes(v1: any) {
       const { name } = req.params;
       const { q, n, where } = req.body || {};
       const store = contextStore.getCollection(name);
-      const results = await store.chromaCollection.query({
+      const results = await store.getChromaCollection().query({
         queryTexts: [q],
         nResults: n || 10,
         where: where || {},

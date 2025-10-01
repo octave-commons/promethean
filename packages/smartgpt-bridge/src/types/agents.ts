@@ -1,6 +1,3 @@
-import type { ChildProcessWithoutNullStreams } from "child_process";
-import type { Readable, Writable } from "stream";
-
 export type AgentMeta = {
   readonly id: string;
   readonly mode: "agent" | "pty";
@@ -9,6 +6,7 @@ export type AgentMeta = {
   readonly cwd: string;
   readonly startedAt: number;
   readonly prompt: string;
+  readonly exited?: boolean;
   readonly finishedAt?: number;
   readonly code?: number | null;
   readonly signal?: string | null;
@@ -81,10 +79,23 @@ export type PtyModule = {
   ): PtyProcess;
 };
 
-export type AgentChildProcess = ChildProcessWithoutNullStreams & {
-  readonly stdout: Readable;
-  readonly stderr: Readable;
-  readonly stdin: Writable;
+export type AgentChildProcess = {
+  readonly pid: number;
+  readonly stdout: {
+    on(event: "data", listener: (chunk: Buffer) => void): unknown;
+  };
+  readonly stderr: {
+    on(event: "data", listener: (chunk: Buffer) => void): unknown;
+  };
+  readonly stdin: {
+    write(data: string): unknown;
+  };
+  on(
+    event: "exit",
+    listener: (code: number | null, signal: NodeJS.Signals | null) => void,
+  ): unknown;
+  on(event: "error", listener: (error: NodeJS.ErrnoException) => void): unknown;
+  on(event: string, listener: (...args: unknown[]) => void): unknown;
 };
 
 type AgentProcessBase = {
