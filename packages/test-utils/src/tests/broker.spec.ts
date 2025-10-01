@@ -1,6 +1,12 @@
 import test from 'ava';
 
-import { getMemoryBroker, resetMemoryBroker, type MemoryBrokerClient } from '../broker.js';
+import {
+    getMemoryBroker,
+    resetMemoryBroker,
+    type MemoryBrokerClient,
+    type MemoryBrokerEvent,
+    type MemoryBrokerTask,
+} from '../broker.js';
 
 test.beforeEach(() => {
     resetMemoryBroker('ns');
@@ -14,8 +20,8 @@ test('getMemoryBroker returns singleton per namespace', (t) => {
 
 test('publish delivers to subscribers; unsubscribe stops delivery', (t) => {
     const broker = getMemoryBroker('ns');
-    const received: any[] = [];
-    const client: MemoryBrokerClient = { id: 'c1', onEvent: (e) => received.push(e) };
+    const received: MemoryBrokerEvent[] = [];
+    const client: MemoryBrokerClient = { id: 'c1', onEvent: (event) => received.push(event) };
 
     broker.subscribe(client, 'topic');
     broker.publish({ type: 'topic', payload: { x: 1 } });
@@ -29,7 +35,7 @@ test('publish delivers to subscribers; unsubscribe stops delivery', (t) => {
 
 test('enqueue assigns to ready worker immediately', (t) => {
     const broker = getMemoryBroker('ns');
-    const assigned: any[] = [];
+    const assigned: MemoryBrokerTask[] = [];
     broker.readyWorker('q', { id: 'w1', assign: (task) => assigned.push(task) });
     broker.enqueue('q', { a: 1 });
     t.is(assigned.length, 1);
@@ -39,7 +45,7 @@ test('enqueue assigns to ready worker immediately', (t) => {
 
 test('enqueue queues when no workers; first ready worker gets earliest task', (t) => {
     const broker = getMemoryBroker('ns');
-    const assigned: any[] = [];
+    const assigned: MemoryBrokerTask[] = [];
     broker.enqueue('q', { a: 1 });
     broker.enqueue('q', { a: 2 });
     broker.readyWorker('q', { id: 'w1', assign: (task) => assigned.push(task) });
