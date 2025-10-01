@@ -5,6 +5,9 @@
     "appsDir": "services",
     "libsDir": "packages"
   },
+  "affected": {
+    "defaultBase": "work"
+  },
   "tasksRunnerOptions": {
     "default": {
       "runner": "nx/tasks-runners/default",

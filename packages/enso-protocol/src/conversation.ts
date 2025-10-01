@@ -70,7 +70,11 @@ export function parseConversationArgs(args: string[] = []): {
     }
   }
 
-  const result: { agentNames?: string[]; useOllama: boolean; configPath?: string } = { useOllama };
+  const result: {
+    agentNames?: string[];
+    useOllama: boolean;
+    configPath?: string;
+  } = { useOllama };
   if (agentNames && agentNames.length) {
     result.agentNames = agentNames;
   }
@@ -95,7 +99,11 @@ export function parseMcpServers(edn: string): AgentMeta[] {
 
   const flush = () => {
     if (inside && currentName && currentCommand) {
-      metas.push({ name: currentName, command: currentCommand, args: currentArgs });
+      metas.push({
+        name: currentName,
+        command: currentCommand,
+        args: currentArgs,
+      });
     }
     inside = false;
     currentName = undefined;
@@ -148,7 +156,10 @@ export function parseMcpServers(edn: string): AgentMeta[] {
  * forwards prompts to an Ollama model when configured.
  */
 class AgentSession {
-  constructor(private readonly meta: AgentMeta, private readonly useOllama: boolean) {}
+  constructor(
+    private readonly meta: AgentMeta,
+    private readonly useOllama: boolean,
+  ) {}
 
   /** Generate a synthetic response for demo purposes. */
   async respond(input: string): Promise<string> {
@@ -174,10 +185,14 @@ class AgentSession {
       const child = spawn("ollama", ["run", model, prompt]);
       const chunks: string[] = [];
       child.stdout.on("data", (data) => chunks.push(data.toString()));
-      child.on("error", () => resolve(`[${this.meta.name}] (ollama) Unable to reach model.`));
+      child.on("error", () =>
+        resolve(`[${this.meta.name}] (ollama) Unable to reach model.`),
+      );
       child.on("close", (code) => {
         if (code !== 0) {
-          resolve(`[${this.meta.name}] (ollama) Model exited with code ${code}.`);
+          resolve(
+            `[${this.meta.name}] (ollama) Model exited with code ${code}.`,
+          );
         } else {
           resolve(`[${this.meta.name}] ${chunks.join("").trim()}`);
         }
@@ -206,7 +221,9 @@ export function loadServerMetadata(ednPath?: string): AgentMeta[] {
  * Start a conversation with two agents sourced from the MCP configuration. The
  * CLI loops until the user types `exit` or `quit`.
  */
-export async function runTwoAgentConversation(options: ConversationCliOptions = {}): Promise<void> {
+export async function runTwoAgentConversation(
+  options: ConversationCliOptions = {},
+): Promise<void> {
   const log = options.log ?? console.log;
   const error = options.error ?? console.error;
 
@@ -217,29 +234,46 @@ export async function runTwoAgentConversation(options: ConversationCliOptions = 
     try {
       servers = loadServerMetadata(options.configPath);
     } catch (cause) {
-      error(`Failed to load MCP servers from ${resolveConfigPath(options.configPath)}: ${(cause as Error).message}`);
+      error(
+        `Failed to load MCP servers from ${resolveConfigPath(
+          options.configPath,
+        )}: ${(cause as Error).message}`,
+      );
       return;
     }
   }
 
   if (servers.length < 2) {
-    error("Not enough MCP servers configured to start a dual-agent conversation.");
+    error(
+      "Not enough MCP servers configured to start a dual-agent conversation.",
+    );
     return;
   }
 
   const [first, second] = selectAgents(servers, options.agentNames);
   const useOllama = options.useOllama ?? false;
-  const agents = [new AgentSession(first, useOllama), new AgentSession(second, useOllama)];
+  const agents = [
+    new AgentSession(first, useOllama),
+    new AgentSession(second, useOllama),
+  ];
 
-  const rl = options.readlineFactory ? options.readlineFactory() : createInterface({ input: process.stdin, output: process.stdout });
-  log(`Starting ENSO dual-agent chat with ${first.name} and ${second.name}. Type 'exit' to quit.`);
+  const rl = options.readlineFactory
+    ? options.readlineFactory()
+    : createInterface({ input: process.stdin, output: process.stdout });
+  log(
+    `Starting ENSO dual-agent chat with ${first.name} and ${second.name}. Type 'exit' to quit.`,
+  );
 
   try {
     // eslint-disable-next-line no-constant-condition
     while (true) {
       const answer = await rl.question("You: ");
       const message = answer ?? "";
-      if (!message || message.toLowerCase() === "exit" || message.toLowerCase() === "quit") {
+      if (
+        !message ||
+        message.toLowerCase() === "exit" ||
+        message.toLowerCase() === "quit"
+      ) {
         log("Ending conversation.");
         break;
       }
@@ -253,14 +287,19 @@ export async function runTwoAgentConversation(options: ConversationCliOptions = 
   }
 }
 
-function selectAgents(servers: AgentMeta[], requested: string[] | undefined): [AgentMeta, AgentMeta] {
+function selectAgents(
+  servers: AgentMeta[],
+  requested: string[] | undefined,
+): [AgentMeta, AgentMeta] {
   if (servers.length < 2) {
     throw new Error("selectAgents requires at least two servers");
   }
   if (requested && requested.length === 2) {
     const [nameA, nameB] = requested;
     const first = servers.find((server) => server.name === nameA);
-    const second = servers.find((server) => server.name === nameB && server !== first);
+    const second = servers.find(
+      (server) => server.name === nameB && server !== first,
+    );
     if (first && second) {
       return [first, second];
     }

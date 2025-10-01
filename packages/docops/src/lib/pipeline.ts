@@ -168,7 +168,9 @@ export async function runDocopsStep(
   if (typeof handler !== "function") {
     const validSteps = Object.keys(stepFn).join(", ");
     throw new Error(
-      `Docops step "${String(step)}" is not callable. Expected one of: ${validSteps}`,
+      `Docops step "${String(
+        step,
+      )}" is not callable. Expected one of: ${validSteps}`,
     );
   }
   await handler(args);
