@@ -241,6 +241,27 @@ const nodeMajorVersion = Number.parseInt(
   10,
 );
 
+function determineNodeMajorVersion() {
+  const version = process.versions?.node;
+  if (!version) {
+    return null;
+  }
+  const [majorSegment] = version.split(".");
+  const major = Number.parseInt(majorSegment, 10);
+  return Number.isNaN(major) ? null : major;
+}
+
+const nodeMajorVersion = determineNodeMajorVersion();
+const supportsTestModuleMocks =
+  typeof nodeMajorVersion === "number" && nodeMajorVersion >= 20;
+
+// Enable Node's module mocking API so AVA exposes t.mock in ExecutionContext.
+if (
+  supportsTestModuleMocks &&
+  !nodeArguments.includes("--experimental-test-module-mocks")
+) {
+  nodeArguments.push("--experimental-test-module-mocks");
+}
 // Enable Node's module mocking API so AVA exposes t.mock in ExecutionContext
 // when the current Node version supports the experimental flag. Node exposes
 // the flag via allowedNodeEnvironmentFlags before worker threads accept it, so
