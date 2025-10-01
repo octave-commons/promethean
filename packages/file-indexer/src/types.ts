@@ -1,15 +1,22 @@
+import type { ReadonlyDeep } from "type-fest";
+
 export type MaybePromise<T> = T | Promise<T>;
 
-export type IndexedFile = Readonly<{
+export type IndexedFile = ReadonlyDeep<{
   path: string;
   content?: string;
 }>;
 
-export type ScanProgress = Readonly<{
+export type ScanProgress = ReadonlyDeep<{
   processed: number;
   total: number;
   percentage: number;
 }>;
+
+type BatchHandler = (
+  batch: ReadonlyArray<IndexedFile>,
+  progress: ScanProgress,
+) => MaybePromise<void>;
 
 export type ScanFilesOptions = Readonly<{
   root: string;
@@ -20,17 +27,14 @@ export type ScanFilesOptions = Readonly<{
   batchSize?: number;
   collect?: boolean;
   onFile?: (file: IndexedFile, progress: ScanProgress) => MaybePromise<void>;
-  onBatch?: (
-    batch: readonly IndexedFile[],
-    progress: ScanProgress,
-  ) => MaybePromise<void>;
+  onBatch?: BatchHandler;
   onProgress?: (progress: ScanProgress) => void;
-  signal?: AbortSignal;
+  signal?: Readonly<AbortSignal>;
 }>;
 
 export type ScanFilesResult = Readonly<{
   total: number;
   processed: number;
   durationMs: number;
-  files?: readonly IndexedFile[];
+  files?: ReadonlyArray<IndexedFile>;
 }>;
