@@ -136,13 +136,10 @@ kanban-plugin: board
 - [ ] get project build to work `tsc -b tsconfig.build.json`
 - [ ] pin all versioned anything
 - [ ] Get existing pipelines to work through UI
-- [ ] [[get all existing piper pipelines functional]]
 - [ ] make cephalon work again with new project layout
 - [ ] discord mixed mode
 - [ ] [[dev mode for each package]]
-- [ ] [[github-crawler]]
 - [ ] [[ci-passses]] #incoming
-- [ ] [[docker-compose-edn-template-system]]
 - [ ] [[integrate-sonarqube-into-devops]] #incoming
 - [ ] [[tree-diffing-tools]]
 - [ ] [[Setup Identity Experiment]]
@@ -151,6 +148,9 @@ kanban-plugin: board
 
 ## Breakdown (13)
 
+- [ ] [[github-crawler]]
+- [ ] [[docker-compose-edn-template-system]]
+- [ ] [[get all existing piper pipelines functional]]
 - [ ] discord text mode
 - [ ] [[evaluate-docker-npu-compatability]]
 - [ ] [[add-docker-compose-files-to-services]]
