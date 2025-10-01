@@ -11,6 +11,8 @@ export type Task = {
     time_to_completion?: string;
   };
   content?: string;
+  slug?: string;
+  sourcePath?: string;
 };
 
 export type ColumnData = {
