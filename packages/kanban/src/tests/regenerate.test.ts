@@ -1,5 +1,5 @@
 import path from "node:path";
-import { mkdir, readFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 
 import test from "ava";
 
@@ -52,4 +52,47 @@ test("Task file bodies are the same before and after the board regeneration", as
   const after = await snapshotTaskFiles(tasksDir);
 
   t.deepEqual(Array.from(after.entries()), Array.from(before.entries()));
+});
+
+test("regenerateBoard retains tasks from both canonical and legacy schemas", async (t) => {
+  const tempDir = await withTempDir(t);
+  const boardPath = path.join(tempDir, "board.md");
+  const tasksDir = path.join(tempDir, "tasks");
+  await mkdir(tasksDir, { recursive: true });
+
+  const canonical = makeTask({
+    uuid: "canonical-uuid-1",
+    title: "Canonical Task",
+    status: "Todo",
+    slug: "canonical-task",
+  });
+  await writeTaskFile(tasksDir, canonical, { content: "Canonical body" });
+
+  const legacyFrontmatter = [
+    "---",
+    "task-id: TASK-LEGACY-1",
+    "title: Legacy Task",
+    "state: Breakdown",
+    "priority: p2",
+    "labels:",
+    "  - legacy",
+    "created: 2025-02-02T00:00:00Z",
+    "---",
+    "",
+    "Legacy body",
+    "",
+  ].join("\n");
+  await writeFile(
+    path.join(tasksDir, "legacy-task.md"),
+    legacyFrontmatter,
+    "utf8",
+  );
+
+  const result = await regenerateBoard(tasksDir, boardPath);
+
+  t.is(result.totalTasks, 2);
+
+  const boardContent = await readFile(boardPath, "utf8");
+  t.regex(boardContent, /\(uuid:canonical-uuid-1\)/);
+  t.regex(boardContent, /\(uuid:TASK-LEGACY-1\)/);
 });
