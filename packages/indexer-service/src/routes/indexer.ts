@@ -65,11 +65,11 @@ export function registerIndexerRoutes(
       const globs = request.body?.path;
       if (!globs) {
         reply.code(400).send({ ok: false, error: "Missing 'path'" });
-      // For array-of-globs, optionally check each for traversal
-      if (typeof globs === "string" && !isSafeRelPath(globs)) {
-        reply.code(400).send({ ok: false, error: "Invalid path" });
-        return;
-      }
+        // For array-of-globs, optionally check each for traversal
+        if (typeof globs === "string" && !isSafeRelPath(globs)) {
+          reply.code(400).send({ ok: false, error: "Invalid path" });
+          return;
+        }
         return;
       }
       try {
