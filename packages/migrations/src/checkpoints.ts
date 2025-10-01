@@ -1,30 +1,30 @@
-import { MongoClient, Collection } from 'mongodb';
+import { MongoClient, Collection, ResumeToken } from 'mongodb';
 
 export type Phase = 'prepare' | 'backfill' | 'cdc' | 'dualwrite' | 'cutover' | 'decommission';
 
 export type Checkpoint = {
-    id: string; // collection name or logical stream id
-    phase: Phase;
-    batch: number; // last completed batch number
-    lastId?: string; // last processed id (for paging)
-    updatedAt: string; // ISO timestamp
-    resumeToken?: unknown; // MongoDB change stream resume token
+    readonly id: string; // collection name or logical stream id
+    readonly phase: Phase;
+    readonly batch: number; // last completed batch number
+    readonly lastId?: string; // last processed id (for paging)
+    readonly updatedAt: string; // ISO timestamp
+    readonly resumeToken?: ResumeToken; // MongoDB change stream resume token
 };
 
 export type CheckpointStore = {
     get(id: string): Promise<Checkpoint | null>;
     set(cp: Checkpoint): Promise<void>;
     advancePhase(id: string, phase: Phase): Promise<Checkpoint>;
-    getResumeToken(id: string): Promise<unknown | undefined>;
-    setResumeToken(id: string, token: unknown): Promise<void>;
+    getResumeToken(id: string): Promise<ResumeToken | undefined>;
+    setResumeToken(id: string, token: ResumeToken): Promise<void>;
 };
 
 export class MongoCheckpointStore implements CheckpointStore {
-    private coll: Collection<Checkpoint>;
+    private readonly coll: Collection<Checkpoint>;
     constructor(
-        private client: MongoClient,
-        private dbName: string,
-        private collection = 'migrations',
+        private readonly client: MongoClient,
+        private readonly dbName: string,
+        private readonly collection = 'migrations',
     ) {
         this.coll = this.client.db(this.dbName).collection<Checkpoint>(this.collection);
     }
@@ -38,8 +38,11 @@ export class MongoCheckpointStore implements CheckpointStore {
     }
 
     async set(cp: Checkpoint): Promise<void> {
-        cp.updatedAt = new Date().toISOString();
-        await this.coll.updateOne({ id: cp.id }, { $set: cp }, { upsert: true });
+        const next: Checkpoint = {
+            ...cp,
+            updatedAt: new Date().toISOString(),
+        };
+        await this.coll.updateOne({ id: cp.id }, { $set: next }, { upsert: true });
     }
 
     async advancePhase(id: string, phase: Phase): Promise<Checkpoint> {
@@ -56,18 +59,30 @@ export class MongoCheckpointStore implements CheckpointStore {
         return next;
     }
 
-    async getResumeToken(id: string): Promise<unknown | undefined> {
+    async getResumeToken(id: string): Promise<ResumeToken | undefined> {
         return (await this.get(id))?.resumeToken;
     }
 
-    async setResumeToken(id: string, token: unknown): Promise<void> {
-        const cp = (await this.get(id)) ?? { id, phase: 'prepare', batch: 0, updatedAt: new Date().toISOString() };
-        cp.resumeToken = token as any;
-        await this.set(cp);
+    async setResumeToken(id: string, token: ResumeToken): Promise<void> {
+        const prev = (await this.get(id)) ?? {
+            id,
+            phase: 'prepare' as const,
+            batch: 0,
+            updatedAt: new Date().toISOString(),
+        };
+        const next: Checkpoint = {
+            ...prev,
+            resumeToken: token,
+        };
+        await this.set(next);
     }
 }
 
-export async function makeCheckpointStore(uri: string, dbName: string, collection?: string) {
+export async function makeCheckpointStore(
+    uri: string,
+    dbName: string,
+    collection?: string,
+): Promise<MongoCheckpointStore> {
     const client = new MongoClient(uri);
     await client.connect();
     const store = new MongoCheckpointStore(client, dbName, collection);
