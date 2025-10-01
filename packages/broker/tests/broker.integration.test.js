@@ -1,6 +1,7 @@
 // integration
 import test from "ava";
 import WebSocket from "ws";
+import { sleep } from "@promethean/test-utils";
 import { start, stop } from "../index.js";
 
 // In restricted CI/sandboxes, listening on sockets may be disallowed.
@@ -35,7 +36,7 @@ if (process.env.SKIP_NETWORK_TESTS === "1") {
     const prod = await connect();
     const worker = await connect();
     worker.send(JSON.stringify({ action: "ready", queue: "jobs" }));
-    await new Promise((r) => setTimeout(r, 20));
+    await sleep(20);
     prod.send(
       JSON.stringify({
         action: "enqueue",
@@ -57,7 +58,7 @@ if (process.env.SKIP_NETWORK_TESTS === "1") {
     worker.once("message", () => {
       received = true;
     });
-    await new Promise((r) => setTimeout(r, 50));
+    await sleep(50);
     t.false(received);
     worker.send(JSON.stringify({ action: "ready", queue: "jobs" }));
     const msg2 = await new Promise((resolve) =>
@@ -73,7 +74,7 @@ if (process.env.SKIP_NETWORK_TESTS === "1") {
     const sub = await connect();
     const pub = await connect();
     sub.send(JSON.stringify({ action: "subscribe", topic: "greet" }));
-    await new Promise((r) => setTimeout(r, 50));
+    await sleep(50);
     const received = new Promise((resolve) => {
       sub.on("message", (data) => resolve(JSON.parse(data)));
     });
@@ -89,13 +90,51 @@ if (process.env.SKIP_NETWORK_TESTS === "1") {
     pub.close();
   });
 
+  test.serial(
+    "publishing clients do not receive their own events",
+    async (t) => {
+      const other = await connect();
+      const publisher = await connect();
+      const topic = "echo";
+      other.send(JSON.stringify({ action: "subscribe", topic }));
+      publisher.send(JSON.stringify({ action: "subscribe", topic }));
+      await sleep(50);
+
+      const otherReceived = new Promise((resolve) => {
+        other.on("message", (data) => resolve(JSON.parse(data)));
+      });
+
+      let ownReceived = false;
+      const ownListener = () => {
+        ownReceived = true;
+      };
+      publisher.on("message", ownListener);
+
+      publisher.send(
+        JSON.stringify({
+          action: "publish",
+          message: { type: topic, payload: { msg: "hi" } },
+        }),
+      );
+
+      const message = await otherReceived;
+      t.is(message.event.payload.msg, "hi");
+      await sleep(100);
+      publisher.off("message", ownListener);
+      t.false(ownReceived);
+
+      other.close();
+      publisher.close();
+    },
+  );
+
   test.serial("unsubscribe stops delivery", async (t) => {
     const sub = await connect();
     const pub = await connect();
     sub.send(JSON.stringify({ action: "subscribe", topic: "ping" }));
-    await new Promise((r) => setTimeout(r, 50));
+    await sleep(50);
     sub.send(JSON.stringify({ action: "unsubscribe", topic: "ping" }));
-    await new Promise((r) => setTimeout(r, 50));
+    await sleep(50);
     let received = false;
     sub.on("message", () => {
       received = true;
@@ -106,7 +145,7 @@ if (process.env.SKIP_NETWORK_TESTS === "1") {
         message: { type: "ping", payload: {} },
       }),
     );
-    await new Promise((r) => setTimeout(r, 100));
+    await sleep(100);
     t.false(received);
     sub.close();
     pub.close();
@@ -116,7 +155,7 @@ if (process.env.SKIP_NETWORK_TESTS === "1") {
     const sub = await connect();
     const pub = await connect();
     sub.send(JSON.stringify({ action: "subscribe", topic: "ask" }));
-    await new Promise((r) => setTimeout(r, 50));
+    await sleep(50);
     const received = new Promise((resolve) => {
       sub.on("message", (data) => resolve(JSON.parse(data)));
     });
