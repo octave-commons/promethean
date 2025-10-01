@@ -3,24 +3,12 @@ import type { EventEmitter } from 'node:events';
 import ollama, { type Message } from 'ollama';
 
 const SYSTEM_PROMPT = 'Generate an engaging Twitch stream title (max 60 characters) based on recent context.';
-const BANNED_WORDS = [/\bnsfw\b/i];
+const BANNED_WORDS = [/\bnsfw\b/i] as const;
 
-type OllamaClient = {
-    chat: typeof ollama.chat;
-};
-
-let activeOllama: OllamaClient = ollama;
-
-export function setOllamaClient(client: OllamaClient): void {
-    activeOllama = client;
-}
-
-export function resetOllamaClient(): void {
-    activeOllama = ollama;
-}
+export type OllamaClient = Pick<typeof ollama, 'chat'>;
 
 export type TitleContextSource = {
-    fetch(): Promise<Message[]>;
+    fetch(): Promise<ReadonlyArray<Message>>;
 };
 
 export type TitleStore = {
@@ -28,68 +16,123 @@ export type TitleStore = {
 };
 
 export class MemoryTitleStore implements TitleStore {
-    public titles: string[] = [];
+    #titles: readonly string[] = [];
 
-    async save(title: string): Promise<void> {
-        this.titles.push(title);
+    public get titles(): readonly string[] {
+        return this.#titles;
+    }
+
+    public async save(title: string): Promise<void> {
+        this.#titles = [...this.#titles, title];
     }
 }
 
 export type DiscordTranscriptEntry = {
-    author: string;
-    content: string;
+    readonly author: string;
+    readonly content: string;
 };
 
 export class DiscordTranscriptSource implements TitleContextSource {
-    constructor(private readonly getLatest: () => Promise<DiscordTranscriptEntry[]>) {}
+    public constructor(private readonly getLatest: () => Promise<ReadonlyArray<DiscordTranscriptEntry>>) {}
 
-    async fetch(): Promise<Message[]> {
+    public async fetch(): Promise<ReadonlyArray<Message>> {
         const transcript = await this.getLatest();
-        return transcript.map((t) => ({
+        return transcript.map((entry) => ({
             role: 'user',
-            content: `${t.author}: ${t.content}`,
+            content: `${entry.author}: ${entry.content}`,
         }));
     }
 }
 
-function isTitleSafe(title: string): boolean {
-    return !BANNED_WORDS.some((re) => re.test(title));
+type TitleSafetyDependencies = {
+    readonly bannedWords: ReadonlyArray<RegExp>;
+};
+
+const DEFAULT_TITLE_GENERATION: Readonly<{
+    bannedWords: ReadonlyArray<RegExp>;
+    client: OllamaClient;
+    model: string;
+    systemPrompt: string;
+}> = Object.freeze({
+    bannedWords: BANNED_WORDS as ReadonlyArray<RegExp>,
+    client: ollama as OllamaClient,
+    model: 'gemma3:latest',
+    systemPrompt: SYSTEM_PROMPT,
+});
+
+type GenerateTitleDependencies = typeof DEFAULT_TITLE_GENERATION;
+
+function isTitleSafe(title: string, dependencies: TitleSafetyDependencies = DEFAULT_TITLE_GENERATION): boolean {
+    return !dependencies.bannedWords.some((pattern) => pattern.test(title));
 }
 
-export async function generateTwitchStreamTitle(context: Message[], model = 'gemma3:latest'): Promise<string> {
-    const res = await activeOllama.chat({
+export type GenerateTwitchStreamTitleOptions = Partial<GenerateTitleDependencies>;
+
+type GenerateTwitchStreamTitleArgs = GenerateTwitchStreamTitleOptions | string | undefined;
+
+function normalizeGenerateTitleOptions(options: GenerateTwitchStreamTitleArgs): GenerateTwitchStreamTitleOptions {
+    if (options === undefined) {
+        return {};
+    }
+
+    if (typeof options === 'string') {
+        return { model: options } satisfies GenerateTwitchStreamTitleOptions;
+    }
+
+    if (options === null || typeof options !== 'object' || Array.isArray(options)) {
+        throw new TypeError('generateTwitchStreamTitle options must be an object or model string');
+    }
+
+    return options;
+}
+
+export async function generateTwitchStreamTitle(
+    context: ReadonlyArray<Message>,
+    options: GenerateTwitchStreamTitleOptions | string = {},
+): Promise<string> {
+    const normalizedOptions = normalizeGenerateTitleOptions(options);
+    const { bannedWords, client, model, systemPrompt } = {
+        ...DEFAULT_TITLE_GENERATION,
+        ...normalizedOptions,
+    } satisfies GenerateTitleDependencies;
+
+    const response = await client.chat({
         model,
-        messages: [{ role: 'system', content: SYSTEM_PROMPT }, ...context],
+        messages: [{ role: 'system', content: systemPrompt }, ...context],
     });
-    const title = res.message.content.trim();
-    if (!isTitleSafe(title)) {
+    const title = response.message.content.trim();
+    if (!isTitleSafe(title, { bannedWords })) {
         throw new Error('Generated title failed safety check');
     }
     return title;
 }
 
+export type GenerateAndStoreTitleOptions = GenerateTwitchStreamTitleOptions;
+
 export async function generateAndStoreTitle(
     source: TitleContextSource,
     store: TitleStore,
-    model = 'gemma3:latest',
+    options: GenerateAndStoreTitleOptions | string = {},
 ): Promise<string> {
     const context = await source.fetch();
-    const title = await generateTwitchStreamTitle(context, model);
+    const title = await generateTwitchStreamTitle(context, options);
     await store.save(title);
     return title;
 }
+
+export type WatchContextAndGenerateOptions = GenerateTwitchStreamTitleOptions;
 
 export function watchContextAndGenerate(
     emitter: EventEmitter,
     source: TitleContextSource,
     store: TitleStore,
-    model = 'gemma3:latest',
+    options: WatchContextAndGenerateOptions | string = {},
 ): void {
     emitter.on('context', async () => {
         try {
-            await generateAndStoreTitle(source, store, model);
-        } catch (err) {
-            console.error('title generation failed', err);
+            await generateAndStoreTitle(source, store, options);
+        } catch (error) {
+            console.error('title generation failed', error);
         }
     });
 }

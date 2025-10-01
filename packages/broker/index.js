@@ -80,6 +80,7 @@ function route(event, sender) {
   const subs = subscriptions.get(event.type);
   if (!subs) return;
   for (const ws of subs) {
+    if (ws === sender) continue;
     if (ws.readyState === WebSocket.OPEN) {
       try {
         ws.send(JSON.stringify({ event }));

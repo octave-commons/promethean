@@ -1,29 +1,96 @@
 import { randomUUID } from 'node:crypto';
 
-import type { Collection as ChromaCollection } from 'chromadb';
+import type { Collection as ChromaCollection, Metadata as ChromaMetadata, Where } from 'chromadb';
 import { RemoteEmbeddingFunction } from '@promethean/embedding';
-import type { Collection, OptionalUnlessRequiredId, WithId } from 'mongodb';
+import type { Collection, Filter, OptionalUnlessRequiredId, Sort, WithId } from 'mongodb';
 import { AGENT_NAME } from '@promethean/legacy/env.js';
 
-import type { DualStoreEntry, AliasDoc } from './types.js';
+import type { DualStoreEntry, AliasDoc, DualStoreMetadata, DualStoreTimestamp } from './types.js';
 import { getChromaClient, getMongoClient } from './clients.js';
 
-export class DualStoreManager<TextKey extends string = 'text', TimeKey extends string = 'createdAt'> {
-    name: string;
-    chromaCollection: ChromaCollection;
-    mongoCollection: Collection<DualStoreEntry<TextKey, TimeKey>>;
-    textKey: TextKey;
-    timeStampKey: TimeKey;
-    supportsImages: boolean;
+const toEpochMilliseconds = (timestamp: DualStoreTimestamp | undefined): number => {
+    if (timestamp instanceof Date) return timestamp.getTime();
+    if (typeof timestamp === 'string') return new Date(timestamp).getTime();
+    if (typeof timestamp === 'number') return timestamp;
+    return Date.now();
+};
 
-    constructor(
-        name: string,
-        chromaCollection: ChromaCollection,
-        mongoCollection: Collection<DualStoreEntry<TextKey, TimeKey>>,
-        textKey: TextKey,
-        timeStampKey: TimeKey,
-        supportsImages = false,
-    ) {
+const pickTimestamp = (...candidates: readonly unknown[]): DualStoreTimestamp | undefined => {
+    for (const candidate of candidates) {
+        if (candidate instanceof Date || typeof candidate === 'number' || typeof candidate === 'string') {
+            return candidate;
+        }
+    }
+    return undefined;
+};
+
+const withTimestampMetadata = (
+    metadata: DualStoreMetadata | undefined,
+    timeStampKey: string,
+    timestamp: number,
+): DualStoreMetadata => ({
+    ...(metadata ?? {}),
+    [timeStampKey]: timestamp,
+});
+
+const toChromaMetadata = (metadata: DualStoreMetadata): ChromaMetadata => {
+    const result: Record<string, boolean | number | string | null> = {};
+    for (const [key, value] of Object.entries(metadata)) {
+        if (value === null) {
+            result[key] = null;
+        } else if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
+            result[key] = value;
+        }
+    }
+    return result;
+};
+
+const cloneMetadata = (metadata: ChromaMetadata | null | undefined): DualStoreMetadata | undefined =>
+    metadata ? { ...metadata } : undefined;
+
+const toGenericEntry = <TextKey extends string, TimeKey extends string>(
+    entry: DualStoreEntry<TextKey, TimeKey> | WithId<DualStoreEntry<TextKey, TimeKey>>,
+    textKey: TextKey,
+    timeStampKey: TimeKey,
+): DualStoreEntry<'text', 'timestamp'> => {
+    const metadata = entry.metadata;
+    const timestampSource = pickTimestamp(metadata?.[timeStampKey], metadata?.timeStamp, entry[timeStampKey]);
+
+    return {
+        id: entry.id,
+        text: entry[textKey],
+        timestamp: toEpochMilliseconds(timestampSource),
+        metadata,
+    };
+};
+
+type QueryArgs = Parameters<ChromaCollection['query']>[0];
+
+type DualStoreManagerDependencies<TextKey extends string, TimeKey extends string> = {
+    readonly name: string;
+    readonly chromaCollection: ChromaCollection;
+    readonly mongoCollection: Collection<DualStoreEntry<TextKey, TimeKey>>;
+    readonly textKey: TextKey;
+    readonly timeStampKey: TimeKey;
+    readonly supportsImages: boolean;
+};
+
+export class DualStoreManager<TextKey extends string = 'text', TimeKey extends string = 'createdAt'> {
+    public readonly name: string;
+    private readonly chromaCollection: ChromaCollection;
+    private readonly mongoCollection: Collection<DualStoreEntry<TextKey, TimeKey>>;
+    private readonly textKey: TextKey;
+    private readonly timeStampKey: TimeKey;
+    private readonly supportsImages: boolean;
+
+    private constructor({
+        name,
+        chromaCollection,
+        mongoCollection,
+        textKey,
+        timeStampKey,
+        supportsImages,
+    }: DualStoreManagerDependencies<TextKey, TimeKey>) {
         this.name = name;
         this.chromaCollection = chromaCollection;
         this.mongoCollection = mongoCollection;
@@ -36,7 +103,7 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
         name: string,
         textKey: TTextKey,
         timeStampKey: TTimeKey,
-    ) {
+    ): Promise<DualStoreManager<TTextKey, TTimeKey>> {
         const chromaClient = await getChromaClient();
         const mongoClient = await getMongoClient();
         const family = `${AGENT_NAME}_${name}`;
@@ -44,113 +111,138 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
         const aliases = db.collection<AliasDoc>('collection_aliases');
         const alias = await aliases.findOne({ _id: family });
 
-        const embedFnName = alias?.embed?.fn || process.env.EMBEDDING_FUNCTION || 'nomic-embed-text';
+        const embedFnName = alias?.embed?.fn ?? process.env.EMBEDDING_FUNCTION ?? 'nomic-embed-text';
         const embeddingFn = alias?.embed
             ? RemoteEmbeddingFunction.fromConfig({
                   driver: alias.embed.driver,
                   fn: alias.embed.fn,
               })
             : RemoteEmbeddingFunction.fromConfig({
-                  driver: process.env.EMBEDDING_DRIVER || 'ollama',
+                  driver: process.env.EMBEDDING_DRIVER ?? 'ollama',
                   fn: embedFnName,
               });
 
         const chromaCollection = await chromaClient.getOrCreateCollection({
-            name: alias?.target || family,
+            name: alias?.target ?? family,
             embeddingFunction: embeddingFn,
         });
 
         const mongoCollection = db.collection<DualStoreEntry<TTextKey, TTimeKey>>(family);
 
         const supportsImages = !embedFnName.toLowerCase().includes('text');
-        return new DualStoreManager(family, chromaCollection, mongoCollection, textKey, timeStampKey, supportsImages);
+        return new DualStoreManager({
+            name: family,
+            chromaCollection,
+            mongoCollection,
+            textKey,
+            timeStampKey,
+            supportsImages,
+        });
     }
 
-    async insert(entry: DualStoreEntry<TextKey, TimeKey>) {
+    async insert(entry: DualStoreEntry<TextKey, TimeKey>): Promise<void> {
         const id = entry.id ?? randomUUID();
-        entry.id = id;
+        const timestampCandidate = pickTimestamp(
+            entry[this.timeStampKey],
+            entry.metadata?.[this.timeStampKey],
+            entry.metadata?.timeStamp,
+        );
+        const timestamp = toEpochMilliseconds(timestampCandidate);
+        const metadata = withTimestampMetadata(entry.metadata, this.timeStampKey, timestamp);
 
-        if (!entry[this.timeStampKey]) {
-            entry[this.timeStampKey] = Date.now() as DualStoreEntry<TextKey, TimeKey>[TimeKey];
-        }
+        const preparedEntry: DualStoreEntry<TextKey, TimeKey> = {
+            ...entry,
+            id,
+            [this.timeStampKey]: timestamp,
+            metadata,
+        };
 
-        if (!entry.metadata) entry.metadata = {};
-        entry.metadata[this.timeStampKey] = entry[this.timeStampKey];
+        const dualWriteEnabled = (process.env.DUAL_WRITE_ENABLED ?? 'true').toLowerCase() !== 'false';
+        const isImage = metadata.type === 'image';
 
-        // console.log("Adding entry to collection", this.name, entry);
-
-        const dualWrite = (process.env.DUAL_WRITE_ENABLED ?? 'true').toLowerCase() !== 'false';
-        const isImage = entry.metadata?.type === 'image';
-        if (dualWrite && (!isImage || this.supportsImages)) {
+        if (dualWriteEnabled && (!isImage || this.supportsImages)) {
             try {
                 await this.chromaCollection.add({
                     ids: [id],
-                    documents: [entry[this.textKey]],
-                    metadatas: [entry.metadata],
+                    documents: [preparedEntry[this.textKey]],
+                    metadatas: [toChromaMetadata(metadata)],
                 });
-            } catch (e) {
-                console.warn('Failed to embed entry', e);
+            } catch (error) {
+                console.warn('Failed to embed entry', error);
             }
         }
 
-        await this.mongoCollection.insertOne({
-            id: entry.id,
-            [this.textKey]: entry[this.textKey],
-            [this.timeStampKey]: entry[this.timeStampKey],
-            metadata: entry.metadata,
-        } as OptionalUnlessRequiredId<DualStoreEntry<TextKey, TimeKey>>);
+        const mongoDocument = preparedEntry as OptionalUnlessRequiredId<DualStoreEntry<TextKey, TimeKey>>;
+        await this.mongoCollection.insertOne(mongoDocument);
     }
 
     // TODO: remove in future – alias for backwards compatibility
-    async addEntry(entry: DualStoreEntry<TextKey, TimeKey>) {
-        return this.insert(entry);
+    async addEntry(entry: DualStoreEntry<TextKey, TimeKey>): Promise<void> {
+        await this.insert(entry);
+    }
+
+    private createDefaultMongoFilter(): Filter<DualStoreEntry<TextKey, TimeKey>> {
+        return {
+            [this.textKey]: { $nin: [null, ''], $not: /^\s*$/ },
+        } as Filter<DualStoreEntry<TextKey, TimeKey>>;
+    }
+
+    private createDefaultSorter(): Sort {
+        return { [this.timeStampKey]: -1 } satisfies Sort;
     }
 
     async getMostRecent(
-        limit: number = 10,
-        mongoFilter: any = { [this.textKey]: { $nin: [null, ''], $not: /^\s*$/ } },
-        sorter: any = { [this.timeStampKey]: -1 },
+        limit = 10,
+        mongoFilter: Filter<DualStoreEntry<TextKey, TimeKey>> = this.createDefaultMongoFilter(),
+        sorter: Sort = this.createDefaultSorter(),
     ): Promise<DualStoreEntry<'text', 'timestamp'>[]> {
-        // console.log("Getting most recent entries from collection", this.name, "with limit", limit);
-        return (await this.mongoCollection.find(mongoFilter).sort(sorter).limit(limit).toArray()).map(
-            (entry: WithId<DualStoreEntry<TextKey, TimeKey>>) => ({
-                id: entry.id,
-                text: (entry as Record<TextKey, any>)[this.textKey],
-                timestamp: new Date((entry as Record<TimeKey, any>)[this.timeStampKey]).getTime(),
-                metadata: entry.metadata,
-            }),
-        ) as DualStoreEntry<'text', 'timestamp'>[];
+        const documents = await this.mongoCollection.find(mongoFilter).sort(sorter).limit(limit).toArray();
+        return documents
+            .map((entry: WithId<DualStoreEntry<TextKey, TimeKey>>) =>
+                toGenericEntry(entry, this.textKey, this.timeStampKey),
+            )
+            .filter((entry) => typeof entry.text === 'string' && entry.text.trim().length > 0);
     }
-    async getMostRelevant(
-        queryTexts: string[],
-        limit: number,
-        where: Record<string, unknown> = {},
-    ): Promise<DualStoreEntry<'text', 'timestamp'>[]> {
-        // console.log("Getting most relevant entries from collection", this.name, "for queries", queryTexts, "with limit", limit);
-        if (!queryTexts || queryTexts.length === 0) return Promise.resolve([]);
 
-        const query: Record<string, any> = {
-            queryTexts,
+    async getMostRelevant(
+        queryTexts: readonly string[],
+        limit: number,
+        where?: Where,
+    ): Promise<DualStoreEntry<'text', 'timestamp'>[]> {
+        if (queryTexts.length === 0) {
+            return [];
+        }
+
+        const queryOptions: QueryArgs = {
+            queryTexts: [...queryTexts],
             nResults: limit,
+            include: ['documents', 'metadatas'],
+            ...(where && Object.keys(where).length > 0 ? { where } : {}),
         };
-        if (where && Object.keys(where).length > 0) query.where = where;
-        const queryResult = await this.chromaCollection.query(query);
-        const uniqueThoughts = new Set();
-        const ids = queryResult.ids.flat(2);
-        const meta = queryResult.metadatas.flat(2);
-        return queryResult.documents
-            .flat(2)
-            .map((doc, i) => ({
-                id: ids[i],
-                text: doc,
-                metadata: meta[i],
-                timestamp: meta[i]?.timeStamp || meta[i]?.[this.timeStampKey] || Date.now(),
-            }))
-            .filter((doc) => {
-                if (!doc.text) return false; // filter out undefined text
-                if (uniqueThoughts.has(doc.text)) return false; // filter out duplicates
-                uniqueThoughts.add(doc.text);
-                return true;
-            }) as DualStoreEntry<'text', 'timestamp'>[];
+
+        const queryResult = await this.chromaCollection.query(queryOptions);
+        const rows = queryResult.rows().flat();
+
+        const entries = rows.flatMap((row) => {
+            if (typeof row.document !== 'string') {
+                return [] as const;
+            }
+
+            const metadata = cloneMetadata(row.metadata as ChromaMetadata | null | undefined);
+            const timestampSource = pickTimestamp(metadata?.[this.timeStampKey], metadata?.timeStamp);
+
+            const result: DualStoreEntry<'text', 'timestamp'> = {
+                id: row.id,
+                text: row.document,
+                metadata,
+                timestamp: toEpochMilliseconds(timestampSource),
+            };
+
+            return [result] as const;
+        });
+
+        return entries.filter(
+            (entry, index, array) => array.findIndex((candidate) => candidate.text === entry.text) === index,
+        );
     }
 }

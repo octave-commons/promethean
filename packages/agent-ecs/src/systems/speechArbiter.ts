@@ -1,125 +1,151 @@
-// loose typing to avoid cross-package type coupling
+import type { Entity, Query, World } from '@promethean/ds/ecs.js';
 
-type BargeState = { speakingSince: number | null; paused: boolean };
+import type {
+    AgentComponents,
+    AudioRefComponent,
+    BargeStateComponent,
+    PlaybackQueueComponent,
+    UtteranceComponent,
+} from '../types.js';
 
-export function SpeechArbiterSystem(w: any, C: ReturnType<typeof import('../components.js').defineAgentComponents>) {
-    const { Turn, PlaybackQ, AudioRef, Utterance, AudioRes, Policy } = C;
+const defaultQueue = (): PlaybackQueueComponent => ({ items: [] });
 
-    const qAgent = w.makeQuery({ all: [Turn, PlaybackQ, AudioRef, Policy] });
-    const qAllUtter = w.makeQuery({ all: [Utterance] });
+const defaultBargeState = (): BargeStateComponent => ({ speakingSince: null, paused: false });
 
-    // per-agent transient state, no component needed
-    const state = new Map<any, BargeState>();
-    const getState = (agent: any): BargeState => {
-        let s = state.get(agent);
-        if (!s) {
-            s = { speakingSince: null, paused: false };
-            state.set(agent, s);
-        }
-        return s;
+const filterActiveUtterances = (
+    world: World,
+    components: AgentComponents,
+    items: ReadonlyArray<Entity>,
+): ReadonlyArray<Entity> =>
+    items.filter((entity) => {
+        const utterance = world.get(entity, components.Utterance);
+        return !!utterance && (utterance.status === 'queued' || utterance.status === 'playing');
+    });
+
+type PendingUtteranceContext = {
+    readonly world: World;
+    readonly components: AgentComponents;
+    readonly query: Query;
+    readonly items: ReadonlyArray<Entity>;
+    readonly minTurnId: number;
+};
+
+const includePendingUtterances = ({
+    world,
+    components,
+    query,
+    items,
+    minTurnId,
+}: PendingUtteranceContext): ReadonlyArray<Entity> => {
+    const known = new Set(items);
+    const appended: Entity[] = [...items];
+    for (const [entity] of world.iter(query)) {
+        if (known.has(entity)) continue;
+        const utterance = world.get(entity, components.Utterance);
+        if (!utterance) continue;
+        if (utterance.status === 'queued' && utterance.turnId >= minTurnId) appended.push(entity);
+    }
+    return appended;
+};
+
+const comparePriority =
+    (world: World, components: AgentComponents): ((a: Entity, b: Entity) => number) =>
+    (a, b) => {
+        const ua = world.get(a, components.Utterance);
+        const ub = world.get(b, components.Utterance);
+        return (ub?.priority ?? 0) - (ua?.priority ?? 0);
     };
 
-    return async function run(_dt: number) {
-        for (const [agent, get] of w.iter(qAgent)) {
-            const turnId = get(Turn)?.id ?? 0;
-            const queue = get(PlaybackQ);
-            const original = queue.items as number[];
-            const player = get(AudioRef)?.player;
-            const policy = get(Policy) ?? { defaultBargeIn: 'pause' as const };
-            const bs = getState(agent);
+const pickQueuedUtterance = (
+    world: World,
+    components: AgentComponents,
+    ordered: ReadonlyArray<Entity>,
+): Entity | undefined => ordered.find((entity) => world.get(entity, components.Utterance)?.status === 'queued');
 
-            // purge stale/cancelled (treat prev buffer values as immutable)
-            const filteredItems = original.filter((uEid: any) => {
-                const u = w.get(uEid, Utterance);
-                return u && (u.status === 'queued' || u.status === 'playing');
+const dequeueEntity = (items: ReadonlyArray<Entity>, entity: Entity): ReadonlyArray<Entity> =>
+    items.filter((value) => value !== entity);
+
+const markPlaying = (world: World, components: AgentComponents, entity: Entity): UtteranceComponent | undefined => {
+    const utterance = world.get(entity, components.Utterance);
+    if (!utterance) return undefined;
+    const updated: UtteranceComponent = { ...utterance, status: 'playing' };
+    world.set(entity, components.Utterance, updated);
+    return updated;
+};
+
+const resetBargeState = (world: World, components: AgentComponents, agent: Entity): void => {
+    const barge = world.get(agent, components.BargeState) ?? defaultBargeState();
+    world.set(agent, components.BargeState, { ...barge, paused: false, speakingSince: null });
+};
+
+type PlayContext = {
+    readonly world: World;
+    readonly components: AgentComponents;
+    readonly player: AudioRefComponent['player'];
+    readonly entity: Entity;
+    readonly token: number;
+};
+
+const playUtterance = ({ world, components, player, entity, token }: PlayContext): void => {
+    const audioRes = world.get(entity, components.AudioRes);
+    if (!audioRes) return;
+    void audioRes
+        .factory()
+        .then((resource) => {
+            if (resource === undefined) return;
+            const latest = world.get(entity, components.Utterance);
+            if (!latest || latest.token !== token || latest.status === 'cancelled') return;
+            try {
+                void player.play(resource);
+            } catch (error) {
+                console.warn('[arbiter] failed to play resource', error);
+            }
+        })
+        .catch((error) => {
+            console.warn('[arbiter] failed to resolve audio resource', error);
+        });
+};
+
+export const SpeechArbiterSystem = (world: World, components: AgentComponents) => {
+    const agentQuery = world.makeQuery({
+        all: [components.Turn, components.PlaybackQ, components.AudioRef, components.Policy],
+    });
+    const utteranceQuery = world.makeQuery({ all: [components.Utterance] });
+
+    return async (_dt: number): Promise<void> => {
+        for (const [agent] of world.iter(agentQuery)) {
+            const turnId = world.get(agent, components.Turn)?.id ?? 0;
+            const queue = world.get(agent, components.PlaybackQ) ?? defaultQueue();
+            const filtered = filterActiveUtterances(world, components, queue.items);
+            const augmented = includePendingUtterances({
+                world,
+                components,
+                query: utteranceQuery,
+                items: filtered,
+                minTurnId: turnId,
             });
-            let items = filteredItems;
-            // Fallback: include any queued utterances not yet reflected in PlaybackQ
-            for (const [uEid] of w.iter(qAllUtter)) {
-                if (items.includes(uEid)) continue;
-                const u = w.get(uEid, Utterance);
-                if (!u) continue;
-                if (u.status === 'queued' && u.turnId >= turnId) items.push(uEid);
-            }
-            const sameLength = items.length === original.length;
-            const sameOrder = sameLength && items.every((v, i) => v === original[i]);
-            let queueChanged = !(sameLength && sameOrder);
+            const player = world.get(agent, components.AudioRef)?.player;
+            if (!player) continue;
 
-            // no current item: clear paused state and pick next if any
-            if (bs.paused || bs.speakingSince != null) {
-                bs.paused = false;
-                bs.speakingSince = null;
-                state.set(agent, bs);
+            const queueChanged =
+                augmented.length !== queue.items.length ||
+                augmented.some((value, index) => value !== queue.items[index]);
+
+            const ordered = [...augmented].sort(comparePriority(world, components));
+            const nextEntity = pickQueuedUtterance(world, components, ordered);
+            if (!nextEntity) {
+                if (queueChanged) world.set(agent, components.PlaybackQ, { items: augmented });
+                continue;
             }
 
-            if (items.length) {
-                console.log('speech arbiters system running', {
-                    turnId,
-                    queue,
-                    original,
-                    player,
-                    policy,
-                    bs,
-                    filteredItems,
-                    sameLength,
-                    sameOrder,
-                    queueChanged,
-                });
-                items = [...items].sort((a: any, b: any) => {
-                    const ub = w.get(b, Utterance);
-                    const ua = w.get(a, Utterance);
-                    return (ub?.priority ?? 0) - (ua?.priority ?? 0);
-                });
-                let pickedIdx = -1,
-                    picked: any | null = null;
-                for (let i = 0; i < items.length; i++) {
-                    const uEid = items[i];
-                    const u = w.get(uEid, Utterance);
-                    if (!u || u.status !== 'queued') continue;
-
-                    pickedIdx = i;
-                    picked = uEid;
-                    break;
-                }
-                if (picked != null) {
-                    // dequeue immutably
-                    if (pickedIdx >= 0) {
-                        items = items.filter((_: any, i: number) => i !== pickedIdx);
-                        queueChanged = true;
-                    }
-                    const utt = w.get(picked, Utterance)!;
-                    const token = utt.token;
-
-                    // Mark as playing immediately to prevent re-pick next ticks
-                    const nowPlaying: typeof utt = { ...utt, status: 'playing' };
-                    w.set(picked, Utterance, nowPlaying);
-
-                    // kick off resource creation in background; don't block the tick
-                    Promise.resolve()
-                        .then(() => w.get(picked, AudioRes)!.factory())
-                        .then((res) => {
-                            if (!res) return;
-                            const latest = w.get(picked, Utterance);
-                            // only proceed if this is still the same utterance and in playing state
-                            if (!latest || latest.token !== token || latest.status !== 'playing') return;
-                            try {
-                                player.play(res);
-                            } catch {}
-                        })
-                        .catch(() => {});
-
-                    // reset barge transient state at start of playback
-                    bs.paused = false;
-                    bs.speakingSince = null;
-                    state.set(agent, bs);
-
-                    console.log('[arbiter] playing:', w.get(picked, Utterance)!.id);
-                }
+            const reduced = dequeueEntity(augmented, nextEntity);
+            const nowPlaying = markPlaying(world, components, nextEntity);
+            if (nowPlaying) {
+                resetBargeState(world, components, agent);
+                playUtterance({ world, components, player, entity: nextEntity, token: nowPlaying.token });
             }
 
-            // write back only if queue actually changed; avoid clobbering
-            // other writers (e.g., enqueueUtterance) in the same tick.
-            if (queueChanged) w.set(agent, PlaybackQ, { items });
+            world.set(agent, components.PlaybackQ, { items: reduced });
         }
     };
-}
+};
