@@ -32,7 +32,7 @@ export async function startHarness({ wsPort = 9090, httpPort = 9091 }: HarnessOp
     const bus: EventBus = new InMemoryEventBus();
 
     const wss = startWSGateway(bus, wsPort, { auth: async () => ({ ok: true }) });
-    const http = startHttpPublisher(bus, httpPort);
+    const http = startHttpPublisher({ bus, port: httpPort });
     const stopProj = await startProcessProjector(bus);
 
     return {
