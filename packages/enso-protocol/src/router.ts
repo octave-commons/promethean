@@ -1,6 +1,9 @@
 import type { Envelope } from "./types/envelope.js";
 
-export type RouteHandler = (context: RouteContext, envelope: Envelope) => void | Promise<void>;
+export type RouteHandler = (
+  context: RouteContext,
+  envelope: Envelope,
+) => void | Promise<void>;
 
 export interface RouteContext {
   sessionId: string;
