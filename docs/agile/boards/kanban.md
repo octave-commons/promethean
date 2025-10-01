@@ -13,45 +13,18 @@ kanban-plugin: board
 - [ ] codex action build file contextualizer.
 - [ ] universal package manager
 - [ ] [[scripts_add_make_targets_and_aliases|scripts add make targets and aliases]] #scripts #make #dx #accepted
-- [ ] [[write_end_to_end_tests_md_md|write end to end tests md md]] #framework-core #accepted
 - [ ] [[agent-safe-stablization-after-big-moves]] #precommit #stabilization #monorepo #typescript #python #hy #agents #safety #playbook #accepted
-- [ ] [[setup_code_in_wsl_md|setup code in wsl md]] #accepted
 - [ ] [[scripts_add_make_targets_and_aliases|scripts add make targets and aliases]] #incoming
 - [ ] [[design_ollama_model_file_for_use_with_codex|Design Ollama model file for use with Codex]] #breakdown
-- [ ] [[design_circular_buffers_for_inputs_with_layered_states_of_persistance_in_memory_on_disk_cold_storage_so_md|design circular buffers for inputs with layered states of persistance in memory on disk cold storage so md]] #todo
-- [ ] [[thinking_model_integration_md_md|thinking model integration md md]] #framework-core #Breakdown #todo
 - [ ] make biome run with same settings eslint has
-- [ ] [[run_model_bakeoff_md|Run model bakeoff]] #ops #codex-task #IceBox #ready
 - [ ] [[kanban-processor]] #todo
-- [ ] [[setup_a_second_agent_md|setup a second agent md]] #framework-core #IceBox #todo
 - [ ] [[evaluate-ollama-openvino]]
-- [ ] [[pin_versions_in_configs_md|pin versions in configs md]] #in-progress
-- [ ] [[update_makefile_to_have_commands_specific_for_agents_md|Replace agent automation Makefile targets with pnpm scripts]] #devops #devops #Ready #ready
-- [ ] [[run_model_bakeoff_md|Run model bakeoff]] #todo
-- [ ] [[gather_open_questions_about_system_direction_md_md|Gather open questions about system direction]] #todo
-- [ ] [[gather_baseline_emotion_metrics_for_eidolon_field_1_md|Gather baseline emotion metrics for Eidolon field]] #todo
 - [ ] [[evaluate_and_reward_flow_satisfaction|Evaluate and reward flow satisfaction]] #todo
-- [ ] [[update_makefile_to_have_commands_specific_for_agents_md|Replace agent automation Makefile targets with pnpm scripts]] #todo
-- [ ] [[define_permission_schema_in_agents_1_md|Define permission schema in AGENTS.md]] #ice-box
-- [ ] [[extract_site_modules_from_riatzukiza_github_io_md_md|Extract site modules from riatzukiza.github.io]] #accepted
 - [ ] [[design_ollama_model_file_for_use_with_codex|Design Ollama model file for use with Codex]] #ice-box
-- [ ] [[detect_contradictions_in_memory_md_md|Detect contradictions in memory]] #todo
-- [ ] [[implement_transcendence_cascade_md|Implement transcendence cascade]] #todo
-- [ ] [[identify_ancestral_resonance_patterns_md_md|Identify ancestral resonance patterns]] #todo
-- [ ] [[annotate_legacy_code_with_migration_tags_md|Annotate legacy code with migration tags]] #ice-box
-- [ ] [[add_withdlq_around_risky_consumers_set_maxattempts_md|Add **withDLQ** around risky consumers; set `maxAttempts`]] #accepted
-- [ ] [[enable_compactor_for_process_state_process_state_s_md|Enable compactor for `process.state` → `process.state.snapshot`]] #ice-box
 - [ ] [[something-something.-1]]
-- [ ] [[hacking-through-the-snow...]]
 - [ ] [[batman]]
 - [ ] [[also-batman]]
 - [ ] [[just-so-much-batman]]
-- [ ] [[many-batmen]]
-- [ ] [[setup_code_in_wsl_md|setup code in wsl md]] #framework-core #accepted
-- [ ] [[clean_up_notes_into_design_docs_md|clean up notes into design docs md]] #framework-core #agent-thinking #accepted
-- [ ] [[gather_open_questions_about_system_direction_md_md|Gather open questions about system direction]] #framework-core #IceBox #ice-box
-- [ ] [[obsidian_replacement_md|obsidian replacement md]] #framework-core #ice-box
-- [ ] [[suggest_metaprogramming_updates_md|Suggest metaprogramming updates]] #framework-core #ice-box
 - [ ] [[hy---js-interop|hy - js interop]] #Breakdown #todo
 - [ ] [[gather_baseline_emotion_metrics_for_eidolon_field_1_md|Gather baseline emotion metrics for Eidolon field]] #framework-core #IceBox #rejected
 - [ ] [[evaluate_and_reward_flow_satisfaction|Evaluate and reward flow satisfaction]] #framework-core #IceBox #rejected
@@ -114,7 +87,6 @@ kanban-plugin: board
 
 ## Blocked
 
-- [ ] [[twitch_stream_title_generator_md_md|twitch stream title generator md md]] #framework-core #ollama-integration #stream-automation #in-review
 - [ ] [[tamper-monkey-script-for-using-templates-defined-in-the-vault|tamper monkey script for using templates defined in the vault]] #todo
 - [ ] [[phase-out-proxy-in-favor-of-bridge-service|Phase out proxy in favor of bridge service]] #framework-core #framework-core #Todo #in-progress
 - [ ] [[auth_service_rfc_and_architecture|auth service rfc and architecture]] #auth #oauth #architecture #breakdown
@@ -216,7 +188,6 @@ kanban-plugin: board
 
 ## Incoming
 
-- [ ] [[structure_vault_to_mirror_services_agents_docs_md_md|Document-Driven Development for Service Scripts]] #cephalon #layer1 #cicd #buildtools #devtools #devops #documentation #knowledge-graph #docdrivendev #ready
 - [ ] [[cephalon_tests_for_persistence_and_ecs|cephalon tests for persistence and ecs]] #incoming
 - [ ] [[cephalon_event_schema_updates|cephalon event schema updates]] #incoming
 - [ ] [[cephalon_store_user_transcripts_unified|cephalon store user transcripts unified]] #incoming
@@ -238,7 +209,6 @@ kanban-plugin: board
 - [ ] [[cephalon_backfill_conversation_history|cephalon backfill conversation history]] #incoming
 - [ ] [[cephalon_event_schema_updates|cephalon event schema updates]] #cephalon #events #schemas #breakdown
 - [ ] [[cephalon_context_window_from_collections|cephalon context window from collections]] #incoming
-- [ ] [[gpt-bridge-fuzzy-lookup-should-return-multiple-matches-when-it-is-used.|gpt bridge fuzzy lookup should return multiple matches when it is used.]] #framework-core #ready
 - [ ] [[add-codex-layer-to-emacs|Add codex layer to emacs]] #ready
 - [ ] [[discord bot squad]]
 - [ ] [[Create piper MCP tool interface]]
@@ -255,9 +225,6 @@ kanban-plugin: board
 - [ ] Get existing pipelines to work through UI
 - [ ] [[get all existing piper pipelines functional]]
 - [ ] make cephalon work again with new project layout
-- [ ] Use clojure elisp tree sitter package to generate mcp.el valid s-expr
-- [ ] discord text mode
-- [ ] PM2 works again
 - [ ] discord mixed mode
 - [ ] [[dev mode for each package]]
 - [ ] [[github-crawler]]
@@ -271,106 +238,56 @@ kanban-plugin: board
 
 ## Breakdown (13)
 
-- [ ] [[docs/agile/tasks/smart_task_templater_md|smart task templater md]] #framework-core #ready
+- [ ] discord text mode
 - [ ] [[evaluate-docker-npu-compatability]]
 - [ ] [[add-docker-compose-files-to-services]]
-- [ ] [[clean_up_notes_into_design_docs_md|clean up notes into design docs md]] #accepted
 - [ ] [[scripts_update_ci_and_refs|scripts update ci and refs]] #scripts #ci #organization #accepted
 - [ ] [[scripts_audit_and_standardize_cli_flags|scripts audit and standardize cli flags]] #scripts #cli #dx #accepted
 - [ ] [[kanban-processor]] #scripts #kanban #organization #accepted
-- [ ] [[write_end_to_end_tests_md_md|write end to end tests md md]] #accepted
 - [ ] [[scripts_group_indexing_tools|scripts group indexing tools]] #scripts #indexing #organization #accepted
 - [ ] [[clearly-document-new-repository-layout]] #devops #architectural-decisions #monorepo #packages #package-manager #runtime #multiruntime #accepted
 
 
 ## Ready
 
-- [ ] [[pin_versions_in_configs_md|pin versions in configs md]] #ops #codex-task #release-engineering #ci #sre #supply-chain #promethean #ops #codex-task #tags #promethean #versioning #pinning #ci #docker #uv #ollama #openvino #sre #supplychain #in-review
 
 
 ## Todo (13)
 
 - [ ] [[migrate legacy js services to ts]]
 - [ ] [[dockerize-the-system|dockerize the system]] #devops #devops #Ready #todo
-- [ ] [[structure_vault_to_mirror_services_agents_docs_md_md|Document-Driven Development for Service Scripts]] #breakdown
 - [ ] [[script-for-getting-github-action-workflow-states-for-a-branch|script for getting github action workflow states for a branch]] #ready
 - [ ] [[scripts_add_folder_readmes_and_usage|scripts add folder readmes and usage]] #scripts #docs #ready
-- [ ] [[add_semantic_overlays_for_layer1_through_layer8_md_md|Add semantic overlays for layer1 through layer8]] #todo
 
 
 ## In Progress (4)
 
+- [ ] Use clojure elisp tree sitter package to generate mcp.el valid s-expr
 - [ ] [[file-explorer|File explorer]] #framework-core #ready
 - [ ] [[task-generator-system|task generator system]] #framework-core #framework-core #Ready #todo
 
 
 ## In Review (8)
 
+- [ ] PM2 works again
 - [ ] [[Docops pipeline]] #framework-core #IceBox #ready
 - [ ] [[create-a-generic-markdown-helper-module|create a generic markdown helper module]] #framework-core #framework-core #Ready #todo
 
 
-## Archive
-
-- [ ] [[migrating_relevant_modules_from_riatzukiza_github_md|Migrating relevant modules from `riatzukiza.github.io` to `/sites/` and `/docs/`]] #accepted
-- [ ] [[migrate_portfolio_client_code_to_promethean_md|Migrate portfolio client code to Promethean]] #accepted
-- [ ] [[migrating_relevant_modules_from_riatzukiza_github_io_to_-site-_and_-docs-_md|Migrating relevant modules from riatzukiza.github.io to -site- and -docs-]] #ready
-- [ ] [[extract_docs_from_riatzukiza_github_io_md_md|Extract docs from riatzukiza.github.io]] #accepted
-- [ ] [[add_unit_tests_for_gui_helpers_md_md|Add unit tests for GUI helpers]] #archive
-- [ ] [[extract_site_modules_from_riatzukiza_github_io_md_md|Extract site modules from riatzukiza.github.io]] #framework-core #breakdown
-- [ ] [[flatten-sibilant-src-folders|flatten sibilant src folders]] #todo
-- [ ] [[codex-action-build-file-contextualizer.]] #archive
-- [ ] [[decouple-audio-processing-logic-from-discord|Decouple Audio Processing Logic From Discord]] #archive
-- [ ] [[curate-code-from-personal-repository|Curate code from personal repository]] #archive
-- [ ] [[migrating_relevant_modules_from_riatzukiza_github_md|Migrating relevant modules from `riatzukiza.github.io` to `/sites/` and `/docs/`]] #archive
-- [ ] [[migrate_portfolio_client_code_to_promethean_md|Migrate portfolio client code to Promethean]] #framework-core #archive
-- [ ] [[add-tool-calls-to-codex-context|Add tool calls to codex context]] #archive
-- [ ] [[finish-work-on-gptbridge-agent-integration|Finish work on gptbridge agent integration]] #archive
-- [ ] [[migrating_relevant_modules_from_riatzukiza_github_io_to_-site-_and_-docs-_md|Migrating relevant modules from riatzukiza.github.io to -site- and -docs-]] #framework-core #archive
-- [ ] [[extract_docs_from_riatzukiza_github_io_md_md|Extract docs from riatzukiza.github.io]] #framework-core #archive
-- [ ] [[add_unit_tests_for_gui_helpers_md_md|Add unit tests for GUI helpers]] #codex-task #testing #archive
-- [ ] [[build_tiny_web_page_that_uses_promclient_in_the_br_md|Build tiny web page that uses `PromClient` in the browser to show live `process.state` (optional)]] #archive
-- [ ] [[document_board_sync_workflow_md_md|Document board sync workflow]] #framework-core #archive
-- [ ] [[obsidian_kanban_github_project_board_mirror_system_md_md|Obsidian Kanban Github Project Board Mirror system]] #framework-core #archive
-- [ ] [[pin_versions_in_configs_promethean_codex_md|Pin versions in configs (Promethean + Codex)]] #archive
-- [ ] [[set_up_makefile_for_python_js_build_test_dev_md|Set up Makefile for Python + JS build test dev]] #cicd #buildtools #devtools #devops #archive
-- [ ] [[create_base_readme_md_templates_for_each_service_md|create base readme md templates for each service md]] #doc-this #framework-core #ritual #archive
-- [ ] [[each_service_registers_a_pid_with_a_heartbeat_service_if_they_do_not_successfully_check_in_terminate_the_process_using_the_pid_md_md|each service registers a pid with a heartbeat service if they do not successfully check in terminate the process using the pid md md]] #framework-core #archive
-- [ ] [[look_into_why_the_state_object_never_seems_to_get_updated_md_md|look into why the state object never seems to get updated md md]] #framework-core #archive
-- [ ] [[make_discord_channel_aware_contextualizer_md_md|make discord channel aware contextualizer md md]] #framework-core #archive
-- [ ] [[prevent_dangling_processes_when_a_process_fails_due_to_error_or_automaticly_clean_them_up_1_md_md|prevent dangling processes when a process fails due to error or automaticly clean them up 1 md md]] #framework-core #resources #process-management #aionian #archive
-- [ ] [[send_waveforms_spectrograms_and_dekstop_screenshots_to_discord_for_remote_storage_md_md|send waveforms spectrograms and dekstop screenshots to discord for remote storage md md]] #framework-core #archive
-
-
 ## Done
 
-- [ ] [[describe_github_branching_workflow_md|describe github branching workflow md]] #todo
 - [ ] [[convert-current-services-to-packages--then-redefine-the-services-using-config-files|convert current services to packages, then redefine the services using config files]] #framework-core #framework-core #Ready #ready
 - [ ] codex cloud setup script generates a startup report
 - [ ] [[recover broker code]]
 - [ ] whole project builds with new stricter tsconfig
 - [ ] [[fp-ts-config-and-linting]]
-- [ ] [[refactor_any_python_modules_not_currently_for_ml_stuff_discord_etc_2_md|refactor any python modules not currently for ml stuff discord etc 2 md]] #breakdown
 - [ ] [[breakdown-makefile.hy|Audit Makefile.hy remnants and confirm deprecation]] #framework-core #ready
 - [ ] [[flatten-services|flatten services]] #framework-core #framework-core #Ready #todo
-- [ ] [[refactor_any_python_modules_not_currently_for_ml_stuff_discord_etc_2_md|refactor any python modules not currently for ml stuff discord etc 2 md]] #framework-core #language-strategy #performance-optimization #ready
 - [ ] [[convert-smartgpt-bridge-to-ts|convert smartgpt bridge to ts]] #ready
 - [ ] [[post-move-stablization--compat-layer---hook-diet-]] #precommit #refactor #typescript #python #imports #compat #monorepo #tooling #stabilization #accepted
-- [ ] [[add_file_system_to_context_management_system_md_md|add file system to context management system md md]] #todo
 - [ ] [[setup-new-service-generator|setup new service generator]] #framework-core #in-review
 - [ ] [[mock-broker|Mock broker]] #framework-core #testing #infra #typescript #fastify #websockets #mongodb #chroma #promethean #framework-core #promethean #broker #mock #testing #vitest #typescript #di #inmemory #deterministic #in-review
-- [ ] [[add_obsidian_to_gitignore_md_md|Add .obsidian to .gitignore]] #done
-- [ ] [[update_cephalon_to_use_custom_embedding_function_md_md|Update cephalon to use custom embedding function]] #in-progress
-- [ ] [[add_stt_service_tests_md|Add STT service tests]] #done
 - [ ] [[implement-defun-in-compiler-lisp-incoming|implement defun in compiler lisp incoming]] #defn #in-review
-- [ ] [[add_starter_notes_-_eidolon_fields_cephalon_inner_monologue_1_md|Add starter notes - eidolon_fields, cephalon_inner_monologue]] #done
-- [ ] [[add_unit_tests_for_date_tools_py_md|Add unit tests for date_tools.py]] #done
-- [ ] [[add_unit_tests_for_wav_processing_md|Add unit tests for wav_processing]] #done
-- [ ] [[auto-generate_agents_md_stubs_from_services_structure_md_md|Auto-generate AGENTS.md stubs from services structure]] #done
-- [ ] [[build_data_structures_for_eidolon_field_md_md|Build data structures for Eidolon field]] #done
-- [ ] [[build_data_structures_for_eidolon_field_codex_task_md|Build data structures for Eidolon field #codex-task]] #done
-- [ ] [[define_permission_schema_in_agents_1_md|Define permission schema in AGENTS.md]] #framework-core #eidolon #Dorian #layer2 #breakdown
-- [ ] [[add_file_system_to_context_management_system_md_md|add file system to context management system md md]] #framework-core #IceBox #done
 - [ ] [[ensure-openapi-specs-are-automaticly-updated-when-an-endpoint-is-changed|Ensure openapi specs are automaticly updated when an endpoint is changed]] #framework-core #done
 - [ ] [[add_obsidian_to_gitignore_md_md|Add .obsidian to .gitignore]] #framework-core #done
 - [ ] [[update_cephalon_to_use_custom_embedding_function_md_md|Update cephalon to use custom embedding function]] #framework-core #cephalon #discord #embedding #typescript #done
@@ -404,6 +321,9 @@ kanban-plugin: board
 
 ## Archive
 
+- [ ] [[replace-all-python-properly-with-hy-incoming|Replace all python properly with hy incoming]] #architecture #lang #hy #python-ban #build #ci #tooling #promethean #tags #promethean #hy #lisp #python #build #ci #git #precommit #policy #docs #archive
+- [ ] [[fully-convert-js-ts-projects-to-pnpm-incoming|Fully convert js ts projects to pnpm incoming]] #framework-core #archive
+- [ ] [[define_codex_baseg_agent_md_md|define codex baseg agent md md]] #framework-core #IceBox #todo
 - [ ] [[migrating_relevant_modules_from_riatzukiza_github_md|Migrating relevant modules from `riatzukiza.github.io` to `/sites/` and `/docs/`]] #accepted
 - [ ] [[migrate_portfolio_client_code_to_promethean_md|Migrate portfolio client code to Promethean]] #accepted
 - [ ] [[migrating_relevant_modules_from_riatzukiza_github_io_to_-site-_and_-docs-_md|Migrating relevant modules from riatzukiza.github.io to -site- and -docs-]] #ready
@@ -418,6 +338,7 @@ kanban-plugin: board
 - [ ] [[migrate_portfolio_client_code_to_promethean_md|Migrate portfolio client code to Promethean]] #framework-core #archive
 - [ ] [[add-tool-calls-to-codex-context|Add tool calls to codex context]] #archive
 - [ ] [[finish-work-on-gptbridge-agent-integration|Finish work on gptbridge agent integration]] #archive
+- [ ] [[also-bat-man-but-more-so]]
 - [ ] [[migrating_relevant_modules_from_riatzukiza_github_io_to_-site-_and_-docs-_md|Migrating relevant modules from riatzukiza.github.io to -site- and -docs-]] #framework-core #archive
 - [ ] [[extract_docs_from_riatzukiza_github_io_md_md|Extract docs from riatzukiza.github.io]] #framework-core #archive
 - [ ] [[add_unit_tests_for_gui_helpers_md_md|Add unit tests for GUI helpers]] #codex-task #testing #archive
@@ -434,15 +355,6 @@ kanban-plugin: board
 - [ ] [[send_waveforms_spectrograms_and_dekstop_screenshots_to_discord_for_remote_storage_md_md|send waveforms spectrograms and dekstop screenshots to discord for remote storage md md]] #framework-core #archive
 
 
-## Archive
-
-- [ ] [[Fully convert js ts projects to pnpm incoming.md|Fully convert js ts projects to pnpm incoming]] #todo
-- [ ] [[also-bat-man-but-more-so]]
-- [ ] [[define_codex_baseg_agent_md_md|define codex baseg agent md md]] #framework-core #IceBox #todo
-- [ ] [[fully-convert-js-ts-projects-to-pnpm-incoming|Fully convert js ts projects to pnpm incoming]] #framework-core #archive
-- [ ] [[replace-all-python-properly-with-hy-incoming|Replace all python properly with hy incoming]] #architecture #lang #hy #python-ban #build #ci #tooling #promethean #tags #promethean #hy #lisp #python #build #ci #git #precommit #policy #docs #archive
-
-
 ***
 
 ## Archive
@@ -451,6 +363,6 @@ kanban-plugin: board
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","list-collapse":[false,false,true,false,false,false,false,false,false,false,true,false,false,false,false],"new-note-template":"docs/agile/templates/task.stub.template.md","new-note-folder":"docs/agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
+{"kanban-plugin":"board","list-collapse":[false,false,true,false,false,false,false,false,false,false,false,false,false],"new-note-template":"docs/agile/templates/task.stub.template.md","new-note-folder":"docs/agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
 ```
 %%
