@@ -1,22 +1,33 @@
-export function pushVisionFrame(
-    w: any,
-    agent: any,
-    C: ReturnType<typeof import('../components.js').defineAgentComponents>,
-    ref: {
-        type: 'url' | 'blob' | 'attachment';
-        url?: string;
-        data?: string;
-        id?: string;
-        mime?: string;
-    },
-) {
-    const { VisionFrame, VisionRing } = C;
-    const e = w.createEntity();
-    const id = globalThis.crypto?.randomUUID?.() ?? `${Date.now()}.${Math.random()}`;
-    w.addComponent(e, VisionFrame, { id, ts: Date.now(), ref });
+import type { Entity, World } from '@promethean/ds/ecs.js';
 
-    const ring = w.get(agent, VisionRing)!;
-    const frames = [...ring.frames, e];
-    const capped = frames.length > ring.capacity ? frames.slice(frames.length - ring.capacity) : frames;
-    w.set(agent, VisionRing, { ...ring, frames: capped });
-}
+import type { AgentComponents, VisionFrameComponent, VisionFrameRef, VisionRingComponent } from '../types.js';
+
+const createVisionFrame = (ref: VisionFrameRef): VisionFrameComponent => ({
+    id: globalThis.crypto?.randomUUID?.() ?? `${Date.now()}.${Math.random()}`,
+    ts: Date.now(),
+    ref,
+});
+
+const appendFrame = (ring: VisionRingComponent, frameEntity: Entity): VisionRingComponent => {
+    const frames = [...ring.frames, frameEntity];
+    const overflow = frames.length - ring.capacity;
+    const trimmed = overflow > 0 ? frames.slice(overflow) : frames;
+    return { ...ring, frames: trimmed };
+};
+
+export const pushVisionFrame = (
+    world: World,
+    agent: Entity,
+    components: AgentComponents,
+    ref: VisionFrameRef,
+): void => {
+    const { VisionFrame, VisionRing } = components;
+    const frameEntity = world.createEntity();
+    world.addComponent(frameEntity, VisionFrame, createVisionFrame(ref));
+
+    const ring = world.get(agent, VisionRing);
+    if (!ring) return;
+
+    const nextRing = appendFrame(ring, frameEntity);
+    world.set(agent, VisionRing, nextRing);
+};
