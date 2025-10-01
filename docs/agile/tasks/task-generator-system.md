@@ -64,3 +64,18 @@ Nothing
 #framework-core #Ready
 
 
+## Comments
+
+### Summary
+
+- The task spec still requires a command-line generator with unique filename/status handling and tests, but the change only adds Obsidian Templater definitions that invoke UI-specific commands, leaving the requested automation unmet.
+    
+
+### Issues
+
+1. **Task generator remains UI-dependent instead of a tested CLI utility** — The specification calls for a command-line script, unique filename/hashtag injection, npm/Makefile integration, and accompanying tests.
+    
+
+The implementation adds only an Obsidian Templater file that relies on `tp` macros and `chatgpt-md` UI commands, so nothing can run headless, no automation adds the required status hashtags, and no tests or npm hooks were introduced.
+
+Suggested taskBuild a tested CLI task generator that meets the spec

@@ -36,7 +36,8 @@ export class GuardrailManager {
     if (!this.evaluationSessions.has(sessionId)) {
       return;
     }
-    const existing = this.rationaleBySession.get(sessionId) ?? new Map<string, unknown>();
+    const existing =
+      this.rationaleBySession.get(sessionId) ?? new Map<string, unknown>();
     existing.set(callId, rationale);
     this.rationaleBySession.set(sessionId, existing);
   }

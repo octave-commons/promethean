@@ -1,5 +1,10 @@
 import test from "ava";
-import { parseConversationArgs, parseMcpServers, runTwoAgentConversation, type AgentMeta } from "../conversation.js";
+import {
+  parseConversationArgs,
+  parseMcpServers,
+  runTwoAgentConversation,
+  type AgentMeta,
+} from "../conversation.js";
 import type { Interface } from "node:readline/promises";
 
 test("parseMcpServers extracts commands and args", (t) => {

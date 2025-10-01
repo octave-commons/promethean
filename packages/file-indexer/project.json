@@ -9,9 +9,7 @@
         "command": "tsc -b",
         "cwd": "packages/file-indexer"
       },
-      "outputs": [
-        "{projectRoot}/dist"
-      ]
+      "outputs": ["{projectRoot}/dist"]
     },
     "typecheck": {
       "executor": "nx:run-commands",
@@ -22,9 +20,7 @@
     },
     "test": {
       "executor": "nx:run-commands",
-      "dependsOn": [
-        "build"
-      ],
+      "dependsOn": ["build"],
       "options": {
         "command": "ava",
         "cwd": "{projectRoot}",
@@ -41,7 +37,5 @@
       }
     }
   },
-  "tags": [
-    "scope:packages"
-  ]
+  "tags": ["scope:packages"]
 }

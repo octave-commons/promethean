@@ -26,9 +26,9 @@ This document tracks the migration from raw **Python** to **Hy** across the Prom
 ---
 
 ## ⚠️ Build + Tooling
-- [ ] Add `Makefile` target: `make build-hy`
+- [ ] Add Babashka task `bb build-hy` (or equivalent) to orchestrate the Hy → Python compile
 - [ ] Ensure build runs Hy → Python into `./dist`
-- [ ] Integrate with CI pipelines
+- [ ] Integrate with CI pipelines via `pnpm exec nx` / `bb` automation (see [[Babashka + Nx Automation Reference|../notes/automation/bb-nx-cli.md]])
 
 ---
 
