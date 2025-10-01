@@ -316,6 +316,9 @@ const getLogs = (
   } as const;
 };
 
+const TERMINATE_GRACE_PERIOD_MS = 5_000;
+const TERMINATE_FORCE_TIMEOUT_MS = 2_000;
+
 const stopTask = async (
   handle: string | number,
   tail: number,
@@ -337,7 +340,34 @@ const stopTask = async (
   }
   const proc = task.process;
   proc.kill(signal ?? "SIGTERM");
-  await once(proc, "exit");
+  const exitPromise = once(proc, "exit");
+
+  const guard = new Promise<never>((_resolve, reject) => {
+    const terminateTimer = setTimeout(() => {
+      if (!proc.killed) {
+        proc.kill("SIGKILL");
+      }
+      const forceTimer = setTimeout(() => {
+        reject(
+          new Error(
+            `Process ${proc.pid ?? "<unknown>"} failed to exit after SIGKILL`,
+          ),
+        );
+      }, TERMINATE_FORCE_TIMEOUT_MS);
+      forceTimer.unref();
+      void exitPromise.finally(() => {
+        clearTimeout(forceTimer);
+      });
+    }, TERMINATE_GRACE_PERIOD_MS);
+    terminateTimer.unref();
+    void exitPromise.finally(() => {
+      clearTimeout(terminateTimer);
+    });
+  });
+
+  await Promise.race([exitPromise, guard]);
+  await exitPromise;
+
   const combined = `${task.stdoutText}${task.stderrText}`;
   const tailText = combined.slice(-tail);
   return { tail: tailText } as const;
