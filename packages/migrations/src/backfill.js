@@ -119,7 +119,12 @@ async function main() {
         orphans: { mongoOnly: [], chromaOnly: [] },
         sampleChecksums: docs.slice(0, 10).map((d) => ({
             id: String(d._id),
-            checksum: checksumFor(String(d._id), d.text ?? '', d.meta ?? {}, dim),
+            checksum: checksumFor({
+                id: String(d._id),
+                text: d.text ?? '',
+                meta: d.meta ?? {},
+                embedDim: dim,
+            }),
         })),
         failures,
         startedAt: startedAtISO,
