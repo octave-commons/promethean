@@ -236,8 +236,25 @@ if (!hasCompiledTests && !hasDirectJsTests) {
 
 const nodeArguments = ["--enable-source-maps"];
 
+function determineNodeMajorVersion() {
+  const version = process.versions?.node;
+  if (!version) {
+    return null;
+  }
+  const [majorSegment] = version.split(".");
+  const major = Number.parseInt(majorSegment, 10);
+  return Number.isNaN(major) ? null : major;
+}
+
+const nodeMajorVersion = determineNodeMajorVersion();
+const supportsTestModuleMocks =
+  typeof nodeMajorVersion === "number" && nodeMajorVersion >= 20;
+
 // Enable Node's module mocking API so AVA exposes t.mock in ExecutionContext.
-if (!nodeArguments.includes("--experimental-test-module-mocks")) {
+if (
+  supportsTestModuleMocks &&
+  !nodeArguments.includes("--experimental-test-module-mocks")
+) {
   nodeArguments.push("--experimental-test-module-mocks");
 }
 
