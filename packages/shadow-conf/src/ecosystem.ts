@@ -19,7 +19,7 @@ export type GenerateEcosystemResult = {
   readonly outputPath: string;
 };
 
-export const DEFAULT_OUTPUT_FILE_NAME = "ecosystem.generated.mjs";
+export const DEFAULT_OUTPUT_FILE_NAME = "ecosystem.config.js";
 
 export async function generateEcosystem(
   options: GenerateEcosystemOptions = {},

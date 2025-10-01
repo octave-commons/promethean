@@ -302,6 +302,9 @@
 
 - [ ] Remove CommonJS artifacts from repository ##codex-task ##doc-this prio:P2 (uuid:e6a16b59-a67d-4df9-babc-9faaaad3f9c9)
 
-## icebox
 
-- [ ] validate voice-demo microphone integration #audio #manual-test prio:P2 (uuid:8925f5a8-40ab-44e4-ad9e-54db7d617996)
+%% kanban:settings
+```
+{"kanban-plugin":"board","list-collapse":[false,false,true,false,false,false,false,false,false,false,true,false,false,false,false],"new-note-template":"docs/agile/templates/task.stub.template.md","new-note-folder":"docs/agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
+```
+%%
