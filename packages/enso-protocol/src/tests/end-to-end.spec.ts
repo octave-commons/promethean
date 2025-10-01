@@ -96,7 +96,13 @@ test("e2e shared workspace session", (t) => {
   registry.updateSource(draftSource.id, {
     availability: {
       mode: "conditional",
-      conditions: [{ kind: "soft", prompt: "Allow guest to view draft?", requireApproval: true }],
+      conditions: [
+        {
+          kind: "soft",
+          prompt: "Allow guest to view draft?",
+          requireApproval: true,
+        },
+      ],
     },
   });
 

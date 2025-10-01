@@ -1,39 +1,46 @@
 ---
 uuid: 9fbe9f3a-0c6a-472b-8f7c-b100dab6f5de
-title: update makefile to have commands specific for agents md
+title: replace agent automation makefile targets with pnpm scripts
 status: todo
 priority: P3
 labels: []
 created_at: '2025-09-15T02:02:58.523Z'
 ---
-## 🛠️ Task: Update Makefile to have commands specific for agents
+## 🛠️ Task: Replace Makefile agent commands with pnpm scripts
 
-The monorepo hosts multiple agents. The Makefile should expose targets to launch or test each agent individually as referenced in the migration plan.
+The earlier plan called for agent-specific Makefile targets such as `make start:duck`. The audit showed those never shipped,
+and the active tooling already relies on pnpm workspaces (`scripts/dev.mjs`, `pnpm --filter …`). Rather than reviving the
+Makefile, we will publish pnpm scripts that mirror the desired ergonomics.
 
-Agents will be there own kind of unit with in the system.
+## ✅ Decision
+- Standardize on pnpm workspace scripts and `scripts/dev.mjs` for agent lifecycle management.
+- Remove references to `%`-style Makefile dispatch and instead document `pnpm --filter @promethean/<agent> dev|test` patterns.
 
-There are going to be "shared" services, and there are going to be services specific to an agent...
-But not really. no. It should be that the services that I am thinking would be specific simply have ways for the agents who use them to flag their messages as coming from them so they can be routed accordingly.
-It's too complicated to seperate this idea of "agents", "Agent specififc services", and "shared services" when there are also suposed to be "shared" libraries.
+## 🔍 Findings from audit
+- No maintained agent workflows depend on `Makefile`/`Makefile.hy`.
+- Existing developers start services via `pnpm dev:all` (scripts/dev.mjs) or direct package scripts.
+- Documentation still directs contributors to non-existent Makefile targets.
 
 ---
 
 ## 🎯 Goals
-- `make start:duck` through `make start:%`
-- Reusable patterns for any future agent
+- Provide agent-scoped start/test commands via pnpm scripts.
+- Document how to launch an individual agent without Makefile wrappers.
+- Supply a concrete example (e.g., Duck) showing the new commands.
 
 ---
 
 ## 📦 Requirements
-- [ ] Define agent-specific PM2 targets
-- [ ] Document usage in the root README
+- [ ] Add workspace scripts or README snippets mapping agents to `pnpm --filter` commands.
+- [ ] Ensure `scripts/dev.mjs` coverage is documented for multi-agent dev loops.
+- [ ] Update root onboarding docs to drop Makefile references.
 
 ---
 
 ## 📋 Subtasks
-- [ ] Extend current Makefile with per-agent start/stop
-- [ ] Provide example for Duck
-- [ ] Add placeholder for new agents
+- [ ] Inventory existing agent packages and confirm they expose `dev`/`test` scripts.
+- [ ] Publish documented aliases (e.g., `pnpm agent:duck:dev`) if gaps exist.
+- [ ] Update README / docs to reflect pnpm usage only.
 
 ---
 
@@ -43,22 +50,16 @@ It's too complicated to seperate this idea of "agents", "Agent specififc service
 ---
 
 ## ⛓️ Blocked By
-- [update github actions to use makefile](update%20github%20actions%20to%20use%20makefile.md)
-- [write simple ecosystem declaration library for new agents](write%20simple%20ecosystem%20declaration%20library%20for%20new%20agents.md)
-- [Determine PM2 configuration for agents](Determine%20PM2%20configuration%20for%20agents.md)
-
+- [determine pm2 configuration for agents](Determine%20PM2%20configuration%20for%20agents.md)
 
 ## ⛓️ Blocks
 Nothing
 
-
+---
 
 ## 🔍 Relevant Links
 - [[kanban]]
 - [MIGRATION_PLAN](../MIGRATION_PLAN.md)
-- [write simple ecosystem declaration library for new agents](write%20simple%20ecosystem%20declaration%20library%20for%20new%20agents.md)
+- [[promethean-dev-workflow-update|promethean dev workflow update]]
 
-
-#devops #Ready
-#ready
-
+#devops #todo
