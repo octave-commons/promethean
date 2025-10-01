@@ -291,7 +291,7 @@ services:
 
   playwright:
     profiles: ["crawl"]
-    image: mcr.microsoft.com/playwright:v1.55.0-jammy
+    image: ${PLAYWRIGHT_IMAGE:-mcr.microsoft.com/playwright}:${PLAYWRIGHT_TAG:-v1.55.0-jammy}
     shm_size: 1gb
     environment:
       - PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
