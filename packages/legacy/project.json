@@ -1,0 +1,22 @@
+{
+  "name": "@promethean/legacy",
+  "root": "packages/legacy",
+  "targets": {
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm run test",
+        "cwd": "packages/legacy"
+      }
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm exec eslint .",
+        "cwd": "packages/legacy",
+        "forwardAllArgs": false
+      }
+    }
+  },
+  "tags": ["scope:packages"]
+}

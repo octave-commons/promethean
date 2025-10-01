@@ -1,0 +1,22 @@
+{
+  "name": "heartbeat-service",
+  "root": "packages/heartbeat",
+  "targets": {
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm run test",
+        "cwd": "packages/heartbeat"
+      }
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm run lint",
+        "cwd": "packages/heartbeat",
+        "forwardAllArgs": false
+      }
+    }
+  },
+  "tags": ["scope:packages"]
+}
