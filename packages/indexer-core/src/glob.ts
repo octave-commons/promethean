@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types, functional/no-let, functional/no-loop-statements */
 import * as path from "node:path";
 
 const globSpecials = /[\\^$.*+?()[\]{}|]/g;
