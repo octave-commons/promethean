@@ -26,12 +26,12 @@ kanban-plugin: board
 - [ ] [[setup_a_second_agent_md|setup a second agent md]] #framework-core #IceBox #todo
 - [ ] [[evaluate-ollama-openvino]]
 - [ ] [[pin_versions_in_configs_md|pin versions in configs md]] #in-progress
-- [ ] [[update_makefile_to_have_commands_specific_for_agents_md|Update Makefile to have commands specific for agents]] #devops #devops #Ready #ready
+- [ ] [[update_makefile_to_have_commands_specific_for_agents_md|Replace agent automation Makefile targets with pnpm scripts]] #devops #devops #Ready #ready
 - [ ] [[run_model_bakeoff_md|Run model bakeoff]] #todo
 - [ ] [[gather_open_questions_about_system_direction_md_md|Gather open questions about system direction]] #todo
 - [ ] [[gather_baseline_emotion_metrics_for_eidolon_field_1_md|Gather baseline emotion metrics for Eidolon field]] #todo
 - [ ] [[evaluate_and_reward_flow_satisfaction|Evaluate and reward flow satisfaction]] #todo
-- [ ] [[update_makefile_to_have_commands_specific_for_agents_md|Update Makefile to have commands specific for agents]] #todo
+- [ ] [[update_makefile_to_have_commands_specific_for_agents_md|Replace agent automation Makefile targets with pnpm scripts]] #todo
 - [ ] [[define_permission_schema_in_agents_1_md|Define permission schema in AGENTS.md]] #ice-box
 - [ ] [[extract_site_modules_from_riatzukiza_github_io_md_md|Extract site modules from riatzukiza.github.io]] #accepted
 - [ ] [[design_ollama_model_file_for_use_with_codex|Design Ollama model file for use with Codex]] #ice-box
@@ -240,6 +240,9 @@ kanban-plugin: board
 - [ ] [[cephalon_context_window_from_collections|cephalon context window from collections]] #incoming
 - [ ] [[gpt-bridge-fuzzy-lookup-should-return-multiple-matches-when-it-is-used.|gpt bridge fuzzy lookup should return multiple matches when it is used.]] #framework-core #ready
 - [ ] [[add-codex-layer-to-emacs|Add codex layer to emacs]] #ready
+- [ ] [[discord bot squad]]
+- [ ] [[Create piper MCP tool interface]]
+- [ ] Create PR code review pipeline
 - [ ] discord bot squad
 - [ ] piper mermaid diagram spec
 - [ ] documentation coverage stats
@@ -268,6 +271,7 @@ kanban-plugin: board
 
 ## Breakdown (13)
 
+- [ ] [[docs/agile/tasks/smart_task_templater_md|smart task templater md]] #framework-core #ready
 - [ ] [[evaluate-docker-npu-compatability]]
 - [ ] [[add-docker-compose-files-to-services]]
 - [ ] [[clean_up_notes_into_design_docs_md|clean up notes into design docs md]] #accepted
@@ -281,15 +285,14 @@ kanban-plugin: board
 
 ## Ready
 
-- [ ] [[migrate legacy js services to ts]]
 - [ ] [[pin_versions_in_configs_md|pin versions in configs md]] #ops #codex-task #release-engineering #ci #sre #supply-chain #promethean #ops #codex-task #tags #promethean #versioning #pinning #ci #docker #uv #ollama #openvino #sre #supplychain #in-review
 
 
 ## Todo (13)
 
+- [ ] [[migrate legacy js services to ts]]
 - [ ] [[dockerize-the-system|dockerize the system]] #devops #devops #Ready #todo
 - [ ] [[structure_vault_to_mirror_services_agents_docs_md_md|Document-Driven Development for Service Scripts]] #breakdown
-- [ ] [[docs/agile/tasks/smart_task_templater_md|smart task templater md]] #framework-core #ready
 - [ ] [[script-for-getting-github-action-workflow-states-for-a-branch|script for getting github action workflow states for a branch]] #ready
 - [ ] [[scripts_add_folder_readmes_and_usage|scripts add folder readmes and usage]] #scripts #docs #ready
 - [ ] [[add_semantic_overlays_for_layer1_through_layer8_md_md|Add semantic overlays for layer1 through layer8]] #todo
@@ -297,13 +300,13 @@ kanban-plugin: board
 
 ## In Progress (4)
 
-- [ ] [[Docops pipeline]] #framework-core #IceBox #ready
-- [ ] [[task-generator-system|task generator system]] #framework-core #framework-core #Ready #todo
 - [ ] [[file-explorer|File explorer]] #framework-core #ready
+- [ ] [[task-generator-system|task generator system]] #framework-core #framework-core #Ready #todo
 
 
 ## In Review (8)
 
+- [ ] [[Docops pipeline]] #framework-core #IceBox #ready
 - [ ] [[create-a-generic-markdown-helper-module|create a generic markdown helper module]] #framework-core #framework-core #Ready #todo
 
 
@@ -348,7 +351,7 @@ kanban-plugin: board
 - [ ] whole project builds with new stricter tsconfig
 - [ ] [[fp-ts-config-and-linting]]
 - [ ] [[refactor_any_python_modules_not_currently_for_ml_stuff_discord_etc_2_md|refactor any python modules not currently for ml stuff discord etc 2 md]] #breakdown
-- [ ] [[breakdown-makefile.hy|breakdown Makefile.hy]] #framework-core #ready
+- [ ] [[breakdown-makefile.hy|Audit Makefile.hy remnants and confirm deprecation]] #framework-core #ready
 - [ ] [[flatten-services|flatten services]] #framework-core #framework-core #Ready #todo
 - [ ] [[refactor_any_python_modules_not_currently_for_ml_stuff_discord_etc_2_md|refactor any python modules not currently for ml stuff discord etc 2 md]] #framework-core #language-strategy #performance-optimization #ready
 - [ ] [[convert-smartgpt-bridge-to-ts|convert smartgpt bridge to ts]] #ready
@@ -395,8 +398,40 @@ kanban-plugin: board
 - [ ] [[discord_image_attachment_indexer_md|discord image attachment indexer md]] #framework-core #discord #images #attachments #indexing #memory #done
 - [ ] [[make_seperate_execution_pathways_1_md_md|make seperate execution pathways 1 md md]] #framework-core #done
 - [ ] [[separate_all_testing_pipelines_in_github_actions_md|seperate all testing pipelines in GitHub Actions]] #cicd #framework-core #done
-- [ ] [[update_github_actions_to_use_makefile_md_md|update GitHub Actions to use Makefile]] #cicd #devops #framework-core #done
+- [ ] [[update_github_actions_to_use_makefile_md_md|Update GitHub Actions automation to pnpm scripts]] #cicd #devops #framework-core #done
 - [ ] [[write_simple_ecosystem_declaration_library_for_new_md_md|write simple ecosystem declaration library for new agents]] #framework-core #done
+
+
+## Archive
+
+- [ ] [[migrating_relevant_modules_from_riatzukiza_github_md|Migrating relevant modules from `riatzukiza.github.io` to `/sites/` and `/docs/`]] #accepted
+- [ ] [[migrate_portfolio_client_code_to_promethean_md|Migrate portfolio client code to Promethean]] #accepted
+- [ ] [[migrating_relevant_modules_from_riatzukiza_github_io_to_-site-_and_-docs-_md|Migrating relevant modules from riatzukiza.github.io to -site- and -docs-]] #ready
+- [ ] [[extract_docs_from_riatzukiza_github_io_md_md|Extract docs from riatzukiza.github.io]] #accepted
+- [ ] [[add_unit_tests_for_gui_helpers_md_md|Add unit tests for GUI helpers]] #archive
+- [ ] [[extract_site_modules_from_riatzukiza_github_io_md_md|Extract site modules from riatzukiza.github.io]] #framework-core #breakdown
+- [ ] [[flatten-sibilant-src-folders|flatten sibilant src folders]] #todo
+- [ ] [[codex-action-build-file-contextualizer.]] #archive
+- [ ] [[decouple-audio-processing-logic-from-discord|Decouple Audio Processing Logic From Discord]] #archive
+- [ ] [[curate-code-from-personal-repository|Curate code from personal repository]] #archive
+- [ ] [[migrating_relevant_modules_from_riatzukiza_github_md|Migrating relevant modules from `riatzukiza.github.io` to `/sites/` and `/docs/`]] #archive
+- [ ] [[migrate_portfolio_client_code_to_promethean_md|Migrate portfolio client code to Promethean]] #framework-core #archive
+- [ ] [[add-tool-calls-to-codex-context|Add tool calls to codex context]] #archive
+- [ ] [[finish-work-on-gptbridge-agent-integration|Finish work on gptbridge agent integration]] #archive
+- [ ] [[migrating_relevant_modules_from_riatzukiza_github_io_to_-site-_and_-docs-_md|Migrating relevant modules from riatzukiza.github.io to -site- and -docs-]] #framework-core #archive
+- [ ] [[extract_docs_from_riatzukiza_github_io_md_md|Extract docs from riatzukiza.github.io]] #framework-core #archive
+- [ ] [[add_unit_tests_for_gui_helpers_md_md|Add unit tests for GUI helpers]] #codex-task #testing #archive
+- [ ] [[build_tiny_web_page_that_uses_promclient_in_the_br_md|Build tiny web page that uses `PromClient` in the browser to show live `process.state` (optional)]] #archive
+- [ ] [[document_board_sync_workflow_md_md|Document board sync workflow]] #framework-core #archive
+- [ ] [[obsidian_kanban_github_project_board_mirror_system_md_md|Obsidian Kanban Github Project Board Mirror system]] #framework-core #archive
+- [ ] [[pin_versions_in_configs_promethean_codex_md|Pin versions in configs (Promethean + Codex)]] #archive
+- [ ] [[set_up_makefile_for_python_js_build_test_dev_md|Replace polyglot Makefile with pnpm-first workflow docs]] #cicd #buildtools #devtools #devops #archive
+- [ ] [[create_base_readme_md_templates_for_each_service_md|create base readme md templates for each service md]] #doc-this #framework-core #ritual #archive
+- [ ] [[each_service_registers_a_pid_with_a_heartbeat_service_if_they_do_not_successfully_check_in_terminate_the_process_using_the_pid_md_md|each service registers a pid with a heartbeat service if they do not successfully check in terminate the process using the pid md md]] #framework-core #archive
+- [ ] [[look_into_why_the_state_object_never_seems_to_get_updated_md_md|look into why the state object never seems to get updated md md]] #framework-core #archive
+- [ ] [[make_discord_channel_aware_contextualizer_md_md|make discord channel aware contextualizer md md]] #framework-core #archive
+- [ ] [[prevent_dangling_processes_when_a_process_fails_due_to_error_or_automaticly_clean_them_up_1_md_md|prevent dangling processes when a process fails due to error or automaticly clean them up 1 md md]] #framework-core #resources #process-management #aionian #archive
+- [ ] [[send_waveforms_spectrograms_and_dekstop_screenshots_to_discord_for_remote_storage_md_md|send waveforms spectrograms and dekstop screenshots to discord for remote storage md md]] #framework-core #archive
 
 
 ## Archive
