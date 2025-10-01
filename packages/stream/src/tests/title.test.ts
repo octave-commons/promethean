@@ -73,6 +73,39 @@ test.serial('generateTwitchStreamTitle delegates to ollama and enforces safety',
     });
 });
 
+test.serial('generateTwitchStreamTitle preserves legacy model string parameter', async (t) => {
+    const customModel = 'duck-model';
+    const originalChat = ollama.chat;
+
+    try {
+        (ollama as { chat: ChatFunction }).chat = (async ({ model }) => {
+            t.is(model, customModel);
+            return {
+                message: { content: 'Legacy compatible stream' },
+            } satisfies { message: { content: string } } as ChatResponse;
+        }) as ChatFunction;
+
+        const title = await generateTwitchStreamTitle([], customModel);
+        t.is(title, 'Legacy compatible stream');
+    } finally {
+        (ollama as { chat: ChatFunction }).chat = originalChat;
+    }
+
+    await t.throwsAsync(() => generateTwitchStreamTitle([], 42 as unknown as GenerateTwitchStreamTitleOptions), {
+        instanceOf: TypeError,
+    });
+
+    const options = withChatStub(async ({ model }) => {
+        t.is(model, 'gemma3:latest');
+        return {
+            message: { content: 'Object options still work' },
+        } satisfies { message: { content: string } } as ChatResponse;
+    });
+
+    const titled = await generateTwitchStreamTitle([], options);
+    t.is(titled, 'Object options still work');
+});
+
 test.serial('generateAndStoreTitle fetches context, generates title, and saves it', async (t) => {
     const source = {
         fetch: async () => [{ role: 'user', content: 'context' }],
