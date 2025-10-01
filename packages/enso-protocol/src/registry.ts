@@ -91,7 +91,9 @@ function cloneAvailability(avail: Availability): Availability {
     case "conditional":
       return {
         mode: "conditional",
-        conditions: avail.conditions.map((condition) => cloneCondition(condition)),
+        conditions: avail.conditions.map((condition) =>
+          cloneCondition(condition),
+        ),
       };
   }
 }
@@ -112,17 +114,42 @@ function normalizePermissions(perm?: ContentPermissions): ContentPermissions {
     return { ...DEFAULT_PERMISSIONS };
   }
   return {
-    readable: perm.readable === undefined ? DEFAULT_PERMISSIONS.readable : perm.readable,
-    changeable: perm.changeable === undefined ? DEFAULT_PERMISSIONS.changeable : perm.changeable,
-    movable: perm.movable === undefined ? DEFAULT_PERMISSIONS.movable : perm.movable,
+    readable:
+      perm.readable === undefined
+        ? DEFAULT_PERMISSIONS.readable
+        : perm.readable,
+    changeable:
+      perm.changeable === undefined
+        ? DEFAULT_PERMISSIONS.changeable
+        : perm.changeable,
+    movable:
+      perm.movable === undefined ? DEFAULT_PERMISSIONS.movable : perm.movable,
     exchangeable:
-      perm.exchangeable === undefined ? DEFAULT_PERMISSIONS.exchangeable : perm.exchangeable,
-    sendable: perm.sendable === undefined ? DEFAULT_PERMISSIONS.sendable : perm.sendable,
-    addable: perm.addable === undefined ? DEFAULT_PERMISSIONS.addable : perm.addable,
-    removable: perm.removable === undefined ? DEFAULT_PERMISSIONS.removable : perm.removable,
-    deletable: perm.deletable === undefined ? DEFAULT_PERMISSIONS.deletable : perm.deletable,
-    saveable: perm.saveable === undefined ? DEFAULT_PERMISSIONS.saveable : perm.saveable,
-    viewable: perm.viewable === undefined ? DEFAULT_PERMISSIONS.viewable : perm.viewable,
+      perm.exchangeable === undefined
+        ? DEFAULT_PERMISSIONS.exchangeable
+        : perm.exchangeable,
+    sendable:
+      perm.sendable === undefined
+        ? DEFAULT_PERMISSIONS.sendable
+        : perm.sendable,
+    addable:
+      perm.addable === undefined ? DEFAULT_PERMISSIONS.addable : perm.addable,
+    removable:
+      perm.removable === undefined
+        ? DEFAULT_PERMISSIONS.removable
+        : perm.removable,
+    deletable:
+      perm.deletable === undefined
+        ? DEFAULT_PERMISSIONS.deletable
+        : perm.deletable,
+    saveable:
+      perm.saveable === undefined
+        ? DEFAULT_PERMISSIONS.saveable
+        : perm.saveable,
+    viewable:
+      perm.viewable === undefined
+        ? DEFAULT_PERMISSIONS.viewable
+        : perm.viewable,
   };
 }
 
@@ -131,7 +158,11 @@ function inferPurpose(meta: DataSourceMeta): "text" | "image" | "other" {
   if (!mime) {
     return "other";
   }
-  if (mime.startsWith("text/") || mime === "application/json" || mime.endsWith("+json")) {
+  if (
+    mime.startsWith("text/") ||
+    mime === "application/json" ||
+    mime.endsWith("+json")
+  ) {
     return "text";
   }
   if (mime.startsWith("image/")) {
@@ -140,11 +171,17 @@ function inferPurpose(meta: DataSourceMeta): "text" | "image" | "other" {
   return "other";
 }
 
-function discoverabilityNarrower(base: Discoverability, candidate: Discoverability): boolean {
+function discoverabilityNarrower(
+  base: Discoverability,
+  candidate: Discoverability,
+): boolean {
   return DISCOVERABILITY_ORDER[candidate] <= DISCOVERABILITY_ORDER[base];
 }
 
-function availabilityOverrideAllowed(base: Availability, candidate: Availability): boolean {
+function availabilityOverrideAllowed(
+  base: Availability,
+  candidate: Availability,
+): boolean {
   if (base.mode === "public") {
     return true;
   }
@@ -178,13 +215,16 @@ function serializeId(id: DataSourceId): string {
   return `${id.kind}:${id.location}`;
 }
 
-function evaluateRule(rule: RuleExpr, env: {
-  now: Date;
-  contextName: string;
-  contextTags: string[];
-  roomMembers: string[];
-  metaTags: string[];
-}): boolean {
+function evaluateRule(
+  rule: RuleExpr,
+  env: {
+    now: Date;
+    contextName: string;
+    contextTags: string[];
+    roomMembers: string[];
+    metaTags: string[];
+  },
+): boolean {
   switch (rule.op) {
     case "roomHasMember":
       return env.roomMembers.includes(rule.id);
@@ -197,7 +237,9 @@ function evaluateRule(rule: RuleExpr, env: {
       return env.now >= start && env.now <= end;
     }
     case "tagIncludes":
-      return env.metaTags.includes(rule.tag) || env.contextTags.includes(rule.tag);
+      return (
+        env.metaTags.includes(rule.tag) || env.contextTags.includes(rule.tag)
+      );
     case "contextNameMatches": {
       try {
         const re = new RegExp(rule.regex);
@@ -304,7 +346,11 @@ function evaluateAvailability(
       return { status: "granted", approvals };
     }
     default:
-      return { status: "denied", approvals, reason: "unknown availability mode" };
+      return {
+        status: "denied",
+        approvals,
+        reason: "unknown availability mode",
+      };
   }
 }
 
@@ -330,13 +376,22 @@ function applyAvailabilityOverrides(
   return next;
 }
 
-function normalizeEntry(entry: ContextEntry, meta: DataSourceMeta): ContextEntry {
+function normalizeEntry(
+  entry: ContextEntry,
+  meta: DataSourceMeta,
+): ContextEntry {
   const state = entry.state ?? "pinned";
   const overrides = entry.overrides ? { ...entry.overrides } : undefined;
-  if (overrides?.discoverability && !discoverabilityNarrower(meta.discoverability, overrides.discoverability)) {
+  if (
+    overrides?.discoverability &&
+    !discoverabilityNarrower(meta.discoverability, overrides.discoverability)
+  ) {
     throw new Error("discoverability override must not widen scope");
   }
-  if (overrides?.availability && !availabilityOverrideAllowed(meta.availability, overrides.availability)) {
+  if (
+    overrides?.availability &&
+    !availabilityOverrideAllowed(meta.availability, overrides.availability)
+  ) {
     throw new Error("availability override must not widen scope");
   }
   const normalized: ContextEntry = {
@@ -345,7 +400,10 @@ function normalizeEntry(entry: ContextEntry, meta: DataSourceMeta): ContextEntry
     permissions: normalizePermissions(entry.permissions),
   };
   if (overrides) {
-    const resultOverrides: { discoverability?: Discoverability; availability?: Availability } = {};
+    const resultOverrides: {
+      discoverability?: Discoverability;
+      availability?: Availability;
+    } = {};
     if (overrides.discoverability) {
       resultOverrides.discoverability = overrides.discoverability;
     }
@@ -368,7 +426,10 @@ function computeParts(sources: DataSourceMeta[]): LlmView["parts"] {
   }));
 }
 
-function computeDiff(previous: LlmView | undefined, next: LlmView): ContextDiff | undefined {
+function computeDiff(
+  previous: LlmView | undefined,
+  next: LlmView,
+): ContextDiff | undefined {
   const prevMap = new Map<string, ContextViewState>();
   if (previous) {
     for (const meta of previous.active) {
@@ -395,19 +456,29 @@ function computeDiff(previous: LlmView | undefined, next: LlmView): ContextDiff 
 
   const added: DataSourceId[] = [];
   const removed: DataSourceId[] = [];
-  const stateChanged: Array<{ id: DataSourceId; from: ContextViewState; to: ContextViewState }> = [];
+  const stateChanged: Array<{
+    id: DataSourceId;
+    from: ContextViewState;
+    to: ContextViewState;
+  }> = [];
 
   for (const [id, state] of nextMap.entries()) {
     if (!prevMap.has(id)) {
       const [kind, ...locationParts] = id.split(":");
-      added.push({ kind: kind as DataSourceId["kind"], location: locationParts.join(":") });
+      added.push({
+        kind: kind as DataSourceId["kind"],
+        location: locationParts.join(":"),
+      });
       continue;
     }
     const prevState = prevMap.get(id)!;
     if (prevState !== state) {
       const [kind, ...locationParts] = id.split(":");
       stateChanged.push({
-        id: { kind: kind as DataSourceId["kind"], location: locationParts.join(":") },
+        id: {
+          kind: kind as DataSourceId["kind"],
+          location: locationParts.join(":"),
+        },
         from: prevState,
         to: state,
       });
@@ -418,7 +489,10 @@ function computeDiff(previous: LlmView | undefined, next: LlmView): ContextDiff 
     for (const id of prevMap.keys()) {
       if (!nextMap.has(id)) {
         const [kind, ...locationParts] = id.split(":");
-        removed.push({ kind: kind as DataSourceId["kind"], location: locationParts.join(":") });
+        removed.push({
+          kind: kind as DataSourceId["kind"],
+          location: locationParts.join(":"),
+        });
       }
     }
   }
@@ -467,7 +541,10 @@ export class ContextRegistry {
     return cloneMeta(meta);
   }
 
-  updateSource(id: DataSourceId, patch: Partial<DataSourceInit>): DataSourceMeta {
+  updateSource(
+    id: DataSourceId,
+    patch: Partial<DataSourceInit>,
+  ): DataSourceMeta {
     const key = sourceKey(id);
     const existing = this.sources.get(key);
     if (!existing) {
@@ -514,7 +591,9 @@ export class ContextRegistry {
     if (removed) {
       const targetId = serializeId(id);
       for (const context of this.contexts.values()) {
-        context.entries = context.entries.filter((entry) => serializeId(entry.id) !== targetId);
+        context.entries = context.entries.filter(
+          (entry) => serializeId(entry.id) !== targetId,
+        );
       }
     }
     return removed;
@@ -531,7 +610,9 @@ export class ContextRegistry {
 
   createContext(init: ContextInit): Context {
     if (!this.sources.size) {
-      throw new Error("context registry requires at least one data source before creating contexts");
+      throw new Error(
+        "context registry requires at least one data source before creating contexts",
+      );
     }
     const ctxId = init.ctxId ?? randomUUID();
     if (this.contexts.has(ctxId)) {
@@ -542,7 +623,11 @@ export class ContextRegistry {
     const entries = (init.entries ?? []).map((entry) => {
       const meta = this.sources.get(sourceKey(entry.id));
       if (!meta) {
-        throw new Error(`context entry references unknown data source: ${serializeId(entry.id)}`);
+        throw new Error(
+          `context entry references unknown data source: ${serializeId(
+            entry.id,
+          )}`,
+        );
       }
       return normalizeEntry(entry, meta);
     });
@@ -564,7 +649,12 @@ export class ContextRegistry {
     return deepClone(context);
   }
 
-  updateContext(ctxId: string, patch: Partial<Omit<Context, "ctxId" | "entries">> & { entries?: ContextEntry[] }): Context {
+  updateContext(
+    ctxId: string,
+    patch: Partial<Omit<Context, "ctxId" | "entries">> & {
+      entries?: ContextEntry[];
+    },
+  ): Context {
     const context = this.contexts.get(ctxId);
     if (!context) {
       throw new Error(`unknown context: ${ctxId}`);
@@ -573,7 +663,11 @@ export class ContextRegistry {
       context.entries = patch.entries.map((entry) => {
         const meta = this.sources.get(sourceKey(entry.id));
         if (!meta) {
-          throw new Error(`context entry references unknown data source: ${serializeId(entry.id)}`);
+          throw new Error(
+            `context entry references unknown data source: ${serializeId(
+              entry.id,
+            )}`,
+          );
         }
         return normalizeEntry(entry, meta);
       });
@@ -618,16 +712,26 @@ export class ContextRegistry {
     if (!context) {
       throw new Error(`unknown context: ${ctxId}`);
     }
-    const idx = context.entries.findIndex((existing) => serializeId(existing.id) === serializeId(entry.id));
+    const idx = context.entries.findIndex(
+      (existing) => serializeId(existing.id) === serializeId(entry.id),
+    );
     if (idx === -1) {
       throw new Error(`context entry not found: ${serializeId(entry.id)}`);
     }
     const meta = this.sources.get(sourceKey(entry.id));
     if (!meta) {
-      throw new Error(`context entry references unknown data source: ${serializeId(entry.id)}`);
+      throw new Error(
+        `context entry references unknown data source: ${serializeId(
+          entry.id,
+        )}`,
+      );
     }
     const normalized = normalizeEntry(entry, meta);
-    context.entries = [...context.entries.slice(0, idx), normalized, ...context.entries.slice(idx + 1)];
+    context.entries = [
+      ...context.entries.slice(0, idx),
+      normalized,
+      ...context.entries.slice(idx + 1),
+    ];
     context.updatedAt = isoNow();
     return deepClone(normalized);
   }
@@ -638,7 +742,9 @@ export class ContextRegistry {
       throw new Error(`unknown context: ${ctxId}`);
     }
     const before = context.entries.length;
-    context.entries = context.entries.filter((entry) => serializeId(entry.id) !== serializeId(id));
+    context.entries = context.entries.filter(
+      (entry) => serializeId(entry.id) !== serializeId(id),
+    );
     if (context.entries.length !== before) {
       context.updatedAt = isoNow();
       return true;
@@ -657,7 +763,10 @@ export class ContextRegistry {
       if (!meta) {
         throw new Error(`unknown data source: ${serializeId(id)}`);
       }
-      if (!discoverabilityNarrower(meta.discoverability, state) && meta.discoverability !== state) {
+      if (
+        !discoverabilityNarrower(meta.discoverability, state) &&
+        meta.discoverability !== state
+      ) {
         throw new Error("room discoverability cannot widen visibility");
       }
       meta.discoverability = state;
@@ -671,9 +780,13 @@ export class ContextRegistry {
     if (!context) {
       throw new Error(`unknown context: ${ctxId}`);
     }
-    const entry = context.entries.find((value) => serializeId(value.id) === serializeId(id));
+    const entry = context.entries.find(
+      (value) => serializeId(value.id) === serializeId(id),
+    );
     if (!entry) {
-      throw new Error(`context entry not found for override: ${serializeId(id)}`);
+      throw new Error(
+        `context entry not found for override: ${serializeId(id)}`,
+      );
     }
     const meta = this.sources.get(sourceKey(id));
     if (!meta) {
@@ -686,7 +799,10 @@ export class ContextRegistry {
     context.updatedAt = isoNow();
   }
 
-  applyContext(ctxId: string, options: ContextApplyOptions): ContextApplication {
+  applyContext(
+    ctxId: string,
+    options: ContextApplyOptions,
+  ): ContextApplication {
     const context = this.contexts.get(ctxId);
     if (!context) {
       throw new Error(`unknown context: ${ctxId}`);
@@ -722,7 +838,10 @@ export class ContextRegistry {
         availabilityEnv,
       );
       if (availability.status === "denied") {
-        denied.push({ id: entry.id, reason: availability.reason ?? "availability denied" });
+        denied.push({
+          id: entry.id,
+          reason: availability.reason ?? "availability denied",
+        });
         continue;
       }
       if (availability.status === "pending") {
@@ -753,7 +872,10 @@ export class ContextRegistry {
           ignored.push(cloneMeta(effectiveMeta));
           break;
       }
-      grants.push({ id: entry.id, permissions: normalizePermissions(entry.permissions) });
+      grants.push({
+        id: entry.id,
+        permissions: normalizePermissions(entry.permissions),
+      });
     }
 
     // implicit include rules → standby
