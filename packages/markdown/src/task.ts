@@ -23,6 +23,14 @@ const HEADING_RE = /^\s*#\s+(.*)$/u;
 const ID_RE = /^\s*id:\s*(.+)$/iu;
 const TAG_RE = /(^|\s)#([\w.-]+)/gu;
 
+const removeStatusTags = (line: string): string => {
+    const replaced = line.replace(TAG_RE, (match, prefix, tag) => {
+        const normalized = `#${tag ?? ''}`;
+        return STATUS_SET.has(normalized) ? prefix ?? '' : match;
+    });
+    return replaced.replace(/\s+$/u, '');
+};
+
 const unique = (values: readonly string[]): readonly string[] =>
     values.reduce<readonly string[]>((acc, value) => (acc.includes(value) ? acc : [...acc, value]), []);
 
@@ -155,8 +163,9 @@ export class MarkdownTask {
     ensureStatus(status: string): void {
         const trimmed = status.trim();
         const normalized = trimmed.startsWith('#') ? trimmed : `#${trimmed}`;
-        const restWithoutStatuses = this.state.bodyLines.filter((line) => !STATUS_SET.has(line.trim()));
-        this.withState({ ...this.state, bodyLines: restWithoutStatuses, status: normalized });
+        const withoutStatusLines = this.state.bodyLines.filter((line) => !STATUS_SET.has(line.trim()));
+        const sanitizedLines = withoutStatusLines.map((line) => removeStatusTags(line));
+        this.withState({ ...this.state, bodyLines: sanitizedLines, status: normalized });
     }
 
     async toMarkdown(): Promise<string> {
