@@ -1,24 +1,51 @@
-// Loose typing to avoid cross-package type coupling during build
+import type { World } from '@promethean/ds/ecs.js';
 
-export type BargeIn = 'none' | 'duck' | 'pause' | 'stop';
+import type {
+    AgentComponents,
+    AudioPlayer,
+    AudioRefComponent,
+    AudioResComponent,
+    BargeStateComponent,
+    PlaybackQueueComponent,
+    PolicyComponent,
+    RawVadComponent,
+    TranscriptFinalComponent,
+    TurnComponent,
+    UtteranceComponent,
+    VadComponent,
+    VisionFrameComponent,
+    VisionRingComponent,
+    VoiceStateComponent,
+} from './types.js';
 
-export const defineAgentComponents = (w: any) => {
-    const BargeState = w.defineComponent({
+const createStubPlayer = (): AudioPlayer => ({
+    play: () => {},
+    stop: () => {},
+    pause: () => {},
+    unpause: () => {},
+    isPlaying: () => false,
+});
+
+const defineBargeState = (world: World) =>
+    world.defineComponent<BargeStateComponent>({
         name: 'BargeState',
         defaults: () => ({ speakingSince: null, paused: false }),
     });
 
-    const Turn = w.defineComponent({
+const defineTurn = (world: World) =>
+    world.defineComponent<TurnComponent>({
         name: 'Turn',
         defaults: () => ({ id: 0 }),
     });
 
-    const RawVAD = w.defineComponent({
+const defineRawVad = (world: World) =>
+    world.defineComponent<RawVadComponent>({
         name: 'RawVAD',
         defaults: () => ({ level: 0, ts: 0 }),
     });
 
-    const VAD = w.defineComponent({
+const defineVad = (world: World) =>
+    world.defineComponent<VadComponent>({
         name: 'VAD',
         defaults: () => ({
             active: false,
@@ -32,25 +59,20 @@ export const defineAgentComponents = (w: any) => {
         }),
     });
 
-    const PlaybackQ = w.defineComponent({
+const definePlaybackQueue = (world: World) =>
+    world.defineComponent<PlaybackQueueComponent>({
         name: 'PlaybackQ',
         defaults: () => ({ items: [] }),
     });
 
-    const AudioRef = w.defineComponent({
+const defineAudioRef = (world: World) =>
+    world.defineComponent<AudioRefComponent>({
         name: 'AudioRef',
-        defaults: () => ({
-            player: {
-                play() {},
-                stop() {},
-                pause() {},
-                unpause() {},
-                isPlaying: () => false,
-            },
-        }),
+        defaults: () => ({ player: createStubPlayer() }),
     });
 
-    const Utterance = w.defineComponent({
+const defineUtterance = (world: World) =>
+    world.defineComponent<UtteranceComponent>({
         name: 'Utterance',
         defaults: () => ({
             id: '',
@@ -62,49 +84,54 @@ export const defineAgentComponents = (w: any) => {
         }),
     });
 
-    const AudioRes = w.defineComponent({
+const defineAudioRes = (world: World) =>
+    world.defineComponent<AudioResComponent>({
         name: 'AudioRes',
-        defaults: () => ({ factory: async () => null }),
+        defaults: () => ({ factory: async () => undefined }),
     });
 
-    const TranscriptFinal = w.defineComponent({
+const defineTranscriptFinal = (world: World) =>
+    world.defineComponent<TranscriptFinalComponent>({
         name: 'TranscriptFinal',
         defaults: () => ({ text: '', ts: 0 }),
     });
 
-    const VisionFrame = w.defineComponent({
+const defineVisionFrame = (world: World) =>
+    world.defineComponent<VisionFrameComponent>({
         name: 'VisionFrame',
         defaults: () => ({ id: '', ts: 0, ref: { type: 'url', url: '' } }),
     });
 
-    const VisionRing = w.defineComponent({
+const defineVisionRing = (world: World) =>
+    world.defineComponent<VisionRingComponent>({
         name: 'VisionRing',
         defaults: () => ({ frames: [], capacity: 12 }),
     });
 
-    const Policy = w.defineComponent({
+const definePolicy = (world: World) =>
+    world.defineComponent<PolicyComponent>({
         name: 'Policy',
         defaults: () => ({ defaultBargeIn: 'pause' }),
     });
 
-    const VoiceState = w.defineComponent({
+const defineVoiceState = (world: World) =>
+    world.defineComponent<VoiceStateComponent>({
         name: 'VoiceState',
         defaults: () => ({ connection: null }),
     });
 
-    return {
-        Turn,
-        RawVAD,
-        VAD,
-        PlaybackQ,
-        AudioRef,
-        Utterance,
-        AudioRes,
-        TranscriptFinal,
-        VisionFrame,
-        BargeState,
-        VisionRing,
-        Policy,
-        VoiceState,
-    };
-};
+export const defineAgentComponents = (world: World): AgentComponents => ({
+    Turn: defineTurn(world),
+    RawVAD: defineRawVad(world),
+    VAD: defineVad(world),
+    PlaybackQ: definePlaybackQueue(world),
+    AudioRef: defineAudioRef(world),
+    Utterance: defineUtterance(world),
+    AudioRes: defineAudioRes(world),
+    TranscriptFinal: defineTranscriptFinal(world),
+    VisionFrame: defineVisionFrame(world),
+    BargeState: defineBargeState(world),
+    VisionRing: defineVisionRing(world),
+    Policy: definePolicy(world),
+    VoiceState: defineVoiceState(world),
+});
