@@ -592,7 +592,7 @@ services:
 
   playwright:
     profiles: ["crawl"]
-    image: mcr.microsoft.com/playwright:v1.47.2-jammy
+    image: mcr.microsoft.com/playwright:v1.55.0-jammy
     shm_size: 1gb
     environment:
       - PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
