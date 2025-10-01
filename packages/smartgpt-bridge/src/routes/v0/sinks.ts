@@ -5,7 +5,7 @@ export function registerSinkRoutes(app: any) {
     preHandler: [app.authUser, app.requirePolicy("read", "sinks")],
     schema: { operationId: "listSinks", tags: ["Sinks"] },
     handler: async () => ({
-      sinks: Array.from(contextStore.collections.keys()),
+      sinks: contextStore.listCollectionNames(),
     }),
   });
 
@@ -30,7 +30,8 @@ export function registerSinkRoutes(app: any) {
       const { name } = req.params;
       const { filter, limit } = req.body || {};
       const store = contextStore.getCollection(name);
-      const results = await store.mongoCollection
+      const results = await store
+        .getMongoCollection()
         .find(filter || {})
         .sort({ timestamp: -1 })
         .limit(limit || 100)
@@ -62,7 +63,7 @@ export function registerSinkRoutes(app: any) {
       const { name } = req.params;
       const { q, n, where } = req.body || {};
       const store = contextStore.getCollection(name);
-      const results = await store.chromaCollection.query({
+      const results = await store.getChromaCollection().query({
         queryTexts: [q],
         nResults: n || 10,
         where: where || {},
