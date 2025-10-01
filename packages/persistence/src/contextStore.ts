@@ -123,6 +123,14 @@ export class ContextStore {
         return Array.from(this.collections.values());
     }
 
+    collectionCount(): number {
+        return this.collections.size;
+    }
+
+    listCollectionNames(): readonly string[] {
+        return Array.from(this.collections.keys());
+    }
+
     async createCollection(
         name: string,
         textKey: string,
