@@ -3,11 +3,9 @@
 import { promises as fs } from "node:fs";
 import * as path from "node:path";
 import { pathToFileURL } from "node:url";
-
 import { z } from "zod";
 import ollama from "ollama";
 import { scanFiles } from "@promethean/file-indexer";
-import type { IndexedFile, ScanProgress } from "@promethean/file-indexer";
 import {
   ensureBaselineFrontmatter,
   mergeFrontmatterWithGenerated,
@@ -16,51 +14,26 @@ import {
   stringifyFrontmatter,
   deriveFilenameFromPath,
 } from "@promethean/markdown/frontmatter";
-
 import { openDB } from "./db.js";
 import { parseArgs, randomUUID } from "./utils.js";
 import { usingFakeServices } from "./lib/services.js";
-import type { Front } from "./types.js";
-import type { DBs } from "./db.js";
-
-// CLI entry (ESM-safe)
-
-export type FrontmatterOptions = {
-  dir: string;
-  exts?: string[];
-  genModel: string;
-  dryRun?: boolean;
-  files?: string[]; // absolute or relative paths; if provided, limit to this set
-};
-
 const GenSchema = z.object({
   filename: z.string().min(1),
   description: z.string().min(1),
   tags: z.array(z.string()).min(1),
 });
-
-export async function runFrontmatter(
-  opts: FrontmatterOptions,
-  db: DBs,
-  onProgress?: (p: {
-    step: "frontmatter";
-    done: number;
-    total: number;
-    message?: string;
-  }) => void,
-) {
+export async function runFrontmatter(opts, db, onProgress) {
   const ROOT = path.resolve(opts.dir);
   const EXTS = new Set(
     (opts.exts ?? [".md", ".mdx", ".txt"]).map((s) => s.trim().toLowerCase()),
   );
   const GEN_MODEL = opts.genModel;
   const DRY = Boolean(opts.dryRun);
-  const frontKV = db.root.sublevel<string, Front>("front", {
+  const frontKV = db.root.sublevel("front", {
     valueEncoding: "json",
   });
   const docsKV = db.docs; // from db.ts — { path, title }
-
-  const buildPrompt = (fpath: string, fm: Front, preview: string) =>
+  const buildPrompt = (fpath, fm, preview) =>
     [
       "SYSTEM:",
       "Return ONLY strict JSON with keys exactly: filename, description, tags.",
@@ -78,8 +51,7 @@ export async function runFrontmatter(
       "Preview:",
       preview,
     ].join("\n");
-
-  const parseModelJSON = (s: string) => {
+  const parseModelJSON = (s) => {
     const cleaned = s
       .replace(/```json\s*/gi, "")
       .replace(/```\s*$/gi, "")
@@ -90,8 +62,7 @@ export async function runFrontmatter(
       return null;
     }
   };
-
-  const askModel = async (model: string, prompt: string) => {
+  const askModel = async (model, prompt) => {
     try {
       const res = await ollama.generate({
         model,
@@ -120,36 +91,30 @@ export async function runFrontmatter(
       return null;
     }
   };
-
-  const toStringListInput = (value: unknown): readonly unknown[] | undefined =>
+  const toStringListInput = (value) =>
     Array.isArray(value)
       ? value
       : value === undefined || value === null
         ? undefined
         : [value];
-
-  const normalizeTags = (value: unknown): string[] =>
+  const normalizeTags = (value) =>
     normalizeStringList(toStringListInput(value));
-
-  const isoFromBasename = (name: string) => {
+  const isoFromBasename = (name) => {
     const base = name.replace(/\.[^.]+$/, "");
     const m = base.match(
       /(\d{4})\.(\d{2})\.(\d{2})\.(\d{2})\.(\d{2})\.(\d{2})/,
     );
     return m ? `${m[1]}-${m[2]}-${m[3]}T${m[4]}:${m[5]}:${m[6]}Z` : undefined;
   };
-
-  const validateGen = (obj: unknown) => {
+  const validateGen = (obj) => {
     const p = GenSchema.safeParse(obj);
     return p.success ? p.data : null;
   };
-
-  const writeFrontmatter = (fpath: string, content: string, fm: Front) =>
+  const writeFrontmatter = (fpath, content, fm) =>
     DRY
       ? Promise.resolve()
       : fs.writeFile(fpath, stringifyFrontmatter(content, fm), "utf8");
-
-  const persistKV = (uuid: string, fpath: string, fm: Front) =>
+  const persistKV = (uuid, fpath, fm) =>
     Promise.all([
       frontKV.put(uuid, fm),
       docsKV.put(uuid, {
@@ -157,15 +122,14 @@ export async function runFrontmatter(
         title: fm.title ?? fm.filename ?? deriveFilenameFromPath(fpath),
       }),
     ]).then(() => undefined);
-
-  const processFile = (fpath: string, raw: string) => {
-    const gm = parseFrontmatter<Front>(raw);
-    const base = ensureBaselineFrontmatter(gm.data ?? ({} as Front), {
+  const processFile = (fpath, raw) => {
+    const gm = parseFrontmatter(raw);
+    const base = ensureBaselineFrontmatter(gm.data ?? {}, {
       filePath: fpath,
       uuidFactory: randomUUID,
-      createdAtFactory: ({ filePath }: { filePath?: string }) =>
+      createdAtFactory: ({ filePath }) =>
         filePath ? isoFromBasename(path.basename(filePath)) : undefined,
-      titleFactory: ({ frontmatter }: { frontmatter: Front }) =>
+      titleFactory: ({ frontmatter }) =>
         typeof frontmatter.filename === "string"
           ? frontmatter.filename
           : undefined,
@@ -174,9 +138,7 @@ export async function runFrontmatter(
       Boolean(base.filename) &&
       Boolean(base.description) &&
       Boolean(normalizeTags(base.tags).length);
-
     const preview = gm.content.slice(0, 4000);
-
     const fallbackGen = () => {
       const ensuredFilename =
         base.filename ?? deriveFilenameFromPath(fpath) ?? "doc";
@@ -192,40 +154,35 @@ export async function runFrontmatter(
         filename: ensuredFilename,
         description: ensuredDescription,
         tags: ensuredTags,
-      } satisfies z.infer<typeof GenSchema>;
+      };
     };
-
     const genP = hasAll
-      ? Promise.resolve<Partial<z.infer<typeof GenSchema>>>({})
+      ? Promise.resolve({})
       : usingFakeServices()
         ? Promise.resolve(fallbackGen())
         : askModel(GEN_MODEL, buildPrompt(fpath, base, preview)).then((obj) => {
             const valid = validateGen(obj);
             return valid ?? fallbackGen();
           });
-
     return genP.then((gen) => {
       const next = mergeFrontmatterWithGenerated(base, gen, {
         filePath: fpath,
         descriptionFallback: "",
-      }) as Front;
-
+      });
       const changed =
-        next.uuid !== (gm.data as Front)?.uuid ||
-        next.created_at !== (gm.data as Front)?.created_at ||
-        next.filename !== (gm.data as Front)?.filename ||
-        next.description !== (gm.data as Front)?.description ||
+        next.uuid !== gm.data?.uuid ||
+        next.created_at !== gm.data?.created_at ||
+        next.filename !== gm.data?.filename ||
+        next.description !== gm.data?.description ||
         JSON.stringify(normalizeTags(next.tags)) !==
-          JSON.stringify(normalizeTags((gm.data as Front)?.tags));
-
+          JSON.stringify(normalizeTags(gm.data?.tags));
       return (
         changed ? writeFrontmatter(fpath, gm.content, next) : Promise.resolve()
       )
-        .then(() => persistKV(next.uuid!, fpath, next))
+        .then(() => persistKV(next.uuid, fpath, next))
         .then(() => undefined);
     });
   };
-
   const wanted =
     opts.files && opts.files.length
       ? new Set(opts.files.map((p) => path.resolve(p)))
@@ -235,7 +192,7 @@ export async function runFrontmatter(
     root: ROOT,
     exts: EXTS,
     readContent: true,
-    onFile: async (file: IndexedFile, progress: ScanProgress) => {
+    onFile: async (file, progress) => {
       const abs = path.isAbsolute(file.path)
         ? path.resolve(file.path)
         : path.resolve(ROOT, file.path);
@@ -285,3 +242,4 @@ if (isDirect) {
       } catch {}
     });
 }
+//# sourceMappingURL=01-frontmatter.js.map
