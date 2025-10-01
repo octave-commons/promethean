@@ -1,5 +1,6 @@
-import test from 'ava';
 import { EventEmitter } from 'node:events';
+
+import test from 'ava';
 import ollama, { type Message } from 'ollama';
 import {
     DiscordTranscriptSource,
@@ -7,18 +8,24 @@ import {
     generateAndStoreTitle,
     generateTwitchStreamTitle,
     watchContextAndGenerate,
-    resetOllamaClient,
-    setOllamaClient,
+    type GenerateTwitchStreamTitleOptions,
 } from '../title.js';
 
-const stubChat = (impl: (request: any) => Promise<any>) => {
-    setOllamaClient({
-        chat: impl as unknown as typeof ollama.chat,
-    });
-};
+type ChatRequest = Parameters<typeof ollama.chat>[0];
+type ChatResponse = Awaited<ReturnType<typeof ollama.chat>>;
+type ChatFunction = typeof ollama.chat;
 
-test.afterEach.always(() => {
-    resetOllamaClient();
+const withChatStub = (
+    handler: (request: ChatRequest & { readonly stream?: false }) => Promise<ChatResponse>,
+): GenerateTwitchStreamTitleOptions => ({
+    client: {
+        chat: ((request) => {
+            if (request.stream === true) {
+                throw new Error('streaming responses are not supported in this test stub');
+            }
+            return handler(request as ChatRequest & { readonly stream?: false });
+        }) as ChatFunction,
+    },
 });
 
 test('DiscordTranscriptSource formats entries as chat messages', async (t) => {
@@ -41,28 +48,46 @@ test('MemoryTitleStore collects saved titles', async (t) => {
 });
 
 test.serial('generateTwitchStreamTitle delegates to ollama and enforces safety', async (t) => {
-    const calls: Message[][] = [];
-    stubChat(async ({ messages }: { messages: Message[] }) => {
-        calls.push(messages);
-        return { message: { content: 'Cozy coding stream' } } as any;
+    const options = withChatStub(async ({ messages }) => {
+        if (messages === undefined) {
+            throw new Error('chat request missing messages');
+        }
+        const systemMessage = messages[0];
+        t.is(systemMessage?.role, 'system');
+        return {
+            message: { content: 'Cozy coding stream' },
+        } satisfies { message: { content: string } } as ChatResponse;
     });
-    const title = await generateTwitchStreamTitle([{ role: 'user', content: 'build UI' }]);
+    const title = await generateTwitchStreamTitle([{ role: 'user', content: 'build UI' }], options);
     t.is(title, 'Cozy coding stream');
-    t.is(calls[0]?.[0]?.role, 'system');
 
     // Unsafe title triggers rejection
-    stubChat(async () => ({ message: { content: 'NSFW surprise' } }));
-    await t.throwsAsync(() => generateTwitchStreamTitle([]), {
+    const unsafeOptions = withChatStub(
+        async () =>
+            ({
+                message: { content: 'NSFW surprise' },
+            }) satisfies { message: { content: string } } as ChatResponse,
+    );
+    await t.throwsAsync(() => generateTwitchStreamTitle([], unsafeOptions), {
         message: /failed safety check/,
     });
 });
 
 test.serial('generateAndStoreTitle fetches context, generates title, and saves it', async (t) => {
-    const source = { fetch: async () => [{ role: 'user', content: 'context' }] };
+    const source = {
+        fetch: async () => [{ role: 'user', content: 'context' }],
+    } satisfies {
+        fetch: () => Promise<ReadonlyArray<Message>>;
+    };
     const store = new MemoryTitleStore();
-    stubChat(async () => ({ message: { content: 'Friendly vibes' } }));
+    const options = withChatStub(
+        async () =>
+            ({
+                message: { content: 'Friendly vibes' },
+            }) satisfies { message: { content: string } } as ChatResponse,
+    );
 
-    const title = await generateAndStoreTitle(source, store);
+    const title = await generateAndStoreTitle(source, store, options);
     t.is(title, 'Friendly vibes');
     t.deepEqual(store.titles, ['Friendly vibes']);
 });
@@ -70,34 +95,38 @@ test.serial('generateAndStoreTitle fetches context, generates title, and saves i
 test.serial('watchContextAndGenerate listens for context events and logs failures', async (t) => {
     const emitter = new EventEmitter();
     const store = new MemoryTitleStore();
-    let attempts = 0;
-
     const source = {
-        fetch: async () => {
-            attempts += 1;
-            return [{ role: 'user', content: 'context' }];
-        },
+        fetch: async () => [{ role: 'user', content: 'context' }],
+    } satisfies {
+        fetch: () => Promise<ReadonlyArray<Message>>;
     };
 
-    const errors: unknown[] = [];
     const originalError = console.error;
-    console.error = (...args: unknown[]) => {
-        errors.push(args);
-    };
+
+    const errorCall = new Promise<readonly unknown[]>((resolve) => {
+        console.error = (...args: readonly unknown[]) => {
+            resolve(args);
+        };
+    });
 
     try {
-        stubChat(async () => ({ message: { content: 'Stream time' } }));
-        watchContextAndGenerate(emitter, source, store);
+        const responses = ['Stream time', 'nsfw mention'] as const;
+        const iterator: IterableIterator<string> = responses[Symbol.iterator]();
+        const options = withChatStub(async () => {
+            const next = iterator.next();
+            const content = typeof next.value === 'string' ? next.value : 'fallback';
+            return {
+                message: { content },
+            } satisfies { message: { content: string } } as ChatResponse;
+        });
+        watchContextAndGenerate(emitter, source, store, options);
         emitter.emit('context');
         await new Promise((resolve) => setImmediate(resolve));
         t.is(store.titles[0], 'Stream time');
-        t.is(attempts, 1);
 
-        // Make generation fail and ensure error logged without throwing
-        stubChat(async () => ({ message: { content: 'nsfw mention' } }));
         emitter.emit('context');
-        await new Promise((resolve) => setImmediate(resolve));
-        t.true(errors.length > 0);
+        const [, error] = await errorCall;
+        t.truthy(error);
         t.is(store.titles.length, 1);
     } finally {
         console.error = originalError;

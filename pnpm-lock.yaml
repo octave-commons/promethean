@@ -25,6 +25,9 @@ importers:
       '@promethean/image-link-generator':
         specifier: workspace:*
         version: link:packages/image-link-generator
+      '@promethean/kanban':
+        specifier: workspace:*
+        version: link:packages/kanban
       '@promethean/legacy':
         specifier: workspace:*
         version: link:packages/legacy
