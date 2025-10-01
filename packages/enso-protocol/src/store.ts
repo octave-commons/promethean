@@ -12,8 +12,10 @@ export interface AssetReadResult {
 export class AssetStore {
   constructor(private readonly baseDir: string) {}
 
-  async putChunks(iter: AsyncIterable<Uint8Array>, declaredBytes?: number): Promise<{ cid: string; uri: string; bytes: number }>
-  {
+  async putChunks(
+    iter: AsyncIterable<Uint8Array>,
+    declaredBytes?: number,
+  ): Promise<{ cid: string; uri: string; bytes: number }> {
     const tmp = join(this.baseDir, `tmp-${Date.now()}-${Math.random()}`);
     const fh = await fs.open(tmp, "w");
     const hash = createHash("sha256");
@@ -33,7 +35,10 @@ export class AssetStore {
     return { cid, uri: `enso://asset/${cid}`, bytes };
   }
 
-  async read(cid: string, range?: { start: number; end?: number }): Promise<AssetReadResult> {
+  async read(
+    cid: string,
+    range?: { start: number; end?: number },
+  ): Promise<AssetReadResult> {
     const filePath = join(this.baseDir, cid);
     const file = await fs.open(filePath, "r");
     try {

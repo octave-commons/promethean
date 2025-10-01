@@ -28,11 +28,19 @@
   (write-atomic! path (pretty-edn-str data)))
 
 ;; ----- paths -----
-(defn resolve-path [base p]
-  (let [p1 (-> (str p)
-               (str/replace #"\\$HOME\\b" (System/getenv "HOME"))
-               fs/expand-home)]
-    (-> (if (fs/absolute? p1) p1 (fs/path base p1))
+(defn resolve-path
+  "Resolve `p` relative to `base`, expanding `~` and `$HOME`."
+  [base p]
+  (let [home (or (System/getenv "HOME")
+                 (System/getProperty "user.home"))
+        s    (str p)
+        s    (if (and home (str/includes? s "$HOME"))
+               (str/replace s "$HOME" home)
+               s)
+        s    (if (and home (str/starts-with? s "~"))
+               (str home (subs s 1))
+               s)]
+    (-> (if (fs/absolute? s) s (fs/path base s))
         fs/absolutize
         str)))
 
