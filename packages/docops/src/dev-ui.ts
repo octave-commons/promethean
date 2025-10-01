@@ -91,6 +91,28 @@ const clamp = (value: number, lo: number, hi: number) =>
 
 const asBool = (value: string | undefined) => value === "1" || value === "true";
 
+const toFiniteNumber = (value: unknown) => {
+  if (typeof value === "number")
+    return Number.isFinite(value) ? value : undefined;
+  if (typeof value === "string") {
+    const numeric = Number(value);
+    return Number.isFinite(numeric) ? numeric : undefined;
+  }
+  return undefined;
+};
+
+const toBoolParam = (value: unknown) => {
+  if (typeof value === "boolean") return value;
+  if (typeof value === "number") return value !== 0;
+  if (typeof value === "string") {
+    const lowered = value.trim().toLowerCase();
+    if (!lowered) return undefined;
+    if (lowered === "false" || lowered === "0") return false;
+    if (lowered === "true" || lowered === "1") return true;
+  }
+  return undefined;
+};
+
 const ensureInDir = (candidate: string) => {
   const abs = path.resolve(candidate);
   if (abs === ROOT_DIR) return abs;
@@ -554,13 +576,49 @@ app.get<{ Querystring: RunStepQuery }>(
       }
     })();
 
+    const normalizedArgs: Partial<RunArgs> = {};
+
+    const docT = toFiniteNumber(rest.docT);
+    if (docT !== undefined) normalizedArgs.docT = docT;
+
+    const refT = toFiniteNumber(rest.refT);
+    if (refT !== undefined) normalizedArgs.refT = refT;
+
+    const k = toFiniteNumber(rest.k);
+    if (k !== undefined) normalizedArgs.k = k;
+
+    const maxRelated = toFiniteNumber(rest.maxRelated);
+    if (maxRelated !== undefined) normalizedArgs.maxRelated = maxRelated;
+
+    const maxReferences = toFiniteNumber(rest.maxReferences);
+    if (maxReferences !== undefined)
+      normalizedArgs.maxReferences = maxReferences;
+
+    const refMin = toFiniteNumber(rest.refMin);
+    if (refMin !== undefined) normalizedArgs.refMin = refMin;
+
+    const refMax = toFiniteNumber(rest.refMax);
+    if (refMax !== undefined) normalizedArgs.refMax = refMax;
+
+    const force = toBoolParam(rest.force);
+    if (typeof force === "boolean") normalizedArgs.force = force;
+
+    if (typeof rest.embedModel === "string" && rest.embedModel)
+      normalizedArgs.embedModel = rest.embedModel;
+
+    if (typeof rest.genModel === "string" && rest.genModel)
+      normalizedArgs.genModel = rest.genModel;
+
+    if (typeof rest.anchorStyle === "string" && rest.anchorStyle)
+      normalizedArgs.anchorStyle = rest.anchorStyle;
+
     sendLine(`Running step=${step}...`);
     try {
       await runDocopsStep(
         db,
         step,
         {
-          ...rest,
+          ...normalizedArgs,
           dir: selectedDir,
           collection: collection ?? COLLECTION,
           files,
