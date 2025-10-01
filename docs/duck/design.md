@@ -23,6 +23,84 @@ Base64-in-JSON balloons memory, stresses GC, and collides with proxies. We keep 
 ```
 
 Client -> WS: BLOB_PUT_START { mime }
+
+## Enso Protocol Integration — v1
+
+### Goals
+- Replace legacy Broker STT pathway in Cephalon with Enso envelopes.
+- Use `voice.frame` streams @ `pcm16le/16000/1` with 20ms frames (640 bytes).
+- Expect transcript as `event:content.post` in the same room.
+
+### Client wiring (Cephalon)
+- New `EnsoTranscriber` bridges Discord PCM → Enso `voice.frame`.
+- Downmix & resample 48k stereo → 16k mono using a simple 3:1 decimator with pre-average LPF.
+- Per-utterance room key: `voice:<discordUserId>:<startMs>`.
+- Flow control via `client.voice.register(streamId)`; EOF emits `eof: true`.
+
+### Server expectations (STT)
+- Accept handshake with caps: `can.voice.stream`, `can.send.text`.
+- Consume frames for the `room` and reply with a transcript:`,`
+  ```
+  { kind: "event", type: "content.post", room, payload: {
+    message: { role: "agent", parts: [{ kind: "text", text } ] }
+  }}
+  ```
+
+### Migration
+- Feature-flag: `DISABLE_BROKER=1` and set `ENSO_WS_URL=ws://host:7766`.
+- Fallback: if `ENSO_WS_URL` unset, legacy Broker path remains.
+
+## Enso Protocol Integration — v1
+
+### Goals
+- Replace legacy Broker STT pathway in Cephalon with Enso envelopes.
+- Use `voice.frame` streams @ `pcm16le/16000/1` with 20ms frames (640 bytes).
+- Expect transcript as `event:content.post` in the same room.
+
+### Client wiring (Cephalon)
+- New `EnsoTranscriber` bridges Discord PCM → Enso `voice.frame`.
+- Downmix & resample 48k stereo → 16k mono using a simple 3:1 decimator with pre-average LPF.
+- Per-utterance room key: `voice:<discordUserId>:<startMs>`.
+- Flow control via `client.voice.register(streamId)`; EOF emits `eof: true`.
+
+### Server expectations (STT)
+- Accept handshake with caps: `can.voice.stream`, `can.send.text`.
+- Consume frames for the `room` and reply with a transcript:`,`
+  ```
+  { kind: "event", type: "content.post", room, payload: {
+    message: { role: "agent", parts: [{ kind: "text", text } ] }
+  }}
+  ```
+
+### Migration
+- Feature-flag: `DISABLE_BROKER=1` and set `ENSO_WS_URL=ws://host:7766`.
+- Fallback: if `ENSO_WS_URL` unset, legacy Broker path remains.
+
+## Enso Protocol Integration — v1
+
+### Goals
+- Replace legacy Broker STT pathway in Cephalon with Enso envelopes.
+- Use `voice.frame` streams @ `pcm16le/16000/1` with 20ms frames (640 bytes).
+- Expect transcript as `event:content.post` in the same room.
+
+### Client wiring (Cephalon)
+- New `EnsoTranscriber` bridges Discord PCM → Enso `voice.frame`.
+- Downmix & resample 48k stereo → 16k mono using a simple 3:1 decimator with pre-average LPF.
+- Per-utterance room key: `voice:<discordUserId>:<startMs>`.
+- Flow control via `client.voice.register(streamId)`; EOF emits `eof: true`.
+
+### Server expectations (STT)
+- Accept handshake with caps: `can.voice.stream`, `can.send.text`.
+- Consume frames for the `room` and reply with a transcript:`,`
+  ```
+  { kind: "event", type: "content.post", room, payload: {
+    message: { role: "agent", parts: [{ kind: "text", text } ] }
+  }}
+  ```
+
+### Migration
+- Feature-flag: `DISABLE_BROKER=1` and set `ENSO_WS_URL=ws://host:7766`.
+- Fallback: if `ENSO_WS_URL` unset, legacy Broker path remains.
 WS -> Client: OK { id }
 Client -> WS: [binary CHUNK]* (1 MiB each, SHA-256 running)
 Client -> WS: BLOB_PUT_END { id, size, sha256 }
