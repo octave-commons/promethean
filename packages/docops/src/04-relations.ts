@@ -97,7 +97,10 @@ export async function runRelations(
     const order: string[] = [];
     const get = async (uuid: string): Promise<readonly Chunk[]> => {
       if (cache.has(uuid)) return cache.get(uuid)!;
-      const val = (await db.get(uuid).catch(() => [])) as readonly Chunk[];
+      const raw = await db.get(uuid).catch(() => undefined);
+      const val = Array.isArray(raw)
+        ? (raw as readonly Chunk[])
+        : ([] as readonly Chunk[]);
       cache.set(uuid, val);
       order.push(uuid);
       if (order.length > max) {

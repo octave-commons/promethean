@@ -65,6 +65,7 @@ pnpm --filter @promethean/docops test:e2e  # Playwright e2e tests
 
 - Requires Node 20+ and pnpm.
 - Set `OLLAMA_URL` to a running Ollama server.
+- Frontmatter generation now falls back to deterministic metadata whenever Ollama is unavailable; set `DOCOPS_FAKE_SERVICES=1` to force the offline adapters in development or CI.
 - CLI entry points remain for backwards compatibility (see package.json scripts).
 
 <!-- READMEFLOW:BEGIN -->

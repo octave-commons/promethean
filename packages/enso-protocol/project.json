@@ -1,0 +1,31 @@
+{
+  "name": "@promethean/enso-protocol",
+  "root": "packages/enso-protocol",
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm run build",
+        "cwd": "packages/enso-protocol"
+      },
+      "outputs": ["{projectRoot}/dist"]
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm run test",
+        "cwd": "packages/enso-protocol"
+      }
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm exec eslint .",
+        "cwd": "packages/enso-protocol",
+        "forwardAllArgs": false
+      }
+    }
+  },
+  "tags": ["scope:packages"],
+  "sourceRoot": "packages/enso-protocol/src"
+}
