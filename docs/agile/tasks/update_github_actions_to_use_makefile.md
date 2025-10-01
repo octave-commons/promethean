@@ -1,41 +1,41 @@
 ---
 uuid: cd2f96f3-bd40-410b-94f2-f7d0dbce4da4
-title: update github actions to use makefile md md
+title: update github actions automation to pnpm scripts
 status: todo
 priority: P3
 labels: []
 created_at: '2025-09-15T02:02:58.523Z'
 ---
-## 🛠️ Task: update GitHub Actions to use Makefile
+## 🛠️ Task: Update GitHub Actions to use pnpm scripts
 
-CI workflows should call standardized Makefile targets rather than duplicating commands. This keeps automation consistent with the design docs.
-Testing should run within each service directory to better reflect microservice boundaries and speed CI. The design plan favors modular pipelines.
+The Makefile targets referenced by the original plan never stabilized. CI already leans on pnpm (`pnpm lint`, `pnpm test:all`),
+so workflows should call the same scripts instead of Makefile wrappers.
+
+## ✅ Decision
+- Replace all Makefile references with pnpm workspace commands.
+- Keep workflow steps close to the developer experience (`pnpm lint`, `pnpm test:all`, `pnpm --filter … build`).
 
 ---
 
 ## 🎯 Goals
-- Invoke `make test` and `make build` from workflows
-- Reduce script duplication across jobs
-- Place test suites next to service code
-- Remove root-level test runners
+- Invoke pnpm scripts for lint/build/test in every workflow.
+- Remove Makefile-specific setup instructions from CI docs.
+- Ensure package-scoped tests run via pnpm filters where relevant.
 
 ---
 
 ## 📦 Requirements
-- [ ] Modify existing workflow files to call Makefile targets
-- [ ] Ensure the Makefile covers setup for all services
-- [ ] Relocate existing tests into their corresponding service folders
-- [ ] Update import paths and fixtures
+- [ ] Audit current workflow steps for Makefile usage.
+- [ ] Swap `make lint|test|build` with pnpm equivalents.
+- [ ] Align documentation/README references with pnpm tooling.
+- [ ] Verify environment variables and caching remain intact after changes.
 
 ---
 
 ## 📋 Subtasks
-- [ ] Audit current workflow steps
-- [ ] Add `make lint` and `make test` usage
-- [ ] Verify environment variables for PM2
-- [ ] Migrate Python tests
-- [ ] Migrate Node tests
-- [ ] Verify `pytest` and `ava` configs per service
+- [ ] Identify pnpm scripts that replace each Makefile target.
+- [ ] Update YAML workflows accordingly.
+- [ ] Update contributing or CI docs describing the pipeline.
 
 ---
 
@@ -45,16 +45,16 @@ Testing should run within each service directory to better reflect microservice 
 ---
 
 ## ⛓️ Blocked By
-- Clearly seperate service dependency files
-- seperate all testing pipelines in GitHub Actions
+- [[breakdown-makefile.hy|audit makefile.hy remnants and confirm deprecation]]
 
 ## ⛓️ Blocks
-- Update Makefile to have commands specific for agents
+- [[update_makefile_to_have_commands_specific_for_agents_md|replace agent automation makefile targets with pnpm scripts]]
 
 ---
 
 ## 🔍 Relevant Links
 - [[kanban]]
 - [[process]]
-#done
+- [scripts/dev.mjs](../../scripts/dev.mjs)
 
+#cicd #devops #framework-core #todo
