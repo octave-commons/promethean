@@ -148,7 +148,11 @@ export interface DeniedDataSource {
 export interface ContextDiff {
   added: DataSourceId[];
   removed: DataSourceId[];
-  stateChanged: Array<{ id: DataSourceId; from: ContextViewState; to: ContextViewState }>;
+  stateChanged: Array<{
+    id: DataSourceId;
+    from: ContextViewState;
+    to: ContextViewState;
+  }>;
 }
 
 export interface ContextApplication {
