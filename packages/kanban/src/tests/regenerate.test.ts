@@ -96,3 +96,30 @@ test("regenerateBoard retains tasks from both canonical and legacy schemas", asy
   t.regex(boardContent, /\(uuid:canonical-uuid-1\)/);
   t.regex(boardContent, /\(uuid:TASK-LEGACY-1\)/);
 });
+
+test("regenerateBoard links to the hyphenated basename when titles have spaces", async (t) => {
+  const tempDir = await withTempDir(t);
+  const boardPath = path.join(tempDir, "board.md");
+  const tasksDir = path.join(tempDir, "tasks");
+  await mkdir(tasksDir, { recursive: true });
+
+  const task = makeTask({
+    uuid: "regen-hyphen",
+    title: "Spaced Out Task",
+    status: "Todo",
+    slug: "spaced-out-task",
+  });
+  await writeTaskFile(tasksDir, task, { content: "Body" });
+
+  await regenerateBoard(tasksDir, boardPath);
+
+  const boardContent = await readFile(boardPath, "utf8");
+  t.true(
+    boardContent.includes("[[spaced-out-task|Spaced Out Task]]"),
+    "Board should link to the hyphenated basename",
+  );
+  t.false(
+    boardContent.includes("[[Spaced Out Task]]"),
+    "Board should not link directly to the spaced title",
+  );
+});
