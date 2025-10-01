@@ -91,21 +91,35 @@ export async function runFrontmatter(
     }
   };
 
-  const askModel = (model: string, prompt: string) =>
-    ollama
-      .generate({
+  const askModel = async (model: string, prompt: string) => {
+    try {
+      const res = await ollama.generate({
         model,
         prompt,
         stream: false,
         format: "json",
         options: { temperature: 0 },
-      })
-      .then((res) =>
+      });
+      const raw =
         typeof res.response === "string"
           ? res.response
-          : JSON.stringify(res.response),
-      )
-      .then(parseModelJSON);
+          : JSON.stringify(res.response);
+      return parseModelJSON(raw);
+    } catch (error) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : typeof error === "string"
+            ? error
+            : "";
+      if (message) {
+        console.warn(
+          `Frontmatter generation fell back to deterministic values: ${message}`,
+        );
+      }
+      return null;
+    }
+  };
 
   const toStringListInput = (value: unknown): readonly unknown[] | undefined =>
     Array.isArray(value)
@@ -185,25 +199,10 @@ export async function runFrontmatter(
       ? Promise.resolve<Partial<z.infer<typeof GenSchema>>>({})
       : usingFakeServices()
         ? Promise.resolve(fallbackGen())
-        : askModel(GEN_MODEL, buildPrompt(fpath, base, preview))
-            .then((obj) => {
-              const valid = validateGen(obj);
-              return valid ?? fallbackGen();
-            })
-            .catch((error) => {
-              const message =
-                error instanceof Error
-                  ? error.message
-                  : typeof error === "string"
-                    ? error
-                    : "";
-              if (message) {
-                console.warn(
-                  `Frontmatter generation fell back to deterministic values: ${message}`,
-                );
-              }
-              return fallbackGen();
-            });
+        : askModel(GEN_MODEL, buildPrompt(fpath, base, preview)).then((obj) => {
+            const valid = validateGen(obj);
+            return valid ?? fallbackGen();
+          });
 
     return genP.then((gen) => {
       const next = mergeFrontmatterWithGenerated(base, gen, {

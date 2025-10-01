@@ -1,11 +1,17 @@
+import type { AgentWorld } from '../types.js';
 import { enqueueUtterance } from '../helpers/enqueueUtterance.js';
 
-export function wireAdapters(
-    world: ReturnType<typeof import('../world.js').createAgentWorld>,
-    deps: {
-        tts: { synth: (text: string) => Promise<any> }; // returns AudioResource-compatible stream
-    },
-) {
+type AdapterDeps = {
+    readonly tts: { synth: (text: string) => Promise<unknown> };
+};
+
+type AdapterHooks = {
+    readonly onRawLevel: (level: number) => void;
+    readonly onFinalTranscript: (text: string) => void;
+    readonly speak: (text: string) => void;
+};
+
+export function wireAdapters(world: AgentWorld, deps: AdapterDeps): AdapterHooks {
     const { w, agent, C } = world;
 
     return {

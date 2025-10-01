@@ -1,3 +1,6 @@
+import type { MongoClient } from 'mongodb';
+import type { ChromaClient } from 'chromadb';
+
 import {
     __setMongoClientForTests,
     __setChromaClientForTests,
@@ -131,8 +134,8 @@ export class FakeChromaClient {
 export function installInMemoryPersistence() {
     const mongo = new FakeMongoClient();
     const chroma = new FakeChromaClient();
-    __setMongoClientForTests(mongo as any);
-    __setChromaClientForTests(chroma as any);
+    __setMongoClientForTests(mongo as unknown as MongoClient);
+    __setChromaClientForTests(chroma as unknown as ChromaClient);
     return {
         mongo,
         chroma,
