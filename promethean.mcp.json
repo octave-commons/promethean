@@ -19,5 +19,31 @@
     "tdd.coverage",
     "tdd.propertyCheck",
     "tdd.mutationScore"
-  ]
+  ],
+  "endpoints": {
+    "process": {
+      "tools": [
+        "process.getTaskRunnerConfig",
+        "process.updateTaskRunnerConfig",
+        "process.enqueueTask",
+        "process.stop",
+        "process.getQueue",
+        "process.getStdout",
+        "process.getStderr"
+      ]
+    },
+    "files": {
+      "tools": [
+        "files.list-directory",
+        "files.tree-directory",
+        "files.view-file",
+        "files.write-content",
+        "files.write-lines",
+        "files.search"
+      ]
+    },
+    "github": {
+      "tools": ["github.request", "github.graphql", "github.rate-limit"]
+    }
+  }
 }
