@@ -59,10 +59,16 @@ export class FlowController {
   }
 
   register(streamId: string, initialSeq = 0): void {
-    this.streams.set(streamId, { expectedSeq: initialSeq, paused: false, degraded: false });
+    this.streams.set(streamId, {
+      expectedSeq: initialSeq,
+      paused: false,
+      degraded: false,
+    });
   }
 
-  handleFrame(frame: StreamFrame): Array<Envelope<FlowNackPayload | FlowPausePayload>> {
+  handleFrame(
+    frame: StreamFrame,
+  ): Array<Envelope<FlowNackPayload | FlowPausePayload>> {
     if (!this.streams.has(frame.streamId)) {
       this.register(frame.streamId, frame.seq + 1);
       return [];
@@ -75,11 +81,18 @@ export class FlowController {
     if (frame.seq !== state.expectedSeq) {
       if (frame.seq > state.expectedSeq) {
         const missing = range(state.expectedSeq, frame.seq);
-        envelopes.push(mkEnvelope("flow.nack", { streamId: frame.streamId, missing }));
+        envelopes.push(
+          mkEnvelope("flow.nack", { streamId: frame.streamId, missing }),
+        );
         state.expectedSeq = frame.seq + 1;
       } else {
         // duplicate or out-of-order older frame, request resend if gap persists
-        envelopes.push(mkEnvelope("flow.nack", { streamId: frame.streamId, missing: [state.expectedSeq] }));
+        envelopes.push(
+          mkEnvelope("flow.nack", {
+            streamId: frame.streamId,
+            missing: [state.expectedSeq],
+          }),
+        );
       }
     } else {
       state.expectedSeq += 1;
@@ -114,6 +127,9 @@ export class FlowController {
       return undefined;
     }
     state.degraded = true;
-    return mkEnvelope("state.patch", { room: this.room, voice: { [streamId]: "degraded" } });
+    return mkEnvelope("state.patch", {
+      room: this.room,
+      voice: { [streamId]: "degraded" },
+    });
   }
 }

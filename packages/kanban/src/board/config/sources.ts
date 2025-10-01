@@ -76,6 +76,9 @@ const takeNextValue = (
     return { value: undefined, rest: EMPTY_STRINGS };
   }
   const [next, ...tail] = tokens;
+  if (typeof next !== "string") {
+    return { value: undefined, rest: freezeStrings(tail) };
+  }
   if (next.startsWith("--")) {
     return { value: undefined, rest: tokens };
   }
@@ -92,6 +95,9 @@ export const parseArgv = (
     return { values: Object.freeze({}) as OverrideMap, rest: EMPTY_STRINGS };
   }
   const [token, ...tail] = argv;
+  if (typeof token !== "string") {
+    return parseArgv(tail);
+  }
   if (!token.startsWith("--")) {
     const parsedTail = parseArgv(tail);
     return {
@@ -100,7 +106,17 @@ export const parseArgv = (
     } as const;
   }
   const withoutPrefix = token.slice(2);
-  const [name, inline] = withoutPrefix.split("=", 2);
+  const parts = withoutPrefix.split("=", 2);
+  const rawName = parts[0];
+  const inline = parts.length > 1 ? parts[1] : undefined;
+  if (typeof rawName !== "string" || rawName.length === 0) {
+    const parsedTail = parseArgv(tail);
+    return {
+      values: parsedTail.values,
+      rest: freezeStrings([token, ...parsedTail.rest]),
+    } as const;
+  }
+  const name = rawName as string;
   const key = ARG_KEYS.get(name);
   if (!key) {
     const parsedTail = parseArgv(tail);
