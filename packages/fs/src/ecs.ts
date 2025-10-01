@@ -1,13 +1,13 @@
-import { createHash } from 'crypto';
-import { promises as fs } from 'fs';
 import * as path from 'path';
 
 import type { ComponentType, World } from '@promethean/ds/ecs.js';
 import { makeStrictSystem, type SystemCtx, type SystemSpec } from '@promethean/ds/system.js';
 
-import { ensureDir } from './ensureDir.js';
-import { buildTree, flattenTree, type TreeNode, type TreeOptions } from './tree.js';
-import { walkDir, type FileEntry, type WalkOptions } from './util.js';
+import { normalizeRelative } from './pathUtils.js';
+import { computeSnapshotHash, loadEntries, maybeLoadContents, normalizeEntry } from './snapshot.js';
+import type { TreeNode, TreeOptions } from './tree.js';
+import { applyOperationsSequentially, hashOperations } from './writeOperations.js';
+import type { FileEntry, WalkOptions } from './util.js';
 
 export type SnapshotMode = 'tree' | 'flat';
 
@@ -100,52 +100,7 @@ function makeScannerSpec(world: World, { DirectoryIntent, DirectorySnapshot }: F
         reads: [DirectoryIntent],
         owns: [DirectorySnapshot],
         query: () => query,
-        run: async (ctx: SystemCtx) => {
-            for (const [entity, views] of ctx.entityIter({ intent: DirectoryIntent, snapshot: DirectorySnapshot })) {
-                const intent = views.intent.read();
-                if (!intent) continue;
-
-                const absRoot = path.resolve(intent.root);
-                const mode: SnapshotMode = intent.mode ?? 'tree';
-                const entries: FileEntry[] = [];
-                let tree: TreeNode | undefined;
-
-                if (mode === 'tree') {
-                    tree = await buildTree(absRoot, intent.tree ?? {});
-                    entries.push(...flattenTree(tree).map(treeNodeToEntry));
-                } else {
-                    const walked = await walkDir(absRoot, intent.walk ?? {});
-                    entries.push(...walked);
-                }
-
-                const normalizedEntries = entries.map((entry) => normalizeEntry(entry));
-                const contents = await maybeLoadContents(absRoot, normalizedEntries, intent.loadContent);
-                const hash = computeSnapshotHash(absRoot, mode, normalizedEntries, contents, tree);
-
-                const prev = ctx.world.has(entity, DirectorySnapshot)
-                    ? (ctx.world.get(entity, DirectorySnapshot) as DirectorySnapshotState | undefined)
-                    : undefined;
-
-                if (prev && prev.hash === hash) {
-                    ctx.carry(entity, DirectorySnapshot);
-                    continue;
-                }
-
-                const next: DirectorySnapshotState = {
-                    root: absRoot,
-                    mode,
-                    capturedAt: Date.now(),
-                    version: prev ? prev.version + 1 : 1,
-                    hash,
-                    entries: normalizedEntries,
-                    ...(tree ? { tree } : {}),
-                    ...(contents ? { contents } : {}),
-                };
-
-                if (!prev) ctx.world.addComponent(entity, DirectorySnapshot, next);
-                else ctx.set(entity, DirectorySnapshot, next);
-            }
-        },
+        run: (ctx: SystemCtx) => scanDirectoryIntents(ctx, DirectoryIntent, DirectorySnapshot),
     };
 }
 
@@ -156,171 +111,94 @@ function makeWriterSpec(world: World, { DirectoryIntent, DirectoryWriteBuffer }:
         reads: [DirectoryIntent],
         owns: [DirectoryWriteBuffer],
         query: () => query,
-        run: async (ctx: SystemCtx) => {
-            for (const [entity, views] of ctx.entityIter({ intent: DirectoryIntent, buffer: DirectoryWriteBuffer })) {
-                const intent = views.intent.read();
-                const buffer = views.buffer.read();
-                if (!intent || !buffer || buffer.operations.length === 0) {
-                    if (buffer) views.buffer.carry();
-                    continue;
-                }
-
-                const absRoot = path.resolve(intent.root);
-                const pending = [...buffer.operations];
-                const applied: DirectoryWriteOperation[] = [];
-                let lastError: string | undefined;
-
-                for (const op of pending) {
-                    try {
-                        await applyOperation(absRoot, op);
-                        applied.push(op);
-                    } catch (err) {
-                        lastError = err instanceof Error ? err.message : String(err);
-                        break;
-                    }
-                }
-
-                const remaining = lastError ? pending.slice(applied.length) : [];
-                const next: DirectoryWriteBufferState = { operations: remaining };
-                if (lastError) {
-                    next.lastError = lastError;
-                } else {
-                    next.lastAppliedAt = Date.now();
-                    const appliedHash = hashOperations(applied);
-                    if (appliedHash) next.lastAppliedHash = appliedHash;
-                }
-
-                ctx.set(entity, DirectoryWriteBuffer, next);
-            }
-        },
+        run: (ctx: SystemCtx) => flushWriteBuffers(ctx, DirectoryIntent, DirectoryWriteBuffer),
     };
 }
 
-function normalizeEntry(entry: FileEntry): FileEntry {
-    return {
-        ...entry,
-        relative: normalizeRelative(entry.relative),
-        path: path.resolve(entry.path),
-    };
+async function scanDirectoryIntents(
+    ctx: SystemCtx,
+    DirectoryIntent: ComponentType<DirectoryIntentState>,
+    DirectorySnapshot: ComponentType<DirectorySnapshotState>,
+): Promise<void> {
+    const intentComponents = [DirectoryIntent] as [ComponentType<DirectoryIntentState>];
+    const intents = Array.from(ctx.iterAll<[DirectoryIntentState]>(...intentComponents));
+    for (const [entity, intent] of intents) {
+        await updateSnapshot(ctx, entity, intent, DirectorySnapshot);
+    }
 }
 
-function treeNodeToEntry(node: TreeNode): FileEntry {
-    const type = node.type === 'dir' ? 'dir' : node.type === 'symlink' ? 'symlink' : 'file';
-    return {
-        path: node.path,
-        relative: node.relative,
-        name: node.name,
-        type,
-    };
-}
-
-function normalizeRelative(rel: string): string {
-    if (!rel) return '';
-    return rel.split(path.sep).join('/');
-}
-
-async function maybeLoadContents(
-    absRoot: string,
-    entries: FileEntry[],
-    intent: DirectoryContentIntent | false | undefined,
-): Promise<Record<string, SnapshotFile> | undefined> {
-    if (!intent) return undefined;
-    const encoding = intent.encoding ?? 'utf8';
-    const requestedFiles = new Set((intent.files ?? []).map(normalizeRelative));
-    const extFilter = new Set(
-        (intent.extensions ?? []).map((ext) => (ext.startsWith('.') ? ext.toLowerCase() : `.${ext.toLowerCase()}`)),
-    );
-
-    const matched = entries.filter((entry) => {
-        if (entry.type !== 'file') return false;
-        if (requestedFiles.size > 0) return requestedFiles.has(entry.relative);
-        if (extFilter.size === 0) return true;
-        const ext = path.extname(entry.relative).toLowerCase();
-        return extFilter.has(ext);
+async function updateSnapshot(
+    ctx: SystemCtx,
+    entity: number,
+    intent: DirectoryIntentState,
+    DirectorySnapshot: ComponentType<DirectorySnapshotState>,
+): Promise<void> {
+    const absRoot = path.resolve(intent.root);
+    const mode: SnapshotMode = intent.mode ?? 'tree';
+    const { entries, tree } = await loadEntries(absRoot, mode, intent.tree, intent.walk);
+    const normalizedEntries = entries.map(normalizeEntry);
+    const contents = await maybeLoadContents(absRoot, normalizedEntries, intent.loadContent);
+    const hash = computeSnapshotHash({
+        root: absRoot,
+        mode,
+        entries: normalizedEntries,
+        contents,
+        tree,
     });
+    const previous = ctx.get(entity, DirectorySnapshot);
 
-    if (matched.length === 0) return undefined;
-
-    const contents: Record<string, SnapshotFile> = {};
-    for (const entry of matched) {
-        const abs = path.join(absRoot, entry.relative);
-        try {
-            const data = await fs.readFile(abs, encoding);
-            contents[entry.relative] = { encoding, data };
-        } catch {
-            // Ignore read errors; snapshot consumers can handle missing files.
-        }
+    if (previous && previous.hash === hash) {
+        ctx.carry(entity, DirectorySnapshot);
+        return;
     }
-    return Object.keys(contents).length ? contents : undefined;
+
+    const next: DirectorySnapshotState = {
+        root: absRoot,
+        mode,
+        capturedAt: Date.now(),
+        version: previous ? previous.version + 1 : 1,
+        hash,
+        entries: normalizedEntries,
+        ...(tree ? { tree } : {}),
+        ...(contents ? { contents } : {}),
+    };
+
+    if (!previous) {
+        ctx.world.addComponent(entity, DirectorySnapshot, next);
+        return;
+    }
+    ctx.set(entity, DirectorySnapshot, next);
 }
 
-function computeSnapshotHash(
-    root: string,
-    mode: SnapshotMode,
-    entries: FileEntry[],
-    contents: Record<string, SnapshotFile> | undefined,
-    tree: TreeNode | undefined,
-): string {
-    const h = createHash('sha256');
-    h.update(root);
-    h.update(mode);
-    for (const entry of [...entries].sort((a, b) => a.relative.localeCompare(b.relative))) {
-        h.update(entry.relative);
-        h.update(entry.type);
-    }
-    if (contents) {
-        for (const [rel, snapshot] of Object.entries(contents).sort(([a], [b]) => a.localeCompare(b))) {
-            h.update(rel);
-            h.update(snapshot.data);
-            h.update(snapshot.encoding);
+async function flushWriteBuffers(
+    ctx: SystemCtx,
+    DirectoryIntent: ComponentType<DirectoryIntentState>,
+    DirectoryWriteBuffer: ComponentType<DirectoryWriteBufferState>,
+): Promise<void> {
+    const bufferComponents = [DirectoryIntent, DirectoryWriteBuffer] as [
+        ComponentType<DirectoryIntentState>,
+        ComponentType<DirectoryWriteBufferState>,
+    ];
+    const buffers = Array.from(ctx.iterAll<[DirectoryIntentState, DirectoryWriteBufferState]>(...bufferComponents));
+    for (const [entity, intent, buffer] of buffers) {
+        if (buffer.operations.length === 0) {
+            ctx.carry(entity, DirectoryWriteBuffer);
+            continue;
         }
+        const absRoot = path.resolve(intent.root);
+        const result = await applyOperationsSequentially(absRoot, buffer.operations);
+        const appliedHash = hashOperations(result.applied);
+        const next: DirectoryWriteBufferState = {
+            operations: result.error ? buffer.operations.slice(result.applied.length) : [],
+            ...(result.error
+                ? { lastError: result.error }
+                : {
+                      lastAppliedAt: Date.now(),
+                      ...(appliedHash ? { lastAppliedHash: appliedHash } : {}),
+                  }),
+        };
+        ctx.set(entity, DirectoryWriteBuffer, next);
     }
-    if (tree) {
-        const nodes = flattenTree(tree).map(
-            (node) => `${node.relative}:${node.type}:${node.mtimeMs ?? ''}:${node.size ?? ''}`,
-        );
-        nodes.sort();
-        for (const node of nodes) h.update(node);
-    }
-    return h.digest('hex');
-}
-
-async function applyOperation(root: string, op: DirectoryWriteOperation) {
-    const absPath = path.join(root, normalizeRelative(op.relative));
-    switch (op.kind) {
-        case 'mkdir':
-            await ensureDir(absPath);
-            return;
-        case 'remove':
-            await fs.rm(absPath, { force: true, recursive: op.recursive ?? true });
-            return;
-        case 'write': {
-            const dir = path.dirname(absPath);
-            await ensureDir(dir);
-            if (typeof op.content === 'string') {
-                await fs.writeFile(absPath, op.content, op.encoding ?? 'utf8');
-            } else {
-                await fs.writeFile(absPath, op.content);
-            }
-            return;
-        }
-        default:
-            throw new Error(`Unsupported operation ${(op as any).kind}`);
-    }
-}
-
-function hashOperations(ops: DirectoryWriteOperation[]): string | undefined {
-    if (ops.length === 0) return undefined;
-    const h = createHash('sha256');
-    for (const op of ops) {
-        h.update(op.kind);
-        h.update(op.relative);
-        if (op.kind === 'write') {
-            h.update(typeof op.content === 'string' ? op.content : op.content.toString('base64'));
-            if (op.encoding) h.update(op.encoding);
-        }
-    }
-    return h.digest('hex');
 }
 
 function stableIntent(intent: DirectoryIntentState | undefined): string {

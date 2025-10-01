@@ -1,4 +1,5 @@
 import test from "ava";
+
 import {
   AppDefinition,
   defineAgent,
@@ -7,14 +8,14 @@ import {
   definePythonService,
 } from "../index.js";
 
-const baseEnv = {
+const baseEnv: Readonly<Record<string, string>> = Object.freeze({
   PM2_PROCESS_NAME: "demo",
   HEARTBEAT_PORT: String(defineApp.HEARTBEAT_PORT),
   PYTHONUNBUFFERED: "1",
   PYTHONPATH: defineApp.PYTHONPATH,
   CHECK_INTERVAL: String(1000 * 60 * 5),
   HEARTBEAT_TIMEOUT: String(1000 * 60 * 10),
-};
+});
 
 test("defineApp applies defaults and normalizes env values", (t) => {
   const app = defineApp("demo", "index.js", ["--flag"], {
@@ -55,7 +56,7 @@ test("defineNodeService executes current directory script", (t) => {
 });
 
 test("defineAgent namespaces applications and injects agent name", (t) => {
-  const apps: AppDefinition[] = [
+  const apps: readonly AppDefinition[] = [
     defineApp("broker", "broker.js"),
     defineApp("listener", "listener.js"),
   ];
@@ -63,11 +64,7 @@ test("defineAgent namespaces applications and injects agent name", (t) => {
 
   t.is(agent.name, "duck");
   t.is(agent.region, "west");
-  const names = (agent.apps as AppDefinition[]).map((a) => a.name);
+  const names = agent.apps.map((app) => app.name);
   t.deepEqual(names, ["duck_broker", "duck_listener"]);
-  t.true(
-    (agent.apps as AppDefinition[]).every(
-      (app) => app.env?.AGENT_NAME === "duck",
-    ),
-  );
+  t.true(agent.apps.every((app) => app.env?.AGENT_NAME === "duck"));
 });

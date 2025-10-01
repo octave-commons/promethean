@@ -32,7 +32,9 @@ export function derivedCid(
   params: unknown,
 ): CID {
   const canonical = canonicalJson(params);
-  return sha256Cid(["enso-derive", from, toolId, version, canonical].join("\0"));
+  return sha256Cid(
+    ["enso-derive", from, toolId, version, canonical].join("\0"),
+  );
 }
 
 export interface DeriveResult {
@@ -42,8 +44,16 @@ export interface DeriveResult {
   meta: Record<string, unknown>;
 }
 
-export async function derive(plan: DerivePlan, fromCid: CID): Promise<DeriveResult> {
-  const cid = derivedCid(fromCid, plan.via.join("->"), plan.purpose, plan.params ?? {});
+export async function derive(
+  plan: DerivePlan,
+  fromCid: CID,
+): Promise<DeriveResult> {
+  const cid = derivedCid(
+    fromCid,
+    plan.via.join("->"),
+    plan.purpose,
+    plan.params ?? {},
+  );
   const mime = plan.purpose === "image" ? "image/png" : "text/markdown";
   return {
     cid,
