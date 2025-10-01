@@ -49,7 +49,7 @@ const cloneMetadata = (metadata: ChromaMetadata | null | undefined): DualStoreMe
     metadata ? { ...metadata } : undefined;
 
 const toGenericEntry = <TextKey extends string, TimeKey extends string>(
-    entry: DualStoreEntry<TextKey, TimeKey>,
+    entry: DualStoreEntry<TextKey, TimeKey> | WithId<DualStoreEntry<TextKey, TimeKey>>,
     textKey: TextKey,
     timeStampKey: TimeKey,
 ): DualStoreEntry<'text', 'timestamp'> => {
@@ -138,6 +138,15 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
             timeStampKey,
             supportsImages,
         });
+    }
+
+
+    getMongoCollection(): Collection<DualStoreEntry<TextKey, TimeKey>> {
+        return this.mongoCollection;
+    }
+
+    getChromaCollection(): ChromaCollection {
+        return this.chromaCollection;
     }
 
     async insert(entry: DualStoreEntry<TextKey, TimeKey>): Promise<void> {
@@ -247,5 +256,6 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
             })
             .filter((entry): entry is DualStoreEntry<'text', 'timestamp'> => Boolean(entry))
             .filter((entry, index, array) => array.findIndex((candidate) => candidate.text === entry.text) === index);
+
     }
 }
