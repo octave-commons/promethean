@@ -140,6 +140,14 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
         });
     }
 
+    getMongoCollection(): Collection<DualStoreEntry<TextKey, TimeKey>> {
+        return this.mongoCollection;
+    }
+
+    getChromaCollection(): ChromaCollection {
+        return this.chromaCollection;
+    }
+
     async insert(entry: DualStoreEntry<TextKey, TimeKey>): Promise<void> {
         const id = entry.id ?? randomUUID();
         const timestampCandidate = pickTimestamp(
