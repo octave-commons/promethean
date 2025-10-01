@@ -1,7 +1,9 @@
 
-### 🧠 **Agent Prompt: Replace `act` with Native CI Simulation**
+### 🧠 **Agent Prompt: Finish the Babashka CI Simulation**
 
-The `simulate-ci` Makefile target previously used `act` to simulate GitHub Actions workflows. However, `act` requires Docker and cannot be used in this environment. Your task is to **replace this dependency** by **natively simulating the GitHub Actions pipeline**.
+The `bb simulate-ci` task currently prints a stub message. Your assignment is to
+finish the native GitHub Actions simulation that `bb` should launch so local
+runs match CI without relying on Docker or `act`.
 
 #### 📘 Reference
 
@@ -11,7 +13,7 @@ GitHub Actions workflows are defined in `.github/workflows/*.yml`.
 
 ### 🛠️ **Goal**
 
-Create a `simulate-ci` Makefile target that:
+Wire up `bb simulate-ci` so it:
 
 1. **Parses the `.github/workflows/` YAML files.**
 2. **Finds the `pull_request` event jobs.**
@@ -22,7 +24,8 @@ Create a `simulate-ci` Makefile target that:
 
 ### 💡 Implementation Hints
 
-* Use a script (e.g. `scripts/simulate_ci.ts` or `.py`) that:
+* Use the existing Python module stub at `scripts/simulate_ci.py` (called by
+  `bb simulate-ci`). It should:
 
   * Loads and parses the YAML.
   * Filters for `on.pull_request` jobs.
@@ -30,12 +33,6 @@ Create a `simulate-ci` Makefile target that:
   * Emulates the job environment (`env`, `run`, `working-directory`).
   * Resolves relative paths from the repo root.
   * Ignores GitHub-only features like `uses:` or container runners unless trivial to handle.
-* Update the Makefile to run this simulation script:
-
-  ```make
-  simulate-ci:
-    node scripts/simulate_ci.js
-  ```
 * Ensure the script prints clearly when:
 
   * A step begins execution.
@@ -55,4 +52,7 @@ Create a `simulate-ci` Makefile target that:
 ### 📢 Important
 
 Do **not** use `act`. This is a native simulation. It must work without Docker.
+Keep the implementation aligned with
+[[Babashka + Nx Automation Reference|../notes/automation/bb-nx-cli.md]] and
+notify the CI owners for review when the workflow changes.
 
