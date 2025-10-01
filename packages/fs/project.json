@@ -31,8 +31,8 @@
         "lint": {
             "executor": "nx:run-commands",
             "options": {
-                "command": "pnpm exec eslint src/ensureDir.ts src/index.ts src/pathUtils.ts src/snapshot.ts src/tree.ts src/util.ts src/ecs.ts src/writeOperations.ts",
-                "cwd": "packages/fs"
+                "command": "eslint .",
+                 "cwd": "packages/fs"
             }
         }
     },

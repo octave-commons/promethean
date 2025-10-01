@@ -45,10 +45,10 @@ so workflows should call the same scripts instead of Makefile wrappers.
 ---
 
 ## ⛓️ Blocked By
-- [audit makefile.hy remnants and confirm deprecation](breakdown-makefile.hy.md)
+- [[breakdown-makefile.hy|audit makefile.hy remnants and confirm deprecation]]
 
 ## ⛓️ Blocks
-- [replace agent automation makefile targets with pnpm scripts](update_makefile_to_have_commands_specific_for_agents_md.md)
+- [[update_makefile_to_have_commands_specific_for_agents_md|replace agent automation makefile targets with pnpm scripts]]
 
 ---
 

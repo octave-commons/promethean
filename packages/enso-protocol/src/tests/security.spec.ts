@@ -1,6 +1,10 @@
 import test from "ava";
 import { generateKeyPairSync } from "node:crypto";
-import { canonicalEnvelope, signEnvelope, verifyEnvelopeSignature } from "../signature.js";
+import {
+  canonicalEnvelope,
+  signEnvelope,
+  verifyEnvelopeSignature,
+} from "../signature.js";
 import type { Envelope } from "../types/envelope.js";
 
 function sampleEnvelope(): Envelope<{ message: string }> {
@@ -24,11 +28,25 @@ test("canonical envelope strips signature", (t) => {
 test("sign and verify envelope signatures", (t) => {
   const { privateKey, publicKey } = generateKeyPairSync("ed25519");
   const envelope = sampleEnvelope();
-  const sig = signEnvelope(envelope, privateKey.export({ type: "pkcs8", format: "pem" }).toString());
+  const sig = signEnvelope(
+    envelope,
+    privateKey.export({ type: "pkcs8", format: "pem" }).toString(),
+  );
   const signed: Envelope<{ message: string }> = { ...envelope, sig };
-  const verified = verifyEnvelopeSignature(signed, publicKey.export({ type: "spki", format: "pem" }).toString());
+  const verified = verifyEnvelopeSignature(
+    signed,
+    publicKey.export({ type: "spki", format: "pem" }).toString(),
+  );
   t.true(verified);
 
-  const tampered: Envelope<{ message: string }> = { ...signed, payload: { message: "tampered" } };
-  t.false(verifyEnvelopeSignature(tampered, publicKey.export({ type: "spki", format: "pem" }).toString()));
+  const tampered: Envelope<{ message: string }> = {
+    ...signed,
+    payload: { message: "tampered" },
+  };
+  t.false(
+    verifyEnvelopeSignature(
+      tampered,
+      publicKey.export({ type: "spki", format: "pem" }).toString(),
+    ),
+  );
 });

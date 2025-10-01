@@ -4,7 +4,10 @@ import { join } from "node:path";
 
 import test from "ava";
 
-import { CrawlerOrchestrator, createOrchestratorServer } from "../orchestrator.js";
+import {
+  CrawlerOrchestrator,
+  createOrchestratorServer,
+} from "../orchestrator.js";
 import type { CrawlConfig } from "../types.js";
 
 const mkTmpDir = async () => mkdtemp(join(tmpdir(), "webcrawler-orch-"));

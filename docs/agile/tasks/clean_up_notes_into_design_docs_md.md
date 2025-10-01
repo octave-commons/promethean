@@ -9,18 +9,18 @@ created_at: '2025-09-15T02:02:58.509Z'
 ## 🛠️ Description
 
 Convert the DocOps/Ollama working notes into canonical design documentation. Source material lives in:
-- [DocOps inbox dump (2025-09-19)](../../inbox/2025.09.19.16.04.44.md)
-- [DocOps feature updates](../../notes/docops-feature-updates.md)
-- [Promethean documentation pipeline overview](../../notes/promethean-documentation-pipeline-overview.md)
-- [Functional embedding pipeline refactor](../../notes/functional-embedding-pipeline-refactor.md)
+- [[docs/inbox/2025.09.19.16.04.44|DocOps inbox dump (2025-09-19)]]
+- [[docops-feature-updates|DocOps feature updates]]
+- [[promethean-documentation-pipeline-overview|Promethean documentation pipeline overview]]
+- [[functional-embedding-pipeline-refactor|Functional embedding pipeline refactor]]
 
-Use the shared design doc template at [docs/templates/file.doc.template.md](../../templates/file.doc.template.md) when drafting updates. As content is migrated, annotate the [unique info dump index](../../notes/unique-info-dump-index.md) so we keep track of what has been normalized.
+Use the shared design doc template at [[file.doc.template|docs/templates/file.doc.template.md]] when drafting updates. As content is migrated, annotate the [[unique-info-dump-index|unique info dump index]] so we keep track of what has been normalized.
 
 Target destinations for the cleaned material:
 - [DocOps pipeline design doc](../../design/docops-pipeline.md)
 - [Ollama pipeline architecture doc](../../architecture/ollama-pipeline.md)
 
-Coordinate deliverables with the follow-up task [add ollama formally to pipeline md](./add_ollama_formally_to_pipeline_md_md.md) so downstream dependencies stay aligned with the refreshed docs.
+Coordinate deliverables with the follow-up task [[add_ollama_formally_to_pipeline_md_md|add ollama formally to pipeline md]] so downstream dependencies stay aligned with the refreshed docs.
 
 ---
 
@@ -34,9 +34,9 @@ Coordinate deliverables with the follow-up task [add ollama formally to pipeline
 
 ## 📦 Requirements
 
-- [ ] Restructure each target design doc to match [docs/templates/file.doc.template.md](../../templates/file.doc.template.md) while incorporating insights from all four source notes.
-- [ ] Update [docs/notes/unique-info-dump-index.md](../../notes/unique-info-dump-index.md) with links back to the normalized sections to prevent duplicate conversions.
-- [ ] Flag any additional work needed directly in [add ollama formally to pipeline md](./add_ollama_formally_to_pipeline_md_md.md) so the dependency reflects the refreshed documentation.
+- [ ] Restructure each target design doc to match [[file.doc.template|docs/templates/file.doc.template.md]] while incorporating insights from all four source notes.
+- [ ] Update [[unique-info-dump-index|docs/notes/unique-info-dump-index.md]] with links back to the normalized sections to prevent duplicate conversions.
+- [ ] Flag any additional work needed directly in [[add_ollama_formally_to_pipeline_md_md|add ollama formally to pipeline md]] so the dependency reflects the refreshed documentation.
 
 ---
 
