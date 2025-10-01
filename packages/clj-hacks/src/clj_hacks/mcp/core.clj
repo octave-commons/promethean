@@ -31,11 +31,15 @@
 (defn resolve-path
   "Resolve `p` relative to `base`, expanding `~` and `$HOME`."
   [base p]
-  (let [s (str p)
-        s (str/replace s #"\\$HOME\\b" (System/getenv "HOME"))
-        s (if (str/starts-with? s "~")
-            (str (System/getenv "HOME") (subs s 1))
-            s)]
+  (let [home (or (System/getenv "HOME")
+                 (System/getProperty "user.home"))
+        s    (str p)
+        s    (if (and home (str/includes? s "$HOME"))
+               (str/replace s "$HOME" home)
+               s)
+        s    (if (and home (str/starts-with? s "~"))
+               (str home (subs s 1))
+               s)]
     (-> (if (fs/absolute? s) s (fs/path base s))
         fs/absolutize
         str)))
