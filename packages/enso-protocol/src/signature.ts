@@ -1,7 +1,13 @@
 import { createPrivateKey, createPublicKey, sign, verify } from "node:crypto";
 import type { Envelope } from "./types/envelope.js";
 
-type CanonicalValue = string | number | boolean | null | CanonicalValue[] | { [key: string]: CanonicalValue };
+type CanonicalValue =
+  | string
+  | number
+  | boolean
+  | null
+  | CanonicalValue[]
+  | { [key: string]: CanonicalValue };
 
 function canonicalize(value: unknown): CanonicalValue {
   if (value === null || typeof value !== "object") {
@@ -33,18 +39,29 @@ export function canonicalEnvelope(envelope: Envelope): string {
   return stableStringify(rest);
 }
 
-export function signEnvelope(envelope: Envelope, privateKeyPem: string): string {
+export function signEnvelope(
+  envelope: Envelope,
+  privateKeyPem: string,
+): string {
   const canonical = canonicalEnvelope(envelope);
   const key = createPrivateKey(privateKeyPem);
   const signature = sign(null, Buffer.from(canonical), key);
   return signature.toString("base64");
 }
 
-export function verifyEnvelopeSignature(envelope: Envelope, publicKeyPem: string): boolean {
+export function verifyEnvelopeSignature(
+  envelope: Envelope,
+  publicKeyPem: string,
+): boolean {
   if (!envelope.sig) {
     return false;
   }
   const canonical = canonicalEnvelope(envelope);
   const key = createPublicKey(publicKeyPem);
-  return verify(null, Buffer.from(canonical), key, Buffer.from(envelope.sig, "base64"));
+  return verify(
+    null,
+    Buffer.from(canonical),
+    key,
+    Buffer.from(envelope.sig, "base64"),
+  );
 }

@@ -84,22 +84,19 @@ const WATCH_GLOBS = () => {
   const ui = path.resolve(process.cwd(), "packages/piper/ui");
   return [`${root}/**/*.ts`, `${root}/**/*.css`, `${ui}/**/*`];
 };
-app.get(
-  "/api/dev-events",
-  async (_req, reply) => {
-    const send = sseInit(reply);
-    // Do NOT emit an immediate update; only on file changes.
-    const watcher = chokidar.watch(WATCH_GLOBS(), { ignoreInitial: true });
-    const rebuild = async () => {
-      send("frontend:update");
-    };
-    watcher.on("all", rebuild);
-    reply.raw.on("close", () => {
-      watcher.off("all", rebuild);
-      void watcher.close();
-    });
-  },
-);
+app.get("/api/dev-events", async (_req, reply) => {
+  const send = sseInit(reply);
+  // Do NOT emit an immediate update; only on file changes.
+  const watcher = chokidar.watch(WATCH_GLOBS(), { ignoreInitial: true });
+  const rebuild = async () => {
+    send("frontend:update");
+  };
+  watcher.on("all", rebuild);
+  reply.raw.on("close", () => {
+    watcher.off("all", rebuild);
+    void watcher.close();
+  });
+});
 await app.register(fastifyStatic, { root: UI_ROOT, prefix: "/ui" });
 await app.register(fastifyStatic, {
   root: FRONTEND_DIST,

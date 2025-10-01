@@ -44,7 +44,7 @@ Makefile, capture the pnpm-based workflow and retire the old automation checklis
 ---
 
 ## ⛓️ Blocked By
-- [replace agent automation makefile targets with pnpm scripts](update_makefile_to_have_commands_specific_for_agents_md.md)
+- [[update_makefile_to_have_commands_specific_for_agents_md|replace agent automation makefile targets with pnpm scripts]]
 
 ## ⛓️ Blocks
 Nothing
