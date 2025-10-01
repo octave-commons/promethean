@@ -283,7 +283,6 @@ kanban-plugin: board
 
 - [ ] [[migrate legacy js services to ts]]
 - [ ] [[pin_versions_in_configs_md|pin versions in configs md]] #ops #codex-task #release-engineering #ci #sre #supply-chain #promethean #ops #codex-task #tags #promethean #versioning #pinning #ci #docker #uv #ollama #openvino #sre #supplychain #in-review
-- [ ] [[describe_github_branching_workflow_md|describe github branching workflow md]] #todo
 
 
 ## Todo (13)
@@ -308,8 +307,41 @@ kanban-plugin: board
 - [ ] [[create-a-generic-markdown-helper-module|create a generic markdown helper module]] #framework-core #framework-core #Ready #todo
 
 
+## Archive
+
+- [ ] [[migrating_relevant_modules_from_riatzukiza_github_md|Migrating relevant modules from `riatzukiza.github.io` to `/sites/` and `/docs/`]] #accepted
+- [ ] [[migrate_portfolio_client_code_to_promethean_md|Migrate portfolio client code to Promethean]] #accepted
+- [ ] [[migrating_relevant_modules_from_riatzukiza_github_io_to_-site-_and_-docs-_md|Migrating relevant modules from riatzukiza.github.io to -site- and -docs-]] #ready
+- [ ] [[extract_docs_from_riatzukiza_github_io_md_md|Extract docs from riatzukiza.github.io]] #accepted
+- [ ] [[add_unit_tests_for_gui_helpers_md_md|Add unit tests for GUI helpers]] #archive
+- [ ] [[extract_site_modules_from_riatzukiza_github_io_md_md|Extract site modules from riatzukiza.github.io]] #framework-core #breakdown
+- [ ] [[flatten-sibilant-src-folders|flatten sibilant src folders]] #todo
+- [ ] [[codex-action-build-file-contextualizer.]] #archive
+- [ ] [[decouple-audio-processing-logic-from-discord|Decouple Audio Processing Logic From Discord]] #archive
+- [ ] [[curate-code-from-personal-repository|Curate code from personal repository]] #archive
+- [ ] [[migrating_relevant_modules_from_riatzukiza_github_md|Migrating relevant modules from `riatzukiza.github.io` to `/sites/` and `/docs/`]] #archive
+- [ ] [[migrate_portfolio_client_code_to_promethean_md|Migrate portfolio client code to Promethean]] #framework-core #archive
+- [ ] [[add-tool-calls-to-codex-context|Add tool calls to codex context]] #archive
+- [ ] [[finish-work-on-gptbridge-agent-integration|Finish work on gptbridge agent integration]] #archive
+- [ ] [[migrating_relevant_modules_from_riatzukiza_github_io_to_-site-_and_-docs-_md|Migrating relevant modules from riatzukiza.github.io to -site- and -docs-]] #framework-core #archive
+- [ ] [[extract_docs_from_riatzukiza_github_io_md_md|Extract docs from riatzukiza.github.io]] #framework-core #archive
+- [ ] [[add_unit_tests_for_gui_helpers_md_md|Add unit tests for GUI helpers]] #codex-task #testing #archive
+- [ ] [[build_tiny_web_page_that_uses_promclient_in_the_br_md|Build tiny web page that uses `PromClient` in the browser to show live `process.state` (optional)]] #archive
+- [ ] [[document_board_sync_workflow_md_md|Document board sync workflow]] #framework-core #archive
+- [ ] [[obsidian_kanban_github_project_board_mirror_system_md_md|Obsidian Kanban Github Project Board Mirror system]] #framework-core #archive
+- [ ] [[pin_versions_in_configs_promethean_codex_md|Pin versions in configs (Promethean + Codex)]] #archive
+- [ ] [[set_up_makefile_for_python_js_build_test_dev_md|Set up Makefile for Python + JS build test dev]] #cicd #buildtools #devtools #devops #archive
+- [ ] [[create_base_readme_md_templates_for_each_service_md|create base readme md templates for each service md]] #doc-this #framework-core #ritual #archive
+- [ ] [[each_service_registers_a_pid_with_a_heartbeat_service_if_they_do_not_successfully_check_in_terminate_the_process_using_the_pid_md_md|each service registers a pid with a heartbeat service if they do not successfully check in terminate the process using the pid md md]] #framework-core #archive
+- [ ] [[look_into_why_the_state_object_never_seems_to_get_updated_md_md|look into why the state object never seems to get updated md md]] #framework-core #archive
+- [ ] [[make_discord_channel_aware_contextualizer_md_md|make discord channel aware contextualizer md md]] #framework-core #archive
+- [ ] [[prevent_dangling_processes_when_a_process_fails_due_to_error_or_automaticly_clean_them_up_1_md_md|prevent dangling processes when a process fails due to error or automaticly clean them up 1 md md]] #framework-core #resources #process-management #aionian #archive
+- [ ] [[send_waveforms_spectrograms_and_dekstop_screenshots_to_discord_for_remote_storage_md_md|send waveforms spectrograms and dekstop screenshots to discord for remote storage md md]] #framework-core #archive
+
+
 ## Done
 
+- [ ] [[describe_github_branching_workflow_md|describe github branching workflow md]] #todo
 - [ ] [[convert-current-services-to-packages--then-redefine-the-services-using-config-files|convert current services to packages, then redefine the services using config files]] #framework-core #framework-core #Ready #ready
 - [ ] codex cloud setup script generates a startup report
 - [ ] [[recover broker code]]
@@ -369,38 +401,6 @@ kanban-plugin: board
 
 ## Archive
 
-- [ ] [[migrating_relevant_modules_from_riatzukiza_github_md|Migrating relevant modules from `riatzukiza.github.io` to `/sites/` and `/docs/`]] #accepted
-- [ ] [[migrate_portfolio_client_code_to_promethean_md|Migrate portfolio client code to Promethean]] #accepted
-- [ ] [[migrating_relevant_modules_from_riatzukiza_github_io_to_-site-_and_-docs-_md|Migrating relevant modules from riatzukiza.github.io to -site- and -docs-]] #ready
-- [ ] [[extract_docs_from_riatzukiza_github_io_md_md|Extract docs from riatzukiza.github.io]] #accepted
-- [ ] [[add_unit_tests_for_gui_helpers_md_md|Add unit tests for GUI helpers]] #archive
-- [ ] [[extract_site_modules_from_riatzukiza_github_io_md_md|Extract site modules from riatzukiza.github.io]] #framework-core #breakdown
-- [ ] [[flatten-sibilant-src-folders|flatten sibilant src folders]] #todo
-- [ ] [[codex-action-build-file-contextualizer.]] #archive
-- [ ] [[decouple-audio-processing-logic-from-discord|Decouple Audio Processing Logic From Discord]] #archive
-- [ ] [[curate-code-from-personal-repository|Curate code from personal repository]] #archive
-- [ ] [[migrating_relevant_modules_from_riatzukiza_github_md|Migrating relevant modules from `riatzukiza.github.io` to `/sites/` and `/docs/`]] #archive
-- [ ] [[migrate_portfolio_client_code_to_promethean_md|Migrate portfolio client code to Promethean]] #framework-core #archive
-- [ ] [[add-tool-calls-to-codex-context|Add tool calls to codex context]] #archive
-- [ ] [[finish-work-on-gptbridge-agent-integration|Finish work on gptbridge agent integration]] #archive
-- [ ] [[migrating_relevant_modules_from_riatzukiza_github_io_to_-site-_and_-docs-_md|Migrating relevant modules from riatzukiza.github.io to -site- and -docs-]] #framework-core #archive
-- [ ] [[extract_docs_from_riatzukiza_github_io_md_md|Extract docs from riatzukiza.github.io]] #framework-core #archive
-- [ ] [[add_unit_tests_for_gui_helpers_md_md|Add unit tests for GUI helpers]] #codex-task #testing #archive
-- [ ] [[build_tiny_web_page_that_uses_promclient_in_the_br_md|Build tiny web page that uses `PromClient` in the browser to show live `process.state` (optional)]] #archive
-- [ ] [[document_board_sync_workflow_md_md|Document board sync workflow]] #framework-core #archive
-- [ ] [[obsidian_kanban_github_project_board_mirror_system_md_md|Obsidian Kanban Github Project Board Mirror system]] #framework-core #archive
-- [ ] [[pin_versions_in_configs_promethean_codex_md|Pin versions in configs (Promethean + Codex)]] #archive
-- [ ] [[set_up_makefile_for_python_js_build_test_dev_md|Set up Makefile for Python + JS build test dev]] #cicd #buildtools #devtools #devops #archive
-- [ ] [[create_base_readme_md_templates_for_each_service_md|create base readme md templates for each service md]] #doc-this #framework-core #ritual #archive
-- [ ] [[each_service_registers_a_pid_with_a_heartbeat_service_if_they_do_not_successfully_check_in_terminate_the_process_using_the_pid_md_md|each service registers a pid with a heartbeat service if they do not successfully check in terminate the process using the pid md md]] #framework-core #archive
-- [ ] [[look_into_why_the_state_object_never_seems_to_get_updated_md_md|look into why the state object never seems to get updated md md]] #framework-core #archive
-- [ ] [[make_discord_channel_aware_contextualizer_md_md|make discord channel aware contextualizer md md]] #framework-core #archive
-- [ ] [[prevent_dangling_processes_when_a_process_fails_due_to_error_or_automaticly_clean_them_up_1_md_md|prevent dangling processes when a process fails due to error or automaticly clean them up 1 md md]] #framework-core #resources #process-management #aionian #archive
-- [ ] [[send_waveforms_spectrograms_and_dekstop_screenshots_to_discord_for_remote_storage_md_md|send waveforms spectrograms and dekstop screenshots to discord for remote storage md md]] #framework-core #archive
-
-
-## Archive
-
 - [ ] [[Fully convert js ts projects to pnpm incoming.md|Fully convert js ts projects to pnpm incoming]] #todo
 - [ ] [[also-bat-man-but-more-so]]
 - [ ] [[define_codex_baseg_agent_md_md|define codex baseg agent md md]] #framework-core #IceBox #todo
@@ -416,6 +416,6 @@ kanban-plugin: board
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","list-collapse":[false,false,true,false,false,false,false,false,false,false,false,true,false,false,false],"new-note-template":"docs/agile/templates/task.stub.template.md","new-note-folder":"docs/agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
+{"kanban-plugin":"board","list-collapse":[false,false,true,false,false,false,false,false,false,false,true,false,false,false,false],"new-note-template":"docs/agile/templates/task.stub.template.md","new-note-folder":"docs/agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
 ```
 %%

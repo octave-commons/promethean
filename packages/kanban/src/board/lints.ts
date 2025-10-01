@@ -172,7 +172,6 @@ const main = async (): Promise<void> => {
       console.error(message);
     });
     process.exit(1);
-    return;
   }
   console.log(`Lint OK: ${files.length} task file(s)`);
 };
