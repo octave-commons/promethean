@@ -236,10 +236,6 @@ if (!hasCompiledTests && !hasDirectJsTests) {
 
 const nodeArguments = ["--enable-source-maps"];
 const moduleMockFlag = "--experimental-test-module-mocks";
-const nodeMajorVersion = Number.parseInt(
-  process.versions.node.split(".")[0],
-  10,
-);
 
 function determineNodeMajorVersion() {
   const version = process.versions?.node;
@@ -268,6 +264,7 @@ if (
 // also gate on the runtime major version to avoid passing invalid execArgv
 // values to older environments.
 if (
+  typeof nodeMajorVersion === "number" &&
   nodeMajorVersion >= 22 &&
   process.allowedNodeEnvironmentFlags?.has(moduleMockFlag) &&
   !nodeArguments.includes(moduleMockFlag)
