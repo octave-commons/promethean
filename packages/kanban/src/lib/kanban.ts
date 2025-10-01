@@ -7,6 +7,7 @@ import {
   refreshTaskIndex,
   indexTasks,
   writeIndexFile,
+  serializeTasks,
 } from "../board/indexer.js";
 import type { IndexTasksOptions } from "../board/indexer.js";
 import type { Board, ColumnData, Task } from "./types.js";
@@ -123,7 +124,7 @@ const resolveTaskSlug = (task: Task, baseName: string): string => {
       ? task.slug.trim()
       : undefined;
   const fallbackSource =
-    sanitizedBase.length > 0 ? sanitizedBase : (task.title ?? sanitizedBase);
+    sanitizedBase.length > 0 ? sanitizedBase : task.title ?? sanitizedBase;
   const slugSource = explicitSlug ?? fallbackSource;
   const normalized = sanitizeFileNameBase(slugSource ?? "");
   if (normalized.length > 0) {
@@ -302,7 +303,7 @@ const parseColumnsFromMarkdown = (markdown: string): ColumnData[] => {
       const title =
         titleClean.length > 0
           ? titleClean
-          : (displayFromWiki ?? linkTarget ?? `Task ${uuid.slice(0, 8)}`);
+          : displayFromWiki ?? linkTarget ?? `Task ${uuid.slice(0, 8)}`;
 
       const done = doneFlag === "x";
       const status = done ? "Done" : current.name;
@@ -1155,7 +1156,7 @@ const ensureTaskContent = (task: Task, fallback?: Task): string => {
   const baseContent =
     task.content && task.content.length > 0
       ? task.content
-      : (fallback?.content ?? "");
+      : fallback?.content ?? "";
   const withBlocked = ensureSectionExists(baseContent, BLOCKED_BY_HEADING);
   return ensureSectionExists(withBlocked, BLOCKS_HEADING);
 };
@@ -1199,7 +1200,7 @@ export const createTask = async (
           BODY: bodyText,
           UUID: uuid,
         })
-      : (input.content ?? bodyText);
+      : input.content ?? bodyText;
 
   if (!contentFromTemplate) {
     contentFromTemplate = "";
@@ -1531,7 +1532,7 @@ export const indexForSearch = async (
     exts: config.exts,
     repoRoot: config.repo,
   } satisfies IndexTasksOptions);
-  const lines = tasksToJsonLines(tasks);
+  const lines = serializeTasks(tasks);
   const shouldWrite = new Set(restArgs).has("--write");
   if (shouldWrite) {
     await writeIndexFile(config.indexFile, lines);
