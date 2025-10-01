@@ -1,59 +1,87 @@
-export function enqueueUtterance(
-    w: any,
-    agent: any,
-    C: ReturnType<typeof import('../components.js').defineAgentComponents>,
-    rawOpts: {
-        id?: string;
-        priority?: number;
-        group?: string;
-        bargeIn?: 'none' | 'duck' | 'pause' | 'stop';
-        factory: () => Promise<any>;
-    },
-) {
-    const { Turn, PlaybackQ, Utterance, AudioRes, Policy } = C;
-    const defaultBarge = (w.get(agent, Policy)?.defaultBargeIn ?? 'pause') as 'none' | 'duck' | 'pause' | 'stop';
-    const opts = {
-        id: rawOpts?.id,
-        priority: rawOpts?.priority ?? 1,
-        group: rawOpts?.group,
-        bargeIn: rawOpts?.bargeIn ?? defaultBarge,
-        factory: rawOpts?.factory,
+import type { Entity, World } from '@promethean/ds/ecs.js';
+
+import type {
+    AgentComponents,
+    AudioResourceFactory,
+    BargeIn,
+    PlaybackQueueComponent,
+    UtteranceComponent,
+} from '../types.js';
+
+export type EnqueueUtteranceOptions = {
+    readonly id?: string;
+    readonly priority?: number;
+    readonly group?: string;
+    readonly bargeIn?: BargeIn;
+    readonly factory: AudioResourceFactory;
+};
+
+const EMPTY_QUEUE: PlaybackQueueComponent = { items: [] };
+
+type NormalizedOptions = {
+    readonly id?: string;
+    readonly priority: number;
+    readonly group?: string;
+    readonly bargeIn: BargeIn;
+    readonly factory: AudioResourceFactory;
+};
+
+const createUtterance = (turnId: number, options: NormalizedOptions): UtteranceComponent => ({
+    id: options.id ?? globalThis.crypto?.randomUUID?.() ?? `${Date.now()}.${Math.random()}`,
+    turnId,
+    priority: options.priority,
+    group: options.group,
+    bargeIn: options.bargeIn,
+    status: 'queued',
+    token: Math.floor(Math.random() * 1_000_000_000),
+});
+
+export const enqueueUtterance = (
+    world: World,
+    agent: Entity,
+    components: AgentComponents,
+    rawOptions: EnqueueUtteranceOptions,
+): void => {
+    const { Turn, PlaybackQ, Utterance, AudioRes, Policy } = components;
+    const policy = world.get(agent, Policy);
+    const defaultBargeIn: BargeIn = policy?.defaultBargeIn ?? 'pause';
+    const options: NormalizedOptions = {
+        id: rawOptions.id,
+        priority: rawOptions.priority ?? 1,
+        group: rawOptions.group,
+        bargeIn: rawOptions.bargeIn ?? defaultBargeIn,
+        factory: rawOptions.factory,
     };
 
-    if (typeof opts.factory !== 'function') {
-        console.warn('[enqueueUtterance] missing factory; dropping', { rawOpts });
-        return; // or throw if you want hard fail
+    if (typeof options.factory !== 'function') {
+        console.warn('[enqueueUtterance] missing factory; dropping', { rawOptions });
+        return;
     }
 
-    const turnId = w.get(agent, Turn)?.id || 0;
-    const pq = w.get(agent, PlaybackQ) ?? { items: [] as number[] };
+    const currentTurn = world.get(agent, Turn)?.id ?? 0;
+    const queue: PlaybackQueueComponent = world.get(agent, PlaybackQ) ?? EMPTY_QUEUE;
 
-    if (opts.group) {
-        for (const uEid of pq.items) {
-            const u = w.get(uEid, Utterance)!;
-            if (u && u.group === opts.group && u.status === 'queued' && u.priority <= (opts.priority ?? 1)) {
-                const cancelled: typeof u = { ...u, status: 'cancelled' };
-                w.set(uEid, Utterance, cancelled);
+    if (options.group) {
+        queue.items.forEach((utteranceEntity) => {
+            const utterance = world.get(utteranceEntity, Utterance);
+            if (
+                utterance &&
+                utterance.group === options.group &&
+                utterance.status === 'queued' &&
+                utterance.priority <= options.priority
+            ) {
+                const cancelled: UtteranceComponent = { ...utterance, status: 'cancelled' };
+                world.set(utteranceEntity, Utterance, cancelled);
             }
-        }
+        });
     }
 
-    const e = w.createEntity();
-    // ---- create utterance entity
-    const utt = {
-        id: opts.id ?? globalThis.crypto?.randomUUID?.() ?? String(Math.random()),
-        turnId,
-        priority: opts.priority,
-        group: opts.group, // may be undefined, fine
-        bargeIn: opts.bargeIn,
-        status: 'queued' as const,
-        token: Math.floor(Math.random() * 1e9),
-    };
-    w.addComponent(e, Utterance, utt);
-    w.addComponent(e, AudioRes, { factory: opts.factory });
+    const utteranceEntity = world.createEntity();
+    const utterance = createUtterance(currentTurn, options);
+    world.addComponent(utteranceEntity, Utterance, utterance);
+    world.addComponent(utteranceEntity, AudioRes, { factory: options.factory });
 
-    // ---- append immutably to next buffer
-    const currentQ = w.get(agent, PlaybackQ) ?? { items: [] as number[] };
-    console.log('adding utterance to queue', currentQ.items, e, 'agent', agent);
-    w.set(agent, PlaybackQ, { items: [...currentQ.items, e] });
-}
+    const latestQueue: PlaybackQueueComponent = world.get(agent, PlaybackQ) ?? EMPTY_QUEUE;
+    const nextItems: ReadonlyArray<Entity> = [...latestQueue.items, utteranceEntity];
+    world.set(agent, PlaybackQ, { items: nextItems });
+};

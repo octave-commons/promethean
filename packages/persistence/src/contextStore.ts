@@ -65,6 +65,24 @@ const normaliseLegacyArgs = ([
     formatAssistantMessages,
 });
 
+const isCompileContextOptions = (
+    value: readonly string[] | CompileContextOptions | undefined,
+): value is CompileContextOptions | undefined => !Array.isArray(value);
+
+const resolveCompileOptions = (
+    value: readonly string[] | CompileContextOptions | undefined,
+    legacyArgs: LegacyCompileArgs,
+): CompileContextOptions => {
+    if (!isCompileContextOptions(value)) {
+        return {
+            ...normaliseLegacyArgs(legacyArgs),
+            texts: value,
+        } satisfies CompileContextOptions;
+    }
+
+    return value ?? {};
+};
+
 const dedupeByText = (entries: readonly GenericEntry[]): GenericEntry[] =>
     entries.filter((entry, index, array) => array.findIndex((candidate) => candidate.text === entry.text) === index);
 
@@ -103,6 +121,15 @@ export class ContextStore {
 
     private getCollectionManagers(): readonly DualStoreManager<string, string>[] {
         return Array.from(this.collections.values());
+    }
+
+
+    collectionCount(): number {
+        return this.collections.size;
+    }
+
+    listCollectionNames(): readonly string[] {
+        return Array.from(this.collections.keys());
     }
 
     async createCollection(
@@ -156,6 +183,7 @@ export class ContextStore {
         const options: CompileContextOptions = Array.isArray(textsOrOptions)
             ? { ...normaliseLegacyArgs(legacyArgs), texts: textsOrOptions }
             : textsOrOptions;
+
 
         const resolvedTexts: readonly string[] = options.texts ?? DEFAULT_COMPILE_OPTIONS.texts;
         const resolved: Required<CompileContextOptions> = {

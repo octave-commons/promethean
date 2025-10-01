@@ -14,23 +14,35 @@ const IGNORE_DIRS = new Set([
  * Recursively list files under `root` matching extensions in `exts`.
  * Hidden files/directories and common build outputs are skipped.
  */
+const isHidden = (name: string): boolean => name.startsWith(".");
+const isLockFile = (name: string): boolean => name.startsWith(".#");
+const shouldInclude = (
+  name: string,
+  extensions: ReadonlySet<string>,
+): boolean => {
+  if (extensions.size === 0) return true;
+  const ext = path.extname(name).toLowerCase();
+  return extensions.has(ext);
+};
+
 export async function listFilesRec(
   root: string,
   exts: Set<string>,
 ): Promise<string[]> {
   const out: string[] = [];
-  async function walk(dir: string) {
+  async function walk(dir: string): Promise<void> {
     const entries = await fs.readdir(dir, { withFileTypes: true });
-    for (const e of entries) {
-      if (e.name.startsWith(".")) continue; // skip hidden
-      const full = path.join(dir, e.name);
-      if (e.isDirectory()) {
-        if (IGNORE_DIRS.has(e.name)) continue;
+    for (const entry of entries) {
+      if (isHidden(entry.name)) continue;
+      const full = path.join(dir, entry.name);
+      if (entry.isDirectory()) {
+        if (IGNORE_DIRS.has(entry.name)) continue;
         await walk(full);
-      } else {
-        if (e.name.startsWith(".#")) continue; // emacs lockfiles
-        const ext = path.extname(e.name).toLowerCase();
-        if (exts.size === 0 || exts.has(ext)) out.push(full);
+        continue;
+      }
+      if (isLockFile(entry.name)) continue;
+      if (shouldInclude(entry.name, exts)) {
+        out.push(full);
       }
     }
   }
