@@ -11,6 +11,24 @@ import { sleep } from "@promethean/utils/sleep.js";
 
 import { startFileWatcher } from "../index.js";
 
+type MemoryBrokerLogEntry = ReturnType<typeof getMemoryBroker>["logs"][number];
+type PublishLogEntry = Extract<MemoryBrokerLogEntry, { action: "publish" }> & {
+  readonly data: { readonly type: string };
+};
+
+function isPublishLogEntry(
+  entry: MemoryBrokerLogEntry,
+): entry is PublishLogEntry {
+  if (entry.action !== "publish") return false;
+  const { data } = entry;
+  return (
+    typeof data === "object" &&
+    data !== null &&
+    "type" in data &&
+    typeof (data as { type?: unknown }).type === "string"
+  );
+}
+
 test("publishes board/task events via memory broker", async (t) => {
   resetMemoryBroker("fw-unit");
   process.env.BROKER_URL = "memory://fw-unit";
@@ -35,9 +53,7 @@ test("publishes board/task events via memory broker", async (t) => {
   await fs.appendFile(task, "y");
   await sleep(200);
 
-  const logs = getMemoryBroker("fw-unit").logs.filter(
-    (l) => l.action === "publish",
-  );
+  const logs = getMemoryBroker("fw-unit").logs.filter(isPublishLogEntry);
   const types = logs.map((l) => l.data.type);
   t.true(types.includes("file-watcher-board-change"));
   t.true(types.includes("file-watcher-task-add"));
