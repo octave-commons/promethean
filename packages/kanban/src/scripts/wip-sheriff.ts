@@ -64,31 +64,42 @@ function extractPreamble(content: string): { preamble: string; body: string } {
 
 // Normalize lane titles (strip "(n)" etc.) — unchanged from earlier advice
 function laneName(title: string): string {
-  const noHash = title.split("#")[0].trim();
+  const [head] = title.split("#", 1);
+  const noHash = (head ?? title).trim();
   return noHash
     .replace(/\s*(?:\(|\[)\d+\s*(?:pts?|points?)?(?:\)|\])\s*$/i, "")
     .trim();
 }
 function parseCapacity(title: string): number | null {
   // Strip trailing hashtags/comments (e.g. "In Progress (5) #doing")
-  const base = title.split("#")[0];
+  const [head] = title.split("#", 1);
+  const base = head ?? title;
 
   // Find the LAST "(number ...)" group in the remaining text.
   const all = Array.from(base.matchAll(/\((\d+)\s*(?:pts?|points?)?\)/g));
-  if (all.length) return parseInt(all[all.length - 1][1], 10);
+  const lastNumeric = all.length > 0 ? all[all.length - 1]?.[1] : undefined;
+  if (typeof lastNumeric === "string") {
+    return parseInt(lastNumeric, 10);
+  }
 
   // (Optional) allow bracket style e.g. "In Progress [5]"
   const alt = base.match(/\[(\d+)\s*(?:pts?|points?)?\]/);
-  return alt ? parseInt(alt[1], 10) : null;
+  const numeric = alt?.[1];
+  return typeof numeric === "string" ? parseInt(numeric, 10) : null;
 }
 
 function extractPointsFromTitle(t: string): number | undefined {
-  const m = t.match(/\[(\d+)\]\s*$/);
-  return m ? parseInt(m[1], 10) : undefined;
+  const match = t.match(/\[(\d+)\]\s*$/);
+  const numeric = match?.[1];
+  return typeof numeric === "string" ? parseInt(numeric, 10) : undefined;
 }
-function slugFromWiki(s: string) {
-  return s.replace(/\[\[|\]\]/g, "").split("|")[0];
-}
+
+const parseWikiTarget = (target: string): { slug: string; title: string } => {
+  const [slugRaw, titleRaw] = target.split("|", 2);
+  const slug = (slugRaw ?? "").trim();
+  const title = (titleRaw ?? slug).trim();
+  return { slug, title };
+};
 
 async function readTask(filepath: string): Promise<Partial<Card>> {
   let txt = "";
@@ -97,14 +108,19 @@ async function readTask(filepath: string): Promise<Partial<Card>> {
   } catch {
     return {};
   }
-  const tags = Array.from(txt.matchAll(/#([\w\-]+)/g), (m) => `#${m[1]}`);
+  const tags = Array.from(txt.matchAll(/#([\w\-]+)/g))
+    .map((match) => match[1])
+    .filter((label): label is string => typeof label === "string")
+    .map((label) => `#${label}`);
   const fmPts = (() => {
-    const m = txt.match(/(?:^|\n)points:\s*(\d+)/i);
-    return m ? parseInt(m[1], 10) : undefined;
+    const match = txt.match(/(?:^|\n)points:\s*(\d+)/i);
+    const numeric = match?.[1];
+    return typeof numeric === "string" ? parseInt(numeric, 10) : undefined;
   })();
   const origin = (() => {
-    const m = txt.match(/(?:^|\n)origin:\s*([^\n]+)/i);
-    return m ? m[1].trim() : undefined;
+    const match = txt.match(/(?:^|\n)origin:\s*([^\n]+)/i);
+    const raw = match?.[1];
+    return typeof raw === "string" ? raw.trim() : undefined;
   })();
   const st = await fs.stat(filepath).catch(() => null);
   return { points: fmPts, tags, origin, mtimeMs: st?.mtimeMs };
@@ -116,11 +132,12 @@ async function parseBoard(md: string): Promise<Board> {
   let current: Lane | null = null;
 
   for (const line of lines) {
-    const h = line.match(/^##\s+(.+)$/);
-    if (h) {
+    const headingMatch = line.match(/^##\s+(.+)$/);
+    const headingTitle = headingMatch?.[1];
+    if (typeof headingTitle === "string") {
       if (current) lanes.push(current);
       // when parsing a heading:
-      const title = h[1].trim();
+      const title = headingTitle.trim();
       current = {
         title,
         name: laneName(title),
@@ -129,17 +146,20 @@ async function parseBoard(md: string): Promise<Board> {
       };
       continue;
     }
-    const it = line.match(/^- \[.\]\s+\[\[([^\]]+)\]\](?:\s+(.+))?$/);
-    if (it && current) {
-      const wikilink = `[[${it[1]}]]`;
-      const suffix = it[2] ?? "";
-      const fileSlug = slugFromWiki(wikilink);
-      const title = fileSlug.includes("|")
-        ? fileSlug.split("|")[1]
-        : fileSlug.split("|")[0];
+    const itemMatch = line.match(/^- \[.\]\s+\[\[([^\]]+)\]\](?:\s+(.+))?$/);
+    if (current && itemMatch) {
+      const rawTarget = itemMatch[1];
+      if (typeof rawTarget !== "string" || rawTarget.trim().length === 0) {
+        continue;
+      }
+      const { slug, title } = parseWikiTarget(rawTarget);
+      if (slug.length === 0) {
+        continue;
+      }
+      const wikilink = `[[${rawTarget}]]`;
       const filepath = path.join(
         TASKS_DIR,
-        fileSlug.endsWith(".md") ? fileSlug : `${fileSlug}.md`,
+        slug.endsWith(".md") ? slug : `${slug}.md`,
       );
       const meta = await readTask(filepath);
       const pts = meta.points ?? extractPointsFromTitle(title) ?? 1;
@@ -166,10 +186,15 @@ function laneUsage(l: Lane): number {
 
 function nearestSafeLeft(lanes: Board, idx: number): number {
   for (let i = idx - 1; i >= 0; i--) {
-    if (lanes[i].capacity == null || lanes[i].title.startsWith(SAFE_LEFT))
-      return i;
+    const lane = lanes[i];
+    if (!lane) continue;
+    if (lane.capacity == null || lane.title.startsWith(SAFE_LEFT)) return i;
   }
-  return Math.max(0, idx - 1);
+  if (lanes.length === 0) {
+    return 0;
+  }
+  const fallback = Math.max(0, idx - 1);
+  return Math.min(fallback, lanes.length - 1);
 }
 
 function pickVictims(l: Lane, need: number): Card[] {
@@ -244,6 +269,9 @@ function renderBoard(lanes: Board, preamble: string, footer: string): string {
         const victims = pickVictims(lane, need);
         const destIdx = nearestSafeLeft(lanes, i);
         const destLane = lanes[destIdx];
+        if (!destLane) {
+          continue;
+        }
         lane.cards = lane.cards.filter((c) => !victims.includes(c));
         destLane.cards.unshift(...victims);
         for (const v of victims) {

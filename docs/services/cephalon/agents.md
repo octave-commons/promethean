@@ -18,13 +18,16 @@ Use `@promethean/legacy/brokerClient.js` (or `AgentBus` wrapping it) for all bro
 
 ## Tooling
 
-- Package manager: prefer `pnpm`. Example:
-  - Install: `pnpm install`
-  - Build: `pnpm run build`
-  - Test: `pnpm test`
-  - Coverage: `pnpm run coverage`
-- The root `Makefile` targets now auto-detect `pnpm` and fall back to `npm` if needed for JS/TS services.
-- When running commands directly in this service, use the scripts from `package.json` with `pnpm`.
+- Package manager: `pnpm` (workspace-aware). Examples:
+  - Install deps: `pnpm install --filter @promethean/cephalon`
+  - Build: `pnpm --filter @promethean/cephalon run build`
+  - Test: `pnpm --filter @promethean/cephalon run test`
+  - Coverage: `pnpm --filter @promethean/cephalon run coverage`
+- Workspace automation: `bb setup`, `bb build`, `bb test`, and
+  `pnpm exec nx affected -t <target>` match what CI runs.
+- See [[Babashka + Nx Automation Reference|../../notes/automation/bb-nx-cli.md]]
+  before updating service docs, and request review from the CI/agent owners
+  after making changes.
 
 ## Commands
 

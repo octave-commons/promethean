@@ -235,10 +235,23 @@ if (!hasCompiledTests && !hasDirectJsTests) {
 }
 
 const nodeArguments = ["--enable-source-maps"];
+const moduleMockFlag = "--experimental-test-module-mocks";
+const nodeMajorVersion = Number.parseInt(
+  process.versions.node.split(".")[0],
+  10,
+);
 
-// Enable Node's module mocking API so AVA exposes t.mock in ExecutionContext.
-if (!nodeArguments.includes("--experimental-test-module-mocks")) {
-  nodeArguments.push("--experimental-test-module-mocks");
+// Enable Node's module mocking API so AVA exposes t.mock in ExecutionContext
+// when the current Node version supports the experimental flag. Node exposes
+// the flag via allowedNodeEnvironmentFlags before worker threads accept it, so
+// also gate on the runtime major version to avoid passing invalid execArgv
+// values to older environments.
+if (
+  nodeMajorVersion >= 22 &&
+  process.allowedNodeEnvironmentFlags?.has(moduleMockFlag) &&
+  !nodeArguments.includes(moduleMockFlag)
+) {
+  nodeArguments.push(moduleMockFlag);
 }
 
 const relativeProjectRoot = path.relative(process.cwd(), projectRoot);

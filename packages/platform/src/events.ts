@@ -7,7 +7,7 @@ export type SocialMessageCreated = {
     created_at: string;
     provider: string;
     tenant: string;
-    provider_payload?: any;
+    provider_payload?: unknown;
 };
 
 export type PostMessage = {
