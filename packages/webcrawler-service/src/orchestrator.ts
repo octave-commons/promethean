@@ -18,9 +18,18 @@ type OrchestratorOptions = {
 type CrawlerFactory = (config: CrawlConfig) => { crawl: () => Promise<void> };
 
 type StartResult = Readonly<{ status: "started" | "running" | "no-seeds" }>;
-type StopResult = Readonly<{ status: "stopped" | "idle" | "error"; error?: string }>;
-type AddSeedResult = Readonly<{ status: "added" | "exists" | "invalid"; url?: string }>;
-type RemoveSeedResult = Readonly<{ status: "removed" | "missing" | "invalid"; url?: string }>;
+type StopResult = Readonly<{
+  status: "stopped" | "idle" | "error";
+  error?: string;
+}>;
+type AddSeedResult = Readonly<{
+  status: "added" | "exists" | "invalid";
+  url?: string;
+}>;
+type RemoveSeedResult = Readonly<{
+  status: "removed" | "missing" | "invalid";
+  url?: string;
+}>;
 type StatusInfo = Readonly<{
   status: "idle" | "running" | "stopping";
   seeds: readonly string[];
@@ -73,7 +82,9 @@ export class CrawlerOrchestrator {
     if (!this.state.seeds.includes(canonical)) {
       return { status: "missing" };
     }
-    this.update({ seeds: this.state.seeds.filter((seed) => seed !== canonical) });
+    this.update({
+      seeds: this.state.seeds.filter((seed) => seed !== canonical),
+    });
     return { status: "removed", url: canonical };
   }
 
@@ -97,7 +108,9 @@ export class CrawlerOrchestrator {
     const run = crawler
       .crawl()
       .catch((error: unknown) => {
-        this.update({ lastError: error instanceof Error ? error : new Error(String(error)) });
+        this.update({
+          lastError: error instanceof Error ? error : new Error(String(error)),
+        });
       })
       .finally(() => {
         this.update({ status: "idle", stopRequested: false, currentRun: null });
@@ -122,7 +135,9 @@ export class CrawlerOrchestrator {
     const error = this.state.lastError;
     this.update({ status: "idle", currentRun: null, lastError: null });
 
-    return error ? { status: "error", error: error.message } : { status: "stopped" };
+    return error
+      ? { status: "error", error: error.message }
+      : { status: "stopped" };
   }
 
   getStatus(): StatusInfo {
@@ -142,16 +157,24 @@ export class CrawlerOrchestrator {
       seeds: this.state.seeds,
       outputDir: this.options.outputDir,
       shouldContinue: () => !this.state.stopRequested,
-      ...(this.options.maxDepth !== undefined ? { maxDepth: this.options.maxDepth } : {}),
-      ...(this.options.maxPages !== undefined ? { maxPages: this.options.maxPages } : {}),
+      ...(this.options.maxDepth !== undefined
+        ? { maxDepth: this.options.maxDepth }
+        : {}),
+      ...(this.options.maxPages !== undefined
+        ? { maxPages: this.options.maxPages }
+        : {}),
       ...(this.options.includeExternal !== undefined
         ? { includeExternal: this.options.includeExternal }
         : {}),
       ...(this.options.requestDelayMs !== undefined
         ? { requestDelayMs: this.options.requestDelayMs }
         : {}),
-      ...(this.options.userAgent !== undefined ? { userAgent: this.options.userAgent } : {}),
-      ...(this.options.fetch !== undefined ? { fetch: this.options.fetch } : {}),
+      ...(this.options.userAgent !== undefined
+        ? { userAgent: this.options.userAgent }
+        : {}),
+      ...(this.options.fetch !== undefined
+        ? { fetch: this.options.fetch }
+        : {}),
     } satisfies CrawlConfig;
   }
 }
@@ -168,7 +191,13 @@ export function createOrchestratorServer(
   return app;
 }
 
-export type { AddSeedResult, RemoveSeedResult, StartResult, StopResult, StatusInfo };
+export type {
+  AddSeedResult,
+  RemoveSeedResult,
+  StartResult,
+  StopResult,
+  StatusInfo,
+};
 
 const addSeedReplyStatus = (status: AddSeedResult["status"]): number =>
   status === "invalid" ? 400 : status === "exists" ? 200 : 200;

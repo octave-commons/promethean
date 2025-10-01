@@ -40,7 +40,7 @@ type PublishCall = {
     readonly options: { readonly key: string };
 };
 
-type EventHandler = (event: Readonly<{ payload: HeartbeatPayload; ts: number }>) => Promise<void>;
+type EventHandler = (event: Readonly<{ payload: HeartbeatPayload; ts: number }>, context?: unknown) => Promise<void>;
 
 type SubscriptionRecord = {
     readonly topic: string;
@@ -117,8 +117,16 @@ function createBus() {
             }
             throw new Error('received more publish calls than expected');
         },
-        async subscribe(topic: string, group: string, onEvent: EventHandler, options: unknown): Promise<void> {
+        async subscribe(
+            topic: string,
+            group: string,
+            onEvent: EventHandler,
+            options: unknown,
+        ): Promise<() => Promise<void>> {
             subscription.resolve({ topic, group, options, handler: onEvent });
+            return async () => {
+                // no-op
+            };
         },
     } as const;
 

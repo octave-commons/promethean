@@ -89,7 +89,10 @@ export class WebCrawler {
     this.userAgent = config.userAgent ?? DEFAULT_USER_AGENT;
     this.requestDelayMs = Math.max(0, config.requestDelayMs ?? 0);
     this.fetchImpl = config.fetch ?? fetch;
-    this.robots = new RobotsManager({ fetch: this.fetchImpl, userAgent: this.userAgent });
+    this.robots = new RobotsManager({
+      fetch: this.fetchImpl,
+      userAgent: this.userAgent,
+    });
     this.allowedHosts = this.includeExternal
       ? []
       : normalizedSeeds.map((seed) => new URL(seed).host);
@@ -102,7 +105,10 @@ export class WebCrawler {
       return;
     }
     await mkdir(this.outputDir, { recursive: true });
-    const initialQueue = this.seeds.map<QueueItem>((url) => ({ url, depth: 0 }));
+    const initialQueue = this.seeds.map<QueueItem>((url) => ({
+      url,
+      depth: 0,
+    }));
     const initialState: CrawlState = {
       queue: initialQueue,
       visited: [],
@@ -146,7 +152,10 @@ export class WebCrawler {
     });
   }
 
-  private skipState(state: CrawlState, queue: readonly QueueItem[]): CrawlState {
+  private skipState(
+    state: CrawlState,
+    queue: readonly QueueItem[],
+  ): CrawlState {
     return {
       queue,
       visited: state.visited,
@@ -168,7 +177,10 @@ export class WebCrawler {
     };
   }
 
-  private async processVisit(current: QueueItem, state: CrawlState): Promise<void> {
+  private async processVisit(
+    current: QueueItem,
+    state: CrawlState,
+  ): Promise<void> {
     if (!this.continueFn()) {
       return;
     }
@@ -219,7 +231,8 @@ export class WebCrawler {
     if (!this.continueFn()) {
       return false;
     }
-    const allowedHost = this.includeExternal || hostIsAllowed(this.allowedHosts, url);
+    const allowedHost =
+      this.includeExternal || hostIsAllowed(this.allowedHosts, url);
     if (!allowedHost) {
       return false;
     }
