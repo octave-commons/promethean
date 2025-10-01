@@ -80,15 +80,17 @@ const sortTasksById = (
 ): ReadonlyArray<IndexedTask> =>
   Object.freeze([...tasks].sort((a, b) => a.id.localeCompare(b.id)));
 
+export type IndexTasksOptions = Readonly<{
+  readonly tasksDir: string;
+  readonly exts: ReadonlySetLike<string>;
+  readonly repoRoot: string;
+}>;
+
 export const indexTasks = async ({
   tasksDir,
   exts,
   repoRoot,
-}: Readonly<{
-  readonly tasksDir: string;
-  readonly exts: ReadonlySetLike<string>;
-  readonly repoRoot: string;
-}>): Promise<ReadonlyArray<IndexedTask>> => {
+}: IndexTasksOptions): Promise<ReadonlyArray<IndexedTask>> => {
   const files = await listFilesRec(tasksDir, new Set(exts));
   const tasks = await Promise.all(
     files.map((filePath) =>
@@ -121,6 +123,13 @@ export const refreshTaskIndex = async (
   await writeFile(config.indexFile, `${lines.join("\n")}\n`, "utf8");
   return tasks;
 };
+export const writeIndexFile = async (
+  indexFilePath: string,
+  lines: ReadonlyArray<string>,
+): Promise<void> => {
+  await writeFile(indexFilePath, `${lines.join("\n")}\n`, "utf8");
+};
+
 
 export const runIndexer = async (
   options?: Readonly<{
@@ -138,7 +147,7 @@ export const runIndexer = async (
   });
   const lines = serializeTasks(tasks);
   if (shouldWrite) {
-    await writeFile(config.indexFile, `${lines.join("\n")}\n`, "utf8");
+    await writeIndexFile(config.indexFile, lines);
     console.log(
       `Wrote ${tasks.length} tasks to ${path.relative(
         config.repo,
@@ -153,13 +162,13 @@ export const runIndexer = async (
   return tasks;
 };
 
-const isCliEntrypoint = (): boolean => {
+const isCliExecution = (): boolean => {
   const entry = process.argv[1];
-  if (!entry) {
+  if (typeof entry !== "string" || entry.length === 0) {
     return false;
   }
-  const current = fileURLToPath(import.meta.url);
-  return path.resolve(entry) === current;
+  const modulePath = fileURLToPath(import.meta.url);
+  return path.resolve(entry) === modulePath;
 };
 
 if (isCliEntrypoint()) {
