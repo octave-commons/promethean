@@ -27,6 +27,9 @@ import { buildForwardAttachmentsScope } from "./actions/forward-attachments.scop
 import registerLlmHandler from "./actions/register-llm-handler.js";
 import { buildRegisterLlmHandlerScope } from "./actions/register-llm-handler.scope.js";
 import { registerNewStyleCommands } from "./bot/registerCommands.js";
+import { defaultPrompt, defaultState, generatePrompt } from "./prompts.js";
+import { LLMService } from "./llm-service.js";
+import { createEnsoChatAgent, EnsoChatAgent } from "./enso/chat-agent.js";
 
 // const VOICE_SERVICE_URL = process.env.VOICE_SERVICE_URL || 'http://localhost:4000';
 
@@ -60,6 +63,8 @@ export class Bot extends EventEmitter {
   captureChannel?: discord.TextChannel;
   desktopChannel?: discord.TextChannel;
   voiceStateHandler?: VoiceStateChangeHandler;
+  ensoChat?: EnsoChatAgent;
+  llm?: LLMService;
 
   constructor(options: BotOptions) {
     super();
@@ -93,6 +98,13 @@ export class Bot extends EventEmitter {
       "created_at",
     );
     await this.context.createCollection("agent_messages", "text", "createdAt");
+    await this.context.createCollection("enso_messages", "content", "created_at");
+
+    // Align LLM broker with bus broker if possible
+    this.llm = new LLMService({
+      brokerUrl: process.env.BROKER_WS_URL || process.env.BROKER_URL,
+    });
+
     await this.client.login(this.token);
     if (DESKTOP_CAPTURE_CHANNEL_ID) {
       try {
@@ -117,6 +129,64 @@ export class Bot extends EventEmitter {
     this.bus = new AgentBus(broker);
     const busScope = await buildRegisterLlmHandlerScope(this);
     registerLlmHandler(busScope);
+
+    // --- ENSO chat bridge (optional) ---
+    const ensoUrl = process.env.ENSO_WS_URL || undefined;
+    const ensoRoom = process.env.ENSO_CHAT_ROOM || 'duck:chat';
+    const privacy = (process.env.DUCK_PRIVACY_PROFILE as any) as
+      | 'pseudonymous'
+      | 'ephemeral'
+      | 'persistent'
+      | undefined;
+    if (ensoUrl || process.env.ENSO_CHAT_ENABLE === '1') {
+      try {
+        this.ensoChat = createEnsoChatAgent({
+          url: ensoUrl,
+          room: ensoRoom,
+          privacyProfile: privacy,
+        });
+        await this.ensoChat.connect();
+        this.ensoChat.on('message', async (evt: any) => {
+          try {
+            const message = evt?.message;
+            const text = Array.isArray(message?.parts)
+              ? (message.parts.find((p: any) => p.kind === 'text')?.text || '')
+              : '';
+            if (!text) return;
+            // store inbound text for context
+            try {
+              const coll = this.context.getCollection('enso_messages');
+              await coll.insert({
+                content: text,
+                created_at: Date.now(),
+                metadata: {
+                  type: 'text',
+                  room: ensoRoom,
+                  messageId: message?.id,
+                  userName: message?.role === 'assistant' ? 'Duck' : 'User',
+                },
+              });
+            } catch (e) {
+              console.warn('Failed to store enso message', e);
+            }
+            // trigger LLM generation via broker; register-llm-handler will TTS and mirror to ENSO
+            if (this.llm) {
+              const ctx = await this.context.compileContext([defaultPrompt]);
+              void this.llm.generate({
+                prompt: generatePrompt(defaultPrompt, defaultState),
+                context: ctx,
+              });
+            }
+          } catch (e) {
+            console.warn('ENSO message handler failed', e);
+          }
+        });
+        console.log('ENSO chat bridge enabled:', ensoUrl || 'local');
+      } catch (e) {
+        console.warn('Failed to enable ENSO chat bridge', e);
+      }
+    }
+    // --- end ENSO chat bridge ---
 
     this.client
       .on(Events.InteractionCreate, async (interaction) => {
