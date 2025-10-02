@@ -1,7 +1,7 @@
 ---
 uuid: 3d7e9f1a-2b3c-4d5e-8f9a-0b1c2d3e4f5a
 title: duck-web — throttled RTCDataChannel sender with backpressure
-status: todo
+status: in-progress
 priority: P1
 labels:
   - duck-web
