@@ -1,0 +1,1 @@
+import test from 'ava';\nimport { clamp16, float32ToInt16 } from '../src/pmc.js';\n\ntest('clamp16 bounds', t => {\n  t.is(clamp16(1), 32767);\n  t.is(clamp16(-1), -32768);\n});\n\ntest('float32ToInt16 maps range', t => {\n  const out = float32ToInt16(new Float32Array([-1, 0, 1]));\n  t.deepEqual(Array.from(out), [-32768, 0, 32767]);\n});\n
