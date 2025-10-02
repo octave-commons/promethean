@@ -1,11 +1,9 @@
 #!/usr/bin/env node
 import http from 'node:http';
-import { randomUUID } from 'node:crypto';
 import { WebSocketServer } from 'ws';
 
 import type { Envelope } from './types/envelope.js';
-import type { HelloCaps, PrivacyProfile } from './types/privacy.js';
-import { resolveHelloPrivacy } from './types/privacy.js';
+import type { HelloCaps } from './types/privacy.js';
 import { EnsoServer, type ServerSession } from './server.js';
 
 const PORT = Number(process.env.PORT ?? process.env.ENSO_PORT ?? 7766);
