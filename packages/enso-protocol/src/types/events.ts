@@ -52,6 +52,17 @@ export type PresencePartPayload = {
   readonly reason?: string;
 };
 
+export type CapsUpdatePayload = {
+  readonly session: string;
+  readonly caps: readonly string[];
+  readonly revision: number;
+  readonly granted?: readonly string[];
+  readonly revoked?: readonly string[];
+  readonly reason?: string;
+  readonly requestId?: string;
+  readonly acknowledgedAt?: string;
+};
+
 export type StatePatchPayload = {
   readonly room?: string;
   readonly diff?: unknown;
@@ -178,6 +189,7 @@ export type EventPayloadMap = {
   readonly "content.burn": ContentBurnPayload;
   readonly "presence.join": PresenceJoinPayload;
   readonly "presence.part": PresencePartPayload;
+  readonly "caps.update": CapsUpdatePayload;
   readonly "state.patch": StatePatchPayload;
   readonly "tool.advertise": ToolAdvertisement;
   readonly "tool.call": ToolCall;
@@ -236,6 +248,7 @@ export type ContentRetractEvent = EventOf<"content.retract">;
 export type ContentBurnEvent = EventOf<"content.burn">;
 export type PresenceJoinEvent = EventOf<"presence.join">;
 export type PresencePartEvent = EventOf<"presence.part">;
+export type CapsUpdateEvent = EventOf<"caps.update">;
 export type StatePatchEvent = EventOf<"state.patch">;
 export type ToolAdvertiseEvent = EventOf<"tool.advertise">;
 export type ToolCallEvent = EventOf<"tool.call">;

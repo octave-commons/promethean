@@ -27,6 +27,7 @@ type SessionRecord = {
   readonly cache?: HelloCaps["cache"];
   readonly connectedAt: string;
   readonly auditLog: Envelope[];
+  capRevision: number;
 };
 
 /** Result of a successful handshake. */
@@ -50,6 +51,15 @@ type HandshakeOptions = {
   readonly privacyProfile?: PrivacyProfile;
   readonly wantsE2E?: boolean;
   readonly evaluationMode?: boolean;
+};
+
+type CapabilityUpdate = {
+  readonly caps?: readonly string[];
+  readonly grant?: readonly string[];
+  readonly revoke?: readonly string[];
+  readonly reason?: string;
+  readonly requestId?: string;
+  readonly broadcast?: boolean;
 };
 
 function mkEnvelope<T>(type: string, payload: T): Envelope<T> {
@@ -129,6 +139,7 @@ export class EnsoServer extends EventEmitter {
       cache: hello.cache,
       connectedAt: new Date().toISOString(),
       auditLog: [],
+      capRevision: 0,
     };
     this.sessions.set(session.id, record);
     this.guardrails.setEvaluationMode(
@@ -193,6 +204,58 @@ export class EnsoServer extends EventEmitter {
     this.recordAudit(sessionId, part);
     this.emit("message", { id: sessionId }, part);
     this.sessions.delete(sessionId);
+  }
+
+  /**
+   * Apply capability changes to a session and broadcast the authoritative set.
+   */
+  updateCapabilities(
+    sessionId: string,
+    update: CapabilityUpdate = {},
+  ): Envelope | undefined {
+    const record = this.sessions.get(sessionId);
+    if (!record) {
+      return undefined;
+    }
+    const current = new Set(record.capabilities);
+    let nextSet: Set<string>;
+    if (update.caps) {
+      nextSet = new Set(update.caps);
+    } else {
+      nextSet = new Set(current);
+      update.grant?.forEach((cap) => nextSet.add(cap));
+      update.revoke?.forEach((cap) => nextSet.delete(cap));
+    }
+    const nextCaps = Array.from(nextSet);
+    const granted = nextCaps.filter((cap) => !current.has(cap));
+    const revoked = [...current].filter((cap) => !nextSet.has(cap));
+    if (granted.length === 0 && revoked.length === 0) {
+      return undefined;
+    }
+    record.capabilities.splice(0, record.capabilities.length, ...nextCaps);
+    record.capRevision += 1;
+    const payload = {
+      session: sessionId,
+      caps: nextCaps,
+      revision: record.capRevision,
+      acknowledgedAt: new Date().toISOString(),
+      ...(granted.length > 0 ? { granted } : {}),
+      ...(revoked.length > 0 ? { revoked } : {}),
+      ...(update.reason ? { reason: update.reason } : {}),
+      ...(update.requestId ? { requestId: update.requestId } : {}),
+    };
+    const envelope = mkEnvelope("caps.update", payload);
+    this.recordAudit(sessionId, envelope);
+    this.emit("message", { id: sessionId }, envelope);
+    if (update.broadcast !== false) {
+      for (const [otherId] of this.sessions) {
+        if (otherId === sessionId) {
+          continue;
+        }
+        this.emit("message", { id: otherId }, envelope);
+      }
+    }
+    return envelope;
   }
 
   /** Dispatch an inbound envelope through the registered router. */
