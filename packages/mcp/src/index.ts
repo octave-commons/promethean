@@ -1,3 +1,4 @@
+import { applyPatchTool } from "./tools/apply-patch.js";
 import {
   tddScaffoldTest,
   tddChangedFiles,
@@ -18,6 +19,19 @@ import { githubRequestTool } from "./tools/github/request.js";
 import { githubGraphqlTool } from "./tools/github/graphql.js";
 import { githubRateLimitTool } from "./tools/github/rate-limit.js";
 import {
+  githubReviewCheckoutBranch,
+  githubReviewCommit,
+  githubReviewCreateBranch,
+  githubReviewGetActionStatus,
+  githubReviewGetComments,
+  githubReviewGetReviewComments,
+  githubReviewOpenPullRequest,
+  githubReviewPush,
+  githubReviewRevertCommits,
+  githubReviewSubmitComment,
+  githubReviewSubmitReview,
+} from "./tools/github/code-review.js";
+import {
   filesListDirectory,
   filesTreeDirectory,
   filesViewFile,
@@ -34,16 +48,47 @@ import {
   processStopTask,
   processUpdateTaskRunnerConfig,
 } from "./tools/process-manager.js";
+import { execRunTool, execListTool } from "./tools/exec.js";
+import {
+  kanbanFindTaskById,
+  kanbanFindTaskByTitle,
+  kanbanGetBoard,
+  kanbanGetColumn,
+  kanbanMoveTask,
+  kanbanSearchTasks,
+  kanbanSyncBoard,
+  kanbanUpdateStatus,
+} from "./tools/kanban.js";
+import { 
+ pnpmAdd,
+  pnpmInstall,
+  pnpmRemove,
+  pnpmRunScript,
+} from "./tools/pnpm.js";
+import { nxGeneratePackage } from "./tools/nx.js";
 import type { ToolFactory } from "./core/types.js";
 import {
   resolveHttpEndpoints,
   resolveStdioTools,
 } from "./core/resolve-config.js";
+import { discordSendMessage, discordListMessages } from "./tools/discord.js";
 
 const toolCatalog = new Map<string, ToolFactory>([
+  ["apply_patch", applyPatchTool],
   ["github.request", githubRequestTool],
   ["github.graphql", githubGraphqlTool],
   ["github.rate-limit", githubRateLimitTool],
+  ["github.review.openPullRequest", githubReviewOpenPullRequest],
+  ["github.review.getComments", githubReviewGetComments],
+  ["github.review.getReviewComments", githubReviewGetReviewComments],
+  ["github.review.submitComment", githubReviewSubmitComment],
+  ["github.review.submitReview", githubReviewSubmitReview],
+  ["github.review.getActionStatus", githubReviewGetActionStatus],
+  ["github.review.commit", githubReviewCommit],
+  ["github.review.push", githubReviewPush],
+  ["github.review.checkoutBranch", githubReviewCheckoutBranch],
+  ["github.review.createBranch", githubReviewCreateBranch],
+  ["github.review.revertCommits", githubReviewRevertCommits],
   ["files.list-directory", filesListDirectory],
   ["files.tree-directory", filesTreeDirectory],
   ["files.view-file", filesViewFile],
@@ -57,6 +102,13 @@ const toolCatalog = new Map<string, ToolFactory>([
   ["process.getQueue", processGetQueue],
   ["process.getStdout", processGetStdout],
   ["process.getStderr", processGetStderr],
+  ["exec.run", execRunTool],
+  ["exec.list", execListTool],
+  ["pnpm.install", pnpmInstall],
+  ["pnpm.add", pnpmAdd],
+  ["pnpm.remove", pnpmRemove],
+  ["pnpm.runScript", pnpmRunScript],
+  ["nx.generatePackage", nxGeneratePackage],
   ["tdd.scaffoldTest", tddScaffoldTest],
   ["tdd.changedFiles", tddChangedFiles],
   ["tdd.runTests", tddRunTests],
@@ -66,6 +118,16 @@ const toolCatalog = new Map<string, ToolFactory>([
   ["tdd.coverage", tddCoverage],
   ["tdd.propertyCheck", tddPropertyCheck],
   ["tdd.mutationScore", tddMutationScore],
+  ["kanban.get-board", kanbanGetBoard],
+  ["kanban.get-column", kanbanGetColumn],
+  ["kanban.find-task", kanbanFindTaskById],
+  ["kanban.find-task-by-title", kanbanFindTaskByTitle],
+  ["kanban.update-status", kanbanUpdateStatus],
+  ["kanban.move-task", kanbanMoveTask],
+  ["kanban.sync-board", kanbanSyncBoard],
+  ["kanban.search", kanbanSearchTasks],
+  ["discord.send-message", discordSendMessage],
+  ["discord.list-messages", discordListMessages],
 ]);
 
 const env = process.env;
@@ -92,12 +154,13 @@ const main = async () => {
 
   if (cfg.transport === "http") {
     const endpoints = resolveHttpEndpoints(cfg);
-    const servers = new Map<string, ReturnType<typeof createMcpServer>>();
-    for (const endpoint of endpoints) {
-      const factories = selectFactories(endpoint.tools);
-      const registry = buildRegistry(factories, ctx);
-      servers.set(endpoint.path, createMcpServer(registry.list()));
-    }
+    const servers = new Map(
+      endpoints.map((endpoint) => {
+        const factories = selectFactories(endpoint.tools);
+        const registry = buildRegistry(factories, ctx);
+        return [endpoint.path, createMcpServer(registry.list())] as const;
+      }),
+    );
 
     const transport = fastifyTransport();
     console.log(

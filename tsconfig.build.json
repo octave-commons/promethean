@@ -115,6 +115,9 @@
     },
     {
       "path": "./packages/ws"
+    },
+    {
+      "path": "./packages/mcp-github-conflicts"
     }
   ]
 }
