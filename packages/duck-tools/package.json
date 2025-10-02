@@ -5,10 +5,13 @@
   "type": "module",
   "bin": { "duck-smoke": "dist/smoke.js" },
   "scripts": {
-    "build": "esrun -o dist src/smoke.ts",
+    "build": "tsc -p tsconfig.json",
     "dev": "node dist/smoke.js",
     "preab": "pnpm run build"
   },
-  "dependencies": { "ts-node": "10.9.2" },
-  "devDependencies": { "typescript": "5.4.5" }
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^5.6.3",
+    "@types/node": "^20.11.30" 
+  }
 }
