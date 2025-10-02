@@ -8,15 +8,15 @@ for ENSO-1.
 | Package | Responsibilities | Status | Next Steps |
 | --- | --- | --- | --- |
 | **`enso-protocol`** | Publish schemas, codecs, and guards shared by all participants. | ✅ Implemented | Continue evolving schemas as new events emerge. |
-| **`enso-gateway`** | Implement WebSocket transport, room registry, policy broadcast, and routing handlers. | ⏳ Pending | Bootstrap the server and handler wiring from the [Gateway Handler Checklist](#gateway-handler-checklist). |
-| **`enso-client`** | Deliver the TypeScript SDK with assets, contexts, cache, and voice helpers. | ⏳ Pending | Flesh out the SDK using the [Client Skeleton](./07-sdk-and-implementation.md#client-skeleton). |
-| **`enso-asset`** | Content-addressed blob store with chunk ingestion and hash verification. | ⏳ Pending | Stand up the store following the [Asset Upload Lifecycle](./09-assets-and-derivations.md#asset-upload-lifecycle). |
-| **`enso-cache`** | Cache registry with LRU/TTL policy, manifests, and deterministic CID helpers. | ⏳ Pending | Implement cache coordination per [Caching and Content Addressing](./10-caching.md). |
-| **`enso-transcode`** | Deterministic derivation runners for PDF, OCR, audio, and video workloads. | ⏳ Pending | Prototype derivation workers aligned with [Derivation Requests](./09-assets-and-derivations.md#derivation-requests). |
-| **`enso-context`** | Context registry, rule evaluation, and LLM view computation. | ⏳ Pending | Build the registry and view builder described in [Context Management and Data Curation](./12-context-management.md). |
-| **`enso-mcp`** | Bridge for MCP mounts and tool execution. | ⏳ Pending | Implement the bridge according to [Model Context Protocol Interop](./08-mcp-integration.md). |
-| **`enso-rituals`** | AVA guardrails verifying Morganna rules, deterministic CIDs, and privacy behaviours. | ⏳ Pending | Codify guardrails from [Rituals (Guardrail Tests)](#rituals-guardrail-tests). |
-| **`enso-cli`** | Developer demo for quick manual testing. | ⏳ Pending | Flesh out the CLI interactions outlined in [Demo CLI Behaviour](#demo-cli-behaviour). |
+| **`enso-gateway`** | Implement WebSocket transport, room registry, policy broadcast, and routing handlers. | ⏳ Pending | Bootstrap the server and handler wiring from the [[#gateway-handler-checklist\|Gateway Handler Checklist]]. |
+| **`enso-client`** | Deliver the TypeScript SDK with assets, contexts, cache, and voice helpers. | ⏳ Pending | Flesh out the SDK using the [[07-sdk-and-implementation#client-skeleton\|Client Skeleton]]. |
+| **`enso-asset`** | Content-addressed blob store with chunk ingestion and hash verification. | ⏳ Pending | Stand up the store following the [[09-assets-and-derivations#asset-upload-lifecycle\|Asset Upload Lifecycle]]. |
+| **`enso-cache`** | Cache registry with LRU/TTL policy, manifests, and deterministic CID helpers. | ⏳ Pending | Implement cache coordination per [[10-caching\|Caching and Content Addressing]]. |
+| **`enso-transcode`** | Deterministic derivation runners for PDF, OCR, audio, and video workloads. | ⏳ Pending | Prototype derivation workers aligned with [[09-assets-and-derivations#derivation-requests\|Derivation Requests]]. |
+| **`enso-context`** | Context registry, rule evaluation, and LLM view computation. | ⏳ Pending | Build the registry and view builder described in [[12-context-management\|Context Management and Data Curation]]. |
+| **`enso-mcp`** | Bridge for MCP mounts and tool execution. | ⏳ Pending | Implement the bridge according to [[08-mcp-integration\|Model Context Protocol Interop]]. |
+| **`enso-rituals`** | AVA guardrails verifying Morganna rules, deterministic CIDs, and privacy behaviours. | ⏳ Pending | Codify guardrails from [[#rituals-guardrail-tests\|Rituals (Guardrail Tests)]]. |
+| **`enso-cli`** | Developer demo for quick manual testing. | ⏳ Pending | Flesh out the CLI interactions outlined in [[#demo-cli-behaviour\|Demo CLI Behaviour]]. |
 
 ## Gateway Handler Checklist
 

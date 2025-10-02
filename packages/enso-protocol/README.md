@@ -1,7 +1,7 @@
 # ENSO Protocol Reference Implementation
 
 A reference implementation of the Promethean ENSO context protocol described in
-[`docs/design/enso.md`](../../docs/design/enso.md) and the detailed series under
+[[enso|`docs/design/enso.md`]] and the detailed series under
 [`docs/design/enso-protocol/`](../../docs/design/enso-protocol/).
 
 ## Modules
@@ -19,15 +19,15 @@ A reference implementation of the Promethean ENSO context protocol described in
 - `router.ts`, `server.ts` – Utility router and event-driven server skeleton for
   dispatching envelopes between participants.
 - `derive.ts` – Canonical derivation helpers mirroring
-  [`10-caching.md`](../../docs/design/enso-protocol/10-caching.md) and
-  [`09-assets-and-derivations.md`](../../docs/design/enso-protocol/09-assets-and-derivations.md).
+  [[10-caching|`10-caching.md`]] and
+  [[09-assets-and-derivations|`09-assets-and-derivations.md`]].
 - `tools.ts` – Room-scoped tool registry supporting advertisements, TTL-checked
   invocations, and `tool.*` envelope helpers.
 - `flow.ts` – Stream sequence tracking, flow-control signalling (`flow.nack`,
   `flow.pause`, `flow.resume`) and degraded state patches per
-  [`04-flow-control-and-reliability.md`](../../docs/design/enso-protocol/04-flow-control-and-reliability.md).
+  [[04-flow-control-and-reliability|`04-flow-control-and-reliability.md`]].
 - `signature.ts` – Canonical envelope serialisation plus Ed25519
-  sign/verify helpers for [`06-security-and-guardrails.md`](../../docs/design/enso-protocol/06-security-and-guardrails.md).
+  sign/verify helpers for [[06-security-and-guardrails|`06-security-and-guardrails.md`]].
 - `transport.ts` – Local transport wiring that links `EnsoClient` to
   `EnsoServer` with handshake + presence events for integration tests.
 - `guardrails.ts` – Morganna guardrail enforcement utilities used to require
@@ -35,7 +35,7 @@ A reference implementation of the Promethean ENSO context protocol described in
 - `cli.ts` – Command-line utilities for listing sources and seeding demo
   contexts.
 - `policy.ts` – Published retention and cache policy defaults aligned with
-  [`11-privacy-and-retention.md`](../../docs/design/enso-protocol/11-privacy-and-retention.md).
+  [[11-privacy-and-retention|`11-privacy-and-retention.md`]].
 
 ## Development
 
@@ -89,7 +89,7 @@ connection.disconnect();
 ```
 
 Missing capabilities raise informative errors (e.g. `missing capability: can.send.text`), mirroring the
-handshake rules in [`03-rooms-and-capabilities.md`](../../docs/design/enso-protocol/03-rooms-and-capabilities.md).
+handshake rules in [[03-rooms-and-capabilities|`03-rooms-and-capabilities.md`]].
 Omitting the `privacy` block defaults the request to the documented `pseudonymous` profile while
 allowing the server to negotiate stricter settings if needed.
 
@@ -122,7 +122,7 @@ const result = await tools.invoke(call);
 ```
 
 `tools.advertisement(provider)` and `tools.invokeEnvelope(call)` generate the
-`tool.*` envelopes described in [`05-tools-and-streams.md`](../../docs/design/enso-protocol/05-tools-and-streams.md).
+`tool.*` envelopes described in [[05-tools-and-streams|`05-tools-and-streams.md`]].
 
 ### Flow control and degraded state reporting
 

@@ -53,9 +53,9 @@ surface areas with immutable data handling.
 
 ## Minimal Feature Checklist (v0.1)
 
-- [x] WebSocket transport with framed envelopes and ping/pong — implemented in [transport.ts](../../../packages/enso-protocol/src/transport.ts) with coverage in [voice-transport.spec.ts](../../../packages/enso-protocol/src/tests/voice-transport.spec.ts).
-- [x] Presence events (`presence.join`, `presence.part`) and `chat.msg` — emitted in [server.ts](../../../packages/enso-protocol/src/server.ts) and exercised by [transport.spec.ts](../../../packages/enso-protocol/src/tests/transport.spec.ts).
-- [x] `voice.frame` streaming with pause/resume and sequence tracking — handled by [client.ts](../../../packages/enso-protocol/src/client.ts) and [flow.ts](../../../packages/enso-protocol/src/flow.ts), verified in [voice-transport.spec.ts](../../../packages/enso-protocol/src/tests/voice-transport.spec.ts).
-- [x] `tool.advertise`, `tool.call`, and `tool.result` covering at least one tool — provided by [tools.ts](../../../packages/enso-protocol/src/tools.ts) with guardrail integration in [server.ts](../../../packages/enso-protocol/src/server.ts) and tested via [tools.spec.ts](../../../packages/enso-protocol/src/tests/tools.spec.ts).
-- [x] Evaluation mode (`room.flags.eval`) requiring `act.rationale` — enforced by [guardrails.ts](../../../packages/enso-protocol/src/guardrails.ts) through the server handshake in [server.ts](../../../packages/enso-protocol/src/server.ts) with scenarios in [guardrails.spec.ts](../../../packages/enso-protocol/src/tests/guardrails.spec.ts).
-- [x] CLI demo linking microphone input to transcript and reply playback — implemented in [cli.ts](../../../packages/enso-protocol/src/cli.ts) with scripted coverage in [cli.spec.ts](../../../packages/enso-protocol/src/tests/cli.spec.ts).
+- [x] WebSocket transport with framed envelopes and ping/pong — implemented in [[transport.ts]] with coverage in [[voice-transport.spec.ts]].
+- [x] Presence events (`presence.join`, `presence.part`) and `chat.msg` — emitted in [[packages/enso-protocol/src/server.ts|server.ts]] and exercised by [[transport.spec.ts]].
+- [x] `voice.frame` streaming with pause/resume and sequence tracking — handled by [[packages/enso-protocol/src/client.ts|client.ts]] and [[packages/enso-protocol/src/flow.ts|flow.ts]], verified in [[voice-transport.spec.ts]].
+- [x] `tool.advertise`, `tool.call`, and `tool.result` covering at least one tool — provided by [[packages/enso-protocol/src/tools.ts|tools.ts]] with guardrail integration in [[packages/enso-protocol/src/server.ts|server.ts]] and tested via [[tools.spec.ts]].
+- [x] Evaluation mode (`room.flags.eval`) requiring `act.rationale` — enforced by [[guardrails.ts]] through the server handshake in [[packages/enso-protocol/src/server.ts|server.ts]] with scenarios in [[guardrails.spec.ts]].
+- [x] CLI demo linking microphone input to transcript and reply playback — implemented in [[packages/enso-protocol/src/cli.ts|cli.ts]] with scripted coverage in [[cli.spec.ts]].
