@@ -35,6 +35,7 @@
     "format": "pnpm exec prettier --write ."
   },
   "dependencies": {
+    "dotenv": "17.2.1",
     "@promethean/pm2-helpers": "workspace:*",
     "jsedn": "0.4.1"
   },
