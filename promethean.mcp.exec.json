@@ -1,0 +1,26 @@
+{
+  "defaultCwd": ".",
+  "defaultTimeoutMs": 60000,
+  "forceKillDelayMs": 5000,
+  "commands": [
+    {
+      "id": "workspace.list",
+      "description": "List files in the workspace root (including dotfiles).",
+      "command": "ls",
+      "args": ["-a"],
+      "allowExtraArgs": true
+    },
+    {
+      "id": "git.status",
+      "description": "Show git status with branch and short summaries.",
+      "command": "git",
+      "args": ["status", "--short", "--branch"]
+    },
+    {
+      "id": "pnpm.list",
+      "description": "List top-level workspace packages via pnpm.",
+      "command": "pnpm",
+      "args": ["list", "--depth", "0"]
+    }
+  ]
+}
