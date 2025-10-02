@@ -46,6 +46,7 @@ import {
   resolveHttpEndpoints,
   resolveStdioTools,
 } from "./core/resolve-config.js";
+import { discordSendMessage, discordListMessages } from "./tools/discord.js";
 
 const toolCatalog = new Map<string, ToolFactory>([
   ["apply_patch", applyPatchTool],
@@ -78,6 +79,8 @@ const toolCatalog = new Map<string, ToolFactory>([
   ["tdd.coverage", tddCoverage],
   ["tdd.propertyCheck", tddPropertyCheck],
   ["tdd.mutationScore", tddMutationScore],
+  ["discord.send-message", discordSendMessage],
+  ["discord.list-messages", discordListMessages],
 ]);
 
 const env = process.env;
