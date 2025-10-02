@@ -52,7 +52,12 @@ wss.on("connection", async (ws, req) => {
   const events = pc.createDataChannel("events"); // outbound to browser
   const audio = pc.createDataChannel("audio"); // optional: send pcm16 frames to browser
   let voice;
-
+let readyCached = false;
+const ensureHandshake = async () => {
+  if (readyCached || handshake.isReady()) { readyCached = true; return true; }
+  try { await handshake.wait(); readyCached = true; return true; }
+  catch { return false; }
+};
   // ICE back to browser
   pc.onicecandidate = (ev) => {
     if (ev.candidate)
