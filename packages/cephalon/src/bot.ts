@@ -153,21 +153,24 @@ export class Bot extends EventEmitter {
               ? (message.parts.find((p: any) => p.kind === 'text')?.text || '')
               : '';
             if (!text) return;
-            // store inbound text for context
-            try {
-              const coll = this.context.getCollection('enso_messages');
-              await coll.insert({
-                content: text,
-                created_at: Date.now(),
-                metadata: {
-                  type: 'text',
-                  room: ensoRoom,
-                  messageId: message?.id,
-                  userName: message?.role === 'assistant' ? 'Duck' : 'User',
-                },
-              });
-            } catch (e) {
-              console.warn('Failed to store enso message', e);
+            // store inbound text for context (respect ENSO privacy profile)
+            if (privacy !== 'ephemeral') {
+              try {
+                const coll = this.context.getCollection('enso_messages');
+                await coll.insert({
+                  content: text,
+                  created_at: Date.now(),
+                  metadata: {
+                    type: 'text',
+                    room: ensoRoom,
+                    messageId: message?.id,
+                    userName:
+                      message?.role === 'assistant' ? 'Duck' : 'User',
+                  },
+                });
+              } catch (e) {
+                console.warn('Failed to store enso message', e);
+              }
             }
             // trigger LLM generation via broker; register-llm-handler will TTS and mirror to ENSO
             if (this.llm) {
