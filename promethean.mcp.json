@@ -20,6 +20,11 @@
     "tdd.coverage",
     "tdd.propertyCheck",
     "tdd.mutationScore",
+    "exec.list",
+    "exec.run",
+    "discord.send-message",
+    "discord.list-messages",
+    "tdd.mutationScore",
     "pnpm.install",
     "pnpm.add",
     "pnpm.remove",
@@ -50,6 +55,39 @@
     },
     "github": {
       "tools": ["github.request", "github.graphql", "github.rate-limit"]
+    },
+    "exec": {
+      "tools": ["exec.list", "exec.run"]
+    },
+    "kanban": {
+      "tools": [
+        "kanban.get-board",
+        "kanban.get-column",
+        "kanban.find-task",
+        "kanban.find-task-by-title",
+        "kanban.update-status",
+        "kanban.move-task",
+        "kanban.sync-board",
+        "kanban.search"
+      ]
+    },
+    "github/review": {
+      "tools": [
+        "github.review.openPullRequest",
+        "github.review.getComments",
+        "github.review.getReviewComments",
+        "github.review.submitComment",
+        "github.review.submitReview",
+        "github.review.getActionStatus",
+        "github.review.commit",
+        "github.review.push",
+        "github.review.checkoutBranch",
+        "github.review.createBranch",
+        "github.review.revertCommits"
+      ]
+    },
+    "discord": {
+      "tools": ["discord.send-message", "discord.list-messages"]
     },
     "workspace": {
       "tools": ["pnpm.install", "pnpm.add", "pnpm.remove", "pnpm.runScript"]

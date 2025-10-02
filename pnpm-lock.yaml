@@ -2676,6 +2676,12 @@ importers:
       '@modelcontextprotocol/sdk':
         specifier: ^1.17.5
         version: 1.17.5
+      '@promethean/discord':
+        specifier: workspace:*
+        version: link:../discord
+      '@promethean/kanban':
+        specifier: workspace:*
+        version: link:../kanban
       '@stryker-mutator/core':
         specifier: ^8.7.1
         version: 8.7.1
@@ -2701,6 +2707,9 @@ importers:
       '@types/node':
         specifier: 20.19.11
         version: 20.19.11
+      esmock:
+        specifier: ^2.7.3
+        version: 2.7.3
       rimraf:
         specifier: 6.0.1
         version: 6.0.1
@@ -14160,7 +14169,7 @@ snapshots:
 
   axios@1.11.0:
     dependencies:
-      follow-redirects: 1.15.11(debug@4.3.7)
+      follow-redirects: 1.15.11(debug@4.4.3)
       form-data: 4.0.4
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -16652,7 +16661,7 @@ snapshots:
   http-proxy@1.18.1:
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.15.11(debug@4.3.7)
+      follow-redirects: 1.15.11(debug@4.4.3)
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
