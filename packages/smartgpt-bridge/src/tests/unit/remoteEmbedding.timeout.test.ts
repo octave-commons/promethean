@@ -15,7 +15,7 @@ test.serial(
         await new Promise((resolve) => setTimeout(resolve, 200));
         return [[0.5, 0.5, 0.5]];
       });
-      const ref = new RemoteEmbeddingFunction(undefined, "driverX", "fnY");
+      const ref = new RemoteEmbeddingFunction({ driver: "driverX", fn: "fnY" });
       await t.throwsAsync(() => ref.generate(["hello"]), {
         message: /embedding timeout/i,
       });
