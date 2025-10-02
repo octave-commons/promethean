@@ -18,7 +18,9 @@
     "tdd.stopWatch",
     "tdd.coverage",
     "tdd.propertyCheck",
-    "tdd.mutationScore"
+    "tdd.mutationScore",
+    "exec.list",
+    "exec.run"
   ],
   "endpoints": {
     "process": {
@@ -44,6 +46,9 @@
     },
     "github": {
       "tools": ["github.request", "github.graphql", "github.rate-limit"]
+    },
+    "exec": {
+      "tools": ["exec.list", "exec.run"]
     }
   }
 }

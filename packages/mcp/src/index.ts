@@ -34,6 +34,7 @@ import {
   processStopTask,
   processUpdateTaskRunnerConfig,
 } from "./tools/process-manager.js";
+import { execRunTool, execListTool } from "./tools/exec.js";
 import type { ToolFactory } from "./core/types.js";
 import {
   resolveHttpEndpoints,
@@ -57,6 +58,8 @@ const toolCatalog = new Map<string, ToolFactory>([
   ["process.getQueue", processGetQueue],
   ["process.getStdout", processGetStdout],
   ["process.getStderr", processGetStderr],
+  ["exec.run", execRunTool],
+  ["exec.list", execListTool],
   ["tdd.scaffoldTest", tddScaffoldTest],
   ["tdd.changedFiles", tddChangedFiles],
   ["tdd.runTests", tddRunTests],
@@ -92,12 +95,13 @@ const main = async () => {
 
   if (cfg.transport === "http") {
     const endpoints = resolveHttpEndpoints(cfg);
-    const servers = new Map<string, ReturnType<typeof createMcpServer>>();
-    for (const endpoint of endpoints) {
-      const factories = selectFactories(endpoint.tools);
-      const registry = buildRegistry(factories, ctx);
-      servers.set(endpoint.path, createMcpServer(registry.list()));
-    }
+    const servers = new Map(
+      endpoints.map((endpoint) => {
+        const factories = selectFactories(endpoint.tools);
+        const registry = buildRegistry(factories, ctx);
+        return [endpoint.path, createMcpServer(registry.list())] as const;
+      }),
+    );
 
     const transport = fastifyTransport();
     console.log(

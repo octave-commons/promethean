@@ -40,6 +40,33 @@ Run:
 pnpm --filter @promethean/mcp dev -- --config ./promethean.mcp.json
 ```
 
+### Exec command allowlist
+
+`exec.run` executes only commands declared in an allowlist. The loader checks for:
+
+1. `MCP_EXEC_CONFIG` → explicit JSON file path.
+2. `MCP_EXEC_COMMANDS_JSON` → inline JSON payload.
+3. Nearest `promethean.mcp.exec.json` when walking up from `cwd`.
+
+Each config file looks like:
+
+```json
+{
+  "defaultCwd": ".",
+  "defaultTimeoutMs": 60000,
+  "commands": [
+    {
+      "id": "git.status",
+      "description": "Short git status from repo root",
+      "command": "git",
+      "args": ["status", "--short", "--branch"]
+    }
+  ]
+}
+```
+
+Use `exec.list` to introspect the active allowlist at runtime.
+
 ## Design
 
 - Functional, pure tool factories (`(ctx) => { spec, invoke }`).
@@ -53,4 +80,6 @@ pnpm --filter @promethean/mcp dev -- --config ./promethean.mcp.json
 This is a scaffold extracted to consolidate multiple MCP servers into one package. GitHub tools live under `src/tools/github/*`.
 
 ## Tools
+- exec.list — enumerate allowlisted shell commands and metadata.
+- exec.run — run an allowlisted shell command with optional args when enabled.
 - files.search — grep-like content search returning path/line/snippet triples.
