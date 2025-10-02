@@ -9,8 +9,10 @@ import {
   connectLocal,
   ToolRegistry,
 } from '@promethean/enso-protocol';
+import type { HelloCaps } from '@promethean/enso-protocol';
+import type { ToolCall } from '@promethean/enso-protocol/dist/types/tools.js';
 
-export type ChatRole = 'human' | 'assistant' | 'system';
+export type ChatRole = 'human' | 'agent' | 'system';
 
 export type ChatAgentOpts = {
   /** ENSO ws:// url. If omitted, a local in-memory server is used (for tests/dev). */
@@ -35,7 +37,8 @@ export type ChatEvent =
 export class EnsoChatAgent extends EventEmitter {
   private client: EnsoClient;
   private server?: EnsoServer; // only in local mode
-  private disconnect?: () => void;
+  private wsHandle?: { close: (code?: number, reason?: string) => Promise<void> };
+  private localHandle?: { disconnect: () => void };
   private readonly room: string;
   private readonly tools = new ToolRegistry();
   private readonly serverId = 'cephalon-duck';
@@ -48,21 +51,20 @@ export class EnsoChatAgent extends EventEmitter {
 
   /** Connect to ENSO, either over ws:// or locally for tests */
   async connect(): Promise<void> {
-    const hello = {
-      proto: 'ENSO-1' as const,
-      caps: ['can.send.text', 'can.context.apply', 'can.tool.call'] as const,
+    const hello: HelloCaps = {
+      caps: ['can.send.text', 'can.context.apply', 'can.tool.call'],
       agent: { name: 'duck', version: '0.1.0' },
       privacy: this.opts.privacyProfile ? { profile: this.opts.privacyProfile } : undefined,
-    };
+    } as any;
 
     if (this.opts.url) {
       const handle = connectWebSocket(this.client, this.opts.url, hello);
-      this.disconnect = handle.disconnect;
+      this.wsHandle = { close: handle.close };
     } else {
       // local loop for tests/dev
       this.server = new EnsoServer();
       const { disconnect } = await connectLocal(this.client, this.server, hello);
-      this.disconnect = disconnect;
+      this.localHandle = { disconnect };
     }
 
     // register + advertise our native tools
@@ -79,8 +81,8 @@ export class EnsoChatAgent extends EventEmitter {
 
     // answer tool.call for tools we advertised
     this.client.on('event:tool.call', async (env) => {
-      const call = env.payload;
-      if (call.provider !== 'native' || call.serverId !== this.serverId) return;
+      const call = env.payload as unknown as ToolCall;
+      if ((call as any)?.provider !== 'native' || (call as any)?.serverId !== this.serverId) return;
       try {
         const resultEnv = await this.tools.invokeEnvelope(call);
         this.client.send(resultEnv);
@@ -93,7 +95,7 @@ export class EnsoChatAgent extends EventEmitter {
           from: 'enso-tool-registry',
           kind: 'event',
           type: 'tool.result',
-          payload: { callId: call.callId, ok: false, error: String((err as any)?.message ?? err) },
+          payload: { callId: (call as any)?.callId, ok: false, error: String((err as any)?.message ?? err) },
         });
       }
     });
@@ -108,14 +110,16 @@ export class EnsoChatAgent extends EventEmitter {
       role,
       parts: [{ kind: 'text', text }],
       when: Date.now(),
-    };
-    await this.client.post({ room: this.room, message });
+    } as any;
+    await this.client.post(message, { room: this.room });
   }
 
   /** Clean shutdown */
   async dispose(): Promise<void> {
-    this.disconnect?.();
-    this.disconnect = undefined;
+    if (this.wsHandle) await this.wsHandle.close();
+    this.localHandle?.disconnect();
+    this.wsHandle = undefined;
+    this.localHandle = undefined;
   }
 
   private registerTools() {

@@ -1,5 +1,4 @@
 import type { AgentBus } from "@promethean/agent-ecs/bus.js";
-import type { ContextStore } from "@promethean/persistence/contextStore.js";
 
 import type { Bot } from "../bot.js";
 import type { EnsoChatAgent } from "../enso/chat-agent.js";
@@ -9,7 +8,7 @@ export type RegisterLlmHandlerScope = {
   getAgentWorld: () => any;
   getVoiceSession: () => any;
   getEnsoChat: () => EnsoChatAgent | undefined;
-  getContext: () => ContextStore;
+  getContext: () => any;
 };
 
 export async function buildRegisterLlmHandlerScope(

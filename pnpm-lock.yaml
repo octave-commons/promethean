@@ -509,6 +509,9 @@ importers:
       '@promethean/embedding':
         specifier: workspace:*
         version: link:../embedding
+      '@promethean/enso-protocol':
+        specifier: workspace:*
+        version: link:../enso-protocol
       '@promethean/legacy':
         specifier: workspace:*
         version: link:../legacy
@@ -14090,7 +14093,7 @@ snapshots:
 
   axios@1.11.0:
     dependencies:
-      follow-redirects: 1.15.11(debug@4.3.7)
+      follow-redirects: 1.15.11(debug@4.4.3)
       form-data: 4.0.4
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -16582,7 +16585,7 @@ snapshots:
   http-proxy@1.18.1:
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.15.11(debug@4.3.7)
+      follow-redirects: 1.15.11(debug@4.4.3)
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
