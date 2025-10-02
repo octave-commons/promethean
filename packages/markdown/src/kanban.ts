@@ -143,7 +143,7 @@ const cloneCard = (card: Card): Card => ({
 const ensureId = (value: string | undefined): string => value ?? randomUUID();
 
 const parseCardLine = (body: string, isDone: boolean): { readonly card: Card; readonly hasInlineId: boolean } => {
-    const commentMatch = body.match(/([\s\S]*?)<!--\s*id:\s*([A-Za-z0-9._:-]+)\s*-->\s*$/u);
+    const commentMatch = body.match(/([\s\S]*)<!--\s*id:\s*([A-Za-z0-9._:-]+)\s*-->\s*$/u);
     const withoutComment = commentMatch ? commentMatch[1] ?? '' : body;
     const inlineId = commentMatch?.[2];
     const attrsMatch = withoutComment.match(/\{[^}]+\}\s*$/u);
