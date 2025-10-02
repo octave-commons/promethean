@@ -15,7 +15,7 @@ test("RemoteEmbeddingFunction: image url item mapping", async (t) => {
     captured.push([...inputs]);
     return inputs.map(() => [0.1, 0.2, 0.3]);
   });
-  const ref = new RemoteEmbeddingFunction(undefined, "driverX", "fnY");
+  const ref = new RemoteEmbeddingFunction({ driver: "driverX", fn: "fnY" });
   const out = await ref.generate([
     { type: "image_url", data: "https://example.com/i.png" },
   ]);
