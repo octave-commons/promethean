@@ -4,20 +4,21 @@ Single MCP server module with composable, pure tools. ESM-only, Fastify HTTP tra
 
 ## Run
 
-### Config options
+### Unified configuration
 
-You can now configure via **file** or **env** (env kept for back-compat):
+`@promethean/mcp` reads a single JSON manifest and optionally merges an EDN proxy catalog when the HTTP transport is active. The
+loader resolves configuration in the following order (highest precedence first):
 
-1. **Explicit file path** (highest precedence)
-   ```bash
-   pnpm --filter @promethean/mcp dev -- --config ./promethean.mcp.json
-   # or
-   pnpm --filter @promethean/mcp dev -- -c ./config/mcp.json
-   ```
-2. **Auto-detect** `promethean.mcp.json` by walking up from `cwd`.
-3. **Legacy env**: `MCP_CONFIG_JSON` containing JSON.
+1. `--config` / `-c` CLI flag (path resolved from `cwd`).
+2. Nearest `promethean.mcp.json` discovered by walking up from `cwd`.
+3. Legacy `MCP_CONFIG_JSON` environment variable containing inline JSON.
 
-### Example config file
+When `transport` is set to `"http"`, the runtime binds every endpoint declared in the JSON manifest *and* boots stdio proxies
+described in the optional `stdioProxyConfig` EDN file. Each EDN entry maps to a spawned stdio process that is exposed at the
+declared `:http-path` (defaulting to `/<name>/mcp`).
+
+### Example `promethean.mcp.json`
+
 ```json
 {
   "transport": "http",
@@ -33,21 +34,19 @@ You can now configure via **file** or **env** (env kept for back-compat):
     "files.search",
     "discord.send-message",
     "discord.list-messages"
-  ]
+  ],
+  "endpoints": {
+    "github": { "tools": ["github.request", "github.graphql"] }
+  },
+  "stdioProxyConfig": "./config/mcp_servers.edn"
 }
 ```
 
-Run:
+Running with this manifest will expose both the GitHub endpoint defined in JSON and any stdio servers declared in
+`config/mcp_servers.edn` on the same Fastify instance:
+
 ```bash
 pnpm --filter @promethean/mcp dev -- --config ./promethean.mcp.json
-```
-
-### Proxy stdio MCP servers over HTTP
-
-To expose the stdio-based MCP servers defined in `config/mcp_servers.edn` via HTTP (useful for remote clients), run:
-
-```bash
-pnpm --filter @promethean/mcp proxy -- --config ./config/mcp_servers.edn --port 3923
 ```
 
 Each server will be available at `http://<host>:<port>/<name>/mcp` unless you set `:http-path` in the EDN entry. Use `--prefix` to prepend a base path (e.g., `/mcp`).
@@ -62,6 +61,7 @@ configured tools, while proxy descriptors delegate directly to the underlying
 `StdioHttpProxy`. When the transport starts it boots any stdio proxies before
 listening, and shutdown waits for those proxies to exit before closing
 Fastify.
+
 
 ### Exec command allowlist
 

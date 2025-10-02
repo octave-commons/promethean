@@ -8,6 +8,28 @@ import type { IncomingMessage, ServerResponse } from "node:http";
 import { createSessionIdGenerator } from "./session-id.js";
 import type { StdioHttpProxy } from "../../proxy/stdio-proxy.js";
 
+
+type ServerEntries = ReadonlyArray<readonly [string, McpServer]>;
+
+const toEntries = (input: unknown): ServerEntries => {
+  if (!input) return [];
+  if (input instanceof Map) {
+    return Array.from(input.entries());
+  }
+  if (
+    typeof input === "object" &&
+    input !== null &&
+    "connect" in (input as Record<string, unknown>) &&
+    typeof (input as Record<string, unknown>)["connect"] === "function"
+  ) {
+    return [["/mcp", input as McpServer]];
+  }
+  if (typeof input === "object" && input !== null) {
+    return Object.entries(input as Record<string, McpServer>);
+  }
+  return [["/mcp", input as McpServer]];
+};
+
 const normalizePath = (p: string): string => (p.startsWith("/") ? p : `/${p}`);
 
 const createRouteHandler = (
@@ -243,6 +265,27 @@ const createProxyHandler = (proxy: ProxyLifecycle) => {
     }
   };
 };
+const createProxyRouteHandler = (proxy: StdioHttpProxy) =>
+  async function handler(req: any, reply: any) {
+    reply.hijack();
+    try {
+      const body = req.body as Buffer | undefined;
+      await proxy.handle(req.raw, reply.raw, body);
+    } catch (error) {
+      console.error(
+        `[mcp:http] proxy ${proxy.spec.name} request failed:`,
+        error,
+      );
+      if (!reply.raw.headersSent) {
+        reply.raw.writeHead(500, { "content-type": "application/json" }).end(
+          JSON.stringify({
+            error: "proxy_failure",
+            name: proxy.spec.name,
+          }),
+        );
+      }
+    }
+  };
 
 export const fastifyTransport = (opts?: {
   port?: number;
@@ -268,124 +311,85 @@ export const fastifyTransport = (opts?: {
     string,
     Map<string, StreamableHTTPServerTransport>
   >();
-  const activeProxies = new Set<ProxyLifecycle>();
-  const proxyRoutes = new Map<ProxyLifecycle, string>();
-  let started = false;
+  const activeProxies: StdioHttpProxy[] = [];
 
   return {
-    start: async (input?: unknown) => {
-      if (started) {
-        throw new Error("fastifyTransport has already been started");
-      }
+    start: async (server?: unknown, proxiesInput?: unknown) => {
+      const entries = toEntries(server);
+      const proxyList = Array.isArray(proxiesInput)
+        ? (proxiesInput as readonly StdioHttpProxy[])
+        : [];
 
-      const descriptors = ensureEndpointDescriptors(input);
-      if (descriptors.length === 0) {
+      if (entries.length === 0 && proxyList.length === 0) {
         throw new Error(
-          "fastifyTransport requires at least one endpoint descriptor",
+          "fastifyTransport requires at least one MCP server or proxy",
         );
       }
 
-      const seenPaths = new Set<string>();
-      const proxyList: ProxyLifecycle[] = [];
-      const normalizedDescriptors = descriptors.map((descriptor) => ({
-        ...descriptor,
-        path: normalizePath(descriptor.path),
+      sessionStores.clear();
+
+      const normalizedEntries = entries.map(
+        ([route, srv]) => [normalizePath(route), srv] as const,
+      );
+      const normalizedProxies = proxyList.map((proxy) => ({
+        proxy,
+        route: normalizePath(proxy.spec.httpPath),
       }));
 
-      for (const descriptor of normalizedDescriptors) {
-        if (seenPaths.has(descriptor.path)) {
-          throw new Error(`Duplicate MCP endpoint path: ${descriptor.path}`);
+      const seenRoutes = new Set<string>();
+      for (const [route] of normalizedEntries) {
+        if (seenRoutes.has(route)) {
+          throw new Error(`Duplicate MCP endpoint path: ${route}`);
         }
-        seenPaths.add(descriptor.path);
-
-        if (descriptor.kind === "registry") {
-          const sessions = new Map<string, StreamableHTTPServerTransport>();
-          sessionStores.set(descriptor.path, sessions);
-          app.post(
-            descriptor.path,
-            createRouteHandler(descriptor.handler, sessions),
-          );
-          console.log(`[mcp:http] bound endpoint ${descriptor.path}`);
-        } else {
-          proxyRoutes.set(descriptor.handler, descriptor.path);
-          proxyList.push(descriptor.handler);
-          app.all(descriptor.path, createProxyHandler(descriptor.handler));
-          console.log(`[mcp:http] bound proxy endpoint ${descriptor.path}`);
-        }
+        seenRoutes.add(route);
       }
 
+      for (const { route } of normalizedProxies) {
+        if (seenRoutes.has(route)) {
+          throw new Error(`Duplicate MCP endpoint path: ${route}`);
+        }
+        seenRoutes.add(route);
+      }
+
+      const startedProxies: StdioHttpProxy[] = [];
+
       try {
-        for (const proxy of proxyList) {
+        for (const [route, srv] of normalizedEntries) {
+          const sessions = new Map<string, StreamableHTTPServerTransport>();
+          sessionStores.set(route, sessions);
+          app.post(route, createRouteHandler(srv, sessions));
+          console.log(`[mcp:http] bound endpoint ${route}`);
+        }
+
+        for (const { proxy, route } of normalizedProxies) {
           await proxy.start();
-          activeProxies.add(proxy);
-          const spec = proxy.spec;
-          const command = spec
-            ? `${spec.command}${
-                spec.args.length > 0 ? ` ${spec.args.join(" ")}` : ""
-              }`
-            : "<unknown>";
-          const proxyPath = proxyRoutes.get(proxy) ?? "<unknown>";
+          startedProxies.push(proxy);
+          app.post(route, createProxyRouteHandler(proxy));
           console.log(
-            `[mcp:http] started proxy ${
-              spec?.name ?? proxyPath
-            }: ${command}`.trim(),
+            `[mcp:http] proxied stdio server ${proxy.spec.name} at ${route}`,
           );
         }
 
         await app.listen({ port, host } as any);
-        started = true;
+        activeProxies.push(...startedProxies);
         console.log(`[mcp:http] listening on http://${host}:${port}`);
       } catch (error) {
-        const proxies = [...activeProxies];
-        activeProxies.clear();
-        proxyRoutes.clear();
-        sessionStores.clear();
-        await Promise.allSettled(proxies.map((proxy) => proxy.stop()));
-        try {
-          await app.close();
-        } catch {
-          /* ignore close errors during startup */
-        }
+        await Promise.allSettled(
+          startedProxies.map(async (proxy) => {
+            try {
+              await proxy.stop();
+            } catch {
+              /* ignore */
+            }
+          }),
+        );
         throw error;
       }
     },
     stop: async () => {
-      if (!started) return;
-      started = false;
-
-      const proxies = [...activeProxies];
-      activeProxies.clear();
-      proxyRoutes.clear();
-      sessionStores.clear();
-
-      const proxyResults = await Promise.allSettled(
-        proxies.map((proxy) => proxy.stop()),
-      );
-
-      const errors: unknown[] = proxyResults
-        .filter(
-          (result): result is PromiseRejectedResult =>
-            result.status === "rejected",
-        )
-        .map((result) => result.reason);
-
-      let fastifyError: unknown;
-      try {
-        await app.close();
-      } catch (error) {
-        fastifyError = error;
-      }
-
-      if (fastifyError) {
-        errors.push(fastifyError);
-      }
-
-      if (errors.length > 0) {
-        throw new AggregateError(
-          errors,
-          "Failed to gracefully stop fastify transport",
-        );
-      }
+      await app.close();
+      const toStop = activeProxies.splice(0, activeProxies.length);
+      await Promise.allSettled(toStop.map((proxy) => proxy.stop()));
     },
   };
 };
