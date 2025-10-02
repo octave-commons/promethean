@@ -65,6 +65,7 @@ import {
   pnpmRemove,
   pnpmRunScript,
 } from "./tools/pnpm.js";
+import { nxGeneratePackage } from "./tools/nx.js";
 import type { ToolFactory } from "./core/types.js";
 import {
   resolveHttpEndpoints,
@@ -107,6 +108,7 @@ const toolCatalog = new Map<string, ToolFactory>([
   ["pnpm.add", pnpmAdd],
   ["pnpm.remove", pnpmRemove],
   ["pnpm.runScript", pnpmRunScript],
+  ["nx.generatePackage", nxGeneratePackage],
   ["tdd.scaffoldTest", tddScaffoldTest],
   ["tdd.changedFiles", tddChangedFiles],
   ["tdd.runTests", tddRunTests],
