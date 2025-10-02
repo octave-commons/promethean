@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "@fastify/static": "^7.0.4",
+    "@promethean/kanban": "workspace:*",
     "@modelcontextprotocol/sdk": "^1.17.5",
     "@stryker-mutator/core": "^8.7.1",
     "@promethean/discord": "workspace:*",

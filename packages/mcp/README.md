@@ -56,6 +56,12 @@ This is a scaffold extracted to consolidate multiple MCP servers into one packag
 
 ## Tools
 - files.search — grep-like content search returning path/line/snippet triples.
+- kanban.get-board — load the configured kanban board with all columns/tasks.
+- kanban.get-column — fetch a single column from the board.
+- kanban.find-task / kanban.find-task-by-title — locate tasks by UUID or exact title.
+- kanban.update-status / kanban.move-task — move tasks between columns or reorder them.
+- kanban.sync-board — reconcile board ordering with task markdown files.
+- kanban.search — run fuzzy/exact search over board tasks.
 - github.review.* — GitHub pull request management helpers (open PRs, fetch comments,
   submit reviews, inspect checks, and run supporting git commands).
 

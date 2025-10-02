@@ -49,7 +49,17 @@ import {
   processUpdateTaskRunnerConfig,
 } from "./tools/process-manager.js";
 import {
-  pnpmAdd,
+  kanbanFindTaskById,
+  kanbanFindTaskByTitle,
+  kanbanGetBoard,
+  kanbanGetColumn,
+  kanbanMoveTask,
+  kanbanSearchTasks,
+  kanbanSyncBoard,
+  kanbanUpdateStatus,
+} from "./tools/kanban.js";
+import { 
+ pnpmAdd,
   pnpmInstall,
   pnpmRemove,
   pnpmRunScript,
@@ -103,6 +113,14 @@ const toolCatalog = new Map<string, ToolFactory>([
   ["tdd.coverage", tddCoverage],
   ["tdd.propertyCheck", tddPropertyCheck],
   ["tdd.mutationScore", tddMutationScore],
+  ["kanban.get-board", kanbanGetBoard],
+  ["kanban.get-column", kanbanGetColumn],
+  ["kanban.find-task", kanbanFindTaskById],
+  ["kanban.find-task-by-title", kanbanFindTaskByTitle],
+  ["kanban.update-status", kanbanUpdateStatus],
+  ["kanban.move-task", kanbanMoveTask],
+  ["kanban.sync-board", kanbanSyncBoard],
+  ["kanban.search", kanbanSearchTasks],
   ["discord.send-message", discordSendMessage],
   ["discord.list-messages", discordListMessages],
 ]);
