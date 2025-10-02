@@ -44,6 +44,18 @@
     },
     "github": {
       "tools": ["github.request", "github.graphql", "github.rate-limit"]
+    },
+    "kanban": {
+      "tools": [
+        "kanban.get-board",
+        "kanban.get-column",
+        "kanban.find-task",
+        "kanban.find-task-by-title",
+        "kanban.update-status",
+        "kanban.move-task",
+        "kanban.sync-board",
+        "kanban.search"
+      ]
     }
   }
 }
