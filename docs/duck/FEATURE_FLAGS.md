@@ -2,6 +2,8 @@
 
 Default: disabled (most paths are off by default).
 
+Values other than the case-insensitive strings `true` or `false` fall back to their default values.
+
 ## Web (`apps/duck-web`)
 
 - `VITE_DUCK_USE_BLOBS`: enables WS binary-blob path (default: `false`)
