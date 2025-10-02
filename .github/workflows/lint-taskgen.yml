@@ -36,8 +36,10 @@ jobs:
         with: { node-version: 20, cache: 'pnpm' }
       - name: Install deps
         run: pnpm install --frozen-lockfile
+      - name: Build package
+        run: pnpm -w -F @promethean/lint-taskgen build
       - name: Build summary (dry-run)
-        run: node scripts/lint-taskgen.ts --affected=true
+        run: node packages/lint-taskgen/dist/cli.mjs --affected=true
       - name: Upload summary
         uses: actions/upload-artifact@v4
         with:
@@ -47,4 +49,5 @@ jobs:
         if: ${{ inputs.write == 'true' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: node scripts/lint-taskgen.ts --affected=true --write --limit=${{ inputs.limit }} $([ -n "${{ inputs.project }}" ] && echo --project=${{ inputs.project }})
+        run: |
+          node packages/lint-taskgen/dist/cli.mjs --affected=true --limit=${{ inputs.limit }} $([ -n "${{ inputs.project }}" ] && echo --project=${{ inputs.project }})
