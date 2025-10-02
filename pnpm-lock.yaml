@@ -2758,7 +2758,7 @@ importers:
     devDependencies:
       ava:
         specifier: ^6.4.1
-        version: 6.4.1(encoding@0.1.13)
+        version: 6.4.1(encoding@0.1.13)(rollup@4.52.3)
       nock:
         specifier: ^14.0.0
         version: 14.0.10
@@ -14635,7 +14635,7 @@ snapshots:
 
   axios@1.11.0:
     dependencies:
-      follow-redirects: 1.15.11(debug@4.4.3)
+      follow-redirects: 1.15.11(debug@4.3.7)
       form-data: 4.0.4
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -17158,7 +17158,7 @@ snapshots:
   http-proxy@1.18.1:
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.15.11(debug@4.4.3)
+      follow-redirects: 1.15.11(debug@4.3.7)
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
