@@ -19,6 +19,97 @@ on:
         default: '25'
         type: string
       project:
+        description: Org Project v2 number (optional, not used in bash path)
+        required: false
+        type: string
+  schedule:
+    - cron: '21 3 * * 1-5'
+
+jobs:
+  gen:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20, cache: 'pnpm' }
+      - name: Install deps
+        run: pnpm install --no-frozen-lockfile
+      - name: Build package
+        run: pnpm -w -F @promethean/lint-taskgen build
+      - name: Build summary (dry-run)
+        run: node packages/lint-taskgen/dist/cli.mjs --affected=true
+      - name: Upload summary
+        uses: actions/upload-artifact@v4
+        with:
+          name: eslint-taskgen-summary
+          path: eslint-taskgen-summary.json
+      - name: Create GitHub issues from summary (optional)
+        if: ${{ inputs.write == 'true' }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          LIMIT: ${{ inputs.limit }}
+        run: |
+          set -euo pipefail
+          sudo apt-get update && sudo apt-get install -y jq python3 -y
+          OWNER="${REPO%%/*}"
+          NAME="${REPO##*/}"
+          n=0
+          jq -c '.buckets[]' eslint-taskgen-summary.json | while read -r row; do
+            if [ -n "${LIMIT}" ] && [ $n -ge ${LIMIT} ]; then break; fi
+            ruleId=$(echo "$row" | jq -r .ruleId)
+            scope=$(echo "$row" | jq -r .scope)
+            count=$(echo "$row" | jq -r .count)
+            title="[Lint] ${ruleId} in ${scope} (${count} hits)"
+            q="repo:${OWNER}/${NAME} is:issue state:open in:title ""${title}"""
+            exist=$(curl -sS -H "Authorization: Bearer ${GH_TOKEN}" "https://api.github.com/search/issues?q=$(python3 - <<PY
+import urllib.parse,sys
+print(urllib.parse.quote(sys.argv[1]))
+PY
+ "$q")" | jq -r '.items[0].number // empty')
+            if [ -n "$exist" ]; then echo "skip existing $title"; n=$((n+1)); continue; fi
+            examples=$(echo "$row" | jq -r '.examples | join("\n")')
+            {
+              echo '**Examples**'
+              echo '```'
+              echo "$examples"
+              echo '```'
+              echo
+              echo '**Plan**'
+              echo '- Define fix pattern(s)/codemods'
+              echo '- Apply autofix where safe'
+              echo '- Add tests where needed'
+              echo '- Flip rule to error when < 10 hits'
+            } > body.md
+            curl -sS -X POST "https://api.github.com/repos/${OWNER}/${NAME}/issues" \
+              -H "Authorization: Bearer ${GH_TOKEN}" \
+              -H "Accept: application/vnd.github+json" \
+              -d "$(jq -nc --arg t "$title" --arg b "$(cat body.md | sed 's/\\/\\\\/g' | sed 's/"/\\"/g')" '{title:$t, body:$b, labels:["lint","tech-debt"]}')"
+            n=$((n+1))
+          done
+name: lint-taskgen
+permissions:
+  contents: read
+  issues: write
+  pull-requests: read
+
+on:
+  workflow_dispatch:
+    inputs:
+      write:
+        description: Create issues
+        required: true
+        default: 'false'
+        type: choice
+        options: ['false', 'true']
+      limit:
+        description: Max issues to create
+        required: true
+        default: '25'
+        type: string
+      project:
         description: Org Project v2 number (optional)
         required: false
         type: string
