@@ -10,25 +10,30 @@ updated_at: '2025-02-14T00:30:00.000Z'
 # Fix `@promethean/ui-components` lint failures
 
 ## Context
+
 - `nx run @promethean/ui-components:lint` currently fails and blocks the lint stage.
 - We need the lint target clean so Nx pipelines succeed.
 
 ## Acceptance Criteria
+
 - [x] `nx run @promethean/ui-components:lint` completes without errors.
 - [x] No new lint errors introduced in other packages.
 - [x] Document lint root cause and fix in this task note.
 
 ## Plan
+
 1. Reproduce the lint failure and capture the errors.
 2. Update source files to satisfy the reported lint rules.
 3. Re-run the lint command to verify it passes.
 4. Prepare code review notes summarizing the fix.
 
 ## Notes
+
 - Scope limited to `packages/ui-components` package.
 - Avoid modifying shared eslint config unless required by rule.
 
 ## Outcome
+
 - Migrated the `UiChatPanel` and `UiFileExplorer` components to use shadow DOM templates instead of mutating host element style properties, satisfying the functional immutability rules.
 - Tightened tests to accumulate lint-friendly immutable tuples.
 - Added `.nxignore` to exclude the duplicate `packages/kanban-cli` stub so the Nx project graph resolves and allows lint runs.
