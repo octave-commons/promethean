@@ -10,6 +10,7 @@
     "files.write-content",
     "files.write-lines",
     "files.search",
+    "apply_patch",
     "tdd.scaffoldTest",
     "tdd.changedFiles",
     "tdd.runTests",
@@ -39,7 +40,8 @@
         "files.view-file",
         "files.write-content",
         "files.write-lines",
-        "files.search"
+        "files.search",
+        "apply_patch"
       ]
     },
     "github": {
