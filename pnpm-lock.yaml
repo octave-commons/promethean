@@ -506,6 +506,9 @@ importers:
       '@promethean/agent-ecs':
         specifier: workspace:*
         version: link:../agent-ecs
+      '@promethean/duck-audio':
+        specifier: workspace:*
+        version: link:../duck-audio
       '@promethean/embedding':
         specifier: workspace:*
         version: link:../embedding
@@ -1546,7 +1549,13 @@ importers:
         specifier: ^8.5.9
         version: 8.18.1
 
+  packages/duck-audio: {}
+
   packages/duck-web:
+    dependencies:
+      '@promethean/duck-audio':
+        specifier: workspace:*
+        version: link:../duck-audio
     devDependencies:
       typescript:
         specifier: ^5.4.0
@@ -2758,7 +2767,7 @@ importers:
     devDependencies:
       ava:
         specifier: ^6.4.1
-        version: 6.4.1(encoding@0.1.13)
+        version: 6.4.1(encoding@0.1.13)(rollup@4.52.3)
       nock:
         specifier: ^14.0.0
         version: 14.0.10
