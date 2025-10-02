@@ -1,7 +1,7 @@
 ---
 uuid: 4e8f0a2b-3c4d-5e6f-8a9b-1c2d3e4f5a6b
 title: duck-web — PCM16k worklet + mic wiring fixes
-status: todo
+status: in-progress
 priority: P1
 labels:
   - duck-web

@@ -17,6 +17,7 @@ import {
 } from "./lib/kanban.js";
 import { printJSONL } from "./lib/jsonl.js";
 import { loadKanbanConfig } from "./board/config.js";
+import { processSync } from "./process/sync.js";
 
 const LEGACY_FLAG_MAP = Object.freeze(
   new Map<string, string>([
@@ -88,7 +89,7 @@ async function main() {
   if (helpRequested || !cmd) {
     console.error(
       `Usage: kanban [--kanban path] [--tasks path] <subcommand> [args...]\n` +
-        `Subcommands: count, getColumn, getByColumn, find, find-by-title, update_status, move_up, move_down, pull, push, sync, regenerate, indexForSearch, search`,
+        `Subcommands: count, getColumn, getByColumn, find, find-by-title, update_status, move_up, move_down, pull, push, sync, regenerate, indexForSearch, search, process_sync`,
     );
     process.exit(2);
   }
@@ -194,6 +195,16 @@ async function main() {
       );
       const board = await loadBoard(boardFile, tasksDir);
       const res = await searchTasks(board, term);
+      printJSONL(res);
+      break;
+    }
+    case "process_sync": {
+      const res = await processSync({
+        processFile: process.env.KANBAN_PROCESS_FILE,
+        owner: process.env.GITHUB_OWNER,
+        repo: process.env.GITHUB_REPO,
+        token: process.env.GITHUB_TOKEN,
+      });
       printJSONL(res);
       break;
     }

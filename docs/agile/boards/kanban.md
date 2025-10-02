@@ -546,7 +546,7 @@
 - [ ] [[each_service_registers_a_pid_with_a_heartbeat_service_if_they_do_not_successfully_check_in_terminate_the_process_using_the_pid_md_md|each service registers a pid with a heartbeat service if they do not successfully check in terminate the process using the pid md md]] #framework-core #archive
 - [ ] [[look_into_why_the_state_object_never_seems_to_get_updated_md_md|look into why the state object never seems to get updated md md]] #framework-core #archive
 - [ ] [[make_discord_channel_aware_contextualizer_md_md|make discord channel aware contextualizer md md]] #framework-core #archive
-- [ ] [[prevent_dangling_processes_when_a_process_fails_due_to_error_or_automaticly_clean_them_up_1_md_md|prevent dangling processes when a process fails due to error or automaticly clean them up 1 md md]] #framework-core #resources #process-management #aionian #archive
+- [ ][[prevent_dangling_processes_when_a_process_fails_due_to_error_or_automaticly_clean_them_up_1_md_md|prevent dangling processes when a process fails due to error or automaticly clean them up 1 md md]] #framework-core #resources #process-management #aionian #archive
 - [ ] [[send_waveforms_spectrograms_and_dekstop_screenshots_to_discord_for_remote_storage_md_md|send waveforms spectrograms and dekstop screenshots to discord for remote storage md md]] #framework-core #archive
 
 

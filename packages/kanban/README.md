@@ -1,48 +1,55 @@
 # @promethean/kanban-cli
 
-This package bundles every automation entry point for the workspace kanban
-board under `docs/agile/`. The `kanban` CLI replaces the legacy Python helpers
-and should be used for all board↔task synchronisation flows.
+Automation for the local markdown kanban that powers `docs/agile/`. Functional TS, native ESM, no side effects.
 
-## Default paths
+## Install
+This package is workspace-local. Use via `pnpm` scripts from repo root.
 
-- **Board:** `docs/agile/boards/kanban.md`
-- **Tasks:** `docs/agile/tasks/`
-
-Override either location with `--kanban`, `--tasks`, or the environment
-variables `KANBAN_PATH` / `TASKS_PATH` when invoking the CLI.
-
-## Core CLI usage
-
-```
+```bash
 pnpm kanban --help
 ```
 
-Common workflows:
+## Commands
+### `regenerate`
+Rebuild board(s) from `docs/agile/tasks/*.md`.
 
-- `pnpm kanban pull` – fold task frontmatter back into the board (like the old
-  `hashtags_to_kanban.py`).
-- `pnpm kanban push` – project the kanban columns to task files (successor to
-  `kanban_to_hashtags.py`).
-- `pnpm kanban sync` – run both directions and surface conflicting cards.
-- `pnpm kanban regenerate` – rebuild the board from the current task folder.
-- `pnpm kanban count --kanban path --tasks path` – quick stats for automation.
+```bash
+pnpm kanban regenerate --kanban docs/agile/boards/kanban.md --tasks docs/agile/tasks
+```
 
-Each command emits newline-delimited JSON so downstream tooling can be scripted
-without parsing human output.
+### `sync`
+Two-way sync: board ⇄ tasks, then apply labels & checklists on GitHub according to a process config.
 
-## Additional utilities
+```bash
+GITHUB_TOKEN=… pnpm kanban sync \n  --process docs/agile/process/duck-revival.yaml \n  --kanban docs/agile/boards/kanban.md \n  --tasks docs/agile/tasks
+```
 
-The package also houses the TypeScript utilities that used to live in
-`scripts/kanban/`:
+### `pull` / `push`
+Low-level one-way transforms used by `sync`.
 
-- `pnpm tsx packages/kanban/src/scripts/wip-sheriff.ts --write` – audit and
-  rebalance WIP limits.
-- `pnpm tsx packages/kanban/src/scripts/pending_count.ts` – report the number of
-  pending embeddings tracked in MongoDB.
+### `count`
+Emit JSON stats for dashboards.
 
-## Notes
+## Environment
+- `GITHUB_TOKEN` — classic token with `repo` / `project` / `issues`.
+- `KANBAN_PATH` / `TASKS_PATH` — defaults for paths.
 
-- Always back up `kanban.md` before running write-heavy operations.
-- Keep `docs/agile/process.md` handy; its workflow is the canonical reference
-  for how cards should flow through the system.
+## JSON output
+Every command prints **newline-delimited JSON** for model consumption. Example `sync` line:
+
+```json
+{
+  "op": "label.apply",
+  "pr": 1451,
+  "add": ["status:review"],
+  "remove": ["status:in-progress"]
+}
+```
+
+## Process config
+See `docs/agile/process/README.md` for the YAML schema. A ready-made config lives at `docs/agile/process/duck-revival.yaml`.
+
+## Philosophy
+- Pure functions + data-in/data-out.
+- Markdown as the source of truth.
+- Small, composable scripts > monoliths.
