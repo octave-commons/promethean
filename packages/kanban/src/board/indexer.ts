@@ -1,5 +1,6 @@
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 import { listFilesRec } from "@promethean/utils/list-files-rec.js";
 import { parseFrontmatter } from "@promethean/markdown/frontmatter";
@@ -79,15 +80,17 @@ const sortTasksById = (
 ): ReadonlyArray<IndexedTask> =>
   Object.freeze([...tasks].sort((a, b) => a.id.localeCompare(b.id)));
 
-const indexTasks = async ({
-  tasksDir,
-  exts,
-  repoRoot,
-}: Readonly<{
+export type IndexTasksOptions = Readonly<{
   readonly tasksDir: string;
   readonly exts: ReadonlySetLike<string>;
   readonly repoRoot: string;
-}>): Promise<ReadonlyArray<IndexedTask>> => {
+}>;
+
+export const indexTasks = async ({
+  tasksDir,
+  exts,
+  repoRoot,
+}: IndexTasksOptions): Promise<ReadonlyArray<IndexedTask>> => {
   const files = await listFilesRec(tasksDir, new Set(exts));
   const tasks = await Promise.all(
     files.map((filePath) =>
@@ -103,7 +106,19 @@ const indexTasks = async ({
   return sortTasksById(tasks);
 };
 
-const main = async (): Promise<void> => {
+export const tasksToJsonLines = (
+  tasks: ReadonlyArray<IndexedTask>,
+): ReadonlyArray<string> =>
+  Object.freeze(tasks.map((task) => JSON.stringify(task)));
+
+export const writeIndexFile = async (
+  indexFilePath: string,
+  lines: ReadonlyArray<string>,
+): Promise<void> => {
+  await writeFile(indexFilePath, `${lines.join("\n")}\n`, "utf8");
+};
+
+const runFromCli = async (): Promise<void> => {
   const { config, restArgs } = await loadKanbanConfig();
   const args = new Set(restArgs);
   const shouldWrite = args.has("--write");
@@ -112,9 +127,9 @@ const main = async (): Promise<void> => {
     exts: config.exts,
     repoRoot: config.repo,
   });
-  const lines = Object.freeze(tasks.map((task) => JSON.stringify(task)));
+  const lines = tasksToJsonLines(tasks);
   if (shouldWrite) {
-    await writeFile(config.indexFile, `${lines.join("\n")}\n`, "utf8");
+    await writeIndexFile(config.indexFile, lines);
     console.log(
       `Wrote ${tasks.length} tasks to ${path.relative(
         config.repo,
@@ -128,7 +143,18 @@ const main = async (): Promise<void> => {
   });
 };
 
-main().catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
+const isCliExecution = (): boolean => {
+  const entry = process.argv[1];
+  if (typeof entry !== "string" || entry.length === 0) {
+    return false;
+  }
+  const modulePath = fileURLToPath(import.meta.url);
+  return path.resolve(entry) === modulePath;
+};
+
+if (isCliExecution()) {
+  runFromCli().catch((err) => {
+    console.error(err);
+    process.exit(1);
+  });
+}
