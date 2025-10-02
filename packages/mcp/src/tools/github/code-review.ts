@@ -485,6 +485,95 @@ export const githubReviewSubmitComment: ToolFactory = (ctx) => {
   };
 };
 
+export const githubReviewRequestChangesFromCodex: ToolFactory = (ctx) => {
+  const shape = {
+    owner: z.string(),
+    repo: z.string(),
+    number: z.number().int(),
+    message: z.string().optional(),
+  } as const;
+  const Schema = z.object(shape);
+  const ResponseSchema = z.object({
+    addComment: z.object({
+      commentEdge: z
+        .object({
+          node: z
+            .object({
+              id: z.string(),
+              url: z.string(),
+              createdAt: z.string(),
+              body: z.string(),
+              author: z
+                .object({
+                  login: z.string(),
+                })
+                .nullable(),
+            })
+            .nullable(),
+        })
+        .nullable(),
+    }),
+  });
+
+  const buildCommentBody = (message?: string): string => {
+    const trimmed = message?.trim();
+    if (!trimmed) {
+      return "@codex Requesting changes on this pull request.";
+    }
+    return trimmed.includes("@codex") ? trimmed : `@codex ${trimmed}`;
+  };
+
+  return {
+    spec: {
+      name: "github.review.requestChangesFromCodex",
+      description:
+        "Request changes from Codex by posting an issue-level pull request comment tagging @codex.",
+      inputSchema: shape,
+    },
+    invoke: async (raw: unknown) => {
+      const args = Schema.parse(raw);
+      const client = createGithubGraphqlClient(ctx);
+      const pullRequestId = await getPullRequestId(
+        client,
+        args.owner,
+        args.repo,
+        args.number,
+      );
+      const data = await client({
+        query: `mutation RequestChangesFromCodex($input: AddCommentInput!) {
+          addComment(input: $input) {
+            commentEdge {
+              node {
+                id
+                url
+                createdAt
+                body
+                author {
+                  login
+                }
+              }
+            }
+          }
+        }`,
+        variables: {
+          input: {
+            subjectId: pullRequestId,
+            body: buildCommentBody(args.message),
+          },
+        },
+        schema: ResponseSchema,
+      });
+      const node = data.addComment.commentEdge?.node;
+      if (!node) {
+        throw new Error(
+          "[github.review] Codex request succeeded without comment node",
+        );
+      }
+      return node;
+    },
+  };
+};
+
 const ReviewCommentInputSchema = z
   .object({
     path: z.string(),

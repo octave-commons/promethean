@@ -26,6 +26,7 @@ import {
   githubReviewGetActionStatus,
   githubReviewGetComments,
   githubReviewGetReviewComments,
+  githubReviewRequestChangesFromCodex,
   githubReviewOpenPullRequest,
   githubReviewPush,
   githubReviewRevertCommits,
@@ -87,6 +88,10 @@ const toolCatalog = new Map<string, ToolFactory>([
   ["github.review.getComments", githubReviewGetComments],
   ["github.review.getReviewComments", githubReviewGetReviewComments],
   ["github.review.submitComment", githubReviewSubmitComment],
+  [
+    "github.review.requestChangesFromCodex",
+    githubReviewRequestChangesFromCodex,
+  ],
   ["github.review.submitReview", githubReviewSubmitReview],
   ["github.review.getActionStatus", githubReviewGetActionStatus],
   ["github.review.commit", githubReviewCommit],
