@@ -33,6 +33,7 @@ import type {
 } from "./context.js";
 import type { VoiceMetaPayload } from "./voice.js";
 import type { ToolAdvertisement, ToolCall, ToolResult } from "./tools.js";
+import type { ActIntentDescriptor } from "./intents.js";
 
 export type ChatMsgPayload = {
   readonly text: string;
@@ -139,7 +140,7 @@ export type ActRationalePayload = {
 };
 
 export type ActIntentPayload = {
-  readonly intents: readonly string[];
+  readonly intents: readonly ActIntentDescriptor[];
   readonly scope?: string;
   readonly callId?: string;
   readonly justification?: string;

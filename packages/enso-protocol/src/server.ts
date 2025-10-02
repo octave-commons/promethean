@@ -219,23 +219,36 @@ export class EnsoServer extends EventEmitter {
         const payload = envelope.payload as { callId?: string } | undefined;
         if (payload?.callId) {
           this.guardrails.recordRationale(session.id, payload.callId, payload);
-          this.recordAudit(session.id, envelope);
         }
+        this.recordAudit(session.id, envelope);
+      }
+      if (envelope.type === "act.intent") {
+        const payload = envelope.payload as { callId?: string } | undefined;
+        if (payload?.callId) {
+          this.guardrails.recordIntent(session.id, payload.callId, payload);
+        }
+        this.recordAudit(session.id, envelope);
       }
       if (envelope.type === "tool.call") {
         const call = envelope.payload as ToolCall;
         const callId = call?.callId;
-        if (callId && !this.guardrails.allowToolCall(session.id, callId)) {
-          const violation = mkEnvelope("guardrail.violation", {
-            session: session.id,
-            callId,
-            reason: "missing-rationale",
-          });
-          this.emit("message", session, violation);
-          return;
-        }
         if (callId) {
+          const evaluation = this.guardrails.allowToolCall(session.id, callId);
+          if (!evaluation.allowed) {
+            const reason =
+              evaluation.missing === "intent"
+                ? "missing-intent"
+                : "missing-rationale";
+            const violation = mkEnvelope("guardrail.violation", {
+              session: session.id,
+              callId,
+              reason,
+            });
+            this.emit("message", session, violation);
+            return;
+          }
           this.guardrails.consumeRationale(session.id, callId);
+          this.guardrails.consumeIntent(session.id, callId);
         }
         this.recordAudit(session.id, envelope);
       }
