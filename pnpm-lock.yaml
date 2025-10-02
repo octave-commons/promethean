@@ -21,7 +21,7 @@ importers:
         version: 19.1.0
       '@promethean/health-dashboard-frontend':
         specifier: workspace:*
-        version: link:packages/health-dashboard-frontend
+        version: link:packages/frontends/health-dashboard-frontend
       '@promethean/image-link-generator':
         specifier: workspace:*
         version: link:packages/image-link-generator
@@ -36,13 +36,13 @@ importers:
         version: link:packages/level-cache
       '@promethean/llm-chat-frontend':
         specifier: workspace:*
-        version: link:packages/llm-chat-frontend
+        version: link:packages/frontends/llm-chat-frontend
       '@promethean/markdown':
         specifier: workspace:*
         version: link:packages/markdown
       '@promethean/markdown-graph-frontend':
         specifier: workspace:*
-        version: link:packages/markdown-graph-frontend
+        version: link:packages/frontends/markdown-graph-frontend
       '@promethean/piper':
         specifier: workspace:*
         version: link:packages/piper
@@ -51,16 +51,16 @@ importers:
         version: link:packages/pm2-helpers
       '@promethean/portfolio-frontend':
         specifier: workspace:*
-        version: link:packages/portfolio-frontend
+        version: link:packages/frontends/portfolio-frontend
       '@promethean/shadow-conf':
         specifier: workspace:*
         version: link:packages/shadow-conf
       '@promethean/smart-chat-frontend':
         specifier: workspace:*
-        version: link:packages/smart-chat-frontend
+        version: link:packages/frontends/smart-chat-frontend
       '@promethean/smartgpt-dashboard-frontend':
         specifier: workspace:*
-        version: link:packages/smartgpt-dashboard-frontend
+        version: link:packages/frontends/smartgpt-dashboard-frontend
       '@promethean/utils':
         specifier: workspace:*
         version: link:packages/utils
@@ -1391,7 +1391,7 @@ importers:
         version: 11.2.0
       '@promethean/docops-frontend':
         specifier: workspace:*
-        version: link:../docops-frontend
+        version: link:../frontends/docops-frontend
       '@promethean/file-indexer':
         specifier: workspace:*
         version: link:../file-indexer
@@ -1455,8 +1455,6 @@ importers:
       zod:
         specifier: ^4.1.5
         version: 4.1.5
-
-  packages/docops-frontend: {}
 
   packages/ds:
     dependencies:
@@ -1915,6 +1913,20 @@ importers:
         specifier: 5.0.0
         version: 5.0.0
 
+  packages/frontends/docops-frontend: {}
+
+  packages/frontends/health-dashboard-frontend: {}
+
+  packages/frontends/llm-chat-frontend: {}
+
+  packages/frontends/markdown-graph-frontend: {}
+
+  packages/frontends/portfolio-frontend: {}
+
+  packages/frontends/smart-chat-frontend: {}
+
+  packages/frontends/smartgpt-dashboard-frontend: {}
+
   packages/fs:
     dependencies:
       '@promethean/ds':
@@ -2029,8 +2041,6 @@ importers:
       supertest:
         specifier: ^6.3.3
         version: 6.3.4
-
-  packages/health-dashboard-frontend: {}
 
   packages/heartbeat:
     dependencies:
@@ -2417,6 +2427,12 @@ importers:
         specifier: ^8.57.0
         version: 8.57.1
 
+  packages/legacy/heartbeat:
+    dependencies:
+      ws:
+        specifier: ^8.18.3
+        version: 8.18.3
+
   packages/level-cache:
     dependencies:
       '@promethean/utils':
@@ -2529,8 +2545,6 @@ importers:
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
-
-  packages/llm-chat-frontend: {}
 
   packages/markdown:
     dependencies:
@@ -2665,8 +2679,6 @@ importers:
       supertest:
         specifier: ^7.1.1
         version: 7.1.4
-
-  packages/markdown-graph-frontend: {}
 
   packages/mcp:
     dependencies:
@@ -3232,8 +3244,6 @@ importers:
 
   packages/pm2-helpers: {}
 
-  packages/portfolio-frontend: {}
-
   packages/projectors:
     dependencies:
       '@promethean/event':
@@ -3622,8 +3632,6 @@ importers:
         specifier: ^4.19.2
         version: 4.20.3
 
-  packages/smart-chat-frontend: {}
-
   packages/smartgpt-bridge:
     dependencies:
       '@fastify/rate-limit':
@@ -3720,8 +3728,6 @@ importers:
       tsx:
         specifier: ^4.19.0
         version: 4.20.3
-
-  packages/smartgpt-dashboard-frontend: {}
 
   packages/snapshots:
     dependencies:
