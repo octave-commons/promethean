@@ -21,9 +21,9 @@
     "tdd.propertyCheck",
     "tdd.mutationScore",
     "exec.list",
-    "exec.run"
+    "exec.run",
     "discord.send-message",
-    "discord.list-messages"
+    "discord.list-messages",
     "tdd.mutationScore",
     "pnpm.install",
     "pnpm.add",
