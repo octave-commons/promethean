@@ -6,7 +6,7 @@ import { listFilesRec } from "@promethean/utils/list-files-rec.js";
 import { parseFrontmatter } from "@promethean/markdown/frontmatter";
 
 import type { IndexedTask, TaskFM } from "./types.js";
-import type { ReadonlySetLike } from "./config/shared.js";
+import type { KanbanConfig, ReadonlySetLike } from "./config/shared.js";
 import { loadKanbanConfig } from "./config.js";
 
 const toTrimmedString = (value: unknown, fallback = ""): string => {
@@ -106,11 +106,23 @@ export const indexTasks = async ({
   return sortTasksById(tasks);
 };
 
-export const tasksToJsonLines = (
+export const serializeTasks = (
   tasks: ReadonlyArray<IndexedTask>,
 ): ReadonlyArray<string> =>
   Object.freeze(tasks.map((task) => JSON.stringify(task)));
 
+export const refreshTaskIndex = async (
+  config: Readonly<KanbanConfig>,
+): Promise<ReadonlyArray<IndexedTask>> => {
+  const tasks = await indexTasks({
+    tasksDir: config.tasksDir,
+    exts: config.exts,
+    repoRoot: config.repo,
+  });
+  const lines = serializeTasks(tasks);
+  await writeFile(config.indexFile, `${lines.join("\n")}\n`, "utf8");
+  return tasks;
+};
 export const writeIndexFile = async (
   indexFilePath: string,
   lines: ReadonlyArray<string>,
@@ -118,16 +130,21 @@ export const writeIndexFile = async (
   await writeFile(indexFilePath, `${lines.join("\n")}\n`, "utf8");
 };
 
-const runFromCli = async (): Promise<void> => {
-  const { config, restArgs } = await loadKanbanConfig();
+export const runIndexer = async (
+  options?: Readonly<{
+    readonly argv?: ReadonlyArray<string>;
+    readonly env?: NodeJS.ProcessEnv;
+  }>,
+): Promise<ReadonlyArray<IndexedTask>> => {
+  const { config, restArgs } = await loadKanbanConfig(options);
   const args = new Set(restArgs);
   const shouldWrite = args.has("--write");
-  const tasks: ReadonlyArray<IndexedTask> = await indexTasks({
+  const tasks = await indexTasks({
     tasksDir: config.tasksDir,
     exts: config.exts,
     repoRoot: config.repo,
   });
-  const lines = tasksToJsonLines(tasks);
+  const lines = serializeTasks(tasks);
   if (shouldWrite) {
     await writeIndexFile(config.indexFile, lines);
     console.log(
@@ -136,11 +153,12 @@ const runFromCli = async (): Promise<void> => {
         config.indexFile,
       )}`,
     );
-    return;
+    return tasks;
   }
   lines.forEach((line) => {
     console.log(line);
   });
+  return tasks;
 };
 
 const isCliExecution = (): boolean => {
@@ -153,7 +171,7 @@ const isCliExecution = (): boolean => {
 };
 
 if (isCliExecution()) {
-  runFromCli().catch((err) => {
+  runIndexer().catch((err) => {
     console.error(err);
     process.exit(1);
   });

@@ -83,3 +83,7 @@ GraphQL API:
 
 All GitHub review tools require `GITHUB_TOKEN` (and optional
 `GITHUB_GRAPHQL_URL`) to authenticate with GitHub's GraphQL API.
+- pnpm.install — run `pnpm install` with optional `--filter` targeting specific packages.
+- pnpm.add — add dependencies, supporting workspace or filtered package scopes.
+- pnpm.remove — remove dependencies from the workspace or filtered packages.
+- pnpm.runScript — execute `pnpm run <script>` with optional extra args and filters.
