@@ -1,7 +1,23 @@
 export const parseBool = (
-  v: string | undefined,
+  value: string | undefined,
   defaultValue: boolean,
-): boolean => (v === "true" ? true : v === "false" ? false : defaultValue);
+): boolean => {
+  if (typeof value !== "string") {
+    return defaultValue;
+  }
+
+  const normalized = value.trim().toLowerCase();
+
+  if (normalized === "true") {
+    return true;
+  }
+
+  if (normalized === "false") {
+    return false;
+  }
+
+  return defaultValue;
+};
 
 export const HAS_BLOBS = parseBool(process.env.DUCK_USE_BLOBS, false);
 export const STT_TTS_ENABLED = parseBool(process.env.STT_TTS_ENABLED, false);

@@ -9,12 +9,16 @@ Default: disabled (most paths are off by default).
 
 _Source: [`apps/duck-web/src/flags.ts`](../../apps/duck-web/src/flags.ts)_
 
+> Non-`true`/`false` strings fall back to the default value.
+
 ## Node (`packages/duck-utils`)
 
 - `DUCK_USE_BLOBS`: boolean read from `process.env` (default: `false`)
 - `STT_TTS_ENABLED`: boolean read from `process.env` (default: `false`)
 
 _Source: [`packages/duck-utils/src/flags.ts`](../../packages/duck-utils/src/flags.ts)_
+
+> Non-`true`/`false` strings fall back to the default value.
 
 ### Examples
 
