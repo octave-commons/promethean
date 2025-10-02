@@ -19,7 +19,11 @@
     "tdd.stopWatch",
     "tdd.coverage",
     "tdd.propertyCheck",
-    "tdd.mutationScore"
+    "tdd.mutationScore",
+    "pnpm.install",
+    "pnpm.add",
+    "pnpm.remove",
+    "pnpm.runScript"
   ],
   "endpoints": {
     "process": {
@@ -46,6 +50,9 @@
     },
     "github": {
       "tools": ["github.request", "github.graphql", "github.rate-limit"]
+    },
+    "workspace": {
+      "tools": ["pnpm.install", "pnpm.add", "pnpm.remove", "pnpm.runScript"]
     }
   }
 }
