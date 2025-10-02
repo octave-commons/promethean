@@ -34,6 +34,16 @@ import {
   processStopTask,
   processUpdateTaskRunnerConfig,
 } from "./tools/process-manager.js";
+import {
+  kanbanFindTaskById,
+  kanbanFindTaskByTitle,
+  kanbanGetBoard,
+  kanbanGetColumn,
+  kanbanMoveTask,
+  kanbanSearchTasks,
+  kanbanSyncBoard,
+  kanbanUpdateStatus,
+} from "./tools/kanban.js";
 import type { ToolFactory } from "./core/types.js";
 import {
   resolveHttpEndpoints,
@@ -66,6 +76,14 @@ const toolCatalog = new Map<string, ToolFactory>([
   ["tdd.coverage", tddCoverage],
   ["tdd.propertyCheck", tddPropertyCheck],
   ["tdd.mutationScore", tddMutationScore],
+  ["kanban.get-board", kanbanGetBoard],
+  ["kanban.get-column", kanbanGetColumn],
+  ["kanban.find-task", kanbanFindTaskById],
+  ["kanban.find-task-by-title", kanbanFindTaskByTitle],
+  ["kanban.update-status", kanbanUpdateStatus],
+  ["kanban.move-task", kanbanMoveTask],
+  ["kanban.sync-board", kanbanSyncBoard],
+  ["kanban.search", kanbanSearchTasks],
 ]);
 
 const env = process.env;
@@ -92,12 +110,13 @@ const main = async () => {
 
   if (cfg.transport === "http") {
     const endpoints = resolveHttpEndpoints(cfg);
-    const servers = new Map<string, ReturnType<typeof createMcpServer>>();
-    for (const endpoint of endpoints) {
-      const factories = selectFactories(endpoint.tools);
-      const registry = buildRegistry(factories, ctx);
-      servers.set(endpoint.path, createMcpServer(registry.list()));
-    }
+    const servers = new Map(
+      endpoints.map((endpoint) => {
+        const factories = selectFactories(endpoint.tools);
+        const registry = buildRegistry(factories, ctx);
+        return [endpoint.path, createMcpServer(registry.list())] as const;
+      }),
+    );
 
     const transport = fastifyTransport();
     console.log(
