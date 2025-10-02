@@ -30,7 +30,9 @@ You can now configure via **file** or **env** (env kept for back-compat):
     "files.view-file",
     "files.write-content",
     "files.write-lines",
-    "files.search"
+    "files.search",
+    "discord.send-message",
+    "discord.list-messages"
   ]
 }
 ```
@@ -54,6 +56,8 @@ This is a scaffold extracted to consolidate multiple MCP servers into one packag
 
 ## Tools
 - files.search — grep-like content search returning path/line/snippet triples.
+- discord.send-message — send a message to a Discord channel using the configured tenant + space URN.
+- discord.list-messages — fetch paginated messages from a Discord channel.
 - pnpm.install — run `pnpm install` with optional `--filter` targeting specific packages.
 - pnpm.add — add dependencies, supporting workspace or filtered package scopes.
 - pnpm.remove — remove dependencies from the workspace or filtered packages.
