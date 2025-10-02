@@ -40,6 +40,9 @@
           "/home/err/.volta/bin/typescript-language-server"
           "--stdio"]}
 
+  :serena
+  {:command "uvx"
+   :args ["--from" "git+https://github.com/oraios/serena" "serena" "start-mcp-server"]}
   :haiku-rag
   {:command "uvx"
    :args ["haiku-rag"

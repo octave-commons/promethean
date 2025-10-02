@@ -1,6 +1,5 @@
 import { PassThrough, Transform, TransformCallback } from 'node:stream';
 import { randomUUID } from 'node:crypto';
-import EventEmitter from 'node:events';
 
 import type { User } from 'discord.js';
 
@@ -9,7 +8,6 @@ import type { Speaker } from '../speaker.js';
 
 import {
   EnsoClient,
-  EnsoServer,
   connectWebSocket,
   createNodeAudioCapture,
   pumpAudioFrames,
@@ -30,7 +28,7 @@ class ToPcm16kMono extends Transform {
   }
   override _transform(chunk: Buffer, _enc: BufferEncoding, cb: TransformCallback): void {
     // Interpret as int16 samples
-    const inSamplesTotal = (this.carry.length + (chunk.length >>> 1));
+    const inSamplesTotal = this.carry.length + (chunk.length >>> 1);
     // Each stereo frame = 2 samples; 3 frames -> 6 samples -> 1 output sample
     const usableSamples = Math.floor(inSamplesTotal / 6) * 6;
     // Merge carry + incoming into a single Int16Array view without extra copies when possible
@@ -49,12 +47,12 @@ class ToPcm16kMono extends Transform {
     let oi = 0;
     for (let i = 0; i < usableSamples; i += 6) {
       // Three consecutive stereo frames: (L0,R0),(L1,R1),(L2,R2)
-      const l0 = merged[i];
-      const r0 = merged[i + 1];
-      const l1 = merged[i + 2];
-      const r1 = merged[i + 3];
-      const l2 = merged[i + 4];
-      const r2 = merged[i + 5];
+      const l0 = merged[i] ?? 0;
+      const r0 = merged[i + 1] ?? 0;
+      const l1 = merged[i + 2] ?? 0;
+      const r1 = merged[i + 3] ?? 0;
+      const l2 = merged[i + 4] ?? 0;
+      const r2 = merged[i + 5] ?? 0;
       // Downmix each to mono then average across 3 samples for crude LPF before decimation
       const m0 = (l0 + r0) / 2;
       const m1 = (l1 + r1) / 2;
@@ -62,7 +60,7 @@ class ToPcm16kMono extends Transform {
       let v = (m0 + m1 + m2) / 3;
       // clamp to int16
       if (v > 32767) v = 32767;
-      if (v < -32768) v = -32768;
+      if (v < -32768) v = -32868;
       out[oi++] = v | 0;
     }
     // Save remainder into carry
@@ -94,7 +92,7 @@ export type EnsoTranscriberOptions = {
  */
 export class EnsoTranscriber extends Transcriber {
   private client: EnsoClient;
-  private disconnectHandle: { disconnect: () => void } | null = null;
+  private wsHandle: { close: (code?: number, reason?: string) => Promise<void> } | null = null;
   private readonly url: string;
   private readonly roomPrefix: string;
 
@@ -110,7 +108,7 @@ export class EnsoTranscriber extends Transcriber {
       agent: { name: 'cephalon-duck', version: '0.1.0' },
     } as any;
     const handle = connectWebSocket(this.client, this.url, hello);
-    this.disconnectHandle = { disconnect: handle.disconnect };
+    this.wsHandle = { close: handle.close };
   }
 
   override transcribePCMStream(startTime: number, speaker: Speaker, pcmStream: PassThrough) {
@@ -125,10 +123,10 @@ export class EnsoTranscriber extends Transcriber {
     // Set up a one-shot listener for a transcript message in this room
     const off = this.client.on('event:content.post', (env: Envelope) => {
       if (env.room !== room) return;
-      const payload = env.payload as { room?: string; message?: ChatMessage } | undefined;
+      const payload = env.payload as { message?: ChatMessage } | undefined;
       const parts = payload?.message?.parts ?? [];
       const firstText = parts.find((p: any) => p?.kind === 'text');
-      const text = firstText?.text ?? '';
+      const text = (firstText as any)?.text ?? '';
       const endTime = Date.now();
       const chunk: TranscriptChunk = { startTime, endTime, speaker, text };
       this.emit('transcriptChunk', chunk);
@@ -168,8 +166,8 @@ export class EnsoTranscriber extends Transcriber {
   }
 
   async dispose(): Promise<void> {
-    this.disconnectHandle?.disconnect();
-    this.disconnectHandle = null;
+    await this.wsHandle?.close();
+    this.wsHandle = null;
   }
 }
 
