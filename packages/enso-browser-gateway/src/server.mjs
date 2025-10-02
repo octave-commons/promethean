@@ -13,7 +13,10 @@ const AUTH_TOKEN = process.env.DUCK_TOKEN || null;
 
 const server = http.createServer((req, res) => {
   res.writeHead(200);
-  res.end("enso-browser-gateway");
+const timeoutMs = Number.isFinite(Number(process.env.ENSO_HANDSHAKE_TIMEOUT_MS))
+  ? Number(process.env.ENSO_HANDSHAKE_TIMEOUT_MS)
+  : 10_000;
+const handshake = createHandshakeGuard(handle, ws, { logger: console, timeoutMs });
 });
 
 const wss = new WebSocketServer({ server, path: "/ws" });
