@@ -1,10 +1,10 @@
-import { PassThrough, Transform, TransformCallback } from 'node:stream';
-import { randomUUID } from 'node:crypto';
+import { PassThrough, Transform, TransformCallback } from "node:stream";
+import { randomUUID } from "node:crypto";
 
-import type { User } from 'discord.js';
+import type { User } from "discord.js";
 
-import { Transcriber, type TranscriptChunk } from '../transcriber.js';
-import type { Speaker } from '../speaker.js';
+import { Transcriber, type TranscriptChunk } from "../transcriber.js";
+import type { Speaker } from "../speaker.js";
 
 import {
   EnsoClient,
@@ -14,25 +14,36 @@ import {
   type HelloCaps,
   type Envelope,
   type ChatMessage,
-} from '@promethean/enso-protocol';
+} from "@promethean/enso-protocol";
 
 /**
  * Downmix 48k stereo PCM16LE to 16k mono PCM16LE using simple box filter decimation (3:1).
  * - Input: interleaved int16 [L,R] at 48000 Hz
  * - Output: int16 mono at 16000 Hz
  */
-class ToPcm16kMono extends Transform {
+export class ToPcm16kMono extends Transform {
   private carry: Int16Array = new Int16Array(0);
   constructor() {
-    super({ readableHighWaterMark: 64 * 1024, writableHighWaterMark: 64 * 1024 });
+    super({
+      readableHighWaterMark: 64 * 1024,
+      writableHighWaterMark: 64 * 1024,
+    });
   }
-  override _transform(chunk: Buffer, _enc: BufferEncoding, cb: TransformCallback): void {
+  override _transform(
+    chunk: Buffer,
+    _enc: BufferEncoding,
+    cb: TransformCallback,
+  ): void {
     // Interpret as int16 samples
     const inSamplesTotal = this.carry.length + (chunk.length >>> 1);
     // Each stereo frame = 2 samples; 3 frames -> 6 samples -> 1 output sample
     const usableSamples = Math.floor(inSamplesTotal / 6) * 6;
     // Merge carry + incoming into a single Int16Array view without extra copies when possible
-    const incoming = new Int16Array(chunk.buffer, chunk.byteOffset, chunk.length >>> 1);
+    const incoming = new Int16Array(
+      chunk.buffer,
+      chunk.byteOffset,
+      chunk.length >>> 1,
+    );
     let merged: Int16Array;
     if (this.carry.length === 0) {
       merged = incoming;
@@ -60,7 +71,7 @@ class ToPcm16kMono extends Transform {
       let v = (m0 + m1 + m2) / 3;
       // clamp to int16
       if (v > 32767) v = 32767;
-      if (v < -32768) v = -32868;
+      if (v < -32768) v = -32768;
       out[oi++] = v | 0;
     }
     // Save remainder into carry
@@ -92,27 +103,35 @@ export type EnsoTranscriberOptions = {
  */
 export class EnsoTranscriber extends Transcriber {
   private client: EnsoClient;
-  private wsHandle: { close: (code?: number, reason?: string) => Promise<void> } | null = null;
+  private wsHandle: {
+    close: (code?: number, reason?: string) => Promise<void>;
+  } | null = null;
   private readonly url: string;
   private readonly roomPrefix: string;
 
   constructor(opts: EnsoTranscriberOptions = {}) {
     // Provide a noop broker to avoid legacy broker wiring in base class
-    super({ broker: { enqueue() {}, subscribe() {}, connect: async () => {} } as any });
-    this.url = opts.url ?? process.env.ENSO_WS_URL ?? 'ws://localhost:7766';
-    this.roomPrefix = opts.roomPrefix ?? 'voice';
+    super({
+      broker: { enqueue() {}, subscribe() {}, connect: async () => {} } as any,
+    });
+    this.url = opts.url ?? process.env.ENSO_WS_URL ?? "ws://localhost:7766";
+    this.roomPrefix = opts.roomPrefix ?? "voice";
     this.client = new EnsoClient();
     // Connect immediately; throw if handshake fails
     const hello: HelloCaps = {
-      caps: ['can.voice.stream', 'can.send.text'],
-      agent: { name: 'cephalon-duck', version: '0.1.0' },
+      caps: ["can.voice.stream", "can.send.text"],
+      agent: { name: "cephalon-duck", version: "0.1.0" },
     } as any;
     const handle = connectWebSocket(this.client, this.url, hello);
     this.wsHandle = { close: handle.close };
   }
 
-  override transcribePCMStream(startTime: number, speaker: Speaker, pcmStream: PassThrough) {
-    this.emit('transcriptStart', { startTime, speaker });
+  override transcribePCMStream(
+    startTime: number,
+    speaker: Speaker,
+    pcmStream: PassThrough,
+  ) {
+    this.emit("transcriptStart", { startTime, speaker });
 
     const streamId = randomUUID();
     const room = `${this.roomPrefix}:${speaker.user.id}:${startTime}`;
@@ -121,16 +140,16 @@ export class EnsoTranscriber extends Transcriber {
     const transformed = pcmStream.pipe(downmix);
 
     // Set up a one-shot listener for a transcript message in this room
-    const off = this.client.on('event:content.post', (env: Envelope) => {
+    const off = this.client.on("event:content.post", (env: Envelope) => {
       if (env.room !== room) return;
       const payload = env.payload as { message?: ChatMessage } | undefined;
       const parts = payload?.message?.parts ?? [];
-      const firstText = parts.find((p: any) => p?.kind === 'text');
-      const text = (firstText as any)?.text ?? '';
+      const firstText = parts.find((p: any) => p?.kind === "text");
+      const text = (firstText as any)?.text ?? "";
       const endTime = Date.now();
       const chunk: TranscriptChunk = { startTime, endTime, speaker, text };
-      this.emit('transcriptChunk', chunk);
-      this.emit('transcriptEnd', {
+      this.emit("transcriptChunk", chunk);
+      this.emit("transcriptEnd", {
         startTime,
         endTime,
         speaker,
@@ -147,7 +166,7 @@ export class EnsoTranscriber extends Transcriber {
     const capture = createNodeAudioCapture({
       stream: transformed,
       streamId,
-      codec: 'pcm16le/16000/1',
+      codec: "pcm16le/16000/1",
       frameDurationMs: 20,
       bytesPerFrame: 640,
       emitEof: true,
@@ -155,11 +174,20 @@ export class EnsoTranscriber extends Transcriber {
 
     // Register stream for flow control bookkeeping
     this.client.voice.register(streamId, 0);
-    void pumpAudioFrames(capture, (frame) => this.client.voice.sendFrame(frame, { room })).catch((err) => {
+    void pumpAudioFrames(capture, (frame) =>
+      this.client.voice.sendFrame(frame, { room }),
+    ).catch((err) => {
       // Non-fatal: emit an end with empty transcript if upstream fails
       const endTime = Date.now();
-      this.emit('transcriptEnd', { startTime, endTime, speaker, user: speaker.user as any, userName: speaker.user.username, transcript: '' });
-      console.error('ENSO voice pump error', err);
+      this.emit("transcriptEnd", {
+        startTime,
+        endTime,
+        speaker,
+        user: speaker.user as any,
+        userName: speaker.user.username,
+        transcript: "",
+      });
+      console.error("ENSO voice pump error", err);
     });
 
     return pcmStream;
