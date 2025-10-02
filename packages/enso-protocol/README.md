@@ -6,8 +6,9 @@ A reference implementation of the Promethean ENSO context protocol described in
 
 ## Modules
 
-- `adapter.ts` – Minimal MCP-compatible transport adapter with hookable
-  list/call handlers.
+- `adapter.ts` – Transport-aware MCP client that establishes JSON-RPC sessions
+  over HTTP streaming, Server-Sent Events, or stdio processes and exposes
+  discovery plus tool invocation helpers.
 - `cache.ts`, `store.ts` – Content-addressed cache primitives and persistent
   asset storage with deterministic SHA-256 CIDs.
 - `client.ts` – In-memory ENSO client façade that enforces capability-based
