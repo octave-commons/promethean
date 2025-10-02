@@ -1,1 +1,41 @@
-class PCM16kProcessor extends AudioWorkletProcessor {\n  constructor() {\n    super();\n    this._ratio = sampleRate / 16000;\n    this._carry = 0;\n  }\n  process(inputs) {\n    const input = inputs[0]?.[0];\n    if (!input) return true;\n    const ratio = this._ratio;\n    const outLen = Math.floor((this._carry + input.length) / ratio);\n    const out = new Float32Array(outLen);\n    let i = -this._carry;\n    for (let n = 0; n < outLen; n++) {\n      const start = Math.floor((n * ratio + i));\n      const end = Math.floor(((n + 1) * ratio + i));\n      let sum = 0;\n      for (let k = start; k < end; k++) sum = (input[k] || 0) + sum;\n      out[n] = sum / Math.max(1, end - start);\n    }\n    const lastUsed = Math.floor(outLen * ratio);\n    this._carry = input.length - lastUsed;\n    this.port.postMessage(out);\n    return true;\n  }\n}\nregisterProcessor 'pcm16k', PCM16kProcessor);\n",
+class PCM16kProcessor extends AudioWorkletProcessor {
+  constructor() {
+    super();
+    this.ratio = sampleRate / 16000;
+    this.pos = 0;
+  }
+
+  process(inputs) {
+    const input = inputs[0]?.[0];
+    if (!input) {
+      return true;
+    }
+
+    const r = this.ratio;
+    const outLen = Math.floor((input.length - this.pos) / r);
+    if (outLen <= 0) {
+      return true;
+    }
+
+    const out = new Float32Array(outLen);
+    for (let n = 0; n < outLen; n += 1) {
+      const start = Math.floor(this.pos + n * r);
+      const end = Math.floor(this.pos + (n + 1) * r);
+      let sum = 0;
+      for (let k = start; k < end; k += 1) {
+        sum += input[k] ?? 0;
+      }
+      out[n] = end > start ? sum / (end - start) : 0;
+    }
+
+    this.pos += outLen * r;
+    if (this.pos >= input.length) {
+      this.pos -= input.length;
+    }
+
+    this.port.postMessage(out);
+    return true;
+  }
+}
+
+registerProcessor("pcm16k", PCM16kProcessor);

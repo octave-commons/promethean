@@ -1,2 +1,43 @@
-// Native ESM (pure) typescript, No ScriptProcessorNode
-import { clamp16, float32ToInt16 } from 'packages/duck-audio/src/pmc.js';\n\nexport type OnPcm = (pcm: Int16Array, tstamp?: number) => void;\n\nexport const startMic = async (onPcm: OnPcm): Promise<{ stop: () => Promise<void>; ctx: AudioContext }> => {\n  const ctx = new AudioContext({ sampleRate: 48000 });\n  await ctx.audioWorklet.addModule('/pcm16k-worklet.js');\n  const stream = await navigator.mediaDevices.getUserMedia({ audio: true });\n  const src = ctx.createMediaStreamSource(stream);\n  const node = new AudioWorkletNode(ctx, 'pcm16k');\n  node.port.onmessage = (evt) => {\n    const float = evt.data as Float32Array;\n    const pcm = float32ToInt16(float);\n    onPcm(pcm, Date.now());\n  };\n  src.connect(node);\n  // monitor silence: leaved disconnected to run headless\n  const stop = async () => {\n    node.disconnect();\n    src.disconnect();\n    stream.getTracks().forEach(t => t.stop());\n    await ctx.close();\n  };\n  return { stop, ctx };\n};\n
+import { float32ToInt16 } from "@promethean/duck-audio/src/pcm.js";
+
+export type OnPcm = (pcm: Int16Array, tstampMs: number) => void;
+
+type MicHandle = { stop: () => Promise<void>; ctx: AudioContext };
+
+/**
+ * Wire the AudioWorklet-based microphone capture pipeline.
+ *
+ * The `pcm16k` worklet emits 16 kHz mono Float32 frames, which are converted to
+ * signed 16-bit PCM samples before invoking the callback with a monotonic
+ * timestamp from `performance.now()`.
+ */
+export const startMic = async (onPcm: OnPcm): Promise<MicHandle> => {
+  const ctx = new AudioContext({ sampleRate: 48000 });
+  await ctx.audioWorklet.addModule("/pcm16k-worklet.js");
+
+  const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+  const source = ctx.createMediaStreamSource(stream);
+  const node = new AudioWorkletNode(ctx, "pcm16k");
+
+  node.port.onmessage = (event) => {
+    const floatBuffer = event.data as Float32Array;
+    if (!(floatBuffer instanceof Float32Array)) {
+      return;
+    }
+
+    const pcm = float32ToInt16(floatBuffer);
+    onPcm(pcm, performance.now());
+  };
+
+  source.connect(node);
+
+  const stop = async () => {
+    node.port.onmessage = null;
+    node.disconnect();
+    source.disconnect();
+    stream.getTracks().forEach((track) => track.stop());
+    await ctx.close();
+  };
+
+  return { stop, ctx };
+};
