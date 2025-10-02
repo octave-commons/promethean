@@ -15,7 +15,7 @@ test("generate uses override and returns embeddings", async (t) => {
   setEmbeddingOverride(async ({ inputs }) =>
     inputs.map((input, index) => [Number(index), input.length]),
   );
-  const fn = new RemoteEmbeddingFunction(undefined, "driverX", "fnY");
+  const fn = new RemoteEmbeddingFunction({ driver: "driverX", fn: "fnY" });
   const result = await fn.generate(["alpha", "beta"]);
   t.deepEqual(result, [
     [0, 5],
