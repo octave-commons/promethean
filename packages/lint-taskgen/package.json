@@ -1,0 +1,15 @@
+{
+  "name": "@promethean/lint-taskgen",
+  "version": "0.1.0",
+  "type": "module",
+  "license": "GPL-3.0-only",
+  "private": true,
+  "bin": { "lint-taskgen": "dist/cli.mjs" },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/cli.mjs"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0"
+  }
+}
