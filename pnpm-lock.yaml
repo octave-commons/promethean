@@ -2691,6 +2691,9 @@ importers:
       fastify:
         specifier: 5.0.0
         version: 5.0.0
+      jsedn:
+        specifier: 0.4.1
+        version: 0.4.1
       minimatch:
         specifier: ^9.0.5
         version: 9.0.5

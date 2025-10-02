@@ -42,6 +42,16 @@ Run:
 pnpm --filter @promethean/mcp dev -- --config ./promethean.mcp.json
 ```
 
+### Proxy stdio MCP servers over HTTP
+
+To expose the stdio-based MCP servers defined in `config/mcp_servers.edn` via HTTP (useful for remote clients), run:
+
+```bash
+pnpm --filter @promethean/mcp proxy -- --config ./config/mcp_servers.edn --port 3923
+```
+
+Each server will be available at `http://<host>:<port>/<name>/mcp` unless you set `:http-path` in the EDN entry. Use `--prefix` to prepend a base path (e.g., `/mcp`).
+
 ### Exec command allowlist
 
 `exec.run` executes only commands declared in an allowlist. The loader checks for:
