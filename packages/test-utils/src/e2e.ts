@@ -15,7 +15,7 @@ export type E2EDeps = {
 export type E2ETestFn = (t: ExecutionContext, deps: E2EDeps) => Promise<void>;
 
 export const mkUrlBuilder =
-    (baseUrl?: string) =>
+    (baseUrl?: string): ((path?: string) => string) =>
     (path = '/') =>
         baseUrl ? new URL(path, baseUrl).toString() : path;
 

@@ -1,3 +1,5 @@
+import { inspect } from "node:util";
+
 import type { EmbeddingFunction, EmbeddingFunctionSpace } from "chromadb";
 import { ollamaEmbed } from "@promethean/utils";
 
@@ -14,10 +16,12 @@ export type EmbeddingOverride = (
   ctx: EmbeddingOverrideContext,
 ) => Promise<readonly (readonly number[])[]>;
 
-let overrideImpl: EmbeddingOverride | null = null;
+const overrideState: { current: EmbeddingOverride | null } = {
+  current: null,
+};
 
 export function setEmbeddingOverride(override: EmbeddingOverride | null): void {
-  overrideImpl = override;
+  overrideState.current = override;
 }
 
 function resolveTimeout(value?: number | string | null): number {
@@ -27,33 +31,32 @@ function resolveTimeout(value?: number | string | null): number {
   return numeric < 0 ? 0 : numeric;
 }
 
-function normaliseInput(
-  item:
-    | string
-    | {
-        readonly type?: string;
-        readonly data?: unknown;
-        readonly text?: unknown;
-      },
-): string {
+type NormalisableInput =
+  | string
+  | {
+      readonly type?: string;
+      readonly data?: unknown;
+      readonly text?: unknown;
+    };
+
+const stringifyUnknown = (value: unknown): string =>
+  typeof value === "string" ? value : inspect(value, { depth: 2 });
+
+const extractPayload = (
+  item: Exclude<NormalisableInput, string>,
+): string | null => {
+  if (typeof item.data === "string") return item.data;
+  if (typeof item.text === "string") return item.text;
+  if (Array.isArray(item.data))
+    return item.data.map((entry) => stringifyUnknown(entry)).join("\n");
+  return null;
+};
+
+function normaliseInput(item: NormalisableInput): string {
   if (typeof item === "string") return item;
-  if (item && typeof item === "object") {
-    const payload =
-      typeof item.data === "string"
-        ? item.data
-        : typeof item.text === "string"
-          ? item.text
-          : Array.isArray(item.data)
-            ? item.data.join("\n")
-            : undefined;
-    if (typeof payload === "string") return payload;
-    try {
-      return JSON.stringify(item);
-    } catch {
-      return String(item);
-    }
-  }
-  return String(item ?? "");
+  if (item && typeof item === "object")
+    return extractPayload(item) ?? stringifyUnknown(item);
+  return stringifyUnknown(item ?? "");
 }
 
 async function withTimeout<T>(
@@ -78,23 +81,52 @@ async function withTimeout<T>(
 }
 
 // Shared RemoteEmbeddingFunction that now calls Ollama directly for embeddings.
+type RemoteEmbeddingConstructorConfig = Readonly<{
+  brokerUrl?: string;
+  driver?: string;
+  fn?: string;
+  clientIdPrefix?: string;
+  timeoutMs?: number | string | null;
+}>;
+
+type LegacyConstructorArgs = [
+  string | undefined,
+  string | undefined,
+  string | undefined,
+  unknown,
+  string | undefined,
+  number | string | null | undefined,
+];
+
+type RemoteEmbeddingConstructorArgs =
+  | []
+  | [RemoteEmbeddingConstructorConfig]
+  | LegacyConstructorArgs;
+
+const toConstructorConfig = (
+  args: RemoteEmbeddingConstructorArgs,
+): RemoteEmbeddingConstructorConfig => {
+  if (args.length === 0) return {};
+  const [first] = args;
+  if (first && typeof first === "object" && !Array.isArray(first)) return first;
+  const [brokerUrl, driver, fn, _broker, clientIdPrefix, timeoutMs] =
+    args as LegacyConstructorArgs;
+  return { brokerUrl, driver, fn, clientIdPrefix, timeoutMs };
+};
+
 export class RemoteEmbeddingFunction implements EmbeddingFunction {
   name = "remote";
-  driver: string;
-  fn: string;
-  timeoutMs: number;
+  readonly driver: string;
+  readonly fn: string;
+  readonly timeoutMs: number;
 
-  constructor(
-    _brokerUrl = process.env.BROKER_URL || "ws://localhost:7000",
-    driver = process.env.EMBEDDING_DRIVER || "ollama",
-    fn = process.env.EMBEDDING_FUNCTION || "nomic-embed-text",
-    _broker?: unknown,
-    _clientIdPrefix = "embed",
-    timeoutMs = resolveTimeout(process.env.EMBEDDING_TIMEOUT_MS),
-  ) {
-    this.driver = driver;
-    this.fn = fn;
-    this.timeoutMs = resolveTimeout(timeoutMs);
+  constructor(...args: RemoteEmbeddingConstructorArgs) {
+    const cfg = toConstructorConfig(args);
+    this.driver = cfg.driver ?? process.env.EMBEDDING_DRIVER ?? "ollama";
+    this.fn = cfg.fn ?? process.env.EMBEDDING_FUNCTION ?? "nomic-embed-text";
+    const timeoutSource =
+      cfg.timeoutMs ?? process.env.EMBEDDING_TIMEOUT_MS ?? DEFAULT_TIMEOUT_MS;
+    this.timeoutMs = resolveTimeout(timeoutSource);
   }
 
   static fromConfig(cfg: {
@@ -104,14 +136,13 @@ export class RemoteEmbeddingFunction implements EmbeddingFunction {
     clientIdPrefix?: string;
     timeoutMs?: number;
   }): RemoteEmbeddingFunction {
-    return new RemoteEmbeddingFunction(
-      cfg.brokerUrl,
-      cfg.driver,
-      cfg.fn,
-      undefined,
-      cfg.clientIdPrefix,
-      cfg.timeoutMs ?? resolveTimeout(process.env.EMBEDDING_TIMEOUT_MS),
-    );
+    return new RemoteEmbeddingFunction({
+      brokerUrl: cfg.brokerUrl,
+      driver: cfg.driver,
+      fn: cfg.fn,
+      clientIdPrefix: cfg.clientIdPrefix,
+      timeoutMs: cfg.timeoutMs ?? process.env.EMBEDDING_TIMEOUT_MS ?? null,
+    });
   }
 
   async generate(
@@ -127,24 +158,21 @@ export class RemoteEmbeddingFunction implements EmbeddingFunction {
     const inputs = texts.map(normaliseInput);
     const model =
       this.fn || process.env.EMBEDDING_FUNCTION || "nomic-embed-text";
-    if (overrideImpl) {
-      const vectors = await overrideImpl({
+    const activeOverride = overrideState.current;
+    if (activeOverride) {
+      const vectors = await activeOverride({
         model,
         inputs,
         driver: this.driver,
         timeoutMs: this.timeoutMs,
       });
-      return vectors.map((row) => row.slice()) as number[][];
+      return vectors.map((row) => [...row]);
     }
-    const out: number[][] = [];
-    for (const text of inputs) {
-      const embedding = await withTimeout(
-        ollamaEmbed(model, text),
-        this.timeoutMs,
-      );
-      out.push(embedding);
-    }
-    return out;
+    return Promise.all(
+      inputs.map((text) =>
+        withTimeout(ollamaEmbed(model, text), this.timeoutMs),
+      ),
+    );
   }
 
   defaultSpace(): EmbeddingFunctionSpace {

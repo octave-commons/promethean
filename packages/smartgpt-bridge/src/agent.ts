@@ -86,9 +86,9 @@ function createErrorMessage(error: unknown): string {
   return String(error);
 }
 
-function formatSse<T extends AgentEventName>(
-  event: T,
-  data: AgentEventPayloadMap[T],
+function formatSse(
+  event: AgentEventName,
+  data: AgentEventPayloadMap[AgentEventName],
 ): string {
   return `event: ${event}\ndata: ${JSON.stringify(data)}\n\n`;
 }
@@ -105,6 +105,7 @@ function toAgentMeta(state: AgentProcess, prompt: string): AgentMeta {
     args: state.args,
     cwd: state.cwd,
     startedAt: state.startedAt,
+    exited: state.exited,
     prompt,
     code: state.code,
     signal: state.signal,
@@ -328,7 +329,11 @@ export class AgentSupervisor {
         log: ensureArrayBuffer(current.log, data),
       }));
       const text = data.toString("utf8");
-      this.broadcast(id, event, { text });
+      if (event === "stdout") {
+        this.broadcast(id, "stdout", { text });
+      } else {
+        this.broadcast(id, "stderr", { text });
+      }
       appendAgentLog(id, data).catch(() => {});
       const danger = matchDanger(text);
       if (!danger) return;
@@ -492,17 +497,14 @@ export class PTYAgentSupervisor {
     };
   }
 
-  private broadcast<T extends AgentEventName>(
+  private broadcast(
     id: string,
-    event: T,
-    data: AgentEventPayloadMap[T],
+    event: AgentEventName,
+    data: AgentEventPayloadMap[AgentEventName],
   ): void {
     const clients = this.subscribers.get(id);
     if (!clients) return;
-    const payload = formatSse(
-      event,
-      data as AgentEventPayloadMap[AgentEventName],
-    );
+    const payload = formatSse(event, data);
     for (const client of clients) {
       client.write(payload);
     }

@@ -10,6 +10,7 @@ const Config = z.object({
   transport: z.enum(["stdio", "http"]).default("http"),
   tools: z.array(ToolId).default([]),
   endpoints: z.record(EndpointConfig).default({}),
+  stdioProxyConfig: z.string().min(1).nullable().default(null),
 });
 
 export type AppConfig = z.infer<typeof Config>;

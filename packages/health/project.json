@@ -1,0 +1,22 @@
+{
+  "name": "health-service",
+  "root": "packages/health",
+  "targets": {
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm run test",
+        "cwd": "packages/health"
+      }
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm run lint",
+        "cwd": "packages/health",
+        "forwardAllArgs": false
+      }
+    }
+  },
+  "tags": ["scope:packages"]
+}

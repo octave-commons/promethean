@@ -1,0 +1,22 @@
+{
+  "name": "eidolon-field",
+  "root": "packages/eidolon-field",
+  "targets": {
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm run test",
+        "cwd": "packages/eidolon-field"
+      }
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm run lint",
+        "cwd": "packages/eidolon-field",
+        "forwardAllArgs": false
+      }
+    }
+  },
+  "tags": ["scope:packages"]
+}
