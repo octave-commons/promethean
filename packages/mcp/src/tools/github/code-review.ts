@@ -703,7 +703,8 @@ export const githubReviewGetActionStatus: ToolFactory = (ctx) => {
         } as const;
       }
       const rollup = commit.statusCheckRollup;
-      const contexts = rollup?.contexts?.nodes.map((node) => {
+      const contextNodes = rollup?.contexts?.nodes ?? [];
+      const contexts = contextNodes.map((node) => {
         if (node.__typename === "CheckRun") {
           return {
             type: "CheckRun" as const,
