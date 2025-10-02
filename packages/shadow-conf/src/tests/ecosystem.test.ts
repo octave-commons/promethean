@@ -49,9 +49,7 @@ test("generateEcosystem aggregates apps from edn files", async (t) => {
       path.join("service-b", "ecosystem.edn"),
     ],
   );
-  t.true(
-    fileContents.includes('import { config as configDotenv } from "dotenv";'),
-  );
+  t.true(fileContents.includes('const dotenvModule = await import("dotenv");'));
   t.true(fileContents.includes("configDotenv();"));
   t.deepEqual(apps, [
     {
