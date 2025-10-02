@@ -123,7 +123,6 @@ export class ContextStore {
         return Array.from(this.collections.values());
     }
 
-
     collectionCount(): number {
         return this.collections.size;
     }
@@ -180,11 +179,7 @@ export class ContextStore {
         textsOrOptions: readonly string[] | CompileContextOptions = [],
         ...legacyArgs: LegacyCompileArgs
     ): Promise<Message[]> {
-        const options: CompileContextOptions = Array.isArray(textsOrOptions)
-            ? { ...normaliseLegacyArgs(legacyArgs), texts: textsOrOptions }
-            : textsOrOptions;
-
-
+        const options = resolveCompileOptions(textsOrOptions, legacyArgs);
         const resolvedTexts: readonly string[] = options.texts ?? DEFAULT_COMPILE_OPTIONS.texts;
         const resolved: Required<CompileContextOptions> = {
             ...DEFAULT_COMPILE_OPTIONS,
