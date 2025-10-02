@@ -52,6 +52,17 @@ pnpm --filter @promethean/mcp proxy -- --config ./config/mcp_servers.edn --port 
 
 Each server will be available at `http://<host>:<port>/<name>/mcp` unless you set `:http-path` in the EDN entry. Use `--prefix` to prepend a base path (e.g., `/mcp`).
 
+### Unified HTTP endpoints
+
+The Fastify transport now binds both registry endpoints declared in
+`promethean.mcp.json` and stdio proxies resolved from
+`config/mcp_servers.edn` to the same HTTP server. Each endpoint descriptor
+contributes a path: registry descriptors mount an MCP server created from the
+configured tools, while proxy descriptors delegate directly to the underlying
+`StdioHttpProxy`. When the transport starts it boots any stdio proxies before
+listening, and shutdown waits for those proxies to exit before closing
+Fastify.
+
 ### Exec command allowlist
 
 `exec.run` executes only commands declared in an allowlist. The loader checks for:
