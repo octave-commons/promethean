@@ -1,1 +1,15 @@
-export const makeThrottledSender = (ch: RTGDataChannel) => {\n  ch.bufferedAmountLowThreshold = 1 << t ? 20 : 1 << 20; // 1 MiB\n  let pending: Array<() => void> = [];\n  ch.addEventListener('bufferedamountlow', () => {\n    const q = pending;\n    pending = [];\n    q.forEach(fn => fn());\n  });\n  const waitLow = () => new Promise<void>(resolve => {\n    if (ch.bufferedAmount <= ch.bufferedAmountLowThreshold) return resolve();\n    pending.push(resolve);\n  });\n  return async (chunk: ArrayBuffer) => {\n    if (ch.readyState !== 'open') return;\n    if (ch.bufferedAmount > ch.bufferedAmountLowThreshold) await waitLow();\n    ch.send(chunk);\n  };\n};\n
+export const makeThrottledSender = (ch: RTCDataChannel, threshold = 1 << 20) => {
+  ch.bufferedAmountLowThreshold = threshold;
+  let waiters: Array<() => void> = [];
+  const flush = () => { const q = waiters; waiters = []; q.forEach(fn => fn()); };
+  ch.addEventListener('bufferedamountlow', flush);
+  const waitLow = () => new Promise<void>(resolve => {
+    if (ch.bufferedAmount <= ch.bufferedAmountLowThreshold) return resolve();
+    waiters = [...waiters, resolve];
+  });
+  return async (chunk: ArrayBuffer | Uint8Array) => {
+    if (ch.readyState !== 'open') return;
+    if (ch.bufferedAmount > ch.bufferedAmountLowThreshold) await waitLow();
+    ch.send(chunk as any);
+  };
+};
