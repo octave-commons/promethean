@@ -181,10 +181,14 @@ export class ContextStore {
     ): Promise<Message[]> {
         const options = resolveCompileOptions(textsOrOptions, legacyArgs);
 
-        const resolvedTexts: readonly string[] = options.texts ?? DEFAULT_COMPILE_OPTIONS.texts;
+        const definedOptions = Object.fromEntries(
+            Object.entries(options).filter(([, value]) => value !== undefined),
+        ) as Partial<CompileContextOptions>;
+
+        const resolvedTexts: readonly string[] = definedOptions.texts ?? DEFAULT_COMPILE_OPTIONS.texts;
         const resolved: Required<CompileContextOptions> = {
             ...DEFAULT_COMPILE_OPTIONS,
-            ...options,
+            ...definedOptions,
             texts: [...resolvedTexts],
         };
 
