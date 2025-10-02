@@ -183,6 +183,16 @@ export class EnsoTranscriber extends Transcriber {
         await this.handshake;
       } catch {
         off();
+        const endTime = Date.now();
+        this.emit("transcriptEnd", {
+          startTime,
+          endTime,
+          speaker,
+          user: speaker.user as any,
+          userName: speaker.user.username,
+          transcript: "",
+          originalTranscript: "",
+        });
         if (typeof (capture as any)?.destroy === "function") {
           (capture as any).destroy();
         }
