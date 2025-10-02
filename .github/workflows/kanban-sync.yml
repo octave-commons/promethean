@@ -1,0 +1,52 @@
+name: Kanban Sync
+
+on:
+  push:
+    paths:
+      - 'docs/agile/**'
+      - 'packages/kanban/**'
+  workflow_dispatch: {}
+  schedule:
+    - cron: '0 9 * * *' # daily 09:00 UTC
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+      - name: Install deps
+        run: pnpm -w install
+      - name: Build kanban
+        run: pnpm --filter @promethean/kanban build
+      - name: Regenerate board
+        env:
+          KANBAN_BOARD_FILE: docs/agile/boards/duck-revival.md
+          KANBAN_TASKS_DIR: docs/agile/tasks
+        run: node packages/kanban/dist/index.js regenerate
+      - name: Process sync (labels + checklists)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_OWNER: ${{ github.repository_owner }}
+          GITHUB_REPO: ${{ github.event.repository.name }}
+          KANBAN_PROCESS_FILE: docs/agile/process/duck-revival.yaml
+        run: node packages/kanban/dist/index.js process_sync
+      - name: Commit board updates (if any)
+        run: |
+          git config user.name 'kanban-bot'
+          git config user.email 'kanban-bot@users.noreply.github.com'
+          git add docs/agile/boards/duck-revival.md
+          if ! git diff --cached --quiet; then
+            git commit -m 'chore(kanban): regenerate duck-revival board'
+            git push
+          fi

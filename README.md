@@ -342,3 +342,10 @@ This ensures all modified markdown files are converted during `git commit`.
 ## License
 
 Promethean Framework is released under the [GNU General Public License v3](LICENSE.txt).
+
+
+---
+
+## Automation Docs
+
+- [Lint → Kanban Workflow](docs/automation/lint-taskgen.md): convert ESLint errors into Kanban tasks, sync with in-repo board.

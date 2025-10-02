@@ -1,7 +1,7 @@
 ---
 uuid: 1a4d3d7c-5b2e-4f2c-8f9a-3b1c2d4e5f6a
 title: enso-browser-gateway — voice forwarder README + frameDuration clamp
-status: todo
+status: review
 priority: P3
 labels:
   - enso
