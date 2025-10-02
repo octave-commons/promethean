@@ -92,5 +92,6 @@
     "workspace": {
       "tools": ["pnpm.install", "pnpm.add", "pnpm.remove", "pnpm.runScript"]
     }
-  }
+  },
+  "stdioProxyConfig": "./config/mcp_servers.edn"
 }
