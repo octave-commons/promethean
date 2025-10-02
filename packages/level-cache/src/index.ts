@@ -1,6 +1,11 @@
 import { Level } from "level";
+import type {
+  BatchOperation,
+  Iterator as LevelIterator,
+  IteratorOptions,
+} from "level";
 
-import type { Cache, CacheOptions, Millis, PutOptions } from "./types.js";
+import type { Cache, CacheOptions, Millis } from "./types.js";
 
 /**
  * Internal on-disk envelope. Keep it tiny.
@@ -30,6 +35,174 @@ type LevelLike<K, V> = Pick<
   "get" | "put" | "del" | "batch" | "iterator" | "close"
 >;
 
+type CacheScopeState = Readonly<{
+  namespace?: string;
+  defaultTtlMs?: Millis;
+}>;
+
+type CacheIterator<T> = LevelIterator<
+  Level<string, Envelope<T>>,
+  string,
+  Envelope<T>
+>;
+
+type CacheBatchOperation<T> = BatchOperation<
+  Level<string, Envelope<T>>,
+  string,
+  Envelope<T>
+>;
+
+type LevelNotFoundError = Readonly<{ code?: string; notFound?: boolean }>;
+
+const isLevelNotFoundError = (value: unknown): value is LevelNotFoundError => {
+  if (typeof value !== "object" || value === null) return false;
+  const candidate = value as Partial<{ code: unknown; notFound: unknown }>;
+  return candidate.code === "LEVEL_NOT_FOUND" || candidate.notFound === true;
+};
+
+const namespacedKey = (state: CacheScopeState, key: string): string =>
+  joinKey(state.namespace, key);
+
+const envelopeFor = <T>(value: T, ttl: Millis | undefined): Envelope<T> =>
+  typeof ttl === "number" ? { v: value, x: now() + ttl } : { v: value };
+
+const entriesIterable = <T>(
+  iterator: CacheIterator<T>,
+): AsyncIterable<readonly [string, Envelope<T> | undefined]> =>
+  iterator as unknown as AsyncIterable<
+    readonly [string, Envelope<T> | undefined]
+  >;
+
+const asyncReduce = async <TItem, TAcc>(
+  iterable: AsyncIterable<TItem>,
+  reducer: (acc: TAcc, item: TItem) => Promise<TAcc> | TAcc,
+  initial: TAcc,
+): Promise<TAcc> => {
+  const reduceIterator = async (
+    iterator: AsyncIterator<TItem>,
+    acc: TAcc,
+  ): Promise<TAcc> => {
+    const next = await iterator.next();
+    if (next.done) return acc;
+    const updated = await reducer(acc, next.value);
+    return reduceIterator(iterator, updated);
+  };
+
+  return reduceIterator(iterable[Symbol.asyncIterator](), initial);
+};
+
+const createGet =
+  <T>(
+    db: LevelLike<string, Envelope<T>>,
+    state: CacheScopeState,
+  ): Cache<T>["get"] =>
+  async (key: string) => {
+    const scoped = namespacedKey(state, key);
+    const env = await db.get(scoped).catch((err: unknown) => {
+      if (isLevelNotFoundError(err)) return undefined;
+      throw err;
+    });
+    const [value, expired] = unwrap(env);
+    if (expired) await db.del(scoped).catch(() => undefined);
+    return value;
+  };
+
+const createHas =
+  <T>(get: Cache<T>["get"]): Cache<T>["has"] =>
+  async (key: string) =>
+    (await get(key)) !== undefined;
+
+const createSet =
+  <T>(
+    db: LevelLike<string, Envelope<T>>,
+    state: CacheScopeState,
+  ): Cache<T>["set"] =>
+  async (key, value, putOpts) => {
+    const ttl = putOpts?.ttlMs ?? state.defaultTtlMs;
+    await db.put(namespacedKey(state, key), envelopeFor(value, ttl));
+  };
+
+const createDel =
+  <T>(
+    db: LevelLike<string, Envelope<T>>,
+    state: CacheScopeState,
+  ): Cache<T>["del"] =>
+  async (key) => {
+    await db.del(namespacedKey(state, key));
+  };
+
+const createBatch =
+  <T>(
+    db: LevelLike<string, Envelope<T>>,
+    state: CacheScopeState,
+  ): Cache<T>["batch"] =>
+  async (ops) => {
+    const mapped = ops.map<CacheBatchOperation<T>>((op) => {
+      const key = namespacedKey(state, op.key);
+      if (op.type === "del") {
+        return { type: "del", key };
+      }
+      const ttl = op.ttlMs ?? state.defaultTtlMs;
+      return { type: "put", key, value: envelopeFor(op.value, ttl) };
+    });
+    await db.batch(mapped);
+  };
+
+const createEntries = <T>(
+  db: LevelLike<string, Envelope<T>>,
+  state: CacheScopeState,
+): Cache<T>["entries"] =>
+  async function* entries(opts = {}) {
+    const prefix = state.namespace ? `${state.namespace}\u241F` : "";
+    const iteratorOptions: IteratorOptions<string, Envelope<T>> = {
+      gte: prefix,
+      lt: prefix ? `${prefix}\uFFFF` : undefined,
+      limit: opts.limit,
+    };
+    const iterator = db.iterator(iteratorOptions);
+    for await (const [storedKey, env] of entriesIterable(iterator)) {
+      const [value, expired] = unwrap(env);
+      if (expired) {
+        await db.del(storedKey).catch(() => undefined);
+        continue;
+      }
+      if (value === undefined) continue;
+      const logicalKey = prefix ? storedKey.slice(prefix.length) : storedKey;
+      yield [logicalKey, value] as [string, T];
+    }
+  };
+
+const createSweepExpired =
+  <T>(db: LevelLike<string, Envelope<T>>): Cache<T>["sweepExpired"] =>
+  async () => {
+    const iterator = db.iterator();
+    return asyncReduce(
+      entriesIterable(iterator),
+      async (count, [key, env]) => {
+        const [, expired] = unwrap(env);
+        if (!expired) return count;
+        await db.del(key).catch(() => undefined);
+        return count + 1;
+      },
+      0,
+    );
+  };
+
+const createWithNamespace =
+  <T>(
+    db: LevelLike<string, Envelope<T>>,
+    state: CacheScopeState,
+  ): Cache<T>["withNamespace"] =>
+  (ns) => {
+    const cfg: ScopeConfig = {
+      namespace: ns ? composeNamespace(state.namespace, ns) : DEFAULT_NAMESPACE,
+      ...(state.defaultTtlMs !== undefined
+        ? { defaultTtlMs: state.defaultTtlMs }
+        : {}),
+    };
+    return buildCacheScope<T>(db, cfg);
+  };
+
 type ScopeConfig = Readonly<{
   namespace?: string;
   defaultTtlMs?: Millis;
@@ -43,118 +216,23 @@ function buildCacheScope<T>(
   db: LevelLike<string, Envelope<T>>,
   cfg: ScopeConfig,
 ): Cache<T> {
-  const base = { namespace: cfg.namespace, defaultTtlMs: cfg.defaultTtlMs };
-
-  const get = async (key: string): Promise<T | undefined> => {
-    const k = joinKey(base.namespace, key);
-    const env = await db.get(k).catch((err: any) => {
-      if (err && (err.code === "LEVEL_NOT_FOUND" || err.notFound)) {
-        return undefined as Envelope<T> | undefined;
-      }
-      throw err;
-    });
-    const [val, expired] = unwrap(env);
-    if (expired) await db.del(k).catch(() => {});
-    return val;
+  const state: CacheScopeState = {
+    namespace: cfg.namespace,
+    defaultTtlMs: cfg.defaultTtlMs,
   };
 
-  const has = async (key: string): Promise<boolean> =>
-    (await get(key)) !== undefined;
-
-  const set = async (
-    key: string,
-    value: T,
-    putOpts?: PutOptions,
-  ): Promise<void> => {
-    const ttl = putOpts?.ttlMs ?? base.defaultTtlMs;
-    const k = joinKey(base.namespace, key);
-    const env: Envelope<T> =
-      typeof ttl === "number" ? { v: value, x: now() + ttl } : { v: value };
-    await db.put(k, env);
-  };
-
-  const del = async (key: string): Promise<void> => {
-    const k = joinKey(base.namespace, key);
-    await db.del(k);
-  };
-
-  const batch = async (
-    ops: ReadonlyArray<
-      | { type: "put"; key: string; value: T; ttlMs?: Millis }
-      | { type: "del"; key: string }
-    >,
-  ): Promise<void> => {
-    const mapped = ops.map((op) => {
-      const k = joinKey(base.namespace, op.key);
-      if (op.type === "del") return { type: "del" as const, key: k };
-      const ttl = op.ttlMs ?? base.defaultTtlMs;
-      const env: Envelope<T> =
-        typeof ttl === "number"
-          ? { v: op.value, x: now() + ttl }
-          : { v: op.value };
-      return { type: "put" as const, key: k, value: env };
-    });
-    await db.batch(mapped as any);
-  };
-
-  const entries = async function* (opts?: Readonly<{ limit?: number }>) {
-    const prefix = base.namespace ? `${base.namespace}\u241F` : "";
-    const it = db.iterator({
-      gte: prefix,
-      lt: prefix ? prefix + "\uFFFF" : undefined,
-      limit: opts?.limit,
-    } as any);
-    try {
-      for await (const [k, env] of it as any) {
-        const [val, expired] = unwrap(env as Envelope<T> | undefined);
-        if (expired) {
-          await db.del(k as string).catch(() => {});
-          continue;
-        }
-        const logicalKey = prefix
-          ? (k as string).slice(prefix.length)
-          : (k as string);
-        if (val !== undefined) yield [logicalKey, val] as [string, T];
-      }
-    } finally {
-      // iterator auto-closes in modern level
-    }
-  };
-
-  const sweepExpired = async (): Promise<number> => {
-    let n = 0;
-    for await (const [k, env] of db.iterator() as any) {
-      const [, expired] = unwrap(env as Envelope<T> | undefined);
-      if (expired) {
-        await db.del(k as string).catch(() => {});
-        n++;
-      }
-    }
-    return n;
-  };
-
-  const withNamespace = (ns: string): Cache<T> => {
-    const cfg: ScopeConfig = {
-      namespace: ns ? composeNamespace(base.namespace, ns) : DEFAULT_NAMESPACE,
-      ...(base.defaultTtlMs !== undefined
-        ? { defaultTtlMs: base.defaultTtlMs }
-        : {}),
-    };
-    return buildCacheScope<T>(db, cfg);
-  };
-
-  const close = async () => db.close();
+  const get = createGet(db, state);
 
   return {
     get,
-    has,
-    set,
-    del,
-    batch,
-    entries,
-    sweepExpired,
-    withNamespace,
-    close,
+    has: createHas(get),
+    set: createSet(db, state),
+    del: createDel(db, state),
+    batch: createBatch(db, state),
+    entries: createEntries(db, state),
+    sweepExpired: createSweepExpired(db),
+    withNamespace: createWithNamespace(db, state),
+    close: () => db.close(),
   };
 }
 

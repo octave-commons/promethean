@@ -1,5 +1,6 @@
 import { randomUUID as nodeRandomUUID } from 'node:crypto';
 import * as path from 'node:path';
+
 import matter, { type GrayMatterFile } from 'gray-matter';
 
 export type ParsedMarkdown<T extends Record<string, unknown>> = GrayMatterFile<string> & {
@@ -74,6 +75,40 @@ export const normalizeStringList = (values: readonly unknown[] | undefined): str
 
 export const deriveFilenameFromPath = (filePath: string): string => path.parse(filePath).name;
 
+const readOptionalString = (
+    record: Readonly<Record<string, unknown>> | Readonly<MergeGenerated>,
+    key: string,
+): string | undefined => {
+    const raw = (record as Record<string, unknown>)[key];
+    return isNonEmptyString(raw) ? toTrimmed(raw) : undefined;
+};
+
+const resolveFilename = (
+    base: Readonly<Record<string, unknown>>,
+    generated: Readonly<MergeGenerated>,
+    derive: (args: { readonly filePath?: string }) => string,
+    filePath?: string,
+): string => readOptionalString(base, 'filename') ?? readOptionalString(generated, 'filename') ?? derive({ filePath });
+
+const resolveDescription = (
+    base: Readonly<Record<string, unknown>>,
+    generated: Readonly<MergeGenerated>,
+    fallback: string,
+): string => readOptionalString(base, 'description') ?? readOptionalString(generated, 'description') ?? fallback;
+
+const resolveTags = (base: Readonly<Record<string, unknown>>, generated: Readonly<MergeGenerated>): string[] => {
+    const baseTags = (base as Record<string, unknown>).tags;
+    return Array.isArray(baseTags) && baseTags.length > 0
+        ? normalizeStringList(baseTags)
+        : normalizeStringList(generated.tags);
+};
+
+const resolveTitle = (
+    base: Readonly<Record<string, unknown>>,
+    generated: Readonly<MergeGenerated>,
+    fallback: string,
+): string => readOptionalString(base, 'title') ?? readOptionalString(generated, 'title') ?? fallback;
+
 export const ensureBaselineFrontmatter = <T extends Record<string, unknown>>(
     frontmatter: Readonly<T>,
     options: EnsureBaselineOptions<T> = {},
@@ -144,32 +179,13 @@ export const mergeFrontmatterWithGenerated = <T extends Record<string, unknown>,
             return 'untitled';
         });
 
-    const filenameCandidate = (() => {
-        const fromBase = (base as Record<string, unknown>).filename;
-        if (isNonEmptyString(fromBase)) return toTrimmed(fromBase);
-        if (isNonEmptyString(generated.filename)) return toTrimmed(generated.filename);
-        return derive({ filePath });
-    })();
+    const baseRecord = base as Record<string, unknown>;
+    const generatedRecord = generated as Readonly<MergeGenerated>;
 
-    const description = (() => {
-        const fromBase = (base as Record<string, unknown>).description;
-        if (isNonEmptyString(fromBase)) return toTrimmed(fromBase);
-        if (isNonEmptyString(generated.description)) return toTrimmed(generated.description);
-        return descriptionFallback;
-    })();
-
-    const baseTags = (base as Record<string, unknown>).tags;
-    const tags =
-        Array.isArray(baseTags) && baseTags.length > 0
-            ? normalizeStringList(baseTags)
-            : normalizeStringList(generated.tags);
-
-    const title = (() => {
-        const fromBase = (base as Record<string, unknown>).title;
-        if (isNonEmptyString(fromBase)) return toTrimmed(fromBase);
-        if (isNonEmptyString(generated.title)) return toTrimmed(generated.title);
-        return filenameCandidate;
-    })();
+    const filenameCandidate = resolveFilename(baseRecord, generatedRecord, derive, filePath);
+    const description = resolveDescription(baseRecord, generatedRecord, descriptionFallback);
+    const tags = resolveTags(baseRecord, generatedRecord);
+    const title = resolveTitle(baseRecord, generatedRecord, filenameCandidate);
 
     return Object.freeze({
         ...base,

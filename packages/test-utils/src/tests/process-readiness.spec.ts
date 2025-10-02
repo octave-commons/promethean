@@ -58,13 +58,14 @@ test('startProcess waits for TCP readiness', async (t) => {
 test('startProcess with log readiness requires stdio: pipe', async (t) => {
     const code = "console.log('READY'); setTimeout(() => {}, 200)";
     await t.throwsAsync(
-        startProcess({
-            cmd: 'node',
-            args: ['-e', code],
-            cwd: process.cwd(),
-            // stdio omitted -> defaults to 'inherit'
-            ready: { kind: 'log', pattern: /READY/ },
-        }) as any,
+        async () =>
+            startProcess({
+                cmd: 'node',
+                args: ['-e', code],
+                cwd: process.cwd(),
+                // stdio omitted -> defaults to 'inherit'
+                ready: { kind: 'log', pattern: /READY/ },
+            }),
         { message: /requires stdio: "pipe"/ },
     );
 });

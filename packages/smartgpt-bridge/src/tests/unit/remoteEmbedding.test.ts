@@ -13,7 +13,7 @@ test("RemoteEmbeddingFunction: generate returns embeddings via override", async 
   setEmbeddingOverride(async ({ inputs }) =>
     inputs.map((input, index) => [Number(index), input.length]),
   );
-  const ref = new RemoteEmbeddingFunction(undefined, "driverX", "fnY");
+  const ref = new RemoteEmbeddingFunction({ driver: "driverX", fn: "fnY" });
   const out = await ref.generate(["hello", "world"]);
   t.deepEqual(out, [
     [0, "hello".length],

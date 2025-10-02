@@ -1,451 +1,455 @@
-/*
-Promethean Markdown Board — TypeScript scaffold
+import { randomUUID } from 'node:crypto';
 
-A structured "Markdown DOM" wrapper around a Kanban-like board stored in Markdown.
-
-Assumptions (customizable):
-- Board columns are defined by level-2 headings (## Column Name)
-- Cards are list items under the column heading. Task checkboxes map to done/undone.
-- Card identity is stored in an inline HTML comment at the end of the list item paragraph: <!-- id: UUID -->
-- Optional inline metadata supported inside the card text:
-  • Tags as #tag
-  • Obsidian-style wiki links [[Note Title]] captured to `links`
-  • Attr map at the very end in braces: {key:val key2:"val with spaces"}
-- Kanban settings block is stored as a fenced code block labeled json inside %% kanban:settings %% markers
-
-Round-trip strategy:
-- Keep and mutate a single MDAST; serialize back with remark-stringify.
-- Minimal formatting changes via remark-stringify options to limit diffs.
-
-Dependencies to add:
-  pnpm add unified remark-parse remark-gfm remark-stringify unist-util-visit unist-util-to-string gray-matter uuid
-
-(If you prefer pure ESM: ensure "type":"module" and import paths accordingly.)
-*/
-
-import { unified } from 'unified';
-import remarkParse from 'remark-parse';
-import remarkGfm from 'remark-gfm';
-import remarkStringify from 'remark-stringify';
-import { visit, EXIT } from 'unist-util-visit';
-import toStringWithNodes from 'unist-util-to-string-with-nodes';
 import matter from 'gray-matter';
-import { v4 as uuidv4 } from 'uuid';
-import type { Node, Parent } from 'unist';
-function toString(node: Node): string {
-    const result = toStringWithNodes(node).text;
-    if (result && result.trim().length > 0) return result;
 
-    if (typeof (node as any)?.value === 'string') {
-        return (node as any).value as string;
-    }
-
-    const children = (node as any)?.children;
-    if (Array.isArray(children)) {
-        return children.map((child: Node) => toString(child)).join('');
-    }
-
-    return '';
-}
-
-// ---------- Types ----------
-
-export type Attrs = Record<string, string>;
+export type Attrs = Readonly<Record<string, string>>;
 
 export type Card = {
-    id: string;
-    text: string;
-    done: boolean;
-    tags: string[];
-    links: string[];
-    attrs: Attrs;
+    readonly id: string;
+    readonly text: string;
+    readonly done: boolean;
+    readonly tags: readonly string[];
+    readonly links: readonly string[];
+    readonly attrs: Attrs;
 };
 
 export type Column = {
-    name: string;
-    // index of the heading node in the MDAST children array (internal pointer)
-    _headingIndex: number;
+    readonly name: string;
+    readonly _headingIndex: number;
 };
 
-export type BoardFrontmatter = {
-    [key: string]: any;
+export type BoardFrontmatter = Readonly<Record<string, unknown>>;
+
+export type KanbanSettings = Readonly<Record<string, unknown>>;
+
+type ColumnState = {
+    readonly name: string;
+    readonly cards: readonly Card[];
 };
 
-export type KanbanSettings = {
-    [key: string]: any;
+type BoardState = {
+    readonly columns: readonly ColumnState[];
+    readonly frontmatter: BoardFrontmatter;
+    readonly settings: KanbanSettings | null;
 };
 
-// ---------- Helpers ----------
+type ParseAcc = {
+    readonly columns: readonly ColumnState[];
+    readonly current: ColumnState | undefined;
+    readonly pendingCardIndex: number | undefined;
+};
 
-const ID_COMMENT_PREFIX = 'id:';
+const COLUMN_HEADING = /^##\s+(.+)$/u;
+const CARD_ITEM = /^-\s*\[(?<status>[ xX])\]\s*(?<body>.*)$/u;
+const CARD_COMMENT = /^\s*<!--\s*id:\s*([A-Za-z0-9._:-]+)\s*-->\s*$/u;
+const SETTINGS_BLOCK = /%%\s*kanban:settings[\s\S]*?```json\s*([\s\S]*?)\s*```[\s\S]*?%%/iu;
+const TAG_PATTERN = /(^|\s)#([\w.-]+)/gu;
+const LINK_PATTERN = /\[\[([^\]]+)\]\]/gu;
 
-function unescapeAttrValue(value: string, quote: '"' | "'" | null): string {
-    let result = value;
-    if (quote === '"') {
-        result = result.replace(/\\"/g, '"');
-    } else if (quote === "'") {
-        result = result.replace(/\\'/g, "'");
+const clamp = (value: number, lower: number, upper: number): number => Math.min(Math.max(value, lower), upper);
+
+const freezeRecord = <T extends Record<string, unknown>>(record: Readonly<T>): Readonly<T> =>
+    Object.freeze({ ...record });
+
+const normalizeName = (value: string): string => value.trim().toLowerCase();
+
+const normalizeTags = (tags: readonly string[] | undefined): readonly string[] =>
+    (tags ?? [])
+        .map((tag) => tag.trim())
+        .filter((tag) => tag.length > 0)
+        .map((tag) => (tag.startsWith('#') ? tag.slice(1) : tag));
+
+const normalizeLinks = (links: readonly string[] | undefined): readonly string[] =>
+    (links ?? []).map((link) => link.trim()).filter((link) => link.length > 0);
+
+const normalizeAttrs = (attrs: Attrs | undefined): Attrs => {
+    const entries = Object.entries(attrs ?? {})
+        .map(([key, value]) => [key.trim(), value.trim()] as const)
+        .filter(([key, value]) => key.length > 0 && value.length > 0);
+    return Object.freeze(Object.fromEntries(entries));
+};
+
+const formatAttrValue = (value: string): string => {
+    const escaped = value.replace(/\\/gu, '\\\\');
+    if (!/\s|"|'/.test(value)) return escaped;
+    if (!value.includes('"')) {
+        return `"${escaped}"`;
     }
-    result = result.replace(/\\\\/g, '\\');
-    return result;
-}
+    if (!value.includes("'")) {
+        return `'${escaped}'`;
+    }
+    return `"${escaped.replace(/"/gu, '\\"')}"`;
+};
 
-function parseAttrs(braced?: string): Attrs {
-    if (!braced) return {};
-    const out: Attrs = {};
-    // very small parser for: {key:val key2:"val with spaces"}
-    const inner = braced.trim().replace(/^\{/, '').replace(/\}$/, '').trim();
-    if (!inner) return out;
-    const tokenRe = /([\w.-]+)\s*:\s*("[^"]*"|'[^']*'|[^\s]+)(?=\s|$)/g;
-    let m: RegExpExecArray | null;
-    while ((m = tokenRe.exec(inner))) {
-        const k = m[1];
-        let v = m[2];
-        let quote: '"' | "'" | null = null;
-        if ((v.startsWith('"') && v.endsWith('"')) || (v.startsWith("'") && v.endsWith("'"))) {
-            quote = v[0] as '"' | "'";
-            v = v.slice(1, -1);
+const stringifyAttrs = (attrs: Attrs): string | undefined => {
+    const entries = Object.entries(attrs);
+    if (entries.length === 0) return undefined;
+    const rendered = entries.map(([key, value]) => `${key}:${formatAttrValue(value)}`);
+    return `{${rendered.join(' ')}}`;
+};
+
+const parseAttrs = (raw: string | undefined): Attrs => {
+    if (!raw) return Object.freeze({});
+    const inner = raw
+        .trim()
+        .replace(/^\{/u, '')
+        .replace(/\}\s*$/u, '')
+        .trim();
+    if (!inner) return Object.freeze({});
+    const token = /([\w.-]+)\s*:\s*("[^"]*"|'[^']*'|[^\s]+)(?=\s|$)/gu;
+    const matches = Array.from(inner.matchAll(token));
+    if (matches.length === 0) return Object.freeze({});
+    const entries = matches
+        .map((match) => {
+            const key = match[1] ?? '';
+            const rawValue = match[2] ?? '';
+            const isQuoted =
+                (rawValue.startsWith('"') && rawValue.endsWith('"')) ||
+                (rawValue.startsWith("'") && rawValue.endsWith("'"));
+            const trimmed = isQuoted ? rawValue.slice(1, -1) : rawValue;
+            const value = trimmed.replace(/\\"/gu, '"').replace(/\\'/gu, "'").replace(/\\\\/gu, '\\');
+            return key ? ([key, value] as const) : null;
+        })
+        .filter((entry): entry is readonly [string, string] => entry !== null);
+    return Object.freeze(Object.fromEntries(entries));
+};
+
+const createCardText = (card: Card): string => {
+    const tagTokens = card.tags.map((tag) => `#${tag}`);
+    const linkTokens = card.links.map((link) => `[[${link}]]`);
+    const attrsToken = stringifyAttrs(card.attrs);
+    return [card.text, ...tagTokens, ...linkTokens, attrsToken]
+        .filter((token): token is string => typeof token === 'string' && token.trim().length > 0)
+        .join(' ')
+        .trim();
+};
+
+const formatCardLine = (card: Card): string => {
+    const prefix = card.done ? '- [x]' : '- [ ]';
+    const text = createCardText(card);
+    const comment = `<!-- id: ${card.id} -->`;
+    return text.length > 0 ? `${prefix} ${text} ${comment}` : `${prefix} ${comment}`;
+};
+
+const cloneCard = (card: Card): Card => ({
+    id: card.id,
+    text: card.text,
+    done: card.done,
+    tags: [...card.tags],
+    links: [...card.links],
+    attrs: Object.freeze({ ...card.attrs }),
+});
+
+const ensureId = (value: string | undefined): string => value ?? randomUUID();
+
+const parseCardLine = (body: string, isDone: boolean): { readonly card: Card; readonly hasInlineId: boolean } => {
+    const commentMatch = body.match(/([\s\S]*?)<!--\s*id:\s*([A-Za-z0-9._:-]+)\s*-->\s*$/u);
+    const withoutComment = commentMatch ? commentMatch[1] ?? '' : body;
+    const inlineId = commentMatch?.[2];
+    const attrsMatch = withoutComment.match(/\{[^}]+\}\s*$/u);
+    const attrs = parseAttrs(attrsMatch?.[0]);
+    const withoutAttrs = attrsMatch ? withoutComment.slice(0, attrsMatch.index).trim() : withoutComment.trim();
+    const tags = Array.from(withoutAttrs.matchAll(TAG_PATTERN), (match) => match[2] ?? '').filter(
+        (tag) => tag.length > 0,
+    );
+    const links = Array.from(withoutAttrs.matchAll(LINK_PATTERN), (match) => match[1] ?? '').filter(
+        (link) => link.length > 0,
+    );
+    const cleaned = withoutAttrs.replace(TAG_PATTERN, ' ').replace(LINK_PATTERN, ' ').replace(/\s+/gu, ' ').trim();
+    return {
+        card: {
+            id: ensureId(inlineId),
+            text: cleaned,
+            done: isDone,
+            tags,
+            links,
+            attrs,
+        },
+        hasInlineId: Boolean(inlineId),
+    };
+};
+
+const appendColumn = (columns: readonly ColumnState[], column: ColumnState): readonly ColumnState[] => [
+    ...columns,
+    column,
+];
+
+const parseColumns = (markdown: string): readonly ColumnState[] => {
+    const lines = markdown.split(/\r?\n/u);
+    const initial: ParseAcc = { columns: [], current: undefined, pendingCardIndex: undefined };
+    const processed = lines.reduce<ParseAcc>((state, line) => {
+        if (line.trim().length === 0) {
+            return { ...state, pendingCardIndex: undefined };
         }
-        out[k] = unescapeAttrValue(v, quote);
-    }
-    return out;
-}
+        const headingMatch = COLUMN_HEADING.exec(line);
+        if (headingMatch) {
+            const nextColumn: ColumnState = {
+                name: (headingMatch[1] ?? '').trim(),
+                cards: [],
+            };
+            const columns = state.current ? appendColumn(state.columns, state.current) : state.columns;
+            return { columns, current: nextColumn, pendingCardIndex: undefined };
+        }
+        const cardMatch = CARD_ITEM.exec(line);
+        if (cardMatch && state.current) {
+            const statusToken = (cardMatch.groups?.status ?? ' ').toLowerCase();
+            const body = cardMatch.groups?.body ?? '';
+            const { card, hasInlineId } = parseCardLine(body, statusToken === 'x');
+            const cards = [...state.current.cards, card];
+            const current = { ...state.current, cards };
+            return {
+                columns: state.columns,
+                current,
+                pendingCardIndex: hasInlineId ? undefined : cards.length - 1,
+            };
+        }
+        const commentMatch = CARD_COMMENT.exec(line);
+        if (commentMatch && state.current && typeof state.pendingCardIndex === 'number') {
+            const cardId = commentMatch[1] ?? '';
+            const cards = state.current.cards.map((card, index) =>
+                index === state.pendingCardIndex ? { ...card, id: cardId } : card,
+            );
+            const current = { ...state.current, cards };
+            return { columns: state.columns, current, pendingCardIndex: undefined };
+        }
+        return state;
+    }, initial);
+    const finalColumns = processed.current ? appendColumn(processed.columns, processed.current) : processed.columns;
+    return finalColumns.map((column) => ({ ...column, cards: column.cards.map(cloneCard) }));
+};
 
-function formatAttrValue(value: string): string {
-    const withEscapedBackslashes = value.replace(/\\/g, '\\\\');
-    const needsQuotes = /\s/.test(value) || value.includes('"') || value.includes("'");
-    if (!needsQuotes) return withEscapedBackslashes;
-    if (value.includes('"') && !value.includes("'")) {
-        return `'${withEscapedBackslashes}'`;
-    }
-    const withEscapedDoubleQuotes = withEscapedBackslashes.replace(/"/g, '\\"');
-    return `"${withEscapedDoubleQuotes}"`;
-}
+const formatSettingsBlock = (settings: KanbanSettings | null): string => {
+    if (!settings) return '';
+    const json = JSON.stringify(settings, null, 2);
+    return ['%% kanban:settings', '', '```json', json, '```', '%%', ''].join('\n');
+};
 
-function stringifyAttrs(attrs: Attrs): string | null {
-    const keys = Object.keys(attrs);
-    if (!keys.length) return null;
-    const parts = keys.map((k) => {
-        const v = attrs[k];
-        return `${k}:${formatAttrValue(v)}`;
-    });
-    return `{${parts.join(' ')}}`;
-}
-
-function extractIdFromHtml(htmlValue?: string): string | null {
-    if (!htmlValue) return null;
-    // Relaxed: allow common id chars (letters, digits, dash, underscore, dot, colon)
-    const m = /id:\s*([A-Za-z0-9._:-]+)/.exec(htmlValue);
-    return m ? m[1] : null;
-}
-
-function makeIdComment(id: string) {
-    return `<!-- ${ID_COMMENT_PREFIX} ${id} -->`;
-}
-
-function uniqueId(): string {
+const removeSettingsBlock = (
+    content: string,
+): { readonly cleaned: string; readonly settings: KanbanSettings | null } => {
+    const match = SETTINGS_BLOCK.exec(content);
+    if (!match) return { cleaned: content, settings: null };
+    const json = (match[1] ?? '').trim();
     try {
-        return crypto.randomUUID();
+        const parsed = json ? (JSON.parse(json) as KanbanSettings) : {};
+        const cleaned = content.replace(match[0] ?? '', '').trimStart();
+        return { cleaned, settings: Object.freeze(parsed) };
     } catch {
-        return uuidv4();
+        return { cleaned: content.replace(match[0] ?? '', '').trimStart(), settings: null };
     }
-}
-
-// ---------- Board class ----------
+};
 
 export class MarkdownBoard {
-    private readonly _raw: string;
-    private readonly frontmatter: BoardFrontmatter;
-    private readonly tree: any; // MDAST
-    private kanbanSettings: KanbanSettings | null = null;
+    private state: BoardState;
 
-    private constructor(raw: string, frontmatter: BoardFrontmatter, tree: any, kanbanSettings: KanbanSettings | null) {
-        this._raw = raw;
-        void this._raw;
-        this.frontmatter = frontmatter;
-        this.tree = tree;
-        this.kanbanSettings = kanbanSettings;
+    private constructor(state: BoardState) {
+        this.state = state;
     }
 
     static async load(markdown: string): Promise<MarkdownBoard> {
         const { content, data } = matter(markdown);
-        const file = unified().use(remarkParse).use(remarkGfm).parse(content);
-
-        // attempt to extract kanban settings JSON block
-        let kanbanSettings: KanbanSettings | null = null;
-        visit(file, (node: any) => {
-            if (node.type === 'html' && node.value.trim().startsWith('%% kanban:settings')) {
-                // next node should be code block
-            }
-            if (node.type === 'code' && node.lang === 'json') {
-                try {
-                    kanbanSettings = JSON.parse(node.value);
-                } catch {
-                    kanbanSettings = null;
-                }
-            }
-        });
-
-        return new MarkdownBoard(markdown, (data as BoardFrontmatter) || {}, file, kanbanSettings);
+        const { cleaned, settings } = removeSettingsBlock(content);
+        const columns = parseColumns(cleaned);
+        const frontmatter = freezeRecord((data ?? {}) as Record<string, unknown>);
+        const state: BoardState = {
+            columns,
+            frontmatter,
+            settings,
+        };
+        return new MarkdownBoard(state);
     }
 
     getFrontmatter(): BoardFrontmatter {
-        return { ...this.frontmatter };
-    }
-    setFrontmatter(patch: BoardFrontmatter) {
-        Object.assign(this.frontmatter, patch);
+        return freezeRecord(this.state.frontmatter as Record<string, unknown>);
     }
 
-    getKanbanSettings(): KanbanSettings | null {
-        return this.kanbanSettings ? { ...this.kanbanSettings } : null;
-    }
-    setKanbanSettings(settings: KanbanSettings) {
-        this.kanbanSettings = { ...settings };
-    }
-
-    /** Return columns as level-2 headings in order */
-    listColumns(): Column[] {
-        const cols: Column[] = [];
-        const children = this.tree.children || [];
-        children.forEach((node: any, idx: number) => {
-            if (node.type === 'heading' && node.depth === 2) {
-                cols.push({ name: toString(node).trim(), _headingIndex: idx });
-            }
-        });
-        return cols;
-    }
-
-    /** Ensure a column exists; create if missing right before the next H2 or at end */
-    addColumn(name: string, position?: number) {
-        const children = this.tree.children || [];
-        const existing = this.findColumnHeadingNode(name);
-        if (existing) return; // already exists
-
-        const headingNode = { type: 'heading', depth: 2, children: [{ type: 'text', value: name }] };
-        const listNode = { type: 'list', ordered: false, spread: false, children: [] as any[] };
-
-        const insertAt =
-            typeof position === 'number' ? Math.max(0, Math.min(position, children.length)) : children.length;
-        children.splice(insertAt, 0, headingNode, listNode);
-    }
-
-    removeColumn(name: string) {
-        const idx = this.findColumnHeadingIndex(name);
-        if (idx < 0) return;
-        const children = this.tree.children;
-        // remove heading and the immediate list that follows (if any)
-        children.splice(idx, 1);
-        if (children[idx] && children[idx].type === 'list') children.splice(idx, 1);
-    }
-
-    /** List cards under a column */
-    listCards(columnName: string): Card[] {
-        const list = this.ensureColumnList(columnName);
-        if (!list) return [];
-        const cards: Card[] = [];
-        for (const li of list.children || []) {
-            const { id, text, done, tags, links, attrs } = this.extractCardFromListItem(li);
-            cards.push({ id, text, done, tags, links, attrs });
-        }
-        return cards;
-    }
-
-    addCard(columnName: string, card: Partial<Card> & { text: string }) {
-        const list = this.ensureColumnList(columnName, true);
-        if (!list) throw new Error(`Column not found: ${columnName}`);
-        const id = card.id || uniqueId();
-        const li = this.cardToListItem({
-            id,
-            text: card.text,
-            done: !!card.done,
-            tags: card.tags || [],
-            links: card.links || [],
-            attrs: card.attrs || {},
-        });
-        list.children.push(li);
-        return id;
-    }
-
-    removeCard(columnName: string, cardId: string) {
-        const list = this.ensureColumnList(columnName);
-        if (!list) return;
-        const idx = (list.children || []).findIndex((li: any) => this.extractIdFromLI(li) === cardId);
-        if (idx >= 0) list.children.splice(idx, 1);
-    }
-
-    moveCard(cardId: string, fromColumn: string, toColumn: string, toIndex?: number) {
-        const fromList = this.ensureColumnList(fromColumn);
-        const toList = this.ensureColumnList(toColumn, true);
-        if (!fromList || !toList) throw new Error('Column(s) not found');
-        const fromIdx = (fromList.children || []).findIndex((li: any) => this.extractIdFromLI(li) === cardId);
-        if (fromIdx < 0) throw new Error('Card not found in source column');
-        const [li] = fromList.children.splice(fromIdx, 1);
-        const insertAt =
-            typeof toIndex === 'number'
-                ? Math.max(0, Math.min(toIndex, toList.children.length))
-                : toList.children.length;
-        toList.children.splice(insertAt, 0, li);
-    }
-
-    updateCard(cardId: string, patch: Partial<Omit<Card, 'id'>>) {
-        const { li, list } = this.findCardLI(cardId) || {};
-        if (!li || !list) throw new Error('Card not found');
-        const current = this.extractCardFromListItem(li);
-        const updated: Card = { ...current, ...patch, id: current.id };
-        // Replace LI
-        const newLi = this.cardToListItem(updated);
-        const idx = list.children.indexOf(li);
-        list.children.splice(idx, 1, newLi);
-    }
-
-    findCards(query: { textIncludes?: string; tag?: string; done?: boolean }): { column: string; card: Card }[] {
-        const out: { column: string; card: Card }[] = [];
-        for (const col of this.listColumns()) {
-            for (const card of this.listCards(col.name)) {
-                if (query.textIncludes && !card.text.toLowerCase().includes(query.textIncludes.toLowerCase())) continue;
-                if (typeof query.done === 'boolean' && card.done !== query.done) continue;
-                if (query.tag && !card.tags.includes(query.tag)) continue;
-                out.push({ column: col.name, card });
-            }
-        }
-        return out;
-    }
-
-    /** Serialize board back to Markdown (with frontmatter + settings if available) */
-    async toMarkdown(): Promise<string> {
-        const md = unified()
-            .use(remarkStringify, { bullet: '-', fences: true, listItemIndent: 'one' })
-            .stringify(this.tree);
-        let full = matter.stringify(md, this.frontmatter);
-
-        if (this.kanbanSettings) {
-            const settingsBlock = `%% kanban:settings\n\n\`\`\`json\n${JSON.stringify(
-                this.kanbanSettings,
-                null,
-                2,
-            )}\n\`\`\`\n%%`;
-            full = settingsBlock + '\n\n' + full;
-        }
-        return full.replace(/\\\[\\\[/g, '[[').replace(/\\\]\]/g, ']]');
-    }
-
-    // ---------- Internal utilities ----------
-
-    private findColumnHeadingIndex(name: string): number {
-        const children = this.tree.children || [];
-        const norm = (s: string) => s.trim().toLowerCase();
-        for (let i = 0; i < children.length; i++) {
-            const n = children[i];
-            if (n.type === 'heading' && n.depth === 2 && norm(toString(n)) === norm(name)) return i;
-        }
-        return -1;
-    }
-
-    private findColumnHeadingNode(name: string): Node | null {
-        const idx = this.findColumnHeadingIndex(name);
-        return idx >= 0 ? this.tree.children[idx] : null;
-    }
-
-    private ensureColumnList(name: string, create = false): Parent | null {
-        const idx = this.findColumnHeadingIndex(name);
-        if (idx < 0) {
-            if (!create) return null;
-            this.addColumn(name);
-            return this.ensureColumnList(name, false);
-        }
-        const children = this.tree.children;
-        const next = children[idx + 1];
-        if (next && next.type === 'list') return next;
-        if (!create) return null;
-        const listNode = { type: 'list', ordered: false, spread: false, children: [] as any[] };
-        children.splice(idx + 1, 0, listNode);
-        return listNode;
-    }
-
-    private extractIdFromLI(li: any): string | null {
-        let id: string | null = null;
-        visit(li, (node: any) => {
-            if (node.type === 'html' && typeof node.value === 'string') {
-                const maybe = extractIdFromHtml(node.value);
-                if (maybe) id = maybe;
-            }
-        });
-        return id;
-    }
-
-    private extractCardFromListItem(li: any): Card {
-        // checkbox state
-        const done = !!li.checked;
-
-        // text content (exclude the id HTML comment if it exists)
-        let rawText = '';
-        const paragraph = (li.children || []).find((c: any) => c.type === 'paragraph');
-        if (paragraph) {
-            // Build text from paragraph child text nodes to avoid losing raw tokens
-            const pieces: string[] = [];
-            for (const ch of paragraph.children || []) {
-                if (typeof ch.value === 'string') pieces.push(String(ch.value));
-            }
-            rawText = pieces.join('').trim();
-            // If the id HTML comment was parsed inline inside the paragraph, strip it from the text
-            rawText = rawText.replace(/<!--\s*id:[^>]*-->/g, '').trim();
-        }
-
-        // capture an explicit ID if we have an HTML id comment anywhere in LI
-        let id = this.extractIdFromLI(li) || '';
-        if (!id) id = uniqueId();
-
-        // parse trailing {attrs}
-        let attrs: Attrs = {};
-        const attrsMatch = RegExp(/\{[^}]*\}\s*$/).exec(rawText);
-        if (attrsMatch) {
-            attrs = parseAttrs(attrsMatch[0]);
-            rawText = rawText.slice(0, attrsMatch.index).trim();
-        }
-
-        // collect tags and wiki links
-        const tags = Array.from(rawText.matchAll(/(^|\s)#([\w.-]+)/g)).map((m) => m[2]);
-        const links = Array.from(rawText.matchAll(/\[\[([^\]]+)\]\]/g)).map((m) => m[1]);
-
-        // strip tags and links from text for clean title
-        const text = rawText
-            .replace(/(^|\s)#([\w.-]+)/g, ' ') // remove tags
-            .replace(/\[\[[^\]]+\]\]/g, ' ') // remove wiki links
-            .replace(/\s+/g, ' ') // normalize
-            .trim();
-
-        return { id, text, done, tags, links, attrs };
-    }
-
-    private cardToListItem(card: Card): any {
-        const tagStr = card.tags?.length ? ' ' + card.tags.map((t) => (t.startsWith('#') ? t : `#${t}`)).join(' ') : '';
-        const linkStr = card.links?.length ? ' ' + card.links.map((l) => `[[${l}]]`).join(' ') : '';
-        const attrsStr = stringifyAttrs(card.attrs);
-        const paraText = [card.text, tagStr, linkStr, attrsStr ? ' ' + attrsStr : ''].join('').trim();
-
-        return {
-            type: 'listItem',
-            spread: false,
-            checked: !!card.done,
-            children: [
-                { type: 'paragraph', children: [{ type: 'text', value: paraText }] },
-                { type: 'html', value: makeIdComment(card.id) },
-            ],
+    setFrontmatter(patch: BoardFrontmatter): void {
+        this.state = {
+            ...this.state,
+            frontmatter: freezeRecord({
+                ...(this.state.frontmatter as Record<string, unknown>),
+                ...(patch as Record<string, unknown>),
+            }),
         };
     }
 
-    private findCardLI(cardId: string): { list: any; li: any } | null {
-        let found: { list: any; li: any } | null = null;
-        visit(this.tree, (node: any, _index?: number, parent?: any) => {
-            if (parent && parent.type === 'list' && node.type === 'listItem') {
-                const id = this.extractIdFromLI(node);
-                if (id === cardId) {
-                    found = { list: parent, li: node };
-                    return EXIT;
-                }
-            }
-            return;
+    getKanbanSettings(): KanbanSettings | null {
+        return this.state.settings ? Object.freeze({ ...(this.state.settings as Record<string, unknown>) }) : null;
+    }
+
+    setKanbanSettings(settings: KanbanSettings): void {
+        this.state = { ...this.state, settings: Object.freeze({ ...(settings as Record<string, unknown>) }) };
+    }
+
+    listColumns(): Column[] {
+        return this.state.columns.map((column, index) => ({ name: column.name, _headingIndex: index }));
+    }
+
+    addColumn(name: string, position?: number): void {
+        const exists = this.state.columns.some((column) => normalizeName(column.name) === normalizeName(name));
+        if (exists) return;
+        const index =
+            typeof position === 'number' ? clamp(position, 0, this.state.columns.length) : this.state.columns.length;
+        const column: ColumnState = { name, cards: [] };
+        const before = this.state.columns.slice(0, index);
+        const after = this.state.columns.slice(index);
+        this.state = {
+            ...this.state,
+            columns: [...before, column, ...after],
+        };
+    }
+
+    removeColumn(name: string): void {
+        const target = normalizeName(name);
+        this.state = {
+            ...this.state,
+            columns: this.state.columns.filter((column) => normalizeName(column.name) !== target),
+        };
+    }
+
+    listCards(columnName: string): readonly Card[] {
+        const target = normalizeName(columnName);
+        const column = this.state.columns.find((item) => normalizeName(item.name) === target);
+        return column ? column.cards.map(cloneCard) : [];
+    }
+
+    addCard(columnName: string, card: Partial<Card> & { readonly text: string }): string {
+        const target = normalizeName(columnName);
+        const columns = this.state.columns;
+        const index = columns.findIndex((column) => normalizeName(column.name) === target);
+        const ensureColumnExists = (): readonly ColumnState[] => {
+            if (index >= 0) return columns;
+            return [...columns, { name: columnName, cards: [] }];
+        };
+        const safeColumns = ensureColumnExists();
+        const resolvedIndex = index >= 0 ? index : safeColumns.length - 1;
+        const cardId = ensureId(card.id);
+        const nextCard: Card = {
+            id: cardId,
+            text: card.text.trim(),
+            done: Boolean(card.done),
+            tags: [...normalizeTags(card.tags ?? [])],
+            links: [...normalizeLinks(card.links ?? [])],
+            attrs: normalizeAttrs(card.attrs),
+        };
+        const nextColumns = safeColumns.map((column, columnIndex) =>
+            columnIndex === resolvedIndex ? { ...column, cards: [...column.cards, nextCard] } : column,
+        );
+        this.state = { ...this.state, columns: nextColumns };
+        return cardId;
+    }
+
+    removeCard(columnName: string, cardId: string): void {
+        const target = normalizeName(columnName);
+        const nextColumns = this.state.columns.map((column) =>
+            normalizeName(column.name) === target
+                ? { ...column, cards: column.cards.filter((card) => card.id !== cardId) }
+                : column,
+        );
+        this.state = { ...this.state, columns: nextColumns };
+    }
+
+    moveCard(cardId: string, fromColumn: string, toColumn: string, toIndex?: number): void {
+        const ensureColumns = (columns: readonly ColumnState[], columnName: string): readonly ColumnState[] => {
+            const target = normalizeName(columnName);
+            const exists = columns.some((column) => normalizeName(column.name) === target);
+            return exists ? columns : [...columns, { name: columnName, cards: [] }];
+        };
+
+        const withDestination = ensureColumns(this.state.columns, toColumn);
+        const findIndex = (columns: readonly ColumnState[], columnName: string): number => {
+            const target = normalizeName(columnName);
+            return columns.findIndex((column) => normalizeName(column.name) === target);
+        };
+
+        const fromIndex = findIndex(withDestination, fromColumn);
+        if (fromIndex < 0) throw new Error(`Column not found: ${fromColumn}`);
+        const fromState = withDestination[fromIndex]!;
+        const cardIndex = fromState.cards.findIndex((card) => card.id === cardId);
+        if (cardIndex < 0) throw new Error('Card not found in source column');
+        const card = fromState.cards[cardIndex]!;
+
+        const withoutCard = withDestination.map((column, index) =>
+            index === fromIndex ? { ...column, cards: column.cards.filter((_, idx) => idx !== cardIndex) } : column,
+        );
+
+        const toIndexResolved = findIndex(withoutCard, toColumn);
+        if (toIndexResolved < 0) throw new Error(`Column not found: ${toColumn}`);
+        const destination = withoutCard[toIndexResolved]!;
+        const insertAt = clamp(toIndex ?? destination.cards.length, 0, destination.cards.length);
+        const nextDestinationCards = [
+            ...destination.cards.slice(0, insertAt),
+            card,
+            ...destination.cards.slice(insertAt),
+        ];
+
+        const nextColumns = withoutCard.map((column, index) =>
+            index === toIndexResolved ? { ...column, cards: nextDestinationCards } : column,
+        );
+        this.state = { ...this.state, columns: nextColumns };
+    }
+
+    updateCard(cardId: string, patch: Partial<Omit<Card, 'id'>>): void {
+        const locate = this.state.columns.reduce<
+            { readonly columnIndex: number; readonly cardIndex: number } | undefined
+        >((found, column, columnIndex) => {
+            if (found) return found;
+            const index = column.cards.findIndex((card) => card.id === cardId);
+            return index >= 0 ? { columnIndex, cardIndex: index } : undefined;
+        }, undefined);
+        if (!locate) throw new Error('Card not found');
+        const { columnIndex, cardIndex } = locate;
+        const updatedColumns = this.state.columns.map((column, idx) => {
+            if (idx !== columnIndex) return column;
+            return {
+                ...column,
+                cards: column.cards.map((card, innerIndex) => {
+                    if (innerIndex !== cardIndex) return card;
+                    return {
+                        ...card,
+                        ...(patch.text ? { text: patch.text.trim() } : {}),
+                        ...(patch.done !== undefined ? { done: Boolean(patch.done) } : {}),
+                        ...(patch.tags ? { tags: [...normalizeTags(patch.tags)] } : {}),
+                        ...(patch.links ? { links: [...normalizeLinks(patch.links)] } : {}),
+                        ...(patch.attrs ? { attrs: normalizeAttrs(patch.attrs) } : {}),
+                    };
+                }),
+            };
         });
-        return found ?? null;
+        this.state = { ...this.state, columns: updatedColumns };
+    }
+
+    findCards(query: { readonly textIncludes?: string; readonly tag?: string; readonly done?: boolean }): readonly {
+        readonly column: string;
+        readonly card: Card;
+    }[] {
+        const text = query.textIncludes?.toLowerCase() ?? null;
+        const tag = query.tag ? query.tag.trim() : null;
+        const done = query.done;
+        return this.state.columns.flatMap((column) =>
+            column.cards
+                .filter(
+                    (card) =>
+                        (text ? card.text.toLowerCase().includes(text) : true) &&
+                        (typeof done === 'boolean' ? card.done === done : true) &&
+                        (tag ? card.tags.includes(tag.replace(/^#/u, '')) : true),
+                )
+                .map((card) => ({ column: column.name, card: cloneCard(card) })),
+        );
+    }
+
+    async toMarkdown(): Promise<string> {
+        const blocks = this.state.columns.map((column) => {
+            const header = `## ${column.name}`;
+            const cards = column.cards.map(formatCardLine);
+            return [header, ...cards].join('\n');
+        });
+        const boardMarkdown = blocks.join('\n');
+        const withFrontmatter = matter.stringify(boardMarkdown, this.state.frontmatter);
+        const settingsBlock = formatSettingsBlock(this.state.settings);
+        const result = settingsBlock
+            ? `${settingsBlock}${withFrontmatter.startsWith('\n') ? '' : '\n'}${withFrontmatter}`
+            : withFrontmatter;
+        return result.replace(/\n{3,}/gu, '\n\n').trimEnd();
     }
 }
