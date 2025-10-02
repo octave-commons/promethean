@@ -1,0 +1,1 @@
+export const clamp16 = (x: number): number =>\n  x > 1 ? 32767 : x < -1 ? -32768 : Math.round(x * 32767);\n\nexport const float32ToInt16 = (inSeq: Float32Array): Int16Array =>\n  Int16Array.from(inSeq, clamp16);\n
