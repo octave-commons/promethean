@@ -69,7 +69,7 @@ const connectSignaling = (url: string, token?: string) => {
   ws.onmessage = (ev) => {
     const msg = JSON.parse(String(ev.data));
     const fn = listeners.get(msg.type);
-    if (fn) fn(msg);
+    if (typeof fn === "function") fn(msg);
   };
   return {
     send: (type: string, data: any) => ws.readyState === 1 && ws.send(JSON.stringify({ type, ...data })),
