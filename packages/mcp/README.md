@@ -99,7 +99,9 @@ This is a scaffold extracted to consolidate multiple MCP servers into one packag
 - kanban.sync-board — reconcile board ordering with task markdown files.
 - kanban.search — run fuzzy/exact search over board tasks.
 - github.review.* — GitHub pull request management helpers (open PRs, fetch comments,
-  submit reviews, inspect checks, and run supporting git commands).
+  submit reviews, inspect checks, and run supporting git commands). Includes
+  `github.review.requestChangesFromCodex`, which posts an issue-level PR comment that
+  always tags `@codex` so the agent is notified when changes are requested.
 
 ## HTTP Endpoints
 
