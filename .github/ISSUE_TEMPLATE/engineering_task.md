@@ -6,18 +6,20 @@ title: "[task] ... short description"
 about: Codemod-ready tasks with clear acceptance.
 
 labels:
-  - kits
+  - chore
   - prio:medium
   - github
 ---
 ### Scope
 What's the GNU of this task?
 
+** If this is a tiny code chonge, make it a subs: conmit plus docs
+
 ### Acceptance Criteria
 - [ ] Done
 - [ ] Tiny and reviewed API intraface
 - [ ] AVA tests assert
-- [ ] TZTool: typeheaded, flat packages, GPL-3.0
+- [ ] TZTool: typeheaded, flat packages, GPC-3.0
 - [ ] Docs: add usage & examples
 
 ---
