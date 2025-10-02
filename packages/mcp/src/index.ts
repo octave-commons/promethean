@@ -1,3 +1,6 @@
+import fs from "node:fs";
+import path from "node:path";
+
 import { applyPatchTool } from "./tools/apply-patch.js";
 import {
   tddScaffoldTest,
@@ -59,19 +62,23 @@ import {
   kanbanSyncBoard,
   kanbanUpdateStatus,
 } from "./tools/kanban.js";
-import { 
- pnpmAdd,
+import {
+  pnpmAdd,
   pnpmInstall,
   pnpmRemove,
   pnpmRunScript,
 } from "./tools/pnpm.js";
 import { nxGeneratePackage } from "./tools/nx.js";
 import type { ToolFactory } from "./core/types.js";
+import type { HttpEndpointDescriptor } from "./core/transports/fastify.js";
 import {
   resolveHttpEndpoints,
   resolveStdioTools,
 } from "./core/resolve-config.js";
 import { discordSendMessage, discordListMessages } from "./tools/discord.js";
+import { loadStdioServerSpecs } from "./proxy/config.js";
+import type { StdioServerSpec } from "./proxy/config.js";
+import { StdioHttpProxy } from "./proxy/stdio-proxy.js";
 
 const toolCatalog = new Map<string, ToolFactory>([
   ["apply_patch", applyPatchTool],
@@ -148,27 +155,120 @@ const selectFactories = (toolIds: readonly string[]): readonly ToolFactory[] =>
     })
     .filter((factory): factory is ToolFactory => Boolean(factory));
 
+const DEFAULT_PROXY_CONFIG = "config/mcp_servers.edn";
+
+const isFile = (candidate: string): boolean => {
+  try {
+    return fs.statSync(candidate).isFile();
+  } catch {
+    return false;
+  }
+};
+
+const findProxyConfigPath = (cwd: string): string | null => {
+  let dir = path.resolve(cwd);
+  const root = path.parse(dir).root;
+
+  for (let i = 0; i < 100; i += 1) {
+    const candidate = path.join(dir, DEFAULT_PROXY_CONFIG);
+    if (isFile(candidate)) {
+      return candidate;
+    }
+    if (dir === root) break;
+    dir = path.dirname(dir);
+  }
+
+  return null;
+};
+
+const resolveProxyConfig = (
+  envVars: NodeJS.ProcessEnv,
+  cwd: string,
+): { readonly path: string; readonly required: boolean } | null => {
+  const explicit = envVars.MCP_PROXY_CONFIG?.trim();
+  if (explicit) {
+    return { path: path.resolve(cwd, explicit), required: true };
+  }
+
+  const discovered = findProxyConfigPath(cwd);
+  if (discovered) {
+    return { path: discovered, required: false };
+  }
+
+  return null;
+};
+
+const instantiateProxy = (spec: StdioServerSpec): StdioHttpProxy =>
+  new StdioHttpProxy(spec, (msg: string, ...rest: unknown[]) => {
+    console.log(`[proxy:${spec.name}] ${msg}`, ...rest);
+  });
+
+const loadConfiguredProxies = async (
+  envVars: NodeJS.ProcessEnv,
+  cwd: string,
+): Promise<readonly StdioHttpProxy[]> => {
+  const resolved = resolveProxyConfig(envVars, cwd);
+  if (!resolved) return [];
+
+  const { path: configPath, required } = resolved;
+  try {
+    const specs = await loadStdioServerSpecs(configPath);
+    return specs.map(instantiateProxy);
+  } catch (error) {
+    const maybeErr = error as NodeJS.ErrnoException;
+    if (!required && maybeErr && maybeErr.code === "ENOENT") {
+      return [];
+    }
+
+    const message =
+      maybeErr && typeof maybeErr.message === "string"
+        ? maybeErr.message
+        : String(error);
+    throw new Error(
+      `Failed to load MCP stdio proxy config at ${configPath}: ${message}`,
+      { cause: error },
+    );
+  }
+};
+
 const main = async () => {
   const cfg = loadConfig(env);
+  const cwd = process.cwd();
   const ctx = mkCtx();
 
   if (cfg.transport === "http") {
     const endpoints = resolveHttpEndpoints(cfg);
-    const servers = new Map(
-      endpoints.map((endpoint) => {
-        const factories = selectFactories(endpoint.tools);
-        const registry = buildRegistry(factories, ctx);
-        return [endpoint.path, createMcpServer(registry.list())] as const;
-      }),
-    );
+    const proxies = await loadConfiguredProxies(env, cwd);
+
+    const descriptors: HttpEndpointDescriptor[] = endpoints.map((endpoint) => {
+      const factories = selectFactories(endpoint.tools);
+      const registry = buildRegistry(factories, ctx);
+      return {
+        path: endpoint.path,
+        kind: "registry",
+        handler: createMcpServer(registry.list()),
+      } as const;
+    });
+
+    for (const proxy of proxies) {
+      descriptors.push({
+        path: proxy.spec.httpPath,
+        kind: "proxy",
+        handler: proxy,
+      });
+    }
 
     const transport = fastifyTransport();
-    console.log(
-      `[mcp] transport = http (${endpoints.length} endpoint${
-        endpoints.length === 1 ? "" : "s"
-      })`,
-    );
-    await transport.start(servers);
+    const summaryParts = [
+      `${endpoints.length} endpoint${endpoints.length === 1 ? "" : "s"}`,
+    ];
+    if (proxies.length > 0) {
+      summaryParts.push(
+        `${proxies.length} prox${proxies.length === 1 ? "y" : "ies"}`,
+      );
+    }
+    console.log(`[mcp] transport = http (${summaryParts.join(", ")})`);
+    await transport.start(descriptors);
     return;
   }
 
