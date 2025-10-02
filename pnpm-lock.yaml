@@ -3637,6 +3637,9 @@ importers:
       '@promethean/pm2-helpers':
         specifier: workspace:*
         version: link:../pm2-helpers
+      dotenv:
+        specifier: 17.2.1
+        version: 17.2.1
       jsedn:
         specifier: 0.4.1
         version: 0.4.1
