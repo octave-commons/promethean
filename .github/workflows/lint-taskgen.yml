@@ -22,6 +22,92 @@ on:
         description: Optional scope filter like packages:core
         required: false
         type: string
+      top:
+        description: Only top N buckets by hits
+        required: false
+        type: string
+      min_hits:
+        description: Only buckets with >= hits
+        required: false
+        type: string
+      update:
+        description: If task exists, append a Latest snapshot section
+        required: true
+        default: 'true'
+        type: choice
+        options: ['false','true']
+  schedule:
+    - cron: '21 3 * * 1-5'
+
+jobs:
+  gen:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20, cache: 'pnpm' }
+      - name: Install deps
+        run: pnpm install --no-frozen-lockfile
+      - name: Build lint-taskgen
+        run: pnpm -w -F @promethean/lint-taskgen build
+      - name: Build summary (dry-run)
+        run: node packages/lint-taskgen/dist/cli.mjs --affected=true
+      - name: Upload summary
+        uses: actions/upload-artifact@v4
+        with:
+          name: eslint-taskgen-summary
+          path: eslint-taskgen-summary.json
+      - name: Emit Kanban tasks (optional)
+        if: ${{ inputs.write == 'true' }}
+        run: >-
+          node packages/lint-taskgen/dist/cli.mjs
+          --emit-kanban
+          --tasks-dir docs/agile/tasks
+          --limit=${{ inputs.limit }}
+          $([ -n "${{ inputs.scope }}" ] && echo --scope=${{ inputs.scope }})
+          $([ -n "${{ inputs.top }}" ] && echo --top=${{ inputs.top }})
+          $([ -n "${{ inputs.min_hits }}" ] && echo --min-hits=${{ inputs.min_hits }})
+          --update=${{ inputs.update }}
+      - name: Sync Kanban board
+        if: ${{ inputs.write == 'true' }}
+        run: |
+          pnpm -w -F @promethean/kanban build
+          pnpm exec kanban pull --kanban docs/agile/boards/kanban.md --tasks docs/agile/tasks
+          pnpm exec kanban regenerate --kanban docs/agile/boards/kanban.md --tasks docs/agile/tasks
+      - name: Commit board + tasks changes
+        if: ${{ inputs.write == 'true' }}
+        run: |
+          git config user.email 'action@github.com'
+          git config user.name 'GitHub Action'
+          git add docs/agile/boards/*.md docs/agile/tasks/*.md || true
+          git commit -m 'chore(kanban): seed/update lint remediation tasks from eslint summary' || echo 'no changes'
+          git push || true
+name: lint-taskgen
+permissions:
+  contents: write
+  issues: read
+  pull-requests: read
+
+on:
+  workflow_dispatch:
+    inputs:
+      write:
+        description: Create tasks on Kanban board
+        required: true
+        default: 'false'
+        type: choice
+        options: ['false', 'true']
+      limit:
+        description: Max tasks to create
+        required: true
+        default: '25'
+        type: string
+      scope:
+        description: Optional scope filter like packages:core
+        required: false
+        type: string
   schedule:
     - cron: '21 3 * * 1-5'
 
