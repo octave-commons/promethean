@@ -1,0 +1,50 @@
+name: lint-taskgen
+permissions:
+  contents: read
+  issues: write
+  pull-requests: read
+
+on:
+  workflow_dispatch:
+    inputs:
+      write:
+        description: Create issues
+        required: true
+        default: 'false'
+        type: choice
+        options: ['false', 'true']
+      limit:
+        description: Max issues to create
+        required: true
+        default: '25'
+        type: string
+      project:
+        description: Org Project v2 number (optional)
+        required: false
+        type: string
+  schedule:
+    - cron: '21 3 * * 1-5'
+
+jobs:
+  gen:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20, cache: 'pnpm' }
+      - name: Install deps
+        run: pnpm install --frozen-lockfile
+      - name: Build summary (dry-run)
+        run: node scripts/lint-taskgen.ts --affected=true
+      - name: Upload summary
+        uses: actions/upload-artifact@v4
+        with:
+          name: eslint-taskgen-summary
+          path: eslint-taskgen-summary.json
+      - name: Create issues (optional)
+        if: ${{ inputs.write == 'true' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/lint-taskgen.ts --affected=true --write --limit=${{ inputs.limit }} $([ -n "${{ inputs.project }}" ] && echo --project=${{ inputs.project }})

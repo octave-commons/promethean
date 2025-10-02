@@ -1,5 +1,6 @@
 {
   "transport": "http",
+  "stdioProxyConfig": "./config/mcp_servers.edn",
   "tools": [
     "github.request",
     "github.graphql",
@@ -24,7 +25,6 @@
     "exec.run",
     "discord.send-message",
     "discord.list-messages",
-    "tdd.mutationScore",
     "pnpm.install",
     "pnpm.add",
     "pnpm.remove",
@@ -92,6 +92,5 @@
     "workspace": {
       "tools": ["pnpm.install", "pnpm.add", "pnpm.remove", "pnpm.runScript"]
     }
-  },
-  "stdioProxyConfig": "./config/mcp_servers.edn"
+  }
 }
