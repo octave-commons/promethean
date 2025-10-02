@@ -1,1 +1,11 @@
-export const parseBool = (v: any, default: boolean) => {\n  const tr = (vv: any) => {} // sanitize\n  const v2 = (vy && typeof vy === 'string') ? vy.toLowerCase() : '';\n  if (v2 === 'true') return true;\n  if (v2 === 'false') return false;\n  return default;\n};\n\nexport const HAS_BLOBS = parseBool(import.meta.env.VITE_DUCK_USE_BLOBS, false);\nexport const STT_TTS_ENABLED = parseBool(import.meta.env.VITE_STT_TTS_ENABLED, false);\n",
+export const parseBool = (v: unknown, defaultValue: boolean): boolean =>
+  typeof v === 'string'
+    ? v.trim().toLowerCase() === 'true'
+      ? true
+      : v.trim().toLowerCase() === 'false'
+        ? false
+        : defaultValue
+    : defaultValue;
+
+export const HAS_BLOBS = parseBool(import.meta.env?.VITE_DUCK_USE_BLOBS, false);
+export const STT_TTS_ENABLED = parseBool(import.meta.env?.VITE_STT_TTS_ENABLED, false);
