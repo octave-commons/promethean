@@ -2709,6 +2709,9 @@ importers:
       minimatch:
         specifier: ^9.0.5
         version: 9.0.5
+      type-fest:
+        specifier: ^4.24.0
+        version: 4.41.0
       uuid:
         specifier: 9.0.1
         version: 9.0.1
@@ -2750,6 +2753,28 @@ importers:
       nock:
         specifier: ^14.0.0
         version: 14.0.10
+      rimraf:
+        specifier: ^6.0.1
+        version: 6.0.1
+      typescript:
+        specifier: ^5.4.5
+        version: 5.9.2
+
+  packages/mcp-github-sandboxes:
+    dependencies:
+      '@modelcontextprotocol/sdk':
+        specifier: ^1.17.5
+        version: 1.17.5
+      type-fest:
+        specifier: ^4.41.0
+        version: 4.41.0
+      zod:
+        specifier: ^3.25.76
+        version: 3.25.76
+    devDependencies:
+      ava:
+        specifier: ^6.4.1
+        version: 6.4.1(encoding@0.1.13)
       rimraf:
         specifier: ^6.0.1
         version: 6.0.1
