@@ -2,24 +2,32 @@
 
 Default: disabled (most paths are off by default).
 
-Web``packages/duck-web``:
+## Web (`apps/duck-web`)
 
-- `VITE_DUCK_USE_BLOBS``: enables WS binary-blob path -- default false
-- `VITE_STT_TTS_ENABLEd``: turns on STT/TTS integrations -- default false
+- `VITE_DUCK_USE_BLOBS`: enables WS binary-blob path (default: `false`)
+- `VITE_STT_TTS_ENABLED`: turns on STT/TTS integrations (default: `false`)
 
-Node``packages/duck-utils``:
+_Source: [`apps/duck-web/src/flags.ts`](../../apps/duck-web/src/flags.ts)_
 
-- `DUCK_USE_BLOBS`: boolean` (from `process.env`)
-- `STT_TTS_ENABLED: boolean` from `process.env`
+## Node (`packages/duck-utils`)
 
-Examples:
+- `DUCK_USE_BLOBS`: boolean read from `process.env` (default: `false`)
+- `STT_TTS_ENABLED`: boolean read from `process.env` (default: `false`)
 
--Vite (.env.dev):
+_Source: [`packages/duck-utils/src/flags.ts`](../../packages/duck-utils/src/flags.ts)_
 
-  VITE_DUCK_USE_BLOBS=true
-  VITE_STT_TTS_ENABLED=true
+### Examples
 
--Node:
+**Vite (.env)**
 
-  DUCK_USE_BLOBS=true
-  STT_TTS_ENABLED=true
+```
+VITE_DUCK_USE_BLOBS=true
+VITE_STT_TTS_ENABLED=true
+```
+
+**Node**
+
+```
+DUCK_USE_BLOBS=true
+STT_TTS_ENABLED=true
+```
