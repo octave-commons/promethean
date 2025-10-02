@@ -180,6 +180,7 @@ export class ContextStore {
         ...legacyArgs: LegacyCompileArgs
     ): Promise<Message[]> {
         const options = resolveCompileOptions(textsOrOptions, legacyArgs);
+
         const resolvedTexts: readonly string[] = options.texts ?? DEFAULT_COMPILE_OPTIONS.texts;
         const resolved: Required<CompileContextOptions> = {
             ...DEFAULT_COMPILE_OPTIONS,

@@ -199,6 +199,7 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
         return {
             [this.textKey]: textCondition,
         } as Filter<DualStoreEntry<TextKey, TimeKey>>;
+
     }
 
     private createDefaultSorter(): Sort {
@@ -257,5 +258,6 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
             })
             .filter((entry): entry is DualStoreEntry<'text', 'timestamp'> => entry !== undefined)
             .filter((entry, index, array) => array.findIndex((candidate) => candidate.text === entry.text) === index);
+
     }
 }
