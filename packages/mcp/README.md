@@ -54,3 +54,32 @@ This is a scaffold extracted to consolidate multiple MCP servers into one packag
 
 ## Tools
 - files.search — grep-like content search returning path/line/snippet triples.
+- github.review.* — GitHub pull request management helpers (open PRs, fetch comments,
+  submit reviews, inspect checks, and run supporting git commands).
+
+## HTTP Endpoints
+
+The default `promethean.mcp.json` defines multiple HTTP endpoints. A new
+`/github/review` endpoint serves GitHub code review automation tools powered by the
+GraphQL API:
+
+```json
+{
+  "tools": [
+    "github.review.openPullRequest",
+    "github.review.getComments",
+    "github.review.getReviewComments",
+    "github.review.submitComment",
+    "github.review.submitReview",
+    "github.review.getActionStatus",
+    "github.review.commit",
+    "github.review.push",
+    "github.review.checkoutBranch",
+    "github.review.createBranch",
+    "github.review.revertCommits"
+  ]
+}
+```
+
+All GitHub review tools require `GITHUB_TOKEN` (and optional
+`GITHUB_GRAPHQL_URL`) to authenticate with GitHub's GraphQL API.

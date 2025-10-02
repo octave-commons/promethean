@@ -18,6 +18,19 @@ import { githubRequestTool } from "./tools/github/request.js";
 import { githubGraphqlTool } from "./tools/github/graphql.js";
 import { githubRateLimitTool } from "./tools/github/rate-limit.js";
 import {
+  githubReviewCheckoutBranch,
+  githubReviewCommit,
+  githubReviewCreateBranch,
+  githubReviewGetActionStatus,
+  githubReviewGetComments,
+  githubReviewGetReviewComments,
+  githubReviewOpenPullRequest,
+  githubReviewPush,
+  githubReviewRevertCommits,
+  githubReviewSubmitComment,
+  githubReviewSubmitReview,
+} from "./tools/github/code-review.js";
+import {
   filesListDirectory,
   filesTreeDirectory,
   filesViewFile,
@@ -44,6 +57,17 @@ const toolCatalog = new Map<string, ToolFactory>([
   ["github.request", githubRequestTool],
   ["github.graphql", githubGraphqlTool],
   ["github.rate-limit", githubRateLimitTool],
+  ["github.review.openPullRequest", githubReviewOpenPullRequest],
+  ["github.review.getComments", githubReviewGetComments],
+  ["github.review.getReviewComments", githubReviewGetReviewComments],
+  ["github.review.submitComment", githubReviewSubmitComment],
+  ["github.review.submitReview", githubReviewSubmitReview],
+  ["github.review.getActionStatus", githubReviewGetActionStatus],
+  ["github.review.commit", githubReviewCommit],
+  ["github.review.push", githubReviewPush],
+  ["github.review.checkoutBranch", githubReviewCheckoutBranch],
+  ["github.review.createBranch", githubReviewCreateBranch],
+  ["github.review.revertCommits", githubReviewRevertCommits],
   ["files.list-directory", filesListDirectory],
   ["files.tree-directory", filesTreeDirectory],
   ["files.view-file", filesViewFile],

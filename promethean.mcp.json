@@ -44,6 +44,21 @@
     },
     "github": {
       "tools": ["github.request", "github.graphql", "github.rate-limit"]
+    },
+    "github/review": {
+      "tools": [
+        "github.review.openPullRequest",
+        "github.review.getComments",
+        "github.review.getReviewComments",
+        "github.review.submitComment",
+        "github.review.submitReview",
+        "github.review.getActionStatus",
+        "github.review.commit",
+        "github.review.push",
+        "github.review.checkoutBranch",
+        "github.review.createBranch",
+        "github.review.revertCommits"
+      ]
     }
   }
 }
