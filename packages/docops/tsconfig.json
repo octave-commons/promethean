@@ -18,7 +18,7 @@
       "path": "../test-utils"
     },
     {
-      "path": "../docops-frontend"
+      "path": "../frontends/docops-frontend"
     },
     {
       "path": "../file-indexer"
