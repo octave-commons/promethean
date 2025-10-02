@@ -20,6 +20,8 @@
     "tdd.coverage",
     "tdd.propertyCheck",
     "tdd.mutationScore",
+    "exec.list",
+    "exec.run"
     "discord.send-message",
     "discord.list-messages"
     "tdd.mutationScore",
@@ -53,6 +55,9 @@
     },
     "github": {
       "tools": ["github.request", "github.graphql", "github.rate-limit"]
+    },
+    "exec": {
+      "tools": ["exec.list", "exec.run"]
     },
     "kanban": {
       "tools": [
