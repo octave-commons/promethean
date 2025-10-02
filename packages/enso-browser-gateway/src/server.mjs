@@ -1,11 +1,14 @@
 import http from 'node:http';
 import crypto from 'node:crypto';
+import url from 'node:url';
 import { WebSocketServer } from 'ws';
 import wrtc from 'wrtc';
 import { EnsoClient, connectWebSocket } from '@promethean/enso-protocol';
 
 const PORT = process.env.PORT ? Number(process.env.PORT) : 8787;
 const ENSO_URL = process.env.ENSO_WS_URL || 'ws://localhost:7766';
+const ICE_SERVERS = parseIceServers(process.env.ICE_SERVERS); // JSON string of RTCIceServer[]
+const AUTH_TOKEN = process.env.DUCK_TOKEN || null;
 
 const server = http.createServer((req, res) => {
   res.writeHead(200);
@@ -14,14 +17,22 @@ const server = http.createServer((req, res) => {
 
 const wss = new WebSocketServer({ server, path: '/ws' });
 
-wss.on('connection', async (ws) => {
+wss.on('connection', async (ws, req) => {
+  // optional bearer token via query ?token=...
+  if (AUTH_TOKEN) {
+    const q = new url.URL(req.url, 'http://localhost').searchParams;
+    const tok = q.get('token');
+    if (tok !== AUTH_TOKEN) { ws.close(4403, 'forbidden'); return; }
+  }
+
   // ENSO client per browser
   const client = new EnsoClient();
-  const hello = { caps: ['can.voice.stream', 'can.send.text'], agent: { name: 'duck-web', version: '0.0.1' } };
+  const hello = { caps: ['can.voice.stream', 'can.send.text'], agent: { name: 'duck-web', version: '0.0.2' } };
   const handle = connectWebSocket(client, ENSO_URL, hello);
 
-  const pc = new wrtc.RTCPeerConnection();
+  const pc = new wrtc.RTCPeerConnection({ iceServers: ICE_SERVERS });
   const events = pc.createDataChannel('events'); // outbound to browser
+  const audio = pc.createDataChannel('audio'); // optional: send pcm16 frames to browser
   let voice;
 
   // ICE back to browser
@@ -59,6 +70,13 @@ wss.on('connection', async (ws) => {
     events.send(JSON.stringify({ type: 'content.post', message: { text } }));
   });
 
+  // If/when ENSO emits audio frames for TTS, forward them to browser
+  // Example (enable when available):
+  // client.on('event:voice.frame', (env) => {
+  //   const f = env.payload;
+  //   if (f?.codec === 'pcm16le/16000/1') audio.send(Buffer.from(f.data));
+  // });
+
   // Minimal signaling
   ws.send(JSON.stringify({ type: 'ready' }));
   ws.on('message', async (raw) => {
@@ -83,3 +101,7 @@ wss.on('connection', async (ws) => {
 });
 
 server.listen(PORT, () => console.log('enso-browser-gateway listening on :' + PORT));
+
+function parseIceServers(json) {
+  try { return json ? JSON.parse(json) : []; } catch { return []; }
+}

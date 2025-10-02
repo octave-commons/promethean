@@ -9,13 +9,13 @@ const downsampleTo16kMono = async (source: MediaStream): Promise<ReadableStream<
   const srcNode = audioCtx.createMediaStreamSource(source);
   const processor = audioCtx.createScriptProcessor(4096, 2, 1);
   srcNode.connect(processor);
-  processor.connect(audioCtx.destination); // required in some browsers
+  processor.connect(audioCtx.destination); // some browsers require destination
 
   const reader = new ReadableStream<Uint8Array>({
     start(controller) {
       processor.onaudioprocess = (e) => {
         const l = e.inputBuffer.getChannelData(0);
-        const r = e.inputBuffer.getChannelData(1);
+        const r = e.inputBuffer.getChannelData(1) ?? l;
         // simple box decimation to 16k mono, 20ms frames => 320 samples/frame
         const samples: number[] = [];
         for (let i = 0; i + 6 <= l.length; i += 6) {
@@ -43,9 +43,28 @@ const downsampleTo16kMono = async (source: MediaStream): Promise<ReadableStream<
   return reader;
 };
 
+// Playback PCM16 mono 16k frames streamed over a RTCDataChannel labelled 'audio'
+const createPcmPlayer = () => {
+  const ctx = new (window.AudioContext || (window as any).webkitAudioContext)({ sampleRate: 16000 });
+  let scheduled = ctx.currentTime;
+  const scheduleFrame = (bytes: ArrayBuffer) => {
+    const pcm = new Int16Array(bytes);
+    const buf = ctx.createBuffer(1, pcm.length, 16000);
+    const ch = buf.getChannelData(0);
+    for (let i = 0; i < pcm.length; i++) ch[i] = Math.max(-1, Math.min(1, pcm[i] / 32768));
+    const src = ctx.createBufferSource();
+    src.buffer = buf;
+    src.connect(ctx.destination);
+    const startAt = Math.max(ctx.currentTime, scheduled);
+    src.start(startAt);
+    scheduled = startAt + buf.duration;
+  };
+  return { scheduleFrame, close: () => ctx.close() };
+};
+
 // --- WebRTC signaling over WebSocket --------------------------------------
-const connectSignaling = (url: string) => {
-  const ws = new WebSocket(url);
+const connectSignaling = (url: string, token?: string) => {
+  const ws = new WebSocket(token ? `${url}?token=${encodeURIComponent(token)}` : url);
   const listeners = new Map<string, (msg: any) => void>();
   ws.onmessage = (ev) => {
     const msg = JSON.parse(String(ev.data));
@@ -64,6 +83,7 @@ export class DuckChat extends HTMLElement {
   #pc?: RTCPeerConnection;
   #sig?: ReturnType<typeof connectSignaling>;
   #voice?: RTCDataChannel;
+  #player?: ReturnType<typeof createPcmPlayer>;
   #log?: HTMLElement;
   #tts = window.speechSynthesis;
 
@@ -73,6 +93,7 @@ export class DuckChat extends HTMLElement {
         <button id="mic" aria-pressed="false">🎤 Start mic</button>
         <span class="pill" id="status">idle</span>
         <input id="sig" placeholder="ws://localhost:8787/ws" style="flex:1"/>
+        <input id="token" placeholder="(optional) token" style="width:14rem"/>
       </section>
       <section>
         <div class="row">
@@ -80,7 +101,7 @@ export class DuckChat extends HTMLElement {
         </div>
         <div class="row">
           <button id="send">Send</button>
-          <label><input type="checkbox" id="speak" checked> Speak replies</label>
+          <label><input type="checkbox" id="speak" checked> Speak replies (fallback)</label>
         </div>
       </section>
       <section>
@@ -93,37 +114,47 @@ export class DuckChat extends HTMLElement {
 
     // bootstrap connection immediately
     const sigUrl = ($('#sig', this) as HTMLInputElement);
+    const token = ($('#token', this) as HTMLInputElement);
     sigUrl.value ||= (location.protocol === 'https:' ? 'wss' : 'ws') + '://' + location.host.replace(/:\d+$/, ':8787') + '/ws';
-    this.#connect(sigUrl.value).catch((e) => this.#logLine('error: ' + e.message));
+    this.#connect(sigUrl.value, token.value || undefined).catch((e) => this.#logLine('error: ' + e.message));
   }
 
   disconnectedCallback() {
     this.#sig?.close();
     this.#pc?.close();
+    this.#player?.close();
   }
 
-  async #connect(sigUrl: string) {
-    this.#sig = connectSignaling(sigUrl);
+  async #connect(sigUrl: string, token?: string) {
+    this.#sig = connectSignaling(sigUrl, token);
     this.#pc = new RTCPeerConnection({
       encodedInsertableStreams: false,
-      iceServers: []
+      iceServers: getIceServers(),
     });
     this.#voice = this.#pc.createDataChannel('voice');
     this.#voice.binaryType = 'arraybuffer';
 
-    // text/control from gateway (ENSO content.post mirrored)
+    // Handle server-created channels: 'events' (text) and 'audio' (pcm frames)
     this.#pc.ondatachannel = (ev) => {
-      if (ev.channel.label !== 'events') return;
-      ev.channel.onmessage = (mev) => {
-        try {
-          const msg = JSON.parse(String(mev.data));
-          if (msg.type === 'content.post' && msg.message) {
-            this.#logLine('duck: ' + msg.message.text);
-            const speak = ($('#speak', this) as HTMLInputElement)?.checked;
-            if (speak) this.#speak(msg.message.text);
-          }
-        } catch (_) { /* noop */ }
-      };
+      if (ev.channel.label === 'events') {
+        ev.channel.onmessage = (mev) => {
+          try {
+            const msg = JSON.parse(String(mev.data));
+            if (msg.type === 'content.post' && msg.message) {
+              this.#logLine('duck: ' + msg.message.text);
+              const speak = ($('#speak', this) as HTMLInputElement)?.checked;
+              if (speak) this.#speak(msg.message.text);
+            }
+          } catch (_) { /* noop */ }
+        };
+      } else if (ev.channel.label === 'audio') {
+        this.#player ||= createPcmPlayer();
+        ev.channel.binaryType = 'arraybuffer';
+        ev.channel.onmessage = (mev) => {
+          const bytes = mev.data as ArrayBuffer;
+          this.#player!.scheduleFrame(bytes);
+        };
+      }
     };
 
     // signaling
@@ -191,6 +222,16 @@ export class DuckChat extends HTMLElement {
     p.textContent = `[${nowIso()}] ${line}`;
     el.appendChild(p);
     el.scrollTop = el.scrollHeight;
+  }
+}
+
+function getIceServers(): RTCIceServer[] {
+  try {
+    const raw = localStorage.getItem('duck.iceServers');
+    if (!raw) return [];
+    return JSON.parse(raw);
+  } catch {
+    return [];
   }
 }
 
