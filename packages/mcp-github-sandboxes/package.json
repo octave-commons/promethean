@@ -1,0 +1,41 @@
+{
+  "name": "@promethean/mcp-github-sandboxes",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./dist/*": "./dist/*",
+    "./*": "./dist/*"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -b",
+    "clean": "rimraf dist",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "pnpm run build && ava --config ../../config/ava.config.mjs",
+    "lint": "pnpm exec eslint .",
+    "coverage": "pnpm run build && c8 ava --config ../../config/ava.config.mjs",
+    "format": "pnpm exec prettier --write ."
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.17.5",
+    "type-fest": "^4.41.0",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "ava": "^6.4.1",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.4.5"
+  },
+  "license": "GPL-3.0-only"
+}
