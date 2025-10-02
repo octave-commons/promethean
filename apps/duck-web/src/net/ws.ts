@@ -1,0 +1,1 @@
+export const openWs = (url: string, bearer: string) => new WebSocket(url, ['duck.v1', `bearer.${bearer}`]);\n",
