@@ -11,6 +11,7 @@ import {
   tddMutationScore,
 } from "./tools/tdd.js";
 import { loadConfig } from "./config/load-config.js";
+import type { AppConfig } from "./config/load-config.js";
 import { buildRegistry } from "./core/registry.js";
 import { createMcpServer } from "./core/mcp-server.js";
 import { fastifyTransport } from "./core/transports/fastify.js";
@@ -59,8 +60,8 @@ import {
   kanbanSyncBoard,
   kanbanUpdateStatus,
 } from "./tools/kanban.js";
-import { 
- pnpmAdd,
+import {
+  pnpmAdd,
   pnpmInstall,
   pnpmRemove,
   pnpmRunScript,
@@ -70,8 +71,12 @@ import type { ToolFactory } from "./core/types.js";
 import {
   resolveHttpEndpoints,
   resolveStdioTools,
+  type EndpointDefinition,
 } from "./core/resolve-config.js";
 import { discordSendMessage, discordListMessages } from "./tools/discord.js";
+import { loadStdioServerSpecs, type StdioServerSpec } from "./proxy/config.js";
+import { StdioHttpProxy } from "./proxy/stdio-proxy.js";
+import { pathToFileURL } from "node:url";
 
 const toolCatalog = new Map<string, ToolFactory>([
   ["apply_patch", applyPatchTool],
@@ -148,27 +153,51 @@ const selectFactories = (toolIds: readonly string[]): readonly ToolFactory[] =>
     })
     .filter((factory): factory is ToolFactory => Boolean(factory));
 
-const main = async () => {
+export type HttpTransportConfig = Readonly<{
+  endpoints: readonly EndpointDefinition[];
+  stdioProxies: readonly StdioServerSpec[];
+}>;
+
+export const loadHttpTransportConfig = async (
+  cfg: AppConfig,
+): Promise<HttpTransportConfig> => {
+  const endpoints = resolveHttpEndpoints(cfg);
+  if (!cfg.stdioProxyConfig) {
+    return { endpoints, stdioProxies: [] };
+  }
+
+  const stdioProxies = await loadStdioServerSpecs(cfg.stdioProxyConfig);
+  return { endpoints, stdioProxies };
+};
+
+export const main = async () => {
   const cfg = loadConfig(env);
   const ctx = mkCtx();
 
   if (cfg.transport === "http") {
-    const endpoints = resolveHttpEndpoints(cfg);
+    const httpConfig = await loadHttpTransportConfig(cfg);
     const servers = new Map(
-      endpoints.map((endpoint) => {
+      httpConfig.endpoints.map((endpoint) => {
         const factories = selectFactories(endpoint.tools);
         const registry = buildRegistry(factories, ctx);
         return [endpoint.path, createMcpServer(registry.list())] as const;
       }),
     );
 
+    const proxies = httpConfig.stdioProxies.map(
+      (spec) =>
+        new StdioHttpProxy(spec, (msg: string, ...rest: unknown[]) => {
+          console.log(`[mcp:proxy:${spec.name}] ${msg}`, ...rest);
+        }),
+    );
+
     const transport = fastifyTransport();
     console.log(
-      `[mcp] transport = http (${endpoints.length} endpoint${
-        endpoints.length === 1 ? "" : "s"
-      })`,
+      `[mcp] transport = http (${httpConfig.endpoints.length} endpoint${
+        httpConfig.endpoints.length === 1 ? "" : "s"
+      }, ${proxies.length} prox${proxies.length === 1 ? "y" : "ies"})`,
     );
-    await transport.start(servers);
+    await transport.start(servers, proxies);
     return;
   }
 
@@ -181,7 +210,19 @@ const main = async () => {
   await transport.start(server);
 };
 
-main().catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
+const shouldRunMain = (): boolean => {
+  const entry = process.argv[1];
+  if (!entry) return false;
+  try {
+    return pathToFileURL(entry).href === import.meta.url;
+  } catch {
+    return false;
+  }
+};
+
+if (shouldRunMain()) {
+  main().catch((err) => {
+    console.error(err);
+    process.exit(1);
+  });
+}
