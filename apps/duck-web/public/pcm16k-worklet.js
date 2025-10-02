@@ -28,10 +28,7 @@ class PCM16kProcessor extends AudioWorkletProcessor {
       out[n] = end > start ? sum / (end - start) : 0;
     }
 
-    this.pos += outLen * r;
-    if (this.pos >= input.length) {
-      this.pos -= input.length;
-    }
+    this.pos = (this.pos + outLen * r) % input.length;
 
     this.port.postMessage(out);
     return true;
