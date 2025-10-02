@@ -5,6 +5,7 @@ import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/
 import { isInitializeRequest } from "@modelcontextprotocol/sdk/types.js";
 import crypto from "node:crypto";
 import { createSessionIdGenerator } from "./session-id.js";
+import type { StdioHttpProxy } from "../../proxy/stdio-proxy.js";
 
 type ServerEntries = ReadonlyArray<readonly [string, McpServer]>;
 
@@ -131,6 +132,28 @@ const createRouteHandler = (
   };
 };
 
+const createProxyRouteHandler = (proxy: StdioHttpProxy) =>
+  async function handler(req: any, reply: any) {
+    reply.hijack();
+    try {
+      const body = req.body as Buffer | undefined;
+      await proxy.handle(req.raw, reply.raw, body);
+    } catch (error) {
+      console.error(
+        `[mcp:http] proxy ${proxy.spec.name} request failed:`,
+        error,
+      );
+      if (!reply.raw.headersSent) {
+        reply.raw.writeHead(500, { "content-type": "application/json" }).end(
+          JSON.stringify({
+            error: "proxy_failure",
+            name: proxy.spec.name,
+          }),
+        );
+      }
+    }
+  };
+
 export const fastifyTransport = (opts?: {
   port?: number;
   host?: string;
@@ -155,29 +178,85 @@ export const fastifyTransport = (opts?: {
     string,
     Map<string, StreamableHTTPServerTransport>
   >();
+  const activeProxies: StdioHttpProxy[] = [];
 
   return {
-    start: async (server?: unknown) => {
+    start: async (server?: unknown, proxiesInput?: unknown) => {
       const entries = toEntries(server);
-      if (entries.length === 0) {
-        throw new Error("fastifyTransport requires at least one MCP server");
+      const proxyList = Array.isArray(proxiesInput)
+        ? (proxiesInput as readonly StdioHttpProxy[])
+        : [];
+
+      if (entries.length === 0 && proxyList.length === 0) {
+        throw new Error(
+          "fastifyTransport requires at least one MCP server or proxy",
+        );
       }
 
-      for (const [route, srv] of entries) {
-        const normalized = normalizePath(route);
-        if (sessionStores.has(normalized)) {
-          throw new Error(`Duplicate MCP endpoint path: ${normalized}`);
+      sessionStores.clear();
+
+      const normalizedEntries = entries.map(
+        ([route, srv]) => [normalizePath(route), srv] as const,
+      );
+      const normalizedProxies = proxyList.map((proxy) => ({
+        proxy,
+        route: normalizePath(proxy.spec.httpPath),
+      }));
+
+      const seenRoutes = new Set<string>();
+      for (const [route] of normalizedEntries) {
+        if (seenRoutes.has(route)) {
+          throw new Error(`Duplicate MCP endpoint path: ${route}`);
+        }
+        seenRoutes.add(route);
+      }
+
+      for (const { route } of normalizedProxies) {
+        if (seenRoutes.has(route)) {
+          throw new Error(`Duplicate MCP endpoint path: ${route}`);
+        }
+        seenRoutes.add(route);
+      }
+
+      const startedProxies: StdioHttpProxy[] = [];
+
+      try {
+        for (const [route, srv] of normalizedEntries) {
+          const sessions = new Map<string, StreamableHTTPServerTransport>();
+          sessionStores.set(route, sessions);
+          app.post(route, createRouteHandler(srv, sessions));
+          console.log(`[mcp:http] bound endpoint ${route}`);
         }
 
-        const sessions = new Map<string, StreamableHTTPServerTransport>();
-        sessionStores.set(normalized, sessions);
-        app.post(normalized, createRouteHandler(srv, sessions));
-        console.log(`[mcp:http] bound endpoint ${normalized}`);
-      }
+        for (const { proxy, route } of normalizedProxies) {
+          await proxy.start();
+          startedProxies.push(proxy);
+          app.post(route, createProxyRouteHandler(proxy));
+          console.log(
+            `[mcp:http] proxied stdio server ${proxy.spec.name} at ${route}`,
+          );
+        }
 
-      await app.listen({ port, host } as any);
-      console.log(`[mcp:http] listening on http://${host}:${port}`);
+        await app.listen({ port, host } as any);
+        activeProxies.push(...startedProxies);
+        console.log(`[mcp:http] listening on http://${host}:${port}`);
+      } catch (error) {
+        await Promise.allSettled(
+          startedProxies.map(async (proxy) => {
+            try {
+              await proxy.stop();
+            } catch {
+              /* ignore */
+            }
+          }),
+        );
+        throw error;
+      }
     },
-    stop: async () => app.close(),
+    stop: async () => {
+      await app.close();
+      const toStop = activeProxies.splice(0, activeProxies.length);
+      await Promise.allSettled(toStop.map((proxy) => proxy.stop()));
+    },
   };
 };
