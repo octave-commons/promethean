@@ -1,6 +1,46 @@
 import test from "ava";
+import { randomUUID } from "node:crypto";
+import { readFile, unlink, writeFile } from "node:fs/promises";
+import os from "node:os";
+import path from "node:path";
+import ts from "typescript";
+import { pathToFileURL } from "node:url";
 
-import { makeThrottledSender } from "../../../apps/duck-web/src/net/send.js";
+const loadSender = async () => {
+  const sourceUrl = new URL(
+    "../../../apps/duck-web/src/net/send.ts",
+    import.meta.url,
+  );
+  const sourceCode = await readFile(sourceUrl, "utf8");
+  const { outputText } = ts.transpileModule(sourceCode, {
+    compilerOptions: {
+      module: ts.ModuleKind.ESNext,
+      target: ts.ScriptTarget.ES2022,
+      sourceMap: true,
+      inlineSourceMap: true,
+      inlineSources: true,
+    },
+    fileName: "send.ts",
+  });
+  const tmpFile = path.join(
+    os.tmpdir(),
+    `makeThrottledSender-${randomUUID()}.mjs`,
+  );
+  await writeFile(tmpFile, outputText, "utf8");
+  try {
+    return await import(pathToFileURL(tmpFile).href);
+  } finally {
+    await unlink(tmpFile).catch(() => {
+      // ignore cleanup failures in CI environments without write permissions
+    });
+  }
+};
+
+let makeThrottledSender;
+
+test.before(async () => {
+  ({ makeThrottledSender } = await loadSender());
+});
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -26,7 +66,7 @@ class FakeDataChannel {
   }
 
   emitBufferedAmountLow() {
-    const queue = this.listeners;
+    const queue = [...this.listeners];
     queue.forEach((listener) => listener());
   }
 }

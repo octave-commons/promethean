@@ -6,7 +6,7 @@ export const makeThrottledSender = (
   let waiters: ReadonlyArray<() => void> = [];
 
   const flush = () => {
-    const queue = waiters;
+    const queue = [...waiters];
     waiters = [];
     queue.forEach((fn) => fn());
   };
