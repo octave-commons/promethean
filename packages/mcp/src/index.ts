@@ -34,6 +34,12 @@ import {
   processStopTask,
   processUpdateTaskRunnerConfig,
 } from "./tools/process-manager.js";
+import {
+  pnpmAdd,
+  pnpmInstall,
+  pnpmRemove,
+  pnpmRunScript,
+} from "./tools/pnpm.js";
 import type { ToolFactory } from "./core/types.js";
 import {
   resolveHttpEndpoints,
@@ -57,6 +63,10 @@ const toolCatalog = new Map<string, ToolFactory>([
   ["process.getQueue", processGetQueue],
   ["process.getStdout", processGetStdout],
   ["process.getStderr", processGetStderr],
+  ["pnpm.install", pnpmInstall],
+  ["pnpm.add", pnpmAdd],
+  ["pnpm.remove", pnpmRemove],
+  ["pnpm.runScript", pnpmRunScript],
   ["tdd.scaffoldTest", tddScaffoldTest],
   ["tdd.changedFiles", tddChangedFiles],
   ["tdd.runTests", tddRunTests],
