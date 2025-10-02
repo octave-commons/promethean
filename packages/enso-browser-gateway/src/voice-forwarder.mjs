@@ -1,4 +1,4 @@
-const DEFAULT_FRAME_DURATION_MS = 20;
+export const DEFAULT_FRAME_DURATION_MS = 20;
 const MIN_FRAME_DURATION_MS = 5;
 const MAX_FRAME_DURATION_MS = 200;
 
@@ -45,6 +45,9 @@ export function createVoiceForwarder({
   }
 
   return {
+    getFrameDurationMs() {
+      return resolvedFrameDurationMs;
+    },
     async handleChunk(chunk) {
       if (closed) return;
       const data = toUint8Array(chunk);
