@@ -1,0 +1,24 @@
+{
+  "name": "@promethean/smart-chat-frontend",
+  "root": "packages/frontends/smart-chat-frontend",
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm run build",
+        "cwd": "packages/frontends/smart-chat-frontend"
+      },
+      "outputs": ["{projectRoot}/dist"]
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm exec eslint .",
+        "cwd": "packages/frontends/smart-chat-frontend",
+        "forwardAllArgs": false
+      }
+    }
+  },
+  "tags": ["scope:packages"],
+  "sourceRoot": "packages/frontends/smart-chat-frontend/src"
+}
