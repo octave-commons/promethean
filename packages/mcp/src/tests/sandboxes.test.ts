@@ -11,7 +11,7 @@ import {
   listSandboxes,
   removeSandbox,
   type SandboxInfo,
-} from "../git.js";
+} from "../github/sandboxes/git.js";
 
 const execFileAsync = promisify(execFile);
 
@@ -46,6 +46,9 @@ const initRepository = async (): Promise<string> => {
   return root;
 };
 
+const branchNameFor = (sandbox: SandboxInfo | undefined): string | undefined =>
+  sandbox?.branch;
+
 test("createSandbox creates a dedicated worktree", async (t) => {
   const repo = await initRepository();
   const sandbox = await createSandbox({
@@ -57,7 +60,7 @@ test("createSandbox creates a dedicated worktree", async (t) => {
 
   t.is(sandbox.id, "feature-one");
   t.true(sandbox.path.endsWith(path.join(".sandboxes", "feature-one")));
-  t.is(sandbox.branch, "feature/one");
+  t.is(branchNameFor(sandbox), "feature/one");
 
   const { stdout } = await execFileAsync(
     "git",
@@ -88,7 +91,7 @@ test("listSandboxes enumerates created sandboxes", async (t) => {
 
   t.deepEqual(identifiers, ["alpha", "beta"]);
   const alpha = sandboxes.find((entry) => entry.id === "alpha") as SandboxInfo;
-  t.is(alpha.branch, sandboxA.branch);
+  t.is(branchNameFor(alpha), branchNameFor(sandboxA));
   const beta = sandboxes.find((entry) => entry.id === "beta") as SandboxInfo;
   t.is(beta.head, sandboxB.head);
 });
