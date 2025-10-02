@@ -1,3 +1,4 @@
+import { applyPatchTool } from "./tools/apply-patch.js";
 import {
   tddScaffoldTest,
   tddChangedFiles,
@@ -35,6 +36,12 @@ import {
   processUpdateTaskRunnerConfig,
 } from "./tools/process-manager.js";
 import { execRunTool, execListTool } from "./tools/exec.js";
+import {
+  pnpmAdd,
+  pnpmInstall,
+  pnpmRemove,
+  pnpmRunScript,
+} from "./tools/pnpm.js";
 import type { ToolFactory } from "./core/types.js";
 import {
   resolveHttpEndpoints,
@@ -42,6 +49,7 @@ import {
 } from "./core/resolve-config.js";
 
 const toolCatalog = new Map<string, ToolFactory>([
+  ["apply_patch", applyPatchTool],
   ["github.request", githubRequestTool],
   ["github.graphql", githubGraphqlTool],
   ["github.rate-limit", githubRateLimitTool],
@@ -60,6 +68,10 @@ const toolCatalog = new Map<string, ToolFactory>([
   ["process.getStderr", processGetStderr],
   ["exec.run", execRunTool],
   ["exec.list", execListTool],
+  ["pnpm.install", pnpmInstall],
+  ["pnpm.add", pnpmAdd],
+  ["pnpm.remove", pnpmRemove],
+  ["pnpm.runScript", pnpmRunScript],
   ["tdd.scaffoldTest", tddScaffoldTest],
   ["tdd.changedFiles", tddChangedFiles],
   ["tdd.runTests", tddRunTests],

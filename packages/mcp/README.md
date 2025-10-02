@@ -83,3 +83,7 @@ This is a scaffold extracted to consolidate multiple MCP servers into one packag
 - exec.list — enumerate allowlisted shell commands and metadata.
 - exec.run — run an allowlisted shell command with optional args when enabled.
 - files.search — grep-like content search returning path/line/snippet triples.
+- pnpm.install — run `pnpm install` with optional `--filter` targeting specific packages.
+- pnpm.add — add dependencies, supporting workspace or filtered package scopes.
+- pnpm.remove — remove dependencies from the workspace or filtered packages.
+- pnpm.runScript — execute `pnpm run <script>` with optional extra args and filters.
