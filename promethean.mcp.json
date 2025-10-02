@@ -10,6 +10,7 @@
     "files.write-content",
     "files.write-lines",
     "files.search",
+    "apply_patch",
     "tdd.scaffoldTest",
     "tdd.changedFiles",
     "tdd.runTests",
@@ -18,7 +19,11 @@
     "tdd.stopWatch",
     "tdd.coverage",
     "tdd.propertyCheck",
-    "tdd.mutationScore"
+    "tdd.mutationScore",
+    "pnpm.install",
+    "pnpm.add",
+    "pnpm.remove",
+    "pnpm.runScript"
   ],
   "endpoints": {
     "process": {
@@ -39,7 +44,8 @@
         "files.view-file",
         "files.write-content",
         "files.write-lines",
-        "files.search"
+        "files.search",
+        "apply_patch"
       ]
     },
     "github": {
@@ -59,6 +65,9 @@
         "github.review.createBranch",
         "github.review.revertCommits"
       ]
+    },
+    "workspace": {
+      "tools": ["pnpm.install", "pnpm.add", "pnpm.remove", "pnpm.runScript"]
     }
   }
 }
