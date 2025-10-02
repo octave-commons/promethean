@@ -177,7 +177,16 @@ export class EnsoServer extends EventEmitter {
 
   /** Toggle evaluation mode guardrails for a session. */
   enableEvaluationMode(sessionId: string, enabled: boolean): void {
+    const previous = this.guardrails.isEvaluationMode(sessionId);
     this.guardrails.setEvaluationMode(sessionId, enabled);
+    if (previous === enabled) {
+      return;
+    }
+    const envelope = mkEnvelope("room.flags", {
+      flags: { eval: enabled },
+    });
+    this.recordAudit(sessionId, envelope);
+    this.emit("message", { id: sessionId }, envelope);
   }
 
   /**

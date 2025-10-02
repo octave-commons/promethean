@@ -164,6 +164,10 @@ export type ConsentRecordPayload = {
   readonly context?: Record<string, unknown>;
 };
 
+export type RoomFlagsPayload = {
+  readonly flags: Record<string, unknown>;
+};
+
 export type StreamResumePayload = {
   readonly scid: string;
   readonly seq: number;
@@ -214,6 +218,7 @@ export type EventPayloadMap = {
   readonly "act.intent": ActIntentPayload;
   readonly "privacy.accepted": PrivacyAcceptedPayload;
   readonly "room.policy": RoomPolicyPayload;
+  readonly "room.flags": RoomFlagsPayload;
   readonly "consent.record": ConsentRecordPayload;
   readonly "mcp.mount": McpMountPayload;
   readonly "mcp.announce": McpAnnouncePayload;
@@ -272,6 +277,7 @@ export type ActRationaleEvent = EventOf<"act.rationale">;
 export type ActIntentEvent = EventOf<"act.intent">;
 export type PrivacyAcceptedEvent = EventOf<"privacy.accepted">;
 export type RoomPolicyEvent = EventOf<"room.policy">;
+export type RoomFlagsEvent = EventOf<"room.flags">;
 export type ConsentRecordEvent = EventOf<"consent.record">;
 export type McpMountEvent = EventOf<"mcp.mount">;
 export type McpAnnounceEvent = EventOf<"mcp.announce">;
