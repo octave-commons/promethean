@@ -1,5 +1,8 @@
 import test from "ava";
-import { createVoiceForwarder } from "../voice-forwarder.mjs";
+import {
+  createVoiceForwarder,
+  DEFAULT_FRAME_DURATION_MS,
+} from "../voice-forwarder.mjs";
 
 test("forwarder adds seq and monotonic pts for each frame", async (t) => {
   const frames = [];
@@ -39,4 +42,6 @@ test("forwarder adds seq and monotonic pts for each frame", async (t) => {
   t.is(eof.seq, 2);
   t.is(eof.pts, 40);
   t.deepEqual(eof.data, new Uint8Array(0));
+
+  t.is(forwarder.getFrameDurationMs(), DEFAULT_FRAME_DURATION_MS);
 });
