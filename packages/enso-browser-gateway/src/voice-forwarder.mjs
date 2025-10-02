@@ -1,18 +1,32 @@
+const DEFAULT_FRAME_DURATION_MS = 20;
+const MIN_FRAME_DURATION_MS = 5;
+const MAX_FRAME_DURATION_MS = 200;
+
+function normalizeFrameDurationMs(value) {
+  if (!Number.isFinite(value)) return DEFAULT_FRAME_DURATION_MS;
+  if (value < MIN_FRAME_DURATION_MS || value > MAX_FRAME_DURATION_MS) {
+    return DEFAULT_FRAME_DURATION_MS;
+  }
+  return value;
+}
+
 export function resolveFrameDurationMs(channel) {
-  if (!channel?.protocol) return 20;
+  if (!channel?.protocol) return DEFAULT_FRAME_DURATION_MS;
   const match = /frame(?:Duration)?(?:Ms)?=(\d+)/i.exec(channel.protocol);
-  if (!match) return 20;
+  if (!match) return DEFAULT_FRAME_DURATION_MS;
   const value = Number.parseInt(match[1], 10);
-  return Number.isFinite(value) && value > 0 ? value : 20;
+  return normalizeFrameDurationMs(value);
 }
 
 export function createVoiceForwarder({
   client,
   streamId,
   room,
-  frameDurationMs = 20,
+  frameDurationMs = DEFAULT_FRAME_DURATION_MS,
   codec = "pcm16le/16000/1",
 }) {
+  const resolvedFrameDurationMs = normalizeFrameDurationMs(frameDurationMs);
+
   client.voice.register(streamId, 0);
   let seq = 0;
   let pts = 0;
@@ -37,7 +51,7 @@ export function createVoiceForwarder({
       if (data === null) return;
       const currentSeq = seq++;
       const currentPts = pts;
-      pts += frameDurationMs;
+      pts += resolvedFrameDurationMs;
       await send({ seq: currentSeq, pts: currentPts, data });
     },
     async handleClose() {

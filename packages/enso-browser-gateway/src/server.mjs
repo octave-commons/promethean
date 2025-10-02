@@ -44,6 +44,7 @@ wss.on("connection", async (ws, req) => {
   const events = pc.createDataChannel("events"); // outbound to browser
   const audio = pc.createDataChannel("audio"); // optional: send pcm16 frames to browser
   let voice;
+  let forwarder;
 
   // ICE back to browser
   pc.onicecandidate = (ev) => {
@@ -56,7 +57,7 @@ wss.on("connection", async (ws, req) => {
       voice = ev.channel;
       const streamId = crypto.randomUUID();
       const room = `voice:${Date.now()}`;
-      const forwarder = createVoiceForwarder({
+      forwarder = createVoiceForwarder({
         client,
         streamId,
         room,
@@ -69,10 +70,18 @@ wss.on("connection", async (ws, req) => {
       };
 
       voice.onclose = () => {
-        void forwarder.handleClose();
+        forwarder
+          ?.handleClose()
+          .catch((error) =>
+            console.warn("failed to forward voice EOF on channel close", error),
+          );
       };
       voice.onerror = () => {
-        void forwarder.handleClose();
+        forwarder
+          ?.handleClose()
+          .catch((error) =>
+            console.warn("failed to forward voice EOF on channel error", error),
+          );
       };
     }
   };
@@ -120,10 +129,15 @@ wss.on("connection", async (ws, req) => {
 
   ws.on("close", async () => {
     try {
-      await handle.close();
-    } catch {}
+      await forwarder?.handleClose();
+    } catch (error) {
+      console.warn("failed to forward voice EOF on websocket close", error);
+    }
     try {
       pc.close();
+    } catch {}
+    try {
+      await handle.close();
     } catch {}
   });
 });
