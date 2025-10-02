@@ -19,6 +19,28 @@ export const startMic = async (onPcm: OnPcm): Promise<MicHandle> => {
   const source = ctx.createMediaStreamSource(stream);
   const node = new AudioWorkletNode(ctx, "pcm16k");
 
+  // Maintain a small queue and drop oldest frames if the consumer lags to avoid
+  // unbounded buffering on the main thread.
+  const pending: Array<{ pcm: Int16Array; tstampMs: number }> = [];
+  const maxQueueDepth = 3;
+  let draining = false;
+
+  const scheduleDrain = () => {
+    if (draining) {
+      return;
+    }
+    draining = true;
+    queueMicrotask(() => {
+      draining = false;
+      const next = pending.shift();
+      if (!next) {
+        return;
+      }
+      onPcm(next.pcm, next.tstampMs);
+      scheduleDrain();
+    });
+  };
+
   node.port.onmessage = (event) => {
     const floatBuffer = event.data as Float32Array;
     if (!(floatBuffer instanceof Float32Array)) {
@@ -26,13 +48,19 @@ export const startMic = async (onPcm: OnPcm): Promise<MicHandle> => {
     }
 
     const pcm = float32ToInt16(floatBuffer);
-    onPcm(pcm, performance.now());
+    const frame = { pcm, tstampMs: performance.now() };
+    if (pending.length >= maxQueueDepth) {
+      pending.shift();
+    }
+    pending.push(frame);
+    scheduleDrain();
   };
 
   source.connect(node);
 
   const stop = async () => {
     node.port.onmessage = null;
+    pending.length = 0;
     node.disconnect();
     source.disconnect();
     stream.getTracks().forEach((track) => track.stop());
