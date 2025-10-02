@@ -1,12 +1,12 @@
 {
-  "name": "@promethean/portfolio-frontend",
-  "root": "packages/portfolio-frontend",
+  "name": "@promethean/markdown-graph-frontend",
+  "root": "packages/frontends/markdown-graph-frontend",
   "targets": {
     "build": {
       "executor": "nx:run-commands",
       "options": {
         "command": "pnpm run build",
-        "cwd": "packages/portfolio-frontend"
+        "cwd": "packages/frontends/markdown-graph-frontend"
       },
       "outputs": ["{projectRoot}/dist"]
     },
@@ -14,11 +14,11 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "pnpm exec eslint .",
-        "cwd": "packages/portfolio-frontend",
+        "cwd": "packages/frontends/markdown-graph-frontend",
         "forwardAllArgs": false
       }
     }
   },
   "tags": ["scope:packages"],
-  "sourceRoot": "packages/portfolio-frontend/src"
+  "sourceRoot": "packages/frontends/markdown-graph-frontend/src"
 }
