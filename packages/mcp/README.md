@@ -60,3 +60,7 @@ This is a scaffold extracted to consolidate multiple MCP servers into one packag
 - kanban.update-status / kanban.move-task — move tasks between columns or reorder them.
 - kanban.sync-board — reconcile board ordering with task markdown files.
 - kanban.search — run fuzzy/exact search over board tasks.
+- pnpm.install — run `pnpm install` with optional `--filter` targeting specific packages.
+- pnpm.add — add dependencies, supporting workspace or filtered package scopes.
+- pnpm.remove — remove dependencies from the workspace or filtered packages.
+- pnpm.runScript — execute `pnpm run <script>` with optional extra args and filters.
