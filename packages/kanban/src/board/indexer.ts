@@ -1,11 +1,12 @@
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 import { listFilesRec } from "@promethean/utils/list-files-rec.js";
 import { parseFrontmatter } from "@promethean/markdown/frontmatter";
 
 import type { IndexedTask, TaskFM } from "./types.js";
-import type { ReadonlySetLike } from "./config/shared.js";
+import type { KanbanConfig, ReadonlySetLike } from "./config/shared.js";
 import { loadKanbanConfig } from "./config.js";
 
 const toTrimmedString = (value: unknown, fallback = ""): string => {
@@ -79,15 +80,17 @@ const sortTasksById = (
 ): ReadonlyArray<IndexedTask> =>
   Object.freeze([...tasks].sort((a, b) => a.id.localeCompare(b.id)));
 
-const indexTasks = async ({
-  tasksDir,
-  exts,
-  repoRoot,
-}: Readonly<{
+export type IndexTasksOptions = Readonly<{
   readonly tasksDir: string;
   readonly exts: ReadonlySetLike<string>;
   readonly repoRoot: string;
-}>): Promise<ReadonlyArray<IndexedTask>> => {
+}>;
+
+export const indexTasks = async ({
+  tasksDir,
+  exts,
+  repoRoot,
+}: IndexTasksOptions): Promise<ReadonlyArray<IndexedTask>> => {
   const files = await listFilesRec(tasksDir, new Set(exts));
   const tasks = await Promise.all(
     files.map((filePath) =>
@@ -103,32 +106,73 @@ const indexTasks = async ({
   return sortTasksById(tasks);
 };
 
-const main = async (): Promise<void> => {
-  const { config, restArgs } = await loadKanbanConfig();
-  const args = new Set(restArgs);
-  const shouldWrite = args.has("--write");
-  const tasks: ReadonlyArray<IndexedTask> = await indexTasks({
+export const serializeTasks = (
+  tasks: ReadonlyArray<IndexedTask>,
+): ReadonlyArray<string> =>
+  Object.freeze(tasks.map((task) => JSON.stringify(task)));
+
+export const refreshTaskIndex = async (
+  config: Readonly<KanbanConfig>,
+): Promise<ReadonlyArray<IndexedTask>> => {
+  const tasks = await indexTasks({
     tasksDir: config.tasksDir,
     exts: config.exts,
     repoRoot: config.repo,
   });
-  const lines = Object.freeze(tasks.map((task) => JSON.stringify(task)));
+  const lines = serializeTasks(tasks);
+  await writeFile(config.indexFile, `${lines.join("\n")}\n`, "utf8");
+  return tasks;
+};
+export const writeIndexFile = async (
+  indexFilePath: string,
+  lines: ReadonlyArray<string>,
+): Promise<void> => {
+  await writeFile(indexFilePath, `${lines.join("\n")}\n`, "utf8");
+};
+
+export const runIndexer = async (
+  options?: Readonly<{
+    readonly argv?: ReadonlyArray<string>;
+    readonly env?: NodeJS.ProcessEnv;
+  }>,
+): Promise<ReadonlyArray<IndexedTask>> => {
+  const { config, restArgs } = await loadKanbanConfig(options);
+  const args = new Set(restArgs);
+  const shouldWrite = args.has("--write");
+  const tasks = await indexTasks({
+    tasksDir: config.tasksDir,
+    exts: config.exts,
+    repoRoot: config.repo,
+  });
+  const lines = serializeTasks(tasks);
   if (shouldWrite) {
-    await writeFile(config.indexFile, `${lines.join("\n")}\n`, "utf8");
+    await writeIndexFile(config.indexFile, lines);
     console.log(
       `Wrote ${tasks.length} tasks to ${path.relative(
         config.repo,
         config.indexFile,
       )}`,
     );
-    return;
+    return tasks;
   }
   lines.forEach((line) => {
     console.log(line);
   });
+  return tasks;
 };
 
-main().catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
+const isCliExecution = (): boolean => {
+  const entry = process.argv[1];
+  if (typeof entry !== "string" || entry.length === 0) {
+    return false;
+  }
+  const modulePath = fileURLToPath(import.meta.url);
+  return path.resolve(entry) === modulePath;
+};
+
+if (isCliExecution()) {
+  runIndexer().catch((err) => {
+    console.error(err);
+    process.exit(1);
+  });
+}

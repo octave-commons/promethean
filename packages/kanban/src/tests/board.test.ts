@@ -12,7 +12,6 @@ import {
   findTaskByTitle,
   getColumn,
   getTasksByColumn,
-  indexForSearch,
   moveTask,
   pullFromTasks,
   pushToTasks,
@@ -234,10 +233,6 @@ test("regenerate", async (t) => {
   const boardFile = await readFile(boardPath, "utf8");
   t.true(boardFile.startsWith("---\nkanban-plugin: board"));
   t.regex(boardFile, /## Review/);
-});
-
-test("indexForSearch", async (t) => {
-  t.deepEqual(await indexForSearch("."), { started: true });
 });
 
 test("search", async (t) => {

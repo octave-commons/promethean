@@ -7,72 +7,118 @@ import {
     __resetPersistenceClientsForTests,
 } from '@promethean/persistence/clients.js';
 
-type AnyDoc = Record<string, any>;
+type DocumentRecord = Record<string, unknown>;
+type FilterDoc = Record<string, unknown>;
+type UpdateDoc = {
+    readonly $set?: Record<string, unknown>;
+    readonly $unset?: Record<string, unknown>;
+};
+type UpdateOptions = { readonly upsert?: boolean };
+type Cursor<T> = { toArray: () => Promise<T[]> };
 
-export class InMemoryCollection<T extends AnyDoc = AnyDoc> {
-    name: string;
-    data: T[] = [];
+export class InMemoryCollection<T extends DocumentRecord = DocumentRecord> {
+    readonly name: string;
+    private data: T[] = [];
     constructor(name: string) {
         this.name = name;
     }
-    async deleteMany(filter: AnyDoc) {
+    async deleteMany(filter: FilterDoc): Promise<void> {
         this.data = this.data.filter((doc) => !matchesFilter(doc, filter));
     }
-    async insertOne(doc: T) {
+    async insertOne(doc: T): Promise<{ insertedId: unknown }> {
         this.data.push(structuredClone(doc));
-        return { insertedId: (doc as AnyDoc).id };
+        const insertedId = (doc as { id?: unknown }).id ?? null;
+        return { insertedId };
     }
-    async findOne(filter: AnyDoc = {}) {
+    async findOne(filter: FilterDoc = {}): Promise<T | null> {
         const doc = this.data.find((item) => matchesFilter(item, filter));
-        return doc ? (structuredClone(doc) as T) : null;
+        return doc ? structuredClone(doc) : null;
     }
-    find(filter: AnyDoc = {}) {
+    find(filter: FilterDoc = {}): Cursor<T> {
         const arr = this.data.filter((doc) => matchesFilter(doc, filter));
-        return { toArray: async () => arr.map((d) => structuredClone(d)) } as any;
+        return {
+            toArray: async () => arr.map((d) => structuredClone(d)),
+        };
     }
-    async countDocuments(filter: AnyDoc = {}) {
+    async countDocuments(filter: FilterDoc = {}): Promise<number> {
         return this.data.filter((doc) => matchesFilter(doc, filter)).length;
     }
-    async updateOne(filter: AnyDoc, update: AnyDoc, opts: AnyDoc = {}) {
-        let found = this.data.find((doc) => matchesFilter(doc, filter));
-        if (!found && opts.upsert) {
-            found = {} as T;
-            this.data.push(found);
-        }
-        if (found) applyUpdate(found as AnyDoc, update);
+    async updateOne(filter: FilterDoc, update: UpdateDoc, opts: UpdateOptions = {}): Promise<void> {
+        const target = (() => {
+            const existing = this.data.find((doc) => matchesFilter(doc, filter));
+            if (existing) return existing;
+            if (!opts.upsert) return null;
+            const placeholder = {} as T;
+            this.data.push(placeholder);
+            return placeholder;
+        })();
+        if (target) applyUpdate(target, update);
     }
-    async updateMany(filter: AnyDoc, update: AnyDoc) {
+    async updateMany(filter: FilterDoc, update: UpdateDoc): Promise<void> {
         for (const doc of this.data) {
-            if (matchesFilter(doc, filter)) applyUpdate(doc as AnyDoc, update);
+            if (matchesFilter(doc, filter)) applyUpdate(doc, update);
         }
     }
 }
 
-function getByPath(obj: AnyDoc, path: string): any {
-    return path.split('.').reduce((acc: any, key) => (acc ? acc[key] : undefined), obj);
+function getByPath(obj: DocumentRecord, path: string): unknown {
+    return path.split('.').reduce<unknown>((acc, key) => {
+        if (acc === undefined || acc === null || typeof acc !== 'object') return undefined;
+        return (acc as Record<string, unknown>)[key];
+    }, obj);
 }
 
-function matchesFilter(doc: AnyDoc, filter: AnyDoc): boolean {
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+    typeof value === 'object' && value !== null && !Array.isArray(value);
+
+type OperatorEvaluator = (actual: unknown, operators: Record<string, unknown>) => boolean | undefined;
+
+const operatorEvaluators: readonly OperatorEvaluator[] = [
+    (actual, operators) => {
+        const nin = operators.$nin;
+        if (Array.isArray(nin)) return !nin.includes(actual);
+        return undefined;
+    },
+    (actual, operators) => {
+        const not = operators.$not;
+        if (not instanceof RegExp) return !not.test(String(actual));
+        return undefined;
+    },
+    (actual, operators) => {
+        const exists = operators.$exists;
+        if (typeof exists === 'boolean') return exists ? actual !== undefined : actual === undefined;
+        return undefined;
+    },
+    (actual, operators) => {
+        const gte = operators.$gte;
+        if (typeof gte === 'number' && typeof actual === 'number') return actual >= gte;
+        return undefined;
+    },
+    (actual, operators) => {
+        const lt = operators.$lt;
+        if (typeof lt === 'number' && typeof actual === 'number') return actual < lt;
+        return undefined;
+    },
+];
+
+function evaluateOperators(actual: unknown, operators: Record<string, unknown>): boolean {
+    for (const evaluator of operatorEvaluators) {
+        const result = evaluator(actual, operators);
+        if (result !== undefined) return result;
+    }
+    return Object.is(actual, operators);
+}
+
+
+function matchesFilter(doc: DocumentRecord, filter: FilterDoc): boolean {
     if (!filter || Object.keys(filter).length === 0) return true;
     return Object.entries(filter).every(([k, v]) => {
         const val = getByPath(doc, k);
-        if (v && typeof v === 'object' && !Array.isArray(v)) {
-            const nin = (v as AnyDoc).$nin;
-            if (Array.isArray(nin)) return !nin.includes(val);
-            const not = (v as AnyDoc).$not;
-            if (not instanceof RegExp) return !not.test(val);
-            const exists = (v as AnyDoc).$exists;
-            if (typeof exists === 'boolean') return exists ? val !== undefined : val === undefined;
-            const gte = (v as AnyDoc).$gte;
-            if (gte !== undefined) return val >= gte;
-            const lt = (v as AnyDoc).$lt;
-            if (lt !== undefined) return val < lt;
-        }
-        return val === v;
+        return isRecord(v) ? evaluateOperators(val, v) : Object.is(val, v);
     });
 }
 
-function applyUpdate(doc: AnyDoc, update: AnyDoc) {
+function applyUpdate(doc: DocumentRecord, update: UpdateDoc): void {
     if (update.$set && typeof update.$set === 'object') {
         for (const [k, v] of Object.entries(update.$set)) {
             setByPath(doc, k, v);
@@ -85,53 +131,69 @@ function applyUpdate(doc: AnyDoc, update: AnyDoc) {
     }
 }
 
-function setByPath(obj: AnyDoc, path: string, value: any) {
-    const parts = path.split('.');
-    const last = parts.pop()!;
-    let cur: AnyDoc = obj;
-    for (const p of parts) {
-        if (!cur[p] || typeof cur[p] !== 'object') cur[p] = {};
-        cur = cur[p];
+function setByPath(obj: DocumentRecord, path: string, value: unknown): void {
+    const [head, ...rest] = path.split('.');
+    if (!head) return;
+    if (rest.length === 0) {
+        if (value === undefined) delete obj[head];
+        else obj[head] = value;
+        return;
     }
-    if (value === undefined) delete cur[last];
-    else cur[last] = value;
+
+    const existing = obj[head];
+    const next =
+        typeof existing === 'object' && existing !== null && !Array.isArray(existing)
+            ? (existing as DocumentRecord)
+            : {};
+    if (next !== existing) obj[head] = next;
+    setByPath(next, rest.join('.'), value);
 }
 
 export class FakeDb {
-    collections = new Map<string, InMemoryCollection<any>>();
-    collection(name: string) {
+    private readonly collections = new Map<string, InMemoryCollection<DocumentRecord>>();
+    collection(name: string): InMemoryCollection<DocumentRecord> {
         if (!this.collections.has(name)) this.collections.set(name, new InMemoryCollection(name));
         return this.collections.get(name)!;
     }
 }
 
 export class FakeMongoClient {
-    dbs = new Map<string, FakeDb>();
-    async connect() {}
-    db(name: string) {
+    private readonly dbs = new Map<string, FakeDb>();
+    async connect(): Promise<void> {}
+    db(name: string): FakeDb {
         if (!this.dbs.has(name)) this.dbs.set(name, new FakeDb());
         return this.dbs.get(name)!;
     }
-    async close() {}
+    async close(): Promise<void> {}
 }
 
+type EmptyChromaQuery = {
+    ids: string[][];
+    metadatas: Array<Array<Record<string, unknown>>>;
+    documents: string[][];
+};
+
 export class FakeChromaCollection {
-    async add(_: any) {}
-    async count() {
+    async add(_: unknown): Promise<void> {}
+    async count(): Promise<number> {
         return 0;
     }
-    async query(_: any) {
-        return { ids: [], metadatas: [], documents: [] } as any;
+    async query(_: unknown): Promise<EmptyChromaQuery> {
+        return { ids: [], metadatas: [], documents: [] };
     }
 }
 
 export class FakeChromaClient {
-    async getOrCreateCollection(_: any) {
+    async getOrCreateCollection(_: unknown): Promise<FakeChromaCollection> {
         return new FakeChromaCollection();
     }
 }
 
-export function installInMemoryPersistence() {
+export function installInMemoryPersistence(): {
+    mongo: FakeMongoClient;
+    chroma: FakeChromaClient;
+    dispose: () => void;
+} {
     const mongo = new FakeMongoClient();
     const chroma = new FakeChromaClient();
     __setMongoClientForTests(mongo as unknown as MongoClient);
@@ -139,7 +201,7 @@ export function installInMemoryPersistence() {
     return {
         mongo,
         chroma,
-        dispose() {
+        dispose(): void {
             __resetPersistenceClientsForTests();
         },
     };

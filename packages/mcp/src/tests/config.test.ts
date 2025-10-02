@@ -10,6 +10,7 @@ test("resolveHttpEndpoints falls back to /mcp with top-level tools", (t) => {
     transport: "http",
     tools: ["files.view-file"],
     endpoints: {},
+    stdioProxyConfig: null,
   };
 
   const result = resolveHttpEndpoints(cfg);
@@ -24,6 +25,7 @@ test("resolveHttpEndpoints normalizes endpoint paths", (t) => {
       "github/mcp": { tools: ["github.request"] },
       "/fs/mcp": { tools: ["files.list-directory"] },
     },
+    stdioProxyConfig: null,
   };
 
   const result = resolveHttpEndpoints(cfg);
@@ -40,6 +42,7 @@ test("resolveHttpEndpoints retains legacy /mcp when endpoints present", (t) => {
     endpoints: {
       "github/mcp": { tools: ["github.request"] },
     },
+    stdioProxyConfig: null,
   };
 
   const result = resolveHttpEndpoints(cfg);
@@ -56,6 +59,7 @@ test("resolveStdioTools prefers top-level tools", (t) => {
     endpoints: {
       "github/mcp": { tools: ["github.request"] },
     },
+    stdioProxyConfig: null,
   };
 
   const result = resolveStdioTools(cfg);
@@ -70,6 +74,7 @@ test("resolveStdioTools unions endpoint tools when top-level empty", (t) => {
       "github/mcp": { tools: ["github.request"] },
       "fs/mcp": { tools: ["files.list-directory", "files.view-file"] },
     },
+    stdioProxyConfig: null,
   };
 
   const result = resolveStdioTools(cfg);
