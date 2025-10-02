@@ -74,6 +74,11 @@ import {
   type EndpointDefinition,
 } from "./core/resolve-config.js";
 import { discordSendMessage, discordListMessages } from "./tools/discord.js";
+import {
+  sandboxCreateTool,
+  sandboxDeleteTool,
+  sandboxListTool,
+} from "./tools/sandboxes.js";
 import { loadStdioServerSpecs, type StdioServerSpec } from "./proxy/config.js";
 import { StdioHttpProxy } from "./proxy/stdio-proxy.js";
 import { pathToFileURL } from "node:url";
@@ -133,6 +138,9 @@ const toolCatalog = new Map<string, ToolFactory>([
   ["kanban.search", kanbanSearchTasks],
   ["discord.send-message", discordSendMessage],
   ["discord.list-messages", discordListMessages],
+  ["sandbox.create", sandboxCreateTool],
+  ["sandbox.list", sandboxListTool],
+  ["sandbox.delete", sandboxDeleteTool],
 ]);
 
 const env = process.env;

@@ -2697,6 +2697,9 @@ importers:
       minimatch:
         specifier: ^9.0.5
         version: 9.0.5
+      type-fest:
+        specifier: ^4.24.0
+        version: 4.41.0
       uuid:
         specifier: 9.0.1
         version: 9.0.1
