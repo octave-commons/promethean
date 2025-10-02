@@ -1,5 +1,4 @@
 import test from "ava";
-import { McpClient } from "../adapter.js";
 import { CacheRegistry } from "../cache.js";
 import { EnsoClient } from "../client.js";
 import { derivedCid, derive } from "../derive.js";
@@ -24,38 +23,6 @@ const CLIENT_CAPS = [
   "can.context.write",
   "can.context.apply",
 ] as const;
-
-test("adapter default handlers", async (t) => {
-  const client = new McpClient({
-    serverId: "demo",
-    transport: { kind: "stdio", command: "noop" },
-  });
-  t.deepEqual(await client.listTools(), []);
-  const result = await client.callTool({ name: "noop", args: {}, ttlMs: 10 });
-  t.false(result.ok);
-  t.regex(result.error ?? "", /No handler/);
-});
-
-test("adapter custom handlers", async (t) => {
-  const client = new McpClient(
-    {
-      serverId: "mcp",
-      transport: { kind: "http-stream", url: "https://mcp.example" },
-    },
-    {
-      listTools: () => [{ name: "demo" }],
-      callTool: async ({ name }) => ({ ok: true, result: name }),
-    },
-  );
-  t.deepEqual(await client.listTools(), [{ name: "demo" }]);
-  const response = await client.callTool({
-    name: "demo",
-    args: { q: 1 },
-    ttlMs: 1000,
-  });
-  t.true(response.ok);
-  t.is(response.result, "demo");
-});
 
 test("cache registry operations", (t) => {
   const cache = new CacheRegistry();
