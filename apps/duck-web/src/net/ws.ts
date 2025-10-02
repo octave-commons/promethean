@@ -5,6 +5,7 @@ export type WsFactory = (
 export const openWs =
   (mkWs: WsFactory = (u, p) => new WebSocket(u, p)) =>
   (url: string, bearer?: string) => {
-    const protocols = ["duck.v1", ...(bearer ? [`bearer.${bearer}`] : [])];
+    const token = bearer?.trim();
+    const protocols = ["duck.v1", ...(token ? [`bearer.${token}`] : [])];
     return mkWs(url, protocols);
   };
