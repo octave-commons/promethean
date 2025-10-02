@@ -20,6 +20,9 @@
     "tdd.coverage",
     "tdd.propertyCheck",
     "tdd.mutationScore",
+    "discord.send-message",
+    "discord.list-messages"
+    "tdd.mutationScore",
     "pnpm.install",
     "pnpm.add",
     "pnpm.remove",
@@ -50,6 +53,9 @@
     },
     "github": {
       "tools": ["github.request", "github.graphql", "github.rate-limit"]
+    },
+    "discord": {
+      "tools": ["discord.send-message", "discord.list-messages"]
     },
     "workspace": {
       "tools": ["pnpm.install", "pnpm.add", "pnpm.remove", "pnpm.runScript"]
