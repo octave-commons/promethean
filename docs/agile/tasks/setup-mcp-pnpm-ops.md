@@ -1,0 +1,60 @@
+---
+uuid: 9b3f1c89-9a76-4f18-92a4-38275b1bc1f0
+title: Setup MCP server for pnpm workspace management
+status: in-progress
+priority: P2
+labels:
+  - #framework-core
+created_at: '2025-03-09T00:00:00.000Z'
+---
+#In-Progress
+
+## 🛠️ Description
+
+- Provide an MCP server that can install, add, and remove pnpm dependencies at the workspace root or scoped to a package filter, plus expose pnpm script execution.
+
+## Description
+- **What changed?** New requirement to automate pnpm dependency and script operations via MCP so agents can manage workspace packages.
+- **Where is the impact?** Applies to dev tooling; new server likely lives under `packages/` and touches workspace config.
+- **Why now?** Enables remote automation and scripted dependency updates for MCP clients.
+- **Supporting context** User request in current session.
+
+## Goals
+- MCP server exposes tools for `pnpm install`, `pnpm add`, `pnpm remove`, and script execution with optional `--filter` package targeting.
+- Document usage and constraints so future agents can extend capabilities safely.
+
+## Requirements
+- [ ] pnpm operations succeed for workspace root and filtered packages.
+- [ ] Tests or smoke checks cover command invocation helpers.
+- [ ] Documentation updated with usage details.
+- [ ] PR merged: (link once created)
+- [ ] Additional constraints or non-functional requirements are addressed: support GPL-3.0-only licensing and follow repo lint/build gates.
+
+## Subtasks
+1. Review existing MCP tooling packages and decide placement for new server.
+2. Implement pnpm command runner with workspace vs filter support.
+3. Register MCP tools/resources and provide docs/tests.
+
+Estimate: 5
+
+---
+
+## 🔗 Related Epics
+
+- [[kanban]]
+
+---
+
+## ⛓️ Blocked By
+
+- None
+
+## ⛓️ Blocks
+
+- None
+
+---
+
+## 🔍 Relevant Links
+
+- User request (current session)
