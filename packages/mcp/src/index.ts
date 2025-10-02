@@ -48,6 +48,7 @@ import {
   processStopTask,
   processUpdateTaskRunnerConfig,
 } from "./tools/process-manager.js";
+import { execRunTool, execListTool } from "./tools/exec.js";
 import {
   kanbanFindTaskById,
   kanbanFindTaskByTitle,
@@ -100,6 +101,8 @@ const toolCatalog = new Map<string, ToolFactory>([
   ["process.getQueue", processGetQueue],
   ["process.getStdout", processGetStdout],
   ["process.getStderr", processGetStderr],
+  ["exec.run", execRunTool],
+  ["exec.list", execListTool],
   ["pnpm.install", pnpmInstall],
   ["pnpm.add", pnpmAdd],
   ["pnpm.remove", pnpmRemove],
