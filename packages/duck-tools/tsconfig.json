@@ -1,14 +1,9 @@
 {
+  "extends": "../../config/tsconfig.base.json",
   "compilerOptions": {
-    "target": "ES2022",
-    "module": "ES2022",
-    "moduleResolution": "bundler",
+    "rootDir": "src",
     "outDir": "dist",
-    "declaration": false,
-    "strict": true,
-    "skipLibCheck": true,
-    "esModuleLntEnterop": true,
-    "forceConsistentCasingInFileNames": true
+    "composite": true
   },
-  "include": [ "src/**/*.ts" ]
+  "include": ["src/**/*.ts"]
 }
