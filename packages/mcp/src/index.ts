@@ -1,3 +1,4 @@
+import { applyPatchTool } from "./tools/apply-patch.js";
 import {
   tddScaffoldTest,
   tddChangedFiles,
@@ -41,6 +42,7 @@ import {
 } from "./core/resolve-config.js";
 
 const toolCatalog = new Map<string, ToolFactory>([
+  ["apply_patch", applyPatchTool],
   ["github.request", githubRequestTool],
   ["github.graphql", githubGraphqlTool],
   ["github.rate-limit", githubRateLimitTool],
@@ -92,12 +94,13 @@ const main = async () => {
 
   if (cfg.transport === "http") {
     const endpoints = resolveHttpEndpoints(cfg);
-    const servers = new Map<string, ReturnType<typeof createMcpServer>>();
-    for (const endpoint of endpoints) {
-      const factories = selectFactories(endpoint.tools);
-      const registry = buildRegistry(factories, ctx);
-      servers.set(endpoint.path, createMcpServer(registry.list()));
-    }
+    const servers = new Map(
+      endpoints.map((endpoint) => {
+        const factories = selectFactories(endpoint.tools);
+        const registry = buildRegistry(factories, ctx);
+        return [endpoint.path, createMcpServer(registry.list())] as const;
+      }),
+    );
 
     const transport = fastifyTransport();
     console.log(
