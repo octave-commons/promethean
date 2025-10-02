@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 import http from "node:http";
-import type { IncomingMessage } from "node:http";
 import process from "node:process";
 import { URL } from "node:url";
 
@@ -104,14 +103,6 @@ const joinPath = (base: string, route: string): string => {
   return `${base}${normalizedRoute}`.replace(/\/{2,}/g, "/");
 };
 
-const readBody = async (req: IncomingMessage): Promise<Buffer> => {
-  const chunks: Buffer[] = [];
-  for await (const chunk of req) {
-    chunks.push(typeof chunk === "string" ? Buffer.from(chunk) : chunk);
-  }
-  return Buffer.concat(chunks);
-};
-
 const main = async () => {
   const specs = await loadStdioServerSpecs(options.config);
   const proxies = specs.map(
@@ -190,8 +181,7 @@ const main = async () => {
     }
 
     try {
-      const body = req.method === "POST" ? await readBody(req) : undefined;
-      await proxy.handle(req, res, body);
+      await proxy.handle(req, res);
     } catch (error) {
       console.error(`[proxy:${proxy.spec.name}] request failed:`, error);
       if (!res.headersSent) {
