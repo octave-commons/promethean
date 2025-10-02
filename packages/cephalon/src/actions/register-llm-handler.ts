@@ -24,7 +24,7 @@ export default function run(scope: RegisterLlmHandlerScope) {
     // 2) Mirror to ENSO chat if available
     try {
       const enso = scope.getEnsoChat?.();
-      if (enso) await enso.sendText('assistant', text);
+      if (enso) await enso.sendText('agent', text);
     } catch (e) {
       console.warn('Failed to mirror reply to ENSO', e);
     }
@@ -32,8 +32,8 @@ export default function run(scope: RegisterLlmHandlerScope) {
     // 3) Persist agent message for context
     try {
       const ctx = scope.getContext?.();
-      const coll = ctx?.getCollection('agent_messages');
-      await coll?.insert({
+      const coll = ctx?.getCollection?.('agent_messages');
+      await coll?.insert?.({
         text,
         createdAt: Date.now(),
         metadata: { userName: 'Duck', isThought: false, type: 'text' },
