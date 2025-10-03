@@ -12,8 +12,8 @@ export const readYaml = async (file: string): Promise<ProcessConfig> => {
 
 export const readTaskFrontmatter = async (file: string): Promise<TaskFM> => {
   const txt = await fs.readFile(file, 'utf8');
-  const { frontmatter } = parseMarkdownFrontmatter(txt);
-  return frontmatter as TaskFM;
+  const parsed = parseMarkdownFrontmatter(txt);
+  return parsed.data as TaskFM;
 };
 
 export const listMarkdownTasks = async (dir: string): Promise<string[]> => {
