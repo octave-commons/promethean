@@ -191,3 +191,273 @@ index e965047..8ddddef 100644
     ),
   );
 });
+
+test("github.apply_patch commits deletions only", async (t) => {
+  const calls: FetchCall[] = [];
+
+  const fetchImpl: typeof fetch = async (input, init = {}) => {
+    const url = typeof input === "string" ? input : (input as URL).toString();
+    const method = (init.method ?? "GET").toUpperCase();
+    calls.push({ url, init: { ...init, method } });
+
+    if (
+      url ===
+        "https://api.github.com/repos/octo/demo/contents/src/app.txt?ref=main" &&
+      method === "GET"
+    ) {
+      return new Response(
+        JSON.stringify({
+          content: Buffer.from("hello\n").toString("base64"),
+          encoding: "base64",
+        }),
+      );
+    }
+
+    if (
+      url === "https://api.github.com/repos/octo/demo/git/ref/heads/main" &&
+      method === "GET"
+    ) {
+      return new Response(JSON.stringify({ object: { sha: "abc123" } }));
+    }
+
+    if (url === "https://api.github.com/graphql" && method === "POST") {
+      const payload = (await parseRequest(init)) as any;
+      const fileChanges = payload?.variables?.input?.fileChanges;
+      t.deepEqual(fileChanges, {
+        additions: [],
+        deletions: [{ path: "src/app.txt" }],
+      });
+      return new Response(
+        JSON.stringify({
+          data: {
+            createCommitOnBranch: {
+              commit: {
+                oid: "fed321",
+                url: "https://github.com/octo/demo/commit/fed321",
+              },
+            },
+          },
+        }),
+      );
+    }
+
+    throw new Error(`Unexpected request: ${method} ${url}`);
+  };
+
+  const ctx: any = {
+    env: {
+      GITHUB_TOKEN: "token",
+    },
+    fetch: fetchImpl,
+  };
+
+  const tool = githubApplyPatchTool(ctx);
+  const diff = `diff --git a/src/app.txt b/src/app.txt
+deleted file mode 100644
+index e965047..0000000
+--- a/src/app.txt
++++ /dev/null
+@@ -1 +0,0 @@
+-hello
+`;
+
+  const result: any = await tool.invoke({
+    owner: "octo",
+    repo: "demo",
+    branch: "main",
+    message: "refactor: remove unused app file",
+    diff,
+  });
+
+  t.true(result.ok);
+  t.is(result.commitOid, "fed321");
+  t.is(result.additions, 0);
+  t.is(result.deletions, 1);
+  t.true(calls.some((call) => call.url === "https://api.github.com/graphql"));
+});
+
+test("github.apply_patch rejects binary patches", async (t) => {
+  const calls: FetchCall[] = [];
+
+  const fetchImpl: typeof fetch = async (input, init = {}) => {
+    const url = typeof input === "string" ? input : (input as URL).toString();
+    const method = (init.method ?? "GET").toUpperCase();
+    calls.push({ url, init: { ...init, method } });
+    throw new Error(`Unexpected request: ${method} ${url}`);
+  };
+
+  const ctx: any = {
+    env: {
+      GITHUB_TOKEN: "token",
+    },
+    fetch: fetchImpl,
+  };
+
+  const tool = githubApplyPatchTool(ctx);
+  const diff = `diff --git a/bin/app.bin b/bin/app.bin
+new file mode 100644
+index 0000000..1234567
+Binary files /dev/null and b/bin/app.bin differ
+`;
+
+  const error = await t.throwsAsync(async () =>
+    tool.invoke({
+      owner: "octo",
+      repo: "demo",
+      branch: "main",
+      message: "feat: add binary", // message irrelevant
+      diff,
+    }),
+  );
+
+  t.truthy(error);
+  t.is(
+    error?.message,
+    "Binary patches are not supported by github.apply_patch",
+  );
+  t.is(calls.length, 0);
+});
+
+test("github.apply_patch rejects rename diffs", async (t) => {
+  const calls: FetchCall[] = [];
+
+  const fetchImpl: typeof fetch = async (input, init = {}) => {
+    const url = typeof input === "string" ? input : (input as URL).toString();
+    const method = (init.method ?? "GET").toUpperCase();
+    calls.push({ url, init: { ...init, method } });
+    throw new Error(`Unexpected request: ${method} ${url}`);
+  };
+
+  const ctx: any = {
+    env: {
+      GITHUB_TOKEN: "token",
+    },
+    fetch: fetchImpl,
+  };
+
+  const tool = githubApplyPatchTool(ctx);
+  const diff = `diff --git a/src/old.txt b/src/new.txt
+similarity index 100%
+rename from src/old.txt
+rename to src/new.txt
+--- a/src/old.txt
++++ b/src/new.txt
+`;
+
+  const error = await t.throwsAsync(async () =>
+    tool.invoke({
+      owner: "octo",
+      repo: "demo",
+      branch: "main",
+      message: "chore: rename file",
+      diff,
+    }),
+  );
+
+  t.truthy(error);
+  t.is(error?.message, "Renames are not supported by github.apply_patch");
+  t.is(calls.length, 0);
+});
+
+test("github.apply_patch rejects unsafe paths", async (t) => {
+  const calls: FetchCall[] = [];
+
+  const fetchImpl: typeof fetch = async (input, init = {}) => {
+    const url = typeof input === "string" ? input : (input as URL).toString();
+    const method = (init.method ?? "GET").toUpperCase();
+    calls.push({ url, init: { ...init, method } });
+    throw new Error(`Unexpected request: ${method} ${url}`);
+  };
+
+  const ctx: any = {
+    env: {
+      GITHUB_TOKEN: "token",
+    },
+    fetch: fetchImpl,
+  };
+
+  const tool = githubApplyPatchTool(ctx);
+  const diff = `diff --git a/../secrets.txt b/../secrets.txt
+new file mode 100644
+index 0000000..e69de29
+--- /dev/null
++++ b/../secrets.txt
+@@ -0,0 +1 @@
++classified
+`;
+
+  const error = await t.throwsAsync(async () =>
+    tool.invoke({
+      owner: "octo",
+      repo: "demo",
+      branch: "main",
+      message: "docs: add secret",
+      diff,
+    }),
+  );
+
+  t.truthy(error);
+  t.is(error?.message, "Unsafe relative path in diff: ../secrets.txt");
+  t.is(calls.length, 0);
+});
+
+test("github.apply_patch surfaces git apply conflicts", async (t) => {
+  const calls: FetchCall[] = [];
+
+  const fetchImpl: typeof fetch = async (input, init = {}) => {
+    const url = typeof input === "string" ? input : (input as URL).toString();
+    const method = (init.method ?? "GET").toUpperCase();
+    calls.push({ url, init: { ...init, method } });
+
+    if (
+      url ===
+        "https://api.github.com/repos/octo/demo/contents/src/app.txt?ref=main" &&
+      method === "GET"
+    ) {
+      return new Response(
+        JSON.stringify({
+          content: Buffer.from("hello\n").toString("base64"),
+          encoding: "base64",
+        }),
+      );
+    }
+
+    if (url === "https://api.github.com/graphql") {
+      t.fail("git apply conflict should not trigger GraphQL commit");
+    }
+
+    throw new Error(`Unexpected request: ${method} ${url}`);
+  };
+
+  const ctx: any = {
+    env: {
+      GITHUB_TOKEN: "token",
+    },
+    fetch: fetchImpl,
+  };
+
+  const tool = githubApplyPatchTool(ctx);
+  const diff = `diff --git a/src/app.txt b/src/app.txt
+index e965047..8ddddef 100644
+--- a/src/app.txt
++++ b/src/app.txt
+@@ -1 +1 @@
+-bye
++goodbye
+`;
+
+  const error = await t.throwsAsync(async () =>
+    tool.invoke({
+      owner: "octo",
+      repo: "demo",
+      branch: "main",
+      message: "fix: update greeting",
+      diff,
+    }),
+  );
+
+  t.truthy(error);
+  t.true(error instanceof Error);
+  t.true(error.message.startsWith("git apply exited with code"));
+  t.false(calls.some((call) => call.url === "https://api.github.com/graphql"));
+});
