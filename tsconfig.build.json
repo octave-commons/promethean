@@ -3,6 +3,9 @@
 
   "references": [
     {
+      "path": "./packages/apply-patch"
+    },
+    {
       "path": "./packages/level-cache"
     },
     {
