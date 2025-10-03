@@ -4,6 +4,9 @@ import { z } from "zod";
 
 export const CONFIG_FILE_NAME = "promethean.mcp.json";
 
+// Define the root directory for config files
+export const CONFIG_ROOT = process.cwd();
+
 const ToolId = z.string();
 const EndpointConfig = z.object({
   tools: z.array(ToolId).default([]),
@@ -89,9 +92,19 @@ export const saveConfigFile = (
   filePath: string,
   config: AppConfig,
 ): AppConfig => {
+  // Validate: only allow writing within CONFIG_ROOT
+  const rootPath = fs.realpathSync(CONFIG_ROOT);
+  const safePath = path.isAbsolute(filePath)
+    ? filePath
+    : path.resolve(CONFIG_ROOT, filePath);
+  const resolvedPath = fs.realpathSync(path.dirname(safePath)) + "/" + path.basename(safePath);
+
+  if (!resolvedPath.startsWith(rootPath + path.sep)) {
+    throw new Error(`Refusing to write config outside of ${rootPath}: ${resolvedPath}`);
+  }
   const normalized = normalizeConfig(config);
-  ensureDirectory(filePath);
-  fs.writeFileSync(filePath, JSON.stringify(normalized, null, 2), "utf8");
+  ensureDirectory(resolvedPath);
+  fs.writeFileSync(resolvedPath, JSON.stringify(normalized, null, 2), "utf8");
   return normalized;
 };
 
