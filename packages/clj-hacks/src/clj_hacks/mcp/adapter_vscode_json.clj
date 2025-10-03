@@ -10,10 +10,12 @@
         mcp     {:mcp-servers
                  (into (sorted-map)
                        (for [[nm spec] servers]
-                         [(keyword nm)
-                          (cond-> {:command (get spec "command")}
-                            (seq (get spec "args"))
-                            (assoc :args (vec (get spec "args"))))]))}
+                         (let [args (get spec "args")
+                               cwd  (get spec "cwd")]
+                           [(keyword nm)
+                            (cond-> {:command (get spec "command")}
+                              (seq args) (assoc :args (vec args))
+                              (some? cwd) (assoc :cwd cwd))])))}
         rest    (dissoc m "servers")]
     {:mcp mcp :rest rest}))
 
@@ -23,9 +25,10 @@
                    {})
         m*      (merge existing rest)
         servers (into (sorted-map)
-                      (for [[k {:keys [command args]}] (:mcp-servers mcp)]
+                      (for [[k {:keys [command args cwd]}] (:mcp-servers mcp)]
                         [(name k) (cond-> {"command" command "type" "stdio"}
-                                    (seq args) (assoc "args" (vec args)))]))
+                                    (seq args) (assoc "args" (vec args))
+                                    (some? cwd) (assoc "cwd" cwd))]))
         out     (assoc m* "servers" servers)]
     (core/ensure-parent! path)
     (spit path (json/generate-string out {:pretty true}))))
