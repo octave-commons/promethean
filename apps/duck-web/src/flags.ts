@@ -1,10 +1,18 @@
-export const parseBool = (value: unknown, defaultValue: boolean): boolean => {
-  if (typeof value !== "string") {
+const env =
+  (import.meta as { env?: Record<string, string | undefined> }).env ?? {};
+
+export const readEnv = (key: string): string | undefined => env[key];
+
+export const parseBool = (v: unknown, defaultValue: boolean): boolean => {
+  if (typeof v === "boolean") {
+    return v;
+  }
+
+  if (typeof v !== "string") {
     return defaultValue;
   }
 
-  const normalized = value.trim().toLowerCase();
-
+  const normalized = v.trim().toLowerCase();
   if (normalized === "true") {
     return true;
   }
