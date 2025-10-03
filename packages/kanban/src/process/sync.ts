@@ -1,7 +1,6 @@
-import path from 'node:path';
 import { loadKanbanConfig } from '../board/config.js';
 import { regenerateBoard } from '../lib/kanban.js';
-import { listMarkdownTasks, readTaskFrontmatter, readYaml } from './config.js';
+import { readTaskFrontmatter, readYaml } from './config.js';
 import { makeGh } from './github.js';
 import type { ProcessConfig } from './types.js';
 
@@ -14,10 +13,12 @@ export type ProcessSyncOptions = {
 
 const unique = <T>(xs: ReadonlyArray<T>) => Array.from(new Set(xs));
 
-const mapStatusToLabels = (statuses: ReadonlyArray<string>, labelMap: Record<string, ReadonlyArray<string>>) =>
-  statuses.flatMap((s) => labelMap[s] ?? []);
+const mapStatusToLabels = (
+  statuses: ReadonlyArray<string>,
+  labelMap: Record<string, ReadonlyArray<string>>,
+) => statuses.flatMap((s) => labelMap[s] ?? []);
 
-const loadTasksForPr = async (cfg: ProcessConfig, tasksDir: string, pr: string) => {
+const loadTasksForPr = async (cfg: ProcessConfig, pr: string) => {
   const files = cfg.pr_rules[pr] ?? [];
   const fmList = await Promise.all(files.map((f) => readTaskFrontmatter(f)));
   return fmList;
@@ -28,17 +29,22 @@ export async function processSync(opts: ProcessSyncOptions = {}) {
   const boardFile = kbCfg.boardFile;
   const tasksDir = kbCfg.tasksDir;
 
-  const processFile = opts.processFile || process.env.KANBAN_PROCESS_FILE || 'docs/agile/process/duck-revival.yaml';
+  const processFile =
+    opts.processFile || process.env.KANBAN_PROCESS_FILE || 'docs/agile/process/duck-revival.yaml';
   const cfg = await readYaml(processFile);
 
   // 1) Regenerate board from tasks
   await regenerateBoard(tasksDir, boardFile);
 
   // 2) Sync labels on PRs based on task statuses
-  const gh = makeGh({ token: opts.token || process.env.GITHUB_TOKEN, owner: opts.owner || process.env.GITHUB_OWNER, repo: opts.repo || process.env.GITHUB_REPO });
+  const gh = makeGh({
+    token: opts.token || process.env.GITHUB_TOKEN,
+    owner: opts.owner || process.env.GITHUB_OWNER,
+    repo: opts.repo || process.env.GITHUB_REPO,
+  });
   const prs = Object.keys(cfg.pr_rules || {});
   for (const pr of prs) {
-    const fmList = await loadTasksForPr(cfg, tasksDir, pr);
+    const fmList = await loadTasksForPr(cfg, pr);
     const statuses = unique(fmList.map((fm) => fm.status));
     const labels = unique(mapStatusToLabels(statuses, cfg.label_map || {}));
     if (labels.length > 0) {
@@ -51,11 +57,7 @@ export async function processSync(opts: ProcessSyncOptions = {}) {
   for (const [pr, key] of Object.entries(prChecklists)) {
     const list = cfg.checklists?.[key] || [];
     if (list.length === 0) continue;
-    const body = [
-      `Checklist (${key}):`,
-      ...list.map((item) => `- [ ] ${item}`),
-    ].join('
-');
+    const body = [`Checklist (${key}):`, ...list.map((item) => `- [ ] ${item}`)].join('\n');
     await gh.comment(Number(pr), body);
   }
 
