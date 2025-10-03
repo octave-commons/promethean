@@ -68,11 +68,10 @@ export class ToPcm16kMono extends Transform {
       const m0 = (l0 + r0) / 2;
       const m1 = (l1 + r1) / 2;
       const m2 = (l2 + r2) / 2;
-      let v = (m0 + m1 + m2) / 3;
+      const averaged = (m0 + m1 + m2) / 3;
       // clamp to int16
-      if (v > 32767) v = 32767;
-      if (v < -32768) v = -32768;
-      out[oi++] = v | 0;
+      const clamped = Math.max(-32768, Math.min(32767, averaged));
+      out[oi++] = clamped | 0;
     }
     // Save remainder into carry
     const rem = merged.length - usableSamples;
