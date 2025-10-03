@@ -11,3 +11,4 @@ export * from "./types/mcp.js";
 export * from "./types/voice.js";
 export * from "./types/policy.js";
 export * from "./types/events.js";
+export * from "./types/intents.js";
