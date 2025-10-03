@@ -2760,28 +2760,6 @@ importers:
         specifier: ^5.4.5
         version: 5.9.2
 
-  packages/mcp-github-sandboxes:
-    dependencies:
-      '@modelcontextprotocol/sdk':
-        specifier: ^1.17.5
-        version: 1.17.5
-      type-fest:
-        specifier: ^4.41.0
-        version: 4.41.0
-      zod:
-        specifier: ^3.25.76
-        version: 3.25.76
-    devDependencies:
-      ava:
-        specifier: ^6.4.1
-        version: 6.4.1(encoding@0.1.13)
-      rimraf:
-        specifier: ^6.0.1
-        version: 6.0.1
-      typescript:
-        specifier: ^5.4.5
-        version: 5.9.2
-
   packages/migrations:
     dependencies:
       '@promethean/embedding':
@@ -14206,7 +14184,7 @@ snapshots:
 
   axios@1.11.0:
     dependencies:
-      follow-redirects: 1.15.11(debug@4.4.3)
+      follow-redirects: 1.15.11(debug@4.3.7)
       form-data: 4.0.4
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -16698,7 +16676,7 @@ snapshots:
   http-proxy@1.18.1:
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.15.11(debug@4.4.3)
+      follow-redirects: 1.15.11(debug@4.3.7)
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
