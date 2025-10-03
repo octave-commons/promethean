@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { pathToFileURL } from "node:url";
 
 import { applyPatchTool } from "./tools/apply-patch.js";
 import {
@@ -22,6 +23,7 @@ import { stdioTransport } from "./core/transports/stdio.js";
 import { githubRequestTool } from "./tools/github/request.js";
 import { githubGraphqlTool } from "./tools/github/graphql.js";
 import { githubRateLimitTool } from "./tools/github/rate-limit.js";
+import { githubContentsWrite } from "./tools/github/contents.js";
 import {
   githubReviewCheckoutBranch,
   githubReviewCommit,
@@ -29,6 +31,7 @@ import {
   githubReviewGetActionStatus,
   githubReviewGetComments,
   githubReviewGetReviewComments,
+  githubReviewRequestChangesFromCodex,
   githubReviewOpenPullRequest,
   githubReviewPush,
   githubReviewRevertCommits,
@@ -81,19 +84,28 @@ import { discordSendMessage, discordListMessages } from "./tools/discord.js";
 import { loadStdioServerSpecs } from "./proxy/config.js";
 import type { StdioServerSpec } from "./proxy/config.js";
 import { StdioHttpProxy } from "./proxy/stdio-proxy.js";
+import {
+  sandboxCreateTool,
+  sandboxDeleteTool,
+  sandboxListTool,
+} from "./tools/sandboxes.js";
 import { loadStdioServerSpecs, type StdioServerSpec } from "./proxy/config.js";
 import { StdioHttpProxy } from "./proxy/stdio-proxy.js";
-import { pathToFileURL } from "node:url";
 
 const toolCatalog = new Map<string, ToolFactory>([
   ["apply_patch", applyPatchTool],
   ["github.request", githubRequestTool],
   ["github.graphql", githubGraphqlTool],
   ["github.rate-limit", githubRateLimitTool],
+  ["github.contents.write", githubContentsWrite],
   ["github.review.openPullRequest", githubReviewOpenPullRequest],
   ["github.review.getComments", githubReviewGetComments],
   ["github.review.getReviewComments", githubReviewGetReviewComments],
   ["github.review.submitComment", githubReviewSubmitComment],
+  [
+    "github.review.requestChangesFromCodex",
+    githubReviewRequestChangesFromCodex,
+  ],
   ["github.review.submitReview", githubReviewSubmitReview],
   ["github.review.getActionStatus", githubReviewGetActionStatus],
   ["github.review.commit", githubReviewCommit],
@@ -140,6 +152,9 @@ const toolCatalog = new Map<string, ToolFactory>([
   ["kanban.search", kanbanSearchTasks],
   ["discord.send-message", discordSendMessage],
   ["discord.list-messages", discordListMessages],
+  ["sandbox.create", sandboxCreateTool],
+  ["sandbox.list", sandboxListTool],
+  ["sandbox.delete", sandboxDeleteTool],
 ]);
 
 const env = process.env;
@@ -243,7 +258,7 @@ export type HttpTransportConfig = Readonly<{
 }>;
 
 export const loadHttpTransportConfig = async (
-  cfg: AppConfig,
+  cfg: Readonly<AppConfig>,
 ): Promise<HttpTransportConfig> => {
   const endpoints = resolveHttpEndpoints(cfg);
   if (!cfg.stdioProxyConfig) {
@@ -254,7 +269,7 @@ export const loadHttpTransportConfig = async (
   return { endpoints, stdioProxies };
 };
 
-export const main = async () => {
+export const main = async (): Promise<void> => {
   const cfg = loadConfig(env);
   const cwd = process.cwd();
   const ctx = mkCtx();
@@ -291,7 +306,7 @@ export const main = async () => {
 
     const proxies = httpConfig.stdioProxies.map(
       (spec) =>
-        new StdioHttpProxy(spec, (msg: string, ...rest: unknown[]) => {
+        new StdioHttpProxy(spec, (msg: string, ...rest: readonly unknown[]) => {
           console.log(`[mcp:proxy:${spec.name}] ${msg}`, ...rest);
         }),
     );
@@ -328,6 +343,7 @@ export const main = async () => {
 const shouldRunMain = (): boolean => {
   const entry = process.argv[1];
   if (!entry) return false;
+  // eslint-disable-next-line functional/no-try-statements
   try {
     return pathToFileURL(entry).href === import.meta.url;
   } catch {
