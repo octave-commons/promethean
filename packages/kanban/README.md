@@ -27,6 +27,15 @@ GITHUB_TOKEN=… pnpm kanban sync \n  --process docs/agile/process/duck-revival.
 ### `pull` / `push`
 Low-level one-way transforms used by `sync`.
 
+- `pnpm kanban pull` – fold task frontmatter back into the board (like the old
+  `hashtags_to_kanban.py`).
+- `pnpm kanban push` – project the kanban columns to task files (successor to
+  `kanban_to_hashtags.py`).
+- `pnpm kanban sync` – run both directions and surface conflicting cards.
+- `pnpm kanban regenerate` – rebuild the board from the current task folder.
+- `pnpm kanban count --kanban path --tasks path` – quick stats for automation.
+- `pnpm kanban ui --port 4173` – launch an interactive kanban dashboard in the
+  browser (defaults to `http://127.0.0.1:4173`).
 ### `count`
 Emit JSON stats for dashboards.
 
@@ -49,6 +58,15 @@ Every command prints **newline-delimited JSON** for model consumption. Example `
 ## Process config
 See `docs/agile/process/README.md` for the YAML schema. A ready-made config lives at `docs/agile/process/duck-revival.yaml`.
 
+## Web UI
+
+Run `pnpm kanban ui` to start a lightweight HTTP server that renders the
+workspace board as a responsive dashboard. The command respects the same
+configuration flags as other subcommands, so `--kanban`, `--tasks`, `--host`,
+and `--port` work as expected. The page refreshes automatically every minute,
+and you can trigger a manual refresh from the "Refresh" button in the header.
+
+## Notes
 ## Philosophy
 - Pure functions + data-in/data-out.
 - Markdown as the source of truth.

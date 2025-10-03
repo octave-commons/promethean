@@ -1,22 +1,10 @@
 #!/usr/bin/env node
-import {
-  loadBoard,
-  countTasks,
-  getColumn,
-  getTasksByColumn,
-  findTaskById,
-  findTaskByTitle,
-  updateStatus,
-  moveTask,
-  pullFromTasks,
-  pushToTasks,
-  syncBoardAndTasks,
-  regenerateBoard,
-  indexForSearch,
-  searchTasks,
-} from "./lib/kanban.js";
-import { printJSONL } from "./lib/jsonl.js";
 import { loadKanbanConfig } from "./board/config.js";
+import {
+  COMMAND_HANDLERS,
+  runCommand,
+  type CliContext,
+} from "./cli/command-handlers.js";
 import { processSync } from "./process/sync.js";
 
 const LEGACY_FLAG_MAP = Object.freeze(
@@ -26,52 +14,54 @@ const LEGACY_FLAG_MAP = Object.freeze(
   ]),
 );
 
+const LEGACY_FLAG_ENTRIES = Array.from(LEGACY_FLAG_MAP.entries());
+
+const normalizeLegacyToken = (token: string): string =>
+  LEGACY_FLAG_ENTRIES.reduce((current, [legacy, mapped]) => {
+    if (current === legacy) {
+      return mapped;
+    }
+    if (current.startsWith(`${legacy}=`)) {
+      return `${mapped}=${current.slice(legacy.length + 1)}`;
+    }
+    return current;
+  }, token);
+
 const normalizeLegacyArgs = (
   args: ReadonlyArray<string>,
-): ReadonlyArray<string> =>
-  args.map((token) => {
-    for (const [legacy, current] of LEGACY_FLAG_MAP.entries()) {
-      if (token === legacy) {
-        return current;
-      }
-      if (token.startsWith(`${legacy}=`)) {
-        return `${current}=${token.slice(legacy.length + 1)}`;
-      }
-    }
-    return token;
-  });
+): ReadonlyArray<string> => args.map(normalizeLegacyToken);
+
+const LEGACY_ENV_MAPPINGS = Object.freeze([
+  ["KANBAN_PATH", "KANBAN_BOARD_FILE"],
+  ["TASKS_PATH", "KANBAN_TASKS_DIR"],
+] as const);
 
 const applyLegacyEnv = (
   env: Readonly<NodeJS.ProcessEnv>,
-): NodeJS.ProcessEnv => {
-  const nextEnv: NodeJS.ProcessEnv = { ...env };
-  if (
-    typeof env.KANBAN_PATH === "string" &&
-    typeof env.KANBAN_BOARD_FILE !== "string"
-  ) {
-    nextEnv.KANBAN_BOARD_FILE = env.KANBAN_PATH;
-  }
-  if (
-    typeof env.TASKS_PATH === "string" &&
-    typeof env.KANBAN_TASKS_DIR !== "string"
-  ) {
-    nextEnv.KANBAN_TASKS_DIR = env.TASKS_PATH;
-  }
-  return nextEnv;
-};
-
-const requireArg = (value: string | undefined, label: string): string => {
-  if (typeof value === "string") {
-    const trimmed = value.trim();
-    if (trimmed.length > 0) {
-      return trimmed;
+): Readonly<NodeJS.ProcessEnv> => {
+  const patches = LEGACY_ENV_MAPPINGS.reduce<
+    ReadonlyArray<readonly [string, string]>
+  >((acc, [legacy, modern]) => {
+    const legacyValue = env[legacy];
+    if (typeof legacyValue === "string" && typeof env[modern] !== "string") {
+      return [...acc, [modern, legacyValue] as const];
     }
+    return acc;
+  }, []);
+  if (patches.length === 0) {
+    return { ...env };
   }
-  console.error(`Missing required ${label}.`);
-  process.exit(2);
+  return {
+    ...env,
+    ...Object.fromEntries(patches),
+  };
 };
 
-async function main() {
+const HELP_TEXT =
+  `Usage: kanban [--kanban path] [--tasks path] <subcommand> [args...]\n` +
+  `Subcommands: ${Object.keys(COMMAND_HANDLERS).join(", ")}`;
+
+async function main(): Promise<void> {
   const rawArgs = process.argv.slice(2);
   const normalizedArgs = normalizeLegacyArgs(rawArgs);
   const helpRequested =
@@ -214,7 +204,9 @@ async function main() {
   }
 }
 
-main().catch((err) => {
-  console.error(err?.stack || String(err));
+main().catch((error: unknown) => {
+  const message =
+    error instanceof Error ? error.stack ?? error.message : String(error);
+  console.error(message);
   process.exit(1);
 });
