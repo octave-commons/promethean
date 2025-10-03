@@ -113,6 +113,11 @@ This is a scaffold extracted to consolidate multiple MCP servers into one packag
 - kanban.update-status / kanban.move-task — move tasks between columns or reorder them.
 - kanban.sync-board — reconcile board ordering with task markdown files.
 - kanban.search — run fuzzy/exact search over board tasks.
+- github.pr.* — High-level pull request utilities, including metadata lookup
+  (`github.pr.get`), diff file inspection (`github.pr.files`), inline position
+  resolution (`github.pr.resolvePosition`), and review lifecycle helpers for
+  pending reviews (`github.pr.review.start` / `commentInline` / `submit`). These
+  wrap GitHub REST/GraphQL edge-cases like diff mapping and suggestion fences.
 - github.review.* — GitHub pull request management helpers (open PRs, fetch comments,
   submit reviews, inspect checks, and run supporting git commands). Includes
   `github.review.requestChangesFromCodex`, which posts an issue-level PR comment that
@@ -120,6 +125,36 @@ This is a scaffold extracted to consolidate multiple MCP servers into one packag
 - github.apply_patch — Apply a unified diff to a GitHub branch by committing through
   the GraphQL `createCommitOnBranch` mutation. Useful when the agent cannot write to
   the working tree but can craft patches to push upstream.
+
+### Pull request review workflow
+
+Agents can stitch the new tools together to run full reviews without crafting raw
+payloads:
+
+```jsonc
+// 1) Create a pending review (optional body summarizing goals)
+{ "tool": "github.pr.review.start", "pullRequestId": "PR_NODE_ID" }
+
+// 2) Inline comment at new line 42 with an optional suggestion
+{
+  "tool": "github.pr.review.commentInline",
+  "owner": "octocat",
+  "repo": "hello-world",
+  "number": 123,
+  "path": "src/app.ts",
+  "line": 42,
+  "body": "Nit: consider extracting this constant.",
+  "suggestion": { "after": ["const value = computeValue();"] }
+}
+
+// 3) Submit the pending review as a request for changes
+{
+  "tool": "github.pr.review.submit",
+  "reviewId": "PENDING_REVIEW_ID",
+  "event": "REQUEST_CHANGES",
+  "body": "See inline comments for details."
+}
+```
 
 ## HTTP Endpoints
 
@@ -131,11 +166,17 @@ GraphQL API:
 {
   "tools": [
     "github.review.openPullRequest",
-    "github.review.getComments",
-    "github.review.getReviewComments",
-    "github.review.submitComment",
-    "github.review.submitReview",
-    "github.review.getActionStatus",
+"github.review.getComments",
+"github.review.getReviewComments",
+"github.pr.get",
+"github.pr.files",
+"github.pr.resolvePosition",
+"github.pr.review.start",
+"github.pr.review.commentInline",
+"github.pr.review.submit",
+"github.review.submitComment",
+"github.review.submitReview",
+"github.review.getActionStatus",
     "github.review.commit",
     "github.review.push",
     "github.review.checkoutBranch",
