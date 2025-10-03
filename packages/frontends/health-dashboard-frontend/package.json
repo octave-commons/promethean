@@ -9,6 +9,11 @@
   ],
   "scripts": {
     "build": "rimraf dist && tsc",
-    "clean": "rimraf dist"
+    "build:shadow": "shadow-cljs release health-dashboard-frontend",
+    "watch:shadow": "shadow-cljs watch health-dashboard-frontend",
+    "clean": "rimraf dist dist/frontend"
+  },
+  "devDependencies": {
+    "shadow-cljs": "2.28.17"
   }
 }
