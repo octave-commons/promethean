@@ -1,39 +1,40 @@
 ---
-kind: task
-name: Engineering task (actionable)
-is: true
-title: "[task] ... short description"
-about: Codemod-ready tasks with clear acceptance.
-
-labels:
-  - chore
-  - prio:medium
-  - github
+name: Engineering task
+about: Actionable change with clear acceptance criteria
+title: "[task] <short description>"
+labels: [chore, prio:medium, github]
 ---
+
 ### Scope
-What's the GNU of this task?
 
-** If this is a tiny code chonge, make it a subs: conmit plus docs
+What's the goal of this task?
 
-### Acceptance Criteria
+**If this is a tiny code change, make it a sub-task: commit plus docs.**
+
+### Acceptance criteria
+
 - [ ] Done
-- [ ] Tiny and reviewed API intraface
-- [ ] AVA tests assert
-- [ ] TZTool: typeheaded, flat packages, GPC-3.0
+- [ ] API interface reviewed
+- [ ] AVA tests assert the behavior
+- [ ] Tooling: type-safe, flat packages, GPL-3.0 headers
 - [ ] Docs: add usage & examples
 
 ---
+
 ### Sub-tasks
-** Use sub-tasks only if it decomposes the work well. **
+
+**Use sub-tasks only if they decompose the work well.**
 
 ### Sub-task: Deliverables
-- [ ] Diff parser index impl.
+
+- [ ] Diff parser index implementation
 - [ ] GitHub review inline comment support
 - [ ] MCP sandbox file handlers
 
-### Sub-task: FInish list
+### Sub-task: Finish list
+
 - [ ] Card content layout
 - [ ] Web Components when UI
-- [ ] Typescript defs / pure functions
+- [ ] TypeScript defs / pure functions
 - [ ] AVA test files located in _tests/
-- [ ] GPL 3 license headers added to new code
+- [ ] GPL-3.0 license headers added to new code

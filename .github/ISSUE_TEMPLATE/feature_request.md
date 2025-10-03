@@ -1,31 +1,34 @@
 ---
-kind: feedback
-name: Feature request (focused)
-is: true
-title: "[feature] ... summary"
-about: Practical, tightly scoped requests lined to fedor-friendly approaches.
-
-labels:
-  - enhancement
-  - prio:medium
-  - github
+name: Feature request
+about: Focused, practical feature proposal
+title: "[feature] <summary>"
+labels: [enhancement, prio:medium, github]
 ---
-### Problem Statement
-What are you trying to achieve? What's the rationale? Motivation?
 
-### Solution Proposal
-* What would a good solution look like? Key data structures, algorithms, or aPII?* If applicable, give a snippet TS api (type defs, pure functions, immutability):
+### Problem
+
+What problem are you trying to solve? Who is affected?
+
+### Solution proposal
+
+How should the system behave? Outline the TS API, data flow, or UX. Include type-safe sketches where useful.
 
 ### Scope
-Which hardens does this unblock? What do we create/hange? (web components, Ava tests, release scripts)?
 
-### Acceptance Criteria
-- [ ] UX: defined end-to-end, delimited scope
-- [ ] UI: Web Components, [FP] Style
-- [ ] TE:2019+ Native ESM, flat packages, GPC
-### Checklists (maintainable & executable)
-- [] Design aPI sketch
-+ [ ] Sainty checks (types narrowing, immutability)
-+ [ ] AVA tests added
-+ [ ] Wiring docs: REAFME examples, usage
-+ [ ] Prototype and release scripts
+Which surfaces change? Call out affected packages, interfaces, or user journeys.
+
+### Acceptance criteria
+
+- [ ] UX flows and copy documented
+- [ ] API sketch reviewed (type-safe, immutable)
+- [ ] AVA tests planned
+- [ ] Tooling: native ESM, flat packages, GPL-3.0 compliance
+- [ ] Docs drafted (README examples, usage notes)
+
+### Checklist (execution readiness)
+
+- [ ] Design API sketch
+- [ ] Sanity checks (type narrowing, immutability)
+- [ ] AVA tests added
+- [ ] Wiring docs updated (README examples, usage)
+- [ ] Prototype and release scripts planned
