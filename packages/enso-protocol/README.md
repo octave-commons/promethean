@@ -6,8 +6,9 @@ A reference implementation of the Promethean ENSO context protocol described in
 
 ## Modules
 
-- `adapter.ts` – Minimal MCP-compatible transport adapter with hookable
-  list/call handlers.
+- `adapter.ts` – Transport-aware MCP client that establishes JSON-RPC sessions
+  over HTTP streaming, Server-Sent Events, or stdio processes and exposes
+  discovery plus tool invocation helpers.
 - `cache.ts`, `store.ts` – Content-addressed cache primitives and persistent
   asset storage with deterministic SHA-256 CIDs.
 - `client.ts` – In-memory ENSO client façade that enforces capability-based
@@ -198,6 +199,20 @@ await client.send({
 });
 
 await client.send({
+
+## Running a WebSocket server
+
+You can run a networked ENSO WebSocket server (so other processes can connect via `ws://.../ws`):
+
+```bash
+pnpm -w --filter @promethean/enso-protocol run build
+PORT=7766 pnpm -w --filter @promethean/enso-protocol run serve
+# -> listens on ws://localhost:7766/ws
+```
+
+This uses `src/ws-server.ts` with the reference `EnsoServer`. Clients should call
+`connectWebSocket(client, "ws://localhost:7766/ws", hello)`.
+
   id: randomUUID(),
   ts: new Date().toISOString(),
   room: "local",

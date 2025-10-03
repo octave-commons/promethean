@@ -85,10 +85,11 @@ export const injectAnchors = (content: string, want: ReadonlyArray<AnchorTarget>
         return cur.trim() === `^${id}` || cur.trimEnd().endsWith(` ^${id}`) || next === `^${id}`;
     };
 
-    const nextOutsideIdx = (idx: number) => {
-        let i = Math.min(idx, Math.max(lines.length - 1, 0));
-        while (i < lines.length && inside[i]) i++;
-        return i;
+    const nextOutsideIdx = (idx: number): number => {
+        const clamped = Math.min(idx, Math.max(lines.length - 1, 0));
+        if (clamped >= lines.length) return lines.length;
+        if (!inside[clamped]) return clamped;
+        return nextOutsideIdx(clamped + 1);
     };
 
     const anchorExistsOutside = (id: string): boolean =>

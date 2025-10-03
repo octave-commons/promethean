@@ -43,19 +43,23 @@ export type IntegrationTestFn = (t: ExecutionContext, deps: ProcDeps) => Promise
 
 // packages/test-harness/src/register-proc-for-file.ts
 
-export const registerProcForFile = (test: typeof ava, spec: ProcSpec & { baseUrl?: string }) => {
-    let started: StartedProc | null = null;
+export const registerProcForFile = (
+    test: typeof ava,
+    spec: ProcSpec & { baseUrl?: string },
+): { getProc: () => FileProc } => {
+    const state: { current: StartedProc | null } = { current: null };
     const baseUrl = spec.baseUrl;
 
     test.before(async () => {
-        started = await startProcess(spec);
+        state.current = await startProcess(spec);
     });
     test.after.always(async () => {
-        await started?.stop?.();
-        started = null;
+        await state.current?.stop?.();
+        state.current = null;
     });
 
     const getProc = (): FileProc => {
+        const started = state.current;
         if (!started) throw new Error('process not started (did you import registerProcForFile in this file?)');
         return { pid: started.proc.pid ?? -1, baseUrl };
     };
@@ -70,23 +74,26 @@ export const registerProcForFileWithPort = (
         port?: { mode: 'fixed'; port: number } | { mode: 'free' };
         baseUrlTemplate?: (port: number) => string;
     },
-) => {
-    let state: { stop: () => Promise<void>; pid: number; baseUrl?: string | undefined } | null = null;
+): { getProc: () => FileProc } => {
+    const state: {
+        current: { stop: () => Promise<void>; pid: number; baseUrl?: string | undefined } | null;
+    } = { current: null };
 
     test.before(async () => {
         const { stop, proc, baseUrl } = await startProcessWithPort(spec);
-        state = { stop, pid: proc.pid ?? -1, baseUrl };
+        state.current = { stop, pid: proc.pid ?? -1, baseUrl };
     });
 
     test.after.always(async () => {
-        const s = state;
-        state = null;
-        await s?.stop?.();
+        const current = state.current;
+        state.current = null;
+        await current?.stop?.();
     });
 
-    const getProc = () => {
-        if (!state) throw new Error('process not started in this file');
-        return { pid: state.pid, baseUrl: state.baseUrl };
+    const getProc = (): FileProc => {
+        const current = state.current;
+        if (!current) throw new Error('process not started in this file');
+        return { pid: current.pid, baseUrl: current.baseUrl };
     };
 
     return { getProc };
@@ -97,9 +104,11 @@ export const startProcessWithPort = async (
 ): Promise<StartedProc & { port: number | undefined; baseUrl: string | undefined }> => {
     const { port: p, baseUrlTemplate, ...rest } = spec;
 
-    let port: number | undefined;
-    if (p?.mode === 'fixed') port = p.port;
-    if (p?.mode === 'free') port = await (await import('./port-pool.js')).getFreePort();
+    const port = await (async (): Promise<number | undefined> => {
+        if (p?.mode === 'fixed') return p.port;
+        if (p?.mode === 'free') return (await import('./port-pool.js')).getFreePort();
+        return undefined;
+    })();
 
     const args =
         port !== undefined ? (rest.args ?? []).map((a) => (a === ':PORT' ? String(port) : a)) : rest.args ?? [];

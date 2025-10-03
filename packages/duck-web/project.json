@@ -1,0 +1,19 @@
+{
+  "name": "@promethean/duck-web",
+  "sourceRoot": "packages/duck-web/src",
+  "targets": {
+    "serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm --filter @promethean/duck-web exec vite --open"
+      }
+    },
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm --filter @promethean/duck-web exec vite build"
+      }
+    }
+  },
+  "tags": []
+}

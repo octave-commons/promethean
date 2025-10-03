@@ -11,11 +11,13 @@
       "@promethean/agent-ecs/*": ["../agent-ecs/dist/*"],
       "@promethean/llm": ["../llm/dist/index"],
       "@promethean/llm/*": ["../llm/dist/*"],
-      "@promethean/legacy/*": ["../legacy/*"]
+      "@promethean/legacy/*": ["../legacy/*"],
+      "@promethean/enso-protocol": ["../enso-protocol/dist/index"],
+      "@promethean/enso-protocol/*": ["../enso-protocol/dist/*"]
     },
     "types": ["node"]
   },
   "include": ["src/**/*"],
   "exclude": ["dist"],
-  "references": [{ "path": "../security" }]
+  "references": [{ "path": "../security" }, { "path": "../enso-protocol" }]
 }

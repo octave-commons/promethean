@@ -5,6 +5,7 @@ import { ContextRegistry } from "../registry.js";
 import { connectLocal } from "../transport.js";
 import { DEFAULT_PRIVACY_PROFILE } from "../types/privacy.js";
 import type { HelloCaps } from "../types/privacy.js";
+import type { CapsUpdatePayload } from "../types/events.js";
 import type { Envelope } from "../types/envelope.js";
 
 const HELLO: HelloCaps = {
@@ -111,6 +112,57 @@ test("local transport defaults privacy profile when omitted", async (t) => {
     const payload = forwarded.payload as { profile: string };
     t.is(payload.profile, DEFAULT_PRIVACY_PROFILE);
   }
+
+  connection.disconnect();
+});
+
+test("server capability updates propagate to the client", async (t) => {
+  const server = new EnsoServer();
+  const client = new EnsoClient(new ContextRegistry());
+  const updates: CapsUpdatePayload[] = [];
+
+  client.on("event:caps.update", (env) => {
+    updates.push(env.payload as CapsUpdatePayload);
+  });
+
+  const connection = await connectLocal(client, server, {
+    proto: "ENSO-1",
+    caps: ["can.send.text", "can.asset.put"],
+    privacy: { profile: "pseudonymous" },
+  });
+
+  await client.assets.putFile("/tmp/demo", "text/plain");
+
+  const revoked = server.updateCapabilities(connection.session.id, {
+    revoke: ["can.asset.put"],
+    reason: "policy:freeze",
+  });
+  t.truthy(revoked);
+
+  await t.throwsAsync(() => client.assets.putFile("/tmp/demo", "text/plain"), {
+    message: /missing capability: can.asset.put/,
+  });
+
+  const granted = server.updateCapabilities(connection.session.id, {
+    grant: ["can.asset.put"],
+    reason: "policy:restore",
+  });
+  t.truthy(granted);
+
+  await client.assets.putFile("/tmp/demo", "text/plain");
+
+  t.true(updates.length >= 2);
+  const [first, second] = updates;
+  t.truthy(first?.acknowledgedAt);
+  t.deepEqual(first?.revoked, ["can.asset.put"]);
+  t.deepEqual(second?.granted, ["can.asset.put"]);
+  t.deepEqual(
+    updates.map((update) => update.revision),
+    [1, 2],
+  );
+
+  const info = server.getSessionInfo(connection.session.id);
+  t.is(info?.capRevision, 2);
 
   connection.disconnect();
 });
