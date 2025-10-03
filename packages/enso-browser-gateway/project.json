@@ -1,0 +1,13 @@
+{
+  "name": "@promethean/enso-browser-gateway",
+  "sourceRoot": "packages/enso-browser-gateway/src",
+  "targets": {
+    "serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm --filter @promethean/enso-browser-gateway run dev"
+      }
+    }
+  },
+  "tags": []
+}
