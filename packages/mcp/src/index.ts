@@ -32,6 +32,16 @@ import {
   githubWorkflowGetRunLogs,
 } from "./tools/github/workflows.js";
 import {
+  githubPrGet,
+  githubPrFiles,
+  githubPrResolvePosition,
+} from "./tools/github/pull-request-data.js";
+import {
+  githubPrReviewStart,
+  githubPrReviewCommentInline,
+  githubPrReviewSubmit,
+} from "./tools/github/pull-request-review.js";
+import {
   githubReviewCheckoutBranch,
   githubReviewCommit,
   githubReviewCreateBranch,
@@ -187,6 +197,12 @@ const toolCatalog = new Map<string, ToolFactory>([
   ["github.workflow.getRunLogs", githubWorkflowGetRunLogs],
   ["github.workflow.getJobLogs", githubWorkflowGetJobLogs],
   ["github.apply_patch", githubApplyPatchTool],
+  ["github.pr.get", githubPrGet],
+  ["github.pr.files", githubPrFiles],
+  ["github.pr.resolvePosition", githubPrResolvePosition],
+  ["github.pr.review.start", githubPrReviewStart],
+  ["github.pr.review.commentInline", githubPrReviewCommentInline],
+  ["github.pr.review.submit", githubPrReviewSubmit],
   ["github.review.openPullRequest", githubReviewOpenPullRequest],
   ["github.review.getComments", githubReviewGetComments],
   ["github.review.getReviewComments", githubReviewGetReviewComments],

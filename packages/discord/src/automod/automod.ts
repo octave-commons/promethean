@@ -1,4 +1,4 @@
-/* eslint-disable functional/no-let, functional/no-loop-statements, functional/immutable-data, functional/no-try-statements, max-lines, max-lines-per-function */
+/* eslint-disable functional/no-loop-statements */
 import { constants } from "node:fs";
 import {
   access,
@@ -165,6 +165,7 @@ export const toAutomodMessage = (message: Message): AutomodMessage => ({
 
 const ensureLogFile = async (logPath: string): Promise<void> => {
   await mkdir(dirname(logPath), { recursive: true });
+  // eslint-disable-next-line functional/no-try-statements
   try {
     await access(logPath, constants.F_OK);
   } catch (error: unknown) {
@@ -195,6 +196,7 @@ const appendLoggedMessage = async (
 const readLoggedMessages = async (
   logPath: string,
 ): Promise<LoggedMessage[]> => {
+  // eslint-disable-next-line functional/no-try-statements
   try {
     const content = await readFile(logPath, "utf8");
     if (content.trim().length === 0) {
@@ -275,14 +277,32 @@ export const createAutomod = async (
   const minimumExamples = options.minimumExamples ?? DEFAULT_MINIMUM_EXAMPLES;
   await ensureLogFile(options.logPath);
 
-  let state: AutomodState = {
-    bannedExamples: new Set<string>(),
-    allowedExamples: new Set<string>(),
-    classifier: null,
-    classifierActive: false,
+  const stateHolder: { current: AutomodState } = {
+    current: {
+      bannedExamples: new Set<string>(),
+      allowedExamples: new Set<string>(),
+      classifier: null,
+      classifierActive: false,
+    },
+  };
+
+  const getState = (): AutomodState => stateHolder.current;
+  const updateState = (
+    reducer: (state: AutomodState) => AutomodState,
+  ): AutomodState => {
+    const nextState = reducer(getState());
+    // eslint-disable-next-line functional/immutable-data
+    stateHolder.current = nextState;
+    return nextState;
   };
 
   const evaluate = (text: string): ModerationDecision => {
+    const ruleDecision = evaluateWithRules(text, fuzzyDistance);
+    if (ruleDecision.action === "delete") {
+      return ruleDecision;
+    }
+
+    const state = getState();
     if (state.classifierActive && state.classifier) {
       const label = state.classifier.categorize(text);
       if (label === "banned") {
@@ -292,31 +312,30 @@ export const createAutomod = async (
         return { action: "allow", reason: "classifier:allowed" };
       }
     }
-    return evaluateWithRules(text, fuzzyDistance);
+    return ruleDecision;
   };
 
   const addExample = (text: string, type: ExampleType): AutomodSnapshot => {
     const trimmed = text.trim();
     if (!trimmed) {
-      return snapshotState(state);
+      return snapshotState(getState());
     }
-    const bannedExamples =
-      type === "banned"
-        ? new Set<string>(state.bannedExamples).add(trimmed)
-        : new Set<string>(state.bannedExamples);
-    const allowedExamples =
-      type === "allowed"
-        ? new Set<string>(state.allowedExamples).add(trimmed)
-        : new Set<string>(state.allowedExamples);
-    state = {
+    const nextState = updateState((state) => ({
       ...state,
-      bannedExamples,
-      allowedExamples,
-    };
-    return snapshotState(state);
+      bannedExamples:
+        type === "banned"
+          ? new Set<string>([...state.bannedExamples, trimmed])
+          : state.bannedExamples,
+      allowedExamples:
+        type === "allowed"
+          ? new Set<string>([...state.allowedExamples, trimmed])
+          : state.allowedExamples,
+    }));
+    return snapshotState(nextState);
   };
 
   const trainClassifier = (): AutomodSnapshot => {
+    const state = getState();
     if (state.bannedExamples.size === 0 || state.allowedExamples.size === 0) {
       throw new Error("Need examples for both classes before training");
     }
@@ -327,14 +346,15 @@ export const createAutomod = async (
     state.allowedExamples.forEach((example) =>
       classifier.learn(example, "allowed"),
     );
-    state = {
-      ...state,
+    const nextState = updateState((previous) => ({
+      ...previous,
       classifier,
-    };
-    return snapshotState(state);
+    }));
+    return snapshotState(nextState);
   };
 
   const activateClassifier = (): boolean => {
+    const state = getState();
     if (!state.classifier) {
       return false;
     }
@@ -344,18 +364,18 @@ export const createAutomod = async (
     ) {
       return false;
     }
-    state = {
-      ...state,
+    updateState((previous) => ({
+      ...previous,
       classifierActive: true,
-    };
+    }));
     return true;
   };
 
   const deactivateClassifier = (): void => {
-    state = {
-      ...state,
+    updateState((previous) => ({
+      ...previous,
       classifierActive: false,
-    };
+    }));
   };
 
   const handleMessage = async (
@@ -390,7 +410,7 @@ export const createAutomod = async (
     return rows;
   };
 
-  const getSnapshot = (): AutomodSnapshot => snapshotState(state);
+  const getSnapshot = (): AutomodSnapshot => snapshotState(getState());
 
   return {
     evaluate,
