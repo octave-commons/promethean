@@ -81,21 +81,36 @@ function maybeJson(s) {
 }
 
 function applyUnifiedDiff(patch, repoRoot, checkOnly) {
-  const args = ["apply"];
-  if (checkOnly) args.push("--check");
-  // More forgiving whitespace; reject hunks if needed.
-  args.push("--whitespace=nowarn");
-  // Apply relative to repo root
-  const res = spawnSync("git", args, {
+  const baseArgs = ["apply", "--whitespace=nowarn"];
+  if (checkOnly) baseArgs.push("--check");
+  const baseResult = spawnSync("git", baseArgs, {
     encoding: "utf8",
     cwd: repoRoot,
     input: patch,
   });
-  if (res.status !== 0) {
-    console.error(res.stdout);
-    console.error(res.stderr);
-    die("git apply failed", 2);
+  if (baseResult.status === 0) return;
+
+  const fallbackArgs = ["apply", "--whitespace=nowarn", "--3way"];
+  if (checkOnly) fallbackArgs.push("--check");
+  const fallbackResult = spawnSync("git", fallbackArgs, {
+    encoding: "utf8",
+    cwd: repoRoot,
+    input: patch,
+  });
+  if (fallbackResult.status === 0) return;
+
+  for (const output of [
+    baseResult.stdout,
+    baseResult.stderr,
+    fallbackResult.stdout,
+    fallbackResult.stderr,
+  ]) {
+    if (output) {
+      console.error(output);
+    }
   }
+
+  die("git apply failed after attempting --3way", 2);
 }
 
 function ensureDir(p) {
