@@ -89,6 +89,7 @@ import {
   sandboxListTool,
 } from "./tools/sandboxes.js";
 
+import { help as helpTool } from "./tools/help.js";
 const toolCatalog = new Map<string, ToolFactory>([
   ["apply_patch", applyPatchTool],
   ["github.request", githubRequestTool],
