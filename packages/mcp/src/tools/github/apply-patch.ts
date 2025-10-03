@@ -342,22 +342,21 @@ export const githubApplyPatchTool: ToolFactory = (ctx) => {
   const apiVersion = ctx.env.GITHUB_API_VERSION ?? "2022-11-28";
   const token = ctx.env.GITHUB_TOKEN;
 
-  const shape = {
+  const inputSchema = z.object({
     owner: z.string(),
     repo: z.string(),
     branch: z.string(),
     message: z.string(),
     diff: z.string().min(1, "diff is required"),
     expectedHeadOid: z.string().optional(),
-  } as const;
-  const Schema = z.object(shape);
+  });
 
   return {
     spec: {
       name: "github.apply_patch",
       description:
         "Apply a unified diff to a GitHub branch by committing the changes via createCommitOnBranch.",
-      inputSchema: shape,
+      inputSchema,
     },
     invoke: async (raw: unknown) => {
       if (!token) {
@@ -365,7 +364,7 @@ export const githubApplyPatchTool: ToolFactory = (ctx) => {
           "github.apply_patch requires GITHUB_TOKEN in the environment",
         );
       }
-      const args = Schema.parse(raw);
+      const args = inputSchema.parse(raw);
       const { owner, repo, branch, message, diff } = args;
 
       if (!isUniversalDiff(diff)) {
