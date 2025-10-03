@@ -1,6 +1,9 @@
+ 
 {
   "type": "module",
   "packageManager": "pnpm@9.0.0",
+    "duck:web": "pnpm --filter @promethean/duck-web dev",
+    "duck:gateway": "pnpm --filter @promethean/enso-browser-gateway dev",
   "name": "promethean",
   "scripts": {
     "generate_mcp_configs": "bb ./mk/mcp-compile.clj ./config/mcp_servers.edn ~/.codex/config.toml ~/.config/mcp/config.json ~/.config/Code/User/mcp.json",
