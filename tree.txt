@@ -1466,17 +1466,17 @@
 │   ├── pm2 -> .pnpm/pm2@6.0.8/node_modules/pm2
 │   ├── prettier -> .pnpm/prettier@3.3.3/node_modules/prettier
 │   ├── @promethean
-│   │   ├── health-dashboard-frontend -> ../../packages/health-dashboard-frontend
+│   │   ├── health-dashboard-frontend -> ../../packages/frontends/health-dashboard-frontend
 │   │   ├── image-link-generator -> ../../packages/image-link-generator
 │   │   ├── legacy -> ../../packages/legacy
 │   │   ├── level-cache -> ../../packages/level-cache
-│   │   ├── llm-chat-frontend -> ../../packages/llm-chat-frontend
-│   │   ├── markdown-graph-frontend -> ../../packages/markdown-graph-frontend
+│   │   ├── llm-chat-frontend -> ../../packages/frontends/llm-chat-frontend
+│   │   ├── markdown-graph-frontend -> ../../packages/frontends/markdown-graph-frontend
 │   │   ├── piper -> ../../packages/piper
 │   │   ├── pm2-helpers -> ../../packages/pm2-helpers
-│   │   ├── portfolio-frontend -> ../../packages/portfolio-frontend
-│   │   ├── smart-chat-frontend -> ../../packages/smart-chat-frontend
-│   │   ├── smartgpt-dashboard-frontend -> ../../packages/smartgpt-dashboard-frontend
+│   │   ├── portfolio-frontend -> ../../packages/frontends/portfolio-frontend
+│   │   ├── smart-chat-frontend -> ../../packages/frontends/smart-chat-frontend
+│   │   ├── smartgpt-dashboard-frontend -> ../../packages/frontends/smartgpt-dashboard-frontend
 │   │   ├── test-utils -> ../../packages/test-utils
 │   │   └── utils -> ../../packages/utils
 │   ├── puppeteer -> .pnpm/puppeteer@24.16.0_typescript@5.4.5/node_modules/puppeteer
