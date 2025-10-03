@@ -153,6 +153,12 @@ const buildInlineCommentSpec = () =>
       })
       .optional()
       .describe("Optional GitHub suggestion block configuration."),
+    dryRun: z
+      .boolean()
+      .optional()
+      .describe(
+        "When true, return resolved coordinates without creating the comment.",
+      ),
   }) as const;
 
 const resolveGraphqlPosition = async (
@@ -261,6 +267,25 @@ export const githubPrReviewCommentInline: ToolFactory = (ctx) => {
       position: graphqlPosition,
       body,
     });
+
+    if (args.dryRun) {
+      return {
+        ok: true as const,
+        dryRun: true as const,
+        resolved: {
+          path: args.path,
+          line: graphqlPosition.line,
+          side: graphqlPosition.side,
+          ...(graphqlPosition.startLine
+            ? {
+                startLine: graphqlPosition.startLine,
+                startSide: graphqlPosition.startSide,
+              }
+            : {}),
+        },
+      } as const;
+    }
+
     const parsed = await submitReviewThread(ctx, inputPayload);
     return {
       ok: true as const,

@@ -146,6 +146,11 @@ payloads:
   "suggestion": { "after": ["const value = computeValue();"] }
 }
 
+> **Note**
+> `github.pr.review.commentInline` currently targets the HEAD (RIGHT) side of
+> the diff only. Deletions on the LEFT side aren't supported yet, so callers
+> should request anchors against the latest patch lines.
+
 // 3) Submit the pending review as a request for changes
 {
   "tool": "github.pr.review.submit",
