@@ -54,6 +54,18 @@ pnpm --filter @promethean/mcp dev -- --config ./promethean.mcp.json
 
 Each server will be available at `http://<host>:<port>/<name>/mcp` unless you set `:http-path` in the EDN entry. Use `--prefix` to prepend a base path (e.g., `/mcp`).
 
+### Dev UI
+
+The HTTP transport exposes a Web Components Dev UI compiled with `shadow-cljs`. Build once before running the server (or use watch mode while iterating):
+
+```bash
+pnpm --filter @promethean/mcp-dev-ui build
+# or
+pnpm --filter @promethean/mcp-dev-ui watch
+```
+
+The bundle is emitted to `packages/mcp/static/dev-ui` and served from `/ui/assets/main.js`.
+
 ### Canonical EDN representation
 
 Editors and tooling share a canonical EDN document that now carries both stdio
