@@ -38,6 +38,7 @@ import {
   githubReviewSubmitComment,
   githubReviewSubmitReview,
 } from "./tools/github/code-review.js";
+import { githubApplyPatchTool } from "./tools/github/apply-patch.js";
 import {
   filesListDirectory,
   filesTreeDirectory,
@@ -95,6 +96,7 @@ const toolCatalog = new Map<string, ToolFactory>([
   ["github.graphql", githubGraphqlTool],
   ["github.rate-limit", githubRateLimitTool],
   ["github.contents.write", githubContentsWrite],
+  ["github.apply_patch", githubApplyPatchTool],
   ["github.review.openPullRequest", githubReviewOpenPullRequest],
   ["github.review.getComments", githubReviewGetComments],
   ["github.review.getReviewComments", githubReviewGetReviewComments],
