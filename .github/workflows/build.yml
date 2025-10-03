@@ -9,6 +9,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with: { fetch-depth: 0 }
+      - name: Trust workspace ownership for Git
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with: { node-version: 20, cache: pnpm }
@@ -17,4 +19,23 @@ jobs:
       - name: Install deps
         run: pnpm install --frozen-lockfile
       - uses: nrwl/nx-set-shas@v4
-      - run: pnpm exec nx affected -t build
+      - name: Configure Nx base/head for PR
+        if: github.event_name == 'pull_request'
+        run: |
+          echo "NX_BASE=${{ github.event.pull_request.base.sha }}" >> "$GITHUB_ENV"
+          echo "NX_HEAD=${{ github.sha }}" >> "$GITHUB_ENV"
+      - name: Fetch base commit for Nx diff
+        if: env.NX_BASE != ''
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          if ! git cat-file -e "${NX_BASE}^{commit}" 2>/dev/null; then
+            git fetch --no-tags origin "${{ github.event.pull_request.base.ref }}"
+            git fetch --no-tags origin "${NX_BASE}" || true
+          fi
+      - name: Run affected builds
+        run: |
+          if [ -n "${NX_BASE:-}" ] && [ -n "${NX_HEAD:-}" ]; then
+            pnpm exec nx affected -t build --parallel --base="$NX_BASE" --head="$NX_HEAD"
+          else
+            pnpm exec nx affected -t build --parallel
+          fi

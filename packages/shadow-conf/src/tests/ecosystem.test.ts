@@ -1,4 +1,4 @@
-import { mkdir, mkdtemp, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
@@ -7,31 +7,39 @@ import test from "ava";
 
 import { DEFAULT_OUTPUT_FILE_NAME, generateEcosystem } from "../ecosystem.js";
 
+async function writeServiceEcosystem(
+  rootDir: string,
+  serviceName: string,
+  contents: string,
+): Promise<void> {
+  const serviceDir = path.join(rootDir, serviceName);
+  await mkdir(serviceDir, { recursive: true });
+  await writeFile(
+    path.join(serviceDir, "ecosystem.edn"),
+    `${contents}\n`,
+    "utf8",
+  );
+}
+
 test("generateEcosystem aggregates apps from edn files", async (t) => {
   const tmpDir = await mkdtemp(path.join(os.tmpdir(), "shadow-conf-"));
   const inputDir = path.join(tmpDir, "input");
-
-  const serviceADir = path.join(inputDir, "service-a");
-  await mkdir(serviceADir, { recursive: true });
-  await writeFile(
-    path.join(serviceADir, "ecosystem.edn"),
-    '{:apps [{:name "service-a" :env {:NODE_ENV "production"}}]}\n',
-    "utf8",
+  await writeServiceEcosystem(
+    inputDir,
+    "service-a",
+    '{:apps [{:name "service-a" :env {:NODE_ENV "production"}}]}',
   );
-
-  const serviceBDir = path.join(inputDir, "service-b");
-  await mkdir(serviceBDir, { recursive: true });
-  await writeFile(
-    path.join(serviceBDir, "ecosystem.edn"),
-    '{:apps [{:name "service-b" :instances 2}]}\n',
-    "utf8",
+  await writeServiceEcosystem(
+    inputDir,
+    "service-b",
+    '{:apps [{:name "service-b" :instances 2}]}',
   );
-
   const outputDir = path.join(tmpDir, "out");
   const { outputPath, apps, files } = await generateEcosystem({
     inputDir,
     outputDir,
   });
+  const fileContents = await readFile(outputPath, "utf8");
 
   t.is(outputPath, path.join(outputDir, DEFAULT_OUTPUT_FILE_NAME));
   t.deepEqual(
@@ -41,6 +49,8 @@ test("generateEcosystem aggregates apps from edn files", async (t) => {
       path.join("service-b", "ecosystem.edn"),
     ],
   );
+  t.true(fileContents.includes('const dotenvModule = await import("dotenv");'));
+  t.true(fileContents.includes("configDotenv();"));
   t.deepEqual(apps, [
     {
       name: "service-a",
@@ -53,7 +63,6 @@ test("generateEcosystem aggregates apps from edn files", async (t) => {
       instances: 2,
     },
   ]);
-
   const importedModule = (await import(pathToFileURL(outputPath).href)) as {
     readonly apps: typeof apps;
   };
@@ -65,12 +74,10 @@ test("generateEcosystem resolves relative paths against the output dir", async (
   const inputDir = path.join(tmpDir, "input");
   await mkdir(inputDir, { recursive: true });
 
-  const serviceDir = path.join(inputDir, "service");
-  await mkdir(serviceDir, { recursive: true });
-  await writeFile(
-    path.join(serviceDir, "ecosystem.edn"),
-    '{:apps [{:name "service" :cwd "./services/service" :script "./scripts/index.js" :watch ["./services/service" "./shared"] :env_file "./.env.local" :env {:CONFIG_PATH "./config" :PORT "8080"}}]}\n',
-    "utf8",
+  await writeServiceEcosystem(
+    inputDir,
+    "service",
+    '{:apps [{:name "service" :cwd "./services/service" :script "./scripts/index.js" :watch ["./services/service" "./shared"] :env_file "./.env.local" :env {:CONFIG_PATH "./config" :PORT "8080"}}]}',
   );
 
   const outputDir = path.join(tmpDir, "out");

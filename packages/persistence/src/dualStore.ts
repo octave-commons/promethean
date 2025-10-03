@@ -2,7 +2,7 @@ import { randomUUID } from 'node:crypto';
 
 import type { Collection as ChromaCollection, Metadata as ChromaMetadata, Where } from 'chromadb';
 import { RemoteEmbeddingFunction } from '@promethean/embedding';
-import type { Collection, Filter, OptionalUnlessRequiredId, Sort, WithId } from 'mongodb';
+import type { Collection, Filter, FilterOperators, OptionalUnlessRequiredId, Sort, WithId } from 'mongodb';
 import { AGENT_NAME } from '@promethean/legacy/env.js';
 
 import type { DualStoreEntry, AliasDoc, DualStoreMetadata, DualStoreTimestamp } from './types.js';
@@ -158,12 +158,12 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
         const timestamp = toEpochMilliseconds(timestampCandidate);
         const metadata = withTimestampMetadata(entry.metadata, this.timeStampKey, timestamp);
 
-        const preparedEntry: DualStoreEntry<TextKey, TimeKey> = {
+        const preparedEntry = {
             ...entry,
             id,
             [this.timeStampKey]: timestamp,
             metadata,
-        };
+        } satisfies DualStoreEntry<TextKey, TimeKey>;
 
         const dualWriteEnabled = (process.env.DUAL_WRITE_ENABLED ?? 'true').toLowerCase() !== 'false';
         const isImage = metadata.type === 'image';
@@ -180,8 +180,9 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
             }
         }
 
-        const mongoDocument = preparedEntry as OptionalUnlessRequiredId<DualStoreEntry<TextKey, TimeKey>>;
-        await this.mongoCollection.insertOne(mongoDocument);
+        await this.mongoCollection.insertOne(
+            preparedEntry as OptionalUnlessRequiredId<DualStoreEntry<TextKey, TimeKey>>,
+        );
     }
 
     // TODO: remove in future – alias for backwards compatibility
@@ -190,9 +191,15 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
     }
 
     private createDefaultMongoFilter(): Filter<DualStoreEntry<TextKey, TimeKey>> {
+        const textCondition: FilterOperators<string> = {
+            $exists: true,
+            $regex: '\\S',
+        };
+
         return {
-            [this.textKey]: { $nin: [null, ''], $not: /^\s*$/ },
+            [this.textKey]: textCondition,
         } as Filter<DualStoreEntry<TextKey, TimeKey>>;
+
     }
 
     private createDefaultSorter(): Sort {
@@ -228,29 +235,29 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
             ...(where && Object.keys(where).length > 0 ? { where } : {}),
         };
 
-        const queryResult = await this.chromaCollection.query(queryOptions);
+        const queryResult = await this.chromaCollection.query<ChromaMetadata>(queryOptions);
         const rows = queryResult.rows().flat();
 
-        const entries = rows.flatMap((row) => {
-            if (typeof row.document !== 'string') {
-                return [] as const;
-            }
+        return rows
+            .map((row) => {
+                if (!row.document) {
+                    return undefined;
+                }
 
-            const metadata = cloneMetadata(row.metadata as ChromaMetadata | null | undefined);
-            const timestampSource = pickTimestamp(metadata?.[this.timeStampKey], metadata?.timeStamp);
+                const metadata = cloneMetadata(row.metadata);
+                const timestampSource = pickTimestamp(metadata?.[this.timeStampKey], metadata?.timeStamp);
 
-            const result: DualStoreEntry<'text', 'timestamp'> = {
-                id: row.id,
-                text: row.document,
-                metadata,
-                timestamp: toEpochMilliseconds(timestampSource),
-            };
+                const entry: DualStoreEntry<'text', 'timestamp'> = {
+                    id: row.id,
+                    text: row.document,
+                    metadata,
+                    timestamp: toEpochMilliseconds(timestampSource),
+                };
 
-            return [result] as const;
-        });
+                return entry;
+            })
+            .filter((entry): entry is DualStoreEntry<'text', 'timestamp'> => entry !== undefined)
+            .filter((entry, index, array) => array.findIndex((candidate) => candidate.text === entry.text) === index);
 
-        return entries.filter(
-            (entry, index, array) => array.findIndex((candidate) => candidate.text === entry.text) === index,
-        );
     }
 }

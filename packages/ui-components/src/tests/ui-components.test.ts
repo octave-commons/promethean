@@ -8,11 +8,11 @@ import {
 
 test("applyDesignTokens sets CSS variables", (t) => {
   // eslint-disable-next-line functional/no-let
-  let styleEntries: Array<[string, string]> = [];
+  let styleEntries: ReadonlyArray<readonly [string, string]> = [];
   const root = {
     style: {
       setProperty: (k: string, v: string): void => {
-        styleEntries = [...styleEntries, [k, v]];
+        styleEntries = [...styleEntries, [k, v] as const];
       },
     },
   } as unknown as HTMLElement;
@@ -29,10 +29,10 @@ test("registerUiComponents registers custom elements", (t) => {
     readonly get: (n: string) => CustomElementConstructor | undefined;
   };
   // eslint-disable-next-line functional/no-let
-  let registry: Array<[string, CustomElementConstructor]> = [];
+  let registry: ReadonlyArray<readonly [string, CustomElementConstructor]> = [];
   const customEls: SimpleRegistry = {
     define: (n, c) => {
-      registry = [...registry, [n, c]];
+      registry = [...registry, [n, c] as const];
     },
     get: (n) => registry.find(([name]) => name === n)?.[1],
   };

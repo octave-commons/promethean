@@ -27,6 +27,8 @@ Common workflows:
 - `pnpm kanban sync` – run both directions and surface conflicting cards.
 - `pnpm kanban regenerate` – rebuild the board from the current task folder.
 - `pnpm kanban count --kanban path --tasks path` – quick stats for automation.
+- `pnpm kanban ui --port 4173` – launch an interactive kanban dashboard in the
+  browser (defaults to `http://127.0.0.1:4173`).
 
 Each command emits newline-delimited JSON so downstream tooling can be scripted
 without parsing human output.
@@ -40,6 +42,14 @@ The package also houses the TypeScript utilities that used to live in
   rebalance WIP limits.
 - `pnpm tsx packages/kanban/src/scripts/pending_count.ts` – report the number of
   pending embeddings tracked in MongoDB.
+
+## Web UI
+
+Run `pnpm kanban ui` to start a lightweight HTTP server that renders the
+workspace board as a responsive dashboard. The command respects the same
+configuration flags as other subcommands, so `--kanban`, `--tasks`, `--host`,
+and `--port` work as expected. The page refreshes automatically every minute,
+and you can trigger a manual refresh from the "Refresh" button in the header.
 
 ## Notes
 
