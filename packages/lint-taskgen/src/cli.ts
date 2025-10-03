@@ -6,6 +6,7 @@
  */
 import { spawn } from "node:child_process";
 import path from "node:path";
+import { randomBytes } from "node:crypto";
 import {
   writeFile,
   readFile,
@@ -258,7 +259,7 @@ async function emitKanbanTasks(
         "",
       ].join("\n");
       const front = fm({
-        uuid: `${Math.random().toString(36).slice(2)}${Date.now()}`,
+        uuid: `${randomBytes(8).toString("hex")}${Date.now()}`,
         title,
         status: "Todo",
         priority: "P3",
