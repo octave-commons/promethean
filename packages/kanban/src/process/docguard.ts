@@ -9,7 +9,12 @@ const DOC_DIR_CANDIDATES = (slug: string) => [
 ];
 
 const fileExists = async (p: string) => {
-  try { await fs.stat(p); return true; } catch { return false; }
+  try {
+    await fs.stat(p);
+    return true;
+  } catch {
+    return false;
+  }
 };
 
 const docsExist = async (slug: string) => {
@@ -20,8 +25,10 @@ const docsExist = async (slug: string) => {
 };
 
 const hasSrcMarker = (file: string) => file.split('/').includes('src');
-const hasCodeExt = (file: string) => ['.ts', '.tsx', '.js', '.mjs', '.cjs'].some(ext => file.endsWith(ext));
-const isTestFile = (file: string) => file.includes('/test/') || file.endsWith('.spec.ts') || file.endsWith('.test.ts');
+const hasCodeExt = (file: string) =>
+  ['.ts', '.tsx', '.js', '.mjs', '.cjs'].some((ext) => file.endsWith(ext));
+const isTestFile = (file: string) =>
+  file.includes('/test/') || file.endsWith('.spec.ts') || file.endsWith('.test.ts');
 
 const isSrcChange = (file: string) => {
   if (!file.startsWith('packages/')) return false;
@@ -29,7 +36,7 @@ const isSrcChange = (file: string) => {
   return hasSrcMarker(file) && hasCodeExt(file);
 };
 
-const toSlug = (file: string) => file.split('/')[1];
+const toSlug = (file: string): string | undefined => file.split('/')[1];
 
 export type DocGuardOptions = {
   owner?: string;
@@ -39,32 +46,42 @@ export type DocGuardOptions = {
 };
 
 export async function docguard(opts: DocGuardOptions) {
-  const owner = opts.owner || process.env.GITHUB_OWNER;
-  const repo = opts.repo || process.env.GITHUB_REPO;
-  const token = opts.token || process.env.GITHUB_TOKEN;
-  const prNum = Number(opts.pr || process.env.PR_NUMBER || 0);
+  const owner = opts.owner ?? process.env.GITHUB_OWNER;
+  const repo = opts.repo ?? process.env.GITHUB_REPO;
+  const token = opts.token ?? process.env.GITHUB_TOKEN;
+  const prRaw = opts.pr ?? process.env.PR_NUMBER;
+  const prNum = typeof prRaw === 'number' ? prRaw : prRaw ? Number(prRaw) : undefined;
+
   if (!owner || !repo || !token || !prNum) {
     console.log(JSON.stringify({ ok: false, reason: 'missing-env', owner, repo, prNum }));
     process.exit(0); // don't hard-fail locally
   }
 
   // list changed files
-  const filesRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/pulls/${prNum}/files`, {
-    headers: { Authorization: `Bearer ${token}`, Accept: 'application/vnd.github+json' },
-  });
+  const filesRes = await fetch(
+    `https://api.github.com/repos/${owner}/${repo}/pulls/${prNum}/files`,
+    {
+      headers: { Authorization: `Bearer ${token}`, Accept: 'application/vnd.github+json' },
+    },
+  );
   if (!filesRes.ok) {
     console.error('Failed to list PR files', filesRes.status);
     process.exit(1);
   }
-  const files = await filesRes.json() as Array<{ filename: string }>;
-  const changed = files.map(f => f.filename);
+  const files = (await filesRes.json()) as Array<{ filename: string }>;
+  const changed = files.map((f) => f.filename);
   const pkgSrcChanges = changed.filter(isSrcChange);
-  const slugs = Array.from(new Set(pkgSrcChanges.map(toSlug)));
+  const slugs = Array.from(new Set(pkgSrcChanges.map(toSlug))).filter(
+    (slug): slug is string => typeof slug === 'string' && slug.length > 0,
+  );
 
   // get labels on the PR
-  const labelsRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/issues/${prNum}/labels`, {
-    headers: { Authorization: `Bearer ${token}`, Accept: 'application/vnd.github+json' },
-  });
+  const labelsRes = await fetch(
+    `https://api.github.com/repos/${owner}/${repo}/issues/${prNum}/labels`,
+    {
+      headers: { Authorization: `Bearer ${token}`, Accept: 'application/vnd.github+json' },
+    },
+  );
   const labelsJson = labelsRes.ok ? await labelsRes.json() : [];
   const labels: string[] = (labelsJson || []).map((l: any) => l.name);
   const bypass = labels.includes('skip-docs');
@@ -73,14 +90,22 @@ export async function docguard(opts: DocGuardOptions) {
   for (const slug of slugs) {
     const docs = await docsExist(slug);
     if (!docs.ok) {
-      problems.push({ slug, message: `No docs folder found for package '${slug}'. Expected one of: ${DOC_DIR_CANDIDATES(slug).join(', ')}` });
+      problems.push({
+        slug,
+        message: `No docs folder found for package '${slug}'. Expected one of: ${DOC_DIR_CANDIDATES(
+          slug,
+        ).join(', ')}`,
+      });
       continue;
     }
-    const docDir = docs.dir!;
+    const { dir: docDir } = docs;
     // Did any doc files change in this PR?
     const docTouched = changed.some((p) => p.startsWith(docDir + '/'));
     if (!docTouched) {
-      problems.push({ slug, message: `Package '${slug}' source changed without docs change in '${docDir}'. Add a note or update diagrams, or label PR with 'skip-docs'.` });
+      problems.push({
+        slug,
+        message: `Package '${slug}' source changed without docs change in '${docDir}'. Add a note or update diagrams, or label PR with 'skip-docs'.`,
+      });
     }
   }
 
@@ -92,5 +117,8 @@ export async function docguard(opts: DocGuardOptions) {
 
 if (import.meta.url === `file://${process.argv[1]}`) {
   const prArg = process.argv.slice(2)[0];
-  docguard({ pr: prArg }).catch((e) => { console.error(e); process.exit(1); });
+  docguard({ pr: prArg }).catch((e) => {
+    console.error(e);
+    process.exit(1);
+  });
 }
