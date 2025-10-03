@@ -25,7 +25,6 @@
     "exec.run",
     "discord.send-message",
     "discord.list-messages",
-    "tdd.mutationScore",
     "pnpm.install",
     "pnpm.add",
     "pnpm.remove",
