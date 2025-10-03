@@ -24,6 +24,13 @@ export const parseBool = (v: unknown, defaultValue: boolean): boolean => {
   return defaultValue;
 };
 
+export const readEnv = (key: string): string | undefined => {
+  const env = (import.meta as ImportMeta & { env?: Record<string, unknown> })
+    .env;
+  const value = env?.[key];
+  return typeof value === "string" ? value : undefined;
+};
+
 export const HAS_BLOBS = parseBool(readEnv("VITE_DUCK_USE_BLOBS"), false);
 export const STT_TTS_ENABLED = parseBool(
   readEnv("VITE_STT_TTS_ENABLED"),
