@@ -15,6 +15,15 @@ import {
   type Envelope,
   type ChatMessage,
 } from "@promethean/enso-protocol";
+import {
+  PCM16_BYTES_PER_FRAME,
+  PCM16_FRAME_DURATION_MS,
+  PCM48_STEREO_CHANNELS,
+  PCM48_TO_16_DECIMATION,
+  SAMPLES_PER_DECIMATED_OUTPUT,
+  averageStereoFrame,
+  clampPcm16,
+} from "@promethean/duck-audio";
 
 /**
  * Downmix 48k stereo PCM16LE to 16k mono PCM16LE using simple box filter decimation (3:1).
@@ -37,7 +46,9 @@ export class ToPcm16kMono extends Transform {
     // Interpret as int16 samples
     const inSamplesTotal = this.carry.length + (chunk.length >>> 1);
     // Each stereo frame = 2 samples; 3 frames -> 6 samples -> 1 output sample
-    const usableSamples = Math.floor(inSamplesTotal / 6) * 6;
+    const usableSamples =
+      Math.floor(inSamplesTotal / SAMPLES_PER_DECIMATED_OUTPUT) *
+      SAMPLES_PER_DECIMATED_OUTPUT;
     // Merge carry + incoming into a single Int16Array view without extra copies when possible
     const incoming = new Int16Array(
       chunk.buffer,
@@ -53,25 +64,19 @@ export class ToPcm16kMono extends Transform {
       merged.set(incoming, this.carry.length);
     }
 
-    const outCount = Math.floor(usableSamples / 6);
+    const outCount = Math.floor(usableSamples / SAMPLES_PER_DECIMATED_OUTPUT);
     const out = new Int16Array(outCount);
     let oi = 0;
-    for (let i = 0; i < usableSamples; i += 6) {
-      // Three consecutive stereo frames: (L0,R0),(L1,R1),(L2,R2)
-      const l0 = merged[i] ?? 0;
-      const r0 = merged[i + 1] ?? 0;
-      const l1 = merged[i + 2] ?? 0;
-      const r1 = merged[i + 3] ?? 0;
-      const l2 = merged[i + 4] ?? 0;
-      const r2 = merged[i + 5] ?? 0;
-      // Downmix each to mono then average across 3 samples for crude LPF before decimation
-      const m0 = (l0 + r0) / 2;
-      const m1 = (l1 + r1) / 2;
-      const m2 = (l2 + r2) / 2;
-      const averaged = (m0 + m1 + m2) / 3;
-      // clamp to int16
-      const clamped = Math.max(-32768, Math.min(32767, averaged));
-      out[oi++] = clamped | 0;
+    for (let i = 0; i < usableSamples; i += SAMPLES_PER_DECIMATED_OUTPUT) {
+      let monoAccumulator = 0;
+      for (let frame = 0; frame < PCM48_TO_16_DECIMATION; frame += 1) {
+        const base = i + frame * PCM48_STEREO_CHANNELS;
+        const left = merged[base] ?? 0;
+        const right = merged[base + 1] ?? 0;
+        monoAccumulator += averageStereoFrame(left, right);
+      }
+      const averaged = monoAccumulator / PCM48_TO_16_DECIMATION;
+      out[oi++] = clampPcm16(averaged);
     }
     // Save remainder into carry
     const rem = merged.length - usableSamples;
@@ -172,8 +177,8 @@ export class EnsoTranscriber extends Transcriber {
       stream: transformed,
       streamId,
       codec: "pcm16le/16000/1",
-      frameDurationMs: 20,
-      bytesPerFrame: 640,
+      frameDurationMs: PCM16_FRAME_DURATION_MS,
+      bytesPerFrame: PCM16_BYTES_PER_FRAME,
       emitEof: true,
     });
 

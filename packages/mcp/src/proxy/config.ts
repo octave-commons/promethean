@@ -54,11 +54,10 @@ const ensureLeadingSlash = (segment: string): string =>
 
 const expandHome = (input: string, home: string): string => {
   if (!input) return input;
-  const replaced = input.replaceAll("$HOME", home);
-  if (replaced.startsWith("~")) {
-    return path.join(home, replaced.slice(1));
+  if (input.startsWith("~")) {
+    return path.join(home, input.slice(1));
   }
-  return replaced;
+  return input;
 };
 
 const looksLikeScopedPackage = (value: string): boolean =>

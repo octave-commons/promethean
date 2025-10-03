@@ -531,6 +531,9 @@ importers:
       '@promethean/agent-ecs':
         specifier: workspace:*
         version: link:../agent-ecs
+      '@promethean/duck-audio':
+        specifier: workspace:*
+        version: link:../duck-audio
       '@promethean/embedding':
         specifier: workspace:*
         version: link:../embedding
@@ -1575,6 +1578,7 @@ importers:
         specifier: ^8.5.9
         version: 8.18.1
 
+  packages/duck-audio: {}
   packages/duck-tools:
     devDependencies:
       '@types/node':
@@ -1585,6 +1589,10 @@ importers:
         version: 5.9.2
 
   packages/duck-web:
+    dependencies:
+      '@promethean/duck-audio':
+        specifier: workspace:*
+        version: link:../duck-audio
     devDependencies:
       typescript:
         specifier: ^5.4.0
@@ -2394,6 +2402,9 @@ importers:
       mongodb:
         specifier: ^6.18.0
         version: 6.18.0(socks@2.8.7)
+      yaml:
+        specifier: ^2.5.0
+        version: 2.8.1
     devDependencies:
       typescript:
         specifier: ^5.4.0
@@ -2828,6 +2839,19 @@ importers:
         version: 6.0.1
       typescript:
         specifier: ^5.4.5
+        version: 5.9.2
+
+  packages/mcp-ollama:
+    dependencies:
+      zod:
+        specifier: ^3.23.8
+        version: 3.25.76
+    devDependencies:
+      rimraf:
+        specifier: 6.0.1
+        version: 6.0.1
+      typescript:
+        specifier: 5.9.2
         version: 5.9.2
 
   packages/migrations:

@@ -8,12 +8,35 @@ export const CONFIG_FILE_NAME = "promethean.mcp.json";
 export const CONFIG_ROOT = process.cwd();
 
 const ToolId = z.string();
+
+// Optional descriptive metadata for a toolset/endpoint
+const ToolsetMeta = z
+  .object({
+    title: z.string().optional(),
+    description: z.string().optional(),
+    workflow: z.array(z.string()).default([]).optional(),
+    expectations: z
+      .object({
+        usage: z.array(z.string()).default([]).optional(),
+        pitfalls: z.array(z.string()).default([]).optional(),
+        prerequisites: z.array(z.string()).default([]).optional(),
+      })
+      .partial()
+      .default({})
+      .optional(),
+  })
+  .partial();
+
 const EndpointConfig = z.object({
   tools: z.array(ToolId).default([]),
+  includeHelp: z.boolean().optional(), // default: true
+  meta: ToolsetMeta.optional(),
 });
 const Config = z.object({
   transport: z.enum(["stdio", "http"]).default("http"),
   tools: z.array(ToolId).default([]),
+  includeHelp: z.boolean().optional(), // default: true
+  stdioMeta: ToolsetMeta.optional(),
   endpoints: z.record(EndpointConfig).default({}),
   stdioProxyConfig: z.string().min(1).nullable().default(null),
 });

@@ -2,7 +2,7 @@ import { execFile, type ExecFileOptions } from "node:child_process";
 import { promisify } from "node:util";
 import { z } from "zod";
 
-import type { ToolContext, ToolFactory } from "../../core/types.js";
+import type { ToolContext, ToolFactory, ToolSpec } from "../../core/types.js";
 
 const execFileAsync = promisify(execFile);
 const GIT_EXEC_OPTS: ExecFileOptions & { encoding: "utf8" } = {
@@ -172,7 +172,9 @@ export const githubReviewOpenPullRequest: ToolFactory = (ctx) => {
       description:
         "Open a new pull request targeting a base branch with the provided title and body.",
       inputSchema: shape,
-    },
+      stability: "experimental",
+      since: "0.1.0",
+    } satisfies ToolSpec,
     invoke: async (raw: unknown) => {
       const args = Schema.parse(raw);
       const client = createGithubGraphqlClient(ctx);
@@ -248,7 +250,9 @@ export const githubReviewGetComments: ToolFactory = (ctx) => {
       description:
         "List issue comments on a pull request with pagination support.",
       inputSchema: shape,
-    },
+      stability: "experimental",
+      since: "0.1.0",
+    } satisfies ToolSpec,
     invoke: async (raw: unknown) => {
       const args = Schema.parse(raw);
       const client = createGithubGraphqlClient(ctx);
@@ -350,7 +354,9 @@ export const githubReviewGetReviewComments: ToolFactory = (ctx) => {
       description:
         "Fetch review thread comments (diff comments) for a pull request.",
       inputSchema: shape,
-    },
+      stability: "experimental",
+      since: "0.1.0",
+    } satisfies ToolSpec,
     invoke: async (raw: unknown) => {
       const args = Schema.parse(raw);
       const client = createGithubGraphqlClient(ctx);
@@ -440,7 +446,9 @@ export const githubReviewSubmitComment: ToolFactory = (ctx) => {
       name: "github.review.submitComment",
       description: "Submit an issue-level comment on a pull request.",
       inputSchema: shape,
-    },
+      stability: "experimental",
+      since: "0.1.0",
+    } satisfies ToolSpec,
     invoke: async (raw: unknown) => {
       const args = Schema.parse(raw);
       const client = createGithubGraphqlClient(ctx);
@@ -529,7 +537,9 @@ export const githubReviewRequestChangesFromCodex: ToolFactory = (ctx) => {
       description:
         "Request changes from Codex by posting an issue-level pull request comment tagging @codex.",
       inputSchema: shape,
-    },
+      stability: "experimental",
+      since: "0.1.0",
+    } satisfies ToolSpec,
     invoke: async (raw: unknown) => {
       const args = Schema.parse(raw);
       const client = createGithubGraphqlClient(ctx);
@@ -618,7 +628,9 @@ export const githubReviewSubmitReview: ToolFactory = (ctx) => {
       description:
         "Create a pull request review with optional summary body and inline comments.",
       inputSchema: shape,
-    },
+      stability: "experimental",
+      since: "0.1.0",
+    } satisfies ToolSpec,
     invoke: async (raw: unknown) => {
       const args = Schema.parse(raw);
       const client = createGithubGraphqlClient(ctx);
@@ -733,7 +745,9 @@ export const githubReviewGetActionStatus: ToolFactory = (ctx) => {
       description:
         "Fetch the latest workflow and check status for the most recent pull request commit.",
       inputSchema: shape,
-    },
+      stability: "experimental",
+      since: "0.1.0",
+    } satisfies ToolSpec,
     invoke: async (raw: unknown) => {
       const args = Schema.parse(raw);
       const client = createGithubGraphqlClient(ctx);
@@ -835,7 +849,9 @@ export const githubReviewCommit: ToolFactory = () => {
       description:
         "Create a git commit. Optionally stage specific paths or use --all/--allow-empty.",
       inputSchema: shape,
-    },
+      stability: "experimental",
+      since: "0.1.0",
+    } satisfies ToolSpec,
     invoke: async (raw: unknown) => {
       const args = Schema.parse(raw);
       const cwd = ensureCwd(args.cwd);
@@ -867,7 +883,9 @@ export const githubReviewPush: ToolFactory = () => {
       description:
         "Push the current branch to the specified remote with optional upstream/force settings.",
       inputSchema: shape,
-    },
+      stability: "experimental",
+      since: "0.1.0",
+    } satisfies ToolSpec,
     invoke: async (raw: unknown) => {
       const args = Schema.parse(raw);
       const cwd = ensureCwd(args.cwd);
@@ -892,7 +910,9 @@ export const githubReviewCheckoutBranch: ToolFactory = () => {
       name: "github.review.checkoutBranch",
       description: "Check out an existing git branch.",
       inputSchema: shape,
-    },
+      stability: "experimental",
+      since: "0.1.0",
+    } satisfies ToolSpec,
     invoke: async (raw: unknown) => {
       const args = Schema.parse(raw);
       const cwd = ensureCwd(args.cwd);
@@ -915,7 +935,9 @@ export const githubReviewCreateBranch: ToolFactory = () => {
       description:
         "Create and check out a new git branch optionally from a specific start point.",
       inputSchema: shape,
-    },
+      stability: "experimental",
+      since: "0.1.0",
+    } satisfies ToolSpec,
     invoke: async (raw: unknown) => {
       const args = Schema.parse(raw);
       const cwd = ensureCwd(args.cwd);
@@ -939,7 +961,9 @@ export const githubReviewRevertCommits: ToolFactory = () => {
       name: "github.review.revertCommits",
       description: "Revert one or more commits using git revert.",
       inputSchema: shape,
-    },
+      stability: "experimental",
+      since: "0.1.0",
+    } satisfies ToolSpec,
     invoke: async (raw: unknown) => {
       const args = Schema.parse(raw);
       const cwd = ensureCwd(args.cwd);
