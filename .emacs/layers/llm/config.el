@@ -11,17 +11,15 @@
 ;; AUTO GENREATED MCP SERVER CONFIG BY mk.mcp-cli START
 (with-eval-after-load 'mcp
   (setq mcp-hub-servers
-        '(( "duckduckgo" .
-            (:command "/home/err/devel/promethean/scripts/mcp/bin/duck.sh"))
-          ;; ( "file-system" .
-          ;;   (:command "/home/err/devel/promethean/scripts/mcp/bin/filesystem.sh"))
-          ( "github" .
-            (:command "/home/err/devel/promethean/scripts/mcp/bin/github.sh"))
-          ( "github-chat" .
-            (:command "/home/err/devel/promethean/scripts/mcp/bin/github_chat.sh"))
-          ( "lsp-mcp" .
-            (:command "npx"
-                      :args ("tritlo/lsp-mcp" "typescript" "/home/err/.volta/bin/typescript-language-server" "--stdio")))
-          ( "sonarqube" .
-            (:command "/home/err/devel/promethean/scripts/mcp/bin/sonarqube.sh"))
-          )))
+    '(( "duckduckgo" .
+        (:command "/home/err/devel/promethean/scripts/mcp/bin/duck.sh"))
+       ( "github" .
+         (:command "/home/err/devel/promethean/scripts/mcp/bin/github.sh"))
+       ( "github-chat" .
+         (:command "/home/err/devel/promethean/scripts/mcp/bin/github_chat.sh"))
+       ( "lsp-mcp" .
+         (:command "npx"
+           :args ("tritlo/lsp-mcp" "typescript" "/home/err/.volta/bin/typescript-language-server" "--stdio")))
+       ( "sonarqube" .
+         (:command "/home/err/devel/promethean/scripts/mcp/bin/sonarqube.sh"))
+       )))
