@@ -12,15 +12,17 @@ class PCM16kProcessor extends AudioWorkletProcessor {
     }
 
     const r = this.ratio;
-    const outLen = Math.floor((input.length - this.pos) / r);
+    const avail = Math.max(0, input.length - this.pos);
+    const outLen = Math.floor(avail / r);
     if (outLen <= 0) {
-    this.pos = (this.pos + outLen * r) % input.length;
+      this.pos = Math.min(input.length, Math.max(0, this.pos));
+      return true;
     }
 
     const out = new Float32Array(outLen);
     for (let n = 0; n < outLen; n += 1) {
       const start = Math.floor(this.pos + n * r);
-      const end = Math.floor(this.pos + (n + 1) * r);
+      const end = Math.min(input.length, Math.floor(this.pos + (n + 1) * r));
       let sum = 0;
       for (let k = start; k < end; k += 1) {
         sum += input[k] ?? 0;
@@ -28,7 +30,7 @@ class PCM16kProcessor extends AudioWorkletProcessor {
       out[n] = end > start ? sum / (end - start) : 0;
     }
 
-    this.pos = (this.pos + outLen * r) % input.length;
+    this.pos = Math.min(input.length, this.pos + Math.floor(outLen * r));
 
     this.port.postMessage(out);
     return true;

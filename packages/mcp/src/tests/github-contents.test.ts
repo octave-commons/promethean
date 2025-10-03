@@ -1,4 +1,4 @@
-import test, { type ExecutionContext } from "ava";
+import test from "ava";
 
 import type { ToolContext } from "../core/types.js";
 import { githubContentsWrite } from "../tools/github/contents.js";
@@ -13,6 +13,13 @@ type HeaderSource =
 type GithubWriteResult = Readonly<{
   readonly status: number;
   readonly data: { readonly commit: { readonly sha: string } };
+}>;
+
+type GithubWritePayload = Readonly<{
+  readonly message: string;
+  readonly content: string;
+  readonly encoding: string;
+  readonly branch?: string;
 }>;
 
 const entriesFromHeaders = (headers: HeaderSource): readonly HeaderEntry[] => {
@@ -61,52 +68,48 @@ const toUrlString = (input: unknown): string => {
 
 const parseJson = <T>(text: string): T => JSON.parse(text) as T;
 
-const assertUtf8Request = (
-  t: ExecutionContext,
-  input: unknown,
-  init: RequestInit | undefined,
-): void => {
-  t.is(
-    toUrlString(input),
-    "https://api.github.test/repos/promethean/mcp/contents/docs/read%20me.md",
-  );
-  const headers = toHeadersRecord(init?.headers as HeaderSource | undefined);
-  t.deepEqual(headers, {
-    Accept: "application/vnd.github+json",
-    "Content-Type": "application/json",
-    "X-GitHub-Api-Version": "2022-11-28",
-    Authorization: "Bearer test-token",
-  });
-  const payload = parseJson<{
-    readonly message: string;
-    readonly content: string;
-    readonly encoding: string;
-    readonly branch?: string;
-  }>(toBodyString(init?.body));
-  t.deepEqual(payload, {
-    message: "docs: add readme",
-    content: Buffer.from("Hello, world!", "utf8").toString("base64"),
-    encoding: "base64",
-    branch: "main",
-  });
-};
-
 const createJsonResponse = (body: unknown, status: number): Response =>
   new Response(JSON.stringify(body), {
     status,
     headers: { "content-type": "application/json" },
   });
 
+const expectedUtf8Headers = Object.freeze({
+  Accept: "application/vnd.github+json",
+  "Content-Type": "application/json",
+  "X-GitHub-Api-Version": "2022-11-28",
+  Authorization: "Bearer test-token",
+});
+
+const expectedUtf8Payload: GithubWritePayload = {
+  message: "docs: add readme",
+  content: Buffer.from("Hello, world!", "utf8").toString("base64"),
+  encoding: "base64",
+  branch: "main",
+} as const;
+
 test("github.contents.write encodes utf-8 content", async (t) => {
-  t.plan(5);
   const ctx: ToolContext = {
     env: {
       GITHUB_BASE_URL: "https://api.github.test",
       GITHUB_API_VERSION: "2022-11-28",
       GITHUB_TOKEN: "test-token",
     },
-    fetch: (async (input, init) => {
-      assertUtf8Request(t, input, init);
+    fetch: (async (...args: readonly [unknown, unknown?]) => {
+      const [input, init] = args;
+      const requestInit = init as Readonly<RequestInit> | undefined;
+      t.is(
+        toUrlString(input),
+        "https://api.github.test/repos/promethean/mcp/contents/docs/read%20me.md",
+      );
+      t.deepEqual(
+        toHeadersRecord(requestInit?.headers as HeaderSource | undefined),
+        expectedUtf8Headers,
+      );
+      const payload = parseJson<GithubWritePayload>(
+        toBodyString(requestInit?.body),
+      );
+      t.deepEqual(payload, expectedUtf8Payload);
       return createJsonResponse(
         { commit: { sha: "abc123" }, content: { path: "docs/readme.md" } },
         201,
@@ -177,4 +180,52 @@ test("github.contents.write throws on invalid base64 input", async (t) => {
       }),
     { message: /invalid base64/i },
   );
+});
+
+test("github.contents.write decodes base64 payloads in responses", async (t) => {
+  const contentText = "export const value = 42;";
+  const raw = Buffer.from(contentText, "utf8").toString("base64");
+  const ctx: ToolContext = {
+    env: {},
+    fetch: (async () =>
+      new Response(
+        JSON.stringify({
+          content: {
+            name: "file.ts",
+            encoding: "base64",
+            content: raw,
+          },
+        }),
+        { status: 200, headers: { "content-type": "application/json" } },
+      )) as typeof fetch,
+    now: () => new Date(),
+  };
+
+  const tool = githubContentsWrite(ctx);
+  const result = (await tool.invoke({
+    owner: "promethean",
+    repo: "mcp",
+    path: "src/file.ts",
+    message: "feat: add file",
+    content: contentText,
+  })) as {
+    data: {
+      content: {
+        content: string;
+        rawContent: string;
+        encoding: string;
+        rawEncoding: string;
+      };
+    };
+  };
+
+  t.deepEqual(result.data, {
+    content: {
+      name: "file.ts",
+      encoding: "utf-8",
+      rawEncoding: "base64",
+      content: contentText,
+      rawContent: raw,
+    },
+  });
 });

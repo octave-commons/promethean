@@ -14,8 +14,11 @@ import {
   tddPropertyCheck,
   tddMutationScore,
 } from "./tools/tdd.js";
-import { loadConfig } from "./config/load-config.js";
-import type { AppConfig } from "./config/load-config.js";
+import {
+  loadConfigWithSource,
+  type AppConfig,
+  CONFIG_FILE_NAME,
+} from "./config/load-config.js";
 import { buildRegistry } from "./core/registry.js";
 import { createMcpServer } from "./core/mcp-server.js";
 import { fastifyTransport } from "./core/transports/fastify.js";
@@ -24,6 +27,10 @@ import { githubRequestTool } from "./tools/github/request.js";
 import { githubGraphqlTool } from "./tools/github/graphql.js";
 import { githubRateLimitTool } from "./tools/github/rate-limit.js";
 import { githubContentsWrite } from "./tools/github/contents.js";
+import {
+  githubWorkflowGetJobLogs,
+  githubWorkflowGetRunLogs,
+} from "./tools/github/workflows.js";
 import {
   githubReviewCheckoutBranch,
   githubReviewCommit,
@@ -38,6 +45,7 @@ import {
   githubReviewSubmitComment,
   githubReviewSubmitReview,
 } from "./tools/github/code-review.js";
+import { githubApplyPatchTool } from "./tools/github/apply-patch.js";
 import {
   filesListDirectory,
   filesTreeDirectory,
@@ -92,12 +100,21 @@ import {
 import { help as helpTool, toolset as toolsetTool, endpoints as endpointsTool } from "./tools/help.js";
 import { validateConfig as validateConfigTool } from "./tools/validate-config.js";
 
+type ToolSummary = Readonly<{
+  id: string;
+  name?: string;
+  description?: string;
+}>;
+
 const toolCatalog = new Map<string, ToolFactory>([
   ["apply_patch", applyPatchTool],
   ["github.request", githubRequestTool],
   ["github.graphql", githubGraphqlTool],
   ["github.rate-limit", githubRateLimitTool],
   ["github.contents.write", githubContentsWrite],
+  ["github.workflow.getRunLogs", githubWorkflowGetRunLogs],
+  ["github.workflow.getJobLogs", githubWorkflowGetJobLogs],
+  ["github.apply_patch", githubApplyPatchTool],
   ["github.review.openPullRequest", githubReviewOpenPullRequest],
   ["github.review.getComments", githubReviewGetComments],
   ["github.review.getReviewComments", githubReviewGetReviewComments],
@@ -167,6 +184,18 @@ const mkCtx = () => ({
   fetch: global.fetch.bind(global),
   now: () => new Date(),
 });
+
+const collectToolSummaries = (
+  ctx: ReturnType<typeof mkCtx>,
+): readonly ToolSummary[] =>
+  Array.from(toolCatalog.entries()).map(([id, factory]) => {
+    const tool = factory(ctx);
+    return {
+      id,
+      name: tool.spec.name,
+      description: tool.spec.description,
+    };
+  });
 
 // Ensure the meta tools are available within any registry subset when enabled.
 const ensureMetaTools = (
@@ -291,7 +320,7 @@ export const loadHttpTransportConfig = async (
 };
 
 export const main = async (): Promise<void> => {
-  const cfg = loadConfig(env);
+  const { config: cfg, source } = loadConfigWithSource(env);
   const cwd = process.cwd();
   const ctx: any = mkCtx();
 
@@ -335,6 +364,10 @@ export const main = async (): Promise<void> => {
     ];
 
     const transport = fastifyTransport();
+    const defaultConfigPath = path.resolve(process.cwd(), CONFIG_FILE_NAME);
+    const configPath = source.type === "file" ? source.path : defaultConfigPath;
+    const toolSummaries = collectToolSummaries(ctx);
+
     const summaryParts = [
       `${registryDescriptors.length} endpoint${
         registryDescriptors.length === 1 ? "" : "s"
@@ -346,7 +379,15 @@ export const main = async (): Promise<void> => {
       );
     }
     console.log(`[mcp] transport = http (${summaryParts.join(", ")})`);
-    await transport.start(descriptors);
+    await transport.start(descriptors, {
+      ui: {
+        availableTools: toolSummaries,
+        config: cfg,
+        configSource: source,
+        configPath,
+        httpEndpoints: httpConfig.endpoints,
+      },
+    });
     return;
   }
 
