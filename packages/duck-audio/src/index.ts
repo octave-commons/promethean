@@ -17,6 +17,11 @@ export const PCM16_BYTES_PER_SAMPLE = 2;
 export const PCM16_BYTES_PER_FRAME =
   (PCM16_SAMPLE_RATE * PCM16_FRAME_DURATION_MS * PCM16_BYTES_PER_SAMPLE) / 1000;
 
+/**
+ * Guard rail for decimation math that can slightly underflow when averaging
+ * high-energy frames. ENSO bridge previously produced -32868 without this
+ * clamp, so we bound before truncating to keep samples within int16 range.
+ */
 export const clampPcm16 = (value: number): number => {
   if (Number.isNaN(value)) return 0;
   if (value <= PCM16_MIN) return PCM16_MIN;
