@@ -1,52 +1,41 @@
 ---
-kind: bug
-name: Bug report (reproducible)
-is: true
-title: "[bug] ... brief summary"
-about: Repo-frendly runtime and production bugs.
-
-labels:
-  - bug
-  - prio:medium
-  - github
+name: Bug report
+about: Reproducible runtime or production bug with a minimal repro
+title: "[bug] <brief summary>"
+labels: [bug, prio:medium, github]
 ---
+
 ### Summary
-- What happened: What were you doing?// minimum repro to reproduce
-- Expected: What result did you expect?
-- Actual: What happened instead?
+
+- What happened? What were you doing when it occurred?
+- What did you expect to happen instead?
 
 ### Repro steps (make it reproducible)
-- [- ] Step 1
-- [- ] Step 2
-- [- ] Step 3
-- [] ...
+
+- [ ] Step 1
+- [ ] Step 2
+- [ ] Step 3
+- [ ] ...
 
 ### Inputs & Config
-{{ codeblock }}
-code:
-  language: typescript
-  value: |-
-    // Config file contents (minimistic)
-    {{ code }}
-    {{ code }}
-    {{ code }}
+
+```typescript
+// Minimal config or code sample
+```
 
 ### Expected behavior
-- [ ] Clear, immutable definition of expected behavior
 
-- [ ] GI norms aspects fail if any
-
-- [ ] SW/CA minimum repro (ASUME)
-
+- [ ] Clearly describes the expected behavior
+- [ ] Notes any guardrails (e.g., invariants, contracts) that fail
+- [ ] Links to the minimal repro artifact
 
 ### Environment
+
 - OS & version:
-
 - Node version / browser:
-
-- Package: name (if relevant) / version:
+- Package name & version (if relevant):
 
 ### Additional context
 
-- Is the problem flaker-frie with clear repro steps?
-- Did the issue regress long enough to warrant a chicklist?
+- Is the issue flake-free with the steps above?
+- Anything else reviewers should know?
