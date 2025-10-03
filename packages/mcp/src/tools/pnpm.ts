@@ -108,10 +108,14 @@ const runPnpmCommand = (
   const base = toSuccessResult(bin, args, cwd);
   const handleError = (error: unknown): PnpmResult | Promise<PnpmResult> => {
     if (!isExecError(error)) {
-      return Promise.reject(error);
+      return Promise.reject(
+        error instanceof Error ? error : new Error(String(error)),
+      );
     }
     if (!(typeof error.code === "number" || error.code === null)) {
-      return Promise.reject(error);
+      return Promise.reject(
+        error instanceof Error ? error : new Error(String(error)),
+      );
     }
     return toErrorResult(bin, args, cwd, error);
   };
@@ -295,6 +299,20 @@ const createRunScriptTool = (
     description:
       "Execute a pnpm script, optionally filtered to specific workspace packages.",
     inputSchema: runScriptShape,
+    examples: [
+      {
+        comment: "Run the repository lint script",
+        args: { script: "lint" },
+      },
+      {
+        comment: "Run tests for a single package",
+        args: { script: "test", filter: "packages/mcp" },
+      },
+      {
+        comment: "Forward custom args to the script",
+        args: { script: "build", args: ["--filter", "packages/*"] },
+      },
+    ],
     stability: "stable",
     since: "0.1.0",
   } satisfies ToolSpec;
