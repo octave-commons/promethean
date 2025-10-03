@@ -1,20 +1,11 @@
 {
   "transport": "http",
   "includeHelp": true,
-  "stdioMeta": {
-    "title": "Default Toolset",
-    "description": "Mixed bag of commonly-used tools for local dev, code search/edit, GitHub API, and test running. Prefer using a narrower endpoint when possible.",
-    "workflow": [
-      "search code → view-file → propose patch → apply_patch",
-      "run tests → iterate on failing files"
-    ],
-    "expectations": {
-      "usage": ["Read before writing", "Keep patches small and reversible"],
-      "pitfalls": ["Don't try to write binaries", "Large trees can be slow to list"],
-      "prerequisites": ["repo checked out"]
-    }
-  },
   "tools": [
+    "mcp.help",
+    "mcp.toolset",
+    "mcp.endpoints",
+    "mcp.validate-config",
     "github.request",
     "github.graphql",
     "github.rate-limit",
@@ -25,10 +16,6 @@
     "files.write-content",
     "files.write-lines",
     "files.search",
-    "mcp.help",
-    "mcp.toolset",
-    "mcp.endpoints",
-    "mcp.validate-config",
     "apply_patch",
     "tdd.scaffoldTest",
     "tdd.changedFiles",
@@ -48,13 +35,49 @@
     "pnpm.remove",
     "pnpm.runScript"
   ],
+  "stdioMeta": {
+    "title": "Default MCP Endpoint",
+    "description": "Aggregated toolset available over stdio for local agents.",
+    "workflow": [
+      "mcp.toolset -> mcp.help",
+      "mcp.validate-config",
+      "files.search -> files.view-file -> apply_patch"
+    ],
+    "expectations": {
+      "usage": [
+        "Use mcp.toolset first to confirm endpoint scope",
+        "Call mcp.validate-config after editing promethan.mcp.json",
+        "Prefer files.write-lines for small edits"
+      ],
+      "pitfalls": [
+        "mcp.validate-config reports warnings for missing metadata",
+        "apply_patch expects unified diffs"
+      ],
+      "prerequisites": [
+        "Ensure git workspace is clean before applying patches"
+      ]
+    }
+  },
   "endpoints": {
     "process": {
       "includeHelp": true,
       "meta": {
         "title": "Task Runner",
-        "description": "Queue, inspect, and stop long-running dev tasks.",
-        "workflow": ["enqueueTask → getStdout/getStderr → stop"]
+        "description": "Inspect and control background task runner queues.",
+        "workflow": [
+          "process.getTaskRunnerConfig -> process.updateTaskRunnerConfig",
+          "process.enqueueTask -> process.getQueue",
+          "process.getStdout -> process.getStderr -> process.stop"
+        ],
+        "expectations": {
+          "usage": [
+            "Update configuration before enqueuing new tasks",
+            "Stream stdout/stderr to monitor long jobs"
+          ],
+          "pitfalls": [
+            "Stopping a task is irreversible"
+          ]
+        }
       },
       "tools": [
         "process.getTaskRunnerConfig",
@@ -70,11 +93,21 @@
       "includeHelp": true,
       "meta": {
         "title": "Filesystem",
-        "description": "Read/search/write files in the workspace.",
-        "workflow": ["files.search → files.view-file → apply_patch / files.write-lines"],
+        "description": "Read, search, and edit files within the workspace sandbox.",
+        "workflow": [
+          "files.search -> files.view-file",
+          "files.write-lines -> files.write-content",
+          "apply_patch"
+        ],
         "expectations": {
-          "usage": ["Paths are relative to repo root"],
-          "pitfalls": ["Avoid writing large/binary files"]
+          "usage": [
+            "Keep edits focused and explain context in changelog",
+            "Prefer files.write-lines for incremental inserts"
+          ],
+          "pitfalls": [
+            "Avoid binary writes",
+            "Paths are repo-root relative"
+          ]
         }
       },
       "tools": [
@@ -84,40 +117,76 @@
         "files.write-content",
         "files.write-lines",
         "files.search",
-        "apply_patch",
-        "mcp.help",
-        "mcp.toolset"
+        "apply_patch"
       ]
     },
     "github": {
       "includeHelp": true,
       "meta": {
-        "title": "GitHub Core",
-        "description": "Typed wrappers over REST/GraphQL, and repo contents write.",
-        "workflow": ["github.request / github.graphql → transform → write"]
+        "title": "GitHub REST",
+        "description": "Interact with GitHub REST APIs.",
+        "workflow": [
+          "github.request -> github.rate-limit",
+          "github.contents.write"
+        ],
+        "expectations": {
+          "usage": [
+            "Use github.request for most operations",
+            "Inspect rate limits before high-volume calls"
+          ],
+          "pitfalls": [
+            "github.contents.write overwrites files by default"
+          ]
+        }
       },
       "tools": [
         "github.request",
         "github.graphql",
         "github.rate-limit",
-        "github.contents.write",
-        "mcp.help"
+        "github.contents.write"
       ]
     },
     "exec": {
       "includeHelp": true,
       "meta": {
-        "title": "Process Exec",
-        "description": "Discover and run safe local commands.",
-        "workflow": ["exec.list → exec.run"]
+        "title": "Approved Exec",
+        "description": "Run allowlisted shell commands from exec config.",
+        "workflow": [
+          "exec.list -> exec.run"
+        ],
+        "expectations": {
+          "usage": [
+            "Check exec.list before running unfamiliar commands"
+          ],
+          "pitfalls": [
+            "exec.run rejects extra args unless allowlisted"
+          ]
+        }
       },
-      "tools": ["exec.list", "exec.run"]
+      "tools": [
+        "exec.list",
+        "exec.run"
+      ]
     },
     "kanban": {
       "includeHelp": true,
       "meta": {
-        "title": "Kanban",
-        "description": "Board and task operations."
+        "title": "Task Board",
+        "description": "Query and update the Promethean kanban board.",
+        "workflow": [
+          "kanban.get-board -> kanban.get-column",
+          "kanban.find-task -> kanban.update-status",
+          "kanban.sync-board"
+        ],
+        "expectations": {
+          "usage": [
+            "Sync before editing to avoid stale data",
+            "Always record final status with kanban.update-status"
+          ],
+          "pitfalls": [
+            "kanban.move-task updates order and column"
+          ]
+        }
       },
       "tools": [
         "kanban.get-board",
@@ -133,11 +202,22 @@
     "github/review": {
       "includeHelp": true,
       "meta": {
-        "title": "Code Review",
-        "description": "Automate PR reviews and comment flows.",
+        "title": "GitHub Review",
+        "description": "End-to-end tools for reviewing and shipping pull requests.",
         "workflow": [
-          "getComments/getReviewComments → requestChangesFromCodex → submitReview"
-        ]
+          "github.review.getComments -> github.review.getReviewComments",
+          "github.review.checkoutBranch -> github.review.push",
+          "github.review.submitReview -> github.review.openPullRequest"
+        ],
+        "expectations": {
+          "usage": [
+            "Use github.review.requestChangesFromCodex for automated reviews",
+            "Push after staging commits locally"
+          ],
+          "pitfalls": [
+            "github.review.revertCommits is destructive"
+          ]
+        }
       },
       "tools": [
         "github.review.openPullRequest",
@@ -150,45 +230,59 @@
         "github.review.push",
         "github.review.checkoutBranch",
         "github.review.createBranch",
-        "github.review.revertCommits"
+        "github.review.revertCommits",
+        "github.review.requestChangesFromCodex"
       ]
     },
     "discord": {
       "includeHelp": true,
       "meta": {
         "title": "Discord",
-        "description": "Send and list messages in configured channels."
+        "description": "Read and write messages in configured Discord channels.",
+        "workflow": [
+          "discord.list-messages -> discord.send-message"
+        ],
+        "expectations": {
+          "usage": [
+            "List recent messages before sending updates"
+          ],
+          "pitfalls": [
+            "Use short updates to avoid rate limits"
+          ]
+        }
       },
-      "tools": ["discord.send-message", "discord.list-messages"]
+      "tools": [
+        "discord.send-message",
+        "discord.list-messages"
+      ]
     },
     "workspace": {
       "includeHelp": true,
       "meta": {
-        "title": "Workspace",
-        "description": "Project package management via pnpm.",
-        "workflow": ["pnpm.add/remove → pnpm.install → pnpm.runScript"]
-      },
-      "tools": ["pnpm.install", "pnpm.add", "pnpm.remove", "pnpm.runScript"]
-    },
-    "ollama": {
-      "includeHelp": true,
-      "meta": {
-        "title": "Ollama Jobs",
-        "description": "Local model pulls and queued generations."
+        "title": "Workspace Scripts",
+        "description": "Manage dependencies and scripts via pnpm.",
+        "workflow": [
+          "pnpm.install",
+          "pnpm.add -> pnpm.remove",
+          "pnpm.runScript"
+        ],
+        "expectations": {
+          "usage": [
+            "Prefer pnpm.runScript for package scripts",
+            "Filter commands when targeting a subset of packages"
+          ],
+          "pitfalls": [
+            "pnpm.add requires explicit dependency list"
+          ]
+        }
       },
       "tools": [
-        "ollama.pull",
-        "ollama.listModels",
-        "ollama.listTemplates",
-        "ollama.createTemplate",
-        "ollama.enqueueGenerateJob",
-        "ollama.enqueueChatCompletion",
-        "ollama.enqueueJobFromTemplate",
-        "ollama.startConversation",
-        "ollama.getQueue",
-        "ollama.removeJob"
+        "pnpm.install",
+        "pnpm.add",
+        "pnpm.remove",
+        "pnpm.runScript"
       ]
     }
   },
-  "stdioProxyConfig": "./packages/mcp/examples/mcp_servers.edn"
+  "stdioProxyConfig": "./config/mcp_servers.edn"
 }
