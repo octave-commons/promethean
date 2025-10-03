@@ -3,9 +3,22 @@ import type { AppConfig } from "../config/load-config.js";
 const ensureLeadingSlash = (path: string): string =>
   path.startsWith("/") ? path : `/${path}`;
 
+export type ToolsetMeta = Readonly<{
+  title?: string;
+  description?: string;
+  workflow?: readonly string[];
+  expectations?: Readonly<{
+    usage?: readonly string[];
+    pitfalls?: readonly string[];
+    prerequisites?: readonly string[];
+  }>;
+}>;
+
 export type EndpointDefinition = Readonly<{
   path: string;
   tools: readonly string[];
+  includeHelp?: boolean;
+  meta?: ToolsetMeta;
 }>;
 
 export const resolveHttpEndpoints = (
@@ -17,13 +30,17 @@ export const resolveHttpEndpoints = (
       {
         path: "/mcp",
         tools: config.tools,
+        includeHelp: (config as any).includeHelp,
+        meta: (config as any).stdioMeta,
       },
     ];
   }
 
-  const resolved = entries.map(([path, cfg]) => ({
+  const resolved = entries.map(([path, cfg]: any) => ({
     path: ensureLeadingSlash(path),
     tools: cfg.tools,
+    includeHelp: cfg.includeHelp,
+    meta: cfg.meta,
   }));
 
   const shouldIncludeLegacyEndpoint =
@@ -34,6 +51,8 @@ export const resolveHttpEndpoints = (
     resolved.unshift({
       path: "/mcp",
       tools: config.tools,
+      includeHelp: (config as any).includeHelp,
+      meta: (config as any).stdioMeta,
     });
   }
 
@@ -45,7 +64,7 @@ export const resolveStdioTools = (config: AppConfig): readonly string[] => {
 
   const collected = new Set<string>();
   for (const endpoint of Object.values(config.endpoints ?? {})) {
-    for (const tool of endpoint.tools) {
+    for (const tool of (endpoint as any).tools) {
       collected.add(tool);
     }
   }
