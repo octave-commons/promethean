@@ -1,5 +1,6 @@
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { pathToFileURL } from "node:url";
 
 import { listFilesRec } from "@promethean/utils/list-files-rec.js";
 import { parseFrontmatter } from "@promethean/markdown/frontmatter";
@@ -79,15 +80,17 @@ const sortTasksById = (
 ): ReadonlyArray<IndexedTask> =>
   Object.freeze([...tasks].sort((a, b) => a.id.localeCompare(b.id)));
 
-const indexTasks = async ({
-  tasksDir,
-  exts,
-  repoRoot,
-}: Readonly<{
+export type IndexTasksOptions = Readonly<{
   readonly tasksDir: string;
   readonly exts: ReadonlySetLike<string>;
   readonly repoRoot: string;
-}>): Promise<ReadonlyArray<IndexedTask>> => {
+}>;
+
+export const indexTasks = async ({
+  tasksDir,
+  exts,
+  repoRoot,
+}: IndexTasksOptions): Promise<ReadonlyArray<IndexedTask>> => {
   const files = await listFilesRec(tasksDir, new Set(exts));
   const tasks = await Promise.all(
     files.map((filePath) =>
@@ -103,6 +106,18 @@ const indexTasks = async ({
   return sortTasksById(tasks);
 };
 
+export const indexedTasksToJsonLines = (
+  tasks: ReadonlyArray<IndexedTask>,
+): ReadonlyArray<string> =>
+  Object.freeze(tasks.map((task) => JSON.stringify(task)));
+
+export const writeIndexFile = async (
+  indexFile: string,
+  lines: ReadonlyArray<string>,
+): Promise<void> => {
+  await writeFile(indexFile, `${lines.join("\n")}\n`, "utf8");
+};
+
 const main = async (): Promise<void> => {
   const { config, restArgs } = await loadKanbanConfig();
   const args = new Set(restArgs);
@@ -112,9 +127,9 @@ const main = async (): Promise<void> => {
     exts: config.exts,
     repoRoot: config.repo,
   });
-  const lines = Object.freeze(tasks.map((task) => JSON.stringify(task)));
+  const lines = indexedTasksToJsonLines(tasks);
   if (shouldWrite) {
-    await writeFile(config.indexFile, `${lines.join("\n")}\n`, "utf8");
+    await writeIndexFile(config.indexFile, lines);
     console.log(
       `Wrote ${tasks.length} tasks to ${path.relative(
         config.repo,
@@ -128,7 +143,21 @@ const main = async (): Promise<void> => {
   });
 };
 
-main().catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
+const isEntryPoint = (): boolean => {
+  const entry = process.argv[1];
+  if (typeof entry !== "string" || entry.length === 0) {
+    return false;
+  }
+  try {
+    return import.meta.url === pathToFileURL(entry).href;
+  } catch {
+    return false;
+  }
+};
+
+if (isEntryPoint()) {
+  main().catch((err) => {
+    console.error(err);
+    process.exit(1);
+  });
+}

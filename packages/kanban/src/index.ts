@@ -25,6 +25,7 @@ const { values, positionals } = parseArgs({
     kanban: { type: "string", default: "docs/agile/boards/kanban.md" },
     tasks: { type: "string", default: "docs/agile/tasks" },
     help: { type: "boolean", default: false },
+    write: { type: "boolean", default: false },
   },
   allowPositionals: true,
 });
@@ -143,7 +144,7 @@ async function main() {
       break;
     }
     case "indexForSearch": {
-      const res = await indexForSearch(TASKS);
+      const res = await indexForSearch({ write: values.write });
       printJSONL(res);
       break;
     }

@@ -2,6 +2,12 @@ import { promises as fs } from "node:fs";
 import { randomUUID } from "node:crypto";
 import path from "node:path";
 import { parseFrontmatter as parseMarkdownFrontmatter } from "@promethean/markdown/frontmatter";
+import { loadKanbanConfig } from "../board/config.js";
+import {
+  indexTasks,
+  indexedTasksToJsonLines,
+  writeIndexFile,
+} from "../board/indexer.js";
 import type { Board, ColumnData, Task } from "./types.js";
 
 const NOW_ISO = () => new Date().toISOString();
@@ -1427,9 +1433,47 @@ const tokenize = (s: string): string[] =>
     .split(/\s+/)
     .filter(Boolean);
 
+export type IndexForSearchOptions = Readonly<{
+  readonly argv?: ReadonlyArray<string>;
+  readonly env?: Readonly<NodeJS.ProcessEnv>;
+  readonly write?: boolean;
+}>;
+
+export type IndexForSearchResult = Readonly<{
+  readonly count: number;
+  readonly wrote: boolean;
+  readonly indexFile: string;
+  readonly lines: ReadonlyArray<string>;
+}>;
+
 export const indexForSearch = async (
-  _tasksDir: string,
-): Promise<{ started: boolean }> => ({ started: true }); // noop stub – your indexer can hook here later
+  options?: IndexForSearchOptions,
+): Promise<IndexForSearchResult> => {
+  const { config, restArgs } = await loadKanbanConfig({
+    argv: options?.argv,
+    env: options?.env,
+  });
+  const args = new Set(restArgs);
+  if (options?.write === true) {
+    args.add("--write");
+  }
+  const tasks = await indexTasks({
+    tasksDir: config.tasksDir,
+    exts: config.exts,
+    repoRoot: config.repo,
+  });
+  const lines = indexedTasksToJsonLines(tasks);
+  const shouldWrite = args.has("--write");
+  if (shouldWrite) {
+    await writeIndexFile(config.indexFile, lines);
+  }
+  return Object.freeze({
+    count: tasks.length,
+    wrote: shouldWrite,
+    indexFile: config.indexFile,
+    lines,
+  });
+};
 
 export const searchTasks = async (
   board: Board,
