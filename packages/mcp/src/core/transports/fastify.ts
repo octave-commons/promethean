@@ -11,6 +11,7 @@ import {
   ConfigSchema,
   type AppConfig,
   type ConfigSource,
+  resolveConfigPath,
   saveConfigFile,
 } from "../../config/load-config.js";
 import { renderUiPage } from "../../http/ui-page.js";
@@ -32,7 +33,7 @@ type ToolSummary = Readonly<{
   id: string;
   name?: string;
   description?: string;
-};
+}>;
 
 type UiProxyInfo = Readonly<{
   name: string;
@@ -46,7 +47,7 @@ type UiState = Readonly<{
   httpEndpoints: readonly EndpointDefinition[];
   availableTools: readonly ToolSummary[];
   proxies: readonly UiProxyInfo[];
-};
+}>;
 
 type UiOptions = Readonly<{
   availableTools: readonly ToolSummary[];
@@ -59,6 +60,32 @@ type UiOptions = Readonly<{
 type ParsedStartOptions = Readonly<{
   proxies: readonly StdioHttpProxy[];
   ui?: UiOptions;
+}>;
+
+type ProxyLifecycle = Pick<
+  StdioHttpProxy,
+  "start" | "stop" | "handle" | "spec"
+>;
+
+type RegistryEndpointDescriptor = Readonly<{
+  path: string;
+  kind: "registry";
+  handler: McpServer;
+}>;
+
+type ProxyEndpointDescriptor = Readonly<{
+  path: string;
+  kind: "proxy";
+  handler: ProxyLifecycle;
+}>;
+
+export type HttpEndpointDescriptor =
+  | RegistryEndpointDescriptor
+  | ProxyEndpointDescriptor;
+
+type UiProxyDescriptor = Readonly<{
+  handler: ProxyLifecycle;
+  path: string;
 }>;
 
 const toEntries = (input: unknown): ServerEntries => {
@@ -78,6 +105,15 @@ const toEntries = (input: unknown): ServerEntries => {
   }
   return [["/mcp", input as unknown as McpServer]];
 };
+
+const descriptorsFromEntries = (
+  entries: ServerEntries,
+): readonly HttpEndpointDescriptor[] =>
+  entries.map(([route, handler]) => ({
+    path: route,
+    kind: "registry" as const,
+    handler,
+  }));
 
 const normalizePath = (p: string): string => (p.startsWith("/") ? p : `/${p}`);
 
@@ -129,118 +165,6 @@ const parseStartOptions = (input: unknown): ParsedStartOptions => {
   }
   return { proxies: [] };
 };
-
-const createRouteHandler = (
-  server: McpServer,
-  sessions: Map<string, StreamableHTTPServerTransport>,
-) => {
-  return async function handler(req: any, reply: any) {
-    reply.hijack();
-    const rawReq = req.raw;
-    const rawRes = reply.raw;
-
-    const accept = String(rawReq.headers["accept"] || "");
-    if (
-      !(
-        accept.includes("application/json") &&
-        accept.includes("text/event-stream")
-      )
-    ) {
-      rawReq.headers["accept"] = "application/json, text/event-stream";
-    }
-
-    try {
-      const body = tryParseJson(req.body);
-      const sidHeader = rawReq.headers["mcp-session-id"] as string | undefined;
-
-      let transport: StreamableHTTPServerTransport | undefined;
-
-      if (sidHeader) {
-        transport = sessions.get(sidHeader);
-        if (!transport) {
-          rawRes.writeHead(400).end(
-            JSON.stringify({
-              jsonrpc: "2.0",
-              error: {
-              code: -32000,
-              message: "Bad Request: No valid session ID provided",
-              },
-              id: null,
-            }),
-          );
-          return;
-        }
-      } else if (body && isInitializeRequest(body)) {
-        let self: StreamableHTTPServerTransport;
-
-        const t: StreamableHTTPServerTransport =
-          new StreamableHTTPServerTransport({s
-            sessionIdGenerator: createSessionIdGenerator(crypto),
-            onsessioninitialized: (sid: string): void => {
-              sessions.set(sid, self);
-            },
-          });
-
-        t.onclose = () => {
-          if (t.sessionId) sessions.delete(t.sessionId);
-        };
-
-        self = t;
-        transport = t;
-        await server.connect(transport);
-      } else {
-        rawRes.writeHead(400).end(
-          JSON.stringify({
-            jsonrpc: "2.0",
-            error: {
-              code: -32000,
-              message: "Bad Request: No valid session ID provided",
-            },
-            id: null,
-          }),
-        );
-        return;
-      }
-
-      await transport.handleRequest(rawReq, rawRes, body);
-    } catch (e: any) {
-      if (!rawRes.headersSent) {
-        rawRes.writeHead(400).end(
-          JSON.stringify({
-            jsonrpc: "2.0",
-            error: {
-              code: -32700,
-              message: "Parse error",
-              data: String(e?.message ?? e),
-            },
-            id: null,
-          }),
-        );
-      }
-    }
-  };
-};
-
-type ProxyLifecycle = Pick<
-  StdioHttpProxy,
-  "start" | "stop" | "handle" | "spec"
->;
-
-type RegistryEndpointDescriptor = Readonly<{
-  path: string;
-  kind: "registry";
-  handler: McpServer;
-}>;
-
-type ProxyEndpointDescriptor = Readonly<{
-  path: string;
-  kind: "proxy";
-  handler: ProxyLifecycle;
-}>;
-
-export type HttpEndpointDescriptor =
-  | RegistryEndpointDescriptor
-  | ProxyEndpointDescriptor;
 
 const ensureEndpointDescriptors = (
   input: unknown,
@@ -308,6 +232,19 @@ const ensureEndpointDescriptors = (
   });
 };
 
+const normalizeServerInput = (
+  server: unknown,
+): readonly HttpEndpointDescriptor[] => {
+  if (Array.isArray(server)) {
+    return ensureEndpointDescriptors(server);
+  }
+  const entries = toEntries(server);
+  if (entries.length === 0) {
+    return [];
+  }
+  return ensureEndpointDescriptors(descriptorsFromEntries(entries));
+};
+
 const parseProxyBody = (value: unknown): unknown => {
   if (value === null || value === undefined) return undefined;
   if (Buffer.isBuffer(value)) {
@@ -351,19 +288,111 @@ const createProxyHandler = (proxy: ProxyLifecycle) => {
       }
     }
   };
+};
+
+const createRouteHandler = (
+  server: McpServer,
+  sessions: Map<string, StreamableHTTPServerTransport>,
+) => {
+  return async function handler(req: any, reply: any) {
+    reply.hijack();
+    const rawReq = req.raw;
+    const rawRes = reply.raw;
+
+    const accept = String(rawReq.headers["accept"] || "");
+    if (
+      !(
+        accept.includes("application/json") &&
+        accept.includes("text/event-stream")
+      )
+    ) {
+      rawReq.headers["accept"] = "application/json, text/event-stream";
+    }
+
+    try {
+      const body = tryParseJson(req.body);
+      const sidHeader = rawReq.headers["mcp-session-id"] as string | undefined;
+
+      let transport: StreamableHTTPServerTransport | undefined;
+
+      if (sidHeader) {
+        transport = sessions.get(sidHeader);
+        if (!transport) {
+          rawRes.writeHead(400).end(
+            JSON.stringify({
+              jsonrpc: "2.0",
+              error: {
+                code: -32000,
+                message: "Bad Request: No valid session ID provided",
+              },
+              id: null,
+            }),
+          );
+          return;
+        }
+      } else if (body && isInitializeRequest(body)) {
+        let self: StreamableHTTPServerTransport;
+
+        const t: StreamableHTTPServerTransport =
+          new StreamableHTTPServerTransport({
+            sessionIdGenerator: createSessionIdGenerator(crypto),
+            onsessioninitialized: (sid: string): void => {
+              sessions.set(sid, self);
+            },
+          });
+
+        t.onclose = () => {
+          if (t.sessionId) sessions.delete(t.sessionId);
+        };
+
+        self = t;
+        transport = t;
+        await server.connect(transport);
+      } else {
+        rawRes.writeHead(400).end(
+          JSON.stringify({
+            jsonrpc: "2.0",
+            error: {
+              code: -32000,
+              message: "Bad Request: No valid session ID provided",
+            },
+            id: null,
+          }),
+        );
+        return;
+      }
+
+      await transport.handleRequest(rawReq, rawRes, body);
+    } catch (e: any) {
+      if (!rawRes.headersSent) {
+        rawRes.writeHead(400).end(
+          JSON.stringify({
+            jsonrpc: "2.0",
+            error: {
+              code: -32700,
+              message: "Parse error",
+              data: String(e?.message ?? e),
+            },
+            id: null,
+          }),
+        );
+      }
+    }
+  };
+};
 
 const createUiState = (
   options: UiOptions,
-  proxies: readonly StdioHttpProxy[],
+  proxies: readonly UiProxyDescriptor[],
 ): UiState => ({
   config: options.config,
   configSource: options.configSource,
   configPath: options.configPath,
   httpEndpoints: options.httpEndpoints,
   availableTools: options.availableTools,
-  proxies: proxies.map((proxy) => ({s
-    name: proxy.spec.name,
-    httpPath: normalizePath(proxy.spec.httpPath),
+  proxies: proxies.map((descriptor) => ({
+    name: descriptor.handler.spec.name,
+    httpPath: descriptor.path,
   })),
 });
 
@@ -371,8 +400,6 @@ const respond = (reply: any, status: number, payload: unknown): void => {
   reply.status(status).header("content-type", "application/json").send(payload);
 };
 
-
-};
 export const fastifyTransport = (opts?: {
   port?: number;
   host?: string;
@@ -393,7 +420,7 @@ export const fastifyTransport = (opts?: {
 
   app.get("/healthz", (_req, rep) => rep.send({ ok: true }));
 
-  const sessionStores = new Map<J
+  const sessionStores = new Map<
     string,
     Map<string, StreamableHTTPServerTransport>
   >();
@@ -401,12 +428,19 @@ export const fastifyTransport = (opts?: {
 
   return {
     start: async (server?: unknown, optionsInput?: unknown) => {
-      const entries = toEntries(server);
+      const descriptorsFromServer = normalizeServerInput(server);
       const { proxies: proxyList, ui } = parseStartOptions(optionsInput);
-    start: async (descriptorInput?: unknown, _options?: unknown) => {
-      const descriptors = ensureEndpointDescriptors(entries);
 
-      if (descriptors.length === 0) {
+      const combinedDescriptors: HttpEndpointDescriptor[] = [
+        ...descriptorsFromServer,
+        ...proxyList.map((proxy) => ({
+          path: proxy.spec.httpPath,
+          kind: "proxy" as const,
+          handler: proxy,
+        })),
+      ];
+
+      if (combinedDescriptors.length === 0) {
         throw new Error(
           "fastifyTransport requires at least one MCP server or proxy",
         );
@@ -414,19 +448,18 @@ export const fastifyTransport = (opts?: {
 
       sessionStores.clear();
 
-      const normalized = descriptors.map((descriptor) =>
+      const normalized = combinedDescriptors.map((descriptor) =>
         descriptor.kind === "registry"
-          ? {
+          ? ({
               ...descriptor,
               path: normalizePath(descriptor.path),
-            }
-          : {s
+            } satisfies RegistryEndpointDescriptor)
+          : ({
               ...descriptor,
               path: normalizePath(descriptor.path),
-            },
+            } satisfies ProxyEndpointDescriptor),
       );
 
-      const normalizedProxies = proxyList.map((proxy) => ({ route: normalizePath(proxy.spec.httpPath) }));
       const seenRoutes = new Set<string>();
       for (const descriptor of normalized) {
         if (seenRoutes.has(descriptor.path)) {
@@ -435,18 +468,42 @@ export const fastifyTransport = (opts?: {
         seenRoutes.add(descriptor.path);
       }
 
-      for (const { route } of normalizedProxies) {
-        if (seenRoutes.has(route)) {
-          throw new Error(`Duplicate MCP endpoint path: ${route}`);
-        }
-        seenRoutes.add(route);
-      }
+      const proxyDescriptors = normalized.filter(
+        (descriptor): descriptor is ProxyEndpointDescriptor =>
+          descriptor.kind === "proxy",
+      );
 
-      let currentUiState: UiState | undefined;
+      const proxiesForUi: readonly UiProxyDescriptor[] = proxyDescriptors.map(
+        (descriptor) => ({
+          handler: descriptor.handler,
+          path: descriptor.path,
+        }),
+      );
 
-      if (ui) {
-        currentUiState = createUiState(ui, proxyList);
+      let uiOptions = ui
+        ? {
+            ...ui,
+            configPath: (() => {
+              try {
+                return resolveConfigPath(ui.configPath);
+              } catch {
+                return path.isAbsolute(ui.configPath)
+                  ? path.normalize(ui.configPath)
+                  : path.resolve(process.cwd(), ui.configPath);
+              }
+            })(),
+          }
+        : undefined;
+      let currentUiState: UiState | undefined = uiOptions
+        ? createUiState(uiOptions, proxiesForUi)
+        : undefined;
 
+      const updateUiState = (next: UiOptions): void => {
+        uiOptions = next;
+        currentUiState = createUiState(next, proxiesForUi);
+      };
+
+      if (uiOptions) {
         app.get("/", (_req, reply) => {
           reply
             .status(200)
@@ -468,7 +525,7 @@ export const fastifyTransport = (opts?: {
               | { message?: string }
               | undefined;
             const message = payload?.message?.trim();
-            if (!message) { 
+            if (!message) {
               respond(reply, 400, {
                 error: "invalid_request",
                 message: "message is required",
@@ -476,10 +533,146 @@ export const fastifyTransport = (opts?: {
               return;
             }
 
+            if (!currentUiState) {
+              respond(reply, 503, { error: "ui_unavailable" });
+              return;
+            }
+
             const lower = message.toLowerCase();
-            const tools = currentUiState?.availableTools ?? [];
-            const endpoints = currentUiState?.httpEndpoints ?? [];
-            const proxiesInfo = currentUiState?.proxies ?? [];
+            const { availableTools, httpEndpoints, configPath, proxies } =
+              currentUiState;
 
             let responseText =
-              Ask about tools, endpoints, or configuration to get more details.
+              "Ask about tools, endpoints, configuration, or proxies to get more details.";
+
+            if (lower.includes("tool")) {
+              responseText =
+                availableTools.length === 0
+                  ? "No MCP tools are currently registered."
+                  : `Available tools (${
+                      availableTools.length
+                    }): ${availableTools.map((tool) => tool.id).join(", ")}.`;
+            } else if (lower.includes("endpoint")) {
+              responseText =
+                httpEndpoints.length === 0
+                  ? "No HTTP endpoints are configured."
+                  : `HTTP endpoints (${httpEndpoints.length}): ${httpEndpoints
+                      .map((endpoint) => `${endpoint.path}`)
+                      .join(", ")}.`;
+            } else if (lower.includes("config")) {
+              responseText = `Current configuration path: ${configPath}.`;
+            } else if (lower.includes("proxy")) {
+              responseText =
+                proxies.length === 0
+                  ? "No stdio proxies are active."
+                  : `Active proxies (${proxies.length}): ${proxies
+                      .map((proxy) => `${proxy.name} → ${proxy.httpPath}`)
+                      .join(", ")}.`;
+            }
+
+            respond(reply, 200, { reply: responseText });
+          } catch (error) {
+            respond(reply, 500, {
+              error: "internal_error",
+              message: String((error as Error)?.message ?? error),
+            });
+          }
+        });
+
+        app.post("/ui/config", async (req, reply) => {
+          if (!uiOptions) {
+            respond(reply, 404, { error: "ui_unavailable" });
+            return;
+          }
+
+          try {
+            const payload = mustParseJson(req.body) as
+              | { path?: string; config?: unknown }
+              | undefined;
+            const configInput = payload?.config;
+            if (!configInput || typeof configInput !== "object") {
+              respond(reply, 400, {
+                error: "invalid_request",
+                message: "config payload is required",
+              });
+              return;
+            }
+
+            const requestedPath = payload?.path?.trim();
+            const fallbackPath =
+              uiOptions.configPath ||
+              path.resolve(process.cwd(), CONFIG_FILE_NAME);
+            const targetPath =
+              requestedPath && requestedPath.length > 0
+                ? requestedPath
+                : fallbackPath;
+
+            const resolvedPath = resolveConfigPath(targetPath);
+            const parsedConfig = ConfigSchema.parse(configInput ?? {});
+            const savedConfig = saveConfigFile(resolvedPath, parsedConfig);
+            const endpoints = resolveHttpEndpoints(savedConfig);
+
+            updateUiState({
+              availableTools: uiOptions.availableTools,
+              config: savedConfig,
+              configSource: { type: "file", path: resolvedPath },
+              configPath: resolvedPath,
+              httpEndpoints: endpoints,
+            });
+
+            respond(reply, 200, currentUiState);
+          } catch (error) {
+            respond(reply, 400, {
+              error: "invalid_config",
+              message: String((error as Error)?.message ?? error),
+            });
+          }
+        });
+      }
+
+      const startedProxies: ProxyLifecycle[] = [];
+
+      try {
+        for (const descriptor of normalized) {
+          if (descriptor.kind === "registry") {
+            const sessions = new Map<string, StreamableHTTPServerTransport>();
+            sessionStores.set(descriptor.path, sessions);
+            app.post(
+              descriptor.path,
+              createRouteHandler(descriptor.handler, sessions),
+            );
+            console.log(`[mcp:http] bound endpoint ${descriptor.path}`);
+            continue;
+          }
+
+          await descriptor.handler.start();
+          startedProxies.push(descriptor.handler);
+          app.post(descriptor.path, createProxyHandler(descriptor.handler));
+          console.log(
+            `[mcp:http] proxied stdio server ${descriptor.handler.spec.name} at ${descriptor.path}`,
+          );
+        }
+
+        await app.listen({ port, host } as any);
+        activeProxies.push(...startedProxies);
+        console.log(`[mcp:http] listening on http://${host}:${port}`);
+      } catch (error) {
+        await Promise.allSettled(
+          startedProxies.map(async (proxy) => {
+            try {
+              await proxy.stop();
+            } catch {
+              /* ignore */
+            }
+          }),
+        );
+        throw error;
+      }
+    },
+    stop: async () => {
+      await app.close();
+      const toStop = activeProxies.splice(0, activeProxies.length);
+      await Promise.allSettled(toStop.map((proxy) => proxy.stop()));
+    },
+  };
+};

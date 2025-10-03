@@ -288,7 +288,6 @@ export const loadHttpTransportConfig = async (
 
 export const main = async (): Promise<void> => {
   const { config: cfg, source } = loadConfigWithSource(env);
-  const cfg = loadConfig(env);
   const cwd = process.cwd();
   const ctx = mkCtx();
 
@@ -329,21 +328,6 @@ export const main = async (): Promise<void> => {
     const configPath = source.type === "file" ? source.path : defaultConfigPath;
     const toolSummaries = collectToolSummaries(ctx);
 
-    console.log(
-      `[mcp] transport = http (${httpConfig.endpoints.length} endpoint${
-        httpConfig.endpoints.length === 1 ? "" : "s"
-      }, ${proxies.length} prox${proxies.length === 1 ? "y" : "ies"})`,
-    );
-    await transport.start(servers, {
-      proxies,
-      ui: {
-        availableTools: toolSummaries,
-        config: cfg,
-        configSource: source,
-        configPath,
-        httpEndpoints: httpConfig.endpoints,
-      },
-    });
     const summaryParts = [
       `${registryDescriptors.length} endpoint${
         registryDescriptors.length === 1 ? "" : "s"
@@ -355,7 +339,15 @@ export const main = async (): Promise<void> => {
       );
     }
     console.log(`[mcp] transport = http (${summaryParts.join(", ")})`);
-    await transport.start(descriptors);
+    await transport.start(descriptors, {
+      ui: {
+        availableTools: toolSummaries,
+        config: cfg,
+        configSource: source,
+        configPath,
+        httpEndpoints: httpConfig.endpoints,
+      },
+    });
     return;
   }
 
