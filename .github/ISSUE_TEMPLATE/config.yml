@@ -1,5 +1,5 @@
 blank_issues_enabled: false
 contact_links:
-  - name: Make a support request
-    url: https://github.com/riatzukiza/promethean/issues/new
-    about: Use issues only for trackable work
+  - name: Ask a question / support
+    url: https://github.com/riatzukiza/promethean/discussions/new
+    about: Use Discussions for Q&A; use Issues only for trackable work
