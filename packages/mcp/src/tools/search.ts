@@ -1,6 +1,7 @@
 import { z } from "zod";
 import fs from "node:fs/promises";
 import path from "node:path";
+import { minimatch } from "minimatch";
 import { getMcpRoot, normalizeToRoot, isInsideRoot } from "../files.js";
 import type { ToolFactory } from "../core/types.js";
 
@@ -56,6 +57,9 @@ export const filesSearch: ToolFactory = () => {
     maxFileSizeBytes: z.number().int().min(1).default(1_000_000),
     maxResults: z.number().int().min(1).default(200),
     rel: z.string().default("."),
+    includeGlobs: z.array(z.string()).default(["**/*"]).describe("only consider files matching these globs (minimatch)"),
+    excludeGlobs: z.array(z.string()).default(["**/node_modules/**", "**/.git/**"]).describe("skip files/dirs matching these globs (minimatch)"),
+    sortBy: z.enum(["path", "firstMatchLine"]).default("path").describe("deterministic ordering for results"),
   } as const;
   const Schema = z.object(shape);
   const spec = {
@@ -63,6 +67,23 @@ export const filesSearch: ToolFactory = () => {
     description:
       "Search file contents under a directory and return matching line snippets.",
     inputSchema: shape,
+    outputSchema: {
+      ok: true,
+      count: 0,
+      results: [
+        { path: "relative/path", line: 1, snippet: "..." }
+      ],
+    } as any,
+    examples: [
+      {
+        args: { query: "TODO|FIXME", regex: true, rel: "packages" },
+        comment: "Find TODO/FIXME comments in the monorepo",
+      },
+      {
+        args: { query: "mcp.help", excludeGlobs: ["**/dist/**"] },
+        comment: "Search source only, skip build outputs",
+      },
+    ],
   } as const;
 
   const invoke = async (raw: unknown) => {
@@ -76,12 +97,21 @@ export const filesSearch: ToolFactory = () => {
       maxFileSizeBytes,
       maxResults,
       rel,
+      includeGlobs,
+      excludeGlobs,
+      sortBy,
     } = args;
     const ROOT = resolveRoot();
     const baseAbs = normalizeToRoot(ROOT, rel);
     const files = (await walk(baseAbs, { includeHidden, maxDepth }))
       .filter((p) => isInsideRoot(ROOT, p))
-      .filter((p) => textFile(p));
+      .filter((p) => textFile(p))
+      .filter((abs) => {
+        const relPath = path.relative(ROOT, abs).replace(/\\/g, "/");
+        const included = includeGlobs.some((g) => minimatch(relPath, g));
+        const excluded = excludeGlobs.some((g) => minimatch(relPath, g));
+        return included && !excluded;
+      });
 
     const flags = caseSensitive ? "" : "i";
     const pattern = regex
@@ -115,7 +145,11 @@ export const filesSearch: ToolFactory = () => {
       }
     }
 
-    return { ok: true, count: results.length, results };
+    const ordered = sortBy === "path"
+      ? [...results].sort((a, b) => a.path.localeCompare(b.path) || a.line - b.line)
+      : [...results].sort((a, b) => a.line - b.line || a.path.localeCompare(b.path));
+
+    return { ok: true, count: ordered.length, results: ordered };
   };
 
   return { spec, invoke };
