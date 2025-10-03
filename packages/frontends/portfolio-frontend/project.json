@@ -1,0 +1,24 @@
+{
+  "name": "@promethean/portfolio-frontend",
+  "root": "packages/frontends/portfolio-frontend",
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm run build",
+        "cwd": "packages/frontends/portfolio-frontend"
+      },
+      "outputs": ["{projectRoot}/dist"]
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm exec eslint .",
+        "cwd": "packages/frontends/portfolio-frontend",
+        "forwardAllArgs": false
+      }
+    }
+  },
+  "tags": ["scope:packages"],
+  "sourceRoot": "packages/frontends/portfolio-frontend/src"
+}
