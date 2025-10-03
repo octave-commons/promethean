@@ -1,0 +1,69 @@
+{:mcp-servers
+ {:github
+ {:command "${HOME}/devel/promethean/scripts/mcp/bin/github.sh"}
+
+  :github-chat
+ {:command "${HOME}/devel/promethean/scripts/mcp/bin/github_chat.sh"}
+
+  :sonarqube
+ {:command "${HOME}/devel/promethean/scripts/mcp/bin/sonarqube.sh"}
+
+  :file-system
+ {:command "${HOME}/devel/promethean/scripts/mcp/bin/filesystem.sh"}
+
+  :obsidian
+ {:command "${HOME}/devel/promethean/scripts/mcp/bin/obsidian.sh"}
+
+  :duckduckgo
+ {:command "${HOME}/devel/promethean/scripts/mcp/bin/duck.sh"}
+
+  :npm-helper
+  {:command "npx"
+   :args ["-y" "@pinkpixel/npm-helper-mcp"]}
+
+  ;; :eslint-official
+  ;; {:command "npx"
+  ;;  :args ["-y" "@eslint/mcp@latest"]}
+
+  :eslint
+  {:command "npx" :args ["-y"
+                         "@uplinq/mcp-eslint"]}
+
+  :playwright
+  {:command "npx"
+   :args ["@playwright/mcp@latest"]}
+
+  :ts-ls-lsp
+  {:command "npx"
+   :args ["tritlo/lsp-mcp"
+          "typescript"
+          "${HOME}/.volta/bin/typescript-language-server"
+          "--stdio"]}
+
+  :serena
+  {:command "uvx"
+   :args ["--from" "git+https://github.com/oraios/serena" "serena" "start-mcp-server"]}
+
+  :haiku-rag
+  {:command "uvx"
+   :args ["haiku-rag"
+          "serve"
+          "--stdio"
+          "--db" "${HOME}/.local/share/haiku-rag"]}
+  }
+
+ :outputs
+ [{:schema :codex.toml  :path "${HOME}/.codex/config.toml"}
+  {:schema :vscode.json :path "${HOME}/.config/User/mcp.json"
+   :opts {:include-inputs? true}}
+  {:schema :codex.json :path "${HOME}/.codeium/windsurf/mcp_config.json"}
+
+  ;; Oterm
+  {:schema :codex.json :path "${HOME}/.local/share/oterm/config.json"}
+
+  ;; Emacs MCP package
+  ;; doesn't work right.
+  ;; we added a thing to parse emacs code with tree sitter to directly manipulate the
+  ;; s-expressions instead of  handling strings.
+  ;; we should use it.
+  {:schema :elisp       :path "${HOME}/devel/promethean/.emacs/layers/llm/config.el"}]}

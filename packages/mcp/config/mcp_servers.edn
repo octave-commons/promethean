@@ -56,10 +56,6 @@
           "--db" "/home/err/.local/share/haiku-rag"]
    :cwd "$HOME/devel/promethean"}
 
-  :backseat-driver
-  {:command "/home/err/.config/calva/backseat-driver/calva-mcp-server.js"
-   :args ["1664"]}}
-
  :outputs
  [{:schema :codex.toml  :path "/home/err/.codex/config.toml"}
   {:schema :vscode.json :path "/home/err/.config/User/mcp.json"

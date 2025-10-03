@@ -4,7 +4,12 @@ import { promisify } from "node:util";
 import { z } from "zod";
 
 import { getMcpRoot } from "../files.js";
-import type { Tool, ToolContext, ToolFactory } from "../core/types.js";
+import type {
+  Tool,
+  ToolContext,
+  ToolFactory,
+  ToolSpec,
+} from "../core/types.js";
 
 const execFileAsync = promisify(execFile);
 
@@ -103,10 +108,14 @@ const runPnpmCommand = (
   const base = toSuccessResult(bin, args, cwd);
   const handleError = (error: unknown): PnpmResult | Promise<PnpmResult> => {
     if (!isExecError(error)) {
-      return Promise.reject(error);
+      return Promise.reject(
+        error instanceof Error ? error : new Error(String(error)),
+      );
     }
     if (!(typeof error.code === "number" || error.code === null)) {
-      return Promise.reject(error);
+      return Promise.reject(
+        error instanceof Error ? error : new Error(String(error)),
+      );
     }
     return toErrorResult(bin, args, cwd, error);
   };
@@ -202,7 +211,9 @@ const createInstallTool = (
     description:
       "Run pnpm install at the workspace root or limited to filtered packages.",
     inputSchema: installShape,
-  } as const;
+    stability: "stable",
+    since: "0.1.0",
+  } satisfies ToolSpec;
 
   const invoke = async (raw: unknown) => {
     const { filter, frozenLockfile, offline, force, ignoreScripts } =
@@ -231,7 +242,9 @@ const createAddTool = (
     description:
       "Add dependencies via pnpm, optionally scoped to specific workspace packages.",
     inputSchema: addShape,
-  } as const;
+    stability: "stable",
+    since: "0.1.0",
+  } satisfies ToolSpec;
 
   const invoke = async (raw: unknown) => {
     const { dependencies, filter, dev, optional, peer, exact } =
@@ -261,7 +274,9 @@ const createRemoveTool = (
     description:
       "Remove dependencies via pnpm, optionally scoped to workspace filters.",
     inputSchema: removeShape,
-  } as const;
+    stability: "stable",
+    since: "0.1.0",
+  } satisfies ToolSpec;
 
   const invoke = async (raw: unknown) => {
     const { dependencies, filter } = Schema.parse(raw);
@@ -284,7 +299,23 @@ const createRunScriptTool = (
     description:
       "Execute a pnpm script, optionally filtered to specific workspace packages.",
     inputSchema: runScriptShape,
-  } as const;
+    examples: [
+      {
+        comment: "Run the repository lint script",
+        args: { script: "lint" },
+      },
+      {
+        comment: "Run tests for a single package",
+        args: { script: "test", filter: "packages/mcp" },
+      },
+      {
+        comment: "Forward custom args to the script",
+        args: { script: "build", args: ["--filter", "packages/*"] },
+      },
+    ],
+    stability: "stable",
+    since: "0.1.0",
+  } satisfies ToolSpec;
 
   const invoke = async (raw: unknown) => {
     const { script, args: extraArgs, filter } = Schema.parse(raw);
