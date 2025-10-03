@@ -1,0 +1,74 @@
+# Process-as-code config for Duck Revival
+# Native ESM, flat packages, functional style.
+
+version: 1
+milestone: duck-revival M1
+base_branch: docs/duck-revival
+
+statuses:
+  - todo
+  - in-progress
+  - review
+  - done
+
+label_map:
+  todo: [needs-work]
+  in-progress: [in-progress]
+  review: [needs-review]
+  done: [ready-to-merge]
+
+pr_rules:
+  # map PR numbers to the task files they block
+  "1447": ["docs/agile/tasks/duck-feature-flags-rewrite-web-node-docs.md"]
+  "1446": ["docs/agile/tasks/openws-helper-wrap-and-guards.md"]
+  "1445": ["docs/agile/tasks/throttled-datachannel-sender.md"]
+  "1443": ["docs/agile/tasks/pcm16k-worklet-and-mic-fixes.md"]
+  "1448": ["docs/agile/tasks/voice-forwarder-readme-and-frame-clamp.md"]
+  "1451": ["docs/agile/tasks/enso-handshake-guard-env-timeout-and-cache.md"]
+  "1450": ["docs/agile/tasks/enso-rationale-payload-and-event-name.md"]
+  "1444": ["docs/agile/tasks/duck-audio-shared-clamp-and-constants.md"]
+
+pr_checklists:
+  "1447": feature_flags
+  "1446": websocket_helper
+  "1445": datachannel_sender
+  "1443": audio_worklet
+  "1448": voice_forwarder
+  "1451": handshake_guard
+  "1450": rationale_payload
+
+checklists:
+  feature_flags:
+    - "parseBool covers 'true'/'false' case-insensitively"
+    - "no side effects at import time"
+    - "docs list env names and examples"
+  websocket_helper:
+    - "trim bearer; no 'bearer.' protocol"
+    - "DI-friendly factory"
+    - "unit tests assert protocol list"
+  datachannel_sender:
+    - "await bufferedamountlow when above threshold"
+    - "threshold configurable; default ~1MiB"
+    - "normalize to Uint8Array"
+  audio_worklet:
+    - "registerProcessor syntax correct"
+    - "fractional decimator to prevent drift"
+    - "use duck-audio helpers"
+  voice_forwarder:
+    - "document protocol fallback; clamp 5..200ms"
+    - "export DEFAULT_FRAME_DURATION_MS"
+  handshake_guard:
+    - "ENSO_HANDSHAKE_TIMEOUT_MS env override"
+    - "cache ready in ensureHandshake()"
+  rationale_payload:
+    - "export ActRationalePayload with policy/evidence/evidenceKind"
+    - "(optional) alias guardrail.rationale"
+
+automation:
+  # what a sync tool should do (dry-run by default)
+  - task: sync_labels
+    description: "Derive PR labels from task status via label_map"
+  - task: update_board
+    description: "Regenerate docs/agile/boards/duck-revival.md from tasks"
+  - task: nudge_checklists
+    description: "Post checklist diffs as PR comments when items change"
