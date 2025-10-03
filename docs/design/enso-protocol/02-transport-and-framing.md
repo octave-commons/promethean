@@ -54,6 +54,7 @@ persist or replay short histories.
 | Chat | `chat.msg` | Lightweight text events for clients that do not need the richer `content.*` surface. | [Rooms, Sessions, and Capability Handshake](03-rooms-and-capabilities.md) |
 | Content | `content.post`, `content.message`, `content.retract`, `content.burn` | Rich, multi-part chat delivery, receipts, and deletions. | [Assets, Derivations, and Messaging](09-assets-and-derivations.md) & [Privacy Profiles and Retention Policy](11-privacy-and-retention.md) |
 | Presence | `presence.join`, `presence.part` | Room roster updates and advisory lifecycle signals. | [Rooms, Sessions, and Capability Handshake](03-rooms-and-capabilities.md) |
+| Capabilities | `caps.update` | Authoritative capability revisions with server acknowledgements. | [Rooms, Sessions, and Capability Handshake](03-rooms-and-capabilities.md) |
 | State | `state.patch` | CRDT-friendly room state diffs (e.g., degraded stream indicators). | [Flow Control and Reliability](04-flow-control-and-reliability.md) |
 | Tooling | `tool.advertise`, `tool.call`, `tool.result`, `tool.partial` | Capability discovery, invocation, incremental progress, and completion. | [Tools, Voice, and Stream Semantics](05-tools-and-streams.md) & [Model Context Protocol Interop](08-mcp-integration.md) |
 | Voice | `voice.meta` | Metadata accompanying `voice.frame` streams (language, speaker, hints). | [Tools, Voice, and Stream Semantics](05-tools-and-streams.md) |

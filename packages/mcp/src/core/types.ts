@@ -28,6 +28,6 @@ export type Tool = Readonly<{
 export type ToolFactory = (ctx: ToolContext) => Tool;
 
 export type Transport = Readonly<{
-  start: (server: unknown) => Promise<void>;
+  start: (server?: unknown, options?: unknown) => Promise<void>;
   stop?: () => Promise<void>;
 }>;

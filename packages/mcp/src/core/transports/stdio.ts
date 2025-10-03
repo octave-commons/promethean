@@ -3,7 +3,7 @@ import type { Transport } from "../types.js";
 
 export const stdioTransport = (): Transport => {
   return {
-    start: async (_server: unknown) => {
+    start: async (_server?: unknown) => {
       // TODO: bind to stdio streams
       console.log("[stdio] transport started (placeholder)");
     },

@@ -10,6 +10,7 @@ services:
       - sonarqube_logs:/opt/sonarqube/logs
       - sonarqube_extensions:/opt/sonarqube/extensions
     restart: always
+
   chromadb:
     image: ${CHROMA_IMAGE:-chromadb/chroma:1.0.21.dev56}
     restart: always
@@ -17,6 +18,7 @@ services:
       - ./data/chroma:/index_data
     ports:
       - 127.0.0.1:8000:8000
+
   ollama:
     image: ollama/ollama:0.11.8
     restart: always
@@ -41,6 +43,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 6
+
   redis:
     image: redis:6.2-alpine
     container_name: redis
@@ -78,6 +81,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 6
+
   mongodb:
     image: mongo:6-jammy
     container_name: mongodb
@@ -86,6 +90,7 @@ services:
       - "127.0.0.1:27017:27017"
     volumes:
       - mongo-data:/data/db
+
   nats:
     profiles: ["messaging"]
     image: nats:2.10
@@ -114,6 +119,7 @@ services:
       - TASK=feature-extraction
     ports: ["127.0.0.1:8082:80"]
     restart: unless-stopped
+
   qdrant:
     image: ${QDRANT_IMAGE:-qdrant/qdrant:v1.15.4}
     restart: unless-stopped
@@ -137,6 +143,7 @@ services:
   #   depends_on:
   #     tor:
   #       condition: service_healthy
+
   # ---------- Whisper (CUDA) ----------
   whisper-faster-openai:
     image: ${WHISPER_IMAGE:-fedirz/faster-whisper-server:0.6.0-rc.3-cuda}
@@ -148,18 +155,78 @@ services:
       - ${HOME}/.cache/huggingface:/root/.cache/huggingface
     gpus: all
     restart: unless-stopped
+    networks: [prom-net]
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl -fsS http://127.0.0.1:8000/health || curl -fsS http://localhost:8000/health",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 6
 
-  # ---------- OVMS (Intel iGPU/NPU) ----------
-  # ovms-npu:
-  #   image: ${OVMS_IMAGE:-openvino/model_server:2025.2.1}
-  #   command: --config_path /config/config.json --rest_port 9090 --port 9001
-  #   ports:
-  #     - "9001:9001" # gRPC
-  #     - "9090:9090" # REST
-  #   volumes:
-  #     - ./config/ovm.json:/config/config.json:ro
-  #     - ./models/ov:/opt/models:ro
-  #   restart: unless-stopped
+  # ---------- Piper TTS (HTTP) ----------
+  piper-tts:
+    image: ${PIPER_IMAGE:-rhasspy/piper:latest}
+    command: >-
+      piper --server --host 0.0.0.0 --port 5000 --model /voices/${PIPER_VOICE:-en_US-lessac-medium}.onnx
+    ports: ["127.0.0.1:5005:5000"] # optional host exposure for local testing
+    volumes:
+      - ./data/piper/voices:/voices:ro
+    restart: unless-stopped
+    networks: [prom-net]
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl -fsS http://127.0.0.1:5000/api/tts?text=ping >/dev/null || exit 1",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+
+  # ---------- ENSO protocol WebSocket server ----------
+  enso-server:
+    image: node:22-alpine
+    working_dir: /app
+    command: sh -lc "cd packages/enso-protocol && npm -s --no-fund --no-audit --no-progress --prefix /app run build || true; node /app/packages/enso-protocol/dist/ws-server.js"
+    volumes:
+      - ./:/app:ro
+    environment:
+      PORT: 7766
+    ports: ["7766:7766"]
+    networks: [prom-net]
+    restart: unless-stopped
+    healthcheck:
+      test:
+        ["CMD-SHELL", "curl -fsS http://127.0.0.1:7766 >/dev/null || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+
+  # ---------- Browser Gateway (WebRTC <-> ENSO) ----------
+  duck-gateway:
+    image: node:22-alpine
+    working_dir: /app
+    command: node packages/enso-browser-gateway/src/server.mjs
+    volumes:
+      - ./:/app:ro
+    environment:
+      ENSO_WS_URL: ${ENSO_WS_URL:-ws://host.docker.internal:7766}
+      # On Linux hosts you may need to add `--add-host host.docker.internal:host-gateway`
+      # when running `docker run` commands to resolve host.docker.internal.
+      DUCK_TOKEN: ${DUCK_TOKEN:-}
+      ICE_SERVERS: ${ICE_SERVERS:-[]}
+    ports: ["8787:8787"]
+    networks: [prom-net]
+    restart: unless-stopped
+    healthcheck:
+      test:
+        ["CMD-SHELL", "curl -fsS http://127.0.0.1:8787 >/dev/null || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
 
   semgrep:
     image: ${SEMGREP_IMAGE:-semgrep/semgrep:1.92.0}
@@ -172,6 +239,7 @@ services:
     # Optional environment if you need Semgrep AppSec features
     # environment:
     #   SEMGREP_APP_TOKEN: "${SEMGREP_APP_TOKEN}"
+
 volumes:
   nats_data:
   qdrant-data:

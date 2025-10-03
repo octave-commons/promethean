@@ -1,6 +1,6 @@
 #!/usr/bin/env node
+import { argv, exit } from "node:process";
 import { randomUUID } from "node:crypto";
-import { argv, exit, stdin } from "node:process";
 import { ContextRegistry } from "./registry.js";
 import type { ContextInit } from "./types/context.js";
 import {
@@ -13,7 +13,7 @@ import {
   type WebSocketConnectionHandle,
 } from "./transport.js";
 import type { HelloCaps } from "./types/privacy.js";
-import type { ChatMessage } from "./types/content.js";
+import type { ChatMessage, ContentPart, TextPart } from "./types/content.js";
 import {
   createNodeAudioCapture,
   pumpAudioFrames,
@@ -24,11 +24,13 @@ interface DemoDependencies {
   createClient?: () => EnsoClient;
   connect?: (
     client: EnsoClient,
-    options: { url: string; hello: HelloCaps; pingIntervalMs?: number },
+    options:
+      | { url: string; hello: HelloCaps }
+      | { url: string; hello: HelloCaps; pingIntervalMs: number },
   ) => WebSocketConnectionHandle;
   createCapture?: (options: { streamId: string }) => Promise<AudioCapture>;
-  hello?: HelloCaps;
   waitForAgentTimeoutMs?: number;
+  hello?: HelloCaps;
 }
 
 export interface CliDependencies {
@@ -45,68 +47,28 @@ const defaultRegistry = new ContextRegistry();
 const DEFAULT_HELLO: HelloCaps = {
   proto: "ENSO-1",
   caps: ["can.send.text", "can.voice.stream"],
-  privacy: { profile: "pseudonymous" },
+  agent: { name: "enso-cli", version: "0.0.0" },
 };
 
-interface VoiceDemoArgs {
-  url: string;
-  streamId?: string;
-  pingIntervalMs?: number;
-}
-
-function parseVoiceDemoArgs(args: string[]): VoiceDemoArgs {
-  const result: VoiceDemoArgs = { url: "ws://127.0.0.1:8787" };
-  for (let index = 0; index < args.length; index += 1) {
-    const token = args[index];
-    if (token === "--url" && args[index + 1]) {
-      result.url = args[index + 1]!;
-      index += 1;
-    } else if (token === "--stream-id" && args[index + 1]) {
-      result.streamId = args[index + 1]!;
-      index += 1;
-    } else if (token === "--ping" && args[index + 1]) {
-      const parsed = Number.parseInt(args[index + 1]!, 10);
-      if (!Number.isNaN(parsed)) {
-        result.pingIntervalMs = parsed;
-      }
-      index += 1;
-    }
-  }
-  return result;
-}
-
-function formatChatMessage(message: ChatMessage | undefined): string {
-  if (!message) {
-    return "";
-  }
-  const parts = message.parts
-    .map((part) => {
-      if (part.kind === "text") {
-        return part.text;
-      }
-      if (part.kind === "image") {
-        return `[image ${part.mime}]`;
-      }
-      return `[attachment ${part.mime}]`;
-    })
-    .filter((value) => value.length > 0);
-  return parts.join(" ") || message.role;
-}
-
 function formatTranscript(payload: unknown): string {
-  if (typeof payload === "string") {
-    return payload;
+  try {
+    return typeof payload === "string" ? payload : JSON.stringify(payload);
+  } catch {
+    return String(payload);
   }
-  if (payload && typeof payload === "object") {
-    const candidate = payload as { text?: string; data?: string };
-    if (candidate.text) {
-      return candidate.text;
-    }
-    if (candidate.data) {
-      return candidate.data;
-    }
-  }
-  return JSON.stringify(payload);
+}
+
+function partsToText(parts: ContentPart[]): string {
+  const texts = parts
+    .filter((p): p is TextPart => p.kind === "text")
+    .map((p) => p.text);
+  return texts.join(" ");
+}
+
+function formatChatMessage(msg?: ChatMessage): string {
+  if (!msg) return "";
+  const text = partsToText(msg.parts);
+  return text || JSON.stringify(msg);
 }
 
 async function runVoiceDemo(
@@ -115,8 +77,24 @@ async function runVoiceDemo(
     demo?: DemoDependencies;
   },
 ): Promise<void> {
-  const parsed = parseVoiceDemoArgs(args);
-  const streamId = parsed.streamId ?? randomUUID();
+  const parsed = (() => {
+    let url: string = "ws://localhost:7766/ws";
+    let pingIntervalMs: number | undefined;
+    for (let i = 0; i < args.length; i += 1) {
+      const a = args[i];
+      if (a === "--url" && args[i + 1]) {
+        url = String(args[i + 1]);
+        i += 1;
+      } else if ((a === "--ping" || a === "--ping-interval") && args[i + 1]) {
+        const v = Number(args[i + 1]);
+        if (!Number.isNaN(v)) pingIntervalMs = v;
+        i += 1;
+      }
+    }
+    return { url, pingIntervalMs };
+  })();
+
+  const streamId = randomUUID();
   const hello = deps.demo?.hello ?? DEFAULT_HELLO;
   const createClient = deps.demo?.createClient ?? (() => new EnsoClient());
   const client = createClient();
@@ -124,7 +102,7 @@ async function runVoiceDemo(
     deps.demo?.connect ??
     ((instance, options) => {
       const transportOptions =
-        options.pingIntervalMs !== undefined
+        "pingIntervalMs" in options && options.pingIntervalMs !== undefined
           ? { pingIntervalMs: options.pingIntervalMs }
           : {};
       return connectWebSocket(
@@ -141,33 +119,39 @@ async function runVoiceDemo(
       : { url: parsed.url, hello },
   );
 
-  deps.log(`Connecting to ${parsed.url} as stream ${streamId}`);
-  deps.log("Speak into the microphone or pipe PCM16 audio via stdin.");
+  (deps.log ?? console.log)(
+    `Connecting to ${parsed.url} as stream ${streamId}`,
+  );
+  (deps.log ?? console.log)(
+    "Speak into the microphone or pipe PCM16 audio via stdin.",
+  );
 
   const transcriptListeners = [
     client.on("stream:transcript.partial", (env) => {
-      deps.log(`[partial] ${formatTranscript(env.payload)}`);
+      (deps.log ?? console.log)(`[partial] ${formatTranscript(env.payload)}`);
     }),
     client.on("stream:transcript.final", (env) => {
-      deps.log(`[final] ${formatTranscript(env.payload)}`);
+      (deps.log ?? console.log)(`[final] ${formatTranscript(env.payload)}`);
     }),
   ];
 
   let captureHandle: AudioCapture | undefined;
   client.voice.onFlowControl({
     onPause: async (flowStreamId) => {
-      deps.log(`[flow] pause ${flowStreamId}`);
+      (deps.log ?? console.log)(`[flow] pause ${flowStreamId}`);
       await captureHandle?.stop();
     },
     onResume: (flowStreamId) => {
-      deps.log(`[flow] resume ${flowStreamId}`);
+      (deps.log ?? console.log)(`[flow] resume ${flowStreamId}`);
     },
   });
 
   const agentPromise = new Promise<void>((resolve) => {
     client.on("event:chat.msg", (env) => {
       const payload = env.payload as { message?: ChatMessage } | undefined;
-      deps.log(`[agent] ${formatChatMessage(payload?.message)}`);
+      (deps.log ?? console.log)(
+        `[agent] ${formatChatMessage(payload?.message)}`,
+      );
       resolve();
     });
   });
@@ -175,6 +159,7 @@ async function runVoiceDemo(
   const createCapture =
     deps.demo?.createCapture ??
     (async (options: { streamId: string }) => {
+      const { stdin } = await import("node:process");
       stdin.resume();
       return createNodeAudioCapture({
         stream: stdin,
@@ -195,7 +180,7 @@ async function runVoiceDemo(
         agentPromise,
         new Promise<void>((resolve) => {
           setTimeout(() => {
-            deps.log("[demo] agent reply timeout elapsed");
+            (deps.log ?? console.log)("[demo] agent reply timeout elapsed");
             resolve();
           }, timeoutMs);
         }),
@@ -244,6 +229,16 @@ async function createDemoContext(
   log(JSON.stringify(ctx, null, 2));
 }
 
+function parseServerArgs(args: string[]): { port?: number } {
+  return args.reduce<{ port?: number }>((acc, cur, i, arr) => {
+    if (cur === "--port" || cur === "-p") {
+      const v = Number(arr[i + 1]);
+      if (!Number.isNaN(v)) return { ...acc, port: v };
+    }
+    return acc;
+  }, {});
+}
+
 function showHelp(log: (message: string) => void): void {
   log(`enso-protocol CLI
 
@@ -253,6 +248,7 @@ Commands:
   create-demo-context   Register a demo source and emit a context snapshot
   voice-demo            Stream microphone audio and print agent transcripts
   two-agent-chat        Start a dual-agent conversation (args: [agentA,agentB] [--ollama] [--edn path])
+  server                Start WS server (options: --port <n>, default 7766)
 `);
 }
 
@@ -263,7 +259,7 @@ export async function runCliCommand(
   const registry = deps.registry ?? defaultRegistry;
   const log = deps.log ?? console.log;
   const error = deps.error ?? console.error;
-  const exitFn = deps.exit ?? exit;
+  const exitFn = deps.exit ?? ((code: number) => exit(code));
 
   switch (command) {
     case "help":
@@ -291,6 +287,17 @@ export async function runCliCommand(
         log,
         error,
       });
+      return;
+    }
+    case "server": {
+      const { port } = parseServerArgs(deps.args ?? []);
+      if (port !== undefined) process.env.ENSO_PORT = String(port);
+      await import("./ws-server.js");
+      log(
+        `[enso] ws server boot requested on :${
+          process.env.ENSO_PORT ?? process.env.PORT ?? "7766"
+        }`,
+      );
       return;
     }
     default:
