@@ -159,6 +159,14 @@ export const tddRunTests: ToolFactory = () => {
   const spec = {
     name: "tdd.runTests",
     description:
+    description: "Run AVA via npx with JSON (or TAP) output and return aggregated results. For long-running watchers, use tdd.startWatch/tdd.getWatchChanges instead.",
+    outputSchema: { passed: 0, failed: 0, durationMs: 0, failures: [] } as any,
+    examples: [
+      { args: {}, comment: "Run all tests with JSON output" },
+      { args: { files: ["packages/mcp/dist/**/*.test.js"] }, comment: "Target compiled MCP tests" },
+      { args: { match: ["*schema*"] }, comment: "Filter by AVA title glob" },
+    // description moved above
+    ],
       "Run AVA via npx with JSON (or TAP) output and return aggregated results. For long-running watchers, use tdd.startWatch/tdd.getWatchChanges instead.",
     inputSchema: shape,
   } as const;
