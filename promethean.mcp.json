@@ -1,5 +1,6 @@
 {
   "transport": "http",
+  "stdioProxyConfig": "./config/mcp_servers.edn",
   "includeHelp": true,
   "tools": [
     "mcp.help",
@@ -295,6 +296,5 @@
         "pnpm.runScript"
       ]
     }
-  },
-  "stdioProxyConfig": "./config/mcp_servers.edn"
+  }
 }

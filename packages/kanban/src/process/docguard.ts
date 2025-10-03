@@ -45,23 +45,49 @@ export type DocGuardOptions = {
   pr?: string | number;
 };
 
-export async function docguard(opts: DocGuardOptions) {
-  const owner = opts.owner ?? process.env.GITHUB_OWNER;
-  const repo = opts.repo ?? process.env.GITHUB_REPO;
-  const token = opts.token ?? process.env.GITHUB_TOKEN;
-  const prRaw = opts.pr ?? process.env.PR_NUMBER;
-  const prNum = typeof prRaw === 'number' ? prRaw : prRaw ? Number(prRaw) : undefined;
+const coerceString = (value: string | number | undefined | null) => {
+  if (typeof value === 'number') {
+    return Number.isFinite(value) ? String(value) : undefined;
+  }
+  if (typeof value === 'string') {
+    const trimmed = value.trim();
+    return trimmed.length > 0 ? trimmed : undefined;
+  }
+  return undefined;
+};
 
-  if (!owner || !repo || !token || !prNum) {
+const coerceNumber = (value: string | number | undefined | null) => {
+  if (typeof value === 'number') {
+    return Number.isFinite(value) ? value : undefined;
+  }
+  if (typeof value === 'string') {
+    const parsed = Number(value);
+    return Number.isFinite(parsed) ? parsed : undefined;
+  }
+  return undefined;
+};
+
+export async function docguard(opts: DocGuardOptions) {
+  const owner = coerceString(opts.owner ?? process.env.GITHUB_OWNER);
+  const repo = coerceString(opts.repo ?? process.env.GITHUB_REPO);
+  const token = coerceString(opts.token ?? process.env.GITHUB_TOKEN);
+  const prNum = coerceNumber(opts.pr ?? process.env.PR_NUMBER);
+
+  if (!owner || !repo || !token || prNum === undefined) {
     console.log(JSON.stringify({ ok: false, reason: 'missing-env', owner, repo, prNum }));
     process.exit(0); // don't hard-fail locally
   }
 
+  const safeOwner = owner;
+  const safeRepo = repo;
+  const safeToken = token;
+  const safePrNum = prNum;
+
   // list changed files
   const filesRes = await fetch(
-    `https://api.github.com/repos/${owner}/${repo}/pulls/${prNum}/files`,
+    `https://api.github.com/repos/${safeOwner}/${safeRepo}/pulls/${safePrNum}/files`,
     {
-      headers: { Authorization: `Bearer ${token}`, Accept: 'application/vnd.github+json' },
+      headers: { Authorization: `Bearer ${safeToken}`, Accept: 'application/vnd.github+json' },
     },
   );
   if (!filesRes.ok) {
@@ -77,9 +103,9 @@ export async function docguard(opts: DocGuardOptions) {
 
   // get labels on the PR
   const labelsRes = await fetch(
-    `https://api.github.com/repos/${owner}/${repo}/issues/${prNum}/labels`,
+    `https://api.github.com/repos/${safeOwner}/${safeRepo}/issues/${safePrNum}/labels`,
     {
-      headers: { Authorization: `Bearer ${token}`, Accept: 'application/vnd.github+json' },
+      headers: { Authorization: `Bearer ${safeToken}`, Accept: 'application/vnd.github+json' },
     },
   );
   const labelsJson = labelsRes.ok ? await labelsRes.json() : [];

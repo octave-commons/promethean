@@ -18,9 +18,6 @@ flowchart LR
   D --> E[Int16Array]
 ```
 
-## Tests
-- Uses ava. See `test/pcm.test.ts`.
-
 ## Consumers
 - duck-web PCM16k worklet glue.
 - enso-browser-gateway (server-side validation/tests).

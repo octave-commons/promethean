@@ -429,6 +429,8 @@ importers:
         specifier: ^22.0.0
         version: 22.0.0
 
+  packages/apply-patch: {}
+
   packages/auth-service:
     dependencies:
       '@fastify/rate-limit':
@@ -1287,9 +1289,6 @@ importers:
       '@promethean/security':
         specifier: workspace:*
         version: link:../security
-      chromadb:
-        specifier: ^3.0.9
-        version: 3.0.14
       csv-parse:
         specifier: ^5.5.6
         version: 5.6.0
@@ -1579,6 +1578,7 @@ importers:
         version: 8.18.1
 
   packages/duck-audio: {}
+
   packages/duck-tools:
     devDependencies:
       '@types/node':
@@ -2520,6 +2520,12 @@ importers:
       '@promethean/test-utils':
         specifier: workspace:*
         version: link:../test-utils
+
+  packages/lint-taskgen:
+    devDependencies:
+      typescript:
+        specifier: ^5.4.0
+        version: 5.9.2
 
   packages/llm:
     dependencies:
@@ -14822,7 +14828,7 @@ snapshots:
 
   axios@1.11.0:
     dependencies:
-      follow-redirects: 1.15.11(debug@4.3.7)
+      follow-redirects: 1.15.11(debug@4.4.3)
       form-data: 4.0.4
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -17352,7 +17358,7 @@ snapshots:
   http-proxy@1.18.1:
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.15.11(debug@4.3.7)
+      follow-redirects: 1.15.11(debug@4.4.3)
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug

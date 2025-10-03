@@ -15,8 +15,12 @@ describe uvx-precommit-install  uvx pre-commit install
 describe apt-update             bash -lc 'export DEBIAN_FRONTEND=noninteractive; apt-get update -y'
 describe apt-build-tools        bash -lc 'apt-get install -y build-essential python3 make g++ pkg-config'
 
+./run/install-clojure.sh
+./run/install-clj-python-ml.sh
+
 # native toolchain + node-gyp helpers
 describe install-gyp            bash -lc '"./run/install_gyp.sh"'
+
 
 # node toolchain
 describe pnpm-install           pnpm install --frozen-lockfile
@@ -27,8 +31,6 @@ describe setup-playwright       bash -lc '"./run/setup_playwright.sh"'
 # gh CLI + origin
 # describe install-gh-cli         bash -lc '"$(dirname "$0")/install_gh_cli.sh"'
 # describe setup-gh-cli           bash -lc '"$(dirname "$0")/setup_gh_cli.sh"'
-./run/install-clojure.sh
-./run/install-clj-python-ml.sh
 
 
 # services: chroma + ollama
