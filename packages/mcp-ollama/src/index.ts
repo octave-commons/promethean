@@ -8,5 +8,13 @@ export type {
   TaskOutput,
   RunTaskDependencies,
   RunTaskOptions,
+  TaskRun,
+  TaskStreamEvent,
+  RunTaskResult,
+  RunTaskSuccess,
+  RunTaskRateLimited,
+  RunTaskTimeout,
+  RunTaskError,
+  DebugMetrics,
 } from './runner.js';
 export { runTask } from './runner.js';
