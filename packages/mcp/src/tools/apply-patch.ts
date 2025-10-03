@@ -142,6 +142,23 @@ export const applyPatchTool: ToolFactory = (ctx) => {
     description:
       "Apply a universal diff patch to the MCP sandbox using git apply.",
     inputSchema: shape,
+    examples: [
+      {
+        comment: "Dry-run a single-file change before applying",
+        args: {
+          diff: [
+            "diff --git a/README.md b/README.md",
+            "--- a/README.md",
+            "+++ b/README.md",
+            "@@",
+            "-Old heading",
+            "+New heading",
+            "",
+          ].join("\n"),
+          check: true,
+        },
+      },
+    ],
     stability: "stable",
     since: "0.1.0",
   } satisfies ToolSpec;
