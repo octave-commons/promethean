@@ -19,30 +19,46 @@ type GitApplyOptions = Readonly<{
   cwd: string;
 }>;
 
+type GitApplyErrorInit = Readonly<{
+  stdout: string;
+  stderr: string;
+  attemptedThreeWay?: boolean;
+}>;
+
 class GitApplyError extends Error {
   readonly code: number | null;
   readonly stdout: string;
   readonly stderr: string;
+  readonly attemptedThreeWay: boolean;
 
-  constructor(
-    message: string,
-    code: number | null,
-    stdout: string,
-    stderr: string,
-  ) {
+  constructor(message: string, code: number | null, init: GitApplyErrorInit) {
     super(message);
     this.name = "GitApplyError";
     this.code = code;
-    this.stdout = stdout;
-    this.stderr = stderr;
+    this.stdout = init.stdout;
+    this.stderr = init.stderr;
+    this.attemptedThreeWay = init.attemptedThreeWay ?? false;
   }
 }
 
-const runGitApply = async (
+const joinOutputs = (...parts: ReadonlyArray<string>): string =>
+  parts
+    .map((part) => part.trim())
+    .filter((part) => part.length > 0)
+    .join("\n");
+
+const runGitApplyAttempt = async (
   diff: string,
   options: GitApplyOptions,
+  threeWay: boolean,
 ): Promise<GitApplyResult> => {
-  const child = spawn("git", ["apply", "--whitespace=nowarn"], {
+  const args = [
+    "apply",
+    "--whitespace=nowarn",
+    ...(threeWay ? ["--3way"] : []),
+  ] as const;
+
+  const child = spawn("git", args, {
     cwd: options.cwd,
     stdio: ["pipe", "pipe", "pipe"],
   });
@@ -71,8 +87,43 @@ const runGitApply = async (
     return { stdout, stderr };
   }
 
-  throw new GitApplyError("git apply failed", code, stdout, stderr);
+  throw new GitApplyError("git apply failed", code, {
+    stdout,
+    stderr,
+    attemptedThreeWay: threeWay,
+  });
 };
+
+const runGitApply = (
+  diff: string,
+  options: GitApplyOptions,
+): Promise<GitApplyResult> =>
+  runGitApplyAttempt(diff, options, false).catch((error: unknown) => {
+    if (!(error instanceof GitApplyError)) {
+      throw error as Error;
+    }
+
+    return runGitApplyAttempt(diff, options, true).catch(
+      (fallbackError: unknown) => {
+        if (fallbackError instanceof GitApplyError) {
+          throw new GitApplyError(
+            "git apply failed after attempting 3-way merge",
+            fallbackError.code,
+            {
+              stdout: joinOutputs(error.stdout, fallbackError.stdout),
+              stderr: joinOutputs(
+                error.stderr,
+                fallbackError.stderr,
+                "git apply --3way also failed",
+              ),
+              attemptedThreeWay: true,
+            },
+          );
+        }
+        throw fallbackError as Error;
+      },
+    );
+  });
 
 const diffHeaderRegex =
   /^diff --git (?:"a\/(.+?)"|a\/(.+?)) (?:"b\/(.+?)"|b\/(.+?))$/;
