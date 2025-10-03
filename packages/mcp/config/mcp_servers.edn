@@ -19,37 +19,42 @@
 
   :npm-helper
   {:command "npx"
-   :args ["-y" "@pinkpixel/npm-helper-mcp"]}
+   :args ["-y" "@pinkpixel/npm-helper-mcp"]
+   :cwd "$HOME/devel/promethean"}
 
   ;; :eslint-official
   ;; {:command "npx"
   ;;  :args ["-y" "@eslint/mcp@latest"]}
 
   :eslint
-  {:command "npx" :args ["-y"
-                         "@uplinq/mcp-eslint"]}
+  {:command "npx"
+   :args ["-y" "@uplinq/mcp-eslint"]
+   :cwd "$HOME/devel/promethean"}
 
   :playwright
   {:command "npx"
-   :args ["@playwright/mcp@latest"]}
+   :args ["@playwright/mcp@latest"]
+   :cwd "$HOME/devel/promethean"}
 
   :ts-ls-lsp
   {:command "npx"
    :args ["tritlo/lsp-mcp"
           "typescript"
           "/home/err/.volta/bin/typescript-language-server"
-          "--stdio"]}
+          "--stdio"]
+   :cwd "$HOME/devel/promethean"}
 
   :serena
   {:command "uvx"
-   :args ["--from" "git+https://github.com/oraios/serena" "serena" "start-mcp-server"]}
+   :args ["--from" "git+https://github.com/oraios/serena" "serena" "start-mcp-server"]
+   :cwd "$HOME/devel/promethean"}
   :haiku-rag
   {:command "uvx"
    :args ["haiku-rag"
           "serve"
           "--stdio"
-          "--db" "/home/err/.local/share/haiku-rag"]}
-  }
+          "--db" "/home/err/.local/share/haiku-rag"]
+   :cwd "$HOME/devel/promethean"}
 
  :outputs
  [{:schema :codex.toml  :path "/home/err/.codex/config.toml"}
