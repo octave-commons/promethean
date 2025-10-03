@@ -1,0 +1,41 @@
+{
+  "name": "@promethean/agents-workflow",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./*": "./dist/*"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "clean": "rimraf dist",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "pnpm run build && ava",
+    "lint": "pnpm exec eslint .",
+    "coverage": "pnpm run build && c8 ava",
+    "format": "pnpm exec prettier --write ."
+  },
+  "dependencies": {
+    "@openai/agents": "^0.1.9",
+    "ollama": "^0.5.17",
+    "remark-parse": "11.0.0",
+    "unified": "11.0.5",
+    "unist-util-visit": "5.0.0",
+    "zod": "^3.25.0"
+  },
+  "devDependencies": {
+    "@promethean/test-utils": "workspace:*"
+  },
+  "license": "GPL-3.0-only"
+}
