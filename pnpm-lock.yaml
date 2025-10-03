@@ -531,6 +531,9 @@ importers:
       '@promethean/agent-ecs':
         specifier: workspace:*
         version: link:../agent-ecs
+      '@promethean/duck-audio':
+        specifier: workspace:*
+        version: link:../duck-audio
       '@promethean/embedding':
         specifier: workspace:*
         version: link:../embedding
@@ -1569,6 +1572,7 @@ importers:
         specifier: ^8.5.9
         version: 8.18.1
 
+  packages/duck-audio: {}
   packages/duck-tools:
     devDependencies:
       '@types/node':
@@ -1579,6 +1583,10 @@ importers:
         version: 5.9.2
 
   packages/duck-web:
+    dependencies:
+      '@promethean/duck-audio':
+        specifier: workspace:*
+        version: link:../duck-audio
     devDependencies:
       typescript:
         specifier: ^5.4.0
@@ -14802,7 +14810,7 @@ snapshots:
 
   axios@1.11.0:
     dependencies:
-      follow-redirects: 1.15.11(debug@4.4.3)
+      follow-redirects: 1.15.11(debug@4.3.7)
       form-data: 4.0.4
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -17328,7 +17336,7 @@ snapshots:
   http-proxy@1.18.1:
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.15.11(debug@4.4.3)
+      follow-redirects: 1.15.11(debug@4.3.7)
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
