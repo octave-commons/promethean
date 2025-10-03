@@ -1,21 +1,21 @@
 {:mcp-servers
  {:github
-  {:command "/home/err/devel/promethean/scripts/mcp/bin/github.sh"}
+ {:command "${HOME}/devel/promethean/scripts/mcp/bin/github.sh"}
 
   :github-chat
-  {:command "/home/err/devel/promethean/scripts/mcp/bin/github_chat.sh"}
+ {:command "${HOME}/devel/promethean/scripts/mcp/bin/github_chat.sh"}
 
   :sonarqube
-  {:command "/home/err/devel/promethean/scripts/mcp/bin/sonarqube.sh"}
+ {:command "${HOME}/devel/promethean/scripts/mcp/bin/sonarqube.sh"}
 
   :file-system
-  {:command "/home/err/devel/promethean/scripts/mcp/bin/filesystem.sh"}
+ {:command "${HOME}/devel/promethean/scripts/mcp/bin/filesystem.sh"}
 
   :obsidian
-  {:command "/home/err/devel/promethean/scripts/mcp/bin/obsidian.sh"}
+ {:command "${HOME}/devel/promethean/scripts/mcp/bin/obsidian.sh"}
 
   :duckduckgo
-  {:command "/home/err/devel/promethean/scripts/mcp/bin/duck.sh"}
+ {:command "${HOME}/devel/promethean/scripts/mcp/bin/duck.sh"}
 
   :npm-helper
   {:command "npx"
@@ -37,7 +37,7 @@
   {:command "npx"
    :args ["tritlo/lsp-mcp"
           "typescript"
-          "/home/err/.volta/bin/typescript-language-server"
+          "${HOME}/.volta/bin/typescript-language-server"
           "--stdio"]}
 
   :serena
@@ -49,21 +49,21 @@
    :args ["haiku-rag"
           "serve"
           "--stdio"
-          "--db" "/home/err/.local/share/haiku-rag"]}
+          "--db" "${HOME}/.local/share/haiku-rag"]}
   }
 
  :outputs
- [{:schema :codex.toml  :path "/home/err/.codex/config.toml"}
-  {:schema :vscode.json :path "/home/err/.config/User/mcp.json"
+ [{:schema :codex.toml  :path "${HOME}/.codex/config.toml"}
+  {:schema :vscode.json :path "${HOME}/.config/User/mcp.json"
    :opts {:include-inputs? true}}
-  {:schema :codex.json :path "/home/err/.codeium/windsurf/mcp_config.json"}
+  {:schema :codex.json :path "${HOME}/.codeium/windsurf/mcp_config.json"}
 
   ;; Oterm
-  {:schema :codex.json :path "/home/err/.local/share/oterm/config.json"}
+  {:schema :codex.json :path "${HOME}/.local/share/oterm/config.json"}
 
   ;; Emacs MCP package
   ;; doesn't work right.
   ;; we added a thing to parse emacs code with tree sitter to directly manipulate the
   ;; s-expressions instead of  handling strings.
   ;; we should use it.
-  {:schema :elisp       :path "/home/err/devel/promethean/.emacs/layers/llm/config.el"}]}
+  {:schema :elisp       :path "${HOME}/devel/promethean/.emacs/layers/llm/config.el"}]}
