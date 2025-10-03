@@ -335,6 +335,15 @@ const createCommit = async (
 const isUniversalDiff = (value: string): boolean =>
   /^(?:Index: |diff --git|---\s)/m.test(value);
 
+export const inputSchema = z.object({
+  owner: z.string(),
+  repo: z.string(),
+  branch: z.string(),
+  message: z.string(),
+  diff: z.string().min(1, "diff is required"),
+  expectedHeadOid: z.string().optional(),
+} as const);
+
 export const githubApplyPatchTool: ToolFactory = (ctx) => {
   const restBase = ctx.env.GITHUB_BASE_URL ?? "https://api.github.com";
   const graphqlBase =
