@@ -28,3 +28,7 @@ This document tracks how `@promethean/cephalon` integrates ENSO and where docs m
 - Add TTL enforcement when `ephemeral` (skip persisted writes today).
 - Add WebSocket-level tests for `chat-agent.ts` using a lightweight WS harness.
 - Add resource URIs for tools where relevant, e.g. transcription file blobs.
+
+## Audio capture pipeline
+- `apps/duck-web/public/pcm16k-worklet.js` emits mono Float32Array frames resampled to 16 kHz inside the AudioWorklet.
+- `apps/duck-web/src/mic.ts` converts those frames to signed 16-bit PCM via `float32ToInt16` and timestamps delivery with `performance.now()` for monotonic sequencing.

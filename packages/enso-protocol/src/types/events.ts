@@ -33,6 +33,7 @@ import type {
 } from "./context.js";
 import type { VoiceMetaPayload } from "./voice.js";
 import type { ToolAdvertisement, ToolCall, ToolResult } from "./tools.js";
+import type { ActIntentDescriptor } from "./intents.js";
 
 export type ChatMsgPayload = {
   readonly text: string;
@@ -49,6 +50,17 @@ export type PresenceJoinPayload = {
 export type PresencePartPayload = {
   readonly session: string;
   readonly reason?: string;
+};
+
+export type CapsUpdatePayload = {
+  readonly session: string;
+  readonly caps: readonly string[];
+  readonly revision: number;
+  readonly granted?: readonly string[];
+  readonly revoked?: readonly string[];
+  readonly reason?: string;
+  readonly requestId?: string;
+  readonly acknowledgedAt?: string;
 };
 
 export type StatePatchPayload = {
@@ -139,7 +151,7 @@ export type ActRationalePayload = {
 };
 
 export type ActIntentPayload = {
-  readonly intents: readonly string[];
+  readonly intents: readonly ActIntentDescriptor[];
   readonly scope?: string;
   readonly callId?: string;
   readonly justification?: string;
@@ -181,6 +193,7 @@ export type EventPayloadMap = {
   readonly "content.burn": ContentBurnPayload;
   readonly "presence.join": PresenceJoinPayload;
   readonly "presence.part": PresencePartPayload;
+  readonly "caps.update": CapsUpdatePayload;
   readonly "state.patch": StatePatchPayload;
   readonly "tool.advertise": ToolAdvertisement;
   readonly "tool.call": ToolCall;
@@ -240,6 +253,7 @@ export type ContentRetractEvent = EventOf<"content.retract">;
 export type ContentBurnEvent = EventOf<"content.burn">;
 export type PresenceJoinEvent = EventOf<"presence.join">;
 export type PresencePartEvent = EventOf<"presence.part">;
+export type CapsUpdateEvent = EventOf<"caps.update">;
 export type StatePatchEvent = EventOf<"state.patch">;
 export type ToolAdvertiseEvent = EventOf<"tool.advertise">;
 export type ToolCallEvent = EventOf<"tool.call">;

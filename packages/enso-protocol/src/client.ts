@@ -12,6 +12,7 @@ import { resolveHelloPrivacy } from "./types/privacy.js";
 import type { CID } from "./cache.js";
 import { FlowController } from "./flow.js";
 import type { StreamFrame } from "./types/streams.js";
+import type { CapsUpdatePayload } from "./types/events.js";
 
 type Handler = (env: Envelope) => void;
 
@@ -54,6 +55,8 @@ export class EnsoClient {
   private readonly voiceController = new FlowController("voice");
   private connected = false;
   private capabilities = new Set<string>();
+  private capabilityRevision = 0;
+  private sessionId: string | undefined;
   private privacyProfile: PrivacyProfile | undefined;
   private outbound?: (env: Envelope) => Promise<void> | void;
   private voiceHooks: VoiceHooks | undefined;
@@ -78,6 +81,8 @@ export class EnsoClient {
     );
     const negotiatedCaps = adjustment.capabilities ?? hello.caps ?? [];
     this.capabilities = new Set(negotiatedCaps);
+    this.capabilityRevision = 0;
+    this.sessionId = undefined;
     this.privacyProfile = adjustment.privacyProfile ?? requestedPrivacy.profile;
     this.connected = true;
     if (adjustment.emitAccepted !== false) {
@@ -101,7 +106,7 @@ export class EnsoClient {
   }
 
   updateCapabilities(caps: string[]): void {
-    caps.forEach((cap) => this.capabilities.add(cap));
+    this.capabilities = new Set(caps);
   }
 
   getPrivacyProfile(): PrivacyProfile | undefined {
@@ -250,6 +255,12 @@ export class EnsoClient {
         });
       });
     }
+    if (envelope.kind === "event" && envelope.type === "presence.join") {
+      const payload = envelope.payload as { session?: string };
+      if (!this.sessionId && payload?.session) {
+        this.sessionId = payload.session;
+      }
+    }
     if (envelope.kind === "event" && envelope.type === "flow.pause") {
       const payload = envelope.payload as { streamId?: string } | undefined;
       const streamId = payload?.streamId;
@@ -262,6 +273,20 @@ export class EnsoClient {
       const streamId = payload?.streamId;
       if (streamId && this.voiceHooks?.onResume) {
         void Promise.resolve(this.voiceHooks.onResume(streamId));
+      }
+    }
+    if (envelope.kind === "event" && envelope.type === "caps.update") {
+      const payload = envelope.payload as CapsUpdatePayload | undefined;
+      if (payload?.session) {
+        if (!this.sessionId) {
+          this.sessionId = payload.session;
+        }
+        if (payload.session === this.sessionId) {
+          if (payload.revision > this.capabilityRevision) {
+            this.capabilities = new Set(payload.caps);
+            this.capabilityRevision = payload.revision;
+          }
+        }
       }
     }
     this.emit(envelope);
