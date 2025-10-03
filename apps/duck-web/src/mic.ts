@@ -7,9 +7,10 @@ type MicHandle = { stop: () => Promise<void>; ctx: AudioContext };
 /**
  * Wire the AudioWorklet-based microphone capture pipeline.
  *
- * The `pcm16k` worklet emits 16 kHz mono Float32 frames, which are converted to
- * signed 16-bit PCM samples before invoking the callback with a monotonic
- * timestamp from `performance.now()`.
+ * The `pcm16k` worklet emits 16 kHz mono Float32 frames (chunk size may vary,
+ * but frames are sequential with no gaps), which are converted to signed
+ * 16-bit PCM samples before invoking the callback with a monotonic timestamp
+ * from `performance.now()`.
  */
 export const startMic = async (onPcm: OnPcm): Promise<MicHandle> => {
   const ctx = new AudioContext({ sampleRate: 48000 });
@@ -54,6 +55,8 @@ export const startMic = async (onPcm: OnPcm): Promise<MicHandle> => {
     }
 
     const pcm = float32ToInt16(floatBuffer);
+    // TODO: consider queueing if onPcm is slow to avoid dropping frames.
+    onPcm(pcm, performance.now());
     const frame = { pcm, tstampMs: performance.now() };
     if (pending.length >= maxQueueDepth) {
       pending.shift();
