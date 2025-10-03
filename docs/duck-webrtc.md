@@ -32,10 +32,14 @@ A simple two-way browser interface for talking to **Duck** without Discord, buil
 - WebRTC channels:
   - `voice` (browser → gateway → ENSO).
   - `events` (gateway → browser).
-  - `audio` (gateway → browser, optional ENSO audio).
+- `audio` (gateway → browser, optional ENSO audio).
 - Forwards mic frames as `voice.frame` events to ENSO.
 - Mirrors ENSO `content.post` events to browser.
 - Configurable ICE servers via `ICE_SERVERS` env var.
+- `RTCDataChannel.protocol` is not guaranteed across browsers; Safari, for
+  example, can surface an empty string. If the `voice` channel does not
+  negotiate a `frameDurationMs`, the gateway falls back to 20 ms frames to keep
+  sequenced timestamps aligned with the expected 50fps audio cadence.
 
 ## Setup
 ```bash
