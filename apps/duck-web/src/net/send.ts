@@ -10,12 +10,6 @@ export const makeThrottledSender = (
     queue.forEach((fn) => fn());
   };
 
-  const flush = () => {
-    const queue = [...waiters];
-    waiters = [];
-    queue.forEach((fn) => fn());
-  };
-
   ch.addEventListener("bufferedamountlow", flush);
 
   const waitLow = () =>
