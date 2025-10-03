@@ -4,7 +4,7 @@ import path from "node:path";
 
 import { z } from "zod";
 
-import type { ToolFactory } from "../core/types.js";
+import type { ToolFactory, ToolSpec } from "../core/types.js";
 
 const DEFAULT_MAX_RUNNING = 1;
 const DEFAULT_TERMINATE_GRACE_MS = 5_000;
@@ -613,7 +613,9 @@ export const processGetTaskRunnerConfig: ToolFactory = () => ({
   spec: {
     name: "process.getTaskRunnerConfig",
     description: "Return the current task runner configuration.",
-  },
+    stability: "experimental",
+    since: "0.1.0",
+  } satisfies ToolSpec,
   invoke: async () => ({ config: runner.getConfig() }),
 });
 
@@ -630,7 +632,9 @@ export const processUpdateTaskRunnerConfig: ToolFactory = () => {
         key: Schema.shape.key,
         value: Schema.shape.value,
       },
-    },
+      stability: "experimental",
+      since: "0.1.0",
+    } satisfies ToolSpec,
     invoke: async (raw: unknown) => {
       const { key, value } = Schema.parse(raw);
       const config = runner.updateConfig(key, value);
@@ -649,7 +653,9 @@ export const processEnqueueTask: ToolFactory = () => ({
       args: z.array(z.string()).optional(),
       opts: EnqueueSchema.shape.opts.optional(),
     },
-  },
+    stability: "experimental",
+    since: "0.1.0",
+  } satisfies ToolSpec,
   invoke: async (raw: unknown) => {
     const parsed = EnqueueSchema.parse(raw);
     const task = runner.createTask({
@@ -681,7 +687,9 @@ export const processStopTask: ToolFactory = () => {
         tail: Schema.shape.tail,
         signal: Schema.shape.signal,
       },
-    },
+      stability: "experimental",
+      since: "0.1.0",
+    } satisfies ToolSpec,
     invoke: async (raw: unknown) => {
       const { handle, tail, signal } = Schema.parse(raw);
       const result = await runner.stopTask(handle, tail, signal);
@@ -690,7 +698,7 @@ export const processStopTask: ToolFactory = () => {
   };
 };
 
-const buildLogSpec = (name: string) => ({
+const buildLogSpec = (name: string): ToolSpec => ({
   name,
   description: "Retrieve task output with pagination or explicit line ranges.",
   inputSchema: {
@@ -700,6 +708,8 @@ const buildLogSpec = (name: string) => ({
     startLine: z.number().optional(),
     count: z.number().optional(),
   },
+  stability: "experimental",
+  since: "0.1.0",
 });
 
 export const processGetStdout: ToolFactory = () => ({
@@ -742,7 +752,9 @@ export const processGetQueue: ToolFactory = () => ({
   spec: {
     name: "process.getQueue",
     description: "Return waiting, running, and completed task summaries.",
-  },
+    stability: "experimental",
+    since: "0.1.0",
+  } satisfies ToolSpec,
   invoke: async () => runner.getQueue(),
 });
 

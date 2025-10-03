@@ -3,7 +3,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { minimatch } from "minimatch";
 import { getMcpRoot, normalizeToRoot, isInsideRoot } from "../files.js";
-import type { ToolFactory } from "../core/types.js";
+import type { ToolFactory, ToolSpec } from "../core/types.js";
 
 const resolveRoot = () => getMcpRoot();
 
@@ -57,9 +57,18 @@ export const filesSearch: ToolFactory = () => {
     maxFileSizeBytes: z.number().int().min(1).default(1_000_000),
     maxResults: z.number().int().min(1).default(200),
     rel: z.string().default("."),
-    includeGlobs: z.array(z.string()).default(["**/*"]).describe("only consider files matching these globs (minimatch)"),
-    excludeGlobs: z.array(z.string()).default(["**/node_modules/**", "**/.git/**"]).describe("skip files/dirs matching these globs (minimatch)"),
-    sortBy: z.enum(["path", "firstMatchLine"]).default("path").describe("deterministic ordering for results"),
+    includeGlobs: z
+      .array(z.string())
+      .default(["**/*"])
+      .describe("only consider files matching these globs (minimatch)"),
+    excludeGlobs: z
+      .array(z.string())
+      .default(["**/node_modules/**", "**/.git/**"])
+      .describe("skip files/dirs matching these globs (minimatch)"),
+    sortBy: z
+      .enum(["path", "firstMatchLine"])
+      .default("path")
+      .describe("deterministic ordering for results"),
   } as const;
   const Schema = z.object(shape);
   const spec = {
@@ -70,9 +79,7 @@ export const filesSearch: ToolFactory = () => {
     outputSchema: {
       ok: true,
       count: 0,
-      results: [
-        { path: "relative/path", line: 1, snippet: "..." }
-      ],
+      results: [{ path: "relative/path", line: 1, snippet: "..." }],
     } as any,
     examples: [
       {
@@ -84,7 +91,9 @@ export const filesSearch: ToolFactory = () => {
         comment: "Search source only, skip build outputs",
       },
     ],
-  } as const;
+    stability: "stable",
+    since: "0.1.0",
+  } satisfies ToolSpec;
 
   const invoke = async (raw: unknown) => {
     const args = Schema.parse(raw);
@@ -145,9 +154,14 @@ export const filesSearch: ToolFactory = () => {
       }
     }
 
-    const ordered = sortBy === "path"
-      ? [...results].sort((a, b) => a.path.localeCompare(b.path) || a.line - b.line)
-      : [...results].sort((a, b) => a.line - b.line || a.path.localeCompare(b.path));
+    const ordered =
+      sortBy === "path"
+        ? [...results].sort(
+            (a, b) => a.path.localeCompare(b.path) || a.line - b.line,
+          )
+        : [...results].sort(
+            (a, b) => a.line - b.line || a.path.localeCompare(b.path),
+          );
 
     return { ok: true, count: ordered.length, results: ordered };
   };
