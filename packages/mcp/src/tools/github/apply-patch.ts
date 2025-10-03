@@ -351,12 +351,21 @@ export const githubApplyPatchTool: ToolFactory = (ctx) => {
   const apiVersion = ctx.env.GITHUB_API_VERSION ?? "2022-11-28";
   const token = ctx.env.GITHUB_TOKEN;
 
+  const inputSchema = z.object({
+    owner: z.string(),
+    repo: z.string(),
+    branch: z.string(),
+    message: z.string(),
+    diff: z.string().min(1, "diff is required"),
+    expectedHeadOid: z.string().optional(),
+  });
+
   return {
     spec: {
       name: "github.apply_patch",
       description:
         "Apply a unified diff to a GitHub branch by committing the changes via createCommitOnBranch.",
-      inputSchema: inputSchema.shape,
+      inputSchema,
     },
     invoke: async (raw: unknown) => {
       if (!token) {
