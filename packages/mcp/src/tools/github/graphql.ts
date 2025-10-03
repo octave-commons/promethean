@@ -1,5 +1,5 @@
 import { z } from "zod";
-import type { ToolFactory } from "../../core/types.js";
+import type { ToolFactory, ToolSpec } from "../../core/types.js";
 
 export const githubGraphqlTool: ToolFactory = (ctx) => {
   const endpoint =
@@ -17,7 +17,9 @@ export const githubGraphqlTool: ToolFactory = (ctx) => {
       name: "github_graphql",
       description: "Post a GraphQL query to GitHub.",
       inputSchema: shape, // <— shape, not z.object(...)
-    },
+      stability: "experimental",
+      since: "0.1.0",
+    } satisfies ToolSpec,
     invoke: async (raw: unknown) => {
       const args = Schema.parse(raw);
       const res = await ctx.fetch(endpoint, {

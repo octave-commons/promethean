@@ -1,13 +1,16 @@
-import type { ToolFactory } from "../core/types.js";
+import type { ToolFactory, ToolSpec } from "../core/types.js";
 
 // Lints the currently loaded MCP configuration using context injected by index.ts
 export const validateConfig: ToolFactory = (ctx) => {
   const spec = {
     name: "mcp.validate-config",
-    description: "Validate endpoint/tool configuration and narrative metadata. Returns errors and warnings.",
+    description:
+      "Validate endpoint/tool configuration and narrative metadata. Returns errors and warnings.",
     inputSchema: {},
     outputSchema: { ok: true, errors: [], warnings: [], summary: {} } as any,
-  } as const;
+    stability: "experimental",
+    since: "0.1.0",
+  } satisfies ToolSpec;
 
   const invoke = async () => {
     const endpoints: any[] = (ctx as any).__allEndpoints ?? [];
@@ -28,18 +31,30 @@ export const validateConfig: ToolFactory = (ctx) => {
       // meta checks
       const meta = ep.meta ?? {};
       if (!meta.title) warnings.push(`${prefix} meta.title is missing`);
-      if (!meta.description) warnings.push(`${prefix} meta.description is missing`);
+      if (!meta.description)
+        warnings.push(`${prefix} meta.description is missing`);
       // workflow hints should mention at least one tool id
       const wf: string[] = Array.isArray(meta.workflow) ? meta.workflow : [];
       for (const [i, step] of wf.entries()) {
         const mentions = allToolIds.some((id) => step.includes(id));
         if (!mentions) {
-          warnings.push(`${prefix} meta.workflow[${i}] doesn't reference any tool id`);
+          warnings.push(
+            `${prefix} meta.workflow[${i}] doesn't reference any tool id`,
+          );
         }
       }
     }
 
-    return { ok: errors.length === 0, errors, warnings, summary: { endpoints: endpoints.length, unknownTools: errors.length, warnings: warnings.length } };
+    return {
+      ok: errors.length === 0,
+      errors,
+      warnings,
+      summary: {
+        endpoints: endpoints.length,
+        unknownTools: errors.length,
+        warnings: warnings.length,
+      },
+    };
   };
 
   return { spec, invoke };

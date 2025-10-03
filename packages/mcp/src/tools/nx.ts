@@ -4,7 +4,7 @@ import { promisify } from "node:util";
 import { z } from "zod";
 
 import { getMcpRoot } from "../files.js";
-import type { ToolContext, ToolFactory } from "../core/types.js";
+import type { ToolContext, ToolFactory, ToolSpec } from "../core/types.js";
 
 const execFileAsync = promisify(execFile);
 
@@ -204,7 +204,9 @@ const createTool = (
     description:
       "Generate a new workspace package using the Nx tools:package generator.",
     inputSchema: shape,
-  } as const;
+    stability: "experimental",
+    since: "0.1.0",
+  } satisfies ToolSpec;
 
   const invoke = async (raw: unknown) => {
     const parsed = Schema.parse(raw);
