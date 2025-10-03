@@ -84,8 +84,6 @@ const requireArg = (value: string | undefined, label: string): string => {
   process.exit(2);
 };
 
-const SUBCOMMANDS = Object.freeze([...Object.keys(COMMAND_HANDLERS), 'process_sync', 'doccheck']);
-
 async function main(): Promise<void> {
   const rawArgs = process.argv.slice(2);
   const normalizedArgs = normalizeLegacyArgs(rawArgs);
@@ -99,10 +97,6 @@ async function main(): Promise<void> {
   const [cmd, ...args] = restArgs;
   const boardFile = config.boardFile;
   const tasksDir = config.tasksDir;
-
-  const usage =
-    `Usage: kanban [--kanban path] [--tasks path] <subcommand> [args...]\n` +
-    `Subcommands: ${SUBCOMMANDS.join(', ')}`;
 
   if (helpRequested || !cmd) {
     console.error(HELP_TEXT);
