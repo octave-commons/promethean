@@ -32,6 +32,10 @@ export const clampPcm16 = (value: number): number => {
 export const averageStereoFrame = (left: number, right: number): number =>
   (left + right) / PCM48_STEREO_CHANNELS;
 
+/**
+ * Clamp a normalized PCM sample to [-1, 1] before scaling to int16.
+ * Prevents codec overflows/underflows that manifest as distortion artifacts.
+ */
 export const clampUnitFloat = (value: number): number => {
   if (Number.isNaN(value)) return 0;
   if (value <= -1) return -1;
