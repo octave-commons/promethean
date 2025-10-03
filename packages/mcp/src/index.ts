@@ -100,6 +100,9 @@ import {
   ollamaRemoveJob,
 } from './tools/ollama.js';
 
+import { help as helpTool, toolset as toolsetTool, endpoints as endpointsTool } from "./tools/help.js";
+import { validateConfig as validateConfigTool } from "./tools/validate-config.js";
+
 type ToolSummary = Readonly<{
   id: string;
   name?: string;
@@ -193,10 +196,14 @@ const toolCatalog = new Map<string, ToolFactory>([
     githubReviewRequestChangesFromCodex,
   ],
   ["github.review.submitReview", githubReviewSubmitReview],
+  ["mcp.help", helpTool],
+  ["mcp.toolset", toolsetTool],
+  ["mcp.endpoints", endpointsTool],
   ["github.review.getActionStatus", githubReviewGetActionStatus],
   ["github.review.commit", githubReviewCommit],
   ["github.review.push", githubReviewPush],
   ["github.review.checkoutBranch", githubReviewCheckoutBranch],
+  ["mcp.validate-config", validateConfigTool],
   ["github.review.createBranch", githubReviewCreateBranch],
   ["github.review.revertCommits", githubReviewRevertCommits],
   ["files.list-directory", filesListDirectory],
@@ -261,6 +268,24 @@ const collectToolSummaries = (
       description: tool.spec.description,
     };
   });
+
+// Ensure the meta tools are available within any registry subset when enabled.
+const ensureMetaTools = (
+  ids: readonly string[],
+  includeHelp: boolean = true,
+): readonly string[] => {
+  if (!includeHelp) return ids;
+  const need: string[] = [];
+  if (toolCatalog.has("mcp.help") && !ids.includes("mcp.help")) need.push("mcp.help");
+  if (toolCatalog.has("mcp.toolset") && !ids.includes("mcp.toolset")) need.push("mcp.toolset");
+  if (toolCatalog.has("mcp.endpoints") && !ids.includes("mcp.endpoints")) need.push("mcp.endpoints");
+  return need.length ? [...ids, ...need] : ids;
+};
+// Ensure the help tool is available within any registry subset, unless explicitly omitted.
+const ensureHelp = (ids: readonly string[]): readonly string[] =>
+  toolCatalog.has("mcp.help") && !ids.includes("mcp.help")
+    ? [...ids, "mcp.help"]
+    : ids;
 
 const selectFactories = (toolIds: readonly string[]): readonly ToolFactory[] =>
   toolIds
@@ -366,19 +391,27 @@ export const loadHttpTransportConfig = async (
 export const main = async (): Promise<void> => {
   const { config: cfg, source } = loadConfigWithSource(env);
   const cwd = process.cwd();
-  const ctx = mkCtx();
+  const ctx: any = mkCtx();
 
   if (cfg.transport === 'http') {
     const httpConfig = await loadHttpTransportConfig(cfg);
-    const registryDescriptors: HttpEndpointDescriptor[] = httpConfig.endpoints.map((endpoint) => {
-      const factories = selectFactories(endpoint.tools);
-      const registry = buildRegistry(factories, ctx);
-      return {
-        path: endpoint.path,
-        kind: 'registry' as const,
-        handler: createMcpServer(registry.list()),
-      } satisfies HttpEndpointDescriptor;
-    });
+    (ctx as any).__allEndpoints = httpConfig.endpoints;
+    (ctx as any).__allToolIds = Array.from(toolCatalog.keys());
+    const registryDescriptors: HttpEndpointDescriptor[] =
+      httpConfig.endpoints.map((endpoint) => {
+        const factories = selectFactories(
+          ensureMetaTools(endpoint.tools, endpoint.includeHelp !== false),
+        );
+        const registry = buildRegistry(factories, ctx);
+        ctx.__registryList = () => registry.list();
+        ctx.__endpointDef = endpoint;
+        ctx.__allEndpoints = httpConfig.endpoints;
+        return {
+          path: endpoint.path,
+          kind: "registry" as const,
+          handler: createMcpServer(registry.list()),
+        } satisfies HttpEndpointDescriptor;
+      });
 
     const proxiesFromConfig = httpConfig.stdioProxies.map(instantiateProxy);
     const fallbackProxies =
@@ -417,9 +450,21 @@ export const main = async (): Promise<void> => {
     return;
   }
 
-  const toolIds = resolveStdioTools(cfg);
+  const toolIds = ensureMetaTools(
+    resolveStdioTools(cfg),
+    (cfg as any).includeHelp !== false,
+  );
   const factories = selectFactories(toolIds);
   const registry = buildRegistry(factories, ctx);
+  ctx.__registryList = () => registry.list();
+  ctx.__endpointDef = {
+    path: "/mcp",
+    tools: toolIds,
+    includeHelp: (cfg as any).includeHelp,
+    meta: (cfg as any).stdioMeta,
+  };
+  ctx.__allEndpoints = resolveHttpEndpoints(cfg);
+  ctx.__allToolIds = Array.from(toolCatalog.keys());
   const server = createMcpServer(registry.list());
   const transport = stdioTransport();
   console.log('[mcp] transport = stdio');
