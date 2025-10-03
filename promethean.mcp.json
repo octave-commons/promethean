@@ -5,6 +5,7 @@
     "github.request",
     "github.graphql",
     "github.rate-limit",
+    "github.contents.write",
     "files.list-directory",
     "files.tree-directory",
     "files.view-file",
@@ -54,7 +55,12 @@
       ]
     },
     "github": {
-      "tools": ["github.request", "github.graphql", "github.rate-limit"]
+      "tools": [
+        "github.request",
+        "github.graphql",
+        "github.rate-limit",
+        "github.contents.write"
+      ]
     },
     "exec": {
       "tools": ["exec.list", "exec.run"]

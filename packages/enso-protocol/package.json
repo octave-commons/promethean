@@ -6,6 +6,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc --project tsconfig.json",
+    "serve": "node dist/ws-server.js",
     "test": "pnpm run build && c8 --reporter=text --reporter=lcov --reporter=html --check-coverage --branches 80 --functions 80 --lines 80 --statements 80 ava --config ava.config.mjs"
   },
   "keywords": [],
