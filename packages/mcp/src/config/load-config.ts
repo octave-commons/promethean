@@ -1,8 +1,8 @@
-import fs from "node:fs";
-import path from "node:path";
-import { z } from "zod";
+import fs from 'node:fs';
+import path from 'node:path';
+import { z } from 'zod';
 
-export const CONFIG_FILE_NAME = "promethean.mcp.json";
+export const CONFIG_FILE_NAME = 'promethean.mcp.json';
 
 // Define the root directory for config files
 export const CONFIG_ROOT = process.cwd();
@@ -32,23 +32,37 @@ const EndpointConfig = z.object({
   includeHelp: z.boolean().optional(), // default: true
   meta: ToolsetMeta.optional(),
 });
+const InlineProxy = z
+  .object({
+    name: z.string().min(1),
+    command: z.string().min(1),
+    args: z.array(z.string()).default([]),
+    env: z.record(z.string()).default({}),
+    cwd: z.string().min(1).optional(),
+    httpPath: z.string().min(1),
+  })
+  .strict();
+
 const Config = z.object({
-  transport: z.enum(["stdio", "http"]).default("http"),
+  transport: z.enum(['stdio', 'http']).default('http'),
   tools: z.array(ToolId).default([]),
   includeHelp: z.boolean().optional(), // default: true
   stdioMeta: ToolsetMeta.optional(),
   endpoints: z.record(EndpointConfig).default({}),
   stdioProxyConfig: z.string().min(1).nullable().default(null),
+  stdioProxies: z.array(InlineProxy).default([]),
 });
 
 export const ConfigSchema = Config;
 
 export type AppConfig = z.infer<typeof Config>;
 
+export type InlineProxyConfig = z.infer<typeof InlineProxy>;
+
 export type ConfigSource =
-  | Readonly<{ type: "file"; path: string }>
-  | Readonly<{ type: "env" }>
-  | Readonly<{ type: "default" }>;
+  | Readonly<{ type: 'file'; path: string }>
+  | Readonly<{ type: 'env' }>
+  | Readonly<{ type: 'default' }>;
 
 export type LoadedConfig = Readonly<{
   config: AppConfig;
@@ -56,7 +70,7 @@ export type LoadedConfig = Readonly<{
 }>;
 
 const readJsonFileSync = (p: string): unknown => {
-  const raw = fs.readFileSync(p, "utf8");
+  const raw = fs.readFileSync(p, 'utf8');
   return JSON.parse(raw);
 };
 
@@ -78,38 +92,30 @@ const findUpSync = (start: string, fileName: string): string | null => {
   return null;
 };
 
-const getArgValue = (
-  argv: string[],
-  flag: string,
-  short: string,
-): string | undefined => {
+const getArgValue = (argv: string[], flag: string, short: string): string | undefined => {
   const idx = argv.indexOf(flag);
   if (idx >= 0 && argv[idx + 1]) return argv[idx + 1];
   const sidx = argv.indexOf(short);
   if (sidx >= 0 && argv[sidx + 1]) return argv[sidx + 1];
   // support --config=path
   const eq = argv.find((a) => a.startsWith(`${flag}=`));
-  if (eq) return eq.split("=", 2)[1];
+  if (eq) return eq.split('=', 2)[1];
   return undefined;
 };
 
-const normalizeConfig = (input: unknown): AppConfig =>
-  Config.parse(input ?? {});
+const normalizeConfig = (input: unknown): AppConfig => Config.parse(input ?? {});
 
 export const findConfigPath = (cwd: string = process.cwd()): string | null =>
   findUpSync(cwd, CONFIG_FILE_NAME);
 
-export const resolveConfigPath = (
-  filePath: string,
-  baseDir: string = CONFIG_ROOT,
-): string => {
+export const resolveConfigPath = (filePath: string, baseDir: string = CONFIG_ROOT): string => {
   if (path.isAbsolute(filePath)) {
     return path.normalize(filePath);
   }
   const base = fs.realpathSync(baseDir);
   const candidate = path.normalize(path.resolve(base, filePath));
   const relative = path.relative(base, candidate);
-  if (relative.startsWith("..") || path.isAbsolute(relative)) {
+  if (relative.startsWith('..') || path.isAbsolute(relative)) {
     throw new Error(`Refusing to access path outside of ${base}: ${candidate}`);
   }
   return candidate;
@@ -135,7 +141,7 @@ export const saveConfigFile = (
   const target = resolveConfigPath(filePath, baseDir);
   const normalized = normalizeConfig(config);
   ensureDirectory(target);
-  fs.writeFileSync(target, JSON.stringify(normalized, null, 2), "utf8");
+  fs.writeFileSync(target, JSON.stringify(normalized, null, 2), 'utf8');
   return normalized;
 };
 
@@ -146,11 +152,11 @@ export const loadConfigWithSource = (
 ): LoadedConfig => {
   const fromFile = (filePath: string): LoadedConfig => ({
     config: loadConfigFromFile(filePath, cwd),
-    source: { type: "file", path: filePath },
+    source: { type: 'file', path: filePath },
   });
 
   // 1) explicit file
-  const explicit = getArgValue(argv, "--config", "-c");
+  const explicit = getArgValue(argv, '--config', '-c');
   if (explicit) {
     const abs = path.resolve(cwd, explicit);
     return fromFile(abs);
@@ -168,17 +174,17 @@ export const loadConfigWithSource = (
       const raw = JSON.parse(env.MCP_CONFIG_JSON);
       return {
         config: normalizeConfig(raw),
-        source: { type: "env" },
+        source: { type: 'env' },
       };
     } catch (e) {
-      throw new Error("Invalid MCP_CONFIG_JSON: " + (e as Error).message);
+      throw new Error('Invalid MCP_CONFIG_JSON: ' + (e as Error).message);
     }
   }
 
   // 4) defaults
   return {
     config: createDefaultConfig(),
-    source: { type: "default" },
+    source: { type: 'default' },
   };
 };
 
