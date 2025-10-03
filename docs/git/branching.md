@@ -152,3 +152,6 @@ By following these branching and merging rules, we ensure a systematic and
 error-free workflow that maintains the integrity of our codebase. This structure
 not only helps in managing changes efficiently but also ensures that any issues
 are caught early on in the development process.
+
+
+> **Enforcement:** See [rulesets](./rulesets.md) for the exact GitHub protections and required checks applied at each transition.
