@@ -2,6 +2,8 @@ import { z } from "zod";
 
 import type { ToolFactory } from "../../core/types.js";
 
+import { isBase64String, normalizeGithubPayload } from "./base64.js";
+
 type GithubIdentity = Readonly<{
   readonly owner: string;
   readonly repo: string;
@@ -51,16 +53,6 @@ const GithubContentsInputShape = {
 
 const GithubContentsSchema = z.object(GithubContentsInputShape);
 
-const base64Pattern =
-  /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/;
-
-const normalizeBase64 = (value: string): string =>
-  Buffer.from(value, "base64").toString("base64").replace(/=+$/, "");
-
-const isValidBase64 = (value: string): boolean =>
-  base64Pattern.test(value) &&
-  normalizeBase64(value) === value.replace(/=+$/, "");
-
 const encodeOwnerRepoPath = ({ owner, repo, path }: GithubIdentity): string => {
   const ownerPart = encodeURIComponent(owner);
   const repoPart = encodeURIComponent(repo);
@@ -76,7 +68,7 @@ const encodeContent = (
   encoding: "utf-8" | "base64",
 ): string => {
   if (encoding === "base64") {
-    if (!isValidBase64(content)) {
+    if (!isBase64String(content)) {
       throw new Error(
         "Invalid base64 content provided to github.contents.write",
       );
@@ -109,23 +101,13 @@ const createRequestBody = (
   ...(args.author ? { author: args.author } : {}),
 });
 
-const headersToRecord = (headers: Headers): Readonly<Record<string, string>> =>
+const headersToRecord = (
+  headers: Readonly<Headers>,
+): Readonly<Record<string, string>> =>
   Array.from(headers.entries()).reduce<Readonly<Record<string, string>>>(
     (acc, [key, value]) => ({ ...acc, [key]: value }),
     {},
   );
-
-const parseResponseData = async (response: Response): Promise<unknown> => {
-  const text = await response.text();
-  if (text.length === 0) {
-    return null;
-  }
-  const contentType = response.headers.get("content-type") ?? "";
-  if (!contentType.includes("json")) {
-    return text;
-  }
-  return JSON.parse(text);
-};
 
 export const githubContentsWrite: ToolFactory = (ctx) => {
   const base = ctx.env.GITHUB_BASE_URL ?? "https://api.github.com";
@@ -156,7 +138,15 @@ export const githubContentsWrite: ToolFactory = (ctx) => {
       headers,
       body: JSON.stringify(body),
     } as RequestInit);
-    const data = await parseResponseData(response);
+    const responseText = await response.text();
+    const contentType = response.headers.get("content-type") ?? "";
+    const dataSource =
+      responseText.length === 0
+        ? null
+        : contentType.includes("json")
+          ? (JSON.parse(responseText) as unknown)
+          : (responseText as unknown);
+    const data = normalizeGithubPayload(dataSource);
 
     return {
       status: response.status,
