@@ -15,7 +15,6 @@ const buildResponse = (body: ReadonlyDeep<Uint8Array>): Response =>
 
 type WorkflowLogResult = Readonly<{
   readonly archiveSize: number;
-  readonly archiveBase64: string;
   readonly fileCount: number;
   readonly files: ReadonlyArray<{
     readonly path: string;
@@ -28,7 +27,6 @@ type WorkflowLogResult = Readonly<{
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
 const runRunLogsTest = async ({
   is,
-  true: assertTrue,
   deepEqual,
 }: ReadonlyDeep<ExecutionContext>) => {
   const archive = zipSync({
@@ -63,7 +61,6 @@ const runRunLogsTest = async ({
     runId: 42,
   })) as WorkflowLogResult;
   is(result.archiveSize, archive.byteLength);
-  assertTrue(result.archiveBase64.length > 0);
   is(result.fileCount, 1);
   deepEqual(result.files, [
     {
