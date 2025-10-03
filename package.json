@@ -1,5 +1,6 @@
 {
   "type": "module",
+  "packageManager": "pnpm@9.0.0",
   "name": "promethean",
   "scripts": {
     "duck:web": "pnpm --filter @promethean/duck-web dev",
