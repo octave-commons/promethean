@@ -68,6 +68,9 @@
 (defn- sanitize-command [c]
   (some-> c strip-quotes))
 
+(defn- sanitize-cwd [c]
+  (some-> c strip-quotes))
+
 (defn- sanitize-args [args]
   (when (seq args)
     (->> args
@@ -84,17 +87,20 @@
                      (let [name (keyword (strip-quotes nm))
                            command (sanitize-command (get kv "command"))
                            args (sanitize-args (get kv "args"))
+                           cwd (sanitize-cwd (get kv "cwd"))
                            entry (cond-> {}
                                     command (assoc :command command)
-                                    (seq args) (assoc :args args))]
+                                    (seq args) (assoc :args args)
+                                    (some? cwd) (assoc :cwd cwd))]
                        [name entry])))}]
     {:mcp mcp :rest rest-string :raw s}))
 
-(defn- render-toml-table [[k {:keys [command args]}]]
+(defn- render-toml-table [[k {:keys [command args cwd]}]]
   (str "[mcp_servers." (format "\"%s\"" (name k)) "]\n"
        "command = " (format "\"%s\"" command) "\n"
        (when (seq args)
          (str "args = [" (str/join ", " (map #(str "\"" % "\"") args)) "]\n"))
+       (when cwd (str "cwd = " (format "\"%s\"" cwd) "\n"))
        "\n"))
 
 (defn write-full [path {:keys [mcp rest]}]
