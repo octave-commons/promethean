@@ -5,7 +5,7 @@ import {
   listSandboxes,
   removeSandbox,
 } from "../github/sandboxes/git.js";
-import type { ToolFactory } from "../core/types.js";
+import type { ToolFactory, ToolSpec } from "../core/types.js";
 
 const sandboxIdPattern = /^[A-Za-z0-9][A-Za-z0-9._-]*$/u;
 const refPattern = /^[A-Za-z0-9][A-Za-z0-9._:/-]*$/u;
@@ -49,7 +49,9 @@ export const sandboxCreateTool: ToolFactory = () => {
     description:
       "Create a git worktree-based sandbox rooted under .sandboxes/<id>.",
     inputSchema: createShape,
-  } as const;
+    stability: "experimental",
+    since: "0.1.0",
+  } satisfies ToolSpec;
 
   const invoke = async (raw: unknown) => {
     const input = Schema.parse(raw);
@@ -65,7 +67,9 @@ export const sandboxListTool: ToolFactory = () => {
     name: "sandbox.list",
     description: "List sandboxes created as git worktrees under .sandboxes.",
     inputSchema: listShape,
-  } as const;
+    stability: "experimental",
+    since: "0.1.0",
+  } satisfies ToolSpec;
 
   const invoke = async (raw: unknown) => {
     const input = Schema.parse(raw);
@@ -81,7 +85,9 @@ export const sandboxDeleteTool: ToolFactory = () => {
     name: "sandbox.delete",
     description: "Remove a git worktree sandbox by sandboxId.",
     inputSchema: removeShape,
-  } as const;
+    stability: "experimental",
+    since: "0.1.0",
+  } satisfies ToolSpec;
 
   const invoke = async (raw: unknown) => {
     const input = Schema.parse(raw);

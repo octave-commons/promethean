@@ -14,7 +14,7 @@ import {
 } from "@promethean/kanban/dist/lib/kanban.js";
 import type { Board } from "@promethean/kanban/dist/lib/types.js";
 
-import type { ToolFactory } from "../core/types.js";
+import type { ToolFactory, ToolSpec } from "../core/types.js";
 
 type PathOverrides = Readonly<{
   boardFile?: string;
@@ -71,7 +71,9 @@ export const kanbanGetBoard: ToolFactory = (ctx) => {
     description:
       "Load the kanban board defined by the repository configuration.",
     inputSchema: basePathSchema,
-  } as const;
+    stability: "experimental",
+    since: "0.1.0",
+  } satisfies ToolSpec;
 
   const invoke = async (raw: unknown) => {
     const args = Schema.parse(raw ?? {});
@@ -94,7 +96,9 @@ export const kanbanGetColumn: ToolFactory = (ctx) => {
       ...basePathSchema,
       column: z.string(),
     },
-  } as const;
+    stability: "experimental",
+    since: "0.1.0",
+  } satisfies ToolSpec;
 
   const invoke = async (raw: unknown) => {
     const args = Schema.parse(raw ?? {});
@@ -117,7 +121,9 @@ export const kanbanFindTaskById: ToolFactory = (ctx) => {
       ...basePathSchema,
       uuid: z.string().min(1),
     },
-  } as const;
+    stability: "experimental",
+    since: "0.1.0",
+  } satisfies ToolSpec;
 
   const invoke = async (raw: unknown) => {
     const args = Schema.parse(raw ?? {});
@@ -141,7 +147,9 @@ export const kanbanFindTaskByTitle: ToolFactory = (ctx) => {
       ...basePathSchema,
       title: z.string().min(1),
     },
-  } as const;
+    stability: "experimental",
+    since: "0.1.0",
+  } satisfies ToolSpec;
 
   const invoke = async (raw: unknown) => {
     const args = Schema.parse(raw ?? {});
@@ -168,7 +176,9 @@ export const kanbanUpdateStatus: ToolFactory = (ctx) => {
       uuid: z.string().min(1),
       status: z.string().min(1),
     },
-  } as const;
+    stability: "experimental",
+    since: "0.1.0",
+  } satisfies ToolSpec;
 
   const invoke = async (raw: unknown) => {
     const args = Schema.parse(raw ?? {});
@@ -197,7 +207,9 @@ export const kanbanMoveTask: ToolFactory = (ctx) => {
       uuid: z.string().min(1),
       delta: z.number().int().min(-100).max(100),
     },
-  } as const;
+    stability: "experimental",
+    since: "0.1.0",
+  } satisfies ToolSpec;
 
   const invoke = async (raw: unknown) => {
     const args = Schema.parse(raw ?? {});
@@ -217,7 +229,9 @@ export const kanbanSyncBoard: ToolFactory = (ctx) => {
     description:
       "Pull updates from task files into the board and push board ordering back to task files.",
     inputSchema: basePathSchema,
-  } as const;
+    stability: "experimental",
+    since: "0.1.0",
+  } satisfies ToolSpec;
 
   const invoke = async (raw: unknown) => {
     const args = Schema.parse(raw ?? {});
@@ -241,7 +255,9 @@ export const kanbanSearchTasks: ToolFactory = (ctx) => {
       ...basePathSchema,
       query: z.string().min(1),
     },
-  } as const;
+    stability: "experimental",
+    since: "0.1.0",
+  } satisfies ToolSpec;
 
   const invoke = async (raw: unknown) => {
     const args = Schema.parse(raw ?? {});

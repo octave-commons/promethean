@@ -6,7 +6,7 @@ import { buffer } from "node:stream/consumers";
 
 import { z } from "zod";
 
-import type { ToolFactory } from "../../core/types.js";
+import type { ToolFactory, ToolSpec } from "../../core/types.js";
 
 type ToolCtx = Parameters<ToolFactory>[0];
 
@@ -408,7 +408,9 @@ export const githubApplyPatchTool: ToolFactory = (ctx) => {
       description:
         "Apply a unified diff to a GitHub branch by committing the changes via createCommitOnBranch.",
       inputSchema: inputSchema.shape,
-    },
+      stability: "experimental",
+      since: "0.1.0",
+    } satisfies ToolSpec,
     invoke: async (raw: unknown) => {
       if (!token) {
         throw new Error(

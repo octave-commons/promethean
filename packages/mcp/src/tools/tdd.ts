@@ -5,7 +5,7 @@ import { execFile, type ExecFileOptions, spawn } from "node:child_process";
 import { promisify } from "node:util";
 
 import { z } from "zod";
-import type { ToolFactory } from "../core/types.js";
+import type { ToolFactory, ToolSpec } from "../core/types.js";
 import { minimatch } from "minimatch";
 import fc from "fast-check";
 import { Stryker } from "@stryker-mutator/core";
@@ -83,7 +83,9 @@ export const tddScaffoldTest: ToolFactory = () => {
     description:
       "Create or append a test file next to a module (unit or property-test template).",
     inputSchema: shape,
-  } as const;
+    stability: "experimental",
+    since: "0.1.0",
+  } satisfies ToolSpec;
   const invoke = async (raw: unknown) => {
     const { modulePath, testName, template = "unit" } = Schema.parse(raw);
     const dir = path.dirname(modulePath);
@@ -131,7 +133,9 @@ export const tddChangedFiles: ToolFactory = () => {
     description:
       "List files changed vs a git base ref, filtered by glob patterns.",
     inputSchema: shape,
-  } as const;
+    stability: "experimental",
+    since: "0.1.0",
+  } satisfies ToolSpec;
   const invoke = async (raw: unknown) => {
     const { base, patterns } = Schema.parse(raw);
     const { stdout } = await execFileAsync(
@@ -161,7 +165,18 @@ export const tddRunTests: ToolFactory = () => {
     description:
       "Run AVA via npx with JSON (or TAP) output and return aggregated results. For long-running watchers, use tdd.startWatch/tdd.getWatchChanges instead.",
     inputSchema: shape,
-  } as const;
+    outputSchema: { passed: 0, failed: 0, durationMs: 0, failures: [] } as any,
+    examples: [
+      { args: {}, comment: "Run all tests with JSON output" },
+      {
+        args: { files: ["packages/mcp/dist/**/*.test.js"] },
+        comment: "Target compiled MCP tests",
+      },
+      { args: { match: ["*schema*"] }, comment: "Filter by AVA title glob" },
+    ],
+    stability: "experimental",
+    since: "0.1.0",
+  } satisfies ToolSpec;
   const invoke = async (raw: unknown) => {
     const { files, match, tap, watch: w } = Schema.parse(raw);
     if (w) {
@@ -201,7 +216,9 @@ export const tddStartWatch: ToolFactory = () => {
     description:
       "Start an AVA --watch process and stream output via getWatchChanges.",
     inputSchema: shape,
-  } as const;
+    stability: "experimental",
+    since: "0.1.0",
+  } satisfies ToolSpec;
   const invoke = async (raw: unknown) => {
     return watch.start(Schema.parse(raw));
   };
@@ -213,7 +230,9 @@ export const tddGetWatchChanges: ToolFactory = () => {
     name: "tdd.getWatchChanges",
     description: "Get incremental stdout/stderr from the running watch.",
     inputSchema: {},
-  } as const;
+    stability: "experimental",
+    since: "0.1.0",
+  } satisfies ToolSpec;
   const invoke = async () => watch.getChanges();
   return { spec, invoke } as any;
 };
@@ -223,7 +242,9 @@ export const tddStopWatch: ToolFactory = () => {
     name: "tdd.stopWatch",
     description: "Stop the running watch process.",
     inputSchema: {},
-  } as const;
+    stability: "experimental",
+    since: "0.1.0",
+  } satisfies ToolSpec;
   const invoke = async () => watch.stop();
   return { spec, invoke } as any;
 };
@@ -245,7 +266,9 @@ export const tddCoverage: ToolFactory = () => {
     description:
       "Run c8+AVA to produce coverage summary; enforce optional thresholds.",
     inputSchema: shape,
-  } as const;
+    stability: "experimental",
+    since: "0.1.0",
+  } satisfies ToolSpec;
   const invoke = async (raw: unknown) => {
     const { include, thresholds } = Schema.parse(raw);
     const args = [
@@ -290,7 +313,9 @@ export const tddPropertyCheck: ToolFactory = () => {
     description:
       "Dynamically import a module export that builds a fast-check property and assert it.",
     inputSchema: shape,
-  } as const;
+    stability: "experimental",
+    since: "0.1.0",
+  } satisfies ToolSpec;
   const invoke = async (raw: unknown) => {
     const { propertyModule, propertyExport, runs } = Schema.parse(raw);
     const mod = await import(pathToFileURL(propertyModule).href);
@@ -315,7 +340,9 @@ export const tddMutationScore: ToolFactory = () => {
     description:
       "Run Stryker mutation testing and return the score (fail if below minScore).",
     inputSchema: shape,
-  } as const;
+    stability: "experimental",
+    since: "0.1.0",
+  } satisfies ToolSpec;
   const invoke = async (raw: unknown) => {
     const { files, minScore } = Schema.parse(raw);
     const stryker = new Stryker({
