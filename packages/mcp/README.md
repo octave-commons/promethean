@@ -117,6 +117,9 @@ This is a scaffold extracted to consolidate multiple MCP servers into one packag
   submit reviews, inspect checks, and run supporting git commands). Includes
   `github.review.requestChangesFromCodex`, which posts an issue-level PR comment that
   always tags `@codex` so the agent is notified when changes are requested.
+- github.apply_patch — Apply a unified diff to a GitHub branch by committing through
+  the GraphQL `createCommitOnBranch` mutation. Useful when the agent cannot write to
+  the working tree but can craft patches to push upstream.
 
 ## HTTP Endpoints
 
