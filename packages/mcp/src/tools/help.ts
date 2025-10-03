@@ -1,22 +1,32 @@
-import type { ToolFactory } from "../core/types.js";
+import type { ToolExample, ToolFactory, ToolSpec } from "../core/types.js";
+
+type HelpToolEntry = Readonly<{
+  name: string;
+  description: string;
+  inputSchema: ToolSpec["inputSchema"] | null;
+  outputSchema: ToolSpec["outputSchema"] | null;
+  examples: ReadonlyArray<ToolExample>;
+  notes: string;
+}>;
 
 export const help: ToolFactory = (ctx) => {
   const spec = {
     name: "mcp.help",
-    description: "List available tools with args, defaults, outputs, and examples.",
+    description:
+      "List available tools with args, defaults, outputs, and examples.",
     inputSchema: {},
-    outputSchema: { tools: {} } as any,
+    outputSchema: {},
   } as const;
 
   const invoke = async () => {
-    const list = (ctx as any).__registryList?.() ?? [];
-    const tools = list.map((t: any) => ({
-      name: t.spec.name,
-      description: t.spec.description,
-      inputSchema: t.spec.inputSchema ?? null,
-      outputSchema: t.spec.outputSchema ?? null,
-      examples: t.spec.examples ?? [],
-      notes: t.spec.notes ?? "",
+    const registry = ctx.listTools?.() ?? [];
+    const tools: readonly HelpToolEntry[] = registry.map((tool) => ({
+      name: tool.spec.name,
+      description: tool.spec.description,
+      inputSchema: tool.spec.inputSchema ?? null,
+      outputSchema: tool.spec.outputSchema ?? null,
+      examples: tool.spec.examples ?? [],
+      notes: tool.spec.notes ?? "",
     }));
     return { tools };
   };

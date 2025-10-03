@@ -165,7 +165,9 @@ const mkCtx = () => ({
 
 // Ensure the help tool is available within any registry subset, unless explicitly omitted.
 const ensureHelp = (ids: readonly string[]): readonly string[] =>
-  toolCatalog.has("mcp.help") && !ids.includes("mcp.help") ? [...ids, "mcp.help"] : ids;
+  toolCatalog.has("mcp.help") && !ids.includes("mcp.help")
+    ? [...ids, "mcp.help"]
+    : ids;
 
 const selectFactories = (toolIds: readonly string[]): readonly ToolFactory[] =>
   toolIds
@@ -282,7 +284,6 @@ export const main = async (): Promise<void> => {
       httpConfig.endpoints.map((endpoint) => {
         const factories = selectFactories(ensureHelp(endpoint.tools));
         const registry = buildRegistry(factories, ctx);
-        (ctx as any).__registryList = () => registry.list();
         return {
           path: endpoint.path,
           kind: "registry" as const,
@@ -328,7 +329,6 @@ export const main = async (): Promise<void> => {
   const toolIds = ensureHelp(resolveStdioTools(cfg));
   const factories = selectFactories(toolIds);
   const registry = buildRegistry(factories, ctx);
-  (ctx as any).__registryList = () => registry.list();
   const server = createMcpServer(registry.list());
   const transport = stdioTransport();
   console.log("[mcp] transport = stdio");
