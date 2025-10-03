@@ -177,8 +177,8 @@ export class EnsoTranscriber extends Transcriber {
       stream: transformed,
       streamId,
       codec: "pcm16le/16000/1",
-      frameDurationMs: 20,
-      bytesPerFrame: 640,
+      frameDurationMs: PCM16_FRAME_DURATION_MS,
+      bytesPerFrame: PCM16_BYTES_PER_FRAME,
       emitEof: true,
     });
 
