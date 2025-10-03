@@ -1,16 +1,8 @@
 import type { ZodRawShape } from "zod";
 
-// Tool context carried into each factory - env, fetch, now, and optional cache hooks.
-export type ToolContext = Readonly<{
-  env: Readonly<Record<string, string | undefined>>;
-  fetch: typeof fetch;
-  now: () => Date;
-  cache?: Readonly<{
-    etagGet: (key: string) => Promise<string | undefined>;
-    etagSet: (key: string, etag: string) => Promise<void>;
-    getBody: (key: string) => Promise<Uint8Array | undefined>;
-    setBody: (key: string, body: Uint8Array) => Promise<void>;
-  }>;
+export type ToolExample = Readonly<{
+  args: Readonly<Record<string, unknown>>;
+  comment?: string;
 }>;
 
 // Piece of metadata about a tool. These feed straight into the agent ui:
@@ -26,7 +18,7 @@ export type ToolSpec = Readonly<{
   inputSchema?: ZodRawShape;
   outputSchema?: ZodRawShape;
   // New: agent-facing hints.
-  examples?: ReadonlyArray<{ args: unknown; comment?: string }>;
+  examples?: ReadonlyArray<ToolExample>;
   notes?: string;
 }>;
 
@@ -34,6 +26,20 @@ export type ToolSpec = Readonly<{
 export type Tool = Readonly<{
   spec: ToolSpec;
   invoke: (args: unknown) => Promise<unknown>;
+}>;
+
+// Tool context carried into each factory - env, fetch, now, and optional cache hooks.
+export type ToolContext = Readonly<{
+  env: Readonly<Record<string, string | undefined>>;
+  fetch: typeof fetch;
+  now: () => Date;
+  cache?: Readonly<{
+    etagGet: (key: string) => Promise<string | undefined>;
+    etagSet: (key: string, etag: string) => Promise<void>;
+    getBody: (key: string) => Promise<Uint8Array | undefined>;
+    setBody: (key: string, body: Uint8Array) => Promise<void>;
+  }>;
+  listTools?: () => readonly Tool[];
 }>;
 
 // Factory that creates a tool given the runtime context.
