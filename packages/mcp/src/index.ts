@@ -14,8 +14,11 @@ import {
   tddPropertyCheck,
   tddMutationScore,
 } from "./tools/tdd.js";
-import { loadConfig } from "./config/load-config.js";
-import type { AppConfig } from "./config/load-config.js";
+import {
+  loadConfigWithSource,
+  type AppConfig,
+  CONFIG_FILE_NAME,
+} from "./config/load-config.js";
 import { buildRegistry } from "./core/registry.js";
 import { createMcpServer } from "./core/mcp-server.js";
 import { fastifyTransport } from "./core/transports/fastify.js";
@@ -94,6 +97,12 @@ import {
   sandboxListTool,
 } from "./tools/sandboxes.js";
 
+type ToolSummary = Readonly<{
+  id: string;
+  name?: string;
+  description?: string;
+}>;
+
 const toolCatalog = new Map<string, ToolFactory>([
   ["apply_patch", applyPatchTool],
   ["github.request", githubRequestTool],
@@ -168,6 +177,18 @@ const mkCtx = () => ({
   fetch: global.fetch.bind(global),
   now: () => new Date(),
 });
+
+const collectToolSummaries = (
+  ctx: ReturnType<typeof mkCtx>,
+): readonly ToolSummary[] =>
+  Array.from(toolCatalog.entries()).map(([id, factory]) => {
+    const tool = factory(ctx);
+    return {
+      id,
+      name: tool.spec.name,
+      description: tool.spec.description,
+    };
+  });
 
 const selectFactories = (toolIds: readonly string[]): readonly ToolFactory[] =>
   toolIds
@@ -274,7 +295,7 @@ export const loadHttpTransportConfig = async (
 };
 
 export const main = async (): Promise<void> => {
-  const cfg = loadConfig(env);
+  const { config: cfg, source } = loadConfigWithSource(env);
   const cwd = process.cwd();
   const ctx = mkCtx();
 
@@ -311,6 +332,10 @@ export const main = async (): Promise<void> => {
     ];
 
     const transport = fastifyTransport();
+    const defaultConfigPath = path.resolve(process.cwd(), CONFIG_FILE_NAME);
+    const configPath = source.type === "file" ? source.path : defaultConfigPath;
+    const toolSummaries = collectToolSummaries(ctx);
+
     const summaryParts = [
       `${registryDescriptors.length} endpoint${
         registryDescriptors.length === 1 ? "" : "s"
@@ -322,7 +347,15 @@ export const main = async (): Promise<void> => {
       );
     }
     console.log(`[mcp] transport = http (${summaryParts.join(", ")})`);
-    await transport.start(descriptors);
+    await transport.start(descriptors, {
+      ui: {
+        availableTools: toolSummaries,
+        config: cfg,
+        configSource: source,
+        configPath,
+        httpEndpoints: httpConfig.endpoints,
+      },
+    });
     return;
   }
 
