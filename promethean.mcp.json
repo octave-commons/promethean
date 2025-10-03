@@ -114,5 +114,5 @@
       ]
     }
   },
-  "stdioProxyConfig": "./config/mcp_servers.edn"
+  "stdioProxyConfig": "./packages/mcp/examples/mcp_servers.edn"
 }
