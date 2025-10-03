@@ -280,6 +280,28 @@ const script = `(() => {
     return option;
   };
 
+  const populateToolSelect = (select, tools, selectedValues = []) => {
+    const available = Array.isArray(tools) ? tools : [];
+    const selected = Array.isArray(selectedValues) ? selectedValues : [];
+    const seen = new Set();
+    select.innerHTML = '';
+    for (const tool of available) {
+      if (!seen.has(tool.id)) {
+        select.appendChild(createOption(tool));
+        seen.add(tool.id);
+      }
+    }
+    for (const value of selected) {
+      if (!seen.has(value)) {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value;
+        select.appendChild(option);
+      }
+    }
+    setSelectValues(select, selected);
+  };
+
   const setSelectValues = (select, values) => {
     const set = new Set(values);
     for (const option of select.options) {
@@ -357,10 +379,11 @@ const script = `(() => {
     const select = document.createElement('select');
     select.className = 'multi-select';
     select.multiple = true;
-    for (const tool of currentState.availableTools) {
-      select.appendChild(createOption(tool));
-    }
-    setSelectValues(select, entry?.tools ?? []);
+    populateToolSelect(
+      select,
+      currentState?.availableTools ?? [],
+      entry?.tools ?? [],
+    );
 
     row.appendChild(header);
     row.appendChild(select);
@@ -429,13 +452,11 @@ const script = `(() => {
     currentState = state;
     renderToolList(state.availableTools);
     transportSelect.value = state.config.transport;
-    try {
-      globalToolsSelect.innerHTML = '';
-      for (const tool of (Array.isArray(state.availableTools) ? state.availableTools : [])) {
-        globalToolsSelect.appendChild(createOption(tool));
-      }
-    } catch (_) { }
-    setSelectValues(globalToolsSelect, state.config.tools ?? []);
+    populateToolSelect(
+      globalToolsSelect,
+      state.availableTools ?? [],
+      state.config.tools ?? [],
+    );
     proxyInput.value = state.config.stdioProxyConfig ?? '';
     configPathInput.value = state.configPath;
     sourceLabel.textContent = describeSource(state.configSource, state.configPath);
@@ -604,6 +625,8 @@ export const renderUiPage = (): string => `<!doctype html>
         </section>
       </main>
     </div>
-    <script>${script.replace(/<\/script>/g, '</scr" + "ipt>')}</script>
+    <script>${script.replaceAll("</script>", "<\\/script>")}</script>
   </body>
 </html>`;
+
+export default renderUiPage;

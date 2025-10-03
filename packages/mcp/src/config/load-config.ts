@@ -76,8 +76,24 @@ const normalizeConfig = (input: unknown): AppConfig =>
 export const findConfigPath = (cwd: string = process.cwd()): string | null =>
   findUpSync(cwd, CONFIG_FILE_NAME);
 
-const loadConfigFromFile = (filePath: string): AppConfig => {
-  const raw = readJsonFileSync(filePath);
+export const resolveConfigPath = (
+  filePath: string,
+  baseDir: string = CONFIG_ROOT,
+): string => {
+  if (path.isAbsolute(filePath)) {
+    return path.normalize(filePath);
+  }
+  const base = fs.realpathSync(baseDir);
+  const candidate = path.normalize(path.resolve(base, filePath));
+  const relative = path.relative(base, candidate);
+  if (relative.startsWith("..") || path.isAbsolute(relative)) {
+    throw new Error(`Refusing to access path outside of ${base}: ${candidate}`);
+  }
+  return candidate;
+};
+
+const loadConfigFromFile = (filePath: string, baseDir?: string): AppConfig => {
+  const raw = readJsonFileSync(resolveConfigPath(filePath, baseDir));
   return normalizeConfig(raw);
 };
 
@@ -91,20 +107,12 @@ const ensureDirectory = (filePath: string): void => {
 export const saveConfigFile = (
   filePath: string,
   config: AppConfig,
+  baseDir?: string,
 ): AppConfig => {
-  // Validate: only allow writing within CONFIG_ROOT
-  const rootPath = fs.realpathSync(CONFIG_ROOT);
-  const safePath = path.isAbsolute(filePath)
-    ? filePath
-    : path.resolve(CONFIG_ROOT, filePath);
-  const resolvedPath = fs.realpathSync(path.dirname(safePath)) + "/" + path.basename(safePath);
-
-  if (!resolvedPath.startsWith(rootPath + path.sep)) {
-    throw new Error(`Refusing to write config outside of ${rootPath}: ${resolvedPath}`);
-  }
+  const target = resolveConfigPath(filePath, baseDir);
   const normalized = normalizeConfig(config);
-  ensureDirectory(resolvedPath);
-  fs.writeFileSync(resolvedPath, JSON.stringify(normalized, null, 2), "utf8");
+  ensureDirectory(target);
+  fs.writeFileSync(target, JSON.stringify(normalized, null, 2), "utf8");
   return normalized;
 };
 
@@ -114,7 +122,7 @@ export const loadConfigWithSource = (
   cwd: string = process.cwd(),
 ): LoadedConfig => {
   const fromFile = (filePath: string): LoadedConfig => ({
-    config: loadConfigFromFile(filePath),
+    config: loadConfigFromFile(filePath, cwd),
     source: { type: "file", path: filePath },
   });
 
