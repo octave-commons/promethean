@@ -85,6 +85,18 @@ import {
 } from "./tools/sandboxes.js";
 import { loadStdioServerSpecs, type StdioServerSpec } from "./proxy/config.js";
 import { StdioHttpProxy } from "./proxy/stdio-proxy.js";
+import {
+  ollamaPull,
+  ollamaListModels,
+  ollamaListTemplates,
+  ollamaCreateTemplate,
+  ollamaEnqueueGenerateJob,
+  ollamaEnqueueChatCompletion,
+  ollamaEnqueueJobFromTemplate,
+  ollamaStartConversation,
+  ollamaGetQueue,
+  ollamaRemoveJob,
+} from "./tools/ollama.js";
 
 const toolCatalog = new Map<string, ToolFactory>([
   ["apply_patch", applyPatchTool],
@@ -149,6 +161,16 @@ const toolCatalog = new Map<string, ToolFactory>([
   ["sandbox.create", sandboxCreateTool],
   ["sandbox.list", sandboxListTool],
   ["sandbox.delete", sandboxDeleteTool],
+  ["ollama.pull", ollamaPull],
+  ["ollama.listModels", ollamaListModels],
+  ["ollama.listTemplates", ollamaListTemplates],
+  ["ollama.createTemplate", ollamaCreateTemplate],
+  ["ollama.enqueueGenerateJob", ollamaEnqueueGenerateJob],
+  ["ollama.enqueueChatCompletion", ollamaEnqueueChatCompletion],
+  ["ollama.enqueueJobFromTemplate", ollamaEnqueueJobFromTemplate],
+  ["ollama.startConversation", ollamaStartConversation],
+  ["ollama.getQueue", ollamaGetQueue],
+  ["ollama.removeJob", ollamaRemoveJob],
 ]);
 
 const env = process.env;

@@ -17,6 +17,8 @@ import {
 } from "./lib/kanban.js";
 import { printJSONL } from "./lib/jsonl.js";
 import { loadKanbanConfig } from "./board/config.js";
+import { processSync } from "./process/sync.js";
+import { docguard } from "./process/docguard.js";
 
 const LEGACY_FLAG_MAP = Object.freeze(
   new Map<string, string>([
@@ -85,11 +87,12 @@ async function main() {
   const boardFile = config.boardFile;
   const tasksDir = config.tasksDir;
 
+  const usage =
+    `Usage: kanban [--kanban path] [--tasks path] <subcommand> [args...]\n` +
+    `Subcommands: count, getColumn, getByColumn, find, find-by-title, update_status, move_up, move_down, pull, push, sync, regenerate, indexForSearch, search, process_sync, doccheck`;
+
   if (helpRequested || !cmd) {
-    console.error(
-      `Usage: kanban [--kanban path] [--tasks path] <subcommand> [args...]\n` +
-        `Subcommands: count, getColumn, getByColumn, find, find-by-title, update_status, move_up, move_down, pull, push, sync, regenerate, indexForSearch, search`,
-    );
+    console.error(usage);
     process.exit(2);
   }
 
@@ -197,8 +200,24 @@ async function main() {
       printJSONL(res);
       break;
     }
+    case "process_sync": {
+      const res = await processSync({
+        processFile: process.env.KANBAN_PROCESS_FILE,
+        owner: process.env.GITHUB_OWNER,
+        repo: process.env.GITHUB_REPO,
+        token: process.env.GITHUB_TOKEN,
+      });
+      printJSONL(res);
+      break;
+    }
+    case "doccheck": {
+      const pr = args[0] || process.env.PR_NUMBER;
+      await docguard({ pr, owner: process.env.GITHUB_OWNER, repo: process.env.GITHUB_REPO, token: process.env.GITHUB_TOKEN });
+      break;
+    }
     default:
       console.error(`Unknown subcommand: ${cmd}`);
+      console.error(usage);
       process.exit(2);
   }
 }
