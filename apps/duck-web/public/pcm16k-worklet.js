@@ -14,7 +14,7 @@ class PCM16kProcessor extends AudioWorkletProcessor {
     const r = this.ratio;
     const outLen = Math.floor((input.length - this.pos) / r);
     if (outLen <= 0) {
-      return true;
+    this.pos = (this.pos + outLen * r) % input.length;
     }
 
     const out = new Float32Array(outLen);
