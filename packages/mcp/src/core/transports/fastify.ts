@@ -1,7 +1,9 @@
 import fastifyCors from "@fastify/cors";
+import fastifyStatic from "@fastify/static";
 import Fastify from "fastify";
 import type { FastifyInstance } from "fastify";
 import crypto from "node:crypto";
+import fs from "node:fs";
 import path from "node:path";
 
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
@@ -275,8 +277,8 @@ const normalizeServerInput = (
 
 const parseProxyBody = (value: unknown): unknown => {
   if (value === null || value === undefined) return undefined;
-  if (Buffer.isBuffer(value)) {
-    return value.length === 0 ? undefined : value;
+  if (Buffer.isBuffer(value) || typeof value === "string") {
+    return tryParseJson(value);
   }
   return value;
 };
@@ -458,6 +460,20 @@ export const fastifyTransport = (opts?: {
     start: async (server?: unknown, optionsInput?: unknown) => {
       const descriptorsFromServer = normalizeServerInput(server);
       const { proxies: proxyList, ui } = parseStartOptions(optionsInput);
+
+      const devUiDir = path.resolve(process.cwd(), "packages/mcp/static/dev-ui");
+      if (fs.existsSync(devUiDir)) {
+        await app.register(fastifyStatic, {
+          root: devUiDir,
+          prefix: "/ui/assets/",
+          decorateReply: false,
+        });
+      } else {
+        console.warn(
+          `[mcp:http] dev-ui assets not found at ${devUiDir}. ` +
+            "Run 'pnpm --filter @promethean/mcp-dev-ui build' to generate the bundle.",
+        );
+      }
 
       const combinedDescriptors: HttpEndpointDescriptor[] = [
         ...descriptorsFromServer,

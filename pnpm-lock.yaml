@@ -2860,6 +2860,12 @@ importers:
         specifier: 5.9.2
         version: 5.9.2
 
+  packages/mcp/dev-ui:
+    devDependencies:
+      shadow-cljs:
+        specifier: 2.28.17
+        version: 2.28.17
+
   packages/migrations:
     dependencies:
       '@promethean/embedding':
@@ -14828,7 +14834,7 @@ snapshots:
 
   axios@1.11.0:
     dependencies:
-      follow-redirects: 1.15.11(debug@4.4.3)
+      follow-redirects: 1.15.11(debug@4.3.7)
       form-data: 4.0.4
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -17358,7 +17364,7 @@ snapshots:
   http-proxy@1.18.1:
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.15.11(debug@4.4.3)
+      follow-redirects: 1.15.11(debug@4.3.7)
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
