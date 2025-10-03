@@ -109,11 +109,9 @@ export const findConfigPath = (cwd: string = process.cwd()): string | null =>
   findUpSync(cwd, CONFIG_FILE_NAME);
 
 export const resolveConfigPath = (filePath: string, baseDir: string = CONFIG_ROOT): string => {
-  if (path.isAbsolute(filePath)) {
-    return path.normalize(filePath);
-  }
   const base = fs.realpathSync(baseDir);
-  const candidate = path.normalize(path.resolve(base, filePath));
+  // Always resolve filePath within base, even if filePath is absolute.
+  const candidate = path.normalize(path.resolve(base, path.relative(path.parse(filePath).root, filePath)));
   const relative = path.relative(base, candidate);
   if (relative.startsWith('..') || path.isAbsolute(relative)) {
     throw new Error(`Refusing to access path outside of ${base}: ${candidate}`);
