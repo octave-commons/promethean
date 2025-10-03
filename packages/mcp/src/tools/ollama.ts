@@ -157,9 +157,14 @@ export const ollamaStartConversation: ToolFactory = () => {
     const { conversationName, initialMessage, systemPrompt } = Schema.parse(raw);
     const id = randomUUID();
     const ts = now();
-    const base: Conversation = { id, name: conversationName, systemPrompt, messages: [], createdAt: ts, updatedAt: ts };
+    const emptyMsgs: ReadonlyArray<Message> = [];
+    const base: Conversation = { id, name: conversationName, systemPrompt, messages: emptyMsgs, createdAt: ts, updatedAt: ts };
     const withMsg = typeof initialMessage === 'string' && initialMessage.length > 0
-      ? { ...base, messages: [...base.messages, { role: 'user', content: initialMessage }], updatedAt: now() }
+      ? {
+          ...base,
+          messages: ([...base.messages, { role: 'user', content: initialMessage } as Message] as unknown) as ReadonlyArray<Message>,
+          updatedAt: now(),
+        }
       : base;
     store.conversations.set(id, withMsg);
     return { conversationId: id, conversationName, jobId: undefined as string | undefined };
@@ -192,7 +197,10 @@ export const ollamaEnqueueChatCompletion: ToolFactory = () => {
     if (Array.isArray((ref as any))) {
       // create ephemeral conversation
       conversationId = randomUUID();
-      const conv: Conversation = { id: conversationId, messages: ref as Message[], createdAt: ts, updatedAt: ts };
+      const msgs = (ref as Array<{ role: 'system' | 'user' | 'assistant' | 'tool'; content: string }>).map(
+        (m) => ({ role: m.role, content: m.content } as Message),
+      );
+      const conv: Conversation = { id: conversationId, messages: (msgs as unknown) as ReadonlyArray<Message>, createdAt: ts, updatedAt: ts };
       store.conversations.set(conversationId, conv);
     } else {
       const { conversationId: cid, conversationName } = ref as { conversationId?: string; conversationName?: string };
