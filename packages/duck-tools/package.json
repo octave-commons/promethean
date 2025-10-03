@@ -1,0 +1,17 @@
+{
+  "name": "@promethean/duck-tools",
+  "version": "0.0.0",
+  "license": "GPL-3.0-only",
+  "type": "module",
+  "bin": { "duck-smoke": "dist/smoke.js" },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "node dist/smoke.js",
+    "preab": "pnpm run build"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^5.6.3",
+    "@types/node": "^20.11.30" 
+  }
+}
