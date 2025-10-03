@@ -33,6 +33,7 @@ import type {
 } from "./context.js";
 import type { VoiceMetaPayload } from "./voice.js";
 import type { ToolAdvertisement, ToolCall, ToolResult } from "./tools.js";
+import type { ActIntentDescriptor } from "./intents.js";
 
 export type ChatMsgPayload = {
   readonly text: string;
@@ -49,6 +50,17 @@ export type PresenceJoinPayload = {
 export type PresencePartPayload = {
   readonly session: string;
   readonly reason?: string;
+};
+
+export type CapsUpdatePayload = {
+  readonly session: string;
+  readonly caps: readonly string[];
+  readonly revision: number;
+  readonly granted?: readonly string[];
+  readonly revoked?: readonly string[];
+  readonly reason?: string;
+  readonly requestId?: string;
+  readonly acknowledgedAt?: string;
 };
 
 export type StatePatchPayload = {
@@ -139,7 +151,7 @@ export type ActRationalePayload = {
 };
 
 export type ActIntentPayload = {
-  readonly intents: readonly string[];
+  readonly intents: readonly ActIntentDescriptor[];
   readonly scope?: string;
   readonly callId?: string;
   readonly justification?: string;
@@ -164,6 +176,10 @@ export type ConsentRecordPayload = {
   readonly context?: Record<string, unknown>;
 };
 
+export type RoomFlagsPayload = {
+  readonly flags: Record<string, unknown>;
+};
+
 export type StreamResumePayload = {
   readonly scid: string;
   readonly seq: number;
@@ -177,6 +193,7 @@ export type EventPayloadMap = {
   readonly "content.burn": ContentBurnPayload;
   readonly "presence.join": PresenceJoinPayload;
   readonly "presence.part": PresencePartPayload;
+  readonly "caps.update": CapsUpdatePayload;
   readonly "state.patch": StatePatchPayload;
   readonly "tool.advertise": ToolAdvertisement;
   readonly "tool.call": ToolCall;
@@ -214,6 +231,7 @@ export type EventPayloadMap = {
   readonly "act.intent": ActIntentPayload;
   readonly "privacy.accepted": PrivacyAcceptedPayload;
   readonly "room.policy": RoomPolicyPayload;
+  readonly "room.flags": RoomFlagsPayload;
   readonly "consent.record": ConsentRecordPayload;
   readonly "mcp.mount": McpMountPayload;
   readonly "mcp.announce": McpAnnouncePayload;
@@ -235,6 +253,7 @@ export type ContentRetractEvent = EventOf<"content.retract">;
 export type ContentBurnEvent = EventOf<"content.burn">;
 export type PresenceJoinEvent = EventOf<"presence.join">;
 export type PresencePartEvent = EventOf<"presence.part">;
+export type CapsUpdateEvent = EventOf<"caps.update">;
 export type StatePatchEvent = EventOf<"state.patch">;
 export type ToolAdvertiseEvent = EventOf<"tool.advertise">;
 export type ToolCallEvent = EventOf<"tool.call">;
@@ -272,6 +291,7 @@ export type ActRationaleEvent = EventOf<"act.rationale">;
 export type ActIntentEvent = EventOf<"act.intent">;
 export type PrivacyAcceptedEvent = EventOf<"privacy.accepted">;
 export type RoomPolicyEvent = EventOf<"room.policy">;
+export type RoomFlagsEvent = EventOf<"room.flags">;
 export type ConsentRecordEvent = EventOf<"consent.record">;
 export type McpMountEvent = EventOf<"mcp.mount">;
 export type McpAnnounceEvent = EventOf<"mcp.announce">;
