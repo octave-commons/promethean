@@ -52,9 +52,12 @@
 
 ;; ----- canonical model -----
 (defn canonical?
-  "True when `m` looks like {:mcp-servers {...}}."
+  "True when `m` looks like {:mcp-servers {...} :http {...?}}."
   [m]
-  (and (map? m) (map? (:mcp-servers m))))
+  (and (map? m)
+       (map? (:mcp-servers m))
+       (let [http (:http m)]
+         (or (nil? http) (map? http)))))
 
 ;; ----- merges (maps only) -----
 (defn deep-merge
