@@ -1,7 +1,12 @@
 import { z } from "zod";
 import { DiscordRestProxy } from "@promethean/discord";
 
-import type { Tool, ToolContext, ToolFactory } from "../core/types.js";
+import type {
+  Tool,
+  ToolContext,
+  ToolFactory,
+  ToolSpec,
+} from "../core/types.js";
 
 const RestResponseSchema = z
   .object({
@@ -124,7 +129,9 @@ const createSendMessageTool = (
     description:
       "Send a message to a Discord channel. Provide content or embeds and the Discord space URN.",
     inputSchema: shape,
-  };
+    stability: "experimental",
+    since: "0.1.0",
+  } satisfies ToolSpec;
 
   const proxy = proxyFactory();
 
@@ -169,7 +176,9 @@ const createListMessagesTool = (
     description:
       "List recent messages from a Discord channel with optional pagination parameters.",
     inputSchema: ListSchemaShape,
-  };
+    stability: "experimental",
+    since: "0.1.0",
+  } satisfies ToolSpec;
 
   const proxy = proxyFactory();
 

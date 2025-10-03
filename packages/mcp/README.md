@@ -38,12 +38,13 @@ declared `:http-path` (defaulting to `/<name>/mcp`).
   "endpoints": {
     "github": { "tools": ["github.request", "github.graphql"] }
   },
-  "stdioProxyConfig": "./config/mcp_servers.edn"
+  "stdioProxyConfig": "./packages/mcp/examples/mcp_servers.edn"
 }
 ```
 
 Running with this manifest will expose both the GitHub endpoint defined in JSON and any stdio servers declared in
-`config/mcp_servers.edn` on the same Fastify instance:
+`packages/mcp/examples/mcp_servers.edn` on the same Fastify instance. Copy the example to `config/mcp_servers.edn` and
+adjust paths as needed for your machine (the config path is gitignored):
 
 ```bash
 pnpm --filter @promethean/mcp dev -- --config ./promethean.mcp.json
@@ -55,7 +56,7 @@ Each server will be available at `http://<host>:<port>/<name>/mcp` unless you se
 
 The Fastify transport now binds both registry endpoints declared in
 `promethean.mcp.json` and stdio proxies resolved from
-`config/mcp_servers.edn` to the same HTTP server. Each endpoint descriptor
+`packages/mcp/examples/mcp_servers.edn` to the same HTTP server. Each endpoint descriptor
 contributes a path: registry descriptors mount an MCP server created from the
 configured tools, while proxy descriptors delegate directly to the underlying
 `StdioHttpProxy`. When the transport starts it boots any stdio proxies before
