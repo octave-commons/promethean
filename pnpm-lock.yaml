@@ -429,6 +429,8 @@ importers:
         specifier: ^22.0.0
         version: 22.0.0
 
+  packages/apply-patch: {}
+
   packages/auth-service:
     dependencies:
       '@fastify/rate-limit':
@@ -1287,12 +1289,6 @@ importers:
       '@promethean/security':
         specifier: workspace:*
         version: link:../security
-      chromadb:
-        specifier: ^3.0.9
-        version: 3.0.14
-      csv-parse:
-        specifier: ^5.5.6
-        version: 5.6.0
       csv-stringify:
         specifier: ^6.5.2
         version: 6.6.0
@@ -1579,6 +1575,7 @@ importers:
         version: 8.18.1
 
   packages/duck-audio: {}
+
   packages/duck-tools:
     devDependencies:
       '@types/node':
@@ -1599,7 +1596,7 @@ importers:
         version: 5.9.2
       vite:
         specifier: ^5.4.0
-        version: 5.4.20(@types/node@20.19.11)
+        version: 5.4.20(@types/node@24.3.1)
 
   packages/effects:
     dependencies:
@@ -2286,7 +2283,7 @@ importers:
         version: link:../utils
       chromadb:
         specifier: ^1.8.1
-        version: 1.10.5(encoding@0.1.13)(ollama@0.5.18)(openai@5.23.2(ws@8.18.3)(zod@3.25.76))
+        version: 1.10.5(encoding@0.1.13)(ollama@0.5.18)
 
   packages/indexer-service:
     dependencies:
@@ -3812,7 +3809,7 @@ importers:
         version: 3.0.1(ajv@8.17.1)
       chromadb:
         specifier: ^1.8.1
-        version: 1.10.5(encoding@0.1.13)(ollama@0.5.18)(openai@5.23.2(ws@8.18.3)(zod@3.25.76))
+        version: 1.10.5(encoding@0.1.13)(ollama@0.5.18)
       dotenv:
         specifier: ^17.2.1
         version: 17.2.1
@@ -7619,9 +7616,6 @@ packages:
     resolution: {integrity: sha512-/Tb/JcjK111nNScGob5MNtsntNM1aCNUDipB/TkwZFhyDrrE47SOx/18wF2bbjgc3ZzCSKW1T5nt5EbFoAz/Vg==}
     engines: {node: '>=4'}
     hasBin: true
-
-  csv-parse@5.6.0:
-    resolution: {integrity: sha512-l3nz3euub2QMg5ouu5U09Ew9Wf6/wQ8I++ch1loQ0ljmzhmfZYrH9fflS22i/PQEvsPvxCwxgz5q7UB8K1JO4Q==}
 
   csv-stringify@6.6.0:
     resolution: {integrity: sha512-YW32lKOmIBgbxtu3g5SaiqWNwa/9ISQt2EcgOq0+RAIFufFp9is6tqNnKahqE5kuKvrnYAzs28r+s6pXJR8Vcw==}
@@ -15234,13 +15228,12 @@ snapshots:
   chromadb-js-bindings-win32-x64-msvc@1.0.5:
     optional: true
 
-  chromadb@1.10.5(encoding@0.1.13)(ollama@0.5.18)(openai@5.23.2(ws@8.18.3)(zod@3.25.76)):
+  chromadb@1.10.5(encoding@0.1.13)(ollama@0.5.18):
     dependencies:
       cliui: 8.0.1
       isomorphic-fetch: 3.0.0(encoding@0.1.13)
     optionalDependencies:
       ollama: 0.5.18
-      openai: 5.23.2(ws@8.18.3)(zod@3.25.76)
     transitivePeerDependencies:
       - encoding
 
@@ -15542,8 +15535,6 @@ snapshots:
   css-what@6.2.2: {}
 
   cssesc@3.0.0: {}
-
-  csv-parse@5.6.0: {}
 
   csv-stringify@6.6.0: {}
 
@@ -16095,7 +16086,7 @@ snapshots:
       '@typescript-eslint/parser': 7.18.0(eslint@8.57.1)(typescript@5.9.2)
       astro-eslint-parser: 0.16.3
       eslint-config-prettier: 9.1.2(eslint@8.57.1)
-      eslint-import-resolver-typescript: 3.10.1(eslint-plugin-i@2.29.1)(eslint@8.57.1)
+      eslint-import-resolver-typescript: 3.10.1(eslint-plugin-i@2.29.1(@typescript-eslint/parser@7.18.0(eslint@8.57.1)(typescript@5.9.2))(eslint@8.57.1))(eslint@8.57.1)
       eslint-mdx: 3.6.2(eslint@8.57.1)
       eslint-plugin-astro: 0.33.1(eslint@8.57.1)
       eslint-plugin-cypress: 2.15.2(eslint@8.57.1)
@@ -16150,7 +16141,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-import-resolver-typescript@3.10.1(eslint-plugin-i@2.29.1)(eslint@8.57.1):
+  eslint-import-resolver-typescript@3.10.1(eslint-plugin-i@2.29.1(@typescript-eslint/parser@7.18.0(eslint@8.57.1)(typescript@5.9.2))(eslint@8.57.1))(eslint@8.57.1):
     dependencies:
       '@nolyfill/is-core-module': 1.0.39
       debug: 4.4.3
@@ -16185,14 +16176,14 @@ snapshots:
       - bluebird
       - supports-color
 
-  eslint-module-utils@2.12.1(@typescript-eslint/parser@7.18.0(eslint@8.57.1)(typescript@5.9.2))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.1(eslint-plugin-i@2.29.1)(eslint@8.57.1))(eslint@8.57.1):
+  eslint-module-utils@2.12.1(@typescript-eslint/parser@7.18.0(eslint@8.57.1)(typescript@5.9.2))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.1(eslint-plugin-i@2.29.1(@typescript-eslint/parser@7.18.0(eslint@8.57.1)(typescript@5.9.2))(eslint@8.57.1))(eslint@8.57.1))(eslint@8.57.1):
     dependencies:
       debug: 3.2.7
     optionalDependencies:
       '@typescript-eslint/parser': 7.18.0(eslint@8.57.1)(typescript@5.9.2)
       eslint: 8.57.1
       eslint-import-resolver-node: 0.3.9
-      eslint-import-resolver-typescript: 3.10.1(eslint-plugin-i@2.29.1)(eslint@8.57.1)
+      eslint-import-resolver-typescript: 3.10.1(eslint-plugin-i@2.29.1(@typescript-eslint/parser@7.18.0(eslint@8.57.1)(typescript@5.9.2))(eslint@8.57.1))(eslint@8.57.1)
     transitivePeerDependencies:
       - supports-color
 
@@ -16264,7 +16255,7 @@ snapshots:
       doctrine: 3.0.0
       eslint: 8.57.1
       eslint-import-resolver-node: 0.3.9
-      eslint-module-utils: 2.12.1(@typescript-eslint/parser@7.18.0(eslint@8.57.1)(typescript@5.9.2))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.1(eslint-plugin-i@2.29.1)(eslint@8.57.1))(eslint@8.57.1)
+      eslint-module-utils: 2.12.1(@typescript-eslint/parser@7.18.0(eslint@8.57.1)(typescript@5.9.2))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.1(eslint-plugin-i@2.29.1(@typescript-eslint/parser@7.18.0(eslint@8.57.1)(typescript@5.9.2))(eslint@8.57.1))(eslint@8.57.1))(eslint@8.57.1)
       get-tsconfig: 4.10.1
       is-glob: 4.0.3
       minimatch: 3.1.2
@@ -21189,13 +21180,13 @@ snapshots:
       '@types/unist': 3.0.3
       vfile-message: 4.0.3
 
-  vite@5.4.20(@types/node@20.19.11):
+  vite@5.4.20(@types/node@24.3.1):
     dependencies:
       esbuild: 0.21.5
       postcss: 8.5.6
       rollup: 4.52.3
     optionalDependencies:
-      '@types/node': 20.19.11
+      '@types/node': 24.3.1
       fsevents: 2.3.3
 
   vizion@2.2.1:
