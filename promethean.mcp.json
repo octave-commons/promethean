@@ -1,5 +1,19 @@
 {
   "transport": "http",
+  "includeHelp": true,
+  "stdioMeta": {
+    "title": "Default Toolset",
+    "description": "Mixed bag of commonly-used tools for local dev, code search/edit, GitHub API, and test running. Prefer using a narrower endpoint when possible.",
+    "workflow": [
+      "search code → view-file → propose patch → apply_patch",
+      "run tests → iterate on failing files"
+    ],
+    "expectations": {
+      "usage": ["Read before writing", "Keep patches small and reversible"],
+      "pitfalls": ["Don't try to write binaries", "Large trees can be slow to list"],
+      "prerequisites": ["repo checked out"]
+    }
+  },
   "tools": [
     "github.request",
     "github.graphql",
@@ -12,6 +26,9 @@
     "files.write-lines",
     "files.search",
     "mcp.help",
+    "mcp.toolset",
+    "mcp.endpoints",
+    "mcp.validate-config",
     "apply_patch",
     "tdd.scaffoldTest",
     "tdd.changedFiles",
@@ -33,6 +50,12 @@
   ],
   "endpoints": {
     "process": {
+      "includeHelp": true,
+      "meta": {
+        "title": "Task Runner",
+        "description": "Queue, inspect, and stop long-running dev tasks.",
+        "workflow": ["enqueueTask → getStdout/getStderr → stop"]
+      },
       "tools": [
         "process.getTaskRunnerConfig",
         "process.updateTaskRunnerConfig",
@@ -44,6 +67,16 @@
       ]
     },
     "files": {
+      "includeHelp": true,
+      "meta": {
+        "title": "Filesystem",
+        "description": "Read/search/write files in the workspace.",
+        "workflow": ["files.search → files.view-file → apply_patch / files.write-lines"],
+        "expectations": {
+          "usage": ["Paths are relative to repo root"],
+          "pitfalls": ["Avoid writing large/binary files"]
+        }
+      },
       "tools": [
         "files.list-directory",
         "files.tree-directory",
@@ -51,22 +84,41 @@
         "files.write-content",
         "files.write-lines",
         "files.search",
+        "apply_patch",
         "mcp.help",
-        "apply_patch"
+        "mcp.toolset"
       ]
     },
     "github": {
+      "includeHelp": true,
+      "meta": {
+        "title": "GitHub Core",
+        "description": "Typed wrappers over REST/GraphQL, and repo contents write.",
+        "workflow": ["github.request / github.graphql → transform → write"]
+      },
       "tools": [
         "github.request",
         "github.graphql",
         "github.rate-limit",
-        "github.contents.write"
+        "github.contents.write",
+        "mcp.help"
       ]
     },
     "exec": {
+      "includeHelp": true,
+      "meta": {
+        "title": "Process Exec",
+        "description": "Discover and run safe local commands.",
+        "workflow": ["exec.list → exec.run"]
+      },
       "tools": ["exec.list", "exec.run"]
     },
     "kanban": {
+      "includeHelp": true,
+      "meta": {
+        "title": "Kanban",
+        "description": "Board and task operations."
+      },
       "tools": [
         "kanban.get-board",
         "kanban.get-column",
@@ -79,6 +131,14 @@
       ]
     },
     "github/review": {
+      "includeHelp": true,
+      "meta": {
+        "title": "Code Review",
+        "description": "Automate PR reviews and comment flows.",
+        "workflow": [
+          "getComments/getReviewComments → requestChangesFromCodex → submitReview"
+        ]
+      },
       "tools": [
         "github.review.openPullRequest",
         "github.review.getComments",
@@ -94,12 +154,28 @@
       ]
     },
     "discord": {
+      "includeHelp": true,
+      "meta": {
+        "title": "Discord",
+        "description": "Send and list messages in configured channels."
+      },
       "tools": ["discord.send-message", "discord.list-messages"]
     },
     "workspace": {
+      "includeHelp": true,
+      "meta": {
+        "title": "Workspace",
+        "description": "Project package management via pnpm.",
+        "workflow": ["pnpm.add/remove → pnpm.install → pnpm.runScript"]
+      },
       "tools": ["pnpm.install", "pnpm.add", "pnpm.remove", "pnpm.runScript"]
     },
     "ollama": {
+      "includeHelp": true,
+      "meta": {
+        "title": "Ollama Jobs",
+        "description": "Local model pulls and queued generations."
+      },
       "tools": [
         "ollama.pull",
         "ollama.listModels",

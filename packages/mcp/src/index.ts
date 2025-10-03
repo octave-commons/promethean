@@ -89,7 +89,9 @@ import {
   sandboxListTool,
 } from "./tools/sandboxes.js";
 
-import { help as helpTool } from "./tools/help.js";
+import { help as helpTool, toolset as toolsetTool, endpoints as endpointsTool } from "./tools/help.js";
+import { validateConfig as validateConfigTool } from "./tools/validate-config.js";
+
 const toolCatalog = new Map<string, ToolFactory>([
   ["apply_patch", applyPatchTool],
   ["github.request", githubRequestTool],
@@ -106,10 +108,13 @@ const toolCatalog = new Map<string, ToolFactory>([
   ],
   ["github.review.submitReview", githubReviewSubmitReview],
   ["mcp.help", helpTool],
+  ["mcp.toolset", toolsetTool],
+  ["mcp.endpoints", endpointsTool],
   ["github.review.getActionStatus", githubReviewGetActionStatus],
   ["github.review.commit", githubReviewCommit],
   ["github.review.push", githubReviewPush],
   ["github.review.checkoutBranch", githubReviewCheckoutBranch],
+  ["mcp.validate-config", validateConfigTool],
   ["github.review.createBranch", githubReviewCreateBranch],
   ["github.review.revertCommits", githubReviewRevertCommits],
   ["files.list-directory", filesListDirectory],
@@ -163,9 +168,18 @@ const mkCtx = () => ({
   now: () => new Date(),
 });
 
-// Ensure the help tool is available within any registry subset, unless explicitly omitted.
-const ensureHelp = (ids: readonly string[]): readonly string[] =>
-  toolCatalog.has("mcp.help") && !ids.includes("mcp.help") ? [...ids, "mcp.help"] : ids;
+// Ensure the meta tools are available within any registry subset when enabled.
+const ensureMetaTools = (
+  ids: readonly string[],
+  includeHelp: boolean = true,
+): readonly string[] => {
+  if (!includeHelp) return ids;
+  const need: string[] = [];
+  if (toolCatalog.has("mcp.help") && !ids.includes("mcp.help")) need.push("mcp.help");
+  if (toolCatalog.has("mcp.toolset") && !ids.includes("mcp.toolset")) need.push("mcp.toolset");
+  if (toolCatalog.has("mcp.endpoints") && !ids.includes("mcp.endpoints")) need.push("mcp.endpoints");
+  return need.length ? [...ids, ...need] : ids;
+};
 
 const selectFactories = (toolIds: readonly string[]): readonly ToolFactory[] =>
   toolIds
@@ -274,15 +288,21 @@ export const loadHttpTransportConfig = async (
 export const main = async (): Promise<void> => {
   const cfg = loadConfig(env);
   const cwd = process.cwd();
-  const ctx = mkCtx();
+  const ctx: any = mkCtx();
 
   if (cfg.transport === "http") {
     const httpConfig = await loadHttpTransportConfig(cfg);
+    (ctx as any).__allEndpoints = httpConfig.endpoints;
+    (ctx as any).__allToolIds = Array.from(toolCatalog.keys());
     const registryDescriptors: HttpEndpointDescriptor[] =
       httpConfig.endpoints.map((endpoint) => {
-        const factories = selectFactories(ensureHelp(endpoint.tools));
+        const factories = selectFactories(
+          ensureMetaTools(endpoint.tools, endpoint.includeHelp !== false),
+        );
         const registry = buildRegistry(factories, ctx);
-        (ctx as any).__registryList = () => registry.list();
+        ctx.__registryList = () => registry.list();
+        ctx.__endpointDef = endpoint;
+        ctx.__allEndpoints = httpConfig.endpoints;
         return {
           path: endpoint.path,
           kind: "registry" as const,
@@ -325,10 +345,21 @@ export const main = async (): Promise<void> => {
     return;
   }
 
-  const toolIds = ensureHelp(resolveStdioTools(cfg));
+  const toolIds = ensureMetaTools(
+    resolveStdioTools(cfg),
+    (cfg as any).includeHelp !== false,
+  );
   const factories = selectFactories(toolIds);
   const registry = buildRegistry(factories, ctx);
-  (ctx as any).__registryList = () => registry.list();
+  ctx.__registryList = () => registry.list();
+  ctx.__endpointDef = {
+    path: "/mcp",
+    tools: toolIds,
+    includeHelp: (cfg as any).includeHelp,
+    meta: (cfg as any).stdioMeta,
+  };
+  ctx.__allEndpoints = resolveHttpEndpoints(cfg);
+  ctx.__allToolIds = Array.from(toolCatalog.keys());
   const server = createMcpServer(registry.list());
   const transport = stdioTransport();
   console.log("[mcp] transport = stdio");
