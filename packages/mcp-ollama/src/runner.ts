@@ -636,11 +636,17 @@ export const runTask = async (
       if (result.aborted || controller.signal.aborted) {
         return { kind: 'Timeout' } satisfies RunTaskTimeout;
       }
-      if (!response.ok) {
+      if (!response.ok || result.status !== 'succeeded') {
+        if (!response.ok) {
+          return {
+            kind: 'Error',
+            error: result.error ?? `ollama returned ${response.status}`,
+            status: response.status,
+          } satisfies RunTaskError;
+        }
         return {
           kind: 'Error',
-          error: result.error ?? `ollama returned ${response.status}`,
-          status: response.status,
+          error: result.error ?? 'ollama response stream failed',
         } satisfies RunTaskError;
       }
       return {
