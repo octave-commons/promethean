@@ -20,7 +20,6 @@ import {
   type EndpointDefinition,
 } from "../resolve-config.js";
 import type { Transport } from "../types.js";
-import crypto from "node:crypto";
 import type { IncomingMessage, ServerResponse } from "node:http";
 import { createSessionIdGenerator } from "./session-id.js";
 
@@ -33,7 +32,7 @@ type ToolSummary = Readonly<{
   id: string;
   name?: string;
   description?: string;
-}>;
+};
 
 type UiProxyInfo = Readonly<{
   name: string;
@@ -47,7 +46,7 @@ type UiState = Readonly<{
   httpEndpoints: readonly EndpointDefinition[];
   availableTools: readonly ToolSummary[];
   proxies: readonly UiProxyInfo[];
-}>;
+};
 
 type UiOptions = Readonly<{
   availableTools: readonly ToolSummary[];
@@ -163,8 +162,8 @@ const createRouteHandler = (
             JSON.stringify({
               jsonrpc: "2.0",
               error: {
-                code: -32000,
-                message: "Bad Request: No valid session ID provided",
+              code: -32000,
+              message: "Bad Request: No valid session ID provided",
               },
               id: null,
             }),
@@ -175,7 +174,7 @@ const createRouteHandler = (
         let self: StreamableHTTPServerTransport;
 
         const t: StreamableHTTPServerTransport =
-          new StreamableHTTPServerTransport({
+          new StreamableHTTPServerTransport({s
             sessionIdGenerator: createSessionIdGenerator(crypto),
             onsessioninitialized: (sid: string): void => {
               sessions.set(sid, self);
@@ -362,7 +361,7 @@ const createUiState = (
   configPath: options.configPath,
   httpEndpoints: options.httpEndpoints,
   availableTools: options.availableTools,
-  proxies: proxies.map((proxy) => ({
+  proxies: proxies.map((proxy) => ({s
     name: proxy.spec.name,
     httpPath: normalizePath(proxy.spec.httpPath),
   })),
@@ -371,6 +370,7 @@ const createUiState = (
 const respond = (reply: any, status: number, payload: unknown): void => {
   reply.status(status).header("content-type", "application/json").send(payload);
 };
+
 
 };
 export const fastifyTransport = (opts?: {
@@ -393,7 +393,7 @@ export const fastifyTransport = (opts?: {
 
   app.get("/healthz", (_req, rep) => rep.send({ ok: true }));
 
-  const sessionStores = new Map<
+  const sessionStores = new Map<J
     string,
     Map<string, StreamableHTTPServerTransport>
   >();
@@ -404,7 +404,7 @@ export const fastifyTransport = (opts?: {
       const entries = toEntries(server);
       const { proxies: proxyList, ui } = parseStartOptions(optionsInput);
     start: async (descriptorInput?: unknown, _options?: unknown) => {
-      const descriptors = ensureEndpointDescriptors(descriptorInput);
+      const descriptors = ensureEndpointDescriptors(entries);
 
       if (descriptors.length === 0) {
         throw new Error(
@@ -420,12 +420,13 @@ export const fastifyTransport = (opts?: {
               ...descriptor,
               path: normalizePath(descriptor.path),
             }
-          : {
+          : {s
               ...descriptor,
               path: normalizePath(descriptor.path),
             },
       );
 
+      const normalizedProxies = proxyList.map((proxy) => ({ route: normalizePath(proxy.spec.httpPath) }));
       const seenRoutes = new Set<string>();
       for (const descriptor of normalized) {
         if (seenRoutes.has(descriptor.path)) {
@@ -467,7 +468,7 @@ export const fastifyTransport = (opts?: {
               | { message?: string }
               | undefined;
             const message = payload?.message?.trim();
-            if (!message) {
+            if (!message) { 
               respond(reply, 400, {
                 error: "invalid_request",
                 message: "message is required",
@@ -481,142 +482,4 @@ export const fastifyTransport = (opts?: {
             const proxiesInfo = currentUiState?.proxies ?? [];
 
             let responseText =
-              "Ask about tools, endpoints, or configuration to get more details.";
-
-            if (lower.includes("tool")) {
-              responseText =
-                tools.length > 0
-                  ? `Available tools: ${tools
-                      .map((tool) => tool.id)
-                      .join(", ")}`
-                  : "No tools are currently enabled.";
-            } else if (lower.includes("endpoint")) {
-              responseText =
-                endpoints.length > 0
-                  ? `HTTP endpoints: ${endpoints
-                      .map(
-                        (endpoint) =>
-                          `${endpoint.path} (${endpoint.tools.join(", ")})`,
-                      )
-                      .join("; ")}`
-                  : "No HTTP endpoints configured.";
-            } else if (lower.includes("config")) {
-              responseText = `Configuration file: ${currentUiState?.configPath}`;
-              if (proxiesInfo.length > 0) {
-                responseText += ` · Proxies: ${proxiesInfo
-                  .map((proxy) => `${proxy.name}@${proxy.httpPath}`)
-                  .join(", ")}`;
-              }
-            }
-
-            respond(reply, 200, { reply: responseText });
-          } catch (error) {
-            console.error("[mcp:http] failed to handle chat message", error);
-            respond(reply, 400, { error: "invalid_json" });
-          }
-        });
-
-        app.post("/ui/config", async (req, reply) => {
-          if (!currentUiState) {
-            respond(reply, 503, { error: "ui_unavailable" });
-            return;
-          }
-
-          try {
-            const payload = mustParseJson(req.body) as
-              | { path?: unknown; config?: unknown }
-              | undefined;
-
-            if (!isObject(payload) || !("config" in payload)) {
-              respond(reply, 400, {
-                error: "invalid_request",
-                message: "config payload is required",
-              });
-              return;
-            }
-
-            const targetPath =
-              typeof payload.path === "string"
-                ? payload.path
-                : currentUiState.configSource.type === "file"
-                  ? currentUiState.configSource.path
-                  : CONFIG_FILE_NAME;
-
-            const resolvedPath = path.isAbsolute(targetPath)
-              ? targetPath
-              : path.resolve(process.cwd(), targetPath);
-
-            const nextConfig = ConfigSchema.parse(payload.config);
-            const savedConfig = saveConfigFile(resolvedPath, nextConfig);
-            const nextEndpoints = resolveHttpEndpoints(savedConfig);
-
-            currentUiState = {
-              config: savedConfig,
-              configSource: { type: "file", path: resolvedPath },
-              configPath: resolvedPath,
-              httpEndpoints: nextEndpoints,
-              availableTools: currentUiState.availableTools,
-              proxies: proxyList.map((proxy) => ({
-                name: proxy.spec.name,
-                httpPath: normalizePath(proxy.spec.httpPath),
-              })),
-            };
-
-            respond(reply, 200, currentUiState);
-          } catch (error: any) {
-            console.error("[mcp:http] failed to update config", error);
-            respond(reply, 400, {
-              error: "invalid_config",
-              message: String(error?.message ?? error),
-            });
-          }
-        });
-      }
-
-      const startedProxies: StdioHttpProxy[] = [];
-      const startedProxies: ProxyLifecycle[] = [];
-
-      try {
-        for (const descriptor of normalized) {
-          if (descriptor.kind === "registry") {
-            const sessions = new Map<string, StreamableHTTPServerTransport>();
-            sessionStores.set(descriptor.path, sessions);
-            app.post(
-              descriptor.path,
-              createRouteHandler(descriptor.handler, sessions),
-            );
-            console.log(`[mcp:http] bound endpoint ${descriptor.path}`);
-            continue;
-          }
-
-          await descriptor.handler.start();
-          startedProxies.push(descriptor.handler);
-          app.post(descriptor.path, createProxyHandler(descriptor.handler));
-          console.log(
-            `[mcp:http] proxied stdio server ${descriptor.handler.spec.name} at ${descriptor.path}`,
-          );
-        }
-
-        await app.listen({ port, host } as any);
-        activeProxies.push(...startedProxies);
-        console.log(`[mcp:http] listening on http://${host}:${port}`);
-      } catch (error) {
-        await Promise.allSettled(
-          startedProxies.map(async (proxy) => {
-            try {
-              await proxy.stop();
-            } catch {
-              /* ignore */
-            }
-          }),
-        );
-        throw error;
-      }
-    },
-    stop: async () => {
-      await app.close();
-      const toStop = activeProxies.splice(0, activeProxies.length);
-      await Promise.allSettled(toStop.map((proxy) => proxy.stop()));
-    },
-  };
-};
+              Ask about tools, endpoints, or configuration to get more details.
