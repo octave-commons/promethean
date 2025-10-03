@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { argv, exit } from "node:process";
-import { randomUUID } from 'node:crypto';
+import { randomUUID } from "node:crypto";
 import { ContextRegistry } from "./registry.js";
 import type { ContextInit } from "./types/context.js";
 import {
@@ -45,9 +45,9 @@ export interface CliDependencies {
 const defaultRegistry = new ContextRegistry();
 
 const DEFAULT_HELLO: HelloCaps = {
-  proto: 'ENSO-1',
-  caps: ['audio', 'chat'],
-  agent: { name: 'enso-cli', version: '0.0.0' },
+  proto: "ENSO-1",
+  caps: ["can.send.text", "can.voice.stream"],
+  agent: { name: "enso-cli", version: "0.0.0" },
 };
 
 function formatTranscript(payload: unknown): string {
@@ -60,13 +60,13 @@ function formatTranscript(payload: unknown): string {
 
 function partsToText(parts: ContentPart[]): string {
   const texts = parts
-    .filter((p): p is TextPart => p.kind === 'text')
+    .filter((p): p is TextPart => p.kind === "text")
     .map((p) => p.text);
-  return texts.join(' ');
+  return texts.join(" ");
 }
 
 function formatChatMessage(msg?: ChatMessage): string {
-  if (!msg) return '';
+  if (!msg) return "";
   const text = partsToText(msg.parts);
   return text || JSON.stringify(msg);
 }
@@ -82,8 +82,10 @@ async function runVoiceDemo(
     let pingIntervalMs: number | undefined;
     for (let i = 0; i < args.length; i += 1) {
       const a = args[i];
-      if (a === "--url" && args[i + 1]) { url = String(args[i + 1]); i += 1; }
-      else if ((a === "--ping" || a === "--ping-interval") && args[i + 1]) {
+      if (a === "--url" && args[i + 1]) {
+        url = String(args[i + 1]);
+        i += 1;
+      } else if ((a === "--ping" || a === "--ping-interval") && args[i + 1]) {
         const v = Number(args[i + 1]);
         if (!Number.isNaN(v)) pingIntervalMs = v;
         i += 1;
@@ -100,7 +102,7 @@ async function runVoiceDemo(
     deps.demo?.connect ??
     ((instance, options) => {
       const transportOptions =
-        ('pingIntervalMs' in options && options.pingIntervalMs !== undefined)
+        "pingIntervalMs" in options && options.pingIntervalMs !== undefined
           ? { pingIntervalMs: options.pingIntervalMs }
           : {};
       return connectWebSocket(
@@ -117,8 +119,12 @@ async function runVoiceDemo(
       : { url: parsed.url, hello },
   );
 
-  (deps.log ?? console.log)(`Connecting to ${parsed.url} as stream ${streamId}`);
-  (deps.log ?? console.log)("Speak into the microphone or pipe PCM16 audio via stdin.");
+  (deps.log ?? console.log)(
+    `Connecting to ${parsed.url} as stream ${streamId}`,
+  );
+  (deps.log ?? console.log)(
+    "Speak into the microphone or pipe PCM16 audio via stdin.",
+  );
 
   const transcriptListeners = [
     client.on("stream:transcript.partial", (env) => {
@@ -143,7 +149,9 @@ async function runVoiceDemo(
   const agentPromise = new Promise<void>((resolve) => {
     client.on("event:chat.msg", (env) => {
       const payload = env.payload as { message?: ChatMessage } | undefined;
-      (deps.log ?? console.log)(`[agent] ${formatChatMessage(payload?.message)}`);
+      (deps.log ?? console.log)(
+        `[agent] ${formatChatMessage(payload?.message)}`,
+      );
       resolve();
     });
   });
@@ -151,7 +159,7 @@ async function runVoiceDemo(
   const createCapture =
     deps.demo?.createCapture ??
     (async (options: { streamId: string }) => {
-      const { stdin } = await import('node:process');
+      const { stdin } = await import("node:process");
       stdin.resume();
       return createNodeAudioCapture({
         stream: stdin,
@@ -285,7 +293,11 @@ export async function runCliCommand(
       const { port } = parseServerArgs(deps.args ?? []);
       if (port !== undefined) process.env.ENSO_PORT = String(port);
       await import("./ws-server.js");
-      log(`[enso] ws server boot requested on :${process.env.ENSO_PORT ?? process.env.PORT ?? '7766'}`);
+      log(
+        `[enso] ws server boot requested on :${
+          process.env.ENSO_PORT ?? process.env.PORT ?? "7766"
+        }`,
+      );
       return;
     }
     default:

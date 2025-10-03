@@ -11,7 +11,9 @@ export type Issue = {
 };
 
 export type ReportInput = {
-  repo: string; // e.g. 'riatzukiza/promethean'
+  /** GitHub repository slug in `owner/name` format. */
+  repo: string;
+  /** Issues to summarize, usually sourced from the GitHub REST API. */
   issues: readonly Issue[];
 };
 
