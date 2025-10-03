@@ -4,6 +4,11 @@ export const makeThrottledSender = (
 ) => {
   ch.bufferedAmountLowThreshold = threshold;
   let waiters: ReadonlyArray<() => void> = [];
+  const flush = () => {
+    const queue = [...waiters];
+    waiters = [];
+    queue.forEach((fn) => fn());
+  };
 
   const flush = () => {
     const queue = [...waiters];
