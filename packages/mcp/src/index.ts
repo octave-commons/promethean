@@ -1,3 +1,4 @@
+import path from "node:path";
 import { pathToFileURL } from "node:url";
 
 import { applyPatchTool } from "./tools/apply-patch.js";
@@ -12,8 +13,11 @@ import {
   tddPropertyCheck,
   tddMutationScore,
 } from "./tools/tdd.js";
-import { loadConfig } from "./config/load-config.js";
-import type { AppConfig } from "./config/load-config.js";
+import {
+  loadConfigWithSource,
+  type AppConfig,
+  CONFIG_FILE_NAME,
+} from "./config/load-config.js";
 import { buildRegistry } from "./core/registry.js";
 import { createMcpServer } from "./core/mcp-server.js";
 import { fastifyTransport } from "./core/transports/fastify.js";
@@ -85,6 +89,12 @@ import {
 } from "./tools/sandboxes.js";
 import { loadStdioServerSpecs, type StdioServerSpec } from "./proxy/config.js";
 import { StdioHttpProxy } from "./proxy/stdio-proxy.js";
+
+type ToolSummary = Readonly<{
+  id: string;
+  name?: string;
+  description?: string;
+}>;
 
 const toolCatalog = new Map<string, ToolFactory>([
   ["apply_patch", applyPatchTool],
@@ -158,6 +168,18 @@ const mkCtx = () => ({
   now: () => new Date(),
 });
 
+const collectToolSummaries = (
+  ctx: ReturnType<typeof mkCtx>,
+): readonly ToolSummary[] =>
+  Array.from(toolCatalog.entries()).map(([id, factory]) => {
+    const tool = factory(ctx);
+    return {
+      id,
+      name: tool.spec.name,
+      description: tool.spec.description,
+    };
+  });
+
 const selectFactories = (toolIds: readonly string[]): readonly ToolFactory[] =>
   toolIds
     .map((id) => {
@@ -187,7 +209,7 @@ export const loadHttpTransportConfig = async (
 };
 
 export const main = async (): Promise<void> => {
-  const cfg = loadConfig(env);
+  const { config: cfg, source } = loadConfigWithSource(env);
   const ctx = mkCtx();
 
   if (cfg.transport === "http") {
@@ -208,12 +230,25 @@ export const main = async (): Promise<void> => {
     );
 
     const transport = fastifyTransport();
+    const defaultConfigPath = path.resolve(process.cwd(), CONFIG_FILE_NAME);
+    const configPath = source.type === "file" ? source.path : defaultConfigPath;
+    const toolSummaries = collectToolSummaries(ctx);
+
     console.log(
       `[mcp] transport = http (${httpConfig.endpoints.length} endpoint${
         httpConfig.endpoints.length === 1 ? "" : "s"
       }, ${proxies.length} prox${proxies.length === 1 ? "y" : "ies"})`,
     );
-    await transport.start(servers, proxies);
+    await transport.start(servers, {
+      proxies,
+      ui: {
+        availableTools: toolSummaries,
+        config: cfg,
+        configSource: source,
+        configPath,
+        httpEndpoints: httpConfig.endpoints,
+      },
+    });
     return;
   }
 
