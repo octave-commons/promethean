@@ -105,6 +105,7 @@ const toolCatalog = new Map<string, ToolFactory>([
     githubReviewRequestChangesFromCodex,
   ],
   ["github.review.submitReview", githubReviewSubmitReview],
+  ["mcp.help", helpTool],
   ["github.review.getActionStatus", githubReviewGetActionStatus],
   ["github.review.commit", githubReviewCommit],
   ["github.review.push", githubReviewPush],
@@ -161,6 +162,10 @@ const mkCtx = () => ({
   fetch: global.fetch.bind(global),
   now: () => new Date(),
 });
+
+// Ensure the help tool is available within any registry subset, unless explicitly omitted.
+const ensureHelp = (ids: readonly string[]): readonly string[] =>
+  toolCatalog.has("mcp.help") && !ids.includes("mcp.help") ? [...ids, "mcp.help"] : ids;
 
 const selectFactories = (toolIds: readonly string[]): readonly ToolFactory[] =>
   toolIds
@@ -275,8 +280,9 @@ export const main = async (): Promise<void> => {
     const httpConfig = await loadHttpTransportConfig(cfg);
     const registryDescriptors: HttpEndpointDescriptor[] =
       httpConfig.endpoints.map((endpoint) => {
-        const factories = selectFactories(endpoint.tools);
+        const factories = selectFactories(ensureHelp(endpoint.tools));
         const registry = buildRegistry(factories, ctx);
+        (ctx as any).__registryList = () => registry.list();
         return {
           path: endpoint.path,
           kind: "registry" as const,
@@ -319,9 +325,10 @@ export const main = async (): Promise<void> => {
     return;
   }
 
-  const toolIds = resolveStdioTools(cfg);
+  const toolIds = ensureHelp(resolveStdioTools(cfg));
   const factories = selectFactories(toolIds);
   const registry = buildRegistry(factories, ctx);
+  (ctx as any).__registryList = () => registry.list();
   const server = createMcpServer(registry.list());
   const transport = stdioTransport();
   console.log("[mcp] transport = stdio");
@@ -335,7 +342,6 @@ const shouldRunMain = (): boolean => {
   try {
     return pathToFileURL(entry).href === import.meta.url;
   } catch {
-  (ctx as any).__registryList = () => registry.list();
     return false;
   }
 };
