@@ -54,7 +54,7 @@
           "serve"
           "--stdio"
           "--db" "/home/err/.local/share/haiku-rag"]
-   :cwd "$HOME/devel/promethean"}
+   :cwd "$HOME/devel/promethean"}}
 
  :outputs
  [{:schema :codex.toml  :path "/home/err/.codex/config.toml"}
@@ -64,6 +64,9 @@
 
   ;; Oterm
   {:schema :codex.json :path "/home/err/.local/share/oterm/config.json"}
+
+  ;; Promethean root manifest
+  {:schema :mcp.json  :path "./promethean.mcp.json"}
 
   ;; Emacs MCP package
   ;; doesn't work right.

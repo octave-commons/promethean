@@ -1,13 +1,22 @@
-import { z } from "zod";
+import { z } from 'zod';
 
-import type { EndpointDefinition } from "../core/resolve-config.js";
-import type { ToolContext, ToolFactory, ToolSpec } from "../core/types.js";
+import type { EndpointDefinition } from '../core/resolve-config.js';
+import type { ToolContext, ToolFactory, ToolSpec } from '../core/types.js';
+import type { StdioServerSpec } from '../proxy/config.js';
+
+type ProxySummary = Readonly<{
+  inline: number;
+  config: number;
+  fallback: number;
+  active: number;
+}>;
 
 type ValidationSummary = Readonly<{
   endpoints: number;
   errorCount: number;
   warningCount: number;
   workflowIssues: number;
+  proxies: ProxySummary;
 }>;
 
 type ValidationOutcome = Readonly<{
@@ -20,6 +29,11 @@ type ValidationOutcome = Readonly<{
 type ValidationContext = ToolContext & {
   readonly __allEndpoints?: readonly EndpointDefinition[];
   readonly __allToolIds?: readonly string[];
+  readonly __proxySources?: Readonly<{
+    inline: readonly StdioServerSpec[];
+    config: readonly StdioServerSpec[];
+    fallback: readonly StdioServerSpec[];
+  }>;
 };
 
 const OUTPUT_SCHEMA = {
@@ -31,15 +45,16 @@ const OUTPUT_SCHEMA = {
     errorCount: z.number().int().nonnegative(),
     warningCount: z.number().int().nonnegative(),
     workflowIssues: z.number().int().nonnegative(),
+    proxies: z.object({
+      inline: z.number().int().nonnegative(),
+      config: z.number().int().nonnegative(),
+      fallback: z.number().int().nonnegative(),
+      active: z.number().int().nonnegative(),
+    }),
   }),
 } as const;
 
-const META_TOOL_IDS = [
-  "mcp.help",
-  "mcp.toolset",
-  "mcp.endpoints",
-  "mcp.validate-config",
-] as const;
+const META_TOOL_IDS = ['mcp.help', 'mcp.toolset', 'mcp.endpoints', 'mcp.validate-config'] as const;
 
 const TOOL_ID_PATTERN = /\b[a-z][a-z0-9-]*[._][a-z0-9_.-]+\b/g;
 
@@ -53,15 +68,10 @@ type StepToolRefs = Readonly<{
   unknown: readonly string[];
 }>;
 
-const extractToolRefs = (
-  step: string,
-  allTools: ReadonlyMap<string, string>,
-): StepToolRefs => {
+const extractToolRefs = (step: string, allTools: ReadonlyMap<string, string>): StepToolRefs => {
   const matches = step.match(TOOL_ID_PATTERN);
   if (!matches) return { known: [], unknown: [] };
-  const normalized = matches
-    .map((match) => canonical(match))
-    .filter((match) => match.length > 0);
+  const normalized = matches.map((match) => canonical(match)).filter((match) => match.length > 0);
   const known = normalized.filter((key) => allTools.has(key));
   const unknown = normalized.filter((key) => !allTools.has(key));
   return {
@@ -70,37 +80,27 @@ const extractToolRefs = (
   };
 };
 
-const toEndpointArray = (
-  endpoints: unknown,
-): readonly EndpointDefinition[] =>
-  Array.isArray(endpoints)
-    ? (endpoints as readonly EndpointDefinition[])
-    : [];
+const toEndpointArray = (endpoints: unknown): readonly EndpointDefinition[] =>
+  Array.isArray(endpoints) ? (endpoints as readonly EndpointDefinition[]) : [];
 
 const toToolIdArray = (tools: unknown): readonly string[] =>
   Array.isArray(tools) ? (tools as readonly string[]) : [];
 
-const buildMetaToolIds = (): readonly string[] =>
-  META_TOOL_IDS.map(canonical);
+const buildMetaToolIds = (): readonly string[] => META_TOOL_IDS.map(canonical);
 
 const inflateEndpointToolSet = (
   endpoint: EndpointDefinition,
   helperIds: readonly string[],
 ): ReadonlySet<string> =>
-  new Set(
-    [
-      ...toToolIdArray(endpoint.tools).map(canonical),
-      ...(endpoint.includeHelp !== false ? helperIds : []),
-    ],
-  );
+  new Set([
+    ...toToolIdArray(endpoint.tools).map(canonical),
+    ...(endpoint.includeHelp !== false ? helperIds : []),
+  ]);
 
-const collectAllTools = (
-  allToolIds: readonly string[],
-): ReadonlyMap<string, string> =>
+const collectAllTools = (allToolIds: readonly string[]): ReadonlyMap<string, string> =>
   new Map(allToolIds.map((id) => [canonical(id), id] as const));
 
-const formatPrefix = (endpoint: EndpointDefinition): string =>
-  `endpoint:\`${endpoint.path}\``;
+const formatPrefix = (endpoint: EndpointDefinition): string => `endpoint:\`${endpoint.path}\``;
 
 type WorkflowLint = Readonly<{
   errors: readonly string[];
@@ -113,13 +113,11 @@ const validateWorkflow = (
   resolvedTools: ReadonlySet<string>,
   allTools: ReadonlyMap<string, string>,
 ): WorkflowLint => {
-  const workflow = Array.isArray(endpoint.meta?.workflow)
-    ? endpoint.meta?.workflow ?? []
-    : [];
+  const workflow = Array.isArray(endpoint.meta?.workflow) ? endpoint.meta?.workflow ?? [] : [];
   const prefix = formatPrefix(endpoint);
   return workflow.reduce<WorkflowLint>(
     (acc, step, index) => {
-      if (typeof step !== "string" || step.trim().length === 0) {
+      if (typeof step !== 'string' || step.trim().length === 0) {
         return {
           errors: acc.errors,
           warnings: acc.warnings.concat(
@@ -139,8 +137,7 @@ const validateWorkflow = (
         };
       }
       const unknownErrors = unknown.map(
-        (key) =>
-          `${prefix} meta.workflow[${index}] references unknown tool id \`${key}\``,
+        (key) => `${prefix} meta.workflow[${index}] references unknown tool id \`${key}\``,
       );
       const missingErrors = known
         .map((key) => {
@@ -217,19 +214,34 @@ const aggregateLint = (
     { errors: [], warnings: [], workflowIssues: 0 },
   );
 
+const count = (value: readonly unknown[] | undefined): number => value?.length ?? 0;
+
+const proxySummaryFrom = (ctx: ValidationContext): ProxySummary => {
+  const sources = ctx.__proxySources;
+  const inline = count(sources?.inline);
+  const config = count(sources?.config);
+  const fallback = count(sources?.fallback);
+  return {
+    inline,
+    config,
+    fallback,
+    active: inline > 0 ? inline : config > 0 ? config : fallback,
+  };
+};
+
 // Lints the currently loaded MCP configuration using context injected by index.ts
 export const validateConfig: ToolFactory = (context) => {
   const spec = {
-    name: "mcp.validate-config",
+    name: 'mcp.validate-config',
     description:
-      "Validate endpoint/tool configuration and narrative metadata. Returns errors and warnings.",
+      'Validate endpoint/tool configuration and narrative metadata. Returns errors and warnings.',
     inputSchema: {},
     outputSchema: OUTPUT_SCHEMA,
-    stability: "experimental",
-    since: "0.1.0",
+    stability: 'experimental',
+    since: '0.1.0',
     examples: [
       {
-        comment: "Check for drift between endpoint workflows and exposed tools",
+        comment: 'Check for drift between endpoint workflows and exposed tools',
         args: {},
       },
     ],
@@ -251,6 +263,7 @@ export const validateConfig: ToolFactory = (context) => {
         errorCount: lint.errors.length,
         warningCount: lint.warnings.length,
         workflowIssues: lint.workflowIssues,
+        proxies: proxySummaryFrom(ctx),
       },
     };
 

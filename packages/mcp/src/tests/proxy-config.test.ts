@@ -34,3 +34,25 @@ test("loadStdioServerSpecs skips disabled entries and expands defaults", async (
   t.is(specs[0]?.httpPath, "/foo/mcp");
   t.deepEqual(specs[0]?.args, ["pkg"]);
 });
+
+test("loadStdioServerSpecs expands environment variables in paths", async (t) => {
+  const dir = mkdtempSync(path.join(tmpdir(), "mcp-proxy-"));
+  const file = path.join(dir, "servers.edn");
+  const edn = `{:mcp-servers {:foo {:command "npx" :cwd "$HOME"}}}`;
+  writeFileSync(file, edn, "utf8");
+
+  const specs = await loadStdioServerSpecs(file);
+  t.is(specs.length, 1);
+  t.is(specs[0]?.cwd, process.env.HOME);
+});
+
+test("loadStdioServerSpecs leaves package-style args unresolved", async (t) => {
+  const dir = mkdtempSync(path.join(tmpdir(), "mcp-proxy-"));
+  const file = path.join(dir, "servers.edn");
+  const edn = `{:mcp-servers {:foo {:command "npx" :args ["tritlo/lsp-mcp"]}}}`;
+  writeFileSync(file, edn, "utf8");
+
+  const specs = await loadStdioServerSpecs(file);
+  t.is(specs.length, 1);
+  t.is(specs[0]?.args[0], "tritlo/lsp-mcp");
+});
