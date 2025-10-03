@@ -1,7 +1,7 @@
 import { z } from "zod";
 import type { ReadonlyDeep } from "type-fest";
 
-import type { ToolContext, ToolFactory } from "../../core/types.js";
+import type { ToolContext, ToolFactory, ToolSpec } from "../../core/types.js";
 
 import { normalizeGithubPayload } from "./base64.js";
 
@@ -189,11 +189,19 @@ export const githubRequestTool: ToolFactory = (ctx) => {
         comment: "Fetch repo metadata",
       },
       {
-        args: { method: "GET", path: "/repos/riatzukiza/promethean/issues", paginate: true, perPage: 100, maxPages: 3 },
+        args: {
+          method: "GET",
+          path: "/repos/riatzukiza/promethean/issues",
+          paginate: true,
+          perPage: 100,
+          maxPages: 3,
+        },
         comment: "Stream issues with pagination",
       },
     ],
-  } as const;
+    stability: "experimental",
+    since: "0.1.0",
+  } satisfies ToolSpec;
 
   const invoke = async (raw: unknown) => {
     const args = Schema.parse(raw);
