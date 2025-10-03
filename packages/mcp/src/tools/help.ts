@@ -5,18 +5,18 @@ export const help: ToolFactory = (ctx) => {
     name: "mcp.help",
     description: "List available tools with args, defaults, outputs, and examples.",
     inputSchema: {},
-    outputSchema: { tools: { } } as any,
+    outputSchema: { tools: {} } as any,
   } as const;
 
   const invoke = async () => {
     const list = (ctx as any).__registryList?.() ?? [];
-    const tools = list.map((t): any => ({
+    const tools = list.map((t: any) => ({
       name: t.spec.name,
       description: t.spec.description,
-      inputSchema: t.spec.inputSchema || null,
-      outputSchema: t.spec.outputSchema || null,
-      examples: t.spec.examples || [],
-      notes: t.spec.notes || "",
+      inputSchema: t.spec.inputSchema ?? null,
+      outputSchema: t.spec.outputSchema ?? null,
+      examples: t.spec.examples ?? [],
+      notes: t.spec.notes ?? "",
     }));
     return { tools };
   };
