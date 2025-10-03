@@ -81,16 +81,13 @@ import {
   type EndpointDefinition,
 } from "./core/resolve-config.js";
 import { discordSendMessage, discordListMessages } from "./tools/discord.js";
-import { loadStdioServerSpecs } from "./proxy/config.js";
-import type { StdioServerSpec } from "./proxy/config.js";
+import { loadStdioServerSpecs, type StdioServerSpec } from "./proxy/config.js";
 import { StdioHttpProxy } from "./proxy/stdio-proxy.js";
 import {
   sandboxCreateTool,
   sandboxDeleteTool,
   sandboxListTool,
 } from "./tools/sandboxes.js";
-import { loadStdioServerSpecs, type StdioServerSpec } from "./proxy/config.js";
-import { StdioHttpProxy } from "./proxy/stdio-proxy.js";
 
 const toolCatalog = new Map<string, ToolFactory>([
   ["apply_patch", applyPatchTool],
@@ -251,7 +248,6 @@ const loadConfiguredProxies = async (
   }
 };
 
-const main = async () => {
 export type HttpTransportConfig = Readonly<{
   endpoints: readonly EndpointDefinition[];
   stdioProxies: readonly StdioServerSpec[];
@@ -275,59 +271,50 @@ export const main = async (): Promise<void> => {
   const ctx = mkCtx();
 
   if (cfg.transport === "http") {
-    const endpoints = resolveHttpEndpoints(cfg);
-    const proxies = await loadConfiguredProxies(env, cwd);
-
-    const descriptors: HttpEndpointDescriptor[] = endpoints.map((endpoint) => {
-      const factories = selectFactories(endpoint.tools);
-      const registry = buildRegistry(factories, ctx);
-      return {
-        path: endpoint.path,
-        kind: "registry",
-        handler: createMcpServer(registry.list()),
-      } as const;
-    });
-
-    for (const proxy of proxies) {
-      descriptors.push({
-        path: proxy.spec.httpPath,
-        kind: "proxy",
-        handler: proxy,
-      });
-    }
     const httpConfig = await loadHttpTransportConfig(cfg);
-    const servers = new Map(
+    const registryDescriptors: HttpEndpointDescriptor[] =
       httpConfig.endpoints.map((endpoint) => {
         const factories = selectFactories(endpoint.tools);
         const registry = buildRegistry(factories, ctx);
-        return [endpoint.path, createMcpServer(registry.list())] as const;
+        return {
+          path: endpoint.path,
+          kind: "registry" as const,
+          handler: createMcpServer(registry.list()),
+        } satisfies HttpEndpointDescriptor;
+      });
+
+    const proxiesFromConfig = httpConfig.stdioProxies.map(instantiateProxy);
+    const fallbackProxies =
+      proxiesFromConfig.length > 0 ? [] : await loadConfiguredProxies(env, cwd);
+    const stdioProxies =
+      proxiesFromConfig.length > 0 ? proxiesFromConfig : fallbackProxies;
+
+    const proxyDescriptors: HttpEndpointDescriptor[] = stdioProxies.map(
+      (proxy) => ({
+        path: proxy.spec.httpPath,
+        kind: "proxy" as const,
+        handler: proxy,
       }),
     );
 
-    const proxies = httpConfig.stdioProxies.map(
-      (spec) =>
-        new StdioHttpProxy(spec, (msg: string, ...rest: readonly unknown[]) => {
-          console.log(`[mcp:proxy:${spec.name}] ${msg}`, ...rest);
-        }),
-    );
+    const descriptors: HttpEndpointDescriptor[] = [
+      ...registryDescriptors,
+      ...proxyDescriptors,
+    ];
 
     const transport = fastifyTransport();
     const summaryParts = [
-      `${endpoints.length} endpoint${endpoints.length === 1 ? "" : "s"}`,
+      `${registryDescriptors.length} endpoint${
+        registryDescriptors.length === 1 ? "" : "s"
+      }`,
     ];
-    if (proxies.length > 0) {
+    if (stdioProxies.length > 0) {
       summaryParts.push(
-        `${proxies.length} prox${proxies.length === 1 ? "y" : "ies"}`,
+        `${stdioProxies.length} prox${stdioProxies.length === 1 ? "y" : "ies"}`,
       );
     }
     console.log(`[mcp] transport = http (${summaryParts.join(", ")})`);
     await transport.start(descriptors);
-    console.log(
-      `[mcp] transport = http (${httpConfig.endpoints.length} endpoint${
-        httpConfig.endpoints.length === 1 ? "" : "s"
-      }, ${proxies.length} prox${proxies.length === 1 ? "y" : "ies"})`,
-    );
-    await transport.start(servers, proxies);
     return;
   }
 

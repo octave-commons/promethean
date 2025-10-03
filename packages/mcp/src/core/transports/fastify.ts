@@ -8,28 +8,6 @@ import type { IncomingMessage, ServerResponse } from "node:http";
 import { createSessionIdGenerator } from "./session-id.js";
 import type { StdioHttpProxy } from "../../proxy/stdio-proxy.js";
 
-
-type ServerEntries = ReadonlyArray<readonly [string, McpServer]>;
-
-const toEntries = (input: unknown): ServerEntries => {
-  if (!input) return [];
-  if (input instanceof Map) {
-    return Array.from(input.entries());
-  }
-  if (
-    typeof input === "object" &&
-    input !== null &&
-    "connect" in (input as Record<string, unknown>) &&
-    typeof (input as Record<string, unknown>)["connect"] === "function"
-  ) {
-    return [["/mcp", input as McpServer]];
-  }
-  if (typeof input === "object" && input !== null) {
-    return Object.entries(input as Record<string, McpServer>);
-  }
-  return [["/mcp", input as McpServer]];
-};
-
 const normalizePath = (p: string): string => (p.startsWith("/") ? p : `/${p}`);
 
 const createRouteHandler = (
@@ -265,28 +243,6 @@ const createProxyHandler = (proxy: ProxyLifecycle) => {
     }
   };
 };
-const createProxyRouteHandler = (proxy: StdioHttpProxy) =>
-  async function handler(req: any, reply: any) {
-    reply.hijack();
-    try {
-      const body = req.body as Buffer | undefined;
-      await proxy.handle(req.raw, reply.raw, body);
-    } catch (error) {
-      console.error(
-        `[mcp:http] proxy ${proxy.spec.name} request failed:`,
-        error,
-      );
-      if (!reply.raw.headersSent) {
-        reply.raw.writeHead(500, { "content-type": "application/json" }).end(
-          JSON.stringify({
-            error: "proxy_failure",
-            name: proxy.spec.name,
-          }),
-        );
-      }
-    }
-  };
-
 export const fastifyTransport = (opts?: {
   port?: number;
   host?: string;
@@ -311,16 +267,13 @@ export const fastifyTransport = (opts?: {
     string,
     Map<string, StreamableHTTPServerTransport>
   >();
-  const activeProxies: StdioHttpProxy[] = [];
+  const activeProxies: ProxyLifecycle[] = [];
 
   return {
-    start: async (server?: unknown, proxiesInput?: unknown) => {
-      const entries = toEntries(server);
-      const proxyList = Array.isArray(proxiesInput)
-        ? (proxiesInput as readonly StdioHttpProxy[])
-        : [];
+    start: async (descriptorInput?: unknown, _options?: unknown) => {
+      const descriptors = ensureEndpointDescriptors(descriptorInput);
 
-      if (entries.length === 0 && proxyList.length === 0) {
+      if (descriptors.length === 0) {
         throw new Error(
           "fastifyTransport requires at least one MCP server or proxy",
         );
@@ -328,45 +281,46 @@ export const fastifyTransport = (opts?: {
 
       sessionStores.clear();
 
-      const normalizedEntries = entries.map(
-        ([route, srv]) => [normalizePath(route), srv] as const,
+      const normalized = descriptors.map((descriptor) =>
+        descriptor.kind === "registry"
+          ? {
+              ...descriptor,
+              path: normalizePath(descriptor.path),
+            }
+          : {
+              ...descriptor,
+              path: normalizePath(descriptor.path),
+            },
       );
-      const normalizedProxies = proxyList.map((proxy) => ({
-        proxy,
-        route: normalizePath(proxy.spec.httpPath),
-      }));
 
       const seenRoutes = new Set<string>();
-      for (const [route] of normalizedEntries) {
-        if (seenRoutes.has(route)) {
-          throw new Error(`Duplicate MCP endpoint path: ${route}`);
+      for (const descriptor of normalized) {
+        if (seenRoutes.has(descriptor.path)) {
+          throw new Error(`Duplicate MCP endpoint path: ${descriptor.path}`);
         }
-        seenRoutes.add(route);
+        seenRoutes.add(descriptor.path);
       }
 
-      for (const { route } of normalizedProxies) {
-        if (seenRoutes.has(route)) {
-          throw new Error(`Duplicate MCP endpoint path: ${route}`);
-        }
-        seenRoutes.add(route);
-      }
-
-      const startedProxies: StdioHttpProxy[] = [];
+      const startedProxies: ProxyLifecycle[] = [];
 
       try {
-        for (const [route, srv] of normalizedEntries) {
-          const sessions = new Map<string, StreamableHTTPServerTransport>();
-          sessionStores.set(route, sessions);
-          app.post(route, createRouteHandler(srv, sessions));
-          console.log(`[mcp:http] bound endpoint ${route}`);
-        }
+        for (const descriptor of normalized) {
+          if (descriptor.kind === "registry") {
+            const sessions = new Map<string, StreamableHTTPServerTransport>();
+            sessionStores.set(descriptor.path, sessions);
+            app.post(
+              descriptor.path,
+              createRouteHandler(descriptor.handler, sessions),
+            );
+            console.log(`[mcp:http] bound endpoint ${descriptor.path}`);
+            continue;
+          }
 
-        for (const { proxy, route } of normalizedProxies) {
-          await proxy.start();
-          startedProxies.push(proxy);
-          app.post(route, createProxyRouteHandler(proxy));
+          await descriptor.handler.start();
+          startedProxies.push(descriptor.handler);
+          app.post(descriptor.path, createProxyHandler(descriptor.handler));
           console.log(
-            `[mcp:http] proxied stdio server ${proxy.spec.name} at ${route}`,
+            `[mcp:http] proxied stdio server ${descriptor.handler.spec.name} at ${descriptor.path}`,
           );
         }
 
