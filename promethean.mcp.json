@@ -97,6 +97,20 @@
     },
     "workspace": {
       "tools": ["pnpm.install", "pnpm.add", "pnpm.remove", "pnpm.runScript"]
+    },
+    "ollama": {
+      "tools": [
+        "ollama.pull",
+        "ollama.listModels",
+        "ollama.listTemplates",
+        "ollama.createTemplate",
+        "ollama.enqueueGenerateJob",
+        "ollama.enqueueChatCompletion",
+        "ollama.enqueueJobFromTemplate",
+        "ollama.startConversation",
+        "ollama.getQueue",
+        "ollama.removeJob"
+      ]
     }
   },
   "stdioProxyConfig": "./config/mcp_servers.edn"
