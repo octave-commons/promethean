@@ -12,7 +12,6 @@ import {
 import type { HelloCaps } from "@promethean/enso-protocol";
 import type { ToolCall } from "@promethean/enso-protocol/dist/types/tools.js";
 
-export type ChatRole = "human" | "agent" | "system";
 type ToolInvocationOptions = {
   provider: ToolCall["provider"];
   name: ToolCall["name"];
