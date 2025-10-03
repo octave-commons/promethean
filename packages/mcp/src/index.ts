@@ -335,6 +335,7 @@ const shouldRunMain = (): boolean => {
   try {
     return pathToFileURL(entry).href === import.meta.url;
   } catch {
+  (ctx as any).__registryList = () => registry.list();
     return false;
   }
 };
