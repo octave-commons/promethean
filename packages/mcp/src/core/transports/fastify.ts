@@ -1,4 +1,6 @@
+import fastifyCors from "@fastify/cors";
 import Fastify from "fastify";
+import type { FastifyInstance } from "fastify";
 import crypto from "node:crypto";
 import path from "node:path";
 
@@ -105,6 +107,32 @@ const toEntries = (input: unknown): ServerEntries => {
   }
   return [["/mcp", input as unknown as McpServer]];
 };
+
+const stripTrailingSlash = (value: string): string =>
+  value.endsWith("/") ? value.slice(0, -1) : value;
+
+const parseAllowedOrigins = (input: string | undefined): readonly string[] =>
+  typeof input === "string"
+    ? input
+        .split(",")
+        .map((origin) => origin.trim())
+        .filter((origin) => origin.length > 0)
+    : [];
+
+const isOriginAllowed = (
+  origin: string,
+  allowed: readonly string[],
+): boolean => {
+  const normalized = stripTrailingSlash(origin);
+  return allowed.some((candidate) => {
+    const normalizedCandidate = stripTrailingSlash(candidate);
+    return candidate === origin || normalizedCandidate === normalized;
+  });
+};
+
+const consoleAllowedOrigins = parseAllowedOrigins(
+  process.env.MCP_CONSOLE_ORIGIN,
+);
 
 const descriptorsFromEntries = (
   entries: ServerEntries,
@@ -504,130 +532,150 @@ export const fastifyTransport = (opts?: {
       };
 
       if (uiOptions) {
-        app.get("/", (_req, reply) => {
-          reply
-            .status(200)
-            .header("content-type", "text/html; charset=utf-8")
-            .send(renderUiPage());
-        });
+        const registerUiHandlers = (instance: FastifyInstance): void => {
+          instance.get("/", (_req, reply) => {
+            reply
+              .status(200)
+              .header("content-type", "text/html; charset=utf-8")
+              .send(renderUiPage());
+          });
 
-        app.get("/ui/state", (_req, reply) => {
-          if (!currentUiState) {
-            respond(reply, 404, { error: "ui_unavailable" });
-            return;
-          }
-          respond(reply, 200, currentUiState);
-        });
-
-        app.post("/ui/chat", async (req, reply) => {
-          try {
-            const payload = mustParseJson(req.body) as
-              | { message?: string }
-              | undefined;
-            const message = payload?.message?.trim();
-            if (!message) {
-              respond(reply, 400, {
-                error: "invalid_request",
-                message: "message is required",
-              });
-              return;
-            }
-
+          instance.get("/ui/state", (_req, reply) => {
             if (!currentUiState) {
-              respond(reply, 503, { error: "ui_unavailable" });
+              respond(reply, 404, { error: "ui_unavailable" });
               return;
             }
-
-            const lower = message.toLowerCase();
-            const { availableTools, httpEndpoints, configPath, proxies } =
-              currentUiState;
-
-            let responseText =
-              "Ask about tools, endpoints, configuration, or proxies to get more details.";
-
-            if (lower.includes("tool")) {
-              responseText =
-                availableTools.length === 0
-                  ? "No MCP tools are currently registered."
-                  : `Available tools (${
-                      availableTools.length
-                    }): ${availableTools.map((tool) => tool.id).join(", ")}.`;
-            } else if (lower.includes("endpoint")) {
-              responseText =
-                httpEndpoints.length === 0
-                  ? "No HTTP endpoints are configured."
-                  : `HTTP endpoints (${httpEndpoints.length}): ${httpEndpoints
-                      .map((endpoint) => `${endpoint.path}`)
-                      .join(", ")}.`;
-            } else if (lower.includes("config")) {
-              responseText = `Current configuration path: ${configPath}.`;
-            } else if (lower.includes("proxy")) {
-              responseText =
-                proxies.length === 0
-                  ? "No stdio proxies are active."
-                  : `Active proxies (${proxies.length}): ${proxies
-                      .map((proxy) => `${proxy.name} → ${proxy.httpPath}`)
-                      .join(", ")}.`;
-            }
-
-            respond(reply, 200, { reply: responseText });
-          } catch (error) {
-            respond(reply, 500, {
-              error: "internal_error",
-              message: String((error as Error)?.message ?? error),
-            });
-          }
-        });
-
-        app.post("/ui/config", async (req, reply) => {
-          if (!uiOptions) {
-            respond(reply, 404, { error: "ui_unavailable" });
-            return;
-          }
-
-          try {
-            const payload = mustParseJson(req.body) as
-              | { path?: string; config?: unknown }
-              | undefined;
-            const configInput = payload?.config;
-            if (!configInput || typeof configInput !== "object") {
-              respond(reply, 400, {
-                error: "invalid_request",
-                message: "config payload is required",
-              });
-              return;
-            }
-
-            const requestedPath = payload?.path?.trim();
-            const fallbackPath =
-              uiOptions.configPath ||
-              path.resolve(process.cwd(), CONFIG_FILE_NAME);
-            const targetPath =
-              requestedPath && requestedPath.length > 0
-                ? requestedPath
-                : fallbackPath;
-
-            const resolvedPath = resolveConfigPath(targetPath);
-            const parsedConfig = ConfigSchema.parse(configInput ?? {});
-            const savedConfig = saveConfigFile(resolvedPath, parsedConfig);
-            const endpoints = resolveHttpEndpoints(savedConfig);
-
-            updateUiState({
-              availableTools: uiOptions.availableTools,
-              config: savedConfig,
-              configSource: { type: "file", path: resolvedPath },
-              configPath: resolvedPath,
-              httpEndpoints: endpoints,
-            });
-
             respond(reply, 200, currentUiState);
-          } catch (error) {
-            respond(reply, 400, {
-              error: "invalid_config",
-              message: String((error as Error)?.message ?? error),
+          });
+
+          instance.post("/ui/chat", async (req, reply) => {
+            try {
+              const payload = mustParseJson(req.body) as
+                | { message?: string }
+                | undefined;
+              const message = payload?.message?.trim();
+              if (!message) {
+                respond(reply, 400, {
+                  error: "invalid_request",
+                  message: "message is required",
+                });
+                return;
+              }
+
+              if (!currentUiState) {
+                respond(reply, 503, { error: "ui_unavailable" });
+                return;
+              }
+
+              const lower = message.toLowerCase();
+              const { availableTools, httpEndpoints, configPath, proxies } =
+                currentUiState;
+
+              let responseText =
+                "Ask about tools, endpoints, configuration, or proxies to get more details.";
+
+              if (lower.includes("tool")) {
+                responseText =
+                  availableTools.length === 0
+                    ? "No MCP tools are currently registered."
+                    : `Available tools (${
+                        availableTools.length
+                      }): ${availableTools.map((tool) => tool.id).join(", ")}.`;
+              } else if (lower.includes("endpoint")) {
+                responseText =
+                  httpEndpoints.length === 0
+                    ? "No HTTP endpoints are configured."
+                    : `HTTP endpoints (${httpEndpoints.length}): ${httpEndpoints
+                        .map((endpoint) => `${endpoint.path}`)
+                        .join(", ")}.`;
+              } else if (lower.includes("config")) {
+                responseText = `Current configuration path: ${configPath}.`;
+              } else if (lower.includes("proxy")) {
+                responseText =
+                  proxies.length === 0
+                    ? "No stdio proxies are active."
+                    : `Active proxies (${proxies.length}): ${proxies
+                        .map((proxy) => `${proxy.name} → ${proxy.httpPath}`)
+                        .join(", ")}.`;
+              }
+
+              respond(reply, 200, { reply: responseText });
+            } catch (error) {
+              respond(reply, 500, {
+                error: "internal_error",
+                message: String((error as Error)?.message ?? error),
+              });
+            }
+          });
+
+          instance.post("/ui/config", async (req, reply) => {
+            if (!uiOptions) {
+              respond(reply, 404, { error: "ui_unavailable" });
+              return;
+            }
+
+            try {
+              const payload = mustParseJson(req.body) as
+                | { path?: string; config?: unknown }
+                | undefined;
+              const configInput = payload?.config;
+              if (!configInput || typeof configInput !== "object") {
+                respond(reply, 400, {
+                  error: "invalid_request",
+                  message: "config payload is required",
+                });
+                return;
+              }
+
+              const requestedPath = payload?.path?.trim();
+              const fallbackPath =
+                uiOptions.configPath ||
+                path.resolve(process.cwd(), CONFIG_FILE_NAME);
+              const targetPath =
+                requestedPath && requestedPath.length > 0
+                  ? requestedPath
+                  : fallbackPath;
+
+              const resolvedPath = resolveConfigPath(targetPath);
+              const parsedConfig = ConfigSchema.parse(configInput ?? {});
+              const savedConfig = saveConfigFile(resolvedPath, parsedConfig);
+              const endpoints = resolveHttpEndpoints(savedConfig);
+
+              updateUiState({
+                availableTools: uiOptions.availableTools,
+                config: savedConfig,
+                configSource: { type: "file", path: resolvedPath },
+                configPath: resolvedPath,
+                httpEndpoints: endpoints,
+              });
+
+              respond(reply, 200, currentUiState);
+            } catch (error) {
+              respond(reply, 400, {
+                error: "invalid_config",
+                message: String((error as Error)?.message ?? error),
+              });
+            }
+          });
+        };
+
+        if (consoleAllowedOrigins.length > 0) {
+          await app.register(async (instance) => {
+            await instance.register(fastifyCors, {
+              origin: (origin, cb) => {
+                if (!origin) {
+                  cb(null, false);
+                  return;
+                }
+                cb(null, isOriginAllowed(origin, consoleAllowedOrigins));
+              },
+              credentials: true,
             });
-          }
-        });
+            registerUiHandlers(instance);
+          });
+        } else {
+          registerUiHandlers(app);
+        }
       }
 
       const startedProxies: ProxyLifecycle[] = [];
