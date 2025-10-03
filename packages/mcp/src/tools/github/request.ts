@@ -181,7 +181,18 @@ export const githubRequestTool: ToolFactory = (ctx) => {
   const spec = {
     name: "github_request",
     description: "Call GitHub REST API with optional ETag cache & pagination.",
-    inputSchema: shape,
+    inputSchema: shape, // <— ZodRawShape
+    outputSchema: { status: 200, headers: {}, data: {} } as any,
+    examples: [
+      {
+        args: { method: "GET", path: "/repos/riatzukiza/promethean" },
+        comment: "Fetch repo metadata",
+      },
+      {
+        args: { method: "GET", path: "/repos/riatzukiza/promethean/issues", paginate: true, perPage: 100, maxPages: 3 },
+        comment: "Stream issues with pagination",
+      },
+    ],
   } as const;
 
   const invoke = async (raw: unknown) => {
