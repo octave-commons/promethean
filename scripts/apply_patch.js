@@ -762,8 +762,15 @@ const isMain = (() => {
 })();
 
 if (isMain) {
-  main().catch((error) => {
-    console.error("[apply_patch] fatal", sanitizeForLog({ error }));
-    process.exit(1);
-  });
+  (async () => {
+    try {
+      const exitCode = await main();
+      if (typeof exitCode === "number") {
+        process.exitCode = exitCode;
+      }
+    } catch (error) {
+      console.error("[apply_patch] fatal", sanitizeForLog({ error }));
+      process.exitCode = 1;
+    }
+  })();
 }
