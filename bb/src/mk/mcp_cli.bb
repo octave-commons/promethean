@@ -26,6 +26,14 @@
   (or (some-> edn-path fs/path fs/parent str)
       (str (fs/cwd))))
 
+(defn refresh-after-edn!
+  "Push all configured outputs when we mutated the source EDN in-place."
+  [edn-map base out]
+  (when (nil? out)
+    (let [{:keys [results]} (ops/refresh-outputs! edn-map base)]
+      (doseq [{:keys [path schema]} results]
+        (println "refreshed ->" path "(" (name schema) ")")))))
+
 ;; ---------------- command specs ----------------
 ;; Describe args once; parser uses this per-command.
 (def cmd-spec
@@ -93,9 +101,11 @@
 (defn handle-pull [{:keys [schema target edn out]}]
   (let [base    (ensure-edn-base edn)
         edn-map (edn/read-string (slurp edn))
-        merged  (ops/pull-one edn-map base {:schema schema :path target})]
-    (core/spit-edn! (or out edn) merged)
-    (println "pulled ->" (or out edn))))
+        merged  (ops/pull-one edn-map base {:schema schema :path target})
+        target-edn (or out edn)]
+    (core/spit-edn! target-edn merged)
+    (println "pulled ->" target-edn)
+    (refresh-after-edn! merged base out)))
 
 (defn handle-push [{:keys [schema target edn]}]
   (let [base    (ensure-edn-base edn)
@@ -106,9 +116,11 @@
 (defn handle-sync [{:keys [schema target edn out]}]
   (let [base    (ensure-edn-base edn)
         edn-map (edn/read-string (slurp edn))
-        merged  (ops/sync-one! edn-map base {:schema schema :path target})]
-    (core/spit-edn! (or out edn)  merged)
-    (println "synced EDN & target")))
+        merged  (ops/sync-one! edn-map base {:schema schema :path target})
+        target-edn (or out edn)]
+    (core/spit-edn! target-edn merged)
+    (println "synced EDN & target")
+    (refresh-after-edn! merged base out)))
 
 (defn handle-push-all [{:keys [edn]}]
   (let [base    (ensure-edn-base edn)
