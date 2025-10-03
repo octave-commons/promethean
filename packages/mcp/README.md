@@ -44,9 +44,11 @@ declared `:http-path` (defaulting to `/<name>/mcp`).
 
 Running with this manifest will expose both the GitHub endpoint defined in JSON and any stdio servers declared in
 `packages/mcp/examples/mcp_servers.edn` on the same Fastify instance. Copy the example to `config/mcp_servers.edn` and
-adjust paths as needed for your machine (the config path is gitignored):
+adjust paths as needed for your machine (the config path is gitignored). Edit the EDN file and regenerate manifests instead of
+touching `promethean.mcp.json` by hand:
 
 ```bash
+bb -m mk.mcp-cli push-all --edn config/mcp_servers.edn
 pnpm --filter @promethean/mcp dev -- --config ./promethean.mcp.json
 ```
 
