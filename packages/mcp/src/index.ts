@@ -97,7 +97,11 @@ import {
   sandboxListTool,
 } from "./tools/sandboxes.js";
 
-import { help as helpTool, toolset as toolsetTool, endpoints as endpointsTool } from "./tools/help.js";
+import {
+  help as helpTool,
+  toolset as toolsetTool,
+  endpoints as endpointsTool,
+} from "./tools/help.js";
 import { validateConfig as validateConfigTool } from "./tools/validate-config.js";
 
 type ToolSummary = Readonly<{
@@ -204,17 +208,14 @@ const ensureMetaTools = (
 ): readonly string[] => {
   if (!includeHelp) return ids;
   const need: string[] = [];
-  if (toolCatalog.has("mcp.help") && !ids.includes("mcp.help")) need.push("mcp.help");
-  if (toolCatalog.has("mcp.toolset") && !ids.includes("mcp.toolset")) need.push("mcp.toolset");
-  if (toolCatalog.has("mcp.endpoints") && !ids.includes("mcp.endpoints")) need.push("mcp.endpoints");
+  if (toolCatalog.has("mcp.help") && !ids.includes("mcp.help"))
+    need.push("mcp.help");
+  if (toolCatalog.has("mcp.toolset") && !ids.includes("mcp.toolset"))
+    need.push("mcp.toolset");
+  if (toolCatalog.has("mcp.endpoints") && !ids.includes("mcp.endpoints"))
+    need.push("mcp.endpoints");
   return need.length ? [...ids, ...need] : ids;
 };
-// Ensure the help tool is available within any registry subset, unless explicitly omitted.
-const ensureHelp = (ids: readonly string[]): readonly string[] =>
-  toolCatalog.has("mcp.help") && !ids.includes("mcp.help")
-    ? [...ids, "mcp.help"]
-    : ids;
-
 const selectFactories = (toolIds: readonly string[]): readonly ToolFactory[] =>
   toolIds
     .map((id) => {
