@@ -12,6 +12,7 @@ import {
 import type { HelloCaps } from "@promethean/enso-protocol";
 import type { ToolCall } from "@promethean/enso-protocol/dist/types/tools.js";
 
+export type ChatRole = "human" | "agent" | "system";
 type ToolInvocationOptions = {
   provider: ToolCall["provider"];
   name: ToolCall["name"];
@@ -67,23 +68,33 @@ export class EnsoChatAgent extends EventEmitter {
   /** Connect to ENSO, either over ws:// or locally for tests */
   async connect(): Promise<void> {
     const hello: HelloCaps = {
+      proto: "ENSO-1",
       caps: ["can.send.text", "can.context.apply", "can.tool.call"],
       agent: { name: "duck", version: "0.1.0" },
       privacy: this.opts.privacyProfile
         ? { profile: this.opts.privacyProfile }
         : undefined,
-    } as any;
+    };
+
+    let ready: Promise<void>;
 
     if (this.opts.url) {
       const handle = connectWebSocket(this.client, this.opts.url, hello);
       this.wsHandle = { close: handle.close };
+      ready = handle.ready;
     } else {
       // local loop for tests/dev
       this.server = new EnsoServer();
-      const connection = await connectLocal(this.client, this.server, hello);
-      this.sessionId = connection.session.id;
-      this.localHandle = { disconnect: connection.disconnect };
+      const { disconnect } = await connectLocal(
+        this.client,
+        this.server,
+        hello,
+      );
+      this.localHandle = { disconnect };
+      ready = Promise.resolve();
     }
+
+    await ready;
 
     // register + advertise our native tools
     this.registerTools();
