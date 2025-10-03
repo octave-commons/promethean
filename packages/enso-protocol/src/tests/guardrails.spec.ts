@@ -5,6 +5,7 @@ import { EnsoServer } from "../server.js";
 import { ContextRegistry } from "../registry.js";
 import { connectLocal } from "../transport.js";
 import type { Envelope } from "../types/envelope.js";
+import { ACT_INTENT_DESCRIPTORS } from "../types/intents.js";
 
 function toolCallEnvelope(callId: string) {
   return {
@@ -23,7 +24,22 @@ function toolCallEnvelope(callId: string) {
   } satisfies Envelope;
 }
 
-test("evaluation mode blocks tool call without rationale", async (t) => {
+function intentEnvelope(callId: string) {
+  return {
+    id: randomUUID(),
+    ts: new Date().toISOString(),
+    room: "local",
+    from: "tester",
+    kind: "event" as const,
+    type: "act.intent" as const,
+    payload: {
+      callId,
+      intents: [ACT_INTENT_DESCRIPTORS.reduceSelfScope] as const,
+    },
+  } satisfies Envelope;
+}
+
+test("evaluation mode requires rationale and intent before tool call", async (t) => {
   const server = new EnsoServer();
   const client = new EnsoClient(new ContextRegistry());
   const toolCalls: Envelope[] = [];
@@ -58,8 +74,14 @@ test("evaluation mode blocks tool call without rationale", async (t) => {
   };
   await client.send(rationaleEnvelope);
   await client.send(toolCallEnvelope(callId));
+  t.is(toolCalls.length, 0);
+  t.is(violations.length, 2);
+  t.like(violations[1]?.payload, { reason: "missing-intent", callId });
+
+  await client.send(intentEnvelope(callId));
+  await client.send(toolCallEnvelope(callId));
   t.is(toolCalls.length, 1);
-  t.is(violations.length, 1);
+  t.is(violations.length, 2);
 
   connection.disconnect();
 });
