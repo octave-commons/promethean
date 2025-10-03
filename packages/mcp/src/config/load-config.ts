@@ -2,6 +2,11 @@ import fs from "node:fs";
 import path from "node:path";
 import { z } from "zod";
 
+export const CONFIG_FILE_NAME = "promethean.mcp.json";
+
+// Define the root directory for config files
+export const CONFIG_ROOT = process.cwd();
+
 const ToolId = z.string();
 
 // Optional descriptive metadata for a toolset/endpoint
@@ -36,7 +41,19 @@ const Config = z.object({
   stdioProxyConfig: z.string().min(1).nullable().default(null),
 });
 
+export const ConfigSchema = Config;
+
 export type AppConfig = z.infer<typeof Config>;
+
+export type ConfigSource =
+  | Readonly<{ type: "file"; path: string }>
+  | Readonly<{ type: "env" }>
+  | Readonly<{ type: "default" }>;
+
+export type LoadedConfig = Readonly<{
+  config: AppConfig;
+  source: ConfigSource;
+}>;
 
 const readJsonFileSync = (p: string): unknown => {
   const raw = fs.readFileSync(p, "utf8");
@@ -76,6 +93,95 @@ const getArgValue = (
   return undefined;
 };
 
+const normalizeConfig = (input: unknown): AppConfig =>
+  Config.parse(input ?? {});
+
+export const findConfigPath = (cwd: string = process.cwd()): string | null =>
+  findUpSync(cwd, CONFIG_FILE_NAME);
+
+export const resolveConfigPath = (
+  filePath: string,
+  baseDir: string = CONFIG_ROOT,
+): string => {
+  if (path.isAbsolute(filePath)) {
+    return path.normalize(filePath);
+  }
+  const base = fs.realpathSync(baseDir);
+  const candidate = path.normalize(path.resolve(base, filePath));
+  const relative = path.relative(base, candidate);
+  if (relative.startsWith("..") || path.isAbsolute(relative)) {
+    throw new Error(`Refusing to access path outside of ${base}: ${candidate}`);
+  }
+  return candidate;
+};
+
+const loadConfigFromFile = (filePath: string, baseDir?: string): AppConfig => {
+  const raw = readJsonFileSync(resolveConfigPath(filePath, baseDir));
+  return normalizeConfig(raw);
+};
+
+export const createDefaultConfig = (): AppConfig => normalizeConfig({});
+
+const ensureDirectory = (filePath: string): void => {
+  const dir = path.dirname(filePath);
+  fs.mkdirSync(dir, { recursive: true });
+};
+
+export const saveConfigFile = (
+  filePath: string,
+  config: AppConfig,
+  baseDir?: string,
+): AppConfig => {
+  const target = resolveConfigPath(filePath, baseDir);
+  const normalized = normalizeConfig(config);
+  ensureDirectory(target);
+  fs.writeFileSync(target, JSON.stringify(normalized, null, 2), "utf8");
+  return normalized;
+};
+
+export const loadConfigWithSource = (
+  env: NodeJS.ProcessEnv,
+  argv: string[] = process.argv,
+  cwd: string = process.cwd(),
+): LoadedConfig => {
+  const fromFile = (filePath: string): LoadedConfig => ({
+    config: loadConfigFromFile(filePath, cwd),
+    source: { type: "file", path: filePath },
+  });
+
+  // 1) explicit file
+  const explicit = getArgValue(argv, "--config", "-c");
+  if (explicit) {
+    const abs = path.resolve(cwd, explicit);
+    return fromFile(abs);
+  }
+
+  // 2) auto-detect file
+  const auto = findConfigPath(cwd);
+  if (auto) {
+    return fromFile(auto);
+  }
+
+  // 3) legacy env
+  if (env.MCP_CONFIG_JSON) {
+    try {
+      const raw = JSON.parse(env.MCP_CONFIG_JSON);
+      return {
+        config: normalizeConfig(raw),
+        source: { type: "env" },
+      };
+    } catch (e) {
+      throw new Error("Invalid MCP_CONFIG_JSON: " + (e as Error).message);
+    }
+  }
+
+  // 4) defaults
+  return {
+    config: createDefaultConfig(),
+    source: { type: "default" },
+  };
+};
+
 /**
  * Load config synchronously with the following precedence:
  * 1) --config / -c path (relative to cwd)
@@ -87,32 +193,4 @@ export const loadConfig = (
   env: NodeJS.ProcessEnv,
   argv: string[] = process.argv,
   cwd: string = process.cwd(),
-): AppConfig => {
-  // 1) explicit file
-  const explicit = getArgValue(argv, "--config", "-c");
-  if (explicit) {
-    const abs = path.resolve(cwd, explicit);
-    const raw = readJsonFileSync(abs);
-    return Config.parse(raw);
-  }
-
-  // 2) auto-detect file
-  const auto = findUpSync(cwd, "promethean.mcp.json");
-  if (auto) {
-    const raw = readJsonFileSync(auto);
-    return Config.parse(raw);
-  }
-
-  // 3) legacy env
-  if (env.MCP_CONFIG_JSON) {
-    try {
-      const raw = JSON.parse(env.MCP_CONFIG_JSON);
-      return Config.parse(raw);
-    } catch (e) {
-      throw new Error("Invalid MCP_CONFIG_JSON: " + (e as Error).message);
-    }
-  }
-
-  // 4) defaults
-  return Config.parse({});
-};
+): AppConfig => loadConfigWithSource(env, argv, cwd).config;
