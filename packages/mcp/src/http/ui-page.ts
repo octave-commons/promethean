@@ -186,6 +186,13 @@ button {
   font-size: 0.95rem;
 }
 
+.code-input {
+  font-family: "JetBrains Mono", "SFMono-Regular", "Menlo", monospace;
+  min-height: 160px;
+  line-height: 1.4;
+  white-space: pre;
+}
+
 .multi-select {
   min-height: 120px;
 }
@@ -267,6 +274,7 @@ const script = `(() => {
   const transportSelect = qs('#config-transport');
   const globalToolsSelect = qs('#config-tools');
   const proxyInput = qs('#config-stdio-proxy');
+  const inlineProxyInput = qs('#config-inline-proxies');
   const resolvedList = qs('#resolved-endpoints');
   const statusBanner = qs('#status-banner');
   const sourceLabel = qs('#config-source');
@@ -313,6 +321,24 @@ const script = `(() => {
     Array.from(select.options)
       .filter((option) => option.selected)
       .map((option) => option.value);
+
+  const formatInlineProxies = (proxies) =>
+    JSON.stringify(Array.isArray(proxies) ? proxies : [], null, 2);
+
+  const parseInlineProxies = (value) => {
+    const raw = typeof value === 'string' ? value.trim() : '';
+    if (!raw) return [];
+    try {
+      const parsed = JSON.parse(raw);
+      if (!Array.isArray(parsed)) {
+        throw new Error('Inline proxies must be a JSON array.');
+      }
+      return parsed;
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      throw new Error('Invalid inline proxy JSON: ' + message);
+    }
+  };
 
   const appendChatMessage = (author, text) => {
     const entry = document.createElement('div');
@@ -458,6 +484,7 @@ const script = `(() => {
       state.config.tools ?? [],
     );
     proxyInput.value = state.config.stdioProxyConfig ?? '';
+    inlineProxyInput.value = formatInlineProxies(state.config.stdioProxies);
     configPathInput.value = state.configPath;
     sourceLabel.textContent = describeSource(state.configSource, state.configPath);
     renderResolvedEndpoints(state.httpEndpoints ?? [], state.proxies ?? []);
@@ -488,11 +515,14 @@ const script = `(() => {
       }
     });
 
+    const inlineProxies = parseInlineProxies(inlineProxyInput.value);
+
     return {
       transport: transportSelect.value,
       tools: getSelectValues(globalToolsSelect),
       endpoints,
       stdioProxyConfig: proxyInput.value.trim() || null,
+      stdioProxies: inlineProxies,
     };
   };
 
@@ -528,7 +558,16 @@ const script = `(() => {
   });
 
   saveButton.addEventListener('click', async () => {
-    const config = collectConfig();
+    let config;
+    try {
+      config = collectConfig();
+    } catch (error) {
+      console.error(error);
+      const message =
+        error instanceof Error ? error.message : 'Invalid inline proxy configuration.';
+      showStatus(message);
+      return;
+    }
     const targetPath = configPathInput.value.trim();
     try {
       const res = await fetch('/ui/config', {
@@ -612,6 +651,14 @@ export const renderUiPage = (): string => `<!doctype html>
               <input id="config-stdio-proxy" type="text" placeholder="servers.edn" />
             </div>
             <div class="config-field">
+              <label for="config-inline-proxies">Inline stdio proxies (JSON array)</label>
+              <textarea
+                id="config-inline-proxies"
+                class="code-input"
+                placeholder='[{"name":"proxy","command":"./bin/server.sh","httpPath":"/proxy"}]'
+              ></textarea>
+            </div>
+            <div class="config-field">
               <label>HTTP endpoints</label>
               <div id="endpoints" class="endpoints"></div>
               <button type="button" id="add-endpoint" class="secondary-button">Add endpoint</button>
@@ -625,7 +672,7 @@ export const renderUiPage = (): string => `<!doctype html>
         </section>
       </main>
     </div>
-    <script>${script.replaceAll("</script>", "<\\/script>")}</script>
+    <script>${script.replaceAll('</script>', '<\\/script>')}</script>
   </body>
 </html>`;
 
