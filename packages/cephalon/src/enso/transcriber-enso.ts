@@ -108,6 +108,7 @@ export class EnsoTranscriber extends Transcriber {
   } | null = null;
   private readonly url: string;
   private readonly roomPrefix: string;
+  private readonly handshake: Promise<void>;
 
   constructor(opts: EnsoTranscriberOptions = {}) {
     // Provide a noop broker to avoid legacy broker wiring in base class
@@ -119,10 +120,15 @@ export class EnsoTranscriber extends Transcriber {
     this.client = new EnsoClient();
     // Connect immediately; throw if handshake fails
     const hello: HelloCaps = {
+      proto: "ENSO-1",
       caps: ["can.voice.stream", "can.send.text"],
       agent: { name: "cephalon-duck", version: "0.1.0" },
-    } as any;
+    };
     const handle = connectWebSocket(this.client, this.url, hello);
+    this.handshake = handle.ready.catch((error) => {
+      this.emit("error", error);
+      throw error;
+    });
     this.wsHandle = { close: handle.close };
   }
 
@@ -172,23 +178,48 @@ export class EnsoTranscriber extends Transcriber {
       emitEof: true,
     });
 
-    // Register stream for flow control bookkeeping
-    this.client.voice.register(streamId, 0);
-    void pumpAudioFrames(capture, (frame) =>
-      this.client.voice.sendFrame(frame, { room }),
-    ).catch((err) => {
-      // Non-fatal: emit an end with empty transcript if upstream fails
-      const endTime = Date.now();
-      this.emit("transcriptEnd", {
-        startTime,
-        endTime,
-        speaker,
-        user: speaker.user as any,
-        userName: speaker.user.username,
-        transcript: "",
-      });
-      console.error("ENSO voice pump error", err);
-    });
+    const startPump = async () => {
+      try {
+        await this.handshake;
+      } catch {
+        off();
+        const endTime = Date.now();
+        this.emit("transcriptEnd", {
+          startTime,
+          endTime,
+          speaker,
+          user: speaker.user as any,
+          userName: speaker.user.username,
+          transcript: "",
+          originalTranscript: "",
+        });
+        if (typeof (capture as any)?.destroy === "function") {
+          (capture as any).destroy();
+        }
+        return;
+      }
+      // Register stream for flow control bookkeeping after handshake
+      this.client.voice.register(streamId, 0);
+      try {
+        await pumpAudioFrames(capture, (frame) =>
+          this.client.voice.sendFrame(frame, { room }),
+        );
+      } catch (err) {
+        // Non-fatal: emit an end with empty transcript if upstream fails
+        const endTime = Date.now();
+        this.emit("transcriptEnd", {
+          startTime,
+          endTime,
+          speaker,
+          user: speaker.user as any,
+          userName: speaker.user.username,
+          transcript: "",
+        });
+        console.error("ENSO voice pump error", err);
+      }
+    };
+
+    void startPump();
 
     return pcmStream;
   }
