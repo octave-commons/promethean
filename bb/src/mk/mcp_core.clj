@@ -41,7 +41,7 @@
     (fs/create-dirs dir)))
 
 ;; ----- canonical model -----
-;; {:mcp-servers {name {:command "…" :args [...]}} ...maybe future keys}
+;; {:mcp-servers {name {:command "…" :args [...] :cwd "…"}} ...maybe future keys}
 (defn canonical? [m] (and (map? m) (map? (:mcp-servers m))))
 
 ;; ----- merges (maps only) -----

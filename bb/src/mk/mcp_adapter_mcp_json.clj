@@ -14,7 +14,8 @@
                    (for [[nm spec] servers]
                      [(keyword nm)
                       (cond-> {:command (get spec "command")}
-                        (seq (get spec "args")) (assoc :args (vec (get spec "args"))) )]))}
+                        (seq (get spec "args")) (assoc :args (vec (get spec "args")))
+                        (get spec "cwd") (assoc :cwd (get spec "cwd")) )]))}
         rest (dissoc m "mcpServers")]
     {:mcp mcp :rest rest}))
 
@@ -25,9 +26,10 @@
         ;; Replace only the "mcpServers" key, keep all others from either rest or existing
         m* (merge existing rest)
         servers (into (sorted-map)
-                      (for [[k {:keys [command args]}] (:mcp-servers mcp)]
+                      (for [[k {:keys [command args cwd]}] (:mcp-servers mcp)]
                         [(name k) (cond-> {"command" command}
-                                    (seq args) (assoc "args" (vec args)))]))
+                                    (seq args) (assoc "args" (vec args))
+                                    cwd       (assoc "cwd" cwd))]))
         out (assoc m* "mcpServers" servers)]
     (core/ensure-parent! path)
     (spit path (json/generate-string out {:pretty true}))))

@@ -11,7 +11,23 @@ type Pending = {
   reject: (err: any) => void;
 };
 
-export function attachRouter(ws: WebSocket, sessionId: string) {
+type SessionMeta = {
+  server?: string;
+  cwd?: string;
+};
+
+function buildContext(sessionId: string, meta: SessionMeta) {
+  const ctx: Record<string, string> = { sessionId };
+  if (meta.server) ctx.server = meta.server;
+  if (meta.cwd) ctx.cwd = meta.cwd;
+  return ctx;
+}
+
+export function attachRouter(
+  ws: WebSocket,
+  sessionId: string,
+  meta: SessionMeta = {},
+) {
   const bridge = createBridge();
   const send = createSender(ws, Number(process.env.MCP_MAX_BUFFER || 1 << 20));
   const pending = new Map<string, Pending>();
@@ -63,7 +79,7 @@ export function attachRouter(ws: WebSocket, sessionId: string) {
         id: callId,
         tool: params.name,
         args: params.arguments,
-        ctx: { sessionId },
+        ctx: buildContext(sessionId, meta),
       });
       return;
     }

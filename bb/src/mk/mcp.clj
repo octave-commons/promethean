@@ -33,12 +33,15 @@
   (letfn [(render-toml [[k spec]]
             (let [name-str (ensure-str k "server name")
                   cmd      (ensure-str (:command spec) ":command")
-                  args     (:args spec)]
+                  args     (:args spec)
+                  cwd      (:cwd spec)]
               (str
                (toml-table name-str)
                (toml-assign "command" (q cmd))
                (when (seq args)
                  (toml-assign "args" (toml-array (map #(q (ensure-str % ":args")) args))))
+               (when cwd
+                 (toml-assign "cwd" (q (ensure-str cwd ":cwd"))))
                "\n")))]
     (str "# generated — do not edit\n\n"
          (apply str (map render-toml (sorted-servers servers))))))
@@ -50,7 +53,9 @@
                [(ensure-str k "server name")
                 (cond-> {"command" (ensure-str (:command spec) ":command")}
                   (seq (:args spec))
-                  (assoc "args" (vec (map #(ensure-str % ":args") (:args spec)))) )])
+                  (assoc "args" (vec (map #(ensure-str % ":args") (:args spec))))
+                  (:cwd spec)
+                  (assoc "cwd" (ensure-str (:cwd spec) ":cwd")) )])
         payload {"mcpServers" (into (sorted-map) (map pair servers))}]
     (json/generate-string payload {:pretty true})))
 
@@ -62,7 +67,9 @@
                 (cond-> {"command" (ensure-str (:command spec) ":command")
                          "type"    "stdio"}
                   (seq (:args spec))
-                  (assoc "args" (vec (map #(ensure-str % ":args") (:args spec)))) )])
+                  (assoc "args" (vec (map #(ensure-str % ":args") (:args spec))))
+                  (:cwd spec)
+                  (assoc "cwd" (ensure-str (:cwd spec) ":cwd")) )])
         base {"servers" (into (sorted-map) (map pair servers))}
         payload (cond-> base
                   include-inputs? (assoc "inputs" []))]
@@ -75,6 +82,9 @@
             (let [name-str (ensure-str k "server name")
                   cmd      (ensure-str (:command spec) ":command")
                   args     (vec (map #(ensure-str % ":args") (:args spec)))]
+              ;; The Emacs client does not yet understand cwd values; we only
+              ;; emit command/args here while keeping :cwd in the canonical EDN
+              ;; model for other outputs.
               (format "  (\"%s\" . (\"%s\"%s))"
                       name-str cmd (if (seq args) (str " " (pr-str args)) ""))))]
     (str ";;; mcp-servers.el --- generated, do not edit\n"

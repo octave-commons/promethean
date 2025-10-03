@@ -97,13 +97,17 @@
         (when (zero? exit) (str/trim out))))))
 
 (defn doctor-server
-  "Return a status map for one server {:server k :command str :resolved? bool :resolved-path str|nil}."
-  [[k {:keys [command]}]]
-  (let [resolved (when command (which command))]
+  "Return a status map for one server {:server k :command str :resolved? bool :resolved-path str|nil :cwd str|nil :cwd-exists?}."
+  [[k {:keys [command cwd]}]]
+  (let [resolved (when command (which command))
+        cwd-path (some-> cwd expand-home fs/path)
+        cwd-exists? (boolean (when cwd-path (fs/exists? cwd-path)))]
     {:server k
      :command command
      :resolved? (boolean resolved)
-     :resolved-path resolved}))
+     :resolved-path resolved
+     :cwd cwd
+     :cwd-exists? cwd-exists?}))
 
 (defn doctor-output
   "Return a status map for one output {:schema kw :path str :parent-exists? bool}."

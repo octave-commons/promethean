@@ -2,13 +2,16 @@ import http from "http";
 import { once } from "events";
 import type { AddressInfo } from "net";
 import { EventEmitter } from "events";
+import { mkdtempSync, rmSync, writeFileSync } from "fs";
+import { tmpdir } from "os";
+import path from "path";
 
 import WebSocket, { WebSocketServer } from "ws";
 import test from "ava";
-import { sleep } from "@promethean/test-utils/sleep";
 
 import { attachRouter } from "../src/router.js";
-import { createWsServer } from "../src/wsListener.js";
+import { createWsServer, resolveSessionMeta } from "../src/wsListener.js";
+import { clearConfigCacheForTesting } from "../src/config.js";
 
 class MockWS extends EventEmitter {
   public sent: any[] = [];
@@ -17,6 +20,9 @@ class MockWS extends EventEmitter {
     this.sent.push(JSON.parse(data));
   }
 }
+
+const sleep = (ms: number) =>
+  new Promise<void>((resolve) => setTimeout(resolve, ms));
 
 test("attachRouter emits progress, result, error and cleans up on close", async (t) => {
   const bridgeServer = new WebSocketServer({ port: 0 });
@@ -57,6 +63,60 @@ test("attachRouter emits progress, result, error and cleans up on close", async 
   ws.emit("close");
   await closed;
 
+  await new Promise<void>((res, rej) =>
+    bridgeServer.close((err) => (err ? rej(err) : res())),
+  );
+});
+
+test("attachRouter forwards session metadata in ctx", async (t) => {
+  const bridgeServer = new WebSocketServer({ port: 0 });
+  await once(bridgeServer, "listening");
+  const bridgePort = (bridgeServer.address() as AddressInfo).port;
+  process.env.SMARTGPT_BRIDGE_URL = `ws://localhost:${bridgePort}`;
+
+  const received: any[] = [];
+  bridgeServer.on("connection", (ws) => {
+    ws.on("message", (data) => received.push(JSON.parse(data.toString())));
+    ws.on("error", () => {});
+  });
+
+  const ws = new MockWS();
+  attachRouter(ws as any, "session-meta", {
+    server: "filesystem",
+    cwd: "/tmp/repo",
+  });
+
+  const [bridgeSocket] = await once(bridgeServer, "connection");
+
+  ws.emit(
+    "message",
+    Buffer.from(
+      JSON.stringify({
+        jsonrpc: "2.0",
+        id: 7,
+        method: "tools/call",
+        params: { name: "search.query", arguments: { query: "ctx" } },
+      }),
+    ),
+  );
+
+  const [raw] = await once(bridgeSocket, "message");
+  const msg = JSON.parse(raw.toString());
+  t.deepEqual(received[0]?.ctx, {
+    sessionId: "session-meta",
+    server: "filesystem",
+    cwd: "/tmp/repo",
+  });
+  t.deepEqual(msg.ctx, {
+    sessionId: "session-meta",
+    server: "filesystem",
+    cwd: "/tmp/repo",
+  });
+
+  const bridgeClosed = once(bridgeSocket, "close");
+  ws.emit("close");
+  bridgeSocket.close();
+  await bridgeClosed;
   await new Promise<void>((res, rej) =>
     bridgeServer.close((err) => (err ? rej(err) : res())),
   );
@@ -122,4 +182,29 @@ test("createWsServer authorizes connections and attaches router", async (t) => {
   await new Promise<void>((res, rej) =>
     bridgeServer.close((err) => (err ? rej(err) : res())),
   );
+});
+
+test("resolveSessionMeta returns cwd from config", (t) => {
+  clearConfigCacheForTesting();
+  const prevConfig = process.env.MCP_STDIO_CONFIG;
+  const dir = mkdtempSync(path.join(tmpdir(), "mcp-config-"));
+  const configPath = path.join(dir, "config.json");
+  writeFileSync(
+    configPath,
+    JSON.stringify({
+      mcpServers: {
+        repo: { command: "node", cwd: "/srv/repo" },
+      },
+    }),
+    "utf8",
+  );
+  process.env.MCP_STDIO_CONFIG = configPath;
+
+  const meta = resolveSessionMeta(new URL("http://localhost/mcp?server=repo"));
+  t.deepEqual(meta, { server: "repo", cwd: "/srv/repo" });
+
+  clearConfigCacheForTesting();
+  if (prevConfig === undefined) delete process.env.MCP_STDIO_CONFIG;
+  else process.env.MCP_STDIO_CONFIG = prevConfig;
+  rmSync(dir, { recursive: true, force: true });
 });

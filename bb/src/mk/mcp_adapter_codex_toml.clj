@@ -54,14 +54,17 @@
                    (for [[nm kv] tables]
                      [(keyword nm)
                       (cond-> {:command (get kv "command")}
-                        (seq (get kv "args")) (assoc :args (vec (get kv "args"))) )]))}]
+                        (seq (get kv "args")) (assoc :args (vec (get kv "args")))
+                        (get kv "cwd") (assoc :cwd (get kv "cwd")) )]))}]
     {:mcp mcp :rest rest-string :raw s}))
 
-(defn- render-toml-table [[k {:keys [command args]}]]
+(defn- render-toml-table [[k {:keys [command args cwd]}]]
   (str "[mcp_servers." (format "\"%s\"" (name k)) "]\n"
        "command = " (format "\"%s\"" command) "\n"
        (when (seq args)
          (str "args = [" (str/join ", " (map #(str "\"" % "\"") args)) "]\n"))
+       (when cwd
+         (str "cwd = \"" cwd "\"\n"))
        "\n"))
 
 (defn write-full [path {:keys [mcp rest]}]

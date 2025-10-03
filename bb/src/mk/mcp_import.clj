@@ -26,7 +26,9 @@
                         [(keyword nm)
                          (cond-> {:command (ensure-str (:command spec))}
                            (seq (:args spec))
-                           (assoc :args (vec (map ensure-str (:args spec)))))]))})
+                           (assoc :args (vec (map ensure-str (:args spec))))
+                           (:cwd spec)
+                           (assoc :cwd (ensure-str (:cwd spec))))]))})
 
 (defn slurp-json [p] (json/parse-string (slurp p)))
 (defn trimq [s] (some-> s (str/replace #"^\"|\"$" "")))
@@ -41,7 +43,8 @@
     (->servers-edn
       (for [[nm spec] servers]
         [nm {:command (get spec "command")
-             :args    (vec (or (get spec "args") []))}]))))
+             :args    (vec (or (get spec "args") []))
+             :cwd     (get spec "cwd")}]))))
 
 ;; -------------------- schema: vscode.json --------------------
 ;; shape: {"servers":{"name":{"command":"…","type":"stdio","args":[…]}}}
@@ -53,7 +56,8 @@
     (->servers-edn
       (for [[nm spec] servers]
         [nm {:command (get spec "command")
-             :args    (vec (or (get spec "args") []))}]))))
+             :args    (vec (or (get spec "args") []))
+             :cwd     (get spec "cwd")}]))))
 
 (defn splitr [s re] (str/split  re s))
 ;; -------------------- schema: codex.toml --------------------
@@ -106,7 +110,8 @@
         (for [[[t1 nm] kv] m
               :when (= t1 "mcp_servers")]
           [nm {:command (get kv "command")
-               :args    (vec (or (get kv "args") []))}])]
+               :args    (vec (or (get kv "args") []))
+               :cwd     (get kv "cwd")}])]
     (when (empty? servers)
       (die! "codex.toml: no [mcp_servers.*] tables found"))
     (->servers-edn servers)))

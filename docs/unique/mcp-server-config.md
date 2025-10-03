@@ -143,44 +143,54 @@ We want to update this so it works to generate the right kind of lisp for mcp.el
 ```edn
 {:mcp-servers
  {:github
-  {:command "/home/err/devel/promethean/scripts/mcp/bin/github.sh"}
+  {:command "/home/err/devel/promethean/scripts/mcp/bin/github.sh"
+   :cwd "/home/err/devel/promethean"}
 
   :github-chat
-  {:command "/home/err/devel/promethean/scripts/mcp/bin/github_chat.sh"}
+  {:command "/home/err/devel/promethean/scripts/mcp/bin/github_chat.sh"
+   :cwd "/home/err/devel/promethean"}
 
   :sonarqube
-  {:command "/home/err/devel/promethean/scripts/mcp/bin/sonarqube.sh"}
+  {:command "/home/err/devel/promethean/scripts/mcp/bin/sonarqube.sh"
+   :cwd "/home/err/devel/promethean"}
 
   :file-system
-  {:command "/home/err/devel/promethean/scripts/mcp/bin/filesystem.sh"}
+  {:command "/home/err/devel/promethean/scripts/mcp/bin/filesystem.sh"
+   :cwd "/home/err/devel/promethean"}
 
   :obsidian
-  {:command "/home/err/devel/promethean/scripts/mcp/bin/obsidian.sh"}
+  {:command "/home/err/devel/promethean/scripts/mcp/bin/obsidian.sh"
+   :cwd "/home/err/devel/promethean"}
 
   :duckduckgo
-  {:command "/home/err/devel/promethean/scripts/mcp/bin/duck.sh"}
+  {:command "/home/err/devel/promethean/scripts/mcp/bin/duck.sh"
+   :cwd "/home/err/devel/promethean"}
 
   :npm-helper
   {:command "npx"
-   :args ["-y" "npm-helper-mcp"]}
+   :args ["-y" "npm-helper-mcp"]
+   :cwd "/home/err/devel/promethean"}
 
   :ts-ls-lsp
   {:command "npx"
    :args ["tritlo/lsp-mcp"
           "typescript"
           "/home/err/.volta/bin/typescript-language-server"
-          "--stdio"]}
+          "--stdio"]
+   :cwd "/home/err/devel/promethean"}
 
   :haiku-rag
   {:command "uvx"
    :args ["haiku-rag"
           "serve"
           "--stdio"
-          "--db" "/home/err/.local/share/haiku-rag/db"]}
+          "--db" "/home/err/.local/share/haiku-rag/db"]
+   :cwd "/home/err/devel/promethean"}
 
   :backseat-driver
   {:command "/home/err/.config/calva/backseat-driver/calva-mcp-server.js"
-   :args ["1664"]}}
+   :args ["1664"]
+   :cwd "/home/err/.config/calva/backseat-driver"}}
 
  :outputs
  [{:schema :codex.toml  :path "/home/err/.codex/config.toml"}
@@ -197,8 +207,12 @@ We want to update this so it works to generate the right kind of lisp for mcp.el
   {:schema :codex.json :path "/home/err/.local/share/oterm/config.json"}
 
   ;; Emacs MCP package
-  {:schema :elisp       :path "/home/err/devel/promethean/.emacs/layers/llm/config.el"}]}
+ {:schema :elisp       :path "/home/err/devel/promethean/.emacs/layers/llm/config.el"}]}
 ```
+
+`:cwd` is optional and lets launchers such as the HTTP stdio proxy run the
+wrapped command from a specific working directory without relying on the
+caller’s `PWD`.
 
 # The refactored program
 
