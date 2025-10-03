@@ -5,7 +5,7 @@ import { resolve as resolvePath } from "node:path";
 import { z } from "zod";
 
 import { getMcpRoot } from "../files.js";
-import type { ToolFactory } from "../core/types.js";
+import type { ToolFactory, ToolSpec } from "../core/types.js";
 
 const isUniversalDiff = (value: string): boolean =>
   /^(?:Index: |diff --git|---\s)/m.test(value);
@@ -93,7 +93,9 @@ export const applyPatchTool: ToolFactory = (ctx) => {
     description:
       "Apply a universal diff patch to the MCP sandbox using git apply.",
     inputSchema: shape,
-  } as const;
+    stability: "stable",
+    since: "0.1.0",
+  } satisfies ToolSpec;
 
   const invoke = async (raw: unknown) => {
     const argsParsed = Schema.parse(raw);

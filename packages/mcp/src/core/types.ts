@@ -17,6 +17,8 @@ export type ToolSpec = Readonly<{
   // IMPORTANT: the SDK expects a ZodRawShape (a flat object of fields), not a z.object(...)
   inputSchema?: ZodRawShape;
   outputSchema?: ZodRawShape;
+  stability?: "stable" | "experimental" | "deprecated";
+  since?: string;
   // New: agent-facing hints.
   examples?: ReadonlyArray<ToolExample>;
   notes?: string;

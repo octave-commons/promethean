@@ -2,7 +2,7 @@ import { strFromU8, unzipSync } from "fflate";
 import { z } from "zod";
 import type { ReadonlyDeep } from "type-fest";
 
-import type { ToolContext, ToolFactory } from "../../core/types.js";
+import type { ToolContext, ToolFactory, ToolSpec } from "../../core/types.js";
 
 const DEFAULT_API_VERSION = "2022-11-28";
 const DEFAULT_BASE_URL = "https://api.github.com";
@@ -129,7 +129,9 @@ export const githubWorkflowGetRunLogs: ToolFactory = (ctx) => {
       description:
         "Download and extract the log files for a GitHub Actions workflow run.",
       inputSchema: shape,
-    },
+      stability: "experimental",
+      since: "0.1.0",
+    } satisfies ToolSpec,
     invoke: async (raw: unknown) => {
       const args = Schema.parse(raw);
       const base = ctx.env.GITHUB_BASE_URL ?? DEFAULT_BASE_URL;
@@ -161,7 +163,9 @@ export const githubWorkflowGetJobLogs: ToolFactory = (ctx) => {
       description:
         "Download and extract the log files for a GitHub Actions workflow job.",
       inputSchema: shape,
-    },
+      stability: "experimental",
+      since: "0.1.0",
+    } satisfies ToolSpec,
     invoke: async (raw: unknown) => {
       const args = Schema.parse(raw);
       const base = ctx.env.GITHUB_BASE_URL ?? DEFAULT_BASE_URL;

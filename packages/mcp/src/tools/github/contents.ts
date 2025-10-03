@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import type { ToolFactory } from "../../core/types.js";
+import type { ToolFactory, ToolSpec } from "../../core/types.js";
 
 import { isBase64String, normalizeGithubPayload } from "./base64.js";
 
@@ -119,7 +119,9 @@ export const githubContentsWrite: ToolFactory = (ctx) => {
     description:
       "Create or update a file via the GitHub contents API with automatic base64 encoding.",
     inputSchema: GithubContentsInputShape,
-  } as const;
+    stability: "experimental",
+    since: "0.1.0",
+  } satisfies ToolSpec;
 
   const invoke = async (raw: unknown) => {
     const args = GithubContentsSchema.parse(raw);
