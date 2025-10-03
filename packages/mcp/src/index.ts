@@ -25,6 +25,10 @@ import { githubGraphqlTool } from "./tools/github/graphql.js";
 import { githubRateLimitTool } from "./tools/github/rate-limit.js";
 import { githubContentsWrite } from "./tools/github/contents.js";
 import {
+  githubWorkflowGetJobLogs,
+  githubWorkflowGetRunLogs,
+} from "./tools/github/workflows.js";
+import {
   githubReviewCheckoutBranch,
   githubReviewCommit,
   githubReviewCreateBranch,
@@ -96,6 +100,8 @@ const toolCatalog = new Map<string, ToolFactory>([
   ["github.graphql", githubGraphqlTool],
   ["github.rate-limit", githubRateLimitTool],
   ["github.contents.write", githubContentsWrite],
+  ["github.workflow.getRunLogs", githubWorkflowGetRunLogs],
+  ["github.workflow.getJobLogs", githubWorkflowGetJobLogs],
   ["github.apply_patch", githubApplyPatchTool],
   ["github.review.openPullRequest", githubReviewOpenPullRequest],
   ["github.review.getComments", githubReviewGetComments],
