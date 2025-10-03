@@ -1,5 +1,11 @@
 import test from "ava";
 
+import {
+  PCM16_MAX,
+  PCM16_MIN,
+  SAMPLES_PER_DECIMATED_OUTPUT,
+} from "@promethean/duck-audio";
+
 import { ToPcm16kMono } from "../../enso/transcriber-enso.js";
 
 function runThroughDownmix(samples: readonly number[]) {
@@ -24,9 +30,14 @@ function runThroughDownmix(samples: readonly number[]) {
 }
 
 test("ToPcm16kMono clamps extreme sample values without wrapping", async (t) => {
-  const negative = await runThroughDownmix(new Array(6).fill(-32768));
-  t.deepEqual([...negative], [-32768]);
+  const sampleCount = SAMPLES_PER_DECIMATED_OUTPUT;
+  const negative = await runThroughDownmix(
+    new Array(sampleCount).fill(PCM16_MIN),
+  );
+  t.deepEqual([...negative], [PCM16_MIN]);
 
-  const positive = await runThroughDownmix(new Array(6).fill(32767));
-  t.deepEqual([...positive], [32767]);
+  const positive = await runThroughDownmix(
+    new Array(sampleCount).fill(PCM16_MAX),
+  );
+  t.deepEqual([...positive], [PCM16_MAX]);
 });

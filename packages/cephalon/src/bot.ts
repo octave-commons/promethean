@@ -98,7 +98,11 @@ export class Bot extends EventEmitter {
       "created_at",
     );
     await this.context.createCollection("agent_messages", "text", "createdAt");
-    await this.context.createCollection("enso_messages", "content", "created_at");
+    await this.context.createCollection(
+      "enso_messages",
+      "content",
+      "created_at",
+    );
 
     // Align LLM broker with bus broker if possible
     this.llm = new LLMService({
@@ -132,13 +136,13 @@ export class Bot extends EventEmitter {
 
     // --- ENSO chat bridge (optional) ---
     const ensoUrl = process.env.ENSO_WS_URL || undefined;
-    const ensoRoom = process.env.ENSO_CHAT_ROOM || 'duck:chat';
-    const privacy = (process.env.DUCK_PRIVACY_PROFILE as any) as
-      | 'pseudonymous'
-      | 'ephemeral'
-      | 'persistent'
+    const ensoRoom = process.env.ENSO_CHAT_ROOM || "duck:chat";
+    const privacy = process.env.DUCK_PRIVACY_PROFILE as any as
+      | "pseudonymous"
+      | "ephemeral"
+      | "persistent"
       | undefined;
-    if (ensoUrl || process.env.ENSO_CHAT_ENABLE === '1') {
+    if (ensoUrl || process.env.ENSO_CHAT_ENABLE === "1") {
       try {
         this.ensoChat = createEnsoChatAgent({
           url: ensoUrl,
@@ -146,47 +150,56 @@ export class Bot extends EventEmitter {
           privacyProfile: privacy,
         });
         await this.ensoChat.connect();
-        this.ensoChat.on('message', async (evt: any) => {
+        this.ensoChat.on("message", async (evt: any) => {
           try {
             const message = evt?.message;
             const text = Array.isArray(message?.parts)
-              ? (message.parts.find((p: any) => p.kind === 'text')?.text || '')
-              : '';
+              ? message.parts.find((p: any) => p.kind === "text")?.text || ""
+              : "";
             if (!text) return;
             // store inbound text for context (respect ENSO privacy profile)
-            if (privacy !== 'ephemeral') {
+            if (privacy !== "ephemeral") {
               try {
-                const coll = this.context.getCollection('enso_messages');
+                const coll = this.context.getCollection("enso_messages");
                 await coll.insert({
                   content: text,
                   created_at: Date.now(),
                   metadata: {
-                    type: 'text',
+                    type: "text",
                     room: ensoRoom,
                     messageId: message?.id,
-                    userName:
-                      message?.role === 'assistant' ? 'Duck' : 'User',
+                    userName: message?.role === "assistant" ? "Duck" : "User",
                   },
                 });
               } catch (e) {
-                console.warn('Failed to store enso message', e);
+                console.warn("Failed to store enso message", e);
               }
             }
             // trigger LLM generation via broker; register-llm-handler will TTS and mirror to ENSO
             if (this.llm) {
-              const ctx = await this.context.compileContext([defaultPrompt]);
+              const userMessage = { role: "user" as const, content: text };
+              const ctx = await this.context.compileContext([
+                defaultPrompt,
+                text,
+              ]);
+              const prompt = `${generatePrompt(
+                defaultPrompt,
+                defaultState,
+              )}\n\nCurrent user message: ${
+                text || "(none)"
+              }\nRespond as Duck.`;
               void this.llm.generate({
-                prompt: generatePrompt(defaultPrompt, defaultState),
-                context: ctx,
+                prompt,
+                context: [...ctx, userMessage],
               });
             }
           } catch (e) {
-            console.warn('ENSO message handler failed', e);
+            console.warn("ENSO message handler failed", e);
           }
         });
-        console.log('ENSO chat bridge enabled:', ensoUrl || 'local');
+        console.log("ENSO chat bridge enabled:", ensoUrl || "local");
       } catch (e) {
-        console.warn('Failed to enable ENSO chat bridge', e);
+        console.warn("Failed to enable ENSO chat bridge", e);
       }
     }
     // --- end ENSO chat bridge ---

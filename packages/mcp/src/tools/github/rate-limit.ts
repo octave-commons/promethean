@@ -1,4 +1,4 @@
-import type { ToolFactory } from "../../core/types.js";
+import type { ToolFactory, ToolSpec } from "../../core/types.js";
 
 export const githubRateLimitTool: ToolFactory = (ctx) => {
   const base = ctx.env.GITHUB_BASE_URL ?? "https://api.github.com";
@@ -8,7 +8,9 @@ export const githubRateLimitTool: ToolFactory = (ctx) => {
     spec: {
       name: "github_rate_limit",
       description: "Get GitHub REST /rate_limit snapshot.",
-    },
+      stability: "experimental",
+      since: "0.1.0",
+    } satisfies ToolSpec,
     invoke: async () => {
       const res = await ctx.fetch(new URL("/rate_limit", base), {
         headers: {

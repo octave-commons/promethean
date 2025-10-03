@@ -207,7 +207,7 @@ export function resolveConfigPath(ednPath?: string): string {
     return resolve(ednPath);
   }
   const here = fileURLToPath(new URL(".", import.meta.url));
-  return resolve(here, "../../config/mcp_servers.edn");
+  return resolve(here, "../mcp/examples/mcp_servers.edn");
 }
 
 /** Load MCP server metadata from the specified or default EDN configuration. */
