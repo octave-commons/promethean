@@ -1,0 +1,11 @@
+# Default owners
+* @riatzukiza
+
+# Core packages
+packages/mcp/** @riatzukiza
+packages/** @riatzukiza
+
+# Infrastructure and configuration
+.github/** @riatzukiza
+config/** @riatzukiza
+scripts/** @riatzukiza
