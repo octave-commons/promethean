@@ -1,8 +1,8 @@
-import fs from "node:fs";
-import path from "node:path";
-import { pathToFileURL } from "node:url";
+import fs from 'node:fs';
+import path from 'node:path';
+import { pathToFileURL } from 'node:url';
 
-import { applyPatchTool } from "./tools/apply-patch.js";
+import { applyPatchTool } from './tools/apply-patch.js';
 import {
   tddScaffoldTest,
   tddChangedFiles,
@@ -13,17 +13,17 @@ import {
   tddCoverage,
   tddPropertyCheck,
   tddMutationScore,
-} from "./tools/tdd.js";
-import { loadConfig } from "./config/load-config.js";
-import type { AppConfig } from "./config/load-config.js";
-import { buildRegistry } from "./core/registry.js";
-import { createMcpServer } from "./core/mcp-server.js";
-import { fastifyTransport } from "./core/transports/fastify.js";
-import { stdioTransport } from "./core/transports/stdio.js";
-import { githubRequestTool } from "./tools/github/request.js";
-import { githubGraphqlTool } from "./tools/github/graphql.js";
-import { githubRateLimitTool } from "./tools/github/rate-limit.js";
-import { githubContentsWrite } from "./tools/github/contents.js";
+} from './tools/tdd.js';
+import { loadConfig } from './config/load-config.js';
+import type { AppConfig } from './config/load-config.js';
+import { buildRegistry } from './core/registry.js';
+import { createMcpServer } from './core/mcp-server.js';
+import { fastifyTransport } from './core/transports/fastify.js';
+import { stdioTransport } from './core/transports/stdio.js';
+import { githubRequestTool } from './tools/github/request.js';
+import { githubGraphqlTool } from './tools/github/graphql.js';
+import { githubRateLimitTool } from './tools/github/rate-limit.js';
+import { githubContentsWrite } from './tools/github/contents.js';
 import {
   githubReviewCheckoutBranch,
   githubReviewCommit,
@@ -37,15 +37,15 @@ import {
   githubReviewRevertCommits,
   githubReviewSubmitComment,
   githubReviewSubmitReview,
-} from "./tools/github/code-review.js";
+} from './tools/github/code-review.js';
 import {
   filesListDirectory,
   filesTreeDirectory,
   filesViewFile,
   filesWriteFileContent,
   filesWriteFileLines,
-} from "./tools/files.js";
-import { filesSearch } from "./tools/search.js";
+} from './tools/files.js';
+import { filesSearch } from './tools/search.js';
 import {
   processEnqueueTask,
   processGetQueue,
@@ -54,8 +54,8 @@ import {
   processGetTaskRunnerConfig,
   processStopTask,
   processUpdateTaskRunnerConfig,
-} from "./tools/process-manager.js";
-import { execRunTool, execListTool } from "./tools/exec.js";
+} from './tools/process-manager.js';
+import { execRunTool, execListTool } from './tools/exec.js';
 import {
   kanbanFindTaskById,
   kanbanFindTaskByTitle,
@@ -65,31 +65,20 @@ import {
   kanbanSearchTasks,
   kanbanSyncBoard,
   kanbanUpdateStatus,
-} from "./tools/kanban.js";
-import {
-  pnpmAdd,
-  pnpmInstall,
-  pnpmRemove,
-  pnpmRunScript,
-} from "./tools/pnpm.js";
-import { nxGeneratePackage } from "./tools/nx.js";
-import type { ToolFactory } from "./core/types.js";
-import type { HttpEndpointDescriptor } from "./core/transports/fastify.js";
+} from './tools/kanban.js';
+import { pnpmAdd, pnpmInstall, pnpmRemove, pnpmRunScript } from './tools/pnpm.js';
+import { nxGeneratePackage } from './tools/nx.js';
+import type { ToolFactory } from './core/types.js';
+import type { HttpEndpointDescriptor } from './core/transports/fastify.js';
 import {
   resolveHttpEndpoints,
   resolveStdioTools,
   type EndpointDefinition,
-} from "./core/resolve-config.js";
-import { discordSendMessage, discordListMessages } from "./tools/discord.js";
-import { loadStdioServerSpecs, type StdioServerSpec } from "./proxy/config.js";
-import { StdioHttpProxy } from "./proxy/stdio-proxy.js";
-import {
-  sandboxCreateTool,
-  sandboxDeleteTool,
-  sandboxListTool,
-} from "./tools/sandboxes.js";
-import { loadStdioServerSpecs, type StdioServerSpec } from "./proxy/config.js";
-import { StdioHttpProxy } from "./proxy/stdio-proxy.js";
+} from './core/resolve-config.js';
+import { discordSendMessage, discordListMessages } from './tools/discord.js';
+import { loadStdioServerSpecs, type StdioServerSpec } from './proxy/config.js';
+import { StdioHttpProxy } from './proxy/stdio-proxy.js';
+import { sandboxCreateTool, sandboxDeleteTool, sandboxListTool } from './tools/sandboxes.js';
 import {
   ollamaPull,
   ollamaListModels,
@@ -101,81 +90,78 @@ import {
   ollamaStartConversation,
   ollamaGetQueue,
   ollamaRemoveJob,
-} from "./tools/ollama.js";
+} from './tools/ollama.js';
 
 const toolCatalog = new Map<string, ToolFactory>([
-  ["apply_patch", applyPatchTool],
-  ["github.request", githubRequestTool],
-  ["github.graphql", githubGraphqlTool],
-  ["github.rate-limit", githubRateLimitTool],
-  ["github.contents.write", githubContentsWrite],
-  ["github.review.openPullRequest", githubReviewOpenPullRequest],
-  ["github.review.getComments", githubReviewGetComments],
-  ["github.review.getReviewComments", githubReviewGetReviewComments],
-  ["github.review.submitComment", githubReviewSubmitComment],
-  [
-    "github.review.requestChangesFromCodex",
-    githubReviewRequestChangesFromCodex,
-  ],
-  ["github.review.submitReview", githubReviewSubmitReview],
-  ["github.review.getActionStatus", githubReviewGetActionStatus],
-  ["github.review.commit", githubReviewCommit],
-  ["github.review.push", githubReviewPush],
-  ["github.review.checkoutBranch", githubReviewCheckoutBranch],
-  ["github.review.createBranch", githubReviewCreateBranch],
-  ["github.review.revertCommits", githubReviewRevertCommits],
-  ["files.list-directory", filesListDirectory],
-  ["files.tree-directory", filesTreeDirectory],
-  ["files.view-file", filesViewFile],
-  ["files.write-content", filesWriteFileContent],
-  ["files.write-lines", filesWriteFileLines],
-  ["files.search", filesSearch],
-  ["process.getTaskRunnerConfig", processGetTaskRunnerConfig],
-  ["process.updateTaskRunnerConfig", processUpdateTaskRunnerConfig],
-  ["process.enqueueTask", processEnqueueTask],
-  ["process.stop", processStopTask],
-  ["process.getQueue", processGetQueue],
-  ["process.getStdout", processGetStdout],
-  ["process.getStderr", processGetStderr],
-  ["exec.run", execRunTool],
-  ["exec.list", execListTool],
-  ["pnpm.install", pnpmInstall],
-  ["pnpm.add", pnpmAdd],
-  ["pnpm.remove", pnpmRemove],
-  ["pnpm.runScript", pnpmRunScript],
-  ["nx.generatePackage", nxGeneratePackage],
-  ["tdd.scaffoldTest", tddScaffoldTest],
-  ["tdd.changedFiles", tddChangedFiles],
-  ["tdd.runTests", tddRunTests],
-  ["tdd.startWatch", tddStartWatch],
-  ["tdd.getWatchChanges", tddGetWatchChanges],
-  ["tdd.stopWatch", tddStopWatch],
-  ["tdd.coverage", tddCoverage],
-  ["tdd.propertyCheck", tddPropertyCheck],
-  ["tdd.mutationScore", tddMutationScore],
-  ["kanban.get-board", kanbanGetBoard],
-  ["kanban.get-column", kanbanGetColumn],
-  ["kanban.find-task", kanbanFindTaskById],
-  ["kanban.find-task-by-title", kanbanFindTaskByTitle],
-  ["kanban.update-status", kanbanUpdateStatus],
-  ["kanban.move-task", kanbanMoveTask],
-  ["kanban.sync-board", kanbanSyncBoard],
-  ["kanban.search", kanbanSearchTasks],
-  ["discord.send-message", discordSendMessage],
-  ["discord.list-messages", discordListMessages],
-  ["sandbox.create", sandboxCreateTool],
-  ["sandbox.list", sandboxListTool],
-  ["sandbox.delete", sandboxDeleteTool],
-  ["ollama.pull", ollamaPull],
-  ["ollama.listModels", ollamaListModels],
-  ["ollama.listTemplates", ollamaListTemplates],
-  ["ollama.createTemplate", ollamaCreateTemplate],
-  ["ollama.enqueueGenerateJob", ollamaEnqueueGenerateJob],
-  ["ollama.enqueueChatCompletion", ollamaEnqueueChatCompletion],
-  ["ollama.enqueueJobFromTemplate", ollamaEnqueueJobFromTemplate],
-  ["ollama.startConversation", ollamaStartConversation],
-  ["ollama.getQueue", ollamaGetQueue],
-  ["ollama.removeJob", ollamaRemoveJob],
+  ['apply_patch', applyPatchTool],
+  ['github.request', githubRequestTool],
+  ['github.graphql', githubGraphqlTool],
+  ['github.rate-limit', githubRateLimitTool],
+  ['github.contents.write', githubContentsWrite],
+  ['github.review.openPullRequest', githubReviewOpenPullRequest],
+  ['github.review.getComments', githubReviewGetComments],
+  ['github.review.getReviewComments', githubReviewGetReviewComments],
+  ['github.review.submitComment', githubReviewSubmitComment],
+  ['github.review.requestChangesFromCodex', githubReviewRequestChangesFromCodex],
+  ['github.review.submitReview', githubReviewSubmitReview],
+  ['github.review.getActionStatus', githubReviewGetActionStatus],
+  ['github.review.commit', githubReviewCommit],
+  ['github.review.push', githubReviewPush],
+  ['github.review.checkoutBranch', githubReviewCheckoutBranch],
+  ['github.review.createBranch', githubReviewCreateBranch],
+  ['github.review.revertCommits', githubReviewRevertCommits],
+  ['files.list-directory', filesListDirectory],
+  ['files.tree-directory', filesTreeDirectory],
+  ['files.view-file', filesViewFile],
+  ['files.write-content', filesWriteFileContent],
+  ['files.write-lines', filesWriteFileLines],
+  ['files.search', filesSearch],
+  ['process.getTaskRunnerConfig', processGetTaskRunnerConfig],
+  ['process.updateTaskRunnerConfig', processUpdateTaskRunnerConfig],
+  ['process.enqueueTask', processEnqueueTask],
+  ['process.stop', processStopTask],
+  ['process.getQueue', processGetQueue],
+  ['process.getStdout', processGetStdout],
+  ['process.getStderr', processGetStderr],
+  ['exec.run', execRunTool],
+  ['exec.list', execListTool],
+  ['pnpm.install', pnpmInstall],
+  ['pnpm.add', pnpmAdd],
+  ['pnpm.remove', pnpmRemove],
+  ['pnpm.runScript', pnpmRunScript],
+  ['nx.generatePackage', nxGeneratePackage],
+  ['tdd.scaffoldTest', tddScaffoldTest],
+  ['tdd.changedFiles', tddChangedFiles],
+  ['tdd.runTests', tddRunTests],
+  ['tdd.startWatch', tddStartWatch],
+  ['tdd.getWatchChanges', tddGetWatchChanges],
+  ['tdd.stopWatch', tddStopWatch],
+  ['tdd.coverage', tddCoverage],
+  ['tdd.propertyCheck', tddPropertyCheck],
+  ['tdd.mutationScore', tddMutationScore],
+  ['kanban.get-board', kanbanGetBoard],
+  ['kanban.get-column', kanbanGetColumn],
+  ['kanban.find-task', kanbanFindTaskById],
+  ['kanban.find-task-by-title', kanbanFindTaskByTitle],
+  ['kanban.update-status', kanbanUpdateStatus],
+  ['kanban.move-task', kanbanMoveTask],
+  ['kanban.sync-board', kanbanSyncBoard],
+  ['kanban.search', kanbanSearchTasks],
+  ['discord.send-message', discordSendMessage],
+  ['discord.list-messages', discordListMessages],
+  ['sandbox.create', sandboxCreateTool],
+  ['sandbox.list', sandboxListTool],
+  ['sandbox.delete', sandboxDeleteTool],
+  ['ollama.pull', ollamaPull],
+  ['ollama.listModels', ollamaListModels],
+  ['ollama.listTemplates', ollamaListTemplates],
+  ['ollama.createTemplate', ollamaCreateTemplate],
+  ['ollama.enqueueGenerateJob', ollamaEnqueueGenerateJob],
+  ['ollama.enqueueChatCompletion', ollamaEnqueueChatCompletion],
+  ['ollama.enqueueJobFromTemplate', ollamaEnqueueJobFromTemplate],
+  ['ollama.startConversation', ollamaStartConversation],
+  ['ollama.getQueue', ollamaGetQueue],
+  ['ollama.removeJob', ollamaRemoveJob],
 ]);
 
 const env = process.env;
@@ -196,7 +182,7 @@ const selectFactories = (toolIds: readonly string[]): readonly ToolFactory[] =>
     })
     .filter((factory): factory is ToolFactory => Boolean(factory));
 
-const DEFAULT_PROXY_CONFIG = "config/mcp_servers.edn";
+const DEFAULT_PROXY_CONFIG = 'config/mcp_servers.edn';
 
 const isFile = (candidate: string): boolean => {
   try {
@@ -257,18 +243,15 @@ const loadConfiguredProxies = async (
     return specs.map(instantiateProxy);
   } catch (error) {
     const maybeErr = error as NodeJS.ErrnoException;
-    if (!required && maybeErr && maybeErr.code === "ENOENT") {
+    if (!required && maybeErr && maybeErr.code === 'ENOENT') {
       return [];
     }
 
     const message =
-      maybeErr && typeof maybeErr.message === "string"
-        ? maybeErr.message
-        : String(error);
-    throw new Error(
-      `Failed to load MCP stdio proxy config at ${configPath}: ${message}`,
-      { cause: error },
-    );
+      maybeErr && typeof maybeErr.message === 'string' ? maybeErr.message : String(error);
+    throw new Error(`Failed to load MCP stdio proxy config at ${configPath}: ${message}`, {
+      cause: error,
+    });
   }
 };
 
@@ -294,50 +277,39 @@ export const main = async (): Promise<void> => {
   const cwd = process.cwd();
   const ctx = mkCtx();
 
-  if (cfg.transport === "http") {
+  if (cfg.transport === 'http') {
     const httpConfig = await loadHttpTransportConfig(cfg);
-    const registryDescriptors: HttpEndpointDescriptor[] =
-      httpConfig.endpoints.map((endpoint) => {
-        const factories = selectFactories(endpoint.tools);
-        const registry = buildRegistry(factories, ctx);
-        return {
-          path: endpoint.path,
-          kind: "registry" as const,
-          handler: createMcpServer(registry.list()),
-        } satisfies HttpEndpointDescriptor;
-      });
+    const registryDescriptors: HttpEndpointDescriptor[] = httpConfig.endpoints.map((endpoint) => {
+      const factories = selectFactories(endpoint.tools);
+      const registry = buildRegistry(factories, ctx);
+      return {
+        path: endpoint.path,
+        kind: 'registry' as const,
+        handler: createMcpServer(registry.list()),
+      } satisfies HttpEndpointDescriptor;
+    });
 
     const proxiesFromConfig = httpConfig.stdioProxies.map(instantiateProxy);
     const fallbackProxies =
       proxiesFromConfig.length > 0 ? [] : await loadConfiguredProxies(env, cwd);
-    const stdioProxies =
-      proxiesFromConfig.length > 0 ? proxiesFromConfig : fallbackProxies;
+    const stdioProxies = proxiesFromConfig.length > 0 ? proxiesFromConfig : fallbackProxies;
 
-    const proxyDescriptors: HttpEndpointDescriptor[] = stdioProxies.map(
-      (proxy) => ({
-        path: proxy.spec.httpPath,
-        kind: "proxy" as const,
-        handler: proxy,
-      }),
-    );
+    const proxyDescriptors: HttpEndpointDescriptor[] = stdioProxies.map((proxy) => ({
+      path: proxy.spec.httpPath,
+      kind: 'proxy' as const,
+      handler: proxy,
+    }));
 
-    const descriptors: HttpEndpointDescriptor[] = [
-      ...registryDescriptors,
-      ...proxyDescriptors,
-    ];
+    const descriptors: HttpEndpointDescriptor[] = [...registryDescriptors, ...proxyDescriptors];
 
     const transport = fastifyTransport();
     const summaryParts = [
-      `${registryDescriptors.length} endpoint${
-        registryDescriptors.length === 1 ? "" : "s"
-      }`,
+      `${registryDescriptors.length} endpoint${registryDescriptors.length === 1 ? '' : 's'}`,
     ];
     if (stdioProxies.length > 0) {
-      summaryParts.push(
-        `${stdioProxies.length} prox${stdioProxies.length === 1 ? "y" : "ies"}`,
-      );
+      summaryParts.push(`${stdioProxies.length} prox${stdioProxies.length === 1 ? 'y' : 'ies'}`);
     }
-    console.log(`[mcp] transport = http (${summaryParts.join(", ")})`);
+    console.log(`[mcp] transport = http (${summaryParts.join(', ')})`);
     await transport.start(descriptors);
     return;
   }
@@ -347,7 +319,7 @@ export const main = async (): Promise<void> => {
   const registry = buildRegistry(factories, ctx);
   const server = createMcpServer(registry.list());
   const transport = stdioTransport();
-  console.log("[mcp] transport = stdio");
+  console.log('[mcp] transport = stdio');
   await transport.start(server);
 };
 
