@@ -231,18 +231,19 @@ export const ollamaStartConversation: ToolFactory = () => {
       createdAt: ts,
       updatedAt: ts,
     };
-    let withMsg: Conversation = base;
-    if (typeof initialMessage === 'string' && initialMessage.length > 0) {
+    const seeded: Conversation = (() => {
+      if (typeof initialMessage !== 'string' || initialMessage.length === 0) {
+        return base;
+      }
       const userMessage: Message = { role: 'user', content: initialMessage };
       const messages: readonly Message[] = [...base.messages, userMessage];
-      const typed: Conversation = {
+      return {
         ...base,
         messages,
         updatedAt: now(),
-      };
-      withMsg = typed;
-    }
-    store.conversations.set(id, withMsg);
+      } satisfies Conversation;
+    })();
+    store.conversations.set(id, seeded);
     return { conversationId: id, conversationName, jobId: undefined as string | undefined };
   };
   return { spec, invoke };
@@ -309,15 +310,17 @@ export const ollamaEnqueueChatCompletion: ToolFactory = () => {
     const id = randomUUID();
     const ts = now();
     let conversationId: string;
-    if (Array.isArray(ref as any)) {
+    if (Array.isArray(ref)) {
       // create ephemeral conversation
       conversationId = randomUUID();
-      const msgs = (
-        ref as Array<{ role: 'system' | 'user' | 'assistant' | 'tool'; content: string }>
-      ).map((m) => ({ role: m.role, content: m.content }) as Message);
+      type ChatMessages = ReadonlyArray<Pick<Message, 'role' | 'content'>>;
+      const rawMessages = ref as ChatMessages;
+      const typedMessages = rawMessages.map(
+        (m): Message => ({ role: m.role, content: m.content }),
+      ) as readonly Message[];
       const conv: Conversation = {
         id: conversationId,
-        messages: msgs as unknown as ReadonlyArray<Message>,
+        messages: typedMessages,
         createdAt: ts,
         updatedAt: ts,
       };
