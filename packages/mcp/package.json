@@ -32,6 +32,7 @@
     "proxy": "tsx src/bin/proxy.ts"
   },
   "dependencies": {
+    "@fastify/cors": "^10.0.1",
     "@fastify/static": "^7.0.4",
     "@promethean/kanban": "workspace:*",
     "@modelcontextprotocol/sdk": "^1.17.5",
