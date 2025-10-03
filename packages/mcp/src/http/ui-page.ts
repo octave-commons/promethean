@@ -598,6 +598,6 @@ export const renderUiPage = (): string => `<!doctype html>
         </section>
       </main>
     </div>
-    <script>${script.replace("</script>", "</scr" + "ipt>")}</script>
+    <script>${script.replace(/<\/script>/g, '</scr" + "ipt>')}</script>
   </body>
 </html>`;
