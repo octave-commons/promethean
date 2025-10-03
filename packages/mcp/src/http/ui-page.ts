@@ -429,6 +429,12 @@ const script = `(() => {
     currentState = state;
     renderToolList(state.availableTools);
     transportSelect.value = state.config.transport;
+    try {
+      globalToolsSelect.innerHTML = '';
+      for (const tool of (Array.isArray(state.availableTools) ? state.availableTools : [])) {
+        globalToolsSelect.appendChild(createOption(tool));
+      }
+    } catch (_) { }
     setSelectValues(globalToolsSelect, state.config.tools ?? []);
     proxyInput.value = state.config.stdioProxyConfig ?? '';
     configPathInput.value = state.configPath;
