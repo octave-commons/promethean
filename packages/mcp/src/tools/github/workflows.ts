@@ -26,7 +26,6 @@ type GithubLogFile = Readonly<{
 
 type GithubLogArchive = Readonly<{
   readonly archiveSize: number;
-  readonly archiveBase64: string;
   readonly fileCount: number;
   readonly files: readonly GithubLogFile[];
 }>;
@@ -111,7 +110,6 @@ const fetchLogArchive = async (
   const files = await decodeLogArchive(buffer);
   return {
     archiveSize: buffer.byteLength,
-    archiveBase64: Buffer.from(buffer).toString("base64"),
     fileCount: files.length,
     files,
   } as const;
