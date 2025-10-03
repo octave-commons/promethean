@@ -4,7 +4,7 @@ import { spawn } from "node:child_process";
 
 import { z } from "zod";
 
-import type { ToolFactory } from "../core/types.js";
+import type { ToolFactory, ToolSpec } from "../core/types.js";
 import {
   loadApprovedExecConfig,
   type ApprovedExecCommand,
@@ -255,7 +255,9 @@ export const execRunTool: ToolFactory = (ctx) => {
       args: ExecInputSchema.shape.args,
       timeoutMs: ExecInputSchema.shape.timeoutMs,
     } as const,
-  } as const;
+    stability: "stable",
+    since: "0.1.0",
+  } satisfies ToolSpec;
 
   const invoke = async (raw: unknown) => {
     const parsed = ExecInputSchema.parse(raw);
@@ -289,7 +291,9 @@ export const execListTool: ToolFactory = (ctx) => {
   const spec = {
     name: "exec.list",
     description: "List approved shell commands and their metadata.",
-  } as const;
+    stability: "stable",
+    since: "0.1.0",
+  } satisfies ToolSpec;
 
   const invoke = async () =>
     config.commands.map((command) => ({
