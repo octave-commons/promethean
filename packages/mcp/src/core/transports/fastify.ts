@@ -20,6 +20,8 @@ import {
   type EndpointDefinition,
 } from "../resolve-config.js";
 import type { Transport } from "../types.js";
+import crypto from "node:crypto";
+import type { IncomingMessage, ServerResponse } from "node:http";
 import { createSessionIdGenerator } from "./session-id.js";
 
 const isObject = (value: unknown): value is Record<string, unknown> =>
@@ -220,22 +222,131 @@ const createRouteHandler = (
   };
 };
 
-const createProxyRouteHandler = (proxy: StdioHttpProxy) =>
-  async function handler(req: any, reply: any) {
-    reply.hijack();
-    try {
-      const body = req.body as Buffer | undefined;
-      await proxy.handle(req.raw, reply.raw, body);
-    } catch (error) {
-      console.error(
-        `[mcp:http] proxy ${proxy.spec.name} request failed:`,
-        error,
+type ProxyLifecycle = Pick<
+  StdioHttpProxy,
+  "start" | "stop" | "handle" | "spec"
+>;
+
+type RegistryEndpointDescriptor = Readonly<{
+  path: string;
+  kind: "registry";
+  handler: McpServer;
+}>;
+
+type ProxyEndpointDescriptor = Readonly<{
+  path: string;
+  kind: "proxy";
+  handler: ProxyLifecycle;
+}>;
+
+export type HttpEndpointDescriptor =
+  | RegistryEndpointDescriptor
+  | ProxyEndpointDescriptor;
+
+const ensureEndpointDescriptors = (
+  input: unknown,
+): readonly HttpEndpointDescriptor[] => {
+  if (!Array.isArray(input)) return [];
+
+  return input.map((value, index) => {
+    if (!value || typeof value !== "object") {
+      throw new Error(
+        `fastifyTransport endpoint[${index}] must be an object descriptor`,
       );
-      if (!reply.raw.headersSent) {
-        reply.raw.writeHead(500, { "content-type": "application/json" }).end(
+    }
+
+    const descriptor = value as Partial<HttpEndpointDescriptor> & {
+      readonly handler?: unknown;
+    };
+
+    if (typeof descriptor.path !== "string" || descriptor.path.trim() === "") {
+      throw new Error(
+        `fastifyTransport endpoint[${index}] must provide a non-empty path`,
+      );
+    }
+
+    if (descriptor.kind === "registry") {
+      if (
+        !descriptor.handler ||
+        typeof descriptor.handler !== "object" ||
+        typeof (descriptor.handler as McpServer).connect !== "function"
+      ) {
+        throw new Error(
+          `fastifyTransport registry endpoint[${index}] must supply a McpServer handler`,
+        );
+      }
+
+      return {
+        path: descriptor.path,
+        kind: "registry" as const,
+        handler: descriptor.handler as McpServer,
+      } satisfies RegistryEndpointDescriptor;
+    }
+
+    if (descriptor.kind === "proxy") {
+      const handler = descriptor.handler as ProxyLifecycle | undefined;
+      if (
+        !handler ||
+        typeof handler.start !== "function" ||
+        typeof handler.stop !== "function" ||
+        typeof handler.handle !== "function"
+      ) {
+        throw new Error(
+          `fastifyTransport proxy endpoint[${index}] must supply a valid StdioHttpProxy`,
+        );
+      }
+
+      return {
+        path: descriptor.path,
+        kind: "proxy" as const,
+        handler,
+      } satisfies ProxyEndpointDescriptor;
+    }
+
+    throw new Error(
+      `fastifyTransport endpoint[${index}] must declare kind "registry" or "proxy"`,
+    );
+  });
+};
+
+const parseProxyBody = (value: unknown): unknown => {
+  if (value === null || value === undefined) return undefined;
+  if (Buffer.isBuffer(value)) {
+    return value.length === 0 ? undefined : value;
+  }
+  return value;
+};
+
+const createProxyHandler = (proxy: ProxyLifecycle) => {
+  return async function handler(req: any, reply: any) {
+    reply.hijack();
+    const rawReq: IncomingMessage = req.raw;
+    const rawRes: ServerResponse = reply.raw;
+
+    const accept = String(rawReq.headers["accept"] || "");
+    if (
+      !(
+        accept.includes("application/json") &&
+        accept.includes("text/event-stream")
+      )
+    ) {
+      rawReq.headers["accept"] = "application/json, text/event-stream";
+    }
+
+    try {
+      const body = parseProxyBody(req.body);
+      await proxy.handle(rawReq, rawRes, body);
+    } catch (error: unknown) {
+      if (!rawRes.headersSent) {
+        rawRes.writeHead(500).end(
           JSON.stringify({
-            error: "proxy_failure",
-            name: proxy.spec.name,
+            jsonrpc: "2.0",
+            error: {
+              code: -32000,
+              message: "Proxy request failed",
+              data: String((error as Error)?.message ?? error),
+            },
+            id: null,
           }),
         );
       }
@@ -261,6 +372,7 @@ const respond = (reply: any, status: number, payload: unknown): void => {
   reply.status(status).header("content-type", "application/json").send(payload);
 };
 
+};
 export const fastifyTransport = (opts?: {
   port?: number;
   host?: string;
@@ -285,14 +397,16 @@ export const fastifyTransport = (opts?: {
     string,
     Map<string, StreamableHTTPServerTransport>
   >();
-  const activeProxies: StdioHttpProxy[] = [];
+  const activeProxies: ProxyLifecycle[] = [];
 
   return {
     start: async (server?: unknown, optionsInput?: unknown) => {
       const entries = toEntries(server);
       const { proxies: proxyList, ui } = parseStartOptions(optionsInput);
+    start: async (descriptorInput?: unknown, _options?: unknown) => {
+      const descriptors = ensureEndpointDescriptors(descriptorInput);
 
-      if (entries.length === 0 && proxyList.length === 0) {
+      if (descriptors.length === 0) {
         throw new Error(
           "fastifyTransport requires at least one MCP server or proxy",
         );
@@ -300,20 +414,24 @@ export const fastifyTransport = (opts?: {
 
       sessionStores.clear();
 
-      const normalizedEntries = entries.map(
-        ([route, srv]) => [normalizePath(route), srv] as const,
+      const normalized = descriptors.map((descriptor) =>
+        descriptor.kind === "registry"
+          ? {
+              ...descriptor,
+              path: normalizePath(descriptor.path),
+            }
+          : {
+              ...descriptor,
+              path: normalizePath(descriptor.path),
+            },
       );
-      const normalizedProxies = proxyList.map((proxy) => ({
-        proxy,
-        route: normalizePath(proxy.spec.httpPath),
-      }));
 
       const seenRoutes = new Set<string>();
-      for (const [route] of normalizedEntries) {
-        if (seenRoutes.has(route)) {
-          throw new Error(`Duplicate MCP endpoint path: ${route}`);
+      for (const descriptor of normalized) {
+        if (seenRoutes.has(descriptor.path)) {
+          throw new Error(`Duplicate MCP endpoint path: ${descriptor.path}`);
         }
-        seenRoutes.add(route);
+        seenRoutes.add(descriptor.path);
       }
 
       for (const { route } of normalizedProxies) {
@@ -456,21 +574,26 @@ export const fastifyTransport = (opts?: {
       }
 
       const startedProxies: StdioHttpProxy[] = [];
+      const startedProxies: ProxyLifecycle[] = [];
 
       try {
-        for (const [route, srv] of normalizedEntries) {
-          const sessions = new Map<string, StreamableHTTPServerTransport>();
-          sessionStores.set(route, sessions);
-          app.post(route, createRouteHandler(srv, sessions));
-          console.log(`[mcp:http] bound endpoint ${route}`);
-        }
+        for (const descriptor of normalized) {
+          if (descriptor.kind === "registry") {
+            const sessions = new Map<string, StreamableHTTPServerTransport>();
+            sessionStores.set(descriptor.path, sessions);
+            app.post(
+              descriptor.path,
+              createRouteHandler(descriptor.handler, sessions),
+            );
+            console.log(`[mcp:http] bound endpoint ${descriptor.path}`);
+            continue;
+          }
 
-        for (const { proxy, route } of normalizedProxies) {
-          await proxy.start();
-          startedProxies.push(proxy);
-          app.post(route, createProxyRouteHandler(proxy));
+          await descriptor.handler.start();
+          startedProxies.push(descriptor.handler);
+          app.post(descriptor.path, createProxyHandler(descriptor.handler));
           console.log(
-            `[mcp:http] proxied stdio server ${proxy.spec.name} at ${route}`,
+            `[mcp:http] proxied stdio server ${descriptor.handler.spec.name} at ${descriptor.path}`,
           );
         }
 
