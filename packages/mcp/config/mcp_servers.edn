@@ -54,7 +54,7 @@
           "serve"
           "--stdio"
           "--db" "/home/err/.local/share/haiku-rag"]
-   :cwd "$HOME/devel/promethean"}
+   :cwd "$HOME/devel/promethean"}}
 
  :outputs
  [{:schema :codex.toml  :path "/home/err/.codex/config.toml"}

@@ -1596,7 +1596,7 @@ importers:
         version: 5.9.2
       vite:
         specifier: ^5.4.0
-        version: 5.4.20(@types/node@24.3.1)
+        version: 5.4.20(@types/node@20.19.11)
 
   packages/effects:
     dependencies:
@@ -2283,7 +2283,7 @@ importers:
         version: link:../utils
       chromadb:
         specifier: ^1.8.1
-        version: 1.10.5(encoding@0.1.13)(ollama@0.5.18)
+        version: 1.10.5(encoding@0.1.13)(ollama@0.5.18)(openai@5.23.2(ws@8.18.3)(zod@3.25.76))
 
   packages/indexer-service:
     dependencies:
@@ -3809,7 +3809,7 @@ importers:
         version: 3.0.1(ajv@8.17.1)
       chromadb:
         specifier: ^1.8.1
-        version: 1.10.5(encoding@0.1.13)(ollama@0.5.18)
+        version: 1.10.5(encoding@0.1.13)(ollama@0.5.18)(openai@5.23.2(ws@8.18.3)(zod@3.25.76))
       dotenv:
         specifier: ^17.2.1
         version: 17.2.1
@@ -15228,12 +15228,13 @@ snapshots:
   chromadb-js-bindings-win32-x64-msvc@1.0.5:
     optional: true
 
-  chromadb@1.10.5(encoding@0.1.13)(ollama@0.5.18):
+  chromadb@1.10.5(encoding@0.1.13)(ollama@0.5.18)(openai@5.23.2(ws@8.18.3)(zod@3.25.76)):
     dependencies:
       cliui: 8.0.1
       isomorphic-fetch: 3.0.0(encoding@0.1.13)
     optionalDependencies:
       ollama: 0.5.18
+      openai: 5.23.2(ws@8.18.3)(zod@3.25.76)
     transitivePeerDependencies:
       - encoding
 
@@ -16086,7 +16087,7 @@ snapshots:
       '@typescript-eslint/parser': 7.18.0(eslint@8.57.1)(typescript@5.9.2)
       astro-eslint-parser: 0.16.3
       eslint-config-prettier: 9.1.2(eslint@8.57.1)
-      eslint-import-resolver-typescript: 3.10.1(eslint-plugin-i@2.29.1(@typescript-eslint/parser@7.18.0(eslint@8.57.1)(typescript@5.9.2))(eslint@8.57.1))(eslint@8.57.1)
+      eslint-import-resolver-typescript: 3.10.1(eslint-plugin-i@2.29.1)(eslint@8.57.1)
       eslint-mdx: 3.6.2(eslint@8.57.1)
       eslint-plugin-astro: 0.33.1(eslint@8.57.1)
       eslint-plugin-cypress: 2.15.2(eslint@8.57.1)
@@ -16141,7 +16142,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-import-resolver-typescript@3.10.1(eslint-plugin-i@2.29.1(@typescript-eslint/parser@7.18.0(eslint@8.57.1)(typescript@5.9.2))(eslint@8.57.1))(eslint@8.57.1):
+  eslint-import-resolver-typescript@3.10.1(eslint-plugin-i@2.29.1)(eslint@8.57.1):
     dependencies:
       '@nolyfill/is-core-module': 1.0.39
       debug: 4.4.3
@@ -16176,14 +16177,14 @@ snapshots:
       - bluebird
       - supports-color
 
-  eslint-module-utils@2.12.1(@typescript-eslint/parser@7.18.0(eslint@8.57.1)(typescript@5.9.2))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.1(eslint-plugin-i@2.29.1(@typescript-eslint/parser@7.18.0(eslint@8.57.1)(typescript@5.9.2))(eslint@8.57.1))(eslint@8.57.1))(eslint@8.57.1):
+  eslint-module-utils@2.12.1(@typescript-eslint/parser@7.18.0(eslint@8.57.1)(typescript@5.9.2))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.1(eslint-plugin-i@2.29.1)(eslint@8.57.1))(eslint@8.57.1):
     dependencies:
       debug: 3.2.7
     optionalDependencies:
       '@typescript-eslint/parser': 7.18.0(eslint@8.57.1)(typescript@5.9.2)
       eslint: 8.57.1
       eslint-import-resolver-node: 0.3.9
-      eslint-import-resolver-typescript: 3.10.1(eslint-plugin-i@2.29.1(@typescript-eslint/parser@7.18.0(eslint@8.57.1)(typescript@5.9.2))(eslint@8.57.1))(eslint@8.57.1)
+      eslint-import-resolver-typescript: 3.10.1(eslint-plugin-i@2.29.1)(eslint@8.57.1)
     transitivePeerDependencies:
       - supports-color
 
@@ -16255,7 +16256,7 @@ snapshots:
       doctrine: 3.0.0
       eslint: 8.57.1
       eslint-import-resolver-node: 0.3.9
-      eslint-module-utils: 2.12.1(@typescript-eslint/parser@7.18.0(eslint@8.57.1)(typescript@5.9.2))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.1(eslint-plugin-i@2.29.1(@typescript-eslint/parser@7.18.0(eslint@8.57.1)(typescript@5.9.2))(eslint@8.57.1))(eslint@8.57.1))(eslint@8.57.1)
+      eslint-module-utils: 2.12.1(@typescript-eslint/parser@7.18.0(eslint@8.57.1)(typescript@5.9.2))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.1(eslint-plugin-i@2.29.1)(eslint@8.57.1))(eslint@8.57.1)
       get-tsconfig: 4.10.1
       is-glob: 4.0.3
       minimatch: 3.1.2
@@ -21180,13 +21181,13 @@ snapshots:
       '@types/unist': 3.0.3
       vfile-message: 4.0.3
 
-  vite@5.4.20(@types/node@24.3.1):
+  vite@5.4.20(@types/node@20.19.11):
     dependencies:
       esbuild: 0.21.5
       postcss: 8.5.6
       rollup: 4.52.3
     optionalDependencies:
-      '@types/node': 24.3.1
+      '@types/node': 20.19.11
       fsevents: 2.3.3
 
   vizion@2.2.1:
