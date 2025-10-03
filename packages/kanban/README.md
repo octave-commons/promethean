@@ -15,6 +15,15 @@ pnpm kanban --help
 - `indexForSearch`, `search` — JSON index and query over tasks.
 - `process_sync` — run process pipeline (labels + checklists) defined in YAML.
 
+- `pnpm kanban pull` – fold task frontmatter back into the board (like the old
+  `hashtags_to_kanban.py`).
+- `pnpm kanban push` – project the kanban columns to task files (successor to
+  `kanban_to_hashtags.py`).
+- `pnpm kanban sync` – run both directions and surface conflicting cards.
+- `pnpm kanban regenerate` – rebuild the board from the current task folder.
+- `pnpm kanban count --kanban path --tasks path` – quick stats for automation.
+- `pnpm kanban ui --port 4173` – launch an interactive kanban dashboard in the
+  browser (defaults to `http://127.0.0.1:4173`).
 All commands emit newline-delimited JSON for downstream tooling.
 
 ## Paths
@@ -31,6 +40,15 @@ Enforced in CI by `.github/workflows/docs-guard.yml`. If a PR touches `packages/
 
 Bypass with label `skip-docs` (maintainers only). See `docs/contributing/docs-policy.md`.
 
+## Web UI
+
+Run `pnpm kanban ui` to start a lightweight HTTP server that renders the
+workspace board as a responsive dashboard. The command respects the same
+configuration flags as other subcommands, so `--kanban`, `--tasks`, `--host`,
+and `--port` work as expected. The page refreshes automatically every minute,
+and you can trigger a manual refresh from the "Refresh" button in the header.
+
+## Notes
 ## Env
 - `GITHUB_TOKEN`, `GITHUB_OWNER`, `GITHUB_REPO` for GitHub-side operations.
 - `KANBAN_BOARD_FILE`, `KANBAN_TASKS_DIR` for explicit paths.
