@@ -1,0 +1,41 @@
+name: Engineering task
+description: Actionable change with clear acceptance criteria
+title: "[task] <short description>"
+labels:
+  - chore
+  - prio:medium
+  - github
+body:
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      description: Describe the goal, constraints, and any related context for this task.
+      placeholder: |
+        Update the diff parser to support streaming inputs...
+    validations:
+      required: true
+  - type: checkboxes
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      options:
+        - label: Functional style implementation (no shared mutable state)
+        - label: AVA tests cover new and impacted behavior
+        - label: Tooling follows native ESM and flat package conventions
+        - label: GPL-3.0 license headers added to new source files
+  - type: textarea
+    id: deliverables
+    attributes:
+      label: Deliverables
+      description: List concrete deliverables (docs, scripts, follow-up tasks).
+  - type: textarea
+    id: subtasks
+    attributes:
+      label: Sub-tasks
+      description: Break the work into optional sub-tasks if it helps execution.
+  - type: textarea
+    id: rollout
+    attributes:
+      label: Rollout / validation
+      description: Note release steps, validation, or monitoring requirements.
