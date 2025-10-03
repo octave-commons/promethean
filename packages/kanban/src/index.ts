@@ -5,6 +5,8 @@ import {
   runCommand,
   type CliContext,
 } from "./cli/command-handlers.js";
+import { processSync } from "./process/sync.js";
+import { docguard } from "./process/docguard.js";
 
 const LEGACY_FLAG_MAP = Object.freeze(
   new Map<string, string>([
@@ -71,18 +73,143 @@ async function main(): Promise<void> {
     env: applyLegacyEnv(process.env),
   });
 
-  const [command, ...args] = restArgs;
-  if (helpRequested || !command) {
-    console.error(HELP_TEXT);
+  const [cmd, ...args] = restArgs;
+  const boardFile = config.boardFile;
+  const tasksDir = config.tasksDir;
+
+  const usage =
+    `Usage: kanban [--kanban path] [--tasks path] <subcommand> [args...]\n` +
+    `Subcommands: count, getColumn, getByColumn, find, find-by-title, update_status, move_up, move_down, pull, push, sync, regenerate, indexForSearch, search, process_sync, doccheck`;
+
+  if (helpRequested || !cmd) {
+    console.error(usage);
     process.exit(2);
   }
 
-  const context: CliContext = {
-    boardFile: config.boardFile,
-    tasksDir: config.tasksDir,
-  };
-
-  await runCommand(command, args, context);
+  switch (cmd) {
+    case "count": {
+      const column = args[0];
+      const board = await loadBoard(boardFile, tasksDir);
+      const n = countTasks(board, column);
+      printJSONL({ count: n });
+      break;
+    }
+    case "getColumn": {
+      const column = requireArg(args[0], "column name");
+      const board = await loadBoard(boardFile, tasksDir);
+      const colData = getColumn(board, column);
+      printJSONL(colData);
+      break;
+    }
+    case "getByColumn": {
+      const column = requireArg(args[0], "column name");
+      const board = await loadBoard(boardFile, tasksDir);
+      const tasks = getTasksByColumn(board, column);
+      printJSONL(tasks);
+      break;
+    }
+    case "find": {
+      const id = requireArg(args[0], "task id");
+      const board = await loadBoard(boardFile, tasksDir);
+      const t = findTaskById(board, id);
+      if (t) printJSONL(t);
+      break;
+    }
+    case "find-by-title": {
+      const joined = args.join(" ").trim();
+      const title = requireArg(
+        joined.length > 0 ? joined : undefined,
+        "task title",
+      );
+      const board = await loadBoard(boardFile, tasksDir);
+      const t = findTaskByTitle(board, title);
+      if (t) printJSONL(t);
+      break;
+    }
+    case "update_status": {
+      const [rawId, rawStatus] = args;
+      const id = requireArg(rawId, "task id");
+      const newStatus = requireArg(rawStatus, "new status");
+      const board = await loadBoard(boardFile, tasksDir);
+      const updated = await updateStatus(board, id, newStatus, boardFile);
+      printJSONL(updated);
+      break;
+    }
+    case "move_up": {
+      const [rawId] = args;
+      const id = requireArg(rawId, "task id");
+      const board = await loadBoard(boardFile, tasksDir);
+      const res = await moveTask(board, id, -1, boardFile);
+      printJSONL(res);
+      break;
+    }
+    case "move_down": {
+      const [rawId] = args;
+      const id = requireArg(rawId, "task id");
+      const board = await loadBoard(boardFile, tasksDir);
+      const res = await moveTask(board, id, +1, boardFile);
+      printJSONL(res);
+      break;
+    }
+    case "pull": {
+      const board = await loadBoard(boardFile, tasksDir);
+      const res = await pullFromTasks(board, tasksDir, boardFile);
+      printJSONL(res);
+      break;
+    }
+    case "push": {
+      const board = await loadBoard(boardFile, tasksDir);
+      const res = await pushToTasks(board, tasksDir);
+      printJSONL(res);
+      break;
+    }
+    case "sync": {
+      const board = await loadBoard(boardFile, tasksDir);
+      const res = await syncBoardAndTasks(board, tasksDir, boardFile);
+      printJSONL(res);
+      break;
+    }
+    case "regenerate": {
+      const res = await regenerateBoard(tasksDir, boardFile);
+      printJSONL(res);
+      break;
+    }
+    case "indexForSearch": {
+      const res = await indexForSearch(tasksDir);
+      printJSONL(res);
+      break;
+    }
+    case "search": {
+      const joined = args.join(" ").trim();
+      const term = requireArg(
+        joined.length > 0 ? joined : undefined,
+        "search term",
+      );
+      const board = await loadBoard(boardFile, tasksDir);
+      const res = await searchTasks(board, term);
+      printJSONL(res);
+      break;
+    }
+    case "process_sync": {
+      const res = await processSync({
+        processFile: process.env.KANBAN_PROCESS_FILE,
+        owner: process.env.GITHUB_OWNER,
+        repo: process.env.GITHUB_REPO,
+        token: process.env.GITHUB_TOKEN,
+      });
+      printJSONL(res);
+      break;
+    }
+    case "doccheck": {
+      const pr = args[0] || process.env.PR_NUMBER;
+      await docguard({ pr, owner: process.env.GITHUB_OWNER, repo: process.env.GITHUB_REPO, token: process.env.GITHUB_TOKEN });
+      break;
+    }
+    default:
+      console.error(`Unknown subcommand: ${cmd}`);
+      console.error(usage);
+      process.exit(2);
+  }
 }
 
 main().catch((error: unknown) => {
