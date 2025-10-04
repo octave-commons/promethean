@@ -1,8 +1,4 @@
 {:paths ["bb/src" "packages/clj-hacks/src" "packages/clj-hacks/test"]
- :deps {
-  io.github.bonede/tree-sitter {:mvn/version "0.25.3"}
-  io.github.bonede/tree-sitter-elisp {:mvn/version "1.3.0a"}
- }
  :tasks
  {;; Root tasks
   build            {:doc "Build JavaScript and TypeScript services" :task (mk.commands/build)}

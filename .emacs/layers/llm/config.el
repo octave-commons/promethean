@@ -281,7 +281,4 @@
            :args ("--from" "git+https://github.com/oraios/serena" "serena" "start-mcp-server")))
        ( "sonarqube" .
          (:command "$HOME/devel/promethean/scripts/mcp/bin/sonarqube.sh"))
-       ;; ( "ts-ls-lsp" .
-       ;;   (:command "npx"
-       ;;     :args ("tritlo/lsp-mcp" "typescript" "$HOME/.volta/bin/typescript-language-server" "--stdio")))
        )))
