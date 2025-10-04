@@ -1,4 +1,8 @@
 {:paths ["bb/src" "packages/clj-hacks/src" "packages/clj-hacks/test"]
+ :deps {
+  io.github.bonede/tree-sitter {:mvn/version "0.25.3"}
+  io.github.bonede/tree-sitter-elisp {:mvn/version "1.3.0a"}
+ }
  :tasks
  {;; Root tasks
   build            {:doc "Build JavaScript and TypeScript services" :task (mk.commands/build)}
@@ -14,18 +18,6 @@
   coverage         {:doc "Coverage for JS/TS" :task (mk.commands/coverage)}
   setup            {:doc "Setup JS/TS services" :task (mk.commands/setup)}
   setup-quick      {:doc "Quick workspace setup" :task (mk.commands/setup-quick)}
-
-  install          {:doc "Install deps with fallback" :task (mk.commands/install)}
-  install-gha-artifacts {:doc "Install latest GHA artifacts" :task (mk.commands/install-gha-artifacts)}
-  system-deps      {:doc "Install system deps (ffmpeg, uv, pnpm)" :task (mk.commands/system-deps)}
-  install-mongodb  {:doc "Install MongoDB (Linux only)" :task (mk.commands/install-mongodb)}
-  start            {:doc "pm2 start" :task (mk.commands/start)}
-  stop             {:doc "pm2 stop" :task (mk.commands/stop)}
-  start-service    {:doc "pm2 start --only (SERVICE env)" :task (mk.commands/start-service)}
-  stop-service     {:doc "pm2 stop (SERVICE env)" :task (mk.commands/stop-service)}
-  lint-tasks       {:doc "Lint mk tasks" :task (mk.commands/lint-tasks)}
-  simulate-ci      {:doc "Stubbed CI simulation" :task (mk.commands/simulate-ci)}
-  snapshot         {:doc "Create tag snapshot-YYYY.MM.DD (PUSH=1 to push)" :task (mk.commands/snapshot)}
 
   ;; Clojure packages
   clj-hacks:prepare {:doc "Download deps for clj-hacks" :requires ([clj-hacks.tasks]) :task clj-hacks.tasks/prepare!}
@@ -64,4 +56,3 @@
   ts-type-check             mk.node/ts-type-check
  }
 }
-
