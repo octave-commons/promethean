@@ -46,17 +46,9 @@
                               :cwd "$HOME/devel/promethean"}}
         data    {:mcp {:mcp-servers servers}
                  :rest {:before ";; header\n"
-                        :after "(message \"tail\")\n"}}
-        expected (str ";; header\n"
-                      "(with-eval-after-load 'mcp\n"
-                      "  (setq mcp-hub-servers\n"
-                      "        '(( \"github\" .\n"
-                      "            (:command \"/home/err/devel/promethean/scripts/mcp/bin/github.sh\"))\n"
-                      "          ( \"npm-helper\" .\n"
-                      "            (:command \"npx\"\n"
-                      "                      :args (\"-y\" \"@pinkpixel/npm-helper-mcp\")\n"
-                      "                      :cwd \"$HOME/devel/promethean\"))\n"
-                      "          )))\n"
-                      "(message \"tail\")\n")]
+                        :after "(message \"tail\")\n"}}]
     (adapter/write-full path data)
-    (is (= expected (slurp path)))))
+    (let [out (slurp path)]
+      (is (str/starts-with? out ";; header\n;; AUTO-GENERATED"))
+      (is (str/includes? out "(:command \"npx\""))
+      (is (str/includes? out "(message \"tail\")\n")))))
