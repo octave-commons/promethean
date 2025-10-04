@@ -155,3 +155,127 @@ Return JSON {name,pid,buffer}."
          (pid  . ,(or (process-id proc) -1))
          (buffer . ,(if buf (buffer-name buf) ""))))))
 
+;;; --- helpers ---------------------------------------------------------------
+
+(defun gptel--file-bytes (path &optional max-bytes)
+  "Return up to MAX-BYTES of PATH as a raw (unibyte) string."
+  (let ((coding-system-for-read 'binary))
+    (with-temp-buffer
+      (insert-file-contents-literally path nil 0 max-bytes)
+      (buffer-string))))
+
+(defun gptel--maybe-text (bytes)
+  "Return decoded UTF-8 text if BYTES looks like valid UTF-8; else nil."
+  (condition-case _
+    (decode-coding-string bytes 'utf-8 t) ; 't' = no copy; errors raise
+    (error nil)))
+
+(defun gptel--safe-file-payload (path &optional max-bytes)
+  "Return a plist describing PATH with text or base64 payload, truncated if needed."
+  (let* ((max (or max-bytes (* 200 1024)))      ; 200KB safety default
+          (attrs (file-attributes path))
+          (size (and attrs (file-attribute-size attrs)))
+          (bytes (gptel--file-bytes path max))
+          (truncated (and size (> size (length bytes))))
+          (text (gptel--maybe-text bytes)))
+    (if text
+      ;; Plain text payload
+      `(:kind "text" :encoding "utf-8" :path ,(expand-file-name path)
+         :size ,size :truncated ,(and truncated t) :content ,text)
+      ;; Binary payload -> base64 (ASCII; safe for JSON)
+      `(:kind "binary" :encoding "base64" :path ,(expand-file-name path)
+         :size ,size :truncated ,(and truncated t)
+         :content ,(base64-encode-string bytes t)))))
+
+(defun gptel--ensure-under-project (path)
+  "Refuse to touch files outside current project root (optional, but sane)."
+  (let* ((root (or (and (fboundp 'project-root) (project-root (project-current)))
+                 default-directory))
+          (abs (expand-file-name path)))
+    (unless (string-prefix-p (file-truename root) (file-truename abs))
+      (error "Refusing to access %s outside project root %s" abs root))
+    abs))
+
+(defun err--coerce-desc (x &optional limit)
+  (let* ((s (cond ((stringp x) x)
+              ((null x) "")
+              (t (with-output-to-string (prin1 x))))))
+    (if (and limit (> (length s) limit))
+      (substring s 0 limit)
+      s)))
+
+(defun err--sanitize-gptel-tools (&optional limit)
+  (setq limit (or limit 1000)) ;; a bit under 1024 for safety
+  (setq gptel-tools
+    (cl-loop for tool in gptel-tools
+      when (and tool (recordp tool) (eq (type-of tool) 'gptel-tool))
+      do (let* ((desc (aref tool 3)))
+           (unless (and (stringp desc) (<= (length desc) 1024))
+             (setf (aref tool 3) (err--coerce-desc desc limit))))
+      and collect tool)))
+
+;;; --- gptel tool fixups for MCP & friends -------------------------------
+
+(defvar err-gptel-desc-max 1000
+  "Trim tool descriptions to this many chars (leave headroom under 1024).")
+
+(defun err--coerce-desc (x)
+  "Return X as a string; pretty-print non-strings. Trim to `err-gptel-desc-max`."
+  (let* ((s (cond ((stringp x) x)
+              ((null x) "")
+              (t (with-output-to-string (prin1 x))))))
+    (if (> (length s) err-gptel-desc-max) (substring s 0 err-gptel-desc-max) s)))
+
+(defun err--tool-name (tool)
+  "Extract name from a #s(gptel-tool ...) struct safely."
+  (and tool (recordp tool) (eq (type-of tool) 'gptel-tool) (aref tool 2)))
+
+(defun err--fixup-tool (tool)
+  "Ensure TOOL has a string description ≤ 1024 and a non-nil name."
+  (when (and tool (recordp tool) (eq (type-of tool) 'gptel-tool))
+    ;; If name is missing, drop the tool by returning nil.
+    (let ((name (aref tool 2)))
+      (when (not (and (stringp name) (> (length name) 0)))
+        (cl-return-from err--fixup-tool nil)))
+    ;; Coerce/trim description.
+    (let ((desc (aref tool 3)))
+      (unless (and (stringp desc) (<= (length desc) 1024))
+        (setf (aref tool 3) (err--coerce-desc desc))))
+    tool))
+
+(defun err--dedup-tools-by-name (tools)
+  "Remove duplicate tools by :name, keep the first occurrence."
+  (let ((seen (make-hash-table :test 'equal))
+         (out  ()))
+    (dolist (t tools (nreverse out))
+      (let ((nm (err--tool-name t)))
+        (when (and nm (not (gethash nm seen)))
+          (puthash nm t seen)
+          (push t out))))))
+
+(defun err--sanitize-gptel-tools ()
+  "Drop nil/bad tools, coerce descriptions, and de-dup by name."
+  (setq gptel-tools
+    (->> gptel-tools
+      (cl-remove-if-not #'identity)                  ; drop nils like your index 29
+      (mapcar #'err--fixup-tool)
+      (cl-remove-if-not #'identity)                  ; drop any tool still nil
+      (err--dedup-tools-by-name))))
+
+;; Run this just-in-time before sending:
+(defun err--gptel-sanitize-before-send (orig &rest args)
+  (err--sanitize-gptel-tools)
+  (apply orig args))
+
+;; Helper: error if outside project
+(defun err--ensure-under-project (path)
+  (let* ((root (or (and (fboundp 'project-root) (project-root (project-current)))
+                 default-directory))
+          (abs  (expand-file-name path)))
+    (unless (string-prefix-p (file-name-as-directory (expand-file-name root))
+              (file-name-as-directory abs))
+      (error "Refusing to access outside project: %s" abs))
+    abs))
+
+;; (with-eval-after-load 'gptel
+;;   )
