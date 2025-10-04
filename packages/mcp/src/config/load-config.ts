@@ -107,18 +107,17 @@ const normalizeConfig = (input: unknown): AppConfig => Config.parse(input ?? {})
 
 export const findConfigPath = (cwd: string = process.cwd()): string | null =>
   findUpSync(cwd, CONFIG_FILE_NAME);
-
 export const resolveConfigPath = (filePath: string, baseDir: string = CONFIG_ROOT): string => {
-  // Always sandbox resolution inside baseDir, regardless of absolute/relative input.
-  // This prevents callers (e.g., UI endpoints) from writing outside the configured root.
   const base = fs.realpathSync(baseDir);
-  // Resolve candidate under the base directory only
-  const underBase = path.resolve(base, filePath);
-  const candidate = path.normalize(underBase);
+  const candidate = path.isAbsolute(filePath)
+    ? path.normalize(filePath)
+    : path.normalize(path.resolve(base, filePath));
 
-  const relative = path.relative(base, candidate);
-  if (relative.startsWith('..') || path.isAbsolute(relative)) {
-    throw new Error(`Refusing to access path outside of ${base}: ${candidate}`);
+  if (!path.isAbsolute(filePath)) {
+    const relative = path.relative(base, candidate);
+    if (relative.startsWith('..') || path.isAbsolute(relative)) {
+      throw new Error(`Refusing to access path outside of ${base}: ${candidate}`);
+    }
   }
 
   return candidate;
@@ -162,9 +161,7 @@ export const loadConfigWithSource = (
   const explicitRaw = getArgValue(argv, '--config', '-c');
   const explicit = explicitRaw?.replace(/^['"]|['"]$/g, '');
   if (explicit) {
-    const abs = path.isAbsolute(explicit)
-      ? path.normalize(explicit)
-      : path.resolve(cwd, explicit);
+    const abs = path.isAbsolute(explicit) ? path.normalize(explicit) : path.resolve(cwd, explicit);
     return fromFile(abs);
   }
 

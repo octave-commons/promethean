@@ -26,27 +26,18 @@ bb clj-hacks:test      # runs clojure.test suites via cognitect test-runner
 All tasks automatically resolve dependencies before executing. `build` will also
 create `packages/clj-hacks/target/classes` when needed.
 
-## Nx integration
+Verification from Clojure (Tree-sitter required)
+-----------------------------------------------
 
-`packages/clj-hacks/project.json` is wired to the Babashka tasks, so the
-standard Nx workflows delegate to the Lisp toolchain:
+Run verification directly from Clojure (not BB), since Tree-sitter is a Java library:
 
 ```sh
-pnpm nx run ts-clj-hacks:build
-pnpm nx run ts-clj-hacks:lint
-pnpm nx run ts-clj-hacks:test
+# From repo root
+clojure -A:verify packages/clj-hacks/fixtures/generated.el
 ```
 
-These commands call the same Babashka tasks listed above, allowing Nx
-automation and local development to stay in sync.
+The verify task will print a parsed map from clj_hacks.mcp.adapter_elisp/read-full.
 
-## Linting and tests
-
-Linting uses `clj-kondo` with configuration sourced from `deps.edn`. Tests rely
-on `cognitect-labs/test-runner`. Suites live in `packages/clj-hacks/test` using
-standard `clojure.test` namespaces.
-
-## Manual follow-up
-
-Verify that team machines have Babashka and the Clojure CLI installed globally
-so the delegated Nx tasks work outside CI.
+Notes:
+- Ensure Tree-sitter Java bindings are available (deps are in packages/clj-hacks/deps.edn).
+- The verify task is defined via the :verify alias and clj_hacks.verify.core/-main.
