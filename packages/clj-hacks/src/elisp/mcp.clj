@@ -48,7 +48,8 @@
   [^String source]
   (let [{:keys [root source-bytes has-errors?]} (read/syntax-tree source)]
     (when-not has-errors?
-      (let [children (:children root)
+      (let [;; only consider named children to skip unnamed trivia (e.g. blank lines)
+            children (vec (filter :named? (:children root)))
             count-children (count children)]
         (loop [idx 0]
           (if (>= idx count-children)
