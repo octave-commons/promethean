@@ -2,10 +2,10 @@
   (:import [java.nio.charset StandardCharsets]
            [org.treesitter TSParser TSNode TreeSitterElisp]))
 
-(defonce ^TreeSitterElisp elisp-language (TreeSitterElisp.))
+(defonce elisp-language (TreeSitterElisp.))
 
 (def ^:dynamic *source* "")
-(def ^:dynamic ^"[B" *source-bytes* nil)
+(def ^:dynamic *source-bytes* nil)
 
 (defn ^TSParser mk-parser []
   (doto (TSParser.) (.setLanguage (.copy elisp-language))))
@@ -18,13 +18,24 @@
   (let [^bytes bytes (or *source-bytes*
                           (throw (IllegalStateException. "node-text requires bound *source-bytes*")))
         start (.getStartByte n)
-        end (.getEndByte n)
+        end   (.getEndByte n)
         length (- end start)]
     (String. bytes start length StandardCharsets/UTF_8)))
 
-(defmulti node->edn (fn [^TSNode n] (.getType n)))
-(defn children [^TSNode n]
+(defn- unwrap-source [node]
+  (if (and (vector? node)
+           (= :el/source (first node)))
+    (let [forms (vec (rest node))]
+      (cond
+        (empty? forms) [:el/source]
+        (= 1 (count forms)) (first forms)
+        :else (into [:el/source] forms)))
+    node))
+
+(defn- children [n]
   (map #(.getNamedChild n %) (range (.getNamedChildCount n))))
+
+(defmulti node->edn (fn [n] (.getType n)))
 
 (defmethod node->edn "program" [n]
   (into [:el/source]
@@ -33,7 +44,6 @@
 (defmethod node->edn "source_file" [n]
   (into [:el/source]
         (map node->edn (children n))))
-
 (defmethod node->edn "integer" [n] (Long/parseLong (node-text n)))
 (defmethod node->edn "float"   [n] (Double/parseDouble (node-text n)))
 (defmethod node->edn "string"  [n] (node-text n))                ; strip quotes if you like
@@ -70,7 +80,7 @@
 
 (defmethod node->edn :default [n]
   {:el/type :unknown
-   :node/type (.getType ^TSNode n)
+   :node/type (.getType n)
    :raw (node-text n)})
 
 (defn- unwrap-source [node]
@@ -86,4 +96,4 @@
 (defn elisp->data [src]
   (binding [*source* src
             *source-bytes* (.getBytes ^String src StandardCharsets/UTF_8)]
-    (-> src parse-root node->edn unwrap-source)))
+    (-> src parse-root node->edn unwrap-source))
