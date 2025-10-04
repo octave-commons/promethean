@@ -26,33 +26,41 @@ export const resolveHttpEndpoints = (
 ): readonly EndpointDefinition[] => {
   const entries = Object.entries(config.endpoints ?? {});
   if (entries.length === 0) {
+    const includeHelp = (config as any).includeHelp;
+    const meta = (config as any).stdioMeta;
     return [
       {
         path: "/mcp",
         tools: config.tools,
-        includeHelp: (config as any).includeHelp,
-        meta: (config as any).stdioMeta,
+        ...(includeHelp === undefined ? {} : { includeHelp }),
+        ...(meta === undefined ? {} : { meta }),
       },
     ];
   }
 
-  const resolved = entries.map(([path, cfg]: any) => ({
-    path: ensureLeadingSlash(path),
-    tools: cfg.tools,
-    includeHelp: cfg.includeHelp,
-    meta: cfg.meta,
-  }));
+  const resolved = entries.map(([path, cfg]: any) => {
+    const includeHelp = cfg.includeHelp;
+    const meta = cfg.meta;
+    return {
+      path: ensureLeadingSlash(path),
+      tools: cfg.tools,
+      ...(includeHelp === undefined ? {} : { includeHelp }),
+      ...(meta === undefined ? {} : { meta }),
+    };
+  });
 
   const shouldIncludeLegacyEndpoint =
     config.tools.length > 0 &&
     resolved.every((endpoint) => endpoint.path !== "/mcp");
 
   if (shouldIncludeLegacyEndpoint) {
+    const includeHelp = (config as any).includeHelp;
+    const meta = (config as any).stdioMeta;
     resolved.unshift({
       path: "/mcp",
       tools: config.tools,
-      includeHelp: (config as any).includeHelp,
-      meta: (config as any).stdioMeta,
+      ...(includeHelp === undefined ? {} : { includeHelp }),
+      ...(meta === undefined ? {} : { meta }),
     });
   }
 
