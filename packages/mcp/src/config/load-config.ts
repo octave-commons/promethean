@@ -109,16 +109,16 @@ export const findConfigPath = (cwd: string = process.cwd()): string | null =>
   findUpSync(cwd, CONFIG_FILE_NAME);
 
 export const resolveConfigPath = (filePath: string, baseDir: string = CONFIG_ROOT): string => {
+  // Always sandbox resolution inside baseDir, regardless of absolute/relative input.
+  // This prevents callers (e.g., UI endpoints) from writing outside the configured root.
   const base = fs.realpathSync(baseDir);
-  const candidate = path.isAbsolute(filePath)
-    ? path.normalize(filePath)
-    : path.normalize(path.resolve(base, filePath));
+  // Resolve candidate under the base directory only
+  const underBase = path.resolve(base, filePath);
+  const candidate = path.normalize(underBase);
 
-  if (!path.isAbsolute(filePath)) {
-    const relative = path.relative(base, candidate);
-    if (relative.startsWith('..') || path.isAbsolute(relative)) {
-      throw new Error(`Refusing to access path outside of ${base}: ${candidate}`);
-    }
+  const relative = path.relative(base, candidate);
+  if (relative.startsWith('..') || path.isAbsolute(relative)) {
+    throw new Error(`Refusing to access path outside of ${base}: ${candidate}`);
   }
 
   return candidate;
