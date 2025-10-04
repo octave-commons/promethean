@@ -3,7 +3,7 @@ import {
   PCM48_TO_16_DECIMATION,
   averageStereoFrame,
   floatToPcm16,
-} from "@promethean/duck-audio";
+} from '@promethean/duck-audio';
 
 const identity = <T>(x: T) => x;
 
@@ -12,11 +12,10 @@ const $ = (sel: string, root: ParentNode = document) =>
 const nowIso = () => new Date().toISOString();
 
 // --- Audio utilities -------------------------------------------------------
-const downsampleTo16kMono = async (
-  source: MediaStream,
-): Promise<ReadableStream<Uint8Array>> => {
-  const audioCtx = new (window.AudioContext ||
-    (window as any).webkitAudioContext)({ sampleRate: 48000 });
+const downsampleTo16kMono = async (source: MediaStream): Promise<ReadableStream<Uint8Array>> => {
+  const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)({
+    sampleRate: 48000,
+  });
   const srcNode = audioCtx.createMediaStreamSource(source);
   const processor = audioCtx.createScriptProcessor(4096, 2, 1);
   srcNode.connect(processor);
@@ -31,11 +30,7 @@ const downsampleTo16kMono = async (
         const samples: number[] = [];
         const frameStride = PCM48_STEREO_CHANNELS;
         const samplesPerOutput = PCM48_TO_16_DECIMATION * frameStride;
-        for (
-          let i = 0;
-          i + samplesPerOutput <= l.length;
-          i += samplesPerOutput
-        ) {
+        for (let i = 0; i + samplesPerOutput <= l.length; i += samplesPerOutput) {
           let monoAccumulator = 0;
           for (let frame = 0; frame < PCM48_TO_16_DECIMATION; frame += 1) {
             const base = i + frame * frameStride;
@@ -73,8 +68,7 @@ const createPcmPlayer = () => {
     const pcm = new Int16Array(bytes);
     const buf = ctx.createBuffer(1, pcm.length, 16000);
     const ch = buf.getChannelData(0);
-    for (let i = 0; i < pcm.length; i++)
-      ch[i] = Math.max(-1, Math.min(1, pcm[i] / 32768));
+    for (let i = 0; i < pcm.length; i++) ch[i] = Math.max(-1, Math.min(1, pcm[i] / 32768));
     const src = ctx.createBufferSource();
     src.buffer = buf;
     src.connect(ctx.destination);
@@ -87,14 +81,12 @@ const createPcmPlayer = () => {
 
 // --- WebRTC signaling over WebSocket --------------------------------------
 const connectSignaling = (url: string, token?: string) => {
-  const ws = new WebSocket(
-    token ? `${url}?token=${encodeURIComponent(token)}` : url,
-  );
+  const ws = new WebSocket(token ? `${url}?token=${encodeURIComponent(token)}` : url);
   const listeners = new Map<string, (msg: any) => void>();
   ws.onmessage = (ev) => {
     const msg = JSON.parse(String(ev.data));
     const fn = listeners.get(msg.type);
-    if (typeof fn === "function") fn(msg);
+    if (typeof fn === 'function') fn(msg);
   };
   return {
     send: (type: string, data: any) =>
@@ -115,6 +107,10 @@ export class DuckChat extends HTMLElement {
   #player?: ReturnType<typeof createPcmPlayer>;
   #log?: HTMLElement;
   #tts = window.speechSynthesis;
+  #micStream?: MediaStream;
+  #micReader?: ReadableStreamDefaultReader<Uint8Array>;
+  #micAbort?: AbortController;
+  #micPump?: Promise<void>;
 
   connectedCallback() {
     this.innerHTML = `
@@ -137,20 +133,20 @@ export class DuckChat extends HTMLElement {
         <div class="log" id="log"></div>
       </section>`;
 
-    this.#log = $("#log", this) as HTMLElement;
-    $("#send", this)?.addEventListener("click", () => this.#sendText());
-    $("#mic", this)?.addEventListener("click", () => this.#toggleMic());
+    this.#log = $('#log', this) as HTMLElement;
+    $('#send', this)?.addEventListener('click', () => this.#sendText());
+    $('#mic', this)?.addEventListener('click', () => this.#toggleMic());
 
     // bootstrap connection immediately
-    const sigUrl = $("#sig", this) as HTMLInputElement;
-    const token = $("#token", this) as HTMLInputElement;
+    const sigUrl = $('#sig', this) as HTMLInputElement;
+    const token = $('#token', this) as HTMLInputElement;
     sigUrl.value ||=
-      (location.protocol === "https:" ? "wss" : "ws") +
-      "://" +
-      location.host.replace(/:\d+$/, ":8787") +
-      "/ws";
+      (location.protocol === 'https:' ? 'wss' : 'ws') +
+      '://' +
+      location.host.replace(/:\d+$/, ':8787') +
+      '/ws';
     this.#connect(sigUrl.value, token.value || undefined).catch((e) =>
-      this.#logLine("error: " + e.message),
+      this.#logLine('error: ' + e.message),
     );
   }
 
@@ -158,6 +154,8 @@ export class DuckChat extends HTMLElement {
     this.#sig?.close();
     this.#pc?.close();
     this.#player?.close();
+    this.#stopMicCapture().catch(() => {});
+    this.#closeVoiceChannel();
   }
 
   async #connect(sigUrl: string, token?: string) {
@@ -166,27 +164,27 @@ export class DuckChat extends HTMLElement {
       encodedInsertableStreams: false,
       iceServers: getIceServers(),
     });
-    this.#voice = this.#pc.createDataChannel("voice");
-    this.#voice.binaryType = "arraybuffer";
+    this.#voice = this.#pc.createDataChannel('voice');
+    this.#prepareVoiceChannel(this.#voice);
 
     // Handle server-created channels: 'events' (text) and 'audio' (pcm frames)
     this.#pc.ondatachannel = (ev) => {
-      if (ev.channel.label === "events") {
+      if (ev.channel.label === 'events') {
         ev.channel.onmessage = (mev) => {
           try {
             const msg = JSON.parse(String(mev.data));
-            if (msg.type === "content.post" && msg.message) {
-              this.#logLine("duck: " + msg.message.text);
-              const speak = ($("#speak", this) as HTMLInputElement)?.checked;
+            if (msg.type === 'content.post' && msg.message) {
+              this.#logLine('duck: ' + msg.message.text);
+              const speak = ($('#speak', this) as HTMLInputElement)?.checked;
               if (speak) this.#speak(msg.message.text);
             }
           } catch (_) {
             /* noop */
           }
         };
-      } else if (ev.channel.label === "audio") {
+      } else if (ev.channel.label === 'audio') {
         this.#player ||= createPcmPlayer();
-        ev.channel.binaryType = "arraybuffer";
+        ev.channel.binaryType = 'arraybuffer';
         ev.channel.onmessage = (mev) => {
           const bytes = mev.data as ArrayBuffer;
           this.#player!.scheduleFrame(bytes);
@@ -195,48 +193,139 @@ export class DuckChat extends HTMLElement {
     };
 
     // signaling
-    this.#sig.on("ready", async () => {
+    this.#sig.on('ready', async () => {
       const offer = await this.#pc!.createOffer();
       await this.#pc!.setLocalDescription(offer);
-      this.#sig!.send("offer", { sdp: offer.sdp });
+      this.#sig!.send('offer', { sdp: offer.sdp });
     });
-    this.#sig.on("answer", async ({ sdp }) => {
-      await this.#pc!.setRemoteDescription({ type: "answer", sdp });
-      this.#logLine("webrtc connected");
+    this.#sig.on('answer', async ({ sdp }) => {
+      await this.#pc!.setRemoteDescription({ type: 'answer', sdp });
+      this.#logLine('webrtc connected');
     });
-    this.#sig.on("ice", async ({ candidate }) => {
+    this.#sig.on('ice', async ({ candidate }) => {
       if (candidate) await this.#pc!.addIceCandidate(candidate);
     });
     this.#pc.onicecandidate = (ev) => {
-      if (ev.candidate) this.#sig!.send("ice", { candidate: ev.candidate });
+      if (ev.candidate) this.#sig!.send('ice', { candidate: ev.candidate });
     };
   }
 
   async #toggleMic() {
-    const micBtn = $("#mic", this)!;
-    const on = micBtn.getAttribute("aria-pressed") === "true";
+    const micBtn = $('#mic', this)!;
+    const on = micBtn.getAttribute('aria-pressed') === 'true';
     if (on) {
-      micBtn.setAttribute("aria-pressed", "false");
-      this.#logLine("mic stopped");
+      micBtn.setAttribute('aria-pressed', 'false');
+      await this.#stopMicCapture();
+      this.#closeVoiceChannel();
+      this.#logLine('mic stopped');
       return;
     }
-    const media = await navigator.mediaDevices.getUserMedia({
-      audio: { channelCount: 2, sampleRate: 48000 },
-      video: false,
-    });
-    const pcm = await downsampleTo16kMono(media);
-    const writer = this.#voice!.send.bind(this.#voice);
+    try {
+      const voice = await this.#ensureVoiceChannel();
+      const media = await navigator.mediaDevices.getUserMedia({
+        audio: { channelCount: 2, sampleRate: 48000 },
+        video: false,
+      });
+      this.#micStream = media;
+      const pcm = await downsampleTo16kMono(media);
+      const reader = pcm.getReader();
+      this.#micReader = reader;
+      const abort = new AbortController();
+      this.#micAbort = abort;
 
-    const reader = pcm.getReader();
-    const pump = async () => {
-      const { value, done } = await reader.read();
-      if (done) return;
-      writer(value.buffer);
-      pump();
+      const pump = async () => {
+        try {
+          while (!abort.signal.aborted) {
+            const { value, done } = await reader.read();
+            if (done || abort.signal.aborted) break;
+            if (voice.readyState !== 'open') break;
+            voice.send(value.buffer);
+          }
+        } catch (error) {
+          if (!abort.signal.aborted) console.warn('mic pump failed', error);
+        }
+      };
+      this.#micPump = pump();
+      this.#micPump.catch(() => {});
+      micBtn.setAttribute('aria-pressed', 'true');
+      this.#logLine('mic started');
+    } catch (error) {
+      console.error('failed to start mic', error);
+      await this.#stopMicCapture();
+      this.#closeVoiceChannel();
+      micBtn.setAttribute('aria-pressed', 'false');
+      this.#logLine('mic error: ' + (error instanceof Error ? error.message : 'unknown'));
+    }
+  }
+
+  #prepareVoiceChannel(channel: RTCDataChannel) {
+    channel.binaryType = 'arraybuffer';
+    const clear = () => {
+      if (this.#voice === channel) this.#voice = undefined;
+      this.#stopMicCapture().catch(() => {});
+      channel.removeEventListener('close', clear);
+      channel.removeEventListener('error', clear);
     };
-    micBtn.setAttribute("aria-pressed", "true");
-    this.#logLine("mic started");
-    pump();
+    channel.addEventListener('close', clear);
+    channel.addEventListener('error', clear);
+  }
+
+  async #ensureVoiceChannel(): Promise<RTCDataChannel> {
+    if (!this.#pc) throw new Error('not connected');
+    let channel = this.#voice;
+    if (!channel || channel.readyState === 'closing' || channel.readyState === 'closed') {
+      channel = this.#pc.createDataChannel('voice');
+      this.#prepareVoiceChannel(channel);
+      this.#voice = channel;
+    }
+    if (channel.readyState === 'open') return channel;
+    if (channel.readyState === 'connecting') {
+      await new Promise<void>((resolve, reject) => {
+        const handleOpen = () => {
+          cleanup();
+          resolve();
+        };
+        const handleFail = () => {
+          cleanup();
+          reject(new Error('voice channel closed'));
+        };
+        const cleanup = () => {
+          channel?.removeEventListener('open', handleOpen);
+          channel?.removeEventListener('close', handleFail);
+          channel?.removeEventListener('error', handleFail);
+        };
+        channel?.addEventListener('open', handleOpen, { once: true });
+        channel?.addEventListener('close', handleFail, { once: true });
+        channel?.addEventListener('error', handleFail, { once: true });
+      });
+      if (channel.readyState === 'open') return channel;
+    }
+    throw new Error('voice channel unavailable');
+  }
+
+  async #stopMicCapture() {
+    this.#micAbort?.abort();
+    this.#micAbort = undefined;
+    const pump = this.#micPump;
+    this.#micPump = undefined;
+    try {
+      await pump;
+    } catch {}
+    try {
+      await this.#micReader?.cancel();
+    } catch {}
+    this.#micReader = undefined;
+    this.#micStream?.getTracks().forEach((track) => track.stop());
+    this.#micStream = undefined;
+  }
+
+  #closeVoiceChannel() {
+    if (this.#voice) {
+      try {
+        this.#voice.close();
+      } catch {}
+      if (this.#voice?.readyState !== 'open') this.#voice = undefined;
+    }
   }
 
   #speak(text: string) {
@@ -250,17 +339,17 @@ export class DuckChat extends HTMLElement {
   }
 
   #sendText() {
-    const el = $("#text", this) as HTMLTextAreaElement;
+    const el = $('#text', this) as HTMLTextAreaElement;
     const text = el.value.trim();
     if (!text) return;
-    this.#sig?.send("text", { text });
-    this.#logLine("you: " + text);
-    el.value = "";
+    this.#sig?.send('text', { text });
+    this.#logLine('you: ' + text);
+    el.value = '';
   }
 
   #logLine(line: string) {
     const el = this.#log!;
-    const p = document.createElement("div");
+    const p = document.createElement('div');
     p.textContent = `[${nowIso()}] ${line}`;
     el.appendChild(p);
     el.scrollTop = el.scrollHeight;
@@ -269,7 +358,7 @@ export class DuckChat extends HTMLElement {
 
 function getIceServers(): RTCIceServer[] {
   try {
-    const raw = localStorage.getItem("duck.iceServers");
+    const raw = localStorage.getItem('duck.iceServers');
     if (!raw) return [];
     return JSON.parse(raw);
   } catch {
@@ -277,4 +366,4 @@ function getIceServers(): RTCIceServer[] {
   }
 }
 
-customElements.define("duck-chat", DuckChat);
+customElements.define('duck-chat', DuckChat);
