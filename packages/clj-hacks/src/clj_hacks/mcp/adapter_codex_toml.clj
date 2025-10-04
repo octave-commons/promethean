@@ -105,7 +105,8 @@
 
 (defn write-full [path {:keys [mcp rest]}]
   ;; rest is the "rest-string" we kept; we append regenerated mcp tables at the end.
-  (let [block (apply str (map render-toml-table (:mcp-servers mcp)))
+  (let [mcp'  (core/expand-servers-home mcp)
+        block (apply str (map render-toml-table (:mcp-servers mcp')))
         out   (str (str/trimr (or rest "")) "\n\n# --- MCP (generated) ---\n\n" block)]
     (core/ensure-parent! path)
     (spit path out)))

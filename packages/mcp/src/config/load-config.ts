@@ -110,12 +110,17 @@ export const findConfigPath = (cwd: string = process.cwd()): string | null =>
 
 export const resolveConfigPath = (filePath: string, baseDir: string = CONFIG_ROOT): string => {
   const base = fs.realpathSync(baseDir);
-  // Always resolve filePath within base, even if filePath is absolute.
-  const candidate = path.normalize(path.resolve(base, path.relative(path.parse(filePath).root, filePath)));
-  const relative = path.relative(base, candidate);
-  if (relative.startsWith('..') || path.isAbsolute(relative)) {
-    throw new Error(`Refusing to access path outside of ${base}: ${candidate}`);
+  const candidate = path.isAbsolute(filePath)
+    ? path.normalize(filePath)
+    : path.normalize(path.resolve(base, filePath));
+
+  if (!path.isAbsolute(filePath)) {
+    const relative = path.relative(base, candidate);
+    if (relative.startsWith('..') || path.isAbsolute(relative)) {
+      throw new Error(`Refusing to access path outside of ${base}: ${candidate}`);
+    }
   }
+
   return candidate;
 };
 
@@ -154,9 +159,12 @@ export const loadConfigWithSource = (
   });
 
   // 1) explicit file
-  const explicit = getArgValue(argv, '--config', '-c');
+  const explicitRaw = getArgValue(argv, '--config', '-c');
+  const explicit = explicitRaw?.replace(/^['"]|['"]$/g, '');
   if (explicit) {
-    const abs = path.resolve(cwd, explicit);
+    const abs = path.isAbsolute(explicit)
+      ? path.normalize(explicit)
+      : path.resolve(cwd, explicit);
     return fromFile(abs);
   }
 

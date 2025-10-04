@@ -9,6 +9,7 @@ import path from "node:path";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import { isInitializeRequest } from "@modelcontextprotocol/sdk/types.js";
+import type { JSONRPCMessage } from "@modelcontextprotocol/sdk/types.js";
 
 import {
   CONFIG_FILE_NAME,
@@ -275,6 +276,54 @@ const normalizeServerInput = (
   return ensureEndpointDescriptors(descriptorsFromEntries(entries));
 };
 
+const ensureInitializeDefaults = (value: unknown): unknown => {
+  const normalize = (message: unknown): unknown => {
+    if (!message || typeof message !== "object" || Array.isArray(message)) {
+      return message;
+    }
+    const candidate = message as Record<string, unknown>;
+    if (candidate.method !== "initialize") {
+      return candidate;
+    }
+    const params = {
+      protocolVersion: "2024-10-01",
+      clientInfo: { name: "promethean-mcp", version: "dev" },
+      ...(typeof candidate.params === "object" && candidate.params !== null
+        ? candidate.params
+        : {}),
+    } as Record<string, unknown>;
+    if (!params["protocolVersion"]) {
+      params["protocolVersion"] = "2024-10-01";
+    }
+    if (!params["clientInfo"]) {
+      params["clientInfo"] = { name: "promethean-mcp", version: "dev" };
+    }
+    return {
+      jsonrpc: "2.0",
+      ...candidate,
+      params,
+    };
+  };
+
+  if (Array.isArray(value)) {
+    return value.map((item) => normalize(item));
+  }
+  return normalize(value);
+};
+
+const hasInitializeRequest = (payload: unknown): boolean => {
+  if (!payload) {
+    return false;
+  }
+  if (Array.isArray(payload)) {
+    return payload.some((entry) => hasInitializeRequest(entry));
+  }
+  if (typeof payload !== "object") {
+    return false;
+  }
+  return isInitializeRequest(payload as JSONRPCMessage);
+};
+
 const parseProxyBody = (value: unknown): unknown => {
   if (value === null || value === undefined) return undefined;
   if (Buffer.isBuffer(value) || typeof value === "string") {
@@ -282,6 +331,8 @@ const parseProxyBody = (value: unknown): unknown => {
   }
   return value;
 };
+
+const ROUTE_METHODS = ["POST", "GET", "DELETE"] as const;
 
 const createProxyHandler = (proxy: ProxyLifecycle) => {
   return async function handler(req: any, reply: any) {
@@ -301,7 +352,22 @@ const createProxyHandler = (proxy: ProxyLifecycle) => {
 
     try {
       const body = parseProxyBody(req.body);
-      await proxy.handle(rawReq, rawRes, body);
+      const normalizedBody = ensureInitializeDefaults(body);
+      if (!rawReq.headers["content-type"]) {
+        rawReq.headers["content-type"] = "application/json";
+      }
+      const accept = rawReq.headers["accept"];
+      if (
+        !accept ||
+        !(
+          typeof accept === "string" &&
+          accept.includes("application/json") &&
+          accept.includes("text/event-stream")
+        )
+      ) {
+        rawReq.headers["accept"] = "application/json, text/event-stream";
+      }
+      await proxy.handle(rawReq, rawRes, normalizedBody);
     } catch (error: unknown) {
       if (!rawRes.headersSent) {
         rawRes.writeHead(500).end(
@@ -341,7 +407,9 @@ const createRouteHandler = (
 
     try {
       const body = tryParseJson(req.body);
+      const normalizedBody = ensureInitializeDefaults(body);
       const sidHeader = rawReq.headers["mcp-session-id"] as string | undefined;
+      const isInitialization = hasInitializeRequest(normalizedBody);
 
       let transport: StreamableHTTPServerTransport | undefined;
 
@@ -360,7 +428,7 @@ const createRouteHandler = (
           );
           return;
         }
-      } else if (body && isInitializeRequest(body)) {
+      } else if (isInitialization) {
         let self: StreamableHTTPServerTransport;
 
         const t: StreamableHTTPServerTransport =
@@ -392,7 +460,7 @@ const createRouteHandler = (
         return;
       }
 
-      await transport.handleRequest(rawReq, rawRes, body);
+      await transport.handleRequest(rawReq, rawRes, normalizedBody);
     } catch (e: any) {
       if (!rawRes.headersSent) {
         rawRes.writeHead(400).end(
@@ -538,6 +606,29 @@ export const fastifyTransport = (opts?: {
             })(),
           }
         : undefined;
+
+      const registerRoute = (
+        url: string,
+        handler: (req: any, reply: any) => Promise<void> | void,
+      ): void => {
+        for (const method of ROUTE_METHODS) {
+          app.route({ method, url, handler });
+        }
+        app.options(url, (req, reply) => {
+          const requestedHeaders = req.headers["access-control-request-headers"];
+          const allowHeaders = Array.isArray(requestedHeaders)
+            ? requestedHeaders.join(",")
+            : typeof requestedHeaders === "string"
+              ? requestedHeaders
+              : "";
+          reply
+            .status(204)
+            .header("allow", [...ROUTE_METHODS, "OPTIONS"].join(","))
+            .header("access-control-allow-methods", [...ROUTE_METHODS, "OPTIONS"].join(","))
+            .header("access-control-allow-headers", allowHeaders)
+            .send();
+        });
+      };
       let currentUiState: UiState | undefined = uiOptions
         ? createUiState(uiOptions, proxiesForUi)
         : undefined;
@@ -701,7 +792,7 @@ export const fastifyTransport = (opts?: {
           if (descriptor.kind === "registry") {
             const sessions = new Map<string, StreamableHTTPServerTransport>();
             sessionStores.set(descriptor.path, sessions);
-            app.post(
+            registerRoute(
               descriptor.path,
               createRouteHandler(descriptor.handler, sessions),
             );
@@ -711,7 +802,7 @@ export const fastifyTransport = (opts?: {
 
           await descriptor.handler.start();
           startedProxies.push(descriptor.handler);
-          app.post(descriptor.path, createProxyHandler(descriptor.handler));
+          registerRoute(descriptor.path, createProxyHandler(descriptor.handler));
           console.log(
             `[mcp:http] proxied stdio server ${descriptor.handler.spec.name} at ${descriptor.path}`,
           );

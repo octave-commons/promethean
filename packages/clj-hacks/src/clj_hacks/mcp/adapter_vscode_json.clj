@@ -24,8 +24,9 @@
                    (json/parse-string (slurp path))
                    {})
         m*      (merge existing rest)
+        mcp'    (core/expand-servers-home mcp)
         servers (into (sorted-map)
-                      (for [[k {:keys [command args cwd]}] (:mcp-servers mcp)]
+                      (for [[k {:keys [command args cwd]}] (:mcp-servers mcp')]
                         [(name k) (cond-> {"command" command "type" "stdio"}
                                     (seq args) (assoc "args" (vec args))
                                     (some? cwd) (assoc "cwd" cwd))]))

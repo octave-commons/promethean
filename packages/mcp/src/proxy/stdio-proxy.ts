@@ -196,7 +196,17 @@ export class StdioHttpProxy {
     res: ServerResponse,
     parsedBody?: unknown,
   ): Promise<void> {
+    if (
+      this.http.sessionId !== undefined &&
+      !req.headers["mcp-session-id"]
+    ) {
+      req.headers["mcp-session-id"] = this.http.sessionId;
+    }
     await this.http.handleRequest(req, res, parsedBody);
+  }
+
+  get sessionId(): string | undefined {
+    return this.http.sessionId;
   }
 
   async stop(): Promise<void> {
