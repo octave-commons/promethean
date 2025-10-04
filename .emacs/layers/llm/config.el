@@ -1,199 +1,238 @@
 (with-eval-after-load 'gptel
+  (setq gptel-log-level 'trace
+    debug-on-error t)
+  (advice-add 'gptel-send :around #'err--gptel-sanitize-before-send)
 
-  ;; read_file
-  (defvar gptel-tool-read-file
-    (gptel-make-tool
-      :name "read_file"
-      :function (lambda (path &optional max_bytes)
-                  (gptel--read-file path max_bytes))
-      :description "Read and return the contents of a file. Optional max_bytes to cap read."
-      :args (list '(:name "path" :type string :description "Path to file")
-              '(:name "max_bytes" :type integer :optional t
-                 :description "Hard cap on bytes to read"))
-      :category "filesystem"))
 
-  ;; write_file
-  (defvar gptel-tool-write-file
-    (gptel-make-tool
-      :name "write_file"
-      :function (lambda (path content &optional overwrite parents)
-                  (gptel--write-file path content overwrite parents))
-      :description "Write content to a file. When overwrite=false and file exists, error. When parents=true, create parent dirs."
-      :args (list '(:name "path" :type string :description "Destination path")
-              '(:name "content" :type string :description "File contents")
-              '(:name "overwrite" :type boolean :optional t :description "Default true")
-              '(:name "parents" :type boolean :optional t :description "Create parent dirs"))
-      :category "filesystem"))
+  ;; ---- filesystem ----
 
-  ;; apply_patch
-  (defvar gptel-tool-apply-patch
-    (gptel-make-tool
-      :name "apply_patch"
-      :function (lambda (unified_diff &optional root strip)
-                  (gptel--patch-apply unified_diff root strip))
-      :description "Apply a unified diff under root using the system 'patch'. Args: unified_diff (string), optional root dir, strip (patch -pN). Returns JSON {exit,output}."
-      :args (list '(:name "unified_diff" :type string :description "Unified diff text")
-              '(:name "root" :type string :optional t :description "Root directory for patch")
-              '(:name "strip" :type integer :optional t :description "Strip components for -p"))
-      :category "filesystem"))
-
-  ;; search_files
-  (defvar gptel-tool-search-files
-    (gptel-make-tool
-      :name "search_files"
-      :function (lambda (root pattern &optional name_glob max_results)
-                  (gptel--search-files root pattern name_glob max_results))
-      :description "Recursive regex content search. Optionally restrict filenames by glob and max_results. Returns JSON array of {file,line,col,snippet}."
-      :args (list '(:name "root" :type string :description "Directory to search")
-              '(:name "pattern" :type string :description "Elisp regexp to match")
-              '(:name "name_glob" :type string :optional t :description "Filename glob, e.g. *.ts")
-              '(:name "max_results" :type integer :optional t :description "Default 500"))
-      :category "filesystem"))
-
-  ;; list_dir
-  (defvar gptel-tool-list-dir
-    (gptel-make-tool
-      :name "list_dir"
-      :function (lambda (dir &optional full_paths)
-                  (gptel--list-dir dir full_paths))
-      :description "List entries in a directory. Returns JSON array with {name,path,type,size}. Set full_paths=true to use absolute paths."
-      :args (list '(:name "dir" :type string :description "Directory path")
-              '(:name "full_paths" :type boolean :optional t :description "Return absolute paths"))
-      :category "filesystem"))
-
-  ;; get_dir_tree
-  (defvar gptel-tool-get-dir-tree
-    (gptel-make-tool
-      :name "get_dir_tree"
-      :function (lambda (root &optional depth)
-                  (gptel--dir-tree root depth))
-      :description "Return a textual tree of root (depth default 3)."
-      :args (list '(:name "root" :type string :description "Directory root")
-              '(:name "depth" :type integer :optional t :description "Max depth (default 3)"))
-      :category "filesystem"))
-
-  ;; mkdir
-  (defvar gptel-tool-mkdir
-    (gptel-make-tool
-      :name "mkdir"
-      :function (lambda (dir)
-                  (make-directory (expand-file-name dir) t)
-                  (format "created directory %s" (expand-file-name dir)))
-      :description "Create directory (parents created as needed)."
-      :args (list '(:name "dir" :type string :description "Directory path to create"))
-      :category "filesystem"))
-
-  ;; rmdir
-  (defvar gptel-tool-rmdir
-    (gptel-make-tool
-      :name "rmdir"
-      :function (lambda (dir &optional recursive)
-                  (delete-directory (expand-file-name dir) (and recursive t))
-                  (format "removed directory %s%s"
-                    (expand-file-name dir)
-                    (if recursive " (recursive)" "")))
-      :description "Remove a directory. Set recursive=true to remove non-empty."
-      :args (list '(:name "dir" :type string :description "Directory path to remove")
-              '(:name "recursive" :type boolean :optional t :description "Recursively delete if non-empty"))
-      :category "filesystem"))
-
-  ;; exec (synchronous)
-  (defvar gptel-tool-exec
-    (gptel-make-tool
-      :name "exec"
-      :function (lambda (command)
-                  (gptel--exec-sync command))
-      :description "Run a shell command synchronously. Returns JSON {exit,stdout}."
-      :args (list '(:name "command" :type string :description "Shell command"))
-      :category "process"))
-
-  ;; spawn_async (asynchronous)
-  (defvar gptel-tool-spawn-async
-    (gptel-make-tool
-      :name "spawn_async"
-      :function (lambda (command &optional buffer_name)
-                  (gptel--spawn-async command buffer_name))
-      :description "Run a shell command asynchronously. Optionally stream output to buffer_name. Returns JSON {name,pid,buffer}."
-      :args (list '(:name "command" :type string :description "Shell command")
-              '(:name "buffer_name" :type string :optional t
-                 :description "Buffer to collect output (optional)"))
-      :category "process"))
-
-  ;; read_buffer (yours, kept as-is with a small safety tweak)
-  (defvar gptel-tool-read-buffer
-    (gptel-make-tool
-      :name "read_buffer"
-      :function (lambda (buffer)
-                  (unless (buffer-live-p (get-buffer buffer))
-                    (error "error: buffer %s is not live." buffer))
-                  (with-current-buffer buffer
-                    (buffer-substring-no-properties (point-min) (point-max))))
-      :description "Return the contents of an Emacs buffer."
-      :args (list '(:name "buffer" :type string
-                     :description "The buffer name to read"))
-      :category "emacs"))
-
-  ;; Register tools (extend or set globally)
-  (setq gptel-tools
-    (append
-      (list gptel-tool-read-file
-        gptel-tool-write-file
-        gptel-tool-apply-patch
-        gptel-tool-search-files
-        gptel-tool-list-dir
-        gptel-tool-get-dir-tree
-        gptel-tool-mkdir
-        gptel-tool-rmdir
-        gptel-tool-exec
-        gptel-tool-spawn-async
-        gptel-tool-read-buffer)
-      gptel-tools))
-  (gptel-make-preset 'proofreader
-    :description "Preset for proofreading tasks"
-    :backend "ChatGPT"
-    :model 'gpt-5-nano
-    :tools '("read_buffer" )
-    :temperature 0.7                      ;sets gptel-temperature
-    :use-context 'system)                 ;sets gptel-use-context
-  (gptel-make-preset 'pair-programming
-    :description "Preset for pair programming"
-    :backend "ChatGPT"
-    :model 'gpt-5-nano
-    :tools '("read_buffer" )
-    :temperature 0.7                      ;sets gptel-temperature
-    :use-context 'system)
   (gptel-make-tool
-    :name "read_buffer"                    ; javascript-style snake_case name
-    :function (lambda (buffer)                  ; the function that will run
-                (unless (buffer-live-p (get-buffer buffer))
-                  (error "error: buffer %s is not live." buffer))
-                (with-current-buffer  buffer
-                  (buffer-substring-no-properties (point-min) (point-max))))
-    :description "return the contents of an emacs buffer"
-    :args (list '(:name "buffer"
-                   :type string            ; :type value must be a symbol
-                   :description "the name of the buffer whose contents are to be retrieved"))
-    :category "emacs")                     ; An arbitrary label for grouping
-  (gptel-make-tool
-    :name "create_file"                    ; javascript-style  snake_case name
-    :function (lambda (path filename content)   ; the function that runs
-                (let ((full-path (expand-file-name filename path)))
-                  (with-temp-buffer
-                    (insert content)
-                    (write-file full-path))
-                  (format "Created file %s in %s" filename path)))
-    :description "Create a new file with the specified content"
-    :args (list '(:name "path"             ; a list of argument specifications
-                   :type string
-                   :description "The directory where to create the file")
-            '(:name "filename"
-               :type string
-               :description "The name of the file to create")
-            '(:name "content"
-               :type string
-               :description "The content to write to the file"))
-    :category "filesystem")                ; An arbitrary label for grouping
+    :name "read_file"
+    :description "Read a file. Returns UTF-8 text when possible; otherwise base64 + metadata."
+    :category "filesystem"
+    :args (list '(:name "path" :type string :description "Path to file")
+            '(:name "max_bytes" :type integer :optional t
+               :description "Cap on bytes to read (default ~200KB)"))
+    :function
+    (lambda (path &optional max_bytes)
+      (setq path (err--ensure-under-project path))
+      (unless (file-exists-p path) (error "No such file: %s" path))
+      ;; gptel’s helper turns non-text into base64 + mime-ish metadata.
+      (if (fboundp 'gptel--safe-file-payload)
+        (gptel--safe-file-payload path max_bytes)
+        ;; fallback: read as utf-8
+        (with-temp-buffer
+          (let ((coding-system-for-read 'utf-8))
+            (insert-file-contents path))
+          (buffer-string)))))
 
+  (gptel-make-tool
+    :name "write_file"
+    :description "Write UTF-8 CONTENT to PATH. Fails unless overwrite=true."
+    :category "filesystem"
+    :args (list '(:name "path" :type string :description "File path")
+            '(:name "content" :type string :description "UTF-8 text")
+            '(:name "overwrite" :type boolean :optional t :description "Allow overwrite?"))
+    :function
+    (lambda (path content &optional overwrite)
+      (setq path (err--ensure-under-project path))
+      (when (and (file-exists-p path) (not overwrite))
+        (error "File exists: %s (set overwrite=true)" path))
+      (make-directory (file-name-directory path) t)
+      (let ((coding-system-for-write 'utf-8-unix))
+        (with-temp-file path (insert content)))
+      (list :ok t :path (expand-file-name path))))
+
+  (gptel-make-tool
+    :name "apply_patch"
+    :description "Apply a unified diff under root using system 'patch'. First dry-run; optional strip (-pN). Returns {ok, stdout}"
+    :category "filesystem"
+    :args (list '(:name "unified_diff" :type string :description "Unified diff")
+            '(:name "root" :type string :optional t :description "Root dir")
+            '(:name "strip" :type integer :optional t :description "strip components (patch -pN)"))
+    :function
+    (lambda (unified_diff &optional root strip)
+      (let* ((root (expand-file-name (or root default-directory)))
+              (_ (err--ensure-under-project root))
+              (tmp (make-temp-file "gptel-patch-" nil ".diff"))
+              (strip (or strip 0))
+              (args (list (format "-p%d" strip) "--batch" "--forward" "--reject-file=-"))
+              (out (generate-new-buffer " *gptel-patch*"))
+              (err (generate-new-buffer " *gptel-patch-err*"))
+              (coding-system-for-write 'utf-8-unix)
+              status)
+        (unwind-protect
+          (progn
+            (with-temp-file tmp (insert unified_diff))
+            ;; dry run
+            (setq status (apply #'call-process "patch" nil (list out err) nil
+                           (append args '("--dry-run" "-i") (list tmp))))
+            (when (not (eq status 0))
+              (error "patch --dry-run failed (strip=%d): %s"
+                strip (with-current-buffer err (buffer-string))))
+            ;; real run
+            (setq status (apply #'call-process "patch" nil (list out err) nil
+                           (append args '("-i") (list tmp))))
+            (if (eq status 0)
+              (list :ok t :strip strip
+                :stdout (with-current-buffer out (buffer-string)))
+              (error "patch failed: %s" (with-current-buffer err (buffer-string)))))
+          (ignore-errors (delete-file tmp))
+          (kill-buffer out) (kill-buffer err)))))
+
+  (gptel-make-tool
+    :name "search_files"
+    :description "Search files under ROOT for PATTERN. Uses ripgrep JSON if available."
+    :category "filesystem"
+    :args (list '(:name "root" :type string :description "Root directory")
+            '(:name "pattern" :type string :description "Regexp or fixed string"))
+    :function
+    (lambda (root pattern)
+      (setq root (err--ensure-under-project root))
+      (let ((rg (executable-find "rg")))
+        (if rg
+          (with-temp-buffer
+            (let* ((coding-system-for-read 'utf-8)
+                    (status (call-process rg nil t nil "--json" "-n" "-S" pattern root)))
+              (goto-char (point-min))
+              (list :tool "ripgrep" :pattern pattern :root root
+                :json (buffer-string) :exit status)))
+          ;; fallback: elisp grep
+          (let (hits)
+            (dolist (f (directory-files-recursively root "" t))
+              (when (and (file-regular-p f)
+                      (not (string-match-p "/\\." f)))
+                (let* ((bytes (with-temp-buffer
+                                (insert-file-contents-literally f nil 0 200000)
+                                (buffer-string)))
+                        (text (condition-case _ (decode-coding-string bytes 'utf-8 t) nil)))
+                  (when (and text (string-match-p pattern text))
+                    (push f hits)))))
+            (list :tool "elisp" :pattern pattern :root root :matches (nreverse hits)))))))
+
+  (gptel-make-tool
+    :name "list_dir"
+    :description "List directory entries (absolute paths)."
+    :category "filesystem"
+    :args (list '(:name "dir" :type string :description "Directory")
+            '(:name "dotfiles" :type boolean :optional t :description "Include dotfiles?"))
+    :function
+    (lambda (dir &optional dotfiles)
+      (setq dir (err--ensure-under-project dir))
+      (unless (file-directory-p dir) (error "Not a directory: %s" dir))
+      (list :dir (expand-file-name dir)
+        :entries (seq-filter (lambda (f) (or dotfiles (not (string-match-p "/\\." f))))
+                   (directory-files dir t nil t)))))
+
+  (gptel-make-tool
+    :name "get_dir_tree"
+    :description "Return a textual tree of root (depth default 3)."
+    :category "filesystem"
+    :args (list '(:name "root" :type string :description "Directory root")
+            '(:name "depth" :type integer :optional t :description "Max depth (default 3)"))
+    :function
+    (lambda (root &optional depth)
+      (setq root (err--ensure-under-project root))
+      (let ((depth (or depth 3)))
+        (cl-labels ((tree (dir d)
+                      (when (>= d 0)
+                        (concat (make-string (* (- 3 d) 2) ?\s)
+                          (file-name-nondirectory (directory-file-name dir)) "/\n"
+                          (mapconcat
+                            (lambda (f)
+                              (if (file-directory-p f)
+                                (tree f (1- d))
+                                (concat (make-string (* (- 2 d) 2) ?\s)
+                                  (file-name-nondirectory f) "\n")))
+                            (seq-filter (lambda (f) (not (string-match-p "/\\." f)))
+                              (directory-files dir t "^[^.].*" t))
+                            "")))))
+          (tree root depth)))))
+
+  (gptel-make-tool
+    :name "mkdir"
+    :description "Create directory. Set parents=true for -p behavior."
+    :category "filesystem"
+    :args (list '(:name "dir" :type string :description "Directory")
+            '(:name "parents" :type boolean :optional t :description "Create parents?"))
+    :function
+    (lambda (dir &optional parents)
+      (setq dir (err--ensure-under-project dir))
+      (make-directory dir parents)
+      (list :ok t :dir (expand-file-name dir))))
+
+  (gptel-make-tool
+    :name "rmdir"
+    :description "Remove directory. With recursive=true, removes contents."
+    :category "filesystem"
+    :args (list '(:name "dir" :type string :description "Directory")
+            '(:name "recursive" :type boolean :optional t :description "Recurse?"))
+    :function
+    (lambda (dir &optional recursive)
+      (setq dir (err--ensure-under-project dir))
+      (cond ((and recursive (file-directory-p dir)) (delete-directory dir t))
+        ((file-directory-p dir) (delete-directory dir))
+        (t (error "Not a directory: %s" dir)))
+      (list :ok t :dir (expand-file-name dir))))
+
+  ;; ---- process ----
+
+  (gptel-make-tool
+    :name "exec"
+    :description "Run a short shell COMMAND synchronously. Returns {exit, stdout}."
+    :category "process"
+    :args (list '(:name "command" :type string :description "Shell command"))
+    :function
+    (lambda (command)
+      (let* ((shell-file-name (or (getenv "SHELL") shell-file-name))
+              (coding-system-for-read 'utf-8)
+              (coding-system-for-write 'utf-8)
+              (buf (generate-new-buffer " *gptel-exec*"))
+              (status (unwind-protect
+                        (with-current-buffer buf
+                          (call-process shell-file-name nil t nil "-lc" command))
+                        0)))
+        (unwind-protect
+          (list :exit status
+            :stdout (with-current-buffer buf (buffer-string)))
+          (kill-buffer buf)))))
+
+  (gptel-make-tool
+    :name "spawn_async"
+    :description "Run a shell command asynchronously. Optionally stream output to buffer_name. Returns {pid, buffer}."
+    :category "process"
+    :args (list '(:name "command" :type string :description "Shell command")
+            '(:name "buffer_name" :type string :optional t :description "Buffer to collect output"))
+    :function
+    (lambda (command &optional buffer_name)
+      (let* ((buf (get-buffer-create (or buffer_name (format "*gptel-proc:%s*" command))))
+              (proc (start-process-shell-command "gptel-proc" buf command)))
+        (set-process-coding-system proc 'utf-8 'utf-8)
+        (set-process-query-on-exit-flag proc nil)
+        (set-process-sentinel proc
+          (lambda (p _e)
+            (when (memq (process-status p) '(exit signal))
+              (with-current-buffer (process-buffer p)
+                (goto-char (point-max))
+                (insert (format "\n\n[process %s finished with %s]\n"
+                          (process-id p) (process-status p)))))))
+        (list :pid (process-id proc) :buffer (buffer-name buf)))))
+
+  ;; ---- emacs ----
+
+  (gptel-make-tool
+    :name "read_buffer"
+    :description "Return the contents of an Emacs buffer"
+    :category "emacs"
+    :args (list '(:name "buffer" :type string :description "Buffer name"))
+    :function
+    (lambda (buffer)
+      (unless (buffer-live-p (get-buffer buffer))
+        (error "error: buffer %s is not live." buffer))
+      (with-current-buffer buffer
+        (buffer-substring-no-properties (point-min) (point-max)))))
+
+  ;; Finally, set only these tools:
   )
 ;; AUTO-GENERATED by mk.mcp-cli -- edits will be overwritten.
 (with-eval-after-load 'mcp
