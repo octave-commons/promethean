@@ -17,4 +17,8 @@
             :main-opts  ["-m" "cognitect.test-runner" "-d" "test"]}
   :compile {:jvm-opts  ["-Dclojure.compile.path=target/classes"]
             :main-opts ["-e"
-                        "(binding [*compile-path* (System/getProperty \"clojure.compile.path\" \"target/classes\")] (compile 'elisp.read))"]}}}
+                        "(binding [*compile-path* (System/getProperty \"clojure.compile.path\" \\"target/classes\\")] (compile 'elisp.read))"]}
+  :mcp-cli {:main-opts ["-m" "mk.mcp-cli"]}
+  :verify {:extra-paths ["packages/clj-hacks"]
+           :main-opts   ["-m" "clj_hacks.verify.core"]}
+}
