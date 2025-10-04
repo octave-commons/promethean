@@ -1,0 +1,2 @@
+#!clojure
+{:deps {org.tree-sitter/tree-sitter {:mvn/version "0.23.2"}}}

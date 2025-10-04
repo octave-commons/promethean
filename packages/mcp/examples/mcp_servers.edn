@@ -62,7 +62,7 @@
   {:schema :codex.json :path "${HOME}/.local/share/oterm/config.json"}
 
   ;; Promethean root manifest
-  {:schema :mcp.json  :path "./promethean.mcp.json"}
+  {:schema :mcp.json  :path "../promethean.mcp.json"}
 
   ;; Emacs MCP package
   ;; doesn't work right.

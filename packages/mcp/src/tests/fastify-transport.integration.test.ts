@@ -7,6 +7,7 @@ import esmock from "esmock";
 
 import { fastifyTransport } from "../core/transports/fastify.js";
 import type { HttpEndpointDescriptor } from "../core/transports/fastify.js";
+import { createMcpServer } from "../core/mcp-server.js";
 import type { StdioServerSpec } from "../proxy/config.js";
 
 const allocatePort = async (): Promise<number> =>
@@ -147,7 +148,10 @@ test("fastify transport forwards proxy requests", async (t) => {
       jsonrpc: "2.0",
       id: 1,
       method: "initialize",
-      params: {},
+      params: {
+        protocolVersion: "2024-10-01",
+        clientInfo: { name: "promethean-mcp", version: "dev" },
+      },
     });
   } finally {
     await transport.stop?.();
@@ -155,4 +159,42 @@ test("fastify transport forwards proxy requests", async (t) => {
 
   t.is(httpStops, 1);
   t.is(stdioStops, 1);
+});
+
+test("fastify registry accepts batched initialize request", async (t) => {
+  const port = await allocatePort();
+  const server = createMcpServer([]);
+  const transport = fastifyTransport({ host: "127.0.0.1", port });
+
+  await transport.start([
+    { path: "/mcp", kind: "registry", handler: server },
+  ]);
+
+  try {
+    const response = await fetch(`http://127.0.0.1:${port}/mcp`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        accept: "application/json, text/event-stream",
+      },
+      body: JSON.stringify([
+        {
+          jsonrpc: "2.0",
+          id: 1,
+          method: "initialize",
+          params: {
+            protocolVersion: "2024-10-01",
+            clientInfo: { name: "ava-test", version: "0.0.0" },
+            capabilities: {},
+          },
+        },
+      ]),
+    });
+
+    t.is(response.status, 200);
+    t.truthy(response.headers.get("mcp-session-id"));
+    await response.body?.cancel();
+  } finally {
+    await transport.stop?.();
+  }
 });

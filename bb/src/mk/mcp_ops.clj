@@ -3,7 +3,7 @@
   (:require [babashka.fs :as fs]
             [clojure.edn :as edn]
             [clj-hacks.mcp.core :as core]
-            [clj-hacks.mcp.ops :as ops :refer :all]))
+            [clj-hacks.mcp.ops :as ops]))
 
 (defn- ensure-base
   "Resolve the working directory for relative :outputs paths."
@@ -15,6 +15,21 @@
   "Read EDN configuration from `path`."
   [path]
   (edn/read-string (slurp path)))
+
+(defn pull-one [edn-map base out]
+  (ops/pull-one edn-map base out))
+
+(defn push-one! [edn-map base out]
+  (ops/push-one! edn-map base out))
+
+(defn sync-one! [edn-map base out]
+  (ops/sync-one! edn-map base out))
+
+(defn push-all! [edn-map base outs]
+  (ops/push-all! edn-map base outs))
+
+(defn sync-all! [edn-map base outs]
+  (ops/sync-all! edn-map base outs))
 
 (defn refresh-outputs!
   "Push or sync all outputs for `edn-map` relative to `base`.
@@ -67,3 +82,8 @@
          updated (apply f current args)
          {:keys [edn]} (write-edn! path updated {:mode mode})]
      edn)))
+
+(defn doctor
+  "Expose clj-hacks doctor helper for mk.mcp-cli."
+  [edn-map base]
+  (ops/doctor edn-map base))
