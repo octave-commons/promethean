@@ -34,9 +34,9 @@ describe setup-playwright       bash -lc '"./run/setup_playwright.sh"'
 
 
 # services: chroma + ollama
-./run/standup_chroma_nohup.sh
-curl -fsSL https://ollama.com/install.sh | sh
-./run/standup_ollama_nohup.sh
+# ./run/standup_chroma_nohup.sh
+# curl -fsSL https://ollama.com/install.sh | sh
+# ./run/standup_ollama_nohup.sh
 
 
 describe pnpm-build           pnpm -r --no-bail build
