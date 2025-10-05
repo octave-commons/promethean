@@ -1,0 +1,46 @@
+name: Bug report
+description: Reproducible runtime or production bug with a minimal repro
+title: "[bug] <brief summary>"
+labels:
+  - bug
+  - prio:medium
+  - github
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What happened and what did you expect?
+      placeholder: The expected behavior is...
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Minimal repro
+      description: List the steps or provide a code sample that reproduces the issue.
+      placeholder: |
+        1. Run pnpm test --filter xyz
+        2. Observe the failure message...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: Describe the expected result once the bug is fixed.
+  - type: input
+    id: env_node
+    attributes:
+      label: Node/Browser version
+      description: Provide the exact runtime version(s) that exhibit the bug.
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment details
+      description: OS, package versions, feature flags, or other configuration that affects the repro.
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional context
+      description: Logs, screenshots, or anything else that helps triage the bug.

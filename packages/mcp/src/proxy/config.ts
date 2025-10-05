@@ -1,3 +1,4 @@
+import fs from "node:fs";
 import { readFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
@@ -15,6 +16,13 @@ export type StdioServerSpec = Readonly<{
 
 type UnknownRecord = Record<string, unknown>;
 
+const hasMcpServers = (
+  value: unknown,
+): value is UnknownRecord & { "mcp-servers": unknown } =>
+  value !== null &&
+  typeof value === "object" &&
+  Object.prototype.hasOwnProperty.call(value, "mcp-servers");
+
 const normalize = (value: unknown): unknown => {
   if (Array.isArray(value)) {
     return value.map((item) => normalize(item));
@@ -28,14 +36,12 @@ const normalize = (value: unknown): unknown => {
     return value;
   }
 
-  return Object.entries(value as UnknownRecord).reduce<UnknownRecord>(
-    (acc, [rawKey, rawValue]) => {
+  return Object.fromEntries(
+    Object.entries(value as UnknownRecord).map(([rawKey, rawValue]) => {
       const key =
         typeof rawKey === "string" ? rawKey.replace(/^:/, "") : String(rawKey);
-      acc[key] = normalize(rawValue);
-      return acc;
-    },
-    {},
+      return [key, normalize(rawValue)];
+    }),
   );
 };
 
@@ -55,17 +61,29 @@ const expandHome = (input: string, home: string): string => {
   return input;
 };
 
+const expandEnvVars = (input: string, env: NodeJS.ProcessEnv): string =>
+  input.replace(/\$(\w+)|\$\{([^}]+)\}/g, (match, simple, braced) => {
+    const key = (simple ?? braced) as string;
+    const value = env[key];
+    return typeof value === "string" ? value : match;
+  });
+
+const looksLikeScopedPackage = (value: string): boolean =>
+  value.startsWith("@") && value.includes("/");
+
 const resolvePath = (raw: string, baseDir: string): string => {
   const home = os.homedir();
-  const expanded = expandHome(raw, home);
+  const expandedHome = expandHome(raw, home);
+  const expanded = expandEnvVars(expandedHome, process.env);
   if (expanded.startsWith("./") || expanded.startsWith("../")) {
     return path.resolve(baseDir, expanded);
   }
   if (path.isAbsolute(expanded)) {
     return expanded;
   }
-  if (expanded.includes(path.sep)) {
-    return path.resolve(baseDir, expanded);
+  if (expanded.includes(path.sep) && !looksLikeScopedPackage(expanded)) {
+    const candidate = path.resolve(baseDir, expanded);
+    return fs.existsSync(candidate) ? candidate : expanded;
   }
   return expanded;
 };
@@ -159,15 +177,11 @@ export const loadStdioServerSpecs = async (
   const baseDir = path.dirname(resolvedPath);
   const parsed = await loadEdn(resolvedPath);
 
-  if (
-    parsed === null ||
-    typeof parsed !== "object" ||
-    !("mcp-servers" in (parsed as UnknownRecord))
-  ) {
+  if (!hasMcpServers(parsed)) {
     throw new Error(`Expected top-level :mcp-servers map in ${filePath}`);
   }
 
-  const servers = (parsed as UnknownRecord)["mcp-servers"] as unknown;
+  const servers = parsed["mcp-servers"];
   if (
     servers === null ||
     typeof servers !== "object" ||

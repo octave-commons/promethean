@@ -1,0 +1,13 @@
+bug:
+  - "tests/**"
+  - "packages/**/src/**/__tests__/**"
+
+enhancement:
+  - "packages/**"
+  - "sites/**"
+
+chore:
+  - ".github/**"
+  - "config/**"
+  - "scripts/**"
+  - "tools/**"

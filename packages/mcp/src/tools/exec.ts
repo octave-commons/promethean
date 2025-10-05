@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/prefer-readonly-parameter-types, functional/prefer-immutable-types */
-
 import { spawn } from "node:child_process";
 
 import { z } from "zod";
@@ -255,11 +253,21 @@ export const execRunTool: ToolFactory = (ctx) => {
       args: ExecInputSchema.shape.args,
       timeoutMs: ExecInputSchema.shape.timeoutMs,
     } as const,
+    examples: [
+      {
+        comment: "Run the allowlisted git status command",
+        args: { commandId: "git.status" },
+      },
+      {
+        comment: "Pass extra args to an allowlisted script",
+        args: { commandId: "npm.test", args: ["--watch"] },
+      },
+    ],
     stability: "stable",
     since: "0.1.0",
   } satisfies ToolSpec;
 
-  const invoke = async (raw: unknown) => {
+  const invoke = (raw: unknown) => {
     const parsed = ExecInputSchema.parse(raw);
     const command = commandById.get(parsed.commandId);
     if (!command) {
@@ -295,23 +303,23 @@ export const execListTool: ToolFactory = (ctx) => {
     since: "0.1.0",
   } satisfies ToolSpec;
 
-  const invoke = async () =>
-    config.commands.map((command) => ({
-      id: command.id,
-      command: command.command,
-      args: command.args ?? [],
-      description: command.description,
-      allowExtraArgs: command.allowExtraArgs ?? false,
-      cwd:
-        command.cwd ??
-        config.defaultCwd ??
-        ctx.env.MCP_ROOT_PATH ??
-        process.cwd(),
-      timeoutMs:
-        command.timeoutMs ?? config.defaultTimeoutMs ?? DEFAULT_TIMEOUT_MS,
-    }));
+  const invoke = () =>
+    Promise.resolve(
+      config.commands.map((command) => ({
+        id: command.id,
+        command: command.command,
+        args: command.args ?? [],
+        description: command.description,
+        allowExtraArgs: command.allowExtraArgs ?? false,
+        cwd:
+          command.cwd ??
+          config.defaultCwd ??
+          ctx.env.MCP_ROOT_PATH ??
+          process.cwd(),
+        timeoutMs:
+          command.timeoutMs ?? config.defaultTimeoutMs ?? DEFAULT_TIMEOUT_MS,
+      })),
+    );
 
   return { spec, invoke };
 };
-
-/* eslint-enable @typescript-eslint/prefer-readonly-parameter-types, functional/prefer-immutable-types */

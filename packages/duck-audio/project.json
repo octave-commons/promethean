@@ -1,0 +1,13 @@
+{
+  "name": "@promethean/duck-audio",
+  "sourceRoot": "packages/duck-audio/src",
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm --filter @promethean/duck-audio run build"
+      }
+    }
+  },
+  "tags": []
+}
