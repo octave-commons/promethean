@@ -10,6 +10,7 @@ import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
 import { isInitializeRequest } from '@modelcontextprotocol/sdk/types.js';
 import type { JSONRPCMessage } from '@modelcontextprotocol/sdk/types.js';
+import { CompatibilityCallToolResultSchema } from '@modelcontextprotocol/sdk/types.js';
 
 import {
   CONFIG_FILE_NAME,
@@ -24,8 +25,9 @@ import type { StdioHttpProxy } from '../../proxy/stdio-proxy.js';
 import { resolveHttpEndpoints, type EndpointDefinition } from '../resolve-config.js';
 import {
   createEndpointOpenApiDocument,
-  encodeActionPathSegment,
   isZodValidationError,
+  toolToActionDefinition,
+  type ActionDefinition,
 } from '../openapi.js';
 import type { Transport, Tool } from '../types.js';
 import type { IncomingMessage } from 'node:http';
@@ -60,6 +62,13 @@ const isEndpointDefinitionValue = (value: unknown): value is EndpointDefinition 
   typeof value.path === 'string' &&
   Array.isArray(value.tools) &&
   value.tools.every((tool) => typeof tool === 'string');
+
+const clampText = (value: string | undefined, maxLength = 300): string | undefined => {
+  if (!value) return undefined;
+  if (value.length <= maxLength) return value;
+  const truncated = value.slice(0, maxLength).trimEnd();
+  return `${truncated.replace(/[.!,;:?]*$/, '')}…`;
+};
 
 type ServerEntries = ReadonlyArray<readonly [string, McpServer]>;
 
@@ -642,27 +651,60 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
         registerOptionsRoute(url, ROUTE_METHODS);
       };
 
-      const registerActionEndpoints = (descriptor: RegistryEndpointDescriptor): void => {
-        const tools = descriptor.tools ?? [];
-        if (tools.length === 0) {
-          return;
+      const headerValue = (value: unknown): string | undefined => {
+        if (typeof value === 'string') {
+          return value;
+        }
+        if (Array.isArray(value)) {
+          const first = value.find((entry): entry is string => typeof entry === 'string');
+          return first;
+        }
+        return undefined;
+      };
+
+      const forwardedHeaderValue = (value: unknown): string | undefined => {
+        const raw = headerValue(value);
+        if (!raw) return undefined;
+        const [first] = raw.split(',');
+        return first?.trim();
+      };
+
+      const resolveServerUrl = (request: FastifyRequest, basePath: string): string => {
+        const baseUrl = process.env.BASE_ACTION_URL?.trim();
+        if (baseUrl && baseUrl.length > 0) {
+          const normalized = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
+          return `${normalized}${basePath}`;
         }
 
-        const basePath = normalizePath(descriptor.path);
-        const endpointDef: EndpointDefinition = descriptor.definition ?? {
-          path: basePath,
-          tools: tools.map((tool) => tool.spec.name),
-        };
-        const openApiDocument = createEndpointOpenApiDocument(endpointDef, tools, basePath);
-        const actionBasePath = `${basePath}/actions`;
-        const openApiPath = `${basePath}/openapi.json`;
+        const protocol =
+          forwardedHeaderValue(request.headers['x-forwarded-proto']) ?? request.protocol ?? 'http';
+        const hostHeader =
+          forwardedHeaderValue(request.headers['x-forwarded-host']) ??
+          headerValue(request.headers['host']);
+        const host = hostHeader ?? request.hostname ?? 'localhost';
+        const normalizedHost = host.trim().length > 0 ? host.trim() : 'localhost';
 
-        const actionSummaries = tools.map((tool) => ({
-          name: tool.spec.name,
-          description: tool.spec.description,
-          stability: tool.spec.stability ?? 'experimental',
-          since: tool.spec.since ?? null,
-        }));
+        return `${protocol}://${normalizedHost}${basePath}`;
+      };
+
+      type ActionRouteConfig = Readonly<{
+        basePath: string;
+        getDefinitions: () => Promise<readonly ActionDefinition[]>;
+        getEndpointDefinition: (actions: readonly ActionDefinition[]) => EndpointDefinition;
+        invoke: (name: string, args: unknown) => Promise<unknown>;
+        validationErrorPredicate?: (error: unknown) => boolean;
+      }>;
+
+      const registerActionRoutes = ({
+        basePath,
+        getDefinitions,
+        getEndpointDefinition,
+        invoke,
+        validationErrorPredicate,
+      }: ActionRouteConfig): void => {
+        const actionBasePath = `${basePath}/actions`;
+        const actionRoute = `${actionBasePath}/:actionName`;
+        const openApiPath = `${basePath}/openapi.json`;
 
         const respondActionError = (
           reply: FastifyReply,
@@ -679,15 +721,83 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
           respondWithCors(reply, status, payload);
         };
 
-        const registerActionRoute = (tool: Tool): void => {
-          const segment = encodeActionPathSegment(tool.spec.name);
-          const route = `${actionBasePath}/${segment}`;
+        const summarizeAction = (action: ActionDefinition) => ({
+          name: action.name,
+          description: action.description ?? '',
+          stability: action.stability,
+          since: action.since,
+        });
 
-          app.post<{ Body: unknown }>(route, async (request, reply) => {
+        void getDefinitions()
+          .then((actions) => {
+            if (actions.length === 0) {
+              return;
+            }
+            const names = actions.map((action) => action.name).join(', ');
+            console.log(`[mcp:http] actions available at ${actionBasePath}: ${names}`);
+          })
+          .catch((error) => {
+            console.warn(`[mcp:http] failed to resolve actions for ${basePath}:`, error);
+          });
+
+        app.get(actionBasePath, async (_request, reply) => {
+          try {
+            const actions = await getDefinitions();
+            respondWithCors(reply, 200, { actions: actions.map(summarizeAction) });
+          } catch (error) {
+            respondActionError(reply, 500, 'actions_unavailable', 'Failed to list actions.', error);
+          }
+        });
+        registerOptionsRoute(actionBasePath, ['GET']);
+
+        app.get(openApiPath, async (request, reply) => {
+          try {
+            const actions = await getDefinitions();
+            if (actions.length === 0) {
+              respondActionError(
+                reply,
+                404,
+                'no_actions',
+                'No actions are available for this endpoint.',
+              );
+              return;
+            }
+            const endpointDef = getEndpointDefinition(actions);
+            const serverUrl = resolveServerUrl(request, basePath);
+            const document = createEndpointOpenApiDocument(endpointDef, actions, serverUrl);
+            respondWithCors(reply, 200, document);
+          } catch (error) {
+            respondActionError(
+              reply,
+              500,
+              'openapi_error',
+              'Failed to generate OpenAPI document.',
+              error,
+            );
+          }
+        });
+        registerOptionsRoute(openApiPath, ['GET']);
+
+        app.post<{ Body: unknown; Params: { actionName?: string } }>(
+          actionRoute,
+          async (request, reply) => {
+            const actionName = request.params.actionName;
+            if (!actionName) {
+              respondActionError(reply, 404, 'not_found', 'Action not specified.');
+              return;
+            }
+
             try {
+              const actions = await getDefinitions();
+              if (!actions.some((action) => action.name === actionName)) {
+                respondActionError(reply, 404, 'not_found', `Action ${actionName} not found.`);
+                return;
+              }
+
               const parsed = mustParseJson(request.body);
               const args: unknown = parsed === undefined ? {} : parsed;
-              const result = await tool.invoke(args);
+              const result = await invoke(actionName, args);
+
               if (result === undefined || result === null) {
                 respondWithCors(reply, 200, { result: null });
                 return;
@@ -704,16 +814,22 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
                 respondWithCors(reply, 200, { result });
                 return;
               }
+
               respondWithCors(reply, 200, result);
-            } catch (error: unknown) {
+            } catch (error) {
               if (error instanceof SyntaxError) {
                 respondActionError(reply, 400, 'invalid_json', 'Request body must be valid JSON.');
                 return;
               }
-              if (isZodValidationError(error)) {
-                respondActionError(reply, 400, 'invalid_request', 'Request validation failed.', {
-                  issues: error.issues,
-                });
+              if (validationErrorPredicate?.(error)) {
+                const issues = (error as { issues?: unknown }).issues;
+                respondActionError(
+                  reply,
+                  400,
+                  'invalid_request',
+                  'Request validation failed.',
+                  issues ? { issues } : undefined,
+                );
                 return;
               }
               respondActionError(
@@ -723,27 +839,314 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
                 String((error as Error)?.message ?? error),
               );
             }
-          });
+          },
+        );
+        registerOptionsRoute(actionRoute, ['POST']);
+      };
 
-          registerOptionsRoute(route, ['POST']);
+      const createProxyActionManager = (descriptor: ProxyEndpointDescriptor) => {
+        const basePath = normalizePath(descriptor.path);
+        const state: {
+          sessionId: string | undefined;
+          initializing: Promise<void> | undefined;
+          definitionsPromise: Promise<readonly ActionDefinition[]> | undefined;
+        } = {
+          sessionId: undefined,
+          initializing: undefined,
+          definitionsPromise: undefined,
+        };
+        /* eslint-disable functional/immutable-data */
+
+        const ensureSession = async (): Promise<void> => {
+          if (state.sessionId) return;
+          if (!state.initializing) {
+            const payload = {
+              jsonrpc: '2.0',
+              id: `init:${crypto.randomUUID()}`,
+              method: 'initialize',
+              params: {
+                protocolVersion: '2024-10-01',
+                clientInfo: { name: 'promethean-proxy-actions', version: 'dev' },
+              },
+            } as const;
+
+            state.initializing = (async () => {
+              const response = await app.inject({
+                method: 'POST',
+                url: basePath,
+                headers: {
+                  'content-type': 'application/json',
+                  accept: 'application/json, text/event-stream',
+                },
+                payload: JSON.stringify(payload),
+              });
+
+              if (response.statusCode >= 400) {
+                throw new Error(
+                  `Failed to initialize proxy at ${basePath}: ${response.statusCode} ${response.body}`,
+                );
+              }
+
+              state.sessionId = response.headers['mcp-session-id'] as string | undefined;
+              try {
+                await response.json();
+              } catch {
+                /* ignore */
+              }
+            })().finally(() => {
+              state.initializing = undefined;
+            });
+          }
+
+          await state.initializing;
         };
 
-        app.get(actionBasePath, (_request, reply) => {
-          respondWithCors(reply, 200, { actions: actionSummaries });
-        });
-        registerOptionsRoute(actionBasePath, ['GET']);
+        const sendRpc = async <T>(
+          method: string,
+          params: Record<string, unknown> | undefined,
+          parser: (result: unknown) => T,
+          attempt = 0,
+        ): Promise<T> => {
+          await ensureSession();
 
-        app.get(openApiPath, (_request, reply) => {
-          respondWithCors(reply, 200, openApiDocument);
-        });
-        registerOptionsRoute(openApiPath, ['GET']);
+          const payload = {
+            jsonrpc: '2.0',
+            id: `actions:${crypto.randomUUID()}`,
+            method,
+            ...(params ? { params } : {}),
+          } as const;
 
-        for (const tool of tools) {
-          registerActionRoute(tool);
+          const headers: Record<string, string> =
+            state.sessionId === undefined
+              ? {
+                  'content-type': 'application/json',
+                  accept: 'application/json, text/event-stream',
+                }
+              : {
+                  'content-type': 'application/json',
+                  accept: 'application/json, text/event-stream',
+                  'mcp-session-id': state.sessionId,
+                };
+
+          const response = await app.inject({
+            method: 'POST',
+            url: basePath,
+            headers,
+            payload: JSON.stringify(payload),
+          });
+
+          if ((response.statusCode === 404 || response.statusCode === 400) && attempt === 0) {
+            state.sessionId = undefined;
+            state.definitionsPromise = undefined;
+            return sendRpc(method, params, parser, attempt + 1);
+          }
+
+          if (response.statusCode >= 400) {
+            throw new Error(
+              `Proxy request to ${basePath} failed: ${response.statusCode} ${response.body}`,
+            );
+          }
+
+          const parseResponseJson = response.json.bind(response) as () => Promise<unknown>;
+          const payloadBody: unknown = await (async () => {
+            try {
+              return await parseResponseJson();
+            } catch {
+              throw new Error('Proxy returned invalid JSON response');
+            }
+          })();
+
+          if (!isObject(payloadBody)) {
+            throw new Error('Proxy returned invalid JSON-RPC payload');
+          }
+
+          if (
+            'error' in payloadBody &&
+            payloadBody.error !== undefined &&
+            payloadBody.error !== null
+          ) {
+            const err = payloadBody.error;
+            if (isObject(err) && typeof err.message === 'string') {
+              throw new Error(err.message);
+            }
+            throw new Error('MCP error');
+          }
+
+          if (!('result' in payloadBody)) {
+            throw new Error('Proxy response missing result field');
+          }
+
+          const resultValue = (payloadBody as { result: unknown }).result;
+          return parser(resultValue);
+        };
+
+        const fetchDefinitions = async (
+          cursor: string | undefined = undefined,
+          acc: readonly ActionDefinition[] = [],
+        ): Promise<readonly ActionDefinition[]> => {
+          const parseToolListResult = (
+            raw: unknown,
+          ): {
+            tools: ReadonlyArray<Record<string, unknown> & { name: string }>;
+            nextCursor?: string;
+          } => {
+            if (!isObject(raw)) {
+              throw new Error('Proxy returned invalid tool list response');
+            }
+
+            const candidates = Array.isArray((raw as { tools?: unknown }).tools)
+              ? ((raw as { tools?: unknown }).tools as readonly unknown[])
+              : [];
+
+            const tools = candidates.filter(
+              (candidate): candidate is Record<string, unknown> & { name: string } =>
+                isObject(candidate) && typeof candidate.name === 'string',
+            );
+
+            const nextCursorRaw = (raw as { nextCursor?: unknown }).nextCursor;
+            const nextCursor =
+              typeof nextCursorRaw === 'string' && nextCursorRaw.length > 0
+                ? nextCursorRaw
+                : undefined;
+
+            return { tools, nextCursor };
+          };
+
+          const result = await sendRpc(
+            'tools/list',
+            cursor ? { cursor } : undefined,
+            parseToolListResult,
+          );
+
+          const mapped = result.tools.map<ActionDefinition>((tool) => {
+            const schemaSource = (tool as { inputSchema?: unknown }).inputSchema;
+            const schema =
+              schemaSource && typeof schemaSource === 'object'
+                ? (JSON.parse(JSON.stringify(schemaSource)) as Record<string, unknown>)
+                : ({ type: 'object' } as const);
+
+            const requestSchema =
+              schema && typeof schema === 'object'
+                ? {
+                    ...schema,
+                    ...((schema as { type?: string; properties?: unknown }).type === 'object' &&
+                    !(schema as { properties?: unknown }).properties
+                      ? { properties: {} }
+                      : {}),
+                  }
+                : { type: 'object', properties: {} };
+
+            const requiresBody =
+              typeof schemaSource === 'object' &&
+              schemaSource !== null &&
+              Array.isArray((schemaSource as { required?: unknown }).required) &&
+              ((schemaSource as { required?: unknown[] }).required?.length ?? 0) > 0;
+
+            const descriptionCandidate = (tool as { description?: unknown }).description;
+            const titleCandidate = (tool as { title?: unknown }).title;
+            const baseDescription =
+              typeof descriptionCandidate === 'string'
+                ? descriptionCandidate
+                : typeof titleCandidate === 'string'
+                  ? titleCandidate
+                  : undefined;
+
+            const description = clampText(baseDescription);
+
+            return {
+              name: tool.name,
+              description,
+              stability: 'experimental',
+              since: null,
+              requestSchema,
+              requiresBody,
+            } satisfies ActionDefinition;
+          });
+
+          const nextCursor = result.nextCursor;
+          const next = [...acc, ...mapped];
+          return nextCursor ? fetchDefinitions(nextCursor, next) : next;
+        };
+
+        const listDefinitions = async (): Promise<readonly ActionDefinition[]> => {
+          if (!state.definitionsPromise) {
+            state.definitionsPromise = fetchDefinitions().catch((error) => {
+              state.definitionsPromise = undefined;
+              throw error;
+            });
+          }
+          return state.definitionsPromise;
+        };
+
+        const invokeAction = async (name: string, args: unknown): Promise<unknown> => {
+          const normalizedArgs =
+            args && typeof args === 'object' && !Array.isArray(args)
+              ? (args as Record<string, unknown>)
+              : {};
+
+          const result = await sendRpc('tools/call', { name, arguments: normalizedArgs }, (raw) =>
+            CompatibilityCallToolResultSchema.parse(raw),
+          );
+
+          if ('structuredContent' in result && result.structuredContent !== undefined) {
+            return result.structuredContent;
+          }
+          if (
+            'toolResult' in result &&
+            (result as { toolResult?: unknown }).toolResult !== undefined
+          ) {
+            return (result as { toolResult?: unknown }).toolResult;
+          }
+          return { content: result.content };
+        };
+
+        /* eslint-enable functional/immutable-data */
+
+        return { listDefinitions, invokeAction } as const;
+      };
+
+      const registerRegistryActionEndpoints = (descriptor: RegistryEndpointDescriptor): void => {
+        const tools = descriptor.tools ?? [];
+        if (tools.length === 0) {
+          return;
         }
 
-        const toolNames = tools.map((tool) => tool.spec.name).join(', ');
-        console.log(`[mcp:http] actions available at ${actionBasePath}: ${toolNames}`);
+        const basePath = normalizePath(descriptor.path);
+        const endpointDef: EndpointDefinition = descriptor.definition ?? {
+          path: basePath,
+          tools: tools.map((tool) => tool.spec.name),
+        };
+        const actionDefinitions = tools.map(toolToActionDefinition);
+        const toolMap = new Map(tools.map((tool) => [tool.spec.name, tool] as const));
+
+        registerActionRoutes({
+          basePath,
+          getDefinitions: () => Promise.resolve(actionDefinitions),
+          getEndpointDefinition: () => endpointDef,
+          invoke: (name, args) => {
+            const tool = toolMap.get(name);
+            if (!tool) {
+              throw new Error(`Tool ${name} not found`);
+            }
+            return tool.invoke(args);
+          },
+          validationErrorPredicate: isZodValidationError,
+        });
+      };
+
+      const registerProxyActionEndpoints = (descriptor: ProxyEndpointDescriptor): void => {
+        const basePath = normalizePath(descriptor.path);
+        const manager = createProxyActionManager(descriptor);
+
+        registerActionRoutes({
+          basePath,
+          getDefinitions: () => manager.listDefinitions(),
+          getEndpointDefinition: (actions) => ({
+            path: basePath,
+            tools: actions.map((action) => action.name),
+          }),
+          invoke: (name, args) => manager.invokeAction(name, args),
+        });
       };
       // eslint-disable-next-line functional/no-let
       let currentUiState: UiState | undefined = uiOptions
@@ -907,7 +1310,7 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
             sessionStores.set(descriptor.path, sessions);
             /* eslint-enable functional/immutable-data */
             registerRoute(descriptor.path, createRouteHandler(descriptor.handler, sessions));
-            registerActionEndpoints(descriptor);
+            registerRegistryActionEndpoints(descriptor);
             console.log(`[mcp:http] bound endpoint ${descriptor.path}`);
             continue;
           }
@@ -917,6 +1320,7 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
           startedProxies.push(descriptor.handler);
           /* eslint-enable functional/immutable-data */
           registerRoute(descriptor.path, createProxyHandler(descriptor.handler));
+          registerProxyActionEndpoints(descriptor);
           console.log(
             `[mcp:http] proxied stdio server ${descriptor.handler.spec.name} at ${descriptor.path}`,
           );

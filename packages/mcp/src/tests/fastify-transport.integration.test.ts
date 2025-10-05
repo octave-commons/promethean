@@ -1,4 +1,4 @@
-/* eslint-disable functional/no-let, functional/immutable-data, @typescript-eslint/require-await, @typescript-eslint/no-unused-vars, @typescript-eslint/consistent-type-imports, @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable functional/no-let, functional/immutable-data, @typescript-eslint/require-await, @typescript-eslint/no-unused-vars, @typescript-eslint/consistent-type-imports */
 import { createServer } from 'node:net';
 import type { AddressInfo } from 'node:net';
 import type { IncomingMessage, ServerResponse } from 'node:http';
@@ -132,15 +132,40 @@ test('fastify transport forwards proxy requests', async (t) => {
     t.deepEqual(payload, { ok: true });
     t.is(httpStarts, 1);
     t.is(stdioStarts, 1);
-    t.is(forwardedBodies.length, 1);
+    t.true(forwardedBodies.length >= 1);
 
-    const forwarded = forwardedBodies[0];
-    const parsed = Buffer.isBuffer(forwarded)
-      ? JSON.parse(forwarded.toString('utf8'))
-      : typeof forwarded === 'string'
-        ? JSON.parse(forwarded)
-        : forwarded;
-    t.deepEqual(parsed, {
+    const parseForwardedBody = (forwarded: unknown): unknown => {
+      if (Buffer.isBuffer(forwarded)) {
+        return JSON.parse(forwarded.toString('utf8')) as unknown;
+      }
+      if (typeof forwarded === 'string') {
+        return JSON.parse(forwarded) as unknown;
+      }
+      return forwarded;
+    };
+
+    const parsedBodies = forwardedBodies.map(parseForwardedBody);
+
+    const initializeRequest = parsedBodies.find((body): body is Record<string, unknown> => {
+      if (!body || typeof body !== 'object') {
+        return false;
+      }
+      if ((body as { method?: unknown }).method !== 'initialize') {
+        return false;
+      }
+      const params = (body as { params?: unknown }).params;
+      if (!params || typeof params !== 'object') {
+        return false;
+      }
+      const clientInfo = (params as { clientInfo?: unknown }).clientInfo;
+      if (!clientInfo || typeof clientInfo !== 'object') {
+        return false;
+      }
+      return (clientInfo as { name?: unknown }).name === 'promethean-mcp';
+    });
+
+    t.truthy(initializeRequest);
+    t.deepEqual(initializeRequest, {
       jsonrpc: '2.0',
       id: 1,
       method: 'initialize',
@@ -269,6 +294,185 @@ test('fastify registry exposes GPT action routes', async (t) => {
       .object({ error: z.string(), message: z.string() })
       .parse(await invalidResponse.json());
     t.is(invalidPayload.error, 'invalid_json');
+  } finally {
+    await transport.stop?.();
+  }
+});
+
+test('proxied endpoints expose action routes and OpenAPI docs', async (t) => {
+  const port = await allocatePort();
+
+  type ProxyMessageArguments = Readonly<{ text?: unknown }>;
+  type ProxyMessage = Readonly<{
+    id?: string | number;
+    method?: string;
+    params?: Readonly<{ arguments?: ProxyMessageArguments }>;
+  }>;
+
+  const toProxyMessage = (body: unknown): ProxyMessage | undefined => {
+    if (!body || typeof body !== 'object') {
+      return undefined;
+    }
+
+    const record = body as Record<string, unknown>;
+    const idCandidate = record.id;
+    const methodCandidate = record.method;
+    const paramsCandidate = record.params;
+
+    const id =
+      typeof idCandidate === 'string' || typeof idCandidate === 'number' ? idCandidate : undefined;
+    const method = typeof methodCandidate === 'string' ? methodCandidate : undefined;
+    const params =
+      paramsCandidate && typeof paramsCandidate === 'object'
+        ? (() => {
+            const paramsRecord = paramsCandidate as Record<string, unknown>;
+            const argumentsCandidate = paramsRecord.arguments;
+            const args =
+              argumentsCandidate &&
+              typeof argumentsCandidate === 'object' &&
+              !Array.isArray(argumentsCandidate)
+                ? (argumentsCandidate as ProxyMessageArguments)
+                : undefined;
+            return args ? ({ arguments: args } as const) : undefined;
+          })()
+        : undefined;
+
+    return {
+      ...(id !== undefined ? { id } : {}),
+      ...(method ? { method } : {}),
+      ...(params ? { params } : {}),
+    };
+  };
+
+  class FakeProxy {
+    public readonly spec = {
+      name: 'proxy',
+      command: '/bin/echo',
+      args: [] as const,
+      env: {} as const,
+      httpPath: '/proxy',
+    } as const;
+
+    async start(): Promise<void> {
+      // no-op
+    }
+
+    async stop(): Promise<void> {
+      // no-op
+    }
+
+    async handle(_req: IncomingMessage, res: ServerResponse, body?: unknown): Promise<void> {
+      const message = toProxyMessage(body);
+      res.statusCode = 200;
+      res.setHeader('content-type', 'application/json');
+      res.setHeader('mcp-session-id', 'proxy-session');
+
+      const base: Readonly<{ jsonrpc: '2.0'; id: string | number | null }> = {
+        jsonrpc: '2.0',
+        id: message?.id ?? null,
+      };
+
+      if (message?.method === 'initialize') {
+        res.end(
+          JSON.stringify({
+            ...base,
+            result: {
+              protocolVersion: '2024-10-01',
+              capabilities: {},
+              serverInfo: { name: 'proxy', version: '1.0.0' },
+            },
+          }),
+        );
+        return;
+      }
+
+      if (message?.method === 'tools/list') {
+        res.end(
+          JSON.stringify({
+            ...base,
+            result: {
+              tools: [
+                {
+                  name: 'proxy.echo',
+                  description: 'Echo via proxy.',
+                  inputSchema: {
+                    type: 'object',
+                    properties: { text: { type: 'string' } },
+                    required: ['text'],
+                  },
+                },
+              ],
+              nextCursor: null,
+            },
+          }),
+        );
+        return;
+      }
+
+      if (message?.method === 'tools/call') {
+        const textCandidate = message.params?.arguments?.text;
+        const text = typeof textCandidate === 'string' ? textCandidate : null;
+        res.end(
+          JSON.stringify({
+            ...base,
+            result: { content: [], structuredContent: { echoed: text } },
+          }),
+        );
+        return;
+      }
+
+      res.end(
+        JSON.stringify({
+          ...base,
+          error: { code: -32601, message: 'Unknown method' },
+        }),
+      );
+    }
+  }
+
+  const proxy = new FakeProxy();
+  const descriptors: HttpEndpointDescriptor[] = [
+    { path: proxy.spec.httpPath, kind: 'proxy', handler: proxy },
+  ];
+
+  const transport = fastifyTransport({ host: '127.0.0.1', port });
+  await transport.start(descriptors);
+
+  try {
+    const listResponse = await fetch(`http://127.0.0.1:${port}/proxy/actions`);
+    t.is(listResponse.status, 200);
+    const ListResponseSchema = z.object({
+      actions: z.array(
+        z.object({
+          name: z.string(),
+          description: z.string(),
+          stability: z.string(),
+          since: z.union([z.string(), z.null()]),
+        }),
+      ),
+    });
+    const listPayload = ListResponseSchema.parse(await listResponse.json());
+    t.is(listPayload.actions[0]?.name, 'proxy.echo');
+
+    const actionResponse = await fetch(`http://127.0.0.1:${port}/proxy/actions/proxy.echo`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ text: 'hello' }),
+    });
+    t.is(actionResponse.status, 200);
+    const ActionPayloadSchema = z.object({ echoed: z.union([z.string(), z.null()]) });
+    const actionPayload = ActionPayloadSchema.parse(await actionResponse.json());
+    t.deepEqual(actionPayload, { echoed: 'hello' });
+
+    const openApiResponse = await fetch(`http://127.0.0.1:${port}/proxy/openapi.json`);
+    t.is(openApiResponse.status, 200);
+    const OpenApiSchema = z.object({
+      servers: z.array(z.object({ url: z.string() })),
+      paths: z.record(z.unknown()),
+    });
+    const openApi = OpenApiSchema.parse(await openApiResponse.json());
+    t.is(openApi.servers[0]?.url, `http://127.0.0.1:${port}/proxy`);
+    t.true(Object.prototype.hasOwnProperty.call(openApi.paths, '/actions/proxy.echo'));
   } finally {
     await transport.stop?.();
   }
