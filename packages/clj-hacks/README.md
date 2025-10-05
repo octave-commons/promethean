@@ -5,16 +5,45 @@ runtime from Clojure.
 
 ## Tooling prerequisites
 
-* [Babashka](https://babashka.org/) – used for the local automation entry point.
-* [Clojure CLI tools](https://clojure.org/guides/install_clojure) – drives
-  compilation, linting, and tests via `deps.edn` aliases.
+* [Clojure CLI tools](https://clojure.org/guides/install_clojure) – drives compilation, linting, and tests via `deps.edn` aliases.
+* [Babashka](https://babashka.org/) (optional) – provides the same automation entry points when you prefer `bb` tasks.
 
-Install both globally so the `bb` tasks can invoke them.
+Install the Clojure CLI, and add Babashka only if you want the `bb` wrappers.
+
+## Clojure CLI tasks
+
+The `:tasks` alias exposes the same automation commands without relying on
+Babashka:
+
+```sh
+clojure -M:tasks prepare   # downloads maven dependencies
+clojure -M:tasks build     # AOT compiles elisp namespaces into target/classes
+clojure -M:tasks lint      # executes clj-kondo against src/ and test/
+clojure -M:tasks test      # runs clojure.test suites via cognitect test-runner
+```
+
+All commands run from the repository root.
+
+### MCP configuration commands
+
+The same alias drives MCP configuration workflows without Babashka. Each
+command operates on the EDN source file passed via `--edn`:
+
+```sh
+clojure -M:tasks pull codex.toml ~/.config/codex.toml --edn config/mcp.edn
+clojure -M:tasks push vscode.json ./fixtures/vscode.json --edn config/mcp.edn
+clojure -M:tasks sync-all --edn config/mcp.edn --out config/mcp.synced.edn
+clojure -M:tasks doctor --edn config/mcp.edn
+```
+
+The CLI mirrors the historical `bb -m mk.mcp-cli …` commands, so existing
+workflows continue to apply.
 
 ## Babashka tasks
 
 The package exposes a set of Babashka entry points defined in
-`bb/src/clj_hacks/tasks.clj`. Run them from the repository root:
+`bb/src/clj_hacks/tasks.clj`. They delegate to the same automation functions
+used by the Clojure CLI alias. Run them from the repository root:
 
 ```sh
 bb clj-hacks:prepare   # downloads maven dependencies
