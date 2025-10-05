@@ -1,7 +1,7 @@
 ---
 uuid: 8a791d5f-757a-4154-bba2-e14886da4c30
 title: move board tooling into kanban package
-status: in-progress
+status: in_progress
 priority: P3
 labels: ["framework-core", "devtools"]
 created_at: '2025-09-21T00:00:00.000Z'
