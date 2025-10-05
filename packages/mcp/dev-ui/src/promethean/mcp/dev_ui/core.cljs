@@ -4,7 +4,7 @@
   (:require-macros [promethean.mcp.dev-ui.html :refer [html]]))
 
 (def styles
-  """:root {
+  ":root {
   color-scheme: dark;
   font-family: \"Inter\", \"Segoe UI\", sans-serif;
   background: #0f172a;
@@ -290,7 +290,7 @@ button {
     opacity: 1;
   }
 }
-""")
+")
 
 (def initial-state
   {:loading? true
@@ -352,7 +352,7 @@ button {
 
 (defn state-atom [el] (aget el "__state"))
 
-(declare render! attach-handlers!)
+(declare render! attach-handlers! save-config! send-chat! refresh-state!)
 
 (defn update-state! [el f & args]
   (when-let [state (state-atom el)]
@@ -478,13 +478,14 @@ button {
     (html [:div {:class "error-banner"} error])))
 
 (defn render-loading [loading?]
-  (when loading?
+  (if loading?
     (html
      [:div {:class "loading-overlay"}
       [:div {:class "loading-dot"}]
       [:div {:class "loading-dot"}]
       [:div {:class "loading-dot"}]
-      [:div "Loading latest MCP state..."]]))))
+      [:div "Loading latest MCP state..."]])
+    nil))
 
 (defn render-app [state]
   (let [{:keys [loading? error status saving? chat available-tools http-endpoints proxies meta form]} state
@@ -578,7 +579,8 @@ button {
     (.addEventListener input "change"
       (fn [event]
         (let [target (read-target event)
-              tool-id (.. target -dataset -id)
+              dataset (.-dataset target)
+              tool-id (aget dataset "id")
               checked (.-checked target)]
           (update-state! el update-in [:form :tools]
                          (fn [tools]
@@ -600,8 +602,9 @@ button {
     (.addEventListener input "change"
       (fn [event]
         (let [target (read-target event)
+              dataset (.-dataset target)
               idx (parse-index target)
-              tool-id (.. target -dataset -tool)
+              tool-id (aget dataset "tool")
               checked (.-checked target)]
           (when (number? idx)
             (update-state! el update-in [:form :endpoints idx :tools]
