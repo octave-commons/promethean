@@ -2,3 +2,5 @@
 
 
 (defconst prom-unique-packages '())
+
+;;; packages.el ends here
