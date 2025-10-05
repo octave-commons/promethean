@@ -12,12 +12,15 @@ const sanitizeOperationId = (value: string): string => {
   return trimmed.length > 0 ? trimmed : 'operation';
 };
 
+
 const clampText = (value: string | undefined, maxLength = 300): string | undefined => {
   if (!value) return undefined;
   if (value.length <= maxLength) return value;
   const truncated = value.slice(0, maxLength).trimEnd();
   return `${truncated.replace(/[.!,;:?]*$/, '')}…`;
 };
+
+
 
 const formatList = (label: string, items: readonly string[] | undefined): string | undefined => {
   if (!items || items.length === 0) return undefined;
@@ -61,6 +64,7 @@ type ExampleCollection = Readonly<
   Record<string, Readonly<{ summary?: string; value: Readonly<Record<string, unknown>> }>>
 >;
 
+
 export type ActionDefinition = Readonly<{
   name: string;
   description?: string;
@@ -71,6 +75,8 @@ export type ActionDefinition = Readonly<{
   requestExamples?: ExampleCollection;
   successExample?: Readonly<Record<string, unknown>>;
 }>;
+
+
 
 const requestExamplesFromTool = (
   examples: readonly ToolExample[] | undefined,
@@ -109,6 +115,7 @@ const encodeToolSegment = (name: string): string => encodeURIComponent(name);
 const buildOperationDescription = (tool: Tool): string | undefined =>
   joinDescription([tool.spec.description, tool.spec.notes, formatExamples(tool.spec.examples)]);
 
+
 export const toolToActionDefinition = (tool: Tool): ActionDefinition => {
   const requestSchema = createRequestSchema(tool.spec.inputSchema);
   const requiresBody = hasRequestFields(tool.spec.inputSchema);
@@ -126,6 +133,8 @@ export const toolToActionDefinition = (tool: Tool): ActionDefinition => {
     ...(successExample ? { successExample } : {}),
   } satisfies ActionDefinition;
 };
+
+
 
 const buildErrorSchema = () => ({
   type: 'object',
@@ -148,6 +157,7 @@ export type OpenApiDocument = Readonly<{
   components?: Readonly<{ schemas?: Record<string, unknown> }>;
 }>;
 
+
 const toActionSummary = (action: ActionDefinition) => ({
   name: action.name,
   description: action.description ?? '',
@@ -156,6 +166,9 @@ const toActionSummary = (action: ActionDefinition) => ({
 });
 
 const listActionsPath = (actions: readonly ActionDefinition[]): PathItemObject => ({
+
+const listActionsPath = (tools: readonly Tool[]): PathItemObject => ({
+
   get: {
     operationId: sanitizeOperationId('list_actions'),
     summary: 'List available MCP tools exposed as actions',
@@ -187,7 +200,16 @@ const listActionsPath = (actions: readonly ActionDefinition[]): PathItemObject =
               additionalProperties: false,
             },
             example: {
+
               actions: actions.map(toActionSummary),
+
+              actions: tools.map((tool) => ({
+                name: tool.spec.name,
+                description: tool.spec.description,
+                stability: tool.spec.stability ?? 'experimental',
+                since: tool.spec.since ?? null,
+              })),
+
             },
           },
         },
@@ -195,6 +217,7 @@ const listActionsPath = (actions: readonly ActionDefinition[]): PathItemObject =
     },
   },
 });
+
 
 const actionPathForDefinition = (action: ActionDefinition, tag: string): PathItemObject => {
   const requestSchema = action.requestSchema;
@@ -229,6 +252,20 @@ const actionPathForDefinition = (action: ActionDefinition, tag: string): PathIte
       operationId: sanitizeOperationId(`${action.name}_action`),
       summary: action.name,
       description,
+
+const actionPathForTool = (tool: Tool, tag: string): PathItemObject => {
+  const requestSchema = createRequestSchema(tool.spec.inputSchema);
+  const errorSchema = buildErrorSchema();
+  const requestExamples = requestExamplesFromTool(tool.spec.examples);
+  const successExample = responseExampleFromTool(tool);
+  const requiresBody = hasRequestFields(tool.spec.inputSchema);
+
+  return {
+    post: {
+      operationId: sanitizeOperationId(`${tool.spec.name}_action`),
+      summary: tool.spec.name,
+      description: buildOperationDescription(tool),
+
       tags: [tag],
       ...(requiresBody
         ? {
@@ -258,7 +295,11 @@ const actionPathForDefinition = (action: ActionDefinition, tag: string): PathIte
           description: 'Tool invocation succeeded',
           content: {
             'application/json': {
+
               schema: successSchema,
+
+              schema: { type: 'object', additionalProperties: true },
+
               ...(successExample ? { example: successExample } : {}),
             },
           },
@@ -281,9 +322,15 @@ const actionPathForDefinition = (action: ActionDefinition, tag: string): PathIte
         },
       },
       'x-promethean-tool': {
+
         name: action.name,
         stability: action.stability,
         since: action.since,
+
+        name: tool.spec.name,
+        stability: tool.spec.stability ?? 'experimental',
+        since: tool.spec.since ?? null,
+
       },
     },
   } satisfies PathItemObject;
@@ -291,12 +338,18 @@ const actionPathForDefinition = (action: ActionDefinition, tag: string): PathIte
 
 export const createEndpointOpenApiDocument = (
   endpoint: EndpointDefinition,
+
   actions: readonly ActionDefinition[],
   serverUrl: string,
+
+  tools: readonly Tool[],
+  basePath: string,
+
 ): OpenApiDocument => {
   const title = endpoint.meta?.title ?? `Promethean MCP ${endpoint.path}`;
   const tag = endpoint.meta?.title ?? 'Promethean MCP';
   const infoDescription = buildInfoDescription(endpoint);
+
 
   const actionEntries: ReadonlyArray<readonly [string, PathItemObject]> = actions.map((action) => [
     `/actions/${encodeToolSegment(action.name)}`,
@@ -305,6 +358,15 @@ export const createEndpointOpenApiDocument = (
 
   const pathEntries: ReadonlyArray<readonly [string, PathItemObject]> = [
     ['/actions', listActionsPath(actions)],
+
+  const actionEntries: ReadonlyArray<readonly [string, PathItemObject]> = tools.map((tool) => [
+    `/actions/${encodeToolSegment(tool.spec.name)}`,
+    actionPathForTool(tool, tag),
+  ]);
+
+  const pathEntries: ReadonlyArray<readonly [string, PathItemObject]> = [
+    ['/actions', listActionsPath(tools)],
+
     ...actionEntries,
   ];
 
@@ -317,7 +379,11 @@ export const createEndpointOpenApiDocument = (
       version: '1.0.0',
       ...(infoDescription ? { description: infoDescription } : {}),
     },
+
     servers: [{ url: serverUrl }],
+
+    servers: [{ url: basePath }],
+
     paths,
   };
 };

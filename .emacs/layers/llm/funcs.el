@@ -1,4 +1,4 @@
-;; ---------- Utility helpers ----------
+
 (defun gptel--read-file (path &optional max-bytes)
   "Return contents of PATH (string). If MAX-BYTES is non-nil, hard-cap read."
   (let ((abs (expand-file-name path)))

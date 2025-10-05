@@ -1,4 +1,8 @@
+
 /* eslint-disable functional/no-let, functional/immutable-data, @typescript-eslint/require-await, @typescript-eslint/no-unused-vars, @typescript-eslint/consistent-type-imports */
+
+/* eslint-disable functional/no-let, functional/immutable-data, @typescript-eslint/require-await, @typescript-eslint/no-unused-vars, @typescript-eslint/consistent-type-imports, @typescript-eslint/no-unsafe-assignment */
+
 import { createServer } from 'node:net';
 import type { AddressInfo } from 'node:net';
 import type { IncomingMessage, ServerResponse } from 'node:http';
@@ -134,6 +138,7 @@ test('fastify transport forwards proxy requests', async (t) => {
     t.is(stdioStarts, 1);
     t.true(forwardedBodies.length >= 1);
 
+
     const parseForwardedBody = (forwarded: unknown): unknown => {
       if (Buffer.isBuffer(forwarded)) {
         return JSON.parse(forwarded.toString('utf8')) as unknown;
@@ -166,6 +171,15 @@ test('fastify transport forwards proxy requests', async (t) => {
 
     t.truthy(initializeRequest);
     t.deepEqual(initializeRequest, {
+
+    const forwarded = forwardedBodies[0];
+    const parsed = Buffer.isBuffer(forwarded)
+      ? JSON.parse(forwarded.toString('utf8'))
+      : typeof forwarded === 'string'
+        ? JSON.parse(forwarded)
+        : forwarded;
+    t.deepEqual(parsed, {
+
       jsonrpc: '2.0',
       id: 1,
       method: 'initialize',
@@ -298,6 +312,7 @@ test('fastify registry exposes GPT action routes', async (t) => {
     await transport.stop?.();
   }
 });
+
 
 test('proxied endpoints expose action routes and OpenAPI docs', async (t) => {
   const port = await allocatePort();
@@ -477,3 +492,5 @@ test('proxied endpoints expose action routes and OpenAPI docs', async (t) => {
     await transport.stop?.();
   }
 });
+
+
