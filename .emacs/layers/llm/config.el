@@ -17,6 +17,7 @@
   (gptel-make-openai "zai"        ;Any name you want
     :host "api.z.ai"
     :endpoint "/api/coding/paas/v4/chat/completions"
+    :key (auth-source-pick-first-password :host "api.z.ai")
     :stream t
     :models '(glm-4.6 glm-4.5 glm-4-plus glm-4.5-X))
   (gptel-make-preset 'z-ai-glm-coding                       ;preset name, a symbol
