@@ -1,28 +1,9 @@
 (ns clj-hacks.tasks
-  (:require [babashka.fs :as fs]
-            [babashka.process :as process]))
+  (:require [clj-hacks.automation :as automation]))
 
-(def project-dir "packages/clj-hacks")
+(def project-dir automation/project-dir)
 
-(defn- run! [cmd]
-  (-> (process/process cmd {:dir project-dir :out :inherit :err :inherit})
-      (process/check)))
-
-(defn- ensure-target! []
-  (fs/create-dirs (fs/path project-dir "target" "classes")))
-
-(defn prepare! []
-  (run! ["clojure" "-P"]))
-
-(defn build []
-  (ensure-target!)
-  (prepare!)
-  (run! ["clojure" "-M:compile"]))
-
-(defn lint []
-  (prepare!)
-  (run! ["clojure" "-M:lint"]))
-
-(defn test []
-  (prepare!)
-  (run! ["clojure" "-M:test"]))
+(def prepare! automation/prepare!)
+(def build automation/build)
+(def lint automation/lint)
+(def test automation/test)

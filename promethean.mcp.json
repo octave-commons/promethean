@@ -1,24 +1,24 @@
 {
   "mcpServers" : {
     "duckduckgo" : {
-      "command" : "$HOME/devel/promethean/scripts/mcp/bin/duck.sh"
+      "command" : "/home/err/devel/promethean/scripts/mcp/bin/duck.sh"
     },
     "eslint" : {
       "command" : "npx",
       "args" : [ "-y", "@uplinq/mcp-eslint" ]
     },
     "file-system" : {
-      "command" : "$HOME/devel/promethean/scripts/mcp/bin/filesystem.sh"
+      "command" : "/home/err/devel/promethean/scripts/mcp/bin/filesystem.sh"
     },
     "github" : {
-      "command" : "$HOME/devel/promethean/scripts/mcp/bin/github.sh"
+      "command" : "/home/err/devel/promethean/scripts/mcp/bin/github.sh"
     },
     "github-chat" : {
-      "command" : "$HOME/devel/promethean/scripts/mcp/bin/github_chat.sh"
+      "command" : "/home/err/devel/promethean/scripts/mcp/bin/github_chat.sh"
     },
     "haiku-rag" : {
       "command" : "uvx",
-      "args" : [ "haiku-rag", "serve", "--stdio", "--db", "$HOME/.local/share/haiku-rag" ]
+      "args" : [ "haiku-rag", "serve", "--stdio", "--db", "/home/err/.local/share/haiku-rag" ]
     },
     "http-default" : {
       "command" : null
@@ -52,7 +52,7 @@
       "args" : [ "-y", "@pinkpixel/npm-helper-mcp" ]
     },
     "obsidian" : {
-      "command" : "$HOME/devel/promethean/scripts/mcp/bin/obsidian.sh"
+      "command" : "/home/err/devel/promethean/scripts/mcp/bin/obsidian.sh"
     },
     "playwright" : {
       "command" : "npx",
@@ -63,11 +63,11 @@
       "args" : [ "--from", "git+https://github.com/oraios/serena", "serena", "start-mcp-server" ]
     },
     "sonarqube" : {
-      "command" : "$HOME/devel/promethean/scripts/mcp/bin/sonarqube.sh"
+      "command" : "/home/err/devel/promethean/scripts/mcp/bin/sonarqube.sh"
     },
     "ts-ls-lsp" : {
       "command" : "npx",
-      "args" : [ "tritlo/lsp-mcp", "typescript", "$HOME/.volta/bin/typescript-language-server", "--stdio" ]
+      "args" : [ "tritlo/lsp-mcp", "typescript", "/home/err/.volta/bin/typescript-language-server", "--stdio" ]
     }
   },
   "transport" : "http",

@@ -210,6 +210,7 @@ Return JSON {name,pid,buffer}."
     (cl-loop for tool in gptel-tools
       when (and tool (recordp tool) (eq (type-of tool) 'gptel-tool))
       do (let* ((desc (aref tool 3)))
+           (print tool)
            (unless (and (stringp desc) (<= (length desc) 1024))
              (setf (aref tool 3) (err--coerce-desc desc limit))))
       and collect tool)))
@@ -263,6 +264,7 @@ Return JSON {name,pid,buffer}."
       (err--dedup-tools-by-name))))
 
 ;; Run this just-in-time before sending:
+;;;###autoload
 (defun err--gptel-sanitize-before-send (orig &rest args)
   (err--sanitize-gptel-tools)
   (apply orig args))
