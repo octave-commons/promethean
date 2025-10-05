@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+./run/install-clojure.sh
+./run/install-clj-python-ml.sh
 # ---------- run context ----------
 ART_ROOT="${ART_ROOT:-docs/reports/codex_cloud}"
 RUN_TS="${RUN_TS:-$(date -u +"%Y.%m.%d.%H.%M.%S")}"
@@ -15,8 +17,6 @@ describe uvx-precommit-install  uvx pre-commit install
 describe apt-update             bash -lc 'export DEBIAN_FRONTEND=noninteractive; apt-get update -y'
 describe apt-build-tools        bash -lc 'apt-get install -y build-essential python3 make g++ pkg-config'
 
-./run/install-clojure.sh
-./run/install-clj-python-ml.sh
 
 # native toolchain + node-gyp helpers
 describe install-gyp            bash -lc '"./run/install_gyp.sh"'
