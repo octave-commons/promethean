@@ -1,7 +1,7 @@
 ---
 uuid: 9c1a2f5c-a7e2-4f4a-bb3d-2f8a7d54f6f1
 title: DUCK — feature flags rewrite (web + node) + docs
-status: in-progress
+status: in_progress
 priority: P1
 labels:
   - duck

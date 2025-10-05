@@ -1,7 +1,7 @@
 ---
 uuid: 2c6e5a8d-7c9b-4a1b-b2d3-4e5f6a7b8c9d
 title: duck-web — openWs helper DI wrapper + bearer guard
-status: in-progress
+status: in_progress
 priority: P2
 labels:
   - duck-web
