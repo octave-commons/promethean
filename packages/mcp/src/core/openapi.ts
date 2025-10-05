@@ -212,6 +212,14 @@ const actionPathForDefinition = (action: ActionDefinition, tag: string): PathIte
         description:
           'Normalized tool result payload. Primitive and array results are wrapped under this key.',
         nullable: true,
+        anyOf: [
+          { type: 'null' },
+          { type: 'string' },
+          { type: 'number' },
+          { type: 'boolean' },
+          { type: 'array', items: {} },
+          { type: 'object', additionalProperties: true },
+        ],
       },
     },
   } as const;
