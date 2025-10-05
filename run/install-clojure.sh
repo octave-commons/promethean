@@ -8,8 +8,8 @@ else
 fi
 
 echo "==> Updating apt and installing base deps..."
-$SUDO apt-get update -y
-$SUDO apt-get install -y \
+sudo apt-get update -y
+sudo apt-get install -y \
   git curl wget unzip zip gpg ca-certificates rlwrap build-essential \
   openjdk-21-jdk
 
@@ -19,20 +19,20 @@ java -version || true
 ############################################
 # Node.js (for ClojureScript toolchains)
 ############################################
-# echo "==> Installing Node.js LTS via NodeSource (adds apt repo & keyring)..."
-# $SUDO mkdir -p /etc/apt/keyrings
-# curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key \
-#   | $SUDO gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
-# NODE_MAJOR=22   # current LTS
-# echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_${NODE_MAJOR}.x nodistro main" \
-#  | $SUDO tee /etc/apt/sources.list.d/nodesource.list >/dev/null
-# $SUDO apt-get update -y
-# $SUDO apt-get install -y nodejs
+echo "==> Installing Node.js LTS via NodeSource (adds apt repo & keyring)..."
+sudo mkdir -p /etc/apt/keyrings
+curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key \
+  | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+NODE_MAJOR=22   # current LTS
+echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_${NODE_MAJOR}.x nodistro main" \
+ | sudo tee /etc/apt/sources.list.d/nodesource.list >/dev/null
+sudo apt-get update -y
+sudo apt-get install -y nodejs
 
-# echo "==> Enabling Corepack & PNPM (nice for shadow-cljs workflows)..."
-# # corepack is bundled with modern Node — enable and pin latest pnpm
-# $SUDO corepack enable
-# $SUDO corepack prepare pnpm@latest-10 --activate || true
+echo "==> Enabling Corepack & PNPM (nice for shadow-cljs workflows)..."
+# corepack is bundled with modern Node — enable and pin latest pnpm
+sudo corepack enable
+sudo corepack prepare pnpm@latest-10 --activate || true
 
 ############################################
 # Clojure CLI (clj / clojure)
@@ -42,7 +42,7 @@ tmpdir="$(mktemp -d)"
 pushd "$tmpdir" >/dev/null
 curl -L -O https://github.com/clojure/brew-install/releases/latest/download/linux-install.sh
 chmod +x linux-install.sh
-$SUDO ./linux-install.sh
+sudo ./linux-install.sh
 popd >/dev/null
 rm -rf "$tmpdir"
 
@@ -57,26 +57,11 @@ if command -v bb >/dev/null 2>&1; then
   echo "bb already installed: $(bb --version | head -n 1)"
 else
   echo "Downloading latest Babashka install script..."
-  $SUDO bash < <(curl -fsSL https://raw.githubusercontent.com/babashka/babashka/master/install)
+  sudo bash < <(curl -fsSL https://raw.githubusercontent.com/babashka/babashka/master/install)
 fi
 bb --version || true
 
-############################################
-# clj-kondo (lint & static analysis)
-############################################
-echo "==> Installing clj-kondo..."
-curl -sLO https://raw.githubusercontent.com/borkdude/clj-kondo/master/script/install-clj-kondo
-chmod +x install-clj-kondo
-$SUDO ./install-clj-kondo
-rm -f install-clj-kondo
-clj-kondo --version || true
 
-############################################
-# clojure-lsp (Intellisense / LSP server)
-############################################
-echo "==> Installing clojure-lsp (native binary)..."
-$SUDO bash < <(curl -s https://raw.githubusercontent.com/clojure-lsp/clojure-lsp/master/install)
-clojure-lsp --version || true
 
 ############################################
 # (Optional) Global shadow-cljs CLI
