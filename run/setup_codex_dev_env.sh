@@ -16,6 +16,7 @@ describe uvx-precommit-install  uvx pre-commit install
 # OS deps
 describe apt-update             bash -lc 'export DEBIAN_FRONTEND=noninteractive; apt-get update -y'
 describe apt-build-tools        bash -lc 'apt-get install -y build-essential python3 make g++ pkg-config'
+describe apt-emacs              bash -lc 'export DEBIAN_FRONTEND=noninteractive; apt-get install -y emacs-nox'
 
 
 # native toolchain + node-gyp helpers
