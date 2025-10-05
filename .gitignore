@@ -134,3 +134,5 @@ packages/clj-hacks/target/
 packages/clj-hacks/.cpcache/
 
 tmp-docops-test/
+$HOME/
+.cpcache
