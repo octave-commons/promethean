@@ -43,42 +43,62 @@
         (with-temp-file path (insert content)))
       (list :ok t :path (expand-file-name path))))
 
+  ;; --- root detection ----------------------------------------------------
+  (defun err--safe-root (&optional dir)
+    "Best-effort project root for DIR (or `default-directory`)."
+    (let* ((dir (file-name-as-directory (or dir default-directory)))
+            ;; Prefer VC root if under Git/other VCS
+            (vc (ignore-errors (vc-root-dir)))               ;; nil if not VC
+            ;; Fall back to locating a .git up the tree
+            (git (or vc (locate-dominating-file dir ".git"))))
+      (expand-file-name (or git dir))))
+
+  ;; --- main tool ---------------------------------------------------------
   (gptel-make-tool
     :name "apply_patch"
-    :description "Apply a unified diff under root using system 'patch'. First dry-run; optional strip (-pN). Returns {ok, stdout}"
+    :description "Apply a unified diff under a safe root. Prefers git apply with --check; falls back to patch --dry-run. Args: unified_diff (string), optional root dir, strip (-pN)."
     :category "filesystem"
-    :args (list '(:name "unified_diff" :type string :description "Unified diff")
-            '(:name "root" :type string :optional t :description "Root dir")
-            '(:name "strip" :type integer :optional t :description "strip components (patch -pN)"))
+    :args (list '(:name "unified_diff" :type string :description "Unified diff text")
+            '(:name "root" :type string :optional t :description "Root directory to apply under")
+            '(:name "strip" :type integer :optional t :description "Strip prefix components for -pN"))
     :function
     (lambda (unified_diff &optional root strip)
-      (let* ((root (expand-file-name (or root default-directory)))
-              (_ (err--ensure-under-project root))
-              (tmp (make-temp-file "gptel-patch-" nil ".diff"))
-              (strip (or strip 0))
-              (args (list (format "-p%d" strip) "--batch" "--forward" "--reject-file=-"))
-              (out (generate-new-buffer " *gptel-patch*"))
-              (err (generate-new-buffer " *gptel-patch-err*"))
-              (coding-system-for-write 'utf-8-unix)
-              status)
+      (let* ((root (file-name-as-directory (or root (err--safe-root))))
+              (default-directory root)
+              (tmp   (make-temp-file "gptel-patch-" nil ".diff"))
+              (strip (or strip 1))                ;; 1 is best for git-style diffs (a/ b/)
+              (git-exe (executable-find "git"))
+              (out (generate-new-buffer " *gptel-apply-out*"))
+              (err (generate-new-buffer " *gptel-apply-err*")))
         (unwind-protect
           (progn
             (with-temp-file tmp (insert unified_diff))
-            ;; dry run
-            (setq status (apply #'call-process "patch" nil (list out err) nil
-                           (append args '("--dry-run" "-i") (list tmp))))
-            (when (not (eq status 0))
-              (error "patch --dry-run failed (strip=%d): %s"
-                strip (with-current-buffer err (buffer-string))))
-            ;; real run
-            (setq status (apply #'call-process "patch" nil (list out err) nil
-                           (append args '("-i") (list tmp))))
-            (if (eq status 0)
-              (list :ok t :strip strip
-                :stdout (with-current-buffer out (buffer-string)))
-              (error "patch failed: %s" (with-current-buffer err (buffer-string)))))
+            (cond
+              ;; Prefer git when repository present
+              ((and git-exe (locate-dominating-file root ".git"))
+                (let ((check (call-process git-exe nil (list out err) nil "apply" "--check" tmp)))
+                  (if (eq check 0)
+                    (let ((status (call-process git-exe nil (list out err) nil "apply" "--index" "--reject" "--whitespace=nowarn" tmp)))
+                      (if (eq status 0)
+                        (list :ok t :method "git" :root root
+                          :stdout (with-current-buffer out (buffer-string)))
+                        (error "git apply failed:\n%s" (with-current-buffer err (buffer-string)))))
+                    (error "git apply --check failed:\n%s" (with-current-buffer err (buffer-string))))))
+              ;; Fallback to patch(1) with a dry-run then real apply
+              (t
+                (let* ((args (list (format "-p%d" strip) "--batch" "--forward" "--reject-file=-" "--dry-run" "-i" tmp))
+                        (dry (apply #'call-process "patch" nil (list out err) nil args)))
+                  (if (not (eq dry 0))
+                    (error "patch --dry-run failed (strip=%d):\n%s" strip (with-current-buffer err (buffer-string))))
+                  (let ((apply (apply #'call-process "patch" nil (list out err) nil
+                                 (append (butlast args 2) (list "-i" tmp)))))
+                    (if (eq apply 0)
+                      (list :ok t :method "patch" :root root :strip strip
+                        :stdout (with-current-buffer out (buffer-string)))
+                      (error "patch failed:\n%s" (with-current-buffer err (buffer-string)))))))))
           (ignore-errors (delete-file tmp))
-          (kill-buffer out) (kill-buffer err)))))
+          (mapc #'kill-buffer (list out err))))))
+
 
   (gptel-make-tool
     :name "search_files"
@@ -236,49 +256,62 @@
   )
 ;; AUTO-GENERATED by mk.mcp-cli -- edits will be overwritten.
 (with-eval-after-load 'mcp
-
   (setq mcp-hub-servers
-    '(( "duckduckgo" .
-        (:command "$HOME/devel/promethean/scripts/mcp/bin/duck.sh"))
-       ( "eslint" .
-         (:command "npx"
-           :args ("-y" "@uplinq/mcp-eslint")))
-       ( "github" .
-         (:command "$HOME/devel/promethean/scripts/mcp/bin/github.sh"))
-       ( "github-chat" .
-         (:command "$HOME/devel/promethean/scripts/mcp/bin/github_chat.sh"))
-       ( "haiku-rag" .
-         (:command "uvx"
-           :args ("haiku-rag" "serve" "--stdio" "--db" "$HOME/.local/share/haiku-rag")))
-       ( "http-default" .
-         (:url "http://127.0.0.1:3210/mcp"))
-       ( "http-discord" .
-         (:url "http://127.0.0.1:3210/discord"))
-       ( "http-exec" .
-         (:url "http://127.0.0.1:3210/exec"))
-       ( "http-files" .
-         (:url "http://127.0.0.1:3210/files"))
-       ( "http-github" .
-         (:url "http://127.0.0.1:3210/github"))
-       ( "http-github-review" .
-         (:url "http://127.0.0.1:3210/github/review"))
-       ( "http-kanban" .
-         (:url "http://127.0.0.1:3210/kanban"))
-       ( "http-process" .
-         (:url "http://127.0.0.1:3210/process"))
-       ( "http-workspace" .
-         (:url "http://127.0.0.1:3210/workspace"))
-       ( "npm-helper" .
-         (:command "npx"
-           :args ("-y" "@pinkpixel/npm-helper-mcp")))
-       ( "obsidian" .
-         (:command "$HOME/devel/promethean/scripts/mcp/bin/obsidian.sh"))
-       ( "playwright" .
-         (:command "npx"
-           :args ("@playwright/mcp@latest")))
-       ( "serena" .
-         (:command "uvx"
-           :args ("--from" "git+https://github.com/oraios/serena" "serena" "start-mcp-server")))
-       ( "sonarqube" .
-         (:command "$HOME/devel/promethean/scripts/mcp/bin/sonarqube.sh"))
-       )))
+    '(("duckduckgo" .
+      (:command "/home/err/devel/promethean/scripts/mcp/bin/duck.sh"))
+      ("eslint" .
+        (:command "npx"
+                  :args ("-y" "@uplinq/mcp-eslint"))
+      )
+      ("file-system" .
+        (:command "/home/err/devel/promethean/scripts/mcp/bin/filesystem.sh"))
+      ("github" .
+        (:command "/home/err/devel/promethean/scripts/mcp/bin/github.sh"))
+      ("github-chat" .
+        (:command "/home/err/devel/promethean/scripts/mcp/bin/github_chat.sh"))
+      ("haiku-rag" .
+        (:command "uvx"
+                  :args ("haiku-rag" "serve" "--stdio" "--db" "/home/err/.local/share/haiku-rag"))
+      )
+      ("http-default" .
+        (:url "http://127.0.0.1:3210/mcp"))
+      ("http-discord" .
+        (:url "http://127.0.0.1:3210/discord"))
+      ("http-exec" .
+        (:url "http://127.0.0.1:3210/exec"))
+      ("http-files" .
+        (:url "http://127.0.0.1:3210/files"))
+      ("http-github" .
+        (:url "http://127.0.0.1:3210/github"))
+      ("http-github-review" .
+        (:url "http://127.0.0.1:3210/github/review"))
+      ("http-kanban" .
+        (:url "http://127.0.0.1:3210/kanban"))
+      ("http-process" .
+        (:url "http://127.0.0.1:3210/process"))
+      ("http-workspace" .
+        (:url "http://127.0.0.1:3210/workspace"))
+      ("npm-helper" .
+        (:command "npx"
+                  :args ("-y" "@pinkpixel/npm-helper-mcp"))
+      )
+      ("obsidian" .
+        (:command "/home/err/devel/promethean/scripts/mcp/bin/obsidian.sh"))
+      ("playwright" .
+        (:command "npx"
+                  :args ("@playwright/mcp@latest"))
+      )
+      ("serena" .
+        (:command "uvx"
+                  :args ("--from" "git+https://github.com/oraios/serena" "serena" "start-mcp-server"))
+      )
+      ("sonarqube" .
+        (:command "/home/err/devel/promethean/scripts/mcp/bin/sonarqube.sh"))
+      ("ts-ls-lsp" .
+        (:command "npx"
+                  :args ("tritlo/lsp-mcp" "typescript" "/home/err/.volta/bin/typescript-language-server" "--stdio"))
+      )
+    )
+  )
+)
+
