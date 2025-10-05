@@ -161,6 +161,11 @@ const isOriginAllowed = (origin: string, allowed: readonly string[]): boolean =>
   });
 };
 
+const delay = (ms: number): Promise<void> =>
+  new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+
 const consoleAllowedOrigins = parseAllowedOrigins(process.env.MCP_CONSOLE_ORIGIN);
 
 const descriptorsFromEntries = (entries: ServerEntries): readonly HttpEndpointDescriptor[] =>
@@ -314,10 +319,16 @@ const ensureInitializeDefaults = (value: unknown): unknown => {
         ? (paramsSource['clientInfo'] as Record<string, unknown>)
         : { name: 'promethean-mcp', version: 'dev' };
 
+    const capabilities =
+      typeof paramsSource['capabilities'] === 'object' && paramsSource['capabilities'] !== null
+        ? (paramsSource['capabilities'] as Record<string, unknown>)
+        : {};
+
     const params = {
       ...paramsSource,
       protocolVersion,
       clientInfo,
+      capabilities,
     } as const;
 
     return {
@@ -860,17 +871,17 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
         const ensureSession = async (): Promise<void> => {
           if (state.sessionId) return;
           if (!state.initializing) {
-            const payload = {
-              jsonrpc: '2.0',
-              id: `init:${crypto.randomUUID()}`,
-              method: 'initialize',
-              params: {
-                protocolVersion: '2024-10-01',
-                clientInfo: { name: 'promethean-proxy-actions', version: 'dev' },
-              },
-            } as const;
+            const attemptInitialize = async (attempt = 0): Promise<void> => {
+              const payload = {
+                jsonrpc: '2.0',
+                id: `init:${crypto.randomUUID()}`,
+                method: 'initialize',
+                params: {
+                  protocolVersion: '2024-10-01',
+                  clientInfo: { name: 'promethean-proxy-actions', version: 'dev' },
+                },
+              } as const;
 
-            state.initializing = (async () => {
               const response = await app.inject({
                 method: 'POST',
                 url: basePath,
@@ -882,9 +893,16 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
               });
 
               if (response.statusCode >= 400) {
-                throw new Error(
+                const error = new Error(
                   `Failed to initialize proxy at ${basePath}: ${response.statusCode} ${response.body}`,
                 );
+                state.sessionId = undefined;
+                if (attempt < 4) {
+                  const backoff = Math.min(1000, 200 * 2 ** attempt);
+                  await delay(backoff);
+                  return attemptInitialize(attempt + 1);
+                }
+                throw error;
               }
 
               state.sessionId = response.headers['mcp-session-id'] as string | undefined;
@@ -893,7 +911,9 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
               } catch {
                 /* ignore */
               }
-            })().finally(() => {
+            };
+
+            state.initializing = attemptInitialize().finally(() => {
               state.initializing = undefined;
             });
           }
