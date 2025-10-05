@@ -1,4 +1,76 @@
-;; ---------- Utility helpers ----------
+;;; funcs.el -*- lexical-binding: t; -*-
+
+(defvar llm--tool-registry (make-hash-table :test 'equal)
+  "Map safe gptel tool name -> plist (:server STR :tool STR).")
+
+(defun llm--safe-name (server tool)
+  "Return a provider-safe function name from SERVER + TOOL.
+Only [A-Za-z0-9_-], max length 64, and not starting with a digit."
+  (let* ((raw (format "%s_%s" server tool))
+          (s (replace-regexp-in-string "[^A-Za-z0-9_-]" "_" raw)))
+    (when (string-match-p "^[0-9]" s) (setq s (concat "_" s)))
+    (substring s 0 (min 64 (length s))))) ;; cap length (OpenAI/Groq limit). :contentReference[oaicite:1]{index=1}
+
+(defun llm--dedupe (name)
+  "Avoid name collisions by suffixing _2, _3, … within registry."
+  (if (gethash name llm--tool-registry)
+    (let ((i 2) cand)
+      (setq cand (format "%s_%d" name i))
+      (while (gethash (substring cand 0 (min 64 (length cand))) llm--tool-registry)
+        (cl-incf i)
+        (setq cand (format "%s_%d" name i)))
+      (substring cand 0 (min 64 (length cand))))
+    name))
+
+(defun llm--install-gptel-tool (spec safe-name)
+  "Install gptel tool described by SPEC under SAFE-NAME respecting `llm-mcp-install-scope'."
+  (let* ((fn   (plist-get spec :function))
+          (args (plist-get spec :args))
+          (desc (or (plist-get spec :description) (format "MCP tool %s" safe-name)))
+          (cat  (plist-get spec :category))
+          (gt   (gptel-make-tool :name safe-name :function fn :description desc :args args :category cat)))
+    (pcase llm-mcp-install-scope
+      ('buffer
+        (setq-local gptel-tools (cons gt (remove gt gptel-tools))))
+      ('global
+        (let ((base (default-value 'gptel-tools)))
+          (setq-default gptel-tools (cons gt (remove gt base))))))
+    safe-name))
+
+(defun llm/mcp-register-tools-for-connection (connection tools)
+  "Register TOOLS from MCP CONNECTION into gptel with sanitized names.
+Hook this into MCP.el via `:tools-callback`."
+  ;; MCP.el uses jsonrpc connections; their name is the server key. :contentReference[oaicite:2]{index=2}
+  (let ((server (jsonrpc-name connection)))
+    (dolist (tmeta tools)
+      (let* ((tool-name (plist-get tmeta :name))
+              (safe (llm--dedupe (llm--safe-name server tool-name)))
+              ;; MCP.el gives us a ready-to-call spec via mcp-make-text-tool. :contentReference[oaicite:3]{index=3}
+              (spec (mcp-make-text-tool server tool-name)))
+        (puthash safe (list :server server :tool tool-name) llm--tool-registry)
+        (llm--install-gptel-tool spec safe)))))
+
+(defun llm/mcp-connect (server &rest plist)
+  "Connect to MCP SERVER with tools auto-registered for gptel.
+PLIST forwards to `mcp-connect-server'."
+  (apply #'mcp-connect-server
+    server
+    (plist-put plist :tools-callback #'llm/mcp-register-tools-for-connection)))
+
+(defun llm/mcp-connect-defaults ()
+  "Connect all servers in `llm-mcp-default-servers'."
+  (interactive)
+  (dolist (pair llm-mcp-default-servers)
+    (let ((name (car pair))
+           (pl (cdr pair)))
+      (apply #'llm/mcp-connect name (cl-loop for (k v) on pl by #'cddr append (list k v))))))
+
+(defun llm/list-registered-tools ()
+  "Echo the sanitized tool names currently registered."
+  (interactive)
+  (message "LLM tools: %s"
+    (string-join (cl-loop for k being the hash-keys of llm--tool-registry collect k)
+      ", ")))
 
 (defun gptel--read-file (path &optional max-bytes)
   "Return contents of PATH (string). If MAX-BYTES is non-nil, hard-cap read."
