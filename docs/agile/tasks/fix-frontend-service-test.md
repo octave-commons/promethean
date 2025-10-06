@@ -2,20 +2,22 @@
 task-id: TASK-20250927
 title: Fix frontend-service test failure
 state: New
-prev:
-txn: "2025-09-27T19:36:34Z-1234"
+prev: null
+txn: '2025-09-27T19:36:34Z-1234'
 owner: err
 priority: p3
 size: s
 epic: EPC-000
 depends_on: []
 labels:
-  - board:auto
-  - lang:ts
-due:
+  - 'board:auto'
+  - 'lang:ts'
+due: null
 links: []
 artifacts: []
-rationale: Fix failing @promethean/frontend-service:test to restore confidence in CI for frontend-service package.
+rationale: >-
+  Fix failing @promethean/frontend-service:test to restore confidence in CI for
+  frontend-service package.
 proposed_transitions:
   - New->Accepted
   - Accepted->Breakdown
@@ -26,6 +28,9 @@ tags:
   - owner/err
   - priority/p3
   - epic/EPC-000
+uuid: f6a6e7b0-72d6-489d-a98c-450ba82ab3cc
+created_at: '2025-10-06T01:50:48.291Z'
+status: todo
 ---
 <hr class="__chatgpt_plugin">
 
@@ -53,3 +58,4 @@ tags:
 ## Relevant Resources
 - `packages/frontend-service` package code and tests.
 <hr class="__chatgpt_plugin">
+
