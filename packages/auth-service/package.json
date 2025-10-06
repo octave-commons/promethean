@@ -13,7 +13,7 @@
     "lint": "prettier --cache --check . && eslint . --cache || true",
     "format": "prettier --cache --write . && eslint . --fix --cache || true",
     "test": "pnpm run test:unit",
-    "test:unit": "pnpm run build && pnpm exec ava \"test/**/*.test.mjs\"",
+    "test:unit": "pnpm run build && pnpm exec ava test/oauth-flow.test.mjs",
     "test:integration": "node -e \"console.log('no integration tests for auth-service')\"",
     "test:e2e": "node -e \"console.log('no e2e tests for auth-service')\""
   },

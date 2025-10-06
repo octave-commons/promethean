@@ -10,7 +10,14 @@ test("enso tool calls require rationales in evaluation mode", async (t) => {
   const server = agent.getLocalServer();
   t.truthy(server, "expected local Enso server when running in-memory");
 
-  const sessionId = agent.getSessionId();
+  let sessionId = agent.getSessionId();
+
+  // Wait a moment for session to be established
+  if (!sessionId) {
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    sessionId = agent.getSessionId();
+  }
+
   t.truthy(sessionId, "session id should be captured for evaluation toggles");
 
   const client: any = (agent as any).client;

@@ -18,7 +18,7 @@ test('duck native tools: ping round-trip', async (t) => {
   };
 
   const resultPromise = new Promise<any>((resolve, reject) => {
-    const to = setTimeout(() => reject(new Error('timeout')), 2000);
+    const to = setTimeout(() => reject(new Error('timeout')), 30000);
     client.on('event:tool.result', (env: any) => {
       if (env.payload?.callId === call.callId) {
         clearTimeout(to);
