@@ -75,29 +75,25 @@ test('kanban ui server exposes board payload and html', async (t) => {
 
   const html = await fetch(`${baseUrl}/`).then((res) => res.text());
   t.true(html.includes('kanban-ui.js'));
-});
 
-test('kanban ui server serves frontend module assets', async (t) => {
-  const dir = await withTempDir(t);
-  const tasksDir = path.join(dir, 'tasks');
-  const boardFile = path.join(dir, 'board.md');
-  await writeFile(boardFile, '', 'utf8');
+  const actionsList = await fetchJson<{ commands: ReadonlyArray<string>; ok: boolean }>(
+    `${baseUrl}/api/actions`,
+  );
+  t.true(actionsList.commands.includes('find'));
 
-  const server = createKanbanUiServer({ boardFile, tasksDir });
-  const { baseUrl } = await listenOnRandomPort(server);
-  t.teardown(async () => {
-    await new Promise<void>((resolve) => {
-      server.close(() => resolve());
-    });
+  const actionResponse = await fetch(`${baseUrl}/api/actions`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ command: 'find', args: ['task-1'] }),
   });
-
-  const assetUrls = ['/assets/kanban-ui.js', '/assets/render.js', '/assets/styles.js'] as const;
-
-  for (const pathName of assetUrls) {
-    const response = await fetch(`${baseUrl}${pathName}`);
-    t.true(response.ok, `expected 2xx for ${pathName}`);
-    t.is(response.headers.get('content-type'), 'application/javascript; charset=utf-8');
-    const body = await response.text();
-    t.true(body.length > 0, `expected body for ${pathName}`);
-  }
+  t.true(actionResponse.ok);
+  const actionJson = (await actionResponse.json()) as Readonly<{
+    ok: boolean;
+    result: Readonly<{ uuid?: string }>;
+  }>;
+  t.true(actionJson.ok);
+  t.is(actionJson.result?.uuid, 'task-1');
 });

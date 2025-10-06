@@ -57,18 +57,13 @@ type LoadedBoard = Awaited<ReturnType<typeof loadBoard>>;
 
 type ReadonlyLoadedBoard = DeepReadonly<LoadedBoard>;
 
-type HttpResponse = Readonly<
-  Pick<ServerResponse, 'writeHead' | 'end'> &
-    Partial<Pick<ServerResponse, 'setHeader' | 'getHeader'>>
->;
+type HttpResponse = ServerResponse;
 
-type HttpRequest = Readonly<Pick<IncomingMessage, 'method' | 'url'>>;
+type HttpRequest = IncomingMessage;
 
 type ServerInstance = ReturnType<typeof createServer>;
 
-type ServerControls = Readonly<
-  Pick<ServerInstance, 'listen' | 'once' | 'off' | 'close' | 'address'>
->;
+type ServerControls = ServerInstance;
 
 type FrontendAsset = Readonly<{
   readonly path: string;
@@ -95,6 +90,17 @@ const FRONTEND_ASSETS: ReadonlyMap<string, FrontendAsset> = new Map([
     createAssetDescriptor('../frontend/styles.js', 'application/javascript; charset=utf-8'),
   ],
 ]);
+
+const MAX_BODY_SIZE = 128 * 1024;
+
+class RequestTooLargeError extends Error {
+  constructor() {
+    super('Request payload exceeds the 128kb limit.');
+    this.name = 'RequestTooLargeError';
+  }
+}
+
+const loadCommandModule = async () => import('../cli/command-handlers.js');
 
 const computeSummary = (board: ReadonlyLoadedBoard): ImmutableSummary => {
   const columns = board.columns.map((column) => {
@@ -178,67 +184,211 @@ const internalError = (res: HttpResponse, error: unknown): void => {
   });
 };
 
-const handleBoardRequest = (res: HttpResponse, options: ImmutableOptions): Promise<void> =>
-  loadBoard(options.boardFile, options.tasksDir)
-    .then((board) => {
-      const payload: ImmutablePayload = {
-        board: board as ReadonlyLoadedBoard,
-        generatedAt: new Date().toISOString(),
-        summary: computeSummary(board as ReadonlyLoadedBoard),
-      } satisfies ImmutablePayload;
-      sendJson(res, 200, payload);
-    })
-    .catch((error) => {
-      internalError(res, error);
-    });
+const readRequestBody = async (req: HttpRequest): Promise<string> => {
+  req.setEncoding('utf8');
+  const iterator: AsyncIterator<string | Buffer> = req[Symbol.asyncIterator]();
 
-const handleAssetRequest = (res: HttpResponse, url: string): Promise<void> => {
-  const [pathname] = url.split('?');
-  const asset = FRONTEND_ASSETS.get(pathname ?? '');
-  if (!asset) {
-    notFound(res);
-    return Promise.resolve();
+  const readNext = async (acc: string): Promise<string> => {
+    const result = await iterator.next();
+    if (result.done) {
+      return acc;
+    }
+
+    const chunkValue = result.value;
+    const chunk = typeof chunkValue === 'string' ? chunkValue : String(chunkValue);
+    const next = acc + chunk;
+    if (next.length > MAX_BODY_SIZE) {
+      throw new RequestTooLargeError();
+    }
+    return readNext(next);
+  };
+
+  try {
+    return await readNext('');
+  } finally {
+    if (typeof iterator.return === 'function') {
+      try {
+        await iterator.return();
+      } catch {
+        // ignore iterator cleanup errors
+      }
+    }
   }
-  return readFile(asset.path, 'utf8')
-    .then((contents) => {
-      send(res, 200, contents, {
-        'Content-Type': asset.contentType,
-        'Cache-Control': 'no-store',
-      });
-    })
-    .catch((error) => {
-      internalError(res, error);
-    });
 };
 
-const routeRequest = (req: HttpRequest, res: HttpResponse, options: ImmutableOptions): void => {
+const handleBoardRequest = async (res: HttpResponse, options: ImmutableOptions): Promise<void> => {
+  try {
+    const board = await loadBoard(options.boardFile, options.tasksDir);
+    const payload: ImmutablePayload = {
+      board: board as ReadonlyLoadedBoard,
+      generatedAt: new Date().toISOString(),
+      summary: computeSummary(board as ReadonlyLoadedBoard),
+    } satisfies ImmutablePayload;
+    sendJson(res, 200, payload);
+  } catch (error) {
+    internalError(res, error);
+  }
+};
+
+const getAssetForUrl = (url: string): FrontendAsset | undefined => {
+  const [pathname] = url.split('?');
+  return FRONTEND_ASSETS.get(pathname ?? url);
+};
+
+const handleAssetRequest = async (res: HttpResponse, asset: FrontendAsset): Promise<void> => {
+  try {
+    const contents = await readFile(asset.path, 'utf8');
+    send(res, 200, contents, {
+      'Content-Type': asset.contentType,
+      'Cache-Control': 'no-store',
+    });
+  } catch (error) {
+    internalError(res, error);
+  }
+};
+
+const handleActionsList = async (res: HttpResponse): Promise<void> => {
+  const { REMOTE_COMMANDS } = await loadCommandModule();
+  sendJson(res, 200, {
+    ok: true,
+    commands: [...REMOTE_COMMANDS],
+    generatedAt: new Date().toISOString(),
+  });
+};
+
+const handleActionRequest = async (
+  req: HttpRequest,
+  res: HttpResponse,
+  options: ImmutableOptions,
+): Promise<void> => {
+  const {
+    executeCommand,
+    REMOTE_COMMANDS,
+    CommandUsageError: UsageError,
+    CommandNotFoundError: NotFoundError,
+  } = await loadCommandModule();
+
+  try {
+    const rawBody = await readRequestBody(req);
+    if (rawBody.trim().length === 0) {
+      throw new UsageError('Action payload is required.');
+    }
+
+    const parsed = JSON.parse(rawBody) as Readonly<{
+      command?: unknown;
+      args?: unknown;
+    }>;
+
+    const command = parsed.command;
+    if (typeof command !== 'string' || command.trim().length === 0) {
+      throw new UsageError('Action "command" must be a non-empty string.');
+    }
+
+    if (!REMOTE_COMMANDS.includes(command)) {
+      throw new UsageError(`Action "${command}" is not available via the HTTP API.`);
+    }
+
+    const argsSource = parsed.args;
+    const args = Array.isArray(argsSource)
+      ? argsSource.map((value, index) => {
+          if (typeof value !== 'string') {
+            throw new UsageError(
+              `Action arguments must be strings (invalid value at index ${index}).`,
+            );
+          }
+          return value;
+        })
+      : [];
+
+    const context = { boardFile: options.boardFile, tasksDir: options.tasksDir };
+    const result = await executeCommand(command, args, context);
+
+    sendJson(res, 200, {
+      ok: true,
+      command,
+      args,
+      result: typeof result === 'undefined' ? null : result,
+      executedAt: new Date().toISOString(),
+    });
+  } catch (error: unknown) {
+    if (error instanceof SyntaxError) {
+      sendJson(res, 400, { ok: false, error: 'Invalid JSON body.' });
+      return;
+    }
+    if (error instanceof RequestTooLargeError) {
+      sendJson(res, 413, { ok: false, error: error.message });
+      return;
+    }
+    if (error instanceof UsageError) {
+      sendJson(res, 400, { ok: false, error: error.message });
+      return;
+    }
+    if (error instanceof NotFoundError) {
+      sendJson(res, 404, { ok: false, error: error.message });
+      return;
+    }
+    internalError(res, error);
+  }
+};
+
+const routeRequest = async (
+  req: HttpRequest,
+  res: HttpResponse,
+  options: ImmutableOptions,
+): Promise<void> => {
   const method = req.method ?? 'GET';
   const url = req.url ?? '/';
-  if (method !== 'GET') {
-    notFound(res);
-    return;
-  }
+
   if (url === '/' || url.startsWith('/?')) {
+    if (method !== 'GET') {
+      notFound(res);
+      return;
+    }
     send(res, 200, htmlTemplate(options), {
       'Content-Type': 'text/html; charset=utf-8',
       'Cache-Control': 'no-store',
     });
     return;
   }
+
   if (url.startsWith('/api/board')) {
-    void handleBoardRequest(res, options);
+    if (method !== 'GET') {
+      notFound(res);
+      return;
+    }
+    await handleBoardRequest(res, options);
     return;
   }
-  if (url.startsWith('/assets/')) {
-    void handleAssetRequest(res, url);
+
+  if (url.startsWith('/api/actions')) {
+    if (method === 'GET') {
+      await handleActionsList(res);
+      return;
+    }
+    if (method === 'POST') {
+      await handleActionRequest(req, res, options);
+      return;
+    }
+    notFound(res);
     return;
   }
+
+  const asset = getAssetForUrl(url);
+  if (asset) {
+    if (method !== 'GET') {
+      notFound(res);
+      return;
+    }
+    await handleAssetRequest(res, asset);
+    return;
+  }
+
   notFound(res);
 };
 
 export const createKanbanUiServer = (options: ImmutableOptions): ServerControls => {
   const server = createServer((req, res) => {
-    routeRequest(req, res, options);
+    void routeRequest(req, res, options);
   });
 
   return server;
