@@ -5,13 +5,9 @@
   "cachePath": "docs/agile/boards/.cache",
   "exts": [".md"],
   "requiredFields": [
-    "id",
     "title",
     "status",
-    "priority",
-    "owner",
-    "labels",
-    "created"
+    "priority"
   ],
   "statusValues": [
     "icebox",
@@ -26,7 +22,7 @@
     "done",
     "rejected"
   ],
-  "priorityValues": ["low", "medium", "high", "critical"],
+  "priorityValues": ["P0", "P1", "P2", "P3", "p3", "low", "medium", "high", "critical"],
   "wipLimits": {
     "icebox": 200,
     "incoming": 15,
