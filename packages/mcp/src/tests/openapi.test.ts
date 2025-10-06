@@ -43,60 +43,51 @@ test('createEndpointOpenApiDocument describes tool actions', (t) => {
 
   t.is(doc.openapi, '3.1.0');
   t.is(doc.info.title, 'Custom Endpoint');
-  t.true(typeof doc.info.description === 'string');
-  t.is(doc.servers[0]?.url, 'https://example.com/custom');
-  t.truthy(doc.paths['/actions']);
-  t.truthy(doc.paths['/actions/test.echo']);
+  t.truthy(doc.info.description);
+  t.deepEqual(doc.servers, [{ url: 'https://example.com/custom' }]);
 
-  const pathItemSchema = z.object({
-    post: z.object({
-      operationId: z.string(),
-      requestBody: z.object({
-        content: z.object({
-          'application/json': z.object({
-            schema: z.object({
-              type: z.string(),
-              properties: z.record(z.unknown()).optional(),
-            }),
-          }),
-        }),
-      }),
-      responses: z.object({
-        '200': z.object({
-          content: z.object({
-            'application/json': z.object({
-              schema: z.object({
-                type: z.string(),
-                properties: z.record(z.unknown()).optional(),
-              }),
-            }),
-          }),
-        }),
-        '400': z.object({
-          content: z.object({
-            'application/json': z.object({
-              schema: z.object({
-                required: z.array(z.string()).optional(),
-                properties: z.record(z.unknown()).optional(),
-              }),
-            }),
-          }),
-        }),
-      }),
-    }),
+  const listPath = doc.paths['/actions'];
+  t.truthy(listPath);
+  const listExample = (listPath as { get?: { responses?: Record<string, unknown> } }).get
+    ?.responses?.['200'] as
+    | {
+        content?: {
+          'application/json'?: { example?: { actions?: Array<Record<string, unknown>> } };
+        };
+      }
+    | undefined;
+  t.truthy(listExample?.content?.['application/json']?.example?.actions);
+
+  const actionPath = doc.paths['/actions/test.echo'] as {
+    post: {
+      operationId: string;
+      requestBody: { required: boolean };
+      responses: Record<
+        string,
+        { content: { 'application/json': { schema: Record<string, unknown> } } }
+      >;
+      tags: string[];
+      'x-promethean-tool': { name: string; stability: string; since: string | null };
+    };
+  };
+
+  t.is(actionPath.post.operationId, 'test_echo_action');
+  t.deepEqual(actionPath.post.tags, ['Custom Endpoint']);
+  t.true(actionPath.post.requestBody.required);
+
+  const successSchema = actionPath.post.responses['200'].content['application/json'].schema;
+  t.is(successSchema.type, 'object');
+  t.truthy(successSchema.properties);
+
+  const errorSchema = actionPath.post.responses['400'].content['application/json'].schema;
+  t.is(errorSchema.type, 'object');
+  t.true(Array.isArray(errorSchema.required));
+
+  t.deepEqual(actionPath.post['x-promethean-tool'], {
+    name: 'test.echo',
+    stability: 'stable',
+    since: '1.0.0',
   });
-  const action = pathItemSchema.parse(doc.paths['/actions/test.echo']);
-  t.is(action.post.operationId, 'test_echo_action');
-  const requestSchema = action.post.requestBody.content['application/json'].schema;
-  t.is(requestSchema.type, 'object');
-  t.truthy(requestSchema.properties);
-  const successResponse = action.post.responses['200'].content['application/json'].schema;
-  t.is(successResponse.type, 'object');
-  t.truthy(successResponse.properties);
-  t.truthy(successResponse.properties?.result);
-  const errorResponse = action.post.responses['400'].content['application/json'].schema;
-  t.true(!errorResponse.required || errorResponse.required.length >= 0);
-  t.truthy(errorResponse.properties);
 });
 
 test('encodeActionPathSegment preserves safe characters', (t) => {
