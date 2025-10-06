@@ -911,7 +911,7 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
               try {
                 await response.json();
               } catch {
-                /* ignore */
+                // The proxy doesn't return JSON on every request; ignore parse failures.
               }
             };
 
@@ -1362,7 +1362,7 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
             try {
               await proxy.stop();
             } catch {
-              /* ignore */
+              // Best-effort shutdown so cleanup errors don't hide the root failure.
             }
           }),
         );
