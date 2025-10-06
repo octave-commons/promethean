@@ -1171,7 +1171,6 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
           invoke: (name, args) => manager.invokeAction(name, args),
         });
       };
-
       // eslint-disable-next-line functional/no-let
       let currentUiState: UiState | undefined = uiOptions
         ? createUiState(uiOptions, proxiesForUi)
