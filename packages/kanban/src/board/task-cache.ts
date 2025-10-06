@@ -206,8 +206,19 @@ export class LevelTaskCache implements TaskCache {
   }
 
   async getTaskCount(): Promise<number> {
-    const meta = await this.metaCache.get(CacheKeys.meta('task-count'));
-    return meta?.value || 0;
+    // Count tasks directly from the task cache for accuracy
+    let count = 0;
+    for await (const [_key, _task] of this.tasksCache.entries()) {
+      count++;
+    }
+
+    // Update the cached count for future queries
+    await this.metaCache.set(CacheKeys.meta('task-count'), {
+      value: count,
+      timestamp: Date.now()
+    });
+
+    return count;
   }
 
   async getLastIndexed(): Promise<Date | undefined> {
