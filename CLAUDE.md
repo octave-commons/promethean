@@ -78,15 +78,72 @@ The repository uses **Piper** pipeline runner (`packages/piper`) with declarativ
 
 ## Kanban & Task Management
 
-Task management uses the `@promethean/kanban-cli` package:
+Task management uses the `@promethean/kanban` package. **You can run kanban commands from any directory in the repository** - the system automatically resolves paths correctly.
+
+### 🎯 Essential Kanban Commands for Claude
 
 ```bash
-pnpm kanban pull    # Sync board from task frontmatter
-pnpm kanban push    # Project board columns back to tasks
-pnpm kanban sync    # Bidirectional sync with conflict reporting
+# Core operations (use from any directory)
+pnpm kanban regenerate          # Generate board from task files
+pnpm kanban search <query>      # Search tasks by title/content
+pnpm kanban update-status <uuid> <column>  # Move task between columns
+pnpm kanban count               # Show task counts by status
+
+# Task discovery and management
+pnpm kanban list                # List all tasks with basic info
+pnpm kanban getByColumn <col>   # Get formatted tasks for a column
+pnpm kanban getColumn <col>     # Get raw tasks for a column
+
+# Board synchronization
+pnpm kanban sync                # Bidirectional sync with conflict reporting
+pnpm kanban pull                # Sync board from task frontmatter
+pnpm kanban push                # Project board columns back to tasks
 ```
 
-The kanban board lives at `docs/agile/boards/kanban.md` and uses Obsidian-style wikilinks.
+### 📋 Claude-Specific Kanban Workflow
+
+1. **Before starting work**: Always search first
+   ```bash
+   pnpm kanban search <keyword>  # Check for existing tasks
+   ```
+
+2. **When working on tasks**: Update status to track progress
+   ```bash
+   pnpm kanban update-status <uuid> in_progress
+   ```
+
+3. **After completing work**: Mark as done and regenerate
+   ```bash
+   pnpm kanban update-status <uuid> done
+   pnpm kanban regenerate
+   ```
+
+4. **When creating new tasks**: Check for duplicates first
+   ```bash
+   pnpm kanban search <potential-title>
+   ```
+
+### 📍 Key File Locations
+- **Task files**: `docs/agile/tasks/*.md`
+- **Generated board**: `docs/agile/boards/generated.md`
+- **Configuration**: `promethean.kanban.json`
+
+### 🔧 Common Column Names
+- `todo` - New and unstarted work
+- `in_progress` - Currently being worked on
+- `review` - Ready for review or blocked
+- `done` - Completed work
+- `document` - Documentation tasks
+- `icebox` - Deferred or low-priority work
+
+### ⚠️ Important Notes
+- **Never manually edit** `docs/agile/boards/generated.md`
+- **Always regenerate** the board after task changes
+- **Path resolution works from any directory** within the git repo
+- **Use UUIDs** for precise task identification
+- **Check duplicates** before creating new tasks
+
+The kanban board uses Obsidian-style wikilinks and follows the workflow process in `docs/agile/process.md`.
 
 ## Package Development Workflow
 

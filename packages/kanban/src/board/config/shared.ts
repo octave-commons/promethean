@@ -8,6 +8,7 @@ export type RawKanbanConfig = Readonly<{
   readonly requiredFields?: ReadonlyArray<string>;
   readonly statusValues?: ReadonlyArray<string>;
   readonly priorityValues?: ReadonlyArray<string>;
+  readonly wipLimits?: Readonly<Record<string, number>>;
 }>;
 
 export type KanbanConfig = Readonly<{
@@ -19,6 +20,7 @@ export type KanbanConfig = Readonly<{
   readonly requiredFields: ReadonlyArray<string>;
   readonly statusValues: ReadonlySetLike<string>;
   readonly priorityValues: ReadonlySetLike<string>;
+  readonly wipLimits: Readonly<Record<string, number>>;
 }>;
 
 export type LoadKanbanConfigResult = Readonly<{
@@ -87,6 +89,7 @@ export type Defaults = Readonly<{
   readonly requiredFields: ReadonlyArray<string>;
   readonly statusValues: ReadonlyArray<string>;
   readonly priorityValues: ReadonlyArray<string>;
+  readonly wipLimits: Readonly<Record<string, number>>;
 }>;
 
 export type ReadonlySetLike<T> = Readonly<{
@@ -135,4 +138,17 @@ export const defaultConfigForRepo = (repo: string): Defaults =>
     ],
     statusValues: ["open", "doing", "blocked", "done", "dropped"],
     priorityValues: ["low", "medium", "high", "critical"],
+    wipLimits: {
+      icebox: 50,
+      incoming: 10,
+      accepted: 5,
+      breakdown: 3,
+      ready: 5,
+      todo: 20,
+      in_progress: 3,
+      review: 2,
+      document: 2,
+      done: 100,
+      rejected: 10,
+    },
   }) as const;
