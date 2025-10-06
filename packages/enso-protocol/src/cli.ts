@@ -1,24 +1,14 @@
 #!/usr/bin/env node
-import { argv, exit } from "node:process";
-import { randomUUID } from "node:crypto";
-import { ContextRegistry } from "./registry.js";
-import type { ContextInit } from "./types/context.js";
-import {
-  parseConversationArgs,
-  runTwoAgentConversation,
-} from "./conversation.js";
-import { EnsoClient } from "./client.js";
-import {
-  connectWebSocket,
-  type WebSocketConnectionHandle,
-} from "./transport.js";
-import type { HelloCaps } from "./types/privacy.js";
-import type { ChatMessage, ContentPart, TextPart } from "./types/content.js";
-import {
-  createNodeAudioCapture,
-  pumpAudioFrames,
-  type AudioCapture,
-} from "./audio.js";
+import { argv, exit } from 'node:process';
+import { randomUUID } from 'node:crypto';
+import { ContextRegistry } from './registry.js';
+import type { ContextInit } from './types/context.js';
+import { parseConversationArgs, runTwoAgentConversation } from './conversation.js';
+import { EnsoClient } from './client.js';
+import { connectWebSocket, type WebSocketConnectionHandle } from './transport.js';
+import type { HelloCaps } from './types/privacy.js';
+import type { ChatMessage, ContentPart, TextPart } from './types/content.js';
+import { createNodeAudioCapture, pumpAudioFrames, type AudioCapture } from './audio.js';
 
 interface DemoDependencies {
   createClient?: () => EnsoClient;
@@ -45,47 +35,54 @@ export interface CliDependencies {
 const defaultRegistry = new ContextRegistry();
 
 const DEFAULT_HELLO: HelloCaps = {
-  proto: "ENSO-1",
-  caps: ["can.send.text", "can.voice.stream"],
-  agent: { name: "enso-cli", version: "0.0.0" },
+  proto: 'ENSO-1',
+  caps: ['can.send.text', 'can.voice.stream'],
+  agent: { name: 'enso-cli', version: '0.0.0' },
 };
 
 function formatTranscript(payload: unknown): string {
+  if (typeof payload === 'string') {
+    return payload;
+  }
+  if (payload && typeof payload === 'object') {
+    const withText = payload as { text?: unknown };
+    if (typeof withText.text === 'string' && withText.text.length > 0) {
+      return withText.text;
+    }
+  }
   try {
-    return typeof payload === "string" ? payload : JSON.stringify(payload);
+    return JSON.stringify(payload);
   } catch {
     return String(payload);
   }
 }
 
 function partsToText(parts: ContentPart[]): string {
-  const texts = parts
-    .filter((p): p is TextPart => p.kind === "text")
-    .map((p) => p.text);
-  return texts.join(" ");
+  const texts = parts.filter((p): p is TextPart => p.kind === 'text').map((p) => p.text);
+  return texts.join(' ');
 }
 
 function formatChatMessage(msg?: ChatMessage): string {
-  if (!msg) return "";
+  if (!msg) return '';
   const text = partsToText(msg.parts);
   return text || JSON.stringify(msg);
 }
 
 async function runVoiceDemo(
   args: string[],
-  deps: Required<Pick<CliDependencies, "log" | "error">> & {
+  deps: Required<Pick<CliDependencies, 'log' | 'error'>> & {
     demo?: DemoDependencies;
   },
 ): Promise<void> {
   const parsed = (() => {
-    let url: string = "ws://localhost:7766/ws";
+    let url: string = 'ws://localhost:7766/ws';
     let pingIntervalMs: number | undefined;
     for (let i = 0; i < args.length; i += 1) {
       const a = args[i];
-      if (a === "--url" && args[i + 1]) {
+      if (a === '--url' && args[i + 1]) {
         url = String(args[i + 1]);
         i += 1;
-      } else if ((a === "--ping" || a === "--ping-interval") && args[i + 1]) {
+      } else if ((a === '--ping' || a === '--ping-interval') && args[i + 1]) {
         const v = Number(args[i + 1]);
         if (!Number.isNaN(v)) pingIntervalMs = v;
         i += 1;
@@ -102,15 +99,10 @@ async function runVoiceDemo(
     deps.demo?.connect ??
     ((instance, options) => {
       const transportOptions =
-        "pingIntervalMs" in options && options.pingIntervalMs !== undefined
+        'pingIntervalMs' in options && options.pingIntervalMs !== undefined
           ? { pingIntervalMs: options.pingIntervalMs }
           : {};
-      return connectWebSocket(
-        instance,
-        options.url,
-        options.hello,
-        transportOptions,
-      );
+      return connectWebSocket(instance, options.url, options.hello, transportOptions);
     });
   const connection = connectFn(
     client,
@@ -119,18 +111,14 @@ async function runVoiceDemo(
       : { url: parsed.url, hello },
   );
 
-  (deps.log ?? console.log)(
-    `Connecting to ${parsed.url} as stream ${streamId}`,
-  );
-  (deps.log ?? console.log)(
-    "Speak into the microphone or pipe PCM16 audio via stdin.",
-  );
+  (deps.log ?? console.log)(`Connecting to ${parsed.url} as stream ${streamId}`);
+  (deps.log ?? console.log)('Speak into the microphone or pipe PCM16 audio via stdin.');
 
   const transcriptListeners = [
-    client.on("stream:transcript.partial", (env) => {
+    client.on('stream:transcript.partial', (env) => {
       (deps.log ?? console.log)(`[partial] ${formatTranscript(env.payload)}`);
     }),
-    client.on("stream:transcript.final", (env) => {
+    client.on('stream:transcript.final', (env) => {
       (deps.log ?? console.log)(`[final] ${formatTranscript(env.payload)}`);
     }),
   ];
@@ -147,11 +135,9 @@ async function runVoiceDemo(
   });
 
   const agentPromise = new Promise<void>((resolve) => {
-    client.on("event:chat.msg", (env) => {
+    client.on('event:chat.msg', (env) => {
       const payload = env.payload as { message?: ChatMessage } | undefined;
-      (deps.log ?? console.log)(
-        `[agent] ${formatChatMessage(payload?.message)}`,
-      );
+      (deps.log ?? console.log)(`[agent] ${formatChatMessage(payload?.message)}`);
       resolve();
     });
   });
@@ -159,7 +145,7 @@ async function runVoiceDemo(
   const createCapture =
     deps.demo?.createCapture ??
     (async (options: { streamId: string }) => {
-      const { stdin } = await import("node:process");
+      const { stdin } = await import('node:process');
       stdin.resume();
       return createNodeAudioCapture({
         stream: stdin,
@@ -180,7 +166,7 @@ async function runVoiceDemo(
         agentPromise,
         new Promise<void>((resolve) => {
           setTimeout(() => {
-            (deps.log ?? console.log)("[demo] agent reply timeout elapsed");
+            (deps.log ?? console.log)('[demo] agent reply timeout elapsed');
             resolve();
           }, timeoutMs);
         }),
@@ -209,19 +195,19 @@ async function createDemoContext(
 ): Promise<void> {
   if (registry.listSources().length === 0) {
     registry.registerSource({
-      id: { kind: "enso-asset", location: "enso://asset/demo" },
-      owners: [{ userId: "demo" }],
-      discoverability: "visible",
-      availability: { mode: "public" },
-      title: "Demo Asset",
+      id: { kind: 'enso-asset', location: 'enso://asset/demo' },
+      owners: [{ userId: 'demo' }],
+      discoverability: 'visible',
+      availability: { mode: 'public' },
+      title: 'Demo Asset',
     });
   }
   const demo: ContextInit = {
-    name: "demo",
-    owner: { userId: "demo" },
+    name: 'demo',
+    owner: { userId: 'demo' },
     entries: registry.listSources().map((source) => ({
       id: source.id,
-      state: "pinned",
+      state: 'pinned',
       permissions: { readable: true },
     })),
   };
@@ -231,7 +217,7 @@ async function createDemoContext(
 
 function parseServerArgs(args: string[]): { port?: number } {
   return args.reduce<{ port?: number }>((acc, cur, i, arr) => {
-    if (cur === "--port" || cur === "-p") {
+    if (cur === '--port' || cur === '-p') {
       const v = Number(arr[i + 1]);
       if (!Number.isNaN(v)) return { ...acc, port: v };
     }
@@ -252,33 +238,30 @@ Commands:
 `);
 }
 
-export async function runCliCommand(
-  command: string,
-  deps: CliDependencies = {},
-): Promise<void> {
+export async function runCliCommand(command: string, deps: CliDependencies = {}): Promise<void> {
   const registry = deps.registry ?? defaultRegistry;
   const log = deps.log ?? console.log;
   const error = deps.error ?? console.error;
   const exitFn = deps.exit ?? ((code: number) => exit(code));
 
   switch (command) {
-    case "help":
+    case 'help':
       showHelp(log);
       return;
-    case "list-sources":
+    case 'list-sources':
       await listSources(registry, log);
       return;
-    case "create-demo-context":
+    case 'create-demo-context':
       await createDemoContext(registry, log);
       return;
-    case "voice-demo":
+    case 'voice-demo':
       await runVoiceDemo(deps.args ?? [], {
         log,
         error,
         ...(deps.demo ? { demo: deps.demo } : {}),
       });
       return;
-    case "two-agent-chat": {
+    case 'two-agent-chat': {
       const parsed = parseConversationArgs(deps.args ?? []);
       await runTwoAgentConversation({
         ...(parsed.agentNames ? { agentNames: parsed.agentNames } : {}),
@@ -289,13 +272,13 @@ export async function runCliCommand(
       });
       return;
     }
-    case "server": {
+    case 'server': {
       const { port } = parseServerArgs(deps.args ?? []);
       if (port !== undefined) process.env.ENSO_PORT = String(port);
-      await import("./ws-server.js");
+      await import('./ws-server.js');
       log(
         `[enso] ws server boot requested on :${
-          process.env.ENSO_PORT ?? process.env.PORT ?? "7766"
+          process.env.ENSO_PORT ?? process.env.PORT ?? '7766'
         }`,
       );
       return;
@@ -307,7 +290,7 @@ export async function runCliCommand(
 }
 
 async function main(): Promise<void> {
-  const [command = "help", ...args] = argv.slice(2);
+  const [command = 'help', ...args] = argv.slice(2);
   await runCliCommand(command, { args });
 }
 

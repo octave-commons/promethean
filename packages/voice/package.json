@@ -4,9 +4,9 @@
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc",
-    "test": "cross-env TS_NODE_TRANSPILE_ONLY=1 ava --config ../../../config/ava.config.mjs \"tests/**/*.ts\" \"src/tests/**/*.ts\"",
-    "coverage": "cross-env TS_NODE_TRANSPILE_ONLY=1 c8 ava \"tests/**/*.ts\" \"src/tests/**/*.ts\"",
+    "build": "tsc -b",
+    "test": "pnpm run build && ava --config ../../config/ava.config.mjs",
+    "coverage": "pnpm run build && c8 ava --config ../../config/ava.config.mjs",
     "lint": "pnpm exec eslint . || true",
     "format": "pnpm exec prettier --write ."
   },
@@ -21,20 +21,6 @@
   },
   "devDependencies": {
     "@promethean/pm2-helpers": "workspace:*",
-    "@types/express": "^4.17.21",
-    "cross-env": "^10.0.0"
-  },
-  "ava": {
-    "extensions": {
-      "ts": "module"
-    },
-    "files": [
-      "tests/**/*.ts",
-      "src/tests/**/*.ts"
-    ],
-    "nodeArguments": [
-      "--loader",
-      "ts-node/esm"
-    ]
+    "@types/express": "^4.17.21"
   }
 }
