@@ -16,6 +16,7 @@
     "test:selection": "node ./scripts/run-nx-task.mjs test selection",
     "test:tagged": "node ./scripts/run-nx-task.mjs test tagged",
     "test:all": "node ./tools/run-test-coverage.mjs",
+    "test:coverage:unified": "node ./tools/unified-test-coverage.mjs",
     "lint:all": "node ./scripts/run-nx-task.mjs lint all",
     "lint:affected": "node ./scripts/run-nx-task.mjs lint affected",
     "lint:selection": "node ./scripts/run-nx-task.mjs lint selection",

@@ -191,11 +191,13 @@ kanban-plugin: board
 - [ ] [[implement_timetravel_processat_processid_t_in_a_sm|implement timetravel processat processid t in a sm md]] #implement #timetravel #processat #processid prio:P3 (uuid:67368c6a-0102-4eb4-bcfa-7287dd747f9c)
 - [ ] [[implement_transcendence_cascade|implement transcendence cascade md]] #implement #transcendence #cascade #design prio:P3 (uuid:a5db4128-395b-4d38-8182-abef99521a5d)
 - [ ] [[implement_transcendence_cascade_framework_core|implement transcendence cascade framework core md]] #implement #transcendence #cascade #framework prio:P3 (uuid:424f67f8-c949-437a-8a59-8a4eb3d77f77)
+- [ ] [[index|Kanban Tasks Index]] #kanban #tasks #index #folder prio:P3 (uuid:07da16ba-b71f-4fdf-a6db-94762df331ef)
 - [ ] [[install-and-configure-sonar-scanner-for-code-quality-pipeline|Install and configure sonar-scanner for code quality pipeline]] #piper #sonar #code-quality #sonarqube #external-dependency prio:P2 (uuid:b8c7d6e5-c4b3-a2b1-a099-876543210987)
 - [ ] [[install_biome_dependency_for_cephalon_discord|Install Biome dependency for cephalon-discord]] #biome #cephalon #discord #dependency prio:P3 (uuid:0427985f-f4ad-4f85-975f-9c085bcc452a)
 - [ ] [[integrate-sonarqube-into-devops|integrate sonarqube into devops]] #sonarqube #devops #integrate #pipeline prio:P3 (uuid:fb040f44-7250-4828-9f2b-c36f65ed35e3)
 - [ ] [[just-so-much-batman|just so much batman]] #just #much #batman #span prio:P3 (uuid:8584c1fd-c8b6-4bf0-8cca-db9f91fe52c2)
 - [ ] [[kanban-processor|kanban processor]] #ecs #kanban #planning prio:P3 (uuid:f88c9d06-c8f3-4a60-96b7-9fddf412ba5e)
+- [ ] [[kanban-tasks|Kanban CLI Tasks (Docs/Agile)]] #kanban #cli #tasks #docs prio:P3 (uuid:379c1028-3b05-4984-8414-42cab3634054)
 - [ ] [[kubernetes-configurations-for-secure-distributed-deployment-on-local-net|kubernetes configurations for secure distributed deployment on local net]] #changes #kubernetes #configurations #secure prio:p3 (uuid:0f65afc2-493e-40b2-85b0-17c4bf4b8d85)
 - [ ] [[launch_replayapi_on_8083_test_replay_and_export_nd|launch replayapi on 8083 test replay and export nd md]] #launch #replayapi #8083 #test prio:P3 (uuid:4f0d3b3f-4012-431f-96f3-9cde2cc7f06a)
 - [ ] [[lisp-ecosystem-files|Description]] #description #step #lisp #existing prio:P3 (uuid:1988420c-a65f-4f04-a688-f081bf4407ac)
@@ -324,6 +326,7 @@ kanban-plugin: board
 - [ ] [[duck-feature-flags-rewrite-web-node-docs|DUCK — feature flags rewrite (web + node) + docs]] #duck #web #node #flags #docs prio:P1 (uuid:9c1a2f5c-a7e2-4f4a-bb3d-2f8a7d54f6f1)
 - [ ] [[extract-omni-core-services|Extract shared services into @promethean/omni-core]] #omni #refactor prio:P1 (uuid:e0a6842d-031a-4d1c-bee1-563bbda8cf80)
 - [ ] [[fix-nx-image-link-generator-test|Fix nx task @promethean/image-link-generator:test]] #image #link #generator #test prio:P2 (uuid:ac42755d-b90e-4d8d-bb16-46bc251fc210)
+- [ ] [[fix-nx-task-markdown-graph-test|Fix nx task @promethean/markdown-graph:test]] #test #promethean #markdown #graph prio:P1 (uuid:a4764fc6-ff3e-4ad9-97f6-7cce0b813b44)
 - [ ] [[fix-piper-pipeline-caching|Fix Piper pipeline caching regressions]] #piper #pipelines prio:P2 (uuid:8b57e951-99d2-4242-a56d-578a3f11cda6)
 - [ ] [[move-board-tools-into-kanban-package|move board tooling into kanban package]] #framework-core #devtools prio:P3 (uuid:8a791d5f-757a-4154-bba2-e14886da4c30)
 - [ ] [[omni-unified-service-spec|Omni unified service specification and planning]] #omni #planning prio:P1 (uuid:90d0e75e-0f56-4e0e-b470-20e0145ad43d)
@@ -335,6 +338,17 @@ kanban-plugin: board
 - [ ] [[shadow-cljs-migration-step-1-foundation|Shadow CLJS migration — step 1 foundation]] #framework-core #codex-task #frontend prio:P2 (uuid:7a1a45fb-51d3-4d7b-b143-3834cf8aad3c)
 - [ ] [[throttled-datachannel-sender|duck-web — throttled RTCDataChannel sender with backpressure]] #duck-web #webrtc #perf prio:P1 (uuid:3d7e9f1a-2b3c-4d5e-8f9a-0b1c2d3e4f5a)
 - [ ] [[update_task_template_frontmatter_alignment|Align task template frontmatter with canonical schema]] #docs #automation prio:P2 (uuid:f5553298-1c51-41c2-acb5-df4d9f518c89)
+
+## backlog
+
+- [ ] [[boardrev-vector-db|Add confidence calibration and historical accuracy tracking]] #enhancement #boardrev #accuracy #metrics prio:P2 (uuid:$(uuidgen))
+- [ ] [[boardrev-vector-db|Add continuous monitoring and real-time updates to boardrev]] #enhancement #boardrev #monitoring #automation prio:P1 (uuid:$(uuidgen))
+- [ ] [[boardrev-vector-db|Enhance boardrev context analysis with weighted factors]] #enhancement #boardrev #analysis #accuracy prio:P2 (uuid:$(uuidgen))
+- [ ] [[boardrev-vector-db|Add incremental updates to boardrev indexing]] #enhancement #boardrev #performance prio:P1 (uuid:$(uuidgen))
+- [ ] [[boardrev-vector-db|Add interactive task management and auto-updates to boardrev]] #enhancement #boardrev #automation #management prio:P2 (uuid:$(uuidgen))
+- [ ] [[boardrev-vector-db|Implement multi-model evaluation for boardrev]] #enhancement #boardrev #ai #evaluation prio:P2 (uuid:$(uuidgen))
+- [ ] [[boardrev-vector-db|Integrate boardrev with piper pipeline system]] #enhancement #boardrev #infrastructure prio:P2 (uuid:$(uuidgen))
+- [ ] [[boardrev-vector-db|Replace LevelDB with vector database for boardrev]] #enhancement #boardrev #performance prio:P2 (uuid:$(uuidgen))
 
 ## done
 
