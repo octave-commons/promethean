@@ -80,3 +80,9 @@ If that matches your intent, say **“apply Step 1”** and I’ll slot it into 
 **Next step after that** (still process-first): add the tiny per-column “Entry / Work / Exit” rule stubs so the FSM is runnable—still minimal, still procedural. Then we’ll craft the Codex Cloud prompt to treat this doc as scripture and keep its own 3-phase rhythm (init/working/wrap-up) **in `codex-cloud.md`, not in the process.**
 ::contentReference[oaicite:0]{index=0}
 ```
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- _None_
+## Sources
+- _None_
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

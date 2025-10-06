@@ -99,4 +99,9 @@ If there is still work remaining and time is running out, write a task or tasks 
  
 All packages "license": "GPL-3.0-only".
 # Codex Bootstrap
-
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- _None_
+## Sources
+- _None_
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

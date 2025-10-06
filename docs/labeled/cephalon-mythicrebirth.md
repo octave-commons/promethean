@@ -431,4 +431,9 @@ export type EnsoEvent =
 ---
 
 If you want, I can draft the exact **gateway adapter** (`mcpClient.ts`) and the **protocol zod schemas** for these new events so you can drop them into `packages/enso-protocol` and `packages/enso-gateway` immediately.
-
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- _None_
+## Sources
+- _None_
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

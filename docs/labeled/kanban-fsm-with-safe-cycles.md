@@ -145,3 +145,9 @@ This ensures there’s **never an empty session**, and gives you real board move
 ---
 
 If this looks right, I’ll fold these deltas into the process doc’s FSM section (append-only) and then draft the per-column “Entry / Work / Exit” one-liners that match these cycles—still minimal, still procedural.
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- _None_
+## Sources
+- _None_
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

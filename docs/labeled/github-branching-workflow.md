@@ -158,3 +158,9 @@ are caught early on in the development process.
 
 Feel free to adjust or refine these rules as needed based on feedback from team
 members or additional use cases.
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- _None_
+## Sources
+- _None_
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

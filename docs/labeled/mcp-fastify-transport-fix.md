@@ -133,3 +133,9 @@ curl -s -X POST http://127.0.0.1:3000/mcp \
 * I inspected `packages/github` via GraphQL and confirmed the working HTTP pattern.
 * I prepared the **exact** `fastify.ts` patch to wire MCP over HTTP in `packages/mcp`.
 * I attempted to commit it using **GraphQL**. The only blocker now is the connector not accepting the large Base64 body. If you tweak that, I’ll fire the mutation and open the PR on `feat/mcp-suite`.
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- _None_
+## Sources
+- _None_
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

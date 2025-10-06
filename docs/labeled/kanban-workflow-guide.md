@@ -131,3 +131,9 @@ If task is 5 or under: ✅ **Proceed with implementation.**
 # Codex Bootstrap
 
 All your work supports a modular, open-source, ESM-native, GPL-compliant codebase. Prioritize clean architecture, readable code, traceable actions, and full integration with the agile Kanban system.
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- _None_
+## Sources
+- _None_
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

@@ -259,3 +259,9 @@ If you want tweaks (e.g., JSON output, TAP-style lines for CI, or a mode that co
 [2]: https://opensource.com/article/22/7/print-stack-trace-bash-scripts?utm_source=chatgpt.com "Fix bugs in Bash scripts by printing a stack trace"
 [3]: https://mywiki.wooledge.org/BashGuide/Practices?utm_source=chatgpt.com "BashGuide/Practices - Greg's Wiki"
 [4]: https://www.shellcheck.net/?utm_source=chatgpt.com "ShellCheck – shell script analysis tool"
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- _None_
+## Sources
+- _None_
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

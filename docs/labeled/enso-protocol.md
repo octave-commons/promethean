@@ -277,3 +277,9 @@ packages/
 * **Rituals** — shared tests that exercise eval mode, tool timeouts, and close semantics.
 
 If you want, I can generate the **exact TS files** for `enso-protocol` + `enso-client` (zod schemas + thin WS transport) and a **30-line CLI** that records mic, sends `voice.frame`, and prints partial transcripts—ready to drop under `packages/`.
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- _None_
+## Sources
+- _None_
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

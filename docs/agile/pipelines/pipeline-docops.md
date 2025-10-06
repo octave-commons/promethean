@@ -2,10 +2,10 @@
 
 | Step | Status | Duration (ms) | Notes |
 |---|:---:|---:|---|
-| doc-stage | SKIP | 0 | dry-run |
-| doc-fm | SKIP | 0 | dry-run |
-| doc-index | SKIP | 0 | dry-run |
-| doc-similarity | SKIP | 0 | dry-run |
-| doc-related | SKIP | 0 | dry-run |
-| doc-rename | SKIP | 0 | dry-run |
-| doc-footer | SKIP | 0 | dry-run |
+| doc-stage | OK | 57 |  |
+| doc-fm | OK | 111933 |  |
+| doc-index | OK | 14049 |  |
+| doc-similarity | OK | 270 |  |
+| doc-related | OK | 134 |  |
+| doc-footer | OK | 51 |  |
+| doc-rename | OK | 104 |  |
