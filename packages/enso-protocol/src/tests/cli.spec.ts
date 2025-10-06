@@ -1,56 +1,56 @@
-import { randomUUID } from "node:crypto";
-import test from "ava";
-import { ContextRegistry } from "../registry.js";
-import { runCliCommand } from "../cli.js";
-import { EnsoClient } from "../client.js";
-import { createStaticCapture } from "../audio.js";
-import type { HelloCaps } from "../types/privacy.js";
-import { resolveHelloPrivacy } from "../types/privacy.js";
-import type { Envelope } from "../types/envelope.js";
+import { randomUUID } from 'node:crypto';
+import test from 'ava';
+import { ContextRegistry } from '../registry.js';
+import { runCliCommand } from '../cli.js';
+import { EnsoClient } from '../client.js';
+import { createStaticCapture } from '../audio.js';
+import type { HelloCaps } from '../types/privacy.js';
+import { resolveHelloPrivacy } from '../types/privacy.js';
+import type { Envelope } from '../types/envelope.js';
 
 function registerDemoSource(registry: ContextRegistry, location: string) {
   return registry.registerSource({
-    id: { kind: "enso-asset", location },
-    owners: [{ userId: "owner" }],
-    discoverability: "visible",
-    availability: { mode: "public" },
-    title: "Fixture",
-    contentHints: { mime: "text/plain" },
+    id: { kind: 'enso-asset', location },
+    owners: [{ userId: 'owner' }],
+    discoverability: 'visible',
+    availability: { mode: 'public' },
+    title: 'Fixture',
+    contentHints: { mime: 'text/plain' },
   });
 }
 
-test("help command prints usage information", async (t) => {
+test('help command prints usage information', async (t) => {
   const logs: string[] = [];
-  await runCliCommand("help", { log: (message) => logs.push(message) });
-  t.true(logs.some((line) => line.includes("enso-protocol CLI")));
-  t.true(logs.some((line) => line.includes("list-sources")));
+  await runCliCommand('help', { log: (message) => logs.push(message) });
+  t.true(logs.some((line) => line.includes('enso-protocol CLI')));
+  t.true(logs.some((line) => line.includes('list-sources')));
 });
 
-test("list-sources emits JSON describing registered sources", async (t) => {
+test('list-sources emits JSON describing registered sources', async (t) => {
   const registry = new ContextRegistry();
-  registerDemoSource(registry, "enso://asset/alpha");
+  registerDemoSource(registry, 'enso://asset/alpha');
   const logs: string[] = [];
-  await runCliCommand("list-sources", {
+  await runCliCommand('list-sources', {
     registry,
     log: (message) => logs.push(message),
   });
   t.true(logs.length > 0);
   const payload = JSON.parse(logs.at(-1)!);
   t.is(payload.length, 1);
-  t.is(payload[0].id.location, "enso://asset/alpha");
-  t.is(payload[0].title, "Fixture");
+  t.is(payload[0].id.location, 'enso://asset/alpha');
+  t.is(payload[0].title, 'Fixture');
 });
 
-test("create-demo-context seeds a demo source when registry empty", async (t) => {
+test('create-demo-context seeds a demo source when registry empty', async (t) => {
   const registry = new ContextRegistry();
   const logs: string[] = [];
-  await runCliCommand("create-demo-context", {
+  await runCliCommand('create-demo-context', {
     registry,
     log: (message) => logs.push(message),
   });
   t.true(registry.listSources().length > 0);
   const context = JSON.parse(logs.at(-1)!);
-  t.is(context.name, "demo");
+  t.is(context.name, 'demo');
   t.true(Array.isArray(context.entries));
   t.true(context.entries.length > 0);
   const entryLocations = context.entries.map(
@@ -62,13 +62,13 @@ test("create-demo-context seeds a demo source when registry empty", async (t) =>
   );
 });
 
-test("create-demo-context reuses preexisting sources", async (t) => {
+test('create-demo-context reuses preexisting sources', async (t) => {
   const registry = new ContextRegistry();
-  registerDemoSource(registry, "enso://asset/beta");
-  registerDemoSource(registry, "enso://asset/gamma");
+  registerDemoSource(registry, 'enso://asset/beta');
+  registerDemoSource(registry, 'enso://asset/gamma');
   const before = registry.listSources().map((meta) => meta.id.location);
   const logs: string[] = [];
-  await runCliCommand("create-demo-context", {
+  await runCliCommand('create-demo-context', {
     registry,
     log: (message) => logs.push(message),
   });
@@ -82,7 +82,7 @@ test("create-demo-context reuses preexisting sources", async (t) => {
   t.deepEqual(contextLocations.sort(), [...before].sort());
 });
 
-test("voice-demo command streams audio and logs agent output", async (t) => {
+test('voice-demo command streams audio and logs agent output', async (t) => {
   const logs: string[] = [];
   const sent: Envelope[] = [];
   const registry = new ContextRegistry();
@@ -90,14 +90,14 @@ test("voice-demo command streams audio and logs agent output", async (t) => {
   const capture = createStaticCapture([
     {
       streamId,
-      codec: "pcm16le/16000/1",
+      codec: 'pcm16le/16000/1',
       seq: 0,
       pts: 0,
       data: new Uint8Array([1, 2]),
     },
     {
       streamId,
-      codec: "pcm16le/16000/1",
+      codec: 'pcm16le/16000/1',
       seq: 1,
       pts: 20,
       data: new Uint8Array([3, 4]),
@@ -105,27 +105,23 @@ test("voice-demo command streams audio and logs agent output", async (t) => {
     },
   ]);
   const hello: HelloCaps = {
-    proto: "ENSO-1",
-    caps: ["can.send.text", "can.voice.stream"],
-    privacy: { profile: "pseudonymous" },
+    proto: 'ENSO-1',
+    caps: ['can.send.text', 'can.voice.stream'],
+    privacy: { profile: 'pseudonymous' },
   };
   const client = new EnsoClient(registry);
 
-  const makeEnvelope = <T>(
-    type: string,
-    kind: "event" | "stream",
-    payload: T,
-  ): Envelope<T> => ({
+  const makeEnvelope = <T>(type: string, kind: 'event' | 'stream', payload: T): Envelope<T> => ({
     id: randomUUID(),
     ts: new Date().toISOString(),
-    room: "demo",
-    from: "enso-server",
+    room: 'demo',
+    from: 'enso-server',
     kind,
     type,
     payload,
   });
 
-  await runCliCommand("voice-demo", {
+  await runCliCommand('voice-demo', {
     log: (line) => logs.push(line),
     demo: {
       hello,
@@ -144,28 +140,26 @@ test("voice-demo command streams audio and logs agent output", async (t) => {
           emitAccepted: false,
         });
         instance.receive(
-          makeEnvelope("privacy.accepted", "event", {
+          makeEnvelope('privacy.accepted', 'event', {
             profile: privacy.profile,
             wantsE2E: false,
             negotiatedCaps: options.hello.caps,
           }),
         );
         instance.receive(
-          makeEnvelope("presence.join", "event", {
-            session: "demo-session",
+          makeEnvelope('presence.join', 'event', {
+            session: 'demo-session',
             caps: options.hello.caps,
           }),
         );
         setTimeout(() => {
+          instance.receive(makeEnvelope('transcript.partial', 'stream', { text: 'hi' }));
           instance.receive(
-            makeEnvelope("transcript.partial", "stream", { text: "hi" }),
-          );
-          instance.receive(
-            makeEnvelope("chat.msg", "event", {
-              room: "chat",
+            makeEnvelope('chat.msg', 'event', {
+              room: 'chat',
               message: {
-                role: "agent",
-                parts: [{ kind: "text", text: "response" }],
+                role: 'agent',
+                parts: [{ kind: 'text', text: 'response' }],
               },
             }),
           );
@@ -177,27 +171,28 @@ test("voice-demo command streams audio and logs agent output", async (t) => {
       },
       waitForAgentTimeoutMs: 100,
     },
-    args: ["--stream-id", streamId],
+    args: ['--stream-id', streamId, '--url', 'ws://demo.test/ws', '--ping-interval', '25'],
   });
 
-  t.true(sent.some((env) => env.type === "voice.frame"));
-  t.true(logs.some((line) => line.includes("[partial] hi")));
-  t.true(logs.some((line) => line.includes("[agent] response")));
+  t.true(sent.some((env) => env.type === 'voice.frame'));
+  t.true(logs.some((line) => line.includes('[partial] hi')));
+  t.true(logs.some((line) => line.includes('[agent] response')));
+  t.true(logs.some((line) => line.includes('Connecting to ws://demo.test/ws as stream')));
 });
 
-test("unknown command reports error and exits with failure", async (t) => {
+test('unknown command reports error and exits with failure', async (t) => {
   const registry = new ContextRegistry();
   const errors: string[] = [];
-  const exitError = new Error("exit:1");
+  const exitError = new Error('exit:1');
   const exitFn = (() => {
     throw exitError;
   }) as (code: number) => never;
-  const execution = runCliCommand("nope", {
+  const execution = runCliCommand('nope', {
     registry,
     error: (message) => errors.push(message),
     exit: exitFn,
   });
   const thrown = await t.throwsAsync(execution, { is: exitError });
   t.is(thrown, exitError);
-  t.deepEqual(errors, ["Unknown command: nope"]);
+  t.deepEqual(errors, ['Unknown command: nope']);
 });

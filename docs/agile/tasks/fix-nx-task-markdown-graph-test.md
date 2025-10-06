@@ -1,0 +1,30 @@
+---
+uuid: a4764fc6-ff3e-4ad9-97f6-7cce0b813b44
+title: Fix nx task @promethean/markdown-graph:test
+status: in_progress
+priority: P1
+labels: []
+created_at: '2025-10-07T00:00:00.000Z'
+---
+# Description
+
+Address failures when running the Nx test target for `@promethean/markdown-graph`.
+
+## Requirements/Definition of done
+
+- `pnpm nx test @promethean/markdown-graph` succeeds without errors.
+- Any new tests cover the regression if feasible.
+- Document follow-up items if the root cause cannot be fully resolved.
+
+## Tasks
+
+- [x] Reproduce the failing Nx test target.
+- [x] Implement the fix for the test target.
+- [ ] Add or update automated tests if necessary.
+- [ ] Document the change in changelog.d.
+
+## Notes
+
+Initial creation for the current session.
+
+2025-10-07: Nx test target updated to invoke the package's scripted test command so Ava picks up compiled JS tests.
