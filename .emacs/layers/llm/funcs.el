@@ -22,55 +22,7 @@ Only [A-Za-z0-9_-], max length 64, and not starting with a digit."
       (substring cand 0 (min 64 (length cand))))
     name))
 
-(defun llm--install-gptel-tool (spec safe-name)
-  "Install gptel tool described by SPEC under SAFE-NAME respecting `llm-mcp-install-scope'."
-  (let* ((fn   (plist-get spec :function))
-          (args (plist-get spec :args))
-          (desc (or (plist-get spec :description) (format "MCP tool %s" safe-name)))
-          (cat  (plist-get spec :category))
-          (gt   (gptel-make-tool :name safe-name :function fn :description desc :args args :category cat)))
-    (pcase llm-mcp-install-scope
-      ('buffer
-        (setq-local gptel-tools (cons gt (remove gt gptel-tools))))
-      ('global
-        (let ((base (default-value 'gptel-tools)))
-          (setq-default gptel-tools (cons gt (remove gt base))))))
-    safe-name))
 
-(defun llm/mcp-register-tools-for-connection (connection tools)
-  "Register TOOLS from MCP CONNECTION into gptel with sanitized names.
-Hook this into MCP.el via `:tools-callback`."
-  ;; MCP.el uses jsonrpc connections; their name is the server key. :contentReference[oaicite:2]{index=2}
-  (let ((server (jsonrpc-name connection)))
-    (dolist (tmeta tools)
-      (let* ((tool-name (plist-get tmeta :name))
-              (safe (llm--dedupe (llm--safe-name server tool-name)))
-              ;; MCP.el gives us a ready-to-call spec via mcp-make-text-tool. :contentReference[oaicite:3]{index=3}
-              (spec (mcp-make-text-tool server tool-name)))
-        (puthash safe (list :server server :tool tool-name) llm--tool-registry)
-        (llm--install-gptel-tool spec safe)))))
-
-(defun llm/mcp-connect (server &rest plist)
-  "Connect to MCP SERVER with tools auto-registered for gptel.
-PLIST forwards to `mcp-connect-server'."
-  (apply #'mcp-connect-server
-    server
-    (plist-put plist :tools-callback #'llm/mcp-register-tools-for-connection)))
-
-(defun llm/mcp-connect-defaults ()
-  "Connect all servers in `llm-mcp-default-servers'."
-  (interactive)
-  (dolist (pair llm-mcp-default-servers)
-    (let ((name (car pair))
-           (pl (cdr pair)))
-      (apply #'llm/mcp-connect name (cl-loop for (k v) on pl by #'cddr append (list k v))))))
-
-(defun llm/list-registered-tools ()
-  "Echo the sanitized tool names currently registered."
-  (interactive)
-  (message "LLM tools: %s"
-    (string-join (cl-loop for k being the hash-keys of llm--tool-registry collect k)
-      ", ")))
 
 (defun gptel--read-file (path &optional max-bytes)
   "Return contents of PATH (string). If MAX-BYTES is non-nil, hard-cap read."
@@ -276,102 +228,13 @@ Return JSON {name,pid,buffer}."
       (substring s 0 limit)
       s)))
 
-;; (defun err--sanitize-gptel-tools (&optional limit)
-;;   (setq limit (or limit 1000)) ;; a bit under 1024 for safety
-;;   (setq gptel-tools
-;;     (cl-loop for tool in gptel-tools
-;;       when (and tool (recordp tool) (eq (type-of tool) 'gptel-tool))
-;;       do (let* ((desc (aref tool 3)))
-;;            (print tool)
-;;            (unless (and (stringp desc) (<= (length desc) 1024))
-;;              (setf (aref tool 3) (err--coerce-desc desc limit))))
-;;       and collect tool)))
-
-;;; --- gptel tool fixups for MCP & friends -------------------------------
-
-(defvar err-gptel-desc-max 1000
-  "Trim tool descriptions to this many chars (leave headroom under 1024).")
-
-(defun err--coerce-desc (x)
-  "Return X as a string; pretty-print non-strings. Trim to `err-gptel-desc-max`."
-  (let* ((s (cond ((stringp x) x)
-              ((null x) "")
-              (t (with-output-to-string (prin1 x))))))
-    (if (> (length s) err-gptel-desc-max) (substring s 0 err-gptel-desc-max) s)))
-
-(defun err--tool-name (tool)
-  "Extract name from a #s(gptel-tool ...) struct safely."
-  (and tool (recordp tool) (eq (type-of tool) 'gptel-tool) (aref tool 2)))
-
-(defun err--fixup-tool (tool)
-  "Ensure TOOL has a string description ≤ 1024 and a non-nil name."
-  (when (and tool (recordp tool) (eq (type-of tool) 'gptel-tool))
-    ;; If name is missing, drop the tool by returning nil.
-    (let ((name (aref tool 2)))
-      (when (not (and (stringp name) (> (length name) 0)))
-        (cl-return-from err--fixup-tool nil)))
-    ;; Coerce/trim description.
-    (let ((desc (aref tool 3)))
-      (unless (and (stringp desc) (<= (length desc) 1024))
-        (setf (aref tool 3) (err--coerce-desc desc))))
-    tool))
-
-(defun err--dedup-tools-by-name (tools)
-  "Remove duplicate tools by :name, keep the first occurrence."
-  (let ((seen (make-hash-table :test 'equal))
-         (out  ()))
-    (dolist (t tools (nreverse out))
-      (let ((nm (err--tool-name t)))
-        (when (and nm (not (gethash nm seen)))
-          (puthash nm t seen)
-          (push t out))))))
-
-(defun err--sanitize-gptel-tools ()
-  "Drop nil/bad tools, coerce descriptions, and de-dup by name."
+(defun err--sanitize-gptel-tools (&optional limit)
+  (setq limit (or limit 1000)) ;; a bit under 1024 for safety
   (setq gptel-tools
-    (->> gptel-tools
-      (cl-remove-if-not #'identity)                  ; drop nils like your index 29
-      (mapcar #'err--fixup-tool)
-      (cl-remove-if-not #'identity)                  ; drop any tool still nil
-      (err--dedup-tools-by-name))))
-
-;; Run this just-in-time before sending:
-;;;###autoload
-(defun err--gptel-sanitize-before-send (orig &rest args)
-  (err--sanitize-gptel-tools)
-  (apply orig args))
-
-;; Helper: error if outside project
-(defun err--ensure-under-project (path)
-  (let* ((root (or (and (fboundp 'project-root) (project-root (project-current)))
-                 default-directory))
-          (abs  (expand-file-name path)))
-    (unless (string-prefix-p (file-name-as-directory (expand-file-name root))
-              (file-name-as-directory abs))
-      (error "Refusing to access outside project: %s" abs))
-    abs))
-
-(defmacro define-tool (name decription category args &rest body)
-  `(gptel-make-tool
-     :name ,name
-     :description ,decription
-     :category ,category
-     :args ,args
-     :function
-     (lambda (command &optional buffer_name)
-       (let* ((buf (get-buffer-create (or buffer_name (format "*gptel-proc:%s*" command))))
-               (proc (start-process-shell-command "gptel-proc" buf command)))
-         (set-process-coding-system proc 'utf-8 'utf-8)
-         (set-process-query-on-exit-flag proc nil)
-         (set-process-sentinel proc
-           (lambda (p _e)
-             (when (memq (process-status p) '(exit signal))
-               (with-current-buffer (process-buffer p)
-                 (goto-char (point-max))
-                 (insert (format "\n\n[process %s finished with %s]\n"
-                           (process-id p) (process-status p)))))))
-         (list :pid (process-id proc) :buffer (buffer-name buf)))))
-  )
-
-;; (with-eval-after-load 'gptel
-;;   )
+    (cl-loop for tool in gptel-tools
+      when (and tool (recordp tool) (eq (type-of tool) 'gptel-tool))
+      do (let* ((desc (aref tool 3)))
+           (print tool)
+           (unless (and (stringp desc) (<= (length desc) 1024))
+             (setf (aref tool 3) (err--coerce-desc desc limit))))
+      and collect tool)))
