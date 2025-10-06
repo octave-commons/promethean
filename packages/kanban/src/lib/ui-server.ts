@@ -1,12 +1,12 @@
-import { readFile } from "node:fs/promises";
-import { createServer } from "node:http";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
-import type { IncomingMessage, ServerResponse } from "node:http";
+import { readFile } from 'node:fs/promises';
+import { createServer } from 'node:http';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import type { IncomingMessage, ServerResponse } from 'node:http';
 
-import { escapeHtml } from "../frontend/render.js";
+import { escapeHtml } from '../frontend/render.js';
 
-import { loadBoard } from "./kanban.js";
+import { loadBoard } from './kanban.js';
 type Primitive = string | number | boolean | symbol | null | undefined | bigint;
 
 type DeepReadonlyTuple<T extends ReadonlyArray<unknown>> = {
@@ -57,32 +57,43 @@ type LoadedBoard = Awaited<ReturnType<typeof loadBoard>>;
 
 type ReadonlyLoadedBoard = DeepReadonly<LoadedBoard>;
 
-type HttpResponse = Readonly<
-  Pick<ServerResponse, "writeHead" | "end"> &
-    Partial<Pick<ServerResponse, "setHeader" | "getHeader">>
->;
+type HttpResponse = ServerResponse;
 
-type HttpRequest = Readonly<Pick<IncomingMessage, "method" | "url">>;
+type HttpRequest = IncomingMessage;
 
 type ServerInstance = ReturnType<typeof createServer>;
 
 type ServerControls = Readonly<
-  Pick<ServerInstance, "listen" | "once" | "off" | "close" | "address">
+  Pick<ServerInstance, 'listen' | 'once' | 'off' | 'close' | 'address'>
 >;
 
-const FRONTEND_SCRIPT_PATH = fileURLToPath(
-  new URL("../frontend/kanban-ui.js", import.meta.url),
-);
+const FRONTEND_SCRIPT_PATH = fileURLToPath(new URL('../frontend/kanban-ui.js', import.meta.url));
+
+type CommandModule = typeof import('../cli/command-handlers.js');
+
+let cachedCommandModule: CommandModule | null = null;
+
+const loadCommandModule = async (): Promise<CommandModule> => {
+  if (!cachedCommandModule) {
+    cachedCommandModule = await import('../cli/command-handlers.js');
+  }
+  return cachedCommandModule;
+};
+
+class RequestTooLargeError extends Error {
+  constructor(message = 'Request body too large') {
+    super(message);
+    this.name = 'RequestTooLargeError';
+  }
+}
+
+const MAX_BODY_SIZE = 1_048_576; // 1 MiB
 
 const computeSummary = (board: ReadonlyLoadedBoard): ImmutableSummary => {
   const columns = board.columns.map((column) => {
-    const count = Number.isFinite(column.count)
-      ? column.count
-      : column.tasks.length;
+    const count = Number.isFinite(column.count) ? column.count : column.tasks.length;
     const limit =
-      typeof column.limit === "number" && Number.isFinite(column.limit)
-        ? column.limit
-        : null;
+      typeof column.limit === 'number' && Number.isFinite(column.limit) ? column.limit : null;
     return {
       name: column.name,
       count,
@@ -131,117 +142,249 @@ const send = (
   headers?: Readonly<Record<string, string>>,
 ): void => {
   res.writeHead(status, {
-    "Content-Length": Buffer.byteLength(body, "utf8"),
+    'Content-Length': Buffer.byteLength(body, 'utf8'),
     ...headers,
   });
-  res.end(body, "utf8");
+  res.end(body, 'utf8');
 };
 
-const sendJson = (
-  res: HttpResponse,
-  status: number,
-  payload: unknown,
-): void => {
+const sendJson = (res: HttpResponse, status: number, payload: unknown): void => {
   const body = JSON.stringify(payload, null, 2);
   send(res, status, body, {
-    "Content-Type": "application/json; charset=utf-8",
-    "Cache-Control": "no-store",
+    'Content-Type': 'application/json; charset=utf-8',
+    'Cache-Control': 'no-store',
   });
 };
 
 const notFound = (res: HttpResponse): void => {
-  send(res, 404, "Not Found", {
-    "Content-Type": "text/plain; charset=utf-8",
-    "Cache-Control": "no-store",
+  send(res, 404, 'Not Found', {
+    'Content-Type': 'text/plain; charset=utf-8',
+    'Cache-Control': 'no-store',
   });
 };
 
 const internalError = (res: HttpResponse, error: unknown): void => {
-  console.error("[kanban-ui]", error);
-  send(res, 500, "Internal Server Error", {
-    "Content-Type": "text/plain; charset=utf-8",
-    "Cache-Control": "no-store",
+  console.error('[kanban-ui]', error);
+  send(res, 500, 'Internal Server Error', {
+    'Content-Type': 'text/plain; charset=utf-8',
+    'Cache-Control': 'no-store',
   });
 };
 
-const handleBoardRequest = (
-  res: HttpResponse,
-  options: ImmutableOptions,
-): Promise<void> =>
-  loadBoard(options.boardFile, options.tasksDir)
-    .then((board) => {
-      const payload: ImmutablePayload = {
-        board: board as ReadonlyLoadedBoard,
-        generatedAt: new Date().toISOString(),
-        summary: computeSummary(board as ReadonlyLoadedBoard),
-      } satisfies ImmutablePayload;
-      sendJson(res, 200, payload);
-    })
-    .catch((error) => {
-      internalError(res, error);
-    });
+const readRequestBody = (req: HttpRequest): Promise<string> =>
+  new Promise((resolve, reject) => {
+    let body = '';
 
-const handleScriptRequest = (res: HttpResponse): Promise<void> =>
-  readFile(FRONTEND_SCRIPT_PATH, "utf8")
-    .then((script) => {
-      send(res, 200, script, {
-        "Content-Type": "application/javascript; charset=utf-8",
-        "Cache-Control": "no-store",
-      });
-    })
-    .catch((error) => {
-      internalError(res, error);
-    });
+    const cleanup = () => {
+      req.off('data', onData);
+      req.off('end', onEnd);
+      req.off('error', onError);
+    };
 
-const routeRequest = (
+    const onError = (error: unknown) => {
+      cleanup();
+      reject(error instanceof Error ? error : new Error(String(error)));
+    };
+
+    const onEnd = () => {
+      cleanup();
+      resolve(body);
+    };
+
+    const onData = (chunk: string) => {
+      body += chunk;
+      if (body.length > MAX_BODY_SIZE) {
+        cleanup();
+        reject(new RequestTooLargeError());
+      }
+    };
+
+    req.setEncoding('utf8');
+    req.on('data', onData);
+    req.once('end', onEnd);
+    req.once('error', onError);
+  });
+
+const handleBoardRequest = async (res: HttpResponse, options: ImmutableOptions): Promise<void> => {
+  try {
+    const board = await loadBoard(options.boardFile, options.tasksDir);
+    const payload: ImmutablePayload = {
+      board: board as ReadonlyLoadedBoard,
+      generatedAt: new Date().toISOString(),
+      summary: computeSummary(board as ReadonlyLoadedBoard),
+    } satisfies ImmutablePayload;
+    sendJson(res, 200, payload);
+  } catch (error) {
+    internalError(res, error);
+  }
+};
+
+const handleScriptRequest = async (res: HttpResponse): Promise<void> => {
+  try {
+    const script = await readFile(FRONTEND_SCRIPT_PATH, 'utf8');
+    send(res, 200, script, {
+      'Content-Type': 'application/javascript; charset=utf-8',
+      'Cache-Control': 'no-store',
+    });
+  } catch (error) {
+    internalError(res, error);
+  }
+};
+
+const handleActionsList = async (res: HttpResponse): Promise<void> => {
+  const { REMOTE_COMMANDS } = await loadCommandModule();
+  sendJson(res, 200, {
+    ok: true,
+    commands: [...REMOTE_COMMANDS],
+    generatedAt: new Date().toISOString(),
+  });
+};
+
+const handleActionRequest = async (
   req: HttpRequest,
   res: HttpResponse,
   options: ImmutableOptions,
-): void => {
-  const method = req.method ?? "GET";
-  const url = req.url ?? "/";
-  if (method !== "GET") {
-    notFound(res);
-    return;
+): Promise<void> => {
+  const {
+    executeCommand,
+    REMOTE_COMMANDS,
+    CommandUsageError: UsageError,
+    CommandNotFoundError: NotFoundError,
+  } = await loadCommandModule();
+
+  try {
+    const rawBody = await readRequestBody(req);
+    if (rawBody.trim().length === 0) {
+      throw new UsageError('Action payload is required.');
+    }
+
+    const parsed = JSON.parse(rawBody) as Readonly<{
+      command?: unknown;
+      args?: unknown;
+    }>;
+
+    const command = parsed.command;
+    if (typeof command !== 'string' || command.trim().length === 0) {
+      throw new UsageError('Action "command" must be a non-empty string.');
+    }
+
+    if (!REMOTE_COMMANDS.includes(command)) {
+      throw new UsageError(`Action "${command}" is not available via the HTTP API.`);
+    }
+
+    const argsSource = parsed.args;
+    const args = Array.isArray(argsSource)
+      ? argsSource.map((value, index) => {
+          if (typeof value !== 'string') {
+            throw new UsageError(
+              `Action arguments must be strings (invalid value at index ${index}).`,
+            );
+          }
+          return value;
+        })
+      : [];
+
+    const context = { boardFile: options.boardFile, tasksDir: options.tasksDir };
+    const result = await executeCommand(command, args, context);
+
+    sendJson(res, 200, {
+      ok: true,
+      command,
+      args,
+      result: typeof result === 'undefined' ? null : result,
+      executedAt: new Date().toISOString(),
+    });
+  } catch (error: unknown) {
+    if (error instanceof SyntaxError) {
+      sendJson(res, 400, { ok: false, error: 'Invalid JSON body.' });
+      return;
+    }
+    if (error instanceof RequestTooLargeError) {
+      sendJson(res, 413, { ok: false, error: error.message });
+      return;
+    }
+    if (error instanceof UsageError) {
+      sendJson(res, 400, { ok: false, error: error.message });
+      return;
+    }
+    if (error instanceof NotFoundError) {
+      sendJson(res, 404, { ok: false, error: error.message });
+      return;
+    }
+    internalError(res, error);
   }
-  if (url === "/" || url.startsWith("/?")) {
+};
+
+const routeRequest = async (
+  req: HttpRequest,
+  res: HttpResponse,
+  options: ImmutableOptions,
+): Promise<void> => {
+  const method = req.method ?? 'GET';
+  const url = req.url ?? '/';
+
+  if (url === '/' || url.startsWith('/?')) {
+    if (method !== 'GET') {
+      notFound(res);
+      return;
+    }
     send(res, 200, htmlTemplate(options), {
-      "Content-Type": "text/html; charset=utf-8",
-      "Cache-Control": "no-store",
+      'Content-Type': 'text/html; charset=utf-8',
+      'Cache-Control': 'no-store',
     });
     return;
   }
-  if (url.startsWith("/api/board")) {
-    void handleBoardRequest(res, options);
+
+  if (url.startsWith('/api/board')) {
+    if (method !== 'GET') {
+      notFound(res);
+      return;
+    }
+    await handleBoardRequest(res, options);
     return;
   }
-  if (url.startsWith("/assets/kanban-ui.js")) {
-    void handleScriptRequest(res);
+
+  if (url.startsWith('/api/actions')) {
+    if (method === 'GET') {
+      await handleActionsList(res);
+      return;
+    }
+    if (method === 'POST') {
+      await handleActionRequest(req, res, options);
+      return;
+    }
+    notFound(res);
     return;
   }
+
+  if (url.startsWith('/assets/kanban-ui.js')) {
+    if (method !== 'GET') {
+      notFound(res);
+      return;
+    }
+    await handleScriptRequest(res);
+    return;
+  }
+
   notFound(res);
 };
 
-export const createKanbanUiServer = (
-  options: ImmutableOptions,
-): ServerControls => {
+export const createKanbanUiServer = (options: ImmutableOptions): ServerControls => {
   const server = createServer((req, res) => {
-    routeRequest(req, res, options);
+    void routeRequest(req, res, options);
   });
 
   return server;
 };
 
-export const serveKanbanUI = async (
-  options: ImmutableOptions,
-): Promise<void> => {
-  const host = options.host ?? "127.0.0.1";
+export const serveKanbanUI = async (options: ImmutableOptions): Promise<void> => {
+  const host = options.host ?? '127.0.0.1';
   const port = options.port ?? 4173;
   const server = createKanbanUiServer(options);
   await new Promise<void>((resolve, reject) => {
     const removeSignalListeners = () => {
-      process.off("SIGINT", stop);
-      process.off("SIGTERM", stop);
+      process.off('SIGINT', stop);
+      process.off('SIGTERM', stop);
     };
 
     const onError = (error: Readonly<Error>) => {
@@ -262,15 +405,13 @@ export const serveKanbanUI = async (
       });
     };
 
-    server.once("error", onError);
+    server.once('error', onError);
 
     server.listen(port, host, () => {
-      console.log(
-        `Kanban UI available at http://${host}:${port} (press Ctrl+C to stop)`,
-      );
+      console.log(`Kanban UI available at http://${host}:${port} (press Ctrl+C to stop)`);
     });
 
-    process.once("SIGINT", stop);
-    process.once("SIGTERM", stop);
+    process.once('SIGINT', stop);
+    process.once('SIGTERM', stop);
   });
 };
