@@ -1,6 +1,6 @@
 {
   "tasksDir": "docs/agile/tasks",
-  "indexFile": "docs/agile/boards/index.jsonl",
+  "indexFile": "",
   "boardFile": "docs/agile/boards/generated.md",
   "cachePath": "docs/agile/boards/.cache",
   "exts": [".md"],

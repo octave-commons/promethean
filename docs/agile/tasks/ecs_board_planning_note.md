@@ -1,3 +1,11 @@
+---
+uuid: 480c3123-6ad3-4825-8516-896cd8d683cc
+created_at: '2025-10-06T01:50:48.289Z'
+title: ECS Board Planning Note
+status: todo
+priority: P3
+labels: []
+---
 # ECS Board Planning Note
 
 ## 📌 Purpose
@@ -48,3 +56,4 @@ Define expectations for an ECS-powered kanban experience so delivery teams can d
 - Share draft with: Platform DX (CLI owners), Board Ops/Agents, Product stakeholders for ECS initiative.
 - Required approvals: `[ ]` Product, `[ ]` Engineering, `[ ]` Operations.
 - Record sign-off decisions back in the linked kanban task before implementation begins.
+
