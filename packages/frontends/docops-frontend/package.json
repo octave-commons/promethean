@@ -21,7 +21,9 @@
   ],
   "scripts": {
     "build": "tsc",
-    "clean": "rimraf dist",
+    "build:shadow": "shadow-cljs release docops-frontend",
+    "watch:shadow": "shadow-cljs watch docops-frontend",
+    "clean": "rimraf dist dist/frontend",
     "typecheck": "tsc -p tsconfig.json",
     "test": "pnpm run build && ava",
     "lint": "pnpm exec eslint .",
@@ -29,5 +31,7 @@
     "format": "pnpm exec prettier --write ."
   },
   "dependencies": {},
-  "devDependencies": {}
+  "devDependencies": {
+    "shadow-cljs": "2.28.17"
+  }
 }
