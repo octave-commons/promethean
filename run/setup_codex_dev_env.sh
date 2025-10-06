@@ -43,7 +43,7 @@ describe setup-playwright       bash -lc '"./run/setup_playwright.sh"'
 # ./run/standup_ollama_nohup.sh
 
 
-TIMEOUT_SECS="$BUILD_TIMEOUT_SECS" describe pnpm-build           pnpm -r --no-bail build
+TIMEOUT_SECS="$BUILD_TIMEOUT_SECS" describe nx-affected-build     ./run/codex_build.sh
 # fi
 
 # describe eslint-stylish         pnpm exec eslint --cache
