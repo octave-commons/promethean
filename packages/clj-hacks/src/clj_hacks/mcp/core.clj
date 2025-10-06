@@ -50,6 +50,50 @@
   (when-let [dir (some-> p fs/path fs/parent)]
     (fs/create-dirs dir)))
 
+;; ----- string/path expansion helpers -----
+(defn expand-home-str
+  "Expand `$HOME` and leading `~` in a string `s` using the current HOME.
+  Does not make the path absolute relative to any base; purely textual."
+  [s]
+  (let [home (or (System/getenv "HOME")
+                 (System/getProperty "user.home"))
+        s    (str s)
+        s    (if (and home (str/includes? s "$HOME"))
+               (str/replace s "$HOME" home)
+               s)
+        s    (if (and home (str/starts-with? s "~"))
+               (str home (subs s 1))
+               s)]
+    s))
+
+(defn expand-server-spec
+  "Expand `$HOME`/`~` in {:command, :cwd, :args[]} for one server spec map."
+  [spec]
+  (let [cmd (:command spec)
+        cwd (:cwd spec)
+        args (:args spec)
+        cmd' (when (string? cmd) (expand-home-str cmd))
+        cwd' (when (string? cwd) (expand-home-str cwd))
+        args' (when (sequential? args)
+                (mapv (fn [a]
+                        (if (string? a) (expand-home-str a) a))
+                      args))]
+    (cond-> spec
+      (some? cmd') (assoc :command cmd')
+      (some? cwd') (assoc :cwd cwd')
+      (some? args') (assoc :args args'))))
+
+(defn expand-servers-home
+  "Expand `$HOME`/`~` in all server specs within an MCP map {:mcp-servers {...}}."
+  [mcp]
+  (if (map? (:mcp-servers mcp))
+    (update mcp :mcp-servers
+            (fn [m]
+              (into (sorted-map)
+                    (for [[k spec] m]
+                      [k (expand-server-spec spec)]))))
+    mcp))
+
 ;; ----- canonical model -----
 (defn canonical?
   "True when `m` looks like {:mcp-servers {...} :http {...?}}."

@@ -2,21 +2,22 @@
 task-id: TASK-20250207-web-utils
 title: Fix failing web-utils test
 state: InProgress
-prev:
-txn: "2025-09-26T23:54:39+00:00-0001"
+prev: null
+txn: '2025-09-26T23:54:39+00:00-0001'
 owner: err
 priority: p2
 size: s
 epic: EPC-000
 depends_on: []
 labels:
-  - board:auto
-  - lang:ts
-due:
+  - 'board:auto'
+  - 'lang:ts'
+due: null
 links: []
 artifacts: []
-rationale: |
-  Address failing @promethean/web-utils unit test reported by CI. Ensures package passes test suite.
+rationale: >
+  Address failing @promethean/web-utils unit test reported by CI. Ensures
+  package passes test suite.
 proposed_transitions:
   - New->Accepted
   - Accepted->Breakdown
@@ -30,8 +31,10 @@ tags:
   - owner/err
   - priority/p2
   - epic/EPC-000
+uuid: cd4596d8-bb67-437e-94c4-24b6986f7020
+created_at: '2025-10-06T01:50:48.293Z'
+status: todo
 ---
-
 ## Context
 ### Changes and Updates
 - **What changed?**: `@promethean/web-utils` has a failing test preventing CI success.
@@ -55,3 +58,4 @@ tags:
 
 ## Relevant Resources
 - None yet.
+

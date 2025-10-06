@@ -1,7 +1,7 @@
 ---
 uuid: f5553298-1c51-41c2-acb5-df4d9f518c89
 title: Align task template frontmatter with canonical schema
-status: in-progress
+status: in_progress
 priority: P2
 labels:
   - docs

@@ -1,7 +1,7 @@
 ---
 uuid: 90d0e75e-0f56-4e0e-b470-20e0145ad43d
 title: Omni unified service specification and planning
-status: incoming
+status: in_progress
 priority: P1
 labels:
   - omni

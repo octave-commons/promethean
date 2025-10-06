@@ -39,6 +39,30 @@ test("loadConfigWithSource identifies explicit config file", (t) => {
   }
 });
 
+test("loadConfigWithSource accepts absolute paths outside cwd", (t) => {
+  const root = mkdtempSync(path.join(tmpdir(), "mcp-absolute-"));
+  t.teardown(() => fs.rmSync(root, { recursive: true, force: true }));
+
+  const configPath = path.join(root, "promethean.mcp.json");
+  const runnerCwd = path.join(root, "packages", "mcp");
+  const config = { transport: "stdio", tools: ["exec.run"], endpoints: {} };
+  writeJson(configPath, config);
+  fs.mkdirSync(runnerCwd, { recursive: true });
+
+  const env = Object.create(null) as NodeJS.ProcessEnv;
+  const { config: loaded, source } = loadConfigWithSource(
+    env,
+    ["node", "test", "--config", configPath],
+    runnerCwd,
+  );
+
+  t.deepEqual(loaded.tools, ["exec.run"]);
+  t.is(source.type, "file");
+  if (source.type === "file") {
+    t.is(source.path, configPath);
+  }
+});
+
 test("saveConfigFile writes normalized configuration", (t) => {
   const dir = mkdtempSync(path.join(tmpdir(), "mcp-write-"));
   t.teardown(() => fs.rmSync(dir, { recursive: true, force: true }));

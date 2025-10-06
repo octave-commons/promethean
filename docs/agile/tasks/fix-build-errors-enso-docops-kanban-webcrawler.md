@@ -2,17 +2,17 @@
 task-id: TASK-20240921-buildfix
 title: Fix TypeScript build errors across key packages
 state: InProgress
-prev:
-txn: "2024-09-21T03:30:00Z-0001"
+prev: null
+txn: '2024-09-21T03:30:00Z-0001'
 owner: codex-cloud
 priority: p2
 size: m
 epic: EPC-000
 depends_on: []
 labels:
-  - board:auto
-  - lang:ts
-due:
+  - 'board:auto'
+  - 'lang:ts'
+due: null
 links: []
 artifacts: []
 rationale: |
@@ -38,6 +38,9 @@ tags:
   - owner/codex-cloud
   - priority/p2
   - epic/EPC-000
+uuid: eef79dc1-907d-4875-b833-31c2a9665d0e
+created_at: '2025-10-06T01:50:48.291Z'
+status: todo
 ---
 <hr class="__chatgpt_plugin">
 
@@ -98,3 +101,4 @@ You might find [this](link) useful while working on this task.
 fix-build-errors-enso-docops-kanban-webcrawler
 
 <% tp.app.commands.executeCommandById("chatgpt-md:call-chatgpt-api") %>
+

@@ -1,7 +1,7 @@
 ---
 uuid: e0a6842d-031a-4d1c-bee1-563bbda8cf80
 title: Extract shared services into @promethean/omni-core
-status: incoming
+status: in_progress
 priority: P1
 labels:
   - omni

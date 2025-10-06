@@ -1,3 +1,4 @@
+/* eslint-disable functional/immutable-data, functional/no-let, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unnecessary-type-assertion */
 import fs from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
@@ -369,13 +370,16 @@ export const main = async (): Promise<void> => {
         ensureMetaTools(endpoint.tools, endpoint.includeHelp !== false),
       );
       const registry = buildRegistry(factories, ctx);
+      const tools = registry.list();
       ctx.__registryList = () => registry.list();
       ctx.__endpointDef = endpoint;
       ctx.__allEndpoints = httpConfig.endpoints;
       return {
         path: endpoint.path,
         kind: 'registry' as const,
-        handler: createMcpServer(registry.list()),
+        handler: createMcpServer(tools),
+        tools,
+        definition: endpoint,
       } satisfies HttpEndpointDescriptor;
     });
 
@@ -469,7 +473,6 @@ export const main = async (): Promise<void> => {
 const shouldRunMain = (): boolean => {
   const entry = process.argv[1];
   if (!entry) return false;
-  // eslint-disable-next-line functional/no-try-statements
   try {
     return pathToFileURL(entry).href === import.meta.url;
   } catch {
