@@ -8,7 +8,7 @@
     "dev": "vite --open",
     "build": "vite build",
     "preview": "vite preview --open",
-    "test": "ava"
+    "test": "ava ../../tests/apps/duck-web/*.test.js"
   },
   "devDependencies": {
     "typescript": "^5.4.0",
