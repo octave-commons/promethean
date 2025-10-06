@@ -1,10 +1,10 @@
-import { execFile } from "node:child_process";
-import { promisify } from "node:util";
+import { execFile } from 'node:child_process';
+import { promisify } from 'node:util';
 
-import { z } from "zod";
+import { z } from 'zod';
 
-import { getMcpRoot } from "../files.js";
-import type { ToolContext, ToolFactory, ToolSpec } from "../core/types.js";
+import { getMcpRoot } from '../files.js';
+import type { ToolContext, ToolFactory, ToolSpec } from '../core/types.js';
 
 const execFileAsync = promisify(execFile);
 
@@ -12,26 +12,26 @@ const MAX_BUFFER = 16 * 1024 * 1024;
 const DEFAULT_TIMEOUT = 10 * 60 * 1000;
 const NON_WHITESPACE = /\S/;
 
-const PRESETS = ["ts-lib", "base", "web-frontend", "fastify-service"] as const;
+const PRESETS = ['ts-lib', 'base', 'web-frontend', 'fastify-service'] as const;
 
 export type NxPreset = (typeof PRESETS)[number];
 
-const DEFAULT_PRESET: NxPreset = "ts-lib";
-const GENERATOR_ID = "tools:package";
+const DEFAULT_PRESET: NxPreset = 'ts-lib';
+const GENERATOR_ID = 'tools:package';
 
 const PRESET_ALIASES = new Map<string, NxPreset>([
-  ["ts-lib", "ts-lib"],
-  ["tslib", "ts-lib"],
-  ["library", "ts-lib"],
-  ["lib", "ts-lib"],
-  ["base", "base"],
-  ["frontend", "web-frontend"],
-  ["web-frontend", "web-frontend"],
-  ["web", "web-frontend"],
-  ["ui", "web-frontend"],
-  ["fastify", "fastify-service"],
-  ["fastify-service", "fastify-service"],
-  ["service", "fastify-service"],
+  ['ts-lib', 'ts-lib'],
+  ['tslib', 'ts-lib'],
+  ['library', 'ts-lib'],
+  ['lib', 'ts-lib'],
+  ['base', 'base'],
+  ['frontend', 'web-frontend'],
+  ['web-frontend', 'web-frontend'],
+  ['web', 'web-frontend'],
+  ['ui', 'web-frontend'],
+  ['fastify', 'fastify-service'],
+  ['fastify-service', 'fastify-service'],
+  ['service', 'fastify-service'],
 ]) as ReadonlyMap<string, NxPreset>;
 
 type NxExecError = Readonly<
@@ -44,7 +44,7 @@ type NxExecError = Readonly<
 
 const isDefinedString = (
   entry: readonly [string, string | undefined],
-): entry is readonly [string, string] => typeof entry[1] === "string";
+): entry is readonly [string, string] => typeof entry[1] === 'string';
 
 const sanitizeEnv = (
   env: Readonly<Record<string, string | undefined>>,
@@ -54,12 +54,7 @@ const sanitizeEnv = (
   ) as Readonly<Record<string, string>>;
 
 const isExecError = (value: unknown): value is NxExecError =>
-  Boolean(
-    value &&
-      typeof value === "object" &&
-      "stdout" in value &&
-      "stderr" in value,
-  );
+  Boolean(value && typeof value === 'object' && 'stdout' in value && 'stderr' in value);
 
 export type NxGenerateResult = Readonly<{
   command: string;
@@ -78,7 +73,7 @@ const toSuccessResult = (
   command: string,
   args: readonly string[],
   cwd: string,
-): Pick<NxGenerateResult, "command" | "args" | "cwd" | "exitCode"> => ({
+): Pick<NxGenerateResult, 'command' | 'args' | 'cwd' | 'exitCode'> => ({
   command,
   args,
   cwd,
@@ -86,7 +81,7 @@ const toSuccessResult = (
 });
 
 const mergeSuccess = (
-  base: Pick<NxGenerateResult, "command" | "args" | "cwd" | "exitCode">,
+  base: Pick<NxGenerateResult, 'command' | 'args' | 'cwd' | 'exitCode'>,
   io: Readonly<{ stdout: string; stderr: string }>,
 ): NxGenerateResult => ({
   ...base,
@@ -100,35 +95,30 @@ const toErrorResult = (
   cwd: string,
   error: NxExecError,
 ): NxGenerateResult => {
-  const exitCode = typeof error.code === "number" ? error.code : null;
+  const exitCode = typeof error.code === 'number' ? error.code : null;
   return {
     command,
     args,
     cwd,
     exitCode,
     signal: error.signal ?? null,
-    stdout: error.stdout ?? "",
-    stderr: error.stderr ?? "",
+    stdout: error.stdout ?? '',
+    stderr: error.stderr ?? '',
     error: exitCode && exitCode !== 0 ? error.message : undefined,
   };
 };
 
-const runNxCommand = (
-  ctx: ToolContext,
-  args: readonly string[],
-): Promise<NxGenerateResult> => {
-  const bin = ctx.env.PNPM_BIN ?? "pnpm";
+const runNxCommand = (ctx: ToolContext, args: readonly string[]): Promise<NxGenerateResult> => {
+  const bin = ctx.env.PNPM_BIN ?? 'pnpm';
   const cwd = getMcpRoot();
   const env = sanitizeEnv(ctx.env);
   const base = toSuccessResult(bin, args, cwd);
 
-  const handleError = (
-    error: unknown,
-  ): NxGenerateResult | Promise<NxGenerateResult> => {
+  const handleError = (error: unknown): NxGenerateResult | Promise<NxGenerateResult> => {
     if (!isExecError(error)) {
       return Promise.reject(error);
     }
-    if (!(typeof error.code === "number" || error.code === null)) {
+    if (!(typeof error.code === 'number' || error.code === null)) {
       return Promise.reject(error);
     }
     return toErrorResult(bin, args, cwd, error);
@@ -137,7 +127,7 @@ const runNxCommand = (
   return execFileAsync(bin, args, {
     cwd,
     env: { ...env },
-    encoding: "utf8",
+    encoding: 'utf8',
     maxBuffer: MAX_BUFFER,
     timeout: DEFAULT_TIMEOUT,
   })
@@ -145,8 +135,7 @@ const runNxCommand = (
     .catch(handleError);
 };
 
-const normalizePresetKey = (value: string): string =>
-  value.trim().toLowerCase();
+const normalizePresetKey = (value: string): string => value.trim().toLowerCase();
 
 export const resolvePreset = (input?: string): NxPreset => {
   if (!input) {
@@ -154,13 +143,9 @@ export const resolvePreset = (input?: string): NxPreset => {
   }
   const preset = PRESET_ALIASES.get(normalizePresetKey(input));
   if (!preset) {
-    const allowed = Array.from(
-      new Set([DEFAULT_PRESET, ...PRESET_ALIASES.values()]),
-    );
+    const allowed = Array.from(new Set([DEFAULT_PRESET, ...PRESET_ALIASES.values()]));
     throw new Error(
-      `Unknown preset "${input}". Expected one of: ${Array.from(allowed).join(
-        ", ",
-      )}.`,
+      `Unknown preset "${input}". Expected one of: ${Array.from(allowed).join(', ')}.`,
     );
   }
   return preset;
@@ -170,28 +155,25 @@ export const buildNxGenerateArgs = (
   options: Readonly<{ name: string; preset: NxPreset; dryRun: boolean }>,
 ): readonly string[] => {
   const baseArgs = [
-    "exec",
-    "nx",
-    "generate",
+    'exec',
+    'nx',
+    'generate',
     GENERATOR_ID,
-    "--name",
+    '--name',
     options.name,
-    "--preset",
+    '--preset',
     options.preset,
-    "--no-interactive",
+    '--no-interactive',
   ] as const;
 
   if (!options.dryRun) {
     return baseArgs;
   }
 
-  return [...baseArgs, "--dry-run"] as const;
+  return [...baseArgs, '--dry-run'] as const;
 };
 
-const createTool = (
-  _ctx: ToolContext,
-  executor: NxExecutor,
-): ReturnType<ToolFactory> => {
+const createTool = (_ctx: ToolContext, executor: NxExecutor): ReturnType<ToolFactory> => {
   const shape = {
     name: z.string().min(1).regex(NON_WHITESPACE),
     preset: z.string().min(1).regex(NON_WHITESPACE).optional(),
@@ -200,12 +182,11 @@ const createTool = (
   const Schema = z.object(shape);
 
   const spec = {
-    name: "nx.generatePackage",
-    description:
-      "Generate a new workspace package using the Nx tools:package generator.",
+    name: 'nx_generate_package',
+    description: 'Generate a new workspace package using the Nx tools:package generator.',
     inputSchema: shape,
-    stability: "experimental",
-    since: "0.1.0",
+    stability: 'experimental',
+    since: '0.1.0',
   } satisfies ToolSpec;
 
   const invoke = async (raw: unknown) => {

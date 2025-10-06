@@ -54,7 +54,7 @@ const OUTPUT_SCHEMA = {
   }),
 } as const;
 
-const META_TOOL_IDS = ['mcp.help', 'mcp.toolset', 'mcp.endpoints', 'mcp.validate-config'] as const;
+const META_TOOL_IDS = ['mcp_help', 'mcp_toolset', 'mcp_endpoints', 'mcp_validate_config'] as const;
 
 const TOOL_ID_PATTERN = /\b[a-z][a-z0-9-]*[._][a-z0-9_.-]+\b/g;
 
@@ -232,7 +232,7 @@ const proxySummaryFrom = (ctx: ValidationContext): ProxySummary => {
 // Lints the currently loaded MCP configuration using context injected by index.ts
 export const validateConfig: ToolFactory = (context) => {
   const spec = {
-    name: 'mcp.validate-config',
+    name: 'mcp_validate_config',
     description:
       'Validate endpoint/tool configuration and narrative metadata. Returns errors and warnings.',
     inputSchema: {},

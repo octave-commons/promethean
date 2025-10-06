@@ -1,7 +1,7 @@
-import path from "node:path";
+import path from 'node:path';
 
-import { z } from "zod";
-import { loadKanbanConfig } from "@promethean/kanban/dist/board/config.js";
+import { z } from 'zod';
+import { loadKanbanConfig } from '@promethean/kanban/dist/board/config.js';
 import {
   loadBoard,
   getColumn,
@@ -11,10 +11,10 @@ import {
   moveTask,
   syncBoardAndTasks,
   searchTasks,
-} from "@promethean/kanban/dist/lib/kanban.js";
-import type { Board } from "@promethean/kanban/dist/lib/types.js";
+} from '@promethean/kanban/dist/lib/kanban.js';
+import type { Board } from '@promethean/kanban/dist/lib/types.js';
 
-import type { ToolFactory, ToolSpec } from "../core/types.js";
+import type { ToolFactory, ToolSpec } from '../core/types.js';
 
 type PathOverrides = Readonly<{
   boardFile?: string;
@@ -27,7 +27,7 @@ type KanbanPaths = Readonly<{
 }>;
 
 const normalizePath = (value: string | undefined): string | undefined => {
-  if (typeof value !== "string") return undefined;
+  if (typeof value !== 'string') return undefined;
   const trimmed = value.trim();
   if (trimmed.length === 0) return undefined;
   return path.resolve(trimmed);
@@ -67,12 +67,11 @@ const basePathSchema = {
 export const kanbanGetBoard: ToolFactory = (ctx) => {
   const Schema = z.object(basePathSchema);
   const spec = {
-    name: "kanban.get-board",
-    description:
-      "Load the kanban board defined by the repository configuration.",
+    name: 'kanban_get_board',
+    description: 'Load the kanban board defined by the repository configuration.',
     inputSchema: basePathSchema,
-    stability: "experimental",
-    since: "0.1.0",
+    stability: 'experimental',
+    since: '0.1.0',
   } satisfies ToolSpec;
 
   const invoke = async (raw: unknown) => {
@@ -90,14 +89,14 @@ export const kanbanGetColumn: ToolFactory = (ctx) => {
     column: z.string(),
   });
   const spec = {
-    name: "kanban.get-column",
-    description: "Fetch a single column and its tasks from the kanban board.",
+    name: 'kanban_get_column',
+    description: 'Fetch a single column and its tasks from the kanban board.',
     inputSchema: {
       ...basePathSchema,
       column: z.string(),
     },
-    stability: "experimental",
-    since: "0.1.0",
+    stability: 'experimental',
+    since: '0.1.0',
   } satisfies ToolSpec;
 
   const invoke = async (raw: unknown) => {
@@ -115,14 +114,14 @@ export const kanbanFindTaskById: ToolFactory = (ctx) => {
     uuid: z.string().min(1),
   });
   const spec = {
-    name: "kanban.find-task",
-    description: "Find a task on the kanban board by its UUID.",
+    name: 'kanban_find_task',
+    description: 'Find a task on the kanban board by its UUID.',
     inputSchema: {
       ...basePathSchema,
       uuid: z.string().min(1),
     },
-    stability: "experimental",
-    since: "0.1.0",
+    stability: 'experimental',
+    since: '0.1.0',
   } satisfies ToolSpec;
 
   const invoke = async (raw: unknown) => {
@@ -141,14 +140,14 @@ export const kanbanFindTaskByTitle: ToolFactory = (ctx) => {
     title: z.string().min(1),
   });
   const spec = {
-    name: "kanban.find-task-by-title",
-    description: "Find a task by exact title match on the kanban board.",
+    name: 'kanban_find_task_by_title',
+    description: 'Find a task by exact title match on the kanban board.',
     inputSchema: {
       ...basePathSchema,
       title: z.string().min(1),
     },
-    stability: "experimental",
-    since: "0.1.0",
+    stability: 'experimental',
+    since: '0.1.0',
   } satisfies ToolSpec;
 
   const invoke = async (raw: unknown) => {
@@ -168,25 +167,21 @@ export const kanbanUpdateStatus: ToolFactory = (ctx) => {
     status: z.string().min(1),
   });
   const spec = {
-    name: "kanban.update-status",
-    description:
-      "Move a task to a new column by updating its status and persisting the board.",
+    name: 'kanban_update_status',
+    description: 'Move a task to a new column by updating its status and persisting the board.',
     inputSchema: {
       ...basePathSchema,
       uuid: z.string().min(1),
       status: z.string().min(1),
     },
-    stability: "experimental",
-    since: "0.1.0",
+    stability: 'experimental',
+    since: '0.1.0',
   } satisfies ToolSpec;
 
   const invoke = async (raw: unknown) => {
     const args = Schema.parse(raw ?? {});
     const [board, paths] = await loadBoardWithPaths(ctx.env, args);
-    return (
-      (await updateStatus(board, args.uuid, args.status, paths.boardFile)) ??
-      null
-    );
+    return (await updateStatus(board, args.uuid, args.status, paths.boardFile)) ?? null;
   };
 
   return { spec, invoke };
@@ -199,24 +194,21 @@ export const kanbanMoveTask: ToolFactory = (ctx) => {
     delta: z.number().int().min(-100).max(100),
   });
   const spec = {
-    name: "kanban.move-task",
-    description:
-      "Reorder a task within its column by applying the provided rank delta.",
+    name: 'kanban_move_task',
+    description: 'Reorder a task within its column by applying the provided rank delta.',
     inputSchema: {
       ...basePathSchema,
       uuid: z.string().min(1),
       delta: z.number().int().min(-100).max(100),
     },
-    stability: "experimental",
-    since: "0.1.0",
+    stability: 'experimental',
+    since: '0.1.0',
   } satisfies ToolSpec;
 
   const invoke = async (raw: unknown) => {
     const args = Schema.parse(raw ?? {});
     const [board, paths] = await loadBoardWithPaths(ctx.env, args);
-    return (
-      (await moveTask(board, args.uuid, args.delta, paths.boardFile)) ?? null
-    );
+    return (await moveTask(board, args.uuid, args.delta, paths.boardFile)) ?? null;
   };
 
   return { spec, invoke };
@@ -225,12 +217,12 @@ export const kanbanMoveTask: ToolFactory = (ctx) => {
 export const kanbanSyncBoard: ToolFactory = (ctx) => {
   const Schema = z.object(basePathSchema);
   const spec = {
-    name: "kanban.sync-board",
+    name: 'kanban_sync_board',
     description:
-      "Pull updates from task files into the board and push board ordering back to task files.",
+      'Pull updates from task files into the board and push board ordering back to task files.',
     inputSchema: basePathSchema,
-    stability: "experimental",
-    since: "0.1.0",
+    stability: 'experimental',
+    since: '0.1.0',
   } satisfies ToolSpec;
 
   const invoke = async (raw: unknown) => {
@@ -248,15 +240,14 @@ export const kanbanSearchTasks: ToolFactory = (ctx) => {
     query: z.string().min(1),
   });
   const spec = {
-    name: "kanban.search",
-    description:
-      "Search tasks on the kanban board for matches and related results.",
+    name: 'kanban_search',
+    description: 'Search tasks on the kanban board for matches and related results.',
     inputSchema: {
       ...basePathSchema,
       query: z.string().min(1),
     },
-    stability: "experimental",
-    since: "0.1.0",
+    stability: 'experimental',
+    since: '0.1.0',
   } satisfies ToolSpec;
 
   const invoke = async (raw: unknown) => {
