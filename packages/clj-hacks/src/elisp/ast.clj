@@ -9,7 +9,7 @@
 ;; AST constructors
 ;; ---------------------------------------------------------------------------
 
-(defn el-symbol
+(defn symbol
   "Create an Elisp symbol node."
   [name]
   (when-not (string? name)
@@ -21,28 +21,28 @@
   [value]
   (str value))
 
-(defn el-list
+(defn list
   "Create a list node with optional metadata."
   [& items]
   (into [:el/list] items))
 
-(defn el-vector
+(defn vector
   "Create a vector node."
   [& items]
   (into [:el/vector] items))
 
-(defn el-cons
+(defn cons
   "Create a dotted pair node."
   [car cdr]
   {:el/type :cons :car car :cdr cdr})
 
 (defn quote [form] {:el/type :quote :form form})
 (defn quasiquote [form] {:el/type :quasiquote :form form})
-(defn el-unquote [form] {:el/type :unquote :form form})
+(defn unquote [form] {:el/type :unquote :form form})
 (defn splice [form] {:el/type :splice :form form})
 (defn function [form] {:el/type :function :form form})
 
-(defn el-comment
+(defn comment
   "Create a comment node. Include trailing newline if needed."
   [text]
   {:el/type :comment :text text})
