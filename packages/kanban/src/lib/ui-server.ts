@@ -57,18 +57,13 @@ type LoadedBoard = Awaited<ReturnType<typeof loadBoard>>;
 
 type ReadonlyLoadedBoard = DeepReadonly<LoadedBoard>;
 
-type HttpResponse = Readonly<
-  Pick<ServerResponse, 'writeHead' | 'end'> &
-    Partial<Pick<ServerResponse, 'setHeader' | 'getHeader'>>
->;
+type HttpResponse = ServerResponse;
 
-type HttpRequest = Readonly<Pick<IncomingMessage, 'method' | 'url'>>;
+type HttpRequest = IncomingMessage;
 
 type ServerInstance = ReturnType<typeof createServer>;
 
-type ServerControls = Readonly<
-  Pick<ServerInstance, 'listen' | 'once' | 'off' | 'close' | 'address'>
->;
+type ServerControls = ServerInstance;
 
 type FrontendAsset = Readonly<{
   readonly path: string;
@@ -95,6 +90,17 @@ const FRONTEND_ASSETS: ReadonlyMap<string, FrontendAsset> = new Map([
     createAssetDescriptor('../frontend/styles.js', 'application/javascript; charset=utf-8'),
   ],
 ]);
+
+const MAX_BODY_SIZE = 128 * 1024;
+
+class RequestTooLargeError extends Error {
+  constructor() {
+    super('Request payload exceeds the 128kb limit.');
+    this.name = 'RequestTooLargeError';
+  }
+}
+
+const loadCommandModule = async () => import('../cli/command-handlers.js');
 
 const computeSummary = (board: ReadonlyLoadedBoard): ImmutableSummary => {
   const columns = board.columns.map((column) => {
@@ -178,39 +184,37 @@ const internalError = (res: HttpResponse, error: unknown): void => {
   });
 };
 
-const readRequestBody = (req: HttpRequest): Promise<string> =>
-  new Promise((resolve, reject) => {
-    let body = '';
+const readRequestBody = async (req: HttpRequest): Promise<string> => {
+  req.setEncoding('utf8');
+  const iterator: AsyncIterator<string | Buffer> = req[Symbol.asyncIterator]();
 
-    const cleanup = () => {
-      req.off('data', onData);
-      req.off('end', onEnd);
-      req.off('error', onError);
-    };
+  const readNext = async (acc: string): Promise<string> => {
+    const result = await iterator.next();
+    if (result.done) {
+      return acc;
+    }
 
-    const onError = (error: unknown) => {
-      cleanup();
-      reject(error instanceof Error ? error : new Error(String(error)));
-    };
+    const chunkValue = result.value;
+    const chunk = typeof chunkValue === 'string' ? chunkValue : String(chunkValue);
+    const next = acc + chunk;
+    if (next.length > MAX_BODY_SIZE) {
+      throw new RequestTooLargeError();
+    }
+    return readNext(next);
+  };
 
-    const onEnd = () => {
-      cleanup();
-      resolve(body);
-    };
-
-    const onData = (chunk: string) => {
-      body += chunk;
-      if (body.length > MAX_BODY_SIZE) {
-        cleanup();
-        reject(new RequestTooLargeError());
+  try {
+    return await readNext('');
+  } finally {
+    if (typeof iterator.return === 'function') {
+      try {
+        await iterator.return();
+      } catch {
+        // ignore iterator cleanup errors
       }
-    };
-
-    req.setEncoding('utf8');
-    req.on('data', onData);
-    req.once('end', onEnd);
-    req.once('error', onError);
-  });
+    }
+  }
+};
 
 const handleBoardRequest = async (res: HttpResponse, options: ImmutableOptions): Promise<void> => {
   try {
@@ -226,11 +230,16 @@ const handleBoardRequest = async (res: HttpResponse, options: ImmutableOptions):
   }
 };
 
-const handleScriptRequest = async (res: HttpResponse): Promise<void> => {
+const getAssetForUrl = (url: string): FrontendAsset | undefined => {
+  const [pathname] = url.split('?');
+  return FRONTEND_ASSETS.get(pathname ?? url);
+};
+
+const handleAssetRequest = async (res: HttpResponse, asset: FrontendAsset): Promise<void> => {
   try {
-    const script = await readFile(FRONTEND_SCRIPT_PATH, 'utf8');
-    send(res, 200, script, {
-      'Content-Type': 'application/javascript; charset=utf-8',
+    const contents = await readFile(asset.path, 'utf8');
+    send(res, 200, contents, {
+      'Content-Type': asset.contentType,
       'Cache-Control': 'no-store',
     });
   } catch (error) {
@@ -364,12 +373,13 @@ const routeRequest = async (
     return;
   }
 
-  if (url.startsWith('/assets/kanban-ui.js')) {
+  const asset = getAssetForUrl(url);
+  if (asset) {
     if (method !== 'GET') {
       notFound(res);
       return;
     }
-    await handleScriptRequest(res);
+    await handleAssetRequest(res, asset);
     return;
   }
 
