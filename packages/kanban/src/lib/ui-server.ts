@@ -1,12 +1,12 @@
-import { readFile } from "node:fs/promises";
-import { createServer } from "node:http";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
-import type { IncomingMessage, ServerResponse } from "node:http";
+import { readFile } from 'node:fs/promises';
+import { createServer } from 'node:http';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import type { IncomingMessage, ServerResponse } from 'node:http';
 
-import { escapeHtml } from "../frontend/render.js";
+import { escapeHtml } from '../frontend/render.js';
 
-import { loadBoard } from "./kanban.js";
+import { loadBoard } from './kanban.js';
 type Primitive = string | number | boolean | symbol | null | undefined | bigint;
 
 type DeepReadonlyTuple<T extends ReadonlyArray<unknown>> = {
@@ -58,31 +58,49 @@ type LoadedBoard = Awaited<ReturnType<typeof loadBoard>>;
 type ReadonlyLoadedBoard = DeepReadonly<LoadedBoard>;
 
 type HttpResponse = Readonly<
-  Pick<ServerResponse, "writeHead" | "end"> &
-    Partial<Pick<ServerResponse, "setHeader" | "getHeader">>
+  Pick<ServerResponse, 'writeHead' | 'end'> &
+    Partial<Pick<ServerResponse, 'setHeader' | 'getHeader'>>
 >;
 
-type HttpRequest = Readonly<Pick<IncomingMessage, "method" | "url">>;
+type HttpRequest = Readonly<Pick<IncomingMessage, 'method' | 'url'>>;
 
 type ServerInstance = ReturnType<typeof createServer>;
 
 type ServerControls = Readonly<
-  Pick<ServerInstance, "listen" | "once" | "off" | "close" | "address">
+  Pick<ServerInstance, 'listen' | 'once' | 'off' | 'close' | 'address'>
 >;
 
-const FRONTEND_SCRIPT_PATH = fileURLToPath(
-  new URL("../frontend/kanban-ui.js", import.meta.url),
-);
+type FrontendAsset = Readonly<{
+  readonly path: string;
+  readonly contentType: string;
+}>;
+
+const createAssetDescriptor = (relativePath: string, contentType: string): FrontendAsset =>
+  ({
+    path: fileURLToPath(new URL(relativePath, import.meta.url)),
+    contentType,
+  }) satisfies FrontendAsset;
+
+const FRONTEND_ASSETS: ReadonlyMap<string, FrontendAsset> = new Map([
+  [
+    '/assets/kanban-ui.js',
+    createAssetDescriptor('../frontend/kanban-ui.js', 'application/javascript; charset=utf-8'),
+  ],
+  [
+    '/assets/render.js',
+    createAssetDescriptor('../frontend/render.js', 'application/javascript; charset=utf-8'),
+  ],
+  [
+    '/assets/styles.js',
+    createAssetDescriptor('../frontend/styles.js', 'application/javascript; charset=utf-8'),
+  ],
+]);
 
 const computeSummary = (board: ReadonlyLoadedBoard): ImmutableSummary => {
   const columns = board.columns.map((column) => {
-    const count = Number.isFinite(column.count)
-      ? column.count
-      : column.tasks.length;
+    const count = Number.isFinite(column.count) ? column.count : column.tasks.length;
     const limit =
-      typeof column.limit === "number" && Number.isFinite(column.limit)
-        ? column.limit
-        : null;
+      typeof column.limit === 'number' && Number.isFinite(column.limit) ? column.limit : null;
     return {
       name: column.name,
       count,
@@ -131,43 +149,36 @@ const send = (
   headers?: Readonly<Record<string, string>>,
 ): void => {
   res.writeHead(status, {
-    "Content-Length": Buffer.byteLength(body, "utf8"),
+    'Content-Length': Buffer.byteLength(body, 'utf8'),
     ...headers,
   });
-  res.end(body, "utf8");
+  res.end(body, 'utf8');
 };
 
-const sendJson = (
-  res: HttpResponse,
-  status: number,
-  payload: unknown,
-): void => {
+const sendJson = (res: HttpResponse, status: number, payload: unknown): void => {
   const body = JSON.stringify(payload, null, 2);
   send(res, status, body, {
-    "Content-Type": "application/json; charset=utf-8",
-    "Cache-Control": "no-store",
+    'Content-Type': 'application/json; charset=utf-8',
+    'Cache-Control': 'no-store',
   });
 };
 
 const notFound = (res: HttpResponse): void => {
-  send(res, 404, "Not Found", {
-    "Content-Type": "text/plain; charset=utf-8",
-    "Cache-Control": "no-store",
+  send(res, 404, 'Not Found', {
+    'Content-Type': 'text/plain; charset=utf-8',
+    'Cache-Control': 'no-store',
   });
 };
 
 const internalError = (res: HttpResponse, error: unknown): void => {
-  console.error("[kanban-ui]", error);
-  send(res, 500, "Internal Server Error", {
-    "Content-Type": "text/plain; charset=utf-8",
-    "Cache-Control": "no-store",
+  console.error('[kanban-ui]', error);
+  send(res, 500, 'Internal Server Error', {
+    'Content-Type': 'text/plain; charset=utf-8',
+    'Cache-Control': 'no-store',
   });
 };
 
-const handleBoardRequest = (
-  res: HttpResponse,
-  options: ImmutableOptions,
-): Promise<void> =>
+const handleBoardRequest = (res: HttpResponse, options: ImmutableOptions): Promise<void> =>
   loadBoard(options.boardFile, options.tasksDir)
     .then((board) => {
       const payload: ImmutablePayload = {
@@ -181,50 +192,51 @@ const handleBoardRequest = (
       internalError(res, error);
     });
 
-const handleScriptRequest = (res: HttpResponse): Promise<void> =>
-  readFile(FRONTEND_SCRIPT_PATH, "utf8")
-    .then((script) => {
-      send(res, 200, script, {
-        "Content-Type": "application/javascript; charset=utf-8",
-        "Cache-Control": "no-store",
+const handleAssetRequest = (res: HttpResponse, url: string): Promise<void> => {
+  const [pathname] = url.split('?');
+  const asset = FRONTEND_ASSETS.get(pathname ?? '');
+  if (!asset) {
+    notFound(res);
+    return Promise.resolve();
+  }
+  return readFile(asset.path, 'utf8')
+    .then((contents) => {
+      send(res, 200, contents, {
+        'Content-Type': asset.contentType,
+        'Cache-Control': 'no-store',
       });
     })
     .catch((error) => {
       internalError(res, error);
     });
+};
 
-const routeRequest = (
-  req: HttpRequest,
-  res: HttpResponse,
-  options: ImmutableOptions,
-): void => {
-  const method = req.method ?? "GET";
-  const url = req.url ?? "/";
-  if (method !== "GET") {
+const routeRequest = (req: HttpRequest, res: HttpResponse, options: ImmutableOptions): void => {
+  const method = req.method ?? 'GET';
+  const url = req.url ?? '/';
+  if (method !== 'GET') {
     notFound(res);
     return;
   }
-  if (url === "/" || url.startsWith("/?")) {
+  if (url === '/' || url.startsWith('/?')) {
     send(res, 200, htmlTemplate(options), {
-      "Content-Type": "text/html; charset=utf-8",
-      "Cache-Control": "no-store",
+      'Content-Type': 'text/html; charset=utf-8',
+      'Cache-Control': 'no-store',
     });
     return;
   }
-  if (url.startsWith("/api/board")) {
+  if (url.startsWith('/api/board')) {
     void handleBoardRequest(res, options);
     return;
   }
-  if (url.startsWith("/assets/kanban-ui.js")) {
-    void handleScriptRequest(res);
+  if (url.startsWith('/assets/')) {
+    void handleAssetRequest(res, url);
     return;
   }
   notFound(res);
 };
 
-export const createKanbanUiServer = (
-  options: ImmutableOptions,
-): ServerControls => {
+export const createKanbanUiServer = (options: ImmutableOptions): ServerControls => {
   const server = createServer((req, res) => {
     routeRequest(req, res, options);
   });
@@ -232,16 +244,14 @@ export const createKanbanUiServer = (
   return server;
 };
 
-export const serveKanbanUI = async (
-  options: ImmutableOptions,
-): Promise<void> => {
-  const host = options.host ?? "127.0.0.1";
+export const serveKanbanUI = async (options: ImmutableOptions): Promise<void> => {
+  const host = options.host ?? '127.0.0.1';
   const port = options.port ?? 4173;
   const server = createKanbanUiServer(options);
   await new Promise<void>((resolve, reject) => {
     const removeSignalListeners = () => {
-      process.off("SIGINT", stop);
-      process.off("SIGTERM", stop);
+      process.off('SIGINT', stop);
+      process.off('SIGTERM', stop);
     };
 
     const onError = (error: Readonly<Error>) => {
@@ -262,15 +272,13 @@ export const serveKanbanUI = async (
       });
     };
 
-    server.once("error", onError);
+    server.once('error', onError);
 
     server.listen(port, host, () => {
-      console.log(
-        `Kanban UI available at http://${host}:${port} (press Ctrl+C to stop)`,
-      );
+      console.log(`Kanban UI available at http://${host}:${port} (press Ctrl+C to stop)`);
     });
 
-    process.once("SIGINT", stop);
-    process.once("SIGTERM", stop);
+    process.once('SIGINT', stop);
+    process.once('SIGTERM', stop);
   });
 };
