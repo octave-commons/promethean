@@ -54,16 +54,7 @@
 (defun llm/pre-init-gptel ()
   (with-eval-after-load 'gptel
     (define-key gptel-mode-map (kbd "C-c m") #'gptel-mcp-dispatch)
-    (gptel-make-ollama "ollama"
-      :host "localhost:11434"
-      :stream t
-      :models '(qwen3:8b llama3.2:3b qwen2.5:7b
-                 qwen2.5-coder:7b
-                 qwen2.5-instruct:3b
-                 gemma3:latest
-                 qwen3:4b
-                 llama3.1:8b
-                 ))
+
     ;; (setq gptel-model 'qwen3:8b gptel-default-mode 'org-mode)
     )
   )

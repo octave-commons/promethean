@@ -1,0 +1,29 @@
+{
+  "name": "@promethean/shadow-ui",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "files": [
+    "dist",
+    "src",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "shadow-cljs release shadow-ui",
+    "watch": "shadow-cljs watch shadow-ui",
+    "clean": "rimraf dist"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    },
+    "./runtime": {
+      "import": "./dist/promethean/shadow_ui/runtime.js"
+    },
+    "./*": "./dist/*"
+  },
+  "devDependencies": {
+    "shadow-cljs": "2.28.17"
+  },
+  "license": "GPL-3.0-only"
+}

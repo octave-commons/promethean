@@ -1,7 +1,7 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 
-import { STATUS_ORDER, headerToStatus } from "@promethean/markdown/statuses";
+import { STATUS_ORDER, headerToStatus } from "@promethean/markdown/statuses.js";
 
 import { loadKanbanConfig } from "./config.js";
 import type { IndexedTask } from "./types.js";

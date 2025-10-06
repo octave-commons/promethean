@@ -45,7 +45,12 @@
     "clean": "pnpm -r exec bash -lc 'rm -rf dist build coverage .turbo .cache .vite .parcel-cache .rollup.cache .ava .ava_cache .eslintcache *.tsbuildinfo playwright-report test-results || true' && rm -rf .turbo pnpm-debug.log*",
     "clean:changed": "pnpm -r --filter \"...[dev]\" exec bash -lc 'rm -rf dist build coverage .turbo .cache .vite .parcel-cache .rollup.cache .ava .ava_cache .eslintcache *.tsbuildinfo playwright-report test-results || true'",
     "clean:deep": "pnpm run clean && pnpm -r exec bash -lc 'rm -rf node_modules || true' && rm -rf node_modules && pnpm store prune",
-    "nx": "nx"
+    "nx": "nx",
+    "shadow:build": "pnpm --filter @promethean/shadow-ui run build && pnpm --filter '@promethean/*-frontend' run build:shadow",
+    "shadow:watch": "pnpm --filter @promethean/shadow-ui run watch",
+    "shadow:watch:frontends": "pnpm --parallel --filter '@promethean/*-frontend' run watch:shadow",
+    "duck:web": "pnpm --filter @promethean/duck-web dev",
+    "duck:gateway": "pnpm --filter @promethean/enso-browser-gateway dev"
   },
   "bin": {
     "prom": "./packages/promethean-cli/dist/promethean_cli.cjs",
