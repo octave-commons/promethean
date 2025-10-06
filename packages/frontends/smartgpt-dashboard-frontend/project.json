@@ -10,6 +10,21 @@
       },
       "outputs": ["{projectRoot}/dist"]
     },
+    "shadow-build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm run build:shadow",
+        "cwd": "packages/frontends/smartgpt-dashboard-frontend"
+      },
+      "outputs": ["{projectRoot}/dist/frontend"]
+    },
+    "shadow-watch": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm run watch:shadow",
+        "cwd": "packages/frontends/smartgpt-dashboard-frontend"
+      }
+    },
     "lint": {
       "executor": "nx:run-commands",
       "options": {
