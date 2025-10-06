@@ -1,6 +1,6 @@
 import test from "ava";
 import crypto from "node:crypto";
-import { buildServer } from "../dist/index.js";
+import { buildServer } from "../src/index.js";
 
 function pkcePair() {
   const verifier = crypto.randomBytes(32).toString("base64url");
