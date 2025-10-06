@@ -1,0 +1,315 @@
+---
+
+kanban-plugin: board
+
+---
+
+## Incoming
+
+- [ ] [[assemble-omni-service-host.md|Assemble unified @promethean/omni-service host]] #incoming #omni #service
+- [ ] [[author-omni-protocol-package.md|Author @promethean/omni-protocol package]] #incoming #omni #package #typescript
+- [ ] [[extract-omni-core-services.md|Extract shared services into @promethean/omni-core]] #incoming #omni #refactor
+- [ ] [[omni-unified-service-spec.md|Omni unified service specification and planning]] #incoming #omni #planning
+
+## Todo
+
+- [ ] [[Setup Identity Experiment.md|<verb> <thing> <qualifier>]] #todo #board-auto #lang-ts
+- [ ] [[agent-safe-stablization-after-big-moves.md|<verb> <thing> <qualifier>]] #todo #board-auto #lang-ts
+- [ ] [[clearly-document-new-repository-layout.md|<verb> <thing> <qualifier>]] #todo #board-auto #lang-ts
+- [ ] [[github-crawler.md|<verb> <thing> <qualifier>]] #todo #board-auto #lang-ts
+- [ ] [[migrate legacy js services to ts.md|<verb> <thing> <qualifier>]] #todo #board-auto #lang-ts
+- [ ] [[post-move-stablization--compat-layer---hook-diet-.md|<verb> <thing> <qualifier>]] #todo #board-auto #lang-ts
+- [ ] [[promethean-health-dashboard.md|🛠️ Description]] #todo
+- [ ] [[implement-defun-in-compiler-lisp-incoming.md|🛠️ Task: Implement `defun` in Lisp Compiler]] #todo
+- [ ] [[implement-classes-in-compiler-lisp-incoming.md|🛠️ Task: Implement Classes in Lisp Compiler]] #todo
+- [ ] [[add-codex-layer-to-emacs.md|add codex layer to emacs]] #todo
+- [ ] [[add_dev_harness_int_test_ts_to_ci_integration_stag_md.md|add dev harness int test ts to ci integration stag md]] #todo
+- [ ] [[add-docker-compose-files-to-services.md|add docker compose files to services]] #todo
+- [ ] [[add_file_system_to_context_management_system_md_md.md|add file system to context management system md md]] #todo
+- [ ] [[add_lag_checks_to_ci_smoke_ensure_small_lag_after_md.md|add lag checks to ci smoke ensure small lag after md]] #todo
+- [ ] [[add_manualack_to_event_bus_and_re_run_tests_md.md|add manualack to event bus and re run tests md]] #todo
+- [ ] [[add_mongodedupe_and_replace_critical_consumers_wit_md.md|add mongodedupe and replace critical consumers wit md]] #todo
+- [ ] [[add_mongooutbox_to_any_service_that_writes_db_chan_md.md|add mongooutbox to any service that writes db chan md]] #todo
+- [ ] [[add_obsidian_to_gitignore_md_md.md|add obsidian to gitignore md md]] #todo
+- [ ] [[add_ollama_formally_to_pipeline_md_md.md|add ollama formally to pipeline md md]] #todo
+- [ ] [[add_ops_endpoint_to_list_partition_assignments_opt_md.md|add ops endpoint to list partition assignments opt md]] #todo
+- [ ] [[add_process_txn_projector_to_upsert_processes_host_md.md|add process txn projector to upsert processes host md]] #todo
+- [ ] [[add_prometheus_events_counters_in_ws_server_hook_p_md.md|add prometheus events counters in ws server hook p md]] #todo
+- [ ] [[add_semantic_overlays_for_layer1_through_layer8_md_md.md|add semantic overlays for layer1 through layer8 md md]] #todo
+- [ ] [[add_snapshot_consumer_to_warm_cache_on_boot_md.md|add snapshot consumer to warm cache on boot md]] #todo
+- [ ] [[add_startchangelogprojector_for_any_compaction_lik_md.md|add startchangelogprojector for any compaction lik md]] #todo
+- [ ] [[add_starter_notes_-_eidolon_fields_cephalon_inner_monologue_1_md.md|add starter notes eidolon fields cephalon inner monologue 1 md]] #todo
+- [ ] [[add_stt_service_tests_md.md|add stt service tests md]] #todo
+- [ ] [[add_tokenbucket_to_ws_server_conn_per_topic_md.md|add tokenbucket to ws server conn per topic md]] #todo
+- [ ] [[add_ttls_per_topic_via_migration_script_md.md|add ttls per topic via migration script md]] #todo
+- [ ] [[add_twitch_chat_integration_md_md.md|add twitch chat integration md md]] #todo
+- [ ] [[add_unit_tests_for_date_tools_py_md.md|add unit tests for date tools py md]] #todo
+- [ ] [[add_unit_tests_for_gui_helpers_md_md.md|add unit tests for gui helpers md md]] #todo
+- [ ] [[add_unit_tests_for_wav_processing_md.md|add unit tests for wav processing md]] #todo
+- [ ] [[add_vault_instructions_to_main_readme_md_md_md.md|add vault instructions to main readme md md md]] #todo
+- [ ] [[add_withdlq_around_risky_consumers_set_maxattempts_md.md|add withdlq around risky consumers set maxattempts md]] #todo
+- [ ] [[agent-tasks-persistence-migration-to-dualstore.md|agent tasks persistence migration to dualstore]] #todo
+- [ ] [[allow_configuration_of_hyperparameters_through_discord_context_size_spectrogram_resolution_interuption_threshold_md.md|allow configuration of hyperparameters through discord context size spectrogram resolution interuption threshold md]] #todo
+- [ ] [[allow_old_unnessisary_messages_to_decay_from_database_while_retaining_index_entries_ids_md_md.md|allow old unnessisary messages to decay from database while retaining index entries ids md md]] #todo
+- [ ] [[also-bat-man-but-more-so.md|also bat man but more so]] #todo
+- [ ] [[also-batman.md|also-batman]] #todo
+- [ ] [[annotate_legacy_code_with_migration_tags_md.md|annotate legacy code with migration tags md]] #todo
+- [ ] [[audio-processing-service.md|audio processing service]] #todo
+- [ ] [[audit-enso-event-families.md|Audit Enso event family references after transport update]] #todo #documentation #protocol
+- [ ] [[auth_ci_and_load_tests.md|auth ci and load tests]] #todo
+- [ ] [[auth_key_rotation_and_bootstrap.md|auth key rotation and bootstrap]] #todo
+- [ ] [[auth_migrate_services_to_jwt.md|auth migrate services to jwt]] #todo
+- [ ] [[auth_service_rfc_and_architecture.md|auth service rfc and architecture]] #todo
+- [ ] [[auth_service_scaffold_and_endpoints.md|auth service scaffold and endpoints]] #todo
+- [ ] [[auth_shared_clients_and_middleware.md|auth shared clients and middleware]] #todo
+- [ ] [[auto-generate_agents_md_stubs_from_services_structure_md_md.md|auto generate agents md stubs from services structure md md]] #todo
+- [ ] [[replace-all-python-properly-with-hy-incoming.md|Ban Python; Migrate to Hy; Compile to `./dist`]] #todo
+- [ ] [[batman.md|batman]] #todo
+- [ ] [[bb-tool-chain.md|bb tool chain]] #todo
+- [ ] [[breakdown-makefile.hy.md|breakdown makefile hy]] #todo
+- [ ] [[broker-gpt-bridge-parity-plan.md|Broker ↔ GPT Bridge Parity Test Plan]] #todo
+- [ ] [[build_data_structures_for_eidolon_field_codex_task_md.md|build data structures for eidolon field codex task md]] #todo
+- [ ] [[build_data_structures_for_eidolon_field_md_md.md|build data structures for eidolon field md md]] #todo
+- [ ] [[build_tiny_web_page_that_uses_promclient_in_the_br_md.md|build tiny web page that uses promclient in the br md]] #todo
+- [ ] [[cache_decay_mechanisim_md_md.md|cache decay mechanisim md md]] #todo
+- [ ] [[cephalon_backfill_conversation_history.md|cephalon backfill conversation history]] #todo
+- [ ] [[seperate-discord-commands-from-the-actions-they-perform.md|Cephalon Commands → Actions Refactor — Task Refinement]] #todo
+- [ ] [[cephalon_context_window_from_collections.md|cephalon context window from collections]] #todo
+- [ ] [[cephalon_event_schema_updates.md|cephalon event schema updates]] #todo
+- [ ] [[cephalon_feature_flag_path_selection.md|cephalon feature flag path selection]] #todo
+- [ ] [[cephalon_persist_llm_replies_to_agent_messages.md|cephalon persist llm replies to agent messages]] #todo
+- [ ] [[cephalon_persist_utterance_timing_metadata.md|cephalon persist utterance timing metadata]] #todo
+- [ ] [[cephalon_store_user_transcripts_unified.md|cephalon store user transcripts unified]] #todo
+- [ ] [[cephalon_tests_for_persistence_and_ecs.md|cephalon tests for persistence and ecs]] #todo
+- [ ] [[clarify_promethean_project_vision_1_md.md|clarify promethean project vision 1 md]] #todo
+- [ ] [[clean_up_notes_into_design_docs_md.md|clean up notes into design docs md]] #todo
+- [ ] [[cleanup_useless_regex_escape_in_agent_package.md|Clean up useless regex escape in agent package]] #todo
+- [ ] [[clearly_seperate_service_dependency_files_md.md|clearly seperate service dependency files md]] #todo
+- [ ] [[clearly-standardize-data-models.md|clearly standardize data models]] #todo
+- [ ] [[Consolidate all kanban helpers to kanban package.md|consolidate all kanban helpers to kanban package]] #todo
+- [ ] [[migrate_mk_mcp_ide_to_clj_hacks.md|Consolidate mk MCP/IDE libs under clj-hacks]] #todo #board-auto #lang-clj
+- [ ] [[convert-current-services-to-packages--then-redefine-the-services-using-config-files.md|convert current services to packages then redefine the services using config files]] #todo
+- [ ] [[create-a-generic-markdown-helper-module.md|create a generic markdown helper module]] #todo
+- [ ] [[describe_github_branching_workflow_md.md|create and push a feature branch]] #todo
+- [ ] [[create_base_readme_md_templates_for_each_service_md.md|create base readme md templates for each service md]] #todo
+- [ ] [[create_permission_gating_layer.md|create permission gating layer]] #todo
+- [ ] [[create_vault-config_obsidian_with_kanban_and_minimal_vault_setup_1_md_md.md|create vault config obsidian with kanban and minimal vault setup 1 md md]] #todo
+- [ ] [[decouple_from_ollama_md.md|decouple from ollama md]] #todo
+- [ ] [[define_codex_baseg_agent_md_md.md|define codex baseg agent md md]] #todo
+- [ ] [[define_default_scopes_publish_heartbeat_received_s_md.md|define default scopes publish heartbeat received s md]] #todo
+- [ ] [[define_permission_schema_in_agents_1_md.md|define permission schema in agents 1 md]] #todo
+- [ ] [[deploy_changefeed_for_collections_you_want_mirrore_md.md|deploy changefeed for collections you want mirrore md]] #todo
+- [ ] [[identify_and_resolve_a_service_client_apparently_connecting_repeatedly_to_broker_with_new_session_ids.md|Description]] #todo
+- [ ] [[codex-action-build-file-contextualizer..md|Description]] #todo
+- [ ] [[lisp-ecosystem-files.md|Description]] #todo
+- [ ] [[add-tool-calls-to-codex-context.md|Description]] #todo
+- [ ] [[hy---js-interop.md|Description]] #todo
+- [ ] [[lsp-server-for-home-brew-lisp-incoming.md|Description]] #todo
+- [ ] [[script-for-getting-github-action-workflow-states-for-a-branch.md|Description]] #todo
+- [ ] [[add-git-commands-to-gpt-bridge.md|Description]] #todo
+- [ ] [[connect-bluesky.md|Description]] #todo
+- [ ] [[ci-passses.md|Description]] #todo
+- [ ] [[database-migration-system.md|Description]] #todo
+- [ ] [[convert-smartgpt-bridge-to-ts.md|Description]] #todo
+- [ ] [[finish-work-on-gptbridge-agent-integration.md|Description]] #todo
+- [ ] [[context-service.md|Description]] #todo
+- [ ] [[decouple-audio-processing-logic-from-discord.md|Description]] #todo
+- [ ] [[harden-precommit-hooks.md|Description]] #todo
+- [ ] [[consolidate-all-configs-into---config--as--.edn--files.md|Description]] #todo
+- [ ] [[connect-reddit.md|Description]] #todo
+- [ ] [[universal-package-manager.md|Description]] #todo
+- [ ] [[curate-code-from-personal-repository.md|Description]] #todo
+- [ ] [[connect-wikipedia.md|Description]] #todo
+- [ ] [[flatten-sibilant-src-folders.md|Description]] #todo
+- [ ] [[design-audio-pipeline-mvp.md|design audio pipeline mvp]] #todo
+- [ ] [[design_circular_buffers_for_inputs_with_layered_states_of_persistance_in_memory_on_disk_cold_storage_so_md.md|design circular buffers for inputs with layered states of persistance in memory on disk cold storage so md]] #todo
+- [ ] [[design_ollama_model_file_for_use_with_codex.md|design ollama model file for use with codex]] #todo
+- [ ] [[design-vision-pipeline-mvp.md|design vision pipeline mvp]] #todo
+- [ ] [[detect_contradictions_in_memory_codex_task_md.md|detect contradictions in memory codex task md]] #todo
+- [ ] [[detect_contradictions_in_memory_md_md.md|detect contradictions in memory md md]] #todo
+- [ ] [[determine_pm2_configuration_for_agents_1_md.md|determine pm2 configuration for agents 1 md]] #todo
+- [ ] [[dev mode for each package.md|Dev mode]] #todo
+- [ ] [[discord_chat_link_traversal_md_md.md|discord chat link traversal md md]] #todo
+- [ ] [[discord_image_attachment_indexer_md.md|discord image attachment indexer md]] #todo
+- [ ] [[discord_image_awareness_md_md.md|discord image awareness md md]] #todo
+- [ ] [[discord_link_indexer_md.md|discord link indexer md]] #todo
+- [ ] [[docker-compose-edn-template-system.md|docker compose edn template system]] #todo
+- [ ] [[dockerize-the-system.md|dockerize the system]] #todo
+- [ ] [[Docops pipeline.md|docops pipeline]] #todo
+- [ ] [[document_board_sync_workflow_md_md.md|document board sync workflow md md]] #todo
+- [ ] [[document_board_usage_guidelines_1_md.md|document board usage guidelines 1 md]] #todo
+- [ ] [[document_etag_semantics_and_cache_headers_for_snap_md.md|document etag semantics and cache headers for snap md]] #todo
+- [ ] [[document_local_testing_setup_md_md.md|document local testing setup md md]] #todo
+- [ ] [[each_service_registers_a_pid_with_a_heartbeat_service_if_they_do_not_successfully_check_in_terminate_the_process_using_the_pid_md_md.md|each service registers a pid with a heartbeat service if they do not successfully check in terminate the process using the pid md md]] #todo
+- [ ] [[ecs_component_schemas_core.md|ecs component schemas core]] #todo
+- [ ] [[ecs_migration_path_docs.md|ecs migration path docs]] #todo
+- [ ] [[ecs_mongo_adapter_library.md|ecs mongo adapter library]] #todo
+- [ ] [[ecs_persistence_integration_cephalon.md|ecs persistence integration cephalon]] #todo
+- [ ] [[ecs_projection_jobs.md|ecs projection jobs]] #todo
+- [ ] [[ecs_query_api_gateway.md|ecs query api gateway]] #todo
+- [ ] [[periodicly-the-embedding-service-will-get-disconnected-from-the-broker-and-not-die--blocking-other-processes-who-require-embeddings.-incoming.md|Embedding service sometimes disconnects from broker and hangs → detect, shed, kill, recover]] #todo
+- [ ] [[enable_compactor_for_process_state_process_state_s_md.md|enable compactor for process state process state s md]] #todo
+- [ ] [[enable_scripts_lint_topics_ts_in_ci_md.md|enable scripts lint topics ts in ci md]] #todo
+- [ ] [[ensure_github_compatible_markdown_settings_are_doc_md.md|ensure github compatible markdown settings are doc md]] #todo
+- [ ] [[ensure_mongo_indexes_key_1_unique_common_query_fie_md.md|ensure mongo indexes key 1 unique common query fie md]] #todo
+- [ ] [[ensure-openapi-specs-are-automaticly-updated-when-an-endpoint-is-changed.md|ensure openapi specs are automaticly updated when an endpoint is changed]] #todo
+- [ ] [[evaluate-docker-npu-compatability.md|Evaluate and integrate docker NPU image into workflows]] #todo
+- [ ] [[evaluate_and_reward_flow_satisfaction.md|evaluate and reward flow satisfaction]] #todo
+- [ ] [[evaluate-ollama-openvino.md|evaluate ollama openvino]] #todo
+- [ ] [[expand-functional-loop-refactors.md|Expand functional loop refactors across repository]] #todo #refactor #functional-style
+- [ ] [[expose_metrics_on_an_express_app_and_scrape_with_p_md.md|expose metrics on an express app and scrape with p md]] #todo
+- [ ] [[expose_snapshot_api_for_processes_collection_proce_md.md|expose snapshot api for processes collection proce md]] #todo
+- [ ] [[extract_docs_from_riatzukiza_github_io_md_md.md|extract docs from riatzukiza github io md md]] #todo
+- [ ] [[extract_site_modules_from_riatzukiza_github_io_md_md.md|extract site modules from riatzukiza github io md md]] #todo
+- [ ] [[file-explorer.md|file explorer]] #todo
+- [ ] [[finalize_migration_plan_md_md_md.md|finalize migration plan md md md]] #todo
+- [ ] [[finalize_stt_workflow_md_md.md|finalize stt workflow md md]] #todo
+- [ ] [[find-music-that-triggered-copyright-mute-on-twitch-for-analysis-incoming.md|find music that triggered copyright mute on twitch for analysis incoming]] #todo
+- [ ] [[finish_whisper_npu_system_md_md.md|finish whisper npu system md md]] #todo
+- [ ] [[fix_makefile_test_target_md.md|fix makefile test target md]] #todo
+- [ ] [[fix-build-errors-enso-docops-kanban-webcrawler.md|Fix TypeScript build errors across key packages]] #todo #board-auto #lang-ts
+- [ ] [[flatten-services.md|flatten services]] #todo
+- [ ] [[format_auth_service_readme_with_prettier.md|Format auth-service README with Prettier]] #todo
+- [ ] [[fp-ts-config-and-linting.md|fp ts config and linting]] #todo
+- [ ] [[frontend-build-tool-chain.md|frontend build tool chain]] #todo
+- [ ] [[full_agent_mode_text_chat_selectively_join_channels_etc_md.md|full agent mode text chat selectively join channels etc md]] #todo
+- [ ] [[fully-convert-js-ts-projects-to-pnpm-incoming.md|fully convert js ts projects to pnpm incoming]] #todo
+- [ ] [[gather_baseline_emotion_metrics_for_eidolon_field_1_md.md|gather baseline emotion metrics for eidolon field 1 md]] #todo
+- [ ] [[gather_open_questions_about_system_direction_md_md.md|gather open questions about system direction md md]] #todo
+- [ ] [[get all existing piper pipelines functional.md|Get all existing pipelines functional]] #todo
+- [ ] [[gpt-bridge-fuzzy-lookup-should-return-multiple-matches-when-it-is-used..md|gpt bridge fuzzy lookup should return multiple matches when it is used]] #todo
+- [ ] [[hacking-through-the-snow....md|hacking-through-the-snow...]] #todo
+- [ ] [[identify_ancestral_resonance_patterns_framework_co_md.md|identify ancestral resonance patterns framework co md]] #todo
+- [ ] [[identify_ancestral_resonance_patterns_md_md.md|identify ancestral resonance patterns md md]] #todo
+- [ ] [[implement_fragment_ingestion_with_activation_vecto_md.md|implement fragment ingestion with activation vecto md]] #todo
+- [ ] [[implement_pause_resume_ops_on_gateway_md.md|implement pause resume ops on gateway md]] #todo
+- [ ] [[implement_timetravel_processat_processid_t_in_a_sm_md.md|implement timetravel processat processid t in a sm md]] #todo
+- [ ] [[implement_transcendence_cascade_framework_core_md.md|implement transcendence cascade framework core md]] #todo
+- [ ] [[implement_transcendence_cascade_md.md|implement transcendence cascade md]] #todo
+- [ ] [[install_biome_dependency_for_cephalon_discord.md|Install Biome dependency for cephalon-discord]] #todo
+- [ ] [[integrate-sonarqube-into-devops.md|integrate sonarqube into devops]] #todo
+- [ ] [[just-so-much-batman.md|just so much batman]] #todo
+- [ ] [[kanban-processor.md|kanban processor]] #todo
+- [ ] [[kubernetes-configurations-for-secure-distributed-deployment-on-local-net.md|kubernetes configurations for secure distributed deployment on local net]] #todo
+- [ ] [[launch_replayapi_on_8083_test_replay_and_export_nd_md.md|launch replayapi on 8083 test replay and export nd md]] #todo
+- [ ] [[lisp-package-files.md|lisp package files]] #todo
+- [ ] [[llm-service-must-accept-tool-calls.md|llm service must accept tool calls]] #todo
+- [ ] [[llm-service-must-allow-streamed-responses.md|llm service must allow streamed responses]] #todo
+- [ ] [[look_into_why_the_state_object_never_seems_to_get_updated_md_md.md|look into why the state object never seems to get updated md md]] #todo
+- [ ] [[set-up-data-migration-pipeline-and-clearly-describe-conventions.md|Maintain Testing vs Working Databases w/ Migration Contract]] #todo
+- [ ] [[make_discord_channel_aware_contextualizer_md_md.md|make discord channel aware contextualizer md md]] #todo
+- [ ] [[make_seperate_execution_pathways_1_md_md.md|make seperate execution pathways 1 md md]] #todo
+- [ ] [[make-the-system-hashtag-aware.md|make the system hashtag aware]] #todo
+- [ ] [[many-batmen.md|many batmen]] #todo
+- [ ] [[migrate_portfolio_client_code_to_promethean_md.md|migrate portfolio client code to promethean md]] #todo
+- [ ] [[migrate_server_side_sibilant_libs_to_promethean_ar_md.md|migrate server side sibilant libs to promethean ar md]] #todo
+- [ ] [[migrate_server_side_sibilant_libs_to_promethean_architecture_md.md|migrate server side sibilant libs to promethean architecture md]] #todo
+- [ ] [[migrating_relevant_modules_from_riatzukiza_github_io_to_-site-_and_-docs-_md.md|migrating relevant modules from riatzukiza github io to site and docs md]] #todo
+- [ ] [[migrating_relevant_modules_from_riatzukiza_github_md.md|migrating relevant modules from riatzukiza github md]] #todo
+- [ ] [[mirror_shared_utils_with_language-specific_doc_folders_md_md.md|mirror shared utils with language specific doc folders md md]] #todo
+- [ ] [[mock-broker.md|Mock the Broker for Tests]] #todo
+- [ ] [[move_all_testing_to_individual_services_md.md|move all testing to individual services md]] #todo
+- [ ] [[move-discord-scraper-to-ts.md|move discord scraper to ts]] #todo
+- [ ] [[obsidian_kanban_github_project_board_mirror_system_md_md.md|obsidian kanban github project board mirror system md md]] #todo
+- [ ] [[obsidian_replacement_md.md|obsidian replacement md]] #todo
+- [ ] [[phase-out-proxy-in-favor-of-bridge-service.md|phase out proxy in favor of bridge service]] #todo
+- [ ] [[pin_versions_in_configs_md.md|Pin versions in configs]] #todo
+- [ ] [[pin_versions_in_configs_promethean_codex_md.md|pin versions in configs promethean codex md]] #todo
+- [ ] [[pr-688-nitpack-policy.md|Placeholder — will be overwritten by nitpack]] #todo
+- [ ] [[pr-688-nitpack-codemods.md|Placeholder — will be overwritten by nitpack]] #todo
+- [ ] [[pr-688-nitpack-extract.md|pr 688 nitpack extract]] #todo
+- [ ] [[prevent_dangling_processes_when_a_process_fails_due_to_error_or_automaticly_clean_them_up_1_md_md.md|prevent dangling processes when a process fails due to error or automaticly clean them up 1 md md]] #todo
+- [ ] [[mvp-local-llm-chat-interface-with-tool-calls-connected-to-gpt-bridge.md|Pythagoras GPT Mirror (WS chat + OpenAPI-driven tool calls via /v1)]] #todo
+- [ ] [[reach_100_percent_complete_test_coverage_1_md_md.md|reach 100 percent complete test coverage 1 md md]] #todo
+- [ ] [[run_bakeoff_see_below_md.md|Reason for rejection]] #todo
+- [ ] [[redefine-all-existing-lambdas-with-high-order-functions-incoming.md|redefine all existing lambdas with high order functions incoming]] #todo
+- [ ] [[refactor_any_python_modules_not_currently_for_ml_stuff_discord_etc_2_md.md|refactor any python modules not currently for ml stuff discord etc 2 md]] #todo
+- [ ] [[refactor_speech_interuption_system_to_be_more_inteligent_using_audio_data_to_decide_if_interupted_md_md.md|refactor speech interuption system to be more inteligent using audio data to decide if interupted md md]] #todo
+- [ ] [[register_v_1_schema_for_any_evolving_topic_and_wri_md.md|register v 1 schema for any evolving topic and wri md]] #todo
+- [ ] [[remove_any_types_across_packages.md|Remove `any` types across packages]] #todo
+- [ ] [[recover broker code.md|Replace <SHA> with the commit from step 1]] #todo
+- [ ] [[research_github_projects_board_api_md.md|research github projects board api md]] #todo
+- [ ] [[resolve_biome_lint_errors_in_compiler.md|Resolve Biome lint errors in compiler package]] #todo
+- [ ] [[resolve_eslint_violations_repo_wide.md|Resolve ESLint violations across repository]] #todo
+- [ ] [[Review pipeline documentation.md|review pipeline documentation in README]] #todo
+- [ ] [[rewrite-build-tools-with-bb.md|rewrite build tools with bb]] #todo
+- [ ] [[run_bench_subscribe_ts_with_mongo_bus_and_record_p_md.md|run bench subscribe ts with mongo bus and record p md]] #todo
+- [ ] [[run_model_bakeoff_md.md|run model bakeoff md]] #todo
+- [ ] [[schedule_alignment_meeting_with_stakeholders_md_md.md|schedule alignment meeting with stakeholders md md]] #todo
+- [ ] [[scripts_add_folder_readmes_and_usage.md|scripts add folder readmes and usage]] #todo
+- [ ] [[scripts_add_make_targets_and_aliases.md|scripts add make targets and aliases]] #todo
+- [ ] [[scripts_audit_and_standardize_cli_flags.md|scripts audit and standardize cli flags]] #todo
+- [ ] [[scripts_group_audio_tools.md|scripts group audio tools]] #todo
+- [ ] [[scripts_group_docs_utilities.md|scripts group docs utilities]] #todo
+- [ ] [[scripts_group_indexing_tools.md|scripts group indexing tools]] #todo
+- [ ] [[scripts_update_ci_and_refs.md|scripts update ci and refs]] #todo
+- [ ] [[send_waveforms_spectrograms_and_dekstop_screenshots_to_discord_for_remote_storage_md_md.md|send waveforms spectrograms and dekstop screenshots to discord for remote storage md md]] #todo
+- [ ] [[separate_all_testing_pipelines_in_github_actions_md.md|separate all testing pipelines in github actions md]] #todo
+- [ ] [[set_up_makefile_for_python_js_build_test_dev_md.md|set up makefile for python js build test dev md]] #todo
+- [ ] [[set-up-new-user-roles-and-policies-for-the-systems.md|set up new user roles and policies for the systems]] #todo
+- [ ] [[set-up-proper-openai-custom-gpt-compatable-oauth-login-flow.md|set up proper openai custom gpt compatable oauth login flow]] #todo
+- [ ] [[setup_a_second_agent_md.md|setup a second agent md]] #todo
+- [ ] [[setup_code_in_wsl_md.md|setup code in wsl md]] #todo
+- [ ] [[setup-new-service-generator.md|setup new service generator]] #todo
+- [ ] [[setup_services_to_recieve_work_from_the_broker_via_push_md.md|setup services to recieve work from the broker via push md]] #todo
+- [ ] [[smart_task_templater_md.md|smart task templater md]] #todo
+- [ ] [[snapshot_prompts_specs_to_repo.md|snapshot prompts specs to repo]] #todo
+- [ ] [[something-something..md|something something]] #todo
+- [ ] [[something-something.-1.md|something something 1]] #todo
+- [ ] [[something-something..-danger-zone-.md|something-something..-danger-zone-]] #todo
+- [ ] [[spin_up_ws_gateway_ws_port_8090_ws_token_devtoken_md.md|spin up ws gateway ws port 8090 ws token devtoken md]] #todo
+- [ ] [[start_eidolon.md|start eidolon]] #todo
+- [ ] [[structure_vault_to_mirror_services_agents_docs_md_md.md|structure vault to mirror services agents docs md md]] #todo
+- [ ] [[suggest_metaprogramming_updates_codex_task_md.md|suggest metaprogramming updates codex task md]] #todo
+- [ ] [[suggest_metaprogramming_updates_md.md|suggest metaprogramming updates md]] #todo
+- [ ] [[summarize_clarified_priorities_for_next_sprint_md_md.md|summarize clarified priorities for next sprint md md]] #todo
+- [ ] [[switch_critical_readers_to_subscribenormalized_md.md|switch critical readers to subscribenormalized md]] #todo
+- [ ] [[switch_gateway_auth_to_jwt_generate_temp_hs256_tok_md.md|switch gateway auth to jwt generate temp hs256 tok md]] #todo
+- [ ] [[tamper-monkey-script-for-using-templates-defined-in-the-vault.md|tamper monkey script for using templates defined in the vault]] #todo
+- [ ] [[task-generator-system.md|task generator system]] #todo
+- [ ] [[breakdown-cephalon-voice-commands-file-using-ecs.md|Task: Break down cephalon voice commands file]] #todo
+- [ ] [[chatgpt-export-injest-with-dedupe-index-and-hashes.md|Task: ChatGPT Export Ingest with De‑dup Index & Hashes]] #todo
+- [ ] [[openai-compatable-api.md|Task: Context Layer Between Codex and Local LLMs]] #todo
+- [ ] [[structural-code-editing-ai-tool-that-uses-tree-diffs-instead-of-string-based-universal-diffs--ensuring-generated-results-are-always-immediately-validatable.md|Task: Structural code editing AI tool (tree-diffs, not text-diffs) — with immediate validation]] #todo
+- [ ] [[thinking_model_integration_md_md.md|thinking model integration md md]] #todo
+- [ ] [[tool_chain_management_system_md_md.md|tool chain management system md md]] #todo
+- [ ] [[tree-diffing-tools.md|tree diffing tools]] #todo
+- [ ] [[twitch_discord_general_auto_mod_md_md.md|twitch discord general auto mod md md]] #todo
+- [ ] [[twitch_stream_title_generator_md_md.md|twitch stream title generator md md]] #todo
+- [ ] [[update_cephalon_to_use_custom_embedding_function_md_md.md|update cephalon to use custom embedding function md md]] #todo
+- [ ] [[update_github_actions_to_use_makefile_md_md.md|update github actions to use makefile md md]] #todo
+- [ ] [[update_makefile_to_have_commands_specific_for_agents_md.md|update makefile to have commands specific for agents md]] #todo
+- [ ] [[use_node_protocol_for_builtin_imports.md|Use `node:` protocol for builtin imports]] #todo
+- [ ] [[use_subscribepartitioned_for_cpu_heavy_consumers_t_md.md|use subscribepartitioned for cpu heavy consumers t md]] #todo
+- [ ] [[webcrawler.md|Web Crawler Agent → Hyperlink Graph → LLM Summaries/#Tags → Chroma Search (Dual-Sink)]] #todo
+- [ ] [[create-broker-services-that-can-handle-all-the-same-tasks-as-the-gpt-bridge.md|WebSocket Broker API Parity with GPT Bridge]] #todo
+- [ ] [[wire_mongoeventstore_mongocursorstore_in_place_of_md.md|wire mongoeventstore mongocursorstore in place of md]] #todo
+- [ ] [[wire_runoutboxdrainer_in_event_hub_md.md|wire runoutboxdrainer in event hub md]] #todo
+- [ ] [[wrap_event_hub_publish_path_with_withschemavalidat_md.md|wrap event hub publish path with withschemavalidat md]] #todo
+- [ ] [[wrap_writers_with_withdualwrite_md.md|wrap writers with withdualwrite md]] #todo
+- [ ] [[write_a_replay_job_that_replays_process_state_snap_md.md|write a replay job that replays process state snap md]] #todo
+- [ ] [[write_a_small_cutover_script_to_replay_historical_md.md|write a small cutover script to replay historical md]] #todo
+- [ ] [[write_a_smoke_test_client_subscribes_publish_10_ms_md.md|write a smoke test client subscribes publish 10 ms md]] #todo
+- [ ] [[write_board_sync_script_md_md.md|write board sync script md md]] #todo
+- [ ] [[write_end_to_end_tests_md_md.md|write end to end tests md md]] #todo
+- [ ] [[write_meaningful_tests_for_cephalon_md_md.md|write meaningful tests for cephalon md md]] #todo
+- [ ] [[write_simple_ecosystem_declaration_library_for_new_md_md.md|write simple ecosystem declaration library for new md md]] #todo
+- [ ] [[write_vault_config_readme_md_for_obsidian_vault_on_md.md|write vault config readme md for obsidian vault on md]] #todo
+
+## In Progress
+
+- [ ] [[move-board-tools-into-kanban-package.md|move board tooling into kanban package]] #in-progress #framework-core #devtools
+
+## Document
+
+- [ ] [[remove_commonjs_artifacts_repo_wide.md|Remove CommonJS artifacts from repository]] #document #codex-task #doc-this
+
+## Icebox
+
+- [ ] [[validate-voice-demo-microphone-integration.md|validate voice-demo microphone integration]] #icebox #audio #manual-test
+
+%% kanban:settings
+```
+{"kanban-plugin":"board","list-collapse":[false,false,true,false,false,false,false,false,false,false,false,true,false,false,false],"new-note-template":"docs/agile/templates/task.stub.template.md","new-note-folder":"docs/agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
+```
+%%
