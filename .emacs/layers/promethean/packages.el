@@ -18,3 +18,5 @@
   (load (expand-file-name "hy.el" promethean--layer-dir)))
 (defun promethean/init-promethean-sibilant-mode ()
   (load (expand-file-name "sibilant.el" promethean--layer-dir)))
+
+;;; packages.el ends here
