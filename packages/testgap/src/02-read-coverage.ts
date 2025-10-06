@@ -24,7 +24,11 @@ function parseLCOV(raw: string): FileCoverage[] {
       covered = 0;
     const coveredLines: number[] = [];
     for (const line of lines) {
-      if (line.startsWith("SF:")) file = relFromRepo(line.slice(3).trim());
+      if (line.startsWith("SF:")) {
+        const filePath = line.slice(3).trim();
+        // Only apply relFromRepo if it's an absolute path, otherwise use as-is
+        file = path.isAbsolute(filePath) ? relFromRepo(filePath) : filePath;
+      }
       if (line.startsWith("DA:")) {
         const [nStr, hitsStr] = line.slice(3).split(",");
         const n = Number(nStr),
