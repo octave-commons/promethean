@@ -68,22 +68,22 @@ test('validate-config returns ok when workflows match exposed tools', async (t) 
   const endpoints: EndpointDefinition[] = [
     {
       path: '/files',
-      tools: ['files.search', 'files.view-file'],
+      tools: ['files_search', 'files_view_file'],
       includeHelp: true,
       meta: {
         title: 'Filesystem',
         description: 'Search and inspect workspace files.',
-        workflow: ['files.search → files.view-file'],
+        workflow: ['files_search → files_view_file'],
       },
     },
   ];
   const ctx = mkCtx(endpoints, [
-    'files.search',
-    'files.view-file',
+    'files_search',
+    'files_view_file',
     'apply_patch',
-    'mcp.help',
-    'mcp.toolset',
-    'mcp.endpoints',
+    'mcp_help',
+    'mcp_toolset',
+    'mcp_endpoints',
   ]);
   const tool = validateConfig(ctx);
   const result = ResultSchema.parse(await tool.invoke(undefined));
@@ -133,21 +133,21 @@ test('validate-config flags unknown workflow tool ids', async (t) => {
   const endpoints: EndpointDefinition[] = [
     {
       path: '/files',
-      tools: ['files.view-file'],
+      tools: ['files_view_file'],
       includeHelp: true,
       meta: {
         title: 'Filesystem',
         description: 'Read files.',
-        workflow: ['files.view-file → files.apply'],
+        workflow: ['files_view_file → files_apply'],
       },
     },
   ];
-  const ctx = mkCtx(endpoints, ['files.view-file']);
+  const ctx = mkCtx(endpoints, ['files_view_file']);
   const tool = validateConfig(ctx);
   const result = ResultSchema.parse(await tool.invoke(undefined));
   t.false(result.ok);
   t.true(
-    result.errors.some((msg) => msg.includes('files.apply')),
+    result.errors.some((msg) => msg.includes('files_apply')),
     result.errors.join('\n'),
   );
   t.is(result.summary.workflowIssues, 1);
@@ -157,21 +157,21 @@ test('validate-config detects workflow references missing from endpoint', async 
   const endpoints: EndpointDefinition[] = [
     {
       path: '/files',
-      tools: ['files.view-file'],
+      tools: ['files_view_file'],
       includeHelp: true,
       meta: {
         title: 'Filesystem',
         description: 'Read files.',
-        workflow: ['Consult docs', 'files.search'],
+        workflow: ['Consult docs', 'files_search'],
       },
     },
   ];
-  const ctx = mkCtx(endpoints, ['files.view-file', 'files.search']);
+  const ctx = mkCtx(endpoints, ['files_view_file', 'files_search']);
   const tool = validateConfig(ctx);
   const result = ResultSchema.parse(await tool.invoke(undefined));
   t.false(result.ok);
   t.true(
-    result.errors.some((msg) => msg.includes('files.search')),
+    result.errors.some((msg) => msg.includes('files_search')),
     result.errors.join('\n'),
   );
   t.true(result.warnings.some((msg) => msg.includes('does not reference any tool ids')));

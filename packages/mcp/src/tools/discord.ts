@@ -1,12 +1,7 @@
-import { z } from "zod";
-import { DiscordRestProxy } from "@promethean/discord";
+import { z } from 'zod';
+import { DiscordRestProxy } from '@promethean/discord';
 
-import type {
-  Tool,
-  ToolContext,
-  ToolFactory,
-  ToolSpec,
-} from "../core/types.js";
+import type { Tool, ToolContext, ToolFactory, ToolSpec } from '../core/types.js';
 
 const RestResponseSchema = z
   .object({
@@ -26,16 +21,11 @@ type ListParams = Readonly<{
   readonly around?: string;
 }>;
 
-type SendArgs = Readonly<
-  [string, string, string, string, unknown, typeof fetch]
->;
+type SendArgs = Readonly<[string, string, string, string, unknown, typeof fetch]>;
 
 type ProxyLike = Readonly<{
   routeForPostMessage: (spaceUrn: string) => RouteDescriptor;
-  routeForListMessages: (
-    spaceUrn: string,
-    params?: ListParams,
-  ) => RouteDescriptor;
+  routeForListMessages: (spaceUrn: string, params?: ListParams) => RouteDescriptor;
   send: (...args: SendArgs) => Promise<unknown>;
 }>;
 
@@ -47,7 +37,7 @@ const defaultProxyFactory: ProxyFactory = () =>
 const resolveProvider = (
   explicit: string | undefined,
   env: Readonly<Record<string, string | undefined>>,
-): string => explicit ?? env.DISCORD_PROVIDER ?? "discord";
+): string => explicit ?? env.DISCORD_PROVIDER ?? 'discord';
 
 const requireValue = (value: string | undefined, message: string): string =>
   z.string({ required_error: message }).min(1, message).parse(value);
@@ -56,14 +46,10 @@ const resolveTenant = (
   explicit: string | undefined,
   env: Readonly<Record<string, string | undefined>>,
 ): string => {
-  const tenant =
-    explicit ??
-    env.DISCORD_TENANT ??
-    env.DISCORD_GUILD ??
-    env.DISCORD_SPACE_TENANT;
+  const tenant = explicit ?? env.DISCORD_TENANT ?? env.DISCORD_GUILD ?? env.DISCORD_SPACE_TENANT;
   return requireValue(
     tenant,
-    "discord tools require a tenant; pass `tenant` or set DISCORD_TENANT / DISCORD_GUILD",
+    'discord tools require a tenant; pass `tenant` or set DISCORD_TENANT / DISCORD_GUILD',
   );
 };
 
@@ -74,7 +60,7 @@ const resolveSpaceUrn = (
   const urn = explicit ?? env.DISCORD_SPACE_URN ?? env.DISCORD_CHANNEL_URN;
   return requireValue(
     urn,
-    "discord tools require a spaceUrn; pass `spaceUrn` or set DISCORD_SPACE_URN",
+    'discord tools require a spaceUrn; pass `spaceUrn` or set DISCORD_SPACE_URN',
   );
 };
 
@@ -91,10 +77,9 @@ const mapResult = (
   return {
     ok: safe.ok,
     status: safe.status,
-    ...(typeof safe.body !== "undefined" ? { body: safe.body } : {}),
+    ...(typeof safe.body !== 'undefined' ? { body: safe.body } : {}),
     ...(safe.bucket ? { bucket: safe.bucket } : {}),
-    retryAfterMs:
-      typeof safe.retry_after_ms === "number" ? safe.retry_after_ms : null,
+    retryAfterMs: typeof safe.retry_after_ms === 'number' ? safe.retry_after_ms : null,
   };
 };
 
@@ -109,13 +94,10 @@ const MessagePayload = z
   })
   .refine(
     (value) => Boolean(value.content) || Boolean(value.embeds?.length),
-    "message content or embeds are required",
+    'message content or embeds are required',
   );
 
-const createSendMessageTool = (
-  ctx: ToolContext,
-  proxyFactory: ProxyFactory,
-): Tool => {
+const createSendMessageTool = (ctx: ToolContext, proxyFactory: ProxyFactory): Tool => {
   const shape = {
     provider: z.string().optional(),
     tenant: z.string().optional(),
@@ -125,12 +107,12 @@ const createSendMessageTool = (
   const Schema = z.object(shape);
 
   const spec = {
-    name: "discord.send-message",
+    name: 'discord_send_message',
     description:
-      "Send a message to a Discord channel. Provide content or embeds and the Discord space URN.",
+      'Send a message to a Discord channel. Provide content or embeds and the Discord space URN.',
     inputSchema: shape,
-    stability: "experimental",
-    since: "0.1.0",
+    stability: 'experimental',
+    since: '0.1.0',
   } satisfies ToolSpec;
 
   const proxy = proxyFactory();
@@ -141,14 +123,7 @@ const createSendMessageTool = (
     const tenant = resolveTenant(args.tenant, ctx.env);
     const spaceUrn = resolveSpaceUrn(args.spaceUrn, ctx.env);
     const { method, route } = proxy.routeForPostMessage(spaceUrn);
-    const res = await proxy.send(
-      provider,
-      tenant,
-      method,
-      route,
-      args.message,
-      ctx.fetch,
-    );
+    const res = await proxy.send(provider, tenant, method, route, args.message, ctx.fetch);
     return mapResult(res);
   };
 
@@ -167,17 +142,13 @@ const ListSchemaShape = {
 
 const ListSchema = z.object(ListSchemaShape);
 
-const createListMessagesTool = (
-  ctx: ToolContext,
-  proxyFactory: ProxyFactory,
-): Tool => {
+const createListMessagesTool = (ctx: ToolContext, proxyFactory: ProxyFactory): Tool => {
   const spec = {
-    name: "discord.list-messages",
-    description:
-      "List recent messages from a Discord channel with optional pagination parameters.",
+    name: 'discord_list_messages',
+    description: 'List recent messages from a Discord channel with optional pagination parameters.',
     inputSchema: ListSchemaShape,
-    stability: "experimental",
-    since: "0.1.0",
+    stability: 'experimental',
+    since: '0.1.0',
   } satisfies ToolSpec;
 
   const proxy = proxyFactory();
@@ -188,21 +159,14 @@ const createListMessagesTool = (
     const tenant = resolveTenant(args.tenant, ctx.env);
     const spaceUrn = resolveSpaceUrn(args.spaceUrn, ctx.env);
     const params: ListParams = {
-      ...(typeof args.limit === "number" ? { limit: args.limit } : {}),
+      ...(typeof args.limit === 'number' ? { limit: args.limit } : {}),
       ...(args.before ? { before: args.before } : {}),
       ...(args.after ? { after: args.after } : {}),
       ...(args.around ? { around: args.around } : {}),
     };
 
     const { method, route } = proxy.routeForListMessages(spaceUrn, params);
-    const res = await proxy.send(
-      provider,
-      tenant,
-      method,
-      route,
-      undefined,
-      ctx.fetch,
-    );
+    const res = await proxy.send(provider, tenant, method, route, undefined, ctx.fetch);
     return mapResult(res);
   };
 
