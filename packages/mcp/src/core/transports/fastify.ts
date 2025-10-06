@@ -25,6 +25,7 @@ import type { StdioHttpProxy } from '../../proxy/stdio-proxy.js';
 import { resolveHttpEndpoints, type EndpointDefinition } from '../resolve-config.js';
 import {
   createEndpointOpenApiDocument,
+  encodeActionPathSegment,
   isZodValidationError,
   toolToActionDefinition,
   type ActionDefinition,
@@ -1168,6 +1169,7 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
           invoke: (name, args) => manager.invokeAction(name, args),
         });
       };
+
       // eslint-disable-next-line functional/no-let
       let currentUiState: UiState | undefined = uiOptions
         ? createUiState(uiOptions, proxiesForUi)
@@ -1331,6 +1333,7 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
             /* eslint-enable functional/immutable-data */
             registerRoute(descriptor.path, createRouteHandler(descriptor.handler, sessions));
             registerRegistryActionEndpoints(descriptor);
+
             console.log(`[mcp:http] bound endpoint ${descriptor.path}`);
             continue;
           }

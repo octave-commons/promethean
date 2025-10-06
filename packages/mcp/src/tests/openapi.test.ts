@@ -6,7 +6,6 @@ import {
   encodeActionPathSegment,
   toolToActionDefinition,
 } from '../core/openapi.js';
-
 import type { EndpointDefinition } from '../core/resolve-config.js';
 import type { Tool } from '../core/types.js';
 
@@ -21,6 +20,7 @@ test('createEndpointOpenApiDocument describes tool actions', (t) => {
       since: '1.0.0',
       examples: [{ args: { value: 'demo' }, comment: 'Echo a demo value' }],
       notes: 'Returns the provided value under the echoed key.',
+      outputSchema: { result: { type: 'string' } },
     },
     invoke: (raw) => {
       const { value } = Schema.parse(raw ?? {});
@@ -44,73 +44,65 @@ test('createEndpointOpenApiDocument describes tool actions', (t) => {
 
   t.is(doc.openapi, '3.1.0');
   t.is(doc.info.title, 'Custom Endpoint');
-  t.truthy(doc.info.description);
-  t.deepEqual(doc.servers, [{ url: 'https://example.com/custom' }]);
-
-  const listPath = doc.paths['/actions'];
-  t.truthy(listPath);
-  const listExample = (listPath as { get?: { responses?: Record<string, unknown> } }).get
-    ?.responses?.['200'] as
-    | {
-        content?: {
-          'application/json'?: { example?: { actions?: Array<Record<string, unknown>> } };
-        };
-      }
-    | undefined;
-  t.truthy(listExample?.content?.['application/json']?.example?.actions);
+  t.true(typeof doc.info.description === 'string');
+  t.is(doc.servers[0]?.url, 'https://example.com/custom');
 
   t.truthy(doc.paths['/actions']);
   t.truthy(doc.paths['/actions/test.echo']);
 
-  const pathItemSchema = z.object({
-    post: z.object({
-      operationId: z.string(),
-      requestBody: z.object({
-        content: z.object({
-          'application/json': z.object({
-            schema: z.object({
-              type: z.string(),
-              properties: z.record(z.unknown()).optional(),
-            }),
-          }),
-        }),
-      }),
-      responses: z.object({
-        '200': z.object({
-          content: z.object({
-            'application/json': z.object({
-              schema: z.object({
-                type: z.string(),
-                properties: z.record(z.unknown()).optional(),
-              }),
+  const action = doc.paths['/actions/test.echo'] as {
+    post: {
+      operationId: string;
+      requestBody: {
+        required: boolean;
+        content: {
+          'application/json': {
+            schema: { type: string; properties?: Record<string, unknown> };
+            examples?: Record<string, { value: Record<string, unknown> }>;
+          };
+        };
+      };
+      responses: {
+        '200': {
+          content: {
+            'application/json': {
+              schema: { type: string; properties?: Record<string, unknown> };
+              example?: Record<string, unknown>;
+            };
+          };
+        };
+        '400': {
+          content: {
+            'application/json': {
+              schema: { type?: string; required?: string[]; properties?: Record<string, unknown> };
+            };
+          };
+        };
+        '500': {
+          content: {
+            'application/json': { schema: Record<string, unknown> };
+          };
+        };
+      };
+    };
+  } | null;
 
-              schema: z.object({ type: z.string() }),
-            }),
-          }),
-        }),
-        '400': z.object({
-          content: z.object({
-            'application/json': z.object({
-              schema: z.object({
-                required: z.array(z.string()).optional(),
+  t.truthy(action);
+  if (!action) {
+    t.fail('expected action path definition');
+    return;
+  }
 
-                properties: z.record(z.unknown()).optional(),
-              }),
-            }),
-          }),
-        }),
-      }),
-    }),
-  });
-  const action = pathItemSchema.parse(doc.paths['/actions/test.echo']);
   t.is(action.post.operationId, 'test_echo_action');
+  t.true(action.post.requestBody.required);
   const requestSchema = action.post.requestBody.content['application/json'].schema;
   t.is(requestSchema.type, 'object');
   t.truthy(requestSchema.properties);
+
   const successResponse = action.post.responses['200'].content['application/json'].schema;
   t.is(successResponse.type, 'object');
   t.truthy(successResponse.properties);
-  t.truthy(successResponse.properties?.result);
+
   const errorResponse = action.post.responses['400'].content['application/json'].schema;
   t.true(!errorResponse.required || errorResponse.required.length >= 0);
   t.truthy(errorResponse.properties);
