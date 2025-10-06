@@ -21,7 +21,7 @@
     "test": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "ava",
+        "command": "pnpm exec ava --config ../../config/ava.config.mjs",
         "cwd": "{projectRoot}",
         "env": {
           "AVA_PROJECT_ROOT": "."
