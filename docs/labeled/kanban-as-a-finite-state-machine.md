@@ -174,3 +174,9 @@ The process is agent-agnostic. Agent-specific safety rules (e.g., Codex Cloud’
 ---
 
 If you want, I can also generate a tiny per-column **Entry / Work / Exit** table next (one line each)—machine-readable but still minimal.
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- _None_
+## Sources
+- _None_
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

@@ -130,3 +130,9 @@ awesome—here’s the **concise transition spec** to pair with the mermaid FSM 
 * Prompts/docs are treated exactly like code: they follow the same transitions.
 
 If this matches, next micro-step: I’ll add **per-column “Entry / Work / Exit” bulletlets** (one line each) to make R(Tₙ, t) explicit but still tiny—so agents stop guessing and the board remains the one true machine.
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- _None_
+## Sources
+- _None_
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

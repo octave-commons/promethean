@@ -243,3 +243,9 @@ If you want me to push the patch immediately:
 * Or fix the connector’s body forwarding (ensure it sets `Content-Type: application/json` and forwards the exact JSON payload), and I’ll push and open the PR the moment it accepts a proper `PUT /contents` body.
 
 Your call. Either way, the above files will get the **HTTP transport working** so we can proceed to provider consolidation next.
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- _None_
+## Sources
+- _None_
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

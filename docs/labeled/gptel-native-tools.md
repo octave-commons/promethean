@@ -368,3 +368,9 @@ If you want me to refactor `search_files` to prefer ripgrep (`rg`) when present,
 [2]: https://doc.endlessparentheses.com/Fun/epatch.html?utm_source=chatgpt.com "epatch - Emacs Online Documentation"
 [3]: https://www.gnu.org/software/emacs/manual/html_node/elisp/Synchronous-Processes.html?utm_source=chatgpt.com "Synchronous Processes (GNU Emacs Lisp Reference ..."
 [4]: https://www.gnu.org/software/emacs/manual/html_node/elisp/Contents-of-Directories.html?utm_source=chatgpt.com "Contents of Directories (GNU Emacs Lisp Reference Manual)"
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- _None_
+## Sources
+- _None_
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

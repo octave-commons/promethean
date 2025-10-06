@@ -148,3 +148,9 @@ Add near your “Board is law” sentence:
 ## Next micro-step
 
 If you’re happy with this, say “apply FSM rules” and I’ll package these exact blocks for your `process.md` and the Cloud snippet for `codex-cloud.md`/`system_prompt.md`. Then we’ll do the short **Entry / Work / Exit** one-liners per column so the rules are machine-readable without getting verbose.
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- _None_
+## Sources
+- _None_
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

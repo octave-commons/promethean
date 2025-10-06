@@ -80,3 +80,9 @@ I'm kinda thinkin, since codex goes to main and I don't actually want main to be
 
 Main should be the target branch for new PRs. But it is not the release/production branch.
 that is aside from this... We are trying to capture the current workflow.
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- _None_
+## Sources
+- _None_
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

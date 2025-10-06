@@ -132,3 +132,9 @@ If you want, I’ll map this to specific stacks (Faiss GPU, Qdrant, or Milvus) w
 [6]: https://qdrant.tech/documentation/concepts/indexing/?utm_source=chatgpt.com "Indexing"
 [7]: https://milvus.io/docs/ivf-pq.md?utm_source=chatgpt.com "IVF_PQ | Milvus Documentation"
 [8]: https://qdrant.tech/documentation/concepts/search/?utm_source=chatgpt.com "Similarity search"
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- _None_
+## Sources
+- _None_
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

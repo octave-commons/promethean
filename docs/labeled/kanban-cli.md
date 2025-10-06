@@ -59,3 +59,9 @@ columnData looks like:
 - regenerate -> `{totalTasks}` # complete rebuild the board from the tasks folder
 - indexForSearch -> `{started:bool}` 
 - search term -> `{similar:[tasks], exact:[tasks]}`
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- _None_
+## Sources
+- _None_
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

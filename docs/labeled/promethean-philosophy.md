@@ -28,3 +28,9 @@ complicated things.
 
 Promethean is as much a knowledge repository as it is a code base.
 The future is document oriented programming and design.
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- _None_
+## Sources
+- _None_
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

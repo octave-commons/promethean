@@ -1,20 +1,19 @@
 ---
-uuid: dfbbcc42-746d-4a6e-818a-c40bc748509a
-created_at: '2025-09-18T16:46:24Z'
-title: 2025.09.18.16.46.24
+uuid: 0dfdacaf-3786-4c49-9c7a-9bb3ba33421a
+created_at: '2025-10-06T01:43:29.568Z'
+title: enso-draft
 filename: Enso Protocol
 description: >-
-  A multi-agent chat protocol enabling context sharing across users and agents
-  with multimodal support, causal ordering, and privacy-first design. It uses a
-  parts-based model for messages and supports voice-first interactions through
-  WebRTC and WebSocket.
+  Enso is a protocol for multi-party conversations involving multiple users and
+  agents, emphasizing context sharing, privacy, and multimodal content handling.
+  It uses a modular architecture with packages for protocol implementation,
+  gateway services, and client interactions. The protocol supports causal
+  ordering, capability negotiation, and efficient media processing through
+  derived content parts.
 tags:
   - multi-agent
   - multimodal
   - privacy-first
-  - causal ordering
-  - voice-first
-  - context sharing
 related_to_uuid: []
 related_to_title: []
 references: []
@@ -1577,3 +1576,9 @@ From a given context, data source can be managed in some or all of the following
 ## Request
 
 Using the pseusdo-code that attached to this spec, layout a functioning implementation of the ENSO protocol.
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- _None_
+## Sources
+- _None_
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

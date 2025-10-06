@@ -282,3 +282,9 @@ If you’re good with these edits, I’ll synthesize:
 * a regenerated Kanban board with visible WIP math + a contrived WIP conflict, and
 * a normalized tasks folder layout,
   into a zipped drop.
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- _None_
+## Sources
+- _None_
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

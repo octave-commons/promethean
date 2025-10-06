@@ -96,3 +96,9 @@ If you intend an action often, that action gets increasingly optimized.
 
 An action may just start as a fully LLM request. Where you use it like you use LLMs currently, write out a really
 structurally sound prompt with the clearest intent, you want  outcome given A, B, C, ...
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- _None_
+## Sources
+- _None_
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

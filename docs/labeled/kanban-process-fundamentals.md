@@ -65,4 +65,9 @@ A major blocking condition is a stop the world situation. Everything stops until
 Minor blocking conditions are like apparent contradictions, the agent doesn't nessisarily have to stop the session to get the user to intervene immediately.
 This is a situation where an artifact is added to the card to be dealt with asyncronously.
 It proably doesn't stop work from happening. It can be skipped for the moment, as long as it is documented.
-
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- _None_
+## Sources
+- _None_
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

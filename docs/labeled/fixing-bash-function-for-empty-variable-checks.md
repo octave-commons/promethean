@@ -179,3 +179,9 @@ assert_var_empty myvar
 ---
 
 If you like, I can write a small set of assertion helpers you can drop in that cleanly separate “assert value” vs “assert variable” semantics, with tests using *ava-style* or *Bats* (shell tests). Do you want me to build that?
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- _None_
+## Sources
+- _None_
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

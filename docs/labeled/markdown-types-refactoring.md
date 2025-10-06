@@ -25,3 +25,9 @@ refactor docops can import import the types directly (eg `import type {MarkdownC
 
 Afterwards, update all import statements targeting targeting a markdown dist file directly and replace it with an the exported index file instead.
 (e.g. replace `import {parseMarkdownChunks} from "@promethean/markdown/dist/chunking.js"` with  `import {parseMarkdownChunks} from "@promethean/markdown"`)
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- _None_
+## Sources
+- _None_
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

@@ -72,3 +72,9 @@ fi
 If you want this permanent, put the `-g '!…'` rules into a repo-root `.rgignore` so you don’t repeat yourself.
 
 Does this make sense, and do you want me to tailor the ignore globs to your exact repo layout (e.g., `packages/`, `examples/`, `docs/` noise)?
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- _None_
+## Sources
+- _None_
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

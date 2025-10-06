@@ -153,3 +153,9 @@ This respects your stated flow and stages.&#x20;
   * Measures “time” as **sessions** only for Cloud (not minutes).
 
 If this matches your intent, say **“apply Step 1”** and I’ll produce the exact `process.md` text block to paste.
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- _None_
+## Sources
+- _None_
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
