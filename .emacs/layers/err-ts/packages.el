@@ -1,4 +1,4 @@
-;;; packages.el --- err-ts layer packages file for Spacemacs.
+;;; packages.el --- err-ts layer packages file for Spacemacs -*- lexical-binding: t; -*-
 ;;
 ;; Copyright (c) 2012-2025 Sylvain Benner & Contributors
 ;;
@@ -117,3 +117,5 @@ Each entry is either:
 ;;   (with-eval-after-load 'flycheck
 ;;     (flycheck-add-mode 'typescript-tslint 'typescript-ts-mode)
 ;;     (flycheck-add-mode 'javascript-eslint 'typescript-ts-mode)))
+
+;;; packages.el ends here

@@ -1,3 +1,11 @@
+---
+uuid: 372fff1d-2eec-4ace-80ba-e1c8f65fd762
+created_at: '2025-10-06T01:50:48.296Z'
+title: Promethean CLI shadow-cljs launcher
+status: todo
+priority: P3
+labels: []
+---
 # Promethean CLI shadow-cljs launcher
 
 ## Summary
@@ -29,3 +37,4 @@
 ## Notes
 - Investigate existing tooling for package graph traversal (pnpm workspace? manual?).
 - Ensure generated CLI handles missing scripts gracefully.
+
