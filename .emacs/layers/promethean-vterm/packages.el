@@ -1,4 +1,4 @@
-;;; packages.el --- promethean-vterm layer packages file for Spacemacs.
+;;; packages.el --- promethean-vterm layer packages file for Spacemacs -*- lexical-binding: t; -*-
 ;;
 ;; Copyright (c) 2012-2025 Sylvain Benner & Contributors
 ;;
@@ -91,3 +91,5 @@
       (vterm-previous-prompt 0)
       (beginning-of-line))
     (define-key vterm-mode-map (kbd "C-a") #'promethean/vterm-bol)))
+
+;;; packages.el ends here

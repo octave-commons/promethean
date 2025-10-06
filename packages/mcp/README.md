@@ -44,13 +44,62 @@ declared `:http-path` (defaulting to `/<name>/mcp`).
 
 Running with this manifest will expose both the GitHub endpoint defined in JSON and any stdio servers declared in
 `packages/mcp/examples/mcp_servers.edn` on the same Fastify instance. Copy the example to `config/mcp_servers.edn` and
-adjust paths as needed for your machine (the config path is gitignored):
+adjust paths as needed for your machine (the config path is gitignored). Edit the EDN file and regenerate manifests instead of
+touching `promethean.mcp.json` by hand:
 
 ```bash
+bb -m mk.mcp-cli push-all --edn config/mcp_servers.edn
 pnpm --filter @promethean/mcp dev -- --config ./promethean.mcp.json
 ```
 
 Each server will be available at `http://<host>:<port>/<name>/mcp` unless you set `:http-path` in the EDN entry. Use `--prefix` to prepend a base path (e.g., `/mcp`).
+
+### Dev UI
+
+The HTTP transport exposes a Web Components Dev UI compiled with `shadow-cljs`. Build once before running the server (or use watch mode while iterating):
+
+```bash
+pnpm --filter @promethean/mcp-dev-ui build
+# or
+pnpm --filter @promethean/mcp-dev-ui watch
+```
+
+The bundle is emitted to `packages/mcp/static/dev-ui` and served from `/ui/assets/main.js`.
+
+### Canonical EDN representation
+
+Editors and tooling share a canonical EDN document that now carries both stdio
+server definitions and HTTP manifest data. The new `:http` map mirrors the
+fields in `promethean.mcp.json` so that all transports can be edited from one
+file:
+
+```clojure
+{:mcp-servers {:github {:command "./bin/github.sh"}
+               :files {:command "./bin/files.sh" :args ["--stdio"]}}
+ :http {:transport :http
+        :tools ["files.view-file" "files.write-content"]
+        :include-help? true
+        :stdio-meta {:title "Default MCP Endpoint"
+                     :workflow ["mcp.toolset" "mcp.validate-config"]
+                     :expectations {:usage ["Call mcp.toolset before editing"]}}
+        :endpoints {:files {:tools ["files.view-file" "files.write-content"]
+                            :include-help? true
+                            :meta {:description "Filesystem utilities"
+                                   :expectations {:pitfalls ["Avoid binary writes"]}}}
+                    :github/review {:tools ["github.pr.get" "github.review.push"]
+                                    :include-help? true}}
+        :proxy {:config "./config/mcp_servers.edn"}}
+ :outputs [{:schema :mcp.json :path "./promethean.mcp.json"}]}
+```
+
+- `:transport`, `:tools`, and `:include-help?` reflect the defaults used when no
+  explicit HTTP endpoint is requested.
+- `:stdio-meta` describes the fallback `/mcp` endpoint metadata (titles,
+  workflows, expectations, etc.).
+- `:endpoints` maps HTTP paths to the toolset they expose, including per-endpoint
+  metadata.
+- `:proxy` carries options for stdio proxy discovery; `:config` maps directly to
+  the JSON `stdioProxyConfig` field.
 
 ### Unified HTTP endpoints
 

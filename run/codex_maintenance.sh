@@ -22,8 +22,8 @@ describe pnpm-build        pnpm -r --no-bail build
 # describe setup-gh-cli        bash -lc '"$(dirname "$0")/setup_gh_cli.sh"'
 
 # services
-./run/standup_chroma_nohup.sh
-./run/standup_ollama_nohup.sh
+# ./run/standup_chroma_nohup.sh
+# ./run/standup_ollama_nohup.sh
 
 
 # ---------- exit policy ----------

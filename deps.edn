@@ -1,0 +1,6 @@
+{:deps {org.tree-sitter/tree-sitter {:mvn/version "0.25.3"}}
+ :aliases
+ {:clj-hacks/tasks {:replace-deps {clj-hacks/clj-hacks {:local/root "packages/clj-hacks"}}
+                     :main-opts    ["-m" "clj-hacks.cli"]}
+  :clj-hacks/mcp   {:replace-deps {clj-hacks/clj-hacks {:local/root "packages/clj-hacks"}}
+                     :main-opts    ["-m" "clj-hacks.mcp.cli"]}}}

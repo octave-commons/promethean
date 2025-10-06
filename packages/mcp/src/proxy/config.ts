@@ -1,3 +1,4 @@
+import fs from "node:fs";
 import { readFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
@@ -60,12 +61,20 @@ const expandHome = (input: string, home: string): string => {
   return input;
 };
 
+const expandEnvVars = (input: string, env: NodeJS.ProcessEnv): string =>
+  input.replace(/\$(\w+)|\$\{([^}]+)\}/g, (match, simple, braced) => {
+    const key = (simple ?? braced) as string;
+    const value = env[key];
+    return typeof value === "string" ? value : match;
+  });
+
 const looksLikeScopedPackage = (value: string): boolean =>
   value.startsWith("@") && value.includes("/");
 
 const resolvePath = (raw: string, baseDir: string): string => {
   const home = os.homedir();
-  const expanded = expandHome(raw, home);
+  const expandedHome = expandHome(raw, home);
+  const expanded = expandEnvVars(expandedHome, process.env);
   if (expanded.startsWith("./") || expanded.startsWith("../")) {
     return path.resolve(baseDir, expanded);
   }
@@ -73,7 +82,8 @@ const resolvePath = (raw: string, baseDir: string): string => {
     return expanded;
   }
   if (expanded.includes(path.sep) && !looksLikeScopedPackage(expanded)) {
-    return path.resolve(baseDir, expanded);
+    const candidate = path.resolve(baseDir, expanded);
+    return fs.existsSync(candidate) ? candidate : expanded;
   }
   return expanded;
 };

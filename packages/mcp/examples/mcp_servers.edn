@@ -61,6 +61,9 @@
   ;; Oterm
   {:schema :codex.json :path "${HOME}/.local/share/oterm/config.json"}
 
+  ;; Promethean root manifest
+  {:schema :mcp.json  :path "../promethean.mcp.json"}
+
   ;; Emacs MCP package
   ;; doesn't work right.
   ;; we added a thing to parse emacs code with tree sitter to directly manipulate the

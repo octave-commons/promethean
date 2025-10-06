@@ -1,7 +1,7 @@
 ---
 uuid: f4e15fe7-e616-4e34-94a6-a4ca655f4f4c
 title: Fix `@promethean/ui-components` lint failures
-status: in-review
+status: todo
 priority: P2
 labels: [codex-task]
 created_at: '2025-02-14T00:00:00.000Z'
@@ -16,7 +16,7 @@ updated_at: '2025-02-14T00:30:00.000Z'
 
 ## Acceptance Criteria
 
-- [x] `nx run @promethean/ui-components:lint` completes without errors.
+- [ ] `nx run @promethean/ui-components:lint` completes without errors.
 - [x] No new lint errors introduced in other packages.
 - [x] Document lint root cause and fix in this task note.
 
@@ -37,4 +37,5 @@ updated_at: '2025-02-14T00:30:00.000Z'
 - Migrated the `UiChatPanel` and `UiFileExplorer` components to use shadow DOM templates instead of mutating host element style properties, satisfying the functional immutability rules.
 - Tightened tests to accumulate lint-friendly immutable tuples.
 - Added `.nxignore` to exclude the duplicate `packages/kanban-cli` stub so the Nx project graph resolves and allows lint runs.
-- `pnpm nx run @promethean/ui-components:lint` now reports a clean run.
+- `pnpm nx run @promethean/ui-components:lint` still fails with ESLint error on `ava.config.mjs` file.
+- Issue: ESLint config only covers `**/*.{ts,tsx}` files but lint script runs `eslint .` which includes all files.

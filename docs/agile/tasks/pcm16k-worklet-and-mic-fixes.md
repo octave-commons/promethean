@@ -1,0 +1,27 @@
+---
+uuid: 4e8f0a2b-3c4d-5e6f-8a9b-1c2d3e4f5a6b
+title: duck-web — PCM16k worklet + mic wiring fixes
+status: in_progress
+priority: P1
+labels:
+  - duck-web
+  - audio
+  - worklet
+created_at: '2025-10-02T00:00:00.000Z'
+---
+#Todo
+
+## 🛠️ Description
+Fix syntax errors in `pcm16k-worklet.js`, track fractional position to avoid drift; correct imports in `mic.ts`; reuse `duck-audio` helpers.
+
+## Requirements
+- [ ] `registerProcessor('pcm16k', ...)` correct
+- [ ] Drift-free decimator
+- [ ] `float32ToInt16` from `duck-audio`
+- [ ] Integration test: mic → worklet → PCM16
+
+## ⛓️ Blocks
+- Merge PR #1443
+
+## 🔍 Related
+- PR #1443, PR #1442

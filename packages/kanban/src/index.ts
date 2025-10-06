@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 import { loadKanbanConfig } from './board/config.js';
-import { COMMAND_HANDLERS } from './cli/command-handlers.js';
 import {
   countTasks,
   findTaskById,
@@ -20,6 +19,7 @@ import {
 import { printJSONL } from './lib/jsonl.js';
 import { processSync } from './process/sync.js';
 import { docguard } from './process/docguard.js';
+import { COMMAND_HANDLERS, runCommand, type CliContext } from './cli/command-handlers.js';
 
 const LEGACY_FLAG_MAP = Object.freeze(
   new Map<string, string>([
@@ -69,6 +69,10 @@ const applyLegacyEnv = (env: Readonly<NodeJS.ProcessEnv>): Readonly<NodeJS.Proce
   };
 };
 
+const COMMAND_LIST = Object.keys(COMMAND_HANDLERS);
+const HELP_TEXT =
+  `Usage: kanban [--kanban path] [--tasks path] <subcommand> [args...]\n` +
+  `Subcommands: ${[...COMMAND_LIST, 'process_sync', 'doccheck'].join(', ')}`;
 const requireArg = (value: string | undefined, label: string): string => {
   if (typeof value === 'string') {
     const trimmed = value.trim();
@@ -79,8 +83,6 @@ const requireArg = (value: string | undefined, label: string): string => {
   console.error(`Missing required ${label}.`);
   process.exit(2);
 };
-
-const SUBCOMMANDS = Object.freeze([...Object.keys(COMMAND_HANDLERS), 'process_sync', 'doccheck']);
 
 async function main(): Promise<void> {
   const rawArgs = process.argv.slice(2);
@@ -96,14 +98,12 @@ async function main(): Promise<void> {
   const boardFile = config.boardFile;
   const tasksDir = config.tasksDir;
 
-  const usage =
-    `Usage: kanban [--kanban path] [--tasks path] <subcommand> [args...]\n` +
-    `Subcommands: ${SUBCOMMANDS.join(', ')}`;
-
   if (helpRequested || !cmd) {
-    console.error(usage);
+    console.error(HELP_TEXT);
     process.exit(2);
   }
+
+  const context: CliContext = { boardFile, tasksDir };
 
   switch (cmd) {
     case 'count': {
@@ -224,9 +224,7 @@ async function main(): Promise<void> {
       break;
     }
     default:
-      console.error(`Unknown subcommand: ${cmd}`);
-      console.error(usage);
-      process.exit(2);
+      await runCommand(cmd, args, context);
   }
 }
 

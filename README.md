@@ -52,18 +52,72 @@ into small services that handle speech-to-text, text-to-speech, memory, and high
 - Prefer immutable data; avoid in-place object mutation.
 - Use key-value caches like `@promethean/level-cache` instead of JSON files for intermediate data.
 
-## Kanban automation
+## Kanban Task Management
 
-All board maintenance flows now run through `@promethean/kanban-cli`:
+The Promethean framework uses a comprehensive kanban system for task management and workflow tracking. The system is managed through the `@promethean/kanban` package.
 
-- `pnpm kanban pull` keeps `docs/agile/boards/kanban.md` in sync with task
-  frontmatter.
-- `pnpm kanban push` projects kanban columns back to task files.
-- `pnpm kanban sync` runs both directions and reports conflicts.
-- `pnpm tsx packages/kanban/src/scripts/wip-sheriff.ts --write` audits WIP
-  limits when you need the old “WIP sheriff” tooling.
+### 🎯 Quick Start
 
-Run `pnpm kanban --help` for the full list of subcommands.
+**All kanban commands work from any directory in the repository** - the system automatically resolves paths correctly.
+
+```bash
+# Essential commands
+pnpm kanban regenerate     # Generate board from task files
+pnpm kanban search <query> # Search tasks by title or content
+pnpm kanban count          # Show task counts by column
+pnpm kanban update-status <uuid> <column> # Move task between columns
+
+# Board synchronization
+pnpm kanban sync          # Bidirectional sync with conflict reporting
+pnpm kanban pull          # Sync board from task frontmatter
+pnpm kanban push          # Project board columns back to tasks
+
+# Full help
+pnpm kanban --help        # Show all available subcommands
+```
+
+### 📋 Key Files & Locations
+
+- **Task files**: `docs/agile/tasks/*.md` - Individual task definitions with frontmatter
+- **Generated board**: `docs/agile/boards/generated.md` - Auto-generated kanban board
+- **Configuration**: `promethean.kanban.json` - Kanban system configuration
+- **Process guide**: `docs/agile/process.md` - Workflow and process documentation
+
+### 🔄 Common Workflows
+
+1. **Find existing work**: `pnpm kanban search <keyword>`
+2. **Start working**: `pnpm kanban update-status <uuid> in_progress`
+3. **Complete work**: `pnpm kanban update-status <uuid> done`
+4. **Regenerate board**: `pnpm kanban regenerate`
+
+### 📊 Board Structure
+
+The kanban board uses these standard columns:
+- **todo** - New and unstarted work
+- **in_progress** - Currently being worked on
+- **review** - Ready for review or blocked
+- **done** - Completed work
+- **document** - Documentation tasks
+- **icebox** - Deferred or low-priority work
+
+### 🤖 For AI Agents and Claude
+
+The kanban system is designed to work seamlessly with AI assistants:
+
+- **No directory navigation needed** - commands work from anywhere in the repo
+- **Automatic path resolution** - the system finds the correct config and files
+- **Conflict-aware syncing** - bidirectional sync with conflict reporting
+- **Task search capabilities** - find existing work before creating new tasks
+
+See `CLAUDE.md` and `AGENTS.md` for detailed AI-specific usage guidelines.
+
+### ⚙️ Advanced Usage
+
+For legacy workflows and advanced operations:
+- `pnpm tsx packages/kanban/src/scripts/wip-sheriff.ts --write` - Audit WIP limits (legacy tooling)
+- Individual task operations via `pnpm kanban --help` for complete subcommand listing
+
+The kanban system integrates with the broader development workflow and follows the process defined in `docs/agile/process.md`.
 
 ## Automation pipelines
 
@@ -343,6 +397,12 @@ This ensures all modified markdown files are converted during `git commit`.
 
 Promethean Framework is released under the [GNU General Public License v3](LICENSE.txt).
 
+
+---
+
+## Automation Docs
+
+- [Lint → Kanban Workflow](docs/automation/lint-taskgen.md): convert ESLint errors into Kanban tasks, sync with in-repo board.
 ## 📦 Workspace Package Catalog
 
 Every workspace package ships with its own README. Use the catalog below to
