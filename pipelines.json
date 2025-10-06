@@ -665,13 +665,13 @@
         },
         {
           "id": "tg-tests",
-          "shell": "pnpm -w -r test -- --coverage"
+          "shell": "node tools/unified-test-coverage.mjs"
         },
         {
           "id": "tg-coverage",
           "deps": ["tg-tests"],
-          "shell": "pnpm --filter @promethean/testgap tg:02-read-coverage --lcov-globs \"{coverage/lcov.info,packages/**/coverage/lcov.info}\" --out .cache/testgap/coverage.json",
-          "inputs": ["coverage/lcov.info", "packages/**/coverage/lcov.info"],
+          "shell": "pnpm --filter @promethean/testgap tg:02-read-coverage --lcov-globs \"coverage/lcov.info\" --out .cache/testgap/coverage.json",
+          "inputs": ["coverage/lcov.info"],
           "outputs": [".cache/testgap/coverage.json"],
           "inputSchema": "packages/testgap/schemas/io.schema.json",
           "outputSchema": "packages/testgap/schemas/io.schema.json"
