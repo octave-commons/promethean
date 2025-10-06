@@ -15,7 +15,7 @@ describe env-dump            bash -lc '(set -o posix; set)'
 describe pnpm-install        pnpm install --no-frozen-lockfile
 
 
-TIMEOUT_SECS="$BUILD_TIMEOUT_SECS" describe pnpm-build        pnpm -r --no-bail build
+TIMEOUT_SECS="$BUILD_TIMEOUT_SECS" describe nx-affected-build  ./run/codex_build.sh
 
 # ESLint artifacts (human + machine)
 # describe eslint-stylish      pnpm exec eslint --cache -f stylish .
