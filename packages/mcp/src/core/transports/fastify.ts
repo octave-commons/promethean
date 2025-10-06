@@ -26,6 +26,7 @@ import type { StdioHttpProxy } from '../../proxy/stdio-proxy.js';
 import { resolveHttpEndpoints, type EndpointDefinition } from '../resolve-config.js';
 import {
   createEndpointOpenApiDocument,
+  encodeActionPathSegment,
   isZodValidationError,
   toolToActionDefinition,
   type ActionDefinition,
