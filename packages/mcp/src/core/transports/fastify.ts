@@ -13,8 +13,6 @@ import type { JSONRPCMessage } from '@modelcontextprotocol/sdk/types.js';
 
 import { CompatibilityCallToolResultSchema } from '@modelcontextprotocol/sdk/types.js';
 
-
-
 import {
   CONFIG_FILE_NAME,
   ConfigSchema,
@@ -28,14 +26,10 @@ import type { StdioHttpProxy } from '../../proxy/stdio-proxy.js';
 import { resolveHttpEndpoints, type EndpointDefinition } from '../resolve-config.js';
 import {
   createEndpointOpenApiDocument,
-
+  encodeActionPathSegment,
   isZodValidationError,
   toolToActionDefinition,
   type ActionDefinition,
-
-  encodeActionPathSegment,
-  isZodValidationError,
-
 } from '../openapi.js';
 import type { Transport, Tool } from '../types.js';
 import type { IncomingMessage } from 'node:http';
@@ -71,15 +65,12 @@ const isEndpointDefinitionValue = (value: unknown): value is EndpointDefinition 
   Array.isArray(value.tools) &&
   value.tools.every((tool) => typeof tool === 'string');
 
-
 const clampText = (value: string | undefined, maxLength = 300): string | undefined => {
   if (!value) return undefined;
   if (value.length <= maxLength) return value;
   const truncated = value.slice(0, maxLength).trimEnd();
   return `${truncated.replace(/[.!,;:?]*$/, '')}…`;
 };
-
-
 
 type ServerEntries = ReadonlyArray<readonly [string, McpServer]>;
 
@@ -172,17 +163,12 @@ const isOriginAllowed = (origin: string, allowed: readonly string[]): boolean =>
   });
 };
 
-
 const delay = (ms: number): Promise<void> =>
   new Promise((resolve) => {
     setTimeout(resolve, ms);
   });
 
 const consoleAllowedOrigins = parseAllowedOrigins(process.env.MCP_CONSOLE_ORIGIN);
-
-
-const consoleAllowedOrigins = parseAllowedOrigins(process.env.MCP_CONSOLE_ORIGIN);
-
 
 const descriptorsFromEntries = (entries: ServerEntries): readonly HttpEndpointDescriptor[] =>
   entries.map(([route, handler]) => ({
@@ -335,13 +321,10 @@ const ensureInitializeDefaults = (value: unknown): unknown => {
         ? (paramsSource['clientInfo'] as Record<string, unknown>)
         : { name: 'promethean-mcp', version: 'dev' };
 
-
     const capabilities =
       typeof paramsSource['capabilities'] === 'object' && paramsSource['capabilities'] !== null
         ? (paramsSource['capabilities'] as Record<string, unknown>)
         : {};
-
-
 
     const params = {
       ...paramsSource,
@@ -349,8 +332,6 @@ const ensureInitializeDefaults = (value: unknown): unknown => {
       clientInfo,
 
       capabilities,
-
-
     } as const;
 
     return {
@@ -682,7 +663,6 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
           app.route({ method, url, handler });
         }
         registerOptionsRoute(url, ROUTE_METHODS);
-
       };
 
       const headerValue = (value: unknown): string | undefined => {
@@ -1190,113 +1170,8 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
           }),
           invoke: (name, args) => manager.invokeAction(name, args),
         });
-
       };
 
-      const registerActionEndpoints = (descriptor: RegistryEndpointDescriptor): void => {
-        const tools = descriptor.tools ?? [];
-        if (tools.length === 0) {
-          return;
-        }
-
-        const basePath = normalizePath(descriptor.path);
-        const endpointDef: EndpointDefinition = descriptor.definition ?? {
-          path: basePath,
-          tools: tools.map((tool) => tool.spec.name),
-        };
-        const openApiDocument = createEndpointOpenApiDocument(endpointDef, tools, basePath);
-        const actionBasePath = `${basePath}/actions`;
-        const openApiPath = `${basePath}/openapi.json`;
-
-        const actionSummaries = tools.map((tool) => ({
-          name: tool.spec.name,
-          description: tool.spec.description,
-          stability: tool.spec.stability ?? 'experimental',
-          since: tool.spec.since ?? null,
-        }));
-
-        const respondActionError = (
-          reply: FastifyReply,
-          status: number,
-          code: string,
-          message: string,
-          details?: unknown,
-        ): void => {
-          const payload = {
-            error: code,
-            message,
-            ...(details ? { details } : {}),
-          };
-          respondWithCors(reply, status, payload);
-        };
-
-        const registerActionRoute = (tool: Tool): void => {
-          const segment = encodeActionPathSegment(tool.spec.name);
-          const route = `${actionBasePath}/${segment}`;
-
-          app.post<{ Body: unknown }>(route, async (request, reply) => {
-            try {
-              const parsed = mustParseJson(request.body);
-              const args: unknown = parsed === undefined ? {} : parsed;
-              const result = await tool.invoke(args);
-              if (result === undefined || result === null) {
-                respondWithCors(reply, 200, { result: null });
-                return;
-              }
-              if (typeof result === 'string') {
-                respondWithCors(reply, 200, { result });
-                return;
-              }
-              if (typeof result === 'number' || typeof result === 'boolean') {
-                respondWithCors(reply, 200, { result });
-                return;
-              }
-              if (Array.isArray(result)) {
-                respondWithCors(reply, 200, { result });
-                return;
-              }
-              respondWithCors(reply, 200, result);
-            } catch (error: unknown) {
-              if (error instanceof SyntaxError) {
-                respondActionError(reply, 400, 'invalid_json', 'Request body must be valid JSON.');
-                return;
-              }
-              if (isZodValidationError(error)) {
-                respondActionError(reply, 400, 'invalid_request', 'Request validation failed.', {
-                  issues: error.issues,
-                });
-                return;
-              }
-              respondActionError(
-                reply,
-                500,
-                'tool_error',
-                String((error as Error)?.message ?? error),
-              );
-            }
-          });
-
-          registerOptionsRoute(route, ['POST']);
-        };
-
-        app.get(actionBasePath, (_request, reply) => {
-          respondWithCors(reply, 200, { actions: actionSummaries });
-        });
-        registerOptionsRoute(actionBasePath, ['GET']);
-
-        app.get(openApiPath, (_request, reply) => {
-          respondWithCors(reply, 200, openApiDocument);
-        });
-        registerOptionsRoute(openApiPath, ['GET']);
-
-        for (const tool of tools) {
-          registerActionRoute(tool);
-        }
-
-        const toolNames = tools.map((tool) => tool.spec.name).join(', ');
-        console.log(`[mcp:http] actions available at ${actionBasePath}: ${toolNames}`);
-
-      };
       // eslint-disable-next-line functional/no-let
       let currentUiState: UiState | undefined = uiOptions
         ? createUiState(uiOptions, proxiesForUi)
@@ -1461,8 +1336,6 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
             registerRoute(descriptor.path, createRouteHandler(descriptor.handler, sessions));
 
             registerRegistryActionEndpoints(descriptor);
-
-            registerActionEndpoints(descriptor);
 
             console.log(`[mcp:http] bound endpoint ${descriptor.path}`);
             continue;
