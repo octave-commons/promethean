@@ -107,22 +107,34 @@ const normalizeConfig = (input: unknown): AppConfig => Config.parse(input ?? {})
 
 export const findConfigPath = (cwd: string = process.cwd()): string | null =>
   findUpSync(cwd, CONFIG_FILE_NAME);
-export const resolveConfigPath = (filePath: string, baseDir: string = CONFIG_ROOT): string => {
-  const base = fs.realpathSync(baseDir);
-  const candidate = path.isAbsolute(filePath)
-    ? path.normalize(filePath)
-    : path.normalize(path.resolve(base, filePath));
 
-  const relative = path.relative(base, candidate);
-  if (relative.startsWith('..') || path.isAbsolute(relative)) {
-    throw new Error(`Refusing to access path outside of ${base}: ${candidate}`);
+export type ResolveConfigPathOptions = Readonly<{
+  allowOutsideBase?: boolean;
+}>;
+
+export const resolveConfigPath = (
+  filePath: string,
+  baseDir: string = CONFIG_ROOT,
+  options: ResolveConfigPathOptions = {},
+): string => {
+  const base = fs.realpathSync(baseDir);
+  const normalizedInput = path.normalize(filePath);
+  const candidate = path.isAbsolute(normalizedInput)
+    ? normalizedInput
+    : path.resolve(base, normalizedInput);
+
+  if (!options.allowOutsideBase) {
+    const relative = path.relative(base, candidate);
+    if (relative.startsWith('..') || path.isAbsolute(relative)) {
+      throw new Error(`Refusing to access path outside of ${base}: ${candidate}`);
+    }
   }
 
   return candidate;
 };
 
-const loadConfigFromFile = (filePath: string, baseDir?: string): AppConfig => {
-  const raw = readJsonFileSync(resolveConfigPath(filePath, baseDir));
+const loadConfigFromFile = (filePath: string): AppConfig => {
+  const raw = readJsonFileSync(filePath);
   return normalizeConfig(raw);
 };
 
@@ -138,7 +150,8 @@ export const saveConfigFile = (
   config: AppConfig,
   baseDir?: string,
 ): AppConfig => {
-  const target = resolveConfigPath(filePath, baseDir);
+  const allowOutsideBase = path.isAbsolute(filePath);
+  const target = resolveConfigPath(filePath, baseDir, { allowOutsideBase });
   const normalized = normalizeConfig(config);
   ensureDirectory(target);
   fs.writeFileSync(target, JSON.stringify(normalized, null, 2), 'utf8');
@@ -150,17 +163,20 @@ export const loadConfigWithSource = (
   argv: string[] = process.argv,
   cwd: string = process.cwd(),
 ): LoadedConfig => {
-  const fromFile = (filePath: string): LoadedConfig => ({
-    config: loadConfigFromFile(filePath, cwd),
-    source: { type: 'file', path: filePath },
-  });
+  const fromFile = (filePath: string): LoadedConfig => {
+    const allowOutsideBase = path.isAbsolute(filePath);
+    const resolvedPath = resolveConfigPath(filePath, cwd, { allowOutsideBase });
+    return {
+      config: loadConfigFromFile(resolvedPath),
+      source: { type: 'file', path: resolvedPath },
+    };
+  };
 
   // 1) explicit file
   const explicitRaw = getArgValue(argv, '--config', '-c');
   const explicit = explicitRaw?.replace(/^['"]|['"]$/g, '');
   if (explicit) {
-    const abs = path.isAbsolute(explicit) ? path.normalize(explicit) : path.resolve(cwd, explicit);
-    return fromFile(abs);
+    return fromFile(explicit);
   }
 
   // 2) auto-detect file
