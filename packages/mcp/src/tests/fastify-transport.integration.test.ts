@@ -174,6 +174,22 @@ test('fastify transport forwards proxy requests', async (t) => {
         clientInfo: { name: 'promethean-mcp', version: 'dev' },
       },
     });
+
+    const forwarded = forwardedBodies[0];
+    const parsed = Buffer.isBuffer(forwarded)
+      ? JSON.parse(forwarded.toString('utf8'))
+      : typeof forwarded === 'string'
+        ? JSON.parse(forwarded)
+        : forwarded;
+    t.deepEqual(parsed, {
+      jsonrpc: '2.0',
+      id: 1,
+      method: 'initialize',
+      params: {
+        protocolVersion: '2024-10-01',
+        clientInfo: { name: 'promethean-mcp', version: 'dev' },
+      },
+    });
   } finally {
     await transport.stop?.();
   }

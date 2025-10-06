@@ -20,7 +20,7 @@ test('createEndpointOpenApiDocument describes tool actions', (t) => {
       since: '1.0.0',
       examples: [{ args: { value: 'demo' }, comment: 'Echo a demo value' }],
       notes: 'Returns the provided value under the echoed key.',
-      outputSchema: { result: { type: 'string' } },
+      outputSchema: { result: z.string() },
     },
     invoke: (raw) => {
       const { value } = Schema.parse(raw ?? {});
