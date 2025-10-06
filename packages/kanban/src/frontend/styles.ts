@@ -21,6 +21,19 @@ export const KANBAN_STYLES = String.raw`
     gap: 1.5rem;
   }
 
+  .kanban-main {
+    display: grid;
+    grid-template-columns: minmax(0, 1.8fr) minmax(0, 1fr);
+    gap: 1.5rem;
+    align-items: start;
+  }
+
+  .kanban-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
   .kanban-header {
     display: flex;
     align-items: flex-end;
@@ -130,6 +143,39 @@ export const KANBAN_STYLES = String.raw`
     box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.16);
   }
 
+  .panel {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 18px;
+    padding: 1.25rem 1.5rem;
+    box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .panel h2 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: #1e3a8a;
+  }
+
+  .panel-subheader {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    color: #475569;
+  }
+
+  .panel-subheader h3 {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #1f2937;
+  }
+
   .kanban-columns {
     display: flex;
     gap: 1.5rem;
@@ -194,6 +240,11 @@ export const KANBAN_STYLES = String.raw`
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+  }
+
+  .task-card.is-selected {
+    border-color: rgba(37, 99, 235, 0.6);
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
   }
 
   .task-header {
@@ -274,6 +325,247 @@ export const KANBAN_STYLES = String.raw`
     color: #1e293b;
   }
 
+  .task-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  .task-action {
+    appearance: none;
+    border: none;
+    background: rgba(37, 99, 235, 0.12);
+    color: #1d4ed8;
+    border-radius: 999px;
+    padding: 0.35rem 0.6rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+
+  .task-action:hover {
+    background: rgba(37, 99, 235, 0.22);
+  }
+
+  .status-control select {
+    border-radius: 999px;
+    border: 1px solid rgba(148, 163, 184, 0.4);
+    padding: 0.35rem 0.75rem;
+    font-size: 0.8rem;
+    background: rgba(248, 250, 252, 0.9);
+    color: #1e293b;
+  }
+
+  .visually-hidden {
+    position: absolute;
+    clip: rect(0 0 0 0);
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    border: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .selected-task header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.5rem;
+  }
+
+  .selected-task header h3 {
+    margin: 0;
+    font-size: 1rem;
+  }
+
+  .selected-task header code {
+    font-size: 0.75rem;
+    color: #475569;
+  }
+
+  .selected-task-labels {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  .selected-task-labels span {
+    background: rgba(59, 130, 246, 0.12);
+    color: #1d4ed8;
+    border-radius: 999px;
+    padding: 0.2rem 0.55rem;
+    font-size: 0.75rem;
+  }
+
+  .selected-task-meta {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.35rem 0.75rem;
+    font-size: 0.8rem;
+    color: #475569;
+  }
+
+  .meta-key {
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .selected-task-body {
+    margin: 0;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: #1f2937;
+  }
+
+  .search-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .search-form input {
+    border-radius: 12px;
+    border: 1px solid rgba(148, 163, 184, 0.35);
+    padding: 0.55rem 0.75rem;
+    font-size: 0.9rem;
+  }
+
+  .search-buttons {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .command-button {
+    appearance: none;
+    border: none;
+    border-radius: 999px;
+    padding: 0.55rem 0.95rem;
+    font-weight: 600;
+    background: linear-gradient(135deg, #2563eb, #3b82f6);
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 8px 18px rgba(37, 99, 235, 0.25);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .command-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 12px 24px rgba(37, 99, 235, 0.28);
+  }
+
+  .command-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+
+  .result-button {
+    width: 100%;
+    text-align: left;
+    border: none;
+    background: rgba(37, 99, 235, 0.08);
+    border-radius: 12px;
+    padding: 0.5rem 0.75rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    color: #1e293b;
+    cursor: pointer;
+  }
+
+  .result-button:hover {
+    background: rgba(37, 99, 235, 0.15);
+  }
+
+  .result-title {
+    font-weight: 600;
+  }
+
+  .result-status {
+    font-size: 0.8rem;
+    color: #1d4ed8;
+  }
+
+  .search-results-list {
+    list-style: none;
+    margin: 0.75rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .column-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .column-form select {
+    border-radius: 10px;
+    border: 1px solid rgba(148, 163, 184, 0.4);
+    padding: 0.5rem 0.65rem;
+    font-size: 0.9rem;
+  }
+
+  .column-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .column-insight pre,
+  .command-output pre {
+    margin: 0;
+    padding: 0.75rem;
+    background: rgba(15, 23, 42, 0.05);
+    border-radius: 12px;
+    font-size: 0.8rem;
+    max-height: 240px;
+    overflow: auto;
+  }
+
+  .button-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 0.6rem;
+  }
+
+  .action-log {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+  }
+
+  .action-log li {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  .action-log li[data-status="ok"] {
+    color: #166534;
+  }
+
+  .action-log li[data-status="error"] {
+    color: #b91c1c;
+  }
+
+  .log-message {
+    justify-self: end;
+    font-weight: 500;
+  }
+
   .task-empty {
     margin: 0;
     padding: 0.75rem;
@@ -292,6 +584,10 @@ export const KANBAN_STYLES = String.raw`
 
     .kanban-header {
       align-items: flex-start;
+    }
+
+    .kanban-main {
+      grid-template-columns: 1fr;
     }
 
     .kanban-columns {
