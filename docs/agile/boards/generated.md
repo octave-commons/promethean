@@ -273,6 +273,8 @@ kanban-plugin: board
 - [ ] [[setup_a_second_agent|setup a second agent md]] #second #agent #setup #agents prio:P3 (uuid:654e88a0-ce43-46b0-a67b-3c18270be8eb)
 - [ ] [[setup_code_in_wsl|setup code in wsl md]] #setup #code #wsl #out prio:P3 (uuid:d35d985b-44c2-4b67-9228-bc2cb912df24)
 - [ ] [[setup_services_to_recieve_work_from_the_broker_via_push|setup services to recieve work from the broker via push md]] #broker #services #setup #via prio:P3 (uuid:0b5c2829-4d26-4bda-93db-ab13a5a80a12)
+- [ ] [[shadow-cljs-migration-step-2-shared-components|Shadow CLJS migration — step 2 shared components]] #framework-core #codex-task #frontend prio:P2 (uuid:2d7bc869-0bc6-4d6b-891c-d7657cb8e4f4)
+- [ ] [[shadow-cljs-migration-step-3-app-rollout|Shadow CLJS migration — step 3 application roll-out]] #framework-core #codex-task #frontend prio:P2 (uuid:0ed899b3-b815-4384-89ad-a1ff76d6a6e5)
 - [ ] [[smart_task_templater|smart task templater md]] #templater #smart #command #line prio:P3 (uuid:58e246ed-a8e3-4942-bf8d-73532959156e)
 - [ ] [[snapshot_prompts_specs_to_repo|snapshot prompts specs to repo]] #prompts #snapshot #specs #repo prio:P3 (uuid:ee9f46e7-9d65-437b-8897-2a7e11756f4f)
 - [ ] [[something-something.-1|something something 1]] #something #changes #span #context prio:p3 (uuid:3192eeb8-39ff-42aa-ab6f-2e7ce9b951cf)
@@ -321,6 +323,7 @@ kanban-plugin: board
 - [ ] [[author-omni-protocol-package|Author @promethean/omni-protocol package]] #omni #package #typescript prio:P1 (uuid:457fd7a3-bc99-4de6-b9f3-06ef6cf00d5e)
 - [ ] [[duck-feature-flags-rewrite-web-node-docs|DUCK — feature flags rewrite (web + node) + docs]] #duck #web #node #flags #docs prio:P1 (uuid:9c1a2f5c-a7e2-4f4a-bb3d-2f8a7d54f6f1)
 - [ ] [[extract-omni-core-services|Extract shared services into @promethean/omni-core]] #omni #refactor prio:P1 (uuid:e0a6842d-031a-4d1c-bee1-563bbda8cf80)
+- [ ] [[fix-nx-image-link-generator-test|Fix nx task @promethean/image-link-generator:test]] #image #link #generator #test prio:P2 (uuid:ac42755d-b90e-4d8d-bb16-46bc251fc210)
 - [ ] [[fix-piper-pipeline-caching|Fix Piper pipeline caching regressions]] #piper #pipelines prio:P2 (uuid:8b57e951-99d2-4242-a56d-578a3f11cda6)
 - [ ] [[move-board-tools-into-kanban-package|move board tooling into kanban package]] #framework-core #devtools prio:P3 (uuid:8a791d5f-757a-4154-bba2-e14886da4c30)
 - [ ] [[omni-unified-service-spec|Omni unified service specification and planning]] #omni #planning prio:P1 (uuid:90d0e75e-0f56-4e0e-b470-20e0145ad43d)
@@ -329,6 +332,7 @@ kanban-plugin: board
 - [ ] [[pcm16k-worklet-and-mic-fixes|duck-web — PCM16k worklet + mic wiring fixes]] #duck-web #audio #worklet prio:P1 (uuid:4e8f0a2b-3c4d-5e6f-8a9b-1c2d3e4f5a6b)
 - [ ] [[setup-kanban-mcp-server|Setup MCP server endpoint for kanban tooling]] #mcp #kanban #automation prio:P2 (uuid:936b26de-61b4-4d8d-94d7-171315a56ac9)
 - [ ] [[setup-mcp-pnpm-ops|Setup MCP server for pnpm workspace management]] #pnpm #workspace #mcp #server prio:P2 (uuid:9b3f1c89-9a76-4f18-92a4-38275b1bc1f0)
+- [ ] [[shadow-cljs-migration-step-1-foundation|Shadow CLJS migration — step 1 foundation]] #framework-core #codex-task #frontend prio:P2 (uuid:7a1a45fb-51d3-4d7b-b143-3834cf8aad3c)
 - [ ] [[throttled-datachannel-sender|duck-web — throttled RTCDataChannel sender with backpressure]] #duck-web #webrtc #perf prio:P1 (uuid:3d7e9f1a-2b3c-4d5e-8f9a-0b1c2d3e4f5a)
 - [ ] [[update_task_template_frontmatter_alignment|Align task template frontmatter with canonical schema]] #docs #automation prio:P2 (uuid:f5553298-1c51-41c2-acb5-df4d9f518c89)
 
@@ -348,6 +352,7 @@ kanban-plugin: board
 
 ## icebox
 
+- [ ] [[shadow-cljs-migration-step-4-decommission|Shadow CLJS migration — step 4 decommission legacy toolchain]] #framework-core #codex-task #frontend prio:P3 (uuid:5fe4fdf3-0fda-42fb-8f98-93859577d08f)
 - [ ] [[validate-voice-demo-microphone-integration|validate voice-demo microphone integration]] #audio #manual-test prio:P2 (uuid:8925f5a8-40ab-44e4-ad9e-54db7d617996)
 
 %% kanban:settings
