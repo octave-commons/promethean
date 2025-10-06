@@ -15,15 +15,7 @@ export async function write(args = {}) {
   await runWrite(args);
 }
 
-export async function graph() {
-  await new Promise((resolve, reject) => {
-    const proc = spawn('pnpm', ['--filter', '@promethean/symdocs', 'symdocs:04-graph'], {
-      stdio: 'inherit',
-    });
-    proc.on('close', (code) => {
-      if (code === 0) resolve();
-      else reject(new Error(`symdocs:04-graph exited with code ${code}`));
-    });
-    proc.on('error', reject);
-  });
+export async function graph(args = {}) {
+  const { runGraph } = await import('../packages/symdocs/dist/04-graph.js');
+  await runGraph(args);
 }
