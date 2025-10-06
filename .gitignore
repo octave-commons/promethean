@@ -136,3 +136,6 @@ packages/clj-hacks/.cpcache/
 tmp-docops-test/
 $HOME/
 .cpcache
+
+scripts/.piper/
+tree.txt

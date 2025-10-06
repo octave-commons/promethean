@@ -2,17 +2,17 @@
 task-id: TASK-20241120-grepfix
 title: Fix SmartGPT Bridge grep parity with ripgrep
 state: InProgress
-prev:
-txn: "2024-11-20T00:00:00Z-0001"
+prev: null
+txn: '2024-11-20T00:00:00Z-0001'
 owner: gpt
 priority: p2
 size: s
 epic: EPC-000
 depends_on: []
 labels:
-  - board:auto
-  - lang:ts
-due:
+  - 'board:auto'
+  - 'lang:ts'
+due: null
 links: []
 artifacts: []
 rationale: |
@@ -34,8 +34,10 @@ tags:
   - owner/gpt
   - priority/p2
   - epic/EPC-000
+uuid: 99ee9a9f-a7b5-489d-9eba-5de75e6840ab
+created_at: '2025-10-06T01:50:48.292Z'
+status: todo
 ---
-
 ## Context
 - **What changed?**: CI surfaced a failure for `grep: matches ripgrep output with context and flags`.
 - **Where?**: `packages/smartgpt-bridge` (grep adapter + fixtures).
@@ -62,3 +64,4 @@ tags:
 ## Relevant Resources
 - ripgrep manual: <https://github.com/BurntSushi/ripgrep>
 - Ava docs: <https://github.com/avajs/ava>
+

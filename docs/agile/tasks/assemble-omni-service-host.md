@@ -1,7 +1,7 @@
 ---
 uuid: 5fb47630-6822-4ecf-a035-625ed0e733bf
 title: Assemble unified @promethean/omni-service host
-status: incoming
+status: in_progress
 priority: P2
 labels:
   - omni

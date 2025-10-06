@@ -1,7 +1,7 @@
 ---
 uuid: 9b3f1c89-9a76-4f18-92a4-38275b1bc1f0
 title: Setup MCP server for pnpm workspace management
-status: in-progress
+status: in_progress
 priority: P2
 labels:
   - #framework-core
