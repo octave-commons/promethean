@@ -368,13 +368,13 @@
             "module": "packages/boardrev/dist/02-process-prompts.js",
             "export": "processPrompts",
             "args": {
-              "process": "docs/agile/Process.md",
+              "process": "docs/agile/process.md",
               "out": ".cache/boardrev/prompts.json",
               "minLevel": 2
             },
             "isolate": "worker"
           },
-          "inputs": ["docs/agile/Process.md"],
+          "inputs": ["docs/agile/process.md"],
           "outputs": [".cache/boardrev/prompts.json"],
           "inputSchema": "packages/boardrev/schemas/io.schema.json",
           "outputSchema": "packages/boardrev/schemas/io.schema.json"

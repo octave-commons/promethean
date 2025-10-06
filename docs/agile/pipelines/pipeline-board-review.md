@@ -2,9 +2,9 @@
 
 | Step | Status | Duration (ms) | Notes |
 |---|:---:|---:|---|
-| br-fm | SKIP | 0 | dry-run |
-| br-prompts | SKIP | 0 | dry-run |
-| br-index | SKIP | 0 | dry-run |
-| br-match | SKIP | 0 | dry-run |
-| br-eval | SKIP | 0 | dry-run |
-| br-report | SKIP | 0 | dry-run |
+| br-fm | SKIP | 0 | cache clean (fingerprint & outputs unchanged) |
+| br-prompts | OK | 353 |  |
+| br-index | OK | 15321 |  |
+| br-match | OK | 20374 |  |
+| br-eval | OK | 1061305 |  |
+| br-report | OK | 437 |  |
