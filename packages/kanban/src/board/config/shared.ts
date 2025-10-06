@@ -4,6 +4,7 @@ export type RawKanbanConfig = Readonly<{
   readonly tasksDir?: string;
   readonly indexFile?: string;
   readonly boardFile?: string;
+  readonly cachePath?: string;
   readonly exts?: ReadonlyArray<string>;
   readonly requiredFields?: ReadonlyArray<string>;
   readonly statusValues?: ReadonlyArray<string>;
@@ -16,6 +17,7 @@ export type KanbanConfig = Readonly<{
   readonly tasksDir: string;
   readonly indexFile: string;
   readonly boardFile: string;
+  readonly cachePath: string;
   readonly exts: ReadonlySetLike<string>;
   readonly requiredFields: ReadonlyArray<string>;
   readonly statusValues: ReadonlySetLike<string>;
@@ -42,6 +44,7 @@ export const ENV_KEYS = {
   tasksDir: "KANBAN_TASKS_DIR",
   indexFile: "KANBAN_INDEX_FILE",
   boardFile: "KANBAN_BOARD_FILE",
+  cachePath: "KANBAN_CACHE_PATH",
   exts: "KANBAN_EXTS",
   requiredFields: "KANBAN_REQUIRED_FIELDS",
   statusValues: "KANBAN_STATUS_VALUES",
@@ -54,6 +57,7 @@ export const ARG_KEYS = new Map<string, keyof typeof ENV_KEYS>([
   ["tasks-dir", "tasksDir"],
   ["index-file", "indexFile"],
   ["board-file", "boardFile"],
+  ["cache-path", "cachePath"],
   ["exts", "exts"],
   ["required-fields", "requiredFields"],
   ["status-values", "statusValues"],
@@ -85,6 +89,7 @@ export type Defaults = Readonly<{
   readonly tasksDir: string;
   readonly indexFile: string;
   readonly boardFile: string;
+  readonly cachePath: string;
   readonly exts: ReadonlyArray<string>;
   readonly requiredFields: ReadonlyArray<string>;
   readonly statusValues: ReadonlyArray<string>;
@@ -126,6 +131,7 @@ export const defaultConfigForRepo = (repo: string): Defaults =>
     tasksDir: path.join(repo, "docs", "agile", "tasks"),
     indexFile: path.join(repo, "docs", "agile", "boards", "index.jsonl"),
     boardFile: path.join(repo, "docs", "agile", "boards", "generated.md"),
+    cachePath: path.join(repo, "docs", "agile", "boards", ".cache"),
     exts: [".md"],
     requiredFields: [
       "id",

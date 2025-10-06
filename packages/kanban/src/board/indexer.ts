@@ -8,6 +8,7 @@ import { parseFrontmatter } from "@promethean/markdown/frontmatter";
 import type { IndexedTask, TaskFM } from "./types.js";
 import type { KanbanConfig, ReadonlySetLike } from "./config/shared.js";
 import { loadKanbanConfig } from "./config.js";
+import type { TaskCache, TaskCacheOptions } from "./task-cache.js";
 
 const toTrimmedString = (value: unknown, fallback = ""): string => {
   if (typeof value !== "string") return fallback;
@@ -39,6 +40,7 @@ const normalizeTask = (
   data: Readonly<Record<string, unknown>>,
   filePath: string,
   repoRoot: string,
+  content?: string,
 ): IndexedTask => {
   const rawId =
     (data as { readonly id?: unknown }).id ??
@@ -72,7 +74,7 @@ const normalizeTask = (
   });
   const fm: TaskFM =
     typeof updated === "string" ? Object.freeze({ ...base, updated }) : base;
-  return Object.freeze({ ...fm, path: rel }) satisfies IndexedTask;
+  return Object.freeze({ ...fm, path: rel, content }) satisfies IndexedTask;
 };
 
 const sortTasksById = (
@@ -98,9 +100,9 @@ export const indexTasks = async ({
         .then((raw) => {
           const parsed =
             parseFrontmatter<Readonly<Record<string, unknown>>>(raw);
-          return parsed.data ?? {};
+          return { data: parsed.data ?? {}, content: parsed.content };
         })
-        .then((data) => normalizeTask(data, filePath, repoRoot)),
+        .then(({ data, content }) => normalizeTask(data, filePath, repoRoot, content)),
     ),
   );
   return sortTasksById(tasks);
@@ -130,6 +132,131 @@ export const writeIndexFile = async (
   await writeFile(indexFilePath, `${lines.join("\n")}\n`, "utf8");
 };
 
+/**
+ * Get default cache path based on config
+ */
+const getDefaultCachePath = (config: KanbanConfig): string => {
+  return path.join(path.dirname(config.indexFile), ".cache");
+};
+
+/**
+ * Create task cache options from kanban config
+ */
+export const createTaskCacheOptions = (
+  config: KanbanConfig,
+  overrides?: Partial<TaskCacheOptions>,
+): TaskCacheOptions => ({
+  path: overrides?.path ?? getDefaultCachePath(config),
+  namespace: overrides?.namespace ?? "kanban",
+  defaultTtlMs: overrides?.defaultTtlMs ?? 24 * 60 * 60 * 1000, // 24 hours
+  ...overrides,
+});
+
+/**
+ * Index tasks into cache with streaming support
+ */
+export const indexTasksToCache = async (
+  options: Readonly<{
+    readonly tasksDir: string;
+    readonly exts: ReadonlySetLike<string>;
+    readonly repoRoot: string;
+    readonly cache: TaskCache;
+  }>,
+): Promise<{ indexed: number; cache: TaskCache }> => {
+  const { tasksDir, exts, repoRoot, cache } = options;
+
+  // Clear existing cache to ensure clean rebuild
+  await cache.rebuildIndex();
+
+  // Stream tasks from filesystem to avoid memory overload
+  const files = await listFilesRec(tasksDir, new Set(exts));
+  let indexedCount = 0;
+
+  // Process files in batches to avoid memory issues
+  const batchSize = 50;
+  for (let i = 0; i < files.length; i += batchSize) {
+    const batch = files.slice(i, i + batchSize);
+
+    const batchTasks = await Promise.all(
+      batch.map(async (filePath) => {
+        try {
+          const raw = await readFile(filePath, "utf8");
+          const parsed = parseFrontmatter<Readonly<Record<string, unknown>>>(raw);
+          return normalizeTask(parsed.data ?? {}, filePath, repoRoot, parsed.content);
+        } catch (error) {
+          console.error(`Failed to process ${filePath}:`, error);
+          return null;
+        }
+      })
+    );
+
+    // Filter out null results and index valid tasks
+    const validTasks = batchTasks.filter((task): task is IndexedTask => task !== null);
+
+    for (const task of validTasks) {
+      await cache.setTask(task);
+      indexedCount++;
+    }
+
+    // Optional: yield progress for large operations
+    if (i > 0 && i % (batchSize * 10) === 0) {
+      console.log(`Indexed ${indexedCount}/${files.length} tasks...`);
+    }
+  }
+
+  return { indexed: indexedCount, cache };
+};
+
+/**
+ * Migrate existing JSONL index to TaskCache
+ */
+export const migrateJsonlToCache = async (
+  config: KanbanConfig,
+  cache: TaskCache,
+): Promise<{ migrated: number; errors: string[] }> => {
+  const errors: string[] = [];
+  let migrated = 0;
+
+  try {
+    // Check if JSONL index exists
+    const raw = await readFile(config.indexFile, "utf8").catch(() => null);
+    if (!raw) {
+      return { migrated: 0, errors: ["No existing JSONL index found"] };
+    }
+
+    // Parse JSONL lines
+    const lines = raw
+      .split("\n")
+      .filter((line) => line.trim().length > 0)
+      .map((line) => {
+        try {
+          return JSON.parse(line) as IndexedTask;
+        } catch (error) {
+          errors.push(`Invalid JSON line: ${line.substring(0, 100)}...`);
+          return null;
+        }
+      })
+      .filter((task): task is IndexedTask => task !== null);
+
+    // Migrate tasks to cache
+    for (const task of lines) {
+      try {
+        await cache.setTask(task);
+        migrated++;
+      } catch (error) {
+        errors.push(`Failed to migrate task ${task.uuid}: ${error}`);
+      }
+    }
+
+    console.log(`Migrated ${migrated} tasks from JSONL to cache`);
+
+  } catch (error) {
+    errors.push(`Migration failed: ${error}`);
+  }
+
+  return { migrated, errors };
+};
+
 export const runIndexer = async (
   options?: Readonly<{
     readonly argv?: ReadonlyArray<string>;
@@ -139,6 +266,27 @@ export const runIndexer = async (
   const { config, restArgs } = await loadKanbanConfig(options);
   const args = new Set(restArgs);
   const shouldWrite = args.has("--write");
+  const useCache = args.has("--cache");
+
+  if (useCache) {
+    // Use new cache-based indexing
+    console.log("Using cache-based indexing...");
+
+    const { createTaskCache } = await import("./task-cache.js");
+    const cache = await createTaskCache(createTaskCacheOptions(config));
+
+    const result = await indexTasksToCache({
+      tasksDir: config.tasksDir,
+      exts: config.exts,
+      repoRoot: config.repo,
+      cache,
+    });
+
+    console.log(`Indexed ${result.indexed} tasks to cache`);
+    await cache.close();
+    return [];
+  }
+
   const tasks = await indexTasks({
     tasksDir: config.tasksDir,
     exts: config.exts,

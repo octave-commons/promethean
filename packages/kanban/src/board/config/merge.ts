@@ -94,6 +94,7 @@ const buildPaths = ({
   readonly tasksDir: string;
   readonly indexFile: string;
   readonly boardFile: string;
+  readonly cachePath: string;
 }> => {
   const context: MergeContext = {
     repo,
@@ -121,7 +122,14 @@ const buildPaths = ({
     argValue: argValues.boardFile as string | undefined,
     context,
   });
-  return { tasksDir, indexFile, boardFile } as const;
+  const cachePath = mergePathSetting({
+    defaults: defaults.cachePath,
+    envValue: envValues.cachePath as string | undefined,
+    configValue: fileConfig.cachePath,
+    argValue: argValues.cachePath as string | undefined,
+    context,
+  });
+  return { tasksDir, indexFile, boardFile, cachePath } as const;
 };
 
 const buildArrays = ({
@@ -185,6 +193,7 @@ export const mergeConfig = (inputs: MergeInputs): KanbanConfig => {
     tasksDir: paths.tasksDir,
     indexFile: paths.indexFile,
     boardFile: paths.boardFile,
+    cachePath: paths.cachePath,
     exts: Object.freeze(new Set(arrays.exts)) as ReadonlySetLike<string>,
     requiredFields: Object.freeze([...arrays.requiredFields]),
     statusValues: Object.freeze(
