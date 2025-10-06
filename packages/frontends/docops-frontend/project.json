@@ -10,24 +10,25 @@
       },
       "outputs": ["{projectRoot}/dist"]
     },
-    "typecheck": {
+    "shadow-build": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "pnpm run typecheck",
+        "command": "pnpm run build:shadow",
         "cwd": "packages/frontends/docops-frontend"
-      }
+      },
+      "outputs": ["{projectRoot}/dist/frontend"]
     },
-    "test": {
+    "shadow-watch": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "pnpm run test",
+        "command": "pnpm run watch:shadow",
         "cwd": "packages/frontends/docops-frontend"
       }
     },
     "lint": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "pnpm run lint",
+        "command": "pnpm exec eslint .",
         "cwd": "packages/frontends/docops-frontend",
         "forwardAllArgs": false
       }

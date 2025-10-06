@@ -1,0 +1,30 @@
+{
+  "name": "@promethean/shadow-ui",
+  "root": "packages/shadow-ui",
+  "sourceRoot": "packages/shadow-ui/src",
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm run build",
+        "cwd": "packages/shadow-ui"
+      },
+      "outputs": ["{projectRoot}/dist"]
+    },
+    "watch": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm run watch",
+        "cwd": "packages/shadow-ui"
+      }
+    },
+    "clean": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm run clean",
+        "cwd": "packages/shadow-ui"
+      }
+    }
+  },
+  "tags": ["scope:packages", "type:shadow-cljs"]
+}

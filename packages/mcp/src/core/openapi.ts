@@ -12,6 +12,13 @@ const sanitizeOperationId = (value: string): string => {
   return trimmed.length > 0 ? trimmed : 'operation';
 };
 
+const clampText = (value: string | undefined, maxLength = 300): string | undefined => {
+  if (!value) return undefined;
+  if (value.length <= maxLength) return value;
+  const truncated = value.slice(0, maxLength).trimEnd();
+  return `${truncated.replace(/[.!,;:?]*$/, '')}…`;
+};
+
 const formatList = (label: string, items: readonly string[] | undefined): string | undefined => {
   if (!items || items.length === 0) return undefined;
   const body = items.map((item) => `- ${item}`).join('\n');
@@ -54,6 +61,17 @@ type ExampleCollection = Readonly<
   Record<string, Readonly<{ summary?: string; value: Readonly<Record<string, unknown>> }>>
 >;
 
+export type ActionDefinition = Readonly<{
+  name: string;
+  description?: string;
+  stability: string;
+  since: string | null;
+  requestSchema: Readonly<Record<string, unknown>>;
+  requiresBody: boolean;
+  requestExamples?: ExampleCollection;
+  successExample?: Readonly<Record<string, unknown>>;
+}>;
+
 const requestExamplesFromTool = (
   examples: readonly ToolExample[] | undefined,
 ): ExampleCollection | undefined => {
@@ -91,6 +109,24 @@ const encodeToolSegment = (name: string): string => encodeURIComponent(name);
 const buildOperationDescription = (tool: Tool): string | undefined =>
   joinDescription([tool.spec.description, tool.spec.notes, formatExamples(tool.spec.examples)]);
 
+export const toolToActionDefinition = (tool: Tool): ActionDefinition => {
+  const requestSchema = createRequestSchema(tool.spec.inputSchema);
+  const requiresBody = hasRequestFields(tool.spec.inputSchema);
+  const requestExamples = requestExamplesFromTool(tool.spec.examples);
+  const successExample = responseExampleFromTool(tool);
+
+  return {
+    name: tool.spec.name,
+    description: clampText(buildOperationDescription(tool)),
+    stability: tool.spec.stability ?? 'experimental',
+    since: tool.spec.since ?? null,
+    requestSchema,
+    requiresBody,
+    ...(requestExamples ? { requestExamples } : {}),
+    ...(successExample ? { successExample } : {}),
+  } satisfies ActionDefinition;
+};
+
 const buildErrorSchema = () => ({
   type: 'object',
   required: ['error', 'message'],
@@ -112,7 +148,14 @@ export type OpenApiDocument = Readonly<{
   components?: Readonly<{ schemas?: Record<string, unknown> }>;
 }>;
 
-const listActionsPath = (tools: readonly Tool[]): PathItemObject => ({
+const toActionSummary = (action: ActionDefinition) => ({
+  name: action.name,
+  description: action.description ?? '',
+  stability: action.stability,
+  since: action.since,
+});
+
+const listActionsPath = (actions: readonly ActionDefinition[]): PathItemObject => ({
   get: {
     operationId: sanitizeOperationId('list_actions'),
     summary: 'List available MCP tools exposed as actions',
@@ -144,12 +187,7 @@ const listActionsPath = (tools: readonly Tool[]): PathItemObject => ({
               additionalProperties: false,
             },
             example: {
-              actions: tools.map((tool) => ({
-                name: tool.spec.name,
-                description: tool.spec.description,
-                stability: tool.spec.stability ?? 'experimental',
-                since: tool.spec.since ?? null,
-              })),
+              actions: actions.map(toActionSummary),
             },
           },
         },
@@ -158,48 +196,55 @@ const listActionsPath = (tools: readonly Tool[]): PathItemObject => ({
   },
 });
 
-const actionPathForTool = (tool: Tool, tag: string): PathItemObject => {
-  const requestSchema = createRequestSchema(tool.spec.inputSchema);
+const actionPathForDefinition = (action: ActionDefinition, tag: string): PathItemObject => {
+  const requestSchema = action.requestSchema;
   const errorSchema = buildErrorSchema();
-  const requestExamples = requestExamplesFromTool(tool.spec.examples);
-  const successExample = responseExampleFromTool(tool);
-  const requiresBody = hasRequestFields(tool.spec.inputSchema);
+  const requestExamples = action.requestExamples;
+  const successExample = action.successExample;
+  const requiresBody = action.requiresBody;
+  const description = clampText(action.description);
+
+  const successSchema = {
+    type: 'object',
+    additionalProperties: true,
+    properties: {
+      result: {
+        description:
+          'Normalized tool result payload. Primitive and array results are wrapped under this key.',
+        nullable: true,
+        anyOf: [
+          { type: 'null' },
+          { type: 'string' },
+          { type: 'number' },
+          { type: 'boolean' },
+          { type: 'array', items: {} },
+          { type: 'object', additionalProperties: true },
+        ],
+      },
+    },
+  } as const;
 
   return {
     post: {
-      operationId: sanitizeOperationId(`${tool.spec.name}_action`),
-      summary: tool.spec.name,
-      description: buildOperationDescription(tool),
+      operationId: sanitizeOperationId(`${action.name}_action`),
+      summary: action.name,
+      description,
       tags: [tag],
-      ...(requiresBody
-        ? {
-            requestBody: {
-              required: true,
-              content: {
-                'application/json': {
-                  schema: requestSchema,
-                  ...(requestExamples ? { examples: requestExamples } : {}),
-                },
-              },
-            },
-          }
-        : {
-            requestBody: {
-              required: false,
-              content: {
-                'application/json': {
-                  schema: requestSchema,
-                  ...(requestExamples ? { examples: requestExamples } : {}),
-                },
-              },
-            },
-          }),
+      requestBody: {
+        required: requiresBody,
+        content: {
+          'application/json': {
+            schema: requestSchema,
+            ...(requestExamples ? { examples: requestExamples } : {}),
+          },
+        },
+      },
       responses: {
         '200': {
           description: 'Tool invocation succeeded',
           content: {
             'application/json': {
-              schema: { type: 'object', additionalProperties: true },
+              schema: successSchema,
               ...(successExample ? { example: successExample } : {}),
             },
           },
@@ -222,9 +267,9 @@ const actionPathForTool = (tool: Tool, tag: string): PathItemObject => {
         },
       },
       'x-promethean-tool': {
-        name: tool.spec.name,
-        stability: tool.spec.stability ?? 'experimental',
-        since: tool.spec.since ?? null,
+        name: action.name,
+        stability: action.stability,
+        since: action.since,
       },
     },
   } satisfies PathItemObject;
@@ -232,20 +277,20 @@ const actionPathForTool = (tool: Tool, tag: string): PathItemObject => {
 
 export const createEndpointOpenApiDocument = (
   endpoint: EndpointDefinition,
-  tools: readonly Tool[],
-  basePath: string,
+  actions: readonly ActionDefinition[],
+  serverUrl: string,
 ): OpenApiDocument => {
   const title = endpoint.meta?.title ?? `Promethean MCP ${endpoint.path}`;
   const tag = endpoint.meta?.title ?? 'Promethean MCP';
   const infoDescription = buildInfoDescription(endpoint);
 
-  const actionEntries: ReadonlyArray<readonly [string, PathItemObject]> = tools.map((tool) => [
-    `/actions/${encodeToolSegment(tool.spec.name)}`,
-    actionPathForTool(tool, tag),
+  const actionEntries: ReadonlyArray<readonly [string, PathItemObject]> = actions.map((action) => [
+    `/actions/${encodeToolSegment(action.name)}`,
+    actionPathForDefinition(action, tag),
   ]);
 
   const pathEntries: ReadonlyArray<readonly [string, PathItemObject]> = [
-    ['/actions', listActionsPath(tools)],
+    ['/actions', listActionsPath(actions)],
     ...actionEntries,
   ];
 
@@ -258,7 +303,7 @@ export const createEndpointOpenApiDocument = (
       version: '1.0.0',
       ...(infoDescription ? { description: infoDescription } : {}),
     },
-    servers: [{ url: basePath }],
+    servers: [{ url: serverUrl }],
     paths,
   };
 };

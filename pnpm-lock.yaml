@@ -1985,19 +1985,47 @@ importers:
         specifier: 5.0.0
         version: 5.0.0
 
-  packages/frontends/docops-frontend: {}
+  packages/frontends/docops-frontend:
+    devDependencies:
+      shadow-cljs:
+        specifier: 2.28.17
+        version: 2.28.17
 
-  packages/frontends/health-dashboard-frontend: {}
+  packages/frontends/health-dashboard-frontend:
+    devDependencies:
+      shadow-cljs:
+        specifier: 2.28.17
+        version: 2.28.17
 
-  packages/frontends/llm-chat-frontend: {}
+  packages/frontends/llm-chat-frontend:
+    devDependencies:
+      shadow-cljs:
+        specifier: 2.28.17
+        version: 2.28.17
 
-  packages/frontends/markdown-graph-frontend: {}
+  packages/frontends/markdown-graph-frontend:
+    devDependencies:
+      shadow-cljs:
+        specifier: 2.28.17
+        version: 2.28.17
 
-  packages/frontends/portfolio-frontend: {}
+  packages/frontends/portfolio-frontend:
+    devDependencies:
+      shadow-cljs:
+        specifier: 2.28.17
+        version: 2.28.17
 
-  packages/frontends/smart-chat-frontend: {}
+  packages/frontends/smart-chat-frontend:
+    devDependencies:
+      shadow-cljs:
+        specifier: 2.28.17
+        version: 2.28.17
 
-  packages/frontends/smartgpt-dashboard-frontend: {}
+  packages/frontends/smartgpt-dashboard-frontend:
+    devDependencies:
+      shadow-cljs:
+        specifier: 2.28.17
+        version: 2.28.17
 
   packages/fs:
     dependencies:
@@ -3752,6 +3780,12 @@ importers:
       jsedn:
         specifier: 0.4.1
         version: 0.4.1
+
+  packages/shadow-ui:
+    devDependencies:
+      shadow-cljs:
+        specifier: 2.28.17
+        version: 2.28.17
 
   packages/simtask:
     dependencies:
@@ -7625,12 +7659,6 @@ packages:
     resolution: {integrity: sha512-/Tb/JcjK111nNScGob5MNtsntNM1aCNUDipB/TkwZFhyDrrE47SOx/18wF2bbjgc3ZzCSKW1T5nt5EbFoAz/Vg==}
     engines: {node: '>=4'}
     hasBin: true
-
-  csv-parse@5.6.0:
-    resolution: {integrity: sha512-l3nz3euub2QMg5ouu5U09Ew9Wf6/wQ8I++ch1loQ0ljmzhmfZYrH9fflS22i/PQEvsPvxCwxgz5q7UB8K1JO4Q==}
-
-  csv-stringify@6.6.0:
-    resolution: {integrity: sha512-YW32lKOmIBgbxtu3g5SaiqWNwa/9ISQt2EcgOq0+RAIFufFp9is6tqNnKahqE5kuKvrnYAzs28r+s6pXJR8Vcw==}
 
   culvert@0.1.2:
     resolution: {integrity: sha512-yi1x3EAWKjQTreYWeSd98431AV+IEE0qoDyOoaHJ7KJ21gv6HtBXHVLX74opVSGqcR8/AbjJBHAHpcOy2bj5Gg==}
@@ -15548,10 +15576,6 @@ snapshots:
   css-what@6.2.2: {}
 
   cssesc@3.0.0: {}
-
-  csv-parse@5.6.0: {}
-
-  csv-stringify@6.6.0: {}
 
   culvert@0.1.2: {}
 
