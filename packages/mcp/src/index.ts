@@ -231,13 +231,14 @@ const ensureMetaTools = (
 ): readonly string[] => {
   if (!includeHelp) return ids;
   const need: string[] = [];
-  if (toolCatalog.has('mcp.help') && !ids.includes('mcp.help')) need.push('mcp.help');
-  if (toolCatalog.has('mcp.toolset') && !ids.includes('mcp.toolset')) need.push('mcp.toolset');
-  if (toolCatalog.has('mcp.endpoints') && !ids.includes('mcp.endpoints'))
-    need.push('mcp.endpoints');
+  if (toolCatalog.has("mcp.help") && !ids.includes("mcp.help"))
+    need.push("mcp.help");
+  if (toolCatalog.has("mcp.toolset") && !ids.includes("mcp.toolset"))
+    need.push("mcp.toolset");
+  if (toolCatalog.has("mcp.endpoints") && !ids.includes("mcp.endpoints"))
+    need.push("mcp.endpoints");
   return need.length ? [...ids, ...need] : ids;
 };
-
 const selectFactories = (toolIds: readonly string[]): readonly ToolFactory[] =>
   toolIds
     .map((id) => {
