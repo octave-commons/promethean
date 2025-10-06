@@ -1,7 +1,7 @@
 ---
 uuid: 7f2a8d19-4f72-4c39-9b23-08fd4e33c4f0
 title: Add rate limiting to SmartGPT Bridge file routes
-status: review
+status: done
 priority: P1
 labels: [security, bug]
 created_at: '2025-01-06T12:00:00.000Z'

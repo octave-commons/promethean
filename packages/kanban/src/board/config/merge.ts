@@ -169,9 +169,17 @@ const buildArrays = ({
   } as const;
 };
 
+const mergeWipLimits = (
+  defaults: Readonly<Record<string, number>>,
+  configValue?: Readonly<Record<string, number>>,
+): Readonly<Record<string, number>> => {
+  return Object.freeze({ ...defaults, ...configValue });
+};
+
 export const mergeConfig = (inputs: MergeInputs): KanbanConfig => {
   const paths = buildPaths(inputs);
   const arrays = buildArrays(inputs);
+  const wipLimits = mergeWipLimits(inputs.defaults.wipLimits, inputs.fileConfig.wipLimits);
   return Object.freeze({
     repo: inputs.repo,
     tasksDir: paths.tasksDir,
@@ -185,5 +193,6 @@ export const mergeConfig = (inputs: MergeInputs): KanbanConfig => {
     priorityValues: Object.freeze(
       new Set(arrays.priorityValues),
     ) as ReadonlySetLike<string>,
+    wipLimits,
   });
 };
