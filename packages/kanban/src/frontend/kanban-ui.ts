@@ -530,11 +530,11 @@ class PrometheanKanbanDashboard extends HTMLElement {
 
     const command = target.dataset.command;
     if (command) {
-      event.preventDefault();
       const taskId = target.dataset.taskId;
       switch (command) {
         case 'move_up':
         case 'move_down': {
+          event.preventDefault();
           if (taskId) {
             void this.executeRemoteCommand(command, [taskId], {
               refreshAfter: true,
@@ -546,10 +546,12 @@ class PrometheanKanbanDashboard extends HTMLElement {
         case 'push':
         case 'sync':
         case 'regenerate': {
+          event.preventDefault();
           void this.executeRemoteCommand(command, [], { refreshAfter: true });
           return;
         }
         case 'indexForSearch': {
+          event.preventDefault();
           void this.executeRemoteCommand(command, [], { refreshAfter: false });
           return;
         }
