@@ -81,8 +81,31 @@ MCP-LIST elements should each have at least :name and optionally :args, :descrip
 (with-eval-after-load 'gptel
   (setq gptel-log-level 'trace
     debug-on-error t)
-  (advice-add 'gptel-send :around #'err--gptel-sanitize-before-send)
-
+  ;; (advice-add 'gptel-send :around #'err--gptel-sanitize-before-send)
+  (gptel-make-ollama "ollama"
+    :host "localhost:11434"
+    :stream t
+    :models '(qwen3:8b llama3.2:3b qwen2.5:7b
+               qwen2.5-coder:7b
+               qwen2.5-instruct:3b
+               gemma3:latest
+               qwen3:4b
+               llama3.1:8b
+               ))
+  (gptel-make-gh-copilot "Copilot")
+  ;; AI/ML API offers an OpenAI compatible API
+  (gptel-make-openai "zai"        ;Any name you want
+    :host "api.z.ai"
+    :endpoint "/api/coding/paas/v4/chat/completions"
+    :key (lambda () (auth-source-pick-first-password :host "api.z.ai"))
+    :stream t
+    :models '(glm-4.6 glm-4.5 glm-4-plus glm-4.5-X))
+  (gptel-make-preset 'z-ai-glm-coding                       ;preset name, a symbol
+    :description "A preset optimized for coding tasks" ;for your reference
+    :backend "zai"                     ;gptel backend or backend name
+    :model 'GLM-4.6
+    :system "You are an expert coding assistant. Your role is to provide high-quality code solutions, refactorings, and explanations."
+    :tools '("read_buffer" "modify_buffer")) ;gptel tools or tool names
 
   ;; ---- filesystem ----
 

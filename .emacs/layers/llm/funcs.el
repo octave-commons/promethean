@@ -276,16 +276,16 @@ Return JSON {name,pid,buffer}."
       (substring s 0 limit)
       s)))
 
-(defun err--sanitize-gptel-tools (&optional limit)
-  (setq limit (or limit 1000)) ;; a bit under 1024 for safety
-  (setq gptel-tools
-    (cl-loop for tool in gptel-tools
-      when (and tool (recordp tool) (eq (type-of tool) 'gptel-tool))
-      do (let* ((desc (aref tool 3)))
-           (print tool)
-           (unless (and (stringp desc) (<= (length desc) 1024))
-             (setf (aref tool 3) (err--coerce-desc desc limit))))
-      and collect tool)))
+;; (defun err--sanitize-gptel-tools (&optional limit)
+;;   (setq limit (or limit 1000)) ;; a bit under 1024 for safety
+;;   (setq gptel-tools
+;;     (cl-loop for tool in gptel-tools
+;;       when (and tool (recordp tool) (eq (type-of tool) 'gptel-tool))
+;;       do (let* ((desc (aref tool 3)))
+;;            (print tool)
+;;            (unless (and (stringp desc) (<= (length desc) 1024))
+;;              (setf (aref tool 3) (err--coerce-desc desc limit))))
+;;       and collect tool)))
 
 ;;; --- gptel tool fixups for MCP & friends -------------------------------
 
@@ -350,6 +350,28 @@ Return JSON {name,pid,buffer}."
               (file-name-as-directory abs))
       (error "Refusing to access outside project: %s" abs))
     abs))
+
+(defmacro define-tool (name decription category args &rest body)
+  `(gptel-make-tool
+     :name ,name
+     :description ,decription
+     :category ,category
+     :args ,args
+     :function
+     (lambda (command &optional buffer_name)
+       (let* ((buf (get-buffer-create (or buffer_name (format "*gptel-proc:%s*" command))))
+               (proc (start-process-shell-command "gptel-proc" buf command)))
+         (set-process-coding-system proc 'utf-8 'utf-8)
+         (set-process-query-on-exit-flag proc nil)
+         (set-process-sentinel proc
+           (lambda (p _e)
+             (when (memq (process-status p) '(exit signal))
+               (with-current-buffer (process-buffer p)
+                 (goto-char (point-max))
+                 (insert (format "\n\n[process %s finished with %s]\n"
+                           (process-id p) (process-status p)))))))
+         (list :pid (process-id proc) :buffer (buffer-name buf)))))
+  )
 
 ;; (with-eval-after-load 'gptel
 ;;   )
