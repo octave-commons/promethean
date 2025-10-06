@@ -7,6 +7,9 @@ ART_ROOT="${ART_ROOT:-docs/reports/codex_cloud}"
 RUN_TS="${RUN_TS:-$(date -u +"%Y.%m.%d.%H.%M.%S")}"
 ART_ROOT="$ART_ROOT" RUN_TS="$RUN_TS" source "$(dirname "$0")/describe.sh"
 
+# ---------- knobs ----------
+BUILD_TIMEOUT_SECS="${BUILD_TIMEOUT_SECS:-1200}"
+
 # ---------- base/tooling ----------
 describe env-dump               bash -lc '(set -o posix; set)'
 
@@ -40,7 +43,7 @@ describe setup-playwright       bash -lc '"./run/setup_playwright.sh"'
 # ./run/standup_ollama_nohup.sh
 
 
-describe pnpm-build           pnpm -r --no-bail build
+TIMEOUT_SECS="$BUILD_TIMEOUT_SECS" describe pnpm-build           pnpm -r --no-bail build
 # fi
 
 # describe eslint-stylish         pnpm exec eslint --cache
