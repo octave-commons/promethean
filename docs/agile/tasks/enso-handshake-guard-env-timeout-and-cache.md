@@ -1,7 +1,7 @@
 ---
 uuid: 7f5d0e5d-2a38-4bb7-bb3a-2f8a4b1b2e31
 title: enso-browser-gateway — handshake guard env timeout + cache ready
-status: review
+status: todo
 priority: P2
 labels:
   - enso
@@ -21,7 +21,7 @@ Add `ENSO_HANDSHAKE_TIMEOUT_MS` env override. Short-circuit `ensureHandshake()` 
 - [ ] Tests cover timeout override + cache
 
 ## ⛓️ Blocks
-- Merge PR #1451
+- ~~Merge PR #1451~~ ✅ MERGED 2025-10-02T20:51:28Z
 
 ## 🔍 Related
 - PR #1451

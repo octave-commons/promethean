@@ -142,3 +142,5 @@
 
 ;; (defun semantic-search/init-vecdb ()
 ;;   (use-package vecdb :defer t)) ;; GNU ELPA; vector DB interface
+
+;;; packages.el ends here

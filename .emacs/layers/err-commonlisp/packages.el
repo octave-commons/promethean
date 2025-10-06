@@ -1,4 +1,4 @@
-;;; packages.el --- err-commonlisp layer packages file for Spacemacs.
+;;; packages.el --- err-commonlisp layer packages file for Spacemacs -*- lexical-binding: t; -*-
 ;;
 ;; Copyright (c) 2012-2025 Sylvain Benner & Contributors
 ;;
@@ -111,3 +111,5 @@ Each entry is either:
       ((error line-start (file-name) ":" line ":" column ": " (message) line-end))
       :modes (common-lisp-mode))
     (add-to-list 'flycheck-checkers 'common-lisp-sblint)))
+
+;;; packages.el ends here

@@ -1,7 +1,7 @@
 ---
 uuid: 1a4d3d7c-5b2e-4f2c-8f9a-3b1c2d4e5f6a
 title: enso-browser-gateway — voice forwarder README + frameDuration clamp
-status: review
+status: todo
 priority: P3
 labels:
   - enso
@@ -19,7 +19,7 @@ Document reliance on `channel.protocol` for `frameDurationMs` with 20ms fallback
 - [ ] Clamp logic implemented + unit tested
 
 ## ⛓️ Blocks
-- Merge PR #1448
+- ~~Merge PR #1448~~ ✅ MERGED 2025-10-03T00:12:04Z
 
 ## 🔍 Related
 - PR #1448

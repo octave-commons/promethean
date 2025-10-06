@@ -1,17 +1,25 @@
 (ns clj-hacks.mcp.adapter-elisp
   "Adapter for Emacs Lisp MCP configuration snippets."
   (:require [clj-hacks.mcp.core :as core]
+            [clj-hacks.mcp.elisp :as elisp]
             [clojure.edn :as edn]
-            [clojure.string :as str]))
+            [clojure.string :as str]
+            [elisp.mcp :as mcp-ast])
+  (:import [java.io FileNotFoundException]))
 
-(def ^:private re-with-eval
-  #"\(with-eval-after-load 'mcp(?s:).*?setq\s+mcp-hub-servers(?s:.*?)\)\s*\)\s*\)")
+(def ^:private default-http-base
+  (or (System/getenv "MCP_HTTP_BASE")
+      "http://127.0.0.1:3210"))
 
 (def ^:private re-hub-setq
   #"\(setq\s+mcp-hub-servers\s+'(\((?s:.*)\))\)")
 
 (def ^:private re-legacy-setq
   #"\(setq\s+mcp-server-programs\s+'\((?s:.*?)\)\)")
+
+;; ----------------------------------------------------------------------------
+;; Minimal S-expression parsing helpers (used for existing block parsing)
+;; ----------------------------------------------------------------------------
 
 (defn- skip-ws [^String s idx]
   (let [len (.length s)]
@@ -124,75 +132,9 @@
           (let [[entry next-idx] (parse-entry s idx)]
             (recur next-idx (conj entries entry))))))))
 
-(defn- escape-string [s]
-  (-> s
-      (str/replace "\\" "\\\\")
-      (str/replace "\"" "\\\"")))
-
-(defn- render-string [s]
-  (str "\"" (escape-string s) "\""))
-
-(defn- render-list [xs]
-  (str "(" (str/join " " (map render-string xs)) ")"))
-
-(def key-order
-  [:command :args :cwd])
-
-(def key-rank
-  (zipmap key-order (range)))
-
-(defn- ordered-keys [m]
-  (sort-by (fn [k] [(get key-rank k 1000) (name k)])
-           (keys m)))
-
-(def property-indent "            ")
-(def property-continued "                      ")
-
-(defn- render-value [v]
-  (cond
-    (string? v) (render-string v)
-    (sequential? v) (render-list v)
-    (true? v) "t"
-    (false? v) "nil"
-    (nil? v) "nil"
-    :else (render-string (str v))))
-
-(defn- render-prop [k v]
-  (str ":" (name k) " " (render-value v)))
-
-(defn- render-props [props]
-  (let [ks (vec (ordered-keys props))]
-    (if (seq ks)
-      (let [last-idx (dec (count ks))]
-        (->> ks
-             (map-indexed (fn [idx k]
-                            (let [prefix (if (zero? idx)
-                                           (str property-indent "(")
-                                           property-continued)
-                                  rendered (render-prop k (get props k))
-                                  suffix (if (= idx last-idx) "))" "")]
-                              (str prefix rendered suffix))))
-             (str/join "\n")))
-      (str property-indent "())"))))
-
-(defn- render-entry [idx [k props]]
-  (let [prefix (if (zero? idx)
-                 "        '(( "
-                 "          ( ")]
-    (str prefix "\"" (name k) "\" .\n"
-         (render-props props)
-         "\n")))
-
-(defn- render-setq [mcp]
-  (let [entries (vec (sort-by (comp name key) (:mcp-servers mcp)))
-        body (if (seq entries)
-               (let [rendered (map-indexed render-entry entries)]
-                 (str (apply str rendered)
-                      "          )))\n"))
-               "        '()\n          )))\n")]
-    (str "(with-eval-after-load 'mcp\n"
-         "  (setq mcp-hub-servers\n"
-         body)))
+;; ----------------------------------------------------------------------------
+;; Legacy parsing helpers
+;; ----------------------------------------------------------------------------
 
 (defn- parse-legacy [s]
   (let [re-entry #"\(\s*\"([^\"]+)\"\s*\.\s*\(\s*\"([^\"]+)\"\s*(\[.*?\])?\s*\)\s*\)"
@@ -206,25 +148,112 @@
                     [(keyword nm) entry]))
                 ms))}))
 
+;; ----------------------------------------------------------------------------
+;; HTTP helpers (retain behaviour of legacy adapter)
+;; ----------------------------------------------------------------------------
+
+(defn- endpoint-key->path [k]
+  (let [s (cond
+            (keyword? k) (if-let [ns (namespace k)]
+                           (str ns "/" (name k))
+                           (name k))
+            (string? k) k
+            :else (str k))]
+    (if (str/starts-with? s "/") s (str "/" s))))
+
+(defn- path->entry-key [path]
+  (if (= path "/mcp")
+    :http-default
+    (keyword (str "http-"
+                  (str/replace (subs path 1) #"/" "-")))))
+
+(defn- http-endpoints->servers [http]
+  (when (and (map? http) (= (:transport http) :http))
+    (let [base (or (:base-url http) default-http-base)
+          endpoints (or (:endpoints http) {})
+          entries (cond-> []
+                     (seq (:tools http))
+                     (conj [:http-default {:url (str base "/mcp")}]))]
+      (->> (sort-by (fn [[k _]] (endpoint-key->path k)) endpoints)
+           (reduce (fn [acc [k _]]
+                     (let [path (endpoint-key->path k)
+                           key  (path->entry-key path)]
+                       (if (= key :http-default)
+                         acc
+                         (conj acc [key {:url (str base path)}]))))
+                   entries)
+           (into (sorted-map))))))
+
+(defn- merge-http-servers [servers http]
+  (let [base-map (into (sorted-map) servers)
+        http-map (http-endpoints->servers http)]
+    (reduce (fn [acc [k v]]
+              (if (contains? acc k)
+                acc
+                (assoc acc k v)))
+            base-map
+            http-map)))
+
+;; ----------------------------------------------------------------------------
+;; Public API
+;; ----------------------------------------------------------------------------
+
 (defn read-full [path]
   (let [s (slurp path)]
-    (if-let [[_ servers-str] (re-find re-hub-setq s)]
-      (let [servers (parse-hub-servers servers-str)
-            rest    (str/replace s re-with-eval "")]
+    (if-let [{:keys [block before after block-start block-end]} (mcp-ast/find-generated-block s)]
+      (let [servers-str (some-> (re-find re-hub-setq block) second)
+            servers     (if servers-str
+                          (parse-hub-servers servers-str)
+                          (sorted-map))]
         {:mcp {:mcp-servers servers}
-         :rest rest
-         :raw  s})
+         :rest {:before before :after after}
+         :raw s
+         :block-range {:start block-start :end block-end}})
       (let [legacy (parse-legacy s)
-            rest   (str/replace s re-legacy-setq "")]
+            rest-str (if (re-find re-legacy-setq s)
+                       (str/replace s re-legacy-setq "")
+                       s)]
         {:mcp {:mcp-servers (:mcp-servers legacy)}
-         :rest rest
-         :raw  s}))))
+         :rest {:before rest-str :after ""}
+         :raw s
+         :legacy? true}))))
+
+(defn- resolve-source [path rest]
+  (try
+    (slurp path)
+    (catch FileNotFoundException _
+      (cond
+        (and (map? rest) (contains? rest :before) (contains? rest :after))
+        (str (or (:before rest) "") (or (:after rest) ""))
+
+        (string? rest) rest
+
+        :else ""))))
 
 (defn write-full [path {:keys [mcp rest]}]
-  (let [block (render-setq mcp)
-        base  (or rest "")
-        trimmed (str/trimr base)
-        prefix (if (str/blank? trimmed) "" (str trimmed "\n\n"))
-        out    (str prefix block)]
-    (core/ensure-parent! path)
-    (spit path (str out (when-not (str/ends-with? out "\n") "\n")))))
+  (let [mcp'     (core/expand-servers-home mcp)
+        combined (merge-http-servers (:mcp-servers mcp') (:http mcp'))]
+    (if (and (map? rest) (contains? rest :before) (contains? rest :after))
+      (let [block (elisp/render-generated-block combined)
+            out   (str (or (:before rest) "") block (or (:after rest) ""))
+            out*  (if (str/ends-with? out "
+") out (str out "
+"))]
+        (core/ensure-parent! path)
+        (spit path out*)
+        {:ok? true
+         :source out*
+         :block block
+         :changed? true
+         :inserted? false})
+      (let [original (resolve-source path rest)
+            rewrite  (elisp/rewrite-source original combined)]
+        (if (:ok? rewrite)
+          (let [out (:source rewrite)
+                out* (if (str/ends-with? out "
+") out (str out "
+"))]
+            (core/ensure-parent! path)
+            (spit path out*)
+            (assoc rewrite :source out*))
+          (throw (ex-info "Unable to rewrite Elisp MCP configuration" rewrite)))))))

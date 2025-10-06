@@ -161,12 +161,13 @@
                    {})
         ;; Replace only the "mcpServers" key, keep all others from either rest or existing
         m*      (merge existing rest)
+        mcp'    (core/expand-servers-home mcp)
         servers (into (sorted-map)
-                      (for [[k {:keys [command args cwd]}] (:mcp-servers mcp)]
+                      (for [[k {:keys [command args cwd]}] (:mcp-servers mcp')]
                         [(name k) (cond-> {"command" command}
                                     (seq args) (assoc "args" (vec args))
                                     (some? cwd) (assoc "cwd" cwd))]))
-        http    (http->json (:http mcp))
+        http    (http->json (:http mcp'))
         cleaned (apply dissoc (assoc m* "mcpServers" servers)
                        ["transport" "tools" "includeHelp" "stdioMeta" "endpoints" "stdioProxyConfig"])
         out     (merge cleaned (or http {}))]

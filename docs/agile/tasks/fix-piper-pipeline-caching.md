@@ -1,7 +1,7 @@
 ---
 uuid: 8b57e951-99d2-4242-a56d-578a3f11cda6
 title: Fix Piper pipeline caching regressions
-status: in-progress
+status: in_progress
 priority: P2
 labels:
   - piper

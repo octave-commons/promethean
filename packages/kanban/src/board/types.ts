@@ -20,4 +20,4 @@ export type TaskFM = Readonly<{
   milestone?: string;
 }>;
 
-export type IndexedTask = TaskFM & Readonly<{ path: string }>;
+export type IndexedTask = TaskFM & Readonly<{ path: string; content?: string }>;

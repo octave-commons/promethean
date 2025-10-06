@@ -48,12 +48,15 @@ export const writeTaskFile = async (
       ? " []"
       : ` [${labels.map((label) => JSON.stringify(label)).join(", ")}]`
   }`;
-  const frontmatter = `---\nuuid: ${task.uuid}\ntitle: ${task.title}\nstatus: ${
+  const titleValue = task.title ?? "";
+  const frontmatter = `---\nuuid: ${task.uuid}\ntitle: ${JSON.stringify(titleValue)}\nstatus: ${
     task.status
   }\npriority: ${task.priority ?? ""}\n${labelsLine}\ncreated_at: ${
     task.created_at ?? "2025-09-01T00:00:00.000Z"
   }\n---\n\n${body}\n`;
-  const filePath = path.join(dir, `${task.slug ?? task.title}.md`);
+  const fileNameBase = task.slug ?? task.title ?? "task";
+  const fileName = fileNameBase.trim().length > 0 ? fileNameBase : "task";
+  const filePath = path.join(dir, `${fileName}.md`);
   await writeFile(filePath, frontmatter, "utf8");
   return filePath;
 };

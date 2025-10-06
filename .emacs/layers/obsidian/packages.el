@@ -1,4 +1,4 @@
-;;; packages.el --- obsidian layer packages file for Spacemacs.
+;;; packages.el --- obsidian layer packages file for Spacemacs -*- lexical-binding: t; -*-
 ;;
 ;; Copyright (c) 2012-2025 Sylvain Benner & Contributors
 ;;
@@ -63,3 +63,5 @@
         "on" #'obsidian-daily-note
         "ot" #'obsidian-tag-insert
         "os" #'obsidian-search))))
+
+;;; packages.el ends here

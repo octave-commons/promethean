@@ -16,7 +16,7 @@
    ;; Vendor-specific
    :vscode.json {:read vscode-json/read-full :write vscode-json/write-full :rest-default {}}
    :codex.toml  {:read codex-toml/read-full  :write codex-toml/write-full  :rest-default ""}
-   :elisp       {:read elisp/read-full       :write elisp/write-full       :rest-default ""}})
+   :elisp       {:read elisp/read-full       :write elisp/write-full       :rest-default {:before "" :after ""}}})
 
 (defn- ensure-adapter! [schema]
   (when-not (contains? adapters schema)
