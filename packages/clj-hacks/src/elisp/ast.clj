@@ -1,5 +1,6 @@
 (ns elisp.ast
   "Helpers for building and emitting Emacs Lisp fragments from structured data."
+  (:refer-clojure :exclude [symbol list vector cons unquote comment])
   (:require [clojure.string :as str]))
 
 (def default-indent 2)
@@ -8,7 +9,7 @@
 ;; AST constructors
 ;; ---------------------------------------------------------------------------
 
-(defn symbol
+(defn el-symbol
   "Create an Elisp symbol node."
   [name]
   (when-not (string? name)
@@ -20,28 +21,28 @@
   [value]
   (str value))
 
-(defn list
+(defn el-list
   "Create a list node with optional metadata."
   [& items]
   (into [:el/list] items))
 
-(defn vector
+(defn el-vector
   "Create a vector node."
   [& items]
   (into [:el/vector] items))
 
-(defn cons
+(defn el-cons
   "Create a dotted pair node."
   [car cdr]
   {:el/type :cons :car car :cdr cdr})
 
 (defn quote [form] {:el/type :quote :form form})
 (defn quasiquote [form] {:el/type :quasiquote :form form})
-(defn unquote [form] {:el/type :unquote :form form})
+(defn el-unquote [form] {:el/type :unquote :form form})
 (defn splice [form] {:el/type :splice :form form})
 (defn function [form] {:el/type :function :form form})
 
-(defn comment
+(defn el-comment
   "Create a comment node. Include trailing newline if needed."
   [text]
   {:el/type :comment :text text})
