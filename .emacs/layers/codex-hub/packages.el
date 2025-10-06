@@ -1,4 +1,4 @@
-;;; packages.el --- codex-hub layer packages file for Spacemacs.
+;;; packages.el --- codex-hub layer packages file for Spacemacs -*- lexical-binding: t; -*-
 ;;
 ;; Copyright (c) 2012-2025 Sylvain Benner & Contributors
 ;;
@@ -66,5 +66,7 @@ Each entry is either:
       - The symbol `local' directs Spacemacs to load the file at
         `./local/PACKAGE/PACKAGE.el'
 
-      - A list beginning with the symbol `recipe' is a melpa
-        recipe.  See: https://github.com/milkypostman/melpa#recipe-format")
+    - A list beginning with the symbol `recipe' is a melpa
+      recipe.  See: https://github.com/milkypostman/melpa#recipe-format")
+
+;;; packages.el ends here
