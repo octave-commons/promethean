@@ -113,11 +113,9 @@ export const resolveConfigPath = (filePath: string, baseDir: string = CONFIG_ROO
     ? path.normalize(filePath)
     : path.normalize(path.resolve(base, filePath));
 
-  if (!path.isAbsolute(filePath)) {
-    const relative = path.relative(base, candidate);
-    if (relative.startsWith('..') || path.isAbsolute(relative)) {
-      throw new Error(`Refusing to access path outside of ${base}: ${candidate}`);
-    }
+  const relative = path.relative(base, candidate);
+  if (relative.startsWith('..') || path.isAbsolute(relative)) {
+    throw new Error(`Refusing to access path outside of ${base}: ${candidate}`);
   }
 
   return candidate;

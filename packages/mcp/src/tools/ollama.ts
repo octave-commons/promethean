@@ -108,7 +108,7 @@ export const ollamaPull: ToolFactory = () => {
   const shape = { modelName: z.string().min(1) } as const;
   const Schema = z.object(shape);
   const spec = {
-    name: 'ollama.pull',
+    name: 'ollama_pull',
     description: 'Queue a model pull (no-op executor in MVP)',
     inputSchema: shape,
   } as const;
@@ -132,7 +132,7 @@ export const ollamaPull: ToolFactory = () => {
 
 export const ollamaListModels: ToolFactory = () => {
   const spec = {
-    name: 'ollama.listModels',
+    name: 'ollama_list_models',
     description: 'List models (MVP returns empty; integrate Ollama HTTP later)',
   } as const;
   const invoke = async () => ({ models: [] as string[] });
@@ -140,7 +140,7 @@ export const ollamaListModels: ToolFactory = () => {
 };
 
 export const ollamaListTemplates: ToolFactory = () => {
-  const spec = { name: 'ollama.listTemplates', description: 'List registered templates' } as const;
+  const spec = { name: 'ollama_list_templates', description: 'List registered templates' } as const;
   const invoke = async () => ({
     templates: [...store.templates.values()].map((t) => ({ name: t.name, version: t.version })),
   });
@@ -151,7 +151,7 @@ export const ollamaCreateTemplate: ToolFactory = () => {
   const shape = { templateName: z.string().min(1), src: z.string().min(1) } as const;
   const Schema = z.object(shape);
   const spec = {
-    name: 'ollama.createTemplate',
+    name: 'ollama_create_template',
     description: 'Create or update a template (s-expr text stored verbatim)',
     inputSchema: shape,
   } as const;
@@ -180,7 +180,7 @@ export const ollamaEnqueueJobFromTemplate: ToolFactory = () => {
   } as const;
   const Schema = z.object(shape);
   const spec = {
-    name: 'ollama.enqueueJobFromTemplate',
+    name: 'ollama_enqueue_job_from_template',
     description: 'Queue a job that will execute a named template',
     inputSchema: shape,
   } as const;
@@ -214,7 +214,7 @@ export const ollamaStartConversation: ToolFactory = () => {
   } as const;
   const Schema = z.object(shape);
   const spec = {
-    name: 'ollama.startConversation',
+    name: 'ollama_start_conversation',
     description: 'Create a conversation; optionally seeds initial user message',
     inputSchema: shape,
   } as const;
@@ -259,7 +259,7 @@ export const ollamaEnqueueGenerateJob: ToolFactory = () => {
   } as const;
   const Schema = z.object(shape);
   const spec = {
-    name: 'ollama.enqueueGenerateJob',
+    name: 'ollama_enqueue_generate_job',
     description: 'Queue a text generation job (no execution in MVP)',
     inputSchema: shape,
   } as const;
@@ -301,7 +301,7 @@ export const ollamaEnqueueChatCompletion: ToolFactory = () => {
   } as const;
   const Schema = z.object(shape);
   const spec = {
-    name: 'ollama.enqueueChatCompletion',
+    name: 'ollama_enqueue_chat_completion',
     description: 'Queue a chat completion against a conversation or raw messages',
     inputSchema: shape,
   } as const;
@@ -358,7 +358,7 @@ export const ollamaEnqueueChatCompletion: ToolFactory = () => {
 
 export const ollamaGetQueue: ToolFactory = () => {
   const spec = {
-    name: 'ollama.getQueue',
+    name: 'ollama_get_queue',
     description: 'Snapshot of pending/running/completed jobs',
   } as const;
   const invoke = async () => snapshot();
@@ -369,7 +369,7 @@ export const ollamaRemoveJob: ToolFactory = () => {
   const shape = { handle: z.union([z.string().uuid(), z.string()]) } as const;
   const Schema = z.object(shape);
   const spec = {
-    name: 'ollama.removeJob',
+    name: 'ollama_remove_job',
     description: 'Remove a job by id or name if not running',
     inputSchema: shape,
   } as const;

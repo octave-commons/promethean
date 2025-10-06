@@ -13,7 +13,7 @@ test('createEndpointOpenApiDocument describes tool actions', (t) => {
   const Schema = z.object({ value: z.string() }).strict();
   const tool: Tool = {
     spec: {
-      name: 'test.echo',
+      name: 'test_echo',
       description: 'Echo a provided value.',
       inputSchema: Schema.shape,
       stability: 'stable',
@@ -48,9 +48,9 @@ test('createEndpointOpenApiDocument describes tool actions', (t) => {
   t.is(doc.servers[0]?.url, 'https://example.com/custom');
 
   t.truthy(doc.paths['/actions']);
-  t.truthy(doc.paths['/actions/test.echo']);
+  t.truthy(doc.paths['/actions/test_echo']);
 
-  const action = doc.paths['/actions/test.echo'] as {
+  const action = doc.paths['/actions/test_echo'] as {
     post: {
       operationId: string;
       requestBody: {
@@ -109,6 +109,6 @@ test('createEndpointOpenApiDocument describes tool actions', (t) => {
 });
 
 test('encodeActionPathSegment preserves safe characters', (t) => {
-  t.is(encodeActionPathSegment('files.list-directory'), 'files.list-directory');
+  t.is(encodeActionPathSegment('files_list_directory'), 'files_list_directory');
   t.is(encodeActionPathSegment('space value'), 'space%20value');
 });

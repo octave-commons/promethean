@@ -1,8 +1,8 @@
-import { z } from "zod";
+import { z } from 'zod';
 
-import type { ToolFactory, ToolSpec } from "../../core/types.js";
+import type { ToolFactory, ToolSpec } from '../../core/types.js';
 
-import { isBase64String, normalizeGithubPayload } from "./base64.js";
+import { isBase64String, normalizeGithubPayload } from './base64.js';
 
 type GithubIdentity = Readonly<{
   readonly owner: string;
@@ -25,7 +25,7 @@ type GithubContentsArgs = Readonly<{
   readonly sha?: string;
   readonly committer?: GithubCommitIdentity;
   readonly author?: GithubCommitIdentity;
-  readonly encoding?: "utf-8" | "base64";
+  readonly encoding?: 'utf-8' | 'base64';
 }>;
 
 const GithubContentsInputShape = {
@@ -48,7 +48,7 @@ const GithubContentsInputShape = {
       email: z.string(),
     })
     .optional(),
-  encoding: z.enum(["utf-8", "base64"]).optional(),
+  encoding: z.enum(['utf-8', 'base64']).optional(),
 } as const;
 
 const GithubContentsSchema = z.object(GithubContentsInputShape);
@@ -57,34 +57,29 @@ const encodeOwnerRepoPath = ({ owner, repo, path }: GithubIdentity): string => {
   const ownerPart = encodeURIComponent(owner);
   const repoPart = encodeURIComponent(repo);
   const pathPart = path
-    .split("/")
+    .split('/')
     .map((segment) => encodeURIComponent(segment))
-    .join("/");
+    .join('/');
   return `/repos/${ownerPart}/${repoPart}/contents/${pathPart}`;
 };
 
-const encodeContent = (
-  content: string,
-  encoding: "utf-8" | "base64",
-): string => {
-  if (encoding === "base64") {
+const encodeContent = (content: string, encoding: 'utf-8' | 'base64'): string => {
+  if (encoding === 'base64') {
     if (!isBase64String(content)) {
-      throw new Error(
-        "Invalid base64 content provided to github.contents.write",
-      );
+      throw new Error('Invalid base64 content provided to github_contents_write');
     }
     return content;
   }
-  return Buffer.from(content, "utf8").toString("base64");
+  return Buffer.from(content, 'utf8').toString('base64');
 };
 
 const createHeaders = (
   apiVersion: string,
   token: string | undefined,
 ): Readonly<Record<string, string>> => ({
-  Accept: "application/vnd.github+json",
-  "Content-Type": "application/json",
-  "X-GitHub-Api-Version": apiVersion,
+  Accept: 'application/vnd.github+json',
+  'Content-Type': 'application/json',
+  'X-GitHub-Api-Version': apiVersion,
   ...(token ? { Authorization: `Bearer ${token}` } : {}),
 });
 
@@ -94,38 +89,36 @@ const createRequestBody = (
 ): Readonly<Record<string, unknown>> => ({
   message: args.message,
   content: encodedContent,
-  encoding: "base64",
+  encoding: 'base64',
   ...(args.branch ? { branch: args.branch } : {}),
   ...(args.sha ? { sha: args.sha } : {}),
   ...(args.committer ? { committer: args.committer } : {}),
   ...(args.author ? { author: args.author } : {}),
 });
 
-const headersToRecord = (
-  headers: Readonly<Headers>,
-): Readonly<Record<string, string>> =>
+const headersToRecord = (headers: Readonly<Headers>): Readonly<Record<string, string>> =>
   Array.from(headers.entries()).reduce<Readonly<Record<string, string>>>(
     (acc, [key, value]) => ({ ...acc, [key]: value }),
     {},
   );
 
 export const githubContentsWrite: ToolFactory = (ctx) => {
-  const base = ctx.env.GITHUB_BASE_URL ?? "https://api.github.com";
-  const apiVersion = ctx.env.GITHUB_API_VERSION ?? "2022-11-28";
+  const base = ctx.env.GITHUB_BASE_URL ?? 'https://api.github.com';
+  const apiVersion = ctx.env.GITHUB_API_VERSION ?? '2022-11-28';
   const token = ctx.env.GITHUB_TOKEN;
 
   const spec = {
-    name: "github.contents.write",
+    name: 'github_contents_write',
     description:
-      "Create or update a file via the GitHub contents API with automatic base64 encoding.",
+      'Create or update a file via the GitHub contents API with automatic base64 encoding.',
     inputSchema: GithubContentsInputShape,
-    stability: "experimental",
-    since: "0.1.0",
+    stability: 'experimental',
+    since: '0.1.0',
   } satisfies ToolSpec;
 
   const invoke = async (raw: unknown) => {
     const args = GithubContentsSchema.parse(raw);
-    const encoding = args.encoding ?? "utf-8";
+    const encoding = args.encoding ?? 'utf-8';
     const encodedContent = encodeContent(args.content, encoding);
     const path = encodeOwnerRepoPath({
       owner: args.owner,
@@ -136,16 +129,16 @@ export const githubContentsWrite: ToolFactory = (ctx) => {
     const headers = createHeaders(apiVersion, token);
     const body = createRequestBody(args, encodedContent);
     const response = await ctx.fetch(url, {
-      method: "PUT",
+      method: 'PUT',
       headers,
       body: JSON.stringify(body),
     } as RequestInit);
     const responseText = await response.text();
-    const contentType = response.headers.get("content-type") ?? "";
+    const contentType = response.headers.get('content-type') ?? '';
     const dataSource =
       responseText.length === 0
         ? null
-        : contentType.includes("json")
+        : contentType.includes('json')
           ? (JSON.parse(responseText) as unknown)
           : (responseText as unknown);
     const data = normalizeGithubPayload(dataSource);

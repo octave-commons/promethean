@@ -16,9 +16,9 @@ test('loadHttpTransportConfig prefers inline stdio proxies over legacy path', as
 
   const jsonConfig = {
     transport: 'http',
-    tools: ['files.view-file'],
+    tools: ['files_view_file'],
     endpoints: {
-      'analytics/api': { tools: ['github.request'] },
+      'analytics/api': { tools: ['github_request'] },
     },
     stdioProxyConfig: missingPath,
     stdioProxies: [
@@ -40,7 +40,7 @@ test('loadHttpTransportConfig prefers inline stdio proxies over legacy path', as
     httpConfig.endpoints.map((endpoint) => endpoint.path),
     ['/mcp', '/analytics/api'],
   );
-  t.deepEqual(httpConfig.endpoints[0]?.tools, ['files.view-file']);
+  t.deepEqual(httpConfig.endpoints[0]?.tools, ['files_view_file']);
 
   t.is(httpConfig.inlineProxySpecs.length, 1);
   const inlineProxy = httpConfig.inlineProxySpecs[0]!;
@@ -61,9 +61,9 @@ test('loadHttpTransportConfig loads stdio proxies from legacy config path', asyn
 
   const jsonConfig = {
     transport: 'http',
-    tools: ['files.view-file'],
+    tools: ['files_view_file'],
     endpoints: {
-      'analytics/api': { tools: ['github.request'] },
+      'analytics/api': { tools: ['github_request'] },
     },
     stdioProxyConfig: ednPath,
   } as const;
@@ -78,7 +78,7 @@ test('loadHttpTransportConfig loads stdio proxies from legacy config path', asyn
     httpConfig.endpoints.map((endpoint) => endpoint.path),
     ['/mcp', '/analytics/api'],
   );
-  t.deepEqual(httpConfig.endpoints[0]?.tools, ['files.view-file']);
+  t.deepEqual(httpConfig.endpoints[0]?.tools, ['files_view_file']);
 
   t.is(httpConfig.inlineProxySpecs.length, 0);
   t.is(httpConfig.legacyProxySpecs.length, 1);
