@@ -230,29 +230,15 @@ const actionPathForDefinition = (action: ActionDefinition, tag: string): PathIte
       summary: action.name,
       description,
       tags: [tag],
-      ...(requiresBody
-        ? {
-            requestBody: {
-              required: true,
-              content: {
-                'application/json': {
-                  schema: requestSchema,
-                  ...(requestExamples ? { examples: requestExamples } : {}),
-                },
-              },
-            },
-          }
-        : {
-            requestBody: {
-              required: false,
-              content: {
-                'application/json': {
-                  schema: requestSchema,
-                  ...(requestExamples ? { examples: requestExamples } : {}),
-                },
-              },
-            },
-          }),
+      requestBody: {
+        required: requiresBody,
+        content: {
+          'application/json': {
+            schema: requestSchema,
+            ...(requestExamples ? { examples: requestExamples } : {}),
+          },
+        },
+      },
       responses: {
         '200': {
           description: 'Tool invocation succeeded',
