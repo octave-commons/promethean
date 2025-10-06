@@ -12,16 +12,16 @@
                     "{\n"
                     "  \"foo\": 1,\n"
                     "  \"transport\": \"http\",\n"
-                    "  \"tools\": [\"files.view-file\"],\n"
+                    "  \"tools\": [\"files_view_file\"],\n"
                     "  \"includeHelp\": false,\n"
                     "  \"stdioMeta\": {\n"
                     "    \"title\": \"Default\",\n"
                     "    \"workflow\": [\"inspect\"],\n"
-                    "    \"expectations\": { \"usage\": [\"call mcp.toolset\"] }\n"
+                    "    \"expectations\": { \"usage\": [\"call mcp_toolset\"] }\n"
                     "  },\n"
                     "  \"endpoints\": {\n"
                     "    \"files\": {\n"
-                    "      \"tools\": [\"files.view-file\"],\n"
+                    "      \"tools\": [\"files_view_file\"],\n"
                     "      \"includeHelp\": true,\n"
                     "      \"meta\": {\n"
                     "        \"description\": \"Read files\",\n"
@@ -41,12 +41,12 @@
              {:command "run"}}
            (set (vals (:mcp-servers mcp)))))
     (is (= {:transport :http
-            :tools ["files.view-file"]
+            :tools ["files_view_file"]
             :include-help? false
             :stdio-meta {:title "Default"
                          :workflow ["inspect"]
-                         :expectations {:usage ["call mcp.toolset"]}}
-            :endpoints {:files {:tools ["files.view-file"]
+                         :expectations {:usage ["call mcp_toolset"]}}
+            :endpoints {:files {:tools ["files_view_file"]
                                 :include-help? true
                                 :meta {:description "Read files"
                                        :expectations {:pitfalls ["binary"]}}}}
@@ -60,21 +60,21 @@
         data     {:mcp {:mcp-servers {:foo {:command "echo" :args ["a" "b"] :cwd "/tmp/foo"}
                                       :bar {:command "run"}}
                         :http {:transport :http
-                               :tools ["files.view-file"]
+                               :tools ["files_view_file"]
                                :include-help? true
                                :stdio-meta {:title "Default"
                                             :expectations {:usage ["workflow"]}}
-                               :endpoints {:files {:tools ["files.view-file"]}}
+                               :endpoints {:files {:tools ["files_view_file"]}}
                                :proxy {:config "./config/mcp_servers.edn"}}}
                    :rest {"foo" 1}}]
     (adapter/write-full path-out data)
     (is (fs/exists? path-out))
     (let [out (json/parse-string (slurp path-out))]
       (is (= "http" (get out "transport")))
-      (is (= ["files.view-file"] (get out "tools")))
+      (is (= ["files_view_file"] (get out "tools")))
       (is (= true (get out "includeHelp")))
       (is (= "Default" (get-in out ["stdioMeta" "title"])))
-      (is (= ["files.view-file"] (get-in out ["endpoints" "files" "tools"])))
+      (is (= ["files_view_file"] (get-in out ["endpoints" "files" "tools"])))
       (is (= "./config/mcp_servers.edn" (get out "stdioProxyConfig"))))))
 
 (deftest http-config-round-trips

@@ -1,18 +1,16 @@
-import { z } from "zod";
+import { z } from 'zod';
 
-import type { ToolFactory } from "../../core/types.js";
+import type { ToolFactory } from '../../core/types.js';
 
 import {
   callGithubGraphql,
   fetchPullRequestSummary,
   pullRequestIdentityShape,
-} from "./pull-request-api.js";
-import { githubPrResolvePosition } from "./pull-request-data.js";
+} from './pull-request-api.js';
+import { githubPrResolvePosition } from './pull-request-data.js';
 
 const ReviewStartResponseSchema = z.object({
-  addPullRequestReview: z
-    .object({ pullRequestReview: z.object({ id: z.string() }) })
-    .optional(),
+  addPullRequestReview: z.object({ pullRequestReview: z.object({ id: z.string() }) }).optional(),
 });
 
 const ReviewCommentResponseSchema = z.object({
@@ -42,13 +40,11 @@ type GraphqlPositionError = Readonly<{
   readonly nearest?: readonly number[];
 }>;
 
-const isGraphqlPositionError = (
-  value: unknown,
-): value is GraphqlPositionError =>
+const isGraphqlPositionError = (value: unknown): value is GraphqlPositionError =>
   Boolean(
     value &&
-      typeof value === "object" &&
-      "ok" in (value as Record<string, unknown>) &&
+      typeof value === 'object' &&
+      'ok' in (value as Record<string, unknown>) &&
       (value as Record<string, unknown>).ok === false,
   );
 
@@ -71,9 +67,7 @@ type ReviewThreadDetails = Readonly<{
   readonly body: string;
 }>;
 
-const buildReviewThreadInput = (
-  details: ReviewThreadDetails,
-): ReviewThreadInput => ({
+const buildReviewThreadInput = (details: ReviewThreadDetails): ReviewThreadInput => ({
   pullRequestId: details.pullRequestId,
   path: details.path,
   body: details.body,
@@ -116,43 +110,34 @@ const formatSuggestionBody = (
   if (!suggestion) {
     return body;
   }
-  const replacement = suggestion.after.join("\n");
-  const segments = [
-    "```suggestion",
-    replacement,
-    "```",
-    body.trim().length > 0 ? body : "",
-  ];
-  return segments.filter((segment) => segment.length > 0).join("\n\n");
+  const replacement = suggestion.after.join('\n');
+  const segments = ['```suggestion', replacement, '```', body.trim().length > 0 ? body : ''];
+  return segments.filter((segment) => segment.length > 0).join('\n\n');
 };
 
 const buildInlineCommentSpec = () =>
   ({
     ...pullRequestIdentityShape,
-    path: z.string().describe("File path within the pull request."),
-    line: z
-      .number()
-      .int()
-      .positive()
-      .describe("New line number for the comment."),
+    path: z.string().describe('File path within the pull request.'),
+    line: z.number().int().positive().describe('New line number for the comment.'),
     startLine: z
       .number()
       .int()
       .positive()
       .optional()
-      .describe("Optional starting line for multi-line comments."),
-    body: z.string().describe("Markdown body of the comment."),
+      .describe('Optional starting line for multi-line comments.'),
+    body: z.string().describe('Markdown body of the comment.'),
     reviewId: z
       .string()
       .optional()
-      .describe("Optional pending review identifier to attach the thread."),
+      .describe('Optional pending review identifier to attach the thread.'),
     suggestion: z
       .object({
         before: z.array(z.string()).default([]),
         after: z.array(z.string()).min(1),
       })
       .optional()
-      .describe("Optional GitHub suggestion block configuration."),
+      .describe('Optional GitHub suggestion block configuration.'),
   }) as const;
 
 const resolveGraphqlPosition = async (
@@ -170,34 +155,31 @@ const resolveGraphqlPosition = async (
   const result = await resolver.invoke({
     ...input,
     rangeStart: input.startLine,
-    prefer: "graphql",
+    prefer: 'graphql',
   });
-  if (!result || typeof result !== "object") {
-    throw new Error("Unexpected response from github.pr.resolvePosition");
+  if (!result || typeof result !== 'object') {
+    throw new Error('Unexpected response from github_pr_resolve_position');
   }
   if (isGraphqlPositionError(result)) {
     return result;
   }
   const graphql = (result as { graphql?: GraphqlPosition }).graphql;
   if (!graphql) {
-    throw new Error("Position resolver did not return GraphQL fields.");
+    throw new Error('Position resolver did not return GraphQL fields.');
   }
   return graphql;
 };
 
 export const githubPrReviewStart: ToolFactory = (ctx) => {
   const shape = {
-    pullRequestId: z.string().describe("GraphQL node id of the pull request."),
-    body: z
-      .string()
-      .optional()
-      .describe("Optional body text for the pending review."),
+    pullRequestId: z.string().describe('GraphQL node id of the pull request.'),
+    body: z.string().optional().describe('Optional body text for the pending review.'),
   } as const;
   const Schema = z.object(shape);
 
   const spec = {
-    name: "github.pr.review.start",
-    description: "Create a pending review on a pull request via GraphQL.",
+    name: 'github_pr_review_start',
+    description: 'Create a pending review on a pull request via GraphQL.',
     inputSchema: shape,
   } as const;
 
@@ -231,9 +213,8 @@ export const githubPrReviewCommentInline: ToolFactory = (ctx) => {
   const Schema = z.object(shape);
 
   const spec = {
-    name: "github.pr.review.commentInline",
-    description:
-      "Create an inline review thread on a pull request with automatic diff resolution.",
+    name: 'github_pr_review_comment_inline',
+    description: 'Create an inline review thread on a pull request with automatic diff resolution.',
     inputSchema: shape,
   } as const;
 
@@ -265,10 +246,7 @@ export const githubPrReviewCommentInline: ToolFactory = (ctx) => {
     return {
       ok: true as const,
       threadId: parsed.addPullRequestReviewThread.thread?.id ?? null,
-      reviewId:
-        parsed.addPullRequestReviewThread.pullRequestReview?.id ??
-        args.reviewId ??
-        null,
+      reviewId: parsed.addPullRequestReviewThread.pullRequestReview?.id ?? args.reviewId ?? null,
     } as const;
   };
 
@@ -277,21 +255,15 @@ export const githubPrReviewCommentInline: ToolFactory = (ctx) => {
 
 export const githubPrReviewSubmit: ToolFactory = (ctx) => {
   const shape = {
-    reviewId: z.string().describe("Review identifier returned by GitHub."),
-    event: z
-      .enum(["APPROVE", "REQUEST_CHANGES", "COMMENT"])
-      .describe("Review submission event."),
-    body: z
-      .string()
-      .optional()
-      .describe("Optional summary body for the submitted review."),
+    reviewId: z.string().describe('Review identifier returned by GitHub.'),
+    event: z.enum(['APPROVE', 'REQUEST_CHANGES', 'COMMENT']).describe('Review submission event.'),
+    body: z.string().optional().describe('Optional summary body for the submitted review.'),
   } as const;
   const Schema = z.object(shape);
 
   const spec = {
-    name: "github.pr.review.submit",
-    description:
-      "Submit a pending review with APPROVE, REQUEST_CHANGES, or COMMENT.",
+    name: 'github_pr_review_submit',
+    description: 'Submit a pending review with APPROVE, REQUEST_CHANGES, or COMMENT.',
     inputSchema: shape,
   } as const;
 

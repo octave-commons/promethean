@@ -9,8 +9,8 @@
         manifest (str (fs/path tmp-dir "promethean.mcp.json"))
         base (str tmp-dir)
         initial {"transport" "http"
-                 "tools" ["files.view-file"]
-                 "endpoints" {"files" {"tools" ["files.view-file"]}}
+                 "tools" ["files_view_file"]
+                 "endpoints" {"files" {"tools" ["files_view_file"]}}
                  "mcpServers" {}}
         edn {:mcp-servers {:new {:command "echo"
                                  :args ["hi"]}}
@@ -25,8 +25,8 @@
         (is (= {"new" {"command" "echo" "args" ["hi"]}}
                servers))
         (is (= "http" (get written "transport")))
-        (is (= {"files" {"tools" ["files.view-file"]}}
+        (is (= {"files" {"tools" ["files_view_file"]}}
                (get written "endpoints")))
-        (is (= ["files.view-file"] (get written "tools"))))
+        (is (= ["files_view_file"] (get written "tools"))))
       (finally
         (fs/delete-tree tmp-dir)))))

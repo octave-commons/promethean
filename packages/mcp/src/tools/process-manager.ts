@@ -1,10 +1,10 @@
-import { spawn } from "node:child_process";
-import { once } from "node:events";
-import path from "node:path";
+import { spawn } from 'node:child_process';
+import { once } from 'node:events';
+import path from 'node:path';
 
-import { z } from "zod";
+import { z } from 'zod';
 
-import type { ToolFactory, ToolSpec } from "../core/types.js";
+import type { ToolFactory, ToolSpec } from '../core/types.js';
 
 const DEFAULT_MAX_RUNNING = 1;
 const DEFAULT_TERMINATE_GRACE_MS = 5_000;
@@ -12,7 +12,7 @@ const DEFAULT_TERMINATE_FORCE_MS = 2_000;
 const DEFAULT_LINE_BUFFER_SIZE = 10_000;
 const DEFAULT_CHAR_BUFFER_SIZE = 16_384;
 
-type TaskStatus = "waiting" | "running" | "completed";
+type TaskStatus = 'waiting' | 'running' | 'completed';
 
 type OutputBuffer = {
   readonly lines: string[];
@@ -87,15 +87,15 @@ const createOutputBuffer = (): OutputBuffer => ({
   lines: [],
   firstLine: 1,
   totalLines: 0,
-  remainder: "",
-  tail: "",
+  remainder: '',
+  tail: '',
 });
 
 const flushRemainder = (buffer: OutputBuffer, lineLimit: number) => {
   if (buffer.remainder) {
     buffer.lines.push(buffer.remainder);
     buffer.totalLines += 1;
-    buffer.remainder = "";
+    buffer.remainder = '';
     if (buffer.lines.length > lineLimit) {
       const overshoot = buffer.lines.length - lineLimit;
       buffer.lines.splice(0, overshoot);
@@ -109,10 +109,10 @@ const appendOutput = (
   chunk: Buffer,
   { lineLimit, charLimit }: { lineLimit: number; charLimit: number },
 ) => {
-  const text = chunk.toString("utf8");
+  const text = chunk.toString('utf8');
   const combined = buffer.remainder + text;
   const parts = combined.split(/\r?\n/);
-  buffer.remainder = parts.pop() ?? "";
+  buffer.remainder = parts.pop() ?? '';
   for (const line of parts) {
     buffer.lines.push(line);
     buffer.totalLines += 1;
@@ -171,11 +171,7 @@ const createRunner = (initial?: Partial<RunnerConfig>) => {
 
   const getConfig = (): RunnerConfig => ({ ...state.config });
 
-  const finalizeTask = (
-    task: Task,
-    exitCode: number | null,
-    signal: NodeJS.Signals | null,
-  ) => {
+  const finalizeTask = (task: Task, exitCode: number | null, signal: NodeJS.Signals | null) => {
     flushRemainder(task.stdout, state.config.lineBufferSize);
     flushRemainder(task.stderr, state.config.lineBufferSize);
     if (task.timeoutHandle) {
@@ -186,7 +182,7 @@ const createRunner = (initial?: Partial<RunnerConfig>) => {
     task.exitCode = exitCode;
     task.signal = signal;
     task.completedAt = new Date();
-    task.status = "completed";
+    task.status = 'completed';
     task.process = undefined;
     state.runningTasks.delete(task.id);
     if (!state.completedTasks.includes(task.id)) {
@@ -198,10 +194,10 @@ const createRunner = (initial?: Partial<RunnerConfig>) => {
     const child = spawn(task.command, task.args, {
       cwd: task.cwd ?? state.config.path,
       env: { ...process.env, ...(task.env ?? {}) },
-      stdio: ["ignore", "pipe", "pipe"],
+      stdio: ['ignore', 'pipe', 'pipe'],
     });
     task.process = child;
-    task.status = "running";
+    task.status = 'running';
     task.startedAt = new Date();
     task.pid = child.pid ?? null;
     state.runningTasks.add(task.id);
@@ -230,13 +226,13 @@ const createRunner = (initial?: Partial<RunnerConfig>) => {
       });
     }
 
-    child.once("error", (err) => {
+    child.once('error', (err) => {
       appendOutput(task.stderr, Buffer.from(String(err)), bufferConfig);
       finalizeTask(task, null, null);
       maybeRunNext();
     });
 
-    child.once("close", (code, signal) => {
+    child.once('close', (code, signal) => {
       finalizeTask(task, code, signal);
       maybeRunNext();
     });
@@ -246,7 +242,7 @@ const createRunner = (initial?: Partial<RunnerConfig>) => {
       const handle = setTimeout(() => {
         if (task.process) {
           try {
-            task.process.kill("SIGTERM");
+            task.process.kill('SIGTERM');
           } catch {
             /* ignore */
           }
@@ -258,14 +254,11 @@ const createRunner = (initial?: Partial<RunnerConfig>) => {
   };
 
   const maybeRunNext = () => {
-    while (
-      state.runningTasks.size < state.config.maxRunning &&
-      state.waitingQueue.length > 0
-    ) {
+    while (state.runningTasks.size < state.config.maxRunning && state.waitingQueue.length > 0) {
       const nextId = state.waitingQueue.shift();
       if (!nextId) continue;
       const task = state.tasks.get(nextId);
-      if (!task || task.status !== "waiting") continue;
+      if (!task || task.status !== 'waiting') continue;
       startTask(task);
     }
   };
@@ -286,7 +279,7 @@ const createRunner = (initial?: Partial<RunnerConfig>) => {
       createdAt: new Date(),
       stdout: createOutputBuffer(),
       stderr: createOutputBuffer(),
-      status: "waiting",
+      status: 'waiting',
       name: input.name,
       cwd: input.cwd,
       env: input.env,
@@ -299,23 +292,23 @@ const createRunner = (initial?: Partial<RunnerConfig>) => {
   };
 
   const updateConfig = (key: keyof RunnerConfig, value: unknown) => {
-    if (key === "path") {
-      if (typeof value !== "string" || value.length === 0) {
-        throw new Error("path must be a non-empty string");
+    if (key === 'path') {
+      if (typeof value !== 'string' || value.length === 0) {
+        throw new Error('path must be a non-empty string');
       }
       state.config = { ...state.config, path: path.resolve(value) };
       return getConfig();
     }
-    if (key === "maxRunning") {
+    if (key === 'maxRunning') {
       const parsed = Number(value);
       if (!Number.isInteger(parsed) || parsed <= 0) {
-        throw new Error("maxRunning must be a positive integer");
+        throw new Error('maxRunning must be a positive integer');
       }
       state.config = { ...state.config, maxRunning: parsed };
       maybeRunNext();
       return getConfig();
     }
-    if (key === "timeout") {
+    if (key === 'timeout') {
       if (value === undefined || value === null) {
         const { timeout: _timeout, ...rest } = state.config;
         state.config = rest as RunnerConfig;
@@ -323,12 +316,12 @@ const createRunner = (initial?: Partial<RunnerConfig>) => {
       }
       const parsed = Number(value);
       if (!Number.isFinite(parsed) || parsed <= 0) {
-        throw new Error("timeout must be a positive number of milliseconds");
+        throw new Error('timeout must be a positive number of milliseconds');
       }
       state.config = { ...state.config, timeout: parsed };
       return getConfig();
     }
-    if (key === "terminateGraceMs" || key === "terminateForceMs") {
+    if (key === 'terminateGraceMs' || key === 'terminateForceMs') {
       const parsed = Number(value);
       if (!Number.isFinite(parsed) || parsed < 0) {
         throw new Error(`${key} must be a non-negative number of milliseconds`);
@@ -336,7 +329,7 @@ const createRunner = (initial?: Partial<RunnerConfig>) => {
       state.config = { ...state.config, [key]: parsed } as RunnerConfig;
       return getConfig();
     }
-    if (key === "lineBufferSize" || key === "charBufferSize") {
+    if (key === 'lineBufferSize' || key === 'charBufferSize') {
       const parsed = Number(value);
       if (!Number.isInteger(parsed) || parsed <= 0) {
         throw new Error(`${key} must be a positive integer`);
@@ -348,7 +341,7 @@ const createRunner = (initial?: Partial<RunnerConfig>) => {
   };
 
   const resolveTask = (handle: ResolveHandle): Task => {
-    if (typeof handle === "number") {
+    if (typeof handle === 'number') {
       for (const task of state.tasks.values()) {
         if (task.pid === handle) return task;
       }
@@ -364,25 +357,23 @@ const createRunner = (initial?: Partial<RunnerConfig>) => {
 
   const calculateLogs = (
     buffer: OutputBuffer,
-    input:
-      | { startLine: number; count: number }
-      | { pagenumber: number; length: number },
+    input: { startLine: number; count: number } | { pagenumber: number; length: number },
   ) => {
     const availableLines = buffer.lines;
     if (availableLines.length === 0) {
       return {
         start: 0,
         end: 0,
-        pagenumber: "pagenumber" in input ? input.pagenumber : null,
+        pagenumber: 'pagenumber' in input ? input.pagenumber : null,
         lastPage: true,
-        logs: "",
+        logs: '',
         truncated: buffer.totalLines > 0,
       } as const;
     }
     const firstAvailable = buffer.firstLine;
     const lastAvailable = firstAvailable + availableLines.length - 1;
 
-    if ("startLine" in input) {
+    if ('startLine' in input) {
       const requestedStart = Math.max(input.startLine, firstAvailable);
       if (requestedStart > lastAvailable) {
         return {
@@ -390,21 +381,19 @@ const createRunner = (initial?: Partial<RunnerConfig>) => {
           end: lastAvailable,
           pagenumber: null,
           lastPage: true,
-          logs: "",
+          logs: '',
           truncated: true,
         } as const;
       }
       const startIndex = requestedStart - firstAvailable;
       const slice = availableLines.slice(startIndex, startIndex + input.count);
-      const endLine = slice.length
-        ? requestedStart + slice.length - 1
-        : requestedStart - 1;
+      const endLine = slice.length ? requestedStart + slice.length - 1 : requestedStart - 1;
       return {
         start: requestedStart,
         end: endLine,
         pagenumber: null,
         lastPage: endLine >= lastAvailable,
-        logs: slice.join("\n"),
+        logs: slice.join('\n'),
         truncated: requestedStart !== input.startLine || buffer.firstLine > 1,
       } as const;
     }
@@ -414,45 +403,39 @@ const createRunner = (initial?: Partial<RunnerConfig>) => {
     const startIndex = (pageNumber - 1) * length;
     const slice = availableLines.slice(startIndex, startIndex + length);
     const actualStart = firstAvailable + startIndex;
-    const endLine = slice.length
-      ? actualStart + slice.length - 1
-      : actualStart - 1;
+    const endLine = slice.length ? actualStart + slice.length - 1 : actualStart - 1;
     const lastPage = endLine >= lastAvailable;
     return {
       start: actualStart,
       end: endLine,
       pagenumber: pageNumber,
       lastPage,
-      logs: slice.join("\n"),
+      logs: slice.join('\n'),
       truncated: buffer.firstLine > 1,
     } as const;
   };
 
   const tailForTask = (task: Task, tail: number) => {
-    if (tail <= 0) return "";
+    if (tail <= 0) return '';
     const combined =
       outputTail(task.stdout, state.config.charBufferSize) +
       outputTail(task.stderr, state.config.charBufferSize);
     return trimTail(combined, tail);
   };
 
-  const stopTask = async (
-    handle: ResolveHandle,
-    tail: number,
-    signal?: NodeJS.Signals,
-  ) => {
+  const stopTask = async (handle: ResolveHandle, tail: number, signal?: NodeJS.Signals) => {
     const task = resolveTask(handle);
-    if (task.status === "waiting") {
+    if (task.status === 'waiting') {
       const index = state.waitingQueue.indexOf(task.id);
       if (index >= 0) state.waitingQueue.splice(index, 1);
-      task.status = "completed";
+      task.status = 'completed';
       task.completedAt = new Date();
       if (!state.completedTasks.includes(task.id)) {
         state.completedTasks.push(task.id);
       }
-      return { tail: "" } as const;
+      return { tail: '' } as const;
     }
-    if (task.status === "completed" || !task.process) {
+    if (task.status === 'completed' || !task.process) {
       return { tail: tailForTask(task, tail) } as const;
     }
     const proc = task.process;
@@ -460,31 +443,25 @@ const createRunner = (initial?: Partial<RunnerConfig>) => {
       if (signal) {
         proc.kill(signal);
       } else {
-        proc.kill("SIGTERM");
+        proc.kill('SIGTERM');
       }
     } catch {
       proc.kill();
     }
 
-    const closePromise = once(proc, "close");
+    const closePromise = once(proc, 'close');
 
     const guard = new Promise<never>((_resolve, reject) => {
       const graceTimer = setTimeout(() => {
-        if (process.platform !== "win32" && !proc.killed) {
+        if (process.platform !== 'win32' && !proc.killed) {
           try {
-            proc.kill("SIGKILL");
+            proc.kill('SIGKILL');
           } catch {
             /* ignore */
           }
         }
         const forceTimer = setTimeout(() => {
-          reject(
-            new Error(
-              `Process ${
-                proc.pid ?? "<unknown>"
-              } failed to exit after escalation`,
-            ),
-          );
+          reject(new Error(`Process ${proc.pid ?? '<unknown>'} failed to exit after escalation`));
         }, state.config.terminateForceMs);
         forceTimer.unref();
         void closePromise.finally(() => {
@@ -520,9 +497,9 @@ const createRunner = (initial?: Partial<RunnerConfig>) => {
 
   const reset = () => {
     for (const task of state.tasks.values()) {
-      if (task.process && task.status === "running") {
+      if (task.process && task.status === 'running') {
         try {
-          task.process.kill("SIGTERM");
+          task.process.kill('SIGTERM');
         } catch {
           /* ignore */
         }
@@ -566,21 +543,21 @@ const createRunner = (initial?: Partial<RunnerConfig>) => {
 const runner = createRunner();
 
 const runnerConfigSchema = z.enum([
-  "path",
-  "maxRunning",
-  "timeout",
-  "terminateGraceMs",
-  "terminateForceMs",
-  "lineBufferSize",
-  "charBufferSize",
+  'path',
+  'maxRunning',
+  'timeout',
+  'terminateGraceMs',
+  'terminateForceMs',
+  'lineBufferSize',
+  'charBufferSize',
 ] as const satisfies readonly (keyof RunnerConfig)[]);
 
 const ALLOWED_SIGNALS = [
-  "SIGTERM",
-  "SIGINT",
-  "SIGKILL",
-  "SIGHUP",
-  "SIGQUIT",
+  'SIGTERM',
+  'SIGINT',
+  'SIGKILL',
+  'SIGHUP',
+  'SIGQUIT',
 ] as const satisfies readonly NodeJS.Signals[];
 
 const EnqueueSchema = z.object({
@@ -611,10 +588,10 @@ const LogSchema = z.union([
 
 export const processGetTaskRunnerConfig: ToolFactory = () => ({
   spec: {
-    name: "process.getTaskRunnerConfig",
-    description: "Return the current task runner configuration.",
-    stability: "experimental",
-    since: "0.1.0",
+    name: 'process_get_task_runner_config',
+    description: 'Return the current task runner configuration.',
+    stability: 'experimental',
+    since: '0.1.0',
   } satisfies ToolSpec,
   invoke: async () => ({ config: runner.getConfig() }),
 });
@@ -626,14 +603,14 @@ export const processUpdateTaskRunnerConfig: ToolFactory = () => {
   });
   return {
     spec: {
-      name: "process.updateTaskRunnerConfig",
-      description: "Update a single key in the task runner configuration.",
+      name: 'process_update_task_runner_config',
+      description: 'Update a single key in the task runner configuration.',
       inputSchema: {
         key: Schema.shape.key,
         value: Schema.shape.value,
       },
-      stability: "experimental",
-      since: "0.1.0",
+      stability: 'experimental',
+      since: '0.1.0',
     } satisfies ToolSpec,
     invoke: async (raw: unknown) => {
       const { key, value } = Schema.parse(raw);
@@ -645,16 +622,15 @@ export const processUpdateTaskRunnerConfig: ToolFactory = () => {
 
 export const processEnqueueTask: ToolFactory = () => ({
   spec: {
-    name: "process.enqueueTask",
-    description:
-      "Enqueue a command for execution respecting concurrency limits.",
+    name: 'process_enqueue_task',
+    description: 'Enqueue a command for execution respecting concurrency limits.',
     inputSchema: {
       command: z.string(),
       args: z.array(z.string()).optional(),
       opts: EnqueueSchema.shape.opts.optional(),
     },
-    stability: "experimental",
-    since: "0.1.0",
+    stability: 'experimental',
+    since: '0.1.0',
   } satisfies ToolSpec,
   invoke: async (raw: unknown) => {
     const parsed = EnqueueSchema.parse(raw);
@@ -679,16 +655,15 @@ export const processStopTask: ToolFactory = () => {
   });
   return {
     spec: {
-      name: "process.stop",
-      description:
-        "Stop a running task via id, pid, or name and return trailing output.",
+      name: 'process_stop',
+      description: 'Stop a running task via id, pid, or name and return trailing output.',
       inputSchema: {
         handle: Schema.shape.handle,
         tail: Schema.shape.tail,
         signal: Schema.shape.signal,
       },
-      stability: "experimental",
-      since: "0.1.0",
+      stability: 'experimental',
+      since: '0.1.0',
     } satisfies ToolSpec,
     invoke: async (raw: unknown) => {
       const { handle, tail, signal } = Schema.parse(raw);
@@ -700,7 +675,7 @@ export const processStopTask: ToolFactory = () => {
 
 const buildLogSpec = (name: string): ToolSpec => ({
   name,
-  description: "Retrieve task output with pagination or explicit line ranges.",
+  description: 'Retrieve task output with pagination or explicit line ranges.',
   inputSchema: {
     handle: z.union([z.string(), z.number()]),
     pagenumber: z.number().optional(),
@@ -708,16 +683,16 @@ const buildLogSpec = (name: string): ToolSpec => ({
     startLine: z.number().optional(),
     count: z.number().optional(),
   },
-  stability: "experimental",
-  since: "0.1.0",
+  stability: 'experimental',
+  since: '0.1.0',
 });
 
 export const processGetStdout: ToolFactory = () => ({
-  spec: buildLogSpec("process.getStdout"),
+  spec: buildLogSpec('process_get_stdout'),
   invoke: async (raw: unknown) => {
     const parsed = LogSchema.parse(raw);
     const task = runner.resolveTask(parsed.handle);
-    if ("startLine" in parsed) {
+    if ('startLine' in parsed) {
       return runner.calculateLogs(task.stdout, {
         startLine: parsed.startLine,
         count: parsed.count,
@@ -731,11 +706,11 @@ export const processGetStdout: ToolFactory = () => ({
 });
 
 export const processGetStderr: ToolFactory = () => ({
-  spec: buildLogSpec("process.getStderr"),
+  spec: buildLogSpec('process_get_stderr'),
   invoke: async (raw: unknown) => {
     const parsed = LogSchema.parse(raw);
     const task = runner.resolveTask(parsed.handle);
-    if ("startLine" in parsed) {
+    if ('startLine' in parsed) {
       return runner.calculateLogs(task.stderr, {
         startLine: parsed.startLine,
         count: parsed.count,
@@ -750,10 +725,10 @@ export const processGetStderr: ToolFactory = () => ({
 
 export const processGetQueue: ToolFactory = () => ({
   spec: {
-    name: "process.getQueue",
-    description: "Return waiting, running, and completed task summaries.",
-    stability: "experimental",
-    since: "0.1.0",
+    name: 'process_get_queue',
+    description: 'Return waiting, running, and completed task summaries.',
+    stability: 'experimental',
+    since: '0.1.0',
   } satisfies ToolSpec,
   invoke: async () => runner.getQueue(),
 });
