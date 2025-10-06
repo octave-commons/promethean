@@ -98,11 +98,10 @@ test('createEndpointOpenApiDocument describes tool actions', (t) => {
   const requestSchema = action.post.requestBody.content['application/json'].schema;
   t.is(requestSchema.type, 'object');
   t.truthy(requestSchema.properties);
-
   const successResponse = action.post.responses['200'].content['application/json'].schema;
   t.is(successResponse.type, 'object');
   t.truthy(successResponse.properties);
-
+  t.truthy(successResponse.properties?.result);
   const errorResponse = action.post.responses['400'].content['application/json'].schema;
   t.true(!errorResponse.required || errorResponse.required.length >= 0);
   t.truthy(errorResponse.properties);
