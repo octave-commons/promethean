@@ -1,3 +1,11 @@
+---
+uuid: 379c1028-3b05-4984-8414-42cab3634054
+created_at: '2025-10-06T20:45:15.185Z'
+title: Kanban CLI Tasks (Docs/Agile)
+status: todo
+priority: P3
+labels: []
+---
 # Kanban CLI Tasks (Docs/Agile)
 
 New subcommands (added; keep your existing ones)
@@ -159,3 +167,4 @@ All new commands emit a single “agent coaching line” to stderr unless `--qui
 ## Minimal integration note
 
 Minimal integration: add a single loader that auto-registers any `src/cmds/prioritize/*.ts` command. If your bin/kanban.ts already dispatches subcommands, you can import a registerPrioritizers(cli) from a new `src/cmds/prioritize/index.ts` to avoid editing multiple places.
+
