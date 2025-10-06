@@ -410,11 +410,14 @@ const mergeLabels = (...values: unknown[]): string[] => {
 const taskFromFM = (fm: FM, body: string): Task | null => {
   const uuid = pickString(fm, ["uuid", "id", "task-id", "task_id", "taskId"]);
   const title = pickString(fm, ["title", "name"]);
-  if (!uuid || !title) return null;
+  if (!uuid) return null;
+
+  // Use fallback title if title is empty or missing
+  const finalTitle = title && title.trim().length > 0 ? title : fallbackFileBase(uuid);
   const slugValue = pickString(fm, ["slug"]);
   const t: Task = {
     uuid,
-    title,
+    title: finalTitle,
     status:
       pickString(fm, ["status", "state", "column"]) ??
       String(fm.status ?? "Todo"),
@@ -659,7 +662,7 @@ const serializeBoard = (board: Board): string => {
         task.slug = linkTarget;
       }
       const displayTitle =
-        task.title.trim().length > 0 ? task.title.trim() : linkTarget;
+        (task.title && task.title.trim().length > 0) ? task.title.trim() : linkTarget;
       const wikiLink =
         displayTitle === linkTarget
           ? `[[${linkTarget}]]`

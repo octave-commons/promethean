@@ -1,7 +1,7 @@
 ---
 uuid: c3366097-0d29-4c8d-b7e1-32de4cf8072e
 title: setup kanban ui for kanban package
-status: in-progress
+status: in_progress
 priority: P3
 labels:
   - kanban

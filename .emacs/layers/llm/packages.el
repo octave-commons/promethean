@@ -97,3 +97,5 @@
   (use-package gptel-quick
     :after gptel
     :commands (gptel-quick)))
+
+;;; packages.el ends here

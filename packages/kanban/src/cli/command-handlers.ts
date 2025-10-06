@@ -13,8 +13,12 @@ import {
   regenerateBoard,
   indexForSearch,
   searchTasks,
-} from '../lib/kanban.js';
-import { serveKanbanUI } from '../lib/ui-server.js';
+} from "../lib/kanban.js";
+import { printJSONL } from "../lib/jsonl.js";
+import { serveKanbanUI } from "../lib/ui-server.js";
+import { readFile } from "node:fs/promises";
+import { fileURLToPath } from "node:url";
+import path from "node:path";
 
 type Primitive = string | number | boolean | symbol | null | undefined | bigint;
 
@@ -222,29 +226,77 @@ const handleUi: CommandHandler = async (args, context) => {
   return null;
 };
 
-export const COMMAND_HANDLERS: Readonly<Record<string, CommandHandler>> = Object.freeze({
-  count: handleCount,
-  getColumn: handleGetColumn,
-  getByColumn: handleGetByColumn,
-  find: handleFind,
-  'find-by-title': handleFindByTitle,
-  update_status: handleUpdateStatus,
-  move_up: handleMove(-1),
-  move_down: handleMove(1),
-  pull: handlePull,
-  push: handlePush,
-  sync: handleSync,
-  regenerate: handleRegenerate,
-  indexForSearch: handleIndexForSearch,
-  search: handleSearch,
-  ui: handleUi,
-});
+const handleProcess: CommandHandler = async (args) => {
+  // Simple argument parser for --section flag
+  let section: string | undefined;
+  for (let i = 0; i < args.length; i++) {
+    if (args[i] === '--section' && i + 1 < args.length) {
+      section = args[i + 1];
+      break;
+    }
+  }
 
-export const AVAILABLE_COMMANDS = Object.freeze(Object.keys(COMMAND_HANDLERS));
+  // Resolve the process.md path relative to the kanban package
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = path.dirname(__filename);
+  const repoRoot = path.resolve(__dirname, "../../../..");
+  const processDocPath = path.join(repoRoot, "docs/agile/process.md");
 
-export const REMOTE_COMMANDS = Object.freeze(
-  AVAILABLE_COMMANDS.filter((command) => command !== 'ui'),
-);
+  try {
+    const processContent = await readFile(processDocPath, "utf8");
+
+    if (section) {
+      // Extract a specific section
+      const sectionRegex = new RegExp(`^#{1,3}\\s+.*${section}.*$[\\s\\S]*?(?=\n#{1,3}\\s+|\n$|$)`, "im");
+      const match = processContent.match(sectionRegex);
+
+      if (match) {
+        console.log(match[0].trim());
+      } else {
+        console.error(`Section "${section}" not found in process document`);
+        console.log("Available sections:");
+        const sections = processContent.match(/^#{1,3}\s+(.+)$/gm) || [];
+        sections.forEach(s => console.log(`  - ${s.replace(/^#{1,3}\s+/, "")}`));
+        process.exit(1);
+      }
+    } else {
+      // Display the full process document with a brief header
+      console.log("# 📋 Promethean Development Process");
+      console.log("");
+      console.log("This document outlines the 6-step workflow for task development in the Promethean framework.");
+      console.log("Use --section <name> to view specific sections.");
+      console.log("");
+      console.log("Available sections: overview, fsm, transitions, blocking");
+      console.log("");
+      console.log("--- Full Process Document ---");
+      console.log("");
+      console.log(processContent);
+    }
+  } catch (error) {
+    console.error(`Error reading process document: ${error}`);
+    process.exit(1);
+  }
+};
+
+export const COMMAND_HANDLERS: Readonly<Record<string, CommandHandler>> =
+  Object.freeze({
+    count: handleCount,
+    getColumn: handleGetColumn,
+    getByColumn: handleGetByColumn,
+    find: handleFind,
+    "find-by-title": handleFindByTitle,
+    update_status: handleUpdateStatus,
+    move_up: handleMove(-1),
+    move_down: handleMove(1),
+    pull: handlePull,
+    push: handlePush,
+    sync: handleSync,
+    regenerate: handleRegenerate,
+    indexForSearch: handleIndexForSearch,
+    search: handleSearch,
+    ui: handleUi,
+    process: handleProcess,
+  });
 
 export const executeCommand = async (
   command: string,

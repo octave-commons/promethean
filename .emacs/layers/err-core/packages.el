@@ -1,4 +1,4 @@
-;;; packages.el --- err-core layer packages file for Spacemacs.
+;;; packages.el --- err-core layer packages file for Spacemacs -*- lexical-binding: t; -*-
 ;;
 ;; Copyright (c) 2012-2025 Sylvain Benner & Contributors
 ;;
@@ -227,3 +227,5 @@
           (c++-mode . c++-ts-mode)
           (python-mode . python-ts-mode)
           (yaml-mode . yaml-ts-mode))))
+
+;;; packages.el ends here

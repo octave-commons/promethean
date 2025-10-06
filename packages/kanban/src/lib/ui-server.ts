@@ -57,9 +57,12 @@ type LoadedBoard = Awaited<ReturnType<typeof loadBoard>>;
 
 type ReadonlyLoadedBoard = DeepReadonly<LoadedBoard>;
 
-type HttpResponse = ServerResponse;
+type HttpResponse = Readonly<
+  Pick<ServerResponse, 'writeHead' | 'end'> &
+    Partial<Pick<ServerResponse, 'setHeader' | 'getHeader'>>
+>;
 
-type HttpRequest = IncomingMessage;
+type HttpRequest = Readonly<Pick<IncomingMessage, 'method' | 'url'>>;
 
 type ServerInstance = ReturnType<typeof createServer>;
 
@@ -67,27 +70,31 @@ type ServerControls = Readonly<
   Pick<ServerInstance, 'listen' | 'once' | 'off' | 'close' | 'address'>
 >;
 
-const FRONTEND_SCRIPT_PATH = fileURLToPath(new URL('../frontend/kanban-ui.js', import.meta.url));
+type FrontendAsset = Readonly<{
+  readonly path: string;
+  readonly contentType: string;
+}>;
 
-type CommandModule = typeof import('../cli/command-handlers.js');
+const createAssetDescriptor = (relativePath: string, contentType: string): FrontendAsset =>
+  ({
+    path: fileURLToPath(new URL(relativePath, import.meta.url)),
+    contentType,
+  }) satisfies FrontendAsset;
 
-let cachedCommandModule: CommandModule | null = null;
-
-const loadCommandModule = async (): Promise<CommandModule> => {
-  if (!cachedCommandModule) {
-    cachedCommandModule = await import('../cli/command-handlers.js');
-  }
-  return cachedCommandModule;
-};
-
-class RequestTooLargeError extends Error {
-  constructor(message = 'Request body too large') {
-    super(message);
-    this.name = 'RequestTooLargeError';
-  }
-}
-
-const MAX_BODY_SIZE = 1_048_576; // 1 MiB
+const FRONTEND_ASSETS: ReadonlyMap<string, FrontendAsset> = new Map([
+  [
+    '/assets/kanban-ui.js',
+    createAssetDescriptor('../frontend/kanban-ui.js', 'application/javascript; charset=utf-8'),
+  ],
+  [
+    '/assets/render.js',
+    createAssetDescriptor('../frontend/render.js', 'application/javascript; charset=utf-8'),
+  ],
+  [
+    '/assets/styles.js',
+    createAssetDescriptor('../frontend/styles.js', 'application/javascript; charset=utf-8'),
+  ],
+]);
 
 const computeSummary = (board: ReadonlyLoadedBoard): ImmutableSummary => {
   const columns = board.columns.map((column) => {

@@ -1,7 +1,8 @@
 {
   "tasksDir": "docs/agile/tasks",
-  "indexFile": "docs/agile/boards/index.jsonl",
+  "indexFile": "",
   "boardFile": "docs/agile/boards/generated.md",
+  "cachePath": "docs/agile/boards/.cache",
   "exts": [".md"],
   "requiredFields": [
     "id",
@@ -12,6 +13,31 @@
     "labels",
     "created"
   ],
-  "statusValues": ["open", "doing", "blocked", "done", "dropped"],
-  "priorityValues": ["low", "medium", "high", "critical"]
+  "statusValues": [
+    "icebox",
+    "incoming",
+    "accepted",
+    "breakdown",
+    "ready",
+    "todo",
+    "in_progress",
+    "review",
+    "document",
+    "done",
+    "rejected"
+  ],
+  "priorityValues": ["low", "medium", "high", "critical"],
+  "wipLimits": {
+    "icebox": 200,
+    "incoming": 15,
+    "accepted": 5,
+    "breakdown": 5,
+    "ready": 10,
+    "todo": 15,
+    "in_progress": 3,
+    "review": 2,
+    "document": 2,
+    "done": 500,
+    "rejected": 20
+  }
 }
