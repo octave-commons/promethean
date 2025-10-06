@@ -1,6 +1,6 @@
-import { z } from "zod";
+import { z } from 'zod';
 
-import type { ToolFactory } from "../../core/types.js";
+import type { ToolFactory } from '../../core/types.js';
 
 import {
   fetchPullRequestSummary,
@@ -8,14 +8,14 @@ import {
   pullRequestIdentityShape,
   PullRequestIdentitySchema,
   type PullRequestFile,
-} from "./pull-request-api.js";
+} from './pull-request-api.js';
 import {
   parseUnifiedPatch,
   resolveNewLinePosition,
   type ResolveNewLineOptions,
   type ResolutionError,
   type ResolvedPosition,
-} from "./position-resolver.js";
+} from './position-resolver.js';
 
 const mapFileWithHunks = (file: PullRequestFile) =>
   ({
@@ -30,15 +30,15 @@ const mapFileWithHunks = (file: PullRequestFile) =>
 const buildResolverSuccess = (
   path: string,
   resolution: ResolvedPosition | ResolutionError,
-  prefer: "graphql" | "rest",
+  prefer: 'graphql' | 'rest',
 ) => {
-  if ("reason" in resolution) {
+  if ('reason' in resolution) {
     return {
       ok: false as const,
       reason: resolution.reason,
       hint:
-        resolution.reason === "LINE_OUTDATED_OR_NOT_IN_DIFF"
-          ? "The line was not found in the latest diff; try a nearby line or comment on the commit."
+        resolution.reason === 'LINE_OUTDATED_OR_NOT_IN_DIFF'
+          ? 'The line was not found in the latest diff; try a nearby line or comment on the commit.'
           : undefined,
       nearest: resolution.nearest ? [...resolution.nearest] : undefined,
     } as const;
@@ -55,7 +55,7 @@ const buildResolverSuccess = (
     path,
     position: resolution.position,
   } as const;
-  return prefer === "rest"
+  return prefer === 'rest'
     ? ({ ok: true as const, rest } as const)
     : ({ ok: true as const, graphql, rest } as const);
 };
@@ -64,7 +64,7 @@ const resolvePositionForFile = (
   file: PullRequestFile,
   line: number,
   rangeStart: number | undefined,
-  prefer: "graphql" | "rest",
+  prefer: 'graphql' | 'rest',
 ) => {
   const hunks = file.patch ? parseUnifiedPatch(file.patch) : [];
   const resolution = resolveNewLinePosition({
@@ -75,20 +75,19 @@ const resolvePositionForFile = (
   return buildResolverSuccess(file.path, resolution, prefer);
 };
 
-const specDescription =
-  "Map a file + new line to GitHub diff coordinates for inline comments.";
+const specDescription = 'Map a file + new line to GitHub diff coordinates for inline comments.';
 
 const buildNoPatchError = () =>
   ({
     ok: false as const,
-    reason: "PATCH_NOT_FOUND_OR_BINARY" as const,
-    hint: "The requested file has no diff patch (binary file, rename, or not part of the PR).",
+    reason: 'PATCH_NOT_FOUND_OR_BINARY' as const,
+    hint: 'The requested file has no diff patch (binary file, rename, or not part of the PR).',
   }) as const;
 
 export const githubPrGet: ToolFactory = (ctx) => {
   const spec = {
-    name: "github.pr.get",
-    description: "Fetch metadata for a pull request (ids, SHAs, author).",
+    name: 'github_pr_get',
+    description: 'Fetch metadata for a pull request (ids, SHAs, author).',
     inputSchema: pullRequestIdentityShape,
   } as const;
 
@@ -103,9 +102,8 @@ export const githubPrGet: ToolFactory = (ctx) => {
 
 export const githubPrFiles: ToolFactory = (ctx) => {
   const spec = {
-    name: "github.pr.files",
-    description:
-      "List files in a pull request with parsed diff hunks for line resolution.",
+    name: 'github_pr_files',
+    description: 'List files in a pull request with parsed diff hunks for line resolution.',
     inputSchema: pullRequestIdentityShape,
   } as const;
 
@@ -122,27 +120,23 @@ export const githubPrFiles: ToolFactory = (ctx) => {
 export const githubPrResolvePosition: ToolFactory = (ctx) => {
   const shape = {
     ...pullRequestIdentityShape,
-    path: z.string().describe("File path within the pull request."),
-    line: z
-      .number()
-      .int()
-      .positive()
-      .describe("Line number from the head commit (new file)."),
+    path: z.string().describe('File path within the pull request.'),
+    line: z.number().int().positive().describe('Line number from the head commit (new file).'),
     rangeStart: z
       .number()
       .int()
       .positive()
       .optional()
-      .describe("Optional start line for multi-line comments."),
+      .describe('Optional start line for multi-line comments.'),
     prefer: z
-      .enum(["graphql", "rest"])
+      .enum(['graphql', 'rest'])
       .optional()
-      .describe("Select output format; defaults to GraphQL fields."),
+      .describe('Select output format; defaults to GraphQL fields.'),
   } as const;
   const Schema = z.object(shape);
 
   const spec = {
-    name: "github.pr.resolvePosition",
+    name: 'github_pr_resolve_position',
     description: specDescription,
     inputSchema: shape,
   } as const;
@@ -154,7 +148,7 @@ export const githubPrResolvePosition: ToolFactory = (ctx) => {
     if (!match || !match.patch) {
       return buildNoPatchError();
     }
-    const prefer = args.prefer ?? "graphql";
+    const prefer = args.prefer ?? 'graphql';
     return resolvePositionForFile(match, args.line, args.rangeStart, prefer);
   };
 

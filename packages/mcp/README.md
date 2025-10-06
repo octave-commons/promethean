@@ -23,20 +23,20 @@ declared `:http-path` (defaulting to `/<name>/mcp`).
 {
   "transport": "http",
   "tools": [
-    "github.request",
-    "github.graphql",
-    "github.rate-limit",
-    "files.list-directory",
-    "files.tree-directory",
-    "files.view-file",
-    "files.write-content",
-    "files.write-lines",
-    "files.search",
-    "discord.send-message",
-    "discord.list-messages"
+    "github_request",
+    "github_graphql",
+    "github_rate_limit",
+    "files_list_directory",
+    "files_tree_directory",
+    "files_view_file",
+    "files_write_content",
+    "files_write_lines",
+    "files_search",
+    "discord_send_message",
+    "discord_list_messages"
   ],
   "endpoints": {
-    "github": { "tools": ["github.request", "github.graphql"] }
+    "github": { "tools": ["github_request", "github_graphql"] }
   },
   "stdioProxyConfig": "./packages/mcp/examples/mcp_servers.edn"
 }
@@ -77,16 +77,16 @@ file:
 {:mcp-servers {:github {:command "./bin/github.sh"}
                :files {:command "./bin/files.sh" :args ["--stdio"]}}
  :http {:transport :http
-        :tools ["files.view-file" "files.write-content"]
+        :tools ["files_view_file" "files_write_content"]
         :include-help? true
         :stdio-meta {:title "Default MCP Endpoint"
-                     :workflow ["mcp.toolset" "mcp.validate-config"]
-                     :expectations {:usage ["Call mcp.toolset before editing"]}}
-        :endpoints {:files {:tools ["files.view-file" "files.write-content"]
+                     :workflow ["mcp_toolset" "mcp_validate_config"]
+                     :expectations {:usage ["Call mcp_toolset before editing"]}}
+        :endpoints {:files {:tools ["files_view_file" "files_write_content"]
                             :include-help? true
                             :meta {:description "Filesystem utilities"
                                    :expectations {:pitfalls ["Avoid binary writes"]}}}
-                    :github/review {:tools ["github.pr.get" "github.review.push"]
+                    :github/review {:tools ["github_pr_get" "github_review_push"]
                                     :include-help? true}}
         :proxy {:config "./config/mcp_servers.edn"}}
  :outputs [{:schema :mcp.json :path "./promethean.mcp.json"}]}
@@ -115,7 +115,7 @@ Fastify.
 
 ### Exec command allowlist
 
-`exec.run` executes only commands declared in an allowlist. The loader checks for:
+`exec_run` executes only commands declared in an allowlist. The loader checks for:
 
 1. `MCP_EXEC_CONFIG` → explicit JSON file path.
 2. `MCP_EXEC_COMMANDS_JSON` → inline JSON payload.
@@ -138,7 +138,7 @@ Each config file looks like:
 }
 ```
 
-Use `exec.list` to introspect the active allowlist at runtime.
+Use `exec_list` to introspect the active allowlist at runtime.
 
 ## Design
 
@@ -153,25 +153,25 @@ Use `exec.list` to introspect the active allowlist at runtime.
 This is a scaffold extracted to consolidate multiple MCP servers into one package. GitHub tools live under `src/tools/github/*`.
 
 ## Tools
-- exec.list — enumerate allowlisted shell commands and metadata.
-- exec.run — run an allowlisted shell command with optional args when enabled.
-- files.search — grep-like content search returning path/line/snippet triples.
-- kanban.get-board — load the configured kanban board with all columns/tasks.
-- kanban.get-column — fetch a single column from the board.
-- kanban.find-task / kanban.find-task-by-title — locate tasks by UUID or exact title.
-- kanban.update-status / kanban.move-task — move tasks between columns or reorder them.
-- kanban.sync-board — reconcile board ordering with task markdown files.
-- kanban.search — run fuzzy/exact search over board tasks.
-- github.pr.* — High-level pull request utilities, including metadata lookup
-  (`github.pr.get`), diff file inspection (`github.pr.files`), inline position
-  resolution (`github.pr.resolvePosition`), and review lifecycle helpers for
-  pending reviews (`github.pr.review.start` / `commentInline` / `submit`). These
+- exec_list — enumerate allowlisted shell commands and metadata.
+- exec_run — run an allowlisted shell command with optional args when enabled.
+- files_search — grep-like content search returning path/line/snippet triples.
+- kanban_get_board — load the configured kanban board with all columns/tasks.
+- kanban_get_column — fetch a single column from the board.
+- kanban_find_task / kanban_find_task_by_title — locate tasks by UUID or exact title.
+- kanban_update_status / kanban_move_task — move tasks between columns or reorder them.
+- kanban_sync_board — reconcile board ordering with task markdown files.
+- kanban_search — run fuzzy/exact search over board tasks.
+- github_pr_* — High-level pull request utilities, including metadata lookup
+  (`github_pr_get`), diff file inspection (`github_pr_files`), inline position
+  resolution (`github_pr_resolve_position`), and review lifecycle helpers for
+  pending reviews (`github_pr_review_start` / `comment_inline` / `submit`). These
   wrap GitHub REST/GraphQL edge-cases like diff mapping and suggestion fences.
-- github.review.* — GitHub pull request management helpers (open PRs, fetch comments,
+- github_review_* — GitHub pull request management helpers (open PRs, fetch comments,
   submit reviews, inspect checks, and run supporting git commands). Includes
-  `github.review.requestChangesFromCodex`, which posts an issue-level PR comment that
+  `github_review_request_changes_from_codex`, which posts an issue-level PR comment that
   always tags `@codex` so the agent is notified when changes are requested.
-- github.apply_patch — Apply a unified diff to a GitHub branch by committing through
+- github_apply_patch — Apply a unified diff to a GitHub branch by committing through
   the GraphQL `createCommitOnBranch` mutation. Useful when the agent cannot write to
   the working tree but can craft patches to push upstream.
 
@@ -182,11 +182,11 @@ payloads:
 
 ```jsonc
 // 1) Create a pending review (optional body summarizing goals)
-{ "tool": "github.pr.review.start", "pullRequestId": "PR_NODE_ID" }
+{ "tool": "github_pr_review_start", "pullRequestId": "PR_NODE_ID" }
 
 // 2) Inline comment at new line 42 with an optional suggestion
 {
-  "tool": "github.pr.review.commentInline",
+  "tool": "github_pr_review_comment_inline",
   "owner": "octocat",
   "repo": "hello-world",
   "number": 123,
@@ -198,7 +198,7 @@ payloads:
 
 // 3) Submit the pending review as a request for changes
 {
-  "tool": "github.pr.review.submit",
+  "tool": "github_pr_review_submit",
   "reviewId": "PENDING_REVIEW_ID",
   "event": "REQUEST_CHANGES",
   "body": "See inline comments for details."
@@ -214,32 +214,32 @@ GraphQL API:
 ```json
 {
   "tools": [
-    "github.review.openPullRequest",
-"github.review.getComments",
-"github.review.getReviewComments",
-"github.pr.get",
-"github.pr.files",
-"github.pr.resolvePosition",
-"github.pr.review.start",
-"github.pr.review.commentInline",
-"github.pr.review.submit",
-"github.review.submitComment",
-"github.review.submitReview",
-"github.review.getActionStatus",
-    "github.review.commit",
-    "github.review.push",
-    "github.review.checkoutBranch",
-    "github.review.createBranch",
-    "github.review.revertCommits"
+    "github_review_open_pull_request",
+"github_review_get_comments",
+"github_review_get_review_comments",
+"github_pr_get",
+"github_pr_files",
+"github_pr_resolve_position",
+"github_pr_review_start",
+"github_pr_review_comment_inline",
+"github_pr_review_submit",
+"github_review_submit_comment",
+"github_review_submit_review",
+"github_review_get_action_status",
+    "github_review_commit",
+    "github_review_push",
+    "github_review_checkout_branch",
+    "github_review_create_branch",
+    "github_review_revert_commits"
   ]
 }
 ```
 
 All GitHub review tools require `GITHUB_TOKEN` (and optional
 `GITHUB_GRAPHQL_URL`) to authenticate with GitHub's GraphQL API.
-- discord.send-message — send a message to a Discord channel using the configured tenant + space URN.
-- discord.list-messages — fetch paginated messages from a Discord channel.
-- pnpm.install — run `pnpm install` with optional `--filter` targeting specific packages.
-- pnpm.add — add dependencies, supporting workspace or filtered package scopes.
-- pnpm.remove — remove dependencies from the workspace or filtered packages.
-- pnpm.runScript — execute `pnpm run <script>` with optional extra args and filters.
+- discord_send_message — send a message to a Discord channel using the configured tenant + space URN.
+- discord_list_messages — fetch paginated messages from a Discord channel.
+- pnpm_install — run `pnpm install` with optional `--filter` targeting specific packages.
+- pnpm_add — add dependencies, supporting workspace or filtered package scopes.
+- pnpm_remove — remove dependencies from the workspace or filtered packages.
+- pnpm_run_script — execute `pnpm run <script>` with optional extra args and filters.

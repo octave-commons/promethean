@@ -1,24 +1,18 @@
-import { promises as fs } from "node:fs";
-import os from "node:os";
-import path from "node:path";
+import { promises as fs } from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
 
-import test from "ava";
+import test from 'ava';
 
-import {
-  kanbanGetBoard,
-  kanbanSearchTasks,
-  kanbanUpdateStatus,
-} from "../tools/kanban.js";
+import { kanbanGetBoard, kanbanSearchTasks, kanbanUpdateStatus } from '../tools/kanban.js';
 
 const fetchImpl: typeof fetch = (...args) =>
-  globalThis.fetch
-    ? globalThis.fetch(...args)
-    : Promise.reject(new Error("fetch unavailable"));
+  globalThis.fetch ? globalThis.fetch(...args) : Promise.reject(new Error('fetch unavailable'));
 
 const mkCtx = () => ({
   env: {},
   fetch: fetchImpl,
-  now: () => new Date("2024-01-01T00:00:00.000Z"),
+  now: () => new Date('2024-01-01T00:00:00.000Z'),
 });
 
 type Fixture = Readonly<{
@@ -29,32 +23,32 @@ type Fixture = Readonly<{
 }>;
 
 const createFixture = async (): Promise<Fixture> => {
-  const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "mcp-kanban-"));
-  const boardFile = path.join(tempDir, "board.md");
-  const tasksDir = path.join(tempDir, "tasks");
+  const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'mcp-kanban-'));
+  const boardFile = path.join(tempDir, 'board.md');
+  const tasksDir = path.join(tempDir, 'tasks');
   await fs.mkdir(tasksDir, { recursive: true });
 
-  const taskUuid = "6aa0ce8e-0000-4000-8000-000000000001";
-  const taskFile = path.join(tasksDir, "task-one.md");
+  const taskUuid = '6aa0ce8e-0000-4000-8000-000000000001';
+  const taskFile = path.join(tasksDir, 'task-one.md');
   const taskFrontmatter = `---\nuuid: ${taskUuid}\ntitle: Task One\nstatus: Todo\npriority: medium\nlabels:\n  - example\ncreated_at: 2024-01-01T00:00:00.000Z\n---\nTask body\n`;
-  await fs.writeFile(taskFile, taskFrontmatter, "utf8");
+  await fs.writeFile(taskFile, taskFrontmatter, 'utf8');
 
   const boardContent = [
-    "---",
-    "kanban-plugin: board",
-    "---",
-    "",
-    "## Todo",
-    "",
+    '---',
+    'kanban-plugin: board',
+    '---',
+    '',
+    '## Todo',
+    '',
     `- [ ] [[Task One]] (uuid:${taskUuid})`,
-    "",
-  ].join("\n");
-  await fs.writeFile(boardFile, boardContent, "utf8");
+    '',
+  ].join('\n');
+  await fs.writeFile(boardFile, boardContent, 'utf8');
 
   return { tempDir, boardFile, tasksDir, taskUuid };
 };
 
-test("kanban.get-board loads configured board", async (t) => {
+test('kanban_get_board loads configured board', async (t) => {
   const fixture = await createFixture();
   t.teardown(async () => {
     await fs.rm(fixture.tempDir, { recursive: true, force: true });
@@ -68,11 +62,11 @@ test("kanban.get-board loads configured board", async (t) => {
 
   t.true(Array.isArray(board.columns));
   t.true(board.columns.length > 0);
-  t.is(board.columns[0]?.name, "Todo");
+  t.is(board.columns[0]?.name, 'Todo');
   t.is(board.columns[0]?.tasks[0]?.uuid, fixture.taskUuid);
 });
 
-test("kanban.update-status persists new column", async (t) => {
+test('kanban_update_status persists new column', async (t) => {
   const fixture = await createFixture();
   t.teardown(async () => {
     await fs.rm(fixture.tempDir, { recursive: true, force: true });
@@ -83,17 +77,17 @@ test("kanban.update-status persists new column", async (t) => {
     boardFile: fixture.boardFile,
     tasksDir: fixture.tasksDir,
     uuid: fixture.taskUuid,
-    status: "In Progress",
+    status: 'In Progress',
   })) as { status: string } | null;
 
   t.truthy(updated);
-  t.is(updated?.status, "In Progress");
+  t.is(updated?.status, 'In Progress');
 
-  const boardText = await fs.readFile(fixture.boardFile, "utf8");
-  t.true(boardText.includes("## In Progress"));
+  const boardText = await fs.readFile(fixture.boardFile, 'utf8');
+  t.true(boardText.includes('## In Progress'));
 });
 
-test("kanban.search returns exact match", async (t) => {
+test('kanban_search returns exact match', async (t) => {
   const fixture = await createFixture();
   t.teardown(async () => {
     await fs.rm(fixture.tempDir, { recursive: true, force: true });
@@ -103,7 +97,7 @@ test("kanban.search returns exact match", async (t) => {
   const result = (await tool.invoke({
     boardFile: fixture.boardFile,
     tasksDir: fixture.tasksDir,
-    query: "Task One",
+    query: 'Task One',
   })) as { exact: Array<{ uuid: string }>; similar: unknown[] };
 
   t.true(result.exact.some((task) => task.uuid === fixture.taskUuid));

@@ -165,15 +165,17 @@ test('fastify transport forwards proxy requests', async (t) => {
     });
 
     t.truthy(initializeRequest);
-    t.deepEqual(initializeRequest, {
-      jsonrpc: '2.0',
-      id: 1,
-      method: 'initialize',
-      params: {
-        protocolVersion: '2024-10-01',
-        clientInfo: { name: 'promethean-mcp', version: 'dev' },
-      },
+    const { params: initParams, ...initEnvelope } = initializeRequest ?? {};
+    t.deepEqual(initEnvelope, { jsonrpc: '2.0', id: 1, method: 'initialize' });
+    const { capabilities: initCaps, ...restInitParams } = (initParams ?? {}) as Record<
+      string,
+      unknown
+    >;
+    t.deepEqual(restInitParams, {
+      protocolVersion: '2024-10-01',
+      clientInfo: { name: 'promethean-mcp', version: 'dev' },
     });
+    t.truthy(initCaps);
 
     const forwarded = forwardedBodies[0];
     const parsed = Buffer.isBuffer(forwarded)
@@ -181,15 +183,26 @@ test('fastify transport forwards proxy requests', async (t) => {
       : typeof forwarded === 'string'
         ? JSON.parse(forwarded)
         : forwarded;
-    t.deepEqual(parsed, {
-      jsonrpc: '2.0',
-      id: 1,
-      method: 'initialize',
-      params: {
-        protocolVersion: '2024-10-01',
-        clientInfo: { name: 'promethean-mcp', version: 'dev' },
-      },
-    });
+    const { params: forwardedParams, ...forwardedEnvelope } = (parsed ?? {}) as Record<
+      string,
+      unknown
+    >;
+    t.is(forwardedEnvelope.jsonrpc, '2.0');
+    t.is(forwardedEnvelope.method, 'initialize');
+    t.true(typeof forwardedEnvelope.id === 'number' || typeof forwardedEnvelope.id === 'string');
+    const { capabilities: forwardedCaps, ...restForwardedParams } = (forwardedParams ??
+      {}) as Record<string, unknown>;
+    t.is((restForwardedParams as { protocolVersion?: string }).protocolVersion, '2024-10-01');
+    const forwardedClient = (
+      restForwardedParams as {
+        clientInfo?: { name?: string; version?: string };
+      }
+    ).clientInfo;
+    t.truthy(forwardedClient);
+    t.is(forwardedClient?.version, 'dev');
+    t.is(forwardedClient?.name, 'promethean-proxy-actions');
+    t.truthy(forwardedCaps);
+    t.deepEqual(forwardedCaps, initCaps);
   } finally {
     await transport.stop?.();
   }
@@ -239,7 +252,7 @@ test('fastify registry exposes GPT action routes', async (t) => {
   const Schema = z.object({ message: z.string() }).strict();
   const tool: Tool = {
     spec: {
-      name: 'test.echo',
+      name: 'test_echo',
       description: 'Echo a message back to the caller.',
       inputSchema: Schema.shape,
       stability: 'stable',
@@ -272,7 +285,7 @@ test('fastify registry exposes GPT action routes', async (t) => {
     });
     const openApi = openApiSchema.parse(await openApiResponse.json());
     t.is(openApi.openapi, '3.1.0');
-    t.truthy(openApi.paths['/actions/test.echo']);
+    t.truthy(openApi.paths['/actions/test_echo']);
 
     const listResponse = await fetch(`http://127.0.0.1:${port}/mcp/actions`);
     t.is(listResponse.status, 200);
@@ -291,7 +304,7 @@ test('fastify registry exposes GPT action routes', async (t) => {
     t.true(listPayload.actions.length > 0);
     t.is(listPayload.actions[0]?.name, tool.spec.name);
 
-    const actionResponse = await fetch(`http://127.0.0.1:${port}/mcp/actions/test.echo`, {
+    const actionResponse = await fetch(`http://127.0.0.1:${port}/mcp/actions/test_echo`, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ message: 'world' }),
@@ -300,7 +313,7 @@ test('fastify registry exposes GPT action routes', async (t) => {
     const actionPayload = z.object({ echoed: z.string() }).parse(await actionResponse.json());
     t.deepEqual(actionPayload, { echoed: 'world' });
 
-    const invalidResponse = await fetch(`http://127.0.0.1:${port}/mcp/actions/test.echo`, {
+    const invalidResponse = await fetch(`http://127.0.0.1:${port}/mcp/actions/test_echo`, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: 'not-json',
@@ -409,7 +422,7 @@ test('proxied endpoints expose action routes and OpenAPI docs', async (t) => {
             result: {
               tools: [
                 {
-                  name: 'proxy.echo',
+                  name: 'proxy_echo',
                   description: 'Echo via proxy.',
                   inputSchema: {
                     type: 'object',
@@ -468,9 +481,9 @@ test('proxied endpoints expose action routes and OpenAPI docs', async (t) => {
       ),
     });
     const listPayload = ListResponseSchema.parse(await listResponse.json());
-    t.is(listPayload.actions[0]?.name, 'proxy.echo');
+    t.is(listPayload.actions[0]?.name, 'proxy_echo');
 
-    const actionResponse = await fetch(`http://127.0.0.1:${port}/proxy/actions/proxy.echo`, {
+    const actionResponse = await fetch(`http://127.0.0.1:${port}/proxy/actions/proxy_echo`, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ text: 'hello' }),
@@ -488,7 +501,7 @@ test('proxied endpoints expose action routes and OpenAPI docs', async (t) => {
     });
     const openApi = OpenApiSchema.parse(await openApiResponse.json());
     t.is(openApi.servers[0]?.url, `http://127.0.0.1:${port}/proxy`);
-    t.true(Object.prototype.hasOwnProperty.call(openApi.paths, '/actions/proxy.echo'));
+    t.true(Object.prototype.hasOwnProperty.call(openApi.paths, '/actions/proxy_echo'));
   } finally {
     await transport.stop?.();
   }
