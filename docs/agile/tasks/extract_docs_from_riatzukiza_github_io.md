@@ -1,14 +1,14 @@
 ---
-$$
+```
 uuid: 02eeb8bd-1053-40b4-a213-8db02d7aa526
-$$
+```
 title: extract docs from riatzukiza github io md md
 status: todo
 priority: P3
 labels: []
-$$
+```
 created_at: '2025-09-15T02:02:58.513Z'
-$$
+```
 ---
 ## 🛠️ Task: Extract docs from riatzukiza.github.io
 
@@ -38,9 +38,9 @@ Move any useful markdown documentation from the old `riatzukiza.github.io` repos
 ---
 
 ## 🔗 Related Epics
-$$
+```
 #framework-core
-$$
+```
 ---
 
 ## ⛓️ Blocked By

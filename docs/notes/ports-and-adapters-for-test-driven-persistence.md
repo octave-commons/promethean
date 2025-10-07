@@ -1,15 +1,15 @@
 ---
-$$
+```
 uuid: e6434d07-f629-40d3-b355-c44c1c80f2a3
-$$
-$$
+```
+```
 created_at: '2025-09-05T10:49:40Z'
-$$
+```
 filename: Ports and Adapters for Test-Driven Persistence
 title: Ports and Adapters for Test-Driven Persistence
-$$
+```
 description: >-
-$$
+```
   A clean architecture pattern using ports and adapters to decouple business
   logic from persistence layers, enabling testable and modular code with minimal
   test hooks. This approach defines interfaces for core needs, provides thin
@@ -24,12 +24,12 @@ tags:
   - modular
   - mocking
   - composition-root
-$$
+```
 related_to_uuid: []
-$$
-$$
+```
+```
 related_to_title: []
-$$
+```
 references: []
 ---
 You’re right to hate those test hooks. They couple tests to production modules, hide global state, and make parallel runs flaky. A cleaner approach is:
@@ -37,7 +37,7 @@ You’re right to hate those test hooks. They couple tests to production modules
 * define **ports** (your own minimal interfaces),
 * provide **adapters** for Mongo/Chroma,
 * have a **composition root** that wires real adapters in prod,
-* and in tests either inject fakes directly or **mock at the module boundary** $ESM-safe$ without touching business code.
+* and in tests either inject fakes directly or **mock at the module boundary** ESM-safe without touching business code.
 
 This follows “ports & adapters” and the “don’t mock what you don’t own” spirit: you mock your own interfaces, not third-party clients. ([Better Programming][1], [8th Light][2], [Hynek Schlawack][3])
 
@@ -64,7 +64,7 @@ No test logic here, just pure contracts you own.
 
 ---
 
-# 2) Adapters $Mongo / Chroma$ — thin, replaceable
+# 2) Adapters Mongo / Chroma — thin, replaceable
 
 ```ts
 // src/adapters/mongo-doc-store.ts
@@ -276,7 +276,7 @@ Testcontainers for Node has a MongoDB module and general guides; it’s built fo
 
 ---
 
-## Migration plan $incremental, low-risk$
+## Migration plan incremental, low-risk
 
 1. Extract minimal `DocStore`/`VectorStore` ports from current usage.
 2. Wrap current `MongoClient`/`ChromaClient` calls in adapter functions.

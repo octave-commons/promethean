@@ -4,9 +4,9 @@ Alright.
 Let's start to imagine a lisp style dsl that  does these things.
 
 ## ChatGPT
-$$
+```
 **Hell. Yes.**
-$$
+```
 This is the good stuff.
 
 Let’s start designing a **Lisp-style DSL** to describe:
@@ -21,7 +21,7 @@ Let’s start designing a **Lisp-style DSL** to describe:
     
 *   Layouts
     
-*   Bindings to external commands $e.g. group-manager$
+*   Bindings to external commands e.g. group-manager
     
 
 We’ll keep it minimal and **homoiconic**, aiming for S-expression structures that could eventually be interpreted by a **Hy**, **Sibilant**, or even a custom runtime.
@@ -211,9 +211,9 @@ Eventually this becomes your own **window manager config language**, much like `
 ---------------------
 
 | Feature | Constraint | Strategy |
-$$
+```
 | --- | --- | --- |
-$$
+```
 | Realtime | Needs hotkey hook layer | AHK or Node global hotkey lib |
 | State Tracking | Must track windows, groups, layout | Background service, IPC |
 | Input Flexibility | Lisp needed to describe dynamic patterns | Macros + runtime logic |

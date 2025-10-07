@@ -1,14 +1,14 @@
 ---
-$$
+```
 uuid: 9eed3915-19f2-4006-943c-84b274bc7f47
-$$
+```
 title: scripts add folder readmes and usage
 status: todo
 priority: P3
 labels: []
-$$
+```
 created_at: '2025-09-15T02:02:58.519Z'
-$$
+```
 ---
 Scripts: Add READMEs and usage docs per folder
 

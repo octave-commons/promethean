@@ -6,7 +6,7 @@ TODO: Add service description.
 
 ## Paths
 
-- $[health|services/js/health]$
+- [health|services/js/health]
 
 ## Tags
 

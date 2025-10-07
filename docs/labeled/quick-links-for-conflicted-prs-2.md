@@ -1,15 +1,15 @@
 ---
-$$
+```
 uuid: 7b83459b-9904-458a-a0cd-43f87414df8b
-$$
-$$
+```
+```
 created_at: '2025-09-19T17:22:07Z'
-$$
+```
 title: 2025.09.19.17.22.07
 filename: Quick links for conflicted PRs
-$$
+```
 description: >-
-$$
+```
   Provides a direct link to filter open pull requests that have conflicts in the
   Promethean repository. This link helps developers quickly identify and manage
   PRs with merge conflicts.
@@ -19,12 +19,12 @@ tags:
   - conflicts
   - filter
   - promethean
-$$
+```
 related_to_uuid: []
-$$
-$$
+```
+```
 related_to_title: []
-$$
+```
 references: []
 ---
 # Quick links

@@ -1,15 +1,15 @@
 ---
-$$
+```
 uuid: d6f11e0a-94e3-4f47-99a5-e33d21fcec63
-$$
-$$
+```
+```
 created_at: '2025-09-03T21:55:59Z'
-$$
+```
 filename: Document Processing Improvements
 title: Document Processing Improvements
-$$
+```
 description: >-
-$$
+```
   This document outlines key improvements for enhancing document processing
   performance, reliability, and maintainability. It includes moving cache to
   persistent storage, better parallelization of Ollama batching, and
@@ -22,9 +22,9 @@ tags:
   - leveldb
   - ollama
   - transactions
-$$
+```
 related_to_uuid:
-$$
+```
   - 46e6b485-1c74-46d4-833d-8a2f98b3570d
   - 8792b6d3-aafd-403f-a410-e8a09ec2f8cf
   - 6420e101-2d34-45b5-bcff-d21e1c6e516b
@@ -34,9 +34,9 @@ $$
   - e38b1810-e331-4fff-9f87-8f93a2d5d179
   - 01c5547f-27eb-42d1-af24-9cad10b6a2ca
   - 628976ac-4c3a-43a6-886e-d7182435db79
-$$
+```
 related_to_title:
-$$
+```
   - Optimization Improvements for AI Systems
   - aionian-circuit-math
   - Eidolon Field Math Foundations
@@ -85,7 +85,7 @@ references:
 
 - Function Memoizer with Configurable Drivers: ^ref-7a83075b-12-0
   - Use a library like `memoizee` or implement a custom memoizer.
-  - Allow configuration for different drivers $in-memory, Redis, LevelDB$.
+  - Allow configuration for different drivers in-memory, Redis, LevelDB.
 
 - Better Prompts for Local AI: ^ref-7a83075b-16-0
   - Use explicit instructions and context variables to improve local AI
@@ -142,9 +142,9 @@ async function batchWrite(entries) {
   }
 }
 ```
-$$
+```
 **Usage Example:**
-$$
+```
 ```javascript
 const entries = [
   { key: 'chunk1', value: JSON.stringify(chunkData) },
@@ -196,9 +196,9 @@ if (isMainThread) {
 
 ### 3. **Function Memoizer with Configurable Drivers**
 We'll create a **memoizer abstraction** that supports different storage backends
-$$
+```
 (LevelDB, Redis, in-memory).
-$$
+```
 ```javascript
 // Base Memoizer Class
 class Memoizer {
@@ -277,26 +277,26 @@ try {
 
 ### 5. **Documentation and Code Structure**
 Ensure all modules are well
-$$
+```
 cumentation and Code Structure**
-$$
+```
 Ensure all modules are well
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
 - [Optimization Improvements for AI Systems](2025.09.03.22.36.42.md)
-- $aionian-circuit-math$$aionian-circuit-math.md$
-- [Eidolon Field Math Foundations]$eidolon-field-math-foundations.md$
-- $field-dynamics-math-blocks$$field-dynamics-math-blocks.md$
-- $field-interaction-equations$$field-interaction-equations.md$
-- $homeostasis-decay-formulas$$homeostasis-decay-formulas.md$
-- [Plan Update Confirmation]$plan-update-confirmation.md$
-- $run-step-api$$run-step-api.md$
-- $ollama-batch-embeddings-ts$(2025.09.03.22.40.00.md)
+- aionian-circuit-math$aionian-circuit-math.md
+- [Eidolon Field Math Foundations]eidolon-field-math-foundations.md
+- field-dynamics-math-blocks$field-dynamics-math-blocks.md
+- field-interaction-equations$field-interaction-equations.md
+- homeostasis-decay-formulas$homeostasis-decay-formulas.md
+- [Plan Update Confirmation]plan-update-confirmation.md
+- run-step-api$run-step-api.md
+- ollama-batch-embeddings-ts(2025.09.03.22.40.00.md)
 ## Sources
-- [Optimization Improvements for AI Systems — L10]$2025.09.03.22.36.42.md#^ref-46e6b485-10-0$ (line 10, col 0, score 0.93)
-- [Plan Update Confirmation — L886]$plan-update-confirmation.md#^ref-e38b1810-886-0$ (line 886, col 0, score 0.93)
-- [Optimization Improvements for AI Systems — L5]$2025.09.03.22.36.42.md#^ref-46e6b485-5-0$ (line 5, col 0, score 0.89)
-- [Optimization Improvements for AI Systems — L12]$2025.09.03.22.36.42.md#^ref-46e6b485-12-0$ (line 12, col 0, score 0.88)
-- $run-step-api — L947$$run-step-api.md#^ref-01c5547f-947-0$ (line 947, col 0, score 0.87)
-- $run-step-api — L949$$run-step-api.md#^ref-01c5547f-949-0$ (line 949, col 0, score 0.87)
+- [Optimization Improvements for AI Systems — L10]2025.09.03.22.36.42.md#^ref-46e6b485-10-0 (line 10, col 0, score 0.93)
+- [Plan Update Confirmation — L886]plan-update-confirmation.md#^ref-e38b1810-886-0 (line 886, col 0, score 0.93)
+- [Optimization Improvements for AI Systems — L5]2025.09.03.22.36.42.md#^ref-46e6b485-5-0 (line 5, col 0, score 0.89)
+- [Optimization Improvements for AI Systems — L12]2025.09.03.22.36.42.md#^ref-46e6b485-12-0 (line 12, col 0, score 0.88)
+- run-step-api — L947$run-step-api.md#^ref-01c5547f-947-0 (line 947, col 0, score 0.87)
+- run-step-api — L949$run-step-api.md#^ref-01c5547f-949-0 (line 949, col 0, score 0.87)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

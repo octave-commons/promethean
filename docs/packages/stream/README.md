@@ -1,16 +1,16 @@
-$$
+```
 <!-- SYMPKG:PKG:BEGIN -->
-$$
+```
 # @promethean/stream
-$$
+```
 **Folder:** `packages/stream`
-$$
-$$
+```
+```
 **Version:** `0.0.1`
-$$
-$$
+```
+```
 **Domain:** `_root`
-$$
+```
 ```mermaid
 graph LR
   A["@promethean/stream"]
@@ -24,8 +24,8 @@ graph LR
 ## Dependencies
 - _None_
 ## Dependents
-- $@promethean/fs$$../fs/README.md$
-- $@promethean/tests$$../tests/README.md$
-$$
+- @promethean/fs$../fs/README.md
+- @promethean/tests$../tests/README.md
+```
 <!-- SYMPKG:PKG:END -->
-$$
+```

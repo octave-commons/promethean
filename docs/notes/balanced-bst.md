@@ -1,22 +1,22 @@
 ---
-$$
+```
 uuid: 07397dd3-9360-4c8b-b515-9d7a8c818875
-$$
-$$
+```
+```
 created_at: balanced-bst.md
-$$
-$$
+```
+```
 filename: balanced-bst
-$$
-$$
+```
+```
 title: balanced-bst
-$$
-$$
+```
+```
 description: >-
-$$
+```
   A generic balanced binary search tree (AVL) implementation with Map-like
   functionality, including floor/ceil, rank/select, and range iterators.
-  Supports O$log n$ operations for efficient key-value management.
+  Supports Olog n operations for efficient key-value management.
 tags:
   - avl
   - bst
@@ -28,9 +28,9 @@ tags:
   - select
   - floor
   - ceil
-$$
+```
 related_to_uuid:
-$$
+```
   - 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
   - b09141b7-544f-4c8e-8f49-bf76cecaacbb
   - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
@@ -56,9 +56,9 @@ $$
   - 0f6f8f38-98d0-438f-9601-58f478acc0b7
   - 7b7ca860-780c-44fa-8d3f-be8bd9496fba
   - bb90903a-4723-44f7-850e-a71415ef6224
-$$
+```
 related_to_title:
-$$
+```
   - field-dynamics-math-blocks
   - field-interaction-equations
   - eidolon-field-math-foundations
@@ -486,7 +486,7 @@ references:
     col: 0
     score: 1
 ---
-Yup—here’s a tight, generic **balanced BST** (AVL) you can drop in as `shared/js/prom-lib/ds/bst.ts`. It behaves like a `Map` with extras: `floor/ceil`, `rank/select`, range iterators, and O$log n$ ops. ^ref-d3e7db72-1-0 ^ref-6e678cce-1-0
+Yup—here’s a tight, generic **balanced BST** (AVL) you can drop in as `shared/js/prom-lib/ds/bst.ts`. It behaves like a `Map` with extras: `floor/ceil`, `rank/select`, range iterators, and Olog n ops. ^ref-d3e7db72-1-0 ^ref-6e678cce-1-0
 
 ```ts
 // shared/js/prom-lib/ds/bst.ts
@@ -750,16 +750,16 @@ export class AVLTree<K, V> implements Iterable<[K, V]> {
 // Convenience alias if you prefer the generic name
 export const BST = AVLTree;
 ```
-$$
+```
 ^ref-6e678cce-3-0
-$$
-$$
+```
+```
 ^ref-d3e7db72-3-0
-$$
+```
 ## Quick usage
-$$
- ^ref-d3e7db72-268-0
-$$
+```
+^ref-d3e7db72-268-0
+```
 ```ts
 import { AVLTree } from "./bst";
 
@@ -780,10 +780,10 @@ t.validate();                          // throws if invariants broken
 ```
 
 ## Notes ^ref-d3e7db72-288-0
-$$
- ^ref-d3e7db72-289-0
-$$
-* All operations are **O$log n$** $AVL-balanced$. ^ref-d3e7db72-290-0
+```
+^ref-d3e7db72-289-0
+```
+* All operations are **Olog n** AVL-balanced. ^ref-d3e7db72-290-0
 * `rank/select` ride on subtree sizes; great for order-statistics queries. ^ref-d3e7db72-291-0
 * Keys must be comparable; pass your own `cmp` for strings, dates, custom IDs, etc. ^ref-6e678cce-293-0
 * If you want **multimap** semantics (duplicate keys), easiest path is to store an array value or make the value a small list. ^ref-d3e7db72-293-0
@@ -792,130 +792,130 @@ Want a **persistent/immutable** variant (functional tree), or a **Treap** / **Re
  ^ref-d3e7db72-299-0 ^ref-d3e7db72-304-0 ^ref-d3e7db72-306-0 ^ref-d3e7db72-308-0 ^ref-d3e7db72-309-0 ^ref-d3e7db72-310-0 ^ref-d3e7db72-311-0 ^ref-d3e7db72-313-0 ^ref-d3e7db72-324-0 ^ref-d3e7db72-330-0 ^ref-d3e7db72-333-0 ^ref-d3e7db72-335-0 ^ref-d3e7db72-363-0 ^ref-d3e7db72-365-0 ^ref-d3e7db72-370-0 ^ref-d3e7db72-390-0
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- $[docs/unique/field-dynamics-math-blocks|field-dynamics-math-blocks]$
-- $[docs/unique/field-interaction-equations|field-interaction-equations]$
-- $[docs/unique/eidolon-field-math-foundations|eidolon-field-math-foundations]$
-- $[board-walk-2025-08-11|Board Walk – 2025-08-11]$
-- $[run-step-api]$
-- $[heartbeat-fragment-demo]$
-- $[ai-first-os-model-context-protocol]$
-- $[api-gateway-versioning]$
-- $[board-automation-improvements|Board Automation Improvements]$
-- $[git-commit-optimization-for-code-reviews|Git Commit Optimization for Code Reviews]$
-- [Promethean Documentation Update]$promethean-documentation-update-3.md$
-- $[self-improving-documentation-tool|Self-Improving Documentation Tool]$
-- $[docs/unique/aionian-circuit-math|aionian-circuit-math]$
-- $[language-agnostic-mirror-system|Language-Agnostic Mirror System]$
-- $[promethean-documentation-pipeline-overview|Promethean Documentation Pipeline Overview]$
-- $[pure-typescript-search-microservice|Pure TypeScript Search Microservice]$
-- $[schema-evolution-workflow]$
-- $[stateful-partitions-and-rebalancing|Stateful Partitions and Rebalancing]$
-- $[creative-moments|Creative Moments]$
-- $[ducks-attractor-states|Duck's Attractor States]$
-- $[promethean-chat-activity-report|Promethean Chat Activity Report]$
-- $[promethean-dev-workflow-update|Promethean Dev Workflow Update]$
-- $[windows-tiling-with-autohotkey]$
-- $[typescript-patch-for-tool-calling-support|TypeScript Patch for Tool Calling Support]$
-- [AGENTS.md]$agents-md.md$
+- [docs/unique/field-dynamics-math-blocks|field-dynamics-math-blocks]
+- [docs/unique/field-interaction-equations|field-interaction-equations]
+- [docs/unique/eidolon-field-math-foundations|eidolon-field-math-foundations]
+- [board-walk-2025-08-11|Board Walk – 2025-08-11]
+- [run-step-api]
+- [heartbeat-fragment-demo]
+- [ai-first-os-model-context-protocol]
+- [api-gateway-versioning]
+- [board-automation-improvements|Board Automation Improvements]
+- [git-commit-optimization-for-code-reviews|Git Commit Optimization for Code Reviews]
+- [Promethean Documentation Update]promethean-documentation-update-3.md
+- [self-improving-documentation-tool|Self-Improving Documentation Tool]
+- [docs/unique/aionian-circuit-math|aionian-circuit-math]
+- [language-agnostic-mirror-system|Language-Agnostic Mirror System]
+- [promethean-documentation-pipeline-overview|Promethean Documentation Pipeline Overview]
+- [pure-typescript-search-microservice|Pure TypeScript Search Microservice]
+- [schema-evolution-workflow]
+- [stateful-partitions-and-rebalancing|Stateful Partitions and Rebalancing]
+- [creative-moments|Creative Moments]
+- [ducks-attractor-states|Duck's Attractor States]
+- [promethean-chat-activity-report|Promethean Chat Activity Report]
+- [promethean-dev-workflow-update|Promethean Dev Workflow Update]
+- [windows-tiling-with-autohotkey]
+- [typescript-patch-for-tool-calling-support|TypeScript Patch for Tool Calling Support]
+- [AGENTS.md]agents-md.md
 ## Sources
-- $[language-agnostic-mirror-system#^ref-d2b3628c-504-0|Language-Agnostic Mirror System — L504]$ (line 504, col 0, score 1)
-- $[admin-dashboard-for-user-management#^ref-2901a3e9-45-0|Admin Dashboard for User Management — L45]$ (line 45, col 0, score 1)
-- $[typescript-patch-for-tool-calling-support#^ref-7b7ca860-560-0|TypeScript Patch for Tool Calling Support — L560]$ (line 560, col 0, score 1)
-- $[agent-reflections-and-prompt-evolution#^ref-bb7f0835-187-0|Agent Reflections and Prompt Evolution — L187]$ (line 187, col 0, score 1)
-- $[field-node-diagram-outline#^ref-1f32c94a-186-0|field-node-diagram-outline — L186]$ (line 186, col 0, score 1)
-- $[field-node-diagram-set#^ref-22b989d5-212-0|field-node-diagram-set — L212]$ (line 212, col 0, score 1)
-- $field-node-diagram-visualizations — L162$$field-node-diagram-visualizations.md#^ref-e9b27b06-162-0$ (line 162, col 0, score 1)
-- $[heartbeat-fragment-demo#^ref-dd00677a-191-0|heartbeat-fragment-demo — L191]$ (line 191, col 0, score 1)
-- $[homeostasis-decay-formulas#^ref-37b5d236-233-0|homeostasis-decay-formulas — L233]$ (line 233, col 0, score 1)
-- $[ice-box-reorganization#^ref-291c7d91-129-0|Ice Box Reorganization — L129]$ (line 129, col 0, score 1)
-- $[model-selection-for-lightweight-conversational-tasks#^ref-d144aa62-212-0|Model Selection for Lightweight Conversational Tasks — L212]$ (line 212, col 0, score 1)
-- $[ai-first-os-model-context-protocol#^ref-618198f4-11-0|AI-First-OS-Model-Context-Protocol — L11]$ (line 11, col 0, score 1)
-- $[docs/unique/aionian-circuit-math#^ref-f2d83a77-151-0|aionian-circuit-math — L151]$ (line 151, col 0, score 1)
-- $[docs/unique/aionian-circuit-math#^ref-f2d83a77-152-0|aionian-circuit-math — L152]$ (line 152, col 0, score 1)
-- $[api-gateway-versioning#^ref-0580dcd3-286-0|api-gateway-versioning — L286]$ (line 286, col 0, score 1)
-- $[api-gateway-versioning#^ref-0580dcd3-288-0|api-gateway-versioning — L288]$ (line 288, col 0, score 1)
-- $[board-automation-improvements#^ref-ac60a1d6-12-0|Board Automation Improvements — L12]$ (line 12, col 0, score 1)
-- $[board-walk-2025-08-11#^ref-7aa1eb92-135-0|Board Walk – 2025-08-11 — L135]$ (line 135, col 0, score 1)
-- $[board-walk-2025-08-11#^ref-7aa1eb92-138-0|Board Walk – 2025-08-11 — L138]$ (line 138, col 0, score 1)
-- $[docs/unique/aionian-circuit-math#^ref-f2d83a77-149-0|aionian-circuit-math — L149]$ (line 149, col 0, score 1)
-- $[api-gateway-versioning#^ref-0580dcd3-285-0|api-gateway-versioning — L285]$ (line 285, col 0, score 1)
-- $[board-walk-2025-08-11#^ref-7aa1eb92-134-0|Board Walk – 2025-08-11 — L134]$ (line 134, col 0, score 1)
-- $[docs/unique/field-dynamics-math-blocks#^ref-7cfc230d-193-0|field-dynamics-math-blocks — L193]$ (line 193, col 0, score 1)
-- $[field-node-diagram-set#^ref-22b989d5-203-0|field-node-diagram-set — L203]$ (line 203, col 0, score 1)
-- $field-node-diagram-visualizations — L151$$field-node-diagram-visualizations.md#^ref-e9b27b06-151-0$ (line 151, col 0, score 1)
-- $[functional-refactor-of-typescript-document-processing#^ref-1cfae310-281-0|Functional Refactor of TypeScript Document Processing — L281]$ (line 281, col 0, score 1)
-- $[heartbeat-fragment-demo#^ref-dd00677a-181-0|heartbeat-fragment-demo — L181]$ (line 181, col 0, score 1)
-- $[homeostasis-decay-formulas#^ref-37b5d236-220-0|homeostasis-decay-formulas — L220]$ (line 220, col 0, score 1)
-- $[ice-box-reorganization#^ref-291c7d91-110-0|Ice Box Reorganization — L110]$ (line 110, col 0, score 1)
-- $[docs/unique/obsidian-ignore-node-modules-regex#^ref-ffb9b2a9-118-0|obsidian-ignore-node-modules-regex — L118]$ (line 118, col 0, score 1)
-- [ParticleSimulationWithCanvasAndFFmpeg — L329]$particlesimulationwithcanvasandffmpeg.md#^ref-e018dd7a-329-0$ (line 329, col 0, score 1)
-- $[docs/unique/aionian-circuit-math#^ref-f2d83a77-160-0|aionian-circuit-math — L160]$ (line 160, col 0, score 1)
-- $[board-automation-improvements#^ref-ac60a1d6-19-0|Board Automation Improvements — L19]$ (line 19, col 0, score 1)
-- $[board-walk-2025-08-11#^ref-7aa1eb92-160-0|Board Walk – 2025-08-11 — L160]$ (line 160, col 0, score 1)
-- [Debugging Broker Connections and Agent Behavior — L426]$debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-426-0$ (line 426, col 0, score 1)
-- $[dynamic-context-model-for-web-components#^ref-f7702bf8-1534-0|Dynamic Context Model for Web Components — L1534]$ (line 1534, col 0, score 1)
-- $[promethean-copilot-intent-engine#^ref-ae24a280-610-0|Promethean-Copilot-Intent-Engine — L610]$ (line 610, col 0, score 1)
-- $[promethean-infrastructure-setup#^ref-6deed6ac-1262-0|Promethean Infrastructure Setup — L1262]$ (line 1262, col 0, score 1)
-- $[prometheus-observability-stack#^ref-e90b5a16-863-0|Prometheus Observability Stack — L863]$ (line 863, col 0, score 1)
-- $[docs/unique/aionian-circuit-math#^ref-f2d83a77-161-0|aionian-circuit-math — L161]$ (line 161, col 0, score 1)
-- $[docs/unique/aionian-circuit-math#^ref-f2d83a77-162-0|aionian-circuit-math — L162]$ (line 162, col 0, score 1)
-- $[board-walk-2025-08-11#^ref-7aa1eb92-163-0|Board Walk – 2025-08-11 — L163]$ (line 163, col 0, score 1)
-- $[docs/unique/aionian-circuit-math#^ref-f2d83a77-291-0|aionian-circuit-math — L291]$ (line 291, col 0, score 1)
-- $[board-walk-2025-08-11#^ref-7aa1eb92-164-0|Board Walk – 2025-08-11 — L164]$ (line 164, col 0, score 1)
-- $[i3-bluetooth-setup#^ref-5e408692-247-0|i3-bluetooth-setup — L247]$ (line 247, col 0, score 1)
-- $[board-automation-improvements#^ref-ac60a1d6-24-0|Board Automation Improvements — L24]$ (line 24, col 0, score 1)
-- $[board-walk-2025-08-11#^ref-7aa1eb92-165-0|Board Walk – 2025-08-11 — L165]$ (line 165, col 0, score 1)
-- $[docs/unique/aionian-circuit-math#^ref-f2d83a77-164-0|aionian-circuit-math — L164]$ (line 164, col 0, score 1)
-- $[docs/unique/aionian-circuit-math#^ref-f2d83a77-238-0|aionian-circuit-math — L238]$ (line 238, col 0, score 1)
-- $[board-automation-improvements#^ref-ac60a1d6-26-0|Board Automation Improvements — L26]$ (line 26, col 0, score 1)
-- $[board-walk-2025-08-11#^ref-7aa1eb92-167-0|Board Walk – 2025-08-11 — L167]$ (line 167, col 0, score 1)
-- $[promethean-notes#^ref-1c4046b5-1045-0|Promethean Notes — L1045]$ (line 1045, col 0, score 1)
-- $[windows-tiling-with-autohotkey#^ref-0f6f8f38-2169-0|windows-tiling-with-autohotkey — L2169]$ (line 2169, col 0, score 1)
-- $[board-walk-2025-08-11#^ref-7aa1eb92-178-0|Board Walk – 2025-08-11 — L178]$ (line 178, col 0, score 1)
-- $Canonical Org-Babel Matplotlib Animation Template — L1167$$canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-1167-0$ (line 1167, col 0, score 1)
-- $[creative-moments#^ref-10d98225-881-0|Creative Moments — L881]$ (line 881, col 0, score 1)
-- $[ducks-attractor-states#^ref-13951643-1621-0|Duck's Attractor States — L1621]$ (line 1621, col 0, score 1)
-- $[docs/unique/eidolon-field-math-foundations#^ref-008f2ac0-1860-0|eidolon-field-math-foundations — L1860]$ (line 1860, col 0, score 1)
-- $[functional-refactor-of-typescript-document-processing#^ref-1cfae310-924-0|Functional Refactor of TypeScript Document Processing — L924]$ (line 924, col 0, score 1)
-- $[promethean-chat-activity-report#^ref-18344cf9-873-0|Promethean Chat Activity Report — L873]$ (line 873, col 0, score 1)
-- $[promethean-dev-workflow-update#^ref-03a5578f-1656-0|Promethean Dev Workflow Update — L1656]$ (line 1656, col 0, score 1)
-- $Canonical Org-Babel Matplotlib Animation Template — L1168$$canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-1168-0$ (line 1168, col 0, score 1)
-- $[promethean-documentation-update.txt#^ref-0b872af2-821-0|Promethean Documentation Update — L821]$ (line 821, col 0, score 1)
-- $[windows-tiling-with-autohotkey#^ref-0f6f8f38-1736-0|windows-tiling-with-autohotkey — L1736]$ (line 1736, col 0, score 1)
-- $[api-gateway-versioning#^ref-0580dcd3-307-0|api-gateway-versioning — L307]$ (line 307, col 0, score 1)
-- $[board-automation-improvements#^ref-ac60a1d6-82-0|Board Automation Improvements — L82]$ (line 82, col 0, score 1)
-- $[docs/unique/aionian-circuit-math#^ref-f2d83a77-240-0|aionian-circuit-math — L240]$ (line 240, col 0, score 1)
-- $[docs/unique/aionian-circuit-math#^ref-f2d83a77-241-0|aionian-circuit-math — L241]$ (line 241, col 0, score 1)
-- $[api-gateway-versioning#^ref-0580dcd3-308-0|api-gateway-versioning — L308]$ (line 308, col 0, score 1)
-- $[board-automation-improvements#^ref-ac60a1d6-56-0|Board Automation Improvements — L56]$ (line 56, col 0, score 1)
-- $[docs/unique/aionian-circuit-math#^ref-f2d83a77-270-0|aionian-circuit-math — L270]$ (line 270, col 0, score 1)
-- $[api-gateway-versioning#^ref-0580dcd3-330-0|api-gateway-versioning — L330]$ (line 330, col 0, score 1)
-- $Canonical Org-Babel Matplotlib Animation Template — L2285$$canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-2285-0$ (line 2285, col 0, score 1)
-- $[ducks-attractor-states#^ref-13951643-1881-0|Duck's Attractor States — L1881]$ (line 1881, col 0, score 1)
-- $[docs/unique/eidolon-field-math-foundations#^ref-008f2ac0-3570-0|eidolon-field-math-foundations — L3570]$ (line 3570, col 0, score 1)
-- $[promethean-chat-activity-report#^ref-18344cf9-1918-0|Promethean Chat Activity Report — L1918]$ (line 1918, col 0, score 1)
-- $[promethean-dev-workflow-update#^ref-03a5578f-3412-0|Promethean Dev Workflow Update — L3412]$ (line 3412, col 0, score 1)
-- $[promethean-documentation-update.txt#^ref-0b872af2-1621-0|Promethean Documentation Update — L1621]$ (line 1621, col 0, score 1)
-- $[promethean-notes#^ref-1c4046b5-1817-0|Promethean Notes — L1817]$ (line 1817, col 0, score 1)
-- $[the-jar-of-echoes#^ref-18138627-2012-0|The Jar of Echoes — L2012]$ (line 2012, col 0, score 1)
-- $[creative-moments#^ref-10d98225-1553-0|Creative Moments — L1553]$ (line 1553, col 0, score 1)
-- $[ducks-attractor-states#^ref-13951643-3791-0|Duck's Attractor States — L3791]$ (line 3791, col 0, score 1)
-- $[promethean-chat-activity-report#^ref-18344cf9-1624-0|Promethean Chat Activity Report — L1624]$ (line 1624, col 0, score 1)
-- $[promethean-dev-workflow-update#^ref-03a5578f-4979-0|Promethean Dev Workflow Update — L4979]$ (line 4979, col 0, score 1)
-- $[promethean-documentation-update.txt#^ref-0b872af2-1328-0|Promethean Documentation Update — L1328]$ (line 1328, col 0, score 1)
-- $[promethean-notes#^ref-1c4046b5-1523-0|Promethean Notes — L1523]$ (line 1523, col 0, score 1)
-- $[promethean-dev-workflow-update#^ref-03a5578f-4404-0|Promethean Dev Workflow Update — L4404]$ (line 4404, col 0, score 1)
-- $[promethean-documentation-update.txt#^ref-0b872af2-1200-0|Promethean Documentation Update — L1200]$ (line 1200, col 0, score 1)
-- $[promethean-notes#^ref-1c4046b5-1384-0|Promethean Notes — L1384]$ (line 1384, col 0, score 1)
-- $[the-jar-of-echoes#^ref-18138627-3691-0|The Jar of Echoes — L3691]$ (line 3691, col 0, score 1)
-- $[board-automation-improvements#^ref-ac60a1d6-83-0|Board Automation Improvements — L83]$ (line 83, col 0, score 1)
-- $[creative-moments#^ref-10d98225-1417-0|Creative Moments — L1417]$ (line 1417, col 0, score 1)
-- $[ducks-attractor-states#^ref-13951643-2992-0|Duck's Attractor States — L2992]$ (line 2992, col 0, score 1)
-- $[promethean-chat-activity-report#^ref-18344cf9-1500-0|Promethean Chat Activity Report — L1500]$ (line 1500, col 0, score 1)
-- $[promethean-dev-workflow-update#^ref-03a5578f-4405-0|Promethean Dev Workflow Update — L4405]$ (line 4405, col 0, score 1)
-- $[promethean-documentation-update.txt#^ref-0b872af2-1201-0|Promethean Documentation Update — L1201]$ (line 1201, col 0, score 1)
-- $[promethean-notes#^ref-1c4046b5-1385-0|Promethean Notes — L1385]$ (line 1385, col 0, score 1)
-- $[the-jar-of-echoes#^ref-18138627-3692-0|The Jar of Echoes — L3692]$ (line 3692, col 0, score 1)
-- $[docs/unique/aionian-circuit-math#^ref-f2d83a77-289-0|aionian-circuit-math — L289]$ (line 289, col 0, score 1)
-- $[docs/unique/aionian-circuit-math#^ref-f2d83a77-278-0|aionian-circuit-math — L278]$ (line 278, col 0, score 1)
+- [language-agnostic-mirror-system#^ref-d2b3628c-504-0|Language-Agnostic Mirror System — L504] (line 504, col 0, score 1)
+- [admin-dashboard-for-user-management#^ref-2901a3e9-45-0|Admin Dashboard for User Management — L45] (line 45, col 0, score 1)
+- [typescript-patch-for-tool-calling-support#^ref-7b7ca860-560-0|TypeScript Patch for Tool Calling Support — L560] (line 560, col 0, score 1)
+- [agent-reflections-and-prompt-evolution#^ref-bb7f0835-187-0|Agent Reflections and Prompt Evolution — L187] (line 187, col 0, score 1)
+- [field-node-diagram-outline#^ref-1f32c94a-186-0|field-node-diagram-outline — L186] (line 186, col 0, score 1)
+- [field-node-diagram-set#^ref-22b989d5-212-0|field-node-diagram-set — L212] (line 212, col 0, score 1)
+- field-node-diagram-visualizations — L162$field-node-diagram-visualizations.md#^ref-e9b27b06-162-0 (line 162, col 0, score 1)
+- [heartbeat-fragment-demo#^ref-dd00677a-191-0|heartbeat-fragment-demo — L191] (line 191, col 0, score 1)
+- [homeostasis-decay-formulas#^ref-37b5d236-233-0|homeostasis-decay-formulas — L233] (line 233, col 0, score 1)
+- [ice-box-reorganization#^ref-291c7d91-129-0|Ice Box Reorganization — L129] (line 129, col 0, score 1)
+- [model-selection-for-lightweight-conversational-tasks#^ref-d144aa62-212-0|Model Selection for Lightweight Conversational Tasks — L212] (line 212, col 0, score 1)
+- [ai-first-os-model-context-protocol#^ref-618198f4-11-0|AI-First-OS-Model-Context-Protocol — L11] (line 11, col 0, score 1)
+- [docs/unique/aionian-circuit-math#^ref-f2d83a77-151-0|aionian-circuit-math — L151] (line 151, col 0, score 1)
+- [docs/unique/aionian-circuit-math#^ref-f2d83a77-152-0|aionian-circuit-math — L152] (line 152, col 0, score 1)
+- [api-gateway-versioning#^ref-0580dcd3-286-0|api-gateway-versioning — L286] (line 286, col 0, score 1)
+- [api-gateway-versioning#^ref-0580dcd3-288-0|api-gateway-versioning — L288] (line 288, col 0, score 1)
+- [board-automation-improvements#^ref-ac60a1d6-12-0|Board Automation Improvements — L12] (line 12, col 0, score 1)
+- [board-walk-2025-08-11#^ref-7aa1eb92-135-0|Board Walk – 2025-08-11 — L135] (line 135, col 0, score 1)
+- [board-walk-2025-08-11#^ref-7aa1eb92-138-0|Board Walk – 2025-08-11 — L138] (line 138, col 0, score 1)
+- [docs/unique/aionian-circuit-math#^ref-f2d83a77-149-0|aionian-circuit-math — L149] (line 149, col 0, score 1)
+- [api-gateway-versioning#^ref-0580dcd3-285-0|api-gateway-versioning — L285] (line 285, col 0, score 1)
+- [board-walk-2025-08-11#^ref-7aa1eb92-134-0|Board Walk – 2025-08-11 — L134] (line 134, col 0, score 1)
+- [docs/unique/field-dynamics-math-blocks#^ref-7cfc230d-193-0|field-dynamics-math-blocks — L193] (line 193, col 0, score 1)
+- [field-node-diagram-set#^ref-22b989d5-203-0|field-node-diagram-set — L203] (line 203, col 0, score 1)
+- field-node-diagram-visualizations — L151$field-node-diagram-visualizations.md#^ref-e9b27b06-151-0 (line 151, col 0, score 1)
+- [functional-refactor-of-typescript-document-processing#^ref-1cfae310-281-0|Functional Refactor of TypeScript Document Processing — L281] (line 281, col 0, score 1)
+- [heartbeat-fragment-demo#^ref-dd00677a-181-0|heartbeat-fragment-demo — L181] (line 181, col 0, score 1)
+- [homeostasis-decay-formulas#^ref-37b5d236-220-0|homeostasis-decay-formulas — L220] (line 220, col 0, score 1)
+- [ice-box-reorganization#^ref-291c7d91-110-0|Ice Box Reorganization — L110] (line 110, col 0, score 1)
+- [docs/unique/obsidian-ignore-node-modules-regex#^ref-ffb9b2a9-118-0|obsidian-ignore-node-modules-regex — L118] (line 118, col 0, score 1)
+- [ParticleSimulationWithCanvasAndFFmpeg — L329]particlesimulationwithcanvasandffmpeg.md#^ref-e018dd7a-329-0 (line 329, col 0, score 1)
+- [docs/unique/aionian-circuit-math#^ref-f2d83a77-160-0|aionian-circuit-math — L160] (line 160, col 0, score 1)
+- [board-automation-improvements#^ref-ac60a1d6-19-0|Board Automation Improvements — L19] (line 19, col 0, score 1)
+- [board-walk-2025-08-11#^ref-7aa1eb92-160-0|Board Walk – 2025-08-11 — L160] (line 160, col 0, score 1)
+- [Debugging Broker Connections and Agent Behavior — L426]debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-426-0 (line 426, col 0, score 1)
+- [dynamic-context-model-for-web-components#^ref-f7702bf8-1534-0|Dynamic Context Model for Web Components — L1534] (line 1534, col 0, score 1)
+- [promethean-copilot-intent-engine#^ref-ae24a280-610-0|Promethean-Copilot-Intent-Engine — L610] (line 610, col 0, score 1)
+- [promethean-infrastructure-setup#^ref-6deed6ac-1262-0|Promethean Infrastructure Setup — L1262] (line 1262, col 0, score 1)
+- [prometheus-observability-stack#^ref-e90b5a16-863-0|Prometheus Observability Stack — L863] (line 863, col 0, score 1)
+- [docs/unique/aionian-circuit-math#^ref-f2d83a77-161-0|aionian-circuit-math — L161] (line 161, col 0, score 1)
+- [docs/unique/aionian-circuit-math#^ref-f2d83a77-162-0|aionian-circuit-math — L162] (line 162, col 0, score 1)
+- [board-walk-2025-08-11#^ref-7aa1eb92-163-0|Board Walk – 2025-08-11 — L163] (line 163, col 0, score 1)
+- [docs/unique/aionian-circuit-math#^ref-f2d83a77-291-0|aionian-circuit-math — L291] (line 291, col 0, score 1)
+- [board-walk-2025-08-11#^ref-7aa1eb92-164-0|Board Walk – 2025-08-11 — L164] (line 164, col 0, score 1)
+- [i3-bluetooth-setup#^ref-5e408692-247-0|i3-bluetooth-setup — L247] (line 247, col 0, score 1)
+- [board-automation-improvements#^ref-ac60a1d6-24-0|Board Automation Improvements — L24] (line 24, col 0, score 1)
+- [board-walk-2025-08-11#^ref-7aa1eb92-165-0|Board Walk – 2025-08-11 — L165] (line 165, col 0, score 1)
+- [docs/unique/aionian-circuit-math#^ref-f2d83a77-164-0|aionian-circuit-math — L164] (line 164, col 0, score 1)
+- [docs/unique/aionian-circuit-math#^ref-f2d83a77-238-0|aionian-circuit-math — L238] (line 238, col 0, score 1)
+- [board-automation-improvements#^ref-ac60a1d6-26-0|Board Automation Improvements — L26] (line 26, col 0, score 1)
+- [board-walk-2025-08-11#^ref-7aa1eb92-167-0|Board Walk – 2025-08-11 — L167] (line 167, col 0, score 1)
+- [promethean-notes#^ref-1c4046b5-1045-0|Promethean Notes — L1045] (line 1045, col 0, score 1)
+- [windows-tiling-with-autohotkey#^ref-0f6f8f38-2169-0|windows-tiling-with-autohotkey — L2169] (line 2169, col 0, score 1)
+- [board-walk-2025-08-11#^ref-7aa1eb92-178-0|Board Walk – 2025-08-11 — L178] (line 178, col 0, score 1)
+- Canonical Org-Babel Matplotlib Animation Template — L1167$canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-1167-0 (line 1167, col 0, score 1)
+- [creative-moments#^ref-10d98225-881-0|Creative Moments — L881] (line 881, col 0, score 1)
+- [ducks-attractor-states#^ref-13951643-1621-0|Duck's Attractor States — L1621] (line 1621, col 0, score 1)
+- [docs/unique/eidolon-field-math-foundations#^ref-008f2ac0-1860-0|eidolon-field-math-foundations — L1860] (line 1860, col 0, score 1)
+- [functional-refactor-of-typescript-document-processing#^ref-1cfae310-924-0|Functional Refactor of TypeScript Document Processing — L924] (line 924, col 0, score 1)
+- [promethean-chat-activity-report#^ref-18344cf9-873-0|Promethean Chat Activity Report — L873] (line 873, col 0, score 1)
+- [promethean-dev-workflow-update#^ref-03a5578f-1656-0|Promethean Dev Workflow Update — L1656] (line 1656, col 0, score 1)
+- Canonical Org-Babel Matplotlib Animation Template — L1168$canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-1168-0 (line 1168, col 0, score 1)
+- [promethean-documentation-update.txt#^ref-0b872af2-821-0|Promethean Documentation Update — L821] (line 821, col 0, score 1)
+- [windows-tiling-with-autohotkey#^ref-0f6f8f38-1736-0|windows-tiling-with-autohotkey — L1736] (line 1736, col 0, score 1)
+- [api-gateway-versioning#^ref-0580dcd3-307-0|api-gateway-versioning — L307] (line 307, col 0, score 1)
+- [board-automation-improvements#^ref-ac60a1d6-82-0|Board Automation Improvements — L82] (line 82, col 0, score 1)
+- [docs/unique/aionian-circuit-math#^ref-f2d83a77-240-0|aionian-circuit-math — L240] (line 240, col 0, score 1)
+- [docs/unique/aionian-circuit-math#^ref-f2d83a77-241-0|aionian-circuit-math — L241] (line 241, col 0, score 1)
+- [api-gateway-versioning#^ref-0580dcd3-308-0|api-gateway-versioning — L308] (line 308, col 0, score 1)
+- [board-automation-improvements#^ref-ac60a1d6-56-0|Board Automation Improvements — L56] (line 56, col 0, score 1)
+- [docs/unique/aionian-circuit-math#^ref-f2d83a77-270-0|aionian-circuit-math — L270] (line 270, col 0, score 1)
+- [api-gateway-versioning#^ref-0580dcd3-330-0|api-gateway-versioning — L330] (line 330, col 0, score 1)
+- Canonical Org-Babel Matplotlib Animation Template — L2285$canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-2285-0 (line 2285, col 0, score 1)
+- [ducks-attractor-states#^ref-13951643-1881-0|Duck's Attractor States — L1881] (line 1881, col 0, score 1)
+- [docs/unique/eidolon-field-math-foundations#^ref-008f2ac0-3570-0|eidolon-field-math-foundations — L3570] (line 3570, col 0, score 1)
+- [promethean-chat-activity-report#^ref-18344cf9-1918-0|Promethean Chat Activity Report — L1918] (line 1918, col 0, score 1)
+- [promethean-dev-workflow-update#^ref-03a5578f-3412-0|Promethean Dev Workflow Update — L3412] (line 3412, col 0, score 1)
+- [promethean-documentation-update.txt#^ref-0b872af2-1621-0|Promethean Documentation Update — L1621] (line 1621, col 0, score 1)
+- [promethean-notes#^ref-1c4046b5-1817-0|Promethean Notes — L1817] (line 1817, col 0, score 1)
+- [the-jar-of-echoes#^ref-18138627-2012-0|The Jar of Echoes — L2012] (line 2012, col 0, score 1)
+- [creative-moments#^ref-10d98225-1553-0|Creative Moments — L1553] (line 1553, col 0, score 1)
+- [ducks-attractor-states#^ref-13951643-3791-0|Duck's Attractor States — L3791] (line 3791, col 0, score 1)
+- [promethean-chat-activity-report#^ref-18344cf9-1624-0|Promethean Chat Activity Report — L1624] (line 1624, col 0, score 1)
+- [promethean-dev-workflow-update#^ref-03a5578f-4979-0|Promethean Dev Workflow Update — L4979] (line 4979, col 0, score 1)
+- [promethean-documentation-update.txt#^ref-0b872af2-1328-0|Promethean Documentation Update — L1328] (line 1328, col 0, score 1)
+- [promethean-notes#^ref-1c4046b5-1523-0|Promethean Notes — L1523] (line 1523, col 0, score 1)
+- [promethean-dev-workflow-update#^ref-03a5578f-4404-0|Promethean Dev Workflow Update — L4404] (line 4404, col 0, score 1)
+- [promethean-documentation-update.txt#^ref-0b872af2-1200-0|Promethean Documentation Update — L1200] (line 1200, col 0, score 1)
+- [promethean-notes#^ref-1c4046b5-1384-0|Promethean Notes — L1384] (line 1384, col 0, score 1)
+- [the-jar-of-echoes#^ref-18138627-3691-0|The Jar of Echoes — L3691] (line 3691, col 0, score 1)
+- [board-automation-improvements#^ref-ac60a1d6-83-0|Board Automation Improvements — L83] (line 83, col 0, score 1)
+- [creative-moments#^ref-10d98225-1417-0|Creative Moments — L1417] (line 1417, col 0, score 1)
+- [ducks-attractor-states#^ref-13951643-2992-0|Duck's Attractor States — L2992] (line 2992, col 0, score 1)
+- [promethean-chat-activity-report#^ref-18344cf9-1500-0|Promethean Chat Activity Report — L1500] (line 1500, col 0, score 1)
+- [promethean-dev-workflow-update#^ref-03a5578f-4405-0|Promethean Dev Workflow Update — L4405] (line 4405, col 0, score 1)
+- [promethean-documentation-update.txt#^ref-0b872af2-1201-0|Promethean Documentation Update — L1201] (line 1201, col 0, score 1)
+- [promethean-notes#^ref-1c4046b5-1385-0|Promethean Notes — L1385] (line 1385, col 0, score 1)
+- [the-jar-of-echoes#^ref-18138627-3692-0|The Jar of Echoes — L3692] (line 3692, col 0, score 1)
+- [docs/unique/aionian-circuit-math#^ref-f2d83a77-289-0|aionian-circuit-math — L289] (line 289, col 0, score 1)
+- [docs/unique/aionian-circuit-math#^ref-f2d83a77-278-0|aionian-circuit-math — L278] (line 278, col 0, score 1)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

@@ -26,7 +26,7 @@ The first five suites completed in under two minutes. The SmartGPT Bridge suite 
   followed roughly 20 s later by `indexer drain complete`. This mirrors the AVA behaviour: the queue does eventually drain, but not within the 5 s budget enforced by `waitIdle`.
 
 ## Root Cause
-`waitIdle` treats anything longer than 5 s as a failure, but `indexerManager.resetAndBootstrap` performs multiple synchronous LevelDB writes via `saveBootstrapState` $`packages/smartgpt-bridge/src/indexerState.ts`$. Those writes block long enough that each file takes several seconds to finish when the Level cache lives under `packages/smartgpt-bridge/.cache/smartgpt-bridge`. The async queue keeps running after the assertion fires, so AVA never reaches teardown and the process has to be killed by the external timeout.
+`waitIdle` treats anything longer than 5 s as a failure, but `indexerManager.resetAndBootstrap` performs multiple synchronous LevelDB writes via `saveBootstrapState` `packages/smartgpt-bridge/src/indexerState.ts`. Those writes block long enough that each file takes several seconds to finish when the Level cache lives under `packages/smartgpt-bridge/.cache/smartgpt-bridge`. The async queue keeps running after the assertion fires, so AVA never reaches teardown and the process has to be killed by the external timeout.
 
 ## Mitigation Ideas
 1. Increase the guard in `waitIdle` (e.g. 30 s) or poll `indexerManager.status()` until `processedFiles` reaches the expected count.

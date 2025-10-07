@@ -1,15 +1,15 @@
 ---
-$$
+```
 uuid: 28a294e9-3621-4da3-926f-a2e31a0e0235
-$$
-$$
+```
+```
 created_at: '2025-10-06T15:01:39Z'
-$$
+```
 title: 2025.10.06.15.01.39
 filename: prioritize
-$$
+```
 description: >-
-$$
+```
   Type definitions and filtering for task prioritization with Bradley-Terry
   model and weighted sampling
 tags:
@@ -19,15 +19,15 @@ tags:
   - weighted-sampling
   - filter-dsl
   - kanban
-$$
+```
 related_to_uuid: []
-$$
-$$
+```
+```
 related_to_title: []
-$$
+```
 references: []
 ---
-# Type definitions $drop-in$
+# Type definitions drop-in
 
 ```ts
 // packages/kanban/src/lib/prioritize/types.ts
@@ -88,7 +88,7 @@ export function weightedReservoir(
 
 ---
 
-# Bradley–Terry/Elo $pair model + uncertainty$
+# Bradley–Terry/Elo pair model + uncertainty
 
 ```ts
 // packages/kanban/src/lib/prioritize/pair_model.ts

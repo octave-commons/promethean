@@ -1,21 +1,21 @@
 ---
-$$
+```
 uuid: 9b3f1c89-9a76-4f18-92a4-38275b1bc1f0
-$$
+```
 title: Setup MCP server for pnpm workspace management
-$$
+```
 status: in_progress
-$$
+```
 priority: P2
 labels:
   - #framework-core
-$$
+```
 created_at: '2025-03-09T00:00:00.000Z'
-$$
+```
 ---
-$$
+```
 #In-Progress
-$$
+```
 ## 🛠️ Description
 
 - Provide an MCP server that can install, add, and remove pnpm dependencies at the workspace root or scoped to a package filter, plus expose pnpm script execution.

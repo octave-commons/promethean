@@ -1,16 +1,16 @@
-$$
+```
 <!-- SYMPKG:PKG:BEGIN -->
-$$
+```
 # @promethean/simtasks
-$$
+```
 **Folder:** `packages/simtask`
-$$
-$$
+```
+```
 **Version:** `0.1.0`
-$$
-$$
+```
+```
 **Domain:** `_root`
-$$
+```
 ```mermaid
 graph LR
   A["@promethean/simtasks"]
@@ -25,11 +25,11 @@ graph LR
   click D3 "../utils/README.md" "@promethean/utils"
 ```
 ## Dependencies
-- $@promethean/file-indexer$$../file-indexer/README.md$
-- $@promethean/level-cache$$../level-cache/README.md$
-- $@promethean/utils$$../utils/README.md$
+- @promethean/file-indexer$../file-indexer/README.md
+- @promethean/level-cache$../level-cache/README.md
+- @promethean/utils$../utils/README.md
 ## Dependents
 - _None_
-$$
+```
 <!-- SYMPKG:PKG:END -->
-$$
+```

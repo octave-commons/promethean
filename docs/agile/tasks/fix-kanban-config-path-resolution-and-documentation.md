@@ -1,7 +1,7 @@
 ---
-$$
+```
 uuid: a7b8c9d0-e1f2-4a5b-9c8d-0e1f2a3b4c5d
-$$
+```
 title: Fix kanban config path resolution and document usage for agents
 status: todo
 priority: P2
@@ -11,9 +11,9 @@ labels:
   - agents
   - cli
   - config
-$$
+```
 created_at: '2025-10-05T00:00:00.000Z'
-$$
+```
 ---
 
 ## 🛠️ Task: Fix kanban config path resolution and document usage for agents
@@ -74,9 +74,9 @@ The kanban CLI has a path resolution bug where when called from subdirectories, 
 
 ### Phase 3: Agent Guidelines
 1. **Document best practices** for agent kanban usage
-$$
+```
 2. **Provide common workflow examples**
-$$
+```
 3. **Explain when navigation is needed vs when it's not**
 4. **Add troubleshooting guidance** for common agent issues
 

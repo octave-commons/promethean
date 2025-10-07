@@ -1,15 +1,15 @@
 ---
-$$
+```
 uuid: be150c5c-e95b-4784-a42d-dfc61169ce79
-$$
-$$
+```
+```
 created_at: '2025-09-20T16:13:53Z'
-$$
+```
 title: 2025.09.20.16.13.53
 filename: mcp-server-http-transport-fix
-$$
+```
 description: >-
-$$
+```
   Fixes GitHub connector's JSON body handling for PUT /contents by implementing
   a robust HTTP transport that wires the MCP server to a public API. The patch
   provides a clean, testable solution for HTTP communication with the MCP
@@ -23,12 +23,12 @@ tags:
   - patch
   - sdk
   - tool
-$$
+```
 related_to_uuid: []
-$$
-$$
+```
+```
 related_to_title: []
-$$
+```
 references: []
 ---
 Got it—using `feat/mcp-suite`, and I’m prioritizing the HTTP transport.
@@ -101,7 +101,7 @@ export const createMcpServer = (tools: readonly Tool[]): McpServer & PublicApi =
     getTools: () => [...desc],
     invokeTool: async (name, args) => {
       const run = invokeMap.get(name);
-      if (!run) throw new Error(`Unknown tool: ${name}`);
+      if (!run) throw new Error(`Unknown tool: {name}`);
       return run(args);
     },
   };
@@ -175,7 +175,7 @@ export const fastifyTransport = (opts?: {
       });
 
       await app.listen({ host, port });
-      app.log.info(`[http] listening on http://${host}:${port}`);
+      app.log.info(`[http] listening on http://{host}:{port}`);
     },
     stop: async () => {
       await app.close();
@@ -211,9 +211,9 @@ HOST=127.0.0.1
 ```
 
 ## 5) Sanity-check (local)
-$$
+```
 Run from `packages/mcp`:
-$$
+```
 ```bash
 pnpm build && node dist/index.js
 ```
@@ -231,13 +231,13 @@ curl -s -X POST http://127.0.0.1:3030/mcp/tools/github.rate-limit -H 'content-ty
 # -> should return whatever your tool returns (raw object)
 ```
 
-If a tool returns a plain object/string, the HTTP route returns it raw. If it returns SDK Content\[], it’ll still go through because the `invokeTool` returns exactly what the tool returns; your HTTP client can decide how to render it. $The stdio path still returns SDK-shaped content because that’s how the SDK’s stdio adapter expects it.$
+If a tool returns a plain object/string, the HTTP route returns it raw. If it returns SDK Content\[], it’ll still go through because the `invokeTool` returns exactly what the tool returns; your HTTP client can decide how to render it. The stdio path still returns SDK-shaped content because that’s how the SDK’s stdio adapter expects it.
 
 ---
 
 # Why this is the minimal, correct fix
 
-* We didn’t re-architect your server; we **exposed a tiny API** $`getTools`/`invokeTool`$ when the server registers tools. That solves the “HTTP not hooked up to the adapter” problem directly.
+* We didn’t re-architect your server; we **exposed a tiny API** `getTools`/`invokeTool` when the server registers tools. That solves the “HTTP not hooked up to the adapter” problem directly.
 * Fastify transport is now a **thin translation layer**: HTTP → call `server.invokeTool` → JSON. No accidental state, no mutation.
 * It matches the tone of your repo: native ESM, functional composition, and you can keep expanding the tool catalog without touching the transport again.
 
@@ -250,7 +250,7 @@ I tried to commit this into **`feat/mcp-suite`** via the connector, but it still
 If you want me to push the patch immediately:
 
 * You can apply these two file replacements locally and push to `feat/mcp-suite`.
-* Or fix the connector’s body forwarding $ensure it sets `Content-Type: application/json` and forwards the exact JSON payload$, and I’ll push and open the PR the moment it accepts a proper `PUT /contents` body.
+* Or fix the connector’s body forwarding ensure it sets `Content-Type: application/json` and forwards the exact JSON payload, and I’ll push and open the PR the moment it accepts a proper `PUT /contents` body.
 
 Your call. Either way, the above files will get the **HTTP transport working** so we can proceed to provider consolidation next.
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->

@@ -1,24 +1,24 @@
 ---
-$$
+```
 uuid: ce8a026c-7d8c-41fe-9f48-e1b6a36e5dc0
-$$
+```
 title: design vision pipeline mvp
 status: todo
 priority: P3
 labels: []
-$$
+```
 created_at: '2025-09-15T02:02:58.511Z'
-$$
+```
 ---
-$$
+```
 <hr class="__chatgpt_plugin">
-$$
+```
 ### role::assistant<span style="font-size: small;"> (llama3.2:latest)</span>
 
 ---
-$$
+```
 promptId: smart_task_templater_md
-$$
+```
 name: "{{title}}"
 description: A task on the kanban of the promethean system.
 author: Aaron Beavers
@@ -35,28 +35,28 @@ mode: replace
 streaming: "true"
 model: ollama@llama3.2:latest
 prompt: "{{title}}"
-$$
+```
 task-id: TASK-{{date}}
-$$
+```
 priority: p3
-$$
+```
 system_commands: ['You are a helpful assistant.']
-$$
-$$
+```
+```
 frequency_penalty: 0
-$$
-$$
+```
+```
 max_tokens: 400
-$$
-$$
+```
+```
 presence_penalty: 0
-$$
+```
 stream: true
 temperature: 0.7
 ---
-$$
+```
 <hr class="__chatgpt_plugin">
-$$
+```
 <span style="font-size: small;"> (llama3.2:latest)</span>
 ### role::assistant
 
@@ -77,7 +77,7 @@ Here's a suggested revision of your context section:
 - [ ] PR merged: ([link to the PR] with a brief summary of changes)
 
 ## Plan
-1. … $Outline the high-level steps for completing this task, including any dependencies or resources required$
+1. … Outline the high-level steps for completing this task, including any dependencies or resources required
 2. …
 
 ## Relevant Resources
@@ -101,9 +101,9 @@ You might find [this](link) useful while working on this task.
 ### Smart ChatGPT Configuration
 ```smart-chatgpt
 ```
-$$
+```
 <hr class="__chatgpt_plugin">
-$$
+```
 
 ### role::user
 
@@ -113,13 +113,13 @@ $$
 ### role::user
 
 Using this title write a reasonable task kanban task document:
-$$
+```
 design-vision-pipeline-mvp
-$$
+```
 true
-$$
+```
 <hr class="__chatgpt_plugin">
-$$
+```
 ### role::user
 
 

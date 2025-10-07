@@ -105,7 +105,7 @@ import { EventBus, EventRecord, EventStore, CursorStore, PublishOptions, CursorP
 const now = () => Date.now();
 // NOTE: use a proper uuidv7 lib in prod. Placeholder monotonic-ish ULID-like id:
 let _ctr = 0;
-const uuidv7 = (): UUID => `${Date.now().toString(16)}-${(_ctr++).toString(16).padStart(6,"0")}-${Math.random().toString(16).slice(2,10)}`;
+const uuidv7 = (): UUID => `{Date.now().toString(16)}-{(_ctr++).toString(16).padStart(6,"0")}-{Math.random().toString(16).slice(2,10)}`;
 
 export class InMemoryEventStore implements EventStore {
   private byTopic = new Map<string, EventRecord[]>();
@@ -131,7 +131,7 @@ export class InMemoryEventStore implements EventStore {
 
 export class InMemoryCursorStore implements CursorStore {
   private map = new Map<string, CursorPosition>();
-  key(t: string, g: string) { return `${t}::${g}`; }
+  key(t: string, g: string) { return `{t}::{g}`; }
   async get(topic: string, group: string) { return this.map.get(this.key(topic, group)) ?? null; }
   async set(topic: string, group: string, cursor: CursorPosition) { this.map.set(this.key(topic, group), cursor); }
 }
@@ -309,17 +309,17 @@ export class MongoEventStore implements EventStore {
   }
   async scan(topic: string, params: { afterId?: UUID; ts?: number; limit?: number }): Promise<EventRecord[]> {
     const q: any = { topic };
-    if (params.afterId) q.id = { $gt: params.afterId };
-    if (params.ts) q.ts = { $gte: params.ts };
+    if (params.afterId) q.id = { gt: params.afterId };
+    if (params.ts) q.ts = { gte: params.ts };
     const cur = this.coll.find(q).sort({ ts: 1, id: 1 }).limit(params.limit ?? 1000);
     return cur.toArray();
   }
   async latestByKey(topic: string, keys: string[]) {
     const out: Record<string, EventRecord | undefined> = {};
     const cur = this.coll.aggregate([
-      { $match: { topic, key: { $in: keys } } },
-      { $sort: { key: 1, ts: -1, id: -1 } },
-      { $group: { _id: "$key", doc: { $first: "$$ROOT" } } },
+      { match: { topic, key: { in: keys } } },
+      { sort: { key: 1, ts: -1, id: -1 } },
+      { group: { _id: "key", doc: { first: "$ROOT" } } },
     ]);
     for await (const { _id, doc } of cur) out[_id] = doc;
     return out;
@@ -332,7 +332,7 @@ export class MongoCursorStore implements CursorStore {
     this.coll = db.collection(collectionName);
     this.coll.createIndex({ _id: 1 }, { unique: true }).catch(() => {});
   }
-  key(t: string, g: string) { return `${t}::${g}`; }
+  key(t: string, g: string) { return `{t}::{g}`; }
   async get(topic: string, group: string) {
     const doc = await this.coll.findOne({ _id: this.key(topic, group) });
     if (!doc) return null;
@@ -342,7 +342,7 @@ export class MongoCursorStore implements CursorStore {
   async set(topic: string, group: string, cursor: CursorPosition) {
     await this.coll.updateOne(
       { _id: this.key(topic, group) },
-      { $set: cursor },
+      { set: cursor },
       { upsert: true }
     );
   }
@@ -378,7 +378,7 @@ export const Topics = {
 } as const;
 ```
 
-## 6) Outbox pattern $service-local durability$
+## 6) Outbox pattern service-local durability
 
 Pattern for services that must not lose messages:
 
@@ -460,7 +460,7 @@ sequenceDiagram
 import type { Config } from "jest";
 const config: Config = {
   testEnvironment: "node",
-  transform: { "^.+\\.tsx?$": ["ts-jest", { tsconfig: true }] },
+  transform: { "^.+\\.tsx?": ["ts-jest", { tsconfig: true }] },
   testMatch: ["**/?(*.)+(spec|test).ts"],
   moduleFileExtensions: ["ts","js","json"],
   verbose: true
@@ -531,9 +531,9 @@ test("nack leaves cursor; event is retried", async () => {
 
 If you want, next dump I can add:
 
-- **WS gateway** $pub/sub over WebSocket with auth$,
+- **WS gateway** pub/sub over WebSocket with auth,
     
-- **Backpressure & leases** $ack deadline + redelivery$,
+- **Backpressure & leases** ack deadline + redelivery,
     
 - **Compactor** job + snapshot topic,
     

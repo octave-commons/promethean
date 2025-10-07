@@ -1,15 +1,15 @@
 ---
-$$
+```
 uuid: 6caeba23-261e-45b3-92f3-f3f65c321b27
-$$
-$$
+```
+```
 created_at: '2025-09-19T18:03:15Z'
-$$
+```
 title: 2025.09.19.18.03.15
 filename: Kanban Workflow Guide
-$$
+```
 description: >-
-$$
+```
   This guide outlines the strict process for maintaining a Kanban board as the
   source of truth in software development. It emphasizes task accuracy,
   estimation protocols, and workflow adherence to ensure codebase integrity.
@@ -17,12 +17,12 @@ tags:
   - Kanban
   - software engineering
   - task management
-$$
+```
 related_to_uuid: []
-$$
-$$
+```
+```
 related_to_title: []
-$$
+```
 references: []
 ---
 # Work Flow
@@ -43,13 +43,13 @@ Your first and most important job is to **maintain the state of the board**.
 
 ## 1. Read Project Guidance
 
-- Read repo guidance from `docs/agents/<agent>.md` $default: `codex-cloud.md`$.
+- Read repo guidance from `docs/agents/<agent>.md` default: `codex-cloud.md`.
 - Use build artifacts under `docs/reports/codex_cloud/latest/`.
   - `INDEX.md`, `summary.tsv`, `eslint.json` help assess current codebase status.
 
 ## 2. Check the [[kanban]] Board
 
-- Open the Kanban board file $auto-generated from `docs/agile/tasks/`$.
+- Open the Kanban board file auto-generated from `docs/agile/tasks/`.
 - Look for cards/tasks related to the current request:
   - If no card exists or the card is a stub:
     - Create a **task document** in `docs/agile/tasks/`.
@@ -70,7 +70,7 @@ If a relevant task is found:
 If the task is `blocked`:
 
 - Investigate reason for block.
-- Check if it lacks a proper label $`ready`, `todo`, `in-progress`, `in-review`$.
+- Check if it lacks a proper label `ready`, `todo`, `in-progress`, `in-review`.
 - If **no longer blocked**:
   - Label as `in-progress` if you're starting now.
   - Label as `ready` if you're not picking it up yet.
@@ -95,9 +95,9 @@ Estimate each task with:
 - **Complexity** – How difficult is it technically?
 - **Scale** – How large is the code change/diff?
 - **Time** – Realistic time to complete in one working session?
-$$
+```
 Then, assign a **Fibonacci score**:
-$$
+```
 - **1–3**: Very quick, almost trivial tasks.
 - **5**: Reasonable task for a single session.
 - **8**: Possibly doable in one session, with nothing else.

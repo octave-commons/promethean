@@ -1,15 +1,15 @@
 ---
-$$
+```
 uuid: 314037c6-0641-47da-b971-6696fb65f7dc
-$$
-$$
+```
+```
 created_at: '2025-09-19T13:11:23Z'
-$$
+```
 title: 2025.09.19.13.11.23
 filename: Promethean Philosophy
-$$
+```
 description: >-
-$$
+```
   Promethean emphasizes a balance between automated processes and human
   oversight in system design. It advocates for continuous iteration while
   ensuring critical decisions remain manually described to maintain system
@@ -18,12 +18,12 @@ tags:
   - knowledge repository
   - document-oriented programming
   - human-robot balance
-$$
+```
 related_to_uuid: []
-$$
-$$
+```
+```
 related_to_title: []
-$$
+```
 references: []
 ---
 Remember to just keep typing. You can always change it. The robots can fix it.

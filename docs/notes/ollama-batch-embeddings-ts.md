@@ -1,15 +1,15 @@
 ---
-$$
+```
 uuid: fb95ff4c-29ce-4574-ab6f-b6ed5d962363
-$$
-$$
+```
+```
 created_at: '2025-09-03T22:40:00Z'
-$$
+```
 filename: ollama-batch-embeddings-ts
 title: ollama-batch-embeddings-ts
-$$
+```
 description: >-
-$$
+```
   A TypeScript implementation for batch embedding using Ollama with concurrency
   control, retry logic, and server configuration best practices.
 tags:
@@ -19,12 +19,12 @@ tags:
   - concurrency
   - retry
   - batch-processing
-$$
+```
 related_to_uuid: []
-$$
-$$
+```
+```
 related_to_title: []
-$$
+```
 references: []
 ---
 Got it — you want **batch embeddings** with Ollama, in JS/TS, done right (fast, safe, and predictable).
@@ -34,7 +34,7 @@ Here’s a lean, FP-style pattern that:
 * uses the official `ollama` JS client’s **`embeddings({ model, input })`** (accepts `string | string[]`)
 * limits concurrency with `p-limit`
 * retries with backoff for flaky calls
-* plays nice with Ollama’s own parallel workers $`OLLAMA_NUM_PARALLEL`$
+* plays nice with Ollama’s own parallel workers `OLLAMA_NUM_PARALLEL`
 
 Citations are underneath each point.
 
@@ -42,7 +42,7 @@ Citations are underneath each point.
 
 ### 0) Pick an embedding model
 
-Use a dedicated embedder $e.g. `nomic-embed-text`, `mxbai-embed-large`, etc.$. These expose `/api/embeddings` and are for vectors only. ([Ollama][1])
+Use a dedicated embedder e.g. `nomic-embed-text`, `mxbai-embed-large`, etc.. These expose `/api/embeddings` and are for vectors only. ([Ollama][1])
 
 ---
 
@@ -58,7 +58,7 @@ export OLLAMA_MAX_QUEUE=1024
 ollama serve
 ```
 
-* `OLLAMA_NUM_PARALLEL` = parallel model requests $default **1**$.
+* `OLLAMA_NUM_PARALLEL` = parallel model requests default **1**.
 * `OLLAMA_MAX_QUEUE` = queued requests waiting for workers.
   Values are documented in the code/env docs and issue threads. Tune to your GPU/CPU. ([Go Packages][2], [GitHub][3], [HOSTKEY — premium web services provider][4])
 
@@ -129,9 +129,9 @@ export const makeOllamaEmbedder = ({
   };
 };
 ```
-$$
+```
 Why this works: ^ref-628976ac-104-0
-$$
+```
 * `ollama.embeddings({ model, input: string[] })` is supported and returns `number[][]`. ([GitHub][5])
 * `p-limit` is the simplest, reliable concurrency gate. ([npm][6], [Stack Overflow][7])
 * `keep_alive` keeps the model hot between calls for speed. (Exposed as an option in several client integrations and respected by the server.) ([lancedb.github.io][8])

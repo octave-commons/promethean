@@ -1,24 +1,24 @@
 ---
-$$
+```
 uuid: 8542a56c-b037-4a71-90e8-8bd0a0c8b49f
-$$
+```
 title: Maintain Testing vs Working Databases w/ Migration Contract
 status: todo
 priority: P3
 labels: []
-$$
+```
 created_at: '2025-09-15T02:02:58.520Z'
-$$
+```
 ---
-Here’s a repo-ready task you can paste into the board. It carves a bright line between **testing** and **working** $dev/staging/prod$ databases and enforces a **migration contract** that every migration must satisfy before touching working data.
+Here’s a repo-ready task you can paste into the board. It carves a bright line between **testing** and **working** dev/staging/prod databases and enforces a **migration contract** that every migration must satisfy before touching working data.
 
 # Maintain Testing vs Working Databases w/ Migration Contract
-$$
+```
 **Owner:** Codex / Agent
-$$
-$$
+```
+```
 **Status:** Planned
-$$
+```
 **Labels:** #data #migrations #contracts #mongodb #chroma #testing #ci #promethean
 
 ---
@@ -32,7 +32,7 @@ Set up clean, isolated **testing databases** for MongoDB and Chroma that can be 
 ## 🎯 Goals
 
 * Deterministic, ephemeral **test DBs** for migration authoring and verification.
-* A **migration contract** $schema + indexes + invariants + collection/embedding metadata$ that is validated **pre** and **post** migration.
+* A **migration contract** schema + indexes + invariants + collection/embedding metadata that is validated **pre** and **post** migration.
 * Guardrails so working DBs cannot be mutated from test paths (and vice versa).
 * CI path that spins Mongo+Chroma locally, runs migrations, validates, and publishes a report.
 
@@ -41,7 +41,7 @@ Set up clean, isolated **testing databases** for MongoDB and Chroma that can be 
 ## 📦 Requirements (DoD — if missing, reject PR)
 
 * [ ] Distinct **URIs and names** for testing vs working DBs. No shared prefixes.
-* [ ] **Contract file(s)** committed $JSON/YAML$ for Mongo (collections, indexes, required fields) and Chroma $collections, embedding dim/model, metadata$.
+* [ ] **Contract file(s)** committed JSON/YAML for Mongo (collections, indexes, required fields) and Chroma collections, embedding dim/model, metadata.
 * [ ] **Preflight contract check** blocks migrations when actual ≠ declared.
 * [ ] **Safety interlocks:** migrations require an explicit `MIGRATION_TARGET=test|working`, refuse on mismatch, and require a second confirm var for working.
 * [ ] **Spin-up/tear-down** scripts for ephemeral test DBs, including seed + snapshots.
@@ -65,9 +65,9 @@ Set up clean, isolated **testing databases** for MongoDB and Chroma that can be 
 
   # Testing (ephemeral)
   MONGO_URI_TEST= mongodb://localhost:37017
-  MONGO_DB_TEST= prom_test_${RUN_ID}
+  MONGO_DB_TEST= prom_test_{RUN_ID}
   CHROMA_URL_TEST= http://localhost:38000
-  CHROMA_PREFIX_TEST= prom_test_${RUN_ID}_
+  CHROMA_PREFIX_TEST= prom_test_{RUN_ID}_
   MIGRATION_TARGET= test|working
   MIGRATION_CONFIRM= I_ACKNOWLEDGE_WORKING_MUTATION
   ```
@@ -91,16 +91,16 @@ Set up clean, isolated **testing databases** for MongoDB and Chroma that can be 
 
   * `validateMongoContract(db): Promise<Report>`
   * `validateChromaContract(client): Promise<Report>`
-  * Emits actionable diffs $missing index, wrong dim, missing collection$.
+  * Emits actionable diffs missing index, wrong dim, missing collection.
 
-### 3) Test DB Lifecycle $spin/seed/teardown$
+### 3) Test DB Lifecycle spin/seed/teardown
 
 * [ ] Docker/Testcontainers helper under `scripts/db/`:
 
   * `db-test-up`: start Mongo (@ 37017) + Chroma (@ 38000) locally (compose or Testcontainers).
   * `db-test-down`: stop and prune.
-  * `db-test-seed`: load minimal seed fixtures $`fixtures/*.json`$ to Mongo; create empty Chroma collections with correct dim/model.
-  * All commands must respect `RUN_ID=$$date +%s$` to isolate parallel runs.
+  * `db-test-seed`: load minimal seed fixtures `fixtures/*.json` to Mongo; create empty Chroma collections with correct dim/model.
+  * All commands must respect `RUN_ID=$date +%s` to isolate parallel runs.
 * [ ] Seed data factories in TS: `shared/ts/src/migrations/fixtures.ts` for testable content.
 
 ### 4) Migration Runner + Contract Gates
@@ -111,7 +111,7 @@ Set up clean, isolated **testing databases** for MongoDB and Chroma that can be 
   * **Preflight:** load target, run `validateMongoContract` & `validateChromaContract` **before** migration; **fail on diff** unless `--allow-contract-drift` explicitly provided (only for working with approval).
   * Execute migration scripts from `services/ts/migrations/steps/*.ts` (versioned, idempotent).
   * **Post-flight:** rerun validators; write JSON+MD report under `docs/data/reports/`.
-* [ ] Keep applied versions in per-DB collection `migrations_applied` $contains `env`, `version`, `git_sha`, `run_id`, timestamps$.
+* [ ] Keep applied versions in per-DB collection `migrations_applied` contains `env`, `version`, `git_sha`, `run_id`, timestamps.
 
 ### 5) CI Integration
 
@@ -120,7 +120,7 @@ Set up clean, isolated **testing databases** for MongoDB and Chroma that can be 
   1. `db-test-up` → `db-test-seed`
   2. `node services/ts/migrations/run.js --target test --up latest`
   3. `node services/ts/migrations/run.js --target test --verify-only`
-  4. Upload report artifacts $`*.json`, `*.md`$.
+  4. Upload report artifacts `*.json`, `*.md`.
 * [ ] CI must **fail** on any contract deviation or validator failure.
 
 ### 6) Docs & Runbooks
@@ -179,7 +179,7 @@ Set up clean, isolated **testing databases** for MongoDB and Chroma that can be 
 
 ```bash
 # Local: spin ephemeral test DBs
-RUN_ID=$(date +%s) ./scripts/db/db-test-up.sh && ./scripts/db/db-test-seed.sh
+RUN_ID=(date +%s) ./scripts/db/db-test-up.sh && ./scripts/db/db-test-seed.sh
 
 # Run all pending migrations against test target, with contract verification
 MIGRATION_TARGET=test node services/ts/migrations/run.js --up latest
@@ -221,6 +221,6 @@ feat(migrations): isolate test DBs and enforce migration contracts
 ## Notes
 - Tests or documentation are missing; acceptance criteria not fully met.
 - Story Points: 8
-$$
+```
 #in-progress
-$$
+```

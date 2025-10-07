@@ -17,9 +17,9 @@ But here's how we do this smart:
 * * *
 
 🧠 Design: Cross-Target Macro System in Sibilant
-$$
+```
 ================================================
-$$
+```
 ✳️ Goal
 -------
 
@@ -69,7 +69,7 @@ Let’s build:
 
 ### 2\. **Conditional Macros**
 
-You can now use `$current-target$` inside macros.
+You can now use `current-target` inside macros.
 
 e.g. `def-async`, `await`, `import`, `print`, etc. can all adapt to language targets.
 
@@ -99,20 +99,20 @@ e.g. `def-async`, `await`, `import`, `print`, etc. can all adapt to language tar
 ```
 
 * * *
-$$
+```
 ✨ Language-Specific Edge Cases
-$$
+```
 ------------------------------
 
 | Concept | JS | Python | DSL Strategy |
-$$
+```
 | --- | --- | --- | --- |
-$$
+```
 | async | async function | async def | Use target switch |
 | await | inside any async fn | inside async def | Same syntax, different runtime requirement |
 | import | import ... from ... | import ... | Provide macro aliases |
 | return | implicit or return | always return needed | Same |
-| default args | function$x=5$ | def f$x=5$ | Same |
+| default args | functionx=5 | def fx=5 | Same |
 
 * * *
 
@@ -162,7 +162,7 @@ You can define target-prefixed macros:
 (macro py:def-async ...)
 ```
 
-Then dispatch based on `$current-target$`:
+Then dispatch based on `current-target`:
 
 ```sibilant
 (macro def-async (name args ...body)

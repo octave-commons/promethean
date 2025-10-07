@@ -1,16 +1,16 @@
-$$
+```
 <!-- SYMPKG:PKG:BEGIN -->
-$$
+```
 # @promethean/kanban-processor
-$$
+```
 **Folder:** `packages/kanban-processor`
-$$
-$$
+```
+```
 **Version:** `0.1.0`
-$$
-$$
+```
+```
 **Domain:** `_root`
-$$
+```
 ```mermaid
 graph LR
   A["@promethean/kanban-processor"]
@@ -34,14 +34,14 @@ graph LR
   click D6 "../pm2-helpers/README.md" "@promethean/pm2-helpers"
 ```
 ## Dependencies
-- $@promethean/ds$$../ds/README.md$
-- $@promethean/fs$$../fs/README.md$
-- $@promethean/legacy$$../legacy/README.md$
-- $@promethean/markdown$$../markdown/README.md$
-- $@promethean/persistence$$../persistence/README.md$
-- $@promethean/pm2-helpers$$../pm2-helpers/README.md$
+- @promethean/ds$../ds/README.md
+- @promethean/fs$../fs/README.md
+- @promethean/legacy$../legacy/README.md
+- @promethean/markdown$../markdown/README.md
+- @promethean/persistence$../persistence/README.md
+- @promethean/pm2-helpers$../pm2-helpers/README.md
 ## Dependents
 - _None_
-$$
+```
 <!-- SYMPKG:PKG:END -->
-$$
+```

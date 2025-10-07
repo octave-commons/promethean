@@ -30,9 +30,9 @@ You can use AHK to:
 Let’s wire up a key like `Alt + 1` to cycle through the `"code"` group in our custom group manager.
 
 * * *
-$$
+```
 📜 `group-manager.ahk`
-$$
+```
 ----------------------
 
 ```ahk
@@ -57,9 +57,9 @@ If you compile your group manager to a single `.exe` using `pkg` or `nexe`, this
 ```
 
 * * *
-$$
+```
 🧱 Example: i3-style Navigation Keybinds
-$$
+```
 ----------------------------------------
 
 ```ahk
@@ -103,7 +103,7 @@ Here’s the full loop:
 [Windows layout updates]
 ```
 
-So the **real window tree** is flat (because Windows is dumb), but your logic layer $group manager + AHK$ can _simulate_ i3's behavior.
+So the **real window tree** is flat (because Windows is dumb), but your logic layer group manager + AHK can _simulate_ i3's behavior.
 
 * * *
 
@@ -124,7 +124,7 @@ So the **real window tree** is flat (because Windows is dumb), but your logic la
 
 Let me know and we can:
 
-*   Add a hotkey for assigning windows to a group $`mod+g`$
+*   Add a hotkey for assigning windows to a group `mod+g`
     
 *   Use `WinGet` to pull window IDs on the fly
     

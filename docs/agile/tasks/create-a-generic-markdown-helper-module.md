@@ -1,21 +1,21 @@
 ---
-$$
+```
 uuid: e6b0e9e7-5967-4b97-bded-0ac50646bb29
-$$
+```
 title: create a generic markdown helper module
 status: todo
 priority: P5
 labels: []
-$$
+```
 created_at: 2025-09-15T02:02:58.510Z
-$$
+```
 tags:
 complexity: 3?
 score: "8"
 scale: "13"
-$$
+```
 time-to-complete: 3-5
-$$
+```
 ---
 ## 🛠️ Create a Generic Markdown Helper Module
 
@@ -64,7 +64,7 @@ Nothing
 https://github.com/riatzukiza/promethean/pull/1122
 https://github.com/riatzukiza/promethean/pull/1123
 https://github.com/riatzukiza/promethean/pull/1125
-$$
+```
 #framework-core #Ready
-$$
+```
 

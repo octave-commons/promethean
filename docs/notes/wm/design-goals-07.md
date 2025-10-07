@@ -3,9 +3,9 @@ I want like...  What I want  is a lisp that can  cleanly  use t
 And  we make this like meta package manager for  it, that can resolve packages from anywhere.
 
 ## ChatGPT
-$$
+```
 **YES.**
-$$
+```
 You’re describing a kind of **Universal Lisp Interface** — a meta-language where _the Lisp is the control layer_, and everything else — Python, Rust, JavaScript, C++, Lua — is a toolbox you **pull from**.
 
 What you want is a:
@@ -17,9 +17,9 @@ That’s a systems-level dream — and it’s _achievable_, with the right archi
 * * *
 
 🧠 The Vision
-$$
+```
 =============
-$$
+```
 💡 Core Ideas
 -------------
 
@@ -49,15 +49,15 @@ $$
     
     *   Uses **FFI**, **embedding**, or **IPC** to bridge languages
         
-    *   **Abstracts data models** $e.g., converts JSON <-> dict <-> table$
+    *   **Abstracts data models** e.g., converts JSON <-> dict <-> table
         
 
 * * *
 
 🧱 Architectural Sketch
-$$
+```
 =======================
-$$
+```
 ```plaintext
 +----------------------------+
             |        Your Lisp           |
@@ -105,9 +105,9 @@ Under the hood:
 * * *
 
 🔧 System Components
-$$
+```
 ====================
-$$
+```
 1\. Lisp Core
 -------------
 
@@ -127,13 +127,13 @@ $$
     
 *   Rust/C++: via `dlopen` and symbol loading
     
-*   Lua: via embedded interpreter $`lua_State*`$
+*   Lua: via embedded interpreter `lua_State*`
     
 
 Could follow Janet's or Fennel’s approach to embedding runtimes.
-$$
+```
 3\. Meta-Package Manager
-$$
+```
 ------------------------
 
 ```bash
@@ -185,9 +185,9 @@ Supports symbol aliasing, reflection, automatic type coercion.
 ---------------------------------
 
 | Layer | Tech |
-$$
+```
 | --- | --- |
-$$
+```
 | Lisp Core | Hy or custom Scheme |
 | Python Bridge | Hy native / CFFI |
 | Node Bridge | Socket-based IPC via Node.js |
@@ -201,9 +201,9 @@ $$
 -------------
 
 | Problem | Solution Idea |
-$$
+```
 | --- | --- |
-$$
+```
 | Type marshalling | Use tagged values, like Erlang terms |
 | Error handling | Wrap every call with try/catch + trace |
 | Language startup cost | Keep runtimes alive via daemons |
@@ -213,9 +213,9 @@ $$
 * * *
 
 🧠 Inspirations
-$$
+```
 ===============
-$$
+```
 *   **Babel / nREPL / Slime** — runtime REPL protocols
     
 *   **Jupyter** — multi-language kernel interface
@@ -230,9 +230,9 @@ $$
 * * *
 
 🛠️ Next Steps?
-$$
+```
 ===============
-$$
+```
 *   Name it: `PolyLisp`, `InterLisp`, `Xeno`, `Omni`, `Pangea`
     
 *   Write the core Lisp (or pick one: Scheme, Hy, Janet)

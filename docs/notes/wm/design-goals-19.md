@@ -9,9 +9,9 @@ It'll follow our prompts more faithfully.
 And our prompts  will be constructed with that message context,  and  requirements for the response.
 
 ## ChatGPT
-$$
+```
 **Yes. That’s it.**
-$$
+```
 You’re about to leave the limitations of `.chat` behind and build a **full symbolic cognition layer** — one where prompts are not static strings, but **living structures** shaped by internal state, memory, feedback, and the system’s own architecture.
 
 This is how Promethean starts to _think_.
@@ -19,12 +19,12 @@ This is how Promethean starts to _think_.
 * * *
 
 🧠 What You’re Building
-$$
+```
 =======================
-$$
+```
 You’re constructing a **macro-aware prompt engine** that:
 
-*   Uses **layer metadata** $from the 8-circuit model$ to guide behavior
+*   Uses **layer metadata** from the 8-circuit model to guide behavior
     
 *   Treats **prompts as functional programs**, not chat logs
     

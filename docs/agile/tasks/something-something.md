@@ -1,18 +1,18 @@
 ---
-$$
+```
 uuid: 02c83b6f-e9b4-4dfb-a4a0-543042aa02b6
-$$
+```
 title: something something
 status: todo
 priority: p3
 labels: []
-$$
+```
 created_at: '2025-09-15T02:02:58.521Z'
-$$
+```
 ---
-$$
+```
 <hr class="__chatgpt_plugin">
-$$
+```
 <span style="font-size: small;"> (llama3.2:latest)</span>
 ### role::assistant
 
@@ -33,7 +33,7 @@ Here's a suggested revision of your context section:
 - [ ] PR merged: ([link to the PR] with a brief summary of changes)
 
 ## Plan
-1. … $Outline the high-level steps for completing this task, including any dependencies or resources required$
+1. … Outline the high-level steps for completing this task, including any dependencies or resources required
 2. …
 
 ## Relevant Resources
@@ -57,24 +57,24 @@ You might find [this](link) useful while working on this task.
 ### Smart ChatGPT Configuration
 ```smart-chatgpt
 ```
-$$
+```
 <hr class="__chatgpt_plugin">
-$$
+```
 ### role::user
 
 Using this title write a reasonable task kanban task document: something-something.
 
  
 
-$$
+```
 <hr class="__chatgpt_plugin">
-$$
+```
 ### role::assistant<span style="font-size: small;"> (llama3.2:latest)</span>
 
 ## Task: Something-Something
-$$
+```
 **Task ID:** SS-001
-$$
+```
 **Description:** Write down all possible uses of ChatGPT in Obsidian Knowledge Base
 
 ### Definition of Done:
@@ -83,15 +83,15 @@ $$
 - [ ] Basic outline of potential benefits and drawbacks for integration
 
 ### Tasks:
-$$
+```
 1. **Brainstorm Potential Use Cases**
-$$
+```
 	* Research how others are using AI in their knowledge management systems
-	* Identify key features to focus on $e.g., question-answering, content suggestion$
+	* Identify key features to focus on e.g., question-answering, content suggestion
 	* Jot down initial thoughts on pros and cons of integration
-$$
+```
 2. **Explore Existing Projects/Notes**
-$$
+```
 	* Search for existing Obsidian notes and projects that use similar AI-powered features
 	* Analyze how these projects are using the functionality
 	* Take note of successes, challenges, and areas for improvement
@@ -105,9 +105,9 @@ $$
 * A list of 10+ potential use cases for integrating ChatGPT with Obsidian knowledge management system
 * A brief report outlining key research findings and initial thoughts on integration strategy
 * An updated outline for the main task document, incorporating insights from existing projects/notes
-$$
+```
 <hr class="__chatgpt_plugin">
-$$
+```
 ### role::user
 
 

@@ -1,7 +1,7 @@
-# Proposed external surface $/v1$...
-Exported on 22/08/2025 at 15:03:49 [from ChatGPT](https://chatgpt.com/g/g-p-6883d8e9569c8191aad0cfd2a5bf3af3/c/68a8b41d-a47c-832a-a37a-b11255baed65$$
+# Proposed external surface /v1...
+Exported on 22/08/2025 at 15:03:49 [from ChatGPT](https://chatgpt.com/g/g-p-6883d8e9569c8191aad0cfd2a5bf3af3/c/68a8b41d-a47c-832a-a37a-b11255baed65```
 ) - with [SaveMyChatbot](
-$$https://save.hugocollin.com)
+```https://save.hugocollin.com)
 
 ## User
 Looks like I am going to have to consolidate my endpoints a bit. 30 is the max alllowed per domain.
@@ -15,7 +15,7 @@ Couple of strategies you could use:
     Instead of `/foo`, `/bar`, `/baz`, you collapse them into `/api/foo`, `/api/bar`, etc. Then you only register one “wildcard” route with your host and handle dispatching inside.
     
 *   **Introduce a router service**  
-    One entrypoint $say `/api/*`$ that forwards requests to internal microservices. Internally, you can have as many endpoints as you want — externally, you’re capped at one. This is basically what an API gateway does.
+    One entrypoint say `/api/*` that forwards requests to internal microservices. Internally, you can have as many endpoints as you want — externally, you’re capped at one. This is basically what an API gateway does.
     
 *   **Path params vs. new routes**  
     If you currently have `GET /users` and `GET /users/:id` as two registered endpoints, collapse into one router endpoint `/users/*` and dispatch based on whether the tail is empty or not.
@@ -26,313 +26,313 @@ Couple of strategies you could use:
 *   **Subdomains** if you really need more than 30 and consolidation isn’t possible, sometimes splitting across subdomains is a workaround (e.g. `auth.promethean.dev`, `ml.promethean.dev`).
     
 
-Do you want me to sketch a consolidation map for your Promethean services $like grouping `heartbeat`, `broker`, `smartgpt-bridge`, etc.$ so you can see how to get under 30 cleanly?
+Do you want me to sketch a consolidation map for your Promethean services like grouping `heartbeat`, `broker`, `smartgpt-bridge`, etc. so you can see how to get under 30 cleanly?
 
 ## User
 Here is where we are at right now:  {"openapi":"3.1.0","info":{"title":"Promethean SmartGPT Bridge","version":"1.0.0"},"components":{"securitySchemes":{"apiKey":{"type":"apiKey","name":"x-pi-token","in":"header"}},"schemas":{}},"paths":{"/files/list":{"get":{"operationId":"listFiles","summary":"List files in a directory","tags":
-$$
+```
 "Files"
-$$
+```
 ,"parameters":
-$$
+```
 {"schema":{"type":"string","default":"."},"in":"query","name":"path","required":false},{"schema":{"type":"boolean","default":false},"in":"query","name":"hidden","required":false},{"schema":{"type":"string","enum":\["file","dir"
-$$
+```
 },"in":"query","name":"type","required":false}\],"responses":{"200":{"description":"Default Response","content":{"application/json":{"schema":{"type":"object","properties":{"ok":{"type":"boolean"},"base":{"type":"string"},"entries":{"type":"array","items":{"type":"object","properties":{"name":{"type":"string"},"path":{"type":"string"},"type":{"type":"string"},"size":{"type":
-$$
+```
 "null","integer"
-$$
+```
 },"mtimeMs":{"type":
-$$
+```
 "null","number"
-$$
+```
 }}}}}}}}}}}},"/files/view":{"get":{"operationId":"viewFile","summary":"View a file snippet","tags":
-$$
+```
 "Files"
-$$
+```
 ,"parameters":
-$$
+```
 {"schema":{"type":"string"},"in":"query","name":"path","required":true},{"schema":{"type":"integer","default":1},"in":"query","name":"line","required":false},{"schema":{"type":"integer","default":25},"in":"query","name":"context","required":false}
-$$
+```
 ,"responses":{"200":{"description":"Default Response","content":{"application/json":{"schema":{"type":"object","properties":{"ok":{"type":"boolean"},"path":{"type":"string"},"totalLines":{"type":"integer"},"startLine":{"type":"integer"},"endLine":{"type":"integer"},"focusLine":{"type":"integer"},"snippet":{"type":"string"}}}}}}}}},"/stacktrace/locate":{"post":{"operationId":"locateStacktrace","summary":"Locate files from a stacktrace","tags":
-$$
+```
 "Files"
-$$
+```
 ,"requestBody":{"content":{"application/json":{"schema":{"type":"object","properties":{"text":{"type":"string"},"trace":{"type":"string"},"context":{"type":"integer","default":25}}}}}},"responses":{"200":{"description":"Default Response","content":{"application/json":{"schema":{"type":"object","properties":{"ok":{"type":"boolean"},"results":{"type":"array","items":{"type":"object"}}}}}}}}}},"/grep":{"post":{"operationId":"grepFiles","summary":"Search repository files via ripgrep","tags":
-$$
+```
 "Search"
-$$
+```
 ,"requestBody":{"content":{"application/json":{"schema":{"type":"object","required":
-$$
+```
 "pattern"
-$$
+```
 ,"properties":{"pattern":{"type":"string"},"flags":{"type":"string","default":"g"},"paths":{"type":"array","items":{"type":"string"},"default":
-$$
+```
 "\*\*/\*.{ts,tsx,js,jsx,py,go,rs,md,txt,json,yml,yaml,sh}"
-$$
+```
 },"maxMatches":{"type":"integer","default":200},"context":{"type":"integer","default":2}}}}},"required":true},"responses":{"200":{"description":"Default Response","content":{"application/json":{"schema":{"type":"object","properties":{"ok":{"type":"boolean"},"results":{"type":"array","items":{"type":"object"}}}}}}}}}},"/symbols/index":{"post":{"operationId":"indexSymbols","summary":"Index project symbols","tags":
-$$
+```
 "Symbols"
-$$
+```
 ,"requestBody":{"content":{"application/json":{"schema":{"type":"object","properties":{"paths":{"type":
-$$
+```
 "array","null"
-$$
+```
 ,"items":{"type":"string"}},"exclude":{"type":
-$$
+```
 "array","null"
-$$
+```
 ,"items":{"type":"string"}}}}}}},"responses":{"200":{"description":"Default Response","content":{"application/json":{"schema":{"type":"object","properties":{"ok":{"type":"boolean"},"indexed":{"type":"integer"},"info":{"type":"integer"}}}}}}}}},"/symbols/find":{"post":{"operationId":"findSymbols","summary":"Find indexed symbols","tags":
-$$
+```
 "Symbols"
-$$
+```
 ,"requestBody":{"content":{"application/json":{"schema":{"type":"object","required":
-$$
+```
 "query"
-$$
+```
 ,"properties":{"query":{"type":"string"},"kind":{"type":"string"},"path":{"type":"string"},"limit":{"type":"integer"}}}}},"required":true},"responses":{"200":{"description":"Default Response","content":{"application/json":{"schema":{"type":"object","properties":{"ok":{"type":"boolean"},"results":{"type":"array","items":{"type":"object"}}}}}}}}}},"/search":{"post":{"operationId":"semanticSearch","summary":"Semantic search via Chroma","tags":
-$$
+```
 "Search"
-$$
+```
 ,"requestBody":{"content":{"application/json":{"schema":{"type":"object","required":
-$$
+```
 "q"
-$$
+```
 ,"properties":{"q":{"type":"string"},"n":{"type":"integer","default":8}}}}},"required":true},"responses":{"200":{"description":"Default Response","content":{"application/json":{"schema":{"type":"object","properties":{"ok":{"type":"boolean"},"results":{"type":"array","items":{"type":"object"}}}}}}}}}},"/search/web":{"post":{"operationId":"webSearch","tags":
-$$
+```
 "Search"
-$$
+```
 ,"requestBody":{"content":{"application/json":{"schema":{"type":"object","required":
-$$
+```
 "q"
-$$
+```
 ,"properties":{"q":{"type":"string"},"limit":{"type":"integer","default":5}}}}},"required":true},"responses":{"200":{"description":"Default Response"}}}},"/reindex":{"post":{"operationId":"reindexAll","summary":"Reindex entire repository","tags":
-$$
+```
 "Indexer"
-$$
+```
 ,"responses":{"200":{"description":"Default Response","content":{"application/json":{"schema":{"type":"object","properties":{"ok":{"type":"boolean"},"queued":{"type":"integer"},"ignored":{"type":"boolean"}}}}}}}}},"/files/reindex":{"post":{"operationId":"reindexFiles","summary":"Reindex subset of files","tags":
-$$
+```
 "Indexer"
-$$
+```
 ,"requestBody":{"content":{"application/json":{"schema":{"type":"object","properties":{"path":{"type":
-$$
+```
 "string","array"
-$$
+```
 ,"items":{"type":"string"}}}}}}},"parameters":
-$$
+```
 {"schema":{"type":\["string","array"
-$$
+```
 ,"items":{"type":"string"}},"in":"query","name":"path","required":false}\],"responses":{"200":{"description":"Default Response","content":{"application/json":{"schema":{"type":"object","properties":{"ok":{"type":"boolean"},"queued":{"type":"integer"},"ignored":{"type":"boolean"}}}}}}}}},"/indexer/status":{"get":{"operationId":"indexerStatus","summary":"Get indexer status","tags":
-$$
+```
 "Indexer"
-$$
+```
 ,"responses":{"200":{"description":"Default Response","content":{"application/json":{"schema":{"type":"object","properties":{"ok":{"type":"boolean"},"status":{"type":"object"}}}}}}}}},"/indexer/index":{"post":{"operationId":"indexFile","summary":"Index a single file","tags":
-$$
+```
 "Indexer"
-$$
+```
 ,"requestBody":{"content":{"application/json":{"schema":{"type":"object","required":
-$$
+```
 "path"
-$$
+```
 ,"properties":{"path":{"type":"string"}}}}},"required":true},"responses":{"200":{"description":"Default Response","content":{"application/json":{"schema":{"type":"object","properties":{"ok":{"type":"boolean"},"queued":{"type":"integer"}}}}}}}}},"/indexer/remove":{"post":{"operationId":"removeFileFromIndex","summary":"Remove a file from index","tags":
-$$
+```
 "Indexer"
-$$
+```
 ,"requestBody":{"content":{"application/json":{"schema":{"type":"object","required":
-$$
+```
 "path"
-$$
+```
 ,"properties":{"path":{"type":"string"}}}}},"required":true},"responses":{"200":{"description":"Default Response","content":{"application/json":{"schema":{"type":"object","properties":{"ok":{"type":"boolean"},"error":{"type":"string"}}}}}}}}},"/indexer/reset":{"post":{"operationId":"resetIndexer","summary":"Reset indexer state and bootstrap","tags":
-$$
+```
 "Indexer"
-$$
+```
 ,"responses":{"200":{"description":"Default Response","content":{"application/json":{"schema":{"type":"object","properties":{"ok":{"type":"boolean"}}}}}},"409":{"description":"Default Response","content":{"application/json":{"schema":{"type":"object","properties":{"ok":{"type":"boolean"},"error":{"type":"string"}}}}}}}}},"/agent/start":{"post":{"operationId":"startAgent","summary":"Start a background agent","tags":
-$$
+```
 "Agent"
-$$
+```
 ,"requestBody":{"content":{"application/json":{"schema":{"type":"object","required":
-$$
+```
 "prompt"
-$$
+```
 ,"properties":{"prompt":{"type":"string"},"bypassApprovals":{"type":"boolean","default":false},"sandbox":{"type":
-$$
+```
 "string","boolean"
-$$
+```
 ,"enum":
-$$
+```
 "nsjail",true,false
-$$
+```
 ,"default":false},"tty":{"type":"boolean","default":true},"env":{"type":"object","additionalProperties":{"type":"string"}}}}}},"required":true},"responses":{"200":{"description":"Default Response","content":{"application/json":{"schema":{"type":"object","properties":{"ok":{"type":"boolean"},"id":{"type":"string"},"prompt":{"type":"string"},"startedAt":{"type":"integer"},"sandbox":{"type":"string"},"bypassApprovals":{"type":"boolean"},"logfile":{"type":"string"}}}}}}}}},"/agent/status":{"get":{"operationId":"getAgentStatus","summary":"Get agent status","tags":
-$$
+```
 "Agent"
-$$
+```
 ,"parameters":
-$$
+```
 {"schema":{"type":"string"},"in":"query","name":"id","required":true}
-$$
+```
 ,"responses":{"200":{"description":"Default Response","content":{"application/json":{"schema":{"type":"object","properties":{"ok":{"type":"boolean"},"status":{"type":"object"}}}}}},"404":{"description":"Default Response","content":{"application/json":{"schema":{"type":"object","properties":{"ok":{"type":"boolean"},"error":{"type":"string"}}}}}}}}},"/agent/status/{id}":{"get":{"operationId":"getAgentStatusById","summary":"Get agent status by id","tags":
-$$
+```
 "Agent"
-$$
+```
 ,"parameters":
-$$
+```
 {"schema":{"type":"string"},"in":"path","name":"id","required":true}
-$$
+```
 ,"responses":{"200":{"description":"Default Response","content":{"application/json":{"schema":{"type":"object","properties":{"ok":{"type":"boolean"},"status":{"type":"object"}}}}}},"404":{"description":"Default Response","content":{"application/json":{"schema":{"type":"object","properties":{"ok":{"type":"boolean"},"error":{"type":"string"}}}}}}}}},"/agent/list":{"get":{"operationId":"listAgents","summary":"List active agents","tags":
-$$
+```
 "Agent"
-$$
+```
 ,"responses":{"200":{"description":"Default Response","content":{"application/json":{"schema":{"type":"object","properties":{"ok":{"type":"boolean"},"agents":{"type":"array","items":{"type":"object","properties":{"id":{"type":"string"},"sandbox":{"type":"string"}}}}}}}}}}}},"/agent/logs":{"get":{"operationId":"getAgentLogs","summary":"Get agent logs","tags":
-$$
+```
 "Agent"
-$$
+```
 ,"parameters":
-$$
+```
 {"schema":{"type":"string"},"in":"query","name":"id","required":true},{"schema":{"type":"integer","default":8192},"in":"query","name":"bytes","required":false}
-$$
+```
 ,"responses":{"200":{"description":"Default Response","content":{"application/json":{"schema":{"type":"object","properties":{"ok":{"type":"boolean"},"total":{"type":"integer"},"chunk":{"type":"string"}}}}}},"404":{"description":"Default Response","content":{"application/json":{"schema":{"type":"object","properties":{"ok":{"type":"boolean"},"error":{"type":"string"}}}}}}}}},"/agent/tail":{"get":{"operationId":"tailAgentLogs","summary":"Tail agent logs","tags":
-$$
+```
 "Agent"
-$$
+```
 ,"parameters":
-$$
+```
 {"schema":{"type":"string"},"in":"query","name":"id","required":true},{"schema":{"type":"integer","default":8192},"in":"query","name":"bytes","required":false}
-$$
+```
 ,"responses":{"200":{"description":"Default Response","content":{"application/json":{"schema":{"type":"object","properties":{"ok":{"type":"boolean"},"total":{"type":"integer"},"chunk":{"type":"string"}}}}}},"404":{"description":"Default Response","content":{"application/json":{"schema":{"type":"object","properties":{"ok":{"type":"boolean"},"error":{"type":"string"}}}}}}}}},"/agent/stream":{"get":{"operationId":"streamAgentLogs","summary":"Stream agent logs","tags":
-$$
+```
 "Agent"
-$$
+```
 ,"parameters":
-$$
+```
 {"schema":{"type":"string"},"in":"query","name":"id","required":true}
-$$
+```
 ,"responses":{"200":{"description":"Default Response","content":{"application/json":{"schema":{"type":"string"}}}}}}},"/agent/send":{"post":{"operationId":"sendAgentInput","summary":"Send input to agent","tags":
-$$
+```
 "Agent"
-$$
+```
 ,"requestBody":{"content":{"application/json":{"schema":{"type":"object","required":
-$$
+```
 "id","input"
-$$
+```
 ,"properties":{"id":{"type":"string"},"input":{"type":"string"}}}}},"required":true},"responses":{"200":{"description":"Default Response","content":{"application/json":{"schema":{"type":"object","properties":{"ok":{"type":"boolean"},"error":{"type":"string"}}}}}}}}},"/agent/interrupt":{"post":{"operationId":"interruptAgent","summary":"Interrupt agent","tags":
-$$
+```
 "Agent"
-$$
+```
 ,"requestBody":{"content":{"application/json":{"schema":{"type":"object","required":
-$$
+```
 "id"
-$$
+```
 ,"properties":{"id":{"type":"string"}}}}},"required":true},"responses":{"200":{"description":"Default Response","content":{"application/json":{"schema":{"type":"object","properties":{"ok":{"type":"boolean"}}}}}}}}},"/agent/kill":{"post":{"operationId":"killAgent","summary":"Kill an agent","tags":
-$$
+```
 "Agent"
-$$
+```
 ,"requestBody":{"content":{"application/json":{"schema":{"type":"object","required":
-$$
+```
 "id"
-$$
+```
 ,"properties":{"id":{"type":"string"}}}}},"required":true},"responses":{"200":{"description":"Default Response","content":{"application/json":{"schema":{"type":"object","properties":{"ok":{"type":"boolean"}}}}}}}}},"/agent/resume":{"post":{"operationId":"resumeAgent","summary":"Resume agent (not supported)","tags":
-$$
+```
 "Agent"
-$$
+```
 ,"requestBody":{"content":{"application/json":{"schema":{"type":"object","required":
-$$
+```
 "id"
-$$
+```
 ,"properties":{"id":{"type":"string"}}}}},"required":true},"responses":{"200":{"description":"Default Response","content":{"application/json":{"schema":{"type":"object","properties":{"ok":{"type":"boolean"},"error":{"type":"string"}}}}}}}}},"/exec/run":{"post":{"operationId":"runCommand","summary":"Run a shell command","tags":
-$$
+```
 "Exec"
-$$
+```
 ,"requestBody":{"content":{"application/json":{"schema":{"type":"object","required":
-$$
+```
 "command"
-$$
+```
 ,"properties":{"command":{"type":"string"},"cwd":{"type":"string"},"env":{"type":"object","additionalProperties":{"type":"string"}},"timeoutMs":{"type":"integer","default":600000},"tty":{"type":"boolean","default":false}}}}},"required":true},"responses":{"200":{"description":"Default Response","content":{"application/json":{"schema":{"type":"object","properties":{"ok":{"type":"boolean"},"exitCode":{"type":
-$$
+```
 "null","integer"
-$$
+```
 },"signal":{"type":
-$$
+```
 "null","string"
-$$
+```
 },"stdout":{"type":"string"},"stderr":{"type":"string"},"error":{"type":"string"}}}}}},"403":{"description":"Default Response","content":{"application/json":{"schema":{"type":"object","properties":{"ok":{"type":"boolean"},"error":{"type":"string"}}}}}}}}},"/sinks/list":{"get":{"operationId":"listSinks","tags":
-$$
+```
 "Sinks"
-$$
+```
 ,"responses":{"200":{"description":"Default Response"}}}},"/sinks/{name}/query":{"post":{"operationId":"querySink","summary":"Query sink in Mongo (structured filter)","tags":
-$$
+```
 "Sinks"
-$$
+```
 ,"requestBody":{"content":{"application/json":{"schema":{"type":"object","properties":{"filter":{"type":"object"},"limit":{"type":"integer","default":100}}}}}},"parameters":
-$$
+```
 {"schema":{"type":"string"},"in":"path","name":"name","required":true}
-$$
+```
 ,"responses":{"200":{"description":"Default Response"}}}},"/sinks/{name}/search":{"post":{"operationId":"searchSink","summary":"Semantic search in sink (Chroma)","tags":
-$$
+```
 "Sinks"
-$$
+```
 ,"requestBody":{"content":{"application/json":{"schema":{"type":"object","required":
-$$
+```
 "q"
-$$
+```
 ,"properties":{"q":{"type":"string"},"n":{"type":"integer","default":10},"where":{"type":"object"}}}}},"required":true},"parameters":
-$$
+```
 {"schema":{"type":"string"},"in":"path","name":"name","required":true}
-$$
+```
 ,"responses":{"200":{"description":"Default Response"}}}},"/users/create":{"post":{"operationId":"createUser","summary":"Create user","tags":
-$$
+```
 "Admin"
-$$
+```
 ,"requestBody":{"content":{"application/json":{"schema":{"type":"object","required":
-$$
+```
 "username"
-$$
+```
 ,"properties":{"username":{"type":"string"},"roles":{"type":"array","items":{"type":"string"}}}}}},"required":true},"responses":{"200":{"description":"Default Response"}}}},"/users/list":{"get":{"operationId":"listUsers","tags":
-$$
+```
 "Admin"
-$$
+```
 ,"responses":{"200":{"description":"Default Response"}}}},"/users/delete":{"post":{"operationId":"deleteUser","tags":
-$$
+```
 "Admin"
-$$
+```
 ,"requestBody":{"content":{"application/json":{"schema":{"type":"object","required":
-$$
+```
 "username"
-$$
+```
 ,"properties":{"username":{"type":"string"}}}}},"required":true},"responses":{"200":{"description":"Default Response"}}}},"/policies/list":{"get":{"operationId":"listPolicies","tags":
-$$
+```
 "Admin"
-$$
+```
 ,"responses":{"200":{"description":"Default Response"}}}},"/policies/create":{"post":{"operationId":"createPolicy","tags":
-$$
+```
 "Admin"
-$$
+```
 ,"requestBody":{"content":{"application/json":{"schema":{"type":"object","required":
-$$
+```
 "role","action","resource"
-$$
+```
 ,"properties":{"role":{"type":"string"},"action":{"type":"string"},"resource":{"type":"string"},"effect":{"type":"string","enum":
-$$
+```
 "allow","deny"
-$$
+```
 ,"default":"allow"}}}}},"required":true},"responses":{"200":{"description":"Default Response"}}}},"/policies/delete":{"post":{"operationId":"deletePolicy","tags":
-$$
+```
 "Admin"
-$$
+```
 ,"requestBody":{"content":{"application/json":{"schema":{"type":"object","required":
-$$
+```
 "id"
-$$
+```
 ,"properties":{"id":{"type":"string"}}}}},"required":true},"responses":{"200":{"description":"Default Response"}}}}},"servers":\[{"url":"https://err-stealth-16-ai-studio-a1vgg.tailbe888a.ts.net"}\],"security":\[{"apiKey":\[\]}\]}
 
 ## ChatGPT
 Nice—thanks for the spec drop. You can get this under 30 cleanly with a small, predictable surface and keep your internal handlers as‑is.
 
 Here’s a pragmatic consolidation that preserves semantics but collapses paths by **resource + verb** (and a couple of RPC “ops” where it helps). Target: **18 routes**.
-$$
+```
 Proposed external surface (/v1)
-$$
-$$
+```
+```
 ===============================
-$$
+```
 Files (3)
 ---------
 
@@ -341,7 +341,7 @@ Files (3)
 *   `GET /v1/files/{path}` — view snippet (line, context)
     
 *   `POST /v1/files/reindex` — reindex subset or all (body: { path?: string|string
-$$
+```
 $$
  })
     
@@ -364,19 +364,19 @@ Symbols (2)
 *   `POST /v1/symbols/find` — query (query, kind?, path?, limit?)
     
 
-Indexer $3 → 2$
+Indexer 3 → 2
 ---------------
 
 *   `GET /v1/indexer` — status
     
 *   `POST /v1/indexer` — upsert jobs: `{ op: "index"|"remove"|"reset"|"reindex", path?: string }`
     
-    *   $This collapses: `/indexer/index`, `/indexer/remove`, `/indexer/reset`, `/reindex`.$
+    *   This collapses: `/indexer/index`, `/indexer/remove`, `/indexer/reset`, `/reindex`.
         
     *   Return `{ ok, queued?, ignored?, error? }`
         
 
-Agents $7 → 6$
+Agents 7 → 6
 --------------
 
 *   `POST /v1/agents` — start (prompt, bypassApprovals, sandbox, tty, env)
@@ -391,7 +391,7 @@ Agents $7 → 6$
     
 *   `POST /v1/agents/{id}` — control ops: `{ op: "send"|"interrupt"|"resume"|"kill", input? }`
     
-    *   $Collapses `/send`, `/interrupt`, `/resume`, `/kill` into one.$
+    *   Collapses `/send`, `/interrupt`, `/resume`, `/kill` into one.
         
 
 Exec (1)
@@ -400,7 +400,7 @@ Exec (1)
 *   `POST /v1/exec` — run command (command, cwd?, env?, timeoutMs?, tty?)
     
 
-Sinks $3 → 2$
+Sinks 3 → 2
 -------------
 
 *   `GET /v1/sinks` — list
@@ -408,7 +408,7 @@ Sinks $3 → 2$
 *   `POST /v1/sinks/{name}` — `{ op: "query"|"search", filter?|q?, n?, where? }`
     
 
-Admin $6 → 4$
+Admin 6 → 4
 -------------
 
 *   `GET /v1/admin/users`
@@ -424,7 +424,7 @@ Admin $6 → 4$
 *   `DELETE /v1/admin/policies/{id}`
     
 
-$If you want to stay _well_ under 30, keep both Admin groups; that’s 18 total. If you need to shave further, collapse both Admin groups into one `POST /v1/admin` with `{ op: ..., ... }`.$
+$If you want to stay _well_ under 30, keep both Admin groups; that’s 18 total. If you need to shave further, collapse both Admin groups into one `POST /v1/admin` with `{ op: ..., ... }`.
 
 * * *
 
@@ -615,14 +615,14 @@ Migration tips
 
 *   **Keep old paths for 1–2 weeks** behind 308 redirects (or thin handlers) to the new ones; emit a `Deprecation` header with a sunset date.
     
-*   **Version now** $`/v1`$ so you’re not forced to burn more routes later.
+*   **Version now** `/v1` so you’re not forced to burn more routes later.
     
 *   **Consistent op contracts**: Anywhere you collapsed multiple endpoints into one `POST`, enforce `{ op: "…" }` with strict enums and per‑op validation. It keeps docs clear and prevents accidental footguns.
     
 *   **Streaming**: keep `/agents/{id}/stream` as a dedicated GET so proxies don’t mangle SSE; everything else can be POSTed.
     
 
-If you want, I can turn your JSON into this v1 OpenAPI file and add a shim layer $express/zod$ that mounts both old and new routes so you can cut over without breaking agents.
+If you want, I can turn your JSON into this v1 OpenAPI file and add a shim layer express/zod that mounts both old and new routes so you can cut over without breaking agents.
 
 ## User
 so like... the sinks are kinda themselves a form of search. I kinda think that whole deal can be neatly consolidated behind a single /search/:sink?query="searchterm"&type  But... there is more to this right now than trying to consolidate the existing system.  I consolidating with out thinking through the long term design puts us in a box.
@@ -633,9 +633,9 @@ Totally agree: “just smash paths together” = future pain. Let’s design a *
 Here’s a durable shape that stays <30 routes and lets you evolve engines, filters, and routing.
 
 North‑star model
-$$
+```
 ================
-$$
+```
 *   **Index** = a named searchable corpus (backed by Chroma, Mongo text, ripgrep, web adapter, etc.)
     
 *   **Engine** = how an index is searched (`vector`, `keyword`, `hybrid`, `web`, `custom`)
@@ -646,12 +646,12 @@ $$
     
 
 External surface (stable, compact)
-$$
+```
 ==================================
-$$
+```
 *   `GET /v1/indexes` — discoverable registry (your “sinks” live here too)
     
-*   `POST /v1/indexes` — create/register $point to a sink, set engine + schema$
+*   `POST /v1/indexes` — create/register point to a sink, set engine + schema
     
 *   `PATCH/DELETE /v1/indexes/{id}` — manage lifecycle
     
@@ -669,12 +669,12 @@ Everything else (files, agents, exec, admin) stays as previously consolidated. W
 * * *
 
 Request/response contracts (future‑proof)
-$$
+```
 =========================================
-$$
+```
 $$
 `POST /v1/search`
-$$
+```
 -----------------
 
 ```json
@@ -683,7 +683,7 @@ $$
   "targets": [
     { "index": "code", "engine": "keyword" },
     { "index": "repo-embeddings", "engine": "vector", "weight": 0.7,
-      "where": { "path": { "$like": "services/ts/%" } } },
+      "where": { "path": { "like": "services/ts/%" } } },
     { "index": "web", "engine": "web", "params": { "limit": 5 } }
   ],
   "rank": { "profile": "hybrid-default", "blend": "reciprocal_rank_fusion" },
@@ -692,9 +692,9 @@ $$
   "return": { "snippets": true, "highlights": true, "attributes": ["path","symbol","score"] }
 }
 ```
-$$
+```
 **Response**
-$$
+```
 ```json
 {
   "ok": true,
@@ -720,22 +720,22 @@ Notes:
     
 *   **`rank.profile`** is a plug‑point for swapping scoring strategies.
     
-*   **`where`** is engine‑agnostic filtering (map to Chroma `where`, Mongo `$match`, etc.).
+*   **`where`** is engine‑agnostic filtering (map to Chroma `where`, Mongo `match`, etc.).
     
 *   **Pagination** via a single opaque `cursor`.
     
 *   **`return`** controls payload size (great for dashboards).
     
-$$
+```
 `GET /v1/search/stream?q=...&targets=...`
-$$
+```
 -----------------------------------------
 
 *   Streams incremental hits (`event: hit`), facet deltas, and a final `event: done`. Keeps your dashboard snappy and avoids proxy POST‑SSE weirdness.
     
-$$
+```
 `GET /v1/indexes`
-$$
+```
 -----------------
 
 Returns discovery metadata so tools self‑configure:
@@ -757,26 +757,26 @@ Returns discovery metadata so tools self‑configure:
 * * *
 
 Why this won’t box you in
-$$
+```
 =========================
-$$
+```
 *   **Engines are pluggable**: add `graph`, `events`, `logs`, `observability` tomorrow with zero route growth.
     
-*   **Routing lives in data** $targets + profiles$, not paths.
+*   **Routing lives in data** targets + profiles, not paths.
     
 *   **Schema + capabilities are discoverable**: clients adapt via `/indexes` + `/capabilities`.
     
 *   **Ranking is swappable**: BM25, cosine, LLM re‑rank, RRF — all without endpoint churn.
     
-*   **Policy can sit at the index layer**: ACLs per index $read/search$, fields masking, query budget throttles.
+*   **Policy can sit at the index layer**: ACLs per index read/search, fields masking, query budget throttles.
     
 
 * * *
 
 Architecture sketch
-$$
+```
 ===================
-$$
+```
 ```mermaid
 flowchart LR
   UI[/Dashboard & Agents/]
@@ -807,18 +807,18 @@ flowchart LR
 * * *
 
 Migration plan from your current spec
-$$
+```
 =====================================
-$$
+```
 *   Map every **/sinks/{name}/query|search** to **indexes**:
     
-    *   Create an index per sink $`{ id: "<sink-name>", engine: "vector", backing: "chroma:<collection>" }`$
+    *   Create an index per sink `{ id: "<sink-name>", engine: "vector", backing: "chroma:<collection>" }`
         
     *   Your **Mongo structured query** becomes `engine:"keyword"` (or `engine:"mongo"` if you want to keep it explicit)
         
 *   Replace `/search`, `/grep`, `/search/web` with **one** `POST /v1/search` and routing rules:
     
-    *   If `targets` omitted → default profile $e.g., `$"repo-embeddings","code"$`$
+    *   If `targets` omitted → default profile e.g., `"repo-embeddings","code"`
         
     *   `type` param you mentioned becomes `engine` (more general)
         
@@ -828,10 +828,10 @@ $$
 * * *
 
 Guardrails & ops
-$$
+```
 ================
-$$
-*   **Auth**: same `x-pi-token`, plus optional per‑index RBAC $role → allowed indexes, max `topK`, max `targets`$.
+```
+*   **Auth**: same `x-pi-token`, plus optional per‑index RBAC role → allowed indexes, max `topK`, max `targets`.
     
 *   **Quotas**: deny if `targets.length` > N or cumulative `docsScanned` > budget.
     
@@ -841,9 +841,9 @@ $$
 * * *
 
 Minimal OpenAPI nuggets
-$$
+```
 =======================
-$$
+```
 You only need to expose the flexible parts; engines/caps live in responses.
 
 ```yaml
@@ -897,9 +897,9 @@ paths:
 * * *
 
 Tiny router sketch (TypeScript, zod)
-$$
+```
 ====================================
-$$
+```
 ```ts
 const SearchReq = z.object({
   query: z.string().min(1),
@@ -929,7 +929,7 @@ app.post("/v1/search", async (req, res) => {
 
 If this feels right, I can generate a drop‑in PR:
 
-1.  new `/v1/search` + `/v1/indexes` handlers $express/zod$,
+1.  new `/v1/search` + `/v1/indexes` handlers express/zod,
     
 2.  adapters that map your existing sinks to `indexes`,
     
@@ -942,9 +942,9 @@ no we are still designing. We get these bursts of work in when I p
 love this mode — thinking caps on, no code. let’s nail the concepts so “Pandora” lands clean and we stop blurring “agent” and “service”.
 
 crisp definitions
-$$
+```
 =================
-$$
+```
 *   **Service** = a long‑lived process exposing capabilities (APIs, queues, streams). It’s deployable on its own.
     
 *   **Agent** = an _instantiation_ of behavior bound to identity, policy, and memory. It may _use_ services (as tools) and may run embedded or as its own service.
@@ -962,9 +962,9 @@ That gives us two **service classes**:
         
 
 discoverability (don’t rely on directory names)
-$$
+```
 ===============================================
-$$
+```
 Make the class explicit via a **capability manifest** _in each service root_. Don’t guess from folder structure.
 
 `service.manifest.yaml` (minimal, human‑readable, future‑proof):
@@ -1002,12 +1002,12 @@ For **libraries**, use `kind: library` and drop `runtime`; expose the same `capa
 > now a linter can scream if a service says `class: AR` but doesn’t declare `AgentContext` as an input.
 
 how to decide: AR service vs library?
-$$
+```
 =====================================
-$$
-$$
+```
+```
 Use this **decision rule**:
-$$
+```
 ```mermaid
 flowchart TD
   A[Does it require per-agent identity/policy/memory to run?] -->|No| B[GP Service]
@@ -1022,13 +1022,13 @@ flowchart TD
     
 
 what is Pandora?
-$$
+```
 ================
-$$
+```
 Your earlier note: _“Pandora consumes data from sinks to generate search requests through the bridge using the LLM broker.”_ That’s a **query‑planning substrate**. It’s naturally **AR** because “good queries” depend on the agent’s role, memory, and authorization.
-$$
+```
 **My recommendation:**
-$$
+```
 *   **Core Pandora** = **AR Service (context‑in)**. General algorithms live here.
     
 *   **Profiles** (agent behaviors) = **overlays** (data!), not code forks. Agents select profiles at runtime.
@@ -1037,13 +1037,13 @@ $$
 Pandora responsibilities (layered)
 ----------------------------------
 
-1.  **Intent understanding** $from text/stacktrace/signal → `QueryIntent`$
+1.  **Intent understanding** from text/stacktrace/signal → `QueryIntent`
     
-2.  **Target selection** $choose indexes/sinks/web, honoring agent policy$
+2.  **Target selection** choose indexes/sinks/web, honoring agent policy
     
 3.  **Query synthesis** (generate multiple candidates per target)
     
-4.  **Execution routing** $call bridge, sinks, web; set budgets/timeouts$
+4.  **Execution routing** call bridge, sinks, web; set budgets/timeouts
     
 5.  **Blending & re‑ranking** (RRF, LLM reranker, learned profiles)
     
@@ -1064,10 +1064,10 @@ flowchart LR
 ```
 
 profiles as data (not code)
-$$
+```
 ===========================
-$$
-Store per‑agent **Pandora profiles** in a small, typed bundle $could be TOML/YAML or s‑exp$. They define _how_ to search, not _what to search_. Think “ranking profile + heuristic weights + prompt fragments”.
+```
+Store per‑agent **Pandora profiles** in a small, typed bundle could be TOML/YAML or s‑exp. They define _how_ to search, not _what to search_. Think “ranking profile + heuristic weights + prompt fragments”.
 
 Example (compact):
 
@@ -1077,7 +1077,7 @@ targets:
   - index: "repo-embeddings"  # Chroma collection
     engine: "vector"
     weight: 0.6
-    where: { path: { $like: "services/ts/%" } }
+    where: { path: { like: "services/ts/%" } }
   - index: "code"
     engine: "keyword"
     weight: 0.4
@@ -1113,9 +1113,9 @@ S‑expression variant (since you like Lisp):
 ```
 
 contracts (so agents & services snap together)
-$$
+```
 ==============================================
-$$
+```
 Define three tiny, stable schemas (namespaces matter more than fields):
 
 *   **`AgentContext@1`**: `{ agentId, roles, scopes, memoryRefs[], personaId, runtimeCaps }`
@@ -1128,9 +1128,9 @@ Define three tiny, stable schemas (namespaces matter more than fields):
 Pandora always returns **both** `results` **and** the `plan` — agents can learn or override on the next run.
 
 repo layout that won’t paint us into a corner
-$$
+```
 =============================================
-$$
+```
 Keep your existing flat `services/` but add strict manifests + indexes:
 
 ```bash
@@ -1156,7 +1156,7 @@ agents/
 
 Add a **catalog generator** that reads all manifests and builds:
 
-*   a **Capabilities Index** $`/v1/capabilities`$
+*   a **Capabilities Index** `/v1/capabilities`
     
 *   a **Wiring Map** (who can call what under which scope)
     
@@ -1164,18 +1164,18 @@ Add a **catalog generator** that reads all manifests and builds:
     
 
 policy & RBAC where it belongs
-$$
+```
 ==============================
-$$
+```
 *   Enforce **policy at the index/target** layer: an agent may ask Pandora for “web”, but Pandora resolves allowed targets after checking `AgentContext.scopes`.
     
 *   Budget constraints live in **profiles** with system clamps at the service.
     
 
 how this affects your endpoint consolidation later
-$$
+```
 ==================================================
-$$
+```
 Your unified `/v1/search` stays perfect. Pandora is the _planner_ that decides **targets** and **rank profiles** under policy; the Bridge is the _executor_. Sinks disappear behind **indexes**. We avoid boxing ourselves in because:
 
 *   behaviors move via **profiles** (data),
@@ -1186,10 +1186,10 @@ Your unified `/v1/search` stays perfect. Pandora is the _planner_ that decides *
     
 
 migration playbook (no code, just moves)
-$$
+```
 ========================================
-$$
-1.  **Author manifests** for current services; mark class $GP/AR$ + capabilities.
+```
+1.  **Author manifests** for current services; mark class GP/AR + capabilities.
     
 2.  **Extract profiles** you’ve been “prompt‑gluing” into Pandora profile bundles.
     
@@ -1197,12 +1197,12 @@ $$
     
 4.  **Catalog & lint**: a script that fails CI if AR services don’t declare `AgentContext`.
     
-5.  **Policy gates**: define index‑level scopes $`search:index/*`$ and map current tokens to scopes.
+5.  **Policy gates**: define index‑level scopes `search:index/*` and map current tokens to scopes.
     
 
 * * *
 
-if this frame feels right, we can next design Pandora’s _SearchPlan@1_ schema (fields, minimal enums, event names) and the _profile merge rules_ $global → org → agent → session$, then later we’ll translate it into an OpenAPI & a tiny zod schema.
+if this frame feels right, we can next design Pandora’s _SearchPlan@1_ schema (fields, minimal enums, event names) and the _profile merge rules_ global → org → agent → session, then later we’ll translate it into an OpenAPI & a tiny zod schema.
 
 ## User
 No pandora I think \*is\* an agent... like it's purpose is to just kinda... Ok it's trying to open pandora's box on the system, by generating search terms based on the current state of the system.  So, it uses....   Or... isthat what it is at all...  Then what came to my mind was also "Eris"  Who might do something similar, but to a different end...
@@ -1269,9 +1269,9 @@ Together:
     
 *   **Agent**: “has a purpose, a myth, a role in the pantheon.” Agents _use_ services but their existence is not reducible to them.
     
-$$
+```
 Pandora belongs in `agents/`.
-$$
+```
 Her “tool belt” is `services/ts/pandora-core` (library) + bridge/indexer/etc.  
 Eris would be another agent, with her own stance and strategy.
 
@@ -1299,9 +1299,9 @@ yes — good distinction. let me reflect it back:
     their names are their job descriptions. you can swap them out, version them, treat them like utilities.
     
 *   **Agents** = uppercase, Proper Nouns.  
-$$
-    e.g. **Duck**, **Pandora**, **Eris**.
-$$
+```
+e.g. **Duck**, **Pandora**, **Eris**.
+```
     they are _characters_ in the Promethean mythos. they carry purpose and personality that can’t be reduced to one line. they live in the pantheon.
     
 
@@ -1325,16 +1325,16 @@ so your taxonomy becomes:
 
 1.  **Services** → lowercase, descriptive utilities (`heartbeat`, `bridge`).
     
-2.  **Structures** → proper names, but anatomical/metaphorical parts, not mythic personas $**Cephalon**, maybe future equivalents: **Eidolon**, **Daemon**, etc.$.
+2.  **Structures** → proper names, but anatomical/metaphorical parts, not mythic personas **Cephalon**, maybe future equivalents: **Eidolon**, **Daemon**, etc..
     
-3.  **Agents** → Proper Nouns, mythic personas with irreducible purposes $**Duck**, **Pandora**, **Eris**$.
+3.  **Agents** → Proper Nouns, mythic personas with irreducible purposes **Duck**, **Pandora**, **Eris**.
     
 
 * * *
 
 that way the naming scheme is **self-documenting**: you see a folder name and know which class it belongs to.
 
-want me to sketch out a **directory taxonomy** that makes those three categories explicit $`services/`, `structures/`, `agents/`$ so you don’t have to keep this as tacit knowledge?
+want me to sketch out a **directory taxonomy** that makes those three categories explicit `services/`, `structures/`, `agents/` so you don’t have to keep this as tacit knowledge?
 
 ## User
 Ok... yes... that is starting to sound like it... structures... organs... these are parts of an agent... services are tools an agent uses that are outside of themselves.
@@ -1344,18 +1344,18 @@ exactly — you’re crystallizing the anatomy here.
 
 *   **Services** = tools outside the being.  
     hammer, compass, typewriter. external utilities. swappable, composable.  
-$$
-    → “the Agent _uses_ a service.”
-$$
+```
+→ “the Agent _uses_ a service.”
+```
 *   **Structures / Organs** = intrinsic parts of the being.  
     nervous system, lungs, cephalon. they give the Agent form and function.  
     → “the Agent _is_ made of structures.”
     
 *   **Agents** = the whole living entity.  
     they carry names, myth, irreducible purpose.  
-$$
-    → “the Agent _acts_.”
-$$
+```
+→ “the Agent _acts_.”
+```
 
 * * *
 
@@ -1423,7 +1423,7 @@ Keep the repo flat; add metadata
 *   Add a tiny manifest to each thing you care about classifying:
     
 
-`service.manifest.yaml` $for anything under `services/ts/*`$
+`service.manifest.yaml` for anything under `services/ts/*`
 
 ```yaml
 id: "smartgpt-bridge"
@@ -1434,7 +1434,7 @@ capabilities: ["http","search.exec"]
 requires_agent: false
 ```
 
-`agent.manifest.yaml` $for Proper‑Noun Agents under `agents/*`$
+`agent.manifest.yaml` for Proper‑Noun Agents under `agents/*`
 
 ```yaml
 id: "Pandora"
@@ -1473,9 +1473,9 @@ Where things physically live (unchanged)
 
 *   **Services** stay in `services/ts/*` (flat).
     
-*   **Structures** stay as packages in `shared/ts` $and are imported via your existing rule: `@shared/ts/dist/...` — no new path aliases$.
+*   **Structures** stay as packages in `shared/ts` and are imported via your existing rule: `@shared/ts/dist/...` — no new path aliases.
     
-*   **Agents** get a new top‑level `agents/` folder $just manifests + profile data + light startup scripts$. They _use_ services; they don’t replace them.
+*   **Agents** get a new top‑level `agents/` folder just manifests + profile data + light startup scripts. They _use_ services; they don’t replace them.
     
 
 How to run (PM2 unchanged)
@@ -1550,7 +1550,7 @@ longer answer: here’s why + what you _can_ do:
 
 ### why not
 
-*   `npm`/`pnpm` are tied to Node’s module resolution $`node_modules`, symlink trees, hoisting rules, `package.json`$.
+*   `npm`/`pnpm` are tied to Node’s module resolution `node_modules`, symlink trees, hoisting rules, `package.json`.
     
 *   Python’s world (`pip`, `venv`, `pyproject.toml`) has totally different resolution, build backends, wheel formats.
     
@@ -1575,9 +1575,9 @@ longer answer: here’s why + what you _can_ do:
     ```
     
     → `pnpm` becomes the _driver_ that shells out to `pip` (or better: [`uv`](https://github.com/astral-sh/uv), which is much faster and vendorable).
-$$
+```
 2.  **Monorepo tools**
-$$
+```
     put Python and JS side-by-side, manage with something like:
     
     *   **Nx**: can define Python “projects” + tasks, and still use `pnpm` workspaces for the JS parts.
@@ -1585,13 +1585,13 @@ $$
     *   **Bazel**: polyglot, heavier lift but first-class support for multiple languages.
         
     *   **Just/Make/Hy script**: lightweight orchestrator; you already lean on Hy, so your build runner could kick off `pnpm` _and_ `uv` with consistent task names.
-$$
+```
 3.  **Containers as package boundaries**
-$$
-    define each ecosystem in its own Dockerfile, and let your orchestrator $e.g. docker-compose or k8s$ run them together. Keeps local installs consistent: `pnpm install` only touches Node; Python deps are vendored into its image.
-$$
+```
+    define each ecosystem in its own Dockerfile, and let your orchestrator e.g. docker-compose or k8s run them together. Keeps local installs consistent: `pnpm install` only touches Node; Python deps are vendored into its image.
+```
 4.  **Bridging layer**
-$$
+```
     tools like Poetry or `uv` can export lockfiles; you can check those into your monorepo next to `pnpm-lock.yaml` so all dependency state lives in version control together, even if the managers differ.
     
 
@@ -1599,7 +1599,7 @@ $$
 
 ### real talk
 
-trying to _force_ Python into `pnpm`’s resolution model will give you headaches $C-extensions, wheels, venv activation$. you’ll spend more time hacking around than just using the right tool.
+trying to _force_ Python into `pnpm`’s resolution model will give you headaches C-extensions, wheels, venv activation. you’ll spend more time hacking around than just using the right tool.
 
 the sweet spot:
 
@@ -1621,9 +1621,9 @@ yea we are using uv... and no, design, think, grow, learn, plan, saf
 got it — pure design brain. let’s shape a **single mental model** where `pnpm` (JS) and `uv` (Python) feel like one system without pretending they are.
 
 North‑star
-$$
+```
 ==========
-$$
+```
 *   One **vocabulary** for tasks.
     
 *   One **entrypoint** to run them.
@@ -1634,9 +1634,9 @@ $$
     
 
 Core conventions
-$$
+```
 ================
-$$
+```
 *   **Task names** are ecosystem‑agnostic: `install`, `build`, `test`, `lint`, `fmt`, `start`, `clean`.
     
 *   **Scope** with `<domain>:<task>`:  
@@ -1650,12 +1650,12 @@ $$
     
 
 Roles in your taxonomy
-$$
+```
 ======================
-$$
+```
 *   **Services** (tools): lowercase; live under `services/ts/*` and `services/py/*`.
     
-*   **Structures** (organs): proper nouns; published from `shared/ts` $and later `shared/py`$, imported via `@shared/ts/dist/...` (keep your rule).
+*   **Structures** (organs): proper nouns; published from `shared/ts` and later `shared/py`, imported via `@shared/ts/dist/...` (keep your rule).
     
 *   **Agents** (beings): Proper Nouns; light runners/manifests under `agents/*`.
     
@@ -1666,15 +1666,15 @@ Each root has a manifest:
     
 *   `language: ts|py`
     
-*   `tasks: { install, build, test, start }` mapping to the real commands $pnpm/uv$
+*   `tasks: { install, build, test, start }` mapping to the real commands pnpm/uv
     
 
 Your **Hy runner** reads manifests and dispatches to the right tool. (We’re not coding it here—just designing the contract.)
 
 Manifests (contract, not code)
-$$
+```
 ==============================
-$$
+```
 Minimal example for three kinds:
 
 **services/ts/smartgpt-bridge/service.manifest.yaml**
@@ -1725,9 +1725,9 @@ tasks:
 > The Hy runner only needs to: 1) load manifest, 2) run the string in `tasks.<task>` in that cwd.
 
 Direnv layering (clean, predictable)
-$$
+```
 ====================================
-$$
+```
 *   Root `.envrc` sets **global** env (safe defaults) and exports `VENV_IN_PROJECT=1`.
     
 *   Sub‑dirs can **append** env; never overwrite critical values. Use `dotenv-if-exists` and `layout` calls.
@@ -1748,9 +1748,9 @@ dotenv_if_exists .env
 Rule: if a child needs to change PATH/vars, it **adds**; only agents may override by design (documented in their manifest).
 
 One mental model for tasks
-$$
+```
 ==========================
-$$
+```
 ```mermaid
 flowchart TD
   A[hy tools/build.hy] --> B{scope}
@@ -1768,15 +1768,15 @@ flowchart TD
   classDef p fill:#1B5E20,stroke:#66BB6A,color:#E8F5E9
 ```
 
-*   `hy tools/build.hy install` → installs **everything** in topo‑order $shared → services → agents$.
+*   `hy tools/build.hy install` → installs **everything** in topo‑order shared → services → agents.
     
 *   `hy tools/build.hy bridge:test` → runs exactly the `test` string from that manifest.
     
 
 Reproducibility & speed
-$$
+```
 =======================
-$$
+```
 *   **uv**: use `uv lock`/`uv sync`; commit `uv.lock`.
     
 *   **pnpm**: commit `pnpm-lock.yaml`; set `engine-strict=true` in `.npmrc`.
@@ -1787,9 +1787,9 @@ $$
     
 
 CI policy gates
-$$
+```
 ===============
-$$
+```
 *   **Taxonomy lints**:
     
     *   `kind: service` must be lowercase id.
@@ -1812,20 +1812,20 @@ $$
         
 
 Release & versioning
-$$
+```
 ====================
-$$
+```
 *   **Services**: semantic version in `package.json` (ts) or `pyproject.toml` (py).
     
 *   **Structures**: versioned packages; agents pin to versions in profiles.
     
-*   **Agents**: version profiles $`pandora.dev.search.v1` → `.v2`$; runner reads the highest allowed version per environment.
+*   **Agents**: version profiles `pandora.dev.search.v1` → `.v2`; runner reads the highest allowed version per environment.
     
 
 Developer ergonomics
-$$
+```
 ====================
-$$
+```
 *   One **help**: `hy tools/build.hy --help` prints discovered scopes/tasks from manifests.
     
 *   One **doctor**: `hy tools/build.hy doctor` checks toolchain (node, pnpm, uv, python, direnv), venv presence, lockfile freshness.
@@ -1834,20 +1834,20 @@ $$
     
 
 Failure modes to anticipate
-$$
+```
 ===========================
-$$
+```
 *   **Mixed PATH collisions**: ensure `uv` venv bin path precedes system python; let Node bins come _after_ venv (Python must not pick node shims).
     
 *   **C‑extensions on Linux**: pin manylinux wheels in Python deps; avoid local compilers for baseline dev machines.
     
-*   **Node native modules**: compile with `--unsafe-perm` in CI runners if needed; document toolchain $gcc/clang$ in `docs/dev-setup.md`.
+*   **Node native modules**: compile with `--unsafe-perm` in CI runners if needed; document toolchain gcc/clang in `docs/dev-setup.md`.
     
 
 Minimal scaffolding you’ll need later (not coding now)
-$$
+```
 ======================================================
-$$
+```
 *   `tools/build.hy` reads all `**/*manifest.yaml`, builds a DAG by `depends_on` (optional manifest field), and dispatches.
     
 *   `.github/workflows/ci.yml` with two caches and matrix `{ lang: [ts, py] }` or per‑service jobs resolved from manifests.
@@ -1856,9 +1856,9 @@ $$
     
 
 How this maps to your earlier rules
-$$
+```
 ===================================
-$$
+```
 *   PM2 can keep using `uv run …` and `pnpm …` — the Hy runner just becomes the **human interface**.
     
 *   Shared imports stay compliant with your critical rule: TS imports via `@shared/ts/dist/...`.
@@ -1868,7 +1868,7 @@ $$
 
 * * *
 
-if this scaffolding feels right, next we can **design the manifest schema** $fields, enums, optional `depends_on`, `env`$ and the **task graph resolution rules** $e.g., shared → services → agents; detect cycles; per‑lang parallelism$.
+if this scaffolding feels right, next we can **design the manifest schema** fields, enums, optional `depends_on`, `env` and the **task graph resolution rules** e.g., shared → services → agents; detect cycles; per‑lang parallelism.
 
 ## User
 We... are building towards a universal language interface... I am... it's in there...  We have Hy nudged in exactly the right spot to make me never forget this... it is currently our build tool...   Schema... dsl...
@@ -1879,9 +1879,9 @@ oh yeah—this is the seam. if Promethean is a body, the **universal language in
 Let’s sketch a tight **schema + DSL** that your Hy build tool can own. No code; just the contract.
 
 North‑star
-$$
+```
 ==========
-$$
+```
 *   **One representation** (s‑expressions) for Agents/Structures/Services, tasks, capabilities, policies, and search plans.
     
 *   **One compiler** (Hy runner) that lowers to the right artifacts: `manifest.yaml`, `OpenAPI`, `pm2` entries, `uv`/`pnpm` commands.
@@ -1892,9 +1892,9 @@ $$
 * * *
 
 The DSL: Promethean Interface Language (PIL)
-$$
+```
 ============================================
-$$
+```
 File extension: `.pil` (it’s just s‑expressions).  
 Atomic idea: _declare what it is_, _declare what it can do_, _declare how it’s run_—language‑agnostic.
 
@@ -1924,14 +1924,14 @@ Core forms (surface)
     
 *   `:runtime` → how to execute (language‑specific but abstracted).
     
-*   `:depends-on` → DAG edges $for build/run ordering$.
+*   `:depends-on` → DAG edges for build/run ordering.
     
 *   `:policy` → scopes/limits.
     
 
 * * *
 
-Minimal type system $for `def-schema`$
+Minimal type system for `def-schema`
 --------------------------------------
 
 Product types, sum types, refs, and constraints—compact but expressive.
@@ -2102,17 +2102,17 @@ Everything runnable—install/build/test/start—becomes a single vocabulary tha
   :run (foreach (start)))
 ```
 
-**Key idea:** `:select` filters the catalog $from all `def-*`$ by predicates (kind, language, tags), and `:run` maps abstract verbs to the per‑entity task strings.
+**Key idea:** `:select` filters the catalog from all `def-*` by predicates (kind, language, tags), and `:run` maps abstract verbs to the per‑entity task strings.
 
 * * *
 
 How it compiles (artifacts)
-$$
+```
 ===========================
-$$
+```
 Your Hy compiler reads `.pil` files and emits:
 
-*   **Catalog**: `docs/capabilities.json` $all entities/capabilities/contracts$.
+*   **Catalog**: `docs/capabilities.json` all entities/capabilities/contracts.
     
 *   **Manifests**: `*manifest.yaml` beside each implementation (for humans & DevOps).
     
@@ -2120,7 +2120,7 @@ Your Hy compiler reads `.pil` files and emits:
     
 *   **PM2 entries**: from `:runtime` for services/agents that should be managed.
     
-*   **Index registry**: JSON handed to Bridge $for `/v1/indexes`$.
+*   **Index registry**: JSON handed to Bridge for `/v1/indexes`.
     
 *   **CI lints**: rules extracted from declarations (naming, scopes, budgets).
     
@@ -2130,27 +2130,27 @@ No path moves; build products are derived.
 * * *
 
 Governance & Safety
-$$
+```
 ===================
-$$
+```
 *   **Naming law**:
     
-    *   `def-agent` / `def-structure` ⇒ Proper Noun $`$A-Z$$a-z$+`…$,
+    *   `def-agent` / `def-structure` ⇒ Proper Noun `A-Z$a-z+`…,
         
     *   `def-service` / `def-index` ⇒ lowercase kebab.  
         Linted from the DSL.
         
 *   **Policy law**: AR services must declare scope requirements; Agents must declare scopes they carry. Compiler verifies compatibility.
     
-*   **Budget clamps**: global maxes $e.g., `topK ≤ 50`, `targets ≤ 4`$ live in compiler config; profiles can only request ≤ clamps.
+*   **Budget clamps**: global maxes e.g., `topK ≤ 50`, `targets ≤ 4` live in compiler config; profiles can only request ≤ clamps.
     
 
 * * *
 
 Execution story (without code)
-$$
+```
 ==============================
-$$
+```
 *   The **Hy runner** becomes the _universal language interface executor_: it reads PIL, resolves DAG, and _then_ delegates to `pnpm` or `uv` based on entity language/runtime.
     
 *   The **Bridge** becomes the _capability gateway_: it serves `/v1/capabilities`, `/v1/indexes`, and executes SearchPlans; Pandora/Eris _ask_, Bridge _does_.
@@ -2161,22 +2161,22 @@ $$
 * * *
 
 Why this scales
-$$
+```
 ===============
-$$
+```
 *   You can add a **Go** or **Rust** service by writing a new `:runtime` adapter, without changing the DSL.
     
 *   You can mint new **Agents** by composing structures/services/profiles—no new scaffolding.
     
-*   You can switch **index engines** $Chroma → FAISS$ by editing `def-index`; Agents stay the same.
+*   You can switch **index engines** Chroma → FAISS by editing `def-index`; Agents stay the same.
     
 
 * * *
 
 Tiny visual to anchor the mental model
-$$
+```
 ======================================
-$$
+```
 ```mermaid
 flowchart LR
   subgraph PIL[.pil Declarations]
@@ -2226,30 +2226,30 @@ There you got. That is what I want you to do, yes. Keep the design
 heck yes. locking in “design + pseudo” mode. here’s a tight next slice for the Universal Language Interface:
 
 PIL v0.1 — grammar, core forms, stdlib, and planner
-$$
+```
 ===================================================
-$$
+```
 1) Surface grammar (tight & parseable)
 --------------------------------------
-$$
+```
 **Identifiers**
-$$
-*   `Proper` $Agents/Structures$: `^$A-Z$$A-Za-z0-9_-$*$`
+```
+*   `Proper` Agents/Structures: `^A-Z$A-Za-z0-9_-*`
     
-*   `kebab-case` $services/indexes/tasks$: `^$a-z$$a-z0-9-$*$`
+*   `kebab-case` services/indexes/tasks: `^a-z$a-z0-9-*`
     
 *   Schema IDs: `Name@<major>` (e.g., `AgentContext@1`)
     
-$$
+```
 **Atoms**
-$$
+```
 *   strings `"..."`, numbers, booleans `t|nil`, symbols
     
 *   keywords start with `:` (metadata)
     
-$$
+```
 **Top forms**
-$$
+```
 ```python
 (def-structure  Proper  &props)
 (def-service    kebab   &props)
@@ -2260,9 +2260,9 @@ $$
 (def-task       scope   &props)
 (def-pipeline   id      &props)
 ```
-$$
+```
 **Shared properties**
-$$
+```
 ```ruby
 :version "x.y.z"
 :capabilities (symbol ...)
@@ -2270,22 +2270,22 @@ $$
 :depends-on (id ...)
 :tags (symbol ...)
 ```
-$$
+```
 **Runtime**
-$$
+```
 ```ruby
 :runtime (node   :entry "pnpm start" :port 8140)
 :runtime (python :entry "uv run -m pandora.main")
 ```
-$$
+```
 **Exposure (services only)**
-$$
+```
 ```ruby
 :expose ((http "/v1/search") (http "/v1/capabilities"))
 ```
-$$
+```
 **Policy**
-$$
+```
 ```ruby
 :policy (scopes ("search:*" "sinks:read")
          :budgets (targets 3 topK 20 timeoutMs 2500))
@@ -2293,7 +2293,7 @@ $$
 
 * * *
 
-2) Minimal type system $for `def-schema`$
+2) Minimal type system for `def-schema`
 -----------------------------------------
 
 ```typescript
@@ -2352,19 +2352,19 @@ $$
 
 *   `(select predicate ...)` → filters catalog by fields (`kind`, `language`, `tags`)
     
-*   `$foreach (verb) ...$` → map task over selection
+*   `foreach (verb) ...` → map task over selection
     
-*   `$env (:KEY "VAL" ...)$` → scoped env
+*   `env (:KEY "VAL" ...)` → scoped env
     
 *   `(when cond form)` → conditional composition
     
-*   `$merge-profile base overlay ...$` → data merge for profiles
+*   `merge-profile base overlay ...` → data merge for profiles
     
 *   `(include "file.pil")` → multi-file composition
     
-$$
+```
 **Predicate language**
-$$
+```
 ```pgsql
 (kind service|agent|structure|index|profile|schema)
 (language ts|py|go|rs)
@@ -2391,9 +2391,9 @@ $$
 > Defaults can be overridden in `.pil` via the `:kind` property.
 
 * * *
-$$
+```
 5) Example: Pandora + Eris (PIL)
-$$
+```
 --------------------------------
 
 ```ruby
@@ -2501,7 +2501,7 @@ plan.error         { planId, error, where }
    "schemas"     (-> forms (get "schema"))})
 ```
 
-### task resolver $select + foreach$
+### task resolver select + foreach
 
 ```hy
 (defn select-entities [catalog &preds]
@@ -2536,7 +2536,7 @@ plan.error         { planId, error, where }
          (map first))))
 ```
 
-### validation rules $naming + kind$
+### validation rules naming + kind
 
 ```hy
 (defn proper-noun? [s] (re-matches #"[A-Z][A-Za-z0-9_-]*" s))
@@ -2557,9 +2557,9 @@ plan.error         { planId, error, where }
 8) Error taxonomy (clear CI messages)
 -------------------------------------
 
-*   `E-NAME-AGENT`: “Agent id must be Proper Noun: got ‘duck’ $def-agent at agents/duck.pil:3$”
+*   `E-NAME-AGENT`: “Agent id must be Proper Noun: got ‘duck’ def-agent at agents/duck.pil:3”
     
-*   `E-NAME-SERVICE`: “Service id must be kebab-case: got ‘SmartBridge’ $def-service …$”
+*   `E-NAME-SERVICE`: “Service id must be kebab-case: got ‘SmartBridge’ def-service …”
     
 *   `E-TASK-MISSING`: “Missing task ‘test’ for service ‘smartgpt-bridge’”
     
@@ -2607,9 +2607,9 @@ If this hits the mark, next I’ll design:
 
 *   the **precise BNF** for PIL (so we can robustly parse),
     
-*   the **profile merge rules** $global → org → agent → session$,
+*   the **profile merge rules** global → org → agent → session,
     
-*   and the **search stream contract** $SSE + JSONL field-by-field spec$.
+*   and the **search stream contract** SSE + JSONL field-by-field spec.
 
 ## User
 Do it
@@ -2618,9 +2618,9 @@ Do it
 Awesome. Here’s the next slice—**formal grammar, merge math, and the search stream contract**—plus tight pseudo for parser/validator/generators. No code, all scaffolding.
 
 PIL v0.1 – Core Spec
-$$
+```
 ====================
-$$
+```
 1) Grammar (EBNF over s‑expressions)
 ------------------------------------
 
@@ -2679,11 +2679,11 @@ Constraint  ::= ":" "min" Number
               | ":" "optional" Boolean
 ```
 
-### Validator rules $naming + structure$
+### Validator rules naming + structure
 
-*   `def-agent` / `def-structure` **id must be Proper** $`^$A-Z$$A-Za-z0-9_-$*$`$.
+*   `def-agent` / `def-structure` **id must be Proper** `^A-Z$A-Za-z0-9_-*`.
     
-*   `def-service` / `def-index` **id must be kebab-case** $`^$a-z$$a-z0-9-$*$`$.
+*   `def-service` / `def-index` **id must be kebab-case** `^a-z$a-z0-9-*`.
     
 *   `def-schema` **id is `Proper@major`**; only one `major` per name.
     
@@ -2694,7 +2694,7 @@ Constraint  ::= ":" "min" Number
 
 * * *
 
-2) Form contracts $required/optional props$
+2) Form contracts required/optional props
 -------------------------------------------
 
 ### `def-structure Proper`
@@ -2706,7 +2706,7 @@ Required:
 *   `:language ts|py|go|rs`  
     Optional:
     
-*   `:package STRING` $publish/import path$
+*   `:package STRING` publish/import path
     
 *   `:capabilities (symbol …)`
     
@@ -2742,7 +2742,7 @@ Required:
     
 *   `:depends-on (kebab …)`
     
-*   `:policy $scopes (STRING …) :budgets (KV …)$`
+*   `:policy scopes (STRING …) :budgets (KV …)`
     
 
 ### `def-agent Proper`
@@ -2764,7 +2764,7 @@ Required:
     
 *   `:contracts (SchemaID …)`
     
-*   `:policy $scopes (STRING …) :budgets (KV …)$`
+*   `:policy scopes (STRING …) :budgets (KV …)`
     
 *   `:depends-on (Proper|kebab …)`
     
@@ -2776,28 +2776,28 @@ Required:
 *   `:engine vector|keyword|web|custom`  
     Optional:
     
-*   `:backing $engine-specific s-expr$`
+*   `:backing engine-specific s-expr`
     
 *   `:filters ([field type] …)`
     
-*   `:policy $scopes (STRING …)$`
+*   `:policy scopes (STRING …)`
     
 
 ### `def-profile kebab.vN`
 
 Free-form **data** with known keys (all optional):
 
-*   `:targets $(index-id :engine ENGINE $:weight NUM :where (record)$ ) …$`
+*   `:targets (index-id :engine ENGINE :weight NUM :where (record) ) …`
     
 *   `:templates ((name STRING) …)` ; prompt snippets
     
-*   `:blend (rrf :k INT) | (sum) | $max$`
+*   `:blend (rrf :k INT) | (sum) | max`
     
 *   `:budgets (maxTargets INT maxTopK INT timeoutMs INT)`
     
 *   `:policy-overrides ((deny "scope") (allow "scope") …)`
     
-*   `:perturbations $(negate-assumptions t) (counterfactuals INT) …$`
+*   `:perturbations (negate-assumptions t) (counterfactuals INT) …`
     
 *   `:tags (symbol …)`
     
@@ -2810,7 +2810,7 @@ Required:
     
 *   one of:
     
-    *   `:select (pred …)` + `:run $foreach (verb)$`
+    *   `:select (pred …)` + `:run foreach (verb)`
         
     *   `:run STRING`  
         Optional:
@@ -2825,26 +2825,26 @@ Required:
 3) Profile merge rules (deterministic)
 --------------------------------------
 
-### Layers $lowest → highest precedence$
-$$
+### Layers lowest → highest precedence
+```
 1.  **Global** (repo defaults)
-$$
-$$
+```
+```
 2.  **Org** (team/project overlay)
-$$
-$$
+```
+```
 3.  **Env** (dev/staging/prod)
-$$
-4.  **Agent** $declared in `def-agent`$
-$$
+```
+4.  **Agent** declared in `def-agent`
+```
 5.  **Session** (ephemeral runtime overlay)
-$$
+```
 
 ### Merge semantics (per key)
 
 *   **Scalars** (`:blend`, numbers under `:budgets`): **last-wins** (higher layer overrides lower).
     
-*   **Maps** $`:budgets`, `:policy-overrides`$: **deep merge**; per-leaf last-wins.
+*   **Maps** `:budgets`, `:policy-overrides`: **deep merge**; per-leaf last-wins.
     
 *   **Vectors/Lists**:
     
@@ -2868,18 +2868,18 @@ $$
 
 ### Example (illustrative)
 
-*   Global: `$targets (code :engine keyword :weight 0.4)$`
+*   Global: `targets (code :engine keyword :weight 0.4)`
     
-*   Agent: `$targets (code :engine keyword :weight 0.3) (repo-embeddings :engine vector :weight 0.7)$`
+*   Agent: `targets (code :engine keyword :weight 0.3) (repo-embeddings :engine vector :weight 0.7)`
     
-*   Session: `$targets (code :weight 0.2)$`  
+*   Session: `targets (code :weight 0.2)`  
     → Result:  
-    `code.weight = 0.2`, `repo-embeddings.weight = 0.7`, order preserves `$code, repo-embeddings$`.
+    `code.weight = 0.2`, `repo-embeddings.weight = 0.7`, order preserves `code, repo-embeddings`.
     
 
 * * *
 
-4) Search Stream Contract $SSE + JSONL$
+4) Search Stream Contract SSE + JSONL
 ---------------------------------------
 
 ### Endpoint
@@ -2890,7 +2890,7 @@ $$
 *   **JSONL** (fallback): `POST /v1/search?stream=jsonl` (response body emits one JSON per line)
     
 
-### Event types $SSE `event:` + JSON payload in `data:`$
+### Event types SSE `event:` + JSON payload in `data:`
 
 1.  `plan.start`
     
@@ -2943,11 +2943,11 @@ $$
 5) Generators (what PIL compiles to)
 ------------------------------------
 
-*   **Catalog JSON**: aggregate of all entities $`agents/services/structures/indexes/profiles/schemas`$.
+*   **Catalog JSON**: aggregate of all entities `agents/services/structures/indexes/profiles/schemas`.
     
 *   **Manifests**: per entity YAML (for humans & DevOps).
     
-*   **OpenAPI**: from `def-service :expose` + `def-schema` $request/response refs$.
+*   **OpenAPI**: from `def-service :expose` + `def-schema` request/response refs.
     
 *   **PM2** entries: from `:runtime` for the things you want supervised.
     
@@ -3082,7 +3082,7 @@ $$
     
 *   `E-PROFILE-BUDGET-CLAMP` (requested > global clamp)
     
-*   `E-CYCLE` $detected in `:depends-on` or task DAG$
+*   `E-CYCLE` detected in `:depends-on` or task DAG
     
 
 * * *
@@ -3132,40 +3132,40 @@ heck yeah — here’s a tight **PIL v0.1 reference** you can drop in the repo f
 * * *
 
 PIL v0.1 — Conformance Matrix (what’s required where)
-$$
+```
 =====================================================
-$$
+```
 | Form | ID shape | Required props | Common optional props |
-$$
+```
 | --- | --- | --- | --- |
-$$
-| def-structure Proper | ^$A-Z$$A-Za-z0-9_-$*$ | :version, :language | :package, :capabilities, :contracts, :depends-on, :tags |
-| def-service kebab | ^$a-z$$a-z0-9-$*$ | :version, :class (GP|AR), :language, :root | :capabilities, :contracts, :runtime, :tasks, :expose, :depends-on, :policy |
+```
+| def-structure Proper | ^A-Z$A-Za-z0-9_-* | :version, :language | :package, :capabilities, :contracts, :depends-on, :tags |
+| def-service kebab | ^a-z$a-z0-9-* | :version, :class (GP|AR), :language, :root | :capabilities, :contracts, :runtime, :tasks, :expose, :depends-on, :policy |
 | def-agent Proper | Proper Noun | :version, :runtime | :structures, :uses, :profiles, :capabilities, :contracts, :policy, :depends-on |
 | def-index kebab | kebab-case | :engine (vector|keyword|web|custom) | :backing, :filters, :policy |
 | def-profile kebab.vN | name.vINT | (none; data overlay) | :targets, :templates, :blend, :budgets, :policy-overrides, :perturbations, :tags |
 | def-schema Name@N | Proper@INT | (type body) | — |
-| def-task scope | kebab:verb | :description, $:select + :run (foreach (verb))$ or :run STRING | :depends-on, :env |
+| def-task scope | kebab:verb | :description, :select + :run (foreach (verb)) or :run STRING | :depends-on, :env |
 | def-pipeline kebab | kebab-case | (none; Composition form) | :steps ((id :with {...}) …), :depends-on, :policy |
 | include "path.pil" | — | (path) | — |
-$$
+```
 **Global rules**
-$$
+```
 *   Agents/Structures must be **Proper Nouns**; Services/Indexes/Tasks are **kebab-case**.
     
 *   Schema IDs are `Name@major` (one major active per name).
     
 *   Profiles are `name.vN`, N strictly increasing.
     
-*   Budgets obey compiler clamps $e.g., `maxTargets ≤ 4`, `maxTopK ≤ 50`, `timeoutMs ≤ 5000`$.
+*   Budgets obey compiler clamps e.g., `maxTargets ≤ 4`, `maxTopK ≤ 50`, `timeoutMs ≤ 5000`.
     
 
 * * *
 
 PIL v0.1 — EBNF (for your docs)
-$$
+```
 ===============================
-$$
+```
 ```ebnf
 PIL         ::= { Form }
 Form        ::= List
@@ -3217,9 +3217,9 @@ Constraint  ::= ":" "min" Number
 * * *
 
 `reference.pil` — Canonical All-in-One Example
-$$
+```
 ==============================================
-$$
+```
 > Save as `docs/pil/reference.pil`. It’s self‑consistent and demonstrates every form with minimal viable values. Use it as a CI sample for parsing/validation.
 
 ```lisp
@@ -3407,16 +3407,16 @@ $$
 * * *
 
 Merge Semantics (quick crib)
-$$
+```
 ============================
-$$
+```
 *   **Profiles** merge by layers: Global → Org → Env → Agent → Session.
     
-*   **Targets** merge by `index` $last-wins for fields$. Order preserves first appearance.
+*   **Targets** merge by `index` last-wins for fields. Order preserves first appearance.
     
-*   **Templates** merge by `name` $last-wins$.
+*   **Templates** merge by `name` last-wins.
     
-*   **Budgets** deep-merge $leaf last-wins$, but clamped by compiler maxima.
+*   **Budgets** deep-merge leaf last-wins, but clamped by compiler maxima.
     
 *   **Conflicts**:
     
@@ -3428,9 +3428,9 @@ $$
 * * *
 
 Stream Event Contract (recap)
-$$
+```
 =============================
-$$
+```
 SSE at `/v1/search/stream?planId=UUID` emits in order:
 
 *   `plan.start` → `target.start` → `target.result*` → `target.done|target.error` (per target)
@@ -3443,9 +3443,9 @@ Dedup key: `(planId, targetId, hit.id)`.
 * * *
 
 Lint/Error Codes (for CI)
-$$
+```
 =========================
-$$
+```
 *   `E-NAME-AGENT` / `E-NAME-STRUCT` / `E-NAME-SERVICE` / `E-NAME-INDEX`
     
 *   `E-SCHEMA-DUP-MAJOR`, `E-SCHEMA-UNRESOLVED`
@@ -3454,15 +3454,15 @@ $$
     
 *   `E-PROFILE-ENGINE-CLASH`, `E-PROFILE-BUDGET-CLAMP`
     
-*   `E-CYCLE` $in `:depends-on`$, `E-RUNTIME-MISSING` (required `:runtime` absent)
+*   `E-CYCLE` in `:depends-on`, `E-RUNTIME-MISSING` (required `:runtime` absent)
     
 
 * * *
 
 Tiny mental map
-$$
+```
 ===============
-$$
+```
 ```mermaid
 flowchart LR
   A[reference.pil] --> P[Parser]
@@ -3478,5 +3478,5 @@ flowchart LR
 
 * * *
 
-If you want, I can follow this with a **“compiler checklist”** $exact passes and their input/output$ and a **“conformance tests”** list $green/red `.pil` snippets for the linter$.
+If you want, I can follow this with a **“compiler checklist”** exact passes and their input/output and a **“conformance tests”** list green/red `.pil` snippets for the linter.
 

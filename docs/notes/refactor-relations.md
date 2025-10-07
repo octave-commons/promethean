@@ -1,19 +1,19 @@
 ---
-$$
+```
 uuid: 363d0956-eaeb-4b15-8e45-4d624302965a
-$$
-$$
+```
+```
 created_at: refactor-relations.md
-$$
-$$
+```
+```
 filename: refactor-relations
-$$
-$$
+```
+```
 title: refactor-relations
-$$
-$$
+```
+```
 description: >-
-$$
+```
   Refactors the relations handling logic to use LevelDB for key-value storage,
   reduces complexity, and prefers functional style with immutability. The
   implementation avoids loops and uses promise-based error handling for
@@ -27,9 +27,9 @@ tags:
   - complexity-reduction
   - error-handling
   - promises
-$$
+```
 related_to_uuid:
-$$
+```
   - 80d4d883-59f9-401b-8699-7a2723148b1e
   - cfbdca2f-5ee8-4cad-a75e-0e017e8d9b77
   - e1056831-ae0c-460b-95fa-4cf09b3398c6
@@ -55,9 +55,9 @@ $$
   - 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
   - 4127189a-e0ab-436f-8571-cc852b8e9add
   - d2b3628c-6cad-4664-8551-94ef8280851d
-$$
+```
 related_to_title:
-$$
+```
   - Refactor 05-footers.ts
   - Refactor Frontmatter Processing
   - RAG UI Panel with Qdrant and PostgREST
@@ -145,50 +145,50 @@ references:
     col: 0
     score: 0.85
 ---
-$$
- ^ref-41ce0216-3-0 ^ref-41ce0216-6-0 ^ref-41ce0216-8-0 ^ref-41ce0216-10-0
-$$
+```
+^ref-41ce0216-3-0 ^ref-41ce0216-6-0 ^ref-41ce0216-8-0 ^ref-41ce0216-10-0
+```
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- $Refactor 05-footers.ts$$refactor-05-footers-ts.md$
-- [Refactor Frontmatter Processing]$refactor-frontmatter-processing.md$
-- [RAG UI Panel with Qdrant and PostgREST]$rag-ui-panel-with-qdrant-and-postgrest.md$
-- [Promethean Agent DSL TS Scaffold]$promethean-agent-dsl-ts-scaffold.md$
-- [Exception Layer Analysis]$exception-layer-analysis.md$
-- [Event Bus Projections Architecture]$event-bus-projections-architecture.md$
-- [Matplotlib Animation with Async Execution]$matplotlib-animation-with-async-execution.md$
-- [Promethean Agent Config DSL]$promethean-agent-config-dsl.md$
-- $Lispy Macros with syntax-rules$$lispy-macros-with-syntax-rules.md$
-- $set-assignment-in-lisp-ast$$set-assignment-in-lisp-ast.md$
-- $file-watcher-auth-fix$$file-watcher-auth-fix.md$
-- [Promethean Event Bus MVP v0.1]$promethean-event-bus-mvp-v0-1.md$
-- $heartbeat-simulation-snippets$$heartbeat-simulation-snippets.md$
-- $Promethean Full-Stack Docker Setup$$promethean-full-stack-docker-setup.md$
-- $promethean-system-diagrams$$promethean-system-diagrams.md$
-- $Chroma-Embedding-Refactor$$chroma-embedding-refactor.md$
-- $prompt-programming-language-lisp$$prompt-programming-language-lisp.md$
-- $ecs-scheduler-and-prefabs$$ecs-scheduler-and-prefabs.md$
-- $shared-package-layout-clarification$$shared-package-layout-clarification.md$
-- $ecs-offload-workers$$ecs-offload-workers.md$
-- $Local-Only-LLM-Workflow$$local-only-llm-workflow.md$
-- $Pure-Node Crawl Stack with Playwright and Crawlee$$pure-node-crawl-stack-with-playwright-and-crawlee.md$
-- $field-dynamics-math-blocks$$field-dynamics-math-blocks.md$
-- $layer-1-uptime-diagrams$$layer-1-uptime-diagrams.md$
-- $Language-Agnostic Mirror System$$language-agnostic-mirror-system.md$
+- Refactor 05-footers.ts$refactor-05-footers-ts.md
+- [Refactor Frontmatter Processing]refactor-frontmatter-processing.md
+- [RAG UI Panel with Qdrant and PostgREST]rag-ui-panel-with-qdrant-and-postgrest.md
+- [Promethean Agent DSL TS Scaffold]promethean-agent-dsl-ts-scaffold.md
+- [Exception Layer Analysis]exception-layer-analysis.md
+- [Event Bus Projections Architecture]event-bus-projections-architecture.md
+- [Matplotlib Animation with Async Execution]matplotlib-animation-with-async-execution.md
+- [Promethean Agent Config DSL]promethean-agent-config-dsl.md
+- Lispy Macros with syntax-rules$lispy-macros-with-syntax-rules.md
+- set-assignment-in-lisp-ast$set-assignment-in-lisp-ast.md
+- file-watcher-auth-fix$file-watcher-auth-fix.md
+- [Promethean Event Bus MVP v0.1]promethean-event-bus-mvp-v0-1.md
+- heartbeat-simulation-snippets$heartbeat-simulation-snippets.md
+- Promethean Full-Stack Docker Setup$promethean-full-stack-docker-setup.md
+- promethean-system-diagrams$promethean-system-diagrams.md
+- Chroma-Embedding-Refactor$chroma-embedding-refactor.md
+- prompt-programming-language-lisp$prompt-programming-language-lisp.md
+- ecs-scheduler-and-prefabs$ecs-scheduler-and-prefabs.md
+- shared-package-layout-clarification$shared-package-layout-clarification.md
+- ecs-offload-workers$ecs-offload-workers.md
+- Local-Only-LLM-Workflow$local-only-llm-workflow.md
+- Pure-Node Crawl Stack with Playwright and Crawlee$pure-node-crawl-stack-with-playwright-and-crawlee.md
+- field-dynamics-math-blocks$field-dynamics-math-blocks.md
+- layer-1-uptime-diagrams$layer-1-uptime-diagrams.md
+- Language-Agnostic Mirror System$language-agnostic-mirror-system.md
 ## Sources
-- $Refactor 05-footers.ts — L3$$refactor-05-footers-ts.md#^ref-80d4d883-3-0$ (line 3, col 0, score 0.99)
-- $Refactor 05-footers.ts — L8$$refactor-05-footers-ts.md#^ref-80d4d883-8-0$ (line 8, col 0, score 0.98)
-- [Refactor Frontmatter Processing — L4]$refactor-frontmatter-processing.md#^ref-cfbdca2f-4-0$ (line 4, col 0, score 0.97)
-- [Refactor Frontmatter Processing — L9]$refactor-frontmatter-processing.md#^ref-cfbdca2f-9-0$ (line 9, col 0, score 0.89)
-- $Refactor 05-footers.ts — L9$$refactor-05-footers-ts.md#^ref-80d4d883-9-0$ (line 9, col 0, score 0.87)
-- [Exception Layer Analysis — L63]$exception-layer-analysis.md#^ref-21d5cc09-63-0$ (line 63, col 0, score 0.86)
-- [Event Bus Projections Architecture — L111]$event-bus-projections-architecture.md#^ref-cf6b9b17-111-0$ (line 111, col 0, score 0.86)
-- [RAG UI Panel with Qdrant and PostgREST — L349]$rag-ui-panel-with-qdrant-and-postgrest.md#^ref-e1056831-349-0$ (line 349, col 0, score 0.86)
-- [Promethean Agent DSL TS Scaffold — L818]$promethean-agent-dsl-ts-scaffold.md#^ref-5158f742-818-0$ (line 818, col 0, score 0.86)
-- [Matplotlib Animation with Async Execution — L44]$matplotlib-animation-with-async-execution.md#^ref-687439f9-44-0$ (line 44, col 0, score 0.86)
-- [Promethean Agent Config DSL — L279]$promethean-agent-config-dsl.md#^ref-2c00ce45-279-0$ (line 279, col 0, score 0.86)
-- [Refactor Frontmatter Processing — L11]$refactor-frontmatter-processing.md#^ref-cfbdca2f-11-0$ (line 11, col 0, score 0.85)
-- $Lispy Macros with syntax-rules — L376$$lispy-macros-with-syntax-rules.md#^ref-cbfe3513-376-0$ (line 376, col 0, score 0.85)
-- $set-assignment-in-lisp-ast — L148$$set-assignment-in-lisp-ast.md#^ref-c5fba0a0-148-0$ (line 148, col 0, score 0.85)
-- $file-watcher-auth-fix — L32$$file-watcher-auth-fix.md#^ref-9044701b-32-0$ (line 32, col 0, score 0.85)
+- Refactor 05-footers.ts — L3$refactor-05-footers-ts.md#^ref-80d4d883-3-0 (line 3, col 0, score 0.99)
+- Refactor 05-footers.ts — L8$refactor-05-footers-ts.md#^ref-80d4d883-8-0 (line 8, col 0, score 0.98)
+- [Refactor Frontmatter Processing — L4]refactor-frontmatter-processing.md#^ref-cfbdca2f-4-0 (line 4, col 0, score 0.97)
+- [Refactor Frontmatter Processing — L9]refactor-frontmatter-processing.md#^ref-cfbdca2f-9-0 (line 9, col 0, score 0.89)
+- Refactor 05-footers.ts — L9$refactor-05-footers-ts.md#^ref-80d4d883-9-0 (line 9, col 0, score 0.87)
+- [Exception Layer Analysis — L63]exception-layer-analysis.md#^ref-21d5cc09-63-0 (line 63, col 0, score 0.86)
+- [Event Bus Projections Architecture — L111]event-bus-projections-architecture.md#^ref-cf6b9b17-111-0 (line 111, col 0, score 0.86)
+- [RAG UI Panel with Qdrant and PostgREST — L349]rag-ui-panel-with-qdrant-and-postgrest.md#^ref-e1056831-349-0 (line 349, col 0, score 0.86)
+- [Promethean Agent DSL TS Scaffold — L818]promethean-agent-dsl-ts-scaffold.md#^ref-5158f742-818-0 (line 818, col 0, score 0.86)
+- [Matplotlib Animation with Async Execution — L44]matplotlib-animation-with-async-execution.md#^ref-687439f9-44-0 (line 44, col 0, score 0.86)
+- [Promethean Agent Config DSL — L279]promethean-agent-config-dsl.md#^ref-2c00ce45-279-0 (line 279, col 0, score 0.86)
+- [Refactor Frontmatter Processing — L11]refactor-frontmatter-processing.md#^ref-cfbdca2f-11-0 (line 11, col 0, score 0.85)
+- Lispy Macros with syntax-rules — L376$lispy-macros-with-syntax-rules.md#^ref-cbfe3513-376-0 (line 376, col 0, score 0.85)
+- set-assignment-in-lisp-ast — L148$set-assignment-in-lisp-ast.md#^ref-c5fba0a0-148-0 (line 148, col 0, score 0.85)
+- file-watcher-auth-fix — L32$file-watcher-auth-fix.md#^ref-9044701b-32-0 (line 32, col 0, score 0.85)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

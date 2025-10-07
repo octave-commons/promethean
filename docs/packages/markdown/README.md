@@ -1,16 +1,16 @@
-$$
+```
 <!-- SYMPKG:PKG:BEGIN -->
-$$
+```
 # @promethean/markdown
-$$
+```
 **Folder:** `packages/markdown`
-$$
-$$
+```
+```
 **Version:** `0.0.1`
-$$
-$$
+```
+```
 **Domain:** `_root`
-$$
+```
 ```mermaid
 graph LR
   A["@promethean/markdown"]
@@ -34,13 +34,13 @@ graph LR
   click R5 "../tests/README.md" "@promethean/tests"
 ```
 ## Dependencies
-- $@promethean/fs$$../fs/README.md$
+- @promethean/fs$../fs/README.md
 ## Dependents
-- $@promethean/boardrev$$../boardrev/README.md$
-- $@promethean/docops$$../docops/README.md$
-- $@promethean/kanban$$../kanban/README.md$
-- $@promethean/kanban-processor$$../kanban-processor/README.md$
-- $@promethean/tests$$../tests/README.md$
-$$
+- @promethean/boardrev$../boardrev/README.md
+- @promethean/docops$../docops/README.md
+- @promethean/kanban$../kanban/README.md
+- @promethean/kanban-processor$../kanban-processor/README.md
+- @promethean/tests$../tests/README.md
+```
 <!-- SYMPKG:PKG:END -->
-$$
+```

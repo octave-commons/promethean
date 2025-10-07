@@ -1,16 +1,16 @@
-$$
+```
 <!-- SYMPKG:PKG:BEGIN -->
-$$
+```
 # @promethean/effects
-$$
+```
 **Folder:** `packages/effects`
-$$
-$$
+```
+```
 **Version:** `0.0.1`
-$$
-$$
+```
+```
 **Domain:** `_root`
-$$
+```
 ```mermaid
 graph LR
   A["@promethean/effects"]
@@ -21,7 +21,7 @@ graph LR
 ## Dependencies
 - _None_
 ## Dependents
-- $@promethean/discord$$../discord/README.md$
-$$
+- @promethean/discord$../discord/README.md
+```
 <!-- SYMPKG:PKG:END -->
-$$
+```

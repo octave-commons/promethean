@@ -1,14 +1,14 @@
 ---
-$$
+```
 uuid: b543e648-991c-4365-8d76-280c60c2c31e
-$$
+```
 title: decouple from ollama md
 status: todo
 priority: P3
 labels: []
-$$
+```
 created_at: '2025-09-15T02:02:58.510Z'
-$$
+```
 ---
 ## 🛠️ Task: Add Ollama formally to pipeline
 
@@ -43,9 +43,9 @@ It's difficult to get the system running for codex and CI/CD for them to properl
 ---
 
 ## 🔗 Related Epics
-$$
+```
 #framework-core
-$$
+```
 ---
 
 ## ⛓️ Blocked By

@@ -3,12 +3,12 @@ title: "Fix regenerateBoard to show all configured columns even when empty"
 status: done
 priority: P1
 tags: [kanban, bug, fsm, columns, config]
-$$
+```
 uuid: kanban-regenerate-fix-001
-$$
-$$
+```
+```
 created: 2025-10-06
-$$
+```
 ---
 
 # Fix regenerateBoard to show all configured columns even when empty
@@ -55,12 +55,12 @@ Modify `regenerateBoard` function to:
 
 1. **Modified `regenerateBoard` function** in `packages/kanban/src/lib/kanban.ts`:
    - Added `const { config } = await loadKanbanConfig();` to load configuration
-   - Changed column generation from `Array.from$statusGroups.values()$` to `Array.from(config.statusValues)`
+   - Changed column generation from `Array.fromstatusGroups.values()` to `Array.from(config.statusValues)`
    - Each configured status now creates a column, populated with existing tasks or empty
    - WIP limits are now applied from `config.wipLimits[status]`
-$$
+```
 2. **Key technical changes**:
-$$
+```
    - Before: Only created columns for statuses that had tasks
    - After: Creates columns for ALL configured statuses, even when empty
    - Maintains backward compatibility with existing task distribution

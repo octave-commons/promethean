@@ -1,13 +1,13 @@
-$$
+```
 uuid: 289210ba-0f7e-471f-88f1-703528a116ea
-$$
+```
 title: remove hardcoded paths from test-gap pipeline
 status: todo
 priority: P1
 labels: ["pipeline", "test-gap", "portability"]
-$$
+```
 created_at: '2025-10-07T01:00:44Z'
-$$
+```
 ---
 ## 🛠️ Description
 Restore portability of the `test-gap` pipeline by replacing hard-coded absolute paths with repo-relative references that work in any workspace.

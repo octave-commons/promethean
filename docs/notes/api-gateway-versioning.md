@@ -1,16 +1,16 @@
 ---
-$$
+```
 uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
-$$
-$$
+```
+```
 created_at: 2025.08.31.12.15.37.md
-$$
-$$
+```
+```
 filename: api-gateway-versioning
-$$
-$$
+```
+```
 description: >-
-$$
+```
   Configures versioned API routing with NGINX and gateway services for OpenAPI
   and Swagger UI support.
 tags:
@@ -20,9 +20,9 @@ tags:
   - gateway
   - openapi
   - swagger
-$$
+```
 related_to_title:
-$$
+```
   - Promethean Infrastructure Setup
   - Dynamic Context Model for Web Components
   - observability-infrastructure-setup
@@ -44,9 +44,9 @@ $$
   - Local-Only-LLM-Workflow
   - eidolon-field-math-foundations
   - Sibilant Meta-Prompt DSL
-$$
+```
 related_to_uuid:
-$$
+```
   - 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
   - f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
   - b4e64f8c-4dc9-4941-a877-646c5ada068e
@@ -362,12 +362,12 @@ references:
     col: 3
     score: 0.98
 ---
-Got it. Here’s the **versioned API $`/api/v1`$** plus **OpenAPI (JSON) + Swagger UI** for the gateway.
+Got it. Here’s the **versioned API `/api/v1`** plus **OpenAPI (JSON) + Swagger UI** for the gateway.
 
-# 1) NGINX: route `/api/v1/*` $+ redirect `/api/* → /api/v1/*`$ and expose `/docs`
-$$
+# 1) NGINX: route `/api/v1/*` + redirect `/api/* → /api/v1/*` and expose `/docs`
+```
 `infrastructure/compose/nginx.conf`
-$$
+```
 ```nginx
 worker_processes auto;
 events { worker_connections 1024; }
@@ -384,15 +384,15 @@ http {
     listen 80;
 
     # Hard versioning
-    location ~ ^/api/(v\d+/.*)$ {
-      proxy_pass http://api_gateway/$1;
-      proxy_set_header Host $host;
+    location ~ ^/api/(v\d+/.*) {
+      proxy_pass http://api_gateway/1;
+      proxy_set_header Host host;
       proxy_http_version 1.1;
     }
 
     # Back-compat: redirect /api/* → /api/v1/*
-    location ~ ^/api/(?!v\d+/)(.*)$ {
-      return 308 /api/v1/$1;
+    location ~ ^/api/(?!v\d+/)(.*) {
+      return 308 /api/v1/1;
     }
 
     # Serve Swagger UI and its assets from the gateway
@@ -408,7 +408,7 @@ http {
 }
 ```
 
-# 2) Gateway deps $add OpenAPI + Swagger UI$
+# 2) Gateway deps add OpenAPI + Swagger UI
 
 `services/ts/api-gateway/package.json`
 
@@ -523,7 +523,7 @@ const chatRoute = createRoute({
 })
 v1.openapi(chatRoute, async (c) => {
   const body = await c.req.json()
-  const r = await f(`${OLLAMA}/api/chat`, {
+  const r = await f(`{OLLAMA}/api/chat`, {
     method: 'POST',
     body: JSON.stringify(body),
     headers: { 'content-type': 'application/json' }
@@ -542,7 +542,7 @@ const embedsRoute = createRoute({
 })
 v1.openapi(embedsRoute, async (c) => {
   const body = await c.req.json()
-  const r = await f(`${EMBEDS}/embeddings`, {
+  const r = await f(`{EMBEDS}/embeddings`, {
     method: 'POST',
     body: JSON.stringify(body),
     headers: { 'content-type': 'application/json' }
@@ -559,7 +559,7 @@ const upsertRoute = createRoute({
 })
 v1.openapi(upsertRoute, async (c) => {
   const body = await c.req.json() as z.infer<typeof UpsertReq>
-  const r = await f(`${QDRANT}/collections/${body.collection}/points?wait=true`, {
+  const r = await f(`{QDRANT}/collections/{body.collection}/points?wait=true`, {
     method: 'PUT',
     body: JSON.stringify({ points: body.points }),
     headers: { 'content-type': 'application/json' }
@@ -576,7 +576,7 @@ const crawlRoute = createRoute({
 })
 v1.openapi(crawlRoute, async (c) => {
   const body = await c.req.json()
-  const r = await f(`${CRAWLER}/crawl`, {
+  const r = await f(`{CRAWLER}/crawl`, {
     method: 'POST',
     body: JSON.stringify(body),
     headers: { 'content-type': 'application/json' }
@@ -641,103 +641,103 @@ serve({ fetch: app.fetch, port: 8080 })
   * Embeddings: `POST http://localhost/api/v1/embeddings`
   * Upsert: `POST http://localhost/api/v1/vectors/upsert`
 
-If you want multiple versions side-by-side $e.g., `/api/v2`$, we’ll clone the `OpenAPIHono()` block to `v2`, mount at `/api/v2`, and publish `/api/v2/openapi.json`.
+If you want multiple versions side-by-side e.g., `/api/v2`, we’ll clone the `OpenAPIHono()` block to `v2`, mount at `/api/v2`, and publish `/api/v2/openapi.json`.
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- $[promethean-infrastructure-setup|Promethean Infrastructure Setup]$
-- $[dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]$
-- $[observability-infrastructure-setup]$
-- [Debugging Broker Connections and Agent Behavior]$debugging-broker-connections-and-agent-behavior.md$
-- $[pure-typescript-search-microservice|Pure TypeScript Search Microservice]$
-- $[chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]$
-- $[board-walk-2025-08-11|Board Walk – 2025-08-11]$
-- $[cross-target-macro-system-in-sibilant|Cross-Target Macro System in Sibilant]$
-- $[exception-layer-analysis|Exception Layer Analysis]$
-- $[docs/unique/ecs-offload-workers|ecs-offload-workers]$
-- $[ecs-scheduler-and-prefabs]$
-- $[promethean-web-ui-setup|Promethean Web UI Setup]$
-- $[mongo-outbox-implementation|Mongo Outbox Implementation]$
-- $[promethean-full-stack-docker-setup|Promethean Full-Stack Docker Setup]$
-- $[prometheus-observability-stack|Prometheus Observability Stack]$
-- $[markdown-to-org-transpiler]$
-- $[ollama-llm-provider-for-pseudo-code-transpiler]$
-- $[promethean-native-config-design|Promethean-native config design]$
-- $[local-only-llm-workflow]$
-- $[docs/unique/eidolon-field-math-foundations|eidolon-field-math-foundations]$
-- $[sibilant-meta-prompt-dsl|Sibilant Meta-Prompt DSL]$
+- [promethean-infrastructure-setup|Promethean Infrastructure Setup]
+- [dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]
+- [observability-infrastructure-setup]
+- [Debugging Broker Connections and Agent Behavior]debugging-broker-connections-and-agent-behavior.md
+- [pure-typescript-search-microservice|Pure TypeScript Search Microservice]
+- [chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]
+- [board-walk-2025-08-11|Board Walk – 2025-08-11]
+- [cross-target-macro-system-in-sibilant|Cross-Target Macro System in Sibilant]
+- [exception-layer-analysis|Exception Layer Analysis]
+- [docs/unique/ecs-offload-workers|ecs-offload-workers]
+- [ecs-scheduler-and-prefabs]
+- [promethean-web-ui-setup|Promethean Web UI Setup]
+- [mongo-outbox-implementation|Mongo Outbox Implementation]
+- [promethean-full-stack-docker-setup|Promethean Full-Stack Docker Setup]
+- [prometheus-observability-stack|Prometheus Observability Stack]
+- [markdown-to-org-transpiler]
+- [ollama-llm-provider-for-pseudo-code-transpiler]
+- [promethean-native-config-design|Promethean-native config design]
+- [local-only-llm-workflow]
+- [docs/unique/eidolon-field-math-foundations|eidolon-field-math-foundations]
+- [sibilant-meta-prompt-dsl|Sibilant Meta-Prompt DSL]
 
 ## Sources
-- $[promethean-infrastructure-setup#L61|Promethean Infrastructure Setup — L61]$ (line 61, col 1, score 0.98)
-- $[observability-infrastructure-setup#L44|observability-infrastructure-setup — L44]$ (line 44, col 1, score 0.89)
-- $[promethean-infrastructure-setup#L200|Promethean Infrastructure Setup — L200]$ (line 200, col 1, score 0.98)
-- $[promethean-infrastructure-setup#L224|Promethean Infrastructure Setup — L224]$ (line 224, col 1, score 0.93)
-- $[dynamic-context-model-for-web-components#L176|Dynamic Context Model for Web Components — L176]$ (line 176, col 3, score 1)
-- $[promethean-infrastructure-setup#L552|Promethean Infrastructure Setup — L552]$ (line 552, col 1, score 1)
-- $[promethean-infrastructure-setup#L552|Promethean Infrastructure Setup — L552]$ (line 552, col 3, score 1)
-- $[promethean-infrastructure-setup#L553|Promethean Infrastructure Setup — L553]$ (line 553, col 1, score 1)
-- $[promethean-infrastructure-setup#L553|Promethean Infrastructure Setup — L553]$ (line 553, col 3, score 1)
-- $[promethean-infrastructure-setup#L554|Promethean Infrastructure Setup — L554]$ (line 554, col 1, score 1)
-- $[promethean-infrastructure-setup#L554|Promethean Infrastructure Setup — L554]$ (line 554, col 3, score 1)
-- [Debugging Broker Connections and Agent Behavior — L40]$debugging-broker-connections-and-agent-behavior.md#L40$ (line 40, col 1, score 1)
-- [Debugging Broker Connections and Agent Behavior — L40]$debugging-broker-connections-and-agent-behavior.md#L40$ (line 40, col 3, score 1)
-- $[dynamic-context-model-for-web-components#L384|Dynamic Context Model for Web Components — L384]$ (line 384, col 1, score 1)
-- $[dynamic-context-model-for-web-components#L384|Dynamic Context Model for Web Components — L384]$ (line 384, col 3, score 1)
-- $[docs/unique/ecs-offload-workers#L458|ecs-offload-workers — L458]$ (line 458, col 1, score 1)
-- $[docs/unique/ecs-offload-workers#L458|ecs-offload-workers — L458]$ (line 458, col 3, score 1)
-- $[ecs-scheduler-and-prefabs#L392|ecs-scheduler-and-prefabs — L392]$ (line 392, col 1, score 1)
-- $[ecs-scheduler-and-prefabs#L392|ecs-scheduler-and-prefabs — L392]$ (line 392, col 3, score 1)
-- $[board-walk-2025-08-11#L135|Board Walk – 2025-08-11 — L135]$ (line 135, col 1, score 1)
-- $[board-walk-2025-08-11#L135|Board Walk – 2025-08-11 — L135]$ (line 135, col 3, score 1)
-- $[chroma-toolkit-consolidation-plan#L167|Chroma Toolkit Consolidation Plan — L167]$ (line 167, col 1, score 1)
-- $[chroma-toolkit-consolidation-plan#L167|Chroma Toolkit Consolidation Plan — L167]$ (line 167, col 3, score 1)
-- $[cross-target-macro-system-in-sibilant#L180|Cross-Target Macro System in Sibilant — L180]$ (line 180, col 1, score 1)
-- $[cross-target-macro-system-in-sibilant#L180|Cross-Target Macro System in Sibilant — L180]$ (line 180, col 3, score 1)
-- $[exception-layer-analysis#L157|Exception Layer Analysis — L157]$ (line 157, col 1, score 1)
-- $[exception-layer-analysis#L157|Exception Layer Analysis — L157]$ (line 157, col 3, score 1)
-- $[mongo-outbox-implementation#L560|Mongo Outbox Implementation — L560]$ (line 560, col 1, score 1)
-- $[mongo-outbox-implementation#L560|Mongo Outbox Implementation — L560]$ (line 560, col 3, score 1)
-- $[promethean-infrastructure-setup#L575|Promethean Infrastructure Setup — L575]$ (line 575, col 1, score 1)
-- $[promethean-infrastructure-setup#L575|Promethean Infrastructure Setup — L575]$ (line 575, col 3, score 1)
-- $[prometheus-observability-stack#L504|Prometheus Observability Stack — L504]$ (line 504, col 1, score 1)
-- $[prometheus-observability-stack#L504|Prometheus Observability Stack — L504]$ (line 504, col 3, score 1)
-- $[prometheus-observability-stack#L514|Prometheus Observability Stack — L514]$ (line 514, col 1, score 0.93)
-- $[prometheus-observability-stack#L514|Prometheus Observability Stack — L514]$ (line 514, col 3, score 0.93)
-- $[promethean-infrastructure-setup#L587|Promethean Infrastructure Setup — L587]$ (line 587, col 1, score 1)
-- $[promethean-infrastructure-setup#L587|Promethean Infrastructure Setup — L587]$ (line 587, col 3, score 1)
-- $[promethean-full-stack-docker-setup#L440|Promethean Full-Stack Docker Setup — L440]$ (line 440, col 1, score 1)
-- $[promethean-full-stack-docker-setup#L440|Promethean Full-Stack Docker Setup — L440]$ (line 440, col 3, score 1)
-- $[promethean-infrastructure-setup#L584|Promethean Infrastructure Setup — L584]$ (line 584, col 1, score 1)
-- $[promethean-infrastructure-setup#L584|Promethean Infrastructure Setup — L584]$ (line 584, col 3, score 1)
-- $[promethean-web-ui-setup#L603|Promethean Web UI Setup — L603]$ (line 603, col 1, score 1)
-- $[promethean-web-ui-setup#L603|Promethean Web UI Setup — L603]$ (line 603, col 3, score 1)
-- $[prometheus-observability-stack#L510|Prometheus Observability Stack — L510]$ (line 510, col 1, score 1)
-- $[prometheus-observability-stack#L510|Prometheus Observability Stack — L510]$ (line 510, col 3, score 1)
-- $[observability-infrastructure-setup#L367|observability-infrastructure-setup — L367]$ (line 367, col 1, score 0.99)
-- $[observability-infrastructure-setup#L367|observability-infrastructure-setup — L367]$ (line 367, col 3, score 0.99)
-- $[docs/unique/ecs-offload-workers#L476|ecs-offload-workers — L476]$ (line 476, col 1, score 0.99)
-- $[docs/unique/ecs-offload-workers#L476|ecs-offload-workers — L476]$ (line 476, col 3, score 0.99)
-- $[ecs-scheduler-and-prefabs#L426|ecs-scheduler-and-prefabs — L426]$ (line 426, col 1, score 0.99)
-- $[ecs-scheduler-and-prefabs#L426|ecs-scheduler-and-prefabs — L426]$ (line 426, col 3, score 0.99)
-- $[markdown-to-org-transpiler#L313|markdown-to-org-transpiler — L313]$ (line 313, col 1, score 0.99)
-- $[markdown-to-org-transpiler#L313|markdown-to-org-transpiler — L313]$ (line 313, col 3, score 0.99)
-- $[promethean-infrastructure-setup#L594|Promethean Infrastructure Setup — L594]$ (line 594, col 1, score 1)
-- $[promethean-infrastructure-setup#L594|Promethean Infrastructure Setup — L594]$ (line 594, col 3, score 1)
-- $[ollama-llm-provider-for-pseudo-code-transpiler#L180|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L180]$ (line 180, col 1, score 0.99)
-- $[ollama-llm-provider-for-pseudo-code-transpiler#L180|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L180]$ (line 180, col 3, score 0.99)
-- $[promethean-infrastructure-setup#L602|Promethean Infrastructure Setup — L602]$ (line 602, col 1, score 1)
-- $[promethean-infrastructure-setup#L602|Promethean Infrastructure Setup — L602]$ (line 602, col 3, score 1)
-- $[promethean-native-config-design#L396|Promethean-native config design — L396]$ (line 396, col 1, score 0.99)
-- $[promethean-native-config-design#L396|Promethean-native config design — L396]$ (line 396, col 3, score 0.99)
-- $[promethean-native-config-design#L395|Promethean-native config design — L395]$ (line 395, col 1, score 0.99)
-- $[promethean-native-config-design#L395|Promethean-native config design — L395]$ (line 395, col 3, score 0.99)
-- $[sibilant-meta-prompt-dsl#L207|Sibilant Meta-Prompt DSL — L207]$ (line 207, col 1, score 0.98)
-- $[sibilant-meta-prompt-dsl#L207|Sibilant Meta-Prompt DSL — L207]$ (line 207, col 3, score 0.98)
-- $[dynamic-context-model-for-web-components#L398|Dynamic Context Model for Web Components — L398]$ (line 398, col 1, score 1)
-- $[dynamic-context-model-for-web-components#L398|Dynamic Context Model for Web Components — L398]$ (line 398, col 3, score 1)
-- $[dynamic-context-model-for-web-components#L399|Dynamic Context Model for Web Components — L399]$ (line 399, col 1, score 1)
-- $[dynamic-context-model-for-web-components#L399|Dynamic Context Model for Web Components — L399]$ (line 399, col 3, score 1)
-- $[local-only-llm-workflow#L189|Local-Only-LLM-Workflow — L189]$ (line 189, col 1, score 0.98)
-- $[local-only-llm-workflow#L189|Local-Only-LLM-Workflow — L189]$ (line 189, col 3, score 0.98)
-- $[docs/unique/eidolon-field-math-foundations#L153|eidolon-field-math-foundations — L153]$ (line 153, col 1, score 0.98)
-- $[docs/unique/eidolon-field-math-foundations#L153|eidolon-field-math-foundations — L153]$ (line 153, col 3, score 0.98)
+- [promethean-infrastructure-setup#L61|Promethean Infrastructure Setup — L61] (line 61, col 1, score 0.98)
+- [observability-infrastructure-setup#L44|observability-infrastructure-setup — L44] (line 44, col 1, score 0.89)
+- [promethean-infrastructure-setup#L200|Promethean Infrastructure Setup — L200] (line 200, col 1, score 0.98)
+- [promethean-infrastructure-setup#L224|Promethean Infrastructure Setup — L224] (line 224, col 1, score 0.93)
+- [dynamic-context-model-for-web-components#L176|Dynamic Context Model for Web Components — L176] (line 176, col 3, score 1)
+- [promethean-infrastructure-setup#L552|Promethean Infrastructure Setup — L552] (line 552, col 1, score 1)
+- [promethean-infrastructure-setup#L552|Promethean Infrastructure Setup — L552] (line 552, col 3, score 1)
+- [promethean-infrastructure-setup#L553|Promethean Infrastructure Setup — L553] (line 553, col 1, score 1)
+- [promethean-infrastructure-setup#L553|Promethean Infrastructure Setup — L553] (line 553, col 3, score 1)
+- [promethean-infrastructure-setup#L554|Promethean Infrastructure Setup — L554] (line 554, col 1, score 1)
+- [promethean-infrastructure-setup#L554|Promethean Infrastructure Setup — L554] (line 554, col 3, score 1)
+- [Debugging Broker Connections and Agent Behavior — L40]debugging-broker-connections-and-agent-behavior.md#L40 (line 40, col 1, score 1)
+- [Debugging Broker Connections and Agent Behavior — L40]debugging-broker-connections-and-agent-behavior.md#L40 (line 40, col 3, score 1)
+- [dynamic-context-model-for-web-components#L384|Dynamic Context Model for Web Components — L384] (line 384, col 1, score 1)
+- [dynamic-context-model-for-web-components#L384|Dynamic Context Model for Web Components — L384] (line 384, col 3, score 1)
+- [docs/unique/ecs-offload-workers#L458|ecs-offload-workers — L458] (line 458, col 1, score 1)
+- [docs/unique/ecs-offload-workers#L458|ecs-offload-workers — L458] (line 458, col 3, score 1)
+- [ecs-scheduler-and-prefabs#L392|ecs-scheduler-and-prefabs — L392] (line 392, col 1, score 1)
+- [ecs-scheduler-and-prefabs#L392|ecs-scheduler-and-prefabs — L392] (line 392, col 3, score 1)
+- [board-walk-2025-08-11#L135|Board Walk – 2025-08-11 — L135] (line 135, col 1, score 1)
+- [board-walk-2025-08-11#L135|Board Walk – 2025-08-11 — L135] (line 135, col 3, score 1)
+- [chroma-toolkit-consolidation-plan#L167|Chroma Toolkit Consolidation Plan — L167] (line 167, col 1, score 1)
+- [chroma-toolkit-consolidation-plan#L167|Chroma Toolkit Consolidation Plan — L167] (line 167, col 3, score 1)
+- [cross-target-macro-system-in-sibilant#L180|Cross-Target Macro System in Sibilant — L180] (line 180, col 1, score 1)
+- [cross-target-macro-system-in-sibilant#L180|Cross-Target Macro System in Sibilant — L180] (line 180, col 3, score 1)
+- [exception-layer-analysis#L157|Exception Layer Analysis — L157] (line 157, col 1, score 1)
+- [exception-layer-analysis#L157|Exception Layer Analysis — L157] (line 157, col 3, score 1)
+- [mongo-outbox-implementation#L560|Mongo Outbox Implementation — L560] (line 560, col 1, score 1)
+- [mongo-outbox-implementation#L560|Mongo Outbox Implementation — L560] (line 560, col 3, score 1)
+- [promethean-infrastructure-setup#L575|Promethean Infrastructure Setup — L575] (line 575, col 1, score 1)
+- [promethean-infrastructure-setup#L575|Promethean Infrastructure Setup — L575] (line 575, col 3, score 1)
+- [prometheus-observability-stack#L504|Prometheus Observability Stack — L504] (line 504, col 1, score 1)
+- [prometheus-observability-stack#L504|Prometheus Observability Stack — L504] (line 504, col 3, score 1)
+- [prometheus-observability-stack#L514|Prometheus Observability Stack — L514] (line 514, col 1, score 0.93)
+- [prometheus-observability-stack#L514|Prometheus Observability Stack — L514] (line 514, col 3, score 0.93)
+- [promethean-infrastructure-setup#L587|Promethean Infrastructure Setup — L587] (line 587, col 1, score 1)
+- [promethean-infrastructure-setup#L587|Promethean Infrastructure Setup — L587] (line 587, col 3, score 1)
+- [promethean-full-stack-docker-setup#L440|Promethean Full-Stack Docker Setup — L440] (line 440, col 1, score 1)
+- [promethean-full-stack-docker-setup#L440|Promethean Full-Stack Docker Setup — L440] (line 440, col 3, score 1)
+- [promethean-infrastructure-setup#L584|Promethean Infrastructure Setup — L584] (line 584, col 1, score 1)
+- [promethean-infrastructure-setup#L584|Promethean Infrastructure Setup — L584] (line 584, col 3, score 1)
+- [promethean-web-ui-setup#L603|Promethean Web UI Setup — L603] (line 603, col 1, score 1)
+- [promethean-web-ui-setup#L603|Promethean Web UI Setup — L603] (line 603, col 3, score 1)
+- [prometheus-observability-stack#L510|Prometheus Observability Stack — L510] (line 510, col 1, score 1)
+- [prometheus-observability-stack#L510|Prometheus Observability Stack — L510] (line 510, col 3, score 1)
+- [observability-infrastructure-setup#L367|observability-infrastructure-setup — L367] (line 367, col 1, score 0.99)
+- [observability-infrastructure-setup#L367|observability-infrastructure-setup — L367] (line 367, col 3, score 0.99)
+- [docs/unique/ecs-offload-workers#L476|ecs-offload-workers — L476] (line 476, col 1, score 0.99)
+- [docs/unique/ecs-offload-workers#L476|ecs-offload-workers — L476] (line 476, col 3, score 0.99)
+- [ecs-scheduler-and-prefabs#L426|ecs-scheduler-and-prefabs — L426] (line 426, col 1, score 0.99)
+- [ecs-scheduler-and-prefabs#L426|ecs-scheduler-and-prefabs — L426] (line 426, col 3, score 0.99)
+- [markdown-to-org-transpiler#L313|markdown-to-org-transpiler — L313] (line 313, col 1, score 0.99)
+- [markdown-to-org-transpiler#L313|markdown-to-org-transpiler — L313] (line 313, col 3, score 0.99)
+- [promethean-infrastructure-setup#L594|Promethean Infrastructure Setup — L594] (line 594, col 1, score 1)
+- [promethean-infrastructure-setup#L594|Promethean Infrastructure Setup — L594] (line 594, col 3, score 1)
+- [ollama-llm-provider-for-pseudo-code-transpiler#L180|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L180] (line 180, col 1, score 0.99)
+- [ollama-llm-provider-for-pseudo-code-transpiler#L180|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L180] (line 180, col 3, score 0.99)
+- [promethean-infrastructure-setup#L602|Promethean Infrastructure Setup — L602] (line 602, col 1, score 1)
+- [promethean-infrastructure-setup#L602|Promethean Infrastructure Setup — L602] (line 602, col 3, score 1)
+- [promethean-native-config-design#L396|Promethean-native config design — L396] (line 396, col 1, score 0.99)
+- [promethean-native-config-design#L396|Promethean-native config design — L396] (line 396, col 3, score 0.99)
+- [promethean-native-config-design#L395|Promethean-native config design — L395] (line 395, col 1, score 0.99)
+- [promethean-native-config-design#L395|Promethean-native config design — L395] (line 395, col 3, score 0.99)
+- [sibilant-meta-prompt-dsl#L207|Sibilant Meta-Prompt DSL — L207] (line 207, col 1, score 0.98)
+- [sibilant-meta-prompt-dsl#L207|Sibilant Meta-Prompt DSL — L207] (line 207, col 3, score 0.98)
+- [dynamic-context-model-for-web-components#L398|Dynamic Context Model for Web Components — L398] (line 398, col 1, score 1)
+- [dynamic-context-model-for-web-components#L398|Dynamic Context Model for Web Components — L398] (line 398, col 3, score 1)
+- [dynamic-context-model-for-web-components#L399|Dynamic Context Model for Web Components — L399] (line 399, col 1, score 1)
+- [dynamic-context-model-for-web-components#L399|Dynamic Context Model for Web Components — L399] (line 399, col 3, score 1)
+- [local-only-llm-workflow#L189|Local-Only-LLM-Workflow — L189] (line 189, col 1, score 0.98)
+- [local-only-llm-workflow#L189|Local-Only-LLM-Workflow — L189] (line 189, col 3, score 0.98)
+- [docs/unique/eidolon-field-math-foundations#L153|eidolon-field-math-foundations — L153] (line 153, col 1, score 0.98)
+- [docs/unique/eidolon-field-math-foundations#L153|eidolon-field-math-foundations — L153] (line 153, col 3, score 0.98)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

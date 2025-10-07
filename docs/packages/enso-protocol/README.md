@@ -1,16 +1,16 @@
-$$
+```
 <!-- SYMPKG:PKG:BEGIN -->
-$$
+```
 # @promethean/enso-protocol
-$$
+```
 **Folder:** `packages/enso-protocol`
-$$
-$$
+```
+```
 **Version:** `1.0.0`
-$$
-$$
+```
+```
 **Domain:** `_root`
-$$
+```
 ```mermaid
 graph LR
   A["@promethean/enso-protocol"]
@@ -21,7 +21,7 @@ graph LR
 ## Dependencies
 - _None_
 ## Dependents
-- $@promethean/cephalon$$../cephalon/README.md$
-$$
+- @promethean/cephalon$../cephalon/README.md
+```
 <!-- SYMPKG:PKG:END -->
-$$
+```

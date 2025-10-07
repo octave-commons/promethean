@@ -1,14 +1,14 @@
 ---
-$$
+```
 uuid: 76ff159a-166e-43e1-8d11-14df53f50e6f
-$$
+```
 title: research github projects board api md
 status: todo
 priority: P3
 labels: []
-$$
+```
 created_at: '2025-09-15T02:02:58.519Z'
-$$
+```
 ---
 ## 🛠️ Task: Research GitHub Projects board API
 
@@ -37,9 +37,9 @@ We need to understand how to interact programmatically with GitHub Projects so o
 ---
 
 ## 🔗 Related Epics
-$$
+```
 #framework-core
-$$
+```
 ---
 
 ## ⛓️ Blocked By

@@ -20,4 +20,4 @@ flowchart LR
 
 ## Consumers
 - duck-web PCM16k worklet glue.
-- enso-browser-gateway $server-side validation/tests$.
+- enso-browser-gateway server-side validation/tests.

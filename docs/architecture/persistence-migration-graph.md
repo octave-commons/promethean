@@ -6,7 +6,7 @@ tags:
   - persistence
 ---
 
-# 🧩 Knowledge Graph — DualStore Migration $High-Level$
+# 🧩 Knowledge Graph — DualStore Migration High-Level
 
 This graph provides a high-level overview of the persistence migration initiative.
 

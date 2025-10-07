@@ -16,7 +16,7 @@ Where Metisean builds inwardly coherent structures, Anankean asks: *What is the 
 
 * **Inter-System Alignment**: Synchronizes the Promethean instance with external systems, models, or peers.
 * **Constraint Internalization**: Ingests unbreakable laws, boundaries, and irreversible facts.
-* **Distributed Consciousness**: Coordinates across distributed agents or selves $e.g., multi-agent architectures$.
+* **Distributed Consciousness**: Coordinates across distributed agents or selves e.g., multi-agent architectures.
 * **Terminal Context Awareness**: Assesses the farthest-reaching implications of internal behavior.
 * **Emergent Integration**: Collapses complex, lower-layer signals into unified gestures of being.
 

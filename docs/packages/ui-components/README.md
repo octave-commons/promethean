@@ -1,16 +1,16 @@
-$$
+```
 <!-- SYMPKG:PKG:BEGIN -->
-$$
+```
 # @promethean/ui-components
-$$
+```
 **Folder:** `packages/ui-components`
-$$
-$$
+```
+```
 **Version:** `0.0.0`
-$$
-$$
+```
+```
 **Domain:** `_root`
-$$
+```
 ```mermaid
 graph LR
   A["@promethean/ui-components"]
@@ -21,7 +21,7 @@ graph LR
 ## Dependencies
 - _None_
 ## Dependents
-- $@promethean/piper$$../piper/README.md$
-$$
+- @promethean/piper$../piper/README.md
+```
 <!-- SYMPKG:PKG:END -->
-$$
+```

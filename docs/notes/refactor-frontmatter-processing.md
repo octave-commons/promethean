@@ -1,15 +1,15 @@
 ---
-$$
+```
 uuid: 3616c84d-e4ad-47c9-a206-06de43afb7f4
-$$
-$$
+```
+```
 created_at: refactor-frontmatter-processing.md
-$$
+```
 filename: Refactor Frontmatter Processing
 title: Refactor Frontmatter Processing
-$$
+```
 description: >-
-$$
+```
   Refactors the frontmatter processing logic to use Ollama JS library and
   LevelDB for key-value storage, reducing complexity and improving immutability
   while avoiding loops and favoring functional style.
@@ -21,9 +21,9 @@ tags:
   - immutability
   - functional
   - promises
-$$
+```
 related_to_uuid:
-$$
+```
   - 41ce0216-f8cc-4eed-8d9a-fcc25be21425
   - 80d4d883-59f9-401b-8699-7a2723148b1e
   - c62a1815-c43b-4a3b-88e6-d7fa008a155e
@@ -49,9 +49,9 @@ $$
   - 8b256935-02f6-4da2-a406-bf6b8415276f
   - 01b21543-7e03-4129-8fe4-b6306be69dee
   - fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
-$$
+```
 related_to_title:
-$$
+```
   - refactor-relations
   - Refactor 05-footers.ts
   - ecs-scheduler-and-prefabs
@@ -115,18 +115,18 @@ Refactor 01-frontmatter.ts under the following contraints: ^ref-cfbdca2f-1-0
 
 1. Use the ollama js library ^ref-cfbdca2f-3-0
 2. use level db for kv store instead of json objects ^ref-cfbdca2f-4-0
-$$
+```
 3. reduce complexity ^ref-cfbdca2f-5-0
-$$
-$$
+```
+```
 4. prefer functional style ^ref-cfbdca2f-6-0
-$$
-$$
+```
+```
 5. prefer immutability ^ref-cfbdca2f-7-0
-$$
-$$
+```
+```
 6. avoid loops ^ref-cfbdca2f-8-0
-$$
+```
 7. prefer then/catch methods when handling errors with promises. ^ref-cfbdca2f-9-0
 
 ```typescript
@@ -158,16 +158,16 @@ const GenSchema = z.object({
 });
 
 async function ollamaGenerateJSON(model: string, prompt: string): Promise<any> {
-  const res = await fetch(`${OLLAMA_URL}/api/generate`, {
+  const res = await fetch(`{OLLAMA_URL}/api/generate`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ model, prompt, stream: false, options: { temperature: 0 }, format: "json" }),
   });
   const data = await res.json();
   const raw = typeof data.response === "string" ? data.response : JSON.stringify(data.response);
-  const cleaned = raw.replace(/```$$
+  const cleaned = raw.replace(/``````
 json\s*/g, "").replace(/
-$$```\s*$/g, "").trim();
+``````\s*/g, "").trim();
   return JSON.parse(cleaned);
 }
 
@@ -193,8 +193,8 @@ async function main() {
       let current: Partial<z.infer<typeof GenSchema>> = {};
       for (let round = 0; round < 3 && missing.length; round++) {
         const ask = [...missing];
-        const sys = `Return ONLY JSON with keys: ${ask.join(", ")}. filename: human title (no ext), description: 1-3 sentences, tags: 3-12 keywords.`;
-        const payload = `SYSTEM:\n${sys}\n\nUSER:\nPath: ${f}\nExisting: ${JSON.stringify({ filename: fm.filename ?? null, description: fm.description ?? null, tags: fm.tags ?? null })}\nPreview:\n${preview}`;
+        const sys = `Return ONLY JSON with keys: {ask.join(", ")}. filename: human title (no ext), description: 1-3 sentences, tags: 3-12 keywords.`;
+        const payload = `SYSTEM:\n{sys}\n\nUSER:\nPath: {f}\nExisting: {JSON.stringify({ filename: fm.filename ?? null, description: fm.description ?? null, tags: fm.tags ?? null })}\nPreview:\n{preview}`;
         let obj: any;
         try { obj = await ollamaGenerateJSON(GEN_MODEL, payload); } catch { break; }
         const shape: any = {};
@@ -222,43 +222,43 @@ async function main() {
 }
 main().catch((e) => { console.error(e); process.exit(1); });
 ```
-$$
+```
 ^ref-cfbdca2f-11-0
-$$
+```
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- $refactor-relations$$refactor-relations.md$
-- $Refactor 05-footers.ts$$refactor-05-footers-ts.md$
-- $ecs-scheduler-and-prefabs$$ecs-scheduler-and-prefabs.md$
+- refactor-relations$refactor-relations.md
+- Refactor 05-footers.ts$refactor-05-footers-ts.md
+- ecs-scheduler-and-prefabs$ecs-scheduler-and-prefabs.md
 - [SentenceProcessing](sentenceprocessing.md)
-- $sibilant-meta-string-templating-runtime$$sibilant-meta-string-templating-runtime.md$
-- [Ghostly Smoke Interference]$ghostly-smoke-interference.md$
-- $template-based-compilation$$template-based-compilation.md$
-- [Event Bus Projections Architecture]$event-bus-projections-architecture.md$
-- [State Snapshots API and Transactional Projector]$state-snapshots-api-and-transactional-projector.md$
-- $Sibilant Meta-Prompt DSL$$sibilant-meta-prompt-dsl.md$
-- [Matplotlib Animation with Async Execution]$matplotlib-animation-with-async-execution.md$
-- $markdown-to-org-transpiler$$markdown-to-org-transpiler.md$
-- [Functional Refactor of TypeScript Document Processing]$functional-refactor-of-typescript-document-processing.md$
-- $Local-First Intention→Code Loop with Free Models$$local-first-intention-code-loop-with-free-models.md$
-- [Exception Layer Analysis]$exception-layer-analysis.md$
-- $mystery-lisp-search-session$$mystery-lisp-search-session.md$
-- $file-watcher-auth-fix$$file-watcher-auth-fix.md$
-- [prom ui bootstrap]$promethean-web-ui-setup.md$
-- $layer-1-uptime-diagrams$$layer-1-uptime-diagrams.md$
-- $Polyglot S-expr Bridge: Python-JS-Lisp Interop$$polyglot-s-expr-bridge-python-js-lisp-interop.md$
-- $polymorphic-meta-programming-engine$$polymorphic-meta-programming-engine.md$
-- $Eidolon-Field-Optimization$$eidolon-field-optimization.md$
-- $Chroma-Embedding-Refactor$$chroma-embedding-refactor.md$
-- $compiler-kit-foundations$$compiler-kit-foundations.md$
-- [Promethean Event Bus MVP v0.1]$promethean-event-bus-mvp-v0-1.md$
+- sibilant-meta-string-templating-runtime$sibilant-meta-string-templating-runtime.md
+- [Ghostly Smoke Interference]ghostly-smoke-interference.md
+- template-based-compilation$template-based-compilation.md
+- [Event Bus Projections Architecture]event-bus-projections-architecture.md
+- [State Snapshots API and Transactional Projector]state-snapshots-api-and-transactional-projector.md
+- Sibilant Meta-Prompt DSL$sibilant-meta-prompt-dsl.md
+- [Matplotlib Animation with Async Execution]matplotlib-animation-with-async-execution.md
+- markdown-to-org-transpiler$markdown-to-org-transpiler.md
+- [Functional Refactor of TypeScript Document Processing]functional-refactor-of-typescript-document-processing.md
+- Local-First Intention→Code Loop with Free Models$local-first-intention-code-loop-with-free-models.md
+- [Exception Layer Analysis]exception-layer-analysis.md
+- mystery-lisp-search-session$mystery-lisp-search-session.md
+- file-watcher-auth-fix$file-watcher-auth-fix.md
+- [prom ui bootstrap]promethean-web-ui-setup.md
+- layer-1-uptime-diagrams$layer-1-uptime-diagrams.md
+- Polyglot S-expr Bridge: Python-JS-Lisp Interop$polyglot-s-expr-bridge-python-js-lisp-interop.md
+- polymorphic-meta-programming-engine$polymorphic-meta-programming-engine.md
+- Eidolon-Field-Optimization$eidolon-field-optimization.md
+- Chroma-Embedding-Refactor$chroma-embedding-refactor.md
+- compiler-kit-foundations$compiler-kit-foundations.md
+- [Promethean Event Bus MVP v0.1]promethean-event-bus-mvp-v0-1.md
 ## Sources
-- $refactor-relations — L3$$refactor-relations.md#^ref-41ce0216-3-0$ (line 3, col 0, score 0.97)
-- $Refactor 05-footers.ts — L3$$refactor-05-footers-ts.md#^ref-80d4d883-3-0$ (line 3, col 0, score 0.97)
-- $refactor-relations — L6$$refactor-relations.md#^ref-41ce0216-6-0$ (line 6, col 0, score 0.9)
-- $Refactor 05-footers.ts — L6$$refactor-05-footers-ts.md#^ref-80d4d883-6-0$ (line 6, col 0, score 0.9)
-- $refactor-relations — L8$$refactor-relations.md#^ref-41ce0216-8-0$ (line 8, col 0, score 0.89)
-- $Refactor 05-footers.ts — L8$$refactor-05-footers-ts.md#^ref-80d4d883-8-0$ (line 8, col 0, score 0.89)
-- $ecs-scheduler-and-prefabs — L379$$ecs-scheduler-and-prefabs.md#^ref-c62a1815-379-0$ (line 379, col 0, score 0.87)
-- [SentenceProcessing — L30]$sentenceprocessing.md#^ref-681a4ab2-30-0$ (line 30, col 0, score 0.86)
+- refactor-relations — L3$refactor-relations.md#^ref-41ce0216-3-0 (line 3, col 0, score 0.97)
+- Refactor 05-footers.ts — L3$refactor-05-footers-ts.md#^ref-80d4d883-3-0 (line 3, col 0, score 0.97)
+- refactor-relations — L6$refactor-relations.md#^ref-41ce0216-6-0 (line 6, col 0, score 0.9)
+- Refactor 05-footers.ts — L6$refactor-05-footers-ts.md#^ref-80d4d883-6-0 (line 6, col 0, score 0.9)
+- refactor-relations — L8$refactor-relations.md#^ref-41ce0216-8-0 (line 8, col 0, score 0.89)
+- Refactor 05-footers.ts — L8$refactor-05-footers-ts.md#^ref-80d4d883-8-0 (line 8, col 0, score 0.89)
+- ecs-scheduler-and-prefabs — L379$ecs-scheduler-and-prefabs.md#^ref-c62a1815-379-0 (line 379, col 0, score 0.87)
+- [SentenceProcessing — L30]sentenceprocessing.md#^ref-681a4ab2-30-0 (line 30, col 0, score 0.86)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

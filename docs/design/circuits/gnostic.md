@@ -1,4 +1,4 @@
-**Circuit 3: Gnostic $The Symbolic/Conceptual Layer$**
+**Circuit 3: Gnostic The Symbolic/Conceptual Layer**
 
 ---
 

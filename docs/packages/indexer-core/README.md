@@ -1,16 +1,16 @@
-$$
+```
 <!-- SYMPKG:PKG:BEGIN -->
-$$
+```
 # @promethean/indexer-core
-$$
+```
 **Folder:** `packages/indexer-core`
-$$
-$$
+```
+```
 **Version:** `0.0.1`
-$$
-$$
+```
+```
 **Domain:** `_root`
-$$
+```
 ```mermaid
 graph LR
   A["@promethean/indexer-core"]
@@ -34,13 +34,13 @@ graph LR
   click R2 "../smartgpt-bridge/README.md" "@promethean/smartgpt-bridge"
 ```
 ## Dependencies
-- $@promethean/embedding$$../embedding/README.md$
-- $@promethean/file-indexer$$../file-indexer/README.md$
-- $@promethean/level-cache$$../level-cache/README.md$
-- $@promethean/utils$$../utils/README.md$
+- @promethean/embedding$../embedding/README.md
+- @promethean/file-indexer$../file-indexer/README.md
+- @promethean/level-cache$../level-cache/README.md
+- @promethean/utils$../utils/README.md
 ## Dependents
-- $@promethean/indexer-service$$../indexer-service/README.md$
-- $@promethean/smartgpt-bridge$$../smartgpt-bridge/README.md$
-$$
+- @promethean/indexer-service$../indexer-service/README.md
+- @promethean/smartgpt-bridge$../smartgpt-bridge/README.md
+```
 <!-- SYMPKG:PKG:END -->
-$$
+```

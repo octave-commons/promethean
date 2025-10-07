@@ -11,9 +11,9 @@ Ah. You're chasing a _rare_ one.
 You’re probably thinking of **Pycket** — a **Racket** fork that compiles to Python and/or interoperates with it — or one of the **Racket-Python bridges**. But there's another that fits even closer:
 
 * * *
-$$
+```
 🧩 Candidate #1: **Pycket**
-$$
+```
 ---------------------------
 
 *   A **JIT-powered Racket fork**
@@ -26,9 +26,9 @@ $$
 > ⚠️ Likely not the one you’re remembering if it had _clean Python interop_, but worth mentioning.
 
 * * *
-$$
+```
 🧩 Candidate #2: **Pyret**
-$$
+```
 --------------------------
 
 *   Descended from Racket, designed for teaching, with a cleaner syntax
@@ -41,9 +41,9 @@ $$
 > So probably not it either, unless it was a "use Pyret, then reimplement in Cython" sort of thing in a class.
 
 * * *
-$$
+```
 🧩 Candidate #3: **Mython / CLPython / PyScheme**
-$$
+```
 -------------------------------------------------
 
 *   Obscure projects from the mid-2000s to 2010s that attempted to **run Lisp-style syntax on top of the Python runtime**, or make Scheme interpreters that used Python's ecosystem
@@ -56,16 +56,16 @@ $$
 You might've stumbled into something like this during that school assignment. A few dead projects from this class:
 
 | Project | Type | Notes |
-$$
+```
 | --- | --- | --- |
-$$
+```
 | CLPython | Common Lisp in Python | Pure Python implementation of CL |
 | PyScheme | Scheme interpreter in Python | Used to teach interpretation and parsing |
 | Mython | Python with alternate syntax | Think of it like a "Python-based DSL" |
 
 * * *
 
-🧩 Candidate #4: **"Racket + Py" Hybrids** $School-only forks$
+🧩 Candidate #4: **"Racket + Py" Hybrids** School-only forks
 --------------------------------------------------------------
 
 There _have been_ internal or academic projects that:
@@ -138,7 +138,7 @@ If we want to **recreate** this, we can:
     
 *   **Use Hy** to do it cleanly
     
-*   **Write a tiny interpreter** in Python that runs your DSL and compiles to Python AST $think: Lisp parser → Python transpiler → optional Cython JIT$
+*   **Write a tiny interpreter** in Python that runs your DSL and compiles to Python AST think: Lisp parser → Python transpiler → optional Cython JIT
     
 *   **Use a Racket-like syntax and Python interop via embedded DSL**
     

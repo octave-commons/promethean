@@ -1,19 +1,19 @@
 ---
-$$
+```
 uuid: aa135028-70f3-4569-a969-915bf857ecaf
-$$
+```
 title: 'Task: ChatGPT Export Ingest with De‑dup Index & Hashes'
 status: todo
 priority: P3
 labels: []
-$$
+```
 created_at: '2025-09-15T02:02:58.509Z'
-$$
+```
 ---
 # Task: ChatGPT Export Ingest with De‑dup Index & Hashes
-$$
+```
 **Status:** blocked
-$$
+```
 ## Objective
 
 Ingest full ChatGPT export archives repeatedly without reprocessing previously seen items. Maintain a durable index of processed message/thread IDs and content hashes to support fast de‑duplication, resumability, and idempotent re‑runs.
@@ -29,10 +29,10 @@ Ingest full ChatGPT export archives repeatedly without reprocessing previously s
   * Stable `conversation_id`, `message_id` keys where available.
   * Content hash (SHA‑256) of canonicalized payload per message and attachment.
   * First‑seen timestamp and last‑processed timestamp.
-  * Processing status $new/updated/skipped/failed$ and error details if any.
+  * Processing status new/updated/skipped/failed and error details if any.
 * [ ] Re‑running against the same export yields **0 reprocessed messages** (all skipped) and finishes quickly.
 * [ ] If a message’s content changes (hash diff), it is reprocessed exactly once and index is updated.
-* [ ] Idempotent upsert to downstream stores $e.g., Mongo + Chroma$ guarded by hash.
+* [ ] Idempotent upsert to downstream stores e.g., Mongo + Chroma guarded by hash.
 * [ ] Metrics + summary report printed: counts of new/updated/skipped/failed.
 * [ ] Unit tests cover: hashing, canonicalization, index upsert logic, skip logic, resume from partial run.
 
@@ -83,7 +83,7 @@ Ingest full ChatGPT export archives repeatedly without reprocessing previously s
 }
 ```
 
-> Note: If export lacks stable message IDs, derive `message_id` = `sha256$conversation_id + index_in_thread + timestamp + canonical_text[:128]$`.
+> Note: If export lacks stable message IDs, derive `message_id` = `sha256conversation_id + index_in_thread + timestamp + canonical_text[:128]`.
 
 ---
 
@@ -99,7 +99,7 @@ Ingest full ChatGPT export archives repeatedly without reprocessing previously s
 
 ## Hashing Strategy
 
-* Message hash = `sha256$role + "\n" + canonical_text + "\n" + join(att_hashes, ",")$`.
+* Message hash = `sha256role + "\n" + canonical_text + "\n" + join(att_hashes, ",")`.
 * Thread hash (optional) = merkle root of ordered message hashes.
 * Store both message‑level and thread‑level hashes to detect edits and reorderings.
 
@@ -159,47 +159,47 @@ flowchart TD
 ---
 
 ## Implementation Tasks
-$$
+```
 1. **Scaffold**
-$$
+```
    * [ ] Add `services/ts/chatgpt-ingest` (or integrate into existing ingest service).
-   * [ ] CLI via `pnpm tsx src/cli.ts` with args: `--export <path> $--since ISO$ $--only-conv id$ $--dry-run$`.
-$$
+   * [ ] CLI via `pnpm tsx src/cli.ts` with args: `--export <path> --since ISO --only-conv id --dry-run`.
+```
 2. **Parser**
-$$
-   * [ ] Support official ChatGPT export structure $`conversations.json`, `messages/`, `attachments/`$.
+```
+   * [ ] Support official ChatGPT export structure `conversations.json`, `messages/`, `attachments/`.
    * [ ] Extract: conversation title, id, create time, per‑message role, text, code blocks, attachments.
-$$
+```
 3. **Canonicalizer & Hashing**
-$$
+```
    * [ ] Implement text canonicalization module with tests.
    * [ ] Implement SHA‑256 helper for strings + files.
    * [ ] Optional: Merkle builder for thread hash.
-$$
+```
 4. **Index Store**
-$$
+```
    * [ ] Create `ingest_index_chatgpt` in Mongo (or DualStore abstraction).
    * [ ] Upsert by `_id = conversation_id:message_id`.
    * [ ] Maintain `first_seen_at`, `last_processed_at`, `status`, `content_hash`.
-$$
+```
 5. **Processing Pipeline**
-$$
+```
    * [ ] For NEW/UPDATED: emit to downstream sinks (Mongo docs, Chroma embeddings, file store) behind a hash guard.
    * [ ] For SKIPPED: only touch `last_processed_at`.
    * [ ] `--dry-run` prints plan without writes.
-$$
+```
 6. **Resumability & Partial Runs**
-$$
+```
    * [ ] Maintain a run log with `run_id`, totals, and per‑conv cursors.
    * [ ] On crash, re‑invoke continues where left off.
-$$
+```
 7. **Reporting & Metrics**
-$$
-   * [ ] At end: print counts $new/updated/skipped/failed$ and timing.
+```
+   * [ ] At end: print counts new/updated/skipped/failed and timing.
    * [ ] Export `ingest-summary-YYYYMMDDTHHMMSS.json`.
-$$
+```
 8. **Tests**
-$$
+```
    * [ ] Unit: canonicalize, hash, ID derivation, index upsert, skip logic.
    * [ ] Integration: run twice; second run should skip all.
 

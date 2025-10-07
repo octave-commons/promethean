@@ -1,7 +1,7 @@
 ---
-$$
+```
 uuid: h8i9j0k1-l2m3-4567-hijk-890123456789
-$$
+```
 title: Fix semver-guard pipeline incorrect directory scanning and configuration issues
 status: todo
 priority: P2
@@ -11,9 +11,9 @@ labels:
   - directory-scanning
   - configuration
   - path-resolution
-$$
+```
 created_at: '2025-10-05T00:00:00.000Z'
-$$
+```
 ---
 
 ## 🛠️ Task: Fix semver-guard pipeline incorrect directory scanning and configuration issues
@@ -26,7 +26,7 @@ The semver-guard pipeline fails due to incorrect directory path resolution. The 
 Error: ENOENT: no such file or directory, scandir '/home/err/devel/promethean/packages/semverguard/packages'
 ```
 
-The semverguard tool is looking for packages in the wrong directory $`packages/semverguard/packages` instead of `packages` from the project root$.
+The semverguard tool is looking for packages in the wrong directory `packages/semverguard/packages` instead of `packages` from the project root.
 
 ## 🎯 Desired Outcome
 

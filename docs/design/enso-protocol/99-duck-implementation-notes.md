@@ -2,16 +2,16 @@
 
 This document tracks how `@promethean/cephalon` integrates ENSO and where docs map to code.
 
-## Tool advertisement & calls $05-tools-and-streams.md$
+## Tool advertisement & calls 05-tools-and-streams.md
 - **Tool registry**: `packages/enso-protocol/src/tools.ts` exposes `ToolRegistry`.
 - **Duck provider**: `packages/cephalon/src/enso/chat-agent.ts` registers built-ins (`duck.ping`, `duck.env`, `duck.version`) and emits `tool.advertise` on connect and on `server.ready`.
 - **Call handling**: `chat-agent.ts` listens for `tool.call` envelopes for provider `duck` and responds with `tool.result` using `ToolRegistry.invokeEnvelope`.
 
-## Privacy & retention $11-privacy-and-retention.md$
+## Privacy & retention 11-privacy-and-retention.md
 - `createEnsoChatAgent({ privacyProfile })` includes the chosen profile in the initial `hello` payload.
 - In `packages/cephalon/src/bot.ts` we now **honor `DUCK_PRIVACY_PROFILE=ephemeral`**: inbound ENSO messages are *not persisted* to the local `enso_messages` collection when ephemeral. Other profiles behave as before.
 
-## Evaluation mode & guardrails $06-security-and-guardrails.md$
+## Evaluation mode & guardrails 06-security-and-guardrails.md
 - The chat agent tracks `room.flags.eval` and logs entry/exit. Today Duck is a **tool provider**, not a caller, so `act.rationale` emission is not required. When we add Duck-as-caller, emit an `act.rationale` **immediately prior** to `tool.call` and include the JSON rubric from the doc.
 
 ## Developer ergonomics

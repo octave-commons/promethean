@@ -1,18 +1,18 @@
 ---
-$$
+```
 uuid: 2c69e218-bbe0-4c5b-ab1b-d19b88496b57
-$$
+```
 title: fp ts config and linting
 status: todo
 priority: p3
 labels: []
-$$
+```
 created_at: '2025-09-15T02:02:58.514Z'
-$$
+```
 ---
-$$
+```
 <hr class="__chatgpt_plugin">
-$$
+```
 <span style="font-size: small;"> (llama3.2:latest)</span>
 ### role::assistant
 
@@ -33,7 +33,7 @@ Here's a suggested revision of your context section:
 - [ ] PR merged: ([link to the PR] with a brief summary of changes)
 
 ## Plan
-1. … $Outline the high-level steps for completing this task, including any dependencies or resources required$
+1. … Outline the high-level steps for completing this task, including any dependencies or resources required
 2. …
 
 ## Relevant Resources
@@ -57,24 +57,24 @@ You might find [this](link) useful while working on this task.
 ### Smart ChatGPT Configuration
 ```smart-chatgpt
 ```
-$$
+```
 <hr class="__chatgpt_plugin">
-$$
+```
 ### role::user
 Using this title write a reasonable task document:fp-ts-config-and-linting
 <span style="font-size: small;"> (llama3.2:latest)</span>
 
 
-$$
+```
 <hr class="__chatgpt_plugin">
-$$
+```
 ### role::user
 
 Help me write this task 
 
-$$
+```
 <hr class="__chatgpt_plugin">
-$$
+```
 ### role::user
 
 

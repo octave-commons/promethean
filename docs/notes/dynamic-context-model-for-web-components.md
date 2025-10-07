@@ -1,14 +1,14 @@
 ---
-$$
+```
 uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-$$
-$$
+```
+```
 created_at: 2025.08.24.19.08.57.md
-$$
+```
 filename: Dynamic Context Model for Web Components
-$$
+```
 description: >-
-$$
+```
   A web-components-first design with a markdown chat, file explorer, and dynamic
   context management. It includes a context strip showing latest messages, RAG
   results, and pinned files while optimizing token usage for efficient model
@@ -21,9 +21,9 @@ tags:
   - token-budget
   - file-explorer
   - dynamic-context
-$$
+```
 related_to_title:
-$$
+```
   - Promethean-native config design
   - Promethean Infrastructure Setup
   - api-gateway-versioning
@@ -60,9 +60,9 @@ $$
   - Voice Access Layer Design
   - Sibilant Meta-Prompt DSL
   - template-based-compilation
-$$
+```
 related_to_uuid:
-$$
+```
   - ab748541-020e-4a7e-b07d-28173bd5bea2
   - 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
   - 0580dcd3-533d-4834-8a2f-eae3771960a9
@@ -833,7 +833,7 @@ references:
     col: 3
     score: 0.99
 ---
-love this direction. here’s a concrete, no‑react, web‑components-first design you can build toward. it gives you: a markdown chat, file explorer, search bar, tiny code editor with evil-ish keys, and a **dynamic chat context** $latest n + recalled context + rag k$.
+love this direction. here’s a concrete, no‑react, web‑components-first design you can build toward. it gives you: a markdown chat, file explorer, search bar, tiny code editor with evil-ish keys, and a **dynamic chat context** latest n + recalled context + rag k.
 
 ---
 
@@ -865,18 +865,18 @@ love this direction. here’s a concrete, no‑react, web‑components-first des
 
 * keep only:
 
-  * **M latest user+assistant messages** $defaults: `M=6`, configurable$.
+  * **M latest user+assistant messages** defaults: `M=6`, configurable.
   * **Pinned items** (explicit overrides; never evicted unless unpinned).
-  * **K best RAG matches** from Chroma $defaults: `K=8`, per-query$.
-  * **S top search results** $filename/title + short snippet$ $defaults: `S=3`$.
-  * **F top file chunks** from currently open files $defaults: `F=4`$.
+  * **K best RAG matches** from Chroma defaults: `K=8`, per-query.
+  * **S top search results** filename/title + short snippet defaults: `S=3`.
+  * **F top file chunks** from currently open files defaults: `F=4`.
 
 * eviction order when token budget tight: search→open-file chunks→RAG hits→older chat msgs→(never evict pinned).
 
 * hard **token budget** you compute each send: `B_total` (e.g., 12k).
 
   * reserve headroom for reply: `B_reply_reserve` (e.g., 3k).
-  * available for context: `$B_ctx$ = $B_total$ - B_reply_reserve - B_sys`.
+  * available for context: `B_ctx = B_total - B_reply_reserve - B_sys`.
   * greedy pack by priority & per‑item cap (e.g., chunk cap 400–800 tokens).
 
 ---
@@ -901,24 +901,24 @@ flowchart LR
 ---
 
 # prompt assembly (deterministic & transparent)
-$$
+```
 **System** (static, short)
-$$
-* who you are $Cephalon/Duck$, coding style prefs, **“answer with citations using \[#id] chips the UI provides”**.
+```
+* who you are Cephalon/Duck, coding style prefs, **“answer with citations using \[#id] chips the UI provides”**.
 * keep it <600 tokens.
-$$
+```
 **Context blocks** (ordered):
-$$
-$$
+```
+```
 1. **Pinned** `[PIN:…]`
-$$
-2. **OpenFileChunks** `$FILE: path#Lx-Ly$`
-3. **RAG** `$RAG: source-id score=…$`
-4. **Search** `$WEB: title url-hash$`
+```
+2. **OpenFileChunks** `FILE: path#Lx-Ly`
+3. **RAG** `RAG: source-id score=…`
+4. **Search** `WEB: title url-hash`
 5. **ChatTail** (last `M` messages, condensed if needed)
-$$
+```
 **User message** last.
-$$
+```
 UI shows a **live preview** of this prompt (collapsible), so you always see what gets sent.
 
 ---
@@ -992,7 +992,7 @@ Each Web Component listens/emits only the events it cares about.
 
 ---
 
-# keyboard scheme $Spacemacs/Evil vibes$
+# keyboard scheme Spacemacs/Evil vibes
 
 Global (while focus in chat or editor):
 
@@ -1014,7 +1014,7 @@ Global (while focus in chat or editor):
 
   * `Ctrl+Enter` send
   * `Alt+↑/↓` adjust temp
-  * `Alt+$` / `Alt+$` adjust K (RAG hits)
+  * `Alt+` / `Alt+` adjust K (RAG hits)
   * `Alt+Shift+[` / `]` adjust M (chat tail)
 
 ---
@@ -1023,18 +1023,18 @@ Global (while focus in chat or editor):
 
 * When a file is opened, client requests `/v1/files/view?path=…&lines=…&context=…` (you already sketched this).
 * Chunk by semantic boundaries (AST if available) or fallback to **sliding windows** with overlaps.
-* Assign stable deterministic ids: `hash$repo@commit:path#Lx-Ly$`.
+* Assign stable deterministic ids: `hashrepo@commit:path#Lx-Ly`.
 * Emit chips for the **top F** most-recently viewed chunks (unless deselected).
 
 ---
 
 # retrieval policy (simple & effective)
 
-1. **Live query**: build from the composer text $+ open file path context$.
+1. **Live query**: build from the composer text + open file path context.
 2. **Chroma**: `collection.query({ queryEmbeddings, topK: K, where: { repo: current } })`
 3. **Search** (optional): code‑aware BM25 over filename & headings; take top S.
-4. **Dedup**: prefer unique sources; rerank by **$semantic score + recency boost + pin bonus$**.
-5. **Trim to budget** with per‑type caps $e.g., `ragChunkCap=500`, `fileChunkCap=700`, `searchCap=150`, `chatMsgCap=350`$.
+4. **Dedup**: prefer unique sources; rerank by **semantic score + recency boost + pin bonus**.
+5. **Trim to budget** with per‑type caps e.g., `ragChunkCap=500`, `fileChunkCap=700`, `searchCap=150`, `chatMsgCap=350`.
 
 Show the final set as chips; user can toggle any off **before** send.
 
@@ -1155,30 +1155,30 @@ type ChatRequest = {
 ---
 
 # quick milestones
-$$
+```
 1. **Shell + Bus**
-$$
+```
 * app-shell, chat-panel, file-tree-panel, search-bar, code-editor-panel
 * events wired, no backend yet
 * dummy chips + token meter
-$$
+```
 2. **Bridge integration**
-$$
+```
 * `/v1/chat` streaming
 * `/v1/files/view`, `/v1/files/list`
 * `/v1/search` (or call your search service)
-$$
+```
 3. **Chroma hookup**
-$$
+```
 * query for top K with a basic reranker
 * chip de‑dup + eviction
-$$
+```
 4. **Editor + evil keys**
-$$
+```
 * CodeMirror 6 + vim keymap + leader palette
-$$
+```
 5. **Prompt preview + citations**
-$$
+```
 * render assembled prompt sections
 * enforce chip id usage in assistant replies
 
@@ -1216,225 +1216,225 @@ if you want, I can open a fresh canvas next to this chat with:
 * and the prompt assembly util.
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- $[promethean-native-config-design|Promethean-native config design]$
-- $[promethean-infrastructure-setup|Promethean Infrastructure Setup]$
-- $[api-gateway-versioning]$
-- $[chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]$
-- $[promethean-agent-config-dsl|Promethean Agent Config DSL]$
-- $Protocol_0_The_Contradiction_Engine$$protocol-0-the-contradiction-engine.md$
-- $[js-to-lisp-reverse-compiler]$
-- $[polymorphic-meta-programming-engine]$
-- $[board-walk-2025-08-11|Board Walk – 2025-08-11]$
-- $[migrate-to-provider-tenant-architecture|Migrate to Provider-Tenant Architecture]$
-- $[cross-target-macro-system-in-sibilant|Cross-Target Macro System in Sibilant]$
-- $[typescript-patch-for-tool-calling-support|TypeScript Patch for Tool Calling Support]$
-- $[docs/unique/agent-tasks-persistence-migration-to-dualstore|Agent Tasks: Persistence Migration to DualStore]$
-- $[obsidian-chatgpt-plugin-integration-guide|Obsidian ChatGPT Plugin Integration Guide]$
-- $[ai-centric-os-with-mcp-layer|AI-Centric OS with MCP Layer]$
-- $[docs/unique/aionian-circuit-math|aionian-circuit-math]$
-- $[docs/unique/field-interaction-equations|field-interaction-equations]$
-- $[cross-language-runtime-polymorphism|Cross-Language Runtime Polymorphism]$
-- $[the-jar-of-echoes|The Jar of Echoes]$
-- $[lisp-compiler-integration]$
-- $[docs/unique/ecs-offload-workers|ecs-offload-workers]$
-- $[exception-layer-analysis|Exception Layer Analysis]$
-- $[model-selection-for-lightweight-conversational-tasks|Model Selection for Lightweight Conversational Tasks]$
-- $[ecs-scheduler-and-prefabs]$
-- [Debugging Broker Connections and Agent Behavior]$debugging-broker-connections-and-agent-behavior.md$
+- [promethean-native-config-design|Promethean-native config design]
+- [promethean-infrastructure-setup|Promethean Infrastructure Setup]
+- [api-gateway-versioning]
+- [chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]
+- [promethean-agent-config-dsl|Promethean Agent Config DSL]
+- Protocol_0_The_Contradiction_Engine$protocol-0-the-contradiction-engine.md
+- [js-to-lisp-reverse-compiler]
+- [polymorphic-meta-programming-engine]
+- [board-walk-2025-08-11|Board Walk – 2025-08-11]
+- [migrate-to-provider-tenant-architecture|Migrate to Provider-Tenant Architecture]
+- [cross-target-macro-system-in-sibilant|Cross-Target Macro System in Sibilant]
+- [typescript-patch-for-tool-calling-support|TypeScript Patch for Tool Calling Support]
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore|Agent Tasks: Persistence Migration to DualStore]
+- [obsidian-chatgpt-plugin-integration-guide|Obsidian ChatGPT Plugin Integration Guide]
+- [ai-centric-os-with-mcp-layer|AI-Centric OS with MCP Layer]
+- [docs/unique/aionian-circuit-math|aionian-circuit-math]
+- [docs/unique/field-interaction-equations|field-interaction-equations]
+- [cross-language-runtime-polymorphism|Cross-Language Runtime Polymorphism]
+- [the-jar-of-echoes|The Jar of Echoes]
+- [lisp-compiler-integration]
+- [docs/unique/ecs-offload-workers|ecs-offload-workers]
+- [exception-layer-analysis|Exception Layer Analysis]
+- [model-selection-for-lightweight-conversational-tasks|Model Selection for Lightweight Conversational Tasks]
+- [ecs-scheduler-and-prefabs]
+- [Debugging Broker Connections and Agent Behavior]debugging-broker-connections-and-agent-behavior.md
 - [[eidolonfield]]
-- $[observability-infrastructure-setup]$
-- $[language-agnostic-mirror-system|Language-Agnostic Mirror System]$
-- $plan-update-confirmation$$plan-update-confirmation.md$
-- $[pure-typescript-search-microservice|Pure TypeScript Search Microservice]$
-- $[admin-dashboard-for-user-management|Admin Dashboard for User Management]$
-- $[docs/unique/interop-and-source-maps|Interop and Source Maps]$
-- $[board-automation-improvements|Board Automation Improvements]$
-- $[voice-access-layer-design|Voice Access Layer Design]$
-- $[sibilant-meta-prompt-dsl|Sibilant Meta-Prompt DSL]$
-- $[docs/unique/template-based-compilation|template-based-compilation]$
+- [observability-infrastructure-setup]
+- [language-agnostic-mirror-system|Language-Agnostic Mirror System]
+- plan-update-confirmation$plan-update-confirmation.md
+- [pure-typescript-search-microservice|Pure TypeScript Search Microservice]
+- [admin-dashboard-for-user-management|Admin Dashboard for User Management]
+- [docs/unique/interop-and-source-maps|Interop and Source Maps]
+- [board-automation-improvements|Board Automation Improvements]
+- [voice-access-layer-design|Voice Access Layer Design]
+- [sibilant-meta-prompt-dsl|Sibilant Meta-Prompt DSL]
+- [docs/unique/template-based-compilation|template-based-compilation]
 
 ## Sources
-- $[promethean-agent-config-dsl#L143|Promethean Agent Config DSL — L143]$ (line 143, col 1, score 0.88)
-- $[promethean-infrastructure-setup#L552|Promethean Infrastructure Setup — L552]$ (line 552, col 1, score 1)
-- $[promethean-infrastructure-setup#L552|Promethean Infrastructure Setup — L552]$ (line 552, col 3, score 1)
-- $[api-gateway-versioning#L275|api-gateway-versioning — L275]$ (line 275, col 3, score 1)
-- $[api-gateway-versioning#L275|api-gateway-versioning — L275]$ (line 275, col 5, score 1)
-- $[promethean-native-config-design#L31|Promethean-native config design — L31]$ (line 31, col 1, score 1)
-- $[promethean-native-config-design#L31|Promethean-native config design — L31]$ (line 31, col 3, score 1)
-- $[chroma-toolkit-consolidation-plan#L72|Chroma Toolkit Consolidation Plan — L72]$ (line 72, col 5, score 0.95)
-- $[chroma-toolkit-consolidation-plan#L88|Chroma Toolkit Consolidation Plan — L88]$ (line 88, col 5, score 0.95)
-- $[chroma-toolkit-consolidation-plan#L107|Chroma Toolkit Consolidation Plan — L107]$ (line 107, col 5, score 0.95)
-- $[chroma-toolkit-consolidation-plan#L148|Chroma Toolkit Consolidation Plan — L148]$ (line 148, col 9, score 0.95)
-- $[promethean-native-config-design#L32|Promethean-native config design — L32]$ (line 32, col 1, score 0.91)
-- $[promethean-native-config-design#L32|Promethean-native config design — L32]$ (line 32, col 3, score 0.91)
-- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L130|Agent Tasks: Persistence Migration to DualStore — L130]$ (line 130, col 1, score 1)
-- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L130|Agent Tasks: Persistence Migration to DualStore — L130]$ (line 130, col 3, score 1)
-- $[docs/unique/aionian-circuit-math#L159|aionian-circuit-math — L159]$ (line 159, col 1, score 1)
-- $[docs/unique/aionian-circuit-math#L159|aionian-circuit-math — L159]$ (line 159, col 3, score 1)
-- $[board-walk-2025-08-11#L134|Board Walk – 2025-08-11 — L134]$ (line 134, col 1, score 1)
-- $[board-walk-2025-08-11#L134|Board Walk – 2025-08-11 — L134]$ (line 134, col 3, score 1)
-- $[chroma-toolkit-consolidation-plan#L168|Chroma Toolkit Consolidation Plan — L168]$ (line 168, col 1, score 1)
-- $[chroma-toolkit-consolidation-plan#L168|Chroma Toolkit Consolidation Plan — L168]$ (line 168, col 3, score 1)
-- $[api-gateway-versioning#L284|api-gateway-versioning — L284]$ (line 284, col 1, score 1)
-- $[api-gateway-versioning#L284|api-gateway-versioning — L284]$ (line 284, col 3, score 1)
-- [Debugging Broker Connections and Agent Behavior — L40]$debugging-broker-connections-and-agent-behavior.md#L40$ (line 40, col 1, score 1)
-- [Debugging Broker Connections and Agent Behavior — L40]$debugging-broker-connections-and-agent-behavior.md#L40$ (line 40, col 3, score 1)
-- $[docs/unique/ecs-offload-workers#L458|ecs-offload-workers — L458]$ (line 458, col 1, score 1)
-- $[docs/unique/ecs-offload-workers#L458|ecs-offload-workers — L458]$ (line 458, col 3, score 1)
-- $[ecs-scheduler-and-prefabs#L392|ecs-scheduler-and-prefabs — L392]$ (line 392, col 1, score 1)
-- $[ecs-scheduler-and-prefabs#L392|ecs-scheduler-and-prefabs — L392]$ (line 392, col 3, score 1)
-- [Debugging Broker Connections and Agent Behavior — L41]$debugging-broker-connections-and-agent-behavior.md#L41$ (line 41, col 1, score 1)
-- [Debugging Broker Connections and Agent Behavior — L41]$debugging-broker-connections-and-agent-behavior.md#L41$ (line 41, col 3, score 1)
-- $[observability-infrastructure-setup#L363|observability-infrastructure-setup — L363]$ (line 363, col 1, score 1)
-- $[observability-infrastructure-setup#L363|observability-infrastructure-setup — L363]$ (line 363, col 3, score 1)
-- $[promethean-infrastructure-setup#L568|Promethean Infrastructure Setup — L568]$ (line 568, col 1, score 1)
-- $[promethean-infrastructure-setup#L568|Promethean Infrastructure Setup — L568]$ (line 568, col 3, score 1)
-- $[pure-typescript-search-microservice#L524|Pure TypeScript Search Microservice — L524]$ (line 524, col 1, score 1)
-- $[pure-typescript-search-microservice#L524|Pure TypeScript Search Microservice — L524]$ (line 524, col 3, score 1)
-- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L134|Agent Tasks: Persistence Migration to DualStore — L134]$ (line 134, col 1, score 1)
-- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L134|Agent Tasks: Persistence Migration to DualStore — L134]$ (line 134, col 3, score 1)
-- $[docs/unique/aionian-circuit-math#L156|aionian-circuit-math — L156]$ (line 156, col 1, score 1)
-- $[docs/unique/aionian-circuit-math#L156|aionian-circuit-math — L156]$ (line 156, col 3, score 1)
-- $[board-walk-2025-08-11#L136|Board Walk – 2025-08-11 — L136]$ (line 136, col 1, score 1)
-- $[board-walk-2025-08-11#L136|Board Walk – 2025-08-11 — L136]$ (line 136, col 3, score 1)
-- $[exception-layer-analysis#L155|Exception Layer Analysis — L155]$ (line 155, col 1, score 1)
-- $[exception-layer-analysis#L155|Exception Layer Analysis — L155]$ (line 155, col 3, score 1)
-- $[ai-centric-os-with-mcp-layer#L402|AI-Centric OS with MCP Layer — L402]$ (line 402, col 1, score 1)
-- $[ai-centric-os-with-mcp-layer#L402|AI-Centric OS with MCP Layer — L402]$ (line 402, col 3, score 1)
-- $[cross-target-macro-system-in-sibilant#L169|Cross-Target Macro System in Sibilant — L169]$ (line 169, col 1, score 1)
-- $[cross-target-macro-system-in-sibilant#L169|Cross-Target Macro System in Sibilant — L169]$ (line 169, col 3, score 1)
-- $[js-to-lisp-reverse-compiler#L410|js-to-lisp-reverse-compiler — L410]$ (line 410, col 1, score 1)
-- $[js-to-lisp-reverse-compiler#L410|js-to-lisp-reverse-compiler — L410]$ (line 410, col 3, score 1)
-- $[lisp-compiler-integration#L544|Lisp-Compiler-Integration — L544]$ (line 544, col 1, score 1)
-- $[lisp-compiler-integration#L544|Lisp-Compiler-Integration — L544]$ (line 544, col 3, score 1)
-- $[obsidian-chatgpt-plugin-integration-guide#L39|Obsidian ChatGPT Plugin Integration Guide — L39]$ (line 39, col 1, score 1)
-- $[obsidian-chatgpt-plugin-integration-guide#L39|Obsidian ChatGPT Plugin Integration Guide — L39]$ (line 39, col 3, score 1)
-- $[the-jar-of-echoes#L126|The Jar of Echoes — L126]$ (line 126, col 1, score 1)
-- $[the-jar-of-echoes#L126|The Jar of Echoes — L126]$ (line 126, col 3, score 1)
-- $[cross-target-macro-system-in-sibilant#L179|Cross-Target Macro System in Sibilant — L179]$ (line 179, col 1, score 1)
-- $[cross-target-macro-system-in-sibilant#L179|Cross-Target Macro System in Sibilant — L179]$ (line 179, col 3, score 1)
-- $[docs/unique/interop-and-source-maps#L522|Interop and Source Maps — L522]$ (line 522, col 1, score 1)
-- $[docs/unique/interop-and-source-maps#L522|Interop and Source Maps — L522]$ (line 522, col 3, score 1)
-- $[language-agnostic-mirror-system#L533|Language-Agnostic Mirror System — L533]$ (line 533, col 1, score 1)
-- $[language-agnostic-mirror-system#L533|Language-Agnostic Mirror System — L533]$ (line 533, col 3, score 1)
-- $[lisp-compiler-integration#L547|Lisp-Compiler-Integration — L547]$ (line 547, col 1, score 1)
-- $[lisp-compiler-integration#L547|Lisp-Compiler-Integration — L547]$ (line 547, col 3, score 1)
-- $[cross-language-runtime-polymorphism#L202|Cross-Language Runtime Polymorphism — L202]$ (line 202, col 1, score 1)
-- $[cross-language-runtime-polymorphism#L202|Cross-Language Runtime Polymorphism — L202]$ (line 202, col 3, score 1)
-- $[cross-target-macro-system-in-sibilant#L172|Cross-Target Macro System in Sibilant — L172]$ (line 172, col 1, score 1)
-- $[cross-target-macro-system-in-sibilant#L172|Cross-Target Macro System in Sibilant — L172]$ (line 172, col 3, score 1)
+- [promethean-agent-config-dsl#L143|Promethean Agent Config DSL — L143] (line 143, col 1, score 0.88)
+- [promethean-infrastructure-setup#L552|Promethean Infrastructure Setup — L552] (line 552, col 1, score 1)
+- [promethean-infrastructure-setup#L552|Promethean Infrastructure Setup — L552] (line 552, col 3, score 1)
+- [api-gateway-versioning#L275|api-gateway-versioning — L275] (line 275, col 3, score 1)
+- [api-gateway-versioning#L275|api-gateway-versioning — L275] (line 275, col 5, score 1)
+- [promethean-native-config-design#L31|Promethean-native config design — L31] (line 31, col 1, score 1)
+- [promethean-native-config-design#L31|Promethean-native config design — L31] (line 31, col 3, score 1)
+- [chroma-toolkit-consolidation-plan#L72|Chroma Toolkit Consolidation Plan — L72] (line 72, col 5, score 0.95)
+- [chroma-toolkit-consolidation-plan#L88|Chroma Toolkit Consolidation Plan — L88] (line 88, col 5, score 0.95)
+- [chroma-toolkit-consolidation-plan#L107|Chroma Toolkit Consolidation Plan — L107] (line 107, col 5, score 0.95)
+- [chroma-toolkit-consolidation-plan#L148|Chroma Toolkit Consolidation Plan — L148] (line 148, col 9, score 0.95)
+- [promethean-native-config-design#L32|Promethean-native config design — L32] (line 32, col 1, score 0.91)
+- [promethean-native-config-design#L32|Promethean-native config design — L32] (line 32, col 3, score 0.91)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L130|Agent Tasks: Persistence Migration to DualStore — L130] (line 130, col 1, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L130|Agent Tasks: Persistence Migration to DualStore — L130] (line 130, col 3, score 1)
+- [docs/unique/aionian-circuit-math#L159|aionian-circuit-math — L159] (line 159, col 1, score 1)
+- [docs/unique/aionian-circuit-math#L159|aionian-circuit-math — L159] (line 159, col 3, score 1)
+- [board-walk-2025-08-11#L134|Board Walk – 2025-08-11 — L134] (line 134, col 1, score 1)
+- [board-walk-2025-08-11#L134|Board Walk – 2025-08-11 — L134] (line 134, col 3, score 1)
+- [chroma-toolkit-consolidation-plan#L168|Chroma Toolkit Consolidation Plan — L168] (line 168, col 1, score 1)
+- [chroma-toolkit-consolidation-plan#L168|Chroma Toolkit Consolidation Plan — L168] (line 168, col 3, score 1)
+- [api-gateway-versioning#L284|api-gateway-versioning — L284] (line 284, col 1, score 1)
+- [api-gateway-versioning#L284|api-gateway-versioning — L284] (line 284, col 3, score 1)
+- [Debugging Broker Connections and Agent Behavior — L40]debugging-broker-connections-and-agent-behavior.md#L40 (line 40, col 1, score 1)
+- [Debugging Broker Connections and Agent Behavior — L40]debugging-broker-connections-and-agent-behavior.md#L40 (line 40, col 3, score 1)
+- [docs/unique/ecs-offload-workers#L458|ecs-offload-workers — L458] (line 458, col 1, score 1)
+- [docs/unique/ecs-offload-workers#L458|ecs-offload-workers — L458] (line 458, col 3, score 1)
+- [ecs-scheduler-and-prefabs#L392|ecs-scheduler-and-prefabs — L392] (line 392, col 1, score 1)
+- [ecs-scheduler-and-prefabs#L392|ecs-scheduler-and-prefabs — L392] (line 392, col 3, score 1)
+- [Debugging Broker Connections and Agent Behavior — L41]debugging-broker-connections-and-agent-behavior.md#L41 (line 41, col 1, score 1)
+- [Debugging Broker Connections and Agent Behavior — L41]debugging-broker-connections-and-agent-behavior.md#L41 (line 41, col 3, score 1)
+- [observability-infrastructure-setup#L363|observability-infrastructure-setup — L363] (line 363, col 1, score 1)
+- [observability-infrastructure-setup#L363|observability-infrastructure-setup — L363] (line 363, col 3, score 1)
+- [promethean-infrastructure-setup#L568|Promethean Infrastructure Setup — L568] (line 568, col 1, score 1)
+- [promethean-infrastructure-setup#L568|Promethean Infrastructure Setup — L568] (line 568, col 3, score 1)
+- [pure-typescript-search-microservice#L524|Pure TypeScript Search Microservice — L524] (line 524, col 1, score 1)
+- [pure-typescript-search-microservice#L524|Pure TypeScript Search Microservice — L524] (line 524, col 3, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L134|Agent Tasks: Persistence Migration to DualStore — L134] (line 134, col 1, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L134|Agent Tasks: Persistence Migration to DualStore — L134] (line 134, col 3, score 1)
+- [docs/unique/aionian-circuit-math#L156|aionian-circuit-math — L156] (line 156, col 1, score 1)
+- [docs/unique/aionian-circuit-math#L156|aionian-circuit-math — L156] (line 156, col 3, score 1)
+- [board-walk-2025-08-11#L136|Board Walk – 2025-08-11 — L136] (line 136, col 1, score 1)
+- [board-walk-2025-08-11#L136|Board Walk – 2025-08-11 — L136] (line 136, col 3, score 1)
+- [exception-layer-analysis#L155|Exception Layer Analysis — L155] (line 155, col 1, score 1)
+- [exception-layer-analysis#L155|Exception Layer Analysis — L155] (line 155, col 3, score 1)
+- [ai-centric-os-with-mcp-layer#L402|AI-Centric OS with MCP Layer — L402] (line 402, col 1, score 1)
+- [ai-centric-os-with-mcp-layer#L402|AI-Centric OS with MCP Layer — L402] (line 402, col 3, score 1)
+- [cross-target-macro-system-in-sibilant#L169|Cross-Target Macro System in Sibilant — L169] (line 169, col 1, score 1)
+- [cross-target-macro-system-in-sibilant#L169|Cross-Target Macro System in Sibilant — L169] (line 169, col 3, score 1)
+- [js-to-lisp-reverse-compiler#L410|js-to-lisp-reverse-compiler — L410] (line 410, col 1, score 1)
+- [js-to-lisp-reverse-compiler#L410|js-to-lisp-reverse-compiler — L410] (line 410, col 3, score 1)
+- [lisp-compiler-integration#L544|Lisp-Compiler-Integration — L544] (line 544, col 1, score 1)
+- [lisp-compiler-integration#L544|Lisp-Compiler-Integration — L544] (line 544, col 3, score 1)
+- [obsidian-chatgpt-plugin-integration-guide#L39|Obsidian ChatGPT Plugin Integration Guide — L39] (line 39, col 1, score 1)
+- [obsidian-chatgpt-plugin-integration-guide#L39|Obsidian ChatGPT Plugin Integration Guide — L39] (line 39, col 3, score 1)
+- [the-jar-of-echoes#L126|The Jar of Echoes — L126] (line 126, col 1, score 1)
+- [the-jar-of-echoes#L126|The Jar of Echoes — L126] (line 126, col 3, score 1)
+- [cross-target-macro-system-in-sibilant#L179|Cross-Target Macro System in Sibilant — L179] (line 179, col 1, score 1)
+- [cross-target-macro-system-in-sibilant#L179|Cross-Target Macro System in Sibilant — L179] (line 179, col 3, score 1)
+- [docs/unique/interop-and-source-maps#L522|Interop and Source Maps — L522] (line 522, col 1, score 1)
+- [docs/unique/interop-and-source-maps#L522|Interop and Source Maps — L522] (line 522, col 3, score 1)
+- [language-agnostic-mirror-system#L533|Language-Agnostic Mirror System — L533] (line 533, col 1, score 1)
+- [language-agnostic-mirror-system#L533|Language-Agnostic Mirror System — L533] (line 533, col 3, score 1)
+- [lisp-compiler-integration#L547|Lisp-Compiler-Integration — L547] (line 547, col 1, score 1)
+- [lisp-compiler-integration#L547|Lisp-Compiler-Integration — L547] (line 547, col 3, score 1)
+- [cross-language-runtime-polymorphism#L202|Cross-Language Runtime Polymorphism — L202] (line 202, col 1, score 1)
+- [cross-language-runtime-polymorphism#L202|Cross-Language Runtime Polymorphism — L202] (line 202, col 3, score 1)
+- [cross-target-macro-system-in-sibilant#L172|Cross-Target Macro System in Sibilant — L172] (line 172, col 1, score 1)
+- [cross-target-macro-system-in-sibilant#L172|Cross-Target Macro System in Sibilant — L172] (line 172, col 3, score 1)
 - [[eidolonfield#L250|EidolonField — L250]] (line 250, col 1, score 1)
 - [[eidolonfield#L250|EidolonField — L250]] (line 250, col 3, score 1)
-- $[model-selection-for-lightweight-conversational-tasks#L133|Model Selection for Lightweight Conversational Tasks — L133]$ (line 133, col 1, score 1)
-- $[model-selection-for-lightweight-conversational-tasks#L133|Model Selection for Lightweight Conversational Tasks — L133]$ (line 133, col 3, score 1)
-- $[admin-dashboard-for-user-management#L40|Admin Dashboard for User Management — L40]$ (line 40, col 1, score 1)
-- $[admin-dashboard-for-user-management#L40|Admin Dashboard for User Management — L40]$ (line 40, col 3, score 1)
-- $[board-automation-improvements#L12|Board Automation Improvements — L12]$ (line 12, col 1, score 1)
-- $[board-automation-improvements#L12|Board Automation Improvements — L12]$ (line 12, col 3, score 1)
-- $[admin-dashboard-for-user-management#L45|Admin Dashboard for User Management — L45]$ (line 45, col 1, score 0.9)
-- $[admin-dashboard-for-user-management#L45|Admin Dashboard for User Management — L45]$ (line 45, col 3, score 0.9)
-- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L131|Agent Tasks: Persistence Migration to DualStore — L131]$ (line 131, col 1, score 1)
-- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L131|Agent Tasks: Persistence Migration to DualStore — L131]$ (line 131, col 3, score 1)
-- $[chroma-toolkit-consolidation-plan#L169|Chroma Toolkit Consolidation Plan — L169]$ (line 169, col 1, score 1)
-- $[chroma-toolkit-consolidation-plan#L169|Chroma Toolkit Consolidation Plan — L169]$ (line 169, col 3, score 1)
-- $[cross-target-macro-system-in-sibilant#L175|Cross-Target Macro System in Sibilant — L175]$ (line 175, col 1, score 1)
-- $[cross-target-macro-system-in-sibilant#L175|Cross-Target Macro System in Sibilant — L175]$ (line 175, col 3, score 1)
-- $[js-to-lisp-reverse-compiler#L414|js-to-lisp-reverse-compiler — L414]$ (line 414, col 1, score 1)
-- $[js-to-lisp-reverse-compiler#L414|js-to-lisp-reverse-compiler — L414]$ (line 414, col 3, score 1)
-- $[cross-language-runtime-polymorphism#L206|Cross-Language Runtime Polymorphism — L206]$ (line 206, col 1, score 1)
-- $[cross-language-runtime-polymorphism#L206|Cross-Language Runtime Polymorphism — L206]$ (line 206, col 3, score 1)
-- $[docs/unique/field-interaction-equations#L158|field-interaction-equations — L158]$ (line 158, col 1, score 1)
-- $[docs/unique/field-interaction-equations#L158|field-interaction-equations — L158]$ (line 158, col 3, score 1)
-- $[js-to-lisp-reverse-compiler#L417|js-to-lisp-reverse-compiler — L417]$ (line 417, col 1, score 1)
-- $[js-to-lisp-reverse-compiler#L417|js-to-lisp-reverse-compiler — L417]$ (line 417, col 3, score 1)
-- $[migrate-to-provider-tenant-architecture#L274|Migrate to Provider-Tenant Architecture — L274]$ (line 274, col 1, score 1)
-- $[migrate-to-provider-tenant-architecture#L274|Migrate to Provider-Tenant Architecture — L274]$ (line 274, col 3, score 1)
-- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L129|Agent Tasks: Persistence Migration to DualStore — L129]$ (line 129, col 1, score 1)
-- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L129|Agent Tasks: Persistence Migration to DualStore — L129]$ (line 129, col 3, score 1)
-- $plan-update-confirmation — L995$$plan-update-confirmation.md#L995$ (line 995, col 1, score 1)
-- $plan-update-confirmation — L995$$plan-update-confirmation.md#L995$ (line 995, col 3, score 1)
-- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L149|Agent Tasks: Persistence Migration to DualStore — L149]$ (line 149, col 1, score 0.96)
-- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L149|Agent Tasks: Persistence Migration to DualStore — L149]$ (line 149, col 3, score 0.96)
-- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L148|Agent Tasks: Persistence Migration to DualStore — L148]$ (line 148, col 1, score 0.95)
-- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L148|Agent Tasks: Persistence Migration to DualStore — L148]$ (line 148, col 3, score 0.95)
-- $[migrate-to-provider-tenant-architecture#L305|Migrate to Provider-Tenant Architecture — L305]$ (line 305, col 1, score 1)
-- $[migrate-to-provider-tenant-architecture#L305|Migrate to Provider-Tenant Architecture — L305]$ (line 305, col 3, score 1)
-- $[cross-target-macro-system-in-sibilant#L188|Cross-Target Macro System in Sibilant — L188]$ (line 188, col 1, score 1)
-- $[cross-target-macro-system-in-sibilant#L188|Cross-Target Macro System in Sibilant — L188]$ (line 188, col 3, score 1)
-- $[js-to-lisp-reverse-compiler#L428|js-to-lisp-reverse-compiler — L428]$ (line 428, col 1, score 1)
-- $[js-to-lisp-reverse-compiler#L428|js-to-lisp-reverse-compiler — L428]$ (line 428, col 3, score 1)
-- $[api-gateway-versioning#L296|api-gateway-versioning — L296]$ (line 296, col 1, score 1)
-- $[api-gateway-versioning#L296|api-gateway-versioning — L296]$ (line 296, col 3, score 1)
-- $[api-gateway-versioning#L298|api-gateway-versioning — L298]$ (line 298, col 1, score 1)
-- $[api-gateway-versioning#L298|api-gateway-versioning — L298]$ (line 298, col 3, score 1)
-- $[api-gateway-versioning#L300|api-gateway-versioning — L300]$ (line 300, col 1, score 1)
-- $[api-gateway-versioning#L300|api-gateway-versioning — L300]$ (line 300, col 3, score 1)
-- $[api-gateway-versioning#L297|api-gateway-versioning — L297]$ (line 297, col 1, score 1)
-- $[api-gateway-versioning#L297|api-gateway-versioning — L297]$ (line 297, col 3, score 1)
-- $[api-gateway-versioning#L299|api-gateway-versioning — L299]$ (line 299, col 1, score 1)
-- $[api-gateway-versioning#L299|api-gateway-versioning — L299]$ (line 299, col 3, score 1)
-- $[api-gateway-versioning#L301|api-gateway-versioning — L301]$ (line 301, col 1, score 1)
-- $[api-gateway-versioning#L301|api-gateway-versioning — L301]$ (line 301, col 3, score 1)
-- $[promethean-infrastructure-setup#L603|Promethean Infrastructure Setup — L603]$ (line 603, col 1, score 1)
-- $[promethean-infrastructure-setup#L603|Promethean Infrastructure Setup — L603]$ (line 603, col 3, score 1)
-- $[promethean-infrastructure-setup#L605|Promethean Infrastructure Setup — L605]$ (line 605, col 1, score 1)
-- $[promethean-infrastructure-setup#L605|Promethean Infrastructure Setup — L605]$ (line 605, col 3, score 1)
-- $[promethean-infrastructure-setup#L607|Promethean Infrastructure Setup — L607]$ (line 607, col 1, score 1)
-- $[promethean-infrastructure-setup#L607|Promethean Infrastructure Setup — L607]$ (line 607, col 3, score 1)
-- $[promethean-infrastructure-setup#L604|Promethean Infrastructure Setup — L604]$ (line 604, col 1, score 1)
-- $[promethean-infrastructure-setup#L604|Promethean Infrastructure Setup — L604]$ (line 604, col 3, score 1)
-- $[promethean-infrastructure-setup#L606|Promethean Infrastructure Setup — L606]$ (line 606, col 1, score 1)
-- $[promethean-infrastructure-setup#L606|Promethean Infrastructure Setup — L606]$ (line 606, col 3, score 1)
-- $[promethean-infrastructure-setup#L608|Promethean Infrastructure Setup — L608]$ (line 608, col 1, score 1)
-- $[promethean-infrastructure-setup#L608|Promethean Infrastructure Setup — L608]$ (line 608, col 3, score 1)
-- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L150|Agent Tasks: Persistence Migration to DualStore — L150]$ (line 150, col 1, score 0.99)
-- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L150|Agent Tasks: Persistence Migration to DualStore — L150]$ (line 150, col 3, score 0.99)
-- $[model-selection-for-lightweight-conversational-tasks#L143|Model Selection for Lightweight Conversational Tasks — L143]$ (line 143, col 1, score 0.99)
-- $[model-selection-for-lightweight-conversational-tasks#L143|Model Selection for Lightweight Conversational Tasks — L143]$ (line 143, col 3, score 0.99)
-- $[sibilant-meta-prompt-dsl#L205|Sibilant Meta-Prompt DSL — L205]$ (line 205, col 1, score 0.99)
-- $[sibilant-meta-prompt-dsl#L205|Sibilant Meta-Prompt DSL — L205]$ (line 205, col 3, score 0.99)
-- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L151|Agent Tasks: Persistence Migration to DualStore — L151]$ (line 151, col 1, score 0.99)
-- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L151|Agent Tasks: Persistence Migration to DualStore — L151]$ (line 151, col 3, score 0.99)
-- $[promethean-native-config-design#L397|Promethean-native config design — L397]$ (line 397, col 1, score 1)
-- $[promethean-native-config-design#L397|Promethean-native config design — L397]$ (line 397, col 3, score 1)
-- $[sibilant-meta-prompt-dsl#L201|Sibilant Meta-Prompt DSL — L201]$ (line 201, col 1, score 1)
-- $[sibilant-meta-prompt-dsl#L201|Sibilant Meta-Prompt DSL — L201]$ (line 201, col 3, score 1)
-- $[docs/unique/template-based-compilation#L124|template-based-compilation — L124]$ (line 124, col 1, score 1)
-- $[docs/unique/template-based-compilation#L124|template-based-compilation — L124]$ (line 124, col 3, score 1)
-- $[voice-access-layer-design#L320|Voice Access Layer Design — L320]$ (line 320, col 1, score 1)
-- $[voice-access-layer-design#L320|Voice Access Layer Design — L320]$ (line 320, col 3, score 1)
-- $[promethean-native-config-design#L398|Promethean-native config design — L398]$ (line 398, col 1, score 1)
-- $[promethean-native-config-design#L398|Promethean-native config design — L398]$ (line 398, col 3, score 1)
-- $[sibilant-meta-prompt-dsl#L202|Sibilant Meta-Prompt DSL — L202]$ (line 202, col 1, score 1)
-- $[sibilant-meta-prompt-dsl#L202|Sibilant Meta-Prompt DSL — L202]$ (line 202, col 3, score 1)
-- $[docs/unique/template-based-compilation#L125|template-based-compilation — L125]$ (line 125, col 1, score 1)
-- $[docs/unique/template-based-compilation#L125|template-based-compilation — L125]$ (line 125, col 3, score 1)
-- $[voice-access-layer-design#L321|Voice Access Layer Design — L321]$ (line 321, col 1, score 1)
-- $[voice-access-layer-design#L321|Voice Access Layer Design — L321]$ (line 321, col 3, score 1)
-- $[promethean-native-config-design#L399|Promethean-native config design — L399]$ (line 399, col 1, score 1)
-- $[promethean-native-config-design#L399|Promethean-native config design — L399]$ (line 399, col 3, score 1)
-- $[sibilant-meta-prompt-dsl#L203|Sibilant Meta-Prompt DSL — L203]$ (line 203, col 1, score 1)
-- $[sibilant-meta-prompt-dsl#L203|Sibilant Meta-Prompt DSL — L203]$ (line 203, col 3, score 1)
-- $[docs/unique/template-based-compilation#L126|template-based-compilation — L126]$ (line 126, col 1, score 1)
-- $[docs/unique/template-based-compilation#L126|template-based-compilation — L126]$ (line 126, col 3, score 1)
-- $[voice-access-layer-design#L322|Voice Access Layer Design — L322]$ (line 322, col 1, score 1)
-- $[voice-access-layer-design#L322|Voice Access Layer Design — L322]$ (line 322, col 3, score 1)
-- $[promethean-native-config-design#L400|Promethean-native config design — L400]$ (line 400, col 1, score 1)
-- $[promethean-native-config-design#L400|Promethean-native config design — L400]$ (line 400, col 3, score 1)
-- $[sibilant-meta-prompt-dsl#L204|Sibilant Meta-Prompt DSL — L204]$ (line 204, col 1, score 1)
-- $[sibilant-meta-prompt-dsl#L204|Sibilant Meta-Prompt DSL — L204]$ (line 204, col 3, score 1)
-- $[docs/unique/template-based-compilation#L127|template-based-compilation — L127]$ (line 127, col 1, score 1)
-- $[docs/unique/template-based-compilation#L127|template-based-compilation — L127]$ (line 127, col 3, score 1)
-- $[voice-access-layer-design#L323|Voice Access Layer Design — L323]$ (line 323, col 1, score 1)
-- $[voice-access-layer-design#L323|Voice Access Layer Design — L323]$ (line 323, col 3, score 1)
-- $[voice-access-layer-design#L327|Voice Access Layer Design — L327]$ (line 327, col 1, score 1)
-- $[voice-access-layer-design#L327|Voice Access Layer Design — L327]$ (line 327, col 3, score 1)
-- $[chroma-toolkit-consolidation-plan#L188|Chroma Toolkit Consolidation Plan — L188]$ (line 188, col 1, score 1)
-- $[chroma-toolkit-consolidation-plan#L188|Chroma Toolkit Consolidation Plan — L188]$ (line 188, col 3, score 1)
-- $[chroma-toolkit-consolidation-plan#L189|Chroma Toolkit Consolidation Plan — L189]$ (line 189, col 1, score 1)
-- $[chroma-toolkit-consolidation-plan#L189|Chroma Toolkit Consolidation Plan — L189]$ (line 189, col 3, score 1)
-- $[model-selection-for-lightweight-conversational-tasks#L144|Model Selection for Lightweight Conversational Tasks — L144]$ (line 144, col 1, score 0.99)
-- $[model-selection-for-lightweight-conversational-tasks#L144|Model Selection for Lightweight Conversational Tasks — L144]$ (line 144, col 3, score 0.99)
-- $[sibilant-meta-prompt-dsl#L206|Sibilant Meta-Prompt DSL — L206]$ (line 206, col 1, score 0.99)
-- $[sibilant-meta-prompt-dsl#L206|Sibilant Meta-Prompt DSL — L206]$ (line 206, col 3, score 0.99)
+- [model-selection-for-lightweight-conversational-tasks#L133|Model Selection for Lightweight Conversational Tasks — L133] (line 133, col 1, score 1)
+- [model-selection-for-lightweight-conversational-tasks#L133|Model Selection for Lightweight Conversational Tasks — L133] (line 133, col 3, score 1)
+- [admin-dashboard-for-user-management#L40|Admin Dashboard for User Management — L40] (line 40, col 1, score 1)
+- [admin-dashboard-for-user-management#L40|Admin Dashboard for User Management — L40] (line 40, col 3, score 1)
+- [board-automation-improvements#L12|Board Automation Improvements — L12] (line 12, col 1, score 1)
+- [board-automation-improvements#L12|Board Automation Improvements — L12] (line 12, col 3, score 1)
+- [admin-dashboard-for-user-management#L45|Admin Dashboard for User Management — L45] (line 45, col 1, score 0.9)
+- [admin-dashboard-for-user-management#L45|Admin Dashboard for User Management — L45] (line 45, col 3, score 0.9)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L131|Agent Tasks: Persistence Migration to DualStore — L131] (line 131, col 1, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L131|Agent Tasks: Persistence Migration to DualStore — L131] (line 131, col 3, score 1)
+- [chroma-toolkit-consolidation-plan#L169|Chroma Toolkit Consolidation Plan — L169] (line 169, col 1, score 1)
+- [chroma-toolkit-consolidation-plan#L169|Chroma Toolkit Consolidation Plan — L169] (line 169, col 3, score 1)
+- [cross-target-macro-system-in-sibilant#L175|Cross-Target Macro System in Sibilant — L175] (line 175, col 1, score 1)
+- [cross-target-macro-system-in-sibilant#L175|Cross-Target Macro System in Sibilant — L175] (line 175, col 3, score 1)
+- [js-to-lisp-reverse-compiler#L414|js-to-lisp-reverse-compiler — L414] (line 414, col 1, score 1)
+- [js-to-lisp-reverse-compiler#L414|js-to-lisp-reverse-compiler — L414] (line 414, col 3, score 1)
+- [cross-language-runtime-polymorphism#L206|Cross-Language Runtime Polymorphism — L206] (line 206, col 1, score 1)
+- [cross-language-runtime-polymorphism#L206|Cross-Language Runtime Polymorphism — L206] (line 206, col 3, score 1)
+- [docs/unique/field-interaction-equations#L158|field-interaction-equations — L158] (line 158, col 1, score 1)
+- [docs/unique/field-interaction-equations#L158|field-interaction-equations — L158] (line 158, col 3, score 1)
+- [js-to-lisp-reverse-compiler#L417|js-to-lisp-reverse-compiler — L417] (line 417, col 1, score 1)
+- [js-to-lisp-reverse-compiler#L417|js-to-lisp-reverse-compiler — L417] (line 417, col 3, score 1)
+- [migrate-to-provider-tenant-architecture#L274|Migrate to Provider-Tenant Architecture — L274] (line 274, col 1, score 1)
+- [migrate-to-provider-tenant-architecture#L274|Migrate to Provider-Tenant Architecture — L274] (line 274, col 3, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L129|Agent Tasks: Persistence Migration to DualStore — L129] (line 129, col 1, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L129|Agent Tasks: Persistence Migration to DualStore — L129] (line 129, col 3, score 1)
+- plan-update-confirmation — L995$plan-update-confirmation.md#L995 (line 995, col 1, score 1)
+- plan-update-confirmation — L995$plan-update-confirmation.md#L995 (line 995, col 3, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L149|Agent Tasks: Persistence Migration to DualStore — L149] (line 149, col 1, score 0.96)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L149|Agent Tasks: Persistence Migration to DualStore — L149] (line 149, col 3, score 0.96)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L148|Agent Tasks: Persistence Migration to DualStore — L148] (line 148, col 1, score 0.95)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L148|Agent Tasks: Persistence Migration to DualStore — L148] (line 148, col 3, score 0.95)
+- [migrate-to-provider-tenant-architecture#L305|Migrate to Provider-Tenant Architecture — L305] (line 305, col 1, score 1)
+- [migrate-to-provider-tenant-architecture#L305|Migrate to Provider-Tenant Architecture — L305] (line 305, col 3, score 1)
+- [cross-target-macro-system-in-sibilant#L188|Cross-Target Macro System in Sibilant — L188] (line 188, col 1, score 1)
+- [cross-target-macro-system-in-sibilant#L188|Cross-Target Macro System in Sibilant — L188] (line 188, col 3, score 1)
+- [js-to-lisp-reverse-compiler#L428|js-to-lisp-reverse-compiler — L428] (line 428, col 1, score 1)
+- [js-to-lisp-reverse-compiler#L428|js-to-lisp-reverse-compiler — L428] (line 428, col 3, score 1)
+- [api-gateway-versioning#L296|api-gateway-versioning — L296] (line 296, col 1, score 1)
+- [api-gateway-versioning#L296|api-gateway-versioning — L296] (line 296, col 3, score 1)
+- [api-gateway-versioning#L298|api-gateway-versioning — L298] (line 298, col 1, score 1)
+- [api-gateway-versioning#L298|api-gateway-versioning — L298] (line 298, col 3, score 1)
+- [api-gateway-versioning#L300|api-gateway-versioning — L300] (line 300, col 1, score 1)
+- [api-gateway-versioning#L300|api-gateway-versioning — L300] (line 300, col 3, score 1)
+- [api-gateway-versioning#L297|api-gateway-versioning — L297] (line 297, col 1, score 1)
+- [api-gateway-versioning#L297|api-gateway-versioning — L297] (line 297, col 3, score 1)
+- [api-gateway-versioning#L299|api-gateway-versioning — L299] (line 299, col 1, score 1)
+- [api-gateway-versioning#L299|api-gateway-versioning — L299] (line 299, col 3, score 1)
+- [api-gateway-versioning#L301|api-gateway-versioning — L301] (line 301, col 1, score 1)
+- [api-gateway-versioning#L301|api-gateway-versioning — L301] (line 301, col 3, score 1)
+- [promethean-infrastructure-setup#L603|Promethean Infrastructure Setup — L603] (line 603, col 1, score 1)
+- [promethean-infrastructure-setup#L603|Promethean Infrastructure Setup — L603] (line 603, col 3, score 1)
+- [promethean-infrastructure-setup#L605|Promethean Infrastructure Setup — L605] (line 605, col 1, score 1)
+- [promethean-infrastructure-setup#L605|Promethean Infrastructure Setup — L605] (line 605, col 3, score 1)
+- [promethean-infrastructure-setup#L607|Promethean Infrastructure Setup — L607] (line 607, col 1, score 1)
+- [promethean-infrastructure-setup#L607|Promethean Infrastructure Setup — L607] (line 607, col 3, score 1)
+- [promethean-infrastructure-setup#L604|Promethean Infrastructure Setup — L604] (line 604, col 1, score 1)
+- [promethean-infrastructure-setup#L604|Promethean Infrastructure Setup — L604] (line 604, col 3, score 1)
+- [promethean-infrastructure-setup#L606|Promethean Infrastructure Setup — L606] (line 606, col 1, score 1)
+- [promethean-infrastructure-setup#L606|Promethean Infrastructure Setup — L606] (line 606, col 3, score 1)
+- [promethean-infrastructure-setup#L608|Promethean Infrastructure Setup — L608] (line 608, col 1, score 1)
+- [promethean-infrastructure-setup#L608|Promethean Infrastructure Setup — L608] (line 608, col 3, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L150|Agent Tasks: Persistence Migration to DualStore — L150] (line 150, col 1, score 0.99)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L150|Agent Tasks: Persistence Migration to DualStore — L150] (line 150, col 3, score 0.99)
+- [model-selection-for-lightweight-conversational-tasks#L143|Model Selection for Lightweight Conversational Tasks — L143] (line 143, col 1, score 0.99)
+- [model-selection-for-lightweight-conversational-tasks#L143|Model Selection for Lightweight Conversational Tasks — L143] (line 143, col 3, score 0.99)
+- [sibilant-meta-prompt-dsl#L205|Sibilant Meta-Prompt DSL — L205] (line 205, col 1, score 0.99)
+- [sibilant-meta-prompt-dsl#L205|Sibilant Meta-Prompt DSL — L205] (line 205, col 3, score 0.99)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L151|Agent Tasks: Persistence Migration to DualStore — L151] (line 151, col 1, score 0.99)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L151|Agent Tasks: Persistence Migration to DualStore — L151] (line 151, col 3, score 0.99)
+- [promethean-native-config-design#L397|Promethean-native config design — L397] (line 397, col 1, score 1)
+- [promethean-native-config-design#L397|Promethean-native config design — L397] (line 397, col 3, score 1)
+- [sibilant-meta-prompt-dsl#L201|Sibilant Meta-Prompt DSL — L201] (line 201, col 1, score 1)
+- [sibilant-meta-prompt-dsl#L201|Sibilant Meta-Prompt DSL — L201] (line 201, col 3, score 1)
+- [docs/unique/template-based-compilation#L124|template-based-compilation — L124] (line 124, col 1, score 1)
+- [docs/unique/template-based-compilation#L124|template-based-compilation — L124] (line 124, col 3, score 1)
+- [voice-access-layer-design#L320|Voice Access Layer Design — L320] (line 320, col 1, score 1)
+- [voice-access-layer-design#L320|Voice Access Layer Design — L320] (line 320, col 3, score 1)
+- [promethean-native-config-design#L398|Promethean-native config design — L398] (line 398, col 1, score 1)
+- [promethean-native-config-design#L398|Promethean-native config design — L398] (line 398, col 3, score 1)
+- [sibilant-meta-prompt-dsl#L202|Sibilant Meta-Prompt DSL — L202] (line 202, col 1, score 1)
+- [sibilant-meta-prompt-dsl#L202|Sibilant Meta-Prompt DSL — L202] (line 202, col 3, score 1)
+- [docs/unique/template-based-compilation#L125|template-based-compilation — L125] (line 125, col 1, score 1)
+- [docs/unique/template-based-compilation#L125|template-based-compilation — L125] (line 125, col 3, score 1)
+- [voice-access-layer-design#L321|Voice Access Layer Design — L321] (line 321, col 1, score 1)
+- [voice-access-layer-design#L321|Voice Access Layer Design — L321] (line 321, col 3, score 1)
+- [promethean-native-config-design#L399|Promethean-native config design — L399] (line 399, col 1, score 1)
+- [promethean-native-config-design#L399|Promethean-native config design — L399] (line 399, col 3, score 1)
+- [sibilant-meta-prompt-dsl#L203|Sibilant Meta-Prompt DSL — L203] (line 203, col 1, score 1)
+- [sibilant-meta-prompt-dsl#L203|Sibilant Meta-Prompt DSL — L203] (line 203, col 3, score 1)
+- [docs/unique/template-based-compilation#L126|template-based-compilation — L126] (line 126, col 1, score 1)
+- [docs/unique/template-based-compilation#L126|template-based-compilation — L126] (line 126, col 3, score 1)
+- [voice-access-layer-design#L322|Voice Access Layer Design — L322] (line 322, col 1, score 1)
+- [voice-access-layer-design#L322|Voice Access Layer Design — L322] (line 322, col 3, score 1)
+- [promethean-native-config-design#L400|Promethean-native config design — L400] (line 400, col 1, score 1)
+- [promethean-native-config-design#L400|Promethean-native config design — L400] (line 400, col 3, score 1)
+- [sibilant-meta-prompt-dsl#L204|Sibilant Meta-Prompt DSL — L204] (line 204, col 1, score 1)
+- [sibilant-meta-prompt-dsl#L204|Sibilant Meta-Prompt DSL — L204] (line 204, col 3, score 1)
+- [docs/unique/template-based-compilation#L127|template-based-compilation — L127] (line 127, col 1, score 1)
+- [docs/unique/template-based-compilation#L127|template-based-compilation — L127] (line 127, col 3, score 1)
+- [voice-access-layer-design#L323|Voice Access Layer Design — L323] (line 323, col 1, score 1)
+- [voice-access-layer-design#L323|Voice Access Layer Design — L323] (line 323, col 3, score 1)
+- [voice-access-layer-design#L327|Voice Access Layer Design — L327] (line 327, col 1, score 1)
+- [voice-access-layer-design#L327|Voice Access Layer Design — L327] (line 327, col 3, score 1)
+- [chroma-toolkit-consolidation-plan#L188|Chroma Toolkit Consolidation Plan — L188] (line 188, col 1, score 1)
+- [chroma-toolkit-consolidation-plan#L188|Chroma Toolkit Consolidation Plan — L188] (line 188, col 3, score 1)
+- [chroma-toolkit-consolidation-plan#L189|Chroma Toolkit Consolidation Plan — L189] (line 189, col 1, score 1)
+- [chroma-toolkit-consolidation-plan#L189|Chroma Toolkit Consolidation Plan — L189] (line 189, col 3, score 1)
+- [model-selection-for-lightweight-conversational-tasks#L144|Model Selection for Lightweight Conversational Tasks — L144] (line 144, col 1, score 0.99)
+- [model-selection-for-lightweight-conversational-tasks#L144|Model Selection for Lightweight Conversational Tasks — L144] (line 144, col 3, score 0.99)
+- [sibilant-meta-prompt-dsl#L206|Sibilant Meta-Prompt DSL — L206] (line 206, col 1, score 0.99)
+- [sibilant-meta-prompt-dsl#L206|Sibilant Meta-Prompt DSL — L206] (line 206, col 3, score 0.99)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

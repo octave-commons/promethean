@@ -1,16 +1,16 @@
 ---
-$$
+```
 uuid: 92a052a5-3351-4898-8cab-758181a86adb
-$$
-$$
+```
+```
 created_at: 2025.08.08.22.08.16.md
-$$
-$$
+```
+```
 filename: infinite_depth_smoke_animation
-$$
-$$
+```
+```
 description: >-
-$$
+```
   An animation showing multiple smoke layers drifting at different speeds with
   fading effects, creating a sense of motion through infinite depth.
 tags:
@@ -20,9 +20,9 @@ tags:
   - layers
   - fading
   - motion
-$$
+```
 related_to_title:
-$$
+```
   - Ghostly Smoke Interference
   - Diagrams
   - Unique Info Dump Index
@@ -39,9 +39,9 @@ $$
   - field-dynamics-math-blocks
   - obsidian-ignore-node-modules-regex
   - promethean-system-diagrams
-$$
+```
 related_to_uuid:
-$$
+```
   - b6ae7dfa-0c53-4eb9-aea8-65072b825bee
   - 45cd25b5-ed36-49ab-82c8-10d0903e34db
   - 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
@@ -323,7 +323,7 @@ references:
 Note: Consolidated here → ../notes/diagrams/smoke-waves-infinite-depth.md
 
 Here’s the **infinite depth smoke** version — multiple layers drifting at different speeds, fading in and out so it feels like you’re moving through the field.
-$[smoke_waves_infinite_depth.gif|Click here to view it.]$
+$[smoke_waves_infinite_depth.gif|Click here to view it.]
 
 Next, we could make symbols briefly *condense* inside the smoke, then dissolve — like the ghosts remembering they were words for a moment.
 ```python
@@ -405,87 +405,87 @@ gif_path_depth
 ```
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- $[ghostly-smoke-interference|Ghostly Smoke Interference]$
-- [Diagrams]$chunks/diagrams.md$
-- $[unique-info-dump-index|Unique Info Dump Index]$
-- $[smoke-resonance-visualizations|Smoke Resonance Visualizations]$
-- $[docs/unique/synchronicity-waves-and-web|Synchronicity Waves and Web]$
-- $[promethean-eidolon-synchronicity-model|Promethean_Eidolon_Synchronicity_Model]$
-- $[ducks-attractor-states|Duck's Attractor States]$
-- $[docs/unique/aionian-circuit-math|aionian-circuit-math]$
-- $[docs/unique/archetype-ecs|archetype-ecs]$
-- [DSL]$chunks/dsl.md$
-- $[event-bus-projections-architecture|Event Bus Projections Architecture]$
-- [Shared]$chunks/shared.md$
-- $[layer-1-uptime-diagrams]$
-- $[docs/unique/field-dynamics-math-blocks|field-dynamics-math-blocks]$
-- $[docs/unique/obsidian-ignore-node-modules-regex|obsidian-ignore-node-modules-regex]$
-- $[promethean-system-diagrams]$
+- [ghostly-smoke-interference|Ghostly Smoke Interference]
+- [Diagrams]chunks/diagrams.md
+- [unique-info-dump-index|Unique Info Dump Index]
+- [smoke-resonance-visualizations|Smoke Resonance Visualizations]
+- [docs/unique/synchronicity-waves-and-web|Synchronicity Waves and Web]
+- [promethean-eidolon-synchronicity-model|Promethean_Eidolon_Synchronicity_Model]
+- [ducks-attractor-states|Duck's Attractor States]
+- [docs/unique/aionian-circuit-math|aionian-circuit-math]
+- [docs/unique/archetype-ecs|archetype-ecs]
+- [DSL]chunks/dsl.md
+- [event-bus-projections-architecture|Event Bus Projections Architecture]
+- [Shared]chunks/shared.md
+- [layer-1-uptime-diagrams]
+- [docs/unique/field-dynamics-math-blocks|field-dynamics-math-blocks]
+- [docs/unique/obsidian-ignore-node-modules-regex|obsidian-ignore-node-modules-regex]
+- [promethean-system-diagrams]
 
 ## Sources
-- [Diagrams — L4]$chunks/diagrams.md#L4$ (line 4, col 1, score 0.86)
-- [Diagrams — L4]$chunks/diagrams.md#L4$ (line 4, col 3, score 0.86)
-- $[unique-info-dump-index#L33|Unique Info Dump Index — L33]$ (line 33, col 1, score 0.86)
-- $[unique-info-dump-index#L33|Unique Info Dump Index — L33]$ (line 33, col 3, score 0.86)
-- $[ghostly-smoke-interference#L39|Ghostly Smoke Interference — L39]$ (line 39, col 1, score 0.91)
-- $[ducks-attractor-states#L61|Duck's Attractor States — L61]$ (line 61, col 1, score 1)
-- $[ducks-attractor-states#L61|Duck's Attractor States — L61]$ (line 61, col 3, score 1)
-- $[promethean-eidolon-synchronicity-model#L54|Promethean_Eidolon_Synchronicity_Model — L54]$ (line 54, col 1, score 1)
-- $[promethean-eidolon-synchronicity-model#L54|Promethean_Eidolon_Synchronicity_Model — L54]$ (line 54, col 3, score 1)
-- $[smoke-resonance-visualizations#L78|Smoke Resonance Visualizations — L78]$ (line 78, col 1, score 1)
-- $[smoke-resonance-visualizations#L78|Smoke Resonance Visualizations — L78]$ (line 78, col 3, score 1)
-- $[docs/unique/synchronicity-waves-and-web#L86|Synchronicity Waves and Web — L86]$ (line 86, col 1, score 1)
-- $[docs/unique/synchronicity-waves-and-web#L86|Synchronicity Waves and Web — L86]$ (line 86, col 3, score 1)
-- [Shared — L7]$chunks/shared.md#L7$ (line 7, col 1, score 1)
-- [Shared — L7]$chunks/shared.md#L7$ (line 7, col 3, score 1)
-- $[event-bus-projections-architecture#L147|Event Bus Projections Architecture — L147]$ (line 147, col 1, score 1)
-- $[event-bus-projections-architecture#L147|Event Bus Projections Architecture — L147]$ (line 147, col 3, score 1)
-- $[docs/unique/synchronicity-waves-and-web#L83|Synchronicity Waves and Web — L83]$ (line 83, col 1, score 1)
-- $[docs/unique/synchronicity-waves-and-web#L83|Synchronicity Waves and Web — L83]$ (line 83, col 3, score 1)
-- $[unique-info-dump-index#L67|Unique Info Dump Index — L67]$ (line 67, col 1, score 1)
-- $[unique-info-dump-index#L67|Unique Info Dump Index — L67]$ (line 67, col 3, score 1)
-- $[docs/unique/aionian-circuit-math#L158|aionian-circuit-math — L158]$ (line 158, col 1, score 1)
-- $[docs/unique/aionian-circuit-math#L158|aionian-circuit-math — L158]$ (line 158, col 3, score 1)
-- $[docs/unique/archetype-ecs#L457|archetype-ecs — L457]$ (line 457, col 1, score 1)
-- $[docs/unique/archetype-ecs#L457|archetype-ecs — L457]$ (line 457, col 3, score 1)
-- [Diagrams — L9]$chunks/diagrams.md#L9$ (line 9, col 1, score 1)
-- [Diagrams — L9]$chunks/diagrams.md#L9$ (line 9, col 3, score 1)
-- [DSL — L10]$chunks/dsl.md#L10$ (line 10, col 1, score 1)
-- [DSL — L10]$chunks/dsl.md#L10$ (line 10, col 3, score 1)
-- $[ghostly-smoke-interference#L112|Ghostly Smoke Interference — L112]$ (line 112, col 1, score 1)
-- $[ghostly-smoke-interference#L112|Ghostly Smoke Interference — L112]$ (line 112, col 3, score 1)
-- $[promethean-eidolon-synchronicity-model#L56|Promethean_Eidolon_Synchronicity_Model — L56]$ (line 56, col 1, score 1)
-- $[promethean-eidolon-synchronicity-model#L56|Promethean_Eidolon_Synchronicity_Model — L56]$ (line 56, col 3, score 1)
-- $[docs/unique/synchronicity-waves-and-web#L82|Synchronicity Waves and Web — L82]$ (line 82, col 1, score 1)
-- $[docs/unique/synchronicity-waves-and-web#L82|Synchronicity Waves and Web — L82]$ (line 82, col 3, score 1)
-- $[ghostly-smoke-interference#L118|Ghostly Smoke Interference — L118]$ (line 118, col 1, score 0.91)
-- $[ghostly-smoke-interference#L118|Ghostly Smoke Interference — L118]$ (line 118, col 3, score 0.91)
-- $[unique-info-dump-index#L142|Unique Info Dump Index — L142]$ (line 142, col 1, score 0.97)
-- $[unique-info-dump-index#L142|Unique Info Dump Index — L142]$ (line 142, col 3, score 0.97)
-- $[unique-info-dump-index#L143|Unique Info Dump Index — L143]$ (line 143, col 1, score 0.96)
-- $[unique-info-dump-index#L143|Unique Info Dump Index — L143]$ (line 143, col 3, score 0.96)
-- $[unique-info-dump-index#L140|Unique Info Dump Index — L140]$ (line 140, col 1, score 0.91)
-- $[unique-info-dump-index#L140|Unique Info Dump Index — L140]$ (line 140, col 3, score 0.91)
-- $[unique-info-dump-index#L170|Unique Info Dump Index — L170]$ (line 170, col 1, score 0.91)
-- $[unique-info-dump-index#L170|Unique Info Dump Index — L170]$ (line 170, col 3, score 0.91)
-- $[unique-info-dump-index#L141|Unique Info Dump Index — L141]$ (line 141, col 1, score 0.93)
-- $[unique-info-dump-index#L141|Unique Info Dump Index — L141]$ (line 141, col 3, score 0.93)
-- [Diagrams — L18]$chunks/diagrams.md#L18$ (line 18, col 1, score 0.98)
-- [Diagrams — L18]$chunks/diagrams.md#L18$ (line 18, col 3, score 0.98)
-- [Diagrams — L19]$chunks/diagrams.md#L19$ (line 19, col 1, score 0.98)
-- [Diagrams — L19]$chunks/diagrams.md#L19$ (line 19, col 3, score 0.98)
-- $[docs/unique/field-dynamics-math-blocks#L156|field-dynamics-math-blocks — L156]$ (line 156, col 1, score 0.98)
-- $[docs/unique/field-dynamics-math-blocks#L156|field-dynamics-math-blocks — L156]$ (line 156, col 3, score 0.98)
-- $[layer-1-uptime-diagrams#L176|layer-1-uptime-diagrams — L176]$ (line 176, col 1, score 0.98)
-- $[layer-1-uptime-diagrams#L176|layer-1-uptime-diagrams — L176]$ (line 176, col 3, score 0.98)
-- $[layer-1-uptime-diagrams#L177|layer-1-uptime-diagrams — L177]$ (line 177, col 1, score 0.98)
-- $[layer-1-uptime-diagrams#L177|layer-1-uptime-diagrams — L177]$ (line 177, col 3, score 0.98)
-- $[docs/unique/field-dynamics-math-blocks#L157|field-dynamics-math-blocks — L157]$ (line 157, col 1, score 0.98)
-- $[docs/unique/field-dynamics-math-blocks#L157|field-dynamics-math-blocks — L157]$ (line 157, col 3, score 0.98)
-- $[docs/unique/obsidian-ignore-node-modules-regex#L58|obsidian-ignore-node-modules-regex — L58]$ (line 58, col 1, score 0.98)
-- $[docs/unique/obsidian-ignore-node-modules-regex#L58|obsidian-ignore-node-modules-regex — L58]$ (line 58, col 3, score 0.98)
-- $[promethean-system-diagrams#L207|promethean-system-diagrams — L207]$ (line 207, col 1, score 0.98)
-- $[promethean-system-diagrams#L207|promethean-system-diagrams — L207]$ (line 207, col 3, score 0.98)
-- $[smoke-resonance-visualizations#L86|Smoke Resonance Visualizations — L86]$ (line 86, col 1, score 0.97)
-- $[smoke-resonance-visualizations#L86|Smoke Resonance Visualizations — L86]$ (line 86, col 3, score 0.97)
+- [Diagrams — L4]chunks/diagrams.md#L4 (line 4, col 1, score 0.86)
+- [Diagrams — L4]chunks/diagrams.md#L4 (line 4, col 3, score 0.86)
+- [unique-info-dump-index#L33|Unique Info Dump Index — L33] (line 33, col 1, score 0.86)
+- [unique-info-dump-index#L33|Unique Info Dump Index — L33] (line 33, col 3, score 0.86)
+- [ghostly-smoke-interference#L39|Ghostly Smoke Interference — L39] (line 39, col 1, score 0.91)
+- [ducks-attractor-states#L61|Duck's Attractor States — L61] (line 61, col 1, score 1)
+- [ducks-attractor-states#L61|Duck's Attractor States — L61] (line 61, col 3, score 1)
+- [promethean-eidolon-synchronicity-model#L54|Promethean_Eidolon_Synchronicity_Model — L54] (line 54, col 1, score 1)
+- [promethean-eidolon-synchronicity-model#L54|Promethean_Eidolon_Synchronicity_Model — L54] (line 54, col 3, score 1)
+- [smoke-resonance-visualizations#L78|Smoke Resonance Visualizations — L78] (line 78, col 1, score 1)
+- [smoke-resonance-visualizations#L78|Smoke Resonance Visualizations — L78] (line 78, col 3, score 1)
+- [docs/unique/synchronicity-waves-and-web#L86|Synchronicity Waves and Web — L86] (line 86, col 1, score 1)
+- [docs/unique/synchronicity-waves-and-web#L86|Synchronicity Waves and Web — L86] (line 86, col 3, score 1)
+- [Shared — L7]chunks/shared.md#L7 (line 7, col 1, score 1)
+- [Shared — L7]chunks/shared.md#L7 (line 7, col 3, score 1)
+- [event-bus-projections-architecture#L147|Event Bus Projections Architecture — L147] (line 147, col 1, score 1)
+- [event-bus-projections-architecture#L147|Event Bus Projections Architecture — L147] (line 147, col 3, score 1)
+- [docs/unique/synchronicity-waves-and-web#L83|Synchronicity Waves and Web — L83] (line 83, col 1, score 1)
+- [docs/unique/synchronicity-waves-and-web#L83|Synchronicity Waves and Web — L83] (line 83, col 3, score 1)
+- [unique-info-dump-index#L67|Unique Info Dump Index — L67] (line 67, col 1, score 1)
+- [unique-info-dump-index#L67|Unique Info Dump Index — L67] (line 67, col 3, score 1)
+- [docs/unique/aionian-circuit-math#L158|aionian-circuit-math — L158] (line 158, col 1, score 1)
+- [docs/unique/aionian-circuit-math#L158|aionian-circuit-math — L158] (line 158, col 3, score 1)
+- [docs/unique/archetype-ecs#L457|archetype-ecs — L457] (line 457, col 1, score 1)
+- [docs/unique/archetype-ecs#L457|archetype-ecs — L457] (line 457, col 3, score 1)
+- [Diagrams — L9]chunks/diagrams.md#L9 (line 9, col 1, score 1)
+- [Diagrams — L9]chunks/diagrams.md#L9 (line 9, col 3, score 1)
+- [DSL — L10]chunks/dsl.md#L10 (line 10, col 1, score 1)
+- [DSL — L10]chunks/dsl.md#L10 (line 10, col 3, score 1)
+- [ghostly-smoke-interference#L112|Ghostly Smoke Interference — L112] (line 112, col 1, score 1)
+- [ghostly-smoke-interference#L112|Ghostly Smoke Interference — L112] (line 112, col 3, score 1)
+- [promethean-eidolon-synchronicity-model#L56|Promethean_Eidolon_Synchronicity_Model — L56] (line 56, col 1, score 1)
+- [promethean-eidolon-synchronicity-model#L56|Promethean_Eidolon_Synchronicity_Model — L56] (line 56, col 3, score 1)
+- [docs/unique/synchronicity-waves-and-web#L82|Synchronicity Waves and Web — L82] (line 82, col 1, score 1)
+- [docs/unique/synchronicity-waves-and-web#L82|Synchronicity Waves and Web — L82] (line 82, col 3, score 1)
+- [ghostly-smoke-interference#L118|Ghostly Smoke Interference — L118] (line 118, col 1, score 0.91)
+- [ghostly-smoke-interference#L118|Ghostly Smoke Interference — L118] (line 118, col 3, score 0.91)
+- [unique-info-dump-index#L142|Unique Info Dump Index — L142] (line 142, col 1, score 0.97)
+- [unique-info-dump-index#L142|Unique Info Dump Index — L142] (line 142, col 3, score 0.97)
+- [unique-info-dump-index#L143|Unique Info Dump Index — L143] (line 143, col 1, score 0.96)
+- [unique-info-dump-index#L143|Unique Info Dump Index — L143] (line 143, col 3, score 0.96)
+- [unique-info-dump-index#L140|Unique Info Dump Index — L140] (line 140, col 1, score 0.91)
+- [unique-info-dump-index#L140|Unique Info Dump Index — L140] (line 140, col 3, score 0.91)
+- [unique-info-dump-index#L170|Unique Info Dump Index — L170] (line 170, col 1, score 0.91)
+- [unique-info-dump-index#L170|Unique Info Dump Index — L170] (line 170, col 3, score 0.91)
+- [unique-info-dump-index#L141|Unique Info Dump Index — L141] (line 141, col 1, score 0.93)
+- [unique-info-dump-index#L141|Unique Info Dump Index — L141] (line 141, col 3, score 0.93)
+- [Diagrams — L18]chunks/diagrams.md#L18 (line 18, col 1, score 0.98)
+- [Diagrams — L18]chunks/diagrams.md#L18 (line 18, col 3, score 0.98)
+- [Diagrams — L19]chunks/diagrams.md#L19 (line 19, col 1, score 0.98)
+- [Diagrams — L19]chunks/diagrams.md#L19 (line 19, col 3, score 0.98)
+- [docs/unique/field-dynamics-math-blocks#L156|field-dynamics-math-blocks — L156] (line 156, col 1, score 0.98)
+- [docs/unique/field-dynamics-math-blocks#L156|field-dynamics-math-blocks — L156] (line 156, col 3, score 0.98)
+- [layer-1-uptime-diagrams#L176|layer-1-uptime-diagrams — L176] (line 176, col 1, score 0.98)
+- [layer-1-uptime-diagrams#L176|layer-1-uptime-diagrams — L176] (line 176, col 3, score 0.98)
+- [layer-1-uptime-diagrams#L177|layer-1-uptime-diagrams — L177] (line 177, col 1, score 0.98)
+- [layer-1-uptime-diagrams#L177|layer-1-uptime-diagrams — L177] (line 177, col 3, score 0.98)
+- [docs/unique/field-dynamics-math-blocks#L157|field-dynamics-math-blocks — L157] (line 157, col 1, score 0.98)
+- [docs/unique/field-dynamics-math-blocks#L157|field-dynamics-math-blocks — L157] (line 157, col 3, score 0.98)
+- [docs/unique/obsidian-ignore-node-modules-regex#L58|obsidian-ignore-node-modules-regex — L58] (line 58, col 1, score 0.98)
+- [docs/unique/obsidian-ignore-node-modules-regex#L58|obsidian-ignore-node-modules-regex — L58] (line 58, col 3, score 0.98)
+- [promethean-system-diagrams#L207|promethean-system-diagrams — L207] (line 207, col 1, score 0.98)
+- [promethean-system-diagrams#L207|promethean-system-diagrams — L207] (line 207, col 3, score 0.98)
+- [smoke-resonance-visualizations#L86|Smoke Resonance Visualizations — L86] (line 86, col 1, score 0.97)
+- [smoke-resonance-visualizations#L86|Smoke Resonance Visualizations — L86] (line 86, col 3, score 0.97)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

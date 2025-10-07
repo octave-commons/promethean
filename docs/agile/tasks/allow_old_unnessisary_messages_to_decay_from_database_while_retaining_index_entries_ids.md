@@ -1,18 +1,18 @@
 ---
-$$
+```
 uuid: 8304b498-6811-40e3-8b44-60224b3ff846
-$$
-$$
+```
+```
 title: >-
-$$
+```
   allow old unnessisary messages to decay from database while retaining index
   entries ids md md
 status: todo
 priority: P3
 labels: []
-$$
+```
 created_at: '2025-09-15T02:02:58.507Z'
-$$
+```
 ---
 Here’s a refined version that keeps your analogy to hardware memory hierarchies but makes it concrete enough to implement as a framework component:
 
@@ -28,7 +28,7 @@ Instead of a single monolithic context buffer, the system will maintain **phased
 * **Recent** – Recently used or possibly relevant. May drop out of active context but still cached in memory for fast retrieval.
 * **Important** – Older but high-value information. May be stored in slower, larger-capacity layers (disk, DB, distributed storage) but still queryable.
 
-Data flows **between tiers automatically** based on recency, relevance scoring, and available space—mirroring the behavior of CPU caches $L1/L2/L3$, RAM, swap, and persistent storage. The further the tier from the working set, the higher the retrieval cost.
+Data flows **between tiers automatically** based on recency, relevance scoring, and available space—mirroring the behavior of CPU caches L1/L2/L3, RAM, swap, and persistent storage. The further the tier from the working set, the higher the retrieval cost.
 
 This task is not about strictly defining the scoring model for “relevance,” but about **building the mechanisms** (caches, queues, retrieval APIs) that make tiered memory movement possible.
 
@@ -67,7 +67,7 @@ This task is not about strictly defining the scoring model for “relevance,” 
 * [ ] Create in-memory LRU cache for **Working** tier.
 * [ ] Implement **Recent** tier with in-memory + optional on-disk swap.
 * [ ] Implement **Important** tier backed by DB or object storage.
-* [ ] Write tier migration logic $promotion/demotion$.
+* [ ] Write tier migration logic promotion/demotion.
 * [ ] Write tier-aware retrieval API.
 * [ ] Add hooks for relevance scoring (to be defined later).
 * [ ] Add metrics for retrieval frequency, promotion/demotion events, and hit/miss ratios.
@@ -75,12 +75,12 @@ This task is not about strictly defining the scoring model for “relevance,” 
 ---
 
 ## 🔗 Related Epics
-$$
+```
 \#framework-core
-$$
-$$
+```
+```
 \#eidolon-support
-$$
+```
 ---
 
 If you want, I can also give you a **mermaid diagram showing the memory tier flow**—Working ↔ Recent ↔ Important—with promotion/demotion paths, which will help when we wire it into the Eidolon field loop.

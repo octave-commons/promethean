@@ -6,7 +6,7 @@ databases.
 ## 1. Start Test Databases
 
 ```bash
-RUN_ID=$(date +%s) ./scripts/db/db-test-up.sh
+RUN_ID=(date +%s) ./scripts/db/db-test-up.sh
 ./scripts/db/db-test-seed.sh
 ```
 

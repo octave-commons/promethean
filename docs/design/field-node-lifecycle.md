@@ -17,9 +17,9 @@ This document outlines how Field Nodes are:
 ### Lifecycle Phases
 
 | Phase                          | Description                                                                           |
-$$
+```
 | ------------------------------ | ------------------------------------------------------------------------------------- |
-$$
+```
 | **1. Pressure Accumulation**   | A region of the Eidolon Field exhibits elevated tension, conflict, or recursive load  |
 | **2. Daimo Aggregation**       | One or more Daimoi orbit, stall, or loop in the region, unable to resolve the state   |
 | **3. Node Emergence**          | A Field Node crystallizes: tension localizes, field gradients become structured       |
@@ -35,9 +35,9 @@ $$
 Each cognitive layer provides different emergence pressures:
 
 | Layer        | Trigger                                    | Node Type(s)        |
-$$
+```
 | ------------ | ------------------------------------------ | ------------------- |
-$$
+```
 | **Aionian**  | Uptime fluctuations, heartbeat desync      | Attractor, Obstacle |
 | **Dorian**   | Permission denial, access rejection        | Hazard, Nexus       |
 | **Gnostic**  | Recurrent language pattern / symbol        | Nexus               |
@@ -87,7 +87,7 @@ Stabilized nodes persist as active topology until disrupted.
 A Field Node will decay if:
 
 * No Daimoi interact with it for a defined period
-* Its source pressure has normalized $∇ tension = 0$
+* Its source pressure has normalized ∇ tension = 0
 * Its symbolic binding has been severed or resolved
 
 Upon decay:

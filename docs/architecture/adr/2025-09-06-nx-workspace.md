@@ -1,9 +1,9 @@
 ---
 project: Promethean
 status: accepted
-$$
+```
 date: 2025-09-06
-$$
+```
 tags:
   - adr
   - architecture
@@ -25,7 +25,7 @@ Adopt Nx as the workspace orchestrator. Each package now includes a `project.jso
 
 ## Alternatives Considered
 - Continue using ad-hoc pnpm scripts (rejected due to lack of orchestration).
-- Custom scripting to wire packages $rejected in favor of a well-supported tool$.
+- Custom scripting to wire packages rejected in favor of a well-supported tool.
 
 ## Status
 - Proposed by: codex-agent

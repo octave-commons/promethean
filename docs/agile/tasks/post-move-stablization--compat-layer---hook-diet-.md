@@ -1,31 +1,31 @@
 ---
-$$
+```
 uuid: f40d381b-9c48-4dfc-9f89-51577c10c024
-$$
+```
 title: <verb> <thing> <qualifier>
 status: todo
 priority: p3
 labels:
   - 'board:auto'
   - 'lang:ts'
-$$
+```
 created_at: '2025-09-15T02:02:58.517Z'
-$$
+```
 ---
-# Task: Post-move stabilization $compat layer + hook diet$
+# Task: Post-move stabilization compat layer + hook diet
 
 ## Objective
 
 Get `pre-commit run -a` green **without** undoing the refactor, by:
 
 1. adding a thin compatibility layer for moved modules,
-2. tightening hook scope $stop linting logs/fixtures$,
+2. tightening hook scope stop linting logs/fixtures,
 3. pinning TypeScript/Python import roots,
 4. fixing the two real code issues surfaced.
 
 ---
 
-## What to do $step-by-step$
+## What to do step-by-step
 
 ### 0) Create a stabilization branch
 
@@ -84,8 +84,8 @@ Get `pre-commit run -a` green **without** undoing the refactor, by:
 
   ```yaml
   - id: prettier
-    files: '\.(ts|tsx|js|mjs|cjs|json|md|yaml|yml)$'
-    exclude: '(logs/|fixtures/broken\.ts$)'
+    files: '\.(ts|tsx|js|mjs|cjs|json|md|yaml|yml)'
+    exclude: '(logs/|fixtures/broken\.ts)'
   ```
 
 ### 4) Kill Hy from hook paths (this was the top failure)
@@ -192,7 +192,7 @@ pre-commit run -a            # full sweep
 * **Rip shims**: migrate call sites to new paths, then delete TS/Python shims.
 * **Delete Hy** if it’s truly dead.
 * **CI gate**: add a required job that runs `pre-commit run -a` on clean checkout.
-* **Codemod**: use a simple jscodeshift/ts-morph + a Python script to rewrite imports using your move map $keep it opt-in$.
+* **Codemod**: use a simple jscodeshift/ts-morph + a Python script to rewrite imports using your move map keep it opt-in.
 
 ---
 
@@ -200,7 +200,7 @@ pre-commit run -a            # full sweep
 
 * Don’t chase every broken import today—**stabilize** the tooling so it stops fighting you.
 * Use **compat shims** to decouple refactor velocity from hook health.
-* Keep hooks pointed at **first-party tools** $pnpm/node/python$, not Makefile wrappers that can drag in dead ecosystems.
+* Keep hooks pointed at **first-party tools** pnpm/node/python, not Makefile wrappers that can drag in dead ecosystems.
 
 #precommit #refactor #typescript #python #imports #compat #monorepo #tooling #stabilization
 #accepted

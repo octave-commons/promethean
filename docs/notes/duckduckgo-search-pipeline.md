@@ -1,15 +1,15 @@
 ---
-$$
+```
 uuid: 7910c09c-4e9c-4764-bc10-0141a9a87977
-$$
-$$
+```
+```
 created_at: duckduckgosearchpipeline.md
-$$
+```
 filename: DuckDuckGo Search Pipeline
 title: DuckDuckGo Search Pipeline
-$$
+```
 description: >-
-$$
+```
   A search pipeline that uses passive data retrieval to generate search terms
   and augment context through a state object, avoiding active tool calls. It
   operates in phases to determine the LLM's goal and search interests, enabling
@@ -23,9 +23,9 @@ tags:
   - context augmentation
   - phases
   - state management
-$$
+```
 related_to_uuid:
-$$
+```
   - a4d90289-798d-44a0-a8e8-a055ae12fb52
   - 1cfae310-35dc-49c2-98f1-b186da25d84b
   - ffb9b2a9-744d-4a53-9565-130fceae0832
@@ -51,9 +51,9 @@ $$
   - ca8e1399-77bf-4f77-82a3-3f703b68706d
   - 9b694a91-dec5-4708-9462-3f71000ba925
   - cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-$$
+```
 related_to_title:
-$$
+```
   - Factorio AI with External Agents
   - Functional Refactor of TypeScript Document Processing
   - obsidian-ignore-node-modules-regex
@@ -491,130 +491,130 @@ it worked surprisingly well
  ^ref-e979c50f-10-0 ^ref-e979c50f-26-0 ^ref-e979c50f-31-0 ^ref-e979c50f-40-0 ^ref-e979c50f-45-0 ^ref-e979c50f-48-0 ^ref-e979c50f-52-0 ^ref-e979c50f-65-0 ^ref-e979c50f-67-0 ^ref-e979c50f-77-0 ^ref-e979c50f-93-0 ^ref-e979c50f-95-0 ^ref-e979c50f-99-0 ^ref-e979c50f-108-0 ^ref-e979c50f-137-0 ^ref-e979c50f-293-0 ^ref-e979c50f-562-0 ^ref-e979c50f-640-0
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [Factorio AI with External Agents]$factorio-ai-with-external-agents.md$
-- [Functional Refactor of TypeScript Document Processing]$functional-refactor-of-typescript-document-processing.md$
-- $obsidian-ignore-node-modules-regex$$obsidian-ignore-node-modules-regex.md$
-- [Promethean Chat Activity Report]$promethean-chat-activity-report.md$
-- $field-node-diagram-visualizations$$field-node-diagram-visualizations.md$
-- [NPU Voice Code and Sensory Integration]$npu-voice-code-and-sensory-integration.md$
-- [Obsidian Templating Plugins Integration Guide]$obsidian-templating-plugins-integration-guide.md$
-- $Duck's Self-Referential Perceptual Loop$$ducks-self-referential-perceptual-loop.md$
-- [Dynamic Context Model for Web Components]$dynamic-context-model-for-web-components.md$
-- [Eidolon Field Abstract Model]$eidolon-field-abstract-model.md$
-- $eidolon-node-lifecycle$$eidolon-node-lifecycle.md$
-- $field-node-diagram-set$$field-node-diagram-set.md$
-- [Functional Embedding Pipeline Refactor]$functional-embedding-pipeline-refactor.md$
-- $Performance-Optimized-Polyglot-Bridge$$performance-optimized-polyglot-bridge.md$
-- $Promethean-Copilot-Intent-Engine$$promethean-copilot-intent-engine.md$
-- [Debugging Broker Connections and Agent Behavior]$debugging-broker-connections-and-agent-behavior.md$
-- [Duck's Attractor States]$ducks-attractor-states.md$
-- $eidolon-field-math-foundations$$eidolon-field-math-foundations.md$
-- $field-dynamics-math-blocks$$field-dynamics-math-blocks.md$
-- $field-interaction-equations$$field-interaction-equations.md$
-- $Post-Linguistic Transhuman Design Frameworks$$post-linguistic-transhuman-design-frameworks.md$
-- [Obsidian ChatGPT Plugin Integration Guide]$obsidian-chatgpt-plugin-integration-guide.md$
-- [Obsidian ChatGPT Plugin Integration]$obsidian-chatgpt-plugin-integration.md$
-- [Obsidian Task Generation]$obsidian-task-generation.md$
-- [Docops Feature Updates]$docops-feature-updates-3.md$
+- [Factorio AI with External Agents]factorio-ai-with-external-agents.md
+- [Functional Refactor of TypeScript Document Processing]functional-refactor-of-typescript-document-processing.md
+- obsidian-ignore-node-modules-regex$obsidian-ignore-node-modules-regex.md
+- [Promethean Chat Activity Report]promethean-chat-activity-report.md
+- field-node-diagram-visualizations$field-node-diagram-visualizations.md
+- [NPU Voice Code and Sensory Integration]npu-voice-code-and-sensory-integration.md
+- [Obsidian Templating Plugins Integration Guide]obsidian-templating-plugins-integration-guide.md
+- Duck's Self-Referential Perceptual Loop$ducks-self-referential-perceptual-loop.md
+- [Dynamic Context Model for Web Components]dynamic-context-model-for-web-components.md
+- [Eidolon Field Abstract Model]eidolon-field-abstract-model.md
+- eidolon-node-lifecycle$eidolon-node-lifecycle.md
+- field-node-diagram-set$field-node-diagram-set.md
+- [Functional Embedding Pipeline Refactor]functional-embedding-pipeline-refactor.md
+- Performance-Optimized-Polyglot-Bridge$performance-optimized-polyglot-bridge.md
+- Promethean-Copilot-Intent-Engine$promethean-copilot-intent-engine.md
+- [Debugging Broker Connections and Agent Behavior]debugging-broker-connections-and-agent-behavior.md
+- [Duck's Attractor States]ducks-attractor-states.md
+- eidolon-field-math-foundations$eidolon-field-math-foundations.md
+- field-dynamics-math-blocks$field-dynamics-math-blocks.md
+- field-interaction-equations$field-interaction-equations.md
+- Post-Linguistic Transhuman Design Frameworks$post-linguistic-transhuman-design-frameworks.md
+- [Obsidian ChatGPT Plugin Integration Guide]obsidian-chatgpt-plugin-integration-guide.md
+- [Obsidian ChatGPT Plugin Integration]obsidian-chatgpt-plugin-integration.md
+- [Obsidian Task Generation]obsidian-task-generation.md
+- [Docops Feature Updates]docops-feature-updates-3.md
 ## Sources
-- [Factorio AI with External Agents — L268]$factorio-ai-with-external-agents.md#^ref-a4d90289-268-0$ (line 268, col 0, score 1)
-- [Functional Refactor of TypeScript Document Processing — L2872]$functional-refactor-of-typescript-document-processing.md#^ref-1cfae310-2872-0$ (line 2872, col 0, score 1)
-- [Layer1SurvivabilityEnvelope — L5436]$layer1survivabilityenvelope.md#^ref-64a9f9f9-5436-0$ (line 5436, col 0, score 1)
-- [MindfulRobotIntegration — L1875]$mindfulrobotintegration.md#^ref-5f65dfa5-1875-0$ (line 1875, col 0, score 1)
-- $Model Upgrade Calm-Down Guide — L199$$model-upgrade-calm-down-guide.md#^ref-db74343f-199-0$ (line 199, col 0, score 1)
-- $obsidian-ignore-node-modules-regex — L4676$$obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-4676-0$ (line 4676, col 0, score 1)
-- $plan-update-confirmation — L4575$$plan-update-confirmation.md#^ref-b22d79c6-4575-0$ (line 4575, col 0, score 1)
-- [Promethean Chat Activity Report — L2416]$promethean-chat-activity-report.md#^ref-18344cf9-2416-0$ (line 2416, col 0, score 1)
-- [Promethean Dev Workflow Update — L4994]$promethean-dev-workflow-update.md#^ref-03a5578f-4994-0$ (line 4994, col 0, score 1)
-- [Promethean Documentation Overview — L126]$promethean-documentation-overview.md#^ref-9413237f-126-0$ (line 126, col 0, score 1)
-- [Promethean Documentation Pipeline Overview — L312]$promethean-documentation-pipeline-overview.md#^ref-3a3bf2c9-312-0$ (line 312, col 0, score 1)
-- [Promethean Documentation Update — L2160]$promethean-documentation-update.txt#^ref-0b872af2-2160-0$ (line 2160, col 0, score 1)
-- $field-node-diagram-visualizations — L211$$field-node-diagram-visualizations.md#^ref-e9b27b06-211-0$ (line 211, col 0, score 1)
-- [Functional Refactor of TypeScript Document Processing — L2873]$functional-refactor-of-typescript-document-processing.md#^ref-1cfae310-2873-0$ (line 2873, col 0, score 1)
-- [Layer1SurvivabilityEnvelope — L5437]$layer1survivabilityenvelope.md#^ref-64a9f9f9-5437-0$ (line 5437, col 0, score 1)
-- [Mindful Prioritization — L151]$mindful-prioritization.md#^ref-40185d05-151-0$ (line 151, col 0, score 1)
-- [MindfulRobotIntegration — L1876]$mindfulrobotintegration.md#^ref-5f65dfa5-1876-0$ (line 1876, col 0, score 1)
-- [NPU Voice Code and Sensory Integration — L2266]$npu-voice-code-and-sensory-integration.md#^ref-5a02283e-2266-0$ (line 2266, col 0, score 1)
-- $obsidian-ignore-node-modules-regex — L4677$$obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-4677-0$ (line 4677, col 0, score 1)
-- [Obsidian Templating Plugins Integration Guide — L5493]$obsidian-templating-plugins-integration-guide.md#^ref-b39dc9d4-5493-0$ (line 5493, col 0, score 1)
-- $Per-Domain Policy System for JS Crawler — L629$$per-domain-policy-system-for-js-crawler.md#^ref-c03020e1-629-0$ (line 629, col 0, score 1)
-- [Promethean Chat Activity Report — L2417]$promethean-chat-activity-report.md#^ref-18344cf9-2417-0$ (line 2417, col 0, score 1)
-- [Promethean Dev Workflow Update — L4995]$promethean-dev-workflow-update.md#^ref-03a5578f-4995-0$ (line 4995, col 0, score 1)
-- [Promethean Documentation Overview — L127]$promethean-documentation-overview.md#^ref-9413237f-127-0$ (line 127, col 0, score 1)
-- $Duck's Self-Referential Perceptual Loop — L158$$ducks-self-referential-perceptual-loop.md#^ref-71726f04-158-0$ (line 158, col 0, score 1)
-- [Dynamic Context Model for Web Components — L526]$dynamic-context-model-for-web-components.md#^ref-f7702bf8-526-0$ (line 526, col 0, score 1)
-- [Eidolon Field Abstract Model — L6392]$eidolon-field-abstract-model.md#^ref-5e8b2388-6392-0$ (line 6392, col 0, score 1)
-- $eidolon-node-lifecycle — L4151$$eidolon-node-lifecycle.md#^ref-938eca9c-4151-0$ (line 4151, col 0, score 1)
-- [Factorio AI with External Agents — L270]$factorio-ai-with-external-agents.md#^ref-a4d90289-270-0$ (line 270, col 0, score 1)
-- $field-node-diagram-outline — L232$$field-node-diagram-outline.md#^ref-1f32c94a-232-0$ (line 232, col 0, score 1)
-- $field-node-diagram-set — L5026$$field-node-diagram-set.md#^ref-22b989d5-5026-0$ (line 5026, col 0, score 1)
-- $field-node-diagram-visualizations — L212$$field-node-diagram-visualizations.md#^ref-e9b27b06-212-0$ (line 212, col 0, score 1)
-- [Functional Embedding Pipeline Refactor — L3624]$functional-embedding-pipeline-refactor.md#^ref-a4a25141-3624-0$ (line 3624, col 0, score 1)
-- [Functional Refactor of TypeScript Document Processing — L2874]$functional-refactor-of-typescript-document-processing.md#^ref-1cfae310-2874-0$ (line 2874, col 0, score 1)
-- [The Jar of Echoes — L173]$the-jar-of-echoes.md#^ref-18138627-173-0$ (line 173, col 0, score 1)
-- [Tracing the Signal — L123]$tracing-the-signal.md#^ref-c3cd4f65-123-0$ (line 123, col 0, score 1)
-- $ts-to-lisp-transpiler — L66$$ts-to-lisp-transpiler.md#^ref-ba11486b-66-0$ (line 66, col 0, score 1)
-- $typed-struct-compiler — L412$$typed-struct-compiler.md#^ref-78eeedf7-412-0$ (line 412, col 0, score 1)
-- [TypeScript Patch for Tool Calling Support — L614]$typescript-patch-for-tool-calling-support.md#^ref-7b7ca860-614-0$ (line 614, col 0, score 1)
-- [Unique Concepts — L5]$unique-concepts.md#^ref-ed6f3fc9-5-0$ (line 5, col 0, score 1)
-- [Unique Info Dump Index — L129]$unique-info-dump-index.md#^ref-30ec3ba6-129-0$ (line 129, col 0, score 1)
-- $Per-Domain Policy System for JS Crawler — L495$$per-domain-policy-system-for-js-crawler.md#^ref-c03020e1-495-0$ (line 495, col 0, score 1)
-- $Performance-Optimized-Polyglot-Bridge — L459$$performance-optimized-polyglot-bridge.md#^ref-f5579967-459-0$ (line 459, col 0, score 1)
-- [Pipeline Enhancements — L27]$pipeline-enhancements.md#^ref-e2135d9f-27-0$ (line 27, col 0, score 1)
-- $plan-update-confirmation — L1002$$plan-update-confirmation.md#^ref-b22d79c6-1002-0$ (line 1002, col 0, score 1)
-- $polyglot-repl-interface-layer — L171$$polyglot-repl-interface-layer.md#^ref-9c79206d-171-0$ (line 171, col 0, score 1)
-- $Post-Linguistic Transhuman Design Frameworks — L112$$post-linguistic-transhuman-design-frameworks.md#^ref-6bcff92c-112-0$ (line 112, col 0, score 1)
-- [Promethean Chat Activity Report — L24]$promethean-chat-activity-report.md#^ref-18344cf9-24-0$ (line 24, col 0, score 1)
-- $Protocol_0_The_Contradiction_Engine — L143$$protocol-0-the-contradiction-engine.md#^ref-9a93a756-143-0$ (line 143, col 0, score 1)
-- $Provider-Agnostic Chat Panel Implementation — L241$$provider-agnostic-chat-panel-implementation.md#^ref-43bfe9dd-241-0$ (line 241, col 0, score 1)
-- [Docops Feature Updates — L44]$docops-feature-updates-3.md#^ref-cdbd21ee-44-0$ (line 44, col 0, score 1)
-- [Docops Feature Updates — L61]$docops-feature-updates.md#^ref-2792d448-61-0$ (line 61, col 0, score 1)
-- [Duck's Attractor States — L99]$ducks-attractor-states.md#^ref-13951643-99-0$ (line 99, col 0, score 1)
-- $Duck's Self-Referential Perceptual Loop — L80$$ducks-self-referential-perceptual-loop.md#^ref-71726f04-80-0$ (line 80, col 0, score 1)
-- [Dynamic Context Model for Web Components — L405]$dynamic-context-model-for-web-components.md#^ref-f7702bf8-405-0$ (line 405, col 0, score 1)
-- [Eidolon Field Abstract Model — L216]$eidolon-field-abstract-model.md#^ref-5e8b2388-216-0$ (line 216, col 0, score 1)
-- [Factorio AI with External Agents — L189]$factorio-ai-with-external-agents.md#^ref-a4d90289-189-0$ (line 189, col 0, score 1)
-- $field-interaction-equations — L172$$field-interaction-equations.md#^ref-b09141b7-172-0$ (line 172, col 0, score 1)
-- [Layer1SurvivabilityEnvelope — L175]$layer1survivabilityenvelope.md#^ref-64a9f9f9-175-0$ (line 175, col 0, score 1)
-- [Mathematical Samplers — L90]$mathematical-samplers.md#^ref-86a691ec-90-0$ (line 90, col 0, score 1)
-- $Migrate to Provider-Tenant Architecture — L298$$migrate-to-provider-tenant-architecture.md#^ref-54382370-298-0$ (line 298, col 0, score 1)
-- [Promethean Chat Activity Report — L48]$promethean-chat-activity-report.md#^ref-18344cf9-48-0$ (line 48, col 0, score 1)
-- [Creative Moments — L28]$creative-moments.md#^ref-10d98225-28-0$ (line 28, col 0, score 1)
-- [Docops Feature Updates — L65]$docops-feature-updates-3.md#^ref-cdbd21ee-65-0$ (line 65, col 0, score 1)
-- [Docops Feature Updates — L86]$docops-feature-updates.md#^ref-2792d448-86-0$ (line 86, col 0, score 1)
-- [Duck's Attractor States — L123]$ducks-attractor-states.md#^ref-13951643-123-0$ (line 123, col 0, score 1)
-- $Duck's Self-Referential Perceptual Loop — L34$$ducks-self-referential-perceptual-loop.md#^ref-71726f04-34-0$ (line 34, col 0, score 1)
-- [Dynamic Context Model for Web Components — L442]$dynamic-context-model-for-web-components.md#^ref-f7702bf8-442-0$ (line 442, col 0, score 1)
-- [Eidolon Field Abstract Model — L218]$eidolon-field-abstract-model.md#^ref-5e8b2388-218-0$ (line 218, col 0, score 1)
-- $eidolon-field-math-foundations — L176$$eidolon-field-math-foundations.md#^ref-008f2ac0-176-0$ (line 176, col 0, score 1)
-- $eidolon-node-lifecycle — L70$$eidolon-node-lifecycle.md#^ref-938eca9c-70-0$ (line 70, col 0, score 1)
-- $komorebi-group-window-hack — L262$$komorebi-group-window-hack.md#^ref-dd89372d-262-0$ (line 262, col 0, score 1)
-- [Mathematics Sampler — L84]$mathematics-sampler.md#^ref-b5e0183e-84-0$ (line 84, col 0, score 1)
-- $Migrate to Provider-Tenant Architecture — L314$$migrate-to-provider-tenant-architecture.md#^ref-54382370-314-0$ (line 314, col 0, score 1)
-- [Mindful Prioritization — L26]$mindful-prioritization.md#^ref-40185d05-26-0$ (line 26, col 0, score 1)
-- [NPU Voice Code and Sensory Integration — L10]$npu-voice-code-and-sensory-integration.md#^ref-5a02283e-10-0$ (line 10, col 0, score 1)
-- [Obsidian ChatGPT Plugin Integration — L43]$obsidian-chatgpt-plugin-integration.md#^ref-ca8e1399-43-0$ (line 43, col 0, score 1)
-- $obsidian-ignore-node-modules-regex — L82$$obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-82-0$ (line 82, col 0, score 1)
-- [Obsidian Task Generation — L37]$obsidian-task-generation.md#^ref-9b694a91-37-0$ (line 37, col 0, score 1)
-- [OpenAPI Validation Report — L68]$openapi-validation-report.md#^ref-5c152b08-68-0$ (line 68, col 0, score 1)
-- [ParticleSimulationWithCanvasAndFFmpeg — L294]$particlesimulationwithcanvasandffmpeg.md#^ref-e018dd7a-294-0$ (line 294, col 0, score 1)
-- $Per-Domain Policy System for JS Crawler — L532$$per-domain-policy-system-for-js-crawler.md#^ref-c03020e1-532-0$ (line 532, col 0, score 1)
-- $Performance-Optimized-Polyglot-Bridge — L456$$performance-optimized-polyglot-bridge.md#^ref-f5579967-456-0$ (line 456, col 0, score 1)
-- [Pipeline Enhancements — L17]$pipeline-enhancements.md#^ref-e2135d9f-17-0$ (line 17, col 0, score 1)
-- $plan-update-confirmation — L1035$$plan-update-confirmation.md#^ref-b22d79c6-1035-0$ (line 1035, col 0, score 1)
-- $komorebi-group-window-hack — L270$$komorebi-group-window-hack.md#^ref-dd89372d-270-0$ (line 270, col 0, score 1)
-- [Layer1SurvivabilityEnvelope — L221]$layer1survivabilityenvelope.md#^ref-64a9f9f9-221-0$ (line 221, col 0, score 1)
-- [Mathematical Samplers — L80]$mathematical-samplers.md#^ref-86a691ec-80-0$ (line 80, col 0, score 1)
-- [Mathematics Sampler — L86]$mathematics-sampler.md#^ref-b5e0183e-86-0$ (line 86, col 0, score 1)
-- $Migrate to Provider-Tenant Architecture — L342$$migrate-to-provider-tenant-architecture.md#^ref-54382370-342-0$ (line 342, col 0, score 1)
-- [Mindful Prioritization — L22]$mindful-prioritization.md#^ref-40185d05-22-0$ (line 22, col 0, score 1)
-- [MindfulRobotIntegration — L21]$mindfulrobotintegration.md#^ref-5f65dfa5-21-0$ (line 21, col 0, score 1)
-- [Model Selection for Lightweight Conversational Tasks — L133]$model-selection-for-lightweight-conversational-tasks.md#^ref-d144aa62-133-0$ (line 133, col 0, score 1)
-- $Model Upgrade Calm-Down Guide — L98$$model-upgrade-calm-down-guide.md#^ref-db74343f-98-0$ (line 98, col 0, score 1)
-- [Model Selection for Lightweight Conversational Tasks — L169]$model-selection-for-lightweight-conversational-tasks.md#^ref-d144aa62-169-0$ (line 169, col 0, score 1)
-- $Model Upgrade Calm-Down Guide — L99$$model-upgrade-calm-down-guide.md#^ref-db74343f-99-0$ (line 99, col 0, score 1)
-- [NPU Voice Code and Sensory Integration — L37]$npu-voice-code-and-sensory-integration.md#^ref-5a02283e-37-0$ (line 37, col 0, score 1)
-- [Obsidian ChatGPT Plugin Integration Guide — L70]$obsidian-chatgpt-plugin-integration-guide.md#^ref-1d3d6c3a-70-0$ (line 70, col 0, score 1)
-- [Obsidian ChatGPT Plugin Integration — L53]$obsidian-chatgpt-plugin-integration.md#^ref-ca8e1399-53-0$ (line 53, col 0, score 1)
-- $obsidian-ignore-node-modules-regex — L122$$obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-122-0$ (line 122, col 0, score 1)
+- [Factorio AI with External Agents — L268]factorio-ai-with-external-agents.md#^ref-a4d90289-268-0 (line 268, col 0, score 1)
+- [Functional Refactor of TypeScript Document Processing — L2872]functional-refactor-of-typescript-document-processing.md#^ref-1cfae310-2872-0 (line 2872, col 0, score 1)
+- [Layer1SurvivabilityEnvelope — L5436]layer1survivabilityenvelope.md#^ref-64a9f9f9-5436-0 (line 5436, col 0, score 1)
+- [MindfulRobotIntegration — L1875]mindfulrobotintegration.md#^ref-5f65dfa5-1875-0 (line 1875, col 0, score 1)
+- Model Upgrade Calm-Down Guide — L199$model-upgrade-calm-down-guide.md#^ref-db74343f-199-0 (line 199, col 0, score 1)
+- obsidian-ignore-node-modules-regex — L4676$obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-4676-0 (line 4676, col 0, score 1)
+- plan-update-confirmation — L4575$plan-update-confirmation.md#^ref-b22d79c6-4575-0 (line 4575, col 0, score 1)
+- [Promethean Chat Activity Report — L2416]promethean-chat-activity-report.md#^ref-18344cf9-2416-0 (line 2416, col 0, score 1)
+- [Promethean Dev Workflow Update — L4994]promethean-dev-workflow-update.md#^ref-03a5578f-4994-0 (line 4994, col 0, score 1)
+- [Promethean Documentation Overview — L126]promethean-documentation-overview.md#^ref-9413237f-126-0 (line 126, col 0, score 1)
+- [Promethean Documentation Pipeline Overview — L312]promethean-documentation-pipeline-overview.md#^ref-3a3bf2c9-312-0 (line 312, col 0, score 1)
+- [Promethean Documentation Update — L2160]promethean-documentation-update.txt#^ref-0b872af2-2160-0 (line 2160, col 0, score 1)
+- field-node-diagram-visualizations — L211$field-node-diagram-visualizations.md#^ref-e9b27b06-211-0 (line 211, col 0, score 1)
+- [Functional Refactor of TypeScript Document Processing — L2873]functional-refactor-of-typescript-document-processing.md#^ref-1cfae310-2873-0 (line 2873, col 0, score 1)
+- [Layer1SurvivabilityEnvelope — L5437]layer1survivabilityenvelope.md#^ref-64a9f9f9-5437-0 (line 5437, col 0, score 1)
+- [Mindful Prioritization — L151]mindful-prioritization.md#^ref-40185d05-151-0 (line 151, col 0, score 1)
+- [MindfulRobotIntegration — L1876]mindfulrobotintegration.md#^ref-5f65dfa5-1876-0 (line 1876, col 0, score 1)
+- [NPU Voice Code and Sensory Integration — L2266]npu-voice-code-and-sensory-integration.md#^ref-5a02283e-2266-0 (line 2266, col 0, score 1)
+- obsidian-ignore-node-modules-regex — L4677$obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-4677-0 (line 4677, col 0, score 1)
+- [Obsidian Templating Plugins Integration Guide — L5493]obsidian-templating-plugins-integration-guide.md#^ref-b39dc9d4-5493-0 (line 5493, col 0, score 1)
+- Per-Domain Policy System for JS Crawler — L629$per-domain-policy-system-for-js-crawler.md#^ref-c03020e1-629-0 (line 629, col 0, score 1)
+- [Promethean Chat Activity Report — L2417]promethean-chat-activity-report.md#^ref-18344cf9-2417-0 (line 2417, col 0, score 1)
+- [Promethean Dev Workflow Update — L4995]promethean-dev-workflow-update.md#^ref-03a5578f-4995-0 (line 4995, col 0, score 1)
+- [Promethean Documentation Overview — L127]promethean-documentation-overview.md#^ref-9413237f-127-0 (line 127, col 0, score 1)
+- Duck's Self-Referential Perceptual Loop — L158$ducks-self-referential-perceptual-loop.md#^ref-71726f04-158-0 (line 158, col 0, score 1)
+- [Dynamic Context Model for Web Components — L526]dynamic-context-model-for-web-components.md#^ref-f7702bf8-526-0 (line 526, col 0, score 1)
+- [Eidolon Field Abstract Model — L6392]eidolon-field-abstract-model.md#^ref-5e8b2388-6392-0 (line 6392, col 0, score 1)
+- eidolon-node-lifecycle — L4151$eidolon-node-lifecycle.md#^ref-938eca9c-4151-0 (line 4151, col 0, score 1)
+- [Factorio AI with External Agents — L270]factorio-ai-with-external-agents.md#^ref-a4d90289-270-0 (line 270, col 0, score 1)
+- field-node-diagram-outline — L232$field-node-diagram-outline.md#^ref-1f32c94a-232-0 (line 232, col 0, score 1)
+- field-node-diagram-set — L5026$field-node-diagram-set.md#^ref-22b989d5-5026-0 (line 5026, col 0, score 1)
+- field-node-diagram-visualizations — L212$field-node-diagram-visualizations.md#^ref-e9b27b06-212-0 (line 212, col 0, score 1)
+- [Functional Embedding Pipeline Refactor — L3624]functional-embedding-pipeline-refactor.md#^ref-a4a25141-3624-0 (line 3624, col 0, score 1)
+- [Functional Refactor of TypeScript Document Processing — L2874]functional-refactor-of-typescript-document-processing.md#^ref-1cfae310-2874-0 (line 2874, col 0, score 1)
+- [The Jar of Echoes — L173]the-jar-of-echoes.md#^ref-18138627-173-0 (line 173, col 0, score 1)
+- [Tracing the Signal — L123]tracing-the-signal.md#^ref-c3cd4f65-123-0 (line 123, col 0, score 1)
+- ts-to-lisp-transpiler — L66$ts-to-lisp-transpiler.md#^ref-ba11486b-66-0 (line 66, col 0, score 1)
+- typed-struct-compiler — L412$typed-struct-compiler.md#^ref-78eeedf7-412-0 (line 412, col 0, score 1)
+- [TypeScript Patch for Tool Calling Support — L614]typescript-patch-for-tool-calling-support.md#^ref-7b7ca860-614-0 (line 614, col 0, score 1)
+- [Unique Concepts — L5]unique-concepts.md#^ref-ed6f3fc9-5-0 (line 5, col 0, score 1)
+- [Unique Info Dump Index — L129]unique-info-dump-index.md#^ref-30ec3ba6-129-0 (line 129, col 0, score 1)
+- Per-Domain Policy System for JS Crawler — L495$per-domain-policy-system-for-js-crawler.md#^ref-c03020e1-495-0 (line 495, col 0, score 1)
+- Performance-Optimized-Polyglot-Bridge — L459$performance-optimized-polyglot-bridge.md#^ref-f5579967-459-0 (line 459, col 0, score 1)
+- [Pipeline Enhancements — L27]pipeline-enhancements.md#^ref-e2135d9f-27-0 (line 27, col 0, score 1)
+- plan-update-confirmation — L1002$plan-update-confirmation.md#^ref-b22d79c6-1002-0 (line 1002, col 0, score 1)
+- polyglot-repl-interface-layer — L171$polyglot-repl-interface-layer.md#^ref-9c79206d-171-0 (line 171, col 0, score 1)
+- Post-Linguistic Transhuman Design Frameworks — L112$post-linguistic-transhuman-design-frameworks.md#^ref-6bcff92c-112-0 (line 112, col 0, score 1)
+- [Promethean Chat Activity Report — L24]promethean-chat-activity-report.md#^ref-18344cf9-24-0 (line 24, col 0, score 1)
+- Protocol_0_The_Contradiction_Engine — L143$protocol-0-the-contradiction-engine.md#^ref-9a93a756-143-0 (line 143, col 0, score 1)
+- Provider-Agnostic Chat Panel Implementation — L241$provider-agnostic-chat-panel-implementation.md#^ref-43bfe9dd-241-0 (line 241, col 0, score 1)
+- [Docops Feature Updates — L44]docops-feature-updates-3.md#^ref-cdbd21ee-44-0 (line 44, col 0, score 1)
+- [Docops Feature Updates — L61]docops-feature-updates.md#^ref-2792d448-61-0 (line 61, col 0, score 1)
+- [Duck's Attractor States — L99]ducks-attractor-states.md#^ref-13951643-99-0 (line 99, col 0, score 1)
+- Duck's Self-Referential Perceptual Loop — L80$ducks-self-referential-perceptual-loop.md#^ref-71726f04-80-0 (line 80, col 0, score 1)
+- [Dynamic Context Model for Web Components — L405]dynamic-context-model-for-web-components.md#^ref-f7702bf8-405-0 (line 405, col 0, score 1)
+- [Eidolon Field Abstract Model — L216]eidolon-field-abstract-model.md#^ref-5e8b2388-216-0 (line 216, col 0, score 1)
+- [Factorio AI with External Agents — L189]factorio-ai-with-external-agents.md#^ref-a4d90289-189-0 (line 189, col 0, score 1)
+- field-interaction-equations — L172$field-interaction-equations.md#^ref-b09141b7-172-0 (line 172, col 0, score 1)
+- [Layer1SurvivabilityEnvelope — L175]layer1survivabilityenvelope.md#^ref-64a9f9f9-175-0 (line 175, col 0, score 1)
+- [Mathematical Samplers — L90]mathematical-samplers.md#^ref-86a691ec-90-0 (line 90, col 0, score 1)
+- Migrate to Provider-Tenant Architecture — L298$migrate-to-provider-tenant-architecture.md#^ref-54382370-298-0 (line 298, col 0, score 1)
+- [Promethean Chat Activity Report — L48]promethean-chat-activity-report.md#^ref-18344cf9-48-0 (line 48, col 0, score 1)
+- [Creative Moments — L28]creative-moments.md#^ref-10d98225-28-0 (line 28, col 0, score 1)
+- [Docops Feature Updates — L65]docops-feature-updates-3.md#^ref-cdbd21ee-65-0 (line 65, col 0, score 1)
+- [Docops Feature Updates — L86]docops-feature-updates.md#^ref-2792d448-86-0 (line 86, col 0, score 1)
+- [Duck's Attractor States — L123]ducks-attractor-states.md#^ref-13951643-123-0 (line 123, col 0, score 1)
+- Duck's Self-Referential Perceptual Loop — L34$ducks-self-referential-perceptual-loop.md#^ref-71726f04-34-0 (line 34, col 0, score 1)
+- [Dynamic Context Model for Web Components — L442]dynamic-context-model-for-web-components.md#^ref-f7702bf8-442-0 (line 442, col 0, score 1)
+- [Eidolon Field Abstract Model — L218]eidolon-field-abstract-model.md#^ref-5e8b2388-218-0 (line 218, col 0, score 1)
+- eidolon-field-math-foundations — L176$eidolon-field-math-foundations.md#^ref-008f2ac0-176-0 (line 176, col 0, score 1)
+- eidolon-node-lifecycle — L70$eidolon-node-lifecycle.md#^ref-938eca9c-70-0 (line 70, col 0, score 1)
+- komorebi-group-window-hack — L262$komorebi-group-window-hack.md#^ref-dd89372d-262-0 (line 262, col 0, score 1)
+- [Mathematics Sampler — L84]mathematics-sampler.md#^ref-b5e0183e-84-0 (line 84, col 0, score 1)
+- Migrate to Provider-Tenant Architecture — L314$migrate-to-provider-tenant-architecture.md#^ref-54382370-314-0 (line 314, col 0, score 1)
+- [Mindful Prioritization — L26]mindful-prioritization.md#^ref-40185d05-26-0 (line 26, col 0, score 1)
+- [NPU Voice Code and Sensory Integration — L10]npu-voice-code-and-sensory-integration.md#^ref-5a02283e-10-0 (line 10, col 0, score 1)
+- [Obsidian ChatGPT Plugin Integration — L43]obsidian-chatgpt-plugin-integration.md#^ref-ca8e1399-43-0 (line 43, col 0, score 1)
+- obsidian-ignore-node-modules-regex — L82$obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-82-0 (line 82, col 0, score 1)
+- [Obsidian Task Generation — L37]obsidian-task-generation.md#^ref-9b694a91-37-0 (line 37, col 0, score 1)
+- [OpenAPI Validation Report — L68]openapi-validation-report.md#^ref-5c152b08-68-0 (line 68, col 0, score 1)
+- [ParticleSimulationWithCanvasAndFFmpeg — L294]particlesimulationwithcanvasandffmpeg.md#^ref-e018dd7a-294-0 (line 294, col 0, score 1)
+- Per-Domain Policy System for JS Crawler — L532$per-domain-policy-system-for-js-crawler.md#^ref-c03020e1-532-0 (line 532, col 0, score 1)
+- Performance-Optimized-Polyglot-Bridge — L456$performance-optimized-polyglot-bridge.md#^ref-f5579967-456-0 (line 456, col 0, score 1)
+- [Pipeline Enhancements — L17]pipeline-enhancements.md#^ref-e2135d9f-17-0 (line 17, col 0, score 1)
+- plan-update-confirmation — L1035$plan-update-confirmation.md#^ref-b22d79c6-1035-0 (line 1035, col 0, score 1)
+- komorebi-group-window-hack — L270$komorebi-group-window-hack.md#^ref-dd89372d-270-0 (line 270, col 0, score 1)
+- [Layer1SurvivabilityEnvelope — L221]layer1survivabilityenvelope.md#^ref-64a9f9f9-221-0 (line 221, col 0, score 1)
+- [Mathematical Samplers — L80]mathematical-samplers.md#^ref-86a691ec-80-0 (line 80, col 0, score 1)
+- [Mathematics Sampler — L86]mathematics-sampler.md#^ref-b5e0183e-86-0 (line 86, col 0, score 1)
+- Migrate to Provider-Tenant Architecture — L342$migrate-to-provider-tenant-architecture.md#^ref-54382370-342-0 (line 342, col 0, score 1)
+- [Mindful Prioritization — L22]mindful-prioritization.md#^ref-40185d05-22-0 (line 22, col 0, score 1)
+- [MindfulRobotIntegration — L21]mindfulrobotintegration.md#^ref-5f65dfa5-21-0 (line 21, col 0, score 1)
+- [Model Selection for Lightweight Conversational Tasks — L133]model-selection-for-lightweight-conversational-tasks.md#^ref-d144aa62-133-0 (line 133, col 0, score 1)
+- Model Upgrade Calm-Down Guide — L98$model-upgrade-calm-down-guide.md#^ref-db74343f-98-0 (line 98, col 0, score 1)
+- [Model Selection for Lightweight Conversational Tasks — L169]model-selection-for-lightweight-conversational-tasks.md#^ref-d144aa62-169-0 (line 169, col 0, score 1)
+- Model Upgrade Calm-Down Guide — L99$model-upgrade-calm-down-guide.md#^ref-db74343f-99-0 (line 99, col 0, score 1)
+- [NPU Voice Code and Sensory Integration — L37]npu-voice-code-and-sensory-integration.md#^ref-5a02283e-37-0 (line 37, col 0, score 1)
+- [Obsidian ChatGPT Plugin Integration Guide — L70]obsidian-chatgpt-plugin-integration-guide.md#^ref-1d3d6c3a-70-0 (line 70, col 0, score 1)
+- [Obsidian ChatGPT Plugin Integration — L53]obsidian-chatgpt-plugin-integration.md#^ref-ca8e1399-53-0 (line 53, col 0, score 1)
+- obsidian-ignore-node-modules-regex — L122$obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-122-0 (line 122, col 0, score 1)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

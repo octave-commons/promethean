@@ -1,14 +1,14 @@
 ---
-$$
+```
 uuid: 49a002af-c299-402a-b922-8308556c437b
-$$
+```
 title: Description
 status: todo
 priority: P3
 labels: []
-$$
+```
 created_at: '2025-09-15T02:02:58.509Z'
-$$
+```
 ---
 # Description
 
@@ -22,7 +22,7 @@ Enable agents to interact with Bluesky using the AT Protocol APIs and app-passwo
 ## Data Flow & Rate Limiting
 
 - Agent authenticates ➜ session token ➜ Bluesky endpoint ➜ internal broker/storage
-- Monitor `x-ratelimit-*` headers and throttle $~200 requests/minute$. Back off when `429` is returned.
+- Monitor `x-ratelimit-*` headers and throttle ~200 requests/minute. Back off when `429` is returned.
 
 ## Requirements/Definition of done
 

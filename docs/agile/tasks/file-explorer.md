@@ -1,14 +1,14 @@
 ---
-$$
+```
 uuid: c39b94ff-9e97-4fba-99d9-5cc713e09e5d
-$$
+```
 title: file explorer
 status: todo
 priority: P3
 labels: []
-$$
+```
 created_at: '2025-09-15T02:02:58.513Z'
-$$
+```
 ---
 ## 🛠️ Description
 
@@ -42,9 +42,9 @@ Provide a lightweight file explorer for navigating repository contents through t
 ---
 
 ## 🔗 Related Epics
-$$
+```
 #framework-core
-$$
+```
 ---
 
 ## ⛓️ Blocked By
@@ -60,7 +60,7 @@ Nothing
 ## 🔍 Relevant Links
 
 - [[kanban]]
-- $[c39b94ff-file-explorer|Review findings $2025-09-30$]$
+- [c39b94ff-file-explorer|Review findings 2025-09-30]
 
 
 ## Notes

@@ -1,13 +1,13 @@
 Codex Context Service
-$$
+```
 =====================
-$$
+```
 Overview
 --------
 
 - Purpose: Provide an OpenAI-compatible API that transparently enriches requests with Promethean repo context and routes them to a local LLM (Ollama initially).
-- Endpoints: `/v1/chat/completions`, `/v1/completions` $non-streaming for v1$.
-- Retrieval: Queries SmartGPT Bridge $`/search`, `/grep`, `/symbols`$ with a static bearer token.
+- Endpoints: `/v1/chat/completions`, `/v1/completions` non-streaming for v1.
+- Retrieval: Queries SmartGPT Bridge `/search`, `/grep`, `/symbols` with a static bearer token.
 - Outputs: Returns OpenAI-formatted JSON and persists Obsidian-friendly artifacts under `docs/codex-context/requests/`.
 
 Configuration
@@ -17,7 +17,7 @@ Configuration
 - `LLM_MODEL`: Ollama model (default `gemma3:latest`).
 - `SMARTGPT_URL`: SmartGPT Bridge base URL (default `http://127.0.0.1:3210`).
 - `SMARTGPT_TOKEN`: Bearer token for SmartGPT requests.
-- `DOCS_DIR`: Optional base directory for artifacts $default `docs/codex-context`$.
+- `DOCS_DIR`: Optional base directory for artifacts default `docs/codex-context`.
 
 Design Notes
 ------------

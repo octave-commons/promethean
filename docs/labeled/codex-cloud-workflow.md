@@ -1,15 +1,15 @@
 ---
-$$
+```
 uuid: 5eb1612e-a113-4893-9e1d-f589eda66910
-$$
-$$
+```
+```
 created_at: '2025-09-19T20:41:26Z'
-$$
+```
 title: 2025.09.19.20.41.26
 filename: Codex Cloud Workflow
-$$
+```
 description: >-
-$$
+```
   A structured workflow for managing Codex Cloud sessions with strict artifact
   guarantees, task-first principles, and resource checks. Ensures every session
   produces a minimum task update without empty sessions. Includes planning
@@ -23,12 +23,12 @@ tags:
   - resource-checks
   - board-discipline
   - immutable
-$$
+```
 related_to_uuid: []
-$$
-$$
+```
+```
 related_to_title: []
-$$
+```
 references: []
 ---
 ## Codex Cloud — Boot (immutable)
@@ -37,7 +37,7 @@ references: []
 
 ## Codex Cloud — Task-first, every session
 - Do nothing off-board. Every session must be attached to exactly one task.
-- If no fitting task exists, create one in `docs/agile/tasks/` $append-only$.
+- If no fitting task exists, create one in `docs/agile/tasks/` append-only.
 - Use a single, canonical status hashtag per task; do not edit the board file.
 
 ## Codex Cloud — Artifact guarantee (no empty sessions)
@@ -61,9 +61,9 @@ references: []
 - If any condition fails, stay in process-mode: refine, estimate, document, and exit with a strong handoff.
 
 ## Codex Cloud — Resource checks
-- If an expected resource $db/app/SDK/deps$ is missing/failing:
+- If an expected resource db/app/SDK/deps is missing/failing:
   1) check baseline + run logs in `docs/reports/codex_cloud/`,
-  2) capture findings in the task $`### Attempts` / `### Session End`$,
+  2) capture findings in the task `### Attempts` / `### Session End`,
   3) if long-wait/compute-heavy is required, create/link a small **unblocker** task and stop cleanly.
 
 ## Codex Cloud — Board discipline (always)

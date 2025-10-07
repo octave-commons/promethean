@@ -1,38 +1,38 @@
 ---
-$$
+```
 task-id: TASK-20250928-041600
-$$
+```
 title: Fix hanging SmartGPT bridge tests
 state: InProgress
 prev: null
-$$
+```
 txn: '2025-09-28T04:16:00Z-1a2b'
-$$
+```
 owner: err
 priority: p2
 size: s
-$$
+```
 epic: EPC-000
-$$
-$$
+```
+```
 depends_on: []
-$$
+```
 labels:
   - 'board:auto'
   - 'lang:ts'
 due: null
 links: []
 artifacts: []
-$$
+```
 rationale: >-
-$$
+```
   SmartGPT bridge integration tests intermittently hang because the in-memory
   Mongo client from prior runs stays cached after teardown, leaving later suites
   talking to a closed connection. Restoring clean teardown should stabilize the
   suite.
-$$
+```
 proposed_transitions:
-$$
+```
   - New->Accepted
   - Accepted->Breakdown
   - Breakdown->Ready
@@ -50,12 +50,12 @@ tags:
   - owner/err
   - priority/p2
   - epic/EPC-000
-$$
+```
 uuid: f12dba73-161a-498a-9139-6a735eb75c3a
-$$
-$$
+```
+```
 created_at: '2025-10-06T01:50:48.292Z'
-$$
+```
 status: todo
 ---
 ## Context

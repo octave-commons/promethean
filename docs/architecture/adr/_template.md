@@ -1,9 +1,9 @@
 ---
 project: Promethean
 status: proposed
-$$
+```
 date: 2025-08-26
-$$
+```
 tags:
   - adr
   - architecture
@@ -26,7 +26,7 @@ What are the trade-offs? Benefits, costs, risks?
 - Alternative B (and why it was rejected)
 
 ## Status
-- Proposed by: $name/agent$
-- Reviewed by: $team/agent$
+- Proposed by: name/agent
+- Reviewed by: team/agent
 - Supersedes: (if any older ADRs)
 - Superseded by: (if later ADRs)

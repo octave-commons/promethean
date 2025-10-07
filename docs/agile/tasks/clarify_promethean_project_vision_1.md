@@ -1,14 +1,14 @@
 ---
-$$
+```
 uuid: 1d799040-7ef4-42e4-b82d-c227f4363398
-$$
+```
 title: clarify promethean project vision 1 md
 status: todo
 priority: P3
 labels: []
-$$
+```
 created_at: '2025-09-15T02:02:58.509Z'
-$$
+```
 ---
 ## 🛠️ Task: Clarify Promethean project vision
 
@@ -34,7 +34,7 @@ Summarize the long-term goals of the Promethean framework so new contributors un
 
 ## 📋 Subtasks
 
-- [x] Gather notes from existing docs $`AGENTS.md`, `MIGRATION_PLAN.md`$
+- [x] Gather notes from existing docs `AGENTS.md`, `MIGRATION_PLAN.md`
 - [x] Synthesize into coherent narrative
 - [x] PR the summary and update links
 

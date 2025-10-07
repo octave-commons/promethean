@@ -1,12 +1,12 @@
 ---
-uuid: $(uuidgen)
+uuid: (uuidgen)
 title: Add interactive task management and auto-updates to boardrev
 status: backlog
 priority: P2
 labels: [enhancement, boardrev, automation, management]
-$$
+```
 created_at: 2025-10-06T12:00:00Z
-$$
+```
 ---
 
 # Add interactive task management and auto-updates to boardrev

@@ -1,14 +1,14 @@
 ---
-$$
+```
 uuid: a5b35121-160a-496a-ac7b-94e405294888
-$$
+```
 title: create permission gating layer
 status: todo
 priority: P3
 labels: []
-$$
+```
 created_at: '2025-09-15T02:02:58.510Z'
-$$
+```
 ---
 ## 🛠️ Task: Create permission gating layer
 
@@ -28,25 +28,25 @@ is based on the "Dorian Permission Gate" equations in our math notes.
 
 ## 📦 Requirements
 
-- [ ] Implement gate logic as a Python module $`shared/py/permission_gate.py`$
+- [ ] Implement gate logic as a Python module `shared/py/permission_gate.py`
 - [ ] Support weight/threshold config via YAML
 - [ ] Expose a simple `check_permission(agent, action)` API
-- [ ] Document schema expectations in $[docs/agile/agents|agents.md]$
+- [ ] Document schema expectations in [docs/agile/agents|agents.md]
 
 ---
 
 ## 📋 Subtasks
 
-- [ ] Translate the Dorian equation from $[symbolic-gravity-models]$
+- [ ] Translate the Dorian equation from [symbolic-gravity-models]
 - [ ] Add unit tests for grant/deny cases
 - [ ] Tie into Cephalon’s command router
 
 ---
 
 ## 🔗 Related Epics
-$$
+```
 #framework-core
-$$
+```
 ---
 
 ## ⛓️ Blocked By

@@ -6,8 +6,8 @@ TODO: Add service description.
 
 ## Paths
 
-- $[stt|services/hy/stt]$
-- $[stt|services/py/stt]$
+- [stt|services/hy/stt]
+- [stt|services/py/stt]
 
 ## Tags
 

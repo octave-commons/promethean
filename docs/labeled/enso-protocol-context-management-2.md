@@ -1,15 +1,15 @@
 ---
-$$
+```
 uuid: 1e8c986e-5598-4214-a97e-1dcdd74e7c1e
-$$
-$$
+```
+```
 created_at: '2025-09-18T17:20:39Z'
-$$
+```
 title: 2025.09.18.17.20.39
 filename: Enso Protocol Context Management
-$$
+```
 description: >-
-$$
+```
   The Enso protocol defines how users manage data sources within contexts,
   including metadata, discoverability, state transitions, and content
   permissions. It ensures data visibility, control, and availability through
@@ -26,12 +26,12 @@ tags:
   - protocol
   - visibility
   - availability
-$$
+```
 related_to_uuid: []
-$$
-$$
+```
+```
 related_to_title: []
-$$
+```
 references: []
 ---
 Context management is also an important feature of the enso protocol.
