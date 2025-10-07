@@ -8,7 +8,7 @@ RUN_TS="${RUN_TS:-$(date -u +"%Y.%m.%d.%H.%M.%S")}"
 ART_ROOT="$ART_ROOT" RUN_TS="$RUN_TS" source "$(dirname "$0")/describe.sh"
 
 # ---------- knobs ----------
-BUILD_TIMEOUT_SECS="${BUILD_TIMEOUT_SECS:-1200}"
+BUILD_TIMEOUT_SECS="${BUILD_TIMEOUT_SECS:-300}"
 
 # ---------- base/tooling ----------
 describe env-dump               bash -lc '(set -o posix; set)'
