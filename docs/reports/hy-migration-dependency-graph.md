@@ -1,6 +1,6 @@
 ---
 project: Promethean
-hashtags: [#migration, #hy, #python-ban, #graph]
+hashtags: #migration, #hy, #python-ban, #graph
 ---
 
 # 🔗 Hy Migration Dependency Graph

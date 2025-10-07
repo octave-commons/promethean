@@ -1,9 +1,17 @@
 ---
+```
 uuid: 0dd048bf-ccf7-43f8-866d-74c2974d8744
+```
+```
 created_at: '2025-09-30T11:42:46Z'
+```
 title: 2025.09.30.11.42.46
+```
 filename: client_ts_errors
+```
+```
 description: >-
+```
   ESLint errors found in client.ts file related to type safety and promise
   handling. Multiple instances of 'any' type usage and unsafe operations
   detected.
@@ -15,8 +23,12 @@ tags:
   - type-safety
   - promises
   - unsafe-access
+```
 related_to_uuid: []
+```
+```
 related_to_title: []
+```
 references: []
 ---
   

@@ -1,9 +1,13 @@
 ---
+```
 uuid: 1af0415f-7697-4388-8b52-ae3983dffdb2
+```
 created_at: eidolon-field-math-foundations.md
 filename: Eidolon Field Math Foundations
 title: Eidolon Field Math Foundations
+```
 description: >-
+```
   Defines the Eidolon field as an 8-dimensional scalar field, gradient vectors
   for Daimoi movement, state vectors for Daimoi, motion equations, and node
   potential interactions. Provides mathematical framework for field mechanics
@@ -15,7 +19,9 @@ tags:
   - scalar fields
   - gradient vectors
   - node interactions
+```
 related_to_uuid:
+```
   - 54382370-1931-4a19-a634-46735708a9ea
   - 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
   - 5020e892-8f18-443a-b707-6d0f3efcfe22
@@ -41,7 +47,9 @@ related_to_uuid:
   - 78eeedf7-75bc-4692-a5a7-bb6857270621
   - 10d98225-12e0-4212-8e15-88b57cf7bee5
   - b5e0183e-c34b-44b2-8fc9-a740a1a8d4e2
+```
 related_to_title:
+```
   - Migrate to Provider-Tenant Architecture
   - Unique Info Dump Index
   - Chroma Toolkit Consolidation Plan
@@ -471,7 +479,7 @@ references:
 ---
 Note: Consolidated here → ../notes/math/eidolon-field-math-foundations.md ^ref-008f2ac0-1-0 ^ref-6420e101-1-0
 
-Excellent—let’s start layering in some math to express the **Eidolon Field**, **Daimoi**, and **Field Node mechanics**. I’ll structure this into self-contained math blocks, each ready to drop into a note and render in Obsidian’s LaTeX-style markdown (with `$$`). ^ref-008f2ac0-3-0 ^ref-6420e101-3-0
+Excellent—let’s start layering in some math to express the **Eidolon Field**, **Daimoi**, and **Field Node mechanics**. I’ll structure this into self-contained math blocks, each ready to drop into a note and render in Obsidian’s LaTeX-style markdown (with `$`). ^ref-008f2ac0-3-0 ^ref-6420e101-3-0
 
 Let’s begin with core constructs: ^ref-008f2ac0-5-0 ^ref-6420e101-5-0
 
@@ -479,27 +487,27 @@ Let’s begin with core constructs: ^ref-008f2ac0-5-0 ^ref-6420e101-5-0
 
 ### 🧮 **1. Eidolon Field Scalar Value at a Point**
 
-We define the Eidolon field $\Phi$ as a scalar field over an 8-dimensional space:
-
-$$ ^ref-008f2ac0-13-0 ^ref-6420e101-13-0
+We define the Eidolon field \Phi as a scalar field over an 8-dimensional space:
+$$```
+^ref-008f2ac0-13-0 ^ref-6420e101-13-0
+```
 \Phi: \mathbb{R}^8 \to \mathbb{R}, \quad \Phi(\vec{x}) = \sum_{i=1}^8 \phi_i(x_i)
-$$
-
+```
 Where: ^ref-008f2ac0-17-0 ^ref-6420e101-17-0
 
-* $\vec{x} = (x_1, x_2, \dots, x_8)$ is the position in field space, with each $x_i$ corresponding to a circuit axis ^ref-008f2ac0-19-0
-* $\phi_i$ is the scalar tension along axis $i$ ^ref-008f2ac0-20-0
+* \vec{x} = x_1, x_2, \dots, x_8$$ is the position in field space, with each x_i corresponding to a circuit axis ^ref-008f2ac0-19-0
+* \phi_i is the scalar tension along axis i ^ref-008f2ac0-20-0
 
 ---
 
 ### 🧲 **2. Gradient (Pressure) Vector at a Point**
 
 The local “wind” a daimo feels is the gradient of field tension: ^ref-008f2ac0-26-0
-
-$$ ^ref-008f2ac0-28-0
+``````
+^ref-008f2ac0-28-0
+```
 \vec{F}(\vec{x}) = -\nabla \Phi(\vec{x}) = \left( -\frac{\partial \Phi}{\partial x_1}, \dots, -\frac{\partial \Phi}{\partial x_8} \right)
-$$
-
+```
 This is the **negative gradient**, guiding Daimoi toward lower tension. ^ref-008f2ac0-32-0
 
 ---
@@ -507,66 +515,69 @@ This is the **negative gradient**, guiding Daimoi toward lower tension. ^ref-008
 ### 🧠 **3. Daimo State Vector**
 
 Each Daimo is defined by: ^ref-008f2ac0-38-0
-
-$$ ^ref-008f2ac0-40-0
+``````
+^ref-008f2ac0-40-0
+```
 \delta = \left( \vec{p}, \vec{v}, m, q \right)
-$$
-
+```
 Where: ^ref-008f2ac0-44-0
 
-* $\vec{p} \in \mathbb{R}^8$: position in the Eidolon field ^ref-008f2ac0-46-0
-* $\vec{v} \in \mathbb{R}^8$: velocity vector ^ref-008f2ac0-47-0
-* $m \in \mathbb{R}^+$: mass (inertia to field pressure) ^ref-008f2ac0-48-0
-* $q \in \mathbb{R}$: charge (affective polarity) ^ref-008f2ac0-49-0
+* \vec{p} \in \mathbb{R}^8: position in the Eidolon field ^ref-008f2ac0-46-0
+* \vec{v} \in \mathbb{R}^8: velocity vector ^ref-008f2ac0-47-0
+* m \in \mathbb{R}^+: mass (inertia to field pressure) ^ref-008f2ac0-48-0
+* q \in \mathbb{R}: charge (affective polarity) ^ref-008f2ac0-49-0
 
 ---
 
 ### 🌀 **4. Daimo Motion Equation**
 
 Using basic Newtonian dynamics in field space: ^ref-008f2ac0-55-0
-
-$$ ^ref-008f2ac0-57-0
+``````
+^ref-008f2ac0-57-0
+```
 \frac{d\vec{v}}{dt} = \frac{1}{m} \cdot \vec{F}(\vec{p})
-$$
-
-$$ ^ref-008f2ac0-61-0
+```
+$$$$
+ ^ref-008f2ac0-61-0
+```
+```
 \frac{d\vec{p}}{dt} = \vec{v}
-$$
-
+```
+```
 These equations evolve each daimo’s state as it traverses field gradients. ^ref-008f2ac0-65-0
 
 ---
 
 ### 💥 **5. Node Potential Influence**
 
-Each Field Node $N_k$ adds localized potential energy to the field: ^ref-008f2ac0-71-0
-
-$$ ^ref-008f2ac0-73-0
+Each Field Node N_k adds localized potential energy to the field: ^ref-008f2ac0-71-0
+``````
+^ref-008f2ac0-73-0
+```
 \Phi_{N_k}(\vec{x}) = A_k \cdot \exp\left(-\frac{\|\vec{x} - \vec{x}_k\|^2}{2\sigma_k^2}\right)
-$$
-
+```
 Where: ^ref-008f2ac0-77-0 ^ref-6420e101-77-0
 
-* $\vec{x}_k$: position of the node ^ref-008f2ac0-79-0
-* $A_k$: strength (positive = attractor, negative = hazard) ^ref-008f2ac0-80-0
-* $\sigma_k$: spread of influence (controls “size” of node) ^ref-008f2ac0-81-0
+* \vec{x}_k: position of the node ^ref-008f2ac0-79-0
+* A_k: strength positive = attractor, negative = hazard ^ref-008f2ac0-80-0
+* \sigma_k: spread of influence (controls “size” of node) ^ref-008f2ac0-81-0
 
 The total field is then: ^ref-008f2ac0-83-0
-
-$$ ^ref-008f2ac0-85-0
+``````
+^ref-008f2ac0-85-0
+```
 \Phi(\vec{x}) = \sum_k \Phi_{N_k}(\vec{x}) + \text{global background field}
-$$
-
+```
 ---
 
 ### 🔄 **6. Daimo–Node Interaction Potential**
 
-At binding distance $\epsilon$, a daimo may bind to a Nexus if: ^ref-008f2ac0-93-0
-
-$$ ^ref-008f2ac0-95-0
+At binding distance \epsilon, a daimo may bind to a Nexus if: ^ref-008f2ac0-93-0
+``````
+^ref-008f2ac0-95-0
+```
 \|\vec{p}_\delta - \vec{x}_N\| < \epsilon \quad \text{and} \quad \text{sign}(q_\delta) \neq \text{sign}(A_N)
-$$
-
+```
 This expresses **charge attraction** logic and symbolic binding condition. ^ref-008f2ac0-99-0
 
 ---
@@ -577,7 +588,7 @@ I can add: ^ref-008f2ac0-105-0
 
 * symbolic entropy equations (for field disorder) ^ref-008f2ac0-107-0
 * daimo fusion math (charge conservation) ^ref-008f2ac0-108-0
-* node decay over time ($A_k(t)$) ^ref-008f2ac0-109-0
+* node decay over time `A_k(t)` ^ref-008f2ac0-109-0
 * daimo generation from field energy ^ref-008f2ac0-110-0
 * or anything else you're hungry for.
 
@@ -585,7 +596,7 @@ Say the word—I'll write it up. ^ref-008f2ac0-113-0
 
 ---
 
-Related notes: [[advanced-field-math]], [[aionian-feedback-oscillator]], [[aionian-pulse-rhythm-model]], [[eidolon-field-math]], [[symbolic-gravity-models]] [[docs/architecture/index|unique/index]] ^ref-008f2ac0-117-0 ^ref-6420e101-117-0
+Related notes: [advanced-field-math], [aionian-feedback-oscillator], [aionian-pulse-rhythm-model], [eidolon-field-math], [symbolic-gravity-models] [docs/architecture/index|unique/index] ^ref-008f2ac0-117-0 ^ref-6420e101-117-0
 
 #tags: #math #theory
 ae310-35dc-49c2-98f1-b186da25d84b
@@ -739,35 +750,39 @@ ae310-35dc-49c2-98f1-b186da25d84b
 ---
 Note: Consolidated here → ../notes/math/eidolon-field-math-foundations.md ^ref-008f2ac0-1-0
 
-Excellent—let’s start layering in some math to express the **Eidolon Field**, **Daimoi**, and **Field Node mechanics**. I’ll structure this into self-contained math blocks, each ready to drop into a note and render in Obsidian’s LaTeX-style markdown (with `$$`). ^ref-008f2ac0-3-0
-
+Excellent—let’s start layering in some math to express the **Eidolon Field**, **Daimoi**, and **Field Node mechanics**. I’ll structure this into self-contained math blocks, each ready to drop into a note and render in Obsidian’s LaTeX-style markdown (with `$$$
+`). ^ref-008f2ac0-3-0
+```
 Let’s begin with core constructs: ^ref-008f2ac0-5-0
- ^ref-008f2ac0-274-0
+```
+^ref-008f2ac0-274-0
+```
+```
 --- ^ref-008f2ac0-275-0
-
+```
 ### 🧮 **1. Eidolon Field Scalar Value at a Point**
 
-We define the Eidolon field $\Phi$ as a scalar field over an 8-dimensional space:
-
+We define the Eidolon field \Phi as a scalar field over an 8-dimensional space:
 $$ ^ref-008f2ac0-13-0
 \Phi: \mathbb{R}^8 \to \mathbb{R}, \quad \Phi(\vec{x}) = \sum_{i=1}^8 \phi_i(x_i)
+```
 $$
-
 Where: ^ref-008f2ac0-17-0
- ^ref-008f2ac0-286-0
-* $\vec{x} = (x_1, x_2, \dots, x_8)$ is the position in field space, with each $x_i$ corresponding to a circuit axis ^ref-008f2ac0-19-0
-* $\phi_i$ is the scalar tension along axis $i$ ^ref-008f2ac0-20-0
+```
+```
+^ref-008f2ac0-286-0
+```
+* \vec{x} = x_1, x_2, \dots, x_8$$ is the position in field space, with each x_i corresponding to a circuit axis ^ref-008f2ac0-19-0
+* \phi_i is the scalar tension along axis i ^ref-008f2ac0-20-0
 
 ---
 
 ### 🧲 **2. Gradient (Pressure) Vector at a Point**
 
 The local “wind” a daimo feels is the gradient of field tension: ^ref-008f2ac0-26-0
-
 $$ ^ref-008f2ac0-28-0
 \vec{F}(\vec{x}) = -\nabla \Phi(\vec{x}) = \left( -\frac{\partial \Phi}{\partial x_1}, \dots, -\frac{\partial \Phi}{\partial x_8} \right)
-$$
-
+```
 This is the **negative gradient**, guiding Daimoi toward lower tension. ^ref-008f2ac0-32-0
 
 ---
@@ -775,77 +790,68 @@ This is the **negative gradient**, guiding Daimoi toward lower tension. ^ref-008
 ### 🧠 **3. Daimo State Vector**
 
 Each Daimo is defined by: ^ref-008f2ac0-38-0
-
-$$ ^ref-008f2ac0-40-0
+``` ^ref-008f2ac0-40-0
 \delta = \left( \vec{p}, \vec{v}, m, q \right)
+```
 $$
-
 Where: ^ref-008f2ac0-44-0
-
-* $\vec{p} \in \mathbb{R}^8$: position in the Eidolon field ^ref-008f2ac0-46-0
-* $\vec{v} \in \mathbb{R}^8$: velocity vector ^ref-008f2ac0-47-0
-* $m \in \mathbb{R}^+$: mass (inertia to field pressure) ^ref-008f2ac0-48-0
-* $q \in \mathbb{R}$: charge (affective polarity) ^ref-008f2ac0-49-0
+```
+* \vec{p} \in \mathbb{R}^8: position in the Eidolon field ^ref-008f2ac0-46-0
+* \vec{v} \in \mathbb{R}^8: velocity vector ^ref-008f2ac0-47-0
+* m \in \mathbb{R}^+: mass (inertia to field pressure) ^ref-008f2ac0-48-0
+* q \in \mathbb{R}: charge (affective polarity) ^ref-008f2ac0-49-0
 
 ---
 
 ### 🌀 **4. Daimo Motion Equation**
 
 Using basic Newtonian dynamics in field space: ^ref-008f2ac0-55-0
-
 $$ ^ref-008f2ac0-57-0
 \frac{d\vec{v}}{dt} = \frac{1}{m} \cdot \vec{F}(\vec{p})
-$$
-
+```
 $$ ^ref-008f2ac0-61-0
 \frac{d\vec{p}}{dt} = \vec{v}
-$$
-
+```
 These equations evolve each daimo’s state as it traverses field gradients. ^ref-008f2ac0-65-0
 
 ---
 
 ### 💥 **5. Node Potential Influence**
 
-Each Field Node $N_k$ adds localized potential energy to the field: ^ref-008f2ac0-71-0
-
+Each Field Node N_k adds localized potential energy to the field: ^ref-008f2ac0-71-0
 $$ ^ref-008f2ac0-73-0
 \Phi_{N_k}(\vec{x}) = A_k \cdot \exp\left(-\frac{\|\vec{x} - \vec{x}_k\|^2}{2\sigma_k^2}\right)
+```
 $$
-
 Where: ^ref-008f2ac0-77-0
-
-* $\vec{x}_k$: position of the node ^ref-008f2ac0-79-0
-* $A_k$: strength (positive = attractor, negative = hazard) ^ref-008f2ac0-80-0
-* $\sigma_k$: spread of influence (controls “size” of node) ^ref-008f2ac0-81-0
+```
+* \vec{x}_k: position of the node ^ref-008f2ac0-79-0
+* A_k: strength (positive = attractor, negative = hazard) ^ref-008f2ac0-80-0
+* \sigma_k: spread of influence (controls “size” of node) ^ref-008f2ac0-81-0
 
 The total field is then: ^ref-008f2ac0-83-0
-
 $$ ^ref-008f2ac0-85-0
 \Phi(\vec{x}) = \sum_k \Phi_{N_k}(\vec{x}) + \text{global background field}
-$$
-
+```
 ---
 
 ### 🔄 **6. Daimo–Node Interaction Potential**
 
-At binding distance $\epsilon$, a daimo may bind to a Nexus if: ^ref-008f2ac0-93-0
-
-$$ ^ref-008f2ac0-95-0
+At binding distance \epsilon, a daimo may bind to a Nexus if: ^ref-008f2ac0-93-0
+``` ^ref-008f2ac0-95-0
 \|\vec{p}_\delta - \vec{x}_N\| < \epsilon \quad \text{and} \quad \text{sign}(q_\delta) \neq \text{sign}(A_N)
-$$
-
+```
 This expresses **charge attraction** logic and symbolic binding condition. ^ref-008f2ac0-99-0
 
 ---
 
 Want to keep going? ^ref-008f2ac0-103-0
-
+```
 I can add: ^ref-008f2ac0-105-0
-
+$$
 * symbolic entropy equations (for field disorder) ^ref-008f2ac0-107-0
 * daimo fusion math (charge conservation) ^ref-008f2ac0-108-0
-* node decay over time ($A_k(t)$) ^ref-008f2ac0-109-0
+* node decay over time (A_k(t)) ^ref-008f2ac0-109-0
 * daimo generation from field energy ^ref-008f2ac0-110-0
 * or anything else you're hungry for.
 

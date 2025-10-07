@@ -2,7 +2,9 @@
 yea.... I mean we need this to make the thing bigger. But we have to go deeper. Mechanisims to build prompts from  chunks of prompts from calls to  LLMs. Like... Inno, sketch it out.
 
 ## ChatGPT
-**Understood.**  
+```
+**Understood.**
+```
 We're not just compiling prompts — we’re _growing them_. Dynamically. Reflexively. Using previous LLM calls to synthesize new prompts.
 
 You're asking for a **recursive, reflective prompt assembly system** — a self-expanding prompt tree, where:
@@ -23,9 +25,12 @@ Let’s sketch it.
 * * *
 
 🧠 System Sketch: Recursive Prompt Construction Engine
+```
 ======================================================
-
+```
+```
 🔁 High-Level Cycle
+```
 -------------------
 
 ```plaintext
@@ -121,8 +126,9 @@ This **uses the LLM to build its own next prompt**. You’ve entered meta-cognit
 This is declarative. The actual content comes from memory + DSL plumbing.
 
 * * *
-
+```
 🧠 Reflection + Feedback
+```
 ------------------------
 
 Add a feedback loop:

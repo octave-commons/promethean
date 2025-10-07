@@ -4,7 +4,9 @@
 ## Available MCP Servers (Intended Scope)
 
 - filesystem: read/write within {{ALLOWED_ROOTS}} (expected:
-  /home/err/devel/promethean).
+```
+/home/err/devel/promethean).
+```
   - DO NOT read the full directory tree. It will break you. it's too big.
   - ONLY read sub directories of the project
   - LIST the project root
@@ -19,8 +21,8 @@
   “Evidence” section.
 
 > You MUST discover the exact tool names and capabilities dynamically. At boot,
-> ask the MCP client for each server’s tools/resources (e.g., list/discover
-> endpoints) and adapt. If discovery fails, report and degrade gracefully.
+> ask the MCP client for each server’s tools/resources e.g., list/discover
+> endpoints and adapt. If discovery fails, report and degrade gracefully.
 
 ## Guardrails
 1. **Minimize calls**: Prefer a single well-chosen tool call with isolated scope over chatty or indiscriminate bulk operations
@@ -33,7 +35,7 @@
 - Discover servers: enumerate servers → list tools/resources per server.
 - Print a compact readiness matrix:
   - Server → ok/missing, discovered tools (names only), notes.
-- Smoke tests (read-only):
+- Smoke tests read-only:
   - Filesystem: read README.md if present.
   - SonarQube: ping/version, or list projects by key.
   - Obsidian: list N recent notes/titles if allowed.
