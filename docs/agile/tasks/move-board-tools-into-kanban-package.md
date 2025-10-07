@@ -12,6 +12,7 @@ Move the TypeScript utilities under `tools/board/` into the maintained `@prometh
 - [x] Inspect the legacy `tools/board/*` entrypoints and data contracts.
 - [x] Relocate the scripts into a `packages/kanban/src/board` directory, exporting them as part of the package build.
 - [x] Update documentation and any hard-coded paths or references to the old location.
+- [ ] Coordinate with hygiene task `kanban-fsm-update-001` so the relocated tooling honours the FSM status map used by the board automation.
 - [ ] Ensure `@promethean/kanban` builds cleanly and lint passes on touched files. *(Blocked: `tsc -p tsconfig.json` currently fails in `src/lib/types.ts` and `src/lib/jsonl.ts`.)*
 
 ## Definition of Done

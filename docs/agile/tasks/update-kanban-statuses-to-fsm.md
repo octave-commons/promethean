@@ -30,3 +30,4 @@ All tasks with status "backlog" should be moved to "incoming" to follow the FSM 
 - [ ] Verify board regeneration shows proper FSM column flow
 - [ ] Update any task templates or documentation to use FSM statuses
 - [ ] Test that WIP limits work correctly with new status flow
+- [ ] Confirm the board tooling inside `@promethean/kanban` reads the relocated scripts and respects the FSM statuses (see task `8a791d5f-757a-4154-bba2-e14886da4c30`).

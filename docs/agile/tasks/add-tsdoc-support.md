@@ -1,6 +1,6 @@
 ---
 title: "Add TSDoc support to the project"
-status: backlog
+status: incoming
 priority: P2
 tags: [documentation, typescript, build-system]
 uuid: tsdoc-support-001
