@@ -90,7 +90,7 @@ pnpm kanban update-status <uuid> <column>  # Move task between columns
 pnpm kanban count               # Show task counts by status
 
 # Task discovery and management
-pnpm kanban list                # List all tasks with basic info
+pnpm kanban find-by-title <title> # Find task by exact title match
 pnpm kanban getByColumn <col>   # Get formatted tasks for a column
 pnpm kanban getColumn <col>     # Get raw tasks for a column
 
