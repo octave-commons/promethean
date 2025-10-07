@@ -65,10 +65,10 @@
     "breakdown": 5,
     "blocked": 3,
     "ready": 10,
-    "todo": 15,
+    "todo": 25,
     "in_progress": 3,
-    "review": 2,
-    "document": 2,
+    "review": 25,
+    "document": 10,
     "done": 500,
     "rejected": 20
   },
