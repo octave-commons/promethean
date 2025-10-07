@@ -1,8 +1,14 @@
 ---
+```
 uuid: ce37a9b8-5984-4fb8-b9e7-f72470314975
+```
+```
 created_at: 2025.09.01.21.55.09.md
+```
 filename: Fastify Static Files Plugin
+```
 description: >-
+```
   This guide explains how to configure and use the `@fastify/static` plugin for
   serving static files in Fastify. It covers installation, basic usage, serving
   specific files, and advanced configurations like multiple directories,
@@ -15,7 +21,9 @@ tags:
   - file serving
   - caching
   - custom headers
+```
 related_to_uuid:
+```
   - cf6b9b17-bb91-4219-aa5c-172cba02b2da
   - d17d3a96-c84d-4738-a403-6c733b874da2
   - cfee6d36-b9f5-4587-885a-cdfddb4f054e
@@ -32,7 +40,9 @@ related_to_uuid:
   - 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
   - e979c50f-69bb-48b0-8417-e1ee1b31c0c0
   - a4d90289-798d-44a0-a8e8-a055ae12fb52
+```
 related_to_title:
+```
   - Event Bus Projections Architecture
   - Pure TypeScript Search Microservice
   - Lisp-Compiler-Integration
@@ -97,7 +107,7 @@ fastify.register(fastifyStatic, {
 
 fastify.listen({ port: 3000 }, (err, address) => {
   if (err) throw err;
-  console.log(`Server listening at ${address}`);
+  console.log(`Server listening at {address}`);
 });
 ```
 
@@ -169,30 +179,32 @@ For more detailed information and additional options, refer to the official docu
 
 If you have specific requirements or need further assistance with configuring static file serving in Fastify, feel free to ask!
 
-[1]: https://www.npmjs.com/package/%40fastify/static/v/8.0.4?utm_source=chatgpt.com "fastify/static"
+[1]: https://www.npmjs.com/package/%40fastify/static/v/8.0.4?utm_source=chatgpt.com```
+"fastify/static"
+```
 [2]: https://wiblok.com/en/nodejs/fastify/fastify-static-file-response-method/?utm_source=chatgpt.com "How to serve static files with Fastify - Wiblok"
 [3]: https://github.com/fastify/fastify-static?utm_source=chatgpt.com "fastify/fastify-static: Plugin for serving static files as fast as ..."
 [4]: https://www.reddit.com/r/webdev/comments/15tt6rn/serving_static_with_fastify/?utm_source=chatgpt.com "Serving static with fastify : r/webdev"<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [[event-bus-projections-architecture|Event Bus Projections Architecture]]
-- [[pure-typescript-search-microservice|Pure TypeScript Search Microservice]]
-- [[lisp-compiler-integration]]
-- [[docs/unique/ripple-propagation-demo|ripple-propagation-demo]]
-- [[post-linguistic-transhuman-design-frameworks|Post-Linguistic Transhuman Design Frameworks]]
-- [[sibilant-macro-targets]]
-- [lisp-dsl-for-window-management](lisp-dsl-for-window-management.md)
-- [[dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]]
-- [[creative-moments|Creative Moments]]
-- [Operations](chunks/operations.md)
-- [Shared](chunks/shared.md)
-- [Window Management](chunks/window-management.md)
-- [[admin-dashboard-for-user-management|Admin Dashboard for User Management]]
-- [Debugging Broker Connections and Agent Behavior](debugging-broker-connections-and-agent-behavior.md)
+- [event-bus-projections-architecture|Event Bus Projections Architecture]
+- [pure-typescript-search-microservice|Pure TypeScript Search Microservice]
+- [lisp-compiler-integration]
+- [docs/unique/ripple-propagation-demo|ripple-propagation-demo]
+- [post-linguistic-transhuman-design-frameworks|Post-Linguistic Transhuman Design Frameworks]
+- [sibilant-macro-targets]
+- lisp-dsl-for-window-management$lisp-dsl-for-window-management.md
+- [dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]
+- [creative-moments|Creative Moments]
+- [Operations]chunks/operations.md
+- [Shared]chunks/shared.md
+- [Window Management]chunks/window-management.md
+- [admin-dashboard-for-user-management|Admin Dashboard for User Management]
+- [Debugging Broker Connections and Agent Behavior]debugging-broker-connections-and-agent-behavior.md
 - [DuckDuckGoSearchPipeline](duckduckgosearchpipeline.md)
-- [[factorio-ai-with-external-agents|Factorio AI with External Agents]]
+- [factorio-ai-with-external-agents|Factorio AI with External Agents]
 ## Sources
-- [[event-bus-projections-architecture#^ref-cf6b9b17-5-0|Event Bus Projections Architecture — L5]] (line 5, col 0, score 1)
-- [[event-bus-projections-architecture#^ref-cf6b9b17-51-0|Event Bus Projections Architecture — L51]] (line 51, col 0, score 1)
-- [[event-bus-projections-architecture#^ref-cf6b9b17-54-0|Event Bus Projections Architecture — L54]] (line 54, col 0, score 0.95)
-- [[event-bus-projections-architecture#^ref-cf6b9b17-67-0|Event Bus Projections Architecture — L67]] (line 67, col 0, score 0.94)
+- [event-bus-projections-architecture#^ref-cf6b9b17-5-0|Event Bus Projections Architecture — L5] (line 5, col 0, score 1)
+- [event-bus-projections-architecture#^ref-cf6b9b17-51-0|Event Bus Projections Architecture — L51] (line 51, col 0, score 1)
+- [event-bus-projections-architecture#^ref-cf6b9b17-54-0|Event Bus Projections Architecture — L54] (line 54, col 0, score 0.95)
+- [event-bus-projections-architecture#^ref-cf6b9b17-67-0|Event Bus Projections Architecture — L67] (line 67, col 0, score 0.94)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

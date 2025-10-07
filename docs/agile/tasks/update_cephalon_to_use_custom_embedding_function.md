@@ -1,10 +1,14 @@
 ---
+```
 uuid: af87b6ca-6f04-4380-9e5b-54adcf7bf254
+```
 title: update cephalon to use custom embedding function md md
 status: todo
 priority: P3
 labels: []
+```
 created_at: '2025-09-15T02:02:58.523Z'
+```
 ---
 ## 🛠️ Task: Update cephalon to use custom embedding function
 
@@ -67,9 +71,10 @@ Nothing
 
 ## 🔍 Relevant Links
 - [[kanban]]
-- [pseudo/eidolon-field-scratchpad.lisp](../../pseudo/eidolon-field-scratchpad.lisp)
+- pseudo/eidolon-field-scratchpad.lisp$../../pseudo/eidolon-field-scratchpad.lisp
+```
 #in-progress
-
+```
 ## Blockers
 - Embedding service implementation not linked.
 - Unit and integration tests for wrapper and service missing.

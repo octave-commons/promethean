@@ -1,10 +1,12 @@
 ---
-uuid: $(uuidgen)
+uuid: (uuidgen)
 title: Replace LevelDB with vector database for boardrev
 status: incoming
 priority: P2
 labels: [enhancement, boardrev, performance]
+```
 created_at: 2025-10-06T12:00:00Z
+```
 ---
 
 # Replace LevelDB with vector database for boardrev
@@ -16,7 +18,7 @@ Current manual LevelDB + cosine similarity implementation has scaling limitation
 - Evaluate vector DB options: Chroma, Pinecone, Weaviate
 - Implement vector DB abstraction layer
 - Migrate existing LevelDB data
-- Add hybrid search capabilities (semantic + metadata filters)
+- Add hybrid search capabilities semantic + metadata filters
 - Support for complex queries and indexing
 
 ## Benefits
@@ -24,7 +26,7 @@ Current manual LevelDB + cosine similarity implementation has scaling limitation
 - Advanced filtering and search capabilities
 - Metadata-based queries
 - Improved performance for similarity searches
-- Support for hybrid search (text + semantic)
+- Support for hybrid search text + semantic
 
 ## Acceptance Criteria
 - [ ] Vector DB abstraction layer implemented

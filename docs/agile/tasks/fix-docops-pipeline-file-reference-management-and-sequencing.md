@@ -1,5 +1,7 @@
 ---
+```
 uuid: f6g7h8i9-j0k1-2345-fghi-678901234567
+```
 title: Fix docops pipeline file reference management and sequencing issues
 status: todo
 priority: P2
@@ -9,7 +11,9 @@ labels:
   - file-management
   - sequencing
   - bug-fix
+```
 created_at: '2025-10-05T00:00:00.000Z'
+```
 ---
 
 ## 🛠️ Task: Fix docops pipeline file reference management and sequencing issues
@@ -20,7 +24,7 @@ The docops pipeline successfully processes files but fails on the final step due
 
 1. Files are successfully copied from `docs/inbox/` to `docs/labeled/`
 2. Front matter generation works correctly
-3. File renaming step (doc-rename) successfully renames files (e.g., `2025.09.18.16.46.24.md` → descriptive names)
+3. File renaming step doc-rename successfully renames files e.g., `2025.09.18.16.46.24.md` → descriptive names
 4. **Failure**: The `doc-footer` step fails with ENOENT error looking for original filenames that were renamed
 
 **Error**: `Error: ENOENT: no such file or directory, open '/home/err/devel/promethean/docs/labeled/2025.09.18.16.46.24.md'`
@@ -133,7 +137,7 @@ try {
     if (resolvedPath) {
       content = await fs.readFile(resolvedPath, 'utf-8');
     } else {
-      logger.warn(`File not found: ${filePath}`);
+      logger.warn(`File not found: {filePath}`);
       continue; // Skip missing files gracefully
     }
   }
@@ -169,14 +173,14 @@ try {
 - **Pipeline Definition**: `pipelines.json` - docops section
 - **Main Script**: `scripts/piper-docops.mjs`
 - **Footer Implementation**: `packages/docops/dist/05-footers.js`
-- **Test Files**: `docs/inbox/*.md` (40+ test files)
+- **Test Files**: `docs/inbox/*.md` 40+ test files
 - **Output Directory**: `docs/labeled/*.md` (processed files)
 - **Pipeline Core**: `packages/piper/src/runner.ts`
 
 ## 📝 Technical Notes
 
 ### Successfully Tested Components
-- ✅ AI model integration (OLLAMA with qwen3:4b and nomic-embed-text)
+- ✅ AI model integration OLLAMA with qwen3:4b and nomic-embed-text
 - ✅ File copying and directory operations
 - ✅ Front matter generation with AI assistance
 - ✅ File renaming based on content analysis
@@ -184,7 +188,7 @@ try {
 
 ### Current Status
 - **40+ files successfully processed** through most pipeline steps
-- **File renaming working** (e.g., timestamps → descriptive names)
+- **File renaming working** e.g., timestamps → descriptive names
 - **AI integration functional** with proper environment setup
 - **Single issue**: File reference management between steps
 

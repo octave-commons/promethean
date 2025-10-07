@@ -1,9 +1,15 @@
 ---
+```
 uuid: 6b49d7a5-38c3-4be7-9a22-6f035c215bce
+```
+```
 created_at: '2025-09-20T05:43:29Z'
+```
 title: 2025.09.20.05.43.29
 filename: Github Branching Workflow
+```
 description: >-
+```
   This document outlines a structured GitHub branching workflow for managing
   code development and documentation. It details specific branch naming
   conventions, the flow from development to main, and merging rules to ensure
@@ -17,8 +23,12 @@ tags:
   - codex
   - docs
   - staging
+```
 related_to_uuid: []
+```
+```
 related_to_title: []
+```
 references: []
 ---
 
@@ -48,7 +58,9 @@ references: []
 
 - **Documentation Flow:**
   1. `<codex|docs|readme|etc>/<task>` -> `obsidian/<hostname>` ->
-     `obsidian/staging` -> `main`
+```
+`obsidian/staging` -> `main`
+```
   2. Staging branch uses GitHub Actions for transformations.
 
 ## Diagrams

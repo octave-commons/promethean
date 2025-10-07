@@ -1,8 +1,16 @@
+```
 <!-- SYMPKG:PKG:BEGIN -->
+```
 # @promethean/parity
-**Folder:** `packages/parity`  
-**Version:** `0.0.1`  
+```
+**Folder:** `packages/parity`
+```
+```
+**Version:** `0.0.1`
+```
+```
 **Domain:** `_root`
+```
 ```mermaid
 graph LR
   A["@promethean/parity"]
@@ -13,5 +21,7 @@ graph LR
 ## Dependencies
 - _None_
 ## Dependents
-- [@promethean/tests](../tests/README.md)
+- @promethean/tests$../tests/README.md
+```
 <!-- SYMPKG:PKG:END -->
+```

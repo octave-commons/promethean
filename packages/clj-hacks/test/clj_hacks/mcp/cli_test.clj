@@ -19,3 +19,14 @@
     (is (= 2 exit))
     (is err?)
     (is (str/includes? message "missing required option: --edn"))))
+
+(deftest doctor-validates-edn-structure
+  (let [temp-edn (java.io.File/createTempFile "invalid" ".edn")]
+    (try
+      (spit temp-edn "{:invalid true}")
+      (let [{:keys [exit err? message]} (mcp-cli/run "doctor" ["--edn" (str temp-edn)])]
+        (is (= 1 exit))
+        (is err?)
+        (is (str/includes? message "EDN missing required :mcp-servers key")))
+      (finally
+        (.delete temp-edn)))))

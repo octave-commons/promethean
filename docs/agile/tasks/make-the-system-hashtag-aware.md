@@ -1,10 +1,14 @@
 ---
+```
 uuid: 709c00c8-6e75-4719-850b-d58ea26ab255
+```
 title: make the system hashtag aware
 status: todo
 priority: P3
 labels: []
+```
 created_at: '2025-09-15T02:02:58.516Z'
+```
 ---
 ## 🛠️ Description
 

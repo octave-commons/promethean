@@ -1,10 +1,14 @@
 ---
+```
 uuid: 88f4ecec-11b4-4883-ab71-7d3822171a2f
+```
 title: ecs mongo adapter library
 status: todo
 priority: P3
 labels: []
+```
 created_at: '2025-09-15T02:02:58.512Z'
+```
 ---
 ECS–Mongo Adapter Library
 
@@ -16,7 +20,7 @@ Deliverables:
   - `remove(entityId, componentName)` delete
   - `load(world, filters?)` hydrate world from collections
   - Index helpers per component
-- Hook into ECS world via lifecycle callbacks (component set/remove) to persist writes.
+- Hook into ECS world via lifecycle callbacks component set/remove to persist writes.
 - Configurable write modes: immediate, buffered debounce, snapshot.
 
 Exit Criteria:

@@ -11,11 +11,11 @@ const { order } = g.bfs("A");
 ```
 
 Notes:
-- BFS/DFS O(V+E); Dijkstra/A* O((V+E) log V)
+- BFS/DFS OV+E; Dijkstra/A* O(V+E) log V
 - Topo sort errors on cycles (by design)
 - SCC via Kosaraju
 
-Related: [[archetype-ecs]] [[../../unique/index|unique/index]]
+Related: [archetype-ecs] [../../unique/index|unique/index]
 
 #tags: #js #algorithms #graph
 

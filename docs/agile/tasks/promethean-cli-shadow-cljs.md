@@ -1,6 +1,10 @@
 ---
+```
 uuid: 372fff1d-2eec-4ace-80ba-e1c8f65fd762
+```
+```
 created_at: '2025-10-06T01:50:48.296Z'
+```
 title: Promethean CLI shadow-cljs launcher
 status: todo
 priority: P3
@@ -29,8 +33,9 @@ labels: []
 2. Implement ClojureScript entry that reads monorepo package.json graph and scripts.
 3. Create thin Node launcher delegating to compiled bundle.
 4. Update pnpm scripts/build + root bin entry.
+```
 5. Document/testing.
-
+```
 ## Score
 - Estimated complexity: 5
 

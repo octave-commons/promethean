@@ -1,8 +1,12 @@
 ---
+```
 uuid: 513dc4c7-e045-4123-ba2e-cf5ef0b7b4a3
+```
 created_at: 2025.07.28.12.07.48-mystery-lisp-search-session.md
 filename: mystery-lisp-search-session
+```
 description: >-
+```
   Identifying a minimal Racket/Scheme fork or Python-hosted DSL used in college
   CS education that supports clean Python interop and Cython integration for
   teaching low/high-level paradigms.
@@ -17,7 +21,9 @@ tags:
   - racketfork
   - symbolic
   - nostalgia
+```
 related_to_title:
+```
   - Promethean-Copilot-Intent-Engine
   - Promethean State Format
   - ts-to-lisp-transpiler
@@ -27,7 +33,9 @@ related_to_title:
   - sibilant-metacompiler-overview
   - compiler-kit-foundations
   - DSL
+```
 related_to_uuid:
+```
   - ae24a280-678e-4c0b-8cc4-56667fa04172
   - 23df6ddb-05cf-4639-8201-f8291f8a6026
   - ba11486b-b0b0-4d9d-a0d1-1d91ae34de55
@@ -253,39 +261,39 @@ We can **build the Lisp you saw** with:
 Want me to write the first prototype for this “universal Lisp for Python interop” that mirrors what you’re remembering? Or dig deeper into archival curriculum materials and lost language projects?
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [[promethean-copilot-intent-engine]]
-- [[docs/unique/promethean-state-format|Promethean State Format]]
-- [[ts-to-lisp-transpiler]]
-- [[optimizing-command-limitations-in-system-design|Optimizing Command Limitations in System Design]]
-- [[obsidian-templating-plugins-integration-guide|Obsidian Templating Plugins Integration Guide]]
-- [lisp-dsl-for-window-management](lisp-dsl-for-window-management.md)
-- [[sibilant-metacompiler-overview]]
-- [[docs/unique/compiler-kit-foundations|compiler-kit-foundations]]
-- [DSL](chunks/dsl.md)
+- [promethean-copilot-intent-engine]
+- [docs/unique/promethean-state-format|Promethean State Format]
+- [ts-to-lisp-transpiler]
+- [optimizing-command-limitations-in-system-design|Optimizing Command Limitations in System Design]
+- [obsidian-templating-plugins-integration-guide|Obsidian Templating Plugins Integration Guide]
+- lisp-dsl-for-window-management$lisp-dsl-for-window-management.md
+- [sibilant-metacompiler-overview]
+- [docs/unique/compiler-kit-foundations|compiler-kit-foundations]
+- [DSL]chunks/dsl.md
 
 ## Sources
-- [[promethean-copilot-intent-engine#L41|Promethean-Copilot-Intent-Engine — L41]] (line 41, col 3, score 0.9)
-- [[promethean-copilot-intent-engine#L41|Promethean-Copilot-Intent-Engine — L41]] (line 41, col 5, score 0.9)
-- [[obsidian-templating-plugins-integration-guide#L91|Obsidian Templating Plugins Integration Guide — L91]] (line 91, col 1, score 1)
-- [[obsidian-templating-plugins-integration-guide#L91|Obsidian Templating Plugins Integration Guide — L91]] (line 91, col 3, score 1)
-- [[optimizing-command-limitations-in-system-design#L33|Optimizing Command Limitations in System Design — L33]] (line 33, col 1, score 1)
-- [[optimizing-command-limitations-in-system-design#L33|Optimizing Command Limitations in System Design — L33]] (line 33, col 3, score 1)
-- [[docs/unique/promethean-state-format#L84|Promethean State Format — L84]] (line 84, col 1, score 1)
-- [[docs/unique/promethean-state-format#L84|Promethean State Format — L84]] (line 84, col 3, score 1)
-- [[docs/unique/promethean-state-format#L88|Promethean State Format — L88]] (line 88, col 1, score 0.93)
-- [[docs/unique/promethean-state-format#L88|Promethean State Format — L88]] (line 88, col 3, score 0.93)
-- [[promethean-copilot-intent-engine#L57|Promethean-Copilot-Intent-Engine — L57]] (line 57, col 1, score 1)
-- [[promethean-copilot-intent-engine#L57|Promethean-Copilot-Intent-Engine — L57]] (line 57, col 3, score 1)
-- [[promethean-copilot-intent-engine#L64|Promethean-Copilot-Intent-Engine — L64]] (line 64, col 1, score 0.88)
-- [[promethean-copilot-intent-engine#L64|Promethean-Copilot-Intent-Engine — L64]] (line 64, col 3, score 0.88)
-- [DSL — L14](chunks/dsl.md#L14) (line 14, col 1, score 1)
-- [DSL — L14](chunks/dsl.md#L14) (line 14, col 3, score 1)
-- [[docs/unique/compiler-kit-foundations#L613|compiler-kit-foundations — L613]] (line 613, col 1, score 1)
-- [[docs/unique/compiler-kit-foundations#L613|compiler-kit-foundations — L613]] (line 613, col 3, score 1)
-- [lisp-dsl-for-window-management — L218](lisp-dsl-for-window-management.md#L218) (line 218, col 1, score 1)
-- [lisp-dsl-for-window-management — L218](lisp-dsl-for-window-management.md#L218) (line 218, col 3, score 1)
-- [[sibilant-metacompiler-overview#L93|sibilant-metacompiler-overview — L93]] (line 93, col 1, score 1)
-- [[sibilant-metacompiler-overview#L93|sibilant-metacompiler-overview — L93]] (line 93, col 3, score 1)
-- [[docs/unique/promethean-state-format#L89|Promethean State Format — L89]] (line 89, col 1, score 0.99)
-- [[docs/unique/promethean-state-format#L89|Promethean State Format — L89]] (line 89, col 3, score 0.99)
+- [promethean-copilot-intent-engine#L41|Promethean-Copilot-Intent-Engine — L41] (line 41, col 3, score 0.9)
+- [promethean-copilot-intent-engine#L41|Promethean-Copilot-Intent-Engine — L41] (line 41, col 5, score 0.9)
+- [obsidian-templating-plugins-integration-guide#L91|Obsidian Templating Plugins Integration Guide — L91] (line 91, col 1, score 1)
+- [obsidian-templating-plugins-integration-guide#L91|Obsidian Templating Plugins Integration Guide — L91] (line 91, col 3, score 1)
+- [optimizing-command-limitations-in-system-design#L33|Optimizing Command Limitations in System Design — L33] (line 33, col 1, score 1)
+- [optimizing-command-limitations-in-system-design#L33|Optimizing Command Limitations in System Design — L33] (line 33, col 3, score 1)
+- [docs/unique/promethean-state-format#L84|Promethean State Format — L84] (line 84, col 1, score 1)
+- [docs/unique/promethean-state-format#L84|Promethean State Format — L84] (line 84, col 3, score 1)
+- [docs/unique/promethean-state-format#L88|Promethean State Format — L88] (line 88, col 1, score 0.93)
+- [docs/unique/promethean-state-format#L88|Promethean State Format — L88] (line 88, col 3, score 0.93)
+- [promethean-copilot-intent-engine#L57|Promethean-Copilot-Intent-Engine — L57] (line 57, col 1, score 1)
+- [promethean-copilot-intent-engine#L57|Promethean-Copilot-Intent-Engine — L57] (line 57, col 3, score 1)
+- [promethean-copilot-intent-engine#L64|Promethean-Copilot-Intent-Engine — L64] (line 64, col 1, score 0.88)
+- [promethean-copilot-intent-engine#L64|Promethean-Copilot-Intent-Engine — L64] (line 64, col 3, score 0.88)
+- [DSL — L14]chunks/dsl.md#L14 (line 14, col 1, score 1)
+- [DSL — L14]chunks/dsl.md#L14 (line 14, col 3, score 1)
+- [docs/unique/compiler-kit-foundations#L613|compiler-kit-foundations — L613] (line 613, col 1, score 1)
+- [docs/unique/compiler-kit-foundations#L613|compiler-kit-foundations — L613] (line 613, col 3, score 1)
+- lisp-dsl-for-window-management — L218$lisp-dsl-for-window-management.md#L218 (line 218, col 1, score 1)
+- lisp-dsl-for-window-management — L218$lisp-dsl-for-window-management.md#L218 (line 218, col 3, score 1)
+- [sibilant-metacompiler-overview#L93|sibilant-metacompiler-overview — L93] (line 93, col 1, score 1)
+- [sibilant-metacompiler-overview#L93|sibilant-metacompiler-overview — L93] (line 93, col 3, score 1)
+- [docs/unique/promethean-state-format#L89|Promethean State Format — L89] (line 89, col 1, score 0.99)
+- [docs/unique/promethean-state-format#L89|Promethean State Format — L89] (line 89, col 3, score 0.99)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
