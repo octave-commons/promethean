@@ -1,15 +1,18 @@
 ---
-```
-uuid: 20ce66a3-ab14-4107-9069-eb28438215ac
-```
-title: full agent mode text chat selectively join channels etc md
-status: todo
-priority: P3
-labels: []
-```
-created_at: '2025-09-15T02:02:58.514Z'
-```
+uuid: "20ce66a3-ab14-4107-9069-eb28438215ac"
+title: "full agent mode text chat selectively join channels etc md"
+slug: "full_agent_mode_text_chat_selectively_join_channels_etc"
+status: "rejected"
+priority: "P3"
+labels: ["join", "full", "agent", "mode"]
+created_at: "2025-10-07T20:25:05.645Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Description
 ```
 **Status:** blocked
@@ -68,4 +71,6 @@ Nothing
 
 ## Blockers
 - No active owner or unclear scope
+
+
 

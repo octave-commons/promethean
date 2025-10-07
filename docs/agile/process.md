@@ -163,3 +163,37 @@ flowchart TD
 * **Major blockers**: halt work on that task; capture evidence + attempt remediation
   * A triggered transition rule would result in a column begin over it's WIP limit
   * An agent's current task has only blocked sub tasks
+
+## 🌊 Fluid Kanban Rule Evolution
+
+Kanban is a fluid process that adapts to changing development environments while maintaining core principles.
+
+### When Rules Must Change
+A rule should be changed when:
+1. **Progress is blocked** despite valid work being ready
+2. **Team composition changes** significantly (new contributors, new agent types)
+3. **Process discovery** reveals better ways of working
+4. **Scaling requirements** exceed current capacity constraints
+
+### Rule Change Process
+1. **Identify the constraint**: Which specific rule is preventing forward progress?
+2. **Document the rationale**: Why must this rule change now? What's the impact?
+3. **Propose a new rule**: Clear, measurable, and time-bound
+4. **Implement temporarily**: Test the change with explicit review date
+5. **Evaluate and formalize**: Either revert, adjust, or make permanent
+
+### WIP Limit Evolution Example
+**Original Rule**: 2 tasks in review per human developer
+**Reality**: 1 human + 6-18 AI agents contributing simultaneously
+**Constraint**: Review bottleneck blocking all flow
+**Solution**:
+- Review: 2 → 6 (human review bandwidth for AI work)
+- In Progress: 3 → 10 (multi-agent parallel work capacity)
+- Document: 2 → 4 (maintain flow proportion)
+
+### Guiding Principles
+- **Rules enable flow, they don't dictate activity**
+- **Change is temporary unless proven valuable**
+- **Document every change with clear rationale**
+- **Review changes regularly** (monthly for significant rule changes)
+- **Maintain the spirit** of the rule even when adapting the letter

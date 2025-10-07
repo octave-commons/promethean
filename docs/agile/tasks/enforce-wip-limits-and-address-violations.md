@@ -3,12 +3,8 @@ title: "Implement WIP limit enforcement and address current violations"
 status: incoming
 priority: P1
 tags: [kanban, wip, limits, enforcement, process, fsm]
-```
 uuid: wip-enforcement-001
-```
-```
 created: 2025-10-06
-```
 ---
 
 # Implement WIP limit enforcement and address current violations

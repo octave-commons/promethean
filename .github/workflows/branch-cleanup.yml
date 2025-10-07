@@ -1,0 +1,248 @@
+name: Branch Cleanup
+
+on:
+  schedule:
+    # Run every Sunday at 2 AM UTC
+    - cron: '0 2 * * 0'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run (do not actually delete branches)'
+        required: false
+        default: 'true'
+        type: boolean
+      branch_pattern:
+        description: 'Branch name pattern to match (regex)'
+        required: false
+        default: '^(codex|feat|chore|docs|test|fix)\/.*$'
+        type: string
+      days_threshold:
+        description: 'Delete branches older than this many days'
+        required: false
+        default: '30'
+        type: string
+
+jobs:
+  cleanup-branches:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch all history for accurate date calculations
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install GitHub CLI
+        run: |
+          curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
+          echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+          sudo apt update
+          sudo apt install gh
+
+      - name: Authenticate with GitHub
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
+
+      - name: Install jq
+        run: sudo apt-get install -y jq
+
+      - name: Create branch cleanup script
+        run: |
+          cat > cleanup-branches.sh << 'EOF'
+          #!/bin/bash
+          set -euo pipefail
+
+          DRY_RUN="${1:-true}"
+          BRANCH_PATTERN="${2:-^(codex|feat|chore|docs|test|fix)\/.*$}"
+          DAYS_THRESHOLD="${3:-30}"
+
+          echo "🧹 Branch Cleanup Started"
+          echo "📊 Configuration:"
+          echo "   - Dry run: $DRY_RUN"
+          echo "   - Branch pattern: $BRANCH_PATTERN"
+          echo "   - Days threshold: $DAYS_THRESHOLD"
+          echo "   - Protected branches: main, dev/testing, staging, dev/*"
+          echo
+
+          # Get all remote branches (excluding main and protected branches)
+          echo "📋 Fetching all remote branches..."
+          git fetch --all --quiet
+
+          # Get branches that match pattern and are not protected
+          ALL_BRANCHES=$(git branch -r --no-color | grep -v HEAD | grep -v 'origin/main$' | grep -v 'origin/dev/testing$' | grep -v 'origin/staging$' | sed 's/^[ ]*origin\///' | grep -E "$BRANCH_PATTERN" || true)
+
+          if [[ -z "$ALL_BRANCHES" ]]; then
+            echo "✅ No branches found matching pattern: $BRANCH_PATTERN"
+            exit 0
+          fi
+
+          echo "🔍 Found $(echo "$ALL_BRANCHES" | wc -l) branches matching pattern"
+
+          # Get all branches that have PRs (open or closed)
+          echo "📋 Fetching PR information..."
+          PR_BRANCHES=$(gh pr list --state all --limit 1000 --json headRefName | jq -r '.[].headRefName' | sort -u || true)
+
+          # Find branches without PRs
+          echo "🔍 Identifying branches without associated PRs..."
+          BRANCHES_TO_CHECK=""
+
+          while IFS= read -r branch; do
+            if [[ -n "$branch" ]]; then
+              # Skip if branch has a PR
+              if echo "$PR_BRANCHES" | grep -q "^${branch}$"; then
+                echo "⏭️  Skipping $branch (has associated PR)"
+                continue
+              fi
+
+              # Skip dev/* workspace branches (these are host-specific workspaces)
+              if [[ "$branch" =~ ^dev/ ]]; then
+                echo "⏭️  Skipping $branch (workspace branch)"
+                continue
+              fi
+
+              BRANCHES_TO_CHECK="$BRANCHES_TO_CHECK$branch"$'\n'
+            fi
+          done <<< "$ALL_BRANCHES"
+
+          if [[ -z "$BRANCHES_TO_CHECK" ]]; then
+            echo "✅ No eligible branches for cleanup found"
+            exit 0
+          fi
+
+          echo "🎯 Found $(echo "$BRANCHES_TO_CHECK" | grep -c .) branches without PRs to check"
+          echo
+
+          # Check each branch's last commit date
+          BRANCHES_TO_DELETE=""
+          TOTAL_CHECKED=0
+
+          while IFS= read -r branch; do
+            if [[ -n "$branch" ]]; then
+              ((TOTAL_CHECKED++))
+
+              # Get the date of the last commit
+              LAST_COMMIT_DATE=$(git log -1 --format="%ct" "origin/$branch" 2>/dev/null || echo "0")
+              CURRENT_DATE=$(date +%s)
+              AGE_DAYS=$(( (CURRENT_DATE - LAST_COMMIT_DATE) / 86400 ))
+
+              echo "📅 $branch: last commit $AGE_DAYS days ago"
+
+              # Check if branch is old enough to delete
+              if [[ $AGE_DAYS -ge $DAYS_THRESHOLD ]]; then
+                BRANCHES_TO_DELETE="$BRANCHES_TO_DELETE$branch"$'\n'
+                echo "   ✅ Marked for deletion (older than $DAYS_THRESHOLD days)"
+              else
+                echo "   ⏸️  Too recent (younger than $DAYS_THRESHOLD days)"
+              fi
+            fi
+          done <<< "$BRANCHES_TO_CHECK"
+
+          if [[ -z "$BRANCHES_TO_DELETE" ]]; then
+            echo "✅ No branches meet the age threshold for deletion"
+            exit 0
+          fi
+
+          DELETE_COUNT=$(echo "$BRANCHES_TO_DELETE" | grep -c .)
+          echo
+          echo "🎯 Found $DELETE_COUNT branches eligible for deletion:"
+          echo "$BRANCHES_TO_DELETE" | sed 's/^/   - /'
+          echo
+
+          if [[ "$DRY_RUN" == "true" ]]; then
+            echo "🔍 DRY RUN: No branches will be deleted"
+            echo "💡 Run with dry_run=false to actually delete branches"
+          else
+            echo "🗑️  DELETING $DELETE_COUNT branches..."
+
+            while IFS= read -r branch; do
+              if [[ -n "$branch" ]]; then
+                echo "   Deleting $branch..."
+                if git push origin --delete "$branch" 2>/dev/null; then
+                  echo "   ✅ Deleted $branch"
+                else
+                  echo "   ❌ Failed to delete $branch (may already be deleted)"
+                fi
+              fi
+            done <<< "$BRANCHES_TO_DELETE"
+
+            echo "🎉 Cleanup completed!"
+          fi
+
+          echo
+          echo "📊 Summary:"
+          echo "   - Total branches checked: $TOTAL_CHECKED"
+          echo "   - Branches marked for deletion: $DELETE_COUNT"
+          echo "   - Dry run: $DRY_RUN"
+          EOF
+
+          chmod +x cleanup-branches.sh
+
+      - name: Run branch cleanup
+        run: |
+          ./cleanup-branches.sh "${{ github.event.inputs.dry_run || 'true' }}" "${{ github.event.inputs.branch_pattern || '^(codex|feat|chore|docs|test|fix)\/.*$' }}" "${{ github.event.inputs.days_threshold || '30' }}"
+
+      - name: Create cleanup report
+        if: always()
+        run: |
+          cat << 'EOF' > cleanup-report.md
+          # Branch Cleanup Report
+
+          **Date:** $(date -u +"%Y-%m-%d %H:%M:%S UTC")
+          **Repository:** ${{ github.repository }}
+          **Workflow Run:** ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+          ## Configuration
+          - **Dry Run:** ${{ github.event.inputs.dry_run || 'true' }}
+          - **Branch Pattern:** ${{ github.event.inputs.branch_pattern || '^(codex|feat|chore|docs|test|fix)\/.*$' }}
+          - **Age Threshold:** ${{ github.event.inputs.days_threshold || '30' }} days
+
+          ## Protected Branches (Never Deleted)
+          - `main` - Primary release branch
+          - `dev/testing` - Integration testing branch
+          - `staging` - Pre-release staging branch
+          - `dev/*` - Workspace branches (host-specific)
+
+          ## What This Workflow Does
+
+          1. **Safe Pattern Matching:** Only deletes branches matching specific patterns (codex/, feat/, chore/, docs/, test/, fix/)
+          2. **PR Protection:** Never deletes branches that have associated pull requests (open or closed)
+          3. **Age-Based Cleanup:** Only deletes branches older than the threshold (default 30 days)
+          4. **Workspace Protection:** Preserves dev/* workspace branches
+
+          ## Running Cleanup Manually
+
+          You can trigger this workflow manually:
+          1. Go to Actions → Branch Cleanup → "Run workflow"
+          2. Choose your settings:
+             - **Dry Run:** `true` to preview, `false` to actually delete
+             - **Branch Pattern:** Regex pattern for branch names to consider
+             - **Days Threshold:** Minimum age in days for deletion
+
+          ## Recommended Settings
+
+          - **Weekly Automated:** Runs every Sunday at 2 AM UTC (dry run for safety)
+          - **Manual Full Cleanup:** Run monthly with `dry_run=false`
+          - **Custom Patterns:** Adjust branch pattern based on your naming conventions
+
+          ---
+
+          *This workflow helps keep your repository clean while protecting important branches and work in progress.*
+          EOF
+
+          echo "📄 Cleanup report created"
+
+      - name: Upload cleanup report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cleanup-report
+          path: cleanup-report.md
+          retention-days: 30

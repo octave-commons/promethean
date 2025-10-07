@@ -1,15 +1,18 @@
 ---
-```
-uuid: 58e246ed-a8e3-4942-bf8d-73532959156e
-```
-title: smart task templater md
-status: todo
-priority: P3
-labels: []
-```
-created_at: '2025-09-15T02:02:58.520Z'
-```
+uuid: "58e246ed-a8e3-4942-bf8d-73532959156e"
+title: "smart task templater md"
+slug: "smart_task_templater"
+status: "breakdown"
+priority: "P3"
+labels: ["templater", "smart", "command", "line"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Description
 ```
 **Status:** blocked
@@ -68,4 +71,6 @@ Nothing
 
 ## Blockers
 - No active owner or unclear scope
+
+
 

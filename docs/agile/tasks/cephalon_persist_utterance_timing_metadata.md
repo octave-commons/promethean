@@ -1,15 +1,18 @@
 ---
-```
-uuid: 03a056bc-c24c-472b-b75a-0b817f370cb7
-```
-title: cephalon persist utterance timing metadata
-status: todo
-priority: P3
-labels: []
-```
-created_at: '2025-09-15T02:02:58.509Z'
-```
+uuid: "03a056bc-c24c-472b-b75a-0b817f370cb7"
+title: "cephalon persist utterance timing metadata"
+slug: "cephalon_persist_utterance_timing_metadata"
+status: "incoming"
+priority: "P3"
+labels: ["utterance", "timing", "metadata", "cephalon"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 Cephalon: Persist utterance timing metadata
 
 Goal: Record `startTime` and `endTime` for agent utterances to support turn-taking analytics and better context windows.
@@ -27,3 +30,5 @@ Exit Criteria:
 ```
 #incoming #cephalon #timing #agent_messages
 ```
+
+

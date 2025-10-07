@@ -1,15 +1,18 @@
 ---
-```
-uuid: ae52ea20-929e-41f6-982c-b1b2720d0e3b
-```
-title: Description
-status: todo
-priority: P3
-labels: []
-```
-created_at: '2025-09-15T02:02:58.510Z'
-```
+uuid: "ae52ea20-929e-41f6-982c-b1b2720d0e3b"
+title: "Description"
+slug: "decouple-audio-processing-logic-from-discord"
+status: "breakdown"
+priority: "P3"
+labels: ["description", "step", "describe", "related"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 # Description
 
 Describe your task
@@ -26,3 +29,5 @@ Describe your task
 - [ ] Step 2
 - [ ] Step 3
 - [ ] Step 4
+
+
