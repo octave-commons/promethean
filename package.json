@@ -135,7 +135,9 @@
       "@fastify/websocket": "11.2.0",
       "@fastify/rate-limit": "10.3.0",
       "@fastify/swagger": "9.5.1",
-      "@fastify/swagger-ui": "5.2.3"
+      "@fastify/swagger-ui": "5.2.3",
+      "typescript": "5.4.5",
+      "ts-node": "10.9.2"
     }
   }
 }
