@@ -1,7 +1,7 @@
 ---
 uuid: h8i9j0k1-l2m3-4567-hijk-890123456789
 title: Fix semver-guard pipeline incorrect directory scanning and configuration issues
-status: todo
+status: in_review
 priority: P2
 labels:
   - piper
@@ -10,6 +10,7 @@ labels:
   - configuration
   - path-resolution
 created_at: '2025-10-05T00:00:00.000Z'
+story_points: 3
 ---
 
 ## 🛠️ Task: Fix semver-guard pipeline incorrect directory scanning and configuration issues
@@ -34,23 +35,35 @@ The semver-guard pipeline should successfully:
 - Create actionable tasks for version updates
 - Optionally prepare pull requests for version changes
 
+## 🔍 Clarifications & Plan
+
+- Verified that `pnpm --filter @promethean/semverguard sv:01-snapshot` runs with `cwd=packages/semverguard`, leading to incorrect relative path resolution for packages, cache, and output directories.
+- Planned to introduce repo-aware path helpers shared by snapshot and PR steps, normalize script defaults, and restore the missing PR command wiring.
+
+## ✅ Implementation Notes
+
+- Added repo-root aware path resolution utilities in `src/01-snapshot.ts` and `src/05-pr.ts`, ensuring packages, cache, and output paths resolve correctly even when commands execute inside the package directory.
+- Updated git/PR orchestration to default to the repository root, preventing relative-path mistakes during branch preparation.
+- Registered the missing `sv:05-pr` script/binary so every pipeline stage is invokable through `pnpm` and the Piper harness.
+- Left the integration-testing checklist items open for a future slice.
+
 ## 📋 Requirements
 
 ### Phase 1: Directory Path Resolution
-- [ ] Fix semverguard to scan packages from project root, not its own directory
-- [ ] Correct path resolution in snapshot creation logic
-- [ ] Ensure proper working directory context
-- [ ] Validate directory structure before scanning
+- [x] Fix semverguard to scan packages from project root, not its own directory
+- [x] Correct path resolution in snapshot creation logic
+- [x] Ensure proper working directory context
+- [x] Validate directory structure before scanning
 
 ### Phase 2: Pipeline Configuration
-- [ ] Fix semverguard package scripts and command-line arguments
-- [ ] Ensure proper tsconfig.json path resolution
-- [ ] Fix cache directory paths and permissions
-- [ ] Validate all file system operations
+- [x] Fix semverguard package scripts and command-line arguments
+- [x] Ensure proper tsconfig.json path resolution
+- [x] Fix cache directory paths and permissions
+- [x] Validate all file system operations
 
 ### Phase 3: Missing Script Fix
-- [ ] Add missing `sv:05-pr` script to semverguard package.json
-- [ ] Ensure all pipeline steps have corresponding npm scripts
+- [x] Add missing `sv:05-pr` script to semverguard package.json
+- [x] Ensure all pipeline steps have corresponding npm scripts
 - [ ] Fix any missing dependencies or build issues
 - [ ] Test all semverguard CLI commands individually
 
