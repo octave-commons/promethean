@@ -3,6 +3,7 @@
 import { PRSyncTool } from './pr-sync-tool.mjs';
 import { execSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
+import { MultiProviderLLM } from './llm-providers.mjs';
 
 /**
  * Enhanced PR Sync Tool with ChromaDB integration and advanced context gathering
@@ -152,7 +153,7 @@ RESOLVED CONTENT:`;
       console.log(`⚠️ Enhanced LLM resolution failed, falling back to basic method: ${error.message}`);
     }
 
-    // Fallback to parent method
+    // Fallback to parent method which now uses multi-provider system
     return await super.resolveConflictWithLLM(filePath, conflictContent);
   }
 
