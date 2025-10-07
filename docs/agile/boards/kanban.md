@@ -1,264 +1,264 @@
 ## Todo
 
-- [ ] consolidate all kanban helpers to kanban package  prio:P3 (uuid:727fd6bd-7c63-4488-b29e-c09640d4cc8a)
-- [ ] docops pipeline  prio:P3 (uuid:c80af308-7b65-4dbf-92b9-d464308b4565)
-- [ ] review pipeline documentation in README  prio:P3 (uuid:9f621ec3-91d2-42cf-a8af-b1eafe7c4041)
-- [ ] Template task creation #board:auto #lang:ts prio:P3 (uuid:15249e77-3242-4fad-a7d3-6e336c60758c)
-- [ ] add codex layer to emacs  prio:P3 (uuid:9870434b-5bf2-48ca-a588-d6769ec54796)
-- [ ] add docker compose files to services  prio:p3 (uuid:0a4d6f50-753a-48ef-a9a0-10f279eb621b)
-- [ ] add dev harness int test ts to ci integration stag md  prio:P3 (uuid:7057f956-e24b-4402-89a4-ada6eea88c41)
-- [ ] add file system to context management system md md  prio:P3 (uuid:72661a56-1dd1-495d-ba6e-68cffe8425d7)
-- [ ] add lag checks to ci smoke ensure small lag after md  prio:P3 (uuid:51e0f7e8-87ab-4b8d-b20c-b0dfc34d891d)
-- [ ] add manualack to event bus and re run tests md  prio:P3 (uuid:0481711b-20f9-447e-9447-513785a3ac68)
-- [ ] add mongodedupe and replace critical consumers wit md  prio:P3 (uuid:8e11e83f-6f3b-4f64-88b6-40905faba1f6)
-- [ ] add mongooutbox to any service that writes db chan md  prio:P3 (uuid:119a6652-3b83-4c2a-8a5d-86cd489b6bfa)
-- [ ] add obsidian to gitignore md md  prio:P3 (uuid:0d72fa12-df0e-4fbe-b559-4df068967176)
-- [ ] add ollama formally to pipeline md md  prio:P3 (uuid:d21a00c1-6f9d-43d6-803c-71ab6134b85f)
-- [ ] add ops endpoint to list partition assignments opt md  prio:P3 (uuid:25179a10-a528-4d08-8174-81935e5f7d13)
-- [ ] add process txn projector to upsert processes host md  prio:P3 (uuid:6a932fef-3759-44c1-951c-9b0669ae200c)
-- [ ] add prometheus events counters in ws server hook p md  prio:P3 (uuid:4a43e0ed-ae0d-4857-825b-c178d600ba09)
-- [ ] add semantic overlays for layer1 through layer8 md md  prio:P3 (uuid:2901d671-ce49-4228-9c82-30112b2bbc12)
-- [ ] add snapshot consumer to warm cache on boot md  prio:P3 (uuid:62feb0e6-5ba9-4808-9465-7da1f2e74cac)
-- [ ] add startchangelogprojector for any compaction lik md  prio:P3 (uuid:96a9d9e3-69a0-4ad1-8b77-08f9d1bc97be)
-- [ ] add starter notes eidolon fields cephalon inner monologue 1 md  prio:P3 (uuid:d51d697f-2c46-42f1-a402-694f9f376bca)
-- [ ] add stt service tests md  prio:P3 (uuid:f082b303-f317-4459-9692-21e26eb70d0d)
-- [ ] add tokenbucket to ws server conn per topic md  prio:P3 (uuid:c0de5fe3-a795-4795-a368-50ce36f2a705)
-- [ ] add ttls per topic via migration script md  prio:P3 (uuid:137453bf-b38f-4321-8503-a5643e41a9c8)
-- [ ] add twitch chat integration md md  prio:P3 (uuid:df445b14-f6c7-457e-88c4-872477f8c6e6)
-- [ ] add unit tests for date tools py md  prio:P3 (uuid:bbd54acd-a5ea-4c0c-a20c-9608f0e898ed)
-- [ ] add unit tests for gui helpers md md  prio:P3 (uuid:71a16cd2-8c1a-4285-90a1-d7a85b0d1af0)
-- [ ] add unit tests for wav processing md  prio:P3 (uuid:4686ef75-1681-4fa5-a95d-ad1c7d1cb62e)
-- [ ] add vault instructions to main readme md md md  prio:P3 (uuid:7ce1467e-ca43-407e-bcc2-e7026ee9daf7)
-- [ ] add withdlq around risky consumers set maxattempts md  prio:P3 (uuid:22b8db58-d3f6-4c44-be28-066d8d021376)
-- [ ] agent tasks persistence migration to dualstore  prio:P3 (uuid:02e8c2e6-e235-482e-90d9-eb0ce93f8ef8)
-- [ ] allow configuration of hyperparameters through discord context size spectrogram resolution interuption threshold md  prio:P3 (uuid:51fc390b-40d7-4dd4-a435-cdd86298d1b8)
-- [ ] allow old unnessisary messages to decay from database while retaining index entries ids md md  prio:P3 (uuid:8304b498-6811-40e3-8b44-60224b3ff846)
-- [ ] also bat man but more so  prio:p3 (uuid:c91b6222-ceca-4c1e-aa28-26da6ddb7fa1)
-- [ ] annotate legacy code with migration tags md  prio:P3 (uuid:19a3b157-2bc0-4bfa-be63-bba8bfc1594d)
-- [ ] audio processing service  prio:P3 (uuid:95a6c317-d9f6-4574-b2bf-80fdf56cb8f1)
-- [ ] Audit Enso event family references after transport update #documentation #protocol prio:P2 (uuid:325bf2aa-d063-4a19-a086-3e7a42755861)
-- [ ] auth ci and load tests  prio:P3 (uuid:2c3e3772-e388-4383-a3be-d56fd11b766e)
-- [ ] auth key rotation and bootstrap  prio:P3 (uuid:5334798c-3a31-4edc-822b-e761c0354509)
-- [ ] auth migrate services to jwt  prio:P3 (uuid:46d394da-ae41-44a8-8bea-47030a15802c)
-- [ ] auth service rfc and architecture  prio:P3 (uuid:ee61990a-388c-469f-8397-92073bebb9e8)
-- [ ] auth service scaffold and endpoints  prio:P3 (uuid:ef909fd1-19f0-43d4-b022-35d29ec053c7)
-- [ ] auth shared clients and middleware  prio:P3 (uuid:e4b85f6b-4112-4c52-84d2-17695ae5e67c)
-- [ ] auto generate agents md stubs from services structure md md  prio:P3 (uuid:8259052d-bf4c-48e8-9443-812569e19763)
-- [ ] bb tool chain  prio:P3 (uuid:a3dab29a-a50f-489e-8bcd-414ee6a60e4b)
-- [ ] Task: Break down cephalon voice commands file  prio:P3 (uuid:4c60df2e-78cf-400c-a950-c56c534118ac)
-- [ ] breakdown makefile hy  prio:P3 (uuid:b27a270a-d257-40ca-bfc2-438afeeca829)
-- [ ] Broker ↔ GPT Bridge Parity Test Plan  prio:P3 (uuid:63fd4d57-aa99-4b77-9de6-fa7acf6e6d83)
-- [ ] build data structures for eidolon field codex task md  prio:P3 (uuid:91b19036-1e17-4668-b89f-24fa9faf062f)
-- [ ] build data structures for eidolon field md md  prio:P3 (uuid:624a05e5-e5db-4a28-896e-50be1d5ea778)
-- [ ] build tiny web page that uses promclient in the br md  prio:P3 (uuid:849ef7a0-6109-49be-9bab-c77739bbeec2)
-- [ ] cache decay mechanisim md md  prio:P3 (uuid:04551247-6d67-44ce-8b7d-697fd9f478ad)
-- [ ] cephalon backfill conversation history  prio:P3 (uuid:a31bb3f1-3b68-483a-8280-e78386abf03b)
-- [ ] cephalon context window from collections  prio:P3 (uuid:fa552127-22e2-45b7-85ca-0c9f5064ea48)
-- [ ] cephalon event schema updates  prio:P3 (uuid:6840269b-1415-4ae0-90b5-5d520b6a88a8)
-- [ ] cephalon feature flag path selection  prio:P3 (uuid:1f5f505f-155d-4a1b-ba1b-73cb1dd0ea97)
-- [ ] cephalon persist llm replies to agent messages  prio:P3 (uuid:cb45d915-0601-4df8-997d-71ca913ad9f6)
-- [ ] cephalon persist utterance timing metadata  prio:P3 (uuid:03a056bc-c24c-472b-b75a-0b817f370cb7)
-- [ ] cephalon store user transcripts unified  prio:P3 (uuid:0710bcba-3a0f-4c33-9c83-7f6e858d8d32)
-- [ ] cephalon tests for persistence and ecs  prio:P3 (uuid:a9ea7854-0c6f-46e8-9230-1055795a1a23)
-- [ ] Task: ChatGPT Export Ingest with De‑dup Index & Hashes  prio:P3 (uuid:aa135028-70f3-4569-a969-915bf857ecaf)
-- [ ] clarify promethean project vision 1 md  prio:P3 (uuid:1d799040-7ef4-42e4-b82d-c227f4363398)
-- [ ] clean up notes into design docs md  prio:P3 (uuid:d91c26e9-a20a-4e96-a7e9-913bda7c54d1)
-- [ ] Clean up useless regex escape in agent package  prio:P3 (uuid:d3e6cca5-2b2f-4cd9-8131-db74ebe7c8f9)
-- [ ] clearly standardize data models  prio:P3 (uuid:4b95c5fc-86cc-486e-a5df-c3dc7ebee209)
-- [ ] clearly seperate service dependency files md  prio:P3 (uuid:35c0a7d2-a172-4cfd-8521-b3faee0417ca)
-- [ ] convert current services to packages then redefine the services using config files  prio:P3 (uuid:5c686b01-e6d0-4008-81bb-6f429d26a64a)
-- [ ] create a generic markdown helper module  prio:P5 (uuid:e6b0e9e7-5967-4b97-bded-0ac50646bb29)
-- [ ] WebSocket Broker API Parity with GPT Bridge  prio:P3 (uuid:b2d63853-2a8e-4e5c-a196-3fc69299d876)
-- [ ] create base readme md templates for each service md  prio:P3 (uuid:7c508df7-4463-461a-8549-0ac8dd256192)
-- [ ] create permission gating layer  prio:P3 (uuid:a5b35121-160a-496a-ac7b-94e405294888)
-- [ ] create vault config obsidian with kanban and minimal vault setup 1 md md  prio:P3 (uuid:4153471e-77dc-43ab-b2a4-a4a3bed605fe)
-- [ ] decouple from ollama md  prio:P3 (uuid:b543e648-991c-4365-8d76-280c60c2c31e)
-- [ ] define codex baseg agent md md  prio:P3 (uuid:d158980f-ef8c-4236-85be-c494c4aa9159)
-- [ ] define default scopes publish heartbeat received s md  prio:P3 (uuid:218efa51-9804-48ac-a548-538b715a6cb3)
-- [ ] define permission schema in agents 1 md  prio:P3 (uuid:89643344-84c1-499f-82cc-9b5430fffb72)
-- [ ] deploy changefeed for collections you want mirrore md  prio:P3 (uuid:03b91de5-2d67-4201-b177-8ecb2029793b)
-- [ ] create and push a feature branch  prio:P3 (uuid:e72a8ed9-7efa-4817-bf55-0b65fd84e5d2)
-- [ ] design audio pipeline mvp  prio:P3 (uuid:07e85844-1390-4c3c-80d4-251254f71b4e)
-- [ ] design vision pipeline mvp  prio:P3 (uuid:ce8a026c-7d8c-41fe-9f48-e1b6a36e5dc0)
-- [ ] design circular buffers for inputs with layered states of persistance in memory on disk cold storage so md  prio:P3 (uuid:7da8bb11-51ea-4103-adfb-5c3dfb149472)
-- [ ] design ollama model file for use with codex  prio:P3 (uuid:41fec47c-e499-461b-b7e0-4ef1c86bdabb)
-- [ ] detect contradictions in memory codex task md  prio:P3 (uuid:95f4dfee-f348-4bc5-8046-aa5fb2395729)
-- [ ] detect contradictions in memory md md  prio:P3 (uuid:2f6779f0-f7aa-4565-b120-43dd47e8a530)
-- [ ] determine pm2 configuration for agents 1 md  prio:P3 (uuid:e6bbd2be-7191-4b32-ba5c-d82f1771b520)
-- [ ] Dev mode  prio:P3 (uuid:6e58071f-eeec-4a12-8d36-e5e3a8d29a24)
-- [ ] discord chat link traversal md md  prio:P3 (uuid:2eac8af8-2083-408e-ac4a-ceb334e2e32a)
-- [ ] discord image attachment indexer md  prio:P3 (uuid:af99c867-867a-420d-a436-73676a2ec7ce)
-- [ ] discord image awareness md md  prio:P3 (uuid:701696e2-8054-4ccd-951f-7a40248b6628)
-- [ ] discord link indexer md  prio:P3 (uuid:1bb8418a-5606-4190-a252-21301fd4a5d8)
-- [ ] docker compose edn template system  prio:p3 (uuid:d70ed8c5-4885-450f-b1bc-9f8d6b0e94f2)
-- [ ] dockerize the system  prio:P3 (uuid:a470c992-509f-48f8-9d6b-cfb6285dc67c)
-- [ ] document board sync workflow md md  prio:P3 (uuid:05a6aec0-c595-44c8-8dba-49eac198344f)
-- [ ] document board usage guidelines 1 md  prio:P3 (uuid:8c0e512b-27b8-4132-83b1-5da880210b84)
-- [ ] document etag semantics and cache headers for snap md  prio:P3 (uuid:fb4e2a3c-f44e-4418-87d5-bbe14ab1216f)
-- [ ] document local testing setup md md  prio:P3 (uuid:2159cf55-db82-46df-b669-52ccacdb7c4b)
-- [ ] each service registers a pid with a heartbeat service if they do not successfully check in terminate the process using the pid md md  prio:P3 (uuid:d474baf2-e4ff-4771-9e51-11775c186fe6)
-- [ ] ecs component schemas core  prio:P3 (uuid:af127b29-3031-4f13-a82b-7d7042581e35)
-- [ ] ecs migration path docs  prio:P3 (uuid:529b7471-6d7c-4135-9de3-8e22970692f0)
-- [ ] ecs mongo adapter library  prio:P3 (uuid:88f4ecec-11b4-4883-ab71-7d3822171a2f)
-- [ ] ecs persistence integration cephalon  prio:P3 (uuid:7495aea8-a866-4fae-b5b3-be0c40e72644)
-- [ ] ecs projection jobs  prio:P3 (uuid:36eddbb2-91d6-4930-8ad8-4fdc004e6672)
-- [ ] ecs query api gateway  prio:P3 (uuid:e2059e9f-f2a2-4bc4-bcc7-eece59c16f88)
-- [ ] enable compactor for process state process state s md  prio:P3 (uuid:010f468c-ba8f-4251-a84e-15ffda488446)
-- [ ] enable scripts lint topics ts in ci md  prio:P3 (uuid:4154f6ba-0c33-4bbd-96fc-d6b64140333f)
-- [ ] ensure openapi specs are automaticly updated when an endpoint is changed  prio:P3 (uuid:e3fc2eed-0da2-4aa9-b407-4dda0de4488d)
-- [ ] ensure github compatible markdown settings are doc md  prio:P3 (uuid:9061fb44-92a0-4799-a40d-420dd395577c)
-- [ ] ensure mongo indexes key 1 unique common query fie md  prio:P3 (uuid:371cb900-e46b-4bc1-ad48-2acf08d2887f)
-- [ ] Evaluate and integrate docker NPU image into workflows  prio:P3 (uuid:f2a4af09-e073-4773-9322-3acff1778142)
-- [ ] evaluate ollama openvino  prio:p3 (uuid:a08e1032-c149-4060-831d-97e43d707132)
-- [ ] evaluate and reward flow satisfaction  prio:P3 (uuid:45a4101d-01ab-497b-8920-97cc563e9351)
-- [ ] Expand functional loop refactors across repository #refactor #functional-style prio:P3 (uuid:f6c39654-1e09-4741-9aeb-bdb200cc7216)
-- [ ] expose metrics on an express app and scrape with p md  prio:P3 (uuid:e4ec91c1-9c83-42a8-8f95-f3f15d8e8499)
-- [ ] expose snapshot api for processes collection proce md  prio:P3 (uuid:0ada665e-5766-45f2-9edb-f5feee65e226)
-- [ ] extract docs from riatzukiza github io md md  prio:P3 (uuid:02eeb8bd-1053-40b4-a213-8db02d7aa526)
-- [ ] extract site modules from riatzukiza github io md md  prio:P3 (uuid:44157ed4-2b52-4573-90aa-2b1a4cd1ecf6)
-- [ ] file explorer  prio:P3 (uuid:c39b94ff-9e97-4fba-99d9-5cc713e09e5d)
-- [ ] finalize migration plan md md md  prio:P3 (uuid:3ea0cf32-04c9-42eb-a256-22dc03360f1a)
-- [ ] finalize stt workflow md md  prio:P3 (uuid:0c583c42-3b0d-47fc-9b54-5bd952c84c74)
-- [ ] find music that triggered copyright mute on twitch for analysis incoming  prio:P3 (uuid:84b2e724-dd49-4519-ab5e-402973a70551)
-- [ ] finish whisper npu system md md  prio:P3 (uuid:0f185d39-74a7-4856-b0db-068b29a998e5)
-- [ ] fix makefile test target md  prio:P3 (uuid:452f1408-fe8c-41fb-87ab-761e8dcee2d6)
-- [ ] flatten services  prio:P3 (uuid:52028599-a34a-40ff-97a0-d8f47970e4b0)
-- [ ] Format auth-service README with Prettier  prio:P3 (uuid:94a2959e-21b1-4a41-9c1f-85787c1a0894)
-- [ ] fp ts config and linting  prio:p3 (uuid:2c69e218-bbe0-4c5b-ab1b-d19b88496b57)
-- [ ] frontend build tool chain  prio:P3 (uuid:1ca3cb3e-b00a-457d-83a9-d0df3c1159ce)
-- [ ] full agent mode text chat selectively join channels etc md  prio:P3 (uuid:20ce66a3-ab14-4107-9069-eb28438215ac)
-- [ ] fully convert js ts projects to pnpm incoming  prio:P3 (uuid:bf41be60-e9bf-4a19-95da-a453a32b9f2e)
-- [ ] gather baseline emotion metrics for eidolon field 1 md  prio:P3 (uuid:db083776-2697-432a-8aba-3e4639648867)
-- [ ] gather open questions about system direction md md  prio:P3 (uuid:4fb7f392-4473-4d58-a8c0-ec5fba5d6474)
-- [ ] Get all existing pipelines functional  prio:P3 (uuid:8b3c665c-d6ff-4a0a-9fb9-b2dbefa35fb4)
-- [ ] gpt bridge fuzzy lookup should return multiple matches when it is used  prio:P3 (uuid:5e02a76a-4b66-4dbb-8a93-16fdbee83283)
-- [ ] identify ancestral resonance patterns framework co md  prio:P3 (uuid:013e2a6c-0eba-4840-adc3-3ed3d278768a)
-- [ ] identify ancestral resonance patterns md md  prio:P3 (uuid:8663f3b7-58fc-407b-b3fe-8460f47c7083)
-- [ ] 🛠️ Task: Implement Classes in Lisp Compiler  prio:P3 (uuid:035cede1-531f-4070-aa80-841a9cf83631)
-- [ ] 🛠️ Task: Implement `defun` in Lisp Compiler  prio:P3 (uuid:f0fe8d30-5833-4791-9e31-9c2292db03bc)
-- [ ] implement fragment ingestion with activation vecto md  prio:P3 (uuid:d6204735-5a96-4670-a361-6f6ef7c5cdb6)
-- [ ] implement pause resume ops on gateway md  prio:P3 (uuid:4508b108-1326-43bf-b58b-06883f70c9fc)
-- [ ] implement timetravel processat processid t in a sm md  prio:P3 (uuid:67368c6a-0102-4eb4-bcfa-7287dd747f9c)
-- [ ] implement transcendence cascade framework core md  prio:P3 (uuid:424f67f8-c949-437a-8a59-8a4eb3d77f77)
-- [ ] implement transcendence cascade md  prio:P3 (uuid:a5db4128-395b-4d38-8182-abef99521a5d)
-- [ ] Install Biome dependency for cephalon-discord  prio:P3 (uuid:0427985f-f4ad-4f85-975f-9c085bcc452a)
-- [ ] integrate sonarqube into devops  prio:P3 (uuid:fb040f44-7250-4828-9f2b-c36f65ed35e3)
-- [ ] just so much batman  prio:P3 (uuid:8584c1fd-c8b6-4bf0-8cca-db9f91fe52c2)
-- [ ] kanban processor #ecs #kanban #planning prio:P3 (uuid:f88c9d06-c8f3-4a60-96b7-9fddf412ba5e)
-- [ ] kubernetes configurations for secure distributed deployment on local net  prio:p3 (uuid:0f65afc2-493e-40b2-85b0-17c4bf4b8d85)
-- [ ] launch replayapi on 8083 test replay and export nd md  prio:P3 (uuid:4f0d3b3f-4012-431f-96f3-9cde2cc7f06a)
-- [ ] lisp package files  prio:P3 (uuid:a5748afa-3e7b-49fc-b945-d0452d2adf76)
-- [ ] llm service must accept tool calls  prio:P3 (uuid:c858464b-c43b-4521-80b9-12fa3d5cd464)
-- [ ] llm service must allow streamed responses  prio:P3 (uuid:e1591a4b-1a4f-48c9-ab6a-01fe11c524f3)
-- [ ] look into why the state object never seems to get updated md md  prio:P3 (uuid:98ddc760-e6e1-4239-92ae-db864ce5bcaf)
-- [ ] make the system hashtag aware  prio:P3 (uuid:709c00c8-6e75-4719-850b-d58ea26ab255)
-- [ ] make discord channel aware contextualizer md md  prio:P3 (uuid:9c9a9289-e420-403e-9772-71fc3d7e128f)
-- [ ] make seperate execution pathways 1 md md  prio:P3 (uuid:4af34fd8-8f94-4013-ad4f-61bd0ce13c78)
-- [ ] many batmen  prio:P3 (uuid:20d0dc48-0832-4800-a541-ffbcf88305a5)
-- [ ] migrate portfolio client code to promethean md  prio:P3 (uuid:79bbbd38-ace9-4833-89be-b6dd50bbc940)
-- [ ] migrate server side sibilant libs to promethean ar md  prio:P3 (uuid:46303bb8-ac2d-4083-96c5-3f2e5a7a317b)
-- [ ] migrate server side sibilant libs to promethean architecture md  prio:P3 (uuid:d1efce9d-cff7-4f99-baeb-143b9edf981a)
-- [ ] migrating relevant modules from riatzukiza github io to site and docs md  prio:P3 (uuid:c20e39a1-acb8-400c-8d6f-5228f15811ad)
-- [ ] migrating relevant modules from riatzukiza github md  prio:P3 (uuid:a8067d01-573b-4a24-9d2e-6d9981db563d)
-- [ ] mirror shared utils with language specific doc folders md md  prio:P3 (uuid:c71b790d-b9d6-45ee-b3e7-517ca66ff4aa)
-- [ ] Mock the Broker for Tests  prio:P3 (uuid:35baa5c2-8daa-4162-97ad-19f55b9c2b51)
-- [ ] move discord scraper to ts  prio:P3 (uuid:4ad8d468-babf-4ab8-9385-fec57642c074)
-- [ ] move all testing to individual services md  prio:P3 (uuid:8d666a9c-d5aa-4acd-a3b1-d71f4a21d223)
-- [ ] Pythagoras GPT Mirror (WS chat + OpenAPI-driven tool calls via /v1)  prio:P3 (uuid:24ba6872-89c0-4f5f-a20e-33058219016b)
-- [ ] obsidian kanban github project board mirror system md md  prio:P3 (uuid:083d6047-9529-4d0b-9ada-406acf3d97f8)
-- [ ] obsidian replacement md  prio:P3 (uuid:ddad0e6a-9019-4cc8-900e-93549b5ee845)
-- [ ] Task: Context Layer Between Codex and Local LLMs  prio:P3 (uuid:e02f9c17-8d25-48bf-bad9-bd145a14c9a3)
-- [ ] Embedding service sometimes disconnects from broker and hangs → detect, shed, kill, recover  prio:P3 (uuid:9926dde4-990e-4503-a057-fcae2e5bf1b1)
-- [ ] phase out proxy in favor of bridge service  prio:P3 (uuid:695632f6-8bb2-4051-bbbc-42dd6729fe8f)
-- [ ] Pin versions in configs  prio:P3 (uuid:4beb36b0-7cc5-4116-a516-3927615031be)
-- [ ] pin versions in configs promethean codex md  prio:P3 (uuid:a224ab7a-70fd-4711-b499-a072c8037960)
-- [ ] pr 688 nitpack extract  prio:P3 (uuid:63e44f3d-fc18-4caf-85b7-08936527317e)
-- [ ] prevent dangling processes when a process fails due to error or automaticly clean them up 1 md md  prio:P3 (uuid:072f7aad-b8a2-4361-9656-d9b84008feab)
-- [ ] reach 100 percent complete test coverage 1 md md  prio:P3 (uuid:3139c11a-ab08-4389-a857-65096382d244)
-- [ ] Replace <SHA> with the commit from step 1  prio:P3 (uuid:1b93f3eb-202f-4d47-b4d0-b69286b8c2a3)
-- [ ] redefine all existing lambdas with high order functions incoming  prio:P3 (uuid:9a9e9c97-fbaa-4580-90ac-2d1f17eebbec)
-- [ ] refactor any python modules not currently for ml stuff discord etc 2 md  prio:P3 (uuid:fe5eb9d4-18ff-46e5-8a30-81dffe1f711f)
-- [ ] refactor speech interuption system to be more inteligent using audio data to decide if interupted md md  prio:P3 (uuid:099c293b-2aaf-4ead-9cea-e88d8e352606)
-- [ ] register v 1 schema for any evolving topic and wri md  prio:P3 (uuid:76f70720-6082-4a02-8c10-a90468d1a85b)
-- [ ] Remove `any` types across packages  prio:P3 (uuid:cc373a25-f288-4def-8ced-b824cc72c06a)
-- [ ] Ban Python; Migrate to Hy; Compile to `./dist`  prio:P3 (uuid:991b27c3-0b63-49a5-acd3-d730b28e31fc)
-- [ ] research github projects board api md  prio:P3 (uuid:76ff159a-166e-43e1-8d11-14df53f50e6f)
-- [ ] Resolve Biome lint errors in compiler package  prio:P3 (uuid:9124fbc4-92c2-4b37-a234-95dc28dd17ff)
-- [ ] Resolve ESLint violations across repository  prio:P3 (uuid:137054cb-d7c9-4b0a-9aa9-5ce0425948db)
-- [ ] rewrite build tools with bb  prio:P3 (uuid:d83c4f0e-336d-4957-9f6e-7aff774e7eb9)
-- [ ] Reason for rejection  prio:P3 (uuid:b0d32736-46a9-42af-aab8-211b8ae43109)
-- [ ] run bench subscribe ts with mongo bus and record p md  prio:P3 (uuid:5e290190-24fd-4245-86ee-f7bb66af63be)
-- [ ] run model bakeoff md  prio:P3 (uuid:a069b185-7e7f-46f8-b393-a205f06f080a)
-- [ ] schedule alignment meeting with stakeholders md md  prio:P3 (uuid:d524ff64-8f12-46bb-8c28-103e13743fa1)
-- [ ] scripts add folder readmes and usage  prio:P3 (uuid:9eed3915-19f2-4006-943c-84b274bc7f47)
-- [ ] scripts add make targets and aliases  prio:P3 (uuid:06dc563d-0b7e-415a-a435-5061b690aa97)
-- [ ] scripts audit and standardize cli flags  prio:P3 (uuid:212b7db4-e33f-4d95-bc3e-ac58af6d0159)
-- [ ] scripts group audio tools  prio:P3 (uuid:289512a0-68eb-47aa-b031-7c694d1a4806)
-- [ ] scripts group docs utilities  prio:P3 (uuid:a84c4e37-311f-4991-abe3-473fa1ee869a)
-- [ ] scripts group indexing tools  prio:P3 (uuid:0468c4d6-3287-406e-97f2-85d12d88c01b)
-- [ ] scripts update ci and refs  prio:P3 (uuid:6fb5b136-e4fe-4c01-8df4-3ddfd7a160e2)
-- [ ] send waveforms spectrograms and dekstop screenshots to discord for remote storage md md  prio:P3 (uuid:1921c586-faec-430a-b598-e6ff0d131b00)
-- [ ] separate all testing pipelines in github actions md  prio:P3 (uuid:dcdb2ed7-78d0-495a-b2a4-4fadd871ae3a)
-- [ ] Cephalon Commands → Actions Refactor — Task Refinement  prio:P3 (uuid:56da5f84-d732-4455-b0a6-97b36fbae026)
-- [ ] Maintain Testing vs Working Databases w/ Migration Contract  prio:P3 (uuid:8542a56c-b037-4a71-90e8-8bd0a0c8b49f)
-- [ ] set up new user roles and policies for the systems  prio:P3 (uuid:fd144ce1-d6aa-41ff-a544-a03c583d071b)
-- [ ] set up proper openai custom gpt compatable oauth login flow  prio:P3 (uuid:d54f5640-9a46-4643-a76c-020603439c39)
-- [ ] set up makefile for python js build test dev md  prio:P3 (uuid:b67ff78e-f1b8-4cdf-ba1c-d2ed622a4882)
-- [ ] setup new service generator  prio:P3 (uuid:183b8fa7-f80b-4342-b993-2d2bfa80303a)
-- [ ] setup a second agent md  prio:P3 (uuid:654e88a0-ce43-46b0-a67b-3c18270be8eb)
-- [ ] setup code in wsl md  prio:P3 (uuid:d35d985b-44c2-4b67-9228-bc2cb912df24)
-- [ ] setup services to recieve work from the broker via push md  prio:P3 (uuid:0b5c2829-4d26-4bda-93db-ab13a5a80a12)
-- [ ] smart task templater md  prio:P3 (uuid:58e246ed-a8e3-4942-bf8d-73532959156e)
-- [ ] snapshot prompts specs to repo  prio:P3 (uuid:ee9f46e7-9d65-437b-8897-2a7e11756f4f)
-- [ ] something something 1  prio:p3 (uuid:3192eeb8-39ff-42aa-ab6f-2e7ce9b951cf)
-- [ ] something something  prio:p3 (uuid:02c83b6f-e9b4-4dfb-a4a0-543042aa02b6)
-- [ ] spin up ws gateway ws port 8090 ws token devtoken md  prio:P3 (uuid:eed137f9-8a84-43c4-99d3-5ec338da6f49)
-- [ ] start eidolon  prio:P3 (uuid:87df3419-fc1f-4adc-b258-dcf5b47da9d1)
-- [ ] Task: Structural code editing AI tool (tree-diffs, not text-diffs) — with immediate validation  prio:P3 (uuid:cbc70baa-3202-4eb0-a4ef-aec84d3e3bbf)
-- [ ] structure vault to mirror services agents docs md md  prio:P3 (uuid:c6139027-bd0a-4f44-a200-c04829e35220)
-- [ ] suggest metaprogramming updates codex task md  prio:P3 (uuid:66f98367-0bb2-43a8-a11d-187a0225b0d3)
-- [ ] suggest metaprogramming updates md  prio:P3 (uuid:db64f552-fa40-4176-a27b-44551201b64f)
-- [ ] summarize clarified priorities for next sprint md md  prio:P3 (uuid:4abed2f3-350f-4ec5-ac22-7e9d3882a7c9)
-- [ ] switch critical readers to subscribenormalized md  prio:P3 (uuid:b2929e05-8da5-477c-b537-16757882e39c)
-- [ ] switch gateway auth to jwt generate temp hs256 tok md  prio:P3 (uuid:469ea721-b00c-4752-b3ad-9e85bd1f9ff9)
-- [ ] tamper monkey script for using templates defined in the vault  prio:P3 (uuid:4e7f70bb-bb32-4a55-b499-bdc347afe21a)
-- [ ] task generator system  prio:P3 (uuid:fb14db8b-0d66-4f4a-a30d-d7ef8631ddef)
-- [ ] thinking model integration md md  prio:P3 (uuid:54927d5e-d90f-4575-be6a-307a30c2578c)
-- [ ] tool chain management system md md  prio:P3 (uuid:98d1da44-0b69-45e2-bd09-204641e87de5)
-- [ ] tree diffing tools  prio:p3 (uuid:7ac178ae-b95a-465c-a3e7-603c5a4b64b4)
-- [ ] twitch discord general auto mod md md  prio:P3 (uuid:22f37fa8-12de-4f22-993f-e0704bbe49c0)
-- [ ] twitch stream title generator md md  prio:P3 (uuid:edaa3887-de50-422c-8c8f-6d624329465b)
-- [ ] update cephalon to use custom embedding function md md  prio:P3 (uuid:af87b6ca-6f04-4380-9e5b-54adcf7bf254)
-- [ ] update github actions to use makefile md md  prio:P3 (uuid:cd2f96f3-bd40-410b-94f2-f7d0dbce4da4)
-- [ ] update makefile to have commands specific for agents md  prio:P3 (uuid:9fbe9f3a-0c6a-472b-8f7c-b100dab6f5de)
-- [ ] Use `node:` protocol for builtin imports  prio:P3 (uuid:77011385-81b7-42aa-9137-cd522a63910e)
-- [ ] use subscribepartitioned for cpu heavy consumers t md  prio:P3 (uuid:57a44b9c-b4b8-4fef-8ba6-cfcd8649ada0)
-- [ ] Web Crawler Agent → Hyperlink Graph → LLM Summaries/#Tags → Chroma Search (Dual-Sink)  prio:P3 (uuid:0d89cdd7-1a6c-4477-9cbc-d12472564b58)
-- [ ] wire mongoeventstore mongocursorstore in place of md  prio:P3 (uuid:391e27d8-9134-4362-95bc-73ca9470c9e3)
-- [ ] wire runoutboxdrainer in event hub md  prio:P3 (uuid:c2ee671b-c84a-4461-b71a-8b598470aef4)
-- [ ] wrap event hub publish path with withschemavalidat md  prio:P3 (uuid:ad2b6f21-1a73-4682-96bb-f7ea7dd09cfa)
-- [ ] wrap writers with withdualwrite md  prio:P3 (uuid:7ecab1fa-247e-4968-9352-5fd6c97f8eb2)
-- [ ] write a replay job that replays process state snap md  prio:P3 (uuid:120d81cc-221f-49a6-a710-904871cbfe25)
-- [ ] write a small cutover script to replay historical md  prio:P3 (uuid:088cebc7-a2cb-4620-911c-87e2ee895f20)
-- [ ] write a smoke test client subscribes publish 10 ms md  prio:P3 (uuid:78747905-9183-4fd8-a747-c064f11a861a)
-- [ ] write board sync script md md  prio:P3 (uuid:20728bbe-20e4-4cb1-b33d-d0da2514ad92)
-- [ ] write end to end tests md md  prio:P3 (uuid:ad8abaf0-5abc-407f-bb20-0f0557066452)
-- [ ] write meaningful tests for cephalon md md  prio:P3 (uuid:dd4105ca-a9d4-423b-820d-f5b506d847cf)
-- [ ] write simple ecosystem declaration library for new md md  prio:P3 (uuid:5c8d8016-f4b8-421d-b335-73f7646173af)
-- [ ] write vault config readme md for obsidian vault on md  prio:P3 (uuid:df456c9c-e34b-438f-9e59-d0b2bf014dba)
+- [ ] consolidate all kanban helpers to kanban package  prio:P3 uuid:727fd6bd-7c63-4488-b29e-c09640d4cc8a
+- [ ] docops pipeline  prio:P3 uuid:c80af308-7b65-4dbf-92b9-d464308b4565
+- [ ] review pipeline documentation in README  prio:P3 uuid:9f621ec3-91d2-42cf-a8af-b1eafe7c4041
+- [ ] Template task creation #board:auto #lang:ts prio:P3 uuid:15249e77-3242-4fad-a7d3-6e336c60758c
+- [ ] add codex layer to emacs  prio:P3 uuid:9870434b-5bf2-48ca-a588-d6769ec54796
+- [ ] add docker compose files to services  prio:p3 uuid:0a4d6f50-753a-48ef-a9a0-10f279eb621b
+- [ ] add dev harness int test ts to ci integration stag md  prio:P3 uuid:7057f956-e24b-4402-89a4-ada6eea88c41
+- [ ] add file system to context management system md md  prio:P3 uuid:72661a56-1dd1-495d-ba6e-68cffe8425d7
+- [ ] add lag checks to ci smoke ensure small lag after md  prio:P3 uuid:51e0f7e8-87ab-4b8d-b20c-b0dfc34d891d
+- [ ] add manualack to event bus and re run tests md  prio:P3 uuid:0481711b-20f9-447e-9447-513785a3ac68
+- [ ] add mongodedupe and replace critical consumers wit md  prio:P3 uuid:8e11e83f-6f3b-4f64-88b6-40905faba1f6
+- [ ] add mongooutbox to any service that writes db chan md  prio:P3 uuid:119a6652-3b83-4c2a-8a5d-86cd489b6bfa
+- [ ] add obsidian to gitignore md md  prio:P3 uuid:0d72fa12-df0e-4fbe-b559-4df068967176
+- [ ] add ollama formally to pipeline md md  prio:P3 uuid:d21a00c1-6f9d-43d6-803c-71ab6134b85f
+- [ ] add ops endpoint to list partition assignments opt md  prio:P3 uuid:25179a10-a528-4d08-8174-81935e5f7d13
+- [ ] add process txn projector to upsert processes host md  prio:P3 uuid:6a932fef-3759-44c1-951c-9b0669ae200c
+- [ ] add prometheus events counters in ws server hook p md  prio:P3 uuid:4a43e0ed-ae0d-4857-825b-c178d600ba09
+- [ ] add semantic overlays for layer1 through layer8 md md  prio:P3 uuid:2901d671-ce49-4228-9c82-30112b2bbc12
+- [ ] add snapshot consumer to warm cache on boot md  prio:P3 uuid:62feb0e6-5ba9-4808-9465-7da1f2e74cac
+- [ ] add startchangelogprojector for any compaction lik md  prio:P3 uuid:96a9d9e3-69a0-4ad1-8b77-08f9d1bc97be
+- [ ] add starter notes eidolon fields cephalon inner monologue 1 md  prio:P3 uuid:d51d697f-2c46-42f1-a402-694f9f376bca
+- [ ] add stt service tests md  prio:P3 uuid:f082b303-f317-4459-9692-21e26eb70d0d
+- [ ] add tokenbucket to ws server conn per topic md  prio:P3 uuid:c0de5fe3-a795-4795-a368-50ce36f2a705
+- [ ] add ttls per topic via migration script md  prio:P3 uuid:137453bf-b38f-4321-8503-a5643e41a9c8
+- [ ] add twitch chat integration md md  prio:P3 uuid:df445b14-f6c7-457e-88c4-872477f8c6e6
+- [ ] add unit tests for date tools py md  prio:P3 uuid:bbd54acd-a5ea-4c0c-a20c-9608f0e898ed
+- [ ] add unit tests for gui helpers md md  prio:P3 uuid:71a16cd2-8c1a-4285-90a1-d7a85b0d1af0
+- [ ] add unit tests for wav processing md  prio:P3 uuid:4686ef75-1681-4fa5-a95d-ad1c7d1cb62e
+- [ ] add vault instructions to main readme md md md  prio:P3 uuid:7ce1467e-ca43-407e-bcc2-e7026ee9daf7
+- [ ] add withdlq around risky consumers set maxattempts md  prio:P3 uuid:22b8db58-d3f6-4c44-be28-066d8d021376
+- [ ] agent tasks persistence migration to dualstore  prio:P3 uuid:02e8c2e6-e235-482e-90d9-eb0ce93f8ef8
+- [ ] allow configuration of hyperparameters through discord context size spectrogram resolution interuption threshold md  prio:P3 uuid:51fc390b-40d7-4dd4-a435-cdd86298d1b8
+- [ ] allow old unnessisary messages to decay from database while retaining index entries ids md md  prio:P3 uuid:8304b498-6811-40e3-8b44-60224b3ff846
+- [ ] also bat man but more so  prio:p3 uuid:c91b6222-ceca-4c1e-aa28-26da6ddb7fa1
+- [ ] annotate legacy code with migration tags md  prio:P3 uuid:19a3b157-2bc0-4bfa-be63-bba8bfc1594d
+- [ ] audio processing service  prio:P3 uuid:95a6c317-d9f6-4574-b2bf-80fdf56cb8f1
+- [ ] Audit Enso event family references after transport update #documentation #protocol prio:P2 uuid:325bf2aa-d063-4a19-a086-3e7a42755861
+- [ ] auth ci and load tests  prio:P3 uuid:2c3e3772-e388-4383-a3be-d56fd11b766e
+- [ ] auth key rotation and bootstrap  prio:P3 uuid:5334798c-3a31-4edc-822b-e761c0354509
+- [ ] auth migrate services to jwt  prio:P3 uuid:46d394da-ae41-44a8-8bea-47030a15802c
+- [ ] auth service rfc and architecture  prio:P3 uuid:ee61990a-388c-469f-8397-92073bebb9e8
+- [ ] auth service scaffold and endpoints  prio:P3 uuid:ef909fd1-19f0-43d4-b022-35d29ec053c7
+- [ ] auth shared clients and middleware  prio:P3 uuid:e4b85f6b-4112-4c52-84d2-17695ae5e67c
+- [ ] auto generate agents md stubs from services structure md md  prio:P3 uuid:8259052d-bf4c-48e8-9443-812569e19763
+- [ ] bb tool chain  prio:P3 uuid:a3dab29a-a50f-489e-8bcd-414ee6a60e4b
+- [ ] Task: Break down cephalon voice commands file  prio:P3 uuid:4c60df2e-78cf-400c-a950-c56c534118ac
+- [ ] breakdown makefile hy  prio:P3 uuid:b27a270a-d257-40ca-bfc2-438afeeca829
+- [ ] Broker ↔ GPT Bridge Parity Test Plan  prio:P3 uuid:63fd4d57-aa99-4b77-9de6-fa7acf6e6d83
+- [ ] build data structures for eidolon field codex task md  prio:P3 uuid:91b19036-1e17-4668-b89f-24fa9faf062f
+- [ ] build data structures for eidolon field md md  prio:P3 uuid:624a05e5-e5db-4a28-896e-50be1d5ea778
+- [ ] build tiny web page that uses promclient in the br md  prio:P3 uuid:849ef7a0-6109-49be-9bab-c77739bbeec2
+- [ ] cache decay mechanisim md md  prio:P3 uuid:04551247-6d67-44ce-8b7d-697fd9f478ad
+- [ ] cephalon backfill conversation history  prio:P3 uuid:a31bb3f1-3b68-483a-8280-e78386abf03b
+- [ ] cephalon context window from collections  prio:P3 uuid:fa552127-22e2-45b7-85ca-0c9f5064ea48
+- [ ] cephalon event schema updates  prio:P3 uuid:6840269b-1415-4ae0-90b5-5d520b6a88a8
+- [ ] cephalon feature flag path selection  prio:P3 uuid:1f5f505f-155d-4a1b-ba1b-73cb1dd0ea97
+- [ ] cephalon persist llm replies to agent messages  prio:P3 uuid:cb45d915-0601-4df8-997d-71ca913ad9f6
+- [ ] cephalon persist utterance timing metadata  prio:P3 uuid:03a056bc-c24c-472b-b75a-0b817f370cb7
+- [ ] cephalon store user transcripts unified  prio:P3 uuid:0710bcba-3a0f-4c33-9c83-7f6e858d8d32
+- [ ] cephalon tests for persistence and ecs  prio:P3 uuid:a9ea7854-0c6f-46e8-9230-1055795a1a23
+- [ ] Task: ChatGPT Export Ingest with De‑dup Index & Hashes  prio:P3 uuid:aa135028-70f3-4569-a969-915bf857ecaf
+- [ ] clarify promethean project vision 1 md  prio:P3 uuid:1d799040-7ef4-42e4-b82d-c227f4363398
+- [ ] clean up notes into design docs md  prio:P3 uuid:d91c26e9-a20a-4e96-a7e9-913bda7c54d1
+- [ ] Clean up useless regex escape in agent package  prio:P3 uuid:d3e6cca5-2b2f-4cd9-8131-db74ebe7c8f9
+- [ ] clearly standardize data models  prio:P3 uuid:4b95c5fc-86cc-486e-a5df-c3dc7ebee209
+- [ ] clearly seperate service dependency files md  prio:P3 uuid:35c0a7d2-a172-4cfd-8521-b3faee0417ca
+- [ ] convert current services to packages then redefine the services using config files  prio:P3 uuid:5c686b01-e6d0-4008-81bb-6f429d26a64a
+- [ ] create a generic markdown helper module  prio:P5 uuid:e6b0e9e7-5967-4b97-bded-0ac50646bb29
+- [ ] WebSocket Broker API Parity with GPT Bridge  prio:P3 uuid:b2d63853-2a8e-4e5c-a196-3fc69299d876
+- [ ] create base readme md templates for each service md  prio:P3 uuid:7c508df7-4463-461a-8549-0ac8dd256192
+- [ ] create permission gating layer  prio:P3 uuid:a5b35121-160a-496a-ac7b-94e405294888
+- [ ] create vault config obsidian with kanban and minimal vault setup 1 md md  prio:P3 uuid:4153471e-77dc-43ab-b2a4-a4a3bed605fe
+- [ ] decouple from ollama md  prio:P3 uuid:b543e648-991c-4365-8d76-280c60c2c31e
+- [ ] define codex baseg agent md md  prio:P3 uuid:d158980f-ef8c-4236-85be-c494c4aa9159
+- [ ] define default scopes publish heartbeat received s md  prio:P3 uuid:218efa51-9804-48ac-a548-538b715a6cb3
+- [ ] define permission schema in agents 1 md  prio:P3 uuid:89643344-84c1-499f-82cc-9b5430fffb72
+- [ ] deploy changefeed for collections you want mirrore md  prio:P3 uuid:03b91de5-2d67-4201-b177-8ecb2029793b
+- [ ] create and push a feature branch  prio:P3 uuid:e72a8ed9-7efa-4817-bf55-0b65fd84e5d2
+- [ ] design audio pipeline mvp  prio:P3 uuid:07e85844-1390-4c3c-80d4-251254f71b4e
+- [ ] design vision pipeline mvp  prio:P3 uuid:ce8a026c-7d8c-41fe-9f48-e1b6a36e5dc0
+- [ ] design circular buffers for inputs with layered states of persistance in memory on disk cold storage so md  prio:P3 uuid:7da8bb11-51ea-4103-adfb-5c3dfb149472
+- [ ] design ollama model file for use with codex  prio:P3 uuid:41fec47c-e499-461b-b7e0-4ef1c86bdabb
+- [ ] detect contradictions in memory codex task md  prio:P3 uuid:95f4dfee-f348-4bc5-8046-aa5fb2395729
+- [ ] detect contradictions in memory md md  prio:P3 uuid:2f6779f0-f7aa-4565-b120-43dd47e8a530
+- [ ] determine pm2 configuration for agents 1 md  prio:P3 uuid:e6bbd2be-7191-4b32-ba5c-d82f1771b520
+- [ ] Dev mode  prio:P3 uuid:6e58071f-eeec-4a12-8d36-e5e3a8d29a24
+- [ ] discord chat link traversal md md  prio:P3 uuid:2eac8af8-2083-408e-ac4a-ceb334e2e32a
+- [ ] discord image attachment indexer md  prio:P3 uuid:af99c867-867a-420d-a436-73676a2ec7ce
+- [ ] discord image awareness md md  prio:P3 uuid:701696e2-8054-4ccd-951f-7a40248b6628
+- [ ] discord link indexer md  prio:P3 uuid:1bb8418a-5606-4190-a252-21301fd4a5d8
+- [ ] docker compose edn template system  prio:p3 uuid:d70ed8c5-4885-450f-b1bc-9f8d6b0e94f2
+- [ ] dockerize the system  prio:P3 uuid:a470c992-509f-48f8-9d6b-cfb6285dc67c
+- [ ] document board sync workflow md md  prio:P3 uuid:05a6aec0-c595-44c8-8dba-49eac198344f
+- [ ] document board usage guidelines 1 md  prio:P3 uuid:8c0e512b-27b8-4132-83b1-5da880210b84
+- [ ] document etag semantics and cache headers for snap md  prio:P3 uuid:fb4e2a3c-f44e-4418-87d5-bbe14ab1216f
+- [ ] document local testing setup md md  prio:P3 uuid:2159cf55-db82-46df-b669-52ccacdb7c4b
+- [ ] each service registers a pid with a heartbeat service if they do not successfully check in terminate the process using the pid md md  prio:P3 uuid:d474baf2-e4ff-4771-9e51-11775c186fe6
+- [ ] ecs component schemas core  prio:P3 uuid:af127b29-3031-4f13-a82b-7d7042581e35
+- [ ] ecs migration path docs  prio:P3 uuid:529b7471-6d7c-4135-9de3-8e22970692f0
+- [ ] ecs mongo adapter library  prio:P3 uuid:88f4ecec-11b4-4883-ab71-7d3822171a2f
+- [ ] ecs persistence integration cephalon  prio:P3 uuid:7495aea8-a866-4fae-b5b3-be0c40e72644
+- [ ] ecs projection jobs  prio:P3 uuid:36eddbb2-91d6-4930-8ad8-4fdc004e6672
+- [ ] ecs query api gateway  prio:P3 uuid:e2059e9f-f2a2-4bc4-bcc7-eece59c16f88
+- [ ] enable compactor for process state process state s md  prio:P3 uuid:010f468c-ba8f-4251-a84e-15ffda488446
+- [ ] enable scripts lint topics ts in ci md  prio:P3 uuid:4154f6ba-0c33-4bbd-96fc-d6b64140333f
+- [ ] ensure openapi specs are automaticly updated when an endpoint is changed  prio:P3 uuid:e3fc2eed-0da2-4aa9-b407-4dda0de4488d
+- [ ] ensure github compatible markdown settings are doc md  prio:P3 uuid:9061fb44-92a0-4799-a40d-420dd395577c
+- [ ] ensure mongo indexes key 1 unique common query fie md  prio:P3 uuid:371cb900-e46b-4bc1-ad48-2acf08d2887f
+- [ ] Evaluate and integrate docker NPU image into workflows  prio:P3 uuid:f2a4af09-e073-4773-9322-3acff1778142
+- [ ] evaluate ollama openvino  prio:p3 uuid:a08e1032-c149-4060-831d-97e43d707132
+- [ ] evaluate and reward flow satisfaction  prio:P3 uuid:45a4101d-01ab-497b-8920-97cc563e9351
+- [ ] Expand functional loop refactors across repository #refactor #functional-style prio:P3 uuid:f6c39654-1e09-4741-9aeb-bdb200cc7216
+- [ ] expose metrics on an express app and scrape with p md  prio:P3 uuid:e4ec91c1-9c83-42a8-8f95-f3f15d8e8499
+- [ ] expose snapshot api for processes collection proce md  prio:P3 uuid:0ada665e-5766-45f2-9edb-f5feee65e226
+- [ ] extract docs from riatzukiza github io md md  prio:P3 uuid:02eeb8bd-1053-40b4-a213-8db02d7aa526
+- [ ] extract site modules from riatzukiza github io md md  prio:P3 uuid:44157ed4-2b52-4573-90aa-2b1a4cd1ecf6
+- [ ] file explorer  prio:P3 uuid:c39b94ff-9e97-4fba-99d9-5cc713e09e5d
+- [ ] finalize migration plan md md md  prio:P3 uuid:3ea0cf32-04c9-42eb-a256-22dc03360f1a
+- [ ] finalize stt workflow md md  prio:P3 uuid:0c583c42-3b0d-47fc-9b54-5bd952c84c74
+- [ ] find music that triggered copyright mute on twitch for analysis incoming  prio:P3 uuid:84b2e724-dd49-4519-ab5e-402973a70551
+- [ ] finish whisper npu system md md  prio:P3 uuid:0f185d39-74a7-4856-b0db-068b29a998e5
+- [ ] fix makefile test target md  prio:P3 uuid:452f1408-fe8c-41fb-87ab-761e8dcee2d6
+- [ ] flatten services  prio:P3 uuid:52028599-a34a-40ff-97a0-d8f47970e4b0
+- [ ] Format auth-service README with Prettier  prio:P3 uuid:94a2959e-21b1-4a41-9c1f-85787c1a0894
+- [ ] fp ts config and linting  prio:p3 uuid:2c69e218-bbe0-4c5b-ab1b-d19b88496b57
+- [ ] frontend build tool chain  prio:P3 uuid:1ca3cb3e-b00a-457d-83a9-d0df3c1159ce
+- [ ] full agent mode text chat selectively join channels etc md  prio:P3 uuid:20ce66a3-ab14-4107-9069-eb28438215ac
+- [ ] fully convert js ts projects to pnpm incoming  prio:P3 uuid:bf41be60-e9bf-4a19-95da-a453a32b9f2e
+- [ ] gather baseline emotion metrics for eidolon field 1 md  prio:P3 uuid:db083776-2697-432a-8aba-3e4639648867
+- [ ] gather open questions about system direction md md  prio:P3 uuid:4fb7f392-4473-4d58-a8c0-ec5fba5d6474
+- [ ] Get all existing pipelines functional  prio:P3 uuid:8b3c665c-d6ff-4a0a-9fb9-b2dbefa35fb4
+- [ ] gpt bridge fuzzy lookup should return multiple matches when it is used  prio:P3 uuid:5e02a76a-4b66-4dbb-8a93-16fdbee83283
+- [ ] identify ancestral resonance patterns framework co md  prio:P3 uuid:013e2a6c-0eba-4840-adc3-3ed3d278768a
+- [ ] identify ancestral resonance patterns md md  prio:P3 uuid:8663f3b7-58fc-407b-b3fe-8460f47c7083
+- [ ] 🛠️ Task: Implement Classes in Lisp Compiler  prio:P3 uuid:035cede1-531f-4070-aa80-841a9cf83631
+- [ ] 🛠️ Task: Implement `defun` in Lisp Compiler  prio:P3 uuid:f0fe8d30-5833-4791-9e31-9c2292db03bc
+- [ ] implement fragment ingestion with activation vecto md  prio:P3 uuid:d6204735-5a96-4670-a361-6f6ef7c5cdb6
+- [ ] implement pause resume ops on gateway md  prio:P3 uuid:4508b108-1326-43bf-b58b-06883f70c9fc
+- [ ] implement timetravel processat processid t in a sm md  prio:P3 uuid:67368c6a-0102-4eb4-bcfa-7287dd747f9c
+- [ ] implement transcendence cascade framework core md  prio:P3 uuid:424f67f8-c949-437a-8a59-8a4eb3d77f77
+- [ ] implement transcendence cascade md  prio:P3 uuid:a5db4128-395b-4d38-8182-abef99521a5d
+- [ ] Install Biome dependency for cephalon-discord  prio:P3 uuid:0427985f-f4ad-4f85-975f-9c085bcc452a
+- [ ] integrate sonarqube into devops  prio:P3 uuid:fb040f44-7250-4828-9f2b-c36f65ed35e3
+- [ ] just so much batman  prio:P3 uuid:8584c1fd-c8b6-4bf0-8cca-db9f91fe52c2
+- [ ] kanban processor #ecs #kanban #planning prio:P3 uuid:f88c9d06-c8f3-4a60-96b7-9fddf412ba5e
+- [ ] kubernetes configurations for secure distributed deployment on local net  prio:p3 uuid:0f65afc2-493e-40b2-85b0-17c4bf4b8d85
+- [ ] launch replayapi on 8083 test replay and export nd md  prio:P3 uuid:4f0d3b3f-4012-431f-96f3-9cde2cc7f06a
+- [ ] lisp package files  prio:P3 uuid:a5748afa-3e7b-49fc-b945-d0452d2adf76
+- [ ] llm service must accept tool calls  prio:P3 uuid:c858464b-c43b-4521-80b9-12fa3d5cd464
+- [ ] llm service must allow streamed responses  prio:P3 uuid:e1591a4b-1a4f-48c9-ab6a-01fe11c524f3
+- [ ] look into why the state object never seems to get updated md md  prio:P3 uuid:98ddc760-e6e1-4239-92ae-db864ce5bcaf
+- [ ] make the system hashtag aware  prio:P3 uuid:709c00c8-6e75-4719-850b-d58ea26ab255
+- [ ] make discord channel aware contextualizer md md  prio:P3 uuid:9c9a9289-e420-403e-9772-71fc3d7e128f
+- [ ] make seperate execution pathways 1 md md  prio:P3 uuid:4af34fd8-8f94-4013-ad4f-61bd0ce13c78
+- [ ] many batmen  prio:P3 uuid:20d0dc48-0832-4800-a541-ffbcf88305a5
+- [ ] migrate portfolio client code to promethean md  prio:P3 uuid:79bbbd38-ace9-4833-89be-b6dd50bbc940
+- [ ] migrate server side sibilant libs to promethean ar md  prio:P3 uuid:46303bb8-ac2d-4083-96c5-3f2e5a7a317b
+- [ ] migrate server side sibilant libs to promethean architecture md  prio:P3 uuid:d1efce9d-cff7-4f99-baeb-143b9edf981a
+- [ ] migrating relevant modules from riatzukiza github io to site and docs md  prio:P3 uuid:c20e39a1-acb8-400c-8d6f-5228f15811ad
+- [ ] migrating relevant modules from riatzukiza github md  prio:P3 uuid:a8067d01-573b-4a24-9d2e-6d9981db563d
+- [ ] mirror shared utils with language specific doc folders md md  prio:P3 uuid:c71b790d-b9d6-45ee-b3e7-517ca66ff4aa
+- [ ] Mock the Broker for Tests  prio:P3 uuid:35baa5c2-8daa-4162-97ad-19f55b9c2b51
+- [ ] move discord scraper to ts  prio:P3 uuid:4ad8d468-babf-4ab8-9385-fec57642c074
+- [ ] move all testing to individual services md  prio:P3 uuid:8d666a9c-d5aa-4acd-a3b1-d71f4a21d223
+- [ ] Pythagoras GPT Mirror WS chat + OpenAPI-driven tool calls via /v1  prio:P3 uuid:24ba6872-89c0-4f5f-a20e-33058219016b
+- [ ] obsidian kanban github project board mirror system md md  prio:P3 uuid:083d6047-9529-4d0b-9ada-406acf3d97f8
+- [ ] obsidian replacement md  prio:P3 uuid:ddad0e6a-9019-4cc8-900e-93549b5ee845
+- [ ] Task: Context Layer Between Codex and Local LLMs  prio:P3 uuid:e02f9c17-8d25-48bf-bad9-bd145a14c9a3
+- [ ] Embedding service sometimes disconnects from broker and hangs → detect, shed, kill, recover  prio:P3 uuid:9926dde4-990e-4503-a057-fcae2e5bf1b1
+- [ ] phase out proxy in favor of bridge service  prio:P3 uuid:695632f6-8bb2-4051-bbbc-42dd6729fe8f
+- [ ] Pin versions in configs  prio:P3 uuid:4beb36b0-7cc5-4116-a516-3927615031be
+- [ ] pin versions in configs promethean codex md  prio:P3 uuid:a224ab7a-70fd-4711-b499-a072c8037960
+- [ ] pr 688 nitpack extract  prio:P3 uuid:63e44f3d-fc18-4caf-85b7-08936527317e
+- [ ] prevent dangling processes when a process fails due to error or automaticly clean them up 1 md md  prio:P3 uuid:072f7aad-b8a2-4361-9656-d9b84008feab
+- [ ] reach 100 percent complete test coverage 1 md md  prio:P3 uuid:3139c11a-ab08-4389-a857-65096382d244
+- [ ] Replace <SHA> with the commit from step 1  prio:P3 uuid:1b93f3eb-202f-4d47-b4d0-b69286b8c2a3
+- [ ] redefine all existing lambdas with high order functions incoming  prio:P3 uuid:9a9e9c97-fbaa-4580-90ac-2d1f17eebbec
+- [ ] refactor any python modules not currently for ml stuff discord etc 2 md  prio:P3 uuid:fe5eb9d4-18ff-46e5-8a30-81dffe1f711f
+- [ ] refactor speech interuption system to be more inteligent using audio data to decide if interupted md md  prio:P3 uuid:099c293b-2aaf-4ead-9cea-e88d8e352606
+- [ ] register v 1 schema for any evolving topic and wri md  prio:P3 uuid:76f70720-6082-4a02-8c10-a90468d1a85b
+- [ ] Remove `any` types across packages  prio:P3 uuid:cc373a25-f288-4def-8ced-b824cc72c06a
+- [ ] Ban Python; Migrate to Hy; Compile to `./dist`  prio:P3 uuid:991b27c3-0b63-49a5-acd3-d730b28e31fc
+- [ ] research github projects board api md  prio:P3 uuid:76ff159a-166e-43e1-8d11-14df53f50e6f
+- [ ] Resolve Biome lint errors in compiler package  prio:P3 uuid:9124fbc4-92c2-4b37-a234-95dc28dd17ff
+- [ ] Resolve ESLint violations across repository  prio:P3 uuid:137054cb-d7c9-4b0a-9aa9-5ce0425948db
+- [ ] rewrite build tools with bb  prio:P3 uuid:d83c4f0e-336d-4957-9f6e-7aff774e7eb9
+- [ ] Reason for rejection  prio:P3 uuid:b0d32736-46a9-42af-aab8-211b8ae43109
+- [ ] run bench subscribe ts with mongo bus and record p md  prio:P3 uuid:5e290190-24fd-4245-86ee-f7bb66af63be
+- [ ] run model bakeoff md  prio:P3 uuid:a069b185-7e7f-46f8-b393-a205f06f080a
+- [ ] schedule alignment meeting with stakeholders md md  prio:P3 uuid:d524ff64-8f12-46bb-8c28-103e13743fa1
+- [ ] scripts add folder readmes and usage  prio:P3 uuid:9eed3915-19f2-4006-943c-84b274bc7f47
+- [ ] scripts add make targets and aliases  prio:P3 uuid:06dc563d-0b7e-415a-a435-5061b690aa97
+- [ ] scripts audit and standardize cli flags  prio:P3 uuid:212b7db4-e33f-4d95-bc3e-ac58af6d0159
+- [ ] scripts group audio tools  prio:P3 uuid:289512a0-68eb-47aa-b031-7c694d1a4806
+- [ ] scripts group docs utilities  prio:P3 uuid:a84c4e37-311f-4991-abe3-473fa1ee869a
+- [ ] scripts group indexing tools  prio:P3 uuid:0468c4d6-3287-406e-97f2-85d12d88c01b
+- [ ] scripts update ci and refs  prio:P3 uuid:6fb5b136-e4fe-4c01-8df4-3ddfd7a160e2
+- [ ] send waveforms spectrograms and dekstop screenshots to discord for remote storage md md  prio:P3 uuid:1921c586-faec-430a-b598-e6ff0d131b00
+- [ ] separate all testing pipelines in github actions md  prio:P3 uuid:dcdb2ed7-78d0-495a-b2a4-4fadd871ae3a
+- [ ] Cephalon Commands → Actions Refactor — Task Refinement  prio:P3 uuid:56da5f84-d732-4455-b0a6-97b36fbae026
+- [ ] Maintain Testing vs Working Databases w/ Migration Contract  prio:P3 uuid:8542a56c-b037-4a71-90e8-8bd0a0c8b49f
+- [ ] set up new user roles and policies for the systems  prio:P3 uuid:fd144ce1-d6aa-41ff-a544-a03c583d071b
+- [ ] set up proper openai custom gpt compatable oauth login flow  prio:P3 uuid:d54f5640-9a46-4643-a76c-020603439c39
+- [ ] set up makefile for python js build test dev md  prio:P3 uuid:b67ff78e-f1b8-4cdf-ba1c-d2ed622a4882
+- [ ] setup new service generator  prio:P3 uuid:183b8fa7-f80b-4342-b993-2d2bfa80303a
+- [ ] setup a second agent md  prio:P3 uuid:654e88a0-ce43-46b0-a67b-3c18270be8eb
+- [ ] setup code in wsl md  prio:P3 uuid:d35d985b-44c2-4b67-9228-bc2cb912df24
+- [ ] setup services to recieve work from the broker via push md  prio:P3 uuid:0b5c2829-4d26-4bda-93db-ab13a5a80a12
+- [ ] smart task templater md  prio:P3 uuid:58e246ed-a8e3-4942-bf8d-73532959156e
+- [ ] snapshot prompts specs to repo  prio:P3 uuid:ee9f46e7-9d65-437b-8897-2a7e11756f4f
+- [ ] something something 1  prio:p3 uuid:3192eeb8-39ff-42aa-ab6f-2e7ce9b951cf
+- [ ] something something  prio:p3 uuid:02c83b6f-e9b4-4dfb-a4a0-543042aa02b6
+- [ ] spin up ws gateway ws port 8090 ws token devtoken md  prio:P3 uuid:eed137f9-8a84-43c4-99d3-5ec338da6f49
+- [ ] start eidolon  prio:P3 uuid:87df3419-fc1f-4adc-b258-dcf5b47da9d1
+- [ ] Task: Structural code editing AI tool tree-diffs, not text-diffs — with immediate validation  prio:P3 uuid:cbc70baa-3202-4eb0-a4ef-aec84d3e3bbf
+- [ ] structure vault to mirror services agents docs md md  prio:P3 uuid:c6139027-bd0a-4f44-a200-c04829e35220
+- [ ] suggest metaprogramming updates codex task md  prio:P3 uuid:66f98367-0bb2-43a8-a11d-187a0225b0d3
+- [ ] suggest metaprogramming updates md  prio:P3 uuid:db64f552-fa40-4176-a27b-44551201b64f
+- [ ] summarize clarified priorities for next sprint md md  prio:P3 uuid:4abed2f3-350f-4ec5-ac22-7e9d3882a7c9
+- [ ] switch critical readers to subscribenormalized md  prio:P3 uuid:b2929e05-8da5-477c-b537-16757882e39c
+- [ ] switch gateway auth to jwt generate temp hs256 tok md  prio:P3 uuid:469ea721-b00c-4752-b3ad-9e85bd1f9ff9
+- [ ] tamper monkey script for using templates defined in the vault  prio:P3 uuid:4e7f70bb-bb32-4a55-b499-bdc347afe21a
+- [ ] task generator system  prio:P3 uuid:fb14db8b-0d66-4f4a-a30d-d7ef8631ddef
+- [ ] thinking model integration md md  prio:P3 uuid:54927d5e-d90f-4575-be6a-307a30c2578c
+- [ ] tool chain management system md md  prio:P3 uuid:98d1da44-0b69-45e2-bd09-204641e87de5
+- [ ] tree diffing tools  prio:p3 uuid:7ac178ae-b95a-465c-a3e7-603c5a4b64b4
+- [ ] twitch discord general auto mod md md  prio:P3 uuid:22f37fa8-12de-4f22-993f-e0704bbe49c0
+- [ ] twitch stream title generator md md  prio:P3 uuid:edaa3887-de50-422c-8c8f-6d624329465b
+- [ ] update cephalon to use custom embedding function md md  prio:P3 uuid:af87b6ca-6f04-4380-9e5b-54adcf7bf254
+- [ ] update github actions to use makefile md md  prio:P3 uuid:cd2f96f3-bd40-410b-94f2-f7d0dbce4da4
+- [ ] update makefile to have commands specific for agents md  prio:P3 uuid:9fbe9f3a-0c6a-472b-8f7c-b100dab6f5de
+- [ ] Use `node:` protocol for builtin imports  prio:P3 uuid:77011385-81b7-42aa-9137-cd522a63910e
+- [ ] use subscribepartitioned for cpu heavy consumers t md  prio:P3 uuid:57a44b9c-b4b8-4fef-8ba6-cfcd8649ada0
+- [ ] Web Crawler Agent → Hyperlink Graph → LLM Summaries/#Tags → Chroma Search Dual-Sink  prio:P3 uuid:0d89cdd7-1a6c-4477-9cbc-d12472564b58
+- [ ] wire mongoeventstore mongocursorstore in place of md  prio:P3 uuid:391e27d8-9134-4362-95bc-73ca9470c9e3
+- [ ] wire runoutboxdrainer in event hub md  prio:P3 uuid:c2ee671b-c84a-4461-b71a-8b598470aef4
+- [ ] wrap event hub publish path with withschemavalidat md  prio:P3 uuid:ad2b6f21-1a73-4682-96bb-f7ea7dd09cfa
+- [ ] wrap writers with withdualwrite md  prio:P3 uuid:7ecab1fa-247e-4968-9352-5fd6c97f8eb2
+- [ ] write a replay job that replays process state snap md  prio:P3 uuid:120d81cc-221f-49a6-a710-904871cbfe25
+- [ ] write a small cutover script to replay historical md  prio:P3 uuid:088cebc7-a2cb-4620-911c-87e2ee895f20
+- [ ] write a smoke test client subscribes publish 10 ms md  prio:P3 uuid:78747905-9183-4fd8-a747-c064f11a861a
+- [ ] write board sync script md md  prio:P3 uuid:20728bbe-20e4-4cb1-b33d-d0da2514ad92
+- [ ] write end to end tests md md  prio:P3 uuid:ad8abaf0-5abc-407f-bb20-0f0557066452
+- [ ] write meaningful tests for cephalon md md  prio:P3 uuid:dd4105ca-a9d4-423b-820d-f5b506d847cf
+- [ ] write simple ecosystem declaration library for new md md  prio:P3 uuid:5c8d8016-f4b8-421d-b335-73f7646173af
+- [ ] write vault config readme md for obsidian vault on md  prio:P3 uuid:df456c9c-e34b-438f-9e59-d0b2bf014dba
 
 ## Incoming
 
-- [ ] Assemble unified @promethean/omni-service host #omni #service prio:P2 (uuid:5fb47630-6822-4ecf-a035-625ed0e733bf)
-- [ ] Author @promethean/omni-protocol package #omni #package #typescript prio:P1 (uuid:457fd7a3-bc99-4de6-b9f3-06ef6cf00d5e)
-- [ ] Extract shared services into @promethean/omni-core #omni #refactor prio:P1 (uuid:e0a6842d-031a-4d1c-bee1-563bbda8cf80)
-- [ ] Omni unified service specification and planning #omni #planning prio:P1 (uuid:90d0e75e-0f56-4e0e-b470-20e0145ad43d)
+- [ ] Assemble unified @promethean/omni-service host #omni #service prio:P2 uuid:5fb47630-6822-4ecf-a035-625ed0e733bf
+- [ ] Author @promethean/omni-protocol package #omni #package #typescript prio:P1 uuid:457fd7a3-bc99-4de6-b9f3-06ef6cf00d5e
+- [ ] Extract shared services into @promethean/omni-core #omni #refactor prio:P1 uuid:e0a6842d-031a-4d1c-bee1-563bbda8cf80
+- [ ] Omni unified service specification and planning #omni #planning prio:P1 uuid:90d0e75e-0f56-4e0e-b470-20e0145ad43d
 - [ ] codex action build file contextualizer.
 - [ ] universal package manager
 - [ ] make biome run with same settings eslint has
-- [ ] Fix Piper pipeline caching regressions #piper #pipelines prio:P2 (uuid:8b57e951-99d2-4242-a56d-578a3f11cda6)
-- [ ] move board tooling into kanban package #framework-core #devtools prio:P3 (uuid:8a791d5f-757a-4154-bba2-e14886da4c30)
-- [ ] Align task template frontmatter with canonical schema #docs #automation prio:P2 (uuid:f5553298-1c51-41c2-acb5-df4d9f518c89)
+- [ ] Fix Piper pipeline caching regressions #piper #pipelines prio:P2 uuid:8b57e951-99d2-4242-a56d-578a3f11cda6
+- [ ] move board tooling into kanban package #framework-core #devtools prio:P3 uuid:8a791d5f-757a-4154-bba2-e14886da4c30
+- [ ] Align task template frontmatter with canonical schema #docs #automation prio:P2 uuid:f5553298-1c51-41c2-acb5-df4d9f518c89
 
 ## Accepted
 
@@ -268,70 +268,70 @@
 - [ ] make cephalon work again with new project layout
 - [ ] discord mixed mode
 - [ ] clojure codex web dev debug and setup
-- [ ] [[tamper-monkey-script-for-using-templates-defined-in-the-vault|tamper monkey script for using templates defined in the vault]] #todo
-- [ ] Add rate limiting to SmartGPT Bridge file routes #security #bug prio:P1 (uuid:7f2a8d19-4f72-4c39-9b23-08fd4e33c4f0)
-- [ ] Remove CommonJS artifacts from repository ##codex-task ##doc-this prio:P2 (uuid:e6a16b59-a67d-4df9-babc-9faaaad3f9c9)
-- [ ] [[harden-precommit-hooks|harden precommit hooks]] #ready
-- [ ] [[design-vision-pipeline-mvp]]
-- [ ] [[design-audio-pipeline-mvp]]
-- [ ] [[kubernetes-configurations-for-secure-distributed-deployment-on-local-net]]
-- [ ] [[structural-code-editing-research|Research tree-diff algorithms and validation approaches]] #research #ai #code-editing
-- [ ] [[structural-code-editing-design|Design architecture for tree-diff based code editing system]] #design #ai #architecture
-- [ ] [[structural-code-editing-prototype|Build prototype of tree-diff validation system]] #prototype #ai #validation
-- [ ] [[phase-out-proxy-in-favor-of-bridge-service|Phase out proxy in favor of bridge service]] #framework-core #framework-core #Todo #in-progress
-- [ ] [[auth_service_rfc_and_architecture|auth service rfc and architecture]] #auth #oauth #architecture #breakdown
-- [ ] [[auth_ci_and_load_tests|auth ci and load tests]] #auth #testing #performance #breakdown
-- [ ] [[auth_service_scaffold_and_endpoints|auth service scaffold and endpoints]] #incoming
-- [ ] [[auth_shared_clients_and_middleware|auth shared clients and middleware]] #auth #libraries #ts #python #accepted
-- [ ] [[snapshot_prompts_specs_to_repo|Snapshot prompts specs to repo]] #todo
-- [ ] [[ecs_migration_path_docs|ecs migration path docs]] #ecs #migration #docs #accepted
-- [ ] [[create-broker-services-that-can-handle-all-the-same-tasks-as-the-gpt-bridge|Create broker services that can handle all the same tasks as the gpt bridge]] #broker #ws #api #gptbridge #parity #promethean #ops #ready
-- [ ] [[ecs_query_api_gateway|ecs query api gateway]] #ecs #api #mongo #accepted
-- [ ] [[scripts_group_audio_tools|scripts group audio tools]] #scripts #audio #organization #accepted
-- [ ] [[ecs_mongo_adapter_library|ecs mongo adapter library]] #ecs #mongo #orm #accepted
-- [ ] [[ecs_component_schemas_core|ecs component schemas core]] #ecs #schemas #conversation #accepted
-- [ ] [[ecs_projection_jobs|ecs projection jobs]] #ecs #projections #compaction #ready
-- [ ] [[auth_key_rotation_and_bootstrap|auth key rotation and bootstrap]] #incoming
-- [ ] [[llm-service-must-allow-streamed-responses|LLM service must allow streamed responses]] #ready
-- [ ] [[set-up-proper-openai-custom-gpt-compatable-oauth-login-flow|Set up proper openai custom gpt compatable oauth login flow]] #framework-core #ready
-- [ ] [[auth_migrate_services_to_jwt|auth migrate services to jwt]] #auth #migration #services #ready
-- [ ] [[chatgpt-export-injest-with-dedupe-index-and-hashes|ChatGPT export injest with dedupe index and hashes]] #ready
-- [ ] [[lsp-server-for-home-brew-lisp-incoming|LSP server for home brew lisp incoming]] #ready
-- [ ] [[database-migration-system|database migration system]] #ready
-- [ ] [[broker-gpt-bridge-parity-plan|broker gpt bridge parity plan]] #broker #gptbridge #testing #parity #ws #http #ci #observability #promethean #versioning #tags #broker #gptbridge #parity #ws #http #testing #ci #observability #promethean #in-review
-- [ ] [[context-service|context service]] #ready
-- [ ] [[auth_key_rotation_and_bootstrap|auth key rotation and bootstrap]] #auth #security #rotation #ready
-- [ ] [[audio-processing-service|audio processing service]] #framework-core #framework-core #Ready #ready
-- [ ] [[connect-wikipedia|connect wikipedia]] #Ready #Ready #ready
-- [ ] [[add-git-commands-to-gpt-bridge|Add git commands to gpt bridge]] #ready
-- [ ] [[connect-reddit|connect reddit]] #Ready #Ready #ready
-- [ ] [[connect-bluesky|connect bluesky]] #Ready #ready
-- [ ] [[clearly-standardize-data-models|clearly standardize data models]] #framework-core #framework-core #Ready #ready
-- [ ] [[set-up-new-user-roles-and-policies-for-the-systems|Set up new user roles and policies for the systems]] #ready
-- [ ] [[snapshot_prompts_specs_to_repo|Snapshot prompts specs to repo]] #IceBox #ready
-- [ ] [[llm-service-must-accept-tool-calls|LLM service must accept tool calls]] #framework-core #framework-core #Ready #ready
-- [ ] [[make-the-system-hashtag-aware|Make the system hashtag aware]] #ready
-- [ ] [[mvp-local-llm-chat-interface-with-tool-calls-connected-to-gpt-bridge|MVP local LLM chat interface with tool calls connected to gpt bridge]] #agents #ws #openapi #tools #smartgpt-bridge #prompts #promethean #tags #promethean #pythagoras #ws #llm-worker #smartgpt-bridge #openapi #tool-calling #testing #docs #ready
-- [ ] [[promethean-health-dashboard|Promethean Health Dashboard]] #framework-core #observability #eidolon-visualization #dashboard #broker #realtime #IceBox #ready
+- [ ] [tamper-monkey-script-for-using-templates-defined-in-the-vault|tamper monkey script for using templates defined in the vault] #todo
+- [ ] Add rate limiting to SmartGPT Bridge file routes #security #bug prio:P1 uuid:7f2a8d19-4f72-4c39-9b23-08fd4e33c4f0
+- [ ] Remove CommonJS artifacts from repository ##codex-task ##doc-this prio:P2 uuid:e6a16b59-a67d-4df9-babc-9faaaad3f9c9
+- [ ] [harden-precommit-hooks|harden precommit hooks] #ready
+- [ ] [design-vision-pipeline-mvp]
+- [ ] [design-audio-pipeline-mvp]
+- [ ] [kubernetes-configurations-for-secure-distributed-deployment-on-local-net]
+- [ ] [structural-code-editing-research|Research tree-diff algorithms and validation approaches] #research #ai #code-editing
+- [ ] [structural-code-editing-design|Design architecture for tree-diff based code editing system] #design #ai #architecture
+- [ ] [structural-code-editing-prototype|Build prototype of tree-diff validation system] #prototype #ai #validation
+- [ ] [phase-out-proxy-in-favor-of-bridge-service|Phase out proxy in favor of bridge service] #framework-core #framework-core #Todo #in-progress
+- [ ] [auth_service_rfc_and_architecture|auth service rfc and architecture] #auth #oauth #architecture #breakdown
+- [ ] [auth_ci_and_load_tests|auth ci and load tests] #auth #testing #performance #breakdown
+- [ ] [auth_service_scaffold_and_endpoints|auth service scaffold and endpoints] #incoming
+- [ ] [auth_shared_clients_and_middleware|auth shared clients and middleware] #auth #libraries #ts #python #accepted
+- [ ] [snapshot_prompts_specs_to_repo|Snapshot prompts specs to repo] #todo
+- [ ] [ecs_migration_path_docs|ecs migration path docs] #ecs #migration #docs #accepted
+- [ ] [create-broker-services-that-can-handle-all-the-same-tasks-as-the-gpt-bridge|Create broker services that can handle all the same tasks as the gpt bridge] #broker #ws #api #gptbridge #parity #promethean #ops #ready
+- [ ] [ecs_query_api_gateway|ecs query api gateway] #ecs #api #mongo #accepted
+- [ ] [scripts_group_audio_tools|scripts group audio tools] #scripts #audio #organization #accepted
+- [ ] [ecs_mongo_adapter_library|ecs mongo adapter library] #ecs #mongo #orm #accepted
+- [ ] [ecs_component_schemas_core|ecs component schemas core] #ecs #schemas #conversation #accepted
+- [ ] [ecs_projection_jobs|ecs projection jobs] #ecs #projections #compaction #ready
+- [ ] [auth_key_rotation_and_bootstrap|auth key rotation and bootstrap] #incoming
+- [ ] [llm-service-must-allow-streamed-responses|LLM service must allow streamed responses] #ready
+- [ ] [set-up-proper-openai-custom-gpt-compatable-oauth-login-flow|Set up proper openai custom gpt compatable oauth login flow] #framework-core #ready
+- [ ] [auth_migrate_services_to_jwt|auth migrate services to jwt] #auth #migration #services #ready
+- [ ] [chatgpt-export-injest-with-dedupe-index-and-hashes|ChatGPT export injest with dedupe index and hashes] #ready
+- [ ] [lsp-server-for-home-brew-lisp-incoming|LSP server for home brew lisp incoming] #ready
+- [ ] [database-migration-system|database migration system] #ready
+- [ ] [broker-gpt-bridge-parity-plan|broker gpt bridge parity plan] #broker #gptbridge #testing #parity #ws #http #ci #observability #promethean #versioning #tags #broker #gptbridge #parity #ws #http #testing #ci #observability #promethean #in-review
+- [ ] [context-service|context service] #ready
+- [ ] [auth_key_rotation_and_bootstrap|auth key rotation and bootstrap] #auth #security #rotation #ready
+- [ ] [audio-processing-service|audio processing service] #framework-core #framework-core #Ready #ready
+- [ ] [connect-wikipedia|connect wikipedia] #Ready #Ready #ready
+- [ ] [add-git-commands-to-gpt-bridge|Add git commands to gpt bridge] #ready
+- [ ] [connect-reddit|connect reddit] #Ready #Ready #ready
+- [ ] [connect-bluesky|connect bluesky] #Ready #ready
+- [ ] [clearly-standardize-data-models|clearly standardize data models] #framework-core #framework-core #Ready #ready
+- [ ] [set-up-new-user-roles-and-policies-for-the-systems|Set up new user roles and policies for the systems] #ready
+- [ ] [snapshot_prompts_specs_to_repo|Snapshot prompts specs to repo] #IceBox #ready
+- [ ] [llm-service-must-accept-tool-calls|LLM service must accept tool calls] #framework-core #framework-core #Ready #ready
+- [ ] [make-the-system-hashtag-aware|Make the system hashtag aware] #ready
+- [ ] [mvp-local-llm-chat-interface-with-tool-calls-connected-to-gpt-bridge|MVP local LLM chat interface with tool calls connected to gpt bridge] #agents #ws #openapi #tools #smartgpt-bridge #prompts #promethean #tags #promethean #pythagoras #ws #llm-worker #smartgpt-bridge #openapi #tool-calling #testing #docs #ready
+- [ ] [promethean-health-dashboard|Promethean Health Dashboard] #framework-core #observability #eidolon-visualization #dashboard #broker #realtime #IceBox #ready
 - [ ] [[webcrawler]] #Tags #agents #crawler #llm #summarization #chroma #mongodb #etl #dual-sink #search #observability #promethean #tag #tags #tags #c #ai #ethics #promethean #login #home #tags #promethean #agent #crawler #hyperlink-graph #summarization #tags #obsidian #chroma #mongodb #dual-sink #fastify #ollama #qwen #readability #robots #search #observability #in-progress
-- [ ] [[lisp-ecosystem-files|lisp ecosystem files]] #Breakdown #todo
-- [ ] [[lisp-package-files|lisp package files]] #framework-core #framework-core #Ready #todo
-- [ ] [[openai-compatable-api|OpenAI compatable api]] #in-progress
-- [ ] [[implement-classes-in-compiler-lisp-incoming|implement classes in compiler lisp incoming]] #in-progress
-- [ ] [[auth_migrate_services_to_jwt|auth migrate services to jwt]] #incoming
-- [ ] [[auth_service_rfc_and_architecture|auth service rfc and architecture]] #incoming
-- [ ] [[auth_ci_and_load_tests|auth ci and load tests]] #incoming
-- [ ] [[set-up-data-migration-pipeline-and-clearly-describe-conventions|set up data migration pipeline and clearly describe conventions]] #data #migrations #contracts #mongodb #chroma #testing #ci #promethean #tags #promethean #mongodb #chroma #migration #contracts #testing #ci #safety #idempotent #in-progress
-- [ ] [[periodicly-the-embedding-service-will-get-disconnected-from-the-broker-and-not-die--blocking-other-processes-who-require-embeddings.-incoming|periodicly the embedding service will get disconnected from the broker and not die, blocking other processes who require embeddings. incoming]] #embeddings #broker #heartbeat #healthchecks #overload #resilience #promethean #tags #embeddings #reliability #heartbeat #watchdog #overload #backpressure #chaos #pm2 #broker #promethean #in-review
-- [ ] [[identify_and_resolve_a_service_client_apparently_connecting_repeatedly_to_broker_with_new_session_ids|identify and resolve a service client apparently connecting repeatedly to broker with new session ids]] #in-progress
+- [ ] [lisp-ecosystem-files|lisp ecosystem files] #Breakdown #todo
+- [ ] [lisp-package-files|lisp package files] #framework-core #framework-core #Ready #todo
+- [ ] [openai-compatable-api|OpenAI compatable api] #in-progress
+- [ ] [implement-classes-in-compiler-lisp-incoming|implement classes in compiler lisp incoming] #in-progress
+- [ ] [auth_migrate_services_to_jwt|auth migrate services to jwt] #incoming
+- [ ] [auth_service_rfc_and_architecture|auth service rfc and architecture] #incoming
+- [ ] [auth_ci_and_load_tests|auth ci and load tests] #incoming
+- [ ] [set-up-data-migration-pipeline-and-clearly-describe-conventions|set up data migration pipeline and clearly describe conventions] #data #migrations #contracts #mongodb #chroma #testing #ci #promethean #tags #promethean #mongodb #chroma #migration #contracts #testing #ci #safety #idempotent #in-progress
+- [ ] [periodicly-the-embedding-service-will-get-disconnected-from-the-broker-and-not-die--blocking-other-processes-who-require-embeddings.-incoming|periodicly the embedding service will get disconnected from the broker and not die, blocking other processes who require embeddings. incoming] #embeddings #broker #heartbeat #healthchecks #overload #resilience #promethean #tags #embeddings #reliability #heartbeat #watchdog #overload #backpressure #chaos #pm2 #broker #promethean #in-review
+- [ ] [identify_and_resolve_a_service_client_apparently_connecting_repeatedly_to_broker_with_new_session_ids|identify and resolve a service client apparently connecting repeatedly to broker with new session ids] #in-progress
 
 ## In Review
-- [ ] [[redefine-all-existing-lambdas-with-high-order-functions-incoming|redefine all existing lambdas with high order functions incoming]] #framework-core #framework-core #Ready #todo
-- [ ] [[cephalon_persist_utterance_timing_metadata|cephalon persist utterance timing metadata]] #incoming
-- [ ] [[seperate-discord-commands-from-the-actions-they-perform|seperate discord commands from the actions they perform]] #shared #framework-core #cephalon #dependency-injection #separation-of-concerns #actions #commands #discord #in-progress
-- [ ] [[breakdown-cephalon-voice-commands-file-using-ecs|breakdown cephalon voice commands file using ecs]] #breakdown
-- [ ] [[auth_service_scaffold_and_endpoints|auth service scaffold and endpoints]] #auth #oauth #service #accepted
-- [ ] [[add-codex-layer-to-emacs|Add codex layer to emacs]] #ready
+- [ ] [redefine-all-existing-lambdas-with-high-order-functions-incoming|redefine all existing lambdas with high order functions incoming] #framework-core #framework-core #Ready #todo
+- [ ] [cephalon_persist_utterance_timing_metadata|cephalon persist utterance timing metadata] #incoming
+- [ ] [seperate-discord-commands-from-the-actions-they-perform|seperate discord commands from the actions they perform] #shared #framework-core #cephalon #dependency-injection #separation-of-concerns #actions #commands #discord #in-progress
+- [ ] [breakdown-cephalon-voice-commands-file-using-ecs|breakdown cephalon voice commands file using ecs] #breakdown
+- [ ] [auth_service_scaffold_and_endpoints|auth service scaffold and endpoints] #auth #oauth #service #accepted
+- [ ] [add-codex-layer-to-emacs|Add codex layer to emacs] #ready
 - [ ] [[Create piper MCP tool interface]]
 - [ ] Create PR code review pipeline
 - [ ] piper mermaid diagram spec
@@ -340,91 +340,91 @@
 ## Ready
 
 - [ ] Use clojure elisp tree sitter package to generate mcp.el valid s-expr
-- [ ] [[file-explorer|File explorer]] #framework-core #ready
-- [ ] [[task-generator-system|task generator system]] #framework-core #framework-core #Ready #todo
+- [ ] [file-explorer|File explorer] #framework-core #ready
+- [ ] [task-generator-system|task generator system] #framework-core #framework-core #Ready #todo
 
 ## In Progress
 
 - [ ] [[migrate legacy js services to ts]]
-- [ ] [[dockerize-the-system|dockerize the system]] #devops #devops #Ready #todo
-- [ ] [[script-for-getting-github-action-workflow-states-for-a-branch|script for getting github action workflow states for a branch]] #ready
-- [ ] [[scripts_add_folder_readmes_and_usage|scripts add folder readmes and usage]] #scripts #docs #ready
+- [ ] [dockerize-the-system|dockerize the system] #devops #devops #Ready #todo
+- [ ] [script-for-getting-github-action-workflow-states-for-a-branch|script for getting github action workflow states for a branch] #ready
+- [ ] [scripts_add_folder_readmes_and_usage|scripts add folder readmes and usage] #scripts #docs #ready
 
 ## Done
 
-- [ ] [[convert-current-services-to-packages--then-redefine-the-services-using-config-files|convert current services to packages, then redefine the services using config files]] #framework-core #framework-core #Ready #ready
+- [ ] [convert-current-services-to-packages--then-redefine-the-services-using-config-files|convert current services to packages, then redefine the services using config files] #framework-core #framework-core #Ready #ready
 - [ ] codex cloud setup script generates a startup report
 - [ ] [[recover broker code]]
 - [ ] whole project builds with new stricter tsconfig
-- [ ] [[fp-ts-config-and-linting]]
-- [ ] [[breakdown-makefile.hy|Audit Makefile.hy remnants and confirm deprecation]] #framework-core #ready
-- [ ] [[flatten-services|flatten services]] #framework-core #framework-core #Ready #todo
-- [ ] [[convert-smartgpt-bridge-to-ts|convert smartgpt bridge to ts]] #ready
-- [ ] [[post-move-stablization--compat-layer---hook-diet-]] #precommit #refactor #typescript #python #imports #compat #monorepo #tooling #stabilization #accepted
-- [ ] [[setup-new-service-generator|setup new service generator]] #framework-core #in-review
-- [ ] [[mock-broker|Mock broker]] #framework-core #testing #infra #typescript #fastify #websockets #mongodb #chroma #promethean #framework-core #promethean #broker #mock #testing #vitest #typescript #di #inmemory #deterministic #in-review
-- [ ] [[implement-defun-in-compiler-lisp-incoming|implement defun in compiler lisp incoming]] #defn #in-review
-- [ ] [[ensure-openapi-specs-are-automaticly-updated-when-an-endpoint-is-changed|Ensure openapi specs are automaticly updated when an endpoint is changed]] #framework-core #done
-- [ ] [[add_obsidian_to_gitignore_md_md|Add .obsidian to .gitignore]] #framework-core #done
-- [ ] [[update_cephalon_to_use_custom_embedding_function_md_md|Update cephalon to use custom embedding function]] #framework-core #cephalon #discord #embedding #typescript #done
-- [ ] [[add_stt_service_tests_md|Add STT service tests]] #codex-task #testing #done
-- [ ] [[add_starter_notes_-_eidolon_fields_cephalon_inner_monologue_1_md|Add starter notes - eidolon_fields, cephalon_inner_monologue]] #framework-core #done
-- [ ] [[add_unit_tests_for_date_tools_py_md|Add unit tests for date_tools.py]] #codex-task #testing #done
-- [ ] [[add_unit_tests_for_wav_processing_md|Add unit tests for wav_processing]] #codex-task #testing #done
-- [ ] [[auto-generate_agents_md_stubs_from_services_structure_md_md|Auto-generate AGENTS.md stubs from services structure]] #framework-core #done
-- [ ] [[build_data_structures_for_eidolon_field_md_md|Build data structures for Eidolon field]] #framework-core #done
-- [ ] [[build_data_structures_for_eidolon_field_codex_task_md|Build data structures for Eidolon field #codex-task]] #codex-task #done
-- [ ] [[clarify_promethean_project_vision_1_md|Clarify Promethean project vision]] #done
-- [ ] [[create_permission_gating_layer|Create permission gating layer]] #framework-core #done
-- [ ] [[create_vault-config_obsidian_with_kanban_and_minimal_vault_setup_1_md_md|Create vault-config .obsidian with Kanban and minimal vault setup]] #framework-core #done
-- [ ] [[determine_pm2_configuration_for_agents_1_md|Determine PM2 configuration for agents]] #framework-core #done
-- [ ] [[document_board_usage_guidelines_1_md|Document board usage guidelines]] #framework-core #done
-- [ ] [[document_local_testing_setup_md_md|Document local testing setup]] #codex-task #testing #done
-- [ ] [[fix_makefile_test_target_md|Fix Makefile test target]] #codex-task #testing #done
-- [ ] [[mirror_shared_utils_with_language-specific_doc_folders_md_md|Mirror shared utils with language-specific doc folders]] #framework-core #done
-- [ ] [[research_github_projects_board_api_md|Research GitHub Projects board API]] #framework-core #done
-- [ ] [[start_eidolon|Start Eidolon]] #framework-core #done
-- [ ] [[write_board_sync_script_md_md|Write board sync script]] #framework-core #done
-- [ ] [[write_meaningful_tests_for_cephalon_md_md|Write meaningful tests for Cephalon]] #codex-task #testing #done
-- [ ] [[write_vault_config_readme_md_for_obsidian_vault_on_md|Write vault-config README.md for Obsidian vault onboarding]] #framework-core #done
-- [ ] [[clearly_seperate_service_dependency_files_md|clearly seperate service dependency files md]] #devops #cicd #done
-- [ ] [[discord_image_attachment_indexer_md|discord image attachment indexer md]] #framework-core #discord #images #attachments #indexing #memory #done
-- [ ] [[make_seperate_execution_pathways_1_md_md|make seperate execution pathways 1 md md]] #framework-core #done
-- [ ] [[separate_all_testing_pipelines_in_github_actions_md|seperate all testing pipelines in GitHub Actions]] #cicd #framework-core #done
-- [ ] [[update_github_actions_to_use_makefile_md_md|Update GitHub Actions automation to pnpm scripts]] #cicd #devops #framework-core #done
-- [ ] [[write_simple_ecosystem_declaration_library_for_new_md_md|write simple ecosystem declaration library for new agents]] #framework-core #done
+- [ ] [fp-ts-config-and-linting]
+- [ ] [breakdown-makefile.hy|Audit Makefile.hy remnants and confirm deprecation] #framework-core #ready
+- [ ] [flatten-services|flatten services] #framework-core #framework-core #Ready #todo
+- [ ] [convert-smartgpt-bridge-to-ts|convert smartgpt bridge to ts] #ready
+- [ ] [post-move-stablization--compat-layer---hook-diet-] #precommit #refactor #typescript #python #imports #compat #monorepo #tooling #stabilization #accepted
+- [ ] [setup-new-service-generator|setup new service generator] #framework-core #in-review
+- [ ] [mock-broker|Mock broker] #framework-core #testing #infra #typescript #fastify #websockets #mongodb #chroma #promethean #framework-core #promethean #broker #mock #testing #vitest #typescript #di #inmemory #deterministic #in-review
+- [ ] [implement-defun-in-compiler-lisp-incoming|implement defun in compiler lisp incoming] #defn #in-review
+- [ ] [ensure-openapi-specs-are-automaticly-updated-when-an-endpoint-is-changed|Ensure openapi specs are automaticly updated when an endpoint is changed] #framework-core #done
+- [ ] [add_obsidian_to_gitignore_md_md|Add .obsidian to .gitignore] #framework-core #done
+- [ ] [update_cephalon_to_use_custom_embedding_function_md_md|Update cephalon to use custom embedding function] #framework-core #cephalon #discord #embedding #typescript #done
+- [ ] [add_stt_service_tests_md|Add STT service tests] #codex-task #testing #done
+- [ ] [add_starter_notes_-_eidolon_fields_cephalon_inner_monologue_1_md|Add starter notes - eidolon_fields, cephalon_inner_monologue] #framework-core #done
+- [ ] [add_unit_tests_for_date_tools_py_md|Add unit tests for date_tools.py] #codex-task #testing #done
+- [ ] [add_unit_tests_for_wav_processing_md|Add unit tests for wav_processing] #codex-task #testing #done
+- [ ] [auto-generate_agents_md_stubs_from_services_structure_md_md|Auto-generate AGENTS.md stubs from services structure] #framework-core #done
+- [ ] [build_data_structures_for_eidolon_field_md_md|Build data structures for Eidolon field] #framework-core #done
+- [ ] [build_data_structures_for_eidolon_field_codex_task_md|Build data structures for Eidolon field #codex-task] #codex-task #done
+- [ ] [clarify_promethean_project_vision_1_md|Clarify Promethean project vision] #done
+- [ ] [create_permission_gating_layer|Create permission gating layer] #framework-core #done
+- [ ] [create_vault-config_obsidian_with_kanban_and_minimal_vault_setup_1_md_md|Create vault-config .obsidian with Kanban and minimal vault setup] #framework-core #done
+- [ ] [determine_pm2_configuration_for_agents_1_md|Determine PM2 configuration for agents] #framework-core #done
+- [ ] [document_board_usage_guidelines_1_md|Document board usage guidelines] #framework-core #done
+- [ ] [document_local_testing_setup_md_md|Document local testing setup] #codex-task #testing #done
+- [ ] [fix_makefile_test_target_md|Fix Makefile test target] #codex-task #testing #done
+- [ ] [mirror_shared_utils_with_language-specific_doc_folders_md_md|Mirror shared utils with language-specific doc folders] #framework-core #done
+- [ ] [research_github_projects_board_api_md|Research GitHub Projects board API] #framework-core #done
+- [ ] [start_eidolon|Start Eidolon] #framework-core #done
+- [ ] [write_board_sync_script_md_md|Write board sync script] #framework-core #done
+- [ ] [write_meaningful_tests_for_cephalon_md_md|Write meaningful tests for Cephalon] #codex-task #testing #done
+- [ ] [write_vault_config_readme_md_for_obsidian_vault_on_md|Write vault-config README.md for Obsidian vault onboarding] #framework-core #done
+- [ ] [clearly_seperate_service_dependency_files_md|clearly seperate service dependency files md] #devops #cicd #done
+- [ ] [discord_image_attachment_indexer_md|discord image attachment indexer md] #framework-core #discord #images #attachments #indexing #memory #done
+- [ ] [make_seperate_execution_pathways_1_md_md|make seperate execution pathways 1 md md] #framework-core #done
+- [ ] [separate_all_testing_pipelines_in_github_actions_md|seperate all testing pipelines in GitHub Actions] #cicd #framework-core #done
+- [ ] [update_github_actions_to_use_makefile_md_md|Update GitHub Actions automation to pnpm scripts] #cicd #devops #framework-core #done
+- [ ] [write_simple_ecosystem_declaration_library_for_new_md_md|write simple ecosystem declaration library for new agents] #framework-core #done
 
 ## Archive
 
-- [ ] [[replace-all-python-properly-with-hy-incoming|Replace all python properly with hy incoming]] #architecture #lang #hy #python-ban #build #ci #tooling #promethean #tags #promethean #hy #lisp #python #build #ci #git #precommit #policy #docs #archive
-- [ ] [[fully-convert-js-ts-projects-to-pnpm-incoming|Fully convert js ts projects to pnpm incoming]] #framework-core #archive
-- [ ] [[define_codex_baseg_agent_md_md|define codex baseg agent md md]] #framework-core #IceBox #todo
-- [ ] [[migrating_relevant_modules_from_riatzukiza_github_io_to_-site-_and_-docs-_md|Migrating relevant modules from riatzukiza.github.io to -site- and -docs-]] #ready
-- [ ] [[extract_docs_from_riatzukiza_github_io_md_md|Extract docs from riatzukiza.github.io]] #framework-core #archive
-- [ ] [[add_unit_tests_for_gui_helpers_md_md|Add unit tests for GUI helpers]] #codex-task #testing #archive
-- [ ] [[extract_site_modules_from_riatzukiza_github_io_md_md|Extract site modules from riatzukiza.github.io]] #framework-core #breakdown
-- [ ] [[flatten-sibilant-src-folders|flatten sibilant src folders]] #todo
-- [ ] [[codex-action-build-file-contextualizer.]] #archive
-- [ ] [[decouple-audio-processing-logic-from-discord|Decouple Audio Processing Logic From Discord]] #archive
-- [ ] [[curate-code-from-personal-repository|Curate code from personal repository]] #archive
-- [ ] [[migrating_relevant_modules_from_riatzukiza_github_md|Migrating relevant modules from `riatzukiza.github.io` to `/sites/` and `/docs/`]] #archive
-- [ ] [[migrate_portfolio_client_code_to_promethean_md|Migrate portfolio client code to Promethean]] #framework-core #archive
-- [ ] [[add-tool-calls-to-codex-context|Add tool calls to codex context]] #archive
-- [ ] [[finish-work-on-gptbridge-agent-integration|Finish work on gptbridge agent integration]] #archive
-- [ ] [[also-bat-man-but-more-so]]
-- [ ] [[extract_docs_from_riatzukiza_github_io_md_md|Extract docs from riatzukiza.github.io]] #framework-core #archive
-- [ ] [[add_unit_tests_for_gui_helpers_md_md|Add unit tests for GUI helpers]] #codex-task #testing #archive
-- [ ] [[build_tiny_web_page_that_uses_promclient_in_the_br_md|Build tiny web page that uses `PromClient` in the browser to show live `process.state` (optional)]] #archive
-- [ ] [[document_board_sync_workflow_md_md|Document board sync workflow]] #framework-core #archive
-- [ ] [[obsidian_kanban_github_project_board_mirror_system_md_md|Obsidian Kanban Github Project Board Mirror system]] #framework-core #archive
-- [ ] [[pin_versions_in_configs_promethean_codex_md|Pin versions in configs (Promethean + Codex)]] #archive
-- [ ] [[set_up_makefile_for_python_js_build_test_dev_md|Replace polyglot Makefile with pnpm-first workflow docs]] #cicd #buildtools #devtools #devops #archive
-- [ ] [[create_base_readme_md_templates_for_each_service_md|create base readme md templates for each service md]] #doc-this #framework-core #ritual #archive
-- [ ] [[each_service_registers_a_pid_with_a_heartbeat_service_if_they_do_not_successfully_check_in_terminate_the_process_using_the_pid_md_md|each service registers a pid with a heartbeat service if they do not successfully check in terminate the process using the pid md md]] #framework-core #archive
-- [ ] [[look_into_why_the_state_object_never_seems_to_get_updated_md_md|look into why the state object never seems to get updated md md]] #framework-core #archive
-- [ ] [[make_discord_channel_aware_contextualizer_md_md|make discord channel aware contextualizer md md]] #framework-core #archive
-- [ ] [[prevent_dangling_processes_when_a_process_fails_due_to_error_or_automaticly_clean_them_up_1_md_md|prevent dangling processes when a process fails due to error or automaticly clean them up 1 md md]] #framework-core #resources #process-management #aionian #archive
-- [ ] [[send_waveforms_spectrograms_and_dekstop_screenshots_to_discord_for_remote_storage_md_md|send waveforms spectrograms and dekstop screenshots to discord for remote storage md md]] #framework-core #archive
+- [ ] [replace-all-python-properly-with-hy-incoming|Replace all python properly with hy incoming] #architecture #lang #hy #python-ban #build #ci #tooling #promethean #tags #promethean #hy #lisp #python #build #ci #git #precommit #policy #docs #archive
+- [ ] [fully-convert-js-ts-projects-to-pnpm-incoming|Fully convert js ts projects to pnpm incoming] #framework-core #archive
+- [ ] [define_codex_baseg_agent_md_md|define codex baseg agent md md] #framework-core #IceBox #todo
+- [ ] [migrating_relevant_modules_from_riatzukiza_github_io_to_-site-_and_-docs-_md|Migrating relevant modules from riatzukiza.github.io to -site- and -docs-] #ready
+- [ ] [extract_docs_from_riatzukiza_github_io_md_md|Extract docs from riatzukiza.github.io] #framework-core #archive
+- [ ] [add_unit_tests_for_gui_helpers_md_md|Add unit tests for GUI helpers] #codex-task #testing #archive
+- [ ] [extract_site_modules_from_riatzukiza_github_io_md_md|Extract site modules from riatzukiza.github.io] #framework-core #breakdown
+- [ ] [flatten-sibilant-src-folders|flatten sibilant src folders] #todo
+- [ ] [codex-action-build-file-contextualizer.] #archive
+- [ ] [decouple-audio-processing-logic-from-discord|Decouple Audio Processing Logic From Discord] #archive
+- [ ] [curate-code-from-personal-repository|Curate code from personal repository] #archive
+- [ ] [migrating_relevant_modules_from_riatzukiza_github_md|Migrating relevant modules from `riatzukiza.github.io` to `/sites/` and `/docs/`] #archive
+- [ ] [migrate_portfolio_client_code_to_promethean_md|Migrate portfolio client code to Promethean] #framework-core #archive
+- [ ] [add-tool-calls-to-codex-context|Add tool calls to codex context] #archive
+- [ ] [finish-work-on-gptbridge-agent-integration|Finish work on gptbridge agent integration] #archive
+- [ ] [also-bat-man-but-more-so]
+- [ ] [extract_docs_from_riatzukiza_github_io_md_md|Extract docs from riatzukiza.github.io] #framework-core #archive
+- [ ] [add_unit_tests_for_gui_helpers_md_md|Add unit tests for GUI helpers] #codex-task #testing #archive
+- [ ] [build_tiny_web_page_that_uses_promclient_in_the_br_md|Build tiny web page that uses `PromClient` in the browser to show live `process.state` (optional)] #archive
+- [ ] [document_board_sync_workflow_md_md|Document board sync workflow] #framework-core #archive
+- [ ] [obsidian_kanban_github_project_board_mirror_system_md_md|Obsidian Kanban Github Project Board Mirror system] #framework-core #archive
+- [ ] [pin_versions_in_configs_promethean_codex_md|Pin versions in configs Promethean + Codex] #archive
+- [ ] [set_up_makefile_for_python_js_build_test_dev_md|Replace polyglot Makefile with pnpm-first workflow docs] #cicd #buildtools #devtools #devops #archive
+- [ ] [create_base_readme_md_templates_for_each_service_md|create base readme md templates for each service md] #doc-this #framework-core #ritual #archive
+- [ ] [each_service_registers_a_pid_with_a_heartbeat_service_if_they_do_not_successfully_check_in_terminate_the_process_using_the_pid_md_md|each service registers a pid with a heartbeat service if they do not successfully check in terminate the process using the pid md md] #framework-core #archive
+- [ ] [look_into_why_the_state_object_never_seems_to_get_updated_md_md|look into why the state object never seems to get updated md md] #framework-core #archive
+- [ ] [make_discord_channel_aware_contextualizer_md_md|make discord channel aware contextualizer md md] #framework-core #archive
+- [ ] [prevent_dangling_processes_when_a_process_fails_due_to_error_or_automaticly_clean_them_up_1_md_md|prevent dangling processes when a process fails due to error or automaticly clean them up 1 md md] #framework-core #resources #process-management #aionian #archive
+- [ ] [send_waveforms_spectrograms_and_dekstop_screenshots_to_discord_for_remote_storage_md_md|send waveforms spectrograms and dekstop screenshots to discord for remote storage md md] #framework-core #archive
 - [ ] [[setup new service generator.md|setup new service generator]] #in-progress
 
 %% kanban:settings

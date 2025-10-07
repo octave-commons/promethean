@@ -1,9 +1,15 @@
 ---
+```
 uuid: a56da54b-7c9c-42d8-bd28-f9049ca612fb
+```
+```
 created_at: '2025-09-03T12:41:02Z'
+```
 filename: MCP-Driven Interface System
 title: MCP-Driven Interface System
+```
 description: >-
+```
   A system where pipelines register with a message bus, and an HTTP server
   connects to it to provide an interface. The broker dynamically lists available
   features, enabling procedural UI generation based on metadata. Kafka can
@@ -15,9 +21,13 @@ tags:
   - kafka
   - pipeline registration
   - interface system
+```
 related_to_uuid:
+```
   - 81de642d-cc98-4bf3-aa53-640bbd289ee4
+```
 related_to_title:
+```
   - Promethean Forge
 references:
   - uuid: 81de642d-cc98-4bf3-aa53-640bbd289ee4
@@ -62,6 +72,6 @@ I don't even need to define this broker... I should just use kafka...
 ## Related content
 - [Promethean Forge](2025.09.03.20.33.00.md)
 ## Sources
-- [Promethean Forge — L79](2025.09.03.20.33.00.md#^ref-81de642d-79-0) (line 79, col 0, score 1)
-- [Promethean Forge — L59](2025.09.03.20.33.00.md#^ref-81de642d-59-0) (line 59, col 0, score 0.85)
+- [Promethean Forge — L79]2025.09.03.20.33.00.md#^ref-81de642d-79-0 (line 79, col 0, score 1)
+- [Promethean Forge — L59]2025.09.03.20.33.00.md#^ref-81de642d-59-0 (line 59, col 0, score 0.85)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

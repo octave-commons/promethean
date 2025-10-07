@@ -1,10 +1,14 @@
 ---
+```
 uuid: 6840269b-1415-4ae0-90b5-5d520b6a88a8
+```
 title: cephalon event schema updates
 status: todo
 priority: P3
 labels: []
+```
 created_at: '2025-09-15T02:02:58.508Z'
+```
 ---
 Cephalon: Event schema updates for speech pipeline
 

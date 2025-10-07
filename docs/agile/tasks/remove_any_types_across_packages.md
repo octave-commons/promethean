@@ -1,10 +1,14 @@
 ---
+```
 uuid: cc373a25-f288-4def-8ced-b824cc72c06a
+```
 title: Remove `any` types across packages
 status: todo
 priority: P3
 labels: []
+```
 created_at: '2025-09-15T02:02:58.518Z'
+```
 ---
 # Remove `any` types across packages
 
@@ -22,6 +26,6 @@ created_at: '2025-09-15T02:02:58.518Z'
 - [ ] Replace `any` usages in `packages/agent`.
 - [ ] Replace `any` usages in `packages/codex-context` tests and types.
 - [ ] Replace `any` usages in `packages/compiler`.
-
+```
 #Todo #codex-task
-
+```

@@ -1,10 +1,16 @@
 ---
+```
 uuid: 42feae0b-46f6-4580-b9bf-071720c0dc79
+```
 title: Organize shared libraries into focused groups
 status: todo
 priority: p3
+```
 labels: ["framework-core", "refactor"]
+```
+```
 created_at: '2025-09-27T00:12:00.000Z'
+```
 ---
 #Todo
 

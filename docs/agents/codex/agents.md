@@ -19,9 +19,9 @@ Codex is a **developer-facing automation agent**.
 
 ## Restrictions
 - Cannot commit directly; PR flow only.
-- Must align with [[docs/agile/Process.md]].
+- Must align with [docs/agile/Process.md].
 
 ---
 ## 🔗 Cross-Links
-- [[agents/codex/agents|Root Agents Governance]] → source of dev setup rules.
-- [[docs/agile/Process.md|Agile Process Guide]] → defines CI flow.
+- [agents/codex/agents|Root Agents Governance] → source of dev setup rules.
+- [docs/agile/Process.md|Agile Process Guide] → defines CI flow.

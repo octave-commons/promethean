@@ -1,10 +1,14 @@
 ---
+```
 uuid: ddad0e6a-9019-4cc8-900e-93549b5ee845
+```
 title: obsidian replacement md
 status: todo
 priority: P3
 labels: []
+```
 created_at: '2025-09-15T02:02:58.518Z'
+```
 ---
 ## 🛠️ Description
 
@@ -38,9 +42,9 @@ I can do better than this lag monster
 ---
 
 ## 🔗 Related Epics
-
+```
 #framework-core
-
+```
 ---
 
 ## ⛓️ Blocked By
@@ -56,5 +60,6 @@ Nothing
 ## 🔍 Relevant Links
 
 - [[kanban]]
+```
 #ice-box
-
+```

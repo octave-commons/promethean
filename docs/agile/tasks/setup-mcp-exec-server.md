@@ -1,12 +1,16 @@
 ---
+```
 uuid: 4bf47f12-8489-46ea-bee4-ee5d826541e1
+```
 title: Setup MCP exec server from approved commands
 status: done
 priority: P2
 labels:
   - MCP
   - Tooling
+```
 created_at: '2025-10-02T02:15:00.000Z'
+```
 ---
 #InProgress
 

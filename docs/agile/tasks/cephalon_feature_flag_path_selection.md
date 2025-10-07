@@ -1,10 +1,14 @@
 ---
+```
 uuid: 1f5f505f-155d-4a1b-ba1b-73cb1dd0ea97
+```
 title: cephalon feature flag path selection
 status: todo
 priority: P3
 labels: []
+```
 created_at: '2025-09-15T02:02:58.509Z'
+```
 ---
 Cephalon: Feature-flag classic vs ECS path
 

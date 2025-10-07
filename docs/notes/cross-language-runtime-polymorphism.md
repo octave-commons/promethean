@@ -1,8 +1,14 @@
 ---
+```
 uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
+```
+```
 created_at: 2025.07.28.12.07.03.md
+```
 filename: Cross-Language Runtime Polymorphism
+```
 description: >-
+```
   Designing a staged polymorphic runtime system that enables cross-language
   communication through JSON message passing and metadata-driven buffer interop.
 tags:
@@ -13,7 +19,9 @@ tags:
   - metadata
   - buffer
   - interop
+```
 related_to_title:
+```
   - Sibilant Meta-Prompt DSL
   - polymorphic-meta-programming-engine
   - template-based-compilation
@@ -52,7 +60,9 @@ related_to_title:
   - Obsidian ChatGPT Plugin Integration Guide
   - Obsidian ChatGPT Plugin Integration
   - Obsidian Templating Plugins Integration Guide
+```
 related_to_uuid:
+```
   - af5d2824-faad-476c-a389-e912d9bc672c
   - 7bed0b9a-8b22-4b1f-be81-054a179453cb
   - f8877e5e-1e4f-4478-93cd-a0bf86d26a41
@@ -702,7 +712,9 @@ Let’s unpack and design this properly.
 ## 🧠 Core Idea: Cross-Language Communication in Promethean
 
 | Layer                    | Role                                                |
+```
 | ------------------------ | --------------------------------------------------- |
+```
 | **Meta runtime**         | Sibilant kernel running at compile-time or as shell |
 | **Language runtimes**    | Node, Python, Rust, etc. — actual execution engines |
 | **Communication medium** | JSON strings for now, typed buffers later           |
@@ -716,7 +728,7 @@ Use JSON as your **lingua franca** between:
 
 * Meta <-> Python
 * Meta <-> Node.js
-* Meta <-> Rust (via stdin/stdout or FFI)
+* Meta <-> Rust via stdin/stdout or FFI
 * Meta <-> Shell (via string streams)
 
 ### Why JSON first?
@@ -876,8 +888,8 @@ Your meta runtime becomes a **router** between brains.
 ## 🔧 What To Build Next?
 
 * `MetaObject` wrapper w/ source metadata
-* `(send-json)` + `(receive-json)` dispatcher macro
-* `(eval-in ...)` rewrite to auto-wrap MetaObject results
+* `send-json` + `receive-json` dispatcher macro
+* `eval-in ...` rewrite to auto-wrap MetaObject results
 * `register-buffer-type` registry
 * Hook for `(buffer.view)` to reroute extract calls to the owning runtime
 
@@ -892,194 +904,194 @@ Your meta runtime becomes a **router** between brains.
 You want to sketch the `MetaObject` and `register-buffer-type` interfaces next? Or write the macro wrapper that detects if a block is cross-runtime and rewrites it to a `send-json` call?
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [[sibilant-meta-prompt-dsl|Sibilant Meta-Prompt DSL]]
-- [[polymorphic-meta-programming-engine]]
-- [[docs/unique/template-based-compilation|template-based-compilation]]
-- [[polyglot-repl-interface-layer]]
-- [[sibilant-metacompiler-overview]]
-- [[cross-target-macro-system-in-sibilant|Cross-Target Macro System in Sibilant]]
-- [[docs/unique/universal-lisp-interface|Universal Lisp Interface]]
-- [[sibilant-meta-string-templating-runtime]]
-- [[promethean-native-config-design|Promethean-native config design]]
-- [[sibilant-macro-targets]]
-- [[schema-evolution-workflow]]
-- [prompt-programming-language-lisp](prompt-programming-language-lisp.md)
-- [[dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]]
-- [[chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]]
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore|Agent Tasks: Persistence Migration to DualStore]]
-- [[migrate-to-provider-tenant-architecture|Migrate to Provider-Tenant Architecture]]
-- [[docs/unique/field-interaction-equations|field-interaction-equations]]
-- [[docs/unique/aionian-circuit-math|aionian-circuit-math]]
-- [[js-to-lisp-reverse-compiler]]
-- [[board-walk-2025-08-11|Board Walk – 2025-08-11]]
-- [[recursive-prompt-construction-engine|Recursive Prompt Construction Engine]]
+- [sibilant-meta-prompt-dsl|Sibilant Meta-Prompt DSL]
+- [polymorphic-meta-programming-engine]
+- [docs/unique/template-based-compilation|template-based-compilation]
+- [polyglot-repl-interface-layer]
+- [sibilant-metacompiler-overview]
+- [cross-target-macro-system-in-sibilant|Cross-Target Macro System in Sibilant]
+- [docs/unique/universal-lisp-interface|Universal Lisp Interface]
+- [sibilant-meta-string-templating-runtime]
+- [promethean-native-config-design|Promethean-native config design]
+- [sibilant-macro-targets]
+- [schema-evolution-workflow]
+- prompt-programming-language-lisp$prompt-programming-language-lisp.md
+- [dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]
+- [chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore|Agent Tasks: Persistence Migration to DualStore]
+- [migrate-to-provider-tenant-architecture|Migrate to Provider-Tenant Architecture]
+- [docs/unique/field-interaction-equations|field-interaction-equations]
+- [docs/unique/aionian-circuit-math|aionian-circuit-math]
+- [js-to-lisp-reverse-compiler]
+- [board-walk-2025-08-11|Board Walk – 2025-08-11]
+- [recursive-prompt-construction-engine|Recursive Prompt Construction Engine]
 - [ParticleSimulationWithCanvasAndFFmpeg](particlesimulationwithcanvasandffmpeg.md)
-- [[docs/unique/compiler-kit-foundations|compiler-kit-foundations]]
-- [[promethean-agent-config-dsl|Promethean Agent Config DSL]]
-- [[model-selection-for-lightweight-conversational-tasks|Model Selection for Lightweight Conversational Tasks]]
-- [lisp-dsl-for-window-management](lisp-dsl-for-window-management.md)
+- [docs/unique/compiler-kit-foundations|compiler-kit-foundations]
+- [promethean-agent-config-dsl|Promethean Agent Config DSL]
+- [model-selection-for-lightweight-conversational-tasks|Model Selection for Lightweight Conversational Tasks]
+- lisp-dsl-for-window-management$lisp-dsl-for-window-management.md
 - [[eidolonfield]]
-- [Local-First Intention→Code Loop with Free Models](local-first-intention-code-loop-with-free-models.md)
-- [[docs/unique/obsidian-ignore-node-modules-regex|obsidian-ignore-node-modules-regex]]
-- [[mongo-outbox-implementation|Mongo Outbox Implementation]]
-- [[polyglot-s-expr-bridge-python-js-lisp-interop|Polyglot S-expr Bridge: Python-JS-Lisp Interop]]
-- [[prom-lib-rate-limiters-and-replay-api]]
-- [Services](chunks/services.md)
-- [[docs/unique/event-bus-mvp|Event Bus MVP]]
-- [heartbeat-simulation-snippets](heartbeat-simulation-snippets.md)
-- [[obsidian-chatgpt-plugin-integration-guide|Obsidian ChatGPT Plugin Integration Guide]]
-- [[obsidian-chatgpt-plugin-integration|Obsidian ChatGPT Plugin Integration]]
-- [[obsidian-templating-plugins-integration-guide|Obsidian Templating Plugins Integration Guide]]
+- Local-First Intention→Code Loop with Free Models$local-first-intention-code-loop-with-free-models.md
+- [docs/unique/obsidian-ignore-node-modules-regex|obsidian-ignore-node-modules-regex]
+- [mongo-outbox-implementation|Mongo Outbox Implementation]
+- [polyglot-s-expr-bridge-python-js-lisp-interop|Polyglot S-expr Bridge: Python-JS-Lisp Interop]
+- [prom-lib-rate-limiters-and-replay-api]
+- [Services]chunks/services.md
+- [docs/unique/event-bus-mvp|Event Bus MVP]
+- heartbeat-simulation-snippets$heartbeat-simulation-snippets.md
+- [obsidian-chatgpt-plugin-integration-guide|Obsidian ChatGPT Plugin Integration Guide]
+- [obsidian-chatgpt-plugin-integration|Obsidian ChatGPT Plugin Integration]
+- [obsidian-templating-plugins-integration-guide|Obsidian Templating Plugins Integration Guide]
 
 ## Sources
-- [[sibilant-meta-prompt-dsl#L131|Sibilant Meta-Prompt DSL — L131]] (line 131, col 1, score 0.88)
-- [[polymorphic-meta-programming-engine#L188|polymorphic-meta-programming-engine — L188]] (line 188, col 1, score 0.88)
-- [[docs/unique/template-based-compilation#L90|template-based-compilation — L90]] (line 90, col 1, score 0.87)
-- [[polyglot-repl-interface-layer#L146|polyglot-repl-interface-layer — L146]] (line 146, col 1, score 0.87)
-- [[sibilant-metacompiler-overview#L74|sibilant-metacompiler-overview — L74]] (line 74, col 1, score 0.87)
-- [[cross-target-macro-system-in-sibilant#L160|Cross-Target Macro System in Sibilant — L160]] (line 160, col 1, score 0.86)
-- [[chroma-toolkit-consolidation-plan#L172|Chroma Toolkit Consolidation Plan — L172]] (line 172, col 1, score 1)
-- [[chroma-toolkit-consolidation-plan#L172|Chroma Toolkit Consolidation Plan — L172]] (line 172, col 3, score 1)
-- [[cross-target-macro-system-in-sibilant#L178|Cross-Target Macro System in Sibilant — L178]] (line 178, col 1, score 1)
-- [[cross-target-macro-system-in-sibilant#L178|Cross-Target Macro System in Sibilant — L178]] (line 178, col 3, score 1)
+- [sibilant-meta-prompt-dsl#L131|Sibilant Meta-Prompt DSL — L131] (line 131, col 1, score 0.88)
+- [polymorphic-meta-programming-engine#L188|polymorphic-meta-programming-engine — L188] (line 188, col 1, score 0.88)
+- [docs/unique/template-based-compilation#L90|template-based-compilation — L90] (line 90, col 1, score 0.87)
+- [polyglot-repl-interface-layer#L146|polyglot-repl-interface-layer — L146] (line 146, col 1, score 0.87)
+- [sibilant-metacompiler-overview#L74|sibilant-metacompiler-overview — L74] (line 74, col 1, score 0.87)
+- [cross-target-macro-system-in-sibilant#L160|Cross-Target Macro System in Sibilant — L160] (line 160, col 1, score 0.86)
+- [chroma-toolkit-consolidation-plan#L172|Chroma Toolkit Consolidation Plan — L172] (line 172, col 1, score 1)
+- [chroma-toolkit-consolidation-plan#L172|Chroma Toolkit Consolidation Plan — L172] (line 172, col 3, score 1)
+- [cross-target-macro-system-in-sibilant#L178|Cross-Target Macro System in Sibilant — L178] (line 178, col 1, score 1)
+- [cross-target-macro-system-in-sibilant#L178|Cross-Target Macro System in Sibilant — L178] (line 178, col 3, score 1)
 - [[eidolonfield#L251|EidolonField — L251]] (line 251, col 1, score 1)
 - [[eidolonfield#L251|EidolonField — L251]] (line 251, col 3, score 1)
-- [[docs/unique/field-interaction-equations#L159|field-interaction-equations — L159]] (line 159, col 1, score 1)
-- [[docs/unique/field-interaction-equations#L159|field-interaction-equations — L159]] (line 159, col 3, score 1)
-- [[cross-target-macro-system-in-sibilant#L172|Cross-Target Macro System in Sibilant — L172]] (line 172, col 1, score 1)
-- [[cross-target-macro-system-in-sibilant#L172|Cross-Target Macro System in Sibilant — L172]] (line 172, col 3, score 1)
-- [[dynamic-context-model-for-web-components#L390|Dynamic Context Model for Web Components — L390]] (line 390, col 1, score 1)
-- [[dynamic-context-model-for-web-components#L390|Dynamic Context Model for Web Components — L390]] (line 390, col 3, score 1)
+- [docs/unique/field-interaction-equations#L159|field-interaction-equations — L159] (line 159, col 1, score 1)
+- [docs/unique/field-interaction-equations#L159|field-interaction-equations — L159] (line 159, col 3, score 1)
+- [cross-target-macro-system-in-sibilant#L172|Cross-Target Macro System in Sibilant — L172] (line 172, col 1, score 1)
+- [cross-target-macro-system-in-sibilant#L172|Cross-Target Macro System in Sibilant — L172] (line 172, col 3, score 1)
+- [dynamic-context-model-for-web-components#L390|Dynamic Context Model for Web Components — L390] (line 390, col 1, score 1)
+- [dynamic-context-model-for-web-components#L390|Dynamic Context Model for Web Components — L390] (line 390, col 3, score 1)
 - [[eidolonfield#L250|EidolonField — L250]] (line 250, col 1, score 1)
 - [[eidolonfield#L250|EidolonField — L250]] (line 250, col 3, score 1)
-- [[model-selection-for-lightweight-conversational-tasks#L133|Model Selection for Lightweight Conversational Tasks — L133]] (line 133, col 1, score 1)
-- [[model-selection-for-lightweight-conversational-tasks#L133|Model Selection for Lightweight Conversational Tasks — L133]] (line 133, col 3, score 1)
-- [[docs/unique/aionian-circuit-math#L155|aionian-circuit-math — L155]] (line 155, col 1, score 1)
-- [[docs/unique/aionian-circuit-math#L155|aionian-circuit-math — L155]] (line 155, col 3, score 1)
-- [[docs/unique/compiler-kit-foundations#L609|compiler-kit-foundations — L609]] (line 609, col 1, score 1)
-- [[docs/unique/compiler-kit-foundations#L609|compiler-kit-foundations — L609]] (line 609, col 3, score 1)
-- [[cross-target-macro-system-in-sibilant#L168|Cross-Target Macro System in Sibilant — L168]] (line 168, col 1, score 1)
-- [[cross-target-macro-system-in-sibilant#L168|Cross-Target Macro System in Sibilant — L168]] (line 168, col 3, score 1)
-- [[docs/unique/field-interaction-equations#L155|field-interaction-equations — L155]] (line 155, col 1, score 1)
-- [[docs/unique/field-interaction-equations#L155|field-interaction-equations — L155]] (line 155, col 3, score 1)
-- [[cross-target-macro-system-in-sibilant#L174|Cross-Target Macro System in Sibilant — L174]] (line 174, col 1, score 1)
-- [[cross-target-macro-system-in-sibilant#L174|Cross-Target Macro System in Sibilant — L174]] (line 174, col 3, score 1)
-- [[polymorphic-meta-programming-engine#L198|polymorphic-meta-programming-engine — L198]] (line 198, col 1, score 1)
-- [[polymorphic-meta-programming-engine#L198|polymorphic-meta-programming-engine — L198]] (line 198, col 3, score 1)
-- [[recursive-prompt-construction-engine#L177|Recursive Prompt Construction Engine — L177]] (line 177, col 1, score 1)
-- [[recursive-prompt-construction-engine#L177|Recursive Prompt Construction Engine — L177]] (line 177, col 3, score 1)
-- [[sibilant-macro-targets#L167|sibilant-macro-targets — L167]] (line 167, col 1, score 1)
-- [[sibilant-macro-targets#L167|sibilant-macro-targets — L167]] (line 167, col 3, score 1)
-- [[docs/unique/compiler-kit-foundations#L612|compiler-kit-foundations — L612]] (line 612, col 1, score 1)
-- [[docs/unique/compiler-kit-foundations#L612|compiler-kit-foundations — L612]] (line 612, col 3, score 1)
-- [[cross-target-macro-system-in-sibilant#L171|Cross-Target Macro System in Sibilant — L171]] (line 171, col 1, score 1)
-- [[cross-target-macro-system-in-sibilant#L171|Cross-Target Macro System in Sibilant — L171]] (line 171, col 3, score 1)
-- [[polyglot-repl-interface-layer#L159|polyglot-repl-interface-layer — L159]] (line 159, col 1, score 1)
-- [[polyglot-repl-interface-layer#L159|polyglot-repl-interface-layer — L159]] (line 159, col 3, score 1)
-- [[polymorphic-meta-programming-engine#L201|polymorphic-meta-programming-engine — L201]] (line 201, col 1, score 1)
-- [[polymorphic-meta-programming-engine#L201|polymorphic-meta-programming-engine — L201]] (line 201, col 3, score 1)
-- [[dynamic-context-model-for-web-components#L393|Dynamic Context Model for Web Components — L393]] (line 393, col 1, score 1)
-- [[dynamic-context-model-for-web-components#L393|Dynamic Context Model for Web Components — L393]] (line 393, col 3, score 1)
-- [[docs/unique/field-interaction-equations#L158|field-interaction-equations — L158]] (line 158, col 1, score 1)
-- [[docs/unique/field-interaction-equations#L158|field-interaction-equations — L158]] (line 158, col 3, score 1)
-- [[js-to-lisp-reverse-compiler#L417|js-to-lisp-reverse-compiler — L417]] (line 417, col 1, score 1)
-- [[js-to-lisp-reverse-compiler#L417|js-to-lisp-reverse-compiler — L417]] (line 417, col 3, score 1)
-- [[migrate-to-provider-tenant-architecture#L274|Migrate to Provider-Tenant Architecture — L274]] (line 274, col 1, score 1)
-- [[migrate-to-provider-tenant-architecture#L274|Migrate to Provider-Tenant Architecture — L274]] (line 274, col 3, score 1)
-- [Local-First Intention→Code Loop with Free Models — L146](local-first-intention-code-loop-with-free-models.md#L146) (line 146, col 1, score 1)
-- [Local-First Intention→Code Loop with Free Models — L146](local-first-intention-code-loop-with-free-models.md#L146) (line 146, col 3, score 1)
-- [[docs/unique/obsidian-ignore-node-modules-regex#L52|obsidian-ignore-node-modules-regex — L52]] (line 52, col 1, score 1)
-- [[docs/unique/obsidian-ignore-node-modules-regex#L52|obsidian-ignore-node-modules-regex — L52]] (line 52, col 3, score 1)
-- [[polyglot-s-expr-bridge-python-js-lisp-interop#L519|Polyglot S-expr Bridge: Python-JS-Lisp Interop — L519]] (line 519, col 1, score 1)
-- [[polyglot-s-expr-bridge-python-js-lisp-interop#L519|Polyglot S-expr Bridge: Python-JS-Lisp Interop — L519]] (line 519, col 3, score 1)
-- [[polymorphic-meta-programming-engine#L196|polymorphic-meta-programming-engine — L196]] (line 196, col 1, score 1)
-- [[polymorphic-meta-programming-engine#L196|polymorphic-meta-programming-engine — L196]] (line 196, col 3, score 1)
-- [[cross-target-macro-system-in-sibilant#L176|Cross-Target Macro System in Sibilant — L176]] (line 176, col 1, score 1)
-- [[cross-target-macro-system-in-sibilant#L176|Cross-Target Macro System in Sibilant — L176]] (line 176, col 3, score 1)
-- [lisp-dsl-for-window-management — L219](lisp-dsl-for-window-management.md#L219) (line 219, col 1, score 1)
-- [lisp-dsl-for-window-management — L219](lisp-dsl-for-window-management.md#L219) (line 219, col 3, score 1)
-- [[polymorphic-meta-programming-engine#L207|polymorphic-meta-programming-engine — L207]] (line 207, col 1, score 1)
-- [[polymorphic-meta-programming-engine#L207|polymorphic-meta-programming-engine — L207]] (line 207, col 3, score 1)
-- [[promethean-agent-config-dsl#L317|Promethean Agent Config DSL — L317]] (line 317, col 1, score 1)
-- [[promethean-agent-config-dsl#L317|Promethean Agent Config DSL — L317]] (line 317, col 3, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L130|Agent Tasks: Persistence Migration to DualStore — L130]] (line 130, col 1, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L130|Agent Tasks: Persistence Migration to DualStore — L130]] (line 130, col 3, score 1)
-- [[docs/unique/aionian-circuit-math#L159|aionian-circuit-math — L159]] (line 159, col 1, score 1)
-- [[docs/unique/aionian-circuit-math#L159|aionian-circuit-math — L159]] (line 159, col 3, score 1)
-- [[board-walk-2025-08-11#L134|Board Walk – 2025-08-11 — L134]] (line 134, col 1, score 1)
-- [[board-walk-2025-08-11#L134|Board Walk – 2025-08-11 — L134]] (line 134, col 3, score 1)
-- [[chroma-toolkit-consolidation-plan#L168|Chroma Toolkit Consolidation Plan — L168]] (line 168, col 1, score 1)
-- [[chroma-toolkit-consolidation-plan#L168|Chroma Toolkit Consolidation Plan — L168]] (line 168, col 3, score 1)
-- [[docs/unique/compiler-kit-foundations#L617|compiler-kit-foundations — L617]] (line 617, col 1, score 1)
-- [[docs/unique/compiler-kit-foundations#L617|compiler-kit-foundations — L617]] (line 617, col 3, score 1)
-- [[cross-target-macro-system-in-sibilant#L170|Cross-Target Macro System in Sibilant — L170]] (line 170, col 1, score 1)
-- [[cross-target-macro-system-in-sibilant#L170|Cross-Target Macro System in Sibilant — L170]] (line 170, col 3, score 1)
+- [model-selection-for-lightweight-conversational-tasks#L133|Model Selection for Lightweight Conversational Tasks — L133] (line 133, col 1, score 1)
+- [model-selection-for-lightweight-conversational-tasks#L133|Model Selection for Lightweight Conversational Tasks — L133] (line 133, col 3, score 1)
+- [docs/unique/aionian-circuit-math#L155|aionian-circuit-math — L155] (line 155, col 1, score 1)
+- [docs/unique/aionian-circuit-math#L155|aionian-circuit-math — L155] (line 155, col 3, score 1)
+- [docs/unique/compiler-kit-foundations#L609|compiler-kit-foundations — L609] (line 609, col 1, score 1)
+- [docs/unique/compiler-kit-foundations#L609|compiler-kit-foundations — L609] (line 609, col 3, score 1)
+- [cross-target-macro-system-in-sibilant#L168|Cross-Target Macro System in Sibilant — L168] (line 168, col 1, score 1)
+- [cross-target-macro-system-in-sibilant#L168|Cross-Target Macro System in Sibilant — L168] (line 168, col 3, score 1)
+- [docs/unique/field-interaction-equations#L155|field-interaction-equations — L155] (line 155, col 1, score 1)
+- [docs/unique/field-interaction-equations#L155|field-interaction-equations — L155] (line 155, col 3, score 1)
+- [cross-target-macro-system-in-sibilant#L174|Cross-Target Macro System in Sibilant — L174] (line 174, col 1, score 1)
+- [cross-target-macro-system-in-sibilant#L174|Cross-Target Macro System in Sibilant — L174] (line 174, col 3, score 1)
+- [polymorphic-meta-programming-engine#L198|polymorphic-meta-programming-engine — L198] (line 198, col 1, score 1)
+- [polymorphic-meta-programming-engine#L198|polymorphic-meta-programming-engine — L198] (line 198, col 3, score 1)
+- [recursive-prompt-construction-engine#L177|Recursive Prompt Construction Engine — L177] (line 177, col 1, score 1)
+- [recursive-prompt-construction-engine#L177|Recursive Prompt Construction Engine — L177] (line 177, col 3, score 1)
+- [sibilant-macro-targets#L167|sibilant-macro-targets — L167] (line 167, col 1, score 1)
+- [sibilant-macro-targets#L167|sibilant-macro-targets — L167] (line 167, col 3, score 1)
+- [docs/unique/compiler-kit-foundations#L612|compiler-kit-foundations — L612] (line 612, col 1, score 1)
+- [docs/unique/compiler-kit-foundations#L612|compiler-kit-foundations — L612] (line 612, col 3, score 1)
+- [cross-target-macro-system-in-sibilant#L171|Cross-Target Macro System in Sibilant — L171] (line 171, col 1, score 1)
+- [cross-target-macro-system-in-sibilant#L171|Cross-Target Macro System in Sibilant — L171] (line 171, col 3, score 1)
+- [polyglot-repl-interface-layer#L159|polyglot-repl-interface-layer — L159] (line 159, col 1, score 1)
+- [polyglot-repl-interface-layer#L159|polyglot-repl-interface-layer — L159] (line 159, col 3, score 1)
+- [polymorphic-meta-programming-engine#L201|polymorphic-meta-programming-engine — L201] (line 201, col 1, score 1)
+- [polymorphic-meta-programming-engine#L201|polymorphic-meta-programming-engine — L201] (line 201, col 3, score 1)
+- [dynamic-context-model-for-web-components#L393|Dynamic Context Model for Web Components — L393] (line 393, col 1, score 1)
+- [dynamic-context-model-for-web-components#L393|Dynamic Context Model for Web Components — L393] (line 393, col 3, score 1)
+- [docs/unique/field-interaction-equations#L158|field-interaction-equations — L158] (line 158, col 1, score 1)
+- [docs/unique/field-interaction-equations#L158|field-interaction-equations — L158] (line 158, col 3, score 1)
+- [js-to-lisp-reverse-compiler#L417|js-to-lisp-reverse-compiler — L417] (line 417, col 1, score 1)
+- [js-to-lisp-reverse-compiler#L417|js-to-lisp-reverse-compiler — L417] (line 417, col 3, score 1)
+- [migrate-to-provider-tenant-architecture#L274|Migrate to Provider-Tenant Architecture — L274] (line 274, col 1, score 1)
+- [migrate-to-provider-tenant-architecture#L274|Migrate to Provider-Tenant Architecture — L274] (line 274, col 3, score 1)
+- Local-First Intention→Code Loop with Free Models — L146$local-first-intention-code-loop-with-free-models.md#L146 (line 146, col 1, score 1)
+- Local-First Intention→Code Loop with Free Models — L146$local-first-intention-code-loop-with-free-models.md#L146 (line 146, col 3, score 1)
+- [docs/unique/obsidian-ignore-node-modules-regex#L52|obsidian-ignore-node-modules-regex — L52] (line 52, col 1, score 1)
+- [docs/unique/obsidian-ignore-node-modules-regex#L52|obsidian-ignore-node-modules-regex — L52] (line 52, col 3, score 1)
+- [polyglot-s-expr-bridge-python-js-lisp-interop#L519|Polyglot S-expr Bridge: Python-JS-Lisp Interop — L519] (line 519, col 1, score 1)
+- [polyglot-s-expr-bridge-python-js-lisp-interop#L519|Polyglot S-expr Bridge: Python-JS-Lisp Interop — L519] (line 519, col 3, score 1)
+- [polymorphic-meta-programming-engine#L196|polymorphic-meta-programming-engine — L196] (line 196, col 1, score 1)
+- [polymorphic-meta-programming-engine#L196|polymorphic-meta-programming-engine — L196] (line 196, col 3, score 1)
+- [cross-target-macro-system-in-sibilant#L176|Cross-Target Macro System in Sibilant — L176] (line 176, col 1, score 1)
+- [cross-target-macro-system-in-sibilant#L176|Cross-Target Macro System in Sibilant — L176] (line 176, col 3, score 1)
+- lisp-dsl-for-window-management — L219$lisp-dsl-for-window-management.md#L219 (line 219, col 1, score 1)
+- lisp-dsl-for-window-management — L219$lisp-dsl-for-window-management.md#L219 (line 219, col 3, score 1)
+- [polymorphic-meta-programming-engine#L207|polymorphic-meta-programming-engine — L207] (line 207, col 1, score 1)
+- [polymorphic-meta-programming-engine#L207|polymorphic-meta-programming-engine — L207] (line 207, col 3, score 1)
+- [promethean-agent-config-dsl#L317|Promethean Agent Config DSL — L317] (line 317, col 1, score 1)
+- [promethean-agent-config-dsl#L317|Promethean Agent Config DSL — L317] (line 317, col 3, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L130|Agent Tasks: Persistence Migration to DualStore — L130] (line 130, col 1, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L130|Agent Tasks: Persistence Migration to DualStore — L130] (line 130, col 3, score 1)
+- [docs/unique/aionian-circuit-math#L159|aionian-circuit-math — L159] (line 159, col 1, score 1)
+- [docs/unique/aionian-circuit-math#L159|aionian-circuit-math — L159] (line 159, col 3, score 1)
+- [board-walk-2025-08-11#L134|Board Walk – 2025-08-11 — L134] (line 134, col 1, score 1)
+- [board-walk-2025-08-11#L134|Board Walk – 2025-08-11 — L134] (line 134, col 3, score 1)
+- [chroma-toolkit-consolidation-plan#L168|Chroma Toolkit Consolidation Plan — L168] (line 168, col 1, score 1)
+- [chroma-toolkit-consolidation-plan#L168|Chroma Toolkit Consolidation Plan — L168] (line 168, col 3, score 1)
+- [docs/unique/compiler-kit-foundations#L617|compiler-kit-foundations — L617] (line 617, col 1, score 1)
+- [docs/unique/compiler-kit-foundations#L617|compiler-kit-foundations — L617] (line 617, col 3, score 1)
+- [cross-target-macro-system-in-sibilant#L170|Cross-Target Macro System in Sibilant — L170] (line 170, col 1, score 1)
+- [cross-target-macro-system-in-sibilant#L170|Cross-Target Macro System in Sibilant — L170] (line 170, col 3, score 1)
 - [ParticleSimulationWithCanvasAndFFmpeg — L247](particlesimulationwithcanvasandffmpeg.md#L247) (line 247, col 1, score 1)
 - [ParticleSimulationWithCanvasAndFFmpeg — L247](particlesimulationwithcanvasandffmpeg.md#L247) (line 247, col 3, score 1)
-- [[polyglot-repl-interface-layer#L160|polyglot-repl-interface-layer — L160]] (line 160, col 1, score 1)
-- [[polyglot-repl-interface-layer#L160|polyglot-repl-interface-layer — L160]] (line 160, col 3, score 1)
-- [Services — L12](chunks/services.md#L12) (line 12, col 1, score 1)
-- [Services — L12](chunks/services.md#L12) (line 12, col 3, score 1)
-- [[docs/unique/event-bus-mvp#L550|Event Bus MVP — L550]] (line 550, col 1, score 1)
-- [[docs/unique/event-bus-mvp#L550|Event Bus MVP — L550]] (line 550, col 3, score 1)
-- [[mongo-outbox-implementation#L554|Mongo Outbox Implementation — L554]] (line 554, col 1, score 1)
-- [[mongo-outbox-implementation#L554|Mongo Outbox Implementation — L554]] (line 554, col 3, score 1)
-- [[prom-lib-rate-limiters-and-replay-api#L384|prom-lib-rate-limiters-and-replay-api — L384]] (line 384, col 1, score 1)
-- [[prom-lib-rate-limiters-and-replay-api#L384|prom-lib-rate-limiters-and-replay-api — L384]] (line 384, col 3, score 1)
-- [heartbeat-simulation-snippets — L96](heartbeat-simulation-snippets.md#L96) (line 96, col 1, score 1)
-- [heartbeat-simulation-snippets — L96](heartbeat-simulation-snippets.md#L96) (line 96, col 3, score 1)
-- [[obsidian-chatgpt-plugin-integration-guide#L38|Obsidian ChatGPT Plugin Integration Guide — L38]] (line 38, col 1, score 1)
-- [[obsidian-chatgpt-plugin-integration-guide#L38|Obsidian ChatGPT Plugin Integration Guide — L38]] (line 38, col 3, score 1)
-- [[obsidian-chatgpt-plugin-integration#L38|Obsidian ChatGPT Plugin Integration — L38]] (line 38, col 1, score 1)
-- [[obsidian-chatgpt-plugin-integration#L38|Obsidian ChatGPT Plugin Integration — L38]] (line 38, col 3, score 1)
-- [[obsidian-templating-plugins-integration-guide#L90|Obsidian Templating Plugins Integration Guide — L90]] (line 90, col 1, score 1)
-- [[obsidian-templating-plugins-integration-guide#L90|Obsidian Templating Plugins Integration Guide — L90]] (line 90, col 3, score 1)
-- [[promethean-native-config-design#L411|Promethean-native config design — L411]] (line 411, col 1, score 1)
-- [[promethean-native-config-design#L411|Promethean-native config design — L411]] (line 411, col 3, score 1)
-- [[sibilant-macro-targets#L181|sibilant-macro-targets — L181]] (line 181, col 1, score 1)
-- [[sibilant-macro-targets#L181|sibilant-macro-targets — L181]] (line 181, col 3, score 1)
-- [[sibilant-meta-string-templating-runtime#L132|sibilant-meta-string-templating-runtime — L132]] (line 132, col 1, score 0.99)
-- [[sibilant-meta-string-templating-runtime#L132|sibilant-meta-string-templating-runtime — L132]] (line 132, col 3, score 0.99)
-- [[chroma-toolkit-consolidation-plan#L182|Chroma Toolkit Consolidation Plan — L182]] (line 182, col 1, score 0.99)
-- [[chroma-toolkit-consolidation-plan#L182|Chroma Toolkit Consolidation Plan — L182]] (line 182, col 3, score 0.99)
-- [[cross-target-macro-system-in-sibilant#L193|Cross-Target Macro System in Sibilant — L193]] (line 193, col 1, score 1)
-- [[cross-target-macro-system-in-sibilant#L193|Cross-Target Macro System in Sibilant — L193]] (line 193, col 3, score 1)
-- [[sibilant-macro-targets#L187|sibilant-macro-targets — L187]] (line 187, col 1, score 1)
-- [[sibilant-macro-targets#L187|sibilant-macro-targets — L187]] (line 187, col 3, score 1)
-- [[sibilant-metacompiler-overview#L106|sibilant-metacompiler-overview — L106]] (line 106, col 1, score 1)
-- [[sibilant-metacompiler-overview#L106|sibilant-metacompiler-overview — L106]] (line 106, col 3, score 1)
-- [[polyglot-repl-interface-layer#L166|polyglot-repl-interface-layer — L166]] (line 166, col 1, score 1)
-- [[polyglot-repl-interface-layer#L166|polyglot-repl-interface-layer — L166]] (line 166, col 3, score 1)
-- [[sibilant-meta-string-templating-runtime#L131|sibilant-meta-string-templating-runtime — L131]] (line 131, col 1, score 1)
-- [[sibilant-meta-string-templating-runtime#L131|sibilant-meta-string-templating-runtime — L131]] (line 131, col 3, score 1)
-- [[polyglot-repl-interface-layer#L167|polyglot-repl-interface-layer — L167]] (line 167, col 1, score 1)
-- [[polyglot-repl-interface-layer#L167|polyglot-repl-interface-layer — L167]] (line 167, col 3, score 1)
-- [[cross-target-macro-system-in-sibilant#L190|Cross-Target Macro System in Sibilant — L190]] (line 190, col 1, score 1)
-- [[cross-target-macro-system-in-sibilant#L190|Cross-Target Macro System in Sibilant — L190]] (line 190, col 3, score 1)
-- [[sibilant-metacompiler-overview#L103|sibilant-metacompiler-overview — L103]] (line 103, col 1, score 1)
-- [[sibilant-metacompiler-overview#L103|sibilant-metacompiler-overview — L103]] (line 103, col 3, score 1)
-- [[cross-target-macro-system-in-sibilant#L195|Cross-Target Macro System in Sibilant — L195]] (line 195, col 1, score 1)
-- [[cross-target-macro-system-in-sibilant#L195|Cross-Target Macro System in Sibilant — L195]] (line 195, col 3, score 1)
-- [[docs/unique/template-based-compilation#L134|template-based-compilation — L134]] (line 134, col 1, score 1)
-- [[docs/unique/template-based-compilation#L134|template-based-compilation — L134]] (line 134, col 3, score 1)
-- [[sibilant-meta-prompt-dsl#L219|Sibilant Meta-Prompt DSL — L219]] (line 219, col 1, score 1)
-- [[sibilant-meta-prompt-dsl#L219|Sibilant Meta-Prompt DSL — L219]] (line 219, col 3, score 1)
-- [[polymorphic-meta-programming-engine#L215|polymorphic-meta-programming-engine — L215]] (line 215, col 1, score 1)
-- [[polymorphic-meta-programming-engine#L215|polymorphic-meta-programming-engine — L215]] (line 215, col 3, score 1)
-- [[polymorphic-meta-programming-engine#L218|polymorphic-meta-programming-engine — L218]] (line 218, col 1, score 1)
-- [[polymorphic-meta-programming-engine#L218|polymorphic-meta-programming-engine — L218]] (line 218, col 3, score 1)
-- [[cross-target-macro-system-in-sibilant#L192|Cross-Target Macro System in Sibilant — L192]] (line 192, col 1, score 1)
-- [[cross-target-macro-system-in-sibilant#L192|Cross-Target Macro System in Sibilant — L192]] (line 192, col 3, score 1)
-- [[sibilant-macro-targets#L186|sibilant-macro-targets — L186]] (line 186, col 1, score 1)
-- [[sibilant-macro-targets#L186|sibilant-macro-targets — L186]] (line 186, col 3, score 1)
-- [[docs/unique/template-based-compilation#L130|template-based-compilation — L130]] (line 130, col 1, score 1)
-- [[docs/unique/template-based-compilation#L130|template-based-compilation — L130]] (line 130, col 3, score 1)
-- [[polyglot-repl-interface-layer#L169|polyglot-repl-interface-layer — L169]] (line 169, col 1, score 1)
-- [[polyglot-repl-interface-layer#L169|polyglot-repl-interface-layer — L169]] (line 169, col 3, score 1)
-- [[sibilant-metacompiler-overview#L105|sibilant-metacompiler-overview — L105]] (line 105, col 1, score 1)
-- [[sibilant-metacompiler-overview#L105|sibilant-metacompiler-overview — L105]] (line 105, col 3, score 1)
-- [[polymorphic-meta-programming-engine#L216|polymorphic-meta-programming-engine — L216]] (line 216, col 1, score 1)
-- [[polymorphic-meta-programming-engine#L216|polymorphic-meta-programming-engine — L216]] (line 216, col 3, score 1)
-- [[docs/unique/template-based-compilation#L131|template-based-compilation — L131]] (line 131, col 1, score 1)
-- [[docs/unique/template-based-compilation#L131|template-based-compilation — L131]] (line 131, col 3, score 1)
+- [polyglot-repl-interface-layer#L160|polyglot-repl-interface-layer — L160] (line 160, col 1, score 1)
+- [polyglot-repl-interface-layer#L160|polyglot-repl-interface-layer — L160] (line 160, col 3, score 1)
+- [Services — L12]chunks/services.md#L12 (line 12, col 1, score 1)
+- [Services — L12]chunks/services.md#L12 (line 12, col 3, score 1)
+- [docs/unique/event-bus-mvp#L550|Event Bus MVP — L550] (line 550, col 1, score 1)
+- [docs/unique/event-bus-mvp#L550|Event Bus MVP — L550] (line 550, col 3, score 1)
+- [mongo-outbox-implementation#L554|Mongo Outbox Implementation — L554] (line 554, col 1, score 1)
+- [mongo-outbox-implementation#L554|Mongo Outbox Implementation — L554] (line 554, col 3, score 1)
+- [prom-lib-rate-limiters-and-replay-api#L384|prom-lib-rate-limiters-and-replay-api — L384] (line 384, col 1, score 1)
+- [prom-lib-rate-limiters-and-replay-api#L384|prom-lib-rate-limiters-and-replay-api — L384] (line 384, col 3, score 1)
+- heartbeat-simulation-snippets — L96$heartbeat-simulation-snippets.md#L96 (line 96, col 1, score 1)
+- heartbeat-simulation-snippets — L96$heartbeat-simulation-snippets.md#L96 (line 96, col 3, score 1)
+- [obsidian-chatgpt-plugin-integration-guide#L38|Obsidian ChatGPT Plugin Integration Guide — L38] (line 38, col 1, score 1)
+- [obsidian-chatgpt-plugin-integration-guide#L38|Obsidian ChatGPT Plugin Integration Guide — L38] (line 38, col 3, score 1)
+- [obsidian-chatgpt-plugin-integration#L38|Obsidian ChatGPT Plugin Integration — L38] (line 38, col 1, score 1)
+- [obsidian-chatgpt-plugin-integration#L38|Obsidian ChatGPT Plugin Integration — L38] (line 38, col 3, score 1)
+- [obsidian-templating-plugins-integration-guide#L90|Obsidian Templating Plugins Integration Guide — L90] (line 90, col 1, score 1)
+- [obsidian-templating-plugins-integration-guide#L90|Obsidian Templating Plugins Integration Guide — L90] (line 90, col 3, score 1)
+- [promethean-native-config-design#L411|Promethean-native config design — L411] (line 411, col 1, score 1)
+- [promethean-native-config-design#L411|Promethean-native config design — L411] (line 411, col 3, score 1)
+- [sibilant-macro-targets#L181|sibilant-macro-targets — L181] (line 181, col 1, score 1)
+- [sibilant-macro-targets#L181|sibilant-macro-targets — L181] (line 181, col 3, score 1)
+- [sibilant-meta-string-templating-runtime#L132|sibilant-meta-string-templating-runtime — L132] (line 132, col 1, score 0.99)
+- [sibilant-meta-string-templating-runtime#L132|sibilant-meta-string-templating-runtime — L132] (line 132, col 3, score 0.99)
+- [chroma-toolkit-consolidation-plan#L182|Chroma Toolkit Consolidation Plan — L182] (line 182, col 1, score 0.99)
+- [chroma-toolkit-consolidation-plan#L182|Chroma Toolkit Consolidation Plan — L182] (line 182, col 3, score 0.99)
+- [cross-target-macro-system-in-sibilant#L193|Cross-Target Macro System in Sibilant — L193] (line 193, col 1, score 1)
+- [cross-target-macro-system-in-sibilant#L193|Cross-Target Macro System in Sibilant — L193] (line 193, col 3, score 1)
+- [sibilant-macro-targets#L187|sibilant-macro-targets — L187] (line 187, col 1, score 1)
+- [sibilant-macro-targets#L187|sibilant-macro-targets — L187] (line 187, col 3, score 1)
+- [sibilant-metacompiler-overview#L106|sibilant-metacompiler-overview — L106] (line 106, col 1, score 1)
+- [sibilant-metacompiler-overview#L106|sibilant-metacompiler-overview — L106] (line 106, col 3, score 1)
+- [polyglot-repl-interface-layer#L166|polyglot-repl-interface-layer — L166] (line 166, col 1, score 1)
+- [polyglot-repl-interface-layer#L166|polyglot-repl-interface-layer — L166] (line 166, col 3, score 1)
+- [sibilant-meta-string-templating-runtime#L131|sibilant-meta-string-templating-runtime — L131] (line 131, col 1, score 1)
+- [sibilant-meta-string-templating-runtime#L131|sibilant-meta-string-templating-runtime — L131] (line 131, col 3, score 1)
+- [polyglot-repl-interface-layer#L167|polyglot-repl-interface-layer — L167] (line 167, col 1, score 1)
+- [polyglot-repl-interface-layer#L167|polyglot-repl-interface-layer — L167] (line 167, col 3, score 1)
+- [cross-target-macro-system-in-sibilant#L190|Cross-Target Macro System in Sibilant — L190] (line 190, col 1, score 1)
+- [cross-target-macro-system-in-sibilant#L190|Cross-Target Macro System in Sibilant — L190] (line 190, col 3, score 1)
+- [sibilant-metacompiler-overview#L103|sibilant-metacompiler-overview — L103] (line 103, col 1, score 1)
+- [sibilant-metacompiler-overview#L103|sibilant-metacompiler-overview — L103] (line 103, col 3, score 1)
+- [cross-target-macro-system-in-sibilant#L195|Cross-Target Macro System in Sibilant — L195] (line 195, col 1, score 1)
+- [cross-target-macro-system-in-sibilant#L195|Cross-Target Macro System in Sibilant — L195] (line 195, col 3, score 1)
+- [docs/unique/template-based-compilation#L134|template-based-compilation — L134] (line 134, col 1, score 1)
+- [docs/unique/template-based-compilation#L134|template-based-compilation — L134] (line 134, col 3, score 1)
+- [sibilant-meta-prompt-dsl#L219|Sibilant Meta-Prompt DSL — L219] (line 219, col 1, score 1)
+- [sibilant-meta-prompt-dsl#L219|Sibilant Meta-Prompt DSL — L219] (line 219, col 3, score 1)
+- [polymorphic-meta-programming-engine#L215|polymorphic-meta-programming-engine — L215] (line 215, col 1, score 1)
+- [polymorphic-meta-programming-engine#L215|polymorphic-meta-programming-engine — L215] (line 215, col 3, score 1)
+- [polymorphic-meta-programming-engine#L218|polymorphic-meta-programming-engine — L218] (line 218, col 1, score 1)
+- [polymorphic-meta-programming-engine#L218|polymorphic-meta-programming-engine — L218] (line 218, col 3, score 1)
+- [cross-target-macro-system-in-sibilant#L192|Cross-Target Macro System in Sibilant — L192] (line 192, col 1, score 1)
+- [cross-target-macro-system-in-sibilant#L192|Cross-Target Macro System in Sibilant — L192] (line 192, col 3, score 1)
+- [sibilant-macro-targets#L186|sibilant-macro-targets — L186] (line 186, col 1, score 1)
+- [sibilant-macro-targets#L186|sibilant-macro-targets — L186] (line 186, col 3, score 1)
+- [docs/unique/template-based-compilation#L130|template-based-compilation — L130] (line 130, col 1, score 1)
+- [docs/unique/template-based-compilation#L130|template-based-compilation — L130] (line 130, col 3, score 1)
+- [polyglot-repl-interface-layer#L169|polyglot-repl-interface-layer — L169] (line 169, col 1, score 1)
+- [polyglot-repl-interface-layer#L169|polyglot-repl-interface-layer — L169] (line 169, col 3, score 1)
+- [sibilant-metacompiler-overview#L105|sibilant-metacompiler-overview — L105] (line 105, col 1, score 1)
+- [sibilant-metacompiler-overview#L105|sibilant-metacompiler-overview — L105] (line 105, col 3, score 1)
+- [polymorphic-meta-programming-engine#L216|polymorphic-meta-programming-engine — L216] (line 216, col 1, score 1)
+- [polymorphic-meta-programming-engine#L216|polymorphic-meta-programming-engine — L216] (line 216, col 3, score 1)
+- [docs/unique/template-based-compilation#L131|template-based-compilation — L131] (line 131, col 1, score 1)
+- [docs/unique/template-based-compilation#L131|template-based-compilation — L131] (line 131, col 3, score 1)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

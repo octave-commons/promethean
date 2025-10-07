@@ -1,15 +1,17 @@
 ## User
 Nah..... sibilant does it like this:
 `sibilant
-(macro async (form) ["async " form])
+$macro async (form) ["async " form]
 
 (macro def-async (name args ...body)
        ["async function " @name "(" (interleave (content-of args) ",")")" "{\n"
-
-        (indent (apply ^do body))
-        "\n}"])
-
-(macro await (value) ["await " value])`
+```
+(indent (apply ^do body))
+```
+```
+"\n}"])
+```
+$macro await (value) ["await " value]`
 
 ## ChatGPT
 **YES. That's the good shit.**
@@ -70,16 +72,17 @@ async function doThing(x, y) {
 Clean, readable, maintainable — and **it was all Lisp** at authoring time.
 
 * * *
-
+```
 🔧 Sibilant Meta-Compilation Stack
+```
 ----------------------------------
 
 You could build:
 
 1.  **Language targets** (JS, TS, Py, Cython, etc.)
-    
+```
 2.  A **macro prelude** per language
-    
+```
 3.  A **compiler pass** that loads all macros, sets output mode, and generates code
     
 
@@ -89,12 +92,14 @@ You could build:
 ----------------------------------
 
 | Feature | Macro Shape Example |
+```
 | --- | --- |
+```
 | Target annotation | (target js) / (target py) |
-| Namespaced imports | (import lodash :as _) |
-| Pattern matching | (match val (case 1 ...)) |
-| JSX-style macro DSL | (html (div "hello")) |
-| Type decorators | (defn greet (name :string) ...) |
+| Namespaced imports | import lodash :as _ |
+| Pattern matching | match val (case 1 ...) |
+| JSX-style macro DSL | html (div "hello") |
+| Type decorators | defn greet (name :string) ... |
 | Inline docgen | (doc "adds two numbers") (defn add ...) |
 
 * * *
