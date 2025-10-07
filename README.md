@@ -83,6 +83,23 @@ pnpm kanban --help        # Show all available subcommands
 - **Configuration**: `promethean.kanban.json` - Kanban system configuration
 - **Process guide**: `docs/agile/process.md` - Workflow and process documentation
 
+### 🧭 Path Resolution & Configuration
+
+- The CLI automatically walks up from your current directory until it finds a
+  workspace marker (`pnpm-workspace.yaml` or `.git`). This repo root becomes the
+  base for default paths, so you can run commands from any package or
+  subfolder.
+- Relative paths declared inside `promethean.kanban.json` are resolved from the
+  directory that contains the config file, never from the shell location.
+- Override behaviour remains unchanged:
+  - CLI flags (for example `--board-file`, `--tasks-dir`) are resolved relative
+    to the directory you run the command from.
+  - Environment variables (`KANBAN_BOARD_FILE`, `KANBAN_TASKS_DIR`, etc.) are
+    resolved relative to the detected repo root.
+- To use an alternate config, pass `--config <path>` (relative to your current
+  directory) or set `KANBAN_CONFIG`. The loader will still resolve all relative
+  paths based on the config file's directory.
+
 ### 🔄 Common Workflows
 
 1. **Find existing work**: `pnpm kanban search <keyword>`
