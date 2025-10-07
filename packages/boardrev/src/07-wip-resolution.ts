@@ -207,10 +207,10 @@ export async function generateWIPReport(
     '## Violations Detected',
     '',
     ...violations.map(v => [
-      `### ${v.column.name}`,
+      `### ${v.columnName}`,
       '',
-      `- **Current Count:** ${v.column.count}`,
-      `- **WIP Limit:** ${v.column.limit}`,
+      `- **Current Count:** ${v.currentCount}`,
+      `- **WIP Limit:** ${v.limit}`,
       `- **Over Limit:** ${v.overLimit}`,
       ''
     ].join('\n')),
@@ -234,7 +234,7 @@ export async function generateWIPReport(
     '## Next Steps',
     '',
     '1. Review the recommended resolutions',
-    '2. Apply resolutions using: `pnpm wip-resolve --apply`',
+    '2. Apply resolutions using: `pnpm boardrev:07-wip --apply`',
     '3. Verify board state after changes',
     ''
   ].join('\n');
@@ -244,19 +244,17 @@ export async function generateWIPReport(
 }
 
 export async function resolveWIPViolations({
-  boardPath = 'docs/agile/boards/generated.md',
   evalsPath = '.cache/boardrev/evals.json',
   reportPath = 'docs/agile/reports/wip-resolution.md',
   apply = false
 }: {
-  boardPath?: string;
   evalsPath?: string;
   reportPath?: string;
   apply?: boolean;
 } = {}): Promise<void> {
   try {
     // Step 1: Detect WIP violations
-    const violations = await detectWIPViolations(boardPath);
+    const violations = await detectWIPViolations();
 
     if (violations.length === 0) {
       logger.info('No WIP violations found. Board is compliant!');
@@ -270,7 +268,7 @@ export async function resolveWIPViolations({
     await generateWIPReport(violations, resolutions, reportPath);
 
     // Step 4: Apply resolutions (if requested)
-    await applyWIPResolutions(resolutions, boardPath, !apply);
+    await applyWIPResolutions(resolutions, !apply);
 
     logger.info(`WIP resolution complete. Report: ${reportPath}`);
 
@@ -282,14 +280,12 @@ export async function resolveWIPViolations({
 
 if (import.meta.main) {
   const args = parseArgs({
-    '--board-path': 'docs/agile/boards/generated.md',
     '--evals-path': '.cache/boardrev/evals.json',
     '--report-path': 'docs/agile/reports/wip-resolution.md',
     '--apply': 'false'
   });
 
   await resolveWIPViolations({
-    boardPath: args['--board-path'],
     evalsPath: args['--evals-path'],
     reportPath: args['--report-path'],
     apply: args['--apply'] === 'true'
