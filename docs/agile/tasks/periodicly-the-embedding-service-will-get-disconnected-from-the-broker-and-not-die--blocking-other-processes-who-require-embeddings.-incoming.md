@@ -1,18 +1,12 @@
 ---
-```
 uuid: 9926dde4-990e-4503-a057-fcae2e5bf1b1
-```
-```
 title: >-
-```
   Embedding service sometimes disconnects from broker and hangs → detect, shed,
   kill, recover
 status: todo
 priority: P3
 labels: []
-```
 created_at: '2025-09-15T02:02:58.518Z'
-```
 ---
 Here’s a surgical expansion you can drop into the board. Goal: make the **embedding service** fail fast, get killed when it’s unhealthy, and stop blocking dependents. No vibes—just guards, telemetry, and hard interlocks.
 

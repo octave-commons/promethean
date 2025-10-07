@@ -1,18 +1,12 @@
 ---
-```
 uuid: 8304b498-6811-40e3-8b44-60224b3ff846
-```
-```
 title: >-
-```
   allow old unnessisary messages to decay from database while retaining index
   entries ids md md
 status: todo
 priority: P3
 labels: []
-```
 created_at: '2025-09-15T02:02:58.507Z'
-```
 ---
 Here’s a refined version that keeps your analogy to hardware memory hierarchies but makes it concrete enough to implement as a framework component:
 

@@ -1,14 +1,10 @@
 ---
-```
 uuid: 1acd59aa-f208-42fe-b8fb-cfe91e7d34ab
-```
-title: Description
+title: Add tool calls to codex context
 status: todo
 priority: P3
 labels: []
-```
-created_at: '2025-09-15T02:02:58.504Z'
-```
+created_at: 2025-09-15T02:02:58.504Z
 ---
 # Description
 

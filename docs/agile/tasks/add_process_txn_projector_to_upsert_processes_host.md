@@ -1,14 +1,10 @@
 ---
-```
 uuid: 6a932fef-3759-44c1-951c-9b0669ae200c
-```
 title: add process txn projector to upsert processes host md
-status: todo
+status: rejected
 priority: P3
 labels: []
-```
 created_at: '2025-09-15T02:02:58.505Z'
-```
 ---
 ## 🛠️ Task: Add `process.txn` projector to upsert `processes` + `host_stats` atomically
 

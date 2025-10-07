@@ -1,14 +1,10 @@
 ---
-```
 uuid: 4508b108-1326-43bf-b58b-06883f70c9fc
-```
 title: implement pause resume ops on gateway md
-status: todo
+status: rejected
 priority: P3
 labels: []
-```
 created_at: '2025-09-15T02:02:58.515Z'
-```
 ---
 ## 🛠️ Task: Implement `PAUSE/RESUME` ops on gateway
 

@@ -1,15 +1,9 @@
 ---
-```
 uuid: 2c588732-0024-4392-895e-de78dccb55a7
-```
-```
 created_at: '2025-09-19T22:32:47Z'
-```
 title: 2025.09.19.22.32.47
 filename: Kanban FSM
-```
 description: >-
-```
   A cleaned-up Kanban state machine diagram with explicit transitions for
   incoming items, acceptance, rejection, and ice-boxing. Includes blocked states
   and unblock paths for workflow management.
@@ -23,14 +17,10 @@ tags:
   - incoming
   - accepted
   - rejected
-```
 related_to_uuid: []
-```
-```
 related_to_title: []
-```
 references: []
-status: todo
+status: rejected
 priority: P3
 labels: []
 ---

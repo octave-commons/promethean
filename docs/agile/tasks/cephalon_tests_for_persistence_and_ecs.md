@@ -1,14 +1,10 @@
 ---
-```
 uuid: a9ea7854-0c6f-46e8-9230-1055795a1a23
-```
 title: cephalon tests for persistence and ecs
 status: todo
 priority: P3
 labels: []
-```
 created_at: '2025-09-15T02:02:58.509Z'
-```
 ---
 Cephalon: Tests for persistence and ECS flow
 

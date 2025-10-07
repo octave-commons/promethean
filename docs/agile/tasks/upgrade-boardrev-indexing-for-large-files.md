@@ -1,14 +1,10 @@
 ---
-```
 uuid: 1a41a8d1-0585-47be-a582-6fa36746c64b
-```
 title: upgrade board-review indexing for large files
 status: todo
 priority: P2
 labels: []
-```
 created_at: '2025-10-06T23:55:12Z'
-```
 ---
 ## 🛠️ Description
 

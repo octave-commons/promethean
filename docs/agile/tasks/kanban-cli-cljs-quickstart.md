@@ -1,15 +1,9 @@
 ---
-```
 uuid: 3a707c7c-9b75-401f-9d6f-fe5711eaf13f
-```
-```
 created_at: '2025-10-06T14:11:46Z'
-```
 title: 2025.10.06.14.11.46
 filename: kanban-cli- cljs-quickstart
-```
 description: >-
-```
   Quick start guide for integrating ClojureScript with kanban CLI using SCI
   (Small Clojure Interpreter) for ad-hoc filtering without compilation. Includes
   shell commands, CLI flags, and minimal prelude for defining DSLs.
@@ -22,12 +16,8 @@ tags:
   - micro-frontend
   - zero-compilation
   - dynamic-queries
-```
 related_to_uuid: []
-```
-```
 related_to_title: []
-```
 references: []
 status: todo
 priority: P3

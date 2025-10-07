@@ -1,17 +1,9 @@
 ---
-```
 uuid: 83ec632a-3d28-440f-adb7-76496a95edd2
-```
-```
 created_at: '2025-10-06T15:01:27Z'
-```
 title: 2025.10.06.15.01.27
-```
 filename: kanban-prioritize-subcommands
-```
-```
 description: >-
-```
   New subcommands for kanban task prioritization: sample, pairwise, choose,
   rank, shortlist, explain, cluster, score, and compare. Each command provides
   specific functionality for filtering, comparing, ranking, and clustering tasks
@@ -27,12 +19,8 @@ tags:
   - clustering
   - score
   - explain
-```
 related_to_uuid: []
-```
-```
 related_to_title: []
-```
 references: []
 status: todo
 priority: P3

@@ -1,7 +1,5 @@
 ---
-```
 uuid: f6g7h8i9-j0k1-2345-fghi-678901234567
-```
 title: Fix docops pipeline file reference management and sequencing issues
 status: todo
 priority: P2
@@ -11,9 +9,7 @@ labels:
   - file-management
   - sequencing
   - bug-fix
-```
 created_at: '2025-10-05T00:00:00.000Z'
-```
 ---
 
 ## 🛠️ Task: Fix docops pipeline file reference management and sequencing issues

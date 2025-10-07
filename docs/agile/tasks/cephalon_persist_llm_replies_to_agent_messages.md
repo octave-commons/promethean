@@ -1,14 +1,10 @@
 ---
-```
 uuid: cb45d915-0601-4df8-997d-71ca913ad9f6
-```
 title: cephalon persist llm replies to agent messages
 status: todo
 priority: P3
 labels: []
-```
 created_at: '2025-09-15T02:02:58.509Z'
-```
 ---
 Cephalon: Persist LLM replies to `agent_messages`
 

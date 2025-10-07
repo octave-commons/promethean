@@ -1,14 +1,10 @@
 ---
-```
 uuid: 701696e2-8054-4ccd-951f-7a40248b6628
-```
 title: discord image awareness md md
 status: todo
 priority: P3
 labels: []
-```
 created_at: '2025-09-15T02:02:58.511Z'
-```
 ---
 ## 🛠️ Description
 ```

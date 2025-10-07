@@ -1,18 +1,12 @@
 ---
-```
 uuid: 90d0e75e-0f56-4e0e-b470-20e0145ad43d
-```
 title: Omni unified service specification and planning
-```
 status: in_progress
-```
 priority: P1
 labels:
   - omni
   - planning
-```
 created_at: '2025-09-21T02:40:00Z'
-```
 ---
 ## 🧭 Context
 - **What changed?**: Leadership requested a unified Omni server that fronts REST, GraphQL, WebSocket, and MCP interfaces from a single Fastify host on one domain/port.

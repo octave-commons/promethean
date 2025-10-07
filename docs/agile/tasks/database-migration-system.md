@@ -1,14 +1,10 @@
 ---
-```
 uuid: 58399a92-d702-4529-9fc8-7eb32bd2a567
-```
 title: Description
 status: todo
 priority: P3
 labels: []
-```
 created_at: '2025-09-15T02:02:58.510Z'
-```
 ---
 # Description
 ```

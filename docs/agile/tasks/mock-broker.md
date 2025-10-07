@@ -1,14 +1,10 @@
 ---
-```
 uuid: 35baa5c2-8daa-4162-97ad-19f55b9c2b51
-```
 title: Mock the Broker for Tests
 status: todo
 priority: P3
 labels: []
-```
 created_at: '2025-09-15T02:02:58.517Z'
-```
 ---
 Here’s a no-nonsense expansion that you can drop into your board. I’ve treated this like a mini-spec + work plan so Codex (or you) can just execute.
 

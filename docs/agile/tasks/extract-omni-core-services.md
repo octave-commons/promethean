@@ -1,18 +1,12 @@
 ---
-```
 uuid: e0a6842d-031a-4d1c-bee1-563bbda8cf80
-```
 title: Extract shared services into @promethean/omni-core
-```
 status: in_progress
-```
 priority: P1
 labels:
   - omni
   - refactor
-```
 created_at: '2025-09-21T02:46:00Z'
-```
 ---
 ## 🎯 Outcome
 Relocate SmartGPT bridge domain logic files/search/sinks/indexer/agents/exec into a reusable `@promethean/omni-core` package that implements the Omni protocol interfaces.

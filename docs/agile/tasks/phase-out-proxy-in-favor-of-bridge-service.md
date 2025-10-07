@@ -1,14 +1,10 @@
 ---
-```
 uuid: 695632f6-8bb2-4051-bbbc-42dd6729fe8f
-```
 title: phase out proxy in favor of bridge service
 status: todo
 priority: P3
 labels: []
-```
 created_at: '2025-09-15T02:02:58.517Z'
-```
 ---
 ## 🛠️ Description
 

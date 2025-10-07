@@ -1,14 +1,10 @@
 ---
-```
 uuid: 56da5f84-d732-4455-b0a6-97b36fbae026
-```
 title: Cephalon Commands → Actions Refactor — Task Refinement
 status: todo
 priority: P3
 labels: []
-```
 created_at: '2025-09-15T02:02:58.520Z'
-```
 ---
 # Cephalon Commands → Actions Refactor — Task Refinement
 

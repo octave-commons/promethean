@@ -1,14 +1,10 @@
 ---
-```
 uuid: 8259052d-bf4c-48e8-9443-812569e19763
-```
 title: auto generate agents md stubs from services structure md md
-status: todo
+status: done
 priority: P3
 labels: []
-```
 created_at: '2025-09-15T02:02:58.508Z'
-```
 ---
 ## 🛠️ Task: Auto-generate AGENTS.md stubs from services structure
 

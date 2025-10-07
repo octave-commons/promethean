@@ -1,7 +1,5 @@
 ---
-```
 uuid: d0e1f2a3-b4c5-6789-def0-234567890123
-```
 title: Fix test-gap pipeline missing coverage and incorrect package scanning
 status: todo
 priority: P2
@@ -11,9 +9,7 @@ labels:
   - coverage-reports
   - package-scanning
   - testing
-```
 created_at: '2025-10-05T00:00:00.000Z'
-```
 ---
 
 ## 🛠️ Task: Fix test-gap pipeline missing coverage and incorrect package scanning

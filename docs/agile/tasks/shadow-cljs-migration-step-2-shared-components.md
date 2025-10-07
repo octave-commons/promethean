@@ -1,7 +1,5 @@
 ---
-```
 uuid: 2d7bc869-0bc6-4d6b-891c-d7657cb8e4f4
-```
 title: Shadow CLJS migration — step 2 shared components
 status: todo
 priority: P2
@@ -9,9 +7,7 @@ labels:
   - framework-core
   - codex-task
   - frontend
-```
 created_at: '2025-10-03T21:10:00.000Z'
-```
 ---
 #Todo
 

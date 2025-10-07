@@ -1,14 +1,10 @@
 ---
-```
 uuid: 45a4101d-01ab-497b-8920-97cc563e9351
-```
 title: evaluate and reward flow satisfaction
-status: todo
+status: rejected
 priority: P3
 labels: []
-```
 created_at: '2025-09-15T02:02:58.513Z'
-```
 ---
 ## 🛠️ Task: Evaluate and reward flow satisfaction
 

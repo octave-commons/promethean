@@ -1,14 +1,10 @@
 ---
-```
 uuid: c80af308-7b65-4dbf-92b9-d464308b4565
-```
 title: docops pipeline
 status: todo
 priority: P3
 labels: []
-```
 created_at: '2025-09-15T02:02:58.500Z'
-```
 ---
 ## 🛠️ Task: Complete Docops pipeline (synthesis agent)
 

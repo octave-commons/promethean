@@ -1,14 +1,10 @@
 ---
-```
 uuid: c39b94ff-9e97-4fba-99d9-5cc713e09e5d
-```
 title: file explorer
 status: todo
 priority: P3
 labels: []
-```
 created_at: '2025-09-15T02:02:58.513Z'
-```
 ---
 ## 🛠️ Description
 

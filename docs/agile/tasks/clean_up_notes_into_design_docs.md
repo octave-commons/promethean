@@ -1,14 +1,10 @@
 ---
-```
 uuid: d91c26e9-a20a-4e96-a7e9-913bda7c54d1
-```
 title: clean up notes into design docs md
 status: todo
 priority: P3
 labels: []
-```
 created_at: '2025-09-15T02:02:58.509Z'
-```
 ---
 ## 🛠️ Description
 

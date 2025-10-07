@@ -1,14 +1,10 @@
 ---
-```
 uuid: 51e0f7e8-87ab-4b8d-b20c-b0dfc34d891d
-```
 title: add lag checks to ci smoke ensure small lag after md
-status: todo
+status: rejected
 priority: P3
 labels: []
-```
 created_at: '2025-09-15T02:02:58.504Z'
-```
 ---
 ## 🛠️ Task: Add `/lag` checks to CI smoke (ensure small lag after publishing bursts)
 

@@ -1,14 +1,10 @@
 ---
-```
 uuid: a5b35121-160a-496a-ac7b-94e405294888
-```
 title: create permission gating layer
-status: todo
+status: done
 priority: P3
 labels: []
-```
 created_at: '2025-09-15T02:02:58.510Z'
-```
 ---
 ## 🛠️ Task: Create permission gating layer
 

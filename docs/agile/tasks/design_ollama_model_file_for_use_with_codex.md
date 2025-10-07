@@ -1,14 +1,10 @@
 ---
-```
 uuid: 41fec47c-e499-461b-b7e0-4ef1c86bdabb
-```
 title: design ollama model file for use with codex
-status: todo
+status: icebox
 priority: P3
 labels: []
-```
 created_at: '2025-09-15T02:02:58.511Z'
-```
 ---
 ## 🛠️ Task: Design Ollama model file for use with Codex
 

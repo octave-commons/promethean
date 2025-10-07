@@ -1,14 +1,10 @@
 ---
-```
 uuid: 02c83b6f-e9b4-4dfb-a4a0-543042aa02b6
-```
 title: something something
 status: todo
 priority: p3
 labels: []
-```
 created_at: '2025-09-15T02:02:58.521Z'
-```
 ---
 ```
 <hr class="__chatgpt_plugin">

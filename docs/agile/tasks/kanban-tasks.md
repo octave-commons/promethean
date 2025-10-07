@@ -1,10 +1,6 @@
 ---
-```
 uuid: 379c1028-3b05-4984-8414-42cab3634054
-```
-```
 created_at: '2025-10-06T20:45:15.185Z'
-```
 title: Kanban CLI Tasks Docs/Agile
 status: todo
 priority: P3

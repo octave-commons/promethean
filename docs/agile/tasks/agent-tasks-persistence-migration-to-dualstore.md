@@ -1,14 +1,10 @@
 ---
-```
 uuid: 02e8c2e6-e235-482e-90d9-eb0ce93f8ef8
-```
 title: agent tasks persistence migration to dualstore
 status: todo
 priority: P3
 labels: []
-```
 created_at: '2025-09-15T02:02:58.507Z'
-```
 ---
 ## 🗂 Task 1 — Setup Shared Persistence Module
 ```

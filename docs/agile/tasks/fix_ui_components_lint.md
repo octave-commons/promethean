@@ -1,19 +1,11 @@
 ---
-```
 uuid: f4e15fe7-e616-4e34-94a6-a4ca655f4f4c
-```
 title: Fix `@promethean/ui-components` lint failures
 status: todo
 priority: P2
-```
 labels: [codex-task]
-```
-```
 created_at: '2025-02-14T00:00:00.000Z'
-```
-```
 updated_at: '2025-02-14T00:30:00.000Z'
-```
 ---
 # Fix `@promethean/ui-components` lint failures
 

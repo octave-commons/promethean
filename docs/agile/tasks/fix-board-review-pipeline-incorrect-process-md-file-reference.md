@@ -1,7 +1,5 @@
 ---
-```
 uuid: c9d8e7f6-d5c4-b3a2-c1d0-987654321098
-```
 title: Fix board-review pipeline incorrect Process.md file reference
 status: todo
 priority: P2
@@ -11,9 +9,7 @@ labels:
   - file-reference
   - case-sensitivity
   - path-resolution
-```
 created_at: '2025-10-05T00:00:00.000Z'
-```
 ---
 
 ## 🛠️ Task: Fix board-review pipeline incorrect Process.md file reference

@@ -1,14 +1,10 @@
 ---
-```
 uuid: c0de5fe3-a795-4795-a368-50ce36f2a705
-```
 title: add tokenbucket to ws server conn per topic md
-status: todo
+status: rejected
 priority: P3
 labels: []
-```
 created_at: '2025-09-15T02:02:58.506Z'
-```
 ---
 ## 🛠️ Task: Add `TokenBucket` to WS server conn + per-topic
 

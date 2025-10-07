@@ -1,22 +1,14 @@
 ---
-```
 task-id: TASK-20240607-0001
-```
 title: Consolidate mk MCP/IDE libs under clj-hacks
 state: InProgress
 prev: null
-```
 txn: '2024-06-07T00:00:00Z-0001'
-```
 owner: err
 priority: p3
 size: m
-```
 epic: EPC-000
-```
-```
 depends_on: []
-```
 labels:
   - 'board:auto'
   - 'lang:clj'
@@ -24,9 +16,7 @@ due: null
 links: []
 artifacts: []
 rationale: Align shared Babashka tooling with clj-hacks package ownership.
-```
 proposed_transitions:
-```
   - New->Accepted
   - Accepted->Breakdown
   - Breakdown->Ready
@@ -40,12 +30,8 @@ tags:
   - owner/err
   - priority/p3
   - epic/EPC-000
-```
 uuid: 046df43b-fdc3-46d5-a45a-ed7dca487615
-```
-```
 created_at: '2025-10-06T01:50:48.295Z'
-```
 status: todo
 ---
 ```

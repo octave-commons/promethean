@@ -1,7 +1,5 @@
 ---
-```
 uuid: 48d398a7-9f4e-4c2a-8b15-3d7e8f9c2a1b
-```
 title: Migrate kanban system from JSONL to level-cache for memory efficiency
 status: done
 priority: P1
@@ -11,9 +9,7 @@ labels:
   - performance
   - level-cache
   - memory-optimization
-```
 created_at: '2025-10-05T00:00:00.000Z'
-```
 ---
 
 ## 🛠️ Task: Migrate kanban system from JSONL to level-cache for memory efficiency

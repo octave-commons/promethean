@@ -1,14 +1,12 @@
 ---
-```
 uuid: e6a16b59-a67d-4df9-babc-9faaaad3f9c9
-```
 title: Remove CommonJS artifacts from repository
 status: document
 priority: P2
-labels: "#codex-task", "#doc-this"
-```
+labels:
+  - "#codex-task"
+  - "#doc-this"
 created_at: '2025-09-20T21:30:00.000Z'
-```
 ---
 # Remove CommonJS artifacts from repository
 

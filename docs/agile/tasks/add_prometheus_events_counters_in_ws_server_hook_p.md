@@ -1,14 +1,10 @@
 ---
-```
 uuid: 4a43e0ed-ae0d-4857-825b-c178d600ba09
-```
 title: add prometheus events counters in ws server hook p md
-status: todo
+status: rejected
 priority: P3
 labels: []
-```
 created_at: '2025-09-15T02:02:58.505Z'
-```
 ---
 ## 🛠️ Task: Add Prometheus `events_*` counters in WS server hook points
 
