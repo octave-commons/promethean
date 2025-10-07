@@ -1,10 +1,14 @@
 ---
+```
 uuid: d4574bbb-98a3-40ae-a335-0ff2123b4c57
+```
 title: Description
 status: todo
 priority: P3
 labels: []
+```
 created_at: '2025-09-15T02:02:58.510Z'
+```
 ---
 # Description
 
@@ -18,7 +22,7 @@ Integrate Reddit so agents can read and post subreddit content using the Reddit 
 ## Data Flow & Rate Limiting
 
 - Agent queues request ➜ OAuth client ➜ Reddit endpoint ➜ internal broker/storage
-- Respect Reddit rate limits (~60 requests/minute per app) and backoff on `429` or `Retry-After` headers
+- Respect Reddit rate limits ~60 requests/minute per app and backoff on `429` or `Retry-After` headers
 
 ## Requirements/Definition of done
 ## Requirements

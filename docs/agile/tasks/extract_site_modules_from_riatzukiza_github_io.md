@@ -1,10 +1,14 @@
 ---
+```
 uuid: 44157ed4-2b52-4573-90aa-2b1a4cd1ecf6
+```
 title: extract site modules from riatzukiza github io md md
 status: todo
 priority: P3
 labels: []
+```
 created_at: '2025-09-15T02:02:58.513Z'
+```
 ---
 ## 🛠️ Task: Extract site modules from riatzukiza.github.io
 
@@ -37,9 +41,9 @@ Port any useful HTML, CSS, or JS from the legacy `riatzukiza.github.io` site int
 ---
 
 ## 🔗 Related Epics
-
+```
 #framework-core
-
+```
 ---
 
 ## ⛓️ Blocked By

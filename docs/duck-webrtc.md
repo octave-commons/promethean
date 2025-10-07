@@ -15,7 +15,7 @@ A simple two-way browser interface for talking to **Duck** without Discord, buil
 
 ## Packages
 - **`@promethean/duck-web`** — browser client (Vite, Web Components).
-- **`@promethean/enso-browser-gateway`** — Node signaling + ENSO bridge (WebSocket + wrtc).
+- **`@promethean/enso-browser-gateway`** — Node signaling + ENSO bridge WebSocket + wrtc.
 
 ## Features
 ### Browser UI
@@ -30,9 +30,9 @@ A simple two-way browser interface for talking to **Duck** without Discord, buil
 - WebSocket signaling endpoint at `/ws`.
 - Auth optional: pass `?token=...` if `DUCK_TOKEN` is set.
 - WebRTC channels:
-  - `voice` (browser → gateway → ENSO).
-  - `events` (gateway → browser).
-- `audio` (gateway → browser, optional ENSO audio).
+  - `voice` browser → gateway → ENSO.
+  - `events` gateway → browser.
+- `audio` gateway → browser, optional ENSO audio.
 - Forwards mic frames as `voice.frame` events to ENSO.
 - Mirrors ENSO `content.post` events to browser.
 - Configurable ICE servers via `ICE_SERVERS` env var.
@@ -66,7 +66,7 @@ localStorage.setItem('duck.iceServers', JSON.stringify([{ urls: 'stun:stun.l.goo
 
 ## Production notes
 - Use **TURN servers** in `ICE_SERVERS` for NAT traversal.
-- Run signaling (`enso-browser-gateway`) behind TLS.
+- Run signaling `enso-browser-gateway` behind TLS.
 - Set `DUCK_TOKEN` for auth.
 - Replace browser TTS with actual audio once ENSO provides `voice.frame` replies.
 

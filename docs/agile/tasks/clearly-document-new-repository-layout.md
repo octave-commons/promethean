@@ -1,12 +1,16 @@
 ---
+```
 uuid: 19470007-2c10-46f3-a5bf-afe2f5ad72d5
+```
 title: <verb> <thing> <qualifier>
 status: todo
 priority: p3
 labels:
   - 'board:auto'
   - 'lang:ts'
+```
 created_at: '2025-09-15T02:02:58.509Z'
+```
 ---
 ## Context
 
@@ -16,8 +20,9 @@ created_at: '2025-09-15T02:02:58.509Z'
 - services are packages that spun up as long running background processes
 - everything that is not a package is just a config file
 - declarative beats imperative.
-- 
-
+```
+-
+```
 ## Inputs / Artifacts
 - (link or path)
 

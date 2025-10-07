@@ -1,10 +1,14 @@
 ---
+```
 uuid: 6e58071f-eeec-4a12-8d36-e5e3a8d29a24
+```
 title: Dev mode
 status: todo
 priority: P3
 labels: []
+```
 created_at: '2025-09-15T02:02:58.511Z'
+```
 ---
 # Dev mode
 
