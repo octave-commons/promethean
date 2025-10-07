@@ -4,6 +4,7 @@ import { execSync } from 'node:child_process';
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { MultiProviderLLM } from './llm-providers.mjs';
 
 /**
  * General-purpose PR batch update tool with LLM-powered conflict resolution
@@ -24,11 +25,12 @@ class PRSyncTool {
     this.options = {
       baseBranch: 'main',
       conflictResolution: 'llm', // 'llm', 'theirs', 'ours', 'manual'
-      llmModel: 'qwen2.5-coder:7b', // or 'qwen3:7b' when available
+      llmModel: 'qwen2.5-coder:7b', // fallback model
       maxRetries: 3,
       dryRun: false,
       contextWindow: 8000,
       gatherContext: true,
+      testProviders: true, // test providers on startup
       ...options
     };
 
@@ -37,8 +39,12 @@ class PRSyncTool {
       success: 0,
       failed: 0,
       conflicts: 0,
-      llmResolutions: 0
+      llmResolutions: 0,
+      providerFallbacks: 0
     };
+
+    // Initialize multi-provider LLM system
+    this.llm = MultiProviderLLM.createFromConfig();
   }
 
   async runCommand(cmd, options = {}) {
@@ -174,22 +180,44 @@ ${conflictContent}
 RESOLVED CONTENT:`;
 
     try {
-      // Try to use Ollama for local LLM inference
-      const llmResult = await this.runCommand(
-        `ollama run ${this.options.llmModel} "${prompt.replace(/"/g, '\\"')}"`,
-        { timeout: 30000 }
-      );
+      const resolvedContent = await this.llm.resolveConflict(prompt, {
+        model: this.options.llmModel,
+        timeout: 45000
+      });
 
-      if (llmResult.success && llmResult.output) {
-        console.log(`✅ LLM successfully resolved conflicts in ${filePath}`);
+      if (resolvedContent) {
+        console.log(`✅ ${this.llm.getCurrentProvider()} successfully resolved conflicts in ${filePath}`);
         this.stats.llmResolutions++;
-        return llmResult.output;
+        return resolvedContent;
       }
     } catch (error) {
-      console.log(`⚠️ LLM resolution failed for ${filePath}: ${error.message}`);
+      console.log(`⚠️ All LLM providers failed for ${filePath}: ${error.message}`);
+      console.log(`📋 Fallback log: ${JSON.stringify(this.llm.getFallbackLog(), null, 2)}`);
     }
 
     return null;
+  }
+
+  async testLLMProviders() {
+    if (!this.options.testProviders) return;
+
+    console.log('🔍 Testing LLM providers...\n');
+    const results = await this.llm.testAllProviders();
+
+    const availableProviders = results.filter(r => r.success);
+    if (availableProviders.length === 0) {
+      console.log('❌ No LLM providers available. LLM conflict resolution will be disabled.');
+      console.log('💡 Set up one of the following:');
+      console.log('   - Ollama: ollama pull qwen2.5-coder:7b');
+      console.log('   - OpenAI: export OPENAI_API_KEY=your_key');
+      console.log('   - ZAI: export ZAI_API_KEY=your_key ZAI_BASE_URL=your_url');
+      console.log('   - OpenRouter: export OPENROUTER_API_KEY=your_key');
+
+      // Fall back to non-LLM resolution
+      this.options.conflictResolution = 'theirs';
+    } else {
+      console.log(`✅ ${availableProviders.length} LLM providers available for conflict resolution`);
+    }
   }
 
   async resolveConflicts(conflictedFiles) {
@@ -312,6 +340,11 @@ RESOLVED CONTENT:`;
       console.log('🔍 DRY RUN MODE - No changes will be pushed\n');
     }
 
+    // Test LLM providers if needed
+    if (this.options.conflictResolution === 'llm') {
+      await this.testLLMProviders();
+    }
+
     // Save current branch
     const currentBranch = await this.runCommand('git branch --show-current');
     if (!currentBranch.success) {
@@ -343,6 +376,22 @@ RESOLVED CONTENT:`;
 
     if (this.stats.llmResolutions > 0) {
       console.log(`🎯 LLM resolution rate: ${Math.round((this.stats.llmResolutions / this.stats.conflicts) * 100)}%`);
+    }
+
+    // Show provider information
+    if (this.llm && this.options.conflictResolution === 'llm') {
+      const currentProvider = this.llm.getCurrentProvider();
+      if (currentProvider) {
+        console.log(`🔧 Primary LLM provider: ${currentProvider}`);
+      }
+
+      const fallbackLog = this.llm.getFallbackLog();
+      if (fallbackLog.length > 0) {
+        console.log(`🔄 Provider fallbacks: ${fallbackLog.length}`);
+        fallbackLog.forEach(log => {
+          console.log(`   - ${log.provider}: ${log.error}`);
+        });
+      }
     }
   }
 }

@@ -140,26 +140,72 @@ Leave conflicts for manual resolution.
 
 ### Prerequisites
 
-1. **Ollama** (for LLM resolution):
-```bash
-# Install Ollama
-curl -fsSL https://ollama.ai/install.sh | sh
-
-# Pull recommended models
-ollama pull qwen2.5-coder:7b
-ollama pull qwen2.5-coder:32b  # For more complex conflicts
-```
-
-2. **GitHub CLI** (for PR management):
+1. **GitHub CLI** (for PR management):
 ```bash
 # Install and authenticate
 gh auth login
 ```
 
+2. **LLM Provider** (at least one required for intelligent conflict resolution):
+
+   **Option A: Ollama (Local)**
+   ```bash
+   # Install Ollama
+   curl -fsSL https://ollama.ai/install.sh | sh
+
+   # Pull recommended models
+   ollama pull qwen2.5-coder:7b
+   ollama pull qwen2.5-coder:32b  # For more complex conflicts
+
+   # Start Ollama service
+   ollama serve
+   ```
+
+   **Option B: OpenAI API**
+   ```bash
+   export OPENAI_API_KEY=your_api_key
+   export OPENAI_MODEL=gpt-4  # optional
+   ```
+
+   **Option C: ZAI (OpenAI-compatible)**
+   ```bash
+   export ZAI_API_KEY=your_api_key
+   export ZAI_BASE_URL=your_base_url
+   ```
+
+   **Option D: OpenRouter**
+   ```bash
+   export OPENROUTER_API_KEY=your_api_key
+   export OPENROUTER_MODEL=qwen/qwen-2.5-coder-7b-instruct
+   ```
+
 3. **Optional: ChromaDB** (for semantic search):
 ```bash
 # Set up ChromaDB for enhanced context gathering
 # (Integration details in pr-sync-config.json)
+```
+
+### Quick Setup
+
+Use the interactive setup script to configure providers:
+
+```bash
+./setup-llm-env.sh
+```
+
+Or configure manually:
+
+```bash
+# Test current configuration
+node test-llm-providers.mjs
+
+# Example: Use OpenAI as fallback
+export OPENAI_API_KEY=sk-...
+node pr-sync-tool.mjs --base main --resolution llm
+
+# Example: Use ZAI as primary
+export ZAI_API_KEY=your_key ZAI_BASE_URL=https://your-endpoint.com
+node pr-sync-tool.mjs --base main --resolution llm
 ```
 
 ### Configuration
@@ -206,6 +252,28 @@ node enhanced-pr-sync.mjs --base main --dry-run
 
 ## Architecture
 
+### Multi-Provider LLM System
+
+The tools support multiple LLM providers with automatic fallback:
+
+1. **Ollama (Local)**: Preferred for privacy and speed
+   - Models: qwen2.5-coder:7b, qwen2.5-coder:32b
+   - Environment: `OLLAMA_ENABLED=true`, `OLLAMA_MODEL=...`
+
+2. **OpenAI API**: Cloud-based with high-quality models
+   - Models: GPT-4, GPT-3.5-turbo
+   - Environment: `OPENAI_API_KEY=...`, `OPENAI_MODEL=...`
+
+3. **ZAI (OpenAI-compatible)**: Custom endpoints
+   - Models: qwen2.5-coder-7b-instruct
+   - Environment: `ZAI_API_KEY=...`, `ZAI_BASE_URL=...`
+
+4. **OpenRouter**: Multi-model access
+   - Models: qwen/qwen-2.5-coder-7b-instruct
+   - Environment: `OPENROUTER_API_KEY=...`, `OPENROUTER_MODEL=...`
+
+**Fallback Order**: Ollama → OpenAI → ZAI → OpenRouter → Manual
+
 ### Context Gathering
 
 The tools gather multiple types of context for LLM resolution:
@@ -215,19 +283,19 @@ The tools gather multiple types of context for LLM resolution:
 3. **File Context**: Related files and dependencies
 4. **Semantic Context**: Similar code patterns (with ChromaDB)
 
-### LLM Integration
-
-Uses Ollama for local LLM inference:
-- **qwen2.5-coder:7b**: Fast, efficient for most conflicts
-- **qwen2.5-coder:32b**: More powerful for complex scenarios
-- **Future: qwen3**: Next-generation model when available
-
 ### Fallback Strategies
 
 Multi-layer fallback system:
-1. **LLM Resolution**: Primary intelligent resolution
-2. **Rule-based**: File pattern matching
+1. **Multi-Provider LLM**: Intelligent resolution with provider fallback
+2. **Rule-based**: File pattern matching (lock files, generated files)
 3. **Manual**: Human intervention for complex cases
+
+### Provider Selection Strategy
+
+- **Local First**: Prefer Ollama for privacy and speed
+- **Automatic Fallback**: Switch to API providers when local unavailable
+- **Error Recovery**: Retry with different providers on failure
+- **Transparent Switching**: Users see which provider is being used
 
 ## Best Practices
 
