@@ -30,12 +30,15 @@ import { registerNewStyleCommands } from "./bot/registerCommands.js";
 import { defaultPrompt, defaultState, generatePrompt } from "./prompts.js";
 import { LLMService } from "./llm-service.js";
 import { createEnsoChatAgent, EnsoChatAgent } from "./enso/chat-agent.js";
+import type { CephalonMode } from "./mode.js";
+import type { AIAgent } from "./agent/index.js";
 
 // const VOICE_SERVICE_URL = process.env.VOICE_SERVICE_URL || 'http://localhost:4000';
 
 export type BotOptions = {
   token: string;
   applicationId: string;
+  mode?: CephalonMode;
 };
 
 export type VoiceStateChangeHandler = (
@@ -65,11 +68,14 @@ export class Bot extends EventEmitter {
   voiceStateHandler?: VoiceStateChangeHandler;
   ensoChat?: EnsoChatAgent;
   llm?: LLMService;
+  mode: CephalonMode;
+  legacyAgent?: AIAgent;
 
   constructor(options: BotOptions) {
     super();
     this.token = options.token;
     this.applicationId = options.applicationId;
+    this.mode = options.mode ?? "ecs";
 
     this.desktop = new DesktopCaptureManager();
     this.client = new Client({
@@ -90,7 +96,8 @@ export class Bot extends EventEmitter {
   }
 
   desktop: DesktopCaptureManager;
-  async start() {
+  async start(options: { enableEcs?: boolean } = {}) {
+    const enableEcs = options.enableEcs ?? this.mode === "ecs";
     await this.context.createCollection("transcripts", "text", "createdAt");
     await this.context.createCollection(
       `discord_messages`,
@@ -127,12 +134,16 @@ export class Bot extends EventEmitter {
     registerNewStyleCommands(Bot);
     await this.registerInteractions();
 
-    const broker = new BrokerClient({
-      url: process.env.BROKER_WS_URL || "ws://localhost:7000",
-    });
-    this.bus = new AgentBus(broker);
-    const busScope = await buildRegisterLlmHandlerScope(this);
-    registerLlmHandler(busScope);
+    if (enableEcs) {
+      const broker = new BrokerClient({
+        url: process.env.BROKER_WS_URL || "ws://localhost:7000",
+      });
+      this.bus = new AgentBus(broker);
+      const busScope = await buildRegisterLlmHandlerScope(this);
+      registerLlmHandler(busScope);
+    } else {
+      this.bus = undefined;
+    }
 
     // --- ENSO chat bridge (optional) ---
     const ensoUrl = process.env.ENSO_WS_URL || undefined;

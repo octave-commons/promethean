@@ -1,7 +1,7 @@
 ---
 uuid: 1f5f505f-155d-4a1b-ba1b-73cb1dd0ea97
 title: cephalon feature flag path selection
-status: todo
+status: in_review
 priority: P3
 labels: []
 created_at: '2025-09-15T02:02:58.509Z'
@@ -13,11 +13,28 @@ Goal: Add a feature flag to select between the classic `AIAgent` flow and the ne
 Why: Codebase is in-between worlds; a flag allows toggling behavior while we complete persistence and context wiring.
 
 Scope:
-- Env var `CEPHALON_MODE` in `services/ts/cephalon/src/index.ts` to choose startup path.
+- Env var `CEPHALON_MODE` in `packages/cephalon/src/index.ts` to choose startup path.
 - Document behavior and defaults; add note in README for temporary nature.
 
 Exit Criteria:
 - Able to switch modes without code edits; both modes functional.
 
 #incoming #cephalon #feature-flag #migration
+
+## Session Notes (2025-10-09)
+
+### Scope & Plan
+- Parse `CEPHALON_MODE` centrally and expose helpers for consumers.
+- Branch Cephalon bootstrap between ECS (default) and legacy `AIAgent` flows.
+- Document the temporary flag in package README.
+- Cover the mode parsing logic with unit tests and run eslint/tests on touched paths.
+
+### Estimate
+- Complexity: 3 (Fibonacci)
+- Time: 1 session
+
+### Verification
+- [ ] `pnpm --filter @promethean/cephalon test` *(fails: missing `@types/node`/`@types/ava` declarations in the workspace build container)*
+- [ ] `pnpm exec eslint packages/cephalon/src/index.ts packages/cephalon/src/bot.ts packages/cephalon/src/actions/start-dialog.scope.ts packages/cephalon/src/mode.ts packages/cephalon/src/tests/mode.test.ts` *(fails: missing \"`typescript-eslint\"` dependency in lint config; captured for follow-up)*
+
 

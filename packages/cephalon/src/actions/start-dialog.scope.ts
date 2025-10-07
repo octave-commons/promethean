@@ -17,6 +17,8 @@ import {
   seperateSpeechFromThought,
   splitSentances,
 } from "../tokenizers.js";
+import { AIAgent } from "../agent/index.js";
+import { isClassicMode } from "../mode.js";
 
 export type StartDialogInput = { bot: Bot };
 export type StartDialogOutput = { started: boolean };
@@ -99,6 +101,10 @@ export async function runStartDialog({
   if (!bot.currentVoiceSession) return { started: false };
 
   bot.desktop.start();
+
+  if (isClassicMode()) {
+    return runClassicStartDialog({ bot });
+  }
 
   const discordAudioRef = bot.currentVoiceSession.getEcsAudioRef();
   bot.agentWorld = createAgentWorld(discordAudioRef);
@@ -203,5 +209,19 @@ export async function runStartDialog({
     bot.client.on(discord.Events.VoiceStateUpdate, bot.voiceStateHandler);
   })().catch(() => {});
 
+  return { started: true };
+}
+
+async function runClassicStartDialog({
+  bot,
+}: StartDialogInput): Promise<StartDialogOutput> {
+  if (!bot.currentVoiceSession) return { started: false };
+  if (!bot.legacyAgent) {
+    bot.legacyAgent = new AIAgent({ bot, context: bot.context });
+  }
+  const agent = bot.legacyAgent;
+  if (agent.state !== "running") {
+    await agent.start();
+  }
   return { started: true };
 }
