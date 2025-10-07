@@ -1,14 +1,17 @@
+import { exec } from 'child_process';
+import { promisify } from 'util';
 import { createLogger, parseArgs, writeText } from '@promethean/utils';
-import { loadBoard, updateStatus, type KanbanColumn } from '@promethean/kanban';
 import { loadEvals } from './06-report.js';
 import type { EvalItem } from './types.js';
 
+const execAsync = promisify(exec);
 const logger = createLogger({ service: 'wip-resolution' });
 
 export interface WIPViolation {
-  column: KanbanColumn;
+  columnName: string;
+  currentCount: number;
+  limit: number | null;
   overLimit: number;
-  tasks: any[];
 }
 
 export interface WIPResolution {
@@ -22,23 +25,33 @@ export interface WIPResolution {
   }>;
 }
 
-export async function detectWIPViolations(boardPath: string): Promise<WIPViolation[]> {
+export async function detectWIPViolations(): Promise<WIPViolation[]> {
   logger.info('Detecting WIP limit violations...');
 
-  // Load current board state
-  const board = await loadBoard(boardPath);
   const violations: WIPViolation[] = [];
 
-  // Check each column for WIP limit violations
-  for (const column of board.columns) {
-    if (column.limit && column.count > column.limit) {
-      violations.push({
-        column,
-        overLimit: column.count - column.limit,
-        tasks: column.tasks || []
-      });
-      logger.warn(`WIP violation: ${column.name} has ${column.count} tasks (limit: ${column.limit})`);
+  try {
+    // Get all columns to check for WIP violations
+    const { stdout } = await execAsync('pnpm kanban count --json');
+    const data = JSON.parse(stdout);
+
+    // Check each column for WIP limit violations
+    if (data.columns) {
+      for (const column of data.columns) {
+        if (column.limit && column.count > column.limit) {
+          violations.push({
+            columnName: column.name,
+            currentCount: column.count,
+            limit: column.limit,
+            overLimit: column.count - column.limit
+          });
+          logger.warn(`WIP violation: ${column.name} has ${column.count} tasks (limit: ${column.limit})`);
+        }
+      }
     }
+  } catch (error) {
+    logger.error('Failed to detect WIP violations:', error);
+    throw error;
   }
 
   logger.info(`Found ${violations.length} WIP violations`);
@@ -65,73 +78,86 @@ export async function assessTasksForWIPResolution(
   for (const violation of violations) {
     const tasksToMove: WIPResolution['tasksToMove'] = [];
 
-    // Get evaluations for tasks in violating column
-    const columnEvals = evaluations.filter(evaluation =>
-      violation.column.tasks.some((task: any) => task.uuid === evaluation.taskFile.split('/').pop()?.replace('.md', ''))
-    );
+    try {
+      // Get tasks from the violating column
+      const { stdout: columnStdout } = await execAsync(`pnpm kanban getColumn ${violation.columnName}`);
+      const columnData = JSON.parse(columnStdout);
 
-    // Sort tasks by confidence and readiness to move
-    const sortedEvals = columnEvals.sort((a, b) => {
-      // Prioritize tasks that are clearly ready to move
-      if (a.confidence > b.confidence) return -1;
-      if (b.confidence > a.confidence) return 1;
+      // Get evaluations for tasks in violating column
+      const columnEvals = evaluations.filter(evaluation =>
+        columnData.tasks?.some((task: any) =>
+          task.uuid === evaluation.taskFile.split('/').pop()?.replace('.md', '')
+        )
+      );
 
-      // For in_progress violations, prioritize tasks ready for review or done
-      if (violation.column.name === 'in_progress') {
-        const aReadyForNext = a.inferred_status === 'review' || a.inferred_status === 'done';
-        const bReadyForNext = b.inferred_status === 'review' || b.inferred_status === 'done';
-        if (aReadyForNext && !bReadyForNext) return -1;
-        if (!aReadyForNext && bReadyForNext) return 1;
-      }
+      // Sort tasks by confidence and readiness to move
+      const sortedEvals = columnEvals.sort((a, b) => {
+        // Prioritize tasks that are clearly ready to move
+        if (a.confidence > b.confidence) return -1;
+        if (b.confidence > a.confidence) return 1;
 
-      // For todo violations, prioritize tasks ready for breakdown or icebox
-      if (violation.column.name === 'todo') {
-        const aShouldMove = a.inferred_status === 'backlog' || a.inferred_status === 'breakdown';
-        const bShouldMove = b.inferred_status === 'backlog' || b.inferred_status === 'breakdown';
-        if (aShouldMove && !bShouldMove) return -1;
-        if (!aShouldMove && bShouldMove) return 1;
-      }
-
-      return 0;
-    });
-
-    // Select tasks to move to resolve WIP violation
-    const tasksNeeded = violation.overLimit;
-    for (let i = 0; i < Math.min(tasksNeeded, sortedEvals.length); i++) {
-      const evaluation = sortedEvals[i];
-      let recommendedStatus: string;
-
-      // Determine best target status based on current column and evaluation
-      if (violation.column.name === 'in_progress') {
-        if (evaluation.inferred_status === 'done' && evaluation.confidence >= 0.7) {
-          recommendedStatus = 'done';
-        } else if (evaluation.inferred_status === 'review' || evaluation.confidence >= 0.6) {
-          recommendedStatus = 'review';
-        } else {
-          recommendedStatus = 'todo'; // Send back if not ready
+        // For in_progress violations, prioritize tasks ready for review or done
+        if (violation.columnName === 'in_progress') {
+          const aReadyForNext = a.inferred_status === 'review' || a.inferred_status === 'done';
+          const bReadyForNext = b.inferred_status === 'review' || b.inferred_status === 'done';
+          if (aReadyForNext && !bReadyForNext) return -1;
+          if (!aReadyForNext && bReadyForNext) return 1;
         }
-      } else if (violation.column.name === 'todo') {
-        if (evaluation.inferred_status === 'backlog' || evaluation.confidence < 0.5) {
-          recommendedStatus = 'backlog';
-        } else {
-          recommendedStatus = 'icebox'; // Defer if unclear
-        }
-      } else {
-        // Default: move to previous state in FSM
-        recommendedStatus = 'todo';
-      }
 
-      tasksToMove.push({
-        taskUuid: evaluation.taskFile.split('/').pop()?.replace('.md', '') || '',
-        currentStatus: violation.column.name,
-        recommendedStatus,
-        confidence: evaluation.confidence,
-        reason: evaluation.summary
+        // For todo violations, prioritize tasks ready for breakdown or icebox
+        if (violation.columnName === 'todo') {
+          const aShouldMove = a.inferred_status === 'backlog' || a.inferred_status === 'breakdown';
+          const bShouldMove = b.inferred_status === 'backlog' || b.inferred_status === 'breakdown';
+          if (aShouldMove && !bShouldMove) return -1;
+          if (!aShouldMove && bShouldMove) return 1;
+        }
+
+        return 0;
       });
+
+      // Select tasks to move to resolve WIP violation
+      const tasksNeeded = violation.overLimit;
+      for (let i = 0; i < Math.min(tasksNeeded, sortedEvals.length); i++) {
+        const evaluation = sortedEvals[i];
+        if (!evaluation) continue;
+
+        let recommendedStatus: string;
+
+        // Determine best target status based on current column and evaluation
+        if (violation.columnName === 'in_progress') {
+          if (evaluation.inferred_status === 'done' && evaluation.confidence >= 0.7) {
+            recommendedStatus = 'done';
+          } else if (evaluation.inferred_status === 'review' || evaluation.confidence >= 0.6) {
+            recommendedStatus = 'review';
+          } else {
+            recommendedStatus = 'todo'; // Send back if not ready
+          }
+        } else if (violation.columnName === 'todo') {
+          if (evaluation.inferred_status === 'backlog' || evaluation.confidence < 0.5) {
+            recommendedStatus = 'backlog';
+          } else {
+            recommendedStatus = 'icebox'; // Defer if unclear
+          }
+        } else {
+          // Default: move to previous state in FSM
+          recommendedStatus = 'todo';
+        }
+
+        tasksToMove.push({
+          taskUuid: evaluation.taskFile.split('/').pop()?.replace('.md', '') || '',
+          currentStatus: violation.columnName,
+          recommendedStatus,
+          confidence: evaluation.confidence,
+          reason: evaluation.summary
+        });
+      }
+    } catch (error) {
+      logger.warn(`Failed to assess tasks for column ${violation.columnName}:`, error);
+      continue;
     }
 
     resolutions.push({
-      column: violation.column.name,
+      column: violation.columnName,
       tasksToMove
     });
   }
@@ -141,7 +167,6 @@ export async function assessTasksForWIPResolution(
 
 export async function applyWIPResolutions(
   resolutions: WIPResolution[],
-  boardPath: string,
   dryRun: boolean = true
 ): Promise<void> {
   logger.info(`${dryRun ? 'DRY RUN: ' : ''}Applying WIP resolutions...`);
@@ -155,10 +180,8 @@ export async function applyWIPResolutions(
 
       if (!dryRun) {
         try {
-          await updateStatus(taskMove.taskUuid, taskMove.recommendedStatus, {
-            boardPath,
-            reason: `Automated WIP resolution: ${taskMove.reason}`
-          });
+          await execAsync(`pnpm kanban update-status ${taskMove.taskUuid} ${taskMove.recommendedStatus}`);
+          logger.info(`Successfully moved task ${taskMove.taskUuid} to ${taskMove.recommendedStatus}`);
         } catch (error) {
           logger.error(`Failed to move task ${taskMove.taskUuid}: ${(error as Error).message}`);
         }
