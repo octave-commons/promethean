@@ -1,5 +1,6 @@
+```
 **Layer 2: Permissions Overlay**
-
+```
 ---
 
 ### Overview

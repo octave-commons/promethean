@@ -1,10 +1,14 @@
 ---
+```
 uuid: e3fc2eed-0da2-4aa9-b407-4dda0de4488d
+```
 title: ensure openapi specs are automaticly updated when an endpoint is changed
 status: todo
 priority: P3
 labels: []
+```
 created_at: '2025-09-15T02:02:58.512Z'
+```
 ---
 ## 🛠️ Description
 
@@ -32,9 +36,9 @@ This should just work with fastify... but I am actually not sure. I've just star
 ---
 
 ## 🔗 Related Epics
-
+```
 #framework-core
-
+```
 ---
 
 ## ⛓️ Blocked By

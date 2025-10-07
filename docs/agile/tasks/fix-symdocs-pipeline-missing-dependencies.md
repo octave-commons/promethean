@@ -1,5 +1,7 @@
 ---
+```
 uuid: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+```
 title: Fix symdocs pipeline missing @promethean/file-indexer dependency
 status: todo
 priority: P2
@@ -8,7 +10,9 @@ labels:
   - symdocs
   - dependencies
   - build-fix
+```
 created_at: '2025-10-05T00:00:00.000Z'
+```
 ---
 
 ## 🛠️ Task: Fix symdocs pipeline missing @promethean/file-indexer dependency

@@ -1,10 +1,14 @@
 ---
+```
 uuid: 8c0e512b-27b8-4132-83b1-5da880210b84
+```
 title: document board usage guidelines 1 md
 status: todo
 priority: P3
 labels: []
+```
 created_at: '2025-09-15T02:02:58.512Z'
+```
 ---
 ## 🛠️ Task: Document board usage guidelines
 
@@ -34,8 +38,9 @@ Provide a concise how-to for contributors on interacting with the Obsidian Kanba
 ---
 
 ## 🔗 Related Epics
+```
 #framework-core
-
+```
 ---
 
 ## ⛓️ Blocked By

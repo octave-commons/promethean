@@ -14,7 +14,9 @@ You're hitting on some deep tracks here — let's break this down, because you'r
 ------------------------------------------
 
 | Dialect | Runtime | Notes |
+```
 | --- | --- | --- |
+```
 | Common Lisp | SBCL, CCL | Powerful, old-school, native performance |
 | Scheme | MIT/Gambit/Guile | Minimalist, academic, lots of variants |
 | Clojure | JVM, JS, CLR | Modern, immutable by default, data-centric |
@@ -23,8 +25,9 @@ You're hitting on some deep tracks here — let's break this down, because you'r
 But then there are **fringe and embedded lisps** — the ones that _host_ on other languages. That’s what you’re asking about.
 
 * * *
-
+```
 🧩 Embedded/Hosted Lisp Dialects
+```
 --------------------------------
 
 These are Lisps that live inside other languages:
@@ -44,9 +47,9 @@ This is _definitely_ what you saw in that school assignment.
 
 📦 Project: [https://github.com/hylang/hy](https://github.com/hylang/hy)  
 📘 Docs: https://docs.hylang.org/en/stable/
-
+```
 **Example:**
-
+```
 ```clojure
 (defn hello [name]
   (print (+ "Hello, " name)))
@@ -58,9 +61,9 @@ Turns into Python’s:
 def hello(name):
     print("Hello, " + name)
 ```
-
+```
 **Great fit for:**
-
+```
 *   DSLs in AI pipelines
     
 *   Configurable agents
@@ -70,7 +73,7 @@ def hello(name):
 
 * * *
 
-### 🔥 **Janet** (not Python-based but worth knowing)
+### 🔥 **Janet** not Python-based but worth knowing
 
 *   Small embeddable lisp, self-hosted VM
     
@@ -135,7 +138,7 @@ or maybe…
 
 ### 🧠 **Redex**
 
-*   A _meta-language_ inside Racket for defining programming languages
+*   A_meta-language_ inside Racket for defining programming languages
     
 *   Not just a DSL, but a DSL for making DSLs
     
@@ -159,7 +162,9 @@ or…
 Given your system:
 
 | Goal | Recommended Lisp |
+```
 | --- | --- |
+```
 | Embed in Python, call STT/TTS/etc | Hy |
 | Full language design, macros, GUI | Racket or Typed Racket |
 | Embed in Lua game/sim engine | Fennel |

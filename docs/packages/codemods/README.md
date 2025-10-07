@@ -1,8 +1,16 @@
+```
 <!-- SYMPKG:PKG:BEGIN -->
+```
 # @promethean/codemods
-**Folder:** `packages/codemods`  
-**Version:** `0.1.0`  
+```
+**Folder:** `packages/codemods`
+```
+```
+**Version:** `0.1.0`
+```
+```
 **Domain:** `_root`
+```
 ```mermaid
 graph LR
   A["@promethean/codemods"]
@@ -14,8 +22,10 @@ graph LR
   click D2 "../utils/README.md" "@promethean/utils"
 ```
 ## Dependencies
-- [@promethean/level-cache](../level-cache/README.md)
-- [@promethean/utils](../utils/README.md)
+- @promethean/level-cache$../level-cache/README.md
+- @promethean/utils$../utils/README.md
 ## Dependents
 - _None_
+```
 <!-- SYMPKG:PKG:END -->
+```

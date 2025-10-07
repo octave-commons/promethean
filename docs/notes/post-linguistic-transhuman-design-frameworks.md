@@ -1,9 +1,13 @@
 ---
+```
 uuid: f96ae7fc-cd5c-4ed5-b2bb-c49c0dba708f
+```
 created_at: post-linguistic-transhuman-design-frameworks.md
 filename: Post-Linguistic Transhuman Design Frameworks
 title: Post-Linguistic Transhuman Design Frameworks
+```
 description: >-
+```
   Explores speculative architectures and design principles that envision futures
   beyond conventional language, emphasizing emotional resonance, embodiment, and
   transhuman collaboration. Integrates human-AI co-agency, shared cognitive
@@ -18,7 +22,9 @@ tags:
   - speculative futures
   - embodied cognition
   - mythic frameworks
+```
 related_to_uuid:
+```
   - fc21f824-4244-4030-a48e-c4170160ea1d
   - 6620e2f2-de6d-45d8-a722-5d26e160b370
   - 291c7d91-da8c-486c-9bc0-bd2254536e2d
@@ -44,7 +50,9 @@ related_to_uuid:
   - 64a9f9f9-58ee-4996-bdaf-9373845c6b29
   - 5f65dfa5-dc97-4a6c-ad93-c45c1312e156
   - 9b694a91-dec5-4708-9462-3f71000ba925
+```
 related_to_title:
+```
   - Fnord Tracer Protocol
   - graph-ds
   - Ice Box Reorganization
@@ -500,7 +508,7 @@ On a more theoretical plane, visionaries have argued that language – especiall
 
 Often it is in the cultural and artistic domain that ideas exceeding the limits of language first take shape. Several philosophical and art movements explicitly challenge normative narratives and use alternative mediums (visuals, music, mythology) to propose futures that are felt and imagined rather than logically described. Three notable examples are **Glitch Feminism**, **Afrofuturism**, and **Technomysticism** – each offers a framework for rethinking identity, technology, and reality beyond conventional boundaries of language, race, or gender. ^ref-6bcff92c-27-0
 
-**Glitch Feminism**, a term coined by Legacy Russell, uses the metaphor of the “glitch” (a technical error or noise) as a deliberate rebellion against fixed definitions of gender, race, and the body. In her manifesto, Russell asserts that _“a glitch is an error, a mistake, a failure to function”_ – and that this failure can be **empowering**. The digital glitch, which disrupts signal and meaning, becomes a space to escape oppressive norms. _“Black people invent ways to create space through rupture,”_ she writes, suggesting that marginalized groups can harness breakdowns in the system to find freedom. Glitch Feminism celebrates the **in-between** and the not-yet-defined: _“glitch is celebrated as a vehicle of refusal, a strategy of non-performance”_. By refusing to perform the roles society scripts in language (like rigid gender pronouns or racial categories), the “glitched” body opens up _“a blueprint for what we are capable of becoming, our potential”_ beyond those categories. Russell describes this as _“activism that unfolds with a boundless extravagance,”_ imagining bodies that never “arrive” at a single identity but remain fluid and cosmic. In glitch art and performance, fragmented images, digital noise, and avatar personas convey multiplicity that words struggle to capture. The movement points toward futures of identity and embodiment that are **post-linear and post-linguistic** – felt as an expansive freedom to _become_ rather than to be defined. Glitching, in essence, is a way to short-circuit the social code and let something new (and not yet language-able) emerge. ^ref-6bcff92c-29-0
+**Glitch Feminism**, a term coined by Legacy Russell, uses the metaphor of the “glitch” (a technical error or noise) as a deliberate rebellion against fixed definitions of gender, race, and the body. In her manifesto, Russell asserts that _“a glitch is an error, a mistake, a failure to function”_ – and that this failure can be **empowering**. The digital glitch, which disrupts signal and meaning, becomes a space to escape oppressive norms. _“Black people invent ways to create space through rupture,”_ she writes, suggesting that marginalized groups can harness breakdowns in the system to find freedom. Glitch Feminism celebrates the **in-between** and the not-yet-defined: _“glitch is celebrated as a vehicle of refusal, a strategy of non-performance”_. By refusing to perform the roles society scripts in language (like rigid gender pronouns or racial categories), the “glitched” body opens up _“a blueprint for what we are capable of becoming, our potential”_ beyond those categories. Russell describes this as _“activism that unfolds with a boundless extravagance,”_ imagining bodies that never “arrive” at a single identity but remain fluid and cosmic. In glitch art and performance, fragmented images, digital noise, and avatar personas convey multiplicity that words struggle to capture. The movement points toward futures of identity and embodiment that are **post-linear and post-linguistic** – felt as an expansive freedom to _become_ rather than to be defined. Glitching, in essence, is a way to short-circuit the social code and let something new and not yet language-able emerge. ^ref-6bcff92c-29-0
 
 **Afrofuturism** is another paradigm blending culture, technology, and spirituality to envision futures **through a Black cultural lens**. More than just a sci-fi aesthetic, contemporary Afrofuturism is described as _“a philosophy that empowers African people to locate themselves in the past, present and future with agency”_, providing _“a cultural and political framework for reimagining possibilities.”_ It _“offers tools to envision alternative futures ethically grounded in the Black experience.”_ This means that instead of futures being imagined from the usual Silicon Valley or Eurocentric perspective, Afrofuturism centers ancestral knowledge, the Black diaspora’s history, and values like community, resilience, and joy. It intentionally reaches beyond Western rationalism – for instance, incorporating **spirituals, folklore, and cosmic imagery** as legit ways of knowing. Lonny Avi Brooks and Reynaldo Anderson note that Black communities historically created “codes in spirituals and sound imagining vibrant, liberated worlds” under oppressive conditions. Those songs and stories were a kind of proto-Afrofuturism – _“‘Afro-rithms’… initial cultural software”_ encoding liberation in a way that transcended literal language. Afrofuturist art often uses music (like Sun Ra’s cosmic jazz), abstract visuals, or fantastical narratives to **express the inexpressible** – the pain of history and the dream of liberatory futures. It also brings a **moral and emotional urgency**: _“Afrofuturism… is the future done well – a future that is accountable, embodied, culturally rooted and morally urgent.”_ By insisting on ancestral reckoning and healing (what some call “ancestral intelligence”), Afrofuturism evokes a felt sense of justice and hope. It challenges purely technological visions of tomorrow by asking who gets to imagine the future and injecting **soul** into futurism. In doing so, it produces works that resonate on a spiritual level – from the haunting poetry of Octavia Butler to the techno-tribal imagery of Marvel’s _Black Panther_ – inviting us to emotionally inhabit futures of Black liberation that may be hard to articulate in the dry language of policy papers.
 
@@ -514,7 +522,7 @@ Solarpunk is a burgeoning genre of science fiction, art, and design that asks th
 
 In the HCI and design research community, similar value-centric approaches have taken hold under banners like **Value Sensitive Design**, **Design Justice**, and speculative or critical design. These methods encourage designers to start by asking what _values, principles, or social outcomes_ should guide a technology, then backcast a scenario from there. For instance, a team might imagine a future education system structured entirely around the value of **equity** – what tools or interfaces would emerge to support that? The resulting design fictions may look very different from today’s tech: maybe AI tutors that respect Indigenous knowledge systems, or community-owned data platforms that empower local decision-making. The important part is that the _metric of success is a value (like fairness or joy), not a gadget_. As a concrete technique, some futurists use **scenario planning** exercises where stakeholders articulate their ideal values in society (e.g. privacy, creativity, solidarity) and then envision worlds where those are maximized. This flips the script on tech-determinism and often yields more **ethically profound** stories. One noted futurist, Stuart Candy, speaks of creating “experiential futures” that are essentially prototypes of _felt environments_ aligned with certain values, allowing people to step into a future and gauge its emotional tenor. ^ref-6bcff92c-41-0
 
-Even speculative fiction literature follows this pattern: authors like Ursula K. Le Guin and NK Jemisin build worlds that explore alternate social values (anarchism, community care, etc.), not just new tech magic. These narratives become **design principles in story form**, helping us rehearse how it _feels_ to live under different assumptions. By structuring futures around values, we ensure technology remains a means to human ends. This is increasingly important as we navigate AI and biotech – the question “what kind of world do we want?” should drive “what we build.” In summary, speculative design oriented by values rather than gadgets produces visions of the future that are **normatively compelling**. They resonate because they address human hopes and fears directly. An example from Afrofuturism underlines this: rather than asking how AI will develop in general, Black speculative artists ask how AI can serve healing and liberation – leading to concepts like “AI griots” (storytellers) channeling ancestral wisdom or an AI-powered “Mirror of Loving Awareness” for collective healing. These designs are powered by cultural and spiritual values. They remind us that a future is not truly desirable unless it _feels_ just and enriching to the spirit. In practice, incorporating this insight means any design for a future technology (even something like an embodied cognition system such as **Promethean**) should stem from clear value-driven principles: e.g., does it promote empathy? community? creativity? By doing so, we increase the chance that our imagined futures are not only rationally innovative but also _emotionally and ethically sustainable_. ^ref-6bcff92c-43-0
+Even speculative fiction literature follows this pattern: authors like Ursula K. Le Guin and NK Jemisin build worlds that explore alternate social values (anarchism, community care, etc.), not just new tech magic. These narratives become **design principles in story form**, helping us rehearse how it _feels_ to live under different assumptions. By structuring futures around values, we ensure technology remains a means to human ends. This is increasingly important as we navigate AI and biotech – the question “what kind of world do we want?” should drive “what we build.” In summary, speculative design oriented by values rather than gadgets produces visions of the future that are **normatively compelling**. They resonate because they address human hopes and fears directly. An example from Afrofuturism underlines this: rather than asking how AI will develop in general, Black speculative artists ask how AI can serve healing and liberation – leading to concepts like “AI griots” (storytellers) channeling ancestral wisdom or an AI-powered “Mirror of Loving Awareness” for collective healing. These designs are powered by cultural and spiritual values. They remind us that a future is not truly desirable unless it _feels_ just and enriching to the spirit. In practice, incorporating this insight means any design for a future technology even something like an embodied cognition system such as **Promethean** should stem from clear value-driven principles: e.g., does it promote empathy? community? creativity? By doing so, we increase the chance that our imagined futures are not only rationally innovative but also _emotionally and ethically sustainable_. ^ref-6bcff92c-43-0
 
 ## Visionary Narratives and Hyperstition: Articulating the Ineffable
 
@@ -533,9 +541,9 @@ Spiritual resonance, too, is a factor. Whether through technomysticism’s digit
 Ultimately, what these emotionally and spiritually charged structures offer is a **“felt sense of potential.”** Borrowing a term from psychology, a _felt sense_ is a bodily awareness of something not yet defined – like a hunch or aura of possibility. The speculative frameworks we’ve explored all try to cultivate this: they give us _images, symbols, and experiences_ that let us _feel_ a potential future as if it were tangible. When glitch feminists celebrate the “failure” of a binary gender assignment, it creates a feeling of freedom and rebellion – the exhilaration of existing beyond definition. When solarpunk designers build a mini community garden with solar fairy lights in a city lot, passersby _feel_ a spark of hope and calm, an intuition that “it could be like this everywhere.” When technomystics hold a VR meditation circle, participants might feel the same sacred togetherness that one finds in an ancient temple, even though they’re in a digital realm. These affective experiences stick with people; they quietly guide decision-making and innovation because they encapsulate _why_ a certain future is desirable in the first place. ^ref-6bcff92c-59-0
 
 In conclusion, moving toward futures not fully captured by language requires that we engage people not just intellectually but **emotionally and spiritually**. Frameworks of entangled human–machine intelligence, post-linguistic communication, radical art movements, and values-based design all converge on the insight that _meaning_ drives evolution as much as logic does. As we imagine and build tomorrow’s world, we do well to heed these speculative visions. They urge us to design technologies and narratives that **coax the best of our humanity forward** – our empathy, creativity, and capacity for awe – because those are the forces that make a future worth living in. By creating structures that resonate on a deeper level, we effectively lay down emotional and cognitive pathways toward a future that we may not fully grasp in words, but which we recognize with our hearts as soon as we encounter it. Such futures, felt before they are fully understood, have the power to inspire and unite us in making them real. ^ref-6bcff92c-61-0
-
+```
 **Sources:** ^ref-6bcff92c-63-0
-
+```
 - Human–AI co-agency and co-creativity analysis; hybrid intelligence defined as synergizing AI with human values. ^ref-6bcff92c-65-0
     
 - Global brain vision of distributed planetary intelligence. ^ref-6bcff92c-67-0
@@ -574,9 +582,9 @@ Spiritual resonance, too, is a factor. Whether through technomysticism’s digit
 Ultimately, what these emotionally and spiritually charged structures offer is a **“felt sense of potential.”** Borrowing a term from psychology, a _felt sense_ is a bodily awareness of something not yet defined – like a hunch or aura of possibility. The speculative frameworks we’ve explored all try to cultivate this: they give us _images, symbols, and experiences_ that let us _feel_ a potential future as if it were tangible. When glitch feminists celebrate the “failure” of a binary gender assignment, it creates a feeling of freedom and rebellion – the exhilaration of existing beyond definition. When solarpunk designers build a mini community garden with solar fairy lights in a city lot, passersby _feel_ a spark of hope and calm, an intuition that “it could be like this everywhere.” When technomystics hold a VR meditation circle, participants might feel the same sacred togetherness that one finds in an ancient temple, even though they’re in a digital realm. These affective experiences stick with people; they quietly guide decision-making and innovation because they encapsulate _why_ a certain future is desirable in the first place. ^ref-6bcff92c-59-0
 
 In conclusion, moving toward futures not fully captured by language requires that we engage people not just intellectually but **emotionally and spiritually**. Frameworks of entangled human–machine intelligence, post-linguistic communication, radical art movements, and values-based design all converge on the insight that _meaning_ drives evolution as much as logic does. As we imagine and build tomorrow’s world, we do well to heed these speculative visions. They urge us to design technologies and narratives that **coax the best of our humanity forward** – our empathy, creativity, and capacity for awe – because those are the forces that make a future worth living in. By creating structures that resonate on a deeper level, we effectively lay down emotional and cognitive pathways toward a future that we may not fully grasp in words, but which we recognize with our hearts as soon as we encounter it. Such futures, felt before they are fully understood, have the power to inspire and unite us in making them real. ^ref-6bcff92c-61-0
-
+```
 **Sources:** ^ref-6bcff92c-63-0
-
+```
 - Human–AI co-agency and co-creativity analysis; hybrid intelligence defined as synergizing AI with human values. ^ref-6bcff92c-65-0
     
 - Global brain vision of distributed planetary intelligence. ^ref-6bcff92c-67-0
@@ -596,137 +604,141 @@ In conclusion, moving toward futures not fully captured by language requires tha
 - **Solarpunk** design ethos – optimistic integration of tech, nature, and meaning to imagine sustainable futures of purpose and harmony.
     
 - Hyperstition concept – fictions that become reality, _“materializing the future as it leaks from beyond comprehension.”_. ^ref-6bcff92c-124-0
- ^ref-6bcff92c-125-0
+```
+^ref-6bcff92c-125-0
+```
 - Afrofuturist notion of the “Emotional Engine” – empathy and healing as kinetic forces for change. ^ref-6bcff92c-126-0
- ^ref-6bcff92c-127-0
+```
+^ref-6bcff92c-127-0
+```
 - Afrofuturism’s call for “ancestral intelligence” and a future that is _“accountable, embodied, culturally rooted and morally urgent”_.
  ^ref-6bcff92c-137-0 ^ref-6bcff92c-157-0 ^ref-6bcff92c-159-0 ^ref-6bcff92c-160-0 ^ref-6bcff92c-169-0 ^ref-6bcff92c-177-0 ^ref-6bcff92c-206-0 ^ref-6bcff92c-238-0 ^ref-6bcff92c-239-0 ^ref-6bcff92c-264-0 ^ref-6bcff92c-269-0 ^ref-6bcff92c-272-0 ^ref-6bcff92c-1045-0 ^ref-6bcff92c-1953-0 ^ref-6bcff92c-2314-0 ^ref-6bcff92c-2459-0 ^ref-6bcff92c-2580-0 ^ref-6bcff92c-2827-0 ^ref-6bcff92c-4019-0
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [Fnord Tracer Protocol](fnord-tracer-protocol.md)
-- [graph-ds](graph-ds.md)
-- [Ice Box Reorganization](ice-box-reorganization.md)
-- [Model Selection for Lightweight Conversational Tasks](model-selection-for-lightweight-conversational-tasks.md)
-- [polyglot-repl-interface-layer](polyglot-repl-interface-layer.md)
-- [Chroma Toolkit Consolidation Plan](chroma-toolkit-consolidation-plan.md)
-- [Dynamic Context Model for Web Components](dynamic-context-model-for-web-components.md)
-- [The Jar of Echoes](the-jar-of-echoes.md)
-- [i3-bluetooth-setup](i3-bluetooth-setup.md)
+- [Fnord Tracer Protocol]fnord-tracer-protocol.md
+- graph-ds$graph-ds.md
+- [Ice Box Reorganization]ice-box-reorganization.md
+- [Model Selection for Lightweight Conversational Tasks]model-selection-for-lightweight-conversational-tasks.md
+- polyglot-repl-interface-layer$polyglot-repl-interface-layer.md
+- [Chroma Toolkit Consolidation Plan]chroma-toolkit-consolidation-plan.md
+- [Dynamic Context Model for Web Components]dynamic-context-model-for-web-components.md
+- [The Jar of Echoes]the-jar-of-echoes.md
+- i3-bluetooth-setup$i3-bluetooth-setup.md
 - [DuckDuckGoSearchPipeline](duckduckgosearchpipeline.md)
-- [Duck's Self-Referential Perceptual Loop](ducks-self-referential-perceptual-loop.md)
-- [Factorio AI with External Agents](factorio-ai-with-external-agents.md)
-- [field-interaction-equations](field-interaction-equations.md)
-- [Tracing the Signal](tracing-the-signal.md)
-- [Prompt_Folder_Bootstrap](prompt-folder-bootstrap.md)
-- [Protocol_0_The_Contradiction_Engine](protocol-0-the-contradiction-engine.md)
-- [Functional Embedding Pipeline Refactor](functional-embedding-pipeline-refactor.md)
-- [Performance-Optimized-Polyglot-Bridge](performance-optimized-polyglot-bridge.md)
-- [Promethean State Format](promethean-state-format.md)
-- [field-node-diagram-visualizations](field-node-diagram-visualizations.md)
-- [homeostasis-decay-formulas](homeostasis-decay-formulas.md)
-- [komorebi-group-window-hack](komorebi-group-window-hack.md)
+- Duck's Self-Referential Perceptual Loop$ducks-self-referential-perceptual-loop.md
+- [Factorio AI with External Agents]factorio-ai-with-external-agents.md
+- field-interaction-equations$field-interaction-equations.md
+- [Tracing the Signal]tracing-the-signal.md
+- Prompt_Folder_Bootstrap$prompt-folder-bootstrap.md
+- Protocol_0_The_Contradiction_Engine$protocol-0-the-contradiction-engine.md
+- [Functional Embedding Pipeline Refactor]functional-embedding-pipeline-refactor.md
+- Performance-Optimized-Polyglot-Bridge$performance-optimized-polyglot-bridge.md
+- [Promethean State Format]promethean-state-format.md
+- field-node-diagram-visualizations$field-node-diagram-visualizations.md
+- homeostasis-decay-formulas$homeostasis-decay-formulas.md
+- komorebi-group-window-hack$komorebi-group-window-hack.md
 - [Layer1SurvivabilityEnvelope](layer1survivabilityenvelope.md)
 - [MindfulRobotIntegration](mindfulrobotintegration.md)
-- [Obsidian Task Generation](obsidian-task-generation.md)
+- [Obsidian Task Generation]obsidian-task-generation.md
 ## Sources
-- [Promethean Pipelines: Local TypeScript-First Workflow — L220](promethean-pipelines-local-typescript-first-workflow.md#^ref-6b63edca-220-0) (line 220, col 0, score 1)
-- [field-node-diagram-set — L226](field-node-diagram-set.md#^ref-22b989d5-226-0) (line 226, col 0, score 1)
-- [field-node-diagram-visualizations — L174](field-node-diagram-visualizations.md#^ref-e9b27b06-174-0) (line 174, col 0, score 1)
-- [Fnord Tracer Protocol — L326](fnord-tracer-protocol.md#^ref-fc21f824-326-0) (line 326, col 0, score 1)
-- [graph-ds — L467](graph-ds.md#^ref-6620e2f2-467-0) (line 467, col 0, score 1)
-- [heartbeat-fragment-demo — L204](heartbeat-fragment-demo.md#^ref-dd00677a-204-0) (line 204, col 0, score 1)
-- [homeostasis-decay-formulas — L245](homeostasis-decay-formulas.md#^ref-37b5d236-245-0) (line 245, col 0, score 1)
-- [i3-bluetooth-setup — L167](i3-bluetooth-setup.md#^ref-5e408692-167-0) (line 167, col 0, score 1)
-- [komorebi-group-window-hack — L334](komorebi-group-window-hack.md#^ref-dd89372d-334-0) (line 334, col 0, score 1)
-- [Model Upgrade Calm-Down Guide — L140](model-upgrade-calm-down-guide.md#^ref-db74343f-140-0) (line 140, col 0, score 1)
-- [obsidian-ignore-node-modules-regex — L143](obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-143-0) (line 143, col 0, score 1)
-- [eidolon-field-math-foundations — L148](eidolon-field-math-foundations.md#^ref-008f2ac0-148-0) (line 148, col 0, score 1)
-- [eidolon-node-lifecycle — L36](eidolon-node-lifecycle.md#^ref-938eca9c-36-0) (line 36, col 0, score 1)
-- [Factorio AI with External Agents — L166](factorio-ai-with-external-agents.md#^ref-a4d90289-166-0) (line 166, col 0, score 1)
-- [field-dynamics-math-blocks — L148](field-dynamics-math-blocks.md#^ref-7cfc230d-148-0) (line 148, col 0, score 1)
-- [field-interaction-equations — L153](field-interaction-equations.md#^ref-b09141b7-153-0) (line 153, col 0, score 1)
-- [field-node-diagram-outline — L118](field-node-diagram-outline.md#^ref-1f32c94a-118-0) (line 118, col 0, score 1)
-- [field-node-diagram-set — L168](field-node-diagram-set.md#^ref-22b989d5-168-0) (line 168, col 0, score 1)
-- [field-node-diagram-visualizations — L103](field-node-diagram-visualizations.md#^ref-e9b27b06-103-0) (line 103, col 0, score 1)
-- [Functional Embedding Pipeline Refactor — L380](functional-embedding-pipeline-refactor.md#^ref-a4a25141-380-0) (line 380, col 0, score 1)
-- [Functional Refactor of TypeScript Document Processing — L194](functional-refactor-of-typescript-document-processing.md#^ref-1cfae310-194-0) (line 194, col 0, score 1)
-- [Docops Feature Updates — L85](docops-feature-updates-3.md#^ref-cdbd21ee-85-0) (line 85, col 0, score 1)
-- [Duck's Attractor States — L93](ducks-attractor-states.md#^ref-13951643-93-0) (line 93, col 0, score 1)
-- [Duck's Self-Referential Perceptual Loop — L64](ducks-self-referential-perceptual-loop.md#^ref-71726f04-64-0) (line 64, col 0, score 1)
-- [Factorio AI with External Agents — L153](factorio-ai-with-external-agents.md#^ref-a4d90289-153-0) (line 153, col 0, score 1)
-- [field-dynamics-math-blocks — L141](field-dynamics-math-blocks.md#^ref-7cfc230d-141-0) (line 141, col 0, score 1)
-- [Docops Feature Updates — L35](docops-feature-updates.md#^ref-2792d448-35-0) (line 35, col 0, score 1)
-- [Duck's Attractor States — L94](ducks-attractor-states.md#^ref-13951643-94-0) (line 94, col 0, score 1)
-- [Duck's Self-Referential Perceptual Loop — L53](ducks-self-referential-perceptual-loop.md#^ref-71726f04-53-0) (line 53, col 0, score 1)
-- [Dynamic Context Model for Web Components — L424](dynamic-context-model-for-web-components.md#^ref-f7702bf8-424-0) (line 424, col 0, score 1)
-- [Eidolon Field Abstract Model — L209](eidolon-field-abstract-model.md#^ref-5e8b2388-209-0) (line 209, col 0, score 1)
-- [eidolon-field-math-foundations — L142](eidolon-field-math-foundations.md#^ref-008f2ac0-142-0) (line 142, col 0, score 1)
-- [eidolon-node-lifecycle — L39](eidolon-node-lifecycle.md#^ref-938eca9c-39-0) (line 39, col 0, score 1)
-- [Creative Moments — L53](creative-moments.md#^ref-10d98225-53-0) (line 53, col 0, score 1)
-- [Creative Moments — L38](creative-moments.md#^ref-10d98225-38-0) (line 38, col 0, score 1)
-- [Docops Feature Updates — L51](docops-feature-updates-3.md#^ref-cdbd21ee-51-0) (line 51, col 0, score 1)
-- [Docops Feature Updates — L79](docops-feature-updates.md#^ref-2792d448-79-0) (line 79, col 0, score 1)
-- [DuckDuckGoSearchPipeline — L77](duckduckgosearchpipeline.md#^ref-e979c50f-77-0) (line 77, col 0, score 1)
-- [Duck's Attractor States — L115](ducks-attractor-states.md#^ref-13951643-115-0) (line 115, col 0, score 1)
-- [Duck's Self-Referential Perceptual Loop — L61](ducks-self-referential-perceptual-loop.md#^ref-71726f04-61-0) (line 61, col 0, score 1)
-- [Eidolon Field Abstract Model — L212](eidolon-field-abstract-model.md#^ref-5e8b2388-212-0) (line 212, col 0, score 1)
-- [eidolon-field-math-foundations — L150](eidolon-field-math-foundations.md#^ref-008f2ac0-150-0) (line 150, col 0, score 1)
-- [Creative Moments — L94](creative-moments.md#^ref-10d98225-94-0) (line 94, col 0, score 1)
-- [Debugging Broker Connections and Agent Behavior — L63](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-63-0) (line 63, col 0, score 1)
-- [Docops Feature Updates — L66](docops-feature-updates-3.md#^ref-cdbd21ee-66-0) (line 66, col 0, score 1)
-- [DuckDuckGoSearchPipeline — L93](duckduckgosearchpipeline.md#^ref-e979c50f-93-0) (line 93, col 0, score 1)
-- [Duck's Self-Referential Perceptual Loop — L73](ducks-self-referential-perceptual-loop.md#^ref-71726f04-73-0) (line 73, col 0, score 1)
-- [Dynamic Context Model for Web Components — L403](dynamic-context-model-for-web-components.md#^ref-f7702bf8-403-0) (line 403, col 0, score 1)
-- [Creative Moments — L8](creative-moments.md#^ref-10d98225-8-0) (line 8, col 0, score 1)
-- [Debugging Broker Connections and Agent Behavior — L38](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-38-0) (line 38, col 0, score 1)
-- [Docops Feature Updates — L56](docops-feature-updates-3.md#^ref-cdbd21ee-56-0) (line 56, col 0, score 1)
-- [Creative Moments — L50](creative-moments.md#^ref-10d98225-50-0) (line 50, col 0, score 1)
-- [Debugging Broker Connections and Agent Behavior — L89](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-89-0) (line 89, col 0, score 1)
-- [Docops Feature Updates — L32](docops-feature-updates-3.md#^ref-cdbd21ee-32-0) (line 32, col 0, score 1)
-- [Docops Feature Updates — L49](docops-feature-updates.md#^ref-2792d448-49-0) (line 49, col 0, score 1)
-- [DuckDuckGoSearchPipeline — L95](duckduckgosearchpipeline.md#^ref-e979c50f-95-0) (line 95, col 0, score 1)
-- [Duck's Attractor States — L133](ducks-attractor-states.md#^ref-13951643-133-0) (line 133, col 0, score 1)
-- [Duck's Self-Referential Perceptual Loop — L59](ducks-self-referential-perceptual-loop.md#^ref-71726f04-59-0) (line 59, col 0, score 1)
-- [Eidolon Field Abstract Model — L252](eidolon-field-abstract-model.md#^ref-5e8b2388-252-0) (line 252, col 0, score 1)
-- [Creative Moments — L52](creative-moments.md#^ref-10d98225-52-0) (line 52, col 0, score 1)
-- [Debugging Broker Connections and Agent Behavior — L71](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-71-0) (line 71, col 0, score 1)
-- [DuckDuckGoSearchPipeline — L99](duckduckgosearchpipeline.md#^ref-e979c50f-99-0) (line 99, col 0, score 1)
-- [Model Upgrade Calm-Down Guide — L88](model-upgrade-calm-down-guide.md#^ref-db74343f-88-0) (line 88, col 0, score 1)
-- [NPU Voice Code and Sensory Integration — L91](npu-voice-code-and-sensory-integration.md#^ref-5a02283e-91-0) (line 91, col 0, score 1)
-- [Obsidian ChatGPT Plugin Integration Guide — L69](obsidian-chatgpt-plugin-integration-guide.md#^ref-1d3d6c3a-69-0) (line 69, col 0, score 1)
-- [Obsidian ChatGPT Plugin Integration — L64](obsidian-chatgpt-plugin-integration.md#^ref-ca8e1399-64-0) (line 64, col 0, score 1)
-- [obsidian-ignore-node-modules-regex — L105](obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-105-0) (line 105, col 0, score 1)
-- [Obsidian Task Generation — L92](obsidian-task-generation.md#^ref-9b694a91-92-0) (line 92, col 0, score 1)
-- [Obsidian Templating Plugins Integration Guide — L90](obsidian-templating-plugins-integration-guide.md#^ref-b39dc9d4-90-0) (line 90, col 0, score 1)
-- [OpenAPI Validation Report — L50](openapi-validation-report.md#^ref-5c152b08-50-0) (line 50, col 0, score 1)
-- [Optimizing Command Limitations in System Design — L81](optimizing-command-limitations-in-system-design.md#^ref-98c8ff62-81-0) (line 81, col 0, score 1)
-- [polyglot-repl-interface-layer — L220](polyglot-repl-interface-layer.md#^ref-9c79206d-220-0) (line 220, col 0, score 1)
-- [komorebi-group-window-hack — L262](komorebi-group-window-hack.md#^ref-dd89372d-262-0) (line 262, col 0, score 1)
-- [Mathematics Sampler — L84](mathematics-sampler.md#^ref-b5e0183e-84-0) (line 84, col 0, score 1)
-- [Migrate to Provider-Tenant Architecture — L314](migrate-to-provider-tenant-architecture.md#^ref-54382370-314-0) (line 314, col 0, score 1)
-- [Mindful Prioritization — L26](mindful-prioritization.md#^ref-40185d05-26-0) (line 26, col 0, score 1)
-- [NPU Voice Code and Sensory Integration — L10](npu-voice-code-and-sensory-integration.md#^ref-5a02283e-10-0) (line 10, col 0, score 1)
-- [Obsidian ChatGPT Plugin Integration — L43](obsidian-chatgpt-plugin-integration.md#^ref-ca8e1399-43-0) (line 43, col 0, score 1)
-- [obsidian-ignore-node-modules-regex — L82](obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-82-0) (line 82, col 0, score 1)
-- [Obsidian Task Generation — L37](obsidian-task-generation.md#^ref-9b694a91-37-0) (line 37, col 0, score 1)
-- [OpenAPI Validation Report — L68](openapi-validation-report.md#^ref-5c152b08-68-0) (line 68, col 0, score 1)
-- [ParticleSimulationWithCanvasAndFFmpeg — L294](particlesimulationwithcanvasandffmpeg.md#^ref-e018dd7a-294-0) (line 294, col 0, score 1)
-- [Per-Domain Policy System for JS Crawler — L532](per-domain-policy-system-for-js-crawler.md#^ref-c03020e1-532-0) (line 532, col 0, score 1)
-- [Performance-Optimized-Polyglot-Bridge — L456](performance-optimized-polyglot-bridge.md#^ref-f5579967-456-0) (line 456, col 0, score 1)
-- [Pipeline Enhancements — L17](pipeline-enhancements.md#^ref-e2135d9f-17-0) (line 17, col 0, score 1)
-- [plan-update-confirmation — L1035](plan-update-confirmation.md#^ref-b22d79c6-1035-0) (line 1035, col 0, score 1)
-- [sibilant-macro-targets — L233](sibilant-macro-targets.md#^ref-c5c9a5c6-233-0) (line 233, col 0, score 1)
-- [Smoke Resonance Visualizations — L91](smoke-resonance-visualizations.md#^ref-ac9d3ac5-91-0) (line 91, col 0, score 1)
-- [Stateful Partitions and Rebalancing — L633](stateful-partitions-and-rebalancing.md#^ref-4330e8f0-633-0) (line 633, col 0, score 1)
-- [The Jar of Echoes — L172](the-jar-of-echoes.md#^ref-18138627-172-0) (line 172, col 0, score 1)
-- [Tracing the Signal — L116](tracing-the-signal.md#^ref-c3cd4f65-116-0) (line 116, col 0, score 1)
-- [ts-to-lisp-transpiler — L77](ts-to-lisp-transpiler.md#^ref-ba11486b-77-0) (line 77, col 0, score 1)
-- [typed-struct-compiler — L460](typed-struct-compiler.md#^ref-78eeedf7-460-0) (line 460, col 0, score 1)
-- [Protocol_0_The_Contradiction_Engine — L160](protocol-0-the-contradiction-engine.md#^ref-9a93a756-160-0) (line 160, col 0, score 1)
-- [Provider-Agnostic Chat Panel Implementation — L276](provider-agnostic-chat-panel-implementation.md#^ref-43bfe9dd-276-0) (line 276, col 0, score 1)
-- [Pure TypeScript Search Microservice — L628](pure-typescript-search-microservice.md#^ref-d17d3a96-628-0) (line 628, col 0, score 1)
-- [Reawakening Duck — L161](reawakening-duck.md#^ref-59b5670f-161-0) (line 161, col 0, score 1)
-- [Redirecting Standard Error — L35](redirecting-standard-error.md#^ref-b3555ede-35-0) (line 35, col 0, score 1)
-- [schema-evolution-workflow — L603](schema-evolution-workflow.md#^ref-d8059b6a-603-0) (line 603, col 0, score 1)
-- [Self-Agency in AI Interaction — L57](self-agency-in-ai-interaction.md#^ref-49a9a860-57-0) (line 57, col 0, score 1)
+- Promethean Pipelines: Local TypeScript-First Workflow — L220$promethean-pipelines-local-typescript-first-workflow.md#^ref-6b63edca-220-0 (line 220, col 0, score 1)
+- field-node-diagram-set — L226$field-node-diagram-set.md#^ref-22b989d5-226-0 (line 226, col 0, score 1)
+- field-node-diagram-visualizations — L174$field-node-diagram-visualizations.md#^ref-e9b27b06-174-0 (line 174, col 0, score 1)
+- [Fnord Tracer Protocol — L326]fnord-tracer-protocol.md#^ref-fc21f824-326-0 (line 326, col 0, score 1)
+- graph-ds — L467$graph-ds.md#^ref-6620e2f2-467-0 (line 467, col 0, score 1)
+- heartbeat-fragment-demo — L204$heartbeat-fragment-demo.md#^ref-dd00677a-204-0 (line 204, col 0, score 1)
+- homeostasis-decay-formulas — L245$homeostasis-decay-formulas.md#^ref-37b5d236-245-0 (line 245, col 0, score 1)
+- i3-bluetooth-setup — L167$i3-bluetooth-setup.md#^ref-5e408692-167-0 (line 167, col 0, score 1)
+- komorebi-group-window-hack — L334$komorebi-group-window-hack.md#^ref-dd89372d-334-0 (line 334, col 0, score 1)
+- Model Upgrade Calm-Down Guide — L140$model-upgrade-calm-down-guide.md#^ref-db74343f-140-0 (line 140, col 0, score 1)
+- obsidian-ignore-node-modules-regex — L143$obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-143-0 (line 143, col 0, score 1)
+- eidolon-field-math-foundations — L148$eidolon-field-math-foundations.md#^ref-008f2ac0-148-0 (line 148, col 0, score 1)
+- eidolon-node-lifecycle — L36$eidolon-node-lifecycle.md#^ref-938eca9c-36-0 (line 36, col 0, score 1)
+- [Factorio AI with External Agents — L166]factorio-ai-with-external-agents.md#^ref-a4d90289-166-0 (line 166, col 0, score 1)
+- field-dynamics-math-blocks — L148$field-dynamics-math-blocks.md#^ref-7cfc230d-148-0 (line 148, col 0, score 1)
+- field-interaction-equations — L153$field-interaction-equations.md#^ref-b09141b7-153-0 (line 153, col 0, score 1)
+- field-node-diagram-outline — L118$field-node-diagram-outline.md#^ref-1f32c94a-118-0 (line 118, col 0, score 1)
+- field-node-diagram-set — L168$field-node-diagram-set.md#^ref-22b989d5-168-0 (line 168, col 0, score 1)
+- field-node-diagram-visualizations — L103$field-node-diagram-visualizations.md#^ref-e9b27b06-103-0 (line 103, col 0, score 1)
+- [Functional Embedding Pipeline Refactor — L380]functional-embedding-pipeline-refactor.md#^ref-a4a25141-380-0 (line 380, col 0, score 1)
+- [Functional Refactor of TypeScript Document Processing — L194]functional-refactor-of-typescript-document-processing.md#^ref-1cfae310-194-0 (line 194, col 0, score 1)
+- [Docops Feature Updates — L85]docops-feature-updates-3.md#^ref-cdbd21ee-85-0 (line 85, col 0, score 1)
+- [Duck's Attractor States — L93]ducks-attractor-states.md#^ref-13951643-93-0 (line 93, col 0, score 1)
+- Duck's Self-Referential Perceptual Loop — L64$ducks-self-referential-perceptual-loop.md#^ref-71726f04-64-0 (line 64, col 0, score 1)
+- [Factorio AI with External Agents — L153]factorio-ai-with-external-agents.md#^ref-a4d90289-153-0 (line 153, col 0, score 1)
+- field-dynamics-math-blocks — L141$field-dynamics-math-blocks.md#^ref-7cfc230d-141-0 (line 141, col 0, score 1)
+- [Docops Feature Updates — L35]docops-feature-updates.md#^ref-2792d448-35-0 (line 35, col 0, score 1)
+- [Duck's Attractor States — L94]ducks-attractor-states.md#^ref-13951643-94-0 (line 94, col 0, score 1)
+- Duck's Self-Referential Perceptual Loop — L53$ducks-self-referential-perceptual-loop.md#^ref-71726f04-53-0 (line 53, col 0, score 1)
+- [Dynamic Context Model for Web Components — L424]dynamic-context-model-for-web-components.md#^ref-f7702bf8-424-0 (line 424, col 0, score 1)
+- [Eidolon Field Abstract Model — L209]eidolon-field-abstract-model.md#^ref-5e8b2388-209-0 (line 209, col 0, score 1)
+- eidolon-field-math-foundations — L142$eidolon-field-math-foundations.md#^ref-008f2ac0-142-0 (line 142, col 0, score 1)
+- eidolon-node-lifecycle — L39$eidolon-node-lifecycle.md#^ref-938eca9c-39-0 (line 39, col 0, score 1)
+- [Creative Moments — L53]creative-moments.md#^ref-10d98225-53-0 (line 53, col 0, score 1)
+- [Creative Moments — L38]creative-moments.md#^ref-10d98225-38-0 (line 38, col 0, score 1)
+- [Docops Feature Updates — L51]docops-feature-updates-3.md#^ref-cdbd21ee-51-0 (line 51, col 0, score 1)
+- [Docops Feature Updates — L79]docops-feature-updates.md#^ref-2792d448-79-0 (line 79, col 0, score 1)
+- [DuckDuckGoSearchPipeline — L77]duckduckgosearchpipeline.md#^ref-e979c50f-77-0 (line 77, col 0, score 1)
+- [Duck's Attractor States — L115]ducks-attractor-states.md#^ref-13951643-115-0 (line 115, col 0, score 1)
+- Duck's Self-Referential Perceptual Loop — L61$ducks-self-referential-perceptual-loop.md#^ref-71726f04-61-0 (line 61, col 0, score 1)
+- [Eidolon Field Abstract Model — L212]eidolon-field-abstract-model.md#^ref-5e8b2388-212-0 (line 212, col 0, score 1)
+- eidolon-field-math-foundations — L150$eidolon-field-math-foundations.md#^ref-008f2ac0-150-0 (line 150, col 0, score 1)
+- [Creative Moments — L94]creative-moments.md#^ref-10d98225-94-0 (line 94, col 0, score 1)
+- [Debugging Broker Connections and Agent Behavior — L63]debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-63-0 (line 63, col 0, score 1)
+- [Docops Feature Updates — L66]docops-feature-updates-3.md#^ref-cdbd21ee-66-0 (line 66, col 0, score 1)
+- [DuckDuckGoSearchPipeline — L93]duckduckgosearchpipeline.md#^ref-e979c50f-93-0 (line 93, col 0, score 1)
+- Duck's Self-Referential Perceptual Loop — L73$ducks-self-referential-perceptual-loop.md#^ref-71726f04-73-0 (line 73, col 0, score 1)
+- [Dynamic Context Model for Web Components — L403]dynamic-context-model-for-web-components.md#^ref-f7702bf8-403-0 (line 403, col 0, score 1)
+- [Creative Moments — L8]creative-moments.md#^ref-10d98225-8-0 (line 8, col 0, score 1)
+- [Debugging Broker Connections and Agent Behavior — L38]debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-38-0 (line 38, col 0, score 1)
+- [Docops Feature Updates — L56]docops-feature-updates-3.md#^ref-cdbd21ee-56-0 (line 56, col 0, score 1)
+- [Creative Moments — L50]creative-moments.md#^ref-10d98225-50-0 (line 50, col 0, score 1)
+- [Debugging Broker Connections and Agent Behavior — L89]debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-89-0 (line 89, col 0, score 1)
+- [Docops Feature Updates — L32]docops-feature-updates-3.md#^ref-cdbd21ee-32-0 (line 32, col 0, score 1)
+- [Docops Feature Updates — L49]docops-feature-updates.md#^ref-2792d448-49-0 (line 49, col 0, score 1)
+- [DuckDuckGoSearchPipeline — L95]duckduckgosearchpipeline.md#^ref-e979c50f-95-0 (line 95, col 0, score 1)
+- [Duck's Attractor States — L133]ducks-attractor-states.md#^ref-13951643-133-0 (line 133, col 0, score 1)
+- Duck's Self-Referential Perceptual Loop — L59$ducks-self-referential-perceptual-loop.md#^ref-71726f04-59-0 (line 59, col 0, score 1)
+- [Eidolon Field Abstract Model — L252]eidolon-field-abstract-model.md#^ref-5e8b2388-252-0 (line 252, col 0, score 1)
+- [Creative Moments — L52]creative-moments.md#^ref-10d98225-52-0 (line 52, col 0, score 1)
+- [Debugging Broker Connections and Agent Behavior — L71]debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-71-0 (line 71, col 0, score 1)
+- [DuckDuckGoSearchPipeline — L99]duckduckgosearchpipeline.md#^ref-e979c50f-99-0 (line 99, col 0, score 1)
+- Model Upgrade Calm-Down Guide — L88$model-upgrade-calm-down-guide.md#^ref-db74343f-88-0 (line 88, col 0, score 1)
+- [NPU Voice Code and Sensory Integration — L91]npu-voice-code-and-sensory-integration.md#^ref-5a02283e-91-0 (line 91, col 0, score 1)
+- [Obsidian ChatGPT Plugin Integration Guide — L69]obsidian-chatgpt-plugin-integration-guide.md#^ref-1d3d6c3a-69-0 (line 69, col 0, score 1)
+- [Obsidian ChatGPT Plugin Integration — L64]obsidian-chatgpt-plugin-integration.md#^ref-ca8e1399-64-0 (line 64, col 0, score 1)
+- obsidian-ignore-node-modules-regex — L105$obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-105-0 (line 105, col 0, score 1)
+- [Obsidian Task Generation — L92]obsidian-task-generation.md#^ref-9b694a91-92-0 (line 92, col 0, score 1)
+- [Obsidian Templating Plugins Integration Guide — L90]obsidian-templating-plugins-integration-guide.md#^ref-b39dc9d4-90-0 (line 90, col 0, score 1)
+- [OpenAPI Validation Report — L50]openapi-validation-report.md#^ref-5c152b08-50-0 (line 50, col 0, score 1)
+- [Optimizing Command Limitations in System Design — L81]optimizing-command-limitations-in-system-design.md#^ref-98c8ff62-81-0 (line 81, col 0, score 1)
+- polyglot-repl-interface-layer — L220$polyglot-repl-interface-layer.md#^ref-9c79206d-220-0 (line 220, col 0, score 1)
+- komorebi-group-window-hack — L262$komorebi-group-window-hack.md#^ref-dd89372d-262-0 (line 262, col 0, score 1)
+- [Mathematics Sampler — L84]mathematics-sampler.md#^ref-b5e0183e-84-0 (line 84, col 0, score 1)
+- Migrate to Provider-Tenant Architecture — L314$migrate-to-provider-tenant-architecture.md#^ref-54382370-314-0 (line 314, col 0, score 1)
+- [Mindful Prioritization — L26]mindful-prioritization.md#^ref-40185d05-26-0 (line 26, col 0, score 1)
+- [NPU Voice Code and Sensory Integration — L10]npu-voice-code-and-sensory-integration.md#^ref-5a02283e-10-0 (line 10, col 0, score 1)
+- [Obsidian ChatGPT Plugin Integration — L43]obsidian-chatgpt-plugin-integration.md#^ref-ca8e1399-43-0 (line 43, col 0, score 1)
+- obsidian-ignore-node-modules-regex — L82$obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-82-0 (line 82, col 0, score 1)
+- [Obsidian Task Generation — L37]obsidian-task-generation.md#^ref-9b694a91-37-0 (line 37, col 0, score 1)
+- [OpenAPI Validation Report — L68]openapi-validation-report.md#^ref-5c152b08-68-0 (line 68, col 0, score 1)
+- [ParticleSimulationWithCanvasAndFFmpeg — L294]particlesimulationwithcanvasandffmpeg.md#^ref-e018dd7a-294-0 (line 294, col 0, score 1)
+- Per-Domain Policy System for JS Crawler — L532$per-domain-policy-system-for-js-crawler.md#^ref-c03020e1-532-0 (line 532, col 0, score 1)
+- Performance-Optimized-Polyglot-Bridge — L456$performance-optimized-polyglot-bridge.md#^ref-f5579967-456-0 (line 456, col 0, score 1)
+- [Pipeline Enhancements — L17]pipeline-enhancements.md#^ref-e2135d9f-17-0 (line 17, col 0, score 1)
+- plan-update-confirmation — L1035$plan-update-confirmation.md#^ref-b22d79c6-1035-0 (line 1035, col 0, score 1)
+- sibilant-macro-targets — L233$sibilant-macro-targets.md#^ref-c5c9a5c6-233-0 (line 233, col 0, score 1)
+- [Smoke Resonance Visualizations — L91]smoke-resonance-visualizations.md#^ref-ac9d3ac5-91-0 (line 91, col 0, score 1)
+- [Stateful Partitions and Rebalancing — L633]stateful-partitions-and-rebalancing.md#^ref-4330e8f0-633-0 (line 633, col 0, score 1)
+- [The Jar of Echoes — L172]the-jar-of-echoes.md#^ref-18138627-172-0 (line 172, col 0, score 1)
+- [Tracing the Signal — L116]tracing-the-signal.md#^ref-c3cd4f65-116-0 (line 116, col 0, score 1)
+- ts-to-lisp-transpiler — L77$ts-to-lisp-transpiler.md#^ref-ba11486b-77-0 (line 77, col 0, score 1)
+- typed-struct-compiler — L460$typed-struct-compiler.md#^ref-78eeedf7-460-0 (line 460, col 0, score 1)
+- Protocol_0_The_Contradiction_Engine — L160$protocol-0-the-contradiction-engine.md#^ref-9a93a756-160-0 (line 160, col 0, score 1)
+- Provider-Agnostic Chat Panel Implementation — L276$provider-agnostic-chat-panel-implementation.md#^ref-43bfe9dd-276-0 (line 276, col 0, score 1)
+- [Pure TypeScript Search Microservice — L628]pure-typescript-search-microservice.md#^ref-d17d3a96-628-0 (line 628, col 0, score 1)
+- [Reawakening Duck — L161]reawakening-duck.md#^ref-59b5670f-161-0 (line 161, col 0, score 1)
+- [Redirecting Standard Error — L35]redirecting-standard-error.md#^ref-b3555ede-35-0 (line 35, col 0, score 1)
+- schema-evolution-workflow — L603$schema-evolution-workflow.md#^ref-d8059b6a-603-0 (line 603, col 0, score 1)
+- Self-Agency in AI Interaction — L57$self-agency-in-ai-interaction.md#^ref-49a9a860-57-0 (line 57, col 0, score 1)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

@@ -1,7 +1,7 @@
 # Indexer Service Migration Plan
-
+```
 _Last updated: 2025-09-28_
-
+```
 ## Goal
 Extract the SmartGPT Bridge file indexer into a standalone service while keeping existing `/v0` and `/v1` APIs stable for clients.
 
@@ -16,10 +16,10 @@ Extract the SmartGPT Bridge file indexer into a standalone service while keeping
   - Shared helpers (chunking, gather functions, types).
 - [ ] Replace hard-coded LevelDB access with a pluggable `StateStore` interface; provide Level cache implementation plus in-memory test double.
 - [ ] Export a `createIndexerManager` factory and re-export helper functions (`gatherRepoFiles`, `reindexAll`, `search`, etc.).
-- [ ] Port unit tests to the new package (use in-memory state store by default); add coverage for queue drains under artificial delays.
+- [ ] Port unit tests to the new package use in-memory state store by default; add coverage for queue drains under artificial delays.
 
 ### 2. Indexer Service
-- [ ] Bootstrap `packages/indexer-service` (Fastify + TS) that depends on `indexer-core`.
+- [ ] Bootstrap `packages/indexer-service` Fastify + TS that depends on `indexer-core`.
 - [ ] Implement REST endpoints:
   - `GET /health` (liveness)
   - `GET /indexer/status`
@@ -37,13 +37,13 @@ Extract the SmartGPT Bridge file indexer into a standalone service while keeping
 ### 3. Bridge Integration
 - [ ] Introduce `IndexerClient` in `packages/smartgpt-bridge` that targets the new service via HTTP (configurable base URL, default `http://localhost:4209`).
 - [ ] Replace imports of `./indexer` and `./indexerState` with client calls across:
-  - `fastifyApp.ts` bootstrap (replace `ensureBootstrap` with async fire-and-forget request).
+  - `fastifyApp.ts` bootstrap replace `ensureBootstrap` with async fire-and-forget request.
   - `/v0/indexer` routes (forward requests and responses).
   - `/v0/search` and `/v1/search` routes (delegate to client).
   - `actions/files.ts` (`scheduleReindexAction`).
-  - CLI scripts (`cli-reindex.ts` becomes API client or moves to indexer service).
+  - CLI scripts `cli-reindex.ts` becomes API client or moves to indexer service.
   - Tests that mock indexer behavior.
-- [ ] Remove old modules and update `package.json` dependencies (drop `chromadb`, `@promethean/file-indexer`, etc. if now provided by client package).
+- [ ] Remove old modules and update `package.json` dependencies drop `chromadb`, `@promethean/file-indexer`, etc. if now provided by client package.
 - [ ] Update bridge unit/integration tests to mock the HTTP client or spin up a fixture indexer service during tests.
 
 ### 4. Deployment & Ops
