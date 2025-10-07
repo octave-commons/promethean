@@ -3,8 +3,8 @@
 uuid: a31bb3f1-3b68-483a-8280-e78386abf03b
 ```
 title: cephalon backfill conversation history
-status: todo
-priority: P3
+status: ready
+priority: P2
 labels: []
 ```
 created_at: '2025-09-15T02:02:58.509Z'
@@ -24,4 +24,7 @@ Exit Criteria:
 - Backfill script present in `services/ts/cephalon/scripts/` and documented; safe to run.
 
 #incoming #cephalon #backfill #context
+
+Notes:
+- History gap remains the top follow-up; schedule this slice immediately once active feature work pauses so persistence catches up.
 

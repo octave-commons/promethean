@@ -3,8 +3,8 @@
 uuid: a9ea7854-0c6f-46e8-9230-1055795a1a23
 ```
 title: cephalon tests for persistence and ecs
-status: todo
-priority: P3
+status: ready
+priority: P2
 labels: []
 ```
 created_at: '2025-09-15T02:02:58.509Z'
@@ -24,4 +24,7 @@ Exit Criteria:
 - Tests pass and fail if persistence calls are removed.
 
 #incoming #cephalon #tests #persistence #ecs
+
+Notes:
+- Persistence verification is the next backlog slice; start these tests once feature delivery pauses so regressions are caught early.
 
