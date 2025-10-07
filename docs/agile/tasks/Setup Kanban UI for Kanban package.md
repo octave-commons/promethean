@@ -1,16 +1,17 @@
 ---
 uuid: "c3366097-0d29-4c8d-b7e1-32de4cf8072e"
-title: "setup kanban ui for kanban package   -core   -core"
+title: "setup kanban ui for kanban package   -core   -core   -core   -core   -core"
 slug: "Setup Kanban UI for Kanban package"
-status: "review"
+status: "todo"
 priority: "P3"
 labels: ["kanban", "ui", "framework-core"]
-created_at: "2025-10-07T20:25:05.643Z"
+created_at: "2025-10-07T22:23:26.358Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
 
 
 ## 🎯 Desired Outcome
@@ -32,5 +33,6 @@ A lightweight web UI served from `@promethean/kanban` that visualises the curren
 ## ❓ Open Questions / Risks
 - Ensure CLI wiring keeps backward compatibility with existing commands.
 - Confirm that serving compiled frontend assets from `dist/frontend` works under Nx build output.
+
 
 

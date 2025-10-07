@@ -1,9 +1,7 @@
 #!/usr/bin/env node
 
-import { readFileSync, writeFileSync } from 'fs';
-import { join } from 'path';
-import { fileURLToPath } from 'url';
-import { parse } from 'gray-matter';
+import { loadBoard } from '@promethean/kanban';
+import type { Board, Task } from '@promethean/kanban';
 
 // GitHub API configuration
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
@@ -133,29 +131,29 @@ class GitHubSync {
     // Ensure project exists
     const project = await this.ensureProject(boardName);
 
-    // Read kanban board data
-    const boardPath = join(process.cwd(), 'docs/agile/boards/generated.md');
-    const boardContent = readFileSync(boardPath, 'utf-8');
-    const parsed = parse(boardContent);
+    // Load kanban board using the kanban package
+    const board = await loadBoard('docs/agile/boards/generated.md', 'docs/agile/tasks');
 
-    // Extract columns from board
-    const columns = this.extractColumnsFromBoard(boardContent);
-
-    console.log(`Found ${columns.length} columns in board`);
+    console.log(`Found ${board.columns.length} columns in board`);
 
     // Sync columns with project
     const statusFieldId = project.columns?.id;
     if (statusFieldId) {
-      await this.syncColumns(project.id, columns, statusFieldId);
+      await this.syncColumns(project.id, board.columns, statusFieldId);
     }
 
     // Extract and sync tasks
-    const tasks = this.extractTasksFromBoard(boardContent);
-    console.log(`Found ${tasks.length} tasks to sync`);
+    let totalTasks = 0;
+    for (const column of board.columns) {
+      console.log(`Column "${column.name}" has ${column.count} tasks`);
+      totalTasks += column.count;
 
-    for (const task of tasks) {
-      await this.syncTask(project.id, task, statusFieldId);
+      for (const task of column.tasks) {
+        await this.syncTask(project.id, task, statusFieldId, column.name);
+      }
     }
+
+    console.log(`Found ${totalTasks} total tasks to sync`);
 
     console.log(`✅ Successfully synced project board: ${boardName}`);
     console.log(`🔗 Project URL: ${project.url}`);
@@ -163,43 +161,24 @@ class GitHubSync {
     return project;
   }
 
-  private extractColumnsFromBoard(content: string): string[] {
-    const columnRegex = /###\s+(.+)$/gm;
-    const matches = [...content.matchAll(columnRegex)];
-    return matches.map(match => match[1].trim());
-  }
-
-  private extractTasksFromBoard(content: string): any[] {
-    const tasks: any[] = [];
-    const columnRegex = /###\s+(.+?)$(.+?)(?=###\s+|\s*$)/gms;
-
-    let match;
-    while ((match = columnRegex.exec(content)) !== null) {
-      const column = match[1].trim();
-      const tasksInSection = match[2];
-
-      const taskRegex = /-\s+\[\[([^\]]+)\]\]/g;
-      let taskMatch;
-      while ((taskMatch = taskRegex.exec(tasksInSection)) !== null) {
-        tasks.push({
-          name: taskMatch[1],
-          column,
-        });
-      }
-    }
-
-    return tasks;
-  }
-
-  private async syncColumns(projectId: string, boardColumns: string[], statusFieldId: string) {
+  private async syncColumns(projectId: string, boardColumns: any[], statusFieldId: string) {
     // This is a simplified version - in practice, you'd need to manage field options
     console.log(`Syncing ${boardColumns.length} columns with project`);
+    for (const column of boardColumns) {
+      console.log(`  - Column: ${column.name} (${column.count} tasks)`);
+    }
   }
 
-  private async syncTask(projectId: string, task: any, statusFieldId: string) {
+  private async syncTask(projectId: string, task: Task, statusFieldId: string, columnName: string) {
+    // Use task.title from frontmatter if available, fallback to task metadata
+    const taskTitle = task.title || task.metadata?.title || `Task ${task.uuid}`;
+
     // This is a simplified version - in practice, you'd create or update GitHub issues
     // and then add them to the project with appropriate status
-    console.log(`Syncing task: ${task.name} to column: ${task.column}`);
+    console.log(`Syncing task: "${taskTitle}" to column: ${columnName}`);
+    console.log(`  - UUID: ${task.uuid}`);
+    console.log(`  - Status: ${task.status}`);
+    console.log(`  - Priority: ${task.metadata?.priority || 'Not set'}`);
   }
 }
 

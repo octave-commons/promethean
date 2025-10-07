@@ -1,64 +1,55 @@
 #!/usr/bin/env node
 
-import { readFileSync } from 'fs';
-import { join } from 'path';
-import grayMatter from 'gray-matter';
+import { loadBoard } from '@promethean/kanban';
 
-// Simple test to verify board parsing works
-function testBoardParsing() {
-  console.log('Testing board parsing...');
+// Simple test to verify board parsing works using kanban package
+async function testBoardParsing() {
+  console.log('Testing board parsing with kanban package...');
 
   try {
-    const boardPath = join(process.cwd(), 'docs/agile/boards/generated.md');
-    const boardContent = readFileSync(boardPath, 'utf-8');
-    const parsed = grayMatter(boardContent);
+    // Load kanban board using the kanban package
+    const board = await loadBoard('docs/agile/boards/generated.md', 'docs/agile/tasks');
 
-    console.log('✅ Successfully read kanban board');
-    console.log(`Board content length: ${boardContent.length} characters`);
+    console.log('✅ Successfully loaded kanban board');
+    console.log(`Board has ${board.columns.length} columns`);
 
-    // Extract columns
-    const columnRegex = /^##\s+(.+)$/gm;
-    const columnMatches = [...boardContent.matchAll(columnRegex)];
-    const columns = columnMatches.map(match => match[1].trim());
+    // Show columns
+    const columns = board.columns.map(col => col.name);
+    console.log(`✅ Found columns:`, columns);
 
-    console.log(`✅ Found ${columns.length} columns:`, columns);
+    // Count total tasks
+    let totalTasks = 0;
+    const columnTasks = [];
 
-    // Extract tasks
-    const tasks = [];
-    const columnRegexWithContent = /^##\s+(.+?)$(.+?)(?=^##\s+|\s*$)/gms;
-    let match;
+    for (const column of board.columns) {
+      console.log(`\nColumn "${column.name}" has ${column.count} tasks:`);
+      totalTasks += column.count;
 
-    while ((match = columnRegexWithContent.exec(boardContent)) !== null) {
-      const column = match[1].trim();
-      const tasksInSection = match[2];
-
-      // Debug: show a sample of this section
-      console.log(`\nDebug - Column "${column}" section sample:`);
-      console.log(tasksInSection.substring(0, 200));
-
-      const taskRegex = /-\s+\[ \]\s+\[\[([^\]]+)\]\]/g;
-      let taskMatch;
-      while ((taskMatch = taskRegex.exec(tasksInSection)) !== null) {
-        tasks.push({
-          name: taskMatch[1],
-          column,
+      // Show first few tasks as examples
+      const sampleTasks = column.tasks.slice(0, 3);
+      sampleTasks.forEach(task => {
+        console.log(`  - ${task.title || task.metadata?.title || `Task ${task.uuid}`} (${task.uuid})`);
+        columnTasks.push({
+          title: task.title || task.metadata?.title || `Task ${task.uuid}`,
+          uuid: task.uuid,
+          column: column.name,
+          status: task.status,
+          priority: task.metadata?.priority
         });
+      });
+
+      if (column.tasks.length > 3) {
+        console.log(`  ... and ${column.tasks.length - 3} more`);
       }
     }
 
-    console.log(`✅ Found ${tasks.length} tasks:`);
-    tasks.slice(0, 5).forEach(task => {
-      console.log(`  - ${task.name} (${task.column})`);
-    });
+    console.log(`\n✅ Found ${totalTasks} total tasks across all columns`);
 
-    if (tasks.length > 5) {
-      console.log(`  ... and ${tasks.length - 5} more`);
-    }
-
-    return { columns, tasks, boardContent };
+    return { board, columns, tasks: columnTasks, totalTasks };
 
   } catch (error) {
     console.error('❌ Board parsing failed:', error.message);
+    console.error('Stack:', error.stack);
     process.exit(1);
   }
 }
@@ -107,7 +98,7 @@ async function testGitHubAPI() {
 async function runTests() {
   console.log('🧪 Running GitHub Sync Tests\n');
 
-  const { columns, tasks, boardContent } = testBoardParsing();
+  const { board, columns, tasks, totalTasks } = await testBoardParsing();
 
   if (process.env.GITHUB_TOKEN) {
     await testGitHubAPI();
@@ -118,7 +109,7 @@ async function runTests() {
   console.log('\n✅ All tests passed!');
   console.log('\n📝 Summary:');
   console.log(`- Found ${columns.length} columns in board`);
-  console.log(`- Found ${tasks.length} tasks in board`);
+  console.log(`- Found ${totalTasks} tasks in board`);
   console.log('- GitHub API connectivity verified' + (process.env.GITHUB_TOKEN ? '' : ' (skipped)'));
 }
 
