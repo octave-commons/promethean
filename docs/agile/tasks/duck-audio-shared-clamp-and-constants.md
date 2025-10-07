@@ -14,6 +14,9 @@ created_at: '2025-10-02T00:00:00.000Z'
 ## 🛠️ Description
 Extract clamp and decimation ratio constants for reuse; fix test import typos.
 
+## Notes
+- Raised priority—shared quantization is required to keep browser/node parity aligned.
+
 ## Requirements
 - [ ] Constants exported from `duck-audio`
 - [ ] Tests green
