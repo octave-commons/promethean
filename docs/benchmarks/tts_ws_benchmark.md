@@ -1,7 +1,7 @@
 # TTS WebSocket Benchmark
-
+```
 **Path**: `scripts/bench_tts_ws.py`
-
+```
 **Description**: Measures round-trip latency of the WebSocket-based text to speech service.
 
 ## Dependencies

@@ -10,7 +10,7 @@ This client now relies on `@promethean/legacy/brokerClient.js` for publishing he
 
 ## Paths
 
-- [[heartbeat|services/legacy/heartbeat]]
+- [heartbeat|services/legacy/heartbeat]
 
 ## Tags
 

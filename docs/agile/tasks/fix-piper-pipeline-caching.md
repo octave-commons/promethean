@@ -1,13 +1,21 @@
 ---
+```
 uuid: 8b57e951-99d2-4242-a56d-578a3f11cda6
+```
 title: Fix Piper pipeline caching regressions
+```
 status: in_progress
+```
 priority: P2
 labels:
   - piper
   - pipelines
+```
 created_at: '2025-09-28T23:20:35.509916+00:00'
+```
+```
 updated_at: '2025-09-29T00:13:42+00:00'
+```
 ---
 ## 🛠️ Task: Fix Piper pipeline caching regressions
 

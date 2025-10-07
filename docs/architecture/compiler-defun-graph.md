@@ -1,6 +1,6 @@
 ---
 project: Promethean
-hashtags: [#knowledge-graph, #compiler, #lisp, #defun]
+hashtags: #knowledge-graph, #compiler, #lisp, #defun
 ---
 
 # 🧩 Knowledge Graph — Lisp `defun`

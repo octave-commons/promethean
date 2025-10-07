@@ -1,5 +1,5 @@
 
-# Advanced Security+ Comprehensive Drill Compendium (SY0-701) – Expanded Edition
+# Advanced Security+ Comprehensive Drill Compendium SY0-701 – Expanded Edition
 
 ---
 

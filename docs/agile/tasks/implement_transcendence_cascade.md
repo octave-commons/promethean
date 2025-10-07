@@ -1,10 +1,14 @@
 ---
+```
 uuid: a5db4128-395b-4d38-8182-abef99521a5d
+```
 title: implement transcendence cascade md
 status: todo
 priority: P3
 labels: []
+```
 created_at: '2025-09-15T02:02:58.515Z'
+```
 ---
 ## 🛠️ Task: Implement transcendence cascade
 
@@ -38,19 +42,19 @@ welp, guess we'll see
 - [ ] Prototype a hook in `cephalon/src/index.ts`
 - [ ] Use `services/eidolon/` to provide emotional context
 - [ ] Return combined result via `services/tts`
-- [ ] Reference baseline metrics from [[eidolon-field-math]]
+- [ ] Reference baseline metrics from [eidolon-field-math]
 
 ---
 
 ## 🔗 Related Epics
-
+```
 #framework-core
-
+```
 ---
 
 ## ⛓️ Blocked By
 
-- Requires baseline emotional data from [[eidolon-field-math|Eidolon Fields]]
+- Requires baseline emotional data from [eidolon-field-math|Eidolon Fields]
 
 ## ⛓️ Blocks
 

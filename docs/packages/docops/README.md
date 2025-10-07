@@ -1,8 +1,16 @@
+```
 <!-- SYMPKG:PKG:BEGIN -->
+```
 # @promethean/docops
-**Folder:** `packages/docops`  
-**Version:** `0.0.0`  
+```
+**Folder:** `packages/docops`
+```
+```
+**Version:** `0.0.0`
+```
+```
 **Domain:** `_root`
+```
 ```mermaid
 graph LR
   A["@promethean/docops"]
@@ -23,11 +31,13 @@ graph LR
   click D5 "../utils/README.md" "@promethean/utils"
 ```
 ## Dependencies
-- [@promethean/file-indexer](../file-indexer/README.md)
-- [@promethean/fs](../fs/README.md)
-- [@promethean/markdown](../markdown/README.md)
-- [@promethean/test-utils](../test-utils/README.md)
-- [@promethean/utils](../utils/README.md)
+- @promethean/file-indexer$../file-indexer/README.md
+- @promethean/fs$../fs/README.md
+- @promethean/markdown$../markdown/README.md
+- @promethean/test-utils$../test-utils/README.md
+- @promethean/utils$../utils/README.md
 ## Dependents
 - _None_
+```
 <!-- SYMPKG:PKG:END -->
+```

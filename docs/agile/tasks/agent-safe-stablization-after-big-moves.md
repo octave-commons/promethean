@@ -1,14 +1,18 @@
 ---
+```
 uuid: 16c70e8b-51cf-4580-ab53-a35d7ac0f6a9
+```
 title: <verb> <thing> <qualifier>
 status: todo
 priority: p3
 labels:
   - 'board:auto'
   - 'lang:ts'
+```
 created_at: '2025-09-15T02:02:58.506Z'
+```
 ---
-# Task: Agent-safe stabilization after big moves (local hooks, zero-risk edits)
+# Task: Agent-safe stabilization after big moves local hooks, zero-risk edits
 
 ## Contract (read this first)
 
@@ -33,7 +37,7 @@ git status --porcelain=v1
 
 echo "=== LAST COMMIT MOVE MAP (top 200) ==="
 git show --name-status --pretty='format:' HEAD | \
-  awk '$1 ~ /^R/ {print}' | head -n 200
+  awk '1 ~ /^R/ {print}' | head -n 200
 ```
 
 **Postcondition:** You have a move map in the terminal. **No files changed.**
@@ -43,9 +47,9 @@ git show --name-status --pretty='format:' HEAD | \
 ## 1) Create a **local** pre-commit config (don’t touch the real one)
 
 **Goal:** Prove fixes without editing `.pre-commit-config.yaml`.
-
+```
 **Action (guarded writes):**
-
+```
 ```bash
 test -f .pre-commit-local.yaml && echo "local pre-commit exists" || cat > .pre-commit-local.yaml <<'YAML'
 repos:
@@ -82,15 +86,16 @@ YAML
 ---
 
 ## 2) Muffle noisy paths for Prettier (ignore, don’t “fix”)
-
+```
 **Precondition:** Root of repo.
-
+```
+```
 **Action (idempotent append):**
-
+```
 ```bash
 touch .prettierignore
 # Add only if the exact line is missing
-add_ignore() { grep -qxF "$1" .prettierignore || echo "$1" >> .prettierignore; }
+add_ignore() { grep -qxF "1" .prettierignore || echo "1" >> .prettierignore; }
 
 add_ignore 'shared/ts/smartgpt-bridge/logs/**'
 add_ignore '**/dist/**'
@@ -107,9 +112,9 @@ add_ignore 'shared/ts/smartgpt-bridge/src/tests/fixtures/broken.ts'
 ## 3) Bypass the Hy/Makefile trap **without touching it**
 
 We’ll run **local** TS and Py hooks that **don’t** call `make` or Hy.
-
+```
 **Check:**
-
+```
 ```bash
 pre-commit run -c .pre-commit-local.yaml tsc-no-emit-safe -a || true
 ```
@@ -122,22 +127,22 @@ pre-commit run -c .pre-commit-local.yaml tsc-no-emit-safe -a || true
 ## 4) Make Python import errors non-fatal to *collection*
 
 You have eager imports and missing deps. We’ll **avoid code edits** by using **per-file ignores** first, then fix properly later.
-
+```
 **Action (idempotent):**
-
+```
 ```bash
 # Prefer setup.cfg if you have it; fall back to .flake8
 target_cfg=""
 if [ -f setup.cfg ]; then target_cfg="setup.cfg"; else target_cfg=".flake8"; fi
-touch "$target_cfg"
+touch "target_cfg"
 
 # Insert per-file-ignores block only if not present
-if ! grep -q '\[flake8\]' "$target_cfg"; then
-  printf "[flake8]\n" >> "$target_cfg"
+if ! grep -q '\[flake8\]' "target_cfg"; then
+  printf "[flake8]\n" >> "target_cfg"
 fi
 
-if ! grep -q 'per-file-ignores' "$target_cfg"; then
-  cat >> "$target_cfg" <<'CFG'
+if ! grep -q 'per-file-ignores' "target_cfg"; then
+  cat >> "target_cfg" <<'CFG'
 per-file-ignores =
     shared/py/ml/hf_embeddings.py: F821
     shared/py/speech/transcriber.py: F821
@@ -172,9 +177,9 @@ except Exception as e:  # pragma: no cover
 PY
 fi
 ```
-
+```
 Re-run collection:
-
+```
 ```bash
 pre-commit run -c .pre-commit-local.yaml pytest-collect-only-safe -a || true
 ```
@@ -194,15 +199,15 @@ fi
 ## 5) Quiet the requirements hook (no policy changes)
 
 Your hook complains about missing `requirements.{gpu,cpu}.in`. We **create stubs**, not rewire policies.
-
+```
 **Action (guarded):**
-
+```
 ```bash
 mkreq() {
-  local p="$1"
-  if [ ! -f "$p" ]; then
-    mkdir -p "$(dirname "$p")"
-    printf -- "-c ../../../constraints.txt\n" > "$p"
+  local p="1"
+  if [ ! -f "p" ]; then
+    mkdir -p "(dirname "p")"
+    printf -- "-c ../../../constraints.txt\n" > "p"
   fi
 }
 
@@ -241,7 +246,7 @@ When the local run is clean (or failing only on real code issues, not infra):
    * shim(s) you added
    * minimal flake8 per-file-ignores lines
    * requirements stubs
-2. Open PR: `chore(stabilize-local): local hooks + ignores + minimal shims`
+2. Open PR: `chorestabilize-local: local hooks + ignores + minimal shims`
 3. CI job (optional): add a new job that runs `pre-commit -c .pre-commit-local.yaml -a`.
 
 **Do NOT** edit `.pre-commit-config.yaml` in this PR. That’s next.
@@ -251,8 +256,8 @@ When the local run is clean (or failing only on real code issues, not infra):
 ## 8) Follow-ups (separate, tiny PRs; one risk each)
 
 * **PR: Delete Hy from hook path** (change real hooks to match local ones).
-* **PR: Real Python fixes** (add missing imports, delete the per-file-ignores, remove shims).
-* **PR: TS path cleanup** (re-export shims or path mapping; then migrate imports).
+* **PR: Real Python fixes** add missing imports, delete the per-file-ignores, remove shims.
+* **PR: TS path cleanup** re-export shims or path mapping; then migrate imports.
 * **PR: Requirements policy** (remove stubs if checker evolves).
 
 ---

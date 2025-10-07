@@ -1,8 +1,16 @@
+```
 <!-- SYMPKG:PKG:BEGIN -->
+```
 # @promethean/utils
-**Folder:** `packages/utils`  
-**Version:** `0.0.1`  
+```
+**Folder:** `packages/utils`
+```
+```
+**Version:** `0.0.1`
+```
+```
 **Domain:** `_root`
+```
 ```mermaid
 graph LR
   A["@promethean/utils"]
@@ -112,38 +120,40 @@ graph LR
 ## Dependencies
 - _None_
 ## Dependents
-- [@promethean/agent-ecs](../agent-ecs/README.md)
-- [@promethean/boardrev](../boardrev/README.md)
-- [@promethean/buildfix](../buildfix/README.md)
-- [@promethean/cephalon](../cephalon/README.md)
-- [@promethean/changefeed](../changefeed/README.md)
-- [@promethean/codemods](../codemods/README.md)
-- [@promethean/codepack](../codepack/README.md)
-- [@promethean/compaction](../compaction/README.md)
-- [@promethean/cookbookflow](../cookbookflow/README.md)
-- [@promethean/docops](../docops/README.md)
-- [@promethean/embedding](../embedding/README.md)
-- [@promethean/event](../event/README.md)
-- [@promethean/file-indexer](../file-indexer/README.md)
-- [@promethean/file-watcher](../file-watcher/README.md)
-- [@promethean/indexer-core](../indexer-core/README.md)
-- [@promethean/indexer-service](../indexer-service/README.md)
-- [@promethean/kanban](../kanban/README.md)
-- [@promethean/level-cache](../level-cache/README.md)
-- [@promethean/llm](../llm/README.md)
-- [@promethean/openai-server](../openai-server/README.md)
-- [@promethean/piper](../piper/README.md)
-- [@promethean/platform](../platform/README.md)
-- [@promethean/projectors](../projectors/README.md)
-- [@promethean/readmeflow](../readmeflow/README.md)
-- [@promethean/semverguard](../semverguard/README.md)
-- [@promethean/simtasks](../simtask/README.md)
-- [@promethean/smartgpt-bridge](../smartgpt-bridge/README.md)
-- [@promethean/snapshots](../snapshots/README.md)
-- [@promethean/sonarflow](../sonarflow/README.md)
-- [@promethean/symdocs](../symdocs/README.md)
-- [@promethean/test-utils](../test-utils/README.md)
-- [@promethean/testgap](../testgap/README.md)
-- [@promethean/tests](../tests/README.md)
-- [@promethean/voice-service](../voice/README.md)
+- @promethean/agent-ecs$../agent-ecs/README.md
+- @promethean/boardrev$../boardrev/README.md
+- @promethean/buildfix$../buildfix/README.md
+- @promethean/cephalon$../cephalon/README.md
+- @promethean/changefeed$../changefeed/README.md
+- @promethean/codemods$../codemods/README.md
+- @promethean/codepack$../codepack/README.md
+- @promethean/compaction$../compaction/README.md
+- @promethean/cookbookflow$../cookbookflow/README.md
+- @promethean/docops$../docops/README.md
+- @promethean/embedding$../embedding/README.md
+- @promethean/event$../event/README.md
+- @promethean/file-indexer$../file-indexer/README.md
+- @promethean/file-watcher$../file-watcher/README.md
+- @promethean/indexer-core$../indexer-core/README.md
+- @promethean/indexer-service$../indexer-service/README.md
+- @promethean/kanban$../kanban/README.md
+- @promethean/level-cache$../level-cache/README.md
+- @promethean/llm$../llm/README.md
+- @promethean/openai-server$../openai-server/README.md
+- @promethean/piper$../piper/README.md
+- @promethean/platform$../platform/README.md
+- @promethean/projectors$../projectors/README.md
+- @promethean/readmeflow$../readmeflow/README.md
+- @promethean/semverguard$../semverguard/README.md
+- @promethean/simtasks$../simtask/README.md
+- @promethean/smartgpt-bridge$../smartgpt-bridge/README.md
+- @promethean/snapshots$../snapshots/README.md
+- @promethean/sonarflow$../sonarflow/README.md
+- @promethean/symdocs$../symdocs/README.md
+- @promethean/test-utils$../test-utils/README.md
+- @promethean/testgap$../testgap/README.md
+- @promethean/tests$../tests/README.md
+- @promethean/voice-service$../voice/README.md
+```
 <!-- SYMPKG:PKG:END -->
+```

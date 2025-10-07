@@ -1,5 +1,7 @@
 ---
+```
 uuid: c3d4e5f6-g7h8-9012-cdef-345678901234
+```
 title: Fix readmes pipeline timeout issues and optimize performance
 status: todo
 priority: P2
@@ -9,7 +11,9 @@ labels:
   - performance
   - timeout
   - ai-optimization
+```
 created_at: '2025-10-05T00:00:00.000Z'
+```
 ---
 
 ## 🛠️ Task: Fix readmes pipeline timeout issues and optimize performance
@@ -72,12 +76,12 @@ The readmes pipeline should complete within reasonable time (under 5 minutes) an
     {
       "id": "rm-outline",
       "timeout": 120000,
-      "env": { "OLLAMA_URL": "${OLLAMA_URL}" }
+      "env": { "OLLAMA_URL": "{OLLAMA_URL}" }
     },
     {
       "id": "rm-write",
       "timeout": 180000,
-      "env": { "OLLAMA_URL": "${OLLAMA_URL}" }
+      "env": { "OLLAMA_URL": "{OLLAMA_URL}" }
     },
     {
       "id": "rm-verify",

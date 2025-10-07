@@ -1,8 +1,14 @@
 ---
+```
 uuid: b6ae7dfa-0c53-4eb9-aea8-65072b825bee
+```
+```
 created_at: 2025.08.08.22.08.90.md
+```
 filename: Ghostly Smoke Interference
+```
 description: >-
+```
   A visual simulation of turbulent smoke lines with irregular opacity and slow
   wave interference to create a living, breathing ghostly effect.
 tags:
@@ -14,7 +20,9 @@ tags:
   - ghost
   - visual
   - simulation
+```
 related_to_title:
+```
   - infinite_depth_smoke_animation
   - Smoke Resonance Visualizations
   - Promethean_Eidolon_Synchronicity_Model
@@ -26,7 +34,9 @@ related_to_title:
   - 'Agent Tasks: Persistence Migration to DualStore'
   - eidolon-node-lifecycle
   - ParticleSimulationWithCanvasAndFFmpeg
+```
 related_to_uuid:
+```
   - 92a052a5-3351-4898-8cab-758181a86adb
   - ac9d3ac5-9a6a-4180-a67f-1ab7e229d981
   - 2d6e5553-8dc4-497f-bf45-96f8ca00a6f6
@@ -293,53 +303,53 @@ gif_path_turb
 ```
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [[infinite-depth-smoke-animation|infinite_depth_smoke_animation]]
-- [[smoke-resonance-visualizations|Smoke Resonance Visualizations]]
-- [[promethean-eidolon-synchronicity-model|Promethean_Eidolon_Synchronicity_Model]]
-- [[docs/unique/synchronicity-waves-and-web|Synchronicity Waves and Web]]
-- [[ducks-attractor-states|Duck's Attractor States]]
-- [Diagrams](chunks/diagrams.md)
-- [[unique-info-dump-index|Unique Info Dump Index]]
-- [[ducks-self-referential-perceptual-loop|Duck's Self-Referential Perceptual Loop]]
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore|Agent Tasks: Persistence Migration to DualStore]]
-- [[eidolon-node-lifecycle]]
+- [infinite-depth-smoke-animation|infinite_depth_smoke_animation]
+- [smoke-resonance-visualizations|Smoke Resonance Visualizations]
+- [promethean-eidolon-synchronicity-model|Promethean_Eidolon_Synchronicity_Model]
+- [docs/unique/synchronicity-waves-and-web|Synchronicity Waves and Web]
+- [ducks-attractor-states|Duck's Attractor States]
+- [Diagrams]chunks/diagrams.md
+- [unique-info-dump-index|Unique Info Dump Index]
+- [ducks-self-referential-perceptual-loop|Duck's Self-Referential Perceptual Loop]
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore|Agent Tasks: Persistence Migration to DualStore]
+- [eidolon-node-lifecycle]
 - [ParticleSimulationWithCanvasAndFFmpeg](particlesimulationwithcanvasandffmpeg.md)
 
 ## Sources
-- [[smoke-resonance-visualizations#L57|Smoke Resonance Visualizations — L57]] (line 57, col 1, score 0.87)
-- [[infinite-depth-smoke-animation#L7|infinite_depth_smoke_animation — L7]] (line 7, col 1, score 0.91)
-- [Diagrams — L10](chunks/diagrams.md#L10) (line 10, col 1, score 1)
-- [Diagrams — L10](chunks/diagrams.md#L10) (line 10, col 3, score 1)
-- [[smoke-resonance-visualizations#L81|Smoke Resonance Visualizations — L81]] (line 81, col 1, score 1)
-- [[smoke-resonance-visualizations#L81|Smoke Resonance Visualizations — L81]] (line 81, col 3, score 1)
-- [[unique-info-dump-index#L77|Unique Info Dump Index — L77]] (line 77, col 1, score 1)
-- [[unique-info-dump-index#L77|Unique Info Dump Index — L77]] (line 77, col 3, score 1)
-- [Diagrams — L20](chunks/diagrams.md#L20) (line 20, col 1, score 0.97)
-- [Diagrams — L20](chunks/diagrams.md#L20) (line 20, col 3, score 0.97)
-- [[infinite-depth-smoke-animation#L90|infinite_depth_smoke_animation — L90]] (line 90, col 1, score 1)
-- [[infinite-depth-smoke-animation#L90|infinite_depth_smoke_animation — L90]] (line 90, col 3, score 1)
-- [[promethean-eidolon-synchronicity-model#L56|Promethean_Eidolon_Synchronicity_Model — L56]] (line 56, col 1, score 1)
-- [[promethean-eidolon-synchronicity-model#L56|Promethean_Eidolon_Synchronicity_Model — L56]] (line 56, col 3, score 1)
-- [[docs/unique/synchronicity-waves-and-web#L82|Synchronicity Waves and Web — L82]] (line 82, col 1, score 1)
-- [[docs/unique/synchronicity-waves-and-web#L82|Synchronicity Waves and Web — L82]] (line 82, col 3, score 1)
-- [[docs/unique/synchronicity-waves-and-web#L89|Synchronicity Waves and Web — L89]] (line 89, col 1, score 0.91)
-- [[docs/unique/synchronicity-waves-and-web#L89|Synchronicity Waves and Web — L89]] (line 89, col 3, score 0.91)
-- [[smoke-resonance-visualizations#L80|Smoke Resonance Visualizations — L80]] (line 80, col 1, score 1)
-- [[smoke-resonance-visualizations#L80|Smoke Resonance Visualizations — L80]] (line 80, col 3, score 1)
-- [[docs/unique/synchronicity-waves-and-web#L85|Synchronicity Waves and Web — L85]] (line 85, col 1, score 1)
-- [[docs/unique/synchronicity-waves-and-web#L85|Synchronicity Waves and Web — L85]] (line 85, col 3, score 1)
-- [Diagrams — L11](chunks/diagrams.md#L11) (line 11, col 1, score 1)
-- [Diagrams — L11](chunks/diagrams.md#L11) (line 11, col 3, score 1)
-- [[promethean-eidolon-synchronicity-model#L55|Promethean_Eidolon_Synchronicity_Model — L55]] (line 55, col 1, score 1)
-- [[promethean-eidolon-synchronicity-model#L55|Promethean_Eidolon_Synchronicity_Model — L55]] (line 55, col 3, score 1)
-- [[smoke-resonance-visualizations#L79|Smoke Resonance Visualizations — L79]] (line 79, col 1, score 1)
-- [[smoke-resonance-visualizations#L79|Smoke Resonance Visualizations — L79]] (line 79, col 3, score 1)
-- [[unique-info-dump-index#L89|Unique Info Dump Index — L89]] (line 89, col 1, score 1)
-- [[unique-info-dump-index#L89|Unique Info Dump Index — L89]] (line 89, col 3, score 1)
-- [[ducks-self-referential-perceptual-loop#L35|Duck's Self-Referential Perceptual Loop — L35]] (line 35, col 1, score 1)
-- [[ducks-self-referential-perceptual-loop#L35|Duck's Self-Referential Perceptual Loop — L35]] (line 35, col 3, score 1)
-- [[docs/unique/synchronicity-waves-and-web#L90|Synchronicity Waves and Web — L90]] (line 90, col 1, score 0.97)
-- [[docs/unique/synchronicity-waves-and-web#L90|Synchronicity Waves and Web — L90]] (line 90, col 3, score 0.97)
-- [[unique-info-dump-index#L144|Unique Info Dump Index — L144]] (line 144, col 1, score 1)
-- [[unique-info-dump-index#L144|Unique Info Dump Index — L144]] (line 144, col 3, score 1)
+- [smoke-resonance-visualizations#L57|Smoke Resonance Visualizations — L57] (line 57, col 1, score 0.87)
+- [infinite-depth-smoke-animation#L7|infinite_depth_smoke_animation — L7] (line 7, col 1, score 0.91)
+- [Diagrams — L10]chunks/diagrams.md#L10 (line 10, col 1, score 1)
+- [Diagrams — L10]chunks/diagrams.md#L10 (line 10, col 3, score 1)
+- [smoke-resonance-visualizations#L81|Smoke Resonance Visualizations — L81] (line 81, col 1, score 1)
+- [smoke-resonance-visualizations#L81|Smoke Resonance Visualizations — L81] (line 81, col 3, score 1)
+- [unique-info-dump-index#L77|Unique Info Dump Index — L77] (line 77, col 1, score 1)
+- [unique-info-dump-index#L77|Unique Info Dump Index — L77] (line 77, col 3, score 1)
+- [Diagrams — L20]chunks/diagrams.md#L20 (line 20, col 1, score 0.97)
+- [Diagrams — L20]chunks/diagrams.md#L20 (line 20, col 3, score 0.97)
+- [infinite-depth-smoke-animation#L90|infinite_depth_smoke_animation — L90] (line 90, col 1, score 1)
+- [infinite-depth-smoke-animation#L90|infinite_depth_smoke_animation — L90] (line 90, col 3, score 1)
+- [promethean-eidolon-synchronicity-model#L56|Promethean_Eidolon_Synchronicity_Model — L56] (line 56, col 1, score 1)
+- [promethean-eidolon-synchronicity-model#L56|Promethean_Eidolon_Synchronicity_Model — L56] (line 56, col 3, score 1)
+- [docs/unique/synchronicity-waves-and-web#L82|Synchronicity Waves and Web — L82] (line 82, col 1, score 1)
+- [docs/unique/synchronicity-waves-and-web#L82|Synchronicity Waves and Web — L82] (line 82, col 3, score 1)
+- [docs/unique/synchronicity-waves-and-web#L89|Synchronicity Waves and Web — L89] (line 89, col 1, score 0.91)
+- [docs/unique/synchronicity-waves-and-web#L89|Synchronicity Waves and Web — L89] (line 89, col 3, score 0.91)
+- [smoke-resonance-visualizations#L80|Smoke Resonance Visualizations — L80] (line 80, col 1, score 1)
+- [smoke-resonance-visualizations#L80|Smoke Resonance Visualizations — L80] (line 80, col 3, score 1)
+- [docs/unique/synchronicity-waves-and-web#L85|Synchronicity Waves and Web — L85] (line 85, col 1, score 1)
+- [docs/unique/synchronicity-waves-and-web#L85|Synchronicity Waves and Web — L85] (line 85, col 3, score 1)
+- [Diagrams — L11]chunks/diagrams.md#L11 (line 11, col 1, score 1)
+- [Diagrams — L11]chunks/diagrams.md#L11 (line 11, col 3, score 1)
+- [promethean-eidolon-synchronicity-model#L55|Promethean_Eidolon_Synchronicity_Model — L55] (line 55, col 1, score 1)
+- [promethean-eidolon-synchronicity-model#L55|Promethean_Eidolon_Synchronicity_Model — L55] (line 55, col 3, score 1)
+- [smoke-resonance-visualizations#L79|Smoke Resonance Visualizations — L79] (line 79, col 1, score 1)
+- [smoke-resonance-visualizations#L79|Smoke Resonance Visualizations — L79] (line 79, col 3, score 1)
+- [unique-info-dump-index#L89|Unique Info Dump Index — L89] (line 89, col 1, score 1)
+- [unique-info-dump-index#L89|Unique Info Dump Index — L89] (line 89, col 3, score 1)
+- [ducks-self-referential-perceptual-loop#L35|Duck's Self-Referential Perceptual Loop — L35] (line 35, col 1, score 1)
+- [ducks-self-referential-perceptual-loop#L35|Duck's Self-Referential Perceptual Loop — L35] (line 35, col 3, score 1)
+- [docs/unique/synchronicity-waves-and-web#L90|Synchronicity Waves and Web — L90] (line 90, col 1, score 0.97)
+- [docs/unique/synchronicity-waves-and-web#L90|Synchronicity Waves and Web — L90] (line 90, col 3, score 0.97)
+- [unique-info-dump-index#L144|Unique Info Dump Index — L144] (line 144, col 1, score 1)
+- [unique-info-dump-index#L144|Unique Info Dump Index — L144] (line 144, col 3, score 1)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
