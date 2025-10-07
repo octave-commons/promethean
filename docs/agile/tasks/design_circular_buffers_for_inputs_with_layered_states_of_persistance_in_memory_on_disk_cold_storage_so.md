@@ -1,13 +1,18 @@
 ---
-uuid: 7da8bb11-51ea-4103-adfb-5c3dfb149472
-title: >-
-  design circular buffers for inputs with layered states of persistance in
-  memory on disk cold storage so md
-status: done
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.511Z'
+uuid: "7da8bb11-51ea-4103-adfb-5c3dfb149472"
+title: "design circular buffers for inputs with layered states of persistance in memory on disk cold storage so md"
+slug: "design_circular_buffers_for_inputs_with_layered_states_of_persistance_in_memory_on_disk_cold_storage_so"
+status: "done"
+priority: "P3"
+labels: ["circular", "memory", "disk", "cold"]
+created_at: "2025-10-07T20:25:05.644Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Description
 
 Placeholder task stub generated from kanban board.
@@ -85,4 +90,6 @@ Nothing
 
 - [[kanban]]
 #Breakdown
+
+
 

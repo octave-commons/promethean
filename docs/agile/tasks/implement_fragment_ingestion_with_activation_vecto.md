@@ -1,11 +1,18 @@
 ---
-uuid: d6204735-5a96-4670-a361-6f6ef7c5cdb6
-title: implement fragment ingestion with activation vecto md
-status: icebox
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.515Z'
+uuid: "d6204735-5a96-4670-a361-6f6ef7c5cdb6"
+title: "implement fragment ingestion with activation vecto md"
+slug: "implement_fragment_ingestion_with_activation_vecto"
+status: "icebox"
+priority: "P3"
+labels: ["implement", "fragment", "ingestion", "activation"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Task: Implement fragment ingestion with activation vectors
 
 Placeholder task stub generated from kanban board.
@@ -52,3 +59,5 @@ Nothing
 ```
 #ice-box
 ```
+
+

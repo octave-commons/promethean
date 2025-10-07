@@ -1,11 +1,18 @@
 ---
-uuid: 654e88a0-ce43-46b0-a67b-3c18270be8eb
-title: setup a second agent md
-status: icebox
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.524Z'
+uuid: "654e88a0-ce43-46b0-a67b-3c18270be8eb"
+title: "setup a second agent md"
+slug: "setup_a_second_agent"
+status: "icebox"
+priority: "P3"
+labels: ["second", "agent", "setup", "agents"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Description
 
 Get a second agent running so we can have the two  talk to each other, and  get an opertunity to abstract the creation of agents like mentioned  in [Update makefile to have commands specific for agents](Update%20makefile%20to%20have%20commands%20specific%20for%20agents.md)
@@ -52,4 +59,6 @@ Nothing
 
 - [[kanban]]
 #IceBox
+
+
 

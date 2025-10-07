@@ -1,11 +1,18 @@
 ---
-uuid: 4686ef75-1681-4fa5-a95d-ad1c7d1cb62e
-title: add unit tests for wav processing md
-status: done
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.506Z'
+uuid: "4686ef75-1681-4fa5-a95d-ad1c7d1cb62e"
+title: "add unit tests for wav processing md"
+slug: "add_unit_tests_for_wav_processing"
+status: "done"
+priority: "P3"
+labels: ["wav", "processing", "add", "unit"]
+created_at: "2025-10-07T20:25:05.644Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Task: Add unit tests for wav_processing
 
 Improve coverage of `shared/py/utils/wav_processing.py`.
@@ -48,4 +55,6 @@ Nothing
 - [[kanban]]
 - [Untested modules]../../untested-code.md
 #done
+
+
 

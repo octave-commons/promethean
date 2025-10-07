@@ -1,11 +1,18 @@
 ---
-uuid: 0b5c2829-4d26-4bda-93db-ab13a5a80a12
-title: setup services to recieve work from the broker via push md
-status: done
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.520Z'
+uuid: "0b5c2829-4d26-4bda-93db-ab13a5a80a12"
+title: "setup services to recieve work from the broker via push md"
+slug: "setup_services_to_recieve_work_from_the_broker_via_push"
+status: "done"
+priority: "P3"
+labels: ["broker", "services", "setup", "via"]
+created_at: "2025-10-07T20:25:05.644Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ### ✅ Setup services to use broker correctly
 
 
@@ -95,3 +102,5 @@ We're gonna call it In Progress
 ```
 #in-progress
 ```
+
+

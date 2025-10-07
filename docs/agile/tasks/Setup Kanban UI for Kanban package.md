@@ -1,14 +1,18 @@
 ---
-uuid: c3366097-0d29-4c8d-b7e1-32de4cf8072e
-title: setup kanban ui for kanban package
-status: in_progress
-priority: P3
-labels:
-  - kanban
-  - ui
-  - framework-core
-created_at: '2025-10-03T07:25:00.000Z'
+uuid: "c3366097-0d29-4c8d-b7e1-32de4cf8072e"
+title: "setup kanban ui for kanban package   -core   -core"
+slug: "Setup Kanban UI for Kanban package"
+status: "review"
+priority: "P3"
+labels: ["kanban", "ui", "framework-core"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🎯 Desired Outcome
 A lightweight web UI served from `@promethean/kanban` that visualises the current board using the package's existing loaders, so agents can inspect column WIP without opening Obsidian.
 
@@ -28,3 +32,5 @@ A lightweight web UI served from `@promethean/kanban` that visualises the curren
 ## ❓ Open Questions / Risks
 - Ensure CLI wiring keeps backward compatibility with existing commands.
 - Confirm that serving compiled frontend assets from `dist/frontend` works under Nx build output.
+
+

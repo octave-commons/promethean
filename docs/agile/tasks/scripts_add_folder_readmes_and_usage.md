@@ -1,11 +1,18 @@
 ---
-uuid: 9eed3915-19f2-4006-943c-84b274bc7f47
-title: scripts add folder readmes and usage
-status: incoming
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.519Z'
+uuid: "9eed3915-19f2-4006-943c-84b274bc7f47"
+title: "scripts add folder readmes and usage"
+slug: "scripts_add_folder_readmes_and_usage"
+status: "incoming"
+priority: "P3"
+labels: ["scripts", "folder", "readmes", "add"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 Scripts: Add READMEs and usage docs per folder
 
 Goal: Ensure each scripts subfolder has a README with purpose, dependencies, environment, and examples.
@@ -22,5 +29,7 @@ Exit Criteria:
 - Each folder has a concise README with clear commands and prerequisites.
 
 #incoming #scripts #docs
+
+
 
 

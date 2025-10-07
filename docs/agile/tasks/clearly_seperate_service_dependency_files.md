@@ -1,11 +1,18 @@
 ---
-uuid: 35c0a7d2-a172-4cfd-8521-b3faee0417ca
-title: clearly seperate service dependency files md
-status: done
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.509Z'
+uuid: "35c0a7d2-a172-4cfd-8521-b3faee0417ca"
+title: "clearly seperate service dependency files md"
+slug: "clearly_seperate_service_dependency_files"
+status: "done"
+priority: "P3"
+labels: ["service", "dependency", "clearly", "seperate"]
+created_at: "2025-10-07T20:25:05.644Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 Q## 🛠️ Task: Clearly seperate service dependency files
 
 Each service should maintain its own dependency declarations so deployments remain isolated. Refer to the design notes in `file-structure.md` and the migration plan for guidance.
@@ -66,4 +73,6 @@ Nothing
 - file-structure$../file-structure.md
 - MIGRATION_PLAN$../MIGRATION_PLAN.md
 #done
+
+
 

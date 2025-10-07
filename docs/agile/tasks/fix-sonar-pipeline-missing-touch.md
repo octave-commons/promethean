@@ -1,11 +1,18 @@
 ---
-uuid: cd28d98a-1e9a-427d-8fa3-3768d944840e
-title: fix sonar pipeline missing touch marker
-status: done
-priority: P2
+uuid: "cd28d98a-1e9a-427d-8fa3-3768d944840e"
+title: "fix sonar pipeline missing touch marker"
+slug: "fix-sonar-pipeline-missing-touch"
+status: "done"
+priority: "P2"
 labels: ["pipeline", "sonar", "buildfix"]
-created_at: '2025-10-07T01:00:44Z'
+created_at: "2025-10-07T20:25:05.644Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Description
 Ensure the top-level `sonar` pipeline writes the `.cache/sonar/scan.touch` marker so downstream steps succeed on clean runs.
 
@@ -48,3 +55,5 @@ Useful for agents to coordinate on implementation details and testing.
 - Estimate: 2
 - Assumptions: Sonar CLI available locally or in CI.
 - Dependencies: Access to Sonar credentials or mocks for verification.
+
+

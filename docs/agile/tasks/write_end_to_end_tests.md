@@ -1,11 +1,18 @@
 ---
-uuid: ad8abaf0-5abc-407f-bb20-0f0557066452
-title: write end to end tests md md
-status: rejected
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.524Z'
+uuid: "ad8abaf0-5abc-407f-bb20-0f0557066452"
+title: "write end to end tests md md"
+slug: "write_end_to_end_tests"
+status: "rejected"
+priority: "P3"
+labels: ["end", "write", "tests", "kanban"]
+created_at: "2025-10-07T20:25:05.645Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Description
 
 Placeholder task stub generated from kanban board.
@@ -50,4 +57,6 @@ Nothing
 
 - [[kanban]]
 #accepted
+
+
 

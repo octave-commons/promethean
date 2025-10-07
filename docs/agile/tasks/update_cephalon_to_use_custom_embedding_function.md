@@ -1,11 +1,18 @@
 ---
-uuid: af87b6ca-6f04-4380-9e5b-54adcf7bf254
-title: update cephalon to use custom embedding function md md
-status: rejected
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.523Z'
+uuid: "af87b6ca-6f04-4380-9e5b-54adcf7bf254"
+title: "update cephalon to use custom embedding function md md"
+slug: "update_cephalon_to_use_custom_embedding_function"
+status: "rejected"
+priority: "P3"
+labels: ["cephalon", "function", "update", "use"]
+created_at: "2025-10-07T20:25:05.645Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Task: Update cephalon to use custom embedding function
 
 Design notes point toward replacing the default Chroma embeddings with a lightweight Python service. Cephalon should call this service when generating context vectors.
@@ -75,4 +82,6 @@ Nothing
 - Embedding service implementation not linked.
 - Unit and integration tests for wrapper and service missing.
 - Documentation for the new embedding workflow is absent.
+
+
 

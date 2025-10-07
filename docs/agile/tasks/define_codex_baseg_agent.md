@@ -1,11 +1,18 @@
 ---
-uuid: d158980f-ef8c-4236-85be-c494c4aa9159
-title: define codex baseg agent md md
-status: icebox
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.510Z'
+uuid: "d158980f-ef8c-4236-85be-c494c4aa9159"
+title: "define codex baseg agent md md"
+slug: "define_codex_baseg_agent"
+status: "icebox"
+priority: "P3"
+labels: ["define", "codex", "baseg", "agent"]
+created_at: "2025-10-07T20:25:05.642Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Description
 
 Placeholder task stub generated from kanban board.
@@ -50,4 +57,6 @@ Nothing
 
 - [[kanban]]
 #IceBox
+
+
 

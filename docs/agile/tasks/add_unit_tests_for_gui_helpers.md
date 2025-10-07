@@ -1,11 +1,18 @@
 ---
-uuid: 71a16cd2-8c1a-4285-90a1-d7a85b0d1af0
-title: add unit tests for gui helpers md md
-status: rejected
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.506Z'
+uuid: "71a16cd2-8c1a-4285-90a1-d7a85b0d1af0"
+title: "add unit tests for gui helpers md md"
+slug: "add_unit_tests_for_gui_helpers"
+status: "rejected"
+priority: "P3"
+labels: ["gui", "helpers", "add", "unit"]
+created_at: "2025-10-07T20:25:05.645Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Task: Add unit tests for GUI helpers
 
 Cover `shared/py/utils/gui.py` with pytest.
@@ -49,4 +56,6 @@ Nothing
 - [Untested modules]../../untested-code.md
 
 #archive
+
+
 

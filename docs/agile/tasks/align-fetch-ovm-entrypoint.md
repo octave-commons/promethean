@@ -1,40 +1,18 @@
 ---
-task-id: TASK-20250223A
-title: Align fetch_ovm_models entrypoint detection
-state: InProgress
-prev: null
-txn: '2025-02-23T00:00:00Z-0000'
-owner: gpt-5-codex
-priority: p3
-size: s
-epic: EPC-000
-depends_on: []
-labels:
-  - 'board:auto'
-  - 'lang:ts'
-due: null
-links: []
-artifacts: []
-rationale: Ensure fetch_ovm_models works when launched with a relative path.
-proposed_transitions:
-  - New->Accepted
-  - Accepted->Breakdown
-  - Breakdown->Ready
-  - Ready->Todo
-  - Todo->InProgress
-  - InProgress->InReview
-  - InReview->Done
-tags:
-  - task/TASK-20250223A
-  - board/kanban
-  - state/InProgress
-  - owner/gpt-5-codex
-  - priority/p3
-  - epic/EPC-000
-uuid: 441917e2-b57a-436a-987c-008cbf5e704d
-created_at: '2025-10-06T01:50:48.285Z'
-status: in-progress
+uuid: "441917e2-b57a-436a-987c-008cbf5e704d"
+title: "Align fetch_ovm_models entrypoint detection /TASK-20250223A /kanban /InProgress /gpt-5-codex /p3 /EPC-000 :auto :ts"
+slug: "align-fetch-ovm-entrypoint"
+status: "in_progress"
+priority: "p3"
+labels: ["task", "board", "state", "owner", "priority", "epic", "board", "lang"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ```
 <hr class="__chatgpt_plugin">
 ```
@@ -93,4 +71,6 @@ You might find [this](link) useful while working on this task.
 <% tp.file.title() %>
 
 <% tp.app.commands.executeCommandById"chatgpt-md:call-chatgpt-api" %>
+
+
 

@@ -1,11 +1,18 @@
 ---
-uuid: d524ff64-8f12-46bb-8c28-103e13743fa1
-title: schedule alignment meeting with stakeholders md md
-status: icebox
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.519Z'
+uuid: "d524ff64-8f12-46bb-8c28-103e13743fa1"
+title: "schedule alignment meeting with stakeholders md md"
+slug: "schedule_alignment_meeting_with_stakeholders"
+status: "icebox"
+priority: "P3"
+labels: ["meeting", "stakeholders", "schedule", "alignment"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Task: Schedule alignment meeting with stakeholders
 
 Organize a meeting to discuss the open questions about Promethean and confirm project goals.
@@ -51,3 +58,5 @@ Organize a meeting to discuss the open questions about Promethean and confirm pr
 ```
 #ice-box
 ```
+
+

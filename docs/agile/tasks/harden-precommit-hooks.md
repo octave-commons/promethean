@@ -1,11 +1,18 @@
 ---
-uuid: b4f3da22-f345-4ea2-84ec-7277ca9e0735
-title: Description
-status: rejected
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.514Z'
+uuid: "b4f3da22-f345-4ea2-84ec-7277ca9e0735"
+title: "Description"
+slug: "harden-precommit-hooks"
+status: "rejected"
+priority: "P3"
+labels: ["description", "blocked", "make", "bad"]
+created_at: "2025-10-07T20:25:05.645Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 # Description
 ```
 **Status:** blocked
@@ -38,4 +45,6 @@ Useful for agents to engage in append only conversations about this task.
 
 ## Blockers
 - No active owner or unclear scope
+
+
 

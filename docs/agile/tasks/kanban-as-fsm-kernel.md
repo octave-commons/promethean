@@ -1,30 +1,18 @@
 ---
-uuid: 1d2183ae-6cdd-43ec-9e4c-15ae41a24da7
-created_at: '2025-09-19T22:12:01Z'
-title: 2025.09.19.22.12.01
-filename: Kanban-as-FSM-Kernel
-description: >-
-  A minimal, agent-agnostic Kanban system modeled as a Finite State Machine
-  (FSM) for process management. Defines states, transitions, and rules without
-  timeboxing or pre-coded gates. Ensures procedural, board-driven workflows with
-  clear blocking and session discipline.
-tags:
-  - Kanban
-  - FSM
-  - process
-  - agent-agnostic
-  - procedural
-  - board-driven
-  - WIP
-  - blocking
-  - session-discipline
-related_to_uuid: []
-related_to_title: []
-references: []
-status: in-progress
-priority: P3
-labels: []
+uuid: "1d2183ae-6cdd-43ec-9e4c-15ae41a24da7"
+title: "2025.09.19.22.12.01    -agnostic  -driven   -discipline    -agnostic  -driven   -discipline"
+slug: "kanban-as-fsm-kernel"
+status: "breakdown"
+priority: "P3"
+labels: ["Kanban", "FSM", "process", "agent-agnostic", "procedural", "board-driven", "WIP", "blocking", "session-discipline"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 love the clarity. let’s codify exactly what you described, agent-agnostic, as a **Kanban-as-FSM** kernel for `process.md`. no special phases, no timeboxing, minimal rules, procedural, board-driven.
 
 # Step 1 — minimal patch for `process.md` (append verbatim)
@@ -91,4 +79,6 @@ If that matches your intent, say **“apply Step 1”** and I’ll slot it into 
 ## Sources
 - _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
+
+
 

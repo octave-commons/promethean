@@ -1,11 +1,18 @@
 ---
-uuid: 54927d5e-d90f-4575-be6a-307a30c2578c
-title: thinking model integration md md
-status: done
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.523Z'
+uuid: "54927d5e-d90f-4575-be6a-307a30c2578c"
+title: "thinking model integration md md"
+slug: "thinking_model_integration"
+status: "done"
+priority: "P3"
+labels: ["model", "thinking", "integration", "are"]
+created_at: "2025-10-07T20:25:05.644Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Description
 
 Placeholder task stub generated from kanban board.
@@ -83,4 +90,6 @@ Nothing
 
 - [[kanban]]
 #Breakdown
+
+
 

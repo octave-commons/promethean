@@ -1,11 +1,18 @@
 ---
-uuid: c8651504-523e-434c-987c-ac19fd9a67f2
-title: Extend roadmap generator to emit inventory report
-status: in_progress
-priority: P3
+uuid: "c8651504-523e-434c-987c-ac19fd9a67f2"
+title: "Extend roadmap generator to emit inventory report"
+slug: "generate-roadmap-inventory-report"
+status: "in_progress"
+priority: "P3"
 labels: ["scripts", "documentation"]
-created_at: "2025-10-07T04:56:16+00:00"
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Task: Extend roadmap generator to emit inventory report
 
 Add an initial consolidation step to the roadmap site generator that builds an inventory report from the existing mermaid blocks. Capture the report alongside current outputs so downstream tooling can use it.
@@ -56,3 +63,5 @@ Nothing
 
 - [[process]]
 - [[kanban]]
+
+

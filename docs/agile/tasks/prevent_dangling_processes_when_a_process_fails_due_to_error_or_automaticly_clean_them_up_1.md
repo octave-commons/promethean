@@ -1,13 +1,18 @@
 ---
-uuid: 072f7aad-b8a2-4361-9656-d9b84008feab
-title: >-
-  prevent dangling processes when a process fails due to error or automaticly
-  clean them up 1 md md
-status: rejected
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.518Z'
+uuid: "072f7aad-b8a2-4361-9656-d9b84008feab"
+title: "prevent dangling processes when a process fails due to error or automaticly clean them up 1 md md"
+slug: "prevent_dangling_processes_when_a_process_fails_due_to_error_or_automaticly_clean_them_up_1"
+status: "rejected"
+priority: "P3"
+labels: ["process", "prevent", "processes", "clean"]
+created_at: "2025-10-07T20:25:05.645Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Description
 
 This is kinda started through the heartbeat server, but t hat is not nearly robust enough.
@@ -62,4 +67,6 @@ Nothing
 
 
 #archive
+
+
 

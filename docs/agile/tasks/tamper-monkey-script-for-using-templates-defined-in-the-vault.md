@@ -1,11 +1,18 @@
 ---
-uuid: 4e7f70bb-bb32-4a55-b499-bdc347afe21a
-title: tamper monkey script for using templates defined in the vault
-status: done
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.522Z'
+uuid: "4e7f70bb-bb32-4a55-b499-bdc347afe21a"
+title: "tamper monkey script for using templates defined in the vault"
+slug: "tamper-monkey-script-for-using-templates-defined-in-the-vault"
+status: "done"
+priority: "P3"
+labels: ["vault", "templates", "script", "tamper"]
+created_at: "2025-10-07T20:25:05.644Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Description
 
 I want to be able to use templates from the vault to ask for things like:
@@ -44,4 +51,6 @@ Useful for agents to engage in append only conversations about this task.
 - Estimate: 2
 - Assumptions: Vault templates are organized and accessible.
 - Dependencies: Tampermonkey environment and vault API endpoints.
+
+
 

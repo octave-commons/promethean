@@ -1,11 +1,18 @@
 ---
-uuid: fa552127-22e2-45b7-85ca-0c9f5064ea48
-title: cephalon context window from collections
-status: incoming
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.508Z'
+uuid: "fa552127-22e2-45b7-85ca-0c9f5064ea48"
+title: "cephalon context window from collections"
+slug: "cephalon_context_window_from_collections"
+status: "incoming"
+priority: "P3"
+labels: ["context", "collections", "cephalon", "window"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 Cephalon: Build LLM context window from collections
 
 Goal: Ensure the LLM prompt context draws from `transcripts`, `agent_messages`, and any domain-specific collections using `ContextManager.compileContext` consistently in ECS orchestration.
@@ -21,4 +28,6 @@ Exit Criteria:
 - Unit test stubbing `ContextManager` to validate callback invocation.
 
 #incoming #cephalon #context #llm
+
+
 

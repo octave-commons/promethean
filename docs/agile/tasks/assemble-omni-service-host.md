@@ -1,13 +1,18 @@
 ---
-uuid: 5fb47630-6822-4ecf-a035-625ed0e733bf
-title: Assemble unified @promethean/omni-service host
-status: in_progress
-priority: P2
-labels:
-  - omni
-  - service
-created_at: '2025-09-21T02:47:00Z'
+uuid: "5fb47630-6822-4ecf-a035-625ed0e733bf"
+title: "Assemble unified @promethean/omni-service host"
+slug: "assemble-omni-service-host"
+status: "breakdown"
+priority: "P2"
+labels: ["omni", "service"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🎯 Outcome
 Stand up `@promethean/omni-service`, a Fastify application that mounts REST, GraphQL, WebSocket, and MCP adapters on a single server/port with shared auth, RBAC, and lifecycle hooks.
 
@@ -32,3 +37,5 @@ Stand up `@promethean/omni-service`, a Fastify application that mounts REST, Gra
 
 ## 🔗 Dependencies
 - Omni protocol + core packages must be published.
+
+

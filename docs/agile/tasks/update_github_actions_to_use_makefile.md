@@ -1,11 +1,18 @@
 ---
-uuid: cd2f96f3-bd40-410b-94f2-f7d0dbce4da4
-title: update github actions automation to pnpm scripts
-status: done
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.523Z'
+uuid: "cd2f96f3-bd40-410b-94f2-f7d0dbce4da4"
+title: "update github actions automation to pnpm scripts"
+slug: "update_github_actions_to_use_makefile"
+status: "done"
+priority: "P3"
+labels: ["pnpm", "scripts", "update", "github"]
+created_at: "2025-10-07T20:25:05.644Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Task: Update GitHub Actions to use pnpm scripts
 
 The Makefile targets referenced by the original plan never stabilized. CI already leans on pnpm (`pnpm lint`, `pnpm test:all`),
@@ -59,3 +66,5 @@ so workflows should call the same scripts instead of Makefile wrappers.
 - scripts/dev.mjs$../../scripts/dev.mjs
 
 #cicd #devops #framework-core #todo
+
+

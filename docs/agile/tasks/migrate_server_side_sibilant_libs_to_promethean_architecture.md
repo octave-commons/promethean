@@ -1,11 +1,18 @@
 ---
-uuid: d1efce9d-cff7-4f99-baeb-143b9edf981a
-title: migrate server side sibilant libs to promethean architecture md
-status: todo
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.516Z'
+uuid: "d1efce9d-cff7-4f99-baeb-143b9edf981a"
+title: "migrate server side sibilant libs to promethean architecture md"
+slug: "migrate_server_side_sibilant_libs_to_promethean_architecture"
+status: "ready"
+priority: "P3"
+labels: ["migrate", "server", "side", "sibilant"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Task: Migrate server side sibilant libs to promethean architecture
 
 Placeholder task stub generated from kanban board.
@@ -50,4 +57,6 @@ Nothing
 
 - [[kanban]]
 #ready
+
+
 

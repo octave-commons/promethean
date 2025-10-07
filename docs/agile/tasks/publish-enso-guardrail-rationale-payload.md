@@ -1,11 +1,18 @@
 ---
-uuid: 387b3ee0-c4f3-4c53-9b77-048e5490c9ca
-title: publish enso guardrail rationale payload
-status: rejected
-priority: P1
-labels: ['enso', 'protocol', 'guardrails']
-created_at: '2025-10-07T06:39:18.599Z'
+uuid: "387b3ee0-c4f3-4c53-9b77-048e5490c9ca"
+title: "publish enso guardrail rationale payload"
+slug: "publish-enso-guardrail-rationale-payload"
+status: "rejected"
+priority: "P1"
+labels: ["enso", "protocol", "guardrails"]
+created_at: "2025-10-07T20:25:05.645Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 Background: The ENSO protocol docs and SDK still describe `act.rationale` as a loosely typed payload, even though Cephalon emits rich guardrail metadata during Duck evaluations. Without a canonical `ActRationalePayload` type and migration guidance, downstream producers/consumers are blocked from adopting the telemetry and the transport chapter risks drifting from the actual TypeScript union.
 
 Goal: Align the ENSO transport spec, SDK (`packages/enso-protocol`), and service implementations around a typed guardrail rationale payload with clear migration steps.
@@ -25,3 +32,5 @@ Exit Criteria:
 - Consumers (Cephalon, gateway) compile with the updated payload and emit/handle rationale metadata without type casts.
 - Documentation changes land alongside a migration checklist summarizing adoption steps and compatibility considerations.
 - A changelog entry captures the payload addition and any deprecations.
+
+

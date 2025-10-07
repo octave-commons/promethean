@@ -1,11 +1,18 @@
 ---
-uuid: e2059e9f-f2a2-4bc4-bcc7-eece59c16f88
-title: ecs query api gateway
-status: incoming
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.512Z'
+uuid: "e2059e9f-f2a2-4bc4-bcc7-eece59c16f88"
+title: "ecs query api gateway"
+slug: "ecs_query_api_gateway"
+status: "incoming"
+priority: "P3"
+labels: ["ecs", "api", "query", "gateway"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ECS Query API Gateway
 
 Goal: Expose a small HTTP API for reading ECS-backed data (Mongo) for dashboards, agents, and tools.
@@ -19,4 +26,6 @@ Exit Criteria:
 - Service scaffolding + 2–3 endpoints with tests.
 
 #incoming #ecs #api #mongo
+
+
 

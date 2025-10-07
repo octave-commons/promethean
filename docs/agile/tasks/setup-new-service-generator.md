@@ -1,11 +1,18 @@
 ---
-uuid: 183b8fa7-f80b-4342-b993-2d2bfa80303a
-title: setup new service generator
-status: rejected
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.520Z'
+uuid: "183b8fa7-f80b-4342-b993-2d2bfa80303a"
+title: "setup new service generator"
+slug: "setup-new-service-generator"
+status: "rejected"
+priority: "P3"
+labels: ["new", "service", "generator", "setup"]
+created_at: "2025-10-07T20:25:05.645Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Description
 
 Create a generator that scaffolds new services with standard configuration, directory layout, and test stubs.
@@ -64,3 +71,5 @@ Nothing
 ```
 #in-progress
 ```
+
+

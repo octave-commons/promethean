@@ -1,11 +1,18 @@
 ---
-uuid: 5e02a76a-4b66-4dbb-8a93-16fdbee83283
-title: gpt bridge fuzzy lookup should return multiple matches when it is used
-status: rejected
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.514Z'
+uuid: "5e02a76a-4b66-4dbb-8a93-16fdbee83283"
+title: "gpt bridge fuzzy lookup should return multiple matches when it is used"
+slug: "gpt-bridge-fuzzy-lookup-should-return-multiple-matches-when-it-is-used"
+status: "rejected"
+priority: "P3"
+labels: ["fuzzy", "matches", "gpt", "bridge"]
+created_at: "2025-10-07T20:25:05.645Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Description
 ```
 **Status:** blocked
@@ -66,4 +73,6 @@ Nothing
 - No active owner or unclear scope
 
 #breakdown
+
+
 

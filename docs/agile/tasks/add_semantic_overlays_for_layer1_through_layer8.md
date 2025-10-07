@@ -1,11 +1,18 @@
 ---
-uuid: 2901d671-ce49-4228-9c82-30112b2bbc12
-title: add semantic overlays for layer1 through layer8 md md
-status: rejected
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.505Z'
+uuid: "2901d671-ce49-4228-9c82-30112b2bbc12"
+title: "add semantic overlays for layer1 through layer8 md md"
+slug: "add_semantic_overlays_for_layer1_through_layer8"
+status: "rejected"
+priority: "P3"
+labels: ["overlays", "add", "semantic", "layer1"]
+created_at: "2025-10-07T20:25:05.645Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Task: Add semantic overlays for layer1 through layer8
 
 Implement documentation overlays that explain how each cognitive layer maps to the system. These overlays should provide conceptual context for the eight circuits described in the design docs.
@@ -57,4 +64,6 @@ Nothing
 - [docs/design/overview|design overview]
 - [[kanban]]
 #IceBox
+
+
 

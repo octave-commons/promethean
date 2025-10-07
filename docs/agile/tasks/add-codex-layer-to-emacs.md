@@ -1,11 +1,18 @@
 ---
-uuid: 9870434b-5bf2-48ca-a588-d6769ec54796
-title: add codex layer to emacs
-status: done
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.503Z'
+uuid: "9870434b-5bf2-48ca-a588-d6769ec54796"
+title: "add codex layer to emacs"
+slug: "add-codex-layer-to-emacs"
+status: "done"
+priority: "P3"
+labels: ["codex", "emacs", "layer", "add"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Description
 
 Describe your task
@@ -41,4 +48,6 @@ Useful for agents to engage in append only conversations about this task.
 - Estimate: 3
 - Assumptions: Emacs environment can load the Codex integration layer.
 - Dependencies: Existing Codex and Emacs plugin support.
+
+
 

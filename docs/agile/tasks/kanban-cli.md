@@ -1,25 +1,18 @@
 ---
-uuid: ba1ad13d-7988-4636-badf-f5fa9ac2344f
-created_at: '2025-09-20T09:16:46Z'
-title: 2025.09.20.09.16.46
-filename: kanban-cli
-description: >-
-  A CLI tool for managing Kanban boards using markdown files and task data. It
-  provides subcommands to interact with tasks, columns, and board states through
-  JSONL output.
-tags:
-  - kanban
-  - cli
-  - markdown
-  - task-management
-  - jsonl
-related_to_uuid: []
-related_to_title: []
-references: []
-status: todo
-priority: P3
-labels: []
+uuid: "ba1ad13d-7988-4636-badf-f5fa9ac2344f"
+title: "2025.09.20.09.16.46    -management    -management"
+slug: "kanban-cli"
+status: "breakdown"
+priority: "P3"
+labels: ["kanban", "cli", "markdown", "task-management", "jsonl"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 I want my kanban to work
 I want to get my pipelines working
 I want to see the magic.
@@ -71,4 +64,6 @@ columnData looks like:
 ## Sources
 - _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
+
+
 

@@ -1,11 +1,18 @@
 ---
-uuid: aa135028-70f3-4569-a969-915bf857ecaf
-title: 'Task: ChatGPT Export Ingest with De‑dup Index & Hashes'
-status: rejected
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.509Z'
+uuid: "aa135028-70f3-4569-a969-915bf857ecaf"
+title: "Task: ChatGPT Export Ingest with De‑dup Index & Hashes"
+slug: "chatgpt-export-injest-with-dedupe-index-and-hashes"
+status: "rejected"
+priority: "P3"
+labels: ["chatgpt", "export", "ingest", "index"]
+created_at: "2025-10-07T20:25:05.645Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 # Task: ChatGPT Export Ingest with De‑dup Index & Hashes
 ```
 **Status:** blocked
@@ -240,4 +247,6 @@ pnpm tsx src/cli.ts --export ~/Downloads/chatgpt-export \
 - No active owner or unclear scope
 
 #breakdown
+
+
 
