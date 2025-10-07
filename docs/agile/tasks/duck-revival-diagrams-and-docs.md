@@ -25,6 +25,7 @@ Add concise docs with Mermaid diagrams for all moving parts touched by the `duck
   - `docs/libraries/duck-audio/README.md`
 - Feature flags doc:
   - `docs/duck/FEATURE_FLAGS.md`
+- 2025-02-14: refreshed diagrams + service docs for WebRTC voice streaming.
 
 ## Goals
 - Cross-link PRs with docs + diagrams.
