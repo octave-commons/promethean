@@ -1,0 +1,32 @@
+---
+uuid: e9b26152-47ba-4401-afce-3c14ca0f76e9
+title: catalog mermaid flow diagrams
+status: incoming
+priority: P3
+labels: []
+created_at: '2025-10-07T04:56:55Z'
+---
+## 🛠️ Task: Catalog and normalize mermaid flow diagrams
+
+### Background
+- Mermaid flowcharts are embedded across documentation without a shared catalog or styling rules.
+- Known diagrams live in `README.md`, `packages/schema/README.md`, and `packages/cephalon/docs/graph/cephalon-knowledge.md`.
+- Contributors need a single source to review, update, and extend system flow visualizations.
+
+### Definition of Done
+- [ ] Inventory all existing Mermaid diagrams across the repository and record their purpose, owner, and update cadence.
+- [ ] Propose a canonical location (or index file) for storing diagrams and link back to the original context.
+- [ ] Define normalization guidelines covering themes, node naming, and dependency notation so future diagrams stay consistent.
+- [ ] Document the consolidation plan and decisions inside the shared catalog so subsequent contributors can follow it.
+
+### Suggested Steps
+1. Search the repo for the string `\`\`\`mermaid` and review each diagram's scope.
+2. Draft a catalog document (e.g., `docs/diagrams/INDEX.md`) that lists each flow with links and metadata.
+3. Align the diagram styles against Promethean documentation standards and capture reusable snippets or templates.
+4. Circulate recommendations with affected package owners, updating the catalog with sign-off notes or follow-up actions.
+
+### References
+- `README.md` (automation overview section)
+- `packages/schema/README.md`
+- `packages/cephalon/docs/graph/cephalon-knowledge.md`
+- `docs/agile/process.md`
