@@ -14,7 +14,7 @@ BUILD_TIMEOUT_SECS="${BUILD_TIMEOUT_SECS:-300}"
 describe env-dump               bash -lc '(set -o posix; set)'
 
 # pre-commit
-describe uvx-precommit-install  uvx pre-commit install
+# describe uvx-precommit-install  uvx pre-commit install
 
 # OS deps
 describe apt-update             bash -lc 'export DEBIAN_FRONTEND=noninteractive; apt-get update -y'
