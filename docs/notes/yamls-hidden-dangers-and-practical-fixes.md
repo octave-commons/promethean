@@ -1,9 +1,15 @@
 ---
+```
 uuid: e00bbd85-8169-40c6-bc7e-7d18595e7296
+```
+```
 created_at: '2025-09-03T13:48:22Z'
+```
 filename: YAML's Hidden Dangers and Practical Fixes
 title: YAML's Hidden Dangers and Practical Fixes
+```
 description: >-
+```
   YAML's design quirks—like invisible semantics, implicit typing, and tooling
   drift—make it prone to errors. This guide offers minimal pain solutions:
   enforce 1.2 semantics, use strict validation, and prefer simpler formats like
@@ -19,7 +25,9 @@ tags:
   - TOML
   - type-system
   - practical
+```
 related_to_uuid:
+```
   - a69259b4-4260-4877-bd79-22c432e1f85f
   - 4316c3f9-551f-4872-b5c5-98ae73508535
   - abe9ec8d-5a0f-42c5-b2ab-a2080c86d70c
@@ -36,7 +44,9 @@ related_to_uuid:
   - 6ff8d80e-7070-47b5-898c-ee506e353471
   - 7ab1a3cd-80a7-4d69-ae21-1da07cd0523c
   - 0d4e63e3-0724-4bdf-bd42-b4fda58ed025
+```
 related_to_title:
+```
   - polyglot-s-expr-bridge-python-js-lisp-interop
   - WebSocket Gateway Implementation
   - RAG UI Panel with Qdrant and PostgREST
@@ -110,8 +120,9 @@ What to do (practical, minimal pain):
 
 1. Keep YAML dumb: only for flat key→value or short lists. Anything complex? Don’t.
 2. Force 1.2 semantics where you can; quote anything that looks like bool/date.
+```
 3. Lint + format:
-
+```
    * `yamllint` (structure) + Prettier (format). Fail CI if either complains.
 4. Validate schemas, not vibes:
 
@@ -137,7 +148,7 @@ export const readYaml = async <T>(
   const doc = parseDocument(text, { version: '1.2', prettyErrors: true });
   if (doc.errors.length) {
     const msg = doc.errors.map(e => e.message).join('\n');
-    throw new Error(`YAML parse error in ${filePath}:\n${msg}`);
+    throw new Error(`YAML parse error in {filePath}:\n{msg}`);
   }
   const data = doc.toJSON(); // lose YAML weirdness here
   return schema.parse(data);
@@ -171,31 +182,31 @@ const cfg = await readYaml('pipelines.yml', Pipelines);
 Bottom line: YAML “won” by inertia and ergonomics, not because it’s good. Use it where it’s harmless; validate ruthlessly; jump to TS/TOML/JSON when it isn’t.
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [polyglot-s-expr-bridge-python-js-lisp-interop](polyglot-s-expr-bridge-python-js-lisp-interop.md)
-- [WebSocket Gateway Implementation](websocket-gateway-implementation.md)
-- [RAG UI Panel with Qdrant and PostgREST](rag-ui-panel-with-qdrant-and-postgrest.md)
-- [promethean-native-config-design](promethean-native-config-design.md)
-- [Field Node Diagrams](field-node-diagram-visualizations.md)
-- [Promethean Eidolon Synchronicity Model](promethean-eidolon-synchronicity-model.md)
+- polyglot-s-expr-bridge-python-js-lisp-interop$polyglot-s-expr-bridge-python-js-lisp-interop.md
+- [WebSocket Gateway Implementation]websocket-gateway-implementation.md
+- [RAG UI Panel with Qdrant and PostgREST]rag-ui-panel-with-qdrant-and-postgrest.md
+- promethean-native-config-design$promethean-native-config-design.md
+- [Field Node Diagrams]field-node-diagram-visualizations.md
+- [Promethean Eidolon Synchronicity Model]promethean-eidolon-synchronicity-model.md
 - [Layer 1 Survivability Envelope](layer1survivabilityenvelope.md)
-- [Prompt Programming Language for LLMs](prompt-programming-language-lisp.md)
-- [mystery-lisp-for-python-education](mystery-lisp-search-session.md)
-- [Protocol 0: Contradiction Engine](protocol-0-the-contradiction-engine.md)
-- [Universal Lisp Interface](universal-lisp-interface.md)
-- [Polymorphic Meta-Programming Engine](polymorphic-meta-programming-engine.md)
-- [ecs-scheduler](ecs-scheduler-and-prefabs.md)
-- [provider-agnostic-chat-panel-implementation](provider-agnostic-chat-panel-implementation.md)
-- [system-scheduler](system-scheduler-with-resource-aware-dag.md)
-- [Performance-Optimized Polyglot Bridge](performance-optimized-polyglot-bridge.md)
+- [Prompt Programming Language for LLMs]prompt-programming-language-lisp.md
+- mystery-lisp-for-python-education$mystery-lisp-search-session.md
+- [Protocol 0: Contradiction Engine]protocol-0-the-contradiction-engine.md
+- [Universal Lisp Interface]universal-lisp-interface.md
+- Polymorphic Meta-Programming Engine$polymorphic-meta-programming-engine.md
+- ecs-scheduler$ecs-scheduler-and-prefabs.md
+- provider-agnostic-chat-panel-implementation$provider-agnostic-chat-panel-implementation.md
+- system-scheduler$system-scheduler-with-resource-aware-dag.md
+- Performance-Optimized Polyglot Bridge$performance-optimized-polyglot-bridge.md
 ## Sources
-- [polyglot-s-expr-bridge-python-js-lisp-interop — L491](polyglot-s-expr-bridge-python-js-lisp-interop.md#^ref-a69259b4-491-0) (line 491, col 0, score 1)
-- [polyglot-s-expr-bridge-python-js-lisp-interop — L490](polyglot-s-expr-bridge-python-js-lisp-interop.md#^ref-a69259b4-490-0) (line 490, col 0, score 1)
-- [polyglot-s-expr-bridge-python-js-lisp-interop — L195](polyglot-s-expr-bridge-python-js-lisp-interop.md#^ref-a69259b4-195-0) (line 195, col 0, score 0.98)
-- [polyglot-s-expr-bridge-python-js-lisp-interop — L350](polyglot-s-expr-bridge-python-js-lisp-interop.md#^ref-a69259b4-350-0) (line 350, col 0, score 0.97)
-- [polyglot-s-expr-bridge-python-js-lisp-interop — L192](polyglot-s-expr-bridge-python-js-lisp-interop.md#^ref-a69259b4-192-0) (line 192, col 0, score 0.96)
-- [polyglot-s-expr-bridge-python-js-lisp-interop — L424](polyglot-s-expr-bridge-python-js-lisp-interop.md#^ref-a69259b4-424-0) (line 424, col 0, score 0.96)
-- [polyglot-s-expr-bridge-python-js-lisp-interop — L26](polyglot-s-expr-bridge-python-js-lisp-interop.md#^ref-a69259b4-26-0) (line 26, col 0, score 0.95)
-- [polyglot-s-expr-bridge-python-js-lisp-interop — L382](polyglot-s-expr-bridge-python-js-lisp-interop.md#^ref-a69259b4-382-0) (line 382, col 0, score 0.95)
-- [polyglot-s-expr-bridge-python-js-lisp-interop — L360](polyglot-s-expr-bridge-python-js-lisp-interop.md#^ref-a69259b4-360-0) (line 360, col 0, score 0.91)
-- [polyglot-s-expr-bridge-python-js-lisp-interop — L474](polyglot-s-expr-bridge-python-js-lisp-interop.md#^ref-a69259b4-474-0) (line 474, col 0, score 0.86)
+- polyglot-s-expr-bridge-python-js-lisp-interop — L491$polyglot-s-expr-bridge-python-js-lisp-interop.md#^ref-a69259b4-491-0 (line 491, col 0, score 1)
+- polyglot-s-expr-bridge-python-js-lisp-interop — L490$polyglot-s-expr-bridge-python-js-lisp-interop.md#^ref-a69259b4-490-0 (line 490, col 0, score 1)
+- polyglot-s-expr-bridge-python-js-lisp-interop — L195$polyglot-s-expr-bridge-python-js-lisp-interop.md#^ref-a69259b4-195-0 (line 195, col 0, score 0.98)
+- polyglot-s-expr-bridge-python-js-lisp-interop — L350$polyglot-s-expr-bridge-python-js-lisp-interop.md#^ref-a69259b4-350-0 (line 350, col 0, score 0.97)
+- polyglot-s-expr-bridge-python-js-lisp-interop — L192$polyglot-s-expr-bridge-python-js-lisp-interop.md#^ref-a69259b4-192-0 (line 192, col 0, score 0.96)
+- polyglot-s-expr-bridge-python-js-lisp-interop — L424$polyglot-s-expr-bridge-python-js-lisp-interop.md#^ref-a69259b4-424-0 (line 424, col 0, score 0.96)
+- polyglot-s-expr-bridge-python-js-lisp-interop — L26$polyglot-s-expr-bridge-python-js-lisp-interop.md#^ref-a69259b4-26-0 (line 26, col 0, score 0.95)
+- polyglot-s-expr-bridge-python-js-lisp-interop — L382$polyglot-s-expr-bridge-python-js-lisp-interop.md#^ref-a69259b4-382-0 (line 382, col 0, score 0.95)
+- polyglot-s-expr-bridge-python-js-lisp-interop — L360$polyglot-s-expr-bridge-python-js-lisp-interop.md#^ref-a69259b4-360-0 (line 360, col 0, score 0.91)
+- polyglot-s-expr-bridge-python-js-lisp-interop — L474$polyglot-s-expr-bridge-python-js-lisp-interop.md#^ref-a69259b4-474-0 (line 474, col 0, score 0.86)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

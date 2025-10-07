@@ -1,11 +1,17 @@
 ---
+```
 uuid: 5fcc9668-9953-4ea0-bd14-5eed8ba6f9af
+```
+```
 created_at: '2025-09-20T05:40:39Z'
+```
 title: 2025.09.20.05.40.39
 filename: Current Unorganized AdHoc Workflow with Weak Transitions
+```
 description: >-
+```
   This document describes a common workflow where developers merge multiple
-  small tasks into a single branch (e.g., `dev/:hostname`) before creating a PR
+  small tasks into a single branch e.g., `dev/:hostname` before creating a PR
   targeting `main`. The workflow lacks explicit blocking mechanisms between PRs
   and can lead to unintended dependencies. While the approach simplifies
   handling merge conflicts, it risks creating uncoordinated work that may not
@@ -20,8 +26,12 @@ tags:
   - unorganized
   - adhoctasks
   - codex
+```
 related_to_uuid: []
+```
+```
 related_to_title: []
+```
 references: []
 ---
 

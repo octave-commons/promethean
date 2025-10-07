@@ -1,10 +1,14 @@
 ---
+```
 uuid: eebffb87-73cd-4945-a53a-f60eaa852eed
+```
 title: Description
 status: todo
 priority: P3
 labels: []
+```
 created_at: '2025-09-15T02:02:58.510Z'
+```
 ---
 # Description
 
@@ -21,8 +25,9 @@ Just having it in the repo gives my system context
 - [ ] Look through old code for gems
 
 ## Relevent resources
-
-[ChatGPT - Config.toml guide](https://chatgpt.com/share/68a74210-8c1c-8004-9a3f-e41a94ba6ffa)
+```
+[ChatGPT - Config.toml guide](
+```https://chatgpt.com/share/68a74210-8c1c-8004-9a3f-e41a94ba6ffa)
 
 ## Comments
 

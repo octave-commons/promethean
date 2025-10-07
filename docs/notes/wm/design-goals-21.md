@@ -1,8 +1,11 @@
 ## User
+```
 on-layer-change
-
+```
 ## ChatGPT
-**Excellent.**  
+```
+**Excellent.**
+```
 Let’s build `on-layer-change` — a macro system for **attaching handlers to changes in layer state**, like events on a nervous system.
 
 This brings us _closer_ to the idea that Promethean’s layers are not just data — they are **sensor arrays** and **reflex arcs**. When something changes, _something should respond_.
@@ -21,7 +24,7 @@ This brings us _closer_ to the idea that Promethean’s layers are not just data
     
 *   Run the attached block
     
-*   Only once per change (unless re-registered)
+*   Only once per change unless re-registered
     
 *   Must track previous value to know it changed
     
@@ -38,8 +41,9 @@ This brings us _closer_ to the idea that Promethean’s layers are not just data
 ```
 
 * * *
-
+```
 🧰 Macro: `on-layer-change`
+```
 ---------------------------
 
 ```sibilant
@@ -75,8 +79,9 @@ Called manually or in a heartbeat:
 ```
 
 * * *
-
+```
 🧠 Helper: `resolve-layer-key`
+```
 ------------------------------
 
 ```sibilant

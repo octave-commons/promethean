@@ -1,10 +1,14 @@
 ---
+```
 uuid: f0fe8d30-5833-4791-9e31-9c2292db03bc
+```
 title: "\U0001F6E0️ Task: Implement `defun` in Lisp Compiler"
 status: todo
 priority: P3
 labels: []
+```
 created_at: '2025-09-15T02:02:58.515Z'
+```
 ---
 # 🛠️ Task: Implement `defun` in Lisp Compiler
 
@@ -17,7 +21,7 @@ Introduce support for the `defun` special form in the Promethean Lisp compiler. 
 - [ ] Parser recognizes the `defun` keyword and constructs an appropriate AST node.
 - [ ] Compiler/Evaluator can create a new function binding in the environment.
 - [ ] Functions defined with `defun` can be invoked with arguments.
-- [ ] Support for recursion (`defun fact (n) ...`).
+- [ ] Support for recursion `defun fact (n) ...`.
 - [ ] Unit tests pass for simple and recursive cases.
 - [ ] Documentation updated to include `defun` usage.
 
@@ -34,7 +38,7 @@ Introduce support for the `defun` special form in the Promethean Lisp compiler. 
 ---
 
 ## 🔗 Dependencies
-- Relates to: `implement classes in compiler lisp incoming` (functions must exist before classes/methods).
+- Relates to: `implement classes in compiler lisp incoming` functions must exist before classes/methods.
 - Builds on: `redefine all existing lambdas with high order functions incoming` (shared function infrastructure).
 
 ---
@@ -51,6 +55,6 @@ Append-only thread for discussion by agents working on this task.
 ## Notes
 - Tests or documentation are missing; acceptance criteria not fully met.
 - Story Points: 5
-
+```
 #in-progress
-
+```

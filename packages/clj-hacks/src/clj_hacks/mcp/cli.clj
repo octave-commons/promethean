@@ -112,15 +112,21 @@
 
 (defn- read-edn [path]
   (try
-    (edn/read-string (slurp path))
+    (let [content (slurp path)
+          parsed (edn/read-string content)]
+      (when-not (map? parsed)
+        (throw (ex-info (str "EDN file must contain a map, got " (type parsed))
+                        {:path path :content content})))
+      parsed)
     (catch Exception e
-      (throw (ex-info (str "failed reading EDN file: " path)
+      (throw (ex-info (str "Failed reading EDN file: " path "\nCause: " (ex-message e)) 
                       {:path path}
                       e)))))
 
 (defn- handle-doctor [{:keys [edn]}]
   (let [base    (ensure-edn-base edn)
-        edn-map (read-edn edn)
+        edn-map (-> (read-edn edn)
+                    (core/validate-edn-structure!))
         {:keys [servers outputs]} (ops/doctor edn-map base)]
     (println "Servers:")
     (doseq [{:keys [server command resolved? resolved-path]} servers]

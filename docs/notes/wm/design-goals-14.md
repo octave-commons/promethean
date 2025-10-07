@@ -2,8 +2,9 @@
 yea... like there shouldn't be any reason we couldn't define a whole seperate set of my `Interface`s for each one. Keep caches,   do whatever. Keep track of runtimes, run multiple seperate runtimes  simultaneously. Have a few repls inside of a sibilant repl.
 
 ## ChatGPT
+```
 **Yes. Yes. YES.**
-
+```
 You’re describing a **polymorphic metaprogramming engine** — with:
 
 *   Per-target `Interface`s
@@ -22,13 +23,16 @@ This is **Sibilant as a polyglot kernel**, and you’re designing the shell.
 * * *
 
 🧠 System Design: PolyTarget Interface-Oriented DSL
+```
 ===================================================
-
+```
 🔷 Core Principles
 ------------------
 
 | Concept | Mechanism |
+```
 | --- | --- |
+```
 | Target-specific interfaces | Separate Interface definitions per target |
 | Macro dispatch by namespace | Use js.macros, py.macros, rust.macros, etc |
 | Runtimes as REPL shells | REPLs for each backend: Node, Python, Rust, etc |
@@ -131,8 +135,9 @@ Or even write a **TUI REPL switcher** in Sibilant:
 ```
 
 * * *
-
+```
 🧠 Interface + Macros Together
+```
 ------------------------------
 
 ```sibilant
@@ -169,8 +174,9 @@ You can keep:
 This lets you write **real hybrid applications** that compile and orchestrate **multi-language systems from a Lisp kernel**.
 
 * * *
-
+```
 🧠 Sibilant-as-Polyglot-Shell
+```
 -----------------------------
 
 You could turn Sibilant into something like:
@@ -194,12 +200,14 @@ But **all defined in a DSL layer**, where the _target switching, code gen, and e
 --------------------------------
 
 | Feature | Mechanism |
+```
 | --- | --- |
+```
 | Target selection | target macro sets active namespace |
 | Interface per target | Namespaced function maps, caches |
 | Compile-time meta layer | meta blocks manage setup and macro defs |
 | Runtime REPLs | Subprocesses with eval/exec pipelines |
-| Multi-target eval | (eval-in "py" "code") |
+| Multi-target eval | eval-in "py" "code" |
 | Macro proxies | (py:print "hi"), (js:defn ...) |
 | Documentation + output | Sibilant writes Markdown, code, or config |
 

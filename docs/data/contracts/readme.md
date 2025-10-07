@@ -27,4 +27,4 @@ writing embeddings.
   contract and provide fixtures or validation steps.
 
 For operational steps see
-[../runbooks/test-migrations.md](test-migrations.md).
+$../runbooks/test-migrations.md$test-migrations.md.

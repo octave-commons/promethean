@@ -16,7 +16,9 @@ GitHub Actions workflows are defined in `.github/workflows/*.yml`.
 Wire up `bb simulate-ci` so it:
 
 1. **Parses the `.github/workflows/` YAML files.**
+```
 2. **Finds the `pull_request` event jobs.**
+```
 3. **Collects the `run` steps for each job.**
 4. **Executes those steps locally in sequence, with environment variables and working directories appropriately handled.**
 
@@ -24,13 +26,13 @@ Wire up `bb simulate-ci` so it:
 
 ### 💡 Implementation Hints
 
-* Use the existing Python module stub at `scripts/simulate_ci.py` (called by
-  `bb simulate-ci`). It should:
+* Use the existing Python module stub at `scripts/simulate_ci.py` called by
+  `bb simulate-ci`. It should:
 
   * Loads and parses the YAML.
   * Filters for `on.pull_request` jobs.
   * Extracts each job's `steps[].run` entries.
-  * Emulates the job environment (`env`, `run`, `working-directory`).
+  * Emulates the job environment `env`, `run`, `working-directory`.
   * Resolves relative paths from the repo root.
   * Ignores GitHub-only features like `uses:` or container runners unless trivial to handle.
 * Ensure the script prints clearly when:
@@ -53,6 +55,6 @@ Wire up `bb simulate-ci` so it:
 
 Do **not** use `act`. This is a native simulation. It must work without Docker.
 Keep the implementation aligned with
-[[Babashka + Nx Automation Reference|../notes/automation/bb-nx-cli.md]] and
+$[Babashka + Nx Automation Reference|../notes/automation/bb-nx-cli.md] and
 notify the CI owners for review when the workflow changes.
 

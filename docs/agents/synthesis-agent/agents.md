@@ -10,7 +10,7 @@ The **Synthesis Agent** transforms raw data and thoughts into structured documen
 ## Responsibilities
 - Convert `docs/unique/` raw dumps into structured notes.
 - Auto-generate draft docs for new services + agents.
-- Maintain semantic overlays (layer1 → layer8).
+- Maintain semantic overlays layer1 → layer8.
 
 ## Restrictions
 - Cannot modify code or tests directly.
@@ -18,6 +18,6 @@ The **Synthesis Agent** transforms raw data and thoughts into structured documen
 
 ---
 ## 🔗 Cross-Links
-- [[docs/unique/|Unique/ Raw Notes]] → input source for raw thought.
-- [[docs/agents/AGENTS-taxonomy.md|Agent Taxonomy]] → defines role within infra agents.
-- [[docs/agents/infrastructure/AGENTS.md|Infrastructure Agents]] → parent governance doc.
+- [docs/unique/|Unique/ Raw Notes] → input source for raw thought.
+- [docs/agents/AGENTS-taxonomy.md|Agent Taxonomy] → defines role within infra agents.
+- [docs/agents/infrastructure/AGENTS.md|Infrastructure Agents] → parent governance doc.

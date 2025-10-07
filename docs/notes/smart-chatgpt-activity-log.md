@@ -1,9 +1,15 @@
 ---
+```
 uuid: d2ceca4c-df2f-4f23-8168-65cbe15b0101
+```
+```
 created_at: smart-chatgpt-thingy.md
+```
 filename: Smart ChatGPT Activity Log
 title: Smart ChatGPT Activity Log
+```
 description: >-
+```
   This document tracks chat activity timestamps and status changes for a Smart
   ChatGPT system. It shows active and completed chat sessions with precise
   timestamps. The log includes references to related components and
@@ -17,8 +23,12 @@ tags:
   - real-time-tracking
   - configuration-logs
   - event-sourcing
+```
 related_to_uuid: []
+```
+```
 related_to_title: []
+```
 references: []
 ---
 ```smart-chatgpt
@@ -28,9 +38,15 @@ chat-done:: 1755699836
 chat-done:: 1755638712 
 
 ```
+```
 ^ref-2facccf8-1-0 ^ref-2facccf8-8-0
- ^ref-2facccf8-9-0
+```
+```
+^ref-2facccf8-9-0
+```
+```
 What? ^ref-2facccf8-10-0
+```
 ```smart-connections
 {
   "render_markdown": true,
@@ -51,7 +67,9 @@ What? ^ref-2facccf8-10-0
   - d2b3628c-6cad-4664-8551-94ef8280851d
   - 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
   - 687439f9-ad1e-40a4-8a32-3a1b4ac7c017
+```
 related_to_title:
+```
   - Unique Info Dump Index
   - Promethean-native config design
   - ecs-offload-workers
@@ -89,9 +107,15 @@ chat-done:: 1755699836
 chat-done:: 1755638712 
 
 ```
+```
 ^ref-2facccf8-1-0 ^ref-2facccf8-8-0
- ^ref-2facccf8-9-0
+```
+```
+^ref-2facccf8-9-0
+```
+```
 What? ^ref-2facccf8-10-0
+```
 ```smart-connections
 {
   "render_markdown": true,

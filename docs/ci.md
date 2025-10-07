@@ -6,7 +6,7 @@ Workflows delegate to the pnpm/Nx toolchain so local runs and CI stay in sync:
 - `pnpm install --frozen-lockfile` sets up dependencies (or run `bb setup` for
   the Babashka wrapper).
 - `pnpm exec nx affected -t build` compiles the impacted projects.
-- `pnpm exec nx affected -t test --parallel --base="$NX_BASE" --head="$NX_HEAD"`
+- `pnpm exec nx affected -t test --parallel --base="NX_BASE" --head="NX_HEAD"`
   executes the test suites with the same diff-awareness used in CI. Running
   `bb test` will execute the full test matrix when a diff isn’t required.
 - `pnpm run coverage` (also exposed as `bb coverage`) produces the aggregated
@@ -17,11 +17,12 @@ Babashka entry point shells out to `scripts/simulate_ci.py`, which needs to be
 finished to replay the pull-request workflow end to end. Until that script is
 completed, `bb simulate-ci` simply reports that the simulation is stubbed.
 Track the implementation status in
-[[simulate-github-actions-workflow|prompts/simulate-github-actions-workflow.md]].
+$[simulate-github-actions-workflow|prompts/simulate-github-actions-workflow.md].
 
 When the script lands it will parse the workflow files and execute the
+```
 `pull_request` job steps directly:
-
+```
 ```bash
 bb simulate-ci
 ```
@@ -32,7 +33,7 @@ Until then, rely on the Nx commands above and the workflow definitions for
 ground truth.
 
 Before sending a pull request, confirm the relevant Nx targets pass locally and
-record the results in your task notes per [[process|agile/process.md]].
+record the results in your task notes per [process|agile/process.md].
 
 ## Lockfile healer
 
@@ -48,7 +49,7 @@ before opening a pull request, while the healer workflow acts as a safety net in
 case drift slips through.
 
 Additional automation references live in
-[[Babashka + Nx Automation Reference|notes/automation/bb-nx-cli.md]]. Align any
+$[Babashka + Nx Automation Reference|notes/automation/bb-nx-cli.md]. Align any
 future CI documentation updates with that note and request a review from the CI
 owners when changes land.
 

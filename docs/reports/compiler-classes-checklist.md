@@ -13,7 +13,7 @@ This checklist tracks the implementation of the `defclass` macro in the Promethe
 - [ ] Parser recognizes `(defclass <name> (<fields>) (<methods>))`
 - [ ] Add AST nodes: `ClassNode`, `MethodNode`
 - [ ] Extend evaluator to create and bind class objects
-- [ ] Support instance creation via `(make-instance <Class>)`
+- [ ] Support instance creation via `make-instance <Class>`
 - [ ] Implement method dispatch `(call <instance> <method> <args>...)`
 - [ ] Support field defaults
 - [ ] Support single inheritance (optional v1)
