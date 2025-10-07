@@ -1,7 +1,7 @@
 ---
 uuid: fa552127-22e2-45b7-85ca-0c9f5064ea48
 title: cephalon context window from collections
-status: todo
+status: incoming
 priority: P3
 labels: []
 created_at: '2025-09-15T02:02:58.508Z'

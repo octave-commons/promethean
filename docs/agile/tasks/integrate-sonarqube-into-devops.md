@@ -1,7 +1,7 @@
 ---
 uuid: fb040f44-7250-4828-9f2b-c36f65ed35e3
 title: integrate sonarqube into devops
-status: todo
+status: incoming
 priority: P3
 labels: []
 created_at: '2025-09-15T02:02:58.515Z'

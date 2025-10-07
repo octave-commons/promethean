@@ -1,7 +1,7 @@
 ---
 uuid: 5334798c-3a31-4edc-822b-e761c0354509
 title: auth key rotation and bootstrap
-status: todo
+status: incoming
 priority: P3
 labels: []
 created_at: '2025-09-15T02:02:58.508Z'

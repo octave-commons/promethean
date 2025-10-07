@@ -1,7 +1,7 @@
 ---
 uuid: ee61990a-388c-469f-8397-92073bebb9e8
 title: auth service rfc and architecture
-status: todo
+status: incoming
 priority: P3
 labels: []
 created_at: '2025-09-15T02:02:58.524Z'

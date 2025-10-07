@@ -1,7 +1,7 @@
 ---
 uuid: 36eddbb2-91d6-4930-8ad8-4fdc004e6672
 title: ecs projection jobs
-status: todo
+status: incoming
 priority: P3
 labels: []
 created_at: '2025-09-15T02:02:58.512Z'

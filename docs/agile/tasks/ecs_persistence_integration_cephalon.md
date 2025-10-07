@@ -1,7 +1,7 @@
 ---
 uuid: 7495aea8-a866-4fae-b5b3-be0c40e72644
 title: ecs persistence integration cephalon
-status: todo
+status: incoming
 priority: P3
 labels: []
 created_at: '2025-09-15T02:02:58.512Z'
