@@ -209,7 +209,7 @@ export async function runDocopsStep(
         dir: normalizedArgs.dir,
         ...(files ? { files } : {}),
       };
-      await runRename(opts);
+      await runRename(opts, db, onProgress);
       return;
     }
     default: {
