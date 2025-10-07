@@ -1,15 +1,18 @@
 ---
-```
-uuid: 8542a56c-b037-4a71-90e8-8bd0a0c8b49f
-```
-title: Maintain Testing vs Working Databases w/ Migration Contract
-status: todo
-priority: P3
-labels: []
-```
-created_at: '2025-09-15T02:02:58.520Z'
-```
+uuid: "8542a56c-b037-4a71-90e8-8bd0a0c8b49f"
+title: "Maintain Testing vs Working Databases w/ Migration Contract"
+slug: "set-up-data-migration-pipeline-and-clearly-describe-conventions"
+status: "breakdown"
+priority: "P3"
+labels: ["testing", "working", "migration", "databases"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 Here’s a repo-ready task you can paste into the board. It carves a bright line between **testing** and **working** dev/staging/prod databases and enforces a **migration contract** that every migration must satisfy before touching working data.
 
 # Maintain Testing vs Working Databases w/ Migration Contract
@@ -224,3 +227,5 @@ feat(migrations): isolate test DBs and enforce migration contracts
 ```
 #in-progress
 ```
+
+

@@ -1,7 +1,5 @@
 ---
-```
 uuid: h8i9j0k1-l2m3-4567-hijk-890123456789
-```
 title: Fix semver-guard pipeline incorrect directory scanning and configuration issues
 status: todo
 priority: P2
@@ -11,9 +9,7 @@ labels:
   - directory-scanning
   - configuration
   - path-resolution
-```
 created_at: '2025-10-05T00:00:00.000Z'
-```
 ---
 
 ## 🛠️ Task: Fix semver-guard pipeline incorrect directory scanning and configuration issues

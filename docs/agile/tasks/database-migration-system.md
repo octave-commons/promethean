@@ -1,15 +1,18 @@
 ---
-```
-uuid: 58399a92-d702-4529-9fc8-7eb32bd2a567
-```
-title: Description
-status: todo
-priority: P3
-labels: []
-```
-created_at: '2025-09-15T02:02:58.510Z'
-```
+uuid: "58399a92-d702-4529-9fc8-7eb32bd2a567"
+title: "Description"
+slug: "database-migration-system"
+status: "rejected"
+priority: "P3"
+labels: ["description", "migration", "data", "stores"]
+created_at: "2025-10-07T20:25:05.645Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 # Description
 ```
 **Status:** blocked
@@ -42,4 +45,6 @@ Useful for agents to engage in append only conversations about this task.
 
 ## Blockers
 - No active owner or unclear scope
+
+
 

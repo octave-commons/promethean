@@ -1,22 +1,18 @@
 ---
-```
-uuid: e6b0e9e7-5967-4b97-bded-0ac50646bb29
-```
-title: create a generic markdown helper module
-status: todo
-priority: P5
-labels: []
-```
-created_at: 2025-09-15T02:02:58.510Z
-```
-tags:
-complexity: 3?
-score: "8"
-scale: "13"
-```
-time-to-complete: 3-5
-```
+uuid: "e6b0e9e7-5967-4b97-bded-0ac50646bb29"
+title: "create a generic markdown helper module"
+slug: "create-a-generic-markdown-helper-module"
+status: "rejected"
+priority: "P5"
+labels: ["markdown", "module", "helper", "create"]
+created_at: "2025-10-07T20:25:05.645Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Create a Generic Markdown Helper Module
 
 Develop a shared module for reading, writing, and manipulating markdown files used across documentation scripts.
@@ -67,4 +63,6 @@ https://github.com/riatzukiza/promethean/pull/1125
 ```
 #framework-core #Ready
 ```
+
+
 
