@@ -1,10 +1,14 @@
 ---
+```
 uuid: bf41be60-e9bf-4a19-95da-a453a32b9f2e
+```
 title: fully convert js ts projects to pnpm incoming
 status: todo
 priority: P3
 labels: []
+```
 created_at: '2025-09-15T02:02:58.514Z'
+```
 ---
 ## 🛠️ Description
 
@@ -32,9 +36,9 @@ Is this done already? I think... mainly we need to look for every reference to n
 ---
 
 ## 🔗 Related Epics
-
+```
 #framework-core
-
+```
 ---
 
 ## ⛓️ Blocked By

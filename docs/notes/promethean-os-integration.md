@@ -1,9 +1,15 @@
 ---
+```
 uuid: f701db90-3da6-48c5-8afc-d92f457bedb3
+```
+```
 created_at: promethean-os-integration.md
+```
 filename: Promethean OS Integration
 title: Promethean OS Integration
+```
 description: >-
+```
   A user-space program that integrates with the operating system to manage
   knowledge workflows through a dedicated .promethean folder. It emphasizes
   meaningful work over knowledge storage, requiring clear Unix permissions and a
@@ -15,8 +21,12 @@ tags:
   - promethean
   - os-integration
   - ui-design
+```
 related_to_uuid: []
+```
+```
 related_to_title: []
+```
 references: []
 ---
 I need to start conceptualizing this system as a tool to use to do meaningful work and not just a vault of knowledge.
@@ -26,9 +36,13 @@ I need a clear unix user/group permission model.
 The program will mound a folder called .promethean to the home folder.
 
 We need to think more about this UI.
+```
 5-7fa6-44e8-8aee-b72384581790
+```
   - bb4f4ed0-91f3-488a-9d64-3a33bde77e4e
+```
 related_to_title:
+```
   - i3 Config Validation Methods
   - Universal Lisp Interface
   - sibilant-macro-targets

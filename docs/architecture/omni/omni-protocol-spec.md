@@ -1,8 +1,10 @@
 # Omni Protocol Specification (v0 Draft)
-
-**Status:** Draft for review  
+```
+**Status:** Draft for review
+```
+```
 **Editors:** Planning team (2025-09-21)
-
+```
 ## 1. Purpose
 Define a single, transport-agnostic contract for Promethean's Omni capabilities so REST, GraphQL, WebSocket, and MCP adapters (plus future extensions) share identical semantics, envelopes, and guardrails.
 
@@ -18,7 +20,7 @@ Define a single, transport-agnostic contract for Promethean's Omni capabilities 
 - Defining UX flows for web/mobile clients.
 
 ## 4. Terminology
-- **RequestContext** – normalized metadata derived from incoming transports (auth subject, RBAC roles, root path, headers, trace ids).
+- **RequestContext** – normalized metadata derived from incoming transports auth subject, RBAC roles, root path, headers, trace ids.
 - **Success Envelope** – JSON object containing `{ ok: true, ... }` plus payload-specific fields.
 - **Error Envelope** – JSON object containing `{ ok: false, error: { code, message, details? } }`.
 - **Stream Event** – discrete event delivered over SSE/WS/stdio channels with `{ event, data, ts }` shape.
@@ -79,7 +81,9 @@ Each family exposes methods returning success envelopes. Selected payloads shown
 
 ### 7.1 Files
 | Method | Input | Success Payload |
+```
 | --- | --- | --- |
+```
 | `files.listDirectory` | `{ path: string, depth?: number }` | `{ ok: true, base: string, entries: FileEntry[] }` |
 | `files.treeDirectory` | `{ path: string, depth: number }` | `{ ok: true, base: string, tree: FileNode[] }` |
 | `files.viewFile` | `{ path: string }` | `{ ok: true, path: string, content: string, sha256: string }` |
@@ -89,48 +93,62 @@ Each family exposes methods returning success envelopes. Selected payloads shown
 
 ### 7.2 Search
 | Method | Input | Success Payload |
+```
 | --- | --- | --- |
+```
 | `search.grep` | `{ pattern: string, path?: string }` | `{ ok: true, results: GrepHit[] }` |
 | `search.semantic` | `{ query: string, limit?: number }` | `{ ok: true, results: SemanticHit[] }` |
 | `search.web` | `{ query: string, limit?: number }` | `{ ok: true, results: WebHit[] }` |
 
 ### 7.3 Sinks
 | Method | Input | Success Payload |
+```
 | --- | --- | --- |
+```
 | `sinks.list` | `{}` | `{ ok: true, sinks: SinkSummary[] }` |
 | `sinks.search` | `{ sinkId: string, query: string }` | `{ ok: true, results: SinkHit[] }` |
 
 ### 7.4 Indexer
 | Method | Input | Success Payload |
+```
 | --- | --- | --- |
+```
 | `indexer.status` | `{}` | `{ ok: true, status: IndexerStatus }` |
 | `indexer.control` | `{ action: 'pause' | 'resume' | 'reindex', target?: string }` | `{ ok: true, status: IndexerStatus }` |
 
 ### 7.5 Agents
 | Method | Input | Success Payload |
+```
 | --- | --- | --- |
+```
 | `agents.list` | `{}` | `{ ok: true, agents: AgentSummary[] }` |
 | `agents.start` | `{ preset: string, input: AgentInput }` | `{ ok: true, agent: AgentHandle }` |
 | `agents.status` | `{ agentId: string }` | `{ ok: true, status: AgentStatus }` |
 | `agents.tail` | `{ agentId: string, limit?: number }` | `{ ok: true, lines: AgentLogLine[] }` |
 | `agents.control` | `{ agentId: string, action: 'stop' | 'restart' }` | `{ ok: true, status: AgentStatus }` |
-| `agents.streamLogs` | `{ agentId: string }` | Stream events (`{ event: 'agent.log', data: AgentLogEvent }`). |
+| `agents.streamLogs` | `{ agentId: string }` | Stream events `{ event: 'agent.log', data: AgentLogEvent }`. |
 
 ### 7.6 Exec
 | Method | Input | Success Payload |
+```
 | --- | --- | --- |
+```
 | `exec.run` | `{ cwd?: string, command: string, timeoutMs?: number }` | `{ ok: true, exitCode: number, stdout: string, stderr: string }` |
 
 ### 7.7 GitHub
 | Method | Input | Success Payload |
+```
 | --- | --- | --- |
+```
 | `github.rest` | `{ route: string, method: HttpMethod, params?: Json }` | `{ ok: true, data: unknown, rateLimit: RateInfo }` |
 | `github.graphql` | `{ query: string, variables?: Json }` | `{ ok: true, data: unknown, rateLimit: RateInfo }` |
 | `github.rateLimit` | `{}` | `{ ok: true, rateLimit: RateInfo }` |
 
 ### 7.8 Metadata
 | Method | Input | Success Payload |
+```
 | --- | --- | --- |
+```
 | `metadata.openapi` | `{}` | `{ ok: true, document: OpenAPIV3_1.Document }` |
 | `metadata.health` | `{}` | `{ ok: true, status: 'ok', details: HealthCheck[] }` |
 
@@ -183,23 +201,23 @@ interface MethodMetadata {
 - MCP adapter maps metadata into tool descriptions and safety prompts.
 
 ## 12. Transport Mapping Requirements
-### 12.1 REST (`@promethean/omni-rest`)
+### 12.1 REST `@promethean/omni-rest`
 - Mount under `/rest/v1` with compatibility alias for legacy `/v1` routes.
 - Use Fastify JSON schemas derived from metadata.
 - Expose SSE endpoint `/rest/v1/agents/:id/logs/stream` using stream events.
 - Provide OpenAPI document via `metadata.openapi` method.
 
-### 12.2 GraphQL (`@promethean/omni-graphql`)
+### 12.2 GraphQL `@promethean/omni-graphql`
 - Queries for read operations, mutations for writes, subscriptions for streams.
 - Authorization resolved per field using RequestContext metadata.
 - Schema built dynamically from protocol metadata; versioned via `@promethean/omni-protocol` package.
 
-### 12.3 WebSocket (`@promethean/omni-ws`)
+### 12.3 WebSocket `@promethean/omni-ws`
 - RPC channel sends `{ id, method, params }` → `{ id, ok, result | error }` using protocol envelopes.
 - Streaming channel uses `stream.subscribe` / `stream.unsubscribe` commands returning stream events.
 - Connection upgrades reuse Fastify session/auth cookies.
 
-### 12.4 MCP (`@promethean/omni-mcp`)
+### 12.4 MCP `@promethean/omni-mcp`
 - Tool catalog built from protocol metadata, exposing file/search/github/etc tools.
 - HTTP transport mounts at `/mcp`; stdio transport uses same handlers.
 - Uses Omni core for sandbox + GitHub caching; no duplicate logic.
@@ -227,7 +245,7 @@ interface MethodMetadata {
 
 ## 17. Open Issues
 - Decide on SSE vs WebSocket standardization for streaming (default to WS, keep REST SSE fallback).
-- Evaluate GraphQL subscription transport (WebSocket vs Server-Sent Events).
+- Evaluate GraphQL subscription transport WebSocket vs Server-Sent Events.
 - Finalize caching abstraction for GitHub clients (memory vs Redis).
 
 ## 18. Next Steps

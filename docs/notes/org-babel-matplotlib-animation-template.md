@@ -1,9 +1,13 @@
 ---
+```
 uuid: c17b08ab-1d77-4023-910b-6a22b67d0755
+```
 created_at: canonical-org-babel-matplotlib-animation-template.md
 filename: org-babel-matplotlib-animation-template
 title: org-babel-matplotlib-animation-template
+```
 description: >-
+```
   A reusable Org-Babel template for creating Matplotlib animations with
   customizable parameters like frames, FPS, and output file. Includes inline
   image display and Emacs configuration for seamless execution.
@@ -16,7 +20,9 @@ tags:
   - templates
   - inline-images
   - emacs
+```
 related_to_uuid:
+```
   - 0f6f8f38-98d0-438f-9601-58f478acc0b7
   - 03a5578f-d689-45db-95e9-11300e5eee6f
   - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
@@ -42,7 +48,9 @@ related_to_uuid:
   - 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
   - f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
   - 23df6ddb-05cf-4639-8201-f8291f8a6026
+```
 related_to_title:
+```
   - windows-tiling-with-autohotkey
   - Promethean Dev Workflow Update
   - eidolon-field-math-foundations
@@ -472,7 +480,7 @@ references:
 ---
 Alright, here’s a **canonical Org-Babel Matplotlib Animation Template** we can both reuse. When you say “use the animation template,” I’ll assume this exact structure unless you tell me otherwise. ^ref-1b1338fc-1-0
 
-# Canonical Template (Template ID: `anim/v1`)
+# Canonical Template Template ID: `anim/v1`
 
 ```org
 #+title: Matplotlib Animation (anim/v1)
@@ -531,18 +539,27 @@ OUTFILE
 #+attr_org: :width 800
 [[file:anim.gif]]
 ```
+```
 ^ref-1b1338fc-5-0
-
+```
 # How you’ll ask me later
- ^ref-1b1338fc-65-0
+```
+^ref-1b1338fc-65-0
+```
 Say something like:
- ^ref-1b1338fc-67-0
+```
+^ref-1b1338fc-67-0
+```
 > “Use **anim/v1** to render a breathing smoke interference with 200 frames, 20 fps, 800px width, output `smoke.gif`.”
- ^ref-1b1338fc-69-0
+```
+^ref-1b1338fc-69-0
+```
 I’ll drop in your **USER CODE** and set `OUTFILE/FRAMES/FPS/FIGSIZE` appropriately.
 
 # One-time Emacs config (so this always “just works”)
- ^ref-1b1338fc-73-0
+```
+^ref-1b1338fc-73-0
+```
 ```elisp
 ;; Make Org use the Python you expect (sessions & non-sessions)
 (setq org-babel-python-command "/home/err/.venvs/main/bin/python"
@@ -570,15 +587,23 @@ for m in mods:
 ```
 
 # Notes / gotchas ^ref-1b1338fc-100-0
- ^ref-1b1338fc-101-0
-* If the interpreter changes, **rename the session** (e.g., `*py-anim-2*`) or `exit()` the old one.
+```
+^ref-1b1338fc-101-0
+```
+* If the interpreter changes, **rename the session** e.g., `*py-anim-2*` or `exit()` the old one.
 * Keep `:dir ./` and `:file NAME.gif` so links stay local and clickable. ^ref-1b1338fc-103-0
 * Emacs shows only the **first frame** inline; click to open the animated view in `image-mode`.
- ^ref-1b1338fc-105-0
+```
+^ref-1b1338fc-105-0
+```
 When you’re ready to generate a new animation, just tell me to use **`anim/v1`** and describe the scene. I’ll fill the USER CODE and parameters.
- ^ref-1b1338fc-107-0
+```
+^ref-1b1338fc-107-0
+```
 \#org #emacs #orgmode #babel #python #matplotlib #templates
+```
 8-4fbb-b447-410dfb400564
+```
     line: 139
     col: 0
     score: 1
@@ -664,7 +689,9 @@ When you’re ready to generate a new animation, just tell me to use **`anim/v1`
     score: 1
   - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
     line: 641
-    col: 0 ^ref-1b1338fc-195-0
+```
+col: 0 ^ref-1b1338fc-195-0
+```
     score: 1
   - uuid: 7b7ca860-780c-44fa-8d3f-be8bd9496fba
     line: 656
@@ -707,7 +734,9 @@ When you’re ready to generate a new animation, just tell me to use **`anim/v1`
     col: 0
     score: 1
   - uuid: 9fab9e76-e283-4c9d-a8cd-cb76892ea7ac
-    line: 28 ^ref-1b1338fc-238-0
+```
+line: 28 ^ref-1b1338fc-238-0
+```
     col: 0
     score: 1
   - uuid: 3a3bf2c9-c0f6-4d7b-bf84-c83c70dece3f ^ref-1b1338fc-241-0
@@ -721,7 +750,9 @@ When you’re ready to generate a new animation, just tell me to use **`anim/v1`
   - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
     line: 590
     col: 0
-    score: 1 ^ref-1b1338fc-252-0
+```
+score: 1 ^ref-1b1338fc-252-0
+```
   - uuid: d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06 ^ref-1b1338fc-253-0
     line: 574
     col: 0
@@ -849,7 +880,7 @@ When you’re ready to generate a new animation, just tell me to use **`anim/v1`
 ---
 Alright, here’s a **canonical Org-Babel Matplotlib Animation Template** we can both reuse. When you say “use the animation template,” I’ll assume this exact structure unless you tell me otherwise. ^ref-1b1338fc-1-0
 
-# Canonical Template (Template ID: `anim/v1`)
+# Canonical Template Template ID: `anim/v1`
 
 ```org
 #+title: Matplotlib Animation (anim/v1)
@@ -908,19 +939,30 @@ OUTFILE
 #+attr_org: :width 800
 [[file:anim.gif]]
 ```
+```
 ^ref-1b1338fc-434-0
+```
+```
 ^ref-1b1338fc-5-0
-
+```
 # How you’ll ask me later
- ^ref-1b1338fc-65-0
+```
+^ref-1b1338fc-65-0
+```
 Say something like:
- ^ref-1b1338fc-67-0
+```
+^ref-1b1338fc-67-0
+```
 > “Use **anim/v1** to render a breathing smoke interference with 200 frames, 20 fps, 800px width, output `smoke.gif`.”
- ^ref-1b1338fc-69-0
+```
+^ref-1b1338fc-69-0
+```
 I’ll drop in your **USER CODE** and set `OUTFILE/FRAMES/FPS/FIGSIZE` appropriately.
 
 # One-time Emacs config (so this always “just works”)
- ^ref-1b1338fc-73-0
+```
+^ref-1b1338fc-73-0
+```
 ```elisp
 ;; Make Org use the Python you expect (sessions & non-sessions)
 (setq org-babel-python-command "/home/err/.venvs/main/bin/python"
@@ -948,13 +990,19 @@ for m in mods:
 ```
 
 # Notes / gotchas ^ref-1b1338fc-100-0
- ^ref-1b1338fc-101-0
-* If the interpreter changes, **rename the session** (e.g., `*py-anim-2*`) or `exit()` the old one.
+```
+^ref-1b1338fc-101-0
+```
+* If the interpreter changes, **rename the session** e.g., `*py-anim-2*` or `exit()` the old one.
 * Keep `:dir ./` and `:file NAME.gif` so links stay local and clickable. ^ref-1b1338fc-103-0
 * Emacs shows only the **first frame** inline; click to open the animated view in `image-mode`.
- ^ref-1b1338fc-105-0
+```
+^ref-1b1338fc-105-0
+```
 When you’re ready to generate a new animation, just tell me to use **`anim/v1`** and describe the scene. I’ll fill the USER CODE and parameters.
- ^ref-1b1338fc-107-0
+```
+^ref-1b1338fc-107-0
+```
 \#org #emacs #orgmode #babel #python #matplotlib #templates
 t (copy into any note) ^ref-1b1338fc-87-0
 
@@ -970,141 +1018,147 @@ for m in mods:
 ```
 
 # Notes / gotchas ^ref-1b1338fc-100-0
- ^ref-1b1338fc-101-0
-* If the interpreter changes, **rename the session** (e.g., `*py-anim-2*`) or `exit()` the old one.
+```
+^ref-1b1338fc-101-0
+```
+* If the interpreter changes, **rename the session** e.g., `*py-anim-2*` or `exit()` the old one.
 * Keep `:dir ./` and `:file NAME.gif` so links stay local and clickable. ^ref-1b1338fc-103-0
 * Emacs shows only the **first frame** inline; click to open the animated view in `image-mode`.
- ^ref-1b1338fc-105-0
+```
+^ref-1b1338fc-105-0
+```
 When you’re ready to generate a new animation, just tell me to use **`anim/v1`** and describe the scene. I’ll fill the USER CODE and parameters.
- ^ref-1b1338fc-107-0
+```
+^ref-1b1338fc-107-0
+```
 \#org #emacs #orgmode #babel #python #matplotlib #templates
  ^ref-1b1338fc-513-0 ^ref-1b1338fc-515-0 ^ref-1b1338fc-518-0 ^ref-1b1338fc-553-0 ^ref-1b1338fc-703-0 ^ref-1b1338fc-735-0 ^ref-1b1338fc-747-0 ^ref-1b1338fc-919-0 ^ref-1b1338fc-1062-0 ^ref-1b1338fc-1167-0 ^ref-1b1338fc-1168-0 ^ref-1b1338fc-1374-0 ^ref-1b1338fc-1509-0 ^ref-1b1338fc-1636-0 ^ref-1b1338fc-1989-0 ^ref-1b1338fc-2134-0 ^ref-1b1338fc-2228-0 ^ref-1b1338fc-2252-0 ^ref-1b1338fc-2285-0 ^ref-1b1338fc-2308-0 ^ref-1b1338fc-2418-0 ^ref-1b1338fc-2625-0 ^ref-1b1338fc-2739-0 ^ref-1b1338fc-3102-0 ^ref-1b1338fc-3391-0 ^ref-1b1338fc-3575-0 ^ref-1b1338fc-3576-0 ^ref-1b1338fc-3584-0 ^ref-1b1338fc-3586-0
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [windows-tiling-with-autohotkey](windows-tiling-with-autohotkey.md)
-- [Promethean Dev Workflow Update](promethean-dev-workflow-update.md)
-- [eidolon-field-math-foundations](eidolon-field-math-foundations.md)
-- [Duck's Attractor States](ducks-attractor-states.md)
-- [The Jar of Echoes](the-jar-of-echoes.md)
-- [Creative Moments](creative-moments.md)
-- [Promethean Chat Activity Report](promethean-chat-activity-report.md)
-- [Promethean Documentation Update](promethean-documentation-update.txt)
-- [Promethean Notes](promethean-notes.md)
-- [Functional Refactor of TypeScript Document Processing](functional-refactor-of-typescript-document-processing.md)
-- [Factorio AI with External Agents](factorio-ai-with-external-agents.md)
-- [obsidian-ignore-node-modules-regex](obsidian-ignore-node-modules-regex.md)
-- [Agent Reflections and Prompt Evolution](agent-reflections-and-prompt-evolution.md)
-- [Fnord Tracer Protocol](fnord-tracer-protocol.md)
-- [Eidolon Field Abstract Model](eidolon-field-abstract-model.md)
-- [sibilant-macro-targets](sibilant-macro-targets.md)
-- [field-dynamics-math-blocks](field-dynamics-math-blocks.md)
-- [Prompt_Folder_Bootstrap](prompt-folder-bootstrap.md)
-- [Model Selection for Lightweight Conversational Tasks](model-selection-for-lightweight-conversational-tasks.md)
-- [Tracing the Signal](tracing-the-signal.md)
-- [Pure TypeScript Search Microservice](pure-typescript-search-microservice.md)
-- [graph-ds](graph-ds.md)
-- [Unique Info Dump Index](unique-info-dump-index.md)
-- [Dynamic Context Model for Web Components](dynamic-context-model-for-web-components.md)
-- [Promethean State Format](promethean-state-format.md)
+- windows-tiling-with-autohotkey$windows-tiling-with-autohotkey.md
+- [Promethean Dev Workflow Update]promethean-dev-workflow-update.md
+- eidolon-field-math-foundations$eidolon-field-math-foundations.md
+- [Duck's Attractor States]ducks-attractor-states.md
+- [The Jar of Echoes]the-jar-of-echoes.md
+- [Creative Moments]creative-moments.md
+- [Promethean Chat Activity Report]promethean-chat-activity-report.md
+- [Promethean Documentation Update]promethean-documentation-update.txt
+- [Promethean Notes]promethean-notes.md
+- [Functional Refactor of TypeScript Document Processing]functional-refactor-of-typescript-document-processing.md
+- [Factorio AI with External Agents]factorio-ai-with-external-agents.md
+- obsidian-ignore-node-modules-regex$obsidian-ignore-node-modules-regex.md
+- [Agent Reflections and Prompt Evolution]agent-reflections-and-prompt-evolution.md
+- [Fnord Tracer Protocol]fnord-tracer-protocol.md
+- [Eidolon Field Abstract Model]eidolon-field-abstract-model.md
+- sibilant-macro-targets$sibilant-macro-targets.md
+- field-dynamics-math-blocks$field-dynamics-math-blocks.md
+- Prompt_Folder_Bootstrap$prompt-folder-bootstrap.md
+- [Model Selection for Lightweight Conversational Tasks]model-selection-for-lightweight-conversational-tasks.md
+- [Tracing the Signal]tracing-the-signal.md
+- [Pure TypeScript Search Microservice]pure-typescript-search-microservice.md
+- graph-ds$graph-ds.md
+- [Unique Info Dump Index]unique-info-dump-index.md
+- [Dynamic Context Model for Web Components]dynamic-context-model-for-web-components.md
+- [Promethean State Format]promethean-state-format.md
 ## Sources
-- [windows-tiling-with-autohotkey — L3750](windows-tiling-with-autohotkey.md#^ref-0f6f8f38-3750-0) (line 3750, col 0, score 1)
-- [ChatGPT Custom Prompts — L18](chatgpt-custom-prompts.md#^ref-930054b3-18-0) (line 18, col 0, score 1)
-- [The Jar of Echoes — L139](the-jar-of-echoes.md#^ref-18138627-139-0) (line 139, col 0, score 1)
-- [Tracing the Signal — L104](tracing-the-signal.md#^ref-c3cd4f65-104-0) (line 104, col 0, score 1)
-- [ts-to-lisp-transpiler — L45](ts-to-lisp-transpiler.md#^ref-ba11486b-45-0) (line 45, col 0, score 1)
-- [typed-struct-compiler — L411](typed-struct-compiler.md#^ref-78eeedf7-411-0) (line 411, col 0, score 1)
-- [TypeScript Patch for Tool Calling Support — L566](typescript-patch-for-tool-calling-support.md#^ref-7b7ca860-566-0) (line 566, col 0, score 1)
-- [Unique Concepts — L10](unique-concepts.md#^ref-ed6f3fc9-10-0) (line 10, col 0, score 1)
-- [Unique Info Dump Index — L144](unique-info-dump-index.md#^ref-30ec3ba6-144-0) (line 144, col 0, score 1)
-- [Pure TypeScript Search Microservice — L594](pure-typescript-search-microservice.md#^ref-d17d3a96-594-0) (line 594, col 0, score 1)
-- [schema-evolution-workflow — L578](schema-evolution-workflow.md#^ref-d8059b6a-578-0) (line 578, col 0, score 1)
-- [Stateful Partitions and Rebalancing — L616](stateful-partitions-and-rebalancing.md#^ref-4330e8f0-616-0) (line 616, col 0, score 1)
-- [TypeScript Patch for Tool Calling Support — L571](typescript-patch-for-tool-calling-support.md#^ref-7b7ca860-571-0) (line 571, col 0, score 1)
-- [zero-copy-snapshots-and-workers — L385](zero-copy-snapshots-and-workers.md#^ref-62bec6f0-385-0) (line 385, col 0, score 1)
-- [field-node-diagram-set — L176](field-node-diagram-set.md#^ref-22b989d5-176-0) (line 176, col 0, score 1)
-- [homeostasis-decay-formulas — L195](homeostasis-decay-formulas.md#^ref-37b5d236-195-0) (line 195, col 0, score 1)
-- [Layer1SurvivabilityEnvelope — L198](layer1survivabilityenvelope.md#^ref-64a9f9f9-198-0) (line 198, col 0, score 1)
-- [Obsidian ChatGPT Plugin Integration — L65](obsidian-chatgpt-plugin-integration.md#^ref-ca8e1399-65-0) (line 65, col 0, score 1)
-- [plan-update-confirmation — L1028](plan-update-confirmation.md#^ref-b22d79c6-1028-0) (line 1028, col 0, score 1)
-- [polyglot-repl-interface-layer — L208](polyglot-repl-interface-layer.md#^ref-9c79206d-208-0) (line 208, col 0, score 1)
-- [Post-Linguistic Transhuman Design Frameworks — L127](post-linguistic-transhuman-design-frameworks.md#^ref-6bcff92c-127-0) (line 127, col 0, score 1)
-- [schema-evolution-workflow — L566](schema-evolution-workflow.md#^ref-d8059b6a-566-0) (line 566, col 0, score 1)
-- [Stateful Partitions and Rebalancing — L602](stateful-partitions-and-rebalancing.md#^ref-4330e8f0-602-0) (line 602, col 0, score 1)
-- [Pure TypeScript Search Microservice — L641](pure-typescript-search-microservice.md#^ref-d17d3a96-641-0) (line 641, col 0, score 1)
-- [TypeScript Patch for Tool Calling Support — L656](typescript-patch-for-tool-calling-support.md#^ref-7b7ca860-656-0) (line 656, col 0, score 1)
-- [Pure TypeScript Search Microservice — L590](pure-typescript-search-microservice.md#^ref-d17d3a96-590-0) (line 590, col 0, score 1)
-- [schema-evolution-workflow — L574](schema-evolution-workflow.md#^ref-d8059b6a-574-0) (line 574, col 0, score 1)
-- [Stateful Partitions and Rebalancing — L604](stateful-partitions-and-rebalancing.md#^ref-4330e8f0-604-0) (line 604, col 0, score 1)
-- [The Jar of Echoes — L131](the-jar-of-echoes.md#^ref-18138627-131-0) (line 131, col 0, score 1)
-- [Tracing the Signal — L107](tracing-the-signal.md#^ref-c3cd4f65-107-0) (line 107, col 0, score 1)
-- [ts-to-lisp-transpiler — L38](ts-to-lisp-transpiler.md#^ref-ba11486b-38-0) (line 38, col 0, score 1)
-- [typed-struct-compiler — L407](typed-struct-compiler.md#^ref-78eeedf7-407-0) (line 407, col 0, score 1)
-- [TypeScript Patch for Tool Calling Support — L538](typescript-patch-for-tool-calling-support.md#^ref-7b7ca860-538-0) (line 538, col 0, score 1)
-- [Unique Concepts — L11](unique-concepts.md#^ref-ed6f3fc9-11-0) (line 11, col 0, score 1)
-- [Performance-Optimized-Polyglot-Bridge — L483](performance-optimized-polyglot-bridge.md#^ref-f5579967-483-0) (line 483, col 0, score 1)
-- [Pipeline Enhancements — L11](pipeline-enhancements.md#^ref-e2135d9f-11-0) (line 11, col 0, score 1)
-- [plan-update-confirmation — L1026](plan-update-confirmation.md#^ref-b22d79c6-1026-0) (line 1026, col 0, score 1)
-- [polyglot-repl-interface-layer — L219](polyglot-repl-interface-layer.md#^ref-9c79206d-219-0) (line 219, col 0, score 1)
-- [Post-Linguistic Transhuman Design Frameworks — L126](post-linguistic-transhuman-design-frameworks.md#^ref-6bcff92c-126-0) (line 126, col 0, score 1)
-- [Promethean Chat Activity Report — L33](promethean-chat-activity-report.md#^ref-18344cf9-33-0) (line 33, col 0, score 1)
-- [Promethean-Copilot-Intent-Engine — L100](promethean-copilot-intent-engine.md#^ref-ae24a280-100-0) (line 100, col 0, score 1)
-- [Promethean Data Sync Protocol — L15](promethean-data-sync-protocol.md#^ref-9fab9e76-15-0) (line 15, col 0, score 1)
-- [Promethean Dev Workflow Update — L107](promethean-dev-workflow-update.md#^ref-03a5578f-107-0) (line 107, col 0, score 1)
-- [Promethean Documentation Overview — L9](promethean-documentation-overview.md#^ref-9413237f-9-0) (line 9, col 0, score 1)
-- [Protocol_0_The_Contradiction_Engine — L160](protocol-0-the-contradiction-engine.md#^ref-9a93a756-160-0) (line 160, col 0, score 1)
-- [Provider-Agnostic Chat Panel Implementation — L276](provider-agnostic-chat-panel-implementation.md#^ref-43bfe9dd-276-0) (line 276, col 0, score 1)
-- [Pure TypeScript Search Microservice — L628](pure-typescript-search-microservice.md#^ref-d17d3a96-628-0) (line 628, col 0, score 1)
-- [Reawakening Duck — L161](reawakening-duck.md#^ref-59b5670f-161-0) (line 161, col 0, score 1)
-- [Redirecting Standard Error — L35](redirecting-standard-error.md#^ref-b3555ede-35-0) (line 35, col 0, score 1)
-- [schema-evolution-workflow — L603](schema-evolution-workflow.md#^ref-d8059b6a-603-0) (line 603, col 0, score 1)
-- [Self-Agency in AI Interaction — L57](self-agency-in-ai-interaction.md#^ref-49a9a860-57-0) (line 57, col 0, score 1)
-- [sibilant-macro-targets — L250](sibilant-macro-targets.md#^ref-c5c9a5c6-250-0) (line 250, col 0, score 1)
-- [Debugging Broker Connections and Agent Behavior — L87](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-87-0) (line 87, col 0, score 1)
-- [Duck's Self-Referential Perceptual Loop — L82](ducks-self-referential-perceptual-loop.md#^ref-71726f04-82-0) (line 82, col 0, score 1)
-- [Dynamic Context Model for Web Components — L467](dynamic-context-model-for-web-components.md#^ref-f7702bf8-467-0) (line 467, col 0, score 1)
-- [field-dynamics-math-blocks — L205](field-dynamics-math-blocks.md#^ref-7cfc230d-205-0) (line 205, col 0, score 1)
-- [Reawakening Duck — L164](reawakening-duck.md#^ref-59b5670f-164-0) (line 164, col 0, score 1)
-- [Redirecting Standard Error — L39](redirecting-standard-error.md#^ref-b3555ede-39-0) (line 39, col 0, score 1)
-- [schema-evolution-workflow — L625](schema-evolution-workflow.md#^ref-d8059b6a-625-0) (line 625, col 0, score 1)
-- [Self-Agency in AI Interaction — L60](self-agency-in-ai-interaction.md#^ref-49a9a860-60-0) (line 60, col 0, score 1)
-- [sibilant-macro-targets — L253](sibilant-macro-targets.md#^ref-c5c9a5c6-253-0) (line 253, col 0, score 1)
-- [Smoke Resonance Visualizations — L128](smoke-resonance-visualizations.md#^ref-ac9d3ac5-128-0) (line 128, col 0, score 1)
-- [Stateful Partitions and Rebalancing — L644](stateful-partitions-and-rebalancing.md#^ref-4330e8f0-644-0) (line 644, col 0, score 1)
-- [Synchronicity Waves and Web — L125](synchronicity-waves-and-web.md#^ref-91295f3a-125-0) (line 125, col 0, score 1)
-- [Per-Domain Policy System for JS Crawler — L537](per-domain-policy-system-for-js-crawler.md#^ref-c03020e1-537-0) (line 537, col 0, score 1)
-- [Performance-Optimized-Polyglot-Bridge — L493](performance-optimized-polyglot-bridge.md#^ref-f5579967-493-0) (line 493, col 0, score 1)
-- [Pipeline Enhancements — L18](pipeline-enhancements.md#^ref-e2135d9f-18-0) (line 18, col 0, score 1)
-- [polyglot-repl-interface-layer — L206](polyglot-repl-interface-layer.md#^ref-9c79206d-206-0) (line 206, col 0, score 1)
-- [Post-Linguistic Transhuman Design Frameworks — L159](post-linguistic-transhuman-design-frameworks.md#^ref-6bcff92c-159-0) (line 159, col 0, score 1)
-- [Promethean Chat Activity Report — L66](promethean-chat-activity-report.md#^ref-18344cf9-66-0) (line 66, col 0, score 1)
-- [Promethean Data Sync Protocol — L45](promethean-data-sync-protocol.md#^ref-9fab9e76-45-0) (line 45, col 0, score 1)
-- [Promethean Dev Workflow Update — L98](promethean-dev-workflow-update.md#^ref-03a5578f-98-0) (line 98, col 0, score 1)
-- [Promethean Documentation Overview — L16](promethean-documentation-overview.md#^ref-9413237f-16-0) (line 16, col 0, score 1)
-- [Promethean Documentation Pipeline Overview — L202](promethean-documentation-pipeline-overview.md#^ref-3a3bf2c9-202-0) (line 202, col 0, score 1)
-- [Promethean Documentation Update — L46](promethean-documentation-update.md#^ref-c0392040-46-0) (line 46, col 0, score 1)
-- [TypeScript Patch for Tool Calling Support — L588](typescript-patch-for-tool-calling-support.md#^ref-7b7ca860-588-0) (line 588, col 0, score 1)
-- [Duck's Self-Referential Perceptual Loop — L360](ducks-self-referential-perceptual-loop.md#^ref-71726f04-360-0) (line 360, col 0, score 1)
-- [TypeScript Patch for Tool Calling Support — L547](typescript-patch-for-tool-calling-support.md#^ref-7b7ca860-547-0) (line 547, col 0, score 1)
-- [Promethean Documentation Update — L21](promethean-documentation-update.txt#^ref-0b872af2-21-0) (line 21, col 0, score 1)
-- [Promethean_Eidolon_Synchronicity_Model — L87](promethean-eidolon-synchronicity-model.md#^ref-2d6e5553-87-0) (line 87, col 0, score 1)
-- [Promethean Notes — L24](promethean-notes.md#^ref-1c4046b5-24-0) (line 24, col 0, score 1)
-- [Promethean Pipelines — L128](promethean-pipelines.md#^ref-8b8e6103-128-0) (line 128, col 0, score 1)
-- [promethean-requirements — L35](promethean-requirements.md#^ref-95205cd3-35-0) (line 35, col 0, score 1)
-- [Promethean State Format — L131](promethean-state-format.md#^ref-23df6ddb-131-0) (line 131, col 0, score 1)
-- [Promethean Workflow Optimization — L33](promethean-workflow-optimization.md#^ref-d614d983-33-0) (line 33, col 0, score 1)
-- [Provider-Agnostic Chat Panel Implementation — L268](provider-agnostic-chat-panel-implementation.md#^ref-43bfe9dd-268-0) (line 268, col 0, score 1)
-- [TypeScript Patch for Tool Calling Support — L541](typescript-patch-for-tool-calling-support.md#^ref-7b7ca860-541-0) (line 541, col 0, score 1)
-- [zero-copy-snapshots-and-workers — L375](zero-copy-snapshots-and-workers.md#^ref-62bec6f0-375-0) (line 375, col 0, score 1)
-- [Duck's Self-Referential Perceptual Loop — L78](ducks-self-referential-perceptual-loop.md#^ref-71726f04-78-0) (line 78, col 0, score 1)
-- [Factorio AI with External Agents — L176](factorio-ai-with-external-agents.md#^ref-a4d90289-176-0) (line 176, col 0, score 1)
-- [field-node-diagram-outline — L154](field-node-diagram-outline.md#^ref-1f32c94a-154-0) (line 154, col 0, score 1)
-- [field-node-diagram-set — L175](field-node-diagram-set.md#^ref-22b989d5-175-0) (line 175, col 0, score 1)
-- [field-node-diagram-visualizations — L123](field-node-diagram-visualizations.md#^ref-e9b27b06-123-0) (line 123, col 0, score 1)
-- [Fnord Tracer Protocol — L274](fnord-tracer-protocol.md#^ref-fc21f824-274-0) (line 274, col 0, score 1)
-- [Functional Embedding Pipeline Refactor — L327](functional-embedding-pipeline-refactor.md#^ref-a4a25141-327-0) (line 327, col 0, score 1)
-- [graph-ds — L412](graph-ds.md#^ref-6620e2f2-412-0) (line 412, col 0, score 1)
-- [heartbeat-fragment-demo — L159](heartbeat-fragment-demo.md#^ref-dd00677a-159-0) (line 159, col 0, score 1)
-- [Ice Box Reorganization — L95](ice-box-reorganization.md#^ref-291c7d91-95-0) (line 95, col 0, score 1)
-- [Dynamic Context Model for Web Components — L396](dynamic-context-model-for-web-components.md#^ref-f7702bf8-396-0) (line 396, col 0, score 1)
-- [Creative Moments — L43](creative-moments.md#^ref-10d98225-43-0) (line 43, col 0, score 1)
+- windows-tiling-with-autohotkey — L3750$windows-tiling-with-autohotkey.md#^ref-0f6f8f38-3750-0 (line 3750, col 0, score 1)
+- [ChatGPT Custom Prompts — L18]chatgpt-custom-prompts.md#^ref-930054b3-18-0 (line 18, col 0, score 1)
+- [The Jar of Echoes — L139]the-jar-of-echoes.md#^ref-18138627-139-0 (line 139, col 0, score 1)
+- [Tracing the Signal — L104]tracing-the-signal.md#^ref-c3cd4f65-104-0 (line 104, col 0, score 1)
+- ts-to-lisp-transpiler — L45$ts-to-lisp-transpiler.md#^ref-ba11486b-45-0 (line 45, col 0, score 1)
+- typed-struct-compiler — L411$typed-struct-compiler.md#^ref-78eeedf7-411-0 (line 411, col 0, score 1)
+- [TypeScript Patch for Tool Calling Support — L566]typescript-patch-for-tool-calling-support.md#^ref-7b7ca860-566-0 (line 566, col 0, score 1)
+- [Unique Concepts — L10]unique-concepts.md#^ref-ed6f3fc9-10-0 (line 10, col 0, score 1)
+- [Unique Info Dump Index — L144]unique-info-dump-index.md#^ref-30ec3ba6-144-0 (line 144, col 0, score 1)
+- [Pure TypeScript Search Microservice — L594]pure-typescript-search-microservice.md#^ref-d17d3a96-594-0 (line 594, col 0, score 1)
+- schema-evolution-workflow — L578$schema-evolution-workflow.md#^ref-d8059b6a-578-0 (line 578, col 0, score 1)
+- [Stateful Partitions and Rebalancing — L616]stateful-partitions-and-rebalancing.md#^ref-4330e8f0-616-0 (line 616, col 0, score 1)
+- [TypeScript Patch for Tool Calling Support — L571]typescript-patch-for-tool-calling-support.md#^ref-7b7ca860-571-0 (line 571, col 0, score 1)
+- zero-copy-snapshots-and-workers — L385$zero-copy-snapshots-and-workers.md#^ref-62bec6f0-385-0 (line 385, col 0, score 1)
+- field-node-diagram-set — L176$field-node-diagram-set.md#^ref-22b989d5-176-0 (line 176, col 0, score 1)
+- homeostasis-decay-formulas — L195$homeostasis-decay-formulas.md#^ref-37b5d236-195-0 (line 195, col 0, score 1)
+- [Layer1SurvivabilityEnvelope — L198]layer1survivabilityenvelope.md#^ref-64a9f9f9-198-0 (line 198, col 0, score 1)
+- [Obsidian ChatGPT Plugin Integration — L65]obsidian-chatgpt-plugin-integration.md#^ref-ca8e1399-65-0 (line 65, col 0, score 1)
+- plan-update-confirmation — L1028$plan-update-confirmation.md#^ref-b22d79c6-1028-0 (line 1028, col 0, score 1)
+- polyglot-repl-interface-layer — L208$polyglot-repl-interface-layer.md#^ref-9c79206d-208-0 (line 208, col 0, score 1)
+- Post-Linguistic Transhuman Design Frameworks — L127$post-linguistic-transhuman-design-frameworks.md#^ref-6bcff92c-127-0 (line 127, col 0, score 1)
+- schema-evolution-workflow — L566$schema-evolution-workflow.md#^ref-d8059b6a-566-0 (line 566, col 0, score 1)
+- [Stateful Partitions and Rebalancing — L602]stateful-partitions-and-rebalancing.md#^ref-4330e8f0-602-0 (line 602, col 0, score 1)
+- [Pure TypeScript Search Microservice — L641]pure-typescript-search-microservice.md#^ref-d17d3a96-641-0 (line 641, col 0, score 1)
+- [TypeScript Patch for Tool Calling Support — L656]typescript-patch-for-tool-calling-support.md#^ref-7b7ca860-656-0 (line 656, col 0, score 1)
+- [Pure TypeScript Search Microservice — L590]pure-typescript-search-microservice.md#^ref-d17d3a96-590-0 (line 590, col 0, score 1)
+- schema-evolution-workflow — L574$schema-evolution-workflow.md#^ref-d8059b6a-574-0 (line 574, col 0, score 1)
+- [Stateful Partitions and Rebalancing — L604]stateful-partitions-and-rebalancing.md#^ref-4330e8f0-604-0 (line 604, col 0, score 1)
+- [The Jar of Echoes — L131]the-jar-of-echoes.md#^ref-18138627-131-0 (line 131, col 0, score 1)
+- [Tracing the Signal — L107]tracing-the-signal.md#^ref-c3cd4f65-107-0 (line 107, col 0, score 1)
+- ts-to-lisp-transpiler — L38$ts-to-lisp-transpiler.md#^ref-ba11486b-38-0 (line 38, col 0, score 1)
+- typed-struct-compiler — L407$typed-struct-compiler.md#^ref-78eeedf7-407-0 (line 407, col 0, score 1)
+- [TypeScript Patch for Tool Calling Support — L538]typescript-patch-for-tool-calling-support.md#^ref-7b7ca860-538-0 (line 538, col 0, score 1)
+- [Unique Concepts — L11]unique-concepts.md#^ref-ed6f3fc9-11-0 (line 11, col 0, score 1)
+- Performance-Optimized-Polyglot-Bridge — L483$performance-optimized-polyglot-bridge.md#^ref-f5579967-483-0 (line 483, col 0, score 1)
+- [Pipeline Enhancements — L11]pipeline-enhancements.md#^ref-e2135d9f-11-0 (line 11, col 0, score 1)
+- plan-update-confirmation — L1026$plan-update-confirmation.md#^ref-b22d79c6-1026-0 (line 1026, col 0, score 1)
+- polyglot-repl-interface-layer — L219$polyglot-repl-interface-layer.md#^ref-9c79206d-219-0 (line 219, col 0, score 1)
+- Post-Linguistic Transhuman Design Frameworks — L126$post-linguistic-transhuman-design-frameworks.md#^ref-6bcff92c-126-0 (line 126, col 0, score 1)
+- [Promethean Chat Activity Report — L33]promethean-chat-activity-report.md#^ref-18344cf9-33-0 (line 33, col 0, score 1)
+- Promethean-Copilot-Intent-Engine — L100$promethean-copilot-intent-engine.md#^ref-ae24a280-100-0 (line 100, col 0, score 1)
+- [Promethean Data Sync Protocol — L15]promethean-data-sync-protocol.md#^ref-9fab9e76-15-0 (line 15, col 0, score 1)
+- [Promethean Dev Workflow Update — L107]promethean-dev-workflow-update.md#^ref-03a5578f-107-0 (line 107, col 0, score 1)
+- [Promethean Documentation Overview — L9]promethean-documentation-overview.md#^ref-9413237f-9-0 (line 9, col 0, score 1)
+- Protocol_0_The_Contradiction_Engine — L160$protocol-0-the-contradiction-engine.md#^ref-9a93a756-160-0 (line 160, col 0, score 1)
+- Provider-Agnostic Chat Panel Implementation — L276$provider-agnostic-chat-panel-implementation.md#^ref-43bfe9dd-276-0 (line 276, col 0, score 1)
+- [Pure TypeScript Search Microservice — L628]pure-typescript-search-microservice.md#^ref-d17d3a96-628-0 (line 628, col 0, score 1)
+- [Reawakening Duck — L161]reawakening-duck.md#^ref-59b5670f-161-0 (line 161, col 0, score 1)
+- [Redirecting Standard Error — L35]redirecting-standard-error.md#^ref-b3555ede-35-0 (line 35, col 0, score 1)
+- schema-evolution-workflow — L603$schema-evolution-workflow.md#^ref-d8059b6a-603-0 (line 603, col 0, score 1)
+- Self-Agency in AI Interaction — L57$self-agency-in-ai-interaction.md#^ref-49a9a860-57-0 (line 57, col 0, score 1)
+- sibilant-macro-targets — L250$sibilant-macro-targets.md#^ref-c5c9a5c6-250-0 (line 250, col 0, score 1)
+- [Debugging Broker Connections and Agent Behavior — L87]debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-87-0 (line 87, col 0, score 1)
+- Duck's Self-Referential Perceptual Loop — L82$ducks-self-referential-perceptual-loop.md#^ref-71726f04-82-0 (line 82, col 0, score 1)
+- [Dynamic Context Model for Web Components — L467]dynamic-context-model-for-web-components.md#^ref-f7702bf8-467-0 (line 467, col 0, score 1)
+- field-dynamics-math-blocks — L205$field-dynamics-math-blocks.md#^ref-7cfc230d-205-0 (line 205, col 0, score 1)
+- [Reawakening Duck — L164]reawakening-duck.md#^ref-59b5670f-164-0 (line 164, col 0, score 1)
+- [Redirecting Standard Error — L39]redirecting-standard-error.md#^ref-b3555ede-39-0 (line 39, col 0, score 1)
+- schema-evolution-workflow — L625$schema-evolution-workflow.md#^ref-d8059b6a-625-0 (line 625, col 0, score 1)
+- Self-Agency in AI Interaction — L60$self-agency-in-ai-interaction.md#^ref-49a9a860-60-0 (line 60, col 0, score 1)
+- sibilant-macro-targets — L253$sibilant-macro-targets.md#^ref-c5c9a5c6-253-0 (line 253, col 0, score 1)
+- [Smoke Resonance Visualizations — L128]smoke-resonance-visualizations.md#^ref-ac9d3ac5-128-0 (line 128, col 0, score 1)
+- [Stateful Partitions and Rebalancing — L644]stateful-partitions-and-rebalancing.md#^ref-4330e8f0-644-0 (line 644, col 0, score 1)
+- [Synchronicity Waves and Web — L125]synchronicity-waves-and-web.md#^ref-91295f3a-125-0 (line 125, col 0, score 1)
+- Per-Domain Policy System for JS Crawler — L537$per-domain-policy-system-for-js-crawler.md#^ref-c03020e1-537-0 (line 537, col 0, score 1)
+- Performance-Optimized-Polyglot-Bridge — L493$performance-optimized-polyglot-bridge.md#^ref-f5579967-493-0 (line 493, col 0, score 1)
+- [Pipeline Enhancements — L18]pipeline-enhancements.md#^ref-e2135d9f-18-0 (line 18, col 0, score 1)
+- polyglot-repl-interface-layer — L206$polyglot-repl-interface-layer.md#^ref-9c79206d-206-0 (line 206, col 0, score 1)
+- Post-Linguistic Transhuman Design Frameworks — L159$post-linguistic-transhuman-design-frameworks.md#^ref-6bcff92c-159-0 (line 159, col 0, score 1)
+- [Promethean Chat Activity Report — L66]promethean-chat-activity-report.md#^ref-18344cf9-66-0 (line 66, col 0, score 1)
+- [Promethean Data Sync Protocol — L45]promethean-data-sync-protocol.md#^ref-9fab9e76-45-0 (line 45, col 0, score 1)
+- [Promethean Dev Workflow Update — L98]promethean-dev-workflow-update.md#^ref-03a5578f-98-0 (line 98, col 0, score 1)
+- [Promethean Documentation Overview — L16]promethean-documentation-overview.md#^ref-9413237f-16-0 (line 16, col 0, score 1)
+- [Promethean Documentation Pipeline Overview — L202]promethean-documentation-pipeline-overview.md#^ref-3a3bf2c9-202-0 (line 202, col 0, score 1)
+- [Promethean Documentation Update — L46]promethean-documentation-update.md#^ref-c0392040-46-0 (line 46, col 0, score 1)
+- [TypeScript Patch for Tool Calling Support — L588]typescript-patch-for-tool-calling-support.md#^ref-7b7ca860-588-0 (line 588, col 0, score 1)
+- Duck's Self-Referential Perceptual Loop — L360$ducks-self-referential-perceptual-loop.md#^ref-71726f04-360-0 (line 360, col 0, score 1)
+- [TypeScript Patch for Tool Calling Support — L547]typescript-patch-for-tool-calling-support.md#^ref-7b7ca860-547-0 (line 547, col 0, score 1)
+- [Promethean Documentation Update — L21]promethean-documentation-update.txt#^ref-0b872af2-21-0 (line 21, col 0, score 1)
+- Promethean_Eidolon_Synchronicity_Model — L87$promethean-eidolon-synchronicity-model.md#^ref-2d6e5553-87-0 (line 87, col 0, score 1)
+- [Promethean Notes — L24]promethean-notes.md#^ref-1c4046b5-24-0 (line 24, col 0, score 1)
+- [Promethean Pipelines — L128]promethean-pipelines.md#^ref-8b8e6103-128-0 (line 128, col 0, score 1)
+- promethean-requirements — L35$promethean-requirements.md#^ref-95205cd3-35-0 (line 35, col 0, score 1)
+- [Promethean State Format — L131]promethean-state-format.md#^ref-23df6ddb-131-0 (line 131, col 0, score 1)
+- [Promethean Workflow Optimization — L33]promethean-workflow-optimization.md#^ref-d614d983-33-0 (line 33, col 0, score 1)
+- Provider-Agnostic Chat Panel Implementation — L268$provider-agnostic-chat-panel-implementation.md#^ref-43bfe9dd-268-0 (line 268, col 0, score 1)
+- [TypeScript Patch for Tool Calling Support — L541]typescript-patch-for-tool-calling-support.md#^ref-7b7ca860-541-0 (line 541, col 0, score 1)
+- zero-copy-snapshots-and-workers — L375$zero-copy-snapshots-and-workers.md#^ref-62bec6f0-375-0 (line 375, col 0, score 1)
+- Duck's Self-Referential Perceptual Loop — L78$ducks-self-referential-perceptual-loop.md#^ref-71726f04-78-0 (line 78, col 0, score 1)
+- [Factorio AI with External Agents — L176]factorio-ai-with-external-agents.md#^ref-a4d90289-176-0 (line 176, col 0, score 1)
+- field-node-diagram-outline — L154$field-node-diagram-outline.md#^ref-1f32c94a-154-0 (line 154, col 0, score 1)
+- field-node-diagram-set — L175$field-node-diagram-set.md#^ref-22b989d5-175-0 (line 175, col 0, score 1)
+- field-node-diagram-visualizations — L123$field-node-diagram-visualizations.md#^ref-e9b27b06-123-0 (line 123, col 0, score 1)
+- [Fnord Tracer Protocol — L274]fnord-tracer-protocol.md#^ref-fc21f824-274-0 (line 274, col 0, score 1)
+- [Functional Embedding Pipeline Refactor — L327]functional-embedding-pipeline-refactor.md#^ref-a4a25141-327-0 (line 327, col 0, score 1)
+- graph-ds — L412$graph-ds.md#^ref-6620e2f2-412-0 (line 412, col 0, score 1)
+- heartbeat-fragment-demo — L159$heartbeat-fragment-demo.md#^ref-dd00677a-159-0 (line 159, col 0, score 1)
+- [Ice Box Reorganization — L95]ice-box-reorganization.md#^ref-291c7d91-95-0 (line 95, col 0, score 1)
+- [Dynamic Context Model for Web Components — L396]dynamic-context-model-for-web-components.md#^ref-f7702bf8-396-0 (line 396, col 0, score 1)
+- [Creative Moments — L43]creative-moments.md#^ref-10d98225-43-0 (line 43, col 0, score 1)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

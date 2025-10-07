@@ -1,8 +1,16 @@
 ---
+```
 uuid: 5e408692-0e74-400e-a617-84247c7353ad
+```
+```
 created_at: 2025.08.20.08.08.34.md
+```
+```
 filename: i3-bluetooth-setup
+```
+```
 description: >-
+```
   Step-by-step guide to configuring Bluetooth on Ubuntu/Debian with i3 window
   manager, covering terminal and GUI methods for pairing, audio profiles, and i3
   shortcuts.
@@ -17,7 +25,9 @@ tags:
   - pairing
   - audio-profiles
   - rfkill
+```
 related_to_title:
+```
   - Local-Offline-Model-Deployment-Strategy
   - Voice Access Layer Design
   - Model Selection for Lightweight Conversational Tasks
@@ -31,7 +41,9 @@ related_to_title:
   - AI-Centric OS with MCP Layer
   - AI-First-OS-Model-Context-Protocol
   - balanced-bst
+```
 related_to_uuid:
+```
   - ad7f1ed3-c9bf-4e85-9eeb-6cc4b53155f3
   - 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
   - d144aa62-348c-4e5d-ae8f-38084c67ceca
@@ -148,16 +160,16 @@ Alright, so with i3 there isn’t a “desktop environment daemon” to hold you
 ---
 
 ## 1. Make sure the base Bluetooth stack is installed
-
+```
 On Ubuntu/Debian:
-
+```
 ```bash
 sudo apt install bluez blueman pulseaudio-module-bluetooth
 ```
 
 * `bluez` → the Linux Bluetooth stack.
 * `blueman` → GTK manager for pairing (nice tray app, works well with i3).
-* `pulseaudio-module-bluetooth` (or `pipewire-pulse` if you’re on PipeWire) → lets audio devices work.
+* `pulseaudio-module-bluetooth` or `pipewire-pulse` if you’re on PipeWire → lets audio devices work.
 
 ---
 
@@ -207,11 +219,11 @@ You’ve got choices here:
   exec --no-startup-id blueman-applet
   ```
 
-  (You need a systray bar module like `i3status-rs` / `polybar` / `i3bar` with `tray_output` enabled.)
+  You need a systray bar module like `i3status-rs` / `polybar` / `i3bar` with `tray_output` enabled.
 
 ---
 
-## 4. Audio-specific (Pulse/PipeWire)
+## 4. Audio-specific Pulse/PipeWire
 
 After connecting, sometimes the profile defaults to “headset” instead of “A2DP”. You can fix it:
 
@@ -231,56 +243,56 @@ Add to `~/.config/i3/config` for quick toggling:
 
 ```i3
 # Toggle bluetooth on/off
-bindsym $mod+b exec "rfkill toggle bluetooth"
+bindsym mod+b exec "rfkill toggle bluetooth"
 
 # Launch blueman GUI
-bindsym $mod+Shift+b exec blueman-manager
+bindsym mod+Shift+b exec blueman-manager
 ```
 
 ---
 
-👉 Question for you: do you want this lean (just `bluetoothctl` in terminal, no daemons beyond `bluetoothd`), or do you want the tray-based workflow (`blueman-applet`) so you can click-pair from i3?
+👉 Question for you: do you want this lean (just `bluetoothctl` in terminal, no daemons beyond `bluetoothd`), or do you want the tray-based workflow `blueman-applet` so you can click-pair from i3?
 
 That’ll change what I recommend you actually put in your i3 startup.
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [[local-offline-model-deployment-strategy]]
-- [[voice-access-layer-design|Voice Access Layer Design]]
-- [[model-selection-for-lightweight-conversational-tasks|Model Selection for Lightweight Conversational Tasks]]
-- [Promethean Event Bus MVP v0.1](promethean-event-bus-mvp-v0-1.md)
-- [[migrate-to-provider-tenant-architecture|Migrate to Provider-Tenant Architecture]]
-- [Local-First Intention→Code Loop with Free Models](local-first-intention-code-loop-with-free-models.md)
-- [[docs/unique/event-bus-mvp|Event Bus MVP]]
-- [[chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]]
-- [[polymorphic-meta-programming-engine]]
-- [[prometheus-observability-stack|Prometheus Observability Stack]]
-- [[ai-centric-os-with-mcp-layer|AI-Centric OS with MCP Layer]]
-- [[ai-first-os-model-context-protocol]]
-- [[balanced-bst]]
+- [local-offline-model-deployment-strategy]
+- [voice-access-layer-design|Voice Access Layer Design]
+- [model-selection-for-lightweight-conversational-tasks|Model Selection for Lightweight Conversational Tasks]
+- [Promethean Event Bus MVP v0.1]promethean-event-bus-mvp-v0-1.md
+- [migrate-to-provider-tenant-architecture|Migrate to Provider-Tenant Architecture]
+- Local-First Intention→Code Loop with Free Models$local-first-intention-code-loop-with-free-models.md
+- [docs/unique/event-bus-mvp|Event Bus MVP]
+- [chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]
+- [polymorphic-meta-programming-engine]
+- [prometheus-observability-stack|Prometheus Observability Stack]
+- [ai-centric-os-with-mcp-layer|AI-Centric OS with MCP Layer]
+- [ai-first-os-model-context-protocol]
+- [balanced-bst]
 
 ## Sources
-- [[prometheus-observability-stack#L508|Prometheus Observability Stack — L508]] (line 508, col 1, score 1)
-- [[prometheus-observability-stack#L508|Prometheus Observability Stack — L508]] (line 508, col 3, score 1)
-- [[docs/unique/event-bus-mvp#L552|Event Bus MVP — L552]] (line 552, col 1, score 1)
-- [[docs/unique/event-bus-mvp#L552|Event Bus MVP — L552]] (line 552, col 3, score 1)
-- [Local-First Intention→Code Loop with Free Models — L144](local-first-intention-code-loop-with-free-models.md#L144) (line 144, col 1, score 1)
-- [Local-First Intention→Code Loop with Free Models — L144](local-first-intention-code-loop-with-free-models.md#L144) (line 144, col 3, score 1)
-- [[migrate-to-provider-tenant-architecture#L273|Migrate to Provider-Tenant Architecture — L273]] (line 273, col 1, score 1)
-- [[migrate-to-provider-tenant-architecture#L273|Migrate to Provider-Tenant Architecture — L273]] (line 273, col 3, score 1)
-- [Promethean Event Bus MVP v0.1 — L893](promethean-event-bus-mvp-v0-1.md#L893) (line 893, col 1, score 1)
-- [Promethean Event Bus MVP v0.1 — L893](promethean-event-bus-mvp-v0-1.md#L893) (line 893, col 3, score 1)
-- [[chroma-toolkit-consolidation-plan#L174|Chroma Toolkit Consolidation Plan — L174]] (line 174, col 1, score 1)
-- [[chroma-toolkit-consolidation-plan#L174|Chroma Toolkit Consolidation Plan — L174]] (line 174, col 3, score 1)
-- [[migrate-to-provider-tenant-architecture#L282|Migrate to Provider-Tenant Architecture — L282]] (line 282, col 1, score 1)
-- [[migrate-to-provider-tenant-architecture#L282|Migrate to Provider-Tenant Architecture — L282]] (line 282, col 3, score 1)
-- [[polymorphic-meta-programming-engine#L206|polymorphic-meta-programming-engine — L206]] (line 206, col 1, score 1)
-- [[polymorphic-meta-programming-engine#L206|polymorphic-meta-programming-engine — L206]] (line 206, col 3, score 1)
-- [[ai-centric-os-with-mcp-layer#L406|AI-Centric OS with MCP Layer — L406]] (line 406, col 1, score 1)
-- [[ai-centric-os-with-mcp-layer#L406|AI-Centric OS with MCP Layer — L406]] (line 406, col 3, score 1)
-- [[ai-first-os-model-context-protocol#L11|AI-First-OS-Model-Context-Protocol — L11]] (line 11, col 1, score 1)
-- [[ai-first-os-model-context-protocol#L11|AI-First-OS-Model-Context-Protocol — L11]] (line 11, col 3, score 1)
-- [[ai-first-os-model-context-protocol#L14|AI-First-OS-Model-Context-Protocol — L14]] (line 14, col 1, score 1)
-- [[ai-first-os-model-context-protocol#L14|AI-First-OS-Model-Context-Protocol — L14]] (line 14, col 3, score 1)
-- [[balanced-bst#L297|balanced-bst — L297]] (line 297, col 1, score 1)
-- [[balanced-bst#L297|balanced-bst — L297]] (line 297, col 3, score 1)
+- [prometheus-observability-stack#L508|Prometheus Observability Stack — L508] (line 508, col 1, score 1)
+- [prometheus-observability-stack#L508|Prometheus Observability Stack — L508] (line 508, col 3, score 1)
+- [docs/unique/event-bus-mvp#L552|Event Bus MVP — L552] (line 552, col 1, score 1)
+- [docs/unique/event-bus-mvp#L552|Event Bus MVP — L552] (line 552, col 3, score 1)
+- Local-First Intention→Code Loop with Free Models — L144$local-first-intention-code-loop-with-free-models.md#L144 (line 144, col 1, score 1)
+- Local-First Intention→Code Loop with Free Models — L144$local-first-intention-code-loop-with-free-models.md#L144 (line 144, col 3, score 1)
+- [migrate-to-provider-tenant-architecture#L273|Migrate to Provider-Tenant Architecture — L273] (line 273, col 1, score 1)
+- [migrate-to-provider-tenant-architecture#L273|Migrate to Provider-Tenant Architecture — L273] (line 273, col 3, score 1)
+- [Promethean Event Bus MVP v0.1 — L893]promethean-event-bus-mvp-v0-1.md#L893 (line 893, col 1, score 1)
+- [Promethean Event Bus MVP v0.1 — L893]promethean-event-bus-mvp-v0-1.md#L893 (line 893, col 3, score 1)
+- [chroma-toolkit-consolidation-plan#L174|Chroma Toolkit Consolidation Plan — L174] (line 174, col 1, score 1)
+- [chroma-toolkit-consolidation-plan#L174|Chroma Toolkit Consolidation Plan — L174] (line 174, col 3, score 1)
+- [migrate-to-provider-tenant-architecture#L282|Migrate to Provider-Tenant Architecture — L282] (line 282, col 1, score 1)
+- [migrate-to-provider-tenant-architecture#L282|Migrate to Provider-Tenant Architecture — L282] (line 282, col 3, score 1)
+- [polymorphic-meta-programming-engine#L206|polymorphic-meta-programming-engine — L206] (line 206, col 1, score 1)
+- [polymorphic-meta-programming-engine#L206|polymorphic-meta-programming-engine — L206] (line 206, col 3, score 1)
+- [ai-centric-os-with-mcp-layer#L406|AI-Centric OS with MCP Layer — L406] (line 406, col 1, score 1)
+- [ai-centric-os-with-mcp-layer#L406|AI-Centric OS with MCP Layer — L406] (line 406, col 3, score 1)
+- [ai-first-os-model-context-protocol#L11|AI-First-OS-Model-Context-Protocol — L11] (line 11, col 1, score 1)
+- [ai-first-os-model-context-protocol#L11|AI-First-OS-Model-Context-Protocol — L11] (line 11, col 3, score 1)
+- [ai-first-os-model-context-protocol#L14|AI-First-OS-Model-Context-Protocol — L14] (line 14, col 1, score 1)
+- [ai-first-os-model-context-protocol#L14|AI-First-OS-Model-Context-Protocol — L14] (line 14, col 3, score 1)
+- [balanced-bst#L297|balanced-bst — L297] (line 297, col 1, score 1)
+- [balanced-bst#L297|balanced-bst — L297] (line 297, col 3, score 1)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

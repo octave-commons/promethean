@@ -4,18 +4,18 @@
 Base64-in-JSON balloons memory, stresses GC, and collides with proxies. We keep JSON for control and move media to binary frames with backpressure and checksums.
 
 ## Architecture
-- **WS Gateway (`packages/ws`)**
+- **WS Gateway `packages/ws`**
   - JSON ops: AUTH / SUBSCRIBE / PUBLISH / ACK / NACK / MODACK
   - New binary ops: see Protocol
   - Blob spool dir with TTL janitor
 - **Blob Store (ephemeral)**
-  - Path: `$WS_BLOB_DIR` (default tmp)
+  - Path: `WS_BLOB_DIR` (default tmp)
   - Content-addressed by `sha256`
-  - Enforced TTL `$WS_BLOB_TTL_MS`
-- **STT service** (Docker-internal)
-  - Endpoint: `$STT_HOST:$STT_PORT$STT_PATH` (default `stt:8080/stt/transcribe_pcm`)
-- **TTS service** (Docker-internal)
-  - Endpoint: `$TTS_HOST:$TTS_PORT$TTS_PATH` (default `tts:8080/tts/synth_voice`)
+  - Enforced TTL `WS_BLOB_TTL_MS`
+- **STT service** Docker-internal
+  - Endpoint: `STT_HOST:STT_PORTSTT_PATH` default `stt:8080/stt/transcribe_pcm`
+- **TTS service** Docker-internal
+  - Endpoint: `TTS_HOST:TTS_PORTTTS_PATH` default `tts:8080/tts/synth_voice`
 - **Workers**
   - Pull JSON events, MODACK around expensive steps, push replies with blob refs
 
@@ -111,7 +111,7 @@ Client -> WS: PUBLISH { topic, payload: { blobId: id, mime, meta } }
 
 ## Protocol (additions)
 - `BLOB_PUT_START { mime } -> { id }`
-- Binary chunk frame: `[1 byte ver=1][1 byte op=0x01][16-byte blobId prefix][4-byte BE len][chunk]`
+- Binary chunk frame: `1 byte ver=1`1 byte op=0x01`16-byte blobId prefix$4-byte BE len[chunk]`
 - `BLOB_PUT_END { id, size?, sha256? } -> { id, size, sha256 }`
 - `BLOB_GET_STREAM { id }` -> server emits header EVENT + binary frames with `op=0x02`
 
@@ -131,10 +131,10 @@ Client -> WS: PUBLISH { topic, payload: { blobId: id, mime, meta } }
 ## Migration plan
 1. Keep old JSON paths working during transition behind a flag.
 2. Add blob ops + feature flag `DUCK_USE_BLOBS=1`.
-3. Switch clients to send blobs (16-image batches).
+3. Switch clients to send blobs 16-image batches.
 4. Remove base64 handling after a week of soak.
 
 ## Observability
-- Correlate by `reqId` per message (log & event payload)
+- Correlate by `reqId` per message log & event payload
 - Metrics: blob sizes, chunk counts, checksum fails, TTL reaps, NACK/REDLV
 - Healthchecks: WS accept, janitor status, disk free, STT/TTS 200

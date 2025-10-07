@@ -1,10 +1,12 @@
 ---
-uuid: $(uuidgen)
+uuid: (uuidgen)
 title: Enhance boardrev context analysis with weighted factors
 status: backlog
 priority: P2
 labels: [enhancement, boardrev, analysis, accuracy]
+```
 created_at: 2025-10-06T12:00:00Z
+```
 ---
 
 # Enhance boardrev context analysis with weighted factors
@@ -15,7 +17,7 @@ Current simple semantic similarity doesn't account for temporal relevance, code 
 ## Proposed Solution
 - Weight recent files higher in similarity calculations
 - Boost files with recent git blame activity
-- Consider file dependency relationships (imports/requires)
+- Consider file dependency relationships imports/requires
 - Add commit message context for related changes
 - Track task/code co-evolution patterns over time
 

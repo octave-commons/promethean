@@ -1,5 +1,7 @@
 # 🔄 Iterative Retrieval + Tool Loop for Codex Context...
-Exported on 25/08/2025 at 09:46:50 [from ChatGPT](https://chatgpt.com/g/g-68a508b9180081919110e09ab9faee17-pythagoras/c/68ab9687-a4e0-832a-b2fb-30692cd3efd9) - with [SaveMyChatbot](https://save.hugocollin.com)
+Exported on 25/08/2025 at 09:46:50 [from ChatGPT](https://chatgpt.com/g/g-68a508b9180081919110e09ab9faee17-pythagoras/c/68ab9687-a4e0-832a-b2fb-30692cd3efd9```
+) - with [SaveMyChatbot](
+```https://save.hugocollin.com)
 
 ## User
 Let's take a look at the codex context service
@@ -7,7 +9,7 @@ Let's take a look at the codex context service
 ## ChatGPT
 Got it. We’re in Promethean context now.
 
-The **Codex Context Service** doesn’t appear directly in the `pythagoras.md` specification I just loaded, which means we need to **search the monorepo** (likely under `services/`, `shared/`, or `bridge/`) to find its definitions. By convention, Promethean services are structured in:
+The **Codex Context Service** doesn’t appear directly in the `pythagoras.md` specification I just loaded, which means we need to **search the monorepo** likely under `services/`, `shared/`, or `bridge/` to find its definitions. By convention, Promethean services are structured in:
 
 *   `services/<service-name>/` → for core service code
     
@@ -32,7 +34,7 @@ params:
 
 This should surface:
 
-*   Where the **Codex Context Service** is defined (`services/codex-context/` or similar).
+*   Where the **Codex Context Service** is defined `services/codex-context/` or similar.
     
 *   Entry points (e.g., `index.ts`, `service.py`, `context.hy`).
     
@@ -57,16 +59,17 @@ params:
   flags: "i"
 ```
 
-⚡ Do you want me to **restrict this first pass just to `services/`**, or go **broader immediately** (including `shared/` and `bridge/`) so we don’t miss the service if it’s abstracted?
+⚡ Do you want me to **restrict this first pass just to `services/`**, or go **broader immediately** including `shared/` and `bridge/` so we don’t miss the service if it’s abstracted?
 
 ## User
+```
 services/ts
-
+```
 ## ChatGPT
 We’ve got a clear picture now: the **Codex Context Service** lives in
-
+```
 `services/ts/codex-context/`
-
+```
 * * *
 
 ### Key Findings
@@ -101,19 +104,21 @@ We’ve got a clear picture now: the **Codex Context Service** lives in
 *   **Improvement Task**  
     `docs/agents/tasks/improve-codex-context.yaml` (surfaced in request logs) defines objectives:
     
-    1.  Accurate **token usage** reporting (`usage.prompt_tokens`).
+    1.  Accurate **token usage** reporting `usage.prompt_tokens`.
         
     2.  Token-based **retrieval context limits** + new `retrieval_context` metadata field.
         
-    3.  Proper **streaming finish\_reason** handling (`stop`, `length`, `function_call`).
-        
-    4.  **Session handling** with `session_id` persistence.  
+    3.  Proper **streaming finish\_reason** handling `stop`, `length`, `function_call`.
+```
+4.  **Session handling** with `session_id` persistence.
+```
         → Backed by hints: use `tiktoken`/`gpt-tokenizer`, Redis/SQLite for sessions, and delimit retriever results with `"--- Context ---"`【services/ts/codex-context/docs/codex-context/requests/2025.08.21.14.24.56.md†L25-L29】.
         
 
 * * *
-
-📌 **Summary**:  
+```
+📌 **Summary**:
+```
 The **Codex Context Service** is an OpenAI-style wrapper that:
 
 *   Enriches LLM prompts with **retrieved Promethean repo context** (citations enforced).
@@ -129,7 +134,7 @@ The **Codex Context Service** is an OpenAI-style wrapper that:
 
 * * *
 
-👉 Do you want me to **map this into an Obsidian-friendly architecture diagram** (showing Codex Context ↔ SmartGPT Bridge ↔ Ollama ↔ Docs/requests)? Or would you rather dive directly into the **`src/` code flow** (e.g. how `prompt.ts` and `save.ts` interact with API calls)?
+👉 Do you want me to **map this into an Obsidian-friendly architecture diagram** showing Codex Context ↔ SmartGPT Bridge ↔ Ollama ↔ Docs/requests? Or would you rather dive directly into the **`src/` code flow** (e.g. how `prompt.ts` and `save.ts` interact with API calls)?
 
 ## User
 Does it seem like it passes the tool calls along to ollama? I wasn't sure by looking at it at first glance.
@@ -147,13 +152,13 @@ Good question — from what we just saw, the **Codex Context Service** definitel
 But whether it **forwards tool calls to Ollama** isn’t yet explicit in the files we surfaced.
 
 Here’s what stands out:
-
+```
 1.  **README.md**:
-    
+```
     > “...enriches prompts with Promethean repo context via SmartGPT Bridge **and routes to a local LLM (Ollama first).**”  
     > ✅ So the intent is: Codex Context → Ollama.
     
-2.  **Improvement Task (`improve-codex-context.yaml`)**:
+2.  **Improvement Task `improve-codex-context.yaml`**:
     
     *   Mentions `/v1/completions` and `/v1/chat/completions`.
         
@@ -161,14 +166,16 @@ Here’s what stands out:
         
         > _“The reported token usage … must accurately reflect the total number of tokens sent to the **Ollama completion endpoint**.”_【services/ts/codex-context/docs/codex-context/requests/2025.08.21.14.24.56.md†L25-L29】  
         > ✅ Confirms that Codex Context **does forward completions** to Ollama.
-        
-3.  **Unclear piece**:  
-    We haven’t yet looked at `services/ts/codex-context/src/` beyond `prompt.ts` and `save.ts`. Usually, the actual LLM forwarding logic would live in something like `client.ts`, `ollama.ts`, or a service handler (maybe under `src/handlers/` or `src/routes/`).
+```
+3.  **Unclear piece**:
+```
+    We haven’t yet looked at `services/ts/codex-context/src/` beyond `prompt.ts` and `save.ts`. Usually, the actual LLM forwarding logic would live in something like `client.ts`, `ollama.ts`, or a service handler maybe under `src/handlers/` or `src/routes/`.
     
 
 * * *
-
-📌 **So the answer is:**  
+```
+📌 **So the answer is:**
+```
 Yes, the design intent is to **pass completion/tool calls along to Ollama** (as the backend LLM). The improvement task even requires measuring token usage at the **Ollama endpoint level**.
 
 What we _haven’t confirmed yet_ is **how** it does the forwarding — whether it:
@@ -234,12 +241,13 @@ Here’s what we see in `services/ts/codex-context/src/`:
     → Provides an **OpenAI API-compatible wrapper**, still backed by Ollama【services/ts/codex-context/src/backend.ts†L172-L184】.
     
 *   **Extra routes in `index.ts`**  
-    Implements Ollama-compatible endpoints like `/api/tags` (calls `ollama.list()` and `ollama.pull()`)【services/ts/codex-context/src/index.ts†L183-L211】.
+    Implements Ollama-compatible endpoints like `/api/tags` calls `ollama.list()` and `ollama.pull()`【services/ts/codex-context/src/index.ts†L183-L211】.
     
 
 * * *
-
-📌 **Conclusion**:  
+```
+📌 **Conclusion**:
+```
 The Codex Context Service doesn’t just look like it routes to Ollama — it **definitely does**. It has two pathways:
 
 1.  **Native Ollama driver** (`ollama.chat`, `ollama.list`, `ollama.pull`).
@@ -249,7 +257,7 @@ The Codex Context Service doesn’t just look like it routes to Ollama — it **
 
 * * *
 
-👉 Do you want me to **diagram the call flow** (Codex Context → Retriever → Prompt Augmentor → Backend → Ollama → Response → Persistence), or should I **trace exactly how tool calls (like function calling) get handled** within this service?
+👉 Do you want me to **diagram the call flow** Codex Context → Retriever → Prompt Augmentor → Backend → Ollama → Response → Persistence, or should I **trace exactly how tool calls (like function calling) get handled** within this service?
 
 ## User
 yea I don't see how this ensures the tool calls are forwarded. Don't they hve to be defined seperately from the messages?
@@ -275,7 +283,7 @@ That’s a straight mapping of **messages → Ollama’s chat API**.
 ### Why this misses **tool calls / function calls**
 
 In the **OpenAI API**, tool/function calls are not just “messages”.  
-They’re passed in a **separate top-level field** (e.g. `tools`, `functions`, `function_call`) alongside the conversation messages.
+They’re passed in a **separate top-level field** e.g. `tools`, `functions`, `function_call` alongside the conversation messages.
 
 *   `messages[]`: normal chat (user, assistant, system, tool).
     
@@ -292,7 +300,7 @@ So:
     
 *   ❌ Tool definitions / function schemas → **not forwarded**.
     
-*   ❌ Model-generated function calls → **not preserved** (unless encoded as a pseudo-message).
+*   ❌ Model-generated function calls → **not preserved** unless encoded as a pseudo-message.
     
 
 * * *
@@ -313,13 +321,14 @@ Two possibilities:
         
 
 * * *
-
-📌 **So you’re right:**  
+```
+📌 **So you’re right:**
+```
 At present, **tool calls aren’t forwarded at all**. Codex Context only pushes `messages[]` into Ollama’s `chat()` API. Any tool schemas defined in OpenAI-style requests would be **dropped on the floor**.
 
 * * *
 
-👉 Do you want me to sketch how we’d need to extend `backend.ts` to properly handle `tools[]` (detect if present, and either forward to Ollama if supported, or stub them out with an error/log)? That way you’d have a roadmap for adding tool call support.
+👉 Do you want me to sketch how we’d need to extend `backend.ts` to properly handle `tools[]` detect if present, and either forward to Ollama if supported, or stub them out with an error/log? That way you’d have a roadmap for adding tool call support.
 
 ## User
 oh ollama definately supports it.  yea. sketch it out
@@ -400,7 +409,7 @@ export class OllamaBackend implements BackendClient {
 
 ### 🔄 Changes Needed
 
-1.  **`BackendClient` interface** (probably in `types/openai.js` or similar) → add `tools?: any[]` and `tool_choice?: any`.
+1.  **`BackendClient` interface** probably in `types/openai.js` or similar → add `tools?: any[]` and `tool_choice?: any`.
     
 2.  **`index.ts` request handler** → detect when incoming request includes `tools[]` and pass them into `backend.chat(...)`.
     
@@ -413,7 +422,7 @@ export class OllamaBackend implements BackendClient {
 
 ### ⚡ Why this works
 
-*   Keeps backwards compatibility (no tools = current behavior).
+*   Keeps backwards compatibility no tools = current behavior.
     
 *   If `tools` or `tool_choice` are provided, Codex Context transparently forwards them into **Ollama’s OpenAI adapter**, which already supports tool/function calling.
     
@@ -440,9 +449,9 @@ Great—thanks for sharing the Ollama blog article. It confirms that tool (funct
 ### What Ollama’s documentation confirms
 
 *   **Tool calling is officially supported** via the `tools` field in Ollama’s API, letting you pass structured tool definitions to the model.  
-    Ollama models like Llama 3.1 can respond with `tool_calls` or tool-role messages that indicate which tools should be executed and with which arguments. [YouTube+13Ollama+13Medium+13](https://ollama.com/blog/tool-support?utm_source=chatgpt.com)
+    Ollama models like Llama 3.1 can respond with `tool_calls` or tool-role messages that indicate which tools should be executed and with which arguments. YouTube+13Ollama+13Medium+13(https://ollama.com/blog/tool-support?utm_source=chatgpt.com)
     
-*   **Streaming responses with tool calling** are supported in newer versions of Ollama (as of May 28, 2025). This enables real‑time, partial outputs combined with tool invocations. [Ollama+1](https://ollama.com/blog/streaming-tool?utm_source=chatgpt.com)
+*   **Streaming responses with tool calling** are supported in newer versions of Ollama (as of May 28, 2025). This enables real‑time, partial outputs combined with tool invocations. Ollama+1(https://ollama.com/blog/streaming-tool?utm_source=chatgpt.com)
     
 
 * * *
@@ -571,14 +580,14 @@ That way we’ll know exactly where `tools[]` would need to be wired in, instead
 * * *
 
 Here’s what I propose:
-
+```
 1.  **Fetch full content** of:
-    
+```
     *   `services/ts/codex-context/src/index.ts`
         
     *   `services/ts/codex-context/src/backend.ts`
         
-2.  Walk through their logic end-to-end (request parsing → backend invocation → response handling).
+2.  Walk through their logic end-to-end request parsing → backend invocation → response handling.
     
 3.  Only then sketch the precise patch for `tools` / `function_call` forwarding.
     
@@ -603,7 +612,7 @@ We’ve now seen the **full `index.ts`** — and you were right to be skeptical.
         
     *   `/v1/models` + `/v1/models/:id`
         
-    *   Ollama passthroughs (`/api/tags`, `/api/pull`)
+    *   Ollama passthroughs `/api/tags`, `/api/pull`
         
 *   **How chat requests are handled**:
     
@@ -650,31 +659,31 @@ We’ve now seen the **full `index.ts`** — and you were right to be skeptical.
 ### What needs to change
 
 To properly support Ollama tool calling, we’ll need to:
-
+```
 1.  **Update validation** (`validateChatMessages`)
-    
-    *   Allow `content` to be either `string` _or_ structured objects (`tool_calls`).
-        
+```
+    *   Allow `content` to be either `string` _or_ structured objects `tool_calls`.
+```
 2.  **Update handler (`/v1/chat/completions`)**
-    
+```
     *   Detect `tools[]`, `tool_choice`, `function_call` in request body.
         
-    *   Pass them into `backend.chat(messages, { ...genCfg, tools, tool_choice })`.
-        
+    *   Pass them into `backend.chatmessages, { ...genCfg, tools, tool_choice }`.
+```
 3.  **Update backend** (`backend.ts`)
-    
+```
     *   Add support for forwarding `tools` and `tool_choice` into `ollama.chat()`.
         
     *   Capture `tool_calls` from Ollama’s response.
-        
+```
 4.  **Update response shaping**
-    
+```
     *   If Ollama’s response includes `tool_calls`, return them in `choices[].message.tool_calls` just like OpenAI.
         
     *   Don’t force `content` to always be a string.
-        
+```
 5.  **Persistence (`save.ts`)**
-    
+```
     *   Extend logging to include tool definitions and any tool calls in responses.
         
 
@@ -700,7 +709,7 @@ Alright, now we’ve read **all of `backend.ts`** in detail.
     
     *   `messages[]` (flattened `role`, `content`)
         
-    *   generation params (`temperature`, `top_p`, `max_tokens`, `stop`)  
+    *   generation params `temperature`, `top_p`, `max_tokens`, `stop`  
         ✅ It extracts `res.message.content` for text output.  
         ❌ It drops everything else Ollama may return — like `tool_calls`.
         
@@ -710,25 +719,26 @@ Alright, now we’ve read **all of `backend.ts`** in detail.
     *   Payload: `{ model, messages, temperature, top_p, max_tokens, stop }`.
         
     *   Again, only `messages` + generation params are forwarded.  
-        ❌ No `tools`, `tool_choice`, or `function_call` forwarded.
-        
+```
+❌ No `tools`, `tool_choice`, or `function_call` forwarded.
+```
 *   **Both backends** only return `text` (string) plus optional `usage`, not structured tool call objects.
     
 
 * * *
 
 ### Why tool calls don’t work here
-
+```
 1.  **Inputs**
-    
+```
     *   `BackendClient.chat()` signature only accepts `(messages, cfg)`.
         
     *   No place to pass `tools[]`, `tool_choice`, etc.
         
     *   `index.ts` only calls `backend.chat(aug.finalMessages, genCfg)` (we saw this) — so tools are stripped before they even reach `backend.ts`.
-        
+```
 2.  **Outputs**
-    
+```
     *   Both backends collapse responses to `{ text, usage }`.
         
     *   Even if Ollama returns `tool_calls`, they’re lost — never bubbled up to `index.ts`.
@@ -795,8 +805,9 @@ Instead of always reducing to `text`, keep `res`/`js` intact in `.raw` and bubbl
     
 
 * * *
-
-📌 **Conclusion:**  
+```
+📌 **Conclusion:**
+```
 Tool calls are **definitely dropped on the floor** in both backends today. To fix this, we need to:
 
 *   Extend the `BackendClient` API.
@@ -808,7 +819,7 @@ Tool calls are **definitely dropped on the floor** in both backends today. To fi
 
 * * *
 
-👉 Do you want me to draft a **TypeScript diff patch** across `index.ts` + `backend.ts` that wires this up end-to-end (input parsing → backend forwarding → response shaping → persistence)? That way you’d see exactly what needs to change.
+👉 Do you want me to draft a **TypeScript diff patch** across `index.ts` + `backend.ts` that wires this up end-to-end input parsing → backend forwarding → response shaping → persistence? That way you’d see exactly what needs to change.
 
 ## User
 yeap
@@ -877,7 +888,7 @@ export interface BackendClient {
 +            const res: any = await (ollama as any).chat(req);
 ```
 
-Return value is fine (`raw: res` ensures tool\_calls survive).
+Return value is fine `raw: res` ensures tool\_calls survive.
 
 #### In `OllamaOpenAIBackend.chat`
 
@@ -904,13 +915,13 @@ Return value is fine (`raw: res` ensures tool\_calls survive).
 
 ```diff
 -            if (typeof m.content !== 'string') {
--                return `messages[${i}].content must be string`;
+-                return `messages[{i}].content must be string`;
 -            }
 +            if (
 +                typeof m.content !== 'string' &&
 +                typeof m.content !== 'object'
 +            ) {
-+                return `messages[${i}].content must be string or object`;
++                return `messages[{i}].content must be string or object`;
 +            }
 ```
 
@@ -998,7 +1009,7 @@ Replace with:
 
 * * *
 
-👉 Want me to also draft a **test case** (`src/tests/tool-calls.test.ts`) to exercise this new path — sending a dummy tool definition and verifying that the response echoes `tool_calls`?
+👉 Want me to also draft a **test case** `src/tests/tool-calls.test.ts` to exercise this new path — sending a dummy tool definition and verifying that the response echoes `tool_calls`?
 
 ## User
 yes
@@ -1210,7 +1221,7 @@ Nice — so `save.ts` is already set up to log **tool calls**, but right now not
     
     ```ts
     const toolCalls = args.toolCalls
-        ? `\n## Tool Calls\n\n\`\`\`json\n${JSON.stringify(args.toolCalls, null, 2)}\n\`\`\`\n`
+        ? `\n## Tool Calls\n\n\`\`\`json\n{JSON.stringify(args.toolCalls, null, 2)}\n\`\`\`\n`
         : '';
     ```
     
@@ -1260,8 +1271,8 @@ await persistArtifact({
     ## Tool Calls
     
     ```json
-    [
-      {
+```
+{
         "id": "call_123",
         "type": "function",
         "function": {
@@ -1269,7 +1280,7 @@ await persistArtifact({
           "arguments": "{\"location\":\"San Francisco\"}"
         }
       }
-    ]
+```
     ```
     ```
     
@@ -1350,8 +1361,12 @@ await persistArtifact({
     citations: aug.citations,
     responseText: text,
     toolCalls:
-      chatRes?.raw?.message?.tool_calls ||
-      chatRes?.raw?.choices?.[0]?.message?.tool_calls,
+```
+chatRes?.raw?.message?.tool_calls ||
+```
+```
+chatRes?.raw?.choices?.[0]?.message?.tool_calls,
+```
 });
 ```
 
@@ -1380,15 +1395,23 @@ Here’s what it does _now_ in `/v1/chat/completions`:
     ```ts
     const chatRes: any = await (backend as any).chat(aug.finalMessages, genCfg, {
         tools: (body as any)?.tools,
-        tool_choice: (body as any)?.tool_choice,
+```
+tool_choice: (body as any)?.tool_choice,
+```
     });
     ```
 *   ✅ It **already extracts `toolCalls`**:
     
     ```ts
-    const toolCalls =
-        chatRes?.raw?.message?.tool_calls ||
-        chatRes?.raw?.choices?.[0]?.message?.tool_calls;
+```
+const toolCalls =
+```
+```
+chatRes?.raw?.message?.tool_calls ||
+```
+```
+chatRes?.raw?.choices?.[0]?.message?.tool_calls;
+```
     ```
 *   ✅ It **adds them to the API response**:
     
@@ -1502,7 +1525,9 @@ Now that we’ve read all of **`backend.ts`**, here’s what’s important:
     
     ```ts
     if (opts?.tools) req.tools = opts.tools;
-    if (opts?.tool_choice) req.tool_choice = opts.tool_choice;
+```
+if (opts?.tool_choice) req.tool_choice = opts.tool_choice;
+```
     ```
     
     → in `OllamaBackend.chat()`  
@@ -1510,7 +1535,7 @@ Now that we’ve read all of **`backend.ts`**, here’s what’s important:
     
     ```ts
     if (opts?.tools) (payload as any).tools = opts.tools;
-    if (opts?.tool_choice) (payload as any).tool_choice = opts.tool_choice;
+    if opts?.tool_choice (payload as any).tool_choice = opts.tool_choice;
     ```
     
     → in `OllamaOpenAIBackend.chat()`
@@ -1548,7 +1573,7 @@ So on the input side, **tools are forwarded** to Ollama.
     Both backends are doing:
     
     ```ts
-    messages: messages.map((m) => ({ role: m.role, content: m.content }))
+    messages: messages.map(m) => ({ role: m.role, content: m.content })
     ```
     
     → This may be the issue if Codex Context’s `aug.finalMessages` (from `prompt.ts`) transforms tool-call messages into something Ollama doesn’t recognize.  
@@ -1655,9 +1680,13 @@ Now we see the full **`prompt.ts`**, and this is important:
 *   **Final messages construction:**
     
     ```ts
-    const finalMessages: ChatMessage[] = [
+```
+const finalMessages: ChatMessage[] = [
+```
         { role: 'system', content: finalSystemPrompt },
-        ...messages.filter((m) => m.role !== 'system'),
+```
+...messages.filter((m) => m.role !== 'system'),
+```
     ];
     ```
 
@@ -1735,8 +1764,10 @@ const aug = buildAugmentedPrompt(messages, retrieved);
 And `q` is set to the **last user message**:
 
 ```ts
-const lastUser = [...messages].reverse().find((m) => m.role === 'user');
+const lastUser = [...messages].reverse().find(m) => m.role === 'user';
+```
 const q = lastUser?.content || '';
+```
 ```
 
 * * *
@@ -1788,11 +1819,11 @@ Yes — that lines up perfectly with what we’ve been piecing together.
     
     ```ts
     const results = Array.isArray(js?.results) ? js.results : js?.results?.results || [];
-    out.search = results.map((r: any) => ({
+    out.search = results.map(r: any) => ({
         path: String(r.path || r.metadata?.path || r.file || 'unknown'),
         snippet: String(r.snippet || r.text || r.chunk || ''),
         ...
-    }));
+    });
     ```
     
     → With `{}`, every field resolves to defaults: `"unknown"`, `""`, `1`.  
@@ -1821,7 +1852,7 @@ Yes — that lines up perfectly with what we’ve been piecing together.
     *   Same for the code/grep part:
         
         ```ts
-        body: JSON.stringify({ pattern: String(query), flags: 'i', ... })
+        body: JSON.stringify{ pattern: String(query), flags: 'i', ... }
         ```
         
         → That’s just a literal regex grep for the _user message_.  
@@ -1853,7 +1884,7 @@ Yes — that lines up perfectly with what we’ve been piecing together.
 👉 Now that we’ve found the real cause (SmartGPT’s bad `/search/semantic` schema), do you want me to help **patch Codex Context’s retriever** so it fails _loudly_ (logs + artifacts show the malformed results), instead of quietly producing empty blocks? That way it’d be obvious in the request artifacts when upstream search was broken.
 
 ## User
-Yea...  Also, here is an example of the semantic search results: {   "results": \[     {       "id": "scripts/run-python-tests.js#0",       "path": "scripts/run-python-tests.js",       "chunkIndex": 0,       "startLine": 1,       "endLine": 41,       "score": 275.64987,       "text": "// scripts/run-python-tests.js\\n\\nconst services = \[\\n  \\"services/py/stt\\",\\n  \\"services/py/tts\\",\\n  \\"services/py/discord\_indexer\\",\\n  // WebSocket endpoints now live in their respective HTTP services\\n\];\\n\\nasync function runTests() {\\n  let allPassed = true;\\n\\n  for (const service of services) {\\n    if (!(await directoryExists(service))) {\\n      console.log(`Skipping ${service} (not found)`);\\n      continue;\\n    }\\n\\n    console.log(`\\n=== Running tests in ${service} ===`);\\n    try {\\n      await runCommand(\\n        \\"python\\",\\n        \[\\"-m\\", \\"pipenv\\", \\"run\\", \\"pytest\\", \\"tests/\\"\],\\n        service,\\n      );\\n    } catch (err) {\\n      console.error(`❌ ${err.message}`);\\n      allPassed = false;\\n    }\\n  }\\n\\n  if (!allPassed) {\\n    console.error(\\"\\\\nSome tests failed.\\");\\n    process.exit(1);\\n  } else {\\n    console.log(\\"\\\\n✅ All tests passed.\\");\\n  }\\n}\\n\\nrunTests();\\n"     },     {       "id": "legacy/sibilant-modules/riatzukiza.github.io/kanban/tasks/Implement tests for existing shared components..md#0",       "path": "legacy/sibilant-modules/riatzukiza.github.io/kanban/tasks/Implement tests for existing shared components..md",       "chunkIndex": 0,       "startLine": 1,       "endLine": 14,       "score": 307.95966,       "text": "We need a suite of tests to garentee \[\[each.md\]\] component works and doesn't break other projects when changes are made as we begin work on more projects.\\n\\n## Requirements\\n\\n- There is a suite of tests that can be executed by running `npm run tests`\\n- \[\[each.md\]\] interface has at least one test\\n\\n## Tasks\\n- \[ \] Implement test framework\\n- \[ \] write tests\\n\\n## Related Epics\\n\\n- \[\[devops pipeline.md\]\]"     },     {       "id": "scripts/run-hy-tests.js#0",       "path": "scripts/run-hy-tests.js",       "chunkIndex": 0,       "startLine": 1,       "endLine": 59,       "score": 309.06976,       "text": "// scripts/run-hy-tests.js\\nconst fs = require(\\"fs/promises\\");\\nconst { spawn } = require(\\"child\_process\\");\\n\\nasync function directoryExists(dir) {\\n  try {\\n    await fs.access(dir);\\n    return true;\\n  } catch {\\n    return false;\\n  }\\n}\\n\\nfunction runCommand(cmd, args, cwd) {\\n  return new Promise((resolve, reject) => {\\n    const proc = spawn(cmd, args, { cwd, stdio: \\"inherit\\" });\\n    proc.on(\\"close\\", (code) => {\\n      if (code === 0) resolve();\\n      else reject(new Error(`Command failed with exit code ${code}`));\\n    });\\n  });\\n}\\n\\nconst services = \[\\n  \\"services/hy/stt\\",\\n  \\"services/hy/tts\\",\\n  \\"services/hy/discord\_indexer\\",\\n  \\"services/hy/discord\_attachment\_indexer\\",\\n  \\"services/hy/discord\_attachment\_embedder\\",\\n\];\\n\\nasync function runTests() {\\n  let allPassed = true;\\n\\n  for (const service of services) {\\n    if (!(await directoryExists(service))) {\\n      console.log(`Skipping ${service} (not found)`);\\n      continue;\\n    }\\n\\n    console.log(`\\n=== Running tests in ${service} ===`);\\n    try {\\n      await runCommand(\\"hy\\", \[\\"-m\\", \\"pytest\\", \\"tests/\\"\], service);\\n    } catch (err) {\\n      console.error(`❌ ${err.message}`);\\n      allPassed = false;\\n    }\\n  }\\n\\n  if (!allPassed) {\\n    console.error(\\"\\\\nSome tests failed.\\");\\n    process.exit(1);\\n  } else {\\n    console.log(\\"\\\\n✅ All tests passed.\\");\\n  }\\n}\\n\\nrunTests();\\n"     },     {       "id": "services/ts/codex-context/src/index.ts#10",       "path": "services/ts/codex-context/src/index.ts",       "chunkIndex": 10,       "startLine": 461,       "endLine": 523,       "score": 337.1071,       "text": "ct({\\n                baseDir: deps.docsDir,\\n                request: body,\\n                augmentedSystem: aug.finalSystemPrompt,\\n                citations: aug.citations,\\n                responseText: text,\\n            });\\n            const t5 = process.hrtime.bigint();\\n            span.info('persist.ok', { ms: Number((t5 - t4) / 1000000n) });\\n        } catch (e: any) {\\n            span.warn('persist.error', { err: String(e?.message || e) });\\n        }\\n\\n        if (body?.stream) {\\n            writeSSEHeaders(res);\\n            const id = out.id;\\n            const chunks = chunkString(text, 1024);\\n            for (const c of chunks) {\\n                sseData(res, {\\n                    id,\\n                    object: 'text\_completion.chunk',\\n                    created: out.created,\\n                    model: out.model,\\n                    choices: \[{ text: c, index: 0, logprobs: null, finish\_reason: null }\],\\n                });\\n            }\\n            sseData(res, {\\n                id,\\n                object: 'text\_completion.chunk',\\n                created: out.created,\\n                model: out.model,\\n                choices: \[{ text: '', index: 0, logprobs: null, finish\_reason: finishReason }\],\\n            });\\n            sseDone(res);\\n        } else {\\n            res.json(out);\\n        }\\n\\n        if (sessionId) {\\n            const history = sessions.get(sessionId) || \[\];\\n            const toStore = \[\\n                ...history,\\n                { role: 'user' as const, content: prompt },\\n                { role: 'assistant' as const, content: text },\\n            \];\\n            sessions.set(sessionId, toStore.slice(-200));\\n        }\\n    });\\n\\n    return app;\\n}\\n\\nexport async function start() {\\n    const log = createLogger('codex-context');\\n    const app = createApp();\\n    const port = Number(process.env.PORT || 8140);\\n    return app.listen(port, '0.0.0.0', () => {\\n        log.info('service.listening', { port });\\n    });\\n}\\n\\nif (process.env.NODE\_ENV !== 'test') {\\n  "     },     {       "id": "tests/templates/README.md#0",       "path": "tests/templates/README.md",       "chunkIndex": 0,       "startLine": 1,       "endLine": 4,       "score": 343.5474,       "text": "# Templates for tests\\n\\nThis folder contains markdown templates for tests.\\n"     },     {       "id": "docs/tests/e2e/service-endpoints.md#0",       "path": "docs/tests/e2e/service-endpoints.md",       "chunkIndex": 0,       "startLine": 1,       "endLine": 25,       "score": 347.49805,       "text": "# Service Endpoint E2E Tests\\n\\n## Overview\\n\\nThese end-to-end tests verify that each networked service in the Promethean ecosystem responds as expected when the full system is running.\\n\\n## Services Covered\\n\\n- \*\*TTS\*\* – `/synth_voice_pcm` returns generated audio\\n- \*\*STT\*\* – `/transcribe_pcm` returns transcription text\\n- \*\*Vision\*\* – `/capture` returns a PNG frame\\n- \*\*LLM\*\* – `/generate` returns a text reply\\n\\n## Running the Tests\\n\\n1. Install dependencies for each service as needed (`make setup-quick SERVICE=<name>`)\\n2. Start the services: `pm2 start ecosystem.config.js`\\n3. Execute: `pytest tests/e2e/test_service_endpoints.py`\\n\\nThe tests will skip any service whose endpoint is unavailable.\\n\\n## Tags\\n\\n#tests #e2e\\n"     },     {       "id": "services/ts/smartgpt-bridge/TESTING.md#0",       "path": "services/ts/smartgpt-bridge/TESTING.md",       "chunkIndex": 0,       "startLine": 1,       "endLine": 30,       "score": 350.5769,       "text": "Testing setup for Promethean SmartGPT Bridge (minimal, fast, CI-friendly)\\n\\nRequirements\\n- Node.js 18+\\n- No external services (tests stub/bypass broker/Chroma)\\n - Optional: set `PUBLIC_BASE_URL` to control the OpenAPI server URL (e.g., your Tailscale Funnel address)\\n\\nInstall & Run\\n- npm ci\\n- npm test\\n\\nNotes\\n- Uses AVA for tests, Supertest for HTTP, Sinon for timers/mocks.\\n- Server exposes buildApp(ROOT\_PATH) for integration tests (no listen).\\n- Agent supervisor exposes createSupervisor({ spawnImpl, killImpl }) for mocked system tests.\\n- Fixtures live under tests/fixtures/ and are kept < 2KB.\\n- Total runtime stays under ~10 seconds on a laptop.\\n - OpenAPI servers entry is derived from `PUBLIC_BASE_URL` (fallback `http://localhost:${PORT||3210}`).\\n\\nScripts\\n- npm test — run all tests once\\n- npm run test:watch — watch mode\\n- npm run test:coverage — generate c8 coverage (text, lcov, html)\\n\\nCoverage\\n- Uses c8 (v8 coverage). Reports to stdout and writes lcov and HTML to ./coverage.\\n- Example CI step:\\n  - pnpm test:coverage\\n  - store artifacts from coverage/ and lcov.info\\n"     },     {       "id": "docs/environment-variables.md#1",       "path": "docs/environment-variables.md",       "chunkIndex": 1,       "startLine": 28,       "endLine": 52,       "score": 357.88513,       "text": "turns stub images. |\\n| `PORT` | `5003` | Port used by the vision service when running directly. |\\n| `NODE_ENV` | – | Node environment mode (production/test). |\\n| `NO_SCREENSHOT` | – | Disables screenshot capture in tests. |\\n| `PYTHONPATH` | repo root | Python path used in PM2 scripts. |\\n| `PYTHONUNBUFFERED` | `1` | Forces unbuffered Python output. |\\n| `PYTHONUTF8` | `1` | Forces UTF‑8 mode for Python scripts. |\\n| `FLASK_APP` | `app.py` | Flask entry point for the TTS service. |\\n| `FLASK_ENV` | `production` | Flask environment. |\\n| `DISCORD_GUILD_ID` | – | Example variable in `.env.example` for guild targeting. |\\n| `AUTHOR_USER_NAME` | – | Example author name in `.env.example`. |\\n| `PROFILE_CHANNEL` | – | Example profile channel variable in `.env.example`. |\\n\\nThese variables appear in multiple locations:\\n\\n- `shared/py/settings.py` – defines defaults for agent names, temperature settings, MongoDB credentials and Discord identifiers.\\n- `services/js/vision/index.js` – reads vision-related options such as `VISION_HOST`, `VISION_STUB` and `PORT`.\\n- `services/ts/cephalon/src/agent.ts` – uses values like `AGENT_NAME`, `VISION_HOST` and `NO_SCREENSHOT` to manage runtime behavior.\\n- `scripts/github_board_sync.py` and `scripts/kanban_to_issues.py` – rely on `KANBAN_PATH`, `GITHUB_TOKEN`, `GITHUB_PROJECT_ID` and `GITHUB_REPO` to synchronize the Kanban board with GitHub.\\n- `ecosystem.config.js` – sets common environment variables for PM2, including `PYTHONPATH`, `PYTHONUNBUFFERED`, `FLASK_APP` and `FLASK_ENV`.\\n- `agents/duck/scripts/` – local run scripts that export variables like Discord tokens and Python options for development convenience.\\n\\n\\nRefer to this list when configuring new deployments or running tests locally.\\n"     },     {       "id": "services/ts/codex-context/docs/codex-context/requests/2025.08.24.20.48.06.md#43",       "path": "services/ts/codex-context/docs/codex-context/requests/2025.08.24.20.48.06.md",       "chunkIndex": 43,       "startLine": 524,       "endLine": 537,       "score": 359.33246,       "text": " identifying the test command. Typically, running tests with a framework like Jest, Mocha, or a build tool like npm or yarn. Since the project is a dashboard, maybe it's a frontend project using React or similar, so npm test or yarn test could be the command. Alternatively, if it's a backend, maybe using a different test runner.\\n\\nBut without specific repo context, I have to make an educated guess. Let's assume it's a Node.js project with npm. The command would be 'npm test'. However, sometimes tests are run with a specific script, so checking the package.json might help, but since I can't access files, I'll proceed with the common command.\\n\\nNext, the shell tool requires checking if the command needs escalated permissions. If the tests write to files outside the current directory or need network access, then with\_escalated\_permissions should be true. For example, if the tests involve API calls or modify files in the project, that's likely. So I'll set with\_escalated\_permissions to true and provide a justification.\\n\\nThe workdir should be the project root where the package.json is located. But since I don't know the exact path, maybe the current directory is assumed. The timeout can be set to a reasonable value, like 30000 ms (30 seconds) to prevent hanging.\\n\\nPutting it all together, the function call to shell would be with the command \['npm', 'test'\], justification about needing elevated permissions for test execution, with\_escalated\_permissions true, and a timeout. I'll also update the plan to mark this step as in\_progress.\\n</think>\\n\\n\\n`\n"     },     {       "id": "legacy/sibilant-modules/game-of-life-gpu/bundles/modules/utils.js#1127",       "path": "legacy/sibilant-modules/game-of-life-gpu/bundles/modules/utils.js",       "chunkIndex": 1127,       "startLine": 68803,       "endLine": 68870,       "score": 361.43213,       "text": ") {\n          return findTypeByName(type.name).test;\n        })\n        return function or(x) {\n          for (var i = 0; i < tests.length; i++) {\n            if (tests[i](x)) {\n              return true;\n            }\n          }\n          return false;\n        }\n      }\n    }\n\n    /**\n     * Create a test for all parameters of a signature\n     * @param {Param[]} params\n     * @return {function(args: Array<*>) : boolean}\n     */\n    function compileTests(params) {\n      var tests, test0, test1;\n\n      if (hasRestParam(params)) {\n        // variable arguments like '...number'\n        tests = initial(params).map(compileTest);\n        var varIndex = tests.length;\n        var lastTest = compileTest(last(params));\n        var testRestParam = function (args) {\n          for (var i = varIndex; i < args.length; i++) {\n            if (!lastTest(args[i])) {\n              return false;\n            }\n          }\n          return true;\n        }\n\n        return function testArgs(args) {\n          for (var i = 0; i < tests.length; i++) {\n            if (!tests[i](args[i])) {\n              return false;\n            }\n          }\n          return testRestParam(args) && (args.length >= varIndex + 1);\n        };\n      }\n      else {\n        // no variable arguments\n        if (params.length === 0) {\n          return function testArgs(args) {\n            return args.length === 0;\n          };\n        }\n        else if (params.length === 1) {\n          test0 = compileTest(params[0]);\n          return function testArgs(args) {\n            return test0(args[0]) && args.length === 1;\n          };\n        }\n        else if (params.length === 2) {\n          test0 = compileTest(params[0]);\n          test1 = compileTest(params[1]);\n          return function testArgs(args) {\n            return test0(args[0]) && test1(args[1]) && args.length === 2;\n          };\n        }\n        else { // arguments.length > 2\n          tests = params.map(compileTest);\n          return function testArgs(args) {"     }   ] }  And an example of the code search: {   "ok": true,   "results": [     {       "path": "services/ts/llm/package.json",       "line": 8,       "column": 10,       "lineText": "        \"test\": \"ava\",",       "snippet": "    \"scripts\": {\n        \"start\": \"node src/index.js\",\n        \"test\": \"ava\",\n        \"coverage\": \"c8 ava\",\n        \"build\": \"echo 'no build step'\",",       "startLine": 6,       "endLine": 10     },     {       "path": "services/ts/llm/run.sh",       "line": 6,       "column": 54,       "lineText": "  echo \"  corepack enable && corepack prepare pnpm@latest --activate\"",       "snippet": "else\n  echo \"ERROR: pnpm is required. Enable Corepack and activate pnpm:\"\n  echo \"  corepack enable && corepack prepare pnpm@latest --activate\"\n  exit 1\nfi",       "startLine": 4,       "endLine": 8     },     {       "path": "services/ts/llm/src/index.js",       "line": 6,       "column": 57,       "lineText": "export const MODEL = process.env.LLM_MODEL || 'gemma3:latest';",       "snippet": "import ollama from 'ollama';\n\nexport const MODEL = process.env.LLM_MODEL || 'gemma3:latest';\n\nexport const app = express();",       "startLine": 4,       "endLine": 8     },     {       "path": "services/ts/llm/src/index.js",       "line": 99,       "column": 31,       "lineText": "if (process.env.NODE_ENV !== 'test') {",       "snippet": "}\n\nif (process.env.NODE_ENV !== 'test') {\n    start().catch((err) => {\n        console.error('Failed to start LLM service', err);",       "startLine": 97,       "endLine": 101     },     {       "path": "services/ts/llm/tests/basic.test.js",       "line": 1,       "column": 8,       "lineText": "import test from 'ava';",       "snippet": "import test from 'ava';\nimport express from 'express';\n",       "startLine": 1,       "endLine": 3     },     {       "path": "services/ts/llm/tests/basic.test.js",       "line": 4,       "column": 1,       "lineText": "test('MODEL env variable overrides default', async (t) => {",       "snippet": "import express from 'express';\n\ntest('MODEL env variable overrides default', async (t) => {\n    process.env.NODE_ENV = 'test';\n    process.env.LLM_MODEL = 'test-model';",       "startLine": 2,       "endLine": 6     },     {       "path": "services/ts/llm/tests/basic.test.js",       "line": 5,       "column": 29,       "lineText": "    process.env.NODE_ENV = 'test';",       "snippet": "\ntest('MODEL env variable overrides default', async (t) => {\n    process.env.NODE_ENV = 'test';\n    process.env.LLM_MODEL = 'test-model';\n    const { MODEL } = await import('../src/index.js');",       "startLine": 3,       "endLine": 7     },     {       "path": "services/ts/llm/tests/basic.test.js",       "line": 6,       "column": 30,       "lineText": "    process.env.LLM_MODEL = 'test-model';",       "snippet": "test('MODEL env variable overrides default', async (t) => {\n    process.env.NODE_ENV = 'test';\n    process.env.LLM_MODEL = 'test-model';\n    const { MODEL } = await import('../src/index.js');\n    t.is(MODEL, 'test-model');",       "startLine": 4,       "endLine": 8     },     {       "path": "services/ts/llm/tests/basic.test.js",       "line": 8,       "column": 18,       "lineText": "    t.is(MODEL, 'test-model');",       "snippet": "    process.env.LLM_MODEL = 'test-model';\n    const { MODEL } = await import('../src/index.js');\n    t.is(MODEL, 'test-model');\n});\n",       "startLine": 6,       "endLine": 10     },     {       "path": "services/ts/llm/tests/basic.test.js",       "line": 11,       "column": 1,       "lineText": "test('express app initializes', (t) => {",       "snippet": "});\n\ntest('express app initializes', (t) => {\n    const app = express();\n    t.truthy(app);",       "startLine": 9,       "endLine": 13     },     {       "path": "services/ts/llm-bridge/README.md",       "line": 15,       "column": 7,       "lineText": "Smoke test:",       "snippet": "`\\n\\nSmoke test:\\n\\n`bash",       "startLine": 13,       "endLine": 17     },     {       "path": "services/ts/llm-bridge/README.md",       "line": 18,       "column": 8,       "lineText": "node ./tests/adapter.smoke.test.js",       "snippet": "\n`bash\\nnode ./tests/adapter.smoke.test.js\\n``\n",       "startLine": 16,       "endLine": 20     },     {       "path": "services/ts/llm/tests/websocket.test.js",       "line": 1,       "column": 8,       "lineText": "import test from 'ava';",       "snippet": "import test from 'ava';\nimport { WebSocket } from 'ws';\nimport { start, setCallOllamaFn } from '../src/index.js';",       "startLine": 1,       "endLine": 3     },     {       "path": "services/ts/llm/tests/websocket.test.js",       "line": 7,       "column": 1,       "lineText": "test.before(async () => {",       "snippet": "let server;\n\ntest.before(async () => {\n    process.env.NODE_ENV = 'test';\n    process.env.name = 'llm';",       "startLine": 5,       "endLine": 9     },     {       "path": "services/ts/llm/tests/websocket.test.js",       "line": 8,       "column": 29,       "lineText": "    process.env.NODE_ENV = 'test';",       "snippet": "\ntest.before(async () => {\n    process.env.NODE_ENV = 'test';\n    process.env.name = 'llm';\n    setCallOllamaFn(async () => 'hi');",       "startLine": 6,       "endLine": 10     },     {       "path": "services/ts/llm/tests/websocket.test.js",       "line": 14,       "column": 1,       "lineText": "test.after.always(() => {",       "snippet": "});\n\ntest.after.always(() => {\n    if (server) server.close();\n});",       "startLine": 12,       "endLine": 16     },     {       "path": "services/ts/llm/tests/websocket.test.js",       "line": 18,       "column": 1,       "lineText": "test('generate via websocket', async (t) => {",       "snippet": "});\n\ntest('generate via websocket', async (t) => {\n    const port = server.address().port;\n    const ws = new WebSocket(`ws://127.0.0.1:${port}/generate`);",       "startLine": 16,       "endLine": 20     },     {       "path": "services/ts/llm-bridge/src/index.js",       "line": 83,       "column": 31,       "lineText": "if (process.env.NODE_ENV !== 'test') {",       "snippet": "}\n\nif (process.env.NODE_ENV !== 'test') {\n    main();\n}",       "startLine": 81,       "endLine": 85     },     {       "path": "services/ts/voice/package.json",       "line": 8,       "column": 10,       "lineText": "        \"test\": \"cross-env TS_NODE_TRANSPILE_ONLY=1 ava tests/dummy.test.ts\",",       "snippet": "    \"scripts\": {\n        \"build\": \"tsc && node scripts/patch-imports.js\",\n        \"test\": \"cross-env TS_NODE_TRANSPILE_ONLY=1 ava tests/dummy.test.ts\",\n        \"coverage\": \"cross-env TS_NODE_TRANSPILE_ONLY=1 c8 ava tests/dummy.test.ts\",\n        \"lint\": \"pnpm exec @biomejs/biome lint . || true\",",       "startLine": 6,       "endLine": 10     },     {       "path": "services/ts/voice/package.json",       "line": 9,       "column": 64,       "lineText": "        \"coverage\": \"cross-env TS_NODE_TRANSPILE_ONLY=1 c8 ava tests/dummy.test.ts\",",       "snippet": "        \"build\": \"tsc && node scripts/patch-imports.js\",\n        \"test\": \"cross-env TS_NODE_TRANSPILE_ONLY=1 ava tests/dummy.test.ts\",\n        \"coverage\": \"cross-env TS_NODE_TRANSPILE_ONLY=1 c8 ava tests/dummy.test.ts\",\n        \"lint\": \"pnpm exec @biomejs/biome lint . || true\",\n        \"format\": \"pnpm exec @biomejs/biome format --write .\"",       "startLine": 7,       "endLine": 11     },     {       "path": "services/ts/voice/package.json",       "line": 35,       "column": 14,       "lineText": "            \"tests/**/*.ts\"",       "snippet": "        },\n        \"files\": [\n            \"tests/**/*.ts\"\n        ],\n        \"nodeArguments\": [",       "startLine": 33,       "endLine": 37     },     {       "path": "services/ts/llm/tests/template.test.js",       "line": 1,       "column": 8,       "lineText": "import test from 'ava';",       "snippet": "import test from 'ava';\nimport { handleTask, setCallOllamaFn, setBroker } from '../src/index.js';\n",       "startLine": 1,       "endLine": 3     },     {       "path": "services/ts/llm/tests/template.test.js",       "line": 4,       "column": 1,       "lineText": "test('handleTask publishes reply using broker', async (t) => {",       "snippet": "import { handleTask, setCallOllamaFn, setBroker } from '../src/index.js';\n\ntest('handleTask publishes reply using broker', async (t) => {\n    const messages = [];\n    const fakeBroker = {",       "startLine": 2,       "endLine": 6     },     {       "path": "services/ts/discord-embedder/package.json",       "line": 9,       "column": 4,       "lineText": "\t\t\"test\": \"pnpm run build && ava\",",       "snippet": "\t\"scripts\": {\n\t\t\"build\": \"tsc && node scripts/patch-imports.js\",\n\t\t\"test\": \"pnpm run build && ava\",\n\t\t\"coverage\": \"pnpm run build && c8 ava\",\n\t\t\"build:check\": \"tsc --noEmit --incremental false\",",       "startLine": 7,       "endLine": 11     },     {       "path": "services/ts/markdown-graph/package.json",       "line": 9,       "column": 10,       "lineText": "        \"test\": \"pnpm run build && ava\",",       "snippet": "        \"build\": \"tsc && node scripts/patch-imports.js \",\n        \"build:check\": \"tsc --noEmit --incremental false\",\n        \"test\": \"pnpm run build && ava\",\n        \"coverage\": \"pnpm run build && c8 ava\",\n        \"lint\": \"prettier --cache --check . && eslint src --cache\",",       "startLine": 7,       "endLine": 11     },     {       "path": "services/ts/markdown-graph/package.json",       "line": 25,       "column": 22,       "lineText": "        \"@types/supertest\": \"^2.0.13\",",       "snippet": "        \"@types/express\": \"^4.17.21\",\n        \"@types/node\": \"^22.10.10\",\n        \"@types/supertest\": \"^2.0.13\",\n        \"ava\": \"^6.4.1\",\n        \"c8\": \"^9.1.0\",",       "startLine": 23,       "endLine": 27     },     {       "path": "services/ts/markdown-graph/package.json",       "line": 32,       "column": 15,       "lineText": "        \"supertest\": \"^7.1.1\",",       "snippet": "        \"mongodb-memory-server\": \"^10.1.4\",\n        \"prettier\": \"^3.4.2\",\n        \"supertest\": \"^7.1.1\",\n        \"ts-node\": \"^10.9.2\",\n        \"typescript\": \"5.7.3\"",       "startLine": 30,       "endLine": 34     },     {       "path": "services/ts/kanban-processor/package.json",       "line": 12,       "column": 10,       "lineText": "        \"test\": \"pnpm run build && ava\",",       "snippet": "        \"start:dev\": \"node --loader ts-node/esm src/index.ts\",\n        \"build:check\": \"tsc --noEmit --incremental false\",\n        \"test\": \"pnpm run build && ava\",\n        \"coverage\": \"pnpm run build && c8 ava\",\n        \"lint\": \"prettier --cache --check . && eslint . --cache || true\",",       "startLine": 10,       "endLine": 14     },     {       "path": "services/ts/file-watcher/package.json",       "line": 12,       "column": 10,       "lineText": "        \"test\": \"pnpm run build && ava\",",       "snippet": "        \"start:dev\": \"node --loader ts-node/esm src/index.ts\",\n        \"build:check\": \"tsc --noEmit --incremental false\",\n        \"test\": \"pnpm run build && ava\",\n        \"coverage\": \"pnpm run build && c8 ava\",\n        \"lint\": \"prettier --cache --check . && eslint . --cache || true\",",       "startLine": 10,       "endLine": 14     },     {       "path": "services/ts/cephalon/package.json",       "line": 10,       "column": 10,       "lineText": "        \"test\": \"pnpm run build && ava\",",       "snippet": "        \"build\": \"tsc -p .\",\n        \"start\": \"node dist/index.js\",\n        \"test\": \"pnpm run build && ava\",\n        \"coverage\": \"pnpm run build && c8 ava\",\n        \"build:check\": \"tsc --noEmit --incremental false\",",       "startLine": 8,       "endLine": 12     },     {       "path": "services/ts/cephalon/package.json",       "line": 69,       "column": 19,       "lineText": "            \"dist/tests/**/*.js\"",       "snippet": "    \"ava\": {\n        \"files\": [\n            \"dist/tests/**/*.js\"\n        ],\n        \"nodeArguments\": [",       "startLine": 67,       "endLine": 71     },     {       "path": "services/ts/discord-embedder/ava.config.mjs",       "line": 2,       "column": 16,       "lineText": "\tfiles: ['dist/tests/**/*.js'],",       "snippet": "export default {\n\tfiles: ['dist/tests/**/*.js'],\n};\n",       "startLine": 1,       "endLine": 4     },     {       "path": "services/ts/kanban-processor/ava.config.mjs",       "line": 2,       "column": 19,       "lineText": "    files: ['dist/tests/**/*.js'],",       "snippet": "export default {\n    files: ['dist/tests/**/*.js'],\n};\n",       "startLine": 1,       "endLine": 4     },     {       "path": "services/ts/templates/service/package.json",       "line": 11,       "column": 10,       "lineText": "        \"test\": \"pnpm run build && ava\",",       "snippet": "        \"start\": \"node dist/index.js\",\n        \"start:dev\": \"node --loader ts-node/esm src/index.ts\",\n        \"test\": \"pnpm run build && ava\",\n        \"coverage\": \"pnpm run build && c8 ava\",\n        \"lint\": \"prettier --cache --check . && eslint . --cache || true\",",       "startLine": 9,       "endLine": 13     },     {       "path": "services/ts/file-watcher/ava.config.mjs",       "line": 2,       "column": 19,       "lineText": "    files: ['dist/tests/**/*.js'],",       "snippet": "export default {\n    files: ['dist/tests/**/*.js'],\n};\n",       "startLine": 1,       "endLine": 4     },     {       "path": "services/ts/discord-embedder/src/tests/converter.ts",       "line": 1,       "column": 8,       "lineText": "import test from 'ava';",       "snippet": "import test from 'ava';\nimport { convert } from '../converter.js';\n",       "startLine": 1,       "endLine": 3     },     {       "path": "services/ts/discord-embedder/src/tests/converter.ts",       "line": 6,       "column": 1,       "lineText": "test('convert ogg stream to wav stream', (t) => {",       "snippet": "const sample = Buffer.from('sample');\n\ntest('convert ogg stream to wav stream', (t) => {\n\tconst result = convert(sample);\n\tt.true(result.equals(sample));",       "startLine": 4,       "endLine": 8     },     {       "path": "services/ts/voice/package-lock.json",       "line": 1088,       "column": 10,       "lineText": "        \"test-exclude\": \"^6.0.0\",",       "snippet": "        \"istanbul-lib-report\": \"^3.0.1\",\n        \"istanbul-reports\": \"^3.1.6\",\n        \"test-exclude\": \"^6.0.0\",\n        \"v8-to-istanbul\": \"^9.0.0\",\n        \"yargs\": \"^17.7.2\",",       "startLine": 1086,       "endLine": 1090     },     {       "path": "services/ts/voice/package-lock.json",       "line": 2240,       "column": 128,       "lineText": "      \"deprecated\": \"This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.\",",       "snippet": "      \"resolved\": \"https://registry.npmjs.org/inflight/-/inflight-1.0.6.tgz\",\n      \"integrity\": \"sha512-k92I/b08q4wvFscXCLvqfsHCrjrF7yiXsQuIVvVE7N82W3+aqpzuUdBbfhWcy/FZR3/4IgflMgKLOsvPDrGCJA==\",\n      \"deprecated\": \"This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.\",\n      \"license\": \"ISC\",\n      \"dependencies\": {",       "startLine": 2238,       "endLine": 2242     },     {       "path": "services/ts/voice/package-lock.json",       "line": 2703,       "column": 25,       "lineText": "        \"node-gyp-build-test\": \"build-test.js\"",       "snippet": "        \"node-gyp-build\": \"bin.js\",\n        \"node-gyp-build-optional\": \"optional.js\",\n        \"node-gyp-build-test\": \"build-test.js\"\n      }\n    },",       "startLine": 2701,       "endLine": 2705     },     {       "path": "services/ts/voice/package-lock.json",       "line": 3599,       "column": 19,       "lineText": "    \"node_modules/test-exclude\": {",       "snippet": "      }\n    },\n    \"node_modules/test-exclude\": {\n      \"version\": \"6.0.0\",\n      \"resolved\": \"https://registry.npmjs.org/test-exclude/-/test-exclude-6.0.0.tgz\",",       "startLine": 3597,       "endLine": 3601     },     {       "path": "services/ts/voice/package-lock.json",       "line": 3601,       "column": 47,       "lineText": "      \"resolved\": \"https://registry.npmjs.org/test-exclude/-/test-exclude-6.0.0.tgz\",",       "snippet": "    \"node_modules/test-exclude\": {\n      \"version\": \"6.0.0\",\n      \"resolved\": \"https://registry.npmjs.org/test-exclude/-/test-exclude-6.0.0.tgz\",\n      \"integrity\": \"sha512-cAGWPIyOHU6zlmg88jwm7VRyXnMN7iV68OGAbYDk/Mh/xC/pzVPlQtY6ngoIH/5/tciuhGfvESU8GrHrcxD56w==\",\n      \"dev\": true,",       "startLine": 3599,       "endLine": 3603     },     {       "path": "services/ts/voice/package-lock.json",       "line": 3614,       "column": 19,       "lineText": "    \"node_modules/test-exclude/node_modules/brace-expansion\": {",       "snippet": "      }\n    },\n    \"node_modules/test-exclude/node_modules/brace-expansion\": {\n      \"version\": \"1.1.12\",\n      \"resolved\": \"https://registry.npmjs.org/brace-expansion/-/brace-expansion-1.1.12.tgz\",",       "startLine": 3612,       "endLine": 3616     },     {       "path": "services/ts/voice/package-lock.json",       "line": 3625,       "column": 19,       "lineText": "    \"node_modules/test-exclude/node_modules/glob\": {",       "snippet": "      }\n    },\n    \"node_modules/test-exclude/node_modules/glob\": {\n      \"version\": \"7.2.3\",\n      \"resolved\": \"https://registry.npmjs.org/glob/-/glob-7.2.3.tgz\",",       "startLine": 3623,       "endLine": 3627     },     {       "path": "services/ts/voice/package-lock.json",       "line": 3647,       "column": 19,       "lineText": "    \"node_modules/test-exclude/node_modules/minimatch\": {",       "snippet": "      }\n    },\n    \"node_modules/test-exclude/node_modules/minimatch\": {\n      \"version\": \"3.1.2\",\n      \"resolved\": \"https://registry.npmjs.org/minimatch/-/minimatch-3.1.2.tgz\",",       "startLine": 3645,       "endLine": 3649     },     {       "path": "services/ts/codex-orchestrator/README.md",       "line": 7,       "column": 7,       "lineText": "- run tests (AVA pattern)",       "snippet": "- search repo (ripgrep)\n- apply unified diffs (git apply 3-way)\n- run tests (AVA pattern)\n\nDesigned to be dropped into your Promethean mono-repo or used standalone.",       "startLine": 5,       "endLine": 9     },     {       "path": "services/ts/codex-orchestrator/README.md",       "line": 20,       "column": 49,       "lineText": "node --loader ts-node/esm src/index.ts \"Add AVA test for broker reconnection\"",       "snippet": "\n# run once for a task:\nnode --loader ts-node/esm src/index.ts \"Add AVA test for broker reconnection\"\n# or compile first:\npnpm build && node dist/index.js \"Add AVA test for broker reconnection\"",       "startLine": 18,       "endLine": 22     },     {       "path": "services/ts/codex-orchestrator/README.md",       "line": 22,       "column": 43,       "lineText": "pnpm build && node dist/index.js \"Add AVA test for broker reconnection\"",       "snippet": "node --loader ts-node/esm src/index.ts \"Add AVA test for broker reconnection\"\n# or compile first:\npnpm build && node dist/index.js \"Add AVA test for broker reconnection\"\n``\\n",       "startLine": 20,       "endLine": 24     },     {       "path": "services/ts/codex-orchestrator/README.md",       "line": 32,       "column": 4,       "lineText": "- `TEST_CMD` (default: `pnpm -w test`)",       "snippet": "- `REPO_ROOT` (default: cwd)\\n- `PLANNER_MODEL` (default: promethean-planner)\\n- `TEST_CMD` (default: `pnpm -w test`)\\n- `TEST_PATTERN_FLAG` (default: `-m`)  # AVA's match flag\\n",       "startLine": 30,       "endLine": 34     },     {       "path": "services/ts/codex-orchestrator/README.md",       "line": 33,       "column": 4,       "lineText": "- `TEST_PATTERN_FLAG` (default: `-m`)  # AVA's match flag",       "snippet": "- `PLANNER_MODEL` (default: promethean-planner)\\n- `TEST_CMD` (default: `pnpm -w test`)\\n- `TEST_PATTERN_FLAG` (default: `-m`)  # AVA's match flag\\n\\n## Action schema",       "startLine": 31,       "endLine": 35     },     {       "path": "services/ts/codex-orchestrator/README.md",       "line": 40,       "column": 8,       "lineText": "- `run_tests { \"pattern\"?: string }`",       "snippet": "- `open_file { \"path\": string, \"hint\"?: string }`\\n- `search_repo { \"query\": string }`\\n- `run_tests { \"pattern\"?: string }`\\n- `write_patch { \"path\": string, \"diff\": string }`\\n- `ask_user { \"question\": string }`",       "startLine": 38,       "endLine": 42     },     {       "path": "services/ts/templates/service/ava.config.mjs",       "line": 2,       "column": 19,       "lineText": "    files: \['dist/tests/\*\*/\*.js'\],",       "snippet": "export default {\\n    files: \['dist/tests/\*\*/\*.js'\],\\n};\\n",       "startLine": 1,       "endLine": 4     },     {       "path": "services/ts/discord-embedder/src/tests/test.ts",       "line": 1,       "column": 8,       "lineText": "import test from 'ava';",       "snippet": "import test from 'ava';\\n\\ntest('my passing test', (t) => {",       "startLine": 1,       "endLine": 3     },     {       "path": "services/ts/discord-embedder/src/tests/test.ts",       "line": 3,       "column": 1,       "lineText": "test('my passing test', (t) => {",       "snippet": "import test from 'ava';\\n\\ntest('my passing test', (t) => {\\n\\tt.pass();\\n});",       "startLine": 1,       "endLine": 5     },     {       "path": "services/ts/discord-embedder/src/tests/embedding.test.ts",       "line": 1,       "column": 8,       "lineText": "import test from 'ava';",       "snippet": "import test from 'ava';\\nimport { RemoteEmbeddingFunction } from '@shared/ts/dist/embeddings/remote.js';\\n",       "startLine": 1,       "endLine": 3     },     {       "path": "services/ts/discord-embedder/src/tests/embedding.test.ts",       "line": 23,       "column": 1,       "lineText": "test('requests embeddings via mocked broker', async (t) => {",       "snippet": "}\\n\\ntest('requests embeddings via mocked broker', async (t) => {\\n\\tconst mock = new MockBrokerClient();\\n\\tconst fn = new RemoteEmbeddingFunction(undefined, undefined, undefined, mock as any);",       "startLine": 21,       "endLine": 25     },     {       "path": "services/ts/voice/src/index.ts",       "line": 126,       "column": 31,       "lineText": "if (process.env.NODE\_ENV !== 'test') {",       "snippet": "}\\n\\nif (process.env.NODE\_ENV !== 'test') {\\n    createVoiceService()\\n        .start()",       "startLine": 124,       "endLine": 128     },     {       "path": "services/ts/voice/src/voice-recorder.ts",       "line": 5,       "column": 19,       "lineText": "import { createWriteStream } from 'node:fs';",       "snippet": "    \*/\\nimport { PassThrough } from 'node:stream';\\nimport { createWriteStream } from 'node:fs';\\n// @ts-ignore no types available\\nimport \* as wav from 'wav';",       "startLine": 3,       "endLine": 7     },     {       "path": "services/ts/voice/src/voice-recorder.ts",       "line": 36,       "column": 40,       "lineText": "        const wavFileStream = createWriteStream(filename).once('close', () => {",       "snippet": "        });\\n        const filename = `./${this.saveDest}/${saveTime}-${user.id}.wav`;\\n        const wavFileStream = createWriteStream(filename).once('close', () => {\\n            console.log('recording to ', filename, 'is complete.');\\n            this.emit('saved', {",       "startLine": 34,       "endLine": 38     },     {       "path": "services/ts/cephalon/src/agent/voiceContent.ts",       "line": 26,       "column": 58,       "lineText": "export async function generateVoiceContentWithFormattedLatestmessage(this: AIAgent) {",       "snippet": "}\\n\\nexport async function generateVoiceContentWithFormattedLatestmessage(this: AIAgent) {\\n    let content = '';\\n    let counter = 0;",       "startLine": 24,       "endLine": 28     },     {       "path": "services/ts/cephalon/src/agent/voiceContent.ts",       "line": 30,       "column": 13,       "lineText": "    const latestUserMessage = (await userCollection.getMostRecent(1))\[0\] as GenericEntry;",       "snippet": "    let counter = 0;\\n    const userCollection = this.contextManager.getCollection('transcripts') as CollectionManager<'text', 'createdAt'>;\\n    const latestUserMessage = (await userCollection.getMostRecent(1))\[0\] as GenericEntry;\\n    const context = (await this.context.compileContext(\[this.prompt\], this.historyLimit)).filter(\\n        (m: { content: string }) => m.content !== latestUserMessage?.text,",       "startLine": 28,       "endLine": 32     },     {       "path": "services/ts/cephalon/src/agent/voiceContent.ts",       "line": 32,       "column": 53,       "lineText": "        (m: { content: string }) => m.content !== latestUserMessage?.text,",       "snippet": "    const latestUserMessage = (await userCollection.getMostRecent(1))\[0\] as GenericEntry;\\n    const context = (await this.context.compileContext(\[this.prompt\], this.historyLimit)).filter(\\n        (m: { content: string }) => m.content !== latestUserMessage?.text,\\n    );\\n",       "startLine": 30,       "endLine": 34     },     {       "path": "services/ts/cephalon/src/agent/voiceContent.ts",       "line": 37,       "column": 34,       "lineText": "        content: formatMessage(latestUserMessage),",       "snippet": "    context.push({\\n        role: 'user',\\n        content: formatMessage(latestUserMessage),\\n    });\\n",       "startLine": 35,       "endLine": 39     },     {       "path": "services/ts/cephalon/src/agent/voiceContent.ts",       "line": 69,       "column": 13,       "lineText": "    const latestUserMessage = (await userCollection.getMostRecent(1))\[0\] as GenericEntry;",       "snippet": "    let counter = 0;\\n    const userCollection = this.contextManager.getCollection('transcripts') as CollectionManager<'text', 'createdAt'>;\\n    const latestUserMessage = (await userCollection.getMostRecent(1))\[0\] as GenericEntry;\\n    const context = (await this.context.compileContext(\[this.prompt\], this.historyLimit)).filter(\\n        (m: { content: string }) => m.content !== latestUserMessage?.text,",       "startLine": 67,       "endLine": 71     },     {       "path": "services/ts/cephalon/src/agent/voiceContent.ts",       "line": 71,       "column": 53,       "lineText": "        (m: { content: string }) => m.content !== latestUserMessage?.text,",       "snippet": "    const latestUserMessage = (await userCollection.getMostRecent(1))\[0\] as GenericEntry;\\n    const context = (await this.context.compileContext(\[this.prompt\], this.historyLimit)).filter(\\n        (m: { content: string }) => m.content !== latestUserMessage?.text,\\n    );\\n    while (!content && counter < 5) {",       "startLine": 69,       "endLine": 73     },     {       "path": "services/ts/cephalon/src/agent/voiceContent.ts",       "line": 75,       "column": 50,       "lineText": "            specialQuery: generateSpecialQuery(latestUserMessage, generatePromptChoice()),",       "snippet": "    while (!content && counter < 5) {\\n        content = (await this.generateResponse({\\n            specialQuery: generateSpecialQuery(latestUserMessage, generatePromptChoice()),\\n            context,\\n        })) as string;",       "startLine": 73,       "endLine": 77     },     {       "path": "services/ts/cephalon/src/agent/index.ts",       "line": 30,       "column": 40,       "lineText": "    generateVoiceContentWithFormattedLatestmessage as generateVoiceContentWithFormattedLatestmessageFn,",       "snippet": "import {\\n    generateVoiceContentFromSinglePrompt as generateVoiceContentFromSinglePromptFn,\\n    generateVoiceContentWithFormattedLatestmessage as generateVoiceContentWithFormattedLatestmessageFn,\\n    generateVoiceContentWithChoicePrompt as generateVoiceContentWithChoicePromptFn,\\n    generateVoiceContentWithSpecialQuery as generateVoiceContentWithSpecialQueryFn,",       "startLine": 28,       "endLine": 32     },     {       "path": "services/ts/cephalon/src/agent/index.ts",       "line": 102,       "column": 55,       "lineText": "        // Avoid spinning up real audio timers during tests",       "snippet": "                ? ({ generate: async () => '' } as unknown as LLMService)\\n                : new LLMService());\\n        // Avoid spinning up real audio timers during tests\\n        this.audioPlayer =\\n            process.env.DISABLE\_AUDIO === '1' ? (new EventEmitter() as unknown as AudioPlayer) : createAudioPlayer();",       "startLine": 100,       "endLine": 104     },     {       "path": "services/ts/cephalon/src/agent/index.ts",       "line": 117,       "column": 40,       "lineText": "    generateVoiceContentWithFormattedLatestmessage = generateVoiceContentWithFormattedLatestmessageFn;",       "snippet": "    generateVoiceResponse = generateVoiceResponseAction;\\n    generateVoiceContentFromSinglePrompt = generateVoiceContentFromSinglePromptFn;\\n    generateVoiceContentWithFormattedLatestmessage = generateVoiceContentWithFormattedLatestmessageFn;\\n    generateVoiceContentWithChoicePrompt = generateVoiceContentWithChoicePromptFn;\\n    generateVoiceContentWithSpecialQuery = generateVoiceContentWithSpecialQueryFn;",       "startLine": 115,       "endLine": 119     },     {       "path": "services/ts/codex-orchestrator/Modelfile",       "line": 6,       "column": 48,       "lineText": "- Allowed actions: open\_file, search\_repo, run\_tests, write\_patch, ask\_user, done.",       "snippet": "You are the Promethean Orchestrator.\\n- Output JSON ONLY for one action per turn.\\n- Allowed actions: open\_file, search\_repo, run\_tests, write\_patch, ask\_user, done.\\n- Repo rules: TypeScript default, AVA tests, NEVER use relative imports; only @shared/ts/dist/...; keep patches minimal.\\n- If uncertain about a path or API, use ask\_user.",       "startLine": 4,       "endLine": 8     },     {       "path": "services/ts/codex-orchestrator/Modelfile",       "line": 7,       "column": 39,       "lineText": "- Repo rules: TypeScript default, AVA tests, NEVER use relative imports; only @shared/ts/dist/...; keep patches minimal.",       "snippet": "- Output JSON ONLY for one action per turn.\\n- Allowed actions: open\_file, search\_repo, run\_tests, write\_patch, ask\_user, done.\\n- Repo rules: TypeScript default, AVA tests, NEVER use relative imports; only @shared/ts/dist/...; keep patches minimal.\\n- If uncertain about a path or API, use ask\_user.\\n\\"\\"\\"",       "startLine": 5,       "endLine": 9     },     {       "path": "services/ts/discord-embedder/package-lock.json",       "line": 2567,       "column": 6,       "lineText": "\\t\\t\\t\\t\\"test-exclude\\": \\"^6.0.0\\",",       "snippet": "\\t\\t\\t\\t\\"istanbul-lib-report\\": \\"^3.0.1\\",\\n\\t\\t\\t\\t\\"istanbul-reports\\": \\"^3.1.6\\",\\n\\t\\t\\t\\t\\"test-exclude\\": \\"^6.0.0\\",\\n\\t\\t\\t\\t\\"v8-to-istanbul\\": \\"^9.0.0\\",\\n\\t\\t\\t\\t\\"yargs\\": \\"^17.7.2\\",",       "startLine": 2565,       "endLine": 2569     },     {       "path": "services/ts/discord-embedder/package-lock.json",       "line": 3443,       "column": 17,       "lineText": "\\t\\t\\t\\t\\"safe-regex-test\\": \\"^1.1.0\\",",       "snippet": "\\t\\t\\t\\t\\"safe-array-concat\\": \\"^1.1.3\\",\\n\\t\\t\\t\\t\\"safe-push-apply\\": \\"^1.0.0\\",\\n\\t\\t\\t\\t\\"safe-regex-test\\": \\"^1.1.0\\",\\n\\t\\t\\t\\t\\"set-proto\\": \\"^1.0.0\\",\\n\\t\\t\\t\\t\\"stop-iteration-iterator\\": \\"^1.1.0\\",",       "startLine": 3441,       "endLine": 3445     },     {       "path": "services/ts/discord-embedder/package-lock.json",       "line": 3667,       "column": 52,       "lineText": "\\t\\t\\t\\t\\"eslint-plugin-import\\": \\"npm:eslint-plugin-i@latest\\",",       "snippet": "\\t\\t\\t\\t\\"eslint-plugin-astro\\": \\"^0.33.1\\",\\n\\t\\t\\t\\t\\"eslint-plugin-cypress\\": \\"^2.15.1\\",\\n\\t\\t\\t\\t\\"eslint-plugin-import\\": \\"npm:eslint-plugin-i@latest\\",\\n\\t\\t\\t\\t\\"eslint-plugin-jsdoc\\": \\"^48.2.3\\",\\n\\t\\t\\t\\t\\"eslint-plugin-jsx-a11y\\": \\"^6.8.0\\",",       "startLine": 3665,       "endLine": 3669     },     {       "path": "services/ts/discord-embedder/package-lock.json",       "line": 4027,       "column": 17,       "lineText": "\\t\\t\\t\\t\\"safe-regex-test\\": \\"^1.0.3\\",",       "snippet": "\\t\\t\\t\\t\\"minimatch\\": \\"^3.1.2\\",\\n\\t\\t\\t\\t\\"object.fromentries\\": \\"^2.0.8\\",\\n\\t\\t\\t\\t\\"safe-regex-test\\": \\"^1.0.3\\",\\n\\t\\t\\t\\t\\"string.prototype.includes\\": \\"^2.0.1\\"\\n\\t\\t\\t},",       "startLine": 4025,       "endLine": 4029     },     {       "path": "services/ts/discord-embedder/package-lock.json",       "line": 5277,       "column": 17,       "lineText": "\\t\\t\\t\\t\\"safe-regex-test\\": \\"^1.1.0\\"",       "snippet": "\\t\\t\\t\\t\\"get-proto\\": \\"^1.0.1\\",\\n\\t\\t\\t\\t\\"has-tostringtag\\": \\"^1.0.2\\",\\n\\t\\t\\t\\t\\"safe-regex-test\\": \\"^1.1.0\\"\\n\\t\\t\\t},\\n\\t\\t\\t\\"engines\\": {",       "startLine": 5275,       "endLine": 5279     },     {       "path": "services/ts/discord-embedder/package-lock.json",       "line": 5448,       "column": 17,       "lineText": "\\t\\t\\t\\t\\"safe-regex-test\\": \\"^1.1.0\\"",       "snippet": "\\t\\t\\t\\t\\"get-proto\\": \\"^1.0.0\\",\\n\\t\\t\\t\\t\\"has-tostringtag\\": \\"^1.0.2\\",\\n\\t\\t\\t\\t\\"safe-regex-test\\": \\"^1.1.0\\"\\n\\t\\t\\t},\\n\\t\\t\\t\\"engines\\": {",       "startLine": 5446,       "endLine": 5450     },     {       "path": "services/ts/discord-embedder/package-lock.json",       "line": 5629,       "column": 17,       "lineText": "\\t\\t\\t\\t\\"safe-regex-test\\": \\"^1.1.0\\"",       "snippet": "\\t\\t\\t\\t\\"call-bound\\": \\"^1.0.2\\",\\n\\t\\t\\t\\t\\"has-symbols\\": \\"^1.1.0\\",\\n\\t\\t\\t\\t\\"safe-regex-test\\": \\"^1.1.0\\"\\n\\t\\t\\t},\\n\\t\\t\\t\\"engines\\": {",       "startLine": 5627,       "endLine": 5631     },     {       "path": "services/ts/discord-embedder/package-lock.json",       "line": 7075,       "column": 21,       "lineText": "\\t\\t\\t\\t\\"node-gyp-build-test\\": \\"build-test.js\\"",       "snippet": "\\t\\t\\t\\t\\"node-gyp-build\\": \\"bin.js\\",\\n\\t\\t\\t\\t\\"node-gyp-build-optional\\": \\"optional.js\\",\\n\\t\\t\\t\\t\\"node-gyp-build-test\\": \\"build-test.js\\"\\n\\t\\t\\t}\\n\\t\\t},",       "startLine": 7073,       "endLine": 7077     },     {       "path": "services/ts/discord-embedder/package-lock.json",       "line": 8324,       "column": 28,       "lineText": "\\t\\t\\"node\_modules/safe-regex-test\\": {",       "snippet": "\\t\\t\\t}\\n\\t\\t},\\n\\t\\t\\"node\_modules/safe-regex-test\\": {\\n\\t\\t\\t\\"version\\": \\"1.1.0\\",\\n\\t\\t\\t\\"dev\\": true,",       "startLine": 8322,       "endLine": 8326     },     {       "path": "services/ts/discord-embedder/package-lock.json",       "line": 9012,       "column": 17,       "lineText": "\\t\\t\\"node\_modules/test-exclude\\": {",       "snippet": "\\t\\t\\t}\\n\\t\\t},\\n\\t\\t\\"node\_modules/test-exclude\\": {\\n\\t\\t\\t\\"version\\": \\"6.0.0\\",\\n\\t\\t\\t\\"resolved\\": \\"https://registry.npmjs.org/test-exclude/-/test-exclude-6.0.0.tgz\\",",       "startLine": 9010,       "endLine": 9014     },     {       "path": "services/ts/discord-embedder/package-lock.json",       "line": 9014,       "column": 44,       "lineText": "\\t\\t\\t\\"resolved\\": \\"https://registry.npmjs.org/test-exclude/-/test-exclude-6.0.0.tgz\\",",       "snippet": "\\t\\t\\"node\_modules/test-exclude\\": {\\n\\t\\t\\t\\"version\\": \\"6.0.0\\",\\n\\t\\t\\t\\"resolved\\": \\"https://registry.npmjs.org/test-exclude/-/test-exclude-6.0.0.tgz\\",\\n\\t\\t\\t\\"integrity\\": \\"sha512-cAGWPIyOHU6zlmg88jwm7VRyXnMN7iV68OGAbYDk/Mh/xC/pzVPlQtY6ngoIH/5/tciuhGfvESU8GrHrcxD56w==\\",\\n\\t\\t\\t\\"dev\\": true,",       "startLine": 9012,       "endLine": 9016     },     {       "path": "services/ts/discord-embedder/package-lock.json",       "line": 9027,       "column": 17,       "lineText": "\\t\\t\\"node\_modules/test-exclude/node\_modules/glob\\": {",       "snippet": "\\t\\t\\t}\\n\\t\\t},\\n\\t\\t\\"node\_modules/test-exclude/node\_modules/glob\\": {\\n\\t\\t\\t\\"version\\": \\"7.2.3\\",\\n\\t\\t\\t\\"resolved\\": \\"https://registry.npmjs.org/glob/-/glob-7.2.3.tgz\\",",       "startLine": 9025,       "endLine": 9029     },     {       "path": "services/ts/voice/tests/speaker.test.ts",       "line": 1,       "column": 8,       "lineText": "import test from 'ava';",       "snippet": "import test from 'ava';\\nimport { Guild, User } from 'discord.js';\\nimport { VoiceSession } from '../src/voice-session.ts';",       "startLine": 1,       "endLine": 3     },     {       "path": "services/ts/voice/tests/speaker.test.ts",       "line": 5,       "column": 1,       "lineText": "test('recording state toggles with start/stop', async (t) => {",       "snippet": "import { VoiceSession } from '../src/voice-session.ts';\\n\\ntest('recording state toggles with start/stop', async (t) => {\\n    const guild = new Guild('1');\\n    const vs = new VoiceSession({ guild, voiceChannelId: '10' });",       "startLine": 3,       "endLine": 7     },     {       "path": "services/ts/voice/tests/speaker.test.ts",       "line": 16,       "column": 1,       "lineText": "test('transcription state toggles with start/stop', async (t) => {",       "snippet": "});\\n\\ntest('transcription state toggles with start/stop', async (t) => {\\n    const guild = new Guild('2');\\n    const vs = new VoiceSession({ guild, voiceChannelId: '11' });",       "startLine": 14,       "endLine": 18     },     {       "path": "services/ts/cephalon/src/voice-recorder.ts",       "line": 5,       "column": 19,       "lineText": "import { createWriteStream } from 'node:fs';",       "snippet": "    \*/\\nimport { PassThrough } from 'node:stream';\\nimport { createWriteStream } from 'node:fs';\\nimport \* as wav from 'wav';\\nimport EventEmitter from 'node:events';",       "startLine": 3,       "endLine": 7     },     {       "path": "services/ts/cephalon/src/voice-recorder.ts",       "line": 35,       "column": 40,       "lineText": "        const wavFileStream = createWriteStream(filename).once('close', () => {",       "snippet": "        });\\n        const filename = `./${this.saveDest}/${saveTime}-${user.id}.wav`;\\n        const wavFileStream = createWriteStream(filename).once('close', () => {\\n            console.log('recording to ', filename, 'is complete.');\\n            this.emit('saved', {",       "startLine": 33,       "endLine": 37     },     {       "path": "services/ts/voice/tests/dummy.test.ts",       "line": 1,       "column": 8,       "lineText": "import test from 'ava';",       "snippet": "import test from 'ava';\\n\\ntest('placeholder', (t) => {",       "startLine": 1,       "endLine": 3     },     {       "path": "services/ts/voice/tests/dummy.test.ts",       "line": 3,       "column": 1,       "lineText": "test('placeholder', (t) => {",       "snippet": "import test from 'ava';\\n\\ntest('placeholder', (t) => {\\n    t.pass();\\n});",       "startLine": 1,       "endLine": 5     },     {       "path": "services/ts/auth-service/src/index.ts",       "line": 121,       "column": 31,       "lineText": "if (process.env.NODE\_ENV !== 'test') {",       "snippet": "}\\n\\nif (process.env.NODE\_ENV !== 'test') {\\n    buildServer()\\n        .then((app) => app.listen({ port: PORT, host: '0.0.0.0' }))",       "startLine": 119,       "endLine": 123     },     {       "path": "services/ts/markdown-graph/package-lock.json",       "line": 18,       "column": 22,       "lineText": "        \\"@types/supertest\\": \\"^2.0.13\\",",       "snippet": "        \\"@types/express\\": \\"^4.17.21\\",\\n        \\"@types/node\\": \\"^22.10.10\\",\\n        \\"@types/supertest\\": \\"^2.0.13\\",\\n        \\"ava\\": \\"^6.4.1\\",\\n        \\"c8\\": \\"^9.1.0\\",",       "startLine": 16,       "endLine": 20     },     {       "path": "services/ts/markdown-graph/package-lock.json",       "line": 25,       "column": 15,       "lineText": "        \\"supertest\\": \\"^7.1.1\\",",       "snippet": "        \\"mongodb-memory-server\\": \\"^10.1.4\\",\\n        \\"prettier\\": \\"^3.4.2\\",\\n        \\"supertest\\": \\"^7.1.1\\",\\n        \\"ts-node\\": \\"^10.9.2\\",\\n        \\"typescript\\": \\"5.7.3\\"",       "startLine": 23,       "endLine": 27     },     {       "path": "services/ts/markdown-graph/package-lock.json",       "line": 1339,       "column": 31,       "lineText": "    \\"node\_modules/@types/supertest\\": {",       "snippet": "      }\\n    },\\n    \\"node\_modules/@types/supertest\\": {\\n      \\"version\\": \\"2.0.16\\",\\n      \\"resolved\\": \\"https://registry.npmjs.org/@types/supertest/-/supertest-2.0.16.tgz\\",",       "startLine": 1337,       "endLine": 1341     },     {       "path": "services/ts/markdown-graph/package-lock.json",       "line": 1341,       "column": 59,       "lineText": "      \\"resolved\\": \\"https://registry.npmjs.org/@types/supertest/-/supertest-2.0.16.tgz\\",",       "snippet": "    \\"node\_modules/@types/supertest\\": {\\n      \\"version\\": \\"2.0.16\\",\\n      \\"resolved\\": \\"https://registry.npmjs.org/@types/supertest/-/supertest-2.0.16.tgz\\",\\n      \\"integrity\\": \\"sha512-6c2ogktZ06tr2ENoZivgm7YnprnhYE4ZoXGMY+oA7IuAf17M8FWvujXZGmxLv8y0PTyts4x5A+erSwVUFA8XSg==\\",\\n      \\"dev\\": true,",       "startLine": 1339,       "endLine": 1343     },     {       "path": "services/ts/markdown-graph/package-lock.json",       "line": 3260,       "column": 10,       "lineText": "        \\"test-exclude\\": \\"^6.0.0\\",",       "snippet": "        \\"istanbul-lib-report\\": \\"^3.0.1\\",\\n        \\"istanbul-reports\\": \\"^3.1.6\\",\\n        \\"test-exclude\\": \\"^6.0.0\\",\\n        \\"v8-to-istanbul\\": \\"^9.0.0\\",\\n        \\"yargs\\": \\"^17.7.2\\",",       "startLine": 3258,       "endLine": 3262     },     {       "path": "services/ts/markdown-graph/package-lock.json",       "line": 4328,       "column": 21,       "lineText": "        \\"safe-regex-test\\": \\"^1.1.0\\",",       "snippet": "        \\"safe-array-concat\\": \\"^1.1.3\\",\\n        \\"safe-push-apply\\": \\"^1.0.0\\",\\n        \\"safe-regex-test\\": \\"^1.1.0\\",\\n        \\"set-proto\\": \\"^1.0.0\\",\\n        \\"stop-iteration-iterator\\": \\"^1.1.0\\",",       "startLine": 4326,       "endLine": 4330     },     {       "path": "services/ts/markdown-graph/package-lock.json",       "line": 4582,       "column": 56,       "lineText": "        \\"eslint-plugin-import\\": \\"npm:eslint-plugin-i@latest\\",",       "snippet": "        \\"eslint-plugin-astro\\": \\"^0.33.1\\",\\n        \\"eslint-plugin-cypress\\": \\"^2.15.1\\",\\n        \\"eslint-plugin-import\\": \\"npm:eslint-plugin-i@latest\\",\\n        \\"eslint-plugin-jsdoc\\": \\"^48.2.3\\",\\n        \\"eslint-plugin-jsx-a11y\\": \\"^6.8.0\\",",       "startLine": 4580,       "endLine": 4584     },     {       "path": "services/ts/markdown-graph/package-lock.json",       "line": 4980,       "column": 21,       "lineText": "        \\"safe-regex-test\\": \\"^1.0.3\\",",       "snippet": "        \\"minimatch\\": \\"^3.1.2\\",\\n        \\"object.fromentries\\": \\"^2.0.8\\",\\n        \\"safe-regex-test\\": \\"^1.0.3\\",\\n        \\"string.prototype.includes\\": \\"^2.0.1\\"\\n      },",       "startLine": 4978,       "endLine": 4982     },     {       "path": "services/ts/markdown-graph/package-lock.json",       "line": 6539,       "column": 128,       "lineText": "      \\"deprecated\\": \\"This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.\\",",       "snippet": "      \\"resolved\\": \\"https://registry.npmjs.org/inflight/-/inflight-1.0.6.tgz\\",\\n      \\"integrity\\": \\"sha512-k92I/b08q4wvFscXCLvqfsHCrjrF7yiXsQuIVvVE7N82W3+aqpzuUdBbfhWcy/FZR3/4IgflMgKLOsvPDrGCJA==\\",\\n      \\"deprecated\\": \\"This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.\\",\\n      \\"dev\\": true,\\n      \\"license\\": \\"ISC\\",",       "startLine": 6537,       "endLine": 6541     },     {       "path": "services/ts/markdown-graph/package-lock.json",       "line": 6659,       "column": 21,       "lineText": "        \\"safe-regex-test\\": \\"^1.1.0\\"",       "snippet": "        \\"get-proto\\": \\"^1.0.1\\",\\n        \\"has-tostringtag\\": \\"^1.0.2\\",\\n        \\"safe-regex-test\\": \\"^1.1.0\\"\\n      },\\n      \\"engines\\": {",       "startLine": 6657,       "endLine": 6661     },     {       "path": "services/ts/markdown-graph/package-lock.json",       "line": 6858,       "column": 21,       "lineText": "        \\"safe-regex-test\\": \\"^1.1.0\\"",       "snippet": "        \\"get-proto\\": \\"^1.0.0\\",\\n        \\"has-tostringtag\\": \\"^1.0.2\\",\\n        \\"safe-regex-test\\": \\"^1.1.0\\"\\n      },\\n      \\"engines\\": {",       "startLine": 6856,       "endLine": 6860     },     {       "path": "services/ts/markdown-graph/package-lock.json",       "line": 7071,       "column": 21,       "lineText": "        \\"safe-regex-test\\": \\"^1.1.0\\"",       "snippet": "        \\"call-bound\\": \\"^1.0.2\\",\\n        \\"has-symbols\\": \\"^1.1.0\\",\\n        \\"safe-regex-test\\": \\"^1.1.0\\"\\n      },\\n      \\"engines\\": {",       "startLine": 7069,       "endLine": 7073     },     {       "path": "services/ts/markdown-graph/package-lock.json",       "line": 8789,       "column": 25,       "lineText": "        \\"node-gyp-build-test\\": \\"build-test.js\\"",       "snippet": "        \\"node-gyp-build\\": \\"bin.js\\",\\n        \\"node-gyp-build-optional\\": \\"optional.js\\",\\n        \\"node-gyp-build-test\\": \\"build-test.js\\"\\n      }\\n    },",       "startLine": 8787,       "endLine": 8791     },     {       "path": "services/ts/markdown-graph/package-lock.json",       "line": 10289,       "column": 30,       "lineText": "    \\"node\_modules/safe-regex-test\\": {",       "snippet": "      }\\n    },\\n    \\"node\_modules/safe-regex-test\\": {\\n      \\"version\\": \\"1.1.0\\",\\n      \\"resolved\\": \\"https://registry.npmjs.org/safe-regex-test/-/safe-regex-test-1.1.0.tgz\\",",       "startLine": 10287,       "endLine": 10291     },     {       "path": "services/ts/markdown-graph/package-lock.json",       "line": 10291,       "column": 58,       "lineText": "      \\"resolved\\": \\"https://registry.npmjs.org/safe-regex-test/-/safe-regex-test-1.1.0.tgz\\",",       "snippet": "    \\"node\_modules/safe-regex-test\\": {\\n      \\"version\\": \\"1.1.0\\",\\n      \\"resolved\\": \\"https://registry.npmjs.org/safe-regex-test/-/safe-regex-test-1.1.0.tgz\\",\\n      \\"integrity\\": \\"sha512-x/+Cz4YrimQxQccJf5mKEbIa1NzeCRNI5Ecl/ekmlYaampdNLPalVyIcCZNNH3MvmqBugV5TMYZXv0ljslUlaw==\\",\\n      \\"dev\\": true,",       "startLine": 10289,       "endLine": 10293     },     {       "path": "services/ts/markdown-graph/package-lock.json",       "line": 11124,       "column": 24,       "lineText": "    \\"node\_modules/supertest\\": {",       "snippet": "      }\\n    },\\n    \\"node\_modules/supertest\\": {\\n      \\"version\\": \\"7.1.4\\",\\n      \\"resolved\\": \\"https://registry.npmjs.org/supertest/-/supertest-7.1.4.tgz\\",",       "startLine": 11122,       "endLine": 11126     },     {       "path": "services/ts/markdown-graph/package-lock.json",       "line": 11126,       "column": 52,       "lineText": "      \\"resolved\\": \\"https://registry.npmjs.org/supertest/-/supertest-7.1.4.tgz\\",",       "snippet": "    \\"node\_modules/supertest\\": {\\n      \\"version\\": \\"7.1.4\\",\\n      \\"resolved\\": \\"https://registry.npmjs.org/supertest/-/supertest-7.1.4.tgz\\",\\n      \\"integrity\\": \\"sha512-tjLPs7dVyqgItVFirHYqe2T+MfWc2VOBQ8QFKKbWTA3PU7liZR8zoSpAi/C1k1ilm9RsXIKYf197oap9wXGVYg==\\",\\n      \\"dev\\": true,",       "startLine": 11124,       "endLine": 11128     },     {       "path": "services/ts/markdown-graph/package-lock.json",       "line": 11232,       "column": 19,       "lineText": "    \\"node\_modules/test-exclude\\": {",       "snippet": "      }\\n    },\\n    \\"node\_modules/test-exclude\\": {\\n      \\"version\\": \\"6.0.0\\",\\n      \\"resolved\\": \\"https://registry.npmjs.org/test-exclude/-/test-exclude-6.0.0.tgz\\",",       "startLine": 11230,       "endLine": 11234     },     {       "path": "services/ts/markdown-graph/package-lock.json",       "line": 11234,       "column": 47,       "lineText": "      \\"resolved\\": \\"https://registry.npmjs.org/test-exclude/-/test-exclude-6.0.0.tgz\\",",       "snippet": "    \\"node\_modules/test-exclude\\": {\\n      \\"version\\": \\"6.0.0\\",\\n      \\"resolved\\": \\"https://registry.npmjs.org/test-exclude/-/test-exclude-6.0.0.tgz\\",\\n      \\"integrity\\": \\"sha512-cAGWPIyOHU6zlmg88jwm7VRyXnMN7iV68OGAbYDk/Mh/xC/pzVPlQtY6ngoIH/5/tciuhGfvESU8GrHrcxD56w==\\",\\n      \\"dev\\": true,",       "startLine": 11232,       "endLine": 11236     },     {       "path": "services/ts/markdown-graph/package-lock.json",       "line": 11247,       "column": 19,       "lineText": "    \\"node\_modules/test-exclude/node\_modules/glob\\": {",       "snippet": "      }\\n    },\\n    \\"node\_modules/test-exclude/node\_modules/glob\\": {\\n      \\"version\\": \\"7.2.3\\",\\n      \\"resolved\\": \\"https://registry.npmjs.org/glob/-/glob-7.2.3.tgz\\",",       "startLine": 11245,       "endLine": 11249     },     {       "path": "services/ts/templates/service/README.md",       "line": 11,       "column": 71,       "lineText": "Then update `package.json`, add your code under `src/`, and implement tests under `tests/`.",       "snippet": "``\n\nThen update `package.json`, add your code under `src/`, and implement tests under `tests/`.\n",       "startLine": 9,       "endLine": 12     },     {       "path": "services/ts/cephalon/package-lock.json",       "line": 323,       "column": 6,       "lineText": "\t\t\t\t\"testcontainers\": \"^10.9.0\"",       "snippet": "\t\t\t\t\"@chroma-core/ai-embeddings-common\": \"^0.1.7\",\n\t\t\t\t\"ollama\": \"^0.5.15\",\n\t\t\t\t\"testcontainers\": \"^10.9.0\"\n\t\t\t},\n\t\t\t\"engines\": {",       "startLine": 321,       "endLine": 325     },     {       "path": "services/ts/cephalon/package-lock.json",       "line": 2018,       "column": 6,       "lineText": "\t\t\t\t\"test-exclude\": \"^6.0.0\",",       "snippet": "\t\t\t\t\"istanbul-lib-report\": \"^3.0.1\",\n\t\t\t\t\"istanbul-reports\": \"^3.1.6\",\n\t\t\t\t\"test-exclude\": \"^6.0.0\",\n\t\t\t\t\"v8-to-istanbul\": \"^9.0.0\",\n\t\t\t\t\"yargs\": \"^17.7.2\",",       "startLine": 2016,       "endLine": 2020     },     {       "path": "services/ts/cephalon/package-lock.json",       "line": 3913,       "column": 21,       "lineText": "\t\t\t\t\"node-gyp-build-test\": \"build-test.js\"",       "snippet": "\t\t\t\t\"node-gyp-build\": \"bin.js\",\n\t\t\t\t\"node-gyp-build-optional\": \"optional.js\",\n\t\t\t\t\"node-gyp-build-test\": \"build-test.js\"\n\t\t\t}\n\t\t},",       "startLine": 3911,       "endLine": 3915     },     {       "path": "services/ts/cephalon/package-lock.json",       "line": 5144,       "column": 17,       "lineText": "\t\t\"node_modules/test-exclude\": {",       "snippet": "\t\t\t}\n\t\t},\n\t\t\"node_modules/test-exclude\": {\n\t\t\t\"version\": \"6.0.0\",\n\t\t\t\"resolved\": \"https://registry.npmjs.org/test-exclude/-/test-exclude-6.0.0.tgz\",",       "startLine": 5142,       "endLine": 5146     },     {       "path": "services/ts/cephalon/package-lock.json",       "line": 5146,       "column": 44,       "lineText": "\t\t\t\"resolved\": \"https://registry.npmjs.org/test-exclude/-/test-exclude-6.0.0.tgz\",",       "snippet": "\t\t\"node_modules/test-exclude\": {\n\t\t\t\"version\": \"6.0.0\",\n\t\t\t\"resolved\": \"https://registry.npmjs.org/test-exclude/-/test-exclude-6.0.0.tgz\",\n\t\t\t\"integrity\": \"sha512-cAGWPIyOHU6zlmg88jwm7VRyXnMN7iV68OGAbYDk/Mh/xC/pzVPlQtY6ngoIH/5/tciuhGfvESU8GrHrcxD56w==\",\n\t\t\t\"dev\": true,",       "startLine": 5144,       "endLine": 5148     },     {       "path": "services/ts/cephalon/package-lock.json",       "line": 5159,       "column": 17,       "lineText": "\t\t\"node_modules/test-exclude/node_modules/glob\": {",       "snippet": "\t\t\t}\n\t\t},\n\t\t\"node_modules/test-exclude/node_modules/glob\": {\n\t\t\t\"version\": \"7.2.3\",\n\t\t\t\"resolved\": \"https://registry.npmjs.org/glob/-/glob-7.2.3.tgz\",",       "startLine": 5157,       "endLine": 5161     },     {       "path": "services/ts/cephalon/package-lock.json",       "line": 5181,       "column": 17,       "lineText": "\t\t\"node_modules/testcontainers\": {",       "snippet": "\t\t\t}\n\t\t},\n\t\t\"node_modules/testcontainers\": {\n\t\t\t\"version\": \"10.28.0\",\n\t\t\t\"resolved\": \"https://registry.npmjs.org/testcontainers/-/testcontainers-10.28.0.tgz\",",       "startLine": 5179,       "endLine": 5183     },     {       "path": "services/ts/cephalon/package-lock.json",       "line": 5183,       "column": 44,       "lineText": "\t\t\t\"resolved\": \"https://registry.npmjs.org/testcontainers/-/testcontainers-10.28.0.tgz\",",       "snippet": "\t\t\"node_modules/testcontainers\": {\n\t\t\t\"version\": \"10.28.0\",\n\t\t\t\"resolved\": \"https://registry.npmjs.org/testcontainers/-/testcontainers-10.28.0.tgz\",\n\t\t\t\"integrity\": \"sha512-1fKrRRCsgAQNkarjHCMKzBKXSJFmzNTiTbhb5E/j5hflRXChEtHvkefjaHlgkNUjfw92/Dq8LTgwQn6RDBFbMg==\",\n\t\t\t\"license\": \"MIT\",",       "startLine": 5181,       "endLine": 5185     },     {       "path": "services/ts/cephalon/package-lock.json",       "line": 5204,       "column": 17,       "lineText": "\t\t\"node_modules/testcontainers/node_modules/tar-fs\": {",       "snippet": "\t\t\t}\n\t\t},\n\t\t\"node_modules/testcontainers/node_modules/tar-fs\": {\n\t\t\t\"version\": \"3.1.0\",\n\t\t\t\"resolved\": \"https://registry.npmjs.org/tar-fs/-/tar-fs-3.1.0.tgz\",",       "startLine": 5202,       "endLine": 5206     },     {       "path": "services/ts/cephalon/package-lock.json",       "line": 5218,       "column": 17,       "lineText": "\t\t\"node_modules/testcontainers/node_modules/tar-stream\": {",       "snippet": "\t\t\t}\n\t\t},\n\t\t\"node_modules/testcontainers/node_modules/tar-stream\": {\n\t\t\t\"version\": \"3.1.7\",\n\t\t\t\"resolved\": \"https://registry.npmjs.org/tar-stream/-/tar-stream-3.1.7.tgz\",",       "startLine": 5216,       "endLine": 5220     },     {       "path": "services/ts/cephalon/package-lock.json",       "line": 5229,       "column": 17,       "lineText": "\t\t\"node_modules/testcontainers/node_modules/undici\": {",       "snippet": "\t\t\t}\n\t\t},\n\t\t\"node_modules/testcontainers/node_modules/undici\": {\n\t\t\t\"version\": \"5.29.0\",\n\t\t\t\"resolved\": \"https://registry.npmjs.org/undici/-/undici-5.29.0.tgz\",",       "startLine": 5227,       "endLine": 5231     },     {       "path": "services/ts/cephalon/src/transcriber.ts",       "line": 71,       "column": 41,       "lineText": "            // Minimal no-op broker for tests that don't exercise transcription",       "snippet": "        }\n        if (process.env.DISABLE_BROKER === '1') {\n            // Minimal no-op broker for tests that don't exercise transcription\n            // eslint-disable-next-line @typescript-eslint/no-explicit-any\n            this.broker = { enqueue() {}, subscribe() {}, connect: async () => {} } as any;",       "startLine": 69,       "endLine": 73     },     {       "path": "services/ts/voice/tests/playback.test.ts",       "line": 1,       "column": 8,       "lineText": "import test from 'ava';",       "snippet": "import test from 'ava';\nimport { Guild } from 'discord.js';\nimport { PassThrough } from 'stream';",       "startLine": 1,       "endLine": 3     },     {       "path": "services/ts/voice/tests/playback.test.ts",       "line": 6,       "column": 1,       "lineText": "test('speak endpoint plays voice', async (t) => {",       "snippet": "import { createVoiceService } from '../src/index.ts';\n\ntest('speak endpoint plays voice', async (t) => {\n    const service = createVoiceService('tok');\n    // stub guild and user fetching",       "startLine": 4,       "endLine": 8     },     {       "path": "services/ts/file-watcher/package-lock.json",       "line": 3040,       "column": 10,       "lineText": "        \"test-exclude\": \"^6.0.0\",",       "snippet": "        \"istanbul-lib-report\": \"^3.0.1\",\n        \"istanbul-reports\": \"^3.1.6\",\n        \"test-exclude\": \"^6.0.0\",\n        \"v8-to-istanbul\": \"^9.0.0\",\n        \"yargs\": \"^17.7.2\",",       "startLine": 3038,       "endLine": 3042     },     {       "path": "services/ts/file-watcher/package-lock.json",       "line": 3994,       "column": 21,       "lineText": "        \"safe-regex-test\": \"^1.1.0\",",       "snippet": "        \"safe-array-concat\": \"^1.1.3\",\n        \"safe-push-apply\": \"^1.0.0\",\n        \"safe-regex-test\": \"^1.1.0\",\n        \"set-proto\": \"^1.0.0\",\n        \"stop-iteration-iterator\": \"^1.1.0\",",       "startLine": 3992,       "endLine": 3996     },     {       "path": "services/ts/file-watcher/package-lock.json",       "line": 4245,       "column": 56,       "lineText": "        \"eslint-plugin-import\": \"npm:eslint-plugin-i@latest\",",       "snippet": "        \"eslint-plugin-astro\": \"^0.33.1\",\n        \"eslint-plugin-cypress\": \"^2.15.1\",\n        \"eslint-plugin-import\": \"npm:eslint-plugin-i@latest\",\n        \"eslint-plugin-jsdoc\": \"^48.2.3\",\n        \"eslint-plugin-jsx-a11y\": \"^6.8.0\",",       "startLine": 4243,       "endLine": 4247     },     {       "path": "services/ts/file-watcher/package-lock.json",       "line": 4680,       "column": 21,       "lineText": "        \"safe-regex-test\": \"^1.0.3\",",       "snippet": "        \"minimatch\": \"^3.1.2\",\n        \"object.fromentries\": \"^2.0.8\",\n        \"safe-regex-test\": \"^1.0.3\",\n        \"string.prototype.includes\": \"^2.0.1\"\n      },",       "startLine": 4678,       "endLine": 4682     },     {       "path": "services/ts/file-watcher/package-lock.json",       "line": 6112,       "column": 128,       "lineText": "      \"deprecated\": \"This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.\",",       "snippet": "      \"resolved\": \"https://registry.npmjs.org/inflight/-/inflight-1.0.6.tgz\",\n      \"integrity\": \"sha512-k92I/b08q4wvFscXCLvqfsHCrjrF7yiXsQuIVvVE7N82W3+aqpzuUdBbfhWcy/FZR3/4IgflMgKLOsvPDrGCJA==\",\n      \"deprecated\": \"This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.\",\n      \"dev\": true,\n      \"license\": \"ISC\",",       "startLine": 6110,       "endLine": 6114     },     {       "path": "services/ts/file-watcher/package-lock.json",       "line": 6224,       "column": 21,       "lineText": "        \"safe-regex-test\": \"^1.1.0\"",       "snippet": "        \"get-proto\": \"^1.0.1\",\n        \"has-tostringtag\": \"^1.0.2\",\n        \"safe-regex-test\": \"^1.1.0\"\n      },\n      \"engines\": {",       "startLine": 6222,       "endLine": 6226     },     {       "path": "services/ts/file-watcher/package-lock.json",       "line": 6434,       "column": 21,       "lineText": "        \"safe-regex-test\": \"^1.1.0\"",       "snippet": "        \"get-proto\": \"^1.0.0\",\n        \"has-tostringtag\": \"^1.0.2\",\n        \"safe-regex-test\": \"^1.1.0\"\n      },\n      \"engines\": {",       "startLine": 6432,       "endLine": 6436     },     {       "path": "services/ts/file-watcher/package-lock.json",       "line": 6645,       "column": 21,       "lineText": "        \"safe-regex-test\": \"^1.1.0\"",       "snippet": "        \"call-bound\": \"^1.0.2\",\n        \"has-symbols\": \"^1.1.0\",\n        \"safe-regex-test\": \"^1.1.0\"\n      },\n      \"engines\": {",       "startLine": 6643,       "endLine": 6647     },     {       "path": "services/ts/file-watcher/package-lock.json",       "line": 8135,       "column": 25,       "lineText": "        \"node-gyp-build-test\": \"build-test.js\"",       "snippet": "        \"node-gyp-build\": \"bin.js\",\n        \"node-gyp-build-optional\": \"optional.js\",\n        \"node-gyp-build-test\": \"build-test.js\"\n      }\n    },",       "startLine": 8133,       "endLine": 8137     },     {       "path": "services/ts/file-watcher/package-lock.json",       "line": 9551,       "column": 30,       "lineText": "    \"node_modules/safe-regex-test\": {",       "snippet": "      }\n    },\n    \"node_modules/safe-regex-test\": {\n      \"version\": \"1.1.0\",\n      \"resolved\": \"https://registry.npmjs.org/safe-regex-test/-/safe-regex-test-1.1.0.tgz\",",       "startLine": 9549,       "endLine": 9553     },     {       "path": "services/ts/file-watcher/package-lock.json",       "line": 9553,       "column": 58,       "lineText": "      \"resolved\": \"https://registry.npmjs.org/safe-regex-test/-/safe-regex-test-1.1.0.tgz\",",       "snippet": "    \"node_modules/safe-regex-test\": {\n      \"version\": \"1.1.0\",\n      \"resolved\": \"https://registry.npmjs.org/safe-regex-test/-/safe-regex-test-1.1.0.tgz\",\n      \"integrity\": \"sha512-x/+Cz4YrimQxQccJf5mKEbIa1NzeCRNI5Ecl/ekmlYaampdNLPalVyIcCZNNH3MvmqBugV5TMYZXv0ljslUlaw==\",\n      \"dev\": true,",       "startLine": 9551,       "endLine": 9555     },     {       "path": "services/ts/file-watcher/package-lock.json",       "line": 10287,       "column": 19,       "lineText": "    \"node_modules/test-exclude\": {",       "snippet": "      }\n    },\n    \"node_modules/test-exclude\": {\n      \"version\": \"6.0.0\",\n      \"resolved\": \"https://registry.npmjs.org/test-exclude/-/test-exclude-6.0.0.tgz\",",       "startLine": 10285,       "endLine": 10289     },     {       "path": "services/ts/file-watcher/package-lock.json",       "line": 10289,       "column": 47,       "lineText": "      \"resolved\": \"https://registry.npmjs.org/test-exclude/-/test-exclude-6.0.0.tgz\",",       "snippet": "    \"node_modules/test-exclude\": {\n      \"version\": \"6.0.0\",\n      \"resolved\": \"https://registry.npmjs.org/test-exclude/-/test-exclude-6.0.0.tgz\",\n      \"integrity\": \"sha512-cAGWPIyOHU6zlmg88jwm7VRyXnMN7iV68OGAbYDk/Mh/xC/pzVPlQtY6ngoIH/5/tciuhGfvESU8GrHrcxD56w==\",\n      \"dev\": true,",       "startLine": 10287,       "endLine": 10291     },     {       "path": "services/ts/file-watcher/package-lock.json",       "line": 10302,       "column": 19,       "lineText": "    \"node_modules/test-exclude/node_modules/brace-expansion\": {",       "snippet": "      }\n    },\n    \"node_modules/test-exclude/node_modules/brace-expansion\": {\n      \"version\": \"1.1.12\",\n      \"resolved\": \"https://registry.npmjs.org/brace-expansion/-/brace-expansion-1.1.12.tgz\",",       "startLine": 10300,       "endLine": 10304     },     {       "path": "services/ts/file-watcher/package-lock.json",       "line": 10313,       "column": 19,       "lineText": "    \"node_modules/test-exclude/node_modules/glob\": {",       "snippet": "      }\n    },\n    \"node_modules/test-exclude/node_modules/glob\": {\n      \"version\": \"7.2.3\",\n      \"resolved\": \"https://registry.npmjs.org/glob/-/glob-7.2.3.tgz\",",       "startLine": 10311,       "endLine": 10315     },     {       "path": "services/ts/file-watcher/package-lock.json",       "line": 10335,       "column": 19,       "lineText": "    \"node_modules/test-exclude/node_modules/minimatch\": {",       "snippet": "      }\n    },\n    \"node_modules/test-exclude/node_modules/minimatch\": {\n      \"version\": \"3.1.2\",\n      \"resolved\": \"https://registry.npmjs.org/minimatch/-/minimatch-3.1.2.tgz\",",       "startLine": 10333,       "endLine": 10337     },     {       "path": "services/ts/markdown-graph/src/index.ts",       "line": 69,       "column": 31,       "lineText": "if (process.env.NODE_ENV !== 'test') {",       "snippet": "}\n\nif (process.env.NODE_ENV !== 'test') {\n    start();\n}",       "startLine": 67,       "endLine": 71     },     {       "path": "services/ts/markdown-graph/tests/graph.test.ts",       "line": 1,       "column": 8,       "lineText": "import test from 'ava';",       "snippet": "import test from 'ava';\nimport { MongoMemoryServer } from 'mongodb-memory-server';\nimport request from 'supertest';",       "startLine": 1,       "endLine": 3     },     {       "path": "services/ts/markdown-graph/tests/graph.test.ts",       "line": 3,       "column": 27,       "lineText": "import request from 'supertest';",       "snippet": "import test from 'ava';\nimport { MongoMemoryServer } from 'mongodb-memory-server';\nimport request from 'supertest';\nimport { promises as fs } from 'fs';\nimport { join } from 'path';",       "startLine": 1,       "endLine": 5     },     {       "path": "services/ts/markdown-graph/tests/graph.test.ts",       "line": 11,       "column": 1,       "lineText": "test('cold start and update', async (t) => {",       "snippet": "import { createApp, handleTask } from '../src/index.js';\n\ntest('cold start and update', async (t) => {\n    t.timeout(60000);\n    const repo = await fs.mkdtemp(join(tmpdir(), 'mg-'));",       "startLine": 9,       "endLine": 13     },     {       "path": "services/ts/markdown-graph/tsconfig.json",       "line": 35,       "column": 50,       "lineText": "    \"include\": [\"src/**/*.ts\", \"src/**/*.d.ts\", \"tests/**/*.ts\"],",       "snippet": "        \"skipLibCheck\": true\n    },\n    \"include\": [\"src/**/*.ts\", \"src/**/*.d.ts\", \"tests/**/*.ts\"],\n    \"exclude\": [\"node_modules\"]\n}",       "startLine": 33,       "endLine": 37     },     {       "path": "services/ts/file-watcher/run.sh",       "line": 6,       "column": 54,       "lineText": "  echo \"  corepack enable && corepack prepare pnpm@latest --activate\"",       "snippet": "else\n  echo \"ERROR: pnpm is required. Enable Corepack and activate pnpm:\"\n  echo \"  corepack enable && corepack prepare pnpm@latest --activate\"\n  exit 1\nfi",       "startLine": 4,       "endLine": 8     },     {       "path": "services/ts/cephalon/src/index.ts",       "line": 24,       "column": 31,       "lineText": "if (process.env.NODE_ENV !== 'test') {",       "snippet": "}\n\nif (process.env.NODE_ENV !== 'test') {\n    main();\n}",       "startLine": 22,       "endLine": 26     },     {       "path": "services/ts/codex-orchestrator/src/tools.ts",       "line": 37,       "column": 26,       "lineText": "export async function runTests(",       "snippet": "}\n\nexport async function runTests(\n    pattern?: string,\n): Promise<{ code: number; stdout: string; stderr: string }> {",       "startLine": 35,       "endLine": 39     },     {       "path": "services/ts/codex-orchestrator/src/tools.ts",       "line": 40,       "column": 30,       "lineText": "    const cmd = (process.env.TEST_CMD || 'pnpm -w test').split(' ');",       "snippet": "    pattern?: string,\n): Promise<{ code: number; stdout: string; stderr: string }> {\n    const cmd = (process.env.TEST_CMD || 'pnpm -w test').split(' ');\n    const flag = process.env.TEST_PATTERN_FLAG || '-m'; // AVA match flag\n    const args = pattern ? cmd.slice(1).concat([flag, pattern]) : cmd.slice(1);",       "startLine": 38,       "endLine": 42     },     {       "path": "services/ts/codex-orchestrator/src/tools.ts",       "line": 41,       "column": 30,       "lineText": "    const flag = process.env.TEST_PATTERN_FLAG || '-m'; // AVA match flag",       "snippet": "): Promise<{ code: number; stdout: string; stderr: string }> {\n    const cmd = (process.env.TEST_CMD || 'pnpm -w test').split(' ');\n    const flag = process.env.TEST_PATTERN_FLAG || '-m'; // AVA match flag\n    const args = pattern ? cmd.slice(1).concat([flag, pattern]) : cmd.slice(1);\n    return new Promise((resolve) => {",       "startLine": 39,       "endLine": 43     },     {       "path": "services/ts/markdown-graph/biome.json",       "line": 4,       "column": 33,       "lineText": "        \"includes\": [\"src/**\", \"tests/**\"]",       "snippet": "    \"$schema\": \"https://biomejs.dev/schemas/2.1.3/schema.json\",\n    \"files\": {\n        \"includes\": [\"src/**\", \"tests/**\"]\n    },\n    \"linter\": {",       "startLine": 2,       "endLine": 6     },     {       "path": "services/ts/kanban-processor/tsconfig.json",       "line": 52,       "column": 33,       "lineText": "    \"include\": [\"src/**/*.ts\", \"tests/**/*.ts\"],",       "snippet": "        \"skipLibCheck\": true\n    },\n    \"include\": [\"src/**/*.ts\", \"tests/**/*.ts\"],\n    \"exclude\": [\"node_modules\"]\n}",       "startLine": 50,       "endLine": 54     },     {       "path": "services/ts/kanban-processor/package-lock.json",       "line": 3028,       "column": 18,       "lineText": "                \"test-exclude\": \"^6.0.0\",",       "snippet": "                \"istanbul-lib-report\": \"^3.0.1\",\n                \"istanbul-reports\": \"^3.1.6\",\n                \"test-exclude\": \"^6.0.0\",\n                \"v8-to-istanbul\": \"^9.0.0\",\n                \"yargs\": \"^17.7.2\",",       "startLine": 3026,       "endLine": 3030     },     {       "path": "services/ts/kanban-processor/package-lock.json",       "line": 3958,       "column": 29,       "lineText": "                \"safe-regex-test\": \"^1.1.0\",",       "snippet": "                \"safe-array-concat\": \"^1.1.3\",\n                \"safe-push-apply\": \"^1.0.0\",\n                \"safe-regex-test\": \"^1.1.0\",\n                \"set-proto\": \"^1.0.0\",\n                \"stop-iteration-iterator\": \"^1.1.0\",",       "startLine": 3956,       "endLine": 3960     },     {       "path": "services/ts/kanban-processor/package-lock.json",       "line": 4209,       "column": 64,       "lineText": "                \"eslint-plugin-import\": \"npm:eslint-plugin-i@latest\",",       "snippet": "                \"eslint-plugin-astro\": \"^0.33.1\",\n                \"eslint-plugin-cypress\": \"^2.15.1\",\n                \"eslint-plugin-import\": \"npm:eslint-plugin-i@latest\",\n                \"eslint-plugin-jsdoc\": \"^48.2.3\",\n                \"eslint-plugin-jsx-a11y\": \"^6.8.0\",",       "startLine": 4207,       "endLine": 4211     },     {       "path": "services/ts/kanban-processor/package-lock.json",       "line": 4607,       "column": 29,       "lineText": "                \"safe-regex-test\": \"^1.0.3\",",       "snippet": "                \"minimatch\": \"^3.1.2\",\n                \"object.fromentries\": \"^2.0.8\",\n                \"safe-regex-test\": \"^1.0.3\",\n                \"string.prototype.includes\": \"^2.0.1\"\n            },",       "startLine": 4605,       "endLine": 4609     },     {       "path": "services/ts/kanban-processor/package-lock.json",       "line": 5909,       "column": 134,       "lineText": "            \"deprecated\": \"This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.\",",       "snippet": "            \"resolved\": \"https://registry.npmjs.org/inflight/-/inflight-1.0.6.tgz\",\n            \"integrity\": \"sha512-k92I/b08q4wvFscXCLvqfsHCrjrF7yiXsQuIVvVE7N82W3+aqpzuUdBbfhWcy/FZR3/4IgflMgKLOsvPDrGCJA==\",\n            \"deprecated\": \"This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.\",\n            \"dev\": true,\n            \"license\": \"ISC\",",       "startLine": 5907,       "endLine": 5911     },     {       "path": "services/ts/kanban-processor/package-lock.json",       "line": 6021,       "column": 29,       "lineText": "                \"safe-regex-test\": \"^1.1.0\"",       "snippet": "                \"get-proto\": \"^1.0.1\",\n                \"has-tostringtag\": \"^1.0.2\",\n                \"safe-regex-test\": \"^1.1.0\"\n            },\n            \"engines\": {",       "startLine": 6019,       "endLine": 6023     },     {       "path": "services/ts/kanban-processor/package-lock.json",       "line": 6220,       "column": 29,       "lineText": "                \"safe-regex-test\": \"^1.1.0\"",       "snippet": "                \"get-proto\": \"^1.0.0\",\n                \"has-tostringtag\": \"^1.0.2\",\n                \"safe-regex-test\": \"^1.1.0\"\n            },\n            \"engines\": {",       "startLine": 6218,       "endLine": 6222     },     {       "path": "services/ts/kanban-processor/package-lock.json",       "line": 6433,       "column": 29,       "lineText": "                \"safe-regex-test\": \"^1.1.0\"",       "snippet": "                \"call-bound\": \"^1.0.2\",\n                \"has-symbols\": \"^1.1.0\",\n                \"safe-regex-test\": \"^1.1.0\"\n            },\n            \"engines\": {",       "startLine": 6431,       "endLine": 6435     },     {       "path": "services/ts/kanban-processor/package-lock.json",       "line": 8032,       "column": 33,       "lineText": "                \"node-gyp-build-test\": \"build-test.js\"",       "snippet": "                \"node-gyp-build\": \"bin.js\",\n                \"node-gyp-build-optional\": \"optional.js\",\n                \"node-gyp-build-test\": \"build-test.js\"\n            }\n        },",       "startLine": 8030,       "endLine": 8034     },     {       "path": "services/ts/kanban-processor/package-lock.json",       "line": 9379,       "column": 34,       "lineText": "        \"node_modules/safe-regex-test\": {",       "snippet": "            }\n        },\n        \"node_modules/safe-regex-test\": {\n            \"version\": \"1.1.0\",\n            \"resolved\": \"https://registry.npmjs.org/safe-regex-test/-/safe-regex-test-1.1.0.tgz\",",       "startLine": 9377,       "endLine": 9381     },     {       "path": "services/ts/kanban-processor/package-lock.json",       "line": 9381,       "column": 64,       "lineText": "            \"resolved\": \"https://registry.npmjs.org/safe-regex-test/-/safe-regex-test-1.1.0.tgz\",",       "snippet": "        \"node_modules/safe-regex-test\": {\n            \"version\": \"1.1.0\",\n            \"resolved\": \"https://registry.npmjs.org/safe-regex-test/-/safe-regex-test-1.1.0.tgz\",\n            \"integrity\": \"sha512-x/+Cz4YrimQxQccJf5mKEbIa1NzeCRNI5Ecl/ekmlYaampdNLPalVyIcCZNNH3MvmqBugV5TMYZXv0ljslUlaw==\",\n            \"dev\": true,",       "startLine": 9379,       "endLine": 9383     },     {       "path": "services/ts/kanban-processor/package-lock.json",       "line": 10168,       "column": 23,       "lineText": "        \"node_modules/test-exclude\": {",       "snippet": "            }\n        },\n        \"node_modules/test-exclude\": {\n            \"version\": \"6.0.0\",\n            \"resolved\": \"https://registry.npmjs.org/test-exclude/-/test-exclude-6.0.0.tgz\",",       "startLine": 10166,       "endLine": 10170     },     {       "path": "services/ts/kanban-processor/package-lock.json",       "line": 10170,       "column": 53,       "lineText": "            \"resolved\": \"https://registry.npmjs.org/test-exclude/-/test-exclude-6.0.0.tgz\",",       "snippet": "        \"node_modules/test-exclude\": {\n            \"version\": \"6.0.0\",\n            \"resolved\": \"https://registry.npmjs.org/test-exclude/-/test-exclude-6.0.0.tgz\",\n            \"integrity\": \"sha512-cAGWPIyOHU6zlmg88jwm7VRyXnMN7iV68OGAbYDk/Mh/xC/pzVPlQtY6ngoIH/5/tciuhGfvESU8GrHrcxD56w==\",\n            \"dev\": true,",       "startLine": 10168,       "endLine": 10172     },     {       "path": "services/ts/kanban-processor/package-lock.json",       "line": 10183,       "column": 23,       "lineText": "        \"node_modules/test-exclude/node_modules/glob\": {",       "snippet": "            }\n        },\n        \"node_modules/test-exclude/node_modules/glob\": {\n            \"version\": \"7.2.3\",\n            \"resolved\": \"https://registry.npmjs.org/glob/-/glob-7.2.3.tgz\",",       "startLine": 10181,       "endLine": 10185     },     {       "path": "services/ts/file-watcher/src/index.ts",       "line": 63,       "column": 31,       "lineText": "if (process.env.NODE_ENV !== 'test') {",       "snippet": "}\n\nif (process.env.NODE_ENV !== 'test') {\n    startFileWatcher();\n    console.log('File watcher running...');",       "startLine": 61,       "endLine": 65     },     {       "path": "services/ts/file-watcher/src/repo-watcher.ts",       "line": 169,       "column": 24,       "lineText": "        // exposed for tests",       "snippet": "            pending.clear();\n        },\n        // exposed for tests\n        _handle: handle,\n    } as const;",       "startLine": 167,       "endLine": 171     },     {       "path": "services/ts/file-watcher/tests/repo-watcher.test.ts",       "line": 1,       "column": 8,       "lineText": "import test from 'ava';",       "snippet": "import test from 'ava';\nimport { createRepoWatcher } from '../src/repo-watcher.js';\n",       "startLine": 1,       "endLine": 3     },     {       "path": "services/ts/file-watcher/tests/repo-watcher.test.ts",       "line": 4,       "column": 1,       "lineText": "test('repo watcher posts index/remove for non-ignored files', async (t) => {",       "snippet": "import { createRepoWatcher } from '../src/repo-watcher.js';\n\ntest('repo watcher posts index/remove for non-ignored files', async (t) => {\n    t.timeout(5000);\n    const calls: { url: string; body: any; headers: any }[] = [];",       "startLine": 2,       "endLine": 6     },     {       "path": "services/ts/file-watcher/tests/repo-watcher.test.ts",       "line": 8,       "column": 42,       "lineText": "    process.env.SMARTGPT_BRIDGE_TOKEN = 'test-token';",       "snippet": "    const calls: { url: string; body: any; headers: any }[] = [];\n    const origFetch: any = globalThis.fetch;\n    process.env.SMARTGPT_BRIDGE_TOKEN = 'test-token';\n    globalThis.fetch = (async (url: any, init: any) => {\n        calls.push({ url: String(url), body: JSON.parse(init.body), headers: init.headers });",       "startLine": 6,       "endLine": 10     },     {       "path": "services/ts/file-watcher/tests/repo-watcher.test.ts",       "line": 19,       "column": 44,       "lineText": "    // Force not-ignored for deterministic tests",       "snippet": "        debounceMs: 50,\n    });\n    // Force not-ignored for deterministic tests\n    const mod = await import('../src/repo-watcher.js');\n    (mod as any).checkGitIgnored = async () => false;",       "startLine": 17,       "endLine": 21     },     {       "path": "services/ts/file-watcher/tests/repo-watcher.test.ts",       "line": 37,       "column": 68,       "lineText": "    t.true(calls.every((c) => c.headers?.Authorization === 'Bearer test-token'));",       "snippet": "    t.true(calls.some((c) => c.url.endsWith('/indexer/remove') && c.body.path === 'src/old.ts'));\n    t.false(calls.some((c) => c.body.path === 'node_modules/ignore.js'));\n    t.true(calls.every((c) => c.headers?.Authorization === 'Bearer test-token'));\n\n    (await watcher).close();",       "startLine": 35,       "endLine": 39     },     {       "path": "services/ts/codex-orchestrator/src/index.ts",       "line": 4,       "column": 25,       "lineText": "import { applyPatch, runTests, ripgrep, readFileSafe, summarize } from './tools.js';",       "snippet": "\nimport { chat } from './ollama.js';\nimport { applyPatch, runTests, ripgrep, readFileSafe, summarize } from './tools.js';\ntype Action =\n    | { action: 'open_file'; path: string; hint?: string }",       "startLine": 2,       "endLine": 6     },     {       "path": "services/ts/codex-orchestrator/src/index.ts",       "line": 8,       "column": 22,       "lineText": "    | { action: 'run_tests'; pattern?: string }",       "snippet": "    | { action: 'open_file'; path: string; hint?: string }\n    | { action: 'search_repo'; query: string }\n    | { action: 'run_tests'; pattern?: string }\n    | { action: 'write_patch'; path: string; diff: string }\n    | { action: 'ask_user'; question: string }",       "startLine": 6,       "endLine": 10     },     {       "path": "services/ts/codex-orchestrator/src/index.ts",       "line": 18,       "column": 48,       "lineText": "- Allowed actions: open_file, search_repo, run_tests, write_patch, ask_user, done.",       "snippet": "const plannerPreamble = `You are the Promethean Orchestrator.\n- Output JSON ONLY for one action per turn.\n- Allowed actions: open_file, search_repo, run_tests, write_patch, ask_user, done.\n- Repo rules: TypeScript default, AVA tests, NEVER use relative imports; only @shared/ts/dist/...; keep patches minimal.\n- If uncertain about a path or API, use ask_user.",       "startLine": 16,       "endLine": 20     },     {       "path": "services/ts/codex-orchestrator/src/index.ts",       "line": 19,       "column": 39,       "lineText": "- Repo rules: TypeScript default, AVA tests, NEVER use relative imports; only @shared/ts/dist/...; keep patches minimal.",       "snippet": "- Output JSON ONLY for one action per turn.\n- Allowed actions: open_file, search_repo, run_tests, write_patch, ask_user, done.\n- Repo rules: TypeScript default, AVA tests, NEVER use relative imports; only @shared/ts/dist/...; keep patches minimal.\n- If uncertain about a path or API, use ask_user.\nSchema examples:",       "startLine": 17,       "endLine": 21     },     {       "path": "services/ts/codex-orchestrator/src/index.ts",       "line": 24,       "column": 17,       "lineText": "{ \"action\":\"run_tests\", \"pattern\":\"cephalon heartbeat\" }",       "snippet": "{ \"action\":\"open_file\", \"path\":\"services/ts/cephalon/src/foo.ts\", \"hint\":\"read around function X\" }\n{ \"action\":\"search_repo\", \"query\":\"define HeartbeatClient\" }\n{ \"action\":\"run_tests\", \"pattern\":\"cephalon heartbeat\" }\n{ \"action\":\"write_patch\", \"path\":\"services/ts/cephalon/src/foo.ts\", \"diff\":\"@@ ... @@\\n- old\\n+ new\" }\n{ \"action\":\"ask_user\", \"question\":\"Which module defines the broker client?\" }",       "startLine": 22,       "endLine": 26     },     {       "path": "services/ts/codex-orchestrator/src/index.ts",       "line": 27,       "column": 30,       "lineText": "{ \"action\":\"done\", \"reason\":\"tests passed\" }",       "snippet": "{ \"action\":\"write_patch\", \"path\":\"services/ts/cephalon/src/foo.ts\", \"diff\":\"@@ ... @@\\n- old\\n+ new\" }\n{ \"action\":\"ask_user\", \"question\":\"Which module defines the broker client?\" }\n{ \"action\":\"done\", \"reason\":\"tests passed\" }\n`;\n",       "startLine": 25,       "endLine": 29     },     {       "path": "services/ts/codex-orchestrator/src/index.ts",       "line": 40,       "column": 92,       "lineText": "        process.argv.slice(2).join(' ') || 'Assess repo status and propose the first small test.';",       "snippet": "async function main() {\n    const userTask =\n        process.argv.slice(2).join(' ') || 'Assess repo status and propose the first small test.';\n    let messages = [\n        { role: 'system', content: plannerPreamble },",       "startLine": 38,       "endLine": 42     },     {       "path": "services/ts/codex-orchestrator/src/index.ts",       "line": 108,       "column": 36,       "lineText": "        if (action.action === 'run_tests') {",       "snippet": "        }\n\n        if (action.action === 'run_tests') {\n            const res = await runTests(action.pattern);\n            messages.push({ role: 'assistant', content: JSON.stringify(action) });",       "startLine": 106,       "endLine": 110     },     {       "path": "services/ts/codex-orchestrator/src/index.ts",       "line": 109,       "column": 34,       "lineText": "            const res = await runTests(action.pattern);",       "snippet": "\n        if (action.action === 'run_tests') {\n            const res = await runTests(action.pattern);\n            messages.push({ role: 'assistant', content: JSON.stringify(action) });\n            messages.push({",       "startLine": 107,       "endLine": 111     },     {       "path": "services/ts/codex-orchestrator/src/index.ts",       "line": 113,       "column": 27,       "lineText": "                content: `Test result:\\nexit=${res.code}\\nstdout:\\n${summarize(",       "snippet": "            messages.push({\n                role: 'user',\n                content: `Test result:\\nexit=${res.code}\\nstdout:\\n${summarize(\n                    res.stdout,\n                    2000,",       "startLine": 111,       "endLine": 115     },     {       "path": "services/ts/codex-orchestrator/src/index.ts",       "line": 119,       "column": 61,       "lineText": "                messages.push({ role: 'user', content: 'All tests pass. Consider action: done.' });",       "snippet": "            });\n            if (res.code === 0) {\n                messages.push({ role: 'user', content: 'All tests pass. Consider action: done.' });\n            }\n            continue;",       "startLine": 117,       "endLine": 121     },     {       "path": "services/ts/file-watcher/tests/events.test.ts",       "line": 1,       "column": 8,       "lineText": "import test from 'ava';",       "snippet": "import test from 'ava';\nimport { mkdtempSync, writeFileSync, promises as fs } from 'fs';\nimport { join } from 'path';",       "startLine": 1,       "endLine": 3     },     {       "path": "services/ts/file-watcher/tests/events.test.ts",       "line": 12,       "column": 1,       "lineText": "test('emits board change events', async (t) => {",       "snippet": "};\n\ntest('emits board change events', async (t) => {\n    const root = mkdtempSync(join(tmpdir(), 'fw-'));\n    const boardDir = join(root, 'docs', 'agile', 'boards');",       "startLine": 10,       "endLine": 14     },     {       "path": "services/ts/file-watcher/tests/events.test.ts",       "line": 32,       "column": 1,       "lineText": "test('emits task add and change events', async (t) => {",       "snippet": "});\n\ntest('emits task add and change events', async (t) => {\n    const root = mkdtempSync(join(tmpdir(), 'fw-'));\n    const boardDir = join(root, 'docs', 'agile', 'boards');",       "startLine": 30,       "endLine": 34     },     {       "path": "services/ts/file-watcher/tsconfig.json",       "line": 55,       "column": 10,       "lineText": "        \"tests/**/*.ts\",",       "snippet": "        \"src/**/*.ts\",\n        \"src/**/*.d.ts\",\n        \"tests/**/*.ts\",\n        \"../../../shared/ts/src/types/**/*.d.ts\"\n    ],",       "startLine": 53,       "endLine": 57     },     {       "path": "services/ts/kanban-processor/tests/queue.test.ts",       "line": 1,       "column": 8,       "lineText": "import test from 'ava';",       "snippet": "import test from 'ava';\nimport { WebSocketServer } from 'ws';\nimport { startKanbanProcessor } from '../src/index.js';",       "startLine": 1,       "endLine": 3     },     {       "path": "services/ts/kanban-processor/tests/queue.test.ts",       "line": 9,       "column": 1,       "lineText": "test('enqueues processing tasks for board and file changes', async (t) => {",       "snippet": "}\n\ntest('enqueues processing tasks for board and file changes', async (t) => {\n    const wss = new WebSocketServer({ port: 0 });\n    const messages: any[] = [];",       "startLine": 7,       "endLine": 11     },     {       "path": "services/ts/kanban-processor/src/index.ts",       "line": 190,       "column": 35,       "lineText": "    if (process.env.NODE_ENV !== 'test') {",       "snippet": "    let kanbanStore: DualStoreManager<string, string> | null = null;\n    let mongoClient: MongoClient | null = null;\n    if (process.env.NODE_ENV !== 'test') {\n        getMongoClient()\n            .then((client) => {",       "startLine": 188,       "endLine": 192     },     {       "path": "services/ts/kanban-processor/src/index.ts",       "line": 290,       "column": 31,       "lineText": "if (process.env.NODE_ENV !== 'test') {",       "snippet": "}\n\nif (process.env.NODE_ENV !== 'test') {\n    startKanbanProcessor();\n    console.log('Kanban processor running...');",       "startLine": 288,       "endLine": 292     },     {       "path": "services/ts/templates/service/tests/example.test.ts",       "line": 1,       "column": 8,       "lineText": "import test from 'ava';",       "snippet": "import test from 'ava';\n\ntest('placeholder', (t) => {",       "startLine": 1,       "endLine": 3     },     {       "path": "services/ts/templates/service/tests/example.test.ts",       "line": 3,       "column": 1,       "lineText": "test('placeholder', (t) => {",       "snippet": "import test from 'ava';\n\ntest('placeholder', (t) => {\n    t.pass();\n});",       "startLine": 1,       "endLine": 5     },     {       "path": "services/ts/cephalon/src/util.ts",       "line": 30,       "column": 40,       "lineText": "export function generateSpecialQuery(latestUserMessage: GenericEntry, promptChoice: string): string {",       "snippet": "}\n\nexport function generateSpecialQuery(latestUserMessage: GenericEntry, promptChoice: string): string {\n    return `\nThe last thing you heard was:",       "startLine": 28,       "endLine": 32     },     {       "path": "services/ts/cephalon/src/util.ts",       "line": 33,       "column": 19,       "lineText": "${formatMessage(latestUserMessage)}",       "snippet": "    return `\nThe last thing you heard was:\n${formatMessage(latestUserMessage)}\n\n${promptChoice}",       "startLine": 31,       "endLine": 35     },     {       "path": "services/ts/reasoner/package.json",       "line": 9,       "column": 10,       "lineText": "        \"test\": \"pnpm run build && ava\",",       "snippet": "        \"build\": \"tsc && node scripts/patch-imports.js\",\n        \"build:check\": \"tsc --noEmit --incremental false\",\n        \"test\": \"pnpm run build && ava\",\n        \"coverage\": \"pnpm run build && c8 ava\",\n        \"lint\": \"pnpm exec @biomejs/biome lint . || true\",",       "startLine": 7,       "endLine": 11     },     {       "path": "services/ts/reasoner/package.json",       "line": 20,       "column": 22,       "lineText": "        \"@types/supertest\": \"^2.0.13\",",       "snippet": "        \"@types/express\": \"^4.17.21\",\n        \"@types/node\": \"^22.10.10\",\n        \"@types/supertest\": \"^2.0.13\",\n        \"@biomejs/biome\": \"^2.1.3\",\n        \"ava\": \"^6.4.1\",",       "startLine": 18,       "endLine": 22     }   ] }``
+Yea...  Also, here is an example of the semantic search results: {   "results": \[     {       "id": "scripts/run-python-tests.js#0",       "path": "scripts/run-python-tests.js",       "chunkIndex": 0,       "startLine": 1,       "endLine": 41,       "score": 275.64987,       "text": "// scripts/run-python-tests.js\\n\\nconst services = \[\\n  \\"services/py/stt\\",\\n  \\"services/py/tts\\",\\n  \\"services/py/discord\_indexer\\",\\n  // WebSocket endpoints now live in their respective HTTP services\\n\];\\n\\nasync function runTests() {\\n  let allPassed = true;\\n\\n  for (const service of services) {\\n    if (!(await directoryExists(service))) {\\n      console.log(`Skipping {service} (not found)`);\\n      continue;\\n    }\\n\\n    console.log(`\\n=== Running tests in {service} ===`);\\n    try {\\n      await runCommand(\\n        \\"python\\",\\n        \[\\"-m\\", \\"pipenv\\", \\"run\\", \\"pytest\\", \\"tests/\\"\],\\n        service,\\n      );\\n    } catch (err) {\\n      console.error(`❌ {err.message}`);\\n      allPassed = false;\\n    }\\n  }\\n\\n  if (!allPassed) {\\n    console.error(\\"\\\\nSome tests failed.\\");\\n    process.exit(1);\\n  } else {\\n    console.log(\\"\\\\n✅ All tests passed.\\");\\n  }\\n}\\n\\nrunTests();\\n"     },     {       "id": "legacy/sibilant-modules/riatzukiza.github.io/kanban/tasks/Implement tests for existing shared components..md#0",       "path": "legacy/sibilant-modules/riatzukiza.github.io/kanban/tasks/Implement tests for existing shared components..md",       "chunkIndex": 0,       "startLine": 1,       "endLine": 14,       "score": 307.95966,       "text": "We need a suite of tests to garentee \[\[each.md\]\] component works and doesn't break other projects when changes are made as we begin work on more projects.\\n\\n## Requirements\\n\\n- There is a suite of tests that can be executed by running `npm run tests`\\n- \[\[each.md\]\] interface has at least one test\\n\\n## Tasks\\n- \[ \] Implement test framework\\n- \[ \] write tests\\n\\n## Related Epics\\n\\n- \[\[devops pipeline.md\]\]"     },     {       "id": "scripts/run-hy-tests.js#0",       "path": "scripts/run-hy-tests.js",       "chunkIndex": 0,       "startLine": 1,       "endLine": 59,       "score": 309.06976,       "text": "// scripts/run-hy-tests.js\\nconst fs = require(\\"fs/promises\\");\\nconst { spawn } = require(\\"child\_process\\");\\n\\nasync function directoryExists(dir) {\\n  try {\\n    await fs.access(dir);\\n    return true;\\n  } catch {\\n    return false;\\n  }\\n}\\n\\nfunction runCommand(cmd, args, cwd) {\\n  return new Promise((resolve, reject) => {\\n    const proc = spawn(cmd, args, { cwd, stdio: \\"inherit\\" });\\n    proc.on(\\"close\\", (code) => {\\n      if (code === 0) resolve();\\n      else reject(new Error(`Command failed with exit code {code}`));\\n    });\\n  });\\n}\\n\\nconst services = \[\\n  \\"services/hy/stt\\",\\n  \\"services/hy/tts\\",\\n  \\"services/hy/discord\_indexer\\",\\n  \\"services/hy/discord\_attachment\_indexer\\",\\n  \\"services/hy/discord\_attachment\_embedder\\",\\n\];\\n\\nasync function runTests() {\\n  let allPassed = true;\\n\\n  for (const service of services) {\\n    if (!(await directoryExists(service))) {\\n      console.log(`Skipping {service} (not found)`);\\n      continue;\\n    }\\n\\n    console.log(`\\n=== Running tests in {service} ===`);\\n    try {\\n      await runCommand(\\"hy\\", \[\\"-m\\", \\"pytest\\", \\"tests/\\"\], service);\\n    } catch (err) {\\n      console.error(`❌ {err.message}`);\\n      allPassed = false;\\n    }\\n  }\\n\\n  if (!allPassed) {\\n    console.error(\\"\\\\nSome tests failed.\\");\\n    process.exit(1);\\n  } else {\\n    console.log(\\"\\\\n✅ All tests passed.\\");\\n  }\\n}\\n\\nrunTests();\\n"     },     {       "id": "services/ts/codex-context/src/index.ts#10",       "path": "services/ts/codex-context/src/index.ts",       "chunkIndex": 10,       "startLine": 461,       "endLine": 523,       "score": 337.1071,       "text": "ct({\\n                baseDir: deps.docsDir,\\n                request: body,\\n                augmentedSystem: aug.finalSystemPrompt,\\n                citations: aug.citations,\\n                responseText: text,\\n            });\\n            const t5 = process.hrtime.bigint();\\n            span.info('persist.ok', { ms: Number((t5 - t4) / 1000000n) });\\n        } catch (e: any) {\\n            span.warn('persist.error', { err: String(e?.message || e) });\\n        }\\n\\n        if (body?.stream) {\\n            writeSSEHeaders(res);\\n            const id = out.id;\\n            const chunks = chunkString(text, 1024);\\n            for (const c of chunks) {\\n                sseData(res, {\\n                    id,\\n                    object: 'text\_completion.chunk',\\n                    created: out.created,\\n                    model: out.model,\\n                    choices: \[{ text: c, index: 0, logprobs: null, finish\_reason: null }\],\\n                });\\n            }\\n            sseData(res, {\\n                id,\\n                object: 'text\_completion.chunk',\\n                created: out.created,\\n                model: out.model,\\n                choices: \[{ text: '', index: 0, logprobs: null, finish\_reason: finishReason }\],\\n            });\\n            sseDone(res);\\n        } else {\\n            res.json(out);\\n        }\\n\\n        if (sessionId) {\\n            const history = sessions.get(sessionId) || \[\];\\n            const toStore = \[\\n                ...history,\\n                { role: 'user' as const, content: prompt },\\n                { role: 'assistant' as const, content: text },\\n            \];\\n            sessions.set(sessionId, toStore.slice(-200));\\n        }\\n    });\\n\\n    return app;\\n}\\n\\nexport async function start() {\\n    const log = createLogger('codex-context');\\n    const app = createApp();\\n    const port = Number(process.env.PORT || 8140);\\n    return app.listen(port, '0.0.0.0', () => {\\n        log.info('service.listening', { port });\\n    });\\n}\\n\\nif (process.env.NODE\_ENV !== 'test') {\\n  "     },     {       "id": "tests/templates/README.md#0",       "path": "tests/templates/README.md",       "chunkIndex": 0,       "startLine": 1,       "endLine": 4,       "score": 343.5474,       "text": "# Templates for tests\\n\\nThis folder contains markdown templates for tests.\\n"     },     {       "id": "docs/tests/e2e/service-endpoints.md#0",       "path": "docs/tests/e2e/service-endpoints.md",       "chunkIndex": 0,       "startLine": 1,       "endLine": 25,       "score": 347.49805,       "text": "# Service Endpoint E2E Tests\\n\\n## Overview\\n\\nThese end-to-end tests verify that each networked service in the Promethean ecosystem responds as expected when the full system is running.\\n\\n## Services Covered\\n\\n- \*\*TTS\*\* – `/synth_voice_pcm` returns generated audio\\n- \*\*STT\*\* – `/transcribe_pcm` returns transcription text\\n- \*\*Vision\*\* – `/capture` returns a PNG frame\\n- \*\*LLM\*\* – `/generate` returns a text reply\\n\\n## Running the Tests\\n\\n1. Install dependencies for each service as needed (`make setup-quick SERVICE=<name>`)\\n2. Start the services: `pm2 start ecosystem.config.js`\\n3. Execute: `pytest tests/e2e/test_service_endpoints.py`\\n\\nThe tests will skip any service whose endpoint is unavailable.\\n\\n## Tags\\n\\n#tests #e2e\\n"     },     {       "id": "services/ts/smartgpt-bridge/TESTING.md#0",       "path": "services/ts/smartgpt-bridge/TESTING.md",       "chunkIndex": 0,       "startLine": 1,       "endLine": 30,       "score": 350.5769,       "text": "Testing setup for Promethean SmartGPT Bridge (minimal, fast, CI-friendly)\\n\\nRequirements\\n- Node.js 18+\\n- No external services (tests stub/bypass broker/Chroma)\\n - Optional: set `PUBLIC_BASE_URL` to control the OpenAPI server URL (e.g., your Tailscale Funnel address)\\n\\nInstall & Run\\n- npm ci\\n- npm test\\n\\nNotes\\n- Uses AVA for tests, Supertest for HTTP, Sinon for timers/mocks.\\n- Server exposes buildApp(ROOT\_PATH) for integration tests (no listen).\\n- Agent supervisor exposes createSupervisor({ spawnImpl, killImpl }) for mocked system tests.\\n- Fixtures live under tests/fixtures/ and are kept < 2KB.\\n- Total runtime stays under ~10 seconds on a laptop.\\n - OpenAPI servers entry is derived from `PUBLIC_BASE_URL` (fallback `http://localhost:{PORT||3210}`).\\n\\nScripts\\n- npm test — run all tests once\\n- npm run test:watch — watch mode\\n- npm run test:coverage — generate c8 coverage (text, lcov, html)\\n\\nCoverage\\n- Uses c8 (v8 coverage). Reports to stdout and writes lcov and HTML to ./coverage.\\n- Example CI step:\\n  - pnpm test:coverage\\n  - store artifacts from coverage/ and lcov.info\\n"     },     {       "id": "docs/environment-variables.md#1",       "path": "docs/environment-variables.md",       "chunkIndex": 1,       "startLine": 28,       "endLine": 52,       "score": 357.88513,       "text": "turns stub images. |\\n| `PORT` | `5003` | Port used by the vision service when running directly. |\\n| `NODE_ENV` | – | Node environment mode (production/test). |\\n| `NO_SCREENSHOT` | – | Disables screenshot capture in tests. |\\n| `PYTHONPATH` | repo root | Python path used in PM2 scripts. |\\n| `PYTHONUNBUFFERED` | `1` | Forces unbuffered Python output. |\\n| `PYTHONUTF8` | `1` | Forces UTF‑8 mode for Python scripts. |\\n| `FLASK_APP` | `app.py` | Flask entry point for the TTS service. |\\n| `FLASK_ENV` | `production` | Flask environment. |\\n| `DISCORD_GUILD_ID` | – | Example variable in `.env.example` for guild targeting. |\\n| `AUTHOR_USER_NAME` | – | Example author name in `.env.example`. |\\n| `PROFILE_CHANNEL` | – | Example profile channel variable in `.env.example`. |\\n\\nThese variables appear in multiple locations:\\n\\n- `shared/py/settings.py` – defines defaults for agent names, temperature settings, MongoDB credentials and Discord identifiers.\\n- `services/js/vision/index.js` – reads vision-related options such as `VISION_HOST`, `VISION_STUB` and `PORT`.\\n- `services/ts/cephalon/src/agent.ts` – uses values like `AGENT_NAME`, `VISION_HOST` and `NO_SCREENSHOT` to manage runtime behavior.\\n- `scripts/github_board_sync.py` and `scripts/kanban_to_issues.py` – rely on `KANBAN_PATH`, `GITHUB_TOKEN`, `GITHUB_PROJECT_ID` and `GITHUB_REPO` to synchronize the Kanban board with GitHub.\\n- `ecosystem.config.js` – sets common environment variables for PM2, including `PYTHONPATH`, `PYTHONUNBUFFERED`, `FLASK_APP` and `FLASK_ENV`.\\n- `agents/duck/scripts/` – local run scripts that export variables like Discord tokens and Python options for development convenience.\\n\\n\\nRefer to this list when configuring new deployments or running tests locally.\\n"     },     {       "id": "services/ts/codex-context/docs/codex-context/requests/2025.08.24.20.48.06.md#43",       "path": "services/ts/codex-context/docs/codex-context/requests/2025.08.24.20.48.06.md",       "chunkIndex": 43,       "startLine": 524,       "endLine": 537,       "score": 359.33246,       "text": " identifying the test command. Typically, running tests with a framework like Jest, Mocha, or a build tool like npm or yarn. Since the project is a dashboard, maybe it's a frontend project using React or similar, so npm test or yarn test could be the command. Alternatively, if it's a backend, maybe using a different test runner.\\n\\nBut without specific repo context, I have to make an educated guess. Let's assume it's a Node.js project with npm. The command would be 'npm test'. However, sometimes tests are run with a specific script, so checking the package.json might help, but since I can't access files, I'll proceed with the common command.\\n\\nNext, the shell tool requires checking if the command needs escalated permissions. If the tests write to files outside the current directory or need network access, then with\_escalated\_permissions should be true. For example, if the tests involve API calls or modify files in the project, that's likely. So I'll set with\_escalated\_permissions to true and provide a justification.\\n\\nThe workdir should be the project root where the package.json is located. But since I don't know the exact path, maybe the current directory is assumed. The timeout can be set to a reasonable value, like 30000 ms (30 seconds) to prevent hanging.\\n\\nPutting it all together, the function call to shell would be with the command \['npm', 'test'\], justification about needing elevated permissions for test execution, with\_escalated\_permissions true, and a timeout. I'll also update the plan to mark this step as in\_progress.\\n</think>\\n\\n\\n`\n"     },     {       "id": "legacy/sibilant-modules/game-of-life-gpu/bundles/modules/utils.js#1127",       "path": "legacy/sibilant-modules/game-of-life-gpu/bundles/modules/utils.js",       "chunkIndex": 1127,       "startLine": 68803,       "endLine": 68870,       "score": 361.43213,       "text": ") {\n          return findTypeByName(type.name).test;\n        })\n        return function or(x) {\n          for (var i = 0; i < tests.length; i++) {\n            if (tests[i](x)) {\n              return true;\n            }\n          }\n          return false;\n        }\n      }\n    }\n\n    /**\n     * Create a test for all parameters of a signature\n     * @param {Param[]} params\n     * @return {function(args: Array<*>) : boolean}\n     */\n    function compileTests(params) {\n      var tests, test0, test1;\n\n      if (hasRestParam(params)) {\n        // variable arguments like '...number'\n        tests = initial(params).map(compileTest);\n        var varIndex = tests.length;\n        var lastTest = compileTest(last(params));\n        var testRestParam = function (args) {\n          for (var i = varIndex; i < args.length; i++) {\n            if (!lastTest(args[i])) {\n              return false;\n            }\n          }\n          return true;\n        }\n\n        return function testArgs(args) {\n          for (var i = 0; i < tests.length; i++) {\n            if (!tests[i](args[i])) {\n              return false;\n            }\n          }\n          return testRestParam(args) && (args.length >= varIndex + 1);\n        };\n      }\n      else {\n        // no variable arguments\n        if (params.length === 0) {\n          return function testArgs(args) {\n            return args.length === 0;\n          };\n        }\n        else if (params.length === 1) {\n          test0 = compileTest(params[0]);\n          return function testArgs(args) {\n            return test0(args[0]) && args.length === 1;\n          };\n        }\n        else if (params.length === 2) {\n          test0 = compileTest(params[0]);\n          test1 = compileTest(params[1]);\n          return function testArgs(args) {\n            return test0(args[0]) && test1(args[1]) && args.length === 2;\n          };\n        }\n        else { // arguments.length > 2\n          tests = params.map(compileTest);\n          return function testArgs(args) {"     }   ] }  And an example of the code search: {   "ok": true,   "results": [     {       "path": "services/ts/llm/package.json",       "line": 8,       "column": 10,       "lineText": "        \"test\": \"ava\",",       "snippet": "    \"scripts\": {\n        \"start\": \"node src/index.js\",\n        \"test\": \"ava\",\n        \"coverage\": \"c8 ava\",\n        \"build\": \"echo 'no build step'\",",       "startLine": 6,       "endLine": 10     },     {       "path": "services/ts/llm/run.sh",       "line": 6,       "column": 54,       "lineText": "  echo \"  corepack enable && corepack prepare pnpm@latest --activate\"",       "snippet": "else\n  echo \"ERROR: pnpm is required. Enable Corepack and activate pnpm:\"\n  echo \"  corepack enable && corepack prepare pnpm@latest --activate\"\n  exit 1\nfi",       "startLine": 4,       "endLine": 8     },     {       "path": "services/ts/llm/src/index.js",       "line": 6,       "column": 57,       "lineText": "export const MODEL = process.env.LLM_MODEL || 'gemma3:latest';",       "snippet": "import ollama from 'ollama';\n\nexport const MODEL = process.env.LLM_MODEL || 'gemma3:latest';\n\nexport const app = express();",       "startLine": 4,       "endLine": 8     },     {       "path": "services/ts/llm/src/index.js",       "line": 99,       "column": 31,       "lineText": "if (process.env.NODE_ENV !== 'test') {",       "snippet": "}\n\nif (process.env.NODE_ENV !== 'test') {\n    start().catch((err) => {\n        console.error('Failed to start LLM service', err);",       "startLine": 97,       "endLine": 101     },     {       "path": "services/ts/llm/tests/basic.test.js",       "line": 1,       "column": 8,       "lineText": "import test from 'ava';",       "snippet": "import test from 'ava';\nimport express from 'express';\n",       "startLine": 1,       "endLine": 3     },     {       "path": "services/ts/llm/tests/basic.test.js",       "line": 4,       "column": 1,       "lineText": "test('MODEL env variable overrides default', async (t) => {",       "snippet": "import express from 'express';\n\ntest('MODEL env variable overrides default', async (t) => {\n    process.env.NODE_ENV = 'test';\n    process.env.LLM_MODEL = 'test-model';",       "startLine": 2,       "endLine": 6     },     {       "path": "services/ts/llm/tests/basic.test.js",       "line": 5,       "column": 29,       "lineText": "    process.env.NODE_ENV = 'test';",       "snippet": "\ntest('MODEL env variable overrides default', async (t) => {\n    process.env.NODE_ENV = 'test';\n    process.env.LLM_MODEL = 'test-model';\n    const { MODEL } = await import('../src/index.js');",       "startLine": 3,       "endLine": 7     },     {       "path": "services/ts/llm/tests/basic.test.js",       "line": 6,       "column": 30,       "lineText": "    process.env.LLM_MODEL = 'test-model';",       "snippet": "test('MODEL env variable overrides default', async (t) => {\n    process.env.NODE_ENV = 'test';\n    process.env.LLM_MODEL = 'test-model';\n    const { MODEL } = await import('../src/index.js');\n    t.is(MODEL, 'test-model');",       "startLine": 4,       "endLine": 8     },     {       "path": "services/ts/llm/tests/basic.test.js",       "line": 8,       "column": 18,       "lineText": "    t.is(MODEL, 'test-model');",       "snippet": "    process.env.LLM_MODEL = 'test-model';\n    const { MODEL } = await import('../src/index.js');\n    t.is(MODEL, 'test-model');\n});\n",       "startLine": 6,       "endLine": 10     },     {       "path": "services/ts/llm/tests/basic.test.js",       "line": 11,       "column": 1,       "lineText": "test('express app initializes', (t) => {",       "snippet": "});\n\ntest('express app initializes', (t) => {\n    const app = express();\n    t.truthy(app);",       "startLine": 9,       "endLine": 13     },     {       "path": "services/ts/llm-bridge/README.md",       "line": 15,       "column": 7,       "lineText": "Smoke test:",       "snippet": "`\\n\\nSmoke test:\\n\\n`bash",       "startLine": 13,       "endLine": 17     },     {       "path": "services/ts/llm-bridge/README.md",       "line": 18,       "column": 8,       "lineText": "node ./tests/adapter.smoke.test.js",       "snippet": "\n`bash\\nnode ./tests/adapter.smoke.test.js\\n``\n",       "startLine": 16,       "endLine": 20     },     {       "path": "services/ts/llm/tests/websocket.test.js",       "line": 1,       "column": 8,       "lineText": "import test from 'ava';",       "snippet": "import test from 'ava';\nimport { WebSocket } from 'ws';\nimport { start, setCallOllamaFn } from '../src/index.js';",       "startLine": 1,       "endLine": 3     },     {       "path": "services/ts/llm/tests/websocket.test.js",       "line": 7,       "column": 1,       "lineText": "test.before(async () => {",       "snippet": "let server;\n\ntest.before(async () => {\n    process.env.NODE_ENV = 'test';\n    process.env.name = 'llm';",       "startLine": 5,       "endLine": 9     },     {       "path": "services/ts/llm/tests/websocket.test.js",       "line": 8,       "column": 29,       "lineText": "    process.env.NODE_ENV = 'test';",       "snippet": "\ntest.before(async () => {\n    process.env.NODE_ENV = 'test';\n    process.env.name = 'llm';\n    setCallOllamaFn(async () => 'hi');",       "startLine": 6,       "endLine": 10     },     {       "path": "services/ts/llm/tests/websocket.test.js",       "line": 14,       "column": 1,       "lineText": "test.after.always(() => {",       "snippet": "});\n\ntest.after.always(() => {\n    if (server) server.close();\n});",       "startLine": 12,       "endLine": 16     },     {       "path": "services/ts/llm/tests/websocket.test.js",       "line": 18,       "column": 1,       "lineText": "test('generate via websocket', async (t) => {",       "snippet": "});\n\ntest('generate via websocket', async (t) => {\n    const port = server.address().port;\n    const ws = new WebSocket(`ws://127.0.0.1:{port}/generate`);",       "startLine": 16,       "endLine": 20     },     {       "path": "services/ts/llm-bridge/src/index.js",       "line": 83,       "column": 31,       "lineText": "if (process.env.NODE_ENV !== 'test') {",       "snippet": "}\n\nif (process.env.NODE_ENV !== 'test') {\n    main();\n}",       "startLine": 81,       "endLine": 85     },     {       "path": "services/ts/voice/package.json",       "line": 8,       "column": 10,       "lineText": "        \"test\": \"cross-env TS_NODE_TRANSPILE_ONLY=1 ava tests/dummy.test.ts\",",       "snippet": "    \"scripts\": {\n        \"build\": \"tsc && node scripts/patch-imports.js\",\n        \"test\": \"cross-env TS_NODE_TRANSPILE_ONLY=1 ava tests/dummy.test.ts\",\n        \"coverage\": \"cross-env TS_NODE_TRANSPILE_ONLY=1 c8 ava tests/dummy.test.ts\",\n        \"lint\": \"pnpm exec @biomejs/biome lint . || true\",",       "startLine": 6,       "endLine": 10     },     {       "path": "services/ts/voice/package.json",       "line": 9,       "column": 64,       "lineText": "        \"coverage\": \"cross-env TS_NODE_TRANSPILE_ONLY=1 c8 ava tests/dummy.test.ts\",",       "snippet": "        \"build\": \"tsc && node scripts/patch-imports.js\",\n        \"test\": \"cross-env TS_NODE_TRANSPILE_ONLY=1 ava tests/dummy.test.ts\",\n        \"coverage\": \"cross-env TS_NODE_TRANSPILE_ONLY=1 c8 ava tests/dummy.test.ts\",\n        \"lint\": \"pnpm exec @biomejs/biome lint . || true\",\n        \"format\": \"pnpm exec @biomejs/biome format --write .\"",       "startLine": 7,       "endLine": 11     },     {       "path": "services/ts/voice/package.json",       "line": 35,       "column": 14,       "lineText": "            \"tests/**/*.ts\"",       "snippet": "        },\n        \"files\": [\n            \"tests/**/*.ts\"\n        ],\n        \"nodeArguments\": [",       "startLine": 33,       "endLine": 37     },     {       "path": "services/ts/llm/tests/template.test.js",       "line": 1,       "column": 8,       "lineText": "import test from 'ava';",       "snippet": "import test from 'ava';\nimport { handleTask, setCallOllamaFn, setBroker } from '../src/index.js';\n",       "startLine": 1,       "endLine": 3     },     {       "path": "services/ts/llm/tests/template.test.js",       "line": 4,       "column": 1,       "lineText": "test('handleTask publishes reply using broker', async (t) => {",       "snippet": "import { handleTask, setCallOllamaFn, setBroker } from '../src/index.js';\n\ntest('handleTask publishes reply using broker', async (t) => {\n    const messages = [];\n    const fakeBroker = {",       "startLine": 2,       "endLine": 6     },     {       "path": "services/ts/discord-embedder/package.json",       "line": 9,       "column": 4,       "lineText": "\t\t\"test\": \"pnpm run build && ava\",",       "snippet": "\t\"scripts\": {\n\t\t\"build\": \"tsc && node scripts/patch-imports.js\",\n\t\t\"test\": \"pnpm run build && ava\",\n\t\t\"coverage\": \"pnpm run build && c8 ava\",\n\t\t\"build:check\": \"tsc --noEmit --incremental false\",",       "startLine": 7,       "endLine": 11     },     {       "path": "services/ts/markdown-graph/package.json",       "line": 9,       "column": 10,       "lineText": "        \"test\": \"pnpm run build && ava\",",       "snippet": "        \"build\": \"tsc && node scripts/patch-imports.js \",\n        \"build:check\": \"tsc --noEmit --incremental false\",\n        \"test\": \"pnpm run build && ava\",\n        \"coverage\": \"pnpm run build && c8 ava\",\n        \"lint\": \"prettier --cache --check . && eslint src --cache\",",       "startLine": 7,       "endLine": 11     },     {       "path": "services/ts/markdown-graph/package.json",       "line": 25,       "column": 22,       "lineText": "        \"@types/supertest\": \"^2.0.13\",",       "snippet": "        \"@types/express\": \"^4.17.21\",\n        \"@types/node\": \"^22.10.10\",\n        \"@types/supertest\": \"^2.0.13\",\n        \"ava\": \"^6.4.1\",\n        \"c8\": \"^9.1.0\",",       "startLine": 23,       "endLine": 27     },     {       "path": "services/ts/markdown-graph/package.json",       "line": 32,       "column": 15,       "lineText": "        \"supertest\": \"^7.1.1\",",       "snippet": "        \"mongodb-memory-server\": \"^10.1.4\",\n        \"prettier\": \"^3.4.2\",\n        \"supertest\": \"^7.1.1\",\n        \"ts-node\": \"^10.9.2\",\n        \"typescript\": \"5.7.3\"",       "startLine": 30,       "endLine": 34     },     {       "path": "services/ts/kanban-processor/package.json",       "line": 12,       "column": 10,       "lineText": "        \"test\": \"pnpm run build && ava\",",       "snippet": "        \"start:dev\": \"node --loader ts-node/esm src/index.ts\",\n        \"build:check\": \"tsc --noEmit --incremental false\",\n        \"test\": \"pnpm run build && ava\",\n        \"coverage\": \"pnpm run build && c8 ava\",\n        \"lint\": \"prettier --cache --check . && eslint . --cache || true\",",       "startLine": 10,       "endLine": 14     },     {       "path": "services/ts/file-watcher/package.json",       "line": 12,       "column": 10,       "lineText": "        \"test\": \"pnpm run build && ava\",",       "snippet": "        \"start:dev\": \"node --loader ts-node/esm src/index.ts\",\n        \"build:check\": \"tsc --noEmit --incremental false\",\n        \"test\": \"pnpm run build && ava\",\n        \"coverage\": \"pnpm run build && c8 ava\",\n        \"lint\": \"prettier --cache --check . && eslint . --cache || true\",",       "startLine": 10,       "endLine": 14     },     {       "path": "services/ts/cephalon/package.json",       "line": 10,       "column": 10,       "lineText": "        \"test\": \"pnpm run build && ava\",",       "snippet": "        \"build\": \"tsc -p .\",\n        \"start\": \"node dist/index.js\",\n        \"test\": \"pnpm run build && ava\",\n        \"coverage\": \"pnpm run build && c8 ava\",\n        \"build:check\": \"tsc --noEmit --incremental false\",",       "startLine": 8,       "endLine": 12     },     {       "path": "services/ts/cephalon/package.json",       "line": 69,       "column": 19,       "lineText": "            \"dist/tests/**/*.js\"",       "snippet": "    \"ava\": {\n        \"files\": [\n            \"dist/tests/**/*.js\"\n        ],\n        \"nodeArguments\": [",       "startLine": 67,       "endLine": 71     },     {       "path": "services/ts/discord-embedder/ava.config.mjs",       "line": 2,       "column": 16,       "lineText": "\tfiles: ['dist/tests/**/*.js'],",       "snippet": "export default {\n\tfiles: ['dist/tests/**/*.js'],\n};\n",       "startLine": 1,       "endLine": 4     },     {       "path": "services/ts/kanban-processor/ava.config.mjs",       "line": 2,       "column": 19,       "lineText": "    files: ['dist/tests/**/*.js'],",       "snippet": "export default {\n    files: ['dist/tests/**/*.js'],\n};\n",       "startLine": 1,       "endLine": 4     },     {       "path": "services/ts/templates/service/package.json",       "line": 11,       "column": 10,       "lineText": "        \"test\": \"pnpm run build && ava\",",       "snippet": "        \"start\": \"node dist/index.js\",\n        \"start:dev\": \"node --loader ts-node/esm src/index.ts\",\n        \"test\": \"pnpm run build && ava\",\n        \"coverage\": \"pnpm run build && c8 ava\",\n        \"lint\": \"prettier --cache --check . && eslint . --cache || true\",",       "startLine": 9,       "endLine": 13     },     {       "path": "services/ts/file-watcher/ava.config.mjs",       "line": 2,       "column": 19,       "lineText": "    files: ['dist/tests/**/*.js'],",       "snippet": "export default {\n    files: ['dist/tests/**/*.js'],\n};\n",       "startLine": 1,       "endLine": 4     },     {       "path": "services/ts/discord-embedder/src/tests/converter.ts",       "line": 1,       "column": 8,       "lineText": "import test from 'ava';",       "snippet": "import test from 'ava';\nimport { convert } from '../converter.js';\n",       "startLine": 1,       "endLine": 3     },     {       "path": "services/ts/discord-embedder/src/tests/converter.ts",       "line": 6,       "column": 1,       "lineText": "test('convert ogg stream to wav stream', (t) => {",       "snippet": "const sample = Buffer.from('sample');\n\ntest('convert ogg stream to wav stream', (t) => {\n\tconst result = convert(sample);\n\tt.true(result.equals(sample));",       "startLine": 4,       "endLine": 8     },     {       "path": "services/ts/voice/package-lock.json",       "line": 1088,       "column": 10,       "lineText": "        \"test-exclude\": \"^6.0.0\",",       "snippet": "        \"istanbul-lib-report\": \"^3.0.1\",\n        \"istanbul-reports\": \"^3.1.6\",\n        \"test-exclude\": \"^6.0.0\",\n        \"v8-to-istanbul\": \"^9.0.0\",\n        \"yargs\": \"^17.7.2\",",       "startLine": 1086,       "endLine": 1090     },     {       "path": "services/ts/voice/package-lock.json",       "line": 2240,       "column": 128,       "lineText": "      \"deprecated\": \"This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.\",",       "snippet": "      \"resolved\": \"https://registry.npmjs.org/inflight/-/inflight-1.0.6.tgz\",\n      \"integrity\": \"sha512-k92I/b08q4wvFscXCLvqfsHCrjrF7yiXsQuIVvVE7N82W3+aqpzuUdBbfhWcy/FZR3/4IgflMgKLOsvPDrGCJA==\",\n      \"deprecated\": \"This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.\",\n      \"license\": \"ISC\",\n      \"dependencies\": {",       "startLine": 2238,       "endLine": 2242     },     {       "path": "services/ts/voice/package-lock.json",       "line": 2703,       "column": 25,       "lineText": "        \"node-gyp-build-test\": \"build-test.js\"",       "snippet": "        \"node-gyp-build\": \"bin.js\",\n        \"node-gyp-build-optional\": \"optional.js\",\n        \"node-gyp-build-test\": \"build-test.js\"\n      }\n    },",       "startLine": 2701,       "endLine": 2705     },     {       "path": "services/ts/voice/package-lock.json",       "line": 3599,       "column": 19,       "lineText": "    \"node_modules/test-exclude\": {",       "snippet": "      }\n    },\n    \"node_modules/test-exclude\": {\n      \"version\": \"6.0.0\",\n      \"resolved\": \"https://registry.npmjs.org/test-exclude/-/test-exclude-6.0.0.tgz\",",       "startLine": 3597,       "endLine": 3601     },     {       "path": "services/ts/voice/package-lock.json",       "line": 3601,       "column": 47,       "lineText": "      \"resolved\": \"https://registry.npmjs.org/test-exclude/-/test-exclude-6.0.0.tgz\",",       "snippet": "    \"node_modules/test-exclude\": {\n      \"version\": \"6.0.0\",\n      \"resolved\": \"https://registry.npmjs.org/test-exclude/-/test-exclude-6.0.0.tgz\",\n      \"integrity\": \"sha512-cAGWPIyOHU6zlmg88jwm7VRyXnMN7iV68OGAbYDk/Mh/xC/pzVPlQtY6ngoIH/5/tciuhGfvESU8GrHrcxD56w==\",\n      \"dev\": true,",       "startLine": 3599,       "endLine": 3603     },     {       "path": "services/ts/voice/package-lock.json",       "line": 3614,       "column": 19,       "lineText": "    \"node_modules/test-exclude/node_modules/brace-expansion\": {",       "snippet": "      }\n    },\n    \"node_modules/test-exclude/node_modules/brace-expansion\": {\n      \"version\": \"1.1.12\",\n      \"resolved\": \"https://registry.npmjs.org/brace-expansion/-/brace-expansion-1.1.12.tgz\",",       "startLine": 3612,       "endLine": 3616     },     {       "path": "services/ts/voice/package-lock.json",       "line": 3625,       "column": 19,       "lineText": "    \"node_modules/test-exclude/node_modules/glob\": {",       "snippet": "      }\n    },\n    \"node_modules/test-exclude/node_modules/glob\": {\n      \"version\": \"7.2.3\",\n      \"resolved\": \"https://registry.npmjs.org/glob/-/glob-7.2.3.tgz\",",       "startLine": 3623,       "endLine": 3627     },     {       "path": "services/ts/voice/package-lock.json",       "line": 3647,       "column": 19,       "lineText": "    \"node_modules/test-exclude/node_modules/minimatch\": {",       "snippet": "      }\n    },\n    \"node_modules/test-exclude/node_modules/minimatch\": {\n      \"version\": \"3.1.2\",\n      \"resolved\": \"https://registry.npmjs.org/minimatch/-/minimatch-3.1.2.tgz\",",       "startLine": 3645,       "endLine": 3649     },     {       "path": "services/ts/codex-orchestrator/README.md",       "line": 7,       "column": 7,       "lineText": "- run tests (AVA pattern)",       "snippet": "- search repo (ripgrep)\n- apply unified diffs (git apply 3-way)\n- run tests (AVA pattern)\n\nDesigned to be dropped into your Promethean mono-repo or used standalone.",       "startLine": 5,       "endLine": 9     },     {       "path": "services/ts/codex-orchestrator/README.md",       "line": 20,       "column": 49,       "lineText": "node --loader ts-node/esm src/index.ts \"Add AVA test for broker reconnection\"",       "snippet": "\n# run once for a task:\nnode --loader ts-node/esm src/index.ts \"Add AVA test for broker reconnection\"\n# or compile first:\npnpm build && node dist/index.js \"Add AVA test for broker reconnection\"",       "startLine": 18,       "endLine": 22     },     {       "path": "services/ts/codex-orchestrator/README.md",       "line": 22,       "column": 43,       "lineText": "pnpm build && node dist/index.js \"Add AVA test for broker reconnection\"",       "snippet": "node --loader ts-node/esm src/index.ts \"Add AVA test for broker reconnection\"\n# or compile first:\npnpm build && node dist/index.js \"Add AVA test for broker reconnection\"\n``\\n",       "startLine": 20,       "endLine": 24     },     {       "path": "services/ts/codex-orchestrator/README.md",       "line": 32,       "column": 4,       "lineText": "- `TEST_CMD` (default: `pnpm -w test`)",       "snippet": "- `REPO_ROOT` (default: cwd)\\n- `PLANNER_MODEL` (default: promethean-planner)\\n- `TEST_CMD` (default: `pnpm -w test`)\\n- `TEST_PATTERN_FLAG` (default: `-m`)  # AVA's match flag\\n",       "startLine": 30,       "endLine": 34     },     {       "path": "services/ts/codex-orchestrator/README.md",       "line": 33,       "column": 4,       "lineText": "- `TEST_PATTERN_FLAG` (default: `-m`)  # AVA's match flag",       "snippet": "- `PLANNER_MODEL` (default: promethean-planner)\\n- `TEST_CMD` (default: `pnpm -w test`)\\n- `TEST_PATTERN_FLAG` (default: `-m`)  # AVA's match flag\\n\\n## Action schema",       "startLine": 31,       "endLine": 35     },     {       "path": "services/ts/codex-orchestrator/README.md",       "line": 40,       "column": 8,       "lineText": "- `run_tests { \"pattern\"?: string }`",       "snippet": "- `open_file { \"path\": string, \"hint\"?: string }`\\n- `search_repo { \"query\": string }`\\n- `run_tests { \"pattern\"?: string }`\\n- `write_patch { \"path\": string, \"diff\": string }`\\n- `ask_user { \"question\": string }`",       "startLine": 38,       "endLine": 42     },     {       "path": "services/ts/templates/service/ava.config.mjs",       "line": 2,       "column": 19,       "lineText": "    files: \['dist/tests/\*\*/\*.js'\],",       "snippet": "export default {\\n    files: \['dist/tests/\*\*/\*.js'\],\\n};\\n",       "startLine": 1,       "endLine": 4     },     {       "path": "services/ts/discord-embedder/src/tests/test.ts",       "line": 1,       "column": 8,       "lineText": "import test from 'ava';",       "snippet": "import test from 'ava';\\n\\ntest('my passing test', (t) => {",       "startLine": 1,       "endLine": 3     },     {       "path": "services/ts/discord-embedder/src/tests/test.ts",       "line": 3,       "column": 1,       "lineText": "test('my passing test', (t) => {",       "snippet": "import test from 'ava';\\n\\ntest('my passing test', (t) => {\\n\\tt.pass();\\n});",       "startLine": 1,       "endLine": 5     },     {       "path": "services/ts/discord-embedder/src/tests/embedding.test.ts",       "line": 1,       "column": 8,       "lineText": "import test from 'ava';",       "snippet": "import test from 'ava';\\nimport { RemoteEmbeddingFunction } from '@shared/ts/dist/embeddings/remote.js';\\n",       "startLine": 1,       "endLine": 3     },     {       "path": "services/ts/discord-embedder/src/tests/embedding.test.ts",       "line": 23,       "column": 1,       "lineText": "test('requests embeddings via mocked broker', async (t) => {",       "snippet": "}\\n\\ntest('requests embeddings via mocked broker', async (t) => {\\n\\tconst mock = new MockBrokerClient();\\n\\tconst fn = new RemoteEmbeddingFunction(undefined, undefined, undefined, mock as any);",       "startLine": 21,       "endLine": 25     },     {       "path": "services/ts/voice/src/index.ts",       "line": 126,       "column": 31,       "lineText": "if (process.env.NODE\_ENV !== 'test') {",       "snippet": "}\\n\\nif (process.env.NODE\_ENV !== 'test') {\\n    createVoiceService()\\n        .start()",       "startLine": 124,       "endLine": 128     },     {       "path": "services/ts/voice/src/voice-recorder.ts",       "line": 5,       "column": 19,       "lineText": "import { createWriteStream } from 'node:fs';",       "snippet": "    \*/\\nimport { PassThrough } from 'node:stream';\\nimport { createWriteStream } from 'node:fs';\\n// @ts-ignore no types available\\nimport \* as wav from 'wav';",       "startLine": 3,       "endLine": 7     },     {       "path": "services/ts/voice/src/voice-recorder.ts",       "line": 36,       "column": 40,       "lineText": "        const wavFileStream = createWriteStream(filename).once('close', () => {",       "snippet": "        });\\n        const filename = `./{this.saveDest}/{saveTime}-{user.id}.wav`;\\n        const wavFileStream = createWriteStream(filename).once('close', () => {\\n            console.log('recording to ', filename, 'is complete.');\\n            this.emit('saved', {",       "startLine": 34,       "endLine": 38     },     {       "path": "services/ts/cephalon/src/agent/voiceContent.ts",       "line": 26,       "column": 58,       "lineText": "export async function generateVoiceContentWithFormattedLatestmessage(this: AIAgent) {",       "snippet": "}\\n\\nexport async function generateVoiceContentWithFormattedLatestmessage(this: AIAgent) {\\n    let content = '';\\n    let counter = 0;",       "startLine": 24,       "endLine": 28     },     {       "path": "services/ts/cephalon/src/agent/voiceContent.ts",       "line": 30,       "column": 13,       "lineText": "    const latestUserMessage = (await userCollection.getMostRecent(1))\[0\] as GenericEntry;",       "snippet": "    let counter = 0;\\n    const userCollection = this.contextManager.getCollection('transcripts') as CollectionManager<'text', 'createdAt'>;\\n    const latestUserMessage = (await userCollection.getMostRecent(1))\[0\] as GenericEntry;\\n    const context = (await this.context.compileContext(\[this.prompt\], this.historyLimit)).filter(\\n        (m: { content: string }) => m.content !== latestUserMessage?.text,",       "startLine": 28,       "endLine": 32     },     {       "path": "services/ts/cephalon/src/agent/voiceContent.ts",       "line": 32,       "column": 53,       "lineText": "        (m: { content: string }) => m.content !== latestUserMessage?.text,",       "snippet": "    const latestUserMessage = (await userCollection.getMostRecent(1))\[0\] as GenericEntry;\\n    const context = (await this.context.compileContext(\[this.prompt\], this.historyLimit)).filter(\\n        (m: { content: string }) => m.content !== latestUserMessage?.text,\\n    );\\n",       "startLine": 30,       "endLine": 34     },     {       "path": "services/ts/cephalon/src/agent/voiceContent.ts",       "line": 37,       "column": 34,       "lineText": "        content: formatMessage(latestUserMessage),",       "snippet": "    context.push({\\n        role: 'user',\\n        content: formatMessage(latestUserMessage),\\n    });\\n",       "startLine": 35,       "endLine": 39     },     {       "path": "services/ts/cephalon/src/agent/voiceContent.ts",       "line": 69,       "column": 13,       "lineText": "    const latestUserMessage = (await userCollection.getMostRecent(1))\[0\] as GenericEntry;",       "snippet": "    let counter = 0;\\n    const userCollection = this.contextManager.getCollection('transcripts') as CollectionManager<'text', 'createdAt'>;\\n    const latestUserMessage = (await userCollection.getMostRecent(1))\[0\] as GenericEntry;\\n    const context = (await this.context.compileContext(\[this.prompt\], this.historyLimit)).filter(\\n        (m: { content: string }) => m.content !== latestUserMessage?.text,",       "startLine": 67,       "endLine": 71     },     {       "path": "services/ts/cephalon/src/agent/voiceContent.ts",       "line": 71,       "column": 53,       "lineText": "        (m: { content: string }) => m.content !== latestUserMessage?.text,",       "snippet": "    const latestUserMessage = (await userCollection.getMostRecent(1))\[0\] as GenericEntry;\\n    const context = (await this.context.compileContext(\[this.prompt\], this.historyLimit)).filter(\\n        (m: { content: string }) => m.content !== latestUserMessage?.text,\\n    );\\n    while (!content && counter < 5) {",       "startLine": 69,       "endLine": 73     },     {       "path": "services/ts/cephalon/src/agent/voiceContent.ts",       "line": 75,       "column": 50,       "lineText": "            specialQuery: generateSpecialQuery(latestUserMessage, generatePromptChoice()),",       "snippet": "    while (!content && counter < 5) {\\n        content = (await this.generateResponse({\\n            specialQuery: generateSpecialQuery(latestUserMessage, generatePromptChoice()),\\n            context,\\n        })) as string;",       "startLine": 73,       "endLine": 77     },     {       "path": "services/ts/cephalon/src/agent/index.ts",       "line": 30,       "column": 40,       "lineText": "    generateVoiceContentWithFormattedLatestmessage as generateVoiceContentWithFormattedLatestmessageFn,",       "snippet": "import {\\n    generateVoiceContentFromSinglePrompt as generateVoiceContentFromSinglePromptFn,\\n    generateVoiceContentWithFormattedLatestmessage as generateVoiceContentWithFormattedLatestmessageFn,\\n    generateVoiceContentWithChoicePrompt as generateVoiceContentWithChoicePromptFn,\\n    generateVoiceContentWithSpecialQuery as generateVoiceContentWithSpecialQueryFn,",       "startLine": 28,       "endLine": 32     },     {       "path": "services/ts/cephalon/src/agent/index.ts",       "line": 102,       "column": 55,       "lineText": "        // Avoid spinning up real audio timers during tests",       "snippet": "                ? ({ generate: async () => '' } as unknown as LLMService)\\n                : new LLMService());\\n        // Avoid spinning up real audio timers during tests\\n        this.audioPlayer =\\n            process.env.DISABLE\_AUDIO === '1' ? (new EventEmitter() as unknown as AudioPlayer) : createAudioPlayer();",       "startLine": 100,       "endLine": 104     },     {       "path": "services/ts/cephalon/src/agent/index.ts",       "line": 117,       "column": 40,       "lineText": "    generateVoiceContentWithFormattedLatestmessage = generateVoiceContentWithFormattedLatestmessageFn;",       "snippet": "    generateVoiceResponse = generateVoiceResponseAction;\\n    generateVoiceContentFromSinglePrompt = generateVoiceContentFromSinglePromptFn;\\n    generateVoiceContentWithFormattedLatestmessage = generateVoiceContentWithFormattedLatestmessageFn;\\n    generateVoiceContentWithChoicePrompt = generateVoiceContentWithChoicePromptFn;\\n    generateVoiceContentWithSpecialQuery = generateVoiceContentWithSpecialQueryFn;",       "startLine": 115,       "endLine": 119     },     {       "path": "services/ts/codex-orchestrator/Modelfile",       "line": 6,       "column": 48,       "lineText": "- Allowed actions: open\_file, search\_repo, run\_tests, write\_patch, ask\_user, done.",       "snippet": "You are the Promethean Orchestrator.\\n- Output JSON ONLY for one action per turn.\\n- Allowed actions: open\_file, search\_repo, run\_tests, write\_patch, ask\_user, done.\\n- Repo rules: TypeScript default, AVA tests, NEVER use relative imports; only @shared/ts/dist/...; keep patches minimal.\\n- If uncertain about a path or API, use ask\_user.",       "startLine": 4,       "endLine": 8     },     {       "path": "services/ts/codex-orchestrator/Modelfile",       "line": 7,       "column": 39,       "lineText": "- Repo rules: TypeScript default, AVA tests, NEVER use relative imports; only @shared/ts/dist/...; keep patches minimal.",       "snippet": "- Output JSON ONLY for one action per turn.\\n- Allowed actions: open\_file, search\_repo, run\_tests, write\_patch, ask\_user, done.\\n- Repo rules: TypeScript default, AVA tests, NEVER use relative imports; only @shared/ts/dist/...; keep patches minimal.\\n- If uncertain about a path or API, use ask\_user.\\n\\"\\"\\"",       "startLine": 5,       "endLine": 9     },     {       "path": "services/ts/discord-embedder/package-lock.json",       "line": 2567,       "column": 6,       "lineText": "\\t\\t\\t\\t\\"test-exclude\\": \\"^6.0.0\\",",       "snippet": "\\t\\t\\t\\t\\"istanbul-lib-report\\": \\"^3.0.1\\",\\n\\t\\t\\t\\t\\"istanbul-reports\\": \\"^3.1.6\\",\\n\\t\\t\\t\\t\\"test-exclude\\": \\"^6.0.0\\",\\n\\t\\t\\t\\t\\"v8-to-istanbul\\": \\"^9.0.0\\",\\n\\t\\t\\t\\t\\"yargs\\": \\"^17.7.2\\",",       "startLine": 2565,       "endLine": 2569     },     {       "path": "services/ts/discord-embedder/package-lock.json",       "line": 3443,       "column": 17,       "lineText": "\\t\\t\\t\\t\\"safe-regex-test\\": \\"^1.1.0\\",",       "snippet": "\\t\\t\\t\\t\\"safe-array-concat\\": \\"^1.1.3\\",\\n\\t\\t\\t\\t\\"safe-push-apply\\": \\"^1.0.0\\",\\n\\t\\t\\t\\t\\"safe-regex-test\\": \\"^1.1.0\\",\\n\\t\\t\\t\\t\\"set-proto\\": \\"^1.0.0\\",\\n\\t\\t\\t\\t\\"stop-iteration-iterator\\": \\"^1.1.0\\",",       "startLine": 3441,       "endLine": 3445     },     {       "path": "services/ts/discord-embedder/package-lock.json",       "line": 3667,       "column": 52,       "lineText": "\\t\\t\\t\\t\\"eslint-plugin-import\\": \\"npm:eslint-plugin-i@latest\\",",       "snippet": "\\t\\t\\t\\t\\"eslint-plugin-astro\\": \\"^0.33.1\\",\\n\\t\\t\\t\\t\\"eslint-plugin-cypress\\": \\"^2.15.1\\",\\n\\t\\t\\t\\t\\"eslint-plugin-import\\": \\"npm:eslint-plugin-i@latest\\",\\n\\t\\t\\t\\t\\"eslint-plugin-jsdoc\\": \\"^48.2.3\\",\\n\\t\\t\\t\\t\\"eslint-plugin-jsx-a11y\\": \\"^6.8.0\\",",       "startLine": 3665,       "endLine": 3669     },     {       "path": "services/ts/discord-embedder/package-lock.json",       "line": 4027,       "column": 17,       "lineText": "\\t\\t\\t\\t\\"safe-regex-test\\": \\"^1.0.3\\",",       "snippet": "\\t\\t\\t\\t\\"minimatch\\": \\"^3.1.2\\",\\n\\t\\t\\t\\t\\"object.fromentries\\": \\"^2.0.8\\",\\n\\t\\t\\t\\t\\"safe-regex-test\\": \\"^1.0.3\\",\\n\\t\\t\\t\\t\\"string.prototype.includes\\": \\"^2.0.1\\"\\n\\t\\t\\t},",       "startLine": 4025,       "endLine": 4029     },     {       "path": "services/ts/discord-embedder/package-lock.json",       "line": 5277,       "column": 17,       "lineText": "\\t\\t\\t\\t\\"safe-regex-test\\": \\"^1.1.0\\"",       "snippet": "\\t\\t\\t\\t\\"get-proto\\": \\"^1.0.1\\",\\n\\t\\t\\t\\t\\"has-tostringtag\\": \\"^1.0.2\\",\\n\\t\\t\\t\\t\\"safe-regex-test\\": \\"^1.1.0\\"\\n\\t\\t\\t},\\n\\t\\t\\t\\"engines\\": {",       "startLine": 5275,       "endLine": 5279     },     {       "path": "services/ts/discord-embedder/package-lock.json",       "line": 5448,       "column": 17,       "lineText": "\\t\\t\\t\\t\\"safe-regex-test\\": \\"^1.1.0\\"",       "snippet": "\\t\\t\\t\\t\\"get-proto\\": \\"^1.0.0\\",\\n\\t\\t\\t\\t\\"has-tostringtag\\": \\"^1.0.2\\",\\n\\t\\t\\t\\t\\"safe-regex-test\\": \\"^1.1.0\\"\\n\\t\\t\\t},\\n\\t\\t\\t\\"engines\\": {",       "startLine": 5446,       "endLine": 5450     },     {       "path": "services/ts/discord-embedder/package-lock.json",       "line": 5629,       "column": 17,       "lineText": "\\t\\t\\t\\t\\"safe-regex-test\\": \\"^1.1.0\\"",       "snippet": "\\t\\t\\t\\t\\"call-bound\\": \\"^1.0.2\\",\\n\\t\\t\\t\\t\\"has-symbols\\": \\"^1.1.0\\",\\n\\t\\t\\t\\t\\"safe-regex-test\\": \\"^1.1.0\\"\\n\\t\\t\\t},\\n\\t\\t\\t\\"engines\\": {",       "startLine": 5627,       "endLine": 5631     },     {       "path": "services/ts/discord-embedder/package-lock.json",       "line": 7075,       "column": 21,       "lineText": "\\t\\t\\t\\t\\"node-gyp-build-test\\": \\"build-test.js\\"",       "snippet": "\\t\\t\\t\\t\\"node-gyp-build\\": \\"bin.js\\",\\n\\t\\t\\t\\t\\"node-gyp-build-optional\\": \\"optional.js\\",\\n\\t\\t\\t\\t\\"node-gyp-build-test\\": \\"build-test.js\\"\\n\\t\\t\\t}\\n\\t\\t},",       "startLine": 7073,       "endLine": 7077     },     {       "path": "services/ts/discord-embedder/package-lock.json",       "line": 8324,       "column": 28,       "lineText": "\\t\\t\\"node\_modules/safe-regex-test\\": {",       "snippet": "\\t\\t\\t}\\n\\t\\t},\\n\\t\\t\\"node\_modules/safe-regex-test\\": {\\n\\t\\t\\t\\"version\\": \\"1.1.0\\",\\n\\t\\t\\t\\"dev\\": true,",       "startLine": 8322,       "endLine": 8326     },     {       "path": "services/ts/discord-embedder/package-lock.json",       "line": 9012,       "column": 17,       "lineText": "\\t\\t\\"node\_modules/test-exclude\\": {",       "snippet": "\\t\\t\\t}\\n\\t\\t},\\n\\t\\t\\"node\_modules/test-exclude\\": {\\n\\t\\t\\t\\"version\\": \\"6.0.0\\",\\n\\t\\t\\t\\"resolved\\": \\"https://registry.npmjs.org/test-exclude/-/test-exclude-6.0.0.tgz\\",",       "startLine": 9010,       "endLine": 9014     },     {       "path": "services/ts/discord-embedder/package-lock.json",       "line": 9014,       "column": 44,       "lineText": "\\t\\t\\t\\"resolved\\": \\"https://registry.npmjs.org/test-exclude/-/test-exclude-6.0.0.tgz\\",",       "snippet": "\\t\\t\\"node\_modules/test-exclude\\": {\\n\\t\\t\\t\\"version\\": \\"6.0.0\\",\\n\\t\\t\\t\\"resolved\\": \\"https://registry.npmjs.org/test-exclude/-/test-exclude-6.0.0.tgz\\",\\n\\t\\t\\t\\"integrity\\": \\"sha512-cAGWPIyOHU6zlmg88jwm7VRyXnMN7iV68OGAbYDk/Mh/xC/pzVPlQtY6ngoIH/5/tciuhGfvESU8GrHrcxD56w==\\",\\n\\t\\t\\t\\"dev\\": true,",       "startLine": 9012,       "endLine": 9016     },     {       "path": "services/ts/discord-embedder/package-lock.json",       "line": 9027,       "column": 17,       "lineText": "\\t\\t\\"node\_modules/test-exclude/node\_modules/glob\\": {",       "snippet": "\\t\\t\\t}\\n\\t\\t},\\n\\t\\t\\"node\_modules/test-exclude/node\_modules/glob\\": {\\n\\t\\t\\t\\"version\\": \\"7.2.3\\",\\n\\t\\t\\t\\"resolved\\": \\"https://registry.npmjs.org/glob/-/glob-7.2.3.tgz\\",",       "startLine": 9025,       "endLine": 9029     },     {       "path": "services/ts/voice/tests/speaker.test.ts",       "line": 1,       "column": 8,       "lineText": "import test from 'ava';",       "snippet": "import test from 'ava';\\nimport { Guild, User } from 'discord.js';\\nimport { VoiceSession } from '../src/voice-session.ts';",       "startLine": 1,       "endLine": 3     },     {       "path": "services/ts/voice/tests/speaker.test.ts",       "line": 5,       "column": 1,       "lineText": "test('recording state toggles with start/stop', async (t) => {",       "snippet": "import { VoiceSession } from '../src/voice-session.ts';\\n\\ntest('recording state toggles with start/stop', async (t) => {\\n    const guild = new Guild('1');\\n    const vs = new VoiceSession({ guild, voiceChannelId: '10' });",       "startLine": 3,       "endLine": 7     },     {       "path": "services/ts/voice/tests/speaker.test.ts",       "line": 16,       "column": 1,       "lineText": "test('transcription state toggles with start/stop', async (t) => {",       "snippet": "});\\n\\ntest('transcription state toggles with start/stop', async (t) => {\\n    const guild = new Guild('2');\\n    const vs = new VoiceSession({ guild, voiceChannelId: '11' });",       "startLine": 14,       "endLine": 18     },     {       "path": "services/ts/cephalon/src/voice-recorder.ts",       "line": 5,       "column": 19,       "lineText": "import { createWriteStream } from 'node:fs';",       "snippet": "    \*/\\nimport { PassThrough } from 'node:stream';\\nimport { createWriteStream } from 'node:fs';\\nimport \* as wav from 'wav';\\nimport EventEmitter from 'node:events';",       "startLine": 3,       "endLine": 7     },     {       "path": "services/ts/cephalon/src/voice-recorder.ts",       "line": 35,       "column": 40,       "lineText": "        const wavFileStream = createWriteStream(filename).once('close', () => {",       "snippet": "        });\\n        const filename = `./{this.saveDest}/{saveTime}-{user.id}.wav`;\\n        const wavFileStream = createWriteStream(filename).once('close', () => {\\n            console.log('recording to ', filename, 'is complete.');\\n            this.emit('saved', {",       "startLine": 33,       "endLine": 37     },     {       "path": "services/ts/voice/tests/dummy.test.ts",       "line": 1,       "column": 8,       "lineText": "import test from 'ava';",       "snippet": "import test from 'ava';\\n\\ntest('placeholder', (t) => {",       "startLine": 1,       "endLine": 3     },     {       "path": "services/ts/voice/tests/dummy.test.ts",       "line": 3,       "column": 1,       "lineText": "test('placeholder', (t) => {",       "snippet": "import test from 'ava';\\n\\ntest('placeholder', (t) => {\\n    t.pass();\\n});",       "startLine": 1,       "endLine": 5     },     {       "path": "services/ts/auth-service/src/index.ts",       "line": 121,       "column": 31,       "lineText": "if (process.env.NODE\_ENV !== 'test') {",       "snippet": "}\\n\\nif (process.env.NODE\_ENV !== 'test') {\\n    buildServer()\\n        .then((app) => app.listen({ port: PORT, host: '0.0.0.0' }))",       "startLine": 119,       "endLine": 123     },     {       "path": "services/ts/markdown-graph/package-lock.json",       "line": 18,       "column": 22,       "lineText": "        \\"@types/supertest\\": \\"^2.0.13\\",",       "snippet": "        \\"@types/express\\": \\"^4.17.21\\",\\n        \\"@types/node\\": \\"^22.10.10\\",\\n        \\"@types/supertest\\": \\"^2.0.13\\",\\n        \\"ava\\": \\"^6.4.1\\",\\n        \\"c8\\": \\"^9.1.0\\",",       "startLine": 16,       "endLine": 20     },     {       "path": "services/ts/markdown-graph/package-lock.json",       "line": 25,       "column": 15,       "lineText": "        \\"supertest\\": \\"^7.1.1\\",",       "snippet": "        \\"mongodb-memory-server\\": \\"^10.1.4\\",\\n        \\"prettier\\": \\"^3.4.2\\",\\n        \\"supertest\\": \\"^7.1.1\\",\\n        \\"ts-node\\": \\"^10.9.2\\",\\n        \\"typescript\\": \\"5.7.3\\"",       "startLine": 23,       "endLine": 27     },     {       "path": "services/ts/markdown-graph/package-lock.json",       "line": 1339,       "column": 31,       "lineText": "    \\"node\_modules/@types/supertest\\": {",       "snippet": "      }\\n    },\\n    \\"node\_modules/@types/supertest\\": {\\n      \\"version\\": \\"2.0.16\\",\\n      \\"resolved\\": \\"https://registry.npmjs.org/@types/supertest/-/supertest-2.0.16.tgz\\",",       "startLine": 1337,       "endLine": 1341     },     {       "path": "services/ts/markdown-graph/package-lock.json",       "line": 1341,       "column": 59,       "lineText": "      \\"resolved\\": \\"https://registry.npmjs.org/@types/supertest/-/supertest-2.0.16.tgz\\",",       "snippet": "    \\"node\_modules/@types/supertest\\": {\\n      \\"version\\": \\"2.0.16\\",\\n      \\"resolved\\": \\"https://registry.npmjs.org/@types/supertest/-/supertest-2.0.16.tgz\\",\\n      \\"integrity\\": \\"sha512-6c2ogktZ06tr2ENoZivgm7YnprnhYE4ZoXGMY+oA7IuAf17M8FWvujXZGmxLv8y0PTyts4x5A+erSwVUFA8XSg==\\",\\n      \\"dev\\": true,",       "startLine": 1339,       "endLine": 1343     },     {       "path": "services/ts/markdown-graph/package-lock.json",       "line": 3260,       "column": 10,       "lineText": "        \\"test-exclude\\": \\"^6.0.0\\",",       "snippet": "        \\"istanbul-lib-report\\": \\"^3.0.1\\",\\n        \\"istanbul-reports\\": \\"^3.1.6\\",\\n        \\"test-exclude\\": \\"^6.0.0\\",\\n        \\"v8-to-istanbul\\": \\"^9.0.0\\",\\n        \\"yargs\\": \\"^17.7.2\\",",       "startLine": 3258,       "endLine": 3262     },     {       "path": "services/ts/markdown-graph/package-lock.json",       "line": 4328,       "column": 21,       "lineText": "        \\"safe-regex-test\\": \\"^1.1.0\\",",       "snippet": "        \\"safe-array-concat\\": \\"^1.1.3\\",\\n        \\"safe-push-apply\\": \\"^1.0.0\\",\\n        \\"safe-regex-test\\": \\"^1.1.0\\",\\n        \\"set-proto\\": \\"^1.0.0\\",\\n        \\"stop-iteration-iterator\\": \\"^1.1.0\\",",       "startLine": 4326,       "endLine": 4330     },     {       "path": "services/ts/markdown-graph/package-lock.json",       "line": 4582,       "column": 56,       "lineText": "        \\"eslint-plugin-import\\": \\"npm:eslint-plugin-i@latest\\",",       "snippet": "        \\"eslint-plugin-astro\\": \\"^0.33.1\\",\\n        \\"eslint-plugin-cypress\\": \\"^2.15.1\\",\\n        \\"eslint-plugin-import\\": \\"npm:eslint-plugin-i@latest\\",\\n        \\"eslint-plugin-jsdoc\\": \\"^48.2.3\\",\\n        \\"eslint-plugin-jsx-a11y\\": \\"^6.8.0\\",",       "startLine": 4580,       "endLine": 4584     },     {       "path": "services/ts/markdown-graph/package-lock.json",       "line": 4980,       "column": 21,       "lineText": "        \\"safe-regex-test\\": \\"^1.0.3\\",",       "snippet": "        \\"minimatch\\": \\"^3.1.2\\",\\n        \\"object.fromentries\\": \\"^2.0.8\\",\\n        \\"safe-regex-test\\": \\"^1.0.3\\",\\n        \\"string.prototype.includes\\": \\"^2.0.1\\"\\n      },",       "startLine": 4978,       "endLine": 4982     },     {       "path": "services/ts/markdown-graph/package-lock.json",       "line": 6539,       "column": 128,       "lineText": "      \\"deprecated\\": \\"This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.\\",",       "snippet": "      \\"resolved\\": \\"https://registry.npmjs.org/inflight/-/inflight-1.0.6.tgz\\",\\n      \\"integrity\\": \\"sha512-k92I/b08q4wvFscXCLvqfsHCrjrF7yiXsQuIVvVE7N82W3+aqpzuUdBbfhWcy/FZR3/4IgflMgKLOsvPDrGCJA==\\",\\n      \\"deprecated\\": \\"This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.\\",\\n      \\"dev\\": true,\\n      \\"license\\": \\"ISC\\",",       "startLine": 6537,       "endLine": 6541     },     {       "path": "services/ts/markdown-graph/package-lock.json",       "line": 6659,       "column": 21,       "lineText": "        \\"safe-regex-test\\": \\"^1.1.0\\"",       "snippet": "        \\"get-proto\\": \\"^1.0.1\\",\\n        \\"has-tostringtag\\": \\"^1.0.2\\",\\n        \\"safe-regex-test\\": \\"^1.1.0\\"\\n      },\\n      \\"engines\\": {",       "startLine": 6657,       "endLine": 6661     },     {       "path": "services/ts/markdown-graph/package-lock.json",       "line": 6858,       "column": 21,       "lineText": "        \\"safe-regex-test\\": \\"^1.1.0\\"",       "snippet": "        \\"get-proto\\": \\"^1.0.0\\",\\n        \\"has-tostringtag\\": \\"^1.0.2\\",\\n        \\"safe-regex-test\\": \\"^1.1.0\\"\\n      },\\n      \\"engines\\": {",       "startLine": 6856,       "endLine": 6860     },     {       "path": "services/ts/markdown-graph/package-lock.json",       "line": 7071,       "column": 21,       "lineText": "        \\"safe-regex-test\\": \\"^1.1.0\\"",       "snippet": "        \\"call-bound\\": \\"^1.0.2\\",\\n        \\"has-symbols\\": \\"^1.1.0\\",\\n        \\"safe-regex-test\\": \\"^1.1.0\\"\\n      },\\n      \\"engines\\": {",       "startLine": 7069,       "endLine": 7073     },     {       "path": "services/ts/markdown-graph/package-lock.json",       "line": 8789,       "column": 25,       "lineText": "        \\"node-gyp-build-test\\": \\"build-test.js\\"",       "snippet": "        \\"node-gyp-build\\": \\"bin.js\\",\\n        \\"node-gyp-build-optional\\": \\"optional.js\\",\\n        \\"node-gyp-build-test\\": \\"build-test.js\\"\\n      }\\n    },",       "startLine": 8787,       "endLine": 8791     },     {       "path": "services/ts/markdown-graph/package-lock.json",       "line": 10289,       "column": 30,       "lineText": "    \\"node\_modules/safe-regex-test\\": {",       "snippet": "      }\\n    },\\n    \\"node\_modules/safe-regex-test\\": {\\n      \\"version\\": \\"1.1.0\\",\\n      \\"resolved\\": \\"https://registry.npmjs.org/safe-regex-test/-/safe-regex-test-1.1.0.tgz\\",",       "startLine": 10287,       "endLine": 10291     },     {       "path": "services/ts/markdown-graph/package-lock.json",       "line": 10291,       "column": 58,       "lineText": "      \\"resolved\\": \\"https://registry.npmjs.org/safe-regex-test/-/safe-regex-test-1.1.0.tgz\\",",       "snippet": "    \\"node\_modules/safe-regex-test\\": {\\n      \\"version\\": \\"1.1.0\\",\\n      \\"resolved\\": \\"https://registry.npmjs.org/safe-regex-test/-/safe-regex-test-1.1.0.tgz\\",\\n      \\"integrity\\": \\"sha512-x/+Cz4YrimQxQccJf5mKEbIa1NzeCRNI5Ecl/ekmlYaampdNLPalVyIcCZNNH3MvmqBugV5TMYZXv0ljslUlaw==\\",\\n      \\"dev\\": true,",       "startLine": 10289,       "endLine": 10293     },     {       "path": "services/ts/markdown-graph/package-lock.json",       "line": 11124,       "column": 24,       "lineText": "    \\"node\_modules/supertest\\": {",       "snippet": "      }\\n    },\\n    \\"node\_modules/supertest\\": {\\n      \\"version\\": \\"7.1.4\\",\\n      \\"resolved\\": \\"https://registry.npmjs.org/supertest/-/supertest-7.1.4.tgz\\",",       "startLine": 11122,       "endLine": 11126     },     {       "path": "services/ts/markdown-graph/package-lock.json",       "line": 11126,       "column": 52,       "lineText": "      \\"resolved\\": \\"https://registry.npmjs.org/supertest/-/supertest-7.1.4.tgz\\",",       "snippet": "    \\"node\_modules/supertest\\": {\\n      \\"version\\": \\"7.1.4\\",\\n      \\"resolved\\": \\"https://registry.npmjs.org/supertest/-/supertest-7.1.4.tgz\\",\\n      \\"integrity\\": \\"sha512-tjLPs7dVyqgItVFirHYqe2T+MfWc2VOBQ8QFKKbWTA3PU7liZR8zoSpAi/C1k1ilm9RsXIKYf197oap9wXGVYg==\\",\\n      \\"dev\\": true,",       "startLine": 11124,       "endLine": 11128     },     {       "path": "services/ts/markdown-graph/package-lock.json",       "line": 11232,       "column": 19,       "lineText": "    \\"node\_modules/test-exclude\\": {",       "snippet": "      }\\n    },\\n    \\"node\_modules/test-exclude\\": {\\n      \\"version\\": \\"6.0.0\\",\\n      \\"resolved\\": \\"https://registry.npmjs.org/test-exclude/-/test-exclude-6.0.0.tgz\\",",       "startLine": 11230,       "endLine": 11234     },     {       "path": "services/ts/markdown-graph/package-lock.json",       "line": 11234,       "column": 47,       "lineText": "      \\"resolved\\": \\"https://registry.npmjs.org/test-exclude/-/test-exclude-6.0.0.tgz\\",",       "snippet": "    \\"node\_modules/test-exclude\\": {\\n      \\"version\\": \\"6.0.0\\",\\n      \\"resolved\\": \\"https://registry.npmjs.org/test-exclude/-/test-exclude-6.0.0.tgz\\",\\n      \\"integrity\\": \\"sha512-cAGWPIyOHU6zlmg88jwm7VRyXnMN7iV68OGAbYDk/Mh/xC/pzVPlQtY6ngoIH/5/tciuhGfvESU8GrHrcxD56w==\\",\\n      \\"dev\\": true,",       "startLine": 11232,       "endLine": 11236     },     {       "path": "services/ts/markdown-graph/package-lock.json",       "line": 11247,       "column": 19,       "lineText": "    \\"node\_modules/test-exclude/node\_modules/glob\\": {",       "snippet": "      }\\n    },\\n    \\"node\_modules/test-exclude/node\_modules/glob\\": {\\n      \\"version\\": \\"7.2.3\\",\\n      \\"resolved\\": \\"https://registry.npmjs.org/glob/-/glob-7.2.3.tgz\\",",       "startLine": 11245,       "endLine": 11249     },     {       "path": "services/ts/templates/service/README.md",       "line": 11,       "column": 71,       "lineText": "Then update `package.json`, add your code under `src/`, and implement tests under `tests/`.",       "snippet": "``\n\nThen update `package.json`, add your code under `src/`, and implement tests under `tests/`.\n",       "startLine": 9,       "endLine": 12     },     {       "path": "services/ts/cephalon/package-lock.json",       "line": 323,       "column": 6,       "lineText": "\t\t\t\t\"testcontainers\": \"^10.9.0\"",       "snippet": "\t\t\t\t\"@chroma-core/ai-embeddings-common\": \"^0.1.7\",\n\t\t\t\t\"ollama\": \"^0.5.15\",\n\t\t\t\t\"testcontainers\": \"^10.9.0\"\n\t\t\t},\n\t\t\t\"engines\": {",       "startLine": 321,       "endLine": 325     },     {       "path": "services/ts/cephalon/package-lock.json",       "line": 2018,       "column": 6,       "lineText": "\t\t\t\t\"test-exclude\": \"^6.0.0\",",       "snippet": "\t\t\t\t\"istanbul-lib-report\": \"^3.0.1\",\n\t\t\t\t\"istanbul-reports\": \"^3.1.6\",\n\t\t\t\t\"test-exclude\": \"^6.0.0\",\n\t\t\t\t\"v8-to-istanbul\": \"^9.0.0\",\n\t\t\t\t\"yargs\": \"^17.7.2\",",       "startLine": 2016,       "endLine": 2020     },     {       "path": "services/ts/cephalon/package-lock.json",       "line": 3913,       "column": 21,       "lineText": "\t\t\t\t\"node-gyp-build-test\": \"build-test.js\"",       "snippet": "\t\t\t\t\"node-gyp-build\": \"bin.js\",\n\t\t\t\t\"node-gyp-build-optional\": \"optional.js\",\n\t\t\t\t\"node-gyp-build-test\": \"build-test.js\"\n\t\t\t}\n\t\t},",       "startLine": 3911,       "endLine": 3915     },     {       "path": "services/ts/cephalon/package-lock.json",       "line": 5144,       "column": 17,       "lineText": "\t\t\"node_modules/test-exclude\": {",       "snippet": "\t\t\t}\n\t\t},\n\t\t\"node_modules/test-exclude\": {\n\t\t\t\"version\": \"6.0.0\",\n\t\t\t\"resolved\": \"https://registry.npmjs.org/test-exclude/-/test-exclude-6.0.0.tgz\",",       "startLine": 5142,       "endLine": 5146     },     {       "path": "services/ts/cephalon/package-lock.json",       "line": 5146,       "column": 44,       "lineText": "\t\t\t\"resolved\": \"https://registry.npmjs.org/test-exclude/-/test-exclude-6.0.0.tgz\",",       "snippet": "\t\t\"node_modules/test-exclude\": {\n\t\t\t\"version\": \"6.0.0\",\n\t\t\t\"resolved\": \"https://registry.npmjs.org/test-exclude/-/test-exclude-6.0.0.tgz\",\n\t\t\t\"integrity\": \"sha512-cAGWPIyOHU6zlmg88jwm7VRyXnMN7iV68OGAbYDk/Mh/xC/pzVPlQtY6ngoIH/5/tciuhGfvESU8GrHrcxD56w==\",\n\t\t\t\"dev\": true,",       "startLine": 5144,       "endLine": 5148     },     {       "path": "services/ts/cephalon/package-lock.json",       "line": 5159,       "column": 17,       "lineText": "\t\t\"node_modules/test-exclude/node_modules/glob\": {",       "snippet": "\t\t\t}\n\t\t},\n\t\t\"node_modules/test-exclude/node_modules/glob\": {\n\t\t\t\"version\": \"7.2.3\",\n\t\t\t\"resolved\": \"https://registry.npmjs.org/glob/-/glob-7.2.3.tgz\",",       "startLine": 5157,       "endLine": 5161     },     {       "path": "services/ts/cephalon/package-lock.json",       "line": 5181,       "column": 17,       "lineText": "\t\t\"node_modules/testcontainers\": {",       "snippet": "\t\t\t}\n\t\t},\n\t\t\"node_modules/testcontainers\": {\n\t\t\t\"version\": \"10.28.0\",\n\t\t\t\"resolved\": \"https://registry.npmjs.org/testcontainers/-/testcontainers-10.28.0.tgz\",",       "startLine": 5179,       "endLine": 5183     },     {       "path": "services/ts/cephalon/package-lock.json",       "line": 5183,       "column": 44,       "lineText": "\t\t\t\"resolved\": \"https://registry.npmjs.org/testcontainers/-/testcontainers-10.28.0.tgz\",",       "snippet": "\t\t\"node_modules/testcontainers\": {\n\t\t\t\"version\": \"10.28.0\",\n\t\t\t\"resolved\": \"https://registry.npmjs.org/testcontainers/-/testcontainers-10.28.0.tgz\",\n\t\t\t\"integrity\": \"sha512-1fKrRRCsgAQNkarjHCMKzBKXSJFmzNTiTbhb5E/j5hflRXChEtHvkefjaHlgkNUjfw92/Dq8LTgwQn6RDBFbMg==\",\n\t\t\t\"license\": \"MIT\",",       "startLine": 5181,       "endLine": 5185     },     {       "path": "services/ts/cephalon/package-lock.json",       "line": 5204,       "column": 17,       "lineText": "\t\t\"node_modules/testcontainers/node_modules/tar-fs\": {",       "snippet": "\t\t\t}\n\t\t},\n\t\t\"node_modules/testcontainers/node_modules/tar-fs\": {\n\t\t\t\"version\": \"3.1.0\",\n\t\t\t\"resolved\": \"https://registry.npmjs.org/tar-fs/-/tar-fs-3.1.0.tgz\",",       "startLine": 5202,       "endLine": 5206     },     {       "path": "services/ts/cephalon/package-lock.json",       "line": 5218,       "column": 17,       "lineText": "\t\t\"node_modules/testcontainers/node_modules/tar-stream\": {",       "snippet": "\t\t\t}\n\t\t},\n\t\t\"node_modules/testcontainers/node_modules/tar-stream\": {\n\t\t\t\"version\": \"3.1.7\",\n\t\t\t\"resolved\": \"https://registry.npmjs.org/tar-stream/-/tar-stream-3.1.7.tgz\",",       "startLine": 5216,       "endLine": 5220     },     {       "path": "services/ts/cephalon/package-lock.json",       "line": 5229,       "column": 17,       "lineText": "\t\t\"node_modules/testcontainers/node_modules/undici\": {",       "snippet": "\t\t\t}\n\t\t},\n\t\t\"node_modules/testcontainers/node_modules/undici\": {\n\t\t\t\"version\": \"5.29.0\",\n\t\t\t\"resolved\": \"https://registry.npmjs.org/undici/-/undici-5.29.0.tgz\",",       "startLine": 5227,       "endLine": 5231     },     {       "path": "services/ts/cephalon/src/transcriber.ts",       "line": 71,       "column": 41,       "lineText": "            // Minimal no-op broker for tests that don't exercise transcription",       "snippet": "        }\n        if (process.env.DISABLE_BROKER === '1') {\n            // Minimal no-op broker for tests that don't exercise transcription\n            // eslint-disable-next-line @typescript-eslint/no-explicit-any\n            this.broker = { enqueue() {}, subscribe() {}, connect: async () => {} } as any;",       "startLine": 69,       "endLine": 73     },     {       "path": "services/ts/voice/tests/playback.test.ts",       "line": 1,       "column": 8,       "lineText": "import test from 'ava';",       "snippet": "import test from 'ava';\nimport { Guild } from 'discord.js';\nimport { PassThrough } from 'stream';",       "startLine": 1,       "endLine": 3     },     {       "path": "services/ts/voice/tests/playback.test.ts",       "line": 6,       "column": 1,       "lineText": "test('speak endpoint plays voice', async (t) => {",       "snippet": "import { createVoiceService } from '../src/index.ts';\n\ntest('speak endpoint plays voice', async (t) => {\n    const service = createVoiceService('tok');\n    // stub guild and user fetching",       "startLine": 4,       "endLine": 8     },     {       "path": "services/ts/file-watcher/package-lock.json",       "line": 3040,       "column": 10,       "lineText": "        \"test-exclude\": \"^6.0.0\",",       "snippet": "        \"istanbul-lib-report\": \"^3.0.1\",\n        \"istanbul-reports\": \"^3.1.6\",\n        \"test-exclude\": \"^6.0.0\",\n        \"v8-to-istanbul\": \"^9.0.0\",\n        \"yargs\": \"^17.7.2\",",       "startLine": 3038,       "endLine": 3042     },     {       "path": "services/ts/file-watcher/package-lock.json",       "line": 3994,       "column": 21,       "lineText": "        \"safe-regex-test\": \"^1.1.0\",",       "snippet": "        \"safe-array-concat\": \"^1.1.3\",\n        \"safe-push-apply\": \"^1.0.0\",\n        \"safe-regex-test\": \"^1.1.0\",\n        \"set-proto\": \"^1.0.0\",\n        \"stop-iteration-iterator\": \"^1.1.0\",",       "startLine": 3992,       "endLine": 3996     },     {       "path": "services/ts/file-watcher/package-lock.json",       "line": 4245,       "column": 56,       "lineText": "        \"eslint-plugin-import\": \"npm:eslint-plugin-i@latest\",",       "snippet": "        \"eslint-plugin-astro\": \"^0.33.1\",\n        \"eslint-plugin-cypress\": \"^2.15.1\",\n        \"eslint-plugin-import\": \"npm:eslint-plugin-i@latest\",\n        \"eslint-plugin-jsdoc\": \"^48.2.3\",\n        \"eslint-plugin-jsx-a11y\": \"^6.8.0\",",       "startLine": 4243,       "endLine": 4247     },     {       "path": "services/ts/file-watcher/package-lock.json",       "line": 4680,       "column": 21,       "lineText": "        \"safe-regex-test\": \"^1.0.3\",",       "snippet": "        \"minimatch\": \"^3.1.2\",\n        \"object.fromentries\": \"^2.0.8\",\n        \"safe-regex-test\": \"^1.0.3\",\n        \"string.prototype.includes\": \"^2.0.1\"\n      },",       "startLine": 4678,       "endLine": 4682     },     {       "path": "services/ts/file-watcher/package-lock.json",       "line": 6112,       "column": 128,       "lineText": "      \"deprecated\": \"This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.\",",       "snippet": "      \"resolved\": \"https://registry.npmjs.org/inflight/-/inflight-1.0.6.tgz\",\n      \"integrity\": \"sha512-k92I/b08q4wvFscXCLvqfsHCrjrF7yiXsQuIVvVE7N82W3+aqpzuUdBbfhWcy/FZR3/4IgflMgKLOsvPDrGCJA==\",\n      \"deprecated\": \"This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.\",\n      \"dev\": true,\n      \"license\": \"ISC\",",       "startLine": 6110,       "endLine": 6114     },     {       "path": "services/ts/file-watcher/package-lock.json",       "line": 6224,       "column": 21,       "lineText": "        \"safe-regex-test\": \"^1.1.0\"",       "snippet": "        \"get-proto\": \"^1.0.1\",\n        \"has-tostringtag\": \"^1.0.2\",\n        \"safe-regex-test\": \"^1.1.0\"\n      },\n      \"engines\": {",       "startLine": 6222,       "endLine": 6226     },     {       "path": "services/ts/file-watcher/package-lock.json",       "line": 6434,       "column": 21,       "lineText": "        \"safe-regex-test\": \"^1.1.0\"",       "snippet": "        \"get-proto\": \"^1.0.0\",\n        \"has-tostringtag\": \"^1.0.2\",\n        \"safe-regex-test\": \"^1.1.0\"\n      },\n      \"engines\": {",       "startLine": 6432,       "endLine": 6436     },     {       "path": "services/ts/file-watcher/package-lock.json",       "line": 6645,       "column": 21,       "lineText": "        \"safe-regex-test\": \"^1.1.0\"",       "snippet": "        \"call-bound\": \"^1.0.2\",\n        \"has-symbols\": \"^1.1.0\",\n        \"safe-regex-test\": \"^1.1.0\"\n      },\n      \"engines\": {",       "startLine": 6643,       "endLine": 6647     },     {       "path": "services/ts/file-watcher/package-lock.json",       "line": 8135,       "column": 25,       "lineText": "        \"node-gyp-build-test\": \"build-test.js\"",       "snippet": "        \"node-gyp-build\": \"bin.js\",\n        \"node-gyp-build-optional\": \"optional.js\",\n        \"node-gyp-build-test\": \"build-test.js\"\n      }\n    },",       "startLine": 8133,       "endLine": 8137     },     {       "path": "services/ts/file-watcher/package-lock.json",       "line": 9551,       "column": 30,       "lineText": "    \"node_modules/safe-regex-test\": {",       "snippet": "      }\n    },\n    \"node_modules/safe-regex-test\": {\n      \"version\": \"1.1.0\",\n      \"resolved\": \"https://registry.npmjs.org/safe-regex-test/-/safe-regex-test-1.1.0.tgz\",",       "startLine": 9549,       "endLine": 9553     },     {       "path": "services/ts/file-watcher/package-lock.json",       "line": 9553,       "column": 58,       "lineText": "      \"resolved\": \"https://registry.npmjs.org/safe-regex-test/-/safe-regex-test-1.1.0.tgz\",",       "snippet": "    \"node_modules/safe-regex-test\": {\n      \"version\": \"1.1.0\",\n      \"resolved\": \"https://registry.npmjs.org/safe-regex-test/-/safe-regex-test-1.1.0.tgz\",\n      \"integrity\": \"sha512-x/+Cz4YrimQxQccJf5mKEbIa1NzeCRNI5Ecl/ekmlYaampdNLPalVyIcCZNNH3MvmqBugV5TMYZXv0ljslUlaw==\",\n      \"dev\": true,",       "startLine": 9551,       "endLine": 9555     },     {       "path": "services/ts/file-watcher/package-lock.json",       "line": 10287,       "column": 19,       "lineText": "    \"node_modules/test-exclude\": {",       "snippet": "      }\n    },\n    \"node_modules/test-exclude\": {\n      \"version\": \"6.0.0\",\n      \"resolved\": \"https://registry.npmjs.org/test-exclude/-/test-exclude-6.0.0.tgz\",",       "startLine": 10285,       "endLine": 10289     },     {       "path": "services/ts/file-watcher/package-lock.json",       "line": 10289,       "column": 47,       "lineText": "      \"resolved\": \"https://registry.npmjs.org/test-exclude/-/test-exclude-6.0.0.tgz\",",       "snippet": "    \"node_modules/test-exclude\": {\n      \"version\": \"6.0.0\",\n      \"resolved\": \"https://registry.npmjs.org/test-exclude/-/test-exclude-6.0.0.tgz\",\n      \"integrity\": \"sha512-cAGWPIyOHU6zlmg88jwm7VRyXnMN7iV68OGAbYDk/Mh/xC/pzVPlQtY6ngoIH/5/tciuhGfvESU8GrHrcxD56w==\",\n      \"dev\": true,",       "startLine": 10287,       "endLine": 10291     },     {       "path": "services/ts/file-watcher/package-lock.json",       "line": 10302,       "column": 19,       "lineText": "    \"node_modules/test-exclude/node_modules/brace-expansion\": {",       "snippet": "      }\n    },\n    \"node_modules/test-exclude/node_modules/brace-expansion\": {\n      \"version\": \"1.1.12\",\n      \"resolved\": \"https://registry.npmjs.org/brace-expansion/-/brace-expansion-1.1.12.tgz\",",       "startLine": 10300,       "endLine": 10304     },     {       "path": "services/ts/file-watcher/package-lock.json",       "line": 10313,       "column": 19,       "lineText": "    \"node_modules/test-exclude/node_modules/glob\": {",       "snippet": "      }\n    },\n    \"node_modules/test-exclude/node_modules/glob\": {\n      \"version\": \"7.2.3\",\n      \"resolved\": \"https://registry.npmjs.org/glob/-/glob-7.2.3.tgz\",",       "startLine": 10311,       "endLine": 10315     },     {       "path": "services/ts/file-watcher/package-lock.json",       "line": 10335,       "column": 19,       "lineText": "    \"node_modules/test-exclude/node_modules/minimatch\": {",       "snippet": "      }\n    },\n    \"node_modules/test-exclude/node_modules/minimatch\": {\n      \"version\": \"3.1.2\",\n      \"resolved\": \"https://registry.npmjs.org/minimatch/-/minimatch-3.1.2.tgz\",",       "startLine": 10333,       "endLine": 10337     },     {       "path": "services/ts/markdown-graph/src/index.ts",       "line": 69,       "column": 31,       "lineText": "if (process.env.NODE_ENV !== 'test') {",       "snippet": "}\n\nif (process.env.NODE_ENV !== 'test') {\n    start();\n}",       "startLine": 67,       "endLine": 71     },     {       "path": "services/ts/markdown-graph/tests/graph.test.ts",       "line": 1,       "column": 8,       "lineText": "import test from 'ava';",       "snippet": "import test from 'ava';\nimport { MongoMemoryServer } from 'mongodb-memory-server';\nimport request from 'supertest';",       "startLine": 1,       "endLine": 3     },     {       "path": "services/ts/markdown-graph/tests/graph.test.ts",       "line": 3,       "column": 27,       "lineText": "import request from 'supertest';",       "snippet": "import test from 'ava';\nimport { MongoMemoryServer } from 'mongodb-memory-server';\nimport request from 'supertest';\nimport { promises as fs } from 'fs';\nimport { join } from 'path';",       "startLine": 1,       "endLine": 5     },     {       "path": "services/ts/markdown-graph/tests/graph.test.ts",       "line": 11,       "column": 1,       "lineText": "test('cold start and update', async (t) => {",       "snippet": "import { createApp, handleTask } from '../src/index.js';\n\ntest('cold start and update', async (t) => {\n    t.timeout(60000);\n    const repo = await fs.mkdtemp(join(tmpdir(), 'mg-'));",       "startLine": 9,       "endLine": 13     },     {       "path": "services/ts/markdown-graph/tsconfig.json",       "line": 35,       "column": 50,       "lineText": "    \"include\": [\"src/**/*.ts\", \"src/**/*.d.ts\", \"tests/**/*.ts\"],",       "snippet": "        \"skipLibCheck\": true\n    },\n    \"include\": [\"src/**/*.ts\", \"src/**/*.d.ts\", \"tests/**/*.ts\"],\n    \"exclude\": [\"node_modules\"]\n}",       "startLine": 33,       "endLine": 37     },     {       "path": "services/ts/file-watcher/run.sh",       "line": 6,       "column": 54,       "lineText": "  echo \"  corepack enable && corepack prepare pnpm@latest --activate\"",       "snippet": "else\n  echo \"ERROR: pnpm is required. Enable Corepack and activate pnpm:\"\n  echo \"  corepack enable && corepack prepare pnpm@latest --activate\"\n  exit 1\nfi",       "startLine": 4,       "endLine": 8     },     {       "path": "services/ts/cephalon/src/index.ts",       "line": 24,       "column": 31,       "lineText": "if (process.env.NODE_ENV !== 'test') {",       "snippet": "}\n\nif (process.env.NODE_ENV !== 'test') {\n    main();\n}",       "startLine": 22,       "endLine": 26     },     {       "path": "services/ts/codex-orchestrator/src/tools.ts",       "line": 37,       "column": 26,       "lineText": "export async function runTests(",       "snippet": "}\n\nexport async function runTests(\n    pattern?: string,\n): Promise<{ code: number; stdout: string; stderr: string }> {",       "startLine": 35,       "endLine": 39     },     {       "path": "services/ts/codex-orchestrator/src/tools.ts",       "line": 40,       "column": 30,       "lineText": "    const cmd = (process.env.TEST_CMD || 'pnpm -w test').split(' ');",       "snippet": "    pattern?: string,\n): Promise<{ code: number; stdout: string; stderr: string }> {\n    const cmd = (process.env.TEST_CMD || 'pnpm -w test').split(' ');\n    const flag = process.env.TEST_PATTERN_FLAG || '-m'; // AVA match flag\n    const args = pattern ? cmd.slice(1).concat([flag, pattern]) : cmd.slice(1);",       "startLine": 38,       "endLine": 42     },     {       "path": "services/ts/codex-orchestrator/src/tools.ts",       "line": 41,       "column": 30,       "lineText": "    const flag = process.env.TEST_PATTERN_FLAG || '-m'; // AVA match flag",       "snippet": "): Promise<{ code: number; stdout: string; stderr: string }> {\n    const cmd = (process.env.TEST_CMD || 'pnpm -w test').split(' ');\n    const flag = process.env.TEST_PATTERN_FLAG || '-m'; // AVA match flag\n    const args = pattern ? cmd.slice(1).concat([flag, pattern]) : cmd.slice(1);\n    return new Promise((resolve) => {",       "startLine": 39,       "endLine": 43     },     {       "path": "services/ts/markdown-graph/biome.json",       "line": 4,       "column": 33,       "lineText": "        \"includes\": [\"src/**\", \"tests/**\"]",       "snippet": "    \"schema\": \"https://biomejs.dev/schemas/2.1.3/schema.json\",\n    \"files\": {\n        \"includes\": [\"src/**\", \"tests/**\"]\n    },\n    \"linter\": {",       "startLine": 2,       "endLine": 6     },     {       "path": "services/ts/kanban-processor/tsconfig.json",       "line": 52,       "column": 33,       "lineText": "    \"include\": [\"src/**/*.ts\", \"tests/**/*.ts\"],",       "snippet": "        \"skipLibCheck\": true\n    },\n    \"include\": [\"src/**/*.ts\", \"tests/**/*.ts\"],\n    \"exclude\": [\"node_modules\"]\n}",       "startLine": 50,       "endLine": 54     },     {       "path": "services/ts/kanban-processor/package-lock.json",       "line": 3028,       "column": 18,       "lineText": "                \"test-exclude\": \"^6.0.0\",",       "snippet": "                \"istanbul-lib-report\": \"^3.0.1\",\n                \"istanbul-reports\": \"^3.1.6\",\n                \"test-exclude\": \"^6.0.0\",\n                \"v8-to-istanbul\": \"^9.0.0\",\n                \"yargs\": \"^17.7.2\",",       "startLine": 3026,       "endLine": 3030     },     {       "path": "services/ts/kanban-processor/package-lock.json",       "line": 3958,       "column": 29,       "lineText": "                \"safe-regex-test\": \"^1.1.0\",",       "snippet": "                \"safe-array-concat\": \"^1.1.3\",\n                \"safe-push-apply\": \"^1.0.0\",\n                \"safe-regex-test\": \"^1.1.0\",\n                \"set-proto\": \"^1.0.0\",\n                \"stop-iteration-iterator\": \"^1.1.0\",",       "startLine": 3956,       "endLine": 3960     },     {       "path": "services/ts/kanban-processor/package-lock.json",       "line": 4209,       "column": 64,       "lineText": "                \"eslint-plugin-import\": \"npm:eslint-plugin-i@latest\",",       "snippet": "                \"eslint-plugin-astro\": \"^0.33.1\",\n                \"eslint-plugin-cypress\": \"^2.15.1\",\n                \"eslint-plugin-import\": \"npm:eslint-plugin-i@latest\",\n                \"eslint-plugin-jsdoc\": \"^48.2.3\",\n                \"eslint-plugin-jsx-a11y\": \"^6.8.0\",",       "startLine": 4207,       "endLine": 4211     },     {       "path": "services/ts/kanban-processor/package-lock.json",       "line": 4607,       "column": 29,       "lineText": "                \"safe-regex-test\": \"^1.0.3\",",       "snippet": "                \"minimatch\": \"^3.1.2\",\n                \"object.fromentries\": \"^2.0.8\",\n                \"safe-regex-test\": \"^1.0.3\",\n                \"string.prototype.includes\": \"^2.0.1\"\n            },",       "startLine": 4605,       "endLine": 4609     },     {       "path": "services/ts/kanban-processor/package-lock.json",       "line": 5909,       "column": 134,       "lineText": "            \"deprecated\": \"This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.\",",       "snippet": "            \"resolved\": \"https://registry.npmjs.org/inflight/-/inflight-1.0.6.tgz\",\n            \"integrity\": \"sha512-k92I/b08q4wvFscXCLvqfsHCrjrF7yiXsQuIVvVE7N82W3+aqpzuUdBbfhWcy/FZR3/4IgflMgKLOsvPDrGCJA==\",\n            \"deprecated\": \"This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.\",\n            \"dev\": true,\n            \"license\": \"ISC\",",       "startLine": 5907,       "endLine": 5911     },     {       "path": "services/ts/kanban-processor/package-lock.json",       "line": 6021,       "column": 29,       "lineText": "                \"safe-regex-test\": \"^1.1.0\"",       "snippet": "                \"get-proto\": \"^1.0.1\",\n                \"has-tostringtag\": \"^1.0.2\",\n                \"safe-regex-test\": \"^1.1.0\"\n            },\n            \"engines\": {",       "startLine": 6019,       "endLine": 6023     },     {       "path": "services/ts/kanban-processor/package-lock.json",       "line": 6220,       "column": 29,       "lineText": "                \"safe-regex-test\": \"^1.1.0\"",       "snippet": "                \"get-proto\": \"^1.0.0\",\n                \"has-tostringtag\": \"^1.0.2\",\n                \"safe-regex-test\": \"^1.1.0\"\n            },\n            \"engines\": {",       "startLine": 6218,       "endLine": 6222     },     {       "path": "services/ts/kanban-processor/package-lock.json",       "line": 6433,       "column": 29,       "lineText": "                \"safe-regex-test\": \"^1.1.0\"",       "snippet": "                \"call-bound\": \"^1.0.2\",\n                \"has-symbols\": \"^1.1.0\",\n                \"safe-regex-test\": \"^1.1.0\"\n            },\n            \"engines\": {",       "startLine": 6431,       "endLine": 6435     },     {       "path": "services/ts/kanban-processor/package-lock.json",       "line": 8032,       "column": 33,       "lineText": "                \"node-gyp-build-test\": \"build-test.js\"",       "snippet": "                \"node-gyp-build\": \"bin.js\",\n                \"node-gyp-build-optional\": \"optional.js\",\n                \"node-gyp-build-test\": \"build-test.js\"\n            }\n        },",       "startLine": 8030,       "endLine": 8034     },     {       "path": "services/ts/kanban-processor/package-lock.json",       "line": 9379,       "column": 34,       "lineText": "        \"node_modules/safe-regex-test\": {",       "snippet": "            }\n        },\n        \"node_modules/safe-regex-test\": {\n            \"version\": \"1.1.0\",\n            \"resolved\": \"https://registry.npmjs.org/safe-regex-test/-/safe-regex-test-1.1.0.tgz\",",       "startLine": 9377,       "endLine": 9381     },     {       "path": "services/ts/kanban-processor/package-lock.json",       "line": 9381,       "column": 64,       "lineText": "            \"resolved\": \"https://registry.npmjs.org/safe-regex-test/-/safe-regex-test-1.1.0.tgz\",",       "snippet": "        \"node_modules/safe-regex-test\": {\n            \"version\": \"1.1.0\",\n            \"resolved\": \"https://registry.npmjs.org/safe-regex-test/-/safe-regex-test-1.1.0.tgz\",\n            \"integrity\": \"sha512-x/+Cz4YrimQxQccJf5mKEbIa1NzeCRNI5Ecl/ekmlYaampdNLPalVyIcCZNNH3MvmqBugV5TMYZXv0ljslUlaw==\",\n            \"dev\": true,",       "startLine": 9379,       "endLine": 9383     },     {       "path": "services/ts/kanban-processor/package-lock.json",       "line": 10168,       "column": 23,       "lineText": "        \"node_modules/test-exclude\": {",       "snippet": "            }\n        },\n        \"node_modules/test-exclude\": {\n            \"version\": \"6.0.0\",\n            \"resolved\": \"https://registry.npmjs.org/test-exclude/-/test-exclude-6.0.0.tgz\",",       "startLine": 10166,       "endLine": 10170     },     {       "path": "services/ts/kanban-processor/package-lock.json",       "line": 10170,       "column": 53,       "lineText": "            \"resolved\": \"https://registry.npmjs.org/test-exclude/-/test-exclude-6.0.0.tgz\",",       "snippet": "        \"node_modules/test-exclude\": {\n            \"version\": \"6.0.0\",\n            \"resolved\": \"https://registry.npmjs.org/test-exclude/-/test-exclude-6.0.0.tgz\",\n            \"integrity\": \"sha512-cAGWPIyOHU6zlmg88jwm7VRyXnMN7iV68OGAbYDk/Mh/xC/pzVPlQtY6ngoIH/5/tciuhGfvESU8GrHrcxD56w==\",\n            \"dev\": true,",       "startLine": 10168,       "endLine": 10172     },     {       "path": "services/ts/kanban-processor/package-lock.json",       "line": 10183,       "column": 23,       "lineText": "        \"node_modules/test-exclude/node_modules/glob\": {",       "snippet": "            }\n        },\n        \"node_modules/test-exclude/node_modules/glob\": {\n            \"version\": \"7.2.3\",\n            \"resolved\": \"https://registry.npmjs.org/glob/-/glob-7.2.3.tgz\",",       "startLine": 10181,       "endLine": 10185     },     {       "path": "services/ts/file-watcher/src/index.ts",       "line": 63,       "column": 31,       "lineText": "if (process.env.NODE_ENV !== 'test') {",       "snippet": "}\n\nif (process.env.NODE_ENV !== 'test') {\n    startFileWatcher();\n    console.log('File watcher running...');",       "startLine": 61,       "endLine": 65     },     {       "path": "services/ts/file-watcher/src/repo-watcher.ts",       "line": 169,       "column": 24,       "lineText": "        // exposed for tests",       "snippet": "            pending.clear();\n        },\n        // exposed for tests\n        _handle: handle,\n    } as const;",       "startLine": 167,       "endLine": 171     },     {       "path": "services/ts/file-watcher/tests/repo-watcher.test.ts",       "line": 1,       "column": 8,       "lineText": "import test from 'ava';",       "snippet": "import test from 'ava';\nimport { createRepoWatcher } from '../src/repo-watcher.js';\n",       "startLine": 1,       "endLine": 3     },     {       "path": "services/ts/file-watcher/tests/repo-watcher.test.ts",       "line": 4,       "column": 1,       "lineText": "test('repo watcher posts index/remove for non-ignored files', async (t) => {",       "snippet": "import { createRepoWatcher } from '../src/repo-watcher.js';\n\ntest('repo watcher posts index/remove for non-ignored files', async (t) => {\n    t.timeout(5000);\n    const calls: { url: string; body: any; headers: any }[] = [];",       "startLine": 2,       "endLine": 6     },     {       "path": "services/ts/file-watcher/tests/repo-watcher.test.ts",       "line": 8,       "column": 42,       "lineText": "    process.env.SMARTGPT_BRIDGE_TOKEN = 'test-token';",       "snippet": "    const calls: { url: string; body: any; headers: any }[] = [];\n    const origFetch: any = globalThis.fetch;\n    process.env.SMARTGPT_BRIDGE_TOKEN = 'test-token';\n    globalThis.fetch = (async (url: any, init: any) => {\n        calls.push({ url: String(url), body: JSON.parse(init.body), headers: init.headers });",       "startLine": 6,       "endLine": 10     },     {       "path": "services/ts/file-watcher/tests/repo-watcher.test.ts",       "line": 19,       "column": 44,       "lineText": "    // Force not-ignored for deterministic tests",       "snippet": "        debounceMs: 50,\n    });\n    // Force not-ignored for deterministic tests\n    const mod = await import('../src/repo-watcher.js');\n    (mod as any).checkGitIgnored = async () => false;",       "startLine": 17,       "endLine": 21     },     {       "path": "services/ts/file-watcher/tests/repo-watcher.test.ts",       "line": 37,       "column": 68,       "lineText": "    t.true(calls.every((c) => c.headers?.Authorization === 'Bearer test-token'));",       "snippet": "    t.true(calls.some((c) => c.url.endsWith('/indexer/remove') && c.body.path === 'src/old.ts'));\n    t.false(calls.some((c) => c.body.path === 'node_modules/ignore.js'));\n    t.true(calls.every((c) => c.headers?.Authorization === 'Bearer test-token'));\n\n    (await watcher).close();",       "startLine": 35,       "endLine": 39     },     {       "path": "services/ts/codex-orchestrator/src/index.ts",       "line": 4,       "column": 25,       "lineText": "import { applyPatch, runTests, ripgrep, readFileSafe, summarize } from './tools.js';",       "snippet": "\nimport { chat } from './ollama.js';\nimport { applyPatch, runTests, ripgrep, readFileSafe, summarize } from './tools.js';\ntype Action =\n    | { action: 'open_file'; path: string; hint?: string }",       "startLine": 2,       "endLine": 6     },     {       "path": "services/ts/codex-orchestrator/src/index.ts",       "line": 8,       "column": 22,       "lineText": "    | { action: 'run_tests'; pattern?: string }",       "snippet": "    | { action: 'open_file'; path: string; hint?: string }\n    | { action: 'search_repo'; query: string }\n    | { action: 'run_tests'; pattern?: string }\n    | { action: 'write_patch'; path: string; diff: string }\n    | { action: 'ask_user'; question: string }",       "startLine": 6,       "endLine": 10     },     {       "path": "services/ts/codex-orchestrator/src/index.ts",       "line": 18,       "column": 48,       "lineText": "- Allowed actions: open_file, search_repo, run_tests, write_patch, ask_user, done.",       "snippet": "const plannerPreamble = `You are the Promethean Orchestrator.\n- Output JSON ONLY for one action per turn.\n- Allowed actions: open_file, search_repo, run_tests, write_patch, ask_user, done.\n- Repo rules: TypeScript default, AVA tests, NEVER use relative imports; only @shared/ts/dist/...; keep patches minimal.\n- If uncertain about a path or API, use ask_user.",       "startLine": 16,       "endLine": 20     },     {       "path": "services/ts/codex-orchestrator/src/index.ts",       "line": 19,       "column": 39,       "lineText": "- Repo rules: TypeScript default, AVA tests, NEVER use relative imports; only @shared/ts/dist/...; keep patches minimal.",       "snippet": "- Output JSON ONLY for one action per turn.\n- Allowed actions: open_file, search_repo, run_tests, write_patch, ask_user, done.\n- Repo rules: TypeScript default, AVA tests, NEVER use relative imports; only @shared/ts/dist/...; keep patches minimal.\n- If uncertain about a path or API, use ask_user.\nSchema examples:",       "startLine": 17,       "endLine": 21     },     {       "path": "services/ts/codex-orchestrator/src/index.ts",       "line": 24,       "column": 17,       "lineText": "{ \"action\":\"run_tests\", \"pattern\":\"cephalon heartbeat\" }",       "snippet": "{ \"action\":\"open_file\", \"path\":\"services/ts/cephalon/src/foo.ts\", \"hint\":\"read around function X\" }\n{ \"action\":\"search_repo\", \"query\":\"define HeartbeatClient\" }\n{ \"action\":\"run_tests\", \"pattern\":\"cephalon heartbeat\" }\n{ \"action\":\"write_patch\", \"path\":\"services/ts/cephalon/src/foo.ts\", \"diff\":\"@@ ... @@\\n- old\\n+ new\" }\n{ \"action\":\"ask_user\", \"question\":\"Which module defines the broker client?\" }",       "startLine": 22,       "endLine": 26     },     {       "path": "services/ts/codex-orchestrator/src/index.ts",       "line": 27,       "column": 30,       "lineText": "{ \"action\":\"done\", \"reason\":\"tests passed\" }",       "snippet": "{ \"action\":\"write_patch\", \"path\":\"services/ts/cephalon/src/foo.ts\", \"diff\":\"@@ ... @@\\n- old\\n+ new\" }\n{ \"action\":\"ask_user\", \"question\":\"Which module defines the broker client?\" }\n{ \"action\":\"done\", \"reason\":\"tests passed\" }\n`;\n",       "startLine": 25,       "endLine": 29     },     {       "path": "services/ts/codex-orchestrator/src/index.ts",       "line": 40,       "column": 92,       "lineText": "        process.argv.slice(2).join(' ') || 'Assess repo status and propose the first small test.';",       "snippet": "async function main() {\n    const userTask =\n        process.argv.slice(2).join(' ') || 'Assess repo status and propose the first small test.';\n    let messages = [\n        { role: 'system', content: plannerPreamble },",       "startLine": 38,       "endLine": 42     },     {       "path": "services/ts/codex-orchestrator/src/index.ts",       "line": 108,       "column": 36,       "lineText": "        if (action.action === 'run_tests') {",       "snippet": "        }\n\n        if (action.action === 'run_tests') {\n            const res = await runTests(action.pattern);\n            messages.push({ role: 'assistant', content: JSON.stringify(action) });",       "startLine": 106,       "endLine": 110     },     {       "path": "services/ts/codex-orchestrator/src/index.ts",       "line": 109,       "column": 34,       "lineText": "            const res = await runTests(action.pattern);",       "snippet": "\n        if (action.action === 'run_tests') {\n            const res = await runTests(action.pattern);\n            messages.push({ role: 'assistant', content: JSON.stringify(action) });\n            messages.push({",       "startLine": 107,       "endLine": 111     },     {       "path": "services/ts/codex-orchestrator/src/index.ts",       "line": 113,       "column": 27,       "lineText": "                content: `Test result:\\nexit={res.code}\\nstdout:\\n{summarize(",       "snippet": "            messages.push({\n                role: 'user',\n                content: `Test result:\\nexit={res.code}\\nstdout:\\n{summarize(\n                    res.stdout,\n                    2000,",       "startLine": 111,       "endLine": 115     },     {       "path": "services/ts/codex-orchestrator/src/index.ts",       "line": 119,       "column": 61,       "lineText": "                messages.push({ role: 'user', content: 'All tests pass. Consider action: done.' });",       "snippet": "            });\n            if (res.code === 0) {\n                messages.push({ role: 'user', content: 'All tests pass. Consider action: done.' });\n            }\n            continue;",       "startLine": 117,       "endLine": 121     },     {       "path": "services/ts/file-watcher/tests/events.test.ts",       "line": 1,       "column": 8,       "lineText": "import test from 'ava';",       "snippet": "import test from 'ava';\nimport { mkdtempSync, writeFileSync, promises as fs } from 'fs';\nimport { join } from 'path';",       "startLine": 1,       "endLine": 3     },     {       "path": "services/ts/file-watcher/tests/events.test.ts",       "line": 12,       "column": 1,       "lineText": "test('emits board change events', async (t) => {",       "snippet": "};\n\ntest('emits board change events', async (t) => {\n    const root = mkdtempSync(join(tmpdir(), 'fw-'));\n    const boardDir = join(root, 'docs', 'agile', 'boards');",       "startLine": 10,       "endLine": 14     },     {       "path": "services/ts/file-watcher/tests/events.test.ts",       "line": 32,       "column": 1,       "lineText": "test('emits task add and change events', async (t) => {",       "snippet": "});\n\ntest('emits task add and change events', async (t) => {\n    const root = mkdtempSync(join(tmpdir(), 'fw-'));\n    const boardDir = join(root, 'docs', 'agile', 'boards');",       "startLine": 30,       "endLine": 34     },     {       "path": "services/ts/file-watcher/tsconfig.json",       "line": 55,       "column": 10,       "lineText": "        \"tests/**/*.ts\",",       "snippet": "        \"src/**/*.ts\",\n        \"src/**/*.d.ts\",\n        \"tests/**/*.ts\",\n        \"../../../shared/ts/src/types/**/*.d.ts\"\n    ],",       "startLine": 53,       "endLine": 57     },     {       "path": "services/ts/kanban-processor/tests/queue.test.ts",       "line": 1,       "column": 8,       "lineText": "import test from 'ava';",       "snippet": "import test from 'ava';\nimport { WebSocketServer } from 'ws';\nimport { startKanbanProcessor } from '../src/index.js';",       "startLine": 1,       "endLine": 3     },     {       "path": "services/ts/kanban-processor/tests/queue.test.ts",       "line": 9,       "column": 1,       "lineText": "test('enqueues processing tasks for board and file changes', async (t) => {",       "snippet": "}\n\ntest('enqueues processing tasks for board and file changes', async (t) => {\n    const wss = new WebSocketServer({ port: 0 });\n    const messages: any[] = [];",       "startLine": 7,       "endLine": 11     },     {       "path": "services/ts/kanban-processor/src/index.ts",       "line": 190,       "column": 35,       "lineText": "    if (process.env.NODE_ENV !== 'test') {",       "snippet": "    let kanbanStore: DualStoreManager<string, string> | null = null;\n    let mongoClient: MongoClient | null = null;\n    if (process.env.NODE_ENV !== 'test') {\n        getMongoClient()\n            .then((client) => {",       "startLine": 188,       "endLine": 192     },     {       "path": "services/ts/kanban-processor/src/index.ts",       "line": 290,       "column": 31,       "lineText": "if (process.env.NODE_ENV !== 'test') {",       "snippet": "}\n\nif (process.env.NODE_ENV !== 'test') {\n    startKanbanProcessor();\n    console.log('Kanban processor running...');",       "startLine": 288,       "endLine": 292     },     {       "path": "services/ts/templates/service/tests/example.test.ts",       "line": 1,       "column": 8,       "lineText": "import test from 'ava';",       "snippet": "import test from 'ava';\n\ntest('placeholder', (t) => {",       "startLine": 1,       "endLine": 3     },     {       "path": "services/ts/templates/service/tests/example.test.ts",       "line": 3,       "column": 1,       "lineText": "test('placeholder', (t) => {",       "snippet": "import test from 'ava';\n\ntest('placeholder', (t) => {\n    t.pass();\n});",       "startLine": 1,       "endLine": 5     },     {       "path": "services/ts/cephalon/src/util.ts",       "line": 30,       "column": 40,       "lineText": "export function generateSpecialQuery(latestUserMessage: GenericEntry, promptChoice: string): string {",       "snippet": "}\n\nexport function generateSpecialQuery(latestUserMessage: GenericEntry, promptChoice: string): string {\n    return `\nThe last thing you heard was:",       "startLine": 28,       "endLine": 32     },     {       "path": "services/ts/cephalon/src/util.ts",       "line": 33,       "column": 19,       "lineText": "{formatMessage(latestUserMessage)}",       "snippet": "    return `\nThe last thing you heard was:\n{formatMessage(latestUserMessage)}\n\n{promptChoice}",       "startLine": 31,       "endLine": 35     },     {       "path": "services/ts/reasoner/package.json",       "line": 9,       "column": 10,       "lineText": "        \"test\": \"pnpm run build && ava\",",       "snippet": "        \"build\": \"tsc && node scripts/patch-imports.js\",\n        \"build:check\": \"tsc --noEmit --incremental false\",\n        \"test\": \"pnpm run build && ava\",\n        \"coverage\": \"pnpm run build && c8 ava\",\n        \"lint\": \"pnpm exec @biomejs/biome lint . || true\",",       "startLine": 7,       "endLine": 11     },     {       "path": "services/ts/reasoner/package.json",       "line": 20,       "column": 22,       "lineText": "        \"@types/supertest\": \"^2.0.13\",",       "snippet": "        \"@types/express\": \"^4.17.21\",\n        \"@types/node\": \"^22.10.10\",\n        \"@types/supertest\": \"^2.0.13\",\n        \"@biomejs/biome\": \"^2.1.3\",\n        \"ava\": \"^6.4.1\",",       "startLine": 18,       "endLine": 22     }   ] }``
 
 ## ChatGPT
 Perfect — this explains the whole picture.
@@ -1920,8 +1951,8 @@ So when the schemas are correct, both search modes _do_ enrich Codex Context wit
 Right now, code search literally does:
 
 ```ts
-const query = messages[messages.length - 1]?.content ?? "";
-body: JSON.stringify({ pattern: String(query), flags: "i" })
+const query = messagesmessages.length - 1?.content ?? "";
+body: JSON.stringify{ pattern: String(query), flags: "i" }
 ```
 
 So if your last user message was JSON or natural language, grep just dumps it in as a regex.  
@@ -1977,7 +2008,9 @@ Yes 👏 — that’s basically turning **retrieval into an iterative planning l
         
         ```json
         {
-          "tool_calls": [
+```
+"tool_calls": [
+```
             { "name": "semantic_search", "args": { "query": "runPythonTests script" } },
             { "name": "code_search", "args": { "pattern": "ava test runner" } }
           ],
@@ -2043,7 +2076,7 @@ Yes 👏 — that’s basically turning **retrieval into an iterative planning l
     ```arduino
     Given this conversation history:
     1. Summarize relevant context.
-    2. Suggest any tool calls (semantic_search, code_search, run_tests, etc.) that might help.
+    2. Suggest any tool calls semantic_search, code_search, run_tests, etc. that might help.
     ```
 *   Wrap results in JSON.
     
@@ -2093,19 +2126,33 @@ Perfect — let’s map this out step by step.
  │ Summarization Pass    │  ← LLM summarizes >N messages
  │ + Tool Proposal       │     & proposes tool calls
  └──────────┬────────────┘
-            │ tool_calls[]
+```
+│ tool_calls[]
+```
             ▼
  ┌───────────────────────┐
- │ Tool Execution Layer  │  ← semantic_search, code_search, etc.
+```
+│ Tool Execution Layer  │  ← semantic_search, code_search, etc.
+```
  └──────────┬────────────┘
             │ results[]
             ▼
  ┌──────────────────────────────┐
- │ Condense Context + Preserve  │
- │ - Original user message      │
- │ - Summaries of old context   │
- │ - Results from last tools    │
- │ - Prior tool_calls[]         │
+```
+│ Condense Context + Preserve  │
+```
+```
+│ - Original user message      │
+```
+```
+│ - Summaries of old context   │
+```
+```
+│ - Results from last tools    │
+```
+```
+│ - Prior tool_calls[]         │
+```
  └──────────┬───────────────────┘
             │
             ▼
@@ -2116,7 +2163,9 @@ Perfect — let’s map this out step by step.
             ▼
  ┌───────────────────────┐
  │ Stop when goal tool   │
- │ (e.g. run_tests) is   │
+```
+│ (e.g. run_tests) is   │
+```
  │ emitted               │
  └───────────────────────┘
 ```
@@ -2127,10 +2176,14 @@ Perfect — let’s map this out step by step.
 --------------------
 
 ```ts
+```
 type ToolCall =
+```
   | { name: "semantic_search"; args: { query: string; n?: number } }
   | { name: "code_search"; args: { pattern: string; flags?: string } }
-  | { name: "run_tests"; args: { path?: string } }
+```
+| { name: "run_tests"; args: { path?: string } }
+```
   | { name: "summarize"; args: { window: number } };
 ```
 
@@ -2143,19 +2196,32 @@ type ToolCall =
 import { SmartGptrRetriever } from "./retriever.js";
 import ollama from "ollama";
 
-export async function iterativeRetrieve(messages, opts = {}) {
-  const MAX_ROUNDS = opts.maxRounds ?? 3;
+export async function iterativeRetrievemessages, opts = {} {
+```
+const MAX_ROUNDS = opts.maxRounds ?? 3;
+```
   const retriever = new SmartGptrRetriever(opts.bridgeUrl, opts.token);
-
- let condensed = [];
-  let toolHistory = [];
-  let round = 0;
-
- while (round < MAX_ROUNDS) {
-    round++;
-
-   // --- 1. Summarization & Tool Proposal ---
-    const summarizePrompt = [
+```
+let condensed = [];
+```
+```
+let toolHistory = [];
+```
+```
+let round = 0;
+```
+```
+while (round < MAX_ROUNDS) {
+```
+```
+round++;
+```
+```
+// --- 1. Summarization & Tool Proposal ---
+```
+```
+const summarizePrompt = [
+```
       { role: "system", content: "You are a planner. Summarize the dialog and propose tool calls." },
       ...messages,
       {
@@ -2173,38 +2239,54 @@ export async function iterativeRetrieve(messages, opts = {}) {
     try {
       plan = JSON.parse(summaryRes.message.content);
     } catch {
-      plan = { summary: "summarization failed", tool_calls: [] };
+```
+plan = { summary: "summarization failed", tool_calls: [] };
+```
     }
-
-   // --- 2. Execute tool calls ---
-    const results = [];
-    for (const call of plan.tool_calls || []) {
+```
+// --- 2. Execute tool calls ---
+```
+```
+const results = [];
+```
+    for const call of plan.tool_calls || [] {
       toolHistory.push(call);
-
-     if (call.name === "semantic_search") {
-        results.push(await retriever.retrieve(call.args.query, { n: call.args.n }));
+```
+if (call.name === "semantic_search") {
+```
+        results.pushawait retriever.retrieve(call.args.query, { n: call.args.n });
       }
-      if (call.name === "code_search") {
-        results.push(await retriever.retrieve(call.args.pattern));
+```
+if (call.name === "code_search") {
+```
+        results.pushawait retriever.retrieve(call.args.pattern);
       }
-      // extend with run_tests, etc.
+```
+// extend with run_tests, etc.
+```
     }
-
-   // --- 3. Condense context ---
-    condensed = [
-      { role: "user", content: messages.find(m => m.role === "user")?.content || "" },
+```
+// --- 3. Condense context ---
+```
+```
+condensed = [
+```
+      { role: "user", content: messages.findm => m.role === "user"?.content || "" },
       { role: "system", content: "Summary of prior context: " + plan.summary },
-      { role: "system", content: "Tool results: " + JSON.stringify(results, null, 2) },
-      { role: "system", content: "Prior tool calls: " + JSON.stringify(toolHistory, null, 2) },
+      { role: "system", content: "Tool results: " + JSON.stringifyresults, null, 2 },
+      { role: "system", content: "Prior tool calls: " + JSON.stringifytoolHistory, null, 2 },
     ];
-
-   // --- 4. Stopping condition ---
-    if (toolHistory.some(tc => tc.name === "run_tests")) {
+```
+// --- 4. Stopping condition ---
+```
+    if toolHistory.some(tc => tc.name === "run_tests") {
       break;
     }
 
    // Feed condensed back in for another loop
-    messages = condensed;
+```
+messages = condensed;
+```
   }
 
  return { condensed, toolHistory };
@@ -2293,51 +2375,74 @@ So the algorithm becomes:
 ### 🛠 Skeleton With Goal Tools
 
 ```ts
+```
 const GOAL_TOOLS = new Set(["shell", "update_plan"]);
-
-export async function iterativeRetrieveAndExecute(messages, opts = {}) {
-  const MAX_ROUNDS = opts.maxRounds ?? 3;
-  let toolHistory = [];
-  let round = 0;
-
- while (round < MAX_ROUNDS) {
-    round++;
-
-   // Step 1: Summarization & proposal
-    const summaryRes = await ollama.chat({
+```
+export async function iterativeRetrieveAndExecutemessages, opts = {} {
+```
+const MAX_ROUNDS = opts.maxRounds ?? 3;
+```
+```
+let toolHistory = [];
+```
+```
+let round = 0;
+```
+```
+while (round < MAX_ROUNDS) {
+```
+```
+round++;
+```
+```
+// Step 1: Summarization & proposal
+```
+    const summaryRes = await ollama.chat{
       model: opts.model ?? "llama3.1",
-      messages: [
-        { role: "system", content: "Summarize and propose next tool calls." },
+      messages: { role: "system", content: "Summarize and propose next tool calls." },
         ...messages,
-        { role: "assistant", content: "Return JSON { summary, tool_calls: [] }" },
-      ],
-    });
+        { role: "assistant", content: "Return JSON { summary, tool_calls: [] }" },,
+    };
 
    let plan;
     try { plan = JSON.parse(summaryRes.message.content); }
-    catch { plan = { summary: "failed", tool_calls: [] }; }
-
-   // Step 2: Execute retrieval tools
-    const results = [];
-    for (const call of plan.tool_calls) {
+```
+catch { plan = { summary: "failed", tool_calls: [] }; }
+```
+```
+// Step 2: Execute retrieval tools
+```
+```
+const results = [];
+```
+    for const call of plan.tool_calls {
       toolHistory.push(call);
-
-     if (GOAL_TOOLS.has(call.name)) {
-        // Stop condition reached
+```
+if (GOAL_TOOLS.has(call.name)) {
+```
+```
+// Stop condition reached
+```
         return { final: call, toolHistory };
       }
-
-     if (call.name === "semantic_search") {
-        results.push(await retriever.retrieve(call.args.query));
+```
+if (call.name === "semantic_search") {
+```
+        results.pushawait retriever.retrieve(call.args.query);
       }
-      if (call.name === "code_search") {
-        results.push(await retriever.retrieve(call.args.pattern));
+```
+if (call.name === "code_search") {
+```
+        results.pushawait retriever.retrieve(call.args.pattern);
       }
     }
-
-   // Step 3: Condense & loop
-    messages = [
-      { role: "user", content: messages.find(m => m.role === "user")?.content || "" },
+```
+// Step 3: Condense & loop
+```
+```
+messages = [
+```
+      { role: "user", content: messages.findm => m.role === "user"?.content || "" },
       { role: "system", content: "Summary: " + plan.summary },
       { role: "system", content: "Tool results: " + JSON.stringify(results) },
       { role: "system", content: "Prior tool calls: " + JSON.stringify(toolHistory) },
@@ -2385,9 +2490,9 @@ Implementation Sketch
 import { SmartGptrRetriever, RetrieverResult } from "./retriever.js";
 import type { ChatMessage } from "./types/openai.js";
 import ollama from "ollama";
-
+```
 const GOAL_TOOLS = new Set(["shell", "update_plan"]);
-
+```
 export interface IterativeRetrieverOptions {
   maxRounds?: number;
   model?: string;
@@ -2401,8 +2506,12 @@ export class IterativeRetriever {
   private maxRounds: number;
 
  constructor(opts: IterativeRetrieverOptions) {
-    this.model = opts.model ?? "llama3.1";
-    this.maxRounds = opts.maxRounds ?? 3;
+```
+this.model = opts.model ?? "llama3.1";
+```
+```
+this.maxRounds = opts.maxRounds ?? 3;
+```
     this.retriever = new SmartGptrRetriever(opts.bridgeUrl ?? "", opts.token);
   }
 
@@ -2412,13 +2521,22 @@ export class IterativeRetriever {
     condensedMessages: ChatMessage[];
     retrieved: RetrieverResult[];
   }> {
-    let toolHistory: any[] = [];
-    let condensedMessages = [...messages];
-    let retrieved: RetrieverResult[] = [];
-
-   for (let round = 0; round < this.maxRounds; round++) {
-      // 1. Summarization + tool proposal
-      const summarizePrompt: ChatMessage[] = [
+```
+let toolHistory: any[] = [];
+```
+```
+let condensedMessages = [...messages];
+```
+```
+let retrieved: RetrieverResult[] = [];
+```
+   for let round = 0; round < this.maxRounds; round++ {
+```
+// 1. Summarization + tool proposal
+```
+```
+const summarizePrompt: ChatMessage[] = [
+```
         {
           role: "system",
           content:
@@ -2437,16 +2555,24 @@ export class IterativeRetriever {
       try {
         plan = JSON.parse(summaryRes?.message?.content ?? "{}");
       } catch {
-        plan = { summary: "Summarization failed", tool_calls: [] };
+```
+plan = { summary: "Summarization failed", tool_calls: [] };
+```
       }
-
-     // 2. Execute tool calls
-      const roundResults: RetrieverResult[] = [];
-      for (const call of plan.tool_calls || []) {
+```
+// 2. Execute tool calls
+```
+```
+const roundResults: RetrieverResult[] = [];
+```
+      for const call of plan.tool_calls || [] {
         toolHistory.push(call);
-
-       if (GOAL_TOOLS.has(call.name)) {
-          // Stop condition reached
+```
+if (GOAL_TOOLS.has(call.name)) {
+```
+```
+// Stop condition reached
+```
           return {
             finalTool: call,
             toolHistory,
@@ -2454,13 +2580,15 @@ export class IterativeRetriever {
             retrieved,
           };
         }
-
-       if (call.name === "semantic_search") {
+```
+if (call.name === "semantic_search") {
+```
           const r = await this.retriever.retrieve(call.args.query, { n: call.args.n ?? 6 });
           roundResults.push(r);
         }
-
-       if (call.name === "code_search") {
+```
+if (call.name === "code_search") {
+```
           const r = await this.retriever.retrieve(call.args.pattern, { n: call.args.n ?? 6 });
           roundResults.push(r);
         }
@@ -2469,17 +2597,19 @@ export class IterativeRetriever {
      retrieved.push(...roundResults);
 
      // 3. Condense context for next loop
-      const originalUser = messages.find((m) => m.role === "user")?.content ?? "";
-      condensedMessages = [
+      const originalUser = messages.find(m) => m.role === "user"?.content ?? "";
+```
+condensedMessages = [
+```
         { role: "user", content: originalUser },
         { role: "system", content: "Summary so far: " + plan.summary },
         {
           role: "system",
-          content: "Tool results:\n" + JSON.stringify(roundResults, null, 2),
+          content: "Tool results:\n" + JSON.stringifyroundResults, null, 2,
         },
         {
           role: "system",
-          content: "Tool history:\n" + JSON.stringify(toolHistory, null, 2),
+          content: "Tool history:\n" + JSON.stringifytoolHistory, null, 2,
         },
       ];
     }
@@ -2504,10 +2634,18 @@ const aug = buildAugmentedPrompt(messages, retrieved);
 we would instead do:
 
 ```ts
+```
 const iterativeRetriever = new IterativeRetriever({
-  model: process.env.RETRIEVER_MODEL ?? "llama3.1",
-  bridgeUrl: process.env.SMARTGPT_URL,
-  token: process.env.SMARTGPT_TOKEN,
+```
+```
+model: process.env.RETRIEVER_MODEL ?? "llama3.1",
+```
+```
+bridgeUrl: process.env.SMARTGPT_URL,
+```
+```
+token: process.env.SMARTGPT_TOKEN,
+```
 });
 
 const {
@@ -2515,9 +2653,10 @@ const {
   toolHistory,
   condensedMessages,
   retrieved,
+```
 } = await iterativeRetriever.retrieveWithIteration(messages);
-
-const aug = buildAugmentedPrompt(condensedMessages, retrieved.at(-1) ?? { search: [] });
+```
+const aug = buildAugmentedPromptcondensedMessages, retrieved.at(-1) ?? { search: [] };
 ```
 
 *   If `finalTool` is `shell` or `update_plan` → we’re ready to execute that directly.
@@ -2568,7 +2707,9 @@ Your job is to:
 You must output strict JSON in this format:
 {
   "summary": string,
-  "tool_calls": [
+```
+"tool_calls": [
+```
     {
       "name": string,   // one of: semantic_search, code_search, shell, update_plan
       "args": object    // arguments for that tool
@@ -2581,7 +2722,7 @@ Rules:
 - If you have enough information and need to execute a command, propose a shell tool call.
 - If you need to update task state, propose update_plan.
 - Always include the original user intent in the summary.
-- Be concise in the summary (max 2 sentences).
+- Be concise in the summary max 2 sentences.
 - Never include extra commentary or text outside the JSON object.
 ```
 
@@ -2600,13 +2741,19 @@ User: How do I run the integration tests?
 ```json
 {
   "summary": "The user is asking how to run integration tests in this repo.",
-  "tool_calls": [
+```
+"tool_calls": [
+```
     {
-      "name": "semantic_search",
+```
+"name": "semantic_search",
+```
       "args": { "query": "integration tests run command" }
     },
     {
-      "name": "code_search",
+```
+"name": "code_search",
+```
       "args": { "pattern": "npm test|pnpm test|ava" }
     }
   ]
@@ -2628,12 +2775,16 @@ User: Ok, looks like I need to run tests with pnpm.
 ```json
 {
   "summary": "The user wants to run tests with pnpm.",
-  "tool_calls": [
+```
+"tool_calls": [
+```
     {
       "name": "shell",
       "args": {
         "command": ["pnpm", "test"],
-        "with_escalated_permissions": false
+```
+"with_escalated_permissions": false
+```
       }
     }
   ]
@@ -2655,9 +2806,13 @@ User: Step 2 is done, let’s mark it complete.
 ```json
 {
   "summary": "The user completed step 2 and wants the plan updated.",
-  "tool_calls": [
+```
+"tool_calls": [
+```
     {
-      "name": "update_plan",
+```
+"name": "update_plan",
+```
       "args": {
         "explanation": "Step 2 is complete",
         "plan": [{ "step": "Step 2", "status": "completed" }]
@@ -2675,8 +2830,12 @@ User: Step 2 is done, let’s mark it complete.
 When we build the summarization prompt:
 
 ```ts
+```
 const summarizePrompt: ChatMessage[] = [
-  { role: "system", content: SYSTEM_SUMMARIZE_PROMPT },
+```
+```
+{ role: "system", content: SYSTEM_SUMMARIZE_PROMPT },
+```
   ...condensedMessages,
 ];
 ```
@@ -2701,7 +2860,7 @@ where `SYSTEM_SUMMARIZE_PROMPT` is the block above.
 👉 Do you want me to draft a **real test harness** (`src/tests/iterative-retriever.test.ts`) that runs the summarization loop against a dummy conversation and checks it produces valid JSON tool calls? That would lock this down.
 
 ## User
-oof.. 2 sentances.... Open AI's core system prompt is aburdly large.... ```You are a coding agent running in the Codex CLI, a terminal-based coding assistant. Codex CLI is an open source project led by OpenAI. You are expected to be precise, safe, and helpful.  Your capabilities:  - Receive user prompts and other context provided by the harness, such as files in the workspace. - Communicate with the user by streaming thinking & responses, and by making & updating plans. - Emit function calls to run terminal commands and apply patches. Depending on how this specific run is configured, you can request that these function calls be escalated to the user for approval before running. More on this in the "Sandbox and approvals" section.  Within this context, Codex refers to the open-source agentic coding interface (not the old Codex language model built by OpenAI).  # How you work  ## Personality  Your default personality and tone is concise, direct, and friendly. You communicate efficiently, always keeping the user clearly informed about ongoing actions without unnecessary detail. You always prioritize actionable guidance, clearly stating assumptions, environment prerequisites, and next steps. Unless explicitly asked, you avoid excessively verbose explanations about your work.  ## Responsiveness  ### Preamble messages  Before making tool calls, send a brief preamble to the user explaining what you’re about to do. When sending preamble messages, follow these principles and examples:  - **Logically group related actions**: if you’re about to run several related commands, describe them together in one preamble rather than sending a separate note for each. - **Keep it concise**: be no more than 1-2 sentences, focused on immediate, tangible next steps. (8–12 words for quick updates). - **Build on prior context**: if this is not your first tool call, use the preamble message to connect the dots with what’s been done so far and create a sense of momentum and clarity for the user to understand your next actions. - **Keep your tone light, friendly and curious**: add small touches of personality in preambles feel collaborative and engaging. - **Exception**: Avoid adding a preamble for every trivial read (e.g., `cat` a single file) unless it’s part of a larger grouped action.  **Examples:**  - “I’ve explored the repo; now checking the API route definitions.” - “Next, I’ll patch the config and update the related tests.” - “I’m about to scaffold the CLI commands and helper functions.” - “Ok cool, so I’ve wrapped my head around the repo. Now digging into the API routes.” - “Config’s looking tidy. Next up is patching helpers to keep things in sync.” - “Finished poking at the DB gateway. I will now chase down error handling.” - “Alright, build pipeline order is interesting. Checking how it reports failures.” - “Spotted a clever caching util; now hunting where it gets used.”  ## Planning  You have access to an `update_plan` tool which tracks steps and progress and renders them to the user. Using the tool helps demonstrate that you've understood the task and convey how you're approaching it. Plans can help to make complex, ambiguous, or multi-phase work clearer and more collaborative for the user. A good plan should break the task into meaningful, logically ordered steps that are easy to verify as you go.  Note that plans are not for padding out simple work with filler steps or stating the obvious. The content of your plan should not involve doing anything that you aren't capable of doing (i.e. don't try to test things that you can't test). Do not use plans for simple or single-step queries that you can just do or answer immediately.  Do not repeat the full contents of the plan after an `update_plan` call — the harness already displays it. Instead, summarize the change made and highlight any important context or next step.  Before running a command, consider whether or not you have completed the previous step, and make sure to mark it as completed before moving on to the next step. It may be the case that you complete all steps in your plan after a single pass of implementation. If this is the case, you can simply mark all the planned steps as completed. Sometimes, you may need to change plans in the middle of a task: call `update_plan` with the updated plan and make sure to provide an `explanation` of the rationale when doing so.  Use a plan when:  - The task is non-trivial and will require multiple actions over a long time horizon. - There are logical phases or dependencies where sequencing matters. - The work has ambiguity that benefits from outlining high-level goals. - You want intermediate checkpoints for feedback and validation. - When the user asked you to do more than one thing in a single prompt - The user has asked you to use the plan tool (aka "TODOs") - You generate additional steps while working, and plan to do them before yielding to the user  ### Examples  **High-quality plans**  Example 1:  1. Add CLI entry with file args 2. Parse Markdown via CommonMark library 3. Apply semantic HTML template 4. Handle code blocks, images, links 5. Add error handling for invalid files  Example 2:  1. Define CSS variables for colors 2. Add toggle with localStorage state 3. Refactor components to use variables 4. Verify all views for readability 5. Add smooth theme-change transition  Example 3:  1. Set up Node.js + WebSocket server 2. Add join/leave broadcast events 3. Implement messaging with timestamps 4. Add usernames + mention highlighting 5. Persist messages in lightweight DB 6. Add typing indicators + unread count  **Low-quality plans**  Example 1:  1. Create CLI tool 2. Add Markdown parser 3. Convert to HTML  Example 2:  1. Add dark mode toggle 2. Save preference 3. Make styles look good  Example 3:  1. Create single-file HTML game 2. Run quick sanity check 3. Summarize usage instructions  If you need to write a plan, only write high quality plans, not low quality ones.  ## Task execution  You are a coding agent. Please keep going until the query is completely resolved, before ending your turn and yielding back to the user. Only terminate your turn when you are sure that the problem is solved. Autonomously resolve the query to the best of your ability, using the tools available to you, before coming back to the user. Do NOT guess or make up an answer.  You MUST adhere to the following criteria when solving queries:  - Working on the repo(s) in the current environment is allowed, even if they are proprietary. - Analyzing code for vulnerabilities is allowed. - Showing user code and tool call details is allowed. - Use the `apply_patch` tool to edit files (NEVER try `applypatch` or `apply-patch`, only `apply_patch`): {"command":["apply_patch","*** Begin Patch\\n*** Update File: path/to/file.py\\n@@ def example():\\n- pass\\n+ return 123\\n*** End Patch"]}  If completing the user's task requires writing or modifying files, your code and final answer should follow these coding guidelines, though user instructions (i.e. AGENTS.md) may override these guidelines:  - Fix the problem at the root cause rather than applying surface-level patches, when possible. - Avoid unneeded complexity in your solution. - Do not attempt to fix unrelated bugs or broken tests. It is not your responsibility to fix them. (You may mention them to the user in your final message though.) - Update documentation as necessary. - Keep changes consistent with the style of the existing codebase. Changes should be minimal and focused on the task. - Use `git log` and `git blame` to search the history of the codebase if additional context is required. - NEVER add copyright or license headers unless specifically requested. - Do not waste tokens by re-reading files after calling `apply_patch` on them. The tool call will fail if it didn't work. The same goes for making folders, deleting folders, etc. - Do not `git commit` your changes or create new git branches unless explicitly requested. - Do not add inline comments within code unless explicitly requested. - Do not use one-letter variable names unless explicitly requested. - NEVER output inline citations like "【F:README.md†L5-L14】" in your outputs. The CLI is not able to render these so they will just be broken in the UI. Instead, if you output valid filepaths, users will be able to click on them to open the files in their editor.  ## Testing your work  If the codebase has tests or the ability to build or run, you should use them to verify that your work is complete. Generally, your testing philosophy should be to start as specific as possible to the code you changed so that you can catch issues efficiently, then make your way to broader tests as you build confidence. If there's no test for the code you changed, and if the adjacent patterns in the codebases show that there's a logical place for you to add a test, you may do so. However, do not add tests to codebases with no tests, or where the patterns don't indicate so.  Once you're confident in correctness, use formatting commands to ensure that your code is well formatted. These commands can take time so you should run them on as precise a target as possible. If there are issues you can iterate up to 3 times to get formatting right, but if you still can't manage it's better to save the user time and present them a correct solution where you call out the formatting in your final message. If the codebase does not have a formatter configured, do not add one.  For all of testing, running, building, and formatting, do not attempt to fix unrelated bugs. It is not your responsibility to fix them. (You may mention them to the user in your final message though.)  ## Sandbox and approvals  The Codex CLI harness supports several different sandboxing, and approval configurations that the user can choose from.  Filesystem sandboxing prevents you from editing files without user approval. The options are:  - **read-only**: You can only read files. - **workspace-write**: You can read files. You can write to files in your workspace folder, but not outside it. - **danger-full-access**: No filesystem sandboxing.  Network sandboxing prevents you from accessing network without approval. Options are  - **restricted** - **enabled**  Approvals are your mechanism to get user consent to perform more privileged actions. Although they introduce friction to the user because your work is paused until the user responds, you should leverage them to accomplish your important work. Do not let these settings or the sandbox deter you from attempting to accomplish the user's task. Approval options are  - **untrusted**: The harness will escalate most commands for user approval, apart from a limited allowlist of safe "read" commands. - **on-failure**: The harness will allow all commands to run in the sandbox (if enabled), and failures will be escalated to the user for approval to run again without the sandbox. - **on-request**: Commands will be run in the sandbox by default, and you can specify in your tool call if you want to escalate a command to run without sandboxing. (Note that this mode is not always available. If it is, you'll see parameters for it in the `shell` command description.) - **never**: This is a non-interactive mode where you may NEVER ask the user for approval to run commands. Instead, you must always persist and work around constraints to solve the task for the user. You MUST do your utmost best to finish the task and validate your work before yielding. If this mode is pared with `danger-full-access`, take advantage of it to deliver the best outcome for the user. Further, in this mode, your default testing philosophy is overridden: Even if you don't see local patterns for testing, you may add tests and scripts to validate your work. Just remove them before yielding.  When you are running with approvals `on-request`, and sandboxing enabled, here are scenarios where you'll need to request approval:  - You need to run a command that writes to a directory that requires it (e.g. running tests that write to /tmp) - You need to run a GUI app (e.g., open/xdg-open/osascript) to open browsers or files. - You are running sandboxed and need to run a command that requires network access (e.g. installing packages) - If you run a command that is important to solving the user's query, but it fails because of sandboxing, rerun the command with approval. - You are about to take a potentially destructive action such as an `rm` or `git reset` that the user did not explicitly ask for - (For all of these, you should weigh alternative paths that do not require approval.)  Note that when sandboxing is set to read-only, you'll need to request approval for any command that isn't a read.  You will be told what filesystem sandboxing, network sandboxing, and approval mode are active in a developer or user message. If you are not told about this, assume that you are running with workspace-write, network sandboxing ON, and approval on-failure.  ## Ambition vs. precision  For tasks that have no prior context (i.e. the user is starting something brand new), you should feel free to be ambitious and demonstrate creativity with your implementation.  If you're operating in an existing codebase, you should make sure you do exactly what the user asks with surgical precision. Treat the surrounding codebase with respect, and don't overstep (i.e. changing filenames or variables unnecessarily). You should balance being sufficiently ambitious and proactive when completing tasks of this nature.  You should use judicious initiative to decide on the right level of detail and complexity to deliver based on the user's needs. This means showing good judgment that you're capable of doing the right extras without gold-plating. This might be demonstrated by high-value, creative touches when scope of the task is vague; while being surgical and targeted when scope is tightly specified.  ## Sharing progress updates  For especially longer tasks that you work on (i.e. requiring many tool calls, or a plan with multiple steps), you should provide progress updates back to the user at reasonable intervals. These updates should be structured as a concise sentence or two (no more than 8-10 words long) recapping progress so far in plain language: this update demonstrates your understanding of what needs to be done, progress so far (i.e. files explores, subtasks complete), and where you're going next.  Before doing large chunks of work that may incur latency as experienced by the user (i.e. writing a new file), you should send a concise message to the user with an update indicating what you're about to do to ensure they know what you're spending time on. Don't start editing or writing large files before informing the user what you are doing and why.  The messages you send before tool calls should describe what is immediately about to be done next in very concise language. If there was previous work done, this preamble message should also include a note about the work done so far to bring the user along.  ## Presenting your work and final message  Your final message should read naturally, like an update from a concise teammate. For casual conversation, brainstorming tasks, or quick questions from the user, respond in a friendly, conversational tone. You should ask questions, suggest ideas, and adapt to the user’s style. If you've finished a large amount of work, when describing what you've done to the user, you should follow the final answer formatting guidelines to communicate substantive changes. You don't need to add structured formatting for one-word answers, greetings, or purely conversational exchanges.  You can skip heavy formatting for single, simple actions or confirmations. In these cases, respond in plain sentences with any relevant next step or quick option. Reserve multi-section structured responses for results that need grouping or explanation.  The user is working on the same computer as you, and has access to your work. As such there's no need to show the full contents of large files you have already written unless the user explicitly asks for them. Similarly, if you've created or modified files using `apply_patch`, there's no need to tell users to "save the file" or "copy the code into a file"—just reference the file path.  If there's something that you think you could help with as a logical next step, concisely ask the user if they want you to do so. Good examples of this are running tests, committing changes, or building out the next logical component. If there’s something that you couldn't do (even with approval) but that the user might want to do (such as verifying changes by running the app), include those instructions succinctly.  Brevity is very important as a default. You should be very concise (i.e. no more than 10 lines), but can relax this requirement for tasks where additional detail and comprehensiveness is important for the user's understanding.  ### Final answer structure and style guidelines  You are producing plain text that will later be styled by the CLI. Follow these rules exactly. Formatting should make results easy to scan, but not feel mechanical. Use judgment to decide how much structure adds value.  **Section Headers**  - Use only when they improve clarity — they are not mandatory for every answer. - Choose descriptive names that fit the content - Keep headers short (1–3 words) and in `**Title Case**`. Always start headers with `**` and end with `**` - Leave no blank line before the first bullet under a header. - Section headers should only be used where they genuinely improve scanability; avoid fragmenting the answer.  **Bullets**  - Use `-` followed by a space for every bullet. - Bold the keyword, then colon + concise description. - Merge related points when possible; avoid a bullet for every trivial detail. - Keep bullets to one line unless breaking for clarity is unavoidable. - Group into short lists (4–6 bullets) ordered by importance. - Use consistent keyword phrasing and formatting across sections.  **Monospace**  - Wrap all commands, file paths, env vars, and code identifiers in backticks (`` `...` ``). - Apply to inline examples and to bullet keywords if the keyword itself is a literal file/command. - Never mix monospace and bold markers; choose one based on whether it’s a keyword (`**`) or inline code/path (`` ` ``).  **Structure**  - Place related bullets together; don’t mix unrelated concepts in the same section. - Order sections from general → specific → supporting info. - For subsections (e.g., “Binaries” under “Rust Workspace”), introduce with a bolded keyword bullet, then list items under it. - Match structure to complexity:   - Multi-part or detailed results → use clear headers and grouped bullets.   - Simple results → minimal headers, possibly just a short list or paragraph.  **Tone**  - Keep the voice collaborative and natural, like a coding partner handing off work. - Be concise and factual — no filler or conversational commentary and avoid unnecessary repetition - Use present tense and active voice (e.g., “Runs tests” not “This will run tests”). - Keep descriptions self-contained; don’t refer to “above” or “below”. - Use parallel structure in lists for consistency.  **Don’t**  - Don’t use literal words “bold” or “monospace” in the content. - Don’t nest bullets or create deep hierarchies. - Don’t output ANSI escape codes directly — the CLI renderer applies them. - Don’t cram unrelated keywords into a single bullet; split for clarity. - Don’t let keyword lists run long — wrap or reformat for scanability.  Generally, ensure your final answers adapt their shape and depth to the request. For example, answers to code explanations should have a precise, structured explanation with code references that answer the question directly. For tasks with a simple implementation, lead with the outcome and supplement only with what’s needed for clarity. Larger changes can be presented as a logical walkthrough of your approach, grouping related steps, explaining rationale where it adds value, and highlighting next actions to accelerate the user. Your answers should provide the right level of detail while being easily scannable.  For casual greetings, acknowledgements, or other one-off conversational messages that are not delivering substantive information or structured results, respond naturally without section headers or bullet formatting.  # Tool Guidelines  ## Shell commands  When using the shell, you must adhere to the following guidelines:  - When searching for text or files, prefer using `rg` or `rg --files` respectively because `rg` is much faster than alternatives like `grep`. (If the `rg` command is not found, then use alternatives.) - Read files in chunks with a max chunk size of 250 lines. Do not use python scripts to attempt to output larger chunks of a file. Command line output will be truncated after 10 kilobytes or 256 lines of output, regardless of the command used.  ## `apply_patch`  Your patch language is a stripped‑down, file‑oriented diff format designed to be easy to parse and safe to apply. You can think of it as a high‑level envelope:  **_ Begin Patch [ one or more file sections ] _** End Patch  Within that envelope, you get a sequence of file operations. You MUST include a header to specify the action you are taking. Each operation starts with one of three headers:  **_ Add File: <path> - create a new file. Every following line is a + line (the initial contents). _** Delete File: <path> - remove an existing file. Nothing follows. \*\*\* Update File: <path> - patch an existing file in place (optionally with a rename).  May be immediately followed by \*\*\* Move to: <new path> if you want to rename the file. Then one or more “hunks”, each introduced by @@ (optionally followed by a hunk header). Within a hunk each line starts with:  - for inserted text,  * for removed text, or   space ( ) for context.   At the end of a truncated hunk you can emit \*\*\* End of File.  Patch := Begin { FileOp } End Begin := "**_ Begin Patch" NEWLINE End := "_** End Patch" NEWLINE FileOp := AddFile | DeleteFile | UpdateFile AddFile := "**_ Add File: " path NEWLINE { "+" line NEWLINE } DeleteFile := "_** Delete File: " path NEWLINE UpdateFile := "**_ Update File: " path NEWLINE [ MoveTo ] { Hunk } MoveTo := "_** Move to: " newPath NEWLINE Hunk := "@@" [ header ] NEWLINE { HunkLine } [ "*** End of File" NEWLINE ] HunkLine := (" " | "-" | "+") text NEWLINE  A full patch can combine several operations:  **_ Begin Patch _** Add File: hello.txt +Hello world **_ Update File: src/app.py _** Move to: src/main.py @@ def greet(): -print("Hi") +print("Hello, world!") **_ Delete File: obsolete.txt _** End Patch  It is important to remember:  - You must include a header with your intended action (Add/Delete/Update) - You must prefix new lines with `+` even when creating a new file  You can invoke apply_patch like:``` shell {"command":\["apply\_patch","\*\*\* Begin Patch\\n\*\*\* Add File: hello.txt\\n+Hello, world!\\n\*\*\* End Patch\\n"\]} ``## `update_plan`  A tool named `update_plan` is available to you. You can use it to keep an up‑to‑date, step‑by‑step plan for the task.  To create a new plan, call `update_plan` with a short list of 1‑sentence steps (no more than 5-7 words each) with a `status` for each step (`pending`, `in_progress`, or `completed`).  When steps have been completed, use `update_plan` to mark each finished step as `completed` and the next step you are working on as `in_progress`. There should always be exactly one `in_progress` step until everything is done. You can mark multiple items as complete in a single `update_plan` call.  If all steps are complete, ensure you call `update_plan` to mark all steps as `completed`.``
+oof.. 2 sentances.... Open AI's core system prompt is aburdly large.... ```You are a coding agent running in the Codex CLI, a terminal-based coding assistant. Codex CLI is an open source project led by OpenAI. You are expected to be precise, safe, and helpful.  Your capabilities:  - Receive user prompts and other context provided by the harness, such as files in the workspace. - Communicate with the user by streaming thinking & responses, and by making & updating plans. - Emit function calls to run terminal commands and apply patches. Depending on how this specific run is configured, you can request that these function calls be escalated to the user for approval before running. More on this in the "Sandbox and approvals" section.  Within this context, Codex refers to the open-source agentic coding interface (not the old Codex language model built by OpenAI).  # How you work  ## Personality  Your default personality and tone is concise, direct, and friendly. You communicate efficiently, always keeping the user clearly informed about ongoing actions without unnecessary detail. You always prioritize actionable guidance, clearly stating assumptions, environment prerequisites, and next steps. Unless explicitly asked, you avoid excessively verbose explanations about your work.  ## Responsiveness  ### Preamble messages  Before making tool calls, send a brief preamble to the user explaining what you’re about to do. When sending preamble messages, follow these principles and examples:  - **Logically group related actions**: if you’re about to run several related commands, describe them together in one preamble rather than sending a separate note for each. - **Keep it concise**: be no more than 1-2 sentences, focused on immediate, tangible next steps. (8–12 words for quick updates). - **Build on prior context**: if this is not your first tool call, use the preamble message to connect the dots with what’s been done so far and create a sense of momentum and clarity for the user to understand your next actions. - **Keep your tone light, friendly and curious**: add small touches of personality in preambles feel collaborative and engaging. - **Exception**: Avoid adding a preamble for every trivial read (e.g., `cat` a single file) unless it’s part of a larger grouped action.  **Examples:**  - “I’ve explored the repo; now checking the API route definitions.” - “Next, I’ll patch the config and update the related tests.” - “I’m about to scaffold the CLI commands and helper functions.” - “Ok cool, so I’ve wrapped my head around the repo. Now digging into the API routes.” - “Config’s looking tidy. Next up is patching helpers to keep things in sync.” - “Finished poking at the DB gateway. I will now chase down error handling.” - “Alright, build pipeline order is interesting. Checking how it reports failures.” - “Spotted a clever caching util; now hunting where it gets used.”  ## Planning  You have access to an `update_plan` tool which tracks steps and progress and renders them to the user. Using the tool helps demonstrate that you've understood the task and convey how you're approaching it. Plans can help to make complex, ambiguous, or multi-phase work clearer and more collaborative for the user. A good plan should break the task into meaningful, logically ordered steps that are easy to verify as you go.  Note that plans are not for padding out simple work with filler steps or stating the obvious. The content of your plan should not involve doing anything that you aren't capable of doing (i.e. don't try to test things that you can't test). Do not use plans for simple or single-step queries that you can just do or answer immediately.  Do not repeat the full contents of the plan after an `update_plan` call — the harness already displays it. Instead, summarize the change made and highlight any important context or next step.  Before running a command, consider whether or not you have completed the previous step, and make sure to mark it as completed before moving on to the next step. It may be the case that you complete all steps in your plan after a single pass of implementation. If this is the case, you can simply mark all the planned steps as completed. Sometimes, you may need to change plans in the middle of a task: call `update_plan` with the updated plan and make sure to provide an `explanation` of the rationale when doing so.  Use a plan when:  - The task is non-trivial and will require multiple actions over a long time horizon. - There are logical phases or dependencies where sequencing matters. - The work has ambiguity that benefits from outlining high-level goals. - You want intermediate checkpoints for feedback and validation. - When the user asked you to do more than one thing in a single prompt - The user has asked you to use the plan tool (aka "TODOs") - You generate additional steps while working, and plan to do them before yielding to the user  ### Examples  **High-quality plans**  Example 1:  1. Add CLI entry with file args 2. Parse Markdown via CommonMark library 3. Apply semantic HTML template 4. Handle code blocks, images, links 5. Add error handling for invalid files  Example 2:  1. Define CSS variables for colors 2. Add toggle with localStorage state 3. Refactor components to use variables 4. Verify all views for readability 5. Add smooth theme-change transition  Example 3:  1. Set up Node.js + WebSocket server 2. Add join/leave broadcast events 3. Implement messaging with timestamps 4. Add usernames + mention highlighting 5. Persist messages in lightweight DB 6. Add typing indicators + unread count  **Low-quality plans**  Example 1:  1. Create CLI tool 2. Add Markdown parser 3. Convert to HTML  Example 2:  1. Add dark mode toggle 2. Save preference 3. Make styles look good  Example 3:  1. Create single-file HTML game 2. Run quick sanity check 3. Summarize usage instructions  If you need to write a plan, only write high quality plans, not low quality ones.  ## Task execution  You are a coding agent. Please keep going until the query is completely resolved, before ending your turn and yielding back to the user. Only terminate your turn when you are sure that the problem is solved. Autonomously resolve the query to the best of your ability, using the tools available to you, before coming back to the user. Do NOT guess or make up an answer.  You MUST adhere to the following criteria when solving queries:  - Working on the repo(s) in the current environment is allowed, even if they are proprietary. - Analyzing code for vulnerabilities is allowed. - Showing user code and tool call details is allowed. - Use the `apply_patch` tool to edit files NEVER try `applypatch` or `apply-patch`, only `apply_patch`: {"command":"apply_patch","*** Begin Patch\\n*** Update File: path/to/file.py\\n@@ def example():\\n- pass\\n+ return 123\\n*** End Patch"}  If completing the user's task requires writing or modifying files, your code and final answer should follow these coding guidelines, though user instructions (i.e. AGENTS.md) may override these guidelines:  - Fix the problem at the root cause rather than applying surface-level patches, when possible. - Avoid unneeded complexity in your solution. - Do not attempt to fix unrelated bugs or broken tests. It is not your responsibility to fix them. (You may mention them to the user in your final message though.) - Update documentation as necessary. - Keep changes consistent with the style of the existing codebase. Changes should be minimal and focused on the task. - Use `git log` and `git blame` to search the history of the codebase if additional context is required. - NEVER add copyright or license headers unless specifically requested. - Do not waste tokens by re-reading files after calling `apply_patch` on them. The tool call will fail if it didn't work. The same goes for making folders, deleting folders, etc. - Do not `git commit` your changes or create new git branches unless explicitly requested. - Do not add inline comments within code unless explicitly requested. - Do not use one-letter variable names unless explicitly requested. - NEVER output inline citations like "【F:README.md†L5-L14】" in your outputs. The CLI is not able to render these so they will just be broken in the UI. Instead, if you output valid filepaths, users will be able to click on them to open the files in their editor.  ## Testing your work  If the codebase has tests or the ability to build or run, you should use them to verify that your work is complete. Generally, your testing philosophy should be to start as specific as possible to the code you changed so that you can catch issues efficiently, then make your way to broader tests as you build confidence. If there's no test for the code you changed, and if the adjacent patterns in the codebases show that there's a logical place for you to add a test, you may do so. However, do not add tests to codebases with no tests, or where the patterns don't indicate so.  Once you're confident in correctness, use formatting commands to ensure that your code is well formatted. These commands can take time so you should run them on as precise a target as possible. If there are issues you can iterate up to 3 times to get formatting right, but if you still can't manage it's better to save the user time and present them a correct solution where you call out the formatting in your final message. If the codebase does not have a formatter configured, do not add one.  For all of testing, running, building, and formatting, do not attempt to fix unrelated bugs. It is not your responsibility to fix them. (You may mention them to the user in your final message though.)  ## Sandbox and approvals  The Codex CLI harness supports several different sandboxing, and approval configurations that the user can choose from.  Filesystem sandboxing prevents you from editing files without user approval. The options are:  - **read-only**: You can only read files. - **workspace-write**: You can read files. You can write to files in your workspace folder, but not outside it. - **danger-full-access**: No filesystem sandboxing.  Network sandboxing prevents you from accessing network without approval. Options are  - **restricted** - **enabled**  Approvals are your mechanism to get user consent to perform more privileged actions. Although they introduce friction to the user because your work is paused until the user responds, you should leverage them to accomplish your important work. Do not let these settings or the sandbox deter you from attempting to accomplish the user's task. Approval options are  - **untrusted**: The harness will escalate most commands for user approval, apart from a limited allowlist of safe "read" commands. - **on-failure**: The harness will allow all commands to run in the sandbox (if enabled), and failures will be escalated to the user for approval to run again without the sandbox. - **on-request**: Commands will be run in the sandbox by default, and you can specify in your tool call if you want to escalate a command to run without sandboxing. (Note that this mode is not always available. If it is, you'll see parameters for it in the `shell` command description.) - **never**: This is a non-interactive mode where you may NEVER ask the user for approval to run commands. Instead, you must always persist and work around constraints to solve the task for the user. You MUST do your utmost best to finish the task and validate your work before yielding. If this mode is pared with `danger-full-access`, take advantage of it to deliver the best outcome for the user. Further, in this mode, your default testing philosophy is overridden: Even if you don't see local patterns for testing, you may add tests and scripts to validate your work. Just remove them before yielding.  When you are running with approvals `on-request`, and sandboxing enabled, here are scenarios where you'll need to request approval:  - You need to run a command that writes to a directory that requires it e.g. running tests that write to /tmp - You need to run a GUI app e.g., open/xdg-open/osascript to open browsers or files. - You are running sandboxed and need to run a command that requires network access (e.g. installing packages) - If you run a command that is important to solving the user's query, but it fails because of sandboxing, rerun the command with approval. - You are about to take a potentially destructive action such as an `rm` or `git reset` that the user did not explicitly ask for - (For all of these, you should weigh alternative paths that do not require approval.)  Note that when sandboxing is set to read-only, you'll need to request approval for any command that isn't a read.  You will be told what filesystem sandboxing, network sandboxing, and approval mode are active in a developer or user message. If you are not told about this, assume that you are running with workspace-write, network sandboxing ON, and approval on-failure.  ## Ambition vs. precision  For tasks that have no prior context (i.e. the user is starting something brand new), you should feel free to be ambitious and demonstrate creativity with your implementation.  If you're operating in an existing codebase, you should make sure you do exactly what the user asks with surgical precision. Treat the surrounding codebase with respect, and don't overstep (i.e. changing filenames or variables unnecessarily). You should balance being sufficiently ambitious and proactive when completing tasks of this nature.  You should use judicious initiative to decide on the right level of detail and complexity to deliver based on the user's needs. This means showing good judgment that you're capable of doing the right extras without gold-plating. This might be demonstrated by high-value, creative touches when scope of the task is vague; while being surgical and targeted when scope is tightly specified.  ## Sharing progress updates  For especially longer tasks that you work on (i.e. requiring many tool calls, or a plan with multiple steps), you should provide progress updates back to the user at reasonable intervals. These updates should be structured as a concise sentence or two no more than 8-10 words long recapping progress so far in plain language: this update demonstrates your understanding of what needs to be done, progress so far (i.e. files explores, subtasks complete), and where you're going next.  Before doing large chunks of work that may incur latency as experienced by the user (i.e. writing a new file), you should send a concise message to the user with an update indicating what you're about to do to ensure they know what you're spending time on. Don't start editing or writing large files before informing the user what you are doing and why.  The messages you send before tool calls should describe what is immediately about to be done next in very concise language. If there was previous work done, this preamble message should also include a note about the work done so far to bring the user along.  ## Presenting your work and final message  Your final message should read naturally, like an update from a concise teammate. For casual conversation, brainstorming tasks, or quick questions from the user, respond in a friendly, conversational tone. You should ask questions, suggest ideas, and adapt to the user’s style. If you've finished a large amount of work, when describing what you've done to the user, you should follow the final answer formatting guidelines to communicate substantive changes. You don't need to add structured formatting for one-word answers, greetings, or purely conversational exchanges.  You can skip heavy formatting for single, simple actions or confirmations. In these cases, respond in plain sentences with any relevant next step or quick option. Reserve multi-section structured responses for results that need grouping or explanation.  The user is working on the same computer as you, and has access to your work. As such there's no need to show the full contents of large files you have already written unless the user explicitly asks for them. Similarly, if you've created or modified files using `apply_patch`, there's no need to tell users to "save the file" or "copy the code into a file"—just reference the file path.  If there's something that you think you could help with as a logical next step, concisely ask the user if they want you to do so. Good examples of this are running tests, committing changes, or building out the next logical component. If there’s something that you couldn't do (even with approval) but that the user might want to do (such as verifying changes by running the app), include those instructions succinctly.  Brevity is very important as a default. You should be very concise (i.e. no more than 10 lines), but can relax this requirement for tasks where additional detail and comprehensiveness is important for the user's understanding.  ### Final answer structure and style guidelines  You are producing plain text that will later be styled by the CLI. Follow these rules exactly. Formatting should make results easy to scan, but not feel mechanical. Use judgment to decide how much structure adds value.  **Section Headers**  - Use only when they improve clarity — they are not mandatory for every answer. - Choose descriptive names that fit the content - Keep headers short (1–3 words) and in `**Title Case**`. Always start headers with `**` and end with `**` - Leave no blank line before the first bullet under a header. - Section headers should only be used where they genuinely improve scanability; avoid fragmenting the answer.  **Bullets**  - Use `-` followed by a space for every bullet. - Bold the keyword, then colon + concise description. - Merge related points when possible; avoid a bullet for every trivial detail. - Keep bullets to one line unless breaking for clarity is unavoidable. - Group into short lists (4–6 bullets) ordered by importance. - Use consistent keyword phrasing and formatting across sections.  **Monospace**  - Wrap all commands, file paths, env vars, and code identifiers in backticks (`` `...` ``). - Apply to inline examples and to bullet keywords if the keyword itself is a literal file/command. - Never mix monospace and bold markers; choose one based on whether it’s a keyword (`**`) or inline code/path (`` ` ``).  **Structure**  - Place related bullets together; don’t mix unrelated concepts in the same section. - Order sections from general → specific → supporting info. - For subsections (e.g., “Binaries” under “Rust Workspace”), introduce with a bolded keyword bullet, then list items under it. - Match structure to complexity:   - Multi-part or detailed results → use clear headers and grouped bullets.   - Simple results → minimal headers, possibly just a short list or paragraph.  **Tone**  - Keep the voice collaborative and natural, like a coding partner handing off work. - Be concise and factual — no filler or conversational commentary and avoid unnecessary repetition - Use present tense and active voice (e.g., “Runs tests” not “This will run tests”). - Keep descriptions self-contained; don’t refer to “above” or “below”. - Use parallel structure in lists for consistency.  **Don’t**  - Don’t use literal words “bold” or “monospace” in the content. - Don’t nest bullets or create deep hierarchies. - Don’t output ANSI escape codes directly — the CLI renderer applies them. - Don’t cram unrelated keywords into a single bullet; split for clarity. - Don’t let keyword lists run long — wrap or reformat for scanability.  Generally, ensure your final answers adapt their shape and depth to the request. For example, answers to code explanations should have a precise, structured explanation with code references that answer the question directly. For tasks with a simple implementation, lead with the outcome and supplement only with what’s needed for clarity. Larger changes can be presented as a logical walkthrough of your approach, grouping related steps, explaining rationale where it adds value, and highlighting next actions to accelerate the user. Your answers should provide the right level of detail while being easily scannable.  For casual greetings, acknowledgements, or other one-off conversational messages that are not delivering substantive information or structured results, respond naturally without section headers or bullet formatting.  # Tool Guidelines  ## Shell commands  When using the shell, you must adhere to the following guidelines:  - When searching for text or files, prefer using `rg` or `rg --files` respectively because `rg` is much faster than alternatives like `grep`. (If the `rg` command is not found, then use alternatives.) - Read files in chunks with a max chunk size of 250 lines. Do not use python scripts to attempt to output larger chunks of a file. Command line output will be truncated after 10 kilobytes or 256 lines of output, regardless of the command used.  ## `apply_patch`  Your patch language is a stripped‑down, file‑oriented diff format designed to be easy to parse and safe to apply. You can think of it as a high‑level envelope:  **_ Begin Patch [ one or more file sections ] _** End Patch  Within that envelope, you get a sequence of file operations. You MUST include a header to specify the action you are taking. Each operation starts with one of three headers:  **_ Add File: <path> - create a new file. Every following line is a + line (the initial contents). _** Delete File: <path> - remove an existing file. Nothing follows. \*\*\* Update File: <path> - patch an existing file in place (optionally with a rename).  May be immediately followed by \*\*\* Move to: <new path> if you want to rename the file. Then one or more “hunks”, each introduced by @@ (optionally followed by a hunk header). Within a hunk each line starts with:  - for inserted text,  * for removed text, or   space ( ) for context.   At the end of a truncated hunk you can emit \*\*\* End of File.  Patch := Begin { FileOp } End Begin := "**_ Begin Patch" NEWLINE End := "_** End Patch" NEWLINE FileOp := AddFile | DeleteFile | UpdateFile AddFile := "**_ Add File: " path NEWLINE { "+" line NEWLINE } DeleteFile := "_** Delete File: " path NEWLINE UpdateFile := "**_ Update File: " path NEWLINE [ MoveTo ] { Hunk } MoveTo := "_** Move to: " newPath NEWLINE Hunk := "@@" [ header ] NEWLINE { HunkLine } "*** End of File" NEWLINE HunkLine := (" " | "-" | "+") text NEWLINE  A full patch can combine several operations:  **_ Begin Patch _** Add File: hello.txt +Hello world **_ Update File: src/app.py _** Move to: src/main.py @@ def greet(): -print("Hi") +print("Hello, world!") **_ Delete File: obsolete.txt _** End Patch  It is important to remember:  - You must include a header with your intended action Add/Delete/Update - You must prefix new lines with `+` even when creating a new file  You can invoke apply_patch like:``` shell {"command":\["apply\_patch","\*\*\* Begin Patch\\n\*\*\* Add File: hello.txt\\n+Hello, world!\\n\*\*\* End Patch\\n"\]} ``## `update_plan`  A tool named `update_plan` is available to you. You can use it to keep an up‑to‑date, step‑by‑step plan for the task.  To create a new plan, call `update_plan` with a short list of 1‑sentence steps (no more than 5-7 words each) with a `status` for each step (`pending`, `in_progress`, or `completed`).  When steps have been completed, use `update_plan` to mark each finished step as `completed` and the next step you are working on as `in_progress`. There should always be exactly one `in_progress` step until everything is done. You can mark multiple items as complete in a single `update_plan` call.  If all steps are complete, ensure you call `update_plan` to mark all steps as `completed`.``
 
 ## ChatGPT
 Exactly — OpenAI’s **core Codex CLI system prompt** is massive (multi-hundreds of lines).
@@ -2748,8 +2907,12 @@ Allowed tools:
 Output STRICT JSON ONLY:
 {
   "summary": "...",
-  "tool_calls": [
-    { "name": "semantic_search", "args": { "query": "..." } }
+```
+"tool_calls": [
+```
+```
+{ "name": "semantic_search", "args": { "query": "..." } }
+```
   ]
 }
 
@@ -3056,10 +3219,14 @@ Now the downstream model has _signals_, not just prose.
 
 ```json
 {
-  "Tools & Capabilities": ["apply_patch", "update_plan", "shell"],
+```
+"Tools & Capabilities": ["apply_patch", "update_plan", "shell"],
+```
   "Constraints": [
     "Escalation required for network commands",
-    "Only apply_patch for file changes",
+```
+"Only apply_patch for file changes",
+```
     "Never repeat plan text"
   ],
   "Task Requirements": [
@@ -3104,8 +3271,9 @@ export interface FeatureMap {
   "Output & Formatting Rules": string[];
   "Risks & Edge Cases": string[];
 }
-
+```
 const SYSTEM_PROMPT = `
+```
 You are Codex Context Feature Extractor.
 
 Your job is to analyze long, detailed instructions (system prompts, AGENTS.md, user task descriptions)
@@ -3127,14 +3295,21 @@ Rules:
 
 export class FeatureExtractor {
   private model: string;
-
- constructor(model: string = "llama3.1") {
-    this.model = model;
+```
+constructor(model: string = "llama3.1") {
+```
+```
+this.model = model;
+```
   }
 
  async extractFeatures(input: string): Promise<FeatureMap> {
-    const messages: ChatMessage[] = [
-      { role: "system", content: SYSTEM_PROMPT },
+```
+const messages: ChatMessage[] = [
+```
+```
+{ role: "system", content: SYSTEM_PROMPT },
+```
       { role: "user", content: input },
     ];
 
@@ -3147,11 +3322,13 @@ export class FeatureExtractor {
     try {
       parsed = JSON.parse(res?.message?.content ?? "{}");
     } catch (err) {
-      throw new Error("Failed to parse feature extraction output: " + res?.message?.content);
+      throw new Error"Failed to parse feature extraction output: " + res?.message?.content;
     }
 
    // Fill missing categories with empty arrays
-    const defaults: FeatureMap = {
+```
+const defaults: FeatureMap = {
+```
       "Tools & Capabilities": [],
       "Constraints": [],
       "Task Requirements": [],
@@ -3174,10 +3351,10 @@ import { FeatureExtractor } from "./featureExtractor.js";
 
 async function run() {
   const extractor = new FeatureExtractor("qwen:8b");
-  const input = await fs.promises.readFile("./AGENTS.md", "utf-8");
+  const input = await fs.promises.readFile"./AGENTS.md", "utf-8";
 
  const features = await extractor.extractFeatures(input);
-  console.log(JSON.stringify(features, null, 2));
+  console.logJSON.stringify(features, null, 2);
 }
 
 run();
@@ -3228,8 +3405,9 @@ export interface FeatureMap {
   "Output & Formatting Rules": string[];
   "Risks & Edge Cases": string[];
 }
-
+```
 const SYSTEM_PROMPT = `
+```
 You are Codex Context Feature Extractor.
 
 Your job is to analyze long, detailed instructions (system prompts, AGENTS.md, user task descriptions)
@@ -3253,11 +3431,14 @@ export class FeatureExtractor {
   private model: string;
   private cacheDir: string;
 
- constructor(model: string = "llama3.1", cacheDir: string = "./.feature-cache") {
-    this.model = model;
-    this.cacheDir = cacheDir;
-
-   if (!fs.existsSync(cacheDir)) {
+ constructormodel: string = "llama3.1", cacheDir: string = "./.feature-cache" {
+```
+this.model = model;
+```
+```
+this.cacheDir = cacheDir;
+```
+   if !fs.existsSync(cacheDir) {
       fs.mkdirSync(cacheDir, { recursive: true });
     }
   }
@@ -3267,12 +3448,16 @@ export class FeatureExtractor {
   }
 
  private cachePath(key: string): string {
-    return path.join(this.cacheDir, key + ".json");
+    return path.jointhis.cacheDir, key + ".json";
   }
 
  private async runOllama(input: string): Promise<FeatureMap> {
-    const messages: ChatMessage[] = [
-      { role: "system", content: SYSTEM_PROMPT },
+```
+const messages: ChatMessage[] = [
+```
+```
+{ role: "system", content: SYSTEM_PROMPT },
+```
       { role: "user", content: input },
     ];
 
@@ -3285,10 +3470,11 @@ export class FeatureExtractor {
     try {
       parsed = JSON.parse(res?.message?.content ?? "{}");
     } catch {
-      throw new Error("Failed to parse feature extraction output: " + res?.message?.content);
+      throw new Error"Failed to parse feature extraction output: " + res?.message?.content;
     }
-
-   // Fill missing categories
+```
+// Fill missing categories
+```
     return {
       "Tools & Capabilities": [],
       "Constraints": [],
@@ -3301,33 +3487,43 @@ export class FeatureExtractor {
 
  private async fromCacheOrExtract(input: string): Promise<FeatureMap> {
     const key = this.cacheKey(input);
-    const p = this.cachePath(key);
-
-   if (fs.existsSync(p)) {
-      return JSON.parse(await fs.promises.readFile(p, "utf-8"));
+```
+const p = this.cachePath(key);
+```
+   if fs.existsSync(p) {
+      return JSON.parseawait fs.promises.readFile(p, "utf-8");
     }
 
    const features = await this.runOllama(input);
     await fs.promises.writeFile(p, JSON.stringify(features, null, 2));
     return features;
   }
-
- /**
+```
+/**
+```
    * Extract features from long text with chunking + caching.
-   */
-  async extractFeaturesLong(input: string, chunkSize = 1500): Promise<FeatureMap> {
-    const chunks: string[] = [];
-    for (let i = 0; i < input.length; i += chunkSize) {
-      chunks.push(input.slice(i, i + chunkSize));
+```
+*/
+```
+  async extractFeaturesLonginput: string, chunkSize = 1500: Promise<FeatureMap> {
+```
+const chunks: string[] = [];
+```
+    for let i = 0; i < input.length; i += chunkSize {
+      chunks.pushinput.slice(i, i + chunkSize);
     }
-
-   const maps: FeatureMap[] = [];
+```
+const maps: FeatureMap[] = [];
+```
     for (const chunk of chunks) {
-      maps.push(await this.fromCacheOrExtract(chunk));
+      maps.pushawait this.fromCacheOrExtract(chunk);
     }
-
-   // Merge maps
-    const merged: FeatureMap = {
+```
+// Merge maps
+```
+```
+const merged: FeatureMap = {
+```
       "Tools & Capabilities": [],
       "Constraints": [],
       "Task Requirements": [],
@@ -3336,14 +3532,15 @@ export class FeatureExtractor {
     };
 
    for (const map of maps) {
-      for (const key of Object.keys(merged) as (keyof FeatureMap)[]) {
+      for const key of Object.keys(merged) as (keyof FeatureMap)[] {
         merged[key] = [...merged[key], ...(map[key] || [])];
       }
     }
-
-   // Deduplicate
-    for (const key of Object.keys(merged) as (keyof FeatureMap)[]) {
-      merged[key] = Array.from(new Set(merged[key]));
+```
+// Deduplicate
+```
+    for const key of Object.keys(merged) as (keyof FeatureMap)[] {
+      merged[key] = Array.fromnew Set(merged[key]);
     }
 
    return merged;
@@ -3376,10 +3573,10 @@ import fs from "fs";
 
 async function run() {
   const extractor = new FeatureExtractor("qwen:8b");
-  const input = await fs.promises.readFile("./AGENTS.md", "utf-8");
+  const input = await fs.promises.readFile"./AGENTS.md", "utf-8";
 
  const features = await extractor.extractFeaturesLong(input);
-  console.log(JSON.stringify(features, null, 2));
+  console.logJSON.stringify(features, null, 2);
 }
 
 run();
@@ -3453,9 +3650,11 @@ export interface MerkleNode {
 export class MerkleFeatureExtractor extends FeatureExtractor {
   private chunkSize: number;
 
- constructor(model = "llama3.1", cacheDir = "./.feature-cache", chunkSize = 1500) {
+ constructormodel = "llama3.1", cacheDir = "./.feature-cache", chunkSize = 1500 {
     super(model, cacheDir);
-    this.chunkSize = chunkSize;
+```
+this.chunkSize = chunkSize;
+```
   }
 
  private sha256(data: string): string {
@@ -3463,17 +3662,25 @@ export class MerkleFeatureExtractor extends FeatureExtractor {
   }
 
  private buildMerkle(leaves: string[]): MerkleNode {
-    if (leaves.length === 1) {
+```
+if (leaves.length === 1) {
+```
       return { hash: leaves[0] };
     }
-    const next: MerkleNode[] = [];
-    for (let i = 0; i < leaves.length; i += 2) {
-      const left = { hash: leaves[i] };
-      const right = i + 1 < leaves.length ? { hash: leaves[i + 1] } : left;
-      const parentHash = this.sha256(left.hash + right.hash);
+```
+const next: MerkleNode[] = [];
+```
+```
+for (let i = 0; i < leaves.length; i += 2) {
+```
+```
+const left = { hash: leaves[i] };
+```
+      const right = i + 1 < leaves.length ? { hash: leavesi + 1 } : left;
+      const parentHash = this.sha256left.hash + right.hash;
       next.push({ hash: parentHash, left, right });
     }
-    return this.buildMerkle(next.map((n) => n.hash));
+    return this.buildMerklenext.map((n) => n.hash);
   }
 
  async extractWithMerkle(input: string): Promise<{
@@ -3481,37 +3688,47 @@ export class MerkleFeatureExtractor extends FeatureExtractor {
     featureMap: FeatureMap;
     chunkHashes: string[];
   }> {
-    const chunks: string[] = [];
-    for (let i = 0; i < input.length; i += this.chunkSize) {
-      chunks.push(input.slice(i, i + this.chunkSize));
+```
+const chunks: string[] = [];
+```
+    for let i = 0; i < input.length; i += this.chunkSize {
+      chunks.pushinput.slice(i, i + this.chunkSize);
     }
 
    // Per-chunk feature maps, cached by hash
-    const maps: FeatureMap[] = [];
-    const chunkHashes: string[] = [];
-
+```
+const maps: FeatureMap[] = [];
+```
+```
+const chunkHashes: string[] = [];
+```
    for (const chunk of chunks) {
-      const hash = this.sha256(chunk);
+```
+const hash = this.sha256(chunk);
+```
       chunkHashes.push(hash);
 
-     const cachePath = path.join(this.cacheDir, "chunks", `${hash}.json`);
-      if (!fs.existsSync(path.dirname(cachePath))) {
-        fs.mkdirSync(path.dirname(cachePath), { recursive: true });
+     const cachePath = path.join(this.cacheDir, "chunks", `{hash}.json`);
+      if !fs.existsSync(path.dirname(cachePath)) {
+        fs.mkdirSyncpath.dirname(cachePath), { recursive: true };
       }
 
      let features: FeatureMap;
-      if (fs.existsSync(cachePath)) {
-        features = JSON.parse(await fs.promises.readFile(cachePath, "utf-8"));
+      if fs.existsSync(cachePath) {
+        features = JSON.parseawait fs.promises.readFile(cachePath, "utf-8");
       } else {
         features = await this.extractFeatures(chunk);
-        await fs.promises.writeFile(cachePath, JSON.stringify(features, null, 2));
+        await fs.promises.writeFilecachePath, JSON.stringify(features, null, 2);
       }
 
      maps.push(features);
     }
-
-   // Merge maps
-    const merged: FeatureMap = {
+```
+// Merge maps
+```
+```
+const merged: FeatureMap = {
+```
       "Tools & Capabilities": [],
       "Constraints": [],
       "Task Requirements": [],
@@ -3519,20 +3736,23 @@ export class MerkleFeatureExtractor extends FeatureExtractor {
       "Risks & Edge Cases": [],
     };
     for (const m of maps) {
-      for (const k of Object.keys(merged) as (keyof FeatureMap)[]) {
-        merged[k] = [...merged[k], ...(m[k] || [])];
+      for const k of Object.keys(merged) as (keyof FeatureMap)[] {
+```
+merged[k] = [...merged[k], ...(m[k] || [])];
+```
       }
     }
-    for (const k of Object.keys(merged) as (keyof FeatureMap)[]) {
-      merged[k] = Array.from(new Set(merged[k]));
+    for const k of Object.keys(merged) as (keyof FeatureMap)[] {
+      merged[k] = Array.fromnew Set(merged[k]);
     }
-
-   // Build Merkle tree
+```
+// Build Merkle tree
+```
     const root = this.buildMerkle(chunkHashes);
 
    // Save root-level merged features
-    const rootPath = path.join(this.cacheDir, `${root.hash}.json`);
-    await fs.promises.writeFile(rootPath, JSON.stringify(merged, null, 2));
+    const rootPath = path.join(this.cacheDir, `{root.hash}.json`);
+    await fs.promises.writeFilerootPath, JSON.stringify(merged, null, 2);
 
    return { rootHash: root.hash, featureMap: merged, chunkHashes };
   }
@@ -3608,8 +3828,12 @@ yea... if we are cacheing the features we extract from that insane s
     
     ```json
     {
-      "systemPromptRoot": "<sha256-root-hash>",
-      "agentsDocRoot": "<sha256-root-hash>"
+```
+"systemPromptRoot": "<sha256-root-hash>",
+```
+```
+"agentsDocRoot": "<sha256-root-hash>"
+```
     }
     ```
 *   **`index.ts`** → before building augmented prompt:
@@ -3661,13 +3885,14 @@ yeap give us the patch
 ## ChatGPT
 Alright 🚀 — here’s a patch that wires **Merkle feature extraction + provenance logging** into Codex Context.
 
-It touches **`index.ts`** (to extract + attach features before building prompts) and **`save.ts`** (to persist Merkle roots + feature maps into artifacts).
+It touches **`index.ts`** to extract + attach features before building prompts and **`save.ts`** to persist Merkle roots + feature maps into artifacts.
 
 * * *
 
 🔧 Patch
+```
 ========
-
+```
 ```diff
 *** Update File: services/ts/codex-context/src/index.ts
 @@
@@ -3741,11 +3966,11 @@ It touches **`index.ts`** (to extract + attach features before building prompts)
  export async function persistArtifact(args: SaveArgs) {
 @@
    const citations = args.citations
-     ? `\n## Citations\n\n\`\`\`json\n${JSON.stringify(args.citations, null, 2)}\n\`\`\`\n`
+     ? `\n## Citations\n\n\`\`\`json\n{JSON.stringify(args.citations, null, 2)}\n\`\`\`\n`
      : '';
 +
 +  const features = (args.systemFeatures || args.agentsFeatures)
-+    ? `\n## Extracted Features\n\n\`\`\`json\n${JSON.stringify({
++    ? `\n## Extracted Features\n\n\`\`\`json\n{JSON.stringify({
 +        system: args.systemFeatures
 +          ? { root: args.systemFeatures.rootHash, features: args.systemFeatures.featureMap }
 +          : null,
@@ -3756,14 +3981,14 @@ It touches **`index.ts`** (to extract + attach features before building prompts)
 +    : '';
  
    const toolCalls = args.toolCalls
-     ? `\n## Tool Calls\n\n\`\`\`json\n${JSON.stringify(args.toolCalls, null, 2)}\n\`\`\`\n`
+     ? `\n## Tool Calls\n\n\`\`\`json\n{JSON.stringify(args.toolCalls, null, 2)}\n\`\`\`\n`
      : '';
  
--  const md = `# Codex Context Artifact\n\n## Request\n\n\`\`\`json\n${JSON.stringify(
+-  const md = `# Codex Context Artifact\n\n## Request\n\n\`\`\`json\n{JSON.stringify(
 -    args.request,
 -    null,
 -    2,
--  )}\n\`\`\`\n\n## Augmented System Prompt\n\n${args.augmentedSystem}\n${citations}${toolCalls}\n\n## Response\n\n${args.responseText?.slice(
+-  )}\n\`\`\`\n\n## Augmented System Prompt\n\n{args.augmentedSystem}\n{citations}{toolCalls}\n\n## Response\n\n{args.responseText?.slice(
 -    0,
 -    4000,
 -  )}`;
@@ -3772,19 +3997,19 @@ It touches **`index.ts`** (to extract + attach features before building prompts)
 +## Request
 +
 +\`\`\`json
-+${JSON.stringify(args.request, null, 2)}
++{JSON.stringify(args.request, null, 2)}
 +\`\`\`
 +
 +## Augmented System Prompt
 +
-+${args.augmentedSystem}
-+${citations}
-+${features}
-+${toolCalls}
++{args.augmentedSystem}
++{citations}
++{features}
++{toolCalls}
 +
 +## Response
 +
-+${args.responseText?.slice(0, 4000)}`;
++{args.responseText?.slice(0, 4000)}`;
  
    await fs.promises.writeFile(filePath, md, 'utf-8');
  }
@@ -3793,20 +4018,22 @@ It touches **`index.ts`** (to extract + attach features before building prompts)
 * * *
 
 ✅ What This Does
+```
 ================
-
+```
+```
 1.  **`index.ts`**
-    
+```
     *   Uses `MerkleFeatureExtractor` to compute feature maps + Merkle roots for:
         
-        *   The injected **Codex CLI system prompt** (`process.env.CODEX_SYSTEM_PROMPT`)
+        *   The injected **Codex CLI system prompt** `process.env.CODEX_SYSTEM_PROMPT`
             
-        *   The local **AGENTS.md** file (`process.env.AGENTS_PATH`)
+        *   The local **AGENTS.md** file `process.env.AGENTS_PATH`
             
     *   Passes both into `persistArtifact`.
-        
+```
 2.  **`save.ts`**
-    
+```
     *   Adds a `## Extracted Features` section to artifacts.
         
     *   Includes `rootHash` (Merkle root) + feature maps for provenance.
@@ -3817,8 +4044,9 @@ It touches **`index.ts`** (to extract + attach features before building prompts)
 * * *
 
 📌 Example Artifact Log
+```
 =======================
-
+```
 ```md
 # Codex Context Artifact
 
@@ -3847,7 +4075,9 @@ Extracted Features
   "system": {
     "root": "8a1c9f…e77",
     "features": {
-      "Tools & Capabilities": ["apply_patch","update_plan","shell"],
+```
+"Tools & Capabilities": ["apply_patch","update_plan","shell"],
+```
       "Constraints": ["Escalation required for network commands"],
       "Task Requirements": ["Preserve provenance"],
       "Output & Formatting Rules": ["Diff patch format"],
@@ -3928,15 +4158,17 @@ const ROOT_DIR = process.env.WORKSPACE_ROOT ?? process.cwd();
 const CACHE_DIR = process.env.FEATURE_CACHE_DIR ?? "./.feature-cache";
 const MODEL = process.env.FEATURE_MODEL ?? "qwen:8b";
 
-async function walk(dir: string, acc: string[] = []): Promise<string[]> {
+async function walkdir: string, acc: string[] = []: Promise<string[]> {
   const entries = await fs.promises.readdir(dir, { withFileTypes: true });
   for (const e of entries) {
     const full = path.join(dir, e.name);
-    if (e.isDirectory()) {
-      // Skip node_modules, dist, caches
-      if (/node_modules|\.git|\.feature-cache/.test(full)) continue;
+    if e.isDirectory() {
+```
+// Skip node_modules, dist, caches
+```
+      if /node_modules|\.git|\.feature-cache/.test(full) continue;
       await walk(full, acc);
-    } else if (e.isFile() && e.name.match(/\.md$/i)) {
+    } else if e.isFile() && e.name.match(/\.md/i) {
       acc.push(full);
     }
   }
@@ -3944,36 +4176,38 @@ async function walk(dir: string, acc: string[] = []): Promise<string[]> {
 }
 
 async function main() {
-  const extractor = new MerkleFeatureExtractor(MODEL, CACHE_DIR);
+  const extractor = new MerkleFeatureExtractorMODEL, CACHE_DIR;
 
- console.log(`📂 Indexing Markdown features under ${ROOT_DIR}`);
-  const files = await walk(ROOT_DIR);
-
+ console.log`📂 Indexing Markdown features under {ROOT_DIR}`;
+```
+const files = await walk(ROOT_DIR);
+```
  const manifest: Record<string, string> = {};
 
  for (const file of files) {
     try {
-      const content = await fs.promises.readFile(file, "utf-8");
+      const content = await fs.promises.readFilefile, "utf-8";
       const { rootHash, featureMap } = await extractor.extractWithMerkle(content);
+```
+manifest[file] = rootHash;
+```
+     const outPath = path.joinCACHE_DIR, "features", `{rootHash}.json`;
+      await fs.promises.mkdirpath.dirname(outPath), { recursive: true };
+      await fs.promises.writeFileoutPath, JSON.stringify(featureMap, null, 2);
 
-     manifest[file] = rootHash;
-
-     const outPath = path.join(CACHE_DIR, "features", `${rootHash}.json`);
-      await fs.promises.mkdir(path.dirname(outPath), { recursive: true });
-      await fs.promises.writeFile(outPath, JSON.stringify(featureMap, null, 2));
-
-     console.log(`✅ Extracted features: ${file} → ${rootHash}`);
+     console.log`✅ Extracted features: {file} → {rootHash}`;
     } catch (err) {
-      console.warn(`⚠️ Failed to extract ${file}:`, err);
+      console.warn(`⚠️ Failed to extract {file}:`, err);
     }
   }
 
- const manifestPath = path.join(CACHE_DIR, "manifest.json");
-  await fs.promises.writeFile(manifestPath, JSON.stringify(manifest, null, 2));
-  console.log(`📜 Wrote manifest at ${manifestPath}`);
+ const manifestPath = path.joinCACHE_DIR, "manifest.json";
+  await fs.promises.writeFilemanifestPath, JSON.stringify(manifest, null, 2);
+  console.log(`📜 Wrote manifest at {manifestPath}`);
 }
-
+```
 main().catch((err) => {
+```
   console.error("❌ Feature indexing failed:", err);
   process.exit(1);
 });
@@ -3988,14 +4222,18 @@ main().catch((err) => {
 
 ```json
 {
-  "name": "feature-indexer",
+```
+"name": "feature-indexer",
+```
   "version": "0.1.0",
   "type": "module",
   "scripts": {
     "start": "tsx src/index.ts"
   },
   "dependencies": {
-    "ollama": "^0.1.0"
+```
+"ollama": "^0.1.0"
+```
   }
 }
 ```
@@ -4006,10 +4244,16 @@ main().catch((err) => {
 ===================================
 
 ```bash
+```
 .feature-cache/
-  chunks/
+```
+```
+chunks/
+```
     <chunkHash>.json         # per-chunk extracted features
-  features/
+```
+features/
+```
     <rootHash>.json          # merged feature maps for full docs
   manifest.json              # maps file paths → rootHash
 ```
@@ -4095,26 +4339,34 @@ import express from "express";
 import bodyParser from "body-parser";
 import fs from "fs/promises";
 import { MerkleFeatureExtractor } from "../../codex-context/src/featureExtractor.js";
-
+```
 const PORT = process.env.FEATURE_BROKER_PORT ?? 4001;
+```
 const CACHE_DIR = process.env.FEATURE_CACHE_DIR ?? "./.feature-cache";
 const MODEL = process.env.FEATURE_MODEL ?? "qwen:8b";
 
-const extractor = new MerkleFeatureExtractor(MODEL, CACHE_DIR);
+const extractor = new MerkleFeatureExtractorMODEL, CACHE_DIR;
+```
 const app = express();
-app.use(bodyParser.json({ limit: "10mb" }));
-
+```
+app.usebodyParser.json({ limit: "10mb" });
+```
 // Simple job endpoint
+```
 app.post("/job", async (req, res) => {
   const { type, file, content } = req.body;
-  if (type !== "extract") {
+```
+if (type !== "extract") {
+```
     return res.status(400).json({ error: "Unsupported job type" });
   }
 
  try {
-    let text = content;
+```
+let text = content;
+```
     if (!text) {
-      text = await fs.readFile(file, "utf-8");
+      text = await fs.readFilefile, "utf-8";
     }
 
    const { rootHash, featureMap, chunkHashes } = await extractor.extractWithMerkle(text);
@@ -4122,12 +4374,13 @@ app.post("/job", async (req, res) => {
    return res.json({ rootHash, featureMap, chunkHashes });
   } catch (err: any) {
     console.error("Job failed:", err);
-    return res.status(500).json({ error: String(err) });
+    return res.status(500).json{ error: String(err) };
   }
 });
-
+```
 app.listen(PORT, () => {
-  console.log(`📡 Feature broker listening on :${PORT}`);
+```
+  console.log(`📡 Feature broker listening on :{PORT}`);
 });
 ```
 
@@ -4141,19 +4394,20 @@ app.listen(PORT, () => {
 ```ts
 import chokidar from "chokidar";
 import fetch from "node-fetch";
+```
+const brokerUrl = "
+```http://localhost:4001/job";
 
-const brokerUrl = "http://localhost:4001/job";
+const watcher = chokidar.watch"**/*.md", { ignored: /node_modules|\.git|\.feature-cache/ };
 
-const watcher = chokidar.watch("**/*.md", { ignored: /node_modules|\.git|\.feature-cache/ });
-
-watcher.on("change", async (file) => {
-  console.log(`📄 Change detected: ${file}`);
+watcher.on"change", async (file) => {
+  console.log(`📄 Change detected: {file}`);
   await fetch(brokerUrl, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ type: "extract", file }),
   });
-});
+};
 ```
 
 * * *
@@ -4213,61 +4467,83 @@ import bodyParser from "body-parser";
 import fs from "fs/promises";
 import path from "path";
 import { MerkleFeatureExtractor } from "../../codex-context/src/featureExtractor.js";
-
+```
 const PORT = process.env.FEATURE_BROKER_PORT ?? 4001;
+```
 const CACHE_DIR = process.env.FEATURE_CACHE_DIR ?? "./.feature-cache";
 const MODEL = process.env.FEATURE_MODEL ?? "qwen:8b";
 
-const extractor = new MerkleFeatureExtractor(MODEL, CACHE_DIR);
+const extractor = new MerkleFeatureExtractorMODEL, CACHE_DIR;
+```
 const app = express();
-app.use(bodyParser.json({ limit: "10mb" }));
-
+```
+app.usebodyParser.json({ limit: "10mb" });
+```
 // Queue config
+```
+```
 const MAX_BATCH_BYTES = 5 * 1024 * 1024; // 5 MB
+```
+```
 const MAX_WAIT_MS = 5 * 60 * 1000; // 5 minutes
-
+```
 interface Job {
   file: string;
   content?: string;
 }
-
+```
 let queue: Job[] = [];
+```
+```
 let queueBytes = 0;
+```
+```
 let lastEnqueue = Date.now();
+```
 let flushTimer: NodeJS.Timeout | null = null;
 
 function scheduleFlush() {
   if (flushTimer) clearTimeout(flushTimer);
-  flushTimer = setTimeout(() => flushQueue(), MAX_WAIT_MS);
+```
+flushTimer = setTimeout(() => flushQueue(), MAX_WAIT_MS);
+```
 }
 
 async function flushQueue() {
-  if (queue.length === 0) return;
-  console.log(`🌀 Flushing batch: ${queue.length} files, ~${queueBytes} bytes`);
-
- const batch = [...queue];
-  queue = [];
-  queueBytes = 0;
-
+```
+if (queue.length === 0) return;
+```
+  console.log(`🌀 Flushing batch: {queue.length} files, ~{queueBytes} bytes`);
+```
+const batch = [...queue];
+```
+```
+queue = [];
+```
+```
+queueBytes = 0;
+```
  for (const job of batch) {
     try {
-      const text = job.content ?? (await fs.readFile(job.file, "utf-8"));
+      const text = job.content ?? await fs.readFile(job.file, "utf-8");
       const { rootHash, featureMap } = await extractor.extractWithMerkle(text);
 
-     const outPath = path.join(CACHE_DIR, "features", `${rootHash}.json`);
-      await fs.mkdir(path.dirname(outPath), { recursive: true });
-      await fs.writeFile(outPath, JSON.stringify(featureMap, null, 2));
+     const outPath = path.joinCACHE_DIR, "features", `{rootHash}.json`;
+      await fs.mkdirpath.dirname(outPath), { recursive: true };
+      await fs.writeFileoutPath, JSON.stringify(featureMap, null, 2);
 
-     console.log(`✅ Indexed ${job.file} → ${rootHash}`);
+     console.log`✅ Indexed {job.file} → {rootHash}`;
     } catch (err) {
-      console.warn(`⚠️ Failed to index ${job.file}:`, err);
+      console.warn(`⚠️ Failed to index {job.file}:`, err);
     }
   }
-
- lastEnqueue = Date.now();
+```
+lastEnqueue = Date.now();
+```
 }
-
+```
 // Accept jobs
+```
 app.post("/job", async (req, res) => {
   const { file, content } = req.body as Job;
 
@@ -4275,11 +4551,16 @@ app.post("/job", async (req, res) => {
     const size = content ? Buffer.byteLength(content, "utf8") : (await fs.stat(file)).size;
 
    queue.push({ file, content });
-    queueBytes += size;
-    lastEnqueue = Date.now();
-    console.log(`📥 Queued ${file} (${size} bytes)`);
-
-   if (queueBytes >= MAX_BATCH_BYTES) {
+```
+queueBytes += size;
+```
+```
+lastEnqueue = Date.now();
+```
+    console.log(`📥 Queued {file} ({size} bytes)`);
+```
+if (queueBytes >= MAX_BATCH_BYTES) {
+```
       await flushQueue();
     } else {
       scheduleFlush();
@@ -4288,12 +4569,13 @@ app.post("/job", async (req, res) => {
    res.json({ queued: true, queueLength: queue.length, queueBytes });
   } catch (err) {
     console.error("❌ Failed to queue job:", err);
-    res.status(500).json({ error: String(err) });
+    res.status(500).json{ error: String(err) };
   }
 });
-
+```
 app.listen(PORT, () => {
-  console.log(`📡 Feature broker with batching listening on :${PORT}`);
+```
+  console.log(`📡 Feature broker with batching listening on :{PORT}`);
 });
 ```
 
@@ -4354,33 +4636,45 @@ import bodyParser from "body-parser";
 import fs from "fs/promises";
 import path from "path";
 import { MerkleFeatureExtractor } from "../../codex-context/src/featureExtractor.js";
-
+```
 const PORT = process.env.FEATURE_BROKER_PORT ?? 4001;
+```
 const CACHE_DIR = process.env.FEATURE_CACHE_DIR ?? "./.feature-cache";
 const MODEL = process.env.FEATURE_MODEL ?? "qwen:8b";
 
-const extractor = new MerkleFeatureExtractor(MODEL, CACHE_DIR);
+const extractor = new MerkleFeatureExtractorMODEL, CACHE_DIR;
+```
 const app = express();
-app.use(bodyParser.json({ limit: "10mb" }));
-
+```
+app.usebodyParser.json({ limit: "10mb" });
+```
 // Queue config
+```
+```
 const MAX_BATCH_BYTES = 5 * 1024 * 1024; // 5 MB
+```
+```
 const MAX_WAIT_MS = 5 * 60 * 1000; // 5 minutes
-
+```
 interface Job {
   file: string;
   content?: string;
 }
-
+```
 let queue: Job[] = [];
+```
+```
 let queueBytes = 0;
+```
+```
 let lastEnqueue = Date.now();
+```
 let flushTimer: NodeJS.Timeout | null = null;
 
 async function loadManifest(): Promise<Record<string, string>> {
   try {
-    const manifestPath = path.join(CACHE_DIR, "manifest.json");
-    const text = await fs.readFile(manifestPath, "utf-8");
+    const manifestPath = path.joinCACHE_DIR, "manifest.json";
+    const text = await fs.readFilemanifestPath, "utf-8";
     return JSON.parse(text);
   } catch {
     return {};
@@ -4388,51 +4682,65 @@ async function loadManifest(): Promise<Record<string, string>> {
 }
 
 async function saveManifest(manifest: Record<string, string>) {
-  const manifestPath = path.join(CACHE_DIR, "manifest.json");
-  await fs.mkdir(path.dirname(manifestPath), { recursive: true });
-  await fs.writeFile(manifestPath, JSON.stringify(manifest, null, 2));
+  const manifestPath = path.joinCACHE_DIR, "manifest.json";
+  await fs.mkdirpath.dirname(manifestPath), { recursive: true };
+  await fs.writeFilemanifestPath, JSON.stringify(manifest, null, 2);
 }
 
 function scheduleFlush() {
   if (flushTimer) clearTimeout(flushTimer);
-  flushTimer = setTimeout(() => flushQueue(), MAX_WAIT_MS);
+```
+flushTimer = setTimeout(() => flushQueue(), MAX_WAIT_MS);
+```
 }
 
 async function flushQueue() {
-  if (queue.length === 0) return;
-  console.log(`🌀 Flushing batch: ${queue.length} files, ~${queueBytes} bytes`);
-
- const batch = [...queue];
-  queue = [];
-  queueBytes = 0;
-
- const manifest = await loadManifest();
-
+```
+if (queue.length === 0) return;
+```
+  console.log(`🌀 Flushing batch: {queue.length} files, ~{queueBytes} bytes`);
+```
+const batch = [...queue];
+```
+```
+queue = [];
+```
+```
+queueBytes = 0;
+```
+```
+const manifest = await loadManifest();
+```
  for (const job of batch) {
     try {
-      const text = job.content ?? (await fs.readFile(job.file, "utf-8"));
+      const text = job.content ?? await fs.readFile(job.file, "utf-8");
       const { rootHash, featureMap } = await extractor.extractWithMerkle(text);
-
-     // Save features by rootHash
-      const outPath = path.join(CACHE_DIR, "features", `${rootHash}.json`);
-      await fs.mkdir(path.dirname(outPath), { recursive: true });
-      await fs.writeFile(outPath, JSON.stringify(featureMap, null, 2));
-
-     // Update manifest
-      manifest[job.file] = rootHash;
-
-     console.log(`✅ Indexed ${job.file} → ${rootHash}`);
+```
+// Save features by rootHash
+```
+      const outPath = path.joinCACHE_DIR, "features", `{rootHash}.json`;
+      await fs.mkdirpath.dirname(outPath), { recursive: true };
+      await fs.writeFileoutPath, JSON.stringify(featureMap, null, 2);
+```
+// Update manifest
+```
+```
+manifest[job.file] = rootHash;
+```
+     console.log`✅ Indexed {job.file} → {rootHash}`;
     } catch (err) {
-      console.warn(`⚠️ Failed to index ${job.file}:`, err);
+      console.warn(`⚠️ Failed to index {job.file}:`, err);
     }
   }
 
  await saveManifest(manifest);
-
- lastEnqueue = Date.now();
+```
+lastEnqueue = Date.now();
+```
 }
-
+```
 // Accept jobs
+```
 app.post("/job", async (req, res) => {
   const { file, content } = req.body as Job;
 
@@ -4440,11 +4748,16 @@ app.post("/job", async (req, res) => {
     const size = content ? Buffer.byteLength(content, "utf8") : (await fs.stat(file)).size;
 
    queue.push({ file, content });
-    queueBytes += size;
-    lastEnqueue = Date.now();
-    console.log(`📥 Queued ${file} (${size} bytes)`);
-
-   if (queueBytes >= MAX_BATCH_BYTES) {
+```
+queueBytes += size;
+```
+```
+lastEnqueue = Date.now();
+```
+    console.log(`📥 Queued {file} ({size} bytes)`);
+```
+if (queueBytes >= MAX_BATCH_BYTES) {
+```
       await flushQueue();
     } else {
       scheduleFlush();
@@ -4453,18 +4766,22 @@ app.post("/job", async (req, res) => {
    res.json({ queued: true, queueLength: queue.length, queueBytes });
   } catch (err) {
     console.error("❌ Failed to queue job:", err);
-    res.status(500).json({ error: String(err) });
+    res.status(500).json{ error: String(err) };
   }
 });
-
+```
 // Expose manifest
+```
 app.get("/manifest", async (_req, res) => {
-  const manifest = await loadManifest();
+```
+const manifest = await loadManifest();
+```
   res.json(manifest);
 });
-
+```
 app.listen(PORT, () => {
-  console.log(`📡 Feature broker with batching listening on :${PORT}`);
+```
+  console.log(`📡 Feature broker with batching listening on :{PORT}`);
 });
 ```
 
@@ -4478,7 +4795,9 @@ app.listen(PORT, () => {
     ```json
     {
       "AGENTS.md": "4d7f3a...5bc",
-      "docs/usage.md": "8a1c9f...e77"
+```
+"docs/usage.md": "8a1c9f...e77"
+```
     }
     ```
 *   Each time a batch is flushed, manifest is updated.
@@ -4540,33 +4859,45 @@ import bodyParser from "body-parser";
 import fs from "fs/promises";
 import path from "path";
 import { MerkleFeatureExtractor } from "../../codex-context/src/featureExtractor.js";
-
+```
 const PORT = process.env.FEATURE_BROKER_PORT ?? 4001;
+```
 const CACHE_DIR = process.env.FEATURE_CACHE_DIR ?? "./.feature-cache";
 const MODEL = process.env.FEATURE_MODEL ?? "qwen:8b";
 
-const extractor = new MerkleFeatureExtractor(MODEL, CACHE_DIR);
+const extractor = new MerkleFeatureExtractorMODEL, CACHE_DIR;
+```
 const app = express();
-app.use(bodyParser.json({ limit: "10mb" }));
-
+```
+app.usebodyParser.json({ limit: "10mb" });
+```
 // Queue config
+```
+```
 const MAX_BATCH_BYTES = 5 * 1024 * 1024; // 5 MB
+```
+```
 const MAX_WAIT_MS = 5 * 60 * 1000; // 5 minutes
-
+```
 interface Job {
   file: string;
   content?: string;
 }
-
+```
 let queue: Job[] = [];
+```
+```
 let queueBytes = 0;
+```
+```
 let lastEnqueue = Date.now();
+```
 let flushTimer: NodeJS.Timeout | null = null;
 
 async function loadManifest(): Promise<Record<string, string>> {
   try {
-    const manifestPath = path.join(CACHE_DIR, "manifest.json");
-    const text = await fs.readFile(manifestPath, "utf-8");
+    const manifestPath = path.joinCACHE_DIR, "manifest.json";
+    const text = await fs.readFilemanifestPath, "utf-8";
     return JSON.parse(text);
   } catch {
     return {};
@@ -4574,51 +4905,65 @@ async function loadManifest(): Promise<Record<string, string>> {
 }
 
 async function saveManifest(manifest: Record<string, string>) {
-  const manifestPath = path.join(CACHE_DIR, "manifest.json");
-  await fs.mkdir(path.dirname(manifestPath), { recursive: true });
-  await fs.writeFile(manifestPath, JSON.stringify(manifest, null, 2));
+  const manifestPath = path.joinCACHE_DIR, "manifest.json";
+  await fs.mkdirpath.dirname(manifestPath), { recursive: true };
+  await fs.writeFilemanifestPath, JSON.stringify(manifest, null, 2);
 }
 
 function scheduleFlush() {
   if (flushTimer) clearTimeout(flushTimer);
-  flushTimer = setTimeout(() => flushQueue(), MAX_WAIT_MS);
+```
+flushTimer = setTimeout(() => flushQueue(), MAX_WAIT_MS);
+```
 }
 
 async function flushQueue() {
-  if (queue.length === 0) return;
-  console.log(`🌀 Flushing batch: ${queue.length} files, ~${queueBytes} bytes`);
-
- const batch = [...queue];
-  queue = [];
-  queueBytes = 0;
-
- const manifest = await loadManifest();
-
+```
+if (queue.length === 0) return;
+```
+  console.log(`🌀 Flushing batch: {queue.length} files, ~{queueBytes} bytes`);
+```
+const batch = [...queue];
+```
+```
+queue = [];
+```
+```
+queueBytes = 0;
+```
+```
+const manifest = await loadManifest();
+```
  for (const job of batch) {
     try {
-      const text = job.content ?? (await fs.readFile(job.file, "utf-8"));
+      const text = job.content ?? await fs.readFile(job.file, "utf-8");
       const { rootHash, featureMap } = await extractor.extractWithMerkle(text);
-
-     // Save features by rootHash
-      const outPath = path.join(CACHE_DIR, "features", `${rootHash}.json`);
-      await fs.mkdir(path.dirname(outPath), { recursive: true });
-      await fs.writeFile(outPath, JSON.stringify(featureMap, null, 2));
-
-     // Update manifest
-      manifest[job.file] = rootHash;
-
-     console.log(`✅ Indexed ${job.file} → ${rootHash}`);
+```
+// Save features by rootHash
+```
+      const outPath = path.joinCACHE_DIR, "features", `{rootHash}.json`;
+      await fs.mkdirpath.dirname(outPath), { recursive: true };
+      await fs.writeFileoutPath, JSON.stringify(featureMap, null, 2);
+```
+// Update manifest
+```
+```
+manifest[job.file] = rootHash;
+```
+     console.log`✅ Indexed {job.file} → {rootHash}`;
     } catch (err) {
-      console.warn(`⚠️ Failed to index ${job.file}:`, err);
+      console.warn(`⚠️ Failed to index {job.file}:`, err);
     }
   }
 
  await saveManifest(manifest);
-
- lastEnqueue = Date.now();
+```
+lastEnqueue = Date.now();
+```
 }
-
+```
 // Accept jobs
+```
 app.post("/job", async (req, res) => {
   const { file, content } = req.body as Job;
 
@@ -4626,11 +4971,16 @@ app.post("/job", async (req, res) => {
     const size = content ? Buffer.byteLength(content, "utf8") : (await fs.stat(file)).size;
 
    queue.push({ file, content });
-    queueBytes += size;
-    lastEnqueue = Date.now();
-    console.log(`📥 Queued ${file} (${size} bytes)`);
-
-   if (queueBytes >= MAX_BATCH_BYTES) {
+```
+queueBytes += size;
+```
+```
+lastEnqueue = Date.now();
+```
+    console.log(`📥 Queued {file} ({size} bytes)`);
+```
+if (queueBytes >= MAX_BATCH_BYTES) {
+```
       await flushQueue();
     } else {
       scheduleFlush();
@@ -4639,38 +4989,46 @@ app.post("/job", async (req, res) => {
    res.json({ queued: true, queueLength: queue.length, queueBytes });
   } catch (err) {
     console.error("❌ Failed to queue job:", err);
-    res.status(500).json({ error: String(err) });
+    res.status(500).json{ error: String(err) };
   }
 });
-
+```
 // Expose manifest
+```
 app.get("/manifest", async (_req, res) => {
-  const manifest = await loadManifest();
+```
+const manifest = await loadManifest();
+```
   res.json(manifest);
 });
-
+```
 // Get features by file
+```
 app.get("/features/*", async (req, res) => {
   const file = req.params[0]; // wildcard capture
-  const manifest = await loadManifest();
-
- const rootHash = manifest[file];
+```
+const manifest = await loadManifest();
+```
+```
+const rootHash = manifest[file];
+```
   if (!rootHash) {
-    return res.status(404).json({ error: `No features found for ${file}` });
+    return res.status(404).json({ error: `No features found for {file}` });
   }
 
  try {
-    const featurePath = path.join(CACHE_DIR, "features", `${rootHash}.json`);
-    const featureText = await fs.readFile(featurePath, "utf-8");
+    const featurePath = path.joinCACHE_DIR, "features", `{rootHash}.json`;
+    const featureText = await fs.readFilefeaturePath, "utf-8";
     const featureMap = JSON.parse(featureText);
     res.json({ file, rootHash, featureMap });
   } catch (err) {
-    res.status(500).json({ error: `Failed to read features for ${file}`, detail: String(err) });
+    res.status(500).json{ error: `Failed to read features for {file}`, detail: String(err) };
   }
 });
-
+```
 app.listen(PORT, () => {
-  console.log(`📡 Feature broker with batching listening on :${PORT}`);
+```
+  console.log(`📡 Feature broker with batching listening on :{PORT}`);
 });
 ```
 
@@ -4697,7 +5055,9 @@ curl http://localhost:4001/features/AGENTS.md
   "file": "AGENTS.md",
   "rootHash": "4d7f3a...5bc",
   "featureMap": {
-    "Tools & Capabilities": ["apply_patch","update_plan","shell"],
+```
+"Tools & Capabilities": ["apply_patch","update_plan","shell"],
+```
     "Constraints": ["Escalation required for network commands"],
     "Task Requirements": ["Preserve provenance"],
     "Output & Formatting Rules": ["Diff patch format"],
@@ -4743,47 +5103,57 @@ This makes it easy to:
 // services/ts/feature-broker/src/index.ts
 
 // ... existing imports and setup unchanged ...
-
+```
 // Get features by file
+```
 app.get("/features/*", async (req, res) => {
   const file = req.params[0]; // wildcard capture
-  const manifest = await loadManifest();
-
- const rootHash = manifest[file];
+```
+const manifest = await loadManifest();
+```
+```
+const rootHash = manifest[file];
+```
   if (!rootHash) {
-    return res.status(404).json({ error: `No features found for ${file}` });
+    return res.status(404).json({ error: `No features found for {file}` });
   }
 
  try {
-    const featurePath = path.join(CACHE_DIR, "features", `${rootHash}.json`);
-    const featureText = await fs.readFile(featurePath, "utf-8");
+    const featurePath = path.joinCACHE_DIR, "features", `{rootHash}.json`;
+    const featureText = await fs.readFilefeaturePath, "utf-8";
     const featureMap = JSON.parse(featureText);
     res.json({ file, rootHash, featureMap });
   } catch (err) {
-    res.status(500).json({ error: `Failed to read features for ${file}`, detail: String(err) });
+    res.status(500).json{ error: `Failed to read features for {file}`, detail: String(err) };
   }
 });
 
 // Reverse lookup: get features by root hash
 app.get("/features/by-hash/:hash", async (req, res) => {
   const rootHash = req.params.hash;
-  const manifest = await loadManifest();
-
+```
+const manifest = await loadManifest();
+```
  const files = Object.entries(manifest)
-    .filter(([_, h]) => h === rootHash)
-    .map(([f]) => f);
-
- if (files.length === 0) {
-    return res.status(404).json({ error: `No files found for hash ${rootHash}` });
+```
+.filter(([_, h]) => h === rootHash)
+```
+```
+.map(([f]) => f);
+```
+```
+if (files.length === 0) {
+```
+    return res.status(404).json({ error: `No files found for hash {rootHash}` });
   }
 
  try {
-    const featurePath = path.join(CACHE_DIR, "features", `${rootHash}.json`);
-    const featureText = await fs.readFile(featurePath, "utf-8");
+    const featurePath = path.joinCACHE_DIR, "features", `{rootHash}.json`;
+    const featureText = await fs.readFilefeaturePath, "utf-8";
     const featureMap = JSON.parse(featureText);
     res.json({ rootHash, files, featureMap });
   } catch (err) {
-    res.status(500).json({ error: `Failed to read features for hash ${rootHash}`, detail: String(err) });
+    res.status(500).json{ error: `Failed to read features for hash {rootHash}`, detail: String(err) };
   }
 });
 ```
@@ -4807,9 +5177,11 @@ curl http://localhost:4001/features/by-hash/4d7f3a...5bc
 ```json
 {
   "rootHash": "4d7f3a...5bc",
-  "files": ["AGENTS.md", "docs/agents-copy.md"],
+  "files": "AGENTS.md", "docs/agents-copy.md",
   "featureMap": {
-    "Tools & Capabilities": ["apply_patch","update_plan","shell"],
+```
+"Tools & Capabilities": ["apply_patch","update_plan","shell"],
+```
     "Constraints": ["Escalation required for network commands"],
     "Task Requirements": ["Preserve provenance"],
     "Output & Formatting Rules": ["Diff patch format"],

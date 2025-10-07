@@ -1,5 +1,7 @@
 ---
+```
 uuid: 48d398a7-9f4e-4c2a-8b15-3d7e8f9c2a1b
+```
 title: Migrate kanban system from JSONL to level-cache for memory efficiency
 status: done
 priority: P1
@@ -9,7 +11,9 @@ labels:
   - performance
   - level-cache
   - memory-optimization
+```
 created_at: '2025-10-05T00:00:00.000Z'
+```
 ---
 
 ## 🛠️ Task: Migrate kanban system from JSONL to level-cache for memory efficiency
@@ -26,7 +30,7 @@ The current kanban system loads **all tasks into memory** using a JSONL index fi
 
 ### Performance Goals:
 - **O(1) memory usage** regardless of task count (10, 100, 1000+ tasks)
-- **O(log n) query performance** vs current O(n) scanning
+- **Olog n query performance** vs current O(n) scanning
 - **Streaming operations** for large result sets
 - **Constant-time lookups** by UUID, status, priority, labels
 
@@ -71,7 +75,7 @@ meta/task-count              → number (cache statistics)
 - [x] Add migration utilities and fallback handling
 
 ### Phase 5: Configuration & Migration ✅
-- [x] Add `cachePath` to kanban config (default: `.kanban/cache`)
+- [x] Add `cachePath` to kanban config default: `.kanban/cache`
 - [x] Create migration script: JSONL → level-cache
 - [x] Add cache validation and repair tools
 - [x] Update documentation for new architecture
@@ -79,7 +83,7 @@ meta/task-count              → number (cache statistics)
 
 ### Phase 6: Testing & Performance ✅
 - [x] Unit tests for TaskCache operations
-- [x] Integration tests with large datasets (1000+ tasks)
+- [x] Integration tests with large datasets 1000+ tasks
 - [x] Memory usage profiling and validation
 - [x] Performance benchmarks vs JSONL approach
 - [x] CLI compatibility testing
@@ -109,7 +113,7 @@ interface TaskCache {
 
 ### Step 2: Replace Memory-Heavy Operations
 - **Before**: `indexTasks()` → `Array<IndexedTask>` (all in memory)
-- **After**: `indexTasks()` → `TaskCache` (key-based access)
+- **After**: `indexTasks()` → `TaskCache` key-based access
 
 ### Step 3: Streaming Query Results
 - **Before**: `getColumn(board, column)` → `Array<Task>` (loaded all)
@@ -153,7 +157,9 @@ type CacheMeta = {
 4. **Validation**: Verify migrated data integrity
 
 ### Migration Steps:
+```
 1. Create level-cache instance
+```
 2. Read existing JSONL index (if exists)
 3. Populate level-cache with task data and indexes
 4. Validate migrated data completeness
@@ -163,12 +169,12 @@ type CacheMeta = {
 ## ⚡ Performance Benefits
 
 ### Memory Usage:
-- **Current**: O(n) where n = total tasks (316+ tasks = ~50MB+)
+- **Current**: O(n) where n = total tasks 316+ tasks = ~50MB+
 - **After**: O(1) constant memory (~1MB cache overhead)
 
 ### Query Performance:
 - **Current**: O(n) linear scan through all tasks
-- **After**: O(log n) key-based lookup + streaming
+- **After**: Olog n key-based lookup + streaming
 
 ### Scalability:
 - **Current**: Fails at ~300+ tasks (heap exhaustion)
@@ -216,7 +222,7 @@ type CacheMeta = {
 
 ### Key Technical Achievements
 1. **Streaming Architecture**: Replaced memory-heavy arrays with AsyncIterable streaming
-2. **Index-Based Queries**: O(log n) performance vs previous O(n) scanning
+2. **Index-Based Queries**: Olog n performance vs previous O(n) scanning
 3. **Namespace Isolation**: Clean separation of tasks, indexes, and metadata
 4. **Backward Compatibility**: All existing CLI commands work unchanged
 5. **Zero-Downtime Migration**: Seamless transition from JSONL to level-cache
@@ -244,7 +250,7 @@ interface Cache<T> {
 ```
 
 ### Key Advantages:
-- **Namespaces**: Logical separation (tasks/, meta/, indexes/)
+- **Namespaces**: Logical separation tasks/, meta/, indexes/
 - **TTL**: Automatic expiration of stale cache entries
 - **Batch operations**: Efficient bulk updates
 - **Streaming**: `entries()` provides AsyncGenerator for iteration

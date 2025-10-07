@@ -18,5 +18,5 @@ Embedding and Index agents maintain the semantic retrieval layer.
 
 ---
 ## 🔗 Cross-Links
-- [[docs/reports/|Reports Folder]] → output contradictions + semantic summaries.
-- [[docs/agents/AGENTS-taxonomy.md|Agent Taxonomy]] → role definition.
+- [docs/reports/|Reports Folder] → output contradictions + semantic summaries.
+- [docs/agents/AGENTS-taxonomy.md|Agent Taxonomy] → role definition.

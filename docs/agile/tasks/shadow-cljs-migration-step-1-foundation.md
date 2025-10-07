@@ -1,13 +1,19 @@
 ---
+```
 uuid: 7a1a45fb-51d3-4d7b-b143-3834cf8aad3c
+```
 title: Shadow CLJS migration — step 1 foundation
+```
 status: in-progress
+```
 priority: P2
 labels:
   - framework-core
   - codex-task
   - frontend
+```
 created_at: '2025-10-03T21:10:00.000Z'
+```
 ---
 #InProgress
 
@@ -19,7 +25,7 @@ Lay the groundwork for compiling Promethean browser bundles with Shadow-CLJS so 
 - **What changed?** Need to introduce multi-target browser builds in `shadow-cljs.edn`, wiring Nx/PNPM scripts and setting up a shared CLJS utilities package.
 - **Where is the impact?** `shadow-cljs.edn`, new helper library under `packages/`, CI scripts that call build/watch commands, and developer docs.
 - **Why now?** Unlocks the migration plan requested by the user; without the shared configuration the later steps cannot proceed.
-- **Supporting context** Derived from agent proposal (2025-10-03 session) for Shadow-CLJS migration.
+- **Supporting context** Derived from agent proposal 2025-10-03 session for Shadow-CLJS migration.
 
 ## Goals
 - Define initial browser build entries in `shadow-cljs.edn` mirroring existing TS outputs.
@@ -30,7 +36,7 @@ Lay the groundwork for compiling Promethean browser bundles with Shadow-CLJS so 
 ## Requirements
 - [ ] shadow-cljs builds succeed locally for the new targets.
 - [ ] pnpm scripts updated and documented.
-- [ ] Added docs live in repo (`docs/` or package README).
+- [ ] Added docs live in repo `docs/` or package README.
 - [ ] Tests/builds updated for touched packages.
 
 ## Subtasks
@@ -62,7 +68,7 @@ Estimate: 5
 
 ## 🔍 Relevant Links
 
-- Shadow-CLJS migration plan (2025-10-03)
+- Shadow-CLJS migration plan 2025-10-03
 
 ## Notes
 - 2025-10-03: Initial Shadow-CLJS scaffolding committed (build targets, scripts, shared package).

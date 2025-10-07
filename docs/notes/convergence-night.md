@@ -1,9 +1,15 @@
 ---
+```
 uuid: 9efbbf6c-d86c-4d8e-a97c-9cd0bd1915dc
+```
+```
 created_at: '2025-09-03T01:39:34Z'
+```
 filename: Convergence Night
 title: Convergence Night
+```
 description: >-
+```
   This document explains how deferred wins and preparations can suddenly align
   to create significant change, emphasizing the importance of tracking progress
   and preparing for the moment of convergence. It introduces key frames like
@@ -21,8 +27,12 @@ tags:
   - lean systems
   - documentation
   - avalanche
+```
 related_to_uuid: []
+```
+```
 related_to_title: []
+```
 references: []
 ---
 ### Signal

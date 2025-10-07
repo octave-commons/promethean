@@ -1,8 +1,16 @@
 ---
+```
 uuid: 8b256935-02f6-4da2-a406-bf6b8415276f
+```
+```
 created_at: 2025.09.01.12.45.29.md
+```
+```
 filename: Chroma-Embedding-Refactor
+```
+```
 description: >-
+```
   Refactored embedding pipeline to use Chroma for vector storage without writing
   embeddings to JSON, minimizing churn while maintaining backward compatibility
   with existing chunk structures.
@@ -13,8 +21,12 @@ tags:
   - streaming
   - JSON
   - backwards-compatible
+```
 related_to_uuid: []
+```
+```
 related_to_title: []
+```
 references: []
 ---
 You’re right—I shouldn’t have put giant `embedding: number[]` blobs on chunk objects at all if the target is **Chroma**. That was dumb. Here’s a **minimal-churn refactor** that:
@@ -55,7 +67,7 @@ export async function writeJSONObjectStream(
   entries: AsyncIterable<[string, unknown]> | Iterable<[string, unknown]>,
   replacer: (key: string, value: any) => any = safeReplacer()
 ) {
-  const tmp = `${outPath}.tmp`;
+  const tmp = `{outPath}.tmp`;
   const out = createWriteStream(tmp, { flags: "w" });
   const write = async (s: string) => {
     if (!out.write(s)) await once(out, "drain");
@@ -66,7 +78,7 @@ export async function writeJSONObjectStream(
   for await (const [k, v] of entries as any) {
     const ks = JSON.stringify(k);
     const vs = JSON.stringify(v, replacer);
-    await write(first ? `${ks}:${vs}` : `,${ks}:${vs}`);
+    await write(first ? `{ks}:{vs}` : `,{ks}:{vs}`);
     first = false;
   }
   await write("}");
@@ -118,10 +130,11 @@ export async function upsertBatch(opts: {
 ## 3) Update your `02-embed.ts` to stream + push to Chroma (no vectors in JSON)
 
 **Before** you were building `chunksByDoc` + `embedCache` with arrays.
+```
 **After** we:
-
+```
 * keep `chunks.json` as `{ [uuid]: Chunk[] }` **without** `embedding`,
-* maintain a **fingerprint cache** (id → SHA256(text)) so we only re-embed changed chunks,
+* maintain a **fingerprint cache** id → SHA256(text) so we only re-embed changed chunks,
 * batch-upsert embeddings to Chroma,
 * keep `docs-by-uuid.json` as-is.
 
@@ -166,14 +179,14 @@ function sha256(s: string) {
 }
 
 async function ollamaEmbed(model: string, text: string): Promise<number[]> {
-  const res = await fetch(`${OLLAMA_URL}/api/embeddings`, {
+  const res = await fetch(`{OLLAMA_URL}/api/embeddings`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ model, prompt: text }),
   });
   if (!res.ok) {
     const body = await res.text().catch(() => "");
-    throw new Error(`ollama embeddings ${res.status}: ${body}`);
+    throw new Error(`ollama embeddings {res.status}: {body}`);
   }
   const data = await res.json();
   return data.embedding as number[];
@@ -214,14 +227,14 @@ async function* generateChunksAndUpsert(): AsyncIterable<ChunksEntry> {
 
     const chunks = parseMarkdownChunks(content).map((c, i) => ({
       ...c,
-      id: `${fm.uuid}:${i}`,
+      id: `{fm.uuid}:{i}`,
       docUuid: fm.uuid!,
       docPath: f,
     })) as Chunk[];
 
     // upsert embeddings for changed/new chunks
     for (const ch of chunks) {
-      const fp = sha256(ch.text + `|${EMBED_MODEL}`);
+      const fp = sha256(ch.text + `|{EMBED_MODEL}`);
       if (fingerprints[ch.id] !== fp) {
         const emb = await ollamaEmbed(EMBED_MODEL, ch.text);
         fingerprints[ch.id] = fp;
@@ -261,9 +274,9 @@ main().catch((e) => {
   process.exit(1);
 });
 ```
-
+```
 **Net effect**
-
+```
 * `chunks.json` stays the same *shape* (map of arrays of chunks) but contains **no `embedding` arrays**.
 * Embeddings go straight into Chroma in batches.
 * `embeddings.fingerprint.json` lets you skip re-embedding unchanged chunks fast.
@@ -312,7 +325,7 @@ const withVecs = await attachEmbeddings(chunks, coll);
 
 * **No JSON whales.** We never stringify megabyte-scale arrays.
 * **Chroma is the source of truth** for vectors (as you asked).
-* **Your file contracts mostly survive** (`chunks.json` map + `docs-by-uuid.json`). Only the bad idea—`chunk.embedding`—is gone.
+* **Your file contracts mostly survive** `chunks.json` map + `docs-by-uuid.json`. Only the bad idea—`chunk.embedding`—is gone.
 * You still get **deterministic caching** via the content+model fingerprint, not by hoarding vectors in JSON.
 * If someone *really* needs a local vector list, they can call `attachEmbeddings()` or query Chroma directly.
 
@@ -330,7 +343,9 @@ If you want me to also flip your other stages to query Chroma (search, RAG, etc.
 \#hashtags
 \#promethean #typescript #chroma #streaming #ollama #embeddings #obdev
 
-[1]: https://docs.trychroma.com/getting-started?utm_source=chatgpt.com "Getting Started - Chroma Docs"
+[1]: https://docs.trychroma.com/getting-started?utm_source=chatgpt.com```
+"Getting Started - Chroma Docs"
+```
 [2]: https://docs.trychroma.com/reference/js/collection?utm_source=chatgpt.com "Collection - Chroma Docs"<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
 - _None_

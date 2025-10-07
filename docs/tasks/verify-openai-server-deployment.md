@@ -16,5 +16,6 @@ web component dashboard behaves correctly in a browser.
 - Deployment URL circulated in `#promethean-platform`.
 - Screenshots archived under `docs/ui` with descriptive filenames.
 - Manual validation notes stored alongside the deployment checklist.
-
+```
 #infrastructure #manual-validation
+```

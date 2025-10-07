@@ -1,9 +1,15 @@
 ---
+```
 uuid: 0bb0a26c-96b7-4d6f-af20-0892a72e75e8
+```
+```
 created_at: '2025-09-03T01:32:54Z'
+```
 filename: 'Lisp for LLMs: Contract Engine & Macro Workbench'
 title: 'Lisp for LLMs: Contract Engine & Macro Workbench'
+```
 description: >-
+```
   Using Clojure (via nbb) as a lightweight contract engine and macro workbench
   for LLM interactions. Ensures LLM outputs are valid with strict schema
   enforcement, minimal runtime dependencies, and seamless TypeScript integration
@@ -19,9 +25,13 @@ tags:
   - Macro
   - Codegen
   - Validation
+```
 related_to_uuid:
+```
   - 6e678cce-b68f-4420-980f-5c9009f0d971
+```
 related_to_title:
+```
   - balanced-bst
 references:
   - uuid: 6e678cce-b68f-4420-980f-5c9009f0d971
@@ -31,18 +41,18 @@ references:
 ---
 ### Signal
 
-Bringing in Lisp (Clojure) can be your **contract engine + macro workbench** that’s friendly to local LLMs. Two wins: (1) s-exprs make the model’s *true* attention limits visible (missed paren = failed contract), and (2) macros let you stamp out repetitive TS structures from one source of truth. You don’t need “JVM-everything” to do this.
+Bringing in Lisp (Clojure) can be your **contract engine + macro workbench** that’s friendly to local LLMs. Two wins: (1) s-exprs make the model’s *true* attention limits visible missed paren = failed contract, and (2) macros let you stamp out repetitive TS structures from one source of truth. You don’t need “JVM-everything” to do this.
 
 ### Frames
 
 * **Runtime Lisp, JS world:** Use **nbb** (ClojureScript on Node via SCI) to script against npm without booting the JVM.
-* **Schema hub:** Define truth once in **Malli** (CLJ) → emit JSON Schema → TS types (zod / ts-json-schema).
+* **Schema hub:** Define truth once in **Malli** (CLJ) → emit JSON Schema → TS types zod / ts-json-schema.
 * **LLM guardrails:** One top-level form per message, auto-linted by clj-kondo; reject unbalanced forms before they touch disk.
 
-### Countermoves (small + composable)
-
+### Countermoves small + composable
+```
 1. **Pick the embedding:**
-
+```
    * **nbb** for scripts/codemods/tools: ClojureScript runs *inside Node*, instant start, npm interop.
    * **squint/cherry** if you want to *transpile* CLJS to JS for libraries with zero runtime dep.
    * Keep **babashka** in reserve for OS glue (fast native CLI), but you can start with nbb only.
@@ -50,7 +60,7 @@ Bringing in Lisp (Clojure) can be your **contract engine + macro workbench** tha
 2. **Lisp as contract source of truth:**
 
    * Write DocOps contracts in Malli (`:title`, `:related`, `:description`).
-   * Generate JSON Schema from Malli; your TS side consumes that (zod from JSON Schema or types via `ts-json-schema-generator`).
+   * Generate JSON Schema from Malli; your TS side consumes that zod from JSON Schema or types via `ts-json-schema-generator`.
    * Now TS and CLJ share the same contract *mechanically*, not by hand.
 
 3. **Robot-safe Lisp IO protocol:**
@@ -64,12 +74,12 @@ Bringing in Lisp (Clojure) can be your **contract engine + macro workbench** tha
    * **clj-kondo** (critical) + **zprint** (format); wire to pre-commit but scope only `*.clj, *.cljs, *.edn`.
    * For nbb, add `:lint-as` entries so your DSL macros are understood.
 
-5. **A tiny Lisp surface (LLM-friendly):**
+5. **A tiny Lisp surface LLM-friendly:**
 
    * Provide macros for just what you need: `(frontmatter ...)`, `(related ...)`, `(describe ...)`.
    * Keep arities small, forbid reader macros, forbid dynamic `*ns*` switching. Simpler = fewer failure modes.
 
-### Minimal seeds (copy/paste scale)
+### Minimal seeds copy/paste scale
 
 **A. nbb in your repo (no JVM)**
 
@@ -154,18 +164,18 @@ pnpm lisp:run > schemas/frontmatter.schema.json
 
 * The LLM now must output **balanced**, **single** sexprs; any slip = red light you can see instantly.
 * Your macros compress long contexts into **named forms**; the model fills slots, not prose.
-* Because Malli guards the shape, your **stopping condition** is literal (`m/validate`), same spirit as your TS/Zod loop.
+* Because Malli guards the shape, your **stopping condition** is literal `m/validate`, same spirit as your TS/Zod loop.
 
 ### Next
 
-Adopt **nbb** and wire just two commands today: `lisp:run` (contract check) and `lisp:lint` (clj-kondo). Then wrap your LLM output path with `single-form-read` so malformed sexprs never enter your pipeline.
+Adopt **nbb** and wire just two commands today: `lisp:run` (contract check) and `lisp:lint` clj-kondo. Then wrap your LLM output path with `single-form-read` so malformed sexprs never enter your pipeline.
 
 \#fnord
 S-expressions aren’t about parentheses—they’re about *making structure cheaper than syntax*, which is exactly what brittle models need.
 ch is exactly what brittle models need.
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [balanced-bst](balanced-bst.md)
+- balanced-bst$balanced-bst.md
 ## Sources
-- [balanced-bst — L293](balanced-bst.md#^ref-6e678cce-293-0) (line 293, col 0, score 1)
+- balanced-bst — L293$balanced-bst.md#^ref-6e678cce-293-0 (line 293, col 0, score 1)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
