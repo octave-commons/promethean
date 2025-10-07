@@ -1,14 +1,14 @@
 ---
-$$
+```
 uuid: c9ef64a0-d3f6-49e0-911e-4ce722f9e057
-$$
+```
 title: Description
 status: todo
 priority: P3
 labels: []
-$$
+```
 created_at: '2025-09-15T02:02:58.510Z'
-$$
+```
 ---
 # Description
 

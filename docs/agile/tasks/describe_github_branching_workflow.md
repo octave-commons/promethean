@@ -1,14 +1,14 @@
 ---
-$$
+```
 uuid: e72a8ed9-7efa-4817-bf55-0b65fd84e5d2
-$$
+```
 title: create and push a feature branch
 status: todo
 priority: P3
 labels: []
-$$
+```
 created_at: '2025-09-15T02:02:58.510Z'
-$$
+```
 ---
 ## 🛠️ Description
 
@@ -26,19 +26,19 @@ expectations.
 - `chore/<summary>` – refactors or maintenance
 
 ### Merge Requirements
-$$
+```
 1. **Feature branch → `dev`**
-$$
+```
    - Rebase on latest `origin/dev`.
    - `make format lint test` must succeed before opening a PR.
-$$
+```
 2. **`dev` → `staging`**
-$$
+```
    - All `dev` CI checks are green.
    - Run `make build` and any integration tests.
-$$
+```
 3. **`staging` → `main`**
-$$
+```
    - Staging has been manually verified.
    - Full CI suite passes (`make lint test build`).
 
@@ -97,9 +97,9 @@ details.
 ---
 
 ## 🔗 Related Epics
-$$
+```
 #framework-core
-$$
+```
 ---
 
 ## ⛓️ Blocked By
@@ -115,9 +115,9 @@ Nothing
 ## 🔍 Relevant Links
 
 - [[kanban]]
-$$
+```
 #agent-thinking
-$$
+```
 #Breakdown
 
 

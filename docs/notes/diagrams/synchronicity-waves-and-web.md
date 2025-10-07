@@ -1,4 +1,4 @@
-Concept diagrams for sine-wave interference $metaphor lock-in$ and a synchronicity web linking ghost sources to emergent nodes.
+Concept diagrams for sine-wave interference metaphor lock-in and a synchronicity web linking ghost sources to emergent nodes.
 
 Use these as narrative/visual anchors for field metaphors; pair with a plotted version later.
 
@@ -66,6 +66,6 @@ graph TD
     S2 --> S3
 ```
 
-Related: $[smoke-waves-infinite-depth.md]$ $[index.md|unique/index]$
+Related: [smoke-waves-infinite-depth.md] [index.md|unique/index]
 
 #tags: #diagrams #metaphor #synchronicity

@@ -27,7 +27,7 @@ This file aggregates **semantic contradictions, overlaps, and tensions** discove
 
 ### Source B: `docs/agents/duck/AGENTS.md`
 - Frames Duck as having its own **config, prompt, and permissions** structure.
-- Suggests Duck has a central position in cognitive loops $`voice_in → stt → cephalon → tts → voice_out`$.
+- Suggests Duck has a central position in cognitive loops `voice_in → stt → cephalon → tts → voice_out`.
 - Reads as if Duck defines the **baseline resident loop** of the system.
 
 ### Tension
@@ -43,7 +43,7 @@ This file aggregates **semantic contradictions, overlaps, and tensions** discove
 
 ### Source A: `docs/agents/board-manager/AGENTS.md`
 - States Board Manager should *“Sync Kanban board with PRs + commits”*.
-- Mentions WIP limits from $[docs/agile/Process.md]$.
+- Mentions WIP limits from [docs/agile/Process.md].
 - Does not reference AI-specific planning stages.
 
 ### Source B: `docs/agile/Process.md`
@@ -56,7 +56,7 @@ This file aggregates **semantic contradictions, overlaps, and tensions** discove
 
 ### Resolution Paths
 1. Update Board Manager governance to explicitly enforce *Prompt Refinement* and *Agent Thinking* stages.
-2. Clarify how Codex $CLI/GUI$ interact with these Kanban transitions.
+2. Clarify how Codex CLI/GUI interact with these Kanban transitions.
 
 ---
 ## 🚨 Contradiction 003: Codex Governance vs Root Dev Rules

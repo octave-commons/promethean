@@ -1,15 +1,15 @@
 ---
-$$
+```
 uuid: 3a707c7c-9b75-401f-9d6f-fe5711eaf13f
-$$
-$$
+```
+```
 created_at: '2025-10-06T14:11:46Z'
-$$
+```
 title: 2025.10.06.14.11.46
 filename: kanban-cli- cljs-quickstart
-$$
+```
 description: >-
-$$
+```
   Quick start guide for integrating ClojureScript with kanban CLI using SCI
   (Small Clojure Interpreter) for ad-hoc filtering without compilation. Includes
   shell commands, CLI flags, and minimal prelude for defining DSLs.
@@ -22,12 +22,12 @@ tags:
   - micro-frontend
   - zero-compilation
   - dynamic-queries
-$$
+```
 related_to_uuid: []
-$$
-$$
+```
+```
 related_to_title: []
-$$
+```
 references: []
 status: todo
 priority: P3
@@ -66,22 +66,22 @@ If you want, I can generate these **exact files** under `packages/kanban/src` re
 Short version: yes—letting folks write filters in tiny ClojureScript forms is a great fit. Use SCI (Small Clojure Interpreter) so you can safely eval CLJS in Node with an allowlist, no compile step, and first-class macros. You can do this two ways:
 
 * **Easiest now:** shell out to **nbb** (which is just SCI packaged for Node scripting) when `--lang=cljs` is used. Fast startup, no build step, small artifact. Trade-off: it’s an interpreter, so heavy loops are slower and a few features (e.g. `deftype`) aren’t supported. ([GitHub][1])
-* **Polish later:** embed **SCI** directly in your process $or as a tiny shadow-cljs “node-library” bundle you import$. SCI lets you whitelist symbols and JS libs, reuse an eval context across calls, and even fork contexts per session. ([GitHub][2])
+* **Polish later:** embed **SCI** directly in your process or as a tiny shadow-cljs “node-library” bundle you import. SCI lets you whitelist symbols and JS libs, reuse an eval context across calls, and even fork contexts per session. ([GitHub][2])
 
 # What this unlocks
 
-* **Agent + human friendly:** plain s-exprs like `$where (in status #{"Todo" "Doing"}) (>= priority 3) (has "agent" labels)$`.
-* **Zero compilation** for ad-hoc filters; you already use shadow-cljs, so graduating to a compiled node-library later is straightforward. $$shadow-cljs.github.io$[3]$
+* **Agent + human friendly:** plain s-exprs like `where (in status #{"Todo" "Doing"}) (>= priority 3) (has "agent" labels)`.
+* **Zero compilation** for ad-hoc filters; you already use shadow-cljs, so graduating to a compiled node-library later is straightforward. $shadow-cljs.github.io[3]
 * **Safety knobs:** allow/deny lists; only expose `clojure.core`, `clojure.string`, etc.; don’t expose `fs` unless explicitly requested; futures disabled by default. ([GitHub][2])
 
 # Proposed UX
 
 ## CLI flags
 
-* `--lang js|dsl|cljs` $default `dsl` = your current mini-DSL$
+* `--lang js|dsl|cljs` default `dsl` = your current mini-DSL
 * `-F, --filter` string form **or** `--filter-file path.cljs`
-* `--cljs-prelude path.cljs` $optional macros/helpers$
-* Works on all new commands $`sample`, `pairwise`, `rank`, etc.$
+* `--cljs-prelude path.cljs` optional macros/helpers
+* Works on all new commands `sample`, `pairwise`, `rank`, etc.
 
 ## Examples
 
@@ -127,7 +127,7 @@ pnpm kanban sample --lang cljs --filter-file filters/todo_high.cljs -n 7
 * Pass tasks JSON on stdin and your filter code via `-e` or a temp `.cljs`.
 * NBB evaluates via SCI; startup is quick and it can `require` npm libs if you allow it. ([GitHub][1])
 
-Pseudo-TS $inside your `packages/kanban`$:
+Pseudo-TS inside your `packages/kanban`:
 
 ```ts
 // runCljsFilter.ts
@@ -135,20 +135,20 @@ import { spawn } from "node:child_process";
 
 export async function runCljsFilter(tasks: any[], code: string, preludePath?: string) {
   const expr = preludePath
-    ? `(do (load-file "${preludePath}") (let [tasks (js/JSON.parse (slurp *in*))]
+    ? `(do (load-file "{preludePath}") (let [tasks (js/JSON.parse (slurp *in*))]
            (->> tasks (map #(js->clj % :keywordize-keys true))
-                (filter ${code})
+                (filter {code})
                 (map clj->js))))`
     : `(let [tasks (js/JSON.parse (slurp *in*))]
          (->> tasks (map #(js->clj % :keywordize-keys true))
-              (filter ${code})
+              (filter {code})
               (map clj->js)))`;
 
   return new Promise<any[]>((resolve, reject) => {
     const p = spawn("node", ["node_modules/.bin/nbb", "-e", expr], { stdio: ["pipe", "pipe", "inherit"] });
     let out = "";
     p.stdout.on("data", (d) => (out += d));
-    p.on("exit", (code) => (code === 0 ? resolve(JSON.parse(out)) : reject(new Error(`nbb exit ${code}`))));
+    p.on("exit", (code) => (code === 0 ? resolve(JSON.parse(out)) : reject(new Error(`nbb exit {code}`))));
     p.stdin.write(JSON.stringify(tasks));
     p.stdin.end();
   });
@@ -161,17 +161,17 @@ export async function runCljsFilter(tasks: any[], code: string, preludePath?: st
 
 * Bundle SCI with shadow-cljs as a tiny “node-library” that exports `evalCljs(code, opts)`.
 * In Node, create one SCI context at process start; **reuse/fork** it per `--session` to avoid re-parsing macros and keep things fast. ([GitHub][2])
-* **Allowlist** only the symbols you need (or use `:deny` to block) and expose zero JS libs by default $`:js-libs {}`$, turning them on per flag if ever needed. ([GitHub][2])
+* **Allowlist** only the symbols you need (or use `:deny` to block) and expose zero JS libs by default `:js-libs {}`, turning them on per flag if ever needed. ([GitHub][2])
 
 Key SCI hooks you’ll use:
 
 * `sci/eval-string*` with a **context** (stateful, reusable), plus `sci/fork` for isolation. ([GitHub][2])
 * `:allow` / `:deny` to restrict callable symbols. ([GitHub][2])
-* `:js-libs` if you *explicitly* want to expose e.g. `fs` $default = don’t$. ([GitHub][2])
+* `:js-libs` if you *explicitly* want to expose e.g. `fs` default = don’t. ([GitHub][2])
 
 # Safety profile (recommended defaults)
 
-* **No JS libs exposed** $`:js-libs {}`$; no file/network access in filters. ([GitHub][2])
+* **No JS libs exposed** `:js-libs {}`; no file/network access in filters. ([GitHub][2])
 * **Allowlist** only: `and`, `or`, `not`, `=`, `>=`, `<=`, `re-find`, `some`, `contains?`, `set`, `str/*` helpers, your `where`/`has`/`in`.
 * **Futures disabled** (SCI disables them unless an addon is installed). ([GitHub][2])
 * **Context reuse** + **fork per session** for speed and isolation. ([GitHub][2])
@@ -207,8 +207,8 @@ If you want, I can draft the `runCljsFilter` helper + wire `--lang=cljs` into `s
 Awesome — let’s wire CLJS filters in cleanly and keep it optional. Below is a drop-in plan + code you can paste into `packages/kanban` today. We’ll start with **nbb** (SCI on Node; zero compile) and leave a path to an embedded SCI later.
 
 > Why nbb? It’s a tiny CLJS-on-Node interpreter with **fast startup**, **first-class macros**, and **no build step** because it runs on **SCI**; perfect for ad-hoc filtering. ([GitHub][1])
-> Why SCI later? It gives you an **allowlisted** interpreter embedded in your process $fine-grained control, reusable contexts$. ([GitHub][2])
-> If you compile a CLJS helper, `:node-library` is the shadow-cljs target you’ll want for an importable Node bundle. $$shadow-cljs.github.io$[3]$
+> Why SCI later? It gives you an **allowlisted** interpreter embedded in your process fine-grained control, reusable contexts. ([GitHub][2])
+> If you compile a CLJS helper, `:node-library` is the shadow-cljs target you’ll want for an importable Node bundle. $shadow-cljs.github.io[3]
 
 ---
 
@@ -250,7 +250,7 @@ No build changes; we just spawn the local `nbb` binary (SCI under the hood). ([n
 
 ---
 
-# 3) New files $safe, idempotent, cache-friendly$
+# 3) New files safe, idempotent, cache-friendly
 
 ```
 packages/kanban/
@@ -304,7 +304,7 @@ type RunOpts = {
 export async function runCljsFilter(tasks: unknown[], opts: RunOpts): Promise<unknown[]> {
   const bin = process.platform === "win32" ? "nbb.cmd" : "nbb";
   const localBinDir = path.join(process.cwd(), "node_modules", ".bin");
-  const PATH = `${localBinDir}${path.delimiter}${process.env.PATH ?? ""}`;
+  const PATH = `{localBinDir}{path.delimiter}{process.env.PATH ?? ""}`;
 
   // Build an nbb expression that:
   // - loads prelude (optional)
@@ -312,19 +312,19 @@ export async function runCljsFilter(tasks: unknown[], opts: RunOpts): Promise<un
   // - converts to CLJS maps
   // - applies user predicate
   // - prints JSON array to stdout
-  const loadPrelude = opts.prelude ? `(load-file "${opts.prelude.replace(/\\/g, "/")}")` : "";
+  const loadPrelude = opts.prelude ? `(load-file "{opts.prelude.replace(/\\/g, "/")}")` : "";
   const predicateSrc = opts.code
     ? opts.code
     : opts.file
-      ? `(do (load-file "${opts.file.replace(/\\/g, "/")}") filter)` // expect file to provide `filter`
+      ? `(do (load-file "{opts.file.replace(/\\/g, "/")}") filter)` // expect file to provide `filter`
       : "(fn [_] true)";
 
   const expr = `(do
-    ${loadPrelude}
+    {loadPrelude}
     (require '[clojure.edn :as edn] '[cljs.core :as core])
     (let [input (js/JSON.parse (slurp *in*))
           tasks (map #(js->clj % :keywordize-keys true) input)
-          pred  ${predicateSrc}
+          pred  {predicateSrc}
           out   (->> tasks (filter pred) (map clj->js) (into-array))]
       (println (js/JSON.stringify out))) )`;
 
@@ -343,9 +343,9 @@ export async function runCljsFilter(tasks: unknown[], opts: RunOpts): Promise<un
     child.on("close", (code) => {
       if (code === 0) {
         try { resolve(JSON.parse(out)); }
-        catch (e) { reject(new Error(`nbb JSON parse failed: ${(e as Error).message}\nSTDERR:\n${err}`)); }
+        catch (e) { reject(new Error(`nbb JSON parse failed: {(e as Error).message}\nSTDERR:\n{err}`)); }
       } else {
-        reject(new Error(`nbb exited ${code}\n${err}`));
+        reject(new Error(`nbb exited {code}\n{err}`));
       }
     });
 
@@ -355,7 +355,7 @@ export async function runCljsFilter(tasks: unknown[], opts: RunOpts): Promise<un
 }
 ```
 
-> Notes: This doesn’t “hard sandbox” everything — nbb allows JS interop — but it is short-lived and only receives your task JSON on stdin. For stricter allowlists, embed SCI directly later $allow/deny namespaces, reusable contexts$. ([GitHub][2])
+> Notes: This doesn’t “hard sandbox” everything — nbb allows JS interop — but it is short-lived and only receives your task JSON on stdin. For stricter allowlists, embed SCI directly later allow/deny namespaces, reusable contexts. ([GitHub][2])
 
 ---
 
@@ -457,18 +457,18 @@ test("filters with inline CLJS", async t => {
 
 ---
 
-# 6) Later: embedded SCI $for stricter sandbox + speed$
+# 6) Later: embedded SCI for stricter sandbox + speed
 
 When you outgrow a subprocess, bundle a tiny CLJS “node-library” that exports an `eval-filter` function. Inside that bundle, configure SCI with **allowlists** and reuse a **context** (fork per session). This gives you: faster repeated evals, no child processes, and strict symbol control. ([GitHub][2])
 
-Shadow-cljs docs for `:node-library` (export stable symbols): add `^:export` metadata for anything you need to call from Node. $$shadow-cljs.github.io$[3]$
+Shadow-cljs docs for `:node-library` (export stable symbols): add `^:export` metadata for anything you need to call from Node. $shadow-cljs.github.io[3]
 
 ---
 
 # 7) Tiny safety notes
 
 * nbb is convenient but **not a true security boundary**; treat `--lang=cljs` as “trusted operator input”. For untrusted input, switch to embedded SCI with a deny/allow config. ([GitHub][2])
-* Keep the CLJS filter **pure** $no I/O$, which aligns with agent determinism and makes results cacheable.
+* Keep the CLJS filter **pure** no I/O, which aligns with agent determinism and makes results cacheable.
 
 ---
 

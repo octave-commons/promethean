@@ -64,7 +64,7 @@ results as `tool.partial` if available, and return the completion as
 ## Streaming Alignment
 
 Long-running MCP calls can emit incremental output. Gateways map those
-partials to `stream` envelopes $e.g., `codec: "text/utf8"`$ so existing Enso
+partials to `stream` envelopes e.g., `codec: "text/utf8"` so existing Enso
 clients display consistent progress updates.
 
 ## Security Considerations

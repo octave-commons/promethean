@@ -1,14 +1,14 @@
 ---
-$$
+```
 uuid: 89643344-84c1-499f-82cc-9b5430fffb72
-$$
+```
 title: define permission schema in agents 1 md
 status: todo
 priority: P3
 labels: []
-$$
+```
 created_at: '2025-09-15T02:02:58.511Z'
-$$
+```
 ---
 ## 🛠️ Task: Define permission schema in AGENTS.md
 
@@ -57,9 +57,9 @@ execution.
 ---
 
 ## 🔗 Related Epics
-$$
+```
 #framework-core #eidolon #Dorian #layer2
-$$
+```
 ---
 
 ## ⛓️ Blocked By
@@ -79,6 +79,6 @@ Nothing
 ## ❓ Questions
 
 - Should permissions support wildcards for actions or be explicit only?
-$$
+```
 #ice-box
-$$
+```

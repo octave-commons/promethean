@@ -1,9 +1,9 @@
 # audio.py
 
 **Path**: `services/stt/whisper_npu/audio.py`
-$$
+```
 **Description**: resample if necessary
-$$
+```
 ## Dependencies
 - .config
 - __future__

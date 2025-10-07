@@ -8,9 +8,9 @@
 
 ## Moved packages
 | Package | Previous path | New path |
-$$
+```
 | --- | --- | --- |
-$$
+```
 | `@promethean/docops-frontend` | `packages/docops-frontend` | `packages/frontends/docops-frontend` |
 | `@promethean/health-dashboard-frontend` | `packages/health-dashboard-frontend` | `packages/frontends/health-dashboard-frontend` |
 | `@promethean/llm-chat-frontend` | `packages/llm-chat-frontend` | `packages/frontends/llm-chat-frontend` |
@@ -20,9 +20,9 @@ $$
 | `@promethean/smartgpt-dashboard-frontend` | `packages/smartgpt-dashboard-frontend` | `packages/frontends/smartgpt-dashboard-frontend` |
 
 ## Follow-up iterations
-- $[organize-backend-packages]$ — stage and execute the migration of services into `packages/services/`.
-- $[organize-library-packages]$ — design the taxonomy for library subgroups and prepare their move.
-- $[organize-tooling-packages]$ — consolidate CLI/tooling packages under a dedicated namespace.
+- [organize-backend-packages] — stage and execute the migration of services into `packages/services/`.
+- [organize-library-packages] — design the taxonomy for library subgroups and prepare their move.
+- [organize-tooling-packages] — consolidate CLI/tooling packages under a dedicated namespace.
 
 ## Next steps
 - Run the new tasks through the agile workflow to scope each wave.

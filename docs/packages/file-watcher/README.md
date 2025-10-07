@@ -1,16 +1,16 @@
-$$
+```
 <!-- SYMPKG:PKG:BEGIN -->
-$$
+```
 # @promethean/file-watcher
-$$
+```
 **Folder:** `packages/file-watcher`
-$$
-$$
+```
+```
 **Version:** `0.1.0`
-$$
-$$
+```
+```
 **Domain:** `_root`
-$$
+```
 ```mermaid
 graph LR
   A["@promethean/file-watcher"]
@@ -34,14 +34,14 @@ graph LR
   click D6 "../utils/README.md" "@promethean/utils"
 ```
 ## Dependencies
-- $@promethean/embedding$$../embedding/README.md$
-- $@promethean/legacy$$../legacy/README.md$
-- $@promethean/persistence$$../persistence/README.md$
-- $@promethean/pm2-helpers$$../pm2-helpers/README.md$
-- $@promethean/test-utils$$../test-utils/README.md$
-- $@promethean/utils$$../utils/README.md$
+- @promethean/embedding$../embedding/README.md
+- @promethean/legacy$../legacy/README.md
+- @promethean/persistence$../persistence/README.md
+- @promethean/pm2-helpers$../pm2-helpers/README.md
+- @promethean/test-utils$../test-utils/README.md
+- @promethean/utils$../utils/README.md
 ## Dependents
 - _None_
-$$
+```
 <!-- SYMPKG:PKG:END -->
-$$
+```

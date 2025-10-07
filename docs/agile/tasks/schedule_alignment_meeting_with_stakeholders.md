@@ -1,14 +1,14 @@
 ---
-$$
+```
 uuid: d524ff64-8f12-46bb-8c28-103e13743fa1
-$$
+```
 title: schedule alignment meeting with stakeholders md md
 status: todo
 priority: P3
 labels: []
-$$
+```
 created_at: '2025-09-15T02:02:58.519Z'
-$$
+```
 ---
 ## 🛠️ Task: Schedule alignment meeting with stakeholders
 
@@ -37,9 +37,9 @@ Organize a meeting to discuss the open questions about Promethean and confirm pr
 ---
 
 ## 🔗 Related Epics
-$$
+```
 #framework-core
-$$
+```
 ---
 
 ## ⛓️ Blocked By
@@ -52,6 +52,6 @@ $$
 
 ## 🔍 Relevant Links
 - [[kanban]]
-$$
+```
 #ice-box
-$$
+```

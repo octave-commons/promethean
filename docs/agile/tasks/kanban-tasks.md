@@ -1,16 +1,16 @@
 ---
-$$
+```
 uuid: 379c1028-3b05-4984-8414-42cab3634054
-$$
-$$
+```
+```
 created_at: '2025-10-06T20:45:15.185Z'
-$$
-title: Kanban CLI Tasks $Docs/Agile$
+```
+title: Kanban CLI Tasks Docs/Agile
 status: todo
 priority: P3
 labels: []
 ---
-# Kanban CLI Tasks $Docs/Agile$
+# Kanban CLI Tasks Docs/Agile
 
 New subcommands (added; keep your existing ones)
 
@@ -39,7 +39,7 @@ All new commands emit a single “agent coaching line” to stderr unless `--qui
   - --seed: RNG seed
   - --format: jsonl|table (default)
 - Output: JSONL of Task objects to stdout.
-- Coaching: AGENT line emitted to stderr $unless --quiet$.
+- Coaching: AGENT line emitted to stderr unless --quiet.
   - Example: AGENT: You have a bite-sized set. Next run `kanban pairwise --session <name>` to compare two at a time.
 
 ---
@@ -53,7 +53,7 @@ All new commands emit a single “agent coaching line” to stderr unless `--qui
   - --session: session name for pairwise cache
   - -k: number of pairs to generate
   - -f / --filter: optional filter
-  - --lang: $dsl/js/cljs$ predicate language for filtering
+  - --lang: dsl/js/cljs predicate language for filtering
 - Output: JSONL of pair objects to stdout.
 - Coaching: AGENT: Choose A, B, or tie via `kanban choose --session ... --left <uuidA> --right <uuidB> --winner A|B|tie`.
 
@@ -76,7 +76,7 @@ All new commands emit a single “agent coaching line” to stderr unless `--qui
 
 ## rank
 
-- Purpose: compute a global ordering from comparisons $Bradley–Terry/Elo + priors$.
+- Purpose: compute a global ordering from comparisons Bradley–Terry/Elo + priors.
 - CLI usage (example):
   - pnpm kanban rank --session today --top 5
 - Arguments:
@@ -97,7 +97,7 @@ All new commands emit a single “agent coaching line” to stderr unless `--qui
   - -n
   - --warmup
   - --top
-  - --lang $dsl/js/cljs$
+  - --lang dsl/js/cljs
 - Output: JSONL consisting of the top-K results after processing.
 - Coaching: AGENT: Shortlist ready; use `kanban rank` to inspect top results.
 
@@ -105,7 +105,7 @@ All new commands emit a single “agent coaching line” to stderr unless `--qui
 
 ## explain
 
-- Purpose: attach compact rationales $heuristic, theme-aware$.
+- Purpose: attach compact rationales heuristic, theme-aware.
 - CLI usage (example):
   - pnpm kanban explain --why "unblocks_pipeline" < tasks.jsonl
 - Arguments:
@@ -118,7 +118,7 @@ All new commands emit a single “agent coaching line” to stderr unless `--qui
 
 ## cluster
 
-- Purpose: reduce overwhelm by grouping $labels/title; embeddings later$.
+- Purpose: reduce overwhelm by grouping labels/title; embeddings later.
 - CLI usage (example):
   - pnpm kanban cluster -f "status=Todo" --by labels --limit 8
 - Arguments:

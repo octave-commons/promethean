@@ -1,4 +1,4 @@
-# Lisp CLI $prom-lisp$
+# Lisp CLI prom-lisp
 
 Command-line tools for the lightweight Lisp compiler in `shared/ts/src/compiler/lisp`.
 
@@ -83,10 +83,10 @@ Attempts to parse JS (via Acorn) to ESTree and convert to equivalent Lisp forms.
 prom-lisp ts2lisp component.ts > out.lisp
 ```
 
-Transpiles TypeScript to JS $in-memory$ and converts to Lisp.
+Transpiles TypeScript to JS in-memory and converts to Lisp.
 
 ## Notes
 
 - The Lisp compiler is intentionally minimal; feature coverage is limited.
-- When using `run`, imported helpers are provided via dynamic `import()`; paths should be relative to your CWD $e.g., `./runtime.js`$.
+- When using `run`, imported helpers are provided via dynamic `import()`; paths should be relative to your CWD e.g., `./runtime.js`.
 - For programmatic use, import from `shared/ts/src/compiler/lisp/driver.ts` (`compileLispToJS`, `runLisp`).

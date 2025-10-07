@@ -1,15 +1,15 @@
 ---
-$$
+```
 uuid: 606562dd-ad4e-4614-b608-ef59354106a5
-$$
-$$
+```
+```
 created_at: '2025-09-20T16:21:28Z'
-$$
+```
 title: 2025.09.20.16.21.28
 filename: mcp-fastify-transport-fix
-$$
+```
 description: >-
-$$
+```
   Fixes HTTP MCP transport by implementing Fastify-based transport that mirrors
   GitHub's working pattern, ensuring stateless requests and proper adapter
   hookup without re-architecting the server.
@@ -22,12 +22,12 @@ tags:
   - streamablehttp
   - github
   - express
-$$
+```
 related_to_uuid: []
-$$
-$$
+```
+```
 related_to_title: []
-$$
+```
 references: []
 ---
 Good call on switching to GraphQL. I used your GitHub GraphQL connector to inspect the repo and confirm where the working HTTP MCP server lives.
@@ -40,13 +40,13 @@ Good call on switching to GraphQL. I used your GitHub GraphQL connector to inspe
 
 Here’s what I attempted next:
 
-1. **Commit the Fastify HTTP wiring via GraphQL** using `createCommitOnBranch` $so we avoid the REST `PUT /contents` body issue$. I prepared a patch to replace `fastify.ts` with a proper handler that mirrors the GitHub implementation but uses Fastify:
+1. **Commit the Fastify HTTP wiring via GraphQL** using `createCommitOnBranch` so we avoid the REST `PUT /contents` body issue. I prepared a patch to replace `fastify.ts` with a proper handler that mirrors the GitHub implementation but uses Fastify:
 
 * `POST /mcp`: for each request, create a new `StreamableHTTPServerTransport`, hook `req.session.events.on('close', ...)` to close the transport, call `server.connect(transport)`, then `transport.handleRequest(req, rep, req.body)`.
 
 This is the exact shape that makes HTTP MCP work, without re-architecting your server.
 
-2. The GraphQL mutation schema worked $I validated repository + branch head$, but the connector choked on the **Base64-encoded file contents** argument — the tool errored while parsing the large JSON payload (input parsing error on our side, not GitHub).
+2. The GraphQL mutation schema worked I validated repository + branch head, but the connector choked on the **Base64-encoded file contents** argument — the tool errored while parsing the large JSON payload (input parsing error on our side, not GitHub).
 
 So, I couldn’t land the commit **from here**, but the change is small and precise. Apply this file update in `feat/mcp-suite` and HTTP will work:
 
@@ -118,11 +118,11 @@ Your connector’s GraphQL op works for queries (I used it to read files and the
 
 * Query (already validated):
 
-  * `ref$qualifiedName:"refs/heads/feat/mcp-suite"${ target{ oid } }`
+  * `refqualifiedName:"refs/heads/feat/mcp-suite"{ target{ oid } }`
 
-* Mutation $one-file change$:
+* Mutation one-file change:
 
-  * `createCommitOnBranch$input:{ branch:{repositoryNameWithOwner:"riatzukiza/promethean", branchName:"feat/mcp-suite"}, expectedHeadOid:"<HEAD_OID>", message:{headline:"feat(mcp/http): hook Fastify HTTP transport to StreamableHTTPServerTransport"}, fileChanges:{ additions:${ path:"packages/mcp/src/core/transports/fastify.ts", contents:"<BASE64>" }$ }}$`
+  * `createCommitOnBranchinput:{ branch:{repositoryNameWithOwner:"riatzukiza/promethean", branchName:"feat/mcp-suite"}, expectedHeadOid:"<HEAD_OID>", message:{headline:"feat(mcp/http): hook Fastify HTTP transport to StreamableHTTPServerTransport"}, fileChanges:{ additions:{ path:"packages/mcp/src/core/transports/fastify.ts", contents:"<BASE64>" } }}`
 
 Once that’s in, you can curl it:
 

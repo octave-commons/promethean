@@ -1,6 +1,6 @@
 # Process configs (YAML)
 
-This folder contains **process-as-code** definitions used by the local kanban tooling and CI bots. Each file describes a workflow variant $e.g. `duck-revival.yaml`$.
+This folder contains **process-as-code** definitions used by the local kanban tooling and CI bots. Each file describes a workflow variant e.g. `duck-revival.yaml`.
 
 ## Schema
 
@@ -32,7 +32,7 @@ board:                         # Board generation hints
 > The schema is intentionally simple: if the kanban CLI sees unknown keys, it passes them through into its JSON output so you can extend the automation without changing the parser.
 
 ## Conventions
-- Keep one file per big initiative $e.g. `duck-revival.yaml`$.
+- Keep one file per big initiative e.g. `duck-revival.yaml`.
 - Treat `statuses` as the source of truth; avoid ad-hoc columns in rendered boards.
 - Checklists should be short and **enforceable**. If it can’t fail CI or a bot, it probably shouldn’t be in the list.
 

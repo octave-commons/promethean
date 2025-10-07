@@ -1,14 +1,14 @@
 ---
-$$
+```
 uuid: c80af308-7b65-4dbf-92b9-d464308b4565
-$$
+```
 title: docops pipeline
 status: todo
 priority: P3
 labels: []
-$$
+```
 created_at: '2025-09-15T02:02:58.500Z'
-$$
+```
 ---
 ## 🛠️ Task: Complete Docops pipeline (synthesis agent)
 
@@ -34,16 +34,16 @@ Run the synthesis agent over the files in `docs/unique/` to generate more polish
 
 ## 📋 Subtasks
 
-- [x] Configure synthesis-agent to read from `labeled/` $staged via `inbox/` → `doc-stage`$ ✅ 2025-09-18
+- [x] Configure synthesis-agent to read from `labeled/` staged via `inbox/` → `doc-stage` ✅ 2025-09-18
 - [x] Export cleaned markdown to new folder ✅ 2025-09-26
 - [ ] Link resulting docs on the kanban board
 
 ---
 
 ## 🔗 Related Epics
-$$
+```
 #framework-core
-$$
+```
 ---
 
 ## ⛓️ Blocked By

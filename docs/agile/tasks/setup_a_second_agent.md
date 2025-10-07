@@ -1,14 +1,14 @@
 ---
-$$
+```
 uuid: 654e88a0-ce43-46b0-a67b-3c18270be8eb
-$$
+```
 title: setup a second agent md
 status: todo
 priority: P3
 labels: []
-$$
+```
 created_at: '2025-09-15T02:02:58.524Z'
-$$
+```
 ---
 ## 🛠️ Description
 
@@ -37,9 +37,9 @@ Get a second agent running so we can have the two  talk to each other, and  get 
 ---
 
 ## 🔗 Related Epics
-$$
+```
 #framework-core
-$$
+```
 ---
 
 ## ⛓️ Blocked By

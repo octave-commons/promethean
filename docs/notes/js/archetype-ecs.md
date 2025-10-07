@@ -9,7 +9,7 @@ Highlights:
 - Queries: `makeQuery({ all, any, none, changed })` + `world.iter(...)`
 - Ticking: `beginTick()/endTick()` clears changed flags; `CommandBuffer.flush()`
 
-Related: $[graph-ds]$ $[../../unique/index|unique/index]$
+Related: [graph-ds] [../../unique/index|unique/index]
 
 #tags: #js #ecs #soa #performance
 

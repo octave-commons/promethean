@@ -3,7 +3,7 @@ Mermaid diagrams for event bus, outbox, partition coordination, and projections 
 Includes:
 
 - Producers → Outbox → EventBus → EventStore/CursorStore
-- Projectors $changelog/compaction$ and DLQ
+- Projectors changelog/compaction and DLQ
 - Consumer group + partition assignment (rendezvous)
 - ER diagram for Event/Cursor/Outbox/Snapshot
 
@@ -149,6 +149,6 @@ erDiagram
   }
 ```
 
-Related: $[index.md|unique/index]$
+Related: [index.md|unique/index]
 
 #tags: #diagrams #broker #streaming

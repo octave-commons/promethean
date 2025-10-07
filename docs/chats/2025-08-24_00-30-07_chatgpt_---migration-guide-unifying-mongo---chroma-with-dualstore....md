@@ -1,7 +1,7 @@
 # 📑 Migration Guide: Unifying Mongo + Chroma with DualStore...
-Exported on 24/08/2025 at 00:30:07 [from ChatGPT](https://chatgpt.com/g/g-68a508b9180081919110e09ab9faee17-pythagoras/c/68aa9df1-a59c-832b-834b-34f80f0a7873$$
+Exported on 24/08/2025 at 00:30:07 [from ChatGPT](https://chatgpt.com/g/g-68a508b9180081919110e09ab9faee17-pythagoras/c/68aa9df1-a59c-832b-834b-34f80f0a7873```
 ) - with [SaveMyChatbot](
-$$https://save.hugocollin.com)
+```https://save.hugocollin.com)
 
 ## User
 grep services/ts for the term chroma
@@ -71,7 +71,7 @@ I’ve pulled up the raw matches in `services/ts/` for `chroma`.
 
 Do you want me to now:
 
-1.  **Expand the search repo-wide** $to see where else `chroma-client` or related utilities are imported—agents, bridge, etc.$, or
+1.  **Expand the search repo-wide** to see where else `chroma-client` or related utilities are imported—agents, bridge, etc., or
     
 2.  **Stay scoped** to just `services/ts/` and build you a mini-map of the `chroma` module’s exports and dependencies?
 
@@ -79,7 +79,7 @@ Do you want me to now:
 Make the query
 
 ## ChatGPT
-Got it. To expand the search repo-wide for all references to `chroma` $beyond just `services/ts/`$, I’ll use the **SmartGPT grep endpoint**.
+Got it. To expand the search repo-wide for all references to `chroma` beyond just `services/ts/`, I’ll use the **SmartGPT grep endpoint**.
 
 Here’s the exact query I would run:
 
@@ -164,7 +164,7 @@ The repo-wide `grep` for **`chroma`** surfaced a lot of hits. Let me structure t
       return CHROMA;
     }
     ```
-*   `src/utils/DualSink.js`: hybrid logging with **Mongo + Chroma** $`searchChroma`, `getChroma()`$.
+*   `src/utils/DualSink.js`: hybrid logging with **Mongo + Chroma** `searchChroma`, `getChroma()`.
     
 *   `src/logging/chromaCleanup.js`: retention policy for **Chroma logs**.
     
@@ -207,7 +207,7 @@ The repo-wide `grep` for **`chroma`** surfaced a lot of hits. Let me structure t
     from chromadb.config import Settings
     client = chromadb.Client(Settings(...))
     ```
-    *   Indexes **all repo files into a ChromaDB collection** $`project_files`$.
+    *   Indexes **all repo files into a ChromaDB collection** `project_files`.
         
 
 * * *
@@ -227,16 +227,16 @@ The repo-wide `grep` for **`chroma`** surfaced a lot of hits. Let me structure t
         
     *   Dual sink with **MongoDB** for SmartGPT Bridge.
         
-    *   Subject to **retention + cleanup** $`LOG_MAX_CHROMA`, TTL jobs$.
+    *   Subject to **retention + cleanup** `LOG_MAX_CHROMA`, TTL jobs.
         
 
 * * *
-$$
+```
 ✅ **Summary:**
-$$
+```
 Chroma is not just a side-utility—it’s a **core embedding + semantic search backend** in Promethean. It is:
 
-*   Used for **Discord embeddings** $`discord-embedder`$.
+*   Used for **Discord embeddings** `discord-embedder`.
     
 *   Manages **context persistence** (`cephalon`).
     
@@ -251,7 +251,7 @@ Chroma is not just a side-utility—it’s a **core embedding + semantic search 
 
 * * *
 
-👉 Do you want me to now **draw an architecture diagram** $Obsidian-ready Mermaid graph$ showing how `Chroma` threads through `discord-embedder`, `cephalon`, `smartgpt-bridge`, and `shared/ts`?
+👉 Do you want me to now **draw an architecture diagram** Obsidian-ready Mermaid graph showing how `Chroma` threads through `discord-embedder`, `cephalon`, `smartgpt-bridge`, and `shared/ts`?
 
 ## User
 I want to consolidate my chroma tools.
@@ -259,7 +259,7 @@ I want to consolidate my chroma tools.
 ## ChatGPT
 Perfect — right now your repo has **at least 5 different Chroma touchpoints**:
 
-1.  **`services/ts/chroma/`** – thin wrapper $`chroma-client.ts`, `chroma-utils.ts`$.
+1.  **`services/ts/chroma/`** – thin wrapper `chroma-client.ts`, `chroma-utils.ts`.
     
 2.  **`services/ts/discord-embedder/`** – rolls its own `ChromaClient` inline.
     
@@ -270,7 +270,7 @@ Perfect — right now your repo has **at least 5 different Chroma touchpoints**:
 5.  **`scripts/index_project_files.py`** – standalone Python-based Chroma ingestion.
     
 
-Plus some **shared glue** $`shared/ts/embeddings/remote.ts`, docs, tests$.
+Plus some **shared glue** `shared/ts/embeddings/remote.ts`, docs, tests.
 
 * * *
 
@@ -290,12 +290,12 @@ Plus some **shared glue** $`shared/ts/embeddings/remote.ts`, docs, tests$.
 ### ✅ Recommended Consolidation Plan
 
 I’d propose centralizing around a **single shared Chroma toolkit**:
-$$
+```
 1.  **Create `shared/ts/chroma/`**
-$$
+```
     *   Export one `getChromaClient()` singleton with lazy init.
         
-    *   Standardize env config $`CHROMA_URL`, `CHROMA_DB_IMPL`, `CHROMA_PERSIST_DIR`$.
+    *   Standardize env config `CHROMA_URL`, `CHROMA_DB_IMPL`, `CHROMA_PERSIST_DIR`.
         
     *   Provide helpers:
         
@@ -306,22 +306,22 @@ $$
         *   `cleanupCollection(name, policy)`
             
     
-    → All TS services $`discord-embedder`, `cephalon`, `smartgpt-bridge`$ import from here.
-$$
+    → All TS services `discord-embedder`, `cephalon`, `smartgpt-bridge` import from here.
+```
 2.  **Unify Embedding Functions**
-$$
+```
     *   Consolidate `RemoteEmbeddingFunction` + `embedding/versioning` into this toolkit.
         
-    *   Guarantee every collection has consistent naming $`family__version__driver__fn`$.
-$$
+    *   Guarantee every collection has consistent naming `family__version__driver__fn`.
+```
 3.  **Shared Retention Policy**
-$$
+```
     *   Move `chromaCleanup` (currently only in SmartGPT Bridge) into shared.
         
-    *   Support TTL (delete older than X days) + capped size $`LOG_MAX_CHROMA`$.
-$$
+    *   Support TTL (delete older than X days) + capped size `LOG_MAX_CHROMA`.
+```
 4.  **Cross-language consistency**
-$$
+```
     *   Align `scripts/index_project_files.py` with TS API:
         
         *   Same env vars.
@@ -329,9 +329,9 @@ $$
         *   Same collection family naming.
             
     *   Option: wrap Python indexer behind a service, so you don’t need direct Chroma Python calls in production.
-$$
+```
 5.  **Docs & Migration**
-$$
+```
     *   Update `docs/notes` and `docs/file-structure.md` to point to the **single Chroma toolkit**.
         
     *   Mark local `services/ts/chroma/` as deprecated once everything points to `shared/ts/chroma/`.
@@ -364,7 +364,7 @@ The repo-wide `grep` for **mongo** returned **too many matches to stream back in
 
 1.  **Scope to services**: e.g. `services/ts/` only (skip docs, tests, scripts).
     
-2.  **Filter by client usage**: look for `"MongoClient"` specifically instead of `"mongo"` $will reduce noise from docs/README/package-lock$.
+2.  **Filter by client usage**: look for `"MongoClient"` specifically instead of `"mongo"` will reduce noise from docs/README/package-lock.
     
 3.  **Focus on SmartGPT Bridge + Cephalon**, since those are the ones that already combine Mongo + Chroma.
     
@@ -372,9 +372,9 @@ The repo-wide `grep` for **mongo** returned **too many matches to stream back in
 👉 Do you want me to rerun the search just for **`MongoClient` in `services/ts/`**, so we get a clean list of actual code integrations instead of every mention of “mongo”?
 
 ## User
-$$
+```
 services/ts
-$$
+```
 ## ChatGPT
 Here’s the **Mongo usage inside `services/ts/`**. It’s widespread and parallels what we saw for Chroma:
 
@@ -423,7 +423,7 @@ Here’s the **Mongo usage inside `services/ts/`**. It’s widespread and parall
     import { MongoClient, Collection } from 'mongodb';
     const mongoClient = new MongoClient(process.env.MONGODB_URI || 'mongodb://localhost:27017');
     mongoClient.connect();
-    const mongoCollection = mongoClient.db('database').collection(`${agentName}_kanban`);
+    const mongoCollection = mongoClient.db('database').collection(`{agentName}_kanban`);
     ```
 *   Tracks kanban card state in Mongo.
     
@@ -456,7 +456,7 @@ Here’s the **Mongo usage inside `services/ts/`**. It’s widespread and parall
     ```
 *   Used in:
     
-    *   `fastifyAuth.js`, `rbac.js` $auth/user models in Mongo$.
+    *   `fastifyAuth.js`, `rbac.js` auth/user models in Mongo.
         
     *   `utils/DualSink.js`:
         
@@ -491,9 +491,9 @@ Plus **standalone Mongo clients** in `discord-embedder`, `markdown-graph`, and `
 
 1.  Create a shared **`shared/ts/persistence/`** module:
     
-    *   `getMongoClient()` $lazy, env-driven$.
+    *   `getMongoClient()` lazy, env-driven.
         
-    *   `getChromaClient()` $lazy, env-driven$.
+    *   `getChromaClient()` lazy, env-driven.
         
     *   `DualCollection(name, schema, embeddingFn)` that transparently writes to both.
         
@@ -508,7 +508,7 @@ Plus **standalone Mongo clients** in `discord-embedder`, `markdown-graph`, and `
 
 * * *
 
-👉 Do you want me to **sketch a unified `DualStore` API** $TypeScript interface + implementation$ that wraps both Mongo + Chroma, so all services can import the same abstraction instead of rolling their own?
+👉 Do you want me to **sketch a unified `DualStore` API** TypeScript interface + implementation that wraps both Mongo + Chroma, so all services can import the same abstraction instead of rolling their own?
 
 ## User
 yea I want you to use the one in the cephalon as the main reference.
@@ -518,7 +518,7 @@ Excellent choice ✅ — the **Cephalon `CollectionManager`** is the cleanest Mo
 
 *   Instantiates both a `MongoClient` and a `ChromaClient`.
     
-*   Manages a **dual collection** $`mongoCollection` + `chromaCollection`$.
+*   Manages a **dual collection** `mongoCollection` + `chromaCollection`.
     
 *   Provides query helpers (`find`, `getMostRecent`, etc.).
     
@@ -532,7 +532,7 @@ The **SmartGPT Bridge `DualSink`** is heavier (Mongoose models, schema timestamp
 
 Here’s what I’ll do:
 
-*   **Extract Cephalon’s logic** into a shared module $`shared/ts/persistence/dualStore.ts`$.
+*   **Extract Cephalon’s logic** into a shared module `shared/ts/persistence/dualStore.ts`.
     
 *   Keep it lightweight (no `mongoose`, just `MongoClient`).
     
@@ -644,7 +644,7 @@ export class DualStore<T = any> {
 
 * * *
 
-👉 Do you want me to **show a usage example** $e.g. how `discord-embedder` would migrate to `DualStore`$? This will make the consolidation concrete.
+👉 Do you want me to **show a usage example** e.g. how `discord-embedder` would migrate to `DualStore`? This will make the consolidation concrete.
 
 ## User
 yes
@@ -654,7 +654,7 @@ Perfect. Let’s walk through **how `discord-embedder` would migrate** from its 
 
 * * *
 
-📦 Current $`services/ts/discord-embedder/src/index.ts`$
+📦 Current `services/ts/discord-embedder/src/index.ts`
 --------------------------------------------------------
 
 Right now it does this:
@@ -670,7 +670,7 @@ await mongoClient.connect();
 const db = mongoClient.db("database");
 
 // build family name
-const family = `${AGENT_NAME}_discord_messages`;
+const family = `{AGENT_NAME}_discord_messages`;
 
 // embed + insert
 await chromaClient.getOrCreateCollection({ name: family });
@@ -693,7 +693,7 @@ import { AGENT_NAME } from "@promethean/legacy/env";
 
 async function runDiscordEmbedder() {
   // Collection name standardized
-  const collectionName = `${AGENT_NAME}_discord_messages`;
+  const collectionName = `{AGENT_NAME}_discord_messages`;
 
  // Initialize the dual store (Mongo + Chroma)
   const store = await DualStore.create(collectionName, new RemoteEmbeddingFunction());
@@ -724,7 +724,7 @@ async function runDiscordEmbedder() {
 
 *   **No more manual Mongo/Chroma setup** — one line: `DualStore.create(...)`.
     
-*   **Consistent family naming** $`AGENT_NAME_*`$.
+*   **Consistent family naming** `AGENT_NAME_*`.
     
 *   **Query + Insert unified** — both Mongo and Chroma updated automatically.
     
@@ -733,7 +733,7 @@ async function runDiscordEmbedder() {
 
 * * *
 
-👉 Next, I can do the same **migration sketch for SmartGPT Bridge** $its `DualSink` → `DualStore`$, since that’s the other big duplication point. Want me to show that too?
+👉 Next, I can do the same **migration sketch for SmartGPT Bridge** its `DualSink` → `DualStore`, since that’s the other big duplication point. Want me to show that too?
 
 ## User
 yes
@@ -995,7 +995,7 @@ import { getMongoClient, getChromaClient } from "./clients";
 export async function cleanupMongo(collectionName: string, maxAgeDays = 30) {
   const db = (await getMongoClient()).db("database");
   const cutoff = new Date(Date.now() - maxAgeDays * 24 * 60 * 60 * 1000);
-  return db.collection(collectionName).deleteMany({ createdAt: { $lt: cutoff } });
+  return db.collection(collectionName).deleteMany({ createdAt: { lt: cutoff } });
 }
 
 export async function cleanupChroma(collectionName: string, maxSize = 10000) {
@@ -1037,7 +1037,7 @@ export * from "./types";
 
 * * *
 
-👉 Do you want me to also **write a migration guide per service** $Cephalon, Bridge, Discord-embedder, Kanban, Markdown-graph$, showing what to delete and what to replace with `DualStore`?
+👉 Do you want me to also **write a migration guide per service** Cephalon, Bridge, Discord-embedder, Kanban, Markdown-graph, showing what to delete and what to replace with `DualStore`?
 
 ## User
 yes
@@ -1049,13 +1049,13 @@ Goal: replace ad-hoc Mongo+Chroma logic with `shared/ts/persistence/DualStore`.
 * * *
 
 📑 Migration Guide: Unifying Mongo + Chroma with `DualStore`
-$$
+```
 ============================================================
-$$
+```
 * * *
-$$
+```
 1\. **Cephalon**
-$$
+```
 ----------------
 
 **Current**: `services/ts/cephalon/src/collectionManager.ts`
@@ -1064,9 +1064,9 @@ $$
     
 *   Uses in service code directly.
     
-$$
+```
 **Migration**:
-$$
+```
 *   **Delete**: `collectionManager.ts`.
     
 *   **Replace imports**:
@@ -1096,9 +1096,9 @@ $$
         
 
 * * *
-$$
+```
 2\. **SmartGPT Bridge**
-$$
+```
 -----------------------
 
 **Current**: `services/ts/smartgpt-bridge/src/utils/DualSink.js`
@@ -1109,10 +1109,10 @@ $$
     
 *   Separate cleanup code in `logging/chromaCleanup.js`.
     
-$$
+```
 **Migration**:
-$$
-*   **Delete**: `DualSink.js` $Mongoose-based$.
+```
+*   **Delete**: `DualSink.js` Mongoose-based.
     
 *   **Delete or refactor**: `mongo.js` (initMongo) — no longer needed if `clients.ts` handles Mongo.
     
@@ -1141,9 +1141,9 @@ $$
         
 
 * * *
-$$
+```
 3\. **Discord-embedder**
-$$
+```
 ------------------------
 
 **Current**: `services/ts/discord-embedder/src/index.ts`
@@ -1152,9 +1152,9 @@ $$
     
 *   Inserts Discord messages into both manually.
     
-$$
+```
 **Migration**:
-$$
+```
 *   **Delete**: raw `MongoClient` + `ChromaClient` setup.
     
 *   **Replace imports**:
@@ -1174,9 +1174,9 @@ $$
 - const mongoClient = new MongoClient(MONGODB_URI);
 - const db = mongoClient.db("database");
 - const chromaClient = new ChromaClient();
-- const family = `${AGENT_NAME}_discord_messages`;
+- const family = `{AGENT_NAME}_discord_messages`;
 - const collection = db.collection(family);
-+ const family = `${AGENT_NAME}_discord_messages`;
++ const family = `{AGENT_NAME}_discord_messages`;
 + const store = await DualStore.create(family, new RemoteEmbeddingFunction());
 ```
 
@@ -1190,9 +1190,9 @@ $$
 ```
 
 * * *
-$$
+```
 4\. **Kanban-processor**
-$$
+```
 ------------------------
 
 **Current**: `services/ts/kanban-processor/src/index.ts`
@@ -1201,9 +1201,9 @@ $$
     
 *   No Chroma integration today.
     
-$$
+```
 **Migration**:
-$$
+```
 *   **Replace imports**:
     
 
@@ -1226,9 +1226,9 @@ $$
     
 
 * * *
-$$
+```
 5\. **Markdown-graph**
-$$
+```
 ----------------------
 
 **Current**: `services/ts/markdown-graph/src/index.ts`
@@ -1237,9 +1237,9 @@ $$
     
 *   No Chroma integration.
     
-$$
+```
 **Migration**:
-$$
+```
 *   Same as Kanban: replace `MongoClient` with `DualStore`.
     
 *   If graph queries don’t need embeddings, you can ignore Chroma — but `DualStore` still gives consistent setup.
@@ -1248,9 +1248,9 @@ $$
 * * *
 
 ✅ End State
-$$
+```
 ===========
-$$
+```
 *   One abstraction (`DualStore`) for all persistence.
     
 *   **Cephalon** and **Bridge** dual sinks are unified.
@@ -1307,7 +1307,7 @@ graph TD
 
 *   **`shared/ts/persistence/dualStore.ts`** becomes the **single gateway**.
     
-*   All services $`cephalon`, `bridge`, `discord-embedder`, `kanban`, `markdown-graph`$ import from it.
+*   All services `cephalon`, `bridge`, `discord-embedder`, `kanban`, `markdown-graph` import from it.
     
 *   No more ad-hoc `MongoClient` or `ChromaClient` instantiations.
     
@@ -1316,7 +1316,7 @@ graph TD
 
 * * *
 
-👉 Do you want me to also generate a **contradictions checklist** $AGENTS.md-level$ to flag where services currently describe their own persistence rules that now need harmonizing under `DualStore`? That way you’ll have a report in `docs/reports/` showing where the repo governance files still assume per-service persistence.
+👉 Do you want me to also generate a **contradictions checklist** AGENTS.md-level to flag where services currently describe their own persistence rules that now need harmonizing under `DualStore`? That way you’ll have a report in `docs/reports/` showing where the repo governance files still assume per-service persistence.
 
 ## User
 yes
@@ -1391,9 +1391,9 @@ yea
 ## ChatGPT
 Great — I now have the **exact persistence references** across each service.  
 We can turn this into a **before/after contradictions doc** so you know precisely what to update in each `AGENTS.md`.
-$$
+```
 Here’s a **first draft** of:
-$$
+```
 `docs/reports/persistence-contradictions-diff.md`
 
 * * *
@@ -1409,10 +1409,10 @@ Reference Standard: `shared/ts/persistence/DualStore`
 
 **Before (collectionManager.ts)**
 ```ts
-$$
+```
 const chromaClient = new ChromaClient();
-$$
-const mongoClient = new MongoClient$process.env.MONGODB_URI || 'mongodb://localhost:27017'$;
+```
+const mongoClient = new MongoClientprocess.env.MONGODB_URI || 'mongodb://localhost:27017';
 export class CollectionManager { ... }
 ```
 
@@ -1421,7 +1421,7 @@ export class CollectionManager { ... }
 ```ts
 import { DualStore } from '@shared/ts/persistence/dualStore';
 
-const store = await DualStore.create$'cephalon_context'$;
+const store = await DualStore.create'cephalon_context';
 ```
 
 * * *
@@ -1444,7 +1444,7 @@ export class DualSink { ... }
 ```ts
 import { DualStore } from '@shared/ts/persistence/dualStore';
 
-const store = await DualStore.create$'bridge_logs'$;
+const store = await DualStore.create'bridge_logs';
 ```
 
 * * *
@@ -1455,12 +1455,12 @@ Discord Embedder
 **Before (src/index.ts)**
 
 ```ts
-$$
+```
 const chromaClient = new ChromaClient();
-$$
-$$
+```
+```
 const mongoClient = new MongoClient(MONGO_CONNECTION_STRING);
-$$
+```
 ...
 const chromaCollection = await chromaClient.getOrCreateCollection({...});
 ```
@@ -1470,7 +1470,7 @@ const chromaCollection = await chromaClient.getOrCreateCollection({...});
 ```ts
 import { DualStore } from '@shared/ts/persistence/dualStore';
 
-const store = await DualStore.create$'discord_messages'$;
+const store = await DualStore.create'discord_messages';
 ```
 
 * * *
@@ -1505,7 +1505,7 @@ const db = new GraphDB(client, repoPath);
 ```ts
 import { DualStore } from '@shared/ts/persistence/dualStore';
 
-const store = await DualStore.create$'markdown_graph'$;
+const store = await DualStore.create'markdown_graph';
 ```
 
 * * *
@@ -1552,8 +1552,8 @@ Cephalon → DualStore
 + import { DualStore } from '@shared/ts/persistence/dualStore';
 
 - const chromaClient = new ChromaClient();
-- const mongoClient = new MongoClient$process.env.MONGODB_URI || 'mongodb://localhost:27017'$;
-+ const store = await DualStore.create$'cephalon_context'$;
+- const mongoClient = new MongoClientprocess.env.MONGODB_URI || 'mongodb://localhost:27017';
++ const store = await DualStore.create'cephalon_context';
 ```
 
 * * *
@@ -1569,8 +1569,8 @@ SmartGPT Bridge → DualStore
 
 + import { DualStore } from '@shared/ts/persistence/dualStore';
 
-- const sink = new DualSink$'bridge_logs', schema, builder$;
-+ const store = await DualStore.create$'bridge_logs'$;
+- const sink = new DualSink'bridge_logs', schema, builder;
++ const store = await DualStore.create'bridge_logs';
 ```
 
 * * *
@@ -1583,12 +1583,12 @@ Discord Embedder → DualStore
 - import { MongoClient } from 'mongodb';
 ...
 - const chromaClient = new ChromaClient();
-- const mongoClient = new MongoClient$MONGO_CONNECTION_STRING$;
+- const mongoClient = new MongoClientMONGO_CONNECTION_STRING;
 - await mongoClient.connect();
 - const chromaCollection = await chromaClient.getOrCreateCollection({...});
 
 + import { DualStore } from '@shared/ts/persistence/dualStore';
-+ const store = await DualStore.create$'discord_messages'$;
++ const store = await DualStore.create'discord_messages';
 ```
 
 * * *
@@ -1612,7 +1612,7 @@ Markdown Graph → DualStore
 - const db = new GraphDB(client, repoPath);
 
 + import { DualStore } from '@shared/ts/persistence/dualStore';
-+ const store = await DualStore.create$'markdown_graph'$;
++ const store = await DualStore.create'markdown_graph';
 ```
 
 * * *
@@ -1652,12 +1652,12 @@ import { Collection, ObjectId } from "mongodb";
 import { Collection as ChromaCollection } from "chromadb";
 import { RemoteEmbeddingFunction } from "@shared/ts/embeddings/remote";
 import { getMongoClient, getChromaClient } from "./clients";
-$$
+```
 import { DualEntry } from "./types";
-$$
-$$
+```
+```
 export class DualStore<T = any> {
-$$
+```
   name: string;
   mongo: Collection<DualEntry<T>>;
   chroma: ChromaCollection;
@@ -1667,49 +1667,49 @@ $$
     mongo: Collection<DualEntry<T>>,
     chroma: ChromaCollection
   ) {
-$$
-    this.name = name;
-$$
-$$
-    this.mongo = mongo;
-$$
-$$
-    this.chroma = chroma;
-$$
+```
+this.name = name;
+```
+```
+this.mongo = mongo;
+```
+```
+this.chroma = chroma;
+```
   }
-$$
- /**
-$$
+```
+/**
+```
    * Factory method to create a new DualStore.
    * Ensures both Mongo + Chroma clients are initialized.
-$$
-   */
-$$
+```
+*/
+```
   static async create<T>(
     name: string,
     embeddingFn: RemoteEmbeddingFunction
   ): Promise<DualStore<T>> {
-    const mongo = $await getMongoClient()$.db("database").collection(name);
-    const chroma = await $await getChromaClient()$.getOrCreateCollection({
+    const mongo = await getMongoClient().db("database").collection(name);
+    const chroma = await await getChromaClient().getOrCreateCollection({
       name,
       embeddingFunction: embeddingFn,
     });
     return new DualStore(name, mongo, chroma);
   }
-$$
- /**
-$$
+```
+/**
+```
    * Insert into both Mongo + Chroma.
-   * - Mongo: raw document $with text + metadata$.
+   * - Mongo: raw document with text + metadata.
    * - Chroma: embedding for semantic search.
-$$
-   */
-$$
+```
+*/
+```
   async insert(doc: DualEntry<T> & { text: string }) {
-    const result = await this.mongo.insertOne${
+    const result = await this.mongo.insertOne{
       ...doc,
       createdAt: new Date(),
-    }$;
+    };
 
    const id = result.insertedId.toString();
 
@@ -1721,55 +1721,55 @@ $$
 
    return id;
   }
-$$
- /**
-$$
+```
+/**
+```
    * Semantic search in Chroma.
-$$
-   */
-$$
-$$
-  async queryChroma(query: string, k = 5) {
-$$
+```
+*/
+```
+```
+async queryChroma(query: string, k = 5) {
+```
     return this.chroma.query({ queryTexts: [query], nResults: k });
   }
-$$
- /**
-$$
+```
+/**
+```
    * Retrieve recent Mongo entries (default: 10).
-$$
-   */
-$$
-$$
-  async getRecent(limit = 10) {
-$$
+```
+*/
+```
+```
+async getRecent(limit = 10) {
+```
     return this.mongo
       .find()
-$$
-      .sort({ createdAt: -1 })
-$$
+```
+.sort({ createdAt: -1 })
+```
       .limit(limit)
       .toArray();
   }
-$$
- /**
-$$
+```
+/**
+```
    * Fetch a document by ID.
-$$
-   */
-$$
+```
+*/
+```
   async getById(id: string | ObjectId) {
-    return this.mongo.findOne${ _id: new ObjectId(id) } as any$;
+    return this.mongo.findOne{ _id: new ObjectId(id) } as any;
   }
-$$
- /**
-$$
+```
+/**
+```
    * Delete from both Mongo + Chroma.
-$$
-   */
-$$
+```
+*/
+```
   async delete(id: string) {
-    await this.mongo.deleteOne${ _id: new ObjectId(id) } as any$;
+    await this.mongo.deleteOne{ _id: new ObjectId(id) } as any;
     await this.chroma.delete({ ids: [id] });
   }
 }
@@ -1810,40 +1810,40 @@ import { MongoClient } from "mongodb";
 import { ChromaClient } from "chromadb";
 
 const MONGO_URI = process.env.MONGODB_URI || "mongodb://localhost:27017";
-$$
+```
 const CHROMA_URL = process.env.CHROMA_URL || "
-$$http://localhost:8000";
+```http://localhost:8000";
 
 let mongoClient: MongoClient | null = null;
 let chromaClient: ChromaClient | null = null;
-$$
+```
 /**
-$$
+```
  * Lazily initialize and return a MongoDB client.
-$$
- */
-$$
+```
+*/
+```
 export async function getMongoClient(): Promise<MongoClient> {
   if (!mongoClient) {
-$$
-    mongoClient = new MongoClient(MONGO_URI);
-$$
+```
+mongoClient = new MongoClient(MONGO_URI);
+```
     await mongoClient.connect();
   }
   return mongoClient;
 }
-$$
+```
 /**
-$$
+```
  * Lazily initialize and return a ChromaDB client.
-$$
- */
-$$
+```
+*/
+```
 export async function getChromaClient(): Promise<ChromaClient> {
   if (!chromaClient) {
-$$
-    chromaClient = new ChromaClient({ path: CHROMA_URL });
-$$
+```
+chromaClient = new ChromaClient({ path: CHROMA_URL });
+```
   }
   return chromaClient;
 }
@@ -1856,20 +1856,20 @@ $$
 
 ```ts
 import { ObjectId } from "mongodb";
-$$
+```
 /**
-$$
+```
  * A dual entry that can live in both Mongo + Chroma.
  * `text` is always required for embedding in Chroma.
-$$
- */
-$$
-$$
+```
+*/
+```
+```
 export type DualEntry<T = any> = {
-$$
-$$
-  _id?: ObjectId;
-$$
+```
+```
+_id?: ObjectId;
+```
   id?: string;
   text: string;
   metadata?: any;
@@ -1884,37 +1884,37 @@ $$
 
 ```ts
 import { getMongoClient, getChromaClient } from "./clients";
-$$
+```
 /**
-$$
+```
  * Cleanup old Mongo entries by age.
-$$
- */
-$$
-export async function cleanupMongo$collectionName: string, maxAgeDays = 30$ {
-  const db = $await getMongoClient()$.db("database");
-  const cutoff = new Date$Date.now() - maxAgeDays * 24 * 60 * 60 * 1000$;
-  return db.collection(collectionName).deleteMany({ createdAt: { $lt: cutoff } });
+```
+*/
+```
+export async function cleanupMongocollectionName: string, maxAgeDays = 30 {
+  const db = await getMongoClient().db("database");
+  const cutoff = new DateDate.now() - maxAgeDays * 24 * 60 * 60 * 1000;
+  return db.collection(collectionName).deleteMany({ createdAt: { lt: cutoff } });
 }
-$$
+```
 /**
-$$
+```
  * Cleanup Chroma collections by max size.
  * (Deletes oldest entries when size exceeds maxSize)
-$$
- */
-$$
-export async function cleanupChroma$collectionName: string, maxSize = 10000$ {
-$$
-  const chroma = await getChromaClient();
-$$
+```
+*/
+```
+export async function cleanupChromacollectionName: string, maxSize = 10000 {
+```
+const chroma = await getChromaClient();
+```
   const col = await chroma.getOrCreateCollection({ name: collectionName });
 
  const count = await col.count();
   if (count > maxSize) {
     // TODO: implement removal policy (e.g. delete oldest first)
     console.warn(
-      `[DualStore] Chroma collection "${collectionName}" exceeds ${maxSize} entries`
+      `[DualStore] Chroma collection "{collectionName}" exceeds {maxSize} entries`
     );
   }
 }
@@ -1926,18 +1926,18 @@ $$
 -----------------------------------
 
 ```ts
-$$
+```
 export * from "./clients";
-$$
-$$
+```
+```
 export * from "./dualStore";
-$$
-$$
+```
+```
 export * from "./maintenance";
-$$
-$$
+```
+```
 export * from "./types";
-$$
+```
 ```
 
 * * *
@@ -1982,12 +1982,12 @@ This will explain the motivation, API, and give service authors copy-paste examp
 
 ```markdown
 # 🗄️ Shared Persistence Module
-$$
+```
 **Project:** Promethean
-$$
-$$
+```
+```
 **Path:** `shared/ts/persistence/`
-$$
+```
 **Purpose:** Provide a unified persistence abstraction (`DualStore`) that transparently writes to **MongoDB** and **ChromaDB**, replacing ad-hoc per-service implementations (`CollectionManager`, `DualSink`, etc.).
 
 ---
@@ -2235,7 +2235,7 @@ yeap
 
 ## ChatGPT
 Excellent 🔥 — let’s make a **Mermaid Kanban-style tracker** so you can see migration progress at a glance inside Obsidian.  
-We’ll embed it in the same checklist file $`docs/reports/persistence-migration-checklist.md`$.
+We’ll embed it in the same checklist file `docs/reports/persistence-migration-checklist.md`.
 
 * * *
 
@@ -2261,16 +2261,16 @@ kanban
     section Todo
       Cephalon
       SmartGPT Bridge
-$$
-      Discord-embedder
-$$
+```
+Discord-embedder
+```
       Kanban Processor
       Markdown Graph
 
    section In Progress
-$$
-      shared/ts/persistence module
-$$
+```
+shared/ts/persistence module
+```
       AGENTS.md updates
 
    section Done
@@ -2372,10 +2372,10 @@ $$
 ---
 
 ⚡ This gives you:  
-- **Checkbox tracking per service** $line-by-line$.  
+- **Checkbox tracking per service** line-by-line.  
 - A **Kanban view** in Obsidian for high-level migration status.  
 
-👉 Do you also want me to make a **Mermaid dependency graph** $services → persistence layer → databases$, so you can visualize how migration reduces duplication across Mongo/Chroma connections?
+👉 Do you also want me to make a **Mermaid dependency graph** services → persistence layer → databases, so you can visualize how migration reduces duplication across Mongo/Chroma connections?
 ```
 
 ## User

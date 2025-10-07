@@ -1,14 +1,14 @@
 ---
-$$
+```
 uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
-$$
-$$
+```
+```
 created_at: 2025.08.08.15.08.24.md
-$$
+```
 filename: Event Bus MVP
-$$
+```
 description: >-
-$$
+```
   A minimal TypeScript implementation of an event bus with in-memory storage,
   event handling, and cursor management for real-time systems.
 tags:
@@ -20,9 +20,9 @@ tags:
   - cursor
   - delivery
   - ack
-$$
+```
 related_to_title:
-$$
+```
   - Promethean Event Bus MVP v0.1
   - WebSocket Gateway Implementation
   - Mongo Outbox Implementation
@@ -43,9 +43,9 @@ $$
   - observability-infrastructure-setup
   - Cross-Language Runtime Polymorphism
   - Prompt_Folder_Bootstrap
-$$
+```
 related_to_uuid:
-$$
+```
   - fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
   - e811123d-5841-4e52-bf8c-978f26db4230
   - 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
@@ -629,7 +629,7 @@ import { EventBus, EventRecord, EventStore, CursorStore, PublishOptions, CursorP
 const now = () => Date.now();
 // NOTE: use a proper uuidv7 lib in prod. Placeholder monotonic-ish ULID-like id:
 let _ctr = 0;
-const uuidv7 = (): UUID => `${Date.now().toString(16)}-${(_ctr++).toString(16).padStart(6,"0")}-${Math.random().toString(16).slice(2,10)}`;
+const uuidv7 = (): UUID => `{Date.now().toString(16)}-{(_ctr++).toString(16).padStart(6,"0")}-{Math.random().toString(16).slice(2,10)}`;
 
 export class InMemoryEventStore implements EventStore {
   private byTopic = new Map<string, EventRecord[]>();
@@ -655,7 +655,7 @@ export class InMemoryEventStore implements EventStore {
 
 export class InMemoryCursorStore implements CursorStore {
   private map = new Map<string, CursorPosition>();
-  key(t: string, g: string) { return `${t}::${g}`; }
+  key(t: string, g: string) { return `{t}::{g}`; }
   async get(topic: string, group: string) { return this.map.get(this.key(topic, group)) ?? null; }
   async set(topic: string, group: string, cursor: CursorPosition) { this.map.set(this.key(topic, group), cursor); }
 }
@@ -833,17 +833,17 @@ export class MongoEventStore implements EventStore {
   }
   async scan(topic: string, params: { afterId?: UUID; ts?: number; limit?: number }): Promise<EventRecord[]> {
     const q: any = { topic };
-    if (params.afterId) q.id = { $gt: params.afterId };
-    if (params.ts) q.ts = { $gte: params.ts };
+    if (params.afterId) q.id = { gt: params.afterId };
+    if (params.ts) q.ts = { gte: params.ts };
     const cur = this.coll.find(q).sort({ ts: 1, id: 1 }).limit(params.limit ?? 1000);
     return cur.toArray();
   }
   async latestByKey(topic: string, keys: string[]) {
     const out: Record<string, EventRecord | undefined> = {};
     const cur = this.coll.aggregate([
-      { $match: { topic, key: { $in: keys } } },
-      { $sort: { key: 1, ts: -1, id: -1 } },
-      { $group: { _id: "$key", doc: { $first: "$$ROOT" } } },
+      { match: { topic, key: { in: keys } } },
+      { sort: { key: 1, ts: -1, id: -1 } },
+      { group: { _id: "key", doc: { first: "$ROOT" } } },
     ]);
     for await (const { _id, doc } of cur) out[_id] = doc;
     return out;
@@ -856,7 +856,7 @@ export class MongoCursorStore implements CursorStore {
     this.coll = db.collection(collectionName);
     this.coll.createIndex({ _id: 1 }, { unique: true }).catch(() => {});
   }
-  key(t: string, g: string) { return `${t}::${g}`; }
+  key(t: string, g: string) { return `{t}::{g}`; }
   async get(topic: string, group: string) {
     const doc = await this.coll.findOne({ _id: this.key(topic, group) });
     if (!doc) return null;
@@ -866,7 +866,7 @@ export class MongoCursorStore implements CursorStore {
   async set(topic: string, group: string, cursor: CursorPosition) {
     await this.coll.updateOne(
       { _id: this.key(topic, group) },
-      { $set: cursor },
+      { set: cursor },
       { upsert: true }
     );
   }
@@ -902,7 +902,7 @@ export const Topics = {
 } as const;
 ```
 
-## 6) Outbox pattern $service-local durability$
+## 6) Outbox pattern service-local durability
 
 Pattern for services that must not lose messages:
 
@@ -984,7 +984,7 @@ sequenceDiagram
 import type { Config } from "jest";
 const config: Config = {
   testEnvironment: "node",
-  transform: { "^.+\\.tsx?$": ["ts-jest", { tsconfig: true }] },
+  transform: { "^.+\\.tsx?": ["ts-jest", { tsconfig: true }] },
   testMatch: ["**/?(*.)+(spec|test).ts"],
   moduleFileExtensions: ["ts","js","json"],
   verbose: true
@@ -1055,9 +1055,9 @@ test("nack leaves cursor; event is retried", async () => {
 
 If you want, next dump I can add:
 
-- **WS gateway** $pub/sub over WebSocket with auth$,
+- **WS gateway** pub/sub over WebSocket with auth,
     
-- **Backpressure & leases** $ack deadline + redelivery$,
+- **Backpressure & leases** ack deadline + redelivery,
     
 - **Compactor** job + snapshot topic,
     
@@ -1069,140 +1069,140 @@ If you want, next dump I can add:
 Say the word and I’ll shovel Part 2 onto you.
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [Promethean Event Bus MVP v0.1]$promethean-event-bus-mvp-v0-1.md$
-- $[websocket-gateway-implementation|WebSocket Gateway Implementation]$
-- $[mongo-outbox-implementation|Mongo Outbox Implementation]$
-- $[schema-evolution-workflow]$
-- $[prom-lib-rate-limiters-and-replay-api]$
-- $[voice-access-layer-design|Voice Access Layer Design]$
-- $[stateful-partitions-and-rebalancing|Stateful Partitions and Rebalancing]$
-- $[state-snapshots-api-and-transactional-projector|State Snapshots API and Transactional Projector]$
-- $[migrate-to-provider-tenant-architecture|Migrate to Provider-Tenant Architecture]$
-- [Services]$chunks/services.md$
-- $[i3-bluetooth-setup]$
-- $Local-First Intention→Code Loop with Free Models$$local-first-intention-code-loop-with-free-models.md$
-- $[docs/unique/ecs-offload-workers|ecs-offload-workers]$
-- $[event-bus-projections-architecture|Event Bus Projections Architecture]$
-- $[chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]$
-- $[docs/unique/agent-tasks-persistence-migration-to-dualstore|Agent Tasks: Persistence Migration to DualStore]$
-- $[fnord-tracer-protocol|Fnord Tracer Protocol]$
-- $[observability-infrastructure-setup]$
-- $[cross-language-runtime-polymorphism|Cross-Language Runtime Polymorphism]$
-- $[prompt-folder-bootstrap|Prompt_Folder_Bootstrap]$
+- [Promethean Event Bus MVP v0.1]promethean-event-bus-mvp-v0-1.md
+- [websocket-gateway-implementation|WebSocket Gateway Implementation]
+- [mongo-outbox-implementation|Mongo Outbox Implementation]
+- [schema-evolution-workflow]
+- [prom-lib-rate-limiters-and-replay-api]
+- [voice-access-layer-design|Voice Access Layer Design]
+- [stateful-partitions-and-rebalancing|Stateful Partitions and Rebalancing]
+- [state-snapshots-api-and-transactional-projector|State Snapshots API and Transactional Projector]
+- [migrate-to-provider-tenant-architecture|Migrate to Provider-Tenant Architecture]
+- [Services]chunks/services.md
+- [i3-bluetooth-setup]
+- Local-First Intention→Code Loop with Free Models$local-first-intention-code-loop-with-free-models.md
+- [docs/unique/ecs-offload-workers|ecs-offload-workers]
+- [event-bus-projections-architecture|Event Bus Projections Architecture]
+- [chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore|Agent Tasks: Persistence Migration to DualStore]
+- [fnord-tracer-protocol|Fnord Tracer Protocol]
+- [observability-infrastructure-setup]
+- [cross-language-runtime-polymorphism|Cross-Language Runtime Polymorphism]
+- [prompt-folder-bootstrap|Prompt_Folder_Bootstrap]
 
 ## Sources
-- [Promethean Event Bus MVP v0.1 — L28]$promethean-event-bus-mvp-v0-1.md#L28$ (line 28, col 1, score 0.93)
-- $[prom-lib-rate-limiters-and-replay-api#L282|prom-lib-rate-limiters-and-replay-api — L282]$ (line 282, col 1, score 0.86)
-- $[prom-lib-rate-limiters-and-replay-api#L260|prom-lib-rate-limiters-and-replay-api — L260]$ (line 260, col 1, score 0.86)
-- [Promethean Event Bus MVP v0.1 — L510]$promethean-event-bus-mvp-v0-1.md#L510$ (line 510, col 1, score 0.85)
-- $[websocket-gateway-implementation#L318|WebSocket Gateway Implementation — L318]$ (line 318, col 1, score 0.86)
-- $[websocket-gateway-implementation#L322|WebSocket Gateway Implementation — L322]$ (line 322, col 1, score 0.92)
-- $[mongo-outbox-implementation#L11|Mongo Outbox Implementation — L11]$ (line 11, col 1, score 0.87)
-- $[schema-evolution-workflow#L450|schema-evolution-workflow — L450]$ (line 450, col 1, score 0.87)
-- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L137|Agent Tasks: Persistence Migration to DualStore — L137]$ (line 137, col 1, score 1)
-- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L137|Agent Tasks: Persistence Migration to DualStore — L137]$ (line 137, col 3, score 1)
-- $[chroma-toolkit-consolidation-plan#L175|Chroma Toolkit Consolidation Plan — L175]$ (line 175, col 1, score 1)
-- $[chroma-toolkit-consolidation-plan#L175|Chroma Toolkit Consolidation Plan — L175]$ (line 175, col 3, score 1)
-- $[event-bus-projections-architecture#L150|Event Bus Projections Architecture — L150]$ (line 150, col 1, score 1)
-- $[event-bus-projections-architecture#L150|Event Bus Projections Architecture — L150]$ (line 150, col 3, score 1)
-- $[fnord-tracer-protocol#L244|Fnord Tracer Protocol — L244]$ (line 244, col 1, score 1)
-- $[fnord-tracer-protocol#L244|Fnord Tracer Protocol — L244]$ (line 244, col 3, score 1)
-- $[docs/unique/ecs-offload-workers#L465|ecs-offload-workers — L465]$ (line 465, col 1, score 1)
-- $[docs/unique/ecs-offload-workers#L465|ecs-offload-workers — L465]$ (line 465, col 3, score 1)
-- $[mongo-outbox-implementation#L551|Mongo Outbox Implementation — L551]$ (line 551, col 1, score 1)
-- $[mongo-outbox-implementation#L551|Mongo Outbox Implementation — L551]$ (line 551, col 3, score 1)
-- [Promethean Event Bus MVP v0.1 — L883]$promethean-event-bus-mvp-v0-1.md#L883$ (line 883, col 1, score 1)
-- [Promethean Event Bus MVP v0.1 — L883]$promethean-event-bus-mvp-v0-1.md#L883$ (line 883, col 3, score 1)
-- $[schema-evolution-workflow#L490|schema-evolution-workflow — L490]$ (line 490, col 1, score 1)
-- $[schema-evolution-workflow#L490|schema-evolution-workflow — L490]$ (line 490, col 3, score 1)
-- [Services — L13]$chunks/services.md#L13$ (line 13, col 1, score 1)
-- [Services — L13]$chunks/services.md#L13$ (line 13, col 3, score 1)
-- $[docs/unique/ecs-offload-workers#L467|ecs-offload-workers — L467]$ (line 467, col 1, score 1)
-- $[docs/unique/ecs-offload-workers#L467|ecs-offload-workers — L467]$ (line 467, col 3, score 1)
-- $[observability-infrastructure-setup#L364|observability-infrastructure-setup — L364]$ (line 364, col 1, score 1)
-- $[observability-infrastructure-setup#L364|observability-infrastructure-setup — L364]$ (line 364, col 3, score 1)
-- $[prom-lib-rate-limiters-and-replay-api#L387|prom-lib-rate-limiters-and-replay-api — L387]$ (line 387, col 1, score 1)
-- $[prom-lib-rate-limiters-and-replay-api#L387|prom-lib-rate-limiters-and-replay-api — L387]$ (line 387, col 3, score 1)
-- [Services — L12]$chunks/services.md#L12$ (line 12, col 1, score 1)
-- [Services — L12]$chunks/services.md#L12$ (line 12, col 3, score 1)
-- $[cross-language-runtime-polymorphism#L211|Cross-Language Runtime Polymorphism — L211]$ (line 211, col 1, score 1)
-- $[cross-language-runtime-polymorphism#L211|Cross-Language Runtime Polymorphism — L211]$ (line 211, col 3, score 1)
-- $[mongo-outbox-implementation#L554|Mongo Outbox Implementation — L554]$ (line 554, col 1, score 1)
-- $[mongo-outbox-implementation#L554|Mongo Outbox Implementation — L554]$ (line 554, col 3, score 1)
-- $[prom-lib-rate-limiters-and-replay-api#L384|prom-lib-rate-limiters-and-replay-api — L384]$ (line 384, col 1, score 1)
-- $[prom-lib-rate-limiters-and-replay-api#L384|prom-lib-rate-limiters-and-replay-api — L384]$ (line 384, col 3, score 1)
-- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L136|Agent Tasks: Persistence Migration to DualStore — L136]$ (line 136, col 1, score 1)
-- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L136|Agent Tasks: Persistence Migration to DualStore — L136]$ (line 136, col 3, score 1)
-- $[chroma-toolkit-consolidation-plan#L166|Chroma Toolkit Consolidation Plan — L166]$ (line 166, col 1, score 1)
-- $[chroma-toolkit-consolidation-plan#L166|Chroma Toolkit Consolidation Plan — L166]$ (line 166, col 3, score 1)
-- $[migrate-to-provider-tenant-architecture#L284|Migrate to Provider-Tenant Architecture — L284]$ (line 284, col 1, score 1)
-- $[migrate-to-provider-tenant-architecture#L284|Migrate to Provider-Tenant Architecture — L284]$ (line 284, col 3, score 1)
-- $[mongo-outbox-implementation#L555|Mongo Outbox Implementation — L555]$ (line 555, col 1, score 1)
-- $[mongo-outbox-implementation#L555|Mongo Outbox Implementation — L555]$ (line 555, col 3, score 1)
-- $[i3-bluetooth-setup#L104|i3-bluetooth-setup — L104]$ (line 104, col 1, score 1)
-- $[i3-bluetooth-setup#L104|i3-bluetooth-setup — L104]$ (line 104, col 3, score 1)
-- $Local-First Intention→Code Loop with Free Models — L144$$local-first-intention-code-loop-with-free-models.md#L144$ (line 144, col 1, score 1)
-- $Local-First Intention→Code Loop with Free Models — L144$$local-first-intention-code-loop-with-free-models.md#L144$ (line 144, col 3, score 1)
-- $[migrate-to-provider-tenant-architecture#L273|Migrate to Provider-Tenant Architecture — L273]$ (line 273, col 1, score 1)
-- $[migrate-to-provider-tenant-architecture#L273|Migrate to Provider-Tenant Architecture — L273]$ (line 273, col 3, score 1)
-- [Promethean Event Bus MVP v0.1 — L893]$promethean-event-bus-mvp-v0-1.md#L893$ (line 893, col 1, score 1)
-- [Promethean Event Bus MVP v0.1 — L893]$promethean-event-bus-mvp-v0-1.md#L893$ (line 893, col 3, score 1)
-- [Services — L14]$chunks/services.md#L14$ (line 14, col 1, score 1)
-- [Services — L14]$chunks/services.md#L14$ (line 14, col 3, score 1)
-- $[mongo-outbox-implementation#L559|Mongo Outbox Implementation — L559]$ (line 559, col 1, score 1)
-- $[mongo-outbox-implementation#L559|Mongo Outbox Implementation — L559]$ (line 559, col 3, score 1)
-- $[prom-lib-rate-limiters-and-replay-api#L388|prom-lib-rate-limiters-and-replay-api — L388]$ (line 388, col 1, score 1)
-- $[prom-lib-rate-limiters-and-replay-api#L388|prom-lib-rate-limiters-and-replay-api — L388]$ (line 388, col 3, score 1)
-- [Promethean Event Bus MVP v0.1 — L892]$promethean-event-bus-mvp-v0-1.md#L892$ (line 892, col 1, score 1)
-- [Promethean Event Bus MVP v0.1 — L892]$promethean-event-bus-mvp-v0-1.md#L892$ (line 892, col 3, score 1)
-- [Services — L11]$chunks/services.md#L11$ (line 11, col 1, score 1)
-- [Services — L11]$chunks/services.md#L11$ (line 11, col 3, score 1)
-- $[mongo-outbox-implementation#L553|Mongo Outbox Implementation — L553]$ (line 553, col 1, score 1)
-- $[mongo-outbox-implementation#L553|Mongo Outbox Implementation — L553]$ (line 553, col 3, score 1)
-- $[prom-lib-rate-limiters-and-replay-api#L382|prom-lib-rate-limiters-and-replay-api — L382]$ (line 382, col 1, score 1)
-- $[prom-lib-rate-limiters-and-replay-api#L382|prom-lib-rate-limiters-and-replay-api — L382]$ (line 382, col 3, score 1)
-- [Promethean Event Bus MVP v0.1 — L891]$promethean-event-bus-mvp-v0-1.md#L891$ (line 891, col 1, score 1)
-- [Promethean Event Bus MVP v0.1 — L891]$promethean-event-bus-mvp-v0-1.md#L891$ (line 891, col 3, score 1)
-- $[websocket-gateway-implementation#L642|WebSocket Gateway Implementation — L642]$ (line 642, col 1, score 0.98)
-- $[websocket-gateway-implementation#L642|WebSocket Gateway Implementation — L642]$ (line 642, col 3, score 0.98)
-- $[prompt-folder-bootstrap#L198|Prompt_Folder_Bootstrap — L198]$ (line 198, col 1, score 0.98)
-- $[prompt-folder-bootstrap#L198|Prompt_Folder_Bootstrap — L198]$ (line 198, col 3, score 0.98)
-- $[prompt-folder-bootstrap#L197|Prompt_Folder_Bootstrap — L197]$ (line 197, col 1, score 0.98)
-- $[prompt-folder-bootstrap#L197|Prompt_Folder_Bootstrap — L197]$ (line 197, col 3, score 0.98)
-- $[prom-lib-rate-limiters-and-replay-api#L393|prom-lib-rate-limiters-and-replay-api — L393]$ (line 393, col 1, score 0.98)
-- $[prom-lib-rate-limiters-and-replay-api#L393|prom-lib-rate-limiters-and-replay-api — L393]$ (line 393, col 3, score 0.98)
-- [Promethean Event Bus MVP v0.1 — L904]$promethean-event-bus-mvp-v0-1.md#L904$ (line 904, col 1, score 0.99)
-- [Promethean Event Bus MVP v0.1 — L904]$promethean-event-bus-mvp-v0-1.md#L904$ (line 904, col 3, score 0.99)
-- $[state-snapshots-api-and-transactional-projector#L349|State Snapshots API and Transactional Projector — L349]$ (line 349, col 1, score 0.99)
-- $[state-snapshots-api-and-transactional-projector#L349|State Snapshots API and Transactional Projector — L349]$ (line 349, col 3, score 0.99)
-- [Promethean Event Bus MVP v0.1 — L906]$promethean-event-bus-mvp-v0-1.md#L906$ (line 906, col 1, score 0.98)
-- [Promethean Event Bus MVP v0.1 — L906]$promethean-event-bus-mvp-v0-1.md#L906$ (line 906, col 3, score 0.98)
-- $[chroma-toolkit-consolidation-plan#L193|Chroma Toolkit Consolidation Plan — L193]$ (line 193, col 1, score 0.98)
-- $[chroma-toolkit-consolidation-plan#L193|Chroma Toolkit Consolidation Plan — L193]$ (line 193, col 3, score 0.98)
-- $[migrate-to-provider-tenant-architecture#L301|Migrate to Provider-Tenant Architecture — L301]$ (line 301, col 1, score 0.98)
-- $[migrate-to-provider-tenant-architecture#L301|Migrate to Provider-Tenant Architecture — L301]$ (line 301, col 3, score 0.98)
-- $[websocket-gateway-implementation#L643|WebSocket Gateway Implementation — L643]$ (line 643, col 1, score 0.98)
-- $[websocket-gateway-implementation#L643|WebSocket Gateway Implementation — L643]$ (line 643, col 3, score 0.98)
-- $[state-snapshots-api-and-transactional-projector#L352|State Snapshots API and Transactional Projector — L352]$ (line 352, col 1, score 1)
-- $[state-snapshots-api-and-transactional-projector#L352|State Snapshots API and Transactional Projector — L352]$ (line 352, col 3, score 1)
-- $[mongo-outbox-implementation#L566|Mongo Outbox Implementation — L566]$ (line 566, col 1, score 0.99)
-- $[mongo-outbox-implementation#L566|Mongo Outbox Implementation — L566]$ (line 566, col 3, score 0.99)
-- [Promethean Event Bus MVP v0.1 — L914]$promethean-event-bus-mvp-v0-1.md#L914$ (line 914, col 1, score 0.99)
-- [Promethean Event Bus MVP v0.1 — L914]$promethean-event-bus-mvp-v0-1.md#L914$ (line 914, col 3, score 0.99)
-- [Promethean Event Bus MVP v0.1 — L912]$promethean-event-bus-mvp-v0-1.md#L912$ (line 912, col 1, score 0.99)
-- [Promethean Event Bus MVP v0.1 — L912]$promethean-event-bus-mvp-v0-1.md#L912$ (line 912, col 3, score 0.99)
-- $[mongo-outbox-implementation#L565|Mongo Outbox Implementation — L565]$ (line 565, col 1, score 0.99)
-- $[mongo-outbox-implementation#L565|Mongo Outbox Implementation — L565]$ (line 565, col 3, score 0.99)
-- $[websocket-gateway-implementation#L648|WebSocket Gateway Implementation — L648]$ (line 648, col 1, score 0.99)
-- $[websocket-gateway-implementation#L648|WebSocket Gateway Implementation — L648]$ (line 648, col 3, score 0.99)
-- $[websocket-gateway-implementation#L644|WebSocket Gateway Implementation — L644]$ (line 644, col 1, score 0.98)
-- $[websocket-gateway-implementation#L644|WebSocket Gateway Implementation — L644]$ (line 644, col 3, score 0.98)
-- $[stateful-partitions-and-rebalancing#L544|Stateful Partitions and Rebalancing — L544]$ (line 544, col 1, score 0.99)
-- $[stateful-partitions-and-rebalancing#L544|Stateful Partitions and Rebalancing — L544]$ (line 544, col 3, score 0.99)
-- $[state-snapshots-api-and-transactional-projector#L351|State Snapshots API and Transactional Projector — L351]$ (line 351, col 1, score 0.99)
-- $[state-snapshots-api-and-transactional-projector#L351|State Snapshots API and Transactional Projector — L351]$ (line 351, col 3, score 0.99)
-- $[state-snapshots-api-and-transactional-projector#L350|State Snapshots API and Transactional Projector — L350]$ (line 350, col 1, score 0.99)
-- $[state-snapshots-api-and-transactional-projector#L350|State Snapshots API and Transactional Projector — L350]$ (line 350, col 3, score 0.99)
-- $[stateful-partitions-and-rebalancing#L543|Stateful Partitions and Rebalancing — L543]$ (line 543, col 1, score 0.99)
-- $[stateful-partitions-and-rebalancing#L543|Stateful Partitions and Rebalancing — L543]$ (line 543, col 3, score 0.99)
+- [Promethean Event Bus MVP v0.1 — L28]promethean-event-bus-mvp-v0-1.md#L28 (line 28, col 1, score 0.93)
+- [prom-lib-rate-limiters-and-replay-api#L282|prom-lib-rate-limiters-and-replay-api — L282] (line 282, col 1, score 0.86)
+- [prom-lib-rate-limiters-and-replay-api#L260|prom-lib-rate-limiters-and-replay-api — L260] (line 260, col 1, score 0.86)
+- [Promethean Event Bus MVP v0.1 — L510]promethean-event-bus-mvp-v0-1.md#L510 (line 510, col 1, score 0.85)
+- [websocket-gateway-implementation#L318|WebSocket Gateway Implementation — L318] (line 318, col 1, score 0.86)
+- [websocket-gateway-implementation#L322|WebSocket Gateway Implementation — L322] (line 322, col 1, score 0.92)
+- [mongo-outbox-implementation#L11|Mongo Outbox Implementation — L11] (line 11, col 1, score 0.87)
+- [schema-evolution-workflow#L450|schema-evolution-workflow — L450] (line 450, col 1, score 0.87)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L137|Agent Tasks: Persistence Migration to DualStore — L137] (line 137, col 1, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L137|Agent Tasks: Persistence Migration to DualStore — L137] (line 137, col 3, score 1)
+- [chroma-toolkit-consolidation-plan#L175|Chroma Toolkit Consolidation Plan — L175] (line 175, col 1, score 1)
+- [chroma-toolkit-consolidation-plan#L175|Chroma Toolkit Consolidation Plan — L175] (line 175, col 3, score 1)
+- [event-bus-projections-architecture#L150|Event Bus Projections Architecture — L150] (line 150, col 1, score 1)
+- [event-bus-projections-architecture#L150|Event Bus Projections Architecture — L150] (line 150, col 3, score 1)
+- [fnord-tracer-protocol#L244|Fnord Tracer Protocol — L244] (line 244, col 1, score 1)
+- [fnord-tracer-protocol#L244|Fnord Tracer Protocol — L244] (line 244, col 3, score 1)
+- [docs/unique/ecs-offload-workers#L465|ecs-offload-workers — L465] (line 465, col 1, score 1)
+- [docs/unique/ecs-offload-workers#L465|ecs-offload-workers — L465] (line 465, col 3, score 1)
+- [mongo-outbox-implementation#L551|Mongo Outbox Implementation — L551] (line 551, col 1, score 1)
+- [mongo-outbox-implementation#L551|Mongo Outbox Implementation — L551] (line 551, col 3, score 1)
+- [Promethean Event Bus MVP v0.1 — L883]promethean-event-bus-mvp-v0-1.md#L883 (line 883, col 1, score 1)
+- [Promethean Event Bus MVP v0.1 — L883]promethean-event-bus-mvp-v0-1.md#L883 (line 883, col 3, score 1)
+- [schema-evolution-workflow#L490|schema-evolution-workflow — L490] (line 490, col 1, score 1)
+- [schema-evolution-workflow#L490|schema-evolution-workflow — L490] (line 490, col 3, score 1)
+- [Services — L13]chunks/services.md#L13 (line 13, col 1, score 1)
+- [Services — L13]chunks/services.md#L13 (line 13, col 3, score 1)
+- [docs/unique/ecs-offload-workers#L467|ecs-offload-workers — L467] (line 467, col 1, score 1)
+- [docs/unique/ecs-offload-workers#L467|ecs-offload-workers — L467] (line 467, col 3, score 1)
+- [observability-infrastructure-setup#L364|observability-infrastructure-setup — L364] (line 364, col 1, score 1)
+- [observability-infrastructure-setup#L364|observability-infrastructure-setup — L364] (line 364, col 3, score 1)
+- [prom-lib-rate-limiters-and-replay-api#L387|prom-lib-rate-limiters-and-replay-api — L387] (line 387, col 1, score 1)
+- [prom-lib-rate-limiters-and-replay-api#L387|prom-lib-rate-limiters-and-replay-api — L387] (line 387, col 3, score 1)
+- [Services — L12]chunks/services.md#L12 (line 12, col 1, score 1)
+- [Services — L12]chunks/services.md#L12 (line 12, col 3, score 1)
+- [cross-language-runtime-polymorphism#L211|Cross-Language Runtime Polymorphism — L211] (line 211, col 1, score 1)
+- [cross-language-runtime-polymorphism#L211|Cross-Language Runtime Polymorphism — L211] (line 211, col 3, score 1)
+- [mongo-outbox-implementation#L554|Mongo Outbox Implementation — L554] (line 554, col 1, score 1)
+- [mongo-outbox-implementation#L554|Mongo Outbox Implementation — L554] (line 554, col 3, score 1)
+- [prom-lib-rate-limiters-and-replay-api#L384|prom-lib-rate-limiters-and-replay-api — L384] (line 384, col 1, score 1)
+- [prom-lib-rate-limiters-and-replay-api#L384|prom-lib-rate-limiters-and-replay-api — L384] (line 384, col 3, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L136|Agent Tasks: Persistence Migration to DualStore — L136] (line 136, col 1, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L136|Agent Tasks: Persistence Migration to DualStore — L136] (line 136, col 3, score 1)
+- [chroma-toolkit-consolidation-plan#L166|Chroma Toolkit Consolidation Plan — L166] (line 166, col 1, score 1)
+- [chroma-toolkit-consolidation-plan#L166|Chroma Toolkit Consolidation Plan — L166] (line 166, col 3, score 1)
+- [migrate-to-provider-tenant-architecture#L284|Migrate to Provider-Tenant Architecture — L284] (line 284, col 1, score 1)
+- [migrate-to-provider-tenant-architecture#L284|Migrate to Provider-Tenant Architecture — L284] (line 284, col 3, score 1)
+- [mongo-outbox-implementation#L555|Mongo Outbox Implementation — L555] (line 555, col 1, score 1)
+- [mongo-outbox-implementation#L555|Mongo Outbox Implementation — L555] (line 555, col 3, score 1)
+- [i3-bluetooth-setup#L104|i3-bluetooth-setup — L104] (line 104, col 1, score 1)
+- [i3-bluetooth-setup#L104|i3-bluetooth-setup — L104] (line 104, col 3, score 1)
+- Local-First Intention→Code Loop with Free Models — L144$local-first-intention-code-loop-with-free-models.md#L144 (line 144, col 1, score 1)
+- Local-First Intention→Code Loop with Free Models — L144$local-first-intention-code-loop-with-free-models.md#L144 (line 144, col 3, score 1)
+- [migrate-to-provider-tenant-architecture#L273|Migrate to Provider-Tenant Architecture — L273] (line 273, col 1, score 1)
+- [migrate-to-provider-tenant-architecture#L273|Migrate to Provider-Tenant Architecture — L273] (line 273, col 3, score 1)
+- [Promethean Event Bus MVP v0.1 — L893]promethean-event-bus-mvp-v0-1.md#L893 (line 893, col 1, score 1)
+- [Promethean Event Bus MVP v0.1 — L893]promethean-event-bus-mvp-v0-1.md#L893 (line 893, col 3, score 1)
+- [Services — L14]chunks/services.md#L14 (line 14, col 1, score 1)
+- [Services — L14]chunks/services.md#L14 (line 14, col 3, score 1)
+- [mongo-outbox-implementation#L559|Mongo Outbox Implementation — L559] (line 559, col 1, score 1)
+- [mongo-outbox-implementation#L559|Mongo Outbox Implementation — L559] (line 559, col 3, score 1)
+- [prom-lib-rate-limiters-and-replay-api#L388|prom-lib-rate-limiters-and-replay-api — L388] (line 388, col 1, score 1)
+- [prom-lib-rate-limiters-and-replay-api#L388|prom-lib-rate-limiters-and-replay-api — L388] (line 388, col 3, score 1)
+- [Promethean Event Bus MVP v0.1 — L892]promethean-event-bus-mvp-v0-1.md#L892 (line 892, col 1, score 1)
+- [Promethean Event Bus MVP v0.1 — L892]promethean-event-bus-mvp-v0-1.md#L892 (line 892, col 3, score 1)
+- [Services — L11]chunks/services.md#L11 (line 11, col 1, score 1)
+- [Services — L11]chunks/services.md#L11 (line 11, col 3, score 1)
+- [mongo-outbox-implementation#L553|Mongo Outbox Implementation — L553] (line 553, col 1, score 1)
+- [mongo-outbox-implementation#L553|Mongo Outbox Implementation — L553] (line 553, col 3, score 1)
+- [prom-lib-rate-limiters-and-replay-api#L382|prom-lib-rate-limiters-and-replay-api — L382] (line 382, col 1, score 1)
+- [prom-lib-rate-limiters-and-replay-api#L382|prom-lib-rate-limiters-and-replay-api — L382] (line 382, col 3, score 1)
+- [Promethean Event Bus MVP v0.1 — L891]promethean-event-bus-mvp-v0-1.md#L891 (line 891, col 1, score 1)
+- [Promethean Event Bus MVP v0.1 — L891]promethean-event-bus-mvp-v0-1.md#L891 (line 891, col 3, score 1)
+- [websocket-gateway-implementation#L642|WebSocket Gateway Implementation — L642] (line 642, col 1, score 0.98)
+- [websocket-gateway-implementation#L642|WebSocket Gateway Implementation — L642] (line 642, col 3, score 0.98)
+- [prompt-folder-bootstrap#L198|Prompt_Folder_Bootstrap — L198] (line 198, col 1, score 0.98)
+- [prompt-folder-bootstrap#L198|Prompt_Folder_Bootstrap — L198] (line 198, col 3, score 0.98)
+- [prompt-folder-bootstrap#L197|Prompt_Folder_Bootstrap — L197] (line 197, col 1, score 0.98)
+- [prompt-folder-bootstrap#L197|Prompt_Folder_Bootstrap — L197] (line 197, col 3, score 0.98)
+- [prom-lib-rate-limiters-and-replay-api#L393|prom-lib-rate-limiters-and-replay-api — L393] (line 393, col 1, score 0.98)
+- [prom-lib-rate-limiters-and-replay-api#L393|prom-lib-rate-limiters-and-replay-api — L393] (line 393, col 3, score 0.98)
+- [Promethean Event Bus MVP v0.1 — L904]promethean-event-bus-mvp-v0-1.md#L904 (line 904, col 1, score 0.99)
+- [Promethean Event Bus MVP v0.1 — L904]promethean-event-bus-mvp-v0-1.md#L904 (line 904, col 3, score 0.99)
+- [state-snapshots-api-and-transactional-projector#L349|State Snapshots API and Transactional Projector — L349] (line 349, col 1, score 0.99)
+- [state-snapshots-api-and-transactional-projector#L349|State Snapshots API and Transactional Projector — L349] (line 349, col 3, score 0.99)
+- [Promethean Event Bus MVP v0.1 — L906]promethean-event-bus-mvp-v0-1.md#L906 (line 906, col 1, score 0.98)
+- [Promethean Event Bus MVP v0.1 — L906]promethean-event-bus-mvp-v0-1.md#L906 (line 906, col 3, score 0.98)
+- [chroma-toolkit-consolidation-plan#L193|Chroma Toolkit Consolidation Plan — L193] (line 193, col 1, score 0.98)
+- [chroma-toolkit-consolidation-plan#L193|Chroma Toolkit Consolidation Plan — L193] (line 193, col 3, score 0.98)
+- [migrate-to-provider-tenant-architecture#L301|Migrate to Provider-Tenant Architecture — L301] (line 301, col 1, score 0.98)
+- [migrate-to-provider-tenant-architecture#L301|Migrate to Provider-Tenant Architecture — L301] (line 301, col 3, score 0.98)
+- [websocket-gateway-implementation#L643|WebSocket Gateway Implementation — L643] (line 643, col 1, score 0.98)
+- [websocket-gateway-implementation#L643|WebSocket Gateway Implementation — L643] (line 643, col 3, score 0.98)
+- [state-snapshots-api-and-transactional-projector#L352|State Snapshots API and Transactional Projector — L352] (line 352, col 1, score 1)
+- [state-snapshots-api-and-transactional-projector#L352|State Snapshots API and Transactional Projector — L352] (line 352, col 3, score 1)
+- [mongo-outbox-implementation#L566|Mongo Outbox Implementation — L566] (line 566, col 1, score 0.99)
+- [mongo-outbox-implementation#L566|Mongo Outbox Implementation — L566] (line 566, col 3, score 0.99)
+- [Promethean Event Bus MVP v0.1 — L914]promethean-event-bus-mvp-v0-1.md#L914 (line 914, col 1, score 0.99)
+- [Promethean Event Bus MVP v0.1 — L914]promethean-event-bus-mvp-v0-1.md#L914 (line 914, col 3, score 0.99)
+- [Promethean Event Bus MVP v0.1 — L912]promethean-event-bus-mvp-v0-1.md#L912 (line 912, col 1, score 0.99)
+- [Promethean Event Bus MVP v0.1 — L912]promethean-event-bus-mvp-v0-1.md#L912 (line 912, col 3, score 0.99)
+- [mongo-outbox-implementation#L565|Mongo Outbox Implementation — L565] (line 565, col 1, score 0.99)
+- [mongo-outbox-implementation#L565|Mongo Outbox Implementation — L565] (line 565, col 3, score 0.99)
+- [websocket-gateway-implementation#L648|WebSocket Gateway Implementation — L648] (line 648, col 1, score 0.99)
+- [websocket-gateway-implementation#L648|WebSocket Gateway Implementation — L648] (line 648, col 3, score 0.99)
+- [websocket-gateway-implementation#L644|WebSocket Gateway Implementation — L644] (line 644, col 1, score 0.98)
+- [websocket-gateway-implementation#L644|WebSocket Gateway Implementation — L644] (line 644, col 3, score 0.98)
+- [stateful-partitions-and-rebalancing#L544|Stateful Partitions and Rebalancing — L544] (line 544, col 1, score 0.99)
+- [stateful-partitions-and-rebalancing#L544|Stateful Partitions and Rebalancing — L544] (line 544, col 3, score 0.99)
+- [state-snapshots-api-and-transactional-projector#L351|State Snapshots API and Transactional Projector — L351] (line 351, col 1, score 0.99)
+- [state-snapshots-api-and-transactional-projector#L351|State Snapshots API and Transactional Projector — L351] (line 351, col 3, score 0.99)
+- [state-snapshots-api-and-transactional-projector#L350|State Snapshots API and Transactional Projector — L350] (line 350, col 1, score 0.99)
+- [state-snapshots-api-and-transactional-projector#L350|State Snapshots API and Transactional Projector — L350] (line 350, col 3, score 0.99)
+- [stateful-partitions-and-rebalancing#L543|Stateful Partitions and Rebalancing — L543] (line 543, col 1, score 0.99)
+- [stateful-partitions-and-rebalancing#L543|Stateful Partitions and Rebalancing — L543] (line 543, col 3, score 0.99)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

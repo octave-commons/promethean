@@ -1,9 +1,9 @@
 # agent.ts
 
 **Path**: `services/cephalon/src/agent.ts`
-$$
+```
 **Description**: @file agent.ts
-$$
+```
 ## Dependencies
 - ./bot
 - ./collectionManager
@@ -16,7 +16,7 @@ $$
 - fs/promises
 - ollama
 - sbd
-- vision service $`/capture`$
+- vision service `/capture`
 
 ## Dependents
 - None

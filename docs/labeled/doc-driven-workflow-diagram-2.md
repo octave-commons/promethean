@@ -1,15 +1,15 @@
 ---
-$$
+```
 uuid: 986d10de-c837-4bd4-bd8c-8d4efefe9992
-$$
-$$
+```
+```
 created_at: '2025-09-21T12:49:02Z'
-$$
+```
 title: 2025.09.21.12.49.02
 filename: doc-driven-workflow-diagram
-$$
+```
 description: >-
-$$
+```
   A Mermaid flowchart illustrating a doc-driven workflow with labeled stages for
   design, spec, and tasks. Shows transitions between draft, review, accepted,
   rejected, and final states. Includes paths for learning from rejections to
@@ -25,12 +25,12 @@ tags:
   - learning
   - process
   - improvement
-$$
+```
 related_to_uuid: []
-$$
-$$
+```
+```
 related_to_title: []
-$$
+```
 references: []
 ---
 

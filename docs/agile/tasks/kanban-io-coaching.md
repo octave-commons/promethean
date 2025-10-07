@@ -1,17 +1,17 @@
 ---
-$$
+```
 uuid: 95513ada-e67b-43f4-8ffa-26ec0e1cb367
-$$
-$$
+```
+```
 created_at: '2025-10-06T15:01:14Z'
-$$
+```
 title: 2025.10.06.15.01.14
-$$
+```
 filename: kanban-io-coaching
-$$
-$$
+```
+```
 description: >-
-$$
+```
   Minimal IO utilities for Kanban task management with coaching feedback and
   session storage. Handles JSONL task reading, writing, and session state
   persistence using a cache directory.
@@ -23,12 +23,12 @@ tags:
   - session
   - persistence
   - task
-$$
+```
 related_to_uuid: []
-$$
-$$
+```
+```
 related_to_title: []
-$$
+```
 references: []
 status: todo
 priority: P3
@@ -59,7 +59,7 @@ export function coach(line:string, argv:any){
 }
 
 const CACHE = ".kanban-cache";
-function sessionFile(session:string){ return path.join(CACHE, "pairwise", `${session}.jsonl`); }
+function sessionFile(session:string){ return path.join(CACHE, "pairwise", `{session}.jsonl`); }
 export async function ensureSession(session:string){
   await fs.mkdir(path.dirname(sessionFile(session)), { recursive:true });
 }

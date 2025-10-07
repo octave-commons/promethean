@@ -19,13 +19,13 @@ This will be a real script — one you can drop in and extend.
 * * *
 
 🧠 Design Goals
-$$
+```
 ===============
-$$
+```
 | Feature | i3 Equivalent | AutoHotkey Approach |
-$$
+```
 | --- | --- | --- |
-$$
+```
 | Mod key | Mod4 | Windows key (#) or CapsLock remapped |
 | Launch terminal | Mod+Enter | Run, wt.exe |
 | Focus window directions | Mod+h/j/k/l | Move focus manually or via Komorebi command |
@@ -38,9 +38,9 @@ $$
 * * *
 
 📜 `i3layer.ahk` (starter)
-$$
+```
 ==========================
-$$
+```
 ```ahk
 ;--------------------------------------------
 ; CONFIG
@@ -178,7 +178,7 @@ GoToWorkspace(n) {
     
 *   Add directional layout toggles
     
-*   Add group saving/recall with `$Win + Ctrl + Shift + Key$`
+*   Add group saving/recall with `Win + Ctrl + Shift + Key`
     
 
 * * *

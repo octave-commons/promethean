@@ -1,14 +1,14 @@
 ---
-$$
+```
 uuid: 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
-$$
-$$
+```
+```
 created_at: 2025.08.08.19.08.49.md
-$$
+```
 filename: Mongo Outbox Implementation
-$$
+```
 description: >-
-$$
+```
   Transactional MongoDB outbox with JWT auth, ACL, and ops dashboard. Includes
   typed client SDK and drainer for reliable message processing.
 tags:
@@ -19,9 +19,9 @@ tags:
   - ops
   - dashboard
   - SDK
-$$
+```
 related_to_title:
-$$
+```
   - WebSocket Gateway Implementation
   - Event Bus MVP
   - State Snapshots API and Transactional Projector
@@ -48,9 +48,9 @@ $$
   - Promethean Infrastructure Setup
   - api-gateway-versioning
   - Prometheus Observability Stack
-$$
+```
 related_to_uuid:
-$$
+```
   - e811123d-5841-4e52-bf8c-978f26db4230
   - 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
   - 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
@@ -513,7 +513,7 @@ Alright, Part 3 coming in hot: **Mongo outbox (transactional), JWT auth + ACL, O
 
 ---
 
-# 1) Mongo Outbox $transaction-safe$
+# 1) Mongo Outbox transaction-safe
 
 ### 1a) Interface + drainer (we’ll reuse the earlier drainer)
 
@@ -554,7 +554,7 @@ export async function runOutboxDrainer<T>(
   {
     batchSize = 100,
     leaseMs = 30_000,
-    workerId = `drainer-${Math.random().toString(16).slice(2)}`,
+    workerId = `drainer-{Math.random().toString(16).slice(2)}`,
     intervalMs = 250
   } = {}
 ) {
@@ -616,8 +616,8 @@ export class MongoOutbox<T=any> implements OutboxStore<T> {
           status: "pending"
         },
         {
-          $set: { status: "claimed", claimed_by: workerId, lease_until: now + leaseMs },
-          $inc: { attempts: 1 }
+          set: { status: "claimed", claimed_by: workerId, lease_until: now + leaseMs },
+          inc: { attempts: 1 }
         },
         {
           sort: { ts: 1 },
@@ -630,18 +630,18 @@ export class MongoOutbox<T=any> implements OutboxStore<T> {
     return docs;
   }
   async markSent(id: string) {
-    await this.coll.updateOne({ _id: id }, { $set: { status: "sent" }, $unset: { claimed_by: "", lease_until: "" } });
+    await this.coll.updateOne({ _id: id }, { set: { status: "sent" }, unset: { claimed_by: "", lease_until: "" } });
   }
   async markError(id: string, err: string) {
     await this.coll.updateOne(
       { _id: id },
-      { $set: { status: "error", last_err: err }, $unset: { claimed_by: "", lease_until: "" } }
+      { set: { status: "error", last_err: err }, unset: { claimed_by: "", lease_until: "" } }
     );
   }
   async requeueExpired(now = Date.now()) {
     const res = await this.coll.updateMany(
-      { status: "claimed", lease_until: { $lt: now } },
-      { $set: { status: "pending" }, $unset: { claimed_by: "", lease_until: "" } }
+      { status: "claimed", lease_until: { lt: now } },
+      { set: { status: "pending" }, unset: { claimed_by: "", lease_until: "" } }
     );
     return res.modifiedCount ?? 0;
   }
@@ -654,7 +654,7 @@ export class MongoOutbox<T=any> implements OutboxStore<T> {
 
 # 2) JWT Auth + Scope-based ACL
 
-Supports **publish/subscribe** actions with **topic patterns** $wildcards `*` one segment, `**` multi$. You can keep policies as simple JSON.
+Supports **publish/subscribe** actions with **topic patterns** wildcards `*` one segment, `**` multi. You can keep policies as simple JSON.
 
 ### 2a) Minimal glob matcher (no external deps)
 
@@ -810,9 +810,9 @@ if (!policy || !isAllowed(policy, "subscribe", msg.topic, msg.group))
 ```
 
 > If you don’t want JWT yet, you can keep the old static token path and synthesize a wide-open policy for that token.
-$$
+```
 **Mermaid (decision):**
-$$
+```
 ```mermaid
 flowchart LR
   AUTH[AUTH token] --> VERIFY{verifyJWT?}
@@ -846,7 +846,7 @@ export function startOpsDashboard(db: Db, { port = 8082 } = {}) {
     const topic = String(req.query.topic || "");
     if (!topic) return res.status(400).json({ error: "topic required" });
     const list = await db.collection("cursors").find({}).toArray();
-    const filtered = list.filter(x => x._id?.startsWith(`${topic}::`))
+    const filtered = list.filter(x => x._id?.startsWith(`{topic}::`))
       .map(x => ({ group: x._id.split("::")[1], lastId: x.lastId, lastTs: x.lastTs }));
     res.json({ topic, cursors: filtered });
   });
@@ -874,7 +874,7 @@ export function startOpsDashboard(db: Db, { port = 8082 } = {}) {
 
   return app.listen(port, () => {
     // eslint-disable-next-line no-console
-    console.log(`[ops] dashboard on :${port}`);
+    console.log(`[ops] dashboard on :{port}`);
   });
 }
 ```
@@ -883,7 +883,7 @@ export function startOpsDashboard(db: Db, { port = 8082 } = {}) {
 
 ---
 
-# 4) Typed Client SDK $Node + Browser$
+# 4) Typed Client SDK Node + Browser
 
 A small wrapper that gives you generics for payloads, and works in both Node and the browser.
 
@@ -913,9 +913,9 @@ export class PromClient {
       ws.onmessage = (ev: any) => {
         const msg = JSON.parse(ev.data?.toString?.() ?? ev.data);
         if (msg.op === "OK") return resolve();
-        if (msg.op === "ERR") return reject(new Error(`${msg.code}: ${msg.msg}`));
+        if (msg.op === "ERR") return reject(new Error(`{msg.code}: {msg.msg}`));
         if (msg.op === "EVENT") {
-          const key = `${msg.topic}::${msg.group}`;
+          const key = `{msg.topic}::{msg.group}`;
           const h = this.handlers.get(key);
           if (!h) return;
           Promise.resolve(h(msg.event, msg.ctx))
@@ -935,13 +935,13 @@ export class PromClient {
 
   async subscribe<T = any>(topic: string, group: string, handler: (e: { id: string; payload: T; ts: number; topic: string }, ctx: any) => any, opts?: any) {
     await this.connect();
-    this.handlers.set(`${topic}::${group}`, handler as any);
+    this.handlers.set(`{topic}::{group}`, handler as any);
     this.ws!.send(JSON.stringify({ op: "SUBSCRIBE", topic, group, opts }));
   }
 
   async unsubscribe(topic: string, group: string) {
     await this.connect();
-    this.handlers.delete(`${topic}::${group}`);
+    this.handlers.delete(`{topic}::{group}`);
     this.ws!.send(JSON.stringify({ op: "UNSUBSCRIBE", topic, group }));
   }
 
@@ -1050,145 +1050,145 @@ main().catch((e) => { console.error(e); process.exit(1); });
 
 If you want **Part 4**, I’ll dump:
 
-* **Backpressure & rate limits** $per-topic quotas, token-bucket$,
-* **Replay API** $HTTP range queries + export to NDJSON$,
-* **Exactly-once-ish** consumer helper $idempotent handler wrapper w/ dedupe store$,
-* **Bench harness** $pub/sub throughput tester$ and sizing notes.
+* **Backpressure & rate limits** per-topic quotas, token-bucket,
+* **Replay API** HTTP range queries + export to NDJSON,
+* **Exactly-once-ish** consumer helper idempotent handler wrapper w/ dedupe store,
+* **Bench harness** pub/sub throughput tester and sizing notes.
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- $[websocket-gateway-implementation|WebSocket Gateway Implementation]$
-- $[docs/unique/event-bus-mvp|Event Bus MVP]$
-- $[state-snapshots-api-and-transactional-projector|State Snapshots API and Transactional Projector]$
-- $[schema-evolution-workflow]$
-- $[prom-lib-rate-limiters-and-replay-api]$
-- [Promethean Event Bus MVP v0.1]$promethean-event-bus-mvp-v0-1.md$
-- [Services]$chunks/services.md$
-- $[unique-info-dump-index|Unique Info Dump Index]$
-- $[stateful-partitions-and-rebalancing|Stateful Partitions and Rebalancing]$
-- $[observability-infrastructure-setup]$
-- $[docs/unique/ecs-offload-workers|ecs-offload-workers]$
-- $[docs/unique/archetype-ecs|archetype-ecs]$
-- $[docs/unique/aionian-circuit-math|aionian-circuit-math]$
-- [Diagrams]$chunks/diagrams.md$
-- [DSL]$chunks/dsl.md$
-- $[chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]$
-- $[event-bus-projections-architecture|Event Bus Projections Architecture]$
-- $[ecs-scheduler-and-prefabs]$
-- $[docs/unique/agent-tasks-persistence-migration-to-dualstore|Agent Tasks: Persistence Migration to DualStore]$
-- [JavaScript]$chunks/javascript.md$
-- $[docs/unique/eidolon-field-math-foundations|eidolon-field-math-foundations]$
-- $[migrate-to-provider-tenant-architecture|Migrate to Provider-Tenant Architecture]$
-- $[cross-language-runtime-polymorphism|Cross-Language Runtime Polymorphism]$
-- $[promethean-infrastructure-setup|Promethean Infrastructure Setup]$
-- $[api-gateway-versioning]$
-- $[prometheus-observability-stack|Prometheus Observability Stack]$
+- [websocket-gateway-implementation|WebSocket Gateway Implementation]
+- [docs/unique/event-bus-mvp|Event Bus MVP]
+- [state-snapshots-api-and-transactional-projector|State Snapshots API and Transactional Projector]
+- [schema-evolution-workflow]
+- [prom-lib-rate-limiters-and-replay-api]
+- [Promethean Event Bus MVP v0.1]promethean-event-bus-mvp-v0-1.md
+- [Services]chunks/services.md
+- [unique-info-dump-index|Unique Info Dump Index]
+- [stateful-partitions-and-rebalancing|Stateful Partitions and Rebalancing]
+- [observability-infrastructure-setup]
+- [docs/unique/ecs-offload-workers|ecs-offload-workers]
+- [docs/unique/archetype-ecs|archetype-ecs]
+- [docs/unique/aionian-circuit-math|aionian-circuit-math]
+- [Diagrams]chunks/diagrams.md
+- [DSL]chunks/dsl.md
+- [chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]
+- [event-bus-projections-architecture|Event Bus Projections Architecture]
+- [ecs-scheduler-and-prefabs]
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore|Agent Tasks: Persistence Migration to DualStore]
+- [JavaScript]chunks/javascript.md
+- [docs/unique/eidolon-field-math-foundations|eidolon-field-math-foundations]
+- [migrate-to-provider-tenant-architecture|Migrate to Provider-Tenant Architecture]
+- [cross-language-runtime-polymorphism|Cross-Language Runtime Polymorphism]
+- [promethean-infrastructure-setup|Promethean Infrastructure Setup]
+- [api-gateway-versioning]
+- [prometheus-observability-stack|Prometheus Observability Stack]
 
 ## Sources
-- $[docs/unique/event-bus-mvp#L392|Event Bus MVP — L392]$ (line 392, col 1, score 0.87)
-- $[websocket-gateway-implementation#L219|WebSocket Gateway Implementation — L219]$ (line 219, col 1, score 0.89)
-- $[websocket-gateway-implementation#L623|WebSocket Gateway Implementation — L623]$ (line 623, col 1, score 0.86)
-- $[docs/unique/ecs-offload-workers#L465|ecs-offload-workers — L465]$ (line 465, col 1, score 1)
-- $[docs/unique/ecs-offload-workers#L465|ecs-offload-workers — L465]$ (line 465, col 3, score 1)
-- $[docs/unique/event-bus-mvp#L548|Event Bus MVP — L548]$ (line 548, col 1, score 1)
-- $[docs/unique/event-bus-mvp#L548|Event Bus MVP — L548]$ (line 548, col 3, score 1)
-- [Promethean Event Bus MVP v0.1 — L883]$promethean-event-bus-mvp-v0-1.md#L883$ (line 883, col 1, score 1)
-- [Promethean Event Bus MVP v0.1 — L883]$promethean-event-bus-mvp-v0-1.md#L883$ (line 883, col 3, score 1)
-- $[schema-evolution-workflow#L490|schema-evolution-workflow — L490]$ (line 490, col 1, score 1)
-- $[schema-evolution-workflow#L490|schema-evolution-workflow — L490]$ (line 490, col 3, score 1)
-- $[prom-lib-rate-limiters-and-replay-api#L386|prom-lib-rate-limiters-and-replay-api — L386]$ (line 386, col 1, score 1)
-- $[prom-lib-rate-limiters-and-replay-api#L386|prom-lib-rate-limiters-and-replay-api — L386]$ (line 386, col 3, score 1)
-- [Promethean Event Bus MVP v0.1 — L881]$promethean-event-bus-mvp-v0-1.md#L881$ (line 881, col 1, score 1)
-- [Promethean Event Bus MVP v0.1 — L881]$promethean-event-bus-mvp-v0-1.md#L881$ (line 881, col 3, score 1)
-- $[schema-evolution-workflow#L485|schema-evolution-workflow — L485]$ (line 485, col 1, score 1)
-- $[schema-evolution-workflow#L485|schema-evolution-workflow — L485]$ (line 485, col 3, score 1)
-- $[state-snapshots-api-and-transactional-projector#L341|State Snapshots API and Transactional Projector — L341]$ (line 341, col 1, score 1)
-- $[state-snapshots-api-and-transactional-projector#L341|State Snapshots API and Transactional Projector — L341]$ (line 341, col 3, score 1)
-- [Services — L11]$chunks/services.md#L11$ (line 11, col 1, score 1)
-- [Services — L11]$chunks/services.md#L11$ (line 11, col 3, score 1)
-- $[docs/unique/event-bus-mvp#L554|Event Bus MVP — L554]$ (line 554, col 1, score 1)
-- $[docs/unique/event-bus-mvp#L554|Event Bus MVP — L554]$ (line 554, col 3, score 1)
-- $[prom-lib-rate-limiters-and-replay-api#L382|prom-lib-rate-limiters-and-replay-api — L382]$ (line 382, col 1, score 1)
-- $[prom-lib-rate-limiters-and-replay-api#L382|prom-lib-rate-limiters-and-replay-api — L382]$ (line 382, col 3, score 1)
-- [Promethean Event Bus MVP v0.1 — L891]$promethean-event-bus-mvp-v0-1.md#L891$ (line 891, col 1, score 1)
-- [Promethean Event Bus MVP v0.1 — L891]$promethean-event-bus-mvp-v0-1.md#L891$ (line 891, col 3, score 1)
-- [Services — L12]$chunks/services.md#L12$ (line 12, col 1, score 1)
-- [Services — L12]$chunks/services.md#L12$ (line 12, col 3, score 1)
-- $[cross-language-runtime-polymorphism#L211|Cross-Language Runtime Polymorphism — L211]$ (line 211, col 1, score 1)
-- $[cross-language-runtime-polymorphism#L211|Cross-Language Runtime Polymorphism — L211]$ (line 211, col 3, score 1)
-- $[docs/unique/event-bus-mvp#L550|Event Bus MVP — L550]$ (line 550, col 1, score 1)
-- $[docs/unique/event-bus-mvp#L550|Event Bus MVP — L550]$ (line 550, col 3, score 1)
-- $[prom-lib-rate-limiters-and-replay-api#L384|prom-lib-rate-limiters-and-replay-api — L384]$ (line 384, col 1, score 1)
-- $[prom-lib-rate-limiters-and-replay-api#L384|prom-lib-rate-limiters-and-replay-api — L384]$ (line 384, col 3, score 1)
-- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L136|Agent Tasks: Persistence Migration to DualStore — L136]$ (line 136, col 1, score 1)
-- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L136|Agent Tasks: Persistence Migration to DualStore — L136]$ (line 136, col 3, score 1)
-- $[chroma-toolkit-consolidation-plan#L166|Chroma Toolkit Consolidation Plan — L166]$ (line 166, col 1, score 1)
-- $[chroma-toolkit-consolidation-plan#L166|Chroma Toolkit Consolidation Plan — L166]$ (line 166, col 3, score 1)
-- $[docs/unique/event-bus-mvp#L551|Event Bus MVP — L551]$ (line 551, col 1, score 1)
-- $[docs/unique/event-bus-mvp#L551|Event Bus MVP — L551]$ (line 551, col 3, score 1)
-- $[migrate-to-provider-tenant-architecture#L284|Migrate to Provider-Tenant Architecture — L284]$ (line 284, col 1, score 1)
-- $[migrate-to-provider-tenant-architecture#L284|Migrate to Provider-Tenant Architecture — L284]$ (line 284, col 3, score 1)
-- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L137|Agent Tasks: Persistence Migration to DualStore — L137]$ (line 137, col 1, score 1)
-- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L137|Agent Tasks: Persistence Migration to DualStore — L137]$ (line 137, col 3, score 1)
-- $[chroma-toolkit-consolidation-plan#L175|Chroma Toolkit Consolidation Plan — L175]$ (line 175, col 1, score 1)
-- $[chroma-toolkit-consolidation-plan#L175|Chroma Toolkit Consolidation Plan — L175]$ (line 175, col 3, score 1)
-- $[docs/unique/event-bus-mvp#L547|Event Bus MVP — L547]$ (line 547, col 1, score 1)
-- $[docs/unique/event-bus-mvp#L547|Event Bus MVP — L547]$ (line 547, col 3, score 1)
-- $[event-bus-projections-architecture#L150|Event Bus Projections Architecture — L150]$ (line 150, col 1, score 1)
-- $[event-bus-projections-architecture#L150|Event Bus Projections Architecture — L150]$ (line 150, col 3, score 1)
-- $[schema-evolution-workflow#L486|schema-evolution-workflow — L486]$ (line 486, col 1, score 1)
-- $[schema-evolution-workflow#L486|schema-evolution-workflow — L486]$ (line 486, col 3, score 1)
-- $[state-snapshots-api-and-transactional-projector#L337|State Snapshots API and Transactional Projector — L337]$ (line 337, col 1, score 1)
-- $[state-snapshots-api-and-transactional-projector#L337|State Snapshots API and Transactional Projector — L337]$ (line 337, col 3, score 1)
-- $[stateful-partitions-and-rebalancing#L533|Stateful Partitions and Rebalancing — L533]$ (line 533, col 1, score 1)
-- $[stateful-partitions-and-rebalancing#L533|Stateful Partitions and Rebalancing — L533]$ (line 533, col 3, score 1)
-- $[unique-info-dump-index#L68|Unique Info Dump Index — L68]$ (line 68, col 1, score 1)
-- $[unique-info-dump-index#L68|Unique Info Dump Index — L68]$ (line 68, col 3, score 1)
-- $[docs/unique/aionian-circuit-math#L158|aionian-circuit-math — L158]$ (line 158, col 1, score 1)
-- $[docs/unique/aionian-circuit-math#L158|aionian-circuit-math — L158]$ (line 158, col 3, score 1)
-- $[docs/unique/archetype-ecs#L457|archetype-ecs — L457]$ (line 457, col 1, score 1)
-- $[docs/unique/archetype-ecs#L457|archetype-ecs — L457]$ (line 457, col 3, score 1)
-- [Diagrams — L9]$chunks/diagrams.md#L9$ (line 9, col 1, score 1)
-- [Diagrams — L9]$chunks/diagrams.md#L9$ (line 9, col 3, score 1)
-- [DSL — L10]$chunks/dsl.md#L10$ (line 10, col 1, score 1)
-- [DSL — L10]$chunks/dsl.md#L10$ (line 10, col 3, score 1)
-- [Services — L14]$chunks/services.md#L14$ (line 14, col 1, score 1)
-- [Services — L14]$chunks/services.md#L14$ (line 14, col 3, score 1)
-- $[docs/unique/event-bus-mvp#L553|Event Bus MVP — L553]$ (line 553, col 1, score 1)
-- $[docs/unique/event-bus-mvp#L553|Event Bus MVP — L553]$ (line 553, col 3, score 1)
-- $[prom-lib-rate-limiters-and-replay-api#L388|prom-lib-rate-limiters-and-replay-api — L388]$ (line 388, col 1, score 1)
-- $[prom-lib-rate-limiters-and-replay-api#L388|prom-lib-rate-limiters-and-replay-api — L388]$ (line 388, col 3, score 1)
-- [Promethean Event Bus MVP v0.1 — L892]$promethean-event-bus-mvp-v0-1.md#L892$ (line 892, col 1, score 1)
-- [Promethean Event Bus MVP v0.1 — L892]$promethean-event-bus-mvp-v0-1.md#L892$ (line 892, col 3, score 1)
-- $[api-gateway-versioning#L286|api-gateway-versioning — L286]$ (line 286, col 1, score 1)
-- $[api-gateway-versioning#L286|api-gateway-versioning — L286]$ (line 286, col 3, score 1)
-- $[promethean-infrastructure-setup#L575|Promethean Infrastructure Setup — L575]$ (line 575, col 1, score 1)
-- $[promethean-infrastructure-setup#L575|Promethean Infrastructure Setup — L575]$ (line 575, col 3, score 1)
-- $[prometheus-observability-stack#L504|Prometheus Observability Stack — L504]$ (line 504, col 1, score 1)
-- $[prometheus-observability-stack#L504|Prometheus Observability Stack — L504]$ (line 504, col 3, score 1)
-- $[api-gateway-versioning#L292|api-gateway-versioning — L292]$ (line 292, col 1, score 0.93)
-- $[api-gateway-versioning#L292|api-gateway-versioning — L292]$ (line 292, col 3, score 0.93)
-- $[docs/unique/archetype-ecs#L460|archetype-ecs — L460]$ (line 460, col 1, score 1)
-- $[docs/unique/archetype-ecs#L460|archetype-ecs — L460]$ (line 460, col 3, score 1)
-- [JavaScript — L15]$chunks/javascript.md#L15$ (line 15, col 1, score 1)
-- [JavaScript — L15]$chunks/javascript.md#L15$ (line 15, col 3, score 1)
-- $[ecs-scheduler-and-prefabs#L388|ecs-scheduler-and-prefabs — L388]$ (line 388, col 1, score 1)
-- $[ecs-scheduler-and-prefabs#L388|ecs-scheduler-and-prefabs — L388]$ (line 388, col 3, score 1)
-- $[docs/unique/eidolon-field-math-foundations#L129|eidolon-field-math-foundations — L129]$ (line 129, col 1, score 1)
-- $[docs/unique/eidolon-field-math-foundations#L129|eidolon-field-math-foundations — L129]$ (line 129, col 3, score 1)
-- $[schema-evolution-workflow#L498|schema-evolution-workflow — L498]$ (line 498, col 1, score 0.98)
-- $[schema-evolution-workflow#L498|schema-evolution-workflow — L498]$ (line 498, col 3, score 0.98)
-- $[websocket-gateway-implementation#L645|WebSocket Gateway Implementation — L645]$ (line 645, col 1, score 0.98)
-- $[websocket-gateway-implementation#L645|WebSocket Gateway Implementation — L645]$ (line 645, col 3, score 0.98)
-- $[prom-lib-rate-limiters-and-replay-api#L398|prom-lib-rate-limiters-and-replay-api — L398]$ (line 398, col 1, score 0.98)
-- $[prom-lib-rate-limiters-and-replay-api#L398|prom-lib-rate-limiters-and-replay-api — L398]$ (line 398, col 3, score 0.98)
-- $[websocket-gateway-implementation#L647|WebSocket Gateway Implementation — L647]$ (line 647, col 1, score 0.98)
-- $[websocket-gateway-implementation#L647|WebSocket Gateway Implementation — L647]$ (line 647, col 3, score 0.98)
-- [Promethean Event Bus MVP v0.1 — L912]$promethean-event-bus-mvp-v0-1.md#L912$ (line 912, col 1, score 0.99)
-- [Promethean Event Bus MVP v0.1 — L912]$promethean-event-bus-mvp-v0-1.md#L912$ (line 912, col 3, score 0.99)
-- $[docs/unique/event-bus-mvp#L562|Event Bus MVP — L562]$ (line 562, col 1, score 0.99)
-- $[docs/unique/event-bus-mvp#L562|Event Bus MVP — L562]$ (line 562, col 3, score 0.99)
-- [Promethean Event Bus MVP v0.1 — L910]$promethean-event-bus-mvp-v0-1.md#L910$ (line 910, col 1, score 0.99)
-- [Promethean Event Bus MVP v0.1 — L910]$promethean-event-bus-mvp-v0-1.md#L910$ (line 910, col 3, score 0.99)
-- [Promethean Event Bus MVP v0.1 — L914]$promethean-event-bus-mvp-v0-1.md#L914$ (line 914, col 1, score 0.99)
-- [Promethean Event Bus MVP v0.1 — L914]$promethean-event-bus-mvp-v0-1.md#L914$ (line 914, col 3, score 0.99)
+- [docs/unique/event-bus-mvp#L392|Event Bus MVP — L392] (line 392, col 1, score 0.87)
+- [websocket-gateway-implementation#L219|WebSocket Gateway Implementation — L219] (line 219, col 1, score 0.89)
+- [websocket-gateway-implementation#L623|WebSocket Gateway Implementation — L623] (line 623, col 1, score 0.86)
+- [docs/unique/ecs-offload-workers#L465|ecs-offload-workers — L465] (line 465, col 1, score 1)
+- [docs/unique/ecs-offload-workers#L465|ecs-offload-workers — L465] (line 465, col 3, score 1)
+- [docs/unique/event-bus-mvp#L548|Event Bus MVP — L548] (line 548, col 1, score 1)
+- [docs/unique/event-bus-mvp#L548|Event Bus MVP — L548] (line 548, col 3, score 1)
+- [Promethean Event Bus MVP v0.1 — L883]promethean-event-bus-mvp-v0-1.md#L883 (line 883, col 1, score 1)
+- [Promethean Event Bus MVP v0.1 — L883]promethean-event-bus-mvp-v0-1.md#L883 (line 883, col 3, score 1)
+- [schema-evolution-workflow#L490|schema-evolution-workflow — L490] (line 490, col 1, score 1)
+- [schema-evolution-workflow#L490|schema-evolution-workflow — L490] (line 490, col 3, score 1)
+- [prom-lib-rate-limiters-and-replay-api#L386|prom-lib-rate-limiters-and-replay-api — L386] (line 386, col 1, score 1)
+- [prom-lib-rate-limiters-and-replay-api#L386|prom-lib-rate-limiters-and-replay-api — L386] (line 386, col 3, score 1)
+- [Promethean Event Bus MVP v0.1 — L881]promethean-event-bus-mvp-v0-1.md#L881 (line 881, col 1, score 1)
+- [Promethean Event Bus MVP v0.1 — L881]promethean-event-bus-mvp-v0-1.md#L881 (line 881, col 3, score 1)
+- [schema-evolution-workflow#L485|schema-evolution-workflow — L485] (line 485, col 1, score 1)
+- [schema-evolution-workflow#L485|schema-evolution-workflow — L485] (line 485, col 3, score 1)
+- [state-snapshots-api-and-transactional-projector#L341|State Snapshots API and Transactional Projector — L341] (line 341, col 1, score 1)
+- [state-snapshots-api-and-transactional-projector#L341|State Snapshots API and Transactional Projector — L341] (line 341, col 3, score 1)
+- [Services — L11]chunks/services.md#L11 (line 11, col 1, score 1)
+- [Services — L11]chunks/services.md#L11 (line 11, col 3, score 1)
+- [docs/unique/event-bus-mvp#L554|Event Bus MVP — L554] (line 554, col 1, score 1)
+- [docs/unique/event-bus-mvp#L554|Event Bus MVP — L554] (line 554, col 3, score 1)
+- [prom-lib-rate-limiters-and-replay-api#L382|prom-lib-rate-limiters-and-replay-api — L382] (line 382, col 1, score 1)
+- [prom-lib-rate-limiters-and-replay-api#L382|prom-lib-rate-limiters-and-replay-api — L382] (line 382, col 3, score 1)
+- [Promethean Event Bus MVP v0.1 — L891]promethean-event-bus-mvp-v0-1.md#L891 (line 891, col 1, score 1)
+- [Promethean Event Bus MVP v0.1 — L891]promethean-event-bus-mvp-v0-1.md#L891 (line 891, col 3, score 1)
+- [Services — L12]chunks/services.md#L12 (line 12, col 1, score 1)
+- [Services — L12]chunks/services.md#L12 (line 12, col 3, score 1)
+- [cross-language-runtime-polymorphism#L211|Cross-Language Runtime Polymorphism — L211] (line 211, col 1, score 1)
+- [cross-language-runtime-polymorphism#L211|Cross-Language Runtime Polymorphism — L211] (line 211, col 3, score 1)
+- [docs/unique/event-bus-mvp#L550|Event Bus MVP — L550] (line 550, col 1, score 1)
+- [docs/unique/event-bus-mvp#L550|Event Bus MVP — L550] (line 550, col 3, score 1)
+- [prom-lib-rate-limiters-and-replay-api#L384|prom-lib-rate-limiters-and-replay-api — L384] (line 384, col 1, score 1)
+- [prom-lib-rate-limiters-and-replay-api#L384|prom-lib-rate-limiters-and-replay-api — L384] (line 384, col 3, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L136|Agent Tasks: Persistence Migration to DualStore — L136] (line 136, col 1, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L136|Agent Tasks: Persistence Migration to DualStore — L136] (line 136, col 3, score 1)
+- [chroma-toolkit-consolidation-plan#L166|Chroma Toolkit Consolidation Plan — L166] (line 166, col 1, score 1)
+- [chroma-toolkit-consolidation-plan#L166|Chroma Toolkit Consolidation Plan — L166] (line 166, col 3, score 1)
+- [docs/unique/event-bus-mvp#L551|Event Bus MVP — L551] (line 551, col 1, score 1)
+- [docs/unique/event-bus-mvp#L551|Event Bus MVP — L551] (line 551, col 3, score 1)
+- [migrate-to-provider-tenant-architecture#L284|Migrate to Provider-Tenant Architecture — L284] (line 284, col 1, score 1)
+- [migrate-to-provider-tenant-architecture#L284|Migrate to Provider-Tenant Architecture — L284] (line 284, col 3, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L137|Agent Tasks: Persistence Migration to DualStore — L137] (line 137, col 1, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L137|Agent Tasks: Persistence Migration to DualStore — L137] (line 137, col 3, score 1)
+- [chroma-toolkit-consolidation-plan#L175|Chroma Toolkit Consolidation Plan — L175] (line 175, col 1, score 1)
+- [chroma-toolkit-consolidation-plan#L175|Chroma Toolkit Consolidation Plan — L175] (line 175, col 3, score 1)
+- [docs/unique/event-bus-mvp#L547|Event Bus MVP — L547] (line 547, col 1, score 1)
+- [docs/unique/event-bus-mvp#L547|Event Bus MVP — L547] (line 547, col 3, score 1)
+- [event-bus-projections-architecture#L150|Event Bus Projections Architecture — L150] (line 150, col 1, score 1)
+- [event-bus-projections-architecture#L150|Event Bus Projections Architecture — L150] (line 150, col 3, score 1)
+- [schema-evolution-workflow#L486|schema-evolution-workflow — L486] (line 486, col 1, score 1)
+- [schema-evolution-workflow#L486|schema-evolution-workflow — L486] (line 486, col 3, score 1)
+- [state-snapshots-api-and-transactional-projector#L337|State Snapshots API and Transactional Projector — L337] (line 337, col 1, score 1)
+- [state-snapshots-api-and-transactional-projector#L337|State Snapshots API and Transactional Projector — L337] (line 337, col 3, score 1)
+- [stateful-partitions-and-rebalancing#L533|Stateful Partitions and Rebalancing — L533] (line 533, col 1, score 1)
+- [stateful-partitions-and-rebalancing#L533|Stateful Partitions and Rebalancing — L533] (line 533, col 3, score 1)
+- [unique-info-dump-index#L68|Unique Info Dump Index — L68] (line 68, col 1, score 1)
+- [unique-info-dump-index#L68|Unique Info Dump Index — L68] (line 68, col 3, score 1)
+- [docs/unique/aionian-circuit-math#L158|aionian-circuit-math — L158] (line 158, col 1, score 1)
+- [docs/unique/aionian-circuit-math#L158|aionian-circuit-math — L158] (line 158, col 3, score 1)
+- [docs/unique/archetype-ecs#L457|archetype-ecs — L457] (line 457, col 1, score 1)
+- [docs/unique/archetype-ecs#L457|archetype-ecs — L457] (line 457, col 3, score 1)
+- [Diagrams — L9]chunks/diagrams.md#L9 (line 9, col 1, score 1)
+- [Diagrams — L9]chunks/diagrams.md#L9 (line 9, col 3, score 1)
+- [DSL — L10]chunks/dsl.md#L10 (line 10, col 1, score 1)
+- [DSL — L10]chunks/dsl.md#L10 (line 10, col 3, score 1)
+- [Services — L14]chunks/services.md#L14 (line 14, col 1, score 1)
+- [Services — L14]chunks/services.md#L14 (line 14, col 3, score 1)
+- [docs/unique/event-bus-mvp#L553|Event Bus MVP — L553] (line 553, col 1, score 1)
+- [docs/unique/event-bus-mvp#L553|Event Bus MVP — L553] (line 553, col 3, score 1)
+- [prom-lib-rate-limiters-and-replay-api#L388|prom-lib-rate-limiters-and-replay-api — L388] (line 388, col 1, score 1)
+- [prom-lib-rate-limiters-and-replay-api#L388|prom-lib-rate-limiters-and-replay-api — L388] (line 388, col 3, score 1)
+- [Promethean Event Bus MVP v0.1 — L892]promethean-event-bus-mvp-v0-1.md#L892 (line 892, col 1, score 1)
+- [Promethean Event Bus MVP v0.1 — L892]promethean-event-bus-mvp-v0-1.md#L892 (line 892, col 3, score 1)
+- [api-gateway-versioning#L286|api-gateway-versioning — L286] (line 286, col 1, score 1)
+- [api-gateway-versioning#L286|api-gateway-versioning — L286] (line 286, col 3, score 1)
+- [promethean-infrastructure-setup#L575|Promethean Infrastructure Setup — L575] (line 575, col 1, score 1)
+- [promethean-infrastructure-setup#L575|Promethean Infrastructure Setup — L575] (line 575, col 3, score 1)
+- [prometheus-observability-stack#L504|Prometheus Observability Stack — L504] (line 504, col 1, score 1)
+- [prometheus-observability-stack#L504|Prometheus Observability Stack — L504] (line 504, col 3, score 1)
+- [api-gateway-versioning#L292|api-gateway-versioning — L292] (line 292, col 1, score 0.93)
+- [api-gateway-versioning#L292|api-gateway-versioning — L292] (line 292, col 3, score 0.93)
+- [docs/unique/archetype-ecs#L460|archetype-ecs — L460] (line 460, col 1, score 1)
+- [docs/unique/archetype-ecs#L460|archetype-ecs — L460] (line 460, col 3, score 1)
+- [JavaScript — L15]chunks/javascript.md#L15 (line 15, col 1, score 1)
+- [JavaScript — L15]chunks/javascript.md#L15 (line 15, col 3, score 1)
+- [ecs-scheduler-and-prefabs#L388|ecs-scheduler-and-prefabs — L388] (line 388, col 1, score 1)
+- [ecs-scheduler-and-prefabs#L388|ecs-scheduler-and-prefabs — L388] (line 388, col 3, score 1)
+- [docs/unique/eidolon-field-math-foundations#L129|eidolon-field-math-foundations — L129] (line 129, col 1, score 1)
+- [docs/unique/eidolon-field-math-foundations#L129|eidolon-field-math-foundations — L129] (line 129, col 3, score 1)
+- [schema-evolution-workflow#L498|schema-evolution-workflow — L498] (line 498, col 1, score 0.98)
+- [schema-evolution-workflow#L498|schema-evolution-workflow — L498] (line 498, col 3, score 0.98)
+- [websocket-gateway-implementation#L645|WebSocket Gateway Implementation — L645] (line 645, col 1, score 0.98)
+- [websocket-gateway-implementation#L645|WebSocket Gateway Implementation — L645] (line 645, col 3, score 0.98)
+- [prom-lib-rate-limiters-and-replay-api#L398|prom-lib-rate-limiters-and-replay-api — L398] (line 398, col 1, score 0.98)
+- [prom-lib-rate-limiters-and-replay-api#L398|prom-lib-rate-limiters-and-replay-api — L398] (line 398, col 3, score 0.98)
+- [websocket-gateway-implementation#L647|WebSocket Gateway Implementation — L647] (line 647, col 1, score 0.98)
+- [websocket-gateway-implementation#L647|WebSocket Gateway Implementation — L647] (line 647, col 3, score 0.98)
+- [Promethean Event Bus MVP v0.1 — L912]promethean-event-bus-mvp-v0-1.md#L912 (line 912, col 1, score 0.99)
+- [Promethean Event Bus MVP v0.1 — L912]promethean-event-bus-mvp-v0-1.md#L912 (line 912, col 3, score 0.99)
+- [docs/unique/event-bus-mvp#L562|Event Bus MVP — L562] (line 562, col 1, score 0.99)
+- [docs/unique/event-bus-mvp#L562|Event Bus MVP — L562] (line 562, col 3, score 0.99)
+- [Promethean Event Bus MVP v0.1 — L910]promethean-event-bus-mvp-v0-1.md#L910 (line 910, col 1, score 0.99)
+- [Promethean Event Bus MVP v0.1 — L910]promethean-event-bus-mvp-v0-1.md#L910 (line 910, col 3, score 0.99)
+- [Promethean Event Bus MVP v0.1 — L914]promethean-event-bus-mvp-v0-1.md#L914 (line 914, col 1, score 0.99)
+- [Promethean Event Bus MVP v0.1 — L914]promethean-event-bus-mvp-v0-1.md#L914 (line 914, col 3, score 0.99)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

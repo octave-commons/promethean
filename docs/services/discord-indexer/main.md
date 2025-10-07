@@ -1,9 +1,9 @@
 # main.py
 
 **Path**: `services/discord-indexer/main.py`
-$$
+```
 **Description**: load_dotenv()
-$$
+```
 ## Dependencies
 - shared.py
 - shared.py.mongodb

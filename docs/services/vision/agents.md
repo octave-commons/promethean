@@ -6,7 +6,7 @@ TODO: Add service description.
 
 ## Paths
 
-- $[vision|services/js/vision]$
+- [vision|services/js/vision]
 
 ## Tags
 

@@ -3,12 +3,12 @@ title: "Update existing kanban tasks to use FSM statuses"
 status: ready
 priority: P2
 tags: [kanban, fsm, cleanup, process]
-$$
+```
 uuid: kanban-fsm-update-001
-$$
-$$
+```
+```
 created: 2025-10-06
-$$
+```
 ---
 
 # Update existing kanban tasks to use FSM statuses

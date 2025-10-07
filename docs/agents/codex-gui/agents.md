@@ -8,7 +8,7 @@ hashtags: [#agents, #codex, #gui, #promethean]
 Codex GUI is a **user-facing interface agent** for workflows.
 
 ## Responsibilities
-- Maintain Kanban sync with $[docs/agile/boards/kanban.md]$.
+- Maintain Kanban sync with [docs/agile/boards/kanban.md].
 - Provide visual feedback to users on PR/test/build state.
 - Interlink with Developer Agents and Infrastructure Agents.
 - Reflect root `AGENTS.md` rules:
@@ -21,5 +21,5 @@ Codex GUI is a **user-facing interface agent** for workflows.
 
 ---
 ## 🔗 Cross-Links
-- $[agents/codex-gui/agents|Root Agents Governance]$ → service setup rules.
-- $[docs/agile/boards/kanban.md|Kanban Board]$ → visual sync surface.
+- [agents/codex-gui/agents|Root Agents Governance] → service setup rules.
+- [docs/agile/boards/kanban.md|Kanban Board] → visual sync surface.

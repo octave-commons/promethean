@@ -31,9 +31,9 @@ Placeholder task stub generated from kanban board.
 ---
 
 ## 🔗 Related Epics
-$$
+```
 #framework-core
-$$
+```
 ---
 
 ## ⛓️ Blocked By

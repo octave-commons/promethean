@@ -1,6 +1,6 @@
-$$
+```
 **Layer 8: Signal Overlay**
-$$
+```
 ---
 
 ### Overview

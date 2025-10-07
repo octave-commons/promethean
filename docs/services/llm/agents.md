@@ -6,7 +6,7 @@ TODO: Add service description.
 
 ## Paths
 
-- $[llm|services/ts/llm]$
+- [llm|services/ts/llm]
 
 ## Tags
 

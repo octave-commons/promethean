@@ -1,22 +1,22 @@
 ---
-$$
+```
 uuid: 63fd4d57-aa99-4b77-9de6-fa7acf6e6d83
-$$
+```
 title: Broker ↔ GPT Bridge Parity Test Plan
 status: todo
 priority: P3
 labels: []
-$$
+```
 created_at: '2025-09-15T02:02:58.508Z'
-$$
+```
 ---
 # Broker ↔ GPT Bridge Parity Test Plan
-$$
+```
 **Owner:** Codex / Agent
-$$
-$$
+```
+```
 **Status:** needs review
-$$
+```
 **Labels:** #broker #gptbridge #testing #parity #ws #http #ci #observability #promethean
 
 ---
@@ -26,7 +26,7 @@ $$
 Compare, for the same inputs, that **outputs, streaming behavior, errors, timings, and metadata** are equivalent between:
 
 * **Broker (WS)** canonical actions/events, and
-* **GPT Bridge $HTTP/WS$** wrapper that proxies + sheds load.
+* **GPT Bridge HTTP/WS** wrapper that proxies + sheds load.
 
 We normalize outputs so harmless differences (timestamps, ids) don’t fail the suite.
 
@@ -45,12 +45,12 @@ We normalize outputs so harmless differences (timestamps, ids) don’t fail the 
 ## 🧪 Test Matrix
 
 | Area          | Case                                    | What we assert                                                                    |
-$$
+```
 | ------------- | --------------------------------------- | --------------------------------------------------------------------------------- |
-$$
+```
 | Chat (sync)   | small, medium, long prompts             | identical `text`, `usage`, `finish_reason`                                        |
 | Chat (stream) | delta chunking                          | same **chunk boundaries**, bytes, order, terminal `complete`                      |
-| Embeddings    | single/batch inputs                     | vector length, numeric closeness $ULP / 1e-6$, same metadata                      |
+| Embeddings    | single/batch inputs                     | vector length, numeric closeness ULP / 1e-6, same metadata                      |
 | Tools         | 1-tool, multi-tool, parallel tool calls | same tool selection, JSON args, tool result merge                                 |
 | Errors        | invalid schema, bad model, 401/403, 5xx | same error class/code/message class                                               |
 | Timeouts      | model, tool, end-to-end                 | fail shape + elapsed within tolerance                                             |
@@ -81,25 +81,25 @@ Before diffing:
 * `tests/parity/fixtures/`:
 
   * `chat/*.json` (prompts, system msgs)
-  * `tools/catalog.json` $stable tool set + deterministic mock backends$
-  * `embeddings/texts.jsonl` $50 cases, multilingual + emojis$
+  * `tools/catalog.json` stable tool set + deterministic mock backends
+  * `embeddings/texts.jsonl` 50 cases, multilingual + emojis
   * `errors/*.json` (invalid payloads)
   * `overload/profile.json` (synthetic load profile)
 * Test doubles for tools: deterministic side-effects, seeded RNG, or pure functions.
 
 ---
 
-## 🧰 Harness & Helpers $TypeScript / Vitest$
-$$
+## 🧰 Harness & Helpers TypeScript / Vitest
+```
 **Paths**
-$$
+```
 * `shared/ts/src/parity/normalizers.ts` — text/usage/embedding normalizers
 * `shared/ts/src/parity/runner.ts` — runs both paths and returns comparable outputs
 * `tests/parity/*.spec.ts` — suites
-* `tests/parity/utils/matchers.ts` — custom expect matchers $embeddings≈, streamEqual$
-$$
+* `tests/parity/utils/matchers.ts` — custom expect matchers embeddings≈, streamEqual
+```
 **Runner sketch**
-$$
+```
 ```ts
 // shared/ts/src/parity/runner.ts
 import { brokerClient } from "@shared/ts/dist/broker/client";
@@ -139,9 +139,9 @@ export async function runToolBoth(payload) {
   return { broker: b, http: h }; // tool result is deterministic, normalize later
 }
 ```
-$$
+```
 **Custom matchers**
-$$
+```
 ```ts
 // tests/parity/utils/matchers.ts
 export function expectVectorsClose(a: number[], b: number[], tol=1e-6) {
@@ -227,8 +227,8 @@ it("errors: invalid schema yields same code", async () => {
 ### 6) Overload / Rate Limit
 
 * Drive synthetic load from `tests/parity/overload.spec.ts` using worker threads.
-* Expect **bridge** to shed $`429`, `retry_after_ms`$ while **broker** signals backpressure $`overloaded`, server close code `1013` or app-level event$.
-* Verify documented mapping parity $wrapper must translate broker overload → HTTP 429 consistently$.
+* Expect **bridge** to shed `429`, `retry_after_ms` while **broker** signals backpressure `overloaded`, server close code `1013` or app-level event.
+* Verify documented mapping parity wrapper must translate broker overload → HTTP 429 consistently.
 
 ---
 
@@ -246,25 +246,25 @@ After each parity run, capture:
 
 * **Parity score**: passed / total, broken down by feature.
 * **Drift report**: first mismatch diff (redacted), histograms for chunk counts, embedding drift stats.
-* **Performance**: latency distributions $p50/p95$ for both paths.
+* **Performance**: latency distributions p50/p95 for both paths.
   Artifacts under: `docs/data/reports/parity/<run-id>/*`.
 
 ---
 
 ## 🧯 CI Wiring
-$$
+```
 **Workflow steps**
-$$
+```
 1. Spin local broker & bridge (compose or PM2).
 2. Seed tool registry (deterministic mocks).
 3. Run parity suites with `NODE_ENV=test PARITY=1`.
-$$
+```
 4. Upload artifacts (reports + logs).
-$$
+```
 5. Gate: **block merge** if any parity test fails.
-$$
+```
 **Minimal job**
-$$
+```
 ```yaml
 - name: Start stack
   run: docker compose -f docker-compose.test.yml up -d broker bridge tools
@@ -294,11 +294,11 @@ $$
 
 ## ✅ Acceptance Criteria (for this plan)
 
-* [ ] Suites exist for **chat $sync/stream$**, **embeddings**, **tools**, **errors**, **timeouts**, **overload**, **cancellation**, **metadata**.
+* [ ] Suites exist for **chat sync/stream**, **embeddings**, **tools**, **errors**, **timeouts**, **overload**, **cancellation**, **metadata**.
 * [ ] Normalizers & helpers implemented and reused by all cases.
 * [ ] CI enforces parity gate on every PR.
 * [ ] Reports are generated and stored per run with pass/fail summary.
-* [ ] Documented **allowed deltas** $timing/rounding$ are the only tolerated differences.
+* [ ] Documented **allowed deltas** timing/rounding are the only tolerated differences.
 
 ---
 
@@ -330,6 +330,6 @@ test(parity): add broker↔bridge parity suites + normalizers + CI gate
 ```
 
 \#tags #broker #gptbridge #parity #ws #http #testing #ci #observability #promethean
-$$
+```
 #in-review
-$$
+```

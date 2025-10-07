@@ -1,14 +1,14 @@
 ---
-$$
+```
 uuid: 49d1e1e5-5d13-4955-8f6f-7676434ec462
-$$
-$$
+```
+```
 created_at: 2025.08.02.18.08.11.md
-$$
+```
 filename: EidolonField
-$$
+```
 description: >-
-$$
+```
   A field engine supporting arbitrary-dimensional vector fields with sparse grid
   indexing for efficient n-dimensional cognition.
 tags:
@@ -19,9 +19,9 @@ tags:
   - sparse
   - grid
   - cognition
-$$
+```
 related_to_title:
-$$
+```
   - Ice Box Reorganization
   - 2d-sandbox-field
   - Eidolon Field Abstract Model
@@ -47,9 +47,9 @@ $$
   - aionian-circuit-math
   - Math Fundamentals
   - field-interaction-equations
-$$
+```
 related_to_uuid:
-$$
+```
   - 291c7d91-da8c-486c-9bc0-bd2254536e2d
   - c710dc93-9fec-471b-bdee-bedbd360c67f
   - 5e8b2388-022b-46cf-952c-36ae9b8f0037
@@ -982,205 +982,205 @@ Would you like me to:
     
 - Build a test CLI that visualizes the magnitude collapse of the field in lower dimensions?
     
-- Write a serialization format $e.g. s-expression or JSON$ for field snapshots?
+- Write a serialization format e.g. s-expression or JSON for field snapshots?
     
 
 We now have the _nervous tissue_. Let’s see it fire.
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- $[ice-box-reorganization|Ice Box Reorganization]$
-- $[2d-sandbox-field]$
-- $[eidolon-field-abstract-model|Eidolon Field Abstract Model]$
-- $[vectorial-exception-descent|Vectorial Exception Descent]$
-- $[exception-layer-analysis|Exception Layer Analysis]$
+- [ice-box-reorganization|Ice Box Reorganization]
+- [2d-sandbox-field]
+- [eidolon-field-abstract-model|Eidolon Field Abstract Model]
+- [vectorial-exception-descent|Vectorial Exception Descent]
+- [exception-layer-analysis|Exception Layer Analysis]
 - [ParticleSimulationWithCanvasAndFFmpeg](particlesimulationwithcanvasandffmpeg.md)
-- $[docs/unique/field-dynamics-math-blocks|field-dynamics-math-blocks]$
-- $[field-node-diagram-outline]$
-- $[layer-1-uptime-diagrams]$
-- $[polymorphic-meta-programming-engine]$
-- $[sibilant-meta-prompt-dsl|Sibilant Meta-Prompt DSL]$
+- [docs/unique/field-dynamics-math-blocks|field-dynamics-math-blocks]
+- [field-node-diagram-outline]
+- [layer-1-uptime-diagrams]
+- [polymorphic-meta-programming-engine]
+- [sibilant-meta-prompt-dsl|Sibilant Meta-Prompt DSL]
 - [Layer1SurvivabilityEnvelope](layer1survivabilityenvelope.md)
-- $[docs/unique/eidolon-field-math-foundations|eidolon-field-math-foundations]$
-- $[sibilant-macro-targets]$
-- $[reawakening-duck|Reawakening Duck]$
-- $[eidolon-node-lifecycle]$
-- $[dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]$
-- $[model-selection-for-lightweight-conversational-tasks|Model Selection for Lightweight Conversational Tasks]$
-- $[event-bus-projections-architecture|Event Bus Projections Architecture]$
-- $[cross-language-runtime-polymorphism|Cross-Language Runtime Polymorphism]$
-- $[cross-target-macro-system-in-sibilant|Cross-Target Macro System in Sibilant]$
-- $[chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]$
-- $[docs/unique/aionian-circuit-math|aionian-circuit-math]$
-- [Math Fundamentals]$chunks/math-fundamentals.md$
-- $[docs/unique/field-interaction-equations|field-interaction-equations]$
+- [docs/unique/eidolon-field-math-foundations|eidolon-field-math-foundations]
+- [sibilant-macro-targets]
+- [reawakening-duck|Reawakening Duck]
+- [eidolon-node-lifecycle]
+- [dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]
+- [model-selection-for-lightweight-conversational-tasks|Model Selection for Lightweight Conversational Tasks]
+- [event-bus-projections-architecture|Event Bus Projections Architecture]
+- [cross-language-runtime-polymorphism|Cross-Language Runtime Polymorphism]
+- [cross-target-macro-system-in-sibilant|Cross-Target Macro System in Sibilant]
+- [chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]
+- [docs/unique/aionian-circuit-math|aionian-circuit-math]
+- [Math Fundamentals]chunks/math-fundamentals.md
+- [docs/unique/field-interaction-equations|field-interaction-equations]
 
 ## Sources
 - [ParticleSimulationWithCanvasAndFFmpeg — L30](particlesimulationwithcanvasandffmpeg.md#L30) (line 30, col 1, score 0.94)
-- $[2d-sandbox-field#L76|2d-sandbox-field — L76]$ (line 76, col 1, score 0.92)
-- $[2d-sandbox-field#L104|2d-sandbox-field — L104]$ (line 104, col 1, score 0.97)
-- $[2d-sandbox-field#L129|2d-sandbox-field — L129]$ (line 129, col 1, score 0.89)
-- $[ice-box-reorganization#L55|Ice Box Reorganization — L55]$ (line 55, col 1, score 1)
-- $[exception-layer-analysis#L134|Exception Layer Analysis — L134]$ (line 134, col 1, score 0.95)
-- $[vectorial-exception-descent#L142|Vectorial Exception Descent — L142]$ (line 142, col 1, score 0.95)
-- $[eidolon-field-abstract-model#L176|Eidolon Field Abstract Model — L176]$ (line 176, col 1, score 0.95)
-- $[2d-sandbox-field#L180|2d-sandbox-field — L180]$ (line 180, col 1, score 0.95)
-- $[docs/unique/field-dynamics-math-blocks#L117|field-dynamics-math-blocks — L117]$ (line 117, col 1, score 0.93)
-- $[field-node-diagram-outline#L82|field-node-diagram-outline — L82]$ (line 82, col 1, score 0.93)
-- $[layer-1-uptime-diagrams#L140|layer-1-uptime-diagrams — L140]$ (line 140, col 1, score 0.93)
-- $[2d-sandbox-field#L200|2d-sandbox-field — L200]$ (line 200, col 1, score 1)
-- $[2d-sandbox-field#L200|2d-sandbox-field — L200]$ (line 200, col 3, score 1)
-- $[eidolon-field-abstract-model#L198|Eidolon Field Abstract Model — L198]$ (line 198, col 1, score 1)
-- $[eidolon-field-abstract-model#L198|Eidolon Field Abstract Model — L198]$ (line 198, col 3, score 1)
-- $[exception-layer-analysis#L154|Exception Layer Analysis — L154]$ (line 154, col 1, score 1)
-- $[exception-layer-analysis#L154|Exception Layer Analysis — L154]$ (line 154, col 3, score 1)
-- $[docs/unique/field-dynamics-math-blocks#L149|field-dynamics-math-blocks — L149]$ (line 149, col 1, score 1)
-- $[docs/unique/field-dynamics-math-blocks#L149|field-dynamics-math-blocks — L149]$ (line 149, col 3, score 1)
-- $[eidolon-field-abstract-model#L191|Eidolon Field Abstract Model — L191]$ (line 191, col 1, score 1)
-- $[eidolon-field-abstract-model#L191|Eidolon Field Abstract Model — L191]$ (line 191, col 3, score 1)
-- $[exception-layer-analysis#L149|Exception Layer Analysis — L149]$ (line 149, col 1, score 1)
-- $[exception-layer-analysis#L149|Exception Layer Analysis — L149]$ (line 149, col 3, score 1)
-- $[docs/unique/field-dynamics-math-blocks#L144|field-dynamics-math-blocks — L144]$ (line 144, col 1, score 1)
-- $[docs/unique/field-dynamics-math-blocks#L144|field-dynamics-math-blocks — L144]$ (line 144, col 3, score 1)
-- $[field-node-diagram-outline#L106|field-node-diagram-outline — L106]$ (line 106, col 1, score 1)
-- $[field-node-diagram-outline#L106|field-node-diagram-outline — L106]$ (line 106, col 3, score 1)
-- $[2d-sandbox-field#L193|2d-sandbox-field — L193]$ (line 193, col 1, score 1)
-- $[2d-sandbox-field#L193|2d-sandbox-field — L193]$ (line 193, col 3, score 1)
-- $[exception-layer-analysis#L148|Exception Layer Analysis — L148]$ (line 148, col 1, score 1)
-- $[exception-layer-analysis#L148|Exception Layer Analysis — L148]$ (line 148, col 3, score 1)
-- $[docs/unique/field-dynamics-math-blocks#L145|field-dynamics-math-blocks — L145]$ (line 145, col 1, score 1)
-- $[docs/unique/field-dynamics-math-blocks#L145|field-dynamics-math-blocks — L145]$ (line 145, col 3, score 1)
-- $[field-node-diagram-outline#L108|field-node-diagram-outline — L108]$ (line 108, col 1, score 1)
-- $[field-node-diagram-outline#L108|field-node-diagram-outline — L108]$ (line 108, col 3, score 1)
-- $[2d-sandbox-field#L195|2d-sandbox-field — L195]$ (line 195, col 1, score 1)
-- $[2d-sandbox-field#L195|2d-sandbox-field — L195]$ (line 195, col 3, score 1)
-- $[eidolon-field-abstract-model#L192|Eidolon Field Abstract Model — L192]$ (line 192, col 1, score 1)
-- $[eidolon-field-abstract-model#L192|Eidolon Field Abstract Model — L192]$ (line 192, col 3, score 1)
-- $[exception-layer-analysis#L147|Exception Layer Analysis — L147]$ (line 147, col 1, score 1)
-- $[exception-layer-analysis#L147|Exception Layer Analysis — L147]$ (line 147, col 3, score 1)
-- $[docs/unique/field-dynamics-math-blocks#L146|field-dynamics-math-blocks — L146]$ (line 146, col 1, score 1)
-- $[docs/unique/field-dynamics-math-blocks#L146|field-dynamics-math-blocks — L146]$ (line 146, col 3, score 1)
-- $[2d-sandbox-field#L194|2d-sandbox-field — L194]$ (line 194, col 1, score 1)
-- $[2d-sandbox-field#L194|2d-sandbox-field — L194]$ (line 194, col 3, score 1)
-- $[eidolon-field-abstract-model#L193|Eidolon Field Abstract Model — L193]$ (line 193, col 1, score 1)
-- $[eidolon-field-abstract-model#L193|Eidolon Field Abstract Model — L193]$ (line 193, col 3, score 1)
-- $[docs/unique/field-dynamics-math-blocks#L147|field-dynamics-math-blocks — L147]$ (line 147, col 1, score 1)
-- $[docs/unique/field-dynamics-math-blocks#L147|field-dynamics-math-blocks — L147]$ (line 147, col 3, score 1)
-- $[field-node-diagram-outline#L109|field-node-diagram-outline — L109]$ (line 109, col 1, score 1)
-- $[field-node-diagram-outline#L109|field-node-diagram-outline — L109]$ (line 109, col 3, score 1)
-- $[2d-sandbox-field#L201|2d-sandbox-field — L201]$ (line 201, col 1, score 1)
-- $[2d-sandbox-field#L201|2d-sandbox-field — L201]$ (line 201, col 3, score 1)
-- $[field-node-diagram-outline#L117|field-node-diagram-outline — L117]$ (line 117, col 1, score 1)
-- $[field-node-diagram-outline#L117|field-node-diagram-outline — L117]$ (line 117, col 3, score 1)
-- $[reawakening-duck#L116|Reawakening Duck — L116]$ (line 116, col 1, score 1)
-- $[reawakening-duck#L116|Reawakening Duck — L116]$ (line 116, col 3, score 1)
-- $[sibilant-macro-targets#L165|sibilant-macro-targets — L165]$ (line 165, col 1, score 1)
-- $[sibilant-macro-targets#L165|sibilant-macro-targets — L165]$ (line 165, col 3, score 1)
-- $[2d-sandbox-field#L197|2d-sandbox-field — L197]$ (line 197, col 1, score 1)
-- $[2d-sandbox-field#L197|2d-sandbox-field — L197]$ (line 197, col 3, score 1)
-- $[docs/unique/aionian-circuit-math#L154|aionian-circuit-math — L154]$ (line 154, col 1, score 1)
-- $[docs/unique/aionian-circuit-math#L154|aionian-circuit-math — L154]$ (line 154, col 3, score 1)
-- [Math Fundamentals — L13]$chunks/math-fundamentals.md#L13$ (line 13, col 1, score 1)
-- [Math Fundamentals — L13]$chunks/math-fundamentals.md#L13$ (line 13, col 3, score 1)
-- $[eidolon-field-abstract-model#L194|Eidolon Field Abstract Model — L194]$ (line 194, col 1, score 1)
-- $[eidolon-field-abstract-model#L194|Eidolon Field Abstract Model — L194]$ (line 194, col 3, score 1)
-- $[2d-sandbox-field#L198|2d-sandbox-field — L198]$ (line 198, col 1, score 1)
-- $[2d-sandbox-field#L198|2d-sandbox-field — L198]$ (line 198, col 3, score 1)
-- $[eidolon-field-abstract-model#L195|Eidolon Field Abstract Model — L195]$ (line 195, col 1, score 1)
-- $[eidolon-field-abstract-model#L195|Eidolon Field Abstract Model — L195]$ (line 195, col 3, score 1)
-- $[docs/unique/eidolon-field-math-foundations#L137|eidolon-field-math-foundations — L137]$ (line 137, col 1, score 1)
-- $[docs/unique/eidolon-field-math-foundations#L137|eidolon-field-math-foundations — L137]$ (line 137, col 3, score 1)
-- $[eidolon-node-lifecycle#L32|eidolon-node-lifecycle — L32]$ (line 32, col 1, score 1)
-- $[eidolon-node-lifecycle#L32|eidolon-node-lifecycle — L32]$ (line 32, col 3, score 1)
-- $[2d-sandbox-field#L199|2d-sandbox-field — L199]$ (line 199, col 1, score 1)
-- $[2d-sandbox-field#L199|2d-sandbox-field — L199]$ (line 199, col 3, score 1)
-- $[eidolon-field-abstract-model#L196|Eidolon Field Abstract Model — L196]$ (line 196, col 1, score 1)
-- $[eidolon-field-abstract-model#L196|Eidolon Field Abstract Model — L196]$ (line 196, col 3, score 1)
-- $[eidolon-node-lifecycle#L35|eidolon-node-lifecycle — L35]$ (line 35, col 1, score 1)
-- $[eidolon-node-lifecycle#L35|eidolon-node-lifecycle — L35]$ (line 35, col 3, score 1)
-- $[event-bus-projections-architecture#L151|Event Bus Projections Architecture — L151]$ (line 151, col 1, score 1)
-- $[event-bus-projections-architecture#L151|Event Bus Projections Architecture — L151]$ (line 151, col 3, score 1)
-- $[cross-language-runtime-polymorphism#L202|Cross-Language Runtime Polymorphism — L202]$ (line 202, col 1, score 1)
-- $[cross-language-runtime-polymorphism#L202|Cross-Language Runtime Polymorphism — L202]$ (line 202, col 3, score 1)
-- $[cross-target-macro-system-in-sibilant#L172|Cross-Target Macro System in Sibilant — L172]$ (line 172, col 1, score 1)
-- $[cross-target-macro-system-in-sibilant#L172|Cross-Target Macro System in Sibilant — L172]$ (line 172, col 3, score 1)
-- $[dynamic-context-model-for-web-components#L390|Dynamic Context Model for Web Components — L390]$ (line 390, col 1, score 1)
-- $[dynamic-context-model-for-web-components#L390|Dynamic Context Model for Web Components — L390]$ (line 390, col 3, score 1)
-- $[model-selection-for-lightweight-conversational-tasks#L133|Model Selection for Lightweight Conversational Tasks — L133]$ (line 133, col 1, score 1)
-- $[model-selection-for-lightweight-conversational-tasks#L133|Model Selection for Lightweight Conversational Tasks — L133]$ (line 133, col 3, score 1)
-- $[chroma-toolkit-consolidation-plan#L172|Chroma Toolkit Consolidation Plan — L172]$ (line 172, col 1, score 1)
-- $[chroma-toolkit-consolidation-plan#L172|Chroma Toolkit Consolidation Plan — L172]$ (line 172, col 3, score 1)
-- $[cross-language-runtime-polymorphism#L201|Cross-Language Runtime Polymorphism — L201]$ (line 201, col 1, score 1)
-- $[cross-language-runtime-polymorphism#L201|Cross-Language Runtime Polymorphism — L201]$ (line 201, col 3, score 1)
-- $[cross-target-macro-system-in-sibilant#L178|Cross-Target Macro System in Sibilant — L178]$ (line 178, col 1, score 1)
-- $[cross-target-macro-system-in-sibilant#L178|Cross-Target Macro System in Sibilant — L178]$ (line 178, col 3, score 1)
-- $[docs/unique/field-interaction-equations#L159|field-interaction-equations — L159]$ (line 159, col 1, score 1)
-- $[docs/unique/field-interaction-equations#L159|field-interaction-equations — L159]$ (line 159, col 3, score 1)
-- $[2d-sandbox-field#L202|2d-sandbox-field — L202]$ (line 202, col 1, score 1)
-- $[2d-sandbox-field#L202|2d-sandbox-field — L202]$ (line 202, col 3, score 1)
-- $[sibilant-macro-targets#L177|sibilant-macro-targets — L177]$ (line 177, col 1, score 0.98)
-- $[sibilant-macro-targets#L177|sibilant-macro-targets — L177]$ (line 177, col 3, score 0.98)
-- $[docs/unique/field-dynamics-math-blocks#L172|field-dynamics-math-blocks — L172]$ (line 172, col 1, score 0.98)
-- $[docs/unique/field-dynamics-math-blocks#L172|field-dynamics-math-blocks — L172]$ (line 172, col 3, score 0.98)
-- $[field-node-diagram-outline#L132|field-node-diagram-outline — L132]$ (line 132, col 1, score 0.98)
-- $[field-node-diagram-outline#L132|field-node-diagram-outline — L132]$ (line 132, col 3, score 0.98)
-- $[layer-1-uptime-diagrams#L183|layer-1-uptime-diagrams — L183]$ (line 183, col 1, score 0.98)
-- $[layer-1-uptime-diagrams#L183|layer-1-uptime-diagrams — L183]$ (line 183, col 3, score 0.98)
-- $[ice-box-reorganization#L83|Ice Box Reorganization — L83]$ (line 83, col 1, score 0.97)
-- $[ice-box-reorganization#L83|Ice Box Reorganization — L83]$ (line 83, col 3, score 0.97)
-- $[docs/unique/field-dynamics-math-blocks#L174|field-dynamics-math-blocks — L174]$ (line 174, col 1, score 0.98)
-- $[docs/unique/field-dynamics-math-blocks#L174|field-dynamics-math-blocks — L174]$ (line 174, col 3, score 0.98)
-- $[field-node-diagram-outline#L134|field-node-diagram-outline — L134]$ (line 134, col 1, score 0.98)
-- $[field-node-diagram-outline#L134|field-node-diagram-outline — L134]$ (line 134, col 3, score 0.98)
-- $[layer-1-uptime-diagrams#L185|layer-1-uptime-diagrams — L185]$ (line 185, col 1, score 0.98)
-- $[layer-1-uptime-diagrams#L185|layer-1-uptime-diagrams — L185]$ (line 185, col 3, score 0.98)
-- $[2d-sandbox-field#L216|2d-sandbox-field — L216]$ (line 216, col 1, score 0.98)
-- $[2d-sandbox-field#L216|2d-sandbox-field — L216]$ (line 216, col 3, score 0.98)
-- $[ice-box-reorganization#L80|Ice Box Reorganization — L80]$ (line 80, col 1, score 1)
-- $[ice-box-reorganization#L80|Ice Box Reorganization — L80]$ (line 80, col 3, score 1)
-- $[docs/unique/field-dynamics-math-blocks#L169|field-dynamics-math-blocks — L169]$ (line 169, col 1, score 1)
-- $[docs/unique/field-dynamics-math-blocks#L169|field-dynamics-math-blocks — L169]$ (line 169, col 3, score 1)
-- $[field-node-diagram-outline#L129|field-node-diagram-outline — L129]$ (line 129, col 1, score 1)
-- $[field-node-diagram-outline#L129|field-node-diagram-outline — L129]$ (line 129, col 3, score 1)
-- $[layer-1-uptime-diagrams#L180|layer-1-uptime-diagrams — L180]$ (line 180, col 1, score 1)
-- $[layer-1-uptime-diagrams#L180|layer-1-uptime-diagrams — L180]$ (line 180, col 3, score 1)
-- $[ice-box-reorganization#L81|Ice Box Reorganization — L81]$ (line 81, col 1, score 1)
-- $[ice-box-reorganization#L81|Ice Box Reorganization — L81]$ (line 81, col 3, score 1)
-- $[docs/unique/field-dynamics-math-blocks#L170|field-dynamics-math-blocks — L170]$ (line 170, col 1, score 1)
-- $[docs/unique/field-dynamics-math-blocks#L170|field-dynamics-math-blocks — L170]$ (line 170, col 3, score 1)
-- $[field-node-diagram-outline#L130|field-node-diagram-outline — L130]$ (line 130, col 1, score 1)
-- $[field-node-diagram-outline#L130|field-node-diagram-outline — L130]$ (line 130, col 3, score 1)
-- $[layer-1-uptime-diagrams#L181|layer-1-uptime-diagrams — L181]$ (line 181, col 1, score 1)
-- $[layer-1-uptime-diagrams#L181|layer-1-uptime-diagrams — L181]$ (line 181, col 3, score 1)
-- $[ice-box-reorganization#L82|Ice Box Reorganization — L82]$ (line 82, col 1, score 1)
-- $[ice-box-reorganization#L82|Ice Box Reorganization — L82]$ (line 82, col 3, score 1)
-- $[docs/unique/field-dynamics-math-blocks#L171|field-dynamics-math-blocks — L171]$ (line 171, col 1, score 1)
-- $[docs/unique/field-dynamics-math-blocks#L171|field-dynamics-math-blocks — L171]$ (line 171, col 3, score 1)
-- $[field-node-diagram-outline#L131|field-node-diagram-outline — L131]$ (line 131, col 1, score 1)
-- $[field-node-diagram-outline#L131|field-node-diagram-outline — L131]$ (line 131, col 3, score 1)
-- $[layer-1-uptime-diagrams#L182|layer-1-uptime-diagrams — L182]$ (line 182, col 1, score 1)
-- $[layer-1-uptime-diagrams#L182|layer-1-uptime-diagrams — L182]$ (line 182, col 3, score 1)
-- $[ice-box-reorganization#L84|Ice Box Reorganization — L84]$ (line 84, col 1, score 1)
-- $[ice-box-reorganization#L84|Ice Box Reorganization — L84]$ (line 84, col 3, score 1)
-- $[2d-sandbox-field#L212|2d-sandbox-field — L212]$ (line 212, col 1, score 1)
-- $[2d-sandbox-field#L212|2d-sandbox-field — L212]$ (line 212, col 3, score 1)
-- $[eidolon-field-abstract-model#L207|Eidolon Field Abstract Model — L207]$ (line 207, col 1, score 1)
-- $[eidolon-field-abstract-model#L207|Eidolon Field Abstract Model — L207]$ (line 207, col 3, score 1)
-- $[exception-layer-analysis#L163|Exception Layer Analysis — L163]$ (line 163, col 1, score 1)
-- $[exception-layer-analysis#L163|Exception Layer Analysis — L163]$ (line 163, col 3, score 1)
-- $[ice-box-reorganization#L85|Ice Box Reorganization — L85]$ (line 85, col 1, score 1)
-- $[ice-box-reorganization#L85|Ice Box Reorganization — L85]$ (line 85, col 3, score 1)
-- $[2d-sandbox-field#L213|2d-sandbox-field — L213]$ (line 213, col 1, score 1)
-- $[2d-sandbox-field#L213|2d-sandbox-field — L213]$ (line 213, col 3, score 1)
-- $[eidolon-field-abstract-model#L208|Eidolon Field Abstract Model — L208]$ (line 208, col 1, score 1)
-- $[eidolon-field-abstract-model#L208|Eidolon Field Abstract Model — L208]$ (line 208, col 3, score 1)
-- $[exception-layer-analysis#L164|Exception Layer Analysis — L164]$ (line 164, col 1, score 1)
-- $[exception-layer-analysis#L164|Exception Layer Analysis — L164]$ (line 164, col 3, score 1)
-- $[ice-box-reorganization#L86|Ice Box Reorganization — L86]$ (line 86, col 1, score 1)
-- $[ice-box-reorganization#L86|Ice Box Reorganization — L86]$ (line 86, col 3, score 1)
-- $[2d-sandbox-field#L214|2d-sandbox-field — L214]$ (line 214, col 1, score 1)
-- $[2d-sandbox-field#L214|2d-sandbox-field — L214]$ (line 214, col 3, score 1)
-- $[eidolon-field-abstract-model#L209|Eidolon Field Abstract Model — L209]$ (line 209, col 1, score 1)
-- $[eidolon-field-abstract-model#L209|Eidolon Field Abstract Model — L209]$ (line 209, col 3, score 1)
-- $[exception-layer-analysis#L165|Exception Layer Analysis — L165]$ (line 165, col 1, score 1)
-- $[exception-layer-analysis#L165|Exception Layer Analysis — L165]$ (line 165, col 3, score 1)
+- [2d-sandbox-field#L76|2d-sandbox-field — L76] (line 76, col 1, score 0.92)
+- [2d-sandbox-field#L104|2d-sandbox-field — L104] (line 104, col 1, score 0.97)
+- [2d-sandbox-field#L129|2d-sandbox-field — L129] (line 129, col 1, score 0.89)
+- [ice-box-reorganization#L55|Ice Box Reorganization — L55] (line 55, col 1, score 1)
+- [exception-layer-analysis#L134|Exception Layer Analysis — L134] (line 134, col 1, score 0.95)
+- [vectorial-exception-descent#L142|Vectorial Exception Descent — L142] (line 142, col 1, score 0.95)
+- [eidolon-field-abstract-model#L176|Eidolon Field Abstract Model — L176] (line 176, col 1, score 0.95)
+- [2d-sandbox-field#L180|2d-sandbox-field — L180] (line 180, col 1, score 0.95)
+- [docs/unique/field-dynamics-math-blocks#L117|field-dynamics-math-blocks — L117] (line 117, col 1, score 0.93)
+- [field-node-diagram-outline#L82|field-node-diagram-outline — L82] (line 82, col 1, score 0.93)
+- [layer-1-uptime-diagrams#L140|layer-1-uptime-diagrams — L140] (line 140, col 1, score 0.93)
+- [2d-sandbox-field#L200|2d-sandbox-field — L200] (line 200, col 1, score 1)
+- [2d-sandbox-field#L200|2d-sandbox-field — L200] (line 200, col 3, score 1)
+- [eidolon-field-abstract-model#L198|Eidolon Field Abstract Model — L198] (line 198, col 1, score 1)
+- [eidolon-field-abstract-model#L198|Eidolon Field Abstract Model — L198] (line 198, col 3, score 1)
+- [exception-layer-analysis#L154|Exception Layer Analysis — L154] (line 154, col 1, score 1)
+- [exception-layer-analysis#L154|Exception Layer Analysis — L154] (line 154, col 3, score 1)
+- [docs/unique/field-dynamics-math-blocks#L149|field-dynamics-math-blocks — L149] (line 149, col 1, score 1)
+- [docs/unique/field-dynamics-math-blocks#L149|field-dynamics-math-blocks — L149] (line 149, col 3, score 1)
+- [eidolon-field-abstract-model#L191|Eidolon Field Abstract Model — L191] (line 191, col 1, score 1)
+- [eidolon-field-abstract-model#L191|Eidolon Field Abstract Model — L191] (line 191, col 3, score 1)
+- [exception-layer-analysis#L149|Exception Layer Analysis — L149] (line 149, col 1, score 1)
+- [exception-layer-analysis#L149|Exception Layer Analysis — L149] (line 149, col 3, score 1)
+- [docs/unique/field-dynamics-math-blocks#L144|field-dynamics-math-blocks — L144] (line 144, col 1, score 1)
+- [docs/unique/field-dynamics-math-blocks#L144|field-dynamics-math-blocks — L144] (line 144, col 3, score 1)
+- [field-node-diagram-outline#L106|field-node-diagram-outline — L106] (line 106, col 1, score 1)
+- [field-node-diagram-outline#L106|field-node-diagram-outline — L106] (line 106, col 3, score 1)
+- [2d-sandbox-field#L193|2d-sandbox-field — L193] (line 193, col 1, score 1)
+- [2d-sandbox-field#L193|2d-sandbox-field — L193] (line 193, col 3, score 1)
+- [exception-layer-analysis#L148|Exception Layer Analysis — L148] (line 148, col 1, score 1)
+- [exception-layer-analysis#L148|Exception Layer Analysis — L148] (line 148, col 3, score 1)
+- [docs/unique/field-dynamics-math-blocks#L145|field-dynamics-math-blocks — L145] (line 145, col 1, score 1)
+- [docs/unique/field-dynamics-math-blocks#L145|field-dynamics-math-blocks — L145] (line 145, col 3, score 1)
+- [field-node-diagram-outline#L108|field-node-diagram-outline — L108] (line 108, col 1, score 1)
+- [field-node-diagram-outline#L108|field-node-diagram-outline — L108] (line 108, col 3, score 1)
+- [2d-sandbox-field#L195|2d-sandbox-field — L195] (line 195, col 1, score 1)
+- [2d-sandbox-field#L195|2d-sandbox-field — L195] (line 195, col 3, score 1)
+- [eidolon-field-abstract-model#L192|Eidolon Field Abstract Model — L192] (line 192, col 1, score 1)
+- [eidolon-field-abstract-model#L192|Eidolon Field Abstract Model — L192] (line 192, col 3, score 1)
+- [exception-layer-analysis#L147|Exception Layer Analysis — L147] (line 147, col 1, score 1)
+- [exception-layer-analysis#L147|Exception Layer Analysis — L147] (line 147, col 3, score 1)
+- [docs/unique/field-dynamics-math-blocks#L146|field-dynamics-math-blocks — L146] (line 146, col 1, score 1)
+- [docs/unique/field-dynamics-math-blocks#L146|field-dynamics-math-blocks — L146] (line 146, col 3, score 1)
+- [2d-sandbox-field#L194|2d-sandbox-field — L194] (line 194, col 1, score 1)
+- [2d-sandbox-field#L194|2d-sandbox-field — L194] (line 194, col 3, score 1)
+- [eidolon-field-abstract-model#L193|Eidolon Field Abstract Model — L193] (line 193, col 1, score 1)
+- [eidolon-field-abstract-model#L193|Eidolon Field Abstract Model — L193] (line 193, col 3, score 1)
+- [docs/unique/field-dynamics-math-blocks#L147|field-dynamics-math-blocks — L147] (line 147, col 1, score 1)
+- [docs/unique/field-dynamics-math-blocks#L147|field-dynamics-math-blocks — L147] (line 147, col 3, score 1)
+- [field-node-diagram-outline#L109|field-node-diagram-outline — L109] (line 109, col 1, score 1)
+- [field-node-diagram-outline#L109|field-node-diagram-outline — L109] (line 109, col 3, score 1)
+- [2d-sandbox-field#L201|2d-sandbox-field — L201] (line 201, col 1, score 1)
+- [2d-sandbox-field#L201|2d-sandbox-field — L201] (line 201, col 3, score 1)
+- [field-node-diagram-outline#L117|field-node-diagram-outline — L117] (line 117, col 1, score 1)
+- [field-node-diagram-outline#L117|field-node-diagram-outline — L117] (line 117, col 3, score 1)
+- [reawakening-duck#L116|Reawakening Duck — L116] (line 116, col 1, score 1)
+- [reawakening-duck#L116|Reawakening Duck — L116] (line 116, col 3, score 1)
+- [sibilant-macro-targets#L165|sibilant-macro-targets — L165] (line 165, col 1, score 1)
+- [sibilant-macro-targets#L165|sibilant-macro-targets — L165] (line 165, col 3, score 1)
+- [2d-sandbox-field#L197|2d-sandbox-field — L197] (line 197, col 1, score 1)
+- [2d-sandbox-field#L197|2d-sandbox-field — L197] (line 197, col 3, score 1)
+- [docs/unique/aionian-circuit-math#L154|aionian-circuit-math — L154] (line 154, col 1, score 1)
+- [docs/unique/aionian-circuit-math#L154|aionian-circuit-math — L154] (line 154, col 3, score 1)
+- [Math Fundamentals — L13]chunks/math-fundamentals.md#L13 (line 13, col 1, score 1)
+- [Math Fundamentals — L13]chunks/math-fundamentals.md#L13 (line 13, col 3, score 1)
+- [eidolon-field-abstract-model#L194|Eidolon Field Abstract Model — L194] (line 194, col 1, score 1)
+- [eidolon-field-abstract-model#L194|Eidolon Field Abstract Model — L194] (line 194, col 3, score 1)
+- [2d-sandbox-field#L198|2d-sandbox-field — L198] (line 198, col 1, score 1)
+- [2d-sandbox-field#L198|2d-sandbox-field — L198] (line 198, col 3, score 1)
+- [eidolon-field-abstract-model#L195|Eidolon Field Abstract Model — L195] (line 195, col 1, score 1)
+- [eidolon-field-abstract-model#L195|Eidolon Field Abstract Model — L195] (line 195, col 3, score 1)
+- [docs/unique/eidolon-field-math-foundations#L137|eidolon-field-math-foundations — L137] (line 137, col 1, score 1)
+- [docs/unique/eidolon-field-math-foundations#L137|eidolon-field-math-foundations — L137] (line 137, col 3, score 1)
+- [eidolon-node-lifecycle#L32|eidolon-node-lifecycle — L32] (line 32, col 1, score 1)
+- [eidolon-node-lifecycle#L32|eidolon-node-lifecycle — L32] (line 32, col 3, score 1)
+- [2d-sandbox-field#L199|2d-sandbox-field — L199] (line 199, col 1, score 1)
+- [2d-sandbox-field#L199|2d-sandbox-field — L199] (line 199, col 3, score 1)
+- [eidolon-field-abstract-model#L196|Eidolon Field Abstract Model — L196] (line 196, col 1, score 1)
+- [eidolon-field-abstract-model#L196|Eidolon Field Abstract Model — L196] (line 196, col 3, score 1)
+- [eidolon-node-lifecycle#L35|eidolon-node-lifecycle — L35] (line 35, col 1, score 1)
+- [eidolon-node-lifecycle#L35|eidolon-node-lifecycle — L35] (line 35, col 3, score 1)
+- [event-bus-projections-architecture#L151|Event Bus Projections Architecture — L151] (line 151, col 1, score 1)
+- [event-bus-projections-architecture#L151|Event Bus Projections Architecture — L151] (line 151, col 3, score 1)
+- [cross-language-runtime-polymorphism#L202|Cross-Language Runtime Polymorphism — L202] (line 202, col 1, score 1)
+- [cross-language-runtime-polymorphism#L202|Cross-Language Runtime Polymorphism — L202] (line 202, col 3, score 1)
+- [cross-target-macro-system-in-sibilant#L172|Cross-Target Macro System in Sibilant — L172] (line 172, col 1, score 1)
+- [cross-target-macro-system-in-sibilant#L172|Cross-Target Macro System in Sibilant — L172] (line 172, col 3, score 1)
+- [dynamic-context-model-for-web-components#L390|Dynamic Context Model for Web Components — L390] (line 390, col 1, score 1)
+- [dynamic-context-model-for-web-components#L390|Dynamic Context Model for Web Components — L390] (line 390, col 3, score 1)
+- [model-selection-for-lightweight-conversational-tasks#L133|Model Selection for Lightweight Conversational Tasks — L133] (line 133, col 1, score 1)
+- [model-selection-for-lightweight-conversational-tasks#L133|Model Selection for Lightweight Conversational Tasks — L133] (line 133, col 3, score 1)
+- [chroma-toolkit-consolidation-plan#L172|Chroma Toolkit Consolidation Plan — L172] (line 172, col 1, score 1)
+- [chroma-toolkit-consolidation-plan#L172|Chroma Toolkit Consolidation Plan — L172] (line 172, col 3, score 1)
+- [cross-language-runtime-polymorphism#L201|Cross-Language Runtime Polymorphism — L201] (line 201, col 1, score 1)
+- [cross-language-runtime-polymorphism#L201|Cross-Language Runtime Polymorphism — L201] (line 201, col 3, score 1)
+- [cross-target-macro-system-in-sibilant#L178|Cross-Target Macro System in Sibilant — L178] (line 178, col 1, score 1)
+- [cross-target-macro-system-in-sibilant#L178|Cross-Target Macro System in Sibilant — L178] (line 178, col 3, score 1)
+- [docs/unique/field-interaction-equations#L159|field-interaction-equations — L159] (line 159, col 1, score 1)
+- [docs/unique/field-interaction-equations#L159|field-interaction-equations — L159] (line 159, col 3, score 1)
+- [2d-sandbox-field#L202|2d-sandbox-field — L202] (line 202, col 1, score 1)
+- [2d-sandbox-field#L202|2d-sandbox-field — L202] (line 202, col 3, score 1)
+- [sibilant-macro-targets#L177|sibilant-macro-targets — L177] (line 177, col 1, score 0.98)
+- [sibilant-macro-targets#L177|sibilant-macro-targets — L177] (line 177, col 3, score 0.98)
+- [docs/unique/field-dynamics-math-blocks#L172|field-dynamics-math-blocks — L172] (line 172, col 1, score 0.98)
+- [docs/unique/field-dynamics-math-blocks#L172|field-dynamics-math-blocks — L172] (line 172, col 3, score 0.98)
+- [field-node-diagram-outline#L132|field-node-diagram-outline — L132] (line 132, col 1, score 0.98)
+- [field-node-diagram-outline#L132|field-node-diagram-outline — L132] (line 132, col 3, score 0.98)
+- [layer-1-uptime-diagrams#L183|layer-1-uptime-diagrams — L183] (line 183, col 1, score 0.98)
+- [layer-1-uptime-diagrams#L183|layer-1-uptime-diagrams — L183] (line 183, col 3, score 0.98)
+- [ice-box-reorganization#L83|Ice Box Reorganization — L83] (line 83, col 1, score 0.97)
+- [ice-box-reorganization#L83|Ice Box Reorganization — L83] (line 83, col 3, score 0.97)
+- [docs/unique/field-dynamics-math-blocks#L174|field-dynamics-math-blocks — L174] (line 174, col 1, score 0.98)
+- [docs/unique/field-dynamics-math-blocks#L174|field-dynamics-math-blocks — L174] (line 174, col 3, score 0.98)
+- [field-node-diagram-outline#L134|field-node-diagram-outline — L134] (line 134, col 1, score 0.98)
+- [field-node-diagram-outline#L134|field-node-diagram-outline — L134] (line 134, col 3, score 0.98)
+- [layer-1-uptime-diagrams#L185|layer-1-uptime-diagrams — L185] (line 185, col 1, score 0.98)
+- [layer-1-uptime-diagrams#L185|layer-1-uptime-diagrams — L185] (line 185, col 3, score 0.98)
+- [2d-sandbox-field#L216|2d-sandbox-field — L216] (line 216, col 1, score 0.98)
+- [2d-sandbox-field#L216|2d-sandbox-field — L216] (line 216, col 3, score 0.98)
+- [ice-box-reorganization#L80|Ice Box Reorganization — L80] (line 80, col 1, score 1)
+- [ice-box-reorganization#L80|Ice Box Reorganization — L80] (line 80, col 3, score 1)
+- [docs/unique/field-dynamics-math-blocks#L169|field-dynamics-math-blocks — L169] (line 169, col 1, score 1)
+- [docs/unique/field-dynamics-math-blocks#L169|field-dynamics-math-blocks — L169] (line 169, col 3, score 1)
+- [field-node-diagram-outline#L129|field-node-diagram-outline — L129] (line 129, col 1, score 1)
+- [field-node-diagram-outline#L129|field-node-diagram-outline — L129] (line 129, col 3, score 1)
+- [layer-1-uptime-diagrams#L180|layer-1-uptime-diagrams — L180] (line 180, col 1, score 1)
+- [layer-1-uptime-diagrams#L180|layer-1-uptime-diagrams — L180] (line 180, col 3, score 1)
+- [ice-box-reorganization#L81|Ice Box Reorganization — L81] (line 81, col 1, score 1)
+- [ice-box-reorganization#L81|Ice Box Reorganization — L81] (line 81, col 3, score 1)
+- [docs/unique/field-dynamics-math-blocks#L170|field-dynamics-math-blocks — L170] (line 170, col 1, score 1)
+- [docs/unique/field-dynamics-math-blocks#L170|field-dynamics-math-blocks — L170] (line 170, col 3, score 1)
+- [field-node-diagram-outline#L130|field-node-diagram-outline — L130] (line 130, col 1, score 1)
+- [field-node-diagram-outline#L130|field-node-diagram-outline — L130] (line 130, col 3, score 1)
+- [layer-1-uptime-diagrams#L181|layer-1-uptime-diagrams — L181] (line 181, col 1, score 1)
+- [layer-1-uptime-diagrams#L181|layer-1-uptime-diagrams — L181] (line 181, col 3, score 1)
+- [ice-box-reorganization#L82|Ice Box Reorganization — L82] (line 82, col 1, score 1)
+- [ice-box-reorganization#L82|Ice Box Reorganization — L82] (line 82, col 3, score 1)
+- [docs/unique/field-dynamics-math-blocks#L171|field-dynamics-math-blocks — L171] (line 171, col 1, score 1)
+- [docs/unique/field-dynamics-math-blocks#L171|field-dynamics-math-blocks — L171] (line 171, col 3, score 1)
+- [field-node-diagram-outline#L131|field-node-diagram-outline — L131] (line 131, col 1, score 1)
+- [field-node-diagram-outline#L131|field-node-diagram-outline — L131] (line 131, col 3, score 1)
+- [layer-1-uptime-diagrams#L182|layer-1-uptime-diagrams — L182] (line 182, col 1, score 1)
+- [layer-1-uptime-diagrams#L182|layer-1-uptime-diagrams — L182] (line 182, col 3, score 1)
+- [ice-box-reorganization#L84|Ice Box Reorganization — L84] (line 84, col 1, score 1)
+- [ice-box-reorganization#L84|Ice Box Reorganization — L84] (line 84, col 3, score 1)
+- [2d-sandbox-field#L212|2d-sandbox-field — L212] (line 212, col 1, score 1)
+- [2d-sandbox-field#L212|2d-sandbox-field — L212] (line 212, col 3, score 1)
+- [eidolon-field-abstract-model#L207|Eidolon Field Abstract Model — L207] (line 207, col 1, score 1)
+- [eidolon-field-abstract-model#L207|Eidolon Field Abstract Model — L207] (line 207, col 3, score 1)
+- [exception-layer-analysis#L163|Exception Layer Analysis — L163] (line 163, col 1, score 1)
+- [exception-layer-analysis#L163|Exception Layer Analysis — L163] (line 163, col 3, score 1)
+- [ice-box-reorganization#L85|Ice Box Reorganization — L85] (line 85, col 1, score 1)
+- [ice-box-reorganization#L85|Ice Box Reorganization — L85] (line 85, col 3, score 1)
+- [2d-sandbox-field#L213|2d-sandbox-field — L213] (line 213, col 1, score 1)
+- [2d-sandbox-field#L213|2d-sandbox-field — L213] (line 213, col 3, score 1)
+- [eidolon-field-abstract-model#L208|Eidolon Field Abstract Model — L208] (line 208, col 1, score 1)
+- [eidolon-field-abstract-model#L208|Eidolon Field Abstract Model — L208] (line 208, col 3, score 1)
+- [exception-layer-analysis#L164|Exception Layer Analysis — L164] (line 164, col 1, score 1)
+- [exception-layer-analysis#L164|Exception Layer Analysis — L164] (line 164, col 3, score 1)
+- [ice-box-reorganization#L86|Ice Box Reorganization — L86] (line 86, col 1, score 1)
+- [ice-box-reorganization#L86|Ice Box Reorganization — L86] (line 86, col 3, score 1)
+- [2d-sandbox-field#L214|2d-sandbox-field — L214] (line 214, col 1, score 1)
+- [2d-sandbox-field#L214|2d-sandbox-field — L214] (line 214, col 3, score 1)
+- [eidolon-field-abstract-model#L209|Eidolon Field Abstract Model — L209] (line 209, col 1, score 1)
+- [eidolon-field-abstract-model#L209|Eidolon Field Abstract Model — L209] (line 209, col 3, score 1)
+- [exception-layer-analysis#L165|Exception Layer Analysis — L165] (line 165, col 1, score 1)
+- [exception-layer-analysis#L165|Exception Layer Analysis — L165] (line 165, col 3, score 1)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

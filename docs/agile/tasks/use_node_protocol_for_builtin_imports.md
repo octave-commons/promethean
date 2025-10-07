@@ -1,14 +1,14 @@
 ---
-$$
+```
 uuid: 77011385-81b7-42aa-9137-cd522a63910e
-$$
+```
 title: 'Use `node:` protocol for builtin imports'
 status: todo
 priority: P3
 labels: []
-$$
+```
 created_at: '2025-09-15T02:02:58.523Z'
-$$
+```
 ---
 # Use `node:` protocol for builtin imports
 
@@ -25,6 +25,6 @@ Biome flagged `useNodejsImportProtocol` violations where Node.js builtins like `
 ## Subtasks
 - [ ] Fix imports in `packages/codex-context` `ecosystem.config.js`.
 - [ ] Audit other packages for missing `node:` prefixes.
-$$
+```
 #Todo #codex-task
-$$
+```

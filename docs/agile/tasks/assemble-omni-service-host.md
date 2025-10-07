@@ -1,26 +1,26 @@
 ---
-$$
+```
 uuid: 5fb47630-6822-4ecf-a035-625ed0e733bf
-$$
+```
 title: Assemble unified @promethean/omni-service host
-$$
+```
 status: in_progress
-$$
+```
 priority: P2
 labels:
   - omni
   - service
-$$
+```
 created_at: '2025-09-21T02:47:00Z'
-$$
+```
 ---
 ## 🎯 Outcome
 Stand up `@promethean/omni-service`, a Fastify application that mounts REST, GraphQL, WebSocket, and MCP adapters on a single server/port with shared auth, RBAC, and lifecycle hooks.
 
 ## 📥 Inputs
-- $[docs/architecture/omni/omni-service-roadmap.md]$
-- $[docs/agile/tasks/author-omni-protocol-package.md]$
-- $[docs/agile/tasks/extract-omni-core-services.md]$
+- [docs/architecture/omni/omni-service-roadmap.md]
+- [docs/agile/tasks/author-omni-protocol-package.md]
+- [docs/agile/tasks/extract-omni-core-services.md]
 
 ## ✅ Definition of Done
 - [ ] Service package created with bootstrapping entrypoint and configuration docs.

@@ -1,16 +1,16 @@
-$$
+```
 <!-- SYMPKG:PKG:BEGIN -->
-$$
+```
 # @promethean/event
-$$
+```
 **Folder:** `packages/event`
-$$
-$$
+```
+```
 **Version:** `0.0.1`
-$$
-$$
+```
+```
 **Domain:** `_root`
-$$
+```
 ```mermaid
 graph LR
   A["@promethean/event"]
@@ -55,20 +55,20 @@ graph LR
   click R11 "../ws/README.md" "@promethean/ws"
 ```
 ## Dependencies
-- $@promethean/test-utils$$../test-utils/README.md$
-- $@promethean/utils$$../utils/README.md$
+- @promethean/test-utils$../test-utils/README.md
+- @promethean/utils$../utils/README.md
 ## Dependents
-- $@promethean/changefeed$$../changefeed/README.md$
-- $@promethean/compaction$$../compaction/README.md$
-- $@promethean/dev$$../dev/README.md$
-- $@promethean/discord$$../discord/README.md$
-- $@promethean/dlq$$../dlq/README.md$
-- $@promethean/examples$$../examples/README.md$
-- $@promethean/http$$../http/README.md$
-- $@promethean/projectors$$../projectors/README.md$
-- $@promethean/schema$$../schema/README.md$
-- $@promethean/timetravel$$../timetravel/README.md$
-- $@promethean/ws$$../ws/README.md$
-$$
+- @promethean/changefeed$../changefeed/README.md
+- @promethean/compaction$../compaction/README.md
+- @promethean/dev$../dev/README.md
+- @promethean/discord$../discord/README.md
+- @promethean/dlq$../dlq/README.md
+- @promethean/examples$../examples/README.md
+- @promethean/http$../http/README.md
+- @promethean/projectors$../projectors/README.md
+- @promethean/schema$../schema/README.md
+- @promethean/timetravel$../timetravel/README.md
+- @promethean/ws$../ws/README.md
+```
 <!-- SYMPKG:PKG:END -->
-$$
+```

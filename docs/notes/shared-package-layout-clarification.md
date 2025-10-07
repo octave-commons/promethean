@@ -1,14 +1,14 @@
 ---
-$$
+```
 uuid: 36c8882a-badc-4e18-838d-2c54d7038141
-$$
-$$
+```
+```
 created_at: 2025.08.25.18.45.12.md
-$$
+```
 filename: shared-package-layout-clarification
-$$
+```
 description: >-
-$$
+```
   Clarifies the correct file structure and import patterns for a shared
   TypeScript package, ensuring build output is in `dist/` and consumers use
   `@shared/ts/dist/...` imports as per the specified rule.
@@ -18,9 +18,9 @@ tags:
   - import-patterns
   - dist-output
   - shared-package
-$$
+```
 related_to_title:
-$$
+```
   - Shared Package Structure
   - i3-config-validation-methods
   - Promethean Infrastructure Setup
@@ -48,9 +48,9 @@ $$
   - RAG UI Panel with Qdrant and PostgREST
   - eidolon-field-math-foundations
   - observability-infrastructure-setup
-$$
+```
 related_to_uuid:
-$$
+```
   - 66a72fc3-4153-41fc-84bd-d6164967a6ff
   - d28090ac-f746-4958-aab5-ed1315382c04
   - 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
@@ -503,7 +503,7 @@ Strict ESM build into `dist/` with `.js` extensions:
 }
 ```
 
-## `.gitignore` $repo root or `shared/ts/.gitignore`$
+## `.gitignore` repo root or `shared/ts/.gitignore`
 
 ```
 shared/ts/dist/
@@ -529,7 +529,7 @@ shared/ts/dist/
 
 > Don’t import from `src/` outside the shared package. Everything outside should see **only** `@shared/ts` or `@shared/ts/dist/...`.
 
-# Minimal new files $in **src/**, not dist$
+# Minimal new files in **src/**, not dist
 
 Create these **under `shared/ts/src/`**:
 
@@ -554,7 +554,7 @@ All consumers keep (or switch to) imports like `@shared/ts/dist/<module>.js`, wh
 
 * [ ] `shared/ts/src/**` contains the real code.
 * [ ] `shared/ts/dist/**` is generated, **gitignored**, and contains `.js/.d.ts`.
-* [ ] `services/*` import from `@shared/ts/dist/...` $or `@shared/ts`$.
+* [ ] `services/*` import from `@shared/ts/dist/...` or `@shared/ts`.
 * [ ] No consumer ever imports `shared/ts/src/**`.
 * [ ] CI builds `@shared/ts` before building the services.
 
@@ -565,202 +565,202 @@ If you want, I’ll spit out the exact `src/*.ts` content for the envelope, topi
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
 <<<<<<< HEAD
-- $[i3-layout-saver]$
-- $[obsidian-templating-plugins-integration-guide]$
-- $[docs/unique/event-bus-mvp|Event Bus MVP]$
-- $[pure-node-crawl-stack-with-playwright-and-crawlee|Pure-Node Crawl Stack with Playwright and Crawlee]$
-- $[websocket-gateway-implementation|WebSocket Gateway Implementation]$
-- $[polyglot-s-expr-bridge-python-js-lisp-interop|Polyglot S-expr Bridge: Python-JS-Lisp Interop]$
-- $[promethean-system-diagrams]$
-- $[lispy-macros-with-syntax-rules|Lispy Macros with syntax-rules]$
-- $[shared-package-structure|Shared Package Structure]$
-- [Promethean Event Bus MVP v0.1]$promethean-event-bus-mvp-v0-1.md$
-- $[matplotlib-animation-with-async-execution|Matplotlib Animation with Async Execution]$
-- $[mystery-lisp-search-session]$
-- $[sibilant-meta-string-templating-runtime]$
-- $[chroma-embedding-refactor]$
-- $[rag-ui-panel-with-qdrant-and-postgrest|RAG UI Panel with Qdrant and PostgREST]$
-- $[sibilant-metacompiler-overview]$
-- $[cross-target-macro-system-in-sibilant|Cross-Target Macro System in Sibilant]$
-- $[ecs-scheduler-and-prefabs]$
-- $[docs/unique/interop-and-source-maps|Interop and Source Maps]$
-- $[local-offline-model-deployment-strategy]$
-- $[local-only-llm-workflow]$
-- $lisp-dsl-for-window-management$$lisp-dsl-for-window-management.md$
-- $[vectorial-exception-descent|Vectorial Exception Descent]$
-- $[2d-sandbox-field]$
-- $[sibilant-meta-prompt-dsl|Sibilant Meta-Prompt DSL]$
+- [i3-layout-saver]
+- [obsidian-templating-plugins-integration-guide]
+- [docs/unique/event-bus-mvp|Event Bus MVP]
+- [pure-node-crawl-stack-with-playwright-and-crawlee|Pure-Node Crawl Stack with Playwright and Crawlee]
+- [websocket-gateway-implementation|WebSocket Gateway Implementation]
+- [polyglot-s-expr-bridge-python-js-lisp-interop|Polyglot S-expr Bridge: Python-JS-Lisp Interop]
+- [promethean-system-diagrams]
+- [lispy-macros-with-syntax-rules|Lispy Macros with syntax-rules]
+- [shared-package-structure|Shared Package Structure]
+- [Promethean Event Bus MVP v0.1]promethean-event-bus-mvp-v0-1.md
+- [matplotlib-animation-with-async-execution|Matplotlib Animation with Async Execution]
+- [mystery-lisp-search-session]
+- [sibilant-meta-string-templating-runtime]
+- [chroma-embedding-refactor]
+- [rag-ui-panel-with-qdrant-and-postgrest|RAG UI Panel with Qdrant and PostgREST]
+- [sibilant-metacompiler-overview]
+- [cross-target-macro-system-in-sibilant|Cross-Target Macro System in Sibilant]
+- [ecs-scheduler-and-prefabs]
+- [docs/unique/interop-and-source-maps|Interop and Source Maps]
+- [local-offline-model-deployment-strategy]
+- [local-only-llm-workflow]
+- lisp-dsl-for-window-management$lisp-dsl-for-window-management.md
+- [vectorial-exception-descent|Vectorial Exception Descent]
+- [2d-sandbox-field]
+- [sibilant-meta-prompt-dsl|Sibilant Meta-Prompt DSL]
 ## Sources
-- $[obsidian-templating-plugins-integration-guide#^ref-3724ef1e-5-0|obsidian-templating-plugins-integration-guide — L5]$ (line 5, col 0, score 1)
-- $[polyglot-s-expr-bridge-python-js-lisp-interop#^ref-63a1cc28-490-0|Polyglot S-expr Bridge: Python-JS-Lisp Interop — L490]$ (line 490, col 0, score 0.97)
-- $[pure-node-crawl-stack-with-playwright-and-crawlee#^ref-d527c05d-400-0|Pure-Node Crawl Stack with Playwright and Crawlee — L400]$ (line 400, col 0, score 0.97)
-- $[docs/unique/event-bus-mvp#^ref-534fe91d-524-0|Event Bus MVP — L524]$ (line 524, col 0, score 0.97)
-- $[websocket-gateway-implementation#^ref-e811123d-630-0|WebSocket Gateway Implementation — L630]$ (line 630, col 0, score 0.97)
-- $[lispy-macros-with-syntax-rules#^ref-cbfe3513-375-0|Lispy Macros with syntax-rules — L375]$ (line 375, col 0, score 0.96)
-- $[promethean-system-diagrams#^ref-b51e19b4-169-0|promethean-system-diagrams — L169]$ (line 169, col 0, score 0.96)
-- [Promethean Event Bus MVP v0.1 — L972]$promethean-event-bus-mvp-v0-1.md#^ref-fe7193a2-972-0$ (line 972, col 0, score 0.95)
-- $[matplotlib-animation-with-async-execution#^ref-687439f9-44-0|Matplotlib Animation with Async Execution — L44]$ (line 44, col 0, score 0.95)
-- $[mystery-lisp-search-session#^ref-513dc4c7-106-0|mystery-lisp-search-session — L106]$ (line 106, col 0, score 0.95)
-- $[shared-package-structure#^ref-66a72fc3-76-0|Shared Package Structure — L76]$ (line 76, col 0, score 0.95)
-- $[rag-ui-panel-with-qdrant-and-postgrest#^ref-e1056831-349-0|RAG UI Panel with Qdrant and PostgREST — L349]$ (line 349, col 0, score 0.94)
-- $[sibilant-metacompiler-overview#^ref-61d4086b-52-0|sibilant-metacompiler-overview — L52]$ (line 52, col 0, score 0.94)
-- $[cross-target-macro-system-in-sibilant#^ref-5f210ca2-148-0|Cross-Target Macro System in Sibilant — L148]$ (line 148, col 0, score 0.94)
-- $[chroma-embedding-refactor#^ref-8b256935-289-0|Chroma-Embedding-Refactor — L289]$ (line 289, col 0, score 0.94)
-- $[sibilant-meta-string-templating-runtime#^ref-2aafc801-92-0|sibilant-meta-string-templating-runtime — L92]$ (line 92, col 0, score 0.94)
-- $[ecs-scheduler-and-prefabs#^ref-c62a1815-376-0|ecs-scheduler-and-prefabs — L376]$ (line 376, col 0, score 0.94)
-- $[docs/unique/interop-and-source-maps#^ref-cdfac40c-497-0|Interop and Source Maps — L497]$ (line 497, col 0, score 0.94)
-- $[local-offline-model-deployment-strategy#^ref-ad7f1ed3-232-0|Local-Offline-Model-Deployment-Strategy — L232]$ (line 232, col 0, score 0.93)
-- $[local-only-llm-workflow#^ref-9a8ab57e-147-0|Local-Only-LLM-Workflow — L147]$ (line 147, col 0, score 0.93)
-- $lisp-dsl-for-window-management — L185$$lisp-dsl-for-window-management.md#^ref-c5c5ff1c-185-0$ (line 185, col 0, score 0.93)
-- $[vectorial-exception-descent#^ref-d771154e-95-0|Vectorial Exception Descent — L95]$ (line 95, col 0, score 0.92)
-- $[2d-sandbox-field#^ref-c710dc93-150-0|2d-sandbox-field — L150]$ (line 150, col 0, score 0.92)
-- $[sibilant-meta-prompt-dsl#^ref-af5d2824-120-0|Sibilant Meta-Prompt DSL — L120]$ (line 120, col 0, score 0.91)
-- $[promethean-web-ui-setup#^ref-bc5172ca-440-0|prom ui bootstrap — L440]$ (line 440, col 0, score 0.9)
-- $[pm2-orchestration-patterns#^ref-51932e7b-217-0|pm2-orchestration-patterns — L217]$ (line 217, col 0, score 0.9)
-- $[docs/unique/universal-lisp-interface#^ref-b01856b4-187-0|Universal Lisp Interface — L187]$ (line 187, col 0, score 0.9)
-- $[i3-config-validation-methods#^ref-d28090ac-28-0|i3-config-validation-methods — L28]$ (line 28, col 0, score 0.9)
-- $[ecs-scheduler-and-prefabs#^ref-c62a1815-370-0|ecs-scheduler-and-prefabs — L370]$ (line 370, col 0, score 0.9)
-- $[i3-layout-saver#^ref-31f0166e-79-0|i3-layout-saver — L79]$ (line 79, col 0, score 0.89)
-- $[polymorphic-meta-programming-engine#^ref-7bed0b9a-190-0|polymorphic-meta-programming-engine — L190]$ (line 190, col 0, score 0.89)
-- $[cross-language-runtime-polymorphism#^ref-c34c36a6-211-0|Cross-Language Runtime Polymorphism — L211]$ (line 211, col 0, score 0.89)
-- $[promethean-agent-config-dsl#^ref-2c00ce45-279-0|Promethean Agent Config DSL — L279]$ (line 279, col 0, score 0.89)
-- $[eidolon-field-optimization#^ref-40e05c14-50-0|Eidolon-Field-Optimization — L50]$ (line 50, col 0, score 0.89)
-- $heartbeat-simulation-snippets — L80$$heartbeat-simulation-snippets.md#^ref-23e221e9-80-0$ (line 80, col 0, score 0.89)
-- $[shared-package-structure#^ref-66a72fc3-185-0|Shared Package Structure — L185]$ (line 185, col 0, score 0.89)
-- $[promethean-infrastructure-setup#^ref-6deed6ac-424-0|Promethean Infrastructure Setup — L424]$ (line 424, col 0, score 0.89)
-- $[obsidian-chatgpt-plugin-integration#^ref-636f49b1-5-0|Obsidian ChatGPT Plugin Integration — L5]$ (line 5, col 0, score 0.89)
-- $[obsidian-chatgpt-plugin-integration-guide#^ref-3bea339f-5-0|Obsidian ChatGPT Plugin Integration Guide — L5]$ (line 5, col 0, score 0.89)
-- $[language-agnostic-mirror-system#^ref-d2b3628c-504-0|Language-Agnostic Mirror System — L504]$ (line 504, col 0, score 0.88)
-- $[universal-intention-code-fabric#^ref-c14edce7-388-0|universal-intention-code-fabric — L388]$ (line 388, col 0, score 0.88)
-- $[markdown-to-org-transpiler#^ref-ab54cdd8-272-0|markdown-to-org-transpiler — L272]$ (line 272, col 0, score 0.87)
-- $[chroma-toolkit-consolidation-plan#^ref-5020e892-5599-0|Chroma Toolkit Consolidation Plan — L5599]$ (line 5599, col 0, score 0.87)
-- [Debugging Broker Connections and Agent Behavior — L2884]$debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-2884-0$ (line 2884, col 0, score 0.87)
-- $[dynamic-context-model-for-web-components#^ref-f7702bf8-6943-0|Dynamic Context Model for Web Components — L6943]$ (line 6943, col 0, score 0.87)
-- $[docs/unique/eidolon-field-math-foundations#^ref-008f2ac0-3954-0|eidolon-field-math-foundations — L3954]$ (line 3954, col 0, score 0.87)
-- $[migrate-to-provider-tenant-architecture#^ref-54382370-7484-0|Migrate to Provider-Tenant Architecture — L7484]$ (line 7484, col 0, score 0.87)
-- $[performance-optimized-polyglot-bridge#^ref-f5579967-5734-0|Performance-Optimized-Polyglot-Bridge — L5734]$ (line 5734, col 0, score 0.87)
-- $[post-linguistic-transhuman-design-frameworks#^ref-6bcff92c-2827-0|Post-Linguistic Transhuman Design Frameworks — L2827]$ (line 2827, col 0, score 0.87)
-- $[docs/unique/ecs-offload-workers#^ref-6498b9d7-427-0|ecs-offload-workers — L427]$ (line 427, col 0, score 0.86)
-- $[set-assignment-in-lisp-ast#^ref-c5fba0a0-148-0|set-assignment-in-lisp-ast — L148]$ (line 148, col 0, score 0.86)
-- $[exception-layer-analysis#^ref-21d5cc09-63-0|Exception Layer Analysis — L63]$ (line 63, col 0, score 0.86)
-- $[ecs-scheduler-and-prefabs#^ref-c62a1815-246-0|ecs-scheduler-and-prefabs — L246]$ (line 246, col 0, score 0.85)
-- $[promethean-agent-dsl-ts-scaffold#^ref-5158f742-818-0|Promethean Agent DSL TS Scaffold — L818]$ (line 818, col 0, score 0.85)
-- $[docs/unique/interop-and-source-maps#^ref-cdfac40c-498-0|Interop and Source Maps — L498]$ (line 498, col 0, score 0.85)
-- $Local-First Intention→Code Loop with Free Models — L105$$local-first-intention-code-loop-with-free-models.md#^ref-871490c7-105-0$ (line 105, col 0, score 0.85)
-- $[polyglot-s-expr-bridge-python-js-lisp-interop#^ref-63a1cc28-491-0|Polyglot S-expr Bridge: Python-JS-Lisp Interop — L491]$ (line 491, col 0, score 0.85)
-$$
+- [obsidian-templating-plugins-integration-guide#^ref-3724ef1e-5-0|obsidian-templating-plugins-integration-guide — L5] (line 5, col 0, score 1)
+- [polyglot-s-expr-bridge-python-js-lisp-interop#^ref-63a1cc28-490-0|Polyglot S-expr Bridge: Python-JS-Lisp Interop — L490] (line 490, col 0, score 0.97)
+- [pure-node-crawl-stack-with-playwright-and-crawlee#^ref-d527c05d-400-0|Pure-Node Crawl Stack with Playwright and Crawlee — L400] (line 400, col 0, score 0.97)
+- [docs/unique/event-bus-mvp#^ref-534fe91d-524-0|Event Bus MVP — L524] (line 524, col 0, score 0.97)
+- [websocket-gateway-implementation#^ref-e811123d-630-0|WebSocket Gateway Implementation — L630] (line 630, col 0, score 0.97)
+- [lispy-macros-with-syntax-rules#^ref-cbfe3513-375-0|Lispy Macros with syntax-rules — L375] (line 375, col 0, score 0.96)
+- [promethean-system-diagrams#^ref-b51e19b4-169-0|promethean-system-diagrams — L169] (line 169, col 0, score 0.96)
+- [Promethean Event Bus MVP v0.1 — L972]promethean-event-bus-mvp-v0-1.md#^ref-fe7193a2-972-0 (line 972, col 0, score 0.95)
+- [matplotlib-animation-with-async-execution#^ref-687439f9-44-0|Matplotlib Animation with Async Execution — L44] (line 44, col 0, score 0.95)
+- [mystery-lisp-search-session#^ref-513dc4c7-106-0|mystery-lisp-search-session — L106] (line 106, col 0, score 0.95)
+- [shared-package-structure#^ref-66a72fc3-76-0|Shared Package Structure — L76] (line 76, col 0, score 0.95)
+- [rag-ui-panel-with-qdrant-and-postgrest#^ref-e1056831-349-0|RAG UI Panel with Qdrant and PostgREST — L349] (line 349, col 0, score 0.94)
+- [sibilant-metacompiler-overview#^ref-61d4086b-52-0|sibilant-metacompiler-overview — L52] (line 52, col 0, score 0.94)
+- [cross-target-macro-system-in-sibilant#^ref-5f210ca2-148-0|Cross-Target Macro System in Sibilant — L148] (line 148, col 0, score 0.94)
+- [chroma-embedding-refactor#^ref-8b256935-289-0|Chroma-Embedding-Refactor — L289] (line 289, col 0, score 0.94)
+- [sibilant-meta-string-templating-runtime#^ref-2aafc801-92-0|sibilant-meta-string-templating-runtime — L92] (line 92, col 0, score 0.94)
+- [ecs-scheduler-and-prefabs#^ref-c62a1815-376-0|ecs-scheduler-and-prefabs — L376] (line 376, col 0, score 0.94)
+- [docs/unique/interop-and-source-maps#^ref-cdfac40c-497-0|Interop and Source Maps — L497] (line 497, col 0, score 0.94)
+- [local-offline-model-deployment-strategy#^ref-ad7f1ed3-232-0|Local-Offline-Model-Deployment-Strategy — L232] (line 232, col 0, score 0.93)
+- [local-only-llm-workflow#^ref-9a8ab57e-147-0|Local-Only-LLM-Workflow — L147] (line 147, col 0, score 0.93)
+- lisp-dsl-for-window-management — L185$lisp-dsl-for-window-management.md#^ref-c5c5ff1c-185-0 (line 185, col 0, score 0.93)
+- [vectorial-exception-descent#^ref-d771154e-95-0|Vectorial Exception Descent — L95] (line 95, col 0, score 0.92)
+- [2d-sandbox-field#^ref-c710dc93-150-0|2d-sandbox-field — L150] (line 150, col 0, score 0.92)
+- [sibilant-meta-prompt-dsl#^ref-af5d2824-120-0|Sibilant Meta-Prompt DSL — L120] (line 120, col 0, score 0.91)
+- [promethean-web-ui-setup#^ref-bc5172ca-440-0|prom ui bootstrap — L440] (line 440, col 0, score 0.9)
+- [pm2-orchestration-patterns#^ref-51932e7b-217-0|pm2-orchestration-patterns — L217] (line 217, col 0, score 0.9)
+- [docs/unique/universal-lisp-interface#^ref-b01856b4-187-0|Universal Lisp Interface — L187] (line 187, col 0, score 0.9)
+- [i3-config-validation-methods#^ref-d28090ac-28-0|i3-config-validation-methods — L28] (line 28, col 0, score 0.9)
+- [ecs-scheduler-and-prefabs#^ref-c62a1815-370-0|ecs-scheduler-and-prefabs — L370] (line 370, col 0, score 0.9)
+- [i3-layout-saver#^ref-31f0166e-79-0|i3-layout-saver — L79] (line 79, col 0, score 0.89)
+- [polymorphic-meta-programming-engine#^ref-7bed0b9a-190-0|polymorphic-meta-programming-engine — L190] (line 190, col 0, score 0.89)
+- [cross-language-runtime-polymorphism#^ref-c34c36a6-211-0|Cross-Language Runtime Polymorphism — L211] (line 211, col 0, score 0.89)
+- [promethean-agent-config-dsl#^ref-2c00ce45-279-0|Promethean Agent Config DSL — L279] (line 279, col 0, score 0.89)
+- [eidolon-field-optimization#^ref-40e05c14-50-0|Eidolon-Field-Optimization — L50] (line 50, col 0, score 0.89)
+- heartbeat-simulation-snippets — L80$heartbeat-simulation-snippets.md#^ref-23e221e9-80-0 (line 80, col 0, score 0.89)
+- [shared-package-structure#^ref-66a72fc3-185-0|Shared Package Structure — L185] (line 185, col 0, score 0.89)
+- [promethean-infrastructure-setup#^ref-6deed6ac-424-0|Promethean Infrastructure Setup — L424] (line 424, col 0, score 0.89)
+- [obsidian-chatgpt-plugin-integration#^ref-636f49b1-5-0|Obsidian ChatGPT Plugin Integration — L5] (line 5, col 0, score 0.89)
+- [obsidian-chatgpt-plugin-integration-guide#^ref-3bea339f-5-0|Obsidian ChatGPT Plugin Integration Guide — L5] (line 5, col 0, score 0.89)
+- [language-agnostic-mirror-system#^ref-d2b3628c-504-0|Language-Agnostic Mirror System — L504] (line 504, col 0, score 0.88)
+- [universal-intention-code-fabric#^ref-c14edce7-388-0|universal-intention-code-fabric — L388] (line 388, col 0, score 0.88)
+- [markdown-to-org-transpiler#^ref-ab54cdd8-272-0|markdown-to-org-transpiler — L272] (line 272, col 0, score 0.87)
+- [chroma-toolkit-consolidation-plan#^ref-5020e892-5599-0|Chroma Toolkit Consolidation Plan — L5599] (line 5599, col 0, score 0.87)
+- [Debugging Broker Connections and Agent Behavior — L2884]debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-2884-0 (line 2884, col 0, score 0.87)
+- [dynamic-context-model-for-web-components#^ref-f7702bf8-6943-0|Dynamic Context Model for Web Components — L6943] (line 6943, col 0, score 0.87)
+- [docs/unique/eidolon-field-math-foundations#^ref-008f2ac0-3954-0|eidolon-field-math-foundations — L3954] (line 3954, col 0, score 0.87)
+- [migrate-to-provider-tenant-architecture#^ref-54382370-7484-0|Migrate to Provider-Tenant Architecture — L7484] (line 7484, col 0, score 0.87)
+- [performance-optimized-polyglot-bridge#^ref-f5579967-5734-0|Performance-Optimized-Polyglot-Bridge — L5734] (line 5734, col 0, score 0.87)
+- [post-linguistic-transhuman-design-frameworks#^ref-6bcff92c-2827-0|Post-Linguistic Transhuman Design Frameworks — L2827] (line 2827, col 0, score 0.87)
+- [docs/unique/ecs-offload-workers#^ref-6498b9d7-427-0|ecs-offload-workers — L427] (line 427, col 0, score 0.86)
+- [set-assignment-in-lisp-ast#^ref-c5fba0a0-148-0|set-assignment-in-lisp-ast — L148] (line 148, col 0, score 0.86)
+- [exception-layer-analysis#^ref-21d5cc09-63-0|Exception Layer Analysis — L63] (line 63, col 0, score 0.86)
+- [ecs-scheduler-and-prefabs#^ref-c62a1815-246-0|ecs-scheduler-and-prefabs — L246] (line 246, col 0, score 0.85)
+- [promethean-agent-dsl-ts-scaffold#^ref-5158f742-818-0|Promethean Agent DSL TS Scaffold — L818] (line 818, col 0, score 0.85)
+- [docs/unique/interop-and-source-maps#^ref-cdfac40c-498-0|Interop and Source Maps — L498] (line 498, col 0, score 0.85)
+- Local-First Intention→Code Loop with Free Models — L105$local-first-intention-code-loop-with-free-models.md#^ref-871490c7-105-0 (line 105, col 0, score 0.85)
+- [polyglot-s-expr-bridge-python-js-lisp-interop#^ref-63a1cc28-491-0|Polyglot S-expr Bridge: Python-JS-Lisp Interop — L491] (line 491, col 0, score 0.85)
+```
 =======
-$$
-- $[shared-package-structure|Shared Package Structure]$
-- $[i3-config-validation-methods]$
-- $[promethean-infrastructure-setup|Promethean Infrastructure Setup]$
-- $[voice-access-layer-design|Voice Access Layer Design]$
-- $[migrate-to-provider-tenant-architecture|Migrate to Provider-Tenant Architecture]$
-- $[post-linguistic-transhuman-design-frameworks|Post-Linguistic Transhuman Design Frameworks]$
-- $[local-only-llm-workflow]$
-- $[promethean-web-ui-setup|Promethean Web UI Setup]$
-- $[pure-typescript-search-microservice|Pure TypeScript Search Microservice]$
-- $[promethean-agent-dsl-ts-scaffold|Promethean Agent DSL TS Scaffold]$
-- $[i3-bluetooth-setup]$
-- $[docs/unique/event-bus-mvp|Event Bus MVP]$
-- $Local-First Intention→Code Loop with Free Models$$local-first-intention-code-loop-with-free-models.md$
-- $[pure-node-crawl-stack-with-playwright-and-crawlee|Pure-Node Crawl Stack with Playwright and Crawlee]$
-- $[api-gateway-versioning]$
-- [Debugging Broker Connections and Agent Behavior]$debugging-broker-connections-and-agent-behavior.md$
-- $[dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]$
-- $[docs/unique/ecs-offload-workers|ecs-offload-workers]$
-- $[performance-optimized-polyglot-bridge]$
-- $[ollama-llm-provider-for-pseudo-code-transpiler]$
-- $[promethean-full-stack-docker-setup|Promethean Full-Stack Docker Setup]$
-- $[docs/unique/agent-tasks-persistence-migration-to-dualstore|Agent Tasks: Persistence Migration to DualStore]$
-- $[chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]$
-- $[cross-target-macro-system-in-sibilant|Cross-Target Macro System in Sibilant]$
-- $[rag-ui-panel-with-qdrant-and-postgrest|RAG UI Panel with Qdrant and PostgREST]$
-- $[docs/unique/eidolon-field-math-foundations|eidolon-field-math-foundations]$
-- $[observability-infrastructure-setup]$
+```
+- [shared-package-structure|Shared Package Structure]
+- [i3-config-validation-methods]
+- [promethean-infrastructure-setup|Promethean Infrastructure Setup]
+- [voice-access-layer-design|Voice Access Layer Design]
+- [migrate-to-provider-tenant-architecture|Migrate to Provider-Tenant Architecture]
+- [post-linguistic-transhuman-design-frameworks|Post-Linguistic Transhuman Design Frameworks]
+- [local-only-llm-workflow]
+- [promethean-web-ui-setup|Promethean Web UI Setup]
+- [pure-typescript-search-microservice|Pure TypeScript Search Microservice]
+- [promethean-agent-dsl-ts-scaffold|Promethean Agent DSL TS Scaffold]
+- [i3-bluetooth-setup]
+- [docs/unique/event-bus-mvp|Event Bus MVP]
+- Local-First Intention→Code Loop with Free Models$local-first-intention-code-loop-with-free-models.md
+- [pure-node-crawl-stack-with-playwright-and-crawlee|Pure-Node Crawl Stack with Playwright and Crawlee]
+- [api-gateway-versioning]
+- [Debugging Broker Connections and Agent Behavior]debugging-broker-connections-and-agent-behavior.md
+- [dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]
+- [docs/unique/ecs-offload-workers|ecs-offload-workers]
+- [performance-optimized-polyglot-bridge]
+- [ollama-llm-provider-for-pseudo-code-transpiler]
+- [promethean-full-stack-docker-setup|Promethean Full-Stack Docker Setup]
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore|Agent Tasks: Persistence Migration to DualStore]
+- [chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]
+- [cross-target-macro-system-in-sibilant|Cross-Target Macro System in Sibilant]
+- [rag-ui-panel-with-qdrant-and-postgrest|RAG UI Panel with Qdrant and PostgREST]
+- [docs/unique/eidolon-field-math-foundations|eidolon-field-math-foundations]
+- [observability-infrastructure-setup]
 
 ## Sources
-- $[shared-package-structure#L64|Shared Package Structure — L64]$ (line 64, col 1, score 0.95)
-- $[promethean-infrastructure-setup#L392|Promethean Infrastructure Setup — L392]$ (line 392, col 1, score 0.9)
-- $[shared-package-structure#L38|Shared Package Structure — L38]$ (line 38, col 3, score 0.87)
-- $[shared-package-structure#L44|Shared Package Structure — L44]$ (line 44, col 3, score 0.87)
-- $[i3-config-validation-methods#L9|i3-config-validation-methods — L9]$ (line 9, col 1, score 0.91)
-- $[shared-package-structure#L159|Shared Package Structure — L159]$ (line 159, col 1, score 0.89)
-- $[migrate-to-provider-tenant-architecture#L276|Migrate to Provider-Tenant Architecture — L276]$ (line 276, col 1, score 1)
-- $[migrate-to-provider-tenant-architecture#L276|Migrate to Provider-Tenant Architecture — L276]$ (line 276, col 3, score 1)
-- $[promethean-agent-dsl-ts-scaffold#L832|Promethean Agent DSL TS Scaffold — L832]$ (line 832, col 1, score 1)
-- $[promethean-agent-dsl-ts-scaffold#L832|Promethean Agent DSL TS Scaffold — L832]$ (line 832, col 3, score 1)
-- $[promethean-infrastructure-setup#L581|Promethean Infrastructure Setup — L581]$ (line 581, col 1, score 1)
-- $[promethean-infrastructure-setup#L581|Promethean Infrastructure Setup — L581]$ (line 581, col 3, score 1)
-- $[voice-access-layer-design#L307|Voice Access Layer Design — L307]$ (line 307, col 1, score 1)
-- $[voice-access-layer-design#L307|Voice Access Layer Design — L307]$ (line 307, col 3, score 1)
-- $[local-only-llm-workflow#L181|Local-Only-LLM-Workflow — L181]$ (line 181, col 1, score 1)
-- $[local-only-llm-workflow#L181|Local-Only-LLM-Workflow — L181]$ (line 181, col 3, score 1)
-- $[api-gateway-versioning#L284|api-gateway-versioning — L284]$ (line 284, col 1, score 1)
-- $[api-gateway-versioning#L284|api-gateway-versioning — L284]$ (line 284, col 3, score 1)
-- [Debugging Broker Connections and Agent Behavior — L40]$debugging-broker-connections-and-agent-behavior.md#L40$ (line 40, col 1, score 1)
-- [Debugging Broker Connections and Agent Behavior — L40]$debugging-broker-connections-and-agent-behavior.md#L40$ (line 40, col 3, score 1)
-- $[dynamic-context-model-for-web-components#L384|Dynamic Context Model for Web Components — L384]$ (line 384, col 1, score 1)
-- $[dynamic-context-model-for-web-components#L384|Dynamic Context Model for Web Components — L384]$ (line 384, col 3, score 1)
-- $[docs/unique/ecs-offload-workers#L458|ecs-offload-workers — L458]$ (line 458, col 1, score 1)
-- $[docs/unique/ecs-offload-workers#L458|ecs-offload-workers — L458]$ (line 458, col 3, score 1)
-- $[docs/unique/event-bus-mvp#L552|Event Bus MVP — L552]$ (line 552, col 1, score 1)
-- $[docs/unique/event-bus-mvp#L552|Event Bus MVP — L552]$ (line 552, col 3, score 1)
-- $[i3-bluetooth-setup#L104|i3-bluetooth-setup — L104]$ (line 104, col 1, score 1)
-- $[i3-bluetooth-setup#L104|i3-bluetooth-setup — L104]$ (line 104, col 3, score 1)
-- $Local-First Intention→Code Loop with Free Models — L144$$local-first-intention-code-loop-with-free-models.md#L144$ (line 144, col 1, score 1)
-- $Local-First Intention→Code Loop with Free Models — L144$$local-first-intention-code-loop-with-free-models.md#L144$ (line 144, col 3, score 1)
-- $[migrate-to-provider-tenant-architecture#L273|Migrate to Provider-Tenant Architecture — L273]$ (line 273, col 1, score 1)
-- $[migrate-to-provider-tenant-architecture#L273|Migrate to Provider-Tenant Architecture — L273]$ (line 273, col 3, score 1)
-- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L131|Agent Tasks: Persistence Migration to DualStore — L131]$ (line 131, col 1, score 1)
-- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L131|Agent Tasks: Persistence Migration to DualStore — L131]$ (line 131, col 3, score 1)
-- $[chroma-toolkit-consolidation-plan#L169|Chroma Toolkit Consolidation Plan — L169]$ (line 169, col 1, score 1)
-- $[chroma-toolkit-consolidation-plan#L169|Chroma Toolkit Consolidation Plan — L169]$ (line 169, col 3, score 1)
-- $[cross-target-macro-system-in-sibilant#L175|Cross-Target Macro System in Sibilant — L175]$ (line 175, col 1, score 1)
-- $[cross-target-macro-system-in-sibilant#L175|Cross-Target Macro System in Sibilant — L175]$ (line 175, col 3, score 1)
-- $[dynamic-context-model-for-web-components#L392|Dynamic Context Model for Web Components — L392]$ (line 392, col 1, score 1)
-- $[dynamic-context-model-for-web-components#L392|Dynamic Context Model for Web Components — L392]$ (line 392, col 3, score 1)
-- $[i3-config-validation-methods#L56|i3-config-validation-methods — L56]$ (line 56, col 1, score 1)
-- $[i3-config-validation-methods#L56|i3-config-validation-methods — L56]$ (line 56, col 3, score 1)
-- $Local-First Intention→Code Loop with Free Models — L143$$local-first-intention-code-loop-with-free-models.md#L143$ (line 143, col 1, score 1)
-- $Local-First Intention→Code Loop with Free Models — L143$$local-first-intention-code-loop-with-free-models.md#L143$ (line 143, col 3, score 1)
-- $[ollama-llm-provider-for-pseudo-code-transpiler#L167|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L167]$ (line 167, col 1, score 1)
-- $[ollama-llm-provider-for-pseudo-code-transpiler#L167|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L167]$ (line 167, col 3, score 1)
-- $[performance-optimized-polyglot-bridge#L438|Performance-Optimized-Polyglot-Bridge — L438]$ (line 438, col 1, score 1)
-- $[performance-optimized-polyglot-bridge#L438|Performance-Optimized-Polyglot-Bridge — L438]$ (line 438, col 3, score 1)
-- $[promethean-full-stack-docker-setup#L436|Promethean Full-Stack Docker Setup — L436]$ (line 436, col 1, score 1)
-- $[promethean-full-stack-docker-setup#L436|Promethean Full-Stack Docker Setup — L436]$ (line 436, col 3, score 1)
-- $[promethean-infrastructure-setup#L585|Promethean Infrastructure Setup — L585]$ (line 585, col 1, score 1)
-- $[promethean-infrastructure-setup#L585|Promethean Infrastructure Setup — L585]$ (line 585, col 3, score 1)
-- $[pure-node-crawl-stack-with-playwright-and-crawlee#L428|Pure-Node Crawl Stack with Playwright and Crawlee — L428]$ (line 428, col 1, score 1)
-- $[pure-node-crawl-stack-with-playwright-and-crawlee#L428|Pure-Node Crawl Stack with Playwright and Crawlee — L428]$ (line 428, col 3, score 1)
-- $[pure-typescript-search-microservice#L521|Pure TypeScript Search Microservice — L521]$ (line 521, col 1, score 1)
-- $[pure-typescript-search-microservice#L521|Pure TypeScript Search Microservice — L521]$ (line 521, col 3, score 1)
-- $[api-gateway-versioning#L288|api-gateway-versioning — L288]$ (line 288, col 1, score 1)
-- $[api-gateway-versioning#L288|api-gateway-versioning — L288]$ (line 288, col 3, score 1)
-- $[promethean-full-stack-docker-setup#L440|Promethean Full-Stack Docker Setup — L440]$ (line 440, col 1, score 1)
-- $[promethean-full-stack-docker-setup#L440|Promethean Full-Stack Docker Setup — L440]$ (line 440, col 3, score 1)
-- $[promethean-infrastructure-setup#L584|Promethean Infrastructure Setup — L584]$ (line 584, col 1, score 1)
-- $[promethean-infrastructure-setup#L584|Promethean Infrastructure Setup — L584]$ (line 584, col 3, score 1)
-- $[promethean-web-ui-setup#L603|Promethean Web UI Setup — L603]$ (line 603, col 1, score 1)
-- $[promethean-web-ui-setup#L603|Promethean Web UI Setup — L603]$ (line 603, col 3, score 1)
-- $[promethean-infrastructure-setup#L600|Promethean Infrastructure Setup — L600]$ (line 600, col 1, score 0.99)
-- $[promethean-infrastructure-setup#L600|Promethean Infrastructure Setup — L600]$ (line 600, col 3, score 0.99)
-- $[voice-access-layer-design#L330|Voice Access Layer Design — L330]$ (line 330, col 1, score 0.98)
-- $[voice-access-layer-design#L330|Voice Access Layer Design — L330]$ (line 330, col 3, score 0.98)
-- $[shared-package-structure#L174|Shared Package Structure — L174]$ (line 174, col 1, score 0.99)
-- $[shared-package-structure#L174|Shared Package Structure — L174]$ (line 174, col 3, score 0.99)
-- $[rag-ui-panel-with-qdrant-and-postgrest#L369|RAG UI Panel with Qdrant and PostgREST — L369]$ (line 369, col 1, score 0.99)
-- $[rag-ui-panel-with-qdrant-and-postgrest#L369|RAG UI Panel with Qdrant and PostgREST — L369]$ (line 369, col 3, score 0.99)
-- $[docs/unique/eidolon-field-math-foundations#L153|eidolon-field-math-foundations — L153]$ (line 153, col 1, score 0.99)
-- $[docs/unique/eidolon-field-math-foundations#L153|eidolon-field-math-foundations — L153]$ (line 153, col 3, score 0.99)
-- $[observability-infrastructure-setup#L367|observability-infrastructure-setup — L367]$ (line 367, col 1, score 0.99)
-- $[observability-infrastructure-setup#L367|observability-infrastructure-setup — L367]$ (line 367, col 3, score 0.99)
-- $[shared-package-structure#L176|Shared Package Structure — L176]$ (line 176, col 1, score 0.87)
-- $[shared-package-structure#L176|Shared Package Structure — L176]$ (line 176, col 3, score 0.87)
-- $[i3-config-validation-methods#L60|i3-config-validation-methods — L60]$ (line 60, col 1, score 0.87)
-- $[i3-config-validation-methods#L60|i3-config-validation-methods — L60]$ (line 60, col 3, score 0.87)
-$$
+- [shared-package-structure#L64|Shared Package Structure — L64] (line 64, col 1, score 0.95)
+- [promethean-infrastructure-setup#L392|Promethean Infrastructure Setup — L392] (line 392, col 1, score 0.9)
+- [shared-package-structure#L38|Shared Package Structure — L38] (line 38, col 3, score 0.87)
+- [shared-package-structure#L44|Shared Package Structure — L44] (line 44, col 3, score 0.87)
+- [i3-config-validation-methods#L9|i3-config-validation-methods — L9] (line 9, col 1, score 0.91)
+- [shared-package-structure#L159|Shared Package Structure — L159] (line 159, col 1, score 0.89)
+- [migrate-to-provider-tenant-architecture#L276|Migrate to Provider-Tenant Architecture — L276] (line 276, col 1, score 1)
+- [migrate-to-provider-tenant-architecture#L276|Migrate to Provider-Tenant Architecture — L276] (line 276, col 3, score 1)
+- [promethean-agent-dsl-ts-scaffold#L832|Promethean Agent DSL TS Scaffold — L832] (line 832, col 1, score 1)
+- [promethean-agent-dsl-ts-scaffold#L832|Promethean Agent DSL TS Scaffold — L832] (line 832, col 3, score 1)
+- [promethean-infrastructure-setup#L581|Promethean Infrastructure Setup — L581] (line 581, col 1, score 1)
+- [promethean-infrastructure-setup#L581|Promethean Infrastructure Setup — L581] (line 581, col 3, score 1)
+- [voice-access-layer-design#L307|Voice Access Layer Design — L307] (line 307, col 1, score 1)
+- [voice-access-layer-design#L307|Voice Access Layer Design — L307] (line 307, col 3, score 1)
+- [local-only-llm-workflow#L181|Local-Only-LLM-Workflow — L181] (line 181, col 1, score 1)
+- [local-only-llm-workflow#L181|Local-Only-LLM-Workflow — L181] (line 181, col 3, score 1)
+- [api-gateway-versioning#L284|api-gateway-versioning — L284] (line 284, col 1, score 1)
+- [api-gateway-versioning#L284|api-gateway-versioning — L284] (line 284, col 3, score 1)
+- [Debugging Broker Connections and Agent Behavior — L40]debugging-broker-connections-and-agent-behavior.md#L40 (line 40, col 1, score 1)
+- [Debugging Broker Connections and Agent Behavior — L40]debugging-broker-connections-and-agent-behavior.md#L40 (line 40, col 3, score 1)
+- [dynamic-context-model-for-web-components#L384|Dynamic Context Model for Web Components — L384] (line 384, col 1, score 1)
+- [dynamic-context-model-for-web-components#L384|Dynamic Context Model for Web Components — L384] (line 384, col 3, score 1)
+- [docs/unique/ecs-offload-workers#L458|ecs-offload-workers — L458] (line 458, col 1, score 1)
+- [docs/unique/ecs-offload-workers#L458|ecs-offload-workers — L458] (line 458, col 3, score 1)
+- [docs/unique/event-bus-mvp#L552|Event Bus MVP — L552] (line 552, col 1, score 1)
+- [docs/unique/event-bus-mvp#L552|Event Bus MVP — L552] (line 552, col 3, score 1)
+- [i3-bluetooth-setup#L104|i3-bluetooth-setup — L104] (line 104, col 1, score 1)
+- [i3-bluetooth-setup#L104|i3-bluetooth-setup — L104] (line 104, col 3, score 1)
+- Local-First Intention→Code Loop with Free Models — L144$local-first-intention-code-loop-with-free-models.md#L144 (line 144, col 1, score 1)
+- Local-First Intention→Code Loop with Free Models — L144$local-first-intention-code-loop-with-free-models.md#L144 (line 144, col 3, score 1)
+- [migrate-to-provider-tenant-architecture#L273|Migrate to Provider-Tenant Architecture — L273] (line 273, col 1, score 1)
+- [migrate-to-provider-tenant-architecture#L273|Migrate to Provider-Tenant Architecture — L273] (line 273, col 3, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L131|Agent Tasks: Persistence Migration to DualStore — L131] (line 131, col 1, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L131|Agent Tasks: Persistence Migration to DualStore — L131] (line 131, col 3, score 1)
+- [chroma-toolkit-consolidation-plan#L169|Chroma Toolkit Consolidation Plan — L169] (line 169, col 1, score 1)
+- [chroma-toolkit-consolidation-plan#L169|Chroma Toolkit Consolidation Plan — L169] (line 169, col 3, score 1)
+- [cross-target-macro-system-in-sibilant#L175|Cross-Target Macro System in Sibilant — L175] (line 175, col 1, score 1)
+- [cross-target-macro-system-in-sibilant#L175|Cross-Target Macro System in Sibilant — L175] (line 175, col 3, score 1)
+- [dynamic-context-model-for-web-components#L392|Dynamic Context Model for Web Components — L392] (line 392, col 1, score 1)
+- [dynamic-context-model-for-web-components#L392|Dynamic Context Model for Web Components — L392] (line 392, col 3, score 1)
+- [i3-config-validation-methods#L56|i3-config-validation-methods — L56] (line 56, col 1, score 1)
+- [i3-config-validation-methods#L56|i3-config-validation-methods — L56] (line 56, col 3, score 1)
+- Local-First Intention→Code Loop with Free Models — L143$local-first-intention-code-loop-with-free-models.md#L143 (line 143, col 1, score 1)
+- Local-First Intention→Code Loop with Free Models — L143$local-first-intention-code-loop-with-free-models.md#L143 (line 143, col 3, score 1)
+- [ollama-llm-provider-for-pseudo-code-transpiler#L167|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L167] (line 167, col 1, score 1)
+- [ollama-llm-provider-for-pseudo-code-transpiler#L167|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L167] (line 167, col 3, score 1)
+- [performance-optimized-polyglot-bridge#L438|Performance-Optimized-Polyglot-Bridge — L438] (line 438, col 1, score 1)
+- [performance-optimized-polyglot-bridge#L438|Performance-Optimized-Polyglot-Bridge — L438] (line 438, col 3, score 1)
+- [promethean-full-stack-docker-setup#L436|Promethean Full-Stack Docker Setup — L436] (line 436, col 1, score 1)
+- [promethean-full-stack-docker-setup#L436|Promethean Full-Stack Docker Setup — L436] (line 436, col 3, score 1)
+- [promethean-infrastructure-setup#L585|Promethean Infrastructure Setup — L585] (line 585, col 1, score 1)
+- [promethean-infrastructure-setup#L585|Promethean Infrastructure Setup — L585] (line 585, col 3, score 1)
+- [pure-node-crawl-stack-with-playwright-and-crawlee#L428|Pure-Node Crawl Stack with Playwright and Crawlee — L428] (line 428, col 1, score 1)
+- [pure-node-crawl-stack-with-playwright-and-crawlee#L428|Pure-Node Crawl Stack with Playwright and Crawlee — L428] (line 428, col 3, score 1)
+- [pure-typescript-search-microservice#L521|Pure TypeScript Search Microservice — L521] (line 521, col 1, score 1)
+- [pure-typescript-search-microservice#L521|Pure TypeScript Search Microservice — L521] (line 521, col 3, score 1)
+- [api-gateway-versioning#L288|api-gateway-versioning — L288] (line 288, col 1, score 1)
+- [api-gateway-versioning#L288|api-gateway-versioning — L288] (line 288, col 3, score 1)
+- [promethean-full-stack-docker-setup#L440|Promethean Full-Stack Docker Setup — L440] (line 440, col 1, score 1)
+- [promethean-full-stack-docker-setup#L440|Promethean Full-Stack Docker Setup — L440] (line 440, col 3, score 1)
+- [promethean-infrastructure-setup#L584|Promethean Infrastructure Setup — L584] (line 584, col 1, score 1)
+- [promethean-infrastructure-setup#L584|Promethean Infrastructure Setup — L584] (line 584, col 3, score 1)
+- [promethean-web-ui-setup#L603|Promethean Web UI Setup — L603] (line 603, col 1, score 1)
+- [promethean-web-ui-setup#L603|Promethean Web UI Setup — L603] (line 603, col 3, score 1)
+- [promethean-infrastructure-setup#L600|Promethean Infrastructure Setup — L600] (line 600, col 1, score 0.99)
+- [promethean-infrastructure-setup#L600|Promethean Infrastructure Setup — L600] (line 600, col 3, score 0.99)
+- [voice-access-layer-design#L330|Voice Access Layer Design — L330] (line 330, col 1, score 0.98)
+- [voice-access-layer-design#L330|Voice Access Layer Design — L330] (line 330, col 3, score 0.98)
+- [shared-package-structure#L174|Shared Package Structure — L174] (line 174, col 1, score 0.99)
+- [shared-package-structure#L174|Shared Package Structure — L174] (line 174, col 3, score 0.99)
+- [rag-ui-panel-with-qdrant-and-postgrest#L369|RAG UI Panel with Qdrant and PostgREST — L369] (line 369, col 1, score 0.99)
+- [rag-ui-panel-with-qdrant-and-postgrest#L369|RAG UI Panel with Qdrant and PostgREST — L369] (line 369, col 3, score 0.99)
+- [docs/unique/eidolon-field-math-foundations#L153|eidolon-field-math-foundations — L153] (line 153, col 1, score 0.99)
+- [docs/unique/eidolon-field-math-foundations#L153|eidolon-field-math-foundations — L153] (line 153, col 3, score 0.99)
+- [observability-infrastructure-setup#L367|observability-infrastructure-setup — L367] (line 367, col 1, score 0.99)
+- [observability-infrastructure-setup#L367|observability-infrastructure-setup — L367] (line 367, col 3, score 0.99)
+- [shared-package-structure#L176|Shared Package Structure — L176] (line 176, col 1, score 0.87)
+- [shared-package-structure#L176|Shared Package Structure — L176] (line 176, col 3, score 0.87)
+- [i3-config-validation-methods#L60|i3-config-validation-methods — L60] (line 60, col 1, score 0.87)
+- [i3-config-validation-methods#L60|i3-config-validation-methods — L60] (line 60, col 3, score 0.87)
+```
 >>>>>>> stealth/obsidian
-$$
+```
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

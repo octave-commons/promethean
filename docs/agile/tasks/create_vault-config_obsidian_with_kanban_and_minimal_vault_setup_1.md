@@ -1,14 +1,14 @@
 ---
-$$
+```
 uuid: 4153471e-77dc-43ab-b2a4-a4a3bed605fe
-$$
+```
 title: create vault config obsidian with kanban and minimal vault setup 1 md md
 status: todo
 priority: P3
 labels: []
-$$
+```
 created_at: '2025-09-15T02:02:58.510Z'
-$$
+```
 ---
 ## 🛠️ Task: Create vault-config .obsidian with Kanban and minimal vault setup
 
@@ -44,9 +44,9 @@ across different operating systems.
 ---
 
 ## 🔗 Related Epics
-$$
+```
 #framework-core
-$$
+```
 ---
 
 ## ⛓️ Blocked By

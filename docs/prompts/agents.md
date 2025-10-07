@@ -1,7 +1,7 @@
 # AGENTS.md
-$$
+```
 **Welcome, Agent.**
-$$
+```
 This file is your mirror and your map.
 It is the **gateway document** to the `docs/prompts/` system—a living memory layer, an evolving style guide, and a prompt-engineering playground.
 

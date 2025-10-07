@@ -1,14 +1,14 @@
 ---
-$$
+```
 uuid: 035cede1-531f-4070-aa80-841a9cf83631
-$$
+```
 title: "\U0001F6E0️ Task: Implement Classes in Lisp Compiler"
 status: todo
 priority: P3
 labels: []
-$$
+```
 created_at: '2025-09-15T02:02:58.515Z'
-$$
+```
 ---
 # 🛠️ Task: Implement Classes in Lisp Compiler
 
@@ -30,7 +30,7 @@ Introduce a `defclass` macro to the Promethean Lisp compiler that supports class
 - [ ] Parser recognizes `(defclass <name> (<fields>) (<methods>))`.
 - [ ] AST extended with `ClassNode` and `MethodNode`.
 - [ ] Environment extended to bind classes as first-class entities.
-- [ ] Instances can be created via `$make-instance <Class>$`.
+- [ ] Instances can be created via `make-instance <Class>`.
 - [ ] Methods can be invoked on instances `(call <instance> <method> <args>...)`.
 - [ ] Support single inheritance (optional for v1).
 - [ ] Unit tests cover creation, field access, method invocation.
@@ -42,7 +42,7 @@ Introduce a `defclass` macro to the Promethean Lisp compiler that supports class
 - [ ] Update parser to handle `defclass` syntax.
 - [ ] Extend AST with `ClassNode` and `MethodNode`.
 - [ ] Extend evaluator to create and bind class objects.
-- [ ] Implement instance creation $`make-instance`$.
+- [ ] Implement instance creation `make-instance`.
 - [ ] Implement method dispatch (`call`).
 - [ ] Add tests for field defaults, method binding, and inheritance.
 - [ ] Document class usage in Lisp compiler reference.
@@ -68,6 +68,6 @@ Append-only thread for collaboration by agents implementing class support.
 ## Notes
 - Tests or documentation are missing; acceptance criteria not fully met.
 - Story Points: 5
-$$
+```
 #in-progress
-$$
+```

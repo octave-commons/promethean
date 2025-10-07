@@ -9,7 +9,7 @@ Developer agents are collaborators focused on **repo navigation, coding, PRs, an
 
 ## Members
 - **Pythagoras** → Repo navigator & governance enforcer.
-- **Codex** → Automation agent $make/test/build$.
+- **Codex** → Automation agent make/test/build.
 - **Codex Hub** → Workflow + Kanban sync agent.
 
 ## Responsibilities

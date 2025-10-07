@@ -1,15 +1,15 @@
 ---
-$$
+```
 uuid: a4e797a2-9636-435f-80d9-1a7e60f6b137
-$$
-$$
+```
+```
 created_at: '2025-09-04T00:01:08Z'
-$$
+```
 filename: Chroma Toolkit Consolidation Plan
 title: Chroma Toolkit Consolidation Plan
-$$
+```
 description: >-
-$$
+```
   The project is experiencing embedding issues due to potential duplicate
   processing of large files and inefficient client management. A proposed
   solution involves centralizing Chroma configuration and embedding functions
@@ -19,15 +19,15 @@ tags:
   - chroma
   - embedding
   - consolidation
-$$
+```
 related_to_uuid:
-$$
+```
   - 924837c4-4480-49cd-ab7a-a4375b9cada0
   - e2955491-020a-4009-b7ed-a5a348c63cfd
   - 5e408692-0e74-400e-a617-84247c7353ad
-$$
+```
 related_to_title:
-$$
+```
   - Chroma Toolkit Consolidation Plan
   - chroma-toolkit-consolidation-plan
   - i3-bluetooth-setup
@@ -143,17 +143,17 @@ Here’s the **Mongo usage inside `services/ts/`**. It’s widespread and parall
 *   `src/index.ts`: ^ref-5020e892-72-0
 
     ```ts
-$$
+```
 ^ref-924837c4-24-0
-$$
-$$
+```
+```
 ^ref-da4b4fd2-24-0
-$$
+```
     import { MongoClient, ObjectId, Collection } from 'mongodb';
     const MONGO_CONNECTION_STRING = process.env.MONGODB_URI || `mongodb://localhost`;
-$$
-    const mongoClient = new MongoClient(MONGO_CONNECTION_STRING);
-$$
+```
+const mongoClient = new MongoClient(MONGO_CONNECTION_STRING);
+```
     await mongoClient.connect();
     const db = mongoClient.db('database');
     ```
@@ -169,12 +169,12 @@ $$
  ^ref-5020e892-90-0
     ```ts
     import { Collection, MongoClient, ObjectId } from 'mongodb';
-    const mongoClient = new MongoClient$process.env.MONGODB_URI || 'mongodb://localhost:27017'$;
+    const mongoClient = new MongoClientprocess.env.MONGODB_URI || 'mongodb://localhost:27017';
     const db = mongoClient.db('database');
     const mongoCollection = db.collection<CollectionEntry>(family);
-$$
+```
 ^ref-5020e892-90-0 ^ref-5020e892-96-0
-$$
+```
     ```
     *   Implements a **dual persistence layer**:
 
@@ -191,12 +191,12 @@ $$
 
     ```ts
     import { MongoClient, Collection } from 'mongodb';
-    const mongoClient = new MongoClient$process.env.MONGODB_URI || 'mongodb://localhost:27017'$;
+    const mongoClient = new MongoClientprocess.env.MONGODB_URI || 'mongodb://localhost:27017';
     mongoClient.connect();
-$$
+```
 ^ref-5020e892-109-0 ^ref-5020e892-115-0
-$$
-    const mongoCollection = mongoClient.db('database').collection$`${agentName}_kanban`$;
+```
+    const mongoCollection = mongoClient.db('database').collection`{agentName}_kanban`;
     ```
     *   Tracks kanban card state in Mongo.
 
@@ -210,9 +210,9 @@ $$
     ```ts
     import { MongoClient, Collection } from 'mongodb';
     const client = new MongoClient(mongoUrl);
-$$
+```
 ^ref-5020e892-124-0 ^ref-5020e892-130-0
-$$
+```
     await client.connect();
     const db = new GraphDB(client, repoPath);
     ```
@@ -226,9 +226,9 @@ $$
 *   `src/mongo.js`: central connection logic with `mongoose`.
 
     ```ts
-$$
+```
 ^ref-5020e892-139-0 ^ref-5020e892-144-0
-$$
+```
     import mongoose from 'mongoose';
     export async function initMongo() { ... } ^ref-5020e892-146-0
     export async function cleanupMongo() { ... }
@@ -239,9 +239,9 @@ $$
 
     *   `utils/DualSink.js`:
 
-        ```$$
+        ``````
 ts ^ref-5020e892-155-0
-$$
+```
         this.mongoModel = mongoose.model(name, schema);
         await this.mongoModel.create(entry); ^ref-5020e892-157-0
         ```
@@ -257,10 +257,10 @@ $$
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
 - [Chroma Toolkit Consolidation Plan](2025.09.04.00.01.08.md)
-- $chroma-toolkit-consolidation-plan$$chroma-toolkit-consolidation-plan.md$
-- $i3-bluetooth-setup$$i3-bluetooth-setup.md$
+- chroma-toolkit-consolidation-plan$chroma-toolkit-consolidation-plan.md
+- i3-bluetooth-setup$i3-bluetooth-setup.md
 ## Sources
-- $chroma-toolkit-consolidation-plan — L162$$chroma-toolkit-consolidation-plan.md#^ref-e2955491-162-0$ (line 162, col 0, score 0.87)
-- $chroma-toolkit-consolidation-plan — L14$$chroma-toolkit-consolidation-plan.md#^ref-e2955491-14-0$ (line 14, col 0, score 0.86)
-- $chroma-toolkit-consolidation-plan — L81$$chroma-toolkit-consolidation-plan.md#^ref-e2955491-81-0$ (line 81, col 0, score 0.86)
+- chroma-toolkit-consolidation-plan — L162$chroma-toolkit-consolidation-plan.md#^ref-e2955491-162-0 (line 162, col 0, score 0.87)
+- chroma-toolkit-consolidation-plan — L14$chroma-toolkit-consolidation-plan.md#^ref-e2955491-14-0 (line 14, col 0, score 0.86)
+- chroma-toolkit-consolidation-plan — L81$chroma-toolkit-consolidation-plan.md#^ref-e2955491-81-0 (line 81, col 0, score 0.86)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

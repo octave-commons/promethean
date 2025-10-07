@@ -1,14 +1,14 @@
 ---
-$$
+```
 uuid: 7c508df7-4463-461a-8549-0ac8dd256192
-$$
+```
 title: create base readme md templates for each service md
 status: todo
 priority: P3
 labels: []
-$$
+```
 created_at: '2025-09-15T02:02:58.510Z'
-$$
+```
 ---
 ## 🧠 Description
 
@@ -22,9 +22,9 @@ Most directories currently lack a README, so we need to create them using a comm
 - Provide links to related `AGENT.md` files
 
 ## 🧩 Related Concepts
-- $process_board_flow$$../process_board_flow.md$
-- $[docs/agile/agents|agents.md]$
-- [service directory conventions]$../service%20directory%20conventions.md$
+- process_board_flow$../process_board_flow.md
+- [docs/agile/agents|agents.md]
+- [service directory conventions]../service%20directory%20conventions.md
 - #doc-this #framework-core #ritual
 
 ## 🛠 Requirements
@@ -42,7 +42,7 @@ Most directories currently lack a README, so we need to create them using a comm
 - [ ] Create `services/tts/README.md`
 
 ## 🔗 Links
-- $[docs/agile/agents|agents.md]$
+- [docs/agile/agents|agents.md]
 
 
 

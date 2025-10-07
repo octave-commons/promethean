@@ -7,7 +7,7 @@ Goals:
 - Shared env/logging/restart defaults
 - Clean agent orchestration (Duck)
 
-Related: $[../../unique/index|unique/index]$
+Related: [../../unique/index|unique/index]
 
 #tags: #devops #pm2 #orchestration
 

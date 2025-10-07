@@ -1,16 +1,16 @@
-$$
+```
 <!-- SYMPKG:PKG:BEGIN -->
-$$
+```
 # @promethean/compaction
-$$
+```
 **Folder:** `packages/compaction`
-$$
-$$
+```
+```
 **Version:** `0.0.1`
-$$
-$$
+```
+```
 **Domain:** `_root`
-$$
+```
 ```mermaid
 graph LR
   A["@promethean/compaction"]
@@ -22,10 +22,10 @@ graph LR
   click D2 "../utils/README.md" "@promethean/utils"
 ```
 ## Dependencies
-- $@promethean/event$$../event/README.md$
-- $@promethean/utils$$../utils/README.md$
+- @promethean/event$../event/README.md
+- @promethean/utils$../utils/README.md
 ## Dependents
 - _None_
-$$
+```
 <!-- SYMPKG:PKG:END -->
-$$
+```

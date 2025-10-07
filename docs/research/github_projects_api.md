@@ -41,7 +41,7 @@ Unauthenticated calls return `401` requiring a token.
 ```bash
 curl -X POST https://api.github.com/graphql \
      -H "Content-Type: application/json" \
-     -H "Authorization: Bearer $TOKEN" \
+     -H "Authorization: Bearer TOKEN" \
      -d '{"query":"{viewer {login}}"}'
 ```
 Without `Authorization` the API responds with a rate‑limit or auth error.
@@ -50,7 +50,7 @@ Without `Authorization` the API responds with a rate‑limit or auth error.
 `docs/agile/boards/kanban.md` uses columns such as **Ice Box**, **Ready**, and **In Progress**. In classic Projects these map directly to project columns. In Projects v2 they correspond to options in the built‑in `Status` field. Each task file becomes a project item whose status reflects its column.
 
 ## Sync Approach
-Our current tooling uses the local script `scripts/github_board_sync.py` invoked via `make board-sync` for manual updates. A GitHub Action $`.github/workflows/sync_board.yml`$ can run the same script on `main` to keep the board updated after merges.
+Our current tooling uses the local script `scripts/github_board_sync.py` invoked via `make board-sync` for manual updates. A GitHub Action `.github/workflows/sync_board.yml` can run the same script on `main` to keep the board updated after merges.
 
 ## Recommendation
 Start with the REST API for classic boards or GraphQL for Projects v2. Use the local script for development and the GitHub Action for continuous synchronization.

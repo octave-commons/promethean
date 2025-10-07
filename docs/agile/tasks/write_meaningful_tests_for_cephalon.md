@@ -1,14 +1,14 @@
 ---
-$$
+```
 uuid: dd4105ca-a9d4-423b-820d-f5b506d847cf
-$$
+```
 title: write meaningful tests for cephalon md md
 status: todo
 priority: P3
 labels: []
-$$
+```
 created_at: '2025-09-15T02:02:58.524Z'
-$$
+```
 ---
 ## 🛠️ Task: Write meaningful tests for Cephalon
 
@@ -35,9 +35,9 @@ Cover core functions of the Cephalon service with automated tests.
 ---
 
 ## 🔗 Related Epics
-$$
+```
 #codex-task #testing
-$$
+```
 ---
 
 ## ⛓️ Blocked By

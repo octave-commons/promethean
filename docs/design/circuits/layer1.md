@@ -1,6 +1,6 @@
-$$
+```
 **Layer 1: Uptime Overlay**
-$$
+```
 ---
 
 ### Overview

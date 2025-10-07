@@ -1,16 +1,16 @@
 ---
-$$
+```
 uuid: 51932e7b-4237-4756-bcae-8be6d535d0d1
-$$
-$$
+```
+```
 created_at: 202508071111.md
-$$
-$$
+```
+```
 filename: pm2-orchestration-patterns
-$$
-$$
+```
+```
 description: >-
-$$
+```
   Refined PM2 orchestration patterns for Python, Node, and TypeScript services
   with agent-specific configurations. Unifies service definitions, minimizes
   ecosystem files, and enables clean agent setups.
@@ -23,9 +23,9 @@ tags:
   - agent
   - service
   - ecosystem
-$$
+```
 related_to_title:
-$$
+```
   - Tooling
   - Unique Info Dump Index
   - aionian-circuit-math
@@ -36,9 +36,9 @@ $$
   - AI-Centric OS with MCP Layer
   - AI-First-OS-Model-Context-Protocol
   - balanced-bst
-$$
+```
 related_to_uuid:
-$$
+```
   - 6cb4943e-8267-4e27-8618-2ce0a464d173
   - 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
   - f2d83a77-7f86-4c56-8538-1350167a0c6c
@@ -194,8 +194,8 @@ function defineApp(name, script, args = [], opts = {}) {
     cwd,
     watch,
     env_file,
-    out_file: `./logs/${name}-out.log`,
-    error_file: `./logs/${name}-err.log`,
+    out_file: `./logs/{name}-out.log`,
+    error_file: `./logs/{name}-err.log`,
     merge_logs: true,
     instances,
     autorestart: true,
@@ -391,40 +391,40 @@ If you're feeling fancy, we could load all service ecosystem files dynamically i
 Would you like this turned into a `canvas` so we can break out a real migration plan?
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [Tooling]$chunks/tooling.md$
-- $[unique-info-dump-index|Unique Info Dump Index]$
-- $[docs/unique/aionian-circuit-math|aionian-circuit-math]$
-- $[docs/unique/archetype-ecs|archetype-ecs]$
-- [Diagrams]$chunks/diagrams.md$
-- [DSL]$chunks/dsl.md$
-- $[docs/unique/obsidian-ignore-node-modules-regex|obsidian-ignore-node-modules-regex]$
-- $[ai-centric-os-with-mcp-layer|AI-Centric OS with MCP Layer]$
-- $[ai-first-os-model-context-protocol]$
-- $[balanced-bst]$
+- [Tooling]chunks/tooling.md
+- [unique-info-dump-index|Unique Info Dump Index]
+- [docs/unique/aionian-circuit-math|aionian-circuit-math]
+- [docs/unique/archetype-ecs|archetype-ecs]
+- [Diagrams]chunks/diagrams.md
+- [DSL]chunks/dsl.md
+- [docs/unique/obsidian-ignore-node-modules-regex|obsidian-ignore-node-modules-regex]
+- [ai-centric-os-with-mcp-layer|AI-Centric OS with MCP Layer]
+- [ai-first-os-model-context-protocol]
+- [balanced-bst]
 
 ## Sources
-- $[docs/unique/obsidian-ignore-node-modules-regex#L50|obsidian-ignore-node-modules-regex — L50]$ (line 50, col 1, score 1)
-- $[docs/unique/obsidian-ignore-node-modules-regex#L50|obsidian-ignore-node-modules-regex — L50]$ (line 50, col 3, score 1)
-- $[unique-info-dump-index#L66|Unique Info Dump Index — L66]$ (line 66, col 1, score 1)
-- $[unique-info-dump-index#L66|Unique Info Dump Index — L66]$ (line 66, col 3, score 1)
-- $[unique-info-dump-index#L150|Unique Info Dump Index — L150]$ (line 150, col 1, score 0.9)
-- $[unique-info-dump-index#L150|Unique Info Dump Index — L150]$ (line 150, col 3, score 0.9)
-- $[unique-info-dump-index#L151|Unique Info Dump Index — L151]$ (line 151, col 1, score 0.9)
-- $[unique-info-dump-index#L151|Unique Info Dump Index — L151]$ (line 151, col 3, score 0.9)
-- $[docs/unique/aionian-circuit-math#L158|aionian-circuit-math — L158]$ (line 158, col 1, score 1)
-- $[docs/unique/aionian-circuit-math#L158|aionian-circuit-math — L158]$ (line 158, col 3, score 1)
-- $[docs/unique/archetype-ecs#L457|archetype-ecs — L457]$ (line 457, col 1, score 1)
-- $[docs/unique/archetype-ecs#L457|archetype-ecs — L457]$ (line 457, col 3, score 1)
-- [Diagrams — L9]$chunks/diagrams.md#L9$ (line 9, col 1, score 1)
-- [Diagrams — L9]$chunks/diagrams.md#L9$ (line 9, col 3, score 1)
-- [DSL — L10]$chunks/dsl.md#L10$ (line 10, col 1, score 1)
-- [DSL — L10]$chunks/dsl.md#L10$ (line 10, col 3, score 1)
-- $[ai-centric-os-with-mcp-layer#L406|AI-Centric OS with MCP Layer — L406]$ (line 406, col 1, score 1)
-- $[ai-centric-os-with-mcp-layer#L406|AI-Centric OS with MCP Layer — L406]$ (line 406, col 3, score 1)
-- $[ai-first-os-model-context-protocol#L11|AI-First-OS-Model-Context-Protocol — L11]$ (line 11, col 1, score 1)
-- $[ai-first-os-model-context-protocol#L11|AI-First-OS-Model-Context-Protocol — L11]$ (line 11, col 3, score 1)
-- $[ai-first-os-model-context-protocol#L14|AI-First-OS-Model-Context-Protocol — L14]$ (line 14, col 1, score 1)
-- $[ai-first-os-model-context-protocol#L14|AI-First-OS-Model-Context-Protocol — L14]$ (line 14, col 3, score 1)
-- $[balanced-bst#L297|balanced-bst — L297]$ (line 297, col 1, score 1)
-- $[balanced-bst#L297|balanced-bst — L297]$ (line 297, col 3, score 1)
+- [docs/unique/obsidian-ignore-node-modules-regex#L50|obsidian-ignore-node-modules-regex — L50] (line 50, col 1, score 1)
+- [docs/unique/obsidian-ignore-node-modules-regex#L50|obsidian-ignore-node-modules-regex — L50] (line 50, col 3, score 1)
+- [unique-info-dump-index#L66|Unique Info Dump Index — L66] (line 66, col 1, score 1)
+- [unique-info-dump-index#L66|Unique Info Dump Index — L66] (line 66, col 3, score 1)
+- [unique-info-dump-index#L150|Unique Info Dump Index — L150] (line 150, col 1, score 0.9)
+- [unique-info-dump-index#L150|Unique Info Dump Index — L150] (line 150, col 3, score 0.9)
+- [unique-info-dump-index#L151|Unique Info Dump Index — L151] (line 151, col 1, score 0.9)
+- [unique-info-dump-index#L151|Unique Info Dump Index — L151] (line 151, col 3, score 0.9)
+- [docs/unique/aionian-circuit-math#L158|aionian-circuit-math — L158] (line 158, col 1, score 1)
+- [docs/unique/aionian-circuit-math#L158|aionian-circuit-math — L158] (line 158, col 3, score 1)
+- [docs/unique/archetype-ecs#L457|archetype-ecs — L457] (line 457, col 1, score 1)
+- [docs/unique/archetype-ecs#L457|archetype-ecs — L457] (line 457, col 3, score 1)
+- [Diagrams — L9]chunks/diagrams.md#L9 (line 9, col 1, score 1)
+- [Diagrams — L9]chunks/diagrams.md#L9 (line 9, col 3, score 1)
+- [DSL — L10]chunks/dsl.md#L10 (line 10, col 1, score 1)
+- [DSL — L10]chunks/dsl.md#L10 (line 10, col 3, score 1)
+- [ai-centric-os-with-mcp-layer#L406|AI-Centric OS with MCP Layer — L406] (line 406, col 1, score 1)
+- [ai-centric-os-with-mcp-layer#L406|AI-Centric OS with MCP Layer — L406] (line 406, col 3, score 1)
+- [ai-first-os-model-context-protocol#L11|AI-First-OS-Model-Context-Protocol — L11] (line 11, col 1, score 1)
+- [ai-first-os-model-context-protocol#L11|AI-First-OS-Model-Context-Protocol — L11] (line 11, col 3, score 1)
+- [ai-first-os-model-context-protocol#L14|AI-First-OS-Model-Context-Protocol — L14] (line 14, col 1, score 1)
+- [ai-first-os-model-context-protocol#L14|AI-First-OS-Model-Context-Protocol — L14] (line 14, col 3, score 1)
+- [balanced-bst#L297|balanced-bst — L297] (line 297, col 1, score 1)
+- [balanced-bst#L297|balanced-bst — L297] (line 297, col 3, score 1)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

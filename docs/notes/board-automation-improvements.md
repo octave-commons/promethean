@@ -1,14 +1,14 @@
 ---
-$$
+```
 uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
-$$
-$$
+```
+```
 created_at: 2025.08.11.09.08.26.md
-$$
+```
 filename: Board Automation Improvements
-$$
+```
 description: >-
-$$
+```
   Addressing gaps in board automation to prevent task overflow and ensure
   alignment with process documentation.
 tags:
@@ -17,18 +17,18 @@ tags:
   - tasks
   - process
   - documentation
-$$
+```
 related_to_title:
-$$
+```
   - Board Walk – 2025-08-11
   - Admin Dashboard for User Management
   - Dynamic Context Model for Web Components
   - AI-Centric OS with MCP Layer
   - AI-First-OS-Model-Context-Protocol
   - balanced-bst
-$$
+```
 related_to_uuid:
-$$
+```
   - 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
   - 2901a3e9-96f0-497c-ae2c-775f28a702dd
   - f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
@@ -103,26 +103,26 @@ references:
 Automation of the board needs some serious work. A lot of these automaticly generated tasks were sort of hidden from me til I fixed the scripts enough for them to not totally ruin the board.
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- $[board-walk-2025-08-11|Board Walk – 2025-08-11]$
-- $[admin-dashboard-for-user-management|Admin Dashboard for User Management]$
-- $[dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]$
-- $[ai-centric-os-with-mcp-layer|AI-Centric OS with MCP Layer]$
-- $[ai-first-os-model-context-protocol]$
-- $[balanced-bst]$
+- [board-walk-2025-08-11|Board Walk – 2025-08-11]
+- [admin-dashboard-for-user-management|Admin Dashboard for User Management]
+- [dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]
+- [ai-centric-os-with-mcp-layer|AI-Centric OS with MCP Layer]
+- [ai-first-os-model-context-protocol]
+- [balanced-bst]
 
 ## Sources
-- $[admin-dashboard-for-user-management#L40|Admin Dashboard for User Management — L40]$ (line 40, col 1, score 1)
-- $[admin-dashboard-for-user-management#L40|Admin Dashboard for User Management — L40]$ (line 40, col 3, score 1)
-- $[dynamic-context-model-for-web-components#L391|Dynamic Context Model for Web Components — L391]$ (line 391, col 1, score 1)
-- $[dynamic-context-model-for-web-components#L391|Dynamic Context Model for Web Components — L391]$ (line 391, col 3, score 1)
-- $[admin-dashboard-for-user-management#L45|Admin Dashboard for User Management — L45]$ (line 45, col 1, score 0.9)
-- $[admin-dashboard-for-user-management#L45|Admin Dashboard for User Management — L45]$ (line 45, col 3, score 0.9)
-- $[ai-centric-os-with-mcp-layer#L406|AI-Centric OS with MCP Layer — L406]$ (line 406, col 1, score 1)
-- $[ai-centric-os-with-mcp-layer#L406|AI-Centric OS with MCP Layer — L406]$ (line 406, col 3, score 1)
-- $[ai-first-os-model-context-protocol#L11|AI-First-OS-Model-Context-Protocol — L11]$ (line 11, col 1, score 1)
-- $[ai-first-os-model-context-protocol#L11|AI-First-OS-Model-Context-Protocol — L11]$ (line 11, col 3, score 1)
-- $[ai-first-os-model-context-protocol#L14|AI-First-OS-Model-Context-Protocol — L14]$ (line 14, col 1, score 1)
-- $[ai-first-os-model-context-protocol#L14|AI-First-OS-Model-Context-Protocol — L14]$ (line 14, col 3, score 1)
-- $[balanced-bst#L297|balanced-bst — L297]$ (line 297, col 1, score 1)
-- $[balanced-bst#L297|balanced-bst — L297]$ (line 297, col 3, score 1)
+- [admin-dashboard-for-user-management#L40|Admin Dashboard for User Management — L40] (line 40, col 1, score 1)
+- [admin-dashboard-for-user-management#L40|Admin Dashboard for User Management — L40] (line 40, col 3, score 1)
+- [dynamic-context-model-for-web-components#L391|Dynamic Context Model for Web Components — L391] (line 391, col 1, score 1)
+- [dynamic-context-model-for-web-components#L391|Dynamic Context Model for Web Components — L391] (line 391, col 3, score 1)
+- [admin-dashboard-for-user-management#L45|Admin Dashboard for User Management — L45] (line 45, col 1, score 0.9)
+- [admin-dashboard-for-user-management#L45|Admin Dashboard for User Management — L45] (line 45, col 3, score 0.9)
+- [ai-centric-os-with-mcp-layer#L406|AI-Centric OS with MCP Layer — L406] (line 406, col 1, score 1)
+- [ai-centric-os-with-mcp-layer#L406|AI-Centric OS with MCP Layer — L406] (line 406, col 3, score 1)
+- [ai-first-os-model-context-protocol#L11|AI-First-OS-Model-Context-Protocol — L11] (line 11, col 1, score 1)
+- [ai-first-os-model-context-protocol#L11|AI-First-OS-Model-Context-Protocol — L11] (line 11, col 3, score 1)
+- [ai-first-os-model-context-protocol#L14|AI-First-OS-Model-Context-Protocol — L14] (line 14, col 1, score 1)
+- [ai-first-os-model-context-protocol#L14|AI-First-OS-Model-Context-Protocol — L14] (line 14, col 3, score 1)
+- [balanced-bst#L297|balanced-bst — L297] (line 297, col 1, score 1)
+- [balanced-bst#L297|balanced-bst — L297] (line 297, col 3, score 1)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

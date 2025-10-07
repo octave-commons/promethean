@@ -1,14 +1,14 @@
 ---
-$$
+```
 uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
-$$
-$$
+```
+```
 created_at: 2025.08.03.04.08.30.md
-$$
+```
 filename: Promethean Dev Workflow Update
-$$
+```
 description: >-
-$$
+```
   Summary of current test setup status and next steps for merging dev branch to
   staging after type fixes. Includes automation ideas for improving developer
   workflow with local LLM tools.
@@ -23,9 +23,9 @@ tags:
   - pr
   - ci
   - workflow
-$$
+```
 related_to_title:
-$$
+```
   - sibilant-metacompiler-overview
   - Cross-Language Runtime Polymorphism
   - compiler-kit-foundations
@@ -34,9 +34,9 @@ $$
   - AI-First-OS-Model-Context-Protocol
   - AI-Centric OS with MCP Layer
   - balanced-bst
-$$
+```
 related_to_uuid:
-$$
+```
   - 61d4086b-4adf-4e94-95e4-95a249cd1b53
   - c34c36a6-80c9-4b44-a200-6448543b1b33
   - 01b21543-7e03-4129-8fe4-b6306be69dee
@@ -171,162 +171,162 @@ you need to get that stuff you wre doing in the portfolio into lithp, then chang
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
 <<<<<<< HEAD
-- $[windows-tiling-with-autohotkey]$
-- $[the-jar-of-echoes|The Jar of Echoes]$
-- $[ducks-attractor-states|Duck's Attractor States]$
-- $[creative-moments|Creative Moments]$
-- $[promethean-chat-activity-report|Promethean Chat Activity Report]$
-- $[promethean-documentation-update.txt|Promethean Documentation Update]$
-- $[promethean-notes|Promethean Notes]$
-- [Debugging Broker Connections and Agent Behavior]$debugging-broker-connections-and-agent-behavior.md$
-- $[docs/unique/eidolon-field-math-foundations|eidolon-field-math-foundations]$
-- $[eidolon-field-abstract-model|Eidolon Field Abstract Model]$
-- $[docs/unique/field-dynamics-math-blocks|field-dynamics-math-blocks]$
-- $[docs/unique/field-interaction-equations|field-interaction-equations]$
-- $[factorio-ai-with-external-agents|Factorio AI with External Agents]$
-- $[functional-refactor-of-typescript-document-processing|Functional Refactor of TypeScript Document Processing]$
-- $[ducks-self-referential-perceptual-loop|Duck's Self-Referential Perceptual Loop]$
-- $[dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]$
-- $[fnord-tracer-protocol|Fnord Tracer Protocol]$
-- $[promethean-workflow-optimization|Promethean Workflow Optimization]$
+- [windows-tiling-with-autohotkey]
+- [the-jar-of-echoes|The Jar of Echoes]
+- [ducks-attractor-states|Duck's Attractor States]
+- [creative-moments|Creative Moments]
+- [promethean-chat-activity-report|Promethean Chat Activity Report]
+- [promethean-documentation-update.txt|Promethean Documentation Update]
+- [promethean-notes|Promethean Notes]
+- [Debugging Broker Connections and Agent Behavior]debugging-broker-connections-and-agent-behavior.md
+- [docs/unique/eidolon-field-math-foundations|eidolon-field-math-foundations]
+- [eidolon-field-abstract-model|Eidolon Field Abstract Model]
+- [docs/unique/field-dynamics-math-blocks|field-dynamics-math-blocks]
+- [docs/unique/field-interaction-equations|field-interaction-equations]
+- [factorio-ai-with-external-agents|Factorio AI with External Agents]
+- [functional-refactor-of-typescript-document-processing|Functional Refactor of TypeScript Document Processing]
+- [ducks-self-referential-perceptual-loop|Duck's Self-Referential Perceptual Loop]
+- [dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]
+- [fnord-tracer-protocol|Fnord Tracer Protocol]
+- [promethean-workflow-optimization|Promethean Workflow Optimization]
 - [DuckDuckGoSearchPipeline](duckduckgosearchpipeline.md)
-- $[mindful-prioritization|Mindful Prioritization]$
-- $[eidolon-node-lifecycle]$
-- $[graph-ds]$
-- $[i3-bluetooth-setup]$
-- $plan-update-confirmation$$plan-update-confirmation.md$
-- $[model-upgrade-calm-down-guide|Model Upgrade Calm-Down Guide]$
+- [mindful-prioritization|Mindful Prioritization]
+- [eidolon-node-lifecycle]
+- [graph-ds]
+- [i3-bluetooth-setup]
+- plan-update-confirmation$plan-update-confirmation.md
+- [model-upgrade-calm-down-guide|Model Upgrade Calm-Down Guide]
 ## Sources
-- $[creative-moments#^ref-10d98225-8-0|Creative Moments — L8]$ (line 8, col 0, score 1)
-- [Debugging Broker Connections and Agent Behavior — L38]$debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-38-0$ (line 38, col 0, score 1)
-- [Docops Feature Updates — L56]$docops-feature-updates-3.md#^ref-cdbd21ee-56-0$ (line 56, col 0, score 1)
-- $[promethean-documentation-overview#^ref-9413237f-86-0|Promethean Documentation Overview — L86]$ (line 86, col 0, score 1)
-- $[promethean-documentation-pipeline-overview#^ref-3a3bf2c9-243-0|Promethean Documentation Pipeline Overview — L243]$ (line 243, col 0, score 1)
-- $[promethean-documentation-update#^ref-c0392040-94-0|Promethean Documentation Update — L94]$ (line 94, col 0, score 1)
-- $[promethean-documentation-update.txt#^ref-0b872af2-12-0|Promethean Documentation Update — L12]$ (line 12, col 0, score 1)
-- $[promethean-eidolon-synchronicity-model#^ref-2d6e5553-133-0|Promethean_Eidolon_Synchronicity_Model — L133]$ (line 133, col 0, score 1)
-- $[promethean-infrastructure-setup#^ref-6deed6ac-750-0|Promethean Infrastructure Setup — L750]$ (line 750, col 0, score 1)
-- $[promethean-notes#^ref-1c4046b5-8-0|Promethean Notes — L8]$ (line 8, col 0, score 1)
-- $[docs/unique/ripple-propagation-demo#^ref-8430617b-189-0|ripple-propagation-demo — L189]$ (line 189, col 0, score 1)
-- $[run-step-api#^ref-15d25922-1038-0|run-step-api — L1038]$ (line 1038, col 0, score 1)
-- $[schema-evolution-workflow#^ref-d8059b6a-634-0|schema-evolution-workflow — L634]$ (line 634, col 0, score 1)
-- $[per-domain-policy-system-for-js-crawler#^ref-c03020e1-495-0|Per-Domain Policy System for JS Crawler — L495]$ (line 495, col 0, score 1)
-- $[performance-optimized-polyglot-bridge#^ref-f5579967-459-0|Performance-Optimized-Polyglot-Bridge — L459]$ (line 459, col 0, score 1)
-- $[pipeline-enhancements#^ref-e2135d9f-27-0|Pipeline Enhancements — L27]$ (line 27, col 0, score 1)
-- $plan-update-confirmation — L1002$$plan-update-confirmation.md#^ref-b22d79c6-1002-0$ (line 1002, col 0, score 1)
-- $[polyglot-repl-interface-layer#^ref-9c79206d-171-0|polyglot-repl-interface-layer — L171]$ (line 171, col 0, score 1)
-- $[post-linguistic-transhuman-design-frameworks#^ref-6bcff92c-112-0|Post-Linguistic Transhuman Design Frameworks — L112]$ (line 112, col 0, score 1)
-- $[promethean-chat-activity-report#^ref-18344cf9-24-0|Promethean Chat Activity Report — L24]$ (line 24, col 0, score 1)
-- $Protocol_0_The_Contradiction_Engine — L143$$protocol-0-the-contradiction-engine.md#^ref-9a93a756-143-0$ (line 143, col 0, score 1)
-- $[provider-agnostic-chat-panel-implementation#^ref-43bfe9dd-241-0|Provider-Agnostic Chat Panel Implementation — L241]$ (line 241, col 0, score 1)
-- $[schema-evolution-workflow#^ref-d8059b6a-570-0|schema-evolution-workflow — L570]$ (line 570, col 0, score 1)
-- $[unique-info-dump-index#^ref-30ec3ba6-123-0|Unique Info Dump Index — L123]$ (line 123, col 0, score 1)
-- [ChatGPT Custom Prompts — L84]$chatgpt-custom-prompts.md#^ref-930054b3-84-0$ (line 84, col 0, score 1)
-- $[creative-moments#^ref-10d98225-128-0|Creative Moments — L128]$ (line 128, col 0, score 1)
-- $[dynamic-context-model-for-web-components#^ref-f7702bf8-539-0|Dynamic Context Model for Web Components — L539]$ (line 539, col 0, score 1)
-- $[eidolon-field-abstract-model#^ref-5e8b2388-305-0|Eidolon Field Abstract Model — L305]$ (line 305, col 0, score 1)
-- $[docs/unique/eidolon-field-math-foundations#^ref-008f2ac0-262-0|eidolon-field-math-foundations — L262]$ (line 262, col 0, score 1)
-- $field-node-diagram-visualizations — L198$$field-node-diagram-visualizations.md#^ref-e9b27b06-198-0$ (line 198, col 0, score 1)
-- $[fnord-tracer-protocol#^ref-fc21f824-383-0|Fnord Tracer Protocol — L383]$ (line 383, col 0, score 1)
-- $[model-selection-for-lightweight-conversational-tasks#^ref-d144aa62-271-0|Model Selection for Lightweight Conversational Tasks — L271]$ (line 271, col 0, score 1)
-- $[docs/unique/aionian-circuit-math#^ref-f2d83a77-149-0|aionian-circuit-math — L149]$ (line 149, col 0, score 1)
-- $[api-gateway-versioning#^ref-0580dcd3-285-0|api-gateway-versioning — L285]$ (line 285, col 0, score 1)
-- $[board-automation-improvements#^ref-ac60a1d6-11-0|Board Automation Improvements — L11]$ (line 11, col 0, score 1)
-- $[board-walk-2025-08-11#^ref-7aa1eb92-134-0|Board Walk – 2025-08-11 — L134]$ (line 134, col 0, score 1)
-- $[docs/unique/field-dynamics-math-blocks#^ref-7cfc230d-193-0|field-dynamics-math-blocks — L193]$ (line 193, col 0, score 1)
-- $[field-node-diagram-set#^ref-22b989d5-203-0|field-node-diagram-set — L203]$ (line 203, col 0, score 1)
-- $field-node-diagram-visualizations — L151$$field-node-diagram-visualizations.md#^ref-e9b27b06-151-0$ (line 151, col 0, score 1)
-- $[functional-refactor-of-typescript-document-processing#^ref-1cfae310-281-0|Functional Refactor of TypeScript Document Processing — L281]$ (line 281, col 0, score 1)
-- $[heartbeat-fragment-demo#^ref-dd00677a-181-0|heartbeat-fragment-demo — L181]$ (line 181, col 0, score 1)
-- $[homeostasis-decay-formulas#^ref-37b5d236-220-0|homeostasis-decay-formulas — L220]$ (line 220, col 0, score 1)
-- $[ice-box-reorganization#^ref-291c7d91-110-0|Ice Box Reorganization — L110]$ (line 110, col 0, score 1)
-- $[docs/unique/obsidian-ignore-node-modules-regex#^ref-ffb9b2a9-118-0|obsidian-ignore-node-modules-regex — L118]$ (line 118, col 0, score 1)
-- [ParticleSimulationWithCanvasAndFFmpeg — L329]$particlesimulationwithcanvasandffmpeg.md#^ref-e018dd7a-329-0$ (line 329, col 0, score 1)
-- $[creative-moments#^ref-10d98225-9-0|Creative Moments — L9]$ (line 9, col 0, score 1)
-- [Debugging Broker Connections and Agent Behavior — L117]$debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-117-0$ (line 117, col 0, score 1)
-- [Docops Feature Updates — L58]$docops-feature-updates-3.md#^ref-cdbd21ee-58-0$ (line 58, col 0, score 1)
-- $[docops-feature-updates#^ref-2792d448-82-0|Docops Feature Updates — L82]$ (line 82, col 0, score 1)
-- [DuckDuckGoSearchPipeline — L67]$duckduckgosearchpipeline.md#^ref-e979c50f-67-0$ (line 67, col 0, score 1)
-- $[ducks-attractor-states#^ref-13951643-66-0|Duck's Attractor States — L66]$ (line 66, col 0, score 1)
-- $[ducks-self-referential-perceptual-loop#^ref-71726f04-113-0|Duck's Self-Referential Perceptual Loop — L113]$ (line 113, col 0, score 1)
-- $[dynamic-context-model-for-web-components#^ref-f7702bf8-469-0|Dynamic Context Model for Web Components — L469]$ (line 469, col 0, score 1)
-- $[eidolon-field-abstract-model#^ref-5e8b2388-270-0|Eidolon Field Abstract Model — L270]$ (line 270, col 0, score 1)
-- $[creative-moments#^ref-10d98225-13-0|Creative Moments — L13]$ (line 13, col 0, score 1)
-- [Docops Feature Updates — L99]$docops-feature-updates-3.md#^ref-cdbd21ee-99-0$ (line 99, col 0, score 1)
-- $[docops-feature-updates#^ref-2792d448-118-0|Docops Feature Updates — L118]$ (line 118, col 0, score 1)
-- [DuckDuckGoSearchPipeline — L108]$duckduckgosearchpipeline.md#^ref-e979c50f-108-0$ (line 108, col 0, score 1)
-- $[ducks-attractor-states#^ref-13951643-68-0|Duck's Attractor States — L68]$ (line 68, col 0, score 1)
-- $[creative-moments#^ref-10d98225-50-0|Creative Moments — L50]$ (line 50, col 0, score 1)
-- [Debugging Broker Connections and Agent Behavior — L89]$debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-89-0$ (line 89, col 0, score 1)
-- [Docops Feature Updates — L32]$docops-feature-updates-3.md#^ref-cdbd21ee-32-0$ (line 32, col 0, score 1)
-- $[docops-feature-updates#^ref-2792d448-49-0|Docops Feature Updates — L49]$ (line 49, col 0, score 1)
-- [DuckDuckGoSearchPipeline — L95]$duckduckgosearchpipeline.md#^ref-e979c50f-95-0$ (line 95, col 0, score 1)
-- $[ducks-attractor-states#^ref-13951643-133-0|Duck's Attractor States — L133]$ (line 133, col 0, score 1)
-- $[ducks-self-referential-perceptual-loop#^ref-71726f04-59-0|Duck's Self-Referential Perceptual Loop — L59]$ (line 59, col 0, score 1)
-- $[eidolon-field-abstract-model#^ref-5e8b2388-252-0|Eidolon Field Abstract Model — L252]$ (line 252, col 0, score 1)
-- $[creative-moments#^ref-10d98225-94-0|Creative Moments — L94]$ (line 94, col 0, score 1)
-- [Debugging Broker Connections and Agent Behavior — L63]$debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-63-0$ (line 63, col 0, score 1)
-- [Docops Feature Updates — L66]$docops-feature-updates-3.md#^ref-cdbd21ee-66-0$ (line 66, col 0, score 1)
-- [DuckDuckGoSearchPipeline — L93]$duckduckgosearchpipeline.md#^ref-e979c50f-93-0$ (line 93, col 0, score 1)
-- $[ducks-self-referential-perceptual-loop#^ref-71726f04-73-0|Duck's Self-Referential Perceptual Loop — L73]$ (line 73, col 0, score 1)
-- $[dynamic-context-model-for-web-components#^ref-f7702bf8-403-0|Dynamic Context Model for Web Components — L403]$ (line 403, col 0, score 1)
-- $[creative-moments#^ref-10d98225-28-0|Creative Moments — L28]$ (line 28, col 0, score 1)
-- [Docops Feature Updates — L65]$docops-feature-updates-3.md#^ref-cdbd21ee-65-0$ (line 65, col 0, score 1)
-- $[docops-feature-updates#^ref-2792d448-86-0|Docops Feature Updates — L86]$ (line 86, col 0, score 1)
-- $[ducks-attractor-states#^ref-13951643-123-0|Duck's Attractor States — L123]$ (line 123, col 0, score 1)
-- $[ducks-self-referential-perceptual-loop#^ref-71726f04-34-0|Duck's Self-Referential Perceptual Loop — L34]$ (line 34, col 0, score 1)
-- $[dynamic-context-model-for-web-components#^ref-f7702bf8-442-0|Dynamic Context Model for Web Components — L442]$ (line 442, col 0, score 1)
-- $[eidolon-field-abstract-model#^ref-5e8b2388-218-0|Eidolon Field Abstract Model — L218]$ (line 218, col 0, score 1)
-- $[docs/unique/eidolon-field-math-foundations#^ref-008f2ac0-176-0|eidolon-field-math-foundations — L176]$ (line 176, col 0, score 1)
-- $[eidolon-node-lifecycle#^ref-938eca9c-70-0|eidolon-node-lifecycle — L70]$ (line 70, col 0, score 1)
-- [Docops Feature Updates — L85]$docops-feature-updates-3.md#^ref-cdbd21ee-85-0$ (line 85, col 0, score 1)
-- $[ducks-attractor-states#^ref-13951643-93-0|Duck's Attractor States — L93]$ (line 93, col 0, score 1)
-- $[ducks-self-referential-perceptual-loop#^ref-71726f04-64-0|Duck's Self-Referential Perceptual Loop — L64]$ (line 64, col 0, score 1)
-- $[factorio-ai-with-external-agents#^ref-a4d90289-153-0|Factorio AI with External Agents — L153]$ (line 153, col 0, score 1)
-- $[docs/unique/field-dynamics-math-blocks#^ref-7cfc230d-141-0|field-dynamics-math-blocks — L141]$ (line 141, col 0, score 1)
-- $[field-node-diagram-outline#^ref-1f32c94a-186-0|field-node-diagram-outline — L186]$ (line 186, col 0, score 1)
-- $[field-node-diagram-set#^ref-22b989d5-247-0|field-node-diagram-set — L247]$ (line 247, col 0, score 1)
-- $[fnord-tracer-protocol#^ref-fc21f824-354-0|Fnord Tracer Protocol — L354]$ (line 354, col 0, score 1)
-- $[git-commit-optimization-for-code-reviews#^ref-72e4fd3c-163-0|Git Commit Optimization for Code Reviews — L163]$ (line 163, col 0, score 1)
-- $[heartbeat-fragment-demo#^ref-dd00677a-217-0|heartbeat-fragment-demo — L217]$ (line 217, col 0, score 1)
-- $[docops-feature-updates#^ref-2792d448-35-0|Docops Feature Updates — L35]$ (line 35, col 0, score 1)
-- $[ducks-attractor-states#^ref-13951643-94-0|Duck's Attractor States — L94]$ (line 94, col 0, score 1)
-- $[ducks-self-referential-perceptual-loop#^ref-71726f04-53-0|Duck's Self-Referential Perceptual Loop — L53]$ (line 53, col 0, score 1)
-- $[dynamic-context-model-for-web-components#^ref-f7702bf8-424-0|Dynamic Context Model for Web Components — L424]$ (line 424, col 0, score 1)
-- $[eidolon-field-abstract-model#^ref-5e8b2388-209-0|Eidolon Field Abstract Model — L209]$ (line 209, col 0, score 1)
-- $[docs/unique/eidolon-field-math-foundations#^ref-008f2ac0-142-0|eidolon-field-math-foundations — L142]$ (line 142, col 0, score 1)
-- $[eidolon-node-lifecycle#^ref-938eca9c-39-0|eidolon-node-lifecycle — L39]$ (line 39, col 0, score 1)
-- $[dynamic-context-model-for-web-components#^ref-f7702bf8-412-0|Dynamic Context Model for Web Components — L412]$ (line 412, col 0, score 1)
-$$
+- [creative-moments#^ref-10d98225-8-0|Creative Moments — L8] (line 8, col 0, score 1)
+- [Debugging Broker Connections and Agent Behavior — L38]debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-38-0 (line 38, col 0, score 1)
+- [Docops Feature Updates — L56]docops-feature-updates-3.md#^ref-cdbd21ee-56-0 (line 56, col 0, score 1)
+- [promethean-documentation-overview#^ref-9413237f-86-0|Promethean Documentation Overview — L86] (line 86, col 0, score 1)
+- [promethean-documentation-pipeline-overview#^ref-3a3bf2c9-243-0|Promethean Documentation Pipeline Overview — L243] (line 243, col 0, score 1)
+- [promethean-documentation-update#^ref-c0392040-94-0|Promethean Documentation Update — L94] (line 94, col 0, score 1)
+- [promethean-documentation-update.txt#^ref-0b872af2-12-0|Promethean Documentation Update — L12] (line 12, col 0, score 1)
+- [promethean-eidolon-synchronicity-model#^ref-2d6e5553-133-0|Promethean_Eidolon_Synchronicity_Model — L133] (line 133, col 0, score 1)
+- [promethean-infrastructure-setup#^ref-6deed6ac-750-0|Promethean Infrastructure Setup — L750] (line 750, col 0, score 1)
+- [promethean-notes#^ref-1c4046b5-8-0|Promethean Notes — L8] (line 8, col 0, score 1)
+- [docs/unique/ripple-propagation-demo#^ref-8430617b-189-0|ripple-propagation-demo — L189] (line 189, col 0, score 1)
+- [run-step-api#^ref-15d25922-1038-0|run-step-api — L1038] (line 1038, col 0, score 1)
+- [schema-evolution-workflow#^ref-d8059b6a-634-0|schema-evolution-workflow — L634] (line 634, col 0, score 1)
+- [per-domain-policy-system-for-js-crawler#^ref-c03020e1-495-0|Per-Domain Policy System for JS Crawler — L495] (line 495, col 0, score 1)
+- [performance-optimized-polyglot-bridge#^ref-f5579967-459-0|Performance-Optimized-Polyglot-Bridge — L459] (line 459, col 0, score 1)
+- [pipeline-enhancements#^ref-e2135d9f-27-0|Pipeline Enhancements — L27] (line 27, col 0, score 1)
+- plan-update-confirmation — L1002$plan-update-confirmation.md#^ref-b22d79c6-1002-0 (line 1002, col 0, score 1)
+- [polyglot-repl-interface-layer#^ref-9c79206d-171-0|polyglot-repl-interface-layer — L171] (line 171, col 0, score 1)
+- [post-linguistic-transhuman-design-frameworks#^ref-6bcff92c-112-0|Post-Linguistic Transhuman Design Frameworks — L112] (line 112, col 0, score 1)
+- [promethean-chat-activity-report#^ref-18344cf9-24-0|Promethean Chat Activity Report — L24] (line 24, col 0, score 1)
+- Protocol_0_The_Contradiction_Engine — L143$protocol-0-the-contradiction-engine.md#^ref-9a93a756-143-0 (line 143, col 0, score 1)
+- [provider-agnostic-chat-panel-implementation#^ref-43bfe9dd-241-0|Provider-Agnostic Chat Panel Implementation — L241] (line 241, col 0, score 1)
+- [schema-evolution-workflow#^ref-d8059b6a-570-0|schema-evolution-workflow — L570] (line 570, col 0, score 1)
+- [unique-info-dump-index#^ref-30ec3ba6-123-0|Unique Info Dump Index — L123] (line 123, col 0, score 1)
+- [ChatGPT Custom Prompts — L84]chatgpt-custom-prompts.md#^ref-930054b3-84-0 (line 84, col 0, score 1)
+- [creative-moments#^ref-10d98225-128-0|Creative Moments — L128] (line 128, col 0, score 1)
+- [dynamic-context-model-for-web-components#^ref-f7702bf8-539-0|Dynamic Context Model for Web Components — L539] (line 539, col 0, score 1)
+- [eidolon-field-abstract-model#^ref-5e8b2388-305-0|Eidolon Field Abstract Model — L305] (line 305, col 0, score 1)
+- [docs/unique/eidolon-field-math-foundations#^ref-008f2ac0-262-0|eidolon-field-math-foundations — L262] (line 262, col 0, score 1)
+- field-node-diagram-visualizations — L198$field-node-diagram-visualizations.md#^ref-e9b27b06-198-0 (line 198, col 0, score 1)
+- [fnord-tracer-protocol#^ref-fc21f824-383-0|Fnord Tracer Protocol — L383] (line 383, col 0, score 1)
+- [model-selection-for-lightweight-conversational-tasks#^ref-d144aa62-271-0|Model Selection for Lightweight Conversational Tasks — L271] (line 271, col 0, score 1)
+- [docs/unique/aionian-circuit-math#^ref-f2d83a77-149-0|aionian-circuit-math — L149] (line 149, col 0, score 1)
+- [api-gateway-versioning#^ref-0580dcd3-285-0|api-gateway-versioning — L285] (line 285, col 0, score 1)
+- [board-automation-improvements#^ref-ac60a1d6-11-0|Board Automation Improvements — L11] (line 11, col 0, score 1)
+- [board-walk-2025-08-11#^ref-7aa1eb92-134-0|Board Walk – 2025-08-11 — L134] (line 134, col 0, score 1)
+- [docs/unique/field-dynamics-math-blocks#^ref-7cfc230d-193-0|field-dynamics-math-blocks — L193] (line 193, col 0, score 1)
+- [field-node-diagram-set#^ref-22b989d5-203-0|field-node-diagram-set — L203] (line 203, col 0, score 1)
+- field-node-diagram-visualizations — L151$field-node-diagram-visualizations.md#^ref-e9b27b06-151-0 (line 151, col 0, score 1)
+- [functional-refactor-of-typescript-document-processing#^ref-1cfae310-281-0|Functional Refactor of TypeScript Document Processing — L281] (line 281, col 0, score 1)
+- [heartbeat-fragment-demo#^ref-dd00677a-181-0|heartbeat-fragment-demo — L181] (line 181, col 0, score 1)
+- [homeostasis-decay-formulas#^ref-37b5d236-220-0|homeostasis-decay-formulas — L220] (line 220, col 0, score 1)
+- [ice-box-reorganization#^ref-291c7d91-110-0|Ice Box Reorganization — L110] (line 110, col 0, score 1)
+- [docs/unique/obsidian-ignore-node-modules-regex#^ref-ffb9b2a9-118-0|obsidian-ignore-node-modules-regex — L118] (line 118, col 0, score 1)
+- [ParticleSimulationWithCanvasAndFFmpeg — L329]particlesimulationwithcanvasandffmpeg.md#^ref-e018dd7a-329-0 (line 329, col 0, score 1)
+- [creative-moments#^ref-10d98225-9-0|Creative Moments — L9] (line 9, col 0, score 1)
+- [Debugging Broker Connections and Agent Behavior — L117]debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-117-0 (line 117, col 0, score 1)
+- [Docops Feature Updates — L58]docops-feature-updates-3.md#^ref-cdbd21ee-58-0 (line 58, col 0, score 1)
+- [docops-feature-updates#^ref-2792d448-82-0|Docops Feature Updates — L82] (line 82, col 0, score 1)
+- [DuckDuckGoSearchPipeline — L67]duckduckgosearchpipeline.md#^ref-e979c50f-67-0 (line 67, col 0, score 1)
+- [ducks-attractor-states#^ref-13951643-66-0|Duck's Attractor States — L66] (line 66, col 0, score 1)
+- [ducks-self-referential-perceptual-loop#^ref-71726f04-113-0|Duck's Self-Referential Perceptual Loop — L113] (line 113, col 0, score 1)
+- [dynamic-context-model-for-web-components#^ref-f7702bf8-469-0|Dynamic Context Model for Web Components — L469] (line 469, col 0, score 1)
+- [eidolon-field-abstract-model#^ref-5e8b2388-270-0|Eidolon Field Abstract Model — L270] (line 270, col 0, score 1)
+- [creative-moments#^ref-10d98225-13-0|Creative Moments — L13] (line 13, col 0, score 1)
+- [Docops Feature Updates — L99]docops-feature-updates-3.md#^ref-cdbd21ee-99-0 (line 99, col 0, score 1)
+- [docops-feature-updates#^ref-2792d448-118-0|Docops Feature Updates — L118] (line 118, col 0, score 1)
+- [DuckDuckGoSearchPipeline — L108]duckduckgosearchpipeline.md#^ref-e979c50f-108-0 (line 108, col 0, score 1)
+- [ducks-attractor-states#^ref-13951643-68-0|Duck's Attractor States — L68] (line 68, col 0, score 1)
+- [creative-moments#^ref-10d98225-50-0|Creative Moments — L50] (line 50, col 0, score 1)
+- [Debugging Broker Connections and Agent Behavior — L89]debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-89-0 (line 89, col 0, score 1)
+- [Docops Feature Updates — L32]docops-feature-updates-3.md#^ref-cdbd21ee-32-0 (line 32, col 0, score 1)
+- [docops-feature-updates#^ref-2792d448-49-0|Docops Feature Updates — L49] (line 49, col 0, score 1)
+- [DuckDuckGoSearchPipeline — L95]duckduckgosearchpipeline.md#^ref-e979c50f-95-0 (line 95, col 0, score 1)
+- [ducks-attractor-states#^ref-13951643-133-0|Duck's Attractor States — L133] (line 133, col 0, score 1)
+- [ducks-self-referential-perceptual-loop#^ref-71726f04-59-0|Duck's Self-Referential Perceptual Loop — L59] (line 59, col 0, score 1)
+- [eidolon-field-abstract-model#^ref-5e8b2388-252-0|Eidolon Field Abstract Model — L252] (line 252, col 0, score 1)
+- [creative-moments#^ref-10d98225-94-0|Creative Moments — L94] (line 94, col 0, score 1)
+- [Debugging Broker Connections and Agent Behavior — L63]debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-63-0 (line 63, col 0, score 1)
+- [Docops Feature Updates — L66]docops-feature-updates-3.md#^ref-cdbd21ee-66-0 (line 66, col 0, score 1)
+- [DuckDuckGoSearchPipeline — L93]duckduckgosearchpipeline.md#^ref-e979c50f-93-0 (line 93, col 0, score 1)
+- [ducks-self-referential-perceptual-loop#^ref-71726f04-73-0|Duck's Self-Referential Perceptual Loop — L73] (line 73, col 0, score 1)
+- [dynamic-context-model-for-web-components#^ref-f7702bf8-403-0|Dynamic Context Model for Web Components — L403] (line 403, col 0, score 1)
+- [creative-moments#^ref-10d98225-28-0|Creative Moments — L28] (line 28, col 0, score 1)
+- [Docops Feature Updates — L65]docops-feature-updates-3.md#^ref-cdbd21ee-65-0 (line 65, col 0, score 1)
+- [docops-feature-updates#^ref-2792d448-86-0|Docops Feature Updates — L86] (line 86, col 0, score 1)
+- [ducks-attractor-states#^ref-13951643-123-0|Duck's Attractor States — L123] (line 123, col 0, score 1)
+- [ducks-self-referential-perceptual-loop#^ref-71726f04-34-0|Duck's Self-Referential Perceptual Loop — L34] (line 34, col 0, score 1)
+- [dynamic-context-model-for-web-components#^ref-f7702bf8-442-0|Dynamic Context Model for Web Components — L442] (line 442, col 0, score 1)
+- [eidolon-field-abstract-model#^ref-5e8b2388-218-0|Eidolon Field Abstract Model — L218] (line 218, col 0, score 1)
+- [docs/unique/eidolon-field-math-foundations#^ref-008f2ac0-176-0|eidolon-field-math-foundations — L176] (line 176, col 0, score 1)
+- [eidolon-node-lifecycle#^ref-938eca9c-70-0|eidolon-node-lifecycle — L70] (line 70, col 0, score 1)
+- [Docops Feature Updates — L85]docops-feature-updates-3.md#^ref-cdbd21ee-85-0 (line 85, col 0, score 1)
+- [ducks-attractor-states#^ref-13951643-93-0|Duck's Attractor States — L93] (line 93, col 0, score 1)
+- [ducks-self-referential-perceptual-loop#^ref-71726f04-64-0|Duck's Self-Referential Perceptual Loop — L64] (line 64, col 0, score 1)
+- [factorio-ai-with-external-agents#^ref-a4d90289-153-0|Factorio AI with External Agents — L153] (line 153, col 0, score 1)
+- [docs/unique/field-dynamics-math-blocks#^ref-7cfc230d-141-0|field-dynamics-math-blocks — L141] (line 141, col 0, score 1)
+- [field-node-diagram-outline#^ref-1f32c94a-186-0|field-node-diagram-outline — L186] (line 186, col 0, score 1)
+- [field-node-diagram-set#^ref-22b989d5-247-0|field-node-diagram-set — L247] (line 247, col 0, score 1)
+- [fnord-tracer-protocol#^ref-fc21f824-354-0|Fnord Tracer Protocol — L354] (line 354, col 0, score 1)
+- [git-commit-optimization-for-code-reviews#^ref-72e4fd3c-163-0|Git Commit Optimization for Code Reviews — L163] (line 163, col 0, score 1)
+- [heartbeat-fragment-demo#^ref-dd00677a-217-0|heartbeat-fragment-demo — L217] (line 217, col 0, score 1)
+- [docops-feature-updates#^ref-2792d448-35-0|Docops Feature Updates — L35] (line 35, col 0, score 1)
+- [ducks-attractor-states#^ref-13951643-94-0|Duck's Attractor States — L94] (line 94, col 0, score 1)
+- [ducks-self-referential-perceptual-loop#^ref-71726f04-53-0|Duck's Self-Referential Perceptual Loop — L53] (line 53, col 0, score 1)
+- [dynamic-context-model-for-web-components#^ref-f7702bf8-424-0|Dynamic Context Model for Web Components — L424] (line 424, col 0, score 1)
+- [eidolon-field-abstract-model#^ref-5e8b2388-209-0|Eidolon Field Abstract Model — L209] (line 209, col 0, score 1)
+- [docs/unique/eidolon-field-math-foundations#^ref-008f2ac0-142-0|eidolon-field-math-foundations — L142] (line 142, col 0, score 1)
+- [eidolon-node-lifecycle#^ref-938eca9c-39-0|eidolon-node-lifecycle — L39] (line 39, col 0, score 1)
+- [dynamic-context-model-for-web-components#^ref-f7702bf8-412-0|Dynamic Context Model for Web Components — L412] (line 412, col 0, score 1)
+```
 =======
-$$
-- $[sibilant-metacompiler-overview]$
-- $[cross-language-runtime-polymorphism|Cross-Language Runtime Polymorphism]$
-- $[docs/unique/compiler-kit-foundations|compiler-kit-foundations]$
-- $[cross-target-macro-system-in-sibilant|Cross-Target Macro System in Sibilant]$
-- $[polyglot-repl-interface-layer]$
-- $[ai-first-os-model-context-protocol]$
-- $[ai-centric-os-with-mcp-layer|AI-Centric OS with MCP Layer]$
-- $[balanced-bst]$
+```
+- [sibilant-metacompiler-overview]
+- [cross-language-runtime-polymorphism|Cross-Language Runtime Polymorphism]
+- [docs/unique/compiler-kit-foundations|compiler-kit-foundations]
+- [cross-target-macro-system-in-sibilant|Cross-Target Macro System in Sibilant]
+- [polyglot-repl-interface-layer]
+- [ai-first-os-model-context-protocol]
+- [ai-centric-os-with-mcp-layer|AI-Centric OS with MCP Layer]
+- [balanced-bst]
 
 ## Sources
-- $[docs/unique/compiler-kit-foundations#L612|compiler-kit-foundations — L612]$ (line 612, col 1, score 1)
-- $[docs/unique/compiler-kit-foundations#L612|compiler-kit-foundations — L612]$ (line 612, col 3, score 1)
-- $[cross-language-runtime-polymorphism#L205|Cross-Language Runtime Polymorphism — L205]$ (line 205, col 1, score 1)
-- $[cross-language-runtime-polymorphism#L205|Cross-Language Runtime Polymorphism — L205]$ (line 205, col 3, score 1)
-- $[cross-target-macro-system-in-sibilant#L171|Cross-Target Macro System in Sibilant — L171]$ (line 171, col 1, score 1)
-- $[cross-target-macro-system-in-sibilant#L171|Cross-Target Macro System in Sibilant — L171]$ (line 171, col 3, score 1)
-- $[polyglot-repl-interface-layer#L159|polyglot-repl-interface-layer — L159]$ (line 159, col 1, score 1)
-- $[polyglot-repl-interface-layer#L159|polyglot-repl-interface-layer — L159]$ (line 159, col 3, score 1)
-- $[ai-centric-os-with-mcp-layer#L406|AI-Centric OS with MCP Layer — L406]$ (line 406, col 1, score 1)
-- $[ai-centric-os-with-mcp-layer#L406|AI-Centric OS with MCP Layer — L406]$ (line 406, col 3, score 1)
-- $[ai-first-os-model-context-protocol#L11|AI-First-OS-Model-Context-Protocol — L11]$ (line 11, col 1, score 1)
-- $[ai-first-os-model-context-protocol#L11|AI-First-OS-Model-Context-Protocol — L11]$ (line 11, col 3, score 1)
-- $[ai-first-os-model-context-protocol#L14|AI-First-OS-Model-Context-Protocol — L14]$ (line 14, col 1, score 1)
-- $[ai-first-os-model-context-protocol#L14|AI-First-OS-Model-Context-Protocol — L14]$ (line 14, col 3, score 1)
-- $[balanced-bst#L297|balanced-bst — L297]$ (line 297, col 1, score 1)
-- $[balanced-bst#L297|balanced-bst — L297]$ (line 297, col 3, score 1)
-$$
+- [docs/unique/compiler-kit-foundations#L612|compiler-kit-foundations — L612] (line 612, col 1, score 1)
+- [docs/unique/compiler-kit-foundations#L612|compiler-kit-foundations — L612] (line 612, col 3, score 1)
+- [cross-language-runtime-polymorphism#L205|Cross-Language Runtime Polymorphism — L205] (line 205, col 1, score 1)
+- [cross-language-runtime-polymorphism#L205|Cross-Language Runtime Polymorphism — L205] (line 205, col 3, score 1)
+- [cross-target-macro-system-in-sibilant#L171|Cross-Target Macro System in Sibilant — L171] (line 171, col 1, score 1)
+- [cross-target-macro-system-in-sibilant#L171|Cross-Target Macro System in Sibilant — L171] (line 171, col 3, score 1)
+- [polyglot-repl-interface-layer#L159|polyglot-repl-interface-layer — L159] (line 159, col 1, score 1)
+- [polyglot-repl-interface-layer#L159|polyglot-repl-interface-layer — L159] (line 159, col 3, score 1)
+- [ai-centric-os-with-mcp-layer#L406|AI-Centric OS with MCP Layer — L406] (line 406, col 1, score 1)
+- [ai-centric-os-with-mcp-layer#L406|AI-Centric OS with MCP Layer — L406] (line 406, col 3, score 1)
+- [ai-first-os-model-context-protocol#L11|AI-First-OS-Model-Context-Protocol — L11] (line 11, col 1, score 1)
+- [ai-first-os-model-context-protocol#L11|AI-First-OS-Model-Context-Protocol — L11] (line 11, col 3, score 1)
+- [ai-first-os-model-context-protocol#L14|AI-First-OS-Model-Context-Protocol — L14] (line 14, col 1, score 1)
+- [ai-first-os-model-context-protocol#L14|AI-First-OS-Model-Context-Protocol — L14] (line 14, col 3, score 1)
+- [balanced-bst#L297|balanced-bst — L297] (line 297, col 1, score 1)
+- [balanced-bst#L297|balanced-bst — L297] (line 297, col 3, score 1)
+```
 >>>>>>> stealth/obsidian
-$$
+```
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

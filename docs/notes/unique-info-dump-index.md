@@ -1,14 +1,14 @@
 ---
-$$
+```
 uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-$$
-$$
+```
+```
 created_at: index.md
-$$
+```
 filename: Unique Info Dump Index
-$$
+```
 description: >-
-$$
+```
   An index of organized unique notes from `docs/unique` moved to `docs/notes`
   with descriptive filenames. Includes chunks, recent transfers, and stubs for
   duplicates.
@@ -19,9 +19,9 @@ tags:
   - chunks
   - transfers
   - stubs
-$$
+```
 related_to_title:
-$$
+```
   - JavaScript
   - Math Fundamentals
   - DSL
@@ -103,9 +103,9 @@ $$
   - polymorphic-meta-programming-engine
   - Promethean Agent DSL TS Scaffold
   - Promethean Infrastructure Setup
-$$
+```
 related_to_uuid:
-$$
+```
   - c1618c66-f73a-4e04-9bfa-ef38755f7acc
   - c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
   - e87bc036-1570-419e-a558-f45b9c0db698
@@ -1662,52 +1662,52 @@ These notes were originally captured in `docs/unique` with timestamp filenames. 
 - [[simulation.md|Simulation]]
 - [[tooling.md|Tooling]] ^ref-30ec3ba6-15-0
 - [[wm.md|Window Management]]
-$$
+```
 #tags: #unique #index ^ref-30ec3ba6-18-0
-$$
+```
 ## Recent Transfers
 
-- **2025.08.08.22.08.05** → $[docs/unique/typed-struct-compiler]$ ^ref-30ec3ba6-22-0
-- ripple-propagation-demo → $[docs/unique/ripple-propagation-demo]$ ^ref-30ec3ba6-23-0
-- annotated-fragment-heartbeat-demo → $[annotated-fragment-heartbeat-demo]$ ^ref-30ec3ba6-24-0
-- field-interaction-equations → $[docs/unique/field-interaction-equations]$ ^ref-30ec3ba6-25-0
-- homeostasis-decay-formulas → $[homeostasis-and-decay-models]$ ^ref-30ec3ba6-26-0
-- eidolon-field-math-foundations → $[docs/unique/eidolon-field-math-foundations]$
-- field-dynamics-math-blocks → $[docs/unique/field-dynamics-math-blocks]$ ^ref-30ec3ba6-28-0
-- aionian-circuit-math → $[docs/unique/aionian-circuit-math]$ ^ref-30ec3ba6-29-0
-- **2025.08.08.21.08.70** → $[docs/unique/archetype-ecs]$ ^ref-30ec3ba6-30-0
-- **2025.08.08.21.08.92** → $[graph-ds]$ ^ref-30ec3ba6-31-0
-- **2025.08.08.20.08.43** → $[event-bus-projections-diagrams]$ ^ref-30ec3ba6-32-0
-- **2025.08.08.22.08.16** → $[smoke-waves-infinite-depth]$ ^ref-30ec3ba6-33-0 ^ref-cdf2c6e4-33-0
-- **2025.08.08.22.08.58** → $[docs/unique/interop-and-source-maps]$ ^ref-30ec3ba6-34-0 ^ref-cdf2c6e4-34-0
-- **2025.08.08.20.08.31** → $[docs/unique/obsidian-ignore-node-modules-regex]$ ^ref-30ec3ba6-35-0
-- **202508071111** → $[pm2-ecosystem-patterns]$ ^ref-30ec3ba6-36-0
-- **2025.08.08.19.08.49** → $[broker-outbox-acl-ops]$ ^ref-30ec3ba6-37-0
-- **2025.08.08.20.08.52** → $[schema-evolution-dlq-changefeed]$ ^ref-30ec3ba6-38-0 ^ref-cdf2c6e4-38-0
-- **2025.08.08.20.08.56** → $[partitions-schema-registry-projector]$ ^ref-30ec3ba6-39-0
-- **2025.08.08.20.08.83** → $[state-snapshots-transactional-projector-timetravel-devharness]$ ^ref-30ec3ba6-40-0
-- **2025.08.08.21.08.09** → $[ecs-scheduler-and-prefabs]$
-- **2025.08.08.21.08.31** → $[docs/unique/ecs-offload-workers]$ ^ref-30ec3ba6-42-0
-- **2025.08.08.22.08.39** → $[docs/unique/zero-copy-snapshots-and-workers]$ ^ref-30ec3ba6-43-0
-- **2025.08.08.22.08.35** → $[docs/unique/synchronicity-waves-and-web]$ ^ref-30ec3ba6-44-0
-- **2025.08.08.22.08.06** → $[docs/unique/compiler-kit-foundations]$ ^ref-30ec3ba6-45-0
-- **2025.08.08.22.08.09** → $[lisp-frontend-compiler-kit]$ ^ref-30ec3ba6-46-0
-- advanced-node-interaction-diagrams → $[field-node-lifecycle-additional-diagrams|field-node-lifecycle – additional diagrams]$ ^ref-30ec3ba6-47-0 ^ref-cdf2c6e4-47-0
-- **2025.08.08.23.08.92** → $[ts-to-lisp]$ ^ref-30ec3ba6-48-0
+- **2025.08.08.22.08.05** → [docs/unique/typed-struct-compiler] ^ref-30ec3ba6-22-0
+- ripple-propagation-demo → [docs/unique/ripple-propagation-demo] ^ref-30ec3ba6-23-0
+- annotated-fragment-heartbeat-demo → [annotated-fragment-heartbeat-demo] ^ref-30ec3ba6-24-0
+- field-interaction-equations → [docs/unique/field-interaction-equations] ^ref-30ec3ba6-25-0
+- homeostasis-decay-formulas → [homeostasis-and-decay-models] ^ref-30ec3ba6-26-0
+- eidolon-field-math-foundations → [docs/unique/eidolon-field-math-foundations]
+- field-dynamics-math-blocks → [docs/unique/field-dynamics-math-blocks] ^ref-30ec3ba6-28-0
+- aionian-circuit-math → [docs/unique/aionian-circuit-math] ^ref-30ec3ba6-29-0
+- **2025.08.08.21.08.70** → [docs/unique/archetype-ecs] ^ref-30ec3ba6-30-0
+- **2025.08.08.21.08.92** → [graph-ds] ^ref-30ec3ba6-31-0
+- **2025.08.08.20.08.43** → [event-bus-projections-diagrams] ^ref-30ec3ba6-32-0
+- **2025.08.08.22.08.16** → [smoke-waves-infinite-depth] ^ref-30ec3ba6-33-0 ^ref-cdf2c6e4-33-0
+- **2025.08.08.22.08.58** → [docs/unique/interop-and-source-maps] ^ref-30ec3ba6-34-0 ^ref-cdf2c6e4-34-0
+- **2025.08.08.20.08.31** → [docs/unique/obsidian-ignore-node-modules-regex] ^ref-30ec3ba6-35-0
+- **202508071111** → [pm2-ecosystem-patterns] ^ref-30ec3ba6-36-0
+- **2025.08.08.19.08.49** → [broker-outbox-acl-ops] ^ref-30ec3ba6-37-0
+- **2025.08.08.20.08.52** → [schema-evolution-dlq-changefeed] ^ref-30ec3ba6-38-0 ^ref-cdf2c6e4-38-0
+- **2025.08.08.20.08.56** → [partitions-schema-registry-projector] ^ref-30ec3ba6-39-0
+- **2025.08.08.20.08.83** → [state-snapshots-transactional-projector-timetravel-devharness] ^ref-30ec3ba6-40-0
+- **2025.08.08.21.08.09** → [ecs-scheduler-and-prefabs]
+- **2025.08.08.21.08.31** → [docs/unique/ecs-offload-workers] ^ref-30ec3ba6-42-0
+- **2025.08.08.22.08.39** → [docs/unique/zero-copy-snapshots-and-workers] ^ref-30ec3ba6-43-0
+- **2025.08.08.22.08.35** → [docs/unique/synchronicity-waves-and-web] ^ref-30ec3ba6-44-0
+- **2025.08.08.22.08.06** → [docs/unique/compiler-kit-foundations] ^ref-30ec3ba6-45-0
+- **2025.08.08.22.08.09** → [lisp-frontend-compiler-kit] ^ref-30ec3ba6-46-0
+- advanced-node-interaction-diagrams → [field-node-lifecycle-additional-diagrams|field-node-lifecycle – additional diagrams] ^ref-30ec3ba6-47-0 ^ref-cdf2c6e4-47-0
+- **2025.08.08.23.08.92** → [ts-to-lisp] ^ref-30ec3ba6-48-0
 
 ## Stubs for Duplicates
 
 The following `docs/unique` files are now stubs pointing to their curated versions: ^ref-30ec3ba6-52-0
 
-- layer-1-uptime-diagrams → $[layer1-uptime-diagrams]$ ^ref-30ec3ba6-54-0
-- sibilant-metacompiler-overview → $[sibilant-metacompiler-overview]$ ^ref-30ec3ba6-55-0 ^ref-cdf2c6e4-55-0
-- template-based-compilation → $[docs/unique/template-based-compilation]$ ^ref-30ec3ba6-56-0
-- comprehensive-system-diagrams → $[full-system-overview-diagrams]$ ^ref-30ec3ba6-57-0
-- eidolon-node-lifecycle-diagram → $[state-diagram-node-lifecycle]$ ^ref-30ec3ba6-58-0
-- field-node-diagram-outline → $[field-node-lifecycle-additional-diagrams]$ ^ref-cdf2c6e4-59-0
-$$
+- layer-1-uptime-diagrams → [layer1-uptime-diagrams] ^ref-30ec3ba6-54-0
+- sibilant-metacompiler-overview → [sibilant-metacompiler-overview] ^ref-30ec3ba6-55-0 ^ref-cdf2c6e4-55-0
+- template-based-compilation → [docs/unique/template-based-compilation] ^ref-30ec3ba6-56-0
+- comprehensive-system-diagrams → [full-system-overview-diagrams] ^ref-30ec3ba6-57-0
+- eidolon-node-lifecycle-diagram → [state-diagram-node-lifecycle] ^ref-30ec3ba6-58-0
+- field-node-diagram-outline → [field-node-lifecycle-additional-diagrams] ^ref-cdf2c6e4-59-0
+```
 3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-$$
+```
     line: 104
     col: 0
     score: 1
@@ -1738,15 +1738,15 @@ $$
   - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
     line: 182
     col: 0
-$$
+```
 =======
-$$
+```
   - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
     line: 146
     col: 3
-$$
+```
 >>>>>>> stealth/obsidian
-$$
+```
     score: 1
   - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
     line: 102
@@ -2739,890 +2739,890 @@ These notes were originally captured in `docs/unique` with timestamp filenames. 
 ## Recent Transfers
 
 <<<<<<< HEAD
-- **2025.08.08.22.08.05** → $[docs/unique/typed-struct-compiler]$ ^ref-30ec3ba6-22-0
-- ripple-propagation-demo → $[docs/unique/ripple-propagation-demo]$ ^ref-30ec3ba6-23-0
-- annotated-fragment-heartbeat-demo → $[annotated-fragment-heartbeat-demo]$ ^ref-30ec3ba6-24-0
-- field-interaction-equations → $[docs/unique/field-interaction-equations]$ ^ref-30ec3ba6-25-0
-- homeostasis-decay-formulas → $[homeostasis-and-decay-models]$ ^ref-30ec3ba6-26-0
-- eidolon-field-math-foundations → $[docs/unique/eidolon-field-math-foundations]$
-- field-dynamics-math-blocks → $[docs/unique/field-dynamics-math-blocks]$ ^ref-30ec3ba6-28-0
-- aionian-circuit-math → $[docs/unique/aionian-circuit-math]$ ^ref-30ec3ba6-29-0
-- **2025.08.08.21.08.70** → $[docs/unique/archetype-ecs]$ ^ref-30ec3ba6-30-0
-- **2025.08.08.21.08.92** → $[graph-ds]$ ^ref-30ec3ba6-31-0
-- **2025.08.08.20.08.43** → $[event-bus-projections-diagrams]$ ^ref-30ec3ba6-32-0 ^ref-30ec3ba6-144-0
-- **2025.08.08.22.08.16** → $[smoke-waves-infinite-depth]$ ^ref-30ec3ba6-33-0
-- **2025.08.08.22.08.58** → $[docs/unique/interop-and-source-maps]$ ^ref-30ec3ba6-34-0
-- **2025.08.08.20.08.31** → $[docs/unique/obsidian-ignore-node-modules-regex]$ ^ref-30ec3ba6-35-0
-- **202508071111** → $[pm2-ecosystem-patterns]$ ^ref-30ec3ba6-36-0
-- **2025.08.08.19.08.49** → $[broker-outbox-acl-ops]$ ^ref-30ec3ba6-37-0
-- **2025.08.08.20.08.52** → $[schema-evolution-dlq-changefeed]$ ^ref-30ec3ba6-38-0
-- **2025.08.08.20.08.56** → $[partitions-schema-registry-projector]$ ^ref-30ec3ba6-39-0
-- **2025.08.08.20.08.83** → $[state-snapshots-transactional-projector-timetravel-devharness]$ ^ref-30ec3ba6-40-0
-- **2025.08.08.21.08.09** → $[ecs-scheduler-and-prefabs]$
-- **2025.08.08.21.08.31** → $[docs/unique/ecs-offload-workers]$ ^ref-30ec3ba6-42-0
-- **2025.08.08.22.08.39** → $[docs/unique/zero-copy-snapshots-and-workers]$ ^ref-30ec3ba6-43-0
-- **2025.08.08.22.08.35** → $[docs/unique/synchronicity-waves-and-web]$ ^ref-30ec3ba6-44-0
-- **2025.08.08.22.08.06** → $[docs/unique/compiler-kit-foundations]$ ^ref-30ec3ba6-45-0
-- **2025.08.08.22.08.09** → $[lisp-frontend-compiler-kit]$ ^ref-30ec3ba6-46-0
-- advanced-node-interaction-diagrams → $[field-node-lifecycle-additional-diagrams|field-node-lifecycle – additional diagrams]$ ^ref-30ec3ba6-47-0
-- **2025.08.08.23.08.92** → $[ts-to-lisp]$ ^ref-30ec3ba6-48-0
-$$
+- **2025.08.08.22.08.05** → [docs/unique/typed-struct-compiler] ^ref-30ec3ba6-22-0
+- ripple-propagation-demo → [docs/unique/ripple-propagation-demo] ^ref-30ec3ba6-23-0
+- annotated-fragment-heartbeat-demo → [annotated-fragment-heartbeat-demo] ^ref-30ec3ba6-24-0
+- field-interaction-equations → [docs/unique/field-interaction-equations] ^ref-30ec3ba6-25-0
+- homeostasis-decay-formulas → [homeostasis-and-decay-models] ^ref-30ec3ba6-26-0
+- eidolon-field-math-foundations → [docs/unique/eidolon-field-math-foundations]
+- field-dynamics-math-blocks → [docs/unique/field-dynamics-math-blocks] ^ref-30ec3ba6-28-0
+- aionian-circuit-math → [docs/unique/aionian-circuit-math] ^ref-30ec3ba6-29-0
+- **2025.08.08.21.08.70** → [docs/unique/archetype-ecs] ^ref-30ec3ba6-30-0
+- **2025.08.08.21.08.92** → [graph-ds] ^ref-30ec3ba6-31-0
+- **2025.08.08.20.08.43** → [event-bus-projections-diagrams] ^ref-30ec3ba6-32-0 ^ref-30ec3ba6-144-0
+- **2025.08.08.22.08.16** → [smoke-waves-infinite-depth] ^ref-30ec3ba6-33-0
+- **2025.08.08.22.08.58** → [docs/unique/interop-and-source-maps] ^ref-30ec3ba6-34-0
+- **2025.08.08.20.08.31** → [docs/unique/obsidian-ignore-node-modules-regex] ^ref-30ec3ba6-35-0
+- **202508071111** → [pm2-ecosystem-patterns] ^ref-30ec3ba6-36-0
+- **2025.08.08.19.08.49** → [broker-outbox-acl-ops] ^ref-30ec3ba6-37-0
+- **2025.08.08.20.08.52** → [schema-evolution-dlq-changefeed] ^ref-30ec3ba6-38-0
+- **2025.08.08.20.08.56** → [partitions-schema-registry-projector] ^ref-30ec3ba6-39-0
+- **2025.08.08.20.08.83** → [state-snapshots-transactional-projector-timetravel-devharness] ^ref-30ec3ba6-40-0
+- **2025.08.08.21.08.09** → [ecs-scheduler-and-prefabs]
+- **2025.08.08.21.08.31** → [docs/unique/ecs-offload-workers] ^ref-30ec3ba6-42-0
+- **2025.08.08.22.08.39** → [docs/unique/zero-copy-snapshots-and-workers] ^ref-30ec3ba6-43-0
+- **2025.08.08.22.08.35** → [docs/unique/synchronicity-waves-and-web] ^ref-30ec3ba6-44-0
+- **2025.08.08.22.08.06** → [docs/unique/compiler-kit-foundations] ^ref-30ec3ba6-45-0
+- **2025.08.08.22.08.09** → [lisp-frontend-compiler-kit] ^ref-30ec3ba6-46-0
+- advanced-node-interaction-diagrams → [field-node-lifecycle-additional-diagrams|field-node-lifecycle – additional diagrams] ^ref-30ec3ba6-47-0
+- **2025.08.08.23.08.92** → [ts-to-lisp] ^ref-30ec3ba6-48-0
+```
 =======
-$$
-- **2025.08.08.22.08.05** → $[docs/unique/typed-struct-compiler]$
-- ripple-propagation-demo → $[docs/unique/ripple-propagation-demo]$
-- annotated-fragment-heartbeat-demo → $[annotated-fragment-heartbeat-demo]$
-- field-interaction-equations → $[docs/unique/field-interaction-equations]$
-- homeostasis-decay-formulas → $[homeostasis-and-decay-models]$
-- eidolon-field-math-foundations → $[docs/unique/eidolon-field-math-foundations]$
-- field-dynamics-math-blocks → $[docs/unique/field-dynamics-math-blocks]$
-- aionian-circuit-math → $[docs/unique/aionian-circuit-math]$
-- **2025.08.08.21.08.70** → $[docs/unique/archetype-ecs]$
-- **2025.08.08.21.08.92** → $[graph-ds]$
-- **2025.08.08.20.08.43** → $[event-bus-projections-diagrams]$
-- **2025.08.08.22.08.16** → $[smoke-waves-infinite-depth]$
-- **2025.08.08.22.08.58** → $[docs/unique/interop-and-source-maps]$
-- **2025.08.08.20.08.31** → $[docs/unique/obsidian-ignore-node-modules-regex]$
-- **202508071111** → $[pm2-ecosystem-patterns]$
-- **2025.08.08.19.08.49** → $[broker-outbox-acl-ops]$
-- **2025.08.08.20.08.52** → $[schema-evolution-dlq-changefeed]$
-- **2025.08.08.20.08.56** → $[partitions-schema-registry-projector]$
-- **2025.08.08.20.08.83** → $[state-snapshots-transactional-projector-timetravel-devharness]$
-- **2025.08.08.21.08.09** → $[ecs-scheduler-and-prefabs]$
-- **2025.08.08.21.08.31** → $[docs/unique/ecs-offload-workers]$
-- **2025.08.08.22.08.39** → $[docs/unique/zero-copy-snapshots-and-workers]$
-- **2025.08.08.22.08.35** → $[docs/unique/synchronicity-waves-and-web]$
-- **2025.08.08.22.08.06** → $[docs/unique/compiler-kit-foundations]$
-- **2025.08.08.22.08.09** → $[lisp-frontend-compiler-kit]$
-- advanced-node-interaction-diagrams → $[field-node-lifecycle-additional-diagrams|field-node-lifecycle – additional diagrams]$
-- **2025.08.08.23.08.92** → $[ts-to-lisp]$
-$$
+```
+- **2025.08.08.22.08.05** → [docs/unique/typed-struct-compiler]
+- ripple-propagation-demo → [docs/unique/ripple-propagation-demo]
+- annotated-fragment-heartbeat-demo → [annotated-fragment-heartbeat-demo]
+- field-interaction-equations → [docs/unique/field-interaction-equations]
+- homeostasis-decay-formulas → [homeostasis-and-decay-models]
+- eidolon-field-math-foundations → [docs/unique/eidolon-field-math-foundations]
+- field-dynamics-math-blocks → [docs/unique/field-dynamics-math-blocks]
+- aionian-circuit-math → [docs/unique/aionian-circuit-math]
+- **2025.08.08.21.08.70** → [docs/unique/archetype-ecs]
+- **2025.08.08.21.08.92** → [graph-ds]
+- **2025.08.08.20.08.43** → [event-bus-projections-diagrams]
+- **2025.08.08.22.08.16** → [smoke-waves-infinite-depth]
+- **2025.08.08.22.08.58** → [docs/unique/interop-and-source-maps]
+- **2025.08.08.20.08.31** → [docs/unique/obsidian-ignore-node-modules-regex]
+- **202508071111** → [pm2-ecosystem-patterns]
+- **2025.08.08.19.08.49** → [broker-outbox-acl-ops]
+- **2025.08.08.20.08.52** → [schema-evolution-dlq-changefeed]
+- **2025.08.08.20.08.56** → [partitions-schema-registry-projector]
+- **2025.08.08.20.08.83** → [state-snapshots-transactional-projector-timetravel-devharness]
+- **2025.08.08.21.08.09** → [ecs-scheduler-and-prefabs]
+- **2025.08.08.21.08.31** → [docs/unique/ecs-offload-workers]
+- **2025.08.08.22.08.39** → [docs/unique/zero-copy-snapshots-and-workers]
+- **2025.08.08.22.08.35** → [docs/unique/synchronicity-waves-and-web]
+- **2025.08.08.22.08.06** → [docs/unique/compiler-kit-foundations]
+- **2025.08.08.22.08.09** → [lisp-frontend-compiler-kit]
+- advanced-node-interaction-diagrams → [field-node-lifecycle-additional-diagrams|field-node-lifecycle – additional diagrams]
+- **2025.08.08.23.08.92** → [ts-to-lisp]
+```
 >>>>>>> stealth/obsidian
-$$
+```
 ## Stubs for Duplicates
 
 The following `docs/unique` files are now stubs pointing to their curated versions:
 
 <<<<<<< HEAD
-- layer-1-uptime-diagrams → $[layer1-uptime-diagrams]$ ^ref-30ec3ba6-54-0
-- sibilant-metacompiler-overview → $[sibilant-metacompiler-overview]$ ^ref-30ec3ba6-55-0
-- template-based-compilation → $[docs/unique/template-based-compilation]$ ^ref-30ec3ba6-56-0
-- comprehensive-system-diagrams → $[full-system-overview-diagrams]$ ^ref-30ec3ba6-57-0
-- eidolon-node-lifecycle-diagram → $[state-diagram-node-lifecycle]$ ^ref-30ec3ba6-58-0
-- field-node-diagram-outline → $[field-node-lifecycle-additional-diagrams]$
+- layer-1-uptime-diagrams → [layer1-uptime-diagrams] ^ref-30ec3ba6-54-0
+- sibilant-metacompiler-overview → [sibilant-metacompiler-overview] ^ref-30ec3ba6-55-0
+- template-based-compilation → [docs/unique/template-based-compilation] ^ref-30ec3ba6-56-0
+- comprehensive-system-diagrams → [full-system-overview-diagrams] ^ref-30ec3ba6-57-0
+- eidolon-node-lifecycle-diagram → [state-diagram-node-lifecycle] ^ref-30ec3ba6-58-0
+- field-node-diagram-outline → [field-node-lifecycle-additional-diagrams]
  ^ref-30ec3ba6-192-0 ^ref-30ec3ba6-217-0 ^ref-30ec3ba6-219-0 ^ref-30ec3ba6-239-0 ^ref-30ec3ba6-296-0 ^ref-30ec3ba6-333-0 ^ref-30ec3ba6-416-0 ^ref-30ec3ba6-426-0 ^ref-30ec3ba6-515-0 ^ref-30ec3ba6-825-0 ^ref-30ec3ba6-1221-0 ^ref-30ec3ba6-1810-0 ^ref-30ec3ba6-2576-0 ^ref-30ec3ba6-2718-0 ^ref-30ec3ba6-3264-0 ^ref-30ec3ba6-6049-0 ^ref-30ec3ba6-6844-0 ^ref-30ec3ba6-7937-0
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- $[docs/unique/eidolon-field-math-foundations|eidolon-field-math-foundations]$
-- $[per-domain-policy-system-for-js-crawler|Per-Domain Policy System for JS Crawler]$
-- $[chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]$
-- $[prompt-folder-bootstrap|Prompt_Folder_Bootstrap]$
-- $[schema-evolution-workflow]$
-- $[migrate-to-provider-tenant-architecture|Migrate to Provider-Tenant Architecture]$
-- $[stateful-partitions-and-rebalancing|Stateful Partitions and Rebalancing]$
-- $[eidolon-node-lifecycle]$
-- $[docs/unique/field-dynamics-math-blocks|field-dynamics-math-blocks]$
-- $[docs/unique/field-interaction-equations|field-interaction-equations]$
-- $[graph-ds]$
-- $[homeostasis-decay-formulas]$
-- $[eidolon-field-abstract-model|Eidolon Field Abstract Model]$
-- [Debugging Broker Connections and Agent Behavior]$debugging-broker-connections-and-agent-behavior.md$
-- $[docs/unique/promethean-state-format|Promethean State Format]$
+- [docs/unique/eidolon-field-math-foundations|eidolon-field-math-foundations]
+- [per-domain-policy-system-for-js-crawler|Per-Domain Policy System for JS Crawler]
+- [chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]
+- [prompt-folder-bootstrap|Prompt_Folder_Bootstrap]
+- [schema-evolution-workflow]
+- [migrate-to-provider-tenant-architecture|Migrate to Provider-Tenant Architecture]
+- [stateful-partitions-and-rebalancing|Stateful Partitions and Rebalancing]
+- [eidolon-node-lifecycle]
+- [docs/unique/field-dynamics-math-blocks|field-dynamics-math-blocks]
+- [docs/unique/field-interaction-equations|field-interaction-equations]
+- [graph-ds]
+- [homeostasis-decay-formulas]
+- [eidolon-field-abstract-model|Eidolon Field Abstract Model]
+- [Debugging Broker Connections and Agent Behavior]debugging-broker-connections-and-agent-behavior.md
+- [docs/unique/promethean-state-format|Promethean State Format]
 - [ParticleSimulationWithCanvasAndFFmpeg](particlesimulationwithcanvasandffmpeg.md)
-- $[performance-optimized-polyglot-bridge]$
-- $[polyglot-repl-interface-layer]$
-- $[ducks-self-referential-perceptual-loop|Duck's Self-Referential Perceptual Loop]$
-- $[dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]$
-- $[windows-tiling-with-autohotkey]$
-- $[model-selection-for-lightweight-conversational-tasks|Model Selection for Lightweight Conversational Tasks]$
-- $[functional-embedding-pipeline-refactor|Functional Embedding Pipeline Refactor]$
-- $[creative-moments|Creative Moments]$
-- $[ducks-attractor-states|Duck's Attractor States]$
+- [performance-optimized-polyglot-bridge]
+- [polyglot-repl-interface-layer]
+- [ducks-self-referential-perceptual-loop|Duck's Self-Referential Perceptual Loop]
+- [dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]
+- [windows-tiling-with-autohotkey]
+- [model-selection-for-lightweight-conversational-tasks|Model Selection for Lightweight Conversational Tasks]
+- [functional-embedding-pipeline-refactor|Functional Embedding Pipeline Refactor]
+- [creative-moments|Creative Moments]
+- [ducks-attractor-states|Duck's Attractor States]
 ## Sources
-- $[graph-ds#^ref-6620e2f2-446-0|graph-ds — L446]$ (line 446, col 0, score 1)
-- $[creative-moments#^ref-10d98225-28-0|Creative Moments — L28]$ (line 28, col 0, score 1)
-- [Docops Feature Updates — L65]$docops-feature-updates-3.md#^ref-cdbd21ee-65-0$ (line 65, col 0, score 1)
-- $[docops-feature-updates#^ref-2792d448-86-0|Docops Feature Updates — L86]$ (line 86, col 0, score 1)
-- $[ducks-attractor-states#^ref-13951643-123-0|Duck's Attractor States — L123]$ (line 123, col 0, score 1)
-- $[ducks-self-referential-perceptual-loop#^ref-71726f04-34-0|Duck's Self-Referential Perceptual Loop — L34]$ (line 34, col 0, score 1)
-- $[dynamic-context-model-for-web-components#^ref-f7702bf8-442-0|Dynamic Context Model for Web Components — L442]$ (line 442, col 0, score 1)
-- $[eidolon-field-abstract-model#^ref-5e8b2388-218-0|Eidolon Field Abstract Model — L218]$ (line 218, col 0, score 1)
-- $[docs/unique/eidolon-field-math-foundations#^ref-008f2ac0-176-0|eidolon-field-math-foundations — L176]$ (line 176, col 0, score 1)
-- $[eidolon-node-lifecycle#^ref-938eca9c-70-0|eidolon-node-lifecycle — L70]$ (line 70, col 0, score 1)
-- $[creative-moments#^ref-10d98225-8-0|Creative Moments — L8]$ (line 8, col 0, score 1)
-- [Debugging Broker Connections and Agent Behavior — L38]$debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-38-0$ (line 38, col 0, score 1)
-- [Docops Feature Updates — L56]$docops-feature-updates-3.md#^ref-cdbd21ee-56-0$ (line 56, col 0, score 1)
-- $[graph-ds#^ref-6620e2f2-371-0|graph-ds — L371]$ (line 371, col 0, score 1)
-- $[heartbeat-fragment-demo#^ref-dd00677a-141-0|heartbeat-fragment-demo — L141]$ (line 141, col 0, score 1)
-- $[homeostasis-decay-formulas#^ref-37b5d236-222-0|homeostasis-decay-formulas — L222]$ (line 222, col 0, score 1)
-- $[i3-bluetooth-setup#^ref-5e408692-107-0|i3-bluetooth-setup — L107]$ (line 107, col 0, score 1)
-- $[docs/unique/eidolon-field-math-foundations#^ref-008f2ac0-148-0|eidolon-field-math-foundations — L148]$ (line 148, col 0, score 1)
-- $[eidolon-node-lifecycle#^ref-938eca9c-36-0|eidolon-node-lifecycle — L36]$ (line 36, col 0, score 1)
-- $[factorio-ai-with-external-agents#^ref-a4d90289-166-0|Factorio AI with External Agents — L166]$ (line 166, col 0, score 1)
-- $[docs/unique/field-dynamics-math-blocks#^ref-7cfc230d-148-0|field-dynamics-math-blocks — L148]$ (line 148, col 0, score 1)
-- $[docs/unique/field-interaction-equations#^ref-b09141b7-153-0|field-interaction-equations — L153]$ (line 153, col 0, score 1)
-- $[field-node-diagram-outline#^ref-1f32c94a-118-0|field-node-diagram-outline — L118]$ (line 118, col 0, score 1)
-- $[field-node-diagram-set#^ref-22b989d5-168-0|field-node-diagram-set — L168]$ (line 168, col 0, score 1)
-- $field-node-diagram-visualizations — L103$$field-node-diagram-visualizations.md#^ref-e9b27b06-103-0$ (line 103, col 0, score 1)
-- $[functional-embedding-pipeline-refactor#^ref-a4a25141-380-0|Functional Embedding Pipeline Refactor — L380]$ (line 380, col 0, score 1)
-- $[functional-refactor-of-typescript-document-processing#^ref-1cfae310-194-0|Functional Refactor of TypeScript Document Processing — L194]$ (line 194, col 0, score 1)
-- [Docops Feature Updates — L85]$docops-feature-updates-3.md#^ref-cdbd21ee-85-0$ (line 85, col 0, score 1)
-- $[ducks-attractor-states#^ref-13951643-93-0|Duck's Attractor States — L93]$ (line 93, col 0, score 1)
-- $[ducks-self-referential-perceptual-loop#^ref-71726f04-64-0|Duck's Self-Referential Perceptual Loop — L64]$ (line 64, col 0, score 1)
-- $[factorio-ai-with-external-agents#^ref-a4d90289-153-0|Factorio AI with External Agents — L153]$ (line 153, col 0, score 1)
-- $[docs/unique/field-dynamics-math-blocks#^ref-7cfc230d-141-0|field-dynamics-math-blocks — L141]$ (line 141, col 0, score 1)
-- $[creative-moments#^ref-10d98225-75-0|Creative Moments — L75]$ (line 75, col 0, score 1)
-- [Debugging Broker Connections and Agent Behavior — L104]$debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-104-0$ (line 104, col 0, score 1)
-- [Docops Feature Updates — L46]$docops-feature-updates-3.md#^ref-cdbd21ee-46-0$ (line 46, col 0, score 1)
-- $[docops-feature-updates#^ref-2792d448-64-0|Docops Feature Updates — L64]$ (line 64, col 0, score 1)
-- [DuckDuckGoSearchPipeline — L40]$duckduckgosearchpipeline.md#^ref-e979c50f-40-0$ (line 40, col 0, score 1)
-- $[ducks-attractor-states#^ref-13951643-137-0|Duck's Attractor States — L137]$ (line 137, col 0, score 1)
-- $[ducks-self-referential-perceptual-loop#^ref-71726f04-82-0|Duck's Self-Referential Perceptual Loop — L82]$ (line 82, col 0, score 1)
-- $[dynamic-context-model-for-web-components#^ref-f7702bf8-454-0|Dynamic Context Model for Web Components — L454]$ (line 454, col 0, score 1)
-- $[docops-feature-updates#^ref-2792d448-35-0|Docops Feature Updates — L35]$ (line 35, col 0, score 1)
-- $[ducks-attractor-states#^ref-13951643-94-0|Duck's Attractor States — L94]$ (line 94, col 0, score 1)
-- $[ducks-self-referential-perceptual-loop#^ref-71726f04-53-0|Duck's Self-Referential Perceptual Loop — L53]$ (line 53, col 0, score 1)
-- $[dynamic-context-model-for-web-components#^ref-f7702bf8-424-0|Dynamic Context Model for Web Components — L424]$ (line 424, col 0, score 1)
-- $[eidolon-field-abstract-model#^ref-5e8b2388-209-0|Eidolon Field Abstract Model — L209]$ (line 209, col 0, score 1)
-- $[docs/unique/eidolon-field-math-foundations#^ref-008f2ac0-142-0|eidolon-field-math-foundations — L142]$ (line 142, col 0, score 1)
-- $[eidolon-node-lifecycle#^ref-938eca9c-39-0|eidolon-node-lifecycle — L39]$ (line 39, col 0, score 1)
-- $[creative-moments#^ref-10d98225-38-0|Creative Moments — L38]$ (line 38, col 0, score 1)
-- [Docops Feature Updates — L51]$docops-feature-updates-3.md#^ref-cdbd21ee-51-0$ (line 51, col 0, score 1)
-- $[docops-feature-updates#^ref-2792d448-79-0|Docops Feature Updates — L79]$ (line 79, col 0, score 1)
-- [DuckDuckGoSearchPipeline — L77]$duckduckgosearchpipeline.md#^ref-e979c50f-77-0$ (line 77, col 0, score 1)
-- $[ducks-attractor-states#^ref-13951643-115-0|Duck's Attractor States — L115]$ (line 115, col 0, score 1)
-- $[ducks-self-referential-perceptual-loop#^ref-71726f04-61-0|Duck's Self-Referential Perceptual Loop — L61]$ (line 61, col 0, score 1)
-- $[eidolon-field-abstract-model#^ref-5e8b2388-212-0|Eidolon Field Abstract Model — L212]$ (line 212, col 0, score 1)
-- $[docs/unique/eidolon-field-math-foundations#^ref-008f2ac0-150-0|eidolon-field-math-foundations — L150]$ (line 150, col 0, score 1)
-- [Docops Feature Updates — L44]$docops-feature-updates-3.md#^ref-cdbd21ee-44-0$ (line 44, col 0, score 1)
-- $[docops-feature-updates#^ref-2792d448-61-0|Docops Feature Updates — L61]$ (line 61, col 0, score 1)
-- $[ducks-attractor-states#^ref-13951643-99-0|Duck's Attractor States — L99]$ (line 99, col 0, score 1)
-- $[ducks-self-referential-perceptual-loop#^ref-71726f04-80-0|Duck's Self-Referential Perceptual Loop — L80]$ (line 80, col 0, score 1)
-- $[dynamic-context-model-for-web-components#^ref-f7702bf8-405-0|Dynamic Context Model for Web Components — L405]$ (line 405, col 0, score 1)
-- $[eidolon-field-abstract-model#^ref-5e8b2388-216-0|Eidolon Field Abstract Model — L216]$ (line 216, col 0, score 1)
-- $[factorio-ai-with-external-agents#^ref-a4d90289-189-0|Factorio AI with External Agents — L189]$ (line 189, col 0, score 1)
-- $[docs/unique/field-interaction-equations#^ref-b09141b7-172-0|field-interaction-equations — L172]$ (line 172, col 0, score 1)
-- $[creative-moments#^ref-10d98225-94-0|Creative Moments — L94]$ (line 94, col 0, score 1)
-- [Debugging Broker Connections and Agent Behavior — L63]$debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-63-0$ (line 63, col 0, score 1)
-- [Docops Feature Updates — L66]$docops-feature-updates-3.md#^ref-cdbd21ee-66-0$ (line 66, col 0, score 1)
-- [DuckDuckGoSearchPipeline — L93]$duckduckgosearchpipeline.md#^ref-e979c50f-93-0$ (line 93, col 0, score 1)
-- $[ducks-self-referential-perceptual-loop#^ref-71726f04-73-0|Duck's Self-Referential Perceptual Loop — L73]$ (line 73, col 0, score 1)
-- $[dynamic-context-model-for-web-components#^ref-f7702bf8-403-0|Dynamic Context Model for Web Components — L403]$ (line 403, col 0, score 1)
-- $[creative-moments#^ref-10d98225-47-0|Creative Moments — L47]$ (line 47, col 0, score 1)
-- [Debugging Broker Connections and Agent Behavior — L105]$debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-105-0$ (line 105, col 0, score 1)
-- [Docops Feature Updates — L97]$docops-feature-updates-3.md#^ref-cdbd21ee-97-0$ (line 97, col 0, score 1)
-- $[docops-feature-updates#^ref-2792d448-128-0|Docops Feature Updates — L128]$ (line 128, col 0, score 1)
-- [DuckDuckGoSearchPipeline — L31]$duckduckgosearchpipeline.md#^ref-e979c50f-31-0$ (line 31, col 0, score 1)
-- $[ducks-attractor-states#^ref-13951643-90-0|Duck's Attractor States — L90]$ (line 90, col 0, score 1)
-- $[ducks-self-referential-perceptual-loop#^ref-71726f04-33-0|Duck's Self-Referential Perceptual Loop — L33]$ (line 33, col 0, score 1)
-- $[dynamic-context-model-for-web-components#^ref-f7702bf8-462-0|Dynamic Context Model for Web Components — L462]$ (line 462, col 0, score 1)
-- $[dynamic-context-model-for-web-components#^ref-f7702bf8-412-0|Dynamic Context Model for Web Components — L412]$ (line 412, col 0, score 1)
-- $[eidolon-field-abstract-model#^ref-5e8b2388-261-0|Eidolon Field Abstract Model — L261]$ (line 261, col 0, score 1)
-- $[docs/unique/eidolon-field-math-foundations#^ref-008f2ac0-181-0|eidolon-field-math-foundations — L181]$ (line 181, col 0, score 1)
-- $[eidolon-node-lifecycle#^ref-938eca9c-90-0|eidolon-node-lifecycle — L90]$ (line 90, col 0, score 1)
-- $[factorio-ai-with-external-agents#^ref-a4d90289-157-0|Factorio AI with External Agents — L157]$ (line 157, col 0, score 1)
-- $[docs/unique/field-dynamics-math-blocks#^ref-7cfc230d-205-0|field-dynamics-math-blocks — L205]$ (line 205, col 0, score 1)
-- $[field-node-diagram-set#^ref-22b989d5-203-0|field-node-diagram-set — L203]$ (line 203, col 0, score 1)
-- $field-node-diagram-visualizations — L95$$field-node-diagram-visualizations.md#^ref-e9b27b06-95-0$ (line 95, col 0, score 1)
-- $[creative-moments#^ref-10d98225-50-0|Creative Moments — L50]$ (line 50, col 0, score 1)
-- [Debugging Broker Connections and Agent Behavior — L89]$debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-89-0$ (line 89, col 0, score 1)
-- [Docops Feature Updates — L32]$docops-feature-updates-3.md#^ref-cdbd21ee-32-0$ (line 32, col 0, score 1)
-- $[docops-feature-updates#^ref-2792d448-49-0|Docops Feature Updates — L49]$ (line 49, col 0, score 1)
-- [DuckDuckGoSearchPipeline — L95]$duckduckgosearchpipeline.md#^ref-e979c50f-95-0$ (line 95, col 0, score 1)
-- $[ducks-attractor-states#^ref-13951643-133-0|Duck's Attractor States — L133]$ (line 133, col 0, score 1)
-- $[ducks-self-referential-perceptual-loop#^ref-71726f04-59-0|Duck's Self-Referential Perceptual Loop — L59]$ (line 59, col 0, score 1)
-- $[eidolon-field-abstract-model#^ref-5e8b2388-252-0|Eidolon Field Abstract Model — L252]$ (line 252, col 0, score 1)
-- $[creative-moments#^ref-10d98225-52-0|Creative Moments — L52]$ (line 52, col 0, score 1)
-- [Debugging Broker Connections and Agent Behavior — L71]$debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-71-0$ (line 71, col 0, score 1)
-- [DuckDuckGoSearchPipeline — L99]$duckduckgosearchpipeline.md#^ref-e979c50f-99-0$ (line 99, col 0, score 1)
-- $[creative-moments#^ref-10d98225-53-0|Creative Moments — L53]$ (line 53, col 0, score 1)
-- $[creative-moments#^ref-10d98225-33-0|Creative Moments — L33]$ (line 33, col 0, score 1)
-- [Debugging Broker Connections and Agent Behavior — L99]$debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-99-0$ (line 99, col 0, score 1)
-- $[docops-feature-updates#^ref-2792d448-46-0|Docops Feature Updates — L46]$ (line 46, col 0, score 1)
-$$
+- [graph-ds#^ref-6620e2f2-446-0|graph-ds — L446] (line 446, col 0, score 1)
+- [creative-moments#^ref-10d98225-28-0|Creative Moments — L28] (line 28, col 0, score 1)
+- [Docops Feature Updates — L65]docops-feature-updates-3.md#^ref-cdbd21ee-65-0 (line 65, col 0, score 1)
+- [docops-feature-updates#^ref-2792d448-86-0|Docops Feature Updates — L86] (line 86, col 0, score 1)
+- [ducks-attractor-states#^ref-13951643-123-0|Duck's Attractor States — L123] (line 123, col 0, score 1)
+- [ducks-self-referential-perceptual-loop#^ref-71726f04-34-0|Duck's Self-Referential Perceptual Loop — L34] (line 34, col 0, score 1)
+- [dynamic-context-model-for-web-components#^ref-f7702bf8-442-0|Dynamic Context Model for Web Components — L442] (line 442, col 0, score 1)
+- [eidolon-field-abstract-model#^ref-5e8b2388-218-0|Eidolon Field Abstract Model — L218] (line 218, col 0, score 1)
+- [docs/unique/eidolon-field-math-foundations#^ref-008f2ac0-176-0|eidolon-field-math-foundations — L176] (line 176, col 0, score 1)
+- [eidolon-node-lifecycle#^ref-938eca9c-70-0|eidolon-node-lifecycle — L70] (line 70, col 0, score 1)
+- [creative-moments#^ref-10d98225-8-0|Creative Moments — L8] (line 8, col 0, score 1)
+- [Debugging Broker Connections and Agent Behavior — L38]debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-38-0 (line 38, col 0, score 1)
+- [Docops Feature Updates — L56]docops-feature-updates-3.md#^ref-cdbd21ee-56-0 (line 56, col 0, score 1)
+- [graph-ds#^ref-6620e2f2-371-0|graph-ds — L371] (line 371, col 0, score 1)
+- [heartbeat-fragment-demo#^ref-dd00677a-141-0|heartbeat-fragment-demo — L141] (line 141, col 0, score 1)
+- [homeostasis-decay-formulas#^ref-37b5d236-222-0|homeostasis-decay-formulas — L222] (line 222, col 0, score 1)
+- [i3-bluetooth-setup#^ref-5e408692-107-0|i3-bluetooth-setup — L107] (line 107, col 0, score 1)
+- [docs/unique/eidolon-field-math-foundations#^ref-008f2ac0-148-0|eidolon-field-math-foundations — L148] (line 148, col 0, score 1)
+- [eidolon-node-lifecycle#^ref-938eca9c-36-0|eidolon-node-lifecycle — L36] (line 36, col 0, score 1)
+- [factorio-ai-with-external-agents#^ref-a4d90289-166-0|Factorio AI with External Agents — L166] (line 166, col 0, score 1)
+- [docs/unique/field-dynamics-math-blocks#^ref-7cfc230d-148-0|field-dynamics-math-blocks — L148] (line 148, col 0, score 1)
+- [docs/unique/field-interaction-equations#^ref-b09141b7-153-0|field-interaction-equations — L153] (line 153, col 0, score 1)
+- [field-node-diagram-outline#^ref-1f32c94a-118-0|field-node-diagram-outline — L118] (line 118, col 0, score 1)
+- [field-node-diagram-set#^ref-22b989d5-168-0|field-node-diagram-set — L168] (line 168, col 0, score 1)
+- field-node-diagram-visualizations — L103$field-node-diagram-visualizations.md#^ref-e9b27b06-103-0 (line 103, col 0, score 1)
+- [functional-embedding-pipeline-refactor#^ref-a4a25141-380-0|Functional Embedding Pipeline Refactor — L380] (line 380, col 0, score 1)
+- [functional-refactor-of-typescript-document-processing#^ref-1cfae310-194-0|Functional Refactor of TypeScript Document Processing — L194] (line 194, col 0, score 1)
+- [Docops Feature Updates — L85]docops-feature-updates-3.md#^ref-cdbd21ee-85-0 (line 85, col 0, score 1)
+- [ducks-attractor-states#^ref-13951643-93-0|Duck's Attractor States — L93] (line 93, col 0, score 1)
+- [ducks-self-referential-perceptual-loop#^ref-71726f04-64-0|Duck's Self-Referential Perceptual Loop — L64] (line 64, col 0, score 1)
+- [factorio-ai-with-external-agents#^ref-a4d90289-153-0|Factorio AI with External Agents — L153] (line 153, col 0, score 1)
+- [docs/unique/field-dynamics-math-blocks#^ref-7cfc230d-141-0|field-dynamics-math-blocks — L141] (line 141, col 0, score 1)
+- [creative-moments#^ref-10d98225-75-0|Creative Moments — L75] (line 75, col 0, score 1)
+- [Debugging Broker Connections and Agent Behavior — L104]debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-104-0 (line 104, col 0, score 1)
+- [Docops Feature Updates — L46]docops-feature-updates-3.md#^ref-cdbd21ee-46-0 (line 46, col 0, score 1)
+- [docops-feature-updates#^ref-2792d448-64-0|Docops Feature Updates — L64] (line 64, col 0, score 1)
+- [DuckDuckGoSearchPipeline — L40]duckduckgosearchpipeline.md#^ref-e979c50f-40-0 (line 40, col 0, score 1)
+- [ducks-attractor-states#^ref-13951643-137-0|Duck's Attractor States — L137] (line 137, col 0, score 1)
+- [ducks-self-referential-perceptual-loop#^ref-71726f04-82-0|Duck's Self-Referential Perceptual Loop — L82] (line 82, col 0, score 1)
+- [dynamic-context-model-for-web-components#^ref-f7702bf8-454-0|Dynamic Context Model for Web Components — L454] (line 454, col 0, score 1)
+- [docops-feature-updates#^ref-2792d448-35-0|Docops Feature Updates — L35] (line 35, col 0, score 1)
+- [ducks-attractor-states#^ref-13951643-94-0|Duck's Attractor States — L94] (line 94, col 0, score 1)
+- [ducks-self-referential-perceptual-loop#^ref-71726f04-53-0|Duck's Self-Referential Perceptual Loop — L53] (line 53, col 0, score 1)
+- [dynamic-context-model-for-web-components#^ref-f7702bf8-424-0|Dynamic Context Model for Web Components — L424] (line 424, col 0, score 1)
+- [eidolon-field-abstract-model#^ref-5e8b2388-209-0|Eidolon Field Abstract Model — L209] (line 209, col 0, score 1)
+- [docs/unique/eidolon-field-math-foundations#^ref-008f2ac0-142-0|eidolon-field-math-foundations — L142] (line 142, col 0, score 1)
+- [eidolon-node-lifecycle#^ref-938eca9c-39-0|eidolon-node-lifecycle — L39] (line 39, col 0, score 1)
+- [creative-moments#^ref-10d98225-38-0|Creative Moments — L38] (line 38, col 0, score 1)
+- [Docops Feature Updates — L51]docops-feature-updates-3.md#^ref-cdbd21ee-51-0 (line 51, col 0, score 1)
+- [docops-feature-updates#^ref-2792d448-79-0|Docops Feature Updates — L79] (line 79, col 0, score 1)
+- [DuckDuckGoSearchPipeline — L77]duckduckgosearchpipeline.md#^ref-e979c50f-77-0 (line 77, col 0, score 1)
+- [ducks-attractor-states#^ref-13951643-115-0|Duck's Attractor States — L115] (line 115, col 0, score 1)
+- [ducks-self-referential-perceptual-loop#^ref-71726f04-61-0|Duck's Self-Referential Perceptual Loop — L61] (line 61, col 0, score 1)
+- [eidolon-field-abstract-model#^ref-5e8b2388-212-0|Eidolon Field Abstract Model — L212] (line 212, col 0, score 1)
+- [docs/unique/eidolon-field-math-foundations#^ref-008f2ac0-150-0|eidolon-field-math-foundations — L150] (line 150, col 0, score 1)
+- [Docops Feature Updates — L44]docops-feature-updates-3.md#^ref-cdbd21ee-44-0 (line 44, col 0, score 1)
+- [docops-feature-updates#^ref-2792d448-61-0|Docops Feature Updates — L61] (line 61, col 0, score 1)
+- [ducks-attractor-states#^ref-13951643-99-0|Duck's Attractor States — L99] (line 99, col 0, score 1)
+- [ducks-self-referential-perceptual-loop#^ref-71726f04-80-0|Duck's Self-Referential Perceptual Loop — L80] (line 80, col 0, score 1)
+- [dynamic-context-model-for-web-components#^ref-f7702bf8-405-0|Dynamic Context Model for Web Components — L405] (line 405, col 0, score 1)
+- [eidolon-field-abstract-model#^ref-5e8b2388-216-0|Eidolon Field Abstract Model — L216] (line 216, col 0, score 1)
+- [factorio-ai-with-external-agents#^ref-a4d90289-189-0|Factorio AI with External Agents — L189] (line 189, col 0, score 1)
+- [docs/unique/field-interaction-equations#^ref-b09141b7-172-0|field-interaction-equations — L172] (line 172, col 0, score 1)
+- [creative-moments#^ref-10d98225-94-0|Creative Moments — L94] (line 94, col 0, score 1)
+- [Debugging Broker Connections and Agent Behavior — L63]debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-63-0 (line 63, col 0, score 1)
+- [Docops Feature Updates — L66]docops-feature-updates-3.md#^ref-cdbd21ee-66-0 (line 66, col 0, score 1)
+- [DuckDuckGoSearchPipeline — L93]duckduckgosearchpipeline.md#^ref-e979c50f-93-0 (line 93, col 0, score 1)
+- [ducks-self-referential-perceptual-loop#^ref-71726f04-73-0|Duck's Self-Referential Perceptual Loop — L73] (line 73, col 0, score 1)
+- [dynamic-context-model-for-web-components#^ref-f7702bf8-403-0|Dynamic Context Model for Web Components — L403] (line 403, col 0, score 1)
+- [creative-moments#^ref-10d98225-47-0|Creative Moments — L47] (line 47, col 0, score 1)
+- [Debugging Broker Connections and Agent Behavior — L105]debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-105-0 (line 105, col 0, score 1)
+- [Docops Feature Updates — L97]docops-feature-updates-3.md#^ref-cdbd21ee-97-0 (line 97, col 0, score 1)
+- [docops-feature-updates#^ref-2792d448-128-0|Docops Feature Updates — L128] (line 128, col 0, score 1)
+- [DuckDuckGoSearchPipeline — L31]duckduckgosearchpipeline.md#^ref-e979c50f-31-0 (line 31, col 0, score 1)
+- [ducks-attractor-states#^ref-13951643-90-0|Duck's Attractor States — L90] (line 90, col 0, score 1)
+- [ducks-self-referential-perceptual-loop#^ref-71726f04-33-0|Duck's Self-Referential Perceptual Loop — L33] (line 33, col 0, score 1)
+- [dynamic-context-model-for-web-components#^ref-f7702bf8-462-0|Dynamic Context Model for Web Components — L462] (line 462, col 0, score 1)
+- [dynamic-context-model-for-web-components#^ref-f7702bf8-412-0|Dynamic Context Model for Web Components — L412] (line 412, col 0, score 1)
+- [eidolon-field-abstract-model#^ref-5e8b2388-261-0|Eidolon Field Abstract Model — L261] (line 261, col 0, score 1)
+- [docs/unique/eidolon-field-math-foundations#^ref-008f2ac0-181-0|eidolon-field-math-foundations — L181] (line 181, col 0, score 1)
+- [eidolon-node-lifecycle#^ref-938eca9c-90-0|eidolon-node-lifecycle — L90] (line 90, col 0, score 1)
+- [factorio-ai-with-external-agents#^ref-a4d90289-157-0|Factorio AI with External Agents — L157] (line 157, col 0, score 1)
+- [docs/unique/field-dynamics-math-blocks#^ref-7cfc230d-205-0|field-dynamics-math-blocks — L205] (line 205, col 0, score 1)
+- [field-node-diagram-set#^ref-22b989d5-203-0|field-node-diagram-set — L203] (line 203, col 0, score 1)
+- field-node-diagram-visualizations — L95$field-node-diagram-visualizations.md#^ref-e9b27b06-95-0 (line 95, col 0, score 1)
+- [creative-moments#^ref-10d98225-50-0|Creative Moments — L50] (line 50, col 0, score 1)
+- [Debugging Broker Connections and Agent Behavior — L89]debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-89-0 (line 89, col 0, score 1)
+- [Docops Feature Updates — L32]docops-feature-updates-3.md#^ref-cdbd21ee-32-0 (line 32, col 0, score 1)
+- [docops-feature-updates#^ref-2792d448-49-0|Docops Feature Updates — L49] (line 49, col 0, score 1)
+- [DuckDuckGoSearchPipeline — L95]duckduckgosearchpipeline.md#^ref-e979c50f-95-0 (line 95, col 0, score 1)
+- [ducks-attractor-states#^ref-13951643-133-0|Duck's Attractor States — L133] (line 133, col 0, score 1)
+- [ducks-self-referential-perceptual-loop#^ref-71726f04-59-0|Duck's Self-Referential Perceptual Loop — L59] (line 59, col 0, score 1)
+- [eidolon-field-abstract-model#^ref-5e8b2388-252-0|Eidolon Field Abstract Model — L252] (line 252, col 0, score 1)
+- [creative-moments#^ref-10d98225-52-0|Creative Moments — L52] (line 52, col 0, score 1)
+- [Debugging Broker Connections and Agent Behavior — L71]debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-71-0 (line 71, col 0, score 1)
+- [DuckDuckGoSearchPipeline — L99]duckduckgosearchpipeline.md#^ref-e979c50f-99-0 (line 99, col 0, score 1)
+- [creative-moments#^ref-10d98225-53-0|Creative Moments — L53] (line 53, col 0, score 1)
+- [creative-moments#^ref-10d98225-33-0|Creative Moments — L33] (line 33, col 0, score 1)
+- [Debugging Broker Connections and Agent Behavior — L99]debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-99-0 (line 99, col 0, score 1)
+- [docops-feature-updates#^ref-2792d448-46-0|Docops Feature Updates — L46] (line 46, col 0, score 1)
+```
 =======
-$$
-- layer-1-uptime-diagrams → $[layer1-uptime-diagrams]$
-- sibilant-metacompiler-overview → $[sibilant-metacompiler-overview]$
-- template-based-compilation → $[docs/unique/template-based-compilation]$
-- comprehensive-system-diagrams → $[full-system-overview-diagrams]$
-- eidolon-node-lifecycle-diagram → $[state-diagram-node-lifecycle]$
-- field-node-diagram-outline → $[field-node-lifecycle-additional-diagrams]$
+```
+- layer-1-uptime-diagrams → [layer1-uptime-diagrams]
+- sibilant-metacompiler-overview → [sibilant-metacompiler-overview]
+- template-based-compilation → [docs/unique/template-based-compilation]
+- comprehensive-system-diagrams → [full-system-overview-diagrams]
+- eidolon-node-lifecycle-diagram → [state-diagram-node-lifecycle]
+- field-node-diagram-outline → [field-node-lifecycle-additional-diagrams]
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [JavaScript]$chunks/javascript.md$
-- [Math Fundamentals]$chunks/math-fundamentals.md$
-- [DSL]$chunks/dsl.md$
-- [Tooling]$chunks/tooling.md$
-- [Diagrams]$chunks/diagrams.md$
-- [Services]$chunks/services.md$
-- [Simulation Demo]$chunks/simulation-demo.md$
-- $[homeostasis-decay-formulas]$
-- [Promethean Event Bus MVP v0.1]$promethean-event-bus-mvp-v0-1.md$
-- $[docs/unique/obsidian-ignore-node-modules-regex|obsidian-ignore-node-modules-regex]$
-- $[docs/unique/field-dynamics-math-blocks|field-dynamics-math-blocks]$
-- $[docs/unique/zero-copy-snapshots-and-workers|zero-copy-snapshots-and-workers]$
-- $[ecs-scheduler-and-prefabs]$
-- $[sibilant-metacompiler-overview]$
-- $[infinite-depth-smoke-animation|infinite_depth_smoke_animation]$
-- $[docs/unique/eidolon-field-math-foundations|eidolon-field-math-foundations]$
-- $[docs/unique/field-interaction-equations|field-interaction-equations]$
-- $[field-node-diagram-set]$
-- $field-node-diagram-visualizations$$field-node-diagram-visualizations.md$
-- $[field-node-diagram-outline]$
-- $[promethean-system-diagrams]$
-- $[layer-1-uptime-diagrams]$
-- $[state-snapshots-api-and-transactional-projector|State Snapshots API and Transactional Projector]$
-- $[heartbeat-fragment-demo]$
-- $heartbeat-simulation-snippets$$heartbeat-simulation-snippets.md$
-- $[docs/unique/aionian-circuit-math|aionian-circuit-math]$
-- $[docs/unique/synchronicity-waves-and-web|Synchronicity Waves and Web]$
-- $[schema-evolution-workflow]$
-- $[docs/unique/ripple-propagation-demo|ripple-propagation-demo]$
-- $[event-bus-projections-architecture|Event Bus Projections Architecture]$
-- $[mongo-outbox-implementation|Mongo Outbox Implementation]$
-- $[stateful-partitions-and-rebalancing|Stateful Partitions and Rebalancing]$
-- $[docs/unique/ecs-offload-workers|ecs-offload-workers]$
-- $[docs/unique/interop-and-source-maps|Interop and Source Maps]$
-- $[eidolon-node-lifecycle]$
-- $[migrate-to-provider-tenant-architecture|Migrate to Provider-Tenant Architecture]$
-- $[docs/unique/archetype-ecs|archetype-ecs]$
-- $[docs/unique/typed-struct-compiler|typed-struct-compiler]$
-- $[docs/unique/template-based-compilation|template-based-compilation]$
-- [Window Management]$chunks/window-management.md$
-- $[pm2-orchestration-patterns]$
-- [Shared]$chunks/shared.md$
-- $[docs/unique/compiler-kit-foundations|compiler-kit-foundations]$
-- $lisp-dsl-for-window-management$$lisp-dsl-for-window-management.md$
-- $[ts-to-lisp-transpiler]$
-- $[docs/unique/agent-tasks-persistence-migration-to-dualstore|Agent Tasks: Persistence Migration to DualStore]$
-- $[js-to-lisp-reverse-compiler]$
-- $[prom-lib-rate-limiters-and-replay-api]$
-- $komorebi-group-window-hack$$komorebi-group-window-hack.md$
-- $[eidolon-field-abstract-model|Eidolon Field Abstract Model]$
-- $[2d-sandbox-field]$
-- $[eidolon-field-optimization]$
-- $[chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]$
-- $[docs/unique/event-bus-mvp|Event Bus MVP]$
-- $[lisp-compiler-integration]$
-- $[language-agnostic-mirror-system|Language-Agnostic Mirror System]$
-- $[sibilant-meta-string-templating-runtime]$
-- $[cross-target-macro-system-in-sibilant|Cross-Target Macro System in Sibilant]$
-- $[graph-ds]$
-- $[cross-language-runtime-polymorphism|Cross-Language Runtime Polymorphism]$
-- $[smoke-resonance-visualizations|Smoke Resonance Visualizations]$
-- $[lispy-macros-with-syntax-rules|Lispy Macros with syntax-rules]$
-- $[polyglot-repl-interface-layer]$
-- $[ghostly-smoke-interference|Ghostly Smoke Interference]$
+- [JavaScript]chunks/javascript.md
+- [Math Fundamentals]chunks/math-fundamentals.md
+- [DSL]chunks/dsl.md
+- [Tooling]chunks/tooling.md
+- [Diagrams]chunks/diagrams.md
+- [Services]chunks/services.md
+- [Simulation Demo]chunks/simulation-demo.md
+- [homeostasis-decay-formulas]
+- [Promethean Event Bus MVP v0.1]promethean-event-bus-mvp-v0-1.md
+- [docs/unique/obsidian-ignore-node-modules-regex|obsidian-ignore-node-modules-regex]
+- [docs/unique/field-dynamics-math-blocks|field-dynamics-math-blocks]
+- [docs/unique/zero-copy-snapshots-and-workers|zero-copy-snapshots-and-workers]
+- [ecs-scheduler-and-prefabs]
+- [sibilant-metacompiler-overview]
+- [infinite-depth-smoke-animation|infinite_depth_smoke_animation]
+- [docs/unique/eidolon-field-math-foundations|eidolon-field-math-foundations]
+- [docs/unique/field-interaction-equations|field-interaction-equations]
+- [field-node-diagram-set]
+- field-node-diagram-visualizations$field-node-diagram-visualizations.md
+- [field-node-diagram-outline]
+- [promethean-system-diagrams]
+- [layer-1-uptime-diagrams]
+- [state-snapshots-api-and-transactional-projector|State Snapshots API and Transactional Projector]
+- [heartbeat-fragment-demo]
+- heartbeat-simulation-snippets$heartbeat-simulation-snippets.md
+- [docs/unique/aionian-circuit-math|aionian-circuit-math]
+- [docs/unique/synchronicity-waves-and-web|Synchronicity Waves and Web]
+- [schema-evolution-workflow]
+- [docs/unique/ripple-propagation-demo|ripple-propagation-demo]
+- [event-bus-projections-architecture|Event Bus Projections Architecture]
+- [mongo-outbox-implementation|Mongo Outbox Implementation]
+- [stateful-partitions-and-rebalancing|Stateful Partitions and Rebalancing]
+- [docs/unique/ecs-offload-workers|ecs-offload-workers]
+- [docs/unique/interop-and-source-maps|Interop and Source Maps]
+- [eidolon-node-lifecycle]
+- [migrate-to-provider-tenant-architecture|Migrate to Provider-Tenant Architecture]
+- [docs/unique/archetype-ecs|archetype-ecs]
+- [docs/unique/typed-struct-compiler|typed-struct-compiler]
+- [docs/unique/template-based-compilation|template-based-compilation]
+- [Window Management]chunks/window-management.md
+- [pm2-orchestration-patterns]
+- [Shared]chunks/shared.md
+- [docs/unique/compiler-kit-foundations|compiler-kit-foundations]
+- lisp-dsl-for-window-management$lisp-dsl-for-window-management.md
+- [ts-to-lisp-transpiler]
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore|Agent Tasks: Persistence Migration to DualStore]
+- [js-to-lisp-reverse-compiler]
+- [prom-lib-rate-limiters-and-replay-api]
+- komorebi-group-window-hack$komorebi-group-window-hack.md
+- [eidolon-field-abstract-model|Eidolon Field Abstract Model]
+- [2d-sandbox-field]
+- [eidolon-field-optimization]
+- [chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]
+- [docs/unique/event-bus-mvp|Event Bus MVP]
+- [lisp-compiler-integration]
+- [language-agnostic-mirror-system|Language-Agnostic Mirror System]
+- [sibilant-meta-string-templating-runtime]
+- [cross-target-macro-system-in-sibilant|Cross-Target Macro System in Sibilant]
+- [graph-ds]
+- [cross-language-runtime-polymorphism|Cross-Language Runtime Polymorphism]
+- [smoke-resonance-visualizations|Smoke Resonance Visualizations]
+- [lispy-macros-with-syntax-rules|Lispy Macros with syntax-rules]
+- [polyglot-repl-interface-layer]
+- [ghostly-smoke-interference|Ghostly Smoke Interference]
 - [[eidolonfield]]
-- $[observability-infrastructure-setup]$
-- $[mystery-lisp-search-session]$
-- $[docs/unique/universal-lisp-interface|Universal Lisp Interface]$
-- $[promethean-eidolon-synchronicity-model|Promethean_Eidolon_Synchronicity_Model]$
-- $smart-chatgpt-thingy$$smart-chatgpt-thingy.md$
-- $[factorio-ai-with-external-agents|Factorio AI with External Agents]$
-- $[dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]$
-- $[prompt-folder-bootstrap|Prompt_Folder_Bootstrap]$
-- $[websocket-gateway-implementation|WebSocket Gateway Implementation]$
-- $[exception-layer-analysis|Exception Layer Analysis]$
-- $[local-only-llm-workflow]$
-- $[performance-optimized-polyglot-bridge]$
-- $[ice-box-reorganization|Ice Box Reorganization]$
-- $[polymorphic-meta-programming-engine]$
-- $[promethean-agent-dsl-ts-scaffold|Promethean Agent DSL TS Scaffold]$
-- $[promethean-infrastructure-setup|Promethean Infrastructure Setup]$
+- [observability-infrastructure-setup]
+- [mystery-lisp-search-session]
+- [docs/unique/universal-lisp-interface|Universal Lisp Interface]
+- [promethean-eidolon-synchronicity-model|Promethean_Eidolon_Synchronicity_Model]
+- smart-chatgpt-thingy$smart-chatgpt-thingy.md
+- [factorio-ai-with-external-agents|Factorio AI with External Agents]
+- [dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]
+- [prompt-folder-bootstrap|Prompt_Folder_Bootstrap]
+- [websocket-gateway-implementation|WebSocket Gateway Implementation]
+- [exception-layer-analysis|Exception Layer Analysis]
+- [local-only-llm-workflow]
+- [performance-optimized-polyglot-bridge]
+- [ice-box-reorganization|Ice Box Reorganization]
+- [polymorphic-meta-programming-engine]
+- [promethean-agent-dsl-ts-scaffold|Promethean Agent DSL TS Scaffold]
+- [promethean-infrastructure-setup|Promethean Infrastructure Setup]
 
 ## Sources
-- [Promethean Event Bus MVP v0.1 — L100]$promethean-event-bus-mvp-v0-1.md#L100$ (line 100, col 5, score 0.89)
-- [Promethean Event Bus MVP v0.1 — L100]$promethean-event-bus-mvp-v0-1.md#L100$ (line 100, col 7, score 0.89)
-- [Promethean Event Bus MVP v0.1 — L112]$promethean-event-bus-mvp-v0-1.md#L112$ (line 112, col 5, score 0.89)
-- [Promethean Event Bus MVP v0.1 — L112]$promethean-event-bus-mvp-v0-1.md#L112$ (line 112, col 7, score 0.89)
-- [JavaScript — L3]$chunks/javascript.md#L3$ (line 3, col 1, score 1)
-- [JavaScript — L3]$chunks/javascript.md#L3$ (line 3, col 3, score 1)
-- [Simulation Demo — L3]$chunks/simulation-demo.md#L3$ (line 3, col 1, score 1)
-- [Simulation Demo — L3]$chunks/simulation-demo.md#L3$ (line 3, col 3, score 1)
-- [Simulation Demo — L4]$chunks/simulation-demo.md#L4$ (line 4, col 1, score 1)
-- [Simulation Demo — L4]$chunks/simulation-demo.md#L4$ (line 4, col 3, score 1)
-- $[heartbeat-fragment-demo#L1|heartbeat-fragment-demo — L1]$ (line 1, col 1, score 0.85)
-- $heartbeat-simulation-snippets — L1$$heartbeat-simulation-snippets.md#L1$ (line 1, col 1, score 0.85)
-- [Math Fundamentals — L3]$chunks/math-fundamentals.md#L3$ (line 3, col 1, score 1)
-- [Math Fundamentals — L3]$chunks/math-fundamentals.md#L3$ (line 3, col 3, score 1)
-- $[docs/unique/field-interaction-equations#L1|field-interaction-equations — L1]$ (line 1, col 1, score 0.86)
-- [Math Fundamentals — L4]$chunks/math-fundamentals.md#L4$ (line 4, col 1, score 1)
-- [Math Fundamentals — L4]$chunks/math-fundamentals.md#L4$ (line 4, col 3, score 1)
-- $[homeostasis-decay-formulas#L1|homeostasis-decay-formulas — L1]$ (line 1, col 1, score 0.89)
-- [Math Fundamentals — L5]$chunks/math-fundamentals.md#L5$ (line 5, col 1, score 1)
-- [Math Fundamentals — L5]$chunks/math-fundamentals.md#L5$ (line 5, col 3, score 1)
-- $[docs/unique/eidolon-field-math-foundations#L1|eidolon-field-math-foundations — L1]$ (line 1, col 1, score 0.86)
-- [Math Fundamentals — L6]$chunks/math-fundamentals.md#L6$ (line 6, col 1, score 1)
-- [Math Fundamentals — L6]$chunks/math-fundamentals.md#L6$ (line 6, col 3, score 1)
-- $[docs/unique/field-dynamics-math-blocks#L1|field-dynamics-math-blocks — L1]$ (line 1, col 1, score 0.87)
-- [Math Fundamentals — L7]$chunks/math-fundamentals.md#L7$ (line 7, col 1, score 1)
-- [Math Fundamentals — L7]$chunks/math-fundamentals.md#L7$ (line 7, col 3, score 1)
-- [JavaScript — L4]$chunks/javascript.md#L4$ (line 4, col 1, score 1)
-- [JavaScript — L4]$chunks/javascript.md#L4$ (line 4, col 3, score 1)
-- [JavaScript — L5]$chunks/javascript.md#L5$ (line 5, col 1, score 1)
-- [JavaScript — L5]$chunks/javascript.md#L5$ (line 5, col 3, score 1)
-- [Diagrams — L3]$chunks/diagrams.md#L3$ (line 3, col 1, score 1)
-- [Diagrams — L3]$chunks/diagrams.md#L3$ (line 3, col 3, score 1)
-- [Diagrams — L4]$chunks/diagrams.md#L4$ (line 4, col 1, score 1)
-- [Diagrams — L4]$chunks/diagrams.md#L4$ (line 4, col 3, score 1)
-- $[infinite-depth-smoke-animation#L1|infinite_depth_smoke_animation — L1]$ (line 1, col 1, score 0.86)
-- [DSL — L3]$chunks/dsl.md#L3$ (line 3, col 1, score 1)
-- [DSL — L3]$chunks/dsl.md#L3$ (line 3, col 3, score 1)
-- [Tooling — L3]$chunks/tooling.md#L3$ (line 3, col 1, score 1)
-- [Tooling — L3]$chunks/tooling.md#L3$ (line 3, col 3, score 1)
-- $[docs/unique/obsidian-ignore-node-modules-regex#L1|obsidian-ignore-node-modules-regex — L1]$ (line 1, col 1, score 0.88)
-- [Tooling — L4]$chunks/tooling.md#L4$ (line 4, col 1, score 1)
-- [Tooling — L4]$chunks/tooling.md#L4$ (line 4, col 3, score 1)
-- [Services — L3]$chunks/services.md#L3$ (line 3, col 1, score 1)
-- [Services — L3]$chunks/services.md#L3$ (line 3, col 3, score 1)
-- [Services — L4]$chunks/services.md#L4$ (line 4, col 1, score 1)
-- [Services — L4]$chunks/services.md#L4$ (line 4, col 3, score 1)
-- [Services — L5]$chunks/services.md#L5$ (line 5, col 1, score 1)
-- [Services — L5]$chunks/services.md#L5$ (line 5, col 3, score 1)
-- [Services — L6]$chunks/services.md#L6$ (line 6, col 1, score 1)
-- [Services — L6]$chunks/services.md#L6$ (line 6, col 3, score 1)
-- $[state-snapshots-api-and-transactional-projector#L1|State Snapshots API and Transactional Projector — L1]$ (line 1, col 1, score 0.85)
-- [JavaScript — L6]$chunks/javascript.md#L6$ (line 6, col 1, score 1)
-- [JavaScript — L6]$chunks/javascript.md#L6$ (line 6, col 3, score 1)
-- $[ecs-scheduler-and-prefabs#L1|ecs-scheduler-and-prefabs — L1]$ (line 1, col 1, score 0.87)
-- [JavaScript — L7]$chunks/javascript.md#L7$ (line 7, col 1, score 1)
-- [JavaScript — L7]$chunks/javascript.md#L7$ (line 7, col 3, score 1)
-- [JavaScript — L8]$chunks/javascript.md#L8$ (line 8, col 1, score 1)
-- [JavaScript — L8]$chunks/javascript.md#L8$ (line 8, col 3, score 1)
-- $[docs/unique/zero-copy-snapshots-and-workers#L1|zero-copy-snapshots-and-workers — L1]$ (line 1, col 1, score 0.87)
-- [Diagrams — L5]$chunks/diagrams.md#L5$ (line 5, col 1, score 1)
-- [Diagrams — L5]$chunks/diagrams.md#L5$ (line 5, col 3, score 1)
-- [DSL — L4]$chunks/dsl.md#L4$ (line 4, col 1, score 1)
-- [DSL — L4]$chunks/dsl.md#L4$ (line 4, col 3, score 1)
-- [DSL — L5]$chunks/dsl.md#L5$ (line 5, col 1, score 1)
-- [DSL — L5]$chunks/dsl.md#L5$ (line 5, col 3, score 1)
-- [DSL — L6]$chunks/dsl.md#L6$ (line 6, col 1, score 1)
-- [DSL — L6]$chunks/dsl.md#L6$ (line 6, col 3, score 1)
-- $[layer-1-uptime-diagrams#L1|layer-1-uptime-diagrams — L1]$ (line 1, col 1, score 0.86)
-- $[sibilant-metacompiler-overview#L1|sibilant-metacompiler-overview — L1]$ (line 1, col 1, score 0.86)
-- $[promethean-system-diagrams#L1|promethean-system-diagrams — L1]$ (line 1, col 1, score 0.86)
-- $field-node-diagram-visualizations — L1$$field-node-diagram-visualizations.md#L1$ (line 1, col 1, score 0.86)
-- $[field-node-diagram-outline#L1|field-node-diagram-outline — L1]$ (line 1, col 1, score 0.86)
-- $[field-node-diagram-set#L1|field-node-diagram-set — L1]$ (line 1, col 1, score 0.86)
-- $[docs/unique/archetype-ecs#L456|archetype-ecs — L456]$ (line 456, col 1, score 1)
-- $[docs/unique/archetype-ecs#L456|archetype-ecs — L456]$ (line 456, col 3, score 1)
-- $[docs/unique/ecs-offload-workers#L463|ecs-offload-workers — L463]$ (line 463, col 1, score 1)
-- $[docs/unique/ecs-offload-workers#L463|ecs-offload-workers — L463]$ (line 463, col 3, score 1)
-- $[ecs-scheduler-and-prefabs#L395|ecs-scheduler-and-prefabs — L395]$ (line 395, col 1, score 1)
-- $[ecs-scheduler-and-prefabs#L395|ecs-scheduler-and-prefabs — L395]$ (line 395, col 3, score 1)
-- $[docs/unique/typed-struct-compiler#L384|typed-struct-compiler — L384]$ (line 384, col 1, score 1)
-- $[docs/unique/typed-struct-compiler#L384|typed-struct-compiler — L384]$ (line 384, col 3, score 1)
-- $[docs/unique/aionian-circuit-math#L157|aionian-circuit-math — L157]$ (line 157, col 1, score 1)
-- $[docs/unique/aionian-circuit-math#L157|aionian-circuit-math — L157]$ (line 157, col 3, score 1)
-- $[docs/unique/eidolon-field-math-foundations#L134|eidolon-field-math-foundations — L134]$ (line 134, col 1, score 1)
-- $[docs/unique/eidolon-field-math-foundations#L134|eidolon-field-math-foundations — L134]$ (line 134, col 3, score 1)
-- $[docs/unique/field-dynamics-math-blocks#L150|field-dynamics-math-blocks — L150]$ (line 150, col 1, score 1)
-- $[docs/unique/field-dynamics-math-blocks#L150|field-dynamics-math-blocks — L150]$ (line 150, col 3, score 1)
-- $[docs/unique/field-interaction-equations#L156|field-interaction-equations — L156]$ (line 156, col 1, score 1)
-- $[docs/unique/field-interaction-equations#L156|field-interaction-equations — L156]$ (line 156, col 3, score 1)
-- [Window Management — L13]$chunks/window-management.md#L13$ (line 13, col 1, score 1)
-- [Window Management — L13]$chunks/window-management.md#L13$ (line 13, col 3, score 1)
-- $[docs/unique/compiler-kit-foundations#L615|compiler-kit-foundations — L615]$ (line 615, col 1, score 1)
-- $[docs/unique/compiler-kit-foundations#L615|compiler-kit-foundations — L615]$ (line 615, col 3, score 1)
-- $[docs/unique/interop-and-source-maps#L519|Interop and Source Maps — L519]$ (line 519, col 1, score 1)
-- $[docs/unique/interop-and-source-maps#L519|Interop and Source Maps — L519]$ (line 519, col 3, score 1)
-- $[ts-to-lisp-transpiler#L14|ts-to-lisp-transpiler — L14]$ (line 14, col 1, score 1)
-- $[ts-to-lisp-transpiler#L14|ts-to-lisp-transpiler — L14]$ (line 14, col 3, score 1)
-- $[docs/unique/obsidian-ignore-node-modules-regex#L50|obsidian-ignore-node-modules-regex — L50]$ (line 50, col 1, score 1)
-- $[docs/unique/obsidian-ignore-node-modules-regex#L50|obsidian-ignore-node-modules-regex — L50]$ (line 50, col 3, score 1)
-- $[pm2-orchestration-patterns#L246|pm2-orchestration-patterns — L246]$ (line 246, col 1, score 1)
-- $[pm2-orchestration-patterns#L246|pm2-orchestration-patterns — L246]$ (line 246, col 3, score 1)
-- $[docs/unique/obsidian-ignore-node-modules-regex#L56|obsidian-ignore-node-modules-regex — L56]$ (line 56, col 1, score 0.87)
-- $[docs/unique/obsidian-ignore-node-modules-regex#L56|obsidian-ignore-node-modules-regex — L56]$ (line 56, col 3, score 0.87)
-- $[docs/unique/obsidian-ignore-node-modules-regex#L55|obsidian-ignore-node-modules-regex — L55]$ (line 55, col 1, score 0.87)
-- $[docs/unique/obsidian-ignore-node-modules-regex#L55|obsidian-ignore-node-modules-regex — L55]$ (line 55, col 3, score 0.87)
-- [Shared — L7]$chunks/shared.md#L7$ (line 7, col 1, score 1)
-- [Shared — L7]$chunks/shared.md#L7$ (line 7, col 3, score 1)
-- $[event-bus-projections-architecture#L147|Event Bus Projections Architecture — L147]$ (line 147, col 1, score 1)
-- $[event-bus-projections-architecture#L147|Event Bus Projections Architecture — L147]$ (line 147, col 3, score 1)
-- $[infinite-depth-smoke-animation#L88|infinite_depth_smoke_animation — L88]$ (line 88, col 1, score 1)
-- $[infinite-depth-smoke-animation#L88|infinite_depth_smoke_animation — L88]$ (line 88, col 3, score 1)
-- $[docs/unique/synchronicity-waves-and-web#L83|Synchronicity Waves and Web — L83]$ (line 83, col 1, score 1)
-- $[docs/unique/synchronicity-waves-and-web#L83|Synchronicity Waves and Web — L83]$ (line 83, col 3, score 1)
-- $[mongo-outbox-implementation#L557|Mongo Outbox Implementation — L557]$ (line 557, col 1, score 1)
-- $[mongo-outbox-implementation#L557|Mongo Outbox Implementation — L557]$ (line 557, col 3, score 1)
-- $[schema-evolution-workflow#L486|schema-evolution-workflow — L486]$ (line 486, col 1, score 1)
-- $[schema-evolution-workflow#L486|schema-evolution-workflow — L486]$ (line 486, col 3, score 1)
-- $[state-snapshots-api-and-transactional-projector#L337|State Snapshots API and Transactional Projector — L337]$ (line 337, col 1, score 1)
-- $[state-snapshots-api-and-transactional-projector#L337|State Snapshots API and Transactional Projector — L337]$ (line 337, col 3, score 1)
-- $[stateful-partitions-and-rebalancing#L533|Stateful Partitions and Rebalancing — L533]$ (line 533, col 1, score 1)
-- $[stateful-partitions-and-rebalancing#L533|Stateful Partitions and Rebalancing — L533]$ (line 533, col 3, score 1)
-- $[heartbeat-fragment-demo#L100|heartbeat-fragment-demo — L100]$ (line 100, col 1, score 1)
-- $[heartbeat-fragment-demo#L100|heartbeat-fragment-demo — L100]$ (line 100, col 3, score 1)
-- $heartbeat-simulation-snippets — L87$$heartbeat-simulation-snippets.md#L87$ (line 87, col 1, score 1)
-- $heartbeat-simulation-snippets — L87$$heartbeat-simulation-snippets.md#L87$ (line 87, col 3, score 1)
-- $[docs/unique/ripple-propagation-demo#L105|ripple-propagation-demo — L105]$ (line 105, col 1, score 1)
-- $[docs/unique/ripple-propagation-demo#L105|ripple-propagation-demo — L105]$ (line 105, col 3, score 1)
-- $[heartbeat-fragment-demo#L114|heartbeat-fragment-demo — L114]$ (line 114, col 1, score 0.91)
-- $[heartbeat-fragment-demo#L114|heartbeat-fragment-demo — L114]$ (line 114, col 3, score 0.91)
-- $[docs/unique/aionian-circuit-math#L152|aionian-circuit-math — L152]$ (line 152, col 1, score 1)
-- $[docs/unique/aionian-circuit-math#L152|aionian-circuit-math — L152]$ (line 152, col 3, score 1)
-- [Math Fundamentals — L12]$chunks/math-fundamentals.md#L12$ (line 12, col 1, score 1)
-- [Math Fundamentals — L12]$chunks/math-fundamentals.md#L12$ (line 12, col 3, score 1)
-- $[docs/unique/eidolon-field-math-foundations#L126|eidolon-field-math-foundations — L126]$ (line 126, col 1, score 1)
-- $[docs/unique/eidolon-field-math-foundations#L126|eidolon-field-math-foundations — L126]$ (line 126, col 3, score 1)
-- $[eidolon-field-optimization#L102|Eidolon-Field-Optimization — L102]$ (line 102, col 1, score 1)
-- $[eidolon-field-optimization#L102|Eidolon-Field-Optimization — L102]$ (line 102, col 3, score 1)
-- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L137|Agent Tasks: Persistence Migration to DualStore — L137]$ (line 137, col 1, score 1)
-- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L137|Agent Tasks: Persistence Migration to DualStore — L137]$ (line 137, col 3, score 1)
-- $[chroma-toolkit-consolidation-plan#L175|Chroma Toolkit Consolidation Plan — L175]$ (line 175, col 1, score 1)
-- $[chroma-toolkit-consolidation-plan#L175|Chroma Toolkit Consolidation Plan — L175]$ (line 175, col 3, score 1)
-- $[docs/unique/event-bus-mvp#L547|Event Bus MVP — L547]$ (line 547, col 1, score 1)
-- $[docs/unique/event-bus-mvp#L547|Event Bus MVP — L547]$ (line 547, col 3, score 1)
-- $[event-bus-projections-architecture#L150|Event Bus Projections Architecture — L150]$ (line 150, col 1, score 1)
-- $[event-bus-projections-architecture#L150|Event Bus Projections Architecture — L150]$ (line 150, col 3, score 1)
-- [Tooling — L9]$chunks/tooling.md#L9$ (line 9, col 1, score 1)
-- [Tooling — L9]$chunks/tooling.md#L9$ (line 9, col 3, score 1)
-- $[docs/unique/universal-lisp-interface#L203|Universal Lisp Interface — L203]$ (line 203, col 1, score 1)
-- $[docs/unique/universal-lisp-interface#L203|Universal Lisp Interface — L203]$ (line 203, col 3, score 1)
-- [Tooling — L15]$chunks/tooling.md#L15$ (line 15, col 1, score 0.95)
-- [Tooling — L15]$chunks/tooling.md#L15$ (line 15, col 3, score 0.95)
-- $[2d-sandbox-field#L197|2d-sandbox-field — L197]$ (line 197, col 1, score 1)
-- $[2d-sandbox-field#L197|2d-sandbox-field — L197]$ (line 197, col 3, score 1)
-- $[docs/unique/aionian-circuit-math#L154|aionian-circuit-math — L154]$ (line 154, col 1, score 1)
-- $[docs/unique/aionian-circuit-math#L154|aionian-circuit-math — L154]$ (line 154, col 3, score 1)
-- [Math Fundamentals — L13]$chunks/math-fundamentals.md#L13$ (line 13, col 1, score 1)
-- [Math Fundamentals — L13]$chunks/math-fundamentals.md#L13$ (line 13, col 3, score 1)
-- $[eidolon-field-abstract-model#L194|Eidolon Field Abstract Model — L194]$ (line 194, col 1, score 1)
-- $[eidolon-field-abstract-model#L194|Eidolon Field Abstract Model — L194]$ (line 194, col 3, score 1)
-- [JavaScript — L13]$chunks/javascript.md#L13$ (line 13, col 1, score 1)
-- [JavaScript — L13]$chunks/javascript.md#L13$ (line 13, col 3, score 1)
-- $[docs/unique/ecs-offload-workers#L459|ecs-offload-workers — L459]$ (line 459, col 1, score 1)
-- $[docs/unique/ecs-offload-workers#L459|ecs-offload-workers — L459]$ (line 459, col 3, score 1)
-- $[lisp-compiler-integration#L541|Lisp-Compiler-Integration — L541]$ (line 541, col 1, score 1)
-- $[lisp-compiler-integration#L541|Lisp-Compiler-Integration — L541]$ (line 541, col 3, score 1)
-- $smart-chatgpt-thingy — L23$$smart-chatgpt-thingy.md#L23$ (line 23, col 1, score 1)
-- $smart-chatgpt-thingy — L23$$smart-chatgpt-thingy.md#L23$ (line 23, col 3, score 1)
-- $[docs/unique/archetype-ecs#L454|archetype-ecs — L454]$ (line 454, col 1, score 1)
-- $[docs/unique/archetype-ecs#L454|archetype-ecs — L454]$ (line 454, col 3, score 1)
-- $[chroma-toolkit-consolidation-plan#L171|Chroma Toolkit Consolidation Plan — L171]$ (line 171, col 1, score 1)
-- $[chroma-toolkit-consolidation-plan#L171|Chroma Toolkit Consolidation Plan — L171]$ (line 171, col 3, score 1)
-- [JavaScript — L14]$chunks/javascript.md#L14$ (line 14, col 1, score 1)
-- [JavaScript — L14]$chunks/javascript.md#L14$ (line 14, col 3, score 1)
-- $[docs/unique/ecs-offload-workers#L454|ecs-offload-workers — L454]$ (line 454, col 1, score 1)
-- $[docs/unique/ecs-offload-workers#L454|ecs-offload-workers — L454]$ (line 454, col 3, score 1)
-- $[docs/unique/compiler-kit-foundations#L612|compiler-kit-foundations — L612]$ (line 612, col 1, score 1)
-- $[docs/unique/compiler-kit-foundations#L612|compiler-kit-foundations — L612]$ (line 612, col 3, score 1)
-- $[cross-language-runtime-polymorphism#L205|Cross-Language Runtime Polymorphism — L205]$ (line 205, col 1, score 1)
-- $[cross-language-runtime-polymorphism#L205|Cross-Language Runtime Polymorphism — L205]$ (line 205, col 3, score 1)
-- $[cross-target-macro-system-in-sibilant#L171|Cross-Target Macro System in Sibilant — L171]$ (line 171, col 1, score 1)
-- $[cross-target-macro-system-in-sibilant#L171|Cross-Target Macro System in Sibilant — L171]$ (line 171, col 3, score 1)
-- $[polyglot-repl-interface-layer#L159|polyglot-repl-interface-layer — L159]$ (line 159, col 1, score 1)
-- $[polyglot-repl-interface-layer#L159|polyglot-repl-interface-layer — L159]$ (line 159, col 3, score 1)
-- [Diagrams — L10]$chunks/diagrams.md#L10$ (line 10, col 1, score 1)
-- [Diagrams — L10]$chunks/diagrams.md#L10$ (line 10, col 3, score 1)
-- $[ghostly-smoke-interference#L111|Ghostly Smoke Interference — L111]$ (line 111, col 1, score 1)
-- $[ghostly-smoke-interference#L111|Ghostly Smoke Interference — L111]$ (line 111, col 3, score 1)
-- $[smoke-resonance-visualizations#L81|Smoke Resonance Visualizations — L81]$ (line 81, col 1, score 1)
-- $[smoke-resonance-visualizations#L81|Smoke Resonance Visualizations — L81]$ (line 81, col 3, score 1)
-- $[ghostly-smoke-interference#L119|Ghostly Smoke Interference — L119]$ (line 119, col 1, score 0.97)
-- $[ghostly-smoke-interference#L119|Ghostly Smoke Interference — L119]$ (line 119, col 3, score 0.97)
-- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L133|Agent Tasks: Persistence Migration to DualStore — L133]$ (line 133, col 1, score 1)
-- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L133|Agent Tasks: Persistence Migration to DualStore — L133]$ (line 133, col 3, score 1)
-- $[docs/unique/aionian-circuit-math#L151|aionian-circuit-math — L151]$ (line 151, col 1, score 1)
-- $[docs/unique/aionian-circuit-math#L151|aionian-circuit-math — L151]$ (line 151, col 3, score 1)
-- [Math Fundamentals — L14]$chunks/math-fundamentals.md#L14$ (line 14, col 1, score 1)
-- [Math Fundamentals — L14]$chunks/math-fundamentals.md#L14$ (line 14, col 3, score 1)
-- $[docs/unique/ecs-offload-workers#L460|ecs-offload-workers — L460]$ (line 460, col 1, score 1)
-- $[docs/unique/ecs-offload-workers#L460|ecs-offload-workers — L460]$ (line 460, col 3, score 1)
-- $[docs/unique/aionian-circuit-math#L153|aionian-circuit-math — L153]$ (line 153, col 1, score 1)
-- $[docs/unique/aionian-circuit-math#L153|aionian-circuit-math — L153]$ (line 153, col 3, score 1)
-- [Math Fundamentals — L15]$chunks/math-fundamentals.md#L15$ (line 15, col 1, score 1)
-- [Math Fundamentals — L15]$chunks/math-fundamentals.md#L15$ (line 15, col 3, score 1)
-- $[cross-target-macro-system-in-sibilant#L177|Cross-Target Macro System in Sibilant — L177]$ (line 177, col 1, score 1)
-- $[cross-target-macro-system-in-sibilant#L177|Cross-Target Macro System in Sibilant — L177]$ (line 177, col 3, score 1)
-- $[docs/unique/eidolon-field-math-foundations#L124|eidolon-field-math-foundations — L124]$ (line 124, col 1, score 1)
-- $[docs/unique/eidolon-field-math-foundations#L124|eidolon-field-math-foundations — L124]$ (line 124, col 3, score 1)
-- $[eidolon-node-lifecycle#L33|eidolon-node-lifecycle — L33]$ (line 33, col 1, score 1)
-- $[eidolon-node-lifecycle#L33|eidolon-node-lifecycle — L33]$ (line 33, col 3, score 1)
-- $[field-node-diagram-outline#L101|field-node-diagram-outline — L101]$ (line 101, col 1, score 1)
-- $[field-node-diagram-outline#L101|field-node-diagram-outline — L101]$ (line 101, col 3, score 1)
-- $field-node-diagram-visualizations — L87$$field-node-diagram-visualizations.md#L87$ (line 87, col 1, score 1)
-- $field-node-diagram-visualizations — L87$$field-node-diagram-visualizations.md#L87$ (line 87, col 3, score 1)
-- $[heartbeat-fragment-demo#L107|heartbeat-fragment-demo — L107]$ (line 107, col 1, score 1)
-- $[heartbeat-fragment-demo#L107|heartbeat-fragment-demo — L107]$ (line 107, col 3, score 1)
-- $[eidolon-node-lifecycle#L31|eidolon-node-lifecycle — L31]$ (line 31, col 1, score 1)
-- $[eidolon-node-lifecycle#L31|eidolon-node-lifecycle — L31]$ (line 31, col 3, score 1)
-- $[field-node-diagram-outline#L100|field-node-diagram-outline — L100]$ (line 100, col 1, score 1)
-- $[field-node-diagram-outline#L100|field-node-diagram-outline — L100]$ (line 100, col 3, score 1)
-- $[field-node-diagram-set#L136|field-node-diagram-set — L136]$ (line 136, col 1, score 1)
-- $[field-node-diagram-set#L136|field-node-diagram-set — L136]$ (line 136, col 3, score 1)
-- $[heartbeat-fragment-demo#L105|heartbeat-fragment-demo — L105]$ (line 105, col 1, score 1)
-- $[heartbeat-fragment-demo#L105|heartbeat-fragment-demo — L105]$ (line 105, col 3, score 1)
-- $[2d-sandbox-field#L198|2d-sandbox-field — L198]$ (line 198, col 1, score 1)
-- $[2d-sandbox-field#L198|2d-sandbox-field — L198]$ (line 198, col 3, score 1)
-- $[eidolon-field-abstract-model#L195|Eidolon Field Abstract Model — L195]$ (line 195, col 1, score 1)
-- $[eidolon-field-abstract-model#L195|Eidolon Field Abstract Model — L195]$ (line 195, col 3, score 1)
-- $[docs/unique/eidolon-field-math-foundations#L137|eidolon-field-math-foundations — L137]$ (line 137, col 1, score 1)
-- $[docs/unique/eidolon-field-math-foundations#L137|eidolon-field-math-foundations — L137]$ (line 137, col 3, score 1)
-- $[eidolon-node-lifecycle#L32|eidolon-node-lifecycle — L32]$ (line 32, col 1, score 1)
-- $[eidolon-node-lifecycle#L32|eidolon-node-lifecycle — L32]$ (line 32, col 3, score 1)
-- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L135|Agent Tasks: Persistence Migration to DualStore — L135]$ (line 135, col 1, score 1)
-- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L135|Agent Tasks: Persistence Migration to DualStore — L135]$ (line 135, col 3, score 1)
-- $[eidolon-node-lifecycle#L34|eidolon-node-lifecycle — L34]$ (line 34, col 1, score 1)
-- $[eidolon-node-lifecycle#L34|eidolon-node-lifecycle — L34]$ (line 34, col 3, score 1)
-- $[event-bus-projections-architecture#L149|Event Bus Projections Architecture — L149]$ (line 149, col 1, score 1)
-- $[event-bus-projections-architecture#L149|Event Bus Projections Architecture — L149]$ (line 149, col 3, score 1)
-- $[field-node-diagram-outline#L103|field-node-diagram-outline — L103]$ (line 103, col 1, score 1)
-- $[field-node-diagram-outline#L103|field-node-diagram-outline — L103]$ (line 103, col 3, score 1)
-- $[2d-sandbox-field#L199|2d-sandbox-field — L199]$ (line 199, col 1, score 1)
-- $[2d-sandbox-field#L199|2d-sandbox-field — L199]$ (line 199, col 3, score 1)
-- $[eidolon-field-abstract-model#L196|Eidolon Field Abstract Model — L196]$ (line 196, col 1, score 1)
-- $[eidolon-field-abstract-model#L196|Eidolon Field Abstract Model — L196]$ (line 196, col 3, score 1)
-- $[eidolon-node-lifecycle#L35|eidolon-node-lifecycle — L35]$ (line 35, col 1, score 1)
-- $[eidolon-node-lifecycle#L35|eidolon-node-lifecycle — L35]$ (line 35, col 3, score 1)
+- [Promethean Event Bus MVP v0.1 — L100]promethean-event-bus-mvp-v0-1.md#L100 (line 100, col 5, score 0.89)
+- [Promethean Event Bus MVP v0.1 — L100]promethean-event-bus-mvp-v0-1.md#L100 (line 100, col 7, score 0.89)
+- [Promethean Event Bus MVP v0.1 — L112]promethean-event-bus-mvp-v0-1.md#L112 (line 112, col 5, score 0.89)
+- [Promethean Event Bus MVP v0.1 — L112]promethean-event-bus-mvp-v0-1.md#L112 (line 112, col 7, score 0.89)
+- [JavaScript — L3]chunks/javascript.md#L3 (line 3, col 1, score 1)
+- [JavaScript — L3]chunks/javascript.md#L3 (line 3, col 3, score 1)
+- [Simulation Demo — L3]chunks/simulation-demo.md#L3 (line 3, col 1, score 1)
+- [Simulation Demo — L3]chunks/simulation-demo.md#L3 (line 3, col 3, score 1)
+- [Simulation Demo — L4]chunks/simulation-demo.md#L4 (line 4, col 1, score 1)
+- [Simulation Demo — L4]chunks/simulation-demo.md#L4 (line 4, col 3, score 1)
+- [heartbeat-fragment-demo#L1|heartbeat-fragment-demo — L1] (line 1, col 1, score 0.85)
+- heartbeat-simulation-snippets — L1$heartbeat-simulation-snippets.md#L1 (line 1, col 1, score 0.85)
+- [Math Fundamentals — L3]chunks/math-fundamentals.md#L3 (line 3, col 1, score 1)
+- [Math Fundamentals — L3]chunks/math-fundamentals.md#L3 (line 3, col 3, score 1)
+- [docs/unique/field-interaction-equations#L1|field-interaction-equations — L1] (line 1, col 1, score 0.86)
+- [Math Fundamentals — L4]chunks/math-fundamentals.md#L4 (line 4, col 1, score 1)
+- [Math Fundamentals — L4]chunks/math-fundamentals.md#L4 (line 4, col 3, score 1)
+- [homeostasis-decay-formulas#L1|homeostasis-decay-formulas — L1] (line 1, col 1, score 0.89)
+- [Math Fundamentals — L5]chunks/math-fundamentals.md#L5 (line 5, col 1, score 1)
+- [Math Fundamentals — L5]chunks/math-fundamentals.md#L5 (line 5, col 3, score 1)
+- [docs/unique/eidolon-field-math-foundations#L1|eidolon-field-math-foundations — L1] (line 1, col 1, score 0.86)
+- [Math Fundamentals — L6]chunks/math-fundamentals.md#L6 (line 6, col 1, score 1)
+- [Math Fundamentals — L6]chunks/math-fundamentals.md#L6 (line 6, col 3, score 1)
+- [docs/unique/field-dynamics-math-blocks#L1|field-dynamics-math-blocks — L1] (line 1, col 1, score 0.87)
+- [Math Fundamentals — L7]chunks/math-fundamentals.md#L7 (line 7, col 1, score 1)
+- [Math Fundamentals — L7]chunks/math-fundamentals.md#L7 (line 7, col 3, score 1)
+- [JavaScript — L4]chunks/javascript.md#L4 (line 4, col 1, score 1)
+- [JavaScript — L4]chunks/javascript.md#L4 (line 4, col 3, score 1)
+- [JavaScript — L5]chunks/javascript.md#L5 (line 5, col 1, score 1)
+- [JavaScript — L5]chunks/javascript.md#L5 (line 5, col 3, score 1)
+- [Diagrams — L3]chunks/diagrams.md#L3 (line 3, col 1, score 1)
+- [Diagrams — L3]chunks/diagrams.md#L3 (line 3, col 3, score 1)
+- [Diagrams — L4]chunks/diagrams.md#L4 (line 4, col 1, score 1)
+- [Diagrams — L4]chunks/diagrams.md#L4 (line 4, col 3, score 1)
+- [infinite-depth-smoke-animation#L1|infinite_depth_smoke_animation — L1] (line 1, col 1, score 0.86)
+- [DSL — L3]chunks/dsl.md#L3 (line 3, col 1, score 1)
+- [DSL — L3]chunks/dsl.md#L3 (line 3, col 3, score 1)
+- [Tooling — L3]chunks/tooling.md#L3 (line 3, col 1, score 1)
+- [Tooling — L3]chunks/tooling.md#L3 (line 3, col 3, score 1)
+- [docs/unique/obsidian-ignore-node-modules-regex#L1|obsidian-ignore-node-modules-regex — L1] (line 1, col 1, score 0.88)
+- [Tooling — L4]chunks/tooling.md#L4 (line 4, col 1, score 1)
+- [Tooling — L4]chunks/tooling.md#L4 (line 4, col 3, score 1)
+- [Services — L3]chunks/services.md#L3 (line 3, col 1, score 1)
+- [Services — L3]chunks/services.md#L3 (line 3, col 3, score 1)
+- [Services — L4]chunks/services.md#L4 (line 4, col 1, score 1)
+- [Services — L4]chunks/services.md#L4 (line 4, col 3, score 1)
+- [Services — L5]chunks/services.md#L5 (line 5, col 1, score 1)
+- [Services — L5]chunks/services.md#L5 (line 5, col 3, score 1)
+- [Services — L6]chunks/services.md#L6 (line 6, col 1, score 1)
+- [Services — L6]chunks/services.md#L6 (line 6, col 3, score 1)
+- [state-snapshots-api-and-transactional-projector#L1|State Snapshots API and Transactional Projector — L1] (line 1, col 1, score 0.85)
+- [JavaScript — L6]chunks/javascript.md#L6 (line 6, col 1, score 1)
+- [JavaScript — L6]chunks/javascript.md#L6 (line 6, col 3, score 1)
+- [ecs-scheduler-and-prefabs#L1|ecs-scheduler-and-prefabs — L1] (line 1, col 1, score 0.87)
+- [JavaScript — L7]chunks/javascript.md#L7 (line 7, col 1, score 1)
+- [JavaScript — L7]chunks/javascript.md#L7 (line 7, col 3, score 1)
+- [JavaScript — L8]chunks/javascript.md#L8 (line 8, col 1, score 1)
+- [JavaScript — L8]chunks/javascript.md#L8 (line 8, col 3, score 1)
+- [docs/unique/zero-copy-snapshots-and-workers#L1|zero-copy-snapshots-and-workers — L1] (line 1, col 1, score 0.87)
+- [Diagrams — L5]chunks/diagrams.md#L5 (line 5, col 1, score 1)
+- [Diagrams — L5]chunks/diagrams.md#L5 (line 5, col 3, score 1)
+- [DSL — L4]chunks/dsl.md#L4 (line 4, col 1, score 1)
+- [DSL — L4]chunks/dsl.md#L4 (line 4, col 3, score 1)
+- [DSL — L5]chunks/dsl.md#L5 (line 5, col 1, score 1)
+- [DSL — L5]chunks/dsl.md#L5 (line 5, col 3, score 1)
+- [DSL — L6]chunks/dsl.md#L6 (line 6, col 1, score 1)
+- [DSL — L6]chunks/dsl.md#L6 (line 6, col 3, score 1)
+- [layer-1-uptime-diagrams#L1|layer-1-uptime-diagrams — L1] (line 1, col 1, score 0.86)
+- [sibilant-metacompiler-overview#L1|sibilant-metacompiler-overview — L1] (line 1, col 1, score 0.86)
+- [promethean-system-diagrams#L1|promethean-system-diagrams — L1] (line 1, col 1, score 0.86)
+- field-node-diagram-visualizations — L1$field-node-diagram-visualizations.md#L1 (line 1, col 1, score 0.86)
+- [field-node-diagram-outline#L1|field-node-diagram-outline — L1] (line 1, col 1, score 0.86)
+- [field-node-diagram-set#L1|field-node-diagram-set — L1] (line 1, col 1, score 0.86)
+- [docs/unique/archetype-ecs#L456|archetype-ecs — L456] (line 456, col 1, score 1)
+- [docs/unique/archetype-ecs#L456|archetype-ecs — L456] (line 456, col 3, score 1)
+- [docs/unique/ecs-offload-workers#L463|ecs-offload-workers — L463] (line 463, col 1, score 1)
+- [docs/unique/ecs-offload-workers#L463|ecs-offload-workers — L463] (line 463, col 3, score 1)
+- [ecs-scheduler-and-prefabs#L395|ecs-scheduler-and-prefabs — L395] (line 395, col 1, score 1)
+- [ecs-scheduler-and-prefabs#L395|ecs-scheduler-and-prefabs — L395] (line 395, col 3, score 1)
+- [docs/unique/typed-struct-compiler#L384|typed-struct-compiler — L384] (line 384, col 1, score 1)
+- [docs/unique/typed-struct-compiler#L384|typed-struct-compiler — L384] (line 384, col 3, score 1)
+- [docs/unique/aionian-circuit-math#L157|aionian-circuit-math — L157] (line 157, col 1, score 1)
+- [docs/unique/aionian-circuit-math#L157|aionian-circuit-math — L157] (line 157, col 3, score 1)
+- [docs/unique/eidolon-field-math-foundations#L134|eidolon-field-math-foundations — L134] (line 134, col 1, score 1)
+- [docs/unique/eidolon-field-math-foundations#L134|eidolon-field-math-foundations — L134] (line 134, col 3, score 1)
+- [docs/unique/field-dynamics-math-blocks#L150|field-dynamics-math-blocks — L150] (line 150, col 1, score 1)
+- [docs/unique/field-dynamics-math-blocks#L150|field-dynamics-math-blocks — L150] (line 150, col 3, score 1)
+- [docs/unique/field-interaction-equations#L156|field-interaction-equations — L156] (line 156, col 1, score 1)
+- [docs/unique/field-interaction-equations#L156|field-interaction-equations — L156] (line 156, col 3, score 1)
+- [Window Management — L13]chunks/window-management.md#L13 (line 13, col 1, score 1)
+- [Window Management — L13]chunks/window-management.md#L13 (line 13, col 3, score 1)
+- [docs/unique/compiler-kit-foundations#L615|compiler-kit-foundations — L615] (line 615, col 1, score 1)
+- [docs/unique/compiler-kit-foundations#L615|compiler-kit-foundations — L615] (line 615, col 3, score 1)
+- [docs/unique/interop-and-source-maps#L519|Interop and Source Maps — L519] (line 519, col 1, score 1)
+- [docs/unique/interop-and-source-maps#L519|Interop and Source Maps — L519] (line 519, col 3, score 1)
+- [ts-to-lisp-transpiler#L14|ts-to-lisp-transpiler — L14] (line 14, col 1, score 1)
+- [ts-to-lisp-transpiler#L14|ts-to-lisp-transpiler — L14] (line 14, col 3, score 1)
+- [docs/unique/obsidian-ignore-node-modules-regex#L50|obsidian-ignore-node-modules-regex — L50] (line 50, col 1, score 1)
+- [docs/unique/obsidian-ignore-node-modules-regex#L50|obsidian-ignore-node-modules-regex — L50] (line 50, col 3, score 1)
+- [pm2-orchestration-patterns#L246|pm2-orchestration-patterns — L246] (line 246, col 1, score 1)
+- [pm2-orchestration-patterns#L246|pm2-orchestration-patterns — L246] (line 246, col 3, score 1)
+- [docs/unique/obsidian-ignore-node-modules-regex#L56|obsidian-ignore-node-modules-regex — L56] (line 56, col 1, score 0.87)
+- [docs/unique/obsidian-ignore-node-modules-regex#L56|obsidian-ignore-node-modules-regex — L56] (line 56, col 3, score 0.87)
+- [docs/unique/obsidian-ignore-node-modules-regex#L55|obsidian-ignore-node-modules-regex — L55] (line 55, col 1, score 0.87)
+- [docs/unique/obsidian-ignore-node-modules-regex#L55|obsidian-ignore-node-modules-regex — L55] (line 55, col 3, score 0.87)
+- [Shared — L7]chunks/shared.md#L7 (line 7, col 1, score 1)
+- [Shared — L7]chunks/shared.md#L7 (line 7, col 3, score 1)
+- [event-bus-projections-architecture#L147|Event Bus Projections Architecture — L147] (line 147, col 1, score 1)
+- [event-bus-projections-architecture#L147|Event Bus Projections Architecture — L147] (line 147, col 3, score 1)
+- [infinite-depth-smoke-animation#L88|infinite_depth_smoke_animation — L88] (line 88, col 1, score 1)
+- [infinite-depth-smoke-animation#L88|infinite_depth_smoke_animation — L88] (line 88, col 3, score 1)
+- [docs/unique/synchronicity-waves-and-web#L83|Synchronicity Waves and Web — L83] (line 83, col 1, score 1)
+- [docs/unique/synchronicity-waves-and-web#L83|Synchronicity Waves and Web — L83] (line 83, col 3, score 1)
+- [mongo-outbox-implementation#L557|Mongo Outbox Implementation — L557] (line 557, col 1, score 1)
+- [mongo-outbox-implementation#L557|Mongo Outbox Implementation — L557] (line 557, col 3, score 1)
+- [schema-evolution-workflow#L486|schema-evolution-workflow — L486] (line 486, col 1, score 1)
+- [schema-evolution-workflow#L486|schema-evolution-workflow — L486] (line 486, col 3, score 1)
+- [state-snapshots-api-and-transactional-projector#L337|State Snapshots API and Transactional Projector — L337] (line 337, col 1, score 1)
+- [state-snapshots-api-and-transactional-projector#L337|State Snapshots API and Transactional Projector — L337] (line 337, col 3, score 1)
+- [stateful-partitions-and-rebalancing#L533|Stateful Partitions and Rebalancing — L533] (line 533, col 1, score 1)
+- [stateful-partitions-and-rebalancing#L533|Stateful Partitions and Rebalancing — L533] (line 533, col 3, score 1)
+- [heartbeat-fragment-demo#L100|heartbeat-fragment-demo — L100] (line 100, col 1, score 1)
+- [heartbeat-fragment-demo#L100|heartbeat-fragment-demo — L100] (line 100, col 3, score 1)
+- heartbeat-simulation-snippets — L87$heartbeat-simulation-snippets.md#L87 (line 87, col 1, score 1)
+- heartbeat-simulation-snippets — L87$heartbeat-simulation-snippets.md#L87 (line 87, col 3, score 1)
+- [docs/unique/ripple-propagation-demo#L105|ripple-propagation-demo — L105] (line 105, col 1, score 1)
+- [docs/unique/ripple-propagation-demo#L105|ripple-propagation-demo — L105] (line 105, col 3, score 1)
+- [heartbeat-fragment-demo#L114|heartbeat-fragment-demo — L114] (line 114, col 1, score 0.91)
+- [heartbeat-fragment-demo#L114|heartbeat-fragment-demo — L114] (line 114, col 3, score 0.91)
+- [docs/unique/aionian-circuit-math#L152|aionian-circuit-math — L152] (line 152, col 1, score 1)
+- [docs/unique/aionian-circuit-math#L152|aionian-circuit-math — L152] (line 152, col 3, score 1)
+- [Math Fundamentals — L12]chunks/math-fundamentals.md#L12 (line 12, col 1, score 1)
+- [Math Fundamentals — L12]chunks/math-fundamentals.md#L12 (line 12, col 3, score 1)
+- [docs/unique/eidolon-field-math-foundations#L126|eidolon-field-math-foundations — L126] (line 126, col 1, score 1)
+- [docs/unique/eidolon-field-math-foundations#L126|eidolon-field-math-foundations — L126] (line 126, col 3, score 1)
+- [eidolon-field-optimization#L102|Eidolon-Field-Optimization — L102] (line 102, col 1, score 1)
+- [eidolon-field-optimization#L102|Eidolon-Field-Optimization — L102] (line 102, col 3, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L137|Agent Tasks: Persistence Migration to DualStore — L137] (line 137, col 1, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L137|Agent Tasks: Persistence Migration to DualStore — L137] (line 137, col 3, score 1)
+- [chroma-toolkit-consolidation-plan#L175|Chroma Toolkit Consolidation Plan — L175] (line 175, col 1, score 1)
+- [chroma-toolkit-consolidation-plan#L175|Chroma Toolkit Consolidation Plan — L175] (line 175, col 3, score 1)
+- [docs/unique/event-bus-mvp#L547|Event Bus MVP — L547] (line 547, col 1, score 1)
+- [docs/unique/event-bus-mvp#L547|Event Bus MVP — L547] (line 547, col 3, score 1)
+- [event-bus-projections-architecture#L150|Event Bus Projections Architecture — L150] (line 150, col 1, score 1)
+- [event-bus-projections-architecture#L150|Event Bus Projections Architecture — L150] (line 150, col 3, score 1)
+- [Tooling — L9]chunks/tooling.md#L9 (line 9, col 1, score 1)
+- [Tooling — L9]chunks/tooling.md#L9 (line 9, col 3, score 1)
+- [docs/unique/universal-lisp-interface#L203|Universal Lisp Interface — L203] (line 203, col 1, score 1)
+- [docs/unique/universal-lisp-interface#L203|Universal Lisp Interface — L203] (line 203, col 3, score 1)
+- [Tooling — L15]chunks/tooling.md#L15 (line 15, col 1, score 0.95)
+- [Tooling — L15]chunks/tooling.md#L15 (line 15, col 3, score 0.95)
+- [2d-sandbox-field#L197|2d-sandbox-field — L197] (line 197, col 1, score 1)
+- [2d-sandbox-field#L197|2d-sandbox-field — L197] (line 197, col 3, score 1)
+- [docs/unique/aionian-circuit-math#L154|aionian-circuit-math — L154] (line 154, col 1, score 1)
+- [docs/unique/aionian-circuit-math#L154|aionian-circuit-math — L154] (line 154, col 3, score 1)
+- [Math Fundamentals — L13]chunks/math-fundamentals.md#L13 (line 13, col 1, score 1)
+- [Math Fundamentals — L13]chunks/math-fundamentals.md#L13 (line 13, col 3, score 1)
+- [eidolon-field-abstract-model#L194|Eidolon Field Abstract Model — L194] (line 194, col 1, score 1)
+- [eidolon-field-abstract-model#L194|Eidolon Field Abstract Model — L194] (line 194, col 3, score 1)
+- [JavaScript — L13]chunks/javascript.md#L13 (line 13, col 1, score 1)
+- [JavaScript — L13]chunks/javascript.md#L13 (line 13, col 3, score 1)
+- [docs/unique/ecs-offload-workers#L459|ecs-offload-workers — L459] (line 459, col 1, score 1)
+- [docs/unique/ecs-offload-workers#L459|ecs-offload-workers — L459] (line 459, col 3, score 1)
+- [lisp-compiler-integration#L541|Lisp-Compiler-Integration — L541] (line 541, col 1, score 1)
+- [lisp-compiler-integration#L541|Lisp-Compiler-Integration — L541] (line 541, col 3, score 1)
+- smart-chatgpt-thingy — L23$smart-chatgpt-thingy.md#L23 (line 23, col 1, score 1)
+- smart-chatgpt-thingy — L23$smart-chatgpt-thingy.md#L23 (line 23, col 3, score 1)
+- [docs/unique/archetype-ecs#L454|archetype-ecs — L454] (line 454, col 1, score 1)
+- [docs/unique/archetype-ecs#L454|archetype-ecs — L454] (line 454, col 3, score 1)
+- [chroma-toolkit-consolidation-plan#L171|Chroma Toolkit Consolidation Plan — L171] (line 171, col 1, score 1)
+- [chroma-toolkit-consolidation-plan#L171|Chroma Toolkit Consolidation Plan — L171] (line 171, col 3, score 1)
+- [JavaScript — L14]chunks/javascript.md#L14 (line 14, col 1, score 1)
+- [JavaScript — L14]chunks/javascript.md#L14 (line 14, col 3, score 1)
+- [docs/unique/ecs-offload-workers#L454|ecs-offload-workers — L454] (line 454, col 1, score 1)
+- [docs/unique/ecs-offload-workers#L454|ecs-offload-workers — L454] (line 454, col 3, score 1)
+- [docs/unique/compiler-kit-foundations#L612|compiler-kit-foundations — L612] (line 612, col 1, score 1)
+- [docs/unique/compiler-kit-foundations#L612|compiler-kit-foundations — L612] (line 612, col 3, score 1)
+- [cross-language-runtime-polymorphism#L205|Cross-Language Runtime Polymorphism — L205] (line 205, col 1, score 1)
+- [cross-language-runtime-polymorphism#L205|Cross-Language Runtime Polymorphism — L205] (line 205, col 3, score 1)
+- [cross-target-macro-system-in-sibilant#L171|Cross-Target Macro System in Sibilant — L171] (line 171, col 1, score 1)
+- [cross-target-macro-system-in-sibilant#L171|Cross-Target Macro System in Sibilant — L171] (line 171, col 3, score 1)
+- [polyglot-repl-interface-layer#L159|polyglot-repl-interface-layer — L159] (line 159, col 1, score 1)
+- [polyglot-repl-interface-layer#L159|polyglot-repl-interface-layer — L159] (line 159, col 3, score 1)
+- [Diagrams — L10]chunks/diagrams.md#L10 (line 10, col 1, score 1)
+- [Diagrams — L10]chunks/diagrams.md#L10 (line 10, col 3, score 1)
+- [ghostly-smoke-interference#L111|Ghostly Smoke Interference — L111] (line 111, col 1, score 1)
+- [ghostly-smoke-interference#L111|Ghostly Smoke Interference — L111] (line 111, col 3, score 1)
+- [smoke-resonance-visualizations#L81|Smoke Resonance Visualizations — L81] (line 81, col 1, score 1)
+- [smoke-resonance-visualizations#L81|Smoke Resonance Visualizations — L81] (line 81, col 3, score 1)
+- [ghostly-smoke-interference#L119|Ghostly Smoke Interference — L119] (line 119, col 1, score 0.97)
+- [ghostly-smoke-interference#L119|Ghostly Smoke Interference — L119] (line 119, col 3, score 0.97)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L133|Agent Tasks: Persistence Migration to DualStore — L133] (line 133, col 1, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L133|Agent Tasks: Persistence Migration to DualStore — L133] (line 133, col 3, score 1)
+- [docs/unique/aionian-circuit-math#L151|aionian-circuit-math — L151] (line 151, col 1, score 1)
+- [docs/unique/aionian-circuit-math#L151|aionian-circuit-math — L151] (line 151, col 3, score 1)
+- [Math Fundamentals — L14]chunks/math-fundamentals.md#L14 (line 14, col 1, score 1)
+- [Math Fundamentals — L14]chunks/math-fundamentals.md#L14 (line 14, col 3, score 1)
+- [docs/unique/ecs-offload-workers#L460|ecs-offload-workers — L460] (line 460, col 1, score 1)
+- [docs/unique/ecs-offload-workers#L460|ecs-offload-workers — L460] (line 460, col 3, score 1)
+- [docs/unique/aionian-circuit-math#L153|aionian-circuit-math — L153] (line 153, col 1, score 1)
+- [docs/unique/aionian-circuit-math#L153|aionian-circuit-math — L153] (line 153, col 3, score 1)
+- [Math Fundamentals — L15]chunks/math-fundamentals.md#L15 (line 15, col 1, score 1)
+- [Math Fundamentals — L15]chunks/math-fundamentals.md#L15 (line 15, col 3, score 1)
+- [cross-target-macro-system-in-sibilant#L177|Cross-Target Macro System in Sibilant — L177] (line 177, col 1, score 1)
+- [cross-target-macro-system-in-sibilant#L177|Cross-Target Macro System in Sibilant — L177] (line 177, col 3, score 1)
+- [docs/unique/eidolon-field-math-foundations#L124|eidolon-field-math-foundations — L124] (line 124, col 1, score 1)
+- [docs/unique/eidolon-field-math-foundations#L124|eidolon-field-math-foundations — L124] (line 124, col 3, score 1)
+- [eidolon-node-lifecycle#L33|eidolon-node-lifecycle — L33] (line 33, col 1, score 1)
+- [eidolon-node-lifecycle#L33|eidolon-node-lifecycle — L33] (line 33, col 3, score 1)
+- [field-node-diagram-outline#L101|field-node-diagram-outline — L101] (line 101, col 1, score 1)
+- [field-node-diagram-outline#L101|field-node-diagram-outline — L101] (line 101, col 3, score 1)
+- field-node-diagram-visualizations — L87$field-node-diagram-visualizations.md#L87 (line 87, col 1, score 1)
+- field-node-diagram-visualizations — L87$field-node-diagram-visualizations.md#L87 (line 87, col 3, score 1)
+- [heartbeat-fragment-demo#L107|heartbeat-fragment-demo — L107] (line 107, col 1, score 1)
+- [heartbeat-fragment-demo#L107|heartbeat-fragment-demo — L107] (line 107, col 3, score 1)
+- [eidolon-node-lifecycle#L31|eidolon-node-lifecycle — L31] (line 31, col 1, score 1)
+- [eidolon-node-lifecycle#L31|eidolon-node-lifecycle — L31] (line 31, col 3, score 1)
+- [field-node-diagram-outline#L100|field-node-diagram-outline — L100] (line 100, col 1, score 1)
+- [field-node-diagram-outline#L100|field-node-diagram-outline — L100] (line 100, col 3, score 1)
+- [field-node-diagram-set#L136|field-node-diagram-set — L136] (line 136, col 1, score 1)
+- [field-node-diagram-set#L136|field-node-diagram-set — L136] (line 136, col 3, score 1)
+- [heartbeat-fragment-demo#L105|heartbeat-fragment-demo — L105] (line 105, col 1, score 1)
+- [heartbeat-fragment-demo#L105|heartbeat-fragment-demo — L105] (line 105, col 3, score 1)
+- [2d-sandbox-field#L198|2d-sandbox-field — L198] (line 198, col 1, score 1)
+- [2d-sandbox-field#L198|2d-sandbox-field — L198] (line 198, col 3, score 1)
+- [eidolon-field-abstract-model#L195|Eidolon Field Abstract Model — L195] (line 195, col 1, score 1)
+- [eidolon-field-abstract-model#L195|Eidolon Field Abstract Model — L195] (line 195, col 3, score 1)
+- [docs/unique/eidolon-field-math-foundations#L137|eidolon-field-math-foundations — L137] (line 137, col 1, score 1)
+- [docs/unique/eidolon-field-math-foundations#L137|eidolon-field-math-foundations — L137] (line 137, col 3, score 1)
+- [eidolon-node-lifecycle#L32|eidolon-node-lifecycle — L32] (line 32, col 1, score 1)
+- [eidolon-node-lifecycle#L32|eidolon-node-lifecycle — L32] (line 32, col 3, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L135|Agent Tasks: Persistence Migration to DualStore — L135] (line 135, col 1, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L135|Agent Tasks: Persistence Migration to DualStore — L135] (line 135, col 3, score 1)
+- [eidolon-node-lifecycle#L34|eidolon-node-lifecycle — L34] (line 34, col 1, score 1)
+- [eidolon-node-lifecycle#L34|eidolon-node-lifecycle — L34] (line 34, col 3, score 1)
+- [event-bus-projections-architecture#L149|Event Bus Projections Architecture — L149] (line 149, col 1, score 1)
+- [event-bus-projections-architecture#L149|Event Bus Projections Architecture — L149] (line 149, col 3, score 1)
+- [field-node-diagram-outline#L103|field-node-diagram-outline — L103] (line 103, col 1, score 1)
+- [field-node-diagram-outline#L103|field-node-diagram-outline — L103] (line 103, col 3, score 1)
+- [2d-sandbox-field#L199|2d-sandbox-field — L199] (line 199, col 1, score 1)
+- [2d-sandbox-field#L199|2d-sandbox-field — L199] (line 199, col 3, score 1)
+- [eidolon-field-abstract-model#L196|Eidolon Field Abstract Model — L196] (line 196, col 1, score 1)
+- [eidolon-field-abstract-model#L196|Eidolon Field Abstract Model — L196] (line 196, col 3, score 1)
+- [eidolon-node-lifecycle#L35|eidolon-node-lifecycle — L35] (line 35, col 1, score 1)
+- [eidolon-node-lifecycle#L35|eidolon-node-lifecycle — L35] (line 35, col 3, score 1)
 - [[eidolonfield#L249|EidolonField — L249]] (line 249, col 1, score 1)
 - [[eidolonfield#L249|EidolonField — L249]] (line 249, col 3, score 1)
-- [Services — L11]$chunks/services.md#L11$ (line 11, col 1, score 1)
-- [Services — L11]$chunks/services.md#L11$ (line 11, col 3, score 1)
-- $[docs/unique/event-bus-mvp#L554|Event Bus MVP — L554]$ (line 554, col 1, score 1)
-- $[docs/unique/event-bus-mvp#L554|Event Bus MVP — L554]$ (line 554, col 3, score 1)
-- $[mongo-outbox-implementation#L553|Mongo Outbox Implementation — L553]$ (line 553, col 1, score 1)
-- $[mongo-outbox-implementation#L553|Mongo Outbox Implementation — L553]$ (line 553, col 3, score 1)
-- $[prom-lib-rate-limiters-and-replay-api#L382|prom-lib-rate-limiters-and-replay-api — L382]$ (line 382, col 1, score 1)
-- $[prom-lib-rate-limiters-and-replay-api#L382|prom-lib-rate-limiters-and-replay-api — L382]$ (line 382, col 3, score 1)
-- [Simulation Demo — L9]$chunks/simulation-demo.md#L9$ (line 9, col 1, score 1)
-- [Simulation Demo — L9]$chunks/simulation-demo.md#L9$ (line 9, col 3, score 1)
-- $[eidolon-field-abstract-model#L201|Eidolon Field Abstract Model — L201]$ (line 201, col 1, score 1)
-- $[eidolon-field-abstract-model#L201|Eidolon Field Abstract Model — L201]$ (line 201, col 3, score 1)
-- $[eidolon-node-lifecycle#L37|eidolon-node-lifecycle — L37]$ (line 37, col 1, score 1)
-- $[eidolon-node-lifecycle#L37|eidolon-node-lifecycle — L37]$ (line 37, col 3, score 1)
-- $[field-node-diagram-outline#L115|field-node-diagram-outline — L115]$ (line 115, col 1, score 1)
-- $[field-node-diagram-outline#L115|field-node-diagram-outline — L115]$ (line 115, col 3, score 1)
-- [Simulation Demo — L10]$chunks/simulation-demo.md#L10$ (line 10, col 1, score 1)
-- [Simulation Demo — L10]$chunks/simulation-demo.md#L10$ (line 10, col 3, score 1)
-- $[eidolon-field-abstract-model#L200|Eidolon Field Abstract Model — L200]$ (line 200, col 1, score 1)
-- $[eidolon-field-abstract-model#L200|Eidolon Field Abstract Model — L200]$ (line 200, col 3, score 1)
-- $[eidolon-node-lifecycle#L38|eidolon-node-lifecycle — L38]$ (line 38, col 1, score 1)
-- $[eidolon-node-lifecycle#L38|eidolon-node-lifecycle — L38]$ (line 38, col 3, score 1)
-- $[field-node-diagram-outline#L116|field-node-diagram-outline — L116]$ (line 116, col 1, score 1)
-- $[field-node-diagram-outline#L116|field-node-diagram-outline — L116]$ (line 116, col 3, score 1)
-- [Math Fundamentals — L16]$chunks/math-fundamentals.md#L16$ (line 16, col 1, score 1)
-- [Math Fundamentals — L16]$chunks/math-fundamentals.md#L16$ (line 16, col 3, score 1)
-- $[docs/unique/eidolon-field-math-foundations#L125|eidolon-field-math-foundations — L125]$ (line 125, col 1, score 1)
-- $[docs/unique/eidolon-field-math-foundations#L125|eidolon-field-math-foundations — L125]$ (line 125, col 3, score 1)
-- $[docs/unique/field-dynamics-math-blocks#L142|field-dynamics-math-blocks — L142]$ (line 142, col 1, score 1)
-- $[docs/unique/field-dynamics-math-blocks#L142|field-dynamics-math-blocks — L142]$ (line 142, col 3, score 1)
-- $[docs/unique/field-interaction-equations#L154|field-interaction-equations — L154]$ (line 154, col 1, score 1)
-- $[docs/unique/field-interaction-equations#L154|field-interaction-equations — L154]$ (line 154, col 3, score 1)
-- [Diagrams — L11]$chunks/diagrams.md#L11$ (line 11, col 1, score 1)
-- [Diagrams — L11]$chunks/diagrams.md#L11$ (line 11, col 3, score 1)
-- $[ghostly-smoke-interference#L114|Ghostly Smoke Interference — L114]$ (line 114, col 1, score 1)
-- $[ghostly-smoke-interference#L114|Ghostly Smoke Interference — L114]$ (line 114, col 3, score 1)
-- $[promethean-eidolon-synchronicity-model#L55|Promethean_Eidolon_Synchronicity_Model — L55]$ (line 55, col 1, score 1)
-- $[promethean-eidolon-synchronicity-model#L55|Promethean_Eidolon_Synchronicity_Model — L55]$ (line 55, col 3, score 1)
-- $[smoke-resonance-visualizations#L79|Smoke Resonance Visualizations — L79]$ (line 79, col 1, score 1)
-- $[smoke-resonance-visualizations#L79|Smoke Resonance Visualizations — L79]$ (line 79, col 3, score 1)
-- [Services — L12]$chunks/services.md#L12$ (line 12, col 1, score 1)
-- [Services — L12]$chunks/services.md#L12$ (line 12, col 3, score 1)
-- $[cross-language-runtime-polymorphism#L211|Cross-Language Runtime Polymorphism — L211]$ (line 211, col 1, score 1)
-- $[cross-language-runtime-polymorphism#L211|Cross-Language Runtime Polymorphism — L211]$ (line 211, col 3, score 1)
-- $[docs/unique/event-bus-mvp#L550|Event Bus MVP — L550]$ (line 550, col 1, score 1)
-- $[docs/unique/event-bus-mvp#L550|Event Bus MVP — L550]$ (line 550, col 3, score 1)
-- $[mongo-outbox-implementation#L554|Mongo Outbox Implementation — L554]$ (line 554, col 1, score 1)
-- $[mongo-outbox-implementation#L554|Mongo Outbox Implementation — L554]$ (line 554, col 3, score 1)
-- [Simulation Demo — L11]$chunks/simulation-demo.md#L11$ (line 11, col 1, score 1)
-- [Simulation Demo — L11]$chunks/simulation-demo.md#L11$ (line 11, col 3, score 1)
-- $[eidolon-field-abstract-model#L199|Eidolon Field Abstract Model — L199]$ (line 199, col 1, score 1)
-- $[eidolon-field-abstract-model#L199|Eidolon Field Abstract Model — L199]$ (line 199, col 3, score 1)
-- $[eidolon-field-optimization#L103|Eidolon-Field-Optimization — L103]$ (line 103, col 1, score 1)
-- $[eidolon-field-optimization#L103|Eidolon-Field-Optimization — L103]$ (line 103, col 3, score 1)
-- $[eidolon-node-lifecycle#L39|eidolon-node-lifecycle — L39]$ (line 39, col 1, score 1)
-- $[eidolon-node-lifecycle#L39|eidolon-node-lifecycle — L39]$ (line 39, col 3, score 1)
-- [Diagrams — L12]$chunks/diagrams.md#L12$ (line 12, col 1, score 1)
-- [Diagrams — L12]$chunks/diagrams.md#L12$ (line 12, col 3, score 1)
-- $[eidolon-node-lifecycle#L40|eidolon-node-lifecycle — L40]$ (line 40, col 1, score 1)
-- $[eidolon-node-lifecycle#L40|eidolon-node-lifecycle — L40]$ (line 40, col 3, score 1)
-- $[layer-1-uptime-diagrams#L172|layer-1-uptime-diagrams — L172]$ (line 172, col 1, score 1)
-- $[layer-1-uptime-diagrams#L172|layer-1-uptime-diagrams — L172]$ (line 172, col 3, score 1)
-- [Promethean Event Bus MVP v0.1 — L887]$promethean-event-bus-mvp-v0-1.md#L887$ (line 887, col 1, score 1)
-- [Promethean Event Bus MVP v0.1 — L887]$promethean-event-bus-mvp-v0-1.md#L887$ (line 887, col 3, score 1)
-- [Services — L13]$chunks/services.md#L13$ (line 13, col 1, score 1)
-- [Services — L13]$chunks/services.md#L13$ (line 13, col 3, score 1)
-- $[docs/unique/ecs-offload-workers#L467|ecs-offload-workers — L467]$ (line 467, col 1, score 1)
-- $[docs/unique/ecs-offload-workers#L467|ecs-offload-workers — L467]$ (line 467, col 3, score 1)
-- $[docs/unique/event-bus-mvp#L549|Event Bus MVP — L549]$ (line 549, col 1, score 1)
-- $[docs/unique/event-bus-mvp#L549|Event Bus MVP — L549]$ (line 549, col 3, score 1)
-- $[observability-infrastructure-setup#L364|observability-infrastructure-setup — L364]$ (line 364, col 1, score 1)
-- $[observability-infrastructure-setup#L364|observability-infrastructure-setup — L364]$ (line 364, col 3, score 1)
-- [Services — L14]$chunks/services.md#L14$ (line 14, col 1, score 1)
-- [Services — L14]$chunks/services.md#L14$ (line 14, col 3, score 1)
-- $[docs/unique/event-bus-mvp#L553|Event Bus MVP — L553]$ (line 553, col 1, score 1)
-- $[docs/unique/event-bus-mvp#L553|Event Bus MVP — L553]$ (line 553, col 3, score 1)
-- $[mongo-outbox-implementation#L559|Mongo Outbox Implementation — L559]$ (line 559, col 1, score 1)
-- $[mongo-outbox-implementation#L559|Mongo Outbox Implementation — L559]$ (line 559, col 3, score 1)
-- $[prom-lib-rate-limiters-and-replay-api#L388|prom-lib-rate-limiters-and-replay-api — L388]$ (line 388, col 1, score 1)
-- $[prom-lib-rate-limiters-and-replay-api#L388|prom-lib-rate-limiters-and-replay-api — L388]$ (line 388, col 3, score 1)
-- $[docs/unique/archetype-ecs#L460|archetype-ecs — L460]$ (line 460, col 1, score 1)
-- $[docs/unique/archetype-ecs#L460|archetype-ecs — L460]$ (line 460, col 3, score 1)
-- [JavaScript — L15]$chunks/javascript.md#L15$ (line 15, col 1, score 1)
-- [JavaScript — L15]$chunks/javascript.md#L15$ (line 15, col 3, score 1)
-- $[ecs-scheduler-and-prefabs#L388|ecs-scheduler-and-prefabs — L388]$ (line 388, col 1, score 1)
-- $[ecs-scheduler-and-prefabs#L388|ecs-scheduler-and-prefabs — L388]$ (line 388, col 3, score 1)
-- $[docs/unique/eidolon-field-math-foundations#L129|eidolon-field-math-foundations — L129]$ (line 129, col 1, score 1)
-- $[docs/unique/eidolon-field-math-foundations#L129|eidolon-field-math-foundations — L129]$ (line 129, col 3, score 1)
-- [DSL — L11]$chunks/dsl.md#L11$ (line 11, col 1, score 1)
-- [DSL — L11]$chunks/dsl.md#L11$ (line 11, col 3, score 1)
-- $[docs/unique/compiler-kit-foundations#L606|compiler-kit-foundations — L606]$ (line 606, col 1, score 1)
-- $[docs/unique/compiler-kit-foundations#L606|compiler-kit-foundations — L606]$ (line 606, col 3, score 1)
-- $[js-to-lisp-reverse-compiler#L422|js-to-lisp-reverse-compiler — L422]$ (line 422, col 1, score 1)
-- $[js-to-lisp-reverse-compiler#L422|js-to-lisp-reverse-compiler — L422]$ (line 422, col 3, score 1)
-- $[language-agnostic-mirror-system#L534|Language-Agnostic Mirror System — L534]$ (line 534, col 1, score 1)
-- $[language-agnostic-mirror-system#L534|Language-Agnostic Mirror System — L534]$ (line 534, col 3, score 1)
-- $[event-bus-projections-architecture#L152|Event Bus Projections Architecture — L152]$ (line 152, col 1, score 1)
-- $[event-bus-projections-architecture#L152|Event Bus Projections Architecture — L152]$ (line 152, col 3, score 1)
-- $[factorio-ai-with-external-agents#L146|Factorio AI with External Agents — L146]$ (line 146, col 1, score 1)
-- $[factorio-ai-with-external-agents#L146|Factorio AI with External Agents — L146]$ (line 146, col 3, score 1)
-- $[field-node-diagram-outline#L102|field-node-diagram-outline — L102]$ (line 102, col 1, score 1)
-- $[field-node-diagram-outline#L102|field-node-diagram-outline — L102]$ (line 102, col 3, score 1)
-- $[field-node-diagram-set#L138|field-node-diagram-set — L138]$ (line 138, col 1, score 1)
-- $[field-node-diagram-set#L138|field-node-diagram-set — L138]$ (line 138, col 3, score 1)
-- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L131|Agent Tasks: Persistence Migration to DualStore — L131]$ (line 131, col 1, score 1)
-- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L131|Agent Tasks: Persistence Migration to DualStore — L131]$ (line 131, col 3, score 1)
-- $[chroma-toolkit-consolidation-plan#L169|Chroma Toolkit Consolidation Plan — L169]$ (line 169, col 1, score 1)
-- $[chroma-toolkit-consolidation-plan#L169|Chroma Toolkit Consolidation Plan — L169]$ (line 169, col 3, score 1)
-- $[cross-target-macro-system-in-sibilant#L175|Cross-Target Macro System in Sibilant — L175]$ (line 175, col 1, score 1)
-- $[cross-target-macro-system-in-sibilant#L175|Cross-Target Macro System in Sibilant — L175]$ (line 175, col 3, score 1)
-- $[dynamic-context-model-for-web-components#L392|Dynamic Context Model for Web Components — L392]$ (line 392, col 1, score 1)
-- $[dynamic-context-model-for-web-components#L392|Dynamic Context Model for Web Components — L392]$ (line 392, col 3, score 1)
-- [JavaScript — L16]$chunks/javascript.md#L16$ (line 16, col 1, score 1)
-- [JavaScript — L16]$chunks/javascript.md#L16$ (line 16, col 3, score 1)
-- $[docs/unique/ecs-offload-workers#L466|ecs-offload-workers — L466]$ (line 466, col 1, score 1)
-- $[docs/unique/ecs-offload-workers#L466|ecs-offload-workers — L466]$ (line 466, col 3, score 1)
-- $[ecs-scheduler-and-prefabs#L394|ecs-scheduler-and-prefabs — L394]$ (line 394, col 1, score 1)
-- $[ecs-scheduler-and-prefabs#L394|ecs-scheduler-and-prefabs — L394]$ (line 394, col 3, score 1)
-- $[graph-ds#L367|graph-ds — L367]$ (line 367, col 1, score 1)
-- $[graph-ds#L367|graph-ds — L367]$ (line 367, col 3, score 1)
-- [JavaScript — L17]$chunks/javascript.md#L17$ (line 17, col 1, score 1)
-- [JavaScript — L17]$chunks/javascript.md#L17$ (line 17, col 3, score 1)
-- $[docs/unique/compiler-kit-foundations#L614|compiler-kit-foundations — L614]$ (line 614, col 1, score 1)
-- $[docs/unique/compiler-kit-foundations#L614|compiler-kit-foundations — L614]$ (line 614, col 3, score 1)
-- $[graph-ds#L369|graph-ds — L369]$ (line 369, col 1, score 1)
-- $[graph-ds#L369|graph-ds — L369]$ (line 369, col 3, score 1)
-- $[docs/unique/template-based-compilation#L117|template-based-compilation — L117]$ (line 117, col 1, score 1)
-- $[docs/unique/template-based-compilation#L117|template-based-compilation — L117]$ (line 117, col 3, score 1)
-- $[docs/unique/aionian-circuit-math#L155|aionian-circuit-math — L155]$ (line 155, col 1, score 1)
-- $[docs/unique/aionian-circuit-math#L155|aionian-circuit-math — L155]$ (line 155, col 3, score 1)
-- $[docs/unique/compiler-kit-foundations#L609|compiler-kit-foundations — L609]$ (line 609, col 1, score 1)
-- $[docs/unique/compiler-kit-foundations#L609|compiler-kit-foundations — L609]$ (line 609, col 3, score 1)
-- $[cross-language-runtime-polymorphism#L203|Cross-Language Runtime Polymorphism — L203]$ (line 203, col 1, score 1)
-- $[cross-language-runtime-polymorphism#L203|Cross-Language Runtime Polymorphism — L203]$ (line 203, col 3, score 1)
-- $[cross-target-macro-system-in-sibilant#L168|Cross-Target Macro System in Sibilant — L168]$ (line 168, col 1, score 1)
-- $[cross-target-macro-system-in-sibilant#L168|Cross-Target Macro System in Sibilant — L168]$ (line 168, col 3, score 1)
-- [DSL — L12]$chunks/dsl.md#L12$ (line 12, col 1, score 1)
-- [DSL — L12]$chunks/dsl.md#L12$ (line 12, col 3, score 1)
-- $komorebi-group-window-hack — L200$$komorebi-group-window-hack.md#L200$ (line 200, col 1, score 1)
-- $komorebi-group-window-hack — L200$$komorebi-group-window-hack.md#L200$ (line 200, col 3, score 1)
-- [Tooling — L10]$chunks/tooling.md#L10$ (line 10, col 1, score 1)
-- [Tooling — L10]$chunks/tooling.md#L10$ (line 10, col 3, score 1)
-- [Diagrams — L13]$chunks/diagrams.md#L13$ (line 13, col 1, score 1)
-- [Diagrams — L13]$chunks/diagrams.md#L13$ (line 13, col 3, score 1)
-- [DSL — L13]$chunks/dsl.md#L13$ (line 13, col 1, score 1)
-- [DSL — L13]$chunks/dsl.md#L13$ (line 13, col 3, score 1)
-- $[docs/unique/interop-and-source-maps#L513|Interop and Source Maps — L513]$ (line 513, col 1, score 1)
-- $[docs/unique/interop-and-source-maps#L513|Interop and Source Maps — L513]$ (line 513, col 3, score 1)
-- $[lisp-compiler-integration#L539|Lisp-Compiler-Integration — L539]$ (line 539, col 1, score 1)
-- $[lisp-compiler-integration#L539|Lisp-Compiler-Integration — L539]$ (line 539, col 3, score 1)
-- $[lispy-macros-with-syntax-rules#L400|Lispy Macros with syntax-rules — L400]$ (line 400, col 1, score 1)
-- $[lispy-macros-with-syntax-rules#L400|Lispy Macros with syntax-rules — L400]$ (line 400, col 3, score 1)
-- $komorebi-group-window-hack — L201$$komorebi-group-window-hack.md#L201$ (line 201, col 1, score 1)
-- $komorebi-group-window-hack — L201$$komorebi-group-window-hack.md#L201$ (line 201, col 3, score 1)
-- $[lisp-compiler-integration#L546|Lisp-Compiler-Integration — L546]$ (line 546, col 1, score 1)
-- $[lisp-compiler-integration#L546|Lisp-Compiler-Integration — L546]$ (line 546, col 3, score 1)
-- $[sibilant-meta-string-templating-runtime#L126|sibilant-meta-string-templating-runtime — L126]$ (line 126, col 1, score 1)
-- $[sibilant-meta-string-templating-runtime#L126|sibilant-meta-string-templating-runtime — L126]$ (line 126, col 3, score 1)
-- $[docs/unique/template-based-compilation#L110|template-based-compilation — L110]$ (line 110, col 1, score 1)
-- $[docs/unique/template-based-compilation#L110|template-based-compilation — L110]$ (line 110, col 3, score 1)
-- [DSL — L14]$chunks/dsl.md#L14$ (line 14, col 1, score 1)
-- [DSL — L14]$chunks/dsl.md#L14$ (line 14, col 3, score 1)
-- $[docs/unique/compiler-kit-foundations#L613|compiler-kit-foundations — L613]$ (line 613, col 1, score 1)
-- $[docs/unique/compiler-kit-foundations#L613|compiler-kit-foundations — L613]$ (line 613, col 3, score 1)
-- $lisp-dsl-for-window-management — L218$$lisp-dsl-for-window-management.md#L218$ (line 218, col 1, score 1)
-- $lisp-dsl-for-window-management — L218$$lisp-dsl-for-window-management.md#L218$ (line 218, col 3, score 1)
-- $[mystery-lisp-search-session#L122|mystery-lisp-search-session — L122]$ (line 122, col 1, score 1)
-- $[mystery-lisp-search-session#L122|mystery-lisp-search-session — L122]$ (line 122, col 3, score 1)
-- $[migrate-to-provider-tenant-architecture#L301|Migrate to Provider-Tenant Architecture — L301]$ (line 301, col 1, score 1)
-- $[migrate-to-provider-tenant-architecture#L301|Migrate to Provider-Tenant Architecture — L301]$ (line 301, col 3, score 1)
-- $[prom-lib-rate-limiters-and-replay-api#L399|prom-lib-rate-limiters-and-replay-api — L399]$ (line 399, col 1, score 0.99)
-- $[prom-lib-rate-limiters-and-replay-api#L399|prom-lib-rate-limiters-and-replay-api — L399]$ (line 399, col 3, score 0.99)
-- $[prompt-folder-bootstrap#L197|Prompt_Folder_Bootstrap — L197]$ (line 197, col 1, score 0.99)
-- $[prompt-folder-bootstrap#L197|Prompt_Folder_Bootstrap — L197]$ (line 197, col 3, score 0.99)
-- $[websocket-gateway-implementation#L642|WebSocket Gateway Implementation — L642]$ (line 642, col 1, score 0.98)
-- $[websocket-gateway-implementation#L642|WebSocket Gateway Implementation — L642]$ (line 642, col 3, score 0.98)
-- $[migrate-to-provider-tenant-architecture#L302|Migrate to Provider-Tenant Architecture — L302]$ (line 302, col 1, score 1)
-- $[migrate-to-provider-tenant-architecture#L302|Migrate to Provider-Tenant Architecture — L302]$ (line 302, col 3, score 1)
-- $[prom-lib-rate-limiters-and-replay-api#L400|prom-lib-rate-limiters-and-replay-api — L400]$ (line 400, col 1, score 0.99)
-- $[prom-lib-rate-limiters-and-replay-api#L400|prom-lib-rate-limiters-and-replay-api — L400]$ (line 400, col 3, score 0.99)
-- $[prompt-folder-bootstrap#L198|Prompt_Folder_Bootstrap — L198]$ (line 198, col 1, score 0.99)
-- $[prompt-folder-bootstrap#L198|Prompt_Folder_Bootstrap — L198]$ (line 198, col 3, score 0.99)
-- $[ecs-scheduler-and-prefabs#L402|ecs-scheduler-and-prefabs — L402]$ (line 402, col 1, score 0.93)
-- $[ecs-scheduler-and-prefabs#L402|ecs-scheduler-and-prefabs — L402]$ (line 402, col 3, score 0.93)
-- $[ecs-scheduler-and-prefabs#L401|ecs-scheduler-and-prefabs — L401]$ (line 401, col 1, score 0.92)
-- $[ecs-scheduler-and-prefabs#L401|ecs-scheduler-and-prefabs — L401]$ (line 401, col 3, score 0.92)
-- $[docs/unique/zero-copy-snapshots-and-workers#L370|zero-copy-snapshots-and-workers — L370]$ (line 370, col 1, score 0.92)
-- $[docs/unique/zero-copy-snapshots-and-workers#L370|zero-copy-snapshots-and-workers — L370]$ (line 370, col 3, score 0.92)
-- $[docs/unique/zero-copy-snapshots-and-workers#L369|zero-copy-snapshots-and-workers — L369]$ (line 369, col 1, score 0.91)
-- $[docs/unique/zero-copy-snapshots-and-workers#L369|zero-copy-snapshots-and-workers — L369]$ (line 369, col 3, score 0.91)
-- $heartbeat-simulation-snippets — L102$$heartbeat-simulation-snippets.md#L102$ (line 102, col 1, score 0.97)
-- $heartbeat-simulation-snippets — L102$$heartbeat-simulation-snippets.md#L102$ (line 102, col 3, score 0.97)
-- $[heartbeat-fragment-demo#L113|heartbeat-fragment-demo — L113]$ (line 113, col 1, score 0.96)
-- $[heartbeat-fragment-demo#L113|heartbeat-fragment-demo — L113]$ (line 113, col 3, score 0.96)
-- $heartbeat-simulation-snippets — L101$$heartbeat-simulation-snippets.md#L101$ (line 101, col 1, score 0.96)
-- $heartbeat-simulation-snippets — L101$$heartbeat-simulation-snippets.md#L101$ (line 101, col 3, score 0.96)
-- [Simulation Demo — L18]$chunks/simulation-demo.md#L18$ (line 18, col 1, score 1)
-- [Simulation Demo — L18]$chunks/simulation-demo.md#L18$ (line 18, col 3, score 1)
-- $heartbeat-simulation-snippets — L109$$heartbeat-simulation-snippets.md#L109$ (line 109, col 1, score 0.99)
-- $heartbeat-simulation-snippets — L109$$heartbeat-simulation-snippets.md#L109$ (line 109, col 3, score 0.99)
-- $heartbeat-simulation-snippets — L113$$heartbeat-simulation-snippets.md#L113$ (line 113, col 1, score 0.99)
-- $heartbeat-simulation-snippets — L113$$heartbeat-simulation-snippets.md#L113$ (line 113, col 3, score 0.99)
-- $heartbeat-simulation-snippets — L112$$heartbeat-simulation-snippets.md#L112$ (line 112, col 1, score 0.99)
-- $heartbeat-simulation-snippets — L112$$heartbeat-simulation-snippets.md#L112$ (line 112, col 3, score 0.99)
-- [Simulation Demo — L19]$chunks/simulation-demo.md#L19$ (line 19, col 1, score 1)
-- [Simulation Demo — L19]$chunks/simulation-demo.md#L19$ (line 19, col 3, score 1)
-- $[heartbeat-fragment-demo#L126|heartbeat-fragment-demo — L126]$ (line 126, col 1, score 0.99)
-- $[heartbeat-fragment-demo#L126|heartbeat-fragment-demo — L126]$ (line 126, col 3, score 0.99)
-- $[heartbeat-fragment-demo#L122|heartbeat-fragment-demo — L122]$ (line 122, col 1, score 0.99)
-- $[heartbeat-fragment-demo#L122|heartbeat-fragment-demo — L122]$ (line 122, col 3, score 0.99)
-- $[heartbeat-fragment-demo#L124|heartbeat-fragment-demo — L124]$ (line 124, col 1, score 0.99)
-- $[heartbeat-fragment-demo#L124|heartbeat-fragment-demo — L124]$ (line 124, col 3, score 0.99)
-- $[docs/unique/field-interaction-equations#L162|field-interaction-equations — L162]$ (line 162, col 1, score 0.96)
-- $[docs/unique/field-interaction-equations#L162|field-interaction-equations — L162]$ (line 162, col 3, score 0.96)
-- $[docs/unique/field-interaction-equations#L163|field-interaction-equations — L163]$ (line 163, col 1, score 0.95)
-- $[docs/unique/field-interaction-equations#L163|field-interaction-equations — L163]$ (line 163, col 3, score 0.95)
-- $[docs/unique/field-dynamics-math-blocks#L155|field-dynamics-math-blocks — L155]$ (line 155, col 1, score 0.94)
-- $[docs/unique/field-dynamics-math-blocks#L155|field-dynamics-math-blocks — L155]$ (line 155, col 3, score 0.94)
-- $[homeostasis-decay-formulas#L164|homeostasis-decay-formulas — L164]$ (line 164, col 1, score 0.93)
-- $[homeostasis-decay-formulas#L164|homeostasis-decay-formulas — L164]$ (line 164, col 3, score 0.93)
-- [Math Fundamentals — L21]$chunks/math-fundamentals.md#L21$ (line 21, col 1, score 1)
-- [Math Fundamentals — L21]$chunks/math-fundamentals.md#L21$ (line 21, col 3, score 1)
-- $[docs/unique/eidolon-field-math-foundations#L152|eidolon-field-math-foundations — L152]$ (line 152, col 1, score 0.99)
-- $[docs/unique/eidolon-field-math-foundations#L152|eidolon-field-math-foundations — L152]$ (line 152, col 3, score 0.99)
-- $[docs/unique/template-based-compilation#L129|template-based-compilation — L129]$ (line 129, col 1, score 0.99)
-- $[docs/unique/template-based-compilation#L129|template-based-compilation — L129]$ (line 129, col 3, score 0.99)
-- $[docs/unique/aionian-circuit-math#L176|aionian-circuit-math — L176]$ (line 176, col 1, score 0.99)
-- $[docs/unique/aionian-circuit-math#L176|aionian-circuit-math — L176]$ (line 176, col 3, score 0.99)
-- $[homeostasis-decay-formulas#L163|homeostasis-decay-formulas — L163]$ (line 163, col 1, score 0.96)
-- $[homeostasis-decay-formulas#L163|homeostasis-decay-formulas — L163]$ (line 163, col 3, score 0.96)
-- $[docs/unique/field-dynamics-math-blocks#L154|field-dynamics-math-blocks — L154]$ (line 154, col 1, score 0.93)
-- $[docs/unique/field-dynamics-math-blocks#L154|field-dynamics-math-blocks — L154]$ (line 154, col 3, score 0.93)
-- [Math Fundamentals — L24]$chunks/math-fundamentals.md#L24$ (line 24, col 1, score 1)
-- [Math Fundamentals — L24]$chunks/math-fundamentals.md#L24$ (line 24, col 3, score 1)
-- $[docs/unique/aionian-circuit-math#L163|aionian-circuit-math — L163]$ (line 163, col 1, score 0.99)
-- $[docs/unique/aionian-circuit-math#L163|aionian-circuit-math — L163]$ (line 163, col 3, score 0.99)
-- $[docs/unique/aionian-circuit-math#L174|aionian-circuit-math — L174]$ (line 174, col 1, score 0.99)
-- $[docs/unique/aionian-circuit-math#L174|aionian-circuit-math — L174]$ (line 174, col 3, score 0.99)
-- $[docs/unique/field-dynamics-math-blocks#L166|field-dynamics-math-blocks — L166]$ (line 166, col 1, score 0.98)
-- $[docs/unique/field-dynamics-math-blocks#L166|field-dynamics-math-blocks — L166]$ (line 166, col 3, score 0.98)
-- $[docs/unique/eidolon-field-math-foundations#L140|eidolon-field-math-foundations — L140]$ (line 140, col 1, score 0.96)
-- $[docs/unique/eidolon-field-math-foundations#L140|eidolon-field-math-foundations — L140]$ (line 140, col 3, score 0.96)
-- $[docs/unique/eidolon-field-math-foundations#L141|eidolon-field-math-foundations — L141]$ (line 141, col 1, score 0.94)
-- $[docs/unique/eidolon-field-math-foundations#L141|eidolon-field-math-foundations — L141]$ (line 141, col 3, score 0.94)
-- [Math Fundamentals — L27]$chunks/math-fundamentals.md#L27$ (line 27, col 1, score 1)
-- [Math Fundamentals — L27]$chunks/math-fundamentals.md#L27$ (line 27, col 3, score 1)
-- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L147|Agent Tasks: Persistence Migration to DualStore — L147]$ (line 147, col 1, score 0.98)
-- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L147|Agent Tasks: Persistence Migration to DualStore — L147]$ (line 147, col 3, score 0.98)
-- $[docs/unique/ecs-offload-workers#L477|ecs-offload-workers — L477]$ (line 477, col 1, score 0.98)
-- $[docs/unique/ecs-offload-workers#L477|ecs-offload-workers — L477]$ (line 477, col 3, score 0.98)
-- $[ecs-scheduler-and-prefabs#L427|ecs-scheduler-and-prefabs — L427]$ (line 427, col 1, score 0.98)
-- $[ecs-scheduler-and-prefabs#L427|ecs-scheduler-and-prefabs — L427]$ (line 427, col 3, score 0.98)
-- [Math Fundamentals — L30]$chunks/math-fundamentals.md#L30$ (line 30, col 1, score 1)
-- [Math Fundamentals — L30]$chunks/math-fundamentals.md#L30$ (line 30, col 3, score 1)
+- [Services — L11]chunks/services.md#L11 (line 11, col 1, score 1)
+- [Services — L11]chunks/services.md#L11 (line 11, col 3, score 1)
+- [docs/unique/event-bus-mvp#L554|Event Bus MVP — L554] (line 554, col 1, score 1)
+- [docs/unique/event-bus-mvp#L554|Event Bus MVP — L554] (line 554, col 3, score 1)
+- [mongo-outbox-implementation#L553|Mongo Outbox Implementation — L553] (line 553, col 1, score 1)
+- [mongo-outbox-implementation#L553|Mongo Outbox Implementation — L553] (line 553, col 3, score 1)
+- [prom-lib-rate-limiters-and-replay-api#L382|prom-lib-rate-limiters-and-replay-api — L382] (line 382, col 1, score 1)
+- [prom-lib-rate-limiters-and-replay-api#L382|prom-lib-rate-limiters-and-replay-api — L382] (line 382, col 3, score 1)
+- [Simulation Demo — L9]chunks/simulation-demo.md#L9 (line 9, col 1, score 1)
+- [Simulation Demo — L9]chunks/simulation-demo.md#L9 (line 9, col 3, score 1)
+- [eidolon-field-abstract-model#L201|Eidolon Field Abstract Model — L201] (line 201, col 1, score 1)
+- [eidolon-field-abstract-model#L201|Eidolon Field Abstract Model — L201] (line 201, col 3, score 1)
+- [eidolon-node-lifecycle#L37|eidolon-node-lifecycle — L37] (line 37, col 1, score 1)
+- [eidolon-node-lifecycle#L37|eidolon-node-lifecycle — L37] (line 37, col 3, score 1)
+- [field-node-diagram-outline#L115|field-node-diagram-outline — L115] (line 115, col 1, score 1)
+- [field-node-diagram-outline#L115|field-node-diagram-outline — L115] (line 115, col 3, score 1)
+- [Simulation Demo — L10]chunks/simulation-demo.md#L10 (line 10, col 1, score 1)
+- [Simulation Demo — L10]chunks/simulation-demo.md#L10 (line 10, col 3, score 1)
+- [eidolon-field-abstract-model#L200|Eidolon Field Abstract Model — L200] (line 200, col 1, score 1)
+- [eidolon-field-abstract-model#L200|Eidolon Field Abstract Model — L200] (line 200, col 3, score 1)
+- [eidolon-node-lifecycle#L38|eidolon-node-lifecycle — L38] (line 38, col 1, score 1)
+- [eidolon-node-lifecycle#L38|eidolon-node-lifecycle — L38] (line 38, col 3, score 1)
+- [field-node-diagram-outline#L116|field-node-diagram-outline — L116] (line 116, col 1, score 1)
+- [field-node-diagram-outline#L116|field-node-diagram-outline — L116] (line 116, col 3, score 1)
+- [Math Fundamentals — L16]chunks/math-fundamentals.md#L16 (line 16, col 1, score 1)
+- [Math Fundamentals — L16]chunks/math-fundamentals.md#L16 (line 16, col 3, score 1)
+- [docs/unique/eidolon-field-math-foundations#L125|eidolon-field-math-foundations — L125] (line 125, col 1, score 1)
+- [docs/unique/eidolon-field-math-foundations#L125|eidolon-field-math-foundations — L125] (line 125, col 3, score 1)
+- [docs/unique/field-dynamics-math-blocks#L142|field-dynamics-math-blocks — L142] (line 142, col 1, score 1)
+- [docs/unique/field-dynamics-math-blocks#L142|field-dynamics-math-blocks — L142] (line 142, col 3, score 1)
+- [docs/unique/field-interaction-equations#L154|field-interaction-equations — L154] (line 154, col 1, score 1)
+- [docs/unique/field-interaction-equations#L154|field-interaction-equations — L154] (line 154, col 3, score 1)
+- [Diagrams — L11]chunks/diagrams.md#L11 (line 11, col 1, score 1)
+- [Diagrams — L11]chunks/diagrams.md#L11 (line 11, col 3, score 1)
+- [ghostly-smoke-interference#L114|Ghostly Smoke Interference — L114] (line 114, col 1, score 1)
+- [ghostly-smoke-interference#L114|Ghostly Smoke Interference — L114] (line 114, col 3, score 1)
+- [promethean-eidolon-synchronicity-model#L55|Promethean_Eidolon_Synchronicity_Model — L55] (line 55, col 1, score 1)
+- [promethean-eidolon-synchronicity-model#L55|Promethean_Eidolon_Synchronicity_Model — L55] (line 55, col 3, score 1)
+- [smoke-resonance-visualizations#L79|Smoke Resonance Visualizations — L79] (line 79, col 1, score 1)
+- [smoke-resonance-visualizations#L79|Smoke Resonance Visualizations — L79] (line 79, col 3, score 1)
+- [Services — L12]chunks/services.md#L12 (line 12, col 1, score 1)
+- [Services — L12]chunks/services.md#L12 (line 12, col 3, score 1)
+- [cross-language-runtime-polymorphism#L211|Cross-Language Runtime Polymorphism — L211] (line 211, col 1, score 1)
+- [cross-language-runtime-polymorphism#L211|Cross-Language Runtime Polymorphism — L211] (line 211, col 3, score 1)
+- [docs/unique/event-bus-mvp#L550|Event Bus MVP — L550] (line 550, col 1, score 1)
+- [docs/unique/event-bus-mvp#L550|Event Bus MVP — L550] (line 550, col 3, score 1)
+- [mongo-outbox-implementation#L554|Mongo Outbox Implementation — L554] (line 554, col 1, score 1)
+- [mongo-outbox-implementation#L554|Mongo Outbox Implementation — L554] (line 554, col 3, score 1)
+- [Simulation Demo — L11]chunks/simulation-demo.md#L11 (line 11, col 1, score 1)
+- [Simulation Demo — L11]chunks/simulation-demo.md#L11 (line 11, col 3, score 1)
+- [eidolon-field-abstract-model#L199|Eidolon Field Abstract Model — L199] (line 199, col 1, score 1)
+- [eidolon-field-abstract-model#L199|Eidolon Field Abstract Model — L199] (line 199, col 3, score 1)
+- [eidolon-field-optimization#L103|Eidolon-Field-Optimization — L103] (line 103, col 1, score 1)
+- [eidolon-field-optimization#L103|Eidolon-Field-Optimization — L103] (line 103, col 3, score 1)
+- [eidolon-node-lifecycle#L39|eidolon-node-lifecycle — L39] (line 39, col 1, score 1)
+- [eidolon-node-lifecycle#L39|eidolon-node-lifecycle — L39] (line 39, col 3, score 1)
+- [Diagrams — L12]chunks/diagrams.md#L12 (line 12, col 1, score 1)
+- [Diagrams — L12]chunks/diagrams.md#L12 (line 12, col 3, score 1)
+- [eidolon-node-lifecycle#L40|eidolon-node-lifecycle — L40] (line 40, col 1, score 1)
+- [eidolon-node-lifecycle#L40|eidolon-node-lifecycle — L40] (line 40, col 3, score 1)
+- [layer-1-uptime-diagrams#L172|layer-1-uptime-diagrams — L172] (line 172, col 1, score 1)
+- [layer-1-uptime-diagrams#L172|layer-1-uptime-diagrams — L172] (line 172, col 3, score 1)
+- [Promethean Event Bus MVP v0.1 — L887]promethean-event-bus-mvp-v0-1.md#L887 (line 887, col 1, score 1)
+- [Promethean Event Bus MVP v0.1 — L887]promethean-event-bus-mvp-v0-1.md#L887 (line 887, col 3, score 1)
+- [Services — L13]chunks/services.md#L13 (line 13, col 1, score 1)
+- [Services — L13]chunks/services.md#L13 (line 13, col 3, score 1)
+- [docs/unique/ecs-offload-workers#L467|ecs-offload-workers — L467] (line 467, col 1, score 1)
+- [docs/unique/ecs-offload-workers#L467|ecs-offload-workers — L467] (line 467, col 3, score 1)
+- [docs/unique/event-bus-mvp#L549|Event Bus MVP — L549] (line 549, col 1, score 1)
+- [docs/unique/event-bus-mvp#L549|Event Bus MVP — L549] (line 549, col 3, score 1)
+- [observability-infrastructure-setup#L364|observability-infrastructure-setup — L364] (line 364, col 1, score 1)
+- [observability-infrastructure-setup#L364|observability-infrastructure-setup — L364] (line 364, col 3, score 1)
+- [Services — L14]chunks/services.md#L14 (line 14, col 1, score 1)
+- [Services — L14]chunks/services.md#L14 (line 14, col 3, score 1)
+- [docs/unique/event-bus-mvp#L553|Event Bus MVP — L553] (line 553, col 1, score 1)
+- [docs/unique/event-bus-mvp#L553|Event Bus MVP — L553] (line 553, col 3, score 1)
+- [mongo-outbox-implementation#L559|Mongo Outbox Implementation — L559] (line 559, col 1, score 1)
+- [mongo-outbox-implementation#L559|Mongo Outbox Implementation — L559] (line 559, col 3, score 1)
+- [prom-lib-rate-limiters-and-replay-api#L388|prom-lib-rate-limiters-and-replay-api — L388] (line 388, col 1, score 1)
+- [prom-lib-rate-limiters-and-replay-api#L388|prom-lib-rate-limiters-and-replay-api — L388] (line 388, col 3, score 1)
+- [docs/unique/archetype-ecs#L460|archetype-ecs — L460] (line 460, col 1, score 1)
+- [docs/unique/archetype-ecs#L460|archetype-ecs — L460] (line 460, col 3, score 1)
+- [JavaScript — L15]chunks/javascript.md#L15 (line 15, col 1, score 1)
+- [JavaScript — L15]chunks/javascript.md#L15 (line 15, col 3, score 1)
+- [ecs-scheduler-and-prefabs#L388|ecs-scheduler-and-prefabs — L388] (line 388, col 1, score 1)
+- [ecs-scheduler-and-prefabs#L388|ecs-scheduler-and-prefabs — L388] (line 388, col 3, score 1)
+- [docs/unique/eidolon-field-math-foundations#L129|eidolon-field-math-foundations — L129] (line 129, col 1, score 1)
+- [docs/unique/eidolon-field-math-foundations#L129|eidolon-field-math-foundations — L129] (line 129, col 3, score 1)
+- [DSL — L11]chunks/dsl.md#L11 (line 11, col 1, score 1)
+- [DSL — L11]chunks/dsl.md#L11 (line 11, col 3, score 1)
+- [docs/unique/compiler-kit-foundations#L606|compiler-kit-foundations — L606] (line 606, col 1, score 1)
+- [docs/unique/compiler-kit-foundations#L606|compiler-kit-foundations — L606] (line 606, col 3, score 1)
+- [js-to-lisp-reverse-compiler#L422|js-to-lisp-reverse-compiler — L422] (line 422, col 1, score 1)
+- [js-to-lisp-reverse-compiler#L422|js-to-lisp-reverse-compiler — L422] (line 422, col 3, score 1)
+- [language-agnostic-mirror-system#L534|Language-Agnostic Mirror System — L534] (line 534, col 1, score 1)
+- [language-agnostic-mirror-system#L534|Language-Agnostic Mirror System — L534] (line 534, col 3, score 1)
+- [event-bus-projections-architecture#L152|Event Bus Projections Architecture — L152] (line 152, col 1, score 1)
+- [event-bus-projections-architecture#L152|Event Bus Projections Architecture — L152] (line 152, col 3, score 1)
+- [factorio-ai-with-external-agents#L146|Factorio AI with External Agents — L146] (line 146, col 1, score 1)
+- [factorio-ai-with-external-agents#L146|Factorio AI with External Agents — L146] (line 146, col 3, score 1)
+- [field-node-diagram-outline#L102|field-node-diagram-outline — L102] (line 102, col 1, score 1)
+- [field-node-diagram-outline#L102|field-node-diagram-outline — L102] (line 102, col 3, score 1)
+- [field-node-diagram-set#L138|field-node-diagram-set — L138] (line 138, col 1, score 1)
+- [field-node-diagram-set#L138|field-node-diagram-set — L138] (line 138, col 3, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L131|Agent Tasks: Persistence Migration to DualStore — L131] (line 131, col 1, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L131|Agent Tasks: Persistence Migration to DualStore — L131] (line 131, col 3, score 1)
+- [chroma-toolkit-consolidation-plan#L169|Chroma Toolkit Consolidation Plan — L169] (line 169, col 1, score 1)
+- [chroma-toolkit-consolidation-plan#L169|Chroma Toolkit Consolidation Plan — L169] (line 169, col 3, score 1)
+- [cross-target-macro-system-in-sibilant#L175|Cross-Target Macro System in Sibilant — L175] (line 175, col 1, score 1)
+- [cross-target-macro-system-in-sibilant#L175|Cross-Target Macro System in Sibilant — L175] (line 175, col 3, score 1)
+- [dynamic-context-model-for-web-components#L392|Dynamic Context Model for Web Components — L392] (line 392, col 1, score 1)
+- [dynamic-context-model-for-web-components#L392|Dynamic Context Model for Web Components — L392] (line 392, col 3, score 1)
+- [JavaScript — L16]chunks/javascript.md#L16 (line 16, col 1, score 1)
+- [JavaScript — L16]chunks/javascript.md#L16 (line 16, col 3, score 1)
+- [docs/unique/ecs-offload-workers#L466|ecs-offload-workers — L466] (line 466, col 1, score 1)
+- [docs/unique/ecs-offload-workers#L466|ecs-offload-workers — L466] (line 466, col 3, score 1)
+- [ecs-scheduler-and-prefabs#L394|ecs-scheduler-and-prefabs — L394] (line 394, col 1, score 1)
+- [ecs-scheduler-and-prefabs#L394|ecs-scheduler-and-prefabs — L394] (line 394, col 3, score 1)
+- [graph-ds#L367|graph-ds — L367] (line 367, col 1, score 1)
+- [graph-ds#L367|graph-ds — L367] (line 367, col 3, score 1)
+- [JavaScript — L17]chunks/javascript.md#L17 (line 17, col 1, score 1)
+- [JavaScript — L17]chunks/javascript.md#L17 (line 17, col 3, score 1)
+- [docs/unique/compiler-kit-foundations#L614|compiler-kit-foundations — L614] (line 614, col 1, score 1)
+- [docs/unique/compiler-kit-foundations#L614|compiler-kit-foundations — L614] (line 614, col 3, score 1)
+- [graph-ds#L369|graph-ds — L369] (line 369, col 1, score 1)
+- [graph-ds#L369|graph-ds — L369] (line 369, col 3, score 1)
+- [docs/unique/template-based-compilation#L117|template-based-compilation — L117] (line 117, col 1, score 1)
+- [docs/unique/template-based-compilation#L117|template-based-compilation — L117] (line 117, col 3, score 1)
+- [docs/unique/aionian-circuit-math#L155|aionian-circuit-math — L155] (line 155, col 1, score 1)
+- [docs/unique/aionian-circuit-math#L155|aionian-circuit-math — L155] (line 155, col 3, score 1)
+- [docs/unique/compiler-kit-foundations#L609|compiler-kit-foundations — L609] (line 609, col 1, score 1)
+- [docs/unique/compiler-kit-foundations#L609|compiler-kit-foundations — L609] (line 609, col 3, score 1)
+- [cross-language-runtime-polymorphism#L203|Cross-Language Runtime Polymorphism — L203] (line 203, col 1, score 1)
+- [cross-language-runtime-polymorphism#L203|Cross-Language Runtime Polymorphism — L203] (line 203, col 3, score 1)
+- [cross-target-macro-system-in-sibilant#L168|Cross-Target Macro System in Sibilant — L168] (line 168, col 1, score 1)
+- [cross-target-macro-system-in-sibilant#L168|Cross-Target Macro System in Sibilant — L168] (line 168, col 3, score 1)
+- [DSL — L12]chunks/dsl.md#L12 (line 12, col 1, score 1)
+- [DSL — L12]chunks/dsl.md#L12 (line 12, col 3, score 1)
+- komorebi-group-window-hack — L200$komorebi-group-window-hack.md#L200 (line 200, col 1, score 1)
+- komorebi-group-window-hack — L200$komorebi-group-window-hack.md#L200 (line 200, col 3, score 1)
+- [Tooling — L10]chunks/tooling.md#L10 (line 10, col 1, score 1)
+- [Tooling — L10]chunks/tooling.md#L10 (line 10, col 3, score 1)
+- [Diagrams — L13]chunks/diagrams.md#L13 (line 13, col 1, score 1)
+- [Diagrams — L13]chunks/diagrams.md#L13 (line 13, col 3, score 1)
+- [DSL — L13]chunks/dsl.md#L13 (line 13, col 1, score 1)
+- [DSL — L13]chunks/dsl.md#L13 (line 13, col 3, score 1)
+- [docs/unique/interop-and-source-maps#L513|Interop and Source Maps — L513] (line 513, col 1, score 1)
+- [docs/unique/interop-and-source-maps#L513|Interop and Source Maps — L513] (line 513, col 3, score 1)
+- [lisp-compiler-integration#L539|Lisp-Compiler-Integration — L539] (line 539, col 1, score 1)
+- [lisp-compiler-integration#L539|Lisp-Compiler-Integration — L539] (line 539, col 3, score 1)
+- [lispy-macros-with-syntax-rules#L400|Lispy Macros with syntax-rules — L400] (line 400, col 1, score 1)
+- [lispy-macros-with-syntax-rules#L400|Lispy Macros with syntax-rules — L400] (line 400, col 3, score 1)
+- komorebi-group-window-hack — L201$komorebi-group-window-hack.md#L201 (line 201, col 1, score 1)
+- komorebi-group-window-hack — L201$komorebi-group-window-hack.md#L201 (line 201, col 3, score 1)
+- [lisp-compiler-integration#L546|Lisp-Compiler-Integration — L546] (line 546, col 1, score 1)
+- [lisp-compiler-integration#L546|Lisp-Compiler-Integration — L546] (line 546, col 3, score 1)
+- [sibilant-meta-string-templating-runtime#L126|sibilant-meta-string-templating-runtime — L126] (line 126, col 1, score 1)
+- [sibilant-meta-string-templating-runtime#L126|sibilant-meta-string-templating-runtime — L126] (line 126, col 3, score 1)
+- [docs/unique/template-based-compilation#L110|template-based-compilation — L110] (line 110, col 1, score 1)
+- [docs/unique/template-based-compilation#L110|template-based-compilation — L110] (line 110, col 3, score 1)
+- [DSL — L14]chunks/dsl.md#L14 (line 14, col 1, score 1)
+- [DSL — L14]chunks/dsl.md#L14 (line 14, col 3, score 1)
+- [docs/unique/compiler-kit-foundations#L613|compiler-kit-foundations — L613] (line 613, col 1, score 1)
+- [docs/unique/compiler-kit-foundations#L613|compiler-kit-foundations — L613] (line 613, col 3, score 1)
+- lisp-dsl-for-window-management — L218$lisp-dsl-for-window-management.md#L218 (line 218, col 1, score 1)
+- lisp-dsl-for-window-management — L218$lisp-dsl-for-window-management.md#L218 (line 218, col 3, score 1)
+- [mystery-lisp-search-session#L122|mystery-lisp-search-session — L122] (line 122, col 1, score 1)
+- [mystery-lisp-search-session#L122|mystery-lisp-search-session — L122] (line 122, col 3, score 1)
+- [migrate-to-provider-tenant-architecture#L301|Migrate to Provider-Tenant Architecture — L301] (line 301, col 1, score 1)
+- [migrate-to-provider-tenant-architecture#L301|Migrate to Provider-Tenant Architecture — L301] (line 301, col 3, score 1)
+- [prom-lib-rate-limiters-and-replay-api#L399|prom-lib-rate-limiters-and-replay-api — L399] (line 399, col 1, score 0.99)
+- [prom-lib-rate-limiters-and-replay-api#L399|prom-lib-rate-limiters-and-replay-api — L399] (line 399, col 3, score 0.99)
+- [prompt-folder-bootstrap#L197|Prompt_Folder_Bootstrap — L197] (line 197, col 1, score 0.99)
+- [prompt-folder-bootstrap#L197|Prompt_Folder_Bootstrap — L197] (line 197, col 3, score 0.99)
+- [websocket-gateway-implementation#L642|WebSocket Gateway Implementation — L642] (line 642, col 1, score 0.98)
+- [websocket-gateway-implementation#L642|WebSocket Gateway Implementation — L642] (line 642, col 3, score 0.98)
+- [migrate-to-provider-tenant-architecture#L302|Migrate to Provider-Tenant Architecture — L302] (line 302, col 1, score 1)
+- [migrate-to-provider-tenant-architecture#L302|Migrate to Provider-Tenant Architecture — L302] (line 302, col 3, score 1)
+- [prom-lib-rate-limiters-and-replay-api#L400|prom-lib-rate-limiters-and-replay-api — L400] (line 400, col 1, score 0.99)
+- [prom-lib-rate-limiters-and-replay-api#L400|prom-lib-rate-limiters-and-replay-api — L400] (line 400, col 3, score 0.99)
+- [prompt-folder-bootstrap#L198|Prompt_Folder_Bootstrap — L198] (line 198, col 1, score 0.99)
+- [prompt-folder-bootstrap#L198|Prompt_Folder_Bootstrap — L198] (line 198, col 3, score 0.99)
+- [ecs-scheduler-and-prefabs#L402|ecs-scheduler-and-prefabs — L402] (line 402, col 1, score 0.93)
+- [ecs-scheduler-and-prefabs#L402|ecs-scheduler-and-prefabs — L402] (line 402, col 3, score 0.93)
+- [ecs-scheduler-and-prefabs#L401|ecs-scheduler-and-prefabs — L401] (line 401, col 1, score 0.92)
+- [ecs-scheduler-and-prefabs#L401|ecs-scheduler-and-prefabs — L401] (line 401, col 3, score 0.92)
+- [docs/unique/zero-copy-snapshots-and-workers#L370|zero-copy-snapshots-and-workers — L370] (line 370, col 1, score 0.92)
+- [docs/unique/zero-copy-snapshots-and-workers#L370|zero-copy-snapshots-and-workers — L370] (line 370, col 3, score 0.92)
+- [docs/unique/zero-copy-snapshots-and-workers#L369|zero-copy-snapshots-and-workers — L369] (line 369, col 1, score 0.91)
+- [docs/unique/zero-copy-snapshots-and-workers#L369|zero-copy-snapshots-and-workers — L369] (line 369, col 3, score 0.91)
+- heartbeat-simulation-snippets — L102$heartbeat-simulation-snippets.md#L102 (line 102, col 1, score 0.97)
+- heartbeat-simulation-snippets — L102$heartbeat-simulation-snippets.md#L102 (line 102, col 3, score 0.97)
+- [heartbeat-fragment-demo#L113|heartbeat-fragment-demo — L113] (line 113, col 1, score 0.96)
+- [heartbeat-fragment-demo#L113|heartbeat-fragment-demo — L113] (line 113, col 3, score 0.96)
+- heartbeat-simulation-snippets — L101$heartbeat-simulation-snippets.md#L101 (line 101, col 1, score 0.96)
+- heartbeat-simulation-snippets — L101$heartbeat-simulation-snippets.md#L101 (line 101, col 3, score 0.96)
+- [Simulation Demo — L18]chunks/simulation-demo.md#L18 (line 18, col 1, score 1)
+- [Simulation Demo — L18]chunks/simulation-demo.md#L18 (line 18, col 3, score 1)
+- heartbeat-simulation-snippets — L109$heartbeat-simulation-snippets.md#L109 (line 109, col 1, score 0.99)
+- heartbeat-simulation-snippets — L109$heartbeat-simulation-snippets.md#L109 (line 109, col 3, score 0.99)
+- heartbeat-simulation-snippets — L113$heartbeat-simulation-snippets.md#L113 (line 113, col 1, score 0.99)
+- heartbeat-simulation-snippets — L113$heartbeat-simulation-snippets.md#L113 (line 113, col 3, score 0.99)
+- heartbeat-simulation-snippets — L112$heartbeat-simulation-snippets.md#L112 (line 112, col 1, score 0.99)
+- heartbeat-simulation-snippets — L112$heartbeat-simulation-snippets.md#L112 (line 112, col 3, score 0.99)
+- [Simulation Demo — L19]chunks/simulation-demo.md#L19 (line 19, col 1, score 1)
+- [Simulation Demo — L19]chunks/simulation-demo.md#L19 (line 19, col 3, score 1)
+- [heartbeat-fragment-demo#L126|heartbeat-fragment-demo — L126] (line 126, col 1, score 0.99)
+- [heartbeat-fragment-demo#L126|heartbeat-fragment-demo — L126] (line 126, col 3, score 0.99)
+- [heartbeat-fragment-demo#L122|heartbeat-fragment-demo — L122] (line 122, col 1, score 0.99)
+- [heartbeat-fragment-demo#L122|heartbeat-fragment-demo — L122] (line 122, col 3, score 0.99)
+- [heartbeat-fragment-demo#L124|heartbeat-fragment-demo — L124] (line 124, col 1, score 0.99)
+- [heartbeat-fragment-demo#L124|heartbeat-fragment-demo — L124] (line 124, col 3, score 0.99)
+- [docs/unique/field-interaction-equations#L162|field-interaction-equations — L162] (line 162, col 1, score 0.96)
+- [docs/unique/field-interaction-equations#L162|field-interaction-equations — L162] (line 162, col 3, score 0.96)
+- [docs/unique/field-interaction-equations#L163|field-interaction-equations — L163] (line 163, col 1, score 0.95)
+- [docs/unique/field-interaction-equations#L163|field-interaction-equations — L163] (line 163, col 3, score 0.95)
+- [docs/unique/field-dynamics-math-blocks#L155|field-dynamics-math-blocks — L155] (line 155, col 1, score 0.94)
+- [docs/unique/field-dynamics-math-blocks#L155|field-dynamics-math-blocks — L155] (line 155, col 3, score 0.94)
+- [homeostasis-decay-formulas#L164|homeostasis-decay-formulas — L164] (line 164, col 1, score 0.93)
+- [homeostasis-decay-formulas#L164|homeostasis-decay-formulas — L164] (line 164, col 3, score 0.93)
+- [Math Fundamentals — L21]chunks/math-fundamentals.md#L21 (line 21, col 1, score 1)
+- [Math Fundamentals — L21]chunks/math-fundamentals.md#L21 (line 21, col 3, score 1)
+- [docs/unique/eidolon-field-math-foundations#L152|eidolon-field-math-foundations — L152] (line 152, col 1, score 0.99)
+- [docs/unique/eidolon-field-math-foundations#L152|eidolon-field-math-foundations — L152] (line 152, col 3, score 0.99)
+- [docs/unique/template-based-compilation#L129|template-based-compilation — L129] (line 129, col 1, score 0.99)
+- [docs/unique/template-based-compilation#L129|template-based-compilation — L129] (line 129, col 3, score 0.99)
+- [docs/unique/aionian-circuit-math#L176|aionian-circuit-math — L176] (line 176, col 1, score 0.99)
+- [docs/unique/aionian-circuit-math#L176|aionian-circuit-math — L176] (line 176, col 3, score 0.99)
+- [homeostasis-decay-formulas#L163|homeostasis-decay-formulas — L163] (line 163, col 1, score 0.96)
+- [homeostasis-decay-formulas#L163|homeostasis-decay-formulas — L163] (line 163, col 3, score 0.96)
+- [docs/unique/field-dynamics-math-blocks#L154|field-dynamics-math-blocks — L154] (line 154, col 1, score 0.93)
+- [docs/unique/field-dynamics-math-blocks#L154|field-dynamics-math-blocks — L154] (line 154, col 3, score 0.93)
+- [Math Fundamentals — L24]chunks/math-fundamentals.md#L24 (line 24, col 1, score 1)
+- [Math Fundamentals — L24]chunks/math-fundamentals.md#L24 (line 24, col 3, score 1)
+- [docs/unique/aionian-circuit-math#L163|aionian-circuit-math — L163] (line 163, col 1, score 0.99)
+- [docs/unique/aionian-circuit-math#L163|aionian-circuit-math — L163] (line 163, col 3, score 0.99)
+- [docs/unique/aionian-circuit-math#L174|aionian-circuit-math — L174] (line 174, col 1, score 0.99)
+- [docs/unique/aionian-circuit-math#L174|aionian-circuit-math — L174] (line 174, col 3, score 0.99)
+- [docs/unique/field-dynamics-math-blocks#L166|field-dynamics-math-blocks — L166] (line 166, col 1, score 0.98)
+- [docs/unique/field-dynamics-math-blocks#L166|field-dynamics-math-blocks — L166] (line 166, col 3, score 0.98)
+- [docs/unique/eidolon-field-math-foundations#L140|eidolon-field-math-foundations — L140] (line 140, col 1, score 0.96)
+- [docs/unique/eidolon-field-math-foundations#L140|eidolon-field-math-foundations — L140] (line 140, col 3, score 0.96)
+- [docs/unique/eidolon-field-math-foundations#L141|eidolon-field-math-foundations — L141] (line 141, col 1, score 0.94)
+- [docs/unique/eidolon-field-math-foundations#L141|eidolon-field-math-foundations — L141] (line 141, col 3, score 0.94)
+- [Math Fundamentals — L27]chunks/math-fundamentals.md#L27 (line 27, col 1, score 1)
+- [Math Fundamentals — L27]chunks/math-fundamentals.md#L27 (line 27, col 3, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L147|Agent Tasks: Persistence Migration to DualStore — L147] (line 147, col 1, score 0.98)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L147|Agent Tasks: Persistence Migration to DualStore — L147] (line 147, col 3, score 0.98)
+- [docs/unique/ecs-offload-workers#L477|ecs-offload-workers — L477] (line 477, col 1, score 0.98)
+- [docs/unique/ecs-offload-workers#L477|ecs-offload-workers — L477] (line 477, col 3, score 0.98)
+- [ecs-scheduler-and-prefabs#L427|ecs-scheduler-and-prefabs — L427] (line 427, col 1, score 0.98)
+- [ecs-scheduler-and-prefabs#L427|ecs-scheduler-and-prefabs — L427] (line 427, col 3, score 0.98)
+- [Math Fundamentals — L30]chunks/math-fundamentals.md#L30 (line 30, col 1, score 1)
+- [Math Fundamentals — L30]chunks/math-fundamentals.md#L30 (line 30, col 3, score 1)
 - [[eidolonfield#L264|EidolonField — L264]] (line 264, col 1, score 0.98)
 - [[eidolonfield#L264|EidolonField — L264]] (line 264, col 3, score 0.98)
-- $[ice-box-reorganization#L84|Ice Box Reorganization — L84]$ (line 84, col 1, score 0.98)
-- $[ice-box-reorganization#L84|Ice Box Reorganization — L84]$ (line 84, col 3, score 0.98)
-- $[2d-sandbox-field#L212|2d-sandbox-field — L212]$ (line 212, col 1, score 0.98)
-- $[2d-sandbox-field#L212|2d-sandbox-field — L212]$ (line 212, col 3, score 0.98)
-- $[infinite-depth-smoke-animation#L94|infinite_depth_smoke_animation — L94]$ (line 94, col 1, score 0.92)
-- $[infinite-depth-smoke-animation#L94|infinite_depth_smoke_animation — L94]$ (line 94, col 3, score 0.92)
-- $[infinite-depth-smoke-animation#L93|infinite_depth_smoke_animation — L93]$ (line 93, col 1, score 0.91)
-- $[infinite-depth-smoke-animation#L93|infinite_depth_smoke_animation — L93]$ (line 93, col 3, score 0.91)
-- [Diagrams — L20]$chunks/diagrams.md#L20$ (line 20, col 1, score 1)
-- [Diagrams — L20]$chunks/diagrams.md#L20$ (line 20, col 3, score 1)
-- $[state-snapshots-api-and-transactional-projector#L346|State Snapshots API and Transactional Projector — L346]$ (line 346, col 1, score 0.94)
-- $[state-snapshots-api-and-transactional-projector#L346|State Snapshots API and Transactional Projector — L346]$ (line 346, col 3, score 0.94)
-- $[state-snapshots-api-and-transactional-projector#L345|State Snapshots API and Transactional Projector — L345]$ (line 345, col 1, score 0.94)
-- $[state-snapshots-api-and-transactional-projector#L345|State Snapshots API and Transactional Projector — L345]$ (line 345, col 3, score 0.94)
-- [Services — L25]$chunks/services.md#L25$ (line 25, col 1, score 1)
-- [Services — L25]$chunks/services.md#L25$ (line 25, col 3, score 1)
-- $[prom-lib-rate-limiters-and-replay-api#L397|prom-lib-rate-limiters-and-replay-api — L397]$ (line 397, col 1, score 0.99)
-- $[prom-lib-rate-limiters-and-replay-api#L397|prom-lib-rate-limiters-and-replay-api — L397]$ (line 397, col 3, score 0.99)
-- $[schema-evolution-workflow#L496|schema-evolution-workflow — L496]$ (line 496, col 1, score 0.99)
-- $[schema-evolution-workflow#L496|schema-evolution-workflow — L496]$ (line 496, col 3, score 0.99)
-- $[websocket-gateway-implementation#L646|WebSocket Gateway Implementation — L646]$ (line 646, col 1, score 0.99)
-- $[websocket-gateway-implementation#L646|WebSocket Gateway Implementation — L646]$ (line 646, col 3, score 0.99)
-- [JavaScript — L28]$chunks/javascript.md#L28$ (line 28, col 1, score 1)
-- [JavaScript — L28]$chunks/javascript.md#L28$ (line 28, col 3, score 1)
-- $[docs/unique/eidolon-field-math-foundations#L154|eidolon-field-math-foundations — L154]$ (line 154, col 1, score 0.99)
-- $[docs/unique/eidolon-field-math-foundations#L154|eidolon-field-math-foundations — L154]$ (line 154, col 3, score 0.99)
-- $[local-only-llm-workflow#L190|Local-Only-LLM-Workflow — L190]$ (line 190, col 1, score 0.98)
-- $[local-only-llm-workflow#L190|Local-Only-LLM-Workflow — L190]$ (line 190, col 3, score 0.98)
-- $[performance-optimized-polyglot-bridge#L454|Performance-Optimized-Polyglot-Bridge — L454]$ (line 454, col 1, score 0.98)
-- $[performance-optimized-polyglot-bridge#L454|Performance-Optimized-Polyglot-Bridge — L454]$ (line 454, col 3, score 0.98)
-- [JavaScript — L33]$chunks/javascript.md#L33$ (line 33, col 1, score 1)
-- [JavaScript — L33]$chunks/javascript.md#L33$ (line 33, col 3, score 1)
-- $[docs/unique/ecs-offload-workers#L471|ecs-offload-workers — L471]$ (line 471, col 1, score 0.98)
-- $[docs/unique/ecs-offload-workers#L471|ecs-offload-workers — L471]$ (line 471, col 3, score 0.98)
-- $[lisp-compiler-integration#L554|Lisp-Compiler-Integration — L554]$ (line 554, col 1, score 0.98)
-- $[lisp-compiler-integration#L554|Lisp-Compiler-Integration — L554]$ (line 554, col 3, score 0.98)
-- $[docs/unique/ecs-offload-workers#L470|ecs-offload-workers — L470]$ (line 470, col 1, score 0.98)
-- $[docs/unique/ecs-offload-workers#L470|ecs-offload-workers — L470]$ (line 470, col 3, score 0.98)
+- [ice-box-reorganization#L84|Ice Box Reorganization — L84] (line 84, col 1, score 0.98)
+- [ice-box-reorganization#L84|Ice Box Reorganization — L84] (line 84, col 3, score 0.98)
+- [2d-sandbox-field#L212|2d-sandbox-field — L212] (line 212, col 1, score 0.98)
+- [2d-sandbox-field#L212|2d-sandbox-field — L212] (line 212, col 3, score 0.98)
+- [infinite-depth-smoke-animation#L94|infinite_depth_smoke_animation — L94] (line 94, col 1, score 0.92)
+- [infinite-depth-smoke-animation#L94|infinite_depth_smoke_animation — L94] (line 94, col 3, score 0.92)
+- [infinite-depth-smoke-animation#L93|infinite_depth_smoke_animation — L93] (line 93, col 1, score 0.91)
+- [infinite-depth-smoke-animation#L93|infinite_depth_smoke_animation — L93] (line 93, col 3, score 0.91)
+- [Diagrams — L20]chunks/diagrams.md#L20 (line 20, col 1, score 1)
+- [Diagrams — L20]chunks/diagrams.md#L20 (line 20, col 3, score 1)
+- [state-snapshots-api-and-transactional-projector#L346|State Snapshots API and Transactional Projector — L346] (line 346, col 1, score 0.94)
+- [state-snapshots-api-and-transactional-projector#L346|State Snapshots API and Transactional Projector — L346] (line 346, col 3, score 0.94)
+- [state-snapshots-api-and-transactional-projector#L345|State Snapshots API and Transactional Projector — L345] (line 345, col 1, score 0.94)
+- [state-snapshots-api-and-transactional-projector#L345|State Snapshots API and Transactional Projector — L345] (line 345, col 3, score 0.94)
+- [Services — L25]chunks/services.md#L25 (line 25, col 1, score 1)
+- [Services — L25]chunks/services.md#L25 (line 25, col 3, score 1)
+- [prom-lib-rate-limiters-and-replay-api#L397|prom-lib-rate-limiters-and-replay-api — L397] (line 397, col 1, score 0.99)
+- [prom-lib-rate-limiters-and-replay-api#L397|prom-lib-rate-limiters-and-replay-api — L397] (line 397, col 3, score 0.99)
+- [schema-evolution-workflow#L496|schema-evolution-workflow — L496] (line 496, col 1, score 0.99)
+- [schema-evolution-workflow#L496|schema-evolution-workflow — L496] (line 496, col 3, score 0.99)
+- [websocket-gateway-implementation#L646|WebSocket Gateway Implementation — L646] (line 646, col 1, score 0.99)
+- [websocket-gateway-implementation#L646|WebSocket Gateway Implementation — L646] (line 646, col 3, score 0.99)
+- [JavaScript — L28]chunks/javascript.md#L28 (line 28, col 1, score 1)
+- [JavaScript — L28]chunks/javascript.md#L28 (line 28, col 3, score 1)
+- [docs/unique/eidolon-field-math-foundations#L154|eidolon-field-math-foundations — L154] (line 154, col 1, score 0.99)
+- [docs/unique/eidolon-field-math-foundations#L154|eidolon-field-math-foundations — L154] (line 154, col 3, score 0.99)
+- [local-only-llm-workflow#L190|Local-Only-LLM-Workflow — L190] (line 190, col 1, score 0.98)
+- [local-only-llm-workflow#L190|Local-Only-LLM-Workflow — L190] (line 190, col 3, score 0.98)
+- [performance-optimized-polyglot-bridge#L454|Performance-Optimized-Polyglot-Bridge — L454] (line 454, col 1, score 0.98)
+- [performance-optimized-polyglot-bridge#L454|Performance-Optimized-Polyglot-Bridge — L454] (line 454, col 3, score 0.98)
+- [JavaScript — L33]chunks/javascript.md#L33 (line 33, col 1, score 1)
+- [JavaScript — L33]chunks/javascript.md#L33 (line 33, col 3, score 1)
+- [docs/unique/ecs-offload-workers#L471|ecs-offload-workers — L471] (line 471, col 1, score 0.98)
+- [docs/unique/ecs-offload-workers#L471|ecs-offload-workers — L471] (line 471, col 3, score 0.98)
+- [lisp-compiler-integration#L554|Lisp-Compiler-Integration — L554] (line 554, col 1, score 0.98)
+- [lisp-compiler-integration#L554|Lisp-Compiler-Integration — L554] (line 554, col 3, score 0.98)
+- [docs/unique/ecs-offload-workers#L470|ecs-offload-workers — L470] (line 470, col 1, score 0.98)
+- [docs/unique/ecs-offload-workers#L470|ecs-offload-workers — L470] (line 470, col 3, score 0.98)
 - [[eidolonfield#L266|EidolonField — L266]] (line 266, col 1, score 0.98)
 - [[eidolonfield#L266|EidolonField — L266]] (line 266, col 3, score 0.98)
-- $[ice-box-reorganization#L86|Ice Box Reorganization — L86]$ (line 86, col 1, score 0.98)
-- $[ice-box-reorganization#L86|Ice Box Reorganization — L86]$ (line 86, col 3, score 0.98)
-- $[2d-sandbox-field#L214|2d-sandbox-field — L214]$ (line 214, col 1, score 0.98)
-- $[2d-sandbox-field#L214|2d-sandbox-field — L214]$ (line 214, col 3, score 0.98)
-- $[eidolon-field-abstract-model#L209|Eidolon Field Abstract Model — L209]$ (line 209, col 1, score 0.98)
-- $[eidolon-field-abstract-model#L209|Eidolon Field Abstract Model — L209]$ (line 209, col 3, score 0.98)
-- $[sibilant-meta-string-templating-runtime#L130|sibilant-meta-string-templating-runtime — L130]$ (line 130, col 1, score 0.99)
-- $[sibilant-meta-string-templating-runtime#L130|sibilant-meta-string-templating-runtime — L130]$ (line 130, col 3, score 0.99)
-- $[cross-language-runtime-polymorphism#L219|Cross-Language Runtime Polymorphism — L219]$ (line 219, col 1, score 0.98)
-- $[cross-language-runtime-polymorphism#L219|Cross-Language Runtime Polymorphism — L219]$ (line 219, col 3, score 0.98)
-- $[polymorphic-meta-programming-engine#L218|polymorphic-meta-programming-engine — L218]$ (line 218, col 1, score 0.98)
-- $[polymorphic-meta-programming-engine#L218|polymorphic-meta-programming-engine — L218]$ (line 218, col 3, score 0.98)
-- $[cross-target-macro-system-in-sibilant#L192|Cross-Target Macro System in Sibilant — L192]$ (line 192, col 1, score 0.98)
-- $[cross-target-macro-system-in-sibilant#L192|Cross-Target Macro System in Sibilant — L192]$ (line 192, col 3, score 0.98)
-- $[eidolon-node-lifecycle#L47|eidolon-node-lifecycle — L47]$ (line 47, col 1, score 1)
-- $[eidolon-node-lifecycle#L47|eidolon-node-lifecycle — L47]$ (line 47, col 3, score 1)
-- $[eidolon-node-lifecycle#L56|eidolon-node-lifecycle — L56]$ (line 56, col 1, score 0.98)
-- $[eidolon-node-lifecycle#L56|eidolon-node-lifecycle — L56]$ (line 56, col 3, score 0.98)
-- $[field-node-diagram-outline#L141|field-node-diagram-outline — L141]$ (line 141, col 1, score 0.98)
-- $[field-node-diagram-outline#L141|field-node-diagram-outline — L141]$ (line 141, col 3, score 0.98)
-- $[field-node-diagram-set#L158|field-node-diagram-set — L158]$ (line 158, col 1, score 0.98)
-- $[field-node-diagram-set#L158|field-node-diagram-set — L158]$ (line 158, col 3, score 0.98)
-- $[eidolon-node-lifecycle#L44|eidolon-node-lifecycle — L44]$ (line 44, col 1, score 1)
-- $[eidolon-node-lifecycle#L44|eidolon-node-lifecycle — L44]$ (line 44, col 3, score 1)
-- $[field-node-diagram-outline#L120|field-node-diagram-outline — L120]$ (line 120, col 1, score 0.98)
-- $[field-node-diagram-outline#L120|field-node-diagram-outline — L120]$ (line 120, col 3, score 0.98)
-- $[field-node-diagram-set#L147|field-node-diagram-set — L147]$ (line 147, col 1, score 0.98)
-- $[field-node-diagram-set#L147|field-node-diagram-set — L147]$ (line 147, col 3, score 0.98)
-- $[eidolon-node-lifecycle#L49|eidolon-node-lifecycle — L49]$ (line 49, col 1, score 0.98)
-- $[eidolon-node-lifecycle#L49|eidolon-node-lifecycle — L49]$ (line 49, col 3, score 0.98)
-- $[eidolon-node-lifecycle#L45|eidolon-node-lifecycle — L45]$ (line 45, col 1, score 1)
-- $[eidolon-node-lifecycle#L45|eidolon-node-lifecycle — L45]$ (line 45, col 3, score 1)
-- $[2d-sandbox-field#L213|2d-sandbox-field — L213]$ (line 213, col 1, score 0.99)
-- $[2d-sandbox-field#L213|2d-sandbox-field — L213]$ (line 213, col 3, score 0.99)
-- $[eidolon-field-abstract-model#L208|Eidolon Field Abstract Model — L208]$ (line 208, col 1, score 0.99)
-- $[eidolon-field-abstract-model#L208|Eidolon Field Abstract Model — L208]$ (line 208, col 3, score 0.99)
-- $[exception-layer-analysis#L164|Exception Layer Analysis — L164]$ (line 164, col 1, score 0.99)
-- $[exception-layer-analysis#L164|Exception Layer Analysis — L164]$ (line 164, col 3, score 0.99)
-- $[eidolon-node-lifecycle#L46|eidolon-node-lifecycle — L46]$ (line 46, col 1, score 1)
-- $[eidolon-node-lifecycle#L46|eidolon-node-lifecycle — L46]$ (line 46, col 3, score 1)
-- $[field-node-diagram-outline#L121|field-node-diagram-outline — L121]$ (line 121, col 1, score 0.98)
-- $[field-node-diagram-outline#L121|field-node-diagram-outline — L121]$ (line 121, col 3, score 0.98)
-- $field-node-diagram-visualizations — L98$$field-node-diagram-visualizations.md#L98$ (line 98, col 1, score 0.98)
-- $field-node-diagram-visualizations — L98$$field-node-diagram-visualizations.md#L98$ (line 98, col 3, score 0.98)
-- $[eidolon-node-lifecycle#L58|eidolon-node-lifecycle — L58]$ (line 58, col 1, score 0.97)
-- $[eidolon-node-lifecycle#L58|eidolon-node-lifecycle — L58]$ (line 58, col 3, score 0.97)
-$$
+- [ice-box-reorganization#L86|Ice Box Reorganization — L86] (line 86, col 1, score 0.98)
+- [ice-box-reorganization#L86|Ice Box Reorganization — L86] (line 86, col 3, score 0.98)
+- [2d-sandbox-field#L214|2d-sandbox-field — L214] (line 214, col 1, score 0.98)
+- [2d-sandbox-field#L214|2d-sandbox-field — L214] (line 214, col 3, score 0.98)
+- [eidolon-field-abstract-model#L209|Eidolon Field Abstract Model — L209] (line 209, col 1, score 0.98)
+- [eidolon-field-abstract-model#L209|Eidolon Field Abstract Model — L209] (line 209, col 3, score 0.98)
+- [sibilant-meta-string-templating-runtime#L130|sibilant-meta-string-templating-runtime — L130] (line 130, col 1, score 0.99)
+- [sibilant-meta-string-templating-runtime#L130|sibilant-meta-string-templating-runtime — L130] (line 130, col 3, score 0.99)
+- [cross-language-runtime-polymorphism#L219|Cross-Language Runtime Polymorphism — L219] (line 219, col 1, score 0.98)
+- [cross-language-runtime-polymorphism#L219|Cross-Language Runtime Polymorphism — L219] (line 219, col 3, score 0.98)
+- [polymorphic-meta-programming-engine#L218|polymorphic-meta-programming-engine — L218] (line 218, col 1, score 0.98)
+- [polymorphic-meta-programming-engine#L218|polymorphic-meta-programming-engine — L218] (line 218, col 3, score 0.98)
+- [cross-target-macro-system-in-sibilant#L192|Cross-Target Macro System in Sibilant — L192] (line 192, col 1, score 0.98)
+- [cross-target-macro-system-in-sibilant#L192|Cross-Target Macro System in Sibilant — L192] (line 192, col 3, score 0.98)
+- [eidolon-node-lifecycle#L47|eidolon-node-lifecycle — L47] (line 47, col 1, score 1)
+- [eidolon-node-lifecycle#L47|eidolon-node-lifecycle — L47] (line 47, col 3, score 1)
+- [eidolon-node-lifecycle#L56|eidolon-node-lifecycle — L56] (line 56, col 1, score 0.98)
+- [eidolon-node-lifecycle#L56|eidolon-node-lifecycle — L56] (line 56, col 3, score 0.98)
+- [field-node-diagram-outline#L141|field-node-diagram-outline — L141] (line 141, col 1, score 0.98)
+- [field-node-diagram-outline#L141|field-node-diagram-outline — L141] (line 141, col 3, score 0.98)
+- [field-node-diagram-set#L158|field-node-diagram-set — L158] (line 158, col 1, score 0.98)
+- [field-node-diagram-set#L158|field-node-diagram-set — L158] (line 158, col 3, score 0.98)
+- [eidolon-node-lifecycle#L44|eidolon-node-lifecycle — L44] (line 44, col 1, score 1)
+- [eidolon-node-lifecycle#L44|eidolon-node-lifecycle — L44] (line 44, col 3, score 1)
+- [field-node-diagram-outline#L120|field-node-diagram-outline — L120] (line 120, col 1, score 0.98)
+- [field-node-diagram-outline#L120|field-node-diagram-outline — L120] (line 120, col 3, score 0.98)
+- [field-node-diagram-set#L147|field-node-diagram-set — L147] (line 147, col 1, score 0.98)
+- [field-node-diagram-set#L147|field-node-diagram-set — L147] (line 147, col 3, score 0.98)
+- [eidolon-node-lifecycle#L49|eidolon-node-lifecycle — L49] (line 49, col 1, score 0.98)
+- [eidolon-node-lifecycle#L49|eidolon-node-lifecycle — L49] (line 49, col 3, score 0.98)
+- [eidolon-node-lifecycle#L45|eidolon-node-lifecycle — L45] (line 45, col 1, score 1)
+- [eidolon-node-lifecycle#L45|eidolon-node-lifecycle — L45] (line 45, col 3, score 1)
+- [2d-sandbox-field#L213|2d-sandbox-field — L213] (line 213, col 1, score 0.99)
+- [2d-sandbox-field#L213|2d-sandbox-field — L213] (line 213, col 3, score 0.99)
+- [eidolon-field-abstract-model#L208|Eidolon Field Abstract Model — L208] (line 208, col 1, score 0.99)
+- [eidolon-field-abstract-model#L208|Eidolon Field Abstract Model — L208] (line 208, col 3, score 0.99)
+- [exception-layer-analysis#L164|Exception Layer Analysis — L164] (line 164, col 1, score 0.99)
+- [exception-layer-analysis#L164|Exception Layer Analysis — L164] (line 164, col 3, score 0.99)
+- [eidolon-node-lifecycle#L46|eidolon-node-lifecycle — L46] (line 46, col 1, score 1)
+- [eidolon-node-lifecycle#L46|eidolon-node-lifecycle — L46] (line 46, col 3, score 1)
+- [field-node-diagram-outline#L121|field-node-diagram-outline — L121] (line 121, col 1, score 0.98)
+- [field-node-diagram-outline#L121|field-node-diagram-outline — L121] (line 121, col 3, score 0.98)
+- field-node-diagram-visualizations — L98$field-node-diagram-visualizations.md#L98 (line 98, col 1, score 0.98)
+- field-node-diagram-visualizations — L98$field-node-diagram-visualizations.md#L98 (line 98, col 3, score 0.98)
+- [eidolon-node-lifecycle#L58|eidolon-node-lifecycle — L58] (line 58, col 1, score 0.97)
+- [eidolon-node-lifecycle#L58|eidolon-node-lifecycle — L58] (line 58, col 3, score 0.97)
+```
 >>>>>>> stealth/obsidian
-$$
+```
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

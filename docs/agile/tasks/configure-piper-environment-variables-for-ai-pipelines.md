@@ -1,7 +1,7 @@
 ---
-$$
+```
 uuid: d4e5f6g7-h8i9-0123-defg-456789012345
-$$
+```
 title: Configure piper environment variables for AI-powered pipelines
 status: todo
 priority: P1
@@ -11,16 +11,16 @@ labels:
   - ai-configuration
   - ollama
   - setup
-$$
+```
 created_at: '2025-10-05T00:00:00.000Z'
-$$
+```
 ---
 
 ## 🛠️ Task: Configure piper environment variables for AI-powered pipelines
 
 ## 🐛 Problem Statement
 
-Multiple piper pipelines require AI model interactions $symdocs, readmes, semver-guard, board-review, sonar, docops$ but fail due to missing or misconfigured environment variables. The OLLAMA_URL and other required environment variables are not properly set up.
+Multiple piper pipelines require AI model interactions symdocs, readmes, semver-guard, board-review, sonar, docops but fail due to missing or misconfigured environment variables. The OLLAMA_URL and other required environment variables are not properly set up.
 
 ## 🎯 Desired Outcome
 
@@ -42,11 +42,11 @@ All AI-powered piper pipelines should work reliably with:
 ### Phase 2: OLLAMA Service Setup
 - [ ] Verify OLLAMA service is running and accessible
 - [ ] Test OLLAMA_URL connectivity
-- [ ] Ensure required AI models are available $qwen3:4b, nomic-embed-text:latest$
+- [ ] Ensure required AI models are available qwen3:4b, nomic-embed-text:latest
 - [ ] Configure OLLAMA for development environment
 
 ### Phase 3: External Service Configuration
-- [ ] Configure SonarQube connection variables $SONAR_HOST_URL, SONAR_TOKEN, SONAR_PROJECT_KEY$
+- [ ] Configure SonarQube connection variables SONAR_HOST_URL, SONAR_TOKEN, SONAR_PROJECT_KEY
 - [ ] Set up GitHub token for board-review pipeline if needed
 - [ ] Configure any other external service credentials
 - [ ] Create .env template file

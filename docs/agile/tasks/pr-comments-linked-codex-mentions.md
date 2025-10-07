@@ -1,16 +1,16 @@
 ---
-$$
+```
 uuid: 0e0ed76d-7f60-4a31-9a33-92d024fb20d0
-$$
+```
 title: PRs — post diagram/docs comments + @codex mentions
 status: done
 priority: P3
 labels:
   - reviews
   - duck-revival
-$$
+```
 created_at: '2025-10-02T21:07:00.000Z'
-$$
+```
 ---
 #Done
 

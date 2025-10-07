@@ -1,14 +1,14 @@
 ---
-$$
+```
 uuid: 2159cf55-db82-46df-b669-52ccacdb7c4b
-$$
+```
 title: document local testing setup md md
 status: todo
 priority: P3
 labels: []
-$$
+```
 created_at: '2025-09-15T02:02:58.512Z'
-$$
+```
 ---
 ## 🛠️ Task: Document local testing setup
 
@@ -35,9 +35,9 @@ Running `pytest` locally fails without extra dependencies.
 ---
 
 ## 🔗 Related Epics
-$$
+```
 #codex-task #testing
-$$
+```
 ---
 
 ## ⛓️ Blocked By

@@ -49,14 +49,14 @@ All Field Nodes include:
 * **Bindable**: No—temporary influence only
 * **Charge**: Often aligned with curiosity, desire, or aesthetic affinity
 
-#### ⚠️ Hazard $Repulsor / Damage Zone$
+#### ⚠️ Hazard Repulsor / Damage Zone
 
 * **Purpose**: Penalizes or repels Daimoi
 * **Emits**: Strong negative field pressure, localized in circuit(s)
 * **Interaction**: Colliding daimo lose energy, coherence, or mass
 * **Symbolism**: May represent trauma, contradiction, taboo, confusion
 
-#### ▒ Obstacle $Friction / Delay Zone$
+#### ▒ Obstacle Friction / Delay Zone
 
 * **Purpose**: Soft barrier; inhibits flow without direct harm
 * **Emits**: High viscosity or field resistance

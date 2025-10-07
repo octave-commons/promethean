@@ -1,6 +1,6 @@
 # Lint → Kanban Workflow
 
-This workflow turns ESLint errors into **Kanban tasks** that live in-repo $`docs/agile/tasks`$ and syncs them to the board $`docs/agile/boards/kanban.md`$.  
+This workflow turns ESLint errors into **Kanban tasks** that live in-repo `docs/agile/tasks` and syncs them to the board `docs/agile/boards/kanban.md`.  
 It replaces the old GitHub Issues approach.
 
 ---
@@ -8,7 +8,7 @@ It replaces the old GitHub Issues approach.
 ## Overview
 
 - **Analyzer**: `@promethean/lint-taskgen`
-  - Runs ESLint $full or Nx-affected mode$.
+  - Runs ESLint full or Nx-affected mode.
   - Buckets violations by `(ruleId, scope)` pair.
   - Emits `eslint-taskgen-summary.json`.
 
@@ -28,9 +28,9 @@ It replaces the old GitHub Issues approach.
 ## Workflow Inputs
 
 | Input       | Default | Description                                                                 |
-$$
+```
 |-------------|---------|-----------------------------------------------------------------------------|
-$$
+```
 | `write`     | false   | If true, emit Kanban tasks + sync board. Otherwise only produce summary.    |
 | `limit`     | 25      | Maximum tasks to create in one run.                                         |
 | `scope`     | (empty) | Optional filter, e.g. `packages:core`.                                      |
@@ -62,12 +62,12 @@ This task tracks remediation for **@typescript-eslint/no-explicit-any** across *
 
 **Examples (seed)**
 ```
-$$
+```
 src/foo.ts:12
-$$
-$$
+```
+```
 src/bar.ts:45
-$$
+```
 ```
 
 **Plan**
@@ -82,12 +82,12 @@ Hits: **143**
 
 **Examples (merged)**
 ```
-$$
+```
 src/foo.ts:12
-$$
-$$
+```
+```
 src/bar.ts:45
-$$
+```
 ...
 ```
 ```
@@ -124,7 +124,7 @@ pnpm exec kanban regenerate --kanban docs/agile/boards/kanban.md --tasks docs/ag
 
 ## Strategy
 
-- Start with **top offenders** $`--top`, `--min-hits`$ to avoid flooding.
+- Start with **top offenders** `--top`, `--min-hits` to avoid flooding.
 - Use `--scope` to focus on one package at a time.
 - Re-run with `--update=true` to keep refreshing snapshots without creating duplicates.
 - When tasks are nearly resolved, drop the rule’s severity back to error in ESLint config.

@@ -1,16 +1,16 @@
-$$
+```
 <!-- SYMPKG:PKG:BEGIN -->
-$$
+```
 # @promethean/voice-service
-$$
+```
 **Folder:** `packages/voice`
-$$
-$$
+```
+```
 **Version:** `0.0.1`
-$$
-$$
+```
+```
 **Domain:** `_root`
-$$
+```
 ```mermaid
 graph LR
   A["@promethean/voice-service"]
@@ -25,10 +25,10 @@ graph LR
   click R1 "../cephalon/README.md" "@promethean/cephalon"
 ```
 ## Dependencies
-- $@promethean/pm2-helpers$$../pm2-helpers/README.md$
-- $@promethean/utils$$../utils/README.md$
+- @promethean/pm2-helpers$../pm2-helpers/README.md
+- @promethean/utils$../utils/README.md
 ## Dependents
-- $@promethean/cephalon$$../cephalon/README.md$
-$$
+- @promethean/cephalon$../cephalon/README.md
+```
 <!-- SYMPKG:PKG:END -->
-$$
+```

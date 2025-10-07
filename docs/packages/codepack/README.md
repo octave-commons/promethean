@@ -1,16 +1,16 @@
-$$
+```
 <!-- SYMPKG:PKG:BEGIN -->
-$$
+```
 # @promethean/codepack
-$$
+```
 **Folder:** `packages/codepack`
-$$
-$$
+```
+```
 **Version:** `0.1.0`
-$$
-$$
+```
+```
 **Domain:** `_root`
-$$
+```
 ```mermaid
 graph LR
   A["@promethean/codepack"]
@@ -28,12 +28,12 @@ graph LR
   click D4 "../utils/README.md" "@promethean/utils"
 ```
 ## Dependencies
-- $@promethean/file-indexer$$../file-indexer/README.md$
-- $@promethean/fs$$../fs/README.md$
-- $@promethean/level-cache$$../level-cache/README.md$
-- $@promethean/utils$$../utils/README.md$
+- @promethean/file-indexer$../file-indexer/README.md
+- @promethean/fs$../fs/README.md
+- @promethean/level-cache$../level-cache/README.md
+- @promethean/utils$../utils/README.md
 ## Dependents
 - _None_
-$$
+```
 <!-- SYMPKG:PKG:END -->
-$$
+```

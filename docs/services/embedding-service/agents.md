@@ -10,7 +10,7 @@ broker connection used for tasks. Do not use `shared.py.heartbeat_client`.
 
 ## Paths
 
-- $[embedding_service|services/py/embedding_service]$
+- [embedding_service|services/py/embedding_service]
 
 ## Tags
 

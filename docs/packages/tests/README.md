@@ -1,16 +1,16 @@
-$$
+```
 <!-- SYMPKG:PKG:BEGIN -->
-$$
+```
 # @promethean/tests
-$$
+```
 **Folder:** `packages/tests`
-$$
-$$
+```
+```
 **Version:** `0.0.1`
-$$
-$$
+```
+```
 **Domain:** `_root`
-$$
+```
 ```mermaid
 graph LR
   A["@promethean/tests"]
@@ -43,17 +43,17 @@ graph LR
   click D9 "../web-utils/README.md" "@promethean/web-utils"
 ```
 ## Dependencies
-- $@promethean/compiler$$../compiler/README.md$
-- $@promethean/dev$$../dev/README.md$
-- $@promethean/fs$$../fs/README.md$
-- $@promethean/markdown$$../markdown/README.md$
-- $@promethean/parity$$../parity/README.md$
-- $@promethean/stream$$../stream/README.md$
-- $@promethean/test-utils$$../test-utils/README.md$
-- $@promethean/utils$$../utils/README.md$
-- $@promethean/web-utils$$../web-utils/README.md$
+- @promethean/compiler$../compiler/README.md
+- @promethean/dev$../dev/README.md
+- @promethean/fs$../fs/README.md
+- @promethean/markdown$../markdown/README.md
+- @promethean/parity$../parity/README.md
+- @promethean/stream$../stream/README.md
+- @promethean/test-utils$../test-utils/README.md
+- @promethean/utils$../utils/README.md
+- @promethean/web-utils$../web-utils/README.md
 ## Dependents
 - _None_
-$$
+```
 <!-- SYMPKG:PKG:END -->
-$$
+```

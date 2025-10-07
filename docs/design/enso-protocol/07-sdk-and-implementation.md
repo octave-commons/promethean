@@ -34,7 +34,7 @@ export class EnsoClient {
     });
     this.#ws!.onmessage = (ev) => {
       const env = JSON.parse(ev.data.toString()) as Envelope;
-      const key = `${env.kind}:${env.type}`;
+      const key = `{env.kind}:{env.type}`;
       this.#handlers.get(key)?.forEach((fn) => fn(env));
     };
   }

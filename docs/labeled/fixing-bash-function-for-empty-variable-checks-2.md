@@ -1,15 +1,15 @@
 ---
-$$
+```
 uuid: 51a003bb-2c55-40f5-8135-a99ffc835558
-$$
-$$
+```
+```
 created_at: '2025-09-19T16:36:28Z'
-$$
+```
 title: 2025.09.19.16.36.28
 filename: Fixing Bash Function for Empty Variable Checks
-$$
+```
 description: >-
-$$
+```
   This document explains common issues with Bash functions that check for empty
   variables, highlighting semantic confusion, parameter passing mismatches, and
   quoting problems. It provides two corrected versions: one for asserting
@@ -20,12 +20,12 @@ tags:
   - empty variable
   - error handling
   - command output
-$$
+```
 related_to_uuid: []
-$$
-$$
+```
+```
 related_to_title: []
-$$
+```
 references: []
 ---
 Hey — good question. What you wrote has a *few issues*, and I’d tweak it. I’ll walk through what’s wrong / risky, how to fix it, then show a better version.
@@ -38,38 +38,38 @@ You wrote:
 
 ```bash
 assert_empty() {
-  local varname="$1"
-  local val="${!varname-}"
-  [ "$val" ] || fail "Variable '$varname' must be empty"
+  local varname="1"
+  local val="{!varname-}"
+  [ "val" ] || fail "Variable 'varname' must be empty"
 }
-assert_empty "$(rg . -e 'index.cjs')"
+assert_empty "(rg . -e 'index.cjs')"
 ```
 
 Here’s what’s off:
-$$
+```
 1. **Confusing semantics**
-$$
-   * `assert_empty` name suggests: “variable (or value) is empty”. But your test `[ "$val" ] || fail ...` fails *if* `"$val"` is *empty*. That’s inverted: it asserts *not* empty. If val is empty, `[ "$val" ]` is false, so it fails. So this asserts *non-emptiness*, not emptiness.
-   * If you want it to assert *that* something *is* empty, you need something like `$-z "$val"$`, not `[ "$val" ]`.
-$$
+```
+   * `assert_empty` name suggests: “variable (or value) is empty”. But your test `[ "val" ] || fail ...` fails *if* `"val"` is *empty*. That’s inverted: it asserts *not* empty. If val is empty, `[ "val" ]` is false, so it fails. So this asserts *non-emptiness*, not emptiness.
+   * If you want it to assert *that* something *is* empty, you need something like `-z "val"`, not `[ "val" ]`.
+```
 2. **Parameter passing mismatch**
-$$
-   * You pass `assert_empty "$$rg . -e 'index.cjs'$"`: That runs `rg . -e 'index.cjs'`, takes its output, and uses *that output string* as `varname`. Inside the function you do `local val="${!varname-}"`, which uses indirect expansion expecting `varname` to be the *name* of a variable (not its content). So you’re mixing two different things: calling with a *value* vs a *variable name*. Indirect expansion `${!varname}` won’t do what you expect here.
-$$
+```
+   * You pass `assert_empty "$rg . -e 'index.cjs'"`: That runs `rg . -e 'index.cjs'`, takes its output, and uses *that output string* as `varname`. Inside the function you do `local val="{!varname-}"`, which uses indirect expansion expecting `varname` to be the *name* of a variable (not its content). So you’re mixing two different things: calling with a *value* vs a *variable name*. Indirect expansion `{!varname}` won’t do what you expect here.
+```
 3. **Quoting / handling special outputs**
-$$
-   * If the output of `rg ...` contains spaces, multiple lines, etc., passing it as a single positional parameter with `$(...)` may join weirdly.
+```
+   * If the output of `rg ...` contains spaces, multiple lines, etc., passing it as a single positional parameter with `(...)` may join weirdly.
    * Also, using indirect expansion on something that’s not a valid variable name (e.g. if `varname` contains slashes, or other weird chars) leads to errors (or unexpected behavior).
 
 4. **Behavior with “unset” vs “empty”**
 
-   * If the variable named by `varname` is unset, `${!varname-}` will expand to empty $due to the `-`$, but you may want to distinguish between “unset” vs “set to empty string”. Depending on your needs, that matters. If you use `set -u` (nounset), unbound vars can cause errors.
+   * If the variable named by `varname` is unset, `{!varname-}` will expand to empty due to the `-`, but you may want to distinguish between “unset” vs “set to empty string”. Depending on your needs, that matters. If you use `set -u` (nounset), unbound vars can cause errors.
 
 ---
 
 ## What you *probably want*
 
-If I understand: you want a function that asserts that the *output* of a command $or generally the *value* you pass it$ is empty. Or, alternately, asserts a variable is empty (when passing by variable name).
+If I understand: you want a function that asserts that the *output* of a command or generally the *value* you pass it is empty. Or, alternately, asserts a variable is empty (when passing by variable name).
 
 Let me give both versions.
 
@@ -84,22 +84,22 @@ Use this when you care about a value (e.g. command output), not a variable bindi
 set -euo pipefail
 
 fail() {
-  local msg="$1"
-  local code="${2:-1}"
-  echo "ERROR: $msg" >&2
-  exit "$code"
+  local msg="1"
+  local code="{2:-1}"
+  echo "ERROR: msg" >&2
+  exit "code"
 }
 
 assert_value_empty() {
-  local val="$1"
-  if [ -n "$val" ]; then
-    fail "Expected value to be empty, but got: '$val'"
+  local val="1"
+  if [ -n "val" ]; then
+    fail "Expected value to be empty, but got: 'val'"
   fi
 }
 
 # Usage: pass the *value* (not variable name)
-output="$(rg . -e '.cjs' || true)"  # Use || true if you expect rg to maybe fail
-assert_value_empty "$output"
+output="(rg . -e '.cjs' || true)"  # Use || true if you expect rg to maybe fail
+assert_value_empty "output"
 ```
 
 * Using `-n` checks if the string length is *non-zero* → meaning not empty.
@@ -114,12 +114,12 @@ If you want to pass the name of a variable (so the function checks that variable
 
 ```bash
 assert_var_empty() {
-  local varname="$1"
+  local varname="1"
   # Check whether varname is valid / exists?
   # Indirect expansion:
-  local val="${!varname-}"  # this gives empty if unset or empty
-  if [ -n "$val" ]; then
-    fail "Variable '$varname' must be empty, but is: '$val'"
+  local val="{!varname-}"  # this gives empty if unset or empty
+  if [ -n "val" ]; then
+    fail "Variable 'varname' must be empty, but is: 'val'"
   fi
 }
 ```
@@ -137,8 +137,8 @@ assert_var_empty somevar
 
 ## Things to watch out (skeptically speaking)
 
-* If your script has `set -u`, then referencing `${!varname}` when `varname` is not set might error (unbound variable). The `-` in `${!varname-}` helps in some cases, but still risky.
-* If `val` contains newline(s) or spaces, comparison with `$-n "$val"$` is okay (it just checks “length > 0”), but if you need to check for “only whitespace” or “only newline” etc, you need extra filtering.
+* If your script has `set -u`, then referencing `{!varname}` when `varname` is not set might error (unbound variable). The `-` in `{!varname-}` helps in some cases, but still risky.
+* If `val` contains newline(s) or spaces, comparison with `-n "val"` is okay (it just checks “length > 0”), but if you need to check for “only whitespace” or “only newline” etc, you need extra filtering.
 * If the variable name passed is invalid (contains chars not allowed in variable names), indirect expansion may misbehave.
 
 ---
@@ -152,33 +152,33 @@ Putting it together, here’s a corrected version of what you had, assuming you 
 set -euo pipefail
 
 fail() {
-  local msg="$1"
-  local code="${2:-1}"
-  echo "ERROR: $msg" >&2
-  exit "$code"
+  local msg="1"
+  local code="{2:-1}"
+  echo "ERROR: msg" >&2
+  exit "code"
 }
 
 assert_empty() {
-  local val="$1"
-  if [ -n "$val" ]; then
-    fail "Expected empty, but got: '$val'"
+  local val="1"
+  if [ -n "val" ]; then
+    fail "Expected empty, but got: 'val'"
   fi
 }
 
 # Example usage
 # You want to assert that no file named 'index.cjs' is found (rg returns nothing)
-output="$(rg . -e 'index.cjs' || true)"
-assert_empty "$output"
+output="(rg . -e 'index.cjs' || true)"
+assert_empty "output"
 ```
 
 If instead you want to assert that a *variable* is empty:
 
 ```bash
 assert_var_empty() {
-  local varname="$1"
-  local val="${!varname-}"
-  if [ -n "$val" ]; then
-    fail "Variable '$varname' must be empty, but is: '$val'"
+  local varname="1"
+  local val="{!varname-}"
+  if [ -n "val" ]; then
+    fail "Variable 'varname' must be empty, but is: 'val'"
   fi
 }
 
