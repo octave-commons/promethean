@@ -1,10 +1,14 @@
 ---
+$$
 uuid: 1bb8418a-5606-4190-a252-21301fd4a5d8
+$$
 title: discord link indexer md
 status: todo
 priority: P3
 labels: []
+$$
 created_at: '2025-09-15T02:02:58.511Z'
+$$
 ---
 ## 🛠️ Description
 
@@ -31,9 +35,9 @@ This may be done already, though we're not sure. It looked done.
 ---
 
 ## 🔗 Related Epics
-
+$$
 #framework-core
-
+$$
 ---
 
 ## ⛓️ Blocked By
@@ -49,6 +53,8 @@ Nothing
 ## 🔍 Relevant Links
 
 - [[kanban]]
+$$
 #prompt-refinement
+$$
 #accepted
 

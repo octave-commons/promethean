@@ -8,12 +8,12 @@
 ## 2. Prefer `Set` membership for queue/contract checks
 - **What we do today:** Several flows rely on repeated `Array.prototype.includes` to test membership, such as speech arbitration adding utterance IDs back into a queue and migration contract validation checking if collections exist.【F:packages/agent-ecs/src/systems/speechArbiter.ts†L31-L123】【F:packages/migrations/src/contract.ts†L18-L37】 The MCP origin allow-list uses the same pattern when gatekeeping CORS origins.【F:packages/mcp/src/auth.ts†L1-L7】
 - **Why it hurts:** Membership checks on arrays stay O(n), so hot paths like the speech arbiter end up quadratic when they loop over every utterance and call `includes`. The allow-list and migration checks also become noisy as the list grows.
-- **Better option:** Convert those hot arrays into `Set`s once (e.g., `new Set(queue.items)`), giving O(1) membership checks and clearer intent. For queue mutation, derive a fresh array from the set when writing back to ECS to keep immutability guarantees intact.
+- **Better option:** Convert those hot arrays into `Set`s once $e.g., `new Set(queue.items)`$, giving O(1) membership checks and clearer intent. For queue mutation, derive a fresh array from the set when writing back to ECS to keep immutability guarantees intact.
 
 ## 3. Use a priority queue for utterance scheduling
 - **What we do today:** The speech arbiter rebuilds and resorts the utterance list each tick to pick the highest-priority queued utterance, then filters the array again to dequeue the picked element.【F:packages/agent-ecs/src/systems/speechArbiter.ts†L31-L123】
-- **Why it hurts:** Resorting `items` every frame is O(n log n) per tick even when few utterances change, and filtering to remove the picked entry adds another O(n). As concurrency grows we spend most of the tick rebuilding the same ordering.
-- **Better option:** Maintain a min-/max-heap keyed by utterance priority (or `Map` + `BinaryHeap`). Push/pop operations stay O(log n), and the data structure naturally gives us the next utterance without re-sorting the entire list. We can still keep the authoritative array on the ECS component by deriving it from the heap when needed.
+- **Why it hurts:** Resorting `items` every frame is O$n log n$ per tick even when few utterances change, and filtering to remove the picked entry adds another O(n). As concurrency grows we spend most of the tick rebuilding the same ordering.
+- **Better option:** Maintain a min-/max-heap keyed by utterance priority $or `Map` + `BinaryHeap`$. Push/pop operations stay O$log n$, and the data structure naturally gives us the next utterance without re-sorting the entire list. We can still keep the authoritative array on the ECS component by deriving it from the heap when needed.
 
 ## Human operator follow-up
 - Draft a small RFC describing the shared pipeline lookup helper (API shape, caching strategy) so we can scope the refactor and align call sites before coding.

@@ -1,10 +1,14 @@
 ---
+$$
 uuid: 4af34fd8-8f94-4013-ad4f-61bd0ce13c78
+$$
 title: make seperate execution pathways 1 md md
 status: todo
 priority: P3
 labels: []
+$$
 created_at: '2025-09-15T02:02:58.516Z'
+$$
 ---
 ## 🛠️ Description
 
@@ -42,9 +46,9 @@ If we just don't do any ML in js for  now,  we shouldn't have any problems.
 ---
 
 ## 🔗 Related Epics
-
+$$
 #framework-core
-
+$$
 ---
 
 ## ⛓️ Blocked By

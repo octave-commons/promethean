@@ -1,10 +1,14 @@
 ---
+$$
 uuid: 137054cb-d7c9-4b0a-9aa9-5ce0425948db
+$$
 title: Resolve ESLint violations across repository
 status: todo
 priority: P3
 labels: []
+$$
 created_at: '2025-09-15T02:02:58.519Z'
+$$
 ---
 # Resolve ESLint violations across repository
 

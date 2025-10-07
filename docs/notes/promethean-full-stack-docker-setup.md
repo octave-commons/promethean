@@ -1,11 +1,17 @@
 ---
+$$
 uuid: 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
+$$
+$$
 created_at: 2025.08.31.10.09.07.md
+$$
 filename: Promethean Full-Stack Docker Setup
+$$
 description: >-
+$$
   A production-grade Docker Compose configuration for a full-stack AI service
-  with edge routing via NGINX, GPU-accelerated LLMs (Qwen3, Qwen2.5-Coder,
-  Gemma), embeddings (Nomic), CLIP ViT, Whisper ASR, and OpenVINO model server.
+  with edge routing via NGINX, GPU-accelerated LLMs $Qwen3, Qwen2.5-Coder,
+  Gemma$, embeddings (Nomic), CLIP ViT, Whisper ASR, and OpenVINO model server.
   No host ports exposed except NGINX on port 80.
 tags:
   - docker
@@ -18,7 +24,9 @@ tags:
   - whisper
   - ovms
   - nomic
+$$
 related_to_title:
+$$
   - Promethean Web UI Setup
   - RAG UI Panel with Qdrant and PostgREST
   - Promethean Infrastructure Setup
@@ -33,7 +41,9 @@ related_to_title:
   - AI-Centric OS with MCP Layer
   - Debugging Broker Connections and Agent Behavior
   - ecs-offload-workers
+$$
 related_to_uuid:
+$$
   - bc5172ca-7a09-42ad-b418-8e42bb14d089
   - e1056831-ae0c-460b-95fa-4cf09b3398c6
   - 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
@@ -408,7 +418,7 @@ services:
 
 ---
 
-### `docker-compose.stealth.yaml` (host overlay: dGPU + iGPU + NPU)
+### `docker-compose.stealth.yaml` $host overlay: dGPU + iGPU + NPU$
 
 ```yaml
 version: "3.9"
@@ -445,7 +455,7 @@ services:
 
 ---
 
-### `infra/nginx/nginx.conf` (token auth + rate limits; clean paths)
+### `infra/nginx/nginx.conf` $token auth + rate limits; clean paths$
 
 ```nginx
 worker_processes  1;
@@ -618,7 +628,7 @@ CHANGEME 1;
 
 ---
 
-### `infra/ovms/config.json` (example multi-model; edit to your IR paths)
+### `infra/ovms/config.json` $example multi-model; edit to your IR paths$
 
 ```json
 {
@@ -680,7 +690,7 @@ docker compose -f docker-compose.yaml -f docker-compose.stealth.yaml up -d
 
 If you want **RAG** infra as well (datastore only), add this snippet:
 
-### `docker-compose.rag.yaml` (optional pgvector + qdrant)
+### `docker-compose.rag.yaml` $optional pgvector + qdrant$
 
 ```yaml
 version: "3.9"
@@ -713,77 +723,77 @@ From here we want to start serving a typescript/webcomponents based frontend tha
 #docker #compose #nginx #reverseproxy #ollama #vllm #tei #clip #whisper #ovms #npu #homelab #mlops
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [[promethean-web-ui-setup|Promethean Web UI Setup]]
-- [[rag-ui-panel-with-qdrant-and-postgrest|RAG UI Panel with Qdrant and PostgREST]]
-- [[promethean-infrastructure-setup|Promethean Infrastructure Setup]]
-- [[prometheus-observability-stack|Prometheus Observability Stack]]
-- [[pure-typescript-search-microservice|Pure TypeScript Search Microservice]]
-- [[local-offline-model-deployment-strategy]]
-- [[pure-node-crawl-stack-with-playwright-and-crawlee|Pure-Node Crawl Stack with Playwright and Crawlee]]
-- [[api-gateway-versioning]]
-- [[observability-infrastructure-setup]]
-- [[dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]]
-- [[migrate-to-provider-tenant-architecture|Migrate to Provider-Tenant Architecture]]
-- [[ai-centric-os-with-mcp-layer|AI-Centric OS with MCP Layer]]
-- [Debugging Broker Connections and Agent Behavior](debugging-broker-connections-and-agent-behavior.md)
-- [[docs/unique/ecs-offload-workers|ecs-offload-workers]]
+- $[promethean-web-ui-setup|Promethean Web UI Setup]$
+- $[rag-ui-panel-with-qdrant-and-postgrest|RAG UI Panel with Qdrant and PostgREST]$
+- $[promethean-infrastructure-setup|Promethean Infrastructure Setup]$
+- $[prometheus-observability-stack|Prometheus Observability Stack]$
+- $[pure-typescript-search-microservice|Pure TypeScript Search Microservice]$
+- $[local-offline-model-deployment-strategy]$
+- $[pure-node-crawl-stack-with-playwright-and-crawlee|Pure-Node Crawl Stack with Playwright and Crawlee]$
+- $[api-gateway-versioning]$
+- $[observability-infrastructure-setup]$
+- $[dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]$
+- $[migrate-to-provider-tenant-architecture|Migrate to Provider-Tenant Architecture]$
+- $[ai-centric-os-with-mcp-layer|AI-Centric OS with MCP Layer]$
+- [Debugging Broker Connections and Agent Behavior]$debugging-broker-connections-and-agent-behavior.md$
+- $[docs/unique/ecs-offload-workers|ecs-offload-workers]$
 
 ## Sources
-- [[promethean-web-ui-setup#L44|Promethean Web UI Setup — L44]] (line 44, col 1, score 0.99)
-- [[promethean-web-ui-setup#L563|Promethean Web UI Setup — L563]] (line 563, col 1, score 0.91)
-- [[rag-ui-panel-with-qdrant-and-postgrest#L9|RAG UI Panel with Qdrant and PostgREST — L9]] (line 9, col 1, score 0.96)
-- [[promethean-infrastructure-setup#L585|Promethean Infrastructure Setup — L585]] (line 585, col 1, score 1)
-- [[promethean-infrastructure-setup#L585|Promethean Infrastructure Setup — L585]] (line 585, col 3, score 1)
-- [[pure-node-crawl-stack-with-playwright-and-crawlee#L428|Pure-Node Crawl Stack with Playwright and Crawlee — L428]] (line 428, col 1, score 1)
-- [[pure-node-crawl-stack-with-playwright-and-crawlee#L428|Pure-Node Crawl Stack with Playwright and Crawlee — L428]] (line 428, col 3, score 1)
-- [[pure-typescript-search-microservice#L521|Pure TypeScript Search Microservice — L521]] (line 521, col 1, score 1)
-- [[pure-typescript-search-microservice#L521|Pure TypeScript Search Microservice — L521]] (line 521, col 3, score 1)
-- [[rag-ui-panel-with-qdrant-and-postgrest#L364|RAG UI Panel with Qdrant and PostgREST — L364]] (line 364, col 1, score 1)
-- [[rag-ui-panel-with-qdrant-and-postgrest#L364|RAG UI Panel with Qdrant and PostgREST — L364]] (line 364, col 3, score 1)
-- [[promethean-infrastructure-setup#L578|Promethean Infrastructure Setup — L578]] (line 578, col 1, score 1)
-- [[promethean-infrastructure-setup#L578|Promethean Infrastructure Setup — L578]] (line 578, col 3, score 1)
-- [[promethean-web-ui-setup#L604|Promethean Web UI Setup — L604]] (line 604, col 1, score 1)
-- [[promethean-web-ui-setup#L604|Promethean Web UI Setup — L604]] (line 604, col 3, score 1)
-- [[pure-typescript-search-microservice#L522|Pure TypeScript Search Microservice — L522]] (line 522, col 1, score 1)
-- [[pure-typescript-search-microservice#L522|Pure TypeScript Search Microservice — L522]] (line 522, col 3, score 1)
-- [[promethean-web-ui-setup#L615|Promethean Web UI Setup — L615]] (line 615, col 1, score 0.94)
-- [[promethean-web-ui-setup#L615|Promethean Web UI Setup — L615]] (line 615, col 3, score 0.94)
-- [[api-gateway-versioning#L284|api-gateway-versioning — L284]] (line 284, col 1, score 1)
-- [[api-gateway-versioning#L284|api-gateway-versioning — L284]] (line 284, col 3, score 1)
-- [Debugging Broker Connections and Agent Behavior — L40](debugging-broker-connections-and-agent-behavior.md#L40) (line 40, col 1, score 1)
-- [Debugging Broker Connections and Agent Behavior — L40](debugging-broker-connections-and-agent-behavior.md#L40) (line 40, col 3, score 1)
-- [[dynamic-context-model-for-web-components#L384|Dynamic Context Model for Web Components — L384]] (line 384, col 1, score 1)
-- [[dynamic-context-model-for-web-components#L384|Dynamic Context Model for Web Components — L384]] (line 384, col 3, score 1)
-- [[docs/unique/ecs-offload-workers#L458|ecs-offload-workers — L458]] (line 458, col 1, score 1)
-- [[docs/unique/ecs-offload-workers#L458|ecs-offload-workers — L458]] (line 458, col 3, score 1)
-- [[ai-centric-os-with-mcp-layer#L403|AI-Centric OS with MCP Layer — L403]] (line 403, col 1, score 1)
-- [[ai-centric-os-with-mcp-layer#L403|AI-Centric OS with MCP Layer — L403]] (line 403, col 3, score 1)
-- [[local-offline-model-deployment-strategy#L293|Local-Offline-Model-Deployment-Strategy — L293]] (line 293, col 1, score 1)
-- [[local-offline-model-deployment-strategy#L293|Local-Offline-Model-Deployment-Strategy — L293]] (line 293, col 3, score 1)
-- [[migrate-to-provider-tenant-architecture#L281|Migrate to Provider-Tenant Architecture — L281]] (line 281, col 1, score 1)
-- [[migrate-to-provider-tenant-architecture#L281|Migrate to Provider-Tenant Architecture — L281]] (line 281, col 3, score 1)
-- [[observability-infrastructure-setup#L361|observability-infrastructure-setup — L361]] (line 361, col 1, score 1)
-- [[observability-infrastructure-setup#L361|observability-infrastructure-setup — L361]] (line 361, col 3, score 1)
-- [[api-gateway-versioning#L288|api-gateway-versioning — L288]] (line 288, col 1, score 1)
-- [[api-gateway-versioning#L288|api-gateway-versioning — L288]] (line 288, col 3, score 1)
-- [[promethean-infrastructure-setup#L584|Promethean Infrastructure Setup — L584]] (line 584, col 1, score 1)
-- [[promethean-infrastructure-setup#L584|Promethean Infrastructure Setup — L584]] (line 584, col 3, score 1)
-- [[promethean-web-ui-setup#L603|Promethean Web UI Setup — L603]] (line 603, col 1, score 1)
-- [[promethean-web-ui-setup#L603|Promethean Web UI Setup — L603]] (line 603, col 3, score 1)
-- [[prometheus-observability-stack#L510|Prometheus Observability Stack — L510]] (line 510, col 1, score 1)
-- [[prometheus-observability-stack#L510|Prometheus Observability Stack — L510]] (line 510, col 3, score 1)
-- [[rag-ui-panel-with-qdrant-and-postgrest#L371|RAG UI Panel with Qdrant and PostgREST — L371]] (line 371, col 1, score 0.99)
-- [[rag-ui-panel-with-qdrant-and-postgrest#L371|RAG UI Panel with Qdrant and PostgREST — L371]] (line 371, col 3, score 0.99)
-- [[pure-typescript-search-microservice#L531|Pure TypeScript Search Microservice — L531]] (line 531, col 1, score 0.99)
-- [[pure-typescript-search-microservice#L531|Pure TypeScript Search Microservice — L531]] (line 531, col 3, score 0.99)
-- [[rag-ui-panel-with-qdrant-and-postgrest#L373|RAG UI Panel with Qdrant and PostgREST — L373]] (line 373, col 1, score 0.98)
-- [[rag-ui-panel-with-qdrant-and-postgrest#L373|RAG UI Panel with Qdrant and PostgREST — L373]] (line 373, col 3, score 0.98)
-- [[pure-typescript-search-microservice#L532|Pure TypeScript Search Microservice — L532]] (line 532, col 1, score 0.98)
-- [[pure-typescript-search-microservice#L532|Pure TypeScript Search Microservice — L532]] (line 532, col 3, score 0.98)
-- [[promethean-infrastructure-setup#L601|Promethean Infrastructure Setup — L601]] (line 601, col 1, score 0.98)
-- [[promethean-infrastructure-setup#L601|Promethean Infrastructure Setup — L601]] (line 601, col 3, score 0.98)
-- [[pure-typescript-search-microservice#L533|Pure TypeScript Search Microservice — L533]] (line 533, col 1, score 0.98)
-- [[pure-typescript-search-microservice#L533|Pure TypeScript Search Microservice — L533]] (line 533, col 3, score 0.98)
-- [[promethean-web-ui-setup#L613|Promethean Web UI Setup — L613]] (line 613, col 1, score 0.98)
-- [[promethean-web-ui-setup#L613|Promethean Web UI Setup — L613]] (line 613, col 3, score 0.98)
+- $[promethean-web-ui-setup#L44|Promethean Web UI Setup — L44]$ (line 44, col 1, score 0.99)
+- $[promethean-web-ui-setup#L563|Promethean Web UI Setup — L563]$ (line 563, col 1, score 0.91)
+- $[rag-ui-panel-with-qdrant-and-postgrest#L9|RAG UI Panel with Qdrant and PostgREST — L9]$ (line 9, col 1, score 0.96)
+- $[promethean-infrastructure-setup#L585|Promethean Infrastructure Setup — L585]$ (line 585, col 1, score 1)
+- $[promethean-infrastructure-setup#L585|Promethean Infrastructure Setup — L585]$ (line 585, col 3, score 1)
+- $[pure-node-crawl-stack-with-playwright-and-crawlee#L428|Pure-Node Crawl Stack with Playwright and Crawlee — L428]$ (line 428, col 1, score 1)
+- $[pure-node-crawl-stack-with-playwright-and-crawlee#L428|Pure-Node Crawl Stack with Playwright and Crawlee — L428]$ (line 428, col 3, score 1)
+- $[pure-typescript-search-microservice#L521|Pure TypeScript Search Microservice — L521]$ (line 521, col 1, score 1)
+- $[pure-typescript-search-microservice#L521|Pure TypeScript Search Microservice — L521]$ (line 521, col 3, score 1)
+- $[rag-ui-panel-with-qdrant-and-postgrest#L364|RAG UI Panel with Qdrant and PostgREST — L364]$ (line 364, col 1, score 1)
+- $[rag-ui-panel-with-qdrant-and-postgrest#L364|RAG UI Panel with Qdrant and PostgREST — L364]$ (line 364, col 3, score 1)
+- $[promethean-infrastructure-setup#L578|Promethean Infrastructure Setup — L578]$ (line 578, col 1, score 1)
+- $[promethean-infrastructure-setup#L578|Promethean Infrastructure Setup — L578]$ (line 578, col 3, score 1)
+- $[promethean-web-ui-setup#L604|Promethean Web UI Setup — L604]$ (line 604, col 1, score 1)
+- $[promethean-web-ui-setup#L604|Promethean Web UI Setup — L604]$ (line 604, col 3, score 1)
+- $[pure-typescript-search-microservice#L522|Pure TypeScript Search Microservice — L522]$ (line 522, col 1, score 1)
+- $[pure-typescript-search-microservice#L522|Pure TypeScript Search Microservice — L522]$ (line 522, col 3, score 1)
+- $[promethean-web-ui-setup#L615|Promethean Web UI Setup — L615]$ (line 615, col 1, score 0.94)
+- $[promethean-web-ui-setup#L615|Promethean Web UI Setup — L615]$ (line 615, col 3, score 0.94)
+- $[api-gateway-versioning#L284|api-gateway-versioning — L284]$ (line 284, col 1, score 1)
+- $[api-gateway-versioning#L284|api-gateway-versioning — L284]$ (line 284, col 3, score 1)
+- [Debugging Broker Connections and Agent Behavior — L40]$debugging-broker-connections-and-agent-behavior.md#L40$ (line 40, col 1, score 1)
+- [Debugging Broker Connections and Agent Behavior — L40]$debugging-broker-connections-and-agent-behavior.md#L40$ (line 40, col 3, score 1)
+- $[dynamic-context-model-for-web-components#L384|Dynamic Context Model for Web Components — L384]$ (line 384, col 1, score 1)
+- $[dynamic-context-model-for-web-components#L384|Dynamic Context Model for Web Components — L384]$ (line 384, col 3, score 1)
+- $[docs/unique/ecs-offload-workers#L458|ecs-offload-workers — L458]$ (line 458, col 1, score 1)
+- $[docs/unique/ecs-offload-workers#L458|ecs-offload-workers — L458]$ (line 458, col 3, score 1)
+- $[ai-centric-os-with-mcp-layer#L403|AI-Centric OS with MCP Layer — L403]$ (line 403, col 1, score 1)
+- $[ai-centric-os-with-mcp-layer#L403|AI-Centric OS with MCP Layer — L403]$ (line 403, col 3, score 1)
+- $[local-offline-model-deployment-strategy#L293|Local-Offline-Model-Deployment-Strategy — L293]$ (line 293, col 1, score 1)
+- $[local-offline-model-deployment-strategy#L293|Local-Offline-Model-Deployment-Strategy — L293]$ (line 293, col 3, score 1)
+- $[migrate-to-provider-tenant-architecture#L281|Migrate to Provider-Tenant Architecture — L281]$ (line 281, col 1, score 1)
+- $[migrate-to-provider-tenant-architecture#L281|Migrate to Provider-Tenant Architecture — L281]$ (line 281, col 3, score 1)
+- $[observability-infrastructure-setup#L361|observability-infrastructure-setup — L361]$ (line 361, col 1, score 1)
+- $[observability-infrastructure-setup#L361|observability-infrastructure-setup — L361]$ (line 361, col 3, score 1)
+- $[api-gateway-versioning#L288|api-gateway-versioning — L288]$ (line 288, col 1, score 1)
+- $[api-gateway-versioning#L288|api-gateway-versioning — L288]$ (line 288, col 3, score 1)
+- $[promethean-infrastructure-setup#L584|Promethean Infrastructure Setup — L584]$ (line 584, col 1, score 1)
+- $[promethean-infrastructure-setup#L584|Promethean Infrastructure Setup — L584]$ (line 584, col 3, score 1)
+- $[promethean-web-ui-setup#L603|Promethean Web UI Setup — L603]$ (line 603, col 1, score 1)
+- $[promethean-web-ui-setup#L603|Promethean Web UI Setup — L603]$ (line 603, col 3, score 1)
+- $[prometheus-observability-stack#L510|Prometheus Observability Stack — L510]$ (line 510, col 1, score 1)
+- $[prometheus-observability-stack#L510|Prometheus Observability Stack — L510]$ (line 510, col 3, score 1)
+- $[rag-ui-panel-with-qdrant-and-postgrest#L371|RAG UI Panel with Qdrant and PostgREST — L371]$ (line 371, col 1, score 0.99)
+- $[rag-ui-panel-with-qdrant-and-postgrest#L371|RAG UI Panel with Qdrant and PostgREST — L371]$ (line 371, col 3, score 0.99)
+- $[pure-typescript-search-microservice#L531|Pure TypeScript Search Microservice — L531]$ (line 531, col 1, score 0.99)
+- $[pure-typescript-search-microservice#L531|Pure TypeScript Search Microservice — L531]$ (line 531, col 3, score 0.99)
+- $[rag-ui-panel-with-qdrant-and-postgrest#L373|RAG UI Panel with Qdrant and PostgREST — L373]$ (line 373, col 1, score 0.98)
+- $[rag-ui-panel-with-qdrant-and-postgrest#L373|RAG UI Panel with Qdrant and PostgREST — L373]$ (line 373, col 3, score 0.98)
+- $[pure-typescript-search-microservice#L532|Pure TypeScript Search Microservice — L532]$ (line 532, col 1, score 0.98)
+- $[pure-typescript-search-microservice#L532|Pure TypeScript Search Microservice — L532]$ (line 532, col 3, score 0.98)
+- $[promethean-infrastructure-setup#L601|Promethean Infrastructure Setup — L601]$ (line 601, col 1, score 0.98)
+- $[promethean-infrastructure-setup#L601|Promethean Infrastructure Setup — L601]$ (line 601, col 3, score 0.98)
+- $[pure-typescript-search-microservice#L533|Pure TypeScript Search Microservice — L533]$ (line 533, col 1, score 0.98)
+- $[pure-typescript-search-microservice#L533|Pure TypeScript Search Microservice — L533]$ (line 533, col 3, score 0.98)
+- $[promethean-web-ui-setup#L613|Promethean Web UI Setup — L613]$ (line 613, col 1, score 0.98)
+- $[promethean-web-ui-setup#L613|Promethean Web UI Setup — L613]$ (line 613, col 3, score 0.98)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

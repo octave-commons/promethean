@@ -1,10 +1,16 @@
 ---
+$$
 uuid: a4764fc6-ff3e-4ad9-97f6-7cce0b813b44
+$$
 title: Fix nx task @promethean/markdown-graph:test
+$$
 status: in_progress
+$$
 priority: P1
 labels: []
+$$
 created_at: '2025-10-07T00:00:00.000Z'
+$$
 ---
 # Description
 

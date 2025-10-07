@@ -1,12 +1,14 @@
 # Kanban Board Review & Cleanup Summary
+$$
 **Date:** 2025-01-09
+$$
 **Review Type:** Scheduled board cleanup and task prioritization
 
 ## Actions Taken
 
 ### 🔴 Critical Security Issue - IMMEDIATE ACTION
 - **Task:** Add rate limiting to SmartGPT Bridge file routes
-- **Priority:** P1 (Security/bug)
+- **Priority:** P1 $Security/bug$
 - **Action:** Moved from "In Review" → "Accepted"
 - **Reason:** Critical security vulnerability requiring immediate implementation
 
@@ -20,8 +22,9 @@
 - `cephalon_backfill_conversation_history` (removed duplicate from "In Review")
 - `cephalon_event_schema_updates` (removed duplicate from "In Review")
 - `cephalon_context_window_from_collections` (removed duplicate from "In Review")
-
+$$
 **Removed duplicate entries:**
+$$
 - "discord bot squad" (removed duplicate plain text entry)
 - "Remove CommonJS artifacts" (moved to "Accepted")
 
@@ -40,9 +43,9 @@ The following tasks were reviewed and approved for implementation:
   - Kubernetes configurations for secure distributed deployment
 
 - **AI/Development Tools:**
-  - Research tree-diff algorithms (new sub-task)
-  - Design architecture for tree-diff system (new sub-task)
-  - Build prototype of tree-diff validation (new sub-task)
+  - Research tree-diff algorithms $new sub-task$
+  - Design architecture for tree-diff system $new sub-task$
+  - Build prototype of tree-diff validation $new sub-task$
   - Create piper MCP tool interface
   - Create PR code review pipeline
   - Piper mermaid diagram spec

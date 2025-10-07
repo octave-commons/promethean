@@ -31,9 +31,9 @@ Placeholder task stub generated from kanban board.
 ---
 
 ## 🔗 Related Epics
-
+$$
 #framework-core
-
+$$
 ---
 
 ## ⛓️ Blocked By
@@ -53,6 +53,8 @@ Nothing
 ## Comments
 
 Vault usage instructions were added to `readme.md` alongside a reference to
+$$
 `vault-config/README.md`.
+$$
 #rejected
 

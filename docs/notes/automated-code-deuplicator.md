@@ -1,9 +1,15 @@
 ---
+$$
 uuid: 6085ad7b-fee4-48ac-944a-747424c346a4
+$$
+$$
 created_at: '2025-09-03T20:30:35Z'
+$$
 filename: Automated Code Deuplicator
 title: Automated Code Deuplicator
+$$
 description: >-
+$$
   A tool that uses semantic vector embedding to index codebases and detect
   overly similar code chunks for consolidation. It provides real-time analysis,
   intelligent clustering, and user-friendly interfaces to improve code quality,
@@ -17,12 +23,16 @@ tags:
   - clustering
   - real-time
   - quality
+$$
 related_to_uuid:
+$$
   - 0c501d52-ba38-42aa-ad25-2d78425dfaff
   - 45d70390-0334-422e-b487-4499b1424936
   - 26bd1c45-3706-4bc2-9c46-78e035056f61
   - d3dc5e9d-ec20-47d8-a824-d7ec4300c510
+$$
 related_to_title:
+$$
   - dynamic-context-model-for-web-components
   - Semantic-Code-Commit-Optimization
   - git-commit-ollama-semantic-grouping
@@ -107,11 +117,11 @@ lutions.
     ongoing development efforts.
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [dynamic-context-model-for-web-components](dynamic-context-model-for-web-components.md)
-- [Semantic-Code-Commit-Optimization](2025.09.03.11.28.27.md)
-- [git-commit-ollama-semantic-grouping](2025.09.03.10.57.39.md)
+- $dynamic-context-model-for-web-components$$dynamic-context-model-for-web-components.md$
+- $Semantic-Code-Commit-Optimization$(2025.09.03.11.28.27.md)
+- $git-commit-ollama-semantic-grouping$(2025.09.03.10.57.39.md)
 - [Code Deduping Guide](2025.09.03.20.26.13.md)
 ## Sources
-- [dynamic-context-model-for-web-components — L385](dynamic-context-model-for-web-components.md#^ref-0c501d52-385-0) (line 385, col 0, score 1)
-- [Semantic-Code-Commit-Optimization — L66](2025.09.03.11.28.27.md#^ref-45d70390-66-0) (line 66, col 0, score 0.9)
+- $dynamic-context-model-for-web-components — L385$$dynamic-context-model-for-web-components.md#^ref-0c501d52-385-0$ (line 385, col 0, score 1)
+- $Semantic-Code-Commit-Optimization — L66$$2025.09.03.11.28.27.md#^ref-45d70390-66-0$ (line 66, col 0, score 0.9)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

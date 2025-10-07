@@ -8,7 +8,7 @@ created_at: '2025-09-15T02:02:58.505Z'
 ---
 ## 🛠️ Task: Add `MongoOutbox` to any service that writes DB changes; swap local app emits → outbox writes
 
-Generated from [../unique/2025.08.08.19.08.49.md](../unique/2025.08.08.19.08.49.md)
+Generated from $../unique/2025.08.08.19.08.49.md$$../unique/2025.08.08.19.08.49.md$
 
 ---
 

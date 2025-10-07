@@ -1,5 +1,7 @@
 ---
+$$
 uuid: b2c3d4e5-f6g7-8901-bcde-f23456789012
+$$
 title: Fix eslint-tasks pipeline TypeScript parser configuration issues
 status: todo
 priority: P2
@@ -9,7 +11,9 @@ labels:
   - typescript
   - configuration
   - build-fix
+$$
 created_at: '2025-10-05T00:00:00.000Z'
+$$
 ---
 
 ## 🛠️ Task: Fix eslint-tasks pipeline TypeScript parser configuration issues

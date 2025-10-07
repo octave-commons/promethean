@@ -6,7 +6,7 @@ TODO: Add service description.
 
 ## Paths
 
-- [[markdown-graph|services/ts/markdown-graph]]
+- $[markdown-graph|services/ts/markdown-graph]$
 
 ## Tags
 

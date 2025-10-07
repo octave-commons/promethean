@@ -10,7 +10,7 @@ Publish events via `@promethean/legacy/brokerClient.js`. Do not instantiate raw 
 
 ## Paths
 
-- [[file-watcher|services/ts/file-watcher]]
+- $[file-watcher|services/ts/file-watcher]$
 
 ## Tags
 

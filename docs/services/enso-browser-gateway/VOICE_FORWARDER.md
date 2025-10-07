@@ -1,4 +1,4 @@
-# enso-browser-gateway — Voice Forwarder (seq/pts, EOF)
+# enso-browser-gateway — Voice Forwarder $seq/pts, EOF$
 
 Status: ✅ implemented in PR #1448.
 
@@ -22,5 +22,5 @@ from channel.protocol}
 - Clamp parsed duration into [5,200]ms; else fallback to 20ms.
 
 ## Related
-- PCM16k worklet + mic glue (duck-web).
+- PCM16k worklet + mic glue $duck-web$.
 - Handshake guard — gating start.

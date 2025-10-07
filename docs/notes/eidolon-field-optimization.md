@@ -1,8 +1,16 @@
 ---
+$$
 uuid: 40e05c14-0db0-44c5-bf0a-2eece2f4c2a4
+$$
+$$
 created_at: 2025.08.02.01.08.84.md
+$$
+$$
 filename: Eidolon-Field-Optimization
+$$
+$$
 description: >-
+$$
   Document detailing parameter adjustments for visual recurrence systems and
   addressing context handling in image-based AI models.
 tags:
@@ -13,7 +21,9 @@ tags:
   - ImageEmbedding
   - ParticleSystem
   - SpeechDetection
+$$
 related_to_title:
+$$
   - parenthetical-extraction
   - homeostasis-decay-formulas
   - ripple-propagation-demo
@@ -25,7 +35,9 @@ related_to_title:
   - Simulation Demo
   - eidolon-node-lifecycle
   - field-node-diagram-outline
+$$
 related_to_uuid:
+$$
   - 51a4e477-1013-4016-bb5a-bd9392e99ed7
   - 37b5d236-2b3e-4a95-a4e8-31655c3023ef
   - 8430617b-80a2-4cc9-8288-9a74cb57990b
@@ -206,34 +218,34 @@ console.log(seperateSpeechFromThought(test))
 ```
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [[parenthetical-extraction]]
-- [[homeostasis-decay-formulas]]
-- [[docs/unique/ripple-propagation-demo|ripple-propagation-demo]]
-- [[docs/unique/aionian-circuit-math|aionian-circuit-math]]
-- [Math Fundamentals](chunks/math-fundamentals.md)
-- [[docs/unique/eidolon-field-math-foundations|eidolon-field-math-foundations]]
-- [[docs/unique/field-dynamics-math-blocks|field-dynamics-math-blocks]]
-- [[eidolon-field-abstract-model|Eidolon Field Abstract Model]]
-- [Simulation Demo](chunks/simulation-demo.md)
-- [[eidolon-node-lifecycle]]
-- [[field-node-diagram-outline]]
+- $[parenthetical-extraction]$
+- $[homeostasis-decay-formulas]$
+- $[docs/unique/ripple-propagation-demo|ripple-propagation-demo]$
+- $[docs/unique/aionian-circuit-math|aionian-circuit-math]$
+- [Math Fundamentals]$chunks/math-fundamentals.md$
+- $[docs/unique/eidolon-field-math-foundations|eidolon-field-math-foundations]$
+- $[docs/unique/field-dynamics-math-blocks|field-dynamics-math-blocks]$
+- $[eidolon-field-abstract-model|Eidolon Field Abstract Model]$
+- [Simulation Demo]$chunks/simulation-demo.md$
+- $[eidolon-node-lifecycle]$
+- $[field-node-diagram-outline]$
 
 ## Sources
-- [[parenthetical-extraction#L3|parenthetical-extraction — L3]] (line 3, col 1, score 0.87)
-- [[docs/unique/aionian-circuit-math#L152|aionian-circuit-math — L152]] (line 152, col 1, score 1)
-- [[docs/unique/aionian-circuit-math#L152|aionian-circuit-math — L152]] (line 152, col 3, score 1)
-- [Math Fundamentals — L12](chunks/math-fundamentals.md#L12) (line 12, col 1, score 1)
-- [Math Fundamentals — L12](chunks/math-fundamentals.md#L12) (line 12, col 3, score 1)
-- [[docs/unique/eidolon-field-math-foundations#L126|eidolon-field-math-foundations — L126]] (line 126, col 1, score 1)
-- [[docs/unique/eidolon-field-math-foundations#L126|eidolon-field-math-foundations — L126]] (line 126, col 3, score 1)
-- [[docs/unique/field-dynamics-math-blocks#L141|field-dynamics-math-blocks — L141]] (line 141, col 1, score 1)
-- [[docs/unique/field-dynamics-math-blocks#L141|field-dynamics-math-blocks — L141]] (line 141, col 3, score 1)
-- [Simulation Demo — L11](chunks/simulation-demo.md#L11) (line 11, col 1, score 1)
-- [Simulation Demo — L11](chunks/simulation-demo.md#L11) (line 11, col 3, score 1)
-- [[eidolon-field-abstract-model#L199|Eidolon Field Abstract Model — L199]] (line 199, col 1, score 1)
-- [[eidolon-field-abstract-model#L199|Eidolon Field Abstract Model — L199]] (line 199, col 3, score 1)
-- [[eidolon-node-lifecycle#L39|eidolon-node-lifecycle — L39]] (line 39, col 1, score 1)
-- [[eidolon-node-lifecycle#L39|eidolon-node-lifecycle — L39]] (line 39, col 3, score 1)
-- [[field-node-diagram-outline#L114|field-node-diagram-outline — L114]] (line 114, col 1, score 1)
-- [[field-node-diagram-outline#L114|field-node-diagram-outline — L114]] (line 114, col 3, score 1)
+- $[parenthetical-extraction#L3|parenthetical-extraction — L3]$ (line 3, col 1, score 0.87)
+- $[docs/unique/aionian-circuit-math#L152|aionian-circuit-math — L152]$ (line 152, col 1, score 1)
+- $[docs/unique/aionian-circuit-math#L152|aionian-circuit-math — L152]$ (line 152, col 3, score 1)
+- [Math Fundamentals — L12]$chunks/math-fundamentals.md#L12$ (line 12, col 1, score 1)
+- [Math Fundamentals — L12]$chunks/math-fundamentals.md#L12$ (line 12, col 3, score 1)
+- $[docs/unique/eidolon-field-math-foundations#L126|eidolon-field-math-foundations — L126]$ (line 126, col 1, score 1)
+- $[docs/unique/eidolon-field-math-foundations#L126|eidolon-field-math-foundations — L126]$ (line 126, col 3, score 1)
+- $[docs/unique/field-dynamics-math-blocks#L141|field-dynamics-math-blocks — L141]$ (line 141, col 1, score 1)
+- $[docs/unique/field-dynamics-math-blocks#L141|field-dynamics-math-blocks — L141]$ (line 141, col 3, score 1)
+- [Simulation Demo — L11]$chunks/simulation-demo.md#L11$ (line 11, col 1, score 1)
+- [Simulation Demo — L11]$chunks/simulation-demo.md#L11$ (line 11, col 3, score 1)
+- $[eidolon-field-abstract-model#L199|Eidolon Field Abstract Model — L199]$ (line 199, col 1, score 1)
+- $[eidolon-field-abstract-model#L199|Eidolon Field Abstract Model — L199]$ (line 199, col 3, score 1)
+- $[eidolon-node-lifecycle#L39|eidolon-node-lifecycle — L39]$ (line 39, col 1, score 1)
+- $[eidolon-node-lifecycle#L39|eidolon-node-lifecycle — L39]$ (line 39, col 3, score 1)
+- $[field-node-diagram-outline#L114|field-node-diagram-outline — L114]$ (line 114, col 1, score 1)
+- $[field-node-diagram-outline#L114|field-node-diagram-outline — L114]$ (line 114, col 3, score 1)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

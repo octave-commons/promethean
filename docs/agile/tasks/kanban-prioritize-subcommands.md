@@ -1,9 +1,17 @@
 ---
+$$
 uuid: 83ec632a-3d28-440f-adb7-76496a95edd2
+$$
+$$
 created_at: '2025-10-06T15:01:27Z'
+$$
 title: 2025.10.06.15.01.27
+$$
 filename: kanban-prioritize-subcommands
+$$
+$$
 description: >-
+$$
   New subcommands for kanban task prioritization: sample, pairwise, choose,
   rank, shortlist, explain, cluster, score, and compare. Each command provides
   specific functionality for filtering, comparing, ranking, and clustering tasks
@@ -19,8 +27,12 @@ tags:
   - clustering
   - score
   - explain
+$$
 related_to_uuid: []
+$$
+$$
 related_to_title: []
+$$
 references: []
 status: todo
 priority: P3
@@ -31,10 +43,10 @@ labels: []
 * `sample` — randomly (optionally weighted) pick a bite-sized set that matches a filter.
 * `pairwise` — present A/B (or tie) pairs from a pool (stdin or filter); picks the next most informative pair.
 * `choose` — record a comparison (`left`, `right`, `winner`) into a session cache.
-* `rank` — compute a global ordering from comparisons (Bradley–Terry/Elo + priors).
+* `rank` — compute a global ordering from comparisons $Bradley–Terry/Elo + priors$.
 * `shortlist` — one-shot: filter → sample → (optional) auto warmup → rank → top-K.
-* `explain` — attach compact rationales (heuristic, theme-aware).
-* `cluster` — reduce overwhelm by grouping (labels/title; embeddings later).
+* `explain` — attach compact rationales $heuristic, theme-aware$.
+* `cluster` — reduce overwhelm by grouping $labels/title; embeddings later$.
 * `score` — deterministic stateless scoring for CI/batch.
 * `compare` — focal task vs sampled peers.
 

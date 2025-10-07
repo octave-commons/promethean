@@ -1,20 +1,27 @@
 ---
+$$
 uuid: 991b27c3-0b63-49a5-acd3-d730b28e31fc
+$$
 title: Ban Python; Migrate to Hy; Compile to `./dist`
 status: todo
 priority: P3
 labels: []
+$$
 created_at: '2025-09-15T02:02:58.519Z'
+$$
 ---
 # Ban Python; Migrate to Hy; Compile to `./dist`
-
+$$
 **Owner:** Codex / Agent
+$$
+$$
 **Status:** continue coding
+$$
 **Labels:** #architecture #lang #hy #python-ban #build #ci #tooling #promethean
 
 ---
 
-## 🧨 Rationale (short + blunt)
+## 🧨 Rationale $short + blunt$
 
 * One language family per runtime. If we’re in CPython land, it’ll be **Lisp (Hy)**.
 * No more “accidental Python” sneaking into commits.
@@ -37,10 +44,10 @@ created_at: '2025-09-15T02:02:58.519Z'
 ## High-Level Plan
 
 1. **Quarantine:** add guardrails (hook, gitignore, CI) before changes.
-2. **Module Layout:** standardize Hy source roots (mirroring TS/Sibilant).
+2. **Module Layout:** standardize Hy source roots $mirroring TS/Sibilant$.
 3. **Build:** compile Hy → Python into `./dist` with preserved package structure.
 4. **Ports:** convert Python modules to Hy with 1:1 APIs.
-5. **Entrypoints:** run from compiled outputs (or `hy -m` during dev).
+5. **Entrypoints:** run from compiled outputs $or `hy -m` during dev$.
 6. **Docs & Enforcement:** loud policy + CI checks.
 
 ---
@@ -58,7 +65,7 @@ created_at: '2025-09-15T02:02:58.519Z'
     **/__pycache__/
     **/*.pyc
     ```
-* [ ] **Pre-commit hook** (blocks & un-stages `.py` outside `dist/`)
+* [ ] **Pre-commit hook** $blocks & un-stages `.py` outside `dist/`$
   Create `.githooks/pre-commit` and wire via `.git/config` or `core.hooksPath=.githooks`:
 
   ```bash
@@ -106,12 +113,12 @@ created_at: '2025-09-15T02:02:58.519Z'
   ```
 
 * [ ] Build script: **compile Hy → Python files** into `./dist`. Prefer `hy2py` for readable `.py`.
-  `tools/build.hy` (invoked by Makefile/uv) should:
+  `tools/build.hy` $invoked by Makefile/uv$ should:
 
   * [ ] Walk **Hy source roots** (see next task).
   * [ ] For each `.hy`, run `hy2py` and write path-mirrored `.py` into `./dist`.
   * [ ] Emit `__init__.py` in each `dist` package dir for importability.
-  * [ ] Preserve package namespace (e.g., `services/py/tts/foo.hy` → `dist/services/py/tts/foo.py`).
+  * [ ] Preserve package namespace $e.g., `services/py/tts/foo.hy` → `dist/services/py/tts/foo.py`$.
 
 * [ ] Make targets:
 
@@ -124,7 +131,7 @@ created_at: '2025-09-15T02:02:58.519Z'
   	rm -rf dist
   ```
 
-  (Per your workflow: Makefile shells out to `hy tools/build.hy`.)
+  $Per your workflow: Makefile shells out to `hy tools/build.hy`.$
 
 ### 2) Source Layout & Conventions
 
@@ -150,7 +157,7 @@ created_at: '2025-09-15T02:02:58.519Z'
   * [ ] Add `export PYTHONPATH=dist:${PYTHONPATH}` to service runners/PM2 env.
   * [ ] Replace any old `python path/to/*.py` with **Hy or dist imports**.
 
-### 4) Port Python → Hy (incremental, API-stable)
+### 4) Port Python → Hy $incremental, API-stable$
 
 * [ ] **Inventory** all Python modules/services and their public APIs.
 * [ ] Port order (highest leverage first):
@@ -162,7 +169,7 @@ created_at: '2025-09-15T02:02:58.519Z'
 
   * [ ] Re-implement in Hy with **same function/class names**, same inputs/outputs.
   * [ ] Delete original `.py` (or move aside), compile `.hy` → `dist/*.py`.
-  * [ ] Unit tests updated to import via package name (works for both dev/prod).
+  * [ ] Unit tests updated to import via package name $works for both dev/prod$.
   * [ ] No direct path imports to `.py` anywhere.
 
 ### 5) Testing & CI
@@ -193,7 +200,7 @@ created_at: '2025-09-15T02:02:58.519Z'
 
 * [ ] Remove Python linters that parse `.py` sources in the tree.
 * [ ] Add Hy formatting guidance (Hy doesn’t have a de facto formatter; keep style doc simple).
-* [ ] Keep Ruff/Black **off** the repo or scope them to `dist/` only if needed (read-only).
+* [ ] Keep Ruff/Black **off** the repo or scope them to `dist/` only if needed $read-only$.
 
 ### 8) Final Sweep
 
@@ -226,7 +233,7 @@ created_at: '2025-09-15T02:02:58.519Z'
 ## Relevant Resources
 
 * You might find \[this] useful while working on this task
-  *(link your internal Hy style guide or a reference note with macros/patterns you like; keep it local to the vault/repo)*
+  *$link your internal Hy style guide or a reference note with macros/patterns you like; keep it local to the vault/repo$*
 
 ---
 

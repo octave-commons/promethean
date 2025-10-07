@@ -1,14 +1,18 @@
 ---
+$$
 uuid: 3ea0cf32-04c9-42eb-a256-22dc03360f1a
+$$
 title: finalize migration plan md md md
 status: todo
 priority: P3
 labels: []
+$$
 created_at: '2025-09-15T02:02:58.513Z'
+$$
 ---
-## 🛠️ Task: [[Finalize `MIGRATION_PLAN.md`]]
+## 🛠️ Task: $[Finalize `MIGRATION_PLAN.md`]$
 
-Generated from [../unique/2025.07.28.18.07.20.md](../unique/2025.07.28.18.07.20.md)
+Generated from $../unique/2025.07.28.18.07.20.md$$../unique/2025.07.28.18.07.20.md$
 
 ---
 

@@ -1,5 +1,7 @@
 ---
+$$
 uuid: 7b8c9d0e-1f2a-3b4c-5d6e-7f8g9h0i1j2k
+$$
 title: Implement kanban dev command with real-time sync and UI hosting
 status: todo
 priority: P1
@@ -10,7 +12,9 @@ labels:
   - real-time-sync
   - ui-hosting
   - cli-enhancement
+$$
 created_at: '2025-10-05T00:00:00.000Z'
+$$
 ---
 
 ## 🛠️ Task: Implement kanban dev command with real-time sync and UI hosting
@@ -36,7 +40,7 @@ A `pnpm kanban dev` command that provides:
 ## 📋 Requirements
 
 ### Phase 1: File Watching System
-- [ ] Implement board file watcher (`.kanban/board.md` and related files)
+- [ ] Implement board file watcher $`.kanban/board.md` and related files$
 - [ ] Add task file monitoring (detect changes outside kanban API)
 - [ ] Create event system for different change types
 - [ ] Add debouncing to prevent excessive git operations
@@ -130,7 +134,9 @@ pnpm kanban dev --verbose --debug-sync
 
 ### Change Detection Flow
 1. **File watcher** detects changes to `.kanban/` directory
+$$
 2. **Change type identification**:
+$$
    - Board file changes → trigger `git push`
    - Task file changes → trigger UI update
    - Remote changes → trigger `git pull` + UI refresh
@@ -140,7 +146,9 @@ pnpm kanban dev --verbose --debug-sync
 ### Real-time UI Updates
 1. **File change** detected by watcher
 2. **WebSocket event** broadcast to connected clients
+$$
 3. **Client receives** change notification
+$$
 4. **UI refreshes** with latest data
 5. **Status indicator** shows sync state
 
@@ -205,7 +213,9 @@ pnpm kanban dev --verbose --debug-sync
 
 ### Development Workflow
 1. **Start dev server**: `pnpm kanban dev`
-2. **Automatic browser opening** to `http://localhost:3000`
+$$
+2. **Automatic browser opening** to `
+$$http://localhost:3000`
 3. **Make changes** to tasks or board files
 4. **See real-time updates** in UI without manual refresh
 5. **Automatic git sync** keeps remote repository updated

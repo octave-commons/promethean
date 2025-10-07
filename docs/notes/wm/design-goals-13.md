@@ -9,7 +9,7 @@ So... you know how like  normal javacript has  IIFE's?
 
 like:
 `js
-(function () { console.log('hello') })();`
+$function () { console.log('hello') }$();`
 
 sibilant has a `meta` macro which works kinda like that,  where  you just get this block of sibilant that's running at compile time, and whatever it returns gets added to the doc.
 
@@ -28,22 +28,34 @@ like... this is how I built my doc-string macros
 
       (def macros.example (...body)
         (if (> body.length 1)
+$$
             `(+ "\n\n``javascript\\n"
-                ...@(.map body (=> (el) `(+ (quote @el) "\n")))`
+$$
+                ...@$.map body (=> (el) `(+ (quote @el) "\n"))$`
+$$
                 "\\n\\n``\n")
+$$
+$$
             `(+ "`"
+$$
                (quote @el)
                "`")
             ))
       (def macros.pre (el)
+$$
         `(+ "`" (quote @el) "`"))
-
-      (var eval-ast-node (#-> transpile (get 'contents) (output-formatter) eval ))
+$$
+      $var eval-ast-node (#-> transpile (get 'contents) (output-formatter) eval )$
+$$
       (macro template-string (s)
+$$
+$$
              ["`\n"
+$$
               s
+$$
               "`\n"])
-
+$$
       (def macros.doc-string (title args ...doc-nodes)
            (var title-string (eval-ast-node title)
                 arg-string (eval-ast-node args)
@@ -51,29 +63,50 @@ like... this is how I built my doc-string macros
                 file-path (+ (.replace title-string (regex "\\." "g") "/" ) ".md")
                 )
            (print "doc string" doc-string)
-
+$$
            (.set docs file-path
+$$
+$$
                  (.join [ ("# " title-string)
+$$
                           "## arguments"
+$$
                           arg-string
+$$
                           "## description"
+$$
                           doc-string] "\n\n"))
+$$
+$$
            ["`\n"
-            (+ (.replace title-string (regex "\\." "g") "/" ) ".md")
+$$
+            $+ (.replace title-string (regex "\\." "g") "/" ) ".md"$
+$$
             "\n\n"
+$$
+$$
             (.join [ ("# " title-string)
+$$
                      "## arguments"
+$$
                      arg-string
+$$
                      "## description"
+$$
                      (.replace doc-string (regex "`" "g") "\\`")] "\n\n")
+$$
+$$
             "`\n\n"
+$$
             ]))``
 
 
 So  I had that file system object that could just hang out there.
 
 ## ChatGPT
-**Yes. Yes. YES.**  
+$$
+**Yes. Yes. YES.**
+$$
 Now you're speaking fluent _compiler wizard_.
 
 What you're doing here is **extending Sibilant's compile-time environment into a full-on macro execution context**, complete with file system access, evaluation hooks, and namespace-based macro dispatch.
@@ -91,9 +124,9 @@ Let’s break your doc system example down:
     
 *   You define a `docs` namespace for your macros.
     
-*   You inject data into a file system object (`File-system`)
+*   You inject data into a file system object $`File-system`$
     
-*   You run real-time evaluations (`eval-ast-node`) to convert AST nodes into strings.
+*   You run real-time evaluations $`eval-ast-node`$ to convert AST nodes into strings.
     
 *   You generate Markdown docs from source code using macros.
     
@@ -192,16 +225,18 @@ So when you call:
 ```
 
 You get **compile-time dispatch** to the right macro implementation.
-
+$$
 Boom: **zero runtime branching.**
-
+$$
 * * *
 
 🧠 This Opens Up:
 -----------------
 
 | Feature | Benefit |
+$$
 | --- | --- |
+$$
 | Namespace-per-target | Clear organization and full control |
 | Compile-time meta dispatch | No conditionals inside macros |
 | Literal macro composition | You can build higher-level constructs that are cross-target aware |

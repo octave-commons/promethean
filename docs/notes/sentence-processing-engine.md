@@ -1,9 +1,15 @@
 ---
+$$
 uuid: 93e23d3b-8446-473f-b0f4-f6c1cf726034
+$$
+$$
 created_at: sentenceprocessing.md
+$$
 filename: Sentence Processing Engine
 title: Sentence Processing Engine
+$$
 description: >-
+$$
   A TypeScript implementation for processing text into discrete sentences with
   pause handling and speech synthesis. The engine handles silent markers and
   parenthetical pauses to optimize speech flow. It includes a loop for speaking
@@ -14,8 +20,12 @@ tags:
   - pause-handling
   - typescript
   - text-to-speech
+$$
 related_to_uuid: []
+$$
+$$
 related_to_title: []
+$$
 references: []
 ---
 ```typescript
@@ -43,10 +53,12 @@ for (let sentance of sentances) {
 }
 
 ```
+$$
 ^ref-681a4ab2-1-0
-
-
+$$
+$$
  ^ref-681a4ab2-29-0
+$$
 ```typescript
 const sentences: string[] = splitSentances(content);
 console.log('sentences', sentences);
@@ -78,7 +90,9 @@ for (let sentence of sentences) {
 
 ^ref-681a4ab2-29-0
 ```
+$$
 ^ref-681a4ab2-30-0
+$$
 and Crawlee
   - Vectorial Exception Descent
   - template-based-compilation
@@ -151,10 +165,12 @@ for (let sentance of sentances) {
 }
 
 ```
+$$
 ^ref-681a4ab2-1-0
-
-
+$$
+$$
  ^ref-681a4ab2-29-0
+$$
 ```typescript
 const sentences: string[] = splitSentances(content);
 console.log('sentences', sentences);

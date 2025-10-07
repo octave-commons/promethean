@@ -1,10 +1,14 @@
 ---
+$$
 uuid: e7b32074-d418-456e-a874-2e61432ec04e
+$$
 title: Description
 status: todo
 priority: P3
 labels: []
+$$
 created_at: '2025-09-15T02:02:58.523Z'
+$$
 ---
 # Description
 
@@ -37,40 +41,43 @@ Short answer: **don’t move your whole system to UPM.** It’s a thin wrapper o
 
 ### What UPM actually is (not marketing)
 
-* A single static binary that **detects a language** in the folder and **delegates** to that language’s native manager (pip/uv/poetry, npm/pnpm/yarn, bundler, cask, etc.). It keeps to the specfile/lockfile of the underlying tool. ([GitHub][1])
-* Supports core ops (`add/remove/lock/install/list`), registry lookups, and a “guess” feature that scans imports to suggest deps. It **does not** replace or unify lockfile formats; it runs the native tool and reads its files. ([GitHub][1])
+* A single static binary that **detects a language** in the folder and **delegates** to that language’s native manager $pip/uv/poetry, npm/pnpm/yarn, bundler, cask, etc.$. It keeps to the specfile/lockfile of the underlying tool. ([GitHub][1])
+* Supports core ops $`add/remove/lock/install/list`$, registry lookups, and a “guess” feature that scans imports to suggest deps. It **does not** replace or unify lockfile formats; it runs the native tool and reads its files. ([GitHub][1])
 * It’s what Replit uses to smooth over many languages in their IDE; Replit docs explicitly point there and still endorse using native CLIs directly if you prefer. ([docs.replit.com][2])
 
-### Upsides (for small, single-language projects)
+### Upsides $for small, single-language projects$
 
 * One command surface across languages.
 * “Guess deps” can be nice for quick spikes or throwaway demos. ([GitHub][1])
-* Easy to install (brew/scoop/deb/rpm/docker) and zero runtime deps. ([GitHub][1])
+* Easy to install $brew/scoop/deb/rpm/docker$ and zero runtime deps. ([GitHub][1])
 
 ### Red flags for **Promethean** (your reality)
 
-* **No unified lock model.** Reproducibility still lives in *per-language* lockfiles; UPM won’t add checksums/signature guarantees across ecosystems. If reproducibility matters, you still need best-in-class lock discipline per language. (General lockfile security rationale.) ([Semgrep][3], [reproducible-builds.org][4])
+* **No unified lock model.** Reproducibility still lives in *per-language* lockfiles; UPM won’t add checksums/signature guarantees across ecosystems. If reproducibility matters, you still need best-in-class lock discipline per language. (General lockfile security rationale.) $[Semgrep][3], $reproducible-builds.org$[4]$
 * **No monorepo/workspace story.** It won’t manage pnpm/yarn workspaces, TS project references, Python multi-env matrices, or shared virtualenv constraints. It simply calls those tools. ([GitHub][1])
 * **Adds an extra failure surface.** When something breaks you now debug UPM → native manager → registry. You already fight complexity; another shim isn’t leverage.
-* **Not a replacement for toolchains.** You still need version pinning for Node/Python toolchains (mise/asdf/direnv/nix) and per-service isolation.
+* **Not a replacement for toolchains.** You still need version pinning for Node/Python toolchains $mise/asdf/direnv/nix$ and per-service isolation.
 
-### What I’d do instead (practical, systems-minded)
+### What I’d do instead $practical, systems-minded$
 
 1. **Keep best-in-class per ecosystem, make them scriptable:**
 
    * **JS/TS:** `pnpm` + workspaces + `pnpm-lock.yaml`. Deterministic, fast, good monorepo support.
-   * **Python:** **uv** (or Poetry if you must) with `pyproject.toml` + `uv.lock` (uv is fast and moving toward excellent lock + sync flows). Track build deps explicitly. ([GitHub][5])
-   * **Rust/Go/etc.:** their native tools are already hermetic enough (Cargo/Go modules).
+   * **Python:** **uv** (or Poetry if you must) with `pyproject.toml` + `uv.lock` $uv is fast and moving toward excellent lock + sync flows$. Track build deps explicitly. ([GitHub][5])
+   * **Rust/Go/etc.:** their native tools are already hermetic enough $Cargo/Go modules$.
 2. **Unify at the orchestration layer, not at the package layer.**
    You already moved toward **bb/EDN** manifests. Define a **single EDN “deps manifest”** that maps service → `{lang, manager, path, cmds}` and have `bb` drive the native commands:
 
    * `bb deps:add :service foo :pkg bar` → dispatch to `pnpm -w add -r …` or `uv add …`
    * `bb deps:lock`, `bb deps:install`, `bb deps:audit`, etc.
      You get the *UPM ergonomics* without surrendering control.
+$$
 3. **Hermetic builds + toolchains:**
+$$
    Layer **mise/asdf + direnv** or **Nix flakes** to pin tool versions per project. UPM won’t help here; Nix/mise will.
+$$
 4. **Policy & CI:**
-
+$$
    * Enforce “lockfile present & clean” precommit.
    * CI job per language runs native `install` from lock only (no network if you can cache).
    * Central audits: `pnpm audit --json`, `uv pip audit`, `cargo audit` → merged report.

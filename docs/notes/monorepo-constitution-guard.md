@@ -1,9 +1,15 @@
 ---
+$$
 uuid: 7e0441ea-5ab9-4d52-8415-fa08f3c26bb9
+$$
+$$
 created_at: '2025-09-03T00:08:49Z'
+$$
 filename: Monorepo Constitution Guard
 title: Monorepo Constitution Guard
+$$
 description: >-
+$$
   A system to enforce monorepo rules using a constitution file that defines
   sacred files. PRs must run against the main branch's rules to prevent
   accidental changes to guard files themselves.
@@ -11,11 +17,15 @@ tags:
   - monorepo
   - convention
   - guard
+$$
 related_to_uuid: []
+$$
+$$
 related_to_title: []
+$$
 references: []
 ---
-Yeah, fair point: if the repo runs its *own* guards from the PR branch, I (or future-me) can “fix the tests” and make red turn green. So don’t let PRs run the rules they’re trying to change.
+Yeah, fair point: if the repo runs its *own* guards from the PR branch, I $or future-me$ can “fix the tests” and make red turn green. So don’t let PRs run the rules they’re trying to change.
 
 Here’s the **no-bullshit** way to lock it down *inside one monorepo*:
 
@@ -49,9 +59,9 @@ Create `.constitution.json` at repo root. These are the files/directories no PR 
 # 1) Guard runs from **main**, not from the PR
 
 Add a workflow that checks the PR’s tree **using guard code from `main`**. That way, even if the PR edits the guard, it doesn’t matter.
-
+$$
 `.github/workflows/constitution.yml`
-
+$$
 ```yaml
 name: constitution-guard
 on:
@@ -164,9 +174,9 @@ console.log("✅ Constitution untouched.");
 > This uses `gh` CLI preinstalled on GitHub runners. It reads PR labels/author, and **fails** if sacred files changed without your explicit override.
 
 # 2) CODEOWNERS (belt & suspenders)
-
+$$
 `.github/CODEOWNERS`
-
+$$
 ```
 # Constitution files require Err
 /config/tsconfig.*.json     @Err
@@ -185,10 +195,10 @@ console.log("✅ Constitution untouched.");
 /.github/CODEOWNERS        @Err
 ```
 
-# 3) Flat-packages check (tiny + brutal)
-
+# 3) Flat-packages check $tiny + brutal$
+$$
 `scripts/check-flat.js`
-
+$$
 ```js
 import { readdirSync, statSync } from "node:fs";
 import { join } from "node:path";

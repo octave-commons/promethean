@@ -3,7 +3,7 @@
 Every package must be tied to documentation. Changes to package source **must** include a docs update (or an explicit bypass label).
 
 ## How it works
-- A GitHub Action (`docs-guard.yml`) runs on every PR.
+- A GitHub Action $`docs-guard.yml`$ runs on every PR.
 - If files under `packages/<slug>/src/**` change (excluding tests), the action checks for a docs change in one of these locations (first match wins):
   - `docs/packages/<slug>/**`
   - `docs/services/<slug>/**`
@@ -15,7 +15,7 @@ Every package must be tied to documentation. Changes to package source **must** 
 - Maintainers can apply the `skip-docs` label to the PR to bypass the guard (e.g., refactors with no externally visible changes).
 
 ## Recommended structure per package
-- `README.md` – high-level overview (what/why).
+- `README.md` – high-level overview $what/why$.
 - `API.md` – public surface, examples.
 - `DIAGRAMS.md` – Mermaid diagrams where helpful.
 

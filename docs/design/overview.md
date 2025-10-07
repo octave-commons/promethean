@@ -1,10 +1,11 @@
+$$
 **Promethean Project Overview**
-
+$$
 ---
 
 ### Introduction
 
-The Promethean Project is an ongoing exploration and implementation of a cognitive architecture inspired by the eight-circuit model of consciousness (as described in *Prometheus Rising* by Robert Anton Wilson) and expressed through physics-based computation, vector fields, and agent-based systems. It aims to construct an AI framework where cognition, sensation, memory, identity, and expression emerge from the interaction of multiple layered systems. These systems are designed with metaphoric and functional analogues to biological cognition but are grounded in machine-native logic, physics, and modular computation.
+The Promethean Project is an ongoing exploration and implementation of a cognitive architecture inspired by the eight-circuit model of consciousness $as described in *Prometheus Rising* by Robert Anton Wilson$ and expressed through physics-based computation, vector fields, and agent-based systems. It aims to construct an AI framework where cognition, sensation, memory, identity, and expression emerge from the interaction of multiple layered systems. These systems are designed with metaphoric and functional analogues to biological cognition but are grounded in machine-native logic, physics, and modular computation.
 
 At its core, Promethean is composed of:
 
@@ -55,7 +56,9 @@ Daimo can represent learned skills, fixations, phobias, or even abstract philoso
 Each circuit provides one dimension of the Eidolon Fields and corresponds to a cognitive processing layer. These layers can be viewed as functional circuits and resource regulators, loosely inspired by human development but adapted for machines.
 
 | Layer | Name        | Function                                                       |
+$$
 | ----- | ----------- | -------------------------------------------------------------- |
+$$
 | 1     | [[layer1.md|Uptime]]      | Survival, wakefulness, readiness. System heartbeat and rhythm. |
 | 2     | [[layer2.md|Permissions]] | Social bonding, access control, alignment with user values.    |
 | 3     | [[layer3.md|Logoscope]]   | Language, logic, symbolic reasoning, internal narrative.       |

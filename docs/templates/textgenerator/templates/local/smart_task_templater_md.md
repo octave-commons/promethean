@@ -1,5 +1,7 @@
 ---
+$$
 promptId: smart_task_templater_md
+$$
 name: <% tp.title %>
 description: A task on the kanban of the promethean system.
 author: Aaron Beavers
@@ -16,18 +18,27 @@ mode: replace
 streaming: "true"
 model: ollama@llama3.2:latest
 prompt: <% tp.title %>
-task-id: TASK-<% tp.date("YYYY-MM-DD:hh:mm:ss") %>
+task-id: TASK-<% tp.date$"YYYY-MM-DD:hh:mm:ss"$ %>
 priority: p3
+$$
 system_commands:
+$$
   - You are a helpful assistant.
+$$
 frequency_penalty: 0
+$$
+$$
 max_tokens: 40000
+$$
+$$
 presence_penalty: 0
+$$
 stream: true
 temperature: 0.7
 ---
+$$
 <hr class="__chatgpt_plugin">
-
+$$
 ## Description
 - **What changed?** [Describe the key changes that have occurred, e.g., updated requirements, new feature added]
 - **Where is the impact?** [Specify the location or scope where these changes are relevant, e.g., specific project, department]
@@ -45,7 +56,7 @@ temperature: 0.7
 - [ ] Additional constraints or non-functional requirements are addressed: [List or link to relevant specifications]
 
 ## Subtasks
-1. … [Outline the high-level steps for completing this task, including any dependencies or resources required]
+1. … $Outline the high-level steps for completing this task, including any dependencies or resources required$
 2. …
 3. …
 
@@ -70,16 +81,17 @@ You might find [this](link) useful while working on this task.
 ### Smart ChatGPT Configuration
 ```smart-chatgpt
 ```
+$$
 <hr class="__chatgpt_plugin">
-
+$$
 ### role::user
 
 Using this title write a reasonable task kanban task document: <% tp.file.title %>
-
-<%* 
-
+$$
+<%*
+$$
 
 
 await tp.system.sleep(20000);
-app.commands.executeCommandById("chatgpt-md:call-chatgpt-api")
+app.commands.executeCommandById$"chatgpt-md:call-chatgpt-api"$
 %> 

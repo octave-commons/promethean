@@ -1,8 +1,16 @@
+$$
 <!-- SYMPKG:PKG:BEGIN -->
+$$
 # @promethean/legacy
-**Folder:** `packages/legacy`  
-**Version:** `0.0.0`  
+$$
+**Folder:** `packages/legacy`
+$$
+$$
+**Version:** `0.0.0`
+$$
+$$
 **Domain:** `_root`
+$$
 ```mermaid
 graph LR
   A["@promethean/legacy"]
@@ -35,14 +43,16 @@ graph LR
   click R7 "../persistence/README.md" "@promethean/persistence"
 ```
 ## Dependencies
-- [@promethean/apply-patch](../apply-patch/README.md)
-- [@promethean/test-utils](../test-utils/README.md)
+- $@promethean/apply-patch$$../apply-patch/README.md$
+- $@promethean/test-utils$$../test-utils/README.md$
 ## Dependents
-- [@promethean/agent-ecs](../agent-ecs/README.md)
-- [@promethean/cephalon](../cephalon/README.md)
-- [@promethean/discord](../discord/README.md)
-- [@promethean/embedding](../embedding/README.md)
-- [@promethean/file-watcher](../file-watcher/README.md)
-- [@promethean/kanban-processor](../kanban-processor/README.md)
-- [@promethean/persistence](../persistence/README.md)
+- $@promethean/agent-ecs$$../agent-ecs/README.md$
+- $@promethean/cephalon$$../cephalon/README.md$
+- $@promethean/discord$$../discord/README.md$
+- $@promethean/embedding$$../embedding/README.md$
+- $@promethean/file-watcher$$../file-watcher/README.md$
+- $@promethean/kanban-processor$$../kanban-processor/README.md$
+- $@promethean/persistence$$../persistence/README.md$
+$$
 <!-- SYMPKG:PKG:END -->
+$$

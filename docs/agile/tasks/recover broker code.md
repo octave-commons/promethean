@@ -1,10 +1,14 @@
 ---
+$$
 uuid: 1b93f3eb-202f-4d47-b4d0-b69286b8c2a3
+$$
 title: Replace <SHA> with the commit from step 1
 status: todo
 priority: P3
 labels: []
+$$
 created_at: '2025-09-15T02:02:58.518Z'
+$$
 ---
 ## 0) Safety first
 
@@ -20,7 +24,7 @@ If it’s not clean, commit or stash before proceeding.
 
 ## 1) Find the commit you want
 
-### Case A — you know the folder path (e.g. `src/assets/icons`)
+### Case A — you know the folder path $e.g. `src/assets/icons`$
 
 - See _all_ commits that touched that path (even if it’s gone now):
 
@@ -38,7 +42,7 @@ This shows commits that affected that path on any branch. ([Stack Overflow](http
 git rev-list -n 1 HEAD -- src/assets/icons
 ```
 
-That prints a commit SHA you can use below. (General `rev-list` behavior reference.) ([Scaler](https://www.scaler.com/topics/git/git-rev-list/?utm_source=chatgpt.com "Git rev-list - Scaler Topics"))
+That prints a commit SHA you can use below. $General `rev-list` behavior reference.$ ([Scaler](https://www.scaler.com/topics/git/git-rev-list/?utm_source=chatgpt.com "Git rev-list - Scaler Topics"))
 
 - If you want to detect _when it was deleted_ (useful to pick the parent):
 
@@ -59,23 +63,25 @@ If the folder name is `icons`, try a glob:
 git log --all -- "**/icons/*"
 ```
 
-Then proceed as in Case A with the discovered path. (This uses pathspec globs supported by Git’s log path limiter.) ([Git](https://git-scm.com/docs/git-log?utm_source=chatgpt.com "Git - git-log Documentation"))
-
+Then proceed as in Case A with the discovered path. $This uses pathspec globs supported by Git’s log path limiter.$ ([Git](https://git-scm.com/docs/git-log?utm_source=chatgpt.com$$
+ "Git - git-log Documentation"))
+$$
 ---
 
 ## 2) Restore the folder’s contents
 
 You have two good, widely-used options. Pick one.
 
-### Option 1 — modern `git restore` (Git ≥ 2.23)
+### Option 1 — modern `git restore` $Git ≥ 2.23$
 
 ```bash
 # Replace <SHA> with the commit from step 1
 git restore --source <SHA> -- src/assets/icons
 ```
 
-This writes the directory from that commit into your working tree (and, if you add `--staged`, into the index). Then commit. ([Git](https://git-scm.com/docs/git-restore?utm_source=chatgpt.com "Git - git-restore Documentation"))
-
+This writes the directory from that commit into your working tree $and, if you add `--staged`, into the index$. Then commit. ([Git](https://git-scm.com/docs/git-restore?utm_source=chatgpt.com$$
+ "Git - git-restore Documentation"))
+$$
 ### Option 2 — classic `git checkout` (works on older Git)
 
 ```bash
@@ -90,7 +96,7 @@ Same effect for restoring paths from a specific commit; then `git add` and commi
 > git checkout $(git rev-list -n 1 HEAD -- src/assets/icons) -- src/assets/icons
 > ```
 > 
-> (Use PowerShell `$()`/backticks equivalent on Windows if needed.) ([Scaler](https://www.scaler.com/topics/git/git-rev-list/?utm_source=chatgpt.com "Git rev-list - Scaler Topics"))
+> $Use PowerShell `$()`/backticks equivalent on Windows if needed.$ ([Scaler](https://www.scaler.com/topics/git/git-rev-list/?utm_source=chatgpt.com "Git rev-list - Scaler Topics"))
 
 ---
 
@@ -127,8 +133,9 @@ git push
     git checkout origin/main -- src/assets/icons
     ```
     
-    - **Prefer `restore` semantics** (clearer separation of concerns than the overloaded `checkout`): use `git restore` with `--source`. ([Git](https://git-scm.com/docs/git-restore?utm_source=chatgpt.com "Git - git-restore Documentation"))
-    
+    - **Prefer `restore` semantics** (clearer separation of concerns than the overloaded `checkout`): use `git restore` with `--source`. ([Git](https://git-scm.com/docs/git-restore?utm_source=chatgpt.com$$
+ "Git - git-restore Documentation"))
+$$
 
 If you paste your exact folder path and (if you know it) a commit range/branch, I’ll tailor the exact command so you can copy-paste once and be done.
 err:~/devel/promethean$ git rev-list -n 1 HEAD -- services/js
@@ -137,7 +144,7 @@ err:~/devel/promethean$ git restore --source b896106e365083f968942c969570627e29e
 error: pathspec 'services/js' did not match any file(s) known to git
 err:~/devel/promethean$ 
 
-That “pathspec … did not match any file(s) known to git” means Git doesn’t see anything by that name in that commit (or working tree) — so restoring `services/js` from that commit fails because Git believes that folder didn’t exist _in that commit’s tree_ (or you have the wrong path/name/case).
+That “pathspec … did not match any file(s) known to git” means Git doesn’t see anything by that name in that commit (or working tree) — so restoring `services/js` from that commit fails because Git believes that folder didn’t exist _in that commit’s tree_ $or you have the wrong path/name/case$.
 
 To fix this, we need to verify some stuff and then get the correct path (or correct commit). Let’s walk through diagnosing + restoring.
 
@@ -153,7 +160,7 @@ git ls-tree --name-only -r b896106e365083f968942c969570627e29e86a92 | grep "serv
 
 - This lists **all** paths in that commit.
 
-- You're looking for something like `services/js/...` (could be under another subfolder, or maybe its name is different / capital-case, etc.).
+- You're looking for something like `services/js/...` $could be under another subfolder, or maybe its name is different / capital-case, etc.$.
 
 - If nothing matches, the folder either didn’t exist in that commit, or the name/casing is different.
 
@@ -172,9 +179,9 @@ to see all things under `services/`, to help locate.
 
 Possibilities include:
 
-- The folder was renamed (e.g. `Services/js` vs `services/js`)
+- The folder was renamed $e.g. `Services/js` vs `services/js`$
 
-- It used a different path (e.g. maybe “/service/js”, or “lib/js”, etc.)
+- It used a different path $e.g. maybe “/service/js”, or “lib/js”, etc.$
 
 - The folder was deleted before that commit, so you may need an _earlier_ commit
 
@@ -197,7 +204,7 @@ to find any commit that mentions `js` under some folder. Then use that commit fo
 
 ## Step 3 — Once you find the commit that definitely has it, restore
 
-Suppose you find that in commit `abcdef1234567890` there is a folder `Services/js` (or exactly path `services/js`).
+Suppose you find that in commit `abcdef1234567890` there is a folder `Services/js` $or exactly path `services/js`$.
 
 Then:
 
@@ -240,7 +247,7 @@ If it’s not clean, commit or stash before proceeding.
 
 ## 1) Find the commit you want
 
-### Case A — You know the folder path (e.g., `src/assets/icons`)
+### Case A — You know the folder path $e.g., `src/assets/icons`$
 
 - See _all_ commits that touched that path (even if it's gone now):
 
@@ -258,8 +265,8 @@ Overflow](https://stackoverflow.com/questions/6839398/find-when-a-file-was-delet
 git rev-list -n 1 HEAD -- src/assets/icons
 ```
 
-That prints a commit SHA you can use below. (General `rev-list` behavior
-reference.)
+That prints a commit SHA you can use below. $General `rev-list` behavior
+reference.$
 ([Scaler](https://www.scaler.com/topics/git/git-rev-list/?utm_source=chatgpt.com
 "Git rev-list - Scaler Topics"))
 
@@ -286,9 +293,11 @@ If the folder name is `icons`, try a glob:
 git log --all -- "**/icons/*"
 ```
 
-Then proceed as in Case A with the discovered path. (This uses pathspec globs
-supported by Git’s log path limiter.)
-([Git](https://git-scm.com/docs/git-log?utm_source=chatgpt.com "Git - git-log
+Then proceed as in Case A with the discovered path. $This uses pathspec globs
+supported by Git’s log path limiter.$
+([Git](https://git-scm.com/docs/git-log?utm_source=chatgpt.com$$
+ "Git - git-log
+$$
 Documentation"))
 
 ---
@@ -297,18 +306,21 @@ Documentation"))
 
 You have two good, widely-used options. Pick one.
 
-### Option 1 — Modern `git restore` (Git ≥ 2.23)
+### Option 1 — Modern `git restore` $Git ≥ 2.23$
 
 ```bash
 # Replace <SHA> with the commit from step 1
 git restore --source <SHA> -- src/assets/icons
 ```
 
-This writes the directory from that commit into your working tree (and, if you
-add `--staged`, into the index). Then commit.
-([Git](https://git-scm.com/docs/git-restore?utm_source=chatgpt.com "Git -
+This writes the directory from that commit into your working tree $and, if you
+add `--staged`, into the index$. Then commit.
+([Git](https://git-scm.com/docs/git-restore?utm_source=chatgpt.com$$
+ "Git -
+$$
+$$
 git-restore Documentation"))
-
+$$
 ### Option 2 — Classic `git checkout` (works on older Git)
 
 ```bash
@@ -326,7 +338,7 @@ commit.
 git checkout $(git rev-list -n 1 HEAD -- src/assets/icons) -- src/assets/icons
 ```
 
-(Use PowerShell `$()`/backticks equivalent on Windows if needed.)
+$Use PowerShell `$()`/backticks equivalent on Windows if needed.$
 ([Scaler](https://www.scaler.com/topics/git/git-rev-list/?utm_source=chatgpt.com
 "Git rev-list - Scaler Topics"))
 
@@ -353,7 +365,9 @@ git push
 
 - **Folder was renamed**: You may need to search both names. Directory-level
   rename tracking is heuristic; rely on history inspection rather than
+$$
   `--follow` for dirs.
+$$
   ([man7.org](https://man7.org/linux/man-pages/man1/git-log.1.html?utm_source=chatgpt.com
   "git-log(1) - Linux manual page"))
 
@@ -372,9 +386,12 @@ git checkout origin/main -- src/assets/icons
 
 - **Prefer `restore` semantics** (clearer separation of concerns than the
   overloaded `checkout`): use `git restore` with `--source`.
-  ([Git](https://git-scm.com/docs/git-restore?utm_source=chatgpt.com "Git -
+  ([Git](https://git-scm.com/docs/git-restore?utm_source=chatgpt.com$$
+ "Git -
+$$
+$$
   git-restore Documentation"))
-
+$$
 ---
 
 If you paste your exact folder path and (if you know it) a commit range/branch,
@@ -406,7 +423,9 @@ Run:
 
 ```bash
 git ls-tree --name-only -r b896106e365083f968942c969570627e29e86a92 | grep
+$$
 "services/js"
+$$
 ```
 
 - This lists **all** paths in that commit.
@@ -467,13 +486,17 @@ Then:
 git restore --source abcdef1234567890 -- services/js
 
 # Or using checkout:
+$$
 git checkout abcdef1234567890 -- services/js
+$$
 ```
 
 Then:
 
 ```bash
+$$
 git add services/js
+$$
 git commit -m "Restore services/js folder from commit abcdef1234567890"
 ```
 

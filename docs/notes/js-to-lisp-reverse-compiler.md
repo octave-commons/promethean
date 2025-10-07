@@ -1,8 +1,14 @@
 ---
+$$
 uuid: 58191024-d04a-4520-8aae-a18be7b94263
+$$
+$$
 created_at: 2025.08.08.23.08.18.md
+$$
 filename: js-to-lisp-reverse-compiler
+$$
 description: >-
+$$
   A modular JS → Lisp reverse compiler that converts ESTree ASTs to Lisp
   S-exprs, supporting both real-world JS parsing via Acorn and pre-parsed ASTs
   for seamless integration with existing Lisp systems.
@@ -15,7 +21,9 @@ tags:
   - reverse
   - modular
   - interop
+$$
 related_to_title:
+$$
   - Promethean Agent Config DSL
   - set-assignment-in-lisp-ast
   - Dynamic Context Model for Web Components
@@ -48,7 +56,9 @@ related_to_title:
   - Lispy Macros with syntax-rules
   - 'Agent Tasks: Persistence Migration to DualStore'
   - archetype-ecs
+$$
 related_to_uuid:
+$$
   - 2c00ce45-08cf-4b81-9883-6157f30b7fae
   - c5fba0a0-9196-468d-a0f3-51c99e987263
   - f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
@@ -631,7 +641,7 @@ Ohhh we’re doing a **JS → Lisp reverse compiler**. Yes. Totally doable—esp
 
 * If **Acorn** is available, we’ll parse real-world JS.
 * If not, you can still feed us a pre-parsed **ESTree** AST (from anywhere) and we’ll convert it.
-* The converter targets the Lisp front-end you already have: `(fn ...)`, `(let ...)`, `(begin ...)`, `and/or`, and our **interop** forms: `(js/get ...) (js/set! ...) (js/call ...) (js/new ...) (js/global ...)`.
+* The converter targets the Lisp front-end you already have: `(fn ...)`, `(let ...)`, `(begin ...)`, `and/or`, and our **interop** forms: `$js/get ...$ $js/set! ...$ $js/call ...$ $js/new ...$ $js/global ...$`.
 
 Below are drop-in files.
 
@@ -1018,12 +1028,12 @@ If you want, I’ll wire that end-to-end next—just say the word.
 
 ## What this v1 supports well
 
-* The exact JS we emit today (IIFEs, `let` + assignment, `if`, returns, calls, `new`, member access via `[]`, globalThis indexed).
+* The exact JS we emit today $IIFEs, `let` + assignment, `if`, returns, calls, `new`, member access via `[]`, globalThis indexed$.
 * Many “normal” JS snippets once Acorn parses them.
 
 ## What’s deliberately rough (for now)
 
-* `class`, `try/catch`, `switch`, `for..of/in`, destructuring (non-trivial to map cleanly to Lisp).
+* `class`, `try/catch`, `switch`, `for..of/in`, destructuring $non-trivial to map cleanly to Lisp$.
 * Advanced control flow. We can desugar gradually.
 
 ---
@@ -1032,177 +1042,177 @@ Want me to:
 
 * add **variable `set!`** support so reverse-compiling JS assignments becomes perfect?
 * improve `for/while` lowering into higher-level Lispy loops?
-* or make a **round-trip test harness** (Lisp → JS → Lisp) to ensure stability as we evolve both sides?
+* or make a **round-trip test harness** $Lisp → JS → Lisp$ to ensure stability as we evolve both sides?
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [[promethean-agent-config-dsl|Promethean Agent Config DSL]]
-- [[set-assignment-in-lisp-ast]]
-- [[dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]]
-- [[language-agnostic-mirror-system|Language-Agnostic Mirror System]]
-- [[migrate-to-provider-tenant-architecture|Migrate to Provider-Tenant Architecture]]
-- [[ice-box-reorganization|Ice Box Reorganization]]
+- $[promethean-agent-config-dsl|Promethean Agent Config DSL]$
+- $[set-assignment-in-lisp-ast]$
+- $[dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]$
+- $[language-agnostic-mirror-system|Language-Agnostic Mirror System]$
+- $[migrate-to-provider-tenant-architecture|Migrate to Provider-Tenant Architecture]$
+- $[ice-box-reorganization|Ice Box Reorganization]$
 - [[eidolonfield]]
-- [[cross-target-macro-system-in-sibilant|Cross-Target Macro System in Sibilant]]
-- [[exception-layer-analysis|Exception Layer Analysis]]
-- [[vectorial-exception-descent|Vectorial Exception Descent]]
-- [[eidolon-field-abstract-model|Eidolon Field Abstract Model]]
-- [[2d-sandbox-field]]
-- [[docs/unique/interop-and-source-maps|Interop and Source Maps]]
-- [[lisp-compiler-integration]]
-- [[markdown-to-org-transpiler]]
-- [[ai-centric-os-with-mcp-layer|AI-Centric OS with MCP Layer]]
-- [[docs/unique/compiler-kit-foundations|compiler-kit-foundations]]
-- [[cross-language-runtime-polymorphism|Cross-Language Runtime Polymorphism]]
-- [[local-only-llm-workflow]]
-- [[chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]]
-- [[docs/unique/field-interaction-equations|field-interaction-equations]]
-- [[api-gateway-versioning]]
-- [[board-walk-2025-08-11|Board Walk – 2025-08-11]]
-- [DSL](chunks/dsl.md)
-- [[docs/unique/ecs-offload-workers|ecs-offload-workers]]
-- [[ecs-scheduler-and-prefabs]]
-- [[docs/unique/eidolon-field-math-foundations|eidolon-field-math-foundations]]
-- [[docs/unique/field-dynamics-math-blocks|field-dynamics-math-blocks]]
-- [lisp-dsl-for-window-management](lisp-dsl-for-window-management.md)
-- [[lispy-macros-with-syntax-rules|Lispy Macros with syntax-rules]]
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore|Agent Tasks: Persistence Migration to DualStore]]
-- [[docs/unique/archetype-ecs|archetype-ecs]]
+- $[cross-target-macro-system-in-sibilant|Cross-Target Macro System in Sibilant]$
+- $[exception-layer-analysis|Exception Layer Analysis]$
+- $[vectorial-exception-descent|Vectorial Exception Descent]$
+- $[eidolon-field-abstract-model|Eidolon Field Abstract Model]$
+- $[2d-sandbox-field]$
+- $[docs/unique/interop-and-source-maps|Interop and Source Maps]$
+- $[lisp-compiler-integration]$
+- $[markdown-to-org-transpiler]$
+- $[ai-centric-os-with-mcp-layer|AI-Centric OS with MCP Layer]$
+- $[docs/unique/compiler-kit-foundations|compiler-kit-foundations]$
+- $[cross-language-runtime-polymorphism|Cross-Language Runtime Polymorphism]$
+- $[local-only-llm-workflow]$
+- $[chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]$
+- $[docs/unique/field-interaction-equations|field-interaction-equations]$
+- $[api-gateway-versioning]$
+- $[board-walk-2025-08-11|Board Walk – 2025-08-11]$
+- [DSL]$chunks/dsl.md$
+- $[docs/unique/ecs-offload-workers|ecs-offload-workers]$
+- $[ecs-scheduler-and-prefabs]$
+- $[docs/unique/eidolon-field-math-foundations|eidolon-field-math-foundations]$
+- $[docs/unique/field-dynamics-math-blocks|field-dynamics-math-blocks]$
+- $lisp-dsl-for-window-management$$lisp-dsl-for-window-management.md$
+- $[lispy-macros-with-syntax-rules|Lispy Macros with syntax-rules]$
+- $[docs/unique/agent-tasks-persistence-migration-to-dualstore|Agent Tasks: Persistence Migration to DualStore]$
+- $[docs/unique/archetype-ecs|archetype-ecs]$
 
 ## Sources
-- [[set-assignment-in-lisp-ast#L114|set-assignment-in-lisp-ast — L114]] (line 114, col 1, score 0.86)
-- [[promethean-agent-config-dsl#L143|Promethean Agent Config DSL — L143]] (line 143, col 1, score 0.9)
-- [[ai-centric-os-with-mcp-layer#L402|AI-Centric OS with MCP Layer — L402]] (line 402, col 1, score 1)
-- [[ai-centric-os-with-mcp-layer#L402|AI-Centric OS with MCP Layer — L402]] (line 402, col 3, score 1)
-- [[cross-target-macro-system-in-sibilant#L169|Cross-Target Macro System in Sibilant — L169]] (line 169, col 1, score 1)
-- [[cross-target-macro-system-in-sibilant#L169|Cross-Target Macro System in Sibilant — L169]] (line 169, col 3, score 1)
-- [[dynamic-context-model-for-web-components#L387|Dynamic Context Model for Web Components — L387]] (line 387, col 1, score 1)
-- [[dynamic-context-model-for-web-components#L387|Dynamic Context Model for Web Components — L387]] (line 387, col 3, score 1)
-- [[lisp-compiler-integration#L544|Lisp-Compiler-Integration — L544]] (line 544, col 1, score 1)
-- [[lisp-compiler-integration#L544|Lisp-Compiler-Integration — L544]] (line 544, col 3, score 1)
-- [[docs/unique/compiler-kit-foundations#L607|compiler-kit-foundations — L607]] (line 607, col 1, score 1)
-- [[docs/unique/compiler-kit-foundations#L607|compiler-kit-foundations — L607]] (line 607, col 3, score 1)
-- [[docs/unique/interop-and-source-maps#L514|Interop and Source Maps — L514]] (line 514, col 1, score 1)
-- [[docs/unique/interop-and-source-maps#L514|Interop and Source Maps — L514]] (line 514, col 3, score 1)
-- [[language-agnostic-mirror-system#L535|Language-Agnostic Mirror System — L535]] (line 535, col 1, score 1)
-- [[language-agnostic-mirror-system#L535|Language-Agnostic Mirror System — L535]] (line 535, col 3, score 1)
-- [[lisp-compiler-integration#L540|Lisp-Compiler-Integration — L540]] (line 540, col 1, score 1)
-- [[lisp-compiler-integration#L540|Lisp-Compiler-Integration — L540]] (line 540, col 3, score 1)
-- [[api-gateway-versioning#L285|api-gateway-versioning — L285]] (line 285, col 1, score 1)
-- [[api-gateway-versioning#L285|api-gateway-versioning — L285]] (line 285, col 3, score 1)
-- [[board-walk-2025-08-11#L135|Board Walk – 2025-08-11 — L135]] (line 135, col 1, score 1)
-- [[board-walk-2025-08-11#L135|Board Walk – 2025-08-11 — L135]] (line 135, col 3, score 1)
-- [[chroma-toolkit-consolidation-plan#L167|Chroma Toolkit Consolidation Plan — L167]] (line 167, col 1, score 1)
-- [[chroma-toolkit-consolidation-plan#L167|Chroma Toolkit Consolidation Plan — L167]] (line 167, col 3, score 1)
-- [[cross-target-macro-system-in-sibilant#L180|Cross-Target Macro System in Sibilant — L180]] (line 180, col 1, score 1)
-- [[cross-target-macro-system-in-sibilant#L180|Cross-Target Macro System in Sibilant — L180]] (line 180, col 3, score 1)
-- [[docs/unique/archetype-ecs#L458|archetype-ecs — L458]] (line 458, col 1, score 1)
-- [[docs/unique/archetype-ecs#L458|archetype-ecs — L458]] (line 458, col 3, score 1)
-- [[docs/unique/interop-and-source-maps#L521|Interop and Source Maps — L521]] (line 521, col 1, score 1)
-- [[docs/unique/interop-and-source-maps#L521|Interop and Source Maps — L521]] (line 521, col 3, score 1)
-- [[lisp-compiler-integration#L542|Lisp-Compiler-Integration — L542]] (line 542, col 1, score 1)
-- [[lisp-compiler-integration#L542|Lisp-Compiler-Integration — L542]] (line 542, col 3, score 1)
-- [[lispy-macros-with-syntax-rules#L405|Lispy Macros with syntax-rules — L405]] (line 405, col 1, score 1)
-- [[lispy-macros-with-syntax-rules#L405|Lispy Macros with syntax-rules — L405]] (line 405, col 3, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L131|Agent Tasks: Persistence Migration to DualStore — L131]] (line 131, col 1, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L131|Agent Tasks: Persistence Migration to DualStore — L131]] (line 131, col 3, score 1)
-- [[chroma-toolkit-consolidation-plan#L169|Chroma Toolkit Consolidation Plan — L169]] (line 169, col 1, score 1)
-- [[chroma-toolkit-consolidation-plan#L169|Chroma Toolkit Consolidation Plan — L169]] (line 169, col 3, score 1)
-- [[cross-target-macro-system-in-sibilant#L175|Cross-Target Macro System in Sibilant — L175]] (line 175, col 1, score 1)
-- [[cross-target-macro-system-in-sibilant#L175|Cross-Target Macro System in Sibilant — L175]] (line 175, col 3, score 1)
-- [[dynamic-context-model-for-web-components#L392|Dynamic Context Model for Web Components — L392]] (line 392, col 1, score 1)
-- [[dynamic-context-model-for-web-components#L392|Dynamic Context Model for Web Components — L392]] (line 392, col 3, score 1)
-- [[2d-sandbox-field#L200|2d-sandbox-field — L200]] (line 200, col 1, score 1)
-- [[2d-sandbox-field#L200|2d-sandbox-field — L200]] (line 200, col 3, score 1)
-- [[eidolon-field-abstract-model#L198|Eidolon Field Abstract Model — L198]] (line 198, col 1, score 1)
-- [[eidolon-field-abstract-model#L198|Eidolon Field Abstract Model — L198]] (line 198, col 3, score 1)
+- $[set-assignment-in-lisp-ast#L114|set-assignment-in-lisp-ast — L114]$ (line 114, col 1, score 0.86)
+- $[promethean-agent-config-dsl#L143|Promethean Agent Config DSL — L143]$ (line 143, col 1, score 0.9)
+- $[ai-centric-os-with-mcp-layer#L402|AI-Centric OS with MCP Layer — L402]$ (line 402, col 1, score 1)
+- $[ai-centric-os-with-mcp-layer#L402|AI-Centric OS with MCP Layer — L402]$ (line 402, col 3, score 1)
+- $[cross-target-macro-system-in-sibilant#L169|Cross-Target Macro System in Sibilant — L169]$ (line 169, col 1, score 1)
+- $[cross-target-macro-system-in-sibilant#L169|Cross-Target Macro System in Sibilant — L169]$ (line 169, col 3, score 1)
+- $[dynamic-context-model-for-web-components#L387|Dynamic Context Model for Web Components — L387]$ (line 387, col 1, score 1)
+- $[dynamic-context-model-for-web-components#L387|Dynamic Context Model for Web Components — L387]$ (line 387, col 3, score 1)
+- $[lisp-compiler-integration#L544|Lisp-Compiler-Integration — L544]$ (line 544, col 1, score 1)
+- $[lisp-compiler-integration#L544|Lisp-Compiler-Integration — L544]$ (line 544, col 3, score 1)
+- $[docs/unique/compiler-kit-foundations#L607|compiler-kit-foundations — L607]$ (line 607, col 1, score 1)
+- $[docs/unique/compiler-kit-foundations#L607|compiler-kit-foundations — L607]$ (line 607, col 3, score 1)
+- $[docs/unique/interop-and-source-maps#L514|Interop and Source Maps — L514]$ (line 514, col 1, score 1)
+- $[docs/unique/interop-and-source-maps#L514|Interop and Source Maps — L514]$ (line 514, col 3, score 1)
+- $[language-agnostic-mirror-system#L535|Language-Agnostic Mirror System — L535]$ (line 535, col 1, score 1)
+- $[language-agnostic-mirror-system#L535|Language-Agnostic Mirror System — L535]$ (line 535, col 3, score 1)
+- $[lisp-compiler-integration#L540|Lisp-Compiler-Integration — L540]$ (line 540, col 1, score 1)
+- $[lisp-compiler-integration#L540|Lisp-Compiler-Integration — L540]$ (line 540, col 3, score 1)
+- $[api-gateway-versioning#L285|api-gateway-versioning — L285]$ (line 285, col 1, score 1)
+- $[api-gateway-versioning#L285|api-gateway-versioning — L285]$ (line 285, col 3, score 1)
+- $[board-walk-2025-08-11#L135|Board Walk – 2025-08-11 — L135]$ (line 135, col 1, score 1)
+- $[board-walk-2025-08-11#L135|Board Walk – 2025-08-11 — L135]$ (line 135, col 3, score 1)
+- $[chroma-toolkit-consolidation-plan#L167|Chroma Toolkit Consolidation Plan — L167]$ (line 167, col 1, score 1)
+- $[chroma-toolkit-consolidation-plan#L167|Chroma Toolkit Consolidation Plan — L167]$ (line 167, col 3, score 1)
+- $[cross-target-macro-system-in-sibilant#L180|Cross-Target Macro System in Sibilant — L180]$ (line 180, col 1, score 1)
+- $[cross-target-macro-system-in-sibilant#L180|Cross-Target Macro System in Sibilant — L180]$ (line 180, col 3, score 1)
+- $[docs/unique/archetype-ecs#L458|archetype-ecs — L458]$ (line 458, col 1, score 1)
+- $[docs/unique/archetype-ecs#L458|archetype-ecs — L458]$ (line 458, col 3, score 1)
+- $[docs/unique/interop-and-source-maps#L521|Interop and Source Maps — L521]$ (line 521, col 1, score 1)
+- $[docs/unique/interop-and-source-maps#L521|Interop and Source Maps — L521]$ (line 521, col 3, score 1)
+- $[lisp-compiler-integration#L542|Lisp-Compiler-Integration — L542]$ (line 542, col 1, score 1)
+- $[lisp-compiler-integration#L542|Lisp-Compiler-Integration — L542]$ (line 542, col 3, score 1)
+- $[lispy-macros-with-syntax-rules#L405|Lispy Macros with syntax-rules — L405]$ (line 405, col 1, score 1)
+- $[lispy-macros-with-syntax-rules#L405|Lispy Macros with syntax-rules — L405]$ (line 405, col 3, score 1)
+- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L131|Agent Tasks: Persistence Migration to DualStore — L131]$ (line 131, col 1, score 1)
+- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L131|Agent Tasks: Persistence Migration to DualStore — L131]$ (line 131, col 3, score 1)
+- $[chroma-toolkit-consolidation-plan#L169|Chroma Toolkit Consolidation Plan — L169]$ (line 169, col 1, score 1)
+- $[chroma-toolkit-consolidation-plan#L169|Chroma Toolkit Consolidation Plan — L169]$ (line 169, col 3, score 1)
+- $[cross-target-macro-system-in-sibilant#L175|Cross-Target Macro System in Sibilant — L175]$ (line 175, col 1, score 1)
+- $[cross-target-macro-system-in-sibilant#L175|Cross-Target Macro System in Sibilant — L175]$ (line 175, col 3, score 1)
+- $[dynamic-context-model-for-web-components#L392|Dynamic Context Model for Web Components — L392]$ (line 392, col 1, score 1)
+- $[dynamic-context-model-for-web-components#L392|Dynamic Context Model for Web Components — L392]$ (line 392, col 3, score 1)
+- $[2d-sandbox-field#L200|2d-sandbox-field — L200]$ (line 200, col 1, score 1)
+- $[2d-sandbox-field#L200|2d-sandbox-field — L200]$ (line 200, col 3, score 1)
+- $[eidolon-field-abstract-model#L198|Eidolon Field Abstract Model — L198]$ (line 198, col 1, score 1)
+- $[eidolon-field-abstract-model#L198|Eidolon Field Abstract Model — L198]$ (line 198, col 3, score 1)
 - [[eidolonfield#L241|EidolonField — L241]] (line 241, col 1, score 1)
 - [[eidolonfield#L241|EidolonField — L241]] (line 241, col 3, score 1)
-- [[exception-layer-analysis#L154|Exception Layer Analysis — L154]] (line 154, col 1, score 1)
-- [[exception-layer-analysis#L154|Exception Layer Analysis — L154]] (line 154, col 3, score 1)
-- [[2d-sandbox-field#L196|2d-sandbox-field — L196]] (line 196, col 1, score 1)
-- [[2d-sandbox-field#L196|2d-sandbox-field — L196]] (line 196, col 3, score 1)
-- [[eidolon-field-abstract-model#L197|Eidolon Field Abstract Model — L197]] (line 197, col 1, score 1)
-- [[eidolon-field-abstract-model#L197|Eidolon Field Abstract Model — L197]] (line 197, col 3, score 1)
-- [[exception-layer-analysis#L153|Exception Layer Analysis — L153]] (line 153, col 1, score 1)
-- [[exception-layer-analysis#L153|Exception Layer Analysis — L153]] (line 153, col 3, score 1)
-- [[docs/unique/field-dynamics-math-blocks#L148|field-dynamics-math-blocks — L148]] (line 148, col 1, score 1)
-- [[docs/unique/field-dynamics-math-blocks#L148|field-dynamics-math-blocks — L148]] (line 148, col 3, score 1)
-- [[cross-language-runtime-polymorphism#L206|Cross-Language Runtime Polymorphism — L206]] (line 206, col 1, score 1)
-- [[cross-language-runtime-polymorphism#L206|Cross-Language Runtime Polymorphism — L206]] (line 206, col 3, score 1)
-- [[dynamic-context-model-for-web-components#L393|Dynamic Context Model for Web Components — L393]] (line 393, col 1, score 1)
-- [[dynamic-context-model-for-web-components#L393|Dynamic Context Model for Web Components — L393]] (line 393, col 3, score 1)
-- [[docs/unique/field-interaction-equations#L158|field-interaction-equations — L158]] (line 158, col 1, score 1)
-- [[docs/unique/field-interaction-equations#L158|field-interaction-equations — L158]] (line 158, col 3, score 1)
-- [[migrate-to-provider-tenant-architecture#L274|Migrate to Provider-Tenant Architecture — L274]] (line 274, col 1, score 1)
-- [[migrate-to-provider-tenant-architecture#L274|Migrate to Provider-Tenant Architecture — L274]] (line 274, col 3, score 1)
-- [[2d-sandbox-field#L194|2d-sandbox-field — L194]] (line 194, col 1, score 1)
-- [[2d-sandbox-field#L194|2d-sandbox-field — L194]] (line 194, col 3, score 1)
-- [[eidolon-field-abstract-model#L193|Eidolon Field Abstract Model — L193]] (line 193, col 1, score 1)
-- [[eidolon-field-abstract-model#L193|Eidolon Field Abstract Model — L193]] (line 193, col 3, score 1)
+- $[exception-layer-analysis#L154|Exception Layer Analysis — L154]$ (line 154, col 1, score 1)
+- $[exception-layer-analysis#L154|Exception Layer Analysis — L154]$ (line 154, col 3, score 1)
+- $[2d-sandbox-field#L196|2d-sandbox-field — L196]$ (line 196, col 1, score 1)
+- $[2d-sandbox-field#L196|2d-sandbox-field — L196]$ (line 196, col 3, score 1)
+- $[eidolon-field-abstract-model#L197|Eidolon Field Abstract Model — L197]$ (line 197, col 1, score 1)
+- $[eidolon-field-abstract-model#L197|Eidolon Field Abstract Model — L197]$ (line 197, col 3, score 1)
+- $[exception-layer-analysis#L153|Exception Layer Analysis — L153]$ (line 153, col 1, score 1)
+- $[exception-layer-analysis#L153|Exception Layer Analysis — L153]$ (line 153, col 3, score 1)
+- $[docs/unique/field-dynamics-math-blocks#L148|field-dynamics-math-blocks — L148]$ (line 148, col 1, score 1)
+- $[docs/unique/field-dynamics-math-blocks#L148|field-dynamics-math-blocks — L148]$ (line 148, col 3, score 1)
+- $[cross-language-runtime-polymorphism#L206|Cross-Language Runtime Polymorphism — L206]$ (line 206, col 1, score 1)
+- $[cross-language-runtime-polymorphism#L206|Cross-Language Runtime Polymorphism — L206]$ (line 206, col 3, score 1)
+- $[dynamic-context-model-for-web-components#L393|Dynamic Context Model for Web Components — L393]$ (line 393, col 1, score 1)
+- $[dynamic-context-model-for-web-components#L393|Dynamic Context Model for Web Components — L393]$ (line 393, col 3, score 1)
+- $[docs/unique/field-interaction-equations#L158|field-interaction-equations — L158]$ (line 158, col 1, score 1)
+- $[docs/unique/field-interaction-equations#L158|field-interaction-equations — L158]$ (line 158, col 3, score 1)
+- $[migrate-to-provider-tenant-architecture#L274|Migrate to Provider-Tenant Architecture — L274]$ (line 274, col 1, score 1)
+- $[migrate-to-provider-tenant-architecture#L274|Migrate to Provider-Tenant Architecture — L274]$ (line 274, col 3, score 1)
+- $[2d-sandbox-field#L194|2d-sandbox-field — L194]$ (line 194, col 1, score 1)
+- $[2d-sandbox-field#L194|2d-sandbox-field — L194]$ (line 194, col 3, score 1)
+- $[eidolon-field-abstract-model#L193|Eidolon Field Abstract Model — L193]$ (line 193, col 1, score 1)
+- $[eidolon-field-abstract-model#L193|Eidolon Field Abstract Model — L193]$ (line 193, col 3, score 1)
 - [[eidolonfield#L245|EidolonField — L245]] (line 245, col 1, score 1)
 - [[eidolonfield#L245|EidolonField — L245]] (line 245, col 3, score 1)
-- [[docs/unique/field-dynamics-math-blocks#L147|field-dynamics-math-blocks — L147]] (line 147, col 1, score 1)
-- [[docs/unique/field-dynamics-math-blocks#L147|field-dynamics-math-blocks — L147]] (line 147, col 3, score 1)
-- [[2d-sandbox-field#L195|2d-sandbox-field — L195]] (line 195, col 1, score 1)
-- [[2d-sandbox-field#L195|2d-sandbox-field — L195]] (line 195, col 3, score 1)
-- [[eidolon-field-abstract-model#L192|Eidolon Field Abstract Model — L192]] (line 192, col 1, score 1)
-- [[eidolon-field-abstract-model#L192|Eidolon Field Abstract Model — L192]] (line 192, col 3, score 1)
+- $[docs/unique/field-dynamics-math-blocks#L147|field-dynamics-math-blocks — L147]$ (line 147, col 1, score 1)
+- $[docs/unique/field-dynamics-math-blocks#L147|field-dynamics-math-blocks — L147]$ (line 147, col 3, score 1)
+- $[2d-sandbox-field#L195|2d-sandbox-field — L195]$ (line 195, col 1, score 1)
+- $[2d-sandbox-field#L195|2d-sandbox-field — L195]$ (line 195, col 3, score 1)
+- $[eidolon-field-abstract-model#L192|Eidolon Field Abstract Model — L192]$ (line 192, col 1, score 1)
+- $[eidolon-field-abstract-model#L192|Eidolon Field Abstract Model — L192]$ (line 192, col 3, score 1)
 - [[eidolonfield#L244|EidolonField — L244]] (line 244, col 1, score 1)
 - [[eidolonfield#L244|EidolonField — L244]] (line 244, col 3, score 1)
-- [[exception-layer-analysis#L147|Exception Layer Analysis — L147]] (line 147, col 1, score 1)
-- [[exception-layer-analysis#L147|Exception Layer Analysis — L147]] (line 147, col 3, score 1)
-- [[2d-sandbox-field#L193|2d-sandbox-field — L193]] (line 193, col 1, score 1)
-- [[2d-sandbox-field#L193|2d-sandbox-field — L193]] (line 193, col 3, score 1)
+- $[exception-layer-analysis#L147|Exception Layer Analysis — L147]$ (line 147, col 1, score 1)
+- $[exception-layer-analysis#L147|Exception Layer Analysis — L147]$ (line 147, col 3, score 1)
+- $[2d-sandbox-field#L193|2d-sandbox-field — L193]$ (line 193, col 1, score 1)
+- $[2d-sandbox-field#L193|2d-sandbox-field — L193]$ (line 193, col 3, score 1)
 - [[eidolonfield#L243|EidolonField — L243]] (line 243, col 1, score 1)
 - [[eidolonfield#L243|EidolonField — L243]] (line 243, col 3, score 1)
-- [[exception-layer-analysis#L148|Exception Layer Analysis — L148]] (line 148, col 1, score 1)
-- [[exception-layer-analysis#L148|Exception Layer Analysis — L148]] (line 148, col 3, score 1)
-- [[docs/unique/field-dynamics-math-blocks#L145|field-dynamics-math-blocks — L145]] (line 145, col 1, score 1)
-- [[docs/unique/field-dynamics-math-blocks#L145|field-dynamics-math-blocks — L145]] (line 145, col 3, score 1)
-- [[eidolon-field-abstract-model#L191|Eidolon Field Abstract Model — L191]] (line 191, col 1, score 1)
-- [[eidolon-field-abstract-model#L191|Eidolon Field Abstract Model — L191]] (line 191, col 3, score 1)
+- $[exception-layer-analysis#L148|Exception Layer Analysis — L148]$ (line 148, col 1, score 1)
+- $[exception-layer-analysis#L148|Exception Layer Analysis — L148]$ (line 148, col 3, score 1)
+- $[docs/unique/field-dynamics-math-blocks#L145|field-dynamics-math-blocks — L145]$ (line 145, col 1, score 1)
+- $[docs/unique/field-dynamics-math-blocks#L145|field-dynamics-math-blocks — L145]$ (line 145, col 3, score 1)
+- $[eidolon-field-abstract-model#L191|Eidolon Field Abstract Model — L191]$ (line 191, col 1, score 1)
+- $[eidolon-field-abstract-model#L191|Eidolon Field Abstract Model — L191]$ (line 191, col 3, score 1)
 - [[eidolonfield#L242|EidolonField — L242]] (line 242, col 1, score 1)
 - [[eidolonfield#L242|EidolonField — L242]] (line 242, col 3, score 1)
-- [[exception-layer-analysis#L149|Exception Layer Analysis — L149]] (line 149, col 1, score 1)
-- [[exception-layer-analysis#L149|Exception Layer Analysis — L149]] (line 149, col 3, score 1)
-- [[docs/unique/field-dynamics-math-blocks#L144|field-dynamics-math-blocks — L144]] (line 144, col 1, score 1)
-- [[docs/unique/field-dynamics-math-blocks#L144|field-dynamics-math-blocks — L144]] (line 144, col 3, score 1)
-- [DSL — L11](chunks/dsl.md#L11) (line 11, col 1, score 1)
-- [DSL — L11](chunks/dsl.md#L11) (line 11, col 3, score 1)
-- [[docs/unique/compiler-kit-foundations#L606|compiler-kit-foundations — L606]] (line 606, col 1, score 1)
-- [[docs/unique/compiler-kit-foundations#L606|compiler-kit-foundations — L606]] (line 606, col 3, score 1)
-- [[language-agnostic-mirror-system#L534|Language-Agnostic Mirror System — L534]] (line 534, col 1, score 1)
-- [[language-agnostic-mirror-system#L534|Language-Agnostic Mirror System — L534]] (line 534, col 3, score 1)
-- [[lisp-compiler-integration#L537|Lisp-Compiler-Integration — L537]] (line 537, col 1, score 1)
-- [[lisp-compiler-integration#L537|Lisp-Compiler-Integration — L537]] (line 537, col 3, score 1)
-- [[docs/unique/compiler-kit-foundations#L610|compiler-kit-foundations — L610]] (line 610, col 1, score 1)
-- [[docs/unique/compiler-kit-foundations#L610|compiler-kit-foundations — L610]] (line 610, col 3, score 1)
-- [[docs/unique/interop-and-source-maps#L515|Interop and Source Maps — L515]] (line 515, col 1, score 1)
-- [[docs/unique/interop-and-source-maps#L515|Interop and Source Maps — L515]] (line 515, col 3, score 1)
-- [[language-agnostic-mirror-system#L532|Language-Agnostic Mirror System — L532]] (line 532, col 1, score 1)
-- [[language-agnostic-mirror-system#L532|Language-Agnostic Mirror System — L532]] (line 532, col 3, score 1)
-- [lisp-dsl-for-window-management — L220](lisp-dsl-for-window-management.md#L220) (line 220, col 1, score 1)
-- [lisp-dsl-for-window-management — L220](lisp-dsl-for-window-management.md#L220) (line 220, col 3, score 1)
-- [[docs/unique/ecs-offload-workers#L456|ecs-offload-workers — L456]] (line 456, col 1, score 1)
-- [[docs/unique/ecs-offload-workers#L456|ecs-offload-workers — L456]] (line 456, col 3, score 1)
-- [[ecs-scheduler-and-prefabs#L390|ecs-scheduler-and-prefabs — L390]] (line 390, col 1, score 1)
-- [[ecs-scheduler-and-prefabs#L390|ecs-scheduler-and-prefabs — L390]] (line 390, col 3, score 1)
-- [[docs/unique/eidolon-field-math-foundations#L131|eidolon-field-math-foundations — L131]] (line 131, col 1, score 1)
-- [[docs/unique/eidolon-field-math-foundations#L131|eidolon-field-math-foundations — L131]] (line 131, col 3, score 1)
-- [[local-only-llm-workflow#L176|Local-Only-LLM-Workflow — L176]] (line 176, col 1, score 1)
-- [[local-only-llm-workflow#L176|Local-Only-LLM-Workflow — L176]] (line 176, col 3, score 1)
-- [[lispy-macros-with-syntax-rules#L409|Lispy Macros with syntax-rules — L409]] (line 409, col 1, score 0.99)
-- [[lispy-macros-with-syntax-rules#L409|Lispy Macros with syntax-rules — L409]] (line 409, col 3, score 0.99)
-- [[docs/unique/compiler-kit-foundations#L624|compiler-kit-foundations — L624]] (line 624, col 1, score 0.99)
-- [[docs/unique/compiler-kit-foundations#L624|compiler-kit-foundations — L624]] (line 624, col 3, score 0.99)
-- [[docs/unique/interop-and-source-maps#L529|Interop and Source Maps — L529]] (line 529, col 1, score 0.99)
-- [[docs/unique/interop-and-source-maps#L529|Interop and Source Maps — L529]] (line 529, col 3, score 0.99)
-- [[lisp-compiler-integration#L558|Lisp-Compiler-Integration — L558]] (line 558, col 1, score 0.98)
-- [[lisp-compiler-integration#L558|Lisp-Compiler-Integration — L558]] (line 558, col 3, score 0.98)
-- [[cross-target-macro-system-in-sibilant#L188|Cross-Target Macro System in Sibilant — L188]] (line 188, col 1, score 1)
-- [[cross-target-macro-system-in-sibilant#L188|Cross-Target Macro System in Sibilant — L188]] (line 188, col 3, score 1)
-- [[migrate-to-provider-tenant-architecture#L305|Migrate to Provider-Tenant Architecture — L305]] (line 305, col 1, score 1)
-- [[migrate-to-provider-tenant-architecture#L305|Migrate to Provider-Tenant Architecture — L305]] (line 305, col 3, score 1)
-- [[dynamic-context-model-for-web-components#L397|Dynamic Context Model for Web Components — L397]] (line 397, col 1, score 1)
-- [[dynamic-context-model-for-web-components#L397|Dynamic Context Model for Web Components — L397]] (line 397, col 3, score 1)
+- $[exception-layer-analysis#L149|Exception Layer Analysis — L149]$ (line 149, col 1, score 1)
+- $[exception-layer-analysis#L149|Exception Layer Analysis — L149]$ (line 149, col 3, score 1)
+- $[docs/unique/field-dynamics-math-blocks#L144|field-dynamics-math-blocks — L144]$ (line 144, col 1, score 1)
+- $[docs/unique/field-dynamics-math-blocks#L144|field-dynamics-math-blocks — L144]$ (line 144, col 3, score 1)
+- [DSL — L11]$chunks/dsl.md#L11$ (line 11, col 1, score 1)
+- [DSL — L11]$chunks/dsl.md#L11$ (line 11, col 3, score 1)
+- $[docs/unique/compiler-kit-foundations#L606|compiler-kit-foundations — L606]$ (line 606, col 1, score 1)
+- $[docs/unique/compiler-kit-foundations#L606|compiler-kit-foundations — L606]$ (line 606, col 3, score 1)
+- $[language-agnostic-mirror-system#L534|Language-Agnostic Mirror System — L534]$ (line 534, col 1, score 1)
+- $[language-agnostic-mirror-system#L534|Language-Agnostic Mirror System — L534]$ (line 534, col 3, score 1)
+- $[lisp-compiler-integration#L537|Lisp-Compiler-Integration — L537]$ (line 537, col 1, score 1)
+- $[lisp-compiler-integration#L537|Lisp-Compiler-Integration — L537]$ (line 537, col 3, score 1)
+- $[docs/unique/compiler-kit-foundations#L610|compiler-kit-foundations — L610]$ (line 610, col 1, score 1)
+- $[docs/unique/compiler-kit-foundations#L610|compiler-kit-foundations — L610]$ (line 610, col 3, score 1)
+- $[docs/unique/interop-and-source-maps#L515|Interop and Source Maps — L515]$ (line 515, col 1, score 1)
+- $[docs/unique/interop-and-source-maps#L515|Interop and Source Maps — L515]$ (line 515, col 3, score 1)
+- $[language-agnostic-mirror-system#L532|Language-Agnostic Mirror System — L532]$ (line 532, col 1, score 1)
+- $[language-agnostic-mirror-system#L532|Language-Agnostic Mirror System — L532]$ (line 532, col 3, score 1)
+- $lisp-dsl-for-window-management — L220$$lisp-dsl-for-window-management.md#L220$ (line 220, col 1, score 1)
+- $lisp-dsl-for-window-management — L220$$lisp-dsl-for-window-management.md#L220$ (line 220, col 3, score 1)
+- $[docs/unique/ecs-offload-workers#L456|ecs-offload-workers — L456]$ (line 456, col 1, score 1)
+- $[docs/unique/ecs-offload-workers#L456|ecs-offload-workers — L456]$ (line 456, col 3, score 1)
+- $[ecs-scheduler-and-prefabs#L390|ecs-scheduler-and-prefabs — L390]$ (line 390, col 1, score 1)
+- $[ecs-scheduler-and-prefabs#L390|ecs-scheduler-and-prefabs — L390]$ (line 390, col 3, score 1)
+- $[docs/unique/eidolon-field-math-foundations#L131|eidolon-field-math-foundations — L131]$ (line 131, col 1, score 1)
+- $[docs/unique/eidolon-field-math-foundations#L131|eidolon-field-math-foundations — L131]$ (line 131, col 3, score 1)
+- $[local-only-llm-workflow#L176|Local-Only-LLM-Workflow — L176]$ (line 176, col 1, score 1)
+- $[local-only-llm-workflow#L176|Local-Only-LLM-Workflow — L176]$ (line 176, col 3, score 1)
+- $[lispy-macros-with-syntax-rules#L409|Lispy Macros with syntax-rules — L409]$ (line 409, col 1, score 0.99)
+- $[lispy-macros-with-syntax-rules#L409|Lispy Macros with syntax-rules — L409]$ (line 409, col 3, score 0.99)
+- $[docs/unique/compiler-kit-foundations#L624|compiler-kit-foundations — L624]$ (line 624, col 1, score 0.99)
+- $[docs/unique/compiler-kit-foundations#L624|compiler-kit-foundations — L624]$ (line 624, col 3, score 0.99)
+- $[docs/unique/interop-and-source-maps#L529|Interop and Source Maps — L529]$ (line 529, col 1, score 0.99)
+- $[docs/unique/interop-and-source-maps#L529|Interop and Source Maps — L529]$ (line 529, col 3, score 0.99)
+- $[lisp-compiler-integration#L558|Lisp-Compiler-Integration — L558]$ (line 558, col 1, score 0.98)
+- $[lisp-compiler-integration#L558|Lisp-Compiler-Integration — L558]$ (line 558, col 3, score 0.98)
+- $[cross-target-macro-system-in-sibilant#L188|Cross-Target Macro System in Sibilant — L188]$ (line 188, col 1, score 1)
+- $[cross-target-macro-system-in-sibilant#L188|Cross-Target Macro System in Sibilant — L188]$ (line 188, col 3, score 1)
+- $[migrate-to-provider-tenant-architecture#L305|Migrate to Provider-Tenant Architecture — L305]$ (line 305, col 1, score 1)
+- $[migrate-to-provider-tenant-architecture#L305|Migrate to Provider-Tenant Architecture — L305]$ (line 305, col 3, score 1)
+- $[dynamic-context-model-for-web-components#L397|Dynamic Context Model for Web Components — L397]$ (line 397, col 1, score 1)
+- $[dynamic-context-model-for-web-components#L397|Dynamic Context Model for Web Components — L397]$ (line 397, col 3, score 1)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

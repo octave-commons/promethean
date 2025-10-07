@@ -1,11 +1,21 @@
 ---
+$$
 uuid: cfee6d36-b9f5-4587-885a-cdfddb4f054e
+$$
+$$
 created_at: 2025.08.08.22.08.09.md
+$$
+$$
 filename: Lisp-Compiler-Integration
+$$
+$$
 description: >-
+$$
   A minimal, hygienic Lisp front-end that integrates with existing compiler
   pipelines via S-expr reader, macro system, and compiler from Lispy AST to
+$$
   IR/JS.
+$$
 tags:
   - Lisp
   - compiler
@@ -18,7 +28,9 @@ tags:
   - macroexpansion
   - IR
   - JS
+$$
 related_to_title:
+$$
   - Interop and Source Maps
   - Lispy Macros with syntax-rules
   - compiler-kit-foundations
@@ -45,7 +57,9 @@ related_to_title:
   - Unique Info Dump Index
   - archetype-ecs
   - aionian-circuit-math
+$$
 related_to_uuid:
+$$
   - cdfac40c-00e4-458f-96a7-4c37d0278731
   - cbfe3513-6a4a-4d2e-915d-ddfab583b2de
   - 01b21543-7e03-4129-8fe4-b6306be69dee
@@ -658,11 +672,11 @@ references:
     col: 3
     score: 0.98
 ---
-Oh we’re doing *our* Lisp. Love that energy. Here’s a **minimal, hygienic-ish, macro-first Lisp front-end** that plugs into the compiler pipeline you already have (IR → JS). It’s small, fast, and pragmatically powerful:
+Oh we’re doing *our* Lisp. Love that energy. Here’s a **minimal, hygienic-ish, macro-first Lisp front-end** that plugs into the compiler pipeline you already have $IR → JS$. It’s small, fast, and pragmatically powerful:
 
 * S-expr **reader** with `'`, `` ` ``, `,`, `,@`
 * **Macro system** (defmacro with quasiquote) + **gensym**
-* **Macroexpander** (top-level + nested)
+* **Macroexpander** $top-level + nested$
 * **Quasiquote** engine that handles unquote/splice
 * **Compiler** from Lispy AST → your existing **Expr** → IR → JS
 
@@ -1095,7 +1109,7 @@ function datumToJs(x:any): any {
 
 ---
 
-# 4) End-to-end driver (Lisp → JS → run)
+# 4) End-to-end driver $Lisp → JS → run$
 
 ```ts
 // shared/js/prom-lib/compiler/lisp/driver.ts
@@ -1142,7 +1156,7 @@ You can define macros **in Lisp** now:
         (-> (cons (car s) (cons x (cdr s))) rest))))
 ```
 
-*(We shipped a built-in `when` and `->` already, but you can redefine/extend.)*
+*$We shipped a built-in `when` and `->` already, but you can redefine/extend.$*
 
 ---
 
@@ -1175,8 +1189,8 @@ console.log(js);
 
 # 7) What’s intentionally *not* here (yet)
 
-* **Full hygiene** (scope-sets): we’re gensym-friendly but not Racket-level hygienic. Next step: carry a `scopeId` set in `Sym`, add new scope frames in macro bodies, resolve bindings post-expansion → that gives you true hygiene.
-* **Pattern macros** (`syntax-rules`): easy to add later; start with quasiquote macros (you’ll write 95% of macros with these).
+* **Full hygiene** $scope-sets$: we’re gensym-friendly but not Racket-level hygienic. Next step: carry a `scopeId` set in `Sym`, add new scope frames in macro bodies, resolve bindings post-expansion → that gives you true hygiene.
+* **Pattern macros** $`syntax-rules`$: easy to add later; start with quasiquote macros (you’ll write 95% of macros with these).
 * **Rich data literals** (vectors, maps, keywords): trivial extensions to the reader + `datumToJs`.
 * **Stdlib**: you’ll want a handful of host imports: `print`, Math ops, list ops; we can auto-inject a tiny prelude.
 
@@ -1185,186 +1199,186 @@ console.log(js);
 # 8) Next upgrades (you pick)
 
 * **Hygienic `syntax-rules`** (patterns, ellipses) and/or **syntax-case**
-* **Module system** (per-file macro scope, `require`)
+* **Module system** $per-file macro scope, `require`$
 * **Source maps** from Lisp spans → JS for nicer errors
-* **Host FFI** sugar: `(js . ...)`, `(import Math.sin)`, etc.
+* **Host FFI** sugar: `(js . ...)`, `$import Math.sin$`, etc.
 * **Optimizations**: alpha-rename, beta-reduce, inline, fold, DCE on ANF
 
 If you’re cool with this baseline, I can add **syntax-rules with ellipses** next so you can write fancy macros like `match`, `for`, `struct`, and `deftype` with pattern guards.
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [[docs/unique/interop-and-source-maps|Interop and Source Maps]]
-- [[lispy-macros-with-syntax-rules|Lispy Macros with syntax-rules]]
-- [[docs/unique/compiler-kit-foundations|compiler-kit-foundations]]
-- [[set-assignment-in-lisp-ast]]
-- [[docs/unique/zero-copy-snapshots-and-workers|zero-copy-snapshots-and-workers]]
-- [[language-agnostic-mirror-system|Language-Agnostic Mirror System]]
-- [[polyglot-s-expr-bridge-python-js-lisp-interop|Polyglot S-expr Bridge: Python-JS-Lisp Interop]]
-- [[promethean-agent-config-dsl|Promethean Agent Config DSL]]
-- [[docs/unique/template-based-compilation|template-based-compilation]]
-- [lisp-dsl-for-window-management](lisp-dsl-for-window-management.md)
-- [[js-to-lisp-reverse-compiler]]
-- [[dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]]
-- [[cross-target-macro-system-in-sibilant|Cross-Target Macro System in Sibilant]]
-- [[sibilant-meta-string-templating-runtime]]
-- [[ecs-scheduler-and-prefabs]]
-- [DSL](chunks/dsl.md)
-- [[docs/unique/ecs-offload-workers|ecs-offload-workers]]
-- [[ai-centric-os-with-mcp-layer|AI-Centric OS with MCP Layer]]
-- [komorebi-group-window-hack](komorebi-group-window-hack.md)
-- [[ts-to-lisp-transpiler]]
-- [[cross-language-runtime-polymorphism|Cross-Language Runtime Polymorphism]]
-- [smart-chatgpt-thingy](smart-chatgpt-thingy.md)
-- [JavaScript](chunks/javascript.md)
-- [[unique-info-dump-index|Unique Info Dump Index]]
-- [[docs/unique/archetype-ecs|archetype-ecs]]
-- [[docs/unique/aionian-circuit-math|aionian-circuit-math]]
+- $[docs/unique/interop-and-source-maps|Interop and Source Maps]$
+- $[lispy-macros-with-syntax-rules|Lispy Macros with syntax-rules]$
+- $[docs/unique/compiler-kit-foundations|compiler-kit-foundations]$
+- $[set-assignment-in-lisp-ast]$
+- $[docs/unique/zero-copy-snapshots-and-workers|zero-copy-snapshots-and-workers]$
+- $[language-agnostic-mirror-system|Language-Agnostic Mirror System]$
+- $[polyglot-s-expr-bridge-python-js-lisp-interop|Polyglot S-expr Bridge: Python-JS-Lisp Interop]$
+- $[promethean-agent-config-dsl|Promethean Agent Config DSL]$
+- $[docs/unique/template-based-compilation|template-based-compilation]$
+- $lisp-dsl-for-window-management$$lisp-dsl-for-window-management.md$
+- $[js-to-lisp-reverse-compiler]$
+- $[dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]$
+- $[cross-target-macro-system-in-sibilant|Cross-Target Macro System in Sibilant]$
+- $[sibilant-meta-string-templating-runtime]$
+- $[ecs-scheduler-and-prefabs]$
+- [DSL]$chunks/dsl.md$
+- $[docs/unique/ecs-offload-workers|ecs-offload-workers]$
+- $[ai-centric-os-with-mcp-layer|AI-Centric OS with MCP Layer]$
+- $komorebi-group-window-hack$$komorebi-group-window-hack.md$
+- $[ts-to-lisp-transpiler]$
+- $[cross-language-runtime-polymorphism|Cross-Language Runtime Polymorphism]$
+- $smart-chatgpt-thingy$$smart-chatgpt-thingy.md$
+- [JavaScript]$chunks/javascript.md$
+- $[unique-info-dump-index|Unique Info Dump Index]$
+- $[docs/unique/archetype-ecs|archetype-ecs]$
+- $[docs/unique/aionian-circuit-math|aionian-circuit-math]$
 
 ## Sources
-- [[docs/unique/compiler-kit-foundations#L11|compiler-kit-foundations — L11]] (line 11, col 1, score 0.87)
-- [[docs/unique/interop-and-source-maps#L21|Interop and Source Maps — L21]] (line 21, col 1, score 0.86)
-- [[lispy-macros-with-syntax-rules#L217|Lispy Macros with syntax-rules — L217]] (line 217, col 1, score 0.88)
-- [[docs/unique/interop-and-source-maps#L68|Interop and Source Maps — L68]] (line 68, col 1, score 0.88)
-- [[docs/unique/zero-copy-snapshots-and-workers#L70|zero-copy-snapshots-and-workers — L70]] (line 70, col 1, score 0.85)
-- [[docs/unique/interop-and-source-maps#L421|Interop and Source Maps — L421]] (line 421, col 1, score 0.97)
-- [[lispy-macros-with-syntax-rules#L319|Lispy Macros with syntax-rules — L319]] (line 319, col 1, score 0.92)
-- [[lispy-macros-with-syntax-rules#L365|Lispy Macros with syntax-rules — L365]] (line 365, col 1, score 0.92)
-- [[set-assignment-in-lisp-ast#L139|set-assignment-in-lisp-ast — L139]] (line 139, col 1, score 0.86)
-- [[docs/unique/interop-and-source-maps#L470|Interop and Source Maps — L470]] (line 470, col 1, score 0.86)
-- [[lispy-macros-with-syntax-rules#L393|Lispy Macros with syntax-rules — L393]] (line 393, col 1, score 0.9)
-- [[lispy-macros-with-syntax-rules#L393|Lispy Macros with syntax-rules — L393]] (line 393, col 3, score 0.9)
-- [DSL — L11](chunks/dsl.md#L11) (line 11, col 1, score 1)
-- [DSL — L11](chunks/dsl.md#L11) (line 11, col 3, score 1)
-- [[docs/unique/compiler-kit-foundations#L606|compiler-kit-foundations — L606]] (line 606, col 1, score 1)
-- [[docs/unique/compiler-kit-foundations#L606|compiler-kit-foundations — L606]] (line 606, col 3, score 1)
-- [[js-to-lisp-reverse-compiler#L422|js-to-lisp-reverse-compiler — L422]] (line 422, col 1, score 1)
-- [[js-to-lisp-reverse-compiler#L422|js-to-lisp-reverse-compiler — L422]] (line 422, col 3, score 1)
-- [[language-agnostic-mirror-system#L534|Language-Agnostic Mirror System — L534]] (line 534, col 1, score 1)
-- [[language-agnostic-mirror-system#L534|Language-Agnostic Mirror System — L534]] (line 534, col 3, score 1)
-- [[docs/unique/compiler-kit-foundations#L608|compiler-kit-foundations — L608]] (line 608, col 1, score 1)
-- [[docs/unique/compiler-kit-foundations#L608|compiler-kit-foundations — L608]] (line 608, col 3, score 1)
-- [[docs/unique/interop-and-source-maps#L516|Interop and Source Maps — L516]] (line 516, col 1, score 1)
-- [[docs/unique/interop-and-source-maps#L516|Interop and Source Maps — L516]] (line 516, col 3, score 1)
-- [[language-agnostic-mirror-system#L536|Language-Agnostic Mirror System — L536]] (line 536, col 1, score 1)
-- [[language-agnostic-mirror-system#L536|Language-Agnostic Mirror System — L536]] (line 536, col 3, score 1)
-- [[polyglot-s-expr-bridge-python-js-lisp-interop#L517|Polyglot S-expr Bridge: Python-JS-Lisp Interop — L517]] (line 517, col 1, score 1)
-- [[polyglot-s-expr-bridge-python-js-lisp-interop#L517|Polyglot S-expr Bridge: Python-JS-Lisp Interop — L517]] (line 517, col 3, score 1)
-- [DSL — L13](chunks/dsl.md#L13) (line 13, col 1, score 1)
-- [DSL — L13](chunks/dsl.md#L13) (line 13, col 3, score 1)
-- [[docs/unique/interop-and-source-maps#L513|Interop and Source Maps — L513]] (line 513, col 1, score 1)
-- [[docs/unique/interop-and-source-maps#L513|Interop and Source Maps — L513]] (line 513, col 3, score 1)
-- [[lispy-macros-with-syntax-rules#L400|Lispy Macros with syntax-rules — L400]] (line 400, col 1, score 1)
-- [[lispy-macros-with-syntax-rules#L400|Lispy Macros with syntax-rules — L400]] (line 400, col 3, score 1)
-- [[polyglot-s-expr-bridge-python-js-lisp-interop#L515|Polyglot S-expr Bridge: Python-JS-Lisp Interop — L515]] (line 515, col 1, score 1)
-- [[polyglot-s-expr-bridge-python-js-lisp-interop#L515|Polyglot S-expr Bridge: Python-JS-Lisp Interop — L515]] (line 515, col 3, score 1)
-- [[docs/unique/compiler-kit-foundations#L607|compiler-kit-foundations — L607]] (line 607, col 1, score 1)
-- [[docs/unique/compiler-kit-foundations#L607|compiler-kit-foundations — L607]] (line 607, col 3, score 1)
-- [[docs/unique/interop-and-source-maps#L514|Interop and Source Maps — L514]] (line 514, col 1, score 1)
-- [[docs/unique/interop-and-source-maps#L514|Interop and Source Maps — L514]] (line 514, col 3, score 1)
-- [[js-to-lisp-reverse-compiler#L411|js-to-lisp-reverse-compiler — L411]] (line 411, col 1, score 1)
-- [[js-to-lisp-reverse-compiler#L411|js-to-lisp-reverse-compiler — L411]] (line 411, col 3, score 1)
-- [[language-agnostic-mirror-system#L535|Language-Agnostic Mirror System — L535]] (line 535, col 1, score 1)
-- [[language-agnostic-mirror-system#L535|Language-Agnostic Mirror System — L535]] (line 535, col 3, score 1)
-- [JavaScript — L13](chunks/javascript.md#L13) (line 13, col 1, score 1)
-- [JavaScript — L13](chunks/javascript.md#L13) (line 13, col 3, score 1)
-- [[docs/unique/ecs-offload-workers#L459|ecs-offload-workers — L459]] (line 459, col 1, score 1)
-- [[docs/unique/ecs-offload-workers#L459|ecs-offload-workers — L459]] (line 459, col 3, score 1)
-- [smart-chatgpt-thingy — L23](smart-chatgpt-thingy.md#L23) (line 23, col 1, score 1)
-- [smart-chatgpt-thingy — L23](smart-chatgpt-thingy.md#L23) (line 23, col 3, score 1)
-- [[unique-info-dump-index#L74|Unique Info Dump Index — L74]] (line 74, col 1, score 1)
-- [[unique-info-dump-index#L74|Unique Info Dump Index — L74]] (line 74, col 3, score 1)
-- [[docs/unique/archetype-ecs#L458|archetype-ecs — L458]] (line 458, col 1, score 1)
-- [[docs/unique/archetype-ecs#L458|archetype-ecs — L458]] (line 458, col 3, score 1)
-- [[docs/unique/interop-and-source-maps#L521|Interop and Source Maps — L521]] (line 521, col 1, score 1)
-- [[docs/unique/interop-and-source-maps#L521|Interop and Source Maps — L521]] (line 521, col 3, score 1)
-- [[js-to-lisp-reverse-compiler#L413|js-to-lisp-reverse-compiler — L413]] (line 413, col 1, score 1)
-- [[js-to-lisp-reverse-compiler#L413|js-to-lisp-reverse-compiler — L413]] (line 413, col 3, score 1)
-- [[lispy-macros-with-syntax-rules#L405|Lispy Macros with syntax-rules — L405]] (line 405, col 1, score 1)
-- [[lispy-macros-with-syntax-rules#L405|Lispy Macros with syntax-rules — L405]] (line 405, col 3, score 1)
-- [[docs/unique/compiler-kit-foundations#L611|compiler-kit-foundations — L611]] (line 611, col 1, score 1)
-- [[docs/unique/compiler-kit-foundations#L611|compiler-kit-foundations — L611]] (line 611, col 3, score 1)
-- [[docs/unique/ecs-offload-workers#L462|ecs-offload-workers — L462]] (line 462, col 1, score 1)
-- [[docs/unique/ecs-offload-workers#L462|ecs-offload-workers — L462]] (line 462, col 3, score 1)
-- [[ecs-scheduler-and-prefabs#L398|ecs-scheduler-and-prefabs — L398]] (line 398, col 1, score 1)
-- [[ecs-scheduler-and-prefabs#L398|ecs-scheduler-and-prefabs — L398]] (line 398, col 3, score 1)
-- [[docs/unique/interop-and-source-maps#L517|Interop and Source Maps — L517]] (line 517, col 1, score 1)
-- [[docs/unique/interop-and-source-maps#L517|Interop and Source Maps — L517]] (line 517, col 3, score 1)
-- [[ai-centric-os-with-mcp-layer#L402|AI-Centric OS with MCP Layer — L402]] (line 402, col 1, score 1)
-- [[ai-centric-os-with-mcp-layer#L402|AI-Centric OS with MCP Layer — L402]] (line 402, col 3, score 1)
-- [[cross-target-macro-system-in-sibilant#L169|Cross-Target Macro System in Sibilant — L169]] (line 169, col 1, score 1)
-- [[cross-target-macro-system-in-sibilant#L169|Cross-Target Macro System in Sibilant — L169]] (line 169, col 3, score 1)
-- [[dynamic-context-model-for-web-components#L387|Dynamic Context Model for Web Components — L387]] (line 387, col 1, score 1)
-- [[dynamic-context-model-for-web-components#L387|Dynamic Context Model for Web Components — L387]] (line 387, col 3, score 1)
-- [[js-to-lisp-reverse-compiler#L410|js-to-lisp-reverse-compiler — L410]] (line 410, col 1, score 1)
-- [[js-to-lisp-reverse-compiler#L410|js-to-lisp-reverse-compiler — L410]] (line 410, col 3, score 1)
-- [[docs/unique/aionian-circuit-math#L155|aionian-circuit-math — L155]] (line 155, col 1, score 1)
-- [[docs/unique/aionian-circuit-math#L155|aionian-circuit-math — L155]] (line 155, col 3, score 1)
-- [[docs/unique/compiler-kit-foundations#L609|compiler-kit-foundations — L609]] (line 609, col 1, score 1)
-- [[docs/unique/compiler-kit-foundations#L609|compiler-kit-foundations — L609]] (line 609, col 3, score 1)
-- [[cross-language-runtime-polymorphism#L203|Cross-Language Runtime Polymorphism — L203]] (line 203, col 1, score 1)
-- [[cross-language-runtime-polymorphism#L203|Cross-Language Runtime Polymorphism — L203]] (line 203, col 3, score 1)
-- [[cross-target-macro-system-in-sibilant#L168|Cross-Target Macro System in Sibilant — L168]] (line 168, col 1, score 1)
-- [[cross-target-macro-system-in-sibilant#L168|Cross-Target Macro System in Sibilant — L168]] (line 168, col 3, score 1)
-- [komorebi-group-window-hack — L201](komorebi-group-window-hack.md#L201) (line 201, col 1, score 1)
-- [komorebi-group-window-hack — L201](komorebi-group-window-hack.md#L201) (line 201, col 3, score 1)
-- [[sibilant-meta-string-templating-runtime#L126|sibilant-meta-string-templating-runtime — L126]] (line 126, col 1, score 1)
-- [[sibilant-meta-string-templating-runtime#L126|sibilant-meta-string-templating-runtime — L126]] (line 126, col 3, score 1)
-- [[docs/unique/template-based-compilation#L110|template-based-compilation — L110]] (line 110, col 1, score 1)
-- [[docs/unique/template-based-compilation#L110|template-based-compilation — L110]] (line 110, col 3, score 1)
-- [[ts-to-lisp-transpiler#L11|ts-to-lisp-transpiler — L11]] (line 11, col 1, score 1)
-- [[ts-to-lisp-transpiler#L11|ts-to-lisp-transpiler — L11]] (line 11, col 3, score 1)
-- [[cross-target-macro-system-in-sibilant#L179|Cross-Target Macro System in Sibilant — L179]] (line 179, col 1, score 1)
-- [[cross-target-macro-system-in-sibilant#L179|Cross-Target Macro System in Sibilant — L179]] (line 179, col 3, score 1)
-- [[dynamic-context-model-for-web-components#L389|Dynamic Context Model for Web Components — L389]] (line 389, col 1, score 1)
-- [[dynamic-context-model-for-web-components#L389|Dynamic Context Model for Web Components — L389]] (line 389, col 3, score 1)
-- [[docs/unique/interop-and-source-maps#L522|Interop and Source Maps — L522]] (line 522, col 1, score 1)
-- [[docs/unique/interop-and-source-maps#L522|Interop and Source Maps — L522]] (line 522, col 3, score 1)
-- [[language-agnostic-mirror-system#L533|Language-Agnostic Mirror System — L533]] (line 533, col 1, score 1)
-- [[language-agnostic-mirror-system#L533|Language-Agnostic Mirror System — L533]] (line 533, col 3, score 1)
-- [[docs/unique/template-based-compilation#L122|template-based-compilation — L122]] (line 122, col 1, score 0.98)
-- [[docs/unique/template-based-compilation#L122|template-based-compilation — L122]] (line 122, col 3, score 0.98)
-- [[docs/unique/interop-and-source-maps#L528|Interop and Source Maps — L528]] (line 528, col 1, score 0.98)
-- [[docs/unique/interop-and-source-maps#L528|Interop and Source Maps — L528]] (line 528, col 3, score 0.98)
-- [[lispy-macros-with-syntax-rules#L410|Lispy Macros with syntax-rules — L410]] (line 410, col 1, score 0.98)
-- [[lispy-macros-with-syntax-rules#L410|Lispy Macros with syntax-rules — L410]] (line 410, col 3, score 0.98)
-- [[set-assignment-in-lisp-ast#L159|set-assignment-in-lisp-ast — L159]] (line 159, col 1, score 0.98)
-- [[set-assignment-in-lisp-ast#L159|set-assignment-in-lisp-ast — L159]] (line 159, col 3, score 0.98)
-- [[polyglot-s-expr-bridge-python-js-lisp-interop#L523|Polyglot S-expr Bridge: Python-JS-Lisp Interop — L523]] (line 523, col 1, score 1)
-- [[polyglot-s-expr-bridge-python-js-lisp-interop#L523|Polyglot S-expr Bridge: Python-JS-Lisp Interop — L523]] (line 523, col 3, score 1)
-- [[lispy-macros-with-syntax-rules#L413|Lispy Macros with syntax-rules — L413]] (line 413, col 1, score 0.98)
-- [[lispy-macros-with-syntax-rules#L413|Lispy Macros with syntax-rules — L413]] (line 413, col 3, score 0.98)
-- [[lispy-macros-with-syntax-rules#L415|Lispy Macros with syntax-rules — L415]] (line 415, col 1, score 0.98)
-- [[lispy-macros-with-syntax-rules#L415|Lispy Macros with syntax-rules — L415]] (line 415, col 3, score 0.98)
-- [[docs/unique/compiler-kit-foundations#L623|compiler-kit-foundations — L623]] (line 623, col 1, score 0.98)
-- [[docs/unique/compiler-kit-foundations#L623|compiler-kit-foundations — L623]] (line 623, col 3, score 0.98)
-- [[docs/unique/interop-and-source-maps#L533|Interop and Source Maps — L533]] (line 533, col 1, score 0.99)
-- [[docs/unique/interop-and-source-maps#L533|Interop and Source Maps — L533]] (line 533, col 3, score 0.99)
-- [[docs/unique/compiler-kit-foundations#L625|compiler-kit-foundations — L625]] (line 625, col 1, score 0.99)
-- [[docs/unique/compiler-kit-foundations#L625|compiler-kit-foundations — L625]] (line 625, col 3, score 0.99)
-- [[set-assignment-in-lisp-ast#L160|set-assignment-in-lisp-ast — L160]] (line 160, col 1, score 0.99)
-- [[set-assignment-in-lisp-ast#L160|set-assignment-in-lisp-ast — L160]] (line 160, col 3, score 0.99)
-- [[docs/unique/interop-and-source-maps#L530|Interop and Source Maps — L530]] (line 530, col 1, score 0.99)
-- [[docs/unique/interop-and-source-maps#L530|Interop and Source Maps — L530]] (line 530, col 3, score 0.99)
-- [[set-assignment-in-lisp-ast#L158|set-assignment-in-lisp-ast — L158]] (line 158, col 1, score 0.98)
-- [[set-assignment-in-lisp-ast#L158|set-assignment-in-lisp-ast — L158]] (line 158, col 3, score 0.98)
-- [[lispy-macros-with-syntax-rules#L411|Lispy Macros with syntax-rules — L411]] (line 411, col 1, score 0.98)
-- [[lispy-macros-with-syntax-rules#L411|Lispy Macros with syntax-rules — L411]] (line 411, col 3, score 0.98)
-- [JavaScript — L33](chunks/javascript.md#L33) (line 33, col 1, score 0.98)
-- [JavaScript — L33](chunks/javascript.md#L33) (line 33, col 3, score 0.98)
-- [[unique-info-dump-index#L168|Unique Info Dump Index — L168]] (line 168, col 1, score 0.98)
-- [[unique-info-dump-index#L168|Unique Info Dump Index — L168]] (line 168, col 3, score 0.98)
-- [[docs/unique/ecs-offload-workers#L471|ecs-offload-workers — L471]] (line 471, col 1, score 0.98)
-- [[docs/unique/ecs-offload-workers#L471|ecs-offload-workers — L471]] (line 471, col 3, score 0.98)
-- [[docs/unique/ecs-offload-workers#L470|ecs-offload-workers — L470]] (line 470, col 1, score 0.97)
-- [[docs/unique/ecs-offload-workers#L470|ecs-offload-workers — L470]] (line 470, col 3, score 0.97)
-- [[docs/unique/interop-and-source-maps#L532|Interop and Source Maps — L532]] (line 532, col 1, score 1)
-- [[docs/unique/interop-and-source-maps#L532|Interop and Source Maps — L532]] (line 532, col 3, score 1)
-- [[lispy-macros-with-syntax-rules#L409|Lispy Macros with syntax-rules — L409]] (line 409, col 1, score 0.99)
-- [[lispy-macros-with-syntax-rules#L409|Lispy Macros with syntax-rules — L409]] (line 409, col 3, score 0.99)
-- [[docs/unique/compiler-kit-foundations#L624|compiler-kit-foundations — L624]] (line 624, col 1, score 0.99)
-- [[docs/unique/compiler-kit-foundations#L624|compiler-kit-foundations — L624]] (line 624, col 3, score 0.99)
-- [[docs/unique/interop-and-source-maps#L529|Interop and Source Maps — L529]] (line 529, col 1, score 0.99)
-- [[docs/unique/interop-and-source-maps#L529|Interop and Source Maps — L529]] (line 529, col 3, score 0.99)
-- [[js-to-lisp-reverse-compiler#L427|js-to-lisp-reverse-compiler — L427]] (line 427, col 1, score 0.98)
-- [[js-to-lisp-reverse-compiler#L427|js-to-lisp-reverse-compiler — L427]] (line 427, col 3, score 0.98)
+- $[docs/unique/compiler-kit-foundations#L11|compiler-kit-foundations — L11]$ (line 11, col 1, score 0.87)
+- $[docs/unique/interop-and-source-maps#L21|Interop and Source Maps — L21]$ (line 21, col 1, score 0.86)
+- $[lispy-macros-with-syntax-rules#L217|Lispy Macros with syntax-rules — L217]$ (line 217, col 1, score 0.88)
+- $[docs/unique/interop-and-source-maps#L68|Interop and Source Maps — L68]$ (line 68, col 1, score 0.88)
+- $[docs/unique/zero-copy-snapshots-and-workers#L70|zero-copy-snapshots-and-workers — L70]$ (line 70, col 1, score 0.85)
+- $[docs/unique/interop-and-source-maps#L421|Interop and Source Maps — L421]$ (line 421, col 1, score 0.97)
+- $[lispy-macros-with-syntax-rules#L319|Lispy Macros with syntax-rules — L319]$ (line 319, col 1, score 0.92)
+- $[lispy-macros-with-syntax-rules#L365|Lispy Macros with syntax-rules — L365]$ (line 365, col 1, score 0.92)
+- $[set-assignment-in-lisp-ast#L139|set-assignment-in-lisp-ast — L139]$ (line 139, col 1, score 0.86)
+- $[docs/unique/interop-and-source-maps#L470|Interop and Source Maps — L470]$ (line 470, col 1, score 0.86)
+- $[lispy-macros-with-syntax-rules#L393|Lispy Macros with syntax-rules — L393]$ (line 393, col 1, score 0.9)
+- $[lispy-macros-with-syntax-rules#L393|Lispy Macros with syntax-rules — L393]$ (line 393, col 3, score 0.9)
+- [DSL — L11]$chunks/dsl.md#L11$ (line 11, col 1, score 1)
+- [DSL — L11]$chunks/dsl.md#L11$ (line 11, col 3, score 1)
+- $[docs/unique/compiler-kit-foundations#L606|compiler-kit-foundations — L606]$ (line 606, col 1, score 1)
+- $[docs/unique/compiler-kit-foundations#L606|compiler-kit-foundations — L606]$ (line 606, col 3, score 1)
+- $[js-to-lisp-reverse-compiler#L422|js-to-lisp-reverse-compiler — L422]$ (line 422, col 1, score 1)
+- $[js-to-lisp-reverse-compiler#L422|js-to-lisp-reverse-compiler — L422]$ (line 422, col 3, score 1)
+- $[language-agnostic-mirror-system#L534|Language-Agnostic Mirror System — L534]$ (line 534, col 1, score 1)
+- $[language-agnostic-mirror-system#L534|Language-Agnostic Mirror System — L534]$ (line 534, col 3, score 1)
+- $[docs/unique/compiler-kit-foundations#L608|compiler-kit-foundations — L608]$ (line 608, col 1, score 1)
+- $[docs/unique/compiler-kit-foundations#L608|compiler-kit-foundations — L608]$ (line 608, col 3, score 1)
+- $[docs/unique/interop-and-source-maps#L516|Interop and Source Maps — L516]$ (line 516, col 1, score 1)
+- $[docs/unique/interop-and-source-maps#L516|Interop and Source Maps — L516]$ (line 516, col 3, score 1)
+- $[language-agnostic-mirror-system#L536|Language-Agnostic Mirror System — L536]$ (line 536, col 1, score 1)
+- $[language-agnostic-mirror-system#L536|Language-Agnostic Mirror System — L536]$ (line 536, col 3, score 1)
+- $[polyglot-s-expr-bridge-python-js-lisp-interop#L517|Polyglot S-expr Bridge: Python-JS-Lisp Interop — L517]$ (line 517, col 1, score 1)
+- $[polyglot-s-expr-bridge-python-js-lisp-interop#L517|Polyglot S-expr Bridge: Python-JS-Lisp Interop — L517]$ (line 517, col 3, score 1)
+- [DSL — L13]$chunks/dsl.md#L13$ (line 13, col 1, score 1)
+- [DSL — L13]$chunks/dsl.md#L13$ (line 13, col 3, score 1)
+- $[docs/unique/interop-and-source-maps#L513|Interop and Source Maps — L513]$ (line 513, col 1, score 1)
+- $[docs/unique/interop-and-source-maps#L513|Interop and Source Maps — L513]$ (line 513, col 3, score 1)
+- $[lispy-macros-with-syntax-rules#L400|Lispy Macros with syntax-rules — L400]$ (line 400, col 1, score 1)
+- $[lispy-macros-with-syntax-rules#L400|Lispy Macros with syntax-rules — L400]$ (line 400, col 3, score 1)
+- $[polyglot-s-expr-bridge-python-js-lisp-interop#L515|Polyglot S-expr Bridge: Python-JS-Lisp Interop — L515]$ (line 515, col 1, score 1)
+- $[polyglot-s-expr-bridge-python-js-lisp-interop#L515|Polyglot S-expr Bridge: Python-JS-Lisp Interop — L515]$ (line 515, col 3, score 1)
+- $[docs/unique/compiler-kit-foundations#L607|compiler-kit-foundations — L607]$ (line 607, col 1, score 1)
+- $[docs/unique/compiler-kit-foundations#L607|compiler-kit-foundations — L607]$ (line 607, col 3, score 1)
+- $[docs/unique/interop-and-source-maps#L514|Interop and Source Maps — L514]$ (line 514, col 1, score 1)
+- $[docs/unique/interop-and-source-maps#L514|Interop and Source Maps — L514]$ (line 514, col 3, score 1)
+- $[js-to-lisp-reverse-compiler#L411|js-to-lisp-reverse-compiler — L411]$ (line 411, col 1, score 1)
+- $[js-to-lisp-reverse-compiler#L411|js-to-lisp-reverse-compiler — L411]$ (line 411, col 3, score 1)
+- $[language-agnostic-mirror-system#L535|Language-Agnostic Mirror System — L535]$ (line 535, col 1, score 1)
+- $[language-agnostic-mirror-system#L535|Language-Agnostic Mirror System — L535]$ (line 535, col 3, score 1)
+- [JavaScript — L13]$chunks/javascript.md#L13$ (line 13, col 1, score 1)
+- [JavaScript — L13]$chunks/javascript.md#L13$ (line 13, col 3, score 1)
+- $[docs/unique/ecs-offload-workers#L459|ecs-offload-workers — L459]$ (line 459, col 1, score 1)
+- $[docs/unique/ecs-offload-workers#L459|ecs-offload-workers — L459]$ (line 459, col 3, score 1)
+- $smart-chatgpt-thingy — L23$$smart-chatgpt-thingy.md#L23$ (line 23, col 1, score 1)
+- $smart-chatgpt-thingy — L23$$smart-chatgpt-thingy.md#L23$ (line 23, col 3, score 1)
+- $[unique-info-dump-index#L74|Unique Info Dump Index — L74]$ (line 74, col 1, score 1)
+- $[unique-info-dump-index#L74|Unique Info Dump Index — L74]$ (line 74, col 3, score 1)
+- $[docs/unique/archetype-ecs#L458|archetype-ecs — L458]$ (line 458, col 1, score 1)
+- $[docs/unique/archetype-ecs#L458|archetype-ecs — L458]$ (line 458, col 3, score 1)
+- $[docs/unique/interop-and-source-maps#L521|Interop and Source Maps — L521]$ (line 521, col 1, score 1)
+- $[docs/unique/interop-and-source-maps#L521|Interop and Source Maps — L521]$ (line 521, col 3, score 1)
+- $[js-to-lisp-reverse-compiler#L413|js-to-lisp-reverse-compiler — L413]$ (line 413, col 1, score 1)
+- $[js-to-lisp-reverse-compiler#L413|js-to-lisp-reverse-compiler — L413]$ (line 413, col 3, score 1)
+- $[lispy-macros-with-syntax-rules#L405|Lispy Macros with syntax-rules — L405]$ (line 405, col 1, score 1)
+- $[lispy-macros-with-syntax-rules#L405|Lispy Macros with syntax-rules — L405]$ (line 405, col 3, score 1)
+- $[docs/unique/compiler-kit-foundations#L611|compiler-kit-foundations — L611]$ (line 611, col 1, score 1)
+- $[docs/unique/compiler-kit-foundations#L611|compiler-kit-foundations — L611]$ (line 611, col 3, score 1)
+- $[docs/unique/ecs-offload-workers#L462|ecs-offload-workers — L462]$ (line 462, col 1, score 1)
+- $[docs/unique/ecs-offload-workers#L462|ecs-offload-workers — L462]$ (line 462, col 3, score 1)
+- $[ecs-scheduler-and-prefabs#L398|ecs-scheduler-and-prefabs — L398]$ (line 398, col 1, score 1)
+- $[ecs-scheduler-and-prefabs#L398|ecs-scheduler-and-prefabs — L398]$ (line 398, col 3, score 1)
+- $[docs/unique/interop-and-source-maps#L517|Interop and Source Maps — L517]$ (line 517, col 1, score 1)
+- $[docs/unique/interop-and-source-maps#L517|Interop and Source Maps — L517]$ (line 517, col 3, score 1)
+- $[ai-centric-os-with-mcp-layer#L402|AI-Centric OS with MCP Layer — L402]$ (line 402, col 1, score 1)
+- $[ai-centric-os-with-mcp-layer#L402|AI-Centric OS with MCP Layer — L402]$ (line 402, col 3, score 1)
+- $[cross-target-macro-system-in-sibilant#L169|Cross-Target Macro System in Sibilant — L169]$ (line 169, col 1, score 1)
+- $[cross-target-macro-system-in-sibilant#L169|Cross-Target Macro System in Sibilant — L169]$ (line 169, col 3, score 1)
+- $[dynamic-context-model-for-web-components#L387|Dynamic Context Model for Web Components — L387]$ (line 387, col 1, score 1)
+- $[dynamic-context-model-for-web-components#L387|Dynamic Context Model for Web Components — L387]$ (line 387, col 3, score 1)
+- $[js-to-lisp-reverse-compiler#L410|js-to-lisp-reverse-compiler — L410]$ (line 410, col 1, score 1)
+- $[js-to-lisp-reverse-compiler#L410|js-to-lisp-reverse-compiler — L410]$ (line 410, col 3, score 1)
+- $[docs/unique/aionian-circuit-math#L155|aionian-circuit-math — L155]$ (line 155, col 1, score 1)
+- $[docs/unique/aionian-circuit-math#L155|aionian-circuit-math — L155]$ (line 155, col 3, score 1)
+- $[docs/unique/compiler-kit-foundations#L609|compiler-kit-foundations — L609]$ (line 609, col 1, score 1)
+- $[docs/unique/compiler-kit-foundations#L609|compiler-kit-foundations — L609]$ (line 609, col 3, score 1)
+- $[cross-language-runtime-polymorphism#L203|Cross-Language Runtime Polymorphism — L203]$ (line 203, col 1, score 1)
+- $[cross-language-runtime-polymorphism#L203|Cross-Language Runtime Polymorphism — L203]$ (line 203, col 3, score 1)
+- $[cross-target-macro-system-in-sibilant#L168|Cross-Target Macro System in Sibilant — L168]$ (line 168, col 1, score 1)
+- $[cross-target-macro-system-in-sibilant#L168|Cross-Target Macro System in Sibilant — L168]$ (line 168, col 3, score 1)
+- $komorebi-group-window-hack — L201$$komorebi-group-window-hack.md#L201$ (line 201, col 1, score 1)
+- $komorebi-group-window-hack — L201$$komorebi-group-window-hack.md#L201$ (line 201, col 3, score 1)
+- $[sibilant-meta-string-templating-runtime#L126|sibilant-meta-string-templating-runtime — L126]$ (line 126, col 1, score 1)
+- $[sibilant-meta-string-templating-runtime#L126|sibilant-meta-string-templating-runtime — L126]$ (line 126, col 3, score 1)
+- $[docs/unique/template-based-compilation#L110|template-based-compilation — L110]$ (line 110, col 1, score 1)
+- $[docs/unique/template-based-compilation#L110|template-based-compilation — L110]$ (line 110, col 3, score 1)
+- $[ts-to-lisp-transpiler#L11|ts-to-lisp-transpiler — L11]$ (line 11, col 1, score 1)
+- $[ts-to-lisp-transpiler#L11|ts-to-lisp-transpiler — L11]$ (line 11, col 3, score 1)
+- $[cross-target-macro-system-in-sibilant#L179|Cross-Target Macro System in Sibilant — L179]$ (line 179, col 1, score 1)
+- $[cross-target-macro-system-in-sibilant#L179|Cross-Target Macro System in Sibilant — L179]$ (line 179, col 3, score 1)
+- $[dynamic-context-model-for-web-components#L389|Dynamic Context Model for Web Components — L389]$ (line 389, col 1, score 1)
+- $[dynamic-context-model-for-web-components#L389|Dynamic Context Model for Web Components — L389]$ (line 389, col 3, score 1)
+- $[docs/unique/interop-and-source-maps#L522|Interop and Source Maps — L522]$ (line 522, col 1, score 1)
+- $[docs/unique/interop-and-source-maps#L522|Interop and Source Maps — L522]$ (line 522, col 3, score 1)
+- $[language-agnostic-mirror-system#L533|Language-Agnostic Mirror System — L533]$ (line 533, col 1, score 1)
+- $[language-agnostic-mirror-system#L533|Language-Agnostic Mirror System — L533]$ (line 533, col 3, score 1)
+- $[docs/unique/template-based-compilation#L122|template-based-compilation — L122]$ (line 122, col 1, score 0.98)
+- $[docs/unique/template-based-compilation#L122|template-based-compilation — L122]$ (line 122, col 3, score 0.98)
+- $[docs/unique/interop-and-source-maps#L528|Interop and Source Maps — L528]$ (line 528, col 1, score 0.98)
+- $[docs/unique/interop-and-source-maps#L528|Interop and Source Maps — L528]$ (line 528, col 3, score 0.98)
+- $[lispy-macros-with-syntax-rules#L410|Lispy Macros with syntax-rules — L410]$ (line 410, col 1, score 0.98)
+- $[lispy-macros-with-syntax-rules#L410|Lispy Macros with syntax-rules — L410]$ (line 410, col 3, score 0.98)
+- $[set-assignment-in-lisp-ast#L159|set-assignment-in-lisp-ast — L159]$ (line 159, col 1, score 0.98)
+- $[set-assignment-in-lisp-ast#L159|set-assignment-in-lisp-ast — L159]$ (line 159, col 3, score 0.98)
+- $[polyglot-s-expr-bridge-python-js-lisp-interop#L523|Polyglot S-expr Bridge: Python-JS-Lisp Interop — L523]$ (line 523, col 1, score 1)
+- $[polyglot-s-expr-bridge-python-js-lisp-interop#L523|Polyglot S-expr Bridge: Python-JS-Lisp Interop — L523]$ (line 523, col 3, score 1)
+- $[lispy-macros-with-syntax-rules#L413|Lispy Macros with syntax-rules — L413]$ (line 413, col 1, score 0.98)
+- $[lispy-macros-with-syntax-rules#L413|Lispy Macros with syntax-rules — L413]$ (line 413, col 3, score 0.98)
+- $[lispy-macros-with-syntax-rules#L415|Lispy Macros with syntax-rules — L415]$ (line 415, col 1, score 0.98)
+- $[lispy-macros-with-syntax-rules#L415|Lispy Macros with syntax-rules — L415]$ (line 415, col 3, score 0.98)
+- $[docs/unique/compiler-kit-foundations#L623|compiler-kit-foundations — L623]$ (line 623, col 1, score 0.98)
+- $[docs/unique/compiler-kit-foundations#L623|compiler-kit-foundations — L623]$ (line 623, col 3, score 0.98)
+- $[docs/unique/interop-and-source-maps#L533|Interop and Source Maps — L533]$ (line 533, col 1, score 0.99)
+- $[docs/unique/interop-and-source-maps#L533|Interop and Source Maps — L533]$ (line 533, col 3, score 0.99)
+- $[docs/unique/compiler-kit-foundations#L625|compiler-kit-foundations — L625]$ (line 625, col 1, score 0.99)
+- $[docs/unique/compiler-kit-foundations#L625|compiler-kit-foundations — L625]$ (line 625, col 3, score 0.99)
+- $[set-assignment-in-lisp-ast#L160|set-assignment-in-lisp-ast — L160]$ (line 160, col 1, score 0.99)
+- $[set-assignment-in-lisp-ast#L160|set-assignment-in-lisp-ast — L160]$ (line 160, col 3, score 0.99)
+- $[docs/unique/interop-and-source-maps#L530|Interop and Source Maps — L530]$ (line 530, col 1, score 0.99)
+- $[docs/unique/interop-and-source-maps#L530|Interop and Source Maps — L530]$ (line 530, col 3, score 0.99)
+- $[set-assignment-in-lisp-ast#L158|set-assignment-in-lisp-ast — L158]$ (line 158, col 1, score 0.98)
+- $[set-assignment-in-lisp-ast#L158|set-assignment-in-lisp-ast — L158]$ (line 158, col 3, score 0.98)
+- $[lispy-macros-with-syntax-rules#L411|Lispy Macros with syntax-rules — L411]$ (line 411, col 1, score 0.98)
+- $[lispy-macros-with-syntax-rules#L411|Lispy Macros with syntax-rules — L411]$ (line 411, col 3, score 0.98)
+- [JavaScript — L33]$chunks/javascript.md#L33$ (line 33, col 1, score 0.98)
+- [JavaScript — L33]$chunks/javascript.md#L33$ (line 33, col 3, score 0.98)
+- $[unique-info-dump-index#L168|Unique Info Dump Index — L168]$ (line 168, col 1, score 0.98)
+- $[unique-info-dump-index#L168|Unique Info Dump Index — L168]$ (line 168, col 3, score 0.98)
+- $[docs/unique/ecs-offload-workers#L471|ecs-offload-workers — L471]$ (line 471, col 1, score 0.98)
+- $[docs/unique/ecs-offload-workers#L471|ecs-offload-workers — L471]$ (line 471, col 3, score 0.98)
+- $[docs/unique/ecs-offload-workers#L470|ecs-offload-workers — L470]$ (line 470, col 1, score 0.97)
+- $[docs/unique/ecs-offload-workers#L470|ecs-offload-workers — L470]$ (line 470, col 3, score 0.97)
+- $[docs/unique/interop-and-source-maps#L532|Interop and Source Maps — L532]$ (line 532, col 1, score 1)
+- $[docs/unique/interop-and-source-maps#L532|Interop and Source Maps — L532]$ (line 532, col 3, score 1)
+- $[lispy-macros-with-syntax-rules#L409|Lispy Macros with syntax-rules — L409]$ (line 409, col 1, score 0.99)
+- $[lispy-macros-with-syntax-rules#L409|Lispy Macros with syntax-rules — L409]$ (line 409, col 3, score 0.99)
+- $[docs/unique/compiler-kit-foundations#L624|compiler-kit-foundations — L624]$ (line 624, col 1, score 0.99)
+- $[docs/unique/compiler-kit-foundations#L624|compiler-kit-foundations — L624]$ (line 624, col 3, score 0.99)
+- $[docs/unique/interop-and-source-maps#L529|Interop and Source Maps — L529]$ (line 529, col 1, score 0.99)
+- $[docs/unique/interop-and-source-maps#L529|Interop and Source Maps — L529]$ (line 529, col 3, score 0.99)
+- $[js-to-lisp-reverse-compiler#L427|js-to-lisp-reverse-compiler — L427]$ (line 427, col 1, score 0.98)
+- $[js-to-lisp-reverse-compiler#L427|js-to-lisp-reverse-compiler — L427]$ (line 427, col 3, score 0.98)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

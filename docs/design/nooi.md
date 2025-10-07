@@ -4,7 +4,7 @@
 
 ### Overview
 
-In the Promethean system, **Nooi** (singular: **Noon**) are the **field cells** that define the structure and memory of the Eidolon Fields. Each Noon is a static point in the 8-dimensional cognitive space that stores local state: tension, charge, memory, and field values for each of the eight circuits.
+In the Promethean system, **Nooi** $singular: **Noon**$ are the **field cells** that define the structure and memory of the Eidolon Fields. Each Noon is a static point in the 8-dimensional cognitive space that stores local state: tension, charge, memory, and field values for each of the eight circuits.
 
 They form the **substrate**—the continuous cognitive medium through which Daimoi (the mobile agents of thought and behavior) swim, interact, and evolve.
 
@@ -29,7 +29,7 @@ Each Noon exists at a fixed coordinate in the 8D Eidolon Field and holds:
 * **Excitation Level**: Local energy from recent activity
 * **Charge State**: Net emotional/affective polarity
 * **Binding Sites**: Links to symbolic memory or user data when present
-* **Field Coupling**: Responsiveness to circuit activity (e.g., heavily Oneiric Nooi are dream-prone)
+* **Field Coupling**: Responsiveness to circuit activity $e.g., heavily Oneiric Nooi are dream-prone$
 
 Nooi are updated passively during each system tick by field mechanics, environmental input, and daimo interaction.
 

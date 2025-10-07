@@ -1,10 +1,16 @@
 ---
+$$
 uuid: 09721156-4b96-412a-b23a-e5f789e2144b
+$$
+$$
 created_at: '2025-09-18T16:34:14Z'
+$$
 title: 2025.09.18.16.34.14
 filename: Enso Protocol
+$$
 description: >-
-  A small, composable spec for rooms of voices (humans + agents) exchanging
+$$
+  A small, composable spec for rooms of voices $humans + agents$ exchanging
   events and streams with causal ordering and capability negotiation. The
   protocol supports voice-first, multi-party interactions with explicit
   non-request/response semantics and agent-aware design.
@@ -16,15 +22,19 @@ tags:
   - causal
   - events
   - streams
+$$
 related_to_uuid: []
+$$
+$$
 related_to_title: []
+$$
 references: []
 ---
 Love it. Let’s give **Enso** its own protocol—explicitly *not* request/response, voice-first, multi-party, and agent-aware.
 
-# Enso Protocol (ENSO-1) — v0.1 Draft
+# Enso Protocol $ENSO-1$ — v0.1 Draft
 
-A small, composable spec for **rooms of voices** (humans + agents) exchanging **events** and **streams** with causal ordering and capability negotiation.
+A small, composable spec for **rooms of voices** $humans + agents$ exchanging **events** and **streams** with causal ordering and capability negotiation.
 
 ```mermaid
 flowchart LR
@@ -40,11 +50,11 @@ flowchart LR
   Router -- state diffs --> All[All Participants]
 ```
 
-## 0) Packages (TS-first)
+## 0) Packages $TS-first$
 
 * `packages/enso-protocol` — types, codecs, guards, test vectors
-* `packages/enso-gateway` — room server (WS/WebTransport) + auth
-* `packages/enso-client` — Node/Browser client SDK (voice in/out)
+* `packages/enso-gateway` — room server $WS/WebTransport$ + auth
+* `packages/enso-client` — Node/Browser client SDK $voice in/out$
 * `packages/enso-cli` — quick TUI/voice demo
 * `packages/cephalon-core` — interpreter; consumes Enso streams
 
@@ -124,9 +134,9 @@ Voice is just `kind:"stream", type:"voice.frame"` with `payload: StreamFrame`.
 * **Session**: an authenticated connection; advertises **capabilities**.
 * **Room**: a CRDT-backed state (members, permissions, stream registry).
 * **Roles**: `human`, `agent`, `observer`, `mixer`. Capabilities (e.g. `can.speak.audio`, `can.tool.<name>`).
-
+$$
 **Capability handshake**
-
+$$
 ```ts
 export interface HelloCaps {
   proto: "ENSO-1";
@@ -139,7 +149,7 @@ export interface HelloCaps {
 
 ## 4) Flow control & reliability
 
-* **Per-stream seq** for gap detection; `nack` events request resend (for WS/WebTransport).
+* **Per-stream seq** for gap detection; `nack` events request resend $for WS/WebTransport$.
 * **Backpressure**: server issues `flow.pause(streamId)` / `flow.resume(streamId)`.
 * **Graceful degradation**: if media stalls, router emits `state.patch` to reflect “muted/degraded”.
 
@@ -220,7 +230,7 @@ export interface StreamWriter {
 
 ---
 
-## 10) Minimal demo loop (Enso ←→ Cephalon)
+## 10) Minimal demo loop $Enso ←→ Cephalon$
 
 ```mermaid
 sequenceDiagram
@@ -276,7 +286,7 @@ packages/
 * **Cephalon** — interpreter plugged into Enso streams.
 * **Rituals** — shared tests that exercise eval mode, tool timeouts, and close semantics.
 
-If you want, I can generate the **exact TS files** for `enso-protocol` + `enso-client` (zod schemas + thin WS transport) and a **30-line CLI** that records mic, sends `voice.frame`, and prints partial transcripts—ready to drop under `packages/`.
+If you want, I can generate the **exact TS files** for `enso-protocol` + `enso-client` $zod schemas + thin WS transport$ and a **30-line CLI** that records mic, sends `voice.frame`, and prints partial transcripts—ready to drop under `packages/`.
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
 - _None_

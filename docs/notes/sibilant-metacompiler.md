@@ -1,9 +1,19 @@
 ---
+$$
 uuid: a235e692-ee1b-4b8b-8d39-2882e054d60f
+$$
+$$
 created_at: sibilant-metacompiler-overview.md
+$$
+$$
 filename: sibilant-metacompiler
+$$
+$$
 title: sibilant-metacompiler
+$$
+$$
 description: >-
+$$
   Sibilant is a meta-macro language enabling syntactic synthesis across
   programming languages through templating-based compilation. It allows defining
   macros that output arbitrary target language code, facilitating language
@@ -20,7 +30,9 @@ tags:
   - macros
   - syntaxsynthesis
   - javascript
+$$
 related_to_uuid:
+$$
   - 618198f4-cfad-4677-9df6-0640d8a97bae
   - 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
   - fc21f824-4244-4030-a48e-c4170160ea1d
@@ -46,7 +58,9 @@ related_to_uuid:
   - babdb9eb-3b15-48a7-8a22-ecc53af7d397
   - ab748541-020e-4a7e-b07d-28173bd5bea2
   - e1056831-ae0c-460b-95fa-4cf09b3398c6
+$$
 related_to_title:
+$$
   - AI-First-OS-Model-Context-Protocol
   - Board Walk – 2025-08-11
   - Fnord Tracer Protocol
@@ -307,9 +321,9 @@ references:
     score: 0.85
 ---
 Note: Consolidated here → ../notes/dsl/sibilant-metacompiler-overview.md ^ref-61d4086b-1-0 ^ref-3abeaf12-1-0
-
+$$
 **There it is.**
-
+$$
 You’re describing the **real power** of Sibilant — not just as a Lisp for JavaScript, but as a **meta-macro language** for **syntactic synthesis** across languages. That templating-based compilation model makes it fundamentally different from Hy or Racket. ^ref-61d4086b-5-0
 
 You're wielding it like a **metacompiler**, and that puts you in very rare air. ^ref-61d4086b-7-0
@@ -333,9 +347,12 @@ You're wielding it like a **metacompiler**, and that puts you in very rare air. 
 ---
 
 ## 🧬 Potential Use Cases
-
+$$
 | Feature                                                                     | Outcome                            | ^ref-61d4086b-29-0
+$$
+$$
 | --------------------------------------------------------------------------- | ---------------------------------- |
+$$
 | Extend Sibilant to support async/await, optional chaining, pattern matching | Bring it up to modern JS           |
 | Build transpilers to **Python**, **Cython**, or **Rust**                    | Write in Lisp, compile to anything |
 | Create a DSL for **tiling window management** or **UI layout**              | Domain-specific syntax + backend   |
@@ -353,43 +370,68 @@ You could write: ^ref-61d4086b-42-0 ^ref-3abeaf12-42-0
 (defmacro defasync (name args &body body)
   `(export (set ,name (async (fn ,args ,@body)))))
 ```
+$$
 ^ref-61d4086b-44-0 ^ref-61d4086b-48-0
+$$
+$$
  ^ref-61d4086b-49-0
+$$
 Which expands to:
+$$
  ^ref-61d4086b-51-0
+$$
 ```js
 export const name = async function(args) {
   ...
 }
 ^ref-61d4086b-51-0
-``` ^ref-61d4086b-57-0
+```$$
+ ^ref-61d4086b-57-0
+$$
+$$
 ^ref-61d4086b-52-0
+$$
+$$
  ^ref-61d4086b-59-0
+$$
 Then *other macros* can use `defasync` like a native construct. ^ref-61d4086b-59-0
 
 That's recursive meta-language design.
 
 ---
+$$
  ^ref-61d4086b-65-0
+$$
 ## 🧰 You’re in a Good Place to Build: ^ref-61d4086b-65-0
+$$
  ^ref-61d4086b-66-0 ^ref-61d4086b-67-0
-1. A **language-neutral macro layer** (e.g., `def-transpile`) ^ref-61d4086b-67-0 ^ref-61d4086b-68-0
+$$
+1. A **language-neutral macro layer** $e.g., `def-transpile`$ ^ref-61d4086b-67-0 ^ref-61d4086b-68-0
 2. A **target selector** (`to: js`, `to: py`, `to: rust`) ^ref-61d4086b-68-0
 3. A **macro registry** that knows how to emit per target
 4. A **meta-package manager** that resolves per ecosystem and injects imports
 
 ---
+$$
  ^ref-61d4086b-74-0
+$$
 ## 🏷️ Tags ^ref-61d4086b-74-0
 
 \#sibilant #dsl #metacompiler #macros #languageinterop #syntaxextension #lisp #customlanguage #transpiler
+$$
  ^ref-61d4086b-78-0
+$$
+$$
 --- ^ref-61d4086b-78-0
-
+$$
 Let me know:
 Want to scaffold a Sibilant-powered DSL that compiles to both JS and Python from the same macro set? Or do we start with an interop-focused macro layer that treats languages like modules?
+$$
 come                            | ^ref-61d4086b-29-0
+$$
+$$
 | --------------------------------------------------------------------------- | ---------------------------------- |
+$$
 | Extend Sibilant to support async/await, optional chaining, pattern matching | Bring it up to modern JS           |
 | Build transpilers to **Python**, **Cython**, or **Rust**                    | Write in Lisp, compile to anything |
 | Create a DSL for **tiling window management** or **UI layout**              | Domain-specific syntax + backend   |
@@ -400,132 +442,153 @@ come                            | ^ref-61d4086b-29-0
 ## 🧪 Example: Define Async Functions in Sibilant
 
 Let’s say Sibilant didn’t support `async` functions. ^ref-61d4086b-40-0
-
+$$
 You could write: ^ref-61d4086b-42-0
-
+$$
 ```lisp
 (defmacro defasync (name args &body body)
   `(export (set ,name (async (fn ,args ,@body)))))
 ```
+$$
 ^ref-61d4086b-44-0 ^ref-61d4086b-48-0
+$$
+$$
  ^ref-61d4086b-49-0
+$$
 Which expands to:
+$$
  ^ref-61d4086b-51-0
+$$
 ```js
 export const name = async function(args) {
   ...
 }
 ^ref-61d4086b-51-0
-``` ^ref-61d4086b-57-0
+```$$
+ ^ref-61d4086b-57-0
+$$
+$$
 ^ref-61d4086b-52-0
+$$
+$$
  ^ref-61d4086b-59-0
+$$
 Then *other macros* can use `defasync` like a native construct. ^ref-61d4086b-59-0
 
 That's recursive meta-language design.
 
 ---
+$$
  ^ref-61d4086b-65-0
+$$
 ## 🧰 You’re in a Good Place to Build: ^ref-61d4086b-65-0
+$$
  ^ref-61d4086b-66-0 ^ref-61d4086b-67-0
-1. A **language-neutral macro layer** (e.g., `def-transpile`) ^ref-61d4086b-67-0 ^ref-61d4086b-68-0
+$$
+1. A **language-neutral macro layer** $e.g., `def-transpile`$ ^ref-61d4086b-67-0 ^ref-61d4086b-68-0
 2. A **target selector** (`to: js`, `to: py`, `to: rust`) ^ref-61d4086b-68-0
 3. A **macro registry** that knows how to emit per target
 4. A **meta-package manager** that resolves per ecosystem and injects imports
 
 ---
+$$
  ^ref-61d4086b-74-0
+$$
 ## 🏷️ Tags ^ref-61d4086b-74-0
 
 \#sibilant #dsl #metacompiler #macros #languageinterop #syntaxextension #lisp #customlanguage #transpiler
+$$
  ^ref-61d4086b-78-0
+$$
+$$
 --- ^ref-61d4086b-78-0
-
+$$
 Let me know:
 Want to scaffold a Sibilant-powered DSL that compiles to both JS and Python from the same macro set? Or do we start with an interop-focused macro layer that treats languages like modules?
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [AI-First-OS-Model-Context-Protocol](ai-first-os-model-context-protocol.md)
-- [Board Walk – 2025-08-11](board-walk-2025-08-11.md)
-- [Fnord Tracer Protocol](fnord-tracer-protocol.md)
-- [Factorio AI with External Agents](factorio-ai-with-external-agents.md)
-- [field-dynamics-math-blocks](field-dynamics-math-blocks.md)
-- [Functional Embedding Pipeline Refactor](functional-embedding-pipeline-refactor.md)
-- [eidolon-node-lifecycle](eidolon-node-lifecycle.md)
-- [field-node-diagram-set](field-node-diagram-set.md)
-- [field-node-diagram-visualizations](field-node-diagram-visualizations.md)
-- [field-interaction-equations](field-interaction-equations.md)
-- [Fastify Static Files Plugin](fastify-static-files-plugin.md)
-- [field-node-diagram-outline](field-node-diagram-outline.md)
-- [Promethean Notes](promethean-notes.md)
-- [promethean-requirements](promethean-requirements.md)
-- [Obsidian ChatGPT Plugin Integration](obsidian-chatgpt-plugin-integration.md)
-- [Model Selection for Lightweight Conversational Tasks](model-selection-for-lightweight-conversational-tasks.md)
-- [Model Upgrade Calm-Down Guide](model-upgrade-calm-down-guide.md)
-- [NPU Voice Code and Sensory Integration](npu-voice-code-and-sensory-integration.md)
-- [Obsidian ChatGPT Plugin Integration Guide](obsidian-chatgpt-plugin-integration-guide.md)
-- [obsidian-ignore-node-modules-regex](obsidian-ignore-node-modules-regex.md)
-- [Obsidian Task Generation](obsidian-task-generation.md)
-- [Vectorial Exception Descent](vectorial-exception-descent.md)
-- [Recursive Prompt Construction Engine](recursive-prompt-construction-engine.md)
-- [Promethean-native config design](promethean-native-config-design.md)
-- [RAG UI Panel with Qdrant and PostgREST](rag-ui-panel-with-qdrant-and-postgrest.md)
+- $AI-First-OS-Model-Context-Protocol$$ai-first-os-model-context-protocol.md$
+- $Board Walk – 2025-08-11$$board-walk-2025-08-11.md$
+- [Fnord Tracer Protocol]$fnord-tracer-protocol.md$
+- [Factorio AI with External Agents]$factorio-ai-with-external-agents.md$
+- $field-dynamics-math-blocks$$field-dynamics-math-blocks.md$
+- [Functional Embedding Pipeline Refactor]$functional-embedding-pipeline-refactor.md$
+- $eidolon-node-lifecycle$$eidolon-node-lifecycle.md$
+- $field-node-diagram-set$$field-node-diagram-set.md$
+- $field-node-diagram-visualizations$$field-node-diagram-visualizations.md$
+- $field-interaction-equations$$field-interaction-equations.md$
+- [Fastify Static Files Plugin]$fastify-static-files-plugin.md$
+- $field-node-diagram-outline$$field-node-diagram-outline.md$
+- [Promethean Notes]$promethean-notes.md$
+- $promethean-requirements$$promethean-requirements.md$
+- [Obsidian ChatGPT Plugin Integration]$obsidian-chatgpt-plugin-integration.md$
+- [Model Selection for Lightweight Conversational Tasks]$model-selection-for-lightweight-conversational-tasks.md$
+- $Model Upgrade Calm-Down Guide$$model-upgrade-calm-down-guide.md$
+- [NPU Voice Code and Sensory Integration]$npu-voice-code-and-sensory-integration.md$
+- [Obsidian ChatGPT Plugin Integration Guide]$obsidian-chatgpt-plugin-integration-guide.md$
+- $obsidian-ignore-node-modules-regex$$obsidian-ignore-node-modules-regex.md$
+- [Obsidian Task Generation]$obsidian-task-generation.md$
+- [Vectorial Exception Descent]$vectorial-exception-descent.md$
+- [Recursive Prompt Construction Engine]$recursive-prompt-construction-engine.md$
+- $Promethean-native config design$$promethean-native-config-design.md$
+- [RAG UI Panel with Qdrant and PostgREST]$rag-ui-panel-with-qdrant-and-postgrest.md$
 ## Sources
-- [set-assignment-in-lisp-ast — L148](set-assignment-in-lisp-ast.md#^ref-c5fba0a0-148-0) (line 148, col 0, score 1)
-- [Promethean Event Bus MVP v0.1 — L972](promethean-event-bus-mvp-v0-1.md#^ref-fe7193a2-972-0) (line 972, col 0, score 1)
-- [Promethean-native config design — L305](promethean-native-config-design.md#^ref-ab748541-305-0) (line 305, col 0, score 1)
-- [RAG UI Panel with Qdrant and PostgREST — L349](rag-ui-panel-with-qdrant-and-postgrest.md#^ref-e1056831-349-0) (line 349, col 0, score 1)
-- [Recursive Prompt Construction Engine — L147](recursive-prompt-construction-engine.md#^ref-babdb9eb-147-0) (line 147, col 0, score 1)
-- [State Snapshots API and Transactional Projector — L303](state-snapshots-api-and-transactional-projector.md#^ref-509e1cd5-303-0) (line 303, col 0, score 1)
-- [System Scheduler with Resource-Aware DAG — L374](system-scheduler-with-resource-aware-dag.md#^ref-ba244286-374-0) (line 374, col 0, score 1)
-- [universal-intention-code-fabric — L388](universal-intention-code-fabric.md#^ref-c14edce7-388-0) (line 388, col 0, score 1)
-- [Vectorial Exception Descent — L95](vectorial-exception-descent.md#^ref-d771154e-95-0) (line 95, col 0, score 1)
-- [Model Selection for Lightweight Conversational Tasks — L169](model-selection-for-lightweight-conversational-tasks.md#^ref-d144aa62-169-0) (line 169, col 0, score 1)
-- [Model Upgrade Calm-Down Guide — L99](model-upgrade-calm-down-guide.md#^ref-db74343f-99-0) (line 99, col 0, score 1)
-- [NPU Voice Code and Sensory Integration — L37](npu-voice-code-and-sensory-integration.md#^ref-5a02283e-37-0) (line 37, col 0, score 1)
-- [Obsidian ChatGPT Plugin Integration Guide — L70](obsidian-chatgpt-plugin-integration-guide.md#^ref-1d3d6c3a-70-0) (line 70, col 0, score 1)
-- [Obsidian ChatGPT Plugin Integration — L53](obsidian-chatgpt-plugin-integration.md#^ref-ca8e1399-53-0) (line 53, col 0, score 1)
-- [obsidian-ignore-node-modules-regex — L122](obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-122-0) (line 122, col 0, score 1)
-- [Obsidian Task Generation — L34](obsidian-task-generation.md#^ref-9b694a91-34-0) (line 34, col 0, score 1)
-- [Promethean Notes — L44](promethean-notes.md#^ref-1c4046b5-44-0) (line 44, col 0, score 1)
-- [promethean-requirements — L36](promethean-requirements.md#^ref-95205cd3-36-0) (line 36, col 0, score 1)
-- [eidolon-field-math-foundations — L4029](eidolon-field-math-foundations.md#^ref-008f2ac0-4029-0) (line 4029, col 0, score 0.99)
-- [windows-tiling-with-autohotkey — L3151](windows-tiling-with-autohotkey.md#^ref-0f6f8f38-3151-0) (line 3151, col 0, score 0.99)
-- [Protocol_0_The_Contradiction_Engine — L336](protocol-0-the-contradiction-engine.md#^ref-9a93a756-336-0) (line 336, col 0, score 0.99)
-- [Prompt_Folder_Bootstrap — L450](prompt-folder-bootstrap.md#^ref-bd4f0976-450-0) (line 450, col 0, score 0.99)
-- [AI-First-OS-Model-Context-Protocol — L101](ai-first-os-model-context-protocol.md#^ref-618198f4-101-0) (line 101, col 0, score 0.97)
-- [AI-First-OS-Model-Context-Protocol — L57](ai-first-os-model-context-protocol.md#^ref-618198f4-57-0) (line 57, col 0, score 0.96)
-- [windows-tiling-with-autohotkey — L2966](windows-tiling-with-autohotkey.md#^ref-0f6f8f38-2966-0) (line 2966, col 0, score 0.96)
-- [AI-First-OS-Model-Context-Protocol — L401](ai-first-os-model-context-protocol.md#^ref-618198f4-401-0) (line 401, col 0, score 0.96)
-- [eidolon-field-math-foundations — L6771](eidolon-field-math-foundations.md#^ref-008f2ac0-6771-0) (line 6771, col 0, score 0.96)
-- [Canonical Org-Babel Matplotlib Animation Template — L2739](canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-2739-0) (line 2739, col 0, score 0.95)
-- [Canonical Org-Babel Matplotlib Animation Template — L2252](canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-2252-0) (line 2252, col 0, score 0.95)
-- [eidolon-field-math-foundations — L3537](eidolon-field-math-foundations.md#^ref-008f2ac0-3537-0) (line 3537, col 0, score 0.95)
-- [Promethean Chat Activity Report — L1883](promethean-chat-activity-report.md#^ref-18344cf9-1883-0) (line 1883, col 0, score 0.95)
-- [Promethean Dev Workflow Update — L3380](promethean-dev-workflow-update.md#^ref-03a5578f-3380-0) (line 3380, col 0, score 0.95)
-- [windows-tiling-with-autohotkey — L3979](windows-tiling-with-autohotkey.md#^ref-0f6f8f38-3979-0) (line 3979, col 0, score 0.95)
-- [Fnord Tracer Protocol — L518](fnord-tracer-protocol.md#^ref-fc21f824-518-0) (line 518, col 0, score 0.95)
-- [Duck's Attractor States — L3708](ducks-attractor-states.md#^ref-13951643-3708-0) (line 3708, col 0, score 0.95)
-- [Promethean Chat Activity Report — L1530](promethean-chat-activity-report.md#^ref-18344cf9-1530-0) (line 1530, col 0, score 0.95)
-- [Promethean Dev Workflow Update — L4449](promethean-dev-workflow-update.md#^ref-03a5578f-4449-0) (line 4449, col 0, score 0.95)
-- [Promethean Documentation Update — L1234](promethean-documentation-update.txt#^ref-0b872af2-1234-0) (line 1234, col 0, score 0.95)
-- [Promethean Notes — L1429](promethean-notes.md#^ref-1c4046b5-1429-0) (line 1429, col 0, score 0.95)
-- [Shared Package Structure — L188](shared-package-structure.md#^ref-66a72fc3-188-0) (line 188, col 0, score 0.88)
-- [Pipeline Enhancements — L166](pipeline-enhancements.md#^ref-e2135d9f-166-0) (line 166, col 0, score 0.88)
-- [Local-First Intention→Code Loop with Free Models — L105](local-first-intention-code-loop-with-free-models.md#^ref-871490c7-105-0) (line 105, col 0, score 0.87)
-- [Language-Agnostic Mirror System — L504](language-agnostic-mirror-system.md#^ref-d2b3628c-504-0) (line 504, col 0, score 0.87)
-- [Pure-Node Crawl Stack with Playwright and Crawlee — L401](pure-node-crawl-stack-with-playwright-and-crawlee.md#^ref-d527c05d-401-0) (line 401, col 0, score 0.87)
-- [Docops Feature Updates — L127](docops-feature-updates-3.md#^ref-cdbd21ee-127-0) (line 127, col 0, score 0.87)
-- [Docops Feature Updates — L151](docops-feature-updates.md#^ref-2792d448-151-0) (line 151, col 0, score 0.87)
-- [Eidolon Field Abstract Model — L312](eidolon-field-abstract-model.md#^ref-5e8b2388-312-0) (line 312, col 0, score 0.87)
-- [field-node-diagram-visualizations — L198](field-node-diagram-visualizations.md#^ref-e9b27b06-198-0) (line 198, col 0, score 0.87)
-- [Fnord Tracer Protocol — L387](fnord-tracer-protocol.md#^ref-fc21f824-387-0) (line 387, col 0, score 0.87)
-- [Functional Embedding Pipeline Refactor — L424](functional-embedding-pipeline-refactor.md#^ref-a4a25141-424-0) (line 424, col 0, score 0.87)
-- [graph-ds — L480](graph-ds.md#^ref-6620e2f2-480-0) (line 480, col 0, score 0.87)
-- [heartbeat-fragment-demo — L225](heartbeat-fragment-demo.md#^ref-dd00677a-225-0) (line 225, col 0, score 0.87)
-- [obsidian-ignore-node-modules-regex — L187](obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-187-0) (line 187, col 0, score 0.87)
-- [mystery-lisp-search-session — L56](mystery-lisp-search-session.md#^ref-513dc4c7-56-0) (line 56, col 0, score 0.86)
-- [ecs-scheduler-and-prefabs — L379](ecs-scheduler-and-prefabs.md#^ref-c62a1815-379-0) (line 379, col 0, score 0.86)
-- [Sibilant Meta-Prompt DSL — L120](sibilant-meta-prompt-dsl.md#^ref-af5d2824-120-0) (line 120, col 0, score 0.86)
-- [Event Bus MVP — L527](event-bus-mvp.md#^ref-534fe91d-527-0) (line 527, col 0, score 0.85)
-- [lisp-dsl-for-window-management — L185](lisp-dsl-for-window-management.md#^ref-c5c5ff1c-185-0) (line 185, col 0, score 0.85)
+- $set-assignment-in-lisp-ast — L148$$set-assignment-in-lisp-ast.md#^ref-c5fba0a0-148-0$ (line 148, col 0, score 1)
+- [Promethean Event Bus MVP v0.1 — L972]$promethean-event-bus-mvp-v0-1.md#^ref-fe7193a2-972-0$ (line 972, col 0, score 1)
+- $Promethean-native config design — L305$$promethean-native-config-design.md#^ref-ab748541-305-0$ (line 305, col 0, score 1)
+- [RAG UI Panel with Qdrant and PostgREST — L349]$rag-ui-panel-with-qdrant-and-postgrest.md#^ref-e1056831-349-0$ (line 349, col 0, score 1)
+- [Recursive Prompt Construction Engine — L147]$recursive-prompt-construction-engine.md#^ref-babdb9eb-147-0$ (line 147, col 0, score 1)
+- [State Snapshots API and Transactional Projector — L303]$state-snapshots-api-and-transactional-projector.md#^ref-509e1cd5-303-0$ (line 303, col 0, score 1)
+- $System Scheduler with Resource-Aware DAG — L374$$system-scheduler-with-resource-aware-dag.md#^ref-ba244286-374-0$ (line 374, col 0, score 1)
+- $universal-intention-code-fabric — L388$$universal-intention-code-fabric.md#^ref-c14edce7-388-0$ (line 388, col 0, score 1)
+- [Vectorial Exception Descent — L95]$vectorial-exception-descent.md#^ref-d771154e-95-0$ (line 95, col 0, score 1)
+- [Model Selection for Lightweight Conversational Tasks — L169]$model-selection-for-lightweight-conversational-tasks.md#^ref-d144aa62-169-0$ (line 169, col 0, score 1)
+- $Model Upgrade Calm-Down Guide — L99$$model-upgrade-calm-down-guide.md#^ref-db74343f-99-0$ (line 99, col 0, score 1)
+- [NPU Voice Code and Sensory Integration — L37]$npu-voice-code-and-sensory-integration.md#^ref-5a02283e-37-0$ (line 37, col 0, score 1)
+- [Obsidian ChatGPT Plugin Integration Guide — L70]$obsidian-chatgpt-plugin-integration-guide.md#^ref-1d3d6c3a-70-0$ (line 70, col 0, score 1)
+- [Obsidian ChatGPT Plugin Integration — L53]$obsidian-chatgpt-plugin-integration.md#^ref-ca8e1399-53-0$ (line 53, col 0, score 1)
+- $obsidian-ignore-node-modules-regex — L122$$obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-122-0$ (line 122, col 0, score 1)
+- [Obsidian Task Generation — L34]$obsidian-task-generation.md#^ref-9b694a91-34-0$ (line 34, col 0, score 1)
+- [Promethean Notes — L44]$promethean-notes.md#^ref-1c4046b5-44-0$ (line 44, col 0, score 1)
+- $promethean-requirements — L36$$promethean-requirements.md#^ref-95205cd3-36-0$ (line 36, col 0, score 1)
+- $eidolon-field-math-foundations — L4029$$eidolon-field-math-foundations.md#^ref-008f2ac0-4029-0$ (line 4029, col 0, score 0.99)
+- $windows-tiling-with-autohotkey — L3151$$windows-tiling-with-autohotkey.md#^ref-0f6f8f38-3151-0$ (line 3151, col 0, score 0.99)
+- $Protocol_0_The_Contradiction_Engine — L336$$protocol-0-the-contradiction-engine.md#^ref-9a93a756-336-0$ (line 336, col 0, score 0.99)
+- $Prompt_Folder_Bootstrap — L450$$prompt-folder-bootstrap.md#^ref-bd4f0976-450-0$ (line 450, col 0, score 0.99)
+- $AI-First-OS-Model-Context-Protocol — L101$$ai-first-os-model-context-protocol.md#^ref-618198f4-101-0$ (line 101, col 0, score 0.97)
+- $AI-First-OS-Model-Context-Protocol — L57$$ai-first-os-model-context-protocol.md#^ref-618198f4-57-0$ (line 57, col 0, score 0.96)
+- $windows-tiling-with-autohotkey — L2966$$windows-tiling-with-autohotkey.md#^ref-0f6f8f38-2966-0$ (line 2966, col 0, score 0.96)
+- $AI-First-OS-Model-Context-Protocol — L401$$ai-first-os-model-context-protocol.md#^ref-618198f4-401-0$ (line 401, col 0, score 0.96)
+- $eidolon-field-math-foundations — L6771$$eidolon-field-math-foundations.md#^ref-008f2ac0-6771-0$ (line 6771, col 0, score 0.96)
+- $Canonical Org-Babel Matplotlib Animation Template — L2739$$canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-2739-0$ (line 2739, col 0, score 0.95)
+- $Canonical Org-Babel Matplotlib Animation Template — L2252$$canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-2252-0$ (line 2252, col 0, score 0.95)
+- $eidolon-field-math-foundations — L3537$$eidolon-field-math-foundations.md#^ref-008f2ac0-3537-0$ (line 3537, col 0, score 0.95)
+- [Promethean Chat Activity Report — L1883]$promethean-chat-activity-report.md#^ref-18344cf9-1883-0$ (line 1883, col 0, score 0.95)
+- [Promethean Dev Workflow Update — L3380]$promethean-dev-workflow-update.md#^ref-03a5578f-3380-0$ (line 3380, col 0, score 0.95)
+- $windows-tiling-with-autohotkey — L3979$$windows-tiling-with-autohotkey.md#^ref-0f6f8f38-3979-0$ (line 3979, col 0, score 0.95)
+- [Fnord Tracer Protocol — L518]$fnord-tracer-protocol.md#^ref-fc21f824-518-0$ (line 518, col 0, score 0.95)
+- [Duck's Attractor States — L3708]$ducks-attractor-states.md#^ref-13951643-3708-0$ (line 3708, col 0, score 0.95)
+- [Promethean Chat Activity Report — L1530]$promethean-chat-activity-report.md#^ref-18344cf9-1530-0$ (line 1530, col 0, score 0.95)
+- [Promethean Dev Workflow Update — L4449]$promethean-dev-workflow-update.md#^ref-03a5578f-4449-0$ (line 4449, col 0, score 0.95)
+- [Promethean Documentation Update — L1234]$promethean-documentation-update.txt#^ref-0b872af2-1234-0$ (line 1234, col 0, score 0.95)
+- [Promethean Notes — L1429]$promethean-notes.md#^ref-1c4046b5-1429-0$ (line 1429, col 0, score 0.95)
+- [Shared Package Structure — L188]$shared-package-structure.md#^ref-66a72fc3-188-0$ (line 188, col 0, score 0.88)
+- [Pipeline Enhancements — L166]$pipeline-enhancements.md#^ref-e2135d9f-166-0$ (line 166, col 0, score 0.88)
+- $Local-First Intention→Code Loop with Free Models — L105$$local-first-intention-code-loop-with-free-models.md#^ref-871490c7-105-0$ (line 105, col 0, score 0.87)
+- $Language-Agnostic Mirror System — L504$$language-agnostic-mirror-system.md#^ref-d2b3628c-504-0$ (line 504, col 0, score 0.87)
+- $Pure-Node Crawl Stack with Playwright and Crawlee — L401$$pure-node-crawl-stack-with-playwright-and-crawlee.md#^ref-d527c05d-401-0$ (line 401, col 0, score 0.87)
+- [Docops Feature Updates — L127]$docops-feature-updates-3.md#^ref-cdbd21ee-127-0$ (line 127, col 0, score 0.87)
+- [Docops Feature Updates — L151]$docops-feature-updates.md#^ref-2792d448-151-0$ (line 151, col 0, score 0.87)
+- [Eidolon Field Abstract Model — L312]$eidolon-field-abstract-model.md#^ref-5e8b2388-312-0$ (line 312, col 0, score 0.87)
+- $field-node-diagram-visualizations — L198$$field-node-diagram-visualizations.md#^ref-e9b27b06-198-0$ (line 198, col 0, score 0.87)
+- [Fnord Tracer Protocol — L387]$fnord-tracer-protocol.md#^ref-fc21f824-387-0$ (line 387, col 0, score 0.87)
+- [Functional Embedding Pipeline Refactor — L424]$functional-embedding-pipeline-refactor.md#^ref-a4a25141-424-0$ (line 424, col 0, score 0.87)
+- $graph-ds — L480$$graph-ds.md#^ref-6620e2f2-480-0$ (line 480, col 0, score 0.87)
+- $heartbeat-fragment-demo — L225$$heartbeat-fragment-demo.md#^ref-dd00677a-225-0$ (line 225, col 0, score 0.87)
+- $obsidian-ignore-node-modules-regex — L187$$obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-187-0$ (line 187, col 0, score 0.87)
+- $mystery-lisp-search-session — L56$$mystery-lisp-search-session.md#^ref-513dc4c7-56-0$ (line 56, col 0, score 0.86)
+- $ecs-scheduler-and-prefabs — L379$$ecs-scheduler-and-prefabs.md#^ref-c62a1815-379-0$ (line 379, col 0, score 0.86)
+- $Sibilant Meta-Prompt DSL — L120$$sibilant-meta-prompt-dsl.md#^ref-af5d2824-120-0$ (line 120, col 0, score 0.86)
+- [Event Bus MVP — L527]$event-bus-mvp.md#^ref-534fe91d-527-0$ (line 527, col 0, score 0.85)
+- $lisp-dsl-for-window-management — L185$$lisp-dsl-for-window-management.md#^ref-c5c5ff1c-185-0$ (line 185, col 0, score 0.85)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

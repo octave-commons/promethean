@@ -84,7 +84,9 @@ Derived results are broadcast as they complete.
 ## Default Derivation Policy
 
 | Input MIME | Text derivation | Image derivation |
+$$
 | --- | --- | --- |
+$$
 | `application/pdf` | Extract text, fallback OCR | Page render + thumbnail |
 | `image/*` | OCR with language hints | Normalised PNG/WebP + thumbnail |
 | `text/*`, `application/json` | Identity | Optional screenshot preview |

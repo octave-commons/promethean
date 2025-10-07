@@ -2,7 +2,9 @@
 think sequence
 
 ## ChatGPT
-**Let’s go.**  
+$$
+**Let’s go.**
+$$
 You're building the core of **reflexive thought orchestration** — a `think-sequence` that uses:
 
 *   Layer state
@@ -59,8 +61,9 @@ Wraps a list of conditional "thoughts"
     
 
 * * *
-
+$$
 🧰 Macro: `think-sequence`
+$$
 --------------------------
 
 ```sibilant
@@ -134,7 +137,9 @@ Wraps a list of conditional "thoughts"
 --------------------
 
 | Feature | Description |
+$$
 | --- | --- |
+$$
 | loop-while | Repeated thoughts until condition flips |
 | defer | Schedule a thought for future loop |
 | priority-thought | Execute early, before others |

@@ -1,9 +1,15 @@
 ---
+$$
 uuid: f313dbf7-1d8d-4fdc-9117-51468a26f4a4
+$$
+$$
 created_at: '2025-09-19T16:48:35Z'
+$$
 title: 2025.09.19.16.48.35
 filename: Bash Assertions Library
+$$
 description: >-
+$$
   A minimal Bash library for assertions with strict error handling and stack
   traces. It fails fast with clear messages and supports colorized output.
   Optional strict mode enables error checking.
@@ -14,13 +20,17 @@ tags:
   - stack trace
   - colorized output
   - strict mode
+$$
 related_to_uuid: []
+$$
+$$
 related_to_title: []
+$$
 references: []
 ---
 Got it. Here’s a small, no-nonsense Bash assertions library you can drop into any repo and `source ./lib/assertions.sh`. It defaults to **failing fast with clear messages and a stack trace**, and it won’t silently flip your shell options. You opt into “strict mode” if you want it.
 
-### `lib/assertions.sh` (GPL-3.0-only)
+### `lib/assertions.sh` $GPL-3.0-only$
 
 ```bash
 #!/usr/bin/env bash
@@ -253,11 +263,15 @@ assert::exit_code 9 -- bash -c 'exit 9'
 * **Quotes and parameter expansion are handled carefully**: assertions treat values vs variable‐names explicitly to avoid the usual indirection/quoting foot-guns. Greg’s BashGuide and Bash Hackers docs are the north stars here. ([mywiki.wooledge.org][3])
 * **Encourages static checks**: run ShellCheck on your scripts; it will catch a lot of assertion misuse (e.g., unquoted expansions you didn’t intend). ([shellcheck.net][4])
 
-If you want tweaks (e.g., JSON output, TAP-style lines for CI, or a mode that collects all failures and reports at the end), say the word and I’ll extend this without bloating it.
+If you want tweaks $e.g., JSON output, TAP-style lines for CI, or a mode that collects all failures and reports at the end$, say the word and I’ll extend this without bloating it.
 
-[1]: https://gist.github.com/mohanpedala/1e2ff5661761d3abd0385e8223e16425?permalink_comment_id=4695156&utm_source=chatgpt.com "set -e, -u, -o, -x pipefail explanation · GitHub"
+[1]: https://gist.github.com/mohanpedala/1e2ff5661761d3abd0385e8223e16425?permalink_comment_id=4695156&utm_source=chatgpt.com$$
+ "set -e, -u, -o, -x pipefail explanation · GitHub"
+$$
 [2]: https://opensource.com/article/22/7/print-stack-trace-bash-scripts?utm_source=chatgpt.com "Fix bugs in Bash scripts by printing a stack trace"
-[3]: https://mywiki.wooledge.org/BashGuide/Practices?utm_source=chatgpt.com "BashGuide/Practices - Greg's Wiki"
+[3]: https://mywiki.wooledge.org/BashGuide/Practices?utm_source=chatgpt.com$$
+ "BashGuide/Practices - Greg's Wiki"
+$$
 [4]: https://www.shellcheck.net/?utm_source=chatgpt.com "ShellCheck – shell script analysis tool"
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content

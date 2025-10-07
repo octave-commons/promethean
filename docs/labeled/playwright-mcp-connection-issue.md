@@ -1,9 +1,15 @@
 ---
+$$
 uuid: b42bd558-e34f-41c4-8397-2ed79b276fa1
+$$
+$$
 created_at: '2025-10-03T16:33:02Z'
+$$
 title: 2025.10.03.16.33.02
 filename: Playwright MCP Connection Issue
+$$
 description: >-
+$$
   The curl command successfully connects to Playwright's MCP endpoint with
   version 2025-06-18, but the chatgpt interface reports a 404 error when trying
   to access the same endpoint via a different URL. This discrepancy suggests a
@@ -14,8 +20,12 @@ tags:
   - 404 error
   - URL misconfiguration
   - API integration
+$$
 related_to_uuid: []
+$$
+$$
 related_to_title: []
+$$
 references: []
 ---
 Ok, the command you gave me returns:

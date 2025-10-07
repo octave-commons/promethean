@@ -1,5 +1,7 @@
 # Open Source Model Context Protocol (MCP) Servers: An Overview...
-Exported on 25/08/2025 at 09:19:35 [from ChatGPT](https://chatgpt.com/g/g-p-6883d8e9569c8191aad0cfd2a5bf3af3/c/68ac6358-95e0-8328-baa7-8a4bc8b2f26d) - with [SaveMyChatbot](https://save.hugocollin.com)
+Exported on 25/08/2025 at 09:19:35 [from ChatGPT](https://chatgpt.com/g/g-p-6883d8e9569c8191aad0cfd2a5bf3af3/c/68ac6358-95e0-8328-baa7-8a4bc8b2f26d$$
+) - with [SaveMyChatbot](
+$$https://save.hugocollin.com)
 
 ## User
 I want a comprehensive overview of the best MCP servers available open source right now
@@ -39,7 +41,7 @@ Great — to create a tailored guide for you, could you please clarify a few thi
 4.  Will your custom LLM system be run locally only, or do you eventually want to expose it over the network?
     
 
-Once I have these details, I’ll craft a detailed, progressive integration guide starting from basics (Ollama + TS) and layering in MCP client + server logic.
+Once I have these details, I’ll craft a detailed, progressive integration guide starting from basics $Ollama + TS$ and layering in MCP client + server logic.
 
 ## User
 1. It depends on what I am doing. When I want to work with images, I use gemma3. If I am working with code, I am using qwen3. 2. We're using fastify, mongodb, chroma, websockets, our frontend is vanilla webcomponents 3. We're implementing our own client 4. ehhhh..... it's gonna be mostly local, I am hosting it on my own system, for my own use, but I may/have opened it up for specific use cases. It's a case by case thing.

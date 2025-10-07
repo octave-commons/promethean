@@ -1,10 +1,14 @@
 ---
+$$
 uuid: 9a9e9c97-fbaa-4580-90ac-2d1f17eebbec
+$$
 title: redefine all existing lambdas with high order functions incoming
 status: todo
 priority: P3
 labels: []
+$$
 created_at: '2025-09-15T02:02:58.518Z'
+$$
 ---
 ## 🛠️ Description
 
@@ -41,9 +45,9 @@ Replace ad‑hoc anonymous lambdas with well‑named higher‑order functions to
 ---
 
 ## 🔗 Related Epics
-
+$$
 #framework-core
-
+$$
 ---
 
 ## ⛓️ Blocked By
@@ -59,7 +63,7 @@ Nothing
 ## 🔍 Relevant Links
 
 - [[kanban]]
-
+$$
 #framework-core #Ready
-
+$$
 

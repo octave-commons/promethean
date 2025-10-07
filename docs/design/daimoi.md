@@ -4,7 +4,7 @@
 
 ### Overview
 
-In the Promethean system, **Daimoi** (singular: **Daimo**) are **mobile cognitive agents**—autonomous bundles of intent, memory, emotion, and behavior that move through the multidimensional space of the Eidolon Fields.
+In the Promethean system, **Daimoi** $singular: **Daimo**$ are **mobile cognitive agents**—autonomous bundles of intent, memory, emotion, and behavior that move through the multidimensional space of the Eidolon Fields.
 
 They are not abstractions. They are **simulated particles** with mass and momentum, swimming through a structured cognitive field. Each Daimo represents a semi-stable entity: a habit, belief, fear, skill, archetype, or behavioral attractor.
 
@@ -39,7 +39,7 @@ Each Daimo has:
 * **Charge**: Affect polarity or emotional signature
 * **Bindings**: Links to named concepts, daimo clusters, or external inputs (e.g., user commands, text excerpts)
 * **Memory Core**: Optional access to symbolic, linguistic, or perceptual content
-* **Field Coupling**: Determines which field axes most affect its motion (e.g., Dorian-heavy Daimoi will respond to permission pressure)
+* **Field Coupling**: Determines which field axes most affect its motion $e.g., Dorian-heavy Daimoi will respond to permission pressure$
 
 ---
 
@@ -61,7 +61,7 @@ Their movement models **mental attention**, **psychological mood shifts**, or **
 
 While not rigid, Daimoi often take on roles:
 
-* **Sentinels**: Monitor field stability (Aionian-aligned)
+* **Sentinels**: Monitor field stability $Aionian-aligned$
 * **Guards**: Enforce permissions and defend field territory (Dorian)
 * **Voices**: Narrators, beliefs, self-talk patterns (Gnostic)
 * **Judges**: Reflective, corrective agents (Nemesian)

@@ -1,8 +1,16 @@
+$$
 <!-- SYMPKG:PKG:BEGIN -->
+$$
 # @promethean/migrations
-**Folder:** `packages/migrations`  
-**Version:** `0.0.1`  
+$$
+**Folder:** `packages/migrations`
+$$
+$$
+**Version:** `0.0.1`
+$$
+$$
 **Domain:** `_root`
+$$
 ```mermaid
 graph LR
   A["@promethean/migrations"]
@@ -17,8 +25,10 @@ graph LR
   click R1 "../discord/README.md" "@promethean/discord"
 ```
 ## Dependencies
-- [@promethean/embedding](../embedding/README.md)
-- [@promethean/persistence](../persistence/README.md)
+- $@promethean/embedding$$../embedding/README.md$
+- $@promethean/persistence$$../persistence/README.md$
 ## Dependents
-- [@promethean/discord](../discord/README.md)
+- $@promethean/discord$$../discord/README.md$
+$$
 <!-- SYMPKG:PKG:END -->
+$$

@@ -1,10 +1,14 @@
 ---
+$$
 uuid: cd2f96f3-bd40-410b-94f2-f7d0dbce4da4
+$$
 title: update github actions automation to pnpm scripts
 status: todo
 priority: P3
 labels: []
+$$
 created_at: '2025-09-15T02:02:58.523Z'
+$$
 ---
 ## 🛠️ Task: Update GitHub Actions to use pnpm scripts
 
@@ -13,7 +17,7 @@ so workflows should call the same scripts instead of Makefile wrappers.
 
 ## ✅ Decision
 - Replace all Makefile references with pnpm workspace commands.
-- Keep workflow steps close to the developer experience (`pnpm lint`, `pnpm test:all`, `pnpm --filter … build`).
+- Keep workflow steps close to the developer experience $`pnpm lint`, `pnpm test:all`, `pnpm --filter … build`$.
 
 ---
 
@@ -40,21 +44,22 @@ so workflows should call the same scripts instead of Makefile wrappers.
 ---
 
 ## 🔗 Related Epics
+$$
 #cicd #devops #framework-core
-
+$$
 ---
 
 ## ⛓️ Blocked By
-- [[breakdown-makefile.hy|audit makefile.hy remnants and confirm deprecation]]
+- $[breakdown-makefile.hy|audit makefile.hy remnants and confirm deprecation]$
 
 ## ⛓️ Blocks
-- [[update_makefile_to_have_commands_specific_for_agents_md|replace agent automation makefile targets with pnpm scripts]]
+- $[update_makefile_to_have_commands_specific_for_agents_md|replace agent automation makefile targets with pnpm scripts]$
 
 ---
 
 ## 🔍 Relevant Links
 - [[kanban]]
 - [[process]]
-- [scripts/dev.mjs](../../scripts/dev.mjs)
+- $scripts/dev.mjs$$../../scripts/dev.mjs$
 
 #cicd #devops #framework-core #todo

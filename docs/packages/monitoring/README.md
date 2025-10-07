@@ -1,8 +1,16 @@
+$$
 <!-- SYMPKG:PKG:BEGIN -->
+$$
 # @promethean/monitoring
-**Folder:** `packages/monitoring`  
-**Version:** `0.0.1`  
+$$
+**Folder:** `packages/monitoring`
+$$
+$$
+**Version:** `0.0.1`
+$$
+$$
 **Domain:** `_root`
+$$
 ```mermaid
 graph LR
   A["@promethean/monitoring"]
@@ -17,8 +25,10 @@ graph LR
   click R2 "../ws/README.md" "@promethean/ws"
 ```
 ## Dependencies
-- [@promethean/test-utils](../test-utils/README.md)
+- $@promethean/test-utils$$../test-utils/README.md$
 ## Dependents
-- [@promethean/discord](../discord/README.md)
-- [@promethean/ws](../ws/README.md)
+- $@promethean/discord$$../discord/README.md$
+- $@promethean/ws$$../ws/README.md$
+$$
 <!-- SYMPKG:PKG:END -->
+$$

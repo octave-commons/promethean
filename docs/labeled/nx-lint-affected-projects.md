@@ -1,9 +1,15 @@
 ---
+$$
 uuid: 12b8b7a3-441d-4550-8fb4-ab0b6e1f3f3f
+$$
+$$
 created_at: '2025-09-30T10:50:12Z'
+$$
 title: 2025.09.30.10.50.12
 filename: nx-lint-affected-projects
+$$
 description: >-
+$$
   Run lint checks for affected projects using Nx. The command identifies
   projects with potential type safety issues and reports errors related to
   unsafe type usage, explicit any types, and mutable parameters.
@@ -15,8 +21,12 @@ tags:
   - projects
   - type-safety
   - error-reporting
+$$
 related_to_uuid: []
+$$
+$$
 related_to_title: []
+$$
 references: []
 ---
 
@@ -57,8 +67,9 @@ For more information, see https://nx.dev/features/powerpack/custom-caching
 - @promethean/ws
 
 With additional flags:
+$$
   --paralell=true
-
+$$
 
 
 ❌ > nx run @promethean/examples:lint --paralell

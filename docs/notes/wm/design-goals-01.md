@@ -201,7 +201,7 @@ You can wire these into **hotkeys via AutoHotKey or PowerToys** later, or even b
     
 *   Integrate with global hotkeys
     
-*   Use [`window-query`](https://github.com/m4b/window_query) or similar for better metadata on windows
+*   Use $`window-query`$(https://github.com/m4b/window_query) or similar for better metadata on windows
     
 *   Optional GUI overlay or debug console
     

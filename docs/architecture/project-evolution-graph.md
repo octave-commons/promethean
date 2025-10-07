@@ -1,6 +1,6 @@
 ---
 project: Promethean
-hashtags: [#knowledge-graph, #evolution, #hy, #dualstore, #compiler]
+hashtags: $#knowledge-graph, #evolution, #hy, #dualstore, #compiler$
 ---
 
 # 🧩 Master Knowledge Graph — Project Evolution

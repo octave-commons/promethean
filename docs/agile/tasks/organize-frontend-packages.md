@@ -1,10 +1,18 @@
 ---
+$$
 uuid: 2b28533b-0e70-4b18-80dc-1c8f96e24735
+$$
 title: Organize frontend packages under a subdirectory
+$$
 status: in_progress
+$$
 priority: p3
+$$
 labels: ["framework-core", "refactor"]
+$$
+$$
 created_at: '2025-09-27T00:00:00.000Z'
+$$
 ---
 #InProgress
 

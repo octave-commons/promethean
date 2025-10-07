@@ -1,8 +1,14 @@
 ---
+$$
 uuid: e1056831-ae0c-460b-95fa-4cf09b3398c6
+$$
+$$
 created_at: 2025.08.31.10.49.42.md
+$$
 filename: RAG UI Panel with Qdrant and PostgREST
+$$
 description: >-
+$$
   A drop-in RAG UI panel that integrates with Qdrant (HTTP API) and Postgres via
   PostgREST, using NGINX for token-gated access. Includes collection browser,
   vector search with TEI nomic embeddings, and a Postgres table viewer.
@@ -14,7 +20,9 @@ tags:
   - NGINX
   - TEI
   - vector search
+$$
 related_to_title:
+$$
   - Promethean Full-Stack Docker Setup
   - Promethean Infrastructure Setup
   - Promethean Web UI Setup
@@ -28,7 +36,9 @@ related_to_title:
   - eidolon-field-math-foundations
   - shared-package-layout-clarification
   - Local-Only-LLM-Workflow
+$$
 related_to_uuid:
+$$
   - 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
   - 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
   - bc5172ca-7a09-42ad-b418-8e42bb14d089
@@ -296,7 +306,7 @@ references:
     col: 3
     score: 0.98
 ---
-Heck yeah—here’s a drop-in **RAG UI panel** that talks to **Qdrant** (HTTP API) and **PostgreSQL** via **PostgREST**, all still funneled through your NGINX “edge” with `X-API-Key` gating. It includes: collection browser, vector search (auto-embeds with TEI nomic), and a simple Postgres table viewer.
+Heck yeah—here’s a drop-in **RAG UI panel** that talks to **Qdrant** (HTTP API) and **PostgreSQL** via **PostgREST**, all still funneled through your NGINX “edge” with `X-API-Key` gating. It includes: collection browser, vector search $auto-embeds with TEI nomic$, and a simple Postgres table viewer.
 
 ---
 
@@ -364,7 +374,7 @@ create table if not exists docs (
 grant select on table docs to web_anon;
 ```
 
-Bring it up (with your base + RAG overlays):
+Bring it up $with your base + RAG overlays$:
 
 ```bash
 docker compose -f docker-compose.yaml -f docker-compose.rag.yaml up -d
@@ -372,9 +382,9 @@ docker compose -f docker-compose.yaml -f docker-compose.rag.yaml up -d
 
 ---
 
-# 1) NGINX: add RAG routes (token-gated)
+# 1) NGINX: add RAG routes $token-gated$
 
-Append these **two locations** to your existing `server { ... }` in `infra/nginx/nginx.conf` (keep your auth/limits as-is):
+Append these **two locations** to your existing `server { ... }` in `infra/nginx/nginx.conf` $keep your auth/limits as-is$:
 
 ```nginx
     # -------- RAG: Qdrant (HTTP) --------
@@ -410,11 +420,11 @@ docker compose exec edge nginx -s reload
 
 ---
 
-# 2) Webapp: add a RAG panel (Qdrant + PG)
+# 2) Webapp: add a RAG panel $Qdrant + PG$
 
 ## 2a) Wire the panel into the UI
 
-### `services/ts/webapp/index.html` (add `<rag-panel>` below `<prom-ui>`)
+### `services/ts/webapp/index.html` $add `<rag-panel>` below `<prom-ui>`$
 
 ```html
 <body style="margin:0;font-family:system-ui,Segoe UI,Roboto,Arial">
@@ -622,9 +632,10 @@ docker compose -f docker-compose.yaml -f docker-compose.rag.yaml exec -T pg psql
 
 1. Open `http://localhost/ui/`
 2. Paste your `X-API-Key` in the top card.
+$$
 3. Scroll to **RAG Panel**:
-
-   * **Qdrant**: Refresh collections, pick one, type text (we auto-embed with nomic TEI), hit **Search**.
+$$
+   * **Qdrant**: Refresh collections, pick one, type text $we auto-embed with nomic TEI$, hit **Search**.
    * **Postgres**: Click **List docs** to view IDs/titles via PostgREST.
 
 ---
@@ -647,91 +658,91 @@ flowchart LR
 
 ## Notes / tweaks
 
-* **Embedding dim**: I assumed `768` (fits `nomic-embed-text-v1.5`). If you switch TEI models, update:
+* **Embedding dim**: I assumed `768` $fits `nomic-embed-text-v1.5`$. If you switch TEI models, update:
 
   * Qdrant collection `vectors.size`
   * PG `embedding vector(DIM)`
 * **Security**: The UI still loads without a token; all `/rag/*`, `/embed/*`, etc. remain gated by `X-API-Key`.
-* **Schema**: If you’ve got a richer PG schema, expose read-only views and grant `select` to `web_anon`, then point the UI at those endpoints (e.g., `/rag/pg/my_view?select=...`).
-* **Next**: I can add a **chunker + upsert** panel (drop files → split → embed → write to PG and/or Qdrant) if you want ingest from the browser.
+* **Schema**: If you’ve got a richer PG schema, expose read-only views and grant `select` to `web_anon`, then point the UI at those endpoints $e.g., `/rag/pg/my_view?select=...`$.
+* **Next**: I can add a **chunker + upsert** panel $drop files → split → embed → write to PG and/or Qdrant$ if you want ingest from the browser.
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [[promethean-full-stack-docker-setup|Promethean Full-Stack Docker Setup]]
-- [[promethean-infrastructure-setup|Promethean Infrastructure Setup]]
-- [[promethean-web-ui-setup|Promethean Web UI Setup]]
-- [[pure-typescript-search-microservice|Pure TypeScript Search Microservice]]
-- [[pure-node-crawl-stack-with-playwright-and-crawlee|Pure-Node Crawl Stack with Playwright and Crawlee]]
-- [[dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]]
-- [[api-gateway-versioning]]
-- [[docs/unique/ecs-offload-workers|ecs-offload-workers]]
-- [Debugging Broker Connections and Agent Behavior](debugging-broker-connections-and-agent-behavior.md)
-- [[prometheus-observability-stack|Prometheus Observability Stack]]
-- [[docs/unique/eidolon-field-math-foundations|eidolon-field-math-foundations]]
-- [[shared-package-layout-clarification]]
-- [[local-only-llm-workflow]]
+- $[promethean-full-stack-docker-setup|Promethean Full-Stack Docker Setup]$
+- $[promethean-infrastructure-setup|Promethean Infrastructure Setup]$
+- $[promethean-web-ui-setup|Promethean Web UI Setup]$
+- $[pure-typescript-search-microservice|Pure TypeScript Search Microservice]$
+- $[pure-node-crawl-stack-with-playwright-and-crawlee|Pure-Node Crawl Stack with Playwright and Crawlee]$
+- $[dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]$
+- $[api-gateway-versioning]$
+- $[docs/unique/ecs-offload-workers|ecs-offload-workers]$
+- [Debugging Broker Connections and Agent Behavior]$debugging-broker-connections-and-agent-behavior.md$
+- $[prometheus-observability-stack|Prometheus Observability Stack]$
+- $[docs/unique/eidolon-field-math-foundations|eidolon-field-math-foundations]$
+- $[shared-package-layout-clarification]$
+- $[local-only-llm-workflow]$
 
 ## Sources
-- [[promethean-full-stack-docker-setup#L404|Promethean Full-Stack Docker Setup — L404]] (line 404, col 1, score 0.96)
-- [[promethean-infrastructure-setup#L545|Promethean Infrastructure Setup — L545]] (line 545, col 1, score 0.9)
-- [[pure-typescript-search-microservice#L62|Pure TypeScript Search Microservice — L62]] (line 62, col 1, score 0.88)
-- [[promethean-web-ui-setup#L415|Promethean Web UI Setup — L415]] (line 415, col 1, score 0.89)
-- [[pure-typescript-search-microservice#L468|Pure TypeScript Search Microservice — L468]] (line 468, col 1, score 0.85)
-- [[promethean-web-ui-setup#L581|Promethean Web UI Setup — L581]] (line 581, col 1, score 0.9)
-- [[pure-typescript-search-microservice#L496|Pure TypeScript Search Microservice — L496]] (line 496, col 1, score 0.88)
-- [[promethean-infrastructure-setup#L589|Promethean Infrastructure Setup — L589]] (line 589, col 1, score 1)
-- [[promethean-infrastructure-setup#L589|Promethean Infrastructure Setup — L589]] (line 589, col 3, score 1)
-- [[promethean-web-ui-setup#L602|Promethean Web UI Setup — L602]] (line 602, col 1, score 1)
-- [[promethean-web-ui-setup#L602|Promethean Web UI Setup — L602]] (line 602, col 3, score 1)
-- [[prometheus-observability-stack#L506|Prometheus Observability Stack — L506]] (line 506, col 1, score 1)
-- [[prometheus-observability-stack#L506|Prometheus Observability Stack — L506]] (line 506, col 3, score 1)
-- [[pure-typescript-search-microservice#L526|Pure TypeScript Search Microservice — L526]] (line 526, col 1, score 1)
-- [[pure-typescript-search-microservice#L526|Pure TypeScript Search Microservice — L526]] (line 526, col 3, score 1)
-- [[api-gateway-versioning#L284|api-gateway-versioning — L284]] (line 284, col 1, score 1)
-- [[api-gateway-versioning#L284|api-gateway-versioning — L284]] (line 284, col 3, score 1)
-- [Debugging Broker Connections and Agent Behavior — L40](debugging-broker-connections-and-agent-behavior.md#L40) (line 40, col 1, score 1)
-- [Debugging Broker Connections and Agent Behavior — L40](debugging-broker-connections-and-agent-behavior.md#L40) (line 40, col 3, score 1)
-- [[dynamic-context-model-for-web-components#L384|Dynamic Context Model for Web Components — L384]] (line 384, col 1, score 1)
-- [[dynamic-context-model-for-web-components#L384|Dynamic Context Model for Web Components — L384]] (line 384, col 3, score 1)
-- [[docs/unique/ecs-offload-workers#L458|ecs-offload-workers — L458]] (line 458, col 1, score 1)
-- [[docs/unique/ecs-offload-workers#L458|ecs-offload-workers — L458]] (line 458, col 3, score 1)
-- [[promethean-full-stack-docker-setup#L436|Promethean Full-Stack Docker Setup — L436]] (line 436, col 1, score 1)
-- [[promethean-full-stack-docker-setup#L436|Promethean Full-Stack Docker Setup — L436]] (line 436, col 3, score 1)
-- [[promethean-infrastructure-setup#L585|Promethean Infrastructure Setup — L585]] (line 585, col 1, score 1)
-- [[promethean-infrastructure-setup#L585|Promethean Infrastructure Setup — L585]] (line 585, col 3, score 1)
-- [[pure-node-crawl-stack-with-playwright-and-crawlee#L428|Pure-Node Crawl Stack with Playwright and Crawlee — L428]] (line 428, col 1, score 1)
-- [[pure-node-crawl-stack-with-playwright-and-crawlee#L428|Pure-Node Crawl Stack with Playwright and Crawlee — L428]] (line 428, col 3, score 1)
-- [[pure-typescript-search-microservice#L521|Pure TypeScript Search Microservice — L521]] (line 521, col 1, score 1)
-- [[pure-typescript-search-microservice#L521|Pure TypeScript Search Microservice — L521]] (line 521, col 3, score 1)
-- [[api-gateway-versioning#L288|api-gateway-versioning — L288]] (line 288, col 1, score 1)
-- [[api-gateway-versioning#L288|api-gateway-versioning — L288]] (line 288, col 3, score 1)
-- [[promethean-full-stack-docker-setup#L440|Promethean Full-Stack Docker Setup — L440]] (line 440, col 1, score 1)
-- [[promethean-full-stack-docker-setup#L440|Promethean Full-Stack Docker Setup — L440]] (line 440, col 3, score 1)
-- [[promethean-infrastructure-setup#L584|Promethean Infrastructure Setup — L584]] (line 584, col 1, score 1)
-- [[promethean-infrastructure-setup#L584|Promethean Infrastructure Setup — L584]] (line 584, col 3, score 1)
-- [[promethean-web-ui-setup#L603|Promethean Web UI Setup — L603]] (line 603, col 1, score 1)
-- [[promethean-web-ui-setup#L603|Promethean Web UI Setup — L603]] (line 603, col 3, score 1)
-- [[promethean-web-ui-setup#L614|Promethean Web UI Setup — L614]] (line 614, col 1, score 0.99)
-- [[promethean-web-ui-setup#L614|Promethean Web UI Setup — L614]] (line 614, col 3, score 0.99)
-- [[promethean-web-ui-setup#L610|Promethean Web UI Setup — L610]] (line 610, col 1, score 0.99)
-- [[promethean-web-ui-setup#L610|Promethean Web UI Setup — L610]] (line 610, col 3, score 0.99)
-- [[docs/unique/eidolon-field-math-foundations#L153|eidolon-field-math-foundations — L153]] (line 153, col 1, score 1)
-- [[docs/unique/eidolon-field-math-foundations#L153|eidolon-field-math-foundations — L153]] (line 153, col 3, score 1)
-- [[shared-package-layout-clarification#L178|shared-package-layout-clarification — L178]] (line 178, col 1, score 0.99)
-- [[shared-package-layout-clarification#L178|shared-package-layout-clarification — L178]] (line 178, col 3, score 0.99)
-- [[local-only-llm-workflow#L189|Local-Only-LLM-Workflow — L189]] (line 189, col 1, score 0.99)
-- [[local-only-llm-workflow#L189|Local-Only-LLM-Workflow — L189]] (line 189, col 3, score 0.99)
-- [[docs/unique/ecs-offload-workers#L476|ecs-offload-workers — L476]] (line 476, col 1, score 0.99)
-- [[docs/unique/ecs-offload-workers#L476|ecs-offload-workers — L476]] (line 476, col 3, score 0.99)
-- [[promethean-web-ui-setup#L612|Promethean Web UI Setup — L612]] (line 612, col 1, score 0.99)
-- [[promethean-web-ui-setup#L612|Promethean Web UI Setup — L612]] (line 612, col 3, score 0.99)
-- [[promethean-web-ui-setup#L611|Promethean Web UI Setup — L611]] (line 611, col 1, score 0.99)
-- [[promethean-web-ui-setup#L611|Promethean Web UI Setup — L611]] (line 611, col 3, score 0.99)
-- [[promethean-full-stack-docker-setup#L443|Promethean Full-Stack Docker Setup — L443]] (line 443, col 1, score 0.99)
-- [[promethean-full-stack-docker-setup#L443|Promethean Full-Stack Docker Setup — L443]] (line 443, col 3, score 0.99)
-- [[promethean-full-stack-docker-setup#L444|Promethean Full-Stack Docker Setup — L444]] (line 444, col 1, score 0.99)
-- [[promethean-full-stack-docker-setup#L444|Promethean Full-Stack Docker Setup — L444]] (line 444, col 3, score 0.99)
-- [[pure-typescript-search-microservice#L531|Pure TypeScript Search Microservice — L531]] (line 531, col 1, score 0.98)
-- [[pure-typescript-search-microservice#L531|Pure TypeScript Search Microservice — L531]] (line 531, col 3, score 0.98)
-- [[pure-typescript-search-microservice#L532|Pure TypeScript Search Microservice — L532]] (line 532, col 1, score 0.98)
-- [[pure-typescript-search-microservice#L532|Pure TypeScript Search Microservice — L532]] (line 532, col 3, score 0.98)
+- $[promethean-full-stack-docker-setup#L404|Promethean Full-Stack Docker Setup — L404]$ (line 404, col 1, score 0.96)
+- $[promethean-infrastructure-setup#L545|Promethean Infrastructure Setup — L545]$ (line 545, col 1, score 0.9)
+- $[pure-typescript-search-microservice#L62|Pure TypeScript Search Microservice — L62]$ (line 62, col 1, score 0.88)
+- $[promethean-web-ui-setup#L415|Promethean Web UI Setup — L415]$ (line 415, col 1, score 0.89)
+- $[pure-typescript-search-microservice#L468|Pure TypeScript Search Microservice — L468]$ (line 468, col 1, score 0.85)
+- $[promethean-web-ui-setup#L581|Promethean Web UI Setup — L581]$ (line 581, col 1, score 0.9)
+- $[pure-typescript-search-microservice#L496|Pure TypeScript Search Microservice — L496]$ (line 496, col 1, score 0.88)
+- $[promethean-infrastructure-setup#L589|Promethean Infrastructure Setup — L589]$ (line 589, col 1, score 1)
+- $[promethean-infrastructure-setup#L589|Promethean Infrastructure Setup — L589]$ (line 589, col 3, score 1)
+- $[promethean-web-ui-setup#L602|Promethean Web UI Setup — L602]$ (line 602, col 1, score 1)
+- $[promethean-web-ui-setup#L602|Promethean Web UI Setup — L602]$ (line 602, col 3, score 1)
+- $[prometheus-observability-stack#L506|Prometheus Observability Stack — L506]$ (line 506, col 1, score 1)
+- $[prometheus-observability-stack#L506|Prometheus Observability Stack — L506]$ (line 506, col 3, score 1)
+- $[pure-typescript-search-microservice#L526|Pure TypeScript Search Microservice — L526]$ (line 526, col 1, score 1)
+- $[pure-typescript-search-microservice#L526|Pure TypeScript Search Microservice — L526]$ (line 526, col 3, score 1)
+- $[api-gateway-versioning#L284|api-gateway-versioning — L284]$ (line 284, col 1, score 1)
+- $[api-gateway-versioning#L284|api-gateway-versioning — L284]$ (line 284, col 3, score 1)
+- [Debugging Broker Connections and Agent Behavior — L40]$debugging-broker-connections-and-agent-behavior.md#L40$ (line 40, col 1, score 1)
+- [Debugging Broker Connections and Agent Behavior — L40]$debugging-broker-connections-and-agent-behavior.md#L40$ (line 40, col 3, score 1)
+- $[dynamic-context-model-for-web-components#L384|Dynamic Context Model for Web Components — L384]$ (line 384, col 1, score 1)
+- $[dynamic-context-model-for-web-components#L384|Dynamic Context Model for Web Components — L384]$ (line 384, col 3, score 1)
+- $[docs/unique/ecs-offload-workers#L458|ecs-offload-workers — L458]$ (line 458, col 1, score 1)
+- $[docs/unique/ecs-offload-workers#L458|ecs-offload-workers — L458]$ (line 458, col 3, score 1)
+- $[promethean-full-stack-docker-setup#L436|Promethean Full-Stack Docker Setup — L436]$ (line 436, col 1, score 1)
+- $[promethean-full-stack-docker-setup#L436|Promethean Full-Stack Docker Setup — L436]$ (line 436, col 3, score 1)
+- $[promethean-infrastructure-setup#L585|Promethean Infrastructure Setup — L585]$ (line 585, col 1, score 1)
+- $[promethean-infrastructure-setup#L585|Promethean Infrastructure Setup — L585]$ (line 585, col 3, score 1)
+- $[pure-node-crawl-stack-with-playwright-and-crawlee#L428|Pure-Node Crawl Stack with Playwright and Crawlee — L428]$ (line 428, col 1, score 1)
+- $[pure-node-crawl-stack-with-playwright-and-crawlee#L428|Pure-Node Crawl Stack with Playwright and Crawlee — L428]$ (line 428, col 3, score 1)
+- $[pure-typescript-search-microservice#L521|Pure TypeScript Search Microservice — L521]$ (line 521, col 1, score 1)
+- $[pure-typescript-search-microservice#L521|Pure TypeScript Search Microservice — L521]$ (line 521, col 3, score 1)
+- $[api-gateway-versioning#L288|api-gateway-versioning — L288]$ (line 288, col 1, score 1)
+- $[api-gateway-versioning#L288|api-gateway-versioning — L288]$ (line 288, col 3, score 1)
+- $[promethean-full-stack-docker-setup#L440|Promethean Full-Stack Docker Setup — L440]$ (line 440, col 1, score 1)
+- $[promethean-full-stack-docker-setup#L440|Promethean Full-Stack Docker Setup — L440]$ (line 440, col 3, score 1)
+- $[promethean-infrastructure-setup#L584|Promethean Infrastructure Setup — L584]$ (line 584, col 1, score 1)
+- $[promethean-infrastructure-setup#L584|Promethean Infrastructure Setup — L584]$ (line 584, col 3, score 1)
+- $[promethean-web-ui-setup#L603|Promethean Web UI Setup — L603]$ (line 603, col 1, score 1)
+- $[promethean-web-ui-setup#L603|Promethean Web UI Setup — L603]$ (line 603, col 3, score 1)
+- $[promethean-web-ui-setup#L614|Promethean Web UI Setup — L614]$ (line 614, col 1, score 0.99)
+- $[promethean-web-ui-setup#L614|Promethean Web UI Setup — L614]$ (line 614, col 3, score 0.99)
+- $[promethean-web-ui-setup#L610|Promethean Web UI Setup — L610]$ (line 610, col 1, score 0.99)
+- $[promethean-web-ui-setup#L610|Promethean Web UI Setup — L610]$ (line 610, col 3, score 0.99)
+- $[docs/unique/eidolon-field-math-foundations#L153|eidolon-field-math-foundations — L153]$ (line 153, col 1, score 1)
+- $[docs/unique/eidolon-field-math-foundations#L153|eidolon-field-math-foundations — L153]$ (line 153, col 3, score 1)
+- $[shared-package-layout-clarification#L178|shared-package-layout-clarification — L178]$ (line 178, col 1, score 0.99)
+- $[shared-package-layout-clarification#L178|shared-package-layout-clarification — L178]$ (line 178, col 3, score 0.99)
+- $[local-only-llm-workflow#L189|Local-Only-LLM-Workflow — L189]$ (line 189, col 1, score 0.99)
+- $[local-only-llm-workflow#L189|Local-Only-LLM-Workflow — L189]$ (line 189, col 3, score 0.99)
+- $[docs/unique/ecs-offload-workers#L476|ecs-offload-workers — L476]$ (line 476, col 1, score 0.99)
+- $[docs/unique/ecs-offload-workers#L476|ecs-offload-workers — L476]$ (line 476, col 3, score 0.99)
+- $[promethean-web-ui-setup#L612|Promethean Web UI Setup — L612]$ (line 612, col 1, score 0.99)
+- $[promethean-web-ui-setup#L612|Promethean Web UI Setup — L612]$ (line 612, col 3, score 0.99)
+- $[promethean-web-ui-setup#L611|Promethean Web UI Setup — L611]$ (line 611, col 1, score 0.99)
+- $[promethean-web-ui-setup#L611|Promethean Web UI Setup — L611]$ (line 611, col 3, score 0.99)
+- $[promethean-full-stack-docker-setup#L443|Promethean Full-Stack Docker Setup — L443]$ (line 443, col 1, score 0.99)
+- $[promethean-full-stack-docker-setup#L443|Promethean Full-Stack Docker Setup — L443]$ (line 443, col 3, score 0.99)
+- $[promethean-full-stack-docker-setup#L444|Promethean Full-Stack Docker Setup — L444]$ (line 444, col 1, score 0.99)
+- $[promethean-full-stack-docker-setup#L444|Promethean Full-Stack Docker Setup — L444]$ (line 444, col 3, score 0.99)
+- $[pure-typescript-search-microservice#L531|Pure TypeScript Search Microservice — L531]$ (line 531, col 1, score 0.98)
+- $[pure-typescript-search-microservice#L531|Pure TypeScript Search Microservice — L531]$ (line 531, col 3, score 0.98)
+- $[pure-typescript-search-microservice#L532|Pure TypeScript Search Microservice — L532]$ (line 532, col 1, score 0.98)
+- $[pure-typescript-search-microservice#L532|Pure TypeScript Search Microservice — L532]$ (line 532, col 3, score 0.98)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

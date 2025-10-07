@@ -1,8 +1,16 @@
+$$
 <!-- SYMPKG:PKG:BEGIN -->
+$$
 # @promethean/piper
-**Folder:** `packages/piper`  
-**Version:** `0.1.0`  
+$$
+**Folder:** `packages/piper`
+$$
+$$
+**Version:** `0.1.0`
+$$
+$$
 **Domain:** `_root`
+$$
 ```mermaid
 graph LR
   A["@promethean/piper"]
@@ -23,11 +31,13 @@ graph LR
   click D5 "../utils/README.md" "@promethean/utils"
 ```
 ## Dependencies
-- [@promethean/fs](../fs/README.md)
-- [@promethean/level-cache](../level-cache/README.md)
-- [@promethean/test-utils](../test-utils/README.md)
-- [@promethean/ui-components](../ui-components/README.md)
-- [@promethean/utils](../utils/README.md)
+- $@promethean/fs$$../fs/README.md$
+- $@promethean/level-cache$$../level-cache/README.md$
+- $@promethean/test-utils$$../test-utils/README.md$
+- $@promethean/ui-components$$../ui-components/README.md$
+- $@promethean/utils$$../utils/README.md$
 ## Dependents
 - _None_
+$$
 <!-- SYMPKG:PKG:END -->
+$$

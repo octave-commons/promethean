@@ -1,7 +1,13 @@
 ---
+$$
 promptId: smart-task-template
+$$
+$$
 name: "🗞️smart-task-template "
+$$
+$$
 description: smart-task-template
+$$
 author: ""
 tags: ""
 version: 0.0.1
@@ -37,7 +43,9 @@ You might find [this] useful while working on this task
 
 ## Notes
 - …
-- ```smart-connections
+$$
+-
+$$```smart-connections
 {
   "render_markdown": true,
   "show_full_path": false,

@@ -4,7 +4,9 @@ title: Integrate boardrev with piper pipeline system
 status: backlog
 priority: P2
 labels: [enhancement, boardrev, infrastructure]
+$$
 created_at: 2025-10-06T12:00:00Z
+$$
 ---
 
 # Integrate boardrev with piper pipeline system

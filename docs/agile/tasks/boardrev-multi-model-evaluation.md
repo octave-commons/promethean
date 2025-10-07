@@ -4,7 +4,9 @@ title: Implement multi-model evaluation for boardrev
 status: backlog
 priority: P2
 labels: [enhancement, boardrev, ai, evaluation]
+$$
 created_at: 2025-10-06T12:00:00Z
+$$
 ---
 
 # Implement multi-model evaluation for boardrev

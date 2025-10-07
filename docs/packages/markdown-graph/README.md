@@ -1,8 +1,16 @@
+$$
 <!-- SYMPKG:PKG:BEGIN -->
+$$
 # @promethean/markdown-graph
-**Folder:** `packages/markdown-graph`  
-**Version:** `0.1.0`  
+$$
+**Folder:** `packages/markdown-graph`
+$$
+$$
+**Version:** `0.1.0`
+$$
+$$
 **Domain:** `_root`
+$$
 ```mermaid
 graph LR
   A["@promethean/markdown-graph"]
@@ -17,9 +25,11 @@ graph LR
   click D3 "../test-utils/README.md" "@promethean/test-utils"
 ```
 ## Dependencies
-- [@promethean/persistence](../persistence/README.md)
-- [@promethean/pm2-helpers](../pm2-helpers/README.md)
-- [@promethean/test-utils](../test-utils/README.md)
+- $@promethean/persistence$$../persistence/README.md$
+- $@promethean/pm2-helpers$$../pm2-helpers/README.md$
+- $@promethean/test-utils$$../test-utils/README.md$
 ## Dependents
 - _None_
+$$
 <!-- SYMPKG:PKG:END -->
+$$

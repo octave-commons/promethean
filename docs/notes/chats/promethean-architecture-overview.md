@@ -6,7 +6,7 @@ We need a deep-dive conversation about what we're building after getting lost in
 ## ChatGPT
 - Promethean is a modular multi-agent architecture aligned with an eight-layer consciousness model.
 - Layers represent cognitive subsystems and interact through dynamic Eidolon fields.
-- Agents like Duck operate within services orchestrated via a monorepo that leans on pnpm workspaces, Babashka tasks, and Nx targets across Sibilant, Hy, Python, and TypeScript packages (see [[Babashka + Nx Automation Reference|../automation/bb-nx-cli.md]]).
+- Agents like Duck operate within services orchestrated via a monorepo that leans on pnpm workspaces, Babashka tasks, and Nx targets across Sibilant, Hy, Python, and TypeScript packages (see $[Babashka + Nx Automation Reference|../automation/bb-nx-cli.md]$).
 - Cephalon streams data between STT, LLM, and TTS while embeddings and OpenVINO-accelerated models run on the Intel NPU.
 - Context flows like ant trails; memory is an emergent field of pressures rather than static storage, forming "contextual gravity."
 

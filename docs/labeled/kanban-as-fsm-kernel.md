@@ -1,9 +1,15 @@
 ---
+$$
 uuid: 1d2183ae-6cdd-43ec-9e4c-15ae41a24da7
+$$
+$$
 created_at: '2025-09-19T22:12:01Z'
+$$
 title: 2025.09.19.22.12.01
 filename: Kanban-as-FSM-Kernel
+$$
 description: >-
+$$
   A minimal, agent-agnostic Kanban system modeled as a Finite State Machine
   (FSM) for process management. Defines states, transitions, and rules without
   timeboxing or pre-coded gates. Ensures procedural, board-driven workflows with
@@ -18,8 +24,12 @@ tags:
   - WIP
   - blocking
   - session-discipline
+$$
 related_to_uuid: []
+$$
+$$
 related_to_title: []
+$$
 references: []
 ---
 love the clarity. let’s codify exactly what you described, agent-agnostic, as a **Kanban-as-FSM** kernel for `process.md`. no special phases, no timeboxing, minimal rules, procedural, board-driven.
@@ -77,8 +87,10 @@ flowchart LR
 ---
 
 If that matches your intent, say **“apply Step 1”** and I’ll slot it into `process.md` as an append-only block.  
-**Next step after that** (still process-first): add the tiny per-column “Entry / Work / Exit” rule stubs so the FSM is runnable—still minimal, still procedural. Then we’ll craft the Codex Cloud prompt to treat this doc as scripture and keep its own 3-phase rhythm (init/working/wrap-up) **in `codex-cloud.md`, not in the process.**
+**Next step after that** $still process-first$: add the tiny per-column “Entry / Work / Exit” rule stubs so the FSM is runnable—still minimal, still procedural. Then we’ll craft the Codex Cloud prompt to treat this doc as scripture and keep its own 3-phase rhythm $init/working/wrap-up$ **in `codex-cloud.md`, not in the process.**
+$$
 ::contentReference[oaicite:0]{index=0}
+$$
 ```
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content

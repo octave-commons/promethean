@@ -1,15 +1,22 @@
 ---
+$$
 uuid: 24ba6872-89c0-4f5f-a20e-33058219016b
-title: Pythagoras GPT Mirror (WS chat + OpenAPI-driven tool calls via /v1)
+$$
+title: Pythagoras GPT Mirror $WS chat + OpenAPI-driven tool calls via /v1$
 status: todo
 priority: P3
 labels: []
+$$
 created_at: '2025-09-15T02:02:58.517Z'
+$$
 ---
-# Pythagoras GPT Mirror (WS chat + OpenAPI-driven tool calls via /v1)
-
+# Pythagoras GPT Mirror $WS chat + OpenAPI-driven tool calls via /v1$
+$$
 **Owner:** Codex / Agent
+$$
+$$
 **Status:** Planned
+$$
 **Labels:** #agents #ws #openapi #tools #smartgpt-bridge #prompts #promethean
 
 ---
@@ -36,7 +43,7 @@ Create a “Pythagoras-mirror” agent that:
 ## 📦 Requirements / Definition of Done (strict)
 
 * [ ] **Chat client** uses **WS** to talk to the **LLM worker** (broker path).
-* [ ] **LLM worker** accepts OpenAI-style tool calls (function-calling / tool\_choice=auto).
+* [ ] **LLM worker** accepts OpenAI-style tool calls $function-calling / tool\_choice=auto$.
 * [ ] **Tool catalog auto-generated** from **/v1/openapi.json** (names, descriptions, JSON schemas for params).
 * [ ] **OpenAPI op descriptions** are present, unambiguous, and concise enough that a model can choose the correct tool.
 * [ ] **E2E demo:** user asks a question that requires a tool → model chooses tool → worker calls **smartgpt-bridge** → result streamed back.
@@ -52,7 +59,7 @@ Create a “Pythagoras-mirror” agent that:
   * WS in → tool-aware chat loop → tool exec adapter → calls **smartgpt-bridge /v1** → WS out.
 * **services/ts/pythagoras-mirror** (agent wrapper)
 
-  * Prompts + policies specific to “Pythagoras” persona (math-first, stepwise).
+  * Prompts + policies specific to “Pythagoras” persona $math-first, stepwise$.
 * **shared/ts/openapi-tools**
 
   * Fetches/loads **/v1/openapi.json** → generates:
@@ -102,8 +109,8 @@ type ToolSpec = {
   * Cache & hash (ETag) to avoid churn.
 * [ ] Build **spec → tools generator**: `shared/ts/src/openapi-tools/generateTools.ts`
 
-  * Map each **operationId** (or path+method) to a **ToolSpec**.
-  * Merge **parameters** (path/query/body) into a single JSON Schema object.
+  * Map each **operationId** $or path+method$ to a **ToolSpec**.
+  * Merge **parameters** $path/query/body$ into a single JSON Schema object.
   * **Normalize names**: `v1.files.search` → `files_search`.
   * **Descriptions**: prefer `operation.summary || operation.description`; trim, remove HTML, imperative voice.
   * Add **guard rails**: skip ops without descriptions or with ambiguous names; emit report.
@@ -121,18 +128,20 @@ type ToolSpec = {
   * When model returns a tool call:
 
     1. emit `tool.call`,
+$$
     2. execute via **openapi client**,
+$$
     3. stream `tool.result` (if large) or single result,
     4. feed the result back into the model as a `tool` message, continue.
 * [ ] Admission control & timeouts for tools (per op SLA, default 10s).
 * [ ] Metric hooks: `tool_invocations_total{tool=...}`, `tool_latency_ms_bucket`, `tool_errors_total`.
-* [ ] Error policy: deliver short, model-friendly error (`tool_name`, `code`, `message`), then allow model to recover or ask clarifying q.
+* [ ] Error policy: deliver short, model-friendly error $`tool_name`, `code`, `message`$, then allow model to recover or ask clarifying q.
 
 ### Step 3 — Pythagoras mirror agent wrapper
 
 * [ ] Agent config `services/ts/pythagoras-mirror/config.ts`:
 
-  * **System prompt** (math-first, stepwise reasoning, prefer tools).
+  * **System prompt** $math-first, stepwise reasoning, prefer tools$.
   * Tool selection guidance: “Use a tool whenever external data is needed; don’t hallucinate API results.”
   * Default `tool_choice: "auto"`, `temperature=0`.
 * [ ] Bootstrap script `services/ts/pythagoras-mirror/start.ts`:
@@ -194,7 +203,7 @@ TOOL_MAX_RESULT_KB=256
 * `shared/ts/src/openapi-tools/loader.ts`
 * `shared/ts/src/openapi-tools/generateTools.ts`
 * `shared/ts/src/openapi-tools/client.ts`
-* `services/ts/llm-worker/handlers/chat.ts` (tool-aware)
+* `services/ts/llm-worker/handlers/chat.ts` $tool-aware$
 * `services/ts/pythagoras-mirror/config.ts`
 * `services/ts/pythagoras-mirror/start.ts`
 * `tests/e2e/pythagoras/tools.spec.ts`
@@ -203,7 +212,7 @@ TOOL_MAX_RESULT_KB=256
 
 ---
 
-## CLI sketches (for humans/dev)
+## CLI sketches $for humans/dev$
 
 ```
 # 1) Generate tool catalog from OpenAPI

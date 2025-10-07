@@ -1,10 +1,10 @@
 # Duck Revival — Board
 
 > Source of truth is code. Tasks live in `docs/agile/tasks/`.
-> Columns are computed from each task's front‑matter `status` and sorted by `priority` (P1→P3).
+> Columns are computed from each task's front‑matter `status` and sorted by `priority` $P1→P3$.
 
 ## In progress
-- [P1] **DUCK — feature flags rewrite (web + node) + docs**  /docs/agile/tasks/duck-feature-flags-rewrite-web-node-docs.md
+- [P1] **DUCK — feature flags rewrite $web + node$ + docs**  /docs/agile/tasks/duck-feature-flags-rewrite-web-node-docs.md
 - [P1] **duck-web — throttled RTCDataChannel sender with backpressure**  /docs/agile/tasks/throttled-datachannel-sender.md
 - [P1] **duck-web — PCM16k worklet + mic wiring fixes**  /docs/agile/tasks/pcm16k-worklet-and-mic-fixes.md
 - [P2] **duck-web — openWs helper DI wrapper + bearer guard**  /docs/agile/tasks/openws-helper-wrap-and-guards.md
@@ -24,4 +24,4 @@
 
 ### How to update
 - Edit any task in `docs/agile/tasks/*` and change `status:` to one of `todo | in-progress | review | done`.
-- Commit. This board is generated from code (and can be re-rendered by the kanban sync).
+- Commit. This board is generated from code $and can be re-rendered by the kanban sync$.

@@ -6,7 +6,7 @@ TODO: Add service description.
 
 ## Paths
 
-- [[proxy|services/js/proxy]]
+- $[proxy|services/js/proxy]$
 
 ## Tags
 

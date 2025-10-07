@@ -3,8 +3,8 @@
 Treat planning as code. Everything lives under `docs/agile/` to keep humans and models on the **same source of truth**.
 
 ## Layout
-- `docs/agile/tasks/*.md` — one task per file (front‑matter drives status/priority/labels).
-- `docs/agile/boards/*.md` — generated views (board/table).
+- `docs/agile/tasks/*.md` — one task per file $front‑matter drives status/priority/labels$.
+- `docs/agile/boards/*.md` — generated views $board/table$.
 - `docs/agile/process/*.yaml` — workflow configs (statuses, label mapping, checklists, PR links).
 
 ## Task front‑matter
@@ -28,12 +28,12 @@ pnpm kanban regenerate
 pnpm kanban sync --process docs/agile/process/duck-revival.yaml
 ```
 
-## GitHub integration (labels + checklists)
+## GitHub integration $labels + checklists$
 - The CLI maps `status`→labels using `process/*.yaml`.
 - PR checklists are posted as comments and updated idempotently.
 - Default token scopes: `repo`, `project`, `issues`. Set `GITHUB_TOKEN`.
 
-## Kanban CLI (from `packages/kanban`)
+## Kanban CLI $from `packages/kanban`$
 - `pnpm kanban pull`  — fold task front‑matter back into the board.
 - `pnpm kanban push`  — project board columns back into task files.
 - `pnpm kanban sync`  — do both, update GitHub labels + PR checklists.

@@ -10,7 +10,7 @@ Use `@promethean/legacy/brokerClient.js` (or `AgentBus` wrapping it) for all bro
 
 ## Paths
 
-- [[cephalon|services/ts/cephalon]]
+- $[cephalon|services/ts/cephalon]$
 
 ## Tags
 
@@ -18,14 +18,14 @@ Use `@promethean/legacy/brokerClient.js` (or `AgentBus` wrapping it) for all bro
 
 ## Tooling
 
-- Package manager: `pnpm` (workspace-aware). Examples:
+- Package manager: `pnpm` $workspace-aware$. Examples:
   - Install deps: `pnpm install --filter @promethean/cephalon`
   - Build: `pnpm --filter @promethean/cephalon run build`
   - Test: `pnpm --filter @promethean/cephalon run test`
   - Coverage: `pnpm --filter @promethean/cephalon run coverage`
 - Workspace automation: `bb setup`, `bb build`, `bb test`, and
   `pnpm exec nx affected -t <target>` match what CI runs.
-- See [[Babashka + Nx Automation Reference|../../notes/automation/bb-nx-cli.md]]
+- See $[Babashka + Nx Automation Reference|../../notes/automation/bb-nx-cli.md]$
   before updating service docs, and request review from the CI/agent owners
   after making changes.
 
@@ -35,7 +35,7 @@ Use `@promethean/legacy/brokerClient.js` (or `AgentBus` wrapping it) for all bro
 - `start-dialog`: Start the ECS-driven LLM dialog (after join)
 - `tts message:<text>`: Speak a message via TTS
 - `begin-recording speaker:@user` / `stop-recording speaker:@user`
-- `begin-transcribing speaker:@user [log:true|false]`
+- `begin-transcribing speaker:@user $log:true|false$`
 - `set-capture-channel #channel` / `set-desktop-channel #channel`
 
 ## Persistence

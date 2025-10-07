@@ -1,9 +1,19 @@
 ---
+$$
 uuid: e7aac5db-1ee9-49b5-891a-2f4655b2c28c
+$$
+$$
 created_at: '2025-09-03T14:01:47Z'
+$$
+$$
 filename: mcp-server-config
+$$
+$$
 title: mcp-server-config
+$$
+$$
 description: >-
+$$
   Elisp configuration for Model Context Protocol (MCP) servers with proper
   command structures and paths. This file defines server programs and their
   execution commands for seamless integration with Emacs and other tools.
@@ -13,11 +23,15 @@ tags:
   - configuration
   - command
   - server
+$$
 related_to_uuid:
+$$
   - a39e72eb-34f4-45d2-9b59-a0f9f4a12fc0
   - 01c5547f-27eb-42d1-af24-9cad10b6a2ca
   - 3e74aac4-d652-4ba2-be14-524d5dfb98f1
+$$
 related_to_title:
+$$
   - mcp-server-config
   - run-step-api
   - Promethean CI/CD Pipeline
@@ -90,8 +104,9 @@ First we need the right way with the right data:
                   :args ("-y" "@modelcontextprotocol/server-obsidian"
                          "~/devel/promethean")))))
 ```
+$$
 ^ref-a39e72eb-25-0
-
+$$
 
 ## clojure multi config
 We generate the wrong way from this file, this is a part of a larger progrma which generates several mcp config files
@@ -259,10 +274,10 @@ aced between two comments
 - If there is already an s-expression between the comemnts, erase it and rewrite it with the new value from th ecurrent `config.edn`
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [mcp-server-config](2025.09.03.14.01.47.md)
-- [run-step-api](run-step-api.md)
-- [Promethean CI/CD Pipeline](promethean-ci-cd-pipeline.md)
+- $mcp-server-config$(2025.09.03.14.01.47.md)
+- $run-step-api$$run-step-api.md$
+- $Promethean CI/CD Pipeline$$promethean-ci-cd-pipeline.md$
 ## Sources
-- [mcp-server-config — L175](2025.09.03.14.01.47.md#^ref-a39e72eb-175-0) (line 175, col 0, score 0.9)
-- [mcp-server-config — L25](2025.09.03.14.01.47.md#^ref-a39e72eb-25-0) (line 25, col 0, score 0.87)
+- $mcp-server-config — L175$$2025.09.03.14.01.47.md#^ref-a39e72eb-175-0$ (line 175, col 0, score 0.9)
+- $mcp-server-config — L25$$2025.09.03.14.01.47.md#^ref-a39e72eb-25-0$ (line 25, col 0, score 0.87)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

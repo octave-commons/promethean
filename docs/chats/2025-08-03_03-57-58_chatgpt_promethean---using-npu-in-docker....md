@@ -1,5 +1,7 @@
 # Promethean - Using NPU in Docker...
-Exported on 03/08/2025 at 03:57:58 [from ChatGPT](https://chatgpt.com/g/g-p-6883d8e9569c8191aad0cfd2a5bf3af3-promethean/c/688e55d0-8e24-8322-972e-0dc0454fea01) - with [SaveMyChatbot](https://save.hugocollin.com)
+Exported on 03/08/2025 at 03:57:58 [from ChatGPT](https://chatgpt.com/g/g-p-6883d8e9569c8191aad0cfd2a5bf3af3-promethean/c/688e55d0-8e24-8322-972e-0dc0454fea01$$
+) - with [SaveMyChatbot](
+$$https://save.hugocollin.com)
 
 ## User
 Is there any way to use an NPU from docker?
@@ -16,13 +18,13 @@ Yes—**you can use an NPU from within Docker containers**, but it requires sett
     
 *   You need to:
     
-    1.  **Install the NPU driver and runtime on the host**, so that `/dev/…` nodes (e.g. `davinci0`, `apex_0`, `renderD128`) are created and the kernel module is loaded.
+    1.  **Install the NPU driver and runtime on the host**, so that `/dev/…` nodes $e.g. `davinci0`, `apex_0`, `renderD128`$ are created and the kernel module is loaded.
         
-    2.  **Mount the driver libraries into the container** (e.g. `libedgetpu`, `libnpu.so`, `/usr/local/Ascend/driver`).
+    2.  **Mount the driver libraries into the container** $e.g. `libedgetpu`, `libnpu.so`, `/usr/local/Ascend/driver`$.
         
     3.  **Pass through the devices** using `--device`, `--group-add`, or (for Huawei Ascend) the **Ascend Docker runtime plugin**.
         
-    4.  **Set environment variables** so the vendor runtime knows which NPU IDs to use (e.g. `ASCEND_VISIBLE_DEVICES=0`).
+    4.  **Set environment variables** so the vendor runtime knows which NPU IDs to use $e.g. `ASCEND_VISIBLE_DEVICES=0`$.
         
     5.  Use a container image that includes the NPU SDK (e.g. OpenVINO‑based containers, Intel DL Streamer, Huawei CANN toolkit) because the container loader needs the .so files at runtime.
         
@@ -32,7 +34,7 @@ Yes—**you can use an NPU from within Docker containers**, but it requires sett
 2\. By vendor: usage examples
 -----------------------------
 
-### 🪨 Huawei Ascend NPU (e.g. Atlas 800, Ascend‑310/910)
+### 🪨 Huawei Ascend NPU $e.g. Atlas 800, Ascend‑310/910$
 
 Huawei supports native Docker support via the **Ascend docker-runtime plugin**:
 
@@ -66,7 +68,7 @@ Huawei supports native Docker support via the **Ascend docker-runtime plugin**:
 
 * * *
 
-### 💻 Intel Integrated NPU (e.g. Meteor Lake / Core Ultra via Linux NPU driver + OpenVINO)
+### 💻 Intel Integrated NPU $e.g. Meteor Lake / Core Ultra via Linux NPU driver + OpenVINO$
 
 Intel’s drivers expose the NPU as a **"Versatile Processing Unit (VPU)"** via a kernel module. You do not need a special plugin—just install the driver on the host, then:
 
@@ -76,7 +78,7 @@ Intel’s drivers expose the NPU as a **"Versatile Processing Unit (VPU)"** via 
     
     *   Pass `/dev/dri/renderD*` if that's used,
         
-    *   Add your user to the `render` group (`--group-add=$(getent group render | cut -d: -f3)`),
+    *   Add your user to the `render` group $`--group-add=$(getent group render | cut -d: -f3)`$,
         
     *   Or run as a user with the correct group ID inside the container if using a non-root user.
         
@@ -94,7 +96,7 @@ Intel docs emphasize that the container user needs correct `render` group privil
 
 * * *
 
-### ⚙️ Google Coral Edge TPU (USB / PCIe)
+### ⚙️ Google Coral Edge TPU $USB / PCIe$
 
 Google Coral NPUs (Edge TPU) expose `/dev/apex_0` and use `libedgetpu.so` to talk to the device.
 
@@ -105,7 +107,7 @@ docker run --device=/dev/apex_0:/dev/apex_0 \
   your‑coral‐container-image /bin/bash
 ```
 
-There are ready-made Docker images (e.g., coral-python, classify-image) that include `libedgetpu` and can boot with this setup. [Jeff Geerling](https://www.jeffgeerling.com/blog/2023/testing-coral-tpu-accelerator-m2-or-pcie-docker?utm_source=chatgpt.com)[GitHub](https://github.com/pklinker/coral-container?utm_source=chatgpt.com)
+There are ready-made Docker images $e.g., coral-python, classify-image$ that include `libedgetpu` and can boot with this setup. [Jeff Geerling](https://www.jeffgeerling.com/blog/2023/testing-coral-tpu-accelerator-m2-or-pcie-docker?utm_source=chatgpt.com)[GitHub](https://github.com/pklinker/coral-container?utm_source=chatgpt.com)
 
 * * *
 
@@ -113,9 +115,11 @@ There are ready-made Docker images (e.g., coral-python, classify-image) that inc
 -----------------------
 
 | Vendor / NPU Type | Host driver needed? | Docker injection method | GPU isolation key |
+$$
 | --- | --- | --- | --- |
+$$
 | Huawei Ascend (DaVinci) | Yes – Ascend driver + firmware, plus ascend‑docker‑runtime | --device flags + mount /usr/local/Ascend/driver, ASCEND_VISIBLE_DEVICES | ASCEND_VISIBLE_DEVICES, uses /dev/davinci* nodes |
-| Intel Integrated (Core Ultra / VPU) | Yes – Intel linux‑npu‑driver & OpenVINO libs (optional) | --device, --group-add (often render, drm), use official Intel container | --group-add=render, render group ID must match host |
+| Intel Integrated $Core Ultra / VPU$ | Yes – Intel linux‑npu‑driver & OpenVINO libs (optional) | --device, --group-add (often render, drm), use official Intel container | --group-add=render, render group ID must match host |
 | Google Coral Edge TPU | Yes – host driver/runtime libedgetpu.so | --device=/dev/apex_0, + v‑mount libedgetpu.so if not baked into image | N/A |
 
 > ✅ In container benchmarking (from 2017 and later), deep‑learning workloads show near‑native inference speed. Docker overhead is minimal as long as you pass device nodes and mount the correct driver directories. [GitHub](https://github.com/intel/linux-npu-driver?utm_source=chatgpt.com)
@@ -146,9 +150,9 @@ Similarly, for embedded NPUs (Rockchip AI, Hailo, Sophon, etc.), you must check 
     
     *   **Huawei Ascend** (via their `ascend‑docker‑runtime` plugin),
         
-    *   **Intel Core Ultra / VPU** (via Intel‑optimized containers and `--device/--group-add`),
+    *   **Intel Core Ultra / VPU** $via Intel‑optimized containers and `--device/--group-add`$,
         
-    *   **Google Coral Edge TPU** (via USB/PCIe passthrough).
+    *   **Google Coral Edge TPU** $via USB/PCIe passthrough$.
         
 *   **ARM consumer NPUs (e.g. Snapdragon)** usually **don’t work with today's Docker Desktop**, and require kernel-level device support or custom container runtime.
     
@@ -178,7 +182,7 @@ docker run --rm -it \
 exec run_your_inference_program
 ```
 
-You'll then see `/dev/davinci0` inside the container; Open the SDK (MindSpore, PyTorch + torch‑npu, etc.) and it can immediately run inference on the actual NPU. [Huawei Support](https://support.huawei.com/enterprise/en/doc/EDOC1100356040/5aa8cc53/deploying-a-container)[Huawei Support](https://support.huawei.com/enterprise/en/doc/EDOC1100356040/5aa8cc53/deploying-a-container)
+You'll then see `/dev/davinci0` inside the container; Open the SDK $MindSpore, PyTorch + torch‑npu, etc.$ and it can immediately run inference on the actual NPU. [Huawei Support](https://support.huawei.com/enterprise/en/doc/EDOC1100356040/5aa8cc53/deploying-a-container)[Huawei Support](https://support.huawei.com/enterprise/en/doc/EDOC1100356040/5aa8cc53/deploying-a-container)
 
 * * *
 
@@ -186,9 +190,9 @@ You'll then see `/dev/davinci0` inside the container; Open the SDK (MindSpore, P
 
 *   Double-check the nodes: are `/dev/davinci0` (Huawei), `/dev/apex_0` (Edge TPU), or `/dev/dri/renderD*` (Intel VPU) visible on the host?
     
-*   Is the Docker image **compiled for the same host architecture** (e.g. `x86_64`, `arm64`)? Especially critical for Arm‑based systems.
+*   Is the Docker image **compiled for the same host architecture** $e.g. `x86_64`, `arm64`$? Especially critical for Arm‑based systems.
     
-*   Does your container base match the **vendor runtime’s C++ loader dependencies** (glibc, LD\_LIBRARY\_PATH, etc.)?
+*   Does your container base match the **vendor runtime’s C++ loader dependencies** $glibc, LD\_LIBRARY\_PATH, etc.$?
     
 *   Are you setting the right **group ID** inside the container? (e.g. for Intel `render` group must match real GID)
     
@@ -221,7 +225,7 @@ Most NPU vendors (Intel Core Ultra NPU, Huawei Ascend, Google Coral Edge TPU) 
 
 ### B. Docker on Windows uses WSL 2 under the hood
 
-Docker Desktop for Windows runs containers inside a **WSL 2 virtual machine**. Only _paravirtualized drivers_ are passed in—currently limited to NVIDIA GPU (via `--gpus`) and DirectX-based acceleration. There is **no paravirtual support for NPU hardware** [GitHub](https://github.com/intel/intel-npu-acceleration-library/issues/13?utm_source=chatgpt.com).
+Docker Desktop for Windows runs containers inside a **WSL 2 virtual machine**. Only _paravirtualized drivers_ are passed in—currently limited to NVIDIA GPU $via `--gpus`$ and DirectX-based acceleration. There is **no paravirtual support for NPU hardware** [GitHub](https://github.com/intel/intel-npu-acceleration-library/issues/13?utm_source=chatgpt.com).
 
 ### C. Linux container inside WSL2 can't access host NPUs
 
@@ -233,9 +237,11 @@ Even if a Windows user-space runtime “sees” the NPU, _Linux containers don�
 -----------------------------
 
 | NPU Platform | Windows host support (native) | Linux driver in WSL2 | Pass-through to Linux container |
+$$
 | --- | --- | --- | --- |
+$$
 | Intel Core Ultra NPU | ✔️ Yes – via WindowsDriver & OpenVINO SDK | ❌ Not available | ❌ Not recognized at runtime |
-| Coral Edge TPU (USB/PCIe) | ✔️ Yes – Windows installable runtime & driver | (Linux driver absent) | ❌ Container sees USB device, but no Linux driver → “No EdgeTPU detected” GitHub |
+| Coral Edge TPU $USB/PCIe$ | ✔️ Yes – Windows installable runtime & driver | (Linux driver absent) | ❌ Container sees USB device, but no Linux driver → “No EdgeTPU detected” GitHub |
 | Huawei Ascend | ❌ No – firmware & drivers are Linux-only | ❌ No support | ❌ N/A |
 
 **Bottom line:** WSL2 containers only see Linux-compatible NPUs if the underlying host kernel has driver. Windows kernel cannot share that to Linux guest.
@@ -245,14 +251,14 @@ Even if a Windows user-space runtime “sees” the NPU, _Linux containers don�
 3\. Windows Containers don’t help either
 ----------------------------------------
 
-Windows containers (process-isolated or Hyper‑V‑isolated) support **DirectX GPU acceleration** only, not arbitrary PCIe or USB devices like NPUs. While you can pass through a GPU (e.g. for DirectX workloads), **you can’t expose a Coral TPU or an Intel NPU to a Windows container** in an official manner [Microsoft Learn](https://learn.microsoft.com/en-us/virtualization/windowscontainers/deploy-containers/gpu-acceleration?utm_source=chatgpt.com).
+Windows containers $process-isolated or Hyper‑V‑isolated$ support **DirectX GPU acceleration** only, not arbitrary PCIe or USB devices like NPUs. While you can pass through a GPU (e.g. for DirectX workloads), **you can’t expose a Coral TPU or an Intel NPU to a Windows container** in an official manner [Microsoft Learn](https://learn.microsoft.com/en-us/virtualization/windowscontainers/deploy-containers/gpu-acceleration?utm_source=chatgpt.com).
 
 * * *
 
 4\. 🤔 Better workarounds
 -------------------------
 
-1.  **Dual‑boot or VPN-access Linux host**—runs NPU drivers natively and supports Docker device pass‑through (`--device=/dev/davinci0`, `/dev/apex_0`, `/dev/dri/render*`, etc.).
+1.  **Dual‑boot or VPN-access Linux host**—runs NPU drivers natively and supports Docker device pass‑through $`--device=/dev/davinci0`, `/dev/apex_0`, `/dev/dri/render*`, etc.$.
     
 2.  **Linux VM with PCI‑passthrough**—e.g. Proxmox, KVM, unRAID, Hyper‑V Gen2, exposing the NPU. Not Docker on Windows.
     
@@ -271,7 +277,7 @@ Windows containers (process-isolated or Hyper‑V‑isolated) support **DirectX 
 *   **Your best bet is using a Linux environment** if you need NPU acceleration inside a container.
     
 
-If you tell me exactly which NPU hardware you're using (Intel/Acer Core Ultra, Ascend, Coral), and whether you’re open to using WSL Linux or dual‑boot, I can help you design the safest path forward.undefined
+If you tell me exactly which NPU hardware you're using $Intel/Acer Core Ultra, Ascend, Coral$, and whether you’re open to using WSL Linux or dual‑boot, I can help you design the safest path forward.undefined
 
 ## User
 Gah I hate trying to get linux to work on a laptop... I don't have a USB drive right now either.
@@ -286,7 +292,7 @@ You're right: trying to get Linux + Docker to play nice with Intel/Edge TPU NPUs
 ✅ Path #1: Run on **Windows directly** (no Linux, no USB needed)
 ----------------------------------------------------------------
 
-If you have an **Intel Core Ultra** processor (aka Meteor/Lunar/Arrow Lake) on Windows 11 (22H2 / 23H2 / 24H2), **you can install the Intel NPU driver and use OpenVINO for inference just like you would on Linux**—no container required. Just run your Python or C++ app and call `ov::Core().compile_model(model, "NPU")`. The runtime will schedule onto the NPU device automatically without any blessed Linux driver or permissions drama (for instance, no `/dev/Accel*`) [Intel](https://www.intel.com/content/www/us/en/download/794734/intel-npu-driver-windows.html?utm_source=chatgpt.com)[OpenVINO Documentation](https://docs.openvino.ai/2025/openvino-workflow/running-inference/inference-devices-and-modes/npu-device.html?utm_source=chatgpt.com).
+If you have an **Intel Core Ultra** processor $aka Meteor/Lunar/Arrow Lake$ on Windows 11 $22H2 / 23H2 / 24H2$, **you can install the Intel NPU driver and use OpenVINO for inference just like you would on Linux**—no container required. Just run your Python or C++ app and call `ov::Core().compile_model(model, "NPU")`. The runtime will schedule onto the NPU device automatically without any blessed Linux driver or permissions drama $for instance, no `/dev/Accel*`$ [Intel](https://www.intel.com/content/www/us/en/download/794734/intel-npu-driver-windows.html?utm_source=chatgpt.com)[OpenVINO Documentation](https://docs.openvino.ai/2025/openvino-workflow/running-inference/inference-devices-and-modes/npu-device.html?utm_source=chatgpt.com).
 
 You can even keep coding and prototyping in **WSL2**, but the NPU part must stay in Windows user space for now—OpenVINO running inside Linux still falls back to CPU because **WSL2 does not support the Linux Intel NPU driver** yet [GitHub](https://github.com/intel/intel-npu-acceleration-library/issues/13?utm_source=chatgpt.com).
 
@@ -297,7 +303,7 @@ You can even keep coding and prototyping in **WSL2**, but the NPU part must stay
 
 If you _really_ want Docker/Ubuntu/Linux to drive the NPU, one of the best approaches is to run Docker **on another Linux machine** that already has working drivers—perhaps a desktop, server, or even a cloud instance (e.g. a rented GPU workstation with Intel hardware).
 
-*   On that machine, spin up **OpenVINO Model Server (OVMS)** in Docker. It exposes a **REST or gRPC API** and runs your NPU-powered inference inside its container [GitHub+5GitHub+5GitHub+5](https://github.com/openvinotoolkit/model_server?utm_source=chatgpt.com).
+*   On that machine, spin up **OpenVINO Model Server (OVMS)** in Docker. It exposes a **REST or gRPC API** and runs your NPU-powered inference inside its container $GitHub+5GitHub+5GitHub+5$(https://github.com/openvinotoolkit/model_server?utm_source=chatgpt.com).
     
 *   From your laptop (Windows), you can then call that server via HTTP to get inference results—**no Linux OS or USB drive needed on your laptop**.
     
@@ -313,7 +319,7 @@ This approach is also safer for deployment if you want to scale up later or hija
 
 If you don’t mind switching environments:
 
-1.  **Use Linux (WSL2 + Docker)** on your Windows laptop for development tasks—Convert models, test compatibility, etc.
+1.  **Use Linux $WSL2 + Docker$** on your Windows laptop for development tasks—Convert models, test compatibility, etc.
     
 2.  **Run inference on Windows** itself using the Intel NPU driver + OpenVINO runtime.
     
@@ -328,7 +334,9 @@ This split setup is popular in data science workflows—code in Linux, compute o
 --------------
 
 | Scenario | Requires Linux or USB | NPU Accessible | Ease |
+$$
 | --- | --- | --- | --- |
+$$
 | Win 11 + Intel NPU + OpenVINO | ❌ No | ✅ Yes | ✅ Easiest |
 | Remote Linux VM + OVMS Docker | ✅ Yes (remotely) | ✅ Yes | ⭐ Good |
 | WSL2 + Docker on your laptop | ✅ Yes (WSL2) | ❌ No | Low latency |
@@ -354,7 +362,9 @@ compiled = core.compile_model(model, "NPU")
 results = compiled(inputs)
 ```
 
-You can also feed multiple models to the **AUTO** device to distribute across CPU/GPU/NPU automatically—OpenVINO handles operator-level scheduling if the main model doesn't fit entirely on NPU [GitHub+1GitHub+1](https://github.com/openvinotoolkit/model_server?utm_source=chatgpt.com)[GitHub+2GitHub+2GitHub+2](https://github.com/openvinotoolkit/openvino/wiki/Project-ideas-for-2025?utm_source=chatgpt.com).
+You can also feed multiple models to the **AUTO** device to distribute across CPU/GPU/NPU automatically—OpenVINO handles operator-level scheduling if the main model doesn't fit entirely on NPU $GitHub+1GitHub+1$(https://github.com/openvinotoolkit/model_server?utm_source=chatgpt.com$$
+)[GitHub+2GitHub+2GitHub+2](
+$$https://github.com/openvinotoolkit/openvino/wiki/Project-ideas-for-2025?utm_source=chatgpt.com).
 
 * * *
 
@@ -372,7 +382,7 @@ Let me know your exact CPU model (e.g. Intel Core Ultra 7 155H) and Windows 
 
 ## User
 Ok, I know I can do it on windows naitively...
-I've been thinking that... you can still run windows programs from the WSL bash... it just might get confusing in cases where I am running the same commands (node/python) on windows as I am for linux jobs. It should work though right? Being explicit and calling python.exe should make it run inside of windows, even if I am in wsl bash?
+I've been thinking that... you can still run windows programs from the WSL bash... it just might get confusing in cases where I am running the same commands $node/python$ on windows as I am for linux jobs. It should work though right? Being explicit and calling python.exe should make it run inside of windows, even if I am in wsl bash?
 
 ## ChatGPT
 Absolutely — **you can call Windows executables like `python.exe` from WSL bash**, and they run as real native Windows apps. That includes Intel OpenVINO installations that target the NPU. Here's how it works and what to expect:
@@ -383,7 +393,7 @@ Absolutely — **you can call Windows executables like `python.exe` from WSL bas
 
 *   WSL auto-recognizes any `.exe` in your `$PATH` and runs it via binfmt\_misc → Microsoft People call this “interop.”
     
-    *   Example: `notepad.exe` or `ipconfig.exe` works seamlessly from bash [Emacs Stack Exchange+2Unix & Linux Stack Exchange+2Visual Studio Code+2](https://unix.stackexchange.com/questions/42617/how-to-change-the-working-directory-for-a-shell-script?utm_source=chatgpt.com).
+    *   Example: `notepad.exe` or `ipconfig.exe` works seamlessly from bash $Emacs Stack Exchange+2Unix & Linux Stack Exchange+2Visual Studio Code+2$(https://unix.stackexchange.com/questions/42617/how-to-change-the-working-directory-for-a-shell-script?utm_source=chatgpt.com).
         
 *   The working directory is preserved, environment variables are translated (using `WSLENV`), and you can pipe to PowerShell and Linux commands as if you were on Windows [Microsoft Learn](https://learn.microsoft.com/en-us/windows/wsl/filesystems?utm_source=chatgpt.com).
     
@@ -403,11 +413,11 @@ $ python.exe yourfile.py
     
 *   If you omit the `.exe`, Linux’s `python` is used instead.
     
-*   Inside `python.exe`, tools like OpenVINO will work and NPU will be accessible (since it's the Windows driver), but note that file paths (`C:\…`) are translated automatically via `\\wsl$\...` access.
+*   Inside `python.exe`, tools like OpenVINO will work and NPU will be accessible (since it's the Windows driver), but note that file paths $`C:\…`$ are translated automatically via `\\wsl$\...` access.
     
-
+$$
 **Caveats:**
-
+$$
 *   If you run `python.exe test.py`, the working directory may default to your Windows home drive, **not** your current WSL folder—so your script might not be found unless you specify full paths [askubuntu.com](https://askubuntu.com/questions/1044698/how-to-use-the-same-python-for-windows-and-linux-on-windows-subsystem-for-linux).
     
 *   Line endings (CRLF) and symlinks in WSL/Linux filesystems may confuse Windows Python.
@@ -451,7 +461,9 @@ pip freeze                    # Should mirror Windows pip if same venv
 ### ✅ TL;DR Table
 
 | Use Case | Command | Interpreter Used | NPU <br> Accessible? |
+$$
 | --- | --- | --- | --- |
+$$
 | Windows Python + OpenVINO | python.exe ... | Native Windows .exe | ✅ (via Windows driver) |
 | WSL Linux Python | python ..., pip3 | Linux (apt install) | ❌ (no Linux NPU driver) |
 | Default python | python (no .exe) | Linux | ❌ |
@@ -461,7 +473,7 @@ pip freeze                    # Should mirror Windows pip if same venv
 
 ### 🚀 Pro tip for reliability
 
-*   Run Windows Python only from a WSL path that’s also accessible on Windows (e.g. `/mnt/c/…`).
+*   Run Windows Python only from a WSL path that’s also accessible on Windows $e.g. `/mnt/c/…`$.
     
 *   Printers, GUI tools, `explorer.exe .`, and even DreamStudio CLI will work seamlessly when called from `.exe`.
     
