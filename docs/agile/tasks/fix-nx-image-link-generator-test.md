@@ -1,20 +1,19 @@
 ---
-```
-uuid: ac42755d-b90e-4d8d-bb16-46bc251fc210
-```
-title: Fix nx task @promethean/image-link-generator:test
-```
-status: in-progress
-```
-priority: P2
-labels:
-  - #InProgress
-  - #Testing
-```
-created_at: '2025-01-07T00:00:00.000Z'
-```
+uuid: "ac42755d-b90e-4d8d-bb16-46bc251fc210"
+title: "Fix nx task @promethean/image-link-generator:test"
+slug: "fix-nx-image-link-generator-test"
+status: "review"
+priority: "P2"
+labels: ["image", "link", "generator", "test"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
-#InProgress
+
+
+# In Review
 
 ## 🛠️ Description
 
@@ -65,3 +64,5 @@ Estimate: 3
 ## 🔍 Relevant Links
 
 - Link to supporting docs or references.
+
+

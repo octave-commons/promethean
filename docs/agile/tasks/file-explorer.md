@@ -1,15 +1,18 @@
 ---
-```
-uuid: c39b94ff-9e97-4fba-99d9-5cc713e09e5d
-```
-title: file explorer
-status: todo
-priority: P3
-labels: []
-```
-created_at: '2025-09-15T02:02:58.513Z'
-```
+uuid: "c39b94ff-9e97-4fba-99d9-5cc713e09e5d"
+title: "file explorer"
+slug: "file-explorer"
+status: "done"
+priority: "P3"
+labels: ["file", "explorer", "search", "permission"]
+created_at: "2025-10-07T20:25:05.644Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Description
 
 Provide a lightweight file explorer for navigating repository contents through the agent interface.
@@ -68,4 +71,6 @@ Nothing
 - Story Points: 5
 
 #ready
+
+
 

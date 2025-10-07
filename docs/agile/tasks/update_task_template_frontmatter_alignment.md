@@ -1,19 +1,18 @@
 ---
-```
-uuid: f5553298-1c51-41c2-acb5-df4d9f518c89
-```
-title: Align task template frontmatter with canonical schema
-```
-status: in_progress
-```
-priority: P2
-labels:
-  - docs
-  - automation
-```
-created_at: '2025-09-30T20:05:49.925339+00:00'
-```
+uuid: "f5553298-1c51-41c2-acb5-df4d9f518c89"
+title: "Align task template frontmatter with canonical schema"
+slug: "update_task_template_frontmatter_alignment"
+status: "review"
+priority: "P2"
+labels: ["docs", "automation"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 #InProgress
 
 ## 🛠️ Description
@@ -73,3 +72,5 @@ Update the shared task stub template so that new notes start with the canonical 
 - `docs/agile/templates/task.stub.template.md`
 - `docs/agile/tasks/task-generator-system.md`
 - `node packages/kanban/dist/index.js regenerate`
+
+

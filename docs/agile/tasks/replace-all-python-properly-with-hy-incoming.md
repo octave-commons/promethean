@@ -1,15 +1,18 @@
 ---
-```
-uuid: 991b27c3-0b63-49a5-acd3-d730b28e31fc
-```
-title: Ban Python; Migrate to Hy; Compile to `./dist`
-status: todo
-priority: P3
-labels: []
-```
-created_at: '2025-09-15T02:02:58.519Z'
-```
+uuid: "991b27c3-0b63-49a5-acd3-d730b28e31fc"
+title: "Ban Python; Migrate to Hy; Compile to `./dist`"
+slug: "replace-all-python-properly-with-hy-incoming"
+status: "rejected"
+priority: "P3"
+labels: ["python", "ban", "dist", "migrate"]
+created_at: "2025-10-07T20:25:05.645Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 # Ban Python; Migrate to Hy; Compile to `./dist`
 ```
 **Owner:** Codex / Agent
@@ -253,4 +256,6 @@ Append-only thread for agents. Note blockers, weird Hy interop, or macro decisio
 \#tags #promethean #hy #lisp #python #build #ci #git #precommit #policy #docs
 
 #archive
+
+
 

@@ -1,15 +1,18 @@
 ---
-```
-uuid: 137054cb-d7c9-4b0a-9aa9-5ce0425948db
-```
-title: Resolve ESLint violations across repository
-status: todo
-priority: P3
-labels: []
-```
-created_at: '2025-09-15T02:02:58.519Z'
-```
+uuid: "137054cb-d7c9-4b0a-9aa9-5ce0425948db"
+title: "Resolve ESLint violations across repository"
+slug: "resolve_eslint_violations_repo_wide"
+status: "todo"
+priority: "P3"
+labels: ["eslint", "resolve", "violations", "across"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 # Resolve ESLint violations across repository
 
 ## Description
@@ -35,4 +38,6 @@ Multiple packages trigger ESLint errors such as `functional/prefer-immutable-typ
 - [ ] Create documentation summarizing unresolved or complex rules.
 
 #Todo #codex-task #doc-this
+
+
 

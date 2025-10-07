@@ -1,15 +1,18 @@
 ---
-```
-uuid: ddad0e6a-9019-4cc8-900e-93549b5ee845
-```
-title: obsidian replacement md
-status: todo
-priority: P3
-labels: []
-```
-created_at: '2025-09-15T02:02:58.518Z'
-```
+uuid: "ddad0e6a-9019-4cc8-900e-93549b5ee845"
+title: "obsidian replacement md"
+slug: "obsidian_replacement"
+status: "icebox"
+priority: "P3"
+labels: ["obsidian", "replacement", "can", "than"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Description
 
 I can do better than this lag monster
@@ -63,3 +66,5 @@ Nothing
 ```
 #ice-box
 ```
+
+

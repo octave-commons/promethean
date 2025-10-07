@@ -1,15 +1,18 @@
 ---
-```
-uuid: 56da5f84-d732-4455-b0a6-97b36fbae026
-```
-title: Cephalon Commands → Actions Refactor — Task Refinement
-status: todo
-priority: P3
-labels: []
-```
-created_at: '2025-09-15T02:02:58.520Z'
-```
+uuid: "56da5f84-d732-4455-b0a6-97b36fbae026"
+title: "Cephalon Commands → Actions Refactor — Task Refinement"
+slug: "seperate-discord-commands-from-the-actions-they-perform"
+status: "done"
+priority: "P3"
+labels: ["actions", "commands", "cephalon", "refactor"]
+created_at: "2025-10-07T20:25:05.644Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 # Cephalon Commands → Actions Refactor — Task Refinement
 
 > Split Discord-facing **commands** from reusable **actions** (DI via `scope`).
@@ -486,3 +489,5 @@ export function attachBrokerBridge(store: { dispatch: (e: Event) => Promise<void
 ```
 #in-progress
 ```
+
+

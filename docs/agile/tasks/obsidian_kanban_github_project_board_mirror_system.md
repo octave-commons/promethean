@@ -1,15 +1,18 @@
 ---
-```
-uuid: 083d6047-9529-4d0b-9ada-406acf3d97f8
-```
-title: obsidian kanban github project board mirror system md md
-status: todo
-priority: P3
-labels: []
-```
-created_at: '2025-09-15T02:02:58.517Z'
-```
+uuid: "083d6047-9529-4d0b-9ada-406acf3d97f8"
+title: "obsidian kanban github project board mirror system md md"
+slug: "obsidian_kanban_github_project_board_mirror_system"
+status: "rejected"
+priority: "P3"
+labels: ["github", "kanban", "board", "obsidian"]
+created_at: "2025-10-07T20:25:05.645Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Task: Obsidian Kanban Github Project Board Mirror system
 
 Synchronize our local kanban board with a GitHub Projects board so tasks stay consistent between Obsidian and GitHub.
@@ -56,4 +59,6 @@ Nothing
 - [[kanban]]
 
 #archive
+
+
 

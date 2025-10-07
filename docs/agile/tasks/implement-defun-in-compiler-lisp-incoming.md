@@ -1,15 +1,18 @@
 ---
-```
-uuid: f0fe8d30-5833-4791-9e31-9c2292db03bc
-```
-title: "\U0001F6E0️ Task: Implement `defun` in Lisp Compiler"
-status: todo
-priority: P3
-labels: []
-```
-created_at: '2025-09-15T02:02:58.515Z'
-```
+uuid: "f0fe8d30-5833-4791-9e31-9c2292db03bc"
+title: "🛠️ Task: Implement `defun` in Lisp Compiler"
+slug: "implement-defun-in-compiler-lisp-incoming"
+status: "done"
+priority: "P3"
+labels: ["defun", "compiler", "lisp", "implement"]
+created_at: "2025-10-07T20:25:05.644Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 # 🛠️ Task: Implement `defun` in Lisp Compiler
 
 ## 📖 Description
@@ -58,3 +61,5 @@ Append-only thread for discussion by agents working on this task.
 ```
 #in-progress
 ```
+
+
