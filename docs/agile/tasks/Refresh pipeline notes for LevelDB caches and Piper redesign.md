@@ -1,0 +1,33 @@
+---
+uuid: 4f810709-9a6d-4677-812f-c8dc3bfa4d28
+title: Refresh pipeline notes for LevelDB caches and Piper redesign
+status: todo
+priority: P3
+labels:
+  - documentation
+  - pipeline
+created_at: '2025-10-07T02:31:07Z'
+---
+## 🛠️ Task: Refresh pipeline notes for LevelDB caches and Piper redesign
+
+### Context
+- `docs/notes/promethean-ci-cd-pipeline.md` still describes pipelines emitting JSON artefacts, predating the LevelDB cache migration and Piper orchestration.
+- Current runs persist LevelDB state and use Piper fingerprinting, causing confusion for operators referencing outdated docs.
+- Updating the notes aligns onboarding material with actual runtime behaviour.
+
+### Definition of Done
+- [ ] Audit `docs/notes/promethean-ci-cd-pipeline.md` (and related notes) for outdated references to artefact formats or orchestration flow.
+- [ ] Document the current Piper lifecycle, cache layout (`.cache/piper.level`), and dependency requirements (e.g., Ollama models).
+- [ ] Note any remaining deltas or TODOs for future automation enhancements.
+
+### Suggested Plan
+1. Compare the note’s described pipeline outputs with the actual files generated during DocOps runs.
+2. Update sections on artefacts, caching, and orchestrator behaviour to reflect the LevelDB-backed design.
+3. Cross-link to Piper package documentation for deeper implementation details.
+4. Flag any areas needing follow-up tasks (e.g., diagrams, CLI references).
+
+### References
+- `docs/notes/promethean-ci-cd-pipeline.md`
+- `docs/agile/pipelines/docops.md`
+- `.cache/piper.level` structure
+- Piper README / package docs
