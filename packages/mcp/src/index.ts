@@ -116,6 +116,9 @@ import {
 } from './tools/help.js';
 import { validateConfig as validateConfigTool } from './tools/validate-config.js';
 
+export * as githubConflicts from './github/conflicts/index.js';
+export * as ollama from './ollama/index.js';
+
 type ToolSummary = Readonly<{
   id: string;
   name?: string;

@@ -1,6 +1,6 @@
-import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import type { ReadonlyDeep } from "type-fest";
-import { z } from "zod";
+import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
+import type { ReadonlyDeep } from 'type-fest';
+import { z } from 'zod';
 
 import {
   createGraphQLClient,
@@ -12,7 +12,7 @@ import {
   updatePullRequestBranch,
   type AutoMergeMethod,
   type PullRequestCoordinates,
-} from "./github.js";
+} from './github.js';
 
 export type ConflictServerDependencies = {
   readonly fetchImpl?: typeof fetch;
@@ -32,14 +32,14 @@ type RegisterContext = ReadonlyDeep<{
 }>;
 
 type ToolResponse = {
-  content: Array<{ type: "text"; text: string }>;
+  content: Array<{ type: 'text'; text: string }>;
 };
 
 const toToolResponse = (value: unknown): ToolResponse => ({
   content: [
     {
-      type: "text",
-      text: typeof value === "string" ? value : JSON.stringify(value),
+      type: 'text',
+      text: typeof value === 'string' ? value : JSON.stringify(value),
     },
   ],
 });
@@ -58,31 +58,19 @@ type StatusArgs = ReadonlyDeep<z.infer<typeof statusSchema>>;
 const registerStatusTool = (context: RegisterContext) => {
   const { server, fetchImpl } = context;
   server.registerTool(
-    "pr.status",
+    'pr.status',
     {
-      description:
-        "Get PR mergeability and state; polls until not UNKNOWN if requested.",
+      description: 'Get PR mergeability and state; polls until not UNKNOWN if requested.',
       inputSchema: statusSchema.shape,
     },
-    async ({
-      token,
-      repo,
-      number,
-      waitForKnown,
-      attempts,
-      delayMs,
-    }: StatusArgs) => {
+    async ({ token, repo, number, waitForKnown, attempts, delayMs }: StatusArgs) => {
       const gqlClient = createGraphQLClient(token, fetchImpl);
       const fetcher = createPullRequestFetcher(gqlClient);
-      const status = await pollPullRequestStatus(
-        fetcher,
-        coordinatesFrom(repo, number),
-        {
-          waitForKnown,
-          attempts,
-          delayMs,
-        },
-      );
+      const status = await pollPullRequestStatus(fetcher, coordinatesFrom(repo, number), {
+        waitForKnown,
+        attempts,
+        delayMs,
+      });
       return toToolResponse(status);
     },
   );
@@ -100,19 +88,15 @@ type UpdateArgs = ReadonlyDeep<z.infer<typeof updateSchema>>;
 const registerUpdateBranchTool = (context: RegisterContext) => {
   const { server, fetchImpl } = context;
   server.registerTool(
-    "pr.updateBranch",
+    'pr.updateBranch',
     {
-      description:
-        "Server-side merge base→head (like the Update branch button).",
+      description: 'Server-side merge base→head (like the Update branch button).',
       inputSchema: updateSchema.shape,
     },
     async ({ token, repo, number, expectedHeadOid }: UpdateArgs) => {
       const rest = createRestJsonClient(token, fetchImpl);
       const update = updatePullRequestBranch(rest);
-      const result = await update(
-        coordinatesFrom(repo, number),
-        expectedHeadOid,
-      );
+      const result = await update(coordinatesFrom(repo, number), expectedHeadOid);
       return toToolResponse(result);
     },
   );
@@ -123,7 +107,7 @@ const autoMergeSchema = z.object({
   repo: z.object({ owner: z.string(), name: z.string() }),
   number: z.number().int(),
   expectedHeadOid: z.string(),
-  method: z.enum(["SQUASH", "MERGE", "REBASE"]).default("SQUASH"),
+  method: z.enum(['SQUASH', 'MERGE', 'REBASE']).default('SQUASH'),
 });
 
 type AutoMergeArgs = ReadonlyDeep<z.infer<typeof autoMergeSchema>>;
@@ -131,9 +115,9 @@ type AutoMergeArgs = ReadonlyDeep<z.infer<typeof autoMergeSchema>>;
 const registerAutoMergeTool = (context: RegisterContext) => {
   const { server, fetchImpl } = context;
   server.registerTool(
-    "pr.enableAutoMerge",
+    'pr.enableAutoMerge',
     {
-      description: "Enable auto-merge for a clean PR.",
+      description: 'Enable auto-merge for a clean PR.',
       inputSchema: autoMergeSchema.shape,
     },
     async ({ token, repo, number, expectedHeadOid, method }: AutoMergeArgs) => {
@@ -158,9 +142,9 @@ type EnqueueArgs = ReadonlyDeep<z.infer<typeof enqueueSchema>>;
 const registerEnqueueTool = (context: RegisterContext) => {
   const { server, fetchImpl } = context;
   server.registerTool(
-    "pr.enqueue",
+    'pr.enqueue',
     {
-      description: "Add PR to merge queue.",
+      description: 'Add PR to merge queue.',
       inputSchema: enqueueSchema.shape,
     },
     async ({ token, repo, number }: EnqueueArgs) => {
@@ -182,8 +166,8 @@ export const createConflictServer = (
   const fetchImpl = dependencies.fetchImpl ?? fetch;
 
   const server = new McpServer({
-    name: "promethean-gh-conflicts",
-    version: "0.1.0",
+    name: 'promethean-gh-conflicts',
+    version: '0.1.0',
   });
 
   const context: RegisterContext = { server, fetchImpl };

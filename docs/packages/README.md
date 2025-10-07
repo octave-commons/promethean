@@ -59,8 +59,6 @@ graph LR
   n47["@promethean/markdown"]
   n48["@promethean/markdown-graph"]
   n49["@promethean/mcp"]
-  n50["@promethean/mcp-github-conflicts"]
-  n51["@promethean/mcp-ollama"]
   n52["@promethean/migrations"]
   n53["@promethean/monitoring"]
   n54["@promethean/naming"]
@@ -308,8 +306,6 @@ graph LR
   click n47 "markdown/README.md" "@promethean/markdown docs"
   click n48 "markdown-graph/README.md" "@promethean/markdown-graph docs"
   click n49 "mcp/README.md" "@promethean/mcp docs"
-  click n50 "mcp-github-conflicts/README.md" "@promethean/mcp-github-conflicts docs"
-  click n51 "mcp-ollama/README.md" "@promethean/mcp-ollama docs"
   click n52 "migrations/README.md" "@promethean/migrations docs"
   click n53 "monitoring/README.md" "@promethean/monitoring docs"
   click n54 "naming/README.md" "@promethean/naming docs"
@@ -395,8 +391,6 @@ graph LR
 - [@promethean/markdown](./markdown/README.md) — deps: 1, dependents: 5
 - [@promethean/markdown-graph](./markdown-graph/README.md) — deps: 3, dependents: 0
 - [@promethean/mcp](./mcp/README.md) — deps: 2, dependents: 0
-- [@promethean/mcp-github-conflicts](./mcp-github-conflicts/README.md) — deps: 0, dependents: 0
-- [@promethean/mcp-ollama](./mcp-ollama/README.md) — deps: 0, dependents: 0
 - [@promethean/migrations](./migrations/README.md) — deps: 2, dependents: 1
 - [@promethean/monitoring](./monitoring/README.md) — deps: 1, dependents: 2
 - [@promethean/naming](./naming/README.md) — deps: 0, dependents: 1
@@ -499,8 +493,6 @@ graph LR
 | [@promethean/lint-taskgen](./lint-taskgen/README.md) | 0 | _None_ |
 | [@promethean/markdown-graph](./markdown-graph/README.md) | 0 | _None_ |
 | [@promethean/mcp](./mcp/README.md) | 0 | _None_ |
-| [@promethean/mcp-github-conflicts](./mcp-github-conflicts/README.md) | 0 | _None_ |
-| [@promethean/mcp-ollama](./mcp-ollama/README.md) | 0 | _None_ |
 | [@promethean/openai-server](./openai-server/README.md) | 0 | _None_ |
 | [@promethean/piper](./piper/README.md) | 0 | _None_ |
 | [@promethean/projectors](./projectors/README.md) | 0 | _None_ |
@@ -573,8 +565,6 @@ graph LR
   dm79scm_47["@promethean/markdown"]
   dsk6ttl_48["@promethean/markdown-graph"]
   dytwgo3_49["@promethean/mcp"]
-  drikxi9_50["@promethean/mcp-github-conflicts"]
-  d10d92o_51["@promethean/mcp-ollama"]
   d1rgh38_52["@promethean/migrations"]
   dvhybhd_53["@promethean/monitoring"]
   djhmv4v_54["@promethean/naming"]
@@ -822,8 +812,6 @@ graph LR
   click dm79scm_47 "../markdown/README.md" "@promethean/markdown docs"
   click dsk6ttl_48 "../markdown-graph/README.md" "@promethean/markdown-graph docs"
   click dytwgo3_49 "../mcp/README.md" "@promethean/mcp docs"
-  click drikxi9_50 "../mcp-github-conflicts/README.md" "@promethean/mcp-github-conflicts docs"
-  click d10d92o_51 "../mcp-ollama/README.md" "@promethean/mcp-ollama docs"
   click d1rgh38_52 "../migrations/README.md" "@promethean/migrations docs"
   click dvhybhd_53 "../monitoring/README.md" "@promethean/monitoring docs"
   click djhmv4v_54 "../naming/README.md" "@promethean/naming docs"

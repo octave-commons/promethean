@@ -18,4 +18,8 @@ graph LR
 - [@promethean/kanban](../kanban/README.md)
 ## Dependents
 - _None_
+
+## Included modules
+- `@promethean/mcp/github/conflicts` — GitHub merge assistance helpers and MCP server factory.
+- `@promethean/mcp/ollama` — Task parsing and streaming execution helpers for Ollama MCP integrations.
 <!-- SYMPKG:PKG:END -->
