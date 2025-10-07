@@ -1,15 +1,149 @@
-import * as path from "path";
-import { promises as fs } from "fs";
-import {
-  loadBoard,
-  readTasksFolder,
-  type Task,
-  type Board
-} from "@promethean/kanban";
-import { ollamaJSON, createLogger } from "@promethean/utils";
-import { z } from "zod";
+import { promises as fs } from 'fs';
+import path from 'path';
+import matter from 'gray-matter';
+import type { Task } from './types.js';
+import { ollamaJSON, createLogger, type LogFields } from '@promethean/utils';
+import { z } from 'zod';
 
-const logger = createLogger({ service: "task-complexity-estimator" });
+const logger = createLogger({ service: 'task-complexity-estimator' });
+
+const toErrorFields = (error: unknown): LogFields => {
+  if (error instanceof Error) {
+    return {
+      errorName: error.name,
+      errorMessage: error.message,
+      errorStack: error.stack,
+    };
+  }
+  return { error };
+};
+
+const ensureString = (value: unknown): string | undefined => {
+  if (typeof value === 'string') {
+    const trimmed = value.trim();
+    if (trimmed.length > 0) {
+      return trimmed;
+    }
+  }
+  return undefined;
+};
+
+const ensurePriority = (value: unknown): string | number | undefined => {
+  if (typeof value === 'number') {
+    return value;
+  }
+  return ensureString(value);
+};
+
+const ensureLabels = (value: unknown): string[] | undefined => {
+  if (Array.isArray(value)) {
+    const normalized = value
+      .map((entry) => ensureString(entry) ?? String(entry ?? '').trim())
+      .filter((entry): entry is string => entry.length > 0);
+    return normalized.length > 0 ? normalized : undefined;
+  }
+  if (typeof value === 'string') {
+    const normalized = value
+      .split(/[,\s]+/)
+      .map((entry) => entry.trim())
+      .filter((entry) => entry.length > 0);
+    return normalized.length > 0 ? normalized : undefined;
+  }
+  return undefined;
+};
+
+const slugFromFileName = (fileName: string): string => fileName.replace(/\.(md|json)$/i, '');
+
+const readTasksFromDirectory = async (dir: string): Promise<Task[]> => {
+  let entries: string[] = [];
+  try {
+    entries = await fs.readdir(dir);
+  } catch (error) {
+    logger.warn(`Unable to read tasks directory ${dir}`, {
+      directory: dir,
+      ...toErrorFields(error),
+    });
+    return [];
+  }
+
+  const tasks: Task[] = [];
+
+  for (const entry of entries) {
+    const filePath = path.join(dir, entry);
+    if (entry.toLowerCase().endsWith('.json')) {
+      try {
+        const raw = await fs.readFile(filePath, 'utf8');
+        const data = JSON.parse(raw) as Record<string, unknown>;
+        const uuid = ensureString(data.uuid);
+        if (!uuid) {
+          logger.warn('Skipping JSON task without uuid', { filePath });
+          continue;
+        }
+        const title = ensureString(data.title) ?? slugFromFileName(entry);
+        const labels = ensureLabels(data.labels);
+        const priority = ensurePriority(data.priority);
+        const status = ensureString(data.status) ?? 'todo';
+        const createdAt = ensureString(data.created_at);
+        const content = ensureString(data.content);
+        tasks.push({
+          uuid,
+          title,
+          status,
+          priority,
+          labels,
+          created_at: createdAt,
+          content,
+          slug: slugFromFileName(entry),
+          sourcePath: filePath,
+        });
+      } catch (error) {
+        logger.warn(`Failed to parse JSON task ${filePath}`, {
+          filePath,
+          ...toErrorFields(error),
+        });
+      }
+      continue;
+    }
+
+    if (!entry.toLowerCase().endsWith('.md')) {
+      continue;
+    }
+
+    try {
+      const raw = await fs.readFile(filePath, 'utf8');
+      const parsed = matter(raw);
+      const frontmatter = parsed.data as Record<string, unknown>;
+      const uuid = ensureString(frontmatter.uuid);
+      if (!uuid) {
+        logger.warn('Skipping markdown task without uuid', { filePath });
+        continue;
+      }
+      const title = ensureString(frontmatter.title) ?? slugFromFileName(entry);
+      const labels = ensureLabels(frontmatter.labels);
+      const priority = ensurePriority(frontmatter.priority);
+      const status = ensureString(frontmatter.status) ?? 'todo';
+      const createdAt = ensureString(frontmatter.created_at);
+      tasks.push({
+        uuid,
+        title,
+        status,
+        priority,
+        labels,
+        created_at: createdAt,
+        content: parsed.content,
+        slug: slugFromFileName(entry),
+        sourcePath: filePath,
+      });
+    } catch (error) {
+      logger.warn(`Failed to parse markdown task ${filePath}`, {
+        filePath,
+        ...toErrorFields(error),
+      });
+    }
+  }
+
+  return tasks;
+};
 
 /**
  * Task complexity factors to consider
@@ -70,13 +204,15 @@ const ComplexitySchema = z.object({
   recommendedModel: z.string().nullable(),
   reasoning: z.string(),
   breakdownSteps: z.array(z.string()),
-  estimatedTokens: z.number().min(0)
+  estimatedTokens: z.number().min(0),
 });
+
+type ComplexityResult = z.infer<typeof ComplexitySchema>;
 
 /**
  * Analyze task content and title to estimate complexity factors
  */
-function analyzeTaskContent(task: Task): Partial<ComplexityFactors> {
+function analyzeTaskContent(task: Task): ComplexityFactors {
   const title = task.title.toLowerCase();
   const content = (task.content || '').toLowerCase();
   const labels = task.labels || [];
@@ -85,23 +221,60 @@ function analyzeTaskContent(task: Task): Partial<ComplexityFactors> {
   // Count indicators of complexity
   const fileIndicators = /\.(ts|js|tsx|jsx|py|rs|go|java|cpp|c|md|yaml|json|toml)/g;
   const complexityIndicators = [
-    'test', 'spec', 'mock', 'stub', 'fixture',
-    'refactor', 'rewrite', 'migrate', 'upgrade',
-    'integrate', 'connect', 'bridge', 'api', 'service',
-    'architecture', 'design', 'pattern', 'framework',
-    'performance', 'optimization', 'cache', 'async',
-    'security', 'auth', 'crypto', 'validation',
-    'database', 'schema', 'migration', 'query'
+    'test',
+    'spec',
+    'mock',
+    'stub',
+    'fixture',
+    'refactor',
+    'rewrite',
+    'migrate',
+    'upgrade',
+    'integrate',
+    'connect',
+    'bridge',
+    'api',
+    'service',
+    'architecture',
+    'design',
+    'pattern',
+    'framework',
+    'performance',
+    'optimization',
+    'cache',
+    'async',
+    'security',
+    'auth',
+    'crypto',
+    'validation',
+    'database',
+    'schema',
+    'migration',
+    'query',
   ];
 
   const highComplexityIndicators = [
-    'architecture', 'rewrite', 'migration', 'performance',
-    'security', 'database schema', 'api design', 'framework'
+    'architecture',
+    'rewrite',
+    'migration',
+    'performance',
+    'security',
+    'database schema',
+    'api design',
+    'framework',
   ];
 
   const lowComplexityIndicators = [
-    'fix typo', 'update doc', 'add comment', 'format', 'lint',
-    'simple', 'minor', 'trivial', 'quick', 'small'
+    'fix typo',
+    'update doc',
+    'add comment',
+    'format',
+    'lint',
+    'simple',
+    'minor',
+    'trivial',
+    'quick',
+    'small',
   ];
 
   // Estimate file count
@@ -128,34 +301,45 @@ function analyzeTaskContent(task: Task): Partial<ComplexityFactors> {
   }
 
   // Calculate complexity scores
-  const complexityScore = complexityIndicators.filter(indicator =>
-    fullText.includes(indicator)
+  const complexityScore = complexityIndicators.filter((indicator) =>
+    fullText.includes(indicator),
   ).length;
 
-  const highComplexityScore = highComplexityIndicators.filter(indicator =>
-    fullText.includes(indicator)
+  const highComplexityScore = highComplexityIndicators.filter((indicator) =>
+    fullText.includes(indicator),
   ).length;
 
-  const lowComplexityScore = lowComplexityIndicators.filter(indicator =>
-    fullText.includes(indicator)
+  const lowComplexityScore = lowComplexityIndicators.filter((indicator) =>
+    fullText.includes(indicator),
   ).length;
 
-  const technicalComplexity = Math.max(1, Math.min(5,
-    2 + (complexityScore * 0.5) + (highComplexityScore * 1.5) - (lowComplexityScore * 0.5)
-  ));
+  const technicalComplexity = Math.max(
+    1,
+    Math.min(5, 2 + complexityScore * 0.5 + highComplexityScore * 1.5 - lowComplexityScore * 0.5),
+  );
 
-  const researchComplexity = fullText.includes('research') || fullText.includes('investigate') ||
-    fullText.includes('explore') || fullText.includes('prototype') ? 4 : 2;
+  const researchComplexity =
+    fullText.includes('research') ||
+    fullText.includes('investigate') ||
+    fullText.includes('explore') ||
+    fullText.includes('prototype')
+      ? 4
+      : 2;
 
   const testingComplexity = fullText.includes('test') || fullText.includes('spec') ? 3 : 2;
 
-  const integrationComplexity = fullText.includes('integrate') || fullText.includes('api') ||
-    fullText.includes('service') || fullText.includes('connect') ? 4 : 2;
+  const integrationComplexity =
+    fullText.includes('integrate') ||
+    fullText.includes('api') ||
+    fullText.includes('service') ||
+    fullText.includes('connect')
+      ? 4
+      : 2;
 
   // Estimate hours based on factors
-  const estimatedHours = Math.max(0.25,
-    (locImpact / 50) + (fileCount * 0.5) +
-    (technicalComplexity * 0.5) + (integrationComplexity * 0.5)
+  const estimatedHours = Math.max(
+    0.25,
+    locImpact / 50 + fileCount * 0.5 + technicalComplexity * 0.5 + integrationComplexity * 0.5,
   );
 
   return {
@@ -168,8 +352,11 @@ function analyzeTaskContent(task: Task): Partial<ComplexityFactors> {
     estimatedHours,
     requiresHumanJudgment: highComplexityScore > 0 || fullText.includes('design'),
     hasClearAcceptanceCriteria: !fullText.includes('investigate') && !fullText.includes('explore'),
-    hasExternalDependencies: fullText.includes('api') || fullText.includes('service') ||
-      fullText.includes('external') || fullText.includes('third-party')
+    hasExternalDependencies:
+      fullText.includes('api') ||
+      fullText.includes('service') ||
+      fullText.includes('external') ||
+      fullText.includes('third-party'),
   };
 }
 
@@ -220,7 +407,7 @@ Consider whether the task has clear boundaries and well-defined requirements, ma
  */
 async function estimateTaskComplexity(
   task: Task,
-  model: string = "qwen2.5:3b"
+  model: string = 'qwen2.5:3b',
 ): Promise<ComplexityEstimate> {
   logger.info(`Estimating complexity for task: ${task.title}`);
 
@@ -229,47 +416,61 @@ async function estimateTaskComplexity(
 
   try {
     const prompt = generateComplexityEstimationPrompt(task);
-    const llmResult = await ollamaJSON(model, prompt, ComplexitySchema);
+    const raw = await ollamaJSON(model, prompt);
+    const parsed: ComplexityResult = ComplexitySchema.parse(raw);
 
     // Merge LLM analysis with base analysis
     const factors: ComplexityFactors = {
-      locImpact: llmResult.locImpact || baseAnalysis.locImpact || 20,
-      fileCount: llmResult.fileCount || baseAnalysis.fileCount || 1,
-      technicalComplexity: llmResult.technicalComplexity || baseAnalysis.technicalComplexity || 2,
-      researchComplexity: llmResult.researchComplexity || baseAnalysis.researchComplexity || 2,
-      testingComplexity: llmResult.testingComplexity || baseAnalysis.testingComplexity || 2,
-      integrationComplexity: llmResult.integrationComplexity || baseAnalysis.integrationComplexity || 2,
-      estimatedHours: llmResult.estimatedHours || baseAnalysis.estimatedHours || 1,
-      requiresHumanJudgment: llmResult.requiresHumanJudgment ?? baseAnalysis.requiresHumanJudgment ?? false,
-      hasClearAcceptanceCriteria: llmResult.hasClearAcceptanceCriteria ?? baseAnalysis.hasClearAcceptanceCriteria ?? true,
-      hasExternalDependencies: llmResult.hasExternalDependencies ?? baseAnalysis.hasExternalDependencies ?? false
+      locImpact: parsed.locImpact,
+      fileCount: parsed.fileCount,
+      technicalComplexity: parsed.technicalComplexity,
+      researchComplexity: parsed.researchComplexity,
+      testingComplexity: parsed.testingComplexity,
+      integrationComplexity: parsed.integrationComplexity,
+      estimatedHours: parsed.estimatedHours,
+      requiresHumanJudgment: parsed.requiresHumanJudgment,
+      hasClearAcceptanceCriteria: parsed.hasClearAcceptanceCriteria,
+      hasExternalDependencies: parsed.hasExternalDependencies,
     };
 
     return {
       taskId: task.uuid,
       taskTitle: task.title,
       factors,
-      overallScore: llmResult.overallScore,
-      complexityLevel: llmResult.complexityLevel,
-      suitableForLocalModel: llmResult.suitableForLocalModel,
-      recommendedModel: llmResult.recommendedModel,
-      reasoning: llmResult.reasoning,
-      breakdownSteps: llmResult.breakdownSteps,
-      estimatedTokens: llmResult.estimatedTokens
+      overallScore: parsed.overallScore,
+      complexityLevel: parsed.complexityLevel,
+      suitableForLocalModel: parsed.suitableForLocalModel,
+      recommendedModel: parsed.recommendedModel,
+      reasoning: parsed.reasoning,
+      breakdownSteps: parsed.breakdownSteps,
+      estimatedTokens: parsed.estimatedTokens,
     };
-
   } catch (error) {
-    logger.warn(`LLM complexity estimation failed for ${task.title}, using fallback analysis:`, error);
+    logger.warn(
+      `LLM complexity estimation failed for ${task.title}, using fallback analysis:`,
+      toErrorFields(error),
+    );
 
     // Fallback to rule-based estimation
-    const overallScore = Math.min(10, Math.max(1,
-      (baseAnalysis.technicalComplexity + baseAnalysis.integrationComplexity +
-       baseAnalysis.researchComplexity) * 1.5
-    ));
+    const overallScore = Math.min(
+      10,
+      Math.max(
+        1,
+        (baseAnalysis.technicalComplexity +
+          baseAnalysis.integrationComplexity +
+          baseAnalysis.researchComplexity) *
+          1.5,
+      ),
+    );
 
-    const complexityLevel = overallScore <= 3 ? 'simple' :
-                           overallScore <= 6 ? 'moderate' :
-                           overallScore <= 8 ? 'complex' : 'expert';
+    const complexityLevel =
+      overallScore <= 3
+        ? 'simple'
+        : overallScore <= 6
+          ? 'moderate'
+          : overallScore <= 8
+            ? 'complex'
+            : 'expert';
 
     return {
       taskId: task.uuid,
@@ -284,9 +485,9 @@ async function estimateTaskComplexity(
         'Analyze current implementation',
         'Make required changes',
         'Test the changes',
-        'Update documentation'
+        'Update documentation',
       ],
-      estimatedTokens: Math.max(1000, overallScore * 500)
+      estimatedTokens: Math.max(1000, overallScore * 500),
     };
   }
 }
@@ -301,18 +502,26 @@ export async function estimateBatchComplexity(
     priorityFilter?: string;
     maxTasks?: number;
     model?: string;
-  } = {}
+  } = {},
 ): Promise<ComplexityEstimate[]> {
   const { statusFilter = 'todo', priorityFilter, maxTasks = 50, model = 'qwen2.5:3b' } = options;
 
   logger.info(`Starting batch complexity estimation for status: ${statusFilter}`);
 
-  const tasks = await readTasksFolder(tasksDir);
-  const filteredTasks = tasks.filter(task => {
-    if (task.status !== statusFilter) return false;
-    if (priorityFilter && task.priority?.toLowerCase() !== priorityFilter.toLowerCase()) return false;
-    return true;
-  }).slice(0, maxTasks);
+  const tasks = await readTasksFromDirectory(tasksDir);
+  const filteredTasks = tasks
+    .filter((task: Task) => {
+      if (task.status !== statusFilter) return false;
+      if (
+        priorityFilter &&
+        (task.priority === undefined ||
+          String(task.priority).toLowerCase() !== priorityFilter.toLowerCase())
+      ) {
+        return false;
+      }
+      return true;
+    })
+    .slice(0, maxTasks);
 
   logger.info(`Analyzing ${filteredTasks.length} tasks with model: ${model}`);
 
@@ -322,7 +531,7 @@ export async function estimateBatchComplexity(
       const estimate = await estimateTaskComplexity(task, model);
       estimates.push(estimate);
     } catch (error) {
-      logger.error(`Failed to estimate complexity for task ${task.uuid}:`, error);
+      logger.error(`Failed to estimate complexity for task ${task.uuid}:`, toErrorFields(error));
     }
   }
 
@@ -343,10 +552,10 @@ export async function estimateBatchComplexity(
  */
 export function getTasksForLocalModel(
   estimates: ComplexityEstimate[],
-  maxComplexity: number = 6
+  maxComplexity: number = 6,
 ): ComplexityEstimate[] {
-  return estimates.filter(estimate =>
-    estimate.suitableForLocalModel && estimate.overallScore <= maxComplexity
+  return estimates.filter(
+    (estimate) => estimate.suitableForLocalModel && estimate.overallScore <= maxComplexity,
   );
 }
 
@@ -355,19 +564,19 @@ export function getTasksForLocalModel(
  */
 export async function saveComplexityEstimates(
   estimates: ComplexityEstimate[],
-  outputPath: string
+  outputPath: string,
 ): Promise<void> {
   const report = {
     generatedAt: new Date().toISOString(),
     totalTasks: estimates.length,
-    suitableForLocalModel: estimates.filter(e => e.suitableForLocalModel).length,
+    suitableForLocalModel: estimates.filter((e) => e.suitableForLocalModel).length,
     complexityBreakdown: {
-      simple: estimates.filter(e => e.complexityLevel === 'simple').length,
-      moderate: estimates.filter(e => e.complexityLevel === 'moderate').length,
-      complex: estimates.filter(e => e.complexityLevel === 'complex').length,
-      expert: estimates.filter(e => e.complexityLevel === 'expert').length,
+      simple: estimates.filter((e) => e.complexityLevel === 'simple').length,
+      moderate: estimates.filter((e) => e.complexityLevel === 'moderate').length,
+      complex: estimates.filter((e) => e.complexityLevel === 'complex').length,
+      expert: estimates.filter((e) => e.complexityLevel === 'expert').length,
     },
-    estimates
+    estimates,
   };
 
   await fs.writeFile(outputPath, JSON.stringify(report, null, 2));
@@ -380,8 +589,8 @@ if (import.meta.main) {
   const outputPath = process.argv[3] || '.cache/task-complexity.json';
 
   estimateBatchComplexity(tasksDir)
-    .then(estimates => saveComplexityEstimates(estimates, outputPath))
-    .catch(error => {
+    .then((estimates) => saveComplexityEstimates(estimates, outputPath))
+    .catch((error) => {
       console.error('Complexity estimation failed:', error);
       process.exit(1);
     });
