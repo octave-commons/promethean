@@ -4,59 +4,73 @@
 ```mermaid
 flowchart LR
   subgraph Browser[duck-web]
-    MIC[Mic]
-    WKLT[PCM16k Worklet 48k→16k]
-    CONV[float32→PCM16 (duck-audio)]
-    SEND[Throttled DataChannel Sender]
-    WS[openWs()]
-    FLAGS[DUCK feature flags]
+    MIC[Mic capture (MediaStream)]
+    DSP[ScriptProcessor 48k → 16k mono]
+    PCM[duck-audio float→PCM16]
+    VOICE[RTCDataChannel 'voice']
+    EVENTS[RTCDataChannel 'events']
+    SIGNAL[WebSocket signaling]
+    AUDIO[RTCDataChannel 'audio' (optional playback)]
   end
   subgraph Gateway[enso-browser-gateway]
-    HS[Handshake Guard]
-    VF[Voice Forwarder (seq/pts/EOF)]
+    WS[Signaling WS (token?)]
+    PC[wrtc RTCPeerConnection]
+    VF[Voice Forwarder (seq/pts)]
+    ENSO[EnsoClient voice/text]
   end
   subgraph Cephalon[cephalon/enso]
-    EVAL[guardrail rationale (morganna@1)]
+    ROOM[voice room + timeline]
   end
 
-  MIC --> WKLT --> CONV --> SEND
-  SEND --> WS --> HS --> VF -->|frames| Srv[Server / ASR]
-  FLAGS -.gate.-> MIC
-  HS -.gates.-> WS
-  EVAL --> HS
+  MIC --> DSP --> PCM --> VOICE
+  SIGNAL --> WS --> PC
+  VOICE --> PC
+  PC --> VF --> ENSO --> ROOM
+  ENSO -->|content.post| EVENTS
+  PC --> AUDIO
 ```
 
-## 2) Handshake + privacy gating (sequence)
+## 2) Signaling + media negotiation (sequence)
 ```mermaid
 sequenceDiagram
   participant UI as duck-web UI
-  participant WS as openWs()
-  participant GW as gateway (HandshakeGuard)
-  participant VF as VoiceForwarder
+  participant WS as signaling WebSocket
+  participant PC as wrtc PeerConnection
+  participant GW as gateway bridge
 
-  UI->>WS: open(url, ["duck.v1", (bearer.token?)])
-  WS->>GW: connect
-  GW->>GW: guard.wait(timeout=ENSO_HANDSHAKE_TIMEOUT_MS)
-  UI->>UI: privacy.accepted?
-  alt accepted
-    UI->>Mic: startMic()
-    Mic->>WKLT: 48k float frames
-    WKLT->>UI: 16k float frames
-    UI->>UI: float32→pcm16
-    UI->>WS: send when guard.isReady()
-    GW->>VF: forward (seq, pts)
-  else denied/timeout
-    GW->>WS: send error + close(1011)
+  UI->>WS: new WebSocket(url[?token])
+  GW-->>WS: onopen → send {type:"ready"}
+  UI->>PC: createOffer()
+  UI->>WS: send {type:"offer", sdp}
+  WS->>GW: JSON message
+  GW->>PC: setRemoteDescription(offer)
+  GW->>PC: createAnswer()
+  GW->>WS: send {type:"answer", sdp}
+  WS->>UI: JSON answer
+  UI->>PC: setRemoteDescription(answer)
+  par ICE
+    UI->>WS: send {type:"ice", candidate}
+    WS->>GW: relay candidate
+    GW->>PC: addIceCandidate(candidate)
+  and Voice channel
+    UI->>PC: createDataChannel('voice')
+    PC->>GW: ondatachannel('voice')
+    GW->>VF: bind streamId/room
+    UI->>GW: send PCM16 chunks
+    GW->>VF: forward(seq, pts, data)
   end
 ```
 
-## 3) Audio downsampling details
+## 3) Audio capture + downsampling
 ```mermaid
 flowchart LR
-  In[AudioWorklet input 48k] --> Box[Box filter over ratio window]
-  Box --> Pos[Update fractional pos]
-  Pos --> Out[Float32Array 16k]
-  Out --> PCM[int16 via float32ToInt16]
+  Start[MediaStream 48k stereo] --> Ctx[AudioContext + ScriptProcessor]
+  Ctx --> Win[Iterate 4096-frame buffers]
+  Win --> Avg[Average stereo → mono frames]
+  Avg --> Dec[Decimate by factor 3]
+  Dec --> Clamp[clampUnitFloat]
+  Clamp --> PCM[floatToPcm16 → Int16Array]
+  PCM --> Chunk[enqueue Uint8Array to ReadableStream]
 ```
 
 ## 4) Process-as-code pipeline
