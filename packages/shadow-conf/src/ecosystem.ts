@@ -5,7 +5,11 @@ import { loadEdnFile } from "./edn.js";
 
 type UnknownRecord = Record<string, unknown>;
 
+type DocumentRecord = Readonly<Record<string, unknown>>;
+
 type AppRecord = Readonly<Record<string, unknown>>;
+
+type AutomationRecord = Readonly<Record<string, unknown>>;
 
 export type GenerateEcosystemOptions = {
   readonly inputDir?: string;
@@ -15,6 +19,9 @@ export type GenerateEcosystemOptions = {
 
 export type GenerateEcosystemResult = {
   readonly apps: readonly AppRecord[];
+  readonly triggers: readonly AutomationRecord[];
+  readonly schedules: readonly AutomationRecord[];
+  readonly actions: readonly AutomationRecord[];
   readonly files: readonly string[];
   readonly outputPath: string;
 };
@@ -28,30 +35,42 @@ export async function generateEcosystem(
   const outputDir = path.resolve(options.outputDir ?? process.cwd());
   const fileName = options.fileName ?? DEFAULT_OUTPUT_FILE_NAME;
 
-  const ednFiles: readonly string[] = await collectEdnFiles(inputDir);
+  const ednFiles = await collectEdnFiles(inputDir);
   const sortedFiles = [...ednFiles].sort((first, second) =>
     first.localeCompare(second),
   ) as readonly string[];
 
-  const documents: readonly {
-    readonly file: string;
-    readonly document: unknown;
-  }[] = await Promise.all(
-    sortedFiles.map(async (file) => ({
-      file,
-      document: await loadEdnFile(file),
-    })),
-  );
-
+  const documents = await loadDocuments(sortedFiles);
   const apps = documents
     .flatMap(({ file, document }) => extractApps(document, file))
     .map((app) => normalizeAppPaths(app, outputDir));
+  const automations = collectAutomationSections(documents);
 
   await mkdir(outputDir, { recursive: true });
   const outputPath = path.join(outputDir, fileName);
-  await writeFile(outputPath, formatOutput(apps), "utf8");
+  await writeFile(
+    outputPath,
+    formatOutput({ apps, ...automations }),
+    "utf8",
+  );
 
-  return { apps, files: sortedFiles, outputPath };
+  return { apps, ...automations, files: sortedFiles, outputPath };
+}
+
+type LoadedDocument = {
+  readonly file: string;
+  readonly document: DocumentRecord;
+};
+
+async function loadDocuments(
+  files: readonly string[],
+): Promise<readonly LoadedDocument[]> {
+  return Promise.all(
+    files.map(async (file) => ({
+      file,
+      document: ensureDocumentRecord(await loadEdnFile(file), file),
+    })),
+  );
 }
 
 async function collectEdnFiles(rootDir: string): Promise<readonly string[]> {
@@ -71,11 +90,10 @@ async function collectEdnFiles(rootDir: string): Promise<readonly string[]> {
   );
 }
 
-function extractApps(value: unknown, source: string): readonly AppRecord[] {
-  if (!isRecord(value)) {
-    throw new Error(`EDN document ${source} did not evaluate to a map.`);
-  }
-
+function extractApps(
+  value: DocumentRecord,
+  source: string,
+): readonly AppRecord[] {
   const appsValue = value.apps;
   if (!Array.isArray(appsValue)) {
     throw new Error(`EDN document ${source} is missing an :apps vector.`);
@@ -89,8 +107,65 @@ function extractApps(value: unknown, source: string): readonly AppRecord[] {
   });
 }
 
+function ensureDocumentRecord(
+  value: unknown,
+  source: string,
+): DocumentRecord {
+  if (!isRecord(value)) {
+    throw new Error(`EDN document ${source} did not evaluate to a map.`);
+  }
+  return value as DocumentRecord;
+}
+
 function isRecord(value: unknown): value is UnknownRecord {
   return value !== null && typeof value === "object" && !Array.isArray(value);
+}
+
+type AutomationSection = "triggers" | "schedules" | "actions";
+
+function extractAutomationSection(
+  value: DocumentRecord,
+  source: string,
+  section: AutomationSection,
+): readonly AutomationRecord[] {
+  const raw = value[section];
+  if (raw === undefined) {
+    return [];
+  }
+  if (!Array.isArray(raw)) {
+    throw new Error(`:${section} in ${source} must be a vector.`);
+  }
+  return raw.map((item, index) => {
+    if (!isRecord(item)) {
+      throw new Error(
+        `Entry at index ${index} in :${section} of ${source} is not a map.`,
+      );
+    }
+    const record: AutomationRecord = Object.freeze({ ...item });
+    return record;
+  });
+}
+
+type AutomationCollections = {
+  readonly triggers: readonly AutomationRecord[];
+  readonly schedules: readonly AutomationRecord[];
+  readonly actions: readonly AutomationRecord[];
+};
+
+function collectAutomationSections(
+  documents: readonly LoadedDocument[],
+): AutomationCollections {
+  return {
+    triggers: documents.flatMap(({ file, document }) =>
+      extractAutomationSection(document, file, "triggers"),
+    ),
+    schedules: documents.flatMap(({ file, document }) =>
+      extractAutomationSection(document, file, "schedules"),
+    ),
+    actions: documents.flatMap(({ file, document }) =>
+      extractAutomationSection(document, file, "actions"),
+    ),
+  };
 }
 
 function normalizeAppPaths(app: AppRecord, baseDir: string): AppRecord {
@@ -112,7 +187,7 @@ function normalizeAppPaths(app: AppRecord, baseDir: string): AppRecord {
   const watch =
     typeof app.watch === "string"
       ? resolveRelativePath(app.watch, baseDir)
-      : Array.isArray(app.watch)
+      : isReadonlyArray(app.watch)
         ? app.watch.map((item) =>
             typeof item === "string"
               ? resolveRelativePath(item, baseDir)
@@ -156,6 +231,10 @@ function isRelativePath(value: string): boolean {
   return value.startsWith("./") || value.startsWith("../");
 }
 
+function isReadonlyArray(value: unknown): value is readonly unknown[] {
+  return Array.isArray(value);
+}
+
 function normalizeRelativePath(value: string): string {
   if (value === "") {
     return ".";
@@ -174,7 +253,19 @@ function normalizeRelativePath(value: string): string {
   return `./${posixPath}`;
 }
 
-function formatOutput(apps: readonly AppRecord[]): string {
+type FormatOutputSections = {
+  readonly apps: readonly AppRecord[];
+  readonly triggers: readonly AutomationRecord[];
+  readonly schedules: readonly AutomationRecord[];
+  readonly actions: readonly AutomationRecord[];
+};
+
+function formatOutput({
+  apps,
+  triggers,
+  schedules,
+  actions,
+}: FormatOutputSections): string {
   const lines = [
     "// Generated by @promethean/shadow-conf",
     "let configDotenv = () => {};",
@@ -195,6 +286,15 @@ function formatOutput(apps: readonly AppRecord[]): string {
     "",
     "export const apps = ",
     `${JSON.stringify(apps, null, 2)};`,
+    "",
+    "export const triggers = ",
+    `${JSON.stringify(triggers, null, 2)};`,
+    "",
+    "export const schedules = ",
+    `${JSON.stringify(schedules, null, 2)};`,
+    "",
+    "export const actions = ",
+    `${JSON.stringify(actions, null, 2)};`,
     "",
   ];
 
