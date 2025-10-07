@@ -53,7 +53,8 @@ test("voice session captures and uploads artifacts via audio service", async (t)
   await done;
 
   t.is(sent.files.length, 4);
-  t.is(sent.files[0], "test.wav");
+  t.is(sent.files[0].name, "test.wav");
+  t.is(sent.files[0].attachment.toString(), "wav");
   t.is(sent.files[1].name, "waveform-0.png");
   t.is(sent.files[1].attachment.toString(), "wave");
   t.is(sent.files[2].name, "spectrogram-0.png");
