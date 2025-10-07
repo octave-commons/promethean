@@ -126,6 +126,29 @@ pnpm kanban getByColumn <column>   # Get formatted tasks for column
 3. **Complete work**: `pnpm kanban update-status <uuid> done`
 4. **Generate board**: `pnpm kanban regenerate`
 
+### 🧭 Path Resolution Guarantees
+
+- The CLI walks upward until it finds `.git` or `pnpm-workspace.yaml` and treats
+  that directory as the repo root.
+- Relative paths inside `promethean.kanban.json` resolve against the config
+  file's directory, **not** your shell's working directory.
+- CLI flag overrides are resolved relative to the directory you run the command
+  from; environment-variable overrides resolve relative to the detected repo
+  root.
+- `--config <path>` (or `KANBAN_CONFIG`) accepts relative paths from your
+  current directory; once loaded, every entry inside the config is resolved from
+  the config file's location.
+
+### 🛠 Troubleshooting
+
+- If a command cannot find tasks or the board, confirm the config file exists
+  (default: `promethean.kanban.json`) and that its relative paths point to real
+  directories.
+- Run `pnpm kanban list --debug` (or add `--verbose`) to print the resolved
+  paths when diagnosing unexpected behaviour.
+- When experimenting, prefer overriding via CLI flags first; environment
+  overrides are great for automation but can linger between shells.
+
 ### 📁 Task File Locations
 - Tasks live in: `docs/agile/tasks/*.md`
 - Generated board: `docs/agile/boards/generated.md`
