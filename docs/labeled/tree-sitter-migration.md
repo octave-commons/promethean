@@ -20,3 +20,9 @@ references: []
 No way, why is there no tree sitter? We used tree sitter, it was a whole thing. we migrated the clj-hacks to a proper full clojure setup
 to get that. Is there no tree sitter mentioned at all in the code? If you can't find it in the current working tree, you need to search
 the git history and find it
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- _None_
+## Sources
+- _None_
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

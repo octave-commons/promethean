@@ -56,3 +56,9 @@ These are tools he has available to interact with my workspace when we are pair 
 ## Sandbox tools
 When he is in solo dev or driver pair programming mode
 - edit file
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- _None_
+## Sources
+- _None_
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

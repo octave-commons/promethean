@@ -21,3 +21,9 @@ references: []
 
 Filters all conflicted PRs from the list:
 https://github.com/riatzukiza/promethean/pulls?q=is%3Aopen+is%3Apr+-label%3Aconflicts
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- _None_
+## Sources
+- _None_
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

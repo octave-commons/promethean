@@ -1,0 +1,94 @@
+{
+  "mcpServers" : {
+    "duckduckgo" : {
+      "command" : "/home/err/devel/promethean/scripts/mcp/bin/duck.sh"
+    },
+    "eslint" : {
+      "command" : "npx",
+      "args" : [ "-y", "@uplinq/mcp-eslint" ]
+    },
+    "file-system" : {
+      "command" : "/home/err/devel/promethean/scripts/mcp/bin/filesystem.sh"
+    },
+    "github" : {
+      "command" : "/home/err/devel/promethean/scripts/mcp/bin/github.sh"
+    },
+    "github-chat" : {
+      "command" : "/home/err/devel/promethean/scripts/mcp/bin/github_chat.sh"
+    },
+    "haiku-rag" : {
+      "command" : "uvx",
+      "args" : [ "haiku-rag", "serve", "--stdio", "--db", "/home/err/.local/share/haiku-rag" ]
+    },
+    "npm-helper" : {
+      "command" : "npx",
+      "args" : [ "-y", "@pinkpixel/npm-helper-mcp" ]
+    },
+    "obsidian" : {
+      "command" : "/home/err/devel/promethean/scripts/mcp/bin/obsidian.sh"
+    },
+    "playwright" : {
+      "command" : "npx",
+      "args" : [ "@playwright/mcp@latest" ]
+    },
+    "serena" : {
+      "command" : "uvx",
+      "args" : [ "--from", "git+https://github.com/oraios/serena", "serena", "start-mcp-server" ]
+    },
+    "sonarqube" : {
+      "command" : "/home/err/devel/promethean/scripts/mcp/bin/sonarqube.sh"
+    },
+    "ts-ls-lsp" : {
+      "command" : "npx",
+      "args" : [ "tritlo/lsp-mcp", "typescript", "/home/err/.volta/bin/typescript-language-server", "--stdio" ]
+    }
+  },
+  "transport" : "http",
+  "tools" : [ "mcp.help", "mcp.toolset", "mcp.endpoints", "mcp.validate-config", "github.request", "github.graphql", "github.rate-limit", "github.contents.write", "github.pr.get", "github.pr.files", "github.pr.resolvePosition", "github.pr.review.start", "github.pr.review.commentInline", "github.pr.review.submit", "files.list-directory", "files.tree-directory", "files.view-file", "files.write-content", "files.write-lines", "files.search", "apply_patch", "tdd.scaffoldTest", "tdd.changedFiles", "tdd.runTests", "tdd.startWatch", "tdd.getWatchChanges", "tdd.stopWatch", "tdd.coverage", "tdd.propertyCheck", "tdd.mutationScore", "exec.list", "exec.run", "discord.send-message", "discord.list-messages", "pnpm.install", "pnpm.add", "pnpm.remove", "pnpm.runScript" ],
+  "includeHelp" : true,
+  "stdioMeta" : {
+    "title" : "Default MCP Endpoint",
+    "description" : "Aggregated toolset available over stdio for local agents.",
+    "workflow" : [ "mcp.toolset -> mcp.help", "mcp.validate-config", "files.search -> files.view-file -> apply_patch" ],
+    "expectations" : {
+      "usage" : [ "Use mcp.toolset first to confirm endpoint scope", "Call mcp.validate-config after editing promethan.mcp.json", "Prefer files.write-lines for small edits" ],
+      "pitfalls" : [ "mcp.validate-config reports warnings for missing metadata", "apply_patch expects unified diffs" ],
+      "prerequisites" : [ "Ensure git workspace is clean before applying patches" ]
+    }
+  },
+  "endpoints" : {
+    "discord" : {
+      "tools" : [ "discord.send-message", "discord.list-messages" ],
+      "includeHelp" : true
+    },
+    "exec" : {
+      "tools" : [ "exec.list", "exec.run" ],
+      "includeHelp" : true
+    },
+    "files" : {
+      "tools" : [ "files.list-directory", "files.tree-directory", "files.view-file", "files.write-content", "files.write-lines", "files.search", "apply_patch" ],
+      "includeHelp" : true
+    },
+    "github" : {
+      "tools" : [ "github.request", "github.graphql", "github.rate-limit", "github.contents.write" ],
+      "includeHelp" : true
+    },
+    "github/review" : {
+      "tools" : [ "github.pr.get", "github.pr.files", "github.pr.resolvePosition", "github.pr.review.start", "github.pr.review.commentInline", "github.pr.review.submit", "github.review.openPullRequest", "github.review.getComments", "github.review.getReviewComments", "github.review.submitComment", "github.review.submitReview", "github.review.getActionStatus", "github.review.commit", "github.review.push", "github.review.checkoutBranch", "github.review.createBranch", "github.review.revertCommits", "github.review.requestChangesFromCodex" ],
+      "includeHelp" : true
+    },
+    "kanban" : {
+      "tools" : [ "kanban.get-board", "kanban.get-column", "kanban.find-task", "kanban.find-task-by-title", "kanban.update-status", "kanban.move-task", "kanban.sync-board", "kanban.search" ],
+      "includeHelp" : true
+    },
+    "process" : {
+      "tools" : [ "process.getTaskRunnerConfig", "process.updateTaskRunnerConfig", "process.enqueueTask", "process.stop", "process.getQueue", "process.getStdout", "process.getStderr" ],
+      "includeHelp" : true
+    },
+    "workspace" : {
+      "tools" : [ "pnpm.install", "pnpm.add", "pnpm.remove", "pnpm.runScript" ],
+      "includeHelp" : true
+    }
+  },
+  "stdioProxyConfig" : "./config/mcp_servers.edn"
+}

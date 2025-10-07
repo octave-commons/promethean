@@ -49,6 +49,8 @@
      (gptel-mcp :location (recipe :fetcher github :repo "lizqwerscott/gptel-mcp.el"))
      ;; optional helper for quick lookups
      (gptel-quick :location (recipe :fetcher github :repo "karthink/gptel-quick"))
+     (llm-tools :location local)
+
      ))
 
 (defun llm/pre-init-gptel ()
@@ -59,6 +61,9 @@
     )
   )
 
+(defun llm/init-llm-tools ()
+  (require 'llm-tools)
+  (llm-tools-setup))
 (defun llm/init-mcp ()
   (use-package mcp
     :defer t

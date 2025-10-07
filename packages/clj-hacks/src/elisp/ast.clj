@@ -1,5 +1,6 @@
 (ns elisp.ast
   "Helpers for building and emitting Emacs Lisp fragments from structured data."
+  (:refer-clojure :exclude [symbol list vector cons unquote comment])
   (:require [clojure.string :as str]))
 
 (def default-indent 2)
@@ -324,7 +325,7 @@
        :el/list (emit-list sb node ctx)
        :el/vector (emit-vector sb node ctx)
        :el/source (do
-                    (doseq [[idx form] (map-indexed vector (rest node))]
+                    (doseq [[idx form] (map-indexed identity (rest node))]
                       (when (pos? idx)
                         (.append sb "\n"))
                       (emit-node sb form ctx))
@@ -333,7 +334,7 @@
 
      (sequential? node)
      (do
-       (doseq [[idx form] (map-indexed vector node)]
+       (doseq [[idx form] (map-indexed identity node)]
          (when (pos? idx)
            (.append sb "\n"))
          (emit-node sb form ctx))

@@ -55,3 +55,9 @@ references: []
 
 - Never edit the board directly; tasks drive the board. Work only on tasks on the board. :contentReference[oaicite:7]{index=7}
 - Respect WIP and status flow exactly as defined in `process.md`; keep changes append-only in the task.
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- _None_
+## Sources
+- _None_
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

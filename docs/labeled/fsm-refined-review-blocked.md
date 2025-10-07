@@ -156,3 +156,9 @@ flowchart TD
 ---
 
 If this matches your intent, I’ll fold these deltas into the process doc’s FSM section (append-only), and then we can do the tiny “Entry / Work / Exit” bullets per column to make the rules machine-readable without getting verbose.
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- _None_
+## Sources
+- _None_
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

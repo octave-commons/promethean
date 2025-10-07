@@ -79,4 +79,9 @@ From a given context, data source can be managed in some or all of the following
   - Soft conditions always ask for approval,
   - hard conditions are met automatically
   - the requirement of approval is a possible condition
-
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- _None_
+## Sources
+- _None_
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

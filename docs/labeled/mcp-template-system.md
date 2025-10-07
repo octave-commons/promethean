@@ -42,4 +42,9 @@ It should allow you to:
 - getQueue() -> {pending:Job[], inProgress:Job[], completed:Job[]}
 - removeJob(jobName|jobid)
 - createTemplate(templateName,)
-
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- _None_
+## Sources
+- _None_
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

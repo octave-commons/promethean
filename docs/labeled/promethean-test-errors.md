@@ -48,3 +48,9 @@ These packages all have test errors:
 /home/err/devel/promethean/packages/tests
 
 Step through each one by one, using the file system tool to make edits, and the ts lsp server to type check, and resolve the testing errors.
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- _None_
+## Sources
+- _None_
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
