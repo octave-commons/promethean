@@ -1,11 +1,18 @@
 ---
-uuid: 5c27542a-5611-457c-9062-24d8e137c5d8
-title: Description
-status: todo
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.510Z'
+uuid: "5c27542a-5611-457c-9062-24d8e137c5d8"
+title: "Description"
+slug: "convert-smartgpt-bridge-to-ts"
+status: "ready"
+priority: "P3"
+labels: ["description", "step", "useful", "describe"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 # Description
 
 Describe your task
@@ -29,4 +36,6 @@ You might find [this] useful while working on this task
 
 Useful for agents to engage in append only conversations about this task.
 #ready
+
+
 

@@ -1,14 +1,18 @@
 ---
-uuid: 2d7bc869-0bc6-4d6b-891c-d7657cb8e4f4
-title: Shadow CLJS migration — step 2 shared components
-status: rejected
-priority: P2
-labels:
-  - framework-core
-  - codex-task
-  - frontend
-created_at: '2025-10-03T21:10:00.000Z'
+uuid: "2d7bc869-0bc6-4d6b-891c-d7657cb8e4f4"
+title: "Shadow CLJS migration — step 2 shared components -core -task -core -task"
+slug: "shadow-cljs-migration-step-2-shared-components"
+status: "rejected"
+priority: "P2"
+labels: ["framework-core", "codex-task", "frontend"]
+created_at: "2025-10-07T20:25:05.645Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 #Todo
 
 ## 🛠️ Description
@@ -63,3 +67,5 @@ Estimate: 5
 ## 🔍 Relevant Links
 
 - Shadow-CLJS migration plan 2025-10-03
+
+

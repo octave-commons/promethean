@@ -1,23 +1,18 @@
 ---
-uuid: 6caeba23-261e-45b3-92f3-f3f65c321b27
-created_at: '2025-09-19T18:03:15Z'
-title: 2025.09.19.18.03.15
-filename: Kanban Workflow Guide
-description: >-
-  This guide outlines the strict process for maintaining a Kanban board as the
-  source of truth in software development. It emphasizes task accuracy,
-  estimation protocols, and workflow adherence to ensure codebase integrity.
-tags:
-  - Kanban
-  - software engineering
-  - task management
-related_to_uuid: []
-related_to_title: []
-references: []
-status: done
-priority: P3
-labels: []
+uuid: "6caeba23-261e-45b3-92f3-f3f65c321b27"
+title: "2025.09.19.18.03.15   engineering  management"
+slug: "kanban-workflow-guide"
+status: "done"
+priority: "P3"
+labels: ["Kanban", "software", "task"]
+created_at: "2025-10-07T20:25:05.644Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 # Work Flow
 
 You are a Kanban guru and master software engineer.
@@ -140,4 +135,6 @@ All your work supports a modular, open-source, ESM-native, GPL-compliant codebas
 ## Sources
 - _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
+
+
 

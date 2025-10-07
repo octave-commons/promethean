@@ -1,11 +1,18 @@
 ---
-uuid: 20728bbe-20e4-4cb1-b33d-d0da2514ad92
-title: write board sync script md md
-status: done
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.524Z'
+uuid: "20728bbe-20e4-4cb1-b33d-d0da2514ad92"
+title: "write board sync script md md"
+slug: "write_board_sync_script"
+status: "done"
+priority: "P3"
+labels: ["board", "sync", "script", "write"]
+created_at: "2025-10-07T20:25:05.644Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Task: Write board sync script
 
 Create a small tool that pushes updates from our Obsidian kanban board to a GitHub Projects board and can optionally pull remote changes.
@@ -53,4 +60,6 @@ Create a small tool that pushes updates from our Obsidian kanban board to a GitH
 - board_sync.py$../../scripts/github_board_sync.py
 - [Board Sync Workflow]../../board_sync.md
 #done
+
+
 

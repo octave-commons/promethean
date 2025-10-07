@@ -1,11 +1,18 @@
 ---
-uuid: bbd54acd-a5ea-4c0c-a20c-9608f0e898ed
-title: add unit tests for date tools py md
-status: done
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.506Z'
+uuid: "bbd54acd-a5ea-4c0c-a20c-9608f0e898ed"
+title: "add unit tests for date tools py md"
+slug: "add_unit_tests_for_date_tools_py"
+status: "done"
+priority: "P3"
+labels: ["tests", "date", "tools", "add"]
+created_at: "2025-10-07T20:25:05.644Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Task: Add unit tests for date_tools.py
 
 Write pytest tests covering functions in `shared/py/date_tools.py`.
@@ -48,4 +55,6 @@ Nothing
 - [[kanban]]
 - [Untested modules]../../untested-code.md
 #done
+
+
 

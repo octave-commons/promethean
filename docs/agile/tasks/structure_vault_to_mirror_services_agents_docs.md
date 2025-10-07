@@ -1,11 +1,18 @@
 ---
-uuid: c6139027-bd0a-4f44-a200-c04829e35220
-title: structure vault to mirror services agents docs md md
-status: icebox
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.522Z'
+uuid: "c6139027-bd0a-4f44-a200-c04829e35220"
+title: "structure vault to mirror services agents docs md md"
+slug: "structure_vault_to_mirror_services_agents_docs"
+status: "icebox"
+priority: "P3"
+labels: ["structure", "mirror", "docs", "vault"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Task: Document-Driven Development for Service Scripts
 ```
 **Status:** blocked
@@ -88,4 +95,6 @@ Nothing
 - No active owner or unclear scope
 
 #breakdown
+
+
 

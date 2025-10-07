@@ -1,13 +1,18 @@
 ---
-uuid: e6a16b59-a67d-4df9-babc-9faaaad3f9c9
-title: Remove CommonJS artifacts from repository
-status: document
-priority: P2
-labels:
-  - "#codex-task"
-  - "#doc-this"
-created_at: '2025-09-20T21:30:00.000Z'
+uuid: "e6a16b59-a67d-4df9-babc-9faaaad3f9c9"
+title: "Remove CommonJS artifacts from repository #-task #-this -task -this"
+slug: "remove_commonjs_artifacts_repo_wide"
+status: "document"
+priority: "P2"
+labels: ["-task", "-this", "codex-task", "doc-this"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 # Remove CommonJS artifacts from repository
 
 ## Problem
@@ -92,3 +97,5 @@ find . -name '*.cjs' | sort | head -n 40
 - Sweep documentation/tooling references for `.cjs` instructions and either modernize or archive them.
 
 #Document #doc-this #codex-task
+
+

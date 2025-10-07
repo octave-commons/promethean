@@ -1,11 +1,18 @@
 ---
-uuid: e9b26152-47ba-4401-afce-3c14ca0f76e9
-title: catalog mermaid flow diagrams
-status: incoming
-priority: P3
-labels: []
-created_at: '2025-10-07T04:56:55Z'
+uuid: "e9b26152-47ba-4401-afce-3c14ca0f76e9"
+title: "catalog mermaid flow diagrams"
+slug: "Catalog mermaid flow diagrams"
+status: "incoming"
+priority: "P3"
+labels: ["mermaid", "diagrams", "catalog", "flow"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Task: Catalog and normalize mermaid flow diagrams
 
 ### Background
@@ -30,3 +37,5 @@ created_at: '2025-10-07T04:56:55Z'
 - `packages/schema/README.md`
 - `packages/cephalon/docs/graph/cephalon-knowledge.md`
 - `docs/agile/process.md`
+
+

@@ -1,13 +1,18 @@
 ---
-uuid: f6a6e7b0-72d6-489d-a98c-450ba82ab3cc
-title: Fix frontend-service test failure
-status: todo
-priority: P3
-labels:
-  - 'board:auto'
-  - 'lang:ts'
-created_at: '2025-10-06T01:50:48.291Z'
+uuid: "f6a6e7b0-72d6-489d-a98c-450ba82ab3cc"
+title: "Fix frontend-service test failure :auto :ts"
+slug: "fix-frontend-service-test"
+status: "review"
+priority: "P3"
+labels: ["board", "lang"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ```
 <hr class="__chatgpt_plugin">
 ```
@@ -37,3 +42,5 @@ created_at: '2025-10-06T01:50:48.291Z'
 ```
 <hr class="__chatgpt_plugin">
 ```
+
+

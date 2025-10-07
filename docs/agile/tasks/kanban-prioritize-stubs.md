@@ -1,28 +1,18 @@
 ---
-uuid: 5af6233e-8399-42a8-822e-29591076c41e
-created_at: '2025-10-06T15:00:38Z'
-title: 2025.10.06.15.00.38
-filename: kanban-prioritize-stubs
-description: >-
-  Command stubs for kanban task prioritization workflow: sample, pairwise
-  comparison, choice input, ranking, and shortlist generation. These stubs
-  provide a foundation for interactive task prioritization using Bradley-Terry
-  models and weighted sampling.
-tags:
-  - kanban
-  - prioritize
-  - command-stubs
-  - bradley-terry
-  - weighted-sampling
-  - task-prioritization
-  - interactive-workflow
-related_to_uuid: []
-related_to_title: []
-references: []
-status: todo
-priority: P3
-labels: []
+uuid: "5af6233e-8399-42a8-822e-29591076c41e"
+title: "2025.10.06.15.00.38   -stubs -terry -sampling -prioritization -workflow   -stubs -terry -sampling -prioritization -workflow"
+slug: "kanban-prioritize-stubs"
+status: "breakdown"
+priority: "P3"
+labels: ["kanban", "prioritize", "command-stubs", "bradley-terry", "weighted-sampling", "task-prioritization", "interactive-workflow"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 # Command stubs (ready to wire)
 
 ```ts
@@ -113,4 +103,6 @@ export default async function cmd(argv:any){
 ## Sources
 - _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
+
+
 

@@ -1,13 +1,18 @@
 ---
-uuid: 325bf2aa-d063-4a19-a086-3e7a42755861
-title: Audit Enso event family references after transport update
-status: document
-priority: P2
-labels:
-  - documentation
-  - protocol
-created_at: '2025-09-21T00:00:00Z'
+uuid: "325bf2aa-d063-4a19-a086-3e7a42755861"
+title: "Audit Enso event family references after transport update"
+slug: "audit-enso-event-families"
+status: "document"
+priority: "P2"
+labels: ["documentation", "protocol"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 # Description
 
 Ensure the newly expanded transport chapter stays aligned with the detailed
@@ -42,3 +47,5 @@ Enso protocol write-ups and SDK payload types.
 Focus on human review—no automated tooling expected beyond basic diffing.
 
 #Todo
+
+

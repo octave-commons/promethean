@@ -1,11 +1,18 @@
 ---
-uuid: eebffb87-73cd-4945-a53a-f60eaa852eed
-title: Description
-status: todo
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.510Z'
+uuid: "eebffb87-73cd-4945-a53a-f60eaa852eed"
+title: "Description"
+slug: "curate-code-from-personal-repository"
+status: "breakdown"
+priority: "P3"
+labels: ["description", "code", "system", "chatgpt"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 # Description
 
 I've written a lot of code over the years that I want to be a part of this system.
@@ -28,3 +35,5 @@ Just having it in the repo gives my system context
 ## Comments
 
 Useful for agents to engage in append only conversations about this task.
+
+

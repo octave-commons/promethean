@@ -1,11 +1,18 @@
 ---
-uuid: 9f621ec3-91d2-42cf-a8af-b1eafe7c4041
-title: review pipeline documentation in README
-status: document
-priority: P3
-labels: []
-created_at: '2025-09-18T19:28:54Z'
+uuid: "9f621ec3-91d2-42cf-a8af-b1eafe7c4041"
+title: "review pipeline documentation in README"
+slug: "Review pipeline documentation"
+status: "document"
+priority: "P3"
+labels: ["pipeline", "readme", "review", "documentation"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Task: Review pipeline documentation in README
 
 ### Context
@@ -25,3 +32,5 @@ created_at: '2025-09-18T19:28:54Z'
 ### References
 - `README.md` (Automation pipelines section)
 - `pipelines.json`
+
+

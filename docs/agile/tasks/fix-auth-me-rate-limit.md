@@ -1,52 +1,18 @@
 ---
-task-id: TASK-20250307-0001
-title: Enforce /auth/me rate limiting in SmartGPT Bridge
-state: InProgress
-prev: null
-txn: '2025-03-07T00:00:00Z-0001'
-owner: err
-priority: p2
-size: s
-epic: EPC-000
-depends_on: []
-labels:
-  - 'board:auto'
-  - 'lang:ts'
-  - 'package:smartgpt-bridge'
-due: null
-links: []
-artifacts: []
-rationale: >-
-  Integration test `server.openapi.auth` is failing because `/auth/me` currently
-  ignores the configured per-IP rate limiting, returning 200 instead of 429
-  after the limit is exceeded. We need to wire the Fastify rate limit plugin
-  into the auth route so SmartGPT Bridge enforces its expected protections.
-proposed_transitions:
-  - New->Accepted
-  - Accepted->Breakdown
-  - Breakdown->Ready
-  - Ready->Todo
-  - Todo->InProgress
-  - InProgress->InReview
-  - InReview->Document
-  - Document->Done
-  - InReview->InProgress
-  - InProgress->Todo
-  - InProgress->Breakdown
-  - InReview->Todo
-  - Document->InReview
-  - Done->Todo
-tags:
-  - task/TASK-20250307-0001
-  - board/kanban
-  - state/InProgress
-  - owner/err
-  - priority/p2
-  - epic/EPC-000
-uuid: 99127fd9-debb-4eea-8625-32521de25fb1
-created_at: '2025-10-06T01:50:48.290Z'
-status: in-progress
+uuid: "99127fd9-debb-4eea-8625-32521de25fb1"
+title: "Enforce /auth/me rate limiting in SmartGPT Bridge /TASK-20250307-0001 /kanban /InProgress /err /p2 /EPC-000 :auto :ts :smartgpt-bridge"
+slug: "fix-auth-me-rate-limit"
+status: "ready"
+priority: "p2"
+labels: ["task", "board", "state", "owner", "priority", "epic", "board", "lang", "package"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## Context
 
 ### Changes and Updates
@@ -79,4 +45,6 @@ status: in-progress
 3. Run `pnpm --filter @promethean/smartgpt-bridge test` to confirm
    integration suite passes.
 4. Add changelog entry summarizing the rate limit fix and prepare PR.
+
+
 

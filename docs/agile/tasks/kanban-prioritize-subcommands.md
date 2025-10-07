@@ -1,31 +1,18 @@
 ---
-uuid: 83ec632a-3d28-440f-adb7-76496a95edd2
-created_at: '2025-10-06T15:01:27Z'
-title: 2025.10.06.15.01.27
-filename: kanban-prioritize-subcommands
-description: >-
-  New subcommands for kanban task prioritization: sample, pairwise, choose,
-  rank, shortlist, explain, cluster, score, and compare. Each command provides
-  specific functionality for filtering, comparing, ranking, and clustering tasks
-  with optional parameters and CLI flags.
-tags:
-  - kanban
-  - prioritize
-  - subcommands
-  - CLI
-  - task
-  - filtering
-  - ranking
-  - clustering
-  - score
-  - explain
-related_to_uuid: []
-related_to_title: []
-references: []
-status: todo
-priority: P3
-labels: []
+uuid: "83ec632a-3d28-440f-adb7-76496a95edd2"
+title: "2025.10.06.15.01.27"
+slug: "kanban-prioritize-subcommands"
+status: "breakdown"
+priority: "P3"
+labels: ["kanban", "prioritize", "subcommands", "CLI", "task", "filtering", "ranking", "clustering", "score", "explain"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 # New subcommands (added; keep your existing ones)
 
 * `sample` — randomly (optionally weighted) pick a bite-sized set that matches a filter.
@@ -96,4 +83,6 @@ packages/kanban/
 ## Sources
 - _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
+
+
 

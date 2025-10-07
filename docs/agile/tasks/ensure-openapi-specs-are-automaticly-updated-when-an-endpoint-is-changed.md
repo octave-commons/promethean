@@ -1,11 +1,18 @@
 ---
-uuid: e3fc2eed-0da2-4aa9-b407-4dda0de4488d
-title: ensure openapi specs are automaticly updated when an endpoint is changed
-status: done
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.512Z'
+uuid: "e3fc2eed-0da2-4aa9-b407-4dda0de4488d"
+title: "ensure openapi specs are automaticly updated when an endpoint is changed"
+slug: "ensure-openapi-specs-are-automaticly-updated-when-an-endpoint-is-changed"
+status: "done"
+priority: "P3"
+labels: ["are", "ensure", "openapi", "specs"]
+created_at: "2025-10-07T20:25:05.644Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Description
 
 This should just work with fastify... but I am actually not sure. I've just started to learn fastify.
@@ -51,4 +58,6 @@ Nothing
 
 - [[kanban]]
 #done
+
+
 

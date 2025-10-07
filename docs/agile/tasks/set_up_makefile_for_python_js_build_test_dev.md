@@ -1,11 +1,18 @@
 ---
-uuid: b67ff78e-f1b8-4cdf-ba1c-d2ed622a4882
-title: replace polyglot makefile with pnpm-first workflow docs
-status: done
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.520Z'
+uuid: "b67ff78e-f1b8-4cdf-ba1c-d2ed622a4882"
+title: "replace polyglot makefile with pnpm-first workflow docs"
+slug: "set_up_makefile_for_python_js_build_test_dev"
+status: "done"
+priority: "P3"
+labels: ["pnpm", "makefile", "workflow", "replace"]
+created_at: "2025-10-07T20:25:05.644Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Task: Replace polyglot Makefile with pnpm-first workflow docs
 
 The repo already uses pnpm workspaces, TypeScript scripts, and `scripts/dev.mjs`. Instead of maintaining a cross-language
@@ -56,3 +63,5 @@ Nothing
 - [Makefile retirement note]../notes/promethean-dev-workflow-update.md
 
 #cicd #buildtools #devtools #devops #archive
+
+

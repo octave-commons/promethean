@@ -1,13 +1,18 @@
 ---
-uuid: 19470007-2c10-46f3-a5bf-afe2f5ad72d5
-title: Remove shared package system artifacts
-status: todo
-priority: p3
-labels:
-  - board:auto
-  - lang:ts
-created_at: 2025-09-15T02:02:58.509Z
+uuid: "19470007-2c10-46f3-a5bf-afe2f5ad72d5"
+title: "<verb> <thing> <qualifier> :auto :ts"
+slug: "clearly-document-new-repository-layout"
+status: "breakdown"
+priority: "p3"
+labels: ["board", "lang"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## Context
 
 - Shared package monolith creep was affecting us in difficult to understand ways
@@ -38,4 +43,6 @@ You might find [this] useful while working on this task
 ## Notes
 - …
 #accepted
+
+
 

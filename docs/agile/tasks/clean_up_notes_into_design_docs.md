@@ -1,11 +1,18 @@
 ---
-uuid: d91c26e9-a20a-4e96-a7e9-913bda7c54d1
-title: clean up notes into design docs md
-status: rejected
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.509Z'
+uuid: "d91c26e9-a20a-4e96-a7e9-913bda7c54d1"
+title: "clean up notes into design docs md"
+slug: "clean_up_notes_into_design_docs"
+status: "rejected"
+priority: "P3"
+labels: ["design", "docs", "notes", "docops"]
+created_at: "2025-10-07T20:25:05.645Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Description
 
 Convert the DocOps/Ollama working notes into canonical design documentation. Source material lives in:
@@ -71,3 +78,5 @@ Nothing
 #agent-thinking
 ```
 #accepted
+
+

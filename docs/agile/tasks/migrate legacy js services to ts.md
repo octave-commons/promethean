@@ -1,13 +1,18 @@
 ---
-uuid: 907f268b-ced3-4206-aa3e-82b56dc811a1
-title: <verb> <thing> <qualifier>
-status: todo
-priority: p3
-labels:
-  - 'board:auto'
-  - 'lang:ts'
-created_at: '2025-09-15T02:02:58.517Z'
+uuid: "907f268b-ced3-4206-aa3e-82b56dc811a1"
+title: "<verb> <thing> <qualifier> :auto :ts"
+slug: "migrate legacy js services to ts"
+status: "breakdown"
+priority: "p3"
+labels: ["board", "lang"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 # Legacy JS services are migrated to TS
 
 I had failed to move several of these to the new packages before, I recovered them from the git history. Now they need to be integrated
@@ -33,4 +38,6 @@ I had failed to move several of these to the new packages before, I recovered th
 
 It may not be worth it to  migrate the proxy service.
 The 
+
+
 

@@ -1,11 +1,18 @@
 ---
-uuid: 05a6aec0-c595-44c8-8dba-49eac198344f
-title: document board sync workflow md md
-status: document
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.512Z'
+uuid: "05a6aec0-c595-44c8-8dba-49eac198344f"
+title: "document board sync workflow md md"
+slug: "document_board_sync_workflow"
+status: "document"
+priority: "P3"
+labels: ["sync", "board", "document", "workflow"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Task: Document board sync workflow
 
 After the sync script exists, we need clear instructions on how to use it and how the GitHub Projects board maps to our local kanban.
@@ -53,4 +60,6 @@ Nothing
 
 
 #archive
+
+
 

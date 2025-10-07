@@ -1,11 +1,18 @@
 ---
-uuid: b27a270a-d257-40ca-bfc2-438afeeca829
-title: audit makefile.hy remnants and confirm deprecation
-status: done
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.508Z'
+uuid: "b27a270a-d257-40ca-bfc2-438afeeca829"
+title: "audit makefile.hy remnants and confirm deprecation"
+slug: "breakdown-makefile.hy"
+status: "done"
+priority: "P3"
+labels: ["makefile", "audit", "remnants", "confirm"]
+created_at: "2025-10-07T20:25:05.644Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Description
 ```
 **Status:** planning
@@ -61,3 +68,5 @@ Nothing
 ```
 #framework-core #todo
 ```
+
+

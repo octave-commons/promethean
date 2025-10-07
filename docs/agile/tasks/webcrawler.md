@@ -1,11 +1,18 @@
 ---
-uuid: 0d89cdd7-1a6c-4477-9cbc-d12472564b58
-title: "Web Crawler Agent → Hyperlink Graph → LLM Summaries/#Tags → Chroma Search (Dual-Sink)"
-status: done
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.523Z'
+uuid: "0d89cdd7-1a6c-4477-9cbc-d12472564b58"
+title: "Web Crawler Agent → Hyperlink Graph → LLM Summaries/ → Chroma Search (Dual-Sink)"
+slug: "webcrawler"
+status: "done"
+priority: "P3"
+labels: ["Tags", "agent", "llm", "web", "crawler"]
+created_at: "2025-10-07T20:25:05.644Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 # Web Crawler Agent → Hyperlink Graph → LLM Summaries/#Tags → Chroma Search Dual-Sink
 ```
 **Owner:** Codex / Agent
@@ -310,3 +317,5 @@ Append-only thread: record domain-specific deny-lists, prompt tweaks, and any in
 ```
 #in-progress
 ```
+
+
