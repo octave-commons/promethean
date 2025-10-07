@@ -12,9 +12,15 @@ async function withTmp(fn: (dir: string) => Promise<void>) {
     String(Date.now()) + "-" + Math.random().toString(36).slice(2),
   );
   await fs.mkdir(dir, { recursive: true });
-  await fn(dir).finally(() =>
-    fs.rm(dir, { recursive: true, force: true }).catch(() => {}),
-  );
+  const cleanup = () => fs.rm(dir, { recursive: true, force: true }).catch(() => {});
+  return fn(dir)
+    .then(async () => {
+      await cleanup();
+    })
+    .catch(async (error) => {
+      await cleanup();
+      throw error;
+    });
 }
 
 test("convertWikilinks replaces wikilinks", async (t) => {
@@ -41,6 +47,20 @@ test("convertWikilinks preserves anchors", async (t) => {
       out,
       "See [promethean-notes](promethean-notes.md#^anchor) and [alias](promethean-notes.md#^anchor)",
     );
+  });
+});
+
+test("convertWikilinks keeps explicit markdown extensions", async (t) => {
+  await withTmp(async (dir) => {
+    const file = path.join(dir, "extensions.md");
+    await fs.writeFile(
+      file,
+      "See [[foo.md]] and [[bar.md#section|Alias]]",
+      "utf8",
+    );
+    await convertWikilinks(file);
+    const out = await fs.readFile(file, "utf8");
+    t.is(out, "See [foo.md](foo.md) and [Alias](bar.md#section)");
   });
 });
 
