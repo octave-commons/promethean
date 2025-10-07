@@ -1,17 +1,18 @@
 ---
-```
-uuid: 5e7d15b7-50dc-4bd8-9ab3-8c7737a8dbe7
-```
-title: Fix failing tests suite
-status: done
-priority: P2
-labels:
-  - testing
-  - stabilization
-```
-created_at: '2025-02-07T00:00:00.000Z'
-```
+uuid: "5e7d15b7-50dc-4bd8-9ab3-8c7737a8dbe7"
+title: "Fix failing tests suite"
+slug: "fix_failing_tests_suite"
+status: "done"
+priority: "P2"
+labels: ["testing", "stabilization"]
+created_at: "2025-10-07T20:25:05.644Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🧭 Context
 - **What changed?**: Incoming bug report indicates some unit tests in the Promethean monorepo are currently failing on main.
 - **Where?**: Tests appear in the shared `tests/` workspace.
@@ -41,3 +42,5 @@ created_at: '2025-02-07T00:00:00.000Z'
 ## 🔗 Related Resources
 - `docs/reports/codex_cloud/describe/latest/summary.tsv`
 - Repository AGENTS guidelines
+
+

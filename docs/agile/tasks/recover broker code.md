@@ -1,15 +1,18 @@
 ---
-```
-uuid: 1b93f3eb-202f-4d47-b4d0-b69286b8c2a3
-```
-title: Replace <SHA> with the commit from step 1
-status: todo
-priority: P3
-labels: []
-```
-created_at: '2025-09-15T02:02:58.518Z'
-```
+uuid: "1b93f3eb-202f-4d47-b4d0-b69286b8c2a3"
+title: "Replace <SHA> with the commit from step 1"
+slug: "recover broker code"
+status: "document"
+priority: "P3"
+labels: ["commit", "you", "replace", "sha"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 0) Safety first
 
 Make sure you don’t have local changes you care about:
@@ -512,4 +515,6 @@ your repo. If you tell me:
    present
 
 I’ll help figure the exact commit and path so you can restore.
+
+
 

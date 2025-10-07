@@ -1,18 +1,18 @@
 ---
-```
-uuid: 5fe4fdf3-0fda-42fb-8f98-93859577d08f
-```
-title: Shadow CLJS migration — step 4 decommission legacy toolchain
-status: icebox
-priority: P3
-labels:
-  - framework-core
-  - codex-task
-  - frontend
-```
-created_at: '2025-10-03T21:10:00.000Z'
-```
+uuid: "5fe4fdf3-0fda-42fb-8f98-93859577d08f"
+title: "Shadow CLJS migration — step 4 decommission legacy toolchain -core -task -core -task"
+slug: "shadow-cljs-migration-step-4-decommission"
+status: "icebox"
+priority: "P3"
+labels: ["framework-core", "codex-task", "frontend"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 #IceBox
 
 ## 🛠️ Description
@@ -65,3 +65,5 @@ Estimate: 5
 ## 🔍 Relevant Links
 
 - Shadow-CLJS migration plan 2025-10-03
+
+

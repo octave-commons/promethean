@@ -1041,7 +1041,21 @@ export const pushToTasks = async (
       const targetPath = path.join(tasksDir, filename);
       const previous = existingByUuid.get(task.uuid);
       const previousPath = previous?.sourcePath;
-      const content = toFrontmatter({ ...task, status: col.name });
+
+      // Preserve existing task content if available
+      let existingContent = "";
+      if (previous && previousPath) {
+        try {
+          const existingFileContent = await fs.readFile(previousPath, "utf8");
+          const parsed = parseMarkdownFrontmatter(existingFileContent);
+          existingContent = parsed.content ?? "";
+        } catch (error) {
+          // If we can't read the existing file, continue with empty content
+          console.warn(`Warning: Could not read existing task file ${previousPath}: ${error}`);
+        }
+      }
+
+      const content = toFrontmatter({ ...task, status: col.name, content: existingContent });
       await fs.writeFile(targetPath, content, "utf8");
       if (!previous) {
         added += 1;
