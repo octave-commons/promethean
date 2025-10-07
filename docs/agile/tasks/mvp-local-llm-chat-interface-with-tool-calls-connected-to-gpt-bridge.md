@@ -1,7 +1,7 @@
 ---
 uuid: 24ba6872-89c0-4f5f-a20e-33058219016b
 title: Pythagoras GPT Mirror WS chat + OpenAPI-driven tool calls via /v1
-status: todo
+status: done
 priority: P3
 labels: []
 created_at: '2025-09-15T02:02:58.517Z'

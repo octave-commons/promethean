@@ -1,7 +1,7 @@
 ---
 uuid: d54f5640-9a46-4643-a76c-020603439c39
 title: set up proper openai custom gpt compatable oauth login flow
-status: todo
+status: rejected
 priority: P3
 labels: []
 created_at: '2025-09-15T02:02:58.520Z'

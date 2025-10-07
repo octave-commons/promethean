@@ -1,7 +1,7 @@
 ---
 uuid: cd2f96f3-bd40-410b-94f2-f7d0dbce4da4
 title: update github actions automation to pnpm scripts
-status: todo
+status: done
 priority: P3
 labels: []
 created_at: '2025-09-15T02:02:58.523Z'

@@ -1,7 +1,7 @@
 ---
 uuid: 2901d671-ce49-4228-9c82-30112b2bbc12
 title: add semantic overlays for layer1 through layer8 md md
-status: todo
+status: rejected
 priority: P3
 labels: []
 created_at: '2025-09-15T02:02:58.505Z'

@@ -1,7 +1,7 @@
 ---
 uuid: 63e44f3d-fc18-4caf-85b7-08936527317e
 title: pr 688 nitpack extract
-status: todo
+status: testing
 priority: P3
 labels: []
 created_at: '2025-09-15T02:02:58.518Z'

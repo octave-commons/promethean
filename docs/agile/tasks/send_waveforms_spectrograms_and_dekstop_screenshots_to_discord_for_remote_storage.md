@@ -3,7 +3,7 @@ uuid: 1921c586-faec-430a-b598-e6ff0d131b00
 title: >-
   send waveforms spectrograms and dekstop screenshots to discord for remote
   storage md md
-status: todo
+status: rejected
 priority: P3
 labels: []
 created_at: '2025-09-15T02:02:58.520Z'

@@ -1,7 +1,7 @@
 ---
 uuid: c9d8e7f6-d5c4-b3a2-c1d0-987654321098
 title: Fix board-review pipeline incorrect Process.md file reference
-status: todo
+status: done
 priority: P2
 labels:
   - piper

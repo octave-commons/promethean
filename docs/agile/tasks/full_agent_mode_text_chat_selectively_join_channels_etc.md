@@ -1,7 +1,7 @@
 ---
 uuid: 20ce66a3-ab14-4107-9069-eb28438215ac
 title: full agent mode text chat selectively join channels etc md
-status: todo
+status: rejected
 priority: P3
 labels: []
 created_at: '2025-09-15T02:02:58.514Z'

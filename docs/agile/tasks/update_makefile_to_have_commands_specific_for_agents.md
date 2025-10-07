@@ -1,7 +1,7 @@
 ---
 uuid: 9fbe9f3a-0c6a-472b-8f7c-b100dab6f5de
 title: replace agent automation makefile targets with pnpm scripts
-status: todo
+status: done
 priority: P3
 labels: []
 created_at: '2025-09-15T02:02:58.523Z'

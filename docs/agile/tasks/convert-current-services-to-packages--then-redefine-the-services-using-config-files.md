@@ -3,7 +3,7 @@ uuid: 5c686b01-e6d0-4008-81bb-6f429d26a64a
 title: >-
   convert current services to packages then redefine the services using config
   files
-status: todo
+status: rejected
 priority: P3
 labels: []
 created_at: '2025-09-15T02:02:58.510Z'

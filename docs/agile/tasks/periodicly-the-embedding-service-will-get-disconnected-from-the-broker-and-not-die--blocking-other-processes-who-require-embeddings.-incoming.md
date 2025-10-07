@@ -3,7 +3,7 @@ uuid: 9926dde4-990e-4503-a057-fcae2e5bf1b1
 title: >-
   Embedding service sometimes disconnects from broker and hangs → detect, shed,
   kill, recover
-status: todo
+status: done
 priority: P3
 labels: []
 created_at: '2025-09-15T02:02:58.518Z'

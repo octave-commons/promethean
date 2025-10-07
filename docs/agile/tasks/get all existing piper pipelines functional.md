@@ -1,7 +1,7 @@
 ---
 uuid: 8b3c665c-d6ff-4a0a-9fb9-b2dbefa35fb4
 title: Get all existing pipelines functional
-status: todo
+status: testing
 priority: P3
 labels: []
 created_at: '2025-09-15T02:02:58.514Z'

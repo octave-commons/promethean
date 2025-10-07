@@ -1,7 +1,7 @@
 ---
 uuid: 71a16cd2-8c1a-4285-90a1-d7a85b0d1af0
 title: add unit tests for gui helpers md md
-status: todo
+status: rejected
 priority: P3
 labels: []
 created_at: '2025-09-15T02:02:58.506Z'

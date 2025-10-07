@@ -2,7 +2,7 @@
 uuid: 07da16ba-b71f-4fdf-a6db-94762df331ef
 created_at: '2025-10-06T20:45:15.183Z'
 title: Kanban Tasks Index
-status: todo
+status: document
 priority: P3
 labels: []
 ---

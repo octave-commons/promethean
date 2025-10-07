@@ -1,7 +1,7 @@
 ---
 uuid: 15249e77-3242-4fad-a7d3-6e336c60758c
 title: Proto selfhood experiment
-status: todo
+status: testing
 priority: p3
 labels:
   - board:auto

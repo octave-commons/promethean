@@ -1,7 +1,7 @@
 ---
 uuid: 4beb36b0-7cc5-4116-a516-3927615031be
 title: Pin versions in configs
-status: todo
+status: done
 priority: P3
 labels: []
 created_at: '2025-09-15T02:02:58.517Z'

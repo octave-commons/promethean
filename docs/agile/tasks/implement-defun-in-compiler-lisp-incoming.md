@@ -1,7 +1,7 @@
 ---
 uuid: f0fe8d30-5833-4791-9e31-9c2292db03bc
 title: "\U0001F6E0️ Task: Implement `defun` in Lisp Compiler"
-status: todo
+status: done
 priority: P3
 labels: []
 created_at: '2025-09-15T02:02:58.515Z'

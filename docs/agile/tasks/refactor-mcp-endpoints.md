@@ -40,7 +40,7 @@ tags:
   - epic/EPC-000
 uuid: 121c9492-1226-4dae-b654-f39cdfe2364f
 created_at: '2025-10-06T01:50:48.296Z'
-status: todo
+status: in-progress
 ---
 ## Context
 - **What changed?**: Need to extend MCP transport loader to support multiple HTTP endpoints from config.

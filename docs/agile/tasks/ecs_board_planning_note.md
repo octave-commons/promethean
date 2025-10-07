@@ -2,7 +2,7 @@
 uuid: 480c3123-6ad3-4825-8516-896cd8d683cc
 created_at: '2025-10-06T01:50:48.289Z'
 title: ECS Board Planning Note
-status: todo
+status: done
 priority: P3
 labels: []
 ---

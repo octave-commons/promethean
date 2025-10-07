@@ -1,7 +1,7 @@
 ---
 uuid: a1b2c3d4-e5f6-7890-abcd-ef1234567890
 title: Fix symdocs pipeline missing @promethean/file-indexer dependency
-status: todo
+status: done
 priority: P2
 labels:
   - piper

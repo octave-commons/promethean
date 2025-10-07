@@ -1,7 +1,7 @@
 ---
 uuid: 5e02a76a-4b66-4dbb-8a93-16fdbee83283
 title: gpt bridge fuzzy lookup should return multiple matches when it is used
-status: todo
+status: rejected
 priority: P3
 labels: []
 created_at: '2025-09-15T02:02:58.514Z'

@@ -1,7 +1,7 @@
 ---
 uuid: ee9f46e7-9d65-437b-8897-2a7e11756f4f
 title: snapshot prompts specs to repo
-status: todo
+status: icebox
 priority: P3
 labels: []
 created_at: '2025-09-15T02:02:58.520Z'

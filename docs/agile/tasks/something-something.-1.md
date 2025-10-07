@@ -1,7 +1,7 @@
 ---
 uuid: 3192eeb8-39ff-42aa-ab6f-2e7ce9b951cf
 title: something something 1
-status: todo
+status: testing
 priority: p3
 labels: []
 created_at: '2025-09-15T02:02:58.520Z'

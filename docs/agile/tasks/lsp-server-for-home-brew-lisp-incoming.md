@@ -1,7 +1,7 @@
 ---
 uuid: 23806c3e-fb3c-4759-892d-f168b9eebb57
 title: Description
-status: todo
+status: rejected
 priority: P3
 labels: []
 created_at: '2025-09-15T02:02:58.516Z'

@@ -16,7 +16,7 @@ tags:
 related_to_uuid: []
 related_to_title: []
 references: []
-status: todo
+status: done
 priority: P3
 labels: []
 ---

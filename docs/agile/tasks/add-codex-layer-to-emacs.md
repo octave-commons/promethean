@@ -1,7 +1,7 @@
 ---
 uuid: 9870434b-5bf2-48ca-a588-d6769ec54796
 title: add codex layer to emacs
-status: todo
+status: done
 priority: P3
 labels: []
 created_at: '2025-09-15T02:02:58.503Z'

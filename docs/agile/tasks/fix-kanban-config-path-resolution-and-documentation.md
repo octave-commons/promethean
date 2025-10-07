@@ -1,7 +1,7 @@
 ---
 uuid: a7b8c9d0-e1f2-4a5b-9c8d-0e1f2a3b4c5d
 title: Fix kanban config path resolution and document usage for agents
-status: todo
+status: done
 priority: P2
 labels:
   - kanban

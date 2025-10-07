@@ -1,7 +1,7 @@
 ---
 uuid: 1b93f3eb-202f-4d47-b4d0-b69286b8c2a3
 title: Replace <SHA> with the commit from step 1
-status: todo
+status: document
 priority: P3
 labels: []
 created_at: '2025-09-15T02:02:58.518Z'

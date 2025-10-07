@@ -36,7 +36,7 @@ tags:
   - epic/EPC-000
 uuid: 99ee9a9f-a7b5-489d-9eba-5de75e6840ab
 created_at: '2025-10-06T01:50:48.292Z'
-status: todo
+status: in-progress
 ---
 ## Context
 - **What changed?**: CI surfaced a failure for `grep: matches ripgrep output with context and flags`.

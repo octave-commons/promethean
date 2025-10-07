@@ -1,7 +1,7 @@
 ---
 uuid: 387b3ee0-c4f3-4c53-9b77-048e5490c9ca
 title: publish enso guardrail rationale payload
-status: todo
+status: rejected
 priority: P1
 labels: ['enso', 'protocol', 'guardrails']
 created_at: '2025-10-07T06:39:18.599Z'

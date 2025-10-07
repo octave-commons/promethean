@@ -1,7 +1,7 @@
 ---
 uuid: f40d381b-9c48-4dfc-9f89-51577c10c024
 title: <verb> <thing> <qualifier>
-status: todo
+status: testing
 priority: p3
 labels:
   - 'board:auto'

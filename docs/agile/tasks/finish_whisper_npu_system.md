@@ -1,7 +1,7 @@
 ---
 uuid: 0f185d39-74a7-4856-b0db-068b29a998e5
 title: finish whisper npu system md md
-status: todo
+status: rejected
 priority: P3
 labels: []
 created_at: '2025-09-15T02:02:58.513Z'

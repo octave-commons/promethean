@@ -1,7 +1,7 @@
 ---
 uuid: b67ff78e-f1b8-4cdf-ba1c-d2ed622a4882
 title: replace polyglot makefile with pnpm-first workflow docs
-status: todo
+status: done
 priority: P3
 labels: []
 created_at: '2025-09-15T02:02:58.520Z'
