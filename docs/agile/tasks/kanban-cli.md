@@ -16,6 +16,9 @@ tags:
 related_to_uuid: []
 related_to_title: []
 references: []
+status: todo
+priority: P3
+labels: []
 ---
 I want my kanban to work
 I want to get my pipelines working
@@ -65,3 +68,4 @@ columnData looks like:
 ## Sources
 - _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
+

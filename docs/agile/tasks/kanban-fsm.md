@@ -20,6 +20,9 @@ tags:
 related_to_uuid: []
 related_to_title: []
 references: []
+status: todo
+priority: P3
+labels: []
 ---
 got it—here’s the cleaned-up **Kanban FSM** mermaid, with your tweaks:
 
@@ -103,3 +106,4 @@ if this matches your intent, next micro-step: I’ll list each column’s **allo
 ## Sources
 - _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
+

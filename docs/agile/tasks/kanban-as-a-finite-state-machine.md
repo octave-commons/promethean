@@ -16,6 +16,9 @@ tags:
 related_to_uuid: []
 related_to_title: []
 references: []
+status: todo
+priority: P3
+labels: []
 ---
 ## Kanban as a Finite State Machine (FSM)
 
@@ -180,3 +183,4 @@ If you want, I can also generate a tiny per-column **Entry / Work / Exit** table
 ## Sources
 - _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
+

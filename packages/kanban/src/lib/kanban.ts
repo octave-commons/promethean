@@ -1496,7 +1496,11 @@ export const regenerateBoard = async (
   tasksDir: string,
   boardPath: string,
 ): Promise<{ totalTasks: number }> => {
+  // Load configuration to get all valid statuses
+  const { config } = await loadKanbanConfig();
   const tasks = await readTasksFolder(tasksDir);
+
+  // Group tasks by status
   const statusGroups = new Map<string, { name: string; tasks: Task[] }>();
   for (const task of tasks) {
     const statusRaw = String(task.status || "Todo").trim();
@@ -1512,14 +1516,21 @@ export const regenerateBoard = async (
       });
     }
   }
-  const columns: ColumnData[] = Array.from(statusGroups.values()).map(
-    ({ name, tasks: ts }) => ({
-      name,
-      count: ts.length,
-      limit: null,
-      tasks: ts,
-    }),
-  );
+
+  // Create columns for ALL configured statuses, even if empty
+  const columns: ColumnData[] = Array.from(config.statusValues).map(statusValue => {
+    const displayName = normalizeColumnDisplayName(statusValue);
+    const key = columnKey(statusValue);
+    const existingGroup = statusGroups.get(key);
+
+    return {
+      name: displayName,
+      count: existingGroup?.tasks.length || 0,
+      limit: config.wipLimits[statusValue] || null,
+      tasks: existingGroup?.tasks || [],
+    };
+  });
+
   await maybeRefreshIndex(tasksDir);
   await writeBoard(boardPath, { columns });
   return { totalTasks: tasks.length };
