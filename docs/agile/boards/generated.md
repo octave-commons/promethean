@@ -359,6 +359,7 @@ kanban-plugin: board
 - [ ] [[boardrev-vector-db|Implement multi-model evaluation for boardrev]] #enhancement #boardrev #ai #evaluation prio:P2 (uuid:$(uuidgen))
 - [ ] [[boardrev-vector-db|Integrate boardrev with piper pipeline system]] #enhancement #boardrev #infrastructure prio:P2 (uuid:$(uuidgen))
 - [ ] [[boardrev-vector-db|Replace LevelDB with vector database for boardrev]] #enhancement #boardrev #performance prio:P2 (uuid:$(uuidgen))
+- [ ] [[enhance-clj-hacks-claude-code-mcp|Enhance clj-hacks for Claude Code MCP server configs]] #clj-hacks #mcp #claude-code #tooling prio:P2 (uuid:5386dc78-da5b-4dfa-bef3-f82094c4c58a)
 - [ ] [[upgrade-symdocs-documentation|Upgrade symdocs to generate meaningful API documentation]] #symdocs #documentation #enhancement #ai #pipeline prio:P2 (uuid:a2b3c4d5-e6f7-8901-bcde-f23456789012)
 
 ## done

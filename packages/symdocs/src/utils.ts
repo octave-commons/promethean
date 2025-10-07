@@ -1,13 +1,14 @@
 import * as path from "path";
+import type * as ts from "typescript";
 
 export { sha1 } from "@promethean/utils";
 
 // Dynamic import to handle ES module compatibility
-let ts: any;
+let tsMod: any;
 try {
-  ts = await import("typescript");
+  tsMod = await import("typescript");
 } catch {
-  ts = require("typescript");
+  tsMod = require("typescript");
 }
 
 export function parseArgs(
@@ -42,31 +43,31 @@ export function makeProgram(
   tsconfigPath?: string,
 ): ts.Program {
   const baseOptions: ts.CompilerOptions = {
-    target: 9, // ES2022 = 9 in TypeScript ScriptTarget enum
-    module: 99, // ESNext = 99 in TypeScript ModuleKind enum
+    target: 7,    // ES2022 = ES2020 in newer TS versions (7)
+    module: 99,   // ESNext = 99 in TypeScript ModuleKind enum
     strict: true,
   };
   const options = tsconfigPath
     ? (() => {
-        const configFile = ts.readConfigFile(tsconfigPath, ts.sys.readFile);
+        const configFile = tsMod.readConfigFile(tsconfigPath, tsMod.sys.readFile);
         if (configFile.error) {
           throw new Error(
-            ts.formatDiagnosticsWithColorAndContext([configFile.error], {
-              getCanonicalFileName: (f) => f,
-              getCurrentDirectory: ts.sys.getCurrentDirectory,
-              getNewLine: () => ts.sys.newLine,
+            tsMod.formatDiagnosticsWithColorAndContext([configFile.error], {
+              getCanonicalFileName: (f: string) => f,
+              getCurrentDirectory: tsMod.sys.getCurrentDirectory,
+              getNewLine: () => tsMod.sys.newLine,
             }),
           );
         }
-        const parse = ts.parseJsonConfigFileContent(
+        const parse = tsMod.parseJsonConfigFileContent(
           configFile.config,
-          ts.sys,
+          tsMod.sys,
           path.dirname(tsconfigPath),
         );
         return { ...parse.options, ...baseOptions };
       })()
     : baseOptions;
-  return ts.createProgram(rootFiles, options);
+  return tsMod.createProgram(rootFiles, options);
 }
 
 export function signatureForFunction(
