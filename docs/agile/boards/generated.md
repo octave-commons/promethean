@@ -2,32 +2,13 @@
 kanban-plugin: board
 ---
 
-## icebox
-
-- [ ] [[shadow-cljs-migration-step-4-decommission|Shadow CLJS migration — step 4 decommission legacy toolchain -core -task -core -task]] #framework-core #codex-task #frontend prio:P3 (uuid:5fe4fdf3-0fda-42fb-8f98-93859577d08f)
-- [ ] [[validate-voice-demo-microphone-integration|validate voice-demo microphone integration  -test  -test]] #audio #manual-test prio:P2 (uuid:8925f5a8-40ab-44e4-ad9e-54db7d617996)
-
-## incoming
-
-
-## accepted
-
-
-## breakdown
-
-
-## blocked
-
-
-## ready
-
-- [ ] [[update-kanban-statuses-to-fsm|Update existing kanban tasks to use FSM statuses]] #kanban #fsm #cleanup #process prio:P2 (uuid:5baf7cc2-3c2b-4168-8f03-5ae800281a64)
-
 ## todo
 
+- [ ] [[Consolidate all kanban helpers to kanban package|consolidate all kanban helpers to kanban package]] #kanban #all #scripts #consolidate prio:P3 (uuid:727fd6bd-7c63-4488-b29e-c09640d4cc8a)
+- [ ] [[Docops pipeline|docops pipeline]] #docops #pipeline #agent #drafts prio:P3 (uuid:c80af308-7b65-4dbf-92b9-d464308b4565)
 - [ ] [[Review pipeline documentation|review pipeline documentation in README]] #pipeline #readme #review #documentation prio:P3 (uuid:9f621ec3-91d2-42cf-a8af-b1eafe7c4041)
-- [ ] [[Setup Identity Experiment|<verb> <thing> <qualifier> :auto :ts]] #board #lang prio:p3 (uuid:15249e77-3242-4fad-a7d3-6e336c60758c)
-- [ ] [[TASK-2025-09-27-monitoring-test|Stabilize monitoring token bucket tests :auto :ts /TASK-20250927-194530-0000 /kanban /InProgress /err /p3 /EPC-000]] #board #lang #task #board #state #owner #priority #epic prio:p3 (uuid:17e07cf3-1aa0-4fb6-9db9-d343f5c394ba)
+- [ ] [[Setup Identity Experiment|<verb> <thing> <qualifier>]] #board:auto #lang:ts prio:p3 (uuid:15249e77-3242-4fad-a7d3-6e336c60758c)
+- [ ] [[TASK-2025-09-27-monitoring-test|Stabilize monitoring token bucket tests]] #board:auto #lang:ts #task/TASK-20250927-194530-0000 #board/kanban #state/InProgress #owner/err #priority/p3 #epic/EPC-000 prio:p3 (uuid:17e07cf3-1aa0-4fb6-9db9-d343f5c394ba)
 - [ ] [[add-codex-layer-to-emacs|add codex layer to emacs]] #codex #emacs #layer #add prio:P3 (uuid:9870434b-5bf2-48ca-a588-d6769ec54796)
 - [ ] [[add-docker-compose-files-to-services|add docker compose files to services]] #add #docker #compose #files prio:p3 (uuid:0a4d6f50-753a-48ef-a9a0-10f279eb621b)
 - [ ] [[add-git-commands-to-gpt-bridge|Description]] #description #step #gpt #bridge prio:P3 (uuid:2f19096b-bacb-4ace-9e82-61893b70720d)
@@ -56,9 +37,9 @@ kanban-plugin: board
 - [ ] [[add_unit_tests_for_wav_processing|add unit tests for wav processing md]] #wav #processing #add #unit prio:P3 (uuid:4686ef75-1681-4fa5-a95d-ad1c7d1cb62e)
 - [ ] [[add_vault_instructions_to_main_readme|add vault instructions to main readme md md md]] #vault #instructions #add #main prio:P3 (uuid:7ce1467e-ca43-407e-bcc2-e7026ee9daf7)
 - [ ] [[add_withdlq_around_risky_consumers_set_maxattempts|add withdlq around risky consumers set maxattempts md]] #add #withdlq #around #risky prio:P3 (uuid:22b8db58-d3f6-4c44-be28-066d8d021376)
-- [ ] [[agent-safe-stablization-after-big-moves|<verb> <thing> <qualifier> :auto :ts]] #board #lang prio:p3 (uuid:16c70e8b-51cf-4580-ab53-a35d7ac0f6a9)
+- [ ] [[agent-safe-stablization-after-big-moves|<verb> <thing> <qualifier>]] #board:auto #lang:ts prio:p3 (uuid:16c70e8b-51cf-4580-ab53-a35d7ac0f6a9)
 - [ ] [[agent-tasks-persistence-migration-to-dualstore|agent tasks persistence migration to dualstore]] #persistence #dualstore #agent #tasks prio:P3 (uuid:02e8c2e6-e235-482e-90d9-eb0ce93f8ef8)
-- [ ] [[align-fetch-ovm-entrypoint|Align fetch_ovm_models entrypoint detection :auto :ts /TASK-20250223A /kanban /InProgress /gpt-5-codex /p3 /EPC-000]] #board #lang #task #board #state #owner #priority #epic prio:p3 (uuid:441917e2-b57a-436a-987c-008cbf5e704d)
+- [ ] [[align-fetch-ovm-entrypoint|Align fetch_ovm_models entrypoint detection]] #board:auto #lang:ts #task/TASK-20250223A #board/kanban #state/InProgress #owner/gpt-5-codex #priority/p3 #epic/EPC-000 prio:p3 (uuid:441917e2-b57a-436a-987c-008cbf5e704d)
 - [ ] [[allow_configuration_of_hyperparameters_through_discord_context_size_spectrogram_resolution_interuption_threshold|allow configuration of hyperparameters through discord context size spectrogram resolution interuption threshold md]] #discord #allow #configuration #hyperparameters prio:P3 (uuid:51fc390b-40d7-4dd4-a435-cdd86298d1b8)
 - [ ] [[allow_old_unnessisary_messages_to_decay_from_database_while_retaining_index_entries_ids|allow old unnessisary messages to decay from database while retaining index entries ids md md]] #allow #old #unnessisary #messages prio:P3 (uuid:8304b498-6811-40e3-8b44-60224b3ff846)
 - [ ] [[annotate_legacy_code_with_migration_tags|annotate legacy code with migration tags md]] #tags #legacy #migration #annotate prio:P3 (uuid:19a3b157-2bc0-4bfa-be63-bba8bfc1594d)
@@ -92,11 +73,11 @@ kanban-plugin: board
 - [ ] [[clarify_promethean_project_vision_1|clarify promethean project vision 1 md]] #promethean #vision #clarify #project prio:P3 (uuid:1d799040-7ef4-42e4-b82d-c227f4363398)
 - [ ] [[clean_up_notes_into_design_docs|clean up notes into design docs md]] #design #docs #notes #docops prio:P3 (uuid:d91c26e9-a20a-4e96-a7e9-913bda7c54d1)
 - [ ] [[cleanup_useless_regex_escape_in_agent_package|Clean up useless regex escape in agent package]] #regex #escape #agent #clean prio:P3 (uuid:d3e6cca5-2b2f-4cd9-8131-db74ebe7c8f9)
-- [ ] [[clearly-document-new-repository-layout|<verb> <thing> <qualifier> :auto :ts]] #board #lang prio:p3 (uuid:19470007-2c10-46f3-a5bf-afe2f5ad72d5)
+- [ ] [[clearly-document-new-repository-layout|<verb> <thing> <qualifier>]] #board:auto #lang:ts prio:p3 (uuid:19470007-2c10-46f3-a5bf-afe2f5ad72d5)
 - [ ] [[clearly-standardize-data-models|clearly standardize data models]] #data #models #clearly #standardize prio:P3 (uuid:4b95c5fc-86cc-486e-a5df-c3dc7ebee209)
 - [ ] [[clearly_seperate_service_dependency_files|clearly seperate service dependency files md]] #service #dependency #clearly #seperate prio:P3 (uuid:35c0a7d2-a172-4cfd-8521-b3faee0417ca)
 - [ ] [[codex-action-build-file-contextualizer|Description]] #description #step #useful #describe prio:P3 (uuid:0ce451d4-77c5-426c-9016-c79d9f4aec6b)
-- [ ] [[configure-piper-environment-variables-for-ai-pipelines|Configure piper environment variables for AI-powered pipelines   -configuration   -configuration]] #piper #environment #ai-configuration #ollama #setup prio:P1 (uuid:8cbdaa8f-d316-46d7-a077-7627167a94dc)
+- [ ] [[configure-piper-environment-variables-for-ai-pipelines|Configure piper environment variables for AI-powered pipelines]] #piper #environment #ai-configuration #ollama #setup prio:P1 (uuid:d4e5f6g7-h8i9-0123-defg-456789012345)
 - [ ] [[connect-bluesky|Description]] #description #bluesky #app #authentication prio:P3 (uuid:49a002af-c299-402a-b922-8308556c437b)
 - [ ] [[connect-reddit|Description]] #reddit #description #api #oauth2 prio:P3 (uuid:d4574bbb-98a3-40ae-a335-0ff2123b4c57)
 - [ ] [[connect-wikipedia|Description]] #api #description #mediawiki #knowledge prio:P3 (uuid:f446af1c-3616-478b-8bef-4e682d3ef17c)
@@ -136,7 +117,7 @@ kanban-plugin: board
 - [ ] [[document_board_usage_guidelines_1|document board usage guidelines 1 md]] #board #document #usage #guidelines prio:P3 (uuid:8c0e512b-27b8-4132-83b1-5da880210b84)
 - [ ] [[document_etag_semantics_and_cache_headers_for_snap|document etag semantics and cache headers for snap md]] #document #etag #semantics #cache prio:P3 (uuid:fb4e2a3c-f44e-4418-87d5-bbe14ab1216f)
 - [ ] [[document_local_testing_setup|document local testing setup md md]] #setup #testing #document #local prio:P3 (uuid:2159cf55-db82-46df-b669-52ccacdb7c4b)
-- [ ] [[duck-audio-shared-clamp-and-constants|duck-audio — share clamp + constants across browser/node -audio -audio]] #duck-audio #shared #tests prio:P3 (uuid:5f9a1b2c-4d5e-6f7a-8b9c-0d1e2f3a4b5c)
+- [ ] [[duck-audio-shared-clamp-and-constants|duck-audio — share clamp + constants across browser/node]] #duck-audio #shared #tests prio:P3 (uuid:5f9a1b2c-4d5e-6f7a-8b9c-0d1e2f3a4b5c)
 - [ ] [[each_service_registers_a_pid_with_a_heartbeat_service_if_they_do_not_successfully_check_in_terminate_the_process_using_the_pid|each service registers a pid with a heartbeat service if they do not successfully check in terminate the process using the pid md md]] #service #pid #each #registers prio:P3 (uuid:d474baf2-e4ff-4771-9e51-11775c186fe6)
 - [ ] [[ecs_board_planning_note|ECS Board Planning Note]] #board #ecs #planning #note prio:P3 (uuid:480c3123-6ad3-4825-8516-896cd8d683cc)
 - [ ] [[ecs_component_schemas_core|ecs component schemas core]] #schemas #ecs #component #core prio:P3 (uuid:af127b29-3031-4f13-a82b-7d7042581e35)
@@ -155,7 +136,7 @@ kanban-plugin: board
 - [ ] [[evaluate-docker-npu-compatability|Evaluate and integrate docker NPU image into workflows]] #docker #evaluate #integrate #npu prio:P3 (uuid:f2a4af09-e073-4773-9322-3acff1778142)
 - [ ] [[evaluate-ollama-openvino|evaluate ollama openvino]] #evaluate #ollama #openvino #chatgpt prio:p3 (uuid:a08e1032-c149-4060-831d-97e43d707132)
 - [ ] [[evaluate_and_reward_flow_satisfaction|evaluate and reward flow satisfaction]] #reward #evaluate #flow #satisfaction prio:P3 (uuid:45a4101d-01ab-497b-8920-97cc563e9351)
-- [ ] [[expand-functional-loop-refactors|Expand functional loop refactors across repository  -style  -style]] #refactor #functional-style prio:P3 (uuid:f6c39654-1e09-4741-9aeb-bdb200cc7216)
+- [ ] [[expand-functional-loop-refactors|Expand functional loop refactors across repository]] #refactor #functional-style prio:P3 (uuid:f6c39654-1e09-4741-9aeb-bdb200cc7216)
 - [ ] [[expose_metrics_on_an_express_app_and_scrape_with_p|expose metrics on an express app and scrape with p md]] #expose #metrics #express #app prio:P3 (uuid:e4ec91c1-9c83-42a8-8f95-f3f15d8e8499)
 - [ ] [[expose_snapshot_api_for_processes_collection_proce|expose snapshot api for processes collection proce md]] #processes #expose #snapshot #api prio:P3 (uuid:0ada665e-5766-45f2-9edb-f5feee65e226)
 - [ ] [[extract_docs_from_riatzukiza_github_io|extract docs from riatzukiza github io md md]] #docs #riatzukiza #github #extract prio:P3 (uuid:02eeb8bd-1053-40b4-a213-8db02d7aa526)
@@ -166,25 +147,25 @@ kanban-plugin: board
 - [ ] [[find-music-that-triggered-copyright-mute-on-twitch-for-analysis-incoming|find music that triggered copyright mute on twitch for analysis incoming]] #find #music #triggered #copyright prio:P3 (uuid:84b2e724-dd49-4519-ab5e-402973a70551)
 - [ ] [[finish-work-on-gptbridge-agent-integration|Description]] #description #step #chatgpt #describe prio:P3 (uuid:69a70883-0a6d-4d2a-a502-9d5cfab5ac6c)
 - [ ] [[finish_whisper_npu_system|finish whisper npu system md md]] #npu #whisper #system #finish prio:P3 (uuid:0f185d39-74a7-4856-b0db-068b29a998e5)
-- [ ] [[fix-auth-me-rate-limit|Enforce /auth/me rate limiting in SmartGPT Bridge :auto :ts :smartgpt-bridge /TASK-20250307-0001 /kanban /InProgress /err /p2 /EPC-000]] #board #lang #package #task #board #state #owner #priority #epic prio:p2 (uuid:99127fd9-debb-4eea-8625-32521de25fb1)
-- [ ] [[fix-board-review-pipeline-incorrect-process-md-file-reference|Fix board-review pipeline incorrect Process.md file reference  -review -reference -sensitivity -resolution  -review -reference -sensitivity -resolution]] #piper #board-review #file-reference #case-sensitivity #path-resolution prio:P2 (uuid:c9d8e7f6-d5c4-b3a2-c1d0-987654321098)
-- [ ] [[fix-build-errors-enso-docops-kanban-webcrawler|Fix TypeScript build errors across key packages :auto :ts /TASK-20240921-buildfix /kanban /InProgress /codex-cloud /p2 /EPC-000]] #board #lang #task #board #state #owner #priority #epic prio:p2 (uuid:eef79dc1-907d-4875-b833-31c2a9665d0e)
-- [ ] [[fix-buildfix-pipeline-timeout-and-configuration-issues|Fix buildfix pipeline timeout and configuration issues    -automation -handling    -automation -handling]] #piper #buildfix #timeout #build-automation #error-handling prio:P2 (uuid:a1b2c3d4-e5f6-7890-abcd-123456789012)
-- [ ] [[fix-codemods-pipeline-missing-simtasks-dependencies-and-schema-issues|Fix codemods pipeline missing simtasks dependencies and schema issues    -validation -chain    -validation -chain]] #piper #codemods #simtasks #schema-validation #dependency-chain prio:P2 (uuid:a3b4c5d6-e7f8-9012-abc3-456789012345)
-- [ ] [[fix-docops-pipeline-file-reference-management-and-sequencing|Fix docops pipeline file reference management and sequencing issues   -management  -fix   -management  -fix]] #piper #docops #file-management #sequencing #bug-fix prio:P2 (uuid:672c5731-2e1b-45f3-8084-e1bdac75ecda)
-- [ ] [[fix-eslint-tasks-pipeline-typescript-configuration|Fix eslint-tasks pipeline TypeScript parser configuration issues     -fix     -fix]] #piper #eslint #typescript #configuration #build-fix prio:P2 (uuid:7ac8f174-c4df-484f-a1eb-6c864798c0c9)
-- [ ] [[fix-frontend-service-test|Fix frontend-service test failure :auto :ts /TASK-20250927-frontend-service-test /kanban /New /err /p3 /EPC-000]] #board #lang #task #board #state #owner #priority #epic prio:p3 (uuid:f6a6e7b0-72d6-489d-a98c-450ba82ab3cc)
+- [ ] [[fix-auth-me-rate-limit|Enforce /auth/me rate limiting in SmartGPT Bridge]] #board:auto #lang:ts #package:smartgpt-bridge #task/TASK-20250307-0001 #board/kanban #state/InProgress #owner/err #priority/p2 #epic/EPC-000 prio:p2 (uuid:99127fd9-debb-4eea-8625-32521de25fb1)
+- [ ] [[fix-board-review-pipeline-incorrect-process-md-file-reference|Fix board-review pipeline incorrect Process.md file reference]] #piper #board-review #file-reference #case-sensitivity #path-resolution prio:P2 (uuid:c9d8e7f6-d5c4-b3a2-c1d0-987654321098)
+- [ ] [[fix-build-errors-enso-docops-kanban-webcrawler|Fix TypeScript build errors across key packages]] #board:auto #lang:ts #task/TASK-20240921-buildfix #board/kanban #state/InProgress #owner/codex-cloud #priority/p2 #epic/EPC-000 prio:p2 (uuid:eef79dc1-907d-4875-b833-31c2a9665d0e)
+- [ ] [[fix-buildfix-pipeline-timeout-and-configuration-issues|Fix buildfix pipeline timeout and configuration issues]] #piper #buildfix #timeout #build-automation #error-handling prio:P2 (uuid:a1b2c3d4-e5f6-7890-abcd-123456789012)
+- [ ] [[fix-codemods-pipeline-missing-simtasks-dependencies-and-schema-issues|Fix codemods pipeline missing simtasks dependencies and schema issues]] #piper #codemods #simtasks #schema-validation #dependency-chain prio:P2 (uuid:a3b4c5d6-e7f8-9012-abc3-456789012345)
+- [ ] [[fix-docops-pipeline-file-reference-management-and-sequencing|Fix docops pipeline file reference management and sequencing issues]] #piper #docops #file-management #sequencing #bug-fix prio:P2 (uuid:f6g7h8i9-j0k1-2345-fghi-678901234567)
+- [ ] [[fix-eslint-tasks-pipeline-typescript-configuration|Fix eslint-tasks pipeline TypeScript parser configuration issues]] #piper #eslint #typescript #configuration #build-fix prio:P2 (uuid:b2c3d4e5-f6g7-8901-bcde-f23456789012)
+- [ ] [[fix-frontend-service-test|Fix frontend-service test failure]] #board:auto #lang:ts #task/TASK-20250927-frontend-service-test #board/kanban #state/New #owner/err #priority/p3 #epic/EPC-000 prio:p3 (uuid:f6a6e7b0-72d6-489d-a98c-450ba82ab3cc)
 - [ ] [[fix-kanban-config-path-resolution-and-documentation|Fix kanban config path resolution and document usage for agents]] #kanban #documentation #agents #cli #config prio:P2 (uuid:a7b8c9d0-e1f2-4a5b-9c8d-0e1f2a3b4c5d)
-- [ ] [[fix-readmes-pipeline-timeout-issues|Fix readmes pipeline timeout issues and optimize performance     -optimization     -optimization]] #piper #readmes #performance #timeout #ai-optimization prio:P2 (uuid:810dda2c-fdc4-4d2b-bede-0068785bd234)
-- [ ] [[fix-semverguard-pipeline-incorrect-directory-scanning-and-configuration-issues|Fix semver-guard pipeline incorrect directory scanning and configuration issues  -guard -scanning  -resolution  -guard -scanning  -resolution]] #piper #semver-guard #directory-scanning #configuration #path-resolution prio:P2 (uuid:7d393639-03e3-4d63-8d38-b954ba64898a)
-- [ ] [[fix-simtasks-pipeline-missing-package-references-and-scanning-errors|Fix simtasks pipeline missing package references and scanning errors   -scanning -system -handling   -scanning -system -handling]] #piper #simtasks #package-scanning #file-system #error-handling prio:P2 (uuid:bce4d722-31b4-4d2e-87ca-c2520bd1ea47)
-- [ ] [[fix-smartgpt-bridge-grep-test|Fix SmartGPT Bridge grep parity with ripgrep :auto :ts /TASK-20241120-grepfix /kanban /InProgress /gpt /p2 /EPC-000]] #board #lang #task #board #state #owner #priority #epic prio:p2 (uuid:99ee9a9f-a7b5-489d-9eba-5de75e6840ab)
-- [ ] [[fix-smartgpt-bridge-tests|Fix hanging SmartGPT bridge tests :auto :ts /TASK-20250928-041600 /kanban /InProgress /err /p2 /EPC-000]] #board #lang #task #board #state #owner #priority #epic prio:p2 (uuid:f12dba73-161a-498a-9139-6a735eb75c3a)
-- [ ] [[fix-symdocs-pipeline-missing-dependencies|Fix symdocs pipeline missing @promethean/file-indexer dependency    -fix    -fix]] #piper #symdocs #dependencies #build-fix prio:P2 (uuid:a1b2c3d4-e5f6-7890-abcd-ef1234567890)
-- [ ] [[fix-test-gap-pipeline-missing-coverage-and-incorrect-package-scanning|Fix test-gap pipeline missing coverage and incorrect package scanning  -gap -reports -scanning  -gap -reports -scanning]] #piper #test-gap #coverage-reports #package-scanning #testing prio:P2 (uuid:d0e1f2a3-b4c5-6789-def0-234567890123)
-- [ ] [[fix-web-utils-test|Fix failing web-utils test :auto :ts /TASK-20250207-web-utils /kanban /InProgress /err /p2 /EPC-000]] #board #lang #task #board #state #owner #priority #epic prio:p2 (uuid:cd4596d8-bb67-437e-94c4-24b6986f7020)
+- [ ] [[fix-readmes-pipeline-timeout-issues|Fix readmes pipeline timeout issues and optimize performance]] #piper #readmes #performance #timeout #ai-optimization prio:P2 (uuid:c3d4e5f6-g7h8-9012-cdef-345678901234)
+- [ ] [[fix-semverguard-pipeline-incorrect-directory-scanning-and-configuration-issues|Fix semver-guard pipeline incorrect directory scanning and configuration issues]] #piper #semver-guard #directory-scanning #configuration #path-resolution prio:P2 (uuid:h8i9j0k1-l2m3-4567-hijk-890123456789)
+- [ ] [[fix-simtasks-pipeline-missing-package-references-and-scanning-errors|Fix simtasks pipeline missing package references and scanning errors]] #piper #simtasks #package-scanning #file-system #error-handling prio:P2 (uuid:g7h8i9j0-k1l2-3456-ghij-789012345678)
+- [ ] [[fix-smartgpt-bridge-grep-test|Fix SmartGPT Bridge grep parity with ripgrep]] #board:auto #lang:ts #task/TASK-20241120-grepfix #board/kanban #state/InProgress #owner/gpt #priority/p2 #epic/EPC-000 prio:p2 (uuid:99ee9a9f-a7b5-489d-9eba-5de75e6840ab)
+- [ ] [[fix-smartgpt-bridge-tests|Fix hanging SmartGPT bridge tests]] #board:auto #lang:ts #task/TASK-20250928-041600 #board/kanban #state/InProgress #owner/err #priority/p2 #epic/EPC-000 prio:p2 (uuid:f12dba73-161a-498a-9139-6a735eb75c3a)
+- [ ] [[fix-symdocs-pipeline-missing-dependencies|Fix symdocs pipeline missing @promethean/file-indexer dependency]] #piper #symdocs #dependencies #build-fix prio:P2 (uuid:a1b2c3d4-e5f6-7890-abcd-ef1234567890)
+- [ ] [[fix-test-gap-pipeline-missing-coverage-and-incorrect-package-scanning|Fix test-gap pipeline missing coverage and incorrect package scanning]] #piper #test-gap #coverage-reports #package-scanning #testing prio:P2 (uuid:d0e1f2a3-b4c5-6789-def0-234567890123)
+- [ ] [[fix-web-utils-test|Fix failing web-utils test]] #board:auto #lang:ts #task/TASK-20250207-web-utils #board/kanban #state/InProgress #owner/err #priority/p2 #epic/EPC-000 prio:p2 (uuid:cd4596d8-bb67-437e-94c4-24b6986f7020)
 - [ ] [[fix_makefile_test_target|fix makefile test target md]] #test #target #makefile #tests prio:P3 (uuid:452f1408-fe8c-41fb-87ab-761e8dcee2d6)
-- [ ] [[fix_ui_components_lint|Fix `@promethean/ui-components` lint failures -task -task]] #codex-task prio:P2 (uuid:f4e15fe7-e616-4e34-94a6-a4ca655f4f4c)
+- [ ] [[fix_ui_components_lint|Fix `@promethean/ui-components` lint failures]] #codex-task prio:P2 (uuid:f4e15fe7-e616-4e34-94a6-a4ca655f4f4c)
 - [ ] [[flatten-services|flatten services]] #service #flatten #services #structure prio:P3 (uuid:52028599-a34a-40ff-97a0-d8f47970e4b0)
 - [ ] [[flatten-sibilant-src-folders|Description]] #description #step #useful #describe prio:P3 (uuid:fc716d8d-01f4-4fd7-bf67-db151d0dac03)
 - [ ] [[format_auth_service_readme_with_prettier|Format auth-service README with Prettier]] #readme #prettier #auth #service prio:P3 (uuid:94a2959e-21b1-4a41-9c1f-85787c1a0894)
@@ -195,7 +176,7 @@ kanban-plugin: board
 - [ ] [[gather_baseline_emotion_metrics_for_eidolon_field_1|gather baseline emotion metrics for eidolon field 1 md]] #baseline #eidolon #gather #emotion prio:P3 (uuid:db083776-2697-432a-8aba-3e4639648867)
 - [ ] [[gather_open_questions_about_system_direction|gather open questions about system direction md md]] #questions #open #gather #system prio:P3 (uuid:4fb7f392-4473-4d58-a8c0-ec5fba5d6474)
 - [ ] [[get all existing piper pipelines functional|Get all existing pipelines functional]] #name #existing #pipelines #get prio:P3 (uuid:8b3c665c-d6ff-4a0a-9fb9-b2dbefa35fb4)
-- [ ] [[github-crawler|<verb> <thing> <qualifier> :auto :ts]] #board #lang prio:p3 (uuid:68f9fe6d-3602-44b2-b3d4-471173e2b4fc)
+- [ ] [[github-crawler|<verb> <thing> <qualifier>]] #board:auto #lang:ts prio:p3 (uuid:68f9fe6d-3602-44b2-b3d4-471173e2b4fc)
 - [ ] [[gpt-bridge-fuzzy-lookup-should-return-multiple-matches-when-it-is-used|gpt bridge fuzzy lookup should return multiple matches when it is used]] #fuzzy #matches #gpt #bridge prio:P3 (uuid:5e02a76a-4b66-4dbb-8a93-16fdbee83283)
 - [ ] [[harden-precommit-hooks|Description]] #description #blocked #make #bad prio:P3 (uuid:b4f3da22-f345-4ea2-84ec-7277ca9e0735)
 - [ ] [[hy---js-interop|Description]] #description #step #javascript #modules prio:P3 (uuid:1dc83433-84ef-46c7-811f-f3e03b5dbe73)
@@ -204,30 +185,30 @@ kanban-plugin: board
 - [ ] [[identify_and_resolve_a_service_client_apparently_connecting_repeatedly_to_broker_with_new_session_ids|Description]] #description #client #session #progress prio:P3 (uuid:0a2763ff-0f30-4605-87b4-2548e8679a77)
 - [ ] [[implement-classes-in-compiler-lisp-incoming|🛠️ Task: Implement Classes in Lisp Compiler]] #lisp #classes #compiler #implement prio:P3 (uuid:035cede1-531f-4070-aa80-841a9cf83631)
 - [ ] [[implement-defun-in-compiler-lisp-incoming|🛠️ Task: Implement `defun` in Lisp Compiler]] #defun #compiler #lisp #implement prio:P3 (uuid:f0fe8d30-5833-4791-9e31-9c2292db03bc)
-- [ ] [[implement-kanban-dev-command-with-real-time-sync-and-ui-hosting|Implement kanban dev command with real-time sync and UI hosting  -experience -watching -time-sync -hosting -enhancement  -experience -watching -time-sync -hosting -enhancement]] #kanban #dev-experience #file-watching #real-time-sync #ui-hosting #cli-enhancement prio:P1 (uuid:4155e072-9907-4c5e-8af3-ee8e90cebec0)
+- [ ] [[implement-kanban-dev-command-with-real-time-sync-and-ui-hosting|Implement kanban dev command with real-time sync and UI hosting]] #kanban #dev-experience #file-watching #real-time-sync #ui-hosting #cli-enhancement prio:P1 (uuid:7b8c9d0e-1f2a-3b4c-5d6e-7f8g9h0i1j2k)
 - [ ] [[implement_fragment_ingestion_with_activation_vecto|implement fragment ingestion with activation vecto md]] #implement #fragment #ingestion #activation prio:P3 (uuid:d6204735-5a96-4670-a361-6f6ef7c5cdb6)
 - [ ] [[implement_pause_resume_ops_on_gateway|implement pause resume ops on gateway md]] #implement #pause #resume #ops prio:P3 (uuid:4508b108-1326-43bf-b58b-06883f70c9fc)
 - [ ] [[implement_timetravel_processat_processid_t_in_a_sm|implement timetravel processat processid t in a sm md]] #implement #timetravel #processat #processid prio:P3 (uuid:67368c6a-0102-4eb4-bcfa-7287dd747f9c)
 - [ ] [[implement_transcendence_cascade|implement transcendence cascade md]] #implement #transcendence #cascade #design prio:P3 (uuid:a5db4128-395b-4d38-8182-abef99521a5d)
 - [ ] [[implement_transcendence_cascade_framework_core|implement transcendence cascade framework core md]] #implement #transcendence #cascade #framework prio:P3 (uuid:424f67f8-c949-437a-8a59-8a4eb3d77f77)
 - [ ] [[index|Kanban Tasks Index]] #kanban #tasks #index #folder prio:P3 (uuid:07da16ba-b71f-4fdf-a6db-94762df331ef)
-- [ ] [[install-and-configure-sonar-scanner-for-code-quality-pipeline|Install and configure sonar-scanner for code quality pipeline   -quality  -dependency   -quality  -dependency]] #piper #sonar #code-quality #sonarqube #external-dependency prio:P2 (uuid:b8c7d6e5-c4b3-a2b1-a099-876543210987)
+- [ ] [[install-and-configure-sonar-scanner-for-code-quality-pipeline|Install and configure sonar-scanner for code quality pipeline]] #piper #sonar #code-quality #sonarqube #external-dependency prio:P2 (uuid:b8c7d6e5-c4b3-a2b1-a099-876543210987)
 - [ ] [[install_biome_dependency_for_cephalon_discord|Install Biome dependency for cephalon-discord]] #biome #cephalon #discord #dependency prio:P3 (uuid:0427985f-f4ad-4f85-975f-9c085bcc452a)
 - [ ] [[integrate-sonarqube-into-devops|integrate sonarqube into devops]] #sonarqube #devops #integrate #pipeline prio:P3 (uuid:fb040f44-7250-4828-9f2b-c36f65ed35e3)
 - [ ] [[just-so-much-batman|just so much batman]] #just #much #batman #span prio:P3 (uuid:8584c1fd-c8b6-4bf0-8cca-db9f91fe52c2)
-- [ ] [[kanban-as-a-finite-state-machine|2025.09.19.23.48.50   State Machine  Automation]] #Kanban #Finite #Workflow (uuid:961704a0-53ca-4aae-8c87-5b1f681a25be)
-- [ ] [[kanban-as-fsm-kernel|2025.09.19.22.12.01    -agnostic  -driven   -discipline    -agnostic  -driven   -discipline]] #Kanban #FSM #process #agent-agnostic #procedural #board-driven #WIP #blocking #session-discipline (uuid:1d2183ae-6cdd-43ec-9e4c-15ae41a24da7)
-- [ ] [[kanban-cli-cljs-quickstart|2025.10.06.14.11.46   -cli -hoc-filtering -flags -frontend -compilation -queries   -cli -hoc-filtering -flags -frontend -compilation -queries]] #clojurescript #sci #kanban-cli #ad-hoc-filtering #cli-flags #micro-frontend #zero-compilation #dynamic-queries (uuid:3a707c7c-9b75-401f-9d6f-fe5711eaf13f)
-- [ ] [[kanban-cli|2025.09.20.09.16.46    -management    -management]] #kanban #cli #markdown #task-management #jsonl (uuid:ba1ad13d-7988-4636-badf-f5fa9ac2344f)
-- [ ] [[kanban-fsm-with-safe-cycles|2025.09.19.23.23.12    cycles -end hand-off  PR  agent  cycles -shaping  work    -end    -shaping]] #Kanban #FSM #safe #session-end #no #cloud #procedural #re-shaping #partial (uuid:d1250964-1686-487c-9850-3cc1472e9326)
-- [ ] [[kanban-fsm|2025.09.19.22.32.47   machine     box]] #kanban #state #workflow #transitions #blocked #ice #incoming #accepted #rejected (uuid:2c588732-0024-4392-895e-de78dccb55a7)
+- [ ] [[kanban-as-a-finite-state-machine|2025.09.19.23.48.50]] #Kanban #Finite State Machine #Workflow Automation (uuid:961704a0-53ca-4aae-8c87-5b1f681a25be)
+- [ ] [[kanban-as-fsm-kernel|2025.09.19.22.12.01]] #Kanban #FSM #process #agent-agnostic #procedural #board-driven #WIP #blocking #session-discipline (uuid:1d2183ae-6cdd-43ec-9e4c-15ae41a24da7)
+- [ ] [[kanban-cli-cljs-quickstart|2025.10.06.14.11.46]] #clojurescript #sci #kanban-cli #ad-hoc-filtering #cli-flags #micro-frontend #zero-compilation #dynamic-queries (uuid:3a707c7c-9b75-401f-9d6f-fe5711eaf13f)
+- [ ] [[kanban-cli|2025.09.20.09.16.46]] #kanban #cli #markdown #task-management #jsonl (uuid:ba1ad13d-7988-4636-badf-f5fa9ac2344f)
+- [ ] [[kanban-fsm-with-safe-cycles|2025.09.19.23.23.12]] #Kanban #FSM #safe cycles #session-end hand-off #no PR #cloud agent #procedural cycles #re-shaping #partial work (uuid:d1250964-1686-487c-9850-3cc1472e9326)
+- [ ] [[kanban-fsm|2025.09.19.22.32.47]] #kanban #state machine #workflow #transitions #blocked #ice box #incoming #accepted #rejected (uuid:2c588732-0024-4392-895e-de78dccb55a7)
 - [ ] [[kanban-io-coaching|2025.10.06.15.01.14]] #kanban #io #coaching #jsonl #session #persistence #task (uuid:95513ada-e67b-43f4-8ffa-26ec0e1cb367)
-- [ ] [[kanban-prioritize-stubs|2025.10.06.15.00.38   -stubs -terry -sampling -prioritization -workflow   -stubs -terry -sampling -prioritization -workflow]] #kanban #prioritize #command-stubs #bradley-terry #weighted-sampling #task-prioritization #interactive-workflow (uuid:5af6233e-8399-42a8-822e-29591076c41e)
+- [ ] [[kanban-prioritize-stubs|2025.10.06.15.00.38]] #kanban #prioritize #command-stubs #bradley-terry #weighted-sampling #task-prioritization #interactive-workflow (uuid:5af6233e-8399-42a8-822e-29591076c41e)
 - [ ] [[kanban-prioritize-subcommands|2025.10.06.15.01.27]] #kanban #prioritize #subcommands #CLI #task #filtering #ranking #clustering #score #explain (uuid:83ec632a-3d28-440f-adb7-76496a95edd2)
-- [ ] [[kanban-process-fundamentals|2025.09.19.21.39.45   state machine  conditions  flow  blocking  blocking  rules]] #kanban #finite #blocking #process #minor #major #intervention (uuid:bc415290-a177-4119-8ecb-4daf012c3f7c)
+- [ ] [[kanban-process-fundamentals|2025.09.19.21.39.45]] #kanban #finite state machine #blocking conditions #process flow #minor blocking #major blocking #intervention rules (uuid:bc415290-a177-4119-8ecb-4daf012c3f7c)
 - [ ] [[kanban-processor|kanban processor]] #ecs #kanban #planning prio:P3 (uuid:f88c9d06-c8f3-4a60-96b7-9fddf412ba5e)
 - [ ] [[kanban-tasks|Kanban CLI Tasks (Docs/Agile)]] #kanban #cli #tasks #docs prio:P3 (uuid:379c1028-3b05-4984-8414-42cab3634054)
-- [ ] [[kanban-workflow-guide|2025.09.19.18.03.15   engineering  management]] #Kanban #software #task (uuid:6caeba23-261e-45b3-92f3-f3f65c321b27)
+- [ ] [[kanban-workflow-guide|2025.09.19.18.03.15]] #Kanban #software engineering #task management (uuid:6caeba23-261e-45b3-92f3-f3f65c321b27)
 - [ ] [[kubernetes-configurations-for-secure-distributed-deployment-on-local-net|kubernetes configurations for secure distributed deployment on local net]] #changes #kubernetes #configurations #secure prio:p3 (uuid:0f65afc2-493e-40b2-85b0-17c4bf4b8d85)
 - [ ] [[launch_replayapi_on_8083_test_replay_and_export_nd|launch replayapi on 8083 test replay and export nd md]] #launch #replayapi #8083 #test prio:P3 (uuid:4f0d3b3f-4012-431f-96f3-9cde2cc7f06a)
 - [ ] [[lisp-ecosystem-files|Description]] #description #step #lisp #existing prio:P3 (uuid:1988420c-a65f-4f04-a688-f081bf4407ac)
@@ -239,8 +220,8 @@ kanban-plugin: board
 - [ ] [[make-the-system-hashtag-aware|make the system hashtag aware]] #hashtags #hashtag #aware #make prio:P3 (uuid:709c00c8-6e75-4719-850b-d58ea26ab255)
 - [ ] [[make_discord_channel_aware_contextualizer|make discord channel aware contextualizer md md]] #discord #channel #make #aware prio:P3 (uuid:9c9a9289-e420-403e-9772-71fc3d7e128f)
 - [ ] [[make_seperate_execution_pathways_1|make seperate execution pathways 1 md md]] #make #seperate #execution #pathways prio:P3 (uuid:4af34fd8-8f94-4013-ad4f-61bd0ce13c78)
-- [ ] [[migrate legacy js services to ts|<verb> <thing> <qualifier> :auto :ts]] #board #lang prio:p3 (uuid:907f268b-ced3-4206-aa3e-82b56dc811a1)
-- [ ] [[migrate_mk_mcp_ide_to_clj_hacks|Consolidate mk MCP/IDE libs under clj-hacks :auto :clj /TASK-20240607-0001 /kanban /InProgress /err /p3 /EPC-000]] #board #lang #task #board #state #owner #priority #epic prio:p3 (uuid:046df43b-fdc3-46d5-a45a-ed7dca487615)
+- [ ] [[migrate legacy js services to ts|<verb> <thing> <qualifier>]] #board:auto #lang:ts prio:p3 (uuid:907f268b-ced3-4206-aa3e-82b56dc811a1)
+- [ ] [[migrate_mk_mcp_ide_to_clj_hacks|Consolidate mk MCP/IDE libs under clj-hacks]] #board:auto #lang:clj #task/TASK-20240607-0001 #board/kanban #state/InProgress #owner/err #priority/p3 #epic/EPC-000 prio:p3 (uuid:046df43b-fdc3-46d5-a45a-ed7dca487615)
 - [ ] [[migrate_portfolio_client_code_to_promethean|migrate portfolio client code to promethean md]] #portfolio #client #promethean #code prio:P3 (uuid:79bbbd38-ace9-4833-89be-b6dd50bbc940)
 - [ ] [[migrate_server_side_sibilant_libs_to_promethean_ar|migrate server side sibilant libs to promethean ar md]] #migrate #server #side #sibilant prio:P3 (uuid:46303bb8-ac2d-4083-96c5-3f2e5a7a317b)
 - [ ] [[migrate_server_side_sibilant_libs_to_promethean_architecture|migrate server side sibilant libs to promethean architecture md]] #migrate #server #side #sibilant prio:P3 (uuid:d1efce9d-cff7-4f99-baeb-143b9edf981a)
@@ -254,15 +235,15 @@ kanban-plugin: board
 - [ ] [[obsidian_kanban_github_project_board_mirror_system|obsidian kanban github project board mirror system md md]] #github #kanban #board #obsidian prio:P3 (uuid:083d6047-9529-4d0b-9ada-406acf3d97f8)
 - [ ] [[obsidian_replacement|obsidian replacement md]] #obsidian #replacement #can #than prio:P3 (uuid:ddad0e6a-9019-4cc8-900e-93549b5ee845)
 - [ ] [[openai-compatable-api|Task: Context Layer Between Codex and Local LLMs]] #codex #context #between #local prio:P3 (uuid:e02f9c17-8d25-48bf-bad9-bd145a14c9a3)
-- [ ] [[optimize-piper-pipeline-performance-and-add-timeouts|Optimize piper pipeline performance and add comprehensive timeouts]] #piper #performance #timeouts #optimization #monitoring prio:P2 (uuid:830ec49f-25e2-46ec-af96-c12302445256)
-- [ ] [[organize-backend-packages|Organize backend packages under services -core -core]] #framework-core #refactor prio:p3 (uuid:90c25667-5a2b-4c8c-9d40-5b03e54675f2)
-- [ ] [[organize-library-packages|Organize shared libraries into focused groups -core -core]] #framework-core #refactor prio:p3 (uuid:42feae0b-46f6-4580-b9bf-071720c0dc79)
-- [ ] [[organize-tooling-packages|Group tooling and CLI packages -core -core]] #framework-core #refactor prio:p3 (uuid:911d511f-7f6d-4f01-86c0-5129765a3f8f)
+- [ ] [[optimize-piper-pipeline-performance-and-add-timeouts|Optimize piper pipeline performance and add comprehensive timeouts]] #piper #performance #timeouts #optimization #monitoring prio:P2 (uuid:e5f6g7h8-i9j0-1234-efgh-567890123456)
+- [ ] [[organize-backend-packages|Organize backend packages under services]] #framework-core #refactor prio:p3 (uuid:90c25667-5a2b-4c8c-9d40-5b03e54675f2)
+- [ ] [[organize-library-packages|Organize shared libraries into focused groups]] #framework-core #refactor prio:p3 (uuid:42feae0b-46f6-4580-b9bf-071720c0dc79)
+- [ ] [[organize-tooling-packages|Group tooling and CLI packages]] #framework-core #refactor prio:p3 (uuid:911d511f-7f6d-4f01-86c0-5129765a3f8f)
 - [ ] [[periodicly-the-embedding-service-will-get-disconnected-from-the-broker-and-not-die--blocking-other-processes-who-require-embeddings.-incoming|Embedding service sometimes disconnects from broker and hangs → detect, shed, kill, recover]] #embedding #service #broker #sometimes prio:P3 (uuid:9926dde4-990e-4503-a057-fcae2e5bf1b1)
 - [ ] [[phase-out-proxy-in-favor-of-bridge-service|phase out proxy in favor of bridge service]] #bridge #proxy #service #phase prio:P3 (uuid:695632f6-8bb2-4051-bbbc-42dd6729fe8f)
 - [ ] [[pin_versions_in_configs|Pin versions in configs]] #pin #versions #configs #codex prio:P3 (uuid:4beb36b0-7cc5-4116-a516-3927615031be)
 - [ ] [[pin_versions_in_configs_promethean_codex|pin versions in configs promethean codex md]] #pin #versions #configs #promethean prio:P3 (uuid:a224ab7a-70fd-4711-b499-a072c8037960)
-- [ ] [[post-move-stablization--compat-layer---hook-diet-|<verb> <thing> <qualifier> :auto :ts]] #board #lang prio:p3 (uuid:f40d381b-9c48-4dfc-9f89-51577c10c024)
+- [ ] [[post-move-stablization--compat-layer---hook-diet-|<verb> <thing> <qualifier>]] #board:auto #lang:ts prio:p3 (uuid:f40d381b-9c48-4dfc-9f89-51577c10c024)
 - [ ] [[pr-688-nitpack-codemods|Placeholder — will be overwritten by nitpack]] #placeholder #will #overwritten #nitpack prio:P3 (uuid:c5ebef15-dfbb-4ab4-a477-dd8584201758)
 - [ ] [[pr-688-nitpack-extract|pr 688 nitpack extract]] #688 #extract #nitpack #tasks prio:P3 (uuid:63e44f3d-fc18-4caf-85b7-08936527317e)
 - [ ] [[pr-688-nitpack-policy|Placeholder — will be overwritten by nitpack]] #placeholder #will #overwritten #nitpack prio:P3 (uuid:b2048125-45fd-4c09-aaeb-3359a4840c0b)
@@ -272,7 +253,7 @@ kanban-plugin: board
 - [ ] [[reach_100_percent_complete_test_coverage_1|reach 100 percent complete test coverage 1 md md]] #reach #100 #percent #complete prio:P3 (uuid:3139c11a-ab08-4389-a857-65096382d244)
 - [ ] [[recover broker code|Replace <SHA> with the commit from step 1]] #commit #you #replace #sha prio:P3 (uuid:1b93f3eb-202f-4d47-b4d0-b69286b8c2a3)
 - [ ] [[redefine-all-existing-lambdas-with-high-order-functions-incoming|redefine all existing lambdas with high order functions incoming]] #lambdas #order #functions #redefine prio:P3 (uuid:9a9e9c97-fbaa-4580-90ac-2d1f17eebbec)
-- [ ] [[refactor-mcp-endpoints|Refactor MCP package for multi-endpoint HTTP transport :auto :ts :@promethean/mcp /TASK-20240705-mcp-http /kanban /InProgress /err /p3 /EPC-000]] #board #lang #package #task #board #state #owner #priority #epic prio:p3 (uuid:121c9492-1226-4dae-b654-f39cdfe2364f)
+- [ ] [[refactor-mcp-endpoints|Refactor MCP package for multi-endpoint HTTP transport]] #board:auto #lang:ts #package:@promethean/mcp #task/TASK-20240705-mcp-http #board/kanban #state/InProgress #owner/err #priority/p3 #epic/EPC-000 prio:p3 (uuid:121c9492-1226-4dae-b654-f39cdfe2364f)
 - [ ] [[refactor_speech_interuption_system_to_be_more_inteligent_using_audio_data_to_decide_if_interupted|refactor speech interuption system to be more inteligent using audio data to decide if interupted md md]] #speech #audio #refactor #system prio:P3 (uuid:099c293b-2aaf-4ead-9cea-e88d8e352606)
 - [ ] [[register_v_1_schema_for_any_evolving_topic_and_wri|register v 1 schema for any evolving topic and wri md]] #register #schema #any #evolving prio:P3 (uuid:76f70720-6082-4a02-8c10-a90468d1a85b)
 - [ ] [[remove_any_types_across_packages|Remove `any` types across packages]] #any #types #packages #remove prio:P3 (uuid:cc373a25-f288-4def-8ced-b824cc72c06a)
@@ -304,8 +285,8 @@ kanban-plugin: board
 - [ ] [[setup_a_second_agent|setup a second agent md]] #second #agent #setup #agents prio:P3 (uuid:654e88a0-ce43-46b0-a67b-3c18270be8eb)
 - [ ] [[setup_code_in_wsl|setup code in wsl md]] #setup #code #wsl #out prio:P3 (uuid:d35d985b-44c2-4b67-9228-bc2cb912df24)
 - [ ] [[setup_services_to_recieve_work_from_the_broker_via_push|setup services to recieve work from the broker via push md]] #broker #services #setup #via prio:P3 (uuid:0b5c2829-4d26-4bda-93db-ab13a5a80a12)
-- [ ] [[shadow-cljs-migration-step-2-shared-components|Shadow CLJS migration — step 2 shared components -core -task -core -task]] #framework-core #codex-task #frontend prio:P2 (uuid:2d7bc869-0bc6-4d6b-891c-d7657cb8e4f4)
-- [ ] [[shadow-cljs-migration-step-3-app-rollout|Shadow CLJS migration — step 3 application roll-out -core -task -core -task]] #framework-core #codex-task #frontend prio:P2 (uuid:0ed899b3-b815-4384-89ad-a1ff76d6a6e5)
+- [ ] [[shadow-cljs-migration-step-2-shared-components|Shadow CLJS migration — step 2 shared components]] #framework-core #codex-task #frontend prio:P2 (uuid:2d7bc869-0bc6-4d6b-891c-d7657cb8e4f4)
+- [ ] [[shadow-cljs-migration-step-3-app-rollout|Shadow CLJS migration — step 3 application roll-out]] #framework-core #codex-task #frontend prio:P2 (uuid:0ed899b3-b815-4384-89ad-a1ff76d6a6e5)
 - [ ] [[smart_task_templater|smart task templater md]] #templater #smart #command #line prio:P3 (uuid:58e246ed-a8e3-4942-bf8d-73532959156e)
 - [ ] [[snapshot_prompts_specs_to_repo|snapshot prompts specs to repo]] #prompts #snapshot #specs #repo prio:P3 (uuid:ee9f46e7-9d65-437b-8897-2a7e11756f4f)
 - [ ] [[something-something.-1|something something 1]] #something #changes #span #context prio:p3 (uuid:3192eeb8-39ff-42aa-ab6f-2e7ce9b951cf)
@@ -321,6 +302,7 @@ kanban-plugin: board
 - [ ] [[switch_gateway_auth_to_jwt_generate_temp_hs256_tok|switch gateway auth to jwt generate temp hs256 tok md]] #switch #gateway #auth #jwt prio:P3 (uuid:469ea721-b00c-4752-b3ad-9e85bd1f9ff9)
 - [ ] [[tamper-monkey-script-for-using-templates-defined-in-the-vault|tamper monkey script for using templates defined in the vault]] #vault #templates #script #tamper prio:P3 (uuid:4e7f70bb-bb32-4a55-b499-bdc347afe21a)
 - [ ] [[task-generator-system|task generator system]] #generator #system #template #board prio:P3 (uuid:fb14db8b-0d66-4f4a-a30d-d7ef8631ddef)
+- [ ] [[test-cli-bug|Test CLI reporting bug]] #test #cli #bug prio:P2 (uuid:test-cli-bug-001)
 - [ ] [[thinking_model_integration|thinking model integration md md]] #model #thinking #integration #are prio:P3 (uuid:54927d5e-d90f-4575-be6a-307a30c2578c)
 - [ ] [[tool_chain_management_system|tool chain management system md md]] #tool #chain #management #system prio:P3 (uuid:98d1da44-0b69-45e2-bd09-204641e87de5)
 - [ ] [[tree-diffing-tools|tree diffing tools]] #changes #tree #diffing #tools prio:p3 (uuid:7ac178ae-b95a-465c-a3e7-603c5a4b64b4)
@@ -330,10 +312,11 @@ kanban-plugin: board
 - [ ] [[update_cephalon_to_use_custom_embedding_function|update cephalon to use custom embedding function md md]] #cephalon #function #update #use prio:P3 (uuid:af87b6ca-6f04-4380-9e5b-54adcf7bf254)
 - [ ] [[update_github_actions_to_use_makefile|update github actions automation to pnpm scripts]] #pnpm #scripts #update #github prio:P3 (uuid:cd2f96f3-bd40-410b-94f2-f7d0dbce4da4)
 - [ ] [[update_makefile_to_have_commands_specific_for_agents|replace agent automation makefile targets with pnpm scripts]] #pnpm #scripts #agent #makefile prio:P3 (uuid:9fbe9f3a-0c6a-472b-8f7c-b100dab6f5de)
+- [ ] [[upgrade-boardrev-indexing-for-large-files|upgrade board-review indexing for large files]] #files #board #review #indexing prio:P2 (uuid:1a41a8d1-0585-47be-a582-6fa36746c64b)
 - [ ] [[use_node_protocol_for_builtin_imports|Use `node:` protocol for builtin imports]] #node #imports #use #protocol prio:P3 (uuid:77011385-81b7-42aa-9137-cd522a63910e)
 - [ ] [[use_subscribepartitioned_for_cpu_heavy_consumers_t|use subscribepartitioned for cpu heavy consumers t md]] #use #subscribepartitioned #cpu #heavy prio:P3 (uuid:57a44b9c-b4b8-4fef-8ba6-cfcd8649ada0)
 - [ ] [[voice-forwarder-readme-and-frame-clamp|enso-browser-gateway — voice forwarder README + frameDuration clamp]] #enso #voice #docs prio:P3 (uuid:1a4d3d7c-5b2e-4f2c-8f9a-3b1c2d4e5f6a)
-- [ ] [[webcrawler|Web Crawler Agent → Hyperlink Graph → LLM Summaries/ → Chroma Search (Dual-Sink)]] #Tags #agent #llm #web #crawler prio:P3 (uuid:0d89cdd7-1a6c-4477-9cbc-d12472564b58)
+- [ ] [[webcrawler|Web Crawler Agent → Hyperlink Graph → LLM Summaries/#Tags → Chroma Search (Dual-Sink)]] #agent #llm #web #crawler prio:P3 (uuid:0d89cdd7-1a6c-4477-9cbc-d12472564b58)
 - [ ] [[wire_mongoeventstore_mongocursorstore_in_place_of|wire mongoeventstore mongocursorstore in place of md]] #wire #mongoeventstore #mongocursorstore #place prio:P3 (uuid:391e27d8-9134-4362-95bc-73ca9470c9e3)
 - [ ] [[wire_runoutboxdrainer_in_event_hub|wire runoutboxdrainer in event hub md]] #wire #runoutboxdrainer #event #hub prio:P3 (uuid:c2ee671b-c84a-4461-b71a-8b598470aef4)
 - [ ] [[wrap_event_hub_publish_path_with_withschemavalidat|wrap event hub publish path with withschemavalidat md]] #wrap #event #hub #publish prio:P3 (uuid:ad2b6f21-1a73-4682-96bb-f7ea7dd09cfa)
@@ -349,7 +332,7 @@ kanban-plugin: board
 
 ## in_progress
 
-- [ ] [[Setup Kanban UI for Kanban package|setup kanban ui for kanban package   -core   -core]] #kanban #ui #framework-core prio:P3 (uuid:c3366097-0d29-4c8d-b7e1-32de4cf8072e)
+- [ ] [[Setup Kanban UI for Kanban package|setup kanban ui for kanban package]] #kanban #ui #framework-core prio:P3 (uuid:c3366097-0d29-4c8d-b7e1-32de4cf8072e)
 - [ ] [[assemble-omni-service-host|Assemble unified @promethean/omni-service host]] #omni #service prio:P2 (uuid:5fb47630-6822-4ecf-a035-625ed0e733bf)
 - [ ] [[author-omni-protocol-package|Author @promethean/omni-protocol package]] #omni #package #typescript prio:P1 (uuid:457fd7a3-bc99-4de6-b9f3-06ef6cf00d5e)
 - [ ] [[duck-feature-flags-rewrite-web-node-docs|DUCK — feature flags rewrite (web + node) + docs]] #duck #web #node #flags #docs prio:P1 (uuid:9c1a2f5c-a7e2-4f4a-bb3d-2f8a7d54f6f1)
@@ -357,38 +340,60 @@ kanban-plugin: board
 - [ ] [[fix-nx-image-link-generator-test|Fix nx task @promethean/image-link-generator:test]] #image #link #generator #test prio:P2 (uuid:ac42755d-b90e-4d8d-bb16-46bc251fc210)
 - [ ] [[fix-nx-task-markdown-graph-test|Fix nx task @promethean/markdown-graph:test]] #test #promethean #markdown #graph prio:P1 (uuid:a4764fc6-ff3e-4ad9-97f6-7cce0b813b44)
 - [ ] [[fix-piper-pipeline-caching|Fix Piper pipeline caching regressions]] #piper #pipelines prio:P2 (uuid:8b57e951-99d2-4242-a56d-578a3f11cda6)
-- [ ] [[move-board-tools-into-kanban-package|move board tooling into kanban package -core -core]] #framework-core #devtools prio:P3 (uuid:8a791d5f-757a-4154-bba2-e14886da4c30)
+- [ ] [[move-board-tools-into-kanban-package|move board tooling into kanban package]] #framework-core #devtools prio:P3 (uuid:8a791d5f-757a-4154-bba2-e14886da4c30)
 - [ ] [[omni-unified-service-spec|Omni unified service specification and planning]] #omni #planning prio:P1 (uuid:90d0e75e-0f56-4e0e-b470-20e0145ad43d)
-- [ ] [[openws-helper-wrap-and-guards|duck-web — openWs helper DI wrapper + bearer guard -web -web]] #duck-web #websocket #auth prio:P2 (uuid:2c6e5a8d-7c9b-4a1b-b2d3-4e5f6a7b8c9d)
-- [ ] [[organize-frontend-packages|Organize frontend packages under a subdirectory -core -core]] #framework-core #refactor prio:p3 (uuid:2b28533b-0e70-4b18-80dc-1c8f96e24735)
-- [ ] [[pcm16k-worklet-and-mic-fixes|duck-web — PCM16k worklet + mic wiring fixes -web -web]] #duck-web #audio #worklet prio:P1 (uuid:4e8f0a2b-3c4d-5e6f-8a9b-1c2d3e4f5a6b)
+- [ ] [[openws-helper-wrap-and-guards|duck-web — openWs helper DI wrapper + bearer guard]] #duck-web #websocket #auth prio:P2 (uuid:2c6e5a8d-7c9b-4a1b-b2d3-4e5f6a7b8c9d)
+- [ ] [[organize-frontend-packages|Organize frontend packages under a subdirectory]] #framework-core #refactor prio:p3 (uuid:2b28533b-0e70-4b18-80dc-1c8f96e24735)
+- [ ] [[pcm16k-worklet-and-mic-fixes|duck-web — PCM16k worklet + mic wiring fixes]] #duck-web #audio #worklet prio:P1 (uuid:4e8f0a2b-3c4d-5e6f-8a9b-1c2d3e4f5a6b)
 - [ ] [[setup-kanban-mcp-server|Setup MCP server endpoint for kanban tooling]] #mcp #kanban #automation prio:P2 (uuid:936b26de-61b4-4d8d-94d7-171315a56ac9)
 - [ ] [[setup-mcp-pnpm-ops|Setup MCP server for pnpm workspace management]] #pnpm #workspace #mcp #server prio:P2 (uuid:9b3f1c89-9a76-4f18-92a4-38275b1bc1f0)
-- [ ] [[shadow-cljs-migration-step-1-foundation|Shadow CLJS migration — step 1 foundation -core -task -core -task]] #framework-core #codex-task #frontend prio:P2 (uuid:7a1a45fb-51d3-4d7b-b143-3834cf8aad3c)
-- [ ] [[throttled-datachannel-sender|duck-web — throttled RTCDataChannel sender with backpressure -web -web]] #duck-web #webrtc #perf prio:P1 (uuid:3d7e9f1a-2b3c-4d5e-8f9a-0b1c2d3e4f5a)
+- [ ] [[shadow-cljs-migration-step-1-foundation|Shadow CLJS migration — step 1 foundation]] #framework-core #codex-task #frontend prio:P2 (uuid:7a1a45fb-51d3-4d7b-b143-3834cf8aad3c)
+- [ ] [[test-in-progress|Test in_progress column]] #test #progress #wip prio:P1 (uuid:test-in-progress-001)
+- [ ] [[throttled-datachannel-sender|duck-web — throttled RTCDataChannel sender with backpressure]] #duck-web #webrtc #perf prio:P1 (uuid:3d7e9f1a-2b3c-4d5e-8f9a-0b1c2d3e4f5a)
 - [ ] [[update_task_template_frontmatter_alignment|Align task template frontmatter with canonical schema]] #docs #automation prio:P2 (uuid:f5553298-1c51-41c2-acb5-df4d9f518c89)
 
-## review
+## backlog
 
-- [ ] [[Consolidate all kanban helpers to kanban package|consolidate all kanban helpers to kanban package]] #kanban #all #scripts #consolidate prio:P3 (uuid:727fd6bd-7c63-4488-b29e-c09640d4cc8a)
-- [ ] [[Docops pipeline|docops pipeline]] #docops #pipeline #agent #drafts prio:P3 (uuid:c80af308-7b65-4dbf-92b9-d464308b4565)
-
-## document
-
-- [ ] [[remove_commonjs_artifacts_repo_wide|Remove CommonJS artifacts from repository #-task #-this -task -this]] #-task #-this #codex-task #doc-this prio:P2 (uuid:e6a16b59-a67d-4df9-babc-9faaaad3f9c9)
+- [ ] [[add-tsdoc-support|Add TSDoc support to the project]] #documentation #typescript #build-system prio:P2 (uuid:tsdoc-support-001)
+- [ ] [[boardrev-vector-db|Add confidence calibration and historical accuracy tracking]] #enhancement #boardrev #accuracy #metrics prio:P2 (uuid:$(uuidgen))
+- [ ] [[boardrev-vector-db|Add continuous monitoring and real-time updates to boardrev]] #enhancement #boardrev #monitoring #automation prio:P1 (uuid:$(uuidgen))
+- [ ] [[boardrev-vector-db|Enhance boardrev context analysis with weighted factors]] #enhancement #boardrev #analysis #accuracy prio:P2 (uuid:$(uuidgen))
+- [ ] [[boardrev-vector-db|Add incremental updates to boardrev indexing]] #enhancement #boardrev #performance prio:P1 (uuid:$(uuidgen))
+- [ ] [[boardrev-vector-db|Add interactive task management and auto-updates to boardrev]] #enhancement #boardrev #automation #management prio:P2 (uuid:$(uuidgen))
+- [ ] [[boardrev-vector-db|Implement multi-model evaluation for boardrev]] #enhancement #boardrev #ai #evaluation prio:P2 (uuid:$(uuidgen))
+- [ ] [[boardrev-vector-db|Integrate boardrev with piper pipeline system]] #enhancement #boardrev #infrastructure prio:P2 (uuid:$(uuidgen))
+- [ ] [[boardrev-vector-db|Replace LevelDB with vector database for boardrev]] #enhancement #boardrev #performance prio:P2 (uuid:$(uuidgen))
+- [ ] [[enhance-clj-hacks-claude-code-mcp|Enhance clj-hacks for Claude Code MCP server configs]] #clj-hacks #mcp #claude-code #tooling prio:P2 (uuid:5386dc78-da5b-4dfa-bef3-f82094c4c58a)
+- [ ] [[kanban-crud-commands|Add CRUD subcommands to kanban CLI]] #kanban #cli #enhancement #crud prio:P2 (uuid:kanban-crud-001)
+- [ ] [[upgrade-symdocs-documentation|Upgrade symdocs to generate meaningful API documentation]] #symdocs #documentation #enhancement #ai #pipeline prio:P2 (uuid:a2b3c4d5-e6f7-8901-bcde-f23456789012)
 
 ## done
 
 - [x] [[create-nx-package-mcp-tool|Create MCP tool for Nx package scaffolding]] #mcp #package #tool #create prio:P3 (uuid:8b52c0aa-1f68-4db1-bd4e-612c7c9f853c)
-- [x] [[duck-revival-diagrams-and-docs|Duck Revival — diagrams + docs linked  -revival  -revival]] #docs #duck-revival prio:P2 (uuid:1b2b8d52-3f3a-4c4a-9f3c-0b9b8f6d9f67)
-- [x] [[fix-regenerate-board-empty-columns|Fix regenerateBoard to show all configured columns even when empty]] #kanban #bug #fsm #columns #config prio:P1 (uuid:5814b4a2-7157-49c2-8eb3-98b843ff51fa)
+- [x] [[duck-revival-diagrams-and-docs|Duck Revival — diagrams + docs linked]] #docs #duck-revival prio:P2 (uuid:1b2b8d52-3f3a-4c4a-9f3c-0b9b8f6d9f67)
+- [x] [[fix-regenerate-board-empty-columns|Fix regenerateBoard to show all configured columns even when empty]] #kanban #bug #fsm #columns #config prio:P1 (uuid:kanban-regenerate-fix-001)
 - [x] [[fix_failing_tests_suite|Fix failing tests suite]] #testing #stabilization prio:P2 (uuid:5e7d15b7-50dc-4bd8-9ab3-8c7737a8dbe7)
-- [x] [[migrate-kanban-from-jsonl-to-level-cache|Migrate kanban system from JSONL to level-cache for memory efficiency    -cache -optimization    -cache -optimization]] #kanban #architecture #performance #level-cache #memory-optimization prio:P1 (uuid:48d398a7-9f4e-4c2a-8b15-3d7e8f9c2a1b)
+- [x] [[migrate-kanban-from-jsonl-to-level-cache|Migrate kanban system from JSONL to level-cache for memory efficiency]] #kanban #architecture #performance #level-cache #memory-optimization prio:P1 (uuid:48d398a7-9f4e-4c2a-8b15-3d7e8f9c2a1b)
 - [x] [[missing-rate-limiting-smartgpt-files|Add rate limiting to SmartGPT Bridge file routes]] #security #bug prio:P1 (uuid:7f2a8d19-4f72-4c39-9b23-08fd4e33c4f0)
-- [x] [[pr-comments-linked-codex-mentions|PRs — post diagram/docs comments + @codex mentions  -revival  -revival]] #reviews #duck-revival prio:P3 (uuid:0e0ed76d-7f60-4a31-9a33-92d024fb20d0)
+- [x] [[pr-comments-linked-codex-mentions|PRs — post diagram/docs comments + @codex mentions]] #reviews #duck-revival prio:P3 (uuid:0e0ed76d-7f60-4a31-9a33-92d024fb20d0)
 - [x] [[setup-mcp-exec-server|Setup MCP exec server from approved commands]] #MCP #Tooling prio:P2 (uuid:4bf47f12-8489-46ea-bee4-ee5d826541e1)
 
-## rejected
+## incoming
+
+- [ ] [[enforce-wip-limits-and-address-violations|Implement WIP limit enforcement and address current violations]] #kanban #wip #limits #enforcement #process #fsm prio:P1 (uuid:wip-enforcement-001)
+
+## document
+
+- [ ] [[remove_commonjs_artifacts_repo_wide|Remove CommonJS artifacts from repository]] ##codex-task ##doc-this prio:P2 (uuid:e6a16b59-a67d-4df9-babc-9faaaad3f9c9)
+
+## icebox
+
+- [ ] [[shadow-cljs-migration-step-4-decommission|Shadow CLJS migration — step 4 decommission legacy toolchain]] #framework-core #codex-task #frontend prio:P3 (uuid:5fe4fdf3-0fda-42fb-8f98-93859577d08f)
+- [ ] [[validate-voice-demo-microphone-integration|validate voice-demo microphone integration]] #audio #manual-test prio:P2 (uuid:8925f5a8-40ab-44e4-ad9e-54db7d617996)
+
+## ready
+
+- [ ] [[update-kanban-statuses-to-fsm|Update existing kanban tasks to use FSM statuses]] #kanban #fsm #cleanup #process prio:P2 (uuid:kanban-fsm-update-001)
 
 %% kanban:settings
 ```
