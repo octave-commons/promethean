@@ -21,9 +21,9 @@ created_at: '2025-10-02T00:00:00.000Z'
 Fix syntax errors in `pcm16k-worklet.js`, track fractional position to avoid drift; correct imports in `mic.ts`; reuse `duck-audio` helpers.
 
 ## Requirements
-- [ ] `registerProcessor('pcm16k', ...)` correct
-- [ ] Drift-free decimator
-- [ ] `float32ToInt16` from `duck-audio`
+- [x] `registerProcessor('pcm16k', ...)` correct
+- [x] Drift-free decimator
+- [x] `float32ToInt16` from `duck-audio`
 - [ ] Integration test: mic → worklet → PCM16
 
 ## ⛓️ Blocks
