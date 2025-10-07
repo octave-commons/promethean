@@ -1,15 +1,18 @@
 ---
-```
-uuid: a31bb3f1-3b68-483a-8280-e78386abf03b
-```
-title: cephalon backfill conversation history
+uuid: "a31bb3f1-3b68-483a-8280-e78386abf03b"
+title: "cephalon backfill conversation history"
+slug: "cephalon_backfill_conversation_history"
 status: ready
-priority: P2
-labels: []
-```
-created_at: '2025-09-15T02:02:58.509Z'
-```
+priority: "P3"
+labels: ["backfill", "cephalon", "conversation", "history"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 Cephalon: Backfill conversation history (optional)
 
 Goal: Migrate recent logs/outputs into `transcripts` and `agent_messages` to seed context for active users.

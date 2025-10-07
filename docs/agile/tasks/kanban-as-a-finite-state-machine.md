@@ -1,35 +1,18 @@
 ---
-```
-uuid: 961704a0-53ca-4aae-8c87-5b1f681a25be
-```
-```
-created_at: '2025-09-19T23:48:50Z'
-```
-title: 2025.09.19.23.48.50
-filename: Kanban as a Finite State Machine
-```
-description: >-
-```
-  Models a Kanban board as a finite state machine where tasks transition between
-  predefined states based on specific rules. The system enforces a single source
-  of truth for task status and includes WIP limits to prevent overloading.
-  Transition rules ensure tasks move through the workflow with clear conditions
-  for blocking or rework.
-tags:
-  - Kanban
-  - Finite State Machine
-  - Workflow Automation
-```
-related_to_uuid: []
-```
-```
-related_to_title: []
-```
-references: []
-status: todo
-priority: P3
-labels: []
+uuid: "961704a0-53ca-4aae-8c87-5b1f681a25be"
+title: "2025.09.19.23.48.50   State Machine  Automation"
+slug: "kanban-as-a-finite-state-machine"
+status: "done"
+priority: "P3"
+labels: ["Kanban", "Finite", "Workflow"]
+created_at: "2025-10-07T20:25:05.644Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## Kanban as a Finite State Machine (FSM)
 
 We treat the board as an FSM over tasks.
@@ -193,4 +176,6 @@ If you want, I can also generate a tiny per-column **Entry / Work / Exit** table
 ## Sources
 - _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
+
+
 

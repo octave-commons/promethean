@@ -1,12 +1,10 @@
 ---
 uuid: (uuidgen)
 title: Add continuous monitoring and real-time updates to boardrev
-status: backlog
+status: icebox
 priority: P1
 labels: [enhancement, boardrev, monitoring, automation]
-```
 created_at: 2025-10-06T12:00:00Z
-```
 ---
 
 # Add continuous monitoring and real-time updates to boardrev

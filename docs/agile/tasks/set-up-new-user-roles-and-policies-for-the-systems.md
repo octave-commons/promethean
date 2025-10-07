@@ -1,15 +1,18 @@
 ---
-```
-uuid: fd144ce1-d6aa-41ff-a544-a03c583d071b
-```
-title: set up new user roles and policies for the systems
-status: todo
-priority: P3
-labels: []
-```
-created_at: '2025-09-15T02:02:58.520Z'
-```
+uuid: "fd144ce1-d6aa-41ff-a544-a03c583d071b"
+title: "set up new user roles and policies for the systems"
+slug: "set-up-new-user-roles-and-policies-for-the-systems"
+status: "ready"
+priority: "P3"
+labels: ["set", "user", "policies", "want"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Description
 
 Right now we only have an admin role and a simple policy matrix.
@@ -48,4 +51,6 @@ Useful for agents to engage in append only conversations about this task.
 - Assumptions: Existing auth framework can be extended for granular roles.
 - Dependencies: Permission schema design and configuration interface.
 #ready
+
+
 

@@ -1,17 +1,18 @@
 ---
-```
-uuid: a4764fc6-ff3e-4ad9-97f6-7cce0b813b44
-```
-title: Fix nx task @promethean/markdown-graph:test
-```
-status: in_progress
-```
-priority: P1
-labels: []
-```
-created_at: '2025-10-07T00:00:00.000Z'
-```
+uuid: "a4764fc6-ff3e-4ad9-97f6-7cce0b813b44"
+title: "Fix nx task @promethean/markdown-graph:test"
+slug: "fix-nx-task-markdown-graph-test"
+status: "review"
+priority: "P1"
+labels: ["test", "promethean", "markdown", "graph"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 # Description
 
 Address failures when running the Nx test target for `@promethean/markdown-graph`.
@@ -34,3 +35,5 @@ Address failures when running the Nx test target for `@promethean/markdown-graph
 Initial creation for the current session.
 
 2025-10-07: Nx test target updated to invoke the package's scripted test command so Ava picks up compiled JS tests.
+
+

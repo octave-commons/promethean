@@ -1,15 +1,18 @@
 ---
-```
-uuid: 8259052d-bf4c-48e8-9443-812569e19763
-```
-title: auto generate agents md stubs from services structure md md
-status: todo
-priority: P3
-labels: []
-```
-created_at: '2025-09-15T02:02:58.508Z'
-```
+uuid: "8259052d-bf4c-48e8-9443-812569e19763"
+title: "auto generate agents md stubs from services structure md md"
+slug: "auto-generate_agents_md_stubs_from_services_structure"
+status: "done"
+priority: "P3"
+labels: ["services", "agents", "stubs", "generate"]
+created_at: "2025-10-07T20:25:05.644Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Task: Auto-generate AGENTS.md stubs from services structure
 
 Build a small script that scans `services/` and produces initial `AGENTS.md` files for each service. These stubs should include minimal metadata and links back to implementation files.
@@ -61,4 +64,6 @@ Nothing
 - [vault config readme]../../vault-config-readme.md
 - [[kanban]]
 #done
+
+
 

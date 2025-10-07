@@ -1,15 +1,18 @@
 ---
-```
-uuid: 0468c4d6-3287-406e-97f2-85d12d88c01b
-```
-title: scripts group indexing tools
-status: todo
-priority: P3
-labels: []
-```
-created_at: '2025-09-15T02:02:58.520Z'
-```
+uuid: "0468c4d6-3287-406e-97f2-85d12d88c01b"
+title: "scripts group indexing tools"
+slug: "scripts_group_indexing_tools"
+status: "incoming"
+priority: "P3"
+labels: ["indexing", "scripts", "packages", "group"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 Scripts: Group indexing helpers under an indexing package
 
 Goal: Move  file/embedding indexing helpers into `packages/persistance` or create a new package `packages/indexing` with docs.
@@ -22,5 +25,7 @@ Exit Criteria:
 - Indexing scripts live under a package`packages/indexing/` or `packages/persistence` with a clear README.
 
 #incoming #scripts #indexing #organization
+
+
 
 
