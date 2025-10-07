@@ -1,7 +1,7 @@
 ---
 uuid: 4e7f70bb-bb32-4a55-b499-bdc347afe21a
 title: tamper monkey script for using templates defined in the vault
-status: todo
+status: done
 priority: P3
 labels: []
 created_at: '2025-09-15T02:02:58.522Z'

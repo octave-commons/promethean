@@ -1,7 +1,7 @@
 ---
 uuid: b8c7d6e5-c4b3-a2b1-a099-876543210987
 title: Install and configure sonar-scanner for code quality pipeline
-status: todo
+status: done
 priority: P2
 labels:
   - piper

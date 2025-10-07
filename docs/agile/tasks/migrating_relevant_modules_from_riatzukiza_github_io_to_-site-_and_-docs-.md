@@ -1,7 +1,7 @@
 ---
 uuid: c20e39a1-acb8-400c-8d6f-5228f15811ad
 title: migrating relevant modules from riatzukiza github io to site and docs md
-status: todo
+status: rejected
 priority: P3
 labels: []
 created_at: '2025-09-15T02:02:58.516Z'

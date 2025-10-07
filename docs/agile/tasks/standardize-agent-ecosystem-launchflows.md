@@ -1,7 +1,7 @@
 ---
 uuid: ab4b2c51-91e6-4880-9390-30609209389c
 title: standardize agent ecosystem launch flows
-status: todo
+status: document
 priority: P2
 labels: ['agents', 'devx', 'duck']
 created_at: '2025-10-07T06:39:18.599Z'

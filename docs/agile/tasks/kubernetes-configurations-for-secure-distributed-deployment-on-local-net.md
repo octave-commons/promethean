@@ -1,7 +1,7 @@
 ---
 uuid: 0f65afc2-493e-40b2-85b0-17c4bf4b8d85
 title: kubernetes configurations for secure distributed deployment on local net
-status: todo
+status: testing
 priority: p3
 labels: []
 created_at: '2025-09-15T02:02:58.516Z'

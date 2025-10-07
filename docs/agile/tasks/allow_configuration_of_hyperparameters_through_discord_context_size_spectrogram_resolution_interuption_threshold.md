@@ -3,7 +3,7 @@ uuid: 51fc390b-40d7-4dd4-a435-cdd86298d1b8
 title: >-
   allow configuration of hyperparameters through discord context size
   spectrogram resolution interuption threshold md
-status: todo
+status: done
 priority: P3
 labels: []
 created_at: '2025-09-15T02:02:58.507Z'

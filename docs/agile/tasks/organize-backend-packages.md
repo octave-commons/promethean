@@ -1,7 +1,7 @@
 ---
 uuid: 90c25667-5a2b-4c8c-9d40-5b03e54675f2
 title: Organize backend packages under services
-status: todo
+status: rejected
 priority: p3
 labels: ["framework-core", "refactor"]
 created_at: '2025-09-27T00:10:00.000Z'

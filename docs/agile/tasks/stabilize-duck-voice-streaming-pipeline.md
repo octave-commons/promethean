@@ -1,7 +1,7 @@
 ---
 uuid: 9a2e9225-9cbf-4ee0-ae5f-cdc6e525bbd3
 title: stabilize duck voice streaming pipeline
-status: todo
+status: testing
 priority: P2
 labels: ['duck', 'audio', 'enso']
 created_at: '2025-10-07T06:39:18.599Z'

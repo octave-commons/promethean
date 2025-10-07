@@ -1,7 +1,7 @@
 ---
 uuid: 9a9e9c97-fbaa-4580-90ac-2d1f17eebbec
 title: redefine all existing lambdas with high order functions incoming
-status: todo
+status: rejected
 priority: P3
 labels: []
 created_at: '2025-09-15T02:02:58.518Z'

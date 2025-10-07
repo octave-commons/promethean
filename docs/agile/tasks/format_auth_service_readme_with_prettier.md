@@ -1,7 +1,7 @@
 ---
 uuid: 94a2959e-21b1-4a41-9c1f-85787c1a0894
 title: Format auth-service README with Prettier
-status: todo
+status: testing
 priority: P3
 labels: []
 created_at: '2025-09-15T02:02:58.513Z'

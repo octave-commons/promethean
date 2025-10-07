@@ -1,7 +1,7 @@
 ---
 uuid: d35d985b-44c2-4b67-9228-bc2cb912df24
 title: setup code in wsl md
-status: todo
+status: rejected
 priority: P3
 labels: []
 created_at: '2025-09-15T02:02:58.521Z'

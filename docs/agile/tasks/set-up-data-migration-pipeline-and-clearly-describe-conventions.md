@@ -1,7 +1,7 @@
 ---
 uuid: 8542a56c-b037-4a71-90e8-8bd0a0c8b49f
 title: Maintain Testing vs Working Databases w/ Migration Contract
-status: todo
+status: in-progress
 priority: P3
 labels: []
 created_at: '2025-09-15T02:02:58.520Z'

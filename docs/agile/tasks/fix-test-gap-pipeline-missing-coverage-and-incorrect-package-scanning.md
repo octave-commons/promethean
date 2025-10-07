@@ -1,7 +1,7 @@
 ---
 uuid: d0e1f2a3-b4c5-6789-def0-234567890123
 title: Fix test-gap pipeline missing coverage and incorrect package scanning
-status: todo
+status: done
 priority: P2
 labels:
   - piper

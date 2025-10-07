@@ -1,7 +1,7 @@
 ---
 uuid: cd28d98a-1e9a-427d-8fa3-3768d944840e
 title: fix sonar pipeline missing touch marker
-status: todo
+status: done
 priority: P2
 labels: ["pipeline", "sonar", "buildfix"]
 created_at: '2025-10-07T01:00:44Z'

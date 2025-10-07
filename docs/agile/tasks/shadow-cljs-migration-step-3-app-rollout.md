@@ -1,7 +1,7 @@
 ---
 uuid: 0ed899b3-b815-4384-89ad-a1ff76d6a6e5
 title: Shadow CLJS migration — step 3 application roll-out
-status: todo
+status: rejected
 priority: P2
 labels:
   - framework-core

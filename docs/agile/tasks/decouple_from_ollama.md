@@ -1,7 +1,7 @@
 ---
 uuid: b543e648-991c-4365-8d76-280c60c2c31e
 title: decouple from ollama md
-status: todo
+status: rejected
 priority: P3
 labels: []
 created_at: '2025-09-15T02:02:58.510Z'
