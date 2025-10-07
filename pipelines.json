@@ -821,7 +821,7 @@
         },
         {
           "id": "doc-footer",
-          "deps": ["doc-related"],
+          "deps": ["doc-rename"],
           "js": {
             "module": "scripts/piper-docops.mjs",
             "export": "footers",
