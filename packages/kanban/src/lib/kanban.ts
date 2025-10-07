@@ -494,9 +494,19 @@ export const loadBoard = async (
   boardPath: string,
   tasksDir: string,
 ): Promise<Board> => {
+  // Load config to apply WIP limits consistently with regenerateBoard
+  const { config } = await loadKanbanConfig();
+
   const md = await fs.readFile(boardPath, "utf8").catch(() => "");
   const columns = parseColumnsFromMarkdown(md);
-  if (columns.length > 0) return { columns } as Board;
+  if (columns.length > 0) {
+    // Enhance existing columns with WIP limits from config
+    const enhancedColumns = columns.map(column => ({
+      ...column,
+      limit: column.limit || config.wipLimits[column.name] || null,
+    }));
+    return { columns: enhancedColumns } as Board;
+  }
 
   // if the board is empty or missing, synthesize from tasks folder
   const tasks = await readTasksFolder(tasksDir);
@@ -519,7 +529,7 @@ export const loadBoard = async (
     ({ name, tasks: ts }) => ({
       name,
       count: ts.length,
-      limit: null,
+      limit: config.wipLimits[name] || null,
       tasks: ts,
     }),
   );
@@ -773,6 +783,15 @@ export const updateStatus = async (
   } else if (target.name !== normalizeColumnDisplayName(target.name)) {
     target.name = normalizeColumnDisplayName(target.name);
   }
+
+  // WIP Limit Validation
+  // Check if target column would exceed WIP limit
+  if (target.limit && target.count >= target.limit) {
+    throw new Error(
+      `WIP limit violation: Cannot move task to '${target.name}' - column has ${target.count} tasks (limit: ${target.limit})`
+    );
+  }
+
   target.tasks = [...target.tasks, found];
   target.count += 1;
 

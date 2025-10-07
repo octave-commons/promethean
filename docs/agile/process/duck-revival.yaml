@@ -64,6 +64,23 @@ checklists:
     - "export ActRationalePayload with policy/evidence/evidenceKind"
     - "(optional) alias guardrail.rationale"
 
+board:
+  wip:
+    todo: 15
+    in-progress: 3
+    review: 2
+    document: 2
+    backlog: 20
+    icebox: 50
+  columns:
+    - icebox
+    - backlog
+    - todo
+    - in-progress
+    - review
+    - document
+    - done
+
 automation:
   # what a sync tool should do (dry-run by default)
   - task: sync_labels

@@ -1,19 +1,27 @@
 {
+  "_comment": "Promethean Kanban Configuration - Human & Agent Documentation",
+  "_description": "This config drives the kanban board generation from task files. The board is a finite state machine (FSM) with states = columns. See docs/agile/process.md for the complete FSM specification and transition rules.",
+  "_usage": "Never edit board files directly. Tasks drive board generation. Use 'pnpm kanban regenerate' to rebuild board from tasks.",
+  "_wip_note": "WIP limits are enforced by transitions - a move to a column fails if that column's WIP cap is full.",
+
   "tasksDir": "docs/agile/tasks",
   "indexFile": "",
   "boardFile": "docs/agile/boards/generated.md",
   "cachePath": "docs/agile/boards/.cache",
   "exts": [".md"],
+
   "requiredFields": [
     "title",
     "status",
     "priority"
   ],
+
   "statusValues": [
     "icebox",
     "incoming",
     "accepted",
     "breakdown",
+    "blocked",
     "ready",
     "todo",
     "in_progress",
@@ -22,12 +30,40 @@
     "done",
     "rejected"
   ],
-  "priorityValues": ["P0", "P1", "P2", "P3", "p3", "low", "medium", "high", "critical"],
+
+  "priorityValues": [
+    "P0",
+    "P1",
+    "P2",
+    "P3",
+    "p3",
+    "low",
+    "medium",
+    "high",
+    "critical"
+  ],
+
+  "_status_descriptions": {
+    "icebox": "🧊 Ice Box - Deferred/archived tasks, not actively being worked on (brainstorm lane)",
+    "incoming": "💭 Incoming - New tasks enter here (initial state) (brainstorm lane)",
+    "accepted": "✅ Accepted - Triage complete, ready for breakdown analysis (planning lane)",
+    "breakdown": "🧩 Breakdown - Task being broken into small, testable slices with Fibonacci estimates (planning lane)",
+    "blocked": "🚧 Blocked - Explicit dependency on another task (bidirectional links required) (planning lane)",
+    "ready": "🛠 Ready - Scoped, estimated (≤5), ready for execution queue (execution lane)",
+    "todo": "🟢 To Do - Prioritized in execution queue, ready to pull (execution lane)",
+    "in_progress": "🟡 In Progress - Actively being worked on (WIP limited) (execution lane)",
+    "review": "🔍 In Review - Coherent, reviewable change exists (execution lane)",
+    "document": "📚 Document - Recording evidence and summaries (execution lane)",
+    "done": "✅ Done - Complete with documentation/evidence (execution lane)",
+    "rejected": "❌ Rejected - Non-viable, may be moved to Ice Box (abandoned lane)"
+  },
+
   "wipLimits": {
     "icebox": 200,
     "incoming": 15,
     "accepted": 5,
     "breakdown": 5,
+    "blocked": 3,
     "ready": 10,
     "todo": 15,
     "in_progress": 3,
@@ -35,5 +71,7 @@
     "document": 2,
     "done": 500,
     "rejected": 20
-  }
+  },
+
+  "_transition_rules_note": "See docs/agile/process.md for complete FSM transition rules. Key rules: Incoming→Accepted→Breakdown→Ready→Todo→In Progress→Review→Document→Done. Tasks with score >5 must cycle back through Breakdown until slice is small enough (≤5)."
 }
