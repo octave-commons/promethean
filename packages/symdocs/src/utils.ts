@@ -1,7 +1,14 @@
 import * as path from "path";
 
-import * as ts from "typescript";
 export { sha1 } from "@promethean/utils";
+
+// Dynamic import to handle ES module compatibility
+let ts: any;
+try {
+  ts = await import("typescript");
+} catch {
+  ts = require("typescript");
+}
 
 export function parseArgs(
   defaults: Record<string, string>,
@@ -35,8 +42,8 @@ export function makeProgram(
   tsconfigPath?: string,
 ): ts.Program {
   const baseOptions: ts.CompilerOptions = {
-    target: ts.ScriptTarget.ES2022,
-    module: ts.ModuleKind.ESNext,
+    target: 9, // ES2022 = 9 in TypeScript ScriptTarget enum
+    module: 99, // ESNext = 99 in TypeScript ModuleKind enum
     strict: true,
   };
   const options = tsconfigPath
