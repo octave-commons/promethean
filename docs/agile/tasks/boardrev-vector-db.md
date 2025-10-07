@@ -1,7 +1,7 @@
 ---
 uuid: $(uuidgen)
 title: Replace LevelDB with vector database for boardrev
-status: backlog
+status: incoming
 priority: P2
 labels: [enhancement, boardrev, performance]
 created_at: 2025-10-06T12:00:00Z

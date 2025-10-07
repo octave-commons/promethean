@@ -1,7 +1,7 @@
 ---
 uuid: $(uuidgen)
 title: Enhance boardrev context analysis with weighted factors
-status: backlog
+status: incoming
 priority: P2
 labels: [enhancement, boardrev, analysis, accuracy]
 created_at: 2025-10-06T12:00:00Z

@@ -2,7 +2,7 @@
 title: Enhance clj-hacks for Claude Code MCP server configs
 uuid: 5386dc78-da5b-4dfa-bef3-f82094c4c58a
 created: 2025-10-06T20:06:54-05:00
-status: backlog
+status: incoming
 priority: P2
 owner:
 labels:
