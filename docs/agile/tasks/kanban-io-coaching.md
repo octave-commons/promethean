@@ -18,8 +18,10 @@ tags:
 related_to_uuid: []
 related_to_title: []
 references: []
+status: todo
+priority: P3
+labels: []
 ---
-
 # Minimal IO + coaching utilities
 
 ```ts
@@ -68,3 +70,4 @@ export async function appendChoice(c: Omit<Choice,"ts">){
 ## Sources
 - _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
+

@@ -21,6 +21,9 @@ tags:
 related_to_uuid: []
 related_to_title: []
 references: []
+status: todo
+priority: P3
+labels: []
 ---
 you’re not overthinking it — you’re seeing the missing cycles. let’s add **explicit reverse paths** so the system never fakes forward progress, and give the cloud agent a safe “session-end hand-off” path that doesn’t require a PR.
 
@@ -151,3 +154,4 @@ If this looks right, I’ll fold these deltas into the process doc’s FSM secti
 ## Sources
 - _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
+

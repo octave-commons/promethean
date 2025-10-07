@@ -39,7 +39,7 @@ export type Embeddings = Record<string, number[]>; // key -> vector
 export type ContextHit = {
   path: string;
   score: number;
-  kind: "code" | "doc";
+  kind: "code" | "doc" | "test-results";
   excerpt: string;
 };
 

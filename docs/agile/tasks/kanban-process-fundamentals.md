@@ -20,6 +20,9 @@ tags:
 related_to_uuid: []
 related_to_title: []
 references: []
+status: todo
+priority: P3
+labels: []
 ---
 I'm saying there isn't a ready to code gate at all. Because the it's all just process.
 
@@ -71,3 +74,4 @@ It proably doesn't stop work from happening. It can be skipped for the moment, a
 ## Sources
 - _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
+

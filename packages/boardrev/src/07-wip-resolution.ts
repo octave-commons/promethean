@@ -30,27 +30,32 @@ export async function detectWIPViolations(): Promise<WIPViolation[]> {
 
   const violations: WIPViolation[] = [];
 
-  try {
-    // Get all columns to check for WIP violations
-    const { stdout } = await execAsync('pnpm kanban count --json');
-    const data = JSON.parse(stdout);
+  // Define the columns we want to check
+  const columnsToCheck = ['todo', 'in_progress', 'review', 'blocked', 'done', 'backlog', 'icebox'];
 
-    // Check each column for WIP limit violations
-    if (data.columns) {
-      for (const column of data.columns) {
-        if (column.limit && column.count > column.limit) {
+  try {
+    for (const columnName of columnsToCheck) {
+      try {
+        const { stdout } = await execAsync(`pnpm kanban getColumn ${columnName}`);
+        const columnData = JSON.parse(stdout);
+
+        if (columnData.limit && columnData.count > columnData.limit) {
           violations.push({
-            columnName: column.name,
-            currentCount: column.count,
-            limit: column.limit,
-            overLimit: column.count - column.limit
+            columnName: columnData.name,
+            currentCount: columnData.count,
+            limit: columnData.limit,
+            overLimit: columnData.count - columnData.limit
           });
-          logger.warn(`WIP violation: ${column.name} has ${column.count} tasks (limit: ${column.limit})`);
+          logger.warn(`WIP violation: ${columnData.name} has ${columnData.count} tasks (limit: ${columnData.limit})`);
+        } else {
+          logger.info(`Column ${columnData.name}: ${columnData.count}/${columnData.limit || '∞'} tasks`);
         }
+      } catch (columnError) {
+        logger.warn(`Could not check column ${columnName}: ${(columnError as Error).message}`);
       }
     }
   } catch (error) {
-    logger.error('Failed to detect WIP violations:', error);
+    logger.error('Failed to detect WIP violations: ' + (error as Error).message);
     throw error;
   }
 
@@ -152,7 +157,7 @@ export async function assessTasksForWIPResolution(
         });
       }
     } catch (error) {
-      logger.warn(`Failed to assess tasks for column ${violation.columnName}:`, error);
+      logger.warn(`Failed to assess tasks for column ${violation.columnName}: ` + (error as Error).message);
       continue;
     }
 

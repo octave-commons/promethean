@@ -13,6 +13,29 @@ import {
 import { normStatus } from "./utils.js";
 import type { PromptChunk, TaskContext, EvalItem, TaskFM } from "./types.js";
 
+interface EnhancedTaskContext extends TaskContext {
+  buildTestResults?: Array<{
+    taskFile: string;
+    affectedFiles: string[];
+    buildResult?: {
+      success: boolean;
+      output: string;
+      errors: string[];
+    };
+    testResult?: {
+      success: boolean;
+      output: string;
+      failedTests: string[];
+    };
+    lintResult?: {
+      success: boolean;
+      output: string;
+      warnings: string[];
+      errors: string[];
+    };
+  }>;
+}
+
 const logger = createLogger({ service: "boardrev" });
 
 const EvalSchema = z.object({
@@ -44,11 +67,15 @@ export async function evaluate({
   const contextsData: unknown = JSON.parse(
     await fs.readFile(path.resolve(contextPath), "utf-8"),
   );
-  const contexts = contextsData as { contexts: TaskContext[] };
+  const enhancedContexts = contextsData as { contexts: TaskContext[]; buildTestResults?: EnhancedTaskContext['buildTestResults'] };
 
   const items: EvalItem[] = [];
 
-  for (const ctx of contexts.contexts) {
+  for (const ctx of enhancedContexts.contexts) {
+    // Find build test results for this task if available
+    const buildTestResult = enhancedContexts.buildTestResults?.find(
+      result => result.taskFile === ctx.taskFile
+    );
     const raw = await fs.readFile(ctx.taskFile, "utf-8");
     const gm = matter(raw);
     const fm = gm.data as Partial<TaskFM>;
@@ -72,6 +99,18 @@ export async function evaluate({
       "TASK_BODY:",
       (gm.content || "").slice(0, 4000),
       "",
+      buildTestResult ? "BUILD_TEST_RESULTS:" : "",
+      buildTestResult ? [
+        `Build Status: ${buildTestResult.buildResult?.success ? '✅ PASSED' : '❌ FAILED'}`,
+        `Test Status: ${buildTestResult.testResult?.success ? '✅ PASSED' : '❌ FAILED'}`,
+        `Lint Status: ${buildTestResult.lintResult?.success ? '✅ PASSED' : '❌ FAILED'}`,
+        "",
+        `Affected Files: ${buildTestResult.affectedFiles.join(', ')}`,
+        buildTestResult.buildResult?.errors.length ? `Build Errors: ${buildTestResult.buildResult.errors.slice(0, 200).join('; ')}` : '',
+        buildTestResult.testResult?.failedTests.length ? `Failed Tests: ${buildTestResult.testResult.failedTests.slice(0, 200).join('; ')}` : '',
+        buildTestResult.lintResult?.errors.length ? `Lint Errors: ${buildTestResult.lintResult.errors.slice(0, 200).join('; ')}` : '',
+        "",
+      ].filter(Boolean).join('\n') : '',
       "CONTEXT_TOP_MATCHES:",
       ...ctx.hits.map(
         (h) =>

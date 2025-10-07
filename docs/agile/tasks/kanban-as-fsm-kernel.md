@@ -21,6 +21,9 @@ tags:
 related_to_uuid: []
 related_to_title: []
 references: []
+status: todo
+priority: P3
+labels: []
 ---
 love the clarity. let’s codify exactly what you described, agent-agnostic, as a **Kanban-as-FSM** kernel for `process.md`. no special phases, no timeboxing, minimal rules, procedural, board-driven.
 
@@ -86,3 +89,4 @@ If that matches your intent, say **“apply Step 1”** and I’ll slot it into 
 ## Sources
 - _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
+

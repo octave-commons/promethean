@@ -2,6 +2,28 @@
 kanban-plugin: board
 ---
 
+## icebox
+
+- [ ] [[shadow-cljs-migration-step-4-decommission|Shadow CLJS migration — step 4 decommission legacy toolchain]] #framework-core #codex-task #frontend prio:P3 (uuid:5fe4fdf3-0fda-42fb-8f98-93859577d08f)
+- [ ] [[validate-voice-demo-microphone-integration|validate voice-demo microphone integration]] #audio #manual-test prio:P2 (uuid:8925f5a8-40ab-44e4-ad9e-54db7d617996)
+
+## incoming
+
+- [ ] [[enforce-wip-limits-and-address-violations|Implement WIP limit enforcement and address current violations]] #kanban #wip #limits #enforcement #process #fsm prio:P1 (uuid:wip-enforcement-001)
+
+## accepted
+
+
+## breakdown
+
+
+## blocked
+
+
+## ready
+
+- [ ] [[update-kanban-statuses-to-fsm|Update existing kanban tasks to use FSM statuses]] #kanban #fsm #cleanup #process prio:P2 (uuid:kanban-fsm-update-001)
+
 ## todo
 
 - [ ] [[Consolidate all kanban helpers to kanban package|consolidate all kanban helpers to kanban package]] #kanban #all #scripts #consolidate prio:P3 (uuid:727fd6bd-7c63-4488-b29e-c09640d4cc8a)
@@ -196,19 +218,19 @@ kanban-plugin: board
 - [ ] [[install_biome_dependency_for_cephalon_discord|Install Biome dependency for cephalon-discord]] #biome #cephalon #discord #dependency prio:P3 (uuid:0427985f-f4ad-4f85-975f-9c085bcc452a)
 - [ ] [[integrate-sonarqube-into-devops|integrate sonarqube into devops]] #sonarqube #devops #integrate #pipeline prio:P3 (uuid:fb040f44-7250-4828-9f2b-c36f65ed35e3)
 - [ ] [[just-so-much-batman|just so much batman]] #just #much #batman #span prio:P3 (uuid:8584c1fd-c8b6-4bf0-8cca-db9f91fe52c2)
-- [ ] [[kanban-as-a-finite-state-machine|2025.09.19.23.48.50]] #Kanban #Finite State Machine #Workflow Automation (uuid:961704a0-53ca-4aae-8c87-5b1f681a25be)
-- [ ] [[kanban-as-fsm-kernel|2025.09.19.22.12.01]] #Kanban #FSM #process #agent-agnostic #procedural #board-driven #WIP #blocking #session-discipline (uuid:1d2183ae-6cdd-43ec-9e4c-15ae41a24da7)
-- [ ] [[kanban-cli-cljs-quickstart|2025.10.06.14.11.46]] #clojurescript #sci #kanban-cli #ad-hoc-filtering #cli-flags #micro-frontend #zero-compilation #dynamic-queries (uuid:3a707c7c-9b75-401f-9d6f-fe5711eaf13f)
-- [ ] [[kanban-cli|2025.09.20.09.16.46]] #kanban #cli #markdown #task-management #jsonl (uuid:ba1ad13d-7988-4636-badf-f5fa9ac2344f)
-- [ ] [[kanban-fsm-with-safe-cycles|2025.09.19.23.23.12]] #Kanban #FSM #safe cycles #session-end hand-off #no PR #cloud agent #procedural cycles #re-shaping #partial work (uuid:d1250964-1686-487c-9850-3cc1472e9326)
-- [ ] [[kanban-fsm|2025.09.19.22.32.47]] #kanban #state machine #workflow #transitions #blocked #ice box #incoming #accepted #rejected (uuid:2c588732-0024-4392-895e-de78dccb55a7)
-- [ ] [[kanban-io-coaching|2025.10.06.15.01.14]] #kanban #io #coaching #jsonl #session #persistence #task (uuid:95513ada-e67b-43f4-8ffa-26ec0e1cb367)
-- [ ] [[kanban-prioritize-stubs|2025.10.06.15.00.38]] #kanban #prioritize #command-stubs #bradley-terry #weighted-sampling #task-prioritization #interactive-workflow (uuid:5af6233e-8399-42a8-822e-29591076c41e)
-- [ ] [[kanban-prioritize-subcommands|2025.10.06.15.01.27]] #kanban #prioritize #subcommands #CLI #task #filtering #ranking #clustering #score #explain (uuid:83ec632a-3d28-440f-adb7-76496a95edd2)
-- [ ] [[kanban-process-fundamentals|2025.09.19.21.39.45]] #kanban #finite state machine #blocking conditions #process flow #minor blocking #major blocking #intervention rules (uuid:bc415290-a177-4119-8ecb-4daf012c3f7c)
+- [ ] [[kanban-as-a-finite-state-machine|2025.09.19.23.48.50]] #Kanban #Finite State Machine #Workflow Automation prio:P3 (uuid:961704a0-53ca-4aae-8c87-5b1f681a25be)
+- [ ] [[kanban-as-fsm-kernel|2025.09.19.22.12.01]] #Kanban #FSM #process #agent-agnostic #procedural #board-driven #WIP #blocking #session-discipline prio:P3 (uuid:1d2183ae-6cdd-43ec-9e4c-15ae41a24da7)
+- [ ] [[kanban-cli-cljs-quickstart|2025.10.06.14.11.46]] #clojurescript #sci #kanban-cli #ad-hoc-filtering #cli-flags #micro-frontend #zero-compilation #dynamic-queries prio:P3 (uuid:3a707c7c-9b75-401f-9d6f-fe5711eaf13f)
+- [ ] [[kanban-cli|2025.09.20.09.16.46]] #kanban #cli #markdown #task-management #jsonl prio:P3 (uuid:ba1ad13d-7988-4636-badf-f5fa9ac2344f)
+- [ ] [[kanban-fsm-with-safe-cycles|2025.09.19.23.23.12]] #Kanban #FSM #safe cycles #session-end hand-off #no PR #cloud agent #procedural cycles #re-shaping #partial work prio:P3 (uuid:d1250964-1686-487c-9850-3cc1472e9326)
+- [ ] [[kanban-fsm|2025.09.19.22.32.47]] #kanban #state machine #workflow #transitions #blocked #ice box #incoming #accepted #rejected prio:P3 (uuid:2c588732-0024-4392-895e-de78dccb55a7)
+- [ ] [[kanban-io-coaching|2025.10.06.15.01.14]] #kanban #io #coaching #jsonl #session #persistence #task prio:P3 (uuid:95513ada-e67b-43f4-8ffa-26ec0e1cb367)
+- [ ] [[kanban-prioritize-stubs|2025.10.06.15.00.38]] #kanban #prioritize #command-stubs #bradley-terry #weighted-sampling #task-prioritization #interactive-workflow prio:P3 (uuid:5af6233e-8399-42a8-822e-29591076c41e)
+- [ ] [[kanban-prioritize-subcommands|2025.10.06.15.01.27]] #kanban #prioritize #subcommands #CLI #task #filtering #ranking #clustering #score #explain prio:P3 (uuid:83ec632a-3d28-440f-adb7-76496a95edd2)
+- [ ] [[kanban-process-fundamentals|2025.09.19.21.39.45]] #kanban #finite state machine #blocking conditions #process flow #minor blocking #major blocking #intervention rules prio:P3 (uuid:bc415290-a177-4119-8ecb-4daf012c3f7c)
 - [ ] [[kanban-processor|kanban processor]] #ecs #kanban #planning prio:P3 (uuid:f88c9d06-c8f3-4a60-96b7-9fddf412ba5e)
 - [ ] [[kanban-tasks|Kanban CLI Tasks (Docs/Agile)]] #kanban #cli #tasks #docs prio:P3 (uuid:379c1028-3b05-4984-8414-42cab3634054)
-- [ ] [[kanban-workflow-guide|2025.09.19.18.03.15]] #Kanban #software engineering #task management (uuid:6caeba23-261e-45b3-92f3-f3f65c321b27)
+- [ ] [[kanban-workflow-guide|2025.09.19.18.03.15]] #Kanban #software engineering #task management prio:P3 (uuid:6caeba23-261e-45b3-92f3-f3f65c321b27)
 - [ ] [[kubernetes-configurations-for-secure-distributed-deployment-on-local-net|kubernetes configurations for secure distributed deployment on local net]] #changes #kubernetes #configurations #secure prio:p3 (uuid:0f65afc2-493e-40b2-85b0-17c4bf4b8d85)
 - [ ] [[launch_replayapi_on_8083_test_replay_and_export_nd|launch replayapi on 8083 test replay and export nd md]] #launch #replayapi #8083 #test prio:P3 (uuid:4f0d3b3f-4012-431f-96f3-9cde2cc7f06a)
 - [ ] [[lisp-ecosystem-files|Description]] #description #step #lisp #existing prio:P3 (uuid:1988420c-a65f-4f04-a688-f081bf4407ac)
@@ -352,20 +374,12 @@ kanban-plugin: board
 - [ ] [[throttled-datachannel-sender|duck-web — throttled RTCDataChannel sender with backpressure]] #duck-web #webrtc #perf prio:P1 (uuid:3d7e9f1a-2b3c-4d5e-8f9a-0b1c2d3e4f5a)
 - [ ] [[update_task_template_frontmatter_alignment|Align task template frontmatter with canonical schema]] #docs #automation prio:P2 (uuid:f5553298-1c51-41c2-acb5-df4d9f518c89)
 
-## backlog
+## review
 
-- [ ] [[add-tsdoc-support|Add TSDoc support to the project]] #documentation #typescript #build-system prio:P2 (uuid:tsdoc-support-001)
-- [ ] [[boardrev-vector-db|Add confidence calibration and historical accuracy tracking]] #enhancement #boardrev #accuracy #metrics prio:P2 (uuid:$(uuidgen))
-- [ ] [[boardrev-vector-db|Add continuous monitoring and real-time updates to boardrev]] #enhancement #boardrev #monitoring #automation prio:P1 (uuid:$(uuidgen))
-- [ ] [[boardrev-vector-db|Enhance boardrev context analysis with weighted factors]] #enhancement #boardrev #analysis #accuracy prio:P2 (uuid:$(uuidgen))
-- [ ] [[boardrev-vector-db|Add incremental updates to boardrev indexing]] #enhancement #boardrev #performance prio:P1 (uuid:$(uuidgen))
-- [ ] [[boardrev-vector-db|Add interactive task management and auto-updates to boardrev]] #enhancement #boardrev #automation #management prio:P2 (uuid:$(uuidgen))
-- [ ] [[boardrev-vector-db|Implement multi-model evaluation for boardrev]] #enhancement #boardrev #ai #evaluation prio:P2 (uuid:$(uuidgen))
-- [ ] [[boardrev-vector-db|Integrate boardrev with piper pipeline system]] #enhancement #boardrev #infrastructure prio:P2 (uuid:$(uuidgen))
-- [ ] [[boardrev-vector-db|Replace LevelDB with vector database for boardrev]] #enhancement #boardrev #performance prio:P2 (uuid:$(uuidgen))
-- [ ] [[enhance-clj-hacks-claude-code-mcp|Enhance clj-hacks for Claude Code MCP server configs]] #clj-hacks #mcp #claude-code #tooling prio:P2 (uuid:5386dc78-da5b-4dfa-bef3-f82094c4c58a)
-- [ ] [[kanban-crud-commands|Add CRUD subcommands to kanban CLI]] #kanban #cli #enhancement #crud prio:P2 (uuid:kanban-crud-001)
-- [ ] [[upgrade-symdocs-documentation|Upgrade symdocs to generate meaningful API documentation]] #symdocs #documentation #enhancement #ai #pipeline prio:P2 (uuid:a2b3c4d5-e6f7-8901-bcde-f23456789012)
+
+## document
+
+- [ ] [[remove_commonjs_artifacts_repo_wide|Remove CommonJS artifacts from repository]] ##codex-task ##doc-this prio:P2 (uuid:e6a16b59-a67d-4df9-babc-9faaaad3f9c9)
 
 ## done
 
@@ -378,22 +392,7 @@ kanban-plugin: board
 - [x] [[pr-comments-linked-codex-mentions|PRs — post diagram/docs comments + @codex mentions]] #reviews #duck-revival prio:P3 (uuid:0e0ed76d-7f60-4a31-9a33-92d024fb20d0)
 - [x] [[setup-mcp-exec-server|Setup MCP exec server from approved commands]] #MCP #Tooling prio:P2 (uuid:4bf47f12-8489-46ea-bee4-ee5d826541e1)
 
-## incoming
-
-- [ ] [[enforce-wip-limits-and-address-violations|Implement WIP limit enforcement and address current violations]] #kanban #wip #limits #enforcement #process #fsm prio:P1 (uuid:wip-enforcement-001)
-
-## document
-
-- [ ] [[remove_commonjs_artifacts_repo_wide|Remove CommonJS artifacts from repository]] ##codex-task ##doc-this prio:P2 (uuid:e6a16b59-a67d-4df9-babc-9faaaad3f9c9)
-
-## icebox
-
-- [ ] [[shadow-cljs-migration-step-4-decommission|Shadow CLJS migration — step 4 decommission legacy toolchain]] #framework-core #codex-task #frontend prio:P3 (uuid:5fe4fdf3-0fda-42fb-8f98-93859577d08f)
-- [ ] [[validate-voice-demo-microphone-integration|validate voice-demo microphone integration]] #audio #manual-test prio:P2 (uuid:8925f5a8-40ab-44e4-ad9e-54db7d617996)
-
-## ready
-
-- [ ] [[update-kanban-statuses-to-fsm|Update existing kanban tasks to use FSM statuses]] #kanban #fsm #cleanup #process prio:P2 (uuid:kanban-fsm-update-001)
+## rejected
 
 %% kanban:settings
 ```

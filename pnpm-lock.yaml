@@ -448,6 +448,9 @@ importers:
 
   packages/boardrev:
     dependencies:
+      '@promethean/kanban':
+        specifier: workspace:*
+        version: link:../kanban
       '@promethean/level-cache':
         specifier: workspace:*
         version: link:../level-cache

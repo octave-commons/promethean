@@ -19,8 +19,10 @@ tags:
 related_to_uuid: []
 related_to_title: []
 references: []
+status: todo
+priority: P3
+labels: []
 ---
-
 # Human and agent experience (quick recipes)
 
 * **Quick start:**
@@ -501,3 +503,4 @@ If you want, I can also wire these flags into `pairwise`, `compare`, and `cluste
 ## Sources
 - _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
+
