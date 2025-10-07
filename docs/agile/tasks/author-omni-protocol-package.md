@@ -1,20 +1,18 @@
 ---
-```
-uuid: 457fd7a3-bc99-4de6-b9f3-06ef6cf00d5e
-```
-title: Author @promethean/omni-protocol package
-```
-status: in_progress
-```
-priority: P1
-labels:
-  - omni
-  - package
-  - typescript
-```
-created_at: '2025-09-21T02:45:00Z'
-```
+uuid: "457fd7a3-bc99-4de6-b9f3-06ef6cf00d5e"
+title: "Author @promethean/omni-protocol package"
+slug: "author-omni-protocol-package"
+status: "breakdown"
+priority: "P1"
+labels: ["omni", "package", "typescript"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🎯 Outcome
 Ship the initial `@promethean/omni-protocol` package containing TypeScript interfaces, JSON schema emitters, error envelopes, and streaming event definitions that mirror the SmartGPT bridge contracts.
 
@@ -42,3 +40,5 @@ Ship the initial `@promethean/omni-protocol` package containing TypeScript inter
 ```
 ## 🔗 Dependencies
 - [docs/agile/tasks/omni-unified-service-spec.md] (spec must exist).
+
+

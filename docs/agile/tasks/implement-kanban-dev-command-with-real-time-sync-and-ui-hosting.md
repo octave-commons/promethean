@@ -1,7 +1,5 @@
 ---
-```
 uuid: 7b8c9d0e-1f2a-3b4c-5d6e-7f8g9h0i1j2k
-```
 title: Implement kanban dev command with real-time sync and UI hosting
 status: todo
 priority: P1
@@ -12,9 +10,7 @@ labels:
   - real-time-sync
   - ui-hosting
   - cli-enhancement
-```
 created_at: '2025-10-05T00:00:00.000Z'
-```
 ---
 
 ## 🛠️ Task: Implement kanban dev command with real-time sync and UI hosting

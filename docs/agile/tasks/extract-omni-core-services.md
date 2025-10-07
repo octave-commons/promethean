@@ -1,19 +1,18 @@
 ---
-```
-uuid: e0a6842d-031a-4d1c-bee1-563bbda8cf80
-```
-title: Extract shared services into @promethean/omni-core
-```
-status: in_progress
-```
-priority: P1
-labels:
-  - omni
-  - refactor
-```
-created_at: '2025-09-21T02:46:00Z'
-```
+uuid: "e0a6842d-031a-4d1c-bee1-563bbda8cf80"
+title: "Extract shared services into @promethean/omni-core"
+slug: "extract-omni-core-services"
+status: "breakdown"
+priority: "P1"
+labels: ["omni", "refactor"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🎯 Outcome
 Relocate SmartGPT bridge domain logic files/search/sinks/indexer/agents/exec into a reusable `@promethean/omni-core` package that implements the Omni protocol interfaces.
 
@@ -39,3 +38,5 @@ Relocate SmartGPT bridge domain logic files/search/sinks/indexer/agents/exec int
 ## 🔗 Dependencies
 - [docs/agile/tasks/author-omni-protocol-package.md]
 - [docs/agile/tasks/omni-unified-service-spec.md]
+
+

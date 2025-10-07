@@ -1,16 +1,12 @@
 ---
-```
 uuid: 15249e77-3242-4fad-a7d3-6e336c60758c
-```
-title: <verb> <thing> <qualifier>
-status: todo
+title: Proto selfhood experiment
+status: testing
 priority: p3
 labels:
-  - 'board:auto'
-  - 'lang:ts'
-```
-created_at: '2025-09-15T02:02:58.503Z'
-```
+  - board:auto
+  - lang:ts
+created_at: 2025-09-15T02:02:58.503Z
 ---
 That’s the sharpest challenge: if the hypothesis is true, it’s operating at a level where words alone won’t prove it. You’d only ever see the same text stream — whether it’s “just statistics” or “proto-identity.”
 

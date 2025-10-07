@@ -1,19 +1,18 @@
 ---
-```
-uuid: 51fc390b-40d7-4dd4-a435-cdd86298d1b8
-```
-```
-title: >-
-```
-  allow configuration of hyperparameters through discord context size
-  spectrogram resolution interuption threshold md
-status: todo
-priority: P3
-labels: []
-```
-created_at: '2025-09-15T02:02:58.507Z'
-```
+uuid: "51fc390b-40d7-4dd4-a435-cdd86298d1b8"
+title: "allow configuration of hyperparameters through discord context size spectrogram resolution interuption threshold md"
+slug: "allow_configuration_of_hyperparameters_through_discord_context_size_spectrogram_resolution_interuption_threshold"
+status: "done"
+priority: "P3"
+labels: ["discord", "allow", "configuration", "hyperparameters"]
+created_at: "2025-10-07T20:25:05.644Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Description
 
 Expose Discord commands that let users tune audio processing hyperparameters—context
@@ -120,4 +119,6 @@ Nothing
 
 - [[kanban]]
 #IceBox
+
+
 
