@@ -2839,44 +2839,15 @@ importers:
       esmock:
         specifier: ^2.7.3
         version: 2.7.3
+      nock:
+        specifier: ^14.0.10
+        version: 14.0.10
       rimraf:
         specifier: 6.0.1
         version: 6.0.1
       tsx:
         specifier: 4.19.2
         version: 4.19.2
-
-  packages/mcp-github-conflicts:
-    dependencies:
-      '@modelcontextprotocol/sdk':
-        specifier: ^1.17.5
-        version: 1.17.5
-      zod:
-        specifier: ^3.25.76
-        version: 3.25.76
-    devDependencies:
-      ava:
-        specifier: ^6.4.1
-        version: 6.4.1(encoding@0.1.13)(rollup@4.52.3)
-      nock:
-        specifier: ^14.0.0
-        version: 14.0.10
-      rimraf:
-        specifier: ^6.0.1
-        version: 6.0.1
-      typescript:
-        specifier: 5.4.5
-        version: 5.4.5
-
-  packages/mcp-ollama:
-    dependencies:
-      zod:
-        specifier: ^3.23.8
-        version: 3.25.76
-    devDependencies:
-      rimraf:
-        specifier: 6.0.1
-        version: 6.0.1
 
   packages/mcp/dev-ui:
     devDependencies:
