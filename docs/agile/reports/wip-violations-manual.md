@@ -1,6 +1,6 @@
 # WIP Violation Report
 
-Generated: 10/6/2025, 9:52:18 PM
+Generated: 10/6/2025, 10:08:55 PM
 
 ## Summary
 
@@ -10,17 +10,17 @@ Generated: 10/6/2025, 9:52:18 PM
 
 ### todo
 
-- **Current Count:** 325
+- **Current Count:** 318
 - **WIP Limit:** 15
-- **Over Limit:** 310
+- **Over Limit:** 303
 
 **Status:** 🚨 Critical WIP Limit Violation
 
 ### in_progress
 
-- **Current Count:** 19
+- **Current Count:** 15
 - **WIP Limit:** 3
-- **Over Limit:** 16
+- **Over Limit:** 12
 
 **Status:** 🚨 Critical WIP Limit Violation
 

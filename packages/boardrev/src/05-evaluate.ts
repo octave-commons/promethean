@@ -146,6 +146,7 @@ export async function evaluate({
 
     const item: EvalItem = {
       taskFile: ctx.taskFile,
+      taskUuid: fm.uuid || "",
       inferred_status: normStatus(clean.inferred_status),
       confidence: clean.confidence,
       summary: clean.summary,
