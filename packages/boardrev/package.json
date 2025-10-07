@@ -26,6 +26,7 @@
     "@promethean/utils": "workspace:*",
     "@promethean/markdown": "workspace:*",
     "@promethean/level-cache": "workspace:*",
+    "@promethean/kanban": "workspace:*",
     "globby": "^14.0.2",
     "gray-matter": "^4.0.3",
     "yaml": "^2.5.0",
