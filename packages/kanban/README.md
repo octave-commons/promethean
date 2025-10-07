@@ -1,4 +1,4 @@
-# @promethean/kanban-cli
+# @promethean/kanban
 
 Automation for the local markdown kanban and process-as-code. Functional TS, native ESM, no side effects.
 
@@ -8,11 +8,18 @@ Automation for the local markdown kanban and process-as-code. Functional TS, nat
 pnpm kanban --help
 ```
 
+Available subcommands: `count`, `getColumn`, `getByColumn`, `find`, `find-by-title`, `update_status`, `move_up`, `move_down`, `pull`, `push`, `sync`, `regenerate`, `indexForSearch`, `search`, `ui`, `process`, `process_sync`, `doccheck`
+
+Key commands:
 - `regenerate` — rebuild board(s) from `docs/agile/tasks/*.md`.
 - `sync` — two-way sync (board ⇄ tasks), then apply labels & PR checklists using a process config.
+- `search` — search tasks by title/content.
+- `find-by-title` — find task by exact title match.
+- `update_status` — move task between columns.
+- `count` — show task counts by status.
 - `doccheck` — **docs guard**; fails if package source changes without corresponding docs changes.
 - `pull` / `push` — low-level transforms used by `sync`.
-- `indexForSearch`, `search` — JSON index and query over tasks.
+- `indexForSearch` — JSON index for tasks.
 - `process_sync` — run process pipeline (labels + checklists) defined in YAML.
 
 - `pnpm kanban pull` – fold task frontmatter back into the board (like the old
