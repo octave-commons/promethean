@@ -1,0 +1,85 @@
+name: Sync Kanban to GitHub Issues
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/agile/boards/generated.md'
+      - 'docs/agile/tasks/**'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run (do not create/update issues)'
+        required: false
+        default: 'true'
+        type: boolean
+      create_issues:
+        description: 'Create new issues for tasks'
+        required: false
+        default: 'true'
+        type: boolean
+      update_existing:
+        description: 'Update existing issues'
+        required: false
+        default: 'true'
+        type: boolean
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+      pull-requests: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          npm install -g pnpm
+          pnpm install --frozen-lockfile
+
+      - name: Sync Kanban to GitHub Issues
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_OWNER: ${{ github.repository_owner }}
+          GITHUB_REPO: ${{ github.event.repository.name }}
+          DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
+          CREATE_ISSUES: ${{ github.event.inputs.create_issues || 'true' }}
+          UPDATE_EXISTING: ${{ github.event.inputs.update_existing || 'true' }}
+        run: |
+          node tools/github-project-sync.mjs
+
+      - name: Create sync report
+        if: always()
+        run: |
+          echo "## Kanban Sync Report" > sync-report.md
+          echo "**Date:** $(date -u)" >> sync-report.md
+          echo "**Repository:** ${{ github.repository }}" >> sync-report.md
+          echo "**Commit:** ${{ github.sha }}" >> sync-report.md
+          echo "" >> sync-report.md
+          echo "### Configuration" >> sync-report.md
+          echo "- **Dry Run:** ${{ env.DRY_RUN }}" >> sync-report.md
+          echo "- **Create Issues:** ${{ env.CREATE_ISSUES }}" >> sync-report.md
+          echo "- **Update Existing:** ${{ env.UPDATE_EXISTING }}" >> sync-report.md
+          echo "" >> sync-report.md
+          echo "### Changes" >> sync-report.md
+          echo "Check the job logs above for details of created/updated issues." >> sync-report.md
+
+      - name: Upload sync report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: kanban-sync-report
+          path: sync-report.md
+          retention-days: 30
