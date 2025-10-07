@@ -1,4 +1,4 @@
-import type { ReadonlyDeep } from "type-fest";
+import type { ReadonlyDeep } from 'type-fest';
 
 export type JsonObject = ReadonlyDeep<Record<string, unknown>>;
 
@@ -13,22 +13,22 @@ export type PullRequestCoordinates = {
 };
 
 export type MergeableState =
-  | "CONFLICTING"
-  | "MERGEABLE"
-  | "UNKNOWN"
-  | "UNMERGEABLE"
-  | "DRAFT"
-  | "BEHIND"
-  | "BLOCKED";
+  | 'CONFLICTING'
+  | 'MERGEABLE'
+  | 'UNKNOWN'
+  | 'UNMERGEABLE'
+  | 'DRAFT'
+  | 'BEHIND'
+  | 'BLOCKED';
 
 export type MergeStateStatus =
-  | "BEHIND"
-  | "BLOCKED"
-  | "CLEAN"
-  | "DIRTY"
-  | "DRAFT"
-  | "HAS_HOOKS"
-  | "UNKNOWN";
+  | 'BEHIND'
+  | 'BLOCKED'
+  | 'CLEAN'
+  | 'DIRTY'
+  | 'DRAFT'
+  | 'HAS_HOOKS'
+  | 'UNKNOWN';
 
 export type PullRequestStatus = {
   readonly id: string;
@@ -57,15 +57,14 @@ export type PullRequestPollOptions = {
 const defaultHeaders = (token: string): Readonly<Record<string, string>> =>
   ({
     Authorization: `Bearer ${token}`,
-    Accept: "application/vnd.github+json",
-    "X-GitHub-Api-Version": "2022-11-28",
+    Accept: 'application/vnd.github+json',
+    'X-GitHub-Api-Version': '2022-11-28',
   }) as const;
 
 const isJsonObject = (value: unknown): value is JsonObject =>
-  typeof value === "object" && value !== null && !Array.isArray(value);
+  typeof value === 'object' && value !== null && !Array.isArray(value);
 
-const toPlainJson = <T extends JsonObject>(value: T): T =>
-  JSON.parse(JSON.stringify(value)) as T;
+const toPlainJson = <T extends JsonObject>(value: T): T => JSON.parse(JSON.stringify(value)) as T;
 
 const deepFreeze = <T>(value: T): ReadonlyDeep<T> => {
   if (Array.isArray(value)) {
@@ -103,7 +102,7 @@ export class GitHubRequestError extends Error {
 
   public constructor(message: string, status: number) {
     super(message);
-    this.name = "GitHubRequestError";
+    this.name = 'GitHubRequestError';
     this.status = status;
   }
 }
@@ -115,7 +114,7 @@ export const createRestJsonClient =
       ...init,
       headers: {
         ...defaultHeaders(token),
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         ...(init.headers ?? {}),
       },
     });
@@ -125,8 +124,7 @@ export const createRestJsonClient =
       raw.trim().length === 0
         ? deepFreeze({})
         : deepFreeze(toPlainJson(JSON.parse(raw) as Record<string, unknown>));
-    const message =
-      typeof data.message === "string" ? data.message : response.statusText;
+    const message = typeof data.message === 'string' ? data.message : response.statusText;
 
     if (!response.ok) {
       throw new GitHubRequestError(message, response.status);
@@ -138,11 +136,11 @@ export const createRestJsonClient =
 export const createGraphQLClient =
   (token: string, fetchImpl: typeof fetch) =>
   async <T>(query: string, variables: JsonObject = {}): Promise<T> => {
-    const response = await fetchImpl("https://api.github.com/graphql", {
-      method: "POST",
+    const response = await fetchImpl('https://api.github.com/graphql', {
+      method: 'POST',
       headers: {
         ...defaultHeaders(token),
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({ query, variables }),
     });
@@ -152,16 +150,14 @@ export const createGraphQLClient =
       toPlainJson(JSON.parse(rawPayload) as Record<string, unknown>),
     );
     const errors = Array.isArray(payload.errors)
-      ? payload.errors.filter((candidate): candidate is JsonObject =>
-          isJsonObject(candidate),
-        )
+      ? payload.errors.filter((candidate): candidate is JsonObject => isJsonObject(candidate))
       : [];
     const firstError = errors[0];
     const messageValue = firstError?.message;
 
     if (!response.ok) {
       throw new GitHubRequestError(
-        typeof messageValue === "string" ? messageValue : response.statusText,
+        typeof messageValue === 'string' ? messageValue : response.statusText,
         response.status,
       );
     }
@@ -173,7 +169,7 @@ export const createGraphQLClient =
     const data = payload.data as T | undefined;
 
     if (!data) {
-      throw new Error("GitHub response missing data");
+      throw new Error('GitHub response missing data');
     }
 
     return toPlainJson(data);
@@ -197,9 +193,7 @@ const pullRequestQuery = `
 `;
 
 export const createPullRequestFetcher =
-  (
-    gqlClient: <T>(query: string, variables?: JsonObject) => Promise<T>,
-  ): PullRequestFetcher =>
+  (gqlClient: <T>(query: string, variables?: JsonObject) => Promise<T>): PullRequestFetcher =>
   async (coordinates) => {
     const data = await gqlClient<{
       readonly repository?: {
@@ -214,7 +208,7 @@ export const createPullRequestFetcher =
     const pullRequest = data.repository?.pullRequest;
 
     if (!pullRequest) {
-      throw new Error("Pull request not found");
+      throw new Error('Pull request not found');
     }
 
     return pullRequest;
@@ -243,7 +237,7 @@ export const pollPullRequestStatus = async (
   ): Promise<PullRequestStatus> => {
     if (
       !configuration.waitForKnown ||
-      current.mergeable !== "UNKNOWN" ||
+      current.mergeable !== 'UNKNOWN' ||
       attempt >= configuration.attempts
     ) {
       return current;
@@ -269,12 +263,12 @@ export const updatePullRequestBranch =
     const url = `https://api.github.com/repos/${coordinates.repo.owner}/${coordinates.repo.name}/pulls/${coordinates.number}/update-branch`;
 
     return restClient<JsonObject>(url, {
-      method: "PUT",
+      method: 'PUT',
       body: JSON.stringify(body),
     });
   };
 
-export type AutoMergeMethod = "SQUASH" | "MERGE" | "REBASE";
+export type AutoMergeMethod = 'SQUASH' | 'MERGE' | 'REBASE';
 
 export const enablePullRequestAutoMerge =
   (gqlClient: <T>(query: string, variables?: JsonObject) => Promise<T>) =>
