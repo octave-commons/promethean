@@ -1,14 +1,10 @@
 ---
-```
 uuid: fb14db8b-0d66-4f4a-a30d-d7ef8631ddef
-```
 title: task generator system
 status: todo
 priority: P3
 labels: []
-```
 created_at: '2025-09-15T02:02:58.522Z'
-```
 ---
 ## 🛠️ Description
 

@@ -1,14 +1,10 @@
 ---
-```
 uuid: b27a270a-d257-40ca-bfc2-438afeeca829
-```
 title: audit makefile.hy remnants and confirm deprecation
 status: todo
 priority: P3
 labels: []
-```
 created_at: '2025-09-15T02:02:58.508Z'
-```
 ---
 ## 🛠️ Description
 ```

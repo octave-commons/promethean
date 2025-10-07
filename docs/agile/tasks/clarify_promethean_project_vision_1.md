@@ -1,14 +1,10 @@
 ---
-```
 uuid: 1d799040-7ef4-42e4-b82d-c227f4363398
-```
 title: clarify promethean project vision 1 md
-status: todo
+status: done
 priority: P3
 labels: []
-```
 created_at: '2025-09-15T02:02:58.509Z'
-```
 ---
 ## 🛠️ Task: Clarify Promethean project vision
 

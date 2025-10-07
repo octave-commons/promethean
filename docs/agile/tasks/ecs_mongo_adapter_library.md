@@ -1,14 +1,10 @@
 ---
-```
 uuid: 88f4ecec-11b4-4883-ab71-7d3822171a2f
-```
 title: ecs mongo adapter library
 status: todo
 priority: P3
 labels: []
-```
 created_at: '2025-09-15T02:02:58.512Z'
-```
 ---
 ECS–Mongo Adapter Library
 

@@ -1,14 +1,10 @@
 ---
-```
 uuid: e02f9c17-8d25-48bf-bad9-bd145a14c9a3
-```
 title: 'Task: Context Layer Between Codex and Local LLMs'
 status: todo
 priority: P3
 labels: []
-```
 created_at: '2025-09-15T02:02:58.517Z'
-```
 ---
 # Task: Context Layer Between Codex and Local LLMs
 

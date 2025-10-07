@@ -1,14 +1,10 @@
 ---
-```
 uuid: 8584c1fd-c8b6-4bf0-8cca-db9f91fe52c2
-```
 title: just so much batman
 status: todo
 priority: P3
 labels: []
-```
 created_at: '2025-09-15T02:02:58.515Z'
-```
 ---
 ```
 <hr class="__chatgpt_plugin">

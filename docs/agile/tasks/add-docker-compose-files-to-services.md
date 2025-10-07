@@ -1,14 +1,10 @@
 ---
-```
 uuid: 0a4d6f50-753a-48ef-a9a0-10f279eb621b
-```
 title: add docker compose files to services
 status: todo
 priority: p3
 labels: []
-```
 created_at: '2025-09-15T02:02:58.504Z'
-```
 ---
 ```
 <hr class="__chatgpt_plugin">

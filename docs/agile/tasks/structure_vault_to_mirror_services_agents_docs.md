@@ -1,14 +1,10 @@
 ---
-```
 uuid: c6139027-bd0a-4f44-a200-c04829e35220
-```
 title: structure vault to mirror services agents docs md md
-status: todo
+status: icebox
 priority: P3
 labels: []
-```
 created_at: '2025-09-15T02:02:58.522Z'
-```
 ---
 ## 🛠️ Task: Document-Driven Development for Service Scripts
 ```

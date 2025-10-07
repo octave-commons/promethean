@@ -1,14 +1,10 @@
 ---
-```
 uuid: e6bbd2be-7191-4b32-ba5c-d82f1771b520
-```
 title: determine pm2 configuration for agents 1 md
-status: todo
+status: done
 priority: P3
 labels: []
-```
 created_at: '2025-09-15T02:02:58.511Z'
-```
 ---
 ## 🛠️ Task: Determine PM2 configuration for agents
 

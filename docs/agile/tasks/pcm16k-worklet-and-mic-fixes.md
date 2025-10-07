@@ -1,19 +1,13 @@
 ---
-```
 uuid: 4e8f0a2b-3c4d-5e6f-8a9b-1c2d3e4f5a6b
-```
 title: duck-web — PCM16k worklet + mic wiring fixes
-```
 status: in_progress
-```
 priority: P1
 labels:
   - duck-web
   - audio
   - worklet
-```
 created_at: '2025-10-02T00:00:00.000Z'
-```
 ---
 #Todo
 

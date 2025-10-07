@@ -1,14 +1,10 @@
 ---
-```
 uuid: 4b95c5fc-86cc-486e-a5df-c3dc7ebee209
-```
 title: clearly standardize data models
 status: todo
 priority: P3
 labels: []
-```
 created_at: '2025-09-15T02:02:58.509Z'
-```
 ---
 ## 🛠️ Description
 

@@ -1,15 +1,9 @@
 ---
-```
 uuid: d1250964-1686-487c-9850-3cc1472e9326
-```
-```
 created_at: '2025-09-19T23:23:12Z'
-```
 title: 2025.09.19.23.23.12
 filename: Kanban FSM with Safe Cycles
-```
 description: >-
-```
   A refined Kanban workflow with explicit reverse paths to prevent fake progress
   and ensure safe session-end hand-offs without requiring PRs. The system
   includes procedural cycles for backtracking, re-shaping work, and handling
@@ -24,12 +18,8 @@ tags:
   - procedural cycles
   - re-shaping
   - partial work
-```
 related_to_uuid: []
-```
-```
 related_to_title: []
-```
 references: []
 status: todo
 priority: P3

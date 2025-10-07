@@ -1,18 +1,12 @@
 ---
-```
 uuid: 099c293b-2aaf-4ead-9cea-e88d8e352606
-```
-```
 title: >-
-```
   refactor speech interuption system to be more inteligent using audio data to
   decide if interupted md md
 status: todo
 priority: P3
 labels: []
-```
 created_at: '2025-09-15T02:02:58.519Z'
-```
 ---
 ## 🛠️ Description
 

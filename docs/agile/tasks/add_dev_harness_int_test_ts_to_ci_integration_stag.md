@@ -1,14 +1,10 @@
 ---
-```
 uuid: 7057f956-e24b-4402-89a4-ada6eea88c41
-```
 title: add dev harness int test ts to ci integration stag md
-status: todo
+status: rejected
 priority: P3
 labels: []
-```
 created_at: '2025-09-15T02:02:58.505Z'
-```
 ---
 ## 🛠️ Task: Add `dev.harness.int.test.ts` to CI integration stage
 

@@ -1,14 +1,10 @@
 ---
-```
 uuid: dcdb2ed7-78d0-495a-b2a4-4fadd871ae3a
-```
 title: separate all testing pipelines in github actions md
-status: todo
+status: done
 priority: P3
 labels: []
-```
 created_at: '2025-09-15T02:02:58.520Z'
-```
 ---
 ## 🛠️ Task: seperate all testing pipelines in GitHub Actions
 

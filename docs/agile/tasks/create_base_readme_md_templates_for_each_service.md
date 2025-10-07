@@ -1,14 +1,10 @@
 ---
-```
 uuid: 7c508df7-4463-461a-8549-0ac8dd256192
-```
 title: create base readme md templates for each service md
 status: todo
 priority: P3
 labels: []
-```
 created_at: '2025-09-15T02:02:58.510Z'
-```
 ---
 ## 🧠 Description
 

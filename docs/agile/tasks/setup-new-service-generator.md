@@ -1,14 +1,10 @@
 ---
-```
 uuid: 183b8fa7-f80b-4342-b993-2d2bfa80303a
-```
 title: setup new service generator
 status: todo
 priority: P3
 labels: []
-```
 created_at: '2025-09-15T02:02:58.520Z'
-```
 ---
 ## 🛠️ Description
 

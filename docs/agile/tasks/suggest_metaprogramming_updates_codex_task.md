@@ -1,14 +1,10 @@
 ---
-```
 uuid: 66f98367-0bb2-43a8-a11d-187a0225b0d3
-```
 title: suggest metaprogramming updates codex task md
-status: todo
+status: rejected
 priority: P3
 labels: []
-```
 created_at: '2025-09-15T02:02:58.521Z'
-```
 ---
 ## 🛠️ Task: Suggest metaprogramming updates #codex-task
 

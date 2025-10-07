@@ -1,7 +1,5 @@
 ---
-```
 uuid: 0ed899b3-b815-4384-89ad-a1ff76d6a6e5
-```
 title: Shadow CLJS migration — step 3 application roll-out
 status: todo
 priority: P2
@@ -9,9 +7,7 @@ labels:
   - framework-core
   - codex-task
   - frontend
-```
 created_at: '2025-10-03T21:10:00.000Z'
-```
 ---
 #Todo
 

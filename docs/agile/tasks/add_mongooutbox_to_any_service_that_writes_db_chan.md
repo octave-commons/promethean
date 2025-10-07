@@ -1,7 +1,7 @@
 ---
 uuid: 119a6652-3b83-4c2a-8a5d-86cd489b6bfa
 title: add mongooutbox to any service that writes db chan md
-status: todo
+status: rejected
 priority: P3
 labels: []
 created_at: '2025-09-15T02:02:58.505Z'

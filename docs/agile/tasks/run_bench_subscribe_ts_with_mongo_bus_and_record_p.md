@@ -1,14 +1,10 @@
 ---
-```
 uuid: 5e290190-24fd-4245-86ee-f7bb66af63be
-```
 title: run bench subscribe ts with mongo bus and record p md
-status: todo
+status: icebox
 priority: P3
 labels: []
-```
 created_at: '2025-09-15T02:02:58.519Z'
-```
 ---
 ## 🛠️ Task: Run `bench/subscribe.ts` with Mongo bus and record p50/p99
 

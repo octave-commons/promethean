@@ -1,14 +1,10 @@
 ---
-```
 uuid: 5c8d8016-f4b8-421d-b335-73f7646173af
-```
 title: write simple ecosystem declaration library for new md md
-status: todo
+status: done
 priority: P3
 labels: []
-```
 created_at: '2025-09-15T02:02:58.524Z'
-```
 ---
 ## 🛠️ Task: write simple ecosystem declaration library for new agents
 

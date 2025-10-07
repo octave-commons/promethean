@@ -1,14 +1,10 @@
 ---
-```
 uuid: 19a3b157-2bc0-4bfa-be63-bba8bfc1594d
-```
 title: annotate legacy code with migration tags md
-status: todo
+status: icebox
 priority: P3
 labels: []
-```
 created_at: '2025-09-15T02:02:58.507Z'
-```
 ---
 ## 🛠️ Task: Annotate legacy code with migration tags
 

@@ -1,14 +1,10 @@
 ---
-```
 uuid: d70ed8c5-4885-450f-b1bc-9f8d6b0e94f2
-```
 title: docker compose edn template system
 status: todo
 priority: p3
 labels: []
-```
 created_at: '2025-09-15T02:02:58.512Z'
-```
 ---
 ```
 <hr class="__chatgpt_plugin">

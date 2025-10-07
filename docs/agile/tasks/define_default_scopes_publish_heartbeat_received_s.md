@@ -1,14 +1,10 @@
 ---
-```
 uuid: 218efa51-9804-48ac-a548-538b715a6cb3
-```
 title: define default scopes publish heartbeat received s md
-status: todo
+status: rejected
 priority: P3
 labels: []
-```
 created_at: '2025-09-15T02:02:58.511Z'
-```
 ---
 ## 🛠️ Task: Define default scopes: `publish:heartbeat.received`, `subscribe:process.state`
 

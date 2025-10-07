@@ -1,19 +1,13 @@
 ---
-```
 uuid: 7a1a45fb-51d3-4d7b-b143-3834cf8aad3c
-```
 title: Shadow CLJS migration — step 1 foundation
-```
 status: in-progress
-```
 priority: P2
 labels:
   - framework-core
   - codex-task
   - frontend
-```
 created_at: '2025-10-03T21:10:00.000Z'
-```
 ---
 #InProgress
 

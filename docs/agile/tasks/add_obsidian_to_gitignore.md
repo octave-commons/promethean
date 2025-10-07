@@ -1,7 +1,7 @@
 ---
 uuid: 0d72fa12-df0e-4fbe-b559-4df068967176
 title: add obsidian to gitignore md md
-status: todo
+status: done
 priority: P3
 labels: []
 created_at: '2025-09-15T02:02:58.505Z'

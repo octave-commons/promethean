@@ -1,14 +1,10 @@
 ---
-```
 uuid: a5748afa-3e7b-49fc-b945-d0452d2adf76
-```
 title: lisp package files
 status: todo
 priority: P3
 labels: []
-```
 created_at: '2025-09-15T02:02:58.516Z'
-```
 ---
 ## 🛠️ Description
 

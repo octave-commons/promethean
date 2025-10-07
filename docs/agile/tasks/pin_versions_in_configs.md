@@ -1,14 +1,10 @@
 ---
-```
 uuid: 4beb36b0-7cc5-4116-a516-3927615031be
-```
 title: Pin versions in configs
 status: todo
 priority: P3
 labels: []
-```
 created_at: '2025-09-15T02:02:58.517Z'
-```
 ---
 Got it. Here’s a practical expansion you can paste into the board and hand to Codex. It’s opinionated, deterministic, and aims to stop every “oops it upgraded” class of failure.
 

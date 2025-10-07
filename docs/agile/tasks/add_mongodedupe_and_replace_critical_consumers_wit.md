@@ -1,14 +1,10 @@
 ---
-```
 uuid: 8e11e83f-6f3b-4f64-88b6-40905faba1f6
-```
 title: add mongodedupe and replace critical consumers wit md
-status: todo
+status: rejected
 priority: P3
 labels: []
-```
 created_at: '2025-09-15T02:02:58.505Z'
-```
 ---
 ## 🛠️ Task: Add `MongoDedupe` and replace critical consumers with `subscribeExactlyOnce`
 

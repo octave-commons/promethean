@@ -1,14 +1,10 @@
 ---
-```
 uuid: 991b27c3-0b63-49a5-acd3-d730b28e31fc
-```
 title: Ban Python; Migrate to Hy; Compile to `./dist`
 status: todo
 priority: P3
 labels: []
-```
 created_at: '2025-09-15T02:02:58.519Z'
-```
 ---
 # Ban Python; Migrate to Hy; Compile to `./dist`
 ```

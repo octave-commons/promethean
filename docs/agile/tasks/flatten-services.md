@@ -1,14 +1,10 @@
 ---
-```
 uuid: 52028599-a34a-40ff-97a0-d8f47970e4b0
-```
 title: flatten services
 status: todo
 priority: P3
 labels: []
-```
 created_at: '2025-09-15T02:02:58.513Z'
-```
 ---
 ## 🛠️ Description
 

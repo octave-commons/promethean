@@ -1,14 +1,10 @@
 ---
-```
 uuid: dd4105ca-a9d4-423b-820d-f5b506d847cf
-```
 title: write meaningful tests for cephalon md md
-status: todo
+status: done
 priority: P3
 labels: []
-```
 created_at: '2025-09-15T02:02:58.524Z'
-```
 ---
 ## 🛠️ Task: Write meaningful tests for Cephalon
 

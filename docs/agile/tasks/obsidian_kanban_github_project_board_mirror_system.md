@@ -1,14 +1,10 @@
 ---
-```
 uuid: 083d6047-9529-4d0b-9ada-406acf3d97f8
-```
 title: obsidian kanban github project board mirror system md md
 status: todo
 priority: P3
 labels: []
-```
 created_at: '2025-09-15T02:02:58.517Z'
-```
 ---
 ## 🛠️ Task: Obsidian Kanban Github Project Board Mirror system
 

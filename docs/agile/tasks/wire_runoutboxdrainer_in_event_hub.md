@@ -1,14 +1,10 @@
 ---
-```
 uuid: c2ee671b-c84a-4461-b71a-8b598470aef4
-```
 title: wire runoutboxdrainer in event hub md
-status: todo
+status: rejected
 priority: P3
 labels: []
-```
 created_at: '2025-09-15T02:02:58.523Z'
-```
 ---
 ## 🛠️ Task: Wire `runOutboxDrainer` in event-hub
 

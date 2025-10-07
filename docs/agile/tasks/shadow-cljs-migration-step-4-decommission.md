@@ -1,7 +1,5 @@
 ---
-```
 uuid: 5fe4fdf3-0fda-42fb-8f98-93859577d08f
-```
 title: Shadow CLJS migration — step 4 decommission legacy toolchain
 status: icebox
 priority: P3
@@ -9,9 +7,7 @@ labels:
   - framework-core
   - codex-task
   - frontend
-```
 created_at: '2025-10-03T21:10:00.000Z'
-```
 ---
 #IceBox
 

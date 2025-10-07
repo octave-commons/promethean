@@ -1,15 +1,9 @@
 ---
-```
 uuid: 961704a0-53ca-4aae-8c87-5b1f681a25be
-```
-```
 created_at: '2025-09-19T23:48:50Z'
-```
 title: 2025.09.19.23.48.50
 filename: Kanban as a Finite State Machine
-```
 description: >-
-```
   Models a Kanban board as a finite state machine where tasks transition between
   predefined states based on specific rules. The system enforces a single source
   of truth for task status and includes WIP limits to prevent overloading.
@@ -19,12 +13,8 @@ tags:
   - Kanban
   - Finite State Machine
   - Workflow Automation
-```
 related_to_uuid: []
-```
-```
 related_to_title: []
-```
 references: []
 status: todo
 priority: P3

@@ -1,14 +1,10 @@
 ---
-```
 uuid: b2d63853-2a8e-4e5c-a196-3fc69299d876
-```
 title: WebSocket Broker API Parity with GPT Bridge
 status: todo
 priority: P3
 labels: []
-```
 created_at: '2025-09-15T02:02:58.510Z'
-```
 ---
 # WebSocket Broker API Parity with GPT Bridge
 ```

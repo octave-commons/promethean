@@ -1,14 +1,10 @@
 ---
-```
 uuid: 77011385-81b7-42aa-9137-cd522a63910e
-```
 title: 'Use `node:` protocol for builtin imports'
 status: todo
 priority: P3
 labels: []
-```
 created_at: '2025-09-15T02:02:58.523Z'
-```
 ---
 # Use `node:` protocol for builtin imports
 
