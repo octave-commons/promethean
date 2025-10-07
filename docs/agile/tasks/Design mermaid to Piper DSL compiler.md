@@ -1,0 +1,34 @@
+---
+uuid: 931a7d00-c601-4697-998f-441dffe78f25
+title: Design mermaid to Piper DSL compiler
+status: todo
+priority: P4
+labels:
+  - tooling
+  - pipelines
+created_at: '2025-10-07T02:31:07Z'
+---
+## 🛠️ Task: Design mermaid to Piper DSL compiler
+
+### Context
+- Stakeholders want to author pipelines as non-linear graphs via Mermaid diagrams and compile them into Piper-compatible configs.
+- Target output should be an nbb-compatible ClojureScript DSL that can round-trip to `pipelines.json`.
+- Existing orchestration diagrams (e.g., in `promethean-pipelines.md`) provide seed examples for conversion.
+
+### Definition of Done
+- [ ] Specify a parsing strategy for Mermaid `flowchart`/`graph` syntax to extract nodes, edges, and metadata.
+- [ ] Define the intermediate representation and mapping rules into Piper steps and dependencies.
+- [ ] Produce a DSL design document (nbb ClojureScript) illustrating syntax for pipelines, steps, deps, and annotations.
+- [ ] Outline validation and round-trip testing approach between Mermaid, DSL, and JSON configs.
+
+### Suggested Plan
+1. Survey existing Mermaid parsers or implement a lightweight parser suitable for flowcharts.
+2. Draft an IR capturing nodes, edges, step metadata, and documentation labels.
+3. Design DSL macros/functions mirroring Piper schema, ensuring compatibility with nbb execution.
+4. Document conversion and reverse-generation flow, including tooling requirements and open questions.
+
+### References
+- `docs/promethean-pipelines.md`
+- `pipelines.json`
+- `scripts/` Piper tooling
+- nbb / ClojureScript DSL conventions

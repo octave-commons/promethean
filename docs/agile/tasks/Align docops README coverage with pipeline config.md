@@ -1,0 +1,33 @@
+---
+uuid: 4e1e4c3c-79e8-4f9e-9ba8-122297198bd3
+title: Align DocOps README coverage with pipeline config
+status: todo
+priority: P3
+labels:
+  - documentation
+  - pipeline
+created_at: '2025-10-07T02:31:07Z'
+---
+## 🛠️ Task: Align DocOps README coverage with pipeline config
+
+### Context
+- The root README pipeline summary omits the `doc-stage` preprocessing step currently required by `pipelines.json`.
+- DocOps reports also reference legacy steps (`doc-references`, `doc-apply-fm`) that no longer exist in configuration.
+- Keeping documentation aligned prevents confusion for operators running or debugging DocOps.
+
+### Definition of Done
+- [ ] Update README pipeline table/section to reflect the current DocOps step sequence (`doc-stage`, `doc-fm`, `doc-index`, `doc-similarity`, `doc-related`, `doc-footer`, `doc-rename`).
+- [ ] Remove or revise any outdated references to DocOps steps in docs/agile/pipelines and related notes.
+- [ ] Add change notes or pointers for maintainers about the preprocessing stage.
+
+### Suggested Plan
+1. Diff the DocOps block in `README.md` against `pipelines.json` to identify mismatches.
+2. Update Markdown descriptions and step ordering accordingly.
+3. Review DocOps-specific documentation (`docs/agile/pipelines/docops.md`, package README) for consistency.
+4. Open follow-up issues if other documents refer to deprecated steps.
+
+### References
+- `README.md`
+- `pipelines.json`
+- `docs/agile/pipelines/docops.md`
+- `scripts/piper-docops.mjs`
