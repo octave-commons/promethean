@@ -72,3 +72,9 @@ tasks/done --> tasks/archive
 ```
 
 At some point I want a flow that'll use the rejected and final states to learn why and why not, to reduce the number of rejected items as time goes on
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- _None_
+## Sources
+- _None_
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

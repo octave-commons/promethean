@@ -650,7 +650,22 @@ function hash(s: string) {
   return h;
 }
 
-main().catch((e: unknown) => {
-  console.error(e);
-  process.exit(1);
-});
+export async function runGraph(args: Record<string, string> = {}) {
+  // Update args with command line arguments
+  const parsedArgs = parseArgs(args);
+
+  // Update global variables with new args by merging them
+  for (const [key, value] of Object.entries(parsedArgs)) {
+    args[key] = value;
+  }
+
+  await main();
+}
+
+// Only run main if called directly
+if (import.meta.url === `file://${process.argv[1]}`) {
+  main().catch((e: unknown) => {
+    console.error(e);
+    process.exit(1);
+  });
+}

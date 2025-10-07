@@ -110,3 +110,9 @@ This single doc tracks every checkbox from your request and our Definition of Do
 ## Audit Log
 
 * **2025-09-19 19:00** — Initialized tracker; ticked completed items; awaiting current board to continue WIP checks and task movement.
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- _None_
+## Sources
+- _None_
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

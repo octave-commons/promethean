@@ -60,15 +60,27 @@ if (process.env.SKIP_NETWORK_TESTS === "1") {
       }
     });
     await publish(child.pid, "kill-app");
-    await sleep(500);
-    const doc = (
-      await pers.mongo
-        .db("heartbeat_db")
-        .collection("heartbeats")
-        .find()
-        .toArray()
-    ).find((d) => d.pid === child.pid);
-    t.truthy(doc?.killedAt);
+    // Wait longer than the heartbeat timeout (500ms) + check interval (50ms)
+    await sleep(600);
+
+    // Check multiple times with a small delay to account for timing
+    let doc = null;
+    for (let i = 0; i < 5; i++) {
+      doc = (
+        await pers.mongo
+          .db("heartbeat_db")
+          .collection("heartbeats")
+          .find()
+          .toArray()
+      ).find((d) => d.pid === child.pid);
+
+      if (doc?.killedAt) {
+        break;
+      }
+      await sleep(50);
+    }
+
+    t.truthy(doc?.killedAt, `Process should be marked as killed, got: ${JSON.stringify(doc)}`);
   });
 
   test.serial("rejects excess instances", async (t) => {

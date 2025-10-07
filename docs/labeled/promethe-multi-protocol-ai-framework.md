@@ -69,4 +69,10 @@ A high level interface to every tool in the promethean framework
 - tsukumo
 - serve
 - omni-mcp
-- 
+-
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- _None_
+## Sources
+- _None_
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

@@ -2,7 +2,7 @@
 
 | Step | Status | Duration (ms) | Notes |
 |---|:---:|---:|---|
-| symdocs-scan | SKIP | 0 | dry-run |
-| symdocs-docs | SKIP | 0 | dry-run |
-| symdocs-write | SKIP | 0 | dry-run |
-| symdocs-graph | SKIP | 0 | dry-run |
+| symdocs-scan | OK | 16171 |  |
+| symdocs-docs | OK | 40 |  |
+| symdocs-write | OK | 36 |  |
+| symdocs-graph | OK | 25379 |  |

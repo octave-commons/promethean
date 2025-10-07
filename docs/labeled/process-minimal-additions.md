@@ -79,3 +79,9 @@ If an input implies multiple packages/modules or a large cross-cutting change, t
 ---
 
 If this matches your intent, say “apply Step 1” and I’ll insert this text into `process.md` (append-only). Then we can take the next single step: define the **ready/move** conditions per column (succinct acceptance criteria + DoD snippets) so the system prompt can treat the process as scripture and everything else as interpretable canon.
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- _None_
+## Sources
+- _None_
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

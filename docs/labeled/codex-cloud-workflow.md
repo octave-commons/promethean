@@ -59,3 +59,9 @@ references: []
 ## Codex Cloud — Board discipline (always)
 - Never edit the board directly; tasks drive the board.
 - Keep changes append-only inside the task file; one status hashtag; respect WIP/flow.
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- _None_
+## Sources
+- _None_
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
