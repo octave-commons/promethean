@@ -1,10 +1,12 @@
 ---
-uuid: $(uuidgen)
+uuid: (uuidgen)
 title: Add incremental updates to boardrev indexing
 status: incoming
 priority: P1
 labels: [enhancement, boardrev, performance]
+```
 created_at: 2025-10-06T12:00:00Z
+```
 ---
 
 # Add incremental updates to boardrev indexing

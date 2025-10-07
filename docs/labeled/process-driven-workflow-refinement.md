@@ -1,9 +1,15 @@
 ---
+```
 uuid: ece44fe7-0a39-4b34-9de1-449e95a591bd
+```
+```
 created_at: '2025-09-19T18:30:09Z'
+```
 title: 2025.09.19.18.30.09
 filename: Process-Driven-Workflow-Refinement
+```
 description: >-
+```
   This document outlines a strict process for refining a kanban-based workflow
   system, emphasizing adherence to board state, task tracking, and iterative
   improvements without unnecessary meetings or sprints. It ensures tasks are
@@ -17,8 +23,12 @@ tags:
   - refinement
   - board-state
   - iterative-improvement
+```
 related_to_uuid: []
+```
+```
 related_to_title: []
+```
 references: []
 ---
 # The process is everything
@@ -125,7 +135,7 @@ Once all tasks have been marked as complete, and all requirements have been mark
     - All tasks that were clearly rejected are moved to a rejected folder
     - All tasks that were clearly archived are moved to an archive folder
     - All tasks that were clearly done are moved to a done folder
-    - All tasks whos state was conflicted (EG tagged #breakdown but located under the boards #in-progress column) are moved to a conflicted folder
+    - All tasks whos state was conflicted EG tagged #breakdown but located under the boards #in-progress column are moved to a conflicted folder
 
 
 ## Resources

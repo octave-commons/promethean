@@ -1,5 +1,7 @@
 # Operation Mindfuck - System design exploration...
-Exported on 22/08/2025 at 14:16:30 [from ChatGPT](https://chatgpt.com/g/g-p-689b45259f008191a59195b28b147bd4/c/68a7c0b3-78d0-8321-ae1f-79849396fc6d) - with [SaveMyChatbot](https://save.hugocollin.com)
+Exported on 22/08/2025 at 14:16:30 [from ChatGPT](https://chatgpt.com/g/g-p-689b45259f008191a59195b28b147bd4/c/68a7c0b3-78d0-8321-ae1f-79849396fc6d```
+) - with [SaveMyChatbot](
+```https://save.hugocollin.com)
 
 ## User
 So what'cha thinkin bout?
@@ -84,25 +86,26 @@ on("resume", () => continueFromState());
 ```
 
 * * *
-
+```
 **Frames**
-
+```
 *   _Background assistant_: Invisible, accrues value (indexes, logs, notes).
     
 *   _Bounded autonomy_: Small bursts of activity, never overwhelming.
     
 *   _Conversational partner_: Continues its own train of thought, but always defers to interruption.
     
-
+```
 **Countermoves**
-
+```
 *   Watch for creep → background tasks eating cycles.
     
 *   Don’t trust token budgets alone → needs kill switches.
     
 *   Save/restore must be cheap → otherwise the pause/resume lags.
     
-
-**Next**  
+```
+**Next**
+```
 Pick one vibe you want Duck to try first: hummer, spender, or polite-pauser?
 

@@ -1,8 +1,16 @@
 ---
+```
 uuid: b4e64f8c-4dc9-4941-a877-646c5ada068e
+```
+```
 created_at: 2025.08.31.11.07.29.md
+```
+```
 filename: observability-infrastructure-setup
+```
+```
 description: >-
+```
   Ready-to-boot Docker Compose configuration for observability stack
   (Prometheus, Grafana, Loki, Tempo, Nginx) with reverse proxy and dashboard
   provisioning. Includes starter dashboards and config templates for seamless
@@ -18,7 +26,9 @@ tags:
   - reverse-proxy
   - dashboards
   - config
+```
 related_to_title:
+```
   - Prometheus Observability Stack
   - Promethean Infrastructure Setup
   - api-gateway-versioning
@@ -37,7 +47,9 @@ related_to_title:
   - eidolon-field-math-foundations
   - RAG UI Panel with Qdrant and PostgREST
   - shared-package-layout-clarification
+```
 related_to_uuid:
+```
   - e90b5a16-d58f-424d-bd36-70e9bd2861ad
   - 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
   - 0580dcd3-533d-4834-8a2f-eae3771960a9
@@ -302,9 +314,9 @@ extra_hosts:
 ---
 
 ## nginx: reverse proxy (simple)
-
+```
 `infra/nginx/nginx.conf`
-
+```
 ```nginx
 worker_processes auto;
 events { worker_connections 1024; }
@@ -324,23 +336,23 @@ http {
     # grafana
     location /grafana/ {
       proxy_pass http://grafana/;
-      proxy_set_header Host $host;
-      proxy_set_header X-Real-IP $remote_addr;
+      proxy_set_header Host host;
+      proxy_set_header X-Real-IP remote_addr;
     }
     # prometheus
     location /prom/ {
       proxy_pass http://prometheus/;
-      proxy_set_header Host $host;
+      proxy_set_header Host host;
     }
     # loki
     location /loki/ {
       proxy_pass http://loki/;
-      proxy_set_header Host $host;
+      proxy_set_header Host host;
     }
     # tempo (otlp http / traces api)
     location /tempo/ {
       proxy_pass http://tempo/;
-      proxy_set_header Host $host;
+      proxy_set_header Host host;
     }
 
     # default landing
@@ -395,7 +407,7 @@ providers:
       path: /etc/grafana/provisioning/dashboards
 ```
 
-### starter dashboard (containers + node)
+### starter dashboard containers + node
 
 `infra/grafana/provisioning/dashboards/node_container.json`
 
@@ -447,9 +459,9 @@ providers:
 ---
 
 ## prometheus: scrape config
-
+```
 `infra/prometheus/prometheus.yml`
-
+```
 ```yaml
 global:
   scrape_interval: 15s
@@ -525,9 +537,9 @@ analytics:
 ---
 
 ## promtail: docker + system logs
-
+```
 `infra/promtail/config.yaml`
-
+```
 ```yaml
 server:
   http_listen_port: 9080
@@ -561,10 +573,10 @@ scrape_configs:
 
 ---
 
-## tempo: traces (single-process)
-
+## tempo: traces single-process
+```
 `infra/tempo/tempo.yaml`
-
+```
 ```yaml
 server:
   http_listen_port: 3200
@@ -592,9 +604,9 @@ compactor:
 ---
 
 ## mosquitto: minimal mqtt
-
+```
 `infra/mosquitto/mosquitto.conf`
-
+```
 ```conf
 listener 1883 0.0.0.0
 persistence true
@@ -616,80 +628,80 @@ allow_anonymous true
    * Prometheus, Loki, Tempo are pre-wired
    * Starter dashboard is available under Dashboards
 
-want me to also drop **Traefik label snippets** and a **prebaked Haystack pipeline** (`infra/haystack/default.yaml`) so your RAG layer is one `--profile rag` away? I can hand you a minimal one that talks to Meili/OpenSearch and Postgres.
+want me to also drop **Traefik label snippets** and a **prebaked Haystack pipeline** `infra/haystack/default.yaml` so your RAG layer is one `--profile rag` away? I can hand you a minimal one that talks to Meili/OpenSearch and Postgres.
 
 \#docker #docker-compose #observability #grafana #prometheus #loki #tempo #promtail #nginx #mosquitto #infrastructure #ops #sre
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [[prometheus-observability-stack|Prometheus Observability Stack]]
-- [[promethean-infrastructure-setup|Promethean Infrastructure Setup]]
-- [[api-gateway-versioning]]
-- [[mongo-outbox-implementation|Mongo Outbox Implementation]]
-- [[local-offline-model-deployment-strategy]]
-- [[promethean-full-stack-docker-setup|Promethean Full-Stack Docker Setup]]
-- [[migrate-to-provider-tenant-architecture|Migrate to Provider-Tenant Architecture]]
-- [[ai-centric-os-with-mcp-layer|AI-Centric OS with MCP Layer]]
-- [[docs/unique/ecs-offload-workers|ecs-offload-workers]]
-- [[docs/unique/event-bus-mvp|Event Bus MVP]]
-- [Debugging Broker Connections and Agent Behavior](debugging-broker-connections-and-agent-behavior.md)
-- [[dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]]
-- [Services](chunks/services.md)
-- [[prom-lib-rate-limiters-and-replay-api]]
-- [[pure-typescript-search-microservice|Pure TypeScript Search Microservice]]
-- [[docs/unique/eidolon-field-math-foundations|eidolon-field-math-foundations]]
-- [[rag-ui-panel-with-qdrant-and-postgrest|RAG UI Panel with Qdrant and PostgREST]]
-- [[shared-package-layout-clarification]]
+- [prometheus-observability-stack|Prometheus Observability Stack]
+- [promethean-infrastructure-setup|Promethean Infrastructure Setup]
+- [api-gateway-versioning]
+- [mongo-outbox-implementation|Mongo Outbox Implementation]
+- [local-offline-model-deployment-strategy]
+- [promethean-full-stack-docker-setup|Promethean Full-Stack Docker Setup]
+- [migrate-to-provider-tenant-architecture|Migrate to Provider-Tenant Architecture]
+- [ai-centric-os-with-mcp-layer|AI-Centric OS with MCP Layer]
+- [docs/unique/ecs-offload-workers|ecs-offload-workers]
+- [docs/unique/event-bus-mvp|Event Bus MVP]
+- [Debugging Broker Connections and Agent Behavior]debugging-broker-connections-and-agent-behavior.md
+- [dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]
+- [Services]chunks/services.md
+- [prom-lib-rate-limiters-and-replay-api]
+- [pure-typescript-search-microservice|Pure TypeScript Search Microservice]
+- [docs/unique/eidolon-field-math-foundations|eidolon-field-math-foundations]
+- [rag-ui-panel-with-qdrant-and-postgrest|RAG UI Panel with Qdrant and PostgREST]
+- [shared-package-layout-clarification]
 
 ## Sources
-- [[promethean-infrastructure-setup#L61|Promethean Infrastructure Setup — L61]] (line 61, col 1, score 0.9)
-- [[api-gateway-versioning#L7|api-gateway-versioning — L7]] (line 7, col 1, score 0.89)
-- [[prometheus-observability-stack#L500|Prometheus Observability Stack — L500]] (line 500, col 1, score 0.9)
-- [[ai-centric-os-with-mcp-layer#L403|AI-Centric OS with MCP Layer — L403]] (line 403, col 1, score 1)
-- [[ai-centric-os-with-mcp-layer#L403|AI-Centric OS with MCP Layer — L403]] (line 403, col 3, score 1)
-- [[local-offline-model-deployment-strategy#L293|Local-Offline-Model-Deployment-Strategy — L293]] (line 293, col 1, score 1)
-- [[local-offline-model-deployment-strategy#L293|Local-Offline-Model-Deployment-Strategy — L293]] (line 293, col 3, score 1)
-- [[migrate-to-provider-tenant-architecture#L281|Migrate to Provider-Tenant Architecture — L281]] (line 281, col 1, score 1)
-- [[migrate-to-provider-tenant-architecture#L281|Migrate to Provider-Tenant Architecture — L281]] (line 281, col 3, score 1)
-- [[promethean-full-stack-docker-setup#L439|Promethean Full-Stack Docker Setup — L439]] (line 439, col 1, score 1)
-- [[promethean-full-stack-docker-setup#L439|Promethean Full-Stack Docker Setup — L439]] (line 439, col 3, score 1)
-- [[api-gateway-versioning#L284|api-gateway-versioning — L284]] (line 284, col 1, score 1)
-- [[api-gateway-versioning#L284|api-gateway-versioning — L284]] (line 284, col 3, score 1)
-- [Debugging Broker Connections and Agent Behavior — L40](debugging-broker-connections-and-agent-behavior.md#L40) (line 40, col 1, score 1)
-- [Debugging Broker Connections and Agent Behavior — L40](debugging-broker-connections-and-agent-behavior.md#L40) (line 40, col 3, score 1)
-- [[dynamic-context-model-for-web-components#L384|Dynamic Context Model for Web Components — L384]] (line 384, col 1, score 1)
-- [[dynamic-context-model-for-web-components#L384|Dynamic Context Model for Web Components — L384]] (line 384, col 3, score 1)
-- [[docs/unique/ecs-offload-workers#L458|ecs-offload-workers — L458]] (line 458, col 1, score 1)
-- [[docs/unique/ecs-offload-workers#L458|ecs-offload-workers — L458]] (line 458, col 3, score 1)
-- [Debugging Broker Connections and Agent Behavior — L41](debugging-broker-connections-and-agent-behavior.md#L41) (line 41, col 1, score 1)
-- [Debugging Broker Connections and Agent Behavior — L41](debugging-broker-connections-and-agent-behavior.md#L41) (line 41, col 3, score 1)
-- [[dynamic-context-model-for-web-components#L385|Dynamic Context Model for Web Components — L385]] (line 385, col 1, score 1)
-- [[dynamic-context-model-for-web-components#L385|Dynamic Context Model for Web Components — L385]] (line 385, col 3, score 1)
-- [[promethean-infrastructure-setup#L568|Promethean Infrastructure Setup — L568]] (line 568, col 1, score 1)
-- [[promethean-infrastructure-setup#L568|Promethean Infrastructure Setup — L568]] (line 568, col 3, score 1)
-- [[pure-typescript-search-microservice#L524|Pure TypeScript Search Microservice — L524]] (line 524, col 1, score 1)
-- [[pure-typescript-search-microservice#L524|Pure TypeScript Search Microservice — L524]] (line 524, col 3, score 1)
-- [Services — L13](chunks/services.md#L13) (line 13, col 1, score 1)
-- [Services — L13](chunks/services.md#L13) (line 13, col 3, score 1)
-- [[docs/unique/ecs-offload-workers#L467|ecs-offload-workers — L467]] (line 467, col 1, score 1)
-- [[docs/unique/ecs-offload-workers#L467|ecs-offload-workers — L467]] (line 467, col 3, score 1)
-- [[docs/unique/event-bus-mvp#L549|Event Bus MVP — L549]] (line 549, col 1, score 1)
-- [[docs/unique/event-bus-mvp#L549|Event Bus MVP — L549]] (line 549, col 3, score 1)
-- [[prom-lib-rate-limiters-and-replay-api#L387|prom-lib-rate-limiters-and-replay-api — L387]] (line 387, col 1, score 1)
-- [[prom-lib-rate-limiters-and-replay-api#L387|prom-lib-rate-limiters-and-replay-api — L387]] (line 387, col 3, score 1)
-- [[api-gateway-versioning#L291|api-gateway-versioning — L291]] (line 291, col 1, score 0.99)
-- [[api-gateway-versioning#L291|api-gateway-versioning — L291]] (line 291, col 3, score 0.99)
-- [[docs/unique/eidolon-field-math-foundations#L153|eidolon-field-math-foundations — L153]] (line 153, col 1, score 0.99)
-- [[docs/unique/eidolon-field-math-foundations#L153|eidolon-field-math-foundations — L153]] (line 153, col 3, score 0.99)
-- [[rag-ui-panel-with-qdrant-and-postgrest#L369|RAG UI Panel with Qdrant and PostgREST — L369]] (line 369, col 1, score 0.99)
-- [[rag-ui-panel-with-qdrant-and-postgrest#L369|RAG UI Panel with Qdrant and PostgREST — L369]] (line 369, col 3, score 0.99)
-- [[shared-package-layout-clarification#L178|shared-package-layout-clarification — L178]] (line 178, col 1, score 0.99)
-- [[shared-package-layout-clarification#L178|shared-package-layout-clarification — L178]] (line 178, col 3, score 0.99)
-- [[promethean-infrastructure-setup#L593|Promethean Infrastructure Setup — L593]] (line 593, col 1, score 1)
-- [[promethean-infrastructure-setup#L593|Promethean Infrastructure Setup — L593]] (line 593, col 3, score 1)
-- [[promethean-infrastructure-setup#L596|Promethean Infrastructure Setup — L596]] (line 596, col 1, score 0.99)
-- [[promethean-infrastructure-setup#L596|Promethean Infrastructure Setup — L596]] (line 596, col 3, score 0.99)
-- [[promethean-infrastructure-setup#L595|Promethean Infrastructure Setup — L595]] (line 595, col 1, score 0.99)
-- [[promethean-infrastructure-setup#L595|Promethean Infrastructure Setup — L595]] (line 595, col 3, score 0.99)
-- [[promethean-infrastructure-setup#L608|Promethean Infrastructure Setup — L608]] (line 608, col 1, score 0.99)
-- [[promethean-infrastructure-setup#L608|Promethean Infrastructure Setup — L608]] (line 608, col 3, score 0.99)
+- [promethean-infrastructure-setup#L61|Promethean Infrastructure Setup — L61] (line 61, col 1, score 0.9)
+- [api-gateway-versioning#L7|api-gateway-versioning — L7] (line 7, col 1, score 0.89)
+- [prometheus-observability-stack#L500|Prometheus Observability Stack — L500] (line 500, col 1, score 0.9)
+- [ai-centric-os-with-mcp-layer#L403|AI-Centric OS with MCP Layer — L403] (line 403, col 1, score 1)
+- [ai-centric-os-with-mcp-layer#L403|AI-Centric OS with MCP Layer — L403] (line 403, col 3, score 1)
+- [local-offline-model-deployment-strategy#L293|Local-Offline-Model-Deployment-Strategy — L293] (line 293, col 1, score 1)
+- [local-offline-model-deployment-strategy#L293|Local-Offline-Model-Deployment-Strategy — L293] (line 293, col 3, score 1)
+- [migrate-to-provider-tenant-architecture#L281|Migrate to Provider-Tenant Architecture — L281] (line 281, col 1, score 1)
+- [migrate-to-provider-tenant-architecture#L281|Migrate to Provider-Tenant Architecture — L281] (line 281, col 3, score 1)
+- [promethean-full-stack-docker-setup#L439|Promethean Full-Stack Docker Setup — L439] (line 439, col 1, score 1)
+- [promethean-full-stack-docker-setup#L439|Promethean Full-Stack Docker Setup — L439] (line 439, col 3, score 1)
+- [api-gateway-versioning#L284|api-gateway-versioning — L284] (line 284, col 1, score 1)
+- [api-gateway-versioning#L284|api-gateway-versioning — L284] (line 284, col 3, score 1)
+- [Debugging Broker Connections and Agent Behavior — L40]debugging-broker-connections-and-agent-behavior.md#L40 (line 40, col 1, score 1)
+- [Debugging Broker Connections and Agent Behavior — L40]debugging-broker-connections-and-agent-behavior.md#L40 (line 40, col 3, score 1)
+- [dynamic-context-model-for-web-components#L384|Dynamic Context Model for Web Components — L384] (line 384, col 1, score 1)
+- [dynamic-context-model-for-web-components#L384|Dynamic Context Model for Web Components — L384] (line 384, col 3, score 1)
+- [docs/unique/ecs-offload-workers#L458|ecs-offload-workers — L458] (line 458, col 1, score 1)
+- [docs/unique/ecs-offload-workers#L458|ecs-offload-workers — L458] (line 458, col 3, score 1)
+- [Debugging Broker Connections and Agent Behavior — L41]debugging-broker-connections-and-agent-behavior.md#L41 (line 41, col 1, score 1)
+- [Debugging Broker Connections and Agent Behavior — L41]debugging-broker-connections-and-agent-behavior.md#L41 (line 41, col 3, score 1)
+- [dynamic-context-model-for-web-components#L385|Dynamic Context Model for Web Components — L385] (line 385, col 1, score 1)
+- [dynamic-context-model-for-web-components#L385|Dynamic Context Model for Web Components — L385] (line 385, col 3, score 1)
+- [promethean-infrastructure-setup#L568|Promethean Infrastructure Setup — L568] (line 568, col 1, score 1)
+- [promethean-infrastructure-setup#L568|Promethean Infrastructure Setup — L568] (line 568, col 3, score 1)
+- [pure-typescript-search-microservice#L524|Pure TypeScript Search Microservice — L524] (line 524, col 1, score 1)
+- [pure-typescript-search-microservice#L524|Pure TypeScript Search Microservice — L524] (line 524, col 3, score 1)
+- [Services — L13]chunks/services.md#L13 (line 13, col 1, score 1)
+- [Services — L13]chunks/services.md#L13 (line 13, col 3, score 1)
+- [docs/unique/ecs-offload-workers#L467|ecs-offload-workers — L467] (line 467, col 1, score 1)
+- [docs/unique/ecs-offload-workers#L467|ecs-offload-workers — L467] (line 467, col 3, score 1)
+- [docs/unique/event-bus-mvp#L549|Event Bus MVP — L549] (line 549, col 1, score 1)
+- [docs/unique/event-bus-mvp#L549|Event Bus MVP — L549] (line 549, col 3, score 1)
+- [prom-lib-rate-limiters-and-replay-api#L387|prom-lib-rate-limiters-and-replay-api — L387] (line 387, col 1, score 1)
+- [prom-lib-rate-limiters-and-replay-api#L387|prom-lib-rate-limiters-and-replay-api — L387] (line 387, col 3, score 1)
+- [api-gateway-versioning#L291|api-gateway-versioning — L291] (line 291, col 1, score 0.99)
+- [api-gateway-versioning#L291|api-gateway-versioning — L291] (line 291, col 3, score 0.99)
+- [docs/unique/eidolon-field-math-foundations#L153|eidolon-field-math-foundations — L153] (line 153, col 1, score 0.99)
+- [docs/unique/eidolon-field-math-foundations#L153|eidolon-field-math-foundations — L153] (line 153, col 3, score 0.99)
+- [rag-ui-panel-with-qdrant-and-postgrest#L369|RAG UI Panel with Qdrant and PostgREST — L369] (line 369, col 1, score 0.99)
+- [rag-ui-panel-with-qdrant-and-postgrest#L369|RAG UI Panel with Qdrant and PostgREST — L369] (line 369, col 3, score 0.99)
+- [shared-package-layout-clarification#L178|shared-package-layout-clarification — L178] (line 178, col 1, score 0.99)
+- [shared-package-layout-clarification#L178|shared-package-layout-clarification — L178] (line 178, col 3, score 0.99)
+- [promethean-infrastructure-setup#L593|Promethean Infrastructure Setup — L593] (line 593, col 1, score 1)
+- [promethean-infrastructure-setup#L593|Promethean Infrastructure Setup — L593] (line 593, col 3, score 1)
+- [promethean-infrastructure-setup#L596|Promethean Infrastructure Setup — L596] (line 596, col 1, score 0.99)
+- [promethean-infrastructure-setup#L596|Promethean Infrastructure Setup — L596] (line 596, col 3, score 0.99)
+- [promethean-infrastructure-setup#L595|Promethean Infrastructure Setup — L595] (line 595, col 1, score 0.99)
+- [promethean-infrastructure-setup#L595|Promethean Infrastructure Setup — L595] (line 595, col 3, score 0.99)
+- [promethean-infrastructure-setup#L608|Promethean Infrastructure Setup — L608] (line 608, col 1, score 0.99)
+- [promethean-infrastructure-setup#L608|Promethean Infrastructure Setup — L608] (line 608, col 3, score 0.99)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

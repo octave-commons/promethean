@@ -15,7 +15,7 @@ This checklist tracks the implementation of the `defun` special form in the Prom
 - [x] Add AST node `DefunNode`
 - [x] Extend environment to bind functions by name
 - [x] Extend evaluator to handle `DefunNode` → callable function
-- [x] Ensure support for recursion (`defun fact (n) ...`)
+- [x] Ensure support for recursion `defun fact (n) ...`
 
 ---
 

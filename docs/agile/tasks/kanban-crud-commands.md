@@ -3,8 +3,12 @@ title: "Add CRUD subcommands to kanban CLI"
 status: incoming
 priority: P2
 tags: [kanban, cli, enhancement, crud]
+```
 uuid: kanban-crud-001
+```
+```
 created: 2025-10-06
+```
 ---
 
 # Add CRUD subcommands to kanban CLI

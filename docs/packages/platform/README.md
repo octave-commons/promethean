@@ -1,8 +1,16 @@
+```
 <!-- SYMPKG:PKG:BEGIN -->
+```
 # @promethean/platform
-**Folder:** `packages/platform`  
-**Version:** `0.0.1`  
+```
+**Folder:** `packages/platform`
+```
+```
+**Version:** `0.0.1`
+```
+```
 **Domain:** `_root`
+```
 ```mermaid
 graph LR
   A["@promethean/platform"]
@@ -23,10 +31,12 @@ graph LR
   click R4 "../security/README.md" "@promethean/security"
 ```
 ## Dependencies
-- [@promethean/utils](../utils/README.md)
+- @promethean/utils$../utils/README.md
 ## Dependents
-- [@promethean/discord](../discord/README.md)
-- [@promethean/embedding](../embedding/README.md)
-- [@promethean/providers](../providers/README.md)
-- [@promethean/security](../security/README.md)
+- @promethean/discord$../discord/README.md
+- @promethean/embedding$../embedding/README.md
+- @promethean/providers$../providers/README.md
+- @promethean/security$../security/README.md
+```
 <!-- SYMPKG:PKG:END -->
+```

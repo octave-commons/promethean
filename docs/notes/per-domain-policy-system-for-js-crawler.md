@@ -1,8 +1,14 @@
 ---
+```
 uuid: c03020e1-e3e7-48bf-aa7e-aa740c601b63
+```
+```
 created_at: 2025.08.31.11.25.22.md
+```
 filename: Per-Domain Policy System for JS Crawler
+```
 description: >-
+```
   A YAML-based policy system for configuring JS crawlers with per-domain rules,
   throttling, authentication, and resource blocking. Enables fine-grained
   control over crawling behavior without Python or SaaS dependencies.
@@ -14,7 +20,9 @@ tags:
   - authentication
   - resource-blocking
   - domain-specific
+```
 related_to_title:
+```
   - Pure-Node Crawl Stack with Playwright and Crawlee
   - 'Agent Tasks: Persistence Migration to DualStore'
   - Migrate to Provider-Tenant Architecture
@@ -36,7 +44,9 @@ related_to_title:
   - Promethean Event Bus MVP v0.1
   - Local-Only-LLM-Workflow
   - Shared Package Structure
+```
 related_to_uuid:
+```
   - d527c05d-22e8-4493-8f29-ae3cb67f035b
   - 93d2ba51-8689-49ee-94e2-296092e48058
   - 54382370-1931-4a19-a634-46735708a9ea
@@ -538,13 +548,13 @@ domains:
     concurrency: 2
     maxPages: 500
     allow: ["^https://news\\.ycombinator\\.com/"]
-    deny: ["\\.gif$", "\\.png$", "\\.jpg$"]
+    deny: ["\\.gif", "\\.png", "\\.jpg"]
     extractor:
       mode: "simple"
       keepHtml: false
 
   - name: "Example Blog with login"
-    domains: ["blog.example.com", "/^sub\\d+\\.example\\.com$/"]
+    domains: ["blog.example.com", "/^sub\\d+\\.example\\.com/"]
     rpm: 30
     concurrency: 2
     maxDepth: 2
@@ -584,7 +594,7 @@ seeds:
   - "https://docs.example.org/"
 ```
 
-**How matching works:** `domains[].domains` accepts either host globs (e.g., `*.example.com`) or regex strings delimited with `/.../`. First match wins.
+**How matching works:** `domains[].domains` accepts either host globs e.g., `*.example.com` or regex strings delimited with `/.../`. First match wins.
 
 ---
 
@@ -633,7 +643,7 @@ export function loadPolicies(filePath) {
     d._matchers = (d.domains || []).map(s => {
       if (s.startsWith('/') && s.endsWith('/')) return { type: 're', re: new RegExp(s.slice(1, -1), 'i') };
       // glob-ish → convert dots and * to regex
-      const rx = '^' + s.replace(/[.+?^${}()|[\]\\]/g, '\\$&').replace(/\*/g, '.*') + '$';
+      const rx = '^' + s.replace(/[.+?^{}()|[\]\\]/g, '\\&').replace(/\*/g, '.*') + '';
       return { type: 'glob', re: new RegExp(rx, 'i') };
     });
   }
@@ -655,9 +665,9 @@ export function compileRegexList(csvOrList) {
 }
 ```
 
-(Keep your previous helpers like `sleep`, `normalizeUrlForDedup`, `buildRobotsForOrigin`, `decideUrl`—they still apply, just feed them policy-specific values.)
+$Keep your previous helpers like `sleep`, `normalizeUrlForDedup`, `buildRobotsForOrigin`, `decideUrl`—they still apply, just feed them policy-specific values.
 
-### `infra/crawler-js/src/crawl.js` (replaced core with policy-aware flow)
+### `infra/crawler-js/src/crawl.js` replaced core with policy-aware flow
 
 ```js
 import { PlaywrightCrawler, KeyValueStore, Dataset, log, Configuration } from 'crawlee';
@@ -705,7 +715,7 @@ function buildProxyAgents(url, policy) {
 async function discoverSitemaps(origin, agents, enable) {
   if (!enable) return [];
   try {
-    const res = await fetch(`${origin}/sitemap.xml`, { agent: origin.startsWith('https') ? agents.httpsAgent : agents.httpAgent, timeout: 10000 });
+    const res = await fetch(`{origin}/sitemap.xml`, { agent: origin.startsWith('https') ? agents.httpsAgent : agents.httpAgent, timeout: 10000 });
     if (!res.ok) return [];
     const xml = await res.text();
     const parser = new XMLParser({ ignoreAttributes: false });
@@ -744,7 +754,7 @@ function extractByMode(mode, keepHtml, page) {
     if (mode === 'raw') return keepHtml ? { html } : { text: html.replace(/\s+/g, ' ').slice(0, 500000) };
     if (mode === 'simple') {
       const title = await page.title().catch(()=> '');
-      const text = await page.$eval('body', el => el.innerText).catch(()=> '');
+      const text = await page.eval('body', el => el.innerText).catch(()=> '');
       return keepHtml ? { title, html } : { title, text };
     }
     // 'article' heuristic (cheap)
@@ -752,12 +762,12 @@ function extractByMode(mode, keepHtml, page) {
     const meta = {};
     for (const n of ['og:title','og:description','description','article:author','author','og:site_name','article:published_time']) {
       try {
-        meta[n] = await page.$eval(`meta[property="${n}"],meta[name="${n}"]`, el => el.content);
+        meta[n] = await page.eval(`meta[property="{n}"],meta[name="{n}"]`, el => el.content);
       } catch {}
     }
-    const mainText = await page.$eval('main', el => el.innerText).catch(async () =>
-      page.$eval('article', el => el.innerText).catch(async () =>
-        page.$eval('body', el => el.innerText).catch(()=> '')
+    const mainText = await page.eval('main', el => el.innerText).catch(async () =>
+      page.eval('article', el => el.innerText).catch(async () =>
+        page.eval('body', el => el.innerText).catch(()=> '')
       )
     );
     return keepHtml ? { title, meta, html } : { title, meta, text: mainText };
@@ -905,15 +915,15 @@ for (const s of seeds) {
 
 log.setLevel(log.LEVELS.INFO);
 await crawler.run([...seeds]);
-console.log(`JSONL: ${outPath}`);
+console.log(`JSONL: {outPath}`);
 ```
 
 ---
 
 ## 4) Run examples
-
+```
 **Local, no Tor:**
-
+```
 ```bash
 POLICY_FILE=./infra/crawler-js/policies.yaml \
 docker compose --profile crawl-js up --build crawler-js
@@ -934,142 +944,142 @@ docker compose --profile crawl-js up --build crawler-js
 ## 5) Why this setup won’t fight you
 
 * **Single source of truth**: `policies.yaml` controls throttles, RPM, depth, allow/deny, robots, headers, cookies, **login**, extract mode, and per-domain proxy.
-* **Login once** per origin using deterministic steps (goto/type/click/wait).
-* **Bandwidth sane**: resource blocking per domain (e.g., kill images/fonts on docs sites).
-* **Extraction modes**: `article` (cheap heuristic), `simple` (title + body text), `raw` (HTML).
+* **Login once** per origin using deterministic steps goto/type/click/wait.
+* **Bandwidth sane**: resource blocking per domain e.g., kill images/fonts on docs sites.
+* **Extraction modes**: `article` (cheap heuristic), `simple` title + body text, `raw` (HTML).
 * **No surprise egress**: explicit proxy override per domain; keep the rest local.
 * **No Python.** All Node, all the time.
 
-If you want, I can add a **domain-local JavaScript extractor hook** in YAML (e.g., `extractor.script: "return document.querySelector('article')?.innerText || ''"`) that we `page.evaluate()` — gives you surgical control without editing code.
+If you want, I can add a **domain-local JavaScript extractor hook** in YAML e.g., `extractor.script: "return document.querySelector('article')?.innerText || ''"` that we `page.evaluate()` — gives you surgical control without editing code.
 
 \#webcrawling #javascript #playwright #crawlee #docker #tor #privoxy #selfhosted #opensearch #meilisearch #config-as-code #policies
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [[pure-node-crawl-stack-with-playwright-and-crawlee|Pure-Node Crawl Stack with Playwright and Crawlee]]
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore|Agent Tasks: Persistence Migration to DualStore]]
-- [[migrate-to-provider-tenant-architecture|Migrate to Provider-Tenant Architecture]]
-- [[promethean-infrastructure-setup|Promethean Infrastructure Setup]]
-- [[docs/unique/eidolon-field-math-foundations|eidolon-field-math-foundations]]
-- [[chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]]
-- [[promethean-web-ui-setup|Promethean Web UI Setup]]
-- [[docs/unique/ecs-offload-workers|ecs-offload-workers]]
-- [[prometheus-observability-stack|Prometheus Observability Stack]]
-- [[prom-lib-rate-limiters-and-replay-api]]
-- [[docs/unique/aionian-circuit-math|aionian-circuit-math]]
-- [Math Fundamentals](chunks/math-fundamentals.md)
-- [[dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]]
-- [[api-gateway-versioning]]
-- [Debugging Broker Connections and Agent Behavior](debugging-broker-connections-and-agent-behavior.md)
-- [[cross-target-macro-system-in-sibilant|Cross-Target Macro System in Sibilant]]
-- [[promethean-native-config-design|Promethean-native config design]]
-- [[promethean-agent-config-dsl|Promethean Agent Config DSL]]
-- [Promethean Event Bus MVP v0.1](promethean-event-bus-mvp-v0-1.md)
-- [[local-only-llm-workflow]]
-- [[shared-package-structure|Shared Package Structure]]
+- [pure-node-crawl-stack-with-playwright-and-crawlee|Pure-Node Crawl Stack with Playwright and Crawlee]
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore|Agent Tasks: Persistence Migration to DualStore]
+- [migrate-to-provider-tenant-architecture|Migrate to Provider-Tenant Architecture]
+- [promethean-infrastructure-setup|Promethean Infrastructure Setup]
+- [docs/unique/eidolon-field-math-foundations|eidolon-field-math-foundations]
+- [chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]
+- [promethean-web-ui-setup|Promethean Web UI Setup]
+- [docs/unique/ecs-offload-workers|ecs-offload-workers]
+- [prometheus-observability-stack|Prometheus Observability Stack]
+- [prom-lib-rate-limiters-and-replay-api]
+- [docs/unique/aionian-circuit-math|aionian-circuit-math]
+- [Math Fundamentals]chunks/math-fundamentals.md
+- [dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]
+- [api-gateway-versioning]
+- [Debugging Broker Connections and Agent Behavior]debugging-broker-connections-and-agent-behavior.md
+- [cross-target-macro-system-in-sibilant|Cross-Target Macro System in Sibilant]
+- [promethean-native-config-design|Promethean-native config design]
+- [promethean-agent-config-dsl|Promethean Agent Config DSL]
+- [Promethean Event Bus MVP v0.1]promethean-event-bus-mvp-v0-1.md
+- [local-only-llm-workflow]
+- [shared-package-structure|Shared Package Structure]
 
 ## Sources
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L8|Agent Tasks: Persistence Migration to DualStore — L8]] (line 8, col 3, score 0.95)
-- [[migrate-to-provider-tenant-architecture#L38|Migrate to Provider-Tenant Architecture — L38]] (line 38, col 4, score 0.93)
-- [[migrate-to-provider-tenant-architecture#L38|Migrate to Provider-Tenant Architecture — L38]] (line 38, col 6, score 0.93)
-- [[migrate-to-provider-tenant-architecture#L98|Migrate to Provider-Tenant Architecture — L98]] (line 98, col 3, score 0.92)
-- [[migrate-to-provider-tenant-architecture#L98|Migrate to Provider-Tenant Architecture — L98]] (line 98, col 5, score 0.92)
-- [[migrate-to-provider-tenant-architecture#L100|Migrate to Provider-Tenant Architecture — L100]] (line 100, col 1, score 0.89)
-- [[migrate-to-provider-tenant-architecture#L100|Migrate to Provider-Tenant Architecture — L100]] (line 100, col 3, score 0.89)
-- [[pure-node-crawl-stack-with-playwright-and-crawlee#L107|Pure-Node Crawl Stack with Playwright and Crawlee — L107]] (line 107, col 1, score 1)
-- [[promethean-infrastructure-setup#L287|Promethean Infrastructure Setup — L287]] (line 287, col 1, score 0.86)
-- [[pure-node-crawl-stack-with-playwright-and-crawlee#L223|Pure-Node Crawl Stack with Playwright and Crawlee — L223]] (line 223, col 1, score 0.95)
-- [[pure-node-crawl-stack-with-playwright-and-crawlee#L389|Pure-Node Crawl Stack with Playwright and Crawlee — L389]] (line 389, col 1, score 0.86)
-- [[pure-node-crawl-stack-with-playwright-and-crawlee#L421|Pure-Node Crawl Stack with Playwright and Crawlee — L421]] (line 421, col 1, score 0.91)
-- [[promethean-infrastructure-setup#L580|Promethean Infrastructure Setup — L580]] (line 580, col 1, score 1)
-- [[promethean-infrastructure-setup#L580|Promethean Infrastructure Setup — L580]] (line 580, col 3, score 1)
-- [[promethean-web-ui-setup#L607|Promethean Web UI Setup — L607]] (line 607, col 1, score 1)
-- [[promethean-web-ui-setup#L607|Promethean Web UI Setup — L607]] (line 607, col 3, score 1)
-- [[prometheus-observability-stack#L509|Prometheus Observability Stack — L509]] (line 509, col 1, score 1)
-- [[prometheus-observability-stack#L509|Prometheus Observability Stack — L509]] (line 509, col 3, score 1)
-- [[promethean-infrastructure-setup#L597|Promethean Infrastructure Setup — L597]] (line 597, col 1, score 0.94)
-- [[promethean-infrastructure-setup#L597|Promethean Infrastructure Setup — L597]] (line 597, col 3, score 0.94)
-- [[chroma-toolkit-consolidation-plan#L173|Chroma Toolkit Consolidation Plan — L173]] (line 173, col 1, score 1)
-- [[chroma-toolkit-consolidation-plan#L173|Chroma Toolkit Consolidation Plan — L173]] (line 173, col 3, score 1)
-- [[docs/unique/eidolon-field-math-foundations#L133|eidolon-field-math-foundations — L133]] (line 133, col 1, score 1)
-- [[docs/unique/eidolon-field-math-foundations#L133|eidolon-field-math-foundations — L133]] (line 133, col 3, score 1)
-- [[migrate-to-provider-tenant-architecture#L266|Migrate to Provider-Tenant Architecture — L266]] (line 266, col 1, score 1)
-- [[migrate-to-provider-tenant-architecture#L266|Migrate to Provider-Tenant Architecture — L266]] (line 266, col 3, score 1)
-- [[prom-lib-rate-limiters-and-replay-api#L390|prom-lib-rate-limiters-and-replay-api — L390]] (line 390, col 1, score 1)
-- [[prom-lib-rate-limiters-and-replay-api#L390|prom-lib-rate-limiters-and-replay-api — L390]] (line 390, col 3, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L131|Agent Tasks: Persistence Migration to DualStore — L131]] (line 131, col 1, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L131|Agent Tasks: Persistence Migration to DualStore — L131]] (line 131, col 3, score 1)
-- [[chroma-toolkit-consolidation-plan#L169|Chroma Toolkit Consolidation Plan — L169]] (line 169, col 1, score 1)
-- [[chroma-toolkit-consolidation-plan#L169|Chroma Toolkit Consolidation Plan — L169]] (line 169, col 3, score 1)
-- [[cross-target-macro-system-in-sibilant#L175|Cross-Target Macro System in Sibilant — L175]] (line 175, col 1, score 1)
-- [[cross-target-macro-system-in-sibilant#L175|Cross-Target Macro System in Sibilant — L175]] (line 175, col 3, score 1)
-- [[dynamic-context-model-for-web-components#L392|Dynamic Context Model for Web Components — L392]] (line 392, col 1, score 1)
-- [[dynamic-context-model-for-web-components#L392|Dynamic Context Model for Web Components — L392]] (line 392, col 3, score 1)
-- [[api-gateway-versioning#L284|api-gateway-versioning — L284]] (line 284, col 1, score 1)
-- [[api-gateway-versioning#L284|api-gateway-versioning — L284]] (line 284, col 3, score 1)
-- [Debugging Broker Connections and Agent Behavior — L40](debugging-broker-connections-and-agent-behavior.md#L40) (line 40, col 1, score 1)
-- [Debugging Broker Connections and Agent Behavior — L40](debugging-broker-connections-and-agent-behavior.md#L40) (line 40, col 3, score 1)
-- [[dynamic-context-model-for-web-components#L384|Dynamic Context Model for Web Components — L384]] (line 384, col 1, score 1)
-- [[dynamic-context-model-for-web-components#L384|Dynamic Context Model for Web Components — L384]] (line 384, col 3, score 1)
-- [[docs/unique/ecs-offload-workers#L458|ecs-offload-workers — L458]] (line 458, col 1, score 1)
-- [[docs/unique/ecs-offload-workers#L458|ecs-offload-workers — L458]] (line 458, col 3, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L133|Agent Tasks: Persistence Migration to DualStore — L133]] (line 133, col 1, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L133|Agent Tasks: Persistence Migration to DualStore — L133]] (line 133, col 3, score 1)
-- [[docs/unique/aionian-circuit-math#L151|aionian-circuit-math — L151]] (line 151, col 1, score 1)
-- [[docs/unique/aionian-circuit-math#L151|aionian-circuit-math — L151]] (line 151, col 3, score 1)
-- [Math Fundamentals — L14](chunks/math-fundamentals.md#L14) (line 14, col 1, score 1)
-- [Math Fundamentals — L14](chunks/math-fundamentals.md#L14) (line 14, col 3, score 1)
-- [[docs/unique/ecs-offload-workers#L460|ecs-offload-workers — L460]] (line 460, col 1, score 1)
-- [[docs/unique/ecs-offload-workers#L460|ecs-offload-workers — L460]] (line 460, col 3, score 1)
-- [[docs/unique/eidolon-field-math-foundations#L159|eidolon-field-math-foundations — L159]] (line 159, col 1, score 1)
-- [[docs/unique/eidolon-field-math-foundations#L159|eidolon-field-math-foundations — L159]] (line 159, col 3, score 1)
-- [[migrate-to-provider-tenant-architecture#L288|Migrate to Provider-Tenant Architecture — L288]] (line 288, col 1, score 1)
-- [[migrate-to-provider-tenant-architecture#L288|Migrate to Provider-Tenant Architecture — L288]] (line 288, col 3, score 1)
-- [[migrate-to-provider-tenant-architecture#L295|Migrate to Provider-Tenant Architecture — L295]] (line 295, col 1, score 1)
-- [[migrate-to-provider-tenant-architecture#L295|Migrate to Provider-Tenant Architecture — L295]] (line 295, col 3, score 1)
-- [[migrate-to-provider-tenant-architecture#L293|Migrate to Provider-Tenant Architecture — L293]] (line 293, col 1, score 1)
-- [[migrate-to-provider-tenant-architecture#L293|Migrate to Provider-Tenant Architecture — L293]] (line 293, col 3, score 1)
-- [[promethean-native-config-design#L403|Promethean-native config design — L403]] (line 403, col 1, score 1)
-- [[promethean-native-config-design#L403|Promethean-native config design — L403]] (line 403, col 3, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L143|Agent Tasks: Persistence Migration to DualStore — L143]] (line 143, col 1, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L143|Agent Tasks: Persistence Migration to DualStore — L143]] (line 143, col 3, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L152|Agent Tasks: Persistence Migration to DualStore — L152]] (line 152, col 1, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L152|Agent Tasks: Persistence Migration to DualStore — L152]] (line 152, col 3, score 1)
-- [Promethean Event Bus MVP v0.1 — L902](promethean-event-bus-mvp-v0-1.md#L902) (line 902, col 1, score 1)
-- [Promethean Event Bus MVP v0.1 — L902](promethean-event-bus-mvp-v0-1.md#L902) (line 902, col 3, score 1)
-- [[promethean-native-config-design#L404|Promethean-native config design — L404]] (line 404, col 1, score 1)
-- [[promethean-native-config-design#L404|Promethean-native config design — L404]] (line 404, col 3, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L153|Agent Tasks: Persistence Migration to DualStore — L153]] (line 153, col 1, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L153|Agent Tasks: Persistence Migration to DualStore — L153]] (line 153, col 3, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L144|Agent Tasks: Persistence Migration to DualStore — L144]] (line 144, col 1, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L144|Agent Tasks: Persistence Migration to DualStore — L144]] (line 144, col 3, score 1)
-- [Promethean Event Bus MVP v0.1 — L903](promethean-event-bus-mvp-v0-1.md#L903) (line 903, col 1, score 1)
-- [Promethean Event Bus MVP v0.1 — L903](promethean-event-bus-mvp-v0-1.md#L903) (line 903, col 3, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L145|Agent Tasks: Persistence Migration to DualStore — L145]] (line 145, col 1, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L145|Agent Tasks: Persistence Migration to DualStore — L145]] (line 145, col 3, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L142|Agent Tasks: Persistence Migration to DualStore — L142]] (line 142, col 1, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L142|Agent Tasks: Persistence Migration to DualStore — L142]] (line 142, col 3, score 1)
-- [[chroma-toolkit-consolidation-plan#L179|Chroma Toolkit Consolidation Plan — L179]] (line 179, col 1, score 1)
-- [[chroma-toolkit-consolidation-plan#L179|Chroma Toolkit Consolidation Plan — L179]] (line 179, col 3, score 1)
-- [[promethean-agent-config-dsl#L321|Promethean Agent Config DSL — L321]] (line 321, col 1, score 1)
-- [[promethean-agent-config-dsl#L321|Promethean Agent Config DSL — L321]] (line 321, col 3, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L146|Agent Tasks: Persistence Migration to DualStore — L146]] (line 146, col 1, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L146|Agent Tasks: Persistence Migration to DualStore — L146]] (line 146, col 3, score 1)
-- [[promethean-agent-config-dsl#L322|Promethean Agent Config DSL — L322]] (line 322, col 1, score 1)
-- [[promethean-agent-config-dsl#L322|Promethean Agent Config DSL — L322]] (line 322, col 3, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L141|Agent Tasks: Persistence Migration to DualStore — L141]] (line 141, col 1, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L141|Agent Tasks: Persistence Migration to DualStore — L141]] (line 141, col 3, score 1)
-- [[chroma-toolkit-consolidation-plan#L178|Chroma Toolkit Consolidation Plan — L178]] (line 178, col 1, score 1)
-- [[chroma-toolkit-consolidation-plan#L178|Chroma Toolkit Consolidation Plan — L178]] (line 178, col 3, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L158|Agent Tasks: Persistence Migration to DualStore — L158]] (line 158, col 1, score 0.99)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L158|Agent Tasks: Persistence Migration to DualStore — L158]] (line 158, col 3, score 0.99)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L159|Agent Tasks: Persistence Migration to DualStore — L159]] (line 159, col 1, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L159|Agent Tasks: Persistence Migration to DualStore — L159]] (line 159, col 3, score 1)
-- [[pure-node-crawl-stack-with-playwright-and-crawlee#L432|Pure-Node Crawl Stack with Playwright and Crawlee — L432]] (line 432, col 1, score 1)
-- [[pure-node-crawl-stack-with-playwright-and-crawlee#L432|Pure-Node Crawl Stack with Playwright and Crawlee — L432]] (line 432, col 3, score 1)
-- [[local-only-llm-workflow#L189|Local-Only-LLM-Workflow — L189]] (line 189, col 1, score 0.99)
-- [[local-only-llm-workflow#L189|Local-Only-LLM-Workflow — L189]] (line 189, col 3, score 0.99)
-- [[shared-package-structure#L174|Shared Package Structure — L174]] (line 174, col 1, score 0.99)
-- [[shared-package-structure#L174|Shared Package Structure — L174]] (line 174, col 3, score 0.99)
-- [[docs/unique/ecs-offload-workers#L476|ecs-offload-workers — L476]] (line 476, col 1, score 0.99)
-- [[docs/unique/ecs-offload-workers#L476|ecs-offload-workers — L476]] (line 476, col 3, score 0.99)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L8|Agent Tasks: Persistence Migration to DualStore — L8] (line 8, col 3, score 0.95)
+- [migrate-to-provider-tenant-architecture#L38|Migrate to Provider-Tenant Architecture — L38] (line 38, col 4, score 0.93)
+- [migrate-to-provider-tenant-architecture#L38|Migrate to Provider-Tenant Architecture — L38] (line 38, col 6, score 0.93)
+- [migrate-to-provider-tenant-architecture#L98|Migrate to Provider-Tenant Architecture — L98] (line 98, col 3, score 0.92)
+- [migrate-to-provider-tenant-architecture#L98|Migrate to Provider-Tenant Architecture — L98] (line 98, col 5, score 0.92)
+- [migrate-to-provider-tenant-architecture#L100|Migrate to Provider-Tenant Architecture — L100] (line 100, col 1, score 0.89)
+- [migrate-to-provider-tenant-architecture#L100|Migrate to Provider-Tenant Architecture — L100] (line 100, col 3, score 0.89)
+- [pure-node-crawl-stack-with-playwright-and-crawlee#L107|Pure-Node Crawl Stack with Playwright and Crawlee — L107] (line 107, col 1, score 1)
+- [promethean-infrastructure-setup#L287|Promethean Infrastructure Setup — L287] (line 287, col 1, score 0.86)
+- [pure-node-crawl-stack-with-playwright-and-crawlee#L223|Pure-Node Crawl Stack with Playwright and Crawlee — L223] (line 223, col 1, score 0.95)
+- [pure-node-crawl-stack-with-playwright-and-crawlee#L389|Pure-Node Crawl Stack with Playwright and Crawlee — L389] (line 389, col 1, score 0.86)
+- [pure-node-crawl-stack-with-playwright-and-crawlee#L421|Pure-Node Crawl Stack with Playwright and Crawlee — L421] (line 421, col 1, score 0.91)
+- [promethean-infrastructure-setup#L580|Promethean Infrastructure Setup — L580] (line 580, col 1, score 1)
+- [promethean-infrastructure-setup#L580|Promethean Infrastructure Setup — L580] (line 580, col 3, score 1)
+- [promethean-web-ui-setup#L607|Promethean Web UI Setup — L607] (line 607, col 1, score 1)
+- [promethean-web-ui-setup#L607|Promethean Web UI Setup — L607] (line 607, col 3, score 1)
+- [prometheus-observability-stack#L509|Prometheus Observability Stack — L509] (line 509, col 1, score 1)
+- [prometheus-observability-stack#L509|Prometheus Observability Stack — L509] (line 509, col 3, score 1)
+- [promethean-infrastructure-setup#L597|Promethean Infrastructure Setup — L597] (line 597, col 1, score 0.94)
+- [promethean-infrastructure-setup#L597|Promethean Infrastructure Setup — L597] (line 597, col 3, score 0.94)
+- [chroma-toolkit-consolidation-plan#L173|Chroma Toolkit Consolidation Plan — L173] (line 173, col 1, score 1)
+- [chroma-toolkit-consolidation-plan#L173|Chroma Toolkit Consolidation Plan — L173] (line 173, col 3, score 1)
+- [docs/unique/eidolon-field-math-foundations#L133|eidolon-field-math-foundations — L133] (line 133, col 1, score 1)
+- [docs/unique/eidolon-field-math-foundations#L133|eidolon-field-math-foundations — L133] (line 133, col 3, score 1)
+- [migrate-to-provider-tenant-architecture#L266|Migrate to Provider-Tenant Architecture — L266] (line 266, col 1, score 1)
+- [migrate-to-provider-tenant-architecture#L266|Migrate to Provider-Tenant Architecture — L266] (line 266, col 3, score 1)
+- [prom-lib-rate-limiters-and-replay-api#L390|prom-lib-rate-limiters-and-replay-api — L390] (line 390, col 1, score 1)
+- [prom-lib-rate-limiters-and-replay-api#L390|prom-lib-rate-limiters-and-replay-api — L390] (line 390, col 3, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L131|Agent Tasks: Persistence Migration to DualStore — L131] (line 131, col 1, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L131|Agent Tasks: Persistence Migration to DualStore — L131] (line 131, col 3, score 1)
+- [chroma-toolkit-consolidation-plan#L169|Chroma Toolkit Consolidation Plan — L169] (line 169, col 1, score 1)
+- [chroma-toolkit-consolidation-plan#L169|Chroma Toolkit Consolidation Plan — L169] (line 169, col 3, score 1)
+- [cross-target-macro-system-in-sibilant#L175|Cross-Target Macro System in Sibilant — L175] (line 175, col 1, score 1)
+- [cross-target-macro-system-in-sibilant#L175|Cross-Target Macro System in Sibilant — L175] (line 175, col 3, score 1)
+- [dynamic-context-model-for-web-components#L392|Dynamic Context Model for Web Components — L392] (line 392, col 1, score 1)
+- [dynamic-context-model-for-web-components#L392|Dynamic Context Model for Web Components — L392] (line 392, col 3, score 1)
+- [api-gateway-versioning#L284|api-gateway-versioning — L284] (line 284, col 1, score 1)
+- [api-gateway-versioning#L284|api-gateway-versioning — L284] (line 284, col 3, score 1)
+- [Debugging Broker Connections and Agent Behavior — L40]debugging-broker-connections-and-agent-behavior.md#L40 (line 40, col 1, score 1)
+- [Debugging Broker Connections and Agent Behavior — L40]debugging-broker-connections-and-agent-behavior.md#L40 (line 40, col 3, score 1)
+- [dynamic-context-model-for-web-components#L384|Dynamic Context Model for Web Components — L384] (line 384, col 1, score 1)
+- [dynamic-context-model-for-web-components#L384|Dynamic Context Model for Web Components — L384] (line 384, col 3, score 1)
+- [docs/unique/ecs-offload-workers#L458|ecs-offload-workers — L458] (line 458, col 1, score 1)
+- [docs/unique/ecs-offload-workers#L458|ecs-offload-workers — L458] (line 458, col 3, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L133|Agent Tasks: Persistence Migration to DualStore — L133] (line 133, col 1, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L133|Agent Tasks: Persistence Migration to DualStore — L133] (line 133, col 3, score 1)
+- [docs/unique/aionian-circuit-math#L151|aionian-circuit-math — L151] (line 151, col 1, score 1)
+- [docs/unique/aionian-circuit-math#L151|aionian-circuit-math — L151] (line 151, col 3, score 1)
+- [Math Fundamentals — L14]chunks/math-fundamentals.md#L14 (line 14, col 1, score 1)
+- [Math Fundamentals — L14]chunks/math-fundamentals.md#L14 (line 14, col 3, score 1)
+- [docs/unique/ecs-offload-workers#L460|ecs-offload-workers — L460] (line 460, col 1, score 1)
+- [docs/unique/ecs-offload-workers#L460|ecs-offload-workers — L460] (line 460, col 3, score 1)
+- [docs/unique/eidolon-field-math-foundations#L159|eidolon-field-math-foundations — L159] (line 159, col 1, score 1)
+- [docs/unique/eidolon-field-math-foundations#L159|eidolon-field-math-foundations — L159] (line 159, col 3, score 1)
+- [migrate-to-provider-tenant-architecture#L288|Migrate to Provider-Tenant Architecture — L288] (line 288, col 1, score 1)
+- [migrate-to-provider-tenant-architecture#L288|Migrate to Provider-Tenant Architecture — L288] (line 288, col 3, score 1)
+- [migrate-to-provider-tenant-architecture#L295|Migrate to Provider-Tenant Architecture — L295] (line 295, col 1, score 1)
+- [migrate-to-provider-tenant-architecture#L295|Migrate to Provider-Tenant Architecture — L295] (line 295, col 3, score 1)
+- [migrate-to-provider-tenant-architecture#L293|Migrate to Provider-Tenant Architecture — L293] (line 293, col 1, score 1)
+- [migrate-to-provider-tenant-architecture#L293|Migrate to Provider-Tenant Architecture — L293] (line 293, col 3, score 1)
+- [promethean-native-config-design#L403|Promethean-native config design — L403] (line 403, col 1, score 1)
+- [promethean-native-config-design#L403|Promethean-native config design — L403] (line 403, col 3, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L143|Agent Tasks: Persistence Migration to DualStore — L143] (line 143, col 1, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L143|Agent Tasks: Persistence Migration to DualStore — L143] (line 143, col 3, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L152|Agent Tasks: Persistence Migration to DualStore — L152] (line 152, col 1, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L152|Agent Tasks: Persistence Migration to DualStore — L152] (line 152, col 3, score 1)
+- [Promethean Event Bus MVP v0.1 — L902]promethean-event-bus-mvp-v0-1.md#L902 (line 902, col 1, score 1)
+- [Promethean Event Bus MVP v0.1 — L902]promethean-event-bus-mvp-v0-1.md#L902 (line 902, col 3, score 1)
+- [promethean-native-config-design#L404|Promethean-native config design — L404] (line 404, col 1, score 1)
+- [promethean-native-config-design#L404|Promethean-native config design — L404] (line 404, col 3, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L153|Agent Tasks: Persistence Migration to DualStore — L153] (line 153, col 1, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L153|Agent Tasks: Persistence Migration to DualStore — L153] (line 153, col 3, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L144|Agent Tasks: Persistence Migration to DualStore — L144] (line 144, col 1, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L144|Agent Tasks: Persistence Migration to DualStore — L144] (line 144, col 3, score 1)
+- [Promethean Event Bus MVP v0.1 — L903]promethean-event-bus-mvp-v0-1.md#L903 (line 903, col 1, score 1)
+- [Promethean Event Bus MVP v0.1 — L903]promethean-event-bus-mvp-v0-1.md#L903 (line 903, col 3, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L145|Agent Tasks: Persistence Migration to DualStore — L145] (line 145, col 1, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L145|Agent Tasks: Persistence Migration to DualStore — L145] (line 145, col 3, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L142|Agent Tasks: Persistence Migration to DualStore — L142] (line 142, col 1, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L142|Agent Tasks: Persistence Migration to DualStore — L142] (line 142, col 3, score 1)
+- [chroma-toolkit-consolidation-plan#L179|Chroma Toolkit Consolidation Plan — L179] (line 179, col 1, score 1)
+- [chroma-toolkit-consolidation-plan#L179|Chroma Toolkit Consolidation Plan — L179] (line 179, col 3, score 1)
+- [promethean-agent-config-dsl#L321|Promethean Agent Config DSL — L321] (line 321, col 1, score 1)
+- [promethean-agent-config-dsl#L321|Promethean Agent Config DSL — L321] (line 321, col 3, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L146|Agent Tasks: Persistence Migration to DualStore — L146] (line 146, col 1, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L146|Agent Tasks: Persistence Migration to DualStore — L146] (line 146, col 3, score 1)
+- [promethean-agent-config-dsl#L322|Promethean Agent Config DSL — L322] (line 322, col 1, score 1)
+- [promethean-agent-config-dsl#L322|Promethean Agent Config DSL — L322] (line 322, col 3, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L141|Agent Tasks: Persistence Migration to DualStore — L141] (line 141, col 1, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L141|Agent Tasks: Persistence Migration to DualStore — L141] (line 141, col 3, score 1)
+- [chroma-toolkit-consolidation-plan#L178|Chroma Toolkit Consolidation Plan — L178] (line 178, col 1, score 1)
+- [chroma-toolkit-consolidation-plan#L178|Chroma Toolkit Consolidation Plan — L178] (line 178, col 3, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L158|Agent Tasks: Persistence Migration to DualStore — L158] (line 158, col 1, score 0.99)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L158|Agent Tasks: Persistence Migration to DualStore — L158] (line 158, col 3, score 0.99)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L159|Agent Tasks: Persistence Migration to DualStore — L159] (line 159, col 1, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L159|Agent Tasks: Persistence Migration to DualStore — L159] (line 159, col 3, score 1)
+- [pure-node-crawl-stack-with-playwright-and-crawlee#L432|Pure-Node Crawl Stack with Playwright and Crawlee — L432] (line 432, col 1, score 1)
+- [pure-node-crawl-stack-with-playwright-and-crawlee#L432|Pure-Node Crawl Stack with Playwright and Crawlee — L432] (line 432, col 3, score 1)
+- [local-only-llm-workflow#L189|Local-Only-LLM-Workflow — L189] (line 189, col 1, score 0.99)
+- [local-only-llm-workflow#L189|Local-Only-LLM-Workflow — L189] (line 189, col 3, score 0.99)
+- [shared-package-structure#L174|Shared Package Structure — L174] (line 174, col 1, score 0.99)
+- [shared-package-structure#L174|Shared Package Structure — L174] (line 174, col 3, score 0.99)
+- [docs/unique/ecs-offload-workers#L476|ecs-offload-workers — L476] (line 476, col 1, score 0.99)
+- [docs/unique/ecs-offload-workers#L476|ecs-offload-workers — L476] (line 476, col 3, score 0.99)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

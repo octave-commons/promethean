@@ -1,14 +1,19 @@
 ---
+```
 uuid: 23806c3e-fb3c-4759-892d-f168b9eebb57
+```
 title: Description
 status: todo
 priority: P3
 labels: []
+```
 created_at: '2025-09-15T02:02:58.516Z'
+```
 ---
 # Description
+```
 **Status:** blocked
-
+```
 Create a Language Server Protocol (LSP) server for the home-brew Lisp to provide editor features such as completion and diagnostics.
 
 ## Requirements/Definition of done

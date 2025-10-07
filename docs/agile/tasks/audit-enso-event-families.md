@@ -1,12 +1,16 @@
 ---
+```
 uuid: 325bf2aa-d063-4a19-a086-3e7a42755861
+```
 title: Audit Enso event family references after transport update
 status: todo
 priority: P2
 labels:
   - documentation
   - protocol
+```
 created_at: '2025-09-21T00:00:00Z'
+```
 ---
 # Description
 

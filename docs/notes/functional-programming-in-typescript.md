@@ -1,9 +1,13 @@
 ---
+```
 uuid: e0786404-81fd-4c25-ba64-2e8de0a344b6
+```
 created_at: functional-programming-in-typescript.md
 filename: functional-programming-in-typescript
 title: functional-programming-in-typescript
+```
 description: >-
+```
   A pragmatic guide to implementing functional programming principles in
   TypeScript without heavy dependencies, focusing on pure functions, effects
   management, and type safety.
@@ -16,7 +20,9 @@ tags:
   - composability
   - utility-types
   - algebraic-data-types
+```
 related_to_uuid:
+```
   - 9c79206d-4cb9-4f00-87e0-782dcea37bc7
   - 6bcff92c-4224-453d-9993-1be8d37d47c3
   - 18344cf9-0c49-4a71-b6c8-b8d84d660fca
@@ -42,7 +48,9 @@ related_to_uuid:
   - f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
   - 5e8b2388-022b-46cf-952c-36ae9b8f0037
   - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+```
 related_to_title:
+```
   - polyglot-repl-interface-layer
   - Post-Linguistic Transhuman Design Frameworks
   - Promethean Chat Activity Report
@@ -137,51 +145,52 @@ references:
     col: 0
     score: 1
 ---
-
- ^ref-0e289525-316-0
+```
+^ref-0e289525-316-0
+```
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [[polyglot-repl-interface-layer]]
-- [[post-linguistic-transhuman-design-frameworks|Post-Linguistic Transhuman Design Frameworks]]
-- [[promethean-chat-activity-report|Promethean Chat Activity Report]]
-- [[promethean-copilot-intent-engine]]
-- [[promethean-data-sync-protocol|Promethean Data Sync Protocol]]
-- [[promethean-dev-workflow-update|Promethean Dev Workflow Update]]
-- [[promethean-documentation-overview|Promethean Documentation Overview]]
-- [[promethean-documentation-pipeline-overview|Promethean Documentation Pipeline Overview]]
-- [[promethean-documentation-update|Promethean Documentation Update]]
-- [[pure-typescript-search-microservice|Pure TypeScript Search Microservice]]
-- [[reawakening-duck|Reawakening Duck]]
-- [[redirecting-standard-error|Redirecting Standard Error]]
-- [[docs/unique/ripple-propagation-demo|ripple-propagation-demo]]
-- [[schema-evolution-workflow]]
-- [[self-agency-in-ai-interaction|Self-Agency in AI Interaction]]
-- [[sibilant-macro-targets]]
-- [[stateful-partitions-and-rebalancing|Stateful Partitions and Rebalancing]]
-- [[creative-moments|Creative Moments]]
-- [Docops Feature Updates](docops-feature-updates-3.md)
-- [[docops-feature-updates|Docops Feature Updates]]
-- [[ducks-attractor-states|Duck's Attractor States]]
-- [[ducks-self-referential-perceptual-loop|Duck's Self-Referential Perceptual Loop]]
-- [[dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]]
-- [[eidolon-field-abstract-model|Eidolon Field Abstract Model]]
-- [[docs/unique/eidolon-field-math-foundations|eidolon-field-math-foundations]]
+- [polyglot-repl-interface-layer]
+- [post-linguistic-transhuman-design-frameworks|Post-Linguistic Transhuman Design Frameworks]
+- [promethean-chat-activity-report|Promethean Chat Activity Report]
+- [promethean-copilot-intent-engine]
+- [promethean-data-sync-protocol|Promethean Data Sync Protocol]
+- [promethean-dev-workflow-update|Promethean Dev Workflow Update]
+- [promethean-documentation-overview|Promethean Documentation Overview]
+- [promethean-documentation-pipeline-overview|Promethean Documentation Pipeline Overview]
+- [promethean-documentation-update|Promethean Documentation Update]
+- [pure-typescript-search-microservice|Pure TypeScript Search Microservice]
+- [reawakening-duck|Reawakening Duck]
+- [redirecting-standard-error|Redirecting Standard Error]
+- [docs/unique/ripple-propagation-demo|ripple-propagation-demo]
+- [schema-evolution-workflow]
+- [self-agency-in-ai-interaction|Self-Agency in AI Interaction]
+- [sibilant-macro-targets]
+- [stateful-partitions-and-rebalancing|Stateful Partitions and Rebalancing]
+- [creative-moments|Creative Moments]
+- [Docops Feature Updates]docops-feature-updates-3.md
+- [docops-feature-updates|Docops Feature Updates]
+- [ducks-attractor-states|Duck's Attractor States]
+- [ducks-self-referential-perceptual-loop|Duck's Self-Referential Perceptual Loop]
+- [dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]
+- [eidolon-field-abstract-model|Eidolon Field Abstract Model]
+- [docs/unique/eidolon-field-math-foundations|eidolon-field-math-foundations]
 ## Sources
-- [[creative-moments#^ref-10d98225-47-0|Creative Moments — L47]] (line 47, col 0, score 1)
-- [Debugging Broker Connections and Agent Behavior — L105](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-105-0) (line 105, col 0, score 1)
-- [Docops Feature Updates — L97](docops-feature-updates-3.md#^ref-cdbd21ee-97-0) (line 97, col 0, score 1)
-- [[docops-feature-updates#^ref-2792d448-128-0|Docops Feature Updates — L128]] (line 128, col 0, score 1)
-- [DuckDuckGoSearchPipeline — L31](duckduckgosearchpipeline.md#^ref-e979c50f-31-0) (line 31, col 0, score 1)
-- [[ducks-attractor-states#^ref-13951643-90-0|Duck's Attractor States — L90]] (line 90, col 0, score 1)
-- [[ducks-self-referential-perceptual-loop#^ref-71726f04-33-0|Duck's Self-Referential Perceptual Loop — L33]] (line 33, col 0, score 1)
-- [[dynamic-context-model-for-web-components#^ref-f7702bf8-462-0|Dynamic Context Model for Web Components — L462]] (line 462, col 0, score 1)
-- [[creative-moments#^ref-10d98225-28-0|Creative Moments — L28]] (line 28, col 0, score 1)
-- [Docops Feature Updates — L65](docops-feature-updates-3.md#^ref-cdbd21ee-65-0) (line 65, col 0, score 1)
-- [[docops-feature-updates#^ref-2792d448-86-0|Docops Feature Updates — L86]] (line 86, col 0, score 1)
-- [[ducks-attractor-states#^ref-13951643-123-0|Duck's Attractor States — L123]] (line 123, col 0, score 1)
-- [[ducks-self-referential-perceptual-loop#^ref-71726f04-34-0|Duck's Self-Referential Perceptual Loop — L34]] (line 34, col 0, score 1)
-- [[dynamic-context-model-for-web-components#^ref-f7702bf8-442-0|Dynamic Context Model for Web Components — L442]] (line 442, col 0, score 1)
-- [[eidolon-field-abstract-model#^ref-5e8b2388-218-0|Eidolon Field Abstract Model — L218]] (line 218, col 0, score 1)
-- [[docs/unique/eidolon-field-math-foundations#^ref-008f2ac0-176-0|eidolon-field-math-foundations — L176]] (line 176, col 0, score 1)
-- [[eidolon-node-lifecycle#^ref-938eca9c-70-0|eidolon-node-lifecycle — L70]] (line 70, col 0, score 1)
+- [creative-moments#^ref-10d98225-47-0|Creative Moments — L47] (line 47, col 0, score 1)
+- [Debugging Broker Connections and Agent Behavior — L105]debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-105-0 (line 105, col 0, score 1)
+- [Docops Feature Updates — L97]docops-feature-updates-3.md#^ref-cdbd21ee-97-0 (line 97, col 0, score 1)
+- [docops-feature-updates#^ref-2792d448-128-0|Docops Feature Updates — L128] (line 128, col 0, score 1)
+- [DuckDuckGoSearchPipeline — L31]duckduckgosearchpipeline.md#^ref-e979c50f-31-0 (line 31, col 0, score 1)
+- [ducks-attractor-states#^ref-13951643-90-0|Duck's Attractor States — L90] (line 90, col 0, score 1)
+- [ducks-self-referential-perceptual-loop#^ref-71726f04-33-0|Duck's Self-Referential Perceptual Loop — L33] (line 33, col 0, score 1)
+- [dynamic-context-model-for-web-components#^ref-f7702bf8-462-0|Dynamic Context Model for Web Components — L462] (line 462, col 0, score 1)
+- [creative-moments#^ref-10d98225-28-0|Creative Moments — L28] (line 28, col 0, score 1)
+- [Docops Feature Updates — L65]docops-feature-updates-3.md#^ref-cdbd21ee-65-0 (line 65, col 0, score 1)
+- [docops-feature-updates#^ref-2792d448-86-0|Docops Feature Updates — L86] (line 86, col 0, score 1)
+- [ducks-attractor-states#^ref-13951643-123-0|Duck's Attractor States — L123] (line 123, col 0, score 1)
+- [ducks-self-referential-perceptual-loop#^ref-71726f04-34-0|Duck's Self-Referential Perceptual Loop — L34] (line 34, col 0, score 1)
+- [dynamic-context-model-for-web-components#^ref-f7702bf8-442-0|Dynamic Context Model for Web Components — L442] (line 442, col 0, score 1)
+- [eidolon-field-abstract-model#^ref-5e8b2388-218-0|Eidolon Field Abstract Model — L218] (line 218, col 0, score 1)
+- [docs/unique/eidolon-field-math-foundations#^ref-008f2ac0-176-0|eidolon-field-math-foundations — L176] (line 176, col 0, score 1)
+- [eidolon-node-lifecycle#^ref-938eca9c-70-0|eidolon-node-lifecycle — L70] (line 70, col 0, score 1)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

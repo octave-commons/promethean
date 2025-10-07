@@ -1,9 +1,15 @@
 ---
+```
 uuid: c89761d3-2b1c-4607-a033-ab5d86936d0d
+```
+```
 created_at: '2025-09-19T12:32:34Z'
+```
 title: 2025.09.19.12.32.34
 filename: Pipeline Validation Strategy
+```
 description: >-
+```
   This document outlines a strategy for validating pipeline workflows, focusing
   on ensuring idempotency, minimal file alterations, and version control
   integration. It addresses the challenges of managing unique documentation
@@ -15,8 +21,12 @@ tags:
   - version control
   - documentation management
   - github workflows
+```
 related_to_uuid: []
+```
+```
 related_to_title: []
+```
 references: []
 ---
 Keep the thoughts together when you are bouncing around like this and not actually getting any thing done it means you have a bunch of ideas, and like half a plan,
