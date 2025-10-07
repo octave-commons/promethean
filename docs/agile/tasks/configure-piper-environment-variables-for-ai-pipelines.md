@@ -3,7 +3,7 @@
 uuid: d4e5f6g7-h8i9-0123-defg-456789012345
 ```
 title: Configure piper environment variables for AI-powered pipelines
-status: todo
+status: in_progress
 priority: P1
 labels:
   - piper
@@ -17,6 +17,24 @@ created_at: '2025-10-05T00:00:00.000Z'
 ---
 
 ## 🛠️ Task: Configure piper environment variables for AI-powered pipelines
+
+## 🧭 Scope & Plan (2025-10-05)
+
+- Catalogue every environment variable referenced by piper-managed pipelines across the monorepo.
+- Codify sane defaults—especially the fallback `OLLAMA_URL`—inside checked-in templates so local/dev runners boot without extra tweaks.
+- Produce developer-facing docs under `docs/setup/environment.md` describing required services, validation steps, and failure contingencies.
+- Ship a reusable `.env.example` that mirrors the documented defaults without leaking secrets.
+
+### Acceptance alignment
+
+- ✅ Templates exist for `OLLAMA_URL`, Sonar credentials, and optional GitHub access tokens.
+- ✅ Documentation covers installation/verification for OLLAMA (models, health checks) and downstream services.
+- ✅ Pipelines degrade gracefully when AI services are disabled or unreachable.
+
+### Risks / Open Questions
+
+- The kanban helper (`pnpm kanban …`) is currently unavailable in this workspace (`ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL`), so status updates must be captured directly in this task file.
+- Sonar- and GitHub-related credentials remain operator-supplied; ensure docs communicate required scopes without bundling secrets.
 
 ## 🐛 Problem Statement
 
