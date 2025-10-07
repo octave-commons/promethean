@@ -8,6 +8,7 @@ import type { IndexedFile } from "@promethean/file-indexer";
 
 import { parseArgs, slugify, extnamePrefer } from "./utils.js";
 import type { Front } from "./types.js";
+import type { DBs } from "./db.js";
 // CLI
 
 export type RenameOptions = { dir: string; dryRun?: boolean; files?: string[] };
@@ -23,7 +24,62 @@ async function exists(p: string) {
   }
 }
 
-export async function runRename(opts: RenameOptions) {
+function isNotFoundError(error: unknown): boolean {
+  const err = error as { notFound?: boolean; code?: string } | null | undefined;
+  return Boolean(err?.notFound || err?.code === "LEVEL_NOT_FOUND");
+}
+
+async function updateDocState(
+  db: Pick<DBs, "docs" | "chunks"> | undefined,
+  uuid: string | undefined,
+  target: string,
+  front: Front,
+): Promise<void> {
+  if (!db || !uuid) return;
+
+  if (db.docs) {
+    let existingTitle: string | undefined;
+    try {
+      const record = await db.docs.get(uuid);
+      existingTitle = record?.title;
+    } catch (error) {
+      if (!isNotFoundError(error)) throw error;
+    }
+
+    const derivedTitle =
+      existingTitle ??
+      front.title ??
+      front.filename ??
+      path.parse(target).name;
+
+    await db.docs.put(uuid, {
+      path: target,
+      title: derivedTitle,
+    });
+  }
+
+  if (db.chunks) {
+    try {
+      const current = await db.chunks.get(uuid);
+      if (Array.isArray(current)) {
+        const updated = current.map((chunk) =>
+          typeof chunk === "object" && chunk !== null
+            ? { ...chunk, docPath: target }
+            : chunk,
+        ) as typeof current;
+        await db.chunks.put(uuid, updated);
+      }
+    } catch (error) {
+      if (!isNotFoundError(error)) throw error;
+    }
+  }
+}
+
+export async function runRename(
+  opts: RenameOptions,
+  db?: Pick<DBs, "docs" | "chunks">,
+  onProgress?: (info: { step: "rename"; done: number; total: number }) => void,
+) {
   ROOT = path.resolve(opts.dir);
   DRY = Boolean(opts.dryRun);
   const exts = new Set([".md", ".mdx", ".txt"]);
@@ -31,23 +87,41 @@ export async function runRename(opts: RenameOptions) {
     opts.files && opts.files.length
       ? new Set(opts.files.map((p) => path.resolve(p)))
       : null;
+  let processed = 0;
   await scanFiles({
     root: ROOT,
     exts,
     readContent: true,
-    onFile: async (file: IndexedFile) => {
+    onFile: async (file: IndexedFile, progress) => {
+      const report = () => {
+        processed += 1;
+        if (progress) {
+          onProgress?.({
+            step: "rename",
+            done: processed,
+            total: progress.total,
+          });
+        }
+      };
       const abs = path.isAbsolute(file.path)
         ? path.resolve(file.path)
         : path.resolve(ROOT, file.path);
       if (wanted && !wanted.has(abs)) return;
       const raw = file.content ?? (await fs.readFile(abs, "utf-8"));
       const fm = (matter(raw).data || {}) as Front;
-      if (!fm.filename) return;
+      if (!fm.filename) {
+        report();
+        return;
+      }
+      const uuid = typeof fm.uuid === "string" ? fm.uuid : undefined;
 
       const want = slugify(fm.filename) + extnamePrefer(abs);
       const dir = path.dirname(abs);
       const currentBase = path.basename(abs);
-      if (currentBase === want) return;
+      if (currentBase === want) {
+        report();
+        return;
+      }
 
       let target = path.join(dir, want);
       let i = 1;
@@ -59,7 +133,9 @@ export async function runRename(opts: RenameOptions) {
       if (DRY) console.log(`Would rename: ${abs} -> ${target}`);
       else {
         await fs.rename(abs, target);
+        await updateDocState(db, uuid, target, fm);
       }
+      report();
     },
   });
   console.log("06-rename: done.");
@@ -70,8 +146,14 @@ if (isDirect) {
   const args = parseArgs({ "--dir": "docs/unique", "--dry-run": "false" });
   const dir = args["--dir"] ?? "docs/unique";
   const dryRun = (args["--dry-run"] ?? "false") === "true";
-  runRename({ dir, dryRun }).catch((e) => {
+  const { openDB } = await import("./db.js");
+  const db = await openDB();
+  try {
+    await runRename({ dir, dryRun }, db);
+  } catch (e) {
     console.error(e);
-    process.exit(1);
-  });
+    process.exitCode = 1;
+  } finally {
+    await db.root.close();
+  }
 }
