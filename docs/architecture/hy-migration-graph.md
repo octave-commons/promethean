@@ -1,9 +1,9 @@
 ---
 project: Promethean
-hashtags: [#knowledge-graph, #hy, #migration, #python-ban]
+hashtags: $#knowledge-graph, #hy, #migration, #python-ban$
 ---
 
-# 🧩 Knowledge Graph — Hy Migration (High-Level)
+# 🧩 Knowledge Graph — Hy Migration $High-Level$
 
 This graph provides a high-level overview of the Hy migration initiative.
 

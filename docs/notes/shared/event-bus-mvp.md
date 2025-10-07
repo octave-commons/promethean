@@ -378,7 +378,7 @@ export const Topics = {
 } as const;
 ```
 
-## 6) Outbox pattern (service-local durability)
+## 6) Outbox pattern $service-local durability$
 
 Pattern for services that must not lose messages:
 
@@ -531,9 +531,9 @@ test("nack leaves cursor; event is retried", async () => {
 
 If you want, next dump I can add:
 
-- **WS gateway** (pub/sub over WebSocket with auth),
+- **WS gateway** $pub/sub over WebSocket with auth$,
     
-- **Backpressure & leases** (ack deadline + redelivery),
+- **Backpressure & leases** $ack deadline + redelivery$,
     
 - **Compactor** job + snapshot topic,
     

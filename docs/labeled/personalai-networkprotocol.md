@@ -1,9 +1,17 @@
 ---
+$$
 uuid: 413661e4-8673-4594-8405-3130cae16627
+$$
+$$
 created_at: '2025-10-02T12:54:43Z'
+$$
 title: 2025.10.02.12.54.43
+$$
 filename: PersonalAI_NetworkProtocol
+$$
+$$
 description: >-
+$$
   Discusses creating a personal AI system for individual use, with a focus on
   privacy and consciousness experiments. The protocol ensures controlled
   interactions between users and their AI agents while maintaining strict
@@ -19,8 +27,12 @@ tags:
   - privacy boundaries
   - AI agents
   - disability support
+$$
 related_to_uuid: []
+$$
+$$
 related_to_title: []
+$$
 references: []
 ---
 12:10 PM]GoblinSlayer

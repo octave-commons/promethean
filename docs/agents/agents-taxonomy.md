@@ -8,28 +8,28 @@ hashtags: [#agents, #taxonomy, #promethean]
 Promethean distinguishes **three major classes of agents**:
 
 ## 1. Developer Agents
-- [[docs/agents/pythagoras/AGENTS.md|Pythagoras]] → Repo navigator & governance enforcer.
-- [[docs/agents/codex/agents.md|Codex]] → Automation agent (make/test/build).
-- [[docs/agents/codex-gui/AGENTS.md|Codex GUI]] → Workflow + Kanban sync agent.
+- $[docs/agents/pythagoras/AGENTS.md|Pythagoras]$ → Repo navigator & governance enforcer.
+- $[docs/agents/codex/agents.md|Codex]$ → Automation agent $make/test/build$.
+- $[docs/agents/codex-gui/AGENTS.md|Codex GUI]$ → Workflow + Kanban sync agent.
 
-Governance doc: [[docs/agents/developer/AGENTS.md]]
+Governance doc: $[docs/agents/developer/AGENTS.md]$
 
 ---
 
 ## 2. Resident Cognitive Agents
-- [[docs/agents/duck/AGENTS.md|Duck]] → WIP, embodied perception-action agent.
+- $[docs/agents/duck/AGENTS.md|Duck]$ → WIP, embodied perception-action agent.
 - Future residents TBD.
 
-Governance doc: [[docs/agents/residents/AGENTS.md]]
+Governance doc: $[docs/agents/residents/AGENTS.md]$
 
 ---
 
 ## 3. Infrastructure & Support Agents
-- [[docs/agents/board-manager/AGENTS.md|Board Manager]] → Kanban + Agile sync.
-- [[docs/agents/synthesis-agent/AGENTS.md|Synthesis-Agent]] → Transforms raw thought → docs.
-- [[docs/agents/embedding-agents/AGENTS.md|Embedding / Index Agents]] → Manage semantic search.
+- $[docs/agents/board-manager/AGENTS.md|Board Manager]$ → Kanban + Agile sync.
+- $[docs/agents/synthesis-agent/AGENTS.md|Synthesis-Agent]$ → Transforms raw thought → docs.
+- $[docs/agents/embedding-agents/AGENTS.md|Embedding / Index Agents]$ → Manage semantic search.
 
-Governance doc: [[docs/agents/infrastructure/AGENTS.md]]
+Governance doc: $[docs/agents/infrastructure/AGENTS.md]$
 
 ---
 
@@ -66,4 +66,4 @@ graph TD
 ## ✅ Next Steps
 - Flesh out governance docs for each agent.
 - Add semantic cross-links to Agile boards, unique/, and reports.
-- Draft contradictions reporting workflow under [[docs/reports/]].
+- Draft contradictions reporting workflow under $[docs/reports/]$.

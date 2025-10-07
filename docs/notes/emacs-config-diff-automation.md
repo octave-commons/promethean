@@ -1,9 +1,15 @@
 ---
+$$
 uuid: e79c008d-32a6-449f-a398-5554f8deb34a
+$$
+$$
 created_at: '2025-09-05T12:02:57Z'
+$$
 filename: Emacs Config Diff Automation
 title: Emacs Config Diff Automation
+$$
 description: >-
+$$
   A pragmatic workflow for automatically resolving config file conflicts in
   Emacs using deterministic rules and LLM fallbacks. Handles JSON, YAML, and
   other structured formats with schema validation and one-button merging in
@@ -19,8 +25,12 @@ tags:
   - deterministic
   - schema
   - validation
+$$
 related_to_uuid: []
+$$
+$$
 related_to_title: []
+$$
 references: []
 ---
 Yep—config files are the worst to diff by hand. They’re “structured but not *code*,” so our brains don’t get syntax cues, and tiny semantic tweaks matter. Let’s make this boring pain automatic inside Emacs with a pragmatic, layered workflow:
@@ -34,11 +44,11 @@ Yep—config files are the worst to diff by hand. They’re “structured but no
 
 ---
 
-## Heuristics that actually work (no hand-wavy “AI, plz fix”)
+## Heuristics that actually work $no hand-wavy “AI, plz fix”$
 
 ### `package.json`
 
-* **dependencies/devDependencies/peerDependencies/optionalDependencies**: take the **union** of keys; for overlapping keys, pick the **max semver** satisfying both sides (or the “newer” range).
+* **dependencies/devDependencies/peerDependencies/optionalDependencies**: take the **union** of keys; for overlapping keys, pick the **max semver** satisfying both sides $or the “newer” range$.
 * **scripts**: union by key; if both changed and differ → create a conflict suffix (`script` and `script:theirs`) or prefer the *non-empty superset*; LLM only if still unclear.
 * **engines/types/module/type**: prefer **the stricter** setting if both changed (e.g., keep `"type": "module"` if either side set it).
 * **lint/tooling blocks** (`eslintConfig`, `prettier`, `ava`, etc.): deep-merge objects; arrays → **dedup + stable sort**.
@@ -46,14 +56,14 @@ Yep—config files are the worst to diff by hand. They’re “structured but no
 
 ### YAML (CI, k8s, docker-compose, workflows)
 
-* **maps**: deep-merge; if both change the same scalar → keep THEIRS but **comment the OURS** inline (or attach `-ours` key) unless a schema is known.
+* **maps**: deep-merge; if both change the same scalar → keep THEIRS but **comment the OURS** inline $or attach `-ours` key$ unless a schema is known.
 * **arrays**: treat as **sets** when order is not meaningful (`env`, `plugins`, `steps` names) → dedup by `name`/`id`; otherwise preserve THEIRS order and append OURS uniques.
-* **anchors/aliases**: don’t duplicate; preserve anchors from both sides if names differ by renaming one (`&build` → `&build_ours` + alias fixup).
-* **comments**: keep them (yq can preserve with `--yaml-output --prettyPrint` in newer builds; if not, let Emacs handle the pretty print).
+* **anchors/aliases**: don’t duplicate; preserve anchors from both sides if names differ by renaming one $`&build` → `&build_ours` + alias fixup$.
+* **comments**: keep them $yq can preserve with `--yaml-output --prettyPrint` in newer builds; if not, let Emacs handle the pretty print$.
 
 ---
 
-## Emacs integration (Magit + gptel/ellama)
+## Emacs integration $Magit + gptel/ellama$
 
 ### 1) Get BASE/OURS/THEIRS reliably
 
@@ -194,7 +204,7 @@ Rules:
 
 ## The deterministic resolver (Node, functional TS, ESM)
 
-Make a tiny CLI (`@promethean/merge-config`) you can call from Emacs. Keep it pure + composable:
+Make a tiny CLI $`@promethean/merge-config`$ you can call from Emacs. Keep it pure + composable:
 
 ```
 packages/merge-config/
@@ -207,23 +217,23 @@ packages/merge-config/
   test/
     *.test.ts (ava)
 ```
-
+$$
 **Rules (package.json):**
-
+$$
 * Parse BASE/OURS/THEIRS → build a merged object with:
 
   * union dep keys; resolve ranges with `semver` (prefer highest compatible; if incompatible, pick THEIRS and add OURS as comment or `:ours` field if you want transparency);
   * scripts union; on collision, keep THEIRS and add `script:ours` unless identical;
   * deep-merge tooling configs (`eslintConfig`, `prettier`, `ava`, `tsconfig`, etc.);
   * sort keys, stable.
-
+$$
 **Rules (YAML):**
-
-* Parse via `yaml` that round-trips comments if possible (`yaml` npm package supports CST/AST with comment retention);
+$$
+* Parse via `yaml` that round-trips comments if possible $`yaml` npm package supports CST/AST with comment retention$;
 * Maps deep-merge; arrays dedup by `name`/`id`/`path`; anchors preserved, rename collisions.
-
+$$
 **CLI signature:**
-
+$$
 ```bash
 prom-merge-config package-json <BASE> <OURS> <THEIRS> <OUT>
 prom-merge-config yaml         <BASE> <OURS> <THEIRS> <OUT>
@@ -250,7 +260,7 @@ prom-merge-config json         <BASE> <OURS> <THEIRS> <OUT>
 * The LLM is caged: it gets BASE/OURS/THEIRS + strict rules + validation, and it **must** return valid JSON/YAML only.
 * You stay in Emacs, in flow, with a single keybinding.
 
-If you want, I’ll sketch the `@promethean/merge-config` package scaffold (TS/ESM, functional style, AVA tests, `license: GPL-3.0-only`, flat package, `.js` imports after build) so you can drop it in and wire it to that Emacs command.
+If you want, I’ll sketch the `@promethean/merge-config` package scaffold $TS/ESM, functional style, AVA tests, `license: GPL-3.0-only`, flat package, `.js` imports after build$ so you can drop it in and wire it to that Emacs command.
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
 - _None_

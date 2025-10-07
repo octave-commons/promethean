@@ -1,9 +1,15 @@
 ---
+$$
 uuid: d6017321-d4d5-4b9c-8e67-21b127fceca0
+$$
+$$
 created_at: '2025-10-03T16:07:03Z'
+$$
 title: 2025.10.03.16.07.03
 filename: JSONRPC Error Handling
+$$
 description: >-
+$$
   This document details a JSON-RPC error response when attempting to initialize
   a server with invalid parameters. The error indicates missing required fields
   like 'id' and 'method', and unexpected keys in the request payload. The
@@ -17,8 +23,12 @@ tags:
   - api
   - request
   - parameters
+$$
 related_to_uuid: []
+$$
+$$
 related_to_title: []
+$$
 references: []
 ---
 Ok, when I use that curl command I get:

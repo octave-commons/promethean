@@ -1,8 +1,14 @@
 ---
+$$
 uuid: aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
+$$
+$$
 created_at: 2025.08.08.19.08.25.md
+$$
 filename: prom-lib-rate-limiters-and-replay-api
+$$
 description: >-
+$$
   Implements token bucket rate limiting for WebSocket connections and topics,
   with backpressure handling, pause/resume controls, and a replay/export API for
   event data retrieval via HTTP NDJSON.
@@ -15,7 +21,9 @@ tags:
   - ws-gateway
   - exactly-once
   - bench-harness
+$$
 related_to_title:
+$$
   - State Snapshots API and Transactional Projector
   - Promethean Event Bus MVP v0.1
   - schema-evolution-workflow
@@ -42,7 +50,9 @@ related_to_title:
   - Unique Info Dump Index
   - WebSocket Gateway Implementation
   - Prompt_Folder_Bootstrap
+$$
 related_to_uuid:
+$$
   - 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
   - fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
   - d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
@@ -639,7 +649,7 @@ references:
     col: 3
     score: 1
 ---
-Alright, Part 4: **backpressure + rate limits, replay/export API, exactly-once-ish consumer, and a tiny bench harness**. Paste into `shared/js/prom-lib/` (and a `bench/` folder). Minimal but real.
+Alright, Part 4: **backpressure + rate limits, replay/export API, exactly-once-ish consumer, and a tiny bench harness**. Paste into `shared/js/prom-lib/` $and a `bench/` folder$. Minimal but real.
 
 ---
 
@@ -679,7 +689,7 @@ export class TokenBucket {
 }
 ```
 
-## 1b) Wire into WS Gateway (publish + per-sub delivery)
+## 1b) Wire into WS Gateway $publish + per-sub delivery$
 
 Add to your WS server:
 
@@ -700,9 +710,9 @@ Patch `startWSGateway`:
 
 * On connection: `const connLimiter = makeConnLimiter();`
 * Maintain a `Map<string, TokenBucket>` for `topicLimiter`.
-
+$$
 On **PUBLISH**:
-
+$$
 ```ts
 if (!connLimiter.tryConsume(1)) return err("rate_limited", "conn publish rate exceeded");
 const tl = topicLimiters.get(msg.topic) ?? (topicLimiters.set(msg.topic, makeTopicLimiter(msg.topic)), topicLimiters.get(msg.topic)!);
@@ -720,9 +730,9 @@ const deliver = () => {
 ```
 
 ## 1c) Pause/Resume (optional ops)
-
+$$
 Support client-controlled backpressure:
-
+$$
 * `PAUSE { op:"PAUSE", topic, group }`
 * `RESUME { op:"RESUME", topic, group }`
 
@@ -742,7 +752,7 @@ flowchart LR
 
 ---
 
-# 2) Replay / Export API (HTTP + NDJSON)
+# 2) Replay / Export API $HTTP + NDJSON$
 
 ```ts
 // shared/js/prom-lib/http/replay.ts
@@ -892,10 +902,10 @@ export async function subscribeExactlyOnce(
 
 ---
 
-# 4) Bench Harness (throughput/latency)
-
+# 4) Bench Harness $throughput/latency$
+$$
 Directory: `bench/`.
-
+$$
 ## 4a) Publisher
 
 ```ts
@@ -969,9 +979,9 @@ run();
   * `events(topic, ts, id)` for scans and replay
   * `events(topic, key, ts)` for compaction/snapshots
   * `events(id)` unique
-  * `cursors(_id)` unique
+  * `cursors$_id$` unique
   * `dedupe(expireAt)` TTL
-  * `outbox(status, lease_until)` + `outbox(ts)`
+  * `outbox$status, lease_until$` + `outbox(ts)`
 
 * **Retention**
 
@@ -1002,7 +1012,7 @@ run();
 
 # 6) Tiny Kanban Additions
 
-* [ ] Add `TokenBucket` to WS server (conn + per-topic)
+* [ ] Add `TokenBucket` to WS server $conn + per-topic$
 * [ ] Implement `PAUSE/RESUME` ops on gateway
 * [ ] Launch `ReplayAPI` on `:8083`; test `/replay` and `/export?ndjson=1`
 * [ ] Add `MongoDedupe` and replace critical consumers with `subscribeExactlyOnce`
@@ -1010,183 +1020,183 @@ run();
 * [ ] Add TTLs per topic via migration script
 
 ---
-
+$$
 Want **Part 5**? I can push:
-
+$$
 * **Stateful partitions** (hash by key for parallel consumers),
 * **Rebalance hooks** for consumer groups,
-* **Schema registry lite** (zod validators per topic + evolution),
-* and a **Changelog projector** (topic → materialized Mongo collection with upsert/unique constraints).
+* **Schema registry lite** $zod validators per topic + evolution$,
+* and a **Changelog projector** $topic → materialized Mongo collection with upsert/unique constraints$.
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [[state-snapshots-api-and-transactional-projector|State Snapshots API and Transactional Projector]]
-- [Promethean Event Bus MVP v0.1](promethean-event-bus-mvp-v0-1.md)
-- [[schema-evolution-workflow]]
-- [[chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]]
-- [[docs/unique/event-bus-mvp|Event Bus MVP]]
-- [[mongo-outbox-implementation|Mongo Outbox Implementation]]
-- [[stateful-partitions-and-rebalancing|Stateful Partitions and Rebalancing]]
-- [[migrate-to-provider-tenant-architecture|Migrate to Provider-Tenant Architecture]]
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore|Agent Tasks: Persistence Migration to DualStore]]
-- [[docs/unique/eidolon-field-math-foundations|eidolon-field-math-foundations]]
-- [Services](chunks/services.md)
-- [[per-domain-policy-system-for-js-crawler|Per-Domain Policy System for JS Crawler]]
-- [[docs/unique/ecs-offload-workers|ecs-offload-workers]]
-- [[board-walk-2025-08-11|Board Walk – 2025-08-11]]
-- [[dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]]
-- [[event-bus-projections-architecture|Event Bus Projections Architecture]]
-- [[docs/unique/aionian-circuit-math|aionian-circuit-math]]
-- [[observability-infrastructure-setup]]
-- [[cross-language-runtime-polymorphism|Cross-Language Runtime Polymorphism]]
-- [[cross-target-macro-system-in-sibilant|Cross-Target Macro System in Sibilant]]
-- [[promethean-native-config-design|Promethean-native config design]]
-- [[sibilant-meta-prompt-dsl|Sibilant Meta-Prompt DSL]]
-- [[docs/unique/template-based-compilation|template-based-compilation]]
-- [[unique-info-dump-index|Unique Info Dump Index]]
-- [[websocket-gateway-implementation|WebSocket Gateway Implementation]]
-- [[prompt-folder-bootstrap|Prompt_Folder_Bootstrap]]
+- $[state-snapshots-api-and-transactional-projector|State Snapshots API and Transactional Projector]$
+- [Promethean Event Bus MVP v0.1]$promethean-event-bus-mvp-v0-1.md$
+- $[schema-evolution-workflow]$
+- $[chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]$
+- $[docs/unique/event-bus-mvp|Event Bus MVP]$
+- $[mongo-outbox-implementation|Mongo Outbox Implementation]$
+- $[stateful-partitions-and-rebalancing|Stateful Partitions and Rebalancing]$
+- $[migrate-to-provider-tenant-architecture|Migrate to Provider-Tenant Architecture]$
+- $[docs/unique/agent-tasks-persistence-migration-to-dualstore|Agent Tasks: Persistence Migration to DualStore]$
+- $[docs/unique/eidolon-field-math-foundations|eidolon-field-math-foundations]$
+- [Services]$chunks/services.md$
+- $[per-domain-policy-system-for-js-crawler|Per-Domain Policy System for JS Crawler]$
+- $[docs/unique/ecs-offload-workers|ecs-offload-workers]$
+- $[board-walk-2025-08-11|Board Walk – 2025-08-11]$
+- $[dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]$
+- $[event-bus-projections-architecture|Event Bus Projections Architecture]$
+- $[docs/unique/aionian-circuit-math|aionian-circuit-math]$
+- $[observability-infrastructure-setup]$
+- $[cross-language-runtime-polymorphism|Cross-Language Runtime Polymorphism]$
+- $[cross-target-macro-system-in-sibilant|Cross-Target Macro System in Sibilant]$
+- $[promethean-native-config-design|Promethean-native config design]$
+- $[sibilant-meta-prompt-dsl|Sibilant Meta-Prompt DSL]$
+- $[docs/unique/template-based-compilation|template-based-compilation]$
+- $[unique-info-dump-index|Unique Info Dump Index]$
+- $[websocket-gateway-implementation|WebSocket Gateway Implementation]$
+- $[prompt-folder-bootstrap|Prompt_Folder_Bootstrap]$
 
 ## Sources
-- [Promethean Event Bus MVP v0.1 — L141](promethean-event-bus-mvp-v0-1.md#L141) (line 141, col 1, score 0.93)
-- [[schema-evolution-workflow#L130|schema-evolution-workflow — L130]] (line 130, col 1, score 1)
-- [[schema-evolution-workflow#L222|schema-evolution-workflow — L222]] (line 222, col 1, score 1)
-- [[state-snapshots-api-and-transactional-projector#L233|State Snapshots API and Transactional Projector — L233]] (line 233, col 1, score 1)
-- [[state-snapshots-api-and-transactional-projector#L160|State Snapshots API and Transactional Projector — L160]] (line 160, col 1, score 0.88)
-- [[docs/unique/event-bus-mvp#L258|Event Bus MVP — L258]] (line 258, col 1, score 0.86)
-- [Promethean Event Bus MVP v0.1 — L102](promethean-event-bus-mvp-v0-1.md#L102) (line 102, col 5, score 0.89)
-- [Promethean Event Bus MVP v0.1 — L102](promethean-event-bus-mvp-v0-1.md#L102) (line 102, col 7, score 0.89)
-- [[chroma-toolkit-consolidation-plan#L122|Chroma Toolkit Consolidation Plan — L122]] (line 122, col 5, score 0.95)
-- [Promethean Event Bus MVP v0.1 — L117](promethean-event-bus-mvp-v0-1.md#L117) (line 117, col 1, score 1)
-- [Services — L11](chunks/services.md#L11) (line 11, col 1, score 1)
-- [Services — L11](chunks/services.md#L11) (line 11, col 3, score 1)
-- [[docs/unique/event-bus-mvp#L554|Event Bus MVP — L554]] (line 554, col 1, score 1)
-- [[docs/unique/event-bus-mvp#L554|Event Bus MVP — L554]] (line 554, col 3, score 1)
-- [[mongo-outbox-implementation#L553|Mongo Outbox Implementation — L553]] (line 553, col 1, score 1)
-- [[mongo-outbox-implementation#L553|Mongo Outbox Implementation — L553]] (line 553, col 3, score 1)
-- [Promethean Event Bus MVP v0.1 — L891](promethean-event-bus-mvp-v0-1.md#L891) (line 891, col 1, score 1)
-- [Promethean Event Bus MVP v0.1 — L891](promethean-event-bus-mvp-v0-1.md#L891) (line 891, col 3, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L137|Agent Tasks: Persistence Migration to DualStore — L137]] (line 137, col 1, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L137|Agent Tasks: Persistence Migration to DualStore — L137]] (line 137, col 3, score 1)
-- [[chroma-toolkit-consolidation-plan#L175|Chroma Toolkit Consolidation Plan — L175]] (line 175, col 1, score 1)
-- [[chroma-toolkit-consolidation-plan#L175|Chroma Toolkit Consolidation Plan — L175]] (line 175, col 3, score 1)
-- [[docs/unique/event-bus-mvp#L547|Event Bus MVP — L547]] (line 547, col 1, score 1)
-- [[docs/unique/event-bus-mvp#L547|Event Bus MVP — L547]] (line 547, col 3, score 1)
-- [[event-bus-projections-architecture#L150|Event Bus Projections Architecture — L150]] (line 150, col 1, score 1)
-- [[event-bus-projections-architecture#L150|Event Bus Projections Architecture — L150]] (line 150, col 3, score 1)
-- [Services — L12](chunks/services.md#L12) (line 12, col 1, score 1)
-- [Services — L12](chunks/services.md#L12) (line 12, col 3, score 1)
-- [[cross-language-runtime-polymorphism#L211|Cross-Language Runtime Polymorphism — L211]] (line 211, col 1, score 1)
-- [[cross-language-runtime-polymorphism#L211|Cross-Language Runtime Polymorphism — L211]] (line 211, col 3, score 1)
-- [[docs/unique/event-bus-mvp#L550|Event Bus MVP — L550]] (line 550, col 1, score 1)
-- [[docs/unique/event-bus-mvp#L550|Event Bus MVP — L550]] (line 550, col 3, score 1)
-- [[mongo-outbox-implementation#L554|Mongo Outbox Implementation — L554]] (line 554, col 1, score 1)
-- [[mongo-outbox-implementation#L554|Mongo Outbox Implementation — L554]] (line 554, col 3, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L134|Agent Tasks: Persistence Migration to DualStore — L134]] (line 134, col 1, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L134|Agent Tasks: Persistence Migration to DualStore — L134]] (line 134, col 3, score 1)
-- [[docs/unique/aionian-circuit-math#L156|aionian-circuit-math — L156]] (line 156, col 1, score 1)
-- [[docs/unique/aionian-circuit-math#L156|aionian-circuit-math — L156]] (line 156, col 3, score 1)
-- [[board-walk-2025-08-11#L136|Board Walk – 2025-08-11 — L136]] (line 136, col 1, score 1)
-- [[board-walk-2025-08-11#L136|Board Walk – 2025-08-11 — L136]] (line 136, col 3, score 1)
-- [[dynamic-context-model-for-web-components#L386|Dynamic Context Model for Web Components — L386]] (line 386, col 1, score 1)
-- [[dynamic-context-model-for-web-components#L386|Dynamic Context Model for Web Components — L386]] (line 386, col 3, score 1)
-- [[mongo-outbox-implementation#L552|Mongo Outbox Implementation — L552]] (line 552, col 1, score 1)
-- [[mongo-outbox-implementation#L552|Mongo Outbox Implementation — L552]] (line 552, col 3, score 1)
-- [Promethean Event Bus MVP v0.1 — L881](promethean-event-bus-mvp-v0-1.md#L881) (line 881, col 1, score 1)
-- [Promethean Event Bus MVP v0.1 — L881](promethean-event-bus-mvp-v0-1.md#L881) (line 881, col 3, score 1)
-- [[schema-evolution-workflow#L485|schema-evolution-workflow — L485]] (line 485, col 1, score 1)
-- [[schema-evolution-workflow#L485|schema-evolution-workflow — L485]] (line 485, col 3, score 1)
-- [[state-snapshots-api-and-transactional-projector#L341|State Snapshots API and Transactional Projector — L341]] (line 341, col 1, score 1)
-- [[state-snapshots-api-and-transactional-projector#L341|State Snapshots API and Transactional Projector — L341]] (line 341, col 3, score 1)
-- [Services — L13](chunks/services.md#L13) (line 13, col 1, score 1)
-- [Services — L13](chunks/services.md#L13) (line 13, col 3, score 1)
-- [[docs/unique/ecs-offload-workers#L467|ecs-offload-workers — L467]] (line 467, col 1, score 1)
-- [[docs/unique/ecs-offload-workers#L467|ecs-offload-workers — L467]] (line 467, col 3, score 1)
-- [[docs/unique/event-bus-mvp#L549|Event Bus MVP — L549]] (line 549, col 1, score 1)
-- [[docs/unique/event-bus-mvp#L549|Event Bus MVP — L549]] (line 549, col 3, score 1)
-- [[observability-infrastructure-setup#L364|observability-infrastructure-setup — L364]] (line 364, col 1, score 1)
-- [[observability-infrastructure-setup#L364|observability-infrastructure-setup — L364]] (line 364, col 3, score 1)
-- [Services — L14](chunks/services.md#L14) (line 14, col 1, score 1)
-- [Services — L14](chunks/services.md#L14) (line 14, col 3, score 1)
-- [[docs/unique/event-bus-mvp#L553|Event Bus MVP — L553]] (line 553, col 1, score 1)
-- [[docs/unique/event-bus-mvp#L553|Event Bus MVP — L553]] (line 553, col 3, score 1)
-- [[mongo-outbox-implementation#L559|Mongo Outbox Implementation — L559]] (line 559, col 1, score 1)
-- [[mongo-outbox-implementation#L559|Mongo Outbox Implementation — L559]] (line 559, col 3, score 1)
-- [Promethean Event Bus MVP v0.1 — L892](promethean-event-bus-mvp-v0-1.md#L892) (line 892, col 1, score 1)
-- [Promethean Event Bus MVP v0.1 — L892](promethean-event-bus-mvp-v0-1.md#L892) (line 892, col 3, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L131|Agent Tasks: Persistence Migration to DualStore — L131]] (line 131, col 1, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L131|Agent Tasks: Persistence Migration to DualStore — L131]] (line 131, col 3, score 1)
-- [[chroma-toolkit-consolidation-plan#L169|Chroma Toolkit Consolidation Plan — L169]] (line 169, col 1, score 1)
-- [[chroma-toolkit-consolidation-plan#L169|Chroma Toolkit Consolidation Plan — L169]] (line 169, col 3, score 1)
-- [[cross-target-macro-system-in-sibilant#L175|Cross-Target Macro System in Sibilant — L175]] (line 175, col 1, score 1)
-- [[cross-target-macro-system-in-sibilant#L175|Cross-Target Macro System in Sibilant — L175]] (line 175, col 3, score 1)
-- [[dynamic-context-model-for-web-components#L392|Dynamic Context Model for Web Components — L392]] (line 392, col 1, score 1)
-- [[dynamic-context-model-for-web-components#L392|Dynamic Context Model for Web Components — L392]] (line 392, col 3, score 1)
-- [[chroma-toolkit-consolidation-plan#L173|Chroma Toolkit Consolidation Plan — L173]] (line 173, col 1, score 1)
-- [[chroma-toolkit-consolidation-plan#L173|Chroma Toolkit Consolidation Plan — L173]] (line 173, col 3, score 1)
-- [[docs/unique/eidolon-field-math-foundations#L133|eidolon-field-math-foundations — L133]] (line 133, col 1, score 1)
-- [[docs/unique/eidolon-field-math-foundations#L133|eidolon-field-math-foundations — L133]] (line 133, col 3, score 1)
-- [[migrate-to-provider-tenant-architecture#L266|Migrate to Provider-Tenant Architecture — L266]] (line 266, col 1, score 1)
-- [[migrate-to-provider-tenant-architecture#L266|Migrate to Provider-Tenant Architecture — L266]] (line 266, col 3, score 1)
-- [[per-domain-policy-system-for-js-crawler#L472|Per-Domain Policy System for JS Crawler — L472]] (line 472, col 1, score 1)
-- [[per-domain-policy-system-for-js-crawler#L472|Per-Domain Policy System for JS Crawler — L472]] (line 472, col 3, score 1)
-- [[websocket-gateway-implementation#L642|WebSocket Gateway Implementation — L642]] (line 642, col 1, score 0.98)
-- [[websocket-gateway-implementation#L642|WebSocket Gateway Implementation — L642]] (line 642, col 3, score 0.98)
-- [[docs/unique/event-bus-mvp#L560|Event Bus MVP — L560]] (line 560, col 1, score 0.98)
-- [[docs/unique/event-bus-mvp#L560|Event Bus MVP — L560]] (line 560, col 3, score 0.98)
-- [[docs/unique/event-bus-mvp#L557|Event Bus MVP — L557]] (line 557, col 1, score 0.98)
-- [[docs/unique/event-bus-mvp#L557|Event Bus MVP — L557]] (line 557, col 3, score 0.98)
-- [[unique-info-dump-index#L112|Unique Info Dump Index — L112]] (line 112, col 1, score 0.98)
-- [[unique-info-dump-index#L112|Unique Info Dump Index — L112]] (line 112, col 3, score 0.98)
-- [[state-snapshots-api-and-transactional-projector#L350|State Snapshots API and Transactional Projector — L350]] (line 350, col 1, score 0.98)
-- [[state-snapshots-api-and-transactional-projector#L350|State Snapshots API and Transactional Projector — L350]] (line 350, col 3, score 0.98)
-- [[stateful-partitions-and-rebalancing#L544|Stateful Partitions and Rebalancing — L544]] (line 544, col 1, score 0.97)
-- [[stateful-partitions-and-rebalancing#L544|Stateful Partitions and Rebalancing — L544]] (line 544, col 3, score 0.97)
-- [[stateful-partitions-and-rebalancing#L542|Stateful Partitions and Rebalancing — L542]] (line 542, col 1, score 0.97)
-- [[stateful-partitions-and-rebalancing#L542|Stateful Partitions and Rebalancing — L542]] (line 542, col 3, score 0.97)
-- [[docs/unique/event-bus-mvp#L564|Event Bus MVP — L564]] (line 564, col 1, score 0.97)
-- [[docs/unique/event-bus-mvp#L564|Event Bus MVP — L564]] (line 564, col 3, score 0.97)
-- [[state-snapshots-api-and-transactional-projector#L351|State Snapshots API and Transactional Projector — L351]] (line 351, col 1, score 0.98)
-- [[state-snapshots-api-and-transactional-projector#L351|State Snapshots API and Transactional Projector — L351]] (line 351, col 3, score 0.98)
-- [[stateful-partitions-and-rebalancing#L543|Stateful Partitions and Rebalancing — L543]] (line 543, col 1, score 0.97)
-- [[stateful-partitions-and-rebalancing#L543|Stateful Partitions and Rebalancing — L543]] (line 543, col 3, score 0.97)
-- [[schema-evolution-workflow#L495|schema-evolution-workflow — L495]] (line 495, col 1, score 1)
-- [[schema-evolution-workflow#L495|schema-evolution-workflow — L495]] (line 495, col 3, score 1)
-- [[websocket-gateway-implementation#L646|WebSocket Gateway Implementation — L646]] (line 646, col 1, score 0.99)
-- [[websocket-gateway-implementation#L646|WebSocket Gateway Implementation — L646]] (line 646, col 3, score 0.99)
-- [[schema-evolution-workflow#L496|schema-evolution-workflow — L496]] (line 496, col 1, score 0.99)
-- [[schema-evolution-workflow#L496|schema-evolution-workflow — L496]] (line 496, col 3, score 0.99)
-- [Services — L25](chunks/services.md#L25) (line 25, col 1, score 0.98)
-- [Services — L25](chunks/services.md#L25) (line 25, col 3, score 0.98)
-- [[unique-info-dump-index#L160|Unique Info Dump Index — L160]] (line 160, col 1, score 0.99)
-- [[unique-info-dump-index#L160|Unique Info Dump Index — L160]] (line 160, col 3, score 0.99)
-- [Promethean Event Bus MVP v0.1 — L907](promethean-event-bus-mvp-v0-1.md#L907) (line 907, col 1, score 0.99)
-- [Promethean Event Bus MVP v0.1 — L907](promethean-event-bus-mvp-v0-1.md#L907) (line 907, col 3, score 0.99)
-- [[websocket-gateway-implementation#L645|WebSocket Gateway Implementation — L645]] (line 645, col 1, score 0.98)
-- [[websocket-gateway-implementation#L645|WebSocket Gateway Implementation — L645]] (line 645, col 3, score 0.98)
-- [[mongo-outbox-implementation#L564|Mongo Outbox Implementation — L564]] (line 564, col 1, score 0.98)
-- [[mongo-outbox-implementation#L564|Mongo Outbox Implementation — L564]] (line 564, col 3, score 0.98)
-- [[schema-evolution-workflow#L498|schema-evolution-workflow — L498]] (line 498, col 1, score 0.98)
-- [[schema-evolution-workflow#L498|schema-evolution-workflow — L498]] (line 498, col 3, score 0.98)
-- [[unique-info-dump-index#L110|Unique Info Dump Index — L110]] (line 110, col 1, score 0.99)
-- [[unique-info-dump-index#L110|Unique Info Dump Index — L110]] (line 110, col 3, score 0.99)
-- [[migrate-to-provider-tenant-architecture#L301|Migrate to Provider-Tenant Architecture — L301]] (line 301, col 1, score 0.99)
-- [[migrate-to-provider-tenant-architecture#L301|Migrate to Provider-Tenant Architecture — L301]] (line 301, col 3, score 0.99)
-- [[prompt-folder-bootstrap#L197|Prompt_Folder_Bootstrap — L197]] (line 197, col 1, score 0.99)
-- [[prompt-folder-bootstrap#L197|Prompt_Folder_Bootstrap — L197]] (line 197, col 3, score 0.99)
-- [[unique-info-dump-index#L113|Unique Info Dump Index — L113]] (line 113, col 1, score 0.99)
-- [[unique-info-dump-index#L113|Unique Info Dump Index — L113]] (line 113, col 3, score 0.99)
-- [[unique-info-dump-index#L111|Unique Info Dump Index — L111]] (line 111, col 1, score 0.99)
-- [[unique-info-dump-index#L111|Unique Info Dump Index — L111]] (line 111, col 3, score 0.99)
-- [[migrate-to-provider-tenant-architecture#L302|Migrate to Provider-Tenant Architecture — L302]] (line 302, col 1, score 0.99)
-- [[migrate-to-provider-tenant-architecture#L302|Migrate to Provider-Tenant Architecture — L302]] (line 302, col 3, score 0.99)
-- [[prompt-folder-bootstrap#L198|Prompt_Folder_Bootstrap — L198]] (line 198, col 1, score 0.99)
-- [[prompt-folder-bootstrap#L198|Prompt_Folder_Bootstrap — L198]] (line 198, col 3, score 0.99)
-- [[dynamic-context-model-for-web-components#L406|Dynamic Context Model for Web Components — L406]] (line 406, col 1, score 1)
-- [[dynamic-context-model-for-web-components#L406|Dynamic Context Model for Web Components — L406]] (line 406, col 3, score 1)
-- [[promethean-native-config-design#L399|Promethean-native config design — L399]] (line 399, col 1, score 1)
-- [[promethean-native-config-design#L399|Promethean-native config design — L399]] (line 399, col 3, score 1)
-- [[sibilant-meta-prompt-dsl#L203|Sibilant Meta-Prompt DSL — L203]] (line 203, col 1, score 1)
-- [[sibilant-meta-prompt-dsl#L203|Sibilant Meta-Prompt DSL — L203]] (line 203, col 3, score 1)
-- [[docs/unique/template-based-compilation#L126|template-based-compilation — L126]] (line 126, col 1, score 1)
-- [[docs/unique/template-based-compilation#L126|template-based-compilation — L126]] (line 126, col 3, score 1)
+- [Promethean Event Bus MVP v0.1 — L141]$promethean-event-bus-mvp-v0-1.md#L141$ (line 141, col 1, score 0.93)
+- $[schema-evolution-workflow#L130|schema-evolution-workflow — L130]$ (line 130, col 1, score 1)
+- $[schema-evolution-workflow#L222|schema-evolution-workflow — L222]$ (line 222, col 1, score 1)
+- $[state-snapshots-api-and-transactional-projector#L233|State Snapshots API and Transactional Projector — L233]$ (line 233, col 1, score 1)
+- $[state-snapshots-api-and-transactional-projector#L160|State Snapshots API and Transactional Projector — L160]$ (line 160, col 1, score 0.88)
+- $[docs/unique/event-bus-mvp#L258|Event Bus MVP — L258]$ (line 258, col 1, score 0.86)
+- [Promethean Event Bus MVP v0.1 — L102]$promethean-event-bus-mvp-v0-1.md#L102$ (line 102, col 5, score 0.89)
+- [Promethean Event Bus MVP v0.1 — L102]$promethean-event-bus-mvp-v0-1.md#L102$ (line 102, col 7, score 0.89)
+- $[chroma-toolkit-consolidation-plan#L122|Chroma Toolkit Consolidation Plan — L122]$ (line 122, col 5, score 0.95)
+- [Promethean Event Bus MVP v0.1 — L117]$promethean-event-bus-mvp-v0-1.md#L117$ (line 117, col 1, score 1)
+- [Services — L11]$chunks/services.md#L11$ (line 11, col 1, score 1)
+- [Services — L11]$chunks/services.md#L11$ (line 11, col 3, score 1)
+- $[docs/unique/event-bus-mvp#L554|Event Bus MVP — L554]$ (line 554, col 1, score 1)
+- $[docs/unique/event-bus-mvp#L554|Event Bus MVP — L554]$ (line 554, col 3, score 1)
+- $[mongo-outbox-implementation#L553|Mongo Outbox Implementation — L553]$ (line 553, col 1, score 1)
+- $[mongo-outbox-implementation#L553|Mongo Outbox Implementation — L553]$ (line 553, col 3, score 1)
+- [Promethean Event Bus MVP v0.1 — L891]$promethean-event-bus-mvp-v0-1.md#L891$ (line 891, col 1, score 1)
+- [Promethean Event Bus MVP v0.1 — L891]$promethean-event-bus-mvp-v0-1.md#L891$ (line 891, col 3, score 1)
+- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L137|Agent Tasks: Persistence Migration to DualStore — L137]$ (line 137, col 1, score 1)
+- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L137|Agent Tasks: Persistence Migration to DualStore — L137]$ (line 137, col 3, score 1)
+- $[chroma-toolkit-consolidation-plan#L175|Chroma Toolkit Consolidation Plan — L175]$ (line 175, col 1, score 1)
+- $[chroma-toolkit-consolidation-plan#L175|Chroma Toolkit Consolidation Plan — L175]$ (line 175, col 3, score 1)
+- $[docs/unique/event-bus-mvp#L547|Event Bus MVP — L547]$ (line 547, col 1, score 1)
+- $[docs/unique/event-bus-mvp#L547|Event Bus MVP — L547]$ (line 547, col 3, score 1)
+- $[event-bus-projections-architecture#L150|Event Bus Projections Architecture — L150]$ (line 150, col 1, score 1)
+- $[event-bus-projections-architecture#L150|Event Bus Projections Architecture — L150]$ (line 150, col 3, score 1)
+- [Services — L12]$chunks/services.md#L12$ (line 12, col 1, score 1)
+- [Services — L12]$chunks/services.md#L12$ (line 12, col 3, score 1)
+- $[cross-language-runtime-polymorphism#L211|Cross-Language Runtime Polymorphism — L211]$ (line 211, col 1, score 1)
+- $[cross-language-runtime-polymorphism#L211|Cross-Language Runtime Polymorphism — L211]$ (line 211, col 3, score 1)
+- $[docs/unique/event-bus-mvp#L550|Event Bus MVP — L550]$ (line 550, col 1, score 1)
+- $[docs/unique/event-bus-mvp#L550|Event Bus MVP — L550]$ (line 550, col 3, score 1)
+- $[mongo-outbox-implementation#L554|Mongo Outbox Implementation — L554]$ (line 554, col 1, score 1)
+- $[mongo-outbox-implementation#L554|Mongo Outbox Implementation — L554]$ (line 554, col 3, score 1)
+- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L134|Agent Tasks: Persistence Migration to DualStore — L134]$ (line 134, col 1, score 1)
+- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L134|Agent Tasks: Persistence Migration to DualStore — L134]$ (line 134, col 3, score 1)
+- $[docs/unique/aionian-circuit-math#L156|aionian-circuit-math — L156]$ (line 156, col 1, score 1)
+- $[docs/unique/aionian-circuit-math#L156|aionian-circuit-math — L156]$ (line 156, col 3, score 1)
+- $[board-walk-2025-08-11#L136|Board Walk – 2025-08-11 — L136]$ (line 136, col 1, score 1)
+- $[board-walk-2025-08-11#L136|Board Walk – 2025-08-11 — L136]$ (line 136, col 3, score 1)
+- $[dynamic-context-model-for-web-components#L386|Dynamic Context Model for Web Components — L386]$ (line 386, col 1, score 1)
+- $[dynamic-context-model-for-web-components#L386|Dynamic Context Model for Web Components — L386]$ (line 386, col 3, score 1)
+- $[mongo-outbox-implementation#L552|Mongo Outbox Implementation — L552]$ (line 552, col 1, score 1)
+- $[mongo-outbox-implementation#L552|Mongo Outbox Implementation — L552]$ (line 552, col 3, score 1)
+- [Promethean Event Bus MVP v0.1 — L881]$promethean-event-bus-mvp-v0-1.md#L881$ (line 881, col 1, score 1)
+- [Promethean Event Bus MVP v0.1 — L881]$promethean-event-bus-mvp-v0-1.md#L881$ (line 881, col 3, score 1)
+- $[schema-evolution-workflow#L485|schema-evolution-workflow — L485]$ (line 485, col 1, score 1)
+- $[schema-evolution-workflow#L485|schema-evolution-workflow — L485]$ (line 485, col 3, score 1)
+- $[state-snapshots-api-and-transactional-projector#L341|State Snapshots API and Transactional Projector — L341]$ (line 341, col 1, score 1)
+- $[state-snapshots-api-and-transactional-projector#L341|State Snapshots API and Transactional Projector — L341]$ (line 341, col 3, score 1)
+- [Services — L13]$chunks/services.md#L13$ (line 13, col 1, score 1)
+- [Services — L13]$chunks/services.md#L13$ (line 13, col 3, score 1)
+- $[docs/unique/ecs-offload-workers#L467|ecs-offload-workers — L467]$ (line 467, col 1, score 1)
+- $[docs/unique/ecs-offload-workers#L467|ecs-offload-workers — L467]$ (line 467, col 3, score 1)
+- $[docs/unique/event-bus-mvp#L549|Event Bus MVP — L549]$ (line 549, col 1, score 1)
+- $[docs/unique/event-bus-mvp#L549|Event Bus MVP — L549]$ (line 549, col 3, score 1)
+- $[observability-infrastructure-setup#L364|observability-infrastructure-setup — L364]$ (line 364, col 1, score 1)
+- $[observability-infrastructure-setup#L364|observability-infrastructure-setup — L364]$ (line 364, col 3, score 1)
+- [Services — L14]$chunks/services.md#L14$ (line 14, col 1, score 1)
+- [Services — L14]$chunks/services.md#L14$ (line 14, col 3, score 1)
+- $[docs/unique/event-bus-mvp#L553|Event Bus MVP — L553]$ (line 553, col 1, score 1)
+- $[docs/unique/event-bus-mvp#L553|Event Bus MVP — L553]$ (line 553, col 3, score 1)
+- $[mongo-outbox-implementation#L559|Mongo Outbox Implementation — L559]$ (line 559, col 1, score 1)
+- $[mongo-outbox-implementation#L559|Mongo Outbox Implementation — L559]$ (line 559, col 3, score 1)
+- [Promethean Event Bus MVP v0.1 — L892]$promethean-event-bus-mvp-v0-1.md#L892$ (line 892, col 1, score 1)
+- [Promethean Event Bus MVP v0.1 — L892]$promethean-event-bus-mvp-v0-1.md#L892$ (line 892, col 3, score 1)
+- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L131|Agent Tasks: Persistence Migration to DualStore — L131]$ (line 131, col 1, score 1)
+- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L131|Agent Tasks: Persistence Migration to DualStore — L131]$ (line 131, col 3, score 1)
+- $[chroma-toolkit-consolidation-plan#L169|Chroma Toolkit Consolidation Plan — L169]$ (line 169, col 1, score 1)
+- $[chroma-toolkit-consolidation-plan#L169|Chroma Toolkit Consolidation Plan — L169]$ (line 169, col 3, score 1)
+- $[cross-target-macro-system-in-sibilant#L175|Cross-Target Macro System in Sibilant — L175]$ (line 175, col 1, score 1)
+- $[cross-target-macro-system-in-sibilant#L175|Cross-Target Macro System in Sibilant — L175]$ (line 175, col 3, score 1)
+- $[dynamic-context-model-for-web-components#L392|Dynamic Context Model for Web Components — L392]$ (line 392, col 1, score 1)
+- $[dynamic-context-model-for-web-components#L392|Dynamic Context Model for Web Components — L392]$ (line 392, col 3, score 1)
+- $[chroma-toolkit-consolidation-plan#L173|Chroma Toolkit Consolidation Plan — L173]$ (line 173, col 1, score 1)
+- $[chroma-toolkit-consolidation-plan#L173|Chroma Toolkit Consolidation Plan — L173]$ (line 173, col 3, score 1)
+- $[docs/unique/eidolon-field-math-foundations#L133|eidolon-field-math-foundations — L133]$ (line 133, col 1, score 1)
+- $[docs/unique/eidolon-field-math-foundations#L133|eidolon-field-math-foundations — L133]$ (line 133, col 3, score 1)
+- $[migrate-to-provider-tenant-architecture#L266|Migrate to Provider-Tenant Architecture — L266]$ (line 266, col 1, score 1)
+- $[migrate-to-provider-tenant-architecture#L266|Migrate to Provider-Tenant Architecture — L266]$ (line 266, col 3, score 1)
+- $[per-domain-policy-system-for-js-crawler#L472|Per-Domain Policy System for JS Crawler — L472]$ (line 472, col 1, score 1)
+- $[per-domain-policy-system-for-js-crawler#L472|Per-Domain Policy System for JS Crawler — L472]$ (line 472, col 3, score 1)
+- $[websocket-gateway-implementation#L642|WebSocket Gateway Implementation — L642]$ (line 642, col 1, score 0.98)
+- $[websocket-gateway-implementation#L642|WebSocket Gateway Implementation — L642]$ (line 642, col 3, score 0.98)
+- $[docs/unique/event-bus-mvp#L560|Event Bus MVP — L560]$ (line 560, col 1, score 0.98)
+- $[docs/unique/event-bus-mvp#L560|Event Bus MVP — L560]$ (line 560, col 3, score 0.98)
+- $[docs/unique/event-bus-mvp#L557|Event Bus MVP — L557]$ (line 557, col 1, score 0.98)
+- $[docs/unique/event-bus-mvp#L557|Event Bus MVP — L557]$ (line 557, col 3, score 0.98)
+- $[unique-info-dump-index#L112|Unique Info Dump Index — L112]$ (line 112, col 1, score 0.98)
+- $[unique-info-dump-index#L112|Unique Info Dump Index — L112]$ (line 112, col 3, score 0.98)
+- $[state-snapshots-api-and-transactional-projector#L350|State Snapshots API and Transactional Projector — L350]$ (line 350, col 1, score 0.98)
+- $[state-snapshots-api-and-transactional-projector#L350|State Snapshots API and Transactional Projector — L350]$ (line 350, col 3, score 0.98)
+- $[stateful-partitions-and-rebalancing#L544|Stateful Partitions and Rebalancing — L544]$ (line 544, col 1, score 0.97)
+- $[stateful-partitions-and-rebalancing#L544|Stateful Partitions and Rebalancing — L544]$ (line 544, col 3, score 0.97)
+- $[stateful-partitions-and-rebalancing#L542|Stateful Partitions and Rebalancing — L542]$ (line 542, col 1, score 0.97)
+- $[stateful-partitions-and-rebalancing#L542|Stateful Partitions and Rebalancing — L542]$ (line 542, col 3, score 0.97)
+- $[docs/unique/event-bus-mvp#L564|Event Bus MVP — L564]$ (line 564, col 1, score 0.97)
+- $[docs/unique/event-bus-mvp#L564|Event Bus MVP — L564]$ (line 564, col 3, score 0.97)
+- $[state-snapshots-api-and-transactional-projector#L351|State Snapshots API and Transactional Projector — L351]$ (line 351, col 1, score 0.98)
+- $[state-snapshots-api-and-transactional-projector#L351|State Snapshots API and Transactional Projector — L351]$ (line 351, col 3, score 0.98)
+- $[stateful-partitions-and-rebalancing#L543|Stateful Partitions and Rebalancing — L543]$ (line 543, col 1, score 0.97)
+- $[stateful-partitions-and-rebalancing#L543|Stateful Partitions and Rebalancing — L543]$ (line 543, col 3, score 0.97)
+- $[schema-evolution-workflow#L495|schema-evolution-workflow — L495]$ (line 495, col 1, score 1)
+- $[schema-evolution-workflow#L495|schema-evolution-workflow — L495]$ (line 495, col 3, score 1)
+- $[websocket-gateway-implementation#L646|WebSocket Gateway Implementation — L646]$ (line 646, col 1, score 0.99)
+- $[websocket-gateway-implementation#L646|WebSocket Gateway Implementation — L646]$ (line 646, col 3, score 0.99)
+- $[schema-evolution-workflow#L496|schema-evolution-workflow — L496]$ (line 496, col 1, score 0.99)
+- $[schema-evolution-workflow#L496|schema-evolution-workflow — L496]$ (line 496, col 3, score 0.99)
+- [Services — L25]$chunks/services.md#L25$ (line 25, col 1, score 0.98)
+- [Services — L25]$chunks/services.md#L25$ (line 25, col 3, score 0.98)
+- $[unique-info-dump-index#L160|Unique Info Dump Index — L160]$ (line 160, col 1, score 0.99)
+- $[unique-info-dump-index#L160|Unique Info Dump Index — L160]$ (line 160, col 3, score 0.99)
+- [Promethean Event Bus MVP v0.1 — L907]$promethean-event-bus-mvp-v0-1.md#L907$ (line 907, col 1, score 0.99)
+- [Promethean Event Bus MVP v0.1 — L907]$promethean-event-bus-mvp-v0-1.md#L907$ (line 907, col 3, score 0.99)
+- $[websocket-gateway-implementation#L645|WebSocket Gateway Implementation — L645]$ (line 645, col 1, score 0.98)
+- $[websocket-gateway-implementation#L645|WebSocket Gateway Implementation — L645]$ (line 645, col 3, score 0.98)
+- $[mongo-outbox-implementation#L564|Mongo Outbox Implementation — L564]$ (line 564, col 1, score 0.98)
+- $[mongo-outbox-implementation#L564|Mongo Outbox Implementation — L564]$ (line 564, col 3, score 0.98)
+- $[schema-evolution-workflow#L498|schema-evolution-workflow — L498]$ (line 498, col 1, score 0.98)
+- $[schema-evolution-workflow#L498|schema-evolution-workflow — L498]$ (line 498, col 3, score 0.98)
+- $[unique-info-dump-index#L110|Unique Info Dump Index — L110]$ (line 110, col 1, score 0.99)
+- $[unique-info-dump-index#L110|Unique Info Dump Index — L110]$ (line 110, col 3, score 0.99)
+- $[migrate-to-provider-tenant-architecture#L301|Migrate to Provider-Tenant Architecture — L301]$ (line 301, col 1, score 0.99)
+- $[migrate-to-provider-tenant-architecture#L301|Migrate to Provider-Tenant Architecture — L301]$ (line 301, col 3, score 0.99)
+- $[prompt-folder-bootstrap#L197|Prompt_Folder_Bootstrap — L197]$ (line 197, col 1, score 0.99)
+- $[prompt-folder-bootstrap#L197|Prompt_Folder_Bootstrap — L197]$ (line 197, col 3, score 0.99)
+- $[unique-info-dump-index#L113|Unique Info Dump Index — L113]$ (line 113, col 1, score 0.99)
+- $[unique-info-dump-index#L113|Unique Info Dump Index — L113]$ (line 113, col 3, score 0.99)
+- $[unique-info-dump-index#L111|Unique Info Dump Index — L111]$ (line 111, col 1, score 0.99)
+- $[unique-info-dump-index#L111|Unique Info Dump Index — L111]$ (line 111, col 3, score 0.99)
+- $[migrate-to-provider-tenant-architecture#L302|Migrate to Provider-Tenant Architecture — L302]$ (line 302, col 1, score 0.99)
+- $[migrate-to-provider-tenant-architecture#L302|Migrate to Provider-Tenant Architecture — L302]$ (line 302, col 3, score 0.99)
+- $[prompt-folder-bootstrap#L198|Prompt_Folder_Bootstrap — L198]$ (line 198, col 1, score 0.99)
+- $[prompt-folder-bootstrap#L198|Prompt_Folder_Bootstrap — L198]$ (line 198, col 3, score 0.99)
+- $[dynamic-context-model-for-web-components#L406|Dynamic Context Model for Web Components — L406]$ (line 406, col 1, score 1)
+- $[dynamic-context-model-for-web-components#L406|Dynamic Context Model for Web Components — L406]$ (line 406, col 3, score 1)
+- $[promethean-native-config-design#L399|Promethean-native config design — L399]$ (line 399, col 1, score 1)
+- $[promethean-native-config-design#L399|Promethean-native config design — L399]$ (line 399, col 3, score 1)
+- $[sibilant-meta-prompt-dsl#L203|Sibilant Meta-Prompt DSL — L203]$ (line 203, col 1, score 1)
+- $[sibilant-meta-prompt-dsl#L203|Sibilant Meta-Prompt DSL — L203]$ (line 203, col 3, score 1)
+- $[docs/unique/template-based-compilation#L126|template-based-compilation — L126]$ (line 126, col 1, score 1)
+- $[docs/unique/template-based-compilation#L126|template-based-compilation — L126]$ (line 126, col 3, score 1)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

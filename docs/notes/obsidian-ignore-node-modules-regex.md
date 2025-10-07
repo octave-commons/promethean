@@ -1,8 +1,14 @@
 ---
+$$
 uuid: ffb9b2a9-744d-4a53-9565-130fceae0832
+$$
+$$
 created_at: 2025.08.08.20.08.31.md
+$$
 filename: obsidian-ignore-node-modules-regex
+$$
 description: >-
+$$
   Regex patterns to exclude node_modules from Obsidian vaults across Unix and
   Windows paths
 tags:
@@ -11,7 +17,9 @@ tags:
   - node_modules
   - path
   - exclude
+$$
 related_to_title:
+$$
   - Tooling
   - Unique Info Dump Index
   - Universal Lisp Interface
@@ -28,7 +36,9 @@ related_to_title:
   - ecs-scheduler-and-prefabs
   - infinite_depth_smoke_animation
   - sibilant-metacompiler-overview
+$$
 related_to_uuid:
+$$
   - 6cb4943e-8267-4e27-8618-2ce0a464d173
   - 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
   - b01856b4-999f-418d-8009-ade49b00eb0f
@@ -243,9 +253,9 @@ Note: Consolidated here → ../notes/tooling/obsidian-ignore-node-modules-regex.
 
 Ah — so you want a regex that **only matches** things inside a `node_modules` folder.
 That way, Obsidian can use it in the "Exclude files" list to filter them out.
-
+$$
 For Unix-style `/` paths:
-
+$$
 ```regex
 .*/node_modules/.*  
 ```
@@ -255,11 +265,11 @@ For Windows `\` paths:
 ```regex
 .*\\node_modules\\.*  
 ```
-
+$$
 **Explanation:**
-
+$$
 * `.*` → anything before
-* `/node_modules/` (or `\\node_modules\\`) → folder name with slashes around it
+* `/node_modules/` $or `\\node_modules\\`$ → folder name with slashes around it
 * `.*` → anything after
 
 This will match:
@@ -287,70 +297,70 @@ That matches either `/` or `\` as the path separator.
 I can also give you a **faster variant** that doesn’t do as much backtracking if you’re matching huge file lists. Want me to do that?
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [Tooling](chunks/tooling.md)
-- [[unique-info-dump-index|Unique Info Dump Index]]
-- [[docs/unique/universal-lisp-interface|Universal Lisp Interface]]
-- [[docs/unique/aionian-circuit-math|aionian-circuit-math]]
-- [[docs/unique/archetype-ecs|archetype-ecs]]
-- [Diagrams](chunks/diagrams.md)
-- [DSL](chunks/dsl.md)
-- [[pm2-orchestration-patterns]]
-- [[cross-language-runtime-polymorphism|Cross-Language Runtime Polymorphism]]
-- [Local-First Intention→Code Loop with Free Models](local-first-intention-code-loop-with-free-models.md)
-- [[polyglot-s-expr-bridge-python-js-lisp-interop|Polyglot S-expr Bridge: Python-JS-Lisp Interop]]
-- [[polymorphic-meta-programming-engine]]
-- [[state-snapshots-api-and-transactional-projector|State Snapshots API and Transactional Projector]]
-- [[ecs-scheduler-and-prefabs]]
-- [[infinite-depth-smoke-animation|infinite_depth_smoke_animation]]
-- [[sibilant-metacompiler-overview]]
+- [Tooling]$chunks/tooling.md$
+- $[unique-info-dump-index|Unique Info Dump Index]$
+- $[docs/unique/universal-lisp-interface|Universal Lisp Interface]$
+- $[docs/unique/aionian-circuit-math|aionian-circuit-math]$
+- $[docs/unique/archetype-ecs|archetype-ecs]$
+- [Diagrams]$chunks/diagrams.md$
+- [DSL]$chunks/dsl.md$
+- $[pm2-orchestration-patterns]$
+- $[cross-language-runtime-polymorphism|Cross-Language Runtime Polymorphism]$
+- $Local-First Intention→Code Loop with Free Models$$local-first-intention-code-loop-with-free-models.md$
+- $[polyglot-s-expr-bridge-python-js-lisp-interop|Polyglot S-expr Bridge: Python-JS-Lisp Interop]$
+- $[polymorphic-meta-programming-engine]$
+- $[state-snapshots-api-and-transactional-projector|State Snapshots API and Transactional Projector]$
+- $[ecs-scheduler-and-prefabs]$
+- $[infinite-depth-smoke-animation|infinite_depth_smoke_animation]$
+- $[sibilant-metacompiler-overview]$
 
 ## Sources
-- [Tooling — L3](chunks/tooling.md#L3) (line 3, col 1, score 0.88)
-- [Tooling — L3](chunks/tooling.md#L3) (line 3, col 3, score 0.88)
-- [[unique-info-dump-index#L35|Unique Info Dump Index — L35]] (line 35, col 1, score 0.88)
-- [[unique-info-dump-index#L35|Unique Info Dump Index — L35]] (line 35, col 3, score 0.88)
-- [[pm2-orchestration-patterns#L246|pm2-orchestration-patterns — L246]] (line 246, col 1, score 1)
-- [[pm2-orchestration-patterns#L246|pm2-orchestration-patterns — L246]] (line 246, col 3, score 1)
-- [[unique-info-dump-index#L66|Unique Info Dump Index — L66]] (line 66, col 1, score 1)
-- [[unique-info-dump-index#L66|Unique Info Dump Index — L66]] (line 66, col 3, score 1)
-- [[unique-info-dump-index#L150|Unique Info Dump Index — L150]] (line 150, col 1, score 0.9)
-- [[unique-info-dump-index#L150|Unique Info Dump Index — L150]] (line 150, col 3, score 0.9)
-- [[unique-info-dump-index#L151|Unique Info Dump Index — L151]] (line 151, col 1, score 0.9)
-- [[unique-info-dump-index#L151|Unique Info Dump Index — L151]] (line 151, col 3, score 0.9)
-- [[docs/unique/aionian-circuit-math#L158|aionian-circuit-math — L158]] (line 158, col 1, score 1)
-- [[docs/unique/aionian-circuit-math#L158|aionian-circuit-math — L158]] (line 158, col 3, score 1)
-- [[docs/unique/archetype-ecs#L457|archetype-ecs — L457]] (line 457, col 1, score 1)
-- [[docs/unique/archetype-ecs#L457|archetype-ecs — L457]] (line 457, col 3, score 1)
-- [Diagrams — L9](chunks/diagrams.md#L9) (line 9, col 1, score 1)
-- [Diagrams — L9](chunks/diagrams.md#L9) (line 9, col 3, score 1)
-- [DSL — L10](chunks/dsl.md#L10) (line 10, col 1, score 1)
-- [DSL — L10](chunks/dsl.md#L10) (line 10, col 3, score 1)
-- [[cross-language-runtime-polymorphism#L207|Cross-Language Runtime Polymorphism — L207]] (line 207, col 1, score 1)
-- [[cross-language-runtime-polymorphism#L207|Cross-Language Runtime Polymorphism — L207]] (line 207, col 3, score 1)
-- [Local-First Intention→Code Loop with Free Models — L146](local-first-intention-code-loop-with-free-models.md#L146) (line 146, col 1, score 1)
-- [Local-First Intention→Code Loop with Free Models — L146](local-first-intention-code-loop-with-free-models.md#L146) (line 146, col 3, score 1)
-- [[polyglot-s-expr-bridge-python-js-lisp-interop#L519|Polyglot S-expr Bridge: Python-JS-Lisp Interop — L519]] (line 519, col 1, score 1)
-- [[polyglot-s-expr-bridge-python-js-lisp-interop#L519|Polyglot S-expr Bridge: Python-JS-Lisp Interop — L519]] (line 519, col 3, score 1)
-- [[polymorphic-meta-programming-engine#L196|polymorphic-meta-programming-engine — L196]] (line 196, col 1, score 1)
-- [[polymorphic-meta-programming-engine#L196|polymorphic-meta-programming-engine — L196]] (line 196, col 3, score 1)
-- [[unique-info-dump-index#L147|Unique Info Dump Index — L147]] (line 147, col 1, score 0.98)
-- [[unique-info-dump-index#L147|Unique Info Dump Index — L147]] (line 147, col 3, score 0.98)
-- [[unique-info-dump-index#L148|Unique Info Dump Index — L148]] (line 148, col 1, score 0.98)
-- [[unique-info-dump-index#L148|Unique Info Dump Index — L148]] (line 148, col 3, score 0.98)
-- [[state-snapshots-api-and-transactional-projector#L347|State Snapshots API and Transactional Projector — L347]] (line 347, col 1, score 0.98)
-- [[state-snapshots-api-and-transactional-projector#L347|State Snapshots API and Transactional Projector — L347]] (line 347, col 3, score 0.98)
-- [Tooling — L13](chunks/tooling.md#L13) (line 13, col 1, score 0.98)
-- [Tooling — L13](chunks/tooling.md#L13) (line 13, col 3, score 0.98)
-- [Tooling — L14](chunks/tooling.md#L14) (line 14, col 1, score 0.98)
-- [Tooling — L14](chunks/tooling.md#L14) (line 14, col 3, score 0.98)
-- [[ecs-scheduler-and-prefabs#L403|ecs-scheduler-and-prefabs — L403]] (line 403, col 1, score 0.98)
-- [[ecs-scheduler-and-prefabs#L403|ecs-scheduler-and-prefabs — L403]] (line 403, col 3, score 0.98)
-- [[state-snapshots-api-and-transactional-projector#L348|State Snapshots API and Transactional Projector — L348]] (line 348, col 1, score 0.99)
-- [[state-snapshots-api-and-transactional-projector#L348|State Snapshots API and Transactional Projector — L348]] (line 348, col 3, score 0.99)
-- [[ecs-scheduler-and-prefabs#L404|ecs-scheduler-and-prefabs — L404]] (line 404, col 1, score 0.98)
-- [[ecs-scheduler-and-prefabs#L404|ecs-scheduler-and-prefabs — L404]] (line 404, col 3, score 0.98)
-- [[infinite-depth-smoke-animation#L96|infinite_depth_smoke_animation — L96]] (line 96, col 1, score 0.98)
-- [[infinite-depth-smoke-animation#L96|infinite_depth_smoke_animation — L96]] (line 96, col 3, score 0.98)
-- [[sibilant-metacompiler-overview#L100|sibilant-metacompiler-overview — L100]] (line 100, col 1, score 0.98)
-- [[sibilant-metacompiler-overview#L100|sibilant-metacompiler-overview — L100]] (line 100, col 3, score 0.98)
+- [Tooling — L3]$chunks/tooling.md#L3$ (line 3, col 1, score 0.88)
+- [Tooling — L3]$chunks/tooling.md#L3$ (line 3, col 3, score 0.88)
+- $[unique-info-dump-index#L35|Unique Info Dump Index — L35]$ (line 35, col 1, score 0.88)
+- $[unique-info-dump-index#L35|Unique Info Dump Index — L35]$ (line 35, col 3, score 0.88)
+- $[pm2-orchestration-patterns#L246|pm2-orchestration-patterns — L246]$ (line 246, col 1, score 1)
+- $[pm2-orchestration-patterns#L246|pm2-orchestration-patterns — L246]$ (line 246, col 3, score 1)
+- $[unique-info-dump-index#L66|Unique Info Dump Index — L66]$ (line 66, col 1, score 1)
+- $[unique-info-dump-index#L66|Unique Info Dump Index — L66]$ (line 66, col 3, score 1)
+- $[unique-info-dump-index#L150|Unique Info Dump Index — L150]$ (line 150, col 1, score 0.9)
+- $[unique-info-dump-index#L150|Unique Info Dump Index — L150]$ (line 150, col 3, score 0.9)
+- $[unique-info-dump-index#L151|Unique Info Dump Index — L151]$ (line 151, col 1, score 0.9)
+- $[unique-info-dump-index#L151|Unique Info Dump Index — L151]$ (line 151, col 3, score 0.9)
+- $[docs/unique/aionian-circuit-math#L158|aionian-circuit-math — L158]$ (line 158, col 1, score 1)
+- $[docs/unique/aionian-circuit-math#L158|aionian-circuit-math — L158]$ (line 158, col 3, score 1)
+- $[docs/unique/archetype-ecs#L457|archetype-ecs — L457]$ (line 457, col 1, score 1)
+- $[docs/unique/archetype-ecs#L457|archetype-ecs — L457]$ (line 457, col 3, score 1)
+- [Diagrams — L9]$chunks/diagrams.md#L9$ (line 9, col 1, score 1)
+- [Diagrams — L9]$chunks/diagrams.md#L9$ (line 9, col 3, score 1)
+- [DSL — L10]$chunks/dsl.md#L10$ (line 10, col 1, score 1)
+- [DSL — L10]$chunks/dsl.md#L10$ (line 10, col 3, score 1)
+- $[cross-language-runtime-polymorphism#L207|Cross-Language Runtime Polymorphism — L207]$ (line 207, col 1, score 1)
+- $[cross-language-runtime-polymorphism#L207|Cross-Language Runtime Polymorphism — L207]$ (line 207, col 3, score 1)
+- $Local-First Intention→Code Loop with Free Models — L146$$local-first-intention-code-loop-with-free-models.md#L146$ (line 146, col 1, score 1)
+- $Local-First Intention→Code Loop with Free Models — L146$$local-first-intention-code-loop-with-free-models.md#L146$ (line 146, col 3, score 1)
+- $[polyglot-s-expr-bridge-python-js-lisp-interop#L519|Polyglot S-expr Bridge: Python-JS-Lisp Interop — L519]$ (line 519, col 1, score 1)
+- $[polyglot-s-expr-bridge-python-js-lisp-interop#L519|Polyglot S-expr Bridge: Python-JS-Lisp Interop — L519]$ (line 519, col 3, score 1)
+- $[polymorphic-meta-programming-engine#L196|polymorphic-meta-programming-engine — L196]$ (line 196, col 1, score 1)
+- $[polymorphic-meta-programming-engine#L196|polymorphic-meta-programming-engine — L196]$ (line 196, col 3, score 1)
+- $[unique-info-dump-index#L147|Unique Info Dump Index — L147]$ (line 147, col 1, score 0.98)
+- $[unique-info-dump-index#L147|Unique Info Dump Index — L147]$ (line 147, col 3, score 0.98)
+- $[unique-info-dump-index#L148|Unique Info Dump Index — L148]$ (line 148, col 1, score 0.98)
+- $[unique-info-dump-index#L148|Unique Info Dump Index — L148]$ (line 148, col 3, score 0.98)
+- $[state-snapshots-api-and-transactional-projector#L347|State Snapshots API and Transactional Projector — L347]$ (line 347, col 1, score 0.98)
+- $[state-snapshots-api-and-transactional-projector#L347|State Snapshots API and Transactional Projector — L347]$ (line 347, col 3, score 0.98)
+- [Tooling — L13]$chunks/tooling.md#L13$ (line 13, col 1, score 0.98)
+- [Tooling — L13]$chunks/tooling.md#L13$ (line 13, col 3, score 0.98)
+- [Tooling — L14]$chunks/tooling.md#L14$ (line 14, col 1, score 0.98)
+- [Tooling — L14]$chunks/tooling.md#L14$ (line 14, col 3, score 0.98)
+- $[ecs-scheduler-and-prefabs#L403|ecs-scheduler-and-prefabs — L403]$ (line 403, col 1, score 0.98)
+- $[ecs-scheduler-and-prefabs#L403|ecs-scheduler-and-prefabs — L403]$ (line 403, col 3, score 0.98)
+- $[state-snapshots-api-and-transactional-projector#L348|State Snapshots API and Transactional Projector — L348]$ (line 348, col 1, score 0.99)
+- $[state-snapshots-api-and-transactional-projector#L348|State Snapshots API and Transactional Projector — L348]$ (line 348, col 3, score 0.99)
+- $[ecs-scheduler-and-prefabs#L404|ecs-scheduler-and-prefabs — L404]$ (line 404, col 1, score 0.98)
+- $[ecs-scheduler-and-prefabs#L404|ecs-scheduler-and-prefabs — L404]$ (line 404, col 3, score 0.98)
+- $[infinite-depth-smoke-animation#L96|infinite_depth_smoke_animation — L96]$ (line 96, col 1, score 0.98)
+- $[infinite-depth-smoke-animation#L96|infinite_depth_smoke_animation — L96]$ (line 96, col 3, score 0.98)
+- $[sibilant-metacompiler-overview#L100|sibilant-metacompiler-overview — L100]$ (line 100, col 1, score 0.98)
+- $[sibilant-metacompiler-overview#L100|sibilant-metacompiler-overview — L100]$ (line 100, col 3, score 0.98)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

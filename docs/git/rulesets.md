@@ -9,7 +9,9 @@ This doc enumerates the **active GitHub Repository Rulesets** and maps them onto
 ## Summary table
 
 | Ruleset | Applies to | PR required | Required checks | Other rules |
+$$
 |---|---|---|---|---|
+$$
 | **release** | `~DEFAULT_BRANCH` (current default) | Yes | `build`, `test`, `lint` (strict) | Protects deletion, non-fast-forward; requires review threads resolved; merge-only |
 | **dev** | `refs/heads/dev/*` | Yes | `build` (not strict on create) | Protects deletion, non-fast-forward; CodeQL; Copilot review enabled |
 | **dev/staging** | `refs/heads/dev/staging` | Yes | `test`, `build` (strict) | Protects deletion, non-fast-forward; CodeQL |
@@ -28,19 +30,19 @@ This doc enumerates the **active GitHub Repository Rulesets** and maps them onto
 - Review threads: **must be resolved**.
 - Merge methods: **merge** only.
 - Protected ops: no deletion; no non-fast-forward.
-- Security: CodeQL scanning (alerts ≥ high; errors block).
+- Security: CodeQL scanning $alerts ≥ high; errors block$.
 - Copilot code review: enabled on push.
 
 ### `dev` (id: 8095976)
 **Scope:** `refs/heads/dev/*` (all dev workspaces).
 
 - PR gate: required.
-- Required status checks: **build** (non-strict on branch creation).
+- Required status checks: **build** $non-strict on branch creation$.
 - Review threads: not required to resolve.
 - Merge methods: merge, squash, rebase allowed.
 - Protected ops: no deletion; no non-fast-forward.
 - Security: CodeQL scanning.
-- Copilot code review: **enabled** (auto-review on push).
+- Copilot code review: **enabled** $auto-review on push$.
 - Bypass actors: repo role id=5 (admin) may bypass (always).
 
 ### `dev/staging` (id: 8280259)
@@ -53,8 +55,9 @@ This doc enumerates the **active GitHub Repository Rulesets** and maps them onto
 - Security: CodeQL scanning.
 
 ### `Main branch guard (minimum)` (id: 8595943)
+$$
 **Scope:** `refs/heads/main`.
-
+$$
 - PR gate: required.
 - Required status checks (strict): **Docs Guard**.
 - Merge methods: merge, squash, rebase allowed.
@@ -73,7 +76,9 @@ This doc enumerates the **active GitHub Repository Rulesets** and maps them onto
 Use this with the flow in **docs/git/branching.md**. The table below lists common transitions and the rulesets that will participate.
 
 | Transition | Rulesets that apply | Practical effect |
+$$
 |---|---|---|
+$$
 | `feature/* → dev/testing` | **dev** (wildcard) | PR required; **build** must pass; CodeQL runs; deletion/FF blocked. |
 | `dev/testing → dev/staging` | **dev/staging** | PR required; **build** + **test** must pass (strict); CodeQL runs. |
 | `dev/staging → main` | **release** (if default branch is `main`) **and** **Main branch guard** | All of: PR required; **build/test/lint** must pass; review threads resolved; plus **Docs Guard** must pass. |
@@ -91,4 +96,4 @@ Use this with the flow in **docs/git/branching.md**. The table below lists commo
 
 ---
 
-**See also:** [Branching Strategy](./branching.md).
+**See also:** [Branching Strategy]$./branching.md$.

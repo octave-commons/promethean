@@ -1,10 +1,14 @@
 ---
+$$
 uuid: 35c0a7d2-a172-4cfd-8521-b3faee0417ca
+$$
 title: clearly seperate service dependency files md
 status: todo
 priority: P3
 labels: []
+$$
 created_at: '2025-09-15T02:02:58.509Z'
+$$
 ---
 Q## 🛠️ Task: Clearly seperate service dependency files
 
@@ -63,7 +67,7 @@ Nothing
 
 ## 🔍 Relevant Links
 - [[kanban]]
-- [file-structure](../file-structure.md)
-- [MIGRATION_PLAN](../MIGRATION_PLAN.md)
+- $file-structure$$../file-structure.md$
+- $MIGRATION_PLAN$$../MIGRATION_PLAN.md$
 #done
 

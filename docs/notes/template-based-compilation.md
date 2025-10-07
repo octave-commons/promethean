@@ -1,9 +1,19 @@
 ---
+$$
 uuid: 6a6b5434-7846-4f27-891b-d15aa59b9b1b
+$$
+$$
 created_at: template-based-compilation.md
+$$
+$$
 filename: template-based-compilation
+$$
+$$
 title: template-based-compilation
+$$
+$$
 description: >-
+$$
   Sibilant's template-based compilation allows writing macros that directly
   generate code as strings, bypassing traditional AST interpretation. This
   approach enables custom code generation without host language constraints,
@@ -23,7 +33,9 @@ tags:
   - syntax-extension
   - transpiler
   - domain-specific-languages
+$$
 related_to_uuid:
+$$
   - 5020e892-8f18-443a-b707-6d0f3efcfe22
   - f9e200b4-742d-4786-ae2c-017996d53caf
   - 18344cf9-0c49-4a71-b6c8-b8d84d660fca
@@ -49,7 +61,9 @@ related_to_uuid:
   - fc21f824-4244-4030-a48e-c4170160ea1d
   - 5e8b2388-022b-46cf-952c-36ae9b8f0037
   - 13951643-1741-46bb-89dc-1beebb122633
+$$
 related_to_title:
+$$
   - Chroma Toolkit Consolidation Plan
   - level-cache
   - Promethean Chat Activity Report
@@ -344,9 +358,9 @@ But in Sibilant, macros return: ^ref-f8877e5e-15-0
 * Raw strings ^ref-f8877e5e-17-0
 * Lists of strings ^ref-f8877e5e-18-0
 * Nested arrays that **flatten into formatted code** ^ref-f8877e5e-19-0
-
+$$
 Which means: ^ref-f8877e5e-21-0
-
+$$
 * You don’t need to wait for someone to add a feature to the host language
 * You don’t even need to *target* the host language
 * You can use macros as **code weaving machines** ^ref-f8877e5e-25-0
@@ -356,160 +370,192 @@ You’re not *interpreting Lisp* — you’re using Lisp to **write other langua
 ---
 
 ## 🧰 Example Expansion
-
+$$
 Your macro: ^ref-f8877e5e-33-0
-
+$$
 ```sibilant
 (def-async do-thing (x y)
   (var result (await (call-api x y)))
   (print result))
 ```
+$$
 ^ref-f8877e5e-35-0 ^ref-f8877e5e-40-0
+$$
+$$
  ^ref-f8877e5e-41-0
+$$
 Expands to:
+$$
  ^ref-f8877e5e-43-0
+$$
 ```js
 async function doThing(x, y) {
   var result = await callApi(x, y);
   console.log(result);
 }
 ^ref-f8877e5e-43-0
-``` ^ref-f8877e5e-50-0
+```$$
+ ^ref-f8877e5e-50-0
+$$
+$$
 ^ref-f8877e5e-44-0
-
+$$
 Clean, readable, maintainable — and **it was all Lisp** at authoring time.
 
 ---
+$$
  ^ref-f8877e5e-56-0
+$$
 ## 🔧 Sibilant Meta-Compilation Stack ^ref-f8877e5e-56-0
+$$
  ^ref-f8877e5e-58-0
+$$
+$$
 You could build: ^ref-f8877e5e-58-0
+$$
+$$
  ^ref-f8877e5e-59-0 ^ref-f8877e5e-60-0
+$$
 1. **Language targets** (JS, TS, Py, Cython, etc.) ^ref-f8877e5e-60-0
+$$
 2. A **macro prelude** per language
+$$
 3. A **compiler pass** that loads all macros, sets output mode, and generates code
 
 ---
+$$
  ^ref-f8877e5e-66-0
+$$
 ## 🧬 New Meta-Features You Could Add ^ref-f8877e5e-66-0
 
 | Feature             | Macro Shape Example                       |
+$$
 | ------------------- | ----------------------------------------- |
+$$
 | Target annotation   | `(target js)` / `(target py)`             |
-| Namespaced imports  | `(import lodash :as _)`                   |
-| Pattern matching    | `(match val (case 1 ...))`                |
-| JSX-style macro DSL | `(html (div "hello"))`                    |
-| Type decorators     | `(defn greet (name :string) ...)`         |
+| Namespaced imports  | `$import lodash :as _$`                   |
+| Pattern matching    | `$match val (case 1 ...)$`                |
+| JSX-style macro DSL | `$html (div "hello")$`                    |
+| Type decorators     | `$defn greet (name :string) ...$`         |
 | Inline docgen       | `(doc "adds two numbers") (defn add ...)` |
 
 ---
+$$
  ^ref-f8877e5e-79-0
+$$
 ## 🚀 Want to Take This Further? ^ref-f8877e5e-79-0
 
 We could scaffold:
+$$
  ^ref-f8877e5e-82-0 ^ref-f8877e5e-83-0
+$$
 * A **dual-target DSL** in Sibilant → `js/` and `py/` outputs ^ref-f8877e5e-83-0 ^ref-f8877e5e-84-0
 * A **macro system** that compiles window layout commands (e.g., your i3 DSL) ^ref-f8877e5e-84-0
 * A **Sibilant loader** that reads macros and emits multi-language bindings
 * A **Lisp shell** that lets you live-edit and run Sibilant macros on the fly
 
 ---
+$$
  ^ref-f8877e5e-90-0
+$$
 ## 🏷️ Tags ^ref-f8877e5e-90-0
 
 \#sibilant #dsl #metaprogramming #codegen #stringtemplating #macros #lisp #transpiler #asyncawait #syntaxextension
+$$
  ^ref-f8877e5e-94-0
+$$
+$$
 --- ^ref-f8877e5e-94-0
-
+$$
 Let’s do something wild. Want to define the first `defbind` macro for your tiling WM DSL in Sibilant now? Or build a `target` system so the same macro can compile to Python or JS?
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [Chroma Toolkit Consolidation Plan](chroma-toolkit-consolidation-plan.md)
-- [level-cache](2025.09.02.16.34.55.md)
-- [Promethean Chat Activity Report](promethean-chat-activity-report.md)
-- [eidolon-field-math-foundations](eidolon-field-math-foundations.md)
-- [The Jar of Echoes](the-jar-of-echoes.md)
-- [Canonical Org-Babel Matplotlib Animation Template](canonical-org-babel-matplotlib-animation-template.md)
-- [windows-tiling-with-autohotkey](windows-tiling-with-autohotkey.md)
-- [Promethean Dev Workflow Update](promethean-dev-workflow-update.md)
-- [Dynamic Context Model for Web Components](dynamic-context-model-for-web-components.md)
-- [graph-ds](graph-ds.md)
-- [Factorio AI with External Agents](factorio-ai-with-external-agents.md)
-- [Functional Refactor of TypeScript Document Processing](functional-refactor-of-typescript-document-processing.md)
-- [eidolon-node-lifecycle](eidolon-node-lifecycle.md)
-- [field-dynamics-math-blocks](field-dynamics-math-blocks.md)
-- [field-interaction-equations](field-interaction-equations.md)
-- [field-node-diagram-outline](field-node-diagram-outline.md)
-- [field-node-diagram-set](field-node-diagram-set.md)
-- [field-node-diagram-visualizations](field-node-diagram-visualizations.md)
-- [aionian-circuit-math](aionian-circuit-math.md)
-- [prom ui bootstrap](promethean-web-ui-setup.md)
-- [ecs-offload-workers](ecs-offload-workers.md)
-- [Recursive Prompt Construction Engine](recursive-prompt-construction-engine.md)
-- [Fnord Tracer Protocol](fnord-tracer-protocol.md)
-- [Eidolon Field Abstract Model](eidolon-field-abstract-model.md)
-- [Duck's Attractor States](ducks-attractor-states.md)
+- [Chroma Toolkit Consolidation Plan]$chroma-toolkit-consolidation-plan.md$
+- $level-cache$(2025.09.02.16.34.55.md)
+- [Promethean Chat Activity Report]$promethean-chat-activity-report.md$
+- $eidolon-field-math-foundations$$eidolon-field-math-foundations.md$
+- [The Jar of Echoes]$the-jar-of-echoes.md$
+- $Canonical Org-Babel Matplotlib Animation Template$$canonical-org-babel-matplotlib-animation-template.md$
+- $windows-tiling-with-autohotkey$$windows-tiling-with-autohotkey.md$
+- [Promethean Dev Workflow Update]$promethean-dev-workflow-update.md$
+- [Dynamic Context Model for Web Components]$dynamic-context-model-for-web-components.md$
+- $graph-ds$$graph-ds.md$
+- [Factorio AI with External Agents]$factorio-ai-with-external-agents.md$
+- [Functional Refactor of TypeScript Document Processing]$functional-refactor-of-typescript-document-processing.md$
+- $eidolon-node-lifecycle$$eidolon-node-lifecycle.md$
+- $field-dynamics-math-blocks$$field-dynamics-math-blocks.md$
+- $field-interaction-equations$$field-interaction-equations.md$
+- $field-node-diagram-outline$$field-node-diagram-outline.md$
+- $field-node-diagram-set$$field-node-diagram-set.md$
+- $field-node-diagram-visualizations$$field-node-diagram-visualizations.md$
+- $aionian-circuit-math$$aionian-circuit-math.md$
+- [prom ui bootstrap]$promethean-web-ui-setup.md$
+- $ecs-offload-workers$$ecs-offload-workers.md$
+- [Recursive Prompt Construction Engine]$recursive-prompt-construction-engine.md$
+- [Fnord Tracer Protocol]$fnord-tracer-protocol.md$
+- [Eidolon Field Abstract Model]$eidolon-field-abstract-model.md$
+- [Duck's Attractor States]$ducks-attractor-states.md$
 ## Sources
-- [level-cache — L1](2025.09.02.16.34.55.md#^ref-f9e200b4-1-0) (line 1, col 0, score 1)
-- [Promethean Chat Activity Report — L1157](promethean-chat-activity-report.md#^ref-18344cf9-1157-0) (line 1157, col 0, score 0.96)
-- [eidolon-field-math-foundations — L3097](eidolon-field-math-foundations.md#^ref-008f2ac0-3097-0) (line 3097, col 0, score 0.94)
-- [The Jar of Echoes — L2827](the-jar-of-echoes.md#^ref-18138627-2827-0) (line 2827, col 0, score 0.94)
-- [Canonical Org-Babel Matplotlib Animation Template — L2418](canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-2418-0) (line 2418, col 0, score 0.93)
-- [windows-tiling-with-autohotkey — L2761](windows-tiling-with-autohotkey.md#^ref-0f6f8f38-2761-0) (line 2761, col 0, score 0.93)
-- [Promethean Dev Workflow Update — L1359](promethean-dev-workflow-update.md#^ref-03a5578f-1359-0) (line 1359, col 0, score 0.93)
-- [The Jar of Echoes — L1643](the-jar-of-echoes.md#^ref-18138627-1643-0) (line 1643, col 0, score 0.93)
-- [windows-tiling-with-autohotkey — L1574](windows-tiling-with-autohotkey.md#^ref-0f6f8f38-1574-0) (line 1574, col 0, score 0.93)
-- [Dynamic Context Model for Web Components — L471](dynamic-context-model-for-web-components.md#^ref-f7702bf8-471-0) (line 471, col 0, score 0.93)
-- [eidolon-field-math-foundations — L235](eidolon-field-math-foundations.md#^ref-008f2ac0-235-0) (line 235, col 0, score 0.93)
-- [eidolon-node-lifecycle — L117](eidolon-node-lifecycle.md#^ref-938eca9c-117-0) (line 117, col 0, score 0.93)
-- [Factorio AI with External Agents — L260](factorio-ai-with-external-agents.md#^ref-a4d90289-260-0) (line 260, col 0, score 0.93)
-- [field-dynamics-math-blocks — L234](field-dynamics-math-blocks.md#^ref-7cfc230d-234-0) (line 234, col 0, score 0.93)
-- [field-interaction-equations — L245](field-interaction-equations.md#^ref-b09141b7-245-0) (line 245, col 0, score 0.93)
-- [field-node-diagram-outline — L208](field-node-diagram-outline.md#^ref-1f32c94a-208-0) (line 208, col 0, score 0.93)
-- [field-node-diagram-set — L235](field-node-diagram-set.md#^ref-22b989d5-235-0) (line 235, col 0, score 0.93)
-- [field-node-diagram-visualizations — L180](field-node-diagram-visualizations.md#^ref-e9b27b06-180-0) (line 180, col 0, score 0.93)
-- [Functional Refactor of TypeScript Document Processing — L225](functional-refactor-of-typescript-document-processing.md#^ref-1cfae310-225-0) (line 225, col 0, score 0.93)
-- [graph-ds — L478](graph-ds.md#^ref-6620e2f2-478-0) (line 478, col 0, score 0.93)
-- [aionian-circuit-math — L128](aionian-circuit-math.md#^ref-f2d83a77-128-0) (line 128, col 0, score 0.92)
-- [prom ui bootstrap — L440](promethean-web-ui-setup.md#^ref-bc5172ca-440-0) (line 440, col 0, score 0.89)
-- [Recursive Prompt Construction Engine — L147](recursive-prompt-construction-engine.md#^ref-babdb9eb-147-0) (line 147, col 0, score 0.89)
-- [ecs-offload-workers — L427](ecs-offload-workers.md#^ref-6498b9d7-427-0) (line 427, col 0, score 0.89)
-- [EidolonField — L207](eidolonfield.md#^ref-49d1e1e5-207-0) (line 207, col 0, score 0.88)
-- [Duck's Attractor States — L184](ducks-attractor-states.md#^ref-13951643-184-0) (line 184, col 0, score 0.88)
-- [Dynamic Context Model for Web Components — L443](dynamic-context-model-for-web-components.md#^ref-f7702bf8-443-0) (line 443, col 0, score 0.88)
-- [Eidolon Field Abstract Model — L271](eidolon-field-abstract-model.md#^ref-5e8b2388-271-0) (line 271, col 0, score 0.88)
-- [Factorio AI with External Agents — L165](factorio-ai-with-external-agents.md#^ref-a4d90289-165-0) (line 165, col 0, score 0.88)
-- [field-dynamics-math-blocks — L231](field-dynamics-math-blocks.md#^ref-7cfc230d-231-0) (line 231, col 0, score 0.88)
-- [field-interaction-equations — L243](field-interaction-equations.md#^ref-b09141b7-243-0) (line 243, col 0, score 0.88)
-- [field-node-diagram-outline — L199](field-node-diagram-outline.md#^ref-1f32c94a-199-0) (line 199, col 0, score 0.88)
-- [field-node-diagram-set — L225](field-node-diagram-set.md#^ref-22b989d5-225-0) (line 225, col 0, score 0.88)
-- [Fnord Tracer Protocol — L325](fnord-tracer-protocol.md#^ref-fc21f824-325-0) (line 325, col 0, score 0.88)
-- [graph-ds — L465](graph-ds.md#^ref-6620e2f2-465-0) (line 465, col 0, score 0.88)
-- [homeostasis-decay-formulas — L242](homeostasis-decay-formulas.md#^ref-37b5d236-242-0) (line 242, col 0, score 0.88)
-- [Ice Box Reorganization — L142](ice-box-reorganization.md#^ref-291c7d91-142-0) (line 142, col 0, score 0.88)
-- [State Snapshots API and Transactional Projector — L303](state-snapshots-api-and-transactional-projector.md#^ref-509e1cd5-303-0) (line 303, col 0, score 0.87)
-- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L491](polyglot-s-expr-bridge-python-js-lisp-interop.md#^ref-63a1cc28-491-0) (line 491, col 0, score 0.87)
-- [System Scheduler with Resource-Aware DAG — L358](system-scheduler-with-resource-aware-dag.md#^ref-ba244286-358-0) (line 358, col 0, score 0.87)
-- [RAG UI Panel with Qdrant and PostgREST — L349](rag-ui-panel-with-qdrant-and-postgrest.md#^ref-e1056831-349-0) (line 349, col 0, score 0.87)
-- [WebSocket Gateway Implementation — L630](websocket-gateway-implementation.md#^ref-e811123d-630-0) (line 630, col 0, score 0.87)
-- [Event Bus MVP — L524](event-bus-mvp.md#^ref-534fe91d-524-0) (line 524, col 0, score 0.87)
-- [Unique Info Dump Index — L1810](unique-info-dump-index.md#^ref-30ec3ba6-1810-0) (line 1810, col 0, score 0.87)
-- [Chroma Toolkit Consolidation Plan — L4929](chroma-toolkit-consolidation-plan.md#^ref-5020e892-4929-0) (line 4929, col 0, score 0.87)
-- [Dynamic Context Model for Web Components — L10088](dynamic-context-model-for-web-components.md#^ref-f7702bf8-10088-0) (line 10088, col 0, score 0.87)
-- [Eidolon Field Abstract Model — L5613](eidolon-field-abstract-model.md#^ref-5e8b2388-5613-0) (line 5613, col 0, score 0.87)
-- [set-assignment-in-lisp-ast — L148](set-assignment-in-lisp-ast.md#^ref-c5fba0a0-148-0) (line 148, col 0, score 0.86)
-- [observability-infrastructure-setup — L348](observability-infrastructure-setup.md#^ref-b4e64f8c-348-0) (line 348, col 0, score 0.86)
-- [Sibilant Meta-Prompt DSL — L120](sibilant-meta-prompt-dsl.md#^ref-af5d2824-120-0) (line 120, col 0, score 0.86)
-- [markdown-to-org-transpiler — L272](markdown-to-org-transpiler.md#^ref-ab54cdd8-272-0) (line 272, col 0, score 0.86)
-- [universal-intention-code-fabric — L388](universal-intention-code-fabric.md#^ref-c14edce7-388-0) (line 388, col 0, score 0.86)
-- [WebSocket Gateway Implementation — L631](websocket-gateway-implementation.md#^ref-e811123d-631-0) (line 631, col 0, score 0.86)
-- [compiler-kit-foundations — L588](compiler-kit-foundations.md#^ref-01b21543-588-0) (line 588, col 0, score 0.86)
-- [Promethean Agent Config DSL — L279](promethean-agent-config-dsl.md#^ref-2c00ce45-279-0) (line 279, col 0, score 0.86)
-- [promethean-system-diagrams — L169](promethean-system-diagrams.md#^ref-b51e19b4-169-0) (line 169, col 0, score 0.86)
-- [Lispy Macros with syntax-rules — L375](lispy-macros-with-syntax-rules.md#^ref-cbfe3513-375-0) (line 375, col 0, score 0.86)
-- [Promethean-native config design — L35](promethean-native-config-design.md#^ref-ab748541-35-0) (line 35, col 0, score 0.85)
-- [Eidolon Field Abstract Model — L159](eidolon-field-abstract-model.md#^ref-5e8b2388-159-0) (line 159, col 0, score 0.85)
-- [Eidolon Field Abstract Model — L144](eidolon-field-abstract-model.md#^ref-5e8b2388-144-0) (line 144, col 0, score 0.85)
-- [Promethean-native config design — L33](promethean-native-config-design.md#^ref-ab748541-33-0) (line 33, col 0, score 0.85)
-- [Local-Offline-Model-Deployment-Strategy — L232](local-offline-model-deployment-strategy.md#^ref-ad7f1ed3-232-0) (line 232, col 0, score 0.85)
+- $level-cache — L1$$2025.09.02.16.34.55.md#^ref-f9e200b4-1-0$ (line 1, col 0, score 1)
+- [Promethean Chat Activity Report — L1157]$promethean-chat-activity-report.md#^ref-18344cf9-1157-0$ (line 1157, col 0, score 0.96)
+- $eidolon-field-math-foundations — L3097$$eidolon-field-math-foundations.md#^ref-008f2ac0-3097-0$ (line 3097, col 0, score 0.94)
+- [The Jar of Echoes — L2827]$the-jar-of-echoes.md#^ref-18138627-2827-0$ (line 2827, col 0, score 0.94)
+- $Canonical Org-Babel Matplotlib Animation Template — L2418$$canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-2418-0$ (line 2418, col 0, score 0.93)
+- $windows-tiling-with-autohotkey — L2761$$windows-tiling-with-autohotkey.md#^ref-0f6f8f38-2761-0$ (line 2761, col 0, score 0.93)
+- [Promethean Dev Workflow Update — L1359]$promethean-dev-workflow-update.md#^ref-03a5578f-1359-0$ (line 1359, col 0, score 0.93)
+- [The Jar of Echoes — L1643]$the-jar-of-echoes.md#^ref-18138627-1643-0$ (line 1643, col 0, score 0.93)
+- $windows-tiling-with-autohotkey — L1574$$windows-tiling-with-autohotkey.md#^ref-0f6f8f38-1574-0$ (line 1574, col 0, score 0.93)
+- [Dynamic Context Model for Web Components — L471]$dynamic-context-model-for-web-components.md#^ref-f7702bf8-471-0$ (line 471, col 0, score 0.93)
+- $eidolon-field-math-foundations — L235$$eidolon-field-math-foundations.md#^ref-008f2ac0-235-0$ (line 235, col 0, score 0.93)
+- $eidolon-node-lifecycle — L117$$eidolon-node-lifecycle.md#^ref-938eca9c-117-0$ (line 117, col 0, score 0.93)
+- [Factorio AI with External Agents — L260]$factorio-ai-with-external-agents.md#^ref-a4d90289-260-0$ (line 260, col 0, score 0.93)
+- $field-dynamics-math-blocks — L234$$field-dynamics-math-blocks.md#^ref-7cfc230d-234-0$ (line 234, col 0, score 0.93)
+- $field-interaction-equations — L245$$field-interaction-equations.md#^ref-b09141b7-245-0$ (line 245, col 0, score 0.93)
+- $field-node-diagram-outline — L208$$field-node-diagram-outline.md#^ref-1f32c94a-208-0$ (line 208, col 0, score 0.93)
+- $field-node-diagram-set — L235$$field-node-diagram-set.md#^ref-22b989d5-235-0$ (line 235, col 0, score 0.93)
+- $field-node-diagram-visualizations — L180$$field-node-diagram-visualizations.md#^ref-e9b27b06-180-0$ (line 180, col 0, score 0.93)
+- [Functional Refactor of TypeScript Document Processing — L225]$functional-refactor-of-typescript-document-processing.md#^ref-1cfae310-225-0$ (line 225, col 0, score 0.93)
+- $graph-ds — L478$$graph-ds.md#^ref-6620e2f2-478-0$ (line 478, col 0, score 0.93)
+- $aionian-circuit-math — L128$$aionian-circuit-math.md#^ref-f2d83a77-128-0$ (line 128, col 0, score 0.92)
+- [prom ui bootstrap — L440]$promethean-web-ui-setup.md#^ref-bc5172ca-440-0$ (line 440, col 0, score 0.89)
+- [Recursive Prompt Construction Engine — L147]$recursive-prompt-construction-engine.md#^ref-babdb9eb-147-0$ (line 147, col 0, score 0.89)
+- $ecs-offload-workers — L427$$ecs-offload-workers.md#^ref-6498b9d7-427-0$ (line 427, col 0, score 0.89)
+- [EidolonField — L207]$eidolonfield.md#^ref-49d1e1e5-207-0$ (line 207, col 0, score 0.88)
+- [Duck's Attractor States — L184]$ducks-attractor-states.md#^ref-13951643-184-0$ (line 184, col 0, score 0.88)
+- [Dynamic Context Model for Web Components — L443]$dynamic-context-model-for-web-components.md#^ref-f7702bf8-443-0$ (line 443, col 0, score 0.88)
+- [Eidolon Field Abstract Model — L271]$eidolon-field-abstract-model.md#^ref-5e8b2388-271-0$ (line 271, col 0, score 0.88)
+- [Factorio AI with External Agents — L165]$factorio-ai-with-external-agents.md#^ref-a4d90289-165-0$ (line 165, col 0, score 0.88)
+- $field-dynamics-math-blocks — L231$$field-dynamics-math-blocks.md#^ref-7cfc230d-231-0$ (line 231, col 0, score 0.88)
+- $field-interaction-equations — L243$$field-interaction-equations.md#^ref-b09141b7-243-0$ (line 243, col 0, score 0.88)
+- $field-node-diagram-outline — L199$$field-node-diagram-outline.md#^ref-1f32c94a-199-0$ (line 199, col 0, score 0.88)
+- $field-node-diagram-set — L225$$field-node-diagram-set.md#^ref-22b989d5-225-0$ (line 225, col 0, score 0.88)
+- [Fnord Tracer Protocol — L325]$fnord-tracer-protocol.md#^ref-fc21f824-325-0$ (line 325, col 0, score 0.88)
+- $graph-ds — L465$$graph-ds.md#^ref-6620e2f2-465-0$ (line 465, col 0, score 0.88)
+- $homeostasis-decay-formulas — L242$$homeostasis-decay-formulas.md#^ref-37b5d236-242-0$ (line 242, col 0, score 0.88)
+- [Ice Box Reorganization — L142]$ice-box-reorganization.md#^ref-291c7d91-142-0$ (line 142, col 0, score 0.88)
+- [State Snapshots API and Transactional Projector — L303]$state-snapshots-api-and-transactional-projector.md#^ref-509e1cd5-303-0$ (line 303, col 0, score 0.87)
+- $Polyglot S-expr Bridge: Python-JS-Lisp Interop — L491$$polyglot-s-expr-bridge-python-js-lisp-interop.md#^ref-63a1cc28-491-0$ (line 491, col 0, score 0.87)
+- $System Scheduler with Resource-Aware DAG — L358$$system-scheduler-with-resource-aware-dag.md#^ref-ba244286-358-0$ (line 358, col 0, score 0.87)
+- [RAG UI Panel with Qdrant and PostgREST — L349]$rag-ui-panel-with-qdrant-and-postgrest.md#^ref-e1056831-349-0$ (line 349, col 0, score 0.87)
+- [WebSocket Gateway Implementation — L630]$websocket-gateway-implementation.md#^ref-e811123d-630-0$ (line 630, col 0, score 0.87)
+- [Event Bus MVP — L524]$event-bus-mvp.md#^ref-534fe91d-524-0$ (line 524, col 0, score 0.87)
+- [Unique Info Dump Index — L1810]$unique-info-dump-index.md#^ref-30ec3ba6-1810-0$ (line 1810, col 0, score 0.87)
+- [Chroma Toolkit Consolidation Plan — L4929]$chroma-toolkit-consolidation-plan.md#^ref-5020e892-4929-0$ (line 4929, col 0, score 0.87)
+- [Dynamic Context Model for Web Components — L10088]$dynamic-context-model-for-web-components.md#^ref-f7702bf8-10088-0$ (line 10088, col 0, score 0.87)
+- [Eidolon Field Abstract Model — L5613]$eidolon-field-abstract-model.md#^ref-5e8b2388-5613-0$ (line 5613, col 0, score 0.87)
+- $set-assignment-in-lisp-ast — L148$$set-assignment-in-lisp-ast.md#^ref-c5fba0a0-148-0$ (line 148, col 0, score 0.86)
+- $observability-infrastructure-setup — L348$$observability-infrastructure-setup.md#^ref-b4e64f8c-348-0$ (line 348, col 0, score 0.86)
+- $Sibilant Meta-Prompt DSL — L120$$sibilant-meta-prompt-dsl.md#^ref-af5d2824-120-0$ (line 120, col 0, score 0.86)
+- $markdown-to-org-transpiler — L272$$markdown-to-org-transpiler.md#^ref-ab54cdd8-272-0$ (line 272, col 0, score 0.86)
+- $universal-intention-code-fabric — L388$$universal-intention-code-fabric.md#^ref-c14edce7-388-0$ (line 388, col 0, score 0.86)
+- [WebSocket Gateway Implementation — L631]$websocket-gateway-implementation.md#^ref-e811123d-631-0$ (line 631, col 0, score 0.86)
+- $compiler-kit-foundations — L588$$compiler-kit-foundations.md#^ref-01b21543-588-0$ (line 588, col 0, score 0.86)
+- [Promethean Agent Config DSL — L279]$promethean-agent-config-dsl.md#^ref-2c00ce45-279-0$ (line 279, col 0, score 0.86)
+- $promethean-system-diagrams — L169$$promethean-system-diagrams.md#^ref-b51e19b4-169-0$ (line 169, col 0, score 0.86)
+- $Lispy Macros with syntax-rules — L375$$lispy-macros-with-syntax-rules.md#^ref-cbfe3513-375-0$ (line 375, col 0, score 0.86)
+- $Promethean-native config design — L35$$promethean-native-config-design.md#^ref-ab748541-35-0$ (line 35, col 0, score 0.85)
+- [Eidolon Field Abstract Model — L159]$eidolon-field-abstract-model.md#^ref-5e8b2388-159-0$ (line 159, col 0, score 0.85)
+- [Eidolon Field Abstract Model — L144]$eidolon-field-abstract-model.md#^ref-5e8b2388-144-0$ (line 144, col 0, score 0.85)
+- $Promethean-native config design — L33$$promethean-native-config-design.md#^ref-ab748541-33-0$ (line 33, col 0, score 0.85)
+- $Local-Offline-Model-Deployment-Strategy — L232$$local-offline-model-deployment-strategy.md#^ref-ad7f1ed3-232-0$ (line 232, col 0, score 0.85)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

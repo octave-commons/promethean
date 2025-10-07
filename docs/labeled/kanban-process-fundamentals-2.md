@@ -1,9 +1,15 @@
 ---
+$$
 uuid: 37c04510-fd9d-45d7-a87a-2fd9fd6650d3
+$$
+$$
 created_at: '2025-09-19T21:39:45Z'
+$$
 title: 2025.09.19.21.39.45
 filename: Kanban Process Fundamentals
+$$
 description: >-
+$$
   This document explains the core principles of a Kanban process as a finite
   state machine with defined transitions and blocking conditions. It emphasizes
   how minor and major blocking conditions trigger interventions without
@@ -17,8 +23,12 @@ tags:
   - minor blocking
   - major blocking
   - intervention rules
+$$
 related_to_uuid: []
+$$
+$$
 related_to_title: []
+$$
 references: []
 ---
 I'm saying there isn't a ready to code gate at all. Because the it's all just process.

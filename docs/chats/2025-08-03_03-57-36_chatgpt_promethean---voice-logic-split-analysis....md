@@ -1,5 +1,7 @@
 # Promethean - Voice logic split analysis...
-Exported on 03/08/2025 at 03:57:36 [from ChatGPT](https://chatgpt.com/g/g-p-6883d8e9569c8191aad0cfd2a5bf3af3-promethean/c/688d3b77-b9b0-832b-855c-998a2055afd9) - with [SaveMyChatbot](https://save.hugocollin.com)
+Exported on 03/08/2025 at 03:57:36 [from ChatGPT](https://chatgpt.com/g/g-p-6883d8e9569c8191aad0cfd2a5bf3af3-promethean/c/688d3b77-b9b0-832b-855c-998a2055afd9$$
+) - with [SaveMyChatbot](
+$$https://save.hugocollin.com)
 
 ## User
 Ok..... so these bots did something I am not sure I like... but I want to think through this. I'm just mad cause they half finished it, and I think it was unnessisary. But if they just half finnished something useful...
@@ -40,9 +42,9 @@ Totally fair reaction. Let's walk through this together.
     
     *   Discord command/event logic (`cephalon`) from
         
-    *   Voice/audio processing (your TTS/STT pipeline)
+    *   Voice/audio processing $your TTS/STT pipeline$
         
-*   **Service modularity?** If your goal is a _microservice-style_ system (which I think it is), this might make sense longer-term.
+*   **Service modularity?** If your goal is $a_microservice$-style_ system (which I think it is), this might make sense longer-term.
     
 *   **Testability?** Voice handling might be easier to mock/test separately in unit tests.
     
@@ -88,7 +90,7 @@ Revert the commit and bring back the old logic. Wrap it in a `legacy/` directory
 
 #### 🔀 Option 2: Keep both for now
 
-Keep the new voice module but make the bot configurable (via CLI arg or env var) to choose which mode to run in:
+Keep the new voice module but make the bot configurable $via CLI arg or env var$ to choose which mode to run in:
 
 ```ts
 if (process.env.LEGACY_VOICE === 'true') {
@@ -207,9 +209,9 @@ When agents don't know how to fix a test properly, they start **editing `tsconfi
 * * *
 
 ### ✅ Fix: Lock Down `tsconfig` Behavior
-
+$$
 Let’s build a **guardrail** that:
-
+$$
 1.  **Freezes `tsconfig.json`** and related files unless they _explicitly_ know what they’re doing.
     
 2.  Provides **clear test interfaces** they can use without having to modify configs.

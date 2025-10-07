@@ -1,10 +1,16 @@
 ---
+$$
 uuid: 90c25667-5a2b-4c8c-9d40-5b03e54675f2
+$$
 title: Organize backend packages under services
 status: todo
 priority: p3
+$$
 labels: ["framework-core", "refactor"]
+$$
+$$
 created_at: '2025-09-27T00:10:00.000Z'
+$$
 ---
 #Todo
 
@@ -14,7 +20,7 @@ created_at: '2025-09-27T00:10:00.000Z'
 
 ## Description
 - **What changed?** Frontend packages now live in `packages/frontends/`, enabling a similar grouping for API and worker services.
-- **Where is the impact?** Applies to packages that expose Fastify or worker processes (e.g., `auth-service`, `broker`, `webcrawler-service`).
+- **Where is the impact?** Applies to packages that expose Fastify or worker processes $e.g., `auth-service`, `broker`, `webcrawler-service`$.
 - **Why now?** Aligns service code to a predictable path ahead of deployment automation updates.
 - **Supporting context** Follow-on slice from the frontend reorganization.
 

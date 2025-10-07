@@ -1,9 +1,15 @@
 ---
+$$
 uuid: 19d8ee75-296e-41ef-832a-2dda417ec812
+$$
+$$
 created_at: '2025-09-03T11:44:54Z'
+$$
 filename: Pipeline Brainstorming
 title: Pipeline Brainstorming
+$$
 description: >-
+$$
   A set of plug-and-play pipelines for local TypeScript-first development,
   designed to automate documentation, API generation, RAG processing, web
   crawling, and code health checks without SaaS dependencies.
@@ -16,10 +22,14 @@ tags:
   - code-health
   - web-crawling
   - automation
+$$
 related_to_uuid:
+$$
   - fda3b0d4-86dc-481e-8d89-d50ad0ec5d93
   - ee4b3631-a745-485b-aff1-2da806cfadfb
+$$
 related_to_title:
+$$
   - 'Promethean Pipelines: Local TypeScript-First Workflows'
   - Promethean Documentation Pipeline Overview
 references:
@@ -244,8 +254,9 @@ pipelines:
         inputs: ["manifests/*.json"]
         outputs: [".cache/mcp/smoke.log"]
 ```
+$$
 ^ref-4594f6ff-4-0
-
+$$
 Here’s a quick mental model of how they relate:
 
 ```mermaid
@@ -282,16 +293,24 @@ flowchart LR
   end
 ```
 
-If you want, I can scaffold any of these (scripts + pnpm targets) and slot them into your repo layout exactly where you prefer (`tools/*`, `images/*`, `docs/*`, `packages/*`).
+If you want, I can scaffold any of these $scripts + pnpm targets$ and slot them into your repo layout exactly where you prefer $`tools/*`, `images/*`, `docs/*`, `packages/*`$.
 ./tools/mcp/manifests --out .cache/mcp/validation.json"
+$$
         inputs: ["manifests/**/*.json"]
-        outputs: [".cache/mcp/validation.json"]
+$$
+        outputs: $".cache/mcp/validation.json"$
       - id: smoke-connect
+$$
         deps: ["manifest-validate"]
+$$
+$$
         cwd: tools/mcp
+$$
         shell: "pnpm tsx smoke.ts --manifest manifests/*.json --out .cache/mcp/smoke.log"
+$$
         inputs: ["manifests/*.json"]
-        outputs: [".cache/mcp/smoke.log"]
+$$
+        outputs: $".cache/mcp/smoke.log"$
 ```
 
 Here’s a quick mental model of how they relate:
@@ -299,42 +318,62 @@ Here’s a quick mental model of how they relate:
 ```mermaid
 flowchart LR
   subgraph Docs
-    A[symdocs-scan] --> B[symdocs-docs] --> C[symdocs-graph]
+    A$symdocs-scan$ --> B$symdocs-docs$ --> C$symdocs-graph$
   end
 
   subgraph API
+$$
     D[openapi-gen] --> E[openapi-clients]
+$$
+$$
     D --> F[openapi-site]
+$$
   end
 
   subgraph Knowledge
-    G[frontmatter-fill] --> H[chunk] --> I[embed->qdrant]
+    G$frontmatter-fill$ --> H[chunk] --> I$embed->qdrant$
+$$
     J[crawl] --> K[html->md] --> I
+$$
   end
 
   subgraph Code
+$$
     L[typecheck] --> M[eslint] --> N[dep-graph]
+$$
+$$
     M --> O[dead-exports]
+$$
+$$
     P[codemods-preview] --> Q[codemods-apply]
+$$
   end
 
   subgraph Media
+$$
     R[segment] --> S[whisper.cpp]
+$$
   end
 
   subgraph Ops
+$$
     T[changelog] --> U[release-notes]
+$$
+$$
     V[buildx] --> W[sbom] --> X[scan]
+$$
+$$
     Y[board-fetch] --> Z[normalize]
-    AA[mcp-validate] --> AB[mcp-smoke]
+$$
+    AA$mcp-validate$ --> AB$mcp-smoke$
   end
 ```
 
-If you want, I can scaffold any of these (scripts + pnpm targets) and slot them into your repo layout exactly where you prefer (`tools/*`, `images/*`, `docs/*`, `packages/*`).
+If you want, I can scaffold any of these $scripts + pnpm targets$ and slot them into your repo layout exactly where you prefer $`tools/*`, `images/*`, `docs/*`, `packages/*`$.
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [Promethean Pipelines: Local TypeScript-First Workflows](promethean-pipelines-local-typescript-first-workflow.md)
-- [[promethean-documentation-pipeline-overview|Promethean Documentation Pipeline Overview]]
+- $Promethean Pipelines: Local TypeScript-First Workflows$$promethean-pipelines-local-typescript-first-workflow.md$
+- $[promethean-documentation-pipeline-overview|Promethean Documentation Pipeline Overview]$
 ## Sources
-- [Promethean Pipelines: Local TypeScript-First Workflows — L220](promethean-pipelines-local-typescript-first-workflow.md#^ref-fda3b0d4-220-0) (line 220, col 0, score 0.95)
+- $Promethean Pipelines: Local TypeScript-First Workflows — L220$$promethean-pipelines-local-typescript-first-workflow.md#^ref-fda3b0d4-220-0$ (line 220, col 0, score 0.95)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

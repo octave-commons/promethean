@@ -7,7 +7,7 @@
 
 ## Steps
 1. Announce freeze window.
-2. Stop writers briefly; ensure CDC catches up (backlog = 0).
+2. Stop writers briefly; ensure CDC catches up $backlog = 0$.
 3. Final integrity report; verify counts/checksums.
 4. Flip readers to Chroma (or hybrid adapter); enable metrics.
 5. Resume writers; keep CDC for safety window.

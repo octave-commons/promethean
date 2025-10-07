@@ -1,7 +1,7 @@
 ---
-
+$$
 kanban-plugin: board
-
+$$
 ---
 
 ## todo

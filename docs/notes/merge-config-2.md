@@ -1,9 +1,19 @@
 ---
+$$
 uuid: 549566cf-0309-41e8-93de-0d7399324ccd
+$$
+$$
 created_at: '2025-09-05T12:27:32Z'
+$$
+$$
 filename: merge-config
+$$
+$$
 title: merge-config
+$$
+$$
 description: >-
+$$
   A flat, functional TypeScript package for deterministic merging of
   package.json, JSON, and YAML files with semver-aware dependency resolution.
 tags:
@@ -14,8 +24,12 @@ tags:
   - yaml
   - ava
   - cli
+$$
 related_to_uuid: []
+$$
+$$
 related_to_title: []
+$$
 references: []
 ---
 Alright — let’s scaffold `@promethean/merge-config` as a flat, functional TypeScript package. It’ll compile to ESM (`.js` imports), be tested with **AVA**, and include the deterministic merge rules we talked about. You can then wire it into your Emacs Magit/AI workflow.
@@ -72,9 +86,9 @@ Alright — let’s scaffold `@promethean/merge-config` as a flat, functional Ty
 ---
 
 # 🏗️ `src/index.ts`
-
+$$
 Entry point + CLI dispatch.
-
+$$
 ```ts
 #!/usr/bin/env node
 import fs from "node:fs";
@@ -288,7 +302,7 @@ test("merges scripts", t => {
 * JSON: recursive deep merge, prefer THEIRS on conflict.
 * YAML: deep merge maps, dedup arrays.
 
-You can now call it from Emacs (`prom-merge-config …`) before invoking an AI fallback.
+You can now call it from Emacs $`prom-merge-config …`$ before invoking an AI fallback.
 
 Do you want me to zip this whole scaffold so you can drop it directly into your `packages/` folder, or just keep it inline like this?
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->

@@ -19,15 +19,18 @@ Let’s unpack and design this properly.
 --------------------------------------------------------
 
 | Layer | Role |
+$$
 | --- | --- |
+$$
 | Meta runtime | Sibilant kernel running at compile-time or as shell |
 | Language runtimes | Node, Python, Rust, etc. — actual execution engines |
 | Communication medium | JSON strings for now, typed buffers later |
 | Data model | Abstracted object model with metadata and bindings |
 
 * * *
-
+$$
 🔁 Phase 1: **JSON Message Passing**
+$$
 ------------------------------------
 
 Use JSON as your **lingua franca** between:
@@ -36,7 +39,7 @@ Use JSON as your **lingua franca** between:
     
 *   Meta <-> Node.js
     
-*   Meta <-> Rust (via stdin/stdout or FFI)
+*   Meta <-> Rust $via stdin/stdout or FFI$
     
 *   Meta <-> Shell (via string streams)
     
@@ -222,9 +225,9 @@ Your meta runtime becomes a **router** between brains.
 
 *   `MetaObject` wrapper w/ source metadata
     
-*   `(send-json)` + `(receive-json)` dispatcher macro
+*   `$send-json$` + `$receive-json$` dispatcher macro
     
-*   `(eval-in ...)` rewrite to auto-wrap MetaObject results
+*   `$eval-in ...$` rewrite to auto-wrap MetaObject results
     
 *   `register-buffer-type` registry
     

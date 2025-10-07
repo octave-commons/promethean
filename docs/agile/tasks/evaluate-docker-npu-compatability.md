@@ -1,10 +1,14 @@
 ---
+$$
 uuid: f2a4af09-e073-4773-9322-3acff1778142
+$$
 title: Evaluate and integrate docker NPU image into workflows
 status: todo
 priority: P3
 labels: []
+$$
 created_at: '2025-09-15T02:02:58.513Z'
+$$
 ---
 # Evaluate and integrate docker NPU image into workflows
 

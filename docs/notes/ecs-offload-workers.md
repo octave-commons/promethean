@@ -1,8 +1,16 @@
 ---
+$$
 uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+$$
+$$
 created_at: 2025.08.08.21.08.31.md
+$$
+$$
 filename: ecs-offload-workers
+$$
+$$
 description: >-
+$$
   A portable worker pool for offloading ECS systems to parallelize processing
   while maintaining compatibility across Node.js and browsers.
 tags:
@@ -13,7 +21,9 @@ tags:
   - offload
   - patch
   - snapshot
+$$
 related_to_title:
+$$
   - ecs-scheduler-and-prefabs
   - System Scheduler with Resource-Aware DAG
   - markdown-to-org-transpiler
@@ -54,7 +64,9 @@ related_to_title:
   - Language-Agnostic Mirror System
   - typed-struct-compiler
   - smart-chatgpt-thingy
+$$
 related_to_uuid:
+$$
   - c62a1815-c43b-4a3b-88e6-d7fa008a155e
   - ba244286-4e84-425b-8bf6-b80c4eb783fc
   - ab54cdd8-13ce-4dcb-a9cd-da2d86e0305f
@@ -989,7 +1001,7 @@ export function applyPatches(world: import("./ecs").World, patches: Patch[]) {
 
 ---
 
-# 2) Portable worker pool (Node + browser + fallback)
+# 2) Portable worker pool $Node + browser + fallback$
 
 ```ts
 // shared/js/prom-lib/worker/pool.ts
@@ -1025,7 +1037,7 @@ export async function createPortablePool(opts: {
 }
 ```
 
-### 2a) Node pool (worker\_threads)
+### 2a) Node pool $worker\_threads$
 
 ```ts
 // shared/js/prom-lib/worker/pool.node.ts
@@ -1153,13 +1165,13 @@ export class LocalPool {
 ```
 
 > **Browser bundlers:** create worker factories like
-> `() => new Worker(new URL("./physics.worker.ts", import.meta.url), { type: "module" })`
+> `() => new Worker$new URL("./physics.worker.ts", import.meta.url), { type: "module" }$`
 
 ---
 
-# 3) Offloading systems (scheduler add-on)
+# 3) Offloading systems $scheduler add-on$
 
-We extend your scheduler so any system can declare an **offload** block. The world stays on the main thread; workers only receive **snapshots** (entity ids + component columns) and reply with **patches**.
+We extend your scheduler so any system can declare an **offload** block. The world stays on the main thread; workers only receive **snapshots** $entity ids + component columns$ and reply with **patches**.
 
 ```ts
 // shared/js/prom-lib/ds/ecs.scheduler.parallel.ts
@@ -1394,271 +1406,271 @@ requestAnimationFrame(frame);
 # 7) Notes & gotchas
 
 * Workers must be **pure**: no access to your `World`. They only see `{ eids, cols, dt, time, extra }` and return **patches**.
-* Keep payloads small. If you push large numeric arrays, consider **TypedArrays**; transfer them via `postMessage(…, [arr.buffer])` (add that in your worker if you need zero-copy).
-* Paths for `nodeModule`: give absolute **ESM** URLs (e.g., `file://…/physics.job.js`).
+* Keep payloads small. If you push large numeric arrays, consider **TypedArrays**; transfer them via `postMessage(…, [arr.buffer])` $add that in your worker if you need zero-copy$.
+* Paths for `nodeModule`: give absolute **ESM** URLs $e.g., `file://…/physics.job.js`$.
 * On static hosting with no workers allowed (old browsers, CSP), the pool auto-falls back to **in-process** execution.
 
 If you want, I can add:
 
-* a **typed snapshot builder** (auto columns from `reads/writes`),
-* **zero-copy** support via SharedArrayBuffer (Node + browser w/ proper COOP/COEP),
+* a **typed snapshot builder** $auto columns from `reads/writes`$,
+* **zero-copy** support via SharedArrayBuffer $Node + browser w/ proper COOP/COEP$,
 * a **timeline tracer** that measures per-system worker time and renders a Gantt chart.
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [[ecs-scheduler-and-prefabs]]
-- [System Scheduler with Resource-Aware DAG](system-scheduler-with-resource-aware-dag.md)
-- [[markdown-to-org-transpiler]]
-- [[ollama-llm-provider-for-pseudo-code-transpiler]]
-- [[promethean-infrastructure-setup|Promethean Infrastructure Setup]]
-- [[docs/unique/zero-copy-snapshots-and-workers|zero-copy-snapshots-and-workers]]
-- [[docs/unique/eidolon-field-math-foundations|eidolon-field-math-foundations]]
-- [[performance-optimized-polyglot-bridge]]
-- [[polyglot-s-expr-bridge-python-js-lisp-interop|Polyglot S-expr Bridge: Python-JS-Lisp Interop]]
-- [JavaScript](chunks/javascript.md)
-- [[unique-info-dump-index|Unique Info Dump Index]]
-- [[websocket-gateway-implementation|WebSocket Gateway Implementation]]
-- [[docs/unique/archetype-ecs|archetype-ecs]]
-- [[mongo-outbox-implementation|Mongo Outbox Implementation]]
-- [[lisp-compiler-integration]]
-- [[docs/unique/interop-and-source-maps|Interop and Source Maps]]
-- [[chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]]
-- [[docs/unique/compiler-kit-foundations|compiler-kit-foundations]]
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore|Agent Tasks: Persistence Migration to DualStore]]
-- [[local-only-llm-workflow]]
-- [[js-to-lisp-reverse-compiler]]
-- [Local-First Intention→Code Loop with Free Models](local-first-intention-code-loop-with-free-models.md)
-- [[docs/unique/aionian-circuit-math|aionian-circuit-math]]
-- [Math Fundamentals](chunks/math-fundamentals.md)
-- [Diagrams](chunks/diagrams.md)
-- [DSL](chunks/dsl.md)
-- [[observability-infrastructure-setup]]
-- [[dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]]
-- [[api-gateway-versioning]]
-- [Promethean Event Bus MVP v0.1](promethean-event-bus-mvp-v0-1.md)
-- [[docs/unique/event-bus-mvp|Event Bus MVP]]
-- [[prom-lib-rate-limiters-and-replay-api]]
-- [Debugging Broker Connections and Agent Behavior](debugging-broker-connections-and-agent-behavior.md)
-- [[admin-dashboard-for-user-management|Admin Dashboard for User Management]]
-- [[schema-evolution-workflow]]
-- [Services](chunks/services.md)
-- [[graph-ds]]
-- [[language-agnostic-mirror-system|Language-Agnostic Mirror System]]
-- [[docs/unique/typed-struct-compiler|typed-struct-compiler]]
-- [smart-chatgpt-thingy](smart-chatgpt-thingy.md)
+- $[ecs-scheduler-and-prefabs]$
+- $System Scheduler with Resource-Aware DAG$$system-scheduler-with-resource-aware-dag.md$
+- $[markdown-to-org-transpiler]$
+- $[ollama-llm-provider-for-pseudo-code-transpiler]$
+- $[promethean-infrastructure-setup|Promethean Infrastructure Setup]$
+- $[docs/unique/zero-copy-snapshots-and-workers|zero-copy-snapshots-and-workers]$
+- $[docs/unique/eidolon-field-math-foundations|eidolon-field-math-foundations]$
+- $[performance-optimized-polyglot-bridge]$
+- $[polyglot-s-expr-bridge-python-js-lisp-interop|Polyglot S-expr Bridge: Python-JS-Lisp Interop]$
+- [JavaScript]$chunks/javascript.md$
+- $[unique-info-dump-index|Unique Info Dump Index]$
+- $[websocket-gateway-implementation|WebSocket Gateway Implementation]$
+- $[docs/unique/archetype-ecs|archetype-ecs]$
+- $[mongo-outbox-implementation|Mongo Outbox Implementation]$
+- $[lisp-compiler-integration]$
+- $[docs/unique/interop-and-source-maps|Interop and Source Maps]$
+- $[chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]$
+- $[docs/unique/compiler-kit-foundations|compiler-kit-foundations]$
+- $[docs/unique/agent-tasks-persistence-migration-to-dualstore|Agent Tasks: Persistence Migration to DualStore]$
+- $[local-only-llm-workflow]$
+- $[js-to-lisp-reverse-compiler]$
+- $Local-First Intention→Code Loop with Free Models$$local-first-intention-code-loop-with-free-models.md$
+- $[docs/unique/aionian-circuit-math|aionian-circuit-math]$
+- [Math Fundamentals]$chunks/math-fundamentals.md$
+- [Diagrams]$chunks/diagrams.md$
+- [DSL]$chunks/dsl.md$
+- $[observability-infrastructure-setup]$
+- $[dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]$
+- $[api-gateway-versioning]$
+- [Promethean Event Bus MVP v0.1]$promethean-event-bus-mvp-v0-1.md$
+- $[docs/unique/event-bus-mvp|Event Bus MVP]$
+- $[prom-lib-rate-limiters-and-replay-api]$
+- [Debugging Broker Connections and Agent Behavior]$debugging-broker-connections-and-agent-behavior.md$
+- $[admin-dashboard-for-user-management|Admin Dashboard for User Management]$
+- $[schema-evolution-workflow]$
+- [Services]$chunks/services.md$
+- $[graph-ds]$
+- $[language-agnostic-mirror-system|Language-Agnostic Mirror System]$
+- $[docs/unique/typed-struct-compiler|typed-struct-compiler]$
+- $smart-chatgpt-thingy$$smart-chatgpt-thingy.md$
 
 ## Sources
-- [[docs/unique/zero-copy-snapshots-and-workers#L9|zero-copy-snapshots-and-workers — L9]] (line 9, col 1, score 0.91)
-- [[docs/unique/zero-copy-snapshots-and-workers#L306|zero-copy-snapshots-and-workers — L306]] (line 306, col 1, score 0.89)
-- [[ecs-scheduler-and-prefabs#L379|ecs-scheduler-and-prefabs — L379]] (line 379, col 1, score 1)
-- [System Scheduler with Resource-Aware DAG — L377](system-scheduler-with-resource-aware-dag.md#L377) (line 377, col 1, score 1)
-- [[markdown-to-org-transpiler#L289|markdown-to-org-transpiler — L289]] (line 289, col 1, score 1)
-- [[ollama-llm-provider-for-pseudo-code-transpiler#L153|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L153]] (line 153, col 1, score 1)
-- [[promethean-infrastructure-setup#L558|Promethean Infrastructure Setup — L558]] (line 558, col 1, score 0.98)
-- [[docs/unique/eidolon-field-math-foundations#L105|eidolon-field-math-foundations — L105]] (line 105, col 1, score 0.88)
-- [[performance-optimized-polyglot-bridge#L429|Performance-Optimized-Polyglot-Bridge — L429]] (line 429, col 1, score 0.85)
-- [[polyglot-s-expr-bridge-python-js-lisp-interop#L497|Polyglot S-expr Bridge: Python-JS-Lisp Interop — L497]] (line 497, col 1, score 0.85)
-- [[ecs-scheduler-and-prefabs#L382|ecs-scheduler-and-prefabs — L382]] (line 382, col 1, score 0.9)
-- [[ecs-scheduler-and-prefabs#L382|ecs-scheduler-and-prefabs — L382]] (line 382, col 3, score 0.9)
-- [System Scheduler with Resource-Aware DAG — L380](system-scheduler-with-resource-aware-dag.md#L380) (line 380, col 1, score 0.9)
-- [System Scheduler with Resource-Aware DAG — L380](system-scheduler-with-resource-aware-dag.md#L380) (line 380, col 3, score 0.9)
-- [[docs/unique/archetype-ecs#L454|archetype-ecs — L454]] (line 454, col 1, score 1)
-- [[docs/unique/archetype-ecs#L454|archetype-ecs — L454]] (line 454, col 3, score 1)
-- [[chroma-toolkit-consolidation-plan#L171|Chroma Toolkit Consolidation Plan — L171]] (line 171, col 1, score 1)
-- [[chroma-toolkit-consolidation-plan#L171|Chroma Toolkit Consolidation Plan — L171]] (line 171, col 3, score 1)
-- [JavaScript — L14](chunks/javascript.md#L14) (line 14, col 1, score 1)
-- [JavaScript — L14](chunks/javascript.md#L14) (line 14, col 3, score 1)
-- [[docs/unique/eidolon-field-math-foundations#L128|eidolon-field-math-foundations — L128]] (line 128, col 1, score 1)
-- [[docs/unique/eidolon-field-math-foundations#L128|eidolon-field-math-foundations — L128]] (line 128, col 3, score 1)
-- [[docs/unique/archetype-ecs#L455|archetype-ecs — L455]] (line 455, col 1, score 1)
-- [[docs/unique/archetype-ecs#L455|archetype-ecs — L455]] (line 455, col 3, score 1)
-- [[ecs-scheduler-and-prefabs#L387|ecs-scheduler-and-prefabs — L387]] (line 387, col 1, score 1)
-- [[ecs-scheduler-and-prefabs#L387|ecs-scheduler-and-prefabs — L387]] (line 387, col 3, score 1)
-- [[docs/unique/eidolon-field-math-foundations#L130|eidolon-field-math-foundations — L130]] (line 130, col 1, score 1)
-- [[docs/unique/eidolon-field-math-foundations#L130|eidolon-field-math-foundations — L130]] (line 130, col 3, score 1)
-- [[local-only-llm-workflow#L179|Local-Only-LLM-Workflow — L179]] (line 179, col 1, score 1)
-- [[local-only-llm-workflow#L179|Local-Only-LLM-Workflow — L179]] (line 179, col 3, score 1)
-- [[ecs-scheduler-and-prefabs#L390|ecs-scheduler-and-prefabs — L390]] (line 390, col 1, score 1)
-- [[ecs-scheduler-and-prefabs#L390|ecs-scheduler-and-prefabs — L390]] (line 390, col 3, score 1)
-- [[docs/unique/eidolon-field-math-foundations#L131|eidolon-field-math-foundations — L131]] (line 131, col 1, score 1)
-- [[docs/unique/eidolon-field-math-foundations#L131|eidolon-field-math-foundations — L131]] (line 131, col 3, score 1)
-- [[js-to-lisp-reverse-compiler#L424|js-to-lisp-reverse-compiler — L424]] (line 424, col 1, score 1)
-- [[js-to-lisp-reverse-compiler#L424|js-to-lisp-reverse-compiler — L424]] (line 424, col 3, score 1)
-- [[local-only-llm-workflow#L176|Local-Only-LLM-Workflow — L176]] (line 176, col 1, score 1)
-- [[local-only-llm-workflow#L176|Local-Only-LLM-Workflow — L176]] (line 176, col 3, score 1)
-- [[ecs-scheduler-and-prefabs#L391|ecs-scheduler-and-prefabs — L391]] (line 391, col 1, score 1)
-- [[ecs-scheduler-and-prefabs#L391|ecs-scheduler-and-prefabs — L391]] (line 391, col 3, score 1)
-- [[docs/unique/eidolon-field-math-foundations#L132|eidolon-field-math-foundations — L132]] (line 132, col 1, score 1)
-- [[docs/unique/eidolon-field-math-foundations#L132|eidolon-field-math-foundations — L132]] (line 132, col 3, score 1)
-- [Local-First Intention→Code Loop with Free Models — L145](local-first-intention-code-loop-with-free-models.md#L145) (line 145, col 1, score 1)
-- [Local-First Intention→Code Loop with Free Models — L145](local-first-intention-code-loop-with-free-models.md#L145) (line 145, col 3, score 1)
-- [[local-only-llm-workflow#L174|Local-Only-LLM-Workflow — L174]] (line 174, col 1, score 1)
-- [[local-only-llm-workflow#L174|Local-Only-LLM-Workflow — L174]] (line 174, col 3, score 1)
-- [[api-gateway-versioning#L284|api-gateway-versioning — L284]] (line 284, col 1, score 1)
-- [[api-gateway-versioning#L284|api-gateway-versioning — L284]] (line 284, col 3, score 1)
-- [Debugging Broker Connections and Agent Behavior — L40](debugging-broker-connections-and-agent-behavior.md#L40) (line 40, col 1, score 1)
-- [Debugging Broker Connections and Agent Behavior — L40](debugging-broker-connections-and-agent-behavior.md#L40) (line 40, col 3, score 1)
-- [[dynamic-context-model-for-web-components#L384|Dynamic Context Model for Web Components — L384]] (line 384, col 1, score 1)
-- [[dynamic-context-model-for-web-components#L384|Dynamic Context Model for Web Components — L384]] (line 384, col 3, score 1)
-- [[ecs-scheduler-and-prefabs#L392|ecs-scheduler-and-prefabs — L392]] (line 392, col 1, score 1)
-- [[ecs-scheduler-and-prefabs#L392|ecs-scheduler-and-prefabs — L392]] (line 392, col 3, score 1)
-- [JavaScript — L13](chunks/javascript.md#L13) (line 13, col 1, score 1)
-- [JavaScript — L13](chunks/javascript.md#L13) (line 13, col 3, score 1)
-- [[lisp-compiler-integration#L541|Lisp-Compiler-Integration — L541]] (line 541, col 1, score 1)
-- [[lisp-compiler-integration#L541|Lisp-Compiler-Integration — L541]] (line 541, col 3, score 1)
-- [smart-chatgpt-thingy — L23](smart-chatgpt-thingy.md#L23) (line 23, col 1, score 1)
-- [smart-chatgpt-thingy — L23](smart-chatgpt-thingy.md#L23) (line 23, col 3, score 1)
-- [[unique-info-dump-index#L74|Unique Info Dump Index — L74]] (line 74, col 1, score 1)
-- [[unique-info-dump-index#L74|Unique Info Dump Index — L74]] (line 74, col 3, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L133|Agent Tasks: Persistence Migration to DualStore — L133]] (line 133, col 1, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L133|Agent Tasks: Persistence Migration to DualStore — L133]] (line 133, col 3, score 1)
-- [[docs/unique/aionian-circuit-math#L151|aionian-circuit-math — L151]] (line 151, col 1, score 1)
-- [[docs/unique/aionian-circuit-math#L151|aionian-circuit-math — L151]] (line 151, col 3, score 1)
-- [Math Fundamentals — L14](chunks/math-fundamentals.md#L14) (line 14, col 1, score 1)
-- [Math Fundamentals — L14](chunks/math-fundamentals.md#L14) (line 14, col 3, score 1)
-- [[ecs-scheduler-and-prefabs#L393|ecs-scheduler-and-prefabs — L393]] (line 393, col 1, score 1)
-- [[ecs-scheduler-and-prefabs#L393|ecs-scheduler-and-prefabs — L393]] (line 393, col 3, score 1)
-- [[admin-dashboard-for-user-management#L41|Admin Dashboard for User Management — L41]] (line 41, col 1, score 1)
-- [[admin-dashboard-for-user-management#L41|Admin Dashboard for User Management — L41]] (line 41, col 3, score 1)
-- [[ecs-scheduler-and-prefabs#L397|ecs-scheduler-and-prefabs — L397]] (line 397, col 1, score 1)
-- [[ecs-scheduler-and-prefabs#L397|ecs-scheduler-and-prefabs — L397]] (line 397, col 3, score 1)
-- [[local-only-llm-workflow#L173|Local-Only-LLM-Workflow — L173]] (line 173, col 1, score 1)
-- [[local-only-llm-workflow#L173|Local-Only-LLM-Workflow — L173]] (line 173, col 3, score 1)
-- [[markdown-to-org-transpiler#L304|markdown-to-org-transpiler — L304]] (line 304, col 1, score 1)
-- [[markdown-to-org-transpiler#L304|markdown-to-org-transpiler — L304]] (line 304, col 3, score 1)
-- [[docs/unique/compiler-kit-foundations#L611|compiler-kit-foundations — L611]] (line 611, col 1, score 1)
-- [[docs/unique/compiler-kit-foundations#L611|compiler-kit-foundations — L611]] (line 611, col 3, score 1)
-- [[ecs-scheduler-and-prefabs#L398|ecs-scheduler-and-prefabs — L398]] (line 398, col 1, score 1)
-- [[ecs-scheduler-and-prefabs#L398|ecs-scheduler-and-prefabs — L398]] (line 398, col 3, score 1)
-- [[docs/unique/interop-and-source-maps#L517|Interop and Source Maps — L517]] (line 517, col 1, score 1)
-- [[docs/unique/interop-and-source-maps#L517|Interop and Source Maps — L517]] (line 517, col 3, score 1)
-- [[lisp-compiler-integration#L543|Lisp-Compiler-Integration — L543]] (line 543, col 1, score 1)
-- [[lisp-compiler-integration#L543|Lisp-Compiler-Integration — L543]] (line 543, col 3, score 1)
-- [[docs/unique/archetype-ecs#L456|archetype-ecs — L456]] (line 456, col 1, score 1)
-- [[docs/unique/archetype-ecs#L456|archetype-ecs — L456]] (line 456, col 3, score 1)
-- [[ecs-scheduler-and-prefabs#L395|ecs-scheduler-and-prefabs — L395]] (line 395, col 1, score 1)
-- [[ecs-scheduler-and-prefabs#L395|ecs-scheduler-and-prefabs — L395]] (line 395, col 3, score 1)
-- [[docs/unique/typed-struct-compiler#L384|typed-struct-compiler — L384]] (line 384, col 1, score 1)
-- [[docs/unique/typed-struct-compiler#L384|typed-struct-compiler — L384]] (line 384, col 3, score 1)
-- [[unique-info-dump-index#L63|Unique Info Dump Index — L63]] (line 63, col 1, score 1)
-- [[unique-info-dump-index#L63|Unique Info Dump Index — L63]] (line 63, col 3, score 1)
-- [[docs/unique/aionian-circuit-math#L158|aionian-circuit-math — L158]] (line 158, col 1, score 1)
-- [[docs/unique/aionian-circuit-math#L158|aionian-circuit-math — L158]] (line 158, col 3, score 1)
-- [[docs/unique/archetype-ecs#L457|archetype-ecs — L457]] (line 457, col 1, score 1)
-- [[docs/unique/archetype-ecs#L457|archetype-ecs — L457]] (line 457, col 3, score 1)
-- [Diagrams — L9](chunks/diagrams.md#L9) (line 9, col 1, score 1)
-- [Diagrams — L9](chunks/diagrams.md#L9) (line 9, col 3, score 1)
-- [DSL — L10](chunks/dsl.md#L10) (line 10, col 1, score 1)
-- [DSL — L10](chunks/dsl.md#L10) (line 10, col 3, score 1)
-- [[docs/unique/event-bus-mvp#L548|Event Bus MVP — L548]] (line 548, col 1, score 1)
-- [[docs/unique/event-bus-mvp#L548|Event Bus MVP — L548]] (line 548, col 3, score 1)
-- [[mongo-outbox-implementation#L551|Mongo Outbox Implementation — L551]] (line 551, col 1, score 1)
-- [[mongo-outbox-implementation#L551|Mongo Outbox Implementation — L551]] (line 551, col 3, score 1)
-- [Promethean Event Bus MVP v0.1 — L883](promethean-event-bus-mvp-v0-1.md#L883) (line 883, col 1, score 1)
-- [Promethean Event Bus MVP v0.1 — L883](promethean-event-bus-mvp-v0-1.md#L883) (line 883, col 3, score 1)
-- [[schema-evolution-workflow#L490|schema-evolution-workflow — L490]] (line 490, col 1, score 1)
-- [[schema-evolution-workflow#L490|schema-evolution-workflow — L490]] (line 490, col 3, score 1)
-- [JavaScript — L16](chunks/javascript.md#L16) (line 16, col 1, score 1)
-- [JavaScript — L16](chunks/javascript.md#L16) (line 16, col 3, score 1)
-- [[ecs-scheduler-and-prefabs#L394|ecs-scheduler-and-prefabs — L394]] (line 394, col 1, score 1)
-- [[ecs-scheduler-and-prefabs#L394|ecs-scheduler-and-prefabs — L394]] (line 394, col 3, score 1)
-- [[graph-ds#L367|graph-ds — L367]] (line 367, col 1, score 1)
-- [[graph-ds#L367|graph-ds — L367]] (line 367, col 3, score 1)
-- [[language-agnostic-mirror-system#L537|Language-Agnostic Mirror System — L537]] (line 537, col 1, score 1)
-- [[language-agnostic-mirror-system#L537|Language-Agnostic Mirror System — L537]] (line 537, col 3, score 1)
-- [Services — L13](chunks/services.md#L13) (line 13, col 1, score 1)
-- [Services — L13](chunks/services.md#L13) (line 13, col 3, score 1)
-- [[docs/unique/event-bus-mvp#L549|Event Bus MVP — L549]] (line 549, col 1, score 1)
-- [[docs/unique/event-bus-mvp#L549|Event Bus MVP — L549]] (line 549, col 3, score 1)
-- [[observability-infrastructure-setup#L364|observability-infrastructure-setup — L364]] (line 364, col 1, score 1)
-- [[observability-infrastructure-setup#L364|observability-infrastructure-setup — L364]] (line 364, col 3, score 1)
-- [[prom-lib-rate-limiters-and-replay-api#L387|prom-lib-rate-limiters-and-replay-api — L387]] (line 387, col 1, score 1)
-- [[prom-lib-rate-limiters-and-replay-api#L387|prom-lib-rate-limiters-and-replay-api — L387]] (line 387, col 3, score 1)
-- [JavaScript — L33](chunks/javascript.md#L33) (line 33, col 1, score 0.98)
-- [JavaScript — L33](chunks/javascript.md#L33) (line 33, col 3, score 0.98)
-- [[unique-info-dump-index#L168|Unique Info Dump Index — L168]] (line 168, col 1, score 0.98)
-- [[unique-info-dump-index#L168|Unique Info Dump Index — L168]] (line 168, col 3, score 0.98)
-- [[lisp-compiler-integration#L554|Lisp-Compiler-Integration — L554]] (line 554, col 1, score 0.97)
-- [[lisp-compiler-integration#L554|Lisp-Compiler-Integration — L554]] (line 554, col 3, score 0.97)
-- [[markdown-to-org-transpiler#L309|markdown-to-org-transpiler — L309]] (line 309, col 1, score 1)
-- [[markdown-to-org-transpiler#L309|markdown-to-org-transpiler — L309]] (line 309, col 3, score 1)
-- [[ollama-llm-provider-for-pseudo-code-transpiler#L176|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L176]] (line 176, col 1, score 1)
-- [[ollama-llm-provider-for-pseudo-code-transpiler#L176|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L176]] (line 176, col 3, score 1)
-- [System Scheduler with Resource-Aware DAG — L414](system-scheduler-with-resource-aware-dag.md#L414) (line 414, col 1, score 1)
-- [System Scheduler with Resource-Aware DAG — L414](system-scheduler-with-resource-aware-dag.md#L414) (line 414, col 3, score 1)
-- [System Scheduler with Resource-Aware DAG — L413](system-scheduler-with-resource-aware-dag.md#L413) (line 413, col 1, score 0.99)
-- [System Scheduler with Resource-Aware DAG — L413](system-scheduler-with-resource-aware-dag.md#L413) (line 413, col 3, score 0.99)
-- [[ecs-scheduler-and-prefabs#L423|ecs-scheduler-and-prefabs — L423]] (line 423, col 1, score 1)
-- [[ecs-scheduler-and-prefabs#L423|ecs-scheduler-and-prefabs — L423]] (line 423, col 3, score 1)
-- [[markdown-to-org-transpiler#L311|markdown-to-org-transpiler — L311]] (line 311, col 1, score 1)
-- [[markdown-to-org-transpiler#L311|markdown-to-org-transpiler — L311]] (line 311, col 3, score 1)
-- [[ollama-llm-provider-for-pseudo-code-transpiler#L178|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L178]] (line 178, col 1, score 1)
-- [[ollama-llm-provider-for-pseudo-code-transpiler#L178|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L178]] (line 178, col 3, score 1)
-- [[ecs-scheduler-and-prefabs#L430|ecs-scheduler-and-prefabs — L430]] (line 430, col 1, score 1)
-- [[ecs-scheduler-and-prefabs#L430|ecs-scheduler-and-prefabs — L430]] (line 430, col 3, score 1)
-- [[ecs-scheduler-and-prefabs#L424|ecs-scheduler-and-prefabs — L424]] (line 424, col 1, score 1)
-- [[ecs-scheduler-and-prefabs#L424|ecs-scheduler-and-prefabs — L424]] (line 424, col 3, score 1)
-- [[ollama-llm-provider-for-pseudo-code-transpiler#L179|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L179]] (line 179, col 1, score 1)
-- [[ollama-llm-provider-for-pseudo-code-transpiler#L179|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L179]] (line 179, col 3, score 1)
-- [System Scheduler with Resource-Aware DAG — L416](system-scheduler-with-resource-aware-dag.md#L416) (line 416, col 1, score 1)
-- [System Scheduler with Resource-Aware DAG — L416](system-scheduler-with-resource-aware-dag.md#L416) (line 416, col 3, score 1)
-- [[docs/unique/eidolon-field-math-foundations#L157|eidolon-field-math-foundations — L157]] (line 157, col 1, score 0.98)
-- [[docs/unique/eidolon-field-math-foundations#L157|eidolon-field-math-foundations — L157]] (line 157, col 3, score 0.98)
-- [[ecs-scheduler-and-prefabs#L425|ecs-scheduler-and-prefabs — L425]] (line 425, col 1, score 1)
-- [[ecs-scheduler-and-prefabs#L425|ecs-scheduler-and-prefabs — L425]] (line 425, col 3, score 1)
-- [[markdown-to-org-transpiler#L312|markdown-to-org-transpiler — L312]] (line 312, col 1, score 1)
-- [[markdown-to-org-transpiler#L312|markdown-to-org-transpiler — L312]] (line 312, col 3, score 1)
-- [System Scheduler with Resource-Aware DAG — L417](system-scheduler-with-resource-aware-dag.md#L417) (line 417, col 1, score 1)
-- [System Scheduler with Resource-Aware DAG — L417](system-scheduler-with-resource-aware-dag.md#L417) (line 417, col 3, score 1)
-- [[local-only-llm-workflow#L194|Local-Only-LLM-Workflow — L194]] (line 194, col 1, score 0.99)
-- [[local-only-llm-workflow#L194|Local-Only-LLM-Workflow — L194]] (line 194, col 3, score 0.99)
-- [[ecs-scheduler-and-prefabs#L426|ecs-scheduler-and-prefabs — L426]] (line 426, col 1, score 1)
-- [[ecs-scheduler-and-prefabs#L426|ecs-scheduler-and-prefabs — L426]] (line 426, col 3, score 1)
-- [[markdown-to-org-transpiler#L313|markdown-to-org-transpiler — L313]] (line 313, col 1, score 1)
-- [[markdown-to-org-transpiler#L313|markdown-to-org-transpiler — L313]] (line 313, col 3, score 1)
-- [[ollama-llm-provider-for-pseudo-code-transpiler#L180|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L180]] (line 180, col 1, score 1)
-- [[ollama-llm-provider-for-pseudo-code-transpiler#L180|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L180]] (line 180, col 3, score 1)
-- [System Scheduler with Resource-Aware DAG — L418](system-scheduler-with-resource-aware-dag.md#L418) (line 418, col 1, score 1)
-- [System Scheduler with Resource-Aware DAG — L418](system-scheduler-with-resource-aware-dag.md#L418) (line 418, col 3, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L147|Agent Tasks: Persistence Migration to DualStore — L147]] (line 147, col 1, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L147|Agent Tasks: Persistence Migration to DualStore — L147]] (line 147, col 3, score 1)
-- [[ecs-scheduler-and-prefabs#L427|ecs-scheduler-and-prefabs — L427]] (line 427, col 1, score 1)
-- [[ecs-scheduler-and-prefabs#L427|ecs-scheduler-and-prefabs — L427]] (line 427, col 3, score 1)
-- [[markdown-to-org-transpiler#L314|markdown-to-org-transpiler — L314]] (line 314, col 1, score 1)
-- [[markdown-to-org-transpiler#L314|markdown-to-org-transpiler — L314]] (line 314, col 3, score 1)
-- [[ollama-llm-provider-for-pseudo-code-transpiler#L181|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L181]] (line 181, col 1, score 1)
-- [[ollama-llm-provider-for-pseudo-code-transpiler#L181|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L181]] (line 181, col 3, score 1)
-- [[ecs-scheduler-and-prefabs#L428|ecs-scheduler-and-prefabs — L428]] (line 428, col 1, score 1)
-- [[ecs-scheduler-and-prefabs#L428|ecs-scheduler-and-prefabs — L428]] (line 428, col 3, score 1)
-- [[markdown-to-org-transpiler#L315|markdown-to-org-transpiler — L315]] (line 315, col 1, score 1)
-- [[markdown-to-org-transpiler#L315|markdown-to-org-transpiler — L315]] (line 315, col 3, score 1)
-- [[ollama-llm-provider-for-pseudo-code-transpiler#L182|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L182]] (line 182, col 1, score 1)
-- [[ollama-llm-provider-for-pseudo-code-transpiler#L182|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L182]] (line 182, col 3, score 1)
-- [System Scheduler with Resource-Aware DAG — L420](system-scheduler-with-resource-aware-dag.md#L420) (line 420, col 1, score 1)
-- [System Scheduler with Resource-Aware DAG — L420](system-scheduler-with-resource-aware-dag.md#L420) (line 420, col 3, score 1)
-- [[ecs-scheduler-and-prefabs#L429|ecs-scheduler-and-prefabs — L429]] (line 429, col 1, score 1)
-- [[ecs-scheduler-and-prefabs#L429|ecs-scheduler-and-prefabs — L429]] (line 429, col 3, score 1)
-- [[markdown-to-org-transpiler#L316|markdown-to-org-transpiler — L316]] (line 316, col 1, score 1)
-- [[markdown-to-org-transpiler#L316|markdown-to-org-transpiler — L316]] (line 316, col 3, score 1)
-- [[ollama-llm-provider-for-pseudo-code-transpiler#L183|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L183]] (line 183, col 1, score 1)
-- [[ollama-llm-provider-for-pseudo-code-transpiler#L183|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L183]] (line 183, col 3, score 1)
-- [System Scheduler with Resource-Aware DAG — L421](system-scheduler-with-resource-aware-dag.md#L421) (line 421, col 1, score 1)
-- [System Scheduler with Resource-Aware DAG — L421](system-scheduler-with-resource-aware-dag.md#L421) (line 421, col 3, score 1)
-- [[local-only-llm-workflow#L190|Local-Only-LLM-Workflow — L190]] (line 190, col 1, score 0.99)
-- [[local-only-llm-workflow#L190|Local-Only-LLM-Workflow — L190]] (line 190, col 3, score 0.99)
-- [[performance-optimized-polyglot-bridge#L454|Performance-Optimized-Polyglot-Bridge — L454]] (line 454, col 1, score 0.99)
-- [[performance-optimized-polyglot-bridge#L454|Performance-Optimized-Polyglot-Bridge — L454]] (line 454, col 3, score 0.99)
-- [[polyglot-s-expr-bridge-python-js-lisp-interop#L527|Polyglot S-expr Bridge: Python-JS-Lisp Interop — L527]] (line 527, col 1, score 0.99)
-- [[polyglot-s-expr-bridge-python-js-lisp-interop#L527|Polyglot S-expr Bridge: Python-JS-Lisp Interop — L527]] (line 527, col 3, score 0.99)
-- [[promethean-infrastructure-setup#L609|Promethean Infrastructure Setup — L609]] (line 609, col 1, score 0.99)
-- [[promethean-infrastructure-setup#L609|Promethean Infrastructure Setup — L609]] (line 609, col 3, score 0.99)
-- [[local-only-llm-workflow#L192|Local-Only-LLM-Workflow — L192]] (line 192, col 1, score 0.99)
-- [[local-only-llm-workflow#L192|Local-Only-LLM-Workflow — L192]] (line 192, col 3, score 0.99)
-- [[performance-optimized-polyglot-bridge#L456|Performance-Optimized-Polyglot-Bridge — L456]] (line 456, col 1, score 0.99)
-- [[performance-optimized-polyglot-bridge#L456|Performance-Optimized-Polyglot-Bridge — L456]] (line 456, col 3, score 0.99)
-- [[polyglot-s-expr-bridge-python-js-lisp-interop#L529|Polyglot S-expr Bridge: Python-JS-Lisp Interop — L529]] (line 529, col 1, score 0.99)
-- [[polyglot-s-expr-bridge-python-js-lisp-interop#L529|Polyglot S-expr Bridge: Python-JS-Lisp Interop — L529]] (line 529, col 3, score 0.99)
-- [[docs/unique/eidolon-field-math-foundations#L156|eidolon-field-math-foundations — L156]] (line 156, col 1, score 0.99)
-- [[docs/unique/eidolon-field-math-foundations#L156|eidolon-field-math-foundations — L156]] (line 156, col 3, score 0.99)
-- [[ecs-scheduler-and-prefabs#L433|ecs-scheduler-and-prefabs — L433]] (line 433, col 1, score 0.99)
-- [[ecs-scheduler-and-prefabs#L433|ecs-scheduler-and-prefabs — L433]] (line 433, col 3, score 0.99)
+- $[docs/unique/zero-copy-snapshots-and-workers#L9|zero-copy-snapshots-and-workers — L9]$ (line 9, col 1, score 0.91)
+- $[docs/unique/zero-copy-snapshots-and-workers#L306|zero-copy-snapshots-and-workers — L306]$ (line 306, col 1, score 0.89)
+- $[ecs-scheduler-and-prefabs#L379|ecs-scheduler-and-prefabs — L379]$ (line 379, col 1, score 1)
+- $System Scheduler with Resource-Aware DAG — L377$$system-scheduler-with-resource-aware-dag.md#L377$ (line 377, col 1, score 1)
+- $[markdown-to-org-transpiler#L289|markdown-to-org-transpiler — L289]$ (line 289, col 1, score 1)
+- $[ollama-llm-provider-for-pseudo-code-transpiler#L153|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L153]$ (line 153, col 1, score 1)
+- $[promethean-infrastructure-setup#L558|Promethean Infrastructure Setup — L558]$ (line 558, col 1, score 0.98)
+- $[docs/unique/eidolon-field-math-foundations#L105|eidolon-field-math-foundations — L105]$ (line 105, col 1, score 0.88)
+- $[performance-optimized-polyglot-bridge#L429|Performance-Optimized-Polyglot-Bridge — L429]$ (line 429, col 1, score 0.85)
+- $[polyglot-s-expr-bridge-python-js-lisp-interop#L497|Polyglot S-expr Bridge: Python-JS-Lisp Interop — L497]$ (line 497, col 1, score 0.85)
+- $[ecs-scheduler-and-prefabs#L382|ecs-scheduler-and-prefabs — L382]$ (line 382, col 1, score 0.9)
+- $[ecs-scheduler-and-prefabs#L382|ecs-scheduler-and-prefabs — L382]$ (line 382, col 3, score 0.9)
+- $System Scheduler with Resource-Aware DAG — L380$$system-scheduler-with-resource-aware-dag.md#L380$ (line 380, col 1, score 0.9)
+- $System Scheduler with Resource-Aware DAG — L380$$system-scheduler-with-resource-aware-dag.md#L380$ (line 380, col 3, score 0.9)
+- $[docs/unique/archetype-ecs#L454|archetype-ecs — L454]$ (line 454, col 1, score 1)
+- $[docs/unique/archetype-ecs#L454|archetype-ecs — L454]$ (line 454, col 3, score 1)
+- $[chroma-toolkit-consolidation-plan#L171|Chroma Toolkit Consolidation Plan — L171]$ (line 171, col 1, score 1)
+- $[chroma-toolkit-consolidation-plan#L171|Chroma Toolkit Consolidation Plan — L171]$ (line 171, col 3, score 1)
+- [JavaScript — L14]$chunks/javascript.md#L14$ (line 14, col 1, score 1)
+- [JavaScript — L14]$chunks/javascript.md#L14$ (line 14, col 3, score 1)
+- $[docs/unique/eidolon-field-math-foundations#L128|eidolon-field-math-foundations — L128]$ (line 128, col 1, score 1)
+- $[docs/unique/eidolon-field-math-foundations#L128|eidolon-field-math-foundations — L128]$ (line 128, col 3, score 1)
+- $[docs/unique/archetype-ecs#L455|archetype-ecs — L455]$ (line 455, col 1, score 1)
+- $[docs/unique/archetype-ecs#L455|archetype-ecs — L455]$ (line 455, col 3, score 1)
+- $[ecs-scheduler-and-prefabs#L387|ecs-scheduler-and-prefabs — L387]$ (line 387, col 1, score 1)
+- $[ecs-scheduler-and-prefabs#L387|ecs-scheduler-and-prefabs — L387]$ (line 387, col 3, score 1)
+- $[docs/unique/eidolon-field-math-foundations#L130|eidolon-field-math-foundations — L130]$ (line 130, col 1, score 1)
+- $[docs/unique/eidolon-field-math-foundations#L130|eidolon-field-math-foundations — L130]$ (line 130, col 3, score 1)
+- $[local-only-llm-workflow#L179|Local-Only-LLM-Workflow — L179]$ (line 179, col 1, score 1)
+- $[local-only-llm-workflow#L179|Local-Only-LLM-Workflow — L179]$ (line 179, col 3, score 1)
+- $[ecs-scheduler-and-prefabs#L390|ecs-scheduler-and-prefabs — L390]$ (line 390, col 1, score 1)
+- $[ecs-scheduler-and-prefabs#L390|ecs-scheduler-and-prefabs — L390]$ (line 390, col 3, score 1)
+- $[docs/unique/eidolon-field-math-foundations#L131|eidolon-field-math-foundations — L131]$ (line 131, col 1, score 1)
+- $[docs/unique/eidolon-field-math-foundations#L131|eidolon-field-math-foundations — L131]$ (line 131, col 3, score 1)
+- $[js-to-lisp-reverse-compiler#L424|js-to-lisp-reverse-compiler — L424]$ (line 424, col 1, score 1)
+- $[js-to-lisp-reverse-compiler#L424|js-to-lisp-reverse-compiler — L424]$ (line 424, col 3, score 1)
+- $[local-only-llm-workflow#L176|Local-Only-LLM-Workflow — L176]$ (line 176, col 1, score 1)
+- $[local-only-llm-workflow#L176|Local-Only-LLM-Workflow — L176]$ (line 176, col 3, score 1)
+- $[ecs-scheduler-and-prefabs#L391|ecs-scheduler-and-prefabs — L391]$ (line 391, col 1, score 1)
+- $[ecs-scheduler-and-prefabs#L391|ecs-scheduler-and-prefabs — L391]$ (line 391, col 3, score 1)
+- $[docs/unique/eidolon-field-math-foundations#L132|eidolon-field-math-foundations — L132]$ (line 132, col 1, score 1)
+- $[docs/unique/eidolon-field-math-foundations#L132|eidolon-field-math-foundations — L132]$ (line 132, col 3, score 1)
+- $Local-First Intention→Code Loop with Free Models — L145$$local-first-intention-code-loop-with-free-models.md#L145$ (line 145, col 1, score 1)
+- $Local-First Intention→Code Loop with Free Models — L145$$local-first-intention-code-loop-with-free-models.md#L145$ (line 145, col 3, score 1)
+- $[local-only-llm-workflow#L174|Local-Only-LLM-Workflow — L174]$ (line 174, col 1, score 1)
+- $[local-only-llm-workflow#L174|Local-Only-LLM-Workflow — L174]$ (line 174, col 3, score 1)
+- $[api-gateway-versioning#L284|api-gateway-versioning — L284]$ (line 284, col 1, score 1)
+- $[api-gateway-versioning#L284|api-gateway-versioning — L284]$ (line 284, col 3, score 1)
+- [Debugging Broker Connections and Agent Behavior — L40]$debugging-broker-connections-and-agent-behavior.md#L40$ (line 40, col 1, score 1)
+- [Debugging Broker Connections and Agent Behavior — L40]$debugging-broker-connections-and-agent-behavior.md#L40$ (line 40, col 3, score 1)
+- $[dynamic-context-model-for-web-components#L384|Dynamic Context Model for Web Components — L384]$ (line 384, col 1, score 1)
+- $[dynamic-context-model-for-web-components#L384|Dynamic Context Model for Web Components — L384]$ (line 384, col 3, score 1)
+- $[ecs-scheduler-and-prefabs#L392|ecs-scheduler-and-prefabs — L392]$ (line 392, col 1, score 1)
+- $[ecs-scheduler-and-prefabs#L392|ecs-scheduler-and-prefabs — L392]$ (line 392, col 3, score 1)
+- [JavaScript — L13]$chunks/javascript.md#L13$ (line 13, col 1, score 1)
+- [JavaScript — L13]$chunks/javascript.md#L13$ (line 13, col 3, score 1)
+- $[lisp-compiler-integration#L541|Lisp-Compiler-Integration — L541]$ (line 541, col 1, score 1)
+- $[lisp-compiler-integration#L541|Lisp-Compiler-Integration — L541]$ (line 541, col 3, score 1)
+- $smart-chatgpt-thingy — L23$$smart-chatgpt-thingy.md#L23$ (line 23, col 1, score 1)
+- $smart-chatgpt-thingy — L23$$smart-chatgpt-thingy.md#L23$ (line 23, col 3, score 1)
+- $[unique-info-dump-index#L74|Unique Info Dump Index — L74]$ (line 74, col 1, score 1)
+- $[unique-info-dump-index#L74|Unique Info Dump Index — L74]$ (line 74, col 3, score 1)
+- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L133|Agent Tasks: Persistence Migration to DualStore — L133]$ (line 133, col 1, score 1)
+- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L133|Agent Tasks: Persistence Migration to DualStore — L133]$ (line 133, col 3, score 1)
+- $[docs/unique/aionian-circuit-math#L151|aionian-circuit-math — L151]$ (line 151, col 1, score 1)
+- $[docs/unique/aionian-circuit-math#L151|aionian-circuit-math — L151]$ (line 151, col 3, score 1)
+- [Math Fundamentals — L14]$chunks/math-fundamentals.md#L14$ (line 14, col 1, score 1)
+- [Math Fundamentals — L14]$chunks/math-fundamentals.md#L14$ (line 14, col 3, score 1)
+- $[ecs-scheduler-and-prefabs#L393|ecs-scheduler-and-prefabs — L393]$ (line 393, col 1, score 1)
+- $[ecs-scheduler-and-prefabs#L393|ecs-scheduler-and-prefabs — L393]$ (line 393, col 3, score 1)
+- $[admin-dashboard-for-user-management#L41|Admin Dashboard for User Management — L41]$ (line 41, col 1, score 1)
+- $[admin-dashboard-for-user-management#L41|Admin Dashboard for User Management — L41]$ (line 41, col 3, score 1)
+- $[ecs-scheduler-and-prefabs#L397|ecs-scheduler-and-prefabs — L397]$ (line 397, col 1, score 1)
+- $[ecs-scheduler-and-prefabs#L397|ecs-scheduler-and-prefabs — L397]$ (line 397, col 3, score 1)
+- $[local-only-llm-workflow#L173|Local-Only-LLM-Workflow — L173]$ (line 173, col 1, score 1)
+- $[local-only-llm-workflow#L173|Local-Only-LLM-Workflow — L173]$ (line 173, col 3, score 1)
+- $[markdown-to-org-transpiler#L304|markdown-to-org-transpiler — L304]$ (line 304, col 1, score 1)
+- $[markdown-to-org-transpiler#L304|markdown-to-org-transpiler — L304]$ (line 304, col 3, score 1)
+- $[docs/unique/compiler-kit-foundations#L611|compiler-kit-foundations — L611]$ (line 611, col 1, score 1)
+- $[docs/unique/compiler-kit-foundations#L611|compiler-kit-foundations — L611]$ (line 611, col 3, score 1)
+- $[ecs-scheduler-and-prefabs#L398|ecs-scheduler-and-prefabs — L398]$ (line 398, col 1, score 1)
+- $[ecs-scheduler-and-prefabs#L398|ecs-scheduler-and-prefabs — L398]$ (line 398, col 3, score 1)
+- $[docs/unique/interop-and-source-maps#L517|Interop and Source Maps — L517]$ (line 517, col 1, score 1)
+- $[docs/unique/interop-and-source-maps#L517|Interop and Source Maps — L517]$ (line 517, col 3, score 1)
+- $[lisp-compiler-integration#L543|Lisp-Compiler-Integration — L543]$ (line 543, col 1, score 1)
+- $[lisp-compiler-integration#L543|Lisp-Compiler-Integration — L543]$ (line 543, col 3, score 1)
+- $[docs/unique/archetype-ecs#L456|archetype-ecs — L456]$ (line 456, col 1, score 1)
+- $[docs/unique/archetype-ecs#L456|archetype-ecs — L456]$ (line 456, col 3, score 1)
+- $[ecs-scheduler-and-prefabs#L395|ecs-scheduler-and-prefabs — L395]$ (line 395, col 1, score 1)
+- $[ecs-scheduler-and-prefabs#L395|ecs-scheduler-and-prefabs — L395]$ (line 395, col 3, score 1)
+- $[docs/unique/typed-struct-compiler#L384|typed-struct-compiler — L384]$ (line 384, col 1, score 1)
+- $[docs/unique/typed-struct-compiler#L384|typed-struct-compiler — L384]$ (line 384, col 3, score 1)
+- $[unique-info-dump-index#L63|Unique Info Dump Index — L63]$ (line 63, col 1, score 1)
+- $[unique-info-dump-index#L63|Unique Info Dump Index — L63]$ (line 63, col 3, score 1)
+- $[docs/unique/aionian-circuit-math#L158|aionian-circuit-math — L158]$ (line 158, col 1, score 1)
+- $[docs/unique/aionian-circuit-math#L158|aionian-circuit-math — L158]$ (line 158, col 3, score 1)
+- $[docs/unique/archetype-ecs#L457|archetype-ecs — L457]$ (line 457, col 1, score 1)
+- $[docs/unique/archetype-ecs#L457|archetype-ecs — L457]$ (line 457, col 3, score 1)
+- [Diagrams — L9]$chunks/diagrams.md#L9$ (line 9, col 1, score 1)
+- [Diagrams — L9]$chunks/diagrams.md#L9$ (line 9, col 3, score 1)
+- [DSL — L10]$chunks/dsl.md#L10$ (line 10, col 1, score 1)
+- [DSL — L10]$chunks/dsl.md#L10$ (line 10, col 3, score 1)
+- $[docs/unique/event-bus-mvp#L548|Event Bus MVP — L548]$ (line 548, col 1, score 1)
+- $[docs/unique/event-bus-mvp#L548|Event Bus MVP — L548]$ (line 548, col 3, score 1)
+- $[mongo-outbox-implementation#L551|Mongo Outbox Implementation — L551]$ (line 551, col 1, score 1)
+- $[mongo-outbox-implementation#L551|Mongo Outbox Implementation — L551]$ (line 551, col 3, score 1)
+- [Promethean Event Bus MVP v0.1 — L883]$promethean-event-bus-mvp-v0-1.md#L883$ (line 883, col 1, score 1)
+- [Promethean Event Bus MVP v0.1 — L883]$promethean-event-bus-mvp-v0-1.md#L883$ (line 883, col 3, score 1)
+- $[schema-evolution-workflow#L490|schema-evolution-workflow — L490]$ (line 490, col 1, score 1)
+- $[schema-evolution-workflow#L490|schema-evolution-workflow — L490]$ (line 490, col 3, score 1)
+- [JavaScript — L16]$chunks/javascript.md#L16$ (line 16, col 1, score 1)
+- [JavaScript — L16]$chunks/javascript.md#L16$ (line 16, col 3, score 1)
+- $[ecs-scheduler-and-prefabs#L394|ecs-scheduler-and-prefabs — L394]$ (line 394, col 1, score 1)
+- $[ecs-scheduler-and-prefabs#L394|ecs-scheduler-and-prefabs — L394]$ (line 394, col 3, score 1)
+- $[graph-ds#L367|graph-ds — L367]$ (line 367, col 1, score 1)
+- $[graph-ds#L367|graph-ds — L367]$ (line 367, col 3, score 1)
+- $[language-agnostic-mirror-system#L537|Language-Agnostic Mirror System — L537]$ (line 537, col 1, score 1)
+- $[language-agnostic-mirror-system#L537|Language-Agnostic Mirror System — L537]$ (line 537, col 3, score 1)
+- [Services — L13]$chunks/services.md#L13$ (line 13, col 1, score 1)
+- [Services — L13]$chunks/services.md#L13$ (line 13, col 3, score 1)
+- $[docs/unique/event-bus-mvp#L549|Event Bus MVP — L549]$ (line 549, col 1, score 1)
+- $[docs/unique/event-bus-mvp#L549|Event Bus MVP — L549]$ (line 549, col 3, score 1)
+- $[observability-infrastructure-setup#L364|observability-infrastructure-setup — L364]$ (line 364, col 1, score 1)
+- $[observability-infrastructure-setup#L364|observability-infrastructure-setup — L364]$ (line 364, col 3, score 1)
+- $[prom-lib-rate-limiters-and-replay-api#L387|prom-lib-rate-limiters-and-replay-api — L387]$ (line 387, col 1, score 1)
+- $[prom-lib-rate-limiters-and-replay-api#L387|prom-lib-rate-limiters-and-replay-api — L387]$ (line 387, col 3, score 1)
+- [JavaScript — L33]$chunks/javascript.md#L33$ (line 33, col 1, score 0.98)
+- [JavaScript — L33]$chunks/javascript.md#L33$ (line 33, col 3, score 0.98)
+- $[unique-info-dump-index#L168|Unique Info Dump Index — L168]$ (line 168, col 1, score 0.98)
+- $[unique-info-dump-index#L168|Unique Info Dump Index — L168]$ (line 168, col 3, score 0.98)
+- $[lisp-compiler-integration#L554|Lisp-Compiler-Integration — L554]$ (line 554, col 1, score 0.97)
+- $[lisp-compiler-integration#L554|Lisp-Compiler-Integration — L554]$ (line 554, col 3, score 0.97)
+- $[markdown-to-org-transpiler#L309|markdown-to-org-transpiler — L309]$ (line 309, col 1, score 1)
+- $[markdown-to-org-transpiler#L309|markdown-to-org-transpiler — L309]$ (line 309, col 3, score 1)
+- $[ollama-llm-provider-for-pseudo-code-transpiler#L176|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L176]$ (line 176, col 1, score 1)
+- $[ollama-llm-provider-for-pseudo-code-transpiler#L176|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L176]$ (line 176, col 3, score 1)
+- $System Scheduler with Resource-Aware DAG — L414$$system-scheduler-with-resource-aware-dag.md#L414$ (line 414, col 1, score 1)
+- $System Scheduler with Resource-Aware DAG — L414$$system-scheduler-with-resource-aware-dag.md#L414$ (line 414, col 3, score 1)
+- $System Scheduler with Resource-Aware DAG — L413$$system-scheduler-with-resource-aware-dag.md#L413$ (line 413, col 1, score 0.99)
+- $System Scheduler with Resource-Aware DAG — L413$$system-scheduler-with-resource-aware-dag.md#L413$ (line 413, col 3, score 0.99)
+- $[ecs-scheduler-and-prefabs#L423|ecs-scheduler-and-prefabs — L423]$ (line 423, col 1, score 1)
+- $[ecs-scheduler-and-prefabs#L423|ecs-scheduler-and-prefabs — L423]$ (line 423, col 3, score 1)
+- $[markdown-to-org-transpiler#L311|markdown-to-org-transpiler — L311]$ (line 311, col 1, score 1)
+- $[markdown-to-org-transpiler#L311|markdown-to-org-transpiler — L311]$ (line 311, col 3, score 1)
+- $[ollama-llm-provider-for-pseudo-code-transpiler#L178|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L178]$ (line 178, col 1, score 1)
+- $[ollama-llm-provider-for-pseudo-code-transpiler#L178|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L178]$ (line 178, col 3, score 1)
+- $[ecs-scheduler-and-prefabs#L430|ecs-scheduler-and-prefabs — L430]$ (line 430, col 1, score 1)
+- $[ecs-scheduler-and-prefabs#L430|ecs-scheduler-and-prefabs — L430]$ (line 430, col 3, score 1)
+- $[ecs-scheduler-and-prefabs#L424|ecs-scheduler-and-prefabs — L424]$ (line 424, col 1, score 1)
+- $[ecs-scheduler-and-prefabs#L424|ecs-scheduler-and-prefabs — L424]$ (line 424, col 3, score 1)
+- $[ollama-llm-provider-for-pseudo-code-transpiler#L179|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L179]$ (line 179, col 1, score 1)
+- $[ollama-llm-provider-for-pseudo-code-transpiler#L179|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L179]$ (line 179, col 3, score 1)
+- $System Scheduler with Resource-Aware DAG — L416$$system-scheduler-with-resource-aware-dag.md#L416$ (line 416, col 1, score 1)
+- $System Scheduler with Resource-Aware DAG — L416$$system-scheduler-with-resource-aware-dag.md#L416$ (line 416, col 3, score 1)
+- $[docs/unique/eidolon-field-math-foundations#L157|eidolon-field-math-foundations — L157]$ (line 157, col 1, score 0.98)
+- $[docs/unique/eidolon-field-math-foundations#L157|eidolon-field-math-foundations — L157]$ (line 157, col 3, score 0.98)
+- $[ecs-scheduler-and-prefabs#L425|ecs-scheduler-and-prefabs — L425]$ (line 425, col 1, score 1)
+- $[ecs-scheduler-and-prefabs#L425|ecs-scheduler-and-prefabs — L425]$ (line 425, col 3, score 1)
+- $[markdown-to-org-transpiler#L312|markdown-to-org-transpiler — L312]$ (line 312, col 1, score 1)
+- $[markdown-to-org-transpiler#L312|markdown-to-org-transpiler — L312]$ (line 312, col 3, score 1)
+- $System Scheduler with Resource-Aware DAG — L417$$system-scheduler-with-resource-aware-dag.md#L417$ (line 417, col 1, score 1)
+- $System Scheduler with Resource-Aware DAG — L417$$system-scheduler-with-resource-aware-dag.md#L417$ (line 417, col 3, score 1)
+- $[local-only-llm-workflow#L194|Local-Only-LLM-Workflow — L194]$ (line 194, col 1, score 0.99)
+- $[local-only-llm-workflow#L194|Local-Only-LLM-Workflow — L194]$ (line 194, col 3, score 0.99)
+- $[ecs-scheduler-and-prefabs#L426|ecs-scheduler-and-prefabs — L426]$ (line 426, col 1, score 1)
+- $[ecs-scheduler-and-prefabs#L426|ecs-scheduler-and-prefabs — L426]$ (line 426, col 3, score 1)
+- $[markdown-to-org-transpiler#L313|markdown-to-org-transpiler — L313]$ (line 313, col 1, score 1)
+- $[markdown-to-org-transpiler#L313|markdown-to-org-transpiler — L313]$ (line 313, col 3, score 1)
+- $[ollama-llm-provider-for-pseudo-code-transpiler#L180|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L180]$ (line 180, col 1, score 1)
+- $[ollama-llm-provider-for-pseudo-code-transpiler#L180|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L180]$ (line 180, col 3, score 1)
+- $System Scheduler with Resource-Aware DAG — L418$$system-scheduler-with-resource-aware-dag.md#L418$ (line 418, col 1, score 1)
+- $System Scheduler with Resource-Aware DAG — L418$$system-scheduler-with-resource-aware-dag.md#L418$ (line 418, col 3, score 1)
+- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L147|Agent Tasks: Persistence Migration to DualStore — L147]$ (line 147, col 1, score 1)
+- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L147|Agent Tasks: Persistence Migration to DualStore — L147]$ (line 147, col 3, score 1)
+- $[ecs-scheduler-and-prefabs#L427|ecs-scheduler-and-prefabs — L427]$ (line 427, col 1, score 1)
+- $[ecs-scheduler-and-prefabs#L427|ecs-scheduler-and-prefabs — L427]$ (line 427, col 3, score 1)
+- $[markdown-to-org-transpiler#L314|markdown-to-org-transpiler — L314]$ (line 314, col 1, score 1)
+- $[markdown-to-org-transpiler#L314|markdown-to-org-transpiler — L314]$ (line 314, col 3, score 1)
+- $[ollama-llm-provider-for-pseudo-code-transpiler#L181|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L181]$ (line 181, col 1, score 1)
+- $[ollama-llm-provider-for-pseudo-code-transpiler#L181|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L181]$ (line 181, col 3, score 1)
+- $[ecs-scheduler-and-prefabs#L428|ecs-scheduler-and-prefabs — L428]$ (line 428, col 1, score 1)
+- $[ecs-scheduler-and-prefabs#L428|ecs-scheduler-and-prefabs — L428]$ (line 428, col 3, score 1)
+- $[markdown-to-org-transpiler#L315|markdown-to-org-transpiler — L315]$ (line 315, col 1, score 1)
+- $[markdown-to-org-transpiler#L315|markdown-to-org-transpiler — L315]$ (line 315, col 3, score 1)
+- $[ollama-llm-provider-for-pseudo-code-transpiler#L182|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L182]$ (line 182, col 1, score 1)
+- $[ollama-llm-provider-for-pseudo-code-transpiler#L182|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L182]$ (line 182, col 3, score 1)
+- $System Scheduler with Resource-Aware DAG — L420$$system-scheduler-with-resource-aware-dag.md#L420$ (line 420, col 1, score 1)
+- $System Scheduler with Resource-Aware DAG — L420$$system-scheduler-with-resource-aware-dag.md#L420$ (line 420, col 3, score 1)
+- $[ecs-scheduler-and-prefabs#L429|ecs-scheduler-and-prefabs — L429]$ (line 429, col 1, score 1)
+- $[ecs-scheduler-and-prefabs#L429|ecs-scheduler-and-prefabs — L429]$ (line 429, col 3, score 1)
+- $[markdown-to-org-transpiler#L316|markdown-to-org-transpiler — L316]$ (line 316, col 1, score 1)
+- $[markdown-to-org-transpiler#L316|markdown-to-org-transpiler — L316]$ (line 316, col 3, score 1)
+- $[ollama-llm-provider-for-pseudo-code-transpiler#L183|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L183]$ (line 183, col 1, score 1)
+- $[ollama-llm-provider-for-pseudo-code-transpiler#L183|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L183]$ (line 183, col 3, score 1)
+- $System Scheduler with Resource-Aware DAG — L421$$system-scheduler-with-resource-aware-dag.md#L421$ (line 421, col 1, score 1)
+- $System Scheduler with Resource-Aware DAG — L421$$system-scheduler-with-resource-aware-dag.md#L421$ (line 421, col 3, score 1)
+- $[local-only-llm-workflow#L190|Local-Only-LLM-Workflow — L190]$ (line 190, col 1, score 0.99)
+- $[local-only-llm-workflow#L190|Local-Only-LLM-Workflow — L190]$ (line 190, col 3, score 0.99)
+- $[performance-optimized-polyglot-bridge#L454|Performance-Optimized-Polyglot-Bridge — L454]$ (line 454, col 1, score 0.99)
+- $[performance-optimized-polyglot-bridge#L454|Performance-Optimized-Polyglot-Bridge — L454]$ (line 454, col 3, score 0.99)
+- $[polyglot-s-expr-bridge-python-js-lisp-interop#L527|Polyglot S-expr Bridge: Python-JS-Lisp Interop — L527]$ (line 527, col 1, score 0.99)
+- $[polyglot-s-expr-bridge-python-js-lisp-interop#L527|Polyglot S-expr Bridge: Python-JS-Lisp Interop — L527]$ (line 527, col 3, score 0.99)
+- $[promethean-infrastructure-setup#L609|Promethean Infrastructure Setup — L609]$ (line 609, col 1, score 0.99)
+- $[promethean-infrastructure-setup#L609|Promethean Infrastructure Setup — L609]$ (line 609, col 3, score 0.99)
+- $[local-only-llm-workflow#L192|Local-Only-LLM-Workflow — L192]$ (line 192, col 1, score 0.99)
+- $[local-only-llm-workflow#L192|Local-Only-LLM-Workflow — L192]$ (line 192, col 3, score 0.99)
+- $[performance-optimized-polyglot-bridge#L456|Performance-Optimized-Polyglot-Bridge — L456]$ (line 456, col 1, score 0.99)
+- $[performance-optimized-polyglot-bridge#L456|Performance-Optimized-Polyglot-Bridge — L456]$ (line 456, col 3, score 0.99)
+- $[polyglot-s-expr-bridge-python-js-lisp-interop#L529|Polyglot S-expr Bridge: Python-JS-Lisp Interop — L529]$ (line 529, col 1, score 0.99)
+- $[polyglot-s-expr-bridge-python-js-lisp-interop#L529|Polyglot S-expr Bridge: Python-JS-Lisp Interop — L529]$ (line 529, col 3, score 0.99)
+- $[docs/unique/eidolon-field-math-foundations#L156|eidolon-field-math-foundations — L156]$ (line 156, col 1, score 0.99)
+- $[docs/unique/eidolon-field-math-foundations#L156|eidolon-field-math-foundations — L156]$ (line 156, col 3, score 0.99)
+- $[ecs-scheduler-and-prefabs#L433|ecs-scheduler-and-prefabs — L433]$ (line 433, col 1, score 0.99)
+- $[ecs-scheduler-and-prefabs#L433|ecs-scheduler-and-prefabs — L433]$ (line 433, col 3, score 0.99)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

@@ -1,9 +1,15 @@
 ---
+$$
 uuid: 20c87007-ec24-4f17-8d2e-238743696551
+$$
+$$
 created_at: '2025-10-02T12:13:34Z'
+$$
 title: 2025.10.02.12.13.34
 filename: Duck Pond
+$$
 description: >-
+$$
   A self-contained, native-ESM Web Components demo showcasing an in-memory
   Enso-style room with three seed agents (Duck, Cephalon, Enso) and tool
   capability toggling. It supports real-time chat, agent spawning, and pure
@@ -15,11 +21,15 @@ tags:
   - Immutability
   - Tool Negotiation
   - Browser JS
+$$
 related_to_uuid: []
+$$
+$$
 related_to_title: []
+$$
 references: []
 ---
-Here you go — a self-contained, native-ESM, Web Components “Duck Pond” that runs in a single HTML file. It implements an in-memory Enso-style room (immutable, causally-ordered events), three seed agents (Duck, Cephalon, Enso), a tool capability toggle panel that simulates MCP capability negotiation, and a chat UI. You can also spawn more ducks.
+Here you go — a self-contained, native-ESM, Web Components “Duck Pond” that runs in a single HTML file. It implements an in-memory Enso-style room $immutable, causally-ordered events$, three seed agents (Duck, Cephalon, Enso), a tool capability toggle panel that simulates MCP capability negotiation, and a chat UI. You can also spawn more ducks.
 
 What you can do now:
 

@@ -8,12 +8,14 @@ Windows:
 ```
 .*\\\\node_modules\\\\.*
 ```
+$$
 Cross-platform portable:
+$$
 ```
 .*[\\\\/]+node_modules[\\\\/]+.*
 ```
 
-Related: [[../../unique/index|unique/index]]
+Related: $[../../unique/index|unique/index]$
 
 #tags: #obsidian #regex #tooling
 

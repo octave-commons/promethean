@@ -13,12 +13,13 @@ Aha — that _clicks_. You were probably seeing a **teaching environment that us
 You're likely remembering:
 
 * * *
-
+$$
 🧩 **Julia’s Lisp-Like Nature**
+$$
 -------------------------------
-
+$$
 Julia is _not_ a Lisp, but:
-
+$$
 *   **Its macro system is homoiconic**, like Lisp (code is data)
     
 *   It uses **prefix notation** for macros:
@@ -108,7 +109,9 @@ It was probably Julia or Racket/Scheme.
 Here’s how it likely looked:
 
 | Language | Used For | Look/Feel |
+$$
 | --- | --- | --- |
+$$
 | Julia | Symbolic computation, macros | Lisp-like ASTs and macros |
 | Cython | Typed, fast numerics / memory | Python-ish C |
 | Racket/Scheme | Recursion, symbolic logic | Pure Lisp |
@@ -116,8 +119,9 @@ Here’s how it likely looked:
 * * *
 
 🧠 So What Now?
+$$
 ===============
-
+$$
 If you want that **duality in your own system** — strict low-level with soft symbolic control — we can:
 
 *   Use **Hy** or **a custom Lisp DSL** for orchestration
@@ -130,12 +134,15 @@ If you want that **duality in your own system** — strict low-level with soft s
 Or we can _actually_ embed Julia and call into it from your Lisp shell via IPC or shared memory.
 
 * * *
-
+$$
 🏗️ Lisp-Julia-Cython Ecosystem?
+$$
 --------------------------------
 
 | Tool | Role |
+$$
 | --- | --- |
+$$
 | Lisp DSL | High-level orchestration |
 | Julia | Symbolic math, macro DSLs |
 | Cython | Hot loop / numerical backend |

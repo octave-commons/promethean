@@ -24,7 +24,7 @@ Crystallization at tension inflection points.
 $$ m(t) = m_0 e^{-\alpha t}, \quad q(t) = q_0 \cos(\omega t) $$
 Fading mass with oscillating charge under non-resolution.
 
-Related: [[advanced-field-math]], [[aionian-feedback-oscillator]], [[aionian-pulse-rhythm-model]], [[eidolon-field-math]], [[symbolic-gravity-models]] [[../../unique/index|unique/index]]
+Related: $[advanced-field-math]$, $[aionian-feedback-oscillator]$, $[aionian-pulse-rhythm-model]$, $[eidolon-field-math]$, $[symbolic-gravity-models]$ $[../../unique/index|unique/index]$
 
 #tags: #math #theory
 

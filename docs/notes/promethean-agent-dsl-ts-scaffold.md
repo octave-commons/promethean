@@ -1,11 +1,15 @@
 ---
+$$
 uuid: b1c658e7-5072-45ea-ba30-70c7300f3f6e
+$$
 created_at: promethean-agent-dsl-ts-scaffold.md
 filename: promethean-agent-dsl-ts-scaffold
 title: promethean-agent-dsl-ts-scaffold
+$$
 description: >-
+$$
   A single-paste bootstrap for creating a TypeScript scaffold for Promethean
-  Agent DSL (S-Expr) with parser, types, resolver, codegen, and example.
+  Agent DSL $S-Expr$ with parser, types, resolver, codegen, and example.
 tags:
   - typescript
   - s-expression
@@ -14,7 +18,9 @@ tags:
   - parser
   - codegen
   - example
+$$
 related_to_uuid:
+$$
   - 513dc4c7-e045-4123-ba2e-cf5ef0b7b4a3
   - b51e19b4-1326-4311-9798-33e972bf626c
   - 687439f9-ad1e-40a4-8a32-3a1b4ac7c017
@@ -40,7 +46,9 @@ related_to_uuid:
   - 5f210ca2-54e9-445b-afe4-fb340d4992c5
   - b6ae7dfa-0c53-4eb9-aea8-65072b825bee
   - d771154e-a7ef-44ca-b69c-a1626cf94fbf
+$$
 related_to_title:
+$$
   - mystery-lisp-search-session
   - promethean-system-diagrams
   - Matplotlib Animation with Async Execution
@@ -192,7 +200,7 @@ references:
     col: 0
     score: 0.85
 ---
-Got you. Here’s a **single-paste bootstrap** that lays down the full TS scaffold (parser + types + resolver + codegen + example). Paste this in a shell from the repo root: ^ref-5158f742-1-0
+Got you. Here’s a **single-paste bootstrap** that lays down the full TS scaffold $parser + types + resolver + codegen + example$. Paste this in a shell from the repo root: ^ref-5158f742-1-0
 
 ````bash
 # === Promethean Agent DSL (S-Expr) — TS Scaffold ===
@@ -262,8 +270,10 @@ See `examples/duck.sx`.
 import { buildAgentArtifacts } from "./dist/index.js";
 import { coerceNode } from "./dist/types/sexpr.js";
 
-const astFromReader = myReader.readFile("agents/duck/agent.sx");
+const astFromReader = myReader.readFile$"agents/duck/agent.sx"$;
+$$
 const node = coerceNode(astFromReader);
+$$
 const { agent, artifacts } = buildAgentArtifacts(node);
 
 // write artifacts.pm2 / artifacts.env / artifacts.permissions as you like
@@ -1014,13 +1024,15 @@ echo "  cd \$ROOT && npm i && npm run build"
 Quick notes:
 - This is **runtime-agnostic**; `emitPm2Ecosystem` gives you a ready `ecosystem.config.mjs` string if you want PM2, but you can also read `agent.topology` directly for a custom runner.
 - `:secret` forms emit `__SECRET__:ns/key` placeholders in `.env`. Wire your secret resolver at run/start time.
-- Block parameter substitution uses `:$param` in block `proc.args`, filled from `(use some.block/vN :with {:param ...})`.
+- Block parameter substitution uses `:$param` in block `proc.args`, filled from `$use some.block/vN :with {:param ...}$`.
 
 Want me to tack on a tiny `prom` CLI (Node) next that:
 - reads `.sx`, calls your reader → `coerceNode` → `buildAgentArtifacts`,
 - writes artifacts into `dist/agents/<id>/`,
 - and optionally spawns via PM2 or a minimal custom runner?
+$$
 ^ref-5158f742-817-0
+$$
 ```
 ^ref-5158f742-818-0
 erviceToScript(p.service);
@@ -1139,71 +1151,73 @@ echo "  cd \$ROOT && npm i && npm run build"
 Quick notes:
 - This is **runtime-agnostic**; `emitPm2Ecosystem` gives you a ready `ecosystem.config.mjs` string if you want PM2, but you can also read `agent.topology` directly for a custom runner.
 - `:secret` forms emit `__SECRET__:ns/key` placeholders in `.env`. Wire your secret resolver at run/start time.
-- Block parameter substitution uses `:$param` in block `proc.args`, filled from `(use some.block/vN :with {:param ...})`.
+- Block parameter substitution uses `:$param` in block `proc.args`, filled from `$use some.block/vN :with {:param ...}$`.
 
 Want me to tack on a tiny `prom` CLI (Node) next that:
 - reads `.sx`, calls your reader → `coerceNode` → `buildAgentArtifacts`,
 - writes artifacts into `dist/agents/<id>/`,
 - and optionally spawns via PM2 or a minimal custom runner?
+$$
 ^ref-5158f742-817-0
+$$
 ```
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [mystery-lisp-search-session](mystery-lisp-search-session.md)
-- [promethean-system-diagrams](promethean-system-diagrams.md)
-- [Matplotlib Animation with Async Execution](matplotlib-animation-with-async-execution.md)
-- [sibilant-meta-string-templating-runtime](sibilant-meta-string-templating-runtime.md)
-- [Polyglot S-expr Bridge: Python-JS-Lisp Interop](polyglot-s-expr-bridge-python-js-lisp-interop.md)
-- [Local-Only-LLM-Workflow](local-only-llm-workflow.md)
-- [Local-Offline-Model-Deployment-Strategy](local-offline-model-deployment-strategy.md)
-- [Interop and Source Maps](interop-and-source-maps.md)
-- [Language-Agnostic Mirror System](language-agnostic-mirror-system.md)
-- [i3-layout-saver](i3-layout-saver.md)
-- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler](ollama-llm-provider-for-pseudo-code-transpiler.md)
-- [ecs-scheduler-and-prefabs](ecs-scheduler-and-prefabs.md)
-- [Promethean Agent Config DSL](promethean-agent-config-dsl.md)
-- [Event Bus MVP](event-bus-mvp.md)
-- [Pure-Node Crawl Stack with Playwright and Crawlee](pure-node-crawl-stack-with-playwright-and-crawlee.md)
-- [lisp-dsl-for-window-management](lisp-dsl-for-window-management.md)
-- [Universal Lisp Interface](universal-lisp-interface.md)
-- [compiler-kit-foundations](compiler-kit-foundations.md)
-- [heartbeat-simulation-snippets](heartbeat-simulation-snippets.md)
-- [Voice Access Layer Design](voice-access-layer-design.md)
-- [layer-1-uptime-diagrams](layer-1-uptime-diagrams.md)
-- [Chroma-Embedding-Refactor](chroma-embedding-refactor.md)
-- [Cross-Target Macro System in Sibilant](cross-target-macro-system-in-sibilant.md)
-- [Ghostly Smoke Interference](ghostly-smoke-interference.md)
-- [Vectorial Exception Descent](vectorial-exception-descent.md)
+- $mystery-lisp-search-session$$mystery-lisp-search-session.md$
+- $promethean-system-diagrams$$promethean-system-diagrams.md$
+- [Matplotlib Animation with Async Execution]$matplotlib-animation-with-async-execution.md$
+- $sibilant-meta-string-templating-runtime$$sibilant-meta-string-templating-runtime.md$
+- $Polyglot S-expr Bridge: Python-JS-Lisp Interop$$polyglot-s-expr-bridge-python-js-lisp-interop.md$
+- $Local-Only-LLM-Workflow$$local-only-llm-workflow.md$
+- $Local-Offline-Model-Deployment-Strategy$$local-offline-model-deployment-strategy.md$
+- [Interop and Source Maps]$interop-and-source-maps.md$
+- $Language-Agnostic Mirror System$$language-agnostic-mirror-system.md$
+- $i3-layout-saver$$i3-layout-saver.md$
+- $Ollama-LLM-Provider-for-Pseudo-Code-Transpiler$$ollama-llm-provider-for-pseudo-code-transpiler.md$
+- $ecs-scheduler-and-prefabs$$ecs-scheduler-and-prefabs.md$
+- [Promethean Agent Config DSL]$promethean-agent-config-dsl.md$
+- [Event Bus MVP]$event-bus-mvp.md$
+- $Pure-Node Crawl Stack with Playwright and Crawlee$$pure-node-crawl-stack-with-playwright-and-crawlee.md$
+- $lisp-dsl-for-window-management$$lisp-dsl-for-window-management.md$
+- [Universal Lisp Interface]$universal-lisp-interface.md$
+- $compiler-kit-foundations$$compiler-kit-foundations.md$
+- $heartbeat-simulation-snippets$$heartbeat-simulation-snippets.md$
+- [Voice Access Layer Design]$voice-access-layer-design.md$
+- $layer-1-uptime-diagrams$$layer-1-uptime-diagrams.md$
+- $Chroma-Embedding-Refactor$$chroma-embedding-refactor.md$
+- $Cross-Target Macro System in Sibilant$$cross-target-macro-system-in-sibilant.md$
+- [Ghostly Smoke Interference]$ghostly-smoke-interference.md$
+- [Vectorial Exception Descent]$vectorial-exception-descent.md$
 ## Sources
-- [promethean-system-diagrams — L169](promethean-system-diagrams.md#^ref-b51e19b4-169-0) (line 169, col 0, score 0.97)
-- [Matplotlib Animation with Async Execution — L44](matplotlib-animation-with-async-execution.md#^ref-687439f9-44-0) (line 44, col 0, score 0.97)
-- [sibilant-meta-string-templating-runtime — L92](sibilant-meta-string-templating-runtime.md#^ref-2aafc801-92-0) (line 92, col 0, score 0.96)
-- [Local-Only-LLM-Workflow — L147](local-only-llm-workflow.md#^ref-9a8ab57e-147-0) (line 147, col 0, score 0.95)
-- [Interop and Source Maps — L497](interop-and-source-maps.md#^ref-cdfac40c-497-0) (line 497, col 0, score 0.95)
-- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L490](polyglot-s-expr-bridge-python-js-lisp-interop.md#^ref-63a1cc28-490-0) (line 490, col 0, score 0.95)
-- [Local-Offline-Model-Deployment-Strategy — L232](local-offline-model-deployment-strategy.md#^ref-ad7f1ed3-232-0) (line 232, col 0, score 0.95)
-- [Language-Agnostic Mirror System — L504](language-agnostic-mirror-system.md#^ref-d2b3628c-504-0) (line 504, col 0, score 0.95)
-- [i3-layout-saver — L79](i3-layout-saver.md#^ref-31f0166e-79-0) (line 79, col 0, score 0.95)
-- [lisp-dsl-for-window-management — L185](lisp-dsl-for-window-management.md#^ref-c5c5ff1c-185-0) (line 185, col 0, score 0.94)
-- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L151](ollama-llm-provider-for-pseudo-code-transpiler.md#^ref-b362e12e-151-0) (line 151, col 0, score 0.94)
-- [ecs-scheduler-and-prefabs — L376](ecs-scheduler-and-prefabs.md#^ref-c62a1815-376-0) (line 376, col 0, score 0.94)
-- [Promethean Agent Config DSL — L279](promethean-agent-config-dsl.md#^ref-2c00ce45-279-0) (line 279, col 0, score 0.94)
-- [Event Bus MVP — L524](event-bus-mvp.md#^ref-534fe91d-524-0) (line 524, col 0, score 0.94)
-- [Pure-Node Crawl Stack with Playwright and Crawlee — L400](pure-node-crawl-stack-with-playwright-and-crawlee.md#^ref-d527c05d-400-0) (line 400, col 0, score 0.94)
-- [Universal Lisp Interface — L187](universal-lisp-interface.md#^ref-b01856b4-187-0) (line 187, col 0, score 0.9)
-- [compiler-kit-foundations — L588](compiler-kit-foundations.md#^ref-01b21543-588-0) (line 588, col 0, score 0.89)
-- [heartbeat-simulation-snippets — L80](heartbeat-simulation-snippets.md#^ref-23e221e9-80-0) (line 80, col 0, score 0.88)
-- [Voice Access Layer Design — L280](voice-access-layer-design.md#^ref-543ed9b3-280-0) (line 280, col 0, score 0.87)
-- [Chroma-Embedding-Refactor — L289](chroma-embedding-refactor.md#^ref-8b256935-289-0) (line 289, col 0, score 0.87)
-- [layer-1-uptime-diagrams — L129](layer-1-uptime-diagrams.md#^ref-4127189a-129-0) (line 129, col 0, score 0.87)
-- [Cross-Target Macro System in Sibilant — L150](cross-target-macro-system-in-sibilant.md#^ref-5f210ca2-150-0) (line 150, col 0, score 0.87)
-- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L491](polyglot-s-expr-bridge-python-js-lisp-interop.md#^ref-63a1cc28-491-0) (line 491, col 0, score 0.87)
-- [Vectorial Exception Descent — L95](vectorial-exception-descent.md#^ref-d771154e-95-0) (line 95, col 0, score 0.86)
-- [set-assignment-in-lisp-ast — L148](set-assignment-in-lisp-ast.md#^ref-c5fba0a0-148-0) (line 148, col 0, score 0.86)
-- [Ghostly Smoke Interference — L40](ghostly-smoke-interference.md#^ref-b6ae7dfa-40-0) (line 40, col 0, score 0.86)
-- [mystery-lisp-search-session — L106](mystery-lisp-search-session.md#^ref-513dc4c7-106-0) (line 106, col 0, score 0.85)
-- [Lispy Macros with syntax-rules — L375](lispy-macros-with-syntax-rules.md#^ref-cbfe3513-375-0) (line 375, col 0, score 0.85)
-- [Recursive Prompt Construction Engine — L147](recursive-prompt-construction-engine.md#^ref-babdb9eb-147-0) (line 147, col 0, score 0.85)
-- [shared-package-layout-clarification — L137](shared-package-layout-clarification.md#^ref-36c8882a-137-0) (line 137, col 0, score 0.85)
-- [Stateful Partitions and Rebalancing — L272](stateful-partitions-and-rebalancing.md#^ref-4330e8f0-272-0) (line 272, col 0, score 0.85)
+- $promethean-system-diagrams — L169$$promethean-system-diagrams.md#^ref-b51e19b4-169-0$ (line 169, col 0, score 0.97)
+- [Matplotlib Animation with Async Execution — L44]$matplotlib-animation-with-async-execution.md#^ref-687439f9-44-0$ (line 44, col 0, score 0.97)
+- $sibilant-meta-string-templating-runtime — L92$$sibilant-meta-string-templating-runtime.md#^ref-2aafc801-92-0$ (line 92, col 0, score 0.96)
+- $Local-Only-LLM-Workflow — L147$$local-only-llm-workflow.md#^ref-9a8ab57e-147-0$ (line 147, col 0, score 0.95)
+- [Interop and Source Maps — L497]$interop-and-source-maps.md#^ref-cdfac40c-497-0$ (line 497, col 0, score 0.95)
+- $Polyglot S-expr Bridge: Python-JS-Lisp Interop — L490$$polyglot-s-expr-bridge-python-js-lisp-interop.md#^ref-63a1cc28-490-0$ (line 490, col 0, score 0.95)
+- $Local-Offline-Model-Deployment-Strategy — L232$$local-offline-model-deployment-strategy.md#^ref-ad7f1ed3-232-0$ (line 232, col 0, score 0.95)
+- $Language-Agnostic Mirror System — L504$$language-agnostic-mirror-system.md#^ref-d2b3628c-504-0$ (line 504, col 0, score 0.95)
+- $i3-layout-saver — L79$$i3-layout-saver.md#^ref-31f0166e-79-0$ (line 79, col 0, score 0.95)
+- $lisp-dsl-for-window-management — L185$$lisp-dsl-for-window-management.md#^ref-c5c5ff1c-185-0$ (line 185, col 0, score 0.94)
+- $Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L151$$ollama-llm-provider-for-pseudo-code-transpiler.md#^ref-b362e12e-151-0$ (line 151, col 0, score 0.94)
+- $ecs-scheduler-and-prefabs — L376$$ecs-scheduler-and-prefabs.md#^ref-c62a1815-376-0$ (line 376, col 0, score 0.94)
+- [Promethean Agent Config DSL — L279]$promethean-agent-config-dsl.md#^ref-2c00ce45-279-0$ (line 279, col 0, score 0.94)
+- [Event Bus MVP — L524]$event-bus-mvp.md#^ref-534fe91d-524-0$ (line 524, col 0, score 0.94)
+- $Pure-Node Crawl Stack with Playwright and Crawlee — L400$$pure-node-crawl-stack-with-playwright-and-crawlee.md#^ref-d527c05d-400-0$ (line 400, col 0, score 0.94)
+- [Universal Lisp Interface — L187]$universal-lisp-interface.md#^ref-b01856b4-187-0$ (line 187, col 0, score 0.9)
+- $compiler-kit-foundations — L588$$compiler-kit-foundations.md#^ref-01b21543-588-0$ (line 588, col 0, score 0.89)
+- $heartbeat-simulation-snippets — L80$$heartbeat-simulation-snippets.md#^ref-23e221e9-80-0$ (line 80, col 0, score 0.88)
+- [Voice Access Layer Design — L280]$voice-access-layer-design.md#^ref-543ed9b3-280-0$ (line 280, col 0, score 0.87)
+- $Chroma-Embedding-Refactor — L289$$chroma-embedding-refactor.md#^ref-8b256935-289-0$ (line 289, col 0, score 0.87)
+- $layer-1-uptime-diagrams — L129$$layer-1-uptime-diagrams.md#^ref-4127189a-129-0$ (line 129, col 0, score 0.87)
+- $Cross-Target Macro System in Sibilant — L150$$cross-target-macro-system-in-sibilant.md#^ref-5f210ca2-150-0$ (line 150, col 0, score 0.87)
+- $Polyglot S-expr Bridge: Python-JS-Lisp Interop — L491$$polyglot-s-expr-bridge-python-js-lisp-interop.md#^ref-63a1cc28-491-0$ (line 491, col 0, score 0.87)
+- [Vectorial Exception Descent — L95]$vectorial-exception-descent.md#^ref-d771154e-95-0$ (line 95, col 0, score 0.86)
+- $set-assignment-in-lisp-ast — L148$$set-assignment-in-lisp-ast.md#^ref-c5fba0a0-148-0$ (line 148, col 0, score 0.86)
+- [Ghostly Smoke Interference — L40]$ghostly-smoke-interference.md#^ref-b6ae7dfa-40-0$ (line 40, col 0, score 0.86)
+- $mystery-lisp-search-session — L106$$mystery-lisp-search-session.md#^ref-513dc4c7-106-0$ (line 106, col 0, score 0.85)
+- $Lispy Macros with syntax-rules — L375$$lispy-macros-with-syntax-rules.md#^ref-cbfe3513-375-0$ (line 375, col 0, score 0.85)
+- [Recursive Prompt Construction Engine — L147]$recursive-prompt-construction-engine.md#^ref-babdb9eb-147-0$ (line 147, col 0, score 0.85)
+- $shared-package-layout-clarification — L137$$shared-package-layout-clarification.md#^ref-36c8882a-137-0$ (line 137, col 0, score 0.85)
+- [Stateful Partitions and Rebalancing — L272]$stateful-partitions-and-rebalancing.md#^ref-4330e8f0-272-0$ (line 272, col 0, score 0.85)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

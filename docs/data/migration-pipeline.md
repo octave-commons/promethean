@@ -1,7 +1,9 @@
 # MongoDB ⇄ Chroma Migration Pipeline
 
 Status: Planned  
-Owner: Codex / Agent  
+$$
+Owner: Codex / Agent
+$$
 Labels: #data #migrations #mongodb #chroma #etl #ci #observability #promethean
 
 ## Goals
@@ -12,7 +14,7 @@ Labels: #data #migrations #mongodb #chroma #etl #ci #observability #promethean
 - Runbooks for cutover and rollback.
 
 ## Components
-- Shared lib (`@shared/prom-lib`): checkpoints, embedder, chroma wrapper, integrity helpers.
+- Shared lib $`@shared/prom-lib`$: checkpoints, embedder, chroma wrapper, integrity helpers.
 - Jobs: `services/ts/migrations/backfill.ts`, `cdc.ts`, `cutover.ts`, `rollback.ts`.
 - Reports: `docs/data/reports/*.json` and `*.md`.
 

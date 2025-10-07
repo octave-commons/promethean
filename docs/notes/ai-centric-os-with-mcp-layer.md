@@ -1,8 +1,14 @@
 ---
+$$
 uuid: 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
+$$
+$$
 created_at: 2025.08.31.12.06.46.md
+$$
 filename: AI-Centric OS with MCP Layer
+$$
 description: >-
+$$
   Designs a local-only, pure JS system for AI tooling with an MCP layer enabling
   agents to call domain-specific micro-services via strict policies and
   observability.
@@ -17,7 +23,9 @@ tags:
   - idempotency
   - policy
   - tooling
+$$
 related_to_title:
+$$
   - plan-update-confirmation
   - Promethean Agent Config DSL
   - Prometheus Observability Stack
@@ -35,7 +43,9 @@ related_to_title:
   - prompt-programming-language-lisp
   - balanced-bst
   - AI-First-OS-Model-Context-Protocol
+$$
 related_to_uuid:
+$$
   - b22d79c6-825b-4cd3-b0d3-1cef0532bb54
   - 2c00ce45-08cf-4b81-9883-6157f30b7fae
   - e90b5a16-d58f-424d-bd36-70e9bd2861ad
@@ -193,16 +203,16 @@ Alright — let’s wire your crawling/RAG/observability stack into an **AI-cent
 * Each **domain capability** is its own **MCP micro-server** with tight, explicit tools:
 
   * `mcp-crawl` → run crawls via Playwright/Crawlee + policies
-  * `mcp-policies` → read/patch `policies.yaml` (diff-based, schema-checked)
+  * `mcp-policies` → read/patch `policies.yaml` $diff-based, schema-checked$
   * `mcp-index` → push JSONL to OpenSearch/Meili (bulk, idempotent)
   * `mcp-search` → query OpenSearch/Meili for retrieval/RAG
   * `mcp-tor` → rotate circuits, query current exit, toggle per-domain proxy
   * `mcp-observe` → query Prometheus, tail Loki (scoped, safe)
   * `mcp-kv` → small local KV (agent state, tickets), backed by Redis
   * `mcp-queue` → NATS topics for long-running jobs & events
-* **Permissions layer (Circuit-2)**: every tool call evaluated against a **policy gate**:
+* **Permissions layer $Circuit-2$**: every tool call evaluated against a **policy gate**:
 
-  * **who** (agent id), **what** (tool + args hash), **where** (domain list), **rate**, **time-to-live**
+  * **who** (agent id), **what** $tool + args hash$, **where** (domain list), **rate**, **time-to-live**
   * Default-deny; allowlists live in `./infra/mcp/policy/*.yaml`
 * **Observability**: every tool call emits a structured event to NATS + Loki; you can graph success/fail/latency in Grafana.
 * **Idempotency**: every tool requires `request_id`; servers keep a short TTL de-dupe set in Redis.
@@ -212,9 +222,9 @@ Alright — let’s wire your crawling/RAG/observability stack into an **AI-cent
 # Message flow (typical)
 
 1. Planner agent → `mcp-search.query` (find targets)
-2. Planner agent → `mcp-policies.patch` (tighten allow/deny, per-domain throttles)
-3. Runner agent → `mcp-crawl.start` (returns `job_id`)
-4. Runner agent → `mcp-queue.subscribe("crawl.job.{job_id}.events")` (progress)
+2. Planner agent → `mcp-policies.patch` $tighten allow/deny, per-domain throttles$
+3. Runner agent → `mcp-crawl.start` $returns `job_id`$
+4. Runner agent → `mcp-queue.subscribe$"crawl.job.{job_id}.events"$` (progress)
 5. When done: `mcp-index.bulk` to OpenSearch/Meili
 6. Later: `mcp-tor.rotate` if exit poisoned, or `mcp-observe.tail` if errors spike
 
@@ -356,10 +366,10 @@ Keep tools **narrow** and **predictable**. All args JSON-schema validated.
 
 ---
 
-# Runtime boundaries (non-negotiables)
+# Runtime boundaries $non-negotiables$
 
 * **Network**: MCP servers are *the* egress chokepoints. Crawlers only go through `PROXY_URL` or per-domain proxy. No ad-hoc fetch from agents.
-* **FS**: Only read/write volumes you declare (`crawl_data`, `policies.yaml`, `/models/**`).
+* **FS**: Only read/write volumes you declare $`crawl_data`, `policies.yaml`, `/models/**`$.
 * **AuthZ**: Local **capability file** maps agent-id → allowed tools + domains + ceilings (pages, rpm, indices).
 * **Audit**: Every call → NATS (`mcp.calls`) + Loki with fields: `agent_id`, `tool`, `args_hash`, `status`, `latency_ms`.
 
@@ -459,7 +469,7 @@ services:
 
 # TypeScript micro-scaffold (one server)
 
-A minimal pattern you can reuse. (No external libs beyond `zod` + `fastify` if you want WS.)
+A minimal pattern you can reuse. $No external libs beyond `zod` + `fastify` if you want WS.$
 
 ```ts
 // services/mcp-crawl/src/server.ts
@@ -533,11 +543,11 @@ app.post('/tools/crawl.cancel', async (req, rep) => {
 app.listen({ host: '0.0.0.0', port: 8061 });
 ```
 
-> This pattern repeats for `mcp-policies` (read/patch YAML with schema guard), `mcp-index` (OpenSearch/Meili bulk), etc. Keep each server \~100–200 LOC.
+> This pattern repeats for `mcp-policies` $read/patch YAML with schema guard$, `mcp-index` $OpenSearch/Meili bulk$, etc. Keep each server \~100–200 LOC.
 
 ---
 
-# Policy/permission gating (Circuit-2)
+# Policy/permission gating $Circuit-2$
 
 * `./infra/mcp/policy/agents.yaml`
 
@@ -558,13 +568,13 @@ agents:
         where: ["opensearch:documents"]
 ```
 
-* Gatekeeper middleware checks `(agent_id, tool, args)` → allow/deny; logs decision.
+* Gatekeeper middleware checks `$agent_id, tool, args$` → allow/deny; logs decision.
 
 ---
 
 # Agent contracts (so the LLM doesn’t go rogue)
 
-* **Every tool call includes**: `agent_id`, `request_id`, `explain` (1-line why), `dry_run` (optional).
+* **Every tool call includes**: `agent_id`, `request_id`, `explain` $1-line why$, `dry_run` (optional).
 * **Tool outputs** are **small**: no megabyte blobs; large payloads go to `/data` + return a handle.
 * **Retry policy**: exponential backoff with jitter; *never* retry `policies.patch` without a new `request_id`.
 
@@ -577,60 +587,60 @@ agents:
 3. Add `mcp-index` when you like the content.
 4. Add `mcp-observe` last to watch agent behavior from Grafana.
 
-If you want, I’ll stub the remaining service skeletons (`mcp-policies`, `mcp-index`, `mcp-search`, `mcp-tor`, `mcp-observe`) with exact endpoints and \~50-line handlers each — JS only, clean and boring, ready to drop into your repo.
+If you want, I’ll stub the remaining service skeletons $`mcp-policies`, `mcp-index`, `mcp-search`, `mcp-tor`, `mcp-observe`$ with exact endpoints and \~50-line handlers each — JS only, clean and boring, ready to drop into your repo.
 
 \#mcp #agents #architecture #javascript #docker #nats #redis #opensearch #meilisearch #playwright #crawlee #tor #observability #prometheus #loki #grafana #promethean #permissions #circuit2
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [plan-update-confirmation](plan-update-confirmation.md)
-- [[promethean-agent-config-dsl|Promethean Agent Config DSL]]
-- [[prometheus-observability-stack|Prometheus Observability Stack]]
-- [[cross-target-macro-system-in-sibilant|Cross-Target Macro System in Sibilant]]
-- [[dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]]
-- [[js-to-lisp-reverse-compiler]]
-- [[lisp-compiler-integration]]
-- [[migrate-to-provider-tenant-architecture|Migrate to Provider-Tenant Architecture]]
-- [[observability-infrastructure-setup]]
-- [[local-offline-model-deployment-strategy]]
-- [[promethean-full-stack-docker-setup|Promethean Full-Stack Docker Setup]]
-- [[obsidian-chatgpt-plugin-integration-guide|Obsidian ChatGPT Plugin Integration Guide]]
-- [[obsidian-chatgpt-plugin-integration|Obsidian ChatGPT Plugin Integration]]
-- [[obsidian-templating-plugins-integration-guide|Obsidian Templating Plugins Integration Guide]]
-- [prompt-programming-language-lisp](prompt-programming-language-lisp.md)
-- [[balanced-bst]]
-- [[ai-first-os-model-context-protocol]]
+- $plan-update-confirmation$$plan-update-confirmation.md$
+- $[promethean-agent-config-dsl|Promethean Agent Config DSL]$
+- $[prometheus-observability-stack|Prometheus Observability Stack]$
+- $[cross-target-macro-system-in-sibilant|Cross-Target Macro System in Sibilant]$
+- $[dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]$
+- $[js-to-lisp-reverse-compiler]$
+- $[lisp-compiler-integration]$
+- $[migrate-to-provider-tenant-architecture|Migrate to Provider-Tenant Architecture]$
+- $[observability-infrastructure-setup]$
+- $[local-offline-model-deployment-strategy]$
+- $[promethean-full-stack-docker-setup|Promethean Full-Stack Docker Setup]$
+- $[obsidian-chatgpt-plugin-integration-guide|Obsidian ChatGPT Plugin Integration Guide]$
+- $[obsidian-chatgpt-plugin-integration|Obsidian ChatGPT Plugin Integration]$
+- $[obsidian-templating-plugins-integration-guide|Obsidian Templating Plugins Integration Guide]$
+- $prompt-programming-language-lisp$$prompt-programming-language-lisp.md$
+- $[balanced-bst]$
+- $[ai-first-os-model-context-protocol]$
 
 ## Sources
-- [[obsidian-chatgpt-plugin-integration-guide#L37|Obsidian ChatGPT Plugin Integration Guide — L37]] (line 37, col 1, score 1)
-- [[obsidian-chatgpt-plugin-integration-guide#L37|Obsidian ChatGPT Plugin Integration Guide — L37]] (line 37, col 3, score 1)
-- [[obsidian-chatgpt-plugin-integration#L37|Obsidian ChatGPT Plugin Integration — L37]] (line 37, col 1, score 1)
-- [[obsidian-chatgpt-plugin-integration#L37|Obsidian ChatGPT Plugin Integration — L37]] (line 37, col 3, score 1)
-- [[obsidian-templating-plugins-integration-guide#L89|Obsidian Templating Plugins Integration Guide — L89]] (line 89, col 1, score 1)
-- [[obsidian-templating-plugins-integration-guide#L89|Obsidian Templating Plugins Integration Guide — L89]] (line 89, col 3, score 1)
-- [prompt-programming-language-lisp — L70](prompt-programming-language-lisp.md#L70) (line 70, col 1, score 1)
-- [prompt-programming-language-lisp — L70](prompt-programming-language-lisp.md#L70) (line 70, col 3, score 1)
-- [[cross-target-macro-system-in-sibilant#L169|Cross-Target Macro System in Sibilant — L169]] (line 169, col 1, score 1)
-- [[cross-target-macro-system-in-sibilant#L169|Cross-Target Macro System in Sibilant — L169]] (line 169, col 3, score 1)
-- [[dynamic-context-model-for-web-components#L387|Dynamic Context Model for Web Components — L387]] (line 387, col 1, score 1)
-- [[dynamic-context-model-for-web-components#L387|Dynamic Context Model for Web Components — L387]] (line 387, col 3, score 1)
-- [[js-to-lisp-reverse-compiler#L410|js-to-lisp-reverse-compiler — L410]] (line 410, col 1, score 1)
-- [[js-to-lisp-reverse-compiler#L410|js-to-lisp-reverse-compiler — L410]] (line 410, col 3, score 1)
-- [[lisp-compiler-integration#L544|Lisp-Compiler-Integration — L544]] (line 544, col 1, score 1)
-- [[lisp-compiler-integration#L544|Lisp-Compiler-Integration — L544]] (line 544, col 3, score 1)
-- [[local-offline-model-deployment-strategy#L293|Local-Offline-Model-Deployment-Strategy — L293]] (line 293, col 1, score 1)
-- [[local-offline-model-deployment-strategy#L293|Local-Offline-Model-Deployment-Strategy — L293]] (line 293, col 3, score 1)
-- [[migrate-to-provider-tenant-architecture#L281|Migrate to Provider-Tenant Architecture — L281]] (line 281, col 1, score 1)
-- [[migrate-to-provider-tenant-architecture#L281|Migrate to Provider-Tenant Architecture — L281]] (line 281, col 3, score 1)
-- [[observability-infrastructure-setup#L361|observability-infrastructure-setup — L361]] (line 361, col 1, score 1)
-- [[observability-infrastructure-setup#L361|observability-infrastructure-setup — L361]] (line 361, col 3, score 1)
-- [[promethean-full-stack-docker-setup#L439|Promethean Full-Stack Docker Setup — L439]] (line 439, col 1, score 1)
-- [[promethean-full-stack-docker-setup#L439|Promethean Full-Stack Docker Setup — L439]] (line 439, col 3, score 1)
-- [[ai-first-os-model-context-protocol#L11|AI-First-OS-Model-Context-Protocol — L11]] (line 11, col 1, score 1)
-- [[ai-first-os-model-context-protocol#L11|AI-First-OS-Model-Context-Protocol — L11]] (line 11, col 3, score 1)
-- [[ai-first-os-model-context-protocol#L14|AI-First-OS-Model-Context-Protocol — L14]] (line 14, col 1, score 1)
-- [[ai-first-os-model-context-protocol#L14|AI-First-OS-Model-Context-Protocol — L14]] (line 14, col 3, score 1)
-- [[balanced-bst#L297|balanced-bst — L297]] (line 297, col 1, score 1)
-- [[balanced-bst#L297|balanced-bst — L297]] (line 297, col 3, score 1)
-- [[balanced-bst#L300|balanced-bst — L300]] (line 300, col 1, score 1)
-- [[balanced-bst#L300|balanced-bst — L300]] (line 300, col 3, score 1)
+- $[obsidian-chatgpt-plugin-integration-guide#L37|Obsidian ChatGPT Plugin Integration Guide — L37]$ (line 37, col 1, score 1)
+- $[obsidian-chatgpt-plugin-integration-guide#L37|Obsidian ChatGPT Plugin Integration Guide — L37]$ (line 37, col 3, score 1)
+- $[obsidian-chatgpt-plugin-integration#L37|Obsidian ChatGPT Plugin Integration — L37]$ (line 37, col 1, score 1)
+- $[obsidian-chatgpt-plugin-integration#L37|Obsidian ChatGPT Plugin Integration — L37]$ (line 37, col 3, score 1)
+- $[obsidian-templating-plugins-integration-guide#L89|Obsidian Templating Plugins Integration Guide — L89]$ (line 89, col 1, score 1)
+- $[obsidian-templating-plugins-integration-guide#L89|Obsidian Templating Plugins Integration Guide — L89]$ (line 89, col 3, score 1)
+- $prompt-programming-language-lisp — L70$$prompt-programming-language-lisp.md#L70$ (line 70, col 1, score 1)
+- $prompt-programming-language-lisp — L70$$prompt-programming-language-lisp.md#L70$ (line 70, col 3, score 1)
+- $[cross-target-macro-system-in-sibilant#L169|Cross-Target Macro System in Sibilant — L169]$ (line 169, col 1, score 1)
+- $[cross-target-macro-system-in-sibilant#L169|Cross-Target Macro System in Sibilant — L169]$ (line 169, col 3, score 1)
+- $[dynamic-context-model-for-web-components#L387|Dynamic Context Model for Web Components — L387]$ (line 387, col 1, score 1)
+- $[dynamic-context-model-for-web-components#L387|Dynamic Context Model for Web Components — L387]$ (line 387, col 3, score 1)
+- $[js-to-lisp-reverse-compiler#L410|js-to-lisp-reverse-compiler — L410]$ (line 410, col 1, score 1)
+- $[js-to-lisp-reverse-compiler#L410|js-to-lisp-reverse-compiler — L410]$ (line 410, col 3, score 1)
+- $[lisp-compiler-integration#L544|Lisp-Compiler-Integration — L544]$ (line 544, col 1, score 1)
+- $[lisp-compiler-integration#L544|Lisp-Compiler-Integration — L544]$ (line 544, col 3, score 1)
+- $[local-offline-model-deployment-strategy#L293|Local-Offline-Model-Deployment-Strategy — L293]$ (line 293, col 1, score 1)
+- $[local-offline-model-deployment-strategy#L293|Local-Offline-Model-Deployment-Strategy — L293]$ (line 293, col 3, score 1)
+- $[migrate-to-provider-tenant-architecture#L281|Migrate to Provider-Tenant Architecture — L281]$ (line 281, col 1, score 1)
+- $[migrate-to-provider-tenant-architecture#L281|Migrate to Provider-Tenant Architecture — L281]$ (line 281, col 3, score 1)
+- $[observability-infrastructure-setup#L361|observability-infrastructure-setup — L361]$ (line 361, col 1, score 1)
+- $[observability-infrastructure-setup#L361|observability-infrastructure-setup — L361]$ (line 361, col 3, score 1)
+- $[promethean-full-stack-docker-setup#L439|Promethean Full-Stack Docker Setup — L439]$ (line 439, col 1, score 1)
+- $[promethean-full-stack-docker-setup#L439|Promethean Full-Stack Docker Setup — L439]$ (line 439, col 3, score 1)
+- $[ai-first-os-model-context-protocol#L11|AI-First-OS-Model-Context-Protocol — L11]$ (line 11, col 1, score 1)
+- $[ai-first-os-model-context-protocol#L11|AI-First-OS-Model-Context-Protocol — L11]$ (line 11, col 3, score 1)
+- $[ai-first-os-model-context-protocol#L14|AI-First-OS-Model-Context-Protocol — L14]$ (line 14, col 1, score 1)
+- $[ai-first-os-model-context-protocol#L14|AI-First-OS-Model-Context-Protocol — L14]$ (line 14, col 3, score 1)
+- $[balanced-bst#L297|balanced-bst — L297]$ (line 297, col 1, score 1)
+- $[balanced-bst#L297|balanced-bst — L297]$ (line 297, col 3, score 1)
+- $[balanced-bst#L300|balanced-bst — L300]$ (line 300, col 1, score 1)
+- $[balanced-bst#L300|balanced-bst — L300]$ (line 300, col 3, score 1)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

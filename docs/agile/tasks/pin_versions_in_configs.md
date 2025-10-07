@@ -1,17 +1,24 @@
 ---
+$$
 uuid: 4beb36b0-7cc5-4116-a516-3927615031be
+$$
 title: Pin versions in configs
 status: todo
 priority: P3
 labels: []
+$$
 created_at: '2025-09-15T02:02:58.517Z'
+$$
 ---
 Got it. Here’s a practical expansion you can paste into the board and hand to Codex. It’s opinionated, deterministic, and aims to stop every “oops it upgraded” class of failure.
 
 # Pin versions in configs
-
+$$
 **Owner:** Codex / Agent
+$$
+$$
 **Status:** Planned
+$$
 **Labels:** #ops #codex-task #release-engineering #ci #sre #supply-chain #promethean
 
 ---
@@ -41,14 +48,14 @@ Ensure Promethean and Codex configs **explicitly pin** model, image, tool, and l
 ## 📦 Requirements
 
 * [ ] **Exact semver** for JS/TS (`"1.2.3"`), **no** `^`, `~`, `*`, ranges, or `latest`.
-* [ ] **Python locked** with `uv` (project uses `uv` + in-repo `.venv`): `pyproject.toml` + committed `uv.lock`. No bare `requirements.txt` without hashes.
+* [ ] **Python locked** with `uv` $project uses `uv` + in-repo `.venv`$: `pyproject.toml` + committed `uv.lock`. No bare `requirements.txt` without hashes.
 * [ ] **Docker images pinned** by **digest** (`image: node:22.5.1@sha256:...`). No floating majors/minors.
 * [ ] **GitHub Actions pinned** to **commit SHAs**, not `@v4` tags.
 * [ ] **Ollama/OpenVINO/Whisper/TTS/Embed** models pinned to **explicit tags or artifact hashes**. No “latest” or unqualified model names.
-* [ ] **System packages** pinned (`apt-get install pkg=1.2.3-*`) or vendor apt repo with version pin + `apt-mark hold`.
-* [ ] **Lockfiles committed** (`package-lock.json` or `pnpm-lock.yaml`, `uv.lock`, etc.).
-* [ ] **Engines/toolchains** declared and enforced (Node, Python, `uv`, `npm`/`pnpm`) across dev/CI.
-* [ ] **Version Matrix** doc (human-readable) committed and referenced by CI.
+* [ ] **System packages** pinned $`apt-get install pkg=1.2.3-*`$ or vendor apt repo with version pin + `apt-mark hold`.
+* [ ] **Lockfiles committed** $`package-lock.json` or `pnpm-lock.yaml`, `uv.lock`, etc.$.
+* [ ] **Engines/toolchains** declared and enforced $Node, Python, `uv`, `npm`/`pnpm`$ across dev/CI.
+* [ ] **Version Matrix** doc $human-readable$ committed and referenced by CI.
 
 ---
 
@@ -64,7 +71,7 @@ Ensure Promethean and Codex configs **explicitly pin** model, image, tool, and l
     * CI: `.github/workflows/*.yml` actions refs
     * System: any `apt`, `apk`, `dnf` invocations
     * Models: Ollama model lists, OpenVINO IRs, Whisper/TTS configs
-    * Tools: PM2 ecosystem, Makefile/Hy wrappers (`tools/build.hy`), `ecosystem.config.js`
+    * Tools: PM2 ecosystem, Makefile/Hy wrappers $`tools/build.hy`$, `ecosystem.config.js`
   * [ ] Produce a quick diffable list of offenders (floating tags, ranges, latest).
 * [ ] **Define the Version Matrix**
 
@@ -73,20 +80,20 @@ Ensure Promethean and Codex configs **explicitly pin** model, image, tool, and l
     * **Runtimes** (Node, Python, uv)
     * **JS/TS deps** (critical libs pinned)
     * **Python deps** (critical libs pinned)
-    * **Containers** (base image + digest)
+    * **Containers** $base image + digest$
     * **System packages**
-    * **Models** (Ollama, OpenVINO IR/ops-set, Whisper/TTS, Embeddings)
-    * **CI actions** (action\@commit SHA)
+    * **Models** $Ollama, OpenVINO IR/ops-set, Whisper/TTS, Embeddings$
+    * **CI actions** $action\@commit SHA$
   * [ ] Add rationale/compatibility notes (e.g., OpenVINO opset vs model).
 * [ ] **Pin Everything**
 
-  * [ ] JS/TS: replace `^`/`~` with exact; run `npm i --package-lock-only` (or `pnpm install --frozen-lockfile`) and commit.
+  * [ ] JS/TS: replace `^`/`~` with exact; run `npm i --package-lock-only` $or `pnpm install --frozen-lockfile`$ and commit.
   * [ ] Python: lock with `uv lock`; commit `uv.lock`; forbid bare `pip install`.
   * [ ] Docker: switch to digests (`FROM node:22.5.1@sha256:...`); update compose/manifests.
   * [ ] CI: replace `uses: actions/checkout@v4` → `@<full SHA>`; document how to bump.
   * [ ] Models:
 
-    * **Ollama**: use explicit tags (`qwen2.5-coder:7b-instruct-q5_K_M`), capture with `ollama show <model> --modelfile` and record source SHA if available.
+    * **Ollama**: use explicit tags $`qwen2.5-coder:7b-instruct-q5_K_M`$, capture with `ollama show <model> --modelfile` and record source SHA if available.
     * **OpenVINO**: pin IR artifacts (store under versioned path), record framework/opset.
     * **Whisper/TTS/Embeddings**: pin to model filename or release ID; store checksums.
   * [ ] System packages: set explicit versions and `apt-mark hold` where feasible.
@@ -141,8 +148,8 @@ Ensure Promethean and Codex configs **explicitly pin** model, image, tool, and l
 
 ## ✅ Acceptance Criteria
 
-* [ ] No floating versions in **any** config (JS/TS, Python, Docker, CI, models, system).
-* [ ] Lockfiles committed and verified by CI (`npm ci`/`pnpm install --frozen-lockfile`, `uv sync --frozen`).
+* [ ] No floating versions in **any** config $JS/TS, Python, Docker, CI, models, system$.
+* [ ] Lockfiles committed and verified by CI $`npm ci`/`pnpm install --frozen-lockfile`, `uv sync --frozen`$.
 * [ ] All Docker/compose/k8s images use **tag+digest**.
 * [ ] All GitHub Actions pinned to **commit SHAs**.
 * [ ] “Pins linter” runs in CI and **fails** on violations.
@@ -151,11 +158,11 @@ Ensure Promethean and Codex configs **explicitly pin** model, image, tool, and l
 
 ---
 
-## 🧪 Suggested Automation (safe one-liners)
+## 🧪 Suggested Automation $safe one-liners$
 
 > These are guardrails. Use them to find offenders; don’t blindly apply.
 
-* **Find semver ranges (JS/TS):**
+* **Find semver ranges $JS/TS$:**
 
   ```bash
   jq -r '.dependencies + .devDependencies | to_entries[] | select(.value|test("^[~^]")) | "\(.key): \(.value)"' package.json
@@ -187,9 +194,9 @@ Ensure Promethean and Codex configs **explicitly pin** model, image, tool, and l
 
 * `docs/ops/VERSION_MATRIX.md` (new)
 * `docs/ops/VERSIONING_POLICY.md` (new)
-* `.github/workflows/*` (pin to SHAs + add check step)
+* `.github/workflows/*` $pin to SHAs + add check step$
 * `Dockerfile`, `docker-compose.yml`, k8s manifests (digests)
-* `package.json` (+ lockfile) across services
+* `package.json` $+ lockfile$ across services
 * `pyproject.toml`, `uv.lock` across Python services
 * Model manifests: `models/**/manifest.json`, checksums
 * Pre-commit / CI linter: `scripts/ci/check-pins.js` (or `.py`)
@@ -244,6 +251,6 @@ chore(versions): pin runtimes, deps, images, models; add pins linter
 ## Notes
 - Tests or documentation are missing; acceptance criteria not fully met.
 - Story Points: 5
-
+$$
 #in-progress
-
+$$

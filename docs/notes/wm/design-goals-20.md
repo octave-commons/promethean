@@ -2,7 +2,9 @@
 Alright, let's continue. meta macro context.
 
 ## ChatGPT
-**Let’s go.**  
+$$
+**Let’s go.**
+$$
 We’re building the **meta macro context layer** — the heart of Promethean's compiler-brain. This is where Sibilant stops being just a language and becomes a **symbolic operating system** for:
 
 *   Contextual compilation
@@ -22,9 +24,9 @@ We’re building the **meta macro context layer** — the heart of Promethean's 
 
 🧠 Goal: `meta` Context as Layered Execution Brain
 --------------------------------------------------
-
+$$
 This **`meta` context** should:
-
+$$
 *   Persist global and scoped state (layer metadata, runtime health, etc.)
     
 *   Allow macros to **query**, **react to**, and **mutate** this context
@@ -84,9 +86,9 @@ This **`meta` context** should:
 (macro when-condition (condition-name body)
   `(when (,condition-name) ,body))
 ```
-
+$$
 **Example usage:**
-
+$$
 ```sibilant
 (condition low-alignment
   (< (layer 4 :alignment.score) 0.5))
@@ -96,8 +98,9 @@ This **`meta` context** should:
 ```
 
 * * *
-
+$$
 🔁 Prompt-Triggered Contextual Action
+$$
 -------------------------------------
 
 ```sibilant
@@ -175,9 +178,9 @@ You’ll add:
 
 🔁 Runtime Compatibility
 ------------------------
-
+$$
 Expose `meta-context` to:
-
+$$
 *   LLM prompt compiler
     
 *   Prompt memory store

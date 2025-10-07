@@ -1,5 +1,7 @@
 ---
+$$
 uuid: e5f6g7h8-i9j0-1234-efgh-567890123456
+$$
 title: Optimize piper pipeline performance and add comprehensive timeouts
 status: todo
 priority: P2
@@ -9,7 +11,9 @@ labels:
   - timeouts
   - optimization
   - monitoring
+$$
 created_at: '2025-10-05T00:00:00.000Z'
+$$
 ---
 
 ## 🛠️ Task: Optimize piper pipeline performance and add comprehensive timeouts

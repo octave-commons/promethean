@@ -1,8 +1,16 @@
+$$
 <!-- SYMPKG:PKG:BEGIN -->
+$$
 # @promethean/alias-rewrite
-**Folder:** `packages/alias-rewrite`  
-**Version:** `0.1.0`  
+$$
+**Folder:** `packages/alias-rewrite`
+$$
+$$
+**Version:** `0.1.0`
+$$
+$$
 **Domain:** `_root`
+$$
 ```mermaid
 graph LR
   A["@promethean/alias-rewrite"]
@@ -11,7 +19,9 @@ graph LR
   click D1 "../naming/README.md" "@promethean/naming"
 ```
 ## Dependencies
-- [@promethean/naming](../naming/README.md)
+- $@promethean/naming$$../naming/README.md$
 ## Dependents
 - _None_
+$$
 <!-- SYMPKG:PKG:END -->
+$$

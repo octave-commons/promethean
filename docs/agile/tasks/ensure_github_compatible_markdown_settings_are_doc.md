@@ -1,10 +1,14 @@
 ---
+$$
 uuid: 9061fb44-92a0-4799-a40d-420dd395577c
+$$
 title: ensure github compatible markdown settings are doc md
 status: todo
 priority: P3
 labels: []
+$$
 created_at: '2025-09-15T02:02:58.512Z'
+$$
 ---
 ## 🛠️ Task: Ensure GitHub-compatible markdown settings are documented
 

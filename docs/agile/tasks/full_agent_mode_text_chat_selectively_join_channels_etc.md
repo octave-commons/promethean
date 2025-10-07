@@ -1,14 +1,19 @@
 ---
+$$
 uuid: 20ce66a3-ab14-4107-9069-eb28438215ac
+$$
 title: full agent mode text chat selectively join channels etc md
 status: todo
 priority: P3
 labels: []
+$$
 created_at: '2025-09-15T02:02:58.514Z'
+$$
 ---
 ## 🛠️ Description
+$$
 **Status:** blocked
-
+$$
 Enable "full agent mode" in Discord where agents can join or leave channels, send messages, and run tasks in the background without spamming users.
 
 ---
@@ -40,9 +45,9 @@ Enable "full agent mode" in Discord where agents can join or leave channels, sen
 ---
 
 ## 🔗 Related Epics
-
+$$
 #framework-core
-
+$$
 ---
 
 ## ⛓️ Blocked By

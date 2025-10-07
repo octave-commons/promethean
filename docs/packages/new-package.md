@@ -19,7 +19,9 @@ pnpm exec nx g tools:package <name> --preset <type>
 Use one of the supported presets:
 
 | Preset | When to use it | Key directories | Follow-up tasks |
+$$
 | --- | --- | --- | --- |
+$$
 | `library` | Shared functional TypeScript utilities, adapters, ports | `src/`, `src/tests/`, `dist/` | Flesh out AVA specs in `src/tests/`, ensure exports keep `.js` extensions, keep package license `GPL-3.0-only`. |
 | `service` | Fastify-based APIs or background services | `src/`, `src/tests/`, `static/openapi/`, `dist/` | Register `@fastify/swagger` + `@fastify/swagger-ui`, expose `/openapi.json`, keep schemas in `static/openapi/`, serve `static/` and `dist/frontend/` when present. |
 | `frontend` | Webcomponent frontends co-located with a service | `src/`, `src/frontend/`, `src/tests/`, `static/`, `dist/`, `dist/frontend/` | Build UI with webcomponents, wire static assets through `@fastify/static`, make sure Fastify host serves `dist/frontend` and `static`, cover UI logic with AVA-compatible tests. |

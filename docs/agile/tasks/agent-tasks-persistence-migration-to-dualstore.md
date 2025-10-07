@@ -1,14 +1,19 @@
 ---
+$$
 uuid: 02e8c2e6-e235-482e-90d9-eb0ce93f8ef8
+$$
 title: agent tasks persistence migration to dualstore
 status: todo
 priority: P3
 labels: []
+$$
 created_at: '2025-09-15T02:02:58.507Z'
+$$
 ---
 ## 🗂 Task 1 — Setup Shared Persistence Module
+$$
 **Status:** blocked
-
+$$
 * [ ] Create directory `shared/ts/persistence/`.
 * [ ] Add:
 
@@ -56,13 +61,13 @@ created_at: '2025-09-15T02:02:58.507Z'
 ### SmartGPT Bridge
 
 * [ ] Remove `DualSink` usage.
-* [ ] Replace with `DualStore.create("bridge_logs")`.
+* [ ] Replace with `DualStore.create$"bridge_logs"$`.
 * [ ] Move cleanup jobs to `shared/ts/persistence/maintenance.ts`.
 
 ### Discord-embedder
 
 * [ ] Remove raw `MongoClient` + `ChromaClient`.
-* [ ] Replace with `DualStore.create("discord_messages")`.
+* [ ] Replace with `DualStore.create$"discord_messages"$`.
 
 ### Kanban Processor
 
@@ -119,7 +124,7 @@ created_at: '2025-09-15T02:02:58.507Z'
 
 ## 🏁 Final Deliverable
 
-* All services (`cephalon`, `bridge`, `discord-embedder`, `kanban-processor`, `markdown-graph`) use the shared persistence layer.
+* All services $`cephalon`, `bridge`, `discord-embedder`, `kanban-processor`, `markdown-graph`$ use the shared persistence layer.
 * Legacy persistence modules removed.
 * Tests green.
 * Docs updated.

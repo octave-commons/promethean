@@ -6,7 +6,7 @@ Sections:
 - Propagation: attenuation/per-axis coupling (κ terms)
 - Observation: node activation rate, binding radius changes
 
-Related: [[ripple-propagation-flow]], [[heartbeat-fragment-flow]] [[../../unique/index|unique/index]]
+Related: $[ripple-propagation-flow]$, $[heartbeat-fragment-flow]$ $[../../unique/index|unique/index]$
 
 #tags: #simulation #eidolon #ripple
 

@@ -1,14 +1,19 @@
 ---
+$$
 uuid: 701696e2-8054-4ccd-951f-7a40248b6628
+$$
 title: discord image awareness md md
 status: todo
 priority: P3
 labels: []
+$$
 created_at: '2025-09-15T02:02:58.511Z'
+$$
 ---
 ## 🛠️ Description
+$$
 **Status:** blocked
-
+$$
 Enable the system to **ingest and selectively include Discord images** into the context pipeline.
 Currently, image handling is limited to a single “moving frame” model, where only the latest image passes through the system. This change will allow **multiple relevant images** to be retained, filtered, and passed selectively based on context needs.
 
@@ -55,10 +60,12 @@ This allows the “Duck” to have **visual memory** tied to conversational cont
 ---
 
 ## 🔗 Related Epics
-
+$$
 #framework-core
+$$
+$$
 #ollama-integration
-
+$$
 ## Blockers
 - No active owner or unclear scope
 

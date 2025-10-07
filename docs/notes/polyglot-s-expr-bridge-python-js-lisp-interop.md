@@ -1,8 +1,14 @@
 ---
+$$
 uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+$$
+$$
 created_at: 2025.08.09.00.08.18.md
+$$
 filename: 'Polyglot S-expr Bridge: Python-JS-Lisp Interop'
+$$
 description: >-
+$$
   A minimal JSON-RPC bridge enabling seamless Python, JavaScript, and Lisp
   interop through a shared runtime. Supports async operations and
   cross-environment execution (Node.js, browser) with a unified Lisp interface.
@@ -18,7 +24,9 @@ tags:
   - s-expr
   - node
   - web
+$$
 related_to_title:
+$$
   - Performance-Optimized-Polyglot-Bridge
   - Local-Only-LLM-Workflow
   - Interop and Source Maps
@@ -50,7 +58,9 @@ related_to_title:
   - aionian-circuit-math
   - obsidian-ignore-node-modules-regex
   - Promethean Infrastructure Setup
+$$
 related_to_uuid:
+$$
   - f5579967-762d-4cfd-851e-4f71b4cb77a1
   - 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
   - cdfac40c-00e4-458f-96a7-4c37d0278731
@@ -1366,7 +1376,7 @@ export class PyodideTransport implements PyTransport {
 }
 ```
 
-…and reuse `new PythonBridge(new PyodideTransport(worker))`.
+…and reuse `new PythonBridge$new PyodideTransport(worker)$`.
 
 ---
 
@@ -1376,325 +1386,329 @@ export class PyodideTransport implements PyTransport {
 * **GC:** You can add a `FinalizationRegistry` in JS that sends `op:"release"` for proxies when collected.
 * **Perf:** For heavy data, add a binary fast path (msgpack or raw `bytes` over stdio) and optional **shared memory** for Node workers.
 * **Security:** This runtime evals Python code you told it to call. Don’t expose it to untrusted inputs without sandboxing.
-* **Ergonomics:** We can sugar `await` away with macros like `(py-> np sum [1 2 3])` that expand to `(await ((. ($py "numpy") sum) [1 2 3]))`.
+* **Ergonomics:** We can sugar `await` away with macros like `$py-> np sum [1 2 3]$` that expand to `$await ((. ($py "numpy") sum) [1 2 3])$`.
 
 ---
 
 If you want, I can:
 
 * add the **Pyodide transport** so this runs in a browser Worker,
-* add **NumPy zero-copy** (buffer protocol ↔ `ArrayBuffer`) for big arrays,
+* add **NumPy zero-copy** $buffer protocol ↔ `ArrayBuffer`$ for big arrays,
 * or hide `await` in **auto-async** macros that lift whole forms.
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
 <<<<<<< HEAD
-- [[docs/unique/eidolon-field-math-foundations|Eidolon Field Math Foundations]]
-- [[websocket-gateway-implementation|WebSocket Gateway Implementation]]
-- [[promethean-web-ui-setup|prom ui bootstrap]]
-- [[per-domain-policy-system-for-js-crawler|Per-Domain Policy System for JS Crawler]]
-- [[migrate-to-provider-tenant-architecture|Migrate to Provider-Tenant Architecture]]
+- $[docs/unique/eidolon-field-math-foundations|Eidolon Field Math Foundations]$
+- $[websocket-gateway-implementation|WebSocket Gateway Implementation]$
+- $[promethean-web-ui-setup|prom ui bootstrap]$
+- $[per-domain-policy-system-for-js-crawler|Per-Domain Policy System for JS Crawler]$
+- $[migrate-to-provider-tenant-architecture|Migrate to Provider-Tenant Architecture]$
 - [ParticleSimulationWithCanvasAndFFmpeg](particlesimulationwithcanvasandffmpeg.md)
-- [[obsidian-chatgpt-plugin-integration-guide|Obsidian ChatGPT Plugin Integration Guide]]
-- [[obsidian-chatgpt-plugin-integration|Obsidian ChatGPT Plugin Integration]]
-- [[docs/unique/obsidian-ignore-node-modules-regex|obsidian-ignore-node-modules-regex]]
-- [[obsidian-templating-plugins-integration-guide|Obsidian Templating Plugins Integration Guide]]
-- [[ice-box-reorganization|Ice Box Reorganization]]
-- [[model-selection-for-lightweight-conversational-tasks|Model Selection for Lightweight Conversational Tasks]]
-- [komorebi-group-window-hack](komorebi-group-window-hack.md)
-- [[promethean-native-config-design|Promethean-native config design]]
-- [[local-only-llm-workflow]]
-- [[ghostly-smoke-interference|Ghostly Smoke Interference]]
-- [[eidolon-field-optimization]]
-- [[cross-language-runtime-polymorphism|Cross-Language Runtime Polymorphism]]
-- [[pure-node-crawl-stack-with-playwright-and-crawlee|Pure-Node Crawl Stack with Playwright and Crawlee]]
-- [[voice-access-layer-design|Voice Access Layer Design]]
-- [[docops-feature-updates|Docops Feature Updates]]
-- [[cross-target-macro-system-in-sibilant|Cross-Target Macro System in Sibilant]]
-- [[promethean-system-diagrams]]
-- [[observability-infrastructure-setup]]
-- [[sibilant-meta-prompt-dsl|Sibilant Meta-Prompt DSL]]
+- $[obsidian-chatgpt-plugin-integration-guide|Obsidian ChatGPT Plugin Integration Guide]$
+- $[obsidian-chatgpt-plugin-integration|Obsidian ChatGPT Plugin Integration]$
+- $[docs/unique/obsidian-ignore-node-modules-regex|obsidian-ignore-node-modules-regex]$
+- $[obsidian-templating-plugins-integration-guide|Obsidian Templating Plugins Integration Guide]$
+- $[ice-box-reorganization|Ice Box Reorganization]$
+- $[model-selection-for-lightweight-conversational-tasks|Model Selection for Lightweight Conversational Tasks]$
+- $komorebi-group-window-hack$$komorebi-group-window-hack.md$
+- $[promethean-native-config-design|Promethean-native config design]$
+- $[local-only-llm-workflow]$
+- $[ghostly-smoke-interference|Ghostly Smoke Interference]$
+- $[eidolon-field-optimization]$
+- $[cross-language-runtime-polymorphism|Cross-Language Runtime Polymorphism]$
+- $[pure-node-crawl-stack-with-playwright-and-crawlee|Pure-Node Crawl Stack with Playwright and Crawlee]$
+- $[voice-access-layer-design|Voice Access Layer Design]$
+- $[docops-feature-updates|Docops Feature Updates]$
+- $[cross-target-macro-system-in-sibilant|Cross-Target Macro System in Sibilant]$
+- $[promethean-system-diagrams]$
+- $[observability-infrastructure-setup]$
+- $[sibilant-meta-prompt-dsl|Sibilant Meta-Prompt DSL]$
 ## Sources
-- [[docs/unique/eidolon-field-math-foundations#^ref-6420e101-1-0|Eidolon Field Math Foundations — L1]] (line 1, col 0, score 1)
-- [[docs/unique/eidolon-field-math-foundations#^ref-6420e101-3-0|Eidolon Field Math Foundations — L3]] (line 3, col 0, score 1)
-- [[docs/unique/eidolon-field-math-foundations#^ref-6420e101-5-0|Eidolon Field Math Foundations — L5]] (line 5, col 0, score 1)
-- [[docs/unique/eidolon-field-math-foundations#^ref-6420e101-13-0|Eidolon Field Math Foundations — L13]] (line 13, col 0, score 1)
-- [[websocket-gateway-implementation#^ref-e811123d-631-0|WebSocket Gateway Implementation — L631]] (line 631, col 0, score 0.9)
-- [[ice-box-reorganization#^ref-291c7d91-4165-0|Ice Box Reorganization — L4165]] (line 4165, col 0, score 0.89)
-- [komorebi-group-window-hack — L4204](komorebi-group-window-hack.md#^ref-dd89372d-4204-0) (line 4204, col 0, score 0.89)
-- [[migrate-to-provider-tenant-architecture#^ref-54382370-6597-0|Migrate to Provider-Tenant Architecture — L6597]] (line 6597, col 0, score 0.89)
-- [[model-selection-for-lightweight-conversational-tasks#^ref-d144aa62-4223-0|Model Selection for Lightweight Conversational Tasks — L4223]] (line 4223, col 0, score 0.89)
-- [[obsidian-chatgpt-plugin-integration-guide#^ref-1d3d6c3a-3303-0|Obsidian ChatGPT Plugin Integration Guide — L3303]] (line 3303, col 0, score 0.89)
-- [[obsidian-chatgpt-plugin-integration#^ref-ca8e1399-2919-0|Obsidian ChatGPT Plugin Integration — L2919]] (line 2919, col 0, score 0.89)
-- [[docs/unique/obsidian-ignore-node-modules-regex#^ref-ffb9b2a9-4487-0|obsidian-ignore-node-modules-regex — L4487]] (line 4487, col 0, score 0.89)
-- [[obsidian-templating-plugins-integration-guide#^ref-b39dc9d4-4525-0|Obsidian Templating Plugins Integration Guide — L4525]] (line 4525, col 0, score 0.89)
-- [ParticleSimulationWithCanvasAndFFmpeg — L3196](particlesimulationwithcanvasandffmpeg.md#^ref-e018dd7a-3196-0) (line 3196, col 0, score 0.89)
-- [[per-domain-policy-system-for-js-crawler#^ref-c03020e1-4693-0|Per-Domain Policy System for JS Crawler — L4693]] (line 4693, col 0, score 0.89)
-- [[cross-language-runtime-polymorphism#^ref-c34c36a6-212-0|Cross-Language Runtime Polymorphism — L212]] (line 212, col 0, score 0.88)
-- [[promethean-native-config-design#^ref-ab748541-305-0|Promethean-native config design — L305]] (line 305, col 0, score 0.88)
-- [[eidolon-field-optimization#^ref-40e05c14-50-0|Eidolon-Field-Optimization — L50]] (line 50, col 0, score 0.88)
-- [[local-only-llm-workflow#^ref-9a8ab57e-129-0|Local-Only-LLM-Workflow — L129]] (line 129, col 0, score 0.88)
-- [[ghostly-smoke-interference#^ref-b6ae7dfa-40-0|Ghostly Smoke Interference — L40]] (line 40, col 0, score 0.88)
-- [[voice-access-layer-design#^ref-543ed9b3-280-0|Voice Access Layer Design — L280]] (line 280, col 0, score 0.87)
-- [[cross-target-macro-system-in-sibilant#^ref-5f210ca2-150-0|Cross-Target Macro System in Sibilant — L150]] (line 150, col 0, score 0.87)
-- [[promethean-system-diagrams#^ref-b51e19b4-169-0|promethean-system-diagrams — L169]] (line 169, col 0, score 0.87)
-- [[pure-node-crawl-stack-with-playwright-and-crawlee#^ref-d527c05d-400-0|Pure-Node Crawl Stack with Playwright and Crawlee — L400]] (line 400, col 0, score 0.87)
-- [[sibilant-meta-prompt-dsl#^ref-af5d2824-120-0|Sibilant Meta-Prompt DSL — L120]] (line 120, col 0, score 0.87)
-- [[docops-feature-updates#^ref-2792d448-159-0|Docops Feature Updates — L159]] (line 159, col 0, score 0.87)
-- [[local-offline-model-deployment-strategy#^ref-ad7f1ed3-232-0|Local-Offline-Model-Deployment-Strategy — L232]] (line 232, col 0, score 0.87)
-- [[performance-optimized-polyglot-bridge#^ref-f5579967-171-0|Performance-Optimized-Polyglot-Bridge — L171]] (line 171, col 0, score 0.86)
-- [[typescript-patch-for-tool-calling-support#^ref-7b7ca860-160-0|TypeScript Patch for Tool Calling Support — L160]] (line 160, col 0, score 0.86)
-- [[recursive-prompt-construction-engine#^ref-babdb9eb-147-0|Recursive Prompt Construction Engine — L147]] (line 147, col 0, score 0.86)
-- [[shared-package-structure#^ref-66a72fc3-188-0|Shared Package Structure — L188]] (line 188, col 0, score 0.86)
-- [[promethean-web-ui-setup#^ref-bc5172ca-442-0|prom ui bootstrap — L442]] (line 442, col 0, score 0.86)
-- [[i3-config-validation-methods#^ref-d28090ac-28-0|i3-config-validation-methods — L28]] (line 28, col 0, score 0.86)
-- [[lisp-compiler-integration#^ref-cfee6d36-521-0|Lisp-Compiler-Integration — L521]] (line 521, col 0, score 0.86)
-- [[pm2-orchestration-patterns#^ref-51932e7b-217-0|pm2-orchestration-patterns — L217]] (line 217, col 0, score 0.86)
-- [[exception-layer-analysis#^ref-21d5cc09-63-0|Exception Layer Analysis — L63]] (line 63, col 0, score 0.86)
-- [[matplotlib-animation-with-async-execution#^ref-687439f9-16-0|Matplotlib Animation with Async Execution — L16]] (line 16, col 0, score 0.86)
-- [[pure-node-crawl-stack-with-playwright-and-crawlee#^ref-d527c05d-401-0|Pure-Node Crawl Stack with Playwright and Crawlee — L401]] (line 401, col 0, score 0.86)
-- [[docs/unique/universal-lisp-interface#^ref-b01856b4-187-0|Universal Lisp Interface — L187]] (line 187, col 0, score 0.86)
-- [[set-assignment-in-lisp-ast#^ref-c5fba0a0-148-0|set-assignment-in-lisp-ast — L148]] (line 148, col 0, score 0.86)
-- [[markdown-to-org-transpiler#^ref-ab54cdd8-272-0|markdown-to-org-transpiler — L272]] (line 272, col 0, score 0.86)
-- [[docs/unique/compiler-kit-foundations#^ref-01b21543-360-0|compiler-kit-foundations — L360]] (line 360, col 0, score 0.85)
-- [[universal-intention-code-fabric#^ref-c14edce7-388-0|universal-intention-code-fabric — L388]] (line 388, col 0, score 0.85)
-- [[state-snapshots-api-and-transactional-projector#^ref-509e1cd5-303-0|State Snapshots API and Transactional Projector — L303]] (line 303, col 0, score 0.85)
-- [[layer-1-uptime-diagrams#^ref-4127189a-129-0|layer-1-uptime-diagrams — L129]] (line 129, col 0, score 0.85)
-- [[vectorial-exception-descent#^ref-d771154e-95-0|Vectorial Exception Descent — L95]] (line 95, col 0, score 0.85)
-- [[observability-infrastructure-setup#^ref-b4e64f8c-348-0|observability-infrastructure-setup — L348]] (line 348, col 0, score 0.85)
-- [[promethean-agent-dsl-ts-scaffold#^ref-5158f742-818-0|Promethean Agent DSL TS Scaffold — L818]] (line 818, col 0, score 0.85)
+- $[docs/unique/eidolon-field-math-foundations#^ref-6420e101-1-0|Eidolon Field Math Foundations — L1]$ (line 1, col 0, score 1)
+- $[docs/unique/eidolon-field-math-foundations#^ref-6420e101-3-0|Eidolon Field Math Foundations — L3]$ (line 3, col 0, score 1)
+- $[docs/unique/eidolon-field-math-foundations#^ref-6420e101-5-0|Eidolon Field Math Foundations — L5]$ (line 5, col 0, score 1)
+- $[docs/unique/eidolon-field-math-foundations#^ref-6420e101-13-0|Eidolon Field Math Foundations — L13]$ (line 13, col 0, score 1)
+- $[websocket-gateway-implementation#^ref-e811123d-631-0|WebSocket Gateway Implementation — L631]$ (line 631, col 0, score 0.9)
+- $[ice-box-reorganization#^ref-291c7d91-4165-0|Ice Box Reorganization — L4165]$ (line 4165, col 0, score 0.89)
+- $komorebi-group-window-hack — L4204$$komorebi-group-window-hack.md#^ref-dd89372d-4204-0$ (line 4204, col 0, score 0.89)
+- $[migrate-to-provider-tenant-architecture#^ref-54382370-6597-0|Migrate to Provider-Tenant Architecture — L6597]$ (line 6597, col 0, score 0.89)
+- $[model-selection-for-lightweight-conversational-tasks#^ref-d144aa62-4223-0|Model Selection for Lightweight Conversational Tasks — L4223]$ (line 4223, col 0, score 0.89)
+- $[obsidian-chatgpt-plugin-integration-guide#^ref-1d3d6c3a-3303-0|Obsidian ChatGPT Plugin Integration Guide — L3303]$ (line 3303, col 0, score 0.89)
+- $[obsidian-chatgpt-plugin-integration#^ref-ca8e1399-2919-0|Obsidian ChatGPT Plugin Integration — L2919]$ (line 2919, col 0, score 0.89)
+- $[docs/unique/obsidian-ignore-node-modules-regex#^ref-ffb9b2a9-4487-0|obsidian-ignore-node-modules-regex — L4487]$ (line 4487, col 0, score 0.89)
+- $[obsidian-templating-plugins-integration-guide#^ref-b39dc9d4-4525-0|Obsidian Templating Plugins Integration Guide — L4525]$ (line 4525, col 0, score 0.89)
+- [ParticleSimulationWithCanvasAndFFmpeg — L3196]$particlesimulationwithcanvasandffmpeg.md#^ref-e018dd7a-3196-0$ (line 3196, col 0, score 0.89)
+- $[per-domain-policy-system-for-js-crawler#^ref-c03020e1-4693-0|Per-Domain Policy System for JS Crawler — L4693]$ (line 4693, col 0, score 0.89)
+- $[cross-language-runtime-polymorphism#^ref-c34c36a6-212-0|Cross-Language Runtime Polymorphism — L212]$ (line 212, col 0, score 0.88)
+- $[promethean-native-config-design#^ref-ab748541-305-0|Promethean-native config design — L305]$ (line 305, col 0, score 0.88)
+- $[eidolon-field-optimization#^ref-40e05c14-50-0|Eidolon-Field-Optimization — L50]$ (line 50, col 0, score 0.88)
+- $[local-only-llm-workflow#^ref-9a8ab57e-129-0|Local-Only-LLM-Workflow — L129]$ (line 129, col 0, score 0.88)
+- $[ghostly-smoke-interference#^ref-b6ae7dfa-40-0|Ghostly Smoke Interference — L40]$ (line 40, col 0, score 0.88)
+- $[voice-access-layer-design#^ref-543ed9b3-280-0|Voice Access Layer Design — L280]$ (line 280, col 0, score 0.87)
+- $[cross-target-macro-system-in-sibilant#^ref-5f210ca2-150-0|Cross-Target Macro System in Sibilant — L150]$ (line 150, col 0, score 0.87)
+- $[promethean-system-diagrams#^ref-b51e19b4-169-0|promethean-system-diagrams — L169]$ (line 169, col 0, score 0.87)
+- $[pure-node-crawl-stack-with-playwright-and-crawlee#^ref-d527c05d-400-0|Pure-Node Crawl Stack with Playwright and Crawlee — L400]$ (line 400, col 0, score 0.87)
+- $[sibilant-meta-prompt-dsl#^ref-af5d2824-120-0|Sibilant Meta-Prompt DSL — L120]$ (line 120, col 0, score 0.87)
+- $[docops-feature-updates#^ref-2792d448-159-0|Docops Feature Updates — L159]$ (line 159, col 0, score 0.87)
+- $[local-offline-model-deployment-strategy#^ref-ad7f1ed3-232-0|Local-Offline-Model-Deployment-Strategy — L232]$ (line 232, col 0, score 0.87)
+- $[performance-optimized-polyglot-bridge#^ref-f5579967-171-0|Performance-Optimized-Polyglot-Bridge — L171]$ (line 171, col 0, score 0.86)
+- $[typescript-patch-for-tool-calling-support#^ref-7b7ca860-160-0|TypeScript Patch for Tool Calling Support — L160]$ (line 160, col 0, score 0.86)
+- $[recursive-prompt-construction-engine#^ref-babdb9eb-147-0|Recursive Prompt Construction Engine — L147]$ (line 147, col 0, score 0.86)
+- $[shared-package-structure#^ref-66a72fc3-188-0|Shared Package Structure — L188]$ (line 188, col 0, score 0.86)
+- $[promethean-web-ui-setup#^ref-bc5172ca-442-0|prom ui bootstrap — L442]$ (line 442, col 0, score 0.86)
+- $[i3-config-validation-methods#^ref-d28090ac-28-0|i3-config-validation-methods — L28]$ (line 28, col 0, score 0.86)
+- $[lisp-compiler-integration#^ref-cfee6d36-521-0|Lisp-Compiler-Integration — L521]$ (line 521, col 0, score 0.86)
+- $[pm2-orchestration-patterns#^ref-51932e7b-217-0|pm2-orchestration-patterns — L217]$ (line 217, col 0, score 0.86)
+- $[exception-layer-analysis#^ref-21d5cc09-63-0|Exception Layer Analysis — L63]$ (line 63, col 0, score 0.86)
+- $[matplotlib-animation-with-async-execution#^ref-687439f9-16-0|Matplotlib Animation with Async Execution — L16]$ (line 16, col 0, score 0.86)
+- $[pure-node-crawl-stack-with-playwright-and-crawlee#^ref-d527c05d-401-0|Pure-Node Crawl Stack with Playwright and Crawlee — L401]$ (line 401, col 0, score 0.86)
+- $[docs/unique/universal-lisp-interface#^ref-b01856b4-187-0|Universal Lisp Interface — L187]$ (line 187, col 0, score 0.86)
+- $[set-assignment-in-lisp-ast#^ref-c5fba0a0-148-0|set-assignment-in-lisp-ast — L148]$ (line 148, col 0, score 0.86)
+- $[markdown-to-org-transpiler#^ref-ab54cdd8-272-0|markdown-to-org-transpiler — L272]$ (line 272, col 0, score 0.86)
+- $[docs/unique/compiler-kit-foundations#^ref-01b21543-360-0|compiler-kit-foundations — L360]$ (line 360, col 0, score 0.85)
+- $[universal-intention-code-fabric#^ref-c14edce7-388-0|universal-intention-code-fabric — L388]$ (line 388, col 0, score 0.85)
+- $[state-snapshots-api-and-transactional-projector#^ref-509e1cd5-303-0|State Snapshots API and Transactional Projector — L303]$ (line 303, col 0, score 0.85)
+- $[layer-1-uptime-diagrams#^ref-4127189a-129-0|layer-1-uptime-diagrams — L129]$ (line 129, col 0, score 0.85)
+- $[vectorial-exception-descent#^ref-d771154e-95-0|Vectorial Exception Descent — L95]$ (line 95, col 0, score 0.85)
+- $[observability-infrastructure-setup#^ref-b4e64f8c-348-0|observability-infrastructure-setup — L348]$ (line 348, col 0, score 0.85)
+- $[promethean-agent-dsl-ts-scaffold#^ref-5158f742-818-0|Promethean Agent DSL TS Scaffold — L818]$ (line 818, col 0, score 0.85)
+$$
 =======
-- [[performance-optimized-polyglot-bridge]]
-- [[local-only-llm-workflow]]
-- [[docs/unique/interop-and-source-maps|Interop and Source Maps]]
-- [[universal-intention-code-fabric]]
-- [[docs/unique/ecs-offload-workers|ecs-offload-workers]]
-- [[ecs-scheduler-and-prefabs]]
-- [System Scheduler with Resource-Aware DAG](system-scheduler-with-resource-aware-dag.md)
-- [[markdown-to-org-transpiler]]
-- [[ollama-llm-provider-for-pseudo-code-transpiler]]
-- [[set-assignment-in-lisp-ast]]
-- [[docs/unique/compiler-kit-foundations|compiler-kit-foundations]]
-- [[lisp-compiler-integration]]
-- [[lispy-macros-with-syntax-rules|Lispy Macros with syntax-rules]]
-- [[docs/unique/template-based-compilation|template-based-compilation]]
-- [[docs/unique/universal-lisp-interface|Universal Lisp Interface]]
-- [[js-to-lisp-reverse-compiler]]
-- [Local-First Intention→Code Loop with Free Models](local-first-intention-code-loop-with-free-models.md)
-- [[chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]]
-- [[language-agnostic-mirror-system|Language-Agnostic Mirror System]]
-- [DSL](chunks/dsl.md)
-- [[docs/unique/archetype-ecs|archetype-ecs]]
-- [JavaScript](chunks/javascript.md)
-- [[docs/unique/eidolon-field-math-foundations|eidolon-field-math-foundations]]
-- [[admin-dashboard-for-user-management|Admin Dashboard for User Management]]
-- [[i3-config-validation-methods]]
-- [[cross-language-runtime-polymorphism|Cross-Language Runtime Polymorphism]]
-- [[cross-target-macro-system-in-sibilant|Cross-Target Macro System in Sibilant]]
-- [[polymorphic-meta-programming-engine]]
-- [[docs/unique/aionian-circuit-math|aionian-circuit-math]]
-- [[docs/unique/obsidian-ignore-node-modules-regex|obsidian-ignore-node-modules-regex]]
-- [[promethean-infrastructure-setup|Promethean Infrastructure Setup]]
+$$
+- $[performance-optimized-polyglot-bridge]$
+- $[local-only-llm-workflow]$
+- $[docs/unique/interop-and-source-maps|Interop and Source Maps]$
+- $[universal-intention-code-fabric]$
+- $[docs/unique/ecs-offload-workers|ecs-offload-workers]$
+- $[ecs-scheduler-and-prefabs]$
+- $System Scheduler with Resource-Aware DAG$$system-scheduler-with-resource-aware-dag.md$
+- $[markdown-to-org-transpiler]$
+- $[ollama-llm-provider-for-pseudo-code-transpiler]$
+- $[set-assignment-in-lisp-ast]$
+- $[docs/unique/compiler-kit-foundations|compiler-kit-foundations]$
+- $[lisp-compiler-integration]$
+- $[lispy-macros-with-syntax-rules|Lispy Macros with syntax-rules]$
+- $[docs/unique/template-based-compilation|template-based-compilation]$
+- $[docs/unique/universal-lisp-interface|Universal Lisp Interface]$
+- $[js-to-lisp-reverse-compiler]$
+- $Local-First Intention→Code Loop with Free Models$$local-first-intention-code-loop-with-free-models.md$
+- $[chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]$
+- $[language-agnostic-mirror-system|Language-Agnostic Mirror System]$
+- [DSL]$chunks/dsl.md$
+- $[docs/unique/archetype-ecs|archetype-ecs]$
+- [JavaScript]$chunks/javascript.md$
+- $[docs/unique/eidolon-field-math-foundations|eidolon-field-math-foundations]$
+- $[admin-dashboard-for-user-management|Admin Dashboard for User Management]$
+- $[i3-config-validation-methods]$
+- $[cross-language-runtime-polymorphism|Cross-Language Runtime Polymorphism]$
+- $[cross-target-macro-system-in-sibilant|Cross-Target Macro System in Sibilant]$
+- $[polymorphic-meta-programming-engine]$
+- $[docs/unique/aionian-circuit-math|aionian-circuit-math]$
+- $[docs/unique/obsidian-ignore-node-modules-regex|obsidian-ignore-node-modules-regex]$
+- $[promethean-infrastructure-setup|Promethean Infrastructure Setup]$
 
 ## Sources
-- [[performance-optimized-polyglot-bridge#L170|Performance-Optimized-Polyglot-Bridge — L170]] (line 170, col 1, score 0.86)
-- [[docs/unique/interop-and-source-maps#L21|Interop and Source Maps — L21]] (line 21, col 1, score 0.92)
-- [[performance-optimized-polyglot-bridge#L429|Performance-Optimized-Polyglot-Bridge — L429]] (line 429, col 1, score 1)
-- [[local-only-llm-workflow#L163|Local-Only-LLM-Workflow — L163]] (line 163, col 1, score 0.94)
-- [[universal-intention-code-fabric#L424|universal-intention-code-fabric — L424]] (line 424, col 1, score 0.88)
-- [[ecs-scheduler-and-prefabs#L379|ecs-scheduler-and-prefabs — L379]] (line 379, col 1, score 0.85)
-- [[docs/unique/ecs-offload-workers#L446|ecs-offload-workers — L446]] (line 446, col 1, score 0.85)
-- [System Scheduler with Resource-Aware DAG — L377](system-scheduler-with-resource-aware-dag.md#L377) (line 377, col 1, score 0.85)
-- [[markdown-to-org-transpiler#L289|markdown-to-org-transpiler — L289]] (line 289, col 1, score 0.85)
-- [[ollama-llm-provider-for-pseudo-code-transpiler#L153|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L153]] (line 153, col 1, score 0.85)
-- [[admin-dashboard-for-user-management#L41|Admin Dashboard for User Management — L41]] (line 41, col 1, score 1)
-- [[admin-dashboard-for-user-management#L41|Admin Dashboard for User Management — L41]] (line 41, col 3, score 1)
-- [[docs/unique/ecs-offload-workers#L461|ecs-offload-workers — L461]] (line 461, col 1, score 1)
-- [[docs/unique/ecs-offload-workers#L461|ecs-offload-workers — L461]] (line 461, col 3, score 1)
-- [[ecs-scheduler-and-prefabs#L397|ecs-scheduler-and-prefabs — L397]] (line 397, col 1, score 1)
-- [[ecs-scheduler-and-prefabs#L397|ecs-scheduler-and-prefabs — L397]] (line 397, col 3, score 1)
-- [[local-only-llm-workflow#L173|Local-Only-LLM-Workflow — L173]] (line 173, col 1, score 1)
-- [[local-only-llm-workflow#L173|Local-Only-LLM-Workflow — L173]] (line 173, col 3, score 1)
-- [[i3-config-validation-methods#L56|i3-config-validation-methods — L56]] (line 56, col 1, score 1)
-- [[i3-config-validation-methods#L56|i3-config-validation-methods — L56]] (line 56, col 3, score 1)
-- [Local-First Intention→Code Loop with Free Models — L143](local-first-intention-code-loop-with-free-models.md#L143) (line 143, col 1, score 1)
-- [Local-First Intention→Code Loop with Free Models — L143](local-first-intention-code-loop-with-free-models.md#L143) (line 143, col 3, score 1)
-- [[ollama-llm-provider-for-pseudo-code-transpiler#L167|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L167]] (line 167, col 1, score 1)
-- [[ollama-llm-provider-for-pseudo-code-transpiler#L167|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L167]] (line 167, col 3, score 1)
-- [[performance-optimized-polyglot-bridge#L438|Performance-Optimized-Polyglot-Bridge — L438]] (line 438, col 1, score 1)
-- [[performance-optimized-polyglot-bridge#L438|Performance-Optimized-Polyglot-Bridge — L438]] (line 438, col 3, score 1)
-- [DSL — L11](chunks/dsl.md#L11) (line 11, col 1, score 1)
-- [DSL — L11](chunks/dsl.md#L11) (line 11, col 3, score 1)
-- [[docs/unique/compiler-kit-foundations#L606|compiler-kit-foundations — L606]] (line 606, col 1, score 1)
-- [[docs/unique/compiler-kit-foundations#L606|compiler-kit-foundations — L606]] (line 606, col 3, score 1)
-- [[js-to-lisp-reverse-compiler#L422|js-to-lisp-reverse-compiler — L422]] (line 422, col 1, score 1)
-- [[js-to-lisp-reverse-compiler#L422|js-to-lisp-reverse-compiler — L422]] (line 422, col 3, score 1)
-- [[language-agnostic-mirror-system#L534|Language-Agnostic Mirror System — L534]] (line 534, col 1, score 1)
-- [[language-agnostic-mirror-system#L534|Language-Agnostic Mirror System — L534]] (line 534, col 3, score 1)
-- [[docs/unique/interop-and-source-maps#L518|Interop and Source Maps — L518]] (line 518, col 1, score 1)
-- [[docs/unique/interop-and-source-maps#L518|Interop and Source Maps — L518]] (line 518, col 3, score 1)
-- [[language-agnostic-mirror-system#L538|Language-Agnostic Mirror System — L538]] (line 538, col 1, score 1)
-- [[language-agnostic-mirror-system#L538|Language-Agnostic Mirror System — L538]] (line 538, col 3, score 1)
-- [[local-only-llm-workflow#L171|Local-Only-LLM-Workflow — L171]] (line 171, col 1, score 1)
-- [[local-only-llm-workflow#L171|Local-Only-LLM-Workflow — L171]] (line 171, col 3, score 1)
-- [[ollama-llm-provider-for-pseudo-code-transpiler#L171|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L171]] (line 171, col 1, score 1)
-- [[ollama-llm-provider-for-pseudo-code-transpiler#L171|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L171]] (line 171, col 3, score 1)
-- [[docs/unique/archetype-ecs#L460|archetype-ecs — L460]] (line 460, col 1, score 1)
-- [[docs/unique/archetype-ecs#L460|archetype-ecs — L460]] (line 460, col 3, score 1)
-- [JavaScript — L15](chunks/javascript.md#L15) (line 15, col 1, score 1)
-- [JavaScript — L15](chunks/javascript.md#L15) (line 15, col 3, score 1)
-- [[ecs-scheduler-and-prefabs#L388|ecs-scheduler-and-prefabs — L388]] (line 388, col 1, score 1)
-- [[ecs-scheduler-and-prefabs#L388|ecs-scheduler-and-prefabs — L388]] (line 388, col 3, score 1)
-- [[docs/unique/eidolon-field-math-foundations#L129|eidolon-field-math-foundations — L129]] (line 129, col 1, score 1)
-- [[docs/unique/eidolon-field-math-foundations#L129|eidolon-field-math-foundations — L129]] (line 129, col 3, score 1)
-- [[docs/unique/archetype-ecs#L454|archetype-ecs — L454]] (line 454, col 1, score 1)
-- [[docs/unique/archetype-ecs#L454|archetype-ecs — L454]] (line 454, col 3, score 1)
-- [[chroma-toolkit-consolidation-plan#L171|Chroma Toolkit Consolidation Plan — L171]] (line 171, col 1, score 1)
-- [[chroma-toolkit-consolidation-plan#L171|Chroma Toolkit Consolidation Plan — L171]] (line 171, col 3, score 1)
-- [JavaScript — L14](chunks/javascript.md#L14) (line 14, col 1, score 1)
-- [JavaScript — L14](chunks/javascript.md#L14) (line 14, col 3, score 1)
-- [[docs/unique/ecs-offload-workers#L454|ecs-offload-workers — L454]] (line 454, col 1, score 1)
-- [[docs/unique/ecs-offload-workers#L454|ecs-offload-workers — L454]] (line 454, col 3, score 1)
-- [[docs/unique/archetype-ecs#L455|archetype-ecs — L455]] (line 455, col 1, score 1)
-- [[docs/unique/archetype-ecs#L455|archetype-ecs — L455]] (line 455, col 3, score 1)
-- [[docs/unique/ecs-offload-workers#L455|ecs-offload-workers — L455]] (line 455, col 1, score 1)
-- [[docs/unique/ecs-offload-workers#L455|ecs-offload-workers — L455]] (line 455, col 3, score 1)
-- [[ecs-scheduler-and-prefabs#L387|ecs-scheduler-and-prefabs — L387]] (line 387, col 1, score 1)
-- [[ecs-scheduler-and-prefabs#L387|ecs-scheduler-and-prefabs — L387]] (line 387, col 3, score 1)
-- [[docs/unique/eidolon-field-math-foundations#L130|eidolon-field-math-foundations — L130]] (line 130, col 1, score 1)
-- [[docs/unique/eidolon-field-math-foundations#L130|eidolon-field-math-foundations — L130]] (line 130, col 3, score 1)
-- [[docs/unique/ecs-offload-workers#L456|ecs-offload-workers — L456]] (line 456, col 1, score 1)
-- [[docs/unique/ecs-offload-workers#L456|ecs-offload-workers — L456]] (line 456, col 3, score 1)
-- [[ecs-scheduler-and-prefabs#L390|ecs-scheduler-and-prefabs — L390]] (line 390, col 1, score 1)
-- [[ecs-scheduler-and-prefabs#L390|ecs-scheduler-and-prefabs — L390]] (line 390, col 3, score 1)
-- [[docs/unique/eidolon-field-math-foundations#L131|eidolon-field-math-foundations — L131]] (line 131, col 1, score 1)
-- [[docs/unique/eidolon-field-math-foundations#L131|eidolon-field-math-foundations — L131]] (line 131, col 3, score 1)
-- [[js-to-lisp-reverse-compiler#L424|js-to-lisp-reverse-compiler — L424]] (line 424, col 1, score 1)
-- [[js-to-lisp-reverse-compiler#L424|js-to-lisp-reverse-compiler — L424]] (line 424, col 3, score 1)
-- [[docs/unique/ecs-offload-workers#L457|ecs-offload-workers — L457]] (line 457, col 1, score 1)
-- [[docs/unique/ecs-offload-workers#L457|ecs-offload-workers — L457]] (line 457, col 3, score 1)
-- [[ecs-scheduler-and-prefabs#L391|ecs-scheduler-and-prefabs — L391]] (line 391, col 1, score 1)
-- [[ecs-scheduler-and-prefabs#L391|ecs-scheduler-and-prefabs — L391]] (line 391, col 3, score 1)
-- [[docs/unique/eidolon-field-math-foundations#L132|eidolon-field-math-foundations — L132]] (line 132, col 1, score 1)
-- [[docs/unique/eidolon-field-math-foundations#L132|eidolon-field-math-foundations — L132]] (line 132, col 3, score 1)
-- [Local-First Intention→Code Loop with Free Models — L145](local-first-intention-code-loop-with-free-models.md#L145) (line 145, col 1, score 1)
-- [Local-First Intention→Code Loop with Free Models — L145](local-first-intention-code-loop-with-free-models.md#L145) (line 145, col 3, score 1)
-- [[docs/unique/compiler-kit-foundations#L607|compiler-kit-foundations — L607]] (line 607, col 1, score 1)
-- [[docs/unique/compiler-kit-foundations#L607|compiler-kit-foundations — L607]] (line 607, col 3, score 1)
-- [[docs/unique/interop-and-source-maps#L514|Interop and Source Maps — L514]] (line 514, col 1, score 1)
-- [[docs/unique/interop-and-source-maps#L514|Interop and Source Maps — L514]] (line 514, col 3, score 1)
-- [[js-to-lisp-reverse-compiler#L411|js-to-lisp-reverse-compiler — L411]] (line 411, col 1, score 1)
-- [[js-to-lisp-reverse-compiler#L411|js-to-lisp-reverse-compiler — L411]] (line 411, col 3, score 1)
-- [[language-agnostic-mirror-system#L535|Language-Agnostic Mirror System — L535]] (line 535, col 1, score 1)
-- [[language-agnostic-mirror-system#L535|Language-Agnostic Mirror System — L535]] (line 535, col 3, score 1)
-- [DSL — L13](chunks/dsl.md#L13) (line 13, col 1, score 1)
-- [DSL — L13](chunks/dsl.md#L13) (line 13, col 3, score 1)
-- [[docs/unique/interop-and-source-maps#L513|Interop and Source Maps — L513]] (line 513, col 1, score 1)
-- [[docs/unique/interop-and-source-maps#L513|Interop and Source Maps — L513]] (line 513, col 3, score 1)
-- [[lisp-compiler-integration#L539|Lisp-Compiler-Integration — L539]] (line 539, col 1, score 1)
-- [[lisp-compiler-integration#L539|Lisp-Compiler-Integration — L539]] (line 539, col 3, score 1)
-- [[lispy-macros-with-syntax-rules#L400|Lispy Macros with syntax-rules — L400]] (line 400, col 1, score 1)
-- [[lispy-macros-with-syntax-rules#L400|Lispy Macros with syntax-rules — L400]] (line 400, col 3, score 1)
-- [[docs/unique/compiler-kit-foundations#L610|compiler-kit-foundations — L610]] (line 610, col 1, score 1)
-- [[docs/unique/compiler-kit-foundations#L610|compiler-kit-foundations — L610]] (line 610, col 3, score 1)
-- [[docs/unique/interop-and-source-maps#L515|Interop and Source Maps — L515]] (line 515, col 1, score 1)
-- [[docs/unique/interop-and-source-maps#L515|Interop and Source Maps — L515]] (line 515, col 3, score 1)
-- [[js-to-lisp-reverse-compiler#L423|js-to-lisp-reverse-compiler — L423]] (line 423, col 1, score 1)
-- [[js-to-lisp-reverse-compiler#L423|js-to-lisp-reverse-compiler — L423]] (line 423, col 3, score 1)
-- [[language-agnostic-mirror-system#L532|Language-Agnostic Mirror System — L532]] (line 532, col 1, score 1)
-- [[language-agnostic-mirror-system#L532|Language-Agnostic Mirror System — L532]] (line 532, col 3, score 1)
-- [[docs/unique/compiler-kit-foundations#L608|compiler-kit-foundations — L608]] (line 608, col 1, score 1)
-- [[docs/unique/compiler-kit-foundations#L608|compiler-kit-foundations — L608]] (line 608, col 3, score 1)
-- [[docs/unique/interop-and-source-maps#L516|Interop and Source Maps — L516]] (line 516, col 1, score 1)
-- [[docs/unique/interop-and-source-maps#L516|Interop and Source Maps — L516]] (line 516, col 3, score 1)
-- [[language-agnostic-mirror-system#L536|Language-Agnostic Mirror System — L536]] (line 536, col 1, score 1)
-- [[language-agnostic-mirror-system#L536|Language-Agnostic Mirror System — L536]] (line 536, col 3, score 1)
-- [[lisp-compiler-integration#L538|Lisp-Compiler-Integration — L538]] (line 538, col 1, score 1)
-- [[lisp-compiler-integration#L538|Lisp-Compiler-Integration — L538]] (line 538, col 3, score 1)
-- [[docs/unique/aionian-circuit-math#L155|aionian-circuit-math — L155]] (line 155, col 1, score 1)
-- [[docs/unique/aionian-circuit-math#L155|aionian-circuit-math — L155]] (line 155, col 3, score 1)
-- [[docs/unique/compiler-kit-foundations#L609|compiler-kit-foundations — L609]] (line 609, col 1, score 1)
-- [[docs/unique/compiler-kit-foundations#L609|compiler-kit-foundations — L609]] (line 609, col 3, score 1)
-- [[cross-language-runtime-polymorphism#L203|Cross-Language Runtime Polymorphism — L203]] (line 203, col 1, score 1)
-- [[cross-language-runtime-polymorphism#L203|Cross-Language Runtime Polymorphism — L203]] (line 203, col 3, score 1)
-- [[cross-target-macro-system-in-sibilant#L168|Cross-Target Macro System in Sibilant — L168]] (line 168, col 1, score 1)
-- [[cross-target-macro-system-in-sibilant#L168|Cross-Target Macro System in Sibilant — L168]] (line 168, col 3, score 1)
-- [[cross-language-runtime-polymorphism#L207|Cross-Language Runtime Polymorphism — L207]] (line 207, col 1, score 1)
-- [[cross-language-runtime-polymorphism#L207|Cross-Language Runtime Polymorphism — L207]] (line 207, col 3, score 1)
-- [Local-First Intention→Code Loop with Free Models — L146](local-first-intention-code-loop-with-free-models.md#L146) (line 146, col 1, score 1)
-- [Local-First Intention→Code Loop with Free Models — L146](local-first-intention-code-loop-with-free-models.md#L146) (line 146, col 3, score 1)
-- [[docs/unique/obsidian-ignore-node-modules-regex#L52|obsidian-ignore-node-modules-regex — L52]] (line 52, col 1, score 1)
-- [[docs/unique/obsidian-ignore-node-modules-regex#L52|obsidian-ignore-node-modules-regex — L52]] (line 52, col 3, score 1)
-- [[polymorphic-meta-programming-engine#L196|polymorphic-meta-programming-engine — L196]] (line 196, col 1, score 1)
-- [[polymorphic-meta-programming-engine#L196|polymorphic-meta-programming-engine — L196]] (line 196, col 3, score 1)
-- [[admin-dashboard-for-user-management#L44|Admin Dashboard for User Management — L44]] (line 44, col 1, score 0.99)
-- [[admin-dashboard-for-user-management#L44|Admin Dashboard for User Management — L44]] (line 44, col 3, score 0.99)
-- [[universal-intention-code-fabric#L445|universal-intention-code-fabric — L445]] (line 445, col 1, score 0.99)
-- [[universal-intention-code-fabric#L445|universal-intention-code-fabric — L445]] (line 445, col 3, score 0.99)
-- [[docs/unique/ecs-offload-workers#L478|ecs-offload-workers — L478]] (line 478, col 1, score 0.99)
-- [[docs/unique/ecs-offload-workers#L478|ecs-offload-workers — L478]] (line 478, col 3, score 0.99)
-- [[ecs-scheduler-and-prefabs#L428|ecs-scheduler-and-prefabs — L428]] (line 428, col 1, score 0.99)
-- [[ecs-scheduler-and-prefabs#L428|ecs-scheduler-and-prefabs — L428]] (line 428, col 3, score 0.99)
-- [[lisp-compiler-integration#L551|Lisp-Compiler-Integration — L551]] (line 551, col 1, score 1)
-- [[lisp-compiler-integration#L551|Lisp-Compiler-Integration — L551]] (line 551, col 3, score 1)
-- [[lisp-compiler-integration#L555|Lisp-Compiler-Integration — L555]] (line 555, col 1, score 0.99)
-- [[lisp-compiler-integration#L555|Lisp-Compiler-Integration — L555]] (line 555, col 3, score 0.99)
-- [[lispy-macros-with-syntax-rules#L413|Lispy Macros with syntax-rules — L413]] (line 413, col 1, score 0.98)
-- [[lispy-macros-with-syntax-rules#L413|Lispy Macros with syntax-rules — L413]] (line 413, col 3, score 0.98)
-- [[lispy-macros-with-syntax-rules#L415|Lispy Macros with syntax-rules — L415]] (line 415, col 1, score 0.98)
-- [[lispy-macros-with-syntax-rules#L415|Lispy Macros with syntax-rules — L415]] (line 415, col 3, score 0.98)
-- [[local-only-llm-workflow#L187|Local-Only-LLM-Workflow — L187]] (line 187, col 1, score 0.99)
-- [[local-only-llm-workflow#L187|Local-Only-LLM-Workflow — L187]] (line 187, col 3, score 0.99)
-- [[performance-optimized-polyglot-bridge#L452|Performance-Optimized-Polyglot-Bridge — L452]] (line 452, col 1, score 1)
-- [[performance-optimized-polyglot-bridge#L452|Performance-Optimized-Polyglot-Bridge — L452]] (line 452, col 3, score 1)
-- [[promethean-infrastructure-setup#L615|Promethean Infrastructure Setup — L615]] (line 615, col 1, score 1)
-- [[promethean-infrastructure-setup#L615|Promethean Infrastructure Setup — L615]] (line 615, col 3, score 1)
-- [[universal-intention-code-fabric#L444|universal-intention-code-fabric — L444]] (line 444, col 1, score 0.99)
-- [[universal-intention-code-fabric#L444|universal-intention-code-fabric — L444]] (line 444, col 3, score 0.99)
-- [[ollama-llm-provider-for-pseudo-code-transpiler#L175|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L175]] (line 175, col 1, score 0.99)
-- [[ollama-llm-provider-for-pseudo-code-transpiler#L175|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L175]] (line 175, col 3, score 0.99)
-- [[performance-optimized-polyglot-bridge#L453|Performance-Optimized-Polyglot-Bridge — L453]] (line 453, col 1, score 1)
-- [[performance-optimized-polyglot-bridge#L453|Performance-Optimized-Polyglot-Bridge — L453]] (line 453, col 3, score 1)
-- [[local-only-llm-workflow#L186|Local-Only-LLM-Workflow — L186]] (line 186, col 1, score 0.99)
-- [[local-only-llm-workflow#L186|Local-Only-LLM-Workflow — L186]] (line 186, col 3, score 0.99)
-- [[local-only-llm-workflow#L190|Local-Only-LLM-Workflow — L190]] (line 190, col 1, score 1)
-- [[local-only-llm-workflow#L190|Local-Only-LLM-Workflow — L190]] (line 190, col 3, score 1)
-- [[performance-optimized-polyglot-bridge#L454|Performance-Optimized-Polyglot-Bridge — L454]] (line 454, col 1, score 1)
-- [[performance-optimized-polyglot-bridge#L454|Performance-Optimized-Polyglot-Bridge — L454]] (line 454, col 3, score 1)
-- [[docs/unique/eidolon-field-math-foundations#L154|eidolon-field-math-foundations — L154]] (line 154, col 1, score 1)
-- [[docs/unique/eidolon-field-math-foundations#L154|eidolon-field-math-foundations — L154]] (line 154, col 3, score 1)
-- [[promethean-infrastructure-setup#L609|Promethean Infrastructure Setup — L609]] (line 609, col 1, score 1)
-- [[promethean-infrastructure-setup#L609|Promethean Infrastructure Setup — L609]] (line 609, col 3, score 1)
-- [[local-only-llm-workflow#L191|Local-Only-LLM-Workflow — L191]] (line 191, col 1, score 1)
-- [[local-only-llm-workflow#L191|Local-Only-LLM-Workflow — L191]] (line 191, col 3, score 1)
-- [[performance-optimized-polyglot-bridge#L455|Performance-Optimized-Polyglot-Bridge — L455]] (line 455, col 1, score 1)
-- [[performance-optimized-polyglot-bridge#L455|Performance-Optimized-Polyglot-Bridge — L455]] (line 455, col 3, score 1)
-- [[docs/unique/eidolon-field-math-foundations#L155|eidolon-field-math-foundations — L155]] (line 155, col 1, score 1)
-- [[docs/unique/eidolon-field-math-foundations#L155|eidolon-field-math-foundations — L155]] (line 155, col 3, score 1)
-- [[promethean-infrastructure-setup#L610|Promethean Infrastructure Setup — L610]] (line 610, col 1, score 1)
-- [[promethean-infrastructure-setup#L610|Promethean Infrastructure Setup — L610]] (line 610, col 3, score 1)
-- [[local-only-llm-workflow#L192|Local-Only-LLM-Workflow — L192]] (line 192, col 1, score 1)
-- [[local-only-llm-workflow#L192|Local-Only-LLM-Workflow — L192]] (line 192, col 3, score 1)
-- [[performance-optimized-polyglot-bridge#L456|Performance-Optimized-Polyglot-Bridge — L456]] (line 456, col 1, score 1)
-- [[performance-optimized-polyglot-bridge#L456|Performance-Optimized-Polyglot-Bridge — L456]] (line 456, col 3, score 1)
-- [[docs/unique/eidolon-field-math-foundations#L156|eidolon-field-math-foundations — L156]] (line 156, col 1, score 1)
-- [[docs/unique/eidolon-field-math-foundations#L156|eidolon-field-math-foundations — L156]] (line 156, col 3, score 1)
-- [[promethean-infrastructure-setup#L611|Promethean Infrastructure Setup — L611]] (line 611, col 1, score 1)
-- [[promethean-infrastructure-setup#L611|Promethean Infrastructure Setup — L611]] (line 611, col 3, score 1)
-- [[local-only-llm-workflow#L193|Local-Only-LLM-Workflow — L193]] (line 193, col 1, score 1)
-- [[local-only-llm-workflow#L193|Local-Only-LLM-Workflow — L193]] (line 193, col 3, score 1)
-- [[performance-optimized-polyglot-bridge#L457|Performance-Optimized-Polyglot-Bridge — L457]] (line 457, col 1, score 1)
-- [[performance-optimized-polyglot-bridge#L457|Performance-Optimized-Polyglot-Bridge — L457]] (line 457, col 3, score 1)
-- [[docs/unique/eidolon-field-math-foundations#L157|eidolon-field-math-foundations — L157]] (line 157, col 1, score 1)
-- [[docs/unique/eidolon-field-math-foundations#L157|eidolon-field-math-foundations — L157]] (line 157, col 3, score 1)
-- [[promethean-infrastructure-setup#L612|Promethean Infrastructure Setup — L612]] (line 612, col 1, score 1)
-- [[promethean-infrastructure-setup#L612|Promethean Infrastructure Setup — L612]] (line 612, col 3, score 1)
-- [[local-only-llm-workflow#L194|Local-Only-LLM-Workflow — L194]] (line 194, col 1, score 1)
-- [[local-only-llm-workflow#L194|Local-Only-LLM-Workflow — L194]] (line 194, col 3, score 1)
-- [[performance-optimized-polyglot-bridge#L458|Performance-Optimized-Polyglot-Bridge — L458]] (line 458, col 1, score 1)
-- [[performance-optimized-polyglot-bridge#L458|Performance-Optimized-Polyglot-Bridge — L458]] (line 458, col 3, score 1)
-- [[docs/unique/eidolon-field-math-foundations#L158|eidolon-field-math-foundations — L158]] (line 158, col 1, score 1)
-- [[docs/unique/eidolon-field-math-foundations#L158|eidolon-field-math-foundations — L158]] (line 158, col 3, score 1)
-- [[promethean-infrastructure-setup#L613|Promethean Infrastructure Setup — L613]] (line 613, col 1, score 1)
-- [[promethean-infrastructure-setup#L613|Promethean Infrastructure Setup — L613]] (line 613, col 3, score 1)
+- $[performance-optimized-polyglot-bridge#L170|Performance-Optimized-Polyglot-Bridge — L170]$ (line 170, col 1, score 0.86)
+- $[docs/unique/interop-and-source-maps#L21|Interop and Source Maps — L21]$ (line 21, col 1, score 0.92)
+- $[performance-optimized-polyglot-bridge#L429|Performance-Optimized-Polyglot-Bridge — L429]$ (line 429, col 1, score 1)
+- $[local-only-llm-workflow#L163|Local-Only-LLM-Workflow — L163]$ (line 163, col 1, score 0.94)
+- $[universal-intention-code-fabric#L424|universal-intention-code-fabric — L424]$ (line 424, col 1, score 0.88)
+- $[ecs-scheduler-and-prefabs#L379|ecs-scheduler-and-prefabs — L379]$ (line 379, col 1, score 0.85)
+- $[docs/unique/ecs-offload-workers#L446|ecs-offload-workers — L446]$ (line 446, col 1, score 0.85)
+- $System Scheduler with Resource-Aware DAG — L377$$system-scheduler-with-resource-aware-dag.md#L377$ (line 377, col 1, score 0.85)
+- $[markdown-to-org-transpiler#L289|markdown-to-org-transpiler — L289]$ (line 289, col 1, score 0.85)
+- $[ollama-llm-provider-for-pseudo-code-transpiler#L153|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L153]$ (line 153, col 1, score 0.85)
+- $[admin-dashboard-for-user-management#L41|Admin Dashboard for User Management — L41]$ (line 41, col 1, score 1)
+- $[admin-dashboard-for-user-management#L41|Admin Dashboard for User Management — L41]$ (line 41, col 3, score 1)
+- $[docs/unique/ecs-offload-workers#L461|ecs-offload-workers — L461]$ (line 461, col 1, score 1)
+- $[docs/unique/ecs-offload-workers#L461|ecs-offload-workers — L461]$ (line 461, col 3, score 1)
+- $[ecs-scheduler-and-prefabs#L397|ecs-scheduler-and-prefabs — L397]$ (line 397, col 1, score 1)
+- $[ecs-scheduler-and-prefabs#L397|ecs-scheduler-and-prefabs — L397]$ (line 397, col 3, score 1)
+- $[local-only-llm-workflow#L173|Local-Only-LLM-Workflow — L173]$ (line 173, col 1, score 1)
+- $[local-only-llm-workflow#L173|Local-Only-LLM-Workflow — L173]$ (line 173, col 3, score 1)
+- $[i3-config-validation-methods#L56|i3-config-validation-methods — L56]$ (line 56, col 1, score 1)
+- $[i3-config-validation-methods#L56|i3-config-validation-methods — L56]$ (line 56, col 3, score 1)
+- $Local-First Intention→Code Loop with Free Models — L143$$local-first-intention-code-loop-with-free-models.md#L143$ (line 143, col 1, score 1)
+- $Local-First Intention→Code Loop with Free Models — L143$$local-first-intention-code-loop-with-free-models.md#L143$ (line 143, col 3, score 1)
+- $[ollama-llm-provider-for-pseudo-code-transpiler#L167|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L167]$ (line 167, col 1, score 1)
+- $[ollama-llm-provider-for-pseudo-code-transpiler#L167|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L167]$ (line 167, col 3, score 1)
+- $[performance-optimized-polyglot-bridge#L438|Performance-Optimized-Polyglot-Bridge — L438]$ (line 438, col 1, score 1)
+- $[performance-optimized-polyglot-bridge#L438|Performance-Optimized-Polyglot-Bridge — L438]$ (line 438, col 3, score 1)
+- [DSL — L11]$chunks/dsl.md#L11$ (line 11, col 1, score 1)
+- [DSL — L11]$chunks/dsl.md#L11$ (line 11, col 3, score 1)
+- $[docs/unique/compiler-kit-foundations#L606|compiler-kit-foundations — L606]$ (line 606, col 1, score 1)
+- $[docs/unique/compiler-kit-foundations#L606|compiler-kit-foundations — L606]$ (line 606, col 3, score 1)
+- $[js-to-lisp-reverse-compiler#L422|js-to-lisp-reverse-compiler — L422]$ (line 422, col 1, score 1)
+- $[js-to-lisp-reverse-compiler#L422|js-to-lisp-reverse-compiler — L422]$ (line 422, col 3, score 1)
+- $[language-agnostic-mirror-system#L534|Language-Agnostic Mirror System — L534]$ (line 534, col 1, score 1)
+- $[language-agnostic-mirror-system#L534|Language-Agnostic Mirror System — L534]$ (line 534, col 3, score 1)
+- $[docs/unique/interop-and-source-maps#L518|Interop and Source Maps — L518]$ (line 518, col 1, score 1)
+- $[docs/unique/interop-and-source-maps#L518|Interop and Source Maps — L518]$ (line 518, col 3, score 1)
+- $[language-agnostic-mirror-system#L538|Language-Agnostic Mirror System — L538]$ (line 538, col 1, score 1)
+- $[language-agnostic-mirror-system#L538|Language-Agnostic Mirror System — L538]$ (line 538, col 3, score 1)
+- $[local-only-llm-workflow#L171|Local-Only-LLM-Workflow — L171]$ (line 171, col 1, score 1)
+- $[local-only-llm-workflow#L171|Local-Only-LLM-Workflow — L171]$ (line 171, col 3, score 1)
+- $[ollama-llm-provider-for-pseudo-code-transpiler#L171|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L171]$ (line 171, col 1, score 1)
+- $[ollama-llm-provider-for-pseudo-code-transpiler#L171|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L171]$ (line 171, col 3, score 1)
+- $[docs/unique/archetype-ecs#L460|archetype-ecs — L460]$ (line 460, col 1, score 1)
+- $[docs/unique/archetype-ecs#L460|archetype-ecs — L460]$ (line 460, col 3, score 1)
+- [JavaScript — L15]$chunks/javascript.md#L15$ (line 15, col 1, score 1)
+- [JavaScript — L15]$chunks/javascript.md#L15$ (line 15, col 3, score 1)
+- $[ecs-scheduler-and-prefabs#L388|ecs-scheduler-and-prefabs — L388]$ (line 388, col 1, score 1)
+- $[ecs-scheduler-and-prefabs#L388|ecs-scheduler-and-prefabs — L388]$ (line 388, col 3, score 1)
+- $[docs/unique/eidolon-field-math-foundations#L129|eidolon-field-math-foundations — L129]$ (line 129, col 1, score 1)
+- $[docs/unique/eidolon-field-math-foundations#L129|eidolon-field-math-foundations — L129]$ (line 129, col 3, score 1)
+- $[docs/unique/archetype-ecs#L454|archetype-ecs — L454]$ (line 454, col 1, score 1)
+- $[docs/unique/archetype-ecs#L454|archetype-ecs — L454]$ (line 454, col 3, score 1)
+- $[chroma-toolkit-consolidation-plan#L171|Chroma Toolkit Consolidation Plan — L171]$ (line 171, col 1, score 1)
+- $[chroma-toolkit-consolidation-plan#L171|Chroma Toolkit Consolidation Plan — L171]$ (line 171, col 3, score 1)
+- [JavaScript — L14]$chunks/javascript.md#L14$ (line 14, col 1, score 1)
+- [JavaScript — L14]$chunks/javascript.md#L14$ (line 14, col 3, score 1)
+- $[docs/unique/ecs-offload-workers#L454|ecs-offload-workers — L454]$ (line 454, col 1, score 1)
+- $[docs/unique/ecs-offload-workers#L454|ecs-offload-workers — L454]$ (line 454, col 3, score 1)
+- $[docs/unique/archetype-ecs#L455|archetype-ecs — L455]$ (line 455, col 1, score 1)
+- $[docs/unique/archetype-ecs#L455|archetype-ecs — L455]$ (line 455, col 3, score 1)
+- $[docs/unique/ecs-offload-workers#L455|ecs-offload-workers — L455]$ (line 455, col 1, score 1)
+- $[docs/unique/ecs-offload-workers#L455|ecs-offload-workers — L455]$ (line 455, col 3, score 1)
+- $[ecs-scheduler-and-prefabs#L387|ecs-scheduler-and-prefabs — L387]$ (line 387, col 1, score 1)
+- $[ecs-scheduler-and-prefabs#L387|ecs-scheduler-and-prefabs — L387]$ (line 387, col 3, score 1)
+- $[docs/unique/eidolon-field-math-foundations#L130|eidolon-field-math-foundations — L130]$ (line 130, col 1, score 1)
+- $[docs/unique/eidolon-field-math-foundations#L130|eidolon-field-math-foundations — L130]$ (line 130, col 3, score 1)
+- $[docs/unique/ecs-offload-workers#L456|ecs-offload-workers — L456]$ (line 456, col 1, score 1)
+- $[docs/unique/ecs-offload-workers#L456|ecs-offload-workers — L456]$ (line 456, col 3, score 1)
+- $[ecs-scheduler-and-prefabs#L390|ecs-scheduler-and-prefabs — L390]$ (line 390, col 1, score 1)
+- $[ecs-scheduler-and-prefabs#L390|ecs-scheduler-and-prefabs — L390]$ (line 390, col 3, score 1)
+- $[docs/unique/eidolon-field-math-foundations#L131|eidolon-field-math-foundations — L131]$ (line 131, col 1, score 1)
+- $[docs/unique/eidolon-field-math-foundations#L131|eidolon-field-math-foundations — L131]$ (line 131, col 3, score 1)
+- $[js-to-lisp-reverse-compiler#L424|js-to-lisp-reverse-compiler — L424]$ (line 424, col 1, score 1)
+- $[js-to-lisp-reverse-compiler#L424|js-to-lisp-reverse-compiler — L424]$ (line 424, col 3, score 1)
+- $[docs/unique/ecs-offload-workers#L457|ecs-offload-workers — L457]$ (line 457, col 1, score 1)
+- $[docs/unique/ecs-offload-workers#L457|ecs-offload-workers — L457]$ (line 457, col 3, score 1)
+- $[ecs-scheduler-and-prefabs#L391|ecs-scheduler-and-prefabs — L391]$ (line 391, col 1, score 1)
+- $[ecs-scheduler-and-prefabs#L391|ecs-scheduler-and-prefabs — L391]$ (line 391, col 3, score 1)
+- $[docs/unique/eidolon-field-math-foundations#L132|eidolon-field-math-foundations — L132]$ (line 132, col 1, score 1)
+- $[docs/unique/eidolon-field-math-foundations#L132|eidolon-field-math-foundations — L132]$ (line 132, col 3, score 1)
+- $Local-First Intention→Code Loop with Free Models — L145$$local-first-intention-code-loop-with-free-models.md#L145$ (line 145, col 1, score 1)
+- $Local-First Intention→Code Loop with Free Models — L145$$local-first-intention-code-loop-with-free-models.md#L145$ (line 145, col 3, score 1)
+- $[docs/unique/compiler-kit-foundations#L607|compiler-kit-foundations — L607]$ (line 607, col 1, score 1)
+- $[docs/unique/compiler-kit-foundations#L607|compiler-kit-foundations — L607]$ (line 607, col 3, score 1)
+- $[docs/unique/interop-and-source-maps#L514|Interop and Source Maps — L514]$ (line 514, col 1, score 1)
+- $[docs/unique/interop-and-source-maps#L514|Interop and Source Maps — L514]$ (line 514, col 3, score 1)
+- $[js-to-lisp-reverse-compiler#L411|js-to-lisp-reverse-compiler — L411]$ (line 411, col 1, score 1)
+- $[js-to-lisp-reverse-compiler#L411|js-to-lisp-reverse-compiler — L411]$ (line 411, col 3, score 1)
+- $[language-agnostic-mirror-system#L535|Language-Agnostic Mirror System — L535]$ (line 535, col 1, score 1)
+- $[language-agnostic-mirror-system#L535|Language-Agnostic Mirror System — L535]$ (line 535, col 3, score 1)
+- [DSL — L13]$chunks/dsl.md#L13$ (line 13, col 1, score 1)
+- [DSL — L13]$chunks/dsl.md#L13$ (line 13, col 3, score 1)
+- $[docs/unique/interop-and-source-maps#L513|Interop and Source Maps — L513]$ (line 513, col 1, score 1)
+- $[docs/unique/interop-and-source-maps#L513|Interop and Source Maps — L513]$ (line 513, col 3, score 1)
+- $[lisp-compiler-integration#L539|Lisp-Compiler-Integration — L539]$ (line 539, col 1, score 1)
+- $[lisp-compiler-integration#L539|Lisp-Compiler-Integration — L539]$ (line 539, col 3, score 1)
+- $[lispy-macros-with-syntax-rules#L400|Lispy Macros with syntax-rules — L400]$ (line 400, col 1, score 1)
+- $[lispy-macros-with-syntax-rules#L400|Lispy Macros with syntax-rules — L400]$ (line 400, col 3, score 1)
+- $[docs/unique/compiler-kit-foundations#L610|compiler-kit-foundations — L610]$ (line 610, col 1, score 1)
+- $[docs/unique/compiler-kit-foundations#L610|compiler-kit-foundations — L610]$ (line 610, col 3, score 1)
+- $[docs/unique/interop-and-source-maps#L515|Interop and Source Maps — L515]$ (line 515, col 1, score 1)
+- $[docs/unique/interop-and-source-maps#L515|Interop and Source Maps — L515]$ (line 515, col 3, score 1)
+- $[js-to-lisp-reverse-compiler#L423|js-to-lisp-reverse-compiler — L423]$ (line 423, col 1, score 1)
+- $[js-to-lisp-reverse-compiler#L423|js-to-lisp-reverse-compiler — L423]$ (line 423, col 3, score 1)
+- $[language-agnostic-mirror-system#L532|Language-Agnostic Mirror System — L532]$ (line 532, col 1, score 1)
+- $[language-agnostic-mirror-system#L532|Language-Agnostic Mirror System — L532]$ (line 532, col 3, score 1)
+- $[docs/unique/compiler-kit-foundations#L608|compiler-kit-foundations — L608]$ (line 608, col 1, score 1)
+- $[docs/unique/compiler-kit-foundations#L608|compiler-kit-foundations — L608]$ (line 608, col 3, score 1)
+- $[docs/unique/interop-and-source-maps#L516|Interop and Source Maps — L516]$ (line 516, col 1, score 1)
+- $[docs/unique/interop-and-source-maps#L516|Interop and Source Maps — L516]$ (line 516, col 3, score 1)
+- $[language-agnostic-mirror-system#L536|Language-Agnostic Mirror System — L536]$ (line 536, col 1, score 1)
+- $[language-agnostic-mirror-system#L536|Language-Agnostic Mirror System — L536]$ (line 536, col 3, score 1)
+- $[lisp-compiler-integration#L538|Lisp-Compiler-Integration — L538]$ (line 538, col 1, score 1)
+- $[lisp-compiler-integration#L538|Lisp-Compiler-Integration — L538]$ (line 538, col 3, score 1)
+- $[docs/unique/aionian-circuit-math#L155|aionian-circuit-math — L155]$ (line 155, col 1, score 1)
+- $[docs/unique/aionian-circuit-math#L155|aionian-circuit-math — L155]$ (line 155, col 3, score 1)
+- $[docs/unique/compiler-kit-foundations#L609|compiler-kit-foundations — L609]$ (line 609, col 1, score 1)
+- $[docs/unique/compiler-kit-foundations#L609|compiler-kit-foundations — L609]$ (line 609, col 3, score 1)
+- $[cross-language-runtime-polymorphism#L203|Cross-Language Runtime Polymorphism — L203]$ (line 203, col 1, score 1)
+- $[cross-language-runtime-polymorphism#L203|Cross-Language Runtime Polymorphism — L203]$ (line 203, col 3, score 1)
+- $[cross-target-macro-system-in-sibilant#L168|Cross-Target Macro System in Sibilant — L168]$ (line 168, col 1, score 1)
+- $[cross-target-macro-system-in-sibilant#L168|Cross-Target Macro System in Sibilant — L168]$ (line 168, col 3, score 1)
+- $[cross-language-runtime-polymorphism#L207|Cross-Language Runtime Polymorphism — L207]$ (line 207, col 1, score 1)
+- $[cross-language-runtime-polymorphism#L207|Cross-Language Runtime Polymorphism — L207]$ (line 207, col 3, score 1)
+- $Local-First Intention→Code Loop with Free Models — L146$$local-first-intention-code-loop-with-free-models.md#L146$ (line 146, col 1, score 1)
+- $Local-First Intention→Code Loop with Free Models — L146$$local-first-intention-code-loop-with-free-models.md#L146$ (line 146, col 3, score 1)
+- $[docs/unique/obsidian-ignore-node-modules-regex#L52|obsidian-ignore-node-modules-regex — L52]$ (line 52, col 1, score 1)
+- $[docs/unique/obsidian-ignore-node-modules-regex#L52|obsidian-ignore-node-modules-regex — L52]$ (line 52, col 3, score 1)
+- $[polymorphic-meta-programming-engine#L196|polymorphic-meta-programming-engine — L196]$ (line 196, col 1, score 1)
+- $[polymorphic-meta-programming-engine#L196|polymorphic-meta-programming-engine — L196]$ (line 196, col 3, score 1)
+- $[admin-dashboard-for-user-management#L44|Admin Dashboard for User Management — L44]$ (line 44, col 1, score 0.99)
+- $[admin-dashboard-for-user-management#L44|Admin Dashboard for User Management — L44]$ (line 44, col 3, score 0.99)
+- $[universal-intention-code-fabric#L445|universal-intention-code-fabric — L445]$ (line 445, col 1, score 0.99)
+- $[universal-intention-code-fabric#L445|universal-intention-code-fabric — L445]$ (line 445, col 3, score 0.99)
+- $[docs/unique/ecs-offload-workers#L478|ecs-offload-workers — L478]$ (line 478, col 1, score 0.99)
+- $[docs/unique/ecs-offload-workers#L478|ecs-offload-workers — L478]$ (line 478, col 3, score 0.99)
+- $[ecs-scheduler-and-prefabs#L428|ecs-scheduler-and-prefabs — L428]$ (line 428, col 1, score 0.99)
+- $[ecs-scheduler-and-prefabs#L428|ecs-scheduler-and-prefabs — L428]$ (line 428, col 3, score 0.99)
+- $[lisp-compiler-integration#L551|Lisp-Compiler-Integration — L551]$ (line 551, col 1, score 1)
+- $[lisp-compiler-integration#L551|Lisp-Compiler-Integration — L551]$ (line 551, col 3, score 1)
+- $[lisp-compiler-integration#L555|Lisp-Compiler-Integration — L555]$ (line 555, col 1, score 0.99)
+- $[lisp-compiler-integration#L555|Lisp-Compiler-Integration — L555]$ (line 555, col 3, score 0.99)
+- $[lispy-macros-with-syntax-rules#L413|Lispy Macros with syntax-rules — L413]$ (line 413, col 1, score 0.98)
+- $[lispy-macros-with-syntax-rules#L413|Lispy Macros with syntax-rules — L413]$ (line 413, col 3, score 0.98)
+- $[lispy-macros-with-syntax-rules#L415|Lispy Macros with syntax-rules — L415]$ (line 415, col 1, score 0.98)
+- $[lispy-macros-with-syntax-rules#L415|Lispy Macros with syntax-rules — L415]$ (line 415, col 3, score 0.98)
+- $[local-only-llm-workflow#L187|Local-Only-LLM-Workflow — L187]$ (line 187, col 1, score 0.99)
+- $[local-only-llm-workflow#L187|Local-Only-LLM-Workflow — L187]$ (line 187, col 3, score 0.99)
+- $[performance-optimized-polyglot-bridge#L452|Performance-Optimized-Polyglot-Bridge — L452]$ (line 452, col 1, score 1)
+- $[performance-optimized-polyglot-bridge#L452|Performance-Optimized-Polyglot-Bridge — L452]$ (line 452, col 3, score 1)
+- $[promethean-infrastructure-setup#L615|Promethean Infrastructure Setup — L615]$ (line 615, col 1, score 1)
+- $[promethean-infrastructure-setup#L615|Promethean Infrastructure Setup — L615]$ (line 615, col 3, score 1)
+- $[universal-intention-code-fabric#L444|universal-intention-code-fabric — L444]$ (line 444, col 1, score 0.99)
+- $[universal-intention-code-fabric#L444|universal-intention-code-fabric — L444]$ (line 444, col 3, score 0.99)
+- $[ollama-llm-provider-for-pseudo-code-transpiler#L175|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L175]$ (line 175, col 1, score 0.99)
+- $[ollama-llm-provider-for-pseudo-code-transpiler#L175|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L175]$ (line 175, col 3, score 0.99)
+- $[performance-optimized-polyglot-bridge#L453|Performance-Optimized-Polyglot-Bridge — L453]$ (line 453, col 1, score 1)
+- $[performance-optimized-polyglot-bridge#L453|Performance-Optimized-Polyglot-Bridge — L453]$ (line 453, col 3, score 1)
+- $[local-only-llm-workflow#L186|Local-Only-LLM-Workflow — L186]$ (line 186, col 1, score 0.99)
+- $[local-only-llm-workflow#L186|Local-Only-LLM-Workflow — L186]$ (line 186, col 3, score 0.99)
+- $[local-only-llm-workflow#L190|Local-Only-LLM-Workflow — L190]$ (line 190, col 1, score 1)
+- $[local-only-llm-workflow#L190|Local-Only-LLM-Workflow — L190]$ (line 190, col 3, score 1)
+- $[performance-optimized-polyglot-bridge#L454|Performance-Optimized-Polyglot-Bridge — L454]$ (line 454, col 1, score 1)
+- $[performance-optimized-polyglot-bridge#L454|Performance-Optimized-Polyglot-Bridge — L454]$ (line 454, col 3, score 1)
+- $[docs/unique/eidolon-field-math-foundations#L154|eidolon-field-math-foundations — L154]$ (line 154, col 1, score 1)
+- $[docs/unique/eidolon-field-math-foundations#L154|eidolon-field-math-foundations — L154]$ (line 154, col 3, score 1)
+- $[promethean-infrastructure-setup#L609|Promethean Infrastructure Setup — L609]$ (line 609, col 1, score 1)
+- $[promethean-infrastructure-setup#L609|Promethean Infrastructure Setup — L609]$ (line 609, col 3, score 1)
+- $[local-only-llm-workflow#L191|Local-Only-LLM-Workflow — L191]$ (line 191, col 1, score 1)
+- $[local-only-llm-workflow#L191|Local-Only-LLM-Workflow — L191]$ (line 191, col 3, score 1)
+- $[performance-optimized-polyglot-bridge#L455|Performance-Optimized-Polyglot-Bridge — L455]$ (line 455, col 1, score 1)
+- $[performance-optimized-polyglot-bridge#L455|Performance-Optimized-Polyglot-Bridge — L455]$ (line 455, col 3, score 1)
+- $[docs/unique/eidolon-field-math-foundations#L155|eidolon-field-math-foundations — L155]$ (line 155, col 1, score 1)
+- $[docs/unique/eidolon-field-math-foundations#L155|eidolon-field-math-foundations — L155]$ (line 155, col 3, score 1)
+- $[promethean-infrastructure-setup#L610|Promethean Infrastructure Setup — L610]$ (line 610, col 1, score 1)
+- $[promethean-infrastructure-setup#L610|Promethean Infrastructure Setup — L610]$ (line 610, col 3, score 1)
+- $[local-only-llm-workflow#L192|Local-Only-LLM-Workflow — L192]$ (line 192, col 1, score 1)
+- $[local-only-llm-workflow#L192|Local-Only-LLM-Workflow — L192]$ (line 192, col 3, score 1)
+- $[performance-optimized-polyglot-bridge#L456|Performance-Optimized-Polyglot-Bridge — L456]$ (line 456, col 1, score 1)
+- $[performance-optimized-polyglot-bridge#L456|Performance-Optimized-Polyglot-Bridge — L456]$ (line 456, col 3, score 1)
+- $[docs/unique/eidolon-field-math-foundations#L156|eidolon-field-math-foundations — L156]$ (line 156, col 1, score 1)
+- $[docs/unique/eidolon-field-math-foundations#L156|eidolon-field-math-foundations — L156]$ (line 156, col 3, score 1)
+- $[promethean-infrastructure-setup#L611|Promethean Infrastructure Setup — L611]$ (line 611, col 1, score 1)
+- $[promethean-infrastructure-setup#L611|Promethean Infrastructure Setup — L611]$ (line 611, col 3, score 1)
+- $[local-only-llm-workflow#L193|Local-Only-LLM-Workflow — L193]$ (line 193, col 1, score 1)
+- $[local-only-llm-workflow#L193|Local-Only-LLM-Workflow — L193]$ (line 193, col 3, score 1)
+- $[performance-optimized-polyglot-bridge#L457|Performance-Optimized-Polyglot-Bridge — L457]$ (line 457, col 1, score 1)
+- $[performance-optimized-polyglot-bridge#L457|Performance-Optimized-Polyglot-Bridge — L457]$ (line 457, col 3, score 1)
+- $[docs/unique/eidolon-field-math-foundations#L157|eidolon-field-math-foundations — L157]$ (line 157, col 1, score 1)
+- $[docs/unique/eidolon-field-math-foundations#L157|eidolon-field-math-foundations — L157]$ (line 157, col 3, score 1)
+- $[promethean-infrastructure-setup#L612|Promethean Infrastructure Setup — L612]$ (line 612, col 1, score 1)
+- $[promethean-infrastructure-setup#L612|Promethean Infrastructure Setup — L612]$ (line 612, col 3, score 1)
+- $[local-only-llm-workflow#L194|Local-Only-LLM-Workflow — L194]$ (line 194, col 1, score 1)
+- $[local-only-llm-workflow#L194|Local-Only-LLM-Workflow — L194]$ (line 194, col 3, score 1)
+- $[performance-optimized-polyglot-bridge#L458|Performance-Optimized-Polyglot-Bridge — L458]$ (line 458, col 1, score 1)
+- $[performance-optimized-polyglot-bridge#L458|Performance-Optimized-Polyglot-Bridge — L458]$ (line 458, col 3, score 1)
+- $[docs/unique/eidolon-field-math-foundations#L158|eidolon-field-math-foundations — L158]$ (line 158, col 1, score 1)
+- $[docs/unique/eidolon-field-math-foundations#L158|eidolon-field-math-foundations — L158]$ (line 158, col 3, score 1)
+- $[promethean-infrastructure-setup#L613|Promethean Infrastructure Setup — L613]$ (line 613, col 1, score 1)
+- $[promethean-infrastructure-setup#L613|Promethean Infrastructure Setup — L613]$ (line 613, col 3, score 1)
+$$
 >>>>>>> stealth/obsidian
+$$
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

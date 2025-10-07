@@ -3,12 +3,18 @@ task-id: TASK-2025-09-27-monitoring-test
 title: Stabilize monitoring token bucket tests
 state: InProgress
 prev: null
+$$
 txn: '2025-09-27T19:45:30Z-0000'
+$$
 owner: err
 priority: p3
 size: s
+$$
 epic: EPC-000
+$$
+$$
 depends_on: []
+$$
 labels:
   - 'board:auto'
   - 'lang:ts'
@@ -16,7 +22,9 @@ due: null
 links: []
 artifacts: []
 rationale: Fix flaky time-based monitoring token bucket tests.
+$$
 proposed_transitions:
+$$
   - New->Accepted
   - Accepted->Breakdown
 tags:
@@ -26,12 +34,17 @@ tags:
   - owner/err
   - priority/p3
   - epic/EPC-000
+$$
 uuid: 17e07cf3-1aa0-4fb6-9db9-d343f5c394ba
+$$
+$$
 created_at: '2025-10-06T01:50:48.282Z'
+$$
 status: todo
 ---
+$$
 <hr class="__chatgpt_plugin">
-
+$$
 <span style="font-size: small;"> (llama3.2:latest)</span>
 ### role::assistant
 
@@ -44,7 +57,7 @@ Here's a suggested revision of your context section:
 - **Why now?**: Package tests can intermittently fail when real time drifts.
 
 ## Inputs / Artifacts
-- (changelog.d/2025.09.27.19.45.04.md)
+- $changelog.d/2025.09.27.19.45.04.md$
 
 ## Definition of Done
 - [x] `pnpm --filter @promethean/monitoring test` passes deterministically.
@@ -78,11 +91,12 @@ Here's a suggested revision of your context section:
 ### Smart ChatGPT Configuration
 ```smart-chatgpt
 ```
+$$
 <hr class="__chatgpt_plugin">
-
+$$
 ### role::user
-
+$$
 TASK-2025-09-27-monitoring-test
-
-<% tp.app.commands.executeCommandById("chatgpt-md:call-chatgpt-api") %>
+$$
+<% tp.app.commands.executeCommandById$"chatgpt-md:call-chatgpt-api"$ %>
 

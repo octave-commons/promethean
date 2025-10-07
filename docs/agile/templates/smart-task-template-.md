@@ -3,18 +3,26 @@ task-id: TASK-{{YYYYMMDD-hhmmss}}-{{rand4}}
 title: "<verb> <thing> <qualifier>"
 state: New
 prev:
+$$
 txn: "{{ISO8601}}-{{rand4}}"
+$$
 owner: err
 priority: p3
 size: m
+$$
 epic: EPC-000
+$$
+$$
 depends_on: []
+$$
 labels: ["board:auto", "lang:ts"]
 due:
 links: []
 artifacts: []
 rationale: "<why this matters in 1–4 sentences>"
+$$
 proposed_transitions: ["New->Accepted","Accepted->Breakdown"]
+$$
 tags:
   - task/TASK-{{YYYYMMDD-hhmmss}}-{{rand4}}
   - board/kanban
@@ -47,7 +55,9 @@ You might find [this] useful while working on this task
 
 ## Notes
 - …
-- ```smart-connections
+$$
+-
+$$```smart-connections
 {
   "render_markdown": true,
   "show_full_path": false,

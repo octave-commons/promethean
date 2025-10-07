@@ -1,14 +1,19 @@
 # Overview
+$$
 1. **Intake & Associate**
+$$
    Find or create the task; never work off-board; do not edit the board file directly—tasks drive the board. &#x20;
-
+$$
 2. **Clarify & Scope**
+$$
    Anchor on the kanban card as the single source of truth and, before advancing, do the solo pass:
    * Confirm the desired outcomes so the card reflects the slice you intend to deliver.
    * Capture acceptance criteria or explicit exit signals on the task so "done" is unambiguous.
    * Note any uncertainties, risks, or open questions directly on the task to surface follow-ups early.
    * Record the scoped plan and supporting notes on the linked task before moving to step 3.
+$$
 3. **Breakdown & Estimate**
+$$
    Break into small, testable slices; estimate **complexity, scale, time (in cloud sessions)** and assign a Fibonacci score from **1, 2, 3, 5, 8, 13** on the task card. Scores of **13+ ⇒ must split**; **8 ⇒ continue refinement before implementation**; **≤5 ⇒ eligible to implement**. Any score **>5** must cycle back through clarification/breakdown until the slice is small enough to implement, capturing the updated score on the task card.&#x20;
 
 4. **Ready Gate** *(hard stop before code)*
@@ -16,13 +21,15 @@
 
    * A matching task is **In Progress** (or you move it there), and WIP rules aren’t violated.&#x20;
    * The slice is scored **≤5** and fits the session after planning; otherwise continue refinement/splitting.&#x20;
-
+$$
 5. **Implement Slice**
+$$
    Do the smallest cohesive change that can clear gates defined in agent docs (e.g., no new ESLint errors; touched packages build; tests pass).&#x20;
    When the scope is larger than the available session, carve off a reviewable subset and explicitly document what remains (e.g.,
    inventory lingering files, capture blockers, link references).&#x20;
-
+$$
 6. **Review → Document**
+$$
    Move through *In Review* and *Document* then *Done* per board flow, recording evidence and summaries.&#x20;
 # Kanban as a Finite State Machine (FSM)
 
@@ -127,7 +134,7 @@ flowchart TD
 * **In Progress → In Review**
   Coherent, reviewable change exists.
 
-* **In Progress → Todo** *(session-end handoff; no PR required)*
+* **In Progress → Todo** *$session-end handoff; no PR required$*
   Time/compute limit reached without a reviewable change. Record artifacts/notes + next step; move to **Todo** if WIP allows; else remain **In Progress** and mark a minor blocker.
   Artifacts must include partial outputs (e.g., audit logs, findings lists, reproduction steps) so a follow-on slice can resume immediately.
 
@@ -147,7 +154,7 @@ flowchart TD
   Follow-ups are modeled as new tasks (optionally seeded from Done).
 
 * **Blocked → Breakdown** *(unblock event)*
-  Fires when any linked blocker advances (e.g., to In Review/Done) or evidence shows dependency removed; return to Breakdown to re-plan.
+  Fires when any linked blocker advances $e.g., to In Review/Done$ or evidence shows dependency removed; return to Breakdown to re-plan.
 
 ### Blocking policy
 

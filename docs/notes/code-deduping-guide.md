@@ -1,9 +1,15 @@
 ---
+$$
 uuid: 3c521c85-b7be-445e-88a5-c6891398a425
+$$
+$$
 created_at: '2025-09-03T20:26:13Z'
+$$
 filename: Code Deduping Guide
 title: Code Deduping Guide
+$$
 description: >-
+$$
   A step-by-step guide to identifying and consolidating duplicate code in a
   monorepo, ensuring maintainability and reducing technical debt through shared
   modules and thorough testing.
@@ -15,11 +21,15 @@ tags:
   - automated tests
   - code quality
   - technical debt
+$$
 related_to_uuid:
+$$
   - 45d70390-0334-422e-b487-4499b1424936
   - 0c53da49-5e34-40c8-a810-30a2702f7734
   - 81de642d-cc98-4bf3-aa53-640bbd289ee4
+$$
 related_to_title:
+$$
   - Semantic-Code-Commit-Optimization
   - Code Deuplicator
   - Promethean Forge
@@ -115,7 +125,7 @@ readability of our codebase while reducing redundancy and improving overall
 performance.
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [Semantic-Code-Commit-Optimization](2025.09.03.11.28.27.md)
+- $Semantic-Code-Commit-Optimization$(2025.09.03.11.28.27.md)
 - [Code Deuplicator](2025.09.03.20.30.35.md)
 - [Promethean Forge](2025.09.03.20.33.00.md)
 ## Sources

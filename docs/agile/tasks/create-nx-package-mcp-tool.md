@@ -1,10 +1,14 @@
 ---
+$$
 uuid: 8b52c0aa-1f68-4db1-bd4e-612c7c9f853c
+$$
 title: Create MCP tool for Nx package scaffolding
 status: done
 priority: P3
 labels: []
+$$
 created_at: '2025-10-02T03:30:00.000Z'
+$$
 ---
 ## 🛠️ Description
 
@@ -41,9 +45,9 @@ Add an MCP tool that runs the workspace Nx package generator so agents can scaff
 ---
 
 ## 🔗 Related Epics
-
+$$
 #framework-core
-
+$$
 ---
 
 ## ⛓️ Blocked By

@@ -1,6 +1,6 @@
 ---
 project: Promethean
-tags: [#knowledge-graph, #cephalon, #voice, #state, #permissions]
+tags: $#knowledge-graph, #cephalon, #voice, #state, #permissions$
 ---
 
 # 🧠 Cephalon Knowledge Graph
@@ -16,8 +16,8 @@ tags: [#knowledge-graph, #cephalon, #voice, #state, #permissions]
 - [[ffmpeg]]
 - [[TTS API]]
 - [[NotAllowedError]]
-- [[JOIN_REQUESTED]]
-- [[LEAVE_REQUESTED]]
+- $[JOIN_REQUESTED]$
+- $[LEAVE_REQUESTED]$
 
 ---
 
@@ -25,12 +25,30 @@ tags: [#knowledge-graph, #cephalon, #voice, #state, #permissions]
 
 ```mermaid
 graph TD
+$$
   VoiceSynth -->|invokes| "TTS API"
+$$
+$$
   VoiceSynth -->|pipes to| ffmpeg
+$$
+$$
   VoiceSynth -->|returns| Readable
+$$
+$$
   Effects -->|triggers| VoiceSynth
+$$
+$$
   Effects -->|uses| Store
+$$
+$$
   Store -->|tracks| VoiceState
+$$
+$$
   PolicyChecker -->|calls| checkPermission
+$$
+$$
   checkPermission -->|throws| NotAllowedError
+$$
+$$
   WAVDecoder -->|provides| WAVBufferInterface
+$$

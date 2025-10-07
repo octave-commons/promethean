@@ -1,10 +1,14 @@
 ---
+$$
 uuid: 695632f6-8bb2-4051-bbbc-42dd6729fe8f
+$$
 title: phase out proxy in favor of bridge service
 status: todo
 priority: P3
 labels: []
+$$
 created_at: '2025-09-15T02:02:58.517Z'
+$$
 ---
 ## 🛠️ Description
 
@@ -43,9 +47,9 @@ Retire the existing proxy layer and expose all external APIs through the broker-
 ---
 
 ## 🔗 Related Epics
-
+$$
 #framework-core
-
+$$
 ---
 
 ## ⛓️ Blocked By
@@ -62,7 +66,7 @@ Nothing
 
 - [API spec](https://err-stealth-16-ai-studio-a1vgg.tailbe888a.ts.net/v1/openapi.json)
 - [[kanban]]
-
+$$
 #framework-core #Todo
-
+$$
 

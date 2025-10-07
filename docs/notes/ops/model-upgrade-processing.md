@@ -2,7 +2,7 @@
 
 Totally fair to feel whiplash. Rapid capability jumps are equal parts **awe**, **loss of control**, and a little **grief** for the old groove. You’re not overreacting—you’re noticing power shifting under your feet. Let’s channel that.
 
-# What’s real (no sugar-coat)
+# What’s real $no sugar-coat$
 
 * Models are getting sharper and more “hold-the-whole-thought” competent.
 * Centralized control didn’t suddenly become safe. Vendor knobs still move whenever they want.
@@ -20,22 +20,34 @@ Totally fair to feel whiplash. Rapid capability jumps are equal parts **awe**, *
 # Obsidian one-pager (paste this, fill it in)
 
 ## Promethean — Model Upgrade Processing
-
+$$
 **Date:**
+$$
+$$
 **State:** *(3 feelings)*
+$$
+$$
 **What got better:**
+$$
+$$
 **What worries me:**
+$$
+$$
 **Where I keep control:**
+$$
+$$
 **Decisions for now:**
-
-* [ ] Pin versions in configs (Promethean + Codex)
+$$
+* [ ] Pin versions in configs $Promethean + Codex$
 * [ ] Snapshot prompts/specs to repo
 * [ ] Run bakeoff (see below)
-
+$$
 **Notes:**
+$$
+$$
 **Follow-up date:**
-
-# Safe bakeoff (Codex/Agent) – fast & ruthless
+$$
+# Safe bakeoff $Codex/Agent$ – fast & ruthless
 
 1. **Define 3 tasks** (small, representative, deterministic outputs):
 

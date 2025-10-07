@@ -1,4 +1,4 @@
-Smoke waves animation with multiple depth layers (foreground/midground/background) at different speeds and opacities to create infinite-depth motion.
+Smoke waves animation with multiple depth layers $foreground/midground/background$ at different speeds and opacities to create infinite-depth motion.
 
 Key points:
 - Numpy + Matplotlib animation; turbulence + breathing opacity
@@ -7,7 +7,7 @@ Key points:
 
 See also: root `smoke_waves_small.gif` for a smaller variant.
 
-Related: [[../../unique/index|unique/index]]
+Related: $[../../unique/index|unique/index]$
 
 #tags: #visualization #animation #python
 

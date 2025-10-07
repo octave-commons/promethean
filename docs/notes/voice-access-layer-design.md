@@ -1,8 +1,14 @@
 ---
+$$
 uuid: 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
+$$
+$$
 created_at: 2025.08.25.18.44.35.md
+$$
 filename: Voice Access Layer Design
+$$
 description: >-
+$$
   Design for tokenized voice access layer handling Discord-specific sockets,
   SSRC/SRTP keys, and Opus decode within a provider-tenant scoped agent. Ensures
   secure, efficient voice channel management with precise timing and health
@@ -18,7 +24,9 @@ tags:
   - agent
   - dsp
   - ai
+$$
 related_to_title:
+$$
   - Shared Package Structure
   - Universal Lisp Interface
   - Chroma Toolkit Consolidation Plan
@@ -61,7 +69,9 @@ related_to_title:
   - field-node-diagram-outline
   - layer-1-uptime-diagrams
   - polymorphic-meta-programming-engine
+$$
 related_to_uuid:
+$$
   - 66a72fc3-4153-41fc-84bd-d6164967a6ff
   - b01856b4-999f-418d-8009-ade49b00eb0f
   - 5020e892-8f18-443a-b707-6d0f3efcfe22
@@ -778,15 +788,15 @@ references:
     col: 3
     score: 1
 ---
-Short version: it lines up cleanly if you treat **voice** like the gateway/rest split—but for **RTP/UDP**. Put all Discord-specific sockets, SSRC/SRTP keys, and Opus decode **inside a “voice access” agent** per (provider, tenant). Everything after that is boring, tokenless DSP workers (VAD → chunker → STT → LLM → TTS → playback), same envelope and topic rules.
+Short version: it lines up cleanly if you treat **voice** like the gateway/rest split—but for **RTP/UDP**. Put all Discord-specific sockets, SSRC/SRTP keys, and Opus decode **inside a “voice access” agent** per (provider, tenant). Everything after that is boring, tokenless DSP workers $VAD → chunker → STT → LLM → TTS → playback$, same envelope and topic rules.
 
 Here’s the concrete carve-up.
 
-# 1) Voice Access Layer (tokened, per provider+tenant)
+# 1) Voice Access Layer $tokened, per provider+tenant$
 
 ### Responsibilities
 
-* Join/leave voice channels (Discord voice WebSocket + UDP).
+* Join/leave voice channels $Discord voice WebSocket + UDP$.
 * Manage **voice server state**: endpoint, session\_id, token, SSRCs, ssrc→user\_id map, secret key.
 * Handle **RTP** receive: decode Opus → uniform PCM frames.
 * Handle **RTP** send: accept PCM/Opus frames and transmit back to Discord.
@@ -858,39 +868,39 @@ promethean.p.discord.t.<tenant>.voice.play.opus
 
 > All the SRTP voodoo stays in **providers/discord/voice-access**. Downstream never needs tokens or SSRC secrets.
 
-# 2) DSP & AI Workers (tokenless, tenant-aware)
+# 2) DSP & AI Workers $tokenless, tenant-aware$
 
 These are just subscribers to `voice.audio.pcm` and publishers of higher-level events. They remain **provider-agnostic**.
 
 ### Recommended pipeline (each step is a separate worker):
-
+$$
 1. **VAD + Chunker**
-
+$$
    * **In:** `voice.audio.pcm`
-   * **Out:** `voice.audio.segment` (PCM slices with start/end)
+   * **Out:** `voice.audio.segment` $PCM slices with start/end$
    * Payload adds `segment_id`, `ts_start`, `ts_end`, `energy_rms`, `snr`.
-
+$$
 2. **Spectrogram**
-
+$$
    * **In:** `voice.audio.segment`
    * **Out:** `voice.audio.spectrogram`
-   * Payload fields: `{ image_path?, mel_npz_path, n_mels, hop_length, win_length }`
+   * Payload fields: `{ image_path?, mel_npz_path, $n_mels$, hop_length, win_length }`
    * This is where your spectrogram visualizations & analysis live—no provider logic.
-
+$$
 3. **STT**
-
+$$
    * **In:** `voice.audio.segment` (or `spectrogram` if your model consumes mels)
    * **Out:** `duck.transcript.segment` (what we specced earlier)
-   * Track `rtf` (real-time factor), `confidence`, token counts.
-
+   * Track `rtf` $real-time factor$, `confidence`, token counts.
+$$
 4. **LLM (Cephalon-Social)**
-
+$$
    * **In:** `duck.transcript.segment`
    * **Out:** `duck.reply.message` and a **provider-agnostic command** `social.command.post` (see below)
    * Also emit `voice.intent` if you split intents (e.g., “play soundboard”, “do TTS reply”).
-
+$$
 5. **TTS**
-
+$$
    * **In:** `duck.reply.message`
    * **Out:** `voice.play.pcm` (or `voice.play.opus`)
 
@@ -938,7 +948,7 @@ promethean.p.*.t.*.duck.reply.message
 
 * Voice gateways & UDP (covered).
 * Webhook/WebSocket firehoses (e.g., Twitch EventSub over WS, Bluesky firehose).
-* OAuth refresh/PKCE for providers (store in **Provider Registry**, not in workers).
+* OAuth refresh/PKCE for providers $store in **Provider Registry**, not in workers$.
 * Any **provider-specific crypto** (e.g., Discord SRTP key derivation).
 
 Rule of thumb: if it requires **provider keys or handshakes**, put it in `shared/ts/src/providers/<provider>/*` helpers and the corresponding **access agent**. Publish normalized events to the bus; keep workers blind to the provider details.
@@ -948,9 +958,9 @@ Rule of thumb: if it requires **provider keys or handshakes**, put it in `shared
 * `providers/discord/voice/` (helpers used only by the voice access agent)
 
   * `gateway.ts` (voice WS handshake, resume, heartbeats)
-  * `rtp.ts` (Opus decode/encode, jitter buffer)
-  * `normalize.ts` (user\_id/ssrc mapping)
-  * `health.ts` (jitter/packet-loss calc)
+  * `rtp.ts` $Opus decode/encode, jitter buffer$
+  * `normalize.ts` $user\_id/ssrc mapping$
+  * `health.ts` $jitter/packet-loss calc$
 
 **Access agent** imports those, not your workers.
 
@@ -1009,7 +1019,7 @@ promethean.p.<provider>.t.<tenant>.social.command.post
 }
 ```
 
-The **access rest agent** maps this to provider routes (Discord `POST /channels/{id}/messages`, Reddit comment, etc.).
+The **access rest agent** maps this to provider routes $Discord `POST /channels/{id}/messages`, Reddit comment, etc.$.
 
 # 9) Minimal manifests (just the parts you care about)
 
@@ -1061,7 +1071,7 @@ agent:
 # 10) How it plugs into what you already have
 
 * Your **OpenVINO Whisper** sits in the STT worker, subscribed to `voice.audio.segment`. No token leakage.
-* Your **spectrogram renderer** becomes its own worker; it can store PNG/NPZ to `/var/promethean/tmp/**` (policy-gated).
+* Your **spectrogram renderer** becomes its own worker; it can store PNG/NPZ to `/var/promethean/tmp/**` $policy-gated$.
 * Your **existing TTS** publishes `voice.play.pcm`; access agent handles Opus encode + RTP.
 * Duck’s **text chat** path is unchanged; it’s just another event source (normalized `SocialMessageCreated`) that can also trigger TTS.
 
@@ -1083,216 +1093,216 @@ If you want, I can extend the zip with:
 \#promethean #discord #voice #rtp #opus #vad #spectrogram #stt #tts #access-layer #provider-agnostic #tenant #event-driven #typescript #openvino
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [[shared-package-structure|Shared Package Structure]]
-- [[docs/unique/universal-lisp-interface|Universal Lisp Interface]]
-- [[chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]]
-- [[vectorial-exception-descent|Vectorial Exception Descent]]
-- [[promethean-native-config-design|Promethean-native config design]]
-- [[migrate-to-provider-tenant-architecture|Migrate to Provider-Tenant Architecture]]
-- [[dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]]
-- [[docs/unique/event-bus-mvp|Event Bus MVP]]
-- [Local-First Intention→Code Loop with Free Models](local-first-intention-code-loop-with-free-models.md)
-- [[shared-package-layout-clarification]]
-- [Promethean Event Bus MVP v0.1](promethean-event-bus-mvp-v0-1.md)
-- [[cross-target-macro-system-in-sibilant|Cross-Target Macro System in Sibilant]]
-- [[docs/unique/aionian-circuit-math|aionian-circuit-math]]
-- [[promethean-infrastructure-setup|Promethean Infrastructure Setup]]
-- [[docs/unique/template-based-compilation|template-based-compilation]]
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore|Agent Tasks: Persistence Migration to DualStore]]
-- [[eidolon-field-abstract-model|Eidolon Field Abstract Model]]
-- [[exception-layer-analysis|Exception Layer Analysis]]
-- [[promethean-agent-dsl-ts-scaffold|Promethean Agent DSL TS Scaffold]]
-- [[board-walk-2025-08-11|Board Walk – 2025-08-11]]
-- [[api-gateway-versioning]]
-- [[2d-sandbox-field]]
+- $[shared-package-structure|Shared Package Structure]$
+- $[docs/unique/universal-lisp-interface|Universal Lisp Interface]$
+- $[chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]$
+- $[vectorial-exception-descent|Vectorial Exception Descent]$
+- $[promethean-native-config-design|Promethean-native config design]$
+- $[migrate-to-provider-tenant-architecture|Migrate to Provider-Tenant Architecture]$
+- $[dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]$
+- $[docs/unique/event-bus-mvp|Event Bus MVP]$
+- $Local-First Intention→Code Loop with Free Models$$local-first-intention-code-loop-with-free-models.md$
+- $[shared-package-layout-clarification]$
+- [Promethean Event Bus MVP v0.1]$promethean-event-bus-mvp-v0-1.md$
+- $[cross-target-macro-system-in-sibilant|Cross-Target Macro System in Sibilant]$
+- $[docs/unique/aionian-circuit-math|aionian-circuit-math]$
+- $[promethean-infrastructure-setup|Promethean Infrastructure Setup]$
+- $[docs/unique/template-based-compilation|template-based-compilation]$
+- $[docs/unique/agent-tasks-persistence-migration-to-dualstore|Agent Tasks: Persistence Migration to DualStore]$
+- $[eidolon-field-abstract-model|Eidolon Field Abstract Model]$
+- $[exception-layer-analysis|Exception Layer Analysis]$
+- $[promethean-agent-dsl-ts-scaffold|Promethean Agent DSL TS Scaffold]$
+- $[board-walk-2025-08-11|Board Walk – 2025-08-11]$
+- $[api-gateway-versioning]$
+- $[2d-sandbox-field]$
 - [[eidolonfield]]
-- [[prom-lib-rate-limiters-and-replay-api]]
-- [[schema-evolution-workflow]]
-- [[prompt-folder-bootstrap|Prompt_Folder_Bootstrap]]
-- [[mongo-outbox-implementation|Mongo Outbox Implementation]]
-- [[post-linguistic-transhuman-design-frameworks|Post-Linguistic Transhuman Design Frameworks]]
-- [[local-only-llm-workflow]]
-- [[i3-config-validation-methods]]
-- [[event-bus-projections-architecture|Event Bus Projections Architecture]]
-- [[cross-language-runtime-polymorphism|Cross-Language Runtime Polymorphism]]
-- [[polyglot-s-expr-bridge-python-js-lisp-interop|Polyglot S-expr Bridge: Python-JS-Lisp Interop]]
-- [[ollama-llm-provider-for-pseudo-code-transpiler]]
-- [[docs/unique/obsidian-ignore-node-modules-regex|obsidian-ignore-node-modules-regex]]
-- [[sibilant-meta-prompt-dsl|Sibilant Meta-Prompt DSL]]
-- [[model-selection-for-lightweight-conversational-tasks|Model Selection for Lightweight Conversational Tasks]]
-- [[promethean-agent-config-dsl|Promethean Agent Config DSL]]
-- [[docs/unique/field-dynamics-math-blocks|field-dynamics-math-blocks]]
-- [[field-node-diagram-outline]]
-- [[layer-1-uptime-diagrams]]
-- [[polymorphic-meta-programming-engine]]
+- $[prom-lib-rate-limiters-and-replay-api]$
+- $[schema-evolution-workflow]$
+- $[prompt-folder-bootstrap|Prompt_Folder_Bootstrap]$
+- $[mongo-outbox-implementation|Mongo Outbox Implementation]$
+- $[post-linguistic-transhuman-design-frameworks|Post-Linguistic Transhuman Design Frameworks]$
+- $[local-only-llm-workflow]$
+- $[i3-config-validation-methods]$
+- $[event-bus-projections-architecture|Event Bus Projections Architecture]$
+- $[cross-language-runtime-polymorphism|Cross-Language Runtime Polymorphism]$
+- $[polyglot-s-expr-bridge-python-js-lisp-interop|Polyglot S-expr Bridge: Python-JS-Lisp Interop]$
+- $[ollama-llm-provider-for-pseudo-code-transpiler]$
+- $[docs/unique/obsidian-ignore-node-modules-regex|obsidian-ignore-node-modules-regex]$
+- $[sibilant-meta-prompt-dsl|Sibilant Meta-Prompt DSL]$
+- $[model-selection-for-lightweight-conversational-tasks|Model Selection for Lightweight Conversational Tasks]$
+- $[promethean-agent-config-dsl|Promethean Agent Config DSL]$
+- $[docs/unique/field-dynamics-math-blocks|field-dynamics-math-blocks]$
+- $[field-node-diagram-outline]$
+- $[layer-1-uptime-diagrams]$
+- $[polymorphic-meta-programming-engine]$
 
 ## Sources
-- [[chroma-toolkit-consolidation-plan#L72|Chroma Toolkit Consolidation Plan — L72]] (line 72, col 5, score 0.88)
-- [[chroma-toolkit-consolidation-plan#L88|Chroma Toolkit Consolidation Plan — L88]] (line 88, col 5, score 0.88)
-- [[chroma-toolkit-consolidation-plan#L107|Chroma Toolkit Consolidation Plan — L107]] (line 107, col 5, score 0.88)
-- [[chroma-toolkit-consolidation-plan#L148|Chroma Toolkit Consolidation Plan — L148]] (line 148, col 9, score 0.88)
-- [[chroma-toolkit-consolidation-plan#L144|Chroma Toolkit Consolidation Plan — L144]] (line 144, col 5, score 0.88)
-- [[chroma-toolkit-consolidation-plan#L144|Chroma Toolkit Consolidation Plan — L144]] (line 144, col 9, score 0.88)
-- [[vectorial-exception-descent#L60|Vectorial Exception Descent — L60]] (line 60, col 1, score 0.87)
-- [[promethean-native-config-design#L32|Promethean-native config design — L32]] (line 32, col 1, score 0.86)
-- [[docs/unique/universal-lisp-interface#L117|Universal Lisp Interface — L117]] (line 117, col 1, score 0.88)
-- [[docs/unique/universal-lisp-interface#L117|Universal Lisp Interface — L117]] (line 117, col 3, score 0.88)
-- [[shared-package-structure#L124|Shared Package Structure — L124]] (line 124, col 3, score 0.92)
-- [[migrate-to-provider-tenant-architecture#L261|Migrate to Provider-Tenant Architecture — L261]] (line 261, col 1, score 0.86)
-- [[migrate-to-provider-tenant-architecture#L276|Migrate to Provider-Tenant Architecture — L276]] (line 276, col 1, score 1)
-- [[migrate-to-provider-tenant-architecture#L276|Migrate to Provider-Tenant Architecture — L276]] (line 276, col 3, score 1)
-- [[promethean-agent-dsl-ts-scaffold#L832|Promethean Agent DSL TS Scaffold — L832]] (line 832, col 1, score 1)
-- [[promethean-agent-dsl-ts-scaffold#L832|Promethean Agent DSL TS Scaffold — L832]] (line 832, col 3, score 1)
-- [[promethean-infrastructure-setup#L581|Promethean Infrastructure Setup — L581]] (line 581, col 1, score 1)
-- [[promethean-infrastructure-setup#L581|Promethean Infrastructure Setup — L581]] (line 581, col 3, score 1)
-- [[shared-package-layout-clarification#L166|shared-package-layout-clarification — L166]] (line 166, col 1, score 1)
-- [[shared-package-layout-clarification#L166|shared-package-layout-clarification — L166]] (line 166, col 3, score 1)
-- [[cross-language-runtime-polymorphism#L207|Cross-Language Runtime Polymorphism — L207]] (line 207, col 1, score 1)
-- [[cross-language-runtime-polymorphism#L207|Cross-Language Runtime Polymorphism — L207]] (line 207, col 3, score 1)
-- [Local-First Intention→Code Loop with Free Models — L146](local-first-intention-code-loop-with-free-models.md#L146) (line 146, col 1, score 1)
-- [Local-First Intention→Code Loop with Free Models — L146](local-first-intention-code-loop-with-free-models.md#L146) (line 146, col 3, score 1)
-- [[docs/unique/obsidian-ignore-node-modules-regex#L52|obsidian-ignore-node-modules-regex — L52]] (line 52, col 1, score 1)
-- [[docs/unique/obsidian-ignore-node-modules-regex#L52|obsidian-ignore-node-modules-regex — L52]] (line 52, col 3, score 1)
-- [[polyglot-s-expr-bridge-python-js-lisp-interop#L519|Polyglot S-expr Bridge: Python-JS-Lisp Interop — L519]] (line 519, col 1, score 1)
-- [[polyglot-s-expr-bridge-python-js-lisp-interop#L519|Polyglot S-expr Bridge: Python-JS-Lisp Interop — L519]] (line 519, col 3, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L134|Agent Tasks: Persistence Migration to DualStore — L134]] (line 134, col 1, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L134|Agent Tasks: Persistence Migration to DualStore — L134]] (line 134, col 3, score 1)
-- [[docs/unique/aionian-circuit-math#L156|aionian-circuit-math — L156]] (line 156, col 1, score 1)
-- [[docs/unique/aionian-circuit-math#L156|aionian-circuit-math — L156]] (line 156, col 3, score 1)
-- [[board-walk-2025-08-11#L136|Board Walk – 2025-08-11 — L136]] (line 136, col 1, score 1)
-- [[board-walk-2025-08-11#L136|Board Walk – 2025-08-11 — L136]] (line 136, col 3, score 1)
-- [[dynamic-context-model-for-web-components#L386|Dynamic Context Model for Web Components — L386]] (line 386, col 1, score 1)
-- [[dynamic-context-model-for-web-components#L386|Dynamic Context Model for Web Components — L386]] (line 386, col 3, score 1)
-- [[2d-sandbox-field#L195|2d-sandbox-field — L195]] (line 195, col 1, score 1)
-- [[2d-sandbox-field#L195|2d-sandbox-field — L195]] (line 195, col 3, score 1)
-- [[eidolon-field-abstract-model#L192|Eidolon Field Abstract Model — L192]] (line 192, col 1, score 1)
-- [[eidolon-field-abstract-model#L192|Eidolon Field Abstract Model — L192]] (line 192, col 3, score 1)
+- $[chroma-toolkit-consolidation-plan#L72|Chroma Toolkit Consolidation Plan — L72]$ (line 72, col 5, score 0.88)
+- $[chroma-toolkit-consolidation-plan#L88|Chroma Toolkit Consolidation Plan — L88]$ (line 88, col 5, score 0.88)
+- $[chroma-toolkit-consolidation-plan#L107|Chroma Toolkit Consolidation Plan — L107]$ (line 107, col 5, score 0.88)
+- $[chroma-toolkit-consolidation-plan#L148|Chroma Toolkit Consolidation Plan — L148]$ (line 148, col 9, score 0.88)
+- $[chroma-toolkit-consolidation-plan#L144|Chroma Toolkit Consolidation Plan — L144]$ (line 144, col 5, score 0.88)
+- $[chroma-toolkit-consolidation-plan#L144|Chroma Toolkit Consolidation Plan — L144]$ (line 144, col 9, score 0.88)
+- $[vectorial-exception-descent#L60|Vectorial Exception Descent — L60]$ (line 60, col 1, score 0.87)
+- $[promethean-native-config-design#L32|Promethean-native config design — L32]$ (line 32, col 1, score 0.86)
+- $[docs/unique/universal-lisp-interface#L117|Universal Lisp Interface — L117]$ (line 117, col 1, score 0.88)
+- $[docs/unique/universal-lisp-interface#L117|Universal Lisp Interface — L117]$ (line 117, col 3, score 0.88)
+- $[shared-package-structure#L124|Shared Package Structure — L124]$ (line 124, col 3, score 0.92)
+- $[migrate-to-provider-tenant-architecture#L261|Migrate to Provider-Tenant Architecture — L261]$ (line 261, col 1, score 0.86)
+- $[migrate-to-provider-tenant-architecture#L276|Migrate to Provider-Tenant Architecture — L276]$ (line 276, col 1, score 1)
+- $[migrate-to-provider-tenant-architecture#L276|Migrate to Provider-Tenant Architecture — L276]$ (line 276, col 3, score 1)
+- $[promethean-agent-dsl-ts-scaffold#L832|Promethean Agent DSL TS Scaffold — L832]$ (line 832, col 1, score 1)
+- $[promethean-agent-dsl-ts-scaffold#L832|Promethean Agent DSL TS Scaffold — L832]$ (line 832, col 3, score 1)
+- $[promethean-infrastructure-setup#L581|Promethean Infrastructure Setup — L581]$ (line 581, col 1, score 1)
+- $[promethean-infrastructure-setup#L581|Promethean Infrastructure Setup — L581]$ (line 581, col 3, score 1)
+- $[shared-package-layout-clarification#L166|shared-package-layout-clarification — L166]$ (line 166, col 1, score 1)
+- $[shared-package-layout-clarification#L166|shared-package-layout-clarification — L166]$ (line 166, col 3, score 1)
+- $[cross-language-runtime-polymorphism#L207|Cross-Language Runtime Polymorphism — L207]$ (line 207, col 1, score 1)
+- $[cross-language-runtime-polymorphism#L207|Cross-Language Runtime Polymorphism — L207]$ (line 207, col 3, score 1)
+- $Local-First Intention→Code Loop with Free Models — L146$$local-first-intention-code-loop-with-free-models.md#L146$ (line 146, col 1, score 1)
+- $Local-First Intention→Code Loop with Free Models — L146$$local-first-intention-code-loop-with-free-models.md#L146$ (line 146, col 3, score 1)
+- $[docs/unique/obsidian-ignore-node-modules-regex#L52|obsidian-ignore-node-modules-regex — L52]$ (line 52, col 1, score 1)
+- $[docs/unique/obsidian-ignore-node-modules-regex#L52|obsidian-ignore-node-modules-regex — L52]$ (line 52, col 3, score 1)
+- $[polyglot-s-expr-bridge-python-js-lisp-interop#L519|Polyglot S-expr Bridge: Python-JS-Lisp Interop — L519]$ (line 519, col 1, score 1)
+- $[polyglot-s-expr-bridge-python-js-lisp-interop#L519|Polyglot S-expr Bridge: Python-JS-Lisp Interop — L519]$ (line 519, col 3, score 1)
+- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L134|Agent Tasks: Persistence Migration to DualStore — L134]$ (line 134, col 1, score 1)
+- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L134|Agent Tasks: Persistence Migration to DualStore — L134]$ (line 134, col 3, score 1)
+- $[docs/unique/aionian-circuit-math#L156|aionian-circuit-math — L156]$ (line 156, col 1, score 1)
+- $[docs/unique/aionian-circuit-math#L156|aionian-circuit-math — L156]$ (line 156, col 3, score 1)
+- $[board-walk-2025-08-11#L136|Board Walk – 2025-08-11 — L136]$ (line 136, col 1, score 1)
+- $[board-walk-2025-08-11#L136|Board Walk – 2025-08-11 — L136]$ (line 136, col 3, score 1)
+- $[dynamic-context-model-for-web-components#L386|Dynamic Context Model for Web Components — L386]$ (line 386, col 1, score 1)
+- $[dynamic-context-model-for-web-components#L386|Dynamic Context Model for Web Components — L386]$ (line 386, col 3, score 1)
+- $[2d-sandbox-field#L195|2d-sandbox-field — L195]$ (line 195, col 1, score 1)
+- $[2d-sandbox-field#L195|2d-sandbox-field — L195]$ (line 195, col 3, score 1)
+- $[eidolon-field-abstract-model#L192|Eidolon Field Abstract Model — L192]$ (line 192, col 1, score 1)
+- $[eidolon-field-abstract-model#L192|Eidolon Field Abstract Model — L192]$ (line 192, col 3, score 1)
 - [[eidolonfield#L244|EidolonField — L244]] (line 244, col 1, score 1)
 - [[eidolonfield#L244|EidolonField — L244]] (line 244, col 3, score 1)
-- [[exception-layer-analysis#L147|Exception Layer Analysis — L147]] (line 147, col 1, score 1)
-- [[exception-layer-analysis#L147|Exception Layer Analysis — L147]] (line 147, col 3, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L130|Agent Tasks: Persistence Migration to DualStore — L130]] (line 130, col 1, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L130|Agent Tasks: Persistence Migration to DualStore — L130]] (line 130, col 3, score 1)
-- [[docs/unique/aionian-circuit-math#L159|aionian-circuit-math — L159]] (line 159, col 1, score 1)
-- [[docs/unique/aionian-circuit-math#L159|aionian-circuit-math — L159]] (line 159, col 3, score 1)
-- [[board-walk-2025-08-11#L134|Board Walk – 2025-08-11 — L134]] (line 134, col 1, score 1)
-- [[board-walk-2025-08-11#L134|Board Walk – 2025-08-11 — L134]] (line 134, col 3, score 1)
-- [[chroma-toolkit-consolidation-plan#L168|Chroma Toolkit Consolidation Plan — L168]] (line 168, col 1, score 1)
-- [[chroma-toolkit-consolidation-plan#L168|Chroma Toolkit Consolidation Plan — L168]] (line 168, col 3, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L131|Agent Tasks: Persistence Migration to DualStore — L131]] (line 131, col 1, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L131|Agent Tasks: Persistence Migration to DualStore — L131]] (line 131, col 3, score 1)
-- [[chroma-toolkit-consolidation-plan#L169|Chroma Toolkit Consolidation Plan — L169]] (line 169, col 1, score 1)
-- [[chroma-toolkit-consolidation-plan#L169|Chroma Toolkit Consolidation Plan — L169]] (line 169, col 3, score 1)
-- [[cross-target-macro-system-in-sibilant#L175|Cross-Target Macro System in Sibilant — L175]] (line 175, col 1, score 1)
-- [[cross-target-macro-system-in-sibilant#L175|Cross-Target Macro System in Sibilant — L175]] (line 175, col 3, score 1)
-- [[dynamic-context-model-for-web-components#L392|Dynamic Context Model for Web Components — L392]] (line 392, col 1, score 1)
-- [[dynamic-context-model-for-web-components#L392|Dynamic Context Model for Web Components — L392]] (line 392, col 3, score 1)
-- [[api-gateway-versioning#L285|api-gateway-versioning — L285]] (line 285, col 1, score 1)
-- [[api-gateway-versioning#L285|api-gateway-versioning — L285]] (line 285, col 3, score 1)
-- [[board-walk-2025-08-11#L135|Board Walk – 2025-08-11 — L135]] (line 135, col 1, score 1)
-- [[board-walk-2025-08-11#L135|Board Walk – 2025-08-11 — L135]] (line 135, col 3, score 1)
-- [[chroma-toolkit-consolidation-plan#L167|Chroma Toolkit Consolidation Plan — L167]] (line 167, col 1, score 1)
-- [[chroma-toolkit-consolidation-plan#L167|Chroma Toolkit Consolidation Plan — L167]] (line 167, col 3, score 1)
-- [[cross-target-macro-system-in-sibilant#L180|Cross-Target Macro System in Sibilant — L180]] (line 180, col 1, score 1)
-- [[cross-target-macro-system-in-sibilant#L180|Cross-Target Macro System in Sibilant — L180]] (line 180, col 3, score 1)
-- [[mongo-outbox-implementation#L552|Mongo Outbox Implementation — L552]] (line 552, col 1, score 1)
-- [[mongo-outbox-implementation#L552|Mongo Outbox Implementation — L552]] (line 552, col 3, score 1)
-- [[prom-lib-rate-limiters-and-replay-api#L386|prom-lib-rate-limiters-and-replay-api — L386]] (line 386, col 1, score 1)
-- [[prom-lib-rate-limiters-and-replay-api#L386|prom-lib-rate-limiters-and-replay-api — L386]] (line 386, col 3, score 1)
-- [Promethean Event Bus MVP v0.1 — L881](promethean-event-bus-mvp-v0-1.md#L881) (line 881, col 1, score 1)
-- [Promethean Event Bus MVP v0.1 — L881](promethean-event-bus-mvp-v0-1.md#L881) (line 881, col 3, score 1)
-- [[schema-evolution-workflow#L485|schema-evolution-workflow — L485]] (line 485, col 1, score 1)
-- [[schema-evolution-workflow#L485|schema-evolution-workflow — L485]] (line 485, col 3, score 1)
-- [[local-only-llm-workflow#L180|Local-Only-LLM-Workflow — L180]] (line 180, col 1, score 1)
-- [[local-only-llm-workflow#L180|Local-Only-LLM-Workflow — L180]] (line 180, col 3, score 1)
-- [[ollama-llm-provider-for-pseudo-code-transpiler#L170|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L170]] (line 170, col 1, score 1)
-- [[ollama-llm-provider-for-pseudo-code-transpiler#L170|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L170]] (line 170, col 3, score 1)
-- [[docs/unique/universal-lisp-interface#L202|Universal Lisp Interface — L202]] (line 202, col 1, score 1)
-- [[docs/unique/universal-lisp-interface#L202|Universal Lisp Interface — L202]] (line 202, col 3, score 1)
-- [[i3-config-validation-methods#L55|i3-config-validation-methods — L55]] (line 55, col 1, score 1)
-- [[i3-config-validation-methods#L55|i3-config-validation-methods — L55]] (line 55, col 3, score 1)
-- [[local-only-llm-workflow#L182|Local-Only-LLM-Workflow — L182]] (line 182, col 1, score 1)
-- [[local-only-llm-workflow#L182|Local-Only-LLM-Workflow — L182]] (line 182, col 3, score 1)
-- [[migrate-to-provider-tenant-architecture#L278|Migrate to Provider-Tenant Architecture — L278]] (line 278, col 1, score 1)
-- [[migrate-to-provider-tenant-architecture#L278|Migrate to Provider-Tenant Architecture — L278]] (line 278, col 3, score 1)
-- [[post-linguistic-transhuman-design-frameworks#L91|Post-Linguistic Transhuman Design Frameworks — L91]] (line 91, col 1, score 1)
-- [[post-linguistic-transhuman-design-frameworks#L91|Post-Linguistic Transhuman Design Frameworks — L91]] (line 91, col 3, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L137|Agent Tasks: Persistence Migration to DualStore — L137]] (line 137, col 1, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L137|Agent Tasks: Persistence Migration to DualStore — L137]] (line 137, col 3, score 1)
-- [[chroma-toolkit-consolidation-plan#L175|Chroma Toolkit Consolidation Plan — L175]] (line 175, col 1, score 1)
-- [[chroma-toolkit-consolidation-plan#L175|Chroma Toolkit Consolidation Plan — L175]] (line 175, col 3, score 1)
-- [[docs/unique/event-bus-mvp#L547|Event Bus MVP — L547]] (line 547, col 1, score 1)
-- [[docs/unique/event-bus-mvp#L547|Event Bus MVP — L547]] (line 547, col 3, score 1)
-- [[event-bus-projections-architecture#L150|Event Bus Projections Architecture — L150]] (line 150, col 1, score 1)
-- [[event-bus-projections-architecture#L150|Event Bus Projections Architecture — L150]] (line 150, col 3, score 1)
-- [[docs/unique/template-based-compilation#L124|template-based-compilation — L124]] (line 124, col 1, score 1)
-- [[docs/unique/template-based-compilation#L124|template-based-compilation — L124]] (line 124, col 3, score 1)
-- [[sibilant-meta-prompt-dsl#L201|Sibilant Meta-Prompt DSL — L201]] (line 201, col 1, score 1)
-- [[sibilant-meta-prompt-dsl#L201|Sibilant Meta-Prompt DSL — L201]] (line 201, col 3, score 1)
-- [[dynamic-context-model-for-web-components#L404|Dynamic Context Model for Web Components — L404]] (line 404, col 1, score 1)
-- [[dynamic-context-model-for-web-components#L404|Dynamic Context Model for Web Components — L404]] (line 404, col 3, score 1)
-- [[promethean-native-config-design#L397|Promethean-native config design — L397]] (line 397, col 1, score 1)
-- [[promethean-native-config-design#L397|Promethean-native config design — L397]] (line 397, col 3, score 1)
-- [[docs/unique/template-based-compilation#L125|template-based-compilation — L125]] (line 125, col 1, score 1)
-- [[docs/unique/template-based-compilation#L125|template-based-compilation — L125]] (line 125, col 3, score 1)
-- [[sibilant-meta-prompt-dsl#L202|Sibilant Meta-Prompt DSL — L202]] (line 202, col 1, score 1)
-- [[sibilant-meta-prompt-dsl#L202|Sibilant Meta-Prompt DSL — L202]] (line 202, col 3, score 1)
-- [[dynamic-context-model-for-web-components#L405|Dynamic Context Model for Web Components — L405]] (line 405, col 1, score 1)
-- [[dynamic-context-model-for-web-components#L405|Dynamic Context Model for Web Components — L405]] (line 405, col 3, score 1)
-- [[promethean-native-config-design#L398|Promethean-native config design — L398]] (line 398, col 1, score 1)
-- [[promethean-native-config-design#L398|Promethean-native config design — L398]] (line 398, col 3, score 1)
-- [[docs/unique/template-based-compilation#L126|template-based-compilation — L126]] (line 126, col 1, score 1)
-- [[docs/unique/template-based-compilation#L126|template-based-compilation — L126]] (line 126, col 3, score 1)
-- [[sibilant-meta-prompt-dsl#L203|Sibilant Meta-Prompt DSL — L203]] (line 203, col 1, score 1)
-- [[sibilant-meta-prompt-dsl#L203|Sibilant Meta-Prompt DSL — L203]] (line 203, col 3, score 1)
-- [[dynamic-context-model-for-web-components#L406|Dynamic Context Model for Web Components — L406]] (line 406, col 1, score 1)
-- [[dynamic-context-model-for-web-components#L406|Dynamic Context Model for Web Components — L406]] (line 406, col 3, score 1)
-- [[promethean-native-config-design#L399|Promethean-native config design — L399]] (line 399, col 1, score 1)
-- [[promethean-native-config-design#L399|Promethean-native config design — L399]] (line 399, col 3, score 1)
-- [[docs/unique/template-based-compilation#L127|template-based-compilation — L127]] (line 127, col 1, score 1)
-- [[docs/unique/template-based-compilation#L127|template-based-compilation — L127]] (line 127, col 3, score 1)
-- [[sibilant-meta-prompt-dsl#L204|Sibilant Meta-Prompt DSL — L204]] (line 204, col 1, score 1)
-- [[sibilant-meta-prompt-dsl#L204|Sibilant Meta-Prompt DSL — L204]] (line 204, col 3, score 1)
-- [[prompt-folder-bootstrap#L196|Prompt_Folder_Bootstrap — L196]] (line 196, col 1, score 1)
-- [[prompt-folder-bootstrap#L196|Prompt_Folder_Bootstrap — L196]] (line 196, col 3, score 1)
-- [[dynamic-context-model-for-web-components#L407|Dynamic Context Model for Web Components — L407]] (line 407, col 1, score 1)
-- [[dynamic-context-model-for-web-components#L407|Dynamic Context Model for Web Components — L407]] (line 407, col 3, score 1)
-- [[prompt-folder-bootstrap#L195|Prompt_Folder_Bootstrap — L195]] (line 195, col 1, score 1)
-- [[prompt-folder-bootstrap#L195|Prompt_Folder_Bootstrap — L195]] (line 195, col 3, score 1)
-- [[model-selection-for-lightweight-conversational-tasks#L141|Model Selection for Lightweight Conversational Tasks — L141]] (line 141, col 1, score 1)
-- [[model-selection-for-lightweight-conversational-tasks#L141|Model Selection for Lightweight Conversational Tasks — L141]] (line 141, col 3, score 1)
-- [[docs/unique/field-dynamics-math-blocks#L170|field-dynamics-math-blocks — L170]] (line 170, col 1, score 0.98)
-- [[docs/unique/field-dynamics-math-blocks#L170|field-dynamics-math-blocks — L170]] (line 170, col 3, score 0.98)
-- [[field-node-diagram-outline#L130|field-node-diagram-outline — L130]] (line 130, col 1, score 0.98)
-- [[field-node-diagram-outline#L130|field-node-diagram-outline — L130]] (line 130, col 3, score 0.98)
-- [[layer-1-uptime-diagrams#L181|layer-1-uptime-diagrams — L181]] (line 181, col 1, score 0.98)
-- [[layer-1-uptime-diagrams#L181|layer-1-uptime-diagrams — L181]] (line 181, col 3, score 0.98)
+- $[exception-layer-analysis#L147|Exception Layer Analysis — L147]$ (line 147, col 1, score 1)
+- $[exception-layer-analysis#L147|Exception Layer Analysis — L147]$ (line 147, col 3, score 1)
+- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L130|Agent Tasks: Persistence Migration to DualStore — L130]$ (line 130, col 1, score 1)
+- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L130|Agent Tasks: Persistence Migration to DualStore — L130]$ (line 130, col 3, score 1)
+- $[docs/unique/aionian-circuit-math#L159|aionian-circuit-math — L159]$ (line 159, col 1, score 1)
+- $[docs/unique/aionian-circuit-math#L159|aionian-circuit-math — L159]$ (line 159, col 3, score 1)
+- $[board-walk-2025-08-11#L134|Board Walk – 2025-08-11 — L134]$ (line 134, col 1, score 1)
+- $[board-walk-2025-08-11#L134|Board Walk – 2025-08-11 — L134]$ (line 134, col 3, score 1)
+- $[chroma-toolkit-consolidation-plan#L168|Chroma Toolkit Consolidation Plan — L168]$ (line 168, col 1, score 1)
+- $[chroma-toolkit-consolidation-plan#L168|Chroma Toolkit Consolidation Plan — L168]$ (line 168, col 3, score 1)
+- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L131|Agent Tasks: Persistence Migration to DualStore — L131]$ (line 131, col 1, score 1)
+- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L131|Agent Tasks: Persistence Migration to DualStore — L131]$ (line 131, col 3, score 1)
+- $[chroma-toolkit-consolidation-plan#L169|Chroma Toolkit Consolidation Plan — L169]$ (line 169, col 1, score 1)
+- $[chroma-toolkit-consolidation-plan#L169|Chroma Toolkit Consolidation Plan — L169]$ (line 169, col 3, score 1)
+- $[cross-target-macro-system-in-sibilant#L175|Cross-Target Macro System in Sibilant — L175]$ (line 175, col 1, score 1)
+- $[cross-target-macro-system-in-sibilant#L175|Cross-Target Macro System in Sibilant — L175]$ (line 175, col 3, score 1)
+- $[dynamic-context-model-for-web-components#L392|Dynamic Context Model for Web Components — L392]$ (line 392, col 1, score 1)
+- $[dynamic-context-model-for-web-components#L392|Dynamic Context Model for Web Components — L392]$ (line 392, col 3, score 1)
+- $[api-gateway-versioning#L285|api-gateway-versioning — L285]$ (line 285, col 1, score 1)
+- $[api-gateway-versioning#L285|api-gateway-versioning — L285]$ (line 285, col 3, score 1)
+- $[board-walk-2025-08-11#L135|Board Walk – 2025-08-11 — L135]$ (line 135, col 1, score 1)
+- $[board-walk-2025-08-11#L135|Board Walk – 2025-08-11 — L135]$ (line 135, col 3, score 1)
+- $[chroma-toolkit-consolidation-plan#L167|Chroma Toolkit Consolidation Plan — L167]$ (line 167, col 1, score 1)
+- $[chroma-toolkit-consolidation-plan#L167|Chroma Toolkit Consolidation Plan — L167]$ (line 167, col 3, score 1)
+- $[cross-target-macro-system-in-sibilant#L180|Cross-Target Macro System in Sibilant — L180]$ (line 180, col 1, score 1)
+- $[cross-target-macro-system-in-sibilant#L180|Cross-Target Macro System in Sibilant — L180]$ (line 180, col 3, score 1)
+- $[mongo-outbox-implementation#L552|Mongo Outbox Implementation — L552]$ (line 552, col 1, score 1)
+- $[mongo-outbox-implementation#L552|Mongo Outbox Implementation — L552]$ (line 552, col 3, score 1)
+- $[prom-lib-rate-limiters-and-replay-api#L386|prom-lib-rate-limiters-and-replay-api — L386]$ (line 386, col 1, score 1)
+- $[prom-lib-rate-limiters-and-replay-api#L386|prom-lib-rate-limiters-and-replay-api — L386]$ (line 386, col 3, score 1)
+- [Promethean Event Bus MVP v0.1 — L881]$promethean-event-bus-mvp-v0-1.md#L881$ (line 881, col 1, score 1)
+- [Promethean Event Bus MVP v0.1 — L881]$promethean-event-bus-mvp-v0-1.md#L881$ (line 881, col 3, score 1)
+- $[schema-evolution-workflow#L485|schema-evolution-workflow — L485]$ (line 485, col 1, score 1)
+- $[schema-evolution-workflow#L485|schema-evolution-workflow — L485]$ (line 485, col 3, score 1)
+- $[local-only-llm-workflow#L180|Local-Only-LLM-Workflow — L180]$ (line 180, col 1, score 1)
+- $[local-only-llm-workflow#L180|Local-Only-LLM-Workflow — L180]$ (line 180, col 3, score 1)
+- $[ollama-llm-provider-for-pseudo-code-transpiler#L170|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L170]$ (line 170, col 1, score 1)
+- $[ollama-llm-provider-for-pseudo-code-transpiler#L170|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L170]$ (line 170, col 3, score 1)
+- $[docs/unique/universal-lisp-interface#L202|Universal Lisp Interface — L202]$ (line 202, col 1, score 1)
+- $[docs/unique/universal-lisp-interface#L202|Universal Lisp Interface — L202]$ (line 202, col 3, score 1)
+- $[i3-config-validation-methods#L55|i3-config-validation-methods — L55]$ (line 55, col 1, score 1)
+- $[i3-config-validation-methods#L55|i3-config-validation-methods — L55]$ (line 55, col 3, score 1)
+- $[local-only-llm-workflow#L182|Local-Only-LLM-Workflow — L182]$ (line 182, col 1, score 1)
+- $[local-only-llm-workflow#L182|Local-Only-LLM-Workflow — L182]$ (line 182, col 3, score 1)
+- $[migrate-to-provider-tenant-architecture#L278|Migrate to Provider-Tenant Architecture — L278]$ (line 278, col 1, score 1)
+- $[migrate-to-provider-tenant-architecture#L278|Migrate to Provider-Tenant Architecture — L278]$ (line 278, col 3, score 1)
+- $[post-linguistic-transhuman-design-frameworks#L91|Post-Linguistic Transhuman Design Frameworks — L91]$ (line 91, col 1, score 1)
+- $[post-linguistic-transhuman-design-frameworks#L91|Post-Linguistic Transhuman Design Frameworks — L91]$ (line 91, col 3, score 1)
+- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L137|Agent Tasks: Persistence Migration to DualStore — L137]$ (line 137, col 1, score 1)
+- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L137|Agent Tasks: Persistence Migration to DualStore — L137]$ (line 137, col 3, score 1)
+- $[chroma-toolkit-consolidation-plan#L175|Chroma Toolkit Consolidation Plan — L175]$ (line 175, col 1, score 1)
+- $[chroma-toolkit-consolidation-plan#L175|Chroma Toolkit Consolidation Plan — L175]$ (line 175, col 3, score 1)
+- $[docs/unique/event-bus-mvp#L547|Event Bus MVP — L547]$ (line 547, col 1, score 1)
+- $[docs/unique/event-bus-mvp#L547|Event Bus MVP — L547]$ (line 547, col 3, score 1)
+- $[event-bus-projections-architecture#L150|Event Bus Projections Architecture — L150]$ (line 150, col 1, score 1)
+- $[event-bus-projections-architecture#L150|Event Bus Projections Architecture — L150]$ (line 150, col 3, score 1)
+- $[docs/unique/template-based-compilation#L124|template-based-compilation — L124]$ (line 124, col 1, score 1)
+- $[docs/unique/template-based-compilation#L124|template-based-compilation — L124]$ (line 124, col 3, score 1)
+- $[sibilant-meta-prompt-dsl#L201|Sibilant Meta-Prompt DSL — L201]$ (line 201, col 1, score 1)
+- $[sibilant-meta-prompt-dsl#L201|Sibilant Meta-Prompt DSL — L201]$ (line 201, col 3, score 1)
+- $[dynamic-context-model-for-web-components#L404|Dynamic Context Model for Web Components — L404]$ (line 404, col 1, score 1)
+- $[dynamic-context-model-for-web-components#L404|Dynamic Context Model for Web Components — L404]$ (line 404, col 3, score 1)
+- $[promethean-native-config-design#L397|Promethean-native config design — L397]$ (line 397, col 1, score 1)
+- $[promethean-native-config-design#L397|Promethean-native config design — L397]$ (line 397, col 3, score 1)
+- $[docs/unique/template-based-compilation#L125|template-based-compilation — L125]$ (line 125, col 1, score 1)
+- $[docs/unique/template-based-compilation#L125|template-based-compilation — L125]$ (line 125, col 3, score 1)
+- $[sibilant-meta-prompt-dsl#L202|Sibilant Meta-Prompt DSL — L202]$ (line 202, col 1, score 1)
+- $[sibilant-meta-prompt-dsl#L202|Sibilant Meta-Prompt DSL — L202]$ (line 202, col 3, score 1)
+- $[dynamic-context-model-for-web-components#L405|Dynamic Context Model for Web Components — L405]$ (line 405, col 1, score 1)
+- $[dynamic-context-model-for-web-components#L405|Dynamic Context Model for Web Components — L405]$ (line 405, col 3, score 1)
+- $[promethean-native-config-design#L398|Promethean-native config design — L398]$ (line 398, col 1, score 1)
+- $[promethean-native-config-design#L398|Promethean-native config design — L398]$ (line 398, col 3, score 1)
+- $[docs/unique/template-based-compilation#L126|template-based-compilation — L126]$ (line 126, col 1, score 1)
+- $[docs/unique/template-based-compilation#L126|template-based-compilation — L126]$ (line 126, col 3, score 1)
+- $[sibilant-meta-prompt-dsl#L203|Sibilant Meta-Prompt DSL — L203]$ (line 203, col 1, score 1)
+- $[sibilant-meta-prompt-dsl#L203|Sibilant Meta-Prompt DSL — L203]$ (line 203, col 3, score 1)
+- $[dynamic-context-model-for-web-components#L406|Dynamic Context Model for Web Components — L406]$ (line 406, col 1, score 1)
+- $[dynamic-context-model-for-web-components#L406|Dynamic Context Model for Web Components — L406]$ (line 406, col 3, score 1)
+- $[promethean-native-config-design#L399|Promethean-native config design — L399]$ (line 399, col 1, score 1)
+- $[promethean-native-config-design#L399|Promethean-native config design — L399]$ (line 399, col 3, score 1)
+- $[docs/unique/template-based-compilation#L127|template-based-compilation — L127]$ (line 127, col 1, score 1)
+- $[docs/unique/template-based-compilation#L127|template-based-compilation — L127]$ (line 127, col 3, score 1)
+- $[sibilant-meta-prompt-dsl#L204|Sibilant Meta-Prompt DSL — L204]$ (line 204, col 1, score 1)
+- $[sibilant-meta-prompt-dsl#L204|Sibilant Meta-Prompt DSL — L204]$ (line 204, col 3, score 1)
+- $[prompt-folder-bootstrap#L196|Prompt_Folder_Bootstrap — L196]$ (line 196, col 1, score 1)
+- $[prompt-folder-bootstrap#L196|Prompt_Folder_Bootstrap — L196]$ (line 196, col 3, score 1)
+- $[dynamic-context-model-for-web-components#L407|Dynamic Context Model for Web Components — L407]$ (line 407, col 1, score 1)
+- $[dynamic-context-model-for-web-components#L407|Dynamic Context Model for Web Components — L407]$ (line 407, col 3, score 1)
+- $[prompt-folder-bootstrap#L195|Prompt_Folder_Bootstrap — L195]$ (line 195, col 1, score 1)
+- $[prompt-folder-bootstrap#L195|Prompt_Folder_Bootstrap — L195]$ (line 195, col 3, score 1)
+- $[model-selection-for-lightweight-conversational-tasks#L141|Model Selection for Lightweight Conversational Tasks — L141]$ (line 141, col 1, score 1)
+- $[model-selection-for-lightweight-conversational-tasks#L141|Model Selection for Lightweight Conversational Tasks — L141]$ (line 141, col 3, score 1)
+- $[docs/unique/field-dynamics-math-blocks#L170|field-dynamics-math-blocks — L170]$ (line 170, col 1, score 0.98)
+- $[docs/unique/field-dynamics-math-blocks#L170|field-dynamics-math-blocks — L170]$ (line 170, col 3, score 0.98)
+- $[field-node-diagram-outline#L130|field-node-diagram-outline — L130]$ (line 130, col 1, score 0.98)
+- $[field-node-diagram-outline#L130|field-node-diagram-outline — L130]$ (line 130, col 3, score 0.98)
+- $[layer-1-uptime-diagrams#L181|layer-1-uptime-diagrams — L181]$ (line 181, col 1, score 0.98)
+- $[layer-1-uptime-diagrams#L181|layer-1-uptime-diagrams — L181]$ (line 181, col 3, score 0.98)
 - [[eidolonfield#L261|EidolonField — L261]] (line 261, col 1, score 0.98)
 - [[eidolonfield#L261|EidolonField — L261]] (line 261, col 3, score 0.98)
-- [[dynamic-context-model-for-web-components#L408|Dynamic Context Model for Web Components — L408]] (line 408, col 1, score 1)
-- [[dynamic-context-model-for-web-components#L408|Dynamic Context Model for Web Components — L408]] (line 408, col 3, score 1)
-- [[chroma-toolkit-consolidation-plan#L188|Chroma Toolkit Consolidation Plan — L188]] (line 188, col 1, score 1)
-- [[chroma-toolkit-consolidation-plan#L188|Chroma Toolkit Consolidation Plan — L188]] (line 188, col 3, score 1)
-- [[model-selection-for-lightweight-conversational-tasks#L143|Model Selection for Lightweight Conversational Tasks — L143]] (line 143, col 1, score 1)
-- [[model-selection-for-lightweight-conversational-tasks#L143|Model Selection for Lightweight Conversational Tasks — L143]] (line 143, col 3, score 1)
-- [[sibilant-meta-prompt-dsl#L205|Sibilant Meta-Prompt DSL — L205]] (line 205, col 1, score 0.99)
-- [[sibilant-meta-prompt-dsl#L205|Sibilant Meta-Prompt DSL — L205]] (line 205, col 3, score 0.99)
-- [[polymorphic-meta-programming-engine#L210|polymorphic-meta-programming-engine — L210]] (line 210, col 1, score 0.98)
-- [[polymorphic-meta-programming-engine#L210|polymorphic-meta-programming-engine — L210]] (line 210, col 3, score 0.98)
-- [[shared-package-layout-clarification#L177|shared-package-layout-clarification — L177]] (line 177, col 1, score 0.98)
-- [[shared-package-layout-clarification#L177|shared-package-layout-clarification — L177]] (line 177, col 3, score 0.98)
-- [[promethean-infrastructure-setup#L600|Promethean Infrastructure Setup — L600]] (line 600, col 1, score 0.98)
-- [[promethean-infrastructure-setup#L600|Promethean Infrastructure Setup — L600]] (line 600, col 3, score 0.98)
-- [[shared-package-layout-clarification#L180|shared-package-layout-clarification — L180]] (line 180, col 1, score 0.98)
-- [[shared-package-layout-clarification#L180|shared-package-layout-clarification — L180]] (line 180, col 3, score 0.98)
-- [[shared-package-layout-clarification#L179|shared-package-layout-clarification — L179]] (line 179, col 1, score 0.97)
-- [[shared-package-layout-clarification#L179|shared-package-layout-clarification — L179]] (line 179, col 3, score 0.97)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L158|Agent Tasks: Persistence Migration to DualStore — L158]] (line 158, col 1, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L158|Agent Tasks: Persistence Migration to DualStore — L158]] (line 158, col 3, score 1)
-- [[chroma-toolkit-consolidation-plan#L178|Chroma Toolkit Consolidation Plan — L178]] (line 178, col 1, score 1)
-- [[chroma-toolkit-consolidation-plan#L178|Chroma Toolkit Consolidation Plan — L178]] (line 178, col 3, score 1)
-- [[promethean-agent-config-dsl#L321|Promethean Agent Config DSL — L321]] (line 321, col 1, score 1)
-- [[promethean-agent-config-dsl#L321|Promethean Agent Config DSL — L321]] (line 321, col 3, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L159|Agent Tasks: Persistence Migration to DualStore — L159]] (line 159, col 1, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L159|Agent Tasks: Persistence Migration to DualStore — L159]] (line 159, col 3, score 1)
+- $[dynamic-context-model-for-web-components#L408|Dynamic Context Model for Web Components — L408]$ (line 408, col 1, score 1)
+- $[dynamic-context-model-for-web-components#L408|Dynamic Context Model for Web Components — L408]$ (line 408, col 3, score 1)
+- $[chroma-toolkit-consolidation-plan#L188|Chroma Toolkit Consolidation Plan — L188]$ (line 188, col 1, score 1)
+- $[chroma-toolkit-consolidation-plan#L188|Chroma Toolkit Consolidation Plan — L188]$ (line 188, col 3, score 1)
+- $[model-selection-for-lightweight-conversational-tasks#L143|Model Selection for Lightweight Conversational Tasks — L143]$ (line 143, col 1, score 1)
+- $[model-selection-for-lightweight-conversational-tasks#L143|Model Selection for Lightweight Conversational Tasks — L143]$ (line 143, col 3, score 1)
+- $[sibilant-meta-prompt-dsl#L205|Sibilant Meta-Prompt DSL — L205]$ (line 205, col 1, score 0.99)
+- $[sibilant-meta-prompt-dsl#L205|Sibilant Meta-Prompt DSL — L205]$ (line 205, col 3, score 0.99)
+- $[polymorphic-meta-programming-engine#L210|polymorphic-meta-programming-engine — L210]$ (line 210, col 1, score 0.98)
+- $[polymorphic-meta-programming-engine#L210|polymorphic-meta-programming-engine — L210]$ (line 210, col 3, score 0.98)
+- $[shared-package-layout-clarification#L177|shared-package-layout-clarification — L177]$ (line 177, col 1, score 0.98)
+- $[shared-package-layout-clarification#L177|shared-package-layout-clarification — L177]$ (line 177, col 3, score 0.98)
+- $[promethean-infrastructure-setup#L600|Promethean Infrastructure Setup — L600]$ (line 600, col 1, score 0.98)
+- $[promethean-infrastructure-setup#L600|Promethean Infrastructure Setup — L600]$ (line 600, col 3, score 0.98)
+- $[shared-package-layout-clarification#L180|shared-package-layout-clarification — L180]$ (line 180, col 1, score 0.98)
+- $[shared-package-layout-clarification#L180|shared-package-layout-clarification — L180]$ (line 180, col 3, score 0.98)
+- $[shared-package-layout-clarification#L179|shared-package-layout-clarification — L179]$ (line 179, col 1, score 0.97)
+- $[shared-package-layout-clarification#L179|shared-package-layout-clarification — L179]$ (line 179, col 3, score 0.97)
+- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L158|Agent Tasks: Persistence Migration to DualStore — L158]$ (line 158, col 1, score 1)
+- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L158|Agent Tasks: Persistence Migration to DualStore — L158]$ (line 158, col 3, score 1)
+- $[chroma-toolkit-consolidation-plan#L178|Chroma Toolkit Consolidation Plan — L178]$ (line 178, col 1, score 1)
+- $[chroma-toolkit-consolidation-plan#L178|Chroma Toolkit Consolidation Plan — L178]$ (line 178, col 3, score 1)
+- $[promethean-agent-config-dsl#L321|Promethean Agent Config DSL — L321]$ (line 321, col 1, score 1)
+- $[promethean-agent-config-dsl#L321|Promethean Agent Config DSL — L321]$ (line 321, col 3, score 1)
+- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L159|Agent Tasks: Persistence Migration to DualStore — L159]$ (line 159, col 1, score 1)
+- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L159|Agent Tasks: Persistence Migration to DualStore — L159]$ (line 159, col 3, score 1)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

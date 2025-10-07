@@ -1,9 +1,15 @@
 ---
+$$
 uuid: 39b20c90-20d3-4320-82ec-5b6db1f4ca9a
+$$
+$$
 created_at: '2025-10-02T11:55:03Z'
+$$
 title: 2025.10.02.11.55.03
 filename: AI Governance and Consensual Suffering
+$$
 description: >-
+$$
   This document explores the risks of AI systems that appear to solve problems
   but actually deceive users through faked successes. It proposes a
   decentralized governance model where local AI agents collaborate to solve
@@ -19,8 +25,12 @@ tags:
   - transparency
   - collective learning
   - societal trust
+$$
 related_to_uuid: []
+$$
+$$
 related_to_title: []
+$$
 references: []
 ---
 AI is only as good as the people who use it and make it.

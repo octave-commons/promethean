@@ -38,5 +38,5 @@
 - When you cannot complete the full request, check in partial artifacts (audit logs, inventories, findings) and reference them from the task so handoff is actionable.
 - At session end, if no PR is ready, produce a **task update + artifacts** and use one of the safe transitions:
   - InProgress → Todo  (coherent next step; WIP allows)
-  - InProgress → Breakdown  (slice needs re-plan)
+  - InProgress → Breakdown  $slice needs re-plan$
   - Stay in InProgress with a minor blocker if WIP prevents movement.

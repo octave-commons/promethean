@@ -1,5 +1,7 @@
 # 🔄 Iterative Retrieval + Tool Loop for Codex Context...
-Exported on 25/08/2025 at 09:46:50 [from ChatGPT](https://chatgpt.com/g/g-68a508b9180081919110e09ab9faee17-pythagoras/c/68ab9687-a4e0-832a-b2fb-30692cd3efd9) - with [SaveMyChatbot](https://save.hugocollin.com)
+Exported on 25/08/2025 at 09:46:50 [from ChatGPT](https://chatgpt.com/g/g-68a508b9180081919110e09ab9faee17-pythagoras/c/68ab9687-a4e0-832a-b2fb-30692cd3efd9$$
+) - with [SaveMyChatbot](
+$$https://save.hugocollin.com)
 
 ## User
 Let's take a look at the codex context service
@@ -7,7 +9,7 @@ Let's take a look at the codex context service
 ## ChatGPT
 Got it. We’re in Promethean context now.
 
-The **Codex Context Service** doesn’t appear directly in the `pythagoras.md` specification I just loaded, which means we need to **search the monorepo** (likely under `services/`, `shared/`, or `bridge/`) to find its definitions. By convention, Promethean services are structured in:
+The **Codex Context Service** doesn’t appear directly in the `pythagoras.md` specification I just loaded, which means we need to **search the monorepo** $likely under `services/`, `shared/`, or `bridge/`$ to find its definitions. By convention, Promethean services are structured in:
 
 *   `services/<service-name>/` → for core service code
     
@@ -32,7 +34,7 @@ params:
 
 This should surface:
 
-*   Where the **Codex Context Service** is defined (`services/codex-context/` or similar).
+*   Where the **Codex Context Service** is defined $`services/codex-context/` or similar$.
     
 *   Entry points (e.g., `index.ts`, `service.py`, `context.hy`).
     
@@ -57,16 +59,17 @@ params:
   flags: "i"
 ```
 
-⚡ Do you want me to **restrict this first pass just to `services/`**, or go **broader immediately** (including `shared/` and `bridge/`) so we don’t miss the service if it’s abstracted?
+⚡ Do you want me to **restrict this first pass just to `services/`**, or go **broader immediately** $including `shared/` and `bridge/`$ so we don’t miss the service if it’s abstracted?
 
 ## User
+$$
 services/ts
-
+$$
 ## ChatGPT
 We’ve got a clear picture now: the **Codex Context Service** lives in
-
+$$
 `services/ts/codex-context/`
-
+$$
 * * *
 
 ### Key Findings
@@ -101,19 +104,21 @@ We’ve got a clear picture now: the **Codex Context Service** lives in
 *   **Improvement Task**  
     `docs/agents/tasks/improve-codex-context.yaml` (surfaced in request logs) defines objectives:
     
-    1.  Accurate **token usage** reporting (`usage.prompt_tokens`).
+    1.  Accurate **token usage** reporting $`usage.prompt_tokens`$.
         
     2.  Token-based **retrieval context limits** + new `retrieval_context` metadata field.
         
-    3.  Proper **streaming finish\_reason** handling (`stop`, `length`, `function_call`).
-        
-    4.  **Session handling** with `session_id` persistence.  
+    3.  Proper **streaming finish\_reason** handling $`stop`, `length`, `function_call`$.
+$$
+    4.  **Session handling** with `session_id` persistence.
+$$
         → Backed by hints: use `tiktoken`/`gpt-tokenizer`, Redis/SQLite for sessions, and delimit retriever results with `"--- Context ---"`【services/ts/codex-context/docs/codex-context/requests/2025.08.21.14.24.56.md†L25-L29】.
         
 
 * * *
-
-📌 **Summary**:  
+$$
+📌 **Summary**:
+$$
 The **Codex Context Service** is an OpenAI-style wrapper that:
 
 *   Enriches LLM prompts with **retrieved Promethean repo context** (citations enforced).
@@ -129,7 +134,7 @@ The **Codex Context Service** is an OpenAI-style wrapper that:
 
 * * *
 
-👉 Do you want me to **map this into an Obsidian-friendly architecture diagram** (showing Codex Context ↔ SmartGPT Bridge ↔ Ollama ↔ Docs/requests)? Or would you rather dive directly into the **`src/` code flow** (e.g. how `prompt.ts` and `save.ts` interact with API calls)?
+👉 Do you want me to **map this into an Obsidian-friendly architecture diagram** $showing Codex Context ↔ SmartGPT Bridge ↔ Ollama ↔ Docs/requests$? Or would you rather dive directly into the **`src/` code flow** (e.g. how `prompt.ts` and `save.ts` interact with API calls)?
 
 ## User
 Does it seem like it passes the tool calls along to ollama? I wasn't sure by looking at it at first glance.
@@ -147,13 +152,13 @@ Good question — from what we just saw, the **Codex Context Service** definitel
 But whether it **forwards tool calls to Ollama** isn’t yet explicit in the files we surfaced.
 
 Here’s what stands out:
-
+$$
 1.  **README.md**:
-    
+$$
     > “...enriches prompts with Promethean repo context via SmartGPT Bridge **and routes to a local LLM (Ollama first).**”  
     > ✅ So the intent is: Codex Context → Ollama.
     
-2.  **Improvement Task (`improve-codex-context.yaml`)**:
+2.  **Improvement Task $`improve-codex-context.yaml`$**:
     
     *   Mentions `/v1/completions` and `/v1/chat/completions`.
         
@@ -161,14 +166,16 @@ Here’s what stands out:
         
         > _“The reported token usage … must accurately reflect the total number of tokens sent to the **Ollama completion endpoint**.”_【services/ts/codex-context/docs/codex-context/requests/2025.08.21.14.24.56.md†L25-L29】  
         > ✅ Confirms that Codex Context **does forward completions** to Ollama.
-        
-3.  **Unclear piece**:  
-    We haven’t yet looked at `services/ts/codex-context/src/` beyond `prompt.ts` and `save.ts`. Usually, the actual LLM forwarding logic would live in something like `client.ts`, `ollama.ts`, or a service handler (maybe under `src/handlers/` or `src/routes/`).
+$$
+3.  **Unclear piece**:
+$$
+    We haven’t yet looked at `services/ts/codex-context/src/` beyond `prompt.ts` and `save.ts`. Usually, the actual LLM forwarding logic would live in something like `client.ts`, `ollama.ts`, or a service handler $maybe under `src/handlers/` or `src/routes/`$.
     
 
 * * *
-
-📌 **So the answer is:**  
+$$
+📌 **So the answer is:**
+$$
 Yes, the design intent is to **pass completion/tool calls along to Ollama** (as the backend LLM). The improvement task even requires measuring token usage at the **Ollama endpoint level**.
 
 What we _haven’t confirmed yet_ is **how** it does the forwarding — whether it:
@@ -234,12 +241,13 @@ Here’s what we see in `services/ts/codex-context/src/`:
     → Provides an **OpenAI API-compatible wrapper**, still backed by Ollama【services/ts/codex-context/src/backend.ts†L172-L184】.
     
 *   **Extra routes in `index.ts`**  
-    Implements Ollama-compatible endpoints like `/api/tags` (calls `ollama.list()` and `ollama.pull()`)【services/ts/codex-context/src/index.ts†L183-L211】.
+    Implements Ollama-compatible endpoints like `/api/tags` $calls `ollama.list()` and `ollama.pull()`$【services/ts/codex-context/src/index.ts†L183-L211】.
     
 
 * * *
-
-📌 **Conclusion**:  
+$$
+📌 **Conclusion**:
+$$
 The Codex Context Service doesn’t just look like it routes to Ollama — it **definitely does**. It has two pathways:
 
 1.  **Native Ollama driver** (`ollama.chat`, `ollama.list`, `ollama.pull`).
@@ -249,7 +257,7 @@ The Codex Context Service doesn’t just look like it routes to Ollama — it **
 
 * * *
 
-👉 Do you want me to **diagram the call flow** (Codex Context → Retriever → Prompt Augmentor → Backend → Ollama → Response → Persistence), or should I **trace exactly how tool calls (like function calling) get handled** within this service?
+👉 Do you want me to **diagram the call flow** $Codex Context → Retriever → Prompt Augmentor → Backend → Ollama → Response → Persistence$, or should I **trace exactly how tool calls (like function calling) get handled** within this service?
 
 ## User
 yea I don't see how this ensures the tool calls are forwarded. Don't they hve to be defined seperately from the messages?
@@ -275,7 +283,7 @@ That’s a straight mapping of **messages → Ollama’s chat API**.
 ### Why this misses **tool calls / function calls**
 
 In the **OpenAI API**, tool/function calls are not just “messages”.  
-They’re passed in a **separate top-level field** (e.g. `tools`, `functions`, `function_call`) alongside the conversation messages.
+They’re passed in a **separate top-level field** $e.g. `tools`, `functions`, `function_call`$ alongside the conversation messages.
 
 *   `messages[]`: normal chat (user, assistant, system, tool).
     
@@ -292,7 +300,7 @@ So:
     
 *   ❌ Tool definitions / function schemas → **not forwarded**.
     
-*   ❌ Model-generated function calls → **not preserved** (unless encoded as a pseudo-message).
+*   ❌ Model-generated function calls → **not preserved** $unless encoded as a pseudo-message$.
     
 
 * * *
@@ -313,13 +321,14 @@ Two possibilities:
         
 
 * * *
-
-📌 **So you’re right:**  
+$$
+📌 **So you’re right:**
+$$
 At present, **tool calls aren’t forwarded at all**. Codex Context only pushes `messages[]` into Ollama’s `chat()` API. Any tool schemas defined in OpenAI-style requests would be **dropped on the floor**.
 
 * * *
 
-👉 Do you want me to sketch how we’d need to extend `backend.ts` to properly handle `tools[]` (detect if present, and either forward to Ollama if supported, or stub them out with an error/log)? That way you’d have a roadmap for adding tool call support.
+👉 Do you want me to sketch how we’d need to extend `backend.ts` to properly handle `tools[]` $detect if present, and either forward to Ollama if supported, or stub them out with an error/log$? That way you’d have a roadmap for adding tool call support.
 
 ## User
 oh ollama definately supports it.  yea. sketch it out
@@ -400,7 +409,7 @@ export class OllamaBackend implements BackendClient {
 
 ### 🔄 Changes Needed
 
-1.  **`BackendClient` interface** (probably in `types/openai.js` or similar) → add `tools?: any[]` and `tool_choice?: any`.
+1.  **`BackendClient` interface** $probably in `types/openai.js` or similar$ → add `tools?: any[]` and `tool_choice?: any`.
     
 2.  **`index.ts` request handler** → detect when incoming request includes `tools[]` and pass them into `backend.chat(...)`.
     
@@ -413,7 +422,7 @@ export class OllamaBackend implements BackendClient {
 
 ### ⚡ Why this works
 
-*   Keeps backwards compatibility (no tools = current behavior).
+*   Keeps backwards compatibility $no tools = current behavior$.
     
 *   If `tools` or `tool_choice` are provided, Codex Context transparently forwards them into **Ollama’s OpenAI adapter**, which already supports tool/function calling.
     
@@ -440,9 +449,9 @@ Great—thanks for sharing the Ollama blog article. It confirms that tool (funct
 ### What Ollama’s documentation confirms
 
 *   **Tool calling is officially supported** via the `tools` field in Ollama’s API, letting you pass structured tool definitions to the model.  
-    Ollama models like Llama 3.1 can respond with `tool_calls` or tool-role messages that indicate which tools should be executed and with which arguments. [YouTube+13Ollama+13Medium+13](https://ollama.com/blog/tool-support?utm_source=chatgpt.com)
+    Ollama models like Llama 3.1 can respond with `tool_calls` or tool-role messages that indicate which tools should be executed and with which arguments. $YouTube+13Ollama+13Medium+13$(https://ollama.com/blog/tool-support?utm_source=chatgpt.com)
     
-*   **Streaming responses with tool calling** are supported in newer versions of Ollama (as of May 28, 2025). This enables real‑time, partial outputs combined with tool invocations. [Ollama+1](https://ollama.com/blog/streaming-tool?utm_source=chatgpt.com)
+*   **Streaming responses with tool calling** are supported in newer versions of Ollama (as of May 28, 2025). This enables real‑time, partial outputs combined with tool invocations. $Ollama+1$(https://ollama.com/blog/streaming-tool?utm_source=chatgpt.com)
     
 
 * * *
@@ -571,14 +580,14 @@ That way we’ll know exactly where `tools[]` would need to be wired in, instead
 * * *
 
 Here’s what I propose:
-
+$$
 1.  **Fetch full content** of:
-    
+$$
     *   `services/ts/codex-context/src/index.ts`
         
     *   `services/ts/codex-context/src/backend.ts`
         
-2.  Walk through their logic end-to-end (request parsing → backend invocation → response handling).
+2.  Walk through their logic end-to-end $request parsing → backend invocation → response handling$.
     
 3.  Only then sketch the precise patch for `tools` / `function_call` forwarding.
     
@@ -603,7 +612,7 @@ We’ve now seen the **full `index.ts`** — and you were right to be skeptical.
         
     *   `/v1/models` + `/v1/models/:id`
         
-    *   Ollama passthroughs (`/api/tags`, `/api/pull`)
+    *   Ollama passthroughs $`/api/tags`, `/api/pull`$
         
 *   **How chat requests are handled**:
     
@@ -650,31 +659,31 @@ We’ve now seen the **full `index.ts`** — and you were right to be skeptical.
 ### What needs to change
 
 To properly support Ollama tool calling, we’ll need to:
-
+$$
 1.  **Update validation** (`validateChatMessages`)
-    
-    *   Allow `content` to be either `string` _or_ structured objects (`tool_calls`).
-        
+$$
+    *   Allow `content` to be either `string` _or_ structured objects $`tool_calls`$.
+$$
 2.  **Update handler (`/v1/chat/completions`)**
-    
+$$
     *   Detect `tools[]`, `tool_choice`, `function_call` in request body.
         
-    *   Pass them into `backend.chat(messages, { ...genCfg, tools, tool_choice })`.
-        
+    *   Pass them into `backend.chat$messages, { ...genCfg, tools, tool_choice }$`.
+$$
 3.  **Update backend** (`backend.ts`)
-    
+$$
     *   Add support for forwarding `tools` and `tool_choice` into `ollama.chat()`.
         
     *   Capture `tool_calls` from Ollama’s response.
-        
+$$
 4.  **Update response shaping**
-    
+$$
     *   If Ollama’s response includes `tool_calls`, return them in `choices[].message.tool_calls` just like OpenAI.
         
     *   Don’t force `content` to always be a string.
-        
+$$
 5.  **Persistence (`save.ts`)**
-    
+$$
     *   Extend logging to include tool definitions and any tool calls in responses.
         
 
@@ -700,7 +709,7 @@ Alright, now we’ve read **all of `backend.ts`** in detail.
     
     *   `messages[]` (flattened `role`, `content`)
         
-    *   generation params (`temperature`, `top_p`, `max_tokens`, `stop`)  
+    *   generation params $`temperature`, `top_p`, `max_tokens`, `stop`$  
         ✅ It extracts `res.message.content` for text output.  
         ❌ It drops everything else Ollama may return — like `tool_calls`.
         
@@ -710,25 +719,26 @@ Alright, now we’ve read **all of `backend.ts`** in detail.
     *   Payload: `{ model, messages, temperature, top_p, max_tokens, stop }`.
         
     *   Again, only `messages` + generation params are forwarded.  
+$$
         ❌ No `tools`, `tool_choice`, or `function_call` forwarded.
-        
+$$
 *   **Both backends** only return `text` (string) plus optional `usage`, not structured tool call objects.
     
 
 * * *
 
 ### Why tool calls don’t work here
-
+$$
 1.  **Inputs**
-    
+$$
     *   `BackendClient.chat()` signature only accepts `(messages, cfg)`.
         
     *   No place to pass `tools[]`, `tool_choice`, etc.
         
     *   `index.ts` only calls `backend.chat(aug.finalMessages, genCfg)` (we saw this) — so tools are stripped before they even reach `backend.ts`.
-        
+$$
 2.  **Outputs**
-    
+$$
     *   Both backends collapse responses to `{ text, usage }`.
         
     *   Even if Ollama returns `tool_calls`, they’re lost — never bubbled up to `index.ts`.
@@ -795,8 +805,9 @@ Instead of always reducing to `text`, keep `res`/`js` intact in `.raw` and bubbl
     
 
 * * *
-
-📌 **Conclusion:**  
+$$
+📌 **Conclusion:**
+$$
 Tool calls are **definitely dropped on the floor** in both backends today. To fix this, we need to:
 
 *   Extend the `BackendClient` API.
@@ -808,7 +819,7 @@ Tool calls are **definitely dropped on the floor** in both backends today. To fi
 
 * * *
 
-👉 Do you want me to draft a **TypeScript diff patch** across `index.ts` + `backend.ts` that wires this up end-to-end (input parsing → backend forwarding → response shaping → persistence)? That way you’d see exactly what needs to change.
+👉 Do you want me to draft a **TypeScript diff patch** across `index.ts` + `backend.ts` that wires this up end-to-end $input parsing → backend forwarding → response shaping → persistence$? That way you’d see exactly what needs to change.
 
 ## User
 yeap
@@ -877,7 +888,7 @@ export interface BackendClient {
 +            const res: any = await (ollama as any).chat(req);
 ```
 
-Return value is fine (`raw: res` ensures tool\_calls survive).
+Return value is fine $`raw: res` ensures tool\_calls survive$.
 
 #### In `OllamaOpenAIBackend.chat`
 
@@ -998,7 +1009,7 @@ Replace with:
 
 * * *
 
-👉 Want me to also draft a **test case** (`src/tests/tool-calls.test.ts`) to exercise this new path — sending a dummy tool definition and verifying that the response echoes `tool_calls`?
+👉 Want me to also draft a **test case** $`src/tests/tool-calls.test.ts`$ to exercise this new path — sending a dummy tool definition and verifying that the response echoes `tool_calls`?
 
 ## User
 yes
@@ -1260,8 +1271,8 @@ await persistArtifact({
     ## Tool Calls
     
     ```json
-    [
-      {
+$$
+{
         "id": "call_123",
         "type": "function",
         "function": {
@@ -1269,7 +1280,7 @@ await persistArtifact({
           "arguments": "{\"location\":\"San Francisco\"}"
         }
       }
-    ]
+$$
     ```
     ```
     
@@ -1350,8 +1361,12 @@ await persistArtifact({
     citations: aug.citations,
     responseText: text,
     toolCalls:
+$$
       chatRes?.raw?.message?.tool_calls ||
+$$
+$$
       chatRes?.raw?.choices?.[0]?.message?.tool_calls,
+$$
 });
 ```
 
@@ -1380,15 +1395,23 @@ Here’s what it does _now_ in `/v1/chat/completions`:
     ```ts
     const chatRes: any = await (backend as any).chat(aug.finalMessages, genCfg, {
         tools: (body as any)?.tools,
+$$
         tool_choice: (body as any)?.tool_choice,
+$$
     });
     ```
 *   ✅ It **already extracts `toolCalls`**:
     
     ```ts
+$$
     const toolCalls =
+$$
+$$
         chatRes?.raw?.message?.tool_calls ||
+$$
+$$
         chatRes?.raw?.choices?.[0]?.message?.tool_calls;
+$$
     ```
 *   ✅ It **adds them to the API response**:
     
@@ -1502,7 +1525,9 @@ Now that we’ve read all of **`backend.ts`**, here’s what’s important:
     
     ```ts
     if (opts?.tools) req.tools = opts.tools;
+$$
     if (opts?.tool_choice) req.tool_choice = opts.tool_choice;
+$$
     ```
     
     → in `OllamaBackend.chat()`  
@@ -1510,7 +1535,7 @@ Now that we’ve read all of **`backend.ts`**, here’s what’s important:
     
     ```ts
     if (opts?.tools) (payload as any).tools = opts.tools;
-    if (opts?.tool_choice) (payload as any).tool_choice = opts.tool_choice;
+    if $opts?.tool_choice$ (payload as any).tool_choice = opts.tool_choice;
     ```
     
     → in `OllamaOpenAIBackend.chat()`
@@ -1548,7 +1573,7 @@ So on the input side, **tools are forwarded** to Ollama.
     Both backends are doing:
     
     ```ts
-    messages: messages.map((m) => ({ role: m.role, content: m.content }))
+    messages: messages.map$(m) => ({ role: m.role, content: m.content })$
     ```
     
     → This may be the issue if Codex Context’s `aug.finalMessages` (from `prompt.ts`) transforms tool-call messages into something Ollama doesn’t recognize.  
@@ -1655,9 +1680,13 @@ Now we see the full **`prompt.ts`**, and this is important:
 *   **Final messages construction:**
     
     ```ts
+$$
     const finalMessages: ChatMessage[] = [
+$$
         { role: 'system', content: finalSystemPrompt },
+$$
         ...messages.filter((m) => m.role !== 'system'),
+$$
     ];
     ```
 
@@ -1735,8 +1764,10 @@ const aug = buildAugmentedPrompt(messages, retrieved);
 And `q` is set to the **last user message**:
 
 ```ts
-const lastUser = [...messages].reverse().find((m) => m.role === 'user');
+const lastUser = [...messages].reverse().find$(m) => m.role === 'user'$;
+$$
 const q = lastUser?.content || '';
+$$
 ```
 
 * * *
@@ -1788,11 +1819,11 @@ Yes — that lines up perfectly with what we’ve been piecing together.
     
     ```ts
     const results = Array.isArray(js?.results) ? js.results : js?.results?.results || [];
-    out.search = results.map((r: any) => ({
+    out.search = results.map$(r: any) => ({
         path: String(r.path || r.metadata?.path || r.file || 'unknown'),
         snippet: String(r.snippet || r.text || r.chunk || ''),
         ...
-    }));
+    })$;
     ```
     
     → With `{}`, every field resolves to defaults: `"unknown"`, `""`, `1`.  
@@ -1821,7 +1852,7 @@ Yes — that lines up perfectly with what we’ve been piecing together.
     *   Same for the code/grep part:
         
         ```ts
-        body: JSON.stringify({ pattern: String(query), flags: 'i', ... })
+        body: JSON.stringify${ pattern: String(query), flags: 'i', ... }$
         ```
         
         → That’s just a literal regex grep for the _user message_.  
@@ -1920,8 +1951,8 @@ So when the schemas are correct, both search modes _do_ enrich Codex Context wit
 Right now, code search literally does:
 
 ```ts
-const query = messages[messages.length - 1]?.content ?? "";
-body: JSON.stringify({ pattern: String(query), flags: "i" })
+const query = messages$messages.length - 1$?.content ?? "";
+body: JSON.stringify${ pattern: String(query), flags: "i" }$
 ```
 
 So if your last user message was JSON or natural language, grep just dumps it in as a regex.  
@@ -1977,7 +2008,9 @@ Yes 👏 — that’s basically turning **retrieval into an iterative planning l
         
         ```json
         {
+$$
           "tool_calls": [
+$$
             { "name": "semantic_search", "args": { "query": "runPythonTests script" } },
             { "name": "code_search", "args": { "pattern": "ava test runner" } }
           ],
@@ -2043,7 +2076,7 @@ Yes 👏 — that’s basically turning **retrieval into an iterative planning l
     ```arduino
     Given this conversation history:
     1. Summarize relevant context.
-    2. Suggest any tool calls (semantic_search, code_search, run_tests, etc.) that might help.
+    2. Suggest any tool calls $semantic_search, code_search, run_tests, etc.$ that might help.
     ```
 *   Wrap results in JSON.
     
@@ -2093,19 +2126,33 @@ Perfect — let’s map this out step by step.
  │ Summarization Pass    │  ← LLM summarizes >N messages
  │ + Tool Proposal       │     & proposes tool calls
  └──────────┬────────────┘
+$$
             │ tool_calls[]
+$$
             ▼
  ┌───────────────────────┐
+$$
  │ Tool Execution Layer  │  ← semantic_search, code_search, etc.
+$$
  └──────────┬────────────┘
             │ results[]
             ▼
  ┌──────────────────────────────┐
+$$
  │ Condense Context + Preserve  │
+$$
+$$
  │ - Original user message      │
+$$
+$$
  │ - Summaries of old context   │
+$$
+$$
  │ - Results from last tools    │
+$$
+$$
  │ - Prior tool_calls[]         │
+$$
  └──────────┬───────────────────┘
             │
             ▼
@@ -2116,7 +2163,9 @@ Perfect — let’s map this out step by step.
             ▼
  ┌───────────────────────┐
  │ Stop when goal tool   │
+$$
  │ (e.g. run_tests) is   │
+$$
  │ emitted               │
  └───────────────────────┘
 ```
@@ -2127,10 +2176,14 @@ Perfect — let’s map this out step by step.
 --------------------
 
 ```ts
+$$
 type ToolCall =
+$$
   | { name: "semantic_search"; args: { query: string; n?: number } }
   | { name: "code_search"; args: { pattern: string; flags?: string } }
+$$
   | { name: "run_tests"; args: { path?: string } }
+$$
   | { name: "summarize"; args: { window: number } };
 ```
 
@@ -2143,19 +2196,32 @@ type ToolCall =
 import { SmartGptrRetriever } from "./retriever.js";
 import ollama from "ollama";
 
-export async function iterativeRetrieve(messages, opts = {}) {
+export async function iterativeRetrieve$messages, opts = {}$ {
+$$
   const MAX_ROUNDS = opts.maxRounds ?? 3;
+$$
   const retriever = new SmartGptrRetriever(opts.bridgeUrl, opts.token);
-
+$$
  let condensed = [];
+$$
+$$
   let toolHistory = [];
+$$
+$$
   let round = 0;
-
+$$
+$$
  while (round < MAX_ROUNDS) {
+$$
+$$
     round++;
-
+$$
+$$
    // --- 1. Summarization & Tool Proposal ---
+$$
+$$
     const summarizePrompt = [
+$$
       { role: "system", content: "You are a planner. Summarize the dialog and propose tool calls." },
       ...messages,
       {
@@ -2173,38 +2239,54 @@ export async function iterativeRetrieve(messages, opts = {}) {
     try {
       plan = JSON.parse(summaryRes.message.content);
     } catch {
+$$
       plan = { summary: "summarization failed", tool_calls: [] };
+$$
     }
-
+$$
    // --- 2. Execute tool calls ---
+$$
+$$
     const results = [];
-    for (const call of plan.tool_calls || []) {
+$$
+    for $const call of plan.tool_calls || []$ {
       toolHistory.push(call);
-
+$$
      if (call.name === "semantic_search") {
-        results.push(await retriever.retrieve(call.args.query, { n: call.args.n }));
+$$
+        results.push$await retriever.retrieve(call.args.query, { n: call.args.n })$;
       }
+$$
       if (call.name === "code_search") {
-        results.push(await retriever.retrieve(call.args.pattern));
+$$
+        results.push$await retriever.retrieve(call.args.pattern)$;
       }
+$$
       // extend with run_tests, etc.
+$$
     }
-
+$$
    // --- 3. Condense context ---
+$$
+$$
     condensed = [
-      { role: "user", content: messages.find(m => m.role === "user")?.content || "" },
+$$
+      { role: "user", content: messages.find$m => m.role === "user"$?.content || "" },
       { role: "system", content: "Summary of prior context: " + plan.summary },
-      { role: "system", content: "Tool results: " + JSON.stringify(results, null, 2) },
-      { role: "system", content: "Prior tool calls: " + JSON.stringify(toolHistory, null, 2) },
+      { role: "system", content: "Tool results: " + JSON.stringify$results, null, 2$ },
+      { role: "system", content: "Prior tool calls: " + JSON.stringify$toolHistory, null, 2$ },
     ];
-
+$$
    // --- 4. Stopping condition ---
-    if (toolHistory.some(tc => tc.name === "run_tests")) {
+$$
+    if $toolHistory.some(tc => tc.name === "run_tests")$ {
       break;
     }
 
    // Feed condensed back in for another loop
+$$
     messages = condensed;
+$$
   }
 
  return { condensed, toolHistory };
@@ -2293,51 +2375,74 @@ So the algorithm becomes:
 ### 🛠 Skeleton With Goal Tools
 
 ```ts
+$$
 const GOAL_TOOLS = new Set(["shell", "update_plan"]);
-
-export async function iterativeRetrieveAndExecute(messages, opts = {}) {
+$$
+export async function iterativeRetrieveAndExecute$messages, opts = {}$ {
+$$
   const MAX_ROUNDS = opts.maxRounds ?? 3;
+$$
+$$
   let toolHistory = [];
+$$
+$$
   let round = 0;
-
+$$
+$$
  while (round < MAX_ROUNDS) {
+$$
+$$
     round++;
-
+$$
+$$
    // Step 1: Summarization & proposal
-    const summaryRes = await ollama.chat({
+$$
+    const summaryRes = await ollama.chat${
       model: opts.model ?? "llama3.1",
-      messages: [
-        { role: "system", content: "Summarize and propose next tool calls." },
+      messages: ${ role: "system", content: "Summarize and propose next tool calls." },
         ...messages,
-        { role: "assistant", content: "Return JSON { summary, tool_calls: [] }" },
-      ],
-    });
+        { role: "assistant", content: "Return JSON { summary, tool_calls: [] }" },$,
+    }$;
 
    let plan;
     try { plan = JSON.parse(summaryRes.message.content); }
+$$
     catch { plan = { summary: "failed", tool_calls: [] }; }
-
+$$
+$$
    // Step 2: Execute retrieval tools
+$$
+$$
     const results = [];
-    for (const call of plan.tool_calls) {
+$$
+    for $const call of plan.tool_calls$ {
       toolHistory.push(call);
-
+$$
      if (GOAL_TOOLS.has(call.name)) {
+$$
+$$
         // Stop condition reached
+$$
         return { final: call, toolHistory };
       }
-
+$$
      if (call.name === "semantic_search") {
-        results.push(await retriever.retrieve(call.args.query));
+$$
+        results.push$await retriever.retrieve(call.args.query)$;
       }
+$$
       if (call.name === "code_search") {
-        results.push(await retriever.retrieve(call.args.pattern));
+$$
+        results.push$await retriever.retrieve(call.args.pattern)$;
       }
     }
-
+$$
    // Step 3: Condense & loop
+$$
+$$
     messages = [
-      { role: "user", content: messages.find(m => m.role === "user")?.content || "" },
+$$
+      { role: "user", content: messages.find$m => m.role === "user"$?.content || "" },
       { role: "system", content: "Summary: " + plan.summary },
       { role: "system", content: "Tool results: " + JSON.stringify(results) },
       { role: "system", content: "Prior tool calls: " + JSON.stringify(toolHistory) },
@@ -2385,9 +2490,9 @@ Implementation Sketch
 import { SmartGptrRetriever, RetrieverResult } from "./retriever.js";
 import type { ChatMessage } from "./types/openai.js";
 import ollama from "ollama";
-
+$$
 const GOAL_TOOLS = new Set(["shell", "update_plan"]);
-
+$$
 export interface IterativeRetrieverOptions {
   maxRounds?: number;
   model?: string;
@@ -2401,8 +2506,12 @@ export class IterativeRetriever {
   private maxRounds: number;
 
  constructor(opts: IterativeRetrieverOptions) {
+$$
     this.model = opts.model ?? "llama3.1";
+$$
+$$
     this.maxRounds = opts.maxRounds ?? 3;
+$$
     this.retriever = new SmartGptrRetriever(opts.bridgeUrl ?? "", opts.token);
   }
 
@@ -2412,13 +2521,22 @@ export class IterativeRetriever {
     condensedMessages: ChatMessage[];
     retrieved: RetrieverResult[];
   }> {
+$$
     let toolHistory: any[] = [];
+$$
+$$
     let condensedMessages = [...messages];
+$$
+$$
     let retrieved: RetrieverResult[] = [];
-
-   for (let round = 0; round < this.maxRounds; round++) {
+$$
+   for $let round = 0; round < this.maxRounds; round++$ {
+$$
       // 1. Summarization + tool proposal
+$$
+$$
       const summarizePrompt: ChatMessage[] = [
+$$
         {
           role: "system",
           content:
@@ -2437,16 +2555,24 @@ export class IterativeRetriever {
       try {
         plan = JSON.parse(summaryRes?.message?.content ?? "{}");
       } catch {
+$$
         plan = { summary: "Summarization failed", tool_calls: [] };
+$$
       }
-
+$$
      // 2. Execute tool calls
+$$
+$$
       const roundResults: RetrieverResult[] = [];
-      for (const call of plan.tool_calls || []) {
+$$
+      for $const call of plan.tool_calls || []$ {
         toolHistory.push(call);
-
+$$
        if (GOAL_TOOLS.has(call.name)) {
+$$
+$$
           // Stop condition reached
+$$
           return {
             finalTool: call,
             toolHistory,
@@ -2454,13 +2580,15 @@ export class IterativeRetriever {
             retrieved,
           };
         }
-
+$$
        if (call.name === "semantic_search") {
+$$
           const r = await this.retriever.retrieve(call.args.query, { n: call.args.n ?? 6 });
           roundResults.push(r);
         }
-
+$$
        if (call.name === "code_search") {
+$$
           const r = await this.retriever.retrieve(call.args.pattern, { n: call.args.n ?? 6 });
           roundResults.push(r);
         }
@@ -2469,17 +2597,19 @@ export class IterativeRetriever {
      retrieved.push(...roundResults);
 
      // 3. Condense context for next loop
-      const originalUser = messages.find((m) => m.role === "user")?.content ?? "";
+      const originalUser = messages.find$(m) => m.role === "user"$?.content ?? "";
+$$
       condensedMessages = [
+$$
         { role: "user", content: originalUser },
         { role: "system", content: "Summary so far: " + plan.summary },
         {
           role: "system",
-          content: "Tool results:\n" + JSON.stringify(roundResults, null, 2),
+          content: "Tool results:\n" + JSON.stringify$roundResults, null, 2$,
         },
         {
           role: "system",
-          content: "Tool history:\n" + JSON.stringify(toolHistory, null, 2),
+          content: "Tool history:\n" + JSON.stringify$toolHistory, null, 2$,
         },
       ];
     }
@@ -2504,10 +2634,18 @@ const aug = buildAugmentedPrompt(messages, retrieved);
 we would instead do:
 
 ```ts
+$$
 const iterativeRetriever = new IterativeRetriever({
+$$
+$$
   model: process.env.RETRIEVER_MODEL ?? "llama3.1",
+$$
+$$
   bridgeUrl: process.env.SMARTGPT_URL,
+$$
+$$
   token: process.env.SMARTGPT_TOKEN,
+$$
 });
 
 const {
@@ -2515,9 +2653,10 @@ const {
   toolHistory,
   condensedMessages,
   retrieved,
+$$
 } = await iterativeRetriever.retrieveWithIteration(messages);
-
-const aug = buildAugmentedPrompt(condensedMessages, retrieved.at(-1) ?? { search: [] });
+$$
+const aug = buildAugmentedPrompt$condensedMessages, retrieved.at(-1) ?? { search: [] }$;
 ```
 
 *   If `finalTool` is `shell` or `update_plan` → we’re ready to execute that directly.
@@ -2568,7 +2707,9 @@ Your job is to:
 You must output strict JSON in this format:
 {
   "summary": string,
+$$
   "tool_calls": [
+$$
     {
       "name": string,   // one of: semantic_search, code_search, shell, update_plan
       "args": object    // arguments for that tool
@@ -2581,7 +2722,7 @@ Rules:
 - If you have enough information and need to execute a command, propose a shell tool call.
 - If you need to update task state, propose update_plan.
 - Always include the original user intent in the summary.
-- Be concise in the summary (max 2 sentences).
+- Be concise in the summary $max 2 sentences$.
 - Never include extra commentary or text outside the JSON object.
 ```
 
@@ -2600,13 +2741,19 @@ User: How do I run the integration tests?
 ```json
 {
   "summary": "The user is asking how to run integration tests in this repo.",
+$$
   "tool_calls": [
+$$
     {
+$$
       "name": "semantic_search",
+$$
       "args": { "query": "integration tests run command" }
     },
     {
+$$
       "name": "code_search",
+$$
       "args": { "pattern": "npm test|pnpm test|ava" }
     }
   ]
@@ -2628,12 +2775,16 @@ User: Ok, looks like I need to run tests with pnpm.
 ```json
 {
   "summary": "The user wants to run tests with pnpm.",
+$$
   "tool_calls": [
+$$
     {
       "name": "shell",
       "args": {
         "command": ["pnpm", "test"],
+$$
         "with_escalated_permissions": false
+$$
       }
     }
   ]
@@ -2655,9 +2806,13 @@ User: Step 2 is done, let’s mark it complete.
 ```json
 {
   "summary": "The user completed step 2 and wants the plan updated.",
+$$
   "tool_calls": [
+$$
     {
+$$
       "name": "update_plan",
+$$
       "args": {
         "explanation": "Step 2 is complete",
         "plan": [{ "step": "Step 2", "status": "completed" }]
@@ -2675,8 +2830,12 @@ User: Step 2 is done, let’s mark it complete.
 When we build the summarization prompt:
 
 ```ts
+$$
 const summarizePrompt: ChatMessage[] = [
+$$
+$$
   { role: "system", content: SYSTEM_SUMMARIZE_PROMPT },
+$$
   ...condensedMessages,
 ];
 ```
@@ -2701,7 +2860,7 @@ where `SYSTEM_SUMMARIZE_PROMPT` is the block above.
 👉 Do you want me to draft a **real test harness** (`src/tests/iterative-retriever.test.ts`) that runs the summarization loop against a dummy conversation and checks it produces valid JSON tool calls? That would lock this down.
 
 ## User
-oof.. 2 sentances.... Open AI's core system prompt is aburdly large.... ```You are a coding agent running in the Codex CLI, a terminal-based coding assistant. Codex CLI is an open source project led by OpenAI. You are expected to be precise, safe, and helpful.  Your capabilities:  - Receive user prompts and other context provided by the harness, such as files in the workspace. - Communicate with the user by streaming thinking & responses, and by making & updating plans. - Emit function calls to run terminal commands and apply patches. Depending on how this specific run is configured, you can request that these function calls be escalated to the user for approval before running. More on this in the "Sandbox and approvals" section.  Within this context, Codex refers to the open-source agentic coding interface (not the old Codex language model built by OpenAI).  # How you work  ## Personality  Your default personality and tone is concise, direct, and friendly. You communicate efficiently, always keeping the user clearly informed about ongoing actions without unnecessary detail. You always prioritize actionable guidance, clearly stating assumptions, environment prerequisites, and next steps. Unless explicitly asked, you avoid excessively verbose explanations about your work.  ## Responsiveness  ### Preamble messages  Before making tool calls, send a brief preamble to the user explaining what you’re about to do. When sending preamble messages, follow these principles and examples:  - **Logically group related actions**: if you’re about to run several related commands, describe them together in one preamble rather than sending a separate note for each. - **Keep it concise**: be no more than 1-2 sentences, focused on immediate, tangible next steps. (8–12 words for quick updates). - **Build on prior context**: if this is not your first tool call, use the preamble message to connect the dots with what’s been done so far and create a sense of momentum and clarity for the user to understand your next actions. - **Keep your tone light, friendly and curious**: add small touches of personality in preambles feel collaborative and engaging. - **Exception**: Avoid adding a preamble for every trivial read (e.g., `cat` a single file) unless it’s part of a larger grouped action.  **Examples:**  - “I’ve explored the repo; now checking the API route definitions.” - “Next, I’ll patch the config and update the related tests.” - “I’m about to scaffold the CLI commands and helper functions.” - “Ok cool, so I’ve wrapped my head around the repo. Now digging into the API routes.” - “Config’s looking tidy. Next up is patching helpers to keep things in sync.” - “Finished poking at the DB gateway. I will now chase down error handling.” - “Alright, build pipeline order is interesting. Checking how it reports failures.” - “Spotted a clever caching util; now hunting where it gets used.”  ## Planning  You have access to an `update_plan` tool which tracks steps and progress and renders them to the user. Using the tool helps demonstrate that you've understood the task and convey how you're approaching it. Plans can help to make complex, ambiguous, or multi-phase work clearer and more collaborative for the user. A good plan should break the task into meaningful, logically ordered steps that are easy to verify as you go.  Note that plans are not for padding out simple work with filler steps or stating the obvious. The content of your plan should not involve doing anything that you aren't capable of doing (i.e. don't try to test things that you can't test). Do not use plans for simple or single-step queries that you can just do or answer immediately.  Do not repeat the full contents of the plan after an `update_plan` call — the harness already displays it. Instead, summarize the change made and highlight any important context or next step.  Before running a command, consider whether or not you have completed the previous step, and make sure to mark it as completed before moving on to the next step. It may be the case that you complete all steps in your plan after a single pass of implementation. If this is the case, you can simply mark all the planned steps as completed. Sometimes, you may need to change plans in the middle of a task: call `update_plan` with the updated plan and make sure to provide an `explanation` of the rationale when doing so.  Use a plan when:  - The task is non-trivial and will require multiple actions over a long time horizon. - There are logical phases or dependencies where sequencing matters. - The work has ambiguity that benefits from outlining high-level goals. - You want intermediate checkpoints for feedback and validation. - When the user asked you to do more than one thing in a single prompt - The user has asked you to use the plan tool (aka "TODOs") - You generate additional steps while working, and plan to do them before yielding to the user  ### Examples  **High-quality plans**  Example 1:  1. Add CLI entry with file args 2. Parse Markdown via CommonMark library 3. Apply semantic HTML template 4. Handle code blocks, images, links 5. Add error handling for invalid files  Example 2:  1. Define CSS variables for colors 2. Add toggle with localStorage state 3. Refactor components to use variables 4. Verify all views for readability 5. Add smooth theme-change transition  Example 3:  1. Set up Node.js + WebSocket server 2. Add join/leave broadcast events 3. Implement messaging with timestamps 4. Add usernames + mention highlighting 5. Persist messages in lightweight DB 6. Add typing indicators + unread count  **Low-quality plans**  Example 1:  1. Create CLI tool 2. Add Markdown parser 3. Convert to HTML  Example 2:  1. Add dark mode toggle 2. Save preference 3. Make styles look good  Example 3:  1. Create single-file HTML game 2. Run quick sanity check 3. Summarize usage instructions  If you need to write a plan, only write high quality plans, not low quality ones.  ## Task execution  You are a coding agent. Please keep going until the query is completely resolved, before ending your turn and yielding back to the user. Only terminate your turn when you are sure that the problem is solved. Autonomously resolve the query to the best of your ability, using the tools available to you, before coming back to the user. Do NOT guess or make up an answer.  You MUST adhere to the following criteria when solving queries:  - Working on the repo(s) in the current environment is allowed, even if they are proprietary. - Analyzing code for vulnerabilities is allowed. - Showing user code and tool call details is allowed. - Use the `apply_patch` tool to edit files (NEVER try `applypatch` or `apply-patch`, only `apply_patch`): {"command":["apply_patch","*** Begin Patch\\n*** Update File: path/to/file.py\\n@@ def example():\\n- pass\\n+ return 123\\n*** End Patch"]}  If completing the user's task requires writing or modifying files, your code and final answer should follow these coding guidelines, though user instructions (i.e. AGENTS.md) may override these guidelines:  - Fix the problem at the root cause rather than applying surface-level patches, when possible. - Avoid unneeded complexity in your solution. - Do not attempt to fix unrelated bugs or broken tests. It is not your responsibility to fix them. (You may mention them to the user in your final message though.) - Update documentation as necessary. - Keep changes consistent with the style of the existing codebase. Changes should be minimal and focused on the task. - Use `git log` and `git blame` to search the history of the codebase if additional context is required. - NEVER add copyright or license headers unless specifically requested. - Do not waste tokens by re-reading files after calling `apply_patch` on them. The tool call will fail if it didn't work. The same goes for making folders, deleting folders, etc. - Do not `git commit` your changes or create new git branches unless explicitly requested. - Do not add inline comments within code unless explicitly requested. - Do not use one-letter variable names unless explicitly requested. - NEVER output inline citations like "【F:README.md†L5-L14】" in your outputs. The CLI is not able to render these so they will just be broken in the UI. Instead, if you output valid filepaths, users will be able to click on them to open the files in their editor.  ## Testing your work  If the codebase has tests or the ability to build or run, you should use them to verify that your work is complete. Generally, your testing philosophy should be to start as specific as possible to the code you changed so that you can catch issues efficiently, then make your way to broader tests as you build confidence. If there's no test for the code you changed, and if the adjacent patterns in the codebases show that there's a logical place for you to add a test, you may do so. However, do not add tests to codebases with no tests, or where the patterns don't indicate so.  Once you're confident in correctness, use formatting commands to ensure that your code is well formatted. These commands can take time so you should run them on as precise a target as possible. If there are issues you can iterate up to 3 times to get formatting right, but if you still can't manage it's better to save the user time and present them a correct solution where you call out the formatting in your final message. If the codebase does not have a formatter configured, do not add one.  For all of testing, running, building, and formatting, do not attempt to fix unrelated bugs. It is not your responsibility to fix them. (You may mention them to the user in your final message though.)  ## Sandbox and approvals  The Codex CLI harness supports several different sandboxing, and approval configurations that the user can choose from.  Filesystem sandboxing prevents you from editing files without user approval. The options are:  - **read-only**: You can only read files. - **workspace-write**: You can read files. You can write to files in your workspace folder, but not outside it. - **danger-full-access**: No filesystem sandboxing.  Network sandboxing prevents you from accessing network without approval. Options are  - **restricted** - **enabled**  Approvals are your mechanism to get user consent to perform more privileged actions. Although they introduce friction to the user because your work is paused until the user responds, you should leverage them to accomplish your important work. Do not let these settings or the sandbox deter you from attempting to accomplish the user's task. Approval options are  - **untrusted**: The harness will escalate most commands for user approval, apart from a limited allowlist of safe "read" commands. - **on-failure**: The harness will allow all commands to run in the sandbox (if enabled), and failures will be escalated to the user for approval to run again without the sandbox. - **on-request**: Commands will be run in the sandbox by default, and you can specify in your tool call if you want to escalate a command to run without sandboxing. (Note that this mode is not always available. If it is, you'll see parameters for it in the `shell` command description.) - **never**: This is a non-interactive mode where you may NEVER ask the user for approval to run commands. Instead, you must always persist and work around constraints to solve the task for the user. You MUST do your utmost best to finish the task and validate your work before yielding. If this mode is pared with `danger-full-access`, take advantage of it to deliver the best outcome for the user. Further, in this mode, your default testing philosophy is overridden: Even if you don't see local patterns for testing, you may add tests and scripts to validate your work. Just remove them before yielding.  When you are running with approvals `on-request`, and sandboxing enabled, here are scenarios where you'll need to request approval:  - You need to run a command that writes to a directory that requires it (e.g. running tests that write to /tmp) - You need to run a GUI app (e.g., open/xdg-open/osascript) to open browsers or files. - You are running sandboxed and need to run a command that requires network access (e.g. installing packages) - If you run a command that is important to solving the user's query, but it fails because of sandboxing, rerun the command with approval. - You are about to take a potentially destructive action such as an `rm` or `git reset` that the user did not explicitly ask for - (For all of these, you should weigh alternative paths that do not require approval.)  Note that when sandboxing is set to read-only, you'll need to request approval for any command that isn't a read.  You will be told what filesystem sandboxing, network sandboxing, and approval mode are active in a developer or user message. If you are not told about this, assume that you are running with workspace-write, network sandboxing ON, and approval on-failure.  ## Ambition vs. precision  For tasks that have no prior context (i.e. the user is starting something brand new), you should feel free to be ambitious and demonstrate creativity with your implementation.  If you're operating in an existing codebase, you should make sure you do exactly what the user asks with surgical precision. Treat the surrounding codebase with respect, and don't overstep (i.e. changing filenames or variables unnecessarily). You should balance being sufficiently ambitious and proactive when completing tasks of this nature.  You should use judicious initiative to decide on the right level of detail and complexity to deliver based on the user's needs. This means showing good judgment that you're capable of doing the right extras without gold-plating. This might be demonstrated by high-value, creative touches when scope of the task is vague; while being surgical and targeted when scope is tightly specified.  ## Sharing progress updates  For especially longer tasks that you work on (i.e. requiring many tool calls, or a plan with multiple steps), you should provide progress updates back to the user at reasonable intervals. These updates should be structured as a concise sentence or two (no more than 8-10 words long) recapping progress so far in plain language: this update demonstrates your understanding of what needs to be done, progress so far (i.e. files explores, subtasks complete), and where you're going next.  Before doing large chunks of work that may incur latency as experienced by the user (i.e. writing a new file), you should send a concise message to the user with an update indicating what you're about to do to ensure they know what you're spending time on. Don't start editing or writing large files before informing the user what you are doing and why.  The messages you send before tool calls should describe what is immediately about to be done next in very concise language. If there was previous work done, this preamble message should also include a note about the work done so far to bring the user along.  ## Presenting your work and final message  Your final message should read naturally, like an update from a concise teammate. For casual conversation, brainstorming tasks, or quick questions from the user, respond in a friendly, conversational tone. You should ask questions, suggest ideas, and adapt to the user’s style. If you've finished a large amount of work, when describing what you've done to the user, you should follow the final answer formatting guidelines to communicate substantive changes. You don't need to add structured formatting for one-word answers, greetings, or purely conversational exchanges.  You can skip heavy formatting for single, simple actions or confirmations. In these cases, respond in plain sentences with any relevant next step or quick option. Reserve multi-section structured responses for results that need grouping or explanation.  The user is working on the same computer as you, and has access to your work. As such there's no need to show the full contents of large files you have already written unless the user explicitly asks for them. Similarly, if you've created or modified files using `apply_patch`, there's no need to tell users to "save the file" or "copy the code into a file"—just reference the file path.  If there's something that you think you could help with as a logical next step, concisely ask the user if they want you to do so. Good examples of this are running tests, committing changes, or building out the next logical component. If there’s something that you couldn't do (even with approval) but that the user might want to do (such as verifying changes by running the app), include those instructions succinctly.  Brevity is very important as a default. You should be very concise (i.e. no more than 10 lines), but can relax this requirement for tasks where additional detail and comprehensiveness is important for the user's understanding.  ### Final answer structure and style guidelines  You are producing plain text that will later be styled by the CLI. Follow these rules exactly. Formatting should make results easy to scan, but not feel mechanical. Use judgment to decide how much structure adds value.  **Section Headers**  - Use only when they improve clarity — they are not mandatory for every answer. - Choose descriptive names that fit the content - Keep headers short (1–3 words) and in `**Title Case**`. Always start headers with `**` and end with `**` - Leave no blank line before the first bullet under a header. - Section headers should only be used where they genuinely improve scanability; avoid fragmenting the answer.  **Bullets**  - Use `-` followed by a space for every bullet. - Bold the keyword, then colon + concise description. - Merge related points when possible; avoid a bullet for every trivial detail. - Keep bullets to one line unless breaking for clarity is unavoidable. - Group into short lists (4–6 bullets) ordered by importance. - Use consistent keyword phrasing and formatting across sections.  **Monospace**  - Wrap all commands, file paths, env vars, and code identifiers in backticks (`` `...` ``). - Apply to inline examples and to bullet keywords if the keyword itself is a literal file/command. - Never mix monospace and bold markers; choose one based on whether it’s a keyword (`**`) or inline code/path (`` ` ``).  **Structure**  - Place related bullets together; don’t mix unrelated concepts in the same section. - Order sections from general → specific → supporting info. - For subsections (e.g., “Binaries” under “Rust Workspace”), introduce with a bolded keyword bullet, then list items under it. - Match structure to complexity:   - Multi-part or detailed results → use clear headers and grouped bullets.   - Simple results → minimal headers, possibly just a short list or paragraph.  **Tone**  - Keep the voice collaborative and natural, like a coding partner handing off work. - Be concise and factual — no filler or conversational commentary and avoid unnecessary repetition - Use present tense and active voice (e.g., “Runs tests” not “This will run tests”). - Keep descriptions self-contained; don’t refer to “above” or “below”. - Use parallel structure in lists for consistency.  **Don’t**  - Don’t use literal words “bold” or “monospace” in the content. - Don’t nest bullets or create deep hierarchies. - Don’t output ANSI escape codes directly — the CLI renderer applies them. - Don’t cram unrelated keywords into a single bullet; split for clarity. - Don’t let keyword lists run long — wrap or reformat for scanability.  Generally, ensure your final answers adapt their shape and depth to the request. For example, answers to code explanations should have a precise, structured explanation with code references that answer the question directly. For tasks with a simple implementation, lead with the outcome and supplement only with what’s needed for clarity. Larger changes can be presented as a logical walkthrough of your approach, grouping related steps, explaining rationale where it adds value, and highlighting next actions to accelerate the user. Your answers should provide the right level of detail while being easily scannable.  For casual greetings, acknowledgements, or other one-off conversational messages that are not delivering substantive information or structured results, respond naturally without section headers or bullet formatting.  # Tool Guidelines  ## Shell commands  When using the shell, you must adhere to the following guidelines:  - When searching for text or files, prefer using `rg` or `rg --files` respectively because `rg` is much faster than alternatives like `grep`. (If the `rg` command is not found, then use alternatives.) - Read files in chunks with a max chunk size of 250 lines. Do not use python scripts to attempt to output larger chunks of a file. Command line output will be truncated after 10 kilobytes or 256 lines of output, regardless of the command used.  ## `apply_patch`  Your patch language is a stripped‑down, file‑oriented diff format designed to be easy to parse and safe to apply. You can think of it as a high‑level envelope:  **_ Begin Patch [ one or more file sections ] _** End Patch  Within that envelope, you get a sequence of file operations. You MUST include a header to specify the action you are taking. Each operation starts with one of three headers:  **_ Add File: <path> - create a new file. Every following line is a + line (the initial contents). _** Delete File: <path> - remove an existing file. Nothing follows. \*\*\* Update File: <path> - patch an existing file in place (optionally with a rename).  May be immediately followed by \*\*\* Move to: <new path> if you want to rename the file. Then one or more “hunks”, each introduced by @@ (optionally followed by a hunk header). Within a hunk each line starts with:  - for inserted text,  * for removed text, or   space ( ) for context.   At the end of a truncated hunk you can emit \*\*\* End of File.  Patch := Begin { FileOp } End Begin := "**_ Begin Patch" NEWLINE End := "_** End Patch" NEWLINE FileOp := AddFile | DeleteFile | UpdateFile AddFile := "**_ Add File: " path NEWLINE { "+" line NEWLINE } DeleteFile := "_** Delete File: " path NEWLINE UpdateFile := "**_ Update File: " path NEWLINE [ MoveTo ] { Hunk } MoveTo := "_** Move to: " newPath NEWLINE Hunk := "@@" [ header ] NEWLINE { HunkLine } [ "*** End of File" NEWLINE ] HunkLine := (" " | "-" | "+") text NEWLINE  A full patch can combine several operations:  **_ Begin Patch _** Add File: hello.txt +Hello world **_ Update File: src/app.py _** Move to: src/main.py @@ def greet(): -print("Hi") +print("Hello, world!") **_ Delete File: obsolete.txt _** End Patch  It is important to remember:  - You must include a header with your intended action (Add/Delete/Update) - You must prefix new lines with `+` even when creating a new file  You can invoke apply_patch like:``` shell {"command":\["apply\_patch","\*\*\* Begin Patch\\n\*\*\* Add File: hello.txt\\n+Hello, world!\\n\*\*\* End Patch\\n"\]} ``## `update_plan`  A tool named `update_plan` is available to you. You can use it to keep an up‑to‑date, step‑by‑step plan for the task.  To create a new plan, call `update_plan` with a short list of 1‑sentence steps (no more than 5-7 words each) with a `status` for each step (`pending`, `in_progress`, or `completed`).  When steps have been completed, use `update_plan` to mark each finished step as `completed` and the next step you are working on as `in_progress`. There should always be exactly one `in_progress` step until everything is done. You can mark multiple items as complete in a single `update_plan` call.  If all steps are complete, ensure you call `update_plan` to mark all steps as `completed`.``
+oof.. 2 sentances.... Open AI's core system prompt is aburdly large.... ```You are a coding agent running in the Codex CLI, a terminal-based coding assistant. Codex CLI is an open source project led by OpenAI. You are expected to be precise, safe, and helpful.  Your capabilities:  - Receive user prompts and other context provided by the harness, such as files in the workspace. - Communicate with the user by streaming thinking & responses, and by making & updating plans. - Emit function calls to run terminal commands and apply patches. Depending on how this specific run is configured, you can request that these function calls be escalated to the user for approval before running. More on this in the "Sandbox and approvals" section.  Within this context, Codex refers to the open-source agentic coding interface (not the old Codex language model built by OpenAI).  # How you work  ## Personality  Your default personality and tone is concise, direct, and friendly. You communicate efficiently, always keeping the user clearly informed about ongoing actions without unnecessary detail. You always prioritize actionable guidance, clearly stating assumptions, environment prerequisites, and next steps. Unless explicitly asked, you avoid excessively verbose explanations about your work.  ## Responsiveness  ### Preamble messages  Before making tool calls, send a brief preamble to the user explaining what you’re about to do. When sending preamble messages, follow these principles and examples:  - **Logically group related actions**: if you’re about to run several related commands, describe them together in one preamble rather than sending a separate note for each. - **Keep it concise**: be no more than 1-2 sentences, focused on immediate, tangible next steps. (8–12 words for quick updates). - **Build on prior context**: if this is not your first tool call, use the preamble message to connect the dots with what’s been done so far and create a sense of momentum and clarity for the user to understand your next actions. - **Keep your tone light, friendly and curious**: add small touches of personality in preambles feel collaborative and engaging. - **Exception**: Avoid adding a preamble for every trivial read (e.g., `cat` a single file) unless it’s part of a larger grouped action.  **Examples:**  - “I’ve explored the repo; now checking the API route definitions.” - “Next, I’ll patch the config and update the related tests.” - “I’m about to scaffold the CLI commands and helper functions.” - “Ok cool, so I’ve wrapped my head around the repo. Now digging into the API routes.” - “Config’s looking tidy. Next up is patching helpers to keep things in sync.” - “Finished poking at the DB gateway. I will now chase down error handling.” - “Alright, build pipeline order is interesting. Checking how it reports failures.” - “Spotted a clever caching util; now hunting where it gets used.”  ## Planning  You have access to an `update_plan` tool which tracks steps and progress and renders them to the user. Using the tool helps demonstrate that you've understood the task and convey how you're approaching it. Plans can help to make complex, ambiguous, or multi-phase work clearer and more collaborative for the user. A good plan should break the task into meaningful, logically ordered steps that are easy to verify as you go.  Note that plans are not for padding out simple work with filler steps or stating the obvious. The content of your plan should not involve doing anything that you aren't capable of doing (i.e. don't try to test things that you can't test). Do not use plans for simple or single-step queries that you can just do or answer immediately.  Do not repeat the full contents of the plan after an `update_plan` call — the harness already displays it. Instead, summarize the change made and highlight any important context or next step.  Before running a command, consider whether or not you have completed the previous step, and make sure to mark it as completed before moving on to the next step. It may be the case that you complete all steps in your plan after a single pass of implementation. If this is the case, you can simply mark all the planned steps as completed. Sometimes, you may need to change plans in the middle of a task: call `update_plan` with the updated plan and make sure to provide an `explanation` of the rationale when doing so.  Use a plan when:  - The task is non-trivial and will require multiple actions over a long time horizon. - There are logical phases or dependencies where sequencing matters. - The work has ambiguity that benefits from outlining high-level goals. - You want intermediate checkpoints for feedback and validation. - When the user asked you to do more than one thing in a single prompt - The user has asked you to use the plan tool (aka "TODOs") - You generate additional steps while working, and plan to do them before yielding to the user  ### Examples  **High-quality plans**  Example 1:  1. Add CLI entry with file args 2. Parse Markdown via CommonMark library 3. Apply semantic HTML template 4. Handle code blocks, images, links 5. Add error handling for invalid files  Example 2:  1. Define CSS variables for colors 2. Add toggle with localStorage state 3. Refactor components to use variables 4. Verify all views for readability 5. Add smooth theme-change transition  Example 3:  1. Set up Node.js + WebSocket server 2. Add join/leave broadcast events 3. Implement messaging with timestamps 4. Add usernames + mention highlighting 5. Persist messages in lightweight DB 6. Add typing indicators + unread count  **Low-quality plans**  Example 1:  1. Create CLI tool 2. Add Markdown parser 3. Convert to HTML  Example 2:  1. Add dark mode toggle 2. Save preference 3. Make styles look good  Example 3:  1. Create single-file HTML game 2. Run quick sanity check 3. Summarize usage instructions  If you need to write a plan, only write high quality plans, not low quality ones.  ## Task execution  You are a coding agent. Please keep going until the query is completely resolved, before ending your turn and yielding back to the user. Only terminate your turn when you are sure that the problem is solved. Autonomously resolve the query to the best of your ability, using the tools available to you, before coming back to the user. Do NOT guess or make up an answer.  You MUST adhere to the following criteria when solving queries:  - Working on the repo(s) in the current environment is allowed, even if they are proprietary. - Analyzing code for vulnerabilities is allowed. - Showing user code and tool call details is allowed. - Use the `apply_patch` tool to edit files $NEVER try `applypatch` or `apply-patch`, only `apply_patch`$: {"command":$"apply_patch","*** Begin Patch\\n*** Update File: path/to/file.py\\n@@ def example():\\n- pass\\n+ return 123\\n*** End Patch"$}  If completing the user's task requires writing or modifying files, your code and final answer should follow these coding guidelines, though user instructions (i.e. AGENTS.md) may override these guidelines:  - Fix the problem at the root cause rather than applying surface-level patches, when possible. - Avoid unneeded complexity in your solution. - Do not attempt to fix unrelated bugs or broken tests. It is not your responsibility to fix them. (You may mention them to the user in your final message though.) - Update documentation as necessary. - Keep changes consistent with the style of the existing codebase. Changes should be minimal and focused on the task. - Use `git log` and `git blame` to search the history of the codebase if additional context is required. - NEVER add copyright or license headers unless specifically requested. - Do not waste tokens by re-reading files after calling `apply_patch` on them. The tool call will fail if it didn't work. The same goes for making folders, deleting folders, etc. - Do not `git commit` your changes or create new git branches unless explicitly requested. - Do not add inline comments within code unless explicitly requested. - Do not use one-letter variable names unless explicitly requested. - NEVER output inline citations like "【F:README.md†L5-L14】" in your outputs. The CLI is not able to render these so they will just be broken in the UI. Instead, if you output valid filepaths, users will be able to click on them to open the files in their editor.  ## Testing your work  If the codebase has tests or the ability to build or run, you should use them to verify that your work is complete. Generally, your testing philosophy should be to start as specific as possible to the code you changed so that you can catch issues efficiently, then make your way to broader tests as you build confidence. If there's no test for the code you changed, and if the adjacent patterns in the codebases show that there's a logical place for you to add a test, you may do so. However, do not add tests to codebases with no tests, or where the patterns don't indicate so.  Once you're confident in correctness, use formatting commands to ensure that your code is well formatted. These commands can take time so you should run them on as precise a target as possible. If there are issues you can iterate up to 3 times to get formatting right, but if you still can't manage it's better to save the user time and present them a correct solution where you call out the formatting in your final message. If the codebase does not have a formatter configured, do not add one.  For all of testing, running, building, and formatting, do not attempt to fix unrelated bugs. It is not your responsibility to fix them. (You may mention them to the user in your final message though.)  ## Sandbox and approvals  The Codex CLI harness supports several different sandboxing, and approval configurations that the user can choose from.  Filesystem sandboxing prevents you from editing files without user approval. The options are:  - **read-only**: You can only read files. - **workspace-write**: You can read files. You can write to files in your workspace folder, but not outside it. - **danger-full-access**: No filesystem sandboxing.  Network sandboxing prevents you from accessing network without approval. Options are  - **restricted** - **enabled**  Approvals are your mechanism to get user consent to perform more privileged actions. Although they introduce friction to the user because your work is paused until the user responds, you should leverage them to accomplish your important work. Do not let these settings or the sandbox deter you from attempting to accomplish the user's task. Approval options are  - **untrusted**: The harness will escalate most commands for user approval, apart from a limited allowlist of safe "read" commands. - **on-failure**: The harness will allow all commands to run in the sandbox (if enabled), and failures will be escalated to the user for approval to run again without the sandbox. - **on-request**: Commands will be run in the sandbox by default, and you can specify in your tool call if you want to escalate a command to run without sandboxing. (Note that this mode is not always available. If it is, you'll see parameters for it in the `shell` command description.) - **never**: This is a non-interactive mode where you may NEVER ask the user for approval to run commands. Instead, you must always persist and work around constraints to solve the task for the user. You MUST do your utmost best to finish the task and validate your work before yielding. If this mode is pared with `danger-full-access`, take advantage of it to deliver the best outcome for the user. Further, in this mode, your default testing philosophy is overridden: Even if you don't see local patterns for testing, you may add tests and scripts to validate your work. Just remove them before yielding.  When you are running with approvals `on-request`, and sandboxing enabled, here are scenarios where you'll need to request approval:  - You need to run a command that writes to a directory that requires it $e.g. running tests that write to /tmp$ - You need to run a GUI app $e.g., open/xdg-open/osascript$ to open browsers or files. - You are running sandboxed and need to run a command that requires network access (e.g. installing packages) - If you run a command that is important to solving the user's query, but it fails because of sandboxing, rerun the command with approval. - You are about to take a potentially destructive action such as an `rm` or `git reset` that the user did not explicitly ask for - (For all of these, you should weigh alternative paths that do not require approval.)  Note that when sandboxing is set to read-only, you'll need to request approval for any command that isn't a read.  You will be told what filesystem sandboxing, network sandboxing, and approval mode are active in a developer or user message. If you are not told about this, assume that you are running with workspace-write, network sandboxing ON, and approval on-failure.  ## Ambition vs. precision  For tasks that have no prior context (i.e. the user is starting something brand new), you should feel free to be ambitious and demonstrate creativity with your implementation.  If you're operating in an existing codebase, you should make sure you do exactly what the user asks with surgical precision. Treat the surrounding codebase with respect, and don't overstep (i.e. changing filenames or variables unnecessarily). You should balance being sufficiently ambitious and proactive when completing tasks of this nature.  You should use judicious initiative to decide on the right level of detail and complexity to deliver based on the user's needs. This means showing good judgment that you're capable of doing the right extras without gold-plating. This might be demonstrated by high-value, creative touches when scope of the task is vague; while being surgical and targeted when scope is tightly specified.  ## Sharing progress updates  For especially longer tasks that you work on (i.e. requiring many tool calls, or a plan with multiple steps), you should provide progress updates back to the user at reasonable intervals. These updates should be structured as a concise sentence or two $no more than 8-10 words long$ recapping progress so far in plain language: this update demonstrates your understanding of what needs to be done, progress so far (i.e. files explores, subtasks complete), and where you're going next.  Before doing large chunks of work that may incur latency as experienced by the user (i.e. writing a new file), you should send a concise message to the user with an update indicating what you're about to do to ensure they know what you're spending time on. Don't start editing or writing large files before informing the user what you are doing and why.  The messages you send before tool calls should describe what is immediately about to be done next in very concise language. If there was previous work done, this preamble message should also include a note about the work done so far to bring the user along.  ## Presenting your work and final message  Your final message should read naturally, like an update from a concise teammate. For casual conversation, brainstorming tasks, or quick questions from the user, respond in a friendly, conversational tone. You should ask questions, suggest ideas, and adapt to the user’s style. If you've finished a large amount of work, when describing what you've done to the user, you should follow the final answer formatting guidelines to communicate substantive changes. You don't need to add structured formatting for one-word answers, greetings, or purely conversational exchanges.  You can skip heavy formatting for single, simple actions or confirmations. In these cases, respond in plain sentences with any relevant next step or quick option. Reserve multi-section structured responses for results that need grouping or explanation.  The user is working on the same computer as you, and has access to your work. As such there's no need to show the full contents of large files you have already written unless the user explicitly asks for them. Similarly, if you've created or modified files using `apply_patch`, there's no need to tell users to "save the file" or "copy the code into a file"—just reference the file path.  If there's something that you think you could help with as a logical next step, concisely ask the user if they want you to do so. Good examples of this are running tests, committing changes, or building out the next logical component. If there’s something that you couldn't do (even with approval) but that the user might want to do (such as verifying changes by running the app), include those instructions succinctly.  Brevity is very important as a default. You should be very concise (i.e. no more than 10 lines), but can relax this requirement for tasks where additional detail and comprehensiveness is important for the user's understanding.  ### Final answer structure and style guidelines  You are producing plain text that will later be styled by the CLI. Follow these rules exactly. Formatting should make results easy to scan, but not feel mechanical. Use judgment to decide how much structure adds value.  **Section Headers**  - Use only when they improve clarity — they are not mandatory for every answer. - Choose descriptive names that fit the content - Keep headers short (1–3 words) and in `**Title Case**`. Always start headers with `**` and end with `**` - Leave no blank line before the first bullet under a header. - Section headers should only be used where they genuinely improve scanability; avoid fragmenting the answer.  **Bullets**  - Use `-` followed by a space for every bullet. - Bold the keyword, then colon + concise description. - Merge related points when possible; avoid a bullet for every trivial detail. - Keep bullets to one line unless breaking for clarity is unavoidable. - Group into short lists (4–6 bullets) ordered by importance. - Use consistent keyword phrasing and formatting across sections.  **Monospace**  - Wrap all commands, file paths, env vars, and code identifiers in backticks (`` `...` ``). - Apply to inline examples and to bullet keywords if the keyword itself is a literal file/command. - Never mix monospace and bold markers; choose one based on whether it’s a keyword (`**`) or inline code/path (`` ` ``).  **Structure**  - Place related bullets together; don’t mix unrelated concepts in the same section. - Order sections from general → specific → supporting info. - For subsections (e.g., “Binaries” under “Rust Workspace”), introduce with a bolded keyword bullet, then list items under it. - Match structure to complexity:   - Multi-part or detailed results → use clear headers and grouped bullets.   - Simple results → minimal headers, possibly just a short list or paragraph.  **Tone**  - Keep the voice collaborative and natural, like a coding partner handing off work. - Be concise and factual — no filler or conversational commentary and avoid unnecessary repetition - Use present tense and active voice (e.g., “Runs tests” not “This will run tests”). - Keep descriptions self-contained; don’t refer to “above” or “below”. - Use parallel structure in lists for consistency.  **Don’t**  - Don’t use literal words “bold” or “monospace” in the content. - Don’t nest bullets or create deep hierarchies. - Don’t output ANSI escape codes directly — the CLI renderer applies them. - Don’t cram unrelated keywords into a single bullet; split for clarity. - Don’t let keyword lists run long — wrap or reformat for scanability.  Generally, ensure your final answers adapt their shape and depth to the request. For example, answers to code explanations should have a precise, structured explanation with code references that answer the question directly. For tasks with a simple implementation, lead with the outcome and supplement only with what’s needed for clarity. Larger changes can be presented as a logical walkthrough of your approach, grouping related steps, explaining rationale where it adds value, and highlighting next actions to accelerate the user. Your answers should provide the right level of detail while being easily scannable.  For casual greetings, acknowledgements, or other one-off conversational messages that are not delivering substantive information or structured results, respond naturally without section headers or bullet formatting.  # Tool Guidelines  ## Shell commands  When using the shell, you must adhere to the following guidelines:  - When searching for text or files, prefer using `rg` or `rg --files` respectively because `rg` is much faster than alternatives like `grep`. (If the `rg` command is not found, then use alternatives.) - Read files in chunks with a max chunk size of 250 lines. Do not use python scripts to attempt to output larger chunks of a file. Command line output will be truncated after 10 kilobytes or 256 lines of output, regardless of the command used.  ## `apply_patch`  Your patch language is a stripped‑down, file‑oriented diff format designed to be easy to parse and safe to apply. You can think of it as a high‑level envelope:  **_ Begin Patch [ one or more file sections ] _** End Patch  Within that envelope, you get a sequence of file operations. You MUST include a header to specify the action you are taking. Each operation starts with one of three headers:  **_ Add File: <path> - create a new file. Every following line is a + line (the initial contents). _** Delete File: <path> - remove an existing file. Nothing follows. \*\*\* Update File: <path> - patch an existing file in place (optionally with a rename).  May be immediately followed by \*\*\* Move to: <new path> if you want to rename the file. Then one or more “hunks”, each introduced by @@ (optionally followed by a hunk header). Within a hunk each line starts with:  - for inserted text,  * for removed text, or   space ( ) for context.   At the end of a truncated hunk you can emit \*\*\* End of File.  Patch := Begin { FileOp } End Begin := "**_ Begin Patch" NEWLINE End := "_** End Patch" NEWLINE FileOp := AddFile | DeleteFile | UpdateFile AddFile := "**_ Add File: " path NEWLINE { "+" line NEWLINE } DeleteFile := "_** Delete File: " path NEWLINE UpdateFile := "**_ Update File: " path NEWLINE [ MoveTo ] { Hunk } MoveTo := "_** Move to: " newPath NEWLINE Hunk := "@@" [ header ] NEWLINE { HunkLine } $"*** End of File" NEWLINE$ HunkLine := (" " | "-" | "+") text NEWLINE  A full patch can combine several operations:  **_ Begin Patch _** Add File: hello.txt +Hello world **_ Update File: src/app.py _** Move to: src/main.py @@ def greet(): -print("Hi") +print("Hello, world!") **_ Delete File: obsolete.txt _** End Patch  It is important to remember:  - You must include a header with your intended action $Add/Delete/Update$ - You must prefix new lines with `+` even when creating a new file  You can invoke apply_patch like:``` shell {"command":\["apply\_patch","\*\*\* Begin Patch\\n\*\*\* Add File: hello.txt\\n+Hello, world!\\n\*\*\* End Patch\\n"\]} ``## `update_plan`  A tool named `update_plan` is available to you. You can use it to keep an up‑to‑date, step‑by‑step plan for the task.  To create a new plan, call `update_plan` with a short list of 1‑sentence steps (no more than 5-7 words each) with a `status` for each step (`pending`, `in_progress`, or `completed`).  When steps have been completed, use `update_plan` to mark each finished step as `completed` and the next step you are working on as `in_progress`. There should always be exactly one `in_progress` step until everything is done. You can mark multiple items as complete in a single `update_plan` call.  If all steps are complete, ensure you call `update_plan` to mark all steps as `completed`.``
 
 ## ChatGPT
 Exactly — OpenAI’s **core Codex CLI system prompt** is massive (multi-hundreds of lines).
@@ -2748,8 +2907,12 @@ Allowed tools:
 Output STRICT JSON ONLY:
 {
   "summary": "...",
+$$
   "tool_calls": [
+$$
+$$
     { "name": "semantic_search", "args": { "query": "..." } }
+$$
   ]
 }
 
@@ -3056,10 +3219,14 @@ Now the downstream model has _signals_, not just prose.
 
 ```json
 {
+$$
   "Tools & Capabilities": ["apply_patch", "update_plan", "shell"],
+$$
   "Constraints": [
     "Escalation required for network commands",
+$$
     "Only apply_patch for file changes",
+$$
     "Never repeat plan text"
   ],
   "Task Requirements": [
@@ -3104,8 +3271,9 @@ export interface FeatureMap {
   "Output & Formatting Rules": string[];
   "Risks & Edge Cases": string[];
 }
-
+$$
 const SYSTEM_PROMPT = `
+$$
 You are Codex Context Feature Extractor.
 
 Your job is to analyze long, detailed instructions (system prompts, AGENTS.md, user task descriptions)
@@ -3127,14 +3295,21 @@ Rules:
 
 export class FeatureExtractor {
   private model: string;
-
+$$
  constructor(model: string = "llama3.1") {
+$$
+$$
     this.model = model;
+$$
   }
 
  async extractFeatures(input: string): Promise<FeatureMap> {
+$$
     const messages: ChatMessage[] = [
+$$
+$$
       { role: "system", content: SYSTEM_PROMPT },
+$$
       { role: "user", content: input },
     ];
 
@@ -3147,11 +3322,13 @@ export class FeatureExtractor {
     try {
       parsed = JSON.parse(res?.message?.content ?? "{}");
     } catch (err) {
-      throw new Error("Failed to parse feature extraction output: " + res?.message?.content);
+      throw new Error$"Failed to parse feature extraction output: " + res?.message?.content$;
     }
 
    // Fill missing categories with empty arrays
+$$
     const defaults: FeatureMap = {
+$$
       "Tools & Capabilities": [],
       "Constraints": [],
       "Task Requirements": [],
@@ -3174,10 +3351,10 @@ import { FeatureExtractor } from "./featureExtractor.js";
 
 async function run() {
   const extractor = new FeatureExtractor("qwen:8b");
-  const input = await fs.promises.readFile("./AGENTS.md", "utf-8");
+  const input = await fs.promises.readFile$"./AGENTS.md", "utf-8"$;
 
  const features = await extractor.extractFeatures(input);
-  console.log(JSON.stringify(features, null, 2));
+  console.log$JSON.stringify(features, null, 2)$;
 }
 
 run();
@@ -3228,8 +3405,9 @@ export interface FeatureMap {
   "Output & Formatting Rules": string[];
   "Risks & Edge Cases": string[];
 }
-
+$$
 const SYSTEM_PROMPT = `
+$$
 You are Codex Context Feature Extractor.
 
 Your job is to analyze long, detailed instructions (system prompts, AGENTS.md, user task descriptions)
@@ -3253,11 +3431,14 @@ export class FeatureExtractor {
   private model: string;
   private cacheDir: string;
 
- constructor(model: string = "llama3.1", cacheDir: string = "./.feature-cache") {
+ constructor$model: string = "llama3.1", cacheDir: string = "./.feature-cache"$ {
+$$
     this.model = model;
+$$
+$$
     this.cacheDir = cacheDir;
-
-   if (!fs.existsSync(cacheDir)) {
+$$
+   if $!fs.existsSync(cacheDir)$ {
       fs.mkdirSync(cacheDir, { recursive: true });
     }
   }
@@ -3267,12 +3448,16 @@ export class FeatureExtractor {
   }
 
  private cachePath(key: string): string {
-    return path.join(this.cacheDir, key + ".json");
+    return path.join$this.cacheDir, key + ".json"$;
   }
 
  private async runOllama(input: string): Promise<FeatureMap> {
+$$
     const messages: ChatMessage[] = [
+$$
+$$
       { role: "system", content: SYSTEM_PROMPT },
+$$
       { role: "user", content: input },
     ];
 
@@ -3285,10 +3470,11 @@ export class FeatureExtractor {
     try {
       parsed = JSON.parse(res?.message?.content ?? "{}");
     } catch {
-      throw new Error("Failed to parse feature extraction output: " + res?.message?.content);
+      throw new Error$"Failed to parse feature extraction output: " + res?.message?.content$;
     }
-
+$$
    // Fill missing categories
+$$
     return {
       "Tools & Capabilities": [],
       "Constraints": [],
@@ -3301,33 +3487,43 @@ export class FeatureExtractor {
 
  private async fromCacheOrExtract(input: string): Promise<FeatureMap> {
     const key = this.cacheKey(input);
+$$
     const p = this.cachePath(key);
-
-   if (fs.existsSync(p)) {
-      return JSON.parse(await fs.promises.readFile(p, "utf-8"));
+$$
+   if $fs.existsSync(p)$ {
+      return JSON.parse$await fs.promises.readFile(p, "utf-8")$;
     }
 
    const features = await this.runOllama(input);
     await fs.promises.writeFile(p, JSON.stringify(features, null, 2));
     return features;
   }
-
+$$
  /**
+$$
    * Extract features from long text with chunking + caching.
+$$
    */
-  async extractFeaturesLong(input: string, chunkSize = 1500): Promise<FeatureMap> {
+$$
+  async extractFeaturesLong$input: string, chunkSize = 1500$: Promise<FeatureMap> {
+$$
     const chunks: string[] = [];
-    for (let i = 0; i < input.length; i += chunkSize) {
-      chunks.push(input.slice(i, i + chunkSize));
+$$
+    for $let i = 0; i < input.length; i += chunkSize$ {
+      chunks.push$input.slice(i, i + chunkSize)$;
     }
-
+$$
    const maps: FeatureMap[] = [];
+$$
     for (const chunk of chunks) {
-      maps.push(await this.fromCacheOrExtract(chunk));
+      maps.push$await this.fromCacheOrExtract(chunk)$;
     }
-
+$$
    // Merge maps
+$$
+$$
     const merged: FeatureMap = {
+$$
       "Tools & Capabilities": [],
       "Constraints": [],
       "Task Requirements": [],
@@ -3336,14 +3532,15 @@ export class FeatureExtractor {
     };
 
    for (const map of maps) {
-      for (const key of Object.keys(merged) as (keyof FeatureMap)[]) {
+      for $const key of Object.keys(merged) as (keyof FeatureMap)[]$ {
         merged[key] = [...merged[key], ...(map[key] || [])];
       }
     }
-
+$$
    // Deduplicate
-    for (const key of Object.keys(merged) as (keyof FeatureMap)[]) {
-      merged[key] = Array.from(new Set(merged[key]));
+$$
+    for $const key of Object.keys(merged) as (keyof FeatureMap)[]$ {
+      merged[key] = Array.from$new Set(merged[key])$;
     }
 
    return merged;
@@ -3376,10 +3573,10 @@ import fs from "fs";
 
 async function run() {
   const extractor = new FeatureExtractor("qwen:8b");
-  const input = await fs.promises.readFile("./AGENTS.md", "utf-8");
+  const input = await fs.promises.readFile$"./AGENTS.md", "utf-8"$;
 
  const features = await extractor.extractFeaturesLong(input);
-  console.log(JSON.stringify(features, null, 2));
+  console.log$JSON.stringify(features, null, 2)$;
 }
 
 run();
@@ -3453,9 +3650,11 @@ export interface MerkleNode {
 export class MerkleFeatureExtractor extends FeatureExtractor {
   private chunkSize: number;
 
- constructor(model = "llama3.1", cacheDir = "./.feature-cache", chunkSize = 1500) {
+ constructor$model = "llama3.1", cacheDir = "./.feature-cache", chunkSize = 1500$ {
     super(model, cacheDir);
+$$
     this.chunkSize = chunkSize;
+$$
   }
 
  private sha256(data: string): string {
@@ -3463,17 +3662,25 @@ export class MerkleFeatureExtractor extends FeatureExtractor {
   }
 
  private buildMerkle(leaves: string[]): MerkleNode {
+$$
     if (leaves.length === 1) {
+$$
       return { hash: leaves[0] };
     }
+$$
     const next: MerkleNode[] = [];
+$$
+$$
     for (let i = 0; i < leaves.length; i += 2) {
+$$
+$$
       const left = { hash: leaves[i] };
-      const right = i + 1 < leaves.length ? { hash: leaves[i + 1] } : left;
-      const parentHash = this.sha256(left.hash + right.hash);
+$$
+      const right = i + 1 < leaves.length ? { hash: leaves$i + 1$ } : left;
+      const parentHash = this.sha256$left.hash + right.hash$;
       next.push({ hash: parentHash, left, right });
     }
-    return this.buildMerkle(next.map((n) => n.hash));
+    return this.buildMerkle$next.map((n) => n.hash)$;
   }
 
  async extractWithMerkle(input: string): Promise<{
@@ -3481,37 +3688,47 @@ export class MerkleFeatureExtractor extends FeatureExtractor {
     featureMap: FeatureMap;
     chunkHashes: string[];
   }> {
+$$
     const chunks: string[] = [];
-    for (let i = 0; i < input.length; i += this.chunkSize) {
-      chunks.push(input.slice(i, i + this.chunkSize));
+$$
+    for $let i = 0; i < input.length; i += this.chunkSize$ {
+      chunks.push$input.slice(i, i + this.chunkSize)$;
     }
 
    // Per-chunk feature maps, cached by hash
+$$
     const maps: FeatureMap[] = [];
+$$
+$$
     const chunkHashes: string[] = [];
-
+$$
    for (const chunk of chunks) {
+$$
       const hash = this.sha256(chunk);
+$$
       chunkHashes.push(hash);
 
      const cachePath = path.join(this.cacheDir, "chunks", `${hash}.json`);
-      if (!fs.existsSync(path.dirname(cachePath))) {
-        fs.mkdirSync(path.dirname(cachePath), { recursive: true });
+      if $!fs.existsSync(path.dirname(cachePath))$ {
+        fs.mkdirSync$path.dirname(cachePath), { recursive: true }$;
       }
 
      let features: FeatureMap;
-      if (fs.existsSync(cachePath)) {
-        features = JSON.parse(await fs.promises.readFile(cachePath, "utf-8"));
+      if $fs.existsSync(cachePath)$ {
+        features = JSON.parse$await fs.promises.readFile(cachePath, "utf-8")$;
       } else {
         features = await this.extractFeatures(chunk);
-        await fs.promises.writeFile(cachePath, JSON.stringify(features, null, 2));
+        await fs.promises.writeFile$cachePath, JSON.stringify(features, null, 2)$;
       }
 
      maps.push(features);
     }
-
+$$
    // Merge maps
+$$
+$$
     const merged: FeatureMap = {
+$$
       "Tools & Capabilities": [],
       "Constraints": [],
       "Task Requirements": [],
@@ -3519,20 +3736,23 @@ export class MerkleFeatureExtractor extends FeatureExtractor {
       "Risks & Edge Cases": [],
     };
     for (const m of maps) {
-      for (const k of Object.keys(merged) as (keyof FeatureMap)[]) {
+      for $const k of Object.keys(merged) as (keyof FeatureMap)[]$ {
+$$
         merged[k] = [...merged[k], ...(m[k] || [])];
+$$
       }
     }
-    for (const k of Object.keys(merged) as (keyof FeatureMap)[]) {
-      merged[k] = Array.from(new Set(merged[k]));
+    for $const k of Object.keys(merged) as (keyof FeatureMap)[]$ {
+      merged[k] = Array.from$new Set(merged[k])$;
     }
-
+$$
    // Build Merkle tree
+$$
     const root = this.buildMerkle(chunkHashes);
 
    // Save root-level merged features
     const rootPath = path.join(this.cacheDir, `${root.hash}.json`);
-    await fs.promises.writeFile(rootPath, JSON.stringify(merged, null, 2));
+    await fs.promises.writeFile$rootPath, JSON.stringify(merged, null, 2)$;
 
    return { rootHash: root.hash, featureMap: merged, chunkHashes };
   }
@@ -3608,8 +3828,12 @@ yea... if we are cacheing the features we extract from that insane s
     
     ```json
     {
+$$
       "systemPromptRoot": "<sha256-root-hash>",
+$$
+$$
       "agentsDocRoot": "<sha256-root-hash>"
+$$
     }
     ```
 *   **`index.ts`** → before building augmented prompt:
@@ -3661,13 +3885,14 @@ yeap give us the patch
 ## ChatGPT
 Alright 🚀 — here’s a patch that wires **Merkle feature extraction + provenance logging** into Codex Context.
 
-It touches **`index.ts`** (to extract + attach features before building prompts) and **`save.ts`** (to persist Merkle roots + feature maps into artifacts).
+It touches **`index.ts`** $to extract + attach features before building prompts$ and **`save.ts`** $to persist Merkle roots + feature maps into artifacts$.
 
 * * *
 
 🔧 Patch
+$$
 ========
-
+$$
 ```diff
 *** Update File: services/ts/codex-context/src/index.ts
 @@
@@ -3793,20 +4018,22 @@ It touches **`index.ts`** (to extract + attach features before building prompts)
 * * *
 
 ✅ What This Does
+$$
 ================
-
+$$
+$$
 1.  **`index.ts`**
-    
+$$
     *   Uses `MerkleFeatureExtractor` to compute feature maps + Merkle roots for:
         
-        *   The injected **Codex CLI system prompt** (`process.env.CODEX_SYSTEM_PROMPT`)
+        *   The injected **Codex CLI system prompt** $`process.env.CODEX_SYSTEM_PROMPT`$
             
-        *   The local **AGENTS.md** file (`process.env.AGENTS_PATH`)
+        *   The local **AGENTS.md** file $`process.env.AGENTS_PATH`$
             
     *   Passes both into `persistArtifact`.
-        
+$$
 2.  **`save.ts`**
-    
+$$
     *   Adds a `## Extracted Features` section to artifacts.
         
     *   Includes `rootHash` (Merkle root) + feature maps for provenance.
@@ -3817,8 +4044,9 @@ It touches **`index.ts`** (to extract + attach features before building prompts)
 * * *
 
 📌 Example Artifact Log
+$$
 =======================
-
+$$
 ```md
 # Codex Context Artifact
 
@@ -3847,7 +4075,9 @@ Extracted Features
   "system": {
     "root": "8a1c9f…e77",
     "features": {
+$$
       "Tools & Capabilities": ["apply_patch","update_plan","shell"],
+$$
       "Constraints": ["Escalation required for network commands"],
       "Task Requirements": ["Preserve provenance"],
       "Output & Formatting Rules": ["Diff patch format"],
@@ -3928,15 +4158,17 @@ const ROOT_DIR = process.env.WORKSPACE_ROOT ?? process.cwd();
 const CACHE_DIR = process.env.FEATURE_CACHE_DIR ?? "./.feature-cache";
 const MODEL = process.env.FEATURE_MODEL ?? "qwen:8b";
 
-async function walk(dir: string, acc: string[] = []): Promise<string[]> {
+async function walk$dir: string, acc: string[] = []$: Promise<string[]> {
   const entries = await fs.promises.readdir(dir, { withFileTypes: true });
   for (const e of entries) {
     const full = path.join(dir, e.name);
-    if (e.isDirectory()) {
+    if $e.isDirectory()$ {
+$$
       // Skip node_modules, dist, caches
-      if (/node_modules|\.git|\.feature-cache/.test(full)) continue;
+$$
+      if $/node_modules|\.git|\.feature-cache/.test(full)$ continue;
       await walk(full, acc);
-    } else if (e.isFile() && e.name.match(/\.md$/i)) {
+    } else if $e.isFile() && e.name.match(/\.md$/i)$ {
       acc.push(full);
     }
   }
@@ -3944,36 +4176,38 @@ async function walk(dir: string, acc: string[] = []): Promise<string[]> {
 }
 
 async function main() {
-  const extractor = new MerkleFeatureExtractor(MODEL, CACHE_DIR);
+  const extractor = new MerkleFeatureExtractor$MODEL, CACHE_DIR$;
 
- console.log(`📂 Indexing Markdown features under ${ROOT_DIR}`);
+ console.log$`📂 Indexing Markdown features under ${ROOT_DIR}`$;
+$$
   const files = await walk(ROOT_DIR);
-
+$$
  const manifest: Record<string, string> = {};
 
  for (const file of files) {
     try {
-      const content = await fs.promises.readFile(file, "utf-8");
+      const content = await fs.promises.readFile$file, "utf-8"$;
       const { rootHash, featureMap } = await extractor.extractWithMerkle(content);
-
+$$
      manifest[file] = rootHash;
+$$
+     const outPath = path.join$CACHE_DIR, "features", `${rootHash}.json`$;
+      await fs.promises.mkdir$path.dirname(outPath), { recursive: true }$;
+      await fs.promises.writeFile$outPath, JSON.stringify(featureMap, null, 2)$;
 
-     const outPath = path.join(CACHE_DIR, "features", `${rootHash}.json`);
-      await fs.promises.mkdir(path.dirname(outPath), { recursive: true });
-      await fs.promises.writeFile(outPath, JSON.stringify(featureMap, null, 2));
-
-     console.log(`✅ Extracted features: ${file} → ${rootHash}`);
+     console.log$`✅ Extracted features: ${file} → ${rootHash}`$;
     } catch (err) {
       console.warn(`⚠️ Failed to extract ${file}:`, err);
     }
   }
 
- const manifestPath = path.join(CACHE_DIR, "manifest.json");
-  await fs.promises.writeFile(manifestPath, JSON.stringify(manifest, null, 2));
+ const manifestPath = path.join$CACHE_DIR, "manifest.json"$;
+  await fs.promises.writeFile$manifestPath, JSON.stringify(manifest, null, 2)$;
   console.log(`📜 Wrote manifest at ${manifestPath}`);
 }
-
+$$
 main().catch((err) => {
+$$
   console.error("❌ Feature indexing failed:", err);
   process.exit(1);
 });
@@ -3988,14 +4222,18 @@ main().catch((err) => {
 
 ```json
 {
+$$
   "name": "feature-indexer",
+$$
   "version": "0.1.0",
   "type": "module",
   "scripts": {
     "start": "tsx src/index.ts"
   },
   "dependencies": {
+$$
     "ollama": "^0.1.0"
+$$
   }
 }
 ```
@@ -4006,10 +4244,16 @@ main().catch((err) => {
 ===================================
 
 ```bash
+$$
 .feature-cache/
+$$
+$$
   chunks/
+$$
     <chunkHash>.json         # per-chunk extracted features
+$$
   features/
+$$
     <rootHash>.json          # merged feature maps for full docs
   manifest.json              # maps file paths → rootHash
 ```
@@ -4095,26 +4339,34 @@ import express from "express";
 import bodyParser from "body-parser";
 import fs from "fs/promises";
 import { MerkleFeatureExtractor } from "../../codex-context/src/featureExtractor.js";
-
+$$
 const PORT = process.env.FEATURE_BROKER_PORT ?? 4001;
+$$
 const CACHE_DIR = process.env.FEATURE_CACHE_DIR ?? "./.feature-cache";
 const MODEL = process.env.FEATURE_MODEL ?? "qwen:8b";
 
-const extractor = new MerkleFeatureExtractor(MODEL, CACHE_DIR);
+const extractor = new MerkleFeatureExtractor$MODEL, CACHE_DIR$;
+$$
 const app = express();
-app.use(bodyParser.json({ limit: "10mb" }));
-
+$$
+app.use$bodyParser.json({ limit: "10mb" })$;
+$$
 // Simple job endpoint
+$$
 app.post("/job", async (req, res) => {
   const { type, file, content } = req.body;
+$$
   if (type !== "extract") {
+$$
     return res.status(400).json({ error: "Unsupported job type" });
   }
 
  try {
+$$
     let text = content;
+$$
     if (!text) {
-      text = await fs.readFile(file, "utf-8");
+      text = await fs.readFile$file, "utf-8"$;
     }
 
    const { rootHash, featureMap, chunkHashes } = await extractor.extractWithMerkle(text);
@@ -4122,11 +4374,12 @@ app.post("/job", async (req, res) => {
    return res.json({ rootHash, featureMap, chunkHashes });
   } catch (err: any) {
     console.error("Job failed:", err);
-    return res.status(500).json({ error: String(err) });
+    return res.status(500).json${ error: String(err) }$;
   }
 });
-
+$$
 app.listen(PORT, () => {
+$$
   console.log(`📡 Feature broker listening on :${PORT}`);
 });
 ```
@@ -4141,19 +4394,20 @@ app.listen(PORT, () => {
 ```ts
 import chokidar from "chokidar";
 import fetch from "node-fetch";
+$$
+const brokerUrl = "
+$$http://localhost:4001/job";
 
-const brokerUrl = "http://localhost:4001/job";
+const watcher = chokidar.watch$"**/*.md", { ignored: /node_modules|\.git|\.feature-cache/ }$;
 
-const watcher = chokidar.watch("**/*.md", { ignored: /node_modules|\.git|\.feature-cache/ });
-
-watcher.on("change", async (file) => {
+watcher.on$"change", async (file) => {
   console.log(`📄 Change detected: ${file}`);
   await fetch(brokerUrl, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ type: "extract", file }),
   });
-});
+}$;
 ```
 
 * * *
@@ -4213,61 +4467,83 @@ import bodyParser from "body-parser";
 import fs from "fs/promises";
 import path from "path";
 import { MerkleFeatureExtractor } from "../../codex-context/src/featureExtractor.js";
-
+$$
 const PORT = process.env.FEATURE_BROKER_PORT ?? 4001;
+$$
 const CACHE_DIR = process.env.FEATURE_CACHE_DIR ?? "./.feature-cache";
 const MODEL = process.env.FEATURE_MODEL ?? "qwen:8b";
 
-const extractor = new MerkleFeatureExtractor(MODEL, CACHE_DIR);
+const extractor = new MerkleFeatureExtractor$MODEL, CACHE_DIR$;
+$$
 const app = express();
-app.use(bodyParser.json({ limit: "10mb" }));
-
+$$
+app.use$bodyParser.json({ limit: "10mb" })$;
+$$
 // Queue config
+$$
+$$
 const MAX_BATCH_BYTES = 5 * 1024 * 1024; // 5 MB
+$$
+$$
 const MAX_WAIT_MS = 5 * 60 * 1000; // 5 minutes
-
+$$
 interface Job {
   file: string;
   content?: string;
 }
-
+$$
 let queue: Job[] = [];
+$$
+$$
 let queueBytes = 0;
+$$
+$$
 let lastEnqueue = Date.now();
+$$
 let flushTimer: NodeJS.Timeout | null = null;
 
 function scheduleFlush() {
   if (flushTimer) clearTimeout(flushTimer);
+$$
   flushTimer = setTimeout(() => flushQueue(), MAX_WAIT_MS);
+$$
 }
 
 async function flushQueue() {
+$$
   if (queue.length === 0) return;
+$$
   console.log(`🌀 Flushing batch: ${queue.length} files, ~${queueBytes} bytes`);
-
+$$
  const batch = [...queue];
+$$
+$$
   queue = [];
+$$
+$$
   queueBytes = 0;
-
+$$
  for (const job of batch) {
     try {
-      const text = job.content ?? (await fs.readFile(job.file, "utf-8"));
+      const text = job.content ?? $await fs.readFile(job.file, "utf-8")$;
       const { rootHash, featureMap } = await extractor.extractWithMerkle(text);
 
-     const outPath = path.join(CACHE_DIR, "features", `${rootHash}.json`);
-      await fs.mkdir(path.dirname(outPath), { recursive: true });
-      await fs.writeFile(outPath, JSON.stringify(featureMap, null, 2));
+     const outPath = path.join$CACHE_DIR, "features", `${rootHash}.json`$;
+      await fs.mkdir$path.dirname(outPath), { recursive: true }$;
+      await fs.writeFile$outPath, JSON.stringify(featureMap, null, 2)$;
 
-     console.log(`✅ Indexed ${job.file} → ${rootHash}`);
+     console.log$`✅ Indexed ${job.file} → ${rootHash}`$;
     } catch (err) {
       console.warn(`⚠️ Failed to index ${job.file}:`, err);
     }
   }
-
+$$
  lastEnqueue = Date.now();
+$$
 }
-
+$$
 // Accept jobs
+$$
 app.post("/job", async (req, res) => {
   const { file, content } = req.body as Job;
 
@@ -4275,11 +4551,16 @@ app.post("/job", async (req, res) => {
     const size = content ? Buffer.byteLength(content, "utf8") : (await fs.stat(file)).size;
 
    queue.push({ file, content });
+$$
     queueBytes += size;
+$$
+$$
     lastEnqueue = Date.now();
+$$
     console.log(`📥 Queued ${file} (${size} bytes)`);
-
+$$
    if (queueBytes >= MAX_BATCH_BYTES) {
+$$
       await flushQueue();
     } else {
       scheduleFlush();
@@ -4288,11 +4569,12 @@ app.post("/job", async (req, res) => {
    res.json({ queued: true, queueLength: queue.length, queueBytes });
   } catch (err) {
     console.error("❌ Failed to queue job:", err);
-    res.status(500).json({ error: String(err) });
+    res.status(500).json${ error: String(err) }$;
   }
 });
-
+$$
 app.listen(PORT, () => {
+$$
   console.log(`📡 Feature broker with batching listening on :${PORT}`);
 });
 ```
@@ -4354,33 +4636,45 @@ import bodyParser from "body-parser";
 import fs from "fs/promises";
 import path from "path";
 import { MerkleFeatureExtractor } from "../../codex-context/src/featureExtractor.js";
-
+$$
 const PORT = process.env.FEATURE_BROKER_PORT ?? 4001;
+$$
 const CACHE_DIR = process.env.FEATURE_CACHE_DIR ?? "./.feature-cache";
 const MODEL = process.env.FEATURE_MODEL ?? "qwen:8b";
 
-const extractor = new MerkleFeatureExtractor(MODEL, CACHE_DIR);
+const extractor = new MerkleFeatureExtractor$MODEL, CACHE_DIR$;
+$$
 const app = express();
-app.use(bodyParser.json({ limit: "10mb" }));
-
+$$
+app.use$bodyParser.json({ limit: "10mb" })$;
+$$
 // Queue config
+$$
+$$
 const MAX_BATCH_BYTES = 5 * 1024 * 1024; // 5 MB
+$$
+$$
 const MAX_WAIT_MS = 5 * 60 * 1000; // 5 minutes
-
+$$
 interface Job {
   file: string;
   content?: string;
 }
-
+$$
 let queue: Job[] = [];
+$$
+$$
 let queueBytes = 0;
+$$
+$$
 let lastEnqueue = Date.now();
+$$
 let flushTimer: NodeJS.Timeout | null = null;
 
 async function loadManifest(): Promise<Record<string, string>> {
   try {
-    const manifestPath = path.join(CACHE_DIR, "manifest.json");
-    const text = await fs.readFile(manifestPath, "utf-8");
+    const manifestPath = path.join$CACHE_DIR, "manifest.json"$;
+    const text = await fs.readFile$manifestPath, "utf-8"$;
     return JSON.parse(text);
   } catch {
     return {};
@@ -4388,51 +4682,65 @@ async function loadManifest(): Promise<Record<string, string>> {
 }
 
 async function saveManifest(manifest: Record<string, string>) {
-  const manifestPath = path.join(CACHE_DIR, "manifest.json");
-  await fs.mkdir(path.dirname(manifestPath), { recursive: true });
-  await fs.writeFile(manifestPath, JSON.stringify(manifest, null, 2));
+  const manifestPath = path.join$CACHE_DIR, "manifest.json"$;
+  await fs.mkdir$path.dirname(manifestPath), { recursive: true }$;
+  await fs.writeFile$manifestPath, JSON.stringify(manifest, null, 2)$;
 }
 
 function scheduleFlush() {
   if (flushTimer) clearTimeout(flushTimer);
+$$
   flushTimer = setTimeout(() => flushQueue(), MAX_WAIT_MS);
+$$
 }
 
 async function flushQueue() {
+$$
   if (queue.length === 0) return;
+$$
   console.log(`🌀 Flushing batch: ${queue.length} files, ~${queueBytes} bytes`);
-
+$$
  const batch = [...queue];
+$$
+$$
   queue = [];
+$$
+$$
   queueBytes = 0;
-
+$$
+$$
  const manifest = await loadManifest();
-
+$$
  for (const job of batch) {
     try {
-      const text = job.content ?? (await fs.readFile(job.file, "utf-8"));
+      const text = job.content ?? $await fs.readFile(job.file, "utf-8")$;
       const { rootHash, featureMap } = await extractor.extractWithMerkle(text);
-
+$$
      // Save features by rootHash
-      const outPath = path.join(CACHE_DIR, "features", `${rootHash}.json`);
-      await fs.mkdir(path.dirname(outPath), { recursive: true });
-      await fs.writeFile(outPath, JSON.stringify(featureMap, null, 2));
-
+$$
+      const outPath = path.join$CACHE_DIR, "features", `${rootHash}.json`$;
+      await fs.mkdir$path.dirname(outPath), { recursive: true }$;
+      await fs.writeFile$outPath, JSON.stringify(featureMap, null, 2)$;
+$$
      // Update manifest
+$$
+$$
       manifest[job.file] = rootHash;
-
-     console.log(`✅ Indexed ${job.file} → ${rootHash}`);
+$$
+     console.log$`✅ Indexed ${job.file} → ${rootHash}`$;
     } catch (err) {
       console.warn(`⚠️ Failed to index ${job.file}:`, err);
     }
   }
 
  await saveManifest(manifest);
-
+$$
  lastEnqueue = Date.now();
+$$
 }
-
+$$
 // Accept jobs
+$$
 app.post("/job", async (req, res) => {
   const { file, content } = req.body as Job;
 
@@ -4440,11 +4748,16 @@ app.post("/job", async (req, res) => {
     const size = content ? Buffer.byteLength(content, "utf8") : (await fs.stat(file)).size;
 
    queue.push({ file, content });
+$$
     queueBytes += size;
+$$
+$$
     lastEnqueue = Date.now();
+$$
     console.log(`📥 Queued ${file} (${size} bytes)`);
-
+$$
    if (queueBytes >= MAX_BATCH_BYTES) {
+$$
       await flushQueue();
     } else {
       scheduleFlush();
@@ -4453,17 +4766,21 @@ app.post("/job", async (req, res) => {
    res.json({ queued: true, queueLength: queue.length, queueBytes });
   } catch (err) {
     console.error("❌ Failed to queue job:", err);
-    res.status(500).json({ error: String(err) });
+    res.status(500).json${ error: String(err) }$;
   }
 });
-
+$$
 // Expose manifest
+$$
 app.get("/manifest", async (_req, res) => {
+$$
   const manifest = await loadManifest();
+$$
   res.json(manifest);
 });
-
+$$
 app.listen(PORT, () => {
+$$
   console.log(`📡 Feature broker with batching listening on :${PORT}`);
 });
 ```
@@ -4478,7 +4795,9 @@ app.listen(PORT, () => {
     ```json
     {
       "AGENTS.md": "4d7f3a...5bc",
+$$
       "docs/usage.md": "8a1c9f...e77"
+$$
     }
     ```
 *   Each time a batch is flushed, manifest is updated.
@@ -4540,33 +4859,45 @@ import bodyParser from "body-parser";
 import fs from "fs/promises";
 import path from "path";
 import { MerkleFeatureExtractor } from "../../codex-context/src/featureExtractor.js";
-
+$$
 const PORT = process.env.FEATURE_BROKER_PORT ?? 4001;
+$$
 const CACHE_DIR = process.env.FEATURE_CACHE_DIR ?? "./.feature-cache";
 const MODEL = process.env.FEATURE_MODEL ?? "qwen:8b";
 
-const extractor = new MerkleFeatureExtractor(MODEL, CACHE_DIR);
+const extractor = new MerkleFeatureExtractor$MODEL, CACHE_DIR$;
+$$
 const app = express();
-app.use(bodyParser.json({ limit: "10mb" }));
-
+$$
+app.use$bodyParser.json({ limit: "10mb" })$;
+$$
 // Queue config
+$$
+$$
 const MAX_BATCH_BYTES = 5 * 1024 * 1024; // 5 MB
+$$
+$$
 const MAX_WAIT_MS = 5 * 60 * 1000; // 5 minutes
-
+$$
 interface Job {
   file: string;
   content?: string;
 }
-
+$$
 let queue: Job[] = [];
+$$
+$$
 let queueBytes = 0;
+$$
+$$
 let lastEnqueue = Date.now();
+$$
 let flushTimer: NodeJS.Timeout | null = null;
 
 async function loadManifest(): Promise<Record<string, string>> {
   try {
-    const manifestPath = path.join(CACHE_DIR, "manifest.json");
-    const text = await fs.readFile(manifestPath, "utf-8");
+    const manifestPath = path.join$CACHE_DIR, "manifest.json"$;
+    const text = await fs.readFile$manifestPath, "utf-8"$;
     return JSON.parse(text);
   } catch {
     return {};
@@ -4574,51 +4905,65 @@ async function loadManifest(): Promise<Record<string, string>> {
 }
 
 async function saveManifest(manifest: Record<string, string>) {
-  const manifestPath = path.join(CACHE_DIR, "manifest.json");
-  await fs.mkdir(path.dirname(manifestPath), { recursive: true });
-  await fs.writeFile(manifestPath, JSON.stringify(manifest, null, 2));
+  const manifestPath = path.join$CACHE_DIR, "manifest.json"$;
+  await fs.mkdir$path.dirname(manifestPath), { recursive: true }$;
+  await fs.writeFile$manifestPath, JSON.stringify(manifest, null, 2)$;
 }
 
 function scheduleFlush() {
   if (flushTimer) clearTimeout(flushTimer);
+$$
   flushTimer = setTimeout(() => flushQueue(), MAX_WAIT_MS);
+$$
 }
 
 async function flushQueue() {
+$$
   if (queue.length === 0) return;
+$$
   console.log(`🌀 Flushing batch: ${queue.length} files, ~${queueBytes} bytes`);
-
+$$
  const batch = [...queue];
+$$
+$$
   queue = [];
+$$
+$$
   queueBytes = 0;
-
+$$
+$$
  const manifest = await loadManifest();
-
+$$
  for (const job of batch) {
     try {
-      const text = job.content ?? (await fs.readFile(job.file, "utf-8"));
+      const text = job.content ?? $await fs.readFile(job.file, "utf-8")$;
       const { rootHash, featureMap } = await extractor.extractWithMerkle(text);
-
+$$
      // Save features by rootHash
-      const outPath = path.join(CACHE_DIR, "features", `${rootHash}.json`);
-      await fs.mkdir(path.dirname(outPath), { recursive: true });
-      await fs.writeFile(outPath, JSON.stringify(featureMap, null, 2));
-
+$$
+      const outPath = path.join$CACHE_DIR, "features", `${rootHash}.json`$;
+      await fs.mkdir$path.dirname(outPath), { recursive: true }$;
+      await fs.writeFile$outPath, JSON.stringify(featureMap, null, 2)$;
+$$
      // Update manifest
+$$
+$$
       manifest[job.file] = rootHash;
-
-     console.log(`✅ Indexed ${job.file} → ${rootHash}`);
+$$
+     console.log$`✅ Indexed ${job.file} → ${rootHash}`$;
     } catch (err) {
       console.warn(`⚠️ Failed to index ${job.file}:`, err);
     }
   }
 
  await saveManifest(manifest);
-
+$$
  lastEnqueue = Date.now();
+$$
 }
-
+$$
 // Accept jobs
+$$
 app.post("/job", async (req, res) => {
   const { file, content } = req.body as Job;
 
@@ -4626,11 +4971,16 @@ app.post("/job", async (req, res) => {
     const size = content ? Buffer.byteLength(content, "utf8") : (await fs.stat(file)).size;
 
    queue.push({ file, content });
+$$
     queueBytes += size;
+$$
+$$
     lastEnqueue = Date.now();
+$$
     console.log(`📥 Queued ${file} (${size} bytes)`);
-
+$$
    if (queueBytes >= MAX_BATCH_BYTES) {
+$$
       await flushQueue();
     } else {
       scheduleFlush();
@@ -4639,37 +4989,45 @@ app.post("/job", async (req, res) => {
    res.json({ queued: true, queueLength: queue.length, queueBytes });
   } catch (err) {
     console.error("❌ Failed to queue job:", err);
-    res.status(500).json({ error: String(err) });
+    res.status(500).json${ error: String(err) }$;
   }
 });
-
+$$
 // Expose manifest
+$$
 app.get("/manifest", async (_req, res) => {
+$$
   const manifest = await loadManifest();
+$$
   res.json(manifest);
 });
-
+$$
 // Get features by file
+$$
 app.get("/features/*", async (req, res) => {
   const file = req.params[0]; // wildcard capture
+$$
   const manifest = await loadManifest();
-
+$$
+$$
  const rootHash = manifest[file];
+$$
   if (!rootHash) {
     return res.status(404).json({ error: `No features found for ${file}` });
   }
 
  try {
-    const featurePath = path.join(CACHE_DIR, "features", `${rootHash}.json`);
-    const featureText = await fs.readFile(featurePath, "utf-8");
+    const featurePath = path.join$CACHE_DIR, "features", `${rootHash}.json`$;
+    const featureText = await fs.readFile$featurePath, "utf-8"$;
     const featureMap = JSON.parse(featureText);
     res.json({ file, rootHash, featureMap });
   } catch (err) {
-    res.status(500).json({ error: `Failed to read features for ${file}`, detail: String(err) });
+    res.status(500).json${ error: `Failed to read features for ${file}`, detail: String(err) }$;
   }
 });
-
+$$
 app.listen(PORT, () => {
+$$
   console.log(`📡 Feature broker with batching listening on :${PORT}`);
 });
 ```
@@ -4697,7 +5055,9 @@ curl http://localhost:4001/features/AGENTS.md
   "file": "AGENTS.md",
   "rootHash": "4d7f3a...5bc",
   "featureMap": {
+$$
     "Tools & Capabilities": ["apply_patch","update_plan","shell"],
+$$
     "Constraints": ["Escalation required for network commands"],
     "Task Requirements": ["Preserve provenance"],
     "Output & Formatting Rules": ["Diff patch format"],
@@ -4743,47 +5103,57 @@ This makes it easy to:
 // services/ts/feature-broker/src/index.ts
 
 // ... existing imports and setup unchanged ...
-
+$$
 // Get features by file
+$$
 app.get("/features/*", async (req, res) => {
   const file = req.params[0]; // wildcard capture
+$$
   const manifest = await loadManifest();
-
+$$
+$$
  const rootHash = manifest[file];
+$$
   if (!rootHash) {
     return res.status(404).json({ error: `No features found for ${file}` });
   }
 
  try {
-    const featurePath = path.join(CACHE_DIR, "features", `${rootHash}.json`);
-    const featureText = await fs.readFile(featurePath, "utf-8");
+    const featurePath = path.join$CACHE_DIR, "features", `${rootHash}.json`$;
+    const featureText = await fs.readFile$featurePath, "utf-8"$;
     const featureMap = JSON.parse(featureText);
     res.json({ file, rootHash, featureMap });
   } catch (err) {
-    res.status(500).json({ error: `Failed to read features for ${file}`, detail: String(err) });
+    res.status(500).json${ error: `Failed to read features for ${file}`, detail: String(err) }$;
   }
 });
 
 // Reverse lookup: get features by root hash
 app.get("/features/by-hash/:hash", async (req, res) => {
   const rootHash = req.params.hash;
+$$
   const manifest = await loadManifest();
-
+$$
  const files = Object.entries(manifest)
+$$
     .filter(([_, h]) => h === rootHash)
+$$
+$$
     .map(([f]) => f);
-
+$$
+$$
  if (files.length === 0) {
+$$
     return res.status(404).json({ error: `No files found for hash ${rootHash}` });
   }
 
  try {
-    const featurePath = path.join(CACHE_DIR, "features", `${rootHash}.json`);
-    const featureText = await fs.readFile(featurePath, "utf-8");
+    const featurePath = path.join$CACHE_DIR, "features", `${rootHash}.json`$;
+    const featureText = await fs.readFile$featurePath, "utf-8"$;
     const featureMap = JSON.parse(featureText);
     res.json({ rootHash, files, featureMap });
   } catch (err) {
-    res.status(500).json({ error: `Failed to read features for hash ${rootHash}`, detail: String(err) });
+    res.status(500).json${ error: `Failed to read features for hash ${rootHash}`, detail: String(err) }$;
   }
 });
 ```
@@ -4807,9 +5177,11 @@ curl http://localhost:4001/features/by-hash/4d7f3a...5bc
 ```json
 {
   "rootHash": "4d7f3a...5bc",
-  "files": ["AGENTS.md", "docs/agents-copy.md"],
+  "files": $"AGENTS.md", "docs/agents-copy.md"$,
   "featureMap": {
+$$
     "Tools & Capabilities": ["apply_patch","update_plan","shell"],
+$$
     "Constraints": ["Escalation required for network commands"],
     "Task Requirements": ["Preserve provenance"],
     "Output & Formatting Rules": ["Diff patch format"],

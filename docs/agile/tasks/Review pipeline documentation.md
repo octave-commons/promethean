@@ -1,10 +1,14 @@
 ---
+$$
 uuid: 9f621ec3-91d2-42cf-a8af-b1eafe7c4041
+$$
 title: review pipeline documentation in README
 status: todo
 priority: P3
 labels: []
+$$
 created_at: '2025-09-18T19:28:54Z'
+$$
 ---
 ## 🛠️ Task: Review pipeline documentation in README
 

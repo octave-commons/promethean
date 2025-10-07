@@ -1,9 +1,15 @@
 ---
+$$
 uuid: d1250964-1686-487c-9850-3cc1472e9326
+$$
+$$
 created_at: '2025-09-19T23:23:12Z'
+$$
 title: 2025.09.19.23.23.12
 filename: Kanban FSM with Safe Cycles
+$$
 description: >-
+$$
   A refined Kanban workflow with explicit reverse paths to prevent fake progress
   and ensure safe session-end hand-offs without requiring PRs. The system
   includes procedural cycles for backtracking, re-shaping work, and handling
@@ -18,15 +24,19 @@ tags:
   - procedural cycles
   - re-shaping
   - partial work
+$$
 related_to_uuid: []
+$$
+$$
 related_to_title: []
+$$
 references: []
 ---
 you’re not overthinking it — you’re seeing the missing cycles. let’s add **explicit reverse paths** so the system never fakes forward progress, and give the cloud agent a safe “session-end hand-off” path that doesn’t require a PR.
 
 here’s a tightened FSM with minimal, procedural cycles:
 
-# Kanban FSM (with safe cycles + hand-off paths)
+# Kanban FSM $with safe cycles + hand-off paths$
 
 ```mermaid
 flowchart TD
@@ -102,7 +112,7 @@ flowchart TD
 
 ---
 
-# Tiny transition rules (just the new/changed ones)
+# Tiny transition rules $just the new/changed ones$
 
 * **Ready → Breakdown**
   Trigger: acceptance criteria or dependencies are insufficient/ambiguous; needs re-shape before prioritization.
@@ -113,9 +123,9 @@ flowchart TD
 * **In Progress → Breakdown**
   Trigger: mid-work discovery that the slice is the wrong shape; re-plan needed (no PR required).
 
-* **In Progress → To Do** *(session-end hand-off)*
+* **In Progress → To Do** *$session-end hand-off$*
   Trigger: time/compute limit reached without a reviewable change.
-  Action: append artifacts/log (diffs/notes/design stubs ok), record “Next step,” move to **To Do** if WIP allows; else stay In Progress and mark minor blocker.
+  Action: append artifacts/log $diffs/notes/design stubs ok$, record “Next step,” move to **To Do** if WIP allows; else stay In Progress and mark minor blocker.
 
 * **Document → In Review**
   Trigger: doc changes needed or reviewer asks for edits.
@@ -128,11 +138,11 @@ flowchart TD
 
 ---
 
-# Session-end hand-off (Cloud-safe, no PR required)
+# Session-end hand-off $Cloud-safe, no PR required$
 
 At the **end of any session** (especially Codex Cloud), if a reviewable commit/PR isn’t ready:
 
-1. **Append task update** (append-only): what changed/attempted, evidence, artifacts (even tiny notes/diffs), next step.
+1. **Append task update** $append-only$: what changed/attempted, evidence, artifacts $even tiny notes/diffs$, next step.
 2. **Choose a safe transition** based on what you learned:
 
    * InProgress → **Todo** if a coherent “next” is clear.
@@ -144,7 +154,7 @@ This ensures there’s **never an empty session**, and gives you real board move
 
 ---
 
-If this looks right, I’ll fold these deltas into the process doc’s FSM section (append-only) and then draft the per-column “Entry / Work / Exit” one-liners that match these cycles—still minimal, still procedural.
+If this looks right, I’ll fold these deltas into the process doc’s FSM section $append-only$ and then draft the per-column “Entry / Work / Exit” one-liners that match these cycles—still minimal, still procedural.
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
 - _None_

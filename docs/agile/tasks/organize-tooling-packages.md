@@ -1,10 +1,16 @@
 ---
+$$
 uuid: 911d511f-7f6d-4f01-86c0-5129765a3f8f
+$$
 title: Group tooling and CLI packages
 status: todo
 priority: p3
+$$
 labels: ["framework-core", "refactor"]
+$$
+$$
 created_at: '2025-09-27T00:14:00.000Z'
+$$
 ---
 #Todo
 
@@ -14,13 +20,13 @@ created_at: '2025-09-27T00:14:00.000Z'
 
 ## Description
 - **What changed?** The frontend reorg established the pattern for nested namespaces and highlighted the need to cluster CLIs separately from runtime libraries.
-- **Where is the impact?** Applies to packages that publish binaries or automation scripts (`promethean-cli`, `kanban-cli`, `pm2-helpers`, etc.).
+- **Where is the impact?** Applies to packages that publish binaries or automation scripts $`promethean-cli`, `kanban-cli`, `pm2-helpers`, etc.$.
 - **Why now?** Keeps operational tooling discoverable and enables targeted CI/test pipelines.
 - **Supporting context** Builds on the staged refactor plan agreed in the earlier discussion.
 
 ## Goals
 - Define inclusion criteria for tooling vs. libraries.
-- Outline new folder structure (e.g., `packages/tools/cli`, `packages/tools/ops`).
+- Outline new folder structure $e.g., `packages/tools/cli`, `packages/tools/ops`$.
 - Note required updates to release docs and automation scripts.
 
 ## Requirements

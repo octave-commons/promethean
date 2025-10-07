@@ -43,9 +43,9 @@ Let’s pin this down step by step. You’re remembering:
     
 *   Used as a DSL in tooling, sometimes education
     
-
+$$
 But _not quite_ Lisp enough.
-
+$$
 * * *
 
 ### 🟣 **Anaconda's Skunkworks Lisp-Like DSLs**
@@ -109,8 +109,9 @@ Projects that existed but vanished:
     
 
 * * *
-
+$$
 🧠 So What Was It _Probably_?
+$$
 -----------------------------
 
 > A **minimal Racket/Scheme fork** or **Python-hosted DSL** designed for teaching that used **Lisp syntax**, compiled to **Python AST**, and was **used alongside Cython** to teach both levels of abstraction.

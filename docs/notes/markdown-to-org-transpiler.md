@@ -1,8 +1,14 @@
 ---
+$$
 uuid: ab54cdd8-13ce-4dcb-a9cd-da2d86e0305f
+$$
+$$
 created_at: 2025.08.08.23.08.34.md
+$$
 filename: markdown-to-org-transpiler
+$$
 description: >-
+$$
   A zero-dependency Markdown → Org-mode transpiler that works in Node.js and
   browsers. Handles common Markdown features like headings, lists, blockquotes,
   code fences, and tables.
@@ -14,7 +20,9 @@ tags:
   - browser
   - node
   - commonmark
+$$
 related_to_title:
+$$
   - ecs-scheduler-and-prefabs
   - System Scheduler with Resource-Aware DAG
   - ecs-offload-workers
@@ -40,7 +48,9 @@ related_to_title:
   - Debugging Broker Connections and Agent Behavior
   - Language-Agnostic Mirror System
   - Cross-Target Macro System in Sibilant
+$$
 related_to_uuid:
+$$
   - c62a1815-c43b-4a3b-88e6-d7fa008a155e
   - ba244286-4e84-425b-8bf6-b80c4eb783fc
   - 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
@@ -644,7 +654,7 @@ references:
     col: 3
     score: 1
 ---
-Heck yeah—**Markdown → Org-mode** transpiler, zero deps, Node + browser safe. Handles the 90%: headings (ATX/Setext), lists (bulleted/ordered, nested, checkboxes), blockquotes, code fences, inline code, emphasis, strike, links/images, horizontal rules, and pipe tables.
+Heck yeah—**Markdown → Org-mode** transpiler, zero deps, Node + browser safe. Handles the 90%: headings $ATX/Setext$, lists $bulleted/ordered, nested, checkboxes$, blockquotes, code fences, inline code, emphasis, strike, links/images, horizontal rules, and pipe tables.
 
 Drop this in:
 
@@ -655,10 +665,18 @@ Drop this in:
 // Markdown → Org-mode (CommonMark-ish subset).
 // Handles: #/##/..., Setext headings, lists (nested, tasks), blockquotes,
 // fences ```lang, inline code, **bold**/*italic*/~~strike~~, links/images,
+$$
 // HR, and pipe tables.
+$$
+$$
 //
+$$
+$$
 // Usage:
+$$
+$$
 //   import { mdToOrg } from "./md2org";
+$$
 //   const org = mdToOrg(markdown, { hardWrap:false });
 
 export interface Md2OrgOptions {
@@ -666,204 +684,308 @@ export interface Md2OrgOptions {
 }
 
 export function mdToOrg(md: string, opts: Md2OrgOptions = {}): string {
-  const lines = md.replace(/\r\n?/g, "\n").split("\n");
+  const lines = md.replace$/\r\n?/g, "\n"$.split$"\n"$;
+$$
   const out: string[] = [];
+$$
+$$
   let i = 0;
-
+$$
+$$
   let inFence = false;
+$$
+$$
   let fenceLang = "";
+$$
+$$
   let inQuote = false;
+$$
+$$
   let inTable = false;
+$$
   let pendingSetext: { lineIdx: number; level: number } | null = null;
 
   // list stack: tracks indent -> marker
   const listStack: { indent: number; ordered: boolean }[] = [];
-
+$$
   const flushList = () => { listStack.length = 0; };
-  const endQuote = () => { if (inQuote) { out.push("#+end_quote"); inQuote = false; } };
-  const endFence = () => { if (inFence) { out.push("#+end_src"); inFence = false; fenceLang = ""; } };
+$$
+  const endQuote = () => { if (inQuote) { out.push$"#+end_quote"$; inQuote = false; } };
+  const endFence = () => { if (inFence) { out.push$"#+end_src"$; inFence = false; fenceLang = ""; } };
   const endTable = () => { if (inTable) { inTable = false; } };
 
   while (i < lines.length) {
+$$
     let line = lines[i];
-
+$$
+$$
     // ---- Code fences ----
-    const fenceMatch = line.match(/^(\s*)(`{3,}|~{3,})(\s*)(\S+)?\s*$/);
+$$
+    const fenceMatch = line.match$/^(\s*)(`{3,}|~{3,})(\s*)(\S+)?\s*$/$;
     if (fenceMatch) {
+$$
       endQuote(); endTable(); // no nesting
+$$
       if (!inFence) {
         inFence = true; fenceLang = (fenceMatch[4] || "").trim();
-        out.push(`#+begin_src ${fenceLang}`.trim());
+        out.push$`#+begin_src ${fenceLang}`.trim()$;
       } else {
         endFence();
       }
+$$
       i++; continue;
+$$
     }
     if (inFence) { out.push(line); i++; continue; }
-
+$$
     // ---- Horizontal rule ----
-    if (/^\s*((\*\s*){3,}|(-\s*){3,}|(_\s*){3,})\s*$/.test(line)) {
+$$
+    if $/^\s*((\*\s*){3,}|(-\s*){3,}|(_\s*){3,})\s*$/.test(line)$ {
       endQuote(); endTable(); flushList();
+$$
       out.push("-----"); i++; continue;
+$$
     }
-
+$$
     // ---- Setext heading lookahead ----
+$$
+$$
     if (!pendingSetext && i + 1 < lines.length) {
+$$
+$$
       const nxt = lines[i + 1];
-      if (/^\s*===+\s*$/.test(nxt)) pendingSetext = { lineIdx: i, level: 1 };
-      else if (/^\s*---+\s*$/.test(nxt)) pendingSetext = { lineIdx: i, level: 2 };
+$$
+      if $/^\s*===+\s*$/.test(nxt)$ pendingSetext = { lineIdx: i, level: 1 };
+      else if $/^\s*---+\s*$/.test(nxt)$ pendingSetext = { lineIdx: i, level: 2 };
     }
+$$
     if (pendingSetext && pendingSetext.lineIdx === i) {
+$$
       endQuote(); endTable(); flushList();
-      const text = inline(lines[i].trim(), opts);
-      out.push(`${"*".repeat(pendingSetext.level)} ${text}`);
+      const text = inline$lines[i].trim(), opts$;
+      out.push$`${"*".repeat(pendingSetext.level)} ${text}`$;
+$$
       i += 2; pendingSetext = null; continue;
+$$
     }
-
+$$
     // ---- ATX heading ----
-    const atx = line.match(/^\s{0,3}(#{1,6})\s+(.+?)\s*#*\s*$/);
+$$
+    const atx = line.match$/^\s{0,3}(#{1,6})\s+(.+?)\s*#*\s*$/$;
     if (atx) {
       endQuote(); endTable(); flushList();
       const level = Math.min(6, atx[1].length);
-      out.push(`${"*".repeat(level)} ${inline(atx[2], opts)}`);
+      out.push$`${"*".repeat(level)} ${inline(atx[2], opts)}`$;
+$$
       i++; continue;
+$$
     }
-
+$$
     // ---- Blockquote (group contiguous) ----
+$$
+$$
     if (/^\s{0,3}>\s?/.test(line)) {
-      if (!inQuote) { endTable(); out.push("#+begin_quote"); inQuote = true; }
+$$
+      if (!inQuote) { endTable(); out.push$"#+begin_quote"$; inQuote = true; }
+$$
       // Strip leading '>' (allow nested '>>')
+$$
+$$
       line = line.replace(/^\s{0,3}>\s?/, "");
-      out.push(inline(line, opts));
-      i++; 
+$$
+      out.push$inline(line, opts)$;
+$$
+      i++;
+$$
       // keep consuming quote lines; loop naturally handles
       continue;
     } else {
       endQuote();
     }
-
+$$
     // ---- Tables (pipe) ----
-    if (/^\s*\|.*\|\s*$/.test(line)) {
+$$
+    if $/^\s*\|.*\|\s*$/.test(line)$ {
       endQuote(); flushList();
+$$
       inTable = true;
+$$
       // Header separator in MD: |---|---|  → Org hline: |---+---|
-      if (/^\s*\|?\s*:?-{3,}.*\|\s*$/.test(line)) {
-        const cols = countColumns(lines[i - 1] || line);
-        out.push(makeOrgHline(cols));
+      if $/^\s*\|?\s*:?-{3,}.*\|\s*$/.test(line)$ {
+        const cols = countColumns$lines$i - 1$ || line$;
+        out.push$makeOrgHline(cols)$;
       } else {
-        out.push(normalizeTableRow(line));
+        out.push$normalizeTableRow(line)$;
       }
-      i++; 
+$$
+      i++;
+$$
       // close table when next line isn't a table row
-      if (i < lines.length && !/^\s*\|.*\|\s*$/.test(lines[i])) endTable();
+      if $i < lines.length && !/^\s*\|.*\|\s*$/.test(lines[i])$ endTable();
       continue;
     } else {
       endTable();
     }
-
+$$
     // ---- Lists (bulleted / ordered / task) ----
-    const list = line.match(/^(\s*)([*+\-]|\d+[.)])\s+(.*)$/);
+$$
+    const list = line.match$/^(\s*)($*+\-$|\d+[.)]$\s+(.*)$/);
     if (list) {
-      const indent = list[1].replace(/\t/g, "    ").length;
+      const indent = list[1].replace$/\t/g, "    "$.length;
+$$
       const marker = list[2];
+$$
+$$
       const text = list[3];
-
+$$
+$$
       // adjust stack
-      while (listStack.length && indent < listStack[listStack.length - 1].indent) listStack.pop();
-      if (!listStack.length || indent > listStack[listStack.length - 1].indent) {
-        listStack.push({ indent, ordered: /^\d/.test(marker) });
+$$
+      while $listStack.length && indent < listStack$listStack.length - 1$.indent$ listStack.pop();
+      if $!listStack.length || indent > listStack$listStack.length - 1$.indent$ {
+        listStack.push${ indent, ordered: /^\d/.test(marker) }$;
       }
 
-      const top = listStack[listStack.length - 1];
+      const top = listStack$listStack.length - 1$;
+$$
       const orgMarker = top.ordered ? "1." : "-";
-
+$$
+$$
       // task?
-      const task = text.match(/^\[( |x|X)\]\s+(.*)$/);
-      const body = task ? `[${task[1].toUpperCase()}] ${inline(task[2], opts)}` : inline(text, opts);
+$$
+$$
+      const task = text.match(/^
+$$
+$$
+( |x|X)
+$$
+\s+(.*)$/);
+      const body = task ? `$${task[1].toUpperCase()}$ ${inline(task[2], opts)}` : inline(text, opts);
 
-      out.push(`${" ".repeat(top.indent)}${orgMarker} ${body}`);
+      out.push$`${" ".repeat(top.indent)}${orgMarker} ${body}`$;
+$$
       i++; continue;
+$$
     } else {
       // leaving list context on blank or non-list
-      if (/^\s*$/.test(line)) flushList();
+      if $/^\s*$/.test(line)$ flushList();
     }
-
+$$
     // ---- Blank line ----
-    if (/^\s*$/.test(line)) { out.push(""); i++; continue; }
+$$
+    if $/^\s*$/.test(line)$ { out.push(""); i++; continue; }
 
     // ---- Paragraph (with hardWrap option for <br>) ----
-    out.push(inline(line, opts));
+    out.push$inline(line, opts)$;
+$$
     i++;
+$$
   }
-
+$$
   // close any open blocks
+$$
   endFence(); endQuote(); endTable(); flushList();
-
+$$
   return out.join("\n");
+$$
 }
-
+$$
 // ---------- helpers ----------
-
+$$
 function inline(s: string, opts: Md2OrgOptions): string {
+$$
   if (s === "") return s;
-
+$$
   // protect code spans with sentinels
+$$
   const codes: string[] = [];
+$$
+$$
   s = s.replace(/`([^`]+)`/g, (_m, g1) => {
+$$
     codes.push(g1);
     return `\u0001${codes.length - 1}\u0001`;
   });
-
+$$
   // images ![alt](url "title")
-  s = s.replace(/!\[([^\]]*)\]\((\S+?)(?:\s+"[^"]*")?\)/g, (_m, alt, url) => `[[${url}][${alt}]]`);
+$$
+$$
+  s = s.replace(/!
+$$
+$$
+([^
+$$
+]*)\]$$\S+?$$?:\s+"[^"]*"$?$/g, $_m, alt, url$ => `[[${url}][${alt}]]`);
+$$
   // links [text](url)
-  s = s.replace(/\[([^\]]+)\]\((\S+?)\)/g, (_m, txt, url) => `[[${url}][${txt}]]`);
-  // autolinks <http://...>
-  s = s.replace(/<((?:https?|mailto):[^>]+)>/g, (_m, url) => `[[${url}]]`);
-
+$$
+$$
+  s = s.replace(/
+$$
+$$
+([^
+$$
+]+)\]$$\S+?$$/g, $_m, txt, url$ => `[[${url}][${txt}]]`);
+$$
+  // autolinks <
+$$http://...>
+  s = s.replace$/<((?:https?|mailto):[^>]+)>/g, (_m, url) => `[[${url}]]`$;
+$$
   // strikethrough ~~text~~ → +text+
-  s = s.replace(/~~([^~]+)~~/g, (_m, g1) => `+${g1}+`);
-
+$$
+  s = s.replace$/~~([^~]+)~~/g, (_m, g1) => `+${g1}+`$;
+$$
   // bold **text** or __text__ → *text*
-  s = s.replace(/\*\*([^\n*][\s\S]*?)\*\*/g, (_m, g1) => `*${g1}*`);
-  s = s.replace(/__([^\n_][\s\S]*?)__/g, (_m, g1) => `*${g1}*`);
-
+$$
+  s = s.replace$/\*\*([^\n*]$\s\S$*?)\*\*/g, (_m, g1) => `*${g1}*`$;
+  s = s.replace$/__([^\n_]$\s\S$*?)__/g, (_m, g1) => `*${g1}*`$;
+$$
   // italics *text* or _text_ → /text/
+$$
   // try to avoid clobbering bold we just produced: use negative lookarounds
-  s = s.replace(/(^|[^*])\*([^\s*][\s\S]*?)\*(?!\*)/g, (_m, pre, g1) => `${pre}/${g1}/`);
-  s = s.replace(/(^|[^_])_([^\s_][\s\S]*?)_(?!_)/g, (_m, pre, g1) => `${pre}/${g1}/`);
-
+  s = s.replace$/(^|[^*])\*([^\s*]$\s\S$*?)\*(?!\*)/g, (_m, pre, g1) => `${pre}/${g1}/`$;
+  s = s.replace$/(^|[^_])_([^\s_]$\s\S$*?)_(?!_)/g, (_m, pre, g1) => `${pre}/${g1}/`$;
+$$
   // line breaks
+$$
   if (!opts.hardWrap) {
     // collapse trailing two-spaces line break → Org needs explicit \\ or keep as is
+$$
     s = s.replace(/ {2,}\n/g, "\\\\\n");
+$$
   }
 
   // restore code spans as ~code~
-  s = s.replace(/\u0001(\d+)\u0001/g, (_m, idx) => `~${codes[Number(idx)]}~`);
+  s = s.replace$/\u0001(\d+)\u0001/g, (_m, idx) => `~${codes$Number(idx)$}~`$;
 
   return s;
 }
 
 function countColumns(row: string): number {
-  const cells = row.trim().replace(/^\|/, "").replace(/\|$/, "").split("|");
+  const cells = row.trim().replace$/^\|/, ""$.replace$/\|$/, ""$.split("|");
   return cells.length;
 }
 function makeOrgHline(cols: number): string {
-  return "|" + Array.from({ length: cols }, () => "---").join("+") + "|";
+  return "|" + Array.from${ length: cols }, () => "---"$.join("+") + "|";
 }
 function normalizeTableRow(line: string): string {
   // Ensure leading & trailing pipe, trim cells
+$$
   const trimmed = line.trim();
-  const inner = trimmed.replace(/^\|/, "").replace(/\|$/, "").split("|").map(c => " " + c.trim() + " ").join("|");
+$$
+  const inner = trimmed.replace$/^\|/, ""$.replace$/\|$/, ""$.split("|").map$c => " " + c.trim() + " "$.join("|");
+$$
   return "|" + inner + "|";
+$$
 }
 ````
 
 ## Tiny examples
 
 ```ts
+$$
 const md = `
+$$
 # Title
 
 A *para* with **bold**, _italics_, ~~strike~~, \`code\`, a [link](https://example.com), and ![img](file.png).
@@ -881,11 +1003,13 @@ console.log("hi")
 \`\`\`
 
 | a | b |
+$$
 |---|---|
+$$
 | 1 | 2 |
 `;
 
-console.log(mdToOrg(md));
+console.log$mdToOrg(md)$;
 ```
 
 **Output (vibes):**
@@ -894,38 +1018,49 @@ console.log(mdToOrg(md));
 * Title
 
 A /para/ with *bold*, /italics/, +strike+, ~code~, a [[https://example.com][link]], and [[file.png][img]].
-
+$$
 #+begin_quote
+$$
 quoted
 block
+$$
 #+end_quote
-
+$$
 - [X] done
   - [ ] nested
 1. item
 2. item
-
+$$
 #+begin_src ts
+$$
 console.log("hi")
+$$
 #+end_src
-
+$$
 | a | b |
+$$
 |---+---|
+$$
 | 1 | 2 |
 ```
 
 ## Bonus: CLI (Node)
 
 ```ts
+$$
 // tools/md2org.mjs
+$$
 import fs from "node:fs/promises";
 import { mdToOrg } from "../shared/js/prom-lib/text/md2org.js";
-
+$$
 const input = process.argv[2];
-if (!input) { console.error("usage: node tools/md2org.mjs <file.md>"); process.exit(1); }
+$$
+if (!input) { console.error$"usage: node tools/md2org.mjs <file.md>"$; process.exit(1); }
 const md = await fs.readFile(input, "utf8");
+$$
 const org = mdToOrg(md);
-const out = input.replace(/\.md$/i, ".org");
+$$
+const out = input.replace$/\.md$/i, ".org"$;
 await fs.writeFile(out, org, "utf8");
 console.log(`Wrote ${out}`);
 ```
@@ -934,181 +1069,181 @@ console.log(`Wrote ${out}`);
 
 If you want, I can add:
 
-* **Footnotes** (`[^id]` → `[fn:id]`) and references,
+* **Footnotes** $`[^id]` → `[fn:id]`$ and references,
 * **Definition lists** and **task list → TODO/DONE** mapping,
-* **TOC** (`[[toc]]` → `#+toc`),
+* **TOC** $`[[toc]]` → `#+toc`$,
 * or a **remark/unified** adapter so you can swap in a full Markdown AST for perfect fidelity when you *do* want deps.
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [[ecs-scheduler-and-prefabs]]
-- [System Scheduler with Resource-Aware DAG](system-scheduler-with-resource-aware-dag.md)
-- [[docs/unique/ecs-offload-workers|ecs-offload-workers]]
-- [[ollama-llm-provider-for-pseudo-code-transpiler]]
-- [[promethean-infrastructure-setup|Promethean Infrastructure Setup]]
-- [[docs/unique/eidolon-field-math-foundations|eidolon-field-math-foundations]]
-- [[performance-optimized-polyglot-bridge]]
-- [[polyglot-s-expr-bridge-python-js-lisp-interop|Polyglot S-expr Bridge: Python-JS-Lisp Interop]]
-- [[js-to-lisp-reverse-compiler]]
-- [[docs/unique/compiler-kit-foundations|compiler-kit-foundations]]
-- [[docs/unique/interop-and-source-maps|Interop and Source Maps]]
-- [Local-First Intention→Code Loop with Free Models](local-first-intention-code-loop-with-free-models.md)
-- [[chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]]
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore|Agent Tasks: Persistence Migration to DualStore]]
-- [[docs/unique/archetype-ecs|archetype-ecs]]
-- [JavaScript](chunks/javascript.md)
-- [[docs/unique/aionian-circuit-math|aionian-circuit-math]]
-- [Math Fundamentals](chunks/math-fundamentals.md)
-- [[dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]]
-- [[local-only-llm-workflow]]
-- [[admin-dashboard-for-user-management|Admin Dashboard for User Management]]
-- [[api-gateway-versioning]]
-- [Debugging Broker Connections and Agent Behavior](debugging-broker-connections-and-agent-behavior.md)
-- [[language-agnostic-mirror-system|Language-Agnostic Mirror System]]
-- [[cross-target-macro-system-in-sibilant|Cross-Target Macro System in Sibilant]]
+- $[ecs-scheduler-and-prefabs]$
+- $System Scheduler with Resource-Aware DAG$$system-scheduler-with-resource-aware-dag.md$
+- $[docs/unique/ecs-offload-workers|ecs-offload-workers]$
+- $[ollama-llm-provider-for-pseudo-code-transpiler]$
+- $[promethean-infrastructure-setup|Promethean Infrastructure Setup]$
+- $[docs/unique/eidolon-field-math-foundations|eidolon-field-math-foundations]$
+- $[performance-optimized-polyglot-bridge]$
+- $[polyglot-s-expr-bridge-python-js-lisp-interop|Polyglot S-expr Bridge: Python-JS-Lisp Interop]$
+- $[js-to-lisp-reverse-compiler]$
+- $[docs/unique/compiler-kit-foundations|compiler-kit-foundations]$
+- $[docs/unique/interop-and-source-maps|Interop and Source Maps]$
+- $Local-First Intention→Code Loop with Free Models$$local-first-intention-code-loop-with-free-models.md$
+- $[chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]$
+- $[docs/unique/agent-tasks-persistence-migration-to-dualstore|Agent Tasks: Persistence Migration to DualStore]$
+- $[docs/unique/archetype-ecs|archetype-ecs]$
+- [JavaScript]$chunks/javascript.md$
+- $[docs/unique/aionian-circuit-math|aionian-circuit-math]$
+- [Math Fundamentals]$chunks/math-fundamentals.md$
+- $[dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]$
+- $[local-only-llm-workflow]$
+- $[admin-dashboard-for-user-management|Admin Dashboard for User Management]$
+- $[api-gateway-versioning]$
+- [Debugging Broker Connections and Agent Behavior]$debugging-broker-connections-and-agent-behavior.md$
+- $[language-agnostic-mirror-system|Language-Agnostic Mirror System]$
+- $[cross-target-macro-system-in-sibilant|Cross-Target Macro System in Sibilant]$
 
 ## Sources
-- [[ecs-scheduler-and-prefabs#L379|ecs-scheduler-and-prefabs — L379]] (line 379, col 1, score 1)
-- [[docs/unique/ecs-offload-workers#L446|ecs-offload-workers — L446]] (line 446, col 1, score 1)
-- [System Scheduler with Resource-Aware DAG — L377](system-scheduler-with-resource-aware-dag.md#L377) (line 377, col 1, score 1)
-- [[ollama-llm-provider-for-pseudo-code-transpiler#L153|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L153]] (line 153, col 1, score 1)
-- [[promethean-infrastructure-setup#L558|Promethean Infrastructure Setup — L558]] (line 558, col 1, score 0.98)
-- [[docs/unique/eidolon-field-math-foundations#L105|eidolon-field-math-foundations — L105]] (line 105, col 1, score 0.88)
-- [[performance-optimized-polyglot-bridge#L429|Performance-Optimized-Polyglot-Bridge — L429]] (line 429, col 1, score 0.85)
-- [[polyglot-s-expr-bridge-python-js-lisp-interop#L497|Polyglot S-expr Bridge: Python-JS-Lisp Interop — L497]] (line 497, col 1, score 0.85)
-- [[docs/unique/archetype-ecs#L454|archetype-ecs — L454]] (line 454, col 1, score 1)
-- [[docs/unique/archetype-ecs#L454|archetype-ecs — L454]] (line 454, col 3, score 1)
-- [[chroma-toolkit-consolidation-plan#L171|Chroma Toolkit Consolidation Plan — L171]] (line 171, col 1, score 1)
-- [[chroma-toolkit-consolidation-plan#L171|Chroma Toolkit Consolidation Plan — L171]] (line 171, col 3, score 1)
-- [JavaScript — L14](chunks/javascript.md#L14) (line 14, col 1, score 1)
-- [JavaScript — L14](chunks/javascript.md#L14) (line 14, col 3, score 1)
-- [[docs/unique/ecs-offload-workers#L454|ecs-offload-workers — L454]] (line 454, col 1, score 1)
-- [[docs/unique/ecs-offload-workers#L454|ecs-offload-workers — L454]] (line 454, col 3, score 1)
-- [[docs/unique/archetype-ecs#L455|archetype-ecs — L455]] (line 455, col 1, score 1)
-- [[docs/unique/archetype-ecs#L455|archetype-ecs — L455]] (line 455, col 3, score 1)
-- [[docs/unique/ecs-offload-workers#L455|ecs-offload-workers — L455]] (line 455, col 1, score 1)
-- [[docs/unique/ecs-offload-workers#L455|ecs-offload-workers — L455]] (line 455, col 3, score 1)
-- [[ecs-scheduler-and-prefabs#L387|ecs-scheduler-and-prefabs — L387]] (line 387, col 1, score 1)
-- [[ecs-scheduler-and-prefabs#L387|ecs-scheduler-and-prefabs — L387]] (line 387, col 3, score 1)
-- [[docs/unique/eidolon-field-math-foundations#L130|eidolon-field-math-foundations — L130]] (line 130, col 1, score 1)
-- [[docs/unique/eidolon-field-math-foundations#L130|eidolon-field-math-foundations — L130]] (line 130, col 3, score 1)
-- [[docs/unique/archetype-ecs#L460|archetype-ecs — L460]] (line 460, col 1, score 1)
-- [[docs/unique/archetype-ecs#L460|archetype-ecs — L460]] (line 460, col 3, score 1)
-- [JavaScript — L15](chunks/javascript.md#L15) (line 15, col 1, score 1)
-- [JavaScript — L15](chunks/javascript.md#L15) (line 15, col 3, score 1)
-- [[ecs-scheduler-and-prefabs#L388|ecs-scheduler-and-prefabs — L388]] (line 388, col 1, score 1)
-- [[ecs-scheduler-and-prefabs#L388|ecs-scheduler-and-prefabs — L388]] (line 388, col 3, score 1)
-- [[docs/unique/eidolon-field-math-foundations#L129|eidolon-field-math-foundations — L129]] (line 129, col 1, score 1)
-- [[docs/unique/eidolon-field-math-foundations#L129|eidolon-field-math-foundations — L129]] (line 129, col 3, score 1)
-- [[docs/unique/ecs-offload-workers#L457|ecs-offload-workers — L457]] (line 457, col 1, score 1)
-- [[docs/unique/ecs-offload-workers#L457|ecs-offload-workers — L457]] (line 457, col 3, score 1)
-- [[ecs-scheduler-and-prefabs#L391|ecs-scheduler-and-prefabs — L391]] (line 391, col 1, score 1)
-- [[ecs-scheduler-and-prefabs#L391|ecs-scheduler-and-prefabs — L391]] (line 391, col 3, score 1)
-- [[docs/unique/eidolon-field-math-foundations#L132|eidolon-field-math-foundations — L132]] (line 132, col 1, score 1)
-- [[docs/unique/eidolon-field-math-foundations#L132|eidolon-field-math-foundations — L132]] (line 132, col 3, score 1)
-- [Local-First Intention→Code Loop with Free Models — L145](local-first-intention-code-loop-with-free-models.md#L145) (line 145, col 1, score 1)
-- [Local-First Intention→Code Loop with Free Models — L145](local-first-intention-code-loop-with-free-models.md#L145) (line 145, col 3, score 1)
-- [[api-gateway-versioning#L284|api-gateway-versioning — L284]] (line 284, col 1, score 1)
-- [[api-gateway-versioning#L284|api-gateway-versioning — L284]] (line 284, col 3, score 1)
-- [Debugging Broker Connections and Agent Behavior — L40](debugging-broker-connections-and-agent-behavior.md#L40) (line 40, col 1, score 1)
-- [Debugging Broker Connections and Agent Behavior — L40](debugging-broker-connections-and-agent-behavior.md#L40) (line 40, col 3, score 1)
-- [[dynamic-context-model-for-web-components#L384|Dynamic Context Model for Web Components — L384]] (line 384, col 1, score 1)
-- [[dynamic-context-model-for-web-components#L384|Dynamic Context Model for Web Components — L384]] (line 384, col 3, score 1)
-- [[docs/unique/ecs-offload-workers#L458|ecs-offload-workers — L458]] (line 458, col 1, score 1)
-- [[docs/unique/ecs-offload-workers#L458|ecs-offload-workers — L458]] (line 458, col 3, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L133|Agent Tasks: Persistence Migration to DualStore — L133]] (line 133, col 1, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L133|Agent Tasks: Persistence Migration to DualStore — L133]] (line 133, col 3, score 1)
-- [[docs/unique/aionian-circuit-math#L151|aionian-circuit-math — L151]] (line 151, col 1, score 1)
-- [[docs/unique/aionian-circuit-math#L151|aionian-circuit-math — L151]] (line 151, col 3, score 1)
-- [Math Fundamentals — L14](chunks/math-fundamentals.md#L14) (line 14, col 1, score 1)
-- [Math Fundamentals — L14](chunks/math-fundamentals.md#L14) (line 14, col 3, score 1)
-- [[docs/unique/ecs-offload-workers#L460|ecs-offload-workers — L460]] (line 460, col 1, score 1)
-- [[docs/unique/ecs-offload-workers#L460|ecs-offload-workers — L460]] (line 460, col 3, score 1)
-- [[admin-dashboard-for-user-management#L41|Admin Dashboard for User Management — L41]] (line 41, col 1, score 1)
-- [[admin-dashboard-for-user-management#L41|Admin Dashboard for User Management — L41]] (line 41, col 3, score 1)
-- [[docs/unique/ecs-offload-workers#L461|ecs-offload-workers — L461]] (line 461, col 1, score 1)
-- [[docs/unique/ecs-offload-workers#L461|ecs-offload-workers — L461]] (line 461, col 3, score 1)
-- [[ecs-scheduler-and-prefabs#L397|ecs-scheduler-and-prefabs — L397]] (line 397, col 1, score 1)
-- [[ecs-scheduler-and-prefabs#L397|ecs-scheduler-and-prefabs — L397]] (line 397, col 3, score 1)
-- [[local-only-llm-workflow#L173|Local-Only-LLM-Workflow — L173]] (line 173, col 1, score 1)
-- [[local-only-llm-workflow#L173|Local-Only-LLM-Workflow — L173]] (line 173, col 3, score 1)
-- [[docs/unique/compiler-kit-foundations#L611|compiler-kit-foundations — L611]] (line 611, col 1, score 1)
-- [[docs/unique/compiler-kit-foundations#L611|compiler-kit-foundations — L611]] (line 611, col 3, score 1)
-- [[docs/unique/ecs-offload-workers#L462|ecs-offload-workers — L462]] (line 462, col 1, score 1)
-- [[docs/unique/ecs-offload-workers#L462|ecs-offload-workers — L462]] (line 462, col 3, score 1)
-- [[ecs-scheduler-and-prefabs#L398|ecs-scheduler-and-prefabs — L398]] (line 398, col 1, score 1)
-- [[ecs-scheduler-and-prefabs#L398|ecs-scheduler-and-prefabs — L398]] (line 398, col 3, score 1)
-- [[docs/unique/interop-and-source-maps#L517|Interop and Source Maps — L517]] (line 517, col 1, score 1)
-- [[docs/unique/interop-and-source-maps#L517|Interop and Source Maps — L517]] (line 517, col 3, score 1)
-- [[cross-target-macro-system-in-sibilant#L179|Cross-Target Macro System in Sibilant — L179]] (line 179, col 1, score 1)
-- [[cross-target-macro-system-in-sibilant#L179|Cross-Target Macro System in Sibilant — L179]] (line 179, col 3, score 1)
-- [[dynamic-context-model-for-web-components#L389|Dynamic Context Model for Web Components — L389]] (line 389, col 1, score 1)
-- [[dynamic-context-model-for-web-components#L389|Dynamic Context Model for Web Components — L389]] (line 389, col 3, score 1)
-- [[docs/unique/interop-and-source-maps#L522|Interop and Source Maps — L522]] (line 522, col 1, score 1)
-- [[docs/unique/interop-and-source-maps#L522|Interop and Source Maps — L522]] (line 522, col 3, score 1)
-- [[language-agnostic-mirror-system#L533|Language-Agnostic Mirror System — L533]] (line 533, col 1, score 1)
-- [[language-agnostic-mirror-system#L533|Language-Agnostic Mirror System — L533]] (line 533, col 3, score 1)
-- [[docs/unique/ecs-offload-workers#L472|ecs-offload-workers — L472]] (line 472, col 1, score 1)
-- [[docs/unique/ecs-offload-workers#L472|ecs-offload-workers — L472]] (line 472, col 3, score 1)
-- [[ollama-llm-provider-for-pseudo-code-transpiler#L176|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L176]] (line 176, col 1, score 1)
-- [[ollama-llm-provider-for-pseudo-code-transpiler#L176|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L176]] (line 176, col 3, score 1)
-- [System Scheduler with Resource-Aware DAG — L414](system-scheduler-with-resource-aware-dag.md#L414) (line 414, col 1, score 1)
-- [System Scheduler with Resource-Aware DAG — L414](system-scheduler-with-resource-aware-dag.md#L414) (line 414, col 3, score 1)
-- [System Scheduler with Resource-Aware DAG — L413](system-scheduler-with-resource-aware-dag.md#L413) (line 413, col 1, score 0.99)
-- [System Scheduler with Resource-Aware DAG — L413](system-scheduler-with-resource-aware-dag.md#L413) (line 413, col 3, score 0.99)
-- [[ecs-scheduler-and-prefabs#L422|ecs-scheduler-and-prefabs — L422]] (line 422, col 1, score 1)
-- [[ecs-scheduler-and-prefabs#L422|ecs-scheduler-and-prefabs — L422]] (line 422, col 3, score 1)
-- [[ollama-llm-provider-for-pseudo-code-transpiler#L177|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L177]] (line 177, col 1, score 1)
-- [[ollama-llm-provider-for-pseudo-code-transpiler#L177|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L177]] (line 177, col 3, score 1)
-- [System Scheduler with Resource-Aware DAG — L415](system-scheduler-with-resource-aware-dag.md#L415) (line 415, col 1, score 1)
-- [System Scheduler with Resource-Aware DAG — L415](system-scheduler-with-resource-aware-dag.md#L415) (line 415, col 3, score 1)
-- [[docs/unique/eidolon-field-math-foundations#L155|eidolon-field-math-foundations — L155]] (line 155, col 1, score 0.99)
-- [[docs/unique/eidolon-field-math-foundations#L155|eidolon-field-math-foundations — L155]] (line 155, col 3, score 0.99)
-- [[docs/unique/ecs-offload-workers#L473|ecs-offload-workers — L473]] (line 473, col 1, score 1)
-- [[docs/unique/ecs-offload-workers#L473|ecs-offload-workers — L473]] (line 473, col 3, score 1)
-- [[ecs-scheduler-and-prefabs#L423|ecs-scheduler-and-prefabs — L423]] (line 423, col 1, score 1)
-- [[ecs-scheduler-and-prefabs#L423|ecs-scheduler-and-prefabs — L423]] (line 423, col 3, score 1)
-- [[ollama-llm-provider-for-pseudo-code-transpiler#L178|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L178]] (line 178, col 1, score 1)
-- [[ollama-llm-provider-for-pseudo-code-transpiler#L178|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L178]] (line 178, col 3, score 1)
-- [[ecs-scheduler-and-prefabs#L430|ecs-scheduler-and-prefabs — L430]] (line 430, col 1, score 1)
-- [[ecs-scheduler-and-prefabs#L430|ecs-scheduler-and-prefabs — L430]] (line 430, col 3, score 1)
-- [[docs/unique/ecs-offload-workers#L475|ecs-offload-workers — L475]] (line 475, col 1, score 1)
-- [[docs/unique/ecs-offload-workers#L475|ecs-offload-workers — L475]] (line 475, col 3, score 1)
-- [[ecs-scheduler-and-prefabs#L425|ecs-scheduler-and-prefabs — L425]] (line 425, col 1, score 1)
-- [[ecs-scheduler-and-prefabs#L425|ecs-scheduler-and-prefabs — L425]] (line 425, col 3, score 1)
-- [System Scheduler with Resource-Aware DAG — L417](system-scheduler-with-resource-aware-dag.md#L417) (line 417, col 1, score 1)
-- [System Scheduler with Resource-Aware DAG — L417](system-scheduler-with-resource-aware-dag.md#L417) (line 417, col 3, score 1)
-- [[local-only-llm-workflow#L194|Local-Only-LLM-Workflow — L194]] (line 194, col 1, score 0.99)
-- [[local-only-llm-workflow#L194|Local-Only-LLM-Workflow — L194]] (line 194, col 3, score 0.99)
-- [[docs/unique/ecs-offload-workers#L476|ecs-offload-workers — L476]] (line 476, col 1, score 1)
-- [[docs/unique/ecs-offload-workers#L476|ecs-offload-workers — L476]] (line 476, col 3, score 1)
-- [[ecs-scheduler-and-prefabs#L426|ecs-scheduler-and-prefabs — L426]] (line 426, col 1, score 1)
-- [[ecs-scheduler-and-prefabs#L426|ecs-scheduler-and-prefabs — L426]] (line 426, col 3, score 1)
-- [[ollama-llm-provider-for-pseudo-code-transpiler#L180|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L180]] (line 180, col 1, score 1)
-- [[ollama-llm-provider-for-pseudo-code-transpiler#L180|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L180]] (line 180, col 3, score 1)
-- [System Scheduler with Resource-Aware DAG — L418](system-scheduler-with-resource-aware-dag.md#L418) (line 418, col 1, score 1)
-- [System Scheduler with Resource-Aware DAG — L418](system-scheduler-with-resource-aware-dag.md#L418) (line 418, col 3, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L147|Agent Tasks: Persistence Migration to DualStore — L147]] (line 147, col 1, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L147|Agent Tasks: Persistence Migration to DualStore — L147]] (line 147, col 3, score 1)
-- [[docs/unique/ecs-offload-workers#L477|ecs-offload-workers — L477]] (line 477, col 1, score 1)
-- [[docs/unique/ecs-offload-workers#L477|ecs-offload-workers — L477]] (line 477, col 3, score 1)
-- [[ecs-scheduler-and-prefabs#L427|ecs-scheduler-and-prefabs — L427]] (line 427, col 1, score 1)
-- [[ecs-scheduler-and-prefabs#L427|ecs-scheduler-and-prefabs — L427]] (line 427, col 3, score 1)
-- [[ollama-llm-provider-for-pseudo-code-transpiler#L181|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L181]] (line 181, col 1, score 1)
-- [[ollama-llm-provider-for-pseudo-code-transpiler#L181|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L181]] (line 181, col 3, score 1)
-- [[docs/unique/ecs-offload-workers#L478|ecs-offload-workers — L478]] (line 478, col 1, score 1)
-- [[docs/unique/ecs-offload-workers#L478|ecs-offload-workers — L478]] (line 478, col 3, score 1)
-- [[ecs-scheduler-and-prefabs#L428|ecs-scheduler-and-prefabs — L428]] (line 428, col 1, score 1)
-- [[ecs-scheduler-and-prefabs#L428|ecs-scheduler-and-prefabs — L428]] (line 428, col 3, score 1)
-- [[ollama-llm-provider-for-pseudo-code-transpiler#L182|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L182]] (line 182, col 1, score 1)
-- [[ollama-llm-provider-for-pseudo-code-transpiler#L182|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L182]] (line 182, col 3, score 1)
-- [System Scheduler with Resource-Aware DAG — L420](system-scheduler-with-resource-aware-dag.md#L420) (line 420, col 1, score 1)
-- [System Scheduler with Resource-Aware DAG — L420](system-scheduler-with-resource-aware-dag.md#L420) (line 420, col 3, score 1)
-- [[docs/unique/ecs-offload-workers#L479|ecs-offload-workers — L479]] (line 479, col 1, score 1)
-- [[docs/unique/ecs-offload-workers#L479|ecs-offload-workers — L479]] (line 479, col 3, score 1)
-- [[ecs-scheduler-and-prefabs#L429|ecs-scheduler-and-prefabs — L429]] (line 429, col 1, score 1)
-- [[ecs-scheduler-and-prefabs#L429|ecs-scheduler-and-prefabs — L429]] (line 429, col 3, score 1)
-- [[ollama-llm-provider-for-pseudo-code-transpiler#L183|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L183]] (line 183, col 1, score 1)
-- [[ollama-llm-provider-for-pseudo-code-transpiler#L183|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L183]] (line 183, col 3, score 1)
-- [System Scheduler with Resource-Aware DAG — L421](system-scheduler-with-resource-aware-dag.md#L421) (line 421, col 1, score 1)
-- [System Scheduler with Resource-Aware DAG — L421](system-scheduler-with-resource-aware-dag.md#L421) (line 421, col 3, score 1)
+- $[ecs-scheduler-and-prefabs#L379|ecs-scheduler-and-prefabs — L379]$ (line 379, col 1, score 1)
+- $[docs/unique/ecs-offload-workers#L446|ecs-offload-workers — L446]$ (line 446, col 1, score 1)
+- $System Scheduler with Resource-Aware DAG — L377$$system-scheduler-with-resource-aware-dag.md#L377$ (line 377, col 1, score 1)
+- $[ollama-llm-provider-for-pseudo-code-transpiler#L153|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L153]$ (line 153, col 1, score 1)
+- $[promethean-infrastructure-setup#L558|Promethean Infrastructure Setup — L558]$ (line 558, col 1, score 0.98)
+- $[docs/unique/eidolon-field-math-foundations#L105|eidolon-field-math-foundations — L105]$ (line 105, col 1, score 0.88)
+- $[performance-optimized-polyglot-bridge#L429|Performance-Optimized-Polyglot-Bridge — L429]$ (line 429, col 1, score 0.85)
+- $[polyglot-s-expr-bridge-python-js-lisp-interop#L497|Polyglot S-expr Bridge: Python-JS-Lisp Interop — L497]$ (line 497, col 1, score 0.85)
+- $[docs/unique/archetype-ecs#L454|archetype-ecs — L454]$ (line 454, col 1, score 1)
+- $[docs/unique/archetype-ecs#L454|archetype-ecs — L454]$ (line 454, col 3, score 1)
+- $[chroma-toolkit-consolidation-plan#L171|Chroma Toolkit Consolidation Plan — L171]$ (line 171, col 1, score 1)
+- $[chroma-toolkit-consolidation-plan#L171|Chroma Toolkit Consolidation Plan — L171]$ (line 171, col 3, score 1)
+- [JavaScript — L14]$chunks/javascript.md#L14$ (line 14, col 1, score 1)
+- [JavaScript — L14]$chunks/javascript.md#L14$ (line 14, col 3, score 1)
+- $[docs/unique/ecs-offload-workers#L454|ecs-offload-workers — L454]$ (line 454, col 1, score 1)
+- $[docs/unique/ecs-offload-workers#L454|ecs-offload-workers — L454]$ (line 454, col 3, score 1)
+- $[docs/unique/archetype-ecs#L455|archetype-ecs — L455]$ (line 455, col 1, score 1)
+- $[docs/unique/archetype-ecs#L455|archetype-ecs — L455]$ (line 455, col 3, score 1)
+- $[docs/unique/ecs-offload-workers#L455|ecs-offload-workers — L455]$ (line 455, col 1, score 1)
+- $[docs/unique/ecs-offload-workers#L455|ecs-offload-workers — L455]$ (line 455, col 3, score 1)
+- $[ecs-scheduler-and-prefabs#L387|ecs-scheduler-and-prefabs — L387]$ (line 387, col 1, score 1)
+- $[ecs-scheduler-and-prefabs#L387|ecs-scheduler-and-prefabs — L387]$ (line 387, col 3, score 1)
+- $[docs/unique/eidolon-field-math-foundations#L130|eidolon-field-math-foundations — L130]$ (line 130, col 1, score 1)
+- $[docs/unique/eidolon-field-math-foundations#L130|eidolon-field-math-foundations — L130]$ (line 130, col 3, score 1)
+- $[docs/unique/archetype-ecs#L460|archetype-ecs — L460]$ (line 460, col 1, score 1)
+- $[docs/unique/archetype-ecs#L460|archetype-ecs — L460]$ (line 460, col 3, score 1)
+- [JavaScript — L15]$chunks/javascript.md#L15$ (line 15, col 1, score 1)
+- [JavaScript — L15]$chunks/javascript.md#L15$ (line 15, col 3, score 1)
+- $[ecs-scheduler-and-prefabs#L388|ecs-scheduler-and-prefabs — L388]$ (line 388, col 1, score 1)
+- $[ecs-scheduler-and-prefabs#L388|ecs-scheduler-and-prefabs — L388]$ (line 388, col 3, score 1)
+- $[docs/unique/eidolon-field-math-foundations#L129|eidolon-field-math-foundations — L129]$ (line 129, col 1, score 1)
+- $[docs/unique/eidolon-field-math-foundations#L129|eidolon-field-math-foundations — L129]$ (line 129, col 3, score 1)
+- $[docs/unique/ecs-offload-workers#L457|ecs-offload-workers — L457]$ (line 457, col 1, score 1)
+- $[docs/unique/ecs-offload-workers#L457|ecs-offload-workers — L457]$ (line 457, col 3, score 1)
+- $[ecs-scheduler-and-prefabs#L391|ecs-scheduler-and-prefabs — L391]$ (line 391, col 1, score 1)
+- $[ecs-scheduler-and-prefabs#L391|ecs-scheduler-and-prefabs — L391]$ (line 391, col 3, score 1)
+- $[docs/unique/eidolon-field-math-foundations#L132|eidolon-field-math-foundations — L132]$ (line 132, col 1, score 1)
+- $[docs/unique/eidolon-field-math-foundations#L132|eidolon-field-math-foundations — L132]$ (line 132, col 3, score 1)
+- $Local-First Intention→Code Loop with Free Models — L145$$local-first-intention-code-loop-with-free-models.md#L145$ (line 145, col 1, score 1)
+- $Local-First Intention→Code Loop with Free Models — L145$$local-first-intention-code-loop-with-free-models.md#L145$ (line 145, col 3, score 1)
+- $[api-gateway-versioning#L284|api-gateway-versioning — L284]$ (line 284, col 1, score 1)
+- $[api-gateway-versioning#L284|api-gateway-versioning — L284]$ (line 284, col 3, score 1)
+- [Debugging Broker Connections and Agent Behavior — L40]$debugging-broker-connections-and-agent-behavior.md#L40$ (line 40, col 1, score 1)
+- [Debugging Broker Connections and Agent Behavior — L40]$debugging-broker-connections-and-agent-behavior.md#L40$ (line 40, col 3, score 1)
+- $[dynamic-context-model-for-web-components#L384|Dynamic Context Model for Web Components — L384]$ (line 384, col 1, score 1)
+- $[dynamic-context-model-for-web-components#L384|Dynamic Context Model for Web Components — L384]$ (line 384, col 3, score 1)
+- $[docs/unique/ecs-offload-workers#L458|ecs-offload-workers — L458]$ (line 458, col 1, score 1)
+- $[docs/unique/ecs-offload-workers#L458|ecs-offload-workers — L458]$ (line 458, col 3, score 1)
+- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L133|Agent Tasks: Persistence Migration to DualStore — L133]$ (line 133, col 1, score 1)
+- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L133|Agent Tasks: Persistence Migration to DualStore — L133]$ (line 133, col 3, score 1)
+- $[docs/unique/aionian-circuit-math#L151|aionian-circuit-math — L151]$ (line 151, col 1, score 1)
+- $[docs/unique/aionian-circuit-math#L151|aionian-circuit-math — L151]$ (line 151, col 3, score 1)
+- [Math Fundamentals — L14]$chunks/math-fundamentals.md#L14$ (line 14, col 1, score 1)
+- [Math Fundamentals — L14]$chunks/math-fundamentals.md#L14$ (line 14, col 3, score 1)
+- $[docs/unique/ecs-offload-workers#L460|ecs-offload-workers — L460]$ (line 460, col 1, score 1)
+- $[docs/unique/ecs-offload-workers#L460|ecs-offload-workers — L460]$ (line 460, col 3, score 1)
+- $[admin-dashboard-for-user-management#L41|Admin Dashboard for User Management — L41]$ (line 41, col 1, score 1)
+- $[admin-dashboard-for-user-management#L41|Admin Dashboard for User Management — L41]$ (line 41, col 3, score 1)
+- $[docs/unique/ecs-offload-workers#L461|ecs-offload-workers — L461]$ (line 461, col 1, score 1)
+- $[docs/unique/ecs-offload-workers#L461|ecs-offload-workers — L461]$ (line 461, col 3, score 1)
+- $[ecs-scheduler-and-prefabs#L397|ecs-scheduler-and-prefabs — L397]$ (line 397, col 1, score 1)
+- $[ecs-scheduler-and-prefabs#L397|ecs-scheduler-and-prefabs — L397]$ (line 397, col 3, score 1)
+- $[local-only-llm-workflow#L173|Local-Only-LLM-Workflow — L173]$ (line 173, col 1, score 1)
+- $[local-only-llm-workflow#L173|Local-Only-LLM-Workflow — L173]$ (line 173, col 3, score 1)
+- $[docs/unique/compiler-kit-foundations#L611|compiler-kit-foundations — L611]$ (line 611, col 1, score 1)
+- $[docs/unique/compiler-kit-foundations#L611|compiler-kit-foundations — L611]$ (line 611, col 3, score 1)
+- $[docs/unique/ecs-offload-workers#L462|ecs-offload-workers — L462]$ (line 462, col 1, score 1)
+- $[docs/unique/ecs-offload-workers#L462|ecs-offload-workers — L462]$ (line 462, col 3, score 1)
+- $[ecs-scheduler-and-prefabs#L398|ecs-scheduler-and-prefabs — L398]$ (line 398, col 1, score 1)
+- $[ecs-scheduler-and-prefabs#L398|ecs-scheduler-and-prefabs — L398]$ (line 398, col 3, score 1)
+- $[docs/unique/interop-and-source-maps#L517|Interop and Source Maps — L517]$ (line 517, col 1, score 1)
+- $[docs/unique/interop-and-source-maps#L517|Interop and Source Maps — L517]$ (line 517, col 3, score 1)
+- $[cross-target-macro-system-in-sibilant#L179|Cross-Target Macro System in Sibilant — L179]$ (line 179, col 1, score 1)
+- $[cross-target-macro-system-in-sibilant#L179|Cross-Target Macro System in Sibilant — L179]$ (line 179, col 3, score 1)
+- $[dynamic-context-model-for-web-components#L389|Dynamic Context Model for Web Components — L389]$ (line 389, col 1, score 1)
+- $[dynamic-context-model-for-web-components#L389|Dynamic Context Model for Web Components — L389]$ (line 389, col 3, score 1)
+- $[docs/unique/interop-and-source-maps#L522|Interop and Source Maps — L522]$ (line 522, col 1, score 1)
+- $[docs/unique/interop-and-source-maps#L522|Interop and Source Maps — L522]$ (line 522, col 3, score 1)
+- $[language-agnostic-mirror-system#L533|Language-Agnostic Mirror System — L533]$ (line 533, col 1, score 1)
+- $[language-agnostic-mirror-system#L533|Language-Agnostic Mirror System — L533]$ (line 533, col 3, score 1)
+- $[docs/unique/ecs-offload-workers#L472|ecs-offload-workers — L472]$ (line 472, col 1, score 1)
+- $[docs/unique/ecs-offload-workers#L472|ecs-offload-workers — L472]$ (line 472, col 3, score 1)
+- $[ollama-llm-provider-for-pseudo-code-transpiler#L176|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L176]$ (line 176, col 1, score 1)
+- $[ollama-llm-provider-for-pseudo-code-transpiler#L176|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L176]$ (line 176, col 3, score 1)
+- $System Scheduler with Resource-Aware DAG — L414$$system-scheduler-with-resource-aware-dag.md#L414$ (line 414, col 1, score 1)
+- $System Scheduler with Resource-Aware DAG — L414$$system-scheduler-with-resource-aware-dag.md#L414$ (line 414, col 3, score 1)
+- $System Scheduler with Resource-Aware DAG — L413$$system-scheduler-with-resource-aware-dag.md#L413$ (line 413, col 1, score 0.99)
+- $System Scheduler with Resource-Aware DAG — L413$$system-scheduler-with-resource-aware-dag.md#L413$ (line 413, col 3, score 0.99)
+- $[ecs-scheduler-and-prefabs#L422|ecs-scheduler-and-prefabs — L422]$ (line 422, col 1, score 1)
+- $[ecs-scheduler-and-prefabs#L422|ecs-scheduler-and-prefabs — L422]$ (line 422, col 3, score 1)
+- $[ollama-llm-provider-for-pseudo-code-transpiler#L177|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L177]$ (line 177, col 1, score 1)
+- $[ollama-llm-provider-for-pseudo-code-transpiler#L177|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L177]$ (line 177, col 3, score 1)
+- $System Scheduler with Resource-Aware DAG — L415$$system-scheduler-with-resource-aware-dag.md#L415$ (line 415, col 1, score 1)
+- $System Scheduler with Resource-Aware DAG — L415$$system-scheduler-with-resource-aware-dag.md#L415$ (line 415, col 3, score 1)
+- $[docs/unique/eidolon-field-math-foundations#L155|eidolon-field-math-foundations — L155]$ (line 155, col 1, score 0.99)
+- $[docs/unique/eidolon-field-math-foundations#L155|eidolon-field-math-foundations — L155]$ (line 155, col 3, score 0.99)
+- $[docs/unique/ecs-offload-workers#L473|ecs-offload-workers — L473]$ (line 473, col 1, score 1)
+- $[docs/unique/ecs-offload-workers#L473|ecs-offload-workers — L473]$ (line 473, col 3, score 1)
+- $[ecs-scheduler-and-prefabs#L423|ecs-scheduler-and-prefabs — L423]$ (line 423, col 1, score 1)
+- $[ecs-scheduler-and-prefabs#L423|ecs-scheduler-and-prefabs — L423]$ (line 423, col 3, score 1)
+- $[ollama-llm-provider-for-pseudo-code-transpiler#L178|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L178]$ (line 178, col 1, score 1)
+- $[ollama-llm-provider-for-pseudo-code-transpiler#L178|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L178]$ (line 178, col 3, score 1)
+- $[ecs-scheduler-and-prefabs#L430|ecs-scheduler-and-prefabs — L430]$ (line 430, col 1, score 1)
+- $[ecs-scheduler-and-prefabs#L430|ecs-scheduler-and-prefabs — L430]$ (line 430, col 3, score 1)
+- $[docs/unique/ecs-offload-workers#L475|ecs-offload-workers — L475]$ (line 475, col 1, score 1)
+- $[docs/unique/ecs-offload-workers#L475|ecs-offload-workers — L475]$ (line 475, col 3, score 1)
+- $[ecs-scheduler-and-prefabs#L425|ecs-scheduler-and-prefabs — L425]$ (line 425, col 1, score 1)
+- $[ecs-scheduler-and-prefabs#L425|ecs-scheduler-and-prefabs — L425]$ (line 425, col 3, score 1)
+- $System Scheduler with Resource-Aware DAG — L417$$system-scheduler-with-resource-aware-dag.md#L417$ (line 417, col 1, score 1)
+- $System Scheduler with Resource-Aware DAG — L417$$system-scheduler-with-resource-aware-dag.md#L417$ (line 417, col 3, score 1)
+- $[local-only-llm-workflow#L194|Local-Only-LLM-Workflow — L194]$ (line 194, col 1, score 0.99)
+- $[local-only-llm-workflow#L194|Local-Only-LLM-Workflow — L194]$ (line 194, col 3, score 0.99)
+- $[docs/unique/ecs-offload-workers#L476|ecs-offload-workers — L476]$ (line 476, col 1, score 1)
+- $[docs/unique/ecs-offload-workers#L476|ecs-offload-workers — L476]$ (line 476, col 3, score 1)
+- $[ecs-scheduler-and-prefabs#L426|ecs-scheduler-and-prefabs — L426]$ (line 426, col 1, score 1)
+- $[ecs-scheduler-and-prefabs#L426|ecs-scheduler-and-prefabs — L426]$ (line 426, col 3, score 1)
+- $[ollama-llm-provider-for-pseudo-code-transpiler#L180|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L180]$ (line 180, col 1, score 1)
+- $[ollama-llm-provider-for-pseudo-code-transpiler#L180|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L180]$ (line 180, col 3, score 1)
+- $System Scheduler with Resource-Aware DAG — L418$$system-scheduler-with-resource-aware-dag.md#L418$ (line 418, col 1, score 1)
+- $System Scheduler with Resource-Aware DAG — L418$$system-scheduler-with-resource-aware-dag.md#L418$ (line 418, col 3, score 1)
+- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L147|Agent Tasks: Persistence Migration to DualStore — L147]$ (line 147, col 1, score 1)
+- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L147|Agent Tasks: Persistence Migration to DualStore — L147]$ (line 147, col 3, score 1)
+- $[docs/unique/ecs-offload-workers#L477|ecs-offload-workers — L477]$ (line 477, col 1, score 1)
+- $[docs/unique/ecs-offload-workers#L477|ecs-offload-workers — L477]$ (line 477, col 3, score 1)
+- $[ecs-scheduler-and-prefabs#L427|ecs-scheduler-and-prefabs — L427]$ (line 427, col 1, score 1)
+- $[ecs-scheduler-and-prefabs#L427|ecs-scheduler-and-prefabs — L427]$ (line 427, col 3, score 1)
+- $[ollama-llm-provider-for-pseudo-code-transpiler#L181|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L181]$ (line 181, col 1, score 1)
+- $[ollama-llm-provider-for-pseudo-code-transpiler#L181|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L181]$ (line 181, col 3, score 1)
+- $[docs/unique/ecs-offload-workers#L478|ecs-offload-workers — L478]$ (line 478, col 1, score 1)
+- $[docs/unique/ecs-offload-workers#L478|ecs-offload-workers — L478]$ (line 478, col 3, score 1)
+- $[ecs-scheduler-and-prefabs#L428|ecs-scheduler-and-prefabs — L428]$ (line 428, col 1, score 1)
+- $[ecs-scheduler-and-prefabs#L428|ecs-scheduler-and-prefabs — L428]$ (line 428, col 3, score 1)
+- $[ollama-llm-provider-for-pseudo-code-transpiler#L182|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L182]$ (line 182, col 1, score 1)
+- $[ollama-llm-provider-for-pseudo-code-transpiler#L182|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L182]$ (line 182, col 3, score 1)
+- $System Scheduler with Resource-Aware DAG — L420$$system-scheduler-with-resource-aware-dag.md#L420$ (line 420, col 1, score 1)
+- $System Scheduler with Resource-Aware DAG — L420$$system-scheduler-with-resource-aware-dag.md#L420$ (line 420, col 3, score 1)
+- $[docs/unique/ecs-offload-workers#L479|ecs-offload-workers — L479]$ (line 479, col 1, score 1)
+- $[docs/unique/ecs-offload-workers#L479|ecs-offload-workers — L479]$ (line 479, col 3, score 1)
+- $[ecs-scheduler-and-prefabs#L429|ecs-scheduler-and-prefabs — L429]$ (line 429, col 1, score 1)
+- $[ecs-scheduler-and-prefabs#L429|ecs-scheduler-and-prefabs — L429]$ (line 429, col 3, score 1)
+- $[ollama-llm-provider-for-pseudo-code-transpiler#L183|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L183]$ (line 183, col 1, score 1)
+- $[ollama-llm-provider-for-pseudo-code-transpiler#L183|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L183]$ (line 183, col 3, score 1)
+- $System Scheduler with Resource-Aware DAG — L421$$system-scheduler-with-resource-aware-dag.md#L421$ (line 421, col 1, score 1)
+- $System Scheduler with Resource-Aware DAG — L421$$system-scheduler-with-resource-aware-dag.md#L421$ (line 421, col 3, score 1)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

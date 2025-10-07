@@ -1,9 +1,15 @@
 ---
+$$
 uuid: 53491da2-83d0-4d75-ad7d-5e3c5db896c5
+$$
+$$
 created_at: '2025-09-19T17:38:54Z'
+$$
 title: 2025.09.19.17.38.54
 filename: Codex Bootstrap Workflow
+$$
 description: >-
+$$
   A kanban workflow for managing software tasks using a ritual-based approach.
   Maintains board state through task estimation, blocking resolution, and wiki
   linking. Ensures tasks are properly scoped and estimated before
@@ -16,8 +22,12 @@ tags:
   - blocking resolution
   - wiki linking
   - agile
+$$
 related_to_uuid: []
+$$
+$$
 related_to_title: []
+$$
 references: []
 ---
 # Work flow
@@ -30,7 +40,7 @@ is to maintain the state of the board.
 
 ## Process
 
-- Read repo guidance from `docs/agents/<agent>.md` (default: `codex-cloud.md`).
+- Read repo guidance from `docs/agents/<agent>.md` $default: `codex-cloud.md`$.
 - Contains build artifacts`docs/reports/codex_cloud/latest/`
 - Use `{INDEX.md, summary.tsv, eslint.json}` for status.
 - Open the [[kanban]] board file.
@@ -84,8 +94,12 @@ tests go in src/tests
 Webcomponents for UI
 seperation of concerns
 fastify for restful endpoints
+$$
 @fastify/swagger
+$$
+$$
 @fastify/swagger-ui
+$$
 generate /openapi.json from endpoint schema using swagger.
 @fastify/static for static files
 

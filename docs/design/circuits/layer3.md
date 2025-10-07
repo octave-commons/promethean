@@ -1,5 +1,6 @@
+$$
 **Layer 3: Logoscope Overlay**
-
+$$
 ---
 
 ### Overview

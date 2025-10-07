@@ -6,7 +6,7 @@ TODO: Add service description.
 
 ## Paths
 
-- [[reasoner|services/ts/reasoner]]
+- $[reasoner|services/ts/reasoner]$
 
 ## Tags
 

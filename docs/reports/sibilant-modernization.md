@@ -10,8 +10,8 @@ This report maps the old `legacy/sibilant-modules/riatzukiza.github.io/` tree in
 ## Legacy → Shared Mapping
 
 ### Headers (Legacy stdlib prototypes)
-- `headers/async.sibilant` → *(no direct match yet, candidate for `common/workers/`)*
-- `headers/core.sibilant` → *(absorbed into multiple `common/*.sibilant` files)*
+- `headers/async.sibilant` → *$no direct match yet, candidate for `common/workers/`$*
+- `headers/core.sibilant` → *$absorbed into multiple `common/*.sibilant` files$*
 - `headers/html.sibilant` → `common/dom.sibilant`
 - `headers/http.sibilant` → `node/http/`
 - `headers/interface.sibilant` → `common/interface.sibilant`
@@ -46,7 +46,7 @@ This report maps the old `legacy/sibilant-modules/riatzukiza.github.io/` tree in
 1. **Finalize core mapping:** Move any still-useful legacy headers (`async.sibilant`, math experiments) into `shared/sibilant/src/common/`.
 2. **Integrate data structures:** Port `red-black.js/cpp` into `common/data-structures/` with a clean Sibilant interface.
 3. **Deprecate hacks:** Archive `hack/` materials in `legacy/` — only port those that still serve a purpose.
-4. **Shaders strategy:** Decide whether GLSL belongs in `shared/sibilant/` (as `glsl/`) or in a higher-level rendering service.
+4. **Shaders strategy:** Decide whether GLSL belongs in `shared/sibilant/` $as `glsl/`$ or in a higher-level rendering service.
 5. **Tooling cleanup:** Remove old `scripts/*.sibilant` in favor of Promethean’s standardized build system.
 
 ---

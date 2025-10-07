@@ -58,7 +58,7 @@ Over time, the system’s entire behavioral landscape is subtly redrawn by Heure
 
 Heuretic exposes higher-level training-like interfaces:
 
-* **reinforce(trace, signal)**: Adjusts internal weights or field forces based on success/failure
+* **reinforce$trace, signal$**: Adjusts internal weights or field forces based on success/failure
 * **mutate\_prompt(domain)**: Attempts a local improvement to an active behavior pattern
 * **suggest\_exploration()**: Returns a proposed deviation for discovery
 * **log\_reward\_association(state, outcome)**: Updates daimo histories and field biasing

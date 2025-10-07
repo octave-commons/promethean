@@ -1,8 +1,16 @@
+$$
 <!-- SYMPKG:PKG:BEGIN -->
+$$
 # @promethean/agent-ecs
-**Folder:** `packages/agent-ecs`  
-**Version:** `0.0.1`  
+$$
+**Folder:** `packages/agent-ecs`
+$$
+$$
+**Version:** `0.0.1`
+$$
+$$
 **Domain:** `_root`
+$$
 ```mermaid
 graph LR
   A["@promethean/agent-ecs"]
@@ -23,10 +31,12 @@ graph LR
   click R1 "../cephalon/README.md" "@promethean/cephalon"
 ```
 ## Dependencies
-- [@promethean/ds](../ds/README.md)
-- [@promethean/legacy](../legacy/README.md)
-- [@promethean/test-utils](../test-utils/README.md)
-- [@promethean/utils](../utils/README.md)
+- $@promethean/ds$$../ds/README.md$
+- $@promethean/legacy$$../legacy/README.md$
+- $@promethean/test-utils$$../test-utils/README.md$
+- $@promethean/utils$$../utils/README.md$
 ## Dependents
-- [@promethean/cephalon](../cephalon/README.md)
+- $@promethean/cephalon$$../cephalon/README.md$
+$$
 <!-- SYMPKG:PKG:END -->
+$$

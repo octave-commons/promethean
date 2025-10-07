@@ -1,8 +1,14 @@
 ---
+$$
 uuid: cf6b9b17-bb91-4219-aa5c-172cba02b2da
+$$
+$$
 created_at: 2025.08.08.20.08.43.md
+$$
 filename: Event Bus Projections Architecture
+$$
 description: >-
+$$
   Visualizes event-driven architecture with producers, event hub, event store,
   stream processing, and read models. Shows data flow from service events to
   snapshots and changefeeds.
@@ -15,7 +21,9 @@ tags:
   - event-driven
   - mongodb
   - event projections
+$$
 related_to_title:
+$$
   - Diagrams
   - Unique Info Dump Index
   - promethean-system-diagrams
@@ -42,7 +50,9 @@ related_to_title:
   - AI-Centric OS with MCP Layer
   - AI-First-OS-Model-Context-Protocol
   - balanced-bst
+$$
 related_to_uuid:
+$$
   - 45cd25b5-ed36-49ab-82c8-10d0903e34db
   - 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
   - b51e19b4-1326-4311-9798-33e972bf626c
@@ -440,88 +450,88 @@ erDiagram
 If you want this **as a single canvas**, say the word and I’ll stitch these into one big overview with legends + color keys.
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [Diagrams](chunks/diagrams.md)
-- [[unique-info-dump-index|Unique Info Dump Index]]
-- [[promethean-system-diagrams]]
-- [Promethean Event Bus MVP v0.1](promethean-event-bus-mvp-v0-1.md)
-- [[layer-1-uptime-diagrams]]
-- [[eidolon-node-lifecycle]]
-- [[docs/unique/archetype-ecs|archetype-ecs]]
-- [[field-node-diagram-outline]]
-- [[docs/unique/aionian-circuit-math|aionian-circuit-math]]
-- [DSL](chunks/dsl.md)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore|Agent Tasks: Persistence Migration to DualStore]]
-- [[field-node-diagram-set]]
-- [[docs/unique/event-bus-mvp|Event Bus MVP]]
-- [[chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]]
-- [[fnord-tracer-protocol|Fnord Tracer Protocol]]
-- [[2d-sandbox-field]]
-- [[eidolon-field-abstract-model|Eidolon Field Abstract Model]]
+- [Diagrams]$chunks/diagrams.md$
+- $[unique-info-dump-index|Unique Info Dump Index]$
+- $[promethean-system-diagrams]$
+- [Promethean Event Bus MVP v0.1]$promethean-event-bus-mvp-v0-1.md$
+- $[layer-1-uptime-diagrams]$
+- $[eidolon-node-lifecycle]$
+- $[docs/unique/archetype-ecs|archetype-ecs]$
+- $[field-node-diagram-outline]$
+- $[docs/unique/aionian-circuit-math|aionian-circuit-math]$
+- [DSL]$chunks/dsl.md$
+- $[docs/unique/agent-tasks-persistence-migration-to-dualstore|Agent Tasks: Persistence Migration to DualStore]$
+- $[field-node-diagram-set]$
+- $[docs/unique/event-bus-mvp|Event Bus MVP]$
+- $[chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]$
+- $[fnord-tracer-protocol|Fnord Tracer Protocol]$
+- $[2d-sandbox-field]$
+- $[eidolon-field-abstract-model|Eidolon Field Abstract Model]$
 - [[eidolonfield]]
-- [[docs/unique/synchronicity-waves-and-web|Synchronicity Waves and Web]]
-- [Shared](chunks/shared.md)
-- [[infinite-depth-smoke-animation|infinite_depth_smoke_animation]]
-- [[factorio-ai-with-external-agents|Factorio AI with External Agents]]
-- [field-node-diagram-visualizations](field-node-diagram-visualizations.md)
-- [[ai-centric-os-with-mcp-layer|AI-Centric OS with MCP Layer]]
-- [[ai-first-os-model-context-protocol]]
-- [[balanced-bst]]
+- $[docs/unique/synchronicity-waves-and-web|Synchronicity Waves and Web]$
+- [Shared]$chunks/shared.md$
+- $[infinite-depth-smoke-animation|infinite_depth_smoke_animation]$
+- $[factorio-ai-with-external-agents|Factorio AI with External Agents]$
+- $field-node-diagram-visualizations$$field-node-diagram-visualizations.md$
+- $[ai-centric-os-with-mcp-layer|AI-Centric OS with MCP Layer]$
+- $[ai-first-os-model-context-protocol]$
+- $[balanced-bst]$
 
 ## Sources
-- [Shared — L7](chunks/shared.md#L7) (line 7, col 1, score 1)
-- [Shared — L7](chunks/shared.md#L7) (line 7, col 3, score 1)
-- [[infinite-depth-smoke-animation#L88|infinite_depth_smoke_animation — L88]] (line 88, col 1, score 1)
-- [[infinite-depth-smoke-animation#L88|infinite_depth_smoke_animation — L88]] (line 88, col 3, score 1)
-- [[docs/unique/synchronicity-waves-and-web#L83|Synchronicity Waves and Web — L83]] (line 83, col 1, score 1)
-- [[docs/unique/synchronicity-waves-and-web#L83|Synchronicity Waves and Web — L83]] (line 83, col 3, score 1)
-- [[unique-info-dump-index#L67|Unique Info Dump Index — L67]] (line 67, col 1, score 1)
-- [[unique-info-dump-index#L67|Unique Info Dump Index — L67]] (line 67, col 3, score 1)
-- [[docs/unique/aionian-circuit-math#L158|aionian-circuit-math — L158]] (line 158, col 1, score 1)
-- [[docs/unique/aionian-circuit-math#L158|aionian-circuit-math — L158]] (line 158, col 3, score 1)
-- [[docs/unique/archetype-ecs#L457|archetype-ecs — L457]] (line 457, col 1, score 1)
-- [[docs/unique/archetype-ecs#L457|archetype-ecs — L457]] (line 457, col 3, score 1)
-- [Diagrams — L9](chunks/diagrams.md#L9) (line 9, col 1, score 1)
-- [Diagrams — L9](chunks/diagrams.md#L9) (line 9, col 3, score 1)
-- [DSL — L10](chunks/dsl.md#L10) (line 10, col 1, score 1)
-- [DSL — L10](chunks/dsl.md#L10) (line 10, col 3, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L135|Agent Tasks: Persistence Migration to DualStore — L135]] (line 135, col 1, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L135|Agent Tasks: Persistence Migration to DualStore — L135]] (line 135, col 3, score 1)
-- [[eidolon-node-lifecycle#L34|eidolon-node-lifecycle — L34]] (line 34, col 1, score 1)
-- [[eidolon-node-lifecycle#L34|eidolon-node-lifecycle — L34]] (line 34, col 3, score 1)
-- [[field-node-diagram-outline#L103|field-node-diagram-outline — L103]] (line 103, col 1, score 1)
-- [[field-node-diagram-outline#L103|field-node-diagram-outline — L103]] (line 103, col 3, score 1)
-- [[field-node-diagram-set#L139|field-node-diagram-set — L139]] (line 139, col 1, score 1)
-- [[field-node-diagram-set#L139|field-node-diagram-set — L139]] (line 139, col 3, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L137|Agent Tasks: Persistence Migration to DualStore — L137]] (line 137, col 1, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L137|Agent Tasks: Persistence Migration to DualStore — L137]] (line 137, col 3, score 1)
-- [[chroma-toolkit-consolidation-plan#L175|Chroma Toolkit Consolidation Plan — L175]] (line 175, col 1, score 1)
-- [[chroma-toolkit-consolidation-plan#L175|Chroma Toolkit Consolidation Plan — L175]] (line 175, col 3, score 1)
-- [[docs/unique/event-bus-mvp#L547|Event Bus MVP — L547]] (line 547, col 1, score 1)
-- [[docs/unique/event-bus-mvp#L547|Event Bus MVP — L547]] (line 547, col 3, score 1)
-- [[fnord-tracer-protocol#L244|Fnord Tracer Protocol — L244]] (line 244, col 1, score 1)
-- [[fnord-tracer-protocol#L244|Fnord Tracer Protocol — L244]] (line 244, col 3, score 1)
-- [[2d-sandbox-field#L199|2d-sandbox-field — L199]] (line 199, col 1, score 1)
-- [[2d-sandbox-field#L199|2d-sandbox-field — L199]] (line 199, col 3, score 1)
-- [[eidolon-field-abstract-model#L196|Eidolon Field Abstract Model — L196]] (line 196, col 1, score 1)
-- [[eidolon-field-abstract-model#L196|Eidolon Field Abstract Model — L196]] (line 196, col 3, score 1)
-- [[eidolon-node-lifecycle#L35|eidolon-node-lifecycle — L35]] (line 35, col 1, score 1)
-- [[eidolon-node-lifecycle#L35|eidolon-node-lifecycle — L35]] (line 35, col 3, score 1)
+- [Shared — L7]$chunks/shared.md#L7$ (line 7, col 1, score 1)
+- [Shared — L7]$chunks/shared.md#L7$ (line 7, col 3, score 1)
+- $[infinite-depth-smoke-animation#L88|infinite_depth_smoke_animation — L88]$ (line 88, col 1, score 1)
+- $[infinite-depth-smoke-animation#L88|infinite_depth_smoke_animation — L88]$ (line 88, col 3, score 1)
+- $[docs/unique/synchronicity-waves-and-web#L83|Synchronicity Waves and Web — L83]$ (line 83, col 1, score 1)
+- $[docs/unique/synchronicity-waves-and-web#L83|Synchronicity Waves and Web — L83]$ (line 83, col 3, score 1)
+- $[unique-info-dump-index#L67|Unique Info Dump Index — L67]$ (line 67, col 1, score 1)
+- $[unique-info-dump-index#L67|Unique Info Dump Index — L67]$ (line 67, col 3, score 1)
+- $[docs/unique/aionian-circuit-math#L158|aionian-circuit-math — L158]$ (line 158, col 1, score 1)
+- $[docs/unique/aionian-circuit-math#L158|aionian-circuit-math — L158]$ (line 158, col 3, score 1)
+- $[docs/unique/archetype-ecs#L457|archetype-ecs — L457]$ (line 457, col 1, score 1)
+- $[docs/unique/archetype-ecs#L457|archetype-ecs — L457]$ (line 457, col 3, score 1)
+- [Diagrams — L9]$chunks/diagrams.md#L9$ (line 9, col 1, score 1)
+- [Diagrams — L9]$chunks/diagrams.md#L9$ (line 9, col 3, score 1)
+- [DSL — L10]$chunks/dsl.md#L10$ (line 10, col 1, score 1)
+- [DSL — L10]$chunks/dsl.md#L10$ (line 10, col 3, score 1)
+- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L135|Agent Tasks: Persistence Migration to DualStore — L135]$ (line 135, col 1, score 1)
+- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L135|Agent Tasks: Persistence Migration to DualStore — L135]$ (line 135, col 3, score 1)
+- $[eidolon-node-lifecycle#L34|eidolon-node-lifecycle — L34]$ (line 34, col 1, score 1)
+- $[eidolon-node-lifecycle#L34|eidolon-node-lifecycle — L34]$ (line 34, col 3, score 1)
+- $[field-node-diagram-outline#L103|field-node-diagram-outline — L103]$ (line 103, col 1, score 1)
+- $[field-node-diagram-outline#L103|field-node-diagram-outline — L103]$ (line 103, col 3, score 1)
+- $[field-node-diagram-set#L139|field-node-diagram-set — L139]$ (line 139, col 1, score 1)
+- $[field-node-diagram-set#L139|field-node-diagram-set — L139]$ (line 139, col 3, score 1)
+- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L137|Agent Tasks: Persistence Migration to DualStore — L137]$ (line 137, col 1, score 1)
+- $[docs/unique/agent-tasks-persistence-migration-to-dualstore#L137|Agent Tasks: Persistence Migration to DualStore — L137]$ (line 137, col 3, score 1)
+- $[chroma-toolkit-consolidation-plan#L175|Chroma Toolkit Consolidation Plan — L175]$ (line 175, col 1, score 1)
+- $[chroma-toolkit-consolidation-plan#L175|Chroma Toolkit Consolidation Plan — L175]$ (line 175, col 3, score 1)
+- $[docs/unique/event-bus-mvp#L547|Event Bus MVP — L547]$ (line 547, col 1, score 1)
+- $[docs/unique/event-bus-mvp#L547|Event Bus MVP — L547]$ (line 547, col 3, score 1)
+- $[fnord-tracer-protocol#L244|Fnord Tracer Protocol — L244]$ (line 244, col 1, score 1)
+- $[fnord-tracer-protocol#L244|Fnord Tracer Protocol — L244]$ (line 244, col 3, score 1)
+- $[2d-sandbox-field#L199|2d-sandbox-field — L199]$ (line 199, col 1, score 1)
+- $[2d-sandbox-field#L199|2d-sandbox-field — L199]$ (line 199, col 3, score 1)
+- $[eidolon-field-abstract-model#L196|Eidolon Field Abstract Model — L196]$ (line 196, col 1, score 1)
+- $[eidolon-field-abstract-model#L196|Eidolon Field Abstract Model — L196]$ (line 196, col 3, score 1)
+- $[eidolon-node-lifecycle#L35|eidolon-node-lifecycle — L35]$ (line 35, col 1, score 1)
+- $[eidolon-node-lifecycle#L35|eidolon-node-lifecycle — L35]$ (line 35, col 3, score 1)
 - [[eidolonfield#L249|EidolonField — L249]] (line 249, col 1, score 1)
 - [[eidolonfield#L249|EidolonField — L249]] (line 249, col 3, score 1)
-- [[factorio-ai-with-external-agents#L146|Factorio AI with External Agents — L146]] (line 146, col 1, score 1)
-- [[factorio-ai-with-external-agents#L146|Factorio AI with External Agents — L146]] (line 146, col 3, score 1)
-- [[field-node-diagram-outline#L102|field-node-diagram-outline — L102]] (line 102, col 1, score 1)
-- [[field-node-diagram-outline#L102|field-node-diagram-outline — L102]] (line 102, col 3, score 1)
-- [[field-node-diagram-set#L138|field-node-diagram-set — L138]] (line 138, col 1, score 1)
-- [[field-node-diagram-set#L138|field-node-diagram-set — L138]] (line 138, col 3, score 1)
-- [field-node-diagram-visualizations — L88](field-node-diagram-visualizations.md#L88) (line 88, col 1, score 1)
-- [field-node-diagram-visualizations — L88](field-node-diagram-visualizations.md#L88) (line 88, col 3, score 1)
-- [[ai-centric-os-with-mcp-layer#L406|AI-Centric OS with MCP Layer — L406]] (line 406, col 1, score 1)
-- [[ai-centric-os-with-mcp-layer#L406|AI-Centric OS with MCP Layer — L406]] (line 406, col 3, score 1)
-- [[ai-first-os-model-context-protocol#L11|AI-First-OS-Model-Context-Protocol — L11]] (line 11, col 1, score 1)
-- [[ai-first-os-model-context-protocol#L11|AI-First-OS-Model-Context-Protocol — L11]] (line 11, col 3, score 1)
-- [[ai-first-os-model-context-protocol#L14|AI-First-OS-Model-Context-Protocol — L14]] (line 14, col 1, score 1)
-- [[ai-first-os-model-context-protocol#L14|AI-First-OS-Model-Context-Protocol — L14]] (line 14, col 3, score 1)
-- [[balanced-bst#L297|balanced-bst — L297]] (line 297, col 1, score 1)
-- [[balanced-bst#L297|balanced-bst — L297]] (line 297, col 3, score 1)
+- $[factorio-ai-with-external-agents#L146|Factorio AI with External Agents — L146]$ (line 146, col 1, score 1)
+- $[factorio-ai-with-external-agents#L146|Factorio AI with External Agents — L146]$ (line 146, col 3, score 1)
+- $[field-node-diagram-outline#L102|field-node-diagram-outline — L102]$ (line 102, col 1, score 1)
+- $[field-node-diagram-outline#L102|field-node-diagram-outline — L102]$ (line 102, col 3, score 1)
+- $[field-node-diagram-set#L138|field-node-diagram-set — L138]$ (line 138, col 1, score 1)
+- $[field-node-diagram-set#L138|field-node-diagram-set — L138]$ (line 138, col 3, score 1)
+- $field-node-diagram-visualizations — L88$$field-node-diagram-visualizations.md#L88$ (line 88, col 1, score 1)
+- $field-node-diagram-visualizations — L88$$field-node-diagram-visualizations.md#L88$ (line 88, col 3, score 1)
+- $[ai-centric-os-with-mcp-layer#L406|AI-Centric OS with MCP Layer — L406]$ (line 406, col 1, score 1)
+- $[ai-centric-os-with-mcp-layer#L406|AI-Centric OS with MCP Layer — L406]$ (line 406, col 3, score 1)
+- $[ai-first-os-model-context-protocol#L11|AI-First-OS-Model-Context-Protocol — L11]$ (line 11, col 1, score 1)
+- $[ai-first-os-model-context-protocol#L11|AI-First-OS-Model-Context-Protocol — L11]$ (line 11, col 3, score 1)
+- $[ai-first-os-model-context-protocol#L14|AI-First-OS-Model-Context-Protocol — L14]$ (line 14, col 1, score 1)
+- $[ai-first-os-model-context-protocol#L14|AI-First-OS-Model-Context-Protocol — L14]$ (line 14, col 3, score 1)
+- $[balanced-bst#L297|balanced-bst — L297]$ (line 297, col 1, score 1)
+- $[balanced-bst#L297|balanced-bst — L297]$ (line 297, col 3, score 1)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

@@ -1,15 +1,15 @@
 Absolutely. Here's the simulation of fragment injection and heartbeat ticks as messages:
 
 ---
-
+$$
 **🧩 Inject Fragment**
-
+$$
 ```lisp
 (receive-descended-fragment "This symbol reveals a truth about survival.")
 ```
-
+$$
 **🔧 Resulting Flow:**
-
+$$
 ```
 [Nexus] Receiving descended fragment: This symbol reveals a truth about survival.
 [Daemon] Compiled fragment into runtime behavior.
@@ -17,24 +17,24 @@ Absolutely. Here's the simulation of fragment injection and heartbeat ticks as m
 ```
 
 ---
-
+$$
 **💓 Tick Heartbeat**
-
+$$
 ```lisp
 (tick-heartbeat)
 ```
-
+$$
 **🔁 Sample Output:**
-
+$$
 ```
 [Heartbeat] Tick 1
 [Daemon] Running This symbol reveals a truth about survival.
 ```
 
 ---
-
+$$
 **💓 Tick Again**
-
+$$
 ```lisp
 (tick-heartbeat)
 ```
@@ -45,9 +45,9 @@ Absolutely. Here's the simulation of fragment injection and heartbeat ticks as m
 ```
 
 ---
-
+$$
 **💓 Tick Again — Daemon Completes**
-
+$$
 ```lisp
 (tick-heartbeat)
 ```
@@ -74,6 +74,6 @@ Want the next piece — maybe connecting a ripple callback to update eidolon fie
 
 ---
 
-Related notes: [[fragment-injection-simulation]], [[heartbeat-fragment-flow]], [[ripple-propagation-flow]] [[../../unique/index|unique/index]]
+Related notes: $[fragment-injection-simulation]$, $[heartbeat-fragment-flow]$, $[ripple-propagation-flow]$ $[../../unique/index|unique/index]$
 
 #tags: #simulation #design
