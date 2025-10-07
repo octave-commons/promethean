@@ -1,15 +1,18 @@
 ---
-```
-uuid: c858464b-c43b-4521-80b9-12fa3d5cd464
-```
-title: llm service must accept tool calls
-status: todo
-priority: P3
-labels: []
-```
-created_at: '2025-09-15T02:02:58.516Z'
-```
+uuid: "c858464b-c43b-4521-80b9-12fa3d5cd464"
+title: "llm service must accept tool calls"
+slug: "llm-service-must-accept-tool-calls"
+status: "rejected"
+priority: "P3"
+labels: ["tool", "service", "llm", "calls"]
+created_at: "2025-10-07T20:25:05.645Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Description
 
 Extend the LLM service to support tool/function calls so agents can request structured actions.
@@ -63,3 +66,5 @@ Nothing
 ```
 #framework-core #Ready #ready
 ```
+
+

@@ -1,7 +1,5 @@
 ---
-```
 uuid: f6g7h8i9-j0k1-2345-fghi-678901234567
-```
 title: Fix docops pipeline file reference management and sequencing issues
 status: todo
 priority: P2
@@ -11,9 +9,7 @@ labels:
   - file-management
   - sequencing
   - bug-fix
-```
 created_at: '2025-10-05T00:00:00.000Z'
-```
 ---
 
 ## 🛠️ Task: Fix docops pipeline file reference management and sequencing issues
@@ -42,13 +38,13 @@ The docops pipeline should:
 
 ### Phase 1: File Reference Tracking
 - [ ] Investigate how file references are passed between pipeline steps
-- [ ] Implement proper file rename tracking system
+- [x] Implement proper file rename tracking system
 - [ ] Add file mapping metadata between steps
 - [ ] Create file reference validation logic
 
 ### Phase 2: Pipeline Sequencing Fix
-- [ ] Fix step dependency order for file operations
-- [ ] Ensure `doc-rename` and `doc-footer` steps coordinate properly
+- [x] Fix step dependency order for file operations
+- [x] Ensure `doc-rename` and `doc-footer` steps coordinate properly
 - [ ] Add error handling for missing or renamed files
 - [ ] Implement rollback capability for failed file operations
 
@@ -114,6 +110,10 @@ await pipeline.setStepData('doc-rename', {
   processedFiles: renameResults.files
 });
 ```
+
+**Update 2025-10-07:** The sequencing fix now ensures `doc-rename` finishes
+before `doc-footer`, and the rename step writes the new absolute path to the
+DocOps `docs` sublevel so downstream steps resolve the renamed files directly.
 
 #### 2. File Reference Resolution
 ```typescript

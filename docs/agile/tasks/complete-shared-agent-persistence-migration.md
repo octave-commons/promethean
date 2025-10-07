@@ -1,7 +1,7 @@
 ---
 uuid: 1325fde4-1aab-485d-aca6-53f180883740
 title: complete shared agent persistence migration
-status: todo
+status: testing
 priority: P1
 labels: ['agents', 'persistence']
 created_at: '2025-10-07T06:39:18.599Z'

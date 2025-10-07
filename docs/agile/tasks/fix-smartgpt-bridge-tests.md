@@ -1,63 +1,18 @@
 ---
-```
-task-id: TASK-20250928-041600
-```
-title: Fix hanging SmartGPT bridge tests
-state: InProgress
-prev: null
-```
-txn: '2025-09-28T04:16:00Z-1a2b'
-```
-owner: err
-priority: p2
-size: s
-```
-epic: EPC-000
-```
-```
-depends_on: []
-```
-labels:
-  - 'board:auto'
-  - 'lang:ts'
-due: null
-links: []
-artifacts: []
-```
-rationale: >-
-```
-  SmartGPT bridge integration tests intermittently hang because the in-memory
-  Mongo client from prior runs stays cached after teardown, leaving later suites
-  talking to a closed connection. Restoring clean teardown should stabilize the
-  suite.
-```
-proposed_transitions:
-```
-  - New->Accepted
-  - Accepted->Breakdown
-  - Breakdown->Ready
-  - Ready->Todo
-  - Todo->InProgress
-  - InProgress->InReview
-  - InReview->Document
-  - Document->Done
-  - InReview->InProgress
-  - InProgress->Todo
-tags:
-  - task/TASK-20250928-041600
-  - board/kanban
-  - state/InProgress
-  - owner/err
-  - priority/p2
-  - epic/EPC-000
-```
-uuid: f12dba73-161a-498a-9139-6a735eb75c3a
-```
-```
-created_at: '2025-10-06T01:50:48.292Z'
-```
-status: todo
+uuid: "f12dba73-161a-498a-9139-6a735eb75c3a"
+title: "Fix hanging SmartGPT bridge tests /TASK-20250928-041600 /kanban /InProgress /err /p2 /EPC-000 :auto :ts"
+slug: "fix-smartgpt-bridge-tests"
+status: "in_progress"
+priority: "p2"
+labels: ["task", "board", "state", "owner", "priority", "epic", "board", "lang"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## Context
 
 ### Changes and Updates
@@ -84,4 +39,6 @@ status: todo
 2. Reset cached Mongo/Chroma clients and restore env vars after each test run.
 3. Run `pnpm --filter @promethean/smartgpt-bridge test` to ensure stability.
 4. Document change in `changelog.d` and prepare PR summary.
+
+
 

@@ -1,15 +1,18 @@
 ---
-```
-uuid: 624a05e5-e5db-4a28-896e-50be1d5ea778
-```
-title: build data structures for eidolon field md md
-status: todo
-priority: P3
-labels: []
-```
-created_at: '2025-09-15T02:02:58.508Z'
-```
+uuid: "624a05e5-e5db-4a28-896e-50be1d5ea778"
+title: "build data structures for eidolon field md md"
+slug: "build_data_structures_for_eidolon_field"
+status: "done"
+priority: "P3"
+labels: ["build", "data", "structures", "eidolon"]
+created_at: "2025-10-07T20:25:05.644Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Task: Build data structures for Eidolon field
 
 Placeholder task stub generated from kanban board.
@@ -54,4 +57,6 @@ Nothing
 
 - [[kanban]]
 #done
+
+
 

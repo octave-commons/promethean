@@ -1,7 +1,5 @@
 ---
-```
 uuid: g7h8i9j0-k1l2-3456-ghij-789012345678
-```
 title: Fix simtasks pipeline missing package references and scanning errors
 status: todo
 priority: P2
@@ -11,9 +9,7 @@ labels:
   - package-scanning
   - file-system
   - error-handling
-```
 created_at: '2025-10-05T00:00:00.000Z'
-```
 ---
 
 ## 🛠️ Task: Fix simtasks pipeline missing package references and scanning errors

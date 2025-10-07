@@ -1,15 +1,18 @@
 ---
-```
-uuid: 727fd6bd-7c63-4488-b29e-c09640d4cc8a
-```
-title: consolidate all kanban helpers to kanban package
-status: todo
-priority: P3
-labels: []
-```
-created_at: '2025-09-15T02:02:58.503Z'
-```
+uuid: "727fd6bd-7c63-4488-b29e-c09640d4cc8a"
+title: "consolidate all kanban helpers to kanban package"
+slug: "Consolidate all kanban helpers to kanban package"
+status: "incoming"
+priority: "P3"
+labels: ["kanban", "all", "scripts", "consolidate"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 Scripts: Group remaining Kanban utilities and verify
 
 Goal: Ensure all Kanban-related scripts are under `packages/kanban/` and update their docs.
@@ -24,5 +27,7 @@ Exit Criteria:
 - All Kanban scripts consolidated; README accurate; sample commands tested.
 
 #incoming #scripts #kanban #organization
+
+
 
 

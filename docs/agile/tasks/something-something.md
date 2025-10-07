@@ -1,15 +1,18 @@
 ---
-```
-uuid: 02c83b6f-e9b4-4dfb-a4a0-543042aa02b6
-```
-title: something something
-status: todo
-priority: p3
-labels: []
-```
-created_at: '2025-09-15T02:02:58.521Z'
-```
+uuid: "02c83b6f-e9b4-4dfb-a4a0-543042aa02b6"
+title: "something something"
+slug: "something-something"
+status: "done"
+priority: "p3"
+labels: ["something", "changes", "span", "context"]
+created_at: "2025-10-07T20:25:05.644Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ```
 <hr class="__chatgpt_plugin">
 ```
@@ -109,5 +112,7 @@ Using this title write a reasonable task kanban task document: something-somethi
 <hr class="__chatgpt_plugin">
 ```
 ### role::user
+
+
 
 
