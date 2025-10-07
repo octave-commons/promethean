@@ -14,11 +14,7 @@ export type Capability =
   | { kind: 'http.fetch'; url: string; method?: string };
 
 export type PolicyChecker = {
-  assertAllowed: (
-    subject: string,
-    action: string,
-    resource?: string,
-  ) => Promise<void>;
+  assertAllowed: (subject: string, action: string, resource?: string) => Promise<void>;
   checkCapability: (agentId: string, cap: Capability) => Promise<void>;
 };
 
@@ -54,9 +50,7 @@ export function makePolicy(config: PolicyConfig = {}): PolicyChecker {
   return {
     async assertAllowed(subject: string, action: string, resource?: string) {
       const ctx: PolicyContext =
-        resource === undefined
-          ? { subject, action }
-          : { subject, action, resource };
+        resource === undefined ? { subject, action } : { subject, action, resource };
       await runRules(ctx, rules);
     },
     async checkCapability(agentId: string, cap: Capability) {
@@ -91,16 +85,11 @@ const GLOB_SPECIALS = /[\\^$+?.()|[\]{}]/g;
 function globToRegExp(pat: string): RegExp {
   const normalized = pat.trim();
   if (normalized.length > 256) throw new NotAllowedError('Pattern too long');
-  const escaped = normalized
-    .replace(GLOB_SPECIALS, (char) => `\\${char}`)
-    .replace(/\*/g, '.*');
+  const escaped = normalized.replace(GLOB_SPECIALS, (char) => `\${char}`).replace(/\*/g, '.*');
   return new RegExp(`^${escaped}$`);
 }
 
-async function runRules(
-  ctx: Readonly<PolicyContext>,
-  rules: ReadonlyArray<PolicyRule>,
-) {
+async function runRules(ctx: Readonly<PolicyContext>, rules: ReadonlyArray<PolicyRule>) {
   await rules.reduce<Promise<void>>(async (p, rule) => {
     await p;
     await rule(ctx);
