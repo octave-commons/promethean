@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import { parseTask, isLeft, isRight } from '../index.js';
+import { parseTask, isLeft, isRight } from '../ollama/index.js';
 
 test('parseTask rejects invalid payloads', (t) => {
   const result = parseTask({ kind: 'generate' });

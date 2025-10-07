@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import { parseTask, isRight, runTask, type TaskStreamEvent } from '../index.js';
+import { parseTask, isRight, runTask, type TaskStreamEvent } from '../ollama/index.js';
 
 async function collectStream(iterable: AsyncIterable<TaskStreamEvent>): Promise<TaskStreamEvent[]> {
   const acc: TaskStreamEvent[] = [];
@@ -137,8 +137,8 @@ test('runTask parses SSE payloads and yields deltas', async (t) => {
   }
 
   const payload = [
-    'data: {"message":{"content":"Hello"},"done":false}\n\n',
-    'data: {"done":true,"prompt_eval_count":5,"eval_count":7,"total_duration":2000000}\n\n',
+    'data:{"message":{"content":"Hello"},"done":false}\n\n',
+    'data:{"done":true,"prompt_eval_count":5,"eval_count":7,"total_duration":2000000}\n\n',
   ];
 
   const stream = new ReadableStream<Uint8Array>({
