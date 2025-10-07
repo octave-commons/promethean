@@ -1,6 +1,7 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { spawn } from "node:child_process";
+import { OLLAMA_URL } from "../packages/utils/dist/ollama.js";
 
 async function runEslint(target = "packages") {
   return new Promise((resolve, reject) => {
@@ -23,7 +24,10 @@ async function runEslint(target = "packages") {
 }
 
 async function ollamaSuggest(model, prompt) {
-  const url = process.env.OLLAMA_URL;
+  const disabled =
+    String(process.env.OLLAMA_DISABLE ?? "false").toLowerCase() === "true";
+  if (disabled) return "No suggestion available (OLLAMA_DISABLE=true).";
+  const url = OLLAMA_URL;
   if (!url) return "No suggestion available.";
   try {
     const res = await fetch(`${url}/api/generate`, {
