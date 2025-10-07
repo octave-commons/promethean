@@ -2,7 +2,7 @@
 uuid: "a31bb3f1-3b68-483a-8280-e78386abf03b"
 title: "cephalon backfill conversation history"
 slug: "cephalon_backfill_conversation_history"
-status: "incoming"
+status: ready
 priority: "P3"
 labels: ["backfill", "cephalon", "conversation", "history"]
 created_at: "2025-10-07T20:25:05.643Z"
@@ -28,5 +28,6 @@ Exit Criteria:
 
 #incoming #cephalon #backfill #context
 
-
+Notes:
+- History gap remains the top follow-up; schedule this slice immediately once active feature work pauses so persistence catches up.
 
