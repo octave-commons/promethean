@@ -1,7 +1,7 @@
 ---
 uuid: e4b85f6b-4112-4c52-84d2-17695ae5e67c
 title: auth shared clients and middleware
-status: todo
+status: incoming
 priority: P3
 labels: []
 created_at: '2025-09-15T02:02:58.508Z'

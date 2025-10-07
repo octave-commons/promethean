@@ -1,7 +1,7 @@
 ---
 uuid: 03a056bc-c24c-472b-b75a-0b817f370cb7
 title: cephalon persist utterance timing metadata
-status: todo
+status: incoming
 priority: P3
 labels: []
 created_at: '2025-09-15T02:02:58.509Z'
