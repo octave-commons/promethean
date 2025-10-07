@@ -1,5 +1,7 @@
 ---
+
 kanban-plugin: board
+
 ---
 
 ## icebox
@@ -7,22 +9,23 @@ kanban-plugin: board
 - [ ] [[shadow-cljs-migration-step-4-decommission|Shadow CLJS migration — step 4 decommission legacy toolchain]] #framework-core #codex-task #frontend prio:P3 (uuid:5fe4fdf3-0fda-42fb-8f98-93859577d08f)
 - [ ] [[validate-voice-demo-microphone-integration|validate voice-demo microphone integration]] #audio #manual-test prio:P2 (uuid:8925f5a8-40ab-44e4-ad9e-54db7d617996)
 
+
 ## incoming
 
 - [ ] [[enforce-wip-limits-and-address-violations|Implement WIP limit enforcement and address current violations]] #kanban #wip #limits #enforcement #process #fsm prio:P1 (uuid:wip-enforcement-001)
 
+
 ## accepted
+
 
 
 ## breakdown
 
 
+
 ## blocked
 
 
-## ready
-
-- [ ] [[update-kanban-statuses-to-fsm|Update existing kanban tasks to use FSM statuses]] #kanban #fsm #cleanup #process prio:P2 (uuid:kanban-fsm-update-001)
 
 ## todo
 
@@ -352,6 +355,12 @@ kanban-plugin: board
 - [ ] [[write_simple_ecosystem_declaration_library_for_new|write simple ecosystem declaration library for new md md]] #ecosystem #declaration #new #write prio:P3 (uuid:5c8d8016-f4b8-421d-b335-73f7646173af)
 - [ ] [[write_vault_config_readme_md_for_obsidian_vault_on|write vault config readme md for obsidian vault on md]] #vault #write #config #readme prio:P3 (uuid:df456c9c-e34b-438f-9e59-d0b2bf014dba)
 
+
+## ready
+
+- [ ] [[update-kanban-statuses-to-fsm|Update existing kanban tasks to use FSM statuses]] #kanban #fsm #cleanup #process prio:P2 (uuid:kanban-fsm-update-001)
+
+
 ## in_progress
 
 - [ ] [[Setup Kanban UI for Kanban package|setup kanban ui for kanban package]] #kanban #ui #framework-core prio:P3 (uuid:c3366097-0d29-4c8d-b7e1-32de4cf8072e)
@@ -374,12 +383,15 @@ kanban-plugin: board
 - [ ] [[throttled-datachannel-sender|duck-web — throttled RTCDataChannel sender with backpressure]] #duck-web #webrtc #perf prio:P1 (uuid:3d7e9f1a-2b3c-4d5e-8f9a-0b1c2d3e4f5a)
 - [ ] [[update_task_template_frontmatter_alignment|Align task template frontmatter with canonical schema]] #docs #automation prio:P2 (uuid:f5553298-1c51-41c2-acb5-df4d9f518c89)
 
+
 ## review
+
 
 
 ## document
 
 - [ ] [[remove_commonjs_artifacts_repo_wide|Remove CommonJS artifacts from repository]] ##codex-task ##doc-this prio:P2 (uuid:e6a16b59-a67d-4df9-babc-9faaaad3f9c9)
+
 
 ## done
 
@@ -392,7 +404,12 @@ kanban-plugin: board
 - [x] [[pr-comments-linked-codex-mentions|PRs — post diagram/docs comments + @codex mentions]] #reviews #duck-revival prio:P3 (uuid:0e0ed76d-7f60-4a31-9a33-92d024fb20d0)
 - [x] [[setup-mcp-exec-server|Setup MCP exec server from approved commands]] #MCP #Tooling prio:P2 (uuid:4bf47f12-8489-46ea-bee4-ee5d826541e1)
 
+
 ## rejected
+
+
+
+
 
 %% kanban:settings
 ```

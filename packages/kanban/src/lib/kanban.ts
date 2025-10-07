@@ -425,7 +425,7 @@ const taskFromFM = (fm: FM, body: string): Task | null => {
       typeof fm.priority === "number"
         ? fm.priority
         : pickString(fm, ["priority", "prio"]),
-    labels: mergeLabels(fm.labels, fm.tags, fm.hashtags),
+    labels: mergeLabels(fm.tags, fm.hashtags, fm.labels), // Prioritize tags over labels for Obsidian compatibility
     created_at:
       pickString(fm, ["created_at", "created", "txn"]) ??
       fm.created_at ??
@@ -1611,4 +1611,63 @@ export const searchTasks = async (
     .map((x) => x.t);
 
   return { exact, similar };
+};
+
+/**
+ * Generate a board filtered by specific tags
+ */
+export const generateBoardByTags = async (
+  tasksDir: string,
+  boardPath: string,
+  tags: string[],
+): Promise<{ totalTasks: number; filteredTags: string[] }> => {
+  // Load configuration to get all valid statuses
+  const { config } = await loadKanbanConfig();
+  const allTasks = await readTasksFolder(tasksDir);
+
+  // Filter tasks that have ALL specified tags (AND logic)
+  const filteredTasks = allTasks.filter(task => {
+    const taskTags = task.labels || [];
+    return tags.every(tag => taskTags.includes(tag));
+  });
+
+  // Group filtered tasks by status
+  const statusGroups = new Map<string, { name: string; tasks: Task[] }>();
+  for (const task of filteredTasks) {
+    const statusRaw = String(task.status || "Todo").trim();
+    const displayName = normalizeColumnDisplayName(statusRaw);
+    const key = columnKey(statusRaw);
+    const existing = statusGroups.get(key);
+    if (existing) {
+      existing.tasks.push({ ...task, status: existing.name });
+    } else {
+      statusGroups.set(key, {
+        name: displayName,
+        tasks: [{ ...task, status: displayName }],
+      });
+    }
+  }
+
+  // Create columns for ALL configured statuses, even if empty
+  const columns: ColumnData[] = Array.from(config.statusValues).map(statusValue => {
+    const displayName = normalizeColumnDisplayName(statusValue);
+    const key = columnKey(statusValue);
+    const existingGroup = statusGroups.get(key);
+    return {
+      name: displayName,
+      count: existingGroup?.tasks.length || 0,
+      limit: config.wipLimits[statusValue] || null,
+      tasks: existingGroup?.tasks || [],
+    };
+  });
+
+  // Generate board filename with tag information
+  const tagSuffix = tags.length > 0 ? `-${tags.join('-').replace(/[^a-zA-Z0-9]/g, '_')}` : '';
+  const boardDir = path.dirname(boardPath);
+  const boardName = path.basename(boardPath, '.md');
+  const taggedBoardPath = path.join(boardDir, `${boardName}${tagSuffix}.md`);
+
+  await maybeRefreshIndex(tasksDir);
+  await writeBoard(taggedBoardPath, { columns });
+  return { totalTasks: filteredTasks.length, filteredTags: tags };
 };

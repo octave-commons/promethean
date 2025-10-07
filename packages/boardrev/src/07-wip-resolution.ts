@@ -91,7 +91,7 @@ export async function assessTasksForWIPResolution(
       // Get evaluations for tasks in violating column
       const columnEvals = evaluations.filter(evaluation =>
         columnData.tasks?.some((task: any) =>
-          task.uuid === evaluation.taskFile.split('/').pop()?.replace('.md', '')
+          task.uuid === evaluation.taskUuid
         )
       );
 
@@ -149,7 +149,7 @@ export async function assessTasksForWIPResolution(
         }
 
         tasksToMove.push({
-          taskUuid: evaluation.taskFile.split('/').pop()?.replace('.md', '') || '',
+          taskUuid: evaluation.taskUuid,
           currentStatus: violation.columnName,
           recommendedStatus,
           confidence: evaluation.confidence,

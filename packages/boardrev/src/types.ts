@@ -51,6 +51,7 @@ export type TaskContext = {
 
 export type EvalItem = {
   taskFile: string;
+  taskUuid: string;
   inferred_status: string;
   confidence: number; // 0..1
   summary: string;

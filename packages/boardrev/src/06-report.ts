@@ -4,7 +4,6 @@ import { promises as fs } from "fs";
 import matter from "gray-matter";
 import {
   slug,
-  relFromRepo,
   parseArgs,
   writeText,
   createLogger,
@@ -32,7 +31,14 @@ export function groupEvals(
   }, new Map<string, EvalItem[]>());
 }
 
-async function buildTableRows(evals: readonly EvalItem[]): Promise<string[]> {
+function createRelativeLink(taskFile: string, outDir: string): string {
+  const taskPath = path.resolve(taskFile);
+  const reportDir = path.resolve(outDir);
+  const relativePath = path.relative(reportDir, taskPath);
+  return relativePath.split(path.sep).join("/");
+}
+
+async function buildTableRows(evals: readonly EvalItem[], outDir: string): Promise<string[]> {
   const rows: string[] = [];
   for (const e of evals) {
     const raw = await fs.readFile(e.taskFile, "utf-8");
@@ -42,7 +48,7 @@ async function buildTableRows(evals: readonly EvalItem[]): Promise<string[]> {
         ? gm.data.title
         : slug(path.basename(e.taskFile, ".md"));
     const prio = typeof gm.data.priority === "string" ? gm.data.priority : "P3";
-    const link = relFromRepo(e.taskFile);
+    const link = createRelativeLink(e.taskFile, outDir);
     rows.push(
       `| ${prio} | [${title}](${link}) | ${e.inferred_status} | ${(
         e.confidence * 100
@@ -60,22 +66,23 @@ function buildStatusCounts(groups: Map<string, EvalItem[]>): string {
 
 async function buildStatusDetails(
   groups: Map<string, EvalItem[]>,
+  outDir: string,
 ): Promise<string[]> {
   const details: string[] = [];
   for (const s of statusOrder) {
     const list = groups.get(s) ?? [];
     if (list.length === 0) continue;
     details.push(`## ${s} (${list.length})`, "");
-    for (const e of list) details.push(...(await buildDetail(e)));
+    for (const e of list) details.push(...(await buildDetail(e, outDir)));
   }
   return details;
 }
 
-async function buildDetail(e: EvalItem): Promise<string[]> {
+async function buildDetail(e: EvalItem, outDir: string): Promise<string[]> {
   const raw = await fs.readFile(e.taskFile, "utf-8");
   const gm = matter(raw) as unknown as { data: Record<string, unknown> };
   const title = typeof gm.data.title === "string" ? gm.data.title : e.taskFile;
-  const link = relFromRepo(e.taskFile);
+  const link = createRelativeLink(e.taskFile, outDir);
   const blockers = e.blockers?.length
     ? ["", "**Blockers:**", ...e.blockers.map((b) => `- ${b}`)]
     : [];
@@ -108,9 +115,9 @@ export async function renderReport(
   const out = path.join(outDir, `board-${ts}.md`);
   const evals = [...groups.values()].flat();
   const [rows, counts, details] = await Promise.all([
-    buildTableRows(evals),
+    buildTableRows(evals, outDir),
     Promise.resolve(buildStatusCounts(groups)),
-    buildStatusDetails(groups),
+    buildStatusDetails(groups, outDir),
   ]);
 
   const md = [

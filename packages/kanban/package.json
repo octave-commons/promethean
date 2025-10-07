@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@promethean/markdown": "workspace:*",
+    "@promethean/utils": "workspace:*",
+    "gray-matter": "^4.0.3",
     "mongodb": "^6.18.0",
     "yaml": "^2.5.0"
   },

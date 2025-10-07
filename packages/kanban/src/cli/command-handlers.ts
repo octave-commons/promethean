@@ -11,10 +11,12 @@ import {
   pushToTasks,
   syncBoardAndTasks,
   regenerateBoard,
+  generateBoardByTags,
   indexForSearch,
   searchTasks,
 } from '../lib/kanban.js';
 import { serveKanbanUI } from '../lib/ui-server.js';
+import { compareTasks, suggestTaskBreakdown, prioritizeTasks } from '../lib/task-tools.js';
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
@@ -204,6 +206,19 @@ const handleRegenerate: CommandHandler = (_args, context) => {
   return regenerateBoard(context.tasksDir, context.boardFile);
 };
 
+const handleGenerateByTags: CommandHandler = (args, context) => {
+  if (args.length === 0) {
+    throw new CommandUsageError('generate-by-tags requires at least one tag');
+  }
+
+  const tags = args.map(arg => arg.trim()).filter(tag => tag.length > 0);
+  if (tags.length === 0) {
+    throw new CommandUsageError('No valid tags provided');
+  }
+
+  return generateBoardByTags(context.tasksDir, context.boardFile, tags);
+};
+
 const handleIndexForSearch: CommandHandler = (_args, context) => {
   return indexForSearch(context.tasksDir);
 };
@@ -293,6 +308,36 @@ const handleProcess: CommandHandler = async (args) => {
   }
 };
 
+const handleCompareTasks: CommandHandler = async (args, context) => {
+  if (args.length === 0) {
+    throw new CommandUsageError('compare-tasks requires task UUIDs separated by commas');
+  }
+
+  const taskUuids = args[0]!.split(',');
+  const comparisons = await compareTasks(taskUuids, context.boardFile, context.tasksDir);
+  return comparisons;
+};
+
+const handleBreakdownTask: CommandHandler = async (args, context) => {
+  if (args.length === 0) {
+    throw new CommandUsageError('breakdown-task requires a task UUID');
+  }
+
+  const taskUuid = args[0]!;
+  const breakdown = await suggestTaskBreakdown(taskUuid, context.tasksDir);
+  return breakdown;
+};
+
+const handlePrioritizeTasks: CommandHandler = async (_args, _context) => {
+  if (_args.length === 0) {
+    throw new CommandUsageError('prioritize-tasks requires task UUIDs separated by commas');
+  }
+
+  const taskUuids = _args[0]!.split(',');
+  const priorities = await prioritizeTasks(taskUuids, {});
+  return priorities;
+};
+
 export const COMMAND_HANDLERS: Readonly<Record<string, CommandHandler>> = Object.freeze({
   count: handleCount,
   getColumn: handleGetColumn,
@@ -306,10 +351,14 @@ export const COMMAND_HANDLERS: Readonly<Record<string, CommandHandler>> = Object
   push: handlePush,
   sync: handleSync,
   regenerate: handleRegenerate,
+  'generate-by-tags': handleGenerateByTags,
   indexForSearch: handleIndexForSearch,
   search: handleSearch,
   ui: handleUi,
   process: handleProcess,
+  'compare-tasks': handleCompareTasks,
+  'breakdown-task': handleBreakdownTask,
+  'prioritize-tasks': handlePrioritizeTasks,
 });
 
 export const AVAILABLE_COMMANDS: ReadonlyArray<string> = Object.freeze(
