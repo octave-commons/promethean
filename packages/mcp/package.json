@@ -22,9 +22,9 @@
     "promethean-mcp-proxy": "dist/bin/proxy.js"
   },
   "scripts": {
-    "build": "tsc -b",
+    "build": "../../node_modules/.bin/tsc -p tsconfig.json",
     "clean": "rimraf dist",
-    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "typecheck": "../../node_modules/.bin/tsc -p tsconfig.json --noEmit",
     "test": "pnpm run build && ava --config ../../config/ava.config.mjs",
     "lint": "pnpm exec eslint .",
     "coverage": "pnpm run build && c8 ava --config ../../config/ava.config.mjs",

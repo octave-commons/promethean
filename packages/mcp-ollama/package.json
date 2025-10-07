@@ -13,9 +13,9 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsc -b",
+    "build": "npx tsc -b",
     "clean": "rimraf dist",
-    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "typecheck": "npx tsc -p tsconfig.json --noEmit",
     "test": "pnpm run build && ava --config ../../config/ava.config.mjs",
     "lint": "pnpm exec eslint .",
     "coverage": "pnpm run build && c8 ava --config ../../config/ava.config.mjs"
