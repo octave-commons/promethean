@@ -1,5 +1,7 @@
 ---
+```
 uuid: a3b4c5d6-e7f8-9012-abc3-456789012345
+```
 title: Fix codemods pipeline missing simtasks dependencies and schema issues
 status: todo
 priority: P2
@@ -9,7 +11,9 @@ labels:
   - simtasks
   - schema-validation
   - dependency-chain
+```
 created_at: '2025-10-05T00:00:00.000Z'
+```
 ---
 
 ## 🛠️ Task: Fix codemods pipeline missing simtasks dependencies and schema issues

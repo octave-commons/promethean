@@ -1,14 +1,19 @@
 ---
+```
 uuid: 58e246ed-a8e3-4942-bf8d-73532959156e
+```
 title: smart task templater md
 status: todo
 priority: P3
 labels: []
+```
 created_at: '2025-09-15T02:02:58.520Z'
+```
 ---
 ## 🛠️ Description
+```
 **Status:** blocked
-
+```
 Automate the creation of new task files using a command-line script or Obsidian Templater so every Kanban card has a properly formatted markdown stub.
 
 ---
@@ -40,9 +45,9 @@ Automate the creation of new task files using a command-line script or Obsidian 
 ---
 
 ## 🔗 Related Epics
-
+```
 #framework-core
-
+```
 ---
 
 ## ⛓️ Blocked By

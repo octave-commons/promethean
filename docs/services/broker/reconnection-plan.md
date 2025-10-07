@@ -17,5 +17,5 @@ The broker service frequently tears down and re-establishes WebSocket connection
 
 ## References
 
-- [`shared/js/brokerClient.js`](../../../shared/js/brokerClient.js)
+- `shared/js/brokerClient.js`$../../../shared/js/brokerClient.js
 - Service initialization scripts such as `services/js/**/index.js` and equivalent startup files in other runtimes.

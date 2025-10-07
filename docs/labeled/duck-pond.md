@@ -1,9 +1,15 @@
 ---
+```
 uuid: 20c87007-ec24-4f17-8d2e-238743696551
+```
+```
 created_at: '2025-10-02T12:13:34Z'
+```
 title: 2025.10.02.12.13.34
 filename: Duck Pond
+```
 description: >-
+```
   A self-contained, native-ESM Web Components demo showcasing an in-memory
   Enso-style room with three seed agents (Duck, Cephalon, Enso) and tool
   capability toggling. It supports real-time chat, agent spawning, and pure
@@ -15,11 +21,15 @@ tags:
   - Immutability
   - Tool Negotiation
   - Browser JS
+```
 related_to_uuid: []
+```
+```
 related_to_title: []
+```
 references: []
 ---
-Here you go — a self-contained, native-ESM, Web Components “Duck Pond” that runs in a single HTML file. It implements an in-memory Enso-style room (immutable, causally-ordered events), three seed agents (Duck, Cephalon, Enso), a tool capability toggle panel that simulates MCP capability negotiation, and a chat UI. You can also spawn more ducks.
+Here you go — a self-contained, native-ESM, Web Components “Duck Pond” that runs in a single HTML file. It implements an in-memory Enso-style room immutable, causally-ordered events, three seed agents (Duck, Cephalon, Enso), a tool capability toggle panel that simulates MCP capability negotiation, and a chat UI. You can also spawn more ducks.
 
 What you can do now:
 
@@ -162,9 +172,9 @@ If you want this wired to real MCP tools and a real Enso transport next, I’ll 
     // Strategy functions: deterministic, side-effect free.
     const replyDuck = (caps) => (msg) => {
       const tools = [...caps].filter(x => x.includes('.'));
-      const tail = tools.length ? ` (I can use: ${tools.join(', ')})` : '';
+      const tail = tools.length ? ` (I can use: {tools.join(', ')})` : '';
       const content = msg.includes('quack') ? 'quack quack!!' : msg.includes('hello') ? 'quack hello!' : 'quack.';
-      return `${content}${tail}`;
+      return `{content}{tail}`;
     };
 
     const replyCephalon = (caps) => (msg) => {
@@ -172,10 +182,10 @@ If you want this wired to real MCP tools and a real Enso transport next, I’ll 
       const haveSearch = [...caps].includes('search.web');
       const haveFS = [...caps].includes('fs.read');
       const hints = [haveSearch && 'search.web', haveFS && 'fs.read'].filter(Boolean).join(', ');
-      return `observed: “${concise}”. ${hints ? 'Tools: ' + hints + '.' : 'No tools granted.'}`;
+      return `observed: “{concise}”. {hints ? 'Tools: ' + hints + '.' : 'No tools granted.'}`;
     };
 
-    const replyEnso = () => (msg) => `event observed; routing ok; ${msg.length} chars`;
+    const replyEnso = () => (msg) => `event observed; routing ok; {msg.length} chars`;
 
     // === UI helpers ============================================================
     const el = (sel, ctx = document) => ctx.querySelector(sel);
@@ -228,7 +238,7 @@ If you want this wired to real MCP tools and a real Enso transport next, I’ll 
     const drawTools = () => {
       const parent = el('#tool-list');
       const html = state.tools.map(t => `
-        <div class="tool" data-id="${t.id}" data-enabled="${t.enabled}">${t.label}</div>
+        <div class="tool" data-id="{t.id}" data-enabled="{t.enabled}">{t.label}</div>
       `).join('');
       render(parent, html);
       elAll('.tool', parent).forEach(node => {
@@ -246,12 +256,12 @@ If you want this wired to real MCP tools and a real Enso transport next, I’ll 
       const parent = el('#agent-list');
       const html = state.agents.map(a => `
         <div class="agent">
-          <div class="avatar" style="border-color:${a.color}">${a.avatar}</div>
+          <div class="avatar" style="border-color:{a.color}">{a.avatar}</div>
           <div>
-            <div class="name">${a.name}</div>
-            <div class="caps">caps: ${[...a.caps].join(', ') || '—'}</div>
+            <div class="name">{a.name}</div>
+            <div class="caps">caps: {[...a.caps].join(', ') || '—'}</div>
           </div>
-          <div class="caps tiny" style="color:${a.color}">${a.role}</div>
+          <div class="caps tiny" style="color:{a.color}">{a.role}</div>
         </div>
       `).join('');
       render(parent, html);
@@ -261,12 +271,12 @@ If you want this wired to real MCP tools and a real Enso transport next, I’ll 
       const parent = el('#log');
       const from = htmlEscape(ev.from);
       const role = ev.kind;
-      const body = typeof ev.data === 'string' ? htmlEscape(ev.data) : `<code>${htmlEscape(JSON.stringify(ev.data))}</code>`;
+      const body = typeof ev.data === 'string' ? htmlEscape(ev.data) : `<code>{htmlEscape(JSON.stringify(ev.data))}</code>`;
       const div = document.createElement('div');
       div.className = 'bubble';
       div.innerHTML = `
-        <div class="meta"><span class="from">${from}</span> <span class="role">${role}</span> <span class="tiny">#${ev.seq} · ${new Date(ev.ts).toLocaleTimeString()}</span></div>
-        <div class="body">${body}</div>
+        <div class="meta"><span class="from">{from}</span> <span class="role">{role}</span> <span class="tiny">#{ev.seq} · {new Date(ev.ts).toLocaleTimeString()}</span></div>
+        <div class="body">{body}</div>
       `;
       parent.appendChild(div);
       parent.scrollTo({ top: parent.scrollHeight, behavior: 'smooth' });
@@ -298,7 +308,7 @@ If you want this wired to real MCP tools and a real Enso transport next, I’ll 
       });
       el('#spawn').addEventListener('click', () => {
         const idx = state.agents.length + 1;
-        const bot = mkAgent(`Duckling ${idx}`, 'duck', (ev, ctx) => {
+        const bot = mkAgent(`Duckling {idx}`, 'duck', (ev, ctx) => {
           if (ev.kind !== 'text' || ev.from.startsWith('Duckling')) return;
           const msg = typeof ev.data === 'string' ? ev.data : '';
           const reply = replyDuck(bot.caps)(msg);

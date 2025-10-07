@@ -1,8 +1,16 @@
+```
 <!-- SYMPKG:PKG:BEGIN -->
+```
 # @promethean/boardrev
-**Folder:** `packages/boardrev`  
-**Version:** `0.1.0`  
+```
+**Folder:** `packages/boardrev`
+```
+```
+**Version:** `0.1.0`
+```
+```
 **Domain:** `_root`
+```
 ```mermaid
 graph LR
   A["@promethean/boardrev"]
@@ -17,9 +25,11 @@ graph LR
   click D3 "../utils/README.md" "@promethean/utils"
 ```
 ## Dependencies
-- [@promethean/level-cache](../level-cache/README.md)
-- [@promethean/markdown](../markdown/README.md)
-- [@promethean/utils](../utils/README.md)
+- @promethean/level-cache$../level-cache/README.md
+- @promethean/markdown$../markdown/README.md
+- @promethean/utils$../utils/README.md
 ## Dependents
 - _None_
+```
 <!-- SYMPKG:PKG:END -->
+```

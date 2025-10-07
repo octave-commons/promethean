@@ -14,8 +14,8 @@ offsets.
 - `clj_hacks.mcp.elisp` – domain specific helpers for MCP blocks. It can render
   a full `with-eval-after-load` block, splice it into existing source, and run
   post-write validation to confirm the generated block is discoverable again.
-- `elisp.mcp` – finds the generated region using the syntax tree (comment +
-  `with-eval-after-load` list) and returns byte-accurate slices for before,
+- `elisp.mcp` – finds the generated region using the syntax tree comment +
+  `with-eval-after-load` list and returns byte-accurate slices for before,
   block, and after segments.
 - `clj_hacks.mcp.adapter_elisp` – refactored to consume the new helpers. Read
   still maps the block back into EDN maps, while writing now funnels through
@@ -31,8 +31,9 @@ offsets.
    replaces the generated region (or appends it if missing) and reparses the
    result to ensure the block is discoverable and the tree is error free.
 4. Adapter tests now exercise the end-to-end rewrite and confirm that fixtures
-   can round-trip.
-
+```
+can round-trip.
+```
 ## Usage Notes
 
 - `clj_hacks.mcp.elisp/rewrite-source` returns diagnostics (`:ok?`,

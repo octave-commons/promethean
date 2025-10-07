@@ -1,9 +1,13 @@
 ---
+```
 uuid: 9a84706f-86e9-4af5-8f74-4ab6ed11b18d
+```
 created_at: field-node-diagram-set.md
 filename: field-node-diagram-set
 title: field-node-diagram-set
+```
 description: >-
+```
   Cognitive topology visualizations showing how field nodes form, evolve, and
   interact through daimo dynamics. Each diagram illustrates specific processes
   like node emergence, hazard interactions, attractor swarms, and narrative
@@ -19,7 +23,9 @@ tags:
   - cognitive fusion
   - overload cascade
   - mythic patterns
+```
 related_to_uuid:
+```
   - 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
   - 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
   - b09141b7-544f-4c8e-8f49-bf76cecaacbb
@@ -45,7 +51,9 @@ related_to_uuid:
   - e90b5a16-d58f-424d-bd36-70e9bd2861ad
   - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
   - 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+```
 related_to_title:
+```
   - eidolon-node-lifecycle
   - field-dynamics-math-blocks
   - field-interaction-equations
@@ -489,14 +497,20 @@ graph TD
   L4[Nemesian Ethics] -->|alignment pressure| Node1
   Node1[Node Emergence Threshold]
 ```
+```
 ^ref-22b989d5-9-0
- ^ref-22b989d5-18-0
+```
+```
+^ref-22b989d5-18-0
+```
 Use this to visualize how **multiple circuits** may converge their pressure to form a single Field Node—helpful for mapping complex daimo encounters.
 
 ---
 
 ### 🔀 **Node Type Evolution Flow**
- ^ref-22b989d5-24-0
+```
+^ref-22b989d5-24-0
+```
 ```mermaid
 stateDiagram-v2
   [*] --> Attractor
@@ -507,8 +521,9 @@ stateDiagram-v2
   Nexus --> Obstacle : if forgotten
   Obstacle --> [*]
 ^ref-22b989d5-24-0
-``` ^ref-22b989d5-35-0
-
+``````
+^ref-22b989d5-35-0
+```
 Shows how **nodes evolve** or degrade into other types. Example: an unresolved trauma (Hazard) becomes a symbolic insight (Nexus), then a low-tension memory (Obstacle).
 
 ---
@@ -527,7 +542,9 @@ graph LR
 Illustrates how Daimoi interact with Hazards—triggering bounce, damage, or potential re-routing through adjacent nodes.
 
 ---
- ^ref-22b989d5-55-0
+```
+^ref-22b989d5-55-0
+```
 ### 🧲 **Attractor Swarm Diagram**
 
 ```mermaid
@@ -542,9 +559,9 @@ graph TD
 ```
 
 This shows how **Attractors seed daimo** that drift outward and bind to new Nexuses, shaping **idea propagation** across the field.
-
+```
 --- ^ref-22b989d5-71-0
-
+```
 ### 🌀 **Daimo Collision & Fusion Paths**
 
 ```mermaid
@@ -559,7 +576,9 @@ graph TD
 ```
 
 A symbolic particle collision system. Allows you to model **ideological reconciliation**, insight events, or **cognitive fusion**.
- ^ref-22b989d5-87-0
+```
+^ref-22b989d5-87-0
+```
 ---
 
 ### 🔁 **Narrative Cycle Closure via Node Chain**
@@ -590,26 +609,37 @@ stateDiagram-v2
   Hazard --> Decay : if not reengaged
   Decay --> [*] ^ref-22b989d5-116-0
 ```
- ^ref-22b989d5-118-0
+```
+^ref-22b989d5-118-0
+```
 Useful for modeling things like burnout, panic attacks, memory corruption, or recursive daimo storms.
- ^ref-22b989d5-120-0
+```
+^ref-22b989d5-120-0
+```
 ---
- ^ref-22b989d5-122-0
+```
+^ref-22b989d5-122-0
+```
 Want another round? I can start sketching:
- ^ref-22b989d5-124-0
+```
+^ref-22b989d5-124-0
+```
 - **Regional field flows** (a la weather maps)
     
 - **Field Node daimo orbit diagrams**
     
 - **Permission-mediated daimo flows (Dorian boundaries)**
- ^ref-22b989d5-130-0
+```
+^ref-22b989d5-130-0
+```
 - Or just keep firing at full creative pressure
- ^ref-22b989d5-132-0
-
+```
+^ref-22b989d5-132-0
+```
 Let’s go until your working memory caps. ^ref-22b989d5-134-0
 ---
 
-Related notes: [[node-type-topology-map]], [[circuit-weight-visualizations]], [[full-system-overview-diagrams]], [[layer1-uptime-diagrams]], [[field-node-lifecycle-additional-diagrams]], [[state-diagram-node-lifecycle]] [[docs/architecture/index|unique/index]] ^ref-22b989d5-137-0
+Related notes: [node-type-topology-map], [circuit-weight-visualizations], [full-system-overview-diagrams], [layer1-uptime-diagrams], [field-node-lifecycle-additional-diagrams], [state-diagram-node-lifecycle] [docs/architecture/index|unique/index] ^ref-22b989d5-137-0
 
 #tags: #diagram #design
  line: 57
@@ -640,7 +670,9 @@ Related notes: [[node-type-topology-map]], [[circuit-weight-visualizations]], [[
     col: 0
     score: 1
   - uuid: c5c9a5c6-427d-4864-8084-c083cd55faa0
-    line: 264 ^ref-22b989d5-168-0
+```
+line: 264 ^ref-22b989d5-168-0
+```
     col: 0
     score: 1
   - uuid: ac9d3ac5-9a6a-4180-a67f-1ab7e229d981
@@ -648,9 +680,13 @@ Related notes: [[node-type-topology-map]], [[circuit-weight-visualizations]], [[
     col: 0
     score: 1
   - uuid: 4330e8f0-5f46-4235-918b-39b6b93fa561 ^ref-22b989d5-175-0
-    line: 658 ^ref-22b989d5-176-0
+```
+line: 658 ^ref-22b989d5-176-0
+```
     col: 0
-    score: 1 ^ref-22b989d5-178-0
+```
+score: 1 ^ref-22b989d5-178-0
+```
   - uuid: 91295f3a-a2af-4050-a2b8-4777ea70c32c
     line: 140
     col: 0
@@ -684,7 +720,9 @@ Related notes: [[node-type-topology-map]], [[circuit-weight-visualizations]], [[
     col: 0
     score: 1
   - uuid: 557309a3-c906-4e97-8867-89ffe151790c
-    line: 6 ^ref-22b989d5-212-0
+```
+line: 6 ^ref-22b989d5-212-0
+```
     col: 0
     score: 1
   - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
@@ -694,11 +732,17 @@ Related notes: [[node-type-topology-map]], [[circuit-weight-visualizations]], [[
   - uuid: 1d3d6c3a-039e-4b96-93c1-95854945e248
     line: 132
     col: 0
-    score: 1 ^ref-22b989d5-222-0
+```
+score: 1 ^ref-22b989d5-222-0
+```
   - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
     line: 108
-    col: 0 ^ref-22b989d5-225-0
-    score: 1 ^ref-22b989d5-226-0
+```
+col: 0 ^ref-22b989d5-225-0
+```
+```
+score: 1 ^ref-22b989d5-226-0
+```
   - uuid: ffb9b2a9-744d-4a53-9565-130fceae0832
     line: 119
     col: 0
@@ -748,14 +792,20 @@ graph TD
   L4[Nemesian Ethics] -->|alignment pressure| Node1
   Node1[Node Emergence Threshold]
 ```
+```
 ^ref-22b989d5-9-0
- ^ref-22b989d5-18-0
+```
+```
+^ref-22b989d5-18-0
+```
 Use this to visualize how **multiple circuits** may converge their pressure to form a single Field Node—helpful for mapping complex daimo encounters.
 
 ---
 
 ### 🔀 **Node Type Evolution Flow**
- ^ref-22b989d5-24-0
+```
+^ref-22b989d5-24-0
+```
 ```mermaid
 stateDiagram-v2
   [*] --> Attractor
@@ -766,14 +816,17 @@ stateDiagram-v2
   Nexus --> Obstacle : if forgotten
   Obstacle --> [*]
 ^ref-22b989d5-24-0
-``` ^ref-22b989d5-35-0
-
+``````
+^ref-22b989d5-35-0
+```
 Shows how **nodes evolve** or degrade into other types. Example: an unresolved trauma (Hazard) becomes a symbolic insight (Nexus), then a low-tension memory (Obstacle).
 
 ---
 
 ### 💣 **Hazard Interaction Logic** ^ref-22b989d5-41-0
- ^ref-22b989d5-301-0
+```
+^ref-22b989d5-301-0
+```
 ```mermaid
 graph LR
   D[Daimo] -->|enters field| H[Hazard Node]
@@ -786,7 +839,9 @@ graph LR
 Illustrates how Daimoi interact with Hazards—triggering bounce, damage, or potential re-routing through adjacent nodes.
 
 ---
- ^ref-22b989d5-55-0
+```
+^ref-22b989d5-55-0
+```
 ### 🧲 **Attractor Swarm Diagram**
 
 ```mermaid
@@ -801,9 +856,9 @@ graph TD
 ```
 
 This shows how **Attractors seed daimo** that drift outward and bind to new Nexuses, shaping **idea propagation** across the field.
-
+```
 --- ^ref-22b989d5-71-0
-
+```
 ### 🌀 **Daimo Collision & Fusion Paths**
 
 ```mermaid
@@ -816,10 +871,13 @@ graph TD
   Fusion --> Terminated[Annihilation]  
 
 ```
+```
 ^ref-22b989d5-334-0
-
+```
 A symbolic particle collision system. Allows you to model **ideological reconciliation**, insight events, or **cognitive fusion**.
- ^ref-22b989d5-87-0
+```
+^ref-22b989d5-87-0
+```
 ---
 
 ### 🔁 **Narrative Cycle Closure via Node Chain**
@@ -851,155 +909,166 @@ stateDiagram-v2
   Hazard --> Decay : if not reengaged
   Decay --> [*] ^ref-22b989d5-116-0
 ```
- ^ref-22b989d5-118-0
+```
+^ref-22b989d5-118-0
+```
 Useful for modeling things like burnout, panic attacks, memory corruption, or recursive daimo storms.
- ^ref-22b989d5-120-0
+```
+^ref-22b989d5-120-0
+```
 ---
- ^ref-22b989d5-122-0
+```
+^ref-22b989d5-122-0
+```
 Want another round? I can start sketching:
- ^ref-22b989d5-124-0
+```
+^ref-22b989d5-124-0
+```
 - **Regional field flows** (a la weather maps)
     
 - **Field Node daimo orbit diagrams**
     
 - **Permission-mediated daimo flows (Dorian boundaries)**
- ^ref-22b989d5-130-0
+```
+^ref-22b989d5-130-0
+```
 - Or just keep firing at full creative pressure
- ^ref-22b989d5-132-0
-
+```
+^ref-22b989d5-132-0
+```
 Let’s go until your working memory caps. ^ref-22b989d5-134-0
 ---
 
-Related notes: [[node-type-topology-map]], [[circuit-weight-visualizations]], [[full-system-overview-diagrams]], [[layer1-uptime-diagrams]], [[field-node-lifecycle-additional-diagrams]], [[state-diagram-node-lifecycle]] [[docs/architecture/index|unique/index]] ^ref-22b989d5-137-0
+Related notes: [node-type-topology-map], [circuit-weight-visualizations], [full-system-overview-diagrams], [layer1-uptime-diagrams], [field-node-lifecycle-additional-diagrams], [state-diagram-node-lifecycle] [docs/architecture/index|unique/index] ^ref-22b989d5-137-0
 
 #tags: #diagram #design
  ^ref-22b989d5-557-0 ^ref-22b989d5-657-0 ^ref-22b989d5-719-0 ^ref-22b989d5-808-0 ^ref-22b989d5-809-0 ^ref-22b989d5-1920-0 ^ref-22b989d5-2133-0 ^ref-22b989d5-2146-0 ^ref-22b989d5-2249-0 ^ref-22b989d5-4420-0 ^ref-22b989d5-5007-0 ^ref-22b989d5-5019-0 ^ref-22b989d5-5026-0
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [[eidolon-node-lifecycle]]
-- [[docs/unique/field-dynamics-math-blocks|field-dynamics-math-blocks]]
-- [[docs/unique/field-interaction-equations|field-interaction-equations]]
-- [[windows-tiling-with-autohotkey]]
-- [[docs/unique/promethean-state-format|Promethean State Format]]
-- [[docs/unique/ripple-propagation-demo|ripple-propagation-demo]]
-- [[dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]]
-- [[eidolon-field-abstract-model|Eidolon Field Abstract Model]]
-- [[fnord-tracer-protocol|Fnord Tracer Protocol]]
-- [[docs/unique/zero-copy-snapshots-and-workers|zero-copy-snapshots-and-workers]]
-- [[promethean-eidolon-synchronicity-model|Promethean_Eidolon_Synchronicity_Model]]
-- [[typescript-patch-for-tool-calling-support|TypeScript Patch for Tool Calling Support]]
-- [[smoke-resonance-visualizations|Smoke Resonance Visualizations]]
-- [Debugging Broker Connections and Agent Behavior](debugging-broker-connections-and-agent-behavior.md)
-- [[ducks-self-referential-perceptual-loop|Duck's Self-Referential Perceptual Loop]]
+- [eidolon-node-lifecycle]
+- [docs/unique/field-dynamics-math-blocks|field-dynamics-math-blocks]
+- [docs/unique/field-interaction-equations|field-interaction-equations]
+- [windows-tiling-with-autohotkey]
+- [docs/unique/promethean-state-format|Promethean State Format]
+- [docs/unique/ripple-propagation-demo|ripple-propagation-demo]
+- [dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]
+- [eidolon-field-abstract-model|Eidolon Field Abstract Model]
+- [fnord-tracer-protocol|Fnord Tracer Protocol]
+- [docs/unique/zero-copy-snapshots-and-workers|zero-copy-snapshots-and-workers]
+- [promethean-eidolon-synchronicity-model|Promethean_Eidolon_Synchronicity_Model]
+- [typescript-patch-for-tool-calling-support|TypeScript Patch for Tool Calling Support]
+- [smoke-resonance-visualizations|Smoke Resonance Visualizations]
+- [Debugging Broker Connections and Agent Behavior]debugging-broker-connections-and-agent-behavior.md
+- [ducks-self-referential-perceptual-loop|Duck's Self-Referential Perceptual Loop]
 - [Layer1SurvivabilityEnvelope](layer1survivabilityenvelope.md)
-- [[functional-embedding-pipeline-refactor|Functional Embedding Pipeline Refactor]]
-- [[docs/unique/typed-struct-compiler|typed-struct-compiler]]
-- [[graph-ds]]
-- [[heartbeat-fragment-demo]]
-- [[homeostasis-decay-formulas]]
-- [[migrate-to-provider-tenant-architecture|Migrate to Provider-Tenant Architecture]]
-- [[prometheus-observability-stack|Prometheus Observability Stack]]
-- [[docs/unique/eidolon-field-math-foundations|eidolon-field-math-foundations]]
-- [[field-node-diagram-outline]]
+- [functional-embedding-pipeline-refactor|Functional Embedding Pipeline Refactor]
+- [docs/unique/typed-struct-compiler|typed-struct-compiler]
+- [graph-ds]
+- [heartbeat-fragment-demo]
+- [homeostasis-decay-formulas]
+- [migrate-to-provider-tenant-architecture|Migrate to Provider-Tenant Architecture]
+- [prometheus-observability-stack|Prometheus Observability Stack]
+- [docs/unique/eidolon-field-math-foundations|eidolon-field-math-foundations]
+- [field-node-diagram-outline]
 ## Sources
-- [[graph-ds#^ref-6620e2f2-371-0|graph-ds — L371]] (line 371, col 0, score 1)
-- [[heartbeat-fragment-demo#^ref-dd00677a-141-0|heartbeat-fragment-demo — L141]] (line 141, col 0, score 1)
-- [[homeostasis-decay-formulas#^ref-37b5d236-222-0|homeostasis-decay-formulas — L222]] (line 222, col 0, score 1)
-- [[i3-bluetooth-setup#^ref-5e408692-107-0|i3-bluetooth-setup — L107]] (line 107, col 0, score 1)
-- [komorebi-group-window-hack — L255](komorebi-group-window-hack.md#^ref-dd89372d-255-0) (line 255, col 0, score 1)
-- [[mathematics-sampler#^ref-b5e0183e-162-0|Mathematics Sampler — L162]] (line 162, col 0, score 1)
-- [[migrate-to-provider-tenant-architecture#^ref-54382370-308-0|Migrate to Provider-Tenant Architecture — L308]] (line 308, col 0, score 1)
-- [[mindful-prioritization#^ref-40185d05-102-0|Mindful Prioritization — L102]] (line 102, col 0, score 1)
-- [MindfulRobotIntegration — L41](mindfulrobotintegration.md#^ref-5f65dfa5-41-0) (line 41, col 0, score 1)
-- [[model-selection-for-lightweight-conversational-tasks#^ref-d144aa62-159-0|Model Selection for Lightweight Conversational Tasks — L159]] (line 159, col 0, score 1)
-- [[model-upgrade-calm-down-guide#^ref-db74343f-149-0|Model Upgrade Calm-Down Guide — L149]] (line 149, col 0, score 1)
-- [NPU Voice Code and Sensory Integration — L70](npu-voice-code-and-sensory-integration.md#^ref-5a02283e-70-0) (line 70, col 0, score 1)
-- [[obsidian-chatgpt-plugin-integration-guide#^ref-1d3d6c3a-67-0|Obsidian ChatGPT Plugin Integration Guide — L67]] (line 67, col 0, score 1)
-- [Protocol_0_The_Contradiction_Engine — L160](protocol-0-the-contradiction-engine.md#^ref-9a93a756-160-0) (line 160, col 0, score 1)
-- [[provider-agnostic-chat-panel-implementation#^ref-43bfe9dd-276-0|Provider-Agnostic Chat Panel Implementation — L276]] (line 276, col 0, score 1)
-- [[pure-typescript-search-microservice#^ref-d17d3a96-628-0|Pure TypeScript Search Microservice — L628]] (line 628, col 0, score 1)
-- [[reawakening-duck#^ref-59b5670f-161-0|Reawakening Duck — L161]] (line 161, col 0, score 1)
-- [[redirecting-standard-error#^ref-b3555ede-35-0|Redirecting Standard Error — L35]] (line 35, col 0, score 1)
-- [[schema-evolution-workflow#^ref-d8059b6a-603-0|schema-evolution-workflow — L603]] (line 603, col 0, score 1)
-- [[self-agency-in-ai-interaction#^ref-49a9a860-57-0|Self-Agency in AI Interaction — L57]] (line 57, col 0, score 1)
-- [[sibilant-macro-targets#^ref-c5c9a5c6-250-0|sibilant-macro-targets — L250]] (line 250, col 0, score 1)
-- [[model-upgrade-calm-down-guide#^ref-db74343f-88-0|Model Upgrade Calm-Down Guide — L88]] (line 88, col 0, score 1)
-- [NPU Voice Code and Sensory Integration — L91](npu-voice-code-and-sensory-integration.md#^ref-5a02283e-91-0) (line 91, col 0, score 1)
-- [[obsidian-chatgpt-plugin-integration-guide#^ref-1d3d6c3a-69-0|Obsidian ChatGPT Plugin Integration Guide — L69]] (line 69, col 0, score 1)
-- [[obsidian-chatgpt-plugin-integration#^ref-ca8e1399-64-0|Obsidian ChatGPT Plugin Integration — L64]] (line 64, col 0, score 1)
-- [[docs/unique/obsidian-ignore-node-modules-regex#^ref-ffb9b2a9-105-0|obsidian-ignore-node-modules-regex — L105]] (line 105, col 0, score 1)
-- [[obsidian-task-generation#^ref-9b694a91-92-0|Obsidian Task Generation — L92]] (line 92, col 0, score 1)
-- [[obsidian-templating-plugins-integration-guide#^ref-b39dc9d4-90-0|Obsidian Templating Plugins Integration Guide — L90]] (line 90, col 0, score 1)
-- [[openapi-validation-report#^ref-5c152b08-50-0|OpenAPI Validation Report — L50]] (line 50, col 0, score 1)
-- [[optimizing-command-limitations-in-system-design#^ref-98c8ff62-81-0|Optimizing Command Limitations in System Design — L81]] (line 81, col 0, score 1)
-- [[polyglot-repl-interface-layer#^ref-9c79206d-220-0|polyglot-repl-interface-layer — L220]] (line 220, col 0, score 1)
-- [Docops Feature Updates — L85](docops-feature-updates-3.md#^ref-cdbd21ee-85-0) (line 85, col 0, score 1)
-- [[docops-feature-updates#^ref-2792d448-103-0|Docops Feature Updates — L103]] (line 103, col 0, score 1)
-- [[ducks-attractor-states#^ref-13951643-93-0|Duck's Attractor States — L93]] (line 93, col 0, score 1)
-- [[ducks-self-referential-perceptual-loop#^ref-71726f04-64-0|Duck's Self-Referential Perceptual Loop — L64]] (line 64, col 0, score 1)
-- [[factorio-ai-with-external-agents#^ref-a4d90289-153-0|Factorio AI with External Agents — L153]] (line 153, col 0, score 1)
-- [[docs/unique/field-dynamics-math-blocks#^ref-7cfc230d-141-0|field-dynamics-math-blocks — L141]] (line 141, col 0, score 1)
-- [[creative-moments#^ref-10d98225-94-0|Creative Moments — L94]] (line 94, col 0, score 1)
-- [Debugging Broker Connections and Agent Behavior — L63](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-63-0) (line 63, col 0, score 1)
-- [Docops Feature Updates — L66](docops-feature-updates-3.md#^ref-cdbd21ee-66-0) (line 66, col 0, score 1)
-- [DuckDuckGoSearchPipeline — L93](duckduckgosearchpipeline.md#^ref-e979c50f-93-0) (line 93, col 0, score 1)
-- [[ducks-self-referential-perceptual-loop#^ref-71726f04-73-0|Duck's Self-Referential Perceptual Loop — L73]] (line 73, col 0, score 1)
-- [[dynamic-context-model-for-web-components#^ref-f7702bf8-403-0|Dynamic Context Model for Web Components — L403]] (line 403, col 0, score 1)
-- [komorebi-group-window-hack — L262](komorebi-group-window-hack.md#^ref-dd89372d-262-0) (line 262, col 0, score 1)
-- [[mathematics-sampler#^ref-b5e0183e-84-0|Mathematics Sampler — L84]] (line 84, col 0, score 1)
-- [[migrate-to-provider-tenant-architecture#^ref-54382370-314-0|Migrate to Provider-Tenant Architecture — L314]] (line 314, col 0, score 1)
-- [[mindful-prioritization#^ref-40185d05-26-0|Mindful Prioritization — L26]] (line 26, col 0, score 1)
-- [NPU Voice Code and Sensory Integration — L10](npu-voice-code-and-sensory-integration.md#^ref-5a02283e-10-0) (line 10, col 0, score 1)
-- [[obsidian-chatgpt-plugin-integration#^ref-ca8e1399-43-0|Obsidian ChatGPT Plugin Integration — L43]] (line 43, col 0, score 1)
-- [[docs/unique/obsidian-ignore-node-modules-regex#^ref-ffb9b2a9-82-0|obsidian-ignore-node-modules-regex — L82]] (line 82, col 0, score 1)
-- [[obsidian-task-generation#^ref-9b694a91-37-0|Obsidian Task Generation — L37]] (line 37, col 0, score 1)
-- [[openapi-validation-report#^ref-5c152b08-68-0|OpenAPI Validation Report — L68]] (line 68, col 0, score 1)
-- [ParticleSimulationWithCanvasAndFFmpeg — L294](particlesimulationwithcanvasandffmpeg.md#^ref-e018dd7a-294-0) (line 294, col 0, score 1)
-- [[per-domain-policy-system-for-js-crawler#^ref-c03020e1-532-0|Per-Domain Policy System for JS Crawler — L532]] (line 532, col 0, score 1)
-- [[performance-optimized-polyglot-bridge#^ref-f5579967-456-0|Performance-Optimized-Polyglot-Bridge — L456]] (line 456, col 0, score 1)
-- [[pipeline-enhancements#^ref-e2135d9f-17-0|Pipeline Enhancements — L17]] (line 17, col 0, score 1)
-- [[plan-update-confirmation#^ref-b22d79c6-1035-0|plan-update-confirmation — L1035]] (line 1035, col 0, score 1)
-- [Docops Feature Updates — L44](docops-feature-updates-3.md#^ref-cdbd21ee-44-0) (line 44, col 0, score 1)
-- [[docops-feature-updates#^ref-2792d448-61-0|Docops Feature Updates — L61]] (line 61, col 0, score 1)
-- [[ducks-attractor-states#^ref-13951643-99-0|Duck's Attractor States — L99]] (line 99, col 0, score 1)
-- [[ducks-self-referential-perceptual-loop#^ref-71726f04-80-0|Duck's Self-Referential Perceptual Loop — L80]] (line 80, col 0, score 1)
-- [[dynamic-context-model-for-web-components#^ref-f7702bf8-405-0|Dynamic Context Model for Web Components — L405]] (line 405, col 0, score 1)
-- [[eidolon-field-abstract-model#^ref-5e8b2388-216-0|Eidolon Field Abstract Model — L216]] (line 216, col 0, score 1)
-- [[factorio-ai-with-external-agents#^ref-a4d90289-189-0|Factorio AI with External Agents — L189]] (line 189, col 0, score 1)
-- [[docs/unique/field-interaction-equations#^ref-b09141b7-172-0|field-interaction-equations — L172]] (line 172, col 0, score 1)
-- [Layer1SurvivabilityEnvelope — L175](layer1survivabilityenvelope.md#^ref-64a9f9f9-175-0) (line 175, col 0, score 1)
-- [[mathematical-samplers#^ref-86a691ec-90-0|Mathematical Samplers — L90]] (line 90, col 0, score 1)
-- [[migrate-to-provider-tenant-architecture#^ref-54382370-298-0|Migrate to Provider-Tenant Architecture — L298]] (line 298, col 0, score 1)
-- [[promethean-chat-activity-report#^ref-18344cf9-48-0|Promethean Chat Activity Report — L48]] (line 48, col 0, score 1)
-- [[creative-moments#^ref-10d98225-8-0|Creative Moments — L8]] (line 8, col 0, score 1)
-- [Debugging Broker Connections and Agent Behavior — L38](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-38-0) (line 38, col 0, score 1)
-- [Docops Feature Updates — L56](docops-feature-updates-3.md#^ref-cdbd21ee-56-0) (line 56, col 0, score 1)
-- [[per-domain-policy-system-for-js-crawler#^ref-c03020e1-495-0|Per-Domain Policy System for JS Crawler — L495]] (line 495, col 0, score 1)
-- [[performance-optimized-polyglot-bridge#^ref-f5579967-459-0|Performance-Optimized-Polyglot-Bridge — L459]] (line 459, col 0, score 1)
-- [[pipeline-enhancements#^ref-e2135d9f-27-0|Pipeline Enhancements — L27]] (line 27, col 0, score 1)
-- [[plan-update-confirmation#^ref-b22d79c6-1002-0|plan-update-confirmation — L1002]] (line 1002, col 0, score 1)
-- [[polyglot-repl-interface-layer#^ref-9c79206d-171-0|polyglot-repl-interface-layer — L171]] (line 171, col 0, score 1)
-- [[post-linguistic-transhuman-design-frameworks#^ref-6bcff92c-112-0|Post-Linguistic Transhuman Design Frameworks — L112]] (line 112, col 0, score 1)
-- [[promethean-chat-activity-report#^ref-18344cf9-24-0|Promethean Chat Activity Report — L24]] (line 24, col 0, score 1)
-- [Protocol_0_The_Contradiction_Engine — L143](protocol-0-the-contradiction-engine.md#^ref-9a93a756-143-0) (line 143, col 0, score 1)
-- [[provider-agnostic-chat-panel-implementation#^ref-43bfe9dd-241-0|Provider-Agnostic Chat Panel Implementation — L241]] (line 241, col 0, score 1)
-- [[creative-moments#^ref-10d98225-75-0|Creative Moments — L75]] (line 75, col 0, score 1)
-- [Debugging Broker Connections and Agent Behavior — L104](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-104-0) (line 104, col 0, score 1)
-- [Docops Feature Updates — L46](docops-feature-updates-3.md#^ref-cdbd21ee-46-0) (line 46, col 0, score 1)
-- [[docops-feature-updates#^ref-2792d448-64-0|Docops Feature Updates — L64]] (line 64, col 0, score 1)
-- [DuckDuckGoSearchPipeline — L40](duckduckgosearchpipeline.md#^ref-e979c50f-40-0) (line 40, col 0, score 1)
-- [[ducks-attractor-states#^ref-13951643-137-0|Duck's Attractor States — L137]] (line 137, col 0, score 1)
-- [[ducks-self-referential-perceptual-loop#^ref-71726f04-82-0|Duck's Self-Referential Perceptual Loop — L82]] (line 82, col 0, score 1)
-- [[dynamic-context-model-for-web-components#^ref-f7702bf8-454-0|Dynamic Context Model for Web Components — L454]] (line 454, col 0, score 1)
-- [[creative-moments#^ref-10d98225-38-0|Creative Moments — L38]] (line 38, col 0, score 1)
-- [Docops Feature Updates — L51](docops-feature-updates-3.md#^ref-cdbd21ee-51-0) (line 51, col 0, score 1)
-- [[docops-feature-updates#^ref-2792d448-79-0|Docops Feature Updates — L79]] (line 79, col 0, score 1)
-- [DuckDuckGoSearchPipeline — L77](duckduckgosearchpipeline.md#^ref-e979c50f-77-0) (line 77, col 0, score 1)
-- [[ducks-attractor-states#^ref-13951643-115-0|Duck's Attractor States — L115]] (line 115, col 0, score 1)
-- [[ducks-self-referential-perceptual-loop#^ref-71726f04-61-0|Duck's Self-Referential Perceptual Loop — L61]] (line 61, col 0, score 1)
-- [[eidolon-field-abstract-model#^ref-5e8b2388-212-0|Eidolon Field Abstract Model — L212]] (line 212, col 0, score 1)
-- [[docs/unique/eidolon-field-math-foundations#^ref-008f2ac0-150-0|eidolon-field-math-foundations — L150]] (line 150, col 0, score 1)
-- [[docs/unique/eidolon-field-math-foundations#^ref-008f2ac0-148-0|eidolon-field-math-foundations — L148]] (line 148, col 0, score 1)
-- [[eidolon-node-lifecycle#^ref-938eca9c-36-0|eidolon-node-lifecycle — L36]] (line 36, col 0, score 1)
-- [[factorio-ai-with-external-agents#^ref-a4d90289-166-0|Factorio AI with External Agents — L166]] (line 166, col 0, score 1)
+- [graph-ds#^ref-6620e2f2-371-0|graph-ds — L371] (line 371, col 0, score 1)
+- [heartbeat-fragment-demo#^ref-dd00677a-141-0|heartbeat-fragment-demo — L141] (line 141, col 0, score 1)
+- [homeostasis-decay-formulas#^ref-37b5d236-222-0|homeostasis-decay-formulas — L222] (line 222, col 0, score 1)
+- [i3-bluetooth-setup#^ref-5e408692-107-0|i3-bluetooth-setup — L107] (line 107, col 0, score 1)
+- komorebi-group-window-hack — L255$komorebi-group-window-hack.md#^ref-dd89372d-255-0 (line 255, col 0, score 1)
+- [mathematics-sampler#^ref-b5e0183e-162-0|Mathematics Sampler — L162] (line 162, col 0, score 1)
+- [migrate-to-provider-tenant-architecture#^ref-54382370-308-0|Migrate to Provider-Tenant Architecture — L308] (line 308, col 0, score 1)
+- [mindful-prioritization#^ref-40185d05-102-0|Mindful Prioritization — L102] (line 102, col 0, score 1)
+- [MindfulRobotIntegration — L41]mindfulrobotintegration.md#^ref-5f65dfa5-41-0 (line 41, col 0, score 1)
+- [model-selection-for-lightweight-conversational-tasks#^ref-d144aa62-159-0|Model Selection for Lightweight Conversational Tasks — L159] (line 159, col 0, score 1)
+- [model-upgrade-calm-down-guide#^ref-db74343f-149-0|Model Upgrade Calm-Down Guide — L149] (line 149, col 0, score 1)
+- [NPU Voice Code and Sensory Integration — L70]npu-voice-code-and-sensory-integration.md#^ref-5a02283e-70-0 (line 70, col 0, score 1)
+- [obsidian-chatgpt-plugin-integration-guide#^ref-1d3d6c3a-67-0|Obsidian ChatGPT Plugin Integration Guide — L67] (line 67, col 0, score 1)
+- Protocol_0_The_Contradiction_Engine — L160$protocol-0-the-contradiction-engine.md#^ref-9a93a756-160-0 (line 160, col 0, score 1)
+- [provider-agnostic-chat-panel-implementation#^ref-43bfe9dd-276-0|Provider-Agnostic Chat Panel Implementation — L276] (line 276, col 0, score 1)
+- [pure-typescript-search-microservice#^ref-d17d3a96-628-0|Pure TypeScript Search Microservice — L628] (line 628, col 0, score 1)
+- [reawakening-duck#^ref-59b5670f-161-0|Reawakening Duck — L161] (line 161, col 0, score 1)
+- [redirecting-standard-error#^ref-b3555ede-35-0|Redirecting Standard Error — L35] (line 35, col 0, score 1)
+- [schema-evolution-workflow#^ref-d8059b6a-603-0|schema-evolution-workflow — L603] (line 603, col 0, score 1)
+- [self-agency-in-ai-interaction#^ref-49a9a860-57-0|Self-Agency in AI Interaction — L57] (line 57, col 0, score 1)
+- [sibilant-macro-targets#^ref-c5c9a5c6-250-0|sibilant-macro-targets — L250] (line 250, col 0, score 1)
+- [model-upgrade-calm-down-guide#^ref-db74343f-88-0|Model Upgrade Calm-Down Guide — L88] (line 88, col 0, score 1)
+- [NPU Voice Code and Sensory Integration — L91]npu-voice-code-and-sensory-integration.md#^ref-5a02283e-91-0 (line 91, col 0, score 1)
+- [obsidian-chatgpt-plugin-integration-guide#^ref-1d3d6c3a-69-0|Obsidian ChatGPT Plugin Integration Guide — L69] (line 69, col 0, score 1)
+- [obsidian-chatgpt-plugin-integration#^ref-ca8e1399-64-0|Obsidian ChatGPT Plugin Integration — L64] (line 64, col 0, score 1)
+- [docs/unique/obsidian-ignore-node-modules-regex#^ref-ffb9b2a9-105-0|obsidian-ignore-node-modules-regex — L105] (line 105, col 0, score 1)
+- [obsidian-task-generation#^ref-9b694a91-92-0|Obsidian Task Generation — L92] (line 92, col 0, score 1)
+- [obsidian-templating-plugins-integration-guide#^ref-b39dc9d4-90-0|Obsidian Templating Plugins Integration Guide — L90] (line 90, col 0, score 1)
+- [openapi-validation-report#^ref-5c152b08-50-0|OpenAPI Validation Report — L50] (line 50, col 0, score 1)
+- [optimizing-command-limitations-in-system-design#^ref-98c8ff62-81-0|Optimizing Command Limitations in System Design — L81] (line 81, col 0, score 1)
+- [polyglot-repl-interface-layer#^ref-9c79206d-220-0|polyglot-repl-interface-layer — L220] (line 220, col 0, score 1)
+- [Docops Feature Updates — L85]docops-feature-updates-3.md#^ref-cdbd21ee-85-0 (line 85, col 0, score 1)
+- [docops-feature-updates#^ref-2792d448-103-0|Docops Feature Updates — L103] (line 103, col 0, score 1)
+- [ducks-attractor-states#^ref-13951643-93-0|Duck's Attractor States — L93] (line 93, col 0, score 1)
+- [ducks-self-referential-perceptual-loop#^ref-71726f04-64-0|Duck's Self-Referential Perceptual Loop — L64] (line 64, col 0, score 1)
+- [factorio-ai-with-external-agents#^ref-a4d90289-153-0|Factorio AI with External Agents — L153] (line 153, col 0, score 1)
+- [docs/unique/field-dynamics-math-blocks#^ref-7cfc230d-141-0|field-dynamics-math-blocks — L141] (line 141, col 0, score 1)
+- [creative-moments#^ref-10d98225-94-0|Creative Moments — L94] (line 94, col 0, score 1)
+- [Debugging Broker Connections and Agent Behavior — L63]debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-63-0 (line 63, col 0, score 1)
+- [Docops Feature Updates — L66]docops-feature-updates-3.md#^ref-cdbd21ee-66-0 (line 66, col 0, score 1)
+- [DuckDuckGoSearchPipeline — L93]duckduckgosearchpipeline.md#^ref-e979c50f-93-0 (line 93, col 0, score 1)
+- [ducks-self-referential-perceptual-loop#^ref-71726f04-73-0|Duck's Self-Referential Perceptual Loop — L73] (line 73, col 0, score 1)
+- [dynamic-context-model-for-web-components#^ref-f7702bf8-403-0|Dynamic Context Model for Web Components — L403] (line 403, col 0, score 1)
+- komorebi-group-window-hack — L262$komorebi-group-window-hack.md#^ref-dd89372d-262-0 (line 262, col 0, score 1)
+- [mathematics-sampler#^ref-b5e0183e-84-0|Mathematics Sampler — L84] (line 84, col 0, score 1)
+- [migrate-to-provider-tenant-architecture#^ref-54382370-314-0|Migrate to Provider-Tenant Architecture — L314] (line 314, col 0, score 1)
+- [mindful-prioritization#^ref-40185d05-26-0|Mindful Prioritization — L26] (line 26, col 0, score 1)
+- [NPU Voice Code and Sensory Integration — L10]npu-voice-code-and-sensory-integration.md#^ref-5a02283e-10-0 (line 10, col 0, score 1)
+- [obsidian-chatgpt-plugin-integration#^ref-ca8e1399-43-0|Obsidian ChatGPT Plugin Integration — L43] (line 43, col 0, score 1)
+- [docs/unique/obsidian-ignore-node-modules-regex#^ref-ffb9b2a9-82-0|obsidian-ignore-node-modules-regex — L82] (line 82, col 0, score 1)
+- [obsidian-task-generation#^ref-9b694a91-37-0|Obsidian Task Generation — L37] (line 37, col 0, score 1)
+- [openapi-validation-report#^ref-5c152b08-68-0|OpenAPI Validation Report — L68] (line 68, col 0, score 1)
+- [ParticleSimulationWithCanvasAndFFmpeg — L294]particlesimulationwithcanvasandffmpeg.md#^ref-e018dd7a-294-0 (line 294, col 0, score 1)
+- [per-domain-policy-system-for-js-crawler#^ref-c03020e1-532-0|Per-Domain Policy System for JS Crawler — L532] (line 532, col 0, score 1)
+- [performance-optimized-polyglot-bridge#^ref-f5579967-456-0|Performance-Optimized-Polyglot-Bridge — L456] (line 456, col 0, score 1)
+- [pipeline-enhancements#^ref-e2135d9f-17-0|Pipeline Enhancements — L17] (line 17, col 0, score 1)
+- [plan-update-confirmation#^ref-b22d79c6-1035-0|plan-update-confirmation — L1035] (line 1035, col 0, score 1)
+- [Docops Feature Updates — L44]docops-feature-updates-3.md#^ref-cdbd21ee-44-0 (line 44, col 0, score 1)
+- [docops-feature-updates#^ref-2792d448-61-0|Docops Feature Updates — L61] (line 61, col 0, score 1)
+- [ducks-attractor-states#^ref-13951643-99-0|Duck's Attractor States — L99] (line 99, col 0, score 1)
+- [ducks-self-referential-perceptual-loop#^ref-71726f04-80-0|Duck's Self-Referential Perceptual Loop — L80] (line 80, col 0, score 1)
+- [dynamic-context-model-for-web-components#^ref-f7702bf8-405-0|Dynamic Context Model for Web Components — L405] (line 405, col 0, score 1)
+- [eidolon-field-abstract-model#^ref-5e8b2388-216-0|Eidolon Field Abstract Model — L216] (line 216, col 0, score 1)
+- [factorio-ai-with-external-agents#^ref-a4d90289-189-0|Factorio AI with External Agents — L189] (line 189, col 0, score 1)
+- [docs/unique/field-interaction-equations#^ref-b09141b7-172-0|field-interaction-equations — L172] (line 172, col 0, score 1)
+- [Layer1SurvivabilityEnvelope — L175]layer1survivabilityenvelope.md#^ref-64a9f9f9-175-0 (line 175, col 0, score 1)
+- [mathematical-samplers#^ref-86a691ec-90-0|Mathematical Samplers — L90] (line 90, col 0, score 1)
+- [migrate-to-provider-tenant-architecture#^ref-54382370-298-0|Migrate to Provider-Tenant Architecture — L298] (line 298, col 0, score 1)
+- [promethean-chat-activity-report#^ref-18344cf9-48-0|Promethean Chat Activity Report — L48] (line 48, col 0, score 1)
+- [creative-moments#^ref-10d98225-8-0|Creative Moments — L8] (line 8, col 0, score 1)
+- [Debugging Broker Connections and Agent Behavior — L38]debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-38-0 (line 38, col 0, score 1)
+- [Docops Feature Updates — L56]docops-feature-updates-3.md#^ref-cdbd21ee-56-0 (line 56, col 0, score 1)
+- [per-domain-policy-system-for-js-crawler#^ref-c03020e1-495-0|Per-Domain Policy System for JS Crawler — L495] (line 495, col 0, score 1)
+- [performance-optimized-polyglot-bridge#^ref-f5579967-459-0|Performance-Optimized-Polyglot-Bridge — L459] (line 459, col 0, score 1)
+- [pipeline-enhancements#^ref-e2135d9f-27-0|Pipeline Enhancements — L27] (line 27, col 0, score 1)
+- [plan-update-confirmation#^ref-b22d79c6-1002-0|plan-update-confirmation — L1002] (line 1002, col 0, score 1)
+- [polyglot-repl-interface-layer#^ref-9c79206d-171-0|polyglot-repl-interface-layer — L171] (line 171, col 0, score 1)
+- [post-linguistic-transhuman-design-frameworks#^ref-6bcff92c-112-0|Post-Linguistic Transhuman Design Frameworks — L112] (line 112, col 0, score 1)
+- [promethean-chat-activity-report#^ref-18344cf9-24-0|Promethean Chat Activity Report — L24] (line 24, col 0, score 1)
+- Protocol_0_The_Contradiction_Engine — L143$protocol-0-the-contradiction-engine.md#^ref-9a93a756-143-0 (line 143, col 0, score 1)
+- [provider-agnostic-chat-panel-implementation#^ref-43bfe9dd-241-0|Provider-Agnostic Chat Panel Implementation — L241] (line 241, col 0, score 1)
+- [creative-moments#^ref-10d98225-75-0|Creative Moments — L75] (line 75, col 0, score 1)
+- [Debugging Broker Connections and Agent Behavior — L104]debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-104-0 (line 104, col 0, score 1)
+- [Docops Feature Updates — L46]docops-feature-updates-3.md#^ref-cdbd21ee-46-0 (line 46, col 0, score 1)
+- [docops-feature-updates#^ref-2792d448-64-0|Docops Feature Updates — L64] (line 64, col 0, score 1)
+- [DuckDuckGoSearchPipeline — L40]duckduckgosearchpipeline.md#^ref-e979c50f-40-0 (line 40, col 0, score 1)
+- [ducks-attractor-states#^ref-13951643-137-0|Duck's Attractor States — L137] (line 137, col 0, score 1)
+- [ducks-self-referential-perceptual-loop#^ref-71726f04-82-0|Duck's Self-Referential Perceptual Loop — L82] (line 82, col 0, score 1)
+- [dynamic-context-model-for-web-components#^ref-f7702bf8-454-0|Dynamic Context Model for Web Components — L454] (line 454, col 0, score 1)
+- [creative-moments#^ref-10d98225-38-0|Creative Moments — L38] (line 38, col 0, score 1)
+- [Docops Feature Updates — L51]docops-feature-updates-3.md#^ref-cdbd21ee-51-0 (line 51, col 0, score 1)
+- [docops-feature-updates#^ref-2792d448-79-0|Docops Feature Updates — L79] (line 79, col 0, score 1)
+- [DuckDuckGoSearchPipeline — L77]duckduckgosearchpipeline.md#^ref-e979c50f-77-0 (line 77, col 0, score 1)
+- [ducks-attractor-states#^ref-13951643-115-0|Duck's Attractor States — L115] (line 115, col 0, score 1)
+- [ducks-self-referential-perceptual-loop#^ref-71726f04-61-0|Duck's Self-Referential Perceptual Loop — L61] (line 61, col 0, score 1)
+- [eidolon-field-abstract-model#^ref-5e8b2388-212-0|Eidolon Field Abstract Model — L212] (line 212, col 0, score 1)
+- [docs/unique/eidolon-field-math-foundations#^ref-008f2ac0-150-0|eidolon-field-math-foundations — L150] (line 150, col 0, score 1)
+- [docs/unique/eidolon-field-math-foundations#^ref-008f2ac0-148-0|eidolon-field-math-foundations — L148] (line 148, col 0, score 1)
+- [eidolon-node-lifecycle#^ref-938eca9c-36-0|eidolon-node-lifecycle — L36] (line 36, col 0, score 1)
+- [factorio-ai-with-external-agents#^ref-a4d90289-166-0|Factorio AI with External Agents — L166] (line 166, col 0, score 1)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

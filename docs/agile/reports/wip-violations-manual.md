@@ -1,11 +1,11 @@
 # WIP Violation Report
-
+```
 Generated: 10/6/2025, 10:08:55 PM
-
+```
 ## Summary
-
+```
 **Total Violations:** 2
-
+```
 ## Violations Detected
 
 ### todo

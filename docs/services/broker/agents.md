@@ -6,7 +6,7 @@ TODO: Add service description.
 
 ## Paths
 
-- [[broker|services/js/broker]]
+- [broker|services/js/broker]
 
 ## Tags
 

@@ -1,8 +1,16 @@
 ---
+```
 uuid: c710dc93-9fec-471b-bdee-bedbd360c67f
+```
+```
 created_at: 2025.08.02.15.08.53.md
+```
+```
 filename: 2d-sandbox-field
+```
+```
 description: >-
+```
   A 2D scalar vector field for testing node interactions, particle dynamics, and
   emergent behaviors without semantic layers.
 tags:
@@ -12,7 +20,9 @@ tags:
   - particle
   - decay
   - simulation
+```
 related_to_title:
+```
   - Eidolon Field Abstract Model
   - Exception Layer Analysis
   - Vectorial Exception Descent
@@ -30,7 +40,9 @@ related_to_title:
   - Event Bus Projections Architecture
   - aionian-circuit-math
   - Math Fundamentals
+```
 related_to_uuid:
+```
   - 5e8b2388-022b-46cf-952c-36ae9b8f0037
   - 21d5cc09-b005-4ede-8f69-00b4b0794540
   - d771154e-a7ef-44ca-b69c-a1626cf94fbf
@@ -834,7 +846,7 @@ function render(field, particles) {
 
 ## 🧪 What This Lets Us Do
 
-- Add multiple nodes (e.g., attractor + repulsor)
+- Add multiple nodes e.g., attractor + repulsor
     
 - Inject pulses over time (like an emotion spike)
     
@@ -857,177 +869,177 @@ Would you like to:
 I recommend starting with a single `gravity-style attractor` node and a few drifting particles to make sure field decay and pull are working. Want to do that?
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [[eidolon-field-abstract-model|Eidolon Field Abstract Model]]
-- [[exception-layer-analysis|Exception Layer Analysis]]
-- [[vectorial-exception-descent|Vectorial Exception Descent]]
+- [eidolon-field-abstract-model|Eidolon Field Abstract Model]
+- [exception-layer-analysis|Exception Layer Analysis]
+- [vectorial-exception-descent|Vectorial Exception Descent]
 - [[eidolonfield]]
-- [[docs/unique/field-dynamics-math-blocks|field-dynamics-math-blocks]]
-- [[field-node-diagram-outline]]
-- [[layer-1-uptime-diagrams]]
-- [[ice-box-reorganization|Ice Box Reorganization]]
+- [docs/unique/field-dynamics-math-blocks|field-dynamics-math-blocks]
+- [field-node-diagram-outline]
+- [layer-1-uptime-diagrams]
+- [ice-box-reorganization|Ice Box Reorganization]
 - [ParticleSimulationWithCanvasAndFFmpeg](particlesimulationwithcanvasandffmpeg.md)
 - [Layer1SurvivabilityEnvelope](layer1survivabilityenvelope.md)
-- [[docs/unique/eidolon-field-math-foundations|eidolon-field-math-foundations]]
-- [[eidolon-node-lifecycle]]
-- [[reawakening-duck|Reawakening Duck]]
-- [[sibilant-macro-targets]]
-- [[event-bus-projections-architecture|Event Bus Projections Architecture]]
-- [[docs/unique/aionian-circuit-math|aionian-circuit-math]]
-- [Math Fundamentals](chunks/math-fundamentals.md)
+- [docs/unique/eidolon-field-math-foundations|eidolon-field-math-foundations]
+- [eidolon-node-lifecycle]
+- [reawakening-duck|Reawakening Duck]
+- [sibilant-macro-targets]
+- [event-bus-projections-architecture|Event Bus Projections Architecture]
+- [docs/unique/aionian-circuit-math|aionian-circuit-math]
+- [Math Fundamentals]chunks/math-fundamentals.md
 
 ## Sources
 - [[eidolonfield#L140|EidolonField — L140]] (line 140, col 1, score 0.92)
 - [[eidolonfield#L163|EidolonField — L163]] (line 163, col 1, score 0.97)
 - [[eidolonfield#L200|EidolonField — L200]] (line 200, col 1, score 0.9)
 - [[eidolonfield#L184|EidolonField — L184]] (line 184, col 1, score 0.89)
-- [[exception-layer-analysis#L134|Exception Layer Analysis — L134]] (line 134, col 1, score 1)
-- [[vectorial-exception-descent#L142|Vectorial Exception Descent — L142]] (line 142, col 1, score 1)
-- [[eidolon-field-abstract-model#L176|Eidolon Field Abstract Model — L176]] (line 176, col 1, score 1)
-- [[docs/unique/field-dynamics-math-blocks#L117|field-dynamics-math-blocks — L117]] (line 117, col 1, score 0.96)
-- [[field-node-diagram-outline#L82|field-node-diagram-outline — L82]] (line 82, col 1, score 0.96)
-- [[layer-1-uptime-diagrams#L140|layer-1-uptime-diagrams — L140]] (line 140, col 1, score 0.96)
+- [exception-layer-analysis#L134|Exception Layer Analysis — L134] (line 134, col 1, score 1)
+- [vectorial-exception-descent#L142|Vectorial Exception Descent — L142] (line 142, col 1, score 1)
+- [eidolon-field-abstract-model#L176|Eidolon Field Abstract Model — L176] (line 176, col 1, score 1)
+- [docs/unique/field-dynamics-math-blocks#L117|field-dynamics-math-blocks — L117] (line 117, col 1, score 0.96)
+- [field-node-diagram-outline#L82|field-node-diagram-outline — L82] (line 82, col 1, score 0.96)
+- [layer-1-uptime-diagrams#L140|layer-1-uptime-diagrams — L140] (line 140, col 1, score 0.96)
 - [[eidolonfield#L228|EidolonField — L228]] (line 228, col 1, score 0.95)
-- [[ice-box-reorganization#L55|Ice Box Reorganization — L55]] (line 55, col 1, score 0.95)
+- [ice-box-reorganization#L55|Ice Box Reorganization — L55] (line 55, col 1, score 0.95)
 - [[eidolonfield#L243|EidolonField — L243]] (line 243, col 1, score 1)
 - [[eidolonfield#L243|EidolonField — L243]] (line 243, col 3, score 1)
-- [[exception-layer-analysis#L148|Exception Layer Analysis — L148]] (line 148, col 1, score 1)
-- [[exception-layer-analysis#L148|Exception Layer Analysis — L148]] (line 148, col 3, score 1)
-- [[docs/unique/field-dynamics-math-blocks#L145|field-dynamics-math-blocks — L145]] (line 145, col 1, score 1)
-- [[docs/unique/field-dynamics-math-blocks#L145|field-dynamics-math-blocks — L145]] (line 145, col 3, score 1)
-- [[field-node-diagram-outline#L108|field-node-diagram-outline — L108]] (line 108, col 1, score 1)
-- [[field-node-diagram-outline#L108|field-node-diagram-outline — L108]] (line 108, col 3, score 1)
-- [[eidolon-field-abstract-model#L193|Eidolon Field Abstract Model — L193]] (line 193, col 1, score 1)
-- [[eidolon-field-abstract-model#L193|Eidolon Field Abstract Model — L193]] (line 193, col 3, score 1)
+- [exception-layer-analysis#L148|Exception Layer Analysis — L148] (line 148, col 1, score 1)
+- [exception-layer-analysis#L148|Exception Layer Analysis — L148] (line 148, col 3, score 1)
+- [docs/unique/field-dynamics-math-blocks#L145|field-dynamics-math-blocks — L145] (line 145, col 1, score 1)
+- [docs/unique/field-dynamics-math-blocks#L145|field-dynamics-math-blocks — L145] (line 145, col 3, score 1)
+- [field-node-diagram-outline#L108|field-node-diagram-outline — L108] (line 108, col 1, score 1)
+- [field-node-diagram-outline#L108|field-node-diagram-outline — L108] (line 108, col 3, score 1)
+- [eidolon-field-abstract-model#L193|Eidolon Field Abstract Model — L193] (line 193, col 1, score 1)
+- [eidolon-field-abstract-model#L193|Eidolon Field Abstract Model — L193] (line 193, col 3, score 1)
 - [[eidolonfield#L245|EidolonField — L245]] (line 245, col 1, score 1)
 - [[eidolonfield#L245|EidolonField — L245]] (line 245, col 3, score 1)
-- [[docs/unique/field-dynamics-math-blocks#L147|field-dynamics-math-blocks — L147]] (line 147, col 1, score 1)
-- [[docs/unique/field-dynamics-math-blocks#L147|field-dynamics-math-blocks — L147]] (line 147, col 3, score 1)
-- [[field-node-diagram-outline#L109|field-node-diagram-outline — L109]] (line 109, col 1, score 1)
-- [[field-node-diagram-outline#L109|field-node-diagram-outline — L109]] (line 109, col 3, score 1)
-- [[eidolon-field-abstract-model#L192|Eidolon Field Abstract Model — L192]] (line 192, col 1, score 1)
-- [[eidolon-field-abstract-model#L192|Eidolon Field Abstract Model — L192]] (line 192, col 3, score 1)
+- [docs/unique/field-dynamics-math-blocks#L147|field-dynamics-math-blocks — L147] (line 147, col 1, score 1)
+- [docs/unique/field-dynamics-math-blocks#L147|field-dynamics-math-blocks — L147] (line 147, col 3, score 1)
+- [field-node-diagram-outline#L109|field-node-diagram-outline — L109] (line 109, col 1, score 1)
+- [field-node-diagram-outline#L109|field-node-diagram-outline — L109] (line 109, col 3, score 1)
+- [eidolon-field-abstract-model#L192|Eidolon Field Abstract Model — L192] (line 192, col 1, score 1)
+- [eidolon-field-abstract-model#L192|Eidolon Field Abstract Model — L192] (line 192, col 3, score 1)
 - [[eidolonfield#L244|EidolonField — L244]] (line 244, col 1, score 1)
 - [[eidolonfield#L244|EidolonField — L244]] (line 244, col 3, score 1)
-- [[exception-layer-analysis#L147|Exception Layer Analysis — L147]] (line 147, col 1, score 1)
-- [[exception-layer-analysis#L147|Exception Layer Analysis — L147]] (line 147, col 3, score 1)
-- [[docs/unique/field-dynamics-math-blocks#L146|field-dynamics-math-blocks — L146]] (line 146, col 1, score 1)
-- [[docs/unique/field-dynamics-math-blocks#L146|field-dynamics-math-blocks — L146]] (line 146, col 3, score 1)
-- [[eidolon-field-abstract-model#L197|Eidolon Field Abstract Model — L197]] (line 197, col 1, score 1)
-- [[eidolon-field-abstract-model#L197|Eidolon Field Abstract Model — L197]] (line 197, col 3, score 1)
-- [[exception-layer-analysis#L153|Exception Layer Analysis — L153]] (line 153, col 1, score 1)
-- [[exception-layer-analysis#L153|Exception Layer Analysis — L153]] (line 153, col 3, score 1)
-- [[docs/unique/field-dynamics-math-blocks#L148|field-dynamics-math-blocks — L148]] (line 148, col 1, score 1)
-- [[docs/unique/field-dynamics-math-blocks#L148|field-dynamics-math-blocks — L148]] (line 148, col 3, score 1)
-- [[field-node-diagram-outline#L111|field-node-diagram-outline — L111]] (line 111, col 1, score 1)
-- [[field-node-diagram-outline#L111|field-node-diagram-outline — L111]] (line 111, col 3, score 1)
-- [[docs/unique/aionian-circuit-math#L154|aionian-circuit-math — L154]] (line 154, col 1, score 1)
-- [[docs/unique/aionian-circuit-math#L154|aionian-circuit-math — L154]] (line 154, col 3, score 1)
-- [Math Fundamentals — L13](chunks/math-fundamentals.md#L13) (line 13, col 1, score 1)
-- [Math Fundamentals — L13](chunks/math-fundamentals.md#L13) (line 13, col 3, score 1)
-- [[eidolon-field-abstract-model#L194|Eidolon Field Abstract Model — L194]] (line 194, col 1, score 1)
-- [[eidolon-field-abstract-model#L194|Eidolon Field Abstract Model — L194]] (line 194, col 3, score 1)
-- [[docs/unique/eidolon-field-math-foundations#L123|eidolon-field-math-foundations — L123]] (line 123, col 1, score 1)
-- [[docs/unique/eidolon-field-math-foundations#L123|eidolon-field-math-foundations — L123]] (line 123, col 3, score 1)
-- [[eidolon-field-abstract-model#L195|Eidolon Field Abstract Model — L195]] (line 195, col 1, score 1)
-- [[eidolon-field-abstract-model#L195|Eidolon Field Abstract Model — L195]] (line 195, col 3, score 1)
-- [[docs/unique/eidolon-field-math-foundations#L137|eidolon-field-math-foundations — L137]] (line 137, col 1, score 1)
-- [[docs/unique/eidolon-field-math-foundations#L137|eidolon-field-math-foundations — L137]] (line 137, col 3, score 1)
-- [[eidolon-node-lifecycle#L32|eidolon-node-lifecycle — L32]] (line 32, col 1, score 1)
-- [[eidolon-node-lifecycle#L32|eidolon-node-lifecycle — L32]] (line 32, col 3, score 1)
+- [exception-layer-analysis#L147|Exception Layer Analysis — L147] (line 147, col 1, score 1)
+- [exception-layer-analysis#L147|Exception Layer Analysis — L147] (line 147, col 3, score 1)
+- [docs/unique/field-dynamics-math-blocks#L146|field-dynamics-math-blocks — L146] (line 146, col 1, score 1)
+- [docs/unique/field-dynamics-math-blocks#L146|field-dynamics-math-blocks — L146] (line 146, col 3, score 1)
+- [eidolon-field-abstract-model#L197|Eidolon Field Abstract Model — L197] (line 197, col 1, score 1)
+- [eidolon-field-abstract-model#L197|Eidolon Field Abstract Model — L197] (line 197, col 3, score 1)
+- [exception-layer-analysis#L153|Exception Layer Analysis — L153] (line 153, col 1, score 1)
+- [exception-layer-analysis#L153|Exception Layer Analysis — L153] (line 153, col 3, score 1)
+- [docs/unique/field-dynamics-math-blocks#L148|field-dynamics-math-blocks — L148] (line 148, col 1, score 1)
+- [docs/unique/field-dynamics-math-blocks#L148|field-dynamics-math-blocks — L148] (line 148, col 3, score 1)
+- [field-node-diagram-outline#L111|field-node-diagram-outline — L111] (line 111, col 1, score 1)
+- [field-node-diagram-outline#L111|field-node-diagram-outline — L111] (line 111, col 3, score 1)
+- [docs/unique/aionian-circuit-math#L154|aionian-circuit-math — L154] (line 154, col 1, score 1)
+- [docs/unique/aionian-circuit-math#L154|aionian-circuit-math — L154] (line 154, col 3, score 1)
+- [Math Fundamentals — L13]chunks/math-fundamentals.md#L13 (line 13, col 1, score 1)
+- [Math Fundamentals — L13]chunks/math-fundamentals.md#L13 (line 13, col 3, score 1)
+- [eidolon-field-abstract-model#L194|Eidolon Field Abstract Model — L194] (line 194, col 1, score 1)
+- [eidolon-field-abstract-model#L194|Eidolon Field Abstract Model — L194] (line 194, col 3, score 1)
+- [docs/unique/eidolon-field-math-foundations#L123|eidolon-field-math-foundations — L123] (line 123, col 1, score 1)
+- [docs/unique/eidolon-field-math-foundations#L123|eidolon-field-math-foundations — L123] (line 123, col 3, score 1)
+- [eidolon-field-abstract-model#L195|Eidolon Field Abstract Model — L195] (line 195, col 1, score 1)
+- [eidolon-field-abstract-model#L195|Eidolon Field Abstract Model — L195] (line 195, col 3, score 1)
+- [docs/unique/eidolon-field-math-foundations#L137|eidolon-field-math-foundations — L137] (line 137, col 1, score 1)
+- [docs/unique/eidolon-field-math-foundations#L137|eidolon-field-math-foundations — L137] (line 137, col 3, score 1)
+- [eidolon-node-lifecycle#L32|eidolon-node-lifecycle — L32] (line 32, col 1, score 1)
+- [eidolon-node-lifecycle#L32|eidolon-node-lifecycle — L32] (line 32, col 3, score 1)
 - [[eidolonfield#L248|EidolonField — L248]] (line 248, col 1, score 1)
 - [[eidolonfield#L248|EidolonField — L248]] (line 248, col 3, score 1)
-- [[eidolon-field-abstract-model#L196|Eidolon Field Abstract Model — L196]] (line 196, col 1, score 1)
-- [[eidolon-field-abstract-model#L196|Eidolon Field Abstract Model — L196]] (line 196, col 3, score 1)
-- [[eidolon-node-lifecycle#L35|eidolon-node-lifecycle — L35]] (line 35, col 1, score 1)
-- [[eidolon-node-lifecycle#L35|eidolon-node-lifecycle — L35]] (line 35, col 3, score 1)
+- [eidolon-field-abstract-model#L196|Eidolon Field Abstract Model — L196] (line 196, col 1, score 1)
+- [eidolon-field-abstract-model#L196|Eidolon Field Abstract Model — L196] (line 196, col 3, score 1)
+- [eidolon-node-lifecycle#L35|eidolon-node-lifecycle — L35] (line 35, col 1, score 1)
+- [eidolon-node-lifecycle#L35|eidolon-node-lifecycle — L35] (line 35, col 3, score 1)
 - [[eidolonfield#L249|EidolonField — L249]] (line 249, col 1, score 1)
 - [[eidolonfield#L249|EidolonField — L249]] (line 249, col 3, score 1)
-- [[event-bus-projections-architecture#L151|Event Bus Projections Architecture — L151]] (line 151, col 1, score 1)
-- [[event-bus-projections-architecture#L151|Event Bus Projections Architecture — L151]] (line 151, col 3, score 1)
-- [[eidolon-field-abstract-model#L198|Eidolon Field Abstract Model — L198]] (line 198, col 1, score 1)
-- [[eidolon-field-abstract-model#L198|Eidolon Field Abstract Model — L198]] (line 198, col 3, score 1)
+- [event-bus-projections-architecture#L151|Event Bus Projections Architecture — L151] (line 151, col 1, score 1)
+- [event-bus-projections-architecture#L151|Event Bus Projections Architecture — L151] (line 151, col 3, score 1)
+- [eidolon-field-abstract-model#L198|Eidolon Field Abstract Model — L198] (line 198, col 1, score 1)
+- [eidolon-field-abstract-model#L198|Eidolon Field Abstract Model — L198] (line 198, col 3, score 1)
 - [[eidolonfield#L241|EidolonField — L241]] (line 241, col 1, score 1)
 - [[eidolonfield#L241|EidolonField — L241]] (line 241, col 3, score 1)
-- [[exception-layer-analysis#L154|Exception Layer Analysis — L154]] (line 154, col 1, score 1)
-- [[exception-layer-analysis#L154|Exception Layer Analysis — L154]] (line 154, col 3, score 1)
-- [[docs/unique/field-dynamics-math-blocks#L149|field-dynamics-math-blocks — L149]] (line 149, col 1, score 1)
-- [[docs/unique/field-dynamics-math-blocks#L149|field-dynamics-math-blocks — L149]] (line 149, col 3, score 1)
+- [exception-layer-analysis#L154|Exception Layer Analysis — L154] (line 154, col 1, score 1)
+- [exception-layer-analysis#L154|Exception Layer Analysis — L154] (line 154, col 3, score 1)
+- [docs/unique/field-dynamics-math-blocks#L149|field-dynamics-math-blocks — L149] (line 149, col 1, score 1)
+- [docs/unique/field-dynamics-math-blocks#L149|field-dynamics-math-blocks — L149] (line 149, col 3, score 1)
 - [[eidolonfield#L246|EidolonField — L246]] (line 246, col 1, score 1)
 - [[eidolonfield#L246|EidolonField — L246]] (line 246, col 3, score 1)
-- [[field-node-diagram-outline#L117|field-node-diagram-outline — L117]] (line 117, col 1, score 1)
-- [[field-node-diagram-outline#L117|field-node-diagram-outline — L117]] (line 117, col 3, score 1)
-- [[reawakening-duck#L116|Reawakening Duck — L116]] (line 116, col 1, score 1)
-- [[reawakening-duck#L116|Reawakening Duck — L116]] (line 116, col 3, score 1)
-- [[sibilant-macro-targets#L165|sibilant-macro-targets — L165]] (line 165, col 1, score 1)
-- [[sibilant-macro-targets#L165|sibilant-macro-targets — L165]] (line 165, col 3, score 1)
+- [field-node-diagram-outline#L117|field-node-diagram-outline — L117] (line 117, col 1, score 1)
+- [field-node-diagram-outline#L117|field-node-diagram-outline — L117] (line 117, col 3, score 1)
+- [reawakening-duck#L116|Reawakening Duck — L116] (line 116, col 1, score 1)
+- [reawakening-duck#L116|Reawakening Duck — L116] (line 116, col 3, score 1)
+- [sibilant-macro-targets#L165|sibilant-macro-targets — L165] (line 165, col 1, score 1)
+- [sibilant-macro-targets#L165|sibilant-macro-targets — L165] (line 165, col 3, score 1)
 - [[eidolonfield#L252|EidolonField — L252]] (line 252, col 1, score 1)
 - [[eidolonfield#L252|EidolonField — L252]] (line 252, col 3, score 1)
-- [[eidolon-field-abstract-model#L210|Eidolon Field Abstract Model — L210]] (line 210, col 1, score 0.98)
-- [[eidolon-field-abstract-model#L210|Eidolon Field Abstract Model — L210]] (line 210, col 3, score 0.98)
-- [[exception-layer-analysis#L166|Exception Layer Analysis — L166]] (line 166, col 1, score 0.98)
-- [[exception-layer-analysis#L166|Exception Layer Analysis — L166]] (line 166, col 3, score 0.98)
-- [[vectorial-exception-descent#L181|Vectorial Exception Descent — L181]] (line 181, col 1, score 0.98)
-- [[vectorial-exception-descent#L181|Vectorial Exception Descent — L181]] (line 181, col 3, score 0.98)
-- [[docs/unique/field-dynamics-math-blocks#L173|field-dynamics-math-blocks — L173]] (line 173, col 1, score 0.97)
-- [[docs/unique/field-dynamics-math-blocks#L173|field-dynamics-math-blocks — L173]] (line 173, col 3, score 0.97)
-- [[field-node-diagram-outline#L133|field-node-diagram-outline — L133]] (line 133, col 1, score 0.98)
-- [[field-node-diagram-outline#L133|field-node-diagram-outline — L133]] (line 133, col 3, score 0.98)
-- [[layer-1-uptime-diagrams#L184|layer-1-uptime-diagrams — L184]] (line 184, col 1, score 0.98)
-- [[layer-1-uptime-diagrams#L184|layer-1-uptime-diagrams — L184]] (line 184, col 3, score 0.98)
-- [[eidolon-field-abstract-model#L204|Eidolon Field Abstract Model — L204]] (line 204, col 1, score 1)
-- [[eidolon-field-abstract-model#L204|Eidolon Field Abstract Model — L204]] (line 204, col 3, score 1)
-- [[vectorial-exception-descent#L175|Vectorial Exception Descent — L175]] (line 175, col 1, score 1)
-- [[vectorial-exception-descent#L175|Vectorial Exception Descent — L175]] (line 175, col 3, score 1)
-- [[docs/unique/field-dynamics-math-blocks#L169|field-dynamics-math-blocks — L169]] (line 169, col 1, score 0.98)
-- [[docs/unique/field-dynamics-math-blocks#L169|field-dynamics-math-blocks — L169]] (line 169, col 3, score 0.98)
-- [[field-node-diagram-outline#L129|field-node-diagram-outline — L129]] (line 129, col 1, score 0.98)
-- [[field-node-diagram-outline#L129|field-node-diagram-outline — L129]] (line 129, col 3, score 0.98)
-- [[eidolon-field-abstract-model#L205|Eidolon Field Abstract Model — L205]] (line 205, col 1, score 1)
-- [[eidolon-field-abstract-model#L205|Eidolon Field Abstract Model — L205]] (line 205, col 3, score 1)
-- [[exception-layer-analysis#L160|Exception Layer Analysis — L160]] (line 160, col 1, score 1)
-- [[exception-layer-analysis#L160|Exception Layer Analysis — L160]] (line 160, col 3, score 1)
-- [[docs/unique/field-dynamics-math-blocks#L170|field-dynamics-math-blocks — L170]] (line 170, col 1, score 0.99)
-- [[docs/unique/field-dynamics-math-blocks#L170|field-dynamics-math-blocks — L170]] (line 170, col 3, score 0.99)
-- [[field-node-diagram-outline#L130|field-node-diagram-outline — L130]] (line 130, col 1, score 0.99)
-- [[field-node-diagram-outline#L130|field-node-diagram-outline — L130]] (line 130, col 3, score 0.99)
-- [[exception-layer-analysis#L161|Exception Layer Analysis — L161]] (line 161, col 1, score 1)
-- [[exception-layer-analysis#L161|Exception Layer Analysis — L161]] (line 161, col 3, score 1)
-- [[vectorial-exception-descent#L176|Vectorial Exception Descent — L176]] (line 176, col 1, score 1)
-- [[vectorial-exception-descent#L176|Vectorial Exception Descent — L176]] (line 176, col 3, score 1)
-- [[docs/unique/field-dynamics-math-blocks#L171|field-dynamics-math-blocks — L171]] (line 171, col 1, score 0.99)
-- [[docs/unique/field-dynamics-math-blocks#L171|field-dynamics-math-blocks — L171]] (line 171, col 3, score 0.99)
-- [[field-node-diagram-outline#L131|field-node-diagram-outline — L131]] (line 131, col 1, score 0.99)
-- [[field-node-diagram-outline#L131|field-node-diagram-outline — L131]] (line 131, col 3, score 0.99)
-- [[eidolon-field-abstract-model#L207|Eidolon Field Abstract Model — L207]] (line 207, col 1, score 1)
-- [[eidolon-field-abstract-model#L207|Eidolon Field Abstract Model — L207]] (line 207, col 3, score 1)
-- [[exception-layer-analysis#L163|Exception Layer Analysis — L163]] (line 163, col 1, score 1)
-- [[exception-layer-analysis#L163|Exception Layer Analysis — L163]] (line 163, col 3, score 1)
-- [[vectorial-exception-descent#L178|Vectorial Exception Descent — L178]] (line 178, col 1, score 1)
-- [[vectorial-exception-descent#L178|Vectorial Exception Descent — L178]] (line 178, col 3, score 1)
+- [eidolon-field-abstract-model#L210|Eidolon Field Abstract Model — L210] (line 210, col 1, score 0.98)
+- [eidolon-field-abstract-model#L210|Eidolon Field Abstract Model — L210] (line 210, col 3, score 0.98)
+- [exception-layer-analysis#L166|Exception Layer Analysis — L166] (line 166, col 1, score 0.98)
+- [exception-layer-analysis#L166|Exception Layer Analysis — L166] (line 166, col 3, score 0.98)
+- [vectorial-exception-descent#L181|Vectorial Exception Descent — L181] (line 181, col 1, score 0.98)
+- [vectorial-exception-descent#L181|Vectorial Exception Descent — L181] (line 181, col 3, score 0.98)
+- [docs/unique/field-dynamics-math-blocks#L173|field-dynamics-math-blocks — L173] (line 173, col 1, score 0.97)
+- [docs/unique/field-dynamics-math-blocks#L173|field-dynamics-math-blocks — L173] (line 173, col 3, score 0.97)
+- [field-node-diagram-outline#L133|field-node-diagram-outline — L133] (line 133, col 1, score 0.98)
+- [field-node-diagram-outline#L133|field-node-diagram-outline — L133] (line 133, col 3, score 0.98)
+- [layer-1-uptime-diagrams#L184|layer-1-uptime-diagrams — L184] (line 184, col 1, score 0.98)
+- [layer-1-uptime-diagrams#L184|layer-1-uptime-diagrams — L184] (line 184, col 3, score 0.98)
+- [eidolon-field-abstract-model#L204|Eidolon Field Abstract Model — L204] (line 204, col 1, score 1)
+- [eidolon-field-abstract-model#L204|Eidolon Field Abstract Model — L204] (line 204, col 3, score 1)
+- [vectorial-exception-descent#L175|Vectorial Exception Descent — L175] (line 175, col 1, score 1)
+- [vectorial-exception-descent#L175|Vectorial Exception Descent — L175] (line 175, col 3, score 1)
+- [docs/unique/field-dynamics-math-blocks#L169|field-dynamics-math-blocks — L169] (line 169, col 1, score 0.98)
+- [docs/unique/field-dynamics-math-blocks#L169|field-dynamics-math-blocks — L169] (line 169, col 3, score 0.98)
+- [field-node-diagram-outline#L129|field-node-diagram-outline — L129] (line 129, col 1, score 0.98)
+- [field-node-diagram-outline#L129|field-node-diagram-outline — L129] (line 129, col 3, score 0.98)
+- [eidolon-field-abstract-model#L205|Eidolon Field Abstract Model — L205] (line 205, col 1, score 1)
+- [eidolon-field-abstract-model#L205|Eidolon Field Abstract Model — L205] (line 205, col 3, score 1)
+- [exception-layer-analysis#L160|Exception Layer Analysis — L160] (line 160, col 1, score 1)
+- [exception-layer-analysis#L160|Exception Layer Analysis — L160] (line 160, col 3, score 1)
+- [docs/unique/field-dynamics-math-blocks#L170|field-dynamics-math-blocks — L170] (line 170, col 1, score 0.99)
+- [docs/unique/field-dynamics-math-blocks#L170|field-dynamics-math-blocks — L170] (line 170, col 3, score 0.99)
+- [field-node-diagram-outline#L130|field-node-diagram-outline — L130] (line 130, col 1, score 0.99)
+- [field-node-diagram-outline#L130|field-node-diagram-outline — L130] (line 130, col 3, score 0.99)
+- [exception-layer-analysis#L161|Exception Layer Analysis — L161] (line 161, col 1, score 1)
+- [exception-layer-analysis#L161|Exception Layer Analysis — L161] (line 161, col 3, score 1)
+- [vectorial-exception-descent#L176|Vectorial Exception Descent — L176] (line 176, col 1, score 1)
+- [vectorial-exception-descent#L176|Vectorial Exception Descent — L176] (line 176, col 3, score 1)
+- [docs/unique/field-dynamics-math-blocks#L171|field-dynamics-math-blocks — L171] (line 171, col 1, score 0.99)
+- [docs/unique/field-dynamics-math-blocks#L171|field-dynamics-math-blocks — L171] (line 171, col 3, score 0.99)
+- [field-node-diagram-outline#L131|field-node-diagram-outline — L131] (line 131, col 1, score 0.99)
+- [field-node-diagram-outline#L131|field-node-diagram-outline — L131] (line 131, col 3, score 0.99)
+- [eidolon-field-abstract-model#L207|Eidolon Field Abstract Model — L207] (line 207, col 1, score 1)
+- [eidolon-field-abstract-model#L207|Eidolon Field Abstract Model — L207] (line 207, col 3, score 1)
+- [exception-layer-analysis#L163|Exception Layer Analysis — L163] (line 163, col 1, score 1)
+- [exception-layer-analysis#L163|Exception Layer Analysis — L163] (line 163, col 3, score 1)
+- [vectorial-exception-descent#L178|Vectorial Exception Descent — L178] (line 178, col 1, score 1)
+- [vectorial-exception-descent#L178|Vectorial Exception Descent — L178] (line 178, col 3, score 1)
 - [[eidolonfield#L264|EidolonField — L264]] (line 264, col 1, score 1)
 - [[eidolonfield#L264|EidolonField — L264]] (line 264, col 3, score 1)
-- [[eidolon-field-abstract-model#L208|Eidolon Field Abstract Model — L208]] (line 208, col 1, score 1)
-- [[eidolon-field-abstract-model#L208|Eidolon Field Abstract Model — L208]] (line 208, col 3, score 1)
-- [[exception-layer-analysis#L164|Exception Layer Analysis — L164]] (line 164, col 1, score 1)
-- [[exception-layer-analysis#L164|Exception Layer Analysis — L164]] (line 164, col 3, score 1)
-- [[vectorial-exception-descent#L179|Vectorial Exception Descent — L179]] (line 179, col 1, score 1)
-- [[vectorial-exception-descent#L179|Vectorial Exception Descent — L179]] (line 179, col 3, score 1)
+- [eidolon-field-abstract-model#L208|Eidolon Field Abstract Model — L208] (line 208, col 1, score 1)
+- [eidolon-field-abstract-model#L208|Eidolon Field Abstract Model — L208] (line 208, col 3, score 1)
+- [exception-layer-analysis#L164|Exception Layer Analysis — L164] (line 164, col 1, score 1)
+- [exception-layer-analysis#L164|Exception Layer Analysis — L164] (line 164, col 3, score 1)
+- [vectorial-exception-descent#L179|Vectorial Exception Descent — L179] (line 179, col 1, score 1)
+- [vectorial-exception-descent#L179|Vectorial Exception Descent — L179] (line 179, col 3, score 1)
 - [[eidolonfield#L265|EidolonField — L265]] (line 265, col 1, score 1)
 - [[eidolonfield#L265|EidolonField — L265]] (line 265, col 3, score 1)
-- [[eidolon-field-abstract-model#L209|Eidolon Field Abstract Model — L209]] (line 209, col 1, score 1)
-- [[eidolon-field-abstract-model#L209|Eidolon Field Abstract Model — L209]] (line 209, col 3, score 1)
-- [[exception-layer-analysis#L165|Exception Layer Analysis — L165]] (line 165, col 1, score 1)
-- [[exception-layer-analysis#L165|Exception Layer Analysis — L165]] (line 165, col 3, score 1)
-- [[vectorial-exception-descent#L180|Vectorial Exception Descent — L180]] (line 180, col 1, score 1)
-- [[vectorial-exception-descent#L180|Vectorial Exception Descent — L180]] (line 180, col 3, score 1)
+- [eidolon-field-abstract-model#L209|Eidolon Field Abstract Model — L209] (line 209, col 1, score 1)
+- [eidolon-field-abstract-model#L209|Eidolon Field Abstract Model — L209] (line 209, col 3, score 1)
+- [exception-layer-analysis#L165|Exception Layer Analysis — L165] (line 165, col 1, score 1)
+- [exception-layer-analysis#L165|Exception Layer Analysis — L165] (line 165, col 3, score 1)
+- [vectorial-exception-descent#L180|Vectorial Exception Descent — L180] (line 180, col 1, score 1)
+- [vectorial-exception-descent#L180|Vectorial Exception Descent — L180] (line 180, col 3, score 1)
 - [[eidolonfield#L266|EidolonField — L266]] (line 266, col 1, score 1)
 - [[eidolonfield#L266|EidolonField — L266]] (line 266, col 3, score 1)
-- [[eidolon-field-abstract-model#L211|Eidolon Field Abstract Model — L211]] (line 211, col 1, score 1)
-- [[eidolon-field-abstract-model#L211|Eidolon Field Abstract Model — L211]] (line 211, col 3, score 1)
-- [[exception-layer-analysis#L167|Exception Layer Analysis — L167]] (line 167, col 1, score 1)
-- [[exception-layer-analysis#L167|Exception Layer Analysis — L167]] (line 167, col 3, score 1)
-- [[vectorial-exception-descent#L182|Vectorial Exception Descent — L182]] (line 182, col 1, score 1)
-- [[vectorial-exception-descent#L182|Vectorial Exception Descent — L182]] (line 182, col 3, score 1)
-- [[docs/unique/field-dynamics-math-blocks#L174|field-dynamics-math-blocks — L174]] (line 174, col 1, score 1)
-- [[docs/unique/field-dynamics-math-blocks#L174|field-dynamics-math-blocks — L174]] (line 174, col 3, score 1)
+- [eidolon-field-abstract-model#L211|Eidolon Field Abstract Model — L211] (line 211, col 1, score 1)
+- [eidolon-field-abstract-model#L211|Eidolon Field Abstract Model — L211] (line 211, col 3, score 1)
+- [exception-layer-analysis#L167|Exception Layer Analysis — L167] (line 167, col 1, score 1)
+- [exception-layer-analysis#L167|Exception Layer Analysis — L167] (line 167, col 3, score 1)
+- [vectorial-exception-descent#L182|Vectorial Exception Descent — L182] (line 182, col 1, score 1)
+- [vectorial-exception-descent#L182|Vectorial Exception Descent — L182] (line 182, col 3, score 1)
+- [docs/unique/field-dynamics-math-blocks#L174|field-dynamics-math-blocks — L174] (line 174, col 1, score 1)
+- [docs/unique/field-dynamics-math-blocks#L174|field-dynamics-math-blocks — L174] (line 174, col 3, score 1)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

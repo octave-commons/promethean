@@ -25,7 +25,7 @@ This document tracks the migration of Promethean services from legacy **MongoCli
 ---
 
 ## ⚠️ SmartGPT Bridge
-- [ ] Refactor tests (`helpers/server.js`, `global.teardown.test.js`) to use `DualStore.create("bridge_logs")`
+- [ ] Refactor tests `helpers/server.js`, `global.teardown.test.js` to use `DualStore.create"bridge_logs"`
 - [ ] Move persistence helpers → shared `clients.ts`
 - [ ] Delete `mongo.js` and `DualSink.js`
 - [ ] Update `AGENTS.md` to confirm persistence = `DualStore`
@@ -35,7 +35,7 @@ This document tracks the migration of Promethean services from legacy **MongoCli
 ## ⚠️ Discord-embedder
 - [x] Introduced `DualStoreManager` + `ContextStore`
 - [ ] Remove `getMongoClient()` from `src/index.ts`
-- [ ] Replace with `DualStore.create("discord_messages")`
+- [ ] Replace with `DualStore.create"discord_messages"`
 - [ ] Remove Mongo fallback entirely
 - [ ] Update tests to confirm only `DualStore` is used
 
@@ -51,14 +51,14 @@ This document tracks the migration of Promethean services from legacy **MongoCli
 ---
 
 ## ⚠️ Markdown Graph
-- [x] Core (`src/graph.ts`) migrated to `DualStore`
-- [ ] Refactor tests (`tests/graph.test.ts`) to use mock `DualStore`
+- [x] Core `src/graph.ts` migrated to `DualStore`
+- [ ] Refactor tests `tests/graph.test.ts` to use mock `DualStore`
 - [ ] Delete leftover `getMongoClient()` references
 
 ---
 
 ## ❌ Codex Context
-- [ ] Replace doc snippet (`requests/2025.08.21...md`) with `DualStore.create("codex_context")`
+- [ ] Replace doc snippet `requests/2025.08.21...md` with `DualStore.create"codex_context"`
 
 ---
 

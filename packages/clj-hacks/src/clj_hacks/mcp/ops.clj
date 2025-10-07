@@ -73,13 +73,11 @@
       fs/expand-home))
 
 (defn- which [cmd]
-  ;; if command has a slash, treat as path; else look in PATH
-  (let [cmd* (expand-home cmd)]
+  ;; Use babashka.fs/which to check executable existence and permissions
+  (when-let [cmd* (some-> cmd expand-home)]
     (if (str/includes? cmd* "/")
-      (let [p (fs/file cmd*)]
-        (when (fs/exists? p) (str p)))
-      (let [{:keys [exit out]} (proc/sh ["sh" "-lc" (str "command -v " (pr-str cmd))])]
-        (when (zero? exit) (str/trim out))))))
+      (when (fs/executable? cmd*) cmd*)
+      (fs/which cmd*))))
 
 (defn doctor-server
   "Return a status map for one server {:server kw :command str :resolved? bool :resolved-path str|nil}."

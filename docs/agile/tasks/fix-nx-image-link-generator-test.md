@@ -1,12 +1,18 @@
 ---
+```
 uuid: ac42755d-b90e-4d8d-bb16-46bc251fc210
+```
 title: Fix nx task @promethean/image-link-generator:test
+```
 status: in-progress
+```
 priority: P2
 labels:
   - #InProgress
   - #Testing
+```
 created_at: '2025-01-07T00:00:00.000Z'
+```
 ---
 #InProgress
 
@@ -26,7 +32,7 @@ created_at: '2025-01-07T00:00:00.000Z'
 - Any updated logic remains covered by tests and linting with no regressions.
 
 ## Requirements
-- [x] `pnpm nx test @promethean/image-link-generator` passes locally. (2025-10-06)
+- [x] `pnpm nx test @promethean/image-link-generator` passes locally. 2025-10-06
 - [ ] Update documentation or changelog if behavior changes.
 - [ ] PR merged.
 - [ ] Additional constraints or non-functional requirements are addressed: follow repo coding standards and keep ESLint clean.
