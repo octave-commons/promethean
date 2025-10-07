@@ -86,11 +86,13 @@ function providerAccessRule(rule: ProviderAccessRule): PolicyRule {
   };
 }
 
+const GLOB_SPECIALS = /[\\^$+?.()|[\]{}]/g;
+
 function globToRegExp(pat: string): RegExp {
   const normalized = pat.trim();
   if (normalized.length > 256) throw new NotAllowedError('Pattern too long');
   const escaped = normalized
-    .replace(/[.+^${}()|[\]\\]/g, '\\$&')
+    .replace(GLOB_SPECIALS, (char) => `\\${char}`)
     .replace(/\*/g, '.*');
   return new RegExp(`^${escaped}$`);
 }
