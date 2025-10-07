@@ -243,7 +243,7 @@ class GitHubClient {
   }
 
   async searchIssues(query) {
-    return this.request('GET', `/search/issues?q=${encodeURIComponent(query)}+repo:${this.owner}/${this.repo}`);
+    return this.request('GET', `/search/issues?q=${encodeURIComponent(query)}+repo:${this.owner}/${this.repo}+is:issue`);
   }
 
   async getProjectColumns(projectId) {
@@ -327,14 +327,35 @@ async function syncKanbanToGitHub() {
   }
 }
 
+// Simple rate limiter
+const rateLimiter = (() => {
+  let lastCall = 0;
+  const minInterval = 1000; // 1 second between API calls
+
+  return async () => {
+    const now = Date.now();
+    const timeSinceLastCall = now - lastCall;
+
+    if (timeSinceLastCall < minInterval) {
+      const delay = minInterval - timeSinceLastCall;
+      await new Promise(resolve => setTimeout(resolve, delay));
+    }
+
+    lastCall = Date.now();
+  };
+})();
+
 // Sync individual task to GitHub
 async function syncTaskToGitHub(github, task, columnName) {
   try {
+    // Rate limit API calls
+    await rateLimiter();
+
     // Convert task to GitHub issue format
     const issueData = await taskToGitHubIssue(task, columnName);
 
     // Search for existing issue
-    const searchQuery = `"${task.name}" repo:${CONFIG.owner}/${CONFIG.repo} in:title`;
+    const searchQuery = `"${task.name}"`;
     const searchResults = await github.searchIssues(searchQuery);
 
     let existingIssue = searchResults.items?.find(issue =>
@@ -346,6 +367,7 @@ async function syncTaskToGitHub(github, task, columnName) {
         log(colors.blue, `🔄 Updating existing issue: ${task.name}`);
 
         if (!CONFIG.dryRun) {
+          await rateLimiter();
           await github.updateIssue(existingIssue.number, {
             body: issueData.body,
             labels: issueData.labels,
@@ -360,6 +382,7 @@ async function syncTaskToGitHub(github, task, columnName) {
       log(colors.green, `➕ Creating new issue: ${task.name}`);
 
       if (!CONFIG.dryRun) {
+        await rateLimiter();
         const newIssue = await github.createIssue(
           issueData.title,
           issueData.body,
@@ -372,7 +395,11 @@ async function syncTaskToGitHub(github, task, columnName) {
     }
 
   } catch (error) {
-    log(colors.red, `❌ Failed to sync task "${task.name}": ${error.message}`);
+    if (error.message.includes('rate limit')) {
+      log(colors.red, `⚠️  Rate limit reached. Skipping task "${task.name}"`);
+    } else {
+      log(colors.red, `❌ Failed to sync task "${task.name}": ${error.message}`);
+    }
   }
 }
 
