@@ -30,6 +30,13 @@ The structured format is either approved or denied by the user.
 - schedules
 - actions
 
+## Markdown DSL
+
+System markdown files now have a formal grammar and reference parser. See
+[`markdown-dsl.md`](./markdown-dsl.md) for the complete specification. Agents can
+use the parser exported from `@promethean/markdown` to transform conforming
+documents into typed data structures without relying on heuristics.
+
 ## daemon
 A Daemon is a long running background process. In our system, daemons are
 managed by pm2.
