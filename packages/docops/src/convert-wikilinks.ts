@@ -20,10 +20,17 @@ const splitTarget = (target: string): TargetParts => {
       };
 };
 
+const hasExtension = (value: string): boolean => {
+  const lastSlashIndex = value.lastIndexOf("/");
+  const segment = lastSlashIndex === -1 ? value : value.slice(lastSlashIndex + 1);
+  return segment.includes(".");
+};
+
 const toMarkdownLink = ({ base, anchor }: TargetParts): string => {
   const encodedBase = encodeSpaces(base);
   const encodedAnchor = encodeSpaces(anchor);
-  return `${encodedBase}.md${encodedAnchor}`;
+  const needsMarkdownExtension = !hasExtension(base);
+  return `${encodedBase}${needsMarkdownExtension ? ".md" : ""}${encodedAnchor}`;
 };
 
 export async function convertWikilinks(file: string): Promise<void> {
