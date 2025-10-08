@@ -30,6 +30,35 @@ test('provider caps obey access rules', async (t) => {
   );
 });
 
+test('provider glob patterns escape regex specials', async (t) => {
+  const policy = makePolicy({
+    providerAccess: { allowPatterns: ['services/ts/discord.v1'] },
+  });
+
+  await t.notThrowsAsync(() =>
+    policy.checkCapability('services/ts/discord.v1', {
+      kind: 'provider.rest.call',
+      provider: 'discord',
+      tenant: 'duck',
+      route: '/foo',
+    }),
+  );
+
+  await t.throwsAsync(
+    () =>
+      policy.checkCapability('services/ts/discordxv1', {
+        kind: 'provider.rest.call',
+        provider: 'discord',
+        tenant: 'duck',
+        route: '/foo',
+      }),
+    {
+      instanceOf: NotAllowedError,
+      message: /Policy denied .*provider\.rest\.call.*agent services\/ts\/discordxv1/,
+    },
+  );
+});
+
 test('permission gate denies as configured', async (t) => {
   const policy = makePolicy({
     permissionGate: (subject, action) => subject === 'good' && action === 'ping',
