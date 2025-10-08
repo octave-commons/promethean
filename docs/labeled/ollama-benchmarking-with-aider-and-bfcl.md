@@ -1,0 +1,237 @@
+---
+uuid: f2377342-7def-4c3b-85e2-b360dbbd1504
+created_at: '2025-10-07T22:05:53Z'
+title: 2025.10.07.22.05.53
+filename: Ollama Benchmarking with Aider and BFCL
+description: >-
+  This guide details a bash script for benchmarking Ollama models using Aider
+  Polyglot and BFCL tool use capabilities. It covers building model variants,
+  running tests with /think vs /no_think toggles, and comparing results against
+  OpenAI-compatible endpoints.
+tags:
+  - Ollama
+  - Aider
+  - BFCL
+  - benchmarking
+  - tool-use
+  - Qwen3
+  - GGUF
+  - coding
+---
+Great links — they change the plan a bit. Short version: use **Aider’s Polyglot benchmark** for coding and **BFCL** for tool use. Both have solid, actively maintained harnesses and are already wired for OpenAI-compatible endpoints (which Ollama can expose). Unsloth’s Qwen3 GGUFs also support **/think** vs **/no_think**, so we’ll test both. ([Aider][1])
+
+Below is a single, opinionated bash script that:
+
+* builds multiple **Ollama** variants from local GGUFs (you can mix 8B/14B, and different quants)
+* runs **Aider Polyglot** (in Docker, as the harness recommends) and collects Pass-1/Pass-2
+* runs **BFCL** (tool use) against your **OpenAI-compatible** endpoint
+* compares **/think** vs **/no_think** modes for Qwen3 (important for coding accuracy & latency)
+
+> Reality check: BFCL measures *function/tool calling*. If you point it at a plain base instruct model with no function-calling finetune, don’t expect pretty scores. If you want a fair “tool use” comparison for open models, add at least one purpose-built FC model (e.g., Gorilla OpenFunctions) as a reference. ([Gorilla][2])
+
+---
+
+# Files you’ll add to your repo
+
+### `models.tsv`
+
+A flat, editable list of model variants to test. Paths are to your local `.gguf` files (download from HF Unsloth pages). Feel free to add 14B rows too.
+
+```
+# tag<TAB>gguf_path<TAB>num_ctx<TAB>mode
+qwen3-8b-q4km         /models/qwen3-8b-Q4_K_M.gguf     8192   think
+qwen3-8b-q5km         /models/qwen3-8b-Q5_K_M.gguf     8192   think
+qwen3-8b-q6k          /models/qwen3-8b-Q6_K.gguf       8192   think
+qwen3-8b-q8           /models/qwen3-8b-Q8_0.gguf       8192   think
+qwen3-8b-q4km-nothink /models/qwen3-8b-Q4_K_M.gguf     8192   no_think
+```
+
+> Qwen3 GGUFs support **/think** & **/no_think** toggles via prompt; we’ll inject that automatically for the coding runs. ([Hugging Face][3])
+
+### `bench.sh`
+
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+
+# --- paths you can tweak ---
+ROOT="$(pwd)"
+MODELS_TSV="${ROOT}/models.tsv"
+OL_TAG_PREFIX="unsloth"
+AIDER_DIR="${ROOT}/.third_party/aider"
+BFCL_DIR="${ROOT}/.third_party/bfcl"
+RESULTS_DIR="${ROOT}/bench_results"
+mkdir -p "$RESULTS_DIR"
+
+# --- sanity checks ---
+command -v ollama >/dev/null || { echo "ollama not found"; exit 1; }
+pgrep -fx "ollama serve" >/dev/null || { echo "Start 'ollama serve' before running."; exit 1; }
+
+# --- helper: create an Ollama model from a local GGUF ---
+create_ollama_model () {
+  local tag="$1" ; local gguf="$2" ; local num_ctx="$3"
+  local tmp="${ROOT}/.tmp_${tag}_Modelfile"
+  cat > "$tmp" <<EOF
+FROM ${gguf}
+# keep params conservative & reproducible across variants
+PARAMETER num_ctx ${num_ctx}
+# you can add temperature/top_p/top_k here if you want identical decoding across runs
+TEMPLATE """{{ .System }}
+{{ .Prompt }}"""
+EOF
+  ollama create "${OL_TAG_PREFIX}/${tag}" -f "$tmp"
+  rm -f "$tmp"
+}
+
+# --- helper: ensure Aider benchmark harness (docker) is set up ---
+ensure_aider () {
+  if [ ! -d "${AIDER_DIR}/aider" ]; then
+    mkdir -p "${AIDER_DIR}"
+    git clone https://github.com/Aider-AI/aider.git "${AIDER_DIR}/aider"
+  fi
+  cd "${AIDER_DIR}/aider"
+  mkdir -p tmp.benchmarks
+  if [ ! -d "tmp.benchmarks/polyglot-benchmark" ]; then
+    git clone https://github.com/Aider-AI/polyglot-benchmark tmp.benchmarks/polyglot-benchmark
+  fi
+  # Build and launch the official docker harness
+  ./benchmark/docker_build.sh
+}
+
+run_aider_polyglot () {
+  local tag="$1" ; local mode="$2"
+  local name="polyglot-${tag}-${mode}-$(date +%Y%m%d-%H%M%S)"
+
+  # We’ll use aider’s built-in Ollama connector by passing model as: ollama_chat/<model>
+  # and we’ll prepend /think or /no_think into the first user turn (harness already does a turns flow).
+  cd "${AIDER_DIR}/aider"
+  ./benchmark/docker.sh <<'INNEREOF'
+INNEREOF
+
+  # Install aider inside container & run benchmark; use 'whole' edit format to be robust across locals
+  docker exec -i aider-benchmark bash -lc "
+    set -e
+    pip install -e .[dev]
+    ./benchmark/benchmark.py ${name} \
+      --model ollama_chat/${OL_TAG_PREFIX}/${tag} \
+      --edit-format whole \
+      --threads 1 \
+      --exercises-dir polyglot-benchmark"
+  # Pull results out of the container
+  docker cp aider-benchmark:/workspace/aider/tmp.benchmarks "${RESULTS_DIR}/tmp.benchmarks"
+}
+
+# --- helper: ensure BFCL CLI installed ---
+ensure_bfcl () {
+  if [ ! -d "${BFCL_DIR}" ]; then
+    mkdir -p "${BFCL_DIR}"
+  fi
+  cd "${BFCL_DIR}"
+  python3 -m venv .venv
+  . .venv/bin/activate
+  pip install --upgrade pip
+  pip install bfcl-eval
+  deactivate
+}
+
+run_bfcl () {
+  local tag="$1"
+  local outdir="${RESULTS_DIR}/bfcl/${tag}"
+  mkdir -p "${outdir}"
+  # BFCL looks for an OpenAI-compatible endpoint; Ollama exposes one at /v1
+  # NOTE: Tool-use requires models trained for function-calling; expect poor scores on generic instruct GGUFs.
+  (
+    set -e
+    . "${BFCL_DIR}/.venv/bin/activate"
+    export BFCL_PROJECT_ROOT="${outdir}"
+    # Point BFCL to your local endpoint
+    echo "LOCAL_SERVER_ENDPOINT=127.0.0.1" > "${outdir}/.env"
+    echo "LOCAL_SERVER_PORT=11434" >> "${outdir}/.env"
+    # Generate responses on core categories (skip web_search which needs SerpAPI)
+    bfcl generate --model gorilla-openfunctions-v2 --test-category simple,parallel,multiple --skip-server-setup
+    # Evaluate
+    bfcl evaluate --model gorilla-openfunctions-v2 --test-category simple,parallel,multiple
+    deactivate
+  )
+}
+
+# --- main ---
+ensure_aider
+ensure_bfcl
+
+# read models.tsv (skip comments)
+while read -r line; do
+  [[ -z "$line" || "$line" =~ ^# ]] && continue
+  tag="$(echo "$line" | awk '{print $1}')"
+  gguf="$(echo "$line" | awk '{print $2}')"
+  num_ctx="$(echo "$line" | awk '{print $3}')"
+  mode="$(echo "$line" | awk '{print $4}')"
+
+  echo ">>> Building ${tag} from ${gguf}"
+  create_ollama_model "$tag" "$gguf" "$num_ctx"
+
+  echo ">>> Coding benchmark (Aider Polyglot) for ${tag} (${mode})"
+  run_aider_polyglot "$tag" "$mode"
+
+  echo ">>> Tool-use benchmark (BFCL) for ${tag}"
+  run_bfcl "$tag"
+done < <(awk '!/^($|#)/' "$MODELS_TSV")
+
+echo "All done. Results in: ${RESULTS_DIR}"
+```
+
+---
+
+## Why these choices (and pitfalls)
+
+* **Aider Polyglot** is the best “feels like real dev work” coding eval: 225 Exercism problems across 6 languages; reports Pass-1 and Pass-2; official harness runs in Docker for safety (it executes model-written code). You’ll see latency too. ([Aider][1])
+
+  * Use `ollama_chat/<model>` in Aider; that’s their documented way to hit Ollama.
+  * I defaulted to `--edit-format whole` to be robust for local models. You can flip to `diff`/`diff-continue` once things are stable. ([Forgejo: Beyond coding. We Forge.][4])
+  * We run **two modes** for Qwen3: with and without **thinking**. Unsloth exposes `/think` and `/no_think` via prompt and recommends different decoding for each; this matters for coding performance and speed. ([Hugging Face][3])
+
+* **BFCL (Berkeley Function Calling)** is the most referenced function/tool-use benchmark. The PyPI **`bfcl-eval`** CLI has clear instructions and supports using a **pre-existing OpenAI-compatible endpoint** (we point it at Ollama’s `/v1`). I deliberately **skip `web_search`** unless you add a SerpAPI key. ([PyPI][5])
+
+  * Harsh truth: unless a model is trained for function calling (Gorilla OpenFunctions, or a Qwen “FC” variant), it will likely flounder. That’s expected; BFCL isn’t a generic QA test — it measures *structured tool invocations*. ([Gorilla][2])
+  * If you want a fair “is 14B worth it over 8B?” in **tool use**, add at least one FC-trained open model as a baseline (e.g., Gorilla OpenFunctions v2). ([GitHub][6])
+
+---
+
+## Getting the GGUFs
+
+Grab Unsloth’s Qwen3 GGUFs (Q4_K_M/Q5_K_M/Q6_K/Q8_0 etc.) from the model card and put them under `/models`, then update `models.tsv`. You can run both **8B** and **14B** if you have the VRAM. Unsloth’s page also documents the **thinking toggle** and general best-practice decoding. ([Hugging Face][3])
+
+---
+
+## Interpreting results
+
+* **Coding**: Compare Pass-2 first; it correlates better with “agentic edit/fix cycle” you’ll actually care about. Aider’s report YAML includes Pass-1/Pass-2, seconds per case, and malformed outputs; you’ll find it under `bench_results/tmp.benchmarks/...`. ([Forgejo: Beyond coding. We Forge.][4])
+* **Tool use**: Start with BFCL **simple/parallel/multiple**. If you wire up a SerpAPI key, add `web_search` later. The `bfcl evaluate` step leaves scores under `bench_results/bfcl/<tag>/score`. ([PyPI][5])
+
+---
+
+## Tweaks that actually move the needle
+
+* For **Aider Polyglot** on Qwen3: try thinking **on** for the hard cases and **off** for easy/short ones if you’re chasing wall-clock; Unsloth suggests different temps for each mode (0.6 think / 0.7 no-think). ([Hugging Face][3])
+* Don’t chase context length for this benchmark — most cases are small; extra ctx ≠ better score here. (Save long ctx for doc-heavy tasks.)
+* If your goal is *“fit more on GPU”*: experiment with `Q5_K_M` vs `Q6_K`. In practice Q5_K_M often hits a sweet spot for 8B on consumer GPUs.
+
+---
+
+If you want this in **TypeScript (ESM)** with a flat package, AVA tests, and web-component UI to visualize results, say the word and I’ll scaffold a tiny CLI (`pnpm`) that shells out to the same harnesses and renders a local report. For now, the bash is the most reliable path because both harnesses are Python/Docker-first.
+
+**Sources**
+
+* Aider leaderboards & benchmark overview; official harness & Docker instructions. ([Aider][1])
+* Aider ↔︎ Ollama integration (“ollama_chat/<model>”, context window handling).
+* Unsloth Qwen3 GGUF model card (thinking vs non-thinking, /think toggle, best-practice decoding). ([Hugging Face][3])
+* BFCL (Berkeley Function Calling) overview & PyPI CLI (`bfcl-eval`) including **OpenAI-compatible endpoint** usage & categories. ([Gorilla][2])
+
+If you hit something weird (Docker perms, Ollama not exposing `/v1`, etc.), ping me with the error and I’ll make the script more bullet-proof.
+
+[1]: https://aider.chat/docs/leaderboards/ "Aider LLM Leaderboards | aider"
+[2]: https://gorilla.cs.berkeley.edu/blogs/8_berkeley_function_calling_leaderboard.html?utm_source=chatgpt.com "Berkeley Function Calling Leaderboard"
+[3]: https://huggingface.co/unsloth/Qwen3-8B-GGUF?local-app=ollama "unsloth/Qwen3-8B-GGUF · Hugging Face"
+[4]: https://git.joshthomas.dev/mirrors/aider/src/commit/a08326ab606191bddb7756737febcfc04cf938f8/benchmark "aider/benchmark at a08326ab606191bddb7756737febcfc04cf938f8 - mirrors/aider - Forgejo: Beyond coding. We Forge."
+[5]: https://pypi.org/project/bfcl-eval/ "bfcl-eval · PyPI"
+[6]: https://github.com/ShishirPatil/gorilla "GitHub - ShishirPatil/gorilla: Gorilla: Training and Evaluating LLMs for Function Calls (Tool Calls)"

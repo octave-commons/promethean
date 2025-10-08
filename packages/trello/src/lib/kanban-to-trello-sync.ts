@@ -26,7 +26,7 @@ export class KanbanToTrelloSync {
   constructor(config: { apiKey: string; apiToken: string }, options: SyncOptions = {}) {
     this.trello = new TrelloClient(config);
     this.options = {
-      boardName: 'generated',
+      boardName: 'promethean',
       createBoard: true,
       maxTasks: 20,
       archiveExisting: false,
@@ -36,16 +36,52 @@ export class KanbanToTrelloSync {
   }
 
   async searchKanbanTasks(): Promise<KanbanTask[]> {
-    console.log('📋 Searching for kanban tasks...');
+    console.log('📋 Extracting all tasks from generated kanban board...');
 
     try {
-      const { stdout } = await execAsync('pnpm kanban search kanban');
-      const searchResults = JSON.parse(stdout.trim());
+      // Get all tasks from the generated kanban board by column
+      const columns = ['icebox', 'incoming', 'accepted', 'breakdown', 'blocked', 'ready', 'todo', 'in_progress', 'review', 'document', 'done', 'rejected'];
+      const allTasks: KanbanTask[] = [];
 
-      console.log(`✅ Found ${searchResults.exact.length} exact kanban matches`);
-      console.log(`✅ Found ${searchResults.similar.length} similar kanban matches`);
+      console.log('🔄 Reading all kanban columns...');
 
-      const allTasks = [...searchResults.exact, ...searchResults.similar];
+      for (const columnName of columns) {
+        try {
+          console.log(`   📂 "${columnName}" column...`);
+          const { stdout } = await execAsync(`pnpm kanban getByColumn "${columnName}"`);
+
+          // getByColumn outputs NDJSON (one JSON object per line)
+          const lines = stdout.trim().split('\n').filter(line => line.trim());
+          const tasks = lines.map(line => JSON.parse(line));
+
+          for (const task of tasks) {
+            allTasks.push({
+              ...task,
+              column: columnName, // Add the column information
+              title: task.title || `Task ${task.uuid}`,
+              status: columnName, // Use column as status
+              priority: task.priority || 'P3',
+              labels: task.labels || [],
+              created_at: task.created_at || new Date().toISOString(),
+              estimates: task.estimates || {},
+              content: task.content || '',
+              slug: task.slug || task.title?.toLowerCase().replace(/\s+/g, '-'),
+              metadata: task.metadata || {}
+            });
+          }
+
+          if (tasks.length > 0) {
+            console.log(`      ✅ Found ${tasks.length} tasks`);
+          } else {
+            console.log(`      ℹ️  No tasks in column`);
+          }
+        } catch (error) {
+          // Column might be empty, that's fine
+          console.log(`      ℹ️  Empty column: "${columnName}"`);
+        }
+      }
+
+      console.log(`\n✅ Total tasks extracted: ${allTasks.length}`);
 
       // Sort by priority (P1 first, then P2, etc.)
       allTasks.sort((a, b) => {
@@ -57,7 +93,7 @@ export class KanbanToTrelloSync {
 
       return allTasks;
     } catch (error) {
-      console.error('❌ Failed to search kanban tasks:', error.message);
+      console.error('❌ Failed to extract kanban tasks:', error.message);
       return [];
     }
   }
@@ -87,28 +123,16 @@ export class KanbanToTrelloSync {
   }
 
   private async ensureBoardExists(): Promise<TrelloBoard> {
-    console.log(`\n🔍 Looking for Trello board: "${this.options.boardName}"`);
+    console.log(`\n🔍 Accessing existing Trello board: "promethean"`);
 
-    // Search for existing board
-    const existingBoard = await this.trello.findBoardByName(this.options.boardName);
+    // Try to get the existing board by ID to verify access
+    const board = await this.trello.getBoardById('V54OVEMZ');
 
-    if (existingBoard) {
-      console.log(`✅ Found existing board: ${existingBoard.url}`);
-      return existingBoard;
+    if (!board) {
+      throw new Error(`Cannot access board 'V54OVEMZ'. Please check your ATLASIAN_API_KEY permissions.`);
     }
 
-    if (!this.options.createBoard) {
-      throw new Error(`Board "${this.options.boardName}" not found and createBoard is false`);
-    }
-
-    // Create new board
-    const description = `Auto-generated Trello board from Promethean kanban system.
-Last sync: ${new Date().toISOString()}
-Board: ${this.options.boardName}`;
-
-    const board = await this.trello.createBoard(this.options.boardName, description);
-    console.log(`✅ Created new Trello board: ${board.url}`);
-
+    console.log(`✅ Successfully accessed board: ${board.url || `https://trello.com/b/V54OVEMZ/promethean`}`);
     return board;
   }
 
@@ -279,15 +303,24 @@ ${task.content || 'No description available.'}
         return result;
       }
 
-      // Limit tasks if specified
-      const tasksToSync = tasks.slice(0, this.options.maxTasks || tasks.length);
-      console.log(`\n📝 Found ${tasks.length} tasks, syncing top ${tasksToSync.length}`);
-
       // Ensure board exists
       const board = this.options.dryRun
         ? ({ id: 'dry-run-board', name: this.options.boardName, url: 'dry-run-url' } as TrelloBoard)
         : await this.ensureBoardExists();
       result.board = board;
+
+      // Get existing cards to avoid duplicates
+      const existingCards = this.options.dryRun
+        ? []
+        : await this.trello.getCards(board.id);
+      const existingCardNames = new Set(existingCards.map(card => card.name));
+
+      // Filter out tasks that already have cards
+      const tasksToSync = tasks
+        .slice(0, this.options.maxTasks || tasks.length)
+        .filter(task => !existingCardNames.has(task.title));
+
+      console.log(`\n📝 Found ${tasks.length} tasks, ${existingCards.length} existing cards, syncing ${tasksToSync.length} new tasks`);
 
       // Ensure lists exist
       const listMap = this.options.dryRun

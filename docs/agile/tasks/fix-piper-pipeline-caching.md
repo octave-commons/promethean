@@ -1,14 +1,17 @@
 ---
-uuid: 8b57e951-99d2-4242-a56d-578a3f11cda6
-title: Fix Piper pipeline caching regressions
-status: in_progress
-priority: P2
-labels:
-  - piper
-  - pipelines
-created_at: '2025-09-28T23:20:35.509916+00:00'
-updated_at: '2025-10-07T05:00:30+00:00'
+uuid: "8b57e951-99d2-4242-a56d-578a3f11cda6"
+title: "Fix Piper pipeline caching regressions"
+slug: "fix-piper-pipeline-caching"
+status: "done"
+priority: "P2"
+labels: ["piper", "pipelines"]
+created_at: "2025-10-08T04:20:25.300Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
 
 
 ## 🛠️ Task: Fix Piper pipeline caching regressions
@@ -41,5 +44,6 @@ updated_at: '2025-10-07T05:00:30+00:00'
 - Reworked the file-tree dev-ui test to spin up the server lazily and record API calls via `sessionStorage`, eliminating orphaned watchers when filtering test runs.
 - Added an AVA regression test that toggles between mtime/content hash modes to assert caches stay valid across mode switches and invalidate when outputs change.
 - Re-ran the previously failing runner tests and the dev-ui file-tree scenario to confirm caching and watcher behaviour are both green.
+
 
 

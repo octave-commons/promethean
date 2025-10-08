@@ -294,24 +294,17 @@ export const withServer = async (
     return await fn(client);
   } finally {
     await app.close();
-    if (mms) await mms.stop();
-    const mongoUri = String(process.env.MONGODB_URI || "");
-    let persistenceClients:
-      | typeof import("@promethean/persistence/clients.js")
-      | undefined;
-    if (mongoUri && mongoUri !== "disabled") {
-      try {
-        persistenceClients = await import("@promethean/persistence/clients.js");
-        const mongo = await persistenceClients.getMongoClient();
-        await mongo.close();
-      } catch {}
-    }
+
+    // Reset cached persistence clients FIRST to avoid dangling references to torn-down MongoMemoryServer
     try {
-      (
-        persistenceClients ||
-        (await import("@promethean/persistence/clients.js"))
-      ).__resetPersistenceClientsForTests?.();
+      const persistenceClients = await import("@promethean/persistence/clients.js");
+      persistenceClients.__resetPersistenceClientsForTests?.();
     } catch {}
+
+    // Now safely stop the MongoMemoryServer since no cached clients reference it
+    if (mms) await mms.stop();
+
+    // Restore original environment variables
     if (prevEnv.MONGODB_URI === undefined) delete process.env.MONGODB_URI;
     else process.env.MONGODB_URI = prevEnv.MONGODB_URI;
     if (prevEnv.DUAL_WRITE_ENABLED === undefined)
