@@ -19,7 +19,7 @@ const withChatStub = (
     handler: (request: ChatRequest & { readonly stream?: false }) => Promise<ChatResponse>,
 ): GenerateTwitchStreamTitleOptions => ({
     client: {
-        chat: ((request) => {
+        chat: ((request: ChatRequest) => {
             if (request.stream === true) {
                 throw new Error('streaming responses are not supported in this test stub');
             }
@@ -78,7 +78,7 @@ test.serial('generateTwitchStreamTitle preserves legacy model string parameter',
     const originalChat = ollama.chat;
 
     try {
-        (ollama as { chat: ChatFunction }).chat = (async ({ model }) => {
+        (ollama as { chat: ChatFunction }).chat = (async ({ model }: ChatRequest) => {
             t.is(model, customModel);
             return {
                 message: { content: 'Legacy compatible stream' },
@@ -95,7 +95,7 @@ test.serial('generateTwitchStreamTitle preserves legacy model string parameter',
         instanceOf: TypeError,
     });
 
-    const options = withChatStub(async ({ model }) => {
+    const options = withChatStub(async ({ model }: ChatRequest) => {
         t.is(model, 'gemma3:latest');
         return {
             message: { content: 'Object options still work' },
