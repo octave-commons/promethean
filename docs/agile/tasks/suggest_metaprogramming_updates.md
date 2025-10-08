@@ -1,11 +1,18 @@
 ---
-uuid: db64f552-fa40-4176-a27b-44551201b64f
-title: suggest metaprogramming updates md
-status: todo
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.521Z'
+uuid: "db64f552-fa40-4176-a27b-44551201b64f"
+title: "suggest metaprogramming updates md"
+slug: "suggest_metaprogramming_updates"
+status: "icebox"
+priority: "P3"
+labels: ["suggest", "metaprogramming", "updates", "kanban"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Task: Suggest metaprogramming updates
 
 Placeholder task stub generated from kanban board.
@@ -31,9 +38,9 @@ Placeholder task stub generated from kanban board.
 ---
 
 ## 🔗 Related Epics
-
+```
 #framework-core
-
+```
 ---
 
 ## ⛓️ Blocked By
@@ -49,5 +56,8 @@ Nothing
 ## 🔍 Relevant Links
 
 - [[kanban]]
+```
 #ice-box
+```
+
 

@@ -1,13 +1,18 @@
 ---
-uuid: 51fc390b-40d7-4dd4-a435-cdd86298d1b8
-title: >-
-  allow configuration of hyperparameters through discord context size
-  spectrogram resolution interuption threshold md
-status: todo
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.507Z'
+uuid: "51fc390b-40d7-4dd4-a435-cdd86298d1b8"
+title: "allow configuration of hyperparameters through discord context size spectrogram resolution interuption threshold md"
+slug: "allow_configuration_of_hyperparameters_through_discord_context_size_spectrogram_resolution_interuption_threshold"
+status: "done"
+priority: "P3"
+labels: ["discord", "allow", "configuration", "hyperparameters"]
+created_at: "2025-10-07T20:25:05.644Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Description
 
 Expose Discord commands that let users tune audio processing hyperparameters—context
@@ -22,7 +27,9 @@ service.
 - Improve interruption handling by using audio‑based thresholds that pause output
   when user speech exceeds configurable energy levels.
 - Detect interruptions within **200 ms** and correctly classify user speech with
-  **≥95 % accuracy** against background noise.
+```
+**≥95 % accuracy** against background noise.
+```
 - Allow authorized Discord users to configure model and audio pipeline hyperparameters on the fly.
 - Persist chosen values so they survive service restarts.
 - Provide clear feedback and validation when values are queried or updated.
@@ -32,14 +39,18 @@ service.
 ## 📦 Requirements
 
 - [ ] Provide `/config audio` commands for `context_size`, `spectrogram_res`, and
-      `interruption_threshold` values.
+```
+`interruption_threshold` values.
+```
 - [ ] Implement adjustable voice‑activity detection that pauses TTS once the
       energy threshold is crossed.
 - [ ] Log every interruption event with timestamps and configured parameters.
 - [ ] Meet **≤200 ms** interruption latency and **≥95 %** detection accuracy in
       controlled tests.
 | Hyperparameter           | Allowed Range                        | Validation Rules |
+```
 |-------------------------|--------------------------------------|------------------|
+```
 | `context_size`          | `256`–`32768` tokens                 | Integer within range; reject unsupported values for active model |
 | `spectrogram_resolution`| `64`–`4096` bins per dimension, even | Input as `WIDTHxHEIGHT`; both integers, multiples of `2`, and in range |
 | `interruption_threshold`| `0.1`–`5.0` seconds                  | Float; clamp to range; round to two decimals |
@@ -73,7 +84,9 @@ service.
 ## 📋 Subtasks
 
 - [ ] Add Discord command handlers exposing `context_size`, `spectrogram_res`, and
-      `interruption_threshold` options.
+```
+`interruption_threshold` options.
+```
 - [ ] Integrate a VAD module using the configurable energy threshold.
 - [ ] Write tests measuring latency and accuracy of interruption detection.
 - [ ] Deploy changes to staging and collect metric samples.
@@ -87,9 +100,9 @@ service.
 ---
 
 ## 🔗 Related Epics
-
+```
 #framework-core
-
+```
 ---
 
 ## ⛓️ Blocked By
@@ -106,4 +119,6 @@ Nothing
 
 - [[kanban]]
 #IceBox
+
+
 

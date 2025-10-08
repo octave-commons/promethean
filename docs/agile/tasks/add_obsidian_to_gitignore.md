@@ -1,11 +1,18 @@
 ---
-uuid: 0d72fa12-df0e-4fbe-b559-4df068967176
-title: add obsidian to gitignore md md
-status: todo
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.505Z'
+uuid: "0d72fa12-df0e-4fbe-b559-4df068967176"
+title: "add obsidian to gitignore md md"
+slug: "add_obsidian_to_gitignore"
+status: "done"
+priority: "P3"
+labels: ["obsidian", "gitignore", "add", "kanban"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Task: Add .obsidian to .gitignore
 
 Placeholder task stub generated from kanban board.
@@ -31,9 +38,9 @@ Placeholder task stub generated from kanban board.
 ---
 
 ## 🔗 Related Epics
-
+```
 #framework-core
-
+```
 ---
 
 ## ⛓️ Blocked By
@@ -54,4 +61,6 @@ Nothing
 
 `.obsidian/` is already listed in `.gitignore` (line 11), so this task is effectively complete.
 #done
+
+
 

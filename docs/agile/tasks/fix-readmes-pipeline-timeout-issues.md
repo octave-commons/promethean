@@ -72,12 +72,12 @@ The readmes pipeline should complete within reasonable time (under 5 minutes) an
     {
       "id": "rm-outline",
       "timeout": 120000,
-      "env": { "OLLAMA_URL": "${OLLAMA_URL}" }
+      "env": { "OLLAMA_URL": "{OLLAMA_URL}" }
     },
     {
       "id": "rm-write",
       "timeout": 180000,
-      "env": { "OLLAMA_URL": "${OLLAMA_URL}" }
+      "env": { "OLLAMA_URL": "{OLLAMA_URL}" }
     },
     {
       "id": "rm-verify",

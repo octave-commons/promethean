@@ -1,9 +1,15 @@
 ---
+```
 uuid: 12b8b7a3-441d-4550-8fb4-ab0b6e1f3f3f
+```
+```
 created_at: '2025-09-30T10:50:12Z'
+```
 title: 2025.09.30.10.50.12
 filename: nx-lint-affected-projects
+```
 description: >-
+```
   Run lint checks for affected projects using Nx. The command identifies
   projects with potential type safety issues and reports errors related to
   unsafe type usage, explicit any types, and mutable parameters.
@@ -15,8 +21,12 @@ tags:
   - projects
   - type-safety
   - error-reporting
+```
 related_to_uuid: []
+```
+```
 related_to_title: []
+```
 references: []
 ---
 
@@ -57,8 +67,9 @@ For more information, see https://nx.dev/features/powerpack/custom-caching
 - @promethean/ws
 
 With additional flags:
-  --paralell=true
-
+```
+--paralell=true
+```
 
 
 ❌ > nx run @promethean/examples:lint --paralell
@@ -562,8 +573,8 @@ With additional flags:
     38:23  error    Unsafe call of a(n) `any` typed value                                                                                                                               @typescript-eslint/no-unsafe-call
     38:32  error    Unsafe member access .createCollection on an `any` value                                                                                                            @typescript-eslint/no-unsafe-member-access
     49:3   warning  Unexpected loop, use map or reduce instead                                                                                                                          functional/no-loop-statements
-    50:24  warning  Promise constructor parameters must be named to match "^_?resolve$"                                                                                                 promise/param-names
-    64:26  warning  Promise constructor parameters must be named to match "^_?resolve$"                                                                                                 promise/param-names
+    50:24  warning  Promise constructor parameters must be named to match "^_?resolve"                                                                                                 promise/param-names
+    64:26  warning  Promise constructor parameters must be named to match "^_?resolve"                                                                                                 promise/param-names
     69:66  error    Unsafe member access .name on an `any` value                                                                                                                        @typescript-eslint/no-unsafe-member-access
     76:5   warning  Unexpected try-catch, this pattern is not functional                                                                                                                functional/no-try-statements
     77:7   warning  Unexpected loop, use map or reduce instead                                                                                                                          functional/no-loop-statements

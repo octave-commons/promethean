@@ -446,7 +446,7 @@ const listFiles = async (dir: string): Promise<string[]> => {
   }
 };
 
-const readTasksFolder = async (dir: string): Promise<Task[]> => {
+export const readTasksFolder = async (dir: string): Promise<Task[]> => {
   const files = await listFiles(dir);
   const tasks: Task[] = [];
   for (const file of files) {
@@ -760,6 +760,7 @@ export const updateStatus = async (
   uuid: string,
   newStatus: string,
   boardPath: string,
+  tasksDir?: string,
 ): Promise<Task | undefined> => {
   let found: Task | undefined;
   for (const col of board.columns) {
@@ -796,6 +797,31 @@ export const updateStatus = async (
   target.count += 1;
 
   await writeBoard(boardPath, board);
+
+  // Update the task file if tasksDir is provided
+  if (tasksDir) {
+    try {
+      const taskFilePath = await resolveTaskFilePath(found, tasksDir);
+      if (taskFilePath) {
+        // Read existing file to preserve content
+        const existingFileContent = await fs.readFile(taskFilePath, "utf8");
+        const parsed = parseMarkdownFrontmatter(existingFileContent);
+        const existingContent = parsed.content ?? "";
+
+        // Write updated task file with new status
+        const updatedContent = toFrontmatter({
+          ...found,
+          status: normalizedStatus,
+          content: existingContent
+        });
+        await fs.writeFile(taskFilePath, updatedContent, "utf8");
+      }
+    } catch (error) {
+      // Log warning but don't fail the status update
+      console.warn(`Warning: Could not update task file for ${uuid}: ${error}`);
+    }
+  }
+
   return found;
 };
 
@@ -1041,7 +1067,21 @@ export const pushToTasks = async (
       const targetPath = path.join(tasksDir, filename);
       const previous = existingByUuid.get(task.uuid);
       const previousPath = previous?.sourcePath;
-      const content = toFrontmatter({ ...task, status: col.name });
+
+      // Preserve existing task content if available
+      let existingContent = "";
+      if (previous && previousPath) {
+        try {
+          const existingFileContent = await fs.readFile(previousPath, "utf8");
+          const parsed = parseMarkdownFrontmatter(existingFileContent);
+          existingContent = parsed.content ?? "";
+        } catch (error) {
+          // If we can't read the existing file, continue with empty content
+          console.warn(`Warning: Could not read existing task file ${previousPath}: ${error}`);
+        }
+      }
+
+      const content = toFrontmatter({ ...task, status: col.name, content: existingContent });
       await fs.writeFile(targetPath, content, "utf8");
       if (!previous) {
         added += 1;

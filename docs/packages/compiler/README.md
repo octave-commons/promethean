@@ -1,8 +1,16 @@
+```
 <!-- SYMPKG:PKG:BEGIN -->
+```
 # @promethean/compiler
-**Folder:** `packages/compiler`  
-**Version:** `0.0.1`  
+```
+**Folder:** `packages/compiler`
+```
+```
+**Version:** `0.0.1`
+```
+```
 **Domain:** `_root`
+```
 ```mermaid
 graph LR
   A["@promethean/compiler"]
@@ -16,6 +24,8 @@ graph LR
 ## Dependencies
 - _None_
 ## Dependents
-- [@promethean/cli](../cli/README.md)
-- [@promethean/tests](../tests/README.md)
+- @promethean/cli$../cli/README.md
+- @promethean/tests$../tests/README.md
+```
 <!-- SYMPKG:PKG:END -->
+```

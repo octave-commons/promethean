@@ -1,4 +1,4 @@
-# Review: file explorer (c39b94ff-9e97-4fba-99d9-5cc713e09e5d)
+# Review: file explorer c39b94ff-9e97-4fba-99d9-5cc713e09e5d
 
 ## Summary
 The delivered slice still fails the task goals. Multiple disparate file-explorer UIs ship across the workspace, yet none of them surface a fuzzy search workflow or reuse the same backend. The SmartGPT bridge already exposes list/tree/view APIs, but it does not publish a fuzzy search route and still reports traversal violations as generic "file not found" errors. The planning subtask for documenting UX and permission constraints also remains unchecked.

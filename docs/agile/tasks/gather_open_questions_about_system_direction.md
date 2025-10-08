@@ -1,11 +1,18 @@
 ---
-uuid: 4fb7f392-4473-4d58-a8c0-ec5fba5d6474
-title: gather open questions about system direction md md
-status: todo
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.514Z'
+uuid: "4fb7f392-4473-4d58-a8c0-ec5fba5d6474"
+title: "gather open questions about system direction md md"
+slug: "gather_open_questions_about_system_direction"
+status: "icebox"
+priority: "P3"
+labels: ["questions", "open", "gather", "system"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Task: Gather open questions about system direction
 
 This task collects ambiguous or unresolved points about Promethean's goals and architecture that require human clarification.
@@ -30,8 +37,9 @@ This task collects ambiguous or unresolved points about Promethean's goals and a
 ---
 
 ## 🔗 Related Epics
+```
 #framework-core
-
+```
 ---
 
 ## ⛓️ Blocked By
@@ -45,5 +53,8 @@ Nothing
 ## 🔍 Relevant Links
 - [[kanban]]
 #IceBox
+```
 #ice-box
+```
+
 

@@ -1,14 +1,22 @@
 ---
-uuid: b27a270a-d257-40ca-bfc2-438afeeca829
-title: audit makefile.hy remnants and confirm deprecation
-status: todo
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.508Z'
+uuid: "b27a270a-d257-40ca-bfc2-438afeeca829"
+title: "audit makefile.hy remnants and confirm deprecation"
+slug: "breakdown-makefile.hy"
+status: "done"
+priority: "P3"
+labels: ["makefile", "audit", "remnants", "confirm"]
+created_at: "2025-10-07T20:25:05.644Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
-## 🛠️ Description
-**Status:** planning
 
+
+## 🛠️ Description
+```
+**Status:** planning
+```
 `Makefile.hy` previously orchestrated builds but is now unmaintained. The audit confirms no active workflows call into it, yet
 several documents still reference a pending breakdown. This task formalizes the retirement plan and documents any remaining
 references that must be redirected to pnpm / TypeScript tooling.
@@ -41,20 +49,24 @@ references that must be redirected to pnpm / TypeScript tooling.
 ---
 
 ## 🔗 Related Epics
+```
 #framework-core
-
+```
 ---
 
 ## ⛓️ Blocked By
 Nothing
 
 ## ⛓️ Blocks
-- [[update_github_actions_to_use_makefile_md_md|update github actions automation to pnpm scripts]]
+- [update_github_actions_to_use_makefile_md_md|update github actions automation to pnpm scripts]
 
 ---
 
 ## 🔍 Relevant Links
 - [[kanban]]
-- [Legacy Makefile audit note](../notes/promethean-dev-workflow-update.md)
-
+- [Legacy Makefile audit note]../notes/promethean-dev-workflow-update.md
+```
 #framework-core #todo
+```
+
+

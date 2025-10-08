@@ -1,11 +1,15 @@
 ---
+```
 uuid: b1c658e7-5072-45ea-ba30-70c7300f3f6e
+```
 created_at: promethean-agent-dsl-ts-scaffold.md
 filename: promethean-agent-dsl-ts-scaffold
 title: promethean-agent-dsl-ts-scaffold
+```
 description: >-
+```
   A single-paste bootstrap for creating a TypeScript scaffold for Promethean
-  Agent DSL (S-Expr) with parser, types, resolver, codegen, and example.
+  Agent DSL S-Expr with parser, types, resolver, codegen, and example.
 tags:
   - typescript
   - s-expression
@@ -14,7 +18,9 @@ tags:
   - parser
   - codegen
   - example
+```
 related_to_uuid:
+```
   - 513dc4c7-e045-4123-ba2e-cf5ef0b7b4a3
   - b51e19b4-1326-4311-9798-33e972bf626c
   - 687439f9-ad1e-40a4-8a32-3a1b4ac7c017
@@ -40,7 +46,9 @@ related_to_uuid:
   - 5f210ca2-54e9-445b-afe4-fb340d4992c5
   - b6ae7dfa-0c53-4eb9-aea8-65072b825bee
   - d771154e-a7ef-44ca-b69c-a1626cf94fbf
+```
 related_to_title:
+```
   - mystery-lisp-search-session
   - promethean-system-diagrams
   - Matplotlib Animation with Async Execution
@@ -192,16 +200,16 @@ references:
     col: 0
     score: 0.85
 ---
-Got you. Here’s a **single-paste bootstrap** that lays down the full TS scaffold (parser + types + resolver + codegen + example). Paste this in a shell from the repo root: ^ref-5158f742-1-0
+Got you. Here’s a **single-paste bootstrap** that lays down the full TS scaffold parser + types + resolver + codegen + example. Paste this in a shell from the repo root: ^ref-5158f742-1-0
 
 ````bash
 # === Promethean Agent DSL (S-Expr) — TS Scaffold ===
 set -euo pipefail
 ROOT="promethean-agent-dsl"
-mkdir -p "$ROOT"/{src/types,src/parser,src/codegen,examples}
+mkdir -p "ROOT"/{src/types,src/parser,src/codegen,examples}
 
 # package.json
-cat > "$ROOT/package.json" <<'EOF'
+cat > "ROOT/package.json" <<'EOF'
 {
   "name": "promethean-agent-dsl",
   "version": "0.1.0",
@@ -220,7 +228,7 @@ cat > "$ROOT/package.json" <<'EOF'
 EOF
 
 # tsconfig.json
-cat > "$ROOT/tsconfig.json" <<'EOF'
+cat > "ROOT/tsconfig.json" <<'EOF'
 {
   "compilerOptions": {
     "target": "ES2022",
@@ -237,7 +245,7 @@ cat > "$ROOT/tsconfig.json" <<'EOF'
 EOF
 
 # README.md
-cat > "$ROOT/README.md" <<'EOF'
+cat > "ROOT/README.md" <<'EOF'
 # Promethean Agent DSL (S-Expr) — TS Scaffold
 
 This expects you already have an S-expression **reader**. Feed its AST into `buildAgentArtifacts(ast)`.
@@ -248,7 +256,7 @@ We include a tolerant `coerceNode` to adapt common AST shapes.
 - src/types/dsl.ts — typed Agent/Block/Perms/Topology/Hooks
 - src/parser/index.ts — parses `(agent ...)`, `(block ...)`, `(use ...)`, `(env ...)`, `(perm ...)`, `(topology ...)`, `(hooks ...)`, `(metrics ...)`
 - src/parser/spec.ts — tiny path-aware validation helpers
-- src/resolver.ts — compose agent with blocks, param substitution (`:$param`)
+- src/resolver.ts — compose agent with blocks, param substitution (`:param`)
 - src/codegen/pm2.ts — ecosystem emitter
 - src/codegen/env.ts — `.env` emitter
 - src/codegen/permissions.ts — `permissions.json` emitter
@@ -262,8 +270,10 @@ See `examples/duck.sx`.
 import { buildAgentArtifacts } from "./dist/index.js";
 import { coerceNode } from "./dist/types/sexpr.js";
 
-const astFromReader = myReader.readFile("agents/duck/agent.sx");
+const astFromReader = myReader.readFile"agents/duck/agent.sx";
+```
 const node = coerceNode(astFromReader);
+```
 const { agent, artifacts } = buildAgentArtifacts(node);
 
 // write artifacts.pm2 / artifacts.env / artifacts.permissions as you like
@@ -274,7 +284,7 @@ EOF
 
 # src/types/sexpr.ts
  ^ref-5158f742-82-0
-cat > "\$ROOT/src/types/sexpr.ts" <<'EOF'
+cat > "\ROOT/src/types/sexpr.ts" <<'EOF'
 // Tolerant S-Expression node types + coercion helpers.
 // We do NOT implement a reader here — plug in your own reader and call coerceNode on its output.
  ^ref-5158f742-86-0
@@ -342,14 +352,14 @@ return isSym(h) ? h.v : (isKw(h) ? ':' + h.v : null);
 }
  ^ref-5158f742-149-0
 export function expectList(n: SNode, ctx: string): SList {
-if (!isList(n)) throw new Error(`Expected list at ${ctx}, got ${n.t}`);
+if (!isList(n)) throw new Error(`Expected list at {ctx}, got {n.t}`);
 return n;
 }
  ^ref-5158f742-154-0
 export function kwName(k: SNode): string {
 if (isKw(k)) return k.v;
 if (isSym(k) && k.v.startsWith(':')) return k.v.slice(1);
-throw new Error(`Expected keyword, got ${k.t}`);
+throw new Error(`Expected keyword, got {k.t}`);
 }
  ^ref-5158f742-160-0
 export function toJS(n: SNode): any {
@@ -373,7 +383,7 @@ EOF
 
 # src/types/dsl.ts
  ^ref-5158f742-181-0
-cat > "\$ROOT/src/types/dsl.ts" <<'EOF'
+cat > "\ROOT/src/types/dsl.ts" <<'EOF'
 // DSL typed structures
 export type SecretRef = { kind: 'secret', key: string };
 export type EnvMap = Record\<string, string | SecretRef>;
@@ -456,12 +466,12 @@ EOF
 
 # src/parser/spec.ts
 
-cat > "\$ROOT/src/parser/spec.ts" <<'EOF'
+cat > "\ROOT/src/parser/spec.ts" <<'EOF'
 // Lightweight spec/validation utilities with path-aware errors
 export class VError extends Error {
 path: string;
 constructor(path: string, msg: string) {
-super(`${path}: ${msg}`);
+super(`{path}: {msg}`);
 this.path = path;
 }
 }
@@ -482,7 +492,7 @@ EOF
 
 # src/parser/index.ts
  ^ref-5158f742-290-0
-cat > "\$ROOT/src/parser/index.ts" <<'EOF'
+cat > "\ROOT/src/parser/index.ts" <<'EOF'
 import {
 SNode, isList, isSym, isKw, isMap, isVec, isStr, isNum, isBool,
 listHeadSym, expectList
@@ -497,7 +507,7 @@ import { VError, req } from "./spec.js";
 function symText(n: SNode, ctx: string): string {
 if (isSym(n)) return n.v;
 if (isStr(n)) return n.v;
-throw new VError(ctx, `expected symbol/string, got ${n.t}`);
+throw new VError(ctx, `expected symbol/string, got {n.t}`);
 }
  ^ref-5158f742-308-0
 function kwArg(list: SNode\[], key: string): SNode | undefined {
@@ -511,17 +521,17 @@ return undefined;
 }
  ^ref-5158f742-318-0
 function parseMapToJS(n: SNode, ctx: string): Record\<string, any> {
-if (!isMap(n)) throw new VError(ctx, `expected map, got ${n.t}`);
+if (!isMap(n)) throw new VError(ctx, `expected map, got {n.t}`);
 const out: Record\<string, any> = {};
 for (const \[k, v] of Object.entries(n.entries)) out\[k] = sexprToValue(v);
 return out;
 }
  ^ref-5158f742-325-0
 function parseVectorStrings(n: SNode, ctx: string): string\[] {
-if (!isVec(n)) throw new VError(ctx, `expected vector, got ${n.t}`);
+if (!isVec(n)) throw new VError(ctx, `expected vector, got {n.t}`);
 return n.items.map(x => {
 if (isStr(x) || isSym(x)) return (x as any).v;
-throw new VError(ctx, `expected string/symbol in vector, got ${x.t}`);
+throw new VError(ctx, `expected string/symbol in vector, got {x.t}`);
 });
 }
  ^ref-5158f742-333-0
@@ -567,7 +577,7 @@ for (const \[k, v] of Object.entries(mapNode.entries)) {
 const s = parseSecret(v);
 if (s) out\[k] = s;
 else if (isStr(v) || isSym(v) || isNum(v) || isBool(v)) out\[k] = String(sexprToValue(v));
-else throw new VError('(env ...)', `unsupported env value for ${k}: ${v.t}`);
+else throw new VError('(env ...)', `unsupported env value for {k}: {v.t}`);
 }
 return out;
 }
@@ -795,7 +805,7 @@ export function parseTopLevel(form: SNode): Module {
 const head = listHeadSym(form);
 if (head === 'agent') return parseAgent(form);
 if (head === 'block') return parseBlock(form);
-throw new Error(`Unsupported top-level form: ${head}`);
+throw new Error(`Unsupported top-level form: {head}`);
 }
  ^ref-5158f742-606-0
 // Accept either: a single form or a list/vector of forms
@@ -814,7 +824,7 @@ EOF
 
 # src/resolver.ts
  ^ref-5158f742-622-0
-cat > "\$ROOT/src/resolver.ts" <<'EOF'
+cat > "\ROOT/src/resolver.ts" <<'EOF'
 import { AgentModule, BlockModule, EnvMap, Module, Permissions, Topology } from "./types/dsl.js";
  ^ref-5158f742-625-0
 export type Registry = Map\<string, BlockModule>;
@@ -824,7 +834,7 @@ export type Registry = Map\<string, BlockModule>;
 * * env: agent overrides block ^ref-5158f742-630-0
 * * perms: concatenated ^ref-5158f742-631-0
 * * topology: concatenated procs/links ^ref-5158f742-632-0
-* Also substitute parameters in block proc args: strings equal to ":\$param" replaced by (use \:with {param ...}).
+* Also substitute parameters in block proc args: strings equal to ":\param" replaced by (use \:with {param ...}).
   \*/
   export function composeAgent(agent: AgentModule, reg: Registry): AgentModule {
   let env: EnvMap = { ...agent.env };
@@ -841,7 +851,7 @@ export type Registry = Map\<string, BlockModule>;
  ^ref-5158f742-647-0
 for (const u of agent.uses) {
 const blk = reg.get(u.block);
-if (!blk) throw new Error(`Block not found: ${u.block}`);
+if (!blk) throw new Error(`Block not found: {u.block}`);
 if (blk.env) env = { ...blk.env, ...env }; // agent has priority
 if (blk.perms) {
 perms = {
@@ -862,7 +872,7 @@ if (u.with && blk.topology?.procs) {
 for (const p of topology.procs) {
 if (!p.args) continue;
 for (const \[k, v] of Object.entries(p.args)) {
-if (typeof v === 'string' && v.startsWith(':\$')) {
+if (typeof v === 'string' && v.startsWith(':\')) {
 const name = v.slice(2);
 if (Object.prototype.hasOwnProperty.call(u.with, name)) {
 p.args\[k] = (u.with as any)\[name];
@@ -885,14 +895,14 @@ EOF
 
 # src/codegen/pm2.ts
  ^ref-5158f742-693-0
-cat > "\$ROOT/src/codegen/pm2.ts" <<'EOF'
+cat > "\ROOT/src/codegen/pm2.ts" <<'EOF'
 import { AgentModule, ProcDef } from "../types/dsl.js";
  ^ref-5158f742-696-0
 export function emitPm2Ecosystem(agent: AgentModule) {
 const apps = agent.topology.procs.map(procToApp);
-return `// Auto-generated for agent: ${agent.id}
+return `// Auto-generated for agent: {agent.id}
 export default {
-  apps: ${JSON.stringify(apps, null, 2)}
+  apps: {JSON.stringify(apps, null, 2)}
 };
 `;
 }
@@ -900,7 +910,7 @@ export default {
 function procToApp(p: ProcDef) {
 const script = serviceToScript(p.service);
 return {
-name: `agent:${p.name}`,
+name: `agent:{p.name}`,
 script,
 args: p.args ? JSON.stringify(p.args) : undefined,
 env: mapEnv(p.env),
@@ -911,7 +921,7 @@ autorestart: true
 function serviceToScript(svc: string) {
 // naive mapping; adjust as needed
 if (svc.endsWith(".ts")) return svc;
-if (svc.startsWith("services/")) return `${svc}/index.ts`;
+if (svc.startsWith("services/")) return `{svc}/index.ts`;
 return svc;
 }
  ^ref-5158f742-723-0
@@ -927,14 +937,14 @@ EOF
 
 # src/codegen/env.ts
  ^ref-5158f742-735-0
-cat > "\$ROOT/src/codegen/env.ts" <<'EOF'
+cat > "\ROOT/src/codegen/env.ts" <<'EOF'
 import { AgentModule } from "../types/dsl.js";
  ^ref-5158f742-738-0
 export function emitDotEnv(agent: AgentModule): string {
 const lines: string\[] = \[];
 for (const \[k, v] of Object.entries(agent.env)) {
-if (typeof v === 'string') lines.push(`${k}=${escapeVal(v)}`);
-else if (v && v.kind === 'secret') lines.push(`${k}=${`**SECRET**:\${v.key}`}`);
+if (typeof v === 'string') lines.push(`{k}={escapeVal(v)}`);
+else if (v && v.kind === 'secret') lines.push(`{k}={`**SECRET**:\{v.key}`}`);
 }
 return lines.join('\n') + '\n';
 }
@@ -947,7 +957,7 @@ EOF
 
 # src/codegen/permissions.ts
  ^ref-5158f742-755-0
-cat > "\$ROOT/src/codegen/permissions.ts" <<'EOF'
+cat > "\ROOT/src/codegen/permissions.ts" <<'EOF'
 import { AgentModule } from "../types/dsl.js";
  ^ref-5158f742-758-0
 export function emitPermissionsJSON(agent: AgentModule): string {
@@ -958,7 +968,7 @@ EOF
 
 # src/index.ts
  ^ref-5158f742-766-0
-cat > "\$ROOT/src/index.ts" <<'EOF'
+cat > "\ROOT/src/index.ts" <<'EOF'
 import { parseModule } from "./parser/index.js";
 import { Module, AgentModule } from "./types/dsl.js";
 import { composeAgent, registryFromModules } from "./resolver.js";
@@ -990,7 +1000,7 @@ EOF
 
 # examples/duck.sx
  ^ref-5158f742-798-0
-cat > "\$ROOT/examples/duck.sx" <<'EOF'
+cat > "\ROOT/examples/duck.sx" <<'EOF'
 (agent
 \:id duck
 \:name "Duck"
@@ -1005,27 +1015,29 @@ cat > "\$ROOT/examples/duck.sx" <<'EOF'
 (link \:from \:discord \:to \:cephalon \:via \:ws)))
 EOF
  ^ref-5158f742-813-0
-echo "Wrote scaffold to \$ROOT"
+echo "Wrote scaffold to \ROOT"
 echo "Next:"
-echo "  cd \$ROOT && npm i && npm run build"
+echo "  cd \ROOT && npm i && npm run build"
  ^ref-5158f742-817-0
 ```
 
 Quick notes:
 - This is **runtime-agnostic**; `emitPm2Ecosystem` gives you a ready `ecosystem.config.mjs` string if you want PM2, but you can also read `agent.topology` directly for a custom runner.
 - `:secret` forms emit `__SECRET__:ns/key` placeholders in `.env`. Wire your secret resolver at run/start time.
-- Block parameter substitution uses `:$param` in block `proc.args`, filled from `(use some.block/vN :with {:param ...})`.
+- Block parameter substitution uses `:param` in block `proc.args`, filled from `use some.block/vN :with {:param ...}`.
 
 Want me to tack on a tiny `prom` CLI (Node) next that:
 - reads `.sx`, calls your reader → `coerceNode` → `buildAgentArtifacts`,
 - writes artifacts into `dist/agents/<id>/`,
 - and optionally spawns via PM2 or a minimal custom runner?
+```
 ^ref-5158f742-817-0
+```
 ```
 ^ref-5158f742-818-0
 erviceToScript(p.service);
 return {
-name: `agent:${p.name}`,
+name: `agent:{p.name}`,
 script,
 args: p.args ? JSON.stringify(p.args) : undefined,
 env: mapEnv(p.env),
@@ -1036,7 +1048,7 @@ autorestart: true
 function serviceToScript(svc: string) {
 // naive mapping; adjust as needed
 if (svc.endsWith(".ts")) return svc;
-if (svc.startsWith("services/")) return `${svc}/index.ts`;
+if (svc.startsWith("services/")) return `{svc}/index.ts`;
 return svc;
 }
  ^ref-5158f742-723-0
@@ -1052,14 +1064,14 @@ EOF
 
 # src/codegen/env.ts
  ^ref-5158f742-735-0
-cat > "\$ROOT/src/codegen/env.ts" <<'EOF'
+cat > "\ROOT/src/codegen/env.ts" <<'EOF'
 import { AgentModule } from "../types/dsl.js";
  ^ref-5158f742-738-0
 export function emitDotEnv(agent: AgentModule): string {
 const lines: string\[] = \[];
 for (const \[k, v] of Object.entries(agent.env)) {
-if (typeof v === 'string') lines.push(`${k}=${escapeVal(v)}`);
-else if (v && v.kind === 'secret') lines.push(`${k}=${`**SECRET**:\${v.key}`}`);
+if (typeof v === 'string') lines.push(`{k}={escapeVal(v)}`);
+else if (v && v.kind === 'secret') lines.push(`{k}={`**SECRET**:\{v.key}`}`);
 }
 return lines.join('\n') + '\n';
 }
@@ -1072,7 +1084,7 @@ EOF
 
 # src/codegen/permissions.ts
  ^ref-5158f742-755-0
-cat > "\$ROOT/src/codegen/permissions.ts" <<'EOF'
+cat > "\ROOT/src/codegen/permissions.ts" <<'EOF'
 import { AgentModule } from "../types/dsl.js";
  ^ref-5158f742-758-0
 export function emitPermissionsJSON(agent: AgentModule): string {
@@ -1083,7 +1095,7 @@ EOF
 
 # src/index.ts
  ^ref-5158f742-766-0
-cat > "\$ROOT/src/index.ts" <<'EOF'
+cat > "\ROOT/src/index.ts" <<'EOF'
 import { parseModule } from "./parser/index.js";
 import { Module, AgentModule } from "./types/dsl.js";
 import { composeAgent, registryFromModules } from "./resolver.js";
@@ -1115,7 +1127,7 @@ EOF
 
 # examples/duck.sx
  ^ref-5158f742-798-0
-cat > "\$ROOT/examples/duck.sx" <<'EOF'
+cat > "\ROOT/examples/duck.sx" <<'EOF'
 (agent
 \:id duck
 \:name "Duck"
@@ -1130,80 +1142,82 @@ cat > "\$ROOT/examples/duck.sx" <<'EOF'
 (link \:from \:discord \:to \:cephalon \:via \:ws)))
 EOF
  ^ref-5158f742-813-0
-echo "Wrote scaffold to \$ROOT"
+echo "Wrote scaffold to \ROOT"
 echo "Next:"
-echo "  cd \$ROOT && npm i && npm run build"
+echo "  cd \ROOT && npm i && npm run build"
  ^ref-5158f742-817-0
 ```
 
 Quick notes:
 - This is **runtime-agnostic**; `emitPm2Ecosystem` gives you a ready `ecosystem.config.mjs` string if you want PM2, but you can also read `agent.topology` directly for a custom runner.
 - `:secret` forms emit `__SECRET__:ns/key` placeholders in `.env`. Wire your secret resolver at run/start time.
-- Block parameter substitution uses `:$param` in block `proc.args`, filled from `(use some.block/vN :with {:param ...})`.
+- Block parameter substitution uses `:param` in block `proc.args`, filled from `use some.block/vN :with {:param ...}`.
 
 Want me to tack on a tiny `prom` CLI (Node) next that:
 - reads `.sx`, calls your reader → `coerceNode` → `buildAgentArtifacts`,
 - writes artifacts into `dist/agents/<id>/`,
 - and optionally spawns via PM2 or a minimal custom runner?
+```
 ^ref-5158f742-817-0
+```
 ```
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [mystery-lisp-search-session](mystery-lisp-search-session.md)
-- [promethean-system-diagrams](promethean-system-diagrams.md)
-- [Matplotlib Animation with Async Execution](matplotlib-animation-with-async-execution.md)
-- [sibilant-meta-string-templating-runtime](sibilant-meta-string-templating-runtime.md)
-- [Polyglot S-expr Bridge: Python-JS-Lisp Interop](polyglot-s-expr-bridge-python-js-lisp-interop.md)
-- [Local-Only-LLM-Workflow](local-only-llm-workflow.md)
-- [Local-Offline-Model-Deployment-Strategy](local-offline-model-deployment-strategy.md)
-- [Interop and Source Maps](interop-and-source-maps.md)
-- [Language-Agnostic Mirror System](language-agnostic-mirror-system.md)
-- [i3-layout-saver](i3-layout-saver.md)
-- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler](ollama-llm-provider-for-pseudo-code-transpiler.md)
-- [ecs-scheduler-and-prefabs](ecs-scheduler-and-prefabs.md)
-- [Promethean Agent Config DSL](promethean-agent-config-dsl.md)
-- [Event Bus MVP](event-bus-mvp.md)
-- [Pure-Node Crawl Stack with Playwright and Crawlee](pure-node-crawl-stack-with-playwright-and-crawlee.md)
-- [lisp-dsl-for-window-management](lisp-dsl-for-window-management.md)
-- [Universal Lisp Interface](universal-lisp-interface.md)
-- [compiler-kit-foundations](compiler-kit-foundations.md)
-- [heartbeat-simulation-snippets](heartbeat-simulation-snippets.md)
-- [Voice Access Layer Design](voice-access-layer-design.md)
-- [layer-1-uptime-diagrams](layer-1-uptime-diagrams.md)
-- [Chroma-Embedding-Refactor](chroma-embedding-refactor.md)
-- [Cross-Target Macro System in Sibilant](cross-target-macro-system-in-sibilant.md)
-- [Ghostly Smoke Interference](ghostly-smoke-interference.md)
-- [Vectorial Exception Descent](vectorial-exception-descent.md)
+- mystery-lisp-search-session$mystery-lisp-search-session.md
+- promethean-system-diagrams$promethean-system-diagrams.md
+- [Matplotlib Animation with Async Execution]matplotlib-animation-with-async-execution.md
+- sibilant-meta-string-templating-runtime$sibilant-meta-string-templating-runtime.md
+- Polyglot S-expr Bridge: Python-JS-Lisp Interop$polyglot-s-expr-bridge-python-js-lisp-interop.md
+- Local-Only-LLM-Workflow$local-only-llm-workflow.md
+- Local-Offline-Model-Deployment-Strategy$local-offline-model-deployment-strategy.md
+- [Interop and Source Maps]interop-and-source-maps.md
+- Language-Agnostic Mirror System$language-agnostic-mirror-system.md
+- i3-layout-saver$i3-layout-saver.md
+- Ollama-LLM-Provider-for-Pseudo-Code-Transpiler$ollama-llm-provider-for-pseudo-code-transpiler.md
+- ecs-scheduler-and-prefabs$ecs-scheduler-and-prefabs.md
+- [Promethean Agent Config DSL]promethean-agent-config-dsl.md
+- [Event Bus MVP]event-bus-mvp.md
+- Pure-Node Crawl Stack with Playwright and Crawlee$pure-node-crawl-stack-with-playwright-and-crawlee.md
+- lisp-dsl-for-window-management$lisp-dsl-for-window-management.md
+- [Universal Lisp Interface]universal-lisp-interface.md
+- compiler-kit-foundations$compiler-kit-foundations.md
+- heartbeat-simulation-snippets$heartbeat-simulation-snippets.md
+- [Voice Access Layer Design]voice-access-layer-design.md
+- layer-1-uptime-diagrams$layer-1-uptime-diagrams.md
+- Chroma-Embedding-Refactor$chroma-embedding-refactor.md
+- Cross-Target Macro System in Sibilant$cross-target-macro-system-in-sibilant.md
+- [Ghostly Smoke Interference]ghostly-smoke-interference.md
+- [Vectorial Exception Descent]vectorial-exception-descent.md
 ## Sources
-- [promethean-system-diagrams — L169](promethean-system-diagrams.md#^ref-b51e19b4-169-0) (line 169, col 0, score 0.97)
-- [Matplotlib Animation with Async Execution — L44](matplotlib-animation-with-async-execution.md#^ref-687439f9-44-0) (line 44, col 0, score 0.97)
-- [sibilant-meta-string-templating-runtime — L92](sibilant-meta-string-templating-runtime.md#^ref-2aafc801-92-0) (line 92, col 0, score 0.96)
-- [Local-Only-LLM-Workflow — L147](local-only-llm-workflow.md#^ref-9a8ab57e-147-0) (line 147, col 0, score 0.95)
-- [Interop and Source Maps — L497](interop-and-source-maps.md#^ref-cdfac40c-497-0) (line 497, col 0, score 0.95)
-- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L490](polyglot-s-expr-bridge-python-js-lisp-interop.md#^ref-63a1cc28-490-0) (line 490, col 0, score 0.95)
-- [Local-Offline-Model-Deployment-Strategy — L232](local-offline-model-deployment-strategy.md#^ref-ad7f1ed3-232-0) (line 232, col 0, score 0.95)
-- [Language-Agnostic Mirror System — L504](language-agnostic-mirror-system.md#^ref-d2b3628c-504-0) (line 504, col 0, score 0.95)
-- [i3-layout-saver — L79](i3-layout-saver.md#^ref-31f0166e-79-0) (line 79, col 0, score 0.95)
-- [lisp-dsl-for-window-management — L185](lisp-dsl-for-window-management.md#^ref-c5c5ff1c-185-0) (line 185, col 0, score 0.94)
-- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L151](ollama-llm-provider-for-pseudo-code-transpiler.md#^ref-b362e12e-151-0) (line 151, col 0, score 0.94)
-- [ecs-scheduler-and-prefabs — L376](ecs-scheduler-and-prefabs.md#^ref-c62a1815-376-0) (line 376, col 0, score 0.94)
-- [Promethean Agent Config DSL — L279](promethean-agent-config-dsl.md#^ref-2c00ce45-279-0) (line 279, col 0, score 0.94)
-- [Event Bus MVP — L524](event-bus-mvp.md#^ref-534fe91d-524-0) (line 524, col 0, score 0.94)
-- [Pure-Node Crawl Stack with Playwright and Crawlee — L400](pure-node-crawl-stack-with-playwright-and-crawlee.md#^ref-d527c05d-400-0) (line 400, col 0, score 0.94)
-- [Universal Lisp Interface — L187](universal-lisp-interface.md#^ref-b01856b4-187-0) (line 187, col 0, score 0.9)
-- [compiler-kit-foundations — L588](compiler-kit-foundations.md#^ref-01b21543-588-0) (line 588, col 0, score 0.89)
-- [heartbeat-simulation-snippets — L80](heartbeat-simulation-snippets.md#^ref-23e221e9-80-0) (line 80, col 0, score 0.88)
-- [Voice Access Layer Design — L280](voice-access-layer-design.md#^ref-543ed9b3-280-0) (line 280, col 0, score 0.87)
-- [Chroma-Embedding-Refactor — L289](chroma-embedding-refactor.md#^ref-8b256935-289-0) (line 289, col 0, score 0.87)
-- [layer-1-uptime-diagrams — L129](layer-1-uptime-diagrams.md#^ref-4127189a-129-0) (line 129, col 0, score 0.87)
-- [Cross-Target Macro System in Sibilant — L150](cross-target-macro-system-in-sibilant.md#^ref-5f210ca2-150-0) (line 150, col 0, score 0.87)
-- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L491](polyglot-s-expr-bridge-python-js-lisp-interop.md#^ref-63a1cc28-491-0) (line 491, col 0, score 0.87)
-- [Vectorial Exception Descent — L95](vectorial-exception-descent.md#^ref-d771154e-95-0) (line 95, col 0, score 0.86)
-- [set-assignment-in-lisp-ast — L148](set-assignment-in-lisp-ast.md#^ref-c5fba0a0-148-0) (line 148, col 0, score 0.86)
-- [Ghostly Smoke Interference — L40](ghostly-smoke-interference.md#^ref-b6ae7dfa-40-0) (line 40, col 0, score 0.86)
-- [mystery-lisp-search-session — L106](mystery-lisp-search-session.md#^ref-513dc4c7-106-0) (line 106, col 0, score 0.85)
-- [Lispy Macros with syntax-rules — L375](lispy-macros-with-syntax-rules.md#^ref-cbfe3513-375-0) (line 375, col 0, score 0.85)
-- [Recursive Prompt Construction Engine — L147](recursive-prompt-construction-engine.md#^ref-babdb9eb-147-0) (line 147, col 0, score 0.85)
-- [shared-package-layout-clarification — L137](shared-package-layout-clarification.md#^ref-36c8882a-137-0) (line 137, col 0, score 0.85)
-- [Stateful Partitions and Rebalancing — L272](stateful-partitions-and-rebalancing.md#^ref-4330e8f0-272-0) (line 272, col 0, score 0.85)
+- promethean-system-diagrams — L169$promethean-system-diagrams.md#^ref-b51e19b4-169-0 (line 169, col 0, score 0.97)
+- [Matplotlib Animation with Async Execution — L44]matplotlib-animation-with-async-execution.md#^ref-687439f9-44-0 (line 44, col 0, score 0.97)
+- sibilant-meta-string-templating-runtime — L92$sibilant-meta-string-templating-runtime.md#^ref-2aafc801-92-0 (line 92, col 0, score 0.96)
+- Local-Only-LLM-Workflow — L147$local-only-llm-workflow.md#^ref-9a8ab57e-147-0 (line 147, col 0, score 0.95)
+- [Interop and Source Maps — L497]interop-and-source-maps.md#^ref-cdfac40c-497-0 (line 497, col 0, score 0.95)
+- Polyglot S-expr Bridge: Python-JS-Lisp Interop — L490$polyglot-s-expr-bridge-python-js-lisp-interop.md#^ref-63a1cc28-490-0 (line 490, col 0, score 0.95)
+- Local-Offline-Model-Deployment-Strategy — L232$local-offline-model-deployment-strategy.md#^ref-ad7f1ed3-232-0 (line 232, col 0, score 0.95)
+- Language-Agnostic Mirror System — L504$language-agnostic-mirror-system.md#^ref-d2b3628c-504-0 (line 504, col 0, score 0.95)
+- i3-layout-saver — L79$i3-layout-saver.md#^ref-31f0166e-79-0 (line 79, col 0, score 0.95)
+- lisp-dsl-for-window-management — L185$lisp-dsl-for-window-management.md#^ref-c5c5ff1c-185-0 (line 185, col 0, score 0.94)
+- Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L151$ollama-llm-provider-for-pseudo-code-transpiler.md#^ref-b362e12e-151-0 (line 151, col 0, score 0.94)
+- ecs-scheduler-and-prefabs — L376$ecs-scheduler-and-prefabs.md#^ref-c62a1815-376-0 (line 376, col 0, score 0.94)
+- [Promethean Agent Config DSL — L279]promethean-agent-config-dsl.md#^ref-2c00ce45-279-0 (line 279, col 0, score 0.94)
+- [Event Bus MVP — L524]event-bus-mvp.md#^ref-534fe91d-524-0 (line 524, col 0, score 0.94)
+- Pure-Node Crawl Stack with Playwright and Crawlee — L400$pure-node-crawl-stack-with-playwright-and-crawlee.md#^ref-d527c05d-400-0 (line 400, col 0, score 0.94)
+- [Universal Lisp Interface — L187]universal-lisp-interface.md#^ref-b01856b4-187-0 (line 187, col 0, score 0.9)
+- compiler-kit-foundations — L588$compiler-kit-foundations.md#^ref-01b21543-588-0 (line 588, col 0, score 0.89)
+- heartbeat-simulation-snippets — L80$heartbeat-simulation-snippets.md#^ref-23e221e9-80-0 (line 80, col 0, score 0.88)
+- [Voice Access Layer Design — L280]voice-access-layer-design.md#^ref-543ed9b3-280-0 (line 280, col 0, score 0.87)
+- Chroma-Embedding-Refactor — L289$chroma-embedding-refactor.md#^ref-8b256935-289-0 (line 289, col 0, score 0.87)
+- layer-1-uptime-diagrams — L129$layer-1-uptime-diagrams.md#^ref-4127189a-129-0 (line 129, col 0, score 0.87)
+- Cross-Target Macro System in Sibilant — L150$cross-target-macro-system-in-sibilant.md#^ref-5f210ca2-150-0 (line 150, col 0, score 0.87)
+- Polyglot S-expr Bridge: Python-JS-Lisp Interop — L491$polyglot-s-expr-bridge-python-js-lisp-interop.md#^ref-63a1cc28-491-0 (line 491, col 0, score 0.87)
+- [Vectorial Exception Descent — L95]vectorial-exception-descent.md#^ref-d771154e-95-0 (line 95, col 0, score 0.86)
+- set-assignment-in-lisp-ast — L148$set-assignment-in-lisp-ast.md#^ref-c5fba0a0-148-0 (line 148, col 0, score 0.86)
+- [Ghostly Smoke Interference — L40]ghostly-smoke-interference.md#^ref-b6ae7dfa-40-0 (line 40, col 0, score 0.86)
+- mystery-lisp-search-session — L106$mystery-lisp-search-session.md#^ref-513dc4c7-106-0 (line 106, col 0, score 0.85)
+- Lispy Macros with syntax-rules — L375$lispy-macros-with-syntax-rules.md#^ref-cbfe3513-375-0 (line 375, col 0, score 0.85)
+- [Recursive Prompt Construction Engine — L147]recursive-prompt-construction-engine.md#^ref-babdb9eb-147-0 (line 147, col 0, score 0.85)
+- shared-package-layout-clarification — L137$shared-package-layout-clarification.md#^ref-36c8882a-137-0 (line 137, col 0, score 0.85)
+- [Stateful Partitions and Rebalancing — L272]stateful-partitions-and-rebalancing.md#^ref-4330e8f0-272-0 (line 272, col 0, score 0.85)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

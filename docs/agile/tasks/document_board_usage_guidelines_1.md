@@ -1,11 +1,18 @@
 ---
-uuid: 8c0e512b-27b8-4132-83b1-5da880210b84
-title: document board usage guidelines 1 md
-status: todo
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.512Z'
+uuid: "8c0e512b-27b8-4132-83b1-5da880210b84"
+title: "document board usage guidelines 1 md"
+slug: "document_board_usage_guidelines_1"
+status: "done"
+priority: "P3"
+labels: ["board", "document", "usage", "guidelines"]
+created_at: "2025-10-07T20:25:05.644Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Task: Document board usage guidelines
 
 Provide a concise how-to for contributors on interacting with the Obsidian Kanban board. Include common conventions, WIP limits, and tips for linking tasks.
@@ -34,8 +41,9 @@ Provide a concise how-to for contributors on interacting with the Obsidian Kanba
 ---
 
 ## 🔗 Related Epics
+```
 #framework-core
-
+```
 ---
 
 ## ⛓️ Blocked By
@@ -49,4 +57,6 @@ Nothing
 ## 🔍 Relevant Links
 - [[kanban]]
 #done
+
+
 

@@ -1,11 +1,18 @@
 ---
-uuid: 4af34fd8-8f94-4013-ad4f-61bd0ce13c78
-title: make seperate execution pathways 1 md md
-status: todo
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.516Z'
+uuid: "4af34fd8-8f94-4013-ad4f-61bd0ce13c78"
+title: "make seperate execution pathways 1 md md"
+slug: "make_seperate_execution_pathways_1"
+status: "done"
+priority: "P3"
+labels: ["make", "seperate", "execution", "pathways"]
+created_at: "2025-10-07T20:25:05.644Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Description
 
 I have a GPU on my desktop, the target production environment, but testing environments don't
@@ -42,9 +49,9 @@ If we just don't do any ML in js for  now,  we shouldn't have any problems.
 ---
 
 ## 🔗 Related Epics
-
+```
 #framework-core
-
+```
 ---
 
 ## ⛓️ Blocked By
@@ -61,4 +68,6 @@ Nothing
 
 - [[kanban]]
 #done
+
+
 

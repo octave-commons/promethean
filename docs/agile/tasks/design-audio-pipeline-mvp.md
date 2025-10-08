@@ -1,17 +1,20 @@
 ---
 uuid: 07e85844-1390-4c3c-80d4-251254f71b4e
 title: design audio pipeline mvp
-status: todo
+status: testing
 priority: P3
 labels: []
 created_at: '2025-09-15T02:02:58.511Z'
 ---
+```
 <hr class="__chatgpt_plugin">
-
+```
 ### role::assistant<span style="font-size: small;"> (llama3.2:latest)</span>
 
 ---
+```
 promptId: smart_task_templater_md
+```
 name: "{{title}}"
 description: A task on the kanban of the promethean system.
 author: Aaron Beavers
@@ -28,17 +31,28 @@ mode: replace
 streaming: "true"
 model: ollama@llama3.2:latest
 prompt: "{{title}}"
+```
 task-id: TASK-{{date}}
+```
 priority: p3
+```
 system_commands: ['You are a helpful assistant.']
+```
+```
 frequency_penalty: 0
+```
+```
 max_tokens: 400
+```
+```
 presence_penalty: 0
+```
 stream: true
 temperature: 0.7
 ---
+```
 <hr class="__chatgpt_plugin">
-
+```
 <span style="font-size: small;"> (llama3.2:latest)</span>
 ### role::assistant
 
@@ -59,7 +73,7 @@ Here's a suggested revision of your context section:
 - [ ] PR merged: ([link to the PR] with a brief summary of changes)
 
 ## Plan
-1. … [ Outline the high-level steps for completing this task, including any dependencies or resources required]
+1. … Outline the high-level steps for completing this task, including any dependencies or resources required
 2. …
 
 ## Relevant Resources
@@ -83,8 +97,9 @@ You might find [this](link) useful while working on this task.
 ### Smart ChatGPT Configuration
 ```smart-chatgpt
 ```
+```
 <hr class="__chatgpt_plugin">
-
+```
 
 ### role::user
 
@@ -94,24 +109,25 @@ You might find [this](link) useful while working on this task.
 ### role::user
 
 Using this title write a reasonable task kanban task document:
+```
 design-audio-pipeline-mvp
-
+```
 true 
-
+```
 <hr class="__chatgpt_plugin">
-
+```
 ### role::user
 
 
-
+```
 <hr class="__chatgpt_plugin">
-
+```
 ### role::assistant<span style="font-size: small;"> (llama3.2:latest)</span>
 
 It seems like you've started writing in your Markdown document, but I didn't receive any text to help me understand the context or provide relevant assistance. Could you please share what's on your screen or type out the text you'd like help with? I'll do my best to assist you within this Obsidian note-taking space.
-
+```
 <hr class="__chatgpt_plugin">
-
+```
 ### role::user
 
 

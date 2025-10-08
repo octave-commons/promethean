@@ -128,11 +128,9 @@ export function watchContextAndGenerate(
     store: TitleStore,
     options: WatchContextAndGenerateOptions | string = {},
 ): void {
-    emitter.on('context', async () => {
-        try {
-            await generateAndStoreTitle(source, store, options);
-        } catch (error) {
+    emitter.on('context', () => {
+        void generateAndStoreTitle(source, store, options).catch((error: unknown) => {
             console.error('title generation failed', error);
-        }
+        });
     });
 }

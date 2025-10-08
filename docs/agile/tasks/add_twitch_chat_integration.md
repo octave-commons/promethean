@@ -1,14 +1,15 @@
 ---
 uuid: df445b14-f6c7-457e-88c4-872477f8c6e6
 title: add twitch chat integration md md
-status: todo
+status: testing
 priority: P3
 labels: []
 created_at: '2025-09-15T02:02:58.506Z'
 ---
 ## 🛠️ Description
+```
 **Status:** blocked
-
+```
 Integrate Twitch chat so agents can read and respond to messages during live streams.
 
 ---
@@ -40,9 +41,9 @@ Integrate Twitch chat so agents can read and respond to messages during live str
 ---
 
 ## 🔗 Related Epics
-
+```
 #framework-core
-
+```
 ---
 
 ## ⛓️ Blocked By

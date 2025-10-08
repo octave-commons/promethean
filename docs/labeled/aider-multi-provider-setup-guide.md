@@ -1,0 +1,191 @@
+---
+uuid: 5d349e27-ab2f-4baf-a5e3-7bd2eae0086f
+created_at: '2025-10-08T00:59:50Z'
+title: 2025.10.08.00.59.50
+filename: Aider Multi-Provider Setup Guide
+description: >-
+  A practical guide to configuring Aider for seamless switching between
+  OpenRouter, Z.ai, OpenAI, Ollama, and self-hosted OpenAI-compatible models
+  using a single configuration file and environment profiles.
+tags:
+  - Aider
+  - multi-provider
+  - OpenRouter
+  - Z.ai
+  - Ollama
+  - self-hosted
+  - API keys
+  - environment profiles
+---
+Got it — you want one Aider setup that can hop between **OpenRouter**, **Z.ai**, **OpenAI**, **Ollama**, and **any self-hosted OpenAI-compatible server**. Here’s a clean, practical way to do it with:
+
+1. a single `.aider.conf.yml` (aliases + keys),
+2. an `.aider.model.settings.yml` (provider tuning), and
+3. small **.env profiles** you switch with `--env-file` when you need a different OpenAI-compatible base.
+
+I’m opinionated here because mixing multiple OpenAI-compatible bases at once is messy: Aider treats `openai/…` as a single provider. If you point `OPENAI_API_BASE` at Z.ai (or your self-host), you can’t simultaneously use OpenAI’s own endpoint under the same `openai/` prefix. Use **separate env files** (or route OpenAI through OpenRouter) to avoid pain. ([Aider][1])
+
+---
+
+### 1) `.aider.conf.yml`
+
+Drop this in your repo root (or `~`). It defines model **aliases** (so you don’t type long IDs) and sets API keys in a provider-agnostic way.
+
+```yaml
+# .aider.conf.yml
+
+# Default model (safe pick; override per-run with --model)
+model: openrouter/openai/gpt-4o-mini
+
+# Aliases so you can switch fast: `aider --model fast` etc.
+alias:
+  - "fast:openrouter/openai/gpt-4o-mini"     # via OpenRouter
+  - "smart:openai/o3-mini"                   # direct OpenAI (when using OpenAI env)
+  - "zai:openai/glm-4.6"                     # Z.ai (when using Z.ai env/base)
+  - "local:ollama_chat/qwen2.5-coder:32b"    # Ollama chat endpoint
+  - "self:openai/my-local-model"             # your self-hosted OAI-compatible model id
+
+# Put non-OpenAI providers’ keys here — Aider will export PROVIDER_API_KEY env vars.
+# (OpenAI key can go here too, but I prefer .env.)
+api-key:
+  - openrouter=${OPENROUTER_API_KEY}
+  - zai=${ZAI_API_KEY}
+  # If your Ollama requires a key:
+  # - ollama=${OLLAMA_API_KEY}
+
+# (Optional) Make Aider quieter/noisier etc.
+pretty: true
+verbose: false
+```
+
+* **Aliases** are first-class in Aider and keep your CLI short. ([Aider][2])
+* Using `api-key:` sets env vars like `OPENROUTER_API_KEY` & `ZAI_API_KEY` for you. ([Aider][3])
+
+---
+
+### 2) `.aider.model.settings.yml`
+
+Extra, but worth it. This locks down OpenRouter provider routing and bumps Ollama context.
+
+```yaml
+# .aider.model.settings.yml
+
+# A) For OpenRouter models, control which backend providers get used.
+- name: openrouter/anthropic/claude-3.7-sonnet
+  extra_params:
+    extra_body:
+      provider:
+        order: ["Anthropic", "Together"]
+        allow_fallbacks: false
+        data_collection: "deny"
+        require_parameters: true
+
+# B) Ollama: increase default context (avoid silent truncation)
+- name: ollama_chat/qwen2.5-coder:32b
+  extra_params:
+    num_ctx: 65536
+```
+
+* OpenRouter provider routing is supported exactly like this. Use it if you care about privacy, stability, and avoiding random fallbacks. ([Aider][4])
+* Ollama’s default context is tiny and will silently drop context; set a bigger `num_ctx`. ([Aider][5])
+
+---
+
+### 3) Env profiles (switch with `--env-file <file>`)
+
+These isolate each OpenAI-compatible base so you can swap without editing YAML. `--env-file` is supported and takes priority. ([Aider][1])
+
+**`.env.openai` (use OpenAI directly)**
+
+```env
+OPENAI_API_KEY=sk-...
+# No OPENAI_API_BASE here on purpose
+AIDER_MODEL=smart
+```
+
+OpenAI doc + usage with `openai/` prefix are standard. ([Aider][6])
+
+**`.env.openrouter` (use OpenRouter for almost anything, including OpenAI models)**
+
+```env
+OPENROUTER_API_KEY=or-...
+AIDER_MODEL=fast
+```
+
+OpenRouter usage + listing models is supported; watch the privacy toggle if you disabled providers that train on inputs. ([Aider][4])
+
+**`.env.zai` (Z.ai, OpenAI-compatible)**
+
+```env
+ZAI_API_KEY=za-...
+OPENAI_API_BASE=https://api.z.ai/api/paas/v4/
+AIDER_MODEL=zai
+```
+
+Z.ai is OpenAI-compatible; you only swap **base_url** and key. Model IDs look like `glm-4.6` (or `glm-4.5*`). ([Z.AI][7])
+
+**`.env.ollama` (Local)**
+
+```env
+# Default Ollama port; change if needed
+OLLAMA_API_BASE=http://127.0.0.1:11434
+# OLLAMA_API_KEY=...  # only if your Ollama requires auth
+AIDER_MODEL=local
+```
+
+Aider recommends `ollama_chat/<model>`; pull the model first (`ollama pull ...`). ([Aider][5])
+
+**`.env.selfhost` (Your self-hosted OpenAI-compatible gateway: vLLM, LiteLLM, etc.)**
+
+```env
+OPENAI_API_KEY=local-...
+OPENAI_API_BASE=http://localhost:8080/v1
+AIDER_MODEL=self
+```
+
+Any OpenAI-compatible API works with this pattern; just ensure your model id matches what your server exposes. ([Aider][8])
+
+---
+
+### How you actually run it
+
+```bash
+# OpenAI (direct):
+aider --env-file .env.openai --model smart
+
+# OpenRouter (proxy everything, good fallback if you want one provider to rule them all):
+aider --env-file .env.openrouter --model fast
+
+# Z.ai (cheap, recent GLM models):
+aider --env-file .env.zai --model zai
+
+# Ollama (local, private):
+aider --env-file .env.ollama --model local
+
+# Self-hosted OpenAI-compatible (your gateway):
+aider --env-file .env.selfhost --model self
+```
+
+**Why the env files?** Because `openai/…` can only point at **one** OpenAI-compatible base at a time. Profiles keep that clean. If you want OpenAI + another OpenAI-compatible at once, route OpenAI via **OpenRouter** and use `openrouter/openai/<model>` — then you can keep `openai/…` free for Z.ai or your self-host. ([Aider][1])
+
+---
+
+### Gotchas (so you don’t get burned)
+
+* **OpenRouter privacy**: Some models require enabling providers that **may train on inputs**; if you toggle that off, requests can fail or silently reroute. Decide consciously. ([Aider][4])
+* **Z.ai base path** is **`https://api.z.ai/api/paas/v4/`** — don’t drop the trailing segment. ([Z.AI][7])
+* **Ollama context**: Increase `num_ctx` or Aider will fight truncation. ([Aider][5])
+* **Per-provider keys**: For non-OpenAI providers, the `api-key:` list in YAML is the tidy way to persist keys (it sets `PROVIDER_API_KEY` envs). Or keep everything in the matching `.env`. ([Aider][3])
+* **Where config files live**: Aider loads `.aider.conf.yml` / `.env` from **home → repo root → CWD**, later wins; you can force with `--config` and `--env-file`. ([Aider][9])
+
+If you want, I can tailor the aliases to the **exact models** you plan to use (e.g., your favorite OpenRouter/OpenAI/Z.ai models and your local Ollama tags) and wire in repo-specific read rules.
+
+[1]: https://aider.chat/docs/config/options.html "Options reference | aider"
+[2]: https://aider.chat/docs/config/model-aliases.html "Model Aliases | aider"
+[3]: https://aider.chat/docs/config/api-keys.html "API Keys | aider"
+[4]: https://aider.chat/docs/llms/openrouter.html "OpenRouter | aider"
+[5]: https://aider.chat/docs/llms/ollama.html "Ollama | aider"
+[6]: https://aider.chat/docs/llms/openai.html?utm_source=chatgpt.com "OpenAI"
+[7]: https://docs.z.ai/guides/develop/openai/python "OpenAI Python SDK - Z.AI DEVELOPER DOCUMENT"
+[8]: https://aider.chat/docs/llms/openai-compat.html?utm_source=chatgpt.com "OpenAI compatible APIs"
+[9]: https://aider.chat/docs/config/aider_conf.html?utm_source=chatgpt.com "YAML config file"

@@ -1,9 +1,17 @@
 ---
+```
 uuid: c1f06a2d-4575-46c4-983f-e1333fabe6cf
+```
+```
 created_at: '2025-09-18T11:29:21Z'
+```
 title: 2025.09.18.11.29.21
+```
 filename: promethean-test-errors
+```
+```
 description: >-
+```
   List of packages with test errors in the Promethean project. Each package has
   failing tests that need to be fixed.
 tags:
@@ -12,8 +20,12 @@ tags:
   - package
   - failing-tests
   - error-resolution
+```
 related_to_uuid: []
+```
+```
 related_to_title: []
+```
 references: []
 ---
 These packages all have test errors:

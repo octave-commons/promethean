@@ -1,11 +1,18 @@
 ---
-uuid: e6bbd2be-7191-4b32-ba5c-d82f1771b520
-title: determine pm2 configuration for agents 1 md
-status: todo
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.511Z'
+uuid: "e6bbd2be-7191-4b32-ba5c-d82f1771b520"
+title: "determine pm2 configuration for agents 1 md"
+slug: "determine_pm2_configuration_for_agents_1"
+status: "done"
+priority: "P3"
+labels: ["pm2", "agents", "determine", "configuration"]
+created_at: "2025-10-07T20:25:05.644Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Task: Determine PM2 configuration for agents
 
 Establish a shared PM2 ecosystem or alternative process manager setup that all
@@ -44,9 +51,9 @@ include startup instructions in each service README.
 ---
 
 ## 🔗 Related Epics
-
+```
 #framework-core
-
+```
 ---
 
 ## ⛓️ Blocked By
@@ -73,4 +80,6 @@ Nothing
 - Then please.
 - How will service logs be aggregated when using PM2?
 #done
+
+
 

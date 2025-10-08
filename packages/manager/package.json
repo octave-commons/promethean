@@ -1,0 +1,47 @@
+{
+  "name": "@promethean/manager",
+  "version": "1.0.0",
+  "description": "Unified task management across kanban, GitHub, and Trello sources",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "manager": "dist/cli/manager.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsc -p tsconfig.json --watch",
+    "test": "ava",
+    "lint": "eslint src --ext .ts",
+    "format": "prettier --write src/**/*.ts"
+  },
+  "dependencies": {
+    "@promethean/kanban": "workspace:*",
+    "@promethean/github-sync": "workspace:*",
+    "@promethean/trello": "workspace:*",
+    "commander": "^11.1.0",
+    "dotenv": "^16.3.1",
+    "chalk": "^4.1.2",
+    "ora": "^5.4.1",
+    "inquirer": "^8.2.6"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.4",
+    "@types/inquirer": "^9.0.7",
+    "@typescript-eslint/eslint-plugin": "^6.19.1",
+    "@typescript-eslint/parser": "^6.19.1",
+    "ava": "^6.1.1",
+    "eslint": "^8.56.0",
+    "prettier": "^3.2.4",
+    "typescript": "^5.4.5",
+    "tsx": "^4.7.0"
+  },
+  "ava": {
+    "files": [
+      "test/**/*.test.ts"
+    ],
+    "nodeArguments": [
+      "--loader=tsx"
+    ]
+  },
+  "license": "MIT"
+}

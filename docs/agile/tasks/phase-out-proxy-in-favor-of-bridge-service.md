@@ -1,11 +1,18 @@
 ---
-uuid: 695632f6-8bb2-4051-bbbc-42dd6729fe8f
-title: phase out proxy in favor of bridge service
-status: todo
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.517Z'
+uuid: "695632f6-8bb2-4051-bbbc-42dd6729fe8f"
+title: "phase out proxy in favor of bridge service"
+slug: "phase-out-proxy-in-favor-of-bridge-service"
+status: "rejected"
+priority: "P3"
+labels: ["bridge", "proxy", "service", "phase"]
+created_at: "2025-10-07T20:25:05.645Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Description
 
 Retire the existing proxy layer and expose all external APIs through the broker-driven bridge service.
@@ -43,9 +50,9 @@ Retire the existing proxy layer and expose all external APIs through the broker-
 ---
 
 ## 🔗 Related Epics
-
+```
 #framework-core
-
+```
 ---
 
 ## ⛓️ Blocked By
@@ -62,7 +69,9 @@ Nothing
 
 - [API spec](https://err-stealth-16-ai-studio-a1vgg.tailbe888a.ts.net/v1/openapi.json)
 - [[kanban]]
-
+```
 #framework-core #Todo
+```
+
 
 

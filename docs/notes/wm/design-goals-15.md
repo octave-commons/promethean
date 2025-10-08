@@ -116,8 +116,9 @@ Let’s keep building out the **polyglot REPL interface layer**, **target macro 
 ```
 
 * * *
-
+```
 🏗️ DSL-Driven Output
+```
 ---------------------
 
 ```sibilant

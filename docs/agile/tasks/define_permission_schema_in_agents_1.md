@@ -1,11 +1,18 @@
 ---
-uuid: 89643344-84c1-499f-82cc-9b5430fffb72
-title: define permission schema in agents 1 md
-status: todo
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.511Z'
+uuid: "89643344-84c1-499f-82cc-9b5430fffb72"
+title: "define permission schema in agents 1 md"
+slug: "define_permission_schema_in_agents_1"
+status: "icebox"
+priority: "P3"
+labels: ["schema", "permission", "agents", "define"]
+created_at: "2025-10-07T20:25:05.642Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Task: Define permission schema in AGENTS.md
 
 Create a concise section in the root `AGENTS.md` explaining how agents declare
@@ -53,9 +60,9 @@ execution.
 ---
 
 ## 🔗 Related Epics
-
-#framework-core #eidolon #Dorian #layer2 
-
+```
+#framework-core #eidolon #Dorian #layer2
+```
 ---
 
 ## ⛓️ Blocked By
@@ -75,5 +82,8 @@ Nothing
 ## ❓ Questions
 
 - Should permissions support wildcards for actions or be explicit only?
+```
 #ice-box
+```
+
 

@@ -1,7 +1,7 @@
 ---
 uuid: f6c39654-1e09-4741-9aeb-bdb200cc7216
 title: Expand functional loop refactors across repository
-status: todo
+status: testing
 priority: P3
 labels:
   - refactor
@@ -25,7 +25,7 @@ Document and schedule additional refactors that replace imperative loops with fu
 
 ## Subtasks
 - [ ] Audit loop-heavy modules and prioritize candidates for refactoring.
-- [ ] Outline expected functional transformations (map/filter/reduce/etc.) for each candidate.
+- [ ] Outline expected functional transformations map/filter/reduce/etc. for each candidate.
 - [ ] Confirm testing strategy with the owning team or update documentation with required checks.
 
 ## Comments

@@ -83,6 +83,23 @@ pnpm kanban --help        # Show all available subcommands
 - **Configuration**: `promethean.kanban.json` - Kanban system configuration
 - **Process guide**: `docs/agile/process.md` - Workflow and process documentation
 
+### 🧭 Path Resolution & Configuration
+
+- The CLI automatically walks up from your current directory until it finds a
+  workspace marker (`pnpm-workspace.yaml` or `.git`). This repo root becomes the
+  base for default paths, so you can run commands from any package or
+  subfolder.
+- Relative paths declared inside `promethean.kanban.json` are resolved from the
+  directory that contains the config file, never from the shell location.
+- Override behaviour remains unchanged:
+  - CLI flags (for example `--board-file`, `--tasks-dir`) are resolved relative
+    to the directory you run the command from.
+  - Environment variables (`KANBAN_BOARD_FILE`, `KANBAN_TASKS_DIR`, etc.) are
+    resolved relative to the detected repo root.
+- To use an alternate config, pass `--config <path>` (relative to your current
+  directory) or set `KANBAN_CONFIG`. The loader will still resolve all relative
+  paths based on the config file's directory.
+
 ### 🔄 Common Workflows
 
 1. **Find existing work**: `pnpm kanban search <keyword>`
@@ -92,13 +109,33 @@ pnpm kanban --help        # Show all available subcommands
 
 ### 📊 Board Structure
 
-The kanban board uses these standard columns:
-- **todo** - New and unstarted work
-- **in_progress** - Currently being worked on
-- **review** - Ready for review or blocked
-- **done** - Completed work
-- **document** - Documentation tasks
-- **icebox** - Deferred or low-priority work
+The kanban board uses these standard columns (following FSM process defined in `docs/agile/process.md`):
+
+**Brainstorm Lane (unbounded):**
+- **icebox** 🧊 - Deferred/archived tasks at varying refinement levels, not actively committed to
+- **incoming** 💭 - All new tasks enter here (initial state), awaiting triage
+
+**Planning Lane (WIP limited):**
+- **accepted** ✅ - Triage complete, ready for breakdown analysis
+- **breakdown** 🧩 - Task being broken into small, testable slices with Fibonacci estimates
+- **blocked** 🚧 - Explicit dependency on another task (bidirectional links required)
+
+**Execution Lane (WIP limited):**
+- **ready** 🛠 - Scoped, estimated (≤5), ready for execution queue (not priority-ordered)
+- **todo** 🟢 - Prioritized in execution queue, ready to pull (WIP limited)
+- **in_progress** 🟡 - Actively being worked on (WIP limited)
+- **review** 🔍 - Coherent, reviewable change exists (WIP limited)
+- **document** 📚 - Recording evidence and summaries (WIP limited)
+- **done** ✅ - Complete with documentation/evidence
+
+**Abandoned Lane:**
+- **rejected** ❌ - Non-viable, may be moved to Ice Box
+
+**Key Principles:**
+- **Never edit board files directly** - tasks drive board generation
+- **Use `pnpm kanban regenerate`** after any task changes
+- **WIP limits are enforced** - transitions fail if target column is full
+- **Incoming → Ready** requires task breakdown and Fibonacci estimation (≤5 for implementation)
 
 ### 🤖 For AI Agents and Claude
 

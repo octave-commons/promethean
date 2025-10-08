@@ -1,15 +1,25 @@
 ---
-uuid: b2d63853-2a8e-4e5c-a196-3fc69299d876
-title: WebSocket Broker API Parity with GPT Bridge
-status: todo
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.510Z'
+uuid: "b2d63853-2a8e-4e5c-a196-3fc69299d876"
+title: "WebSocket Broker API Parity with GPT Bridge"
+slug: "create-broker-services-that-can-handle-all-the-same-tasks-as-the-gpt-bridge"
+status: "done"
+priority: "P3"
+labels: ["broker", "parity", "api", "gpt"]
+created_at: "2025-10-07T20:25:05.644Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
-# WebSocket Broker API Parity with GPT Bridge
 
+
+# WebSocket Broker API Parity with GPT Bridge
+```
 **Owner:** Codex / Agent
+```
+```
 **Status:** continue coding
+```
 **Labels:** #broker #ws #api #gptbridge #parity #promethean #ops
 
 ---
@@ -52,7 +62,7 @@ Bring the **WebSocket broker API** up to full parity with the existing **GPT Bri
 
 * [ ] List **all GPT Bridge APIs** currently in use:
 
-  * Chat completions (sync/stream)
+  * Chat completions sync/stream
   * Embedding calls
   * Tool calling / structured outputs
   * File queries (if any)
@@ -63,7 +73,7 @@ Bring the **WebSocket broker API** up to full parity with the existing **GPT Bri
   * `action: "embedding.query"`
   * `action: "tool.invoke"`
   * `action: "system.health"`
-* [ ] Create JSON schema contracts (`shared/ts/src/broker/schemas/*.json`).
+* [ ] Create JSON schema contracts `shared/ts/src/broker/schemas/*.json`.
 * [ ] Add runtime validation (Ajv or zod).
 
 ### Step 2 — Broker Implementation
@@ -72,7 +82,7 @@ Bring the **WebSocket broker API** up to full parity with the existing **GPT Bri
 * [ ] Add **request IDs** + correlation so responses can be tracked.
 * [ ] Support **streaming events** (`delta` chunks for chat).
 * [ ] Integrate with existing broker publish/subscribe system (reuse topics).
-* [ ] Add **backpressure** handling in broker (pause/resume signals, per-connection limits).
+* [ ] Add **backpressure** handling in broker pause/resume signals, per-connection limits.
 * [ ] Export broker metrics:
 
   * Connected clients
@@ -108,9 +118,9 @@ Bring the **WebSocket broker API** up to full parity with the existing **GPT Bri
 ---
 
 ## 🔧 Example Broker Messages
-
+```
 **Request:**
-
+```
 ```json
 {
   "id": "req-123",
@@ -125,9 +135,9 @@ Bring the **WebSocket broker API** up to full parity with the existing **GPT Bri
   }
 }
 ```
-
+```
 **Response (streaming chunks):**
-
+```
 ```json
 {
   "id": "req-123",
@@ -135,9 +145,9 @@ Bring the **WebSocket broker API** up to full parity with the existing **GPT Bri
   "delta": "Promethean is a modular, multi-agent system..."
 }
 ```
-
+```
 **Final Response:**
-
+```
 ```json
 {
   "id": "req-123",
@@ -185,7 +195,7 @@ Bring the **WebSocket broker API** up to full parity with the existing **GPT Bri
 ## 🔍 Relevant Resources
 
 * You might find \[this] useful while working on this task
-  *(link internal GPT Bridge API reference + broker design docs)*
+  *link internal GPT Bridge API reference + broker design docs*
 
 ---
 
@@ -194,4 +204,6 @@ Bring the **WebSocket broker API** up to full parity with the existing **GPT Bri
 Append-only thread for agents to log discovered gaps, schema changes, or overload handling notes.
 
 #ready
+
+
 

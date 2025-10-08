@@ -1,11 +1,18 @@
 ---
-uuid: 19a3b157-2bc0-4bfa-be63-bba8bfc1594d
-title: annotate legacy code with migration tags md
-status: todo
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.507Z'
+uuid: "19a3b157-2bc0-4bfa-be63-bba8bfc1594d"
+title: "annotate legacy code with migration tags md"
+slug: "annotate_legacy_code_with_migration_tags"
+status: "icebox"
+priority: "P3"
+labels: ["tags", "legacy", "migration", "annotate"]
+created_at: "2025-10-07T20:25:05.642Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Task: Annotate legacy code with migration tags
 
 Placeholder task stub generated from kanban board.
@@ -38,9 +45,9 @@ Placeholder task stub generated from kanban board.
 ---
 
 ## 🔗 Related Epics
-
+```
 #framework-core
-
+```
 ---
 
 ## ⛓️ Blocked By
@@ -56,5 +63,8 @@ Nothing
 ## 🔍 Relevant Links
 
 - [[kanban]]
+```
 #ice-box
+```
+
 

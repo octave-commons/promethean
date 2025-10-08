@@ -1,11 +1,18 @@
 ---
-uuid: fb14db8b-0d66-4f4a-a30d-d7ef8631ddef
-title: task generator system
-status: todo
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.522Z'
+uuid: "fb14db8b-0d66-4f4a-a30d-d7ef8631ddef"
+title: "task generator system"
+slug: "task-generator-system"
+status: "rejected"
+priority: "P3"
+labels: ["generator", "system", "template", "board"]
+created_at: "2025-10-07T20:25:05.645Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Description
 
 Create a utility that scaffolds new task files from a template to keep the board organized and consistent.
@@ -42,9 +49,9 @@ Create a utility that scaffolds new task files from a template to keep the board
 ---
 
 ## 🔗 Related Epics
-
+```
 #framework-core
-
+```
 ---
 
 ## ⛓️ Blocked By
@@ -60,9 +67,9 @@ Nothing
 ## 🔍 Relevant Links
 
 - [[kanban]]
-
+```
 #framework-core #Ready
-
+```
 
 ## Comments
 
@@ -79,3 +86,5 @@ Nothing
 The implementation adds only an Obsidian Templater file that relies on `tp` macros and `chatgpt-md` UI commands, so nothing can run headless, no automation adds the required status hashtags, and no tests or npm hooks were introduced.
 
 Suggested taskBuild a tested CLI task generator that meets the spec
+
+

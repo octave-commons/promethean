@@ -1,11 +1,18 @@
 ---
-uuid: 56da5f84-d732-4455-b0a6-97b36fbae026
-title: Cephalon Commands → Actions Refactor — Task Refinement
-status: todo
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.520Z'
+uuid: "56da5f84-d732-4455-b0a6-97b36fbae026"
+title: "Cephalon Commands → Actions Refactor — Task Refinement"
+slug: "seperate-discord-commands-from-the-actions-they-perform"
+status: "done"
+priority: "P3"
+labels: ["actions", "commands", "cephalon", "refactor"]
+created_at: "2025-10-07T20:25:05.644Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 # Cephalon Commands → Actions Refactor — Task Refinement
 
 > Split Discord-facing **commands** from reusable **actions** (DI via `scope`).
@@ -35,7 +42,7 @@ created_at: '2025-09-15T02:02:58.520Z'
 
 * **Action Design**
 
-  * Pure async functions with signature (per-action scope type):
+  * Pure async functions with signature per-action scope type:
 
     ```ts
     // actions/ping.ts
@@ -58,7 +65,7 @@ created_at: '2025-09-15T02:02:58.520Z'
 
 * **Scope Object**
 
-  * Defined per-action next to the action file (e.g., `./src/actions/ping.scope.ts` or `./src/actions/ping/scope.ts`); no global `ActionScope`:
+  * Defined per-action next to the action file e.g., `./src/actions/ping.scope.ts` or `./src/actions/ping/scope.ts`; no global `ActionScope`:
 
     ```ts
     // Example: actions/ping.ts scope
@@ -71,7 +78,7 @@ created_at: '2025-09-15T02:02:58.520Z'
       // Add only what the action truly needs (e.g., db, broker) — keep minimal
     };
     ```
-  * Commands compose the **action-local scope** using a small builder exported next to the action (e.g., `buildPingScope(ctx)`), which may internally use helpers in `src/factories/*`.
+  * Commands compose the **action-local scope** using a small builder exported next to the action e.g., `buildPingScope(ctx)`, which may internally use helpers in `src/factories/*`.
   * No monolithic `makeBaseScope` or global `ActionScope` type; keep scopes **minimal and action-specific**.
 
 * **Command Responsibilities**
@@ -94,7 +101,7 @@ created_at: '2025-09-15T02:02:58.520Z'
 
 * **Testing**
 
-  * Unit tests for **actions** with action-local scope mocks (e.g., `actions/foo.scope.mock.ts`) — no Discord.
+  * Unit tests for **actions** with action-local scope mocks e.g., `actions/foo.scope.mock.ts` — no Discord.
   * Contract tests for **commands** using `discord.js` mocks verifying defers, replies.
   * One integration test proving an **action is invokable via non-Discord path** (e.g., broker handler or CLI) using `build*Scope()` without Discord context.
 
@@ -112,7 +119,7 @@ created_at: '2025-09-15T02:02:58.520Z'
 * [ ] Each command calls an action in `./src/actions/*`.
 * [ ] Each action has a colocated `*.scope.ts` defining its minimal scope + builder.
 * [ ] Discord‑coupled actions (if any) isolate behavior behind a small adapter and expose a **broker‑friendly** scope builder; tests include adapter mocks.
-* [ ] At least one action exercised from a **non-Discord** context (broker/CLI) in tests.
+* [ ] At least one action exercised from a **non-Discord** context broker/CLI in tests.
 * [ ] Lint, typecheck, and tests green in CI; PM2 processes unaffected.
 * [ ] Docs updated: how to add a command, how to add an action, how to call from elsewhere.
 
@@ -121,11 +128,11 @@ created_at: '2025-09-15T02:02:58.520Z'
 ## 🧱 Runtime State & Store (Redux‑lite, no deps)
 
 **Why**: The `Bot` currently acts like a process‑wide variable bucket. Introduce a tiny, framework‑free **store + effects** so the Bot only routes Discord events → `dispatch()`, and **effects** call our domain **actions/**.
-
+```
 **Principles**
-
+```
 * Library‑free (no Redux pkg): \~40 lines of `createStore` + `subscribe`, `dispatch`, `getState`.
-* **Events** (not to be confused with `actions/`): immutable payloads describing *what happened / intent*.
+* **Events** not to be confused with `actions/`: immutable payloads describing *what happened / intent*.
 * **Reducer**: pure `(state, event) => state'` for ephemeral runtime state (voice status, shard health, throttles, in‑flight tasks).
 * **Effects**: async listeners triggered by specific events; they call `actions/*` with an action‑local scope, may `dispatch` follow‑up events.
 * **Broker bridge**: middleware to forward selected events to the message bus and to dispatch incoming broker messages.
@@ -151,42 +158,50 @@ created_at: '2025-09-15T02:02:58.520Z'
 ---
 
 ## 🪜 Subtasks (Implementation Plan)
-
+```
 1. **Inventory & Plan**
-
+```
    * [ ] List commands currently in `bot.ts` (names, options, permissions, long‑running?).
    * [ ] Group by domain; propose action filenames.
+```
 2. **Scaffold**
-
+```
    * [ ] Add `src/actions/`, `src/commands/`, and `src/factories/` directories.
    * [ ] Add minimal helpers in `src/factories/` (e.g., `logger.ts`, `mongo.ts`, `broker.ts`, `discord.ts`, `voice.ts`, `testing.ts`).
    * [ ] Add `src/store/` with `createStore.ts`, `events.ts`, `reducer.ts`, `effects/`.
    * [ ] Add adapter for `discord.js` voice under `src/factories/voice.ts`.
+```
 3. **Move Bot to Router**
-
+```
    * [ ] `Bot` wires Discord → `dispatch()` only; no business logic.
    * [ ] Register effects on store startup.
+```
 4. **Tracer Bullet**
-
+```
    * [ ] Implement `ping` (agnostic) + `leave-voice` (Discord‑coupled via adapter).
    * [ ] For each, add: event(s) → effect(s) → action call → follow‑up event.
+```
 5. **Port Remaining Commands**
-
+```
    * [ ] Create events for each command; route input parsing in commands; business in actions.
    * [ ] Ensure long-running actions use `deferReply()` & follow-ups.
+```
 6. **Broker Bridge**
-
+```
    * [ ] Middleware to forward certain events to broker; subscribe to broker topics and `dispatch` incoming messages.
+```
 7. **Testing**
-
-   * [ ] Unit tests: reducer (pure), selectors (pure), effects (mock factories + actions).
+```
+   * [ ] Unit tests: reducer (pure), selectors (pure), effects mock factories + actions.
    * [ ] Command tests with Discord mocks verifying defers, replies, and `dispatch` calls.
    * [ ] Integration test: broker → store → effect → action path.
+```
 8. **Docs & Scripts**
-
+```
    * [ ] Update README for store/effects patterns and naming (Events vs Actions).
+```
 9. **Cleanup**
-
+```
    * [ ] Delete business logic from `bot.ts`; keep only routing & `dispatch`.
 
 ---
@@ -288,9 +303,9 @@ graph TD
 ---
 
 ## ✨ Code Skeletons
-
+```
 **Tiny store (framework‑free)**
-
+```
 ```ts
 // src/store/createStore.ts
 export type Unsubscribe = () => void;
@@ -310,9 +325,9 @@ export function createStore<S, E>(initial: S, reducer: (s: S, e: E) => S) {
   return { getState, subscribe, dispatch };
 }
 ```
-
+```
 **Events & reducer**
-
+```
 ```ts
 // src/store/events.ts
 export type Event =
@@ -388,9 +403,9 @@ export async function executeLeaveVoice(interaction: ChatInputCommandInteraction
   await interaction.editReply('Leaving…');
 }
 ```
-
+```
 **Broker bridge sketch**
-
+```
 ```ts
 // src/broker/bridge.ts
 import type { Event } from '../store/events';
@@ -432,7 +447,7 @@ export function attachBrokerBridge(store: { dispatch: (e: Event) => Promise<void
 
 1. Land scaffolding & base scope.
 2. Port one simple command (ping) end-to-end.
-3. Port medium-complexity command (needs DB/vector access).
+3. Port medium-complexity command needs DB/vector access.
 4. Port remaining commands in small PRs; remove logic from `bot.ts`.
 5. Add Discord voice adapter and broker invocation example for a Discord‑coupled action.
 
@@ -442,7 +457,7 @@ export function attachBrokerBridge(store: { dispatch: (e: Event) => Promise<void
 
 * **Hidden Discord coupling in logic** → First tracer PR reveals API needs; iterate scope.
 * **Overgrown `scope`** → Establish boundaries; prefer adapters per domain; document fields.
-* **Test flakiness** → Provide stable mocks per-action (e.g., `actions/foo.scope.mock.ts`) or shared in `src/factories/testing.ts`.
+* **Test flakiness** → Provide stable mocks per-action e.g., `actions/foo.scope.mock.ts` or shared in `src/factories/testing.ts`.
 
 ---
 
@@ -466,11 +481,13 @@ export function attachBrokerBridge(store: { dispatch: (e: Event) => Promise<void
 
 ## 🔍 Relevant Links
 
-* \[\[kanban.md]]
+* \\[kanban.md]
 
 ## Notes
 - Tests or documentation are missing; acceptance criteria not fully met.
 - Story Points: 3
-
+```
 #in-progress
+```
+
 

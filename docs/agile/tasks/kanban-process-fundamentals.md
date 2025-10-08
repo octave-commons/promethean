@@ -1,29 +1,18 @@
 ---
-uuid: bc415290-a177-4119-8ecb-4daf012c3f7c
-created_at: '2025-09-19T21:39:45Z'
-title: 2025.09.19.21.39.45
-filename: Kanban Process Fundamentals
-description: >-
-  This document explains the core principles of a Kanban process as a finite
-  state machine with defined transitions and blocking conditions. It emphasizes
-  how minor and major blocking conditions trigger interventions without
-  requiring a fixed schedule or timer. The process ensures tasks move only when
-  necessary, with minimal human intervention.
-tags:
-  - kanban
-  - finite state machine
-  - blocking conditions
-  - process flow
-  - minor blocking
-  - major blocking
-  - intervention rules
-related_to_uuid: []
-related_to_title: []
-references: []
-status: todo
-priority: P3
-labels: []
+uuid: "bc415290-a177-4119-8ecb-4daf012c3f7c"
+title: "2025.09.19.21.39.45   state machine  conditions  flow  blocking  blocking  rules"
+slug: "kanban-process-fundamentals"
+status: "breakdown"
+priority: "P3"
+labels: ["kanban", "finite", "blocking", "process", "minor", "major", "intervention"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 I'm saying there isn't a ready to code gate at all. Because the it's all just process.
 
 You're being far too literal about all of this.
@@ -74,4 +63,6 @@ It proably doesn't stop work from happening. It can be skipped for the moment, a
 ## Sources
 - _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
+
+
 

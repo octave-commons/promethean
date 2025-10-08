@@ -124,3 +124,6 @@ main().catch((error: unknown) => {
   console.error(message);
   process.exit(1);
 });
+
+export { loadBoard, readTasksFolder } from './lib/kanban.js';
+export type { Board, ColumnData, Task } from './lib/types.js';

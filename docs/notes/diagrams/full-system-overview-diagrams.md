@@ -129,7 +129,7 @@ flowchart TD
 
 ---
 
-## 🧬 Message Handling (Voice ↔ Text Loop)
+## 🧬 Message Handling Voice ↔ Text Loop
 
 ```mermaid
 sequenceDiagram
@@ -182,6 +182,6 @@ Just say *"More, on X"*, and I’ll generate them rapid-fire.
 
 ---
 
-Related notes: [[node-type-topology-map]], [[circuit-weight-visualizations]], [[full-system-overview-diagrams]], [[layer1-uptime-diagrams]], [[field-node-lifecycle-additional-diagrams]], [[state-diagram-node-lifecycle]] [[../../unique/index|unique/index]]
+Related notes: [node-type-topology-map], [circuit-weight-visualizations], [full-system-overview-diagrams], [layer1-uptime-diagrams], [field-node-lifecycle-additional-diagrams], [state-diagram-node-lifecycle] [../../unique/index|unique/index]
 
 #tags: #diagram #design

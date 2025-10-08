@@ -1,20 +1,30 @@
 ---
-uuid: 991b27c3-0b63-49a5-acd3-d730b28e31fc
-title: Ban Python; Migrate to Hy; Compile to `./dist`
-status: todo
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.519Z'
+uuid: "991b27c3-0b63-49a5-acd3-d730b28e31fc"
+title: "Ban Python; Migrate to Hy; Compile to `./dist`"
+slug: "replace-all-python-properly-with-hy-incoming"
+status: "rejected"
+priority: "P3"
+labels: ["python", "ban", "dist", "migrate"]
+created_at: "2025-10-07T20:25:05.645Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
-# Ban Python; Migrate to Hy; Compile to `./dist`
 
+
+# Ban Python; Migrate to Hy; Compile to `./dist`
+```
 **Owner:** Codex / Agent
+```
+```
 **Status:** continue coding
+```
 **Labels:** #architecture #lang #hy #python-ban #build #ci #tooling #promethean
 
 ---
 
-## 🧨 Rationale (short + blunt)
+## 🧨 Rationale short + blunt
 
 * One language family per runtime. If we’re in CPython land, it’ll be **Lisp (Hy)**.
 * No more “accidental Python” sneaking into commits.
@@ -37,10 +47,10 @@ created_at: '2025-09-15T02:02:58.519Z'
 ## High-Level Plan
 
 1. **Quarantine:** add guardrails (hook, gitignore, CI) before changes.
-2. **Module Layout:** standardize Hy source roots (mirroring TS/Sibilant).
+2. **Module Layout:** standardize Hy source roots mirroring TS/Sibilant.
 3. **Build:** compile Hy → Python into `./dist` with preserved package structure.
 4. **Ports:** convert Python modules to Hy with 1:1 APIs.
-5. **Entrypoints:** run from compiled outputs (or `hy -m` during dev).
+5. **Entrypoints:** run from compiled outputs or `hy -m` during dev.
 6. **Docs & Enforcement:** loud policy + CI checks.
 
 ---
@@ -58,7 +68,7 @@ created_at: '2025-09-15T02:02:58.519Z'
     **/__pycache__/
     **/*.pyc
     ```
-* [ ] **Pre-commit hook** (blocks & un-stages `.py` outside `dist/`)
+* [ ] **Pre-commit hook** blocks & un-stages `.py` outside `dist/`
   Create `.githooks/pre-commit` and wire via `.git/config` or `core.hooksPath=.githooks`:
 
   ```bash
@@ -66,16 +76,16 @@ created_at: '2025-09-15T02:02:58.519Z'
   set -euo pipefail
 
   # Find staged .py files not under dist/
-  offenders=$(git diff --cached --name-only --diff-filter=ACMR | rg '\.py$' | rg -v '^dist/')
+  offenders=(git diff --cached --name-only --diff-filter=ACMR | rg '\.py' | rg -v '^dist/')
 
-  if [[ -n "${offenders}" ]]; then
+  if [[ -n "{offenders}" ]]; then
     echo "❌ Python source is forbidden. Unstaging offending files:"
-    echo "${offenders}" | sed 's/^/   - /'
+    echo "{offenders}" | sed 's/^/   - /'
     # Unstage each offender
     while read -r f; do
-      [[ -z "$f" ]] && continue
-      git restore --staged "$f" || true
-    done <<< "${offenders}"
+      [[ -z "f" ]] && continue
+      git restore --staged "f" || true
+    done <<< "{offenders}"
     echo "Commit blocked. Convert to .hy or place generated code under dist/."
     exit 1
   fi
@@ -90,7 +100,7 @@ created_at: '2025-09-15T02:02:58.519Z'
   * [ ] CI job step that **fails** if any tracked `.py` exists outside `dist/`:
 
     ```bash
-    rg -n --glob '!dist/**' --glob '!**/*.pyc' --glob '!**/__pycache__' '\.py$' . \
+    rg -n --glob '!dist/**' --glob '!**/*.pyc' --glob '!**/__pycache__' '\.py' . \
       | grep -v '^dist/' && { echo "Python source detected"; exit 1; } || true
     ```
 
@@ -106,12 +116,12 @@ created_at: '2025-09-15T02:02:58.519Z'
   ```
 
 * [ ] Build script: **compile Hy → Python files** into `./dist`. Prefer `hy2py` for readable `.py`.
-  `tools/build.hy` (invoked by Makefile/uv) should:
+  `tools/build.hy` invoked by Makefile/uv should:
 
   * [ ] Walk **Hy source roots** (see next task).
   * [ ] For each `.hy`, run `hy2py` and write path-mirrored `.py` into `./dist`.
   * [ ] Emit `__init__.py` in each `dist` package dir for importability.
-  * [ ] Preserve package namespace (e.g., `services/py/tts/foo.hy` → `dist/services/py/tts/foo.py`).
+  * [ ] Preserve package namespace e.g., `services/py/tts/foo.hy` → `dist/services/py/tts/foo.py`.
 
 * [ ] Make targets:
 
@@ -124,7 +134,7 @@ created_at: '2025-09-15T02:02:58.519Z'
   	rm -rf dist
   ```
 
-  (Per your workflow: Makefile shells out to `hy tools/build.hy`.)
+  Per your workflow: Makefile shells out to `hy tools/build.hy`.
 
 ### 2) Source Layout & Conventions
 
@@ -147,10 +157,10 @@ created_at: '2025-09-15T02:02:58.519Z'
   uv run python -m services.hy.cephalon.main  # with PYTHONPATH=dist
   ```
 
-  * [ ] Add `export PYTHONPATH=dist:${PYTHONPATH}` to service runners/PM2 env.
+  * [ ] Add `export PYTHONPATH=dist:{PYTHONPATH}` to service runners/PM2 env.
   * [ ] Replace any old `python path/to/*.py` with **Hy or dist imports**.
 
-### 4) Port Python → Hy (incremental, API-stable)
+### 4) Port Python → Hy incremental, API-stable
 
 * [ ] **Inventory** all Python modules/services and their public APIs.
 * [ ] Port order (highest leverage first):
@@ -162,7 +172,7 @@ created_at: '2025-09-15T02:02:58.519Z'
 
   * [ ] Re-implement in Hy with **same function/class names**, same inputs/outputs.
   * [ ] Delete original `.py` (or move aside), compile `.hy` → `dist/*.py`.
-  * [ ] Unit tests updated to import via package name (works for both dev/prod).
+  * [ ] Unit tests updated to import via package name works for both dev/prod.
   * [ ] No direct path imports to `.py` anywhere.
 
 ### 5) Testing & CI
@@ -193,7 +203,7 @@ created_at: '2025-09-15T02:02:58.519Z'
 
 * [ ] Remove Python linters that parse `.py` sources in the tree.
 * [ ] Add Hy formatting guidance (Hy doesn’t have a de facto formatter; keep style doc simple).
-* [ ] Keep Ruff/Black **off** the repo or scope them to `dist/` only if needed (read-only).
+* [ ] Keep Ruff/Black **off** the repo or scope them to `dist/` only if needed read-only.
 
 ### 8) Final Sweep
 
@@ -204,7 +214,7 @@ created_at: '2025-09-15T02:02:58.519Z'
 
 ## Acceptance Criteria (checkable)
 
-* [ ] Running `rg -n '\.py$' --glob '!dist/**'` returns **no results**.
+* [ ] Running `rg -n '\.py' --glob '!dist/**'` returns **no results**.
 * [ ] `make hy-build` regenerates `./dist` with importable packages and `__init__.py` files.
 * [ ] All Python-runtime services start via **Hy or compiled outputs** with no `.py` under source.
 * [ ] Pre-commit hook blocks & un-stages `.py` placed anywhere but `dist`.
@@ -226,7 +236,7 @@ created_at: '2025-09-15T02:02:58.519Z'
 ## Relevant Resources
 
 * You might find \[this] useful while working on this task
-  *(link your internal Hy style guide or a reference note with macros/patterns you like; keep it local to the vault/repo)*
+  *link your internal Hy style guide or a reference note with macros/patterns you like; keep it local to the vault/repo*
 
 ---
 
@@ -246,4 +256,6 @@ Append-only thread for agents. Note blockers, weird Hy interop, or macro decisio
 \#tags #promethean #hy #lisp #python #build #ci #git #precommit #policy #docs
 
 #archive
+
+
 

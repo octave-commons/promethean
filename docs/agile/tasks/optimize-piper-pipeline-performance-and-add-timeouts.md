@@ -1,8 +1,8 @@
 ---
 uuid: e5f6g7h8-i9j0-1234-efgh-567890123456
 title: Optimize piper pipeline performance and add comprehensive timeouts
-status: todo
-priority: P2
+status: ready
+priority: P1
 labels:
   - piper
   - performance
@@ -104,7 +104,7 @@ interface ProgressCallback {
 
 // Example usage
 pipeline.onProgress((stepId, progress, message) => {
-  console.log(`[${stepId}] ${Math.round(progress * 100)}% - ${message}`);
+  console.log(`[{stepId}] {Math.round(progress * 100)}% - {message}`);
 });
 ```
 
