@@ -28,6 +28,8 @@
   (loop [chars (seq s)
          in-quote? false
          escaped? false
+         bracket-depth 0
+         brace-depth 0
          current []
          parts []]
     (let [[ch & rest] chars]
@@ -38,22 +40,33 @@
             (not (str/blank? piece)) (conj piece)))
 
         escaped?
-        (recur rest in-quote? false (conj current ch) parts)
+        (recur rest in-quote? false bracket-depth brace-depth (conj current ch) parts)
 
         (= ch \")
-        (recur rest (not in-quote?) false (conj current ch) parts)
+        (recur rest (not in-quote?) false bracket-depth brace-depth (conj current ch) parts)
 
         (and (= ch \\) in-quote?)
-        (recur rest in-quote? true (conj current ch) parts)
+        (recur rest in-quote? true bracket-depth brace-depth (conj current ch) parts)
 
-        (and (= ch \,) (not in-quote?))
+        (and (not in-quote?) (= ch \,) (zero? bracket-depth) (zero? brace-depth))
         (let [piece (str/trim (apply str current))
               parts' (cond-> parts (not (str/blank? piece)) (conj piece))]
-          (recur rest in-quote? false [] parts'))
+          (recur rest in-quote? false bracket-depth brace-depth [] parts'))
+
+        (and (not in-quote?) (= ch \\[))
+        (recur rest in-quote? false (inc bracket-depth) brace-depth (conj current ch) parts)
+
+        (and (not in-quote?) (= ch \\]))
+        (recur rest in-quote? false (max 0 (dec bracket-depth)) brace-depth (conj current ch) parts)
+
+        (and (not in-quote?) (= ch \\{))
+        (recur rest in-quote? false bracket-depth (inc brace-depth) (conj current ch) parts)
+
+        (and (not in-quote?) (= ch \\}))
+        (recur rest in-quote? false bracket-depth (max 0 (dec brace-depth)) (conj current ch) parts)
 
         :else
-        (recur rest in-quote? false (conj current ch) parts)))))
-
+        (recur rest in-quote? false bracket-depth brace-depth (conj current ch) parts)))))
 (defn- parse-inline-table [s]
   (let [body (subs s 1 (dec (count s)))]
     (if (str/blank? body)
