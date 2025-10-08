@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Promethean Roadmap Dashboard</title>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true });
+  </script>
+  <style>
+    body { font-family: sans-serif; padding: 2rem; max-width: 1000px; margin: auto; }
+    section { margin-bottom: 3rem; }
+    h1, h2 { border-bottom: 1px solid #ccc; padding-bottom: 0.3rem; }
+    .mermaid { margin: 1rem 0; }
+  </style>
+</head>
+<body>
+  <h1>Promethean Roadmap Dashboard</h1>
+  <section><h2>🧩 Knowledge Graph — Lisp `defclass`</h2><div class="mermaid">
+graph TD
+    KanbanBoard[[docs/agile/boards/kanban.md]] --> TaskFile[[docs/agile/tasks/implement classes in compiler lisp incoming.md]]
+    TaskFile --> Checklist[[docs/reports/compiler-classes-checklist.md]]
+    TaskFile --> DependencyGraph[[docs/reports/compiler-classes-dependency-graph.md]]
+
+    Checklist --> Defun[Implement Defun]
+    Checklist --> Ecosystem[Lisp Ecosystem Files]
+    Checklist --> Packages[Lisp Package Files]
+
+    DependencyGraph --> Classes[Class Implementation]
+</div></section><section><h2>🧩 Knowledge Graph — Lisp `defun`</h2><div class="mermaid">
+graph TD
+    KanbanBoard[[docs/agile/boards/kanban.md]] --> TaskFile[[docs/agile/tasks/implement defun in compiler lisp incoming.md]]
+    TaskFile --> Checklist[[docs/reports/compiler-defun-checklist.md]]
+    TaskFile --> DependencyGraph[[docs/reports/compiler-defun-dependency-graph.md]]
+
+    Checklist --> Lambdas[Redefine Lambdas]
+    Checklist --> Classes[Implement Classes]
+    Checklist --> Ecosystem[Lisp Ecosystem Files]
+    Checklist --> Packages[Lisp Package Files]
+
+    DependencyGraph --> Defun[Defun Implementation]
+</div></section><section><h2>🧩 Knowledge Graph — Lisp Compiler Evolution</h2><div class="mermaid">
+graph TD
+    KanbanBoard[[docs/agile/boards/kanban.md]] --> LambdasTask[[docs/agile/tasks/redefine all existing lambdas with high order functions incoming.md]]
+    KanbanBoard --> DefunTask[[docs/agile/tasks/implement defun in compiler lisp incoming.md]]
+    KanbanBoard --> ClassesTask[[docs/agile/tasks/implement classes in compiler lisp incoming.md]]
+
+    LambdasTask --> DefunTask
+    DefunTask --> ClassesTask
+    ClassesTask --> Ecosystem[Lisp Ecosystem Files]
+    ClassesTask --> Packages[Lisp Package Files]
+
+    DefunTask --> ChecklistDefun[[docs/reports/compiler-defun-checklist.md]]
+    DefunTask --> GraphDefun[[docs/reports/compiler-defun-dependency-graph.md]]
+
+    ClassesTask --> ChecklistClasses[[docs/reports/compiler-classes-checklist.md]]
+    ClassesTask --> GraphClasses[[docs/reports/compiler-classes-dependency-graph.md]]
+</div></section><section><h2>🧩 Knowledge Graph — Hy Migration High-Level</h2><div class="mermaid">
+graph TD
+    KanbanBoard[[docs/agile/boards/kanban.md]] --> TaskFile[[docs/agile/tasks/Replace all python properly with hy incoming.md]]
+
+    TaskFile --> Checklist[[docs/reports/hy-migration-checklist.md]]
+    TaskFile --> DependencyGraph[[docs/reports/hy-migration-dependency-graph.md]]
+
+    Checklist --> CoreRules[Core Rules]
+    Checklist --> ServiceMigrations[Service Migrations]
+    Checklist --> Tooling[Build + Tooling]
+    Checklist --> Docs[Documentation]
+</div></section><section><h2>🧩 Knowledge Graph — DualStore Migration High-Level</h2><div class="mermaid">
+graph TD
+    KanbanBoard[[docs/agile/boards/kanban.md]] --> TaskFile[[docs/agile/tasks/Agent Tasks Persistence Migration to DualStore.md]]
+
+    TaskFile --> Checklist[[docs/reports/persistence-migration-checklist.md]]
+    TaskFile --> DependencyGraph[[docs/reports/persistence-dependency-graph.md]]
+
+    Checklist --> Cephalon[Cephalon]
+    Checklist --> Bridge[SmartGPT Bridge]
+    Checklist --> DiscordEmbedder[Discord-embedder]
+    Checklist --> KanbanProcessor[Kanban Processor]
+    Checklist --> MarkdownGraph[Markdown Graph]
+    Checklist --> CodexContext[Codex Context]
+    Checklist --> MigrationScripts[Migration Scripts]
+</div></section><section><h2>🧩 Master Knowledge Graph — Project Evolution</h2><div class="mermaid">
+graph TD
+    KanbanBoard[[docs/agile/boards/kanban.md]] --> HyMigration[[docs/architecture/hy-migration-graph.md]]
+    KanbanBoard --> DualStoreMigration[[docs/architecture/persistence-migration-graph.md]]
+    KanbanBoard --> CompilerEvolution[[docs/architecture/compiler-evolution-graph.md]]
+
+    HyMigration --> HyChecklist[[docs/reports/hy-migration-checklist.md]]
+    HyMigration --> HyGraph[[docs/reports/hy-migration-dependency-graph.md]]
+
+    DualStoreMigration --> PersistenceChecklist[[docs/reports/persistence-migration-checklist.md]]
+    DualStoreMigration --> PersistenceGraph[[docs/reports/persistence-dependency-graph.md]]
+
+    CompilerEvolution --> DefunChecklist[[docs/reports/compiler-defun-checklist.md]]
+    CompilerEvolution --> ClassesChecklist[[docs/reports/compiler-classes-checklist.md]]
+    CompilerEvolution --> DefunGraph[[docs/reports/compiler-defun-dependency-graph.md]]
+    CompilerEvolution --> ClassesGraph[[docs/reports/compiler-classes-dependency-graph.md]]
+</div></section><section><h2>🗓️ Project Evolution Timeline</h2><div class="mermaid">
+gantt
+    title Promethean Strategic Timeline
+    dateFormat  YYYY-MM-DD
+    section Hy Migration
+    Core Rules + Tooling    :active,  des1, 2025-08-15, 15d
+    Service Ports           :crit,    des2, 2025-08-20, 20d
+    CI + Docs Enforcement   :crit,    des3, 2025-09-05, 10d
+
+    section DualStore Migration
+    Cephalon + MarkdownGraph:done,    des4, 2025-08-10, 10d
+    Bridge + Embedder       :active,  des5, 2025-08-20, 15d
+    Kanban Processor        :active,  des6, 2025-08-22, 15d
+    Migration Scripts + Docs:crit,    des7, 2025-09-01, 20d
+
+    section Lisp Compiler Evolution
+    Redefine Lambdas        :active,  des8, 2025-08-15, 15d
+    Implement Defun         :active,  des9, 2025-08-20, 15d
+    Implement Classes       :crit,    des10, 2025-08-25, 20d
+    Ecosystem + Packages    :crit,    des11, 2025-09-05, 25d
+</div></section>
+</body>
+</html>

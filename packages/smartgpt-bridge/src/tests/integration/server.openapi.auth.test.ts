@@ -47,10 +47,11 @@ test.serial("/auth/me requires valid token when enabled", async (t) => {
 });
 
 test.serial("/auth/me enforces per-IP rate limiting", async (t) => {
-  const prev = captureEnv(["AUTH_ENABLED", "AUTH_MODE", "AUTH_TOKEN"]);
+  const prev = captureEnv(["AUTH_ENABLED", "AUTH_MODE", "AUTH_TOKEN", "AUTH_TOKENS"]);
   process.env.AUTH_ENABLED = "true";
   process.env.AUTH_MODE = "static";
   process.env.AUTH_TOKEN = "secret";
+  delete process.env.AUTH_TOKENS;
   try {
     t.timeout(180000);
     await withServer(ROOT, async (req) => {

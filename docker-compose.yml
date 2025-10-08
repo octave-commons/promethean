@@ -1,4 +1,13 @@
 services:
+
+  openwebui:
+    image: ghcr.io/open-webui/open-webui:main
+    gpus: all
+    # profiles: ["ai","rag","ollama","mcp"]
+    ports:
+      - "3000:8080"
+    volumes:
+      - open-webui:/app/backend/data
   sonarqube:
     image: sonarqube:25.8.0.112029-community
     container_name: sonarqube
@@ -111,6 +120,7 @@ services:
     restart: unless-stopped
     depends_on: [opensearch, meilisearch, postgres]
 
+
   tei-clip:
     profiles: ["ai", "vision"]
     image: ghcr.io/huggingface/text-embeddings-inference:1.6
@@ -167,24 +177,24 @@ services:
       retries: 6
 
   # ---------- Piper TTS (HTTP) ----------
-  piper-tts:
-    image: ${PIPER_IMAGE:-rhasspy/piper:latest}
-    command: >-
-      piper --server --host 0.0.0.0 --port 5000 --model /voices/${PIPER_VOICE:-en_US-lessac-medium}.onnx
-    ports: ["127.0.0.1:5005:5000"] # optional host exposure for local testing
-    volumes:
-      - ./data/piper/voices:/voices:ro
-    restart: unless-stopped
-    networks: [prom-net]
-    healthcheck:
-      test:
-        [
-          "CMD-SHELL",
-          "curl -fsS http://127.0.0.1:5000/api/tts?text=ping >/dev/null || exit 1",
-        ]
-      interval: 10s
-      timeout: 5s
-      retries: 6
+  # piper-tts:
+  #   image: ${PIPER_IMAGE:-rhasspy/piper:latest}
+  #   command: >-
+  #     piper --server --host 0.0.0.0 --port 5000 --model /voices/${PIPER_VOICE:-en_US-lessac-medium}.onnx
+  #   ports: ["127.0.0.1:5005:5000"] # optional host exposure for local testing
+  #   volumes:
+  #     - ./data/piper/voices:/voices:ro
+  #   restart: unless-stopped
+  #   networks: [prom-net]
+  #   healthcheck:
+  #     test:
+  #       [
+  #         "CMD-SHELL",
+  #         "curl -fsS http://127.0.0.1:5000/api/tts?text=ping >/dev/null || exit 1",
+  #       ]
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 6
 
   # ---------- ENSO protocol WebSocket server ----------
   enso-server:
@@ -248,6 +258,7 @@ volumes:
   sonarqube_logs:
   sonarqube_extensions:
   mongo-data:
+  open-webui:
 
 networks:
   prom-net:
