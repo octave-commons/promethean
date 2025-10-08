@@ -2,15 +2,16 @@
 uuid: "49a002af-c299-402a-b922-8308556c437b"
 title: "Description"
 slug: "connect-bluesky"
-status: "ready"
+status: "icebox"
 priority: "P3"
 labels: ["description", "bluesky", "app", "authentication"]
-created_at: "2025-10-07T20:25:05.643Z"
+created_at: "2025-10-08T21:28:05.693Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
 
 
 # Description
@@ -67,6 +68,7 @@ Useful for agents to engage in append only conversations about this task.
 
 #Ready
 #ready
+
 
 
 

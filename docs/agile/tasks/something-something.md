@@ -2,15 +2,16 @@
 uuid: "02c83b6f-e9b4-4dfb-a4a0-543042aa02b6"
 title: "something something"
 slug: "something-something"
-status: "done"
+status: "icebox"
 priority: "p3"
 labels: ["something", "changes", "span", "context"]
-created_at: "2025-10-07T20:25:05.644Z"
+created_at: "2025-10-08T22:26:45.786Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
 
 
 ```
@@ -112,6 +113,7 @@ Using this title write a reasonable task kanban task document: something-somethi
 <hr class="__chatgpt_plugin">
 ```
 ### role::user
+
 
 
 

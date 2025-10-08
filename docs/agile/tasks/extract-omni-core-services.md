@@ -2,10 +2,10 @@
 uuid: "e0a6842d-031a-4d1c-bee1-563bbda8cf80"
 title: "Extract shared services into @promethean/omni-core"
 slug: "extract-omni-core-services"
-status: "breakdown"
+status: "ready"
 priority: "P1"
 labels: ["omni", "refactor"]
-created_at: "2025-10-07T20:25:05.643Z"
+created_at: "2025-10-08T21:28:24.328Z"
 estimates:
   complexity: ""
   scale: ""
@@ -14,14 +14,17 @@ estimates:
 
 
 ## 🎯 Outcome
+
 Relocate SmartGPT bridge domain logic files/search/sinks/indexer/agents/exec into a reusable `@promethean/omni-core` package that implements the Omni protocol interfaces.
 
 ## 📥 Inputs
+
 - [docs/architecture/omni/omni-service-roadmap.md]
 - `bridge/src/routes/v1/*`
 - `packages/mcp/src/tools/github/*`
 
 ## ✅ Definition of Done
+
 - [ ] New package `packages/omni-core/` with build/test scripts.
 - [ ] Core services expose protocol-compliant methods consuming existing stores and supervisors.
 - [ ] MCP file + GitHub helpers delegate to omni-core implementations.
@@ -29,6 +32,7 @@ Relocate SmartGPT bridge domain logic files/search/sinks/indexer/agents/exec int
 - [ ] Regression tests (AVA) run against omni-core services.
 
 ## 🪜 Steps
+
 1. Inventory dependencies (Mongo, Chroma, config) and define injection points.
 2. Move file/search/sink/indexer/agent/exec modules into omni-core with minimal surface changes.
 3. Update MCP package to consume omni-core services.
@@ -36,7 +40,7 @@ Relocate SmartGPT bridge domain logic files/search/sinks/indexer/agents/exec int
 5. Run affected package tests; update docs + changelog.
 
 ## 🔗 Dependencies
+
 - [docs/agile/tasks/author-omni-protocol-package.md]
 - [docs/agile/tasks/omni-unified-service-spec.md]
-
 

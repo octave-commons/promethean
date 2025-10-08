@@ -3147,6 +3147,28 @@ importers:
         specifier: ^8.5.9
         version: 8.18.1
 
+  packages/omni-protocol:
+    dependencies:
+      '@promethean/utils':
+        specifier: workspace:*
+        version: link:../utils
+      zod:
+        specifier: ^3.22.4
+        version: 3.25.76
+      zod-to-json-schema:
+        specifier: ^3.23.5
+        version: 3.23.5(zod@3.25.76)
+    devDependencies:
+      '@types/node':
+        specifier: ^20.0.0
+        version: 20.19.11
+      ava:
+        specifier: ^6.0.0
+        version: 6.4.1(encoding@0.1.13)(rollup@4.52.3)
+      typescript:
+        specifier: 5.4.5
+        version: 5.4.5
+
   packages/openai-server:
     dependencies:
       '@fastify/static':

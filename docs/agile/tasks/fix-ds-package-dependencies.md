@@ -1,0 +1,65 @@
+---
+title: Fix DS package missing dependencies causing build failures
+description: Resolve missing DS package modules that are causing compilation errors
+uuid: d2e3f4g5-h6i7-j8k9-l0m1-n2o3p4q5r6s7
+labels:
+  - dependencies
+  - build-system
+  - typescript
+  - ds-package
+priority: P2
+status: todo
+---
+
+## Issue
+
+Build failures due to missing DS (Data Science) package dependencies/modules that other packages are trying to import.
+
+## Technical Details
+
+### Current Problem
+- Multiple packages are attempting to import modules from a DS package
+- The DS package is missing exported modules or not properly built
+- This causes TypeScript compilation failures across the monorepo
+
+### Error Pattern
+```
+Cannot find module '@promethean/ds/[module-name]' or its corresponding type declarations
+```
+
+## Acceptance Criteria
+
+1. Identify which DS package modules are missing
+2. Ensure DS package properly exports required modules
+3. Fix any package.json dependency declarations
+4. Verify DS package builds successfully
+5. Confirm all dependent packages can import required modules
+6. Ensure full monorepo build completes without errors
+
+## Files to Modify
+
+- `packages/ds/package.json` (fix dependencies and exports)
+- `packages/ds/src/index.ts` (ensure proper module exports)
+- Any packages importing DS modules (verify import paths)
+
+## Root Cause Analysis
+
+The DS package appears to be incomplete or has missing exports, causing downstream packages to fail during compilation. This could be due to:
+
+1. Missing module exports in the DS package's index file
+2. Incorrect package.json exports configuration
+3. Missing build scripts or compilation issues
+4. Dependency resolution problems
+
+## Verification Steps
+
+1. Build DS package: `pnpm --filter @promethean/ds build`
+2. Check exported modules: `ls -la packages/ds/dist/`
+3. Verify import paths in dependent packages
+4. Run full repository build: `pnpm build`
+5. Check for any remaining module resolution errors
+6. Validate CI pipeline builds successfully
+
+## Additional Notes
+
+This is a blocking issue for the monorepo build system and needs to be resolved before other build fixes can be properly validated.

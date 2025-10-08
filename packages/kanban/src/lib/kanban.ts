@@ -761,6 +761,7 @@ export const updateStatus = async (
   newStatus: string,
   boardPath: string,
   tasksDir?: string,
+  transitionRulesEngine?: import("./transition-rules.js").TransitionRulesEngine,
 ): Promise<Task | undefined> => {
   let found: Task | undefined;
   for (const col of board.columns) {
@@ -773,7 +774,53 @@ export const updateStatus = async (
   }
   if (!found) return undefined;
 
+  const currentStatus = found.status;
   const normalizedStatus = normalizeColumnDisplayName(newStatus);
+
+  // Transition Rules Validation (if engine is provided)
+  if (transitionRulesEngine) {
+    try {
+      const transitionResult = await transitionRulesEngine.validateTransition(
+        currentStatus,
+        normalizedStatus,
+        found,
+        board
+      );
+
+      if (!transitionResult.allowed) {
+        // Restore task to its original column
+        let originalColumn = board.columns.find(
+          (c) => columnKey(c.name) === columnKey(currentStatus)
+        );
+        if (originalColumn) {
+          originalColumn.tasks = [...originalColumn.tasks, found];
+          originalColumn.count += 1;
+        }
+
+        const errorMessage = `❌ Transition blocked: ${transitionResult.reason}`;
+        const suggestionMessage = transitionResult.suggestedAlternatives.length > 0
+          ? `\n💡 Suggested alternatives: ${transitionResult.suggestedAlternatives.join(', ')}`
+          : '';
+
+        throw new Error(errorMessage + suggestionMessage);
+      }
+
+      if (transitionResult.warnings.length > 0) {
+        console.warn(`⚠️  Transition warnings: ${transitionResult.warnings.join(', ')}`);
+      }
+    } catch (error) {
+      // If transition validation fails, restore task and re-throw
+      let originalColumn = board.columns.find(
+        (c) => columnKey(c.name) === columnKey(currentStatus)
+      );
+      if (originalColumn) {
+        originalColumn.tasks = [...originalColumn.tasks, found];
+        originalColumn.count += 1;
+      }
+      throw error;
+    }
+  }
+
   found.status = normalizedStatus;
   let target = board.columns.find(
     (c) => columnKey(c.name) === columnKey(normalizedStatus),

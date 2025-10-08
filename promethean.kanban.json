@@ -59,8 +59,8 @@
   },
 
   "wipLimits": {
-    "icebox": 200,
-    "incoming": 15,
+    "icebox": 9999,
+    "incoming": 9999,
     "accepted": 5,
     "breakdown": 5,
     "blocked": 3,
@@ -73,6 +73,126 @@
     "rejected": 20
   },
   "_wip_rationale": "Updated for multi-agent development environment: 1 human + 6-18 AI agents. Review limit reflects human bandwidth for reviewing AI work. In-progress limit accommodates parallel AI agent work while maintaining flow constraints. See docs/agile/process.md 'Fluid Kanban Rule Evolution' section.",
+
+  "transitionRules": {
+    "enabled": true,
+    "enforcement": "strict",
+    "dslPath": "docs/agile/rules/kanban-transitions.clj",
+    "rules": [
+      {
+        "from": ["icebox"],
+        "to": ["incoming"],
+        "description": "Activate deferred task",
+        "check": "task-requires-attention?"
+      },
+      {
+        "from": ["incoming"],
+        "to": ["icebox", "accepted"],
+        "description": "Triage incoming task (accept or defer)",
+        "check": "task-triaged?"
+      },
+      {
+        "from": ["accepted"],
+        "to": ["breakdown", "incoming"],
+        "description": "Break down task or return for more info",
+        "check": "task-ready-for-breakdown?"
+      },
+      {
+        "from": ["breakdown"],
+        "to": ["ready", "accepted", "blocked"],
+        "description": "Complete breakdown, return for clarification, or block",
+        "check": "task-properly-broken-down?"
+      },
+      {
+        "from": ["blocked"],
+        "to": ["breakdown", "ready"],
+        "description": "Unblock task after dependency resolved",
+        "check": "dependencies-resolved?"
+      },
+      {
+        "from": ["ready"],
+        "to": ["todo", "breakdown"],
+        "description": "Queue task or return for re-estimation",
+        "check": "task-ready-for-execution?"
+      },
+      {
+        "from": ["todo"],
+        "to": ["in_progress"],
+        "description": "Pull task for active work",
+        "check": "task-selected-for-work?"
+      },
+      {
+        "from": ["in_progress"],
+        "to": ["review", "todo", "breakdown"],
+        "description": "Submit for review, pause, or return for planning",
+        "check": "reviewable-change-exists?"
+      },
+      {
+        "from": ["review"],
+        "to": ["document", "in_progress", "todo"],
+        "description": "Approve for documentation, request changes, or queue for rework",
+        "check": "change-approved?"
+      },
+      {
+        "from": ["document"],
+        "to": ["done", "review"],
+        "description": "Complete documentation or return for additional review",
+        "check": "documentation-complete?"
+      },
+      {
+        "from": ["done"],
+        "to": ["icebox"],
+        "description": "Archive completed task (rare)",
+        "check": "task-needs-archiving?"
+      },
+      {
+        "from": ["accepted", "breakdown", "blocked", "ready", "todo", "in_progress", "review", "document"],
+        "to": ["rejected"],
+        "description": "Reject non-viable task",
+        "check": "task-non-viable?"
+      }
+    ],
+    "customChecks": {
+      "task-requires-attention?": {
+        "description": "Task requires immediate attention",
+        "impl": "(<= (get-priority-numeric (:priority task)) 1)"
+      },
+      "task-triaged?": {
+        "description": "Task has been triaged and accepted",
+        "impl": "(<= (get-priority-numeric (:priority task)) 2)"
+      },
+      "task-ready-for-breakdown?": {
+        "description": "Task is properly scoped for breakdown analysis",
+        "impl": "(contains? task :title)"
+      },
+      "reviewable-change-exists?": {
+        "description": "A coherent, reviewable change exists",
+        "impl": "(and (:title task) (<= (get-priority-numeric (:priority task)) 2))"
+      },
+      "task-properly-broken-down?": {
+        "description": "Task is broken down into small, testable slices",
+        "impl": "(and (:estimates task) (<= (get-in task [:estimates :complexity]) 5))"
+      },
+      "dependencies-resolved?": {
+        "description": "All blocking dependencies have been resolved",
+        "impl": "(empty? (get-blocking-dependencies task board))"
+      }
+    },
+    "globalRules": [
+      {
+        "name": "wip-limits",
+        "description": "Enforce WIP limits for all columns",
+        "enabled": false,
+        "impl": "check-wip-limits"
+      },
+      {
+        "name": "task-existence",
+        "description": "Task must exist in source column",
+        "enabled": false,
+        "impl": "check-task-existence"
+      }
+    ]
+  },
 
   "_transition_rules_note": "See docs/agile/process.md for complete FSM transition rules. Key rules: Incoming→Accepted→Breakdown→Ready→Todo→In Progress→Review→Document→Done. Tasks with score >5 must cycle back through Breakdown until slice is small enough (≤5)."
 }
