@@ -77,7 +77,8 @@ program
         verbose: program.opts().verbose,
         maxTasks: parseInt(program.opts().maxTasks) || undefined,
         filterByStatus: options.status ? [options.status] : undefined,
-        filterByLabel: options.label ? [options.label] : undefined
+        filterByLabel: options.label ? [options.label] : undefined,
+        deduplicationStrategy: program.opts().deduplication
       };
 
       console.log(chalk.blue('📤 Pushing tasks to targets...'));
