@@ -109,8 +109,18 @@ const readTasksFromDirectory = async (dir: string): Promise<Task[]> => {
       continue;
     }
 
+    let raw: string;
     try {
-      const raw = await fs.readFile(filePath, 'utf8');
+      raw = await fs.readFile(filePath, 'utf8');
+    } catch (error) {
+      logger.warn(`Failed to read markdown task ${filePath}`, {
+        filePath,
+        ...toErrorFields(error),
+      });
+      continue;
+    }
+
+    try {
       const parsed = matter(raw);
       const frontmatter = parsed.data as Record<string, unknown>;
       const uuid = ensureString(frontmatter.uuid);
@@ -139,10 +149,66 @@ const readTasksFromDirectory = async (dir: string): Promise<Task[]> => {
         filePath,
         ...toErrorFields(error),
       });
+      const fallback = recoverTaskFromMalformedMarkdown(
+        raw,
+        filePath,
+        slugFromFileName(entry),
+      );
+      if (fallback) {
+        tasks.push(fallback);
+      }
     }
   }
 
   return tasks;
+};
+
+const recoverTaskFromMalformedMarkdown = (
+  raw: string,
+  filePath: string,
+  slug: string,
+): Task | null => {
+  const frontmatterMatch = raw.match(/^---\s*[\r\n]+([\s\S]*?)[\r\n]+---\s*/);
+  if (!frontmatterMatch) {
+    return null;
+  }
+  const frontmatter = frontmatterMatch[1];
+  if (!frontmatter) {
+    return null;
+  }
+  const body = raw.slice(frontmatterMatch[0].length).trim();
+
+  const getValue = (key: string): string | undefined => {
+    const pattern = new RegExp(`^\s*${key}\s*:\\s*(.+)$`, 'im');
+    const match = frontmatter.match(pattern);
+    if (!match || match[1] == null) {
+      return undefined;
+    }
+    return match[1].trim().replace(/^['"]|['"]$/g, '');
+  };
+
+  const uuid = ensureString(getValue('uuid'));
+  if (!uuid) {
+    return null;
+  }
+
+  const title = ensureString(getValue('title')) ?? slug;
+  const status = ensureString(getValue('status')) ?? 'todo';
+  const priority = ensurePriority(getValue('priority'));
+  const labels = ensureLabels(getValue('labels'));
+  const createdAt = ensureString(getValue('created_at'));
+
+  return {
+    uuid,
+    title,
+    status,
+    priority,
+    labels,
+    created_at: createdAt,
+    content: body.length > 0 ? body : undefined,
+    slug,
+    sourcePath: filePath,
+  };
 };
 
 /**

@@ -17,6 +17,7 @@
     "yaml": "^2.5.0"
   },
   "devDependencies": {
+    "esmock": "^2.7.3",
     "typescript": "^5.4.0"
   }
 }
