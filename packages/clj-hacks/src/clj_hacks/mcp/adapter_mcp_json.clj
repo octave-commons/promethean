@@ -58,20 +58,19 @@
             server-json->edn)))
 
 (defn- server-spec->json [spec]
-  (when (some? spec)
-    (let [spec-map (or spec {})
-          spec-map (cond-> spec-map
-                      (not (contains? spec-map :command)) (assoc :command nil))]
-      (reduce (fn [acc [edn-key {:keys [key transform include-nil?]}]]
-                (if (contains? spec-map edn-key)
-                  (let [raw (get spec-map edn-key)
-                        value (if transform (transform raw) raw)]
-                    (if (or include-nil? (some? value))
-                      (assoc acc key value)
-                      acc))
-                  acc))
-              {}
-              server-edn->json))))
+  (let [spec (or spec {})
+        spec (cond-> spec
+                (not (contains? spec :command)) (assoc :command nil))]
+    (reduce (fn [acc [edn-key {:keys [key transform include-nil?]}]]
+              (if (contains? spec edn-key)
+                (let [raw (get spec edn-key)
+                      value (if transform (transform raw) raw)]
+                  (if (or include-nil? (some? value))
+                    (assoc acc key value)
+                    acc))
+                acc))
+            {}
+            server-edn->json)))
 
 (defn- parse-expectations [m]
   (when (map? m)
