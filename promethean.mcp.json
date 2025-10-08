@@ -1,193 +1,330 @@
 {
-  "mcpServers" : {
-    "duckduckgo" : {
-      "command" : "/home/err/devel/promethean/scripts/mcp/bin/duck.sh"
+  "mcpServers": {
+    "duckduckgo": {
+      "command": "/home/err/devel/promethean/scripts/mcp/bin/duck.sh"
     },
-    "eslint" : {
-      "command" : "npx",
-      "args" : [ "-y", "@uplinq/mcp-eslint" ]
+    "eslint": {
+      "command": "npx",
+      "args": ["-y", "@uplinq/mcp-eslint"]
     },
-    "file-system" : {
-      "command" : "/home/err/devel/promethean/scripts/mcp/bin/filesystem.sh"
+    "file-system": {
+      "command": "/home/err/devel/promethean/scripts/mcp/bin/filesystem.sh"
     },
-    "github" : {
-      "command" : "/home/err/devel/promethean/scripts/mcp/bin/github.sh"
+    "github": {
+      "command": "/home/err/devel/promethean/scripts/mcp/bin/github.sh"
     },
-    "github-chat" : {
-      "command" : "/home/err/devel/promethean/scripts/mcp/bin/github_chat.sh"
+    "github-chat": {
+      "command": "/home/err/devel/promethean/scripts/mcp/bin/github_chat.sh"
     },
-    "haiku-rag" : {
-      "command" : "uvx",
-      "args" : [ "haiku-rag", "serve", "--stdio", "--db", "/home/err/.local/share/haiku-rag" ]
+    "haiku-rag": {
+      "command": "uvx",
+      "args": ["haiku-rag", "serve", "--stdio", "--db", "/home/err/.local/share/haiku-rag"]
     },
-    "http-default" : {
-      "command" : null
+    "http-default": {
+      "command": null
     },
-    "http-discord" : {
-      "command" : null
+    "http-discord": {
+      "command": null
     },
-    "http-exec" : {
-      "command" : null
+    "http-exec": {
+      "command": null
     },
-    "http-files" : {
-      "command" : null
+    "http-files": {
+      "command": null
     },
-    "http-github" : {
-      "command" : null
+    "http-github": {
+      "command": null
     },
-    "http-kanban" : {
-      "command" : null
+    "http-kanban": {
+      "command": null
     },
-    "http-process" : {
-      "command" : null
+    "http-process": {
+      "command": null
     },
-    "http-review" : {
-      "command" : null
+    "http-review": {
+      "command": null
     },
-    "http-workspace" : {
-      "command" : null
+    "http-workspace": {
+      "command": null
     },
-    "npm-helper" : {
-      "command" : "npx",
-      "args" : [ "-y", "@pinkpixel/npm-helper-mcp" ]
+    "npm-helper": {
+      "command": "npx",
+      "args": ["-y", "@pinkpixel/npm-helper-mcp"]
     },
-    "obsidian" : {
-      "command" : "/home/err/devel/promethean/scripts/mcp/bin/obsidian.sh"
+    "obsidian": {
+      "command": "/home/err/devel/promethean/scripts/mcp/bin/obsidian.sh"
     },
-    "playwright" : {
-      "command" : "npx",
-      "args" : [ "@playwright/mcp@latest" ]
+    "playwright": {
+      "command": "npx",
+      "args": ["@playwright/mcp@latest"]
     },
-    "serena" : {
-      "command" : "uvx",
-      "args" : [ "--from", "git+https://github.com/oraios/serena", "serena", "start-mcp-server" ]
+    "serena": {
+      "command": "uvx",
+      "args": ["--from", "git+https://github.com/oraios/serena", "serena", "start-mcp-server"]
     },
-    "sonarqube" : {
-      "command" : "/home/err/devel/promethean/scripts/mcp/bin/sonarqube.sh"
+    "sonarqube": {
+      "command": "/home/err/devel/promethean/scripts/mcp/bin/sonarqube.sh"
     },
-    "ts-ls-lsp" : {
-      "command" : "npx",
-      "args" : [ "tritlo/lsp-mcp", "typescript", "/home/err/.volta/bin/typescript-language-server", "--stdio" ]
+    "ts-ls-lsp": {
+      "command": "npx",
+      "args": [
+        "tritlo/lsp-mcp",
+        "typescript",
+        "/home/err/.volta/bin/typescript-language-server",
+        "--stdio"
+      ]
     }
   },
-  "transport" : "http",
-  "tools" : [ "mcp.help", "mcp.toolset", "mcp.endpoints", "mcp.validate-config", "github.request", "github.graphql", "github.rate-limit", "github.contents.write", "github.pr.get", "github.pr.files", "github.pr.resolvePosition", "github.pr.review.start", "github.pr.review.commentInline", "github.pr.review.submit", "files.list-directory", "files.tree-directory", "files.view-file", "files.write-content", "files.write-lines", "files.search", "apply_patch", "tdd.scaffoldTest", "tdd.changedFiles", "tdd.runTests", "tdd.startWatch", "tdd.getWatchChanges", "tdd.stopWatch", "tdd.coverage", "tdd.propertyCheck", "tdd.mutationScore", "exec.list", "exec.run", "discord.send-message", "discord.list-messages", "pnpm.install", "pnpm.add", "pnpm.remove", "pnpm.runScript" ],
-  "includeHelp" : true,
-  "stdioMeta" : {
-    "title" : "Default MCP Endpoint",
-    "description" : "Aggregated toolset available over stdio for local agents.",
-    "workflow" : [ "mcp.toolset -> mcp.help", "mcp.validate-config", "files.search -> files.view-file -> apply_patch" ],
-    "expectations" : {
-      "usage" : [ "Use mcp.toolset first to confirm endpoint scope", "Call mcp.validate-config after editing promethan.mcp.json", "Prefer files.write-lines for small edits" ],
-      "pitfalls" : [ "mcp.validate-config reports warnings for missing metadata", "apply_patch expects unified diffs" ],
-      "prerequisites" : [ "Ensure git workspace is clean before applying patches" ]
+  "version": "2025-06-18",
+  "metadata": {
+    "generatedBy": "clj-hacks"
+  },
+  "transport": "http",
+  "tools": [
+    "mcp.help",
+    "mcp.toolset",
+    "mcp.endpoints",
+    "mcp.validate-config",
+    "github.request",
+    "github.graphql",
+    "github.rate-limit",
+    "github.contents.write",
+    "github.pr.get",
+    "github.pr.files",
+    "github.pr.resolvePosition",
+    "github.pr.review.start",
+    "github.pr.review.commentInline",
+    "github.pr.review.submit",
+    "files.list-directory",
+    "files.tree-directory",
+    "files.view-file",
+    "files.write-content",
+    "files.write-lines",
+    "files.search",
+    "apply_patch",
+    "tdd.scaffoldTest",
+    "tdd.changedFiles",
+    "tdd.runTests",
+    "tdd.startWatch",
+    "tdd.getWatchChanges",
+    "tdd.stopWatch",
+    "tdd.coverage",
+    "tdd.propertyCheck",
+    "tdd.mutationScore",
+    "exec.list",
+    "exec.run",
+    "discord.send-message",
+    "discord.list-messages",
+    "pnpm.install",
+    "pnpm.add",
+    "pnpm.remove",
+    "pnpm.runScript"
+  ],
+  "includeHelp": true,
+  "stdioMeta": {
+    "title": "Default MCP Endpoint",
+    "description": "Aggregated toolset available over stdio for local agents.",
+    "workflow": [
+      "mcp.toolset -> mcp.help",
+      "mcp.validate-config",
+      "files.search -> files.view-file -> apply_patch"
+    ],
+    "expectations": {
+      "usage": [
+        "Use mcp.toolset first to confirm endpoint scope",
+        "Call mcp.validate-config after editing promethan.mcp.json",
+        "Prefer files.write-lines for small edits"
+      ],
+      "pitfalls": [
+        "mcp.validate-config reports warnings for missing metadata",
+        "apply_patch expects unified diffs"
+      ],
+      "prerequisites": ["Ensure git workspace is clean before applying patches"]
     }
   },
-  "endpoints" : {
-    "discord" : {
-      "tools" : [ "discord.send-message", "discord.list-messages" ],
-      "includeHelp" : true,
-      "meta" : {
-        "title" : "Discord",
-        "description" : "Read and write messages in configured Discord channels.",
-        "workflow" : [ "discord_list_messages -> discord_send_message" ],
-        "expectations" : {
-          "usage" : [ "List recent messages before sending updates" ],
-          "pitfalls" : [ "Use short updates to avoid rate limits" ]
+  "endpoints": {
+    "discord": {
+      "tools": ["discord.send-message", "discord.list-messages"],
+      "includeHelp": true,
+      "meta": {
+        "title": "Discord",
+        "description": "Read and write messages in configured Discord channels.",
+        "workflow": ["discord_list_messages -> discord_send_message"],
+        "expectations": {
+          "usage": ["List recent messages before sending updates"],
+          "pitfalls": ["Use short updates to avoid rate limits"]
         }
       }
     },
-    "exec" : {
-      "tools" : [ "exec.list", "exec.run" ],
-      "includeHelp" : true,
-      "meta" : {
-        "title" : "Approved Exec",
-        "description" : "Run allowlisted shell commands from exec config.",
-        "workflow" : [ "exec_list -> exec_run" ],
-        "expectations" : {
-          "usage" : [ "Check exec_list before running unfamiliar commands" ],
-          "pitfalls" : [ "exec_run rejects extra args unless allowlisted" ]
+    "exec": {
+      "tools": ["exec.list", "exec.run"],
+      "includeHelp": true,
+      "meta": {
+        "title": "Approved Exec",
+        "description": "Run allowlisted shell commands from exec config.",
+        "workflow": ["exec_list -> exec_run"],
+        "expectations": {
+          "usage": ["Check exec_list before running unfamiliar commands"],
+          "pitfalls": ["exec_run rejects extra args unless allowlisted"]
         }
       }
     },
-    "files" : {
-      "tools" : [ "files.list-directory", "files.tree-directory", "files.view-file", "files.write-content", "files.write-lines", "files.search", "apply_patch" ],
-      "includeHelp" : true,
-      "meta" : {
-        "title" : "Filesystem",
-        "description" : "Read, search, and edit files within the workspace sandbox.",
-        "workflow" : [ "files_search -> files_view_file", "files_write_lines -> files_write_content", "apply_patch" ],
-        "expectations" : {
-          "usage" : [ "Keep edits focused and explain context in changelog", "Prefer files_write_lines for incremental inserts" ],
-          "pitfalls" : [ "Avoid binary writes", "Paths are repo-root relative" ]
+    "files": {
+      "tools": [
+        "files.list-directory",
+        "files.tree-directory",
+        "files.view-file",
+        "files.write-content",
+        "files.write-lines",
+        "files.search",
+        "apply_patch"
+      ],
+      "includeHelp": true,
+      "meta": {
+        "title": "Filesystem",
+        "description": "Read, search, and edit files within the workspace sandbox.",
+        "workflow": [
+          "files_search -> files_view_file",
+          "files_write_lines -> files_write_content",
+          "apply_patch"
+        ],
+        "expectations": {
+          "usage": [
+            "Keep edits focused and explain context in changelog",
+            "Prefer files_write_lines for incremental inserts"
+          ],
+          "pitfalls": ["Avoid binary writes", "Paths are repo-root relative"]
         }
       }
     },
-    "github" : {
-      "tools" : [ "github.request", "github.graphql", "github.rate-limit", "github.contents.write" ],
-      "includeHelp" : true,
-      "meta" : {
-        "title" : "GitHub REST",
-        "description" : "Interact with GitHub REST APIs.",
-        "workflow" : [ "github_request -> github_rate_limit", "github_contents_write" ],
-        "expectations" : {
-          "usage" : [ "Use github_request for most operations", "Inspect rate limits before high-volume calls" ],
-          "pitfalls" : [ "github_contents_write overwrites files by default" ]
+    "github": {
+      "tools": ["github.request", "github.graphql", "github.rate-limit", "github.contents.write"],
+      "includeHelp": true,
+      "meta": {
+        "title": "GitHub REST",
+        "description": "Interact with GitHub REST APIs.",
+        "workflow": ["github_request -> github_rate_limit", "github_contents_write"],
+        "expectations": {
+          "usage": [
+            "Use github_request for most operations",
+            "Inspect rate limits before high-volume calls"
+          ],
+          "pitfalls": ["github_contents_write overwrites files by default"]
         }
       }
     },
-    "github/review" : {
-      "tools" : [ "github.pr.get", "github.pr.files", "github.pr.resolvePosition", "github.pr.review.start", "github.pr.review.commentInline", "github.pr.review.submit", "github.review.openPullRequest", "github.review.getComments", "github.review.getReviewComments", "github.review.submitComment", "github.review.submitReview", "github.review.getActionStatus", "github.review.commit", "github.review.push", "github.review.checkoutBranch", "github.review.createBranch", "github.review.revertCommits", "github.review.requestChangesFromCodex" ],
-      "includeHelp" : true,
-      "meta" : {
-        "title" : "GitHub Review",
-        "description" : "End-to-end tools for reviewing and shipping pull requests.",
-        "workflow" : [ "github_review_get_comments -> github_review_get_review_comments", "github_review_checkout_branch -> github_review_push", "github_review_submit_review -> github_review_open_pull_request" ],
-        "expectations" : {
-          "usage" : [ "Use github_review_request_changes_from_codex for automated reviews", "Push after staging commits locally" ],
-          "pitfalls" : [ "github_review_revert_commits is destructive" ]
+    "github/review": {
+      "tools": [
+        "github.pr.get",
+        "github.pr.files",
+        "github.pr.resolvePosition",
+        "github.pr.review.start",
+        "github.pr.review.commentInline",
+        "github.pr.review.submit",
+        "github.review.openPullRequest",
+        "github.review.getComments",
+        "github.review.getReviewComments",
+        "github.review.submitComment",
+        "github.review.submitReview",
+        "github.review.getActionStatus",
+        "github.review.commit",
+        "github.review.push",
+        "github.review.checkoutBranch",
+        "github.review.createBranch",
+        "github.review.revertCommits",
+        "github.review.requestChangesFromCodex"
+      ],
+      "includeHelp": true,
+      "meta": {
+        "title": "GitHub Review",
+        "description": "End-to-end tools for reviewing and shipping pull requests.",
+        "workflow": [
+          "github_review_get_comments -> github_review_get_review_comments",
+          "github_review_checkout_branch -> github_review_push",
+          "github_review_submit_review -> github_review_open_pull_request"
+        ],
+        "expectations": {
+          "usage": [
+            "Use github_review_request_changes_from_codex for automated reviews",
+            "Push after staging commits locally"
+          ],
+          "pitfalls": ["github_review_revert_commits is destructive"]
         }
       }
     },
-    "kanban" : {
-      "tools" : [ "kanban.get-board", "kanban.get-column", "kanban.find-task", "kanban.find-task-by-title", "kanban.update-status", "kanban.move-task", "kanban.sync-board", "kanban.search" ],
-      "includeHelp" : true,
-      "meta" : {
-        "title" : "Task Board",
-        "description" : "Query and update the Promethean kanban board.",
-        "workflow" : [ "kanban_get_board -> kanban_get_column", "kanban_find_task -> kanban_update_status", "kanban_sync_board" ],
-        "expectations" : {
-          "usage" : [ "Sync before editing to avoid stale data", "Always record final status with kanban_update_status" ],
-          "pitfalls" : [ "kanban_move_task updates order and column" ]
+    "kanban": {
+      "tools": [
+        "kanban.get-board",
+        "kanban.get-column",
+        "kanban.find-task",
+        "kanban.find-task-by-title",
+        "kanban.update-status",
+        "kanban.move-task",
+        "kanban.sync-board",
+        "kanban.search"
+      ],
+      "includeHelp": true,
+      "meta": {
+        "title": "Task Board",
+        "description": "Query and update the Promethean kanban board.",
+        "workflow": [
+          "kanban_get_board -> kanban_get_column",
+          "kanban_find_task -> kanban_update_status",
+          "kanban_sync_board"
+        ],
+        "expectations": {
+          "usage": [
+            "Sync before editing to avoid stale data",
+            "Always record final status with kanban_update_status"
+          ],
+          "pitfalls": ["kanban_move_task updates order and column"]
         }
       }
     },
-    "process" : {
-      "tools" : [ "process.getTaskRunnerConfig", "process.updateTaskRunnerConfig", "process.enqueueTask", "process.stop", "process.getQueue", "process.getStdout", "process.getStderr" ],
-      "includeHelp" : true,
-      "meta" : {
-        "title" : "Task Runner",
-        "description" : "Inspect and control background task runner queues.",
-        "workflow" : [ "process_get_task_runner_config -> process_update_task_runner_config", "process_enqueue_task -> process_get_queue", "process_get_stdout -> process_get_stderr -> process_stop" ],
-        "expectations" : {
-          "usage" : [ "Update configuration before enqueuing new tasks", "Stream stdout/stderr to monitor long jobs" ],
-          "pitfalls" : [ "Stopping a task is irreversible" ]
+    "process": {
+      "tools": [
+        "process.getTaskRunnerConfig",
+        "process.updateTaskRunnerConfig",
+        "process.enqueueTask",
+        "process.stop",
+        "process.getQueue",
+        "process.getStdout",
+        "process.getStderr"
+      ],
+      "includeHelp": true,
+      "meta": {
+        "title": "Task Runner",
+        "description": "Inspect and control background task runner queues.",
+        "workflow": [
+          "process_get_task_runner_config -> process_update_task_runner_config",
+          "process_enqueue_task -> process_get_queue",
+          "process_get_stdout -> process_get_stderr -> process_stop"
+        ],
+        "expectations": {
+          "usage": [
+            "Update configuration before enqueuing new tasks",
+            "Stream stdout/stderr to monitor long jobs"
+          ],
+          "pitfalls": ["Stopping a task is irreversible"]
         }
       }
     },
-    "workspace" : {
-      "tools" : [ "pnpm.install", "pnpm.add", "pnpm.remove", "pnpm.runScript" ],
-      "includeHelp" : true,
-      "meta" : {
-        "title" : "Workspace Scripts",
-        "description" : "Manage dependencies and scripts via pnpm.",
-        "workflow" : [ "pnpm_install", "pnpm_add -> pnpm_remove", "pnpm_run_script" ],
-        "expectations" : {
-          "usage" : [ "Prefer pnpm_run_script for package scripts", "Filter commands when targeting a subset of packages" ],
-          "pitfalls" : [ "pnpm_add requires explicit dependency list" ]
+    "workspace": {
+      "tools": ["pnpm.install", "pnpm.add", "pnpm.remove", "pnpm.runScript"],
+      "includeHelp": true,
+      "meta": {
+        "title": "Workspace Scripts",
+        "description": "Manage dependencies and scripts via pnpm.",
+        "workflow": ["pnpm_install", "pnpm_add -> pnpm_remove", "pnpm_run_script"],
+        "expectations": {
+          "usage": [
+            "Prefer pnpm_run_script for package scripts",
+            "Filter commands when targeting a subset of packages"
+          ],
+          "pitfalls": ["pnpm_add requires explicit dependency list"]
         }
       }
     }
   },
-  "stdioProxyConfig" : "./config/mcp_servers.edn"
+  "stdioProxyConfig": "./config/mcp_servers.edn"
 }

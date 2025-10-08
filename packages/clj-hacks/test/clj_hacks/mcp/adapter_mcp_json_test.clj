@@ -31,14 +31,40 @@
                     "  },\n"
                     "  \"stdioProxyConfig\": \"./config/mcp_servers.edn\",\n"
                     "  \"mcpServers\": {\n"
-                    "    \"foo\": { \"command\": \"echo\", \"args\": [\"a\", \"b\"], \"cwd\": \"/tmp/foo\" },\n"
-                    "    \"bar\": { \"command\": \"run\" }\n"
+                    "    \"foo\": {\n"
+                    "      \"command\": \"echo\",\n"
+                    "      \"args\": [\"a\", \"b\"],\n"
+                    "      \"cwd\": \"/tmp/foo\",\n"
+                    "      \"env\": { \"NODE_ENV\": \"test\" },\n"
+                    "      \"timeout\": 90,\n"
+                    "      \"description\": \"Local echo\",\n"
+                    "      \"version\": \"1.2.3\",\n"
+                    "      \"metadata\": { \"scope\": \"dev\" },\n"
+                    "      \"capabilities\": { \"claude\": { \"stream\": true } },\n"
+                    "      \"autoConnect\": true,\n"
+                    "      \"autoApprove\": [\"files.write\"],\n"
+                    "      \"autoAccept\": [\"files.view\"],\n"
+                    "      \"disabled\": false\n"
+                    "    },\n"
+                    "    \"bar\": { \"command\": \"run\", \"disabled\": true }\n"
                     "  }\n"
                     "}"))
         {:keys [mcp rest]} (adapter/read-full path)]
     (is (map? mcp))
-    (is (= #{{:command "echo" :args ["a" "b"] :cwd "/tmp/foo"}
-             {:command "run"}}
+    (is (= #{{:command "echo"
+              :args ["a" "b"]
+              :cwd "/tmp/foo"
+              :env {"NODE_ENV" "test"}
+              :timeout 90
+              :description "Local echo"
+              :version "1.2.3"
+              :metadata {"scope" "dev"}
+              :capabilities {"claude" {"stream" true}}
+              :auto-connect? true
+              :auto-approve ["files.write"]
+              :auto-accept ["files.view"]
+              :disabled? false}
+             {:command "run" :disabled? true}}
            (set (vals (:mcp-servers mcp)))))
     (is (= {:transport :http
             :tools ["files_view_file"]
@@ -57,8 +83,20 @@
 (deftest write-full-writes-valid-json
   (let [tmp-out  (fs/create-temp-file {:prefix "mcp-json-out-" :suffix ".json"})
         path-out (str tmp-out)
-        data     {:mcp {:mcp-servers {:foo {:command "echo" :args ["a" "b"] :cwd "/tmp/foo"}
-                                      :bar {:command "run"}}
+        data     {:mcp {:mcp-servers {:foo {:command "echo"
+                                            :args ["a" "b"]
+                                            :cwd "/tmp/foo"
+                                            :env {"NODE_ENV" "test"}
+                                            :timeout 90
+                                            :description "Local echo"
+                                            :version "1.2.3"
+                                            :metadata {"scope" "dev"}
+                                            :capabilities {"claude" {"stream" true}}
+                                            :auto-connect? true
+                                            :auto-approve ["files.write"]
+                                            :auto-accept ["files.view"]
+                                            :disabled? false}
+                                      :bar {:command "run" :disabled? true}}
                         :http {:transport :http
                                :tools ["files_view_file"]
                                :include-help? true
@@ -75,12 +113,22 @@
       (is (= true (get out "includeHelp")))
       (is (= "Default" (get-in out ["stdioMeta" "title"])))
       (is (= ["files_view_file"] (get-in out ["endpoints" "files" "tools"])))
-      (is (= "./config/mcp_servers.edn" (get out "stdioProxyConfig"))))))
+      (is (= "./config/mcp_servers.edn" (get out "stdioProxyConfig")))
+      (is (= {"NODE_ENV" "test"} (get-in out ["mcpServers" "foo" "env"])))
+      (is (= 90 (get-in out ["mcpServers" "foo" "timeout"])))
+      (is (= ["files.write"] (get-in out ["mcpServers" "foo" "autoApprove"])))
+      (is (= ["files.view"] (get-in out ["mcpServers" "foo" "autoAccept"])))
+      (is (= true (get-in out ["mcpServers" "foo" "autoConnect"])))
+      (is (= false (get-in out ["mcpServers" "foo" "disabled"])))
+      (is (= true (get-in out ["mcpServers" "bar" "disabled"]))))))
 
 (deftest http-config-round-trips
   (let [tmp-out  (fs/create-temp-file {:prefix "mcp-json-rt-" :suffix ".json"})
         path-out (str tmp-out)
-        canonical {:mcp {:mcp-servers {:foo {:command "echo"}}
+        canonical {:mcp {:mcp-servers {:foo {:command "echo"
+                                             :env {"NODE_ENV" "test"}
+                                             :auto-approve ["files.write"]
+                                             :disabled? false}}
                          :http {:transport :http
                                 :tools ["a" "b"]
                                 :include-help? false
