@@ -2,15 +2,16 @@
 uuid: "9b3f1c89-9a76-4f18-92a4-38275b1bc1f0"
 title: "Setup MCP server for pnpm workspace management"
 slug: "setup-mcp-pnpm-ops"
-status: "review"
+status: "in_progress"
 priority: "P2"
 labels: ["pnpm", "workspace", "mcp", "server"]
-created_at: "2025-10-07T20:25:05.643Z"
+created_at: "2025-10-08T21:12:24.864Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
 
 
 ```
@@ -65,5 +66,6 @@ Estimate: 5
 ## 🔍 Relevant Links
 
 - User request (current session)
+
 
 

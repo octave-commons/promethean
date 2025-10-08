@@ -3,6 +3,7 @@ import path from 'node:path';
 
 import {
   ARG_KEYS,
+  CONFIG_SEARCH_PATHS,
   DEFAULT_CONFIG_BASENAME,
   ENV_KEYS,
   MARKERS,
@@ -61,7 +62,7 @@ const detectRepoRoot = (
     const nextFallback = selectFallback(current, found, fallback);
     const parent = path.dirname(current);
     return parent === current
-      ? nextPreferred?.dir ?? nextFallback ?? current
+      ? (nextPreferred?.dir ?? nextFallback ?? current)
       : detectRepoRoot(parent, nextPreferred, nextFallback);
   });
 };
@@ -202,6 +203,16 @@ const searchConfigUp = (current: string, stop: string): Promise<string | undefin
   });
 };
 
+const searchConfigPaths = async (repoRoot: string): Promise<string | undefined> => {
+  for (const configPath of CONFIG_SEARCH_PATHS) {
+    const candidate = path.join(repoRoot, configPath);
+    if (await pathExists(candidate)) {
+      return candidate;
+    }
+  }
+  return undefined;
+};
+
 export const findConfigPath = (
   repo: string,
   explicitPath: string | undefined,
@@ -212,12 +223,23 @@ export const findConfigPath = (
     return pathExists(resolved).then((exists) => (exists ? resolved : undefined));
   }
   const repoResolved = path.resolve(repo);
-  return searchConfigUp(path.resolve(cwd), repoResolved).then((found) => {
+
+  // First try the enhanced search paths from repo root
+  return searchConfigPaths(repoResolved).then((found) => {
     if (typeof found === 'string') {
       return found;
     }
-    const repoCandidate = path.join(repoResolved, DEFAULT_CONFIG_BASENAME);
-    return pathExists(repoCandidate).then((exists) => (exists ? repoCandidate : undefined));
+
+    // Fallback to original behavior - search up from current directory
+    return searchConfigUp(path.resolve(cwd), repoResolved).then((foundFromUp) => {
+      if (typeof foundFromUp === 'string') {
+        return foundFromUp;
+      }
+
+      // Final fallback - check repo root for default config
+      const repoCandidate = path.join(repoResolved, DEFAULT_CONFIG_BASENAME);
+      return pathExists(repoCandidate).then((exists) => (exists ? repoCandidate : undefined));
+    });
   });
 };
 

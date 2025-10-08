@@ -18,9 +18,13 @@ import {
 import { serveKanbanUI } from '../lib/ui-server.js';
 import { compareTasks, suggestTaskBreakdown, prioritizeTasks } from '../lib/task-tools.js';
 import { KanbanDevServer } from '../lib/dev-server.js';
+import { TransitionRulesEngine, createTransitionRulesEngine } from '../lib/transition-rules.js';
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
+
+// Get the equivalent of __dirname in ES modules
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 type Primitive = string | number | boolean | symbol | null | undefined | bigint;
 
@@ -168,7 +172,42 @@ const handleUpdateStatus: CommandHandler = (args, context) =>
     const mutableBoard = board as unknown as LoadedBoard;
     const id = requireArg(args[0], 'task id');
     const status = requireArg(args[1], 'new status');
-    const updated = await updateStatus(mutableBoard, id, status, context.boardFile, context.tasksDir);
+
+    // Initialize transition rules engine with proper config loading
+    let transitionRulesEngine: TransitionRulesEngine | undefined;
+
+    // Try multiple reasonable config paths
+    const possiblePaths = [
+      // From current working directory (could be repo root)
+      path.resolve(process.cwd(), 'promethean.kanban.json'),
+      // From board file directory (go up from docs/agile/boards)
+      path.resolve(path.dirname(context.boardFile), '../promethean.kanban.json'),
+      // From board file directory (go up two levels to repo root)
+      path.resolve(path.dirname(context.boardFile), '../../promethean.kanban.json'),
+      // From board file directory (go up three levels from boards to repo root)
+      path.resolve(path.dirname(context.boardFile), '../../../promethean.kanban.json'),
+      // From package location (kanban package to repo root)
+      path.resolve(__dirname, '../../promethean.kanban.json'),
+      // Direct relative to board file
+      context.boardFile.replace('/boards/generated.md', '/promethean.kanban.json'),
+    ];
+
+    try {
+      transitionRulesEngine = await createTransitionRulesEngine(possiblePaths);
+    } catch (error) {
+      // Gracefully handle missing config or initialization errors
+      console.warn('Warning: Transition rules engine not available:',
+        error instanceof Error ? error.message : String(error));
+    }
+
+    const updated = await updateStatus(
+      mutableBoard,
+      id,
+      status,
+      context.boardFile,
+      context.tasksDir,
+      transitionRulesEngine
+    );
     return updated;
   });
 
@@ -428,6 +467,113 @@ const handleDev: CommandHandler = async (args, context) => {
   }
 };
 
+const handleShowTransitions: CommandHandler = async (_args, context) => {
+  try {
+    // Try multiple reasonable config paths
+    const possiblePaths = [
+      // From current working directory (could be repo root)
+      path.resolve(process.cwd(), 'promethean.kanban.json'),
+      // From board file directory (go up from docs/agile/boards)
+      path.resolve(path.dirname(context.boardFile), '../promethean.kanban.json'),
+      // From board file directory (go up two levels to repo root)
+      path.resolve(path.dirname(context.boardFile), '../../promethean.kanban.json'),
+      // From board file directory (go up three levels from boards to repo root)
+      path.resolve(path.dirname(context.boardFile), '../../../promethean.kanban.json'),
+      // From package location (kanban package to repo root)
+      path.resolve(__dirname, '../../promethean.kanban.json'),
+      // Direct relative to board file
+      context.boardFile.replace('/boards/generated.md', '/promethean.kanban.json'),
+    ];
+
+    let transitionRulesEngine: TransitionRulesEngine | undefined;
+    try {
+      transitionRulesEngine = await createTransitionRulesEngine(possiblePaths);
+    } catch (error) {
+      // Gracefully handle missing config or initialization errors
+      console.warn('Warning: Transition rules engine not available:',
+        error instanceof Error ? error.message : String(error));
+    }
+
+    if (!transitionRulesEngine) {
+      throw new Error('Could not find or load transition rules configuration');
+    }
+
+    const overview = transitionRulesEngine.getTransitionsOverview();
+    console.log('# 🔄 Kanban Transition Rules Overview');
+    console.log('');
+    console.log(`## Status: ${overview.enabled ? '✅ Enabled' : '❌ Disabled'}`);
+    console.log(`## Enforcement: ${overview.enforcementMode}`);
+    if (overview.dslAvailable) {
+      console.log(`## DSL: 🟢 Clojure DSL available`);
+    } else {
+      console.log(`## DSL: 🔴 Clojure DSL not available`);
+    }
+    console.log('');
+
+    if (overview.validTransitions.length > 0) {
+      console.log('## Valid Transitions:');
+      for (const transition of overview.validTransitions) {
+        console.log(`- ${transition.from} → ${transition.to}`);
+        if (transition.description) {
+          console.log(`  ${transition.description}`);
+        }
+      }
+      console.log('');
+    }
+
+    if (overview.globalRules.length > 0) {
+      console.log('## Global Rules:');
+      for (const rule of overview.globalRules) {
+        console.log(`- ${rule}`);
+      }
+      console.log('');
+    }
+
+    return overview;
+  } catch (error) {
+    console.error('Error loading transition rules:', error instanceof Error ? error.message : String(error));
+    return { error: error instanceof Error ? error.message : String(error) };
+  }
+};
+
+const handleShowProcess: CommandHandler = async (_args, _context) => {
+  const section = 'overview';
+
+  // Resolve the process.md path relative to the kanban package
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = path.dirname(__filename);
+  const repoRoot = path.resolve(__dirname, '../../../..');
+  const processDocPath = path.join(repoRoot, 'docs/agile/process.md');
+
+  try {
+    const processContent = await readFile(processDocPath, 'utf8');
+
+    // Extract the overview section
+    const sectionRegex = new RegExp(
+      `^#{1,3}\\s+.*${section}.*$[\\s\\S]*?(?=\\n#{1,3}\\s+|\\n$|$)`,
+      'im',
+    );
+    const match = processContent.match(sectionRegex);
+
+    if (match) {
+      console.log(match[0].trim());
+    } else {
+      console.log('# 📋 Promethean Development Process');
+      console.log('');
+      console.log('This document outlines the 6-step workflow for task development in the Promethean framework.');
+      console.log('');
+      console.log('Key transitions: Incoming→Accepted→Breakdown→Ready→Todo→In Progress→Review→Document→Done');
+      console.log('');
+      console.log('For detailed process information, see: docs/agile/process.md');
+    }
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    console.error(`Error reading process document: ${message}`);
+  }
+
+  return null;
+};
+
 export const COMMAND_HANDLERS: Readonly<Record<string, CommandHandler>> = Object.freeze({
   count: handleCount,
   getColumn: handleGetColumn,
@@ -435,6 +581,7 @@ export const COMMAND_HANDLERS: Readonly<Record<string, CommandHandler>> = Object
   find: handleFind,
   'find-by-title': handleFindByTitle,
   update_status: handleUpdateStatus,
+  'update-status': handleUpdateStatus,
   move_up: handleMove(-1),
   move_down: handleMove(1),
   pull: handlePull,
@@ -447,6 +594,8 @@ export const COMMAND_HANDLERS: Readonly<Record<string, CommandHandler>> = Object
   ui: handleUi,
   dev: handleDev,
   process: handleProcess,
+  'show-process': handleShowProcess,
+  'show-transitions': handleShowTransitions,
   'compare-tasks': handleCompareTasks,
   'breakdown-task': handleBreakdownTask,
   'prioritize-tasks': handlePrioritizeTasks,
