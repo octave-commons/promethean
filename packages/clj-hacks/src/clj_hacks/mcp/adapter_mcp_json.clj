@@ -58,18 +58,20 @@
             server-json->edn)))
 
 (defn- server-spec->json [spec]
-  (let [spec (cond-> spec
-                (not (contains? spec :command)) (assoc :command nil))]
-    (reduce (fn [acc [edn-key {:keys [key transform include-nil?]}]]
-              (if (contains? spec edn-key)
-                (let [raw (get spec edn-key)
-                      value (if transform (transform raw) raw)]
-                  (if (or include-nil? (some? value))
-                    (assoc acc key value)
-                    acc))
-                acc))
-            {}
-            server-edn->json)))
+  (when (some? spec)
+    (let [spec-map (or spec {})
+          spec-map (cond-> spec-map
+                      (not (contains? spec-map :command)) (assoc :command nil))]
+      (reduce (fn [acc [edn-key {:keys [key transform include-nil?]}]]
+                (if (contains? spec-map edn-key)
+                  (let [raw (get spec-map edn-key)
+                        value (if transform (transform raw) raw)]
+                    (if (or include-nil? (some? value))
+                      (assoc acc key value)
+                      acc))
+                  acc))
+              {}
+              server-edn->json))))
 
 (defn- parse-expectations [m]
   (when (map? m)
@@ -218,8 +220,10 @@
         m*      (merge existing rest)
         mcp'    (core/expand-servers-home mcp)
         servers (into (sorted-map)
-                      (for [[k spec] (:mcp-servers mcp')]
-                        [(name k) (server-spec->json spec)]))
+                      (for [[k spec] (:mcp-servers mcp')
+                            :let [json (server-spec->json spec)]
+                            :when json]
+                        [(name k) json]))
         http    (http->json (:http mcp'))
         cleaned (apply dissoc (assoc m* "mcpServers" servers)
                        ["transport" "tools" "includeHelp" "stdioMeta" "endpoints" "stdioProxyConfig"])
