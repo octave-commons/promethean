@@ -4434,6 +4434,31 @@ importers:
         specifier: ^8.5.9
         version: 8.18.1
 
+  packages/trello:
+    dependencies:
+      '@promethean/kanban':
+        specifier: workspace:*
+        version: link:../kanban
+      '@promethean/utils':
+        specifier: workspace:*
+        version: link:../utils
+      dotenv:
+        specifier: ^17.2.1
+        version: 17.2.1
+    devDependencies:
+      '@types/node':
+        specifier: 24.3.1
+        version: 24.3.1
+      ava:
+        specifier: 6.4.1
+        version: 6.4.1(encoding@0.1.13)(rollup@4.52.3)
+      tsx:
+        specifier: 4.20.3
+        version: 4.20.3
+      typescript:
+        specifier: 5.4.5
+        version: 5.4.5
+
   packages/ui-components: {}
 
   packages/utils:
@@ -14847,7 +14872,7 @@ snapshots:
 
   axios@1.11.0:
     dependencies:
-      follow-redirects: 1.15.11(debug@4.4.3)
+      follow-redirects: 1.15.11(debug@4.3.7)
       form-data: 4.0.4
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -17372,7 +17397,7 @@ snapshots:
   http-proxy@1.18.1:
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.15.11(debug@4.4.3)
+      follow-redirects: 1.15.11(debug@4.3.7)
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
