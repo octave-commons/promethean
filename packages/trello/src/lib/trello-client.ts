@@ -16,11 +16,16 @@ export class TrelloClient {
   private baseUrl: string;
 
   constructor(config: TrelloConfig) {
-    if (!config.apiKey) {
-      throw new Error('Atlassian API key is required');
+    // Validate we have some form of authentication
+    const hasClassicAuth = config.apiKey && config.apiToken;
+    const hasBearerToken = config.bearerToken;
+    const hasOAuthCredentials = config.clientId && config.clientSecret;
+
+    if (!hasClassicAuth && !hasBearerToken && !hasOAuthCredentials) {
+      throw new Error('Authentication required. Provide either:');
     }
 
-    // Use classic Trello API v1 with Atlassian Bearer token authentication
+    // Use classic Trello API v1
     this.config = {
       ...config,
       baseUrl: config.baseUrl || 'https://api.trello.com/1'
@@ -35,19 +40,53 @@ export class TrelloClient {
   ): Promise<T> {
     const url = new URL(`${this.baseUrl}${endpoint}`);
 
-    // Atlassian API v3 authentication with Bearer token
-    options.headers = {
-      ...options.headers,
-      'Authorization': `Bearer ${this.config.apiKey}`,
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    };
+    // Try different authentication methods
+    if (this.config.apiKey && this.config.apiToken) {
+      // Classic Trello API authentication (API key + token)
+      url.searchParams.set('key', this.config.apiKey);
+      url.searchParams.set('token', this.config.apiToken);
+
+      options.headers = {
+        ...options.headers,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      };
+    } else if (this.config.bearerToken) {
+      // Atlassian Bearer token (OAuth 2.0)
+      options.headers = {
+        ...options.headers,
+        'Authorization': `Bearer ${this.config.bearerToken}`,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      };
+    } else if (this.config.clientId && this.config.clientSecret) {
+      // OAuth 2.0 with client credentials - need to get access token first
+      throw new Error('OAuth 2.0 flow not yet implemented - please use Bearer token or classic API credentials');
+    } else {
+      throw new Error('No valid authentication credentials provided');
+    }
 
     const response = await fetch(url.toString(), options);
 
     if (!response.ok) {
       const errorText = await response.text();
-      throw new Error(`Atlassian Trello API error: ${response.status} ${response.statusText} - ${errorText}`);
+
+      // Provide helpful error messages
+      if (response.status === 401) {
+        if (this.config.apiToken) {
+          throw new Error(`Trello API authentication failed. Check your TRELLO_API_KEY and TRELLO_API_TOKEN.`);
+        } else {
+          throw new Error(`Atlassian Bearer token authentication failed. You may need to use classic Trello API credentials instead.
+
+To get Trello API credentials:
+1. Visit https://trello.com/app-key (if available) or
+2. Use Atlassian Developer Console: https://developer.atlassian.com/console/
+3. Create a new project and add Trello API scopes
+4. Set TRELLO_API_KEY and TRELLO_API_TOKEN environment variables`);
+        }
+      }
+
+      throw new Error(`Trello API error: ${response.status} ${response.statusText} - ${errorText}`);
     }
 
     return response.json();

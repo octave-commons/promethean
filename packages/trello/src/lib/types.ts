@@ -3,10 +3,16 @@
  */
 
 export interface TrelloConfig {
-  /** Trello API key */
-  apiKey: string;
-  /** Trello API token */
-  apiToken: string;
+  /** Trello API key (classic auth) */
+  apiKey?: string;
+  /** Trello API token (classic auth) */
+  apiToken?: string;
+  /** Atlassian Client ID (OAuth 2.0) */
+  clientId?: string;
+  /** Atlassian Client Secret (OAuth 2.0) */
+  clientSecret?: string;
+  /** Atlassian Bearer token */
+  bearerToken?: string;
   /** Default board name */
   defaultBoardName?: string;
   /** Base URL for Trello API */
