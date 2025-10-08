@@ -1,6 +1,6 @@
-import { EventEmitter } from "events";
+import { EventEmitter } from 'events';
 
-import * as discord from "discord.js";
+import * as discord from 'discord.js';
 import {
   Client,
   Events,
@@ -8,34 +8,37 @@ import {
   REST,
   Routes,
   type RESTPutAPIApplicationCommandsJSONBody,
-} from "discord.js";
-import { DESKTOP_CAPTURE_CHANNEL_ID } from "@promethean/legacy/env.js";
-import { ContextStore } from "@promethean/persistence/contextStore.js";
-import { createAgentWorld } from "@promethean/agent-ecs/world.js";
-import { AgentBus } from "@promethean/agent-ecs/bus.js";
-import { BrokerClient } from "@promethean/legacy/brokerClient.js";
-import { checkPermission } from "@promethean/legacy";
-import { cleanupChroma } from "@promethean/persistence/maintenance.js";
-import { pushVisionFrame } from "@promethean/agent-ecs";
+} from 'discord.js';
+import { DESKTOP_CAPTURE_CHANNEL_ID } from '@promethean/legacy/env.js';
+import { ContextStore } from '@promethean/persistence/contextStore.js';
+import { createAgentWorld } from '@promethean/agent-ecs/world.js';
+import { AgentBus } from '@promethean/agent-ecs/bus.js';
+import { BrokerClient } from '@promethean/legacy/brokerClient.js';
+import { checkPermission } from '@promethean/legacy';
+import { cleanupChroma } from '@promethean/persistence/maintenance.js';
+import { pushVisionFrame } from '@promethean/agent-ecs';
 
-import { type Interaction } from "./interactions.js";
-import { DesktopCaptureManager } from "./desktop/desktopLoop.js";
+import { type Interaction } from './interactions.js';
+import { DesktopCaptureManager } from './desktop/desktopLoop.js';
 // Avoid compile-time coupling to persistence types
 
-import runForwardAttachments from "./actions/forward-attachments.js";
-import { buildForwardAttachmentsScope } from "./actions/forward-attachments.scope.js";
-import registerLlmHandler from "./actions/register-llm-handler.js";
-import { buildRegisterLlmHandlerScope } from "./actions/register-llm-handler.scope.js";
-import { registerNewStyleCommands } from "./bot/registerCommands.js";
-import { defaultPrompt, defaultState, generatePrompt } from "./prompts.js";
-import { LLMService } from "./llm-service.js";
-import { createEnsoChatAgent, EnsoChatAgent } from "./enso/chat-agent.js";
+import runForwardAttachments from './actions/forward-attachments.js';
+import { buildForwardAttachmentsScope } from './actions/forward-attachments.scope.js';
+import registerLlmHandler from './actions/register-llm-handler.js';
+import { buildRegisterLlmHandlerScope } from './actions/register-llm-handler.scope.js';
+import { registerNewStyleCommands } from './bot/registerCommands.js';
+import { defaultPrompt, defaultState, generatePrompt } from './prompts.js';
+import { LLMService } from './llm-service.js';
+import { createEnsoChatAgent, EnsoChatAgent } from './enso/chat-agent.js';
+import type { CephalonMode } from './mode.js';
+import type { AIAgent } from './agent/index.js';
 
 // const VOICE_SERVICE_URL = process.env.VOICE_SERVICE_URL || 'http://localhost:4000';
 
 export type BotOptions = {
   token: string;
   applicationId: string;
+  mode?: CephalonMode;
 };
 
 export type VoiceStateChangeHandler = (
@@ -44,14 +47,8 @@ export type VoiceStateChangeHandler = (
 ) => void;
 
 export class Bot extends EventEmitter {
-  static interactions = new Map<
-    string,
-    discord.RESTPostAPIChatInputApplicationCommandsJSONBody
-  >();
-  static handlers = new Map<
-    string,
-    (bot: Bot, interaction: Interaction) => Promise<any>
-  >();
+  static interactions = new Map<string, discord.RESTPostAPIChatInputApplicationCommandsJSONBody>();
+  static handlers = new Map<string, (bot: Bot, interaction: Interaction) => Promise<any>>();
 
   bus?: AgentBus;
   agentWorld?: ReturnType<typeof createAgentWorld>;
@@ -65,11 +62,14 @@ export class Bot extends EventEmitter {
   voiceStateHandler?: VoiceStateChangeHandler;
   ensoChat?: EnsoChatAgent;
   llm?: LLMService;
+  mode: CephalonMode;
+  legacyAgent?: AIAgent;
 
   constructor(options: BotOptions) {
     super();
     this.token = options.token;
     this.applicationId = options.applicationId;
+    this.mode = options.mode ?? 'ecs';
 
     this.desktop = new DesktopCaptureManager();
     this.client = new Client({
@@ -90,19 +90,13 @@ export class Bot extends EventEmitter {
   }
 
   desktop: DesktopCaptureManager;
-  async start() {
-    await this.context.createCollection("transcripts", "text", "createdAt");
-    await this.context.createCollection(
-      `discord_messages`,
-      "content",
-      "created_at",
-    );
-    await this.context.createCollection("agent_messages", "text", "createdAt");
-    await this.context.createCollection(
-      "enso_messages",
-      "content",
-      "created_at",
-    );
+  async start(options: { enableEcs?: boolean } = {}) {
+    const enableEcs = options.enableEcs ?? this.mode === 'ecs';
+    this.mode = enableEcs ? 'ecs' : 'classic';
+    await this.context.createCollection('transcripts', 'text', 'createdAt');
+    await this.context.createCollection(`discord_messages`, 'content', 'created_at');
+    await this.context.createCollection('agent_messages', 'text', 'createdAt');
+    await this.context.createCollection('enso_messages', 'content', 'created_at');
 
     // Align LLM broker with bus broker if possible
     this.llm = new LLMService({
@@ -112,14 +106,12 @@ export class Bot extends EventEmitter {
     await this.client.login(this.token);
     if (DESKTOP_CAPTURE_CHANNEL_ID) {
       try {
-        const channel = await this.client.channels.fetch(
-          DESKTOP_CAPTURE_CHANNEL_ID,
-        );
+        const channel = await this.client.channels.fetch(DESKTOP_CAPTURE_CHANNEL_ID);
         if (channel?.isTextBased()) {
           this.desktopChannel = channel as discord.TextChannel;
         }
       } catch (e) {
-        console.warn("Failed to set default desktop channel", e);
+        console.warn('Failed to set default desktop channel', e);
       }
     }
     // Register new-style commands alongside decorator-based ones
@@ -127,22 +119,26 @@ export class Bot extends EventEmitter {
     registerNewStyleCommands(Bot);
     await this.registerInteractions();
 
-    const broker = new BrokerClient({
-      url: process.env.BROKER_WS_URL || "ws://localhost:7000",
-    });
-    this.bus = new AgentBus(broker);
-    const busScope = await buildRegisterLlmHandlerScope(this);
-    registerLlmHandler(busScope);
+    if (enableEcs) {
+      const broker = new BrokerClient({
+        url: process.env.BROKER_WS_URL || 'ws://localhost:7000',
+      });
+      this.bus = new AgentBus(broker);
+      const busScope = await buildRegisterLlmHandlerScope(this);
+      registerLlmHandler(busScope);
+    } else {
+      this.bus = undefined;
+    }
 
     // --- ENSO chat bridge (optional) ---
     const ensoUrl = process.env.ENSO_WS_URL || undefined;
-    const ensoRoom = process.env.ENSO_CHAT_ROOM || "duck:chat";
+    const ensoRoom = process.env.ENSO_CHAT_ROOM || 'duck:chat';
     const privacy = process.env.DUCK_PRIVACY_PROFILE as any as
-      | "pseudonymous"
-      | "ephemeral"
-      | "persistent"
+      | 'pseudonymous'
+      | 'ephemeral'
+      | 'persistent'
       | undefined;
-    if (ensoUrl || process.env.ENSO_CHAT_ENABLE === "1") {
+    if (ensoUrl || process.env.ENSO_CHAT_ENABLE === '1') {
       try {
         this.ensoChat = createEnsoChatAgent({
           url: ensoUrl,
@@ -150,70 +146,64 @@ export class Bot extends EventEmitter {
           privacyProfile: privacy,
         });
         await this.ensoChat.connect();
-        this.ensoChat.on("message", async (evt: any) => {
+        this.ensoChat.on('message', async (evt: any) => {
           try {
             const message = evt?.message;
             const text = Array.isArray(message?.parts)
-              ? message.parts.find((p: any) => p.kind === "text")?.text || ""
-              : "";
+              ? message.parts.find((p: any) => p.kind === 'text')?.text || ''
+              : '';
             if (!text) return;
             // store inbound text for context (respect ENSO privacy profile)
-            if (privacy !== "ephemeral") {
+            if (privacy !== 'ephemeral') {
               try {
-                const coll = this.context.getCollection("enso_messages");
+                const coll = this.context.getCollection('enso_messages');
                 await coll.insert({
                   content: text,
                   created_at: Date.now(),
                   metadata: {
-                    type: "text",
+                    type: 'text',
                     room: ensoRoom,
                     messageId: message?.id,
-                    userName: message?.role === "assistant" ? "Duck" : "User",
+                    userName: message?.role === 'assistant' ? 'Duck' : 'User',
                   },
                 });
               } catch (e) {
-                console.warn("Failed to store enso message", e);
+                console.warn('Failed to store enso message', e);
               }
             }
             // trigger LLM generation via broker; register-llm-handler will TTS and mirror to ENSO
             if (this.llm) {
-              const userMessage = { role: "user" as const, content: text };
-              const ctx = await this.context.compileContext([
-                defaultPrompt,
-                text,
-              ]);
+              const userMessage = { role: 'user' as const, content: text };
+              const ctx = await this.context.compileContext([defaultPrompt, text]);
               const prompt = `${generatePrompt(
                 defaultPrompt,
                 defaultState,
-              )}\n\nCurrent user message: ${
-                text || "(none)"
-              }\nRespond as Duck.`;
+              )}\n\nCurrent user message: ${text || '(none)'}\nRespond as Duck.`;
               void this.llm.generate({
                 prompt,
                 context: [...ctx, userMessage],
               });
             }
           } catch (e) {
-            console.warn("ENSO message handler failed", e);
+            console.warn('ENSO message handler failed', e);
           }
         });
-        console.log("ENSO chat bridge enabled:", ensoUrl || "local");
+        console.log('ENSO chat bridge enabled:', ensoUrl || 'local');
       } catch (e) {
-        console.warn("Failed to enable ENSO chat bridge", e);
+        console.warn('Failed to enable ENSO chat bridge', e);
       }
     }
     // --- end ENSO chat bridge ---
 
     this.client
       .on(Events.InteractionCreate, async (interaction) => {
-        if (!interaction.inCachedGuild() || !interaction.isChatInputCommand())
-          return;
+        if (!interaction.inCachedGuild() || !interaction.isChatInputCommand()) return;
         if (!Bot.interactions.has(interaction.commandName)) {
-          await interaction.reply("Unknown command");
+          await interaction.reply('Unknown command');
           return;
         }
         if (!checkPermission(interaction.user.id, interaction.commandName)) {
-          await interaction.reply("Permission denied");
+          await interaction.reply('Permission denied');
           return;
         }
         try {
@@ -253,20 +243,20 @@ export class Bot extends EventEmitter {
   async forwardAttachments(message: discord.Message) {
     if (message.author?.bot) return;
     const imageAttachments = [...message.attachments.values()].filter(
-      (att) => att.contentType?.startsWith("image/"),
+      (att) => att.contentType?.startsWith('image/'),
     );
     if (!imageAttachments.length) return;
 
-    if (process.env.NODE_ENV !== "test") {
+    if (process.env.NODE_ENV !== 'test') {
       let collection: any | null = null;
       try {
-        collection = this.context.getCollection("discord_messages");
+        collection = this.context.getCollection('discord_messages');
       } catch {
         try {
           collection = await this.context.createCollection(
-            "discord_messages",
-            "content",
-            "created_at",
+            'discord_messages',
+            'content',
+            'created_at',
           );
         } catch (e) {
           console.warn(e);
@@ -279,7 +269,7 @@ export class Bot extends EventEmitter {
               content: att.url,
               created_at: message.createdTimestamp,
               metadata: {
-                type: "image",
+                type: 'image',
                 messageId: message.id,
                 channelId: message.channelId,
                 userId: message.author.id,
@@ -301,7 +291,7 @@ export class Bot extends EventEmitter {
       const { w, agent, C } = this.agentWorld;
       for (const att of imageAttachments) {
         const ref = {
-          type: "url" as const,
+          type: 'url' as const,
           url: att.url,
           ...(att.contentType ? { mime: att.contentType } : {}),
         };
@@ -316,7 +306,7 @@ export class Bot extends EventEmitter {
     try {
       await this.captureChannel.send({ files });
     } catch (e: any) {
-      console.warn("Failed to forward attachments", e);
+      console.warn('Failed to forward attachments', e);
     }
   }
 }
