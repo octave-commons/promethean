@@ -34,5 +34,7 @@ A lightweight web UI served from `@promethean/kanban` that visualises the curren
 - Ensure CLI wiring keeps backward compatibility with existing commands.
 - Confirm that serving compiled frontend assets from `dist/frontend` works under Nx build output.
 
-
-
+## 🔄 Sync Notes (2025-10-20)
+- Reviewed the existing UI scaffolding under `packages/kanban/src/frontend/` (`kanban-ui.ts`, `render.ts`, `styles.ts`) to avoid re-implementing the dashboard shell.
+- Future polish work should extend these modules (e.g., new components, style tweaks) rather than introducing a parallel build or duplicate entry point.
+- Server endpoints already expose the board payload; enhancements can focus on client rendering and refresh UX without touching CLI wiring unless explicitly needed.
