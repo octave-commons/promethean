@@ -7,6 +7,8 @@ Welcome, to promethean.
 
 An operating environment in the age of AI.
 [[kanban]]
+[[generated]]
+
 
 Everything you thought you knew about operating systems is over.
 

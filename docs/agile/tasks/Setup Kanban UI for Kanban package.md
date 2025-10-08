@@ -1,20 +1,19 @@
 ---
-```
-uuid: c3366097-0d29-4c8d-b7e1-32de4cf8072e
-```
-title: setup kanban ui for kanban package
-```
-status: in_progress
-```
-priority: P3
-labels:
-  - kanban
-  - ui
-  - framework-core
-```
-created_at: '2025-10-03T07:25:00.000Z'
-```
+uuid: "c3366097-0d29-4c8d-b7e1-32de4cf8072e"
+title: "setup kanban ui for kanban package   -core   -core   -core   -core   -core"
+slug: "Setup Kanban UI for Kanban package"
+status: "todo"
+priority: "P3"
+labels: ["kanban", "ui", "framework-core"]
+created_at: "2025-10-07T22:23:26.358Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
+
 ## 🎯 Desired Outcome
 A lightweight web UI served from `@promethean/kanban` that visualises the current board using the package's existing loaders, so agents can inspect column WIP without opening Obsidian.
 

@@ -1,16 +1,12 @@
 ---
-```
 uuid: 16c70e8b-51cf-4580-ab53-a35d7ac0f6a9
-```
 title: <verb> <thing> <qualifier>
-status: todo
+status: testing
 priority: p3
 labels:
   - 'board:auto'
   - 'lang:ts'
-```
 created_at: '2025-09-15T02:02:58.506Z'
-```
 ---
 # Task: Agent-safe stabilization after big moves local hooks, zero-risk edits
 

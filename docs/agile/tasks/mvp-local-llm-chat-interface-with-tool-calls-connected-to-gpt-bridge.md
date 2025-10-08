@@ -1,15 +1,18 @@
 ---
-```
-uuid: 24ba6872-89c0-4f5f-a20e-33058219016b
-```
-title: Pythagoras GPT Mirror WS chat + OpenAPI-driven tool calls via /v1
-status: todo
-priority: P3
-labels: []
-```
-created_at: '2025-09-15T02:02:58.517Z'
-```
+uuid: "24ba6872-89c0-4f5f-a20e-33058219016b"
+title: "Pythagoras GPT Mirror WS chat + OpenAPI-driven tool calls via /v1"
+slug: "mvp-local-llm-chat-interface-with-tool-calls-connected-to-gpt-bridge"
+status: "done"
+priority: "P3"
+labels: ["openapi", "tool", "pythagoras", "mirror"]
+created_at: "2025-10-07T20:25:05.644Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 # Pythagoras GPT Mirror WS chat + OpenAPI-driven tool calls via /v1
 ```
 **Owner:** Codex / Agent
@@ -255,4 +258,6 @@ feat(agent): Pythagoras-mirror via WS with OpenAPI-driven tools (/v1 smartgpt-br
 - Story Points: 8
 
 #ready
+
+
 

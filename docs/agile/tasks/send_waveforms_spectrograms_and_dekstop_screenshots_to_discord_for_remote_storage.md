@@ -1,19 +1,18 @@
 ---
-```
-uuid: 1921c586-faec-430a-b598-e6ff0d131b00
-```
-```
-title: >-
-```
-  send waveforms spectrograms and dekstop screenshots to discord for remote
-  storage md md
-status: todo
-priority: P3
-labels: []
-```
-created_at: '2025-09-15T02:02:58.520Z'
-```
+uuid: "1921c586-faec-430a-b598-e6ff0d131b00"
+title: "send waveforms spectrograms and dekstop screenshots to discord for remote storage md md"
+slug: "send_waveforms_spectrograms_and_dekstop_screenshots_to_discord_for_remote_storage"
+status: "rejected"
+priority: "P3"
+labels: ["send", "waveforms", "spectrograms", "dekstop"]
+created_at: "2025-10-07T20:25:05.645Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Description
 
 Placeholder task stub generated from kanban board.
@@ -60,4 +59,6 @@ Nothing
 
 
 #archive
+
+
 

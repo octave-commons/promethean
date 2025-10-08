@@ -1,15 +1,18 @@
 ---
-```
-uuid: c71b790d-b9d6-45ee-b3e7-517ca66ff4aa
-```
-title: mirror shared utils with language specific doc folders md md
-status: todo
-priority: P3
-labels: []
-```
-created_at: '2025-09-15T02:02:58.517Z'
-```
+uuid: "c71b790d-b9d6-45ee-b3e7-517ca66ff4aa"
+title: "mirror shared utils with language specific doc folders md md"
+slug: "mirror_shared_utils_with_language-specific_doc_folders"
+status: "done"
+priority: "P3"
+labels: ["shared", "language", "mirror", "folders"]
+created_at: "2025-10-07T20:25:05.644Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Task: Mirror shared utils with language-specific doc folders
 
 Create documentation folders that mirror the utilities in `shared/`, grouped by their implementation language. This will make it easier to reference cross-language helpers in the design docs.
@@ -61,4 +64,6 @@ Nothing
 - [file structure]../file-structure.md
 - [[kanban]]
 #done
+
+
 

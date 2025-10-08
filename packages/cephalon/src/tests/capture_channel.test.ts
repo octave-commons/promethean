@@ -41,7 +41,8 @@ test("uploads saved waveform, spectrogram, and screenshot to configured channel"
   await done;
 
   t.is(sent.files.length, 4);
-  t.is(sent.files[0], "test.wav");
+  t.is(sent.files[0].name, "test.wav");
+  t.is(sent.files[0].attachment.toString(), "wav");
   t.deepEqual(sent.files[1].name, "waveform-0.png");
   t.deepEqual(sent.files[2].name, "spectrogram-0.png");
   t.deepEqual(sent.files[3].name, "screencap-0.png");
