@@ -22,6 +22,15 @@ import { AIAgent } from '../agent/index.js';
 export type StartDialogInput = { bot: Bot };
 export type StartDialogOutput = { started: boolean };
 
+const CLASSIC_SESSION_HOOKS_KEY = '__classicVoiceSessionHooks';
+
+type ClassicSessionHooks = {
+  transcriptStart: () => void;
+  transcriptEnd: (tr: FinalTranscript) => void;
+  speakingStart?: () => void;
+  speakingEnd?: () => void;
+};
+
 export async function storeAgentMessage(
   bot: Bot,
   text: string,
@@ -98,6 +107,35 @@ export async function runStartDialog({ bot }: StartDialogInput): Promise<StartDi
 
   bot.desktop.start();
 
+  (async () => {
+    const voiceChan = await bot.client.channels.fetch(
+      bot.currentVoiceSession!.voiceChannelId,
+    );
+    if (voiceChan?.isVoiceBased()) {
+      for (const [, member] of voiceChan.members) {
+        if (member.user.bot) continue;
+        await bot.currentVoiceSession!.addSpeaker(member.user);
+        await bot.currentVoiceSession!.startSpeakerTranscribe(member.user);
+      }
+    }
+
+    if (bot.voiceStateHandler)
+      bot.client.off(discord.Events.VoiceStateUpdate, bot.voiceStateHandler);
+    bot.voiceStateHandler = (oldState, newState) => {
+      const id = bot.currentVoiceSession?.voiceChannelId;
+      const user = newState.member?.user || oldState.member?.user;
+      if (!id || !user || user.bot) return;
+      if (oldState.channelId !== id && newState.channelId === id) {
+        bot.currentVoiceSession?.addSpeaker(user);
+        bot.currentVoiceSession?.startSpeakerTranscribe(user);
+      } else if (oldState.channelId === id && newState.channelId !== id) {
+        bot.currentVoiceSession?.stopSpeakerTranscribe(user);
+        bot.currentVoiceSession?.removeSpeaker(user);
+      }
+    };
+    bot.client.on(discord.Events.VoiceStateUpdate, bot.voiceStateHandler);
+  })().catch(() => {});
+
   if (bot.mode === 'classic') {
     return runClassicStartDialog({ bot });
   }
@@ -172,35 +210,118 @@ export async function runStartDialog({ bot }: StartDialogInput): Promise<StartDi
     processAgentMessage(bot, text);
   });
 
-  // Seed current members and track joins/leaves
-  (async () => {
-    const voiceChan = await bot.client.channels.fetch(bot.currentVoiceSession!.voiceChannelId);
-    if (voiceChan?.isVoiceBased()) {
-      for (const [, member] of voiceChan.members) {
-        if (member.user.bot) continue;
-        await bot.currentVoiceSession!.addSpeaker(member.user);
-        await bot.currentVoiceSession!.startSpeakerTranscribe(member.user);
-      }
+  return { started: true };
+}
+
+async function runClassicStartDialog({ bot }: StartDialogInput): Promise<StartDialogOutput> {
+  if (!bot.currentVoiceSession) return { started: false };
+  if (!bot.legacyAgent) {
+    bot.legacyAgent = new AIAgent({ bot, context: bot.context });
+  }
+  const agent = bot.legacyAgent;
+  if (agent.state !== 'running') {
+    await agent.start();
+  }
+  attachClassicVoiceSessionListeners(bot, agent);
+  return { started: true };
+}
+
+function attachClassicVoiceSessionListeners(bot: Bot, agent: AIAgent) {
+  const session = bot.currentVoiceSession;
+  if (!session) return;
+
+  const speaking = session.connection?.receiver.speaking;
+  const sessionWithHooks = session as typeof session & {
+    [CLASSIC_SESSION_HOOKS_KEY]?: ClassicSessionHooks;
+  };
+
+  const previous = sessionWithHooks[CLASSIC_SESSION_HOOKS_KEY];
+  if (previous) {
+    session.transcriber.off('transcriptStart', previous.transcriptStart);
+    session.transcriber.off('transcriptEnd', previous.transcriptEnd);
+    if (speaking) {
+      if (previous.speakingStart) speaking.off('start', previous.speakingStart);
+      if (previous.speakingEnd) speaking.off('end', previous.speakingEnd);
+    }
+  }
+
+  const onSpeechActivity = (active: boolean) => {
+    try {
+      agent.updateVad(active);
+    } catch (error) {
+      console.warn('Failed to update classic agent VAD state', error);
+    }
+    try {
+      agent.speechArbiter.setUserSpeaking(active);
+    } catch (error) {
+      console.warn('Failed to update speech arbiter state', error);
+    }
+  };
+
+  const transcriptsCollection = (() => {
+    try {
+      return bot.context.getCollection('transcripts');
+    } catch (error) {
+      console.warn('Classic mode: transcripts collection unavailable', error);
+      return undefined;
+    }
+  })();
+
+  const onTranscriptStart = () => onSpeechActivity(true);
+  const onTranscriptEnd = (tr: FinalTranscript) => {
+    onSpeechActivity(false);
+    if (tr.transcript?.trim()) {
+      transcriptsCollection
+        ?.insert({
+          text: tr.transcript,
+          createdAt: tr.endTime ?? Date.now(),
+          metadata: {
+            type: 'text',
+            userName: tr.userName,
+            userId: tr.user?.id,
+            speakerId: tr.speaker?.userId,
+            channelId: session.voiceChannelId,
+            startTime: tr.startTime,
+            endTime: tr.endTime,
+            originalTranscript: tr.originalTranscript,
+          },
+        })
+        .catch((error: unknown) =>
+          console.warn('Failed to persist transcript in classic mode', error),
+        );
     }
 
-    if (bot.voiceStateHandler)
-      bot.client.off(discord.Events.VoiceStateUpdate, bot.voiceStateHandler);
-    bot.voiceStateHandler = (oldState, newState) => {
-      const id = bot.currentVoiceSession?.voiceChannelId;
-      const user = newState.member?.user || oldState.member?.user;
-      if (!id || !user || user.bot) return;
-      if (oldState.channelId !== id && newState.channelId === id) {
-        bot.currentVoiceSession?.addSpeaker(user);
-        bot.currentVoiceSession?.startSpeakerTranscribe(user);
-      } else if (oldState.channelId === id && newState.channelId !== id) {
-        bot.currentVoiceSession?.stopSpeakerTranscribe(user);
-        bot.currentVoiceSession?.removeSpeaker(user);
-      }
-    };
-    bot.client.on(discord.Events.VoiceStateUpdate, bot.voiceStateHandler);
-  })().catch(() => {});
+    try {
+      agent.turnManager.bump('user-transcript');
+    } catch (error) {
+      console.warn('Failed to bump turn manager for classic agent', error);
+    }
 
-  return { started: true };
+    bot.bus?.publish({
+      topic: 'agent.transcript.final',
+      corrId: randomUUID(),
+      turnId: agent.turnManager?.turnId ?? 0,
+      ts: Date.now(),
+      text: tr.transcript,
+      channelId: session.voiceChannelId,
+      userId: tr.user?.id,
+    });
+  };
+
+  const onSpeakingStart = () => onSpeechActivity(true);
+  const onSpeakingEnd = () => onSpeechActivity(false);
+
+  session.transcriber.on('transcriptStart', onTranscriptStart);
+  session.transcriber.on('transcriptEnd', onTranscriptEnd);
+  speaking?.on('start', onSpeakingStart);
+  speaking?.on('end', onSpeakingEnd);
+
+  sessionWithHooks[CLASSIC_SESSION_HOOKS_KEY] = {
+    transcriptStart: onTranscriptStart,
+    transcriptEnd: onTranscriptEnd,
+    speakingStart: onSpeakingStart,
+    speakingEnd: onSpeakingEnd,
+  };
 }
 
 async function runClassicStartDialog({ bot }: StartDialogInput): Promise<StartDialogOutput> {
