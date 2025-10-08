@@ -1,15 +1,18 @@
 ---
-```
-uuid: 35baa5c2-8daa-4162-97ad-19f55b9c2b51
-```
-title: Mock the Broker for Tests
-status: todo
-priority: P3
-labels: []
-```
-created_at: '2025-09-15T02:02:58.517Z'
-```
+uuid: "35baa5c2-8daa-4162-97ad-19f55b9c2b51"
+title: "Mock the Broker for Tests"
+slug: "mock-broker"
+status: "incoming"
+priority: "P3"
+labels: ["broker", "mock", "tests", "you"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 Here’s a no-nonsense expansion that you can drop into your board. I’ve treated this like a mini-spec + work plan so Codex (or you) can just execute.
 
 # Mock the Broker for Tests
@@ -256,3 +259,5 @@ it('can inject latency and drop messages', async () => {
 ```
 #in-review
 ```
+
+

@@ -1,15 +1,18 @@
 ---
-```
-uuid: ee9f46e7-9d65-437b-8897-2a7e11756f4f
-```
-title: snapshot prompts specs to repo
-status: todo
-priority: P3
-labels: []
-```
-created_at: '2025-09-15T02:02:58.520Z'
-```
+uuid: "ee9f46e7-9d65-437b-8897-2a7e11756f4f"
+title: "snapshot prompts specs to repo"
+slug: "snapshot_prompts_specs_to_repo"
+status: "icebox"
+priority: "P3"
+labels: ["prompts", "snapshot", "specs", "repo"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Task: Snapshot prompts specs to repo
 
 Capture existing prompt and specification documents into the repository so they are version-controlled and easily referenced.
@@ -44,4 +47,6 @@ Capture existing prompt and specification documents into the repository so they 
 
 #IceBox
 #ready
+
+
 

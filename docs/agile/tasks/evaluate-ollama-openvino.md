@@ -1,14 +1,10 @@
 ---
-```
 uuid: a08e1032-c149-4060-831d-97e43d707132
-```
 title: evaluate ollama openvino
-status: todo
+status: testing
 priority: p3
 labels: []
-```
 created_at: '2025-09-15T02:02:58.513Z'
-```
 ---
 ### **Smart ChatGPT Configuration**
 ```smart-chatgpt

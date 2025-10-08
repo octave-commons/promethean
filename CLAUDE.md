@@ -129,12 +129,25 @@ pnpm kanban push                # Project board columns back to tasks
 - **Configuration**: `promethean.kanban.json`
 
 ### 🔧 Common Column Names
-- `todo` - New and unstarted work
-- `in_progress` - Currently being worked on
-- `review` - Ready for review or blocked
-- `done` - Completed work
-- `document` - Documentation tasks
-- `icebox` - Deferred or low-priority work
+**Brainstorm Lane (unbounded):**
+- `icebox` - Deferred/archived tasks at varying refinement levels, not actively committed to
+- `incoming` - All new tasks enter here (initial state), awaiting triage
+
+**Planning Lane (WIP limited):**
+- `accepted` - Triage complete, ready for breakdown analysis
+- `breakdown` - Task being broken into small, testable slices with Fibonacci estimates
+- `blocked` - Explicit dependency on another task (bidirectional links required)
+
+**Execution Lane (WIP limited):**
+- `ready` - Scoped, estimated (≤5), ready for execution queue (not priority-ordered)
+- `todo` - Prioritized in execution queue, ready to pull (WIP limited)
+- `in_progress` - Actively being worked on (WIP limited)
+- `review` - Coherent, reviewable change exists (WIP limited)
+- `document` - Recording evidence and summaries (WIP limited)
+- `done` - Complete with documentation/evidence
+
+**Abandoned Lane:**
+- `rejected` - Non-viable, may be moved to Ice Box
 
 ### ⚠️ Important Notes
 - **Never manually edit** `docs/agile/boards/generated.md`

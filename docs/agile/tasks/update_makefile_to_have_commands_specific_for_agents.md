@@ -1,15 +1,18 @@
 ---
-```
-uuid: 9fbe9f3a-0c6a-472b-8f7c-b100dab6f5de
-```
-title: replace agent automation makefile targets with pnpm scripts
-status: todo
-priority: P3
-labels: []
-```
-created_at: '2025-09-15T02:02:58.523Z'
-```
+uuid: "9fbe9f3a-0c6a-472b-8f7c-b100dab6f5de"
+title: "replace agent automation makefile targets with pnpm scripts"
+slug: "update_makefile_to_have_commands_specific_for_agents"
+status: "done"
+priority: "P3"
+labels: ["pnpm", "scripts", "agent", "makefile"]
+created_at: "2025-10-07T20:25:05.644Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Task: Replace Makefile agent commands with pnpm scripts
 
 The earlier plan called for agent-specific Makefile targets such as `make start:duck`. The audit showed those never shipped,
@@ -67,3 +70,5 @@ Nothing
 - [promethean-dev-workflow-update|promethean dev workflow update]
 
 #devops #todo
+
+

@@ -1,25 +1,30 @@
-# duck-web — PCM16k AudioWorklet + Mic Glue
+# duck-web — PCM16k capture pipeline
 
-Status: 🔧 under fix in PR #1443.
+Status: ✅ updated for WebRTC streaming (2025-02-14).
 
-Downsamples float32 @48kHz to mono 16kHz using a box filter per output sample; emits variable-length chunks to main thread for PCM16 conversion.
+Captures microphone audio at 48 kHz stereo, downsamples to 16 kHz mono via a `ScriptProcessorNode`,
+then converts frames to PCM16 using `@promethean/duck-audio` utilities before enqueueing them into a
+`ReadableStream` consumed by the `voice` RTCDataChannel.
 
 ## Diagram
 ```mermaid
 flowchart TD
-  A[Mic @48kHz stereo?] --> B[AudioWorkletNode('pcm16k')]
-  B --> C[Processor: ratio=48k/16k, pos += outLen*ratio]
-  C --> D[box-filter average over input window]
-  D --> E[postMessage(Float32Array mono @16k)]
-  E --> F[Main thread: float32ToInt16 -> Int16Array]
-  F --> G[Voice pipeline (seq/pts)]
+  Mic[MediaStream @48kHz stereo] --> Proc[AudioContext + ScriptProcessorNode(4096)]
+  Proc --> Loop[for each onaudioprocess buffer]
+  Loop --> Avg[averageStereoFrame(left,right)]
+  Avg --> Dec[decimate by PCM48_TO_16_DECIMATION]
+  Dec --> Clamp[clampUnitFloat(sample)]
+  Clamp --> PCM[floatToPcm16 → Int16Array]
+  PCM --> Chunk[enqueue Uint8Array into ReadableStream]
+  Chunk --> Voice[RTCDataChannel 'voice']
 ```
 
 ## Notes
-- Track fractional `pos` to avoid drift.
-- Clamp & convert via `duck-audio` helpers.
-- Timestamp with `performance.now()` for stability.
+- ScriptProcessorNode keeps compatibility across browsers until AudioWorklets are rolled out.
+- Fractional positions are implicit in buffer stepping; 4096 frames cleanly divide into 320-sample chunks.
+- `floatToPcm16` wraps the guard rails from `duck-audio` so peaks stay within int16 bounds.
+- Callers close the processor + `AudioContext` when the mic pump aborts.
 
 ## Related
-- duck-audio helpers — `clamp16`, `float32ToInt16`.
-- Voice forwarder expects PCM16 chunks.
+- duck-audio helpers — `averageStereoFrame`, `clampUnitFloat`, `floatToPcm16`.
+- Voice forwarder expects PCM16 chunks sized for the negotiated frame duration.

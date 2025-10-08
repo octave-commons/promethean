@@ -1,22 +1,27 @@
-# duck-web — WebSocket Helper
+# duck-web — Signaling helper
 
-Status: 🔧 under fix in PR #1446.
+Status: ✅ aligned with WebRTC signaling (2025-02-14).
 
-`openWs` constructs a WS with custom subprotocols: `duck.v1` and optional `bearer.<token>`. Includes a DI-friendly factory for testing.
+`connectSignaling` opens a JSON WebSocket connection to the gateway, optionally appending
+`?token=...` for bearer auth. It exposes a tiny event emitter (`on`) plus a guarded `send`
+that no-ops unless the socket is open.
 
 ## Diagram
 ```mermaid
 flowchart LR
-  A[openWs(mkWs)] --> B{bearer provided?}
-  B -- yes --> C[protocols = [duck.v1, bearer.<token>]]
-  B -- no --> D[protocols = [duck.v1]]
-  C --> E[return mkWs(url, protocols)]
-  D --> E
+  A[connectSignaling(url, token?)] --> B[compute url + optional ?token]
+  B --> C[new WebSocket(resolvedUrl)]
+  C --> D[install onmessage → dispatch(JSON.parse(msg.type))]
+  D --> E[{send,type,data}]
+  D --> F[{on,type,fn}]
+  D --> G[{close()}]
 ```
 
 ## Notes
-- Guard empty/undefined bearer.
-- Keep pure: `openWs` returns a function that closes over `mkWs`.
+- All signaling payloads are JSON objects with a `type` discriminator.
+- Token is appended as a query parameter to match the gateway's AUTH_TOKEN check.
+- `send` verifies `readyState === 1` (OPEN) before emitting to avoid DOMExceptions.
 
 ## Related
-- Handshake guard expects `duck.v1`.
+- Gateway signaling loop expects `{type:"offer"|"answer"|"ice"|"text", ...}`.
+- Voice channel is negotiated after `ready` and `answer` events land.
