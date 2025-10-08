@@ -391,6 +391,8 @@ export async function saveComplexityEstimates(
   logger.info(`Complexity estimates saved to: ${outputPath}`);
 }
 
+// CLI interface - disabled for now
+/*
 if (import.meta.main) {
   // CLI usage
   const tasksDir = process.argv[2] || 'docs/agile/tasks';
@@ -403,3 +405,4 @@ if (import.meta.main) {
       process.exit(1);
     });
 }
+*/
