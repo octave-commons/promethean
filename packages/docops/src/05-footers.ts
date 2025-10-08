@@ -245,7 +245,22 @@ export async function runFooters(
     list.map(([, info]) =>
       fs
         .readFile(info.path, "utf8")
+        .catch((error: any) => {
+          if (error.code === "ENOENT") {
+            // File not found - this can happen after the rename step
+            // when the database still has old paths but files were renamed
+            console.warn(`Warning: File not found: ${path.relative(process.cwd(), info.path)}`);
+            console.warn(`This file may have been renamed by a previous step. Skipping...`);
+            // Return empty content to avoid breaking the pipeline
+            return "";
+          }
+          throw error;
+        })
         .then((raw) => {
+          if (!raw) {
+            // Skip empty content (missing file)
+            return;
+          }
           const gm = matter(raw);
           const fm = (gm.data || {}) as Front;
           return renderFooter(

@@ -146,6 +146,7 @@ kanban-plugin: board
 
 ## in_progress
 
+- [ ] [[fix-writefilecontent-sandbox-escape-via-symlinks|🔒 CRITICAL: Fix writeFileContent sandbox escape via symlinks]] #security #bug #critical #immediate #github-1144 prio:P1 (uuid:security-escape-$(date +%s))
 - [ ] [[fix_mcp_connector_jsonrpc_error|Fix MCP github_request connector JSON-RPC schema error]] #mcp #connectors #bug prio:P2 (uuid:0a7d5411-0f71-4ff7-9034-53fba46c1e8f)
 
 ## review
