@@ -51,6 +51,8 @@ const Config = z.object({
   endpoints: z.record(EndpointConfig).default({}),
   stdioProxyConfig: z.string().min(1).nullable().default(null),
   stdioProxies: z.array(InlineProxy).default([]),
+  version: z.string().optional(),
+  metadata: z.record(z.unknown()).optional(),
 });
 
 export const ConfigSchema = Config;
