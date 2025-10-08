@@ -13,7 +13,11 @@
                  "endpoints" {"files" {"tools" ["files_view_file"]}}
                  "mcpServers" {}}
         edn {:mcp-servers {:new {:command "echo"
-                                 :args ["hi"]}}
+                                 :args ["hi"]
+                                 :env {"NODE_ENV" "test"}
+                                 :timeout 60
+                                 :auto-approve ["files.write"]
+                                 :disabled? false}}
              :outputs [{:schema :mcp.json :path "./promethean.mcp.json"}]}]
     (try
       (fs/create-dirs (fs/parent manifest))
@@ -22,7 +26,12 @@
       (is (fs/exists? manifest))
       (let [written (json/parse-string (slurp manifest))
             servers (get written "mcpServers")]
-        (is (= {"new" {"command" "echo" "args" ["hi"]}}
+        (is (= {"new" {"command" "echo"
+                        "args" ["hi"]
+                        "env" {"NODE_ENV" "test"}
+                        "timeout" 60
+                        "autoApprove" ["files.write"]
+                        "disabled" false}}
                servers))
         (is (= "http" (get written "transport")))
         (is (= {"files" {"tools" ["files_view_file"]}}

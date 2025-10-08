@@ -11,6 +11,68 @@
     (sequential? v) (vec v)
     :else nil))
 
+(defn- ->map [m]
+  (when (map? m) m))
+
+(def ^:private server-json->edn
+  {"command"     {:key :command :transform identity :include-nil? true}
+   "args"        {:key :args :transform ->vector}
+   "cwd"         {:key :cwd :transform identity}
+   "env"         {:key :env :transform ->map}
+   "timeout"     {:key :timeout :transform identity}
+   "description" {:key :description :transform identity}
+   "version"     {:key :version :transform identity}
+   "metadata"    {:key :metadata :transform ->map}
+   "capabilities" {:key :capabilities :transform ->map}
+   "autoConnect" {:key :auto-connect? :transform identity}
+   "autoApprove" {:key :auto-approve :transform ->vector}
+   "autoAccept"  {:key :auto-accept :transform ->vector}
+   "disabled"    {:key :disabled? :transform identity}})
+
+(def ^:private server-edn->json
+  {:command      {:key "command" :transform identity :include-nil? true}
+   :args         {:key "args" :transform ->vector}
+   :cwd          {:key "cwd" :transform identity}
+   :env          {:key "env" :transform ->map}
+   :timeout      {:key "timeout" :transform identity}
+   :description  {:key "description" :transform identity}
+   :version      {:key "version" :transform identity}
+   :metadata     {:key "metadata" :transform ->map}
+   :capabilities {:key "capabilities" :transform ->map}
+   :auto-connect? {:key "autoConnect" :transform identity}
+   :auto-approve {:key "autoApprove" :transform ->vector}
+   :auto-accept  {:key "autoAccept" :transform ->vector}
+   :disabled?    {:key "disabled" :transform identity}})
+
+(defn- parse-server-spec [spec]
+  (let [spec (or spec {})]
+    (reduce (fn [acc [json-key {:keys [key transform include-nil?]}]]
+              (if (contains? spec json-key)
+                (let [raw (get spec json-key)
+                      value (if transform (transform raw) raw)]
+                  (if (or include-nil? (some? value))
+                    (assoc acc key value)
+                    acc))
+                acc))
+            {}
+            server-json->edn)))
+
+(defn- server-spec->json [spec]
+  (when (some? spec)
+    (let [spec-map (or spec {})
+          spec-map (cond-> spec-map
+                      (not (contains? spec-map :command)) (assoc :command nil))]
+      (reduce (fn [acc [edn-key {:keys [key transform include-nil?]}]]
+                (if (contains? spec-map edn-key)
+                  (let [raw (get spec-map edn-key)
+                        value (if transform (transform raw) raw)]
+                    (if (or include-nil? (some? value))
+                      (assoc acc key value)
+                      acc))
+                  acc))
+              {}
+              server-edn->json))))
+
 (defn- parse-expectations [m]
   (when (map? m)
     (let [usage         (->vector (get m "usage"))
@@ -143,12 +205,7 @@
         mcp     {:mcp-servers
                  (into (sorted-map)
                        (for [[nm spec] servers]
-                         (let [args (get spec "args")
-                               cwd  (get spec "cwd")]
-                           [(keyword nm)
-                            (cond-> {:command (get spec "command")}
-                              (seq args) (assoc :args (vec args))
-                              (some? cwd) (assoc :cwd cwd))])))}
+                         [(keyword nm) (parse-server-spec spec)]))}
         http    (parse-http m)
         rest    (apply dissoc m ["mcpServers" "transport" "tools" "includeHelp"
                                  "stdioMeta" "endpoints" "stdioProxyConfig"])]
@@ -163,10 +220,10 @@
         m*      (merge existing rest)
         mcp'    (core/expand-servers-home mcp)
         servers (into (sorted-map)
-                      (for [[k {:keys [command args cwd]}] (:mcp-servers mcp')]
-                        [(name k) (cond-> {"command" command}
-                                    (seq args) (assoc "args" (vec args))
-                                    (some? cwd) (assoc "cwd" cwd))]))
+                      (for [[k spec] (:mcp-servers mcp')
+                            :let [json (server-spec->json spec)]
+                            :when json]
+                        [(name k) json]))
         http    (http->json (:http mcp'))
         cleaned (apply dissoc (assoc m* "mcpServers" servers)
                        ["transport" "tools" "includeHelp" "stdioMeta" "endpoints" "stdioProxyConfig"])
