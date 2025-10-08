@@ -147,7 +147,6 @@ kanban-plugin: board
 ## in_progress
 
 - [ ] [[fix-writefilecontent-sandbox-escape-via-symlinks|🔒 CRITICAL: Fix writeFileContent sandbox escape via symlinks]] #security #bug #critical #immediate #github-1144 prio:P1 (uuid:security-escape-$(date +%s))
-- [ ] [[fix_mcp_connector_jsonrpc_error|Fix MCP github_request connector JSON-RPC schema error]] #mcp #connectors #bug prio:P2 (uuid:0a7d5411-0f71-4ff7-9034-53fba46c1e8f)
 
 ## review
 
@@ -221,6 +220,7 @@ kanban-plugin: board
 - [x] [[fix-test-gap-pipeline-missing-coverage-and-incorrect-package-scanning|Fix test-gap pipeline missing coverage and incorrect package scanning  -gap -reports -scanning  -gap -reports -scanning]] #piper #test-gap #coverage-reports #package-scanning #testing prio:P2 (uuid:d0e1f2a3-b4c5-6789-def0-234567890123)
 - [x] [[fix_failing_tests_suite|Fix failing tests suite]] #testing #stabilization prio:P2 (uuid:5e7d15b7-50dc-4bd8-9ab3-8c7737a8dbe7)
 - [x] [[fix_makefile_test_target|fix makefile test target md]] #test #target #makefile #tests prio:P3 (uuid:452f1408-fe8c-41fb-87ab-761e8dcee2d6)
+- [x] [[fix_mcp_connector_jsonrpc_error|Fix MCP github_request connector JSON-RPC schema error]] #mcp #connectors #bug prio:P2 (uuid:0a7d5411-0f71-4ff7-9034-53fba46c1e8f)
 - [x] [[generate-roadmap-inventory-report|Extend roadmap generator to emit inventory report]] #scripts #documentation prio:P3 (uuid:c8651504-523e-434c-987c-ac19fd9a67f2)
 - [x] [[implement-defun-in-compiler-lisp-incoming|🛠️ Task: Implement `defun` in Lisp Compiler]] #defun #compiler #lisp #implement prio:P3 (uuid:f0fe8d30-5833-4791-9e31-9c2292db03bc)
 - [x] [[install-and-configure-sonar-scanner-for-code-quality-pipeline|Install and configure sonar-scanner for code quality pipeline   -quality  -dependency   -quality  -dependency]] #piper #sonar #code-quality #sonarqube #external-dependency prio:P2 (uuid:b8c7d6e5-c4b3-a2b1-a099-876543210987)

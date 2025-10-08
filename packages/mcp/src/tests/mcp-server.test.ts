@@ -77,3 +77,43 @@ test('createMcpServer falls back to text content when tool omits output schema',
     content: [{ type: 'text', text: 'hello world' }],
   });
 });
+
+test('createMcpServer returns structured content even when tool result is undefined', async (t) => {
+  type Handler = (args: unknown) => Promise<unknown>;
+  const registrations: Array<{ name: string; handler: Handler }> = [];
+
+  class FakeMcpServer {
+    public constructor(_info: unknown) {}
+
+    registerTool(name: string, _def: unknown, handler: Handler): void {
+      registrations.push({ name, handler });
+    }
+  }
+
+  const modulePath = new URL('../core/mcp-server.js', import.meta.url).pathname;
+  const { createMcpServer } = await esmock<typeof import('../core/mcp-server.js')>(modulePath, {
+    '@modelcontextprotocol/sdk/server/mcp.js': { McpServer: FakeMcpServer },
+  });
+
+  const OutputSchema = z.object({ status: z.number() }).strict();
+
+  const tool: Tool = {
+    spec: {
+      name: 'structured_tool_undefined_result',
+      description: 'Returns undefined but declares output schema.',
+      outputSchema: OutputSchema.shape,
+    },
+    invoke: async () => undefined,
+  };
+
+  createMcpServer([tool]);
+
+  t.is(registrations.length, 1);
+  t.is(registrations[0]?.name, tool.spec.name);
+
+  const payload = await registrations[0]!.handler({});
+  t.deepEqual(payload, {
+    structuredContent: undefined,
+    content: [{ type: 'text', text: 'undefined' }],
+  });
+});

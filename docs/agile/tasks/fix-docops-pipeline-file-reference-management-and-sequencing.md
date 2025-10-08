@@ -115,6 +115,18 @@ await pipeline.setStepData('doc-rename', {
 before `doc-footer`, and the rename step writes the new absolute path to the
 DocOps `docs` sublevel so downstream steps resolve the renamed files directly.
 
+**Update 2025-10-08:** Implemented robust error handling for ENOENT errors in the
+footer step. The fix gracefully handles missing files that can occur when the
+database contains file paths that have been renamed by previous steps. The
+solution:
+
+1. **Added ENOENT error handling** in `packages/docops/src/05-footers.ts:258-269`
+2. **Graceful file skipping** with clear warning messages when files are not found
+3. **Pipeline resilience** - missing files no longer break the entire pipeline
+
+The fix ensures the docops pipeline completes successfully even when file
+renaming creates path discrepancies between the database and filesystem.
+
 #### 2. File Reference Resolution
 ```typescript
 // In doc-footer step
