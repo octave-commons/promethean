@@ -1,0 +1,65 @@
+---
+uuid: "e4295574-98f0-4164-9df1-118321e659c1"
+title: "Enso Protocol ENSO-1 — v0.1 Draft"
+slug: "enso-protocol-enso-1-v01-draft"
+status: "todo"
+priority: "P3"
+labels: ["docops", "labeled"]
+created_at: "2025-10-08T20:10:45.991Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
+## 🗂 Source
+
+- Path: docs/labeled/2025.09.18.16.34.14.md
+
+## 📝 Context Summary
+
+Love it. Let’s give **Enso** its own protocol—explicitly *not* request/response, voice-first, multi-party, and agent-aware.
+
+# Enso Protocol ENSO-1 — v0.1 Draft
+
+A small, composable spec for **rooms of voices** humans + agents exchanging **events** and **streams** with causal ordering and capability negotiation.
+
+## 0) Packages TS-first
+
+* `packages/enso-protocol` — types, codecs, guards, test vectors
+* `packages/enso-gateway` — room server WS/WebTransport + auth
+* `packages/enso-client` — Node/Browser client SDK voice in/out
+* `packages/enso-cli` — quick TUI/voice demo
+* `packages/cephalon-core` — interpreter; consumes Enso streams
+
+> New modules; idempotent scripts; caches for codec/transcript/tool results.
+
+---
+
+## 1) Transport
+
+* **Control plane:** WebSocket **or** WebTransport (QUIC).
+* **Media plane:** same socket (framed multiplex) or optional **WebRTC** for low-latency voice.
+* All messages are **framed envelopes** with content-length, no HTTP request/response semantics.
+
+---
+
+## 2) Primitives
+
+### 2.1 Envelope
+
+Every message is an `Envelope` with causal info.
+
+### 2.2 Events (discrete)
+
+Small JSON payloads (chat, acts, tool boundary events).
+
+### 2.3 Streams (continuous)
+
+
+
+## 📋 Tasks
+
+- [ ] Draft actionable subtasks from the summary
+- [ ] Define acceptance criteria
+- [ ] Link back to related labeled docs

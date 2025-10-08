@@ -74,6 +74,8 @@ test('saveConfigFile writes normalized configuration', (t) => {
     endpoints: {
       '/docs': { tools: ['files_view_file'] },
     },
+    version: '2025-06-18',
+    metadata: { source: 'test-suite' },
   });
 
   const saved = saveConfigFile(target, config);
@@ -82,4 +84,6 @@ test('saveConfigFile writes normalized configuration', (t) => {
   const written = JSON.parse(fs.readFileSync(target, 'utf8'));
   t.deepEqual(written, saved);
   t.deepEqual(saved.endpoints?.['/docs']?.tools, ['files_view_file']);
+  t.is(saved.version, '2025-06-18');
+  t.deepEqual(saved.metadata, { source: 'test-suite' });
 });

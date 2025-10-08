@@ -1,0 +1,55 @@
+---
+uuid: "3732d800-1910-4845-a415-e131e1f129a6"
+title: "jsonrpc-error-handling-2"
+slug: "jsonrpc-error-handling-2"
+status: "todo"
+priority: "P3"
+labels: ["docops", "labeled"]
+created_at: "2025-10-08T20:10:46.032Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
+## 🗂 Source
+
+- Path: docs/labeled/jsonrpc-error-handling-2.md
+
+## 📝 Context Summary
+
+---
+
+title: 2025.10.03.16.07.03
+filename: JSONRPC Error Handling
+
+  This document describes a JSON-RPC error response when attempting to
+  initialize a server with invalid parameters. The error indicates missing
+  required fields like 'id' and 'method', and unexpected keys in the request
+  payload.
+tags:
+  - jsonrpc
+  - error
+  - invalid_parameters
+  - zod
+  - unrecognized_keys
+
+references: []
+---
+Ok, when I use that curl command I get:
+
+Error creating connector
+Client error '404 Not Found' for url 'https://err-stealth-16-ai-studio-a1vgg.tailbe888a.ts.net/playwright/mcp' For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+```
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- _None_
+## Sources
+- _None_
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
+
+## 📋 Tasks
+
+- [ ] Draft actionable subtasks from the summary
+- [ ] Define acceptance criteria
+- [ ] Link back to related labeled docs

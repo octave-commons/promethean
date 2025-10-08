@@ -1,0 +1,33 @@
+---
+uuid: 5f487b0d-4897-4931-b59a-dafe330b9608
+title: Expand symdocs and simtasks package documentation
+status: todo
+priority: P3
+labels:
+  - documentation
+  - packages
+created_at: '2025-10-07T02:31:07Z'
+---
+## 🛠️ Task: Expand symdocs and simtasks package documentation
+
+### Context
+- `@promethean/docops` README provides detailed usage and troubleshooting guidance, but `@promethean/symdocs` and `@promethean/simtasks` still contain "Usage (coming soon)" placeholders.
+- Engineers lack authoritative references when attempting to fix the associated pipelines.
+- Aligning package docs improves onboarding and supports reliability work.
+
+### Definition of Done
+- [ ] Author comprehensive README updates for both packages covering prerequisites, CLI/API usage, cache layout, and troubleshooting.
+- [ ] Include example Piper integrations and environment setup instructions consistent with `pipelines.json`.
+- [ ] Ensure README sections cross-link to pipeline reports and related tasks.
+
+### Suggested Plan
+1. Review existing docops README structure as a template for depth and sections.
+2. Interview pipeline configs and scripts to document actual entrypoints and expected inputs/outputs.
+3. Draft README content for symdocs and simtasks, including testing instructions and known issues.
+4. Solicit review from pipeline maintainers before publishing.
+
+### References
+- `packages/@promethean/docops/README.md`
+- `packages/@promethean/symdocs/README.md`
+- `packages/@promethean/simtasks/README.md`
+- `pipelines.json`

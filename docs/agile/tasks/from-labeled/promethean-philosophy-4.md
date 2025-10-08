@@ -1,0 +1,53 @@
+---
+uuid: "89652a32-5151-41a3-b4e2-c035f1d07fe9"
+title: "promethean-philosophy-4"
+slug: "promethean-philosophy-4"
+status: "todo"
+priority: "P3"
+labels: ["docops", "labeled"]
+created_at: "2025-10-08T20:10:46.056Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
+## 🗂 Source
+
+- Path: docs/labeled/promethean-philosophy-4.md
+
+## 📝 Context Summary
+
+---
+uuid: 57fca87c-4a09-44a0-bea3-f55b7c23ef27
+created_at: '2025-09-19T13:11:23Z'
+title: 2025.09.19.13.11.23
+filename: Promethean Philosophy
+description: >-
+  Promethean emphasizes a balance between automated processes and human
+  oversight in system design. It advocates for continuous iteration while
+  ensuring critical decisions remain manually described to maintain system
+  integrity.
+tags:
+  - knowledge repository
+  - document-oriented programming
+  - human-robot balance
+---
+Remember to just keep typing. You can always change it. The robots can fix it.
+It doesn't matter if you just keep typing, magic absolutely will happen.
+
+The more of me that shows up in the system the more powerful the system is
+It is important to not let the robots completely take over all of the time.
+
+You do want processes where you can just repeatedly ask continue, and semi automate them with approvals
+But you also want to be taking time some where in the system to be describing large important
+complicated things.
+
+Promethean is as much a knowledge repository as it is a code base.
+The future is document oriented programming and design.
+
+## 📋 Tasks
+
+- [ ] Draft actionable subtasks from the summary
+- [ ] Define acceptance criteria
+- [ ] Link back to related labeled docs

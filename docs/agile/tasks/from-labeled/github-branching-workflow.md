@@ -1,0 +1,61 @@
+---
+uuid: "81a5905b-7119-4ef9-9cfc-3173588a5c2b"
+title: "Github Branching Workflow"
+slug: "github-branching-workflow"
+status: "todo"
+priority: "P3"
+labels: ["docops", "labeled"]
+created_at: "2025-10-08T20:10:45.999Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
+## 🗂 Source
+
+- Path: docs/labeled/2025.09.20.05.43.29.md
+
+## 📝 Context Summary
+
+# Github Branching Workflow
+
+- **Branches:**
+  - `chore/<task>`, `codex/<task>` go to `main`.
+
+- **Development Setup:**
+  - Use multiple computers (`stealth` and `yoga`) for development.
+  - Changes flow from `dev/<hostname>` to `testing`, then `staging`, and finally
+    `main`.
+
+- **Typical Workflow:**
+  1. `codex/<task>` -> `dev/codex-staging` -> `main`
+  2. `feat/codex-<task>` indicates a human operator has taken over a Codex task.
+  3. `<type>/<task>` branches for specific tasks.
+
+- **Branching Rules:**
+  - Prefixed with `codex/` indicate Codex responsibility.
+  - Others are my responsibility unless default merging causes issues.
+
+- **Obsidian Workflow:**
+  1. `obsidian/<hostname>` -> `obsidian/staging` -> `obsidian/main` -> `docs/staging` -> `docs/staging`
+  2. Ideal flow: `<describer>/<task>` -> `obsidian/testing` -> `dev/staging` ->
+     `main`
+
+- **Documentation Flow:**
+  1. `<codex|docs|readme|etc>/<task>` -> `obsidian/<hostname>` ->
+
+  2. Staging branch uses GitHub Actions for transformations.
+
+## Diagrams
+
+We have a kind of process at the moment.
+We will capture the current flow we do implicitly
+so we can begin to do it explicitly
+And describe a step by step process that
+
+## 📋 Tasks
+
+- [ ] Draft actionable subtasks from the summary
+- [ ] Define acceptance criteria
+- [ ] Link back to related labeled docs

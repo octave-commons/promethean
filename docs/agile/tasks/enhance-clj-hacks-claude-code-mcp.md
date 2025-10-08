@@ -2,7 +2,7 @@
 title: Enhance clj-hacks for Claude Code MCP server configs
 uuid: 5386dc78-da5b-4dfa-bef3-f82094c4c58a
 created: 2025-10-06T20:06:54-05:00
-status: icebox
+status: in_progress
 priority: P2
 owner:
 labels:
@@ -44,6 +44,14 @@ The existing clj-hacks MCP infrastructure handles basic JSON configuration but l
 5. Implement Claude Code specific validation logic
 6. Create template generators for common Claude Code MCP servers
 7. Add comprehensive tests and documentation
+
+## Session Notes (2025-10-08)
+- ✅ Scope: focus on extending the shared MCP JSON adapter so Claude-style server metadata (env, timeout, auto-approval, etc.) round-trips cleanly.
+- ✅ Deliverables for this slice:
+  - Update `adapter_mcp_json` read/write logic to preserve Claude metadata fields.
+  - Expand AVA/Clojure tests to cover the richer schema.
+  - Allow TypeScript config loader to tolerate `version`/`metadata` so generated configs stay Claude-compatible.
+- 🚧 Follow-up: evaluate generating Claude-specific rest metadata (e.g. schema URLs) once upstream policy for `:rest` overrides is defined.
 
 ## Definition of Done
 - [ ] Claude Code MCP servers can be configured with full metadata support
