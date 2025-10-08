@@ -1,9 +1,15 @@
 ---
+```
 uuid: 1b910444-6b1e-4bb3-99a1-e926e9f76a4d
+```
+```
 created_at: '2025-10-03T14:06:30Z'
+```
 title: 2025.10.03.14.06.30
 filename: Fix build errors in Promethean projects
+```
 description: >-
+```
   Build failures occurred in the kanban and discord projects due to TypeScript
   errors and missing dependencies. The kanban project has syntax errors in
   sync.ts while the discord project lacks the 'csv-parse/sync' module.
@@ -14,15 +20,19 @@ tags:
   - dependency
   - kanban
   - discord
+```
 related_to_uuid: []
+```
+```
 related_to_title: []
+```
 references: []
 ---
 @codex fix build errors 
 ❌ > nx run @promethean/kanban:build
-  
-  > tsc -b
-  
+```
+> tsc -b
+```
   Error: src/process/sync.ts(57,13): error TS1002: Unterminated string literal.
   Error: src/process/sync.ts(58,1): error TS1005: ',' expected.
   Error: src/process/sync.ts(58,4): error TS1002: Unterminated string literal.

@@ -60,7 +60,7 @@ Nemesian provides interfaces like:
 
 * **evaluate\_alignment(state, context)**: Returns a score or narrative indicating moral/social harmony
 * **suggest\_repair(plan)**: Offers actions to restore perceived social or ethical equilibrium
-* **modulate\_expression(tone\_target)**: Adjusts language and delivery to suit a specific interpersonal frame
+* **modulate\_expressiontone\_target**: Adjusts language and delivery to suit a specific interpersonal frame
 * **log\_alignment\_feedback(outcome)**: Learns from praise, disapproval, or silence
 
 ---

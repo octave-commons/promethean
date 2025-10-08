@@ -1,14 +1,22 @@
 ---
-uuid: d54f5640-9a46-4643-a76c-020603439c39
-title: set up proper openai custom gpt compatable oauth login flow
-status: todo
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.520Z'
+uuid: "d54f5640-9a46-4643-a76c-020603439c39"
+title: "set up proper openai custom gpt compatable oauth login flow"
+slug: "set-up-proper-openai-custom-gpt-compatable-oauth-login-flow"
+status: "rejected"
+priority: "P3"
+labels: ["oauth", "openai", "custom", "gpt"]
+created_at: "2025-10-07T20:25:05.645Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
-## 🛠️ Description
-**Status:** blocked
 
+
+## 🛠️ Description
+```
+**Status:** blocked
+```
 Implement a secure OAuth flow for OpenAI custom GPT integrations, including redirect handling and token management.
 
 ---
@@ -40,9 +48,9 @@ Implement a secure OAuth flow for OpenAI custom GPT integrations, including redi
 ---
 
 ## 🔗 Related Epics
-
+```
 #framework-core
-
+```
 ---
 
 ## ⛓️ Blocked By
@@ -65,4 +73,6 @@ Nothing
 - No active owner or unclear scope
 
 #breakdown
+
+
 

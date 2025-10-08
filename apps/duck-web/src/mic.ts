@@ -1,4 +1,4 @@
-import { float32ToInt16 } from "@promethean/duck-audio/src/pcm.js";
+import { float32ToInt16 } from "@promethean/duck-audio";
 
 export type OnPcm = (pcm: Int16Array, tstampMs: number) => void;
 

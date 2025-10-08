@@ -1,7 +1,10 @@
 import EventEmitter from "node:events";
 import { randomUUID } from "node:crypto";
 
-import type { ChatMessage } from "@promethean/enso-protocol";
+import type {
+  ActRationalePayload,
+  ChatMessage,
+} from "@promethean/enso-protocol";
 import {
   EnsoClient,
   EnsoServer,
@@ -21,6 +24,8 @@ type ToolInvocationOptions = {
   callId?: ToolCall["callId"];
   reason?: string;
   evidence?: readonly string[];
+  policy?: ActRationalePayload["policy"];
+  evidenceKind?: ActRationalePayload["evidenceKind"];
 };
 
 export type ChatRole = "human" | "agent" | "system";
@@ -55,6 +60,7 @@ export class EnsoChatAgent extends EventEmitter {
   private readonly room: string;
   private readonly tools = new ToolRegistry();
   private readonly serverId = "cephalon-duck";
+  private readonly defaultPolicy = "morganna@1";
   private evaluationMode = false;
   private sessionId?: string;
 
@@ -186,10 +192,16 @@ export class EnsoChatAgent extends EventEmitter {
       "LLM requested tool invocation to satisfy the current user goal.";
     if (this.evaluationMode) {
       const rationale = this.composeRationaleText(callId, options, reason);
-      const rationalePayload: any = { callId, rationale };
-      if (options.evidence && options.evidence.length > 0) {
-        rationalePayload.evidence = [...options.evidence];
-      }
+      const rationalePayload: ActRationalePayload = {
+        callId,
+        rationale,
+        policy: options.policy ?? this.defaultPolicy,
+        evidence:
+          options.evidence && options.evidence.length > 0
+            ? [...options.evidence]
+            : undefined,
+        evidenceKind: options.evidenceKind ?? "note",
+      };
       await this.client.send({
         id: randomUUID(),
         ts: new Date().toISOString(),

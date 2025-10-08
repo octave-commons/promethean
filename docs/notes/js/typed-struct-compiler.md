@@ -8,7 +8,7 @@ Key features:
 - Endianness: configurable (LE default)
 - Helpers: `read`, `write`, `flattenColumns()`
 
-Implementation: [[struct.ts|`shared/js/prom-lib/worker/zero/struct.ts`]].
+Implementation: [struct.ts|`shared/js/prom-lib/worker/zero/struct.ts`].
 
 Usage outline:
 
@@ -27,6 +27,6 @@ B.write(view, { pos: { x: 1, y: 2 }, vel: { x: 0, y: 0 }, life: 3 });
 const obj = B.read(view);
 ```
 
-Related notes: [[index.md|unique/index]]
+Related notes: [index.md|unique/index]
 
 #tags: #js #binary #workers #soa

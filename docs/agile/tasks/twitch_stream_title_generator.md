@@ -1,11 +1,18 @@
 ---
-uuid: edaa3887-de50-422c-8c8f-6d624329465b
-title: twitch stream title generator md md
-status: todo
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.523Z'
+uuid: "edaa3887-de50-422c-8c8f-6d624329465b"
+title: "twitch stream title generator md md"
+slug: "twitch_stream_title_generator"
+status: "breakdown"
+priority: "P3"
+labels: ["stream", "twitch", "title", "generator"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 Here’s a refined version of your task that keeps it tied to your streaming workflow but makes it concrete enough to move forward:
 
 ---
@@ -52,11 +59,15 @@ The goal is for the system to produce engaging, accurate, and relevant stream ti
 ---
 
 ## 🔗 Related Epics
-
+```
 \#framework-core
+```
+```
 \#ollama-integration
+```
+```
 \#stream-automation
-
+```
 ---
 
 If you want, I can also make you a **mermaid diagram** showing how the context flows from Discord transcripts → Ollama → storage → stream platform so we can see where it sits in the pipeline.
@@ -65,6 +76,8 @@ That would make expansion easier later.
 ## Notes
 - Tests or documentation are missing; acceptance criteria not fully met.
 - Story Points: 3
-
+```
 #in-progress
+```
+
 

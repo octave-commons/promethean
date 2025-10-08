@@ -1,11 +1,18 @@
 ---
-uuid: 0b5c2829-4d26-4bda-93db-ab13a5a80a12
-title: setup services to recieve work from the broker via push md
-status: todo
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.520Z'
+uuid: "0b5c2829-4d26-4bda-93db-ab13a5a80a12"
+title: "setup services to recieve work from the broker via push md"
+slug: "setup_services_to_recieve_work_from_the_broker_via_push"
+status: "done"
+priority: "P3"
+labels: ["broker", "services", "setup", "via"]
+created_at: "2025-10-07T20:25:05.644Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ### ✅ Setup services to use broker correctly
 
 
@@ -15,7 +22,7 @@ created_at: '2025-09-15T02:02:58.520Z'
 
 ### 📋 Description
 
-Replace the current pull-based task handling in the broker (`enqueue`/`dequeue`) with push-based task dispatch via `queueManager`. Services will register themselves as available to receive tasks from specific named queues (one per service for now).
+Replace the current pull-based task handling in the broker `enqueue`/`dequeue` with push-based task dispatch via `queueManager`. Services will register themselves as available to receive tasks from specific named queues (one per service for now).
 
 Each queue represents a task type or target service. Over time, this model will evolve to support:
 
@@ -62,7 +69,7 @@ Each queue represents a task type or target service. Over time, this model will 
 
 ### 📎 Optional Extensions (future tasks)
 
-- Add `concurrency` setting to each queue (e.g. `tts = 2`, `stt = 1`)
+- Add `concurrency` setting to each queue e.g. `tts = 2`, `stt = 1`
     
 - Integrate feedback from Eidolon metrics to throttle or pause queues
     
@@ -76,8 +83,9 @@ Each queue represents a task type or target service. Over time, this model will 
 #codex-task #broker #queueManager #service-oriented #push-queue #agent-mode
 
 ---
+```
 #in-progress
-
+```
 ## Blockers
 - Missing integration tests for push-based task delivery.
 - Shared broker client interface lacks documentation.
@@ -91,6 +99,8 @@ We're gonna call it In Progress
 ## Notes
 - Tests or documentation are missing; acceptance criteria not fully met.
 - Story Points: 8
-
+```
 #in-progress
+```
+
 

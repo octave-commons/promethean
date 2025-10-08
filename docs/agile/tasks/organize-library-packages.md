@@ -1,11 +1,18 @@
 ---
-uuid: 42feae0b-46f6-4580-b9bf-071720c0dc79
-title: Organize shared libraries into focused groups
-status: todo
-priority: p3
+uuid: "42feae0b-46f6-4580-b9bf-071720c0dc79"
+title: "Organize shared libraries into focused groups -core -core"
+slug: "organize-library-packages"
+status: "rejected"
+priority: "p3"
 labels: ["framework-core", "refactor"]
-created_at: '2025-09-27T00:12:00.000Z'
+created_at: "2025-10-07T20:25:05.645Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 #Todo
 
 ## 🛠️ Description
@@ -57,3 +64,5 @@ Estimate: 3
 ## 🔍 Relevant Links
 
 - Pending proposal.
+
+

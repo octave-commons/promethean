@@ -1,11 +1,18 @@
 ---
-uuid: bf41be60-e9bf-4a19-95da-a453a32b9f2e
-title: fully convert js ts projects to pnpm incoming
-status: todo
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.514Z'
+uuid: "bf41be60-e9bf-4a19-95da-a453a32b9f2e"
+title: "fully convert js ts projects to pnpm incoming"
+slug: "fully-convert-js-ts-projects-to-pnpm-incoming"
+status: "breakdown"
+priority: "P3"
+labels: ["fully", "convert", "projects", "pnpm"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Description
 
 
@@ -32,9 +39,9 @@ Is this done already? I think... mainly we need to look for every reference to n
 ---
 
 ## 🔗 Related Epics
-
+```
 #framework-core
-
+```
 ---
 
 ## ⛓️ Blocked By
@@ -51,4 +58,6 @@ Nothing
 
 - [[kanban]]
 #archive
+
+
 

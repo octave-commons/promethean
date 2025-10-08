@@ -1,15 +1,22 @@
 ---
-uuid: e6a16b59-a67d-4df9-babc-9faaaad3f9c9
-title: Remove CommonJS artifacts from repository
-status: document
-priority: P2
-labels: ["#codex-task", "#doc-this"]
-created_at: '2025-09-20T21:30:00.000Z'
+uuid: "e6a16b59-a67d-4df9-babc-9faaaad3f9c9"
+title: "Remove CommonJS artifacts from repository #-task #-this -task -this"
+slug: "remove_commonjs_artifacts_repo_wide"
+status: "document"
+priority: "P2"
+labels: ["-task", "-this", "codex-task", "doc-this"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 # Remove CommonJS artifacts from repository
 
 ## Problem
-The codebase mixes ES module tooling with lingering CommonJS patterns (`.cjs` configs, `require()` usage, and "commonjs" annotations).
+The codebase mixes ES module tooling with lingering CommonJS patterns `.cjs` configs, `require()` usage, and "commonjs" annotations.
 These stragglers break consistency, complicate bundling, and violate the repo rule banning `require`.
 
 ## Outcome
@@ -38,7 +45,9 @@ The repository should rely solely on ES module syntax and file extensions, repla
 ## Current inventory
 
 | Category | Count | Notes |
+```
 | --- | --- | --- |
+```
 | Package-level `.eslintrc.cjs` files | 33 | Each extends `config/.eslintrc.base.cjs`; should migrate to a shared ESM preset. |
 | CommonJS lint scripts | 2 | `scripts/check-changelog.cjs` and `scripts/check-changelog-fragments.cjs`, consumed by AVA tests. |
 | PM2 ecosystem fixtures | 2 | Located at `packages/heartbeat/fixtures/ecosystem.fixture.config.cjs` and `services/js/heartbeat/tests/test-ecosystem.config.cjs`. |
@@ -84,7 +93,9 @@ find . -name '*.cjs' | sort | head -n 40
 ## Outstanding work
 - Replace the 33 package-level `.eslintrc.cjs` files after introducing an ESM-compatible shared config.
 - Decide on migration path for 45 package entry points that currently emit `dist/index.cjs` bundles.
-- Port CommonJS automation scripts (`check-changelog*.cjs`, PM2 fixtures) to ESM while keeping test harnesses functional.
+- Port CommonJS automation scripts `check-changelog*.cjs`, PM2 fixtures to ESM while keeping test harnesses functional.
 - Sweep documentation/tooling references for `.cjs` instructions and either modernize or archive them.
 
 #Document #doc-this #codex-task
+
+

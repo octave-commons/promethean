@@ -1,11 +1,18 @@
 ---
-uuid: 52028599-a34a-40ff-97a0-d8f47970e4b0
-title: flatten services
-status: todo
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.513Z'
+uuid: "52028599-a34a-40ff-97a0-d8f47970e4b0"
+title: "flatten services"
+slug: "flatten-services"
+status: "rejected"
+priority: "P3"
+labels: ["service", "flatten", "services", "structure"]
+created_at: "2025-10-07T20:25:05.645Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Description
 
 Reorganize the repository so service directories are flattened, reducing unnecessary nesting and clarifying ownership.
@@ -37,9 +44,9 @@ Reorganize the repository so service directories are flattened, reducing unneces
 ---
 
 ## 🔗 Related Epics
-
+```
 #framework-core
-
+```
 ---
 
 ## ⛓️ Blocked By
@@ -55,7 +62,9 @@ Nothing
 ## 🔍 Relevant Links
 
 - [[kanban]]
-
+```
 #framework-core #Ready
+```
+
 
 

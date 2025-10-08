@@ -1,29 +1,18 @@
 ---
-uuid: 2c588732-0024-4392-895e-de78dccb55a7
-created_at: '2025-09-19T22:32:47Z'
-title: 2025.09.19.22.32.47
-filename: Kanban FSM
-description: >-
-  A cleaned-up Kanban state machine diagram with explicit transitions for
-  incoming items, acceptance, rejection, and ice-boxing. Includes blocked states
-  and unblock paths for workflow management.
-tags:
-  - kanban
-  - state machine
-  - workflow
-  - transitions
-  - blocked
-  - ice box
-  - incoming
-  - accepted
-  - rejected
-related_to_uuid: []
-related_to_title: []
-references: []
-status: todo
-priority: P3
-labels: []
+uuid: "2c588732-0024-4392-895e-de78dccb55a7"
+title: "2025.09.19.22.32.47   machine     box"
+slug: "kanban-fsm"
+status: "rejected"
+priority: "P3"
+labels: ["kanban", "state", "workflow", "transitions", "blocked", "ice", "incoming", "accepted", "rejected"]
+created_at: "2025-10-07T20:25:05.645Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 got it—here’s the cleaned-up **Kanban FSM** mermaid, with your tweaks:
 
 * “New” → **Incoming**
@@ -106,4 +95,6 @@ if this matches your intent, next micro-step: I’ll list each column’s **allo
 ## Sources
 - _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
+
+
 

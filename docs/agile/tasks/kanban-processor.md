@@ -1,17 +1,24 @@
 ---
-uuid: f88c9d06-c8f3-4a60-96b7-9fddf412ba5e
-title: kanban processor
-status: todo
-priority: P3
+uuid: "f88c9d06-c8f3-4a60-96b7-9fddf412ba5e"
+title: "kanban processor"
+slug: "kanban-processor"
+status: "done"
+priority: "P3"
 labels: ["ecs", "kanban", "planning"]
-created_at: '2025-09-15T02:02:58.515Z'
+created_at: "2025-10-07T20:25:05.644Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 
 ## 🧾 Summary
 Unify the historical kanban scripts into an ECS-powered experience that keeps Markdown + CLI flows authoritative while introducing modern interaction patterns.
 
 ## 📎 Attached Planning Docs
-- [[ecs_board_planning_note|ECS Board Planning Note]] ← circulate for sign-off before implementation.
+- [ecs_board_planning_note|ECS Board Planning Note] ← circulate for sign-off before implementation.
 
 ## ✅ Coordination Checklist
 - [ ] Share the planning note with Platform DX, Board Ops/Agents, and Product stakeholders.
@@ -30,3 +37,5 @@ Unify the historical kanban scripts into an ECS-powered experience that keeps Ma
 
 #todo
 #accepted
+
+

@@ -1,11 +1,18 @@
 ---
-uuid: 6840269b-1415-4ae0-90b5-5d520b6a88a8
-title: cephalon event schema updates
-status: todo
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.508Z'
+uuid: "6840269b-1415-4ae0-90b5-5d520b6a88a8"
+title: "cephalon event schema updates"
+slug: "cephalon_event_schema_updates"
+status: "incoming"
+priority: "P3"
+labels: ["event", "agent", "cephalon", "schema"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 Cephalon: Event schema updates for speech pipeline
 
 Goal: Define/align event topics and payloads for transcript and utterance lifecycle to make downstream processing consistent.
@@ -23,4 +30,6 @@ Exit Criteria:
 - Schemas documented and referenced by publishers/subscribers.
 
 #incoming #cephalon #events #schemas
+
+
 

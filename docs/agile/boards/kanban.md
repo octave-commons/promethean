@@ -1,5 +1,6 @@
 ## Todo
 
+- [ ] 001 Implement kanban dev command with real-time sync and UI hosting #kanban #dev-experience #file-watching #real-time-sync #ui-hosting #cli-enhancement prio:P1 (uuid:7b8c9d0e-1f2a-3b4c-5d6e-7f8g9h0i1j2k)
 - [ ] consolidate all kanban helpers to kanban package  prio:P3 (uuid:727fd6bd-7c63-4488-b29e-c09640d4cc8a)
 - [ ] docops pipeline  prio:P3 (uuid:c80af308-7b65-4dbf-92b9-d464308b4565)
 - [ ] review pipeline documentation in README  prio:P3 (uuid:9f621ec3-91d2-42cf-a8af-b1eafe7c4041)

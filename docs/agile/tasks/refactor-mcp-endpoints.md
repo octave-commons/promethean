@@ -1,47 +1,19 @@
 ---
-task-id: TASK-20240705-mcp-http
-title: Refactor MCP package for multi-endpoint HTTP transport
-state: InProgress
-prev: null
-txn: '2024-07-05T00:00:00Z-0000'
-owner: err
-priority: p3
-size: s
-epic: EPC-000
-depends_on: []
-labels:
-  - 'board:auto'
-  - 'lang:ts'
-  - 'package:@promethean/mcp'
-due: null
-links: []
-artifacts: []
-rationale: >-
-  Allow a single MCP package to expose multiple HTTP endpoints configured via
-  promethean.mcp.json.
-proposed_transitions:
-  - New->Accepted
-  - Accepted->Breakdown
-  - Breakdown->Ready
-  - Ready->Todo
-  - Todo->InProgress
-  - InProgress->InReview
-  - InReview->Done
-  - Done->Archive
-  - InProgress->Todo
-  - Todo->Breakdown
-  - Breakdown->Archive
-tags:
-  - task/TASK-20240705-mcp-http
-  - board/kanban
-  - state/InProgress
-  - owner/err
-  - priority/p3
-  - epic/EPC-000
-uuid: 121c9492-1226-4dae-b654-f39cdfe2364f
-created_at: '2025-10-06T01:50:48.296Z'
-status: todo
+uuid: "121c9492-1226-4dae-b654-f39cdfe2364f"
+title: "Refactor MCP package for multi-endpoint HTTP transport /TASK-20240705-mcp-http /kanban /InProgress /err /p3 /EPC-000 :auto :ts :@promethean/mcp"
+slug: "refactor-mcp-endpoints"
+status: "done"
+priority: "p3"
+labels: ["task", "board", "state", "owner", "priority", "epic", "lang", "package"]
+created_at: "2025-10-08T04:14:53.101Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
+
 ## Context
 - **What changed?**: Need to extend MCP transport loader to support multiple HTTP endpoints from config.
 - **Where?**: `packages/mcp`
@@ -61,5 +33,8 @@ status: todo
 2. Update configuration types and loader to accept `endpoints` map.
 3. Adjust HTTP server composition to register multiple routers.
 4. Add tests verifying configuration and runtime wiring.
+
+
+
 
 

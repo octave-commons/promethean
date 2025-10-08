@@ -1,24 +1,34 @@
 ---
-uuid: 35baa5c2-8daa-4162-97ad-19f55b9c2b51
-title: Mock the Broker for Tests
-status: todo
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.517Z'
+uuid: "35baa5c2-8daa-4162-97ad-19f55b9c2b51"
+title: "Mock the Broker for Tests"
+slug: "mock-broker"
+status: "incoming"
+priority: "P3"
+labels: ["broker", "mock", "tests", "you"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 Here’s a no-nonsense expansion that you can drop into your board. I’ve treated this like a mini-spec + work plan so Codex (or you) can just execute.
 
 # Mock the Broker for Tests
-
+```
 **Owner:** Codex / Agent
+```
+```
 **Status:** needs review
+```
 **Labels:** #framework-core #testing #infra #typescript #fastify #websockets #mongodb #chroma #promethean
 
 ---
 
 ## 🛠️ Description
 
-Create a fully in-memory **Broker Mock** that mirrors the public contract of the real broker (publish / subscribe / unsubscribe now; queue semantics later), so any module that currently depends on the broker can be tested without network access. Provide deterministic hooks (time, ordering, error/latency injection), and a simple adapter so services can swap “real vs mock” via DI or env at test boot.
+Create a fully in-memory **Broker Mock** that mirrors the public contract of the real broker publish / subscribe / unsubscribe now; queue semantics later, so any module that currently depends on the broker can be tested without network access. Provide deterministic hooks time, ordering, error/latency injection, and a simple adapter so services can swap “real vs mock” via DI or env at test boot.
 
 ---
 
@@ -33,36 +43,36 @@ Create a fully in-memory **Broker Mock** that mirrors the public contract of the
 
 ## 📦 Requirements
 
-* [ ] **Interface parity:** Expose the same TypeScript interface used by real clients (`subscribe`, `unsubscribe`, `publish`, `request/response?` if present, and the current message envelope shape).
+* [ ] **Interface parity:** Expose the same TypeScript interface used by real clients `subscribe`, `unsubscribe`, `publish`, `request/response?` if present, and the current message envelope shape.
 * [ ] **In-memory topic bus:** Maintain per-topic subscriber lists; deliver messages synchronously by default; support async delivery when latency is injected.
 * [ ] **Deterministic scheduler:** A tiny scheduler to control “ticks” for delivery to avoid race conditions in tests.
-* [ ] **Failure/latency injection:** Configurable drop %, fixed/variable latency, forced disconnects, backpressure overflow policy (drop/newest/block), and ordered/unordered modes.
+* [ ] **Failure/latency injection:** Configurable drop %, fixed/variable latency, forced disconnects, backpressure overflow policy drop/newest/block, and ordered/unordered modes.
 * [ ] **Fake time:** Optional fake clock (advance time manually in tests) for retry/timeout logic.
 * [ ] **Backpressure simulation:** Bounded per-subscriber queue with metrics; configurable overflow strategy.
 * [ ] **Metrics & hooks:** Counters for published / delivered / dropped / retried; test-side hooks to assert what happened.
 * [ ] **No global leaks:** Independent instances per test; auto-teardown; no retained static state.
 * [ ] **Test utils:** Fixtures, spies, and helpers to assert “message X reached subscriber Y with payload Z in order N”.
-* [ ] **Env-switchable:** Respect existing env selection (`BROKER_IMPL=mock|real`) or DI token to swap at process start.
+* [ ] **Env-switchable:** Respect existing env selection `BROKER_IMPL=mock|real` or DI token to swap at process start.
 * [ ] **Docs:** Short README with examples; guidance for common failure scenarios.
 * [ ] **CI-safe:** Runs on CI with no network and no ports.
-* [ ] **Future-proof for queues:** Stub queue API surface (`declare`/no-op) with TODOs so it’s easy to wire later, without breaking tests today.
-* [ ] **Imports:** Use existing namespace rules (e.g., **@shared/ts/dist/**… where applicable). Don’t invent aliases.
+* [ ] **Future-proof for queues:** Stub queue API surface `declare`/no-op with TODOs so it’s easy to wire later, without breaking tests today.
+* [ ] **Imports:** Use existing namespace rules e.g., **@shared/ts/dist/**… where applicable. Don’t invent aliases.
 
 ---
 
 ## 📋 Subtasks
 
-* [ ] **Define the contract**: Extract the minimal `BrokerClient` interface from current code (pub/sub/unsub + message envelope), place an interface file in `@shared/ts` and ensure it’s the single source of truth.
+* [ ] **Define the contract**: Extract the minimal `BrokerClient` interface from current code pub/sub/unsub + message envelope, place an interface file in `@shared/ts` and ensure it’s the single source of truth.
 * [ ] **Mock implementation**:
 
-  * [ ] Implement `InMemoryBroker` (per-instance): topic → subscribers (ordered Set).
+  * [ ] Implement `InMemoryBroker` per-instance: topic → subscribers (ordered Set).
   * [ ] Implement `publish(topic, message, opts?)`: immediate or scheduled dispatch.
   * [ ] Implement `subscribe(topic, handler, opts?)`: returns `unsubscribe()` cleanup.
   * [ ] Delivery semantics: default **in-order** per topic; optional “shuffle” to simulate out-of-order.
-  * [ ] Backpressure: per-subscriber ring buffer with size limit and policy (drop/head, drop/tail, throw, block with promise).
+  * [ ] Backpressure: per-subscriber ring buffer with size limit and policy drop/head, drop/tail, throw, block with promise.
   * [ ] Failure injection:
 
-    * [ ] `latencyMs` (fixed or range)
+    * [ ] `latencyMs` fixed or range
     * [ ] `dropRate` (0–1)
     * [ ] `disconnectAfter(N)` / `disconnectNow()`
     * [ ] `fault(topicPattern, predicate)` to selectively fail.
@@ -72,20 +82,20 @@ Create a fully in-memory **Broker Mock** that mirrors the public contract of the
 
   * [ ] Add `createBrokerClient()` factory that returns real or mock based on env or an injected token.
   * [ ] Keep API identical so services don’t branch.
-* [ ] **Test Utilities** (`@shared/ts/dist/test/broker-utils`):
+* [ ] **Test Utilities** `@shared/ts/dist/test/broker-utils`:
 
   * [ ] `expectDelivered({topic, times, predicate})`
   * [ ] `awaitNextMessage(topic)` / `drain(topic)`
   * [ ] `recordingSubscriber()` to capture payloads with timestamps/seq ids.
-  * [ ] `withMockBroker(config, fn)` fixture wrapper (handles setup/teardown).
+  * [ ] `withMockBroker(config, fn)` fixture wrapper handles setup/teardown.
 * [ ] **Refactor touch points**:
 
   * [ ] Replace direct imports of the real broker with the shared `BrokerClient` interface + factory in services that have tests.
   * [ ] Ensure no module reaches for WebSocket/HTTP transport directly during tests.
-* [ ] **Initial conversions** (pick high-value services first):
+* [ ] **Initial conversions** pick high-value services first:
 
-  * [ ] `services/ts/cephalon` (contextManager / collectionManager)
-  * [ ] `services/ts/smartgpt-bridge` (router/tools that publish events)
+  * [ ] `services/ts/cephalon` contextManager / collectionManager
+  * [ ] `services/ts/smartgpt-bridge` router/tools that publish events
   * [ ] `services/ts/heartbeat` (where it emits broker pings)
 * [ ] **Add example tests** (vitest):
 
@@ -95,7 +105,7 @@ Create a fully in-memory **Broker Mock** that mirrors the public contract of the
   * [ ] Timeout/retry logic using fake clock.
   * [ ] Fault injection by topic/predicate.
 * [ ] **Docs**: `docs/testing/broker-mock.md` showing usage patterns and common pitfalls.
-* [ ] **CI**: Ensure test command uses mock by default (`BROKER_IMPL=mock`).
+* [ ] **CI**: Ensure test command uses mock by default `BROKER_IMPL=mock`.
 
 ---
 
@@ -123,9 +133,9 @@ export interface BrokerClient {
   close(): Promise<void>;
 }
 ```
-
+```
 **Mock config (for tests):**
-
+```
 ```ts
 export type MockBrokerConfig = {
   latencyMs?: number | { min: number; max: number };
@@ -137,20 +147,20 @@ export type MockBrokerConfig = {
   faults?: Array<{ match: RegExp; when?: (m: BrokerMessage) => boolean; action: 'drop' | 'error' | 'delay' }>;
 };
 ```
-
+```
 **Deterministic scheduler:**
-
+```
 * Default: synchronous inline delivery (fast unit tests).
 * When latency or async mode is on, enqueue to a per-topic microtask queue controlled by the fake clock or a test-owned tick: `await broker.tick()` or `clock.advance(10)`.
-
+```
 **Backpressure:**
-
+```
 * Per handler, a ring buffer (size N). When full, follow `overflow` policy. Expose counters so tests can assert dropped vs delivered.
-
+```
 **Failure injection patterns:**
-
+```
 * Global `dropRate`.
-* Topic-pattern faults: `faults: [{ match: /^voice\./, action: 'drop' }]`.
+* Topic-pattern faults: `faults: { match: /^voice\./, action: 'drop' }`.
 * `disconnectNow()` to simulate transport death; further publish/subscribe throws.
 
 ---
@@ -179,18 +189,18 @@ export type MockBrokerConfig = {
 
 ## ⛓️ Blocks
 
-* Enables reliable tests for services coupled to broker messages (cephalon, heartbeat, smartgpt-bridge, etc.).
+* Enables reliable tests for services coupled to broker messages cephalon, heartbeat, smartgpt-bridge, etc..
 
 ---
 
 ## 🔍 Relevant Links
 
-* \[\[kanban.md]]
+* \\[kanban.md]
 * \#incoming
 
 ---
 
-## 🧪 Example Test Sketches (vitest-style)
+## 🧪 Example Test Sketches vitest-style
 
 ```ts
 it('delivers messages in order by default', async () => {
@@ -246,6 +256,8 @@ it('can inject latency and drop messages', async () => {
 * Docs + examples merged.
 
 #promethean #broker #mock #testing #vitest #typescript #di #inmemory #deterministic
-
+```
 #in-review
+```
+
 

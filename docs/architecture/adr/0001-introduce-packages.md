@@ -1,7 +1,9 @@
 ---
 project: Promethean
 status: accepted
+```
 date: 2025-08-26
+```
 tags:
   - adr
   - architecture

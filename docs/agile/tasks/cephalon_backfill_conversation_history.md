@@ -1,11 +1,18 @@
 ---
-uuid: a31bb3f1-3b68-483a-8280-e78386abf03b
-title: cephalon backfill conversation history
-status: todo
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.509Z'
+uuid: "a31bb3f1-3b68-483a-8280-e78386abf03b"
+title: "cephalon backfill conversation history"
+slug: "cephalon_backfill_conversation_history"
+status: ready
+priority: "P3"
+labels: ["backfill", "cephalon", "conversation", "history"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 Cephalon: Backfill conversation history (optional)
 
 Goal: Migrate recent logs/outputs into `transcripts` and `agent_messages` to seed context for active users.
@@ -20,4 +27,7 @@ Exit Criteria:
 - Backfill script present in `services/ts/cephalon/scripts/` and documented; safe to run.
 
 #incoming #cephalon #backfill #context
+
+Notes:
+- History gap remains the top follow-up; schedule this slice immediately once active feature work pauses so persistence catches up.
 

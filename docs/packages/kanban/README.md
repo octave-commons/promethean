@@ -1,8 +1,16 @@
+```
 <!-- SYMPKG:PKG:BEGIN -->
+```
 # @promethean/kanban
-**Folder:** `packages/kanban`  
-**Version:** `0.1.0`  
+```
+**Folder:** `packages/kanban`
+```
+```
+**Version:** `0.1.0`
+```
+```
 **Domain:** `_root`
+```
 ```mermaid
 graph LR
   A["@promethean/kanban"]
@@ -20,9 +28,11 @@ graph LR
   click R1 "../mcp/README.md" "@promethean/mcp"
 ```
 ## Dependencies
-- [@promethean/level-cache](../level-cache/README.md)
-- [@promethean/markdown](../markdown/README.md)
-- [@promethean/utils](../utils/README.md)
+- @promethean/level-cache$../level-cache/README.md
+- @promethean/markdown$../markdown/README.md
+- @promethean/utils$../utils/README.md
 ## Dependents
-- [@promethean/mcp](../mcp/README.md)
+- @promethean/mcp$../mcp/README.md
+```
 <!-- SYMPKG:PKG:END -->
+```

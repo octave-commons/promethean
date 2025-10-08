@@ -1,9 +1,9 @@
 # test.ts
 
 **Path**: `services/cephalon/tests/test.ts`
-
+```
 **Description**: Documentation stub.
-
+```
 ## Dependencies
 - ava
 

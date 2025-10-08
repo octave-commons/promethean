@@ -103,6 +103,15 @@
        (let [http (:http m)]
          (or (nil? http) (map? http)))))
 
+(defn validate-edn-structure!
+  "Ensure EDN contains required keys. Throws on validation failure."
+  [edn-map]
+  (when-not (contains? edn-map :mcp-servers)
+    (throw (ex-info "EDN missing required :mcp-servers key" {:edn edn-map})))
+  (when-not (contains? edn-map :outputs)
+    (throw (ex-info "EDN missing required :outputs key" {:edn edn-map})))
+  edn-map)
+
 ;; ----- merges (maps only) -----
 (defn deep-merge
   "Later maps win for conflicts."

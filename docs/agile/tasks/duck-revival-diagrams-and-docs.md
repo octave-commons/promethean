@@ -1,13 +1,18 @@
 ---
-uuid: 1b2b8d52-3f3a-4c4a-9f3c-0b9b8f6d9f67
-title: Duck Revival — diagrams + docs linked
-status: done
-priority: P2
-labels:
-  - docs
-  - duck-revival
-created_at: '2025-10-02T21:05:00.000Z'
+uuid: "1b2b8d52-3f3a-4c4a-9f3c-0b9b8f6d9f67"
+title: "Duck Revival — diagrams + docs linked  -revival  -revival"
+slug: "duck-revival-diagrams-and-docs"
+status: "done"
+priority: "P2"
+labels: ["docs", "duck-revival"]
+created_at: "2025-10-07T20:25:05.644Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 #Done
 
 ## 🛠️ Description
@@ -25,6 +30,7 @@ Add concise docs with Mermaid diagrams for all moving parts touched by the `duck
   - `docs/libraries/duck-audio/README.md`
 - Feature flags doc:
   - `docs/duck/FEATURE_FLAGS.md`
+- 2025-02-14: refreshed diagrams + service docs for WebRTC voice streaming.
 
 ## Goals
 - Cross-link PRs with docs + diagrams.
@@ -39,3 +45,5 @@ Add concise docs with Mermaid diagrams for all moving parts touched by the `duck
 
 ## Relevant Links
 - `docs/diagrams/duck-revival-overview.md`
+
+

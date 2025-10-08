@@ -1,8 +1,16 @@
+```
 <!-- SYMPKG:PKG:BEGIN -->
+```
 # @promethean/ds
-**Folder:** `packages/ds`  
-**Version:** `0.0.1`  
+```
+**Folder:** `packages/ds`
+```
+```
+**Version:** `0.0.1`
+```
+```
 **Domain:** `_root`
+```
 ```mermaid
 graph LR
   A["@promethean/ds"]
@@ -22,8 +30,10 @@ graph LR
 ## Dependencies
 - _None_
 ## Dependents
-- [@promethean/agent-ecs](../agent-ecs/README.md)
-- [@promethean/fs](../fs/README.md)
-- [@promethean/kanban-processor](../kanban-processor/README.md)
-- [@promethean/worker](../worker/README.md)
+- @promethean/agent-ecs$../agent-ecs/README.md
+- @promethean/fs$../fs/README.md
+- @promethean/kanban-processor$../kanban-processor/README.md
+- @promethean/worker$../worker/README.md
+```
 <!-- SYMPKG:PKG:END -->
+```

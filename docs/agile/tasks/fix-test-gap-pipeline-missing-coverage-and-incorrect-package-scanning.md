@@ -1,16 +1,18 @@
 ---
-uuid: d0e1f2a3-b4c5-6789-def0-234567890123
-title: Fix test-gap pipeline missing coverage and incorrect package scanning
-status: todo
-priority: P2
-labels:
-  - piper
-  - test-gap
-  - coverage-reports
-  - package-scanning
-  - testing
-created_at: '2025-10-05T00:00:00.000Z'
+uuid: "d0e1f2a3-b4c5-6789-def0-234567890123"
+title: "Fix test-gap pipeline missing coverage and incorrect package scanning  -gap -reports -scanning  -gap -reports -scanning"
+slug: "fix-test-gap-pipeline-missing-coverage-and-incorrect-package-scanning"
+status: "done"
+priority: "P2"
+labels: ["piper", "test-gap", "coverage-reports", "package-scanning", "testing"]
+created_at: "2025-10-07T20:25:05.644Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 
 ## 🛠️ Task: Fix test-gap pipeline missing coverage and incorrect package scanning
 
@@ -172,3 +174,4 @@ Once fixed, the test-gap pipeline will provide:
 - Improved test coverage across the project
 
 This fix will enable intelligent test gap analysis and help maintain high test coverage standards across the entire codebase.
+

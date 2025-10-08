@@ -1,11 +1,18 @@
 ---
-uuid: 1dc83433-84ef-46c7-811f-f3e03b5dbe73
-title: Description
-status: todo
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.514Z'
+uuid: "1dc83433-84ef-46c7-811f-f3e03b5dbe73"
+title: "Description"
+slug: "hy---js-interop"
+status: "rejected"
+priority: "P3"
+labels: ["description", "step", "javascript", "modules"]
+created_at: "2025-10-07T20:25:05.645Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 # Description
 
 Make it easier to use js from hy and hy from js
@@ -55,4 +62,6 @@ You might find [this] useful while working on this task
 Blocked: requires decisions on runtime bridging tools.
 
 #Breakdown
+
+
 

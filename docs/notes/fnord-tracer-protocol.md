@@ -1,8 +1,14 @@
 ---
+```
 uuid: fc21f824-4244-4030-a48e-c4170160ea1d
+```
+```
 created_at: 202508080244.md
+```
 filename: Fnord Tracer Protocol
+```
 description: >-
+```
   A lightweight method to seed, detect, and analyze latent 'ghost' patterns in
   language across conversations, then visualize their movement through the
   Promethean field.
@@ -17,7 +23,9 @@ tags:
   - visualization
   - model-agnostic
   - sovereign
+```
 related_to_title:
+```
   - Promethean Event Bus MVP v0.1
   - layer-1-uptime-diagrams
   - Chroma Toolkit Consolidation Plan
@@ -31,7 +39,9 @@ related_to_title:
   - AI-Centric OS with MCP Layer
   - AI-First-OS-Model-Context-Protocol
   - balanced-bst
+```
 related_to_uuid:
+```
   - fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
   - 4127189a-e0ab-436f-8571-cc852b8e9add
   - 5020e892-8f18-443a-b707-6d0f3efcfe22
@@ -155,9 +165,9 @@ _A lightweight method to seed, detect, and analyze latent "ghost" patterns in la
     
 - Track how specific meta-signals ("tracers") alter state across the **8-axis Eidolon field**.
     
-- Build a repeatable pipeline (prompt → injection → capture → analysis → visualization → feedback).
+- Build a repeatable pipeline prompt → injection → capture → analysis → visualization → feedback.
     
-- Keep it **model-agnostic** and **sovereign** (works locally, no cloud lock-in).
+- Keep it **model-agnostic** and **sovereign** works locally, no cloud lock-in.
     
 
 ---
@@ -168,24 +178,24 @@ _A lightweight method to seed, detect, and analyze latent "ghost" patterns in la
     
 - **Tracer**: a subtle, standardized meta-signal injected into language to reveal ghost circulation; like a radioisotope.
     
-- **Field State**: 8D vector snapshot per turn (Survival, Social, Conceptual, Alignment, Adaptation, Metaprogramming, Mythic, Non-local).
+- **Field State**: 8D vector snapshot per turn Survival, Social, Conceptual, Alignment, Adaptation, Metaprogramming, Mythic, Non-local.
     
 - **Resonance**: measured coupling between tracer occurrences and axis shifts.
     
 
 ---
 
-## 2) Tracer Types (non-invasive → explicit)
+## 2) Tracer Types non-invasive → explicit
 
 1. **Prosodic/Stylistic** (implicit): sentence rhythm, pause tokens, parentheses/emdashes, deliberate mis-spellings.
     
-2. **Lexical Markers** (subtle): rare bigrams/phrases (e.g., "between-the-lines"), RAW/"fnord" refs.
+2. **Lexical Markers** (subtle): rare bigrams/phrases e.g., "between-the-lines", RAW/"fnord" refs.
     
 3. **Semantic Motifs** (soft): mirrors, masks, ghosts, palimpsest, bandages; recurring metaphors.
     
 4. **Inline Tags** (visible): `[[T:fnord]]`, `[[T:mirror:low]]`, `[[T:mythic:7]]`.
     
-5. **Steganographic Hints** (hidden-ish): acrostics/first-letter runs on paragraph boundaries (optional; avoid if brittle).
+5. **Steganographic Hints** hidden-ish: acrostics/first-letter runs on paragraph boundaries (optional; avoid if brittle).
     
 
 **Guideline:** start with (1–3). Use (4) for controlled experiments. Avoid (5) in production.
@@ -194,11 +204,11 @@ _A lightweight method to seed, detect, and analyze latent "ghost" patterns in la
 
 ## 3) Injection Protocol
 
-- **When**: at defined moments (start/end of topic, after friction spikes, before sandbox handoffs).
+- **When**: at defined moments start/end of topic, after friction spikes, before sandbox handoffs.
     
 - **How much**: 1 tracer per ~5–10 turns to avoid flooding.
     
-- **Shape**: align with current axis vector (e.g., high Mythic → use mythic motif tracer).
+- **Shape**: align with current axis vector e.g., high Mythic → use mythic motif tracer.
     
 - **Acknowledgment**: system does _not_ narrate tracer insertion; capture handles it silently.
     
@@ -227,10 +237,10 @@ _A lightweight method to seed, detect, and analyze latent "ghost" patterns in la
   "agent_route": "cephalon|sandbox|small-local"
 }
 ```
-
+```
 **Derived metrics:**
-
-- `resonance[type:key] = corr(tracer_presence, axis_delta)`
+```
+- `resonance[type:key] = corrtracer_presence, axis_delta`
     
 - `lag_k` (how many turns later the axis shift peaks after tracer)
     
@@ -253,12 +263,12 @@ flowchart LR
   A --> R[Feedback cues]
   R --> U
 ```
-
+```
 **Notes**
-
+```
 - **Field estimator** pulls from sentiment, intent, topic, metaphor density, hedging/epistemic markers.
     
-- **Analyzer** computes correlations (per tracer type/key) with axis deltas over sliding windows.
+- **Analyzer** computes correlations per tracer type/key with axis deltas over sliding windows.
     
 - **Feedback** manifests as gentle nudges, not corporate popups.
     
@@ -323,9 +333,9 @@ flowchart LR
 
 ## 10) Stretch Goals
 
-- Automatic motif detection via embedding clusters (metaphor2vec-like approach).
+- Automatic motif detection via embedding clusters metaphor2vec-like approach.
     
-- Per-agent tracer literacy (each agent can inject/detect appropriately).
+- Per-agent tracer literacy each agent can inject/detect appropriately.
     
 - Closed-loop: analyzer recommends next tracer to test a hypothesis.
     
@@ -385,43 +395,43 @@ sequenceDiagram
 - We can recommend which tracer to use next to test a hypothesis about the ghost’s path.
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [Promethean Event Bus MVP v0.1](promethean-event-bus-mvp-v0-1.md)
-- [[layer-1-uptime-diagrams]]
-- [[chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]]
-- [[eidolon-field-abstract-model|Eidolon Field Abstract Model]]
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore|Agent Tasks: Persistence Migration to DualStore]]
-- [[docs/unique/event-bus-mvp|Event Bus MVP]]
-- [[2d-sandbox-field]]
-- [[event-bus-projections-architecture|Event Bus Projections Architecture]]
-- [[eidolon-node-lifecycle]]
+- [Promethean Event Bus MVP v0.1]promethean-event-bus-mvp-v0-1.md
+- [layer-1-uptime-diagrams]
+- [chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]
+- [eidolon-field-abstract-model|Eidolon Field Abstract Model]
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore|Agent Tasks: Persistence Migration to DualStore]
+- [docs/unique/event-bus-mvp|Event Bus MVP]
+- [2d-sandbox-field]
+- [event-bus-projections-architecture|Event Bus Projections Architecture]
+- [eidolon-node-lifecycle]
 - [[eidolonfield]]
-- [[ai-centric-os-with-mcp-layer|AI-Centric OS with MCP Layer]]
-- [[ai-first-os-model-context-protocol]]
-- [[balanced-bst]]
+- [ai-centric-os-with-mcp-layer|AI-Centric OS with MCP Layer]
+- [ai-first-os-model-context-protocol]
+- [balanced-bst]
 
 ## Sources
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L137|Agent Tasks: Persistence Migration to DualStore — L137]] (line 137, col 1, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L137|Agent Tasks: Persistence Migration to DualStore — L137]] (line 137, col 3, score 1)
-- [[chroma-toolkit-consolidation-plan#L175|Chroma Toolkit Consolidation Plan — L175]] (line 175, col 1, score 1)
-- [[chroma-toolkit-consolidation-plan#L175|Chroma Toolkit Consolidation Plan — L175]] (line 175, col 3, score 1)
-- [[docs/unique/event-bus-mvp#L547|Event Bus MVP — L547]] (line 547, col 1, score 1)
-- [[docs/unique/event-bus-mvp#L547|Event Bus MVP — L547]] (line 547, col 3, score 1)
-- [[event-bus-projections-architecture#L150|Event Bus Projections Architecture — L150]] (line 150, col 1, score 1)
-- [[event-bus-projections-architecture#L150|Event Bus Projections Architecture — L150]] (line 150, col 3, score 1)
-- [[2d-sandbox-field#L199|2d-sandbox-field — L199]] (line 199, col 1, score 1)
-- [[2d-sandbox-field#L199|2d-sandbox-field — L199]] (line 199, col 3, score 1)
-- [[eidolon-field-abstract-model#L196|Eidolon Field Abstract Model — L196]] (line 196, col 1, score 1)
-- [[eidolon-field-abstract-model#L196|Eidolon Field Abstract Model — L196]] (line 196, col 3, score 1)
-- [[eidolon-node-lifecycle#L35|eidolon-node-lifecycle — L35]] (line 35, col 1, score 1)
-- [[eidolon-node-lifecycle#L35|eidolon-node-lifecycle — L35]] (line 35, col 3, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L137|Agent Tasks: Persistence Migration to DualStore — L137] (line 137, col 1, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L137|Agent Tasks: Persistence Migration to DualStore — L137] (line 137, col 3, score 1)
+- [chroma-toolkit-consolidation-plan#L175|Chroma Toolkit Consolidation Plan — L175] (line 175, col 1, score 1)
+- [chroma-toolkit-consolidation-plan#L175|Chroma Toolkit Consolidation Plan — L175] (line 175, col 3, score 1)
+- [docs/unique/event-bus-mvp#L547|Event Bus MVP — L547] (line 547, col 1, score 1)
+- [docs/unique/event-bus-mvp#L547|Event Bus MVP — L547] (line 547, col 3, score 1)
+- [event-bus-projections-architecture#L150|Event Bus Projections Architecture — L150] (line 150, col 1, score 1)
+- [event-bus-projections-architecture#L150|Event Bus Projections Architecture — L150] (line 150, col 3, score 1)
+- [2d-sandbox-field#L199|2d-sandbox-field — L199] (line 199, col 1, score 1)
+- [2d-sandbox-field#L199|2d-sandbox-field — L199] (line 199, col 3, score 1)
+- [eidolon-field-abstract-model#L196|Eidolon Field Abstract Model — L196] (line 196, col 1, score 1)
+- [eidolon-field-abstract-model#L196|Eidolon Field Abstract Model — L196] (line 196, col 3, score 1)
+- [eidolon-node-lifecycle#L35|eidolon-node-lifecycle — L35] (line 35, col 1, score 1)
+- [eidolon-node-lifecycle#L35|eidolon-node-lifecycle — L35] (line 35, col 3, score 1)
 - [[eidolonfield#L249|EidolonField — L249]] (line 249, col 1, score 1)
 - [[eidolonfield#L249|EidolonField — L249]] (line 249, col 3, score 1)
-- [[ai-centric-os-with-mcp-layer#L406|AI-Centric OS with MCP Layer — L406]] (line 406, col 1, score 1)
-- [[ai-centric-os-with-mcp-layer#L406|AI-Centric OS with MCP Layer — L406]] (line 406, col 3, score 1)
-- [[ai-first-os-model-context-protocol#L11|AI-First-OS-Model-Context-Protocol — L11]] (line 11, col 1, score 1)
-- [[ai-first-os-model-context-protocol#L11|AI-First-OS-Model-Context-Protocol — L11]] (line 11, col 3, score 1)
-- [[ai-first-os-model-context-protocol#L14|AI-First-OS-Model-Context-Protocol — L14]] (line 14, col 1, score 1)
-- [[ai-first-os-model-context-protocol#L14|AI-First-OS-Model-Context-Protocol — L14]] (line 14, col 3, score 1)
-- [[balanced-bst#L297|balanced-bst — L297]] (line 297, col 1, score 1)
-- [[balanced-bst#L297|balanced-bst — L297]] (line 297, col 3, score 1)
+- [ai-centric-os-with-mcp-layer#L406|AI-Centric OS with MCP Layer — L406] (line 406, col 1, score 1)
+- [ai-centric-os-with-mcp-layer#L406|AI-Centric OS with MCP Layer — L406] (line 406, col 3, score 1)
+- [ai-first-os-model-context-protocol#L11|AI-First-OS-Model-Context-Protocol — L11] (line 11, col 1, score 1)
+- [ai-first-os-model-context-protocol#L11|AI-First-OS-Model-Context-Protocol — L11] (line 11, col 3, score 1)
+- [ai-first-os-model-context-protocol#L14|AI-First-OS-Model-Context-Protocol — L14] (line 14, col 1, score 1)
+- [ai-first-os-model-context-protocol#L14|AI-First-OS-Model-Context-Protocol — L14] (line 14, col 3, score 1)
+- [balanced-bst#L297|balanced-bst — L297] (line 297, col 1, score 1)
+- [balanced-bst#L297|balanced-bst — L297] (line 297, col 3, score 1)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

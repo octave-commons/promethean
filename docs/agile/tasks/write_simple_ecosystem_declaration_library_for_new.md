@@ -1,11 +1,18 @@
 ---
-uuid: 5c8d8016-f4b8-421d-b335-73f7646173af
-title: write simple ecosystem declaration library for new md md
-status: todo
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.524Z'
+uuid: "5c8d8016-f4b8-421d-b335-73f7646173af"
+title: "write simple ecosystem declaration library for new md md"
+slug: "write_simple_ecosystem_declaration_library_for_new"
+status: "done"
+priority: "P3"
+labels: ["ecosystem", "declaration", "new", "write"]
+created_at: "2025-10-07T20:25:05.644Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Task: write simple ecosystem declaration library for new agents
 
 Create a lightweight module that lets each agent declare which
@@ -35,21 +42,21 @@ spawn the correct services for an agent.
 ## 📋 Subtasks
 
 - [ ] Draft an example for Duck using existing service commands
-- [ ] Write a small Node script (`ecosystem-loader.js`)
+- [ ] Write a small Node script `ecosystem-loader.js`
 - [ ] Test launching Cephalon, STT and TTS for one agent
 - [ ] Add instructions in `agents/README.md`
 
 ---
 
 ## 🔗 Related Epics
-
+```
 #framework-core
-
+```
 ---
 
 ## ⛓️ Blocked By
 
-- Pending PM2 config decisions in [MIGRATION_PLAN.md](../MIGRATION_PLAN.md)
+- Pending PM2 config decisions in MIGRATION_PLAN.md$../MIGRATION_PLAN.md
 
 ## ⛓️ Blocks
 
@@ -66,4 +73,6 @@ spawn the correct services for an agent.
 - Should PM2 remain the default process manager or is a custom tool planned?
 - How will per-agent environment variables be stored?
 #done
+
+
 

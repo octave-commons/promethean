@@ -1,11 +1,18 @@
 ---
-uuid: 22f37fa8-12de-4f22-993f-e0704bbe49c0
-title: twitch discord general auto mod md md
-status: todo
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.522Z'
+uuid: "22f37fa8-12de-4f22-993f-e0704bbe49c0"
+title: "twitch discord general auto mod md md"
+slug: "twitch_discord_general_auto_mod"
+status: "icebox"
+priority: "P3"
+labels: ["twitch", "discord", "general", "mod"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 Got you. Here’s a tightened, build-ready version with the “learned rules + formal policy” vibe, plus a quick diagram.
 
 ---
@@ -23,8 +30,8 @@ Build a **cross‑platform automoderation service** for Discord and Twitch that:
 ## 🎯 Goals
 
 * Ship a **single service** that moderates Discord + Twitch with shared logic and per‑platform actions.
-* Maintain a **versioned rulebook** (policy DSL + YAML/JSON) with precedence, exceptions, and penalties.
-* Achieve **low latency** (<300ms decision budget for deletes/timeouts) and **high precision** (minimize false positives).
+* Maintain a **versioned rulebook** policy DSL + YAML/JSON with precedence, exceptions, and penalties.
+* Achieve **low latency** <300ms decision budget for deletes/timeouts and **high precision** (minimize false positives).
 * Provide **transparent logs**, appeals, and **continuous learning** from staff decisions.
 
 ---
@@ -40,18 +47,18 @@ Build a **cross‑platform automoderation service** for Discord and Twitch that:
 * [ ] **Inference & Scoring**
 
   * Text: toxicity/offense classifier, embeddings for semantic rule mapping, promptable LLM fallback for edge cases.
-  * Images: optional NSFW/violence classifier (hashing + model), OCR for text-on-image.
+  * Images: optional NSFW/violence classifier hashing + model, OCR for text-on-image.
   * Confidence thresholds with auto, queue, or ignore routes.
 
 * [ ] **Connectors**
 
-  * Discord gateway & REST (message create/edit, member actions).
-  * Twitch chat + moderation endpoints (timeouts/bans, slow/followers/sub‑only toggles).
+  * Discord gateway & REST message create/edit, member actions.
+  * Twitch chat + moderation endpoints timeouts/bans, slow/followers/sub‑only toggles.
   * Identity map (link users cross‑platform when possible).
 
 * [ ] **Actions & Escalation**
 
-  * Delete, warn (DM/reply), timeout/mute, ban, shadowban, quarantine channel, slowmode.
+  * Delete, warn DM/reply, timeout/mute, ban, shadowban, quarantine channel, slowmode.
   * Progressive discipline (strike system), decay over time.
 
 * [ ] **Human Review**
@@ -75,12 +82,12 @@ Build a **cross‑platform automoderation service** for Discord and Twitch that:
 
 ## 📋 Subtasks
 
-* [ ] Define **policy schema** (YAML/JSON) + parser; build rule engine (precedence, thresholds, actions).
-* [ ] Implement **Discord/Twitch connectors** (ingest + actions) with rate‑limit handling.
+* [ ] Define **policy schema** YAML/JSON + parser; build rule engine (precedence, thresholds, actions).
+* [ ] Implement **Discord/Twitch connectors** ingest + actions with rate‑limit handling.
 * [ ] Add **feature extractors**: tokenization, URLs, mentions, caps/emoji ratios, repetition, new‑account heuristics.
 * [ ] Integrate **text classifiers** + **embeddings**; wire cosine match to rule predicates.
 * [ ] (Optional) Integrate **image NSFW/violence** + OCR.
-* [ ] Build **moderation queue UI/CLI** (approve/deny; add to training examples).
+* [ ] Build **moderation queue UI/CLI** approve/deny; add to training examples.
 * [ ] Implement **progressive discipline** (strikes, decay, ban thresholds).
 * [ ] Logging/metrics pipeline; dashboards + alerting.
 * [ ] Seed **few‑shot examples** per rule; tune thresholds from pilot runs.
@@ -89,10 +96,13 @@ Build a **cross‑platform automoderation service** for Discord and Twitch that:
 ---
 
 ## 🔗 Related Epics
-
+```
 \#framework-core
+```
 \#observability
+```
 \#multimodal-context
+```
 \#risk‑and‑policy
 
 ---
@@ -100,7 +110,7 @@ Build a **cross‑platform automoderation service** for Discord and Twitch that:
 ## 🧭 Non‑Goals (for now)
 
 * Full multilingual coverage (start with EN; add locales iteratively).
-* Deep video moderation (images/text first).
+* Deep video moderation images/text first.
 * Perfect auto‑ban: keep humans in the loop for high‑impact actions.
 
 ---
@@ -135,6 +145,8 @@ flowchart LR
   RB --> RE
 ```
 
-If you want, I can spin this into a canvas-ready policy DSL starter (schema + a few exemplar rules) so you can start committing rules immediately.
+If you want, I can spin this into a canvas-ready policy DSL starter schema + a few exemplar rules so you can start committing rules immediately.
 #IceBox
+
+
 

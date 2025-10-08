@@ -20,7 +20,7 @@ The docops pipeline successfully processes files but fails on the final step due
 
 1. Files are successfully copied from `docs/inbox/` to `docs/labeled/`
 2. Front matter generation works correctly
-3. File renaming step (doc-rename) successfully renames files (e.g., `2025.09.18.16.46.24.md` → descriptive names)
+3. File renaming step doc-rename successfully renames files e.g., `2025.09.18.16.46.24.md` → descriptive names
 4. **Failure**: The `doc-footer` step fails with ENOENT error looking for original filenames that were renamed
 
 **Error**: `Error: ENOENT: no such file or directory, open '/home/err/devel/promethean/docs/labeled/2025.09.18.16.46.24.md'`
@@ -38,13 +38,13 @@ The docops pipeline should:
 
 ### Phase 1: File Reference Tracking
 - [ ] Investigate how file references are passed between pipeline steps
-- [ ] Implement proper file rename tracking system
+- [x] Implement proper file rename tracking system
 - [ ] Add file mapping metadata between steps
 - [ ] Create file reference validation logic
 
 ### Phase 2: Pipeline Sequencing Fix
-- [ ] Fix step dependency order for file operations
-- [ ] Ensure `doc-rename` and `doc-footer` steps coordinate properly
+- [x] Fix step dependency order for file operations
+- [x] Ensure `doc-rename` and `doc-footer` steps coordinate properly
 - [ ] Add error handling for missing or renamed files
 - [ ] Implement rollback capability for failed file operations
 
@@ -111,6 +111,10 @@ await pipeline.setStepData('doc-rename', {
 });
 ```
 
+**Update 2025-10-07:** The sequencing fix now ensures `doc-rename` finishes
+before `doc-footer`, and the rename step writes the new absolute path to the
+DocOps `docs` sublevel so downstream steps resolve the renamed files directly.
+
 #### 2. File Reference Resolution
 ```typescript
 // In doc-footer step
@@ -133,7 +137,7 @@ try {
     if (resolvedPath) {
       content = await fs.readFile(resolvedPath, 'utf-8');
     } else {
-      logger.warn(`File not found: ${filePath}`);
+      logger.warn(`File not found: {filePath}`);
       continue; // Skip missing files gracefully
     }
   }
@@ -169,14 +173,14 @@ try {
 - **Pipeline Definition**: `pipelines.json` - docops section
 - **Main Script**: `scripts/piper-docops.mjs`
 - **Footer Implementation**: `packages/docops/dist/05-footers.js`
-- **Test Files**: `docs/inbox/*.md` (40+ test files)
+- **Test Files**: `docs/inbox/*.md` 40+ test files
 - **Output Directory**: `docs/labeled/*.md` (processed files)
 - **Pipeline Core**: `packages/piper/src/runner.ts`
 
 ## 📝 Technical Notes
 
 ### Successfully Tested Components
-- ✅ AI model integration (OLLAMA with qwen3:4b and nomic-embed-text)
+- ✅ AI model integration OLLAMA with qwen3:4b and nomic-embed-text
 - ✅ File copying and directory operations
 - ✅ Front matter generation with AI assistance
 - ✅ File renaming based on content analysis
@@ -184,7 +188,7 @@ try {
 
 ### Current Status
 - **40+ files successfully processed** through most pipeline steps
-- **File renaming working** (e.g., timestamps → descriptive names)
+- **File renaming working** e.g., timestamps → descriptive names
 - **AI integration functional** with proper environment setup
 - **Single issue**: File reference management between steps
 

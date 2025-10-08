@@ -6,7 +6,7 @@ TODO: Add service description.
 
 ## Paths
 
-- [[voice|services/ts/voice]]
+- [voice|services/ts/voice]
 
 ## Tags
 

@@ -5,7 +5,7 @@ DocOps is a modular documentation pipeline that parses, embeds, queries, relates
 ## Features
 
 - Pure functions with dependency injection (LevelDB, Chroma)
-- Steps: frontmatter → embed → query → relations → footers → rename
+- Steps: frontmatter → embed → query → relations → rename → footers
 - Preview endpoint to see expected frontmatter without writing
 - Web Components UI for per-step runs and full pipeline
 - Streaming progress via Server-Sent Events (SSE)
@@ -42,8 +42,12 @@ await runEmbed({ dir: 'docs/unique', embedModel, collection: 'docs-cosine' }, db
 await runQuery({ embedModel, collection: 'docs-cosine', k: 16, force: true }, db, coll);
 await runRelations({ docsDir: 'docs/unique', docThreshold: 0.78, refThreshold: 0.85 }, db);
 await runFooters({ dir: 'docs/unique', anchorStyle: 'block' }, db);
-await runRename({ dir: 'docs/unique' });
+await runRename({ dir: 'docs/unique' }, db);
 ```
+
+Providing the DocOps database to `runRename` keeps pipeline metadata in sync with
+the latest on-disk filenames so subsequent steps (like `runFooters`) can resolve
+files that were renamed earlier in the run.
 
 ## APIs
 

@@ -45,3 +45,5 @@ export const clampUnitFloat = (value: number): number => {
 
 export const floatToPcm16 = (value: number): number =>
   clampPcm16(clampUnitFloat(value) * PCM16_SCALAR);
+
+export { float32ToInt16 } from "./pcm.js";

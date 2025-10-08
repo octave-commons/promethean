@@ -1,11 +1,18 @@
 ---
-uuid: 87df3419-fc1f-4adc-b258-dcf5b47da9d1
-title: start eidolon
-status: todo
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.521Z'
+uuid: "87df3419-fc1f-4adc-b258-dcf5b47da9d1"
+title: "start eidolon"
+slug: "start_eidolon"
+status: "done"
+priority: "P3"
+labels: ["eidolon", "start", "services", "service"]
+created_at: "2025-10-07T20:25:05.644Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Task: Start Eidolon
 
 Bootstrap the **Eidolon** service that manages emotion-state tracking and
@@ -48,9 +55,9 @@ can iterate on the underlying field mechanics.
 ---
 
 ## 🔗 Related Epics
-
+```
 #framework-core
-
+```
 ---
 
 ## ⛓️ Blocked By
@@ -68,4 +75,6 @@ Nothing
 - [[kanban]]
 
 #done
+
+
 

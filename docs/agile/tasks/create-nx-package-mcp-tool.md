@@ -1,11 +1,18 @@
 ---
-uuid: 8b52c0aa-1f68-4db1-bd4e-612c7c9f853c
-title: Create MCP tool for Nx package scaffolding
-status: done
-priority: P3
-labels: []
-created_at: '2025-10-02T03:30:00.000Z'
+uuid: "8b52c0aa-1f68-4db1-bd4e-612c7c9f853c"
+title: "Create MCP tool for Nx package scaffolding"
+slug: "create-nx-package-mcp-tool"
+status: "done"
+priority: "P3"
+labels: ["mcp", "package", "tool", "create"]
+created_at: "2025-10-07T20:25:05.644Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Description
 
 Add an MCP tool that runs the workspace Nx package generator so agents can scaffold new packages consistently with repository presets.
@@ -41,9 +48,9 @@ Add an MCP tool that runs the workspace Nx package generator so agents can scaff
 ---
 
 ## 🔗 Related Epics
-
+```
 #framework-core
-
+```
 ---
 
 ## ⛓️ Blocked By
@@ -66,4 +73,6 @@ Nothing
 - Story Points: 3
 
 #done
+
+
 
