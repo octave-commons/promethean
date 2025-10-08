@@ -1,0 +1,503 @@
+---
+uuid: 64330ec3-0283-412f-8a07-2464ae4b0f73
+created_at: '2025-10-07T01:10:06Z'
+title: 2025.10.07.01.10.06
+filename: promethean-pr-digest
+description: >-
+  Summary of open PRs for riatzukiza/promethean with priority ratings and key
+  details. Focuses on codex-tagged PRs needing urgent attention, including
+  testing issues and conflicts.
+tags:
+  - github
+  - pr
+  - open
+  - priority
+  - codex
+  - mermaid
+  - docs
+  - testing
+---
+review all PR associated with riatzukiza/promethean
+
+The API call returned 404 Not Found for riatzukiza/promethea/pulls. This likely means the repository does not exist, is private, or you don’t have access.
+
+What I can do next:
+- If you can confirm the repo is public and the owner/name is correct, I can try again with public data or with an authenticated request (you’d need to provide a GitHub token with repo access).
+- If the repo is private or under a different owner/name, please share the correct owner/repo or provide access so I can fetch and summarize all PRs (numbers, titles, authors, states, merged/closed status, labels, and CI status).
+
+Alternatively, you can paste PR details here, and I’ll review them.
+
+
+I pulled the PRs for riatzukiza/promethean. There are many entries (numbers around 1500–1576 and more, plus earlier/late 2024 ones surfaced in the feed). Most are authored by riatzukiza and labeled codex (some also MCP, documentation, mcp, etc.). Several are open, many have merged or closed, and a subset carry “waiting for test results” or “conflicts” notes.
+
+What I can do next
+- Produce a full per-PR digest (machine-readable or human-friendly) with:
+  - PR number, title, author, state, created_at, merged_at/closed_at
+  - head/base branches
+  - labels
+  - short notes (e.g., whether it includes changelog entry, tests,Docs, or MCP work)
+- Export as Markdown table or CSV for easy review or import into a docs repo.
+- Focused triage pass on open PRs (e.g., codex-tagged, waiting-for-test, conflicts) and propose review priorities.
+- Pull CI/status info for open PRs if you want CI green check status included.
+
+Preferred format
+- Do you want a Markdown table, CSV, or JSON summary?
+- Should I include all PRs or just open ones (and perhaps only those with certain labels like codex, mcp, docs)?
+
+If you’d like, I can start with a crisp Markdown digest of all open PRs (top priorities first: codex-labelled, then MCP-related, then docs) and note any that require urgent action (e.g., conflicts or waiting for tests).
+
+Give me a quick summary of each, and give them a priority rating
+
+Here’s a quick per-PR digest for the first 20 open items, with a simple priority rating (P1 highest, P3 lowest). Open or in-progress items get action-oriented notes; merged/closed are indicated as done.
+
+- PR 1576 – Add mermaid inventory report to roadmap generator
+  - State: open
+  - Labels: codex
+  - Head: codex/extend-script-to-emit-inventory-report
+  - Base: dev/stealth
+  - Priority: P1
+  - Notes: Testing mentions eslint dependency issue (missing typescript-eslint).
+
+- PR 1575 – Add task for mermaid diagram consolidation
+  - State: open
+  - Labels: codex
+  - Head: codex/consolidate-and-normalize-mermaid-diagrams
+  - Base: dev/stealth
+  - Priority: P1
+
+- PR 1574 – fix(docops): sync rename sequencing
+  - State: open
+  - Labels: codex
+  - Head: codex/fix-link-bug-in-docops-pipeline
+  - Base: dev/stealth
+  - Priority: P1
+
+- PR 1573 – Fix wikilink conversion for markdown extensions
+  - State: open
+  - Labels: codex
+  - Head: codex/record-failing-sample-and-regression-test
+  - Base: dev/stealth
+  - Priority: P1
+
+- PR 1572 – docs: sync duck-revival voice pipeline
+  - State: open
+  - Labels: codex
+  - Head: codex/synchronize-diagrams-and-documentation
+  - Base: dev/stealth
+  - Priority: P1
+
+- PR 1571 – Raise priority of duck-audio shared clamp task
+  - State: open
+  - Labels: codex
+  - Head: codex/move-duck-audio-shared-clamp-documentation
+  - Base: dev/stealth
+  - Priority: P1
+
+- PR 1570 – Fix glob escape handling in policy
+  - State: open
+  - Labels: codex
+  - Head: codex/run-ava-suite-after-audio-tweaks
+  - Base: dev/stealth
+  - Priority: P1
+
+- PR 1569 – Fix PCM16k resampling and mic helper wiring
+  - State: open
+  - Labels: codex
+  - Head: codex/prioritize-documentation-for-p1-tasks
+  - Base: dev/stealth
+  - Priority: P1
+
+- PR 1568 – feat: add Cephalon mode feature flag
+  - State: open
+  - Labels: codex
+  - Head: codex/move-cephalon-feature-flag
+  - Base: dev/stealth
+  - Priority: P1
+
+- PR 1567 – feat: embed voice artifacts as buffers
+  - State: open
+  - Labels: codex
+  - Head: codex/update-to-embed-voice-artifacts
+  - Base: dev/stealth
+  - Priority: P1
+
+- PR 1566 – Prioritize Cephalon persistence backlog tasks
+  - State: open
+  - Labels: codex
+  - Head: codex/address-history-and-persistence-gaps
+  - Base: dev/stealth
+  - Priority: P1
+
+- PR 1565 – Document cephalon guardrail payload metadata
+  - State: open
+  - Labels: codex
+  - Head: codex/improve-api-documentation-clarity
+  - Base: dev/stealth
+  - Priority: P1
+
+- PR 1564 – feat(shadow-conf): export automation metadata
+  - State: open
+  - Labels: codex
+  - Head: codex/export-automation-metadata
+  - Base: dev/stealth
+  - Priority: P1
+
+- PR 1563 – Add task for daemon telemetry planning
+  - State: open
+  - Labels: codex
+  - Head: codex/add-telemetry-for-daemon/condition-workflows
+  - Base: dev/stealth
+  - Priority: P1
+
+- PR 1562 – feat: formalize system markdown DSL parser
+  - State: open
+  - Labels: codex
+  - Head: codex/formalize-markdown-grammar-and-parser
+  - Base: dev/stealth
+  - Priority: P1
+
+- PR 1561 – docs: add telemetry capture task for daemon optimizations
+  - State: open
+  - Labels: codex, documentation
+  - Head: codex/add-telemetry-capture-for-daemon
+  - Base: dev/stealth
+  - Priority: P2
+
+- PR 1560 – Fix simtasks and semverguard pipeline path handling
+  - State: open
+  - Labels: codex
+  - Head: codex/restore-scanning-accuracy-for-pipelines
+  - Base: dev/stealth
+  - Priority: P1
+
+- PR 1559 – Queue Piper pipeline timeout task
+  - State: open
+  - Labels: codex
+  - Head: codex/optimize-piper-pipeline-performance
+  - Base: dev/stealth
+  - Priority: P1
+
+- PR 1558 – Fix docops rename step persistence
+  - State: open
+  - Labels: codex
+  - Head: codex/fix-docops-pipeline-file-reference-issue
+  - Base: dev/stealth
+  - Priority: P1
+
+- PR 1557 – Add regression test for Piper cache hash mode switching
+  - State: open
+  - Labels: codex
+  - Head: codex/record-regression-test-for-cache-hash-switch
+  - Base: dev/stealth
+  - Priority: P1
+
+- PR 1556 – Normalize kanban dev command task in manual board
+  - State: open
+  - Labels: codex
+  - Head: codex/prioritize-real-time-kanban-ui-implementation
+  - Base: dev/stealth
+  - Priority: P2
+
+- PR 1555 – Document Piper environment defaults and templates
+  - State: open
+  - Labels: codex, documentation
+  - Head: codex/configure-environment-variables-for-ai-pipelines
+  - Base: dev/stealth
+  - Priority: P2
+
+- PR 1554 – Fix kanban repo detection and document usage
+  - State: open
+  - Labels: codex
+  - Head: codex/fix-kanban-config-path-resolution
+  - Base: dev/stealth
+  - Priority: P1
+
+If you want, I can:
+- continue with the next batch (1553 down to 1490) in a follow-up,
+- export this as a CSV or Markdown table for your review sheet,
+- or focus on open items with conflicts or “waiting for test results” for immediate action. Which format or batch size would you prefer?
+
+Give them labels
+
+Here are the 23 open PRs from the first batch, with their current labels:
+
+- PR 1576 – Labels: codex
+- PR 1575 – Labels: codex
+- PR 1574 – Labels: codex
+- PR 1573 – Labels: codex
+- PR 1572 – Labels: codex
+- PR 1571 – Labels: codex
+- PR 1570 – Labels: codex
+- PR 1569 – Labels: codex
+- PR 1568 – Labels: codex
+- PR 1567 – Labels: codex
+- PR 1566 – Labels: codex
+- PR 1565 – Labels: codex
+- PR 1564 – Labels: codex
+- PR 1563 – Labels: codex
+- PR 1562 – Labels: codex
+- PR 1561 – Labels: codex, documentation
+- PR 1560 – Labels: codex
+- PR 1559 – Labels: codex
+- PR 1558 – Labels: codex
+- PR 1557 – Labels: codex
+- PR 1556 – Labels: codex
+- PR 1555 – Labels: codex, documentation
+- PR 1554 – Labels: codex
+
+Would you like me to apply a new shared label (e.g., review-needed) to all open PRs, or export this as Markdown/CSV for your tracking sheet?
+Let's go down the list and read the comments first...
+
+Here are the PRs in this batch that have comments, with quick takeaways and suggested actions:
+
+- PR 1555
+  - Comment(s): Yes (1 comment)
+  - Summary: Discussion about importing ollama.js from dist; dist/ not committed; build step may fail on fresh clone.
+  - Action: Consider removing the dist import or add a safe fallback so it doesn’t require a build step.
+  - Link: https://github.com/riatzukiza/promethean/pull/1555#discussion_r2409374741
+
+- PR 1566
+  - Comment(s): Yes (1 comment)
+  - Summary: Kanban board needs to be regenerated after task metadata changes.
+  - Action: Run pnpm kanban regenerate and commit the updated board to sync docs/generated.md.
+  - Link: https://github.com/riatzukiza/promethean/pull/1566#discussion_r2409422021
+
+- PR 1568
+  - Comment(s): Yes (1 comment)
+  - Summary: Mode handling should use bot.mode or start options, not the environment variable; current logic can misbehave for programmatic users.
+  - Action: Adjust code to prefer bot.mode (or explicit start options) over CEPHALON_MODE env.
+  - Link: https://github.com/riatzukiza/promethean/pull/1568#discussion_r2409423434
+
+- PR 1570
+  - Comment(s): Yes (1 comment)
+  - Summary: Double escaping in glob replacement causes incorrect patterns; should return a single backslash.
+  - Action: Change to `return `\{char}`` in the escape callback.
+  - Link: https://github.com/riatzukiza/promethean/pull/1570#discussion_r2409423630
+
+PRs 1554, 1556–1559, 1560–1565, 1567, 1569, 1571–1576 have no comments yet.
+
+Would you like me to:
+- reply to these four discussions with suggested edits or questions,
+- draft patch snippets for the proposed changes,
+- or fetch and summarize the full thread content and status for these PRs?
+
+Read the PR contents of  1554, 1556–1559, 1560–1565, 1567, 1569, 1571–1576
+and sort them by largest to smallest.
+
+
+Here they are sorted by largest PR number to smallest (i.e., reading the contents and ordering by PR number).
+
+- PR 1576 — Add mermaid inventory report to roadmap generator
+  - State: open
+  - Summary:
+    - parse mermaid roadmap diagrams to collect node metadata and serialize an inventory JSON artifact
+    - aggregate per-block and global node occurrences ahead of the existing HTML output
+    - document the work with a new task record and changelog entry
+  - Testing:
+    - pnpm exec eslint --cache --max-warnings=0 scripts/generate-roadmap-site.ts (fails: missing dependency typescript-eslint in eslint.config.mjs)
+
+- PR 1575 — Add task for mermaid diagram consolidation
+  - State: open
+  - Summary:
+    - add a kanban task describing how to catalog and normalize the scattered Mermaid diagrams across the docs
+    - record the task addition in the changelog logbook
+  - Testing:
+    - n/a
+
+- PR 1574 — fix(docops): sync rename sequencing
+  - State: open
+  - Summary:
+    - persist DocOps rename results back into the LevelDB docs catalog and expose progress/result types
+    - run the rename step before footers in both the Piper pipeline and DocOps server pipeline flow
+    - document the new flow, tick the sequencing task checklist, and add a regression test covering rename + footers
+  - Testing:
+    - pnpm eslint (files listed) and pnpm --filter @promethean/docops test (linting and test related issues)
+
+- PR 1573 — Fix wikilink conversion for markdown extensions
+  - State: open
+  - Summary:
+    - prevent convertWikilinks from appending an extra .md when the target already has a file extension
+    - extend the wikilink test suite with a regression that preserves explicit markdown targets and refactor the temp directory helper for lint compliance
+    - document the fix in the changelog and update the workspace lockfile
+  - Testing:
+    - pnpm --filter @promethean/docops build
+    - pnpm --filter @promethean/docops exec ava dist/tests/convert-wikilinks.test.js
+
+- PR 1572 — docs: sync duck-revival voice pipeline
+  - State: open
+  - Summary:
+    - refresh duck-revival architecture and negotiation diagrams to reflect the WebRTC voice pipeline
+    - align duck-web capture and signaling docs with the current ScriptProcessor + JSON WebSocket helper
+    - update enso-browser-gateway voice forwarding docs and changelog entry to capture the latest behavior
+  - Testing:
+    - not run (docs-only change)
+
+- PR 1571 — Raise priority of duck-audio shared clamp task
+  - State: open
+  - Summary:
+    - elevate the duck-audio shared clamp/constants task to priority P2 to reflect its cross-platform quantization impact
+    - document the priority adjustment rationale in the task notes and changelog entry
+  - Testing:
+    - not run (documentation-only change)
+
+- PR 1569 — Fix PCM16k resampling and mic helper wiring
+  - State: open
+  - Summary:
+    - rebuild the pcm16k audio worklet to average multi-channel input and retain fractional offsets for stable 16 kHz frames
+    - re-export float32ToInt16 from @promethean/duck-audio and update the mic helper to consume the package entrypoint
+    - document task progress and changelog entry for the pcm16k/mic fixes
+  - Testing:
+    - pnpm --filter @promethean/duck-audio build
+
+- PR 1567 — feat: embed voice artifacts as buffers
+  - State: open
+  - Summary:
+    - attach the recorded audio buffer when dispatching voice session capture uploads
+    - refresh cephalon voice session tests to assert buffer-backed artifact payloads
+    - record the change in the changelog fragment
+  - Testing:
+    - pnpm --filter @promethean/cephalon test
+
+- PR 1565 — Document cephalon guardrail payload metadata
+  - State: open
+  - Summary:
+    - extend ActRationalePayload with policy and evidence metadata and emit the defaults from cephalon
+    - expand cephalon README and guardrail docs to explain the evaluation rationale payload options
+    - update the agile task to reflect the shipped payload changes and add a changelog entry
+  - Testing:
+    - pnpm --filter @promethean/cephalon test (CI note about workspace)
+
+- PR 1564 — feat(shadow-conf): export automation metadata
+  - State: open
+  - Summary:
+    - extend the shadow-conf ecosystem generator to aggregate triggers, schedules, and actions alongside apps
+    - add regression coverage that exercises the new automation exports produced from EDN service definitions
+  - Testing:
+    - pnpm --filter @promethean/shadow-conf test
+
+- PR 1563 — Add task for daemon confirmation telemetry planning
+  - State: open
+  - Summary:
+    - add a kanban task detailing telemetry requirements for daemon/condition confirmation flows in system/README.md
+    - document goals, requirements, and subtasks for capturing optimization trigger signals
+    - record the addition in the changelog for visibility
+  - Testing:
+    - not run (documentation-only change)
+
+- PR 1562 — feat: formalize system markdown DSL parser
+  - State: open
+  - Summary:
+    - document the system markdown DSL in system/markdown-dsl.md and link it from the existing README
+    - add a reference parser and section summarizer to @promethean/markdown, with AVA coverage for happy-path and diagnostic flows
+    - surface the new APIs through the package barrel and record the change in changelog.d
+  - Testing:
+    - pnpm exec eslint packages/markdown/src/system.ts packages/markdown/src/tests/system.test.ts
+    - pnpm --filter @promethean/markdown test
+
+- PR 1561 — docs: add telemetry capture task for daemon optimizations
+  - State: open
+  - Summary:
+    - add an incoming kanban task to capture confirmation telemetry and optimization trigger tracking for daemon/condition workflows described in system documentation
+    - record the addition in the changelog queue
+  - Testing:
+    - not run (docs only)
+
+- PR 1560 — Fix simtasks and semverguard pipeline path handling
+  - State: open
+  - Summary:
+    - skip missing workspace packages in the simtasks scanner and log non-fatal failures instead of aborting
+    - resolve semverguard snapshot/PR paths from the repository root and wire the sv:05-pr script back into the package
+    - capture the clarifications, plan, and progress updates on the paired agile task docs with a changelog entry
+  - Testing:
+    - pnpm --filter @promethean/simtasks build
+    - pnpm --filter @promethean/semverguard build
+
+- PR 1559 — Queue piper pipeline timeout task
+  - State: open
+  - Summary:
+    - mark the piper pipeline optimization task as ready with priority P1 so it can be queued once prerequisites land
+    - log the task queueing update in the changelog for visibility
+  - Testing:
+    - not run (docs only)
+
+- PR 1558 — Fix docops rename step persistence
+  - State: open
+  - Summary:
+    - persist renamed file paths back into the DocOps LevelDB so downstream steps resolve the new locations
+    - pass the database handle through the pipeline when invoking the rename step
+    - document the change in the changelog
+  - Testing:
+    - pnpm --filter @promethean/docops build
+
+- PR 1557 — Add regression test for Piper cache hash mode switching
+  - State: open
+  - Summary:
+    - add an AVA regression test to ensure Piper caches survive switching between content and mtime hash modes and invalidate on output mutations
+    - update the agile task notes and changelog entry to record the new automated coverage
+  - Testing:
+    - pnpm test --filter @promethean/piper
+    - pnpm exec eslint packages/piper/src/tests/runner.test.ts
+
+- PR 1556 — Normalize kanban tasks to FSM statuses
+  - State: open
+  - Summary:
+    - update kanban task docs to use the FSM "incoming" status instead of deprecated "backlog"
+    - cross-link board tooling refactor with FSM hygiene checklist
+  - Testing:
+    - not run
+
+- PR 1554 — Fix kanban repo detection and document usage
+  - State: open
+  - Summary:
+    - anchor kanban repo detection on workspace markers so relative paths resolve from the config directory
+    - add regression tests for loading kanban config and running CLI from nested dirs
+    - expand kanban docs with path-resolution guidance
+  - Testing:
+    - eslint on kanban sources
+    - build/test steps for kanban (noted TypeScript errors in Kanban code)
+
+Would you like me to:
+- extract full threaded comments for any of these PRs, or
+- export these summaries to Markdown/CSV, or
+- draft patches or reply suggestions for any of the PRs?
+
+Review each one and start reviews.
+
+
+Done. I started triage reviews on the listed PRs and have the review IDs for tracking.
+
+PRs started and their review IDs:
+- 1576 -> PRR_kwDOPTw_z87FNfYm
+- 1575 -> PRR_kwDOPTw_z87FNfYl
+- 1574 -> PRR_kwDOPTw_z87FNfYt
+- 1573 -> PRR_kwDOPTw_z87FNfYn
+- 1572 -> PRR_kwDOPTw_z87FNfYy
+- 1571 -> PRR_kwDOPTw_z87FNfYu
+- 1569 -> PRR_kwDOPTw_z87FNfYx
+- 1567 -> PRR_kwDOPTw_z87FNfYv
+- 1565 -> PRR_kwDOPTw_z87FNfY2
+- 1564 -> PRR_kwDOPTw_z87FNfZB
+- 1563 -> PRR_kwDOPTw_z87FNfY5
+- 1562 -> PRR_kwDOPTw_z87FNfY6
+- 1561 -> PRR_kwDOPTw_z87FNfZH
+- 1560 -> PRR_kwDOPTw_z87FNfY8
+- 1559 -> PRR_kwDOPTw_z87FNfZI
+- 1558 -> PRR_kwDOPTw_z87FNfY9
+- 1557 -> PRR_kwDOPTw_z87FNfZC
+- 1556 -> PRR_kwDOPTw_z87FNfY_
+- 1554 -> PRR_kwDOPTw_z87FNfZG
+
+Next options:
+- I can draft and post initial triage comments for each PR (e.g., summary, blockers, suggested follow-ups).
+- I can fetch full threaded discussions for each PR and base the reviews on actual comments.
+- I can export a batch-ready set of review briefs (Markdown/CSV) for your tracking.
+
+How would you like me to proceed with the reviews? draft quick triage comments, fetch threads, or both?
+
+Look through existing tasks and try to connect each of the open PRs to a task in a comment.
+
+In the reviews, if there are simple changes, add an inline comment.
+If the change is  more complex, tag @codex with a specific request to fix the error.
+
+Try to make your suggestions all tasks that can be done in parallel with out large merge conflicts
+

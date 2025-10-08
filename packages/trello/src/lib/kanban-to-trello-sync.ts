@@ -303,15 +303,24 @@ ${task.content || 'No description available.'}
         return result;
       }
 
-      // Limit tasks if specified
-      const tasksToSync = tasks.slice(0, this.options.maxTasks || tasks.length);
-      console.log(`\n📝 Found ${tasks.length} tasks, syncing top ${tasksToSync.length}`);
-
       // Ensure board exists
       const board = this.options.dryRun
         ? ({ id: 'dry-run-board', name: this.options.boardName, url: 'dry-run-url' } as TrelloBoard)
         : await this.ensureBoardExists();
       result.board = board;
+
+      // Get existing cards to avoid duplicates
+      const existingCards = this.options.dryRun
+        ? []
+        : await this.trello.getCards(board.id);
+      const existingCardNames = new Set(existingCards.map(card => card.name));
+
+      // Filter out tasks that already have cards
+      const tasksToSync = tasks
+        .slice(0, this.options.maxTasks || tasks.length)
+        .filter(task => !existingCardNames.has(task.title));
+
+      console.log(`\n📝 Found ${tasks.length} tasks, ${existingCards.length} existing cards, syncing ${tasksToSync.length} new tasks`);
 
       // Ensure lists exist
       const listMap = this.options.dryRun
