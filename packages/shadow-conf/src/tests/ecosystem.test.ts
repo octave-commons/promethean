@@ -5,7 +5,11 @@ import { pathToFileURL } from "node:url";
 
 import test from "ava";
 
-import { DEFAULT_OUTPUT_FILE_NAME, generateEcosystem } from "../ecosystem.js";
+import {
+  DEFAULT_OUTPUT_FILE_NAME,
+  generateEcosystem,
+  type GenerateEcosystemResult,
+} from "../ecosystem.js";
 
 async function writeServiceEcosystem(
   rootDir: string,
@@ -21,21 +25,57 @@ async function writeServiceEcosystem(
   );
 }
 
+const serviceAEcosystem = `{:apps [{:name "service-a" :env {:NODE_ENV "production"}}]
+  :triggers [{:name "service-a-ready" :event "service-a/ready" :actions ["notify"]}]
+  :schedules [{:name "service-a-health" :cron "*/5 * * * *" :actions ["notify"]}]
+  :actions [{:name "notify" :type "log" :message "service-a ready"}]}
+`;
+
+const serviceBEcosystem = `{:apps [{:name "service-b" :instances 2}]
+  :triggers [{:name "service-b-ready" :event "service-b/ready"}]
+  :schedules [{:name "service-b-restart" :cron "0 3 * * *" :actions ["restart"]}]
+  :actions [{:name "restart" :type "pm2" :command "restart service-b"}]}
+`;
+
+const expectedAggregatedApps = [
+  { name: "service-a", env: { NODE_ENV: "production" } },
+  { name: "service-b", instances: 2 },
+] as const;
+
+const expectedAggregatedTriggers = [
+  { name: "service-a-ready", event: "service-a/ready", actions: ["notify"] },
+  { name: "service-b-ready", event: "service-b/ready" },
+] as const;
+
+const expectedAggregatedSchedules = [
+  { name: "service-a-health", cron: "*/5 * * * *", actions: ["notify"] },
+  { name: "service-b-restart", cron: "0 3 * * *", actions: ["restart"] },
+] as const;
+
+const expectedAggregatedActions = [
+  { name: "notify", type: "log", message: "service-a ready" },
+  { name: "restart", type: "pm2", command: "restart service-b" },
+] as const;
+
+type AggregatedResult = Pick<
+  GenerateEcosystemResult,
+  "apps" | "triggers" | "schedules" | "actions"
+>;
+
 test("generateEcosystem aggregates apps from edn files", async (t) => {
   const tmpDir = await mkdtemp(path.join(os.tmpdir(), "shadow-conf-"));
   const inputDir = path.join(tmpDir, "input");
-  await writeServiceEcosystem(
-    inputDir,
-    "service-a",
-    '{:apps [{:name "service-a" :env {:NODE_ENV "production"}}]}',
-  );
-  await writeServiceEcosystem(
-    inputDir,
-    "service-b",
-    '{:apps [{:name "service-b" :instances 2}]}',
+  await Promise.all(
+    ([
+      ["service-a", serviceAEcosystem] as const,
+      ["service-b", serviceBEcosystem] as const,
+    ] satisfies readonly (readonly [string, string])[]).map(
+      ([serviceName, contents]) =>
+        writeServiceEcosystem(inputDir, serviceName, contents),
+    ),
   );
   const outputDir = path.join(tmpDir, "out");
-  const { outputPath, apps, files } = await generateEcosystem({
+  const { outputPath, files, ...aggregated } = await generateEcosystem({
     inputDir,
     outputDir,
   });
@@ -51,22 +91,24 @@ test("generateEcosystem aggregates apps from edn files", async (t) => {
   );
   t.true(fileContents.includes('const dotenvModule = await import("dotenv");'));
   t.true(fileContents.includes("configDotenv();"));
-  t.deepEqual(apps, [
-    {
-      name: "service-a",
-      env: {
-        NODE_ENV: "production",
-      },
-    },
-    {
-      name: "service-b",
-      instances: 2,
-    },
-  ]);
-  const importedModule = (await import(pathToFileURL(outputPath).href)) as {
-    readonly apps: typeof apps;
+  t.deepEqual(aggregated, {
+    apps: expectedAggregatedApps,
+    triggers: expectedAggregatedTriggers,
+    schedules: expectedAggregatedSchedules,
+    actions: expectedAggregatedActions,
+  });
+
+  const moduleExports = (await import(
+    pathToFileURL(outputPath).href,
+  )) as AggregatedResult;
+  const exportedData: AggregatedResult = {
+    apps: moduleExports.apps,
+    triggers: moduleExports.triggers,
+    schedules: moduleExports.schedules,
+    actions: moduleExports.actions,
   };
-  t.deepEqual(importedModule.apps, apps);
+
+  t.deepEqual(exportedData, aggregated);
 });
 
 test("generateEcosystem resolves relative paths against the output dir", async (t) => {
@@ -81,7 +123,10 @@ test("generateEcosystem resolves relative paths against the output dir", async (
   );
 
   const outputDir = path.join(tmpDir, "out");
-  const { apps } = await generateEcosystem({ inputDir, outputDir });
+  const { apps, triggers, schedules, actions } = await generateEcosystem({
+    inputDir,
+    outputDir,
+  });
 
   t.like(apps[0], {
     cwd: "./services/service",
@@ -95,4 +140,7 @@ test("generateEcosystem resolves relative paths against the output dir", async (
     CONFIG_PATH: "./config",
     PORT: "8080",
   });
+  t.deepEqual(triggers, []);
+  t.deepEqual(schedules, []);
+  t.deepEqual(actions, []);
 });

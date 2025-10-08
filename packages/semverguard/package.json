@@ -7,7 +7,8 @@
     "semver-snapshot": "dist/01-snapshot.js",
     "semver-diff": "dist/02-diff.js",
     "semver-plan": "dist/03-plan.js",
-    "semver-write": "dist/04-write.js"
+    "semver-write": "dist/04-write.js",
+    "semver-pr": "dist/05-pr.js"
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
@@ -15,7 +16,8 @@
     "sv:02-diff": "tsx src/02-diff.ts",
     "sv:03-plan": "tsx src/03-plan.ts",
     "sv:04-write": "tsx src/04-write.ts",
-    "sv:all": "pnpm sv:01-snapshot && pnpm sv:02-diff && pnpm sv:03-plan && pnpm sv:04-write"
+    "sv:05-pr": "tsx src/05-pr.ts",
+    "sv:all": "pnpm sv:01-snapshot && pnpm sv:02-diff && pnpm sv:03-plan && pnpm sv:04-write && pnpm sv:05-pr"
   },
   "dependencies": {
     "globby": "^14.0.2",

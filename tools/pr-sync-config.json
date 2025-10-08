@@ -1,0 +1,73 @@
+{
+  "presets": {
+    "lockfile-update": {
+      "baseBranch": "main",
+      "conflictResolution": "theirs",
+      "description": "Fast lockfile updates - always take base branch version",
+      "excludePatterns": ["**/*.md", "**/src/**", "**/test/**"]
+    },
+    "intelligent-merge": {
+      "baseBranch": "main",
+      "conflictResolution": "llm",
+      "llmModel": "qwen2.5-coder:7b",
+      "gatherContext": true,
+      "description": "Smart LLM-powered conflict resolution with full context"
+    },
+    "conservative": {
+      "baseBranch": "main",
+      "conflictResolution": "ours",
+      "description": "Conservative approach - preserve PR changes when in doubt"
+    },
+    "stealth-updates": {
+      "baseBranch": "dev/stealth",
+      "conflictResolution": "llm",
+      "llmModel": "qwen2.5-coder:7b",
+      "gatherContext": true,
+      "description": "Update PRs targeting dev/stealth with intelligent resolution"
+    }
+  },
+  "conflictStrategies": {
+    "lockFiles": {
+      "patterns": ["*lock*", "package-lock.json", "pnpm-lock.yaml", "yarn.lock"],
+      "resolution": "theirs",
+      "description": "Always take base branch version for lock files"
+    },
+    "generatedFiles": {
+      "patterns": ["**/dist/**", "**/build/**", "**/.next/**", "**/coverage/**"],
+      "resolution": "theirs",
+      "description": "Generated files can be regenerated"
+    },
+    "docs": {
+      "patterns": ["**/*.md", "**/*.rst"],
+      "resolution": "llm",
+      "description": "Use LLM for intelligent doc conflict resolution"
+    },
+    "code": {
+      "patterns": ["**/*.ts", "**/*.js", "**/*.tsx", "**/*.jsx", "**/*.py", "**/*.rs"],
+      "resolution": "llm",
+      "description": "Use LLM for intelligent code conflict resolution"
+    }
+  },
+  "contextGathering": {
+    "enabled": true,
+    "maxFileSize": 100000,
+    "excludePatterns": ["node_modules/**", ".git/**", "dist/**"],
+    "sources": [
+      "git_diff",
+      "symbol_search",
+      "file_history",
+      "related_files"
+    ]
+  },
+  "llm": {
+    "provider": "ollama",
+    "models": {
+      "fast": "qwen2.5-coder:7b",
+      "smart": "qwen2.5-coder:32b",
+      "future": "qwen3:7b"
+    },
+    "timeout": 30000,
+    "maxRetries": 2,
+    "contextWindow": 8000
+  }
+}

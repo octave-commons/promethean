@@ -1,20 +1,18 @@
 ---
-```
-uuid: a7b8c9d0-e1f2-4a5b-9c8d-0e1f2a3b4c5d
-```
-title: Fix kanban config path resolution and document usage for agents
-status: done
-priority: P2
-labels:
-  - kanban
-  - documentation
-  - agents
-  - cli
-  - config
-```
-created_at: '2025-10-05T00:00:00.000Z'
-```
+uuid: "a7b8c9d0-e1f2-4a5b-9c8d-0e1f2a3b4c5d"
+title: "Fix kanban config path resolution and document usage for agents"
+slug: "fix-kanban-config-path-resolution-and-documentation"
+status: "done"
+priority: "P2"
+labels: ["kanban", "documentation", "agents", "cli", "config"]
+created_at: "2025-10-07T20:25:05.644Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 
 ## 🛠️ Task: Fix kanban config path resolution and document usage for agents
 

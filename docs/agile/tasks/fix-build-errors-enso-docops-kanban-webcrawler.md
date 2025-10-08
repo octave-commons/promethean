@@ -1,63 +1,18 @@
 ---
-```
-task-id: TASK-20240921-buildfix
-```
-title: Fix TypeScript build errors across key packages
-state: InProgress
-prev: null
-```
-txn: '2024-09-21T03:30:00Z-0001'
-```
-```
-owner: codex-cloud
-```
-priority: p2
-size: m
-```
-epic: EPC-000
-```
-```
-depends_on: []
-```
-labels:
-  - 'board:auto'
-  - 'lang:ts'
-due: null
-links: []
-artifacts: []
-rationale: |
-  The latest Codex Cloud build report shows TypeScript build failures in
-  `@promethean/enso-protocol`, `@promethean/docops`, `@promethean/kanban`, and
-  `@promethean/webcrawler-service`. These prevent `pnpm -r --no-bail build`
-  from succeeding and block downstream automation. We need to correct the
-  regressions so the workspace builds cleanly.
-```
-proposed_transitions:
-```
-  - New->Accepted
-  - Accepted->Breakdown
-  - Breakdown->Ready
-  - Ready->Todo
-  - Todo->InProgress
-  - InProgress->InReview
-  - InReview->Done
-  - InReview->Document
-  - Document->Done
-tags:
-  - task/TASK-20240921-buildfix
-  - board/kanban
-  - state/InProgress
-  - owner/codex-cloud
-  - priority/p2
-  - epic/EPC-000
-```
-uuid: eef79dc1-907d-4875-b833-31c2a9665d0e
-```
-```
-created_at: '2025-10-06T01:50:48.291Z'
-```
-status: todo
+uuid: "eef79dc1-907d-4875-b833-31c2a9665d0e"
+title: "Fix TypeScript build errors across key packages /TASK-20240921-buildfix /kanban /InProgress /codex-cloud /p2 /EPC-000 :auto :ts"
+slug: "fix-build-errors-enso-docops-kanban-webcrawler"
+status: "review"
+priority: "p2"
+labels: ["task", "board", "state", "owner", "priority", "epic", "board", "lang"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ```
 <hr class="__chatgpt_plugin">
 ```
@@ -119,4 +74,6 @@ You might find [this](link) useful while working on this task.
 fix-build-errors-enso-docops-kanban-webcrawler
 
 <% tp.app.commands.executeCommandById"chatgpt-md:call-chatgpt-api" %>
+
+
 

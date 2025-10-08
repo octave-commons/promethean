@@ -1,15 +1,18 @@
 ---
-```
-uuid: 4beb36b0-7cc5-4116-a516-3927615031be
-```
-title: Pin versions in configs
-status: todo
-priority: P3
-labels: []
-```
-created_at: '2025-09-15T02:02:58.517Z'
-```
+uuid: "4beb36b0-7cc5-4116-a516-3927615031be"
+title: "Pin versions in configs"
+slug: "pin_versions_in_configs"
+status: "done"
+priority: "P3"
+labels: ["pin", "versions", "configs", "codex"]
+created_at: "2025-10-07T20:25:05.644Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 Got it. Here’s a practical expansion you can paste into the board and hand to Codex. It’s opinionated, deterministic, and aims to stop every “oops it upgraded” class of failure.
 
 # Pin versions in configs
@@ -254,3 +257,5 @@ chore(versions): pin runtimes, deps, images, models; add pins linter
 ```
 #in-progress
 ```
+
+

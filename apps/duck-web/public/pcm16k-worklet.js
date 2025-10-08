@@ -1,38 +1,88 @@
+const TARGET_SAMPLE_RATE = 16_000;
+const EPSILON = 1e-6;
+
 class PCM16kProcessor extends AudioWorkletProcessor {
   constructor() {
     super();
-    this.ratio = sampleRate / 16000;
-    this.pos = 0;
+    this.ratio = sampleRate / TARGET_SAMPLE_RATE;
+    this.offset = 0;
+    this.tail = new Float32Array(0);
   }
 
   process(inputs) {
-    const input = inputs[0]?.[0];
-    if (!input) {
+    const channels = inputs[0];
+    if (!channels || channels.length === 0) {
       return true;
     }
 
-    const r = this.ratio;
-    const avail = Math.max(0, input.length - this.pos);
-    const outLen = Math.floor(avail / r);
-    if (outLen <= 0) {
-      this.pos = Math.min(input.length, Math.max(0, this.pos));
+    const frameLength = channels[0]?.length ?? 0;
+    if (!frameLength) {
       return true;
     }
 
-    const out = new Float32Array(outLen);
-    for (let n = 0; n < outLen; n += 1) {
-      const start = Math.floor(this.pos + n * r);
-      const end = Math.min(input.length, Math.floor(this.pos + (n + 1) * r));
+    const mono = new Float32Array(frameLength);
+    for (let frame = 0; frame < frameLength; frame += 1) {
       let sum = 0;
-      for (let k = start; k < end; k += 1) {
-        sum += input[k] ?? 0;
+      let count = 0;
+      for (let ch = 0; ch < channels.length; ch += 1) {
+        const data = channels[ch];
+        if (!data) {
+          continue;
+        }
+        sum += data[frame] ?? 0;
+        count += 1;
       }
-      out[n] = end > start ? sum / (end - start) : 0;
+      mono[frame] = count > 0 ? sum / count : 0;
     }
 
-    this.pos = Math.min(input.length, this.pos + Math.floor(outLen * r));
+    let data;
+    if (this.tail.length > 0) {
+      data = new Float32Array(this.tail.length + mono.length);
+      data.set(this.tail, 0);
+      data.set(mono, this.tail.length);
+    } else {
+      data = mono;
+    }
 
-    this.port.postMessage(out);
+    let pos = this.offset;
+    const total = data.length;
+    const ratio = this.ratio;
+    const frames = [];
+
+    while (pos + ratio <= total + EPSILON) {
+      let remaining = ratio;
+      let cursor = pos;
+      let acc = 0;
+
+      while (remaining > 0 && cursor < total) {
+        const index = Math.floor(cursor);
+        const sample = data[index] ?? 0;
+        const frac = cursor - index;
+        const available = Math.min(1 - frac, remaining);
+        acc += sample * available;
+        remaining -= available;
+        cursor = index + 1;
+      }
+
+      frames.push(acc / ratio);
+      pos += ratio;
+    }
+
+    const keepIndex = Math.max(0, Math.floor(pos));
+    if (keepIndex < total) {
+      const tail = new Float32Array(total - keepIndex);
+      tail.set(data.subarray(keepIndex));
+      this.tail = tail;
+      this.offset = pos - keepIndex;
+    } else {
+      this.tail = new Float32Array(0);
+      this.offset = Math.max(0, pos - total);
+    }
+
+    if (frames.length > 0) {
+      this.port.postMessage(new Float32Array(frames));
+    }
+
     return true;
   }
 }

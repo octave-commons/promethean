@@ -65,13 +65,14 @@
     "breakdown": 5,
     "blocked": 3,
     "ready": 10,
-    "todo": 15,
-    "in_progress": 3,
-    "review": 2,
-    "document": 2,
+    "todo": 20,
+    "in_progress": 10,
+    "review": 6,
+    "document": 4,
     "done": 500,
     "rejected": 20
   },
+  "_wip_rationale": "Updated for multi-agent development environment: 1 human + 6-18 AI agents. Review limit reflects human bandwidth for reviewing AI work. In-progress limit accommodates parallel AI agent work while maintaining flow constraints. See docs/agile/process.md 'Fluid Kanban Rule Evolution' section.",
 
   "_transition_rules_note": "See docs/agile/process.md for complete FSM transition rules. Key rules: Incoming→Accepted→Breakdown→Ready→Todo→In Progress→Review→Document→Done. Tasks with score >5 must cycle back through Breakdown until slice is small enough (≤5)."
 }
