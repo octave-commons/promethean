@@ -7,33 +7,64 @@ import { createKanbanUiServer, type KanbanUiServerOptions } from './ui-server.js
 import { KanbanFileWatcher, type FileChangeEvent, type FileWatcherOptions } from './file-watcher.js';
 import { KanbanGitSync, type GitSyncOptions, type GitSyncStatus } from './git-sync.js';
 
-// Development server interfaces
+/**
+ * Configuration options for the development server
+ */
 export type DevServerOptions = {
+  /** Path to the kanban board file */
   readonly boardFile: string;
+  /** Path to the tasks directory */
   readonly tasksDir: string;
+  /** Server host (default: 127.0.0.1) */
   readonly host?: string;
+  /** Server port (default: 3000) */
   readonly port?: number;
+  /** Enable automatic git synchronization */
   readonly autoGit?: boolean;
+  /** Automatically open browser on startup */
   readonly autoOpen?: boolean;
+  /** Debounce delay for file changes in milliseconds */
   readonly debounceMs?: number;
 };
 
+/**
+ * Status information for the development server
+ */
 export type DevServerStatus = {
+  /** Whether the server is currently running */
   readonly isRunning: boolean;
+  /** Server uptime in milliseconds */
   readonly uptime: number;
+  /** Whether the file watcher is active */
   readonly fileWatcherActive: boolean;
+  /** Whether git synchronization is active */
   readonly gitSyncActive: boolean;
+  /** Timestamp of last synchronization */
   readonly lastSyncTime?: Date;
+  /** Number of connected WebSocket clients */
   readonly connectedClients: number;
+  /** Current git synchronization status */
   readonly syncStatus?: GitSyncStatus;
 };
 
+/**
+ * WebSocket message format for real-time communication
+ */
 export type WebSocketMessage = {
+  /** Type of message */
   readonly type: 'board-change' | 'task-change' | 'config-change' | 'sync-status' | 'error' | 'status' | 'sync';
+  /** ISO timestamp of when the message was sent */
   readonly timestamp: string;
+  /** Message payload */
   readonly data: unknown;
 };
 
+/**
+ * Development server for kanban boards with real-time synchronization
+ *
+ * Combines file watching, git synchronization, and WebSocket communication
+ * to provide a live development experience for kanban board management.
+ */
 export class KanbanDevServer {
   private readonly options: DevServerOptions;
   private readonly uiOptions: KanbanUiServerOptions;
@@ -47,6 +78,10 @@ export class KanbanDevServer {
   private startTime = Date.now();
   private connectedClients = new Set<WebSocket>();
 
+  /**
+   * Creates a new KanbanDevServer instance
+   * @param options - Configuration options for the development server
+   */
   constructor(options: DevServerOptions) {
     this.options = {
       autoGit: true,
@@ -63,6 +98,13 @@ export class KanbanDevServer {
     };
   }
 
+  /**
+   * Starts the development server
+   *
+   * Initializes file watching, git synchronization, HTTP server,
+   * and WebSocket connections. If autoOpen is enabled, opens the browser.
+   * @throws Error if server fails to start
+   */
   async start(): Promise<void> {
     if (this.isRunning) {
       console.log('[kanban-dev] Development server is already running');
@@ -101,6 +143,12 @@ export class KanbanDevServer {
     }
   }
 
+  /**
+   * Stops the development server
+   *
+   * Gracefully shuts down file watching, git synchronization,
+   * WebSocket connections, and HTTP server.
+   */
   async stop(): Promise<void> {
     console.log('[kanban-dev] Stopping development server...');
 
@@ -422,6 +470,10 @@ export class KanbanDevServer {
     }
   }
 
+  /**
+   * Gets the current status of the development server
+   * @returns Current server status
+   */
   getStatus(): DevServerStatus {
     return {
       isRunning: this.isRunning,

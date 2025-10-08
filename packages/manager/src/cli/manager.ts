@@ -389,6 +389,35 @@ program
     }
   });
 
+program
+  .command('deduplication')
+  .description('Show available deduplication strategies')
+  .action(async () => {
+    try {
+      const { TaskDeduplicator } = await import('../lib/deduplication.js');
+      const deduplicator = new TaskDeduplicator();
+
+      console.log(chalk.blue('🔍 Available Deduplication Strategies:\n'));
+
+      const strategies = deduplicator.getStrategies();
+      strategies.forEach((strategy, index) => {
+        const isDefault = strategy.name === 'normalized';
+        const marker = isDefault ? chalk.yellow(' (default)') : '';
+        console.log(`${chalk.cyan(index + 1)}. ${chalk.bold(strategy.name)}${marker}`);
+        console.log(`   ${strategy.description}`);
+        console.log();
+      });
+
+      console.log(chalk.green('💡 Usage:'));
+      console.log(chalk.gray('   manager sync --deduplication fuzzy'));
+      console.log(chalk.gray('   manager push --deduplication slug-based'));
+      console.log(chalk.gray('   manager pull --deduplication exact'));
+    } catch (error) {
+      console.error(chalk.red('❌ Failed to show strategies:'), error);
+      process.exit(1);
+    }
+  });
+
 // Parse and run
 program.parse();
 
