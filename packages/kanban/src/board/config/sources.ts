@@ -26,7 +26,7 @@ type PreferredMarker = Readonly<{
 
 const findMarkers = async (dir: string): Promise<ReadonlyArray<string>> => {
   const matches = await Promise.all(MARKERS.map((marker) => pathExists(path.join(dir, marker))));
-  return MARKERS.filter((marker, index) => matches[index]);
+  return MARKERS.filter((_, index) => matches[index]);
 };
 
 const selectPreferred = (

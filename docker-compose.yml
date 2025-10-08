@@ -20,7 +20,7 @@ services:
       - 127.0.0.1:8000:8000
 
   ollama:
-    image: ollama/ollama:0.11.8
+    image: ollama/ollama:0.12.3
     restart: always
     ports: ["127.0.0.1:11434:11434"]
     gpus: all

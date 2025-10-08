@@ -1,16 +1,17 @@
 ---
 uuid: "8a791d5f-757a-4154-bba2-e14886da4c30"
-title: "move board tooling into kanban package -core -core"
+title: "move board tooling into kanban package -core -core -core -core"
 slug: "move-board-tools-into-kanban-package"
-status: "review"
+status: "done"
 priority: "P3"
 labels: ["framework-core", "devtools"]
-created_at: "2025-10-07T20:25:05.643Z"
+created_at: "2025-10-08T03:58:42.409Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
 
 
 Move the TypeScript utilities under `tools/board/` into the maintained `@promethean/kanban` package so they ship with the rest of the board automation CLI.
@@ -25,5 +26,6 @@ Move the TypeScript utilities under `tools/board/` into the maintained `@prometh
 - Board utilities live inside `packages/kanban/src/` with updated imports.
 - Docs reference the new invocation path `pnpm tsx packages/kanban/...`.
 - Tests and builds for the `@promethean/kanban` package succeed.
+
 
 

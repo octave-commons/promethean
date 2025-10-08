@@ -2,15 +2,16 @@
 uuid: "046df43b-fdc3-46d5-a45a-ed7dca487615"
 title: "Consolidate mk MCP/IDE libs under clj-hacks /TASK-20240607-0001 /kanban /InProgress /err /p3 /EPC-000 :auto :clj"
 slug: "migrate_mk_mcp_ide_to_clj_hacks"
-status: "review"
+status: "done"
 priority: "p3"
-labels: ["task", "board", "state", "owner", "priority", "epic", "board", "lang"]
-created_at: "2025-10-07T20:25:05.643Z"
+labels: ["task", "board", "state", "owner", "priority", "epic", "lang"]
+created_at: "2025-10-08T03:56:35.569Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
 
 
 ```
@@ -41,5 +42,6 @@ estimates:
 ```
 <hr class="__chatgpt_plugin">
 ```
+
 
 

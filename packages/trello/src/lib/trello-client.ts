@@ -1,5 +1,5 @@
 /**
- * Trello API client with full CRUD operations
+ * Trello API client using Atlassian API v3 endpoints
  */
 
 import type {
@@ -16,10 +16,11 @@ export class TrelloClient {
   private baseUrl: string;
 
   constructor(config: TrelloConfig) {
-    if (!config.apiKey || !config.apiToken) {
-      throw new Error('Trello API key and token are required');
+    if (!config.apiKey) {
+      throw new Error('Atlassian API key is required');
     }
 
+    // Use classic Trello API v1 with Atlassian Bearer token authentication
     this.config = {
       ...config,
       baseUrl: config.baseUrl || 'https://api.trello.com/1'
@@ -34,22 +35,19 @@ export class TrelloClient {
   ): Promise<T> {
     const url = new URL(`${this.baseUrl}${endpoint}`);
 
-    // Add API key and token to all requests
-    url.searchParams.set('key', this.config.apiKey);
-    url.searchParams.set('token', this.config.apiToken);
+    // Atlassian API v3 authentication with Bearer token
+    options.headers = {
+      ...options.headers,
+      'Authorization': `Bearer ${this.config.apiKey}`,
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    };
 
-    const response = await fetch(url.toString(), {
-      ...options,
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        ...options.headers
-      }
-    });
+    const response = await fetch(url.toString(), options);
 
     if (!response.ok) {
       const errorText = await response.text();
-      throw new Error(`Trello API error: ${response.status} ${response.statusText} - ${errorText}`);
+      throw new Error(`Atlassian Trello API error: ${response.status} ${response.statusText} - ${errorText}`);
     }
 
     return response.json();
@@ -58,7 +56,7 @@ export class TrelloClient {
   // === BOARD OPERATIONS ===
 
   async getBoards(): Promise<TrelloBoard[]> {
-    console.log('📋 Fetching Trello boards...');
+    console.log('📋 Fetching Trello boards via Atlassian API...');
     return this.makeRequest<TrelloBoard[]>('/members/me/boards');
   }
 
@@ -68,44 +66,38 @@ export class TrelloClient {
     return boards.find(board => board.name === name && !board.closed) || null;
   }
 
+  async getBoardById(boardId: string): Promise<TrelloBoard | null> {
+    console.log(`🔍 Getting board by ID: "${boardId}"`);
+    try {
+      return await this.makeRequest<TrelloBoard>(`/boards/${boardId}`);
+    } catch (error) {
+      console.log(`   ℹ️  Board not found or inaccessible: ${error.message}`);
+      return null;
+    }
+  }
+
   async createBoard(name: string, description?: string): Promise<TrelloBoard> {
     console.log(`🔨 Creating Trello board: "${name}"`);
 
-    const params = new URLSearchParams({
+    const createData = {
       name,
       desc: description || `Auto-generated board from Promethean kanban system`,
-      defaultLists: 'false', // We'll create our own lists
+      defaultLists: false, // We'll create our own lists
       keepFromSource: 'none',
       powerUps: 'none',
       prefs_permissionLevel: 'private',
       prefs_comments: 'members',
       prefs_invitations: 'members',
-      prefs_selfJoin: 'true',
-      prefs_cardCovers: 'true',
+      prefs_selfJoin: true,
+      prefs_cardCovers: true,
       prefs_background: 'blue',
       prefs_cardAging: 'regular'
-    });
+    };
 
-    const url = new URL(`${this.baseUrl}/boards`);
-    url.searchParams.set('key', this.config.apiKey);
-    url.searchParams.set('token', this.config.apiToken);
-
-    const response = await fetch(url.toString(), {
+    return this.makeRequest<TrelloBoard>('/boards', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      body: params.toString()
+      body: JSON.stringify(createData)
     });
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`Failed to create board: ${response.status} ${response.statusText} - ${errorText}`);
-    }
-
-    const board = await response.json();
-    console.log(`✅ Created board: ${board.url}`);
-    return board;
   }
 
   // === LIST OPERATIONS ===
@@ -117,30 +109,16 @@ export class TrelloClient {
   async createList(boardId: string, name: string, position?: number): Promise<TrelloList> {
     console.log(`📝 Creating list: "${name}"`);
 
-    const params = new URLSearchParams({
+    const listData = {
       name,
       idBoard: boardId,
       pos: position?.toString() || 'bottom'
-    });
+    };
 
-    const url = new URL(`${this.baseUrl}/lists`);
-    url.searchParams.set('key', this.config.apiKey);
-    url.searchParams.set('token', this.config.apiToken);
-
-    const response = await fetch(url.toString(), {
+    return this.makeRequest<TrelloList>('/lists', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      body: params.toString()
+      body: JSON.stringify(listData)
     });
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`Failed to create list: ${response.status} ${response.statusText} - ${errorText}`);
-    }
-
-    return response.json();
   }
 
   async findListByName(boardId: string, name: string): Promise<TrelloList | null> {
@@ -173,39 +151,20 @@ export class TrelloClient {
   ): Promise<TrelloCard> {
     console.log(`🃏 Creating card: "${name.substring(0, 50)}..."`);
 
-    const params = new URLSearchParams({
+    const cardData = {
       name,
       desc: description || '',
       idList: listId,
-      pos: options.position?.toString() || 'bottom'
-    });
+      pos: options.position?.toString() || 'bottom',
+      due: options.due || null,
+      idLabels: options.labels?.join(',') || null
+    };
 
-    if (options.due) {
-      params.set('due', options.due);
-    }
-
-    if (options.labels && options.labels.length > 0) {
-      params.set('idLabels', options.labels.join(','));
-    }
-
-    const url = new URL(`${this.baseUrl}/cards`);
-    url.searchParams.set('key', this.config.apiKey);
-    url.searchParams.set('token', this.config.apiToken);
-
-    const response = await fetch(url.toString(), {
+    const card = await this.makeRequest<TrelloCard>('/cards', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      body: params.toString()
+      body: JSON.stringify(cardData)
     });
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`Failed to create card: ${response.status} ${response.statusText} - ${errorText}`);
-    }
-
-    const card = await response.json();
     console.log(`   ✅ Created: ${card.shortUrl}`);
     return card;
   }
@@ -220,29 +179,15 @@ export class TrelloClient {
   async moveCardToList(cardId: string, listId: string, position?: number): Promise<TrelloCard> {
     console.log(`🔄 Moving card to list: ${listId}`);
 
-    const params = new URLSearchParams({
+    const moveData = {
       idList: listId,
       pos: position?.toString() || 'top'
-    });
+    };
 
-    const url = new URL(`${this.baseUrl}/cards/${cardId}`);
-    url.searchParams.set('key', this.config.apiKey);
-    url.searchParams.set('token', this.config.apiToken);
-
-    const response = await fetch(url.toString(), {
+    return this.makeRequest<TrelloCard>(`/cards/${cardId}`, {
       method: 'PUT',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      body: params.toString()
+      body: JSON.stringify(moveData)
     });
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`Failed to move card: ${response.status} ${response.statusText} - ${errorText}`);
-    }
-
-    return response.json();
   }
 
   async archiveCard(cardId: string): Promise<void> {
@@ -265,30 +210,16 @@ export class TrelloClient {
   ): Promise<TrelloLabel> {
     console.log(`🏷️  Creating label: "${name}" (${color})`);
 
-    const params = new URLSearchParams({
+    const labelData = {
       name,
       color: color || 'null',
       idBoard: boardId
-    });
+    };
 
-    const url = new URL(`${this.baseUrl}/labels`);
-    url.searchParams.set('key', this.config.apiKey);
-    url.searchParams.set('token', this.config.apiToken);
-
-    const response = await fetch(url.toString(), {
+    return this.makeRequest<TrelloLabel>('/labels', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      body: params.toString()
+      body: JSON.stringify(labelData)
     });
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`Failed to create label: ${response.status} ${response.statusText} - ${errorText}`);
-    }
-
-    return response.json();
   }
 
   async findLabelByName(boardId: string, name: string): Promise<TrelloLabel | null> {
@@ -301,10 +232,10 @@ export class TrelloClient {
   async testConnection(): Promise<boolean> {
     try {
       const boards = await this.getBoards();
-      console.log(`✅ Trello connection successful - Found ${boards.length} boards`);
+      console.log(`✅ Atlassian Trello API connection successful - Found ${boards.length} boards`);
       return true;
     } catch (error) {
-      console.error('❌ Trello connection failed:', error.message);
+      console.error('❌ Atlassian Trello API connection failed:', error.message);
       return false;
     }
   }
