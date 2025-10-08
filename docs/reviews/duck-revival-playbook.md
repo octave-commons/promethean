@@ -15,12 +15,12 @@ A practical checklist and cross-links for the open PR cluster around `duck-web`,
   - Export `ActRationalePayload` from `enso-protocol`.
   - Enables UI guardrail copy; independent of audio path.
 
-- **#1448 – voice forwarder (seq/pts, EOF)**
+- **#1448 – voice forwarder seq/pts, EOF**
   - Document `protocol` parsing + fallback to 20ms; clamp out-of-range to 20ms.
   - Register/deregister lifecycle as per gateway protocol.
   - Consumes output from #1443 worklet (once fixed).
 
-- **#1447 – DUCK feature flags (web + node)**
+- **#1447 – DUCK feature flags web + node**
   - Replace broken impl with pure ESM helpers on web + node.
   - Sync names in `docs/duck/FEATURE_FLAGS.md`.
   - Blocks nothing else but should land before #1443/#1446 to avoid drift.
@@ -45,11 +45,18 @@ A practical checklist and cross-links for the open PR cluster around `duck-web`,
   - Fix import paths/tests; provides `clamp16` + `float32ToInt16`. Mergeable now.
 
 ## Merge order
+```
 1. #1442, #1444 → **land first** (leaf libs).
+```
+```
 2. #1451, #1450 → **land next** (infra + protocol).
+```
+```
 3. #1447, #1446, #1445 → **stabilise web helpers**.
+```
+```
 4. #1448, #1443 → **voice + mic path**.
-
+```
 ## Review checklist (applies to all)
 - [ ] CI green; new tests added for changed logic.
 - [ ] No mutation in helpers; functional style only.

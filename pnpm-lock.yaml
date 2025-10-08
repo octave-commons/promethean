@@ -2426,6 +2426,12 @@ importers:
       '@promethean/markdown':
         specifier: workspace:*
         version: link:../markdown
+      '@promethean/utils':
+        specifier: workspace:*
+        version: link:../utils
+      gray-matter:
+        specifier: ^4.0.3
+        version: 4.0.3
       mongodb:
         specifier: ^6.18.0
         version: 6.18.0(socks@2.8.7)

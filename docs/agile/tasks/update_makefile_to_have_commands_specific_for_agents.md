@@ -1,15 +1,19 @@
 ---
+```
 uuid: 9fbe9f3a-0c6a-472b-8f7c-b100dab6f5de
+```
 title: replace agent automation makefile targets with pnpm scripts
 status: todo
 priority: P3
 labels: []
+```
 created_at: '2025-09-15T02:02:58.523Z'
+```
 ---
 ## 🛠️ Task: Replace Makefile agent commands with pnpm scripts
 
 The earlier plan called for agent-specific Makefile targets such as `make start:duck`. The audit showed those never shipped,
-and the active tooling already relies on pnpm workspaces (`scripts/dev.mjs`, `pnpm --filter …`). Rather than reviving the
+and the active tooling already relies on pnpm workspaces `scripts/dev.mjs`, `pnpm --filter …`. Rather than reviving the
 Makefile, we will publish pnpm scripts that mirror the desired ergonomics.
 
 ## ✅ Decision
@@ -18,7 +22,7 @@ Makefile, we will publish pnpm scripts that mirror the desired ergonomics.
 
 ## 🔍 Findings from audit
 - No maintained agent workflows depend on `Makefile`/`Makefile.hy`.
-- Existing developers start services via `pnpm dev:all` (scripts/dev.mjs) or direct package scripts.
+- Existing developers start services via `pnpm dev:all` scripts/dev.mjs or direct package scripts.
 - Documentation still directs contributors to non-existent Makefile targets.
 
 ---
@@ -59,7 +63,7 @@ Nothing
 
 ## 🔍 Relevant Links
 - [[kanban]]
-- [MIGRATION_PLAN](../MIGRATION_PLAN.md)
-- [[promethean-dev-workflow-update|promethean dev workflow update]]
+- MIGRATION_PLAN$../MIGRATION_PLAN.md
+- [promethean-dev-workflow-update|promethean dev workflow update]
 
 #devops #todo

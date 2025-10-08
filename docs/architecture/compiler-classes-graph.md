@@ -1,6 +1,6 @@
 ---
 project: Promethean
-hashtags: [#knowledge-graph, #compiler, #lisp, #classes]
+hashtags: #knowledge-graph, #compiler, #lisp, #classes
 ---
 
 # 🧩 Knowledge Graph — Lisp `defclass`

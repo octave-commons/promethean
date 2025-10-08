@@ -1,10 +1,14 @@
 ---
+```
 uuid: bbd54acd-a5ea-4c0c-a20c-9608f0e898ed
+```
 title: add unit tests for date tools py md
 status: todo
 priority: P3
 labels: []
+```
 created_at: '2025-09-15T02:02:58.506Z'
+```
 ---
 ## 🛠️ Task: Add unit tests for date_tools.py
 
@@ -31,8 +35,9 @@ Write pytest tests covering functions in `shared/py/date_tools.py`.
 ---
 
 ## 🔗 Related Epics
+```
 #codex-task #testing
-
+```
 ---
 
 ## ⛓️ Blocked By
@@ -45,6 +50,6 @@ Nothing
 
 ## 🔍 Relevant Links
 - [[kanban]]
-- [Untested modules](../../untested-code.md)
+- [Untested modules]../../untested-code.md
 #done
 

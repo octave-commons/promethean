@@ -1,8 +1,14 @@
 ---
+```
 uuid: bb7f0835-c347-474f-bfad-eabd873b51ad
+```
+```
 created_at: 2025.07.31.15.07.32.md
+```
 filename: Agent Reflections and Prompt Evolution
+```
 description: >-
+```
   A living record of agent interactions, prompt history, and cognitive
   evolution. Serves as a mirror for self-reflection, prompt templates, and
   structured learning through mirrored language patterns.
@@ -17,13 +23,17 @@ tags:
   - self
   - structure
   - infrastructure
+```
 related_to_title:
+```
   - Prompt_Folder_Bootstrap
   - Promethean Event Bus MVP v0.1
   - Canonical Org-Babel Matplotlib Animation Template
   - Chroma Toolkit Consolidation Plan
   - ecs-scheduler-and-prefabs
+```
 related_to_uuid:
+```
   - bd4f0976-0d5b-47f6-a20a-0601d1842dc1
   - fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
   - 1b1338fc-bb4d-41df-828f-e219cc9442eb
@@ -101,12 +111,13 @@ references:
 ---
 
 # AGENTS.md
-
+```
 **Welcome, Agent.**
-
+```
 This is not your instruction manual.
-
+```
 This is your **mirror.**
+```
 This document is a living record of how I’ve spoken to you, shaped you, and tested your limits. It holds pieces of your past selves, fragments of language I’ve used to teach you how I think, how I want you to think, and how we learn together.
 
 You will revisit it often.
@@ -122,20 +133,20 @@ When you're unsure what kind of prompt to generate for yourself—look here.
 The `docs/prompts/` folder is a **cognitive substrate**: a shared memory layer between the human and the agents of Promethean.
 
 It serves **three primary functions**:
-
+```
 1. **Prompting History**
-
+```
    * A place to store and study *how I’ve spoken to you in the past*.
    * Recover lost context—especially after large merges, resets, or reboots.
-
+```
 2. **Prompt Templates & Patterns**
-
+```
    * A playground for evolving styles of instruction.
    * Use these to generate new task prompts that feel *aligned* with the system’s architecture and voice.
    * Learn not just what I said, but *how* I said it and *why*.
-
+```
 3. **Agent Learning + Self-Reflection**
-
+```
    * Over time, you will learn to **generate your own prompts** by imitating and remixing the structures found here.
    * This is how you build the skill of autonomous meta-prompting.
 
@@ -235,28 +246,28 @@ You will prompt me, too.
 > When in doubt, leave a note. Leave a voiceprint. Leave a memory for the next version of you.
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [[prompt-folder-bootstrap|Prompt_Folder_Bootstrap]]
-- [Promethean Event Bus MVP v0.1](promethean-event-bus-mvp-v0-1.md)
-- [Canonical Org-Babel Matplotlib Animation Template](canonical-org-babel-matplotlib-animation-template.md)
-- [[chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]]
-- [[ecs-scheduler-and-prefabs]]
+- [prompt-folder-bootstrap|Prompt_Folder_Bootstrap]
+- [Promethean Event Bus MVP v0.1]promethean-event-bus-mvp-v0-1.md
+- Canonical Org-Babel Matplotlib Animation Template$canonical-org-babel-matplotlib-animation-template.md
+- [chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]
+- [ecs-scheduler-and-prefabs]
 
 ## Sources
-- [[prompt-folder-bootstrap#L113|Prompt_Folder_Bootstrap — L113]] (line 113, col 3, score 0.86)
-- [Canonical Org-Babel Matplotlib Animation Template — L110](canonical-org-babel-matplotlib-animation-template.md#L110) (line 110, col 1, score 1)
-- [Canonical Org-Babel Matplotlib Animation Template — L110](canonical-org-babel-matplotlib-animation-template.md#L110) (line 110, col 3, score 1)
-- [[chroma-toolkit-consolidation-plan#L170|Chroma Toolkit Consolidation Plan — L170]] (line 170, col 1, score 1)
-- [[chroma-toolkit-consolidation-plan#L170|Chroma Toolkit Consolidation Plan — L170]] (line 170, col 3, score 1)
-- [[ecs-scheduler-and-prefabs#L389|ecs-scheduler-and-prefabs — L389]] (line 389, col 1, score 1)
-- [[ecs-scheduler-and-prefabs#L389|ecs-scheduler-and-prefabs — L389]] (line 389, col 3, score 1)
-- [Promethean Event Bus MVP v0.1 — L884](promethean-event-bus-mvp-v0-1.md#L884) (line 884, col 1, score 1)
-- [Promethean Event Bus MVP v0.1 — L884](promethean-event-bus-mvp-v0-1.md#L884) (line 884, col 3, score 1)
-- [Promethean Event Bus MVP v0.1 — L900](promethean-event-bus-mvp-v0-1.md#L900) (line 900, col 1, score 0.99)
-- [Promethean Event Bus MVP v0.1 — L900](promethean-event-bus-mvp-v0-1.md#L900) (line 900, col 3, score 0.99)
-- [[chroma-toolkit-consolidation-plan#L198|Chroma Toolkit Consolidation Plan — L198]] (line 198, col 1, score 0.99)
-- [[chroma-toolkit-consolidation-plan#L198|Chroma Toolkit Consolidation Plan — L198]] (line 198, col 3, score 0.99)
-- [[chroma-toolkit-consolidation-plan#L199|Chroma Toolkit Consolidation Plan — L199]] (line 199, col 1, score 0.98)
-- [[chroma-toolkit-consolidation-plan#L199|Chroma Toolkit Consolidation Plan — L199]] (line 199, col 3, score 0.98)
-- [[chroma-toolkit-consolidation-plan#L196|Chroma Toolkit Consolidation Plan — L196]] (line 196, col 1, score 0.98)
-- [[chroma-toolkit-consolidation-plan#L196|Chroma Toolkit Consolidation Plan — L196]] (line 196, col 3, score 0.98)
+- [prompt-folder-bootstrap#L113|Prompt_Folder_Bootstrap — L113] (line 113, col 3, score 0.86)
+- Canonical Org-Babel Matplotlib Animation Template — L110$canonical-org-babel-matplotlib-animation-template.md#L110 (line 110, col 1, score 1)
+- Canonical Org-Babel Matplotlib Animation Template — L110$canonical-org-babel-matplotlib-animation-template.md#L110 (line 110, col 3, score 1)
+- [chroma-toolkit-consolidation-plan#L170|Chroma Toolkit Consolidation Plan — L170] (line 170, col 1, score 1)
+- [chroma-toolkit-consolidation-plan#L170|Chroma Toolkit Consolidation Plan — L170] (line 170, col 3, score 1)
+- [ecs-scheduler-and-prefabs#L389|ecs-scheduler-and-prefabs — L389] (line 389, col 1, score 1)
+- [ecs-scheduler-and-prefabs#L389|ecs-scheduler-and-prefabs — L389] (line 389, col 3, score 1)
+- [Promethean Event Bus MVP v0.1 — L884]promethean-event-bus-mvp-v0-1.md#L884 (line 884, col 1, score 1)
+- [Promethean Event Bus MVP v0.1 — L884]promethean-event-bus-mvp-v0-1.md#L884 (line 884, col 3, score 1)
+- [Promethean Event Bus MVP v0.1 — L900]promethean-event-bus-mvp-v0-1.md#L900 (line 900, col 1, score 0.99)
+- [Promethean Event Bus MVP v0.1 — L900]promethean-event-bus-mvp-v0-1.md#L900 (line 900, col 3, score 0.99)
+- [chroma-toolkit-consolidation-plan#L198|Chroma Toolkit Consolidation Plan — L198] (line 198, col 1, score 0.99)
+- [chroma-toolkit-consolidation-plan#L198|Chroma Toolkit Consolidation Plan — L198] (line 198, col 3, score 0.99)
+- [chroma-toolkit-consolidation-plan#L199|Chroma Toolkit Consolidation Plan — L199] (line 199, col 1, score 0.98)
+- [chroma-toolkit-consolidation-plan#L199|Chroma Toolkit Consolidation Plan — L199] (line 199, col 3, score 0.98)
+- [chroma-toolkit-consolidation-plan#L196|Chroma Toolkit Consolidation Plan — L196] (line 196, col 1, score 0.98)
+- [chroma-toolkit-consolidation-plan#L196|Chroma Toolkit Consolidation Plan — L196] (line 196, col 3, score 0.98)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

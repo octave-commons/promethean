@@ -1,10 +1,14 @@
 ---
+```
 uuid: e1591a4b-1a4f-48c9-ab6a-01fe11c524f3
+```
 title: llm service must allow streamed responses
 status: todo
 priority: P3
 labels: []
+```
 created_at: '2025-09-15T02:02:58.516Z'
+```
 ---
 ## 🛠️ Description
 

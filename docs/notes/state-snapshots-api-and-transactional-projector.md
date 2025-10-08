@@ -1,8 +1,14 @@
 ---
+```
 uuid: 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
+```
+```
 created_at: 2025.08.08.20.08.83.md
+```
 filename: State Snapshots API and Transactional Projector
+```
 description: >-
+```
   Implements HTTP-based state snapshots with ETags for versioning and a
   transactional projector for atomic multi-collection updates. Includes
   time-travel queries and a dev harness for end-to-end testing.
@@ -15,7 +21,9 @@ tags:
   - time-travel
   - dev
   - harness
+```
 related_to_title:
+```
   - prom-lib-rate-limiters-and-replay-api
   - schema-evolution-workflow
   - WebSocket Gateway Implementation
@@ -40,7 +48,9 @@ related_to_title:
   - zero-copy-snapshots-and-workers
   - obsidian-ignore-node-modules-regex
   - sibilant-metacompiler-overview
+```
 related_to_uuid:
+```
   - aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
   - d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
   - e811123d-5841-4e52-bf8c-978f26db4230
@@ -589,7 +599,7 @@ references:
 ---
 Note: Consolidated here → ../notes/services/state-snapshots-transactional-projector-timetravel-devharness.md
 
-Alright, **Part 7**: **State Snapshots API**, **Transactional Projector**, **Time-Travel queries**, and a tiny **Dev Harness** for end-to-end tests. Paste ’em under `shared/js/prom-lib/` (plus one `tests/` file).
+Alright, **Part 7**: **State Snapshots API**, **Transactional Projector**, **Time-Travel queries**, and a tiny **Dev Harness** for end-to-end tests. Paste ’em under `shared/js/prom-lib/` plus one `tests/` file.
 
 ---
 
@@ -620,7 +630,7 @@ export function startSnapshotApi(db: Db, port = 8091, opts: SnapshotApiOptions) 
 
   const coll = db.collection(opts.collection);
   const keyField = opts.keyField ?? "_key";
-  const cacheCtl = `public, max-age=${opts.maxAgeSeconds ?? 5}`;
+  const cacheCtl = `public, max-age={opts.maxAgeSeconds ?? 5}`;
 
   // GET /snap/:key
   app.get("/snap/:key", async (req, res) => {
@@ -665,7 +675,7 @@ export function startSnapshotApi(db: Db, port = 8091, opts: SnapshotApiOptions) 
     res.status(200).end();
   });
 
-  return app.listen(port, () => console.log(`[snapshot-api] on :${port} (${opts.collection})`));
+  return app.listen(port, () => console.log(`[snapshot-api] on :{port} ({opts.collection})`));
 }
 ```
 
@@ -677,7 +687,7 @@ export function startSnapshotApi(db: Db, port = 8091, opts: SnapshotApiOptions) 
 
 ---
 
-# Transactional Projector (multi-collection, atomic)
+# Transactional Projector multi-collection, atomic
 
 ```ts
 // shared/js/prom-lib/projectors/transactional.ts
@@ -716,7 +726,7 @@ export async function startTransactionalProjector<E=any>(bus: EventBus, db: Db, 
 }
 ```
 
-**Usage example (process state → processes + stats):**
+**Usage example process state → processes + stats:**
 
 ```ts
 // services/js/projectors/process.txn.ts
@@ -732,22 +742,22 @@ export async function startProcessTxnProjector(bus: MongoEventBus, db: any) {
       // Collection A: upsert processes
       await db.collection("processes").updateOne(
         { _key: p.processId },
-        { $set: { ...p, _key: p.processId, _ts: e.ts } },
+        { set: { ...p, _key: p.processId, _ts: e.ts } },
         { upsert: true, session: s }
       );
       // Collection B: aggregate a simple host counter (idempotent upsert)
       await db.collection("host_stats").updateOne(
         { _key: p.host },
-        { $setOnInsert: { _key: p.host }, $inc: { seen: 1 }, $set: { last_ts: e.ts } },
+        { setOnInsert: { _key: p.host }, inc: { seen: 1 }, set: { last_ts: e.ts } },
         { upsert: true, session: s }
       );
     },
   });
 }
 ```
-
+```
 **Mermaid (ack-after-commit):**
-
+```
 ```mermaid
 sequenceDiagram
   participant Bus as EventBus
@@ -763,7 +773,7 @@ sequenceDiagram
 
 # Time-Travel Query Helper (reconstruct state at T)
 
-Works with compaction topics (latest-by-key) + periodic snapshots.
+Works with compaction topics latest-by-key + periodic snapshots.
 
 ```ts
 // shared/js/prom-lib/timetravel/reconstruct.ts
@@ -818,9 +828,9 @@ export async function processAt(store: MongoEventStore, processId: string, atTs:
   });
 }
 ```
-
+```
 **Mermaid:**
-
+```
 ```mermaid
 flowchart LR
   Snap[Snapshot <= T] --> Base
@@ -832,7 +842,7 @@ flowchart LR
 
 ---
 
-# Dev Harness (spin in-memory bus + fake services)
+# Dev Harness spin in-memory bus + fake services
 
 ```ts
 // shared/js/prom-lib/dev/harness.ts
@@ -863,9 +873,9 @@ export async function startHarness({ wsPort = 9090, httpPort = 9091 } = {}): Pro
   };
 }
 ```
-
+```
 **Integration test (Jest)**
-
+```
 ```ts
 // tests/dev.harness.int.test.ts
 import { startHarness } from "../shared/js/prom-lib/dev/harness";
@@ -913,166 +923,166 @@ test("harness end-to-end", async () => {
 
 Want **Part 8** next? I can deliver:
 
-* **Multi-tenant topics** (namespace + policy isolation),
+* **Multi-tenant topics** namespace + policy isolation,
 * **SLO monitor** (lag, ack time, error rate with alarms),
-* **Bulk replayer** (topic→topic with filter/map),
+* **Bulk replayer** topic→topic with filter/map,
 * and **JS/Hy generators** to autowire schemas/topics → typed clients + validators.
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [[prom-lib-rate-limiters-and-replay-api]]
-- [[schema-evolution-workflow]]
-- [[websocket-gateway-implementation|WebSocket Gateway Implementation]]
-- [Services](chunks/services.md)
-- [[unique-info-dump-index|Unique Info Dump Index]]
-- [[mongo-outbox-implementation|Mongo Outbox Implementation]]
-- [[stateful-partitions-and-rebalancing|Stateful Partitions and Rebalancing]]
-- [[docs/unique/event-bus-mvp|Event Bus MVP]]
-- [Promethean Event Bus MVP v0.1](promethean-event-bus-mvp-v0-1.md)
-- [[docs/unique/archetype-ecs|archetype-ecs]]
-- [[docs/unique/aionian-circuit-math|aionian-circuit-math]]
-- [Diagrams](chunks/diagrams.md)
-- [DSL](chunks/dsl.md)
-- [[event-bus-projections-architecture|Event Bus Projections Architecture]]
-- [[chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]]
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore|Agent Tasks: Persistence Migration to DualStore]]
-- [[docs/unique/ecs-offload-workers|ecs-offload-workers]]
-- [[observability-infrastructure-setup]]
-- [[migrate-to-provider-tenant-architecture|Migrate to Provider-Tenant Architecture]]
-- [[cross-language-runtime-polymorphism|Cross-Language Runtime Polymorphism]]
-- [[ecs-scheduler-and-prefabs]]
-- [[docs/unique/zero-copy-snapshots-and-workers|zero-copy-snapshots-and-workers]]
-- [[docs/unique/obsidian-ignore-node-modules-regex|obsidian-ignore-node-modules-regex]]
-- [[sibilant-metacompiler-overview]]
+- [prom-lib-rate-limiters-and-replay-api]
+- [schema-evolution-workflow]
+- [websocket-gateway-implementation|WebSocket Gateway Implementation]
+- [Services]chunks/services.md
+- [unique-info-dump-index|Unique Info Dump Index]
+- [mongo-outbox-implementation|Mongo Outbox Implementation]
+- [stateful-partitions-and-rebalancing|Stateful Partitions and Rebalancing]
+- [docs/unique/event-bus-mvp|Event Bus MVP]
+- [Promethean Event Bus MVP v0.1]promethean-event-bus-mvp-v0-1.md
+- [docs/unique/archetype-ecs|archetype-ecs]
+- [docs/unique/aionian-circuit-math|aionian-circuit-math]
+- [Diagrams]chunks/diagrams.md
+- [DSL]chunks/dsl.md
+- [event-bus-projections-architecture|Event Bus Projections Architecture]
+- [chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore|Agent Tasks: Persistence Migration to DualStore]
+- [docs/unique/ecs-offload-workers|ecs-offload-workers]
+- [observability-infrastructure-setup]
+- [migrate-to-provider-tenant-architecture|Migrate to Provider-Tenant Architecture]
+- [cross-language-runtime-polymorphism|Cross-Language Runtime Polymorphism]
+- [ecs-scheduler-and-prefabs]
+- [docs/unique/zero-copy-snapshots-and-workers|zero-copy-snapshots-and-workers]
+- [docs/unique/obsidian-ignore-node-modules-regex|obsidian-ignore-node-modules-regex]
+- [sibilant-metacompiler-overview]
 
 ## Sources
-- [Services — L6](chunks/services.md#L6) (line 6, col 1, score 0.85)
-- [Services — L6](chunks/services.md#L6) (line 6, col 3, score 0.85)
-- [[unique-info-dump-index#L40|Unique Info Dump Index — L40]] (line 40, col 1, score 0.85)
-- [[unique-info-dump-index#L40|Unique Info Dump Index — L40]] (line 40, col 3, score 0.85)
-- [[prom-lib-rate-limiters-and-replay-api#L90|prom-lib-rate-limiters-and-replay-api — L90]] (line 90, col 1, score 0.88)
-- [[schema-evolution-workflow#L130|schema-evolution-workflow — L130]] (line 130, col 1, score 0.88)
-- [[schema-evolution-workflow#L222|schema-evolution-workflow — L222]] (line 222, col 1, score 0.88)
-- [[websocket-gateway-implementation#L318|WebSocket Gateway Implementation — L318]] (line 318, col 1, score 0.86)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L136|Agent Tasks: Persistence Migration to DualStore — L136]] (line 136, col 1, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L136|Agent Tasks: Persistence Migration to DualStore — L136]] (line 136, col 3, score 1)
-- [[chroma-toolkit-consolidation-plan#L166|Chroma Toolkit Consolidation Plan — L166]] (line 166, col 1, score 1)
-- [[chroma-toolkit-consolidation-plan#L166|Chroma Toolkit Consolidation Plan — L166]] (line 166, col 3, score 1)
-- [[docs/unique/event-bus-mvp#L551|Event Bus MVP — L551]] (line 551, col 1, score 1)
-- [[docs/unique/event-bus-mvp#L551|Event Bus MVP — L551]] (line 551, col 3, score 1)
-- [[migrate-to-provider-tenant-architecture#L284|Migrate to Provider-Tenant Architecture — L284]] (line 284, col 1, score 1)
-- [[migrate-to-provider-tenant-architecture#L284|Migrate to Provider-Tenant Architecture — L284]] (line 284, col 3, score 1)
-- [Services — L12](chunks/services.md#L12) (line 12, col 1, score 1)
-- [Services — L12](chunks/services.md#L12) (line 12, col 3, score 1)
-- [[cross-language-runtime-polymorphism#L211|Cross-Language Runtime Polymorphism — L211]] (line 211, col 1, score 1)
-- [[cross-language-runtime-polymorphism#L211|Cross-Language Runtime Polymorphism — L211]] (line 211, col 3, score 1)
-- [[docs/unique/event-bus-mvp#L550|Event Bus MVP — L550]] (line 550, col 1, score 1)
-- [[docs/unique/event-bus-mvp#L550|Event Bus MVP — L550]] (line 550, col 3, score 1)
-- [[mongo-outbox-implementation#L554|Mongo Outbox Implementation — L554]] (line 554, col 1, score 1)
-- [[mongo-outbox-implementation#L554|Mongo Outbox Implementation — L554]] (line 554, col 3, score 1)
-- [[docs/unique/ecs-offload-workers#L465|ecs-offload-workers — L465]] (line 465, col 1, score 1)
-- [[docs/unique/ecs-offload-workers#L465|ecs-offload-workers — L465]] (line 465, col 3, score 1)
-- [[docs/unique/event-bus-mvp#L548|Event Bus MVP — L548]] (line 548, col 1, score 1)
-- [[docs/unique/event-bus-mvp#L548|Event Bus MVP — L548]] (line 548, col 3, score 1)
-- [[mongo-outbox-implementation#L551|Mongo Outbox Implementation — L551]] (line 551, col 1, score 1)
-- [[mongo-outbox-implementation#L551|Mongo Outbox Implementation — L551]] (line 551, col 3, score 1)
-- [Promethean Event Bus MVP v0.1 — L883](promethean-event-bus-mvp-v0-1.md#L883) (line 883, col 1, score 1)
-- [Promethean Event Bus MVP v0.1 — L883](promethean-event-bus-mvp-v0-1.md#L883) (line 883, col 3, score 1)
-- [[mongo-outbox-implementation#L557|Mongo Outbox Implementation — L557]] (line 557, col 1, score 1)
-- [[mongo-outbox-implementation#L557|Mongo Outbox Implementation — L557]] (line 557, col 3, score 1)
-- [[schema-evolution-workflow#L486|schema-evolution-workflow — L486]] (line 486, col 1, score 1)
-- [[schema-evolution-workflow#L486|schema-evolution-workflow — L486]] (line 486, col 3, score 1)
-- [[stateful-partitions-and-rebalancing#L533|Stateful Partitions and Rebalancing — L533]] (line 533, col 1, score 1)
-- [[stateful-partitions-and-rebalancing#L533|Stateful Partitions and Rebalancing — L533]] (line 533, col 3, score 1)
-- [[unique-info-dump-index#L68|Unique Info Dump Index — L68]] (line 68, col 1, score 1)
-- [[unique-info-dump-index#L68|Unique Info Dump Index — L68]] (line 68, col 3, score 1)
-- [[docs/unique/aionian-circuit-math#L158|aionian-circuit-math — L158]] (line 158, col 1, score 1)
-- [[docs/unique/aionian-circuit-math#L158|aionian-circuit-math — L158]] (line 158, col 3, score 1)
-- [[docs/unique/archetype-ecs#L457|archetype-ecs — L457]] (line 457, col 1, score 1)
-- [[docs/unique/archetype-ecs#L457|archetype-ecs — L457]] (line 457, col 3, score 1)
-- [Diagrams — L9](chunks/diagrams.md#L9) (line 9, col 1, score 1)
-- [Diagrams — L9](chunks/diagrams.md#L9) (line 9, col 3, score 1)
-- [DSL — L10](chunks/dsl.md#L10) (line 10, col 1, score 1)
-- [DSL — L10](chunks/dsl.md#L10) (line 10, col 3, score 1)
-- [Services — L13](chunks/services.md#L13) (line 13, col 1, score 1)
-- [Services — L13](chunks/services.md#L13) (line 13, col 3, score 1)
-- [[docs/unique/ecs-offload-workers#L467|ecs-offload-workers — L467]] (line 467, col 1, score 1)
-- [[docs/unique/ecs-offload-workers#L467|ecs-offload-workers — L467]] (line 467, col 3, score 1)
-- [[docs/unique/event-bus-mvp#L549|Event Bus MVP — L549]] (line 549, col 1, score 1)
-- [[docs/unique/event-bus-mvp#L549|Event Bus MVP — L549]] (line 549, col 3, score 1)
-- [[observability-infrastructure-setup#L364|observability-infrastructure-setup — L364]] (line 364, col 1, score 1)
-- [[observability-infrastructure-setup#L364|observability-infrastructure-setup — L364]] (line 364, col 3, score 1)
-- [Services — L14](chunks/services.md#L14) (line 14, col 1, score 1)
-- [Services — L14](chunks/services.md#L14) (line 14, col 3, score 1)
-- [[docs/unique/event-bus-mvp#L553|Event Bus MVP — L553]] (line 553, col 1, score 1)
-- [[docs/unique/event-bus-mvp#L553|Event Bus MVP — L553]] (line 553, col 3, score 1)
-- [[mongo-outbox-implementation#L559|Mongo Outbox Implementation — L559]] (line 559, col 1, score 1)
-- [[mongo-outbox-implementation#L559|Mongo Outbox Implementation — L559]] (line 559, col 3, score 1)
-- [[prom-lib-rate-limiters-and-replay-api#L388|prom-lib-rate-limiters-and-replay-api — L388]] (line 388, col 1, score 1)
-- [[prom-lib-rate-limiters-and-replay-api#L388|prom-lib-rate-limiters-and-replay-api — L388]] (line 388, col 3, score 1)
-- [[mongo-outbox-implementation#L552|Mongo Outbox Implementation — L552]] (line 552, col 1, score 1)
-- [[mongo-outbox-implementation#L552|Mongo Outbox Implementation — L552]] (line 552, col 3, score 1)
-- [[prom-lib-rate-limiters-and-replay-api#L386|prom-lib-rate-limiters-and-replay-api — L386]] (line 386, col 1, score 1)
-- [[prom-lib-rate-limiters-and-replay-api#L386|prom-lib-rate-limiters-and-replay-api — L386]] (line 386, col 3, score 1)
-- [Promethean Event Bus MVP v0.1 — L881](promethean-event-bus-mvp-v0-1.md#L881) (line 881, col 1, score 1)
-- [Promethean Event Bus MVP v0.1 — L881](promethean-event-bus-mvp-v0-1.md#L881) (line 881, col 3, score 1)
-- [[schema-evolution-workflow#L485|schema-evolution-workflow — L485]] (line 485, col 1, score 1)
-- [[schema-evolution-workflow#L485|schema-evolution-workflow — L485]] (line 485, col 3, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L137|Agent Tasks: Persistence Migration to DualStore — L137]] (line 137, col 1, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L137|Agent Tasks: Persistence Migration to DualStore — L137]] (line 137, col 3, score 1)
-- [[chroma-toolkit-consolidation-plan#L175|Chroma Toolkit Consolidation Plan — L175]] (line 175, col 1, score 1)
-- [[chroma-toolkit-consolidation-plan#L175|Chroma Toolkit Consolidation Plan — L175]] (line 175, col 3, score 1)
-- [[docs/unique/event-bus-mvp#L547|Event Bus MVP — L547]] (line 547, col 1, score 1)
-- [[docs/unique/event-bus-mvp#L547|Event Bus MVP — L547]] (line 547, col 3, score 1)
-- [[event-bus-projections-architecture#L150|Event Bus Projections Architecture — L150]] (line 150, col 1, score 1)
-- [[event-bus-projections-architecture#L150|Event Bus Projections Architecture — L150]] (line 150, col 3, score 1)
-- [[unique-info-dump-index#L158|Unique Info Dump Index — L158]] (line 158, col 1, score 0.97)
-- [[unique-info-dump-index#L158|Unique Info Dump Index — L158]] (line 158, col 3, score 0.97)
-- [[unique-info-dump-index#L159|Unique Info Dump Index — L159]] (line 159, col 1, score 0.96)
-- [[unique-info-dump-index#L159|Unique Info Dump Index — L159]] (line 159, col 3, score 0.96)
-- [[unique-info-dump-index#L156|Unique Info Dump Index — L156]] (line 156, col 1, score 0.95)
-- [[unique-info-dump-index#L156|Unique Info Dump Index — L156]] (line 156, col 3, score 0.95)
-- [[unique-info-dump-index#L157|Unique Info Dump Index — L157]] (line 157, col 1, score 0.94)
-- [[unique-info-dump-index#L157|Unique Info Dump Index — L157]] (line 157, col 3, score 0.94)
-- [[unique-info-dump-index#L155|Unique Info Dump Index — L155]] (line 155, col 1, score 0.95)
-- [[unique-info-dump-index#L155|Unique Info Dump Index — L155]] (line 155, col 3, score 0.95)
-- [[unique-info-dump-index#L153|Unique Info Dump Index — L153]] (line 153, col 1, score 0.95)
-- [[unique-info-dump-index#L153|Unique Info Dump Index — L153]] (line 153, col 3, score 0.95)
-- [[ecs-scheduler-and-prefabs#L403|ecs-scheduler-and-prefabs — L403]] (line 403, col 1, score 0.98)
-- [[ecs-scheduler-and-prefabs#L403|ecs-scheduler-and-prefabs — L403]] (line 403, col 3, score 0.98)
-- [[docs/unique/zero-copy-snapshots-and-workers#L371|zero-copy-snapshots-and-workers — L371]] (line 371, col 1, score 0.98)
-- [[docs/unique/zero-copy-snapshots-and-workers#L371|zero-copy-snapshots-and-workers — L371]] (line 371, col 3, score 0.98)
-- [[docs/unique/obsidian-ignore-node-modules-regex#L57|obsidian-ignore-node-modules-regex — L57]] (line 57, col 1, score 0.98)
-- [[docs/unique/obsidian-ignore-node-modules-regex#L57|obsidian-ignore-node-modules-regex — L57]] (line 57, col 3, score 0.98)
-- [[ecs-scheduler-and-prefabs#L404|ecs-scheduler-and-prefabs — L404]] (line 404, col 1, score 0.98)
-- [[ecs-scheduler-and-prefabs#L404|ecs-scheduler-and-prefabs — L404]] (line 404, col 3, score 0.98)
-- [[docs/unique/zero-copy-snapshots-and-workers#L372|zero-copy-snapshots-and-workers — L372]] (line 372, col 1, score 0.99)
-- [[docs/unique/zero-copy-snapshots-and-workers#L372|zero-copy-snapshots-and-workers — L372]] (line 372, col 3, score 0.99)
-- [[docs/unique/obsidian-ignore-node-modules-regex#L58|obsidian-ignore-node-modules-regex — L58]] (line 58, col 1, score 0.99)
-- [[docs/unique/obsidian-ignore-node-modules-regex#L58|obsidian-ignore-node-modules-regex — L58]] (line 58, col 3, score 0.99)
-- [[sibilant-metacompiler-overview#L100|sibilant-metacompiler-overview — L100]] (line 100, col 1, score 0.98)
-- [[sibilant-metacompiler-overview#L100|sibilant-metacompiler-overview — L100]] (line 100, col 3, score 0.98)
-- [[docs/unique/event-bus-mvp#L559|Event Bus MVP — L559]] (line 559, col 1, score 0.99)
-- [[docs/unique/event-bus-mvp#L559|Event Bus MVP — L559]] (line 559, col 3, score 0.99)
-- [[schema-evolution-workflow#L494|schema-evolution-workflow — L494]] (line 494, col 1, score 0.99)
-- [[schema-evolution-workflow#L494|schema-evolution-workflow — L494]] (line 494, col 3, score 0.99)
-- [Promethean Event Bus MVP v0.1 — L906](promethean-event-bus-mvp-v0-1.md#L906) (line 906, col 1, score 0.99)
-- [Promethean Event Bus MVP v0.1 — L906](promethean-event-bus-mvp-v0-1.md#L906) (line 906, col 3, score 0.99)
-- [[docs/unique/event-bus-mvp#L558|Event Bus MVP — L558]] (line 558, col 1, score 0.99)
-- [[docs/unique/event-bus-mvp#L558|Event Bus MVP — L558]] (line 558, col 3, score 0.99)
-- [[docs/unique/event-bus-mvp#L564|Event Bus MVP — L564]] (line 564, col 1, score 0.99)
-- [[docs/unique/event-bus-mvp#L564|Event Bus MVP — L564]] (line 564, col 3, score 0.99)
-- [[stateful-partitions-and-rebalancing#L542|Stateful Partitions and Rebalancing — L542]] (line 542, col 1, score 0.99)
-- [[stateful-partitions-and-rebalancing#L542|Stateful Partitions and Rebalancing — L542]] (line 542, col 3, score 0.99)
-- [[stateful-partitions-and-rebalancing#L544|Stateful Partitions and Rebalancing — L544]] (line 544, col 1, score 0.98)
-- [[stateful-partitions-and-rebalancing#L544|Stateful Partitions and Rebalancing — L544]] (line 544, col 3, score 0.98)
-- [[stateful-partitions-and-rebalancing#L543|Stateful Partitions and Rebalancing — L543]] (line 543, col 1, score 0.98)
-- [[stateful-partitions-and-rebalancing#L543|Stateful Partitions and Rebalancing — L543]] (line 543, col 3, score 0.98)
-- [[docs/unique/event-bus-mvp#L561|Event Bus MVP — L561]] (line 561, col 1, score 1)
-- [[docs/unique/event-bus-mvp#L561|Event Bus MVP — L561]] (line 561, col 3, score 1)
-- [[docs/unique/event-bus-mvp#L562|Event Bus MVP — L562]] (line 562, col 1, score 0.99)
-- [[docs/unique/event-bus-mvp#L562|Event Bus MVP — L562]] (line 562, col 3, score 0.99)
-- [[mongo-outbox-implementation#L566|Mongo Outbox Implementation — L566]] (line 566, col 1, score 0.99)
-- [[mongo-outbox-implementation#L566|Mongo Outbox Implementation — L566]] (line 566, col 3, score 0.99)
-- [Promethean Event Bus MVP v0.1 — L914](promethean-event-bus-mvp-v0-1.md#L914) (line 914, col 1, score 0.99)
-- [Promethean Event Bus MVP v0.1 — L914](promethean-event-bus-mvp-v0-1.md#L914) (line 914, col 3, score 0.99)
+- [Services — L6]chunks/services.md#L6 (line 6, col 1, score 0.85)
+- [Services — L6]chunks/services.md#L6 (line 6, col 3, score 0.85)
+- [unique-info-dump-index#L40|Unique Info Dump Index — L40] (line 40, col 1, score 0.85)
+- [unique-info-dump-index#L40|Unique Info Dump Index — L40] (line 40, col 3, score 0.85)
+- [prom-lib-rate-limiters-and-replay-api#L90|prom-lib-rate-limiters-and-replay-api — L90] (line 90, col 1, score 0.88)
+- [schema-evolution-workflow#L130|schema-evolution-workflow — L130] (line 130, col 1, score 0.88)
+- [schema-evolution-workflow#L222|schema-evolution-workflow — L222] (line 222, col 1, score 0.88)
+- [websocket-gateway-implementation#L318|WebSocket Gateway Implementation — L318] (line 318, col 1, score 0.86)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L136|Agent Tasks: Persistence Migration to DualStore — L136] (line 136, col 1, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L136|Agent Tasks: Persistence Migration to DualStore — L136] (line 136, col 3, score 1)
+- [chroma-toolkit-consolidation-plan#L166|Chroma Toolkit Consolidation Plan — L166] (line 166, col 1, score 1)
+- [chroma-toolkit-consolidation-plan#L166|Chroma Toolkit Consolidation Plan — L166] (line 166, col 3, score 1)
+- [docs/unique/event-bus-mvp#L551|Event Bus MVP — L551] (line 551, col 1, score 1)
+- [docs/unique/event-bus-mvp#L551|Event Bus MVP — L551] (line 551, col 3, score 1)
+- [migrate-to-provider-tenant-architecture#L284|Migrate to Provider-Tenant Architecture — L284] (line 284, col 1, score 1)
+- [migrate-to-provider-tenant-architecture#L284|Migrate to Provider-Tenant Architecture — L284] (line 284, col 3, score 1)
+- [Services — L12]chunks/services.md#L12 (line 12, col 1, score 1)
+- [Services — L12]chunks/services.md#L12 (line 12, col 3, score 1)
+- [cross-language-runtime-polymorphism#L211|Cross-Language Runtime Polymorphism — L211] (line 211, col 1, score 1)
+- [cross-language-runtime-polymorphism#L211|Cross-Language Runtime Polymorphism — L211] (line 211, col 3, score 1)
+- [docs/unique/event-bus-mvp#L550|Event Bus MVP — L550] (line 550, col 1, score 1)
+- [docs/unique/event-bus-mvp#L550|Event Bus MVP — L550] (line 550, col 3, score 1)
+- [mongo-outbox-implementation#L554|Mongo Outbox Implementation — L554] (line 554, col 1, score 1)
+- [mongo-outbox-implementation#L554|Mongo Outbox Implementation — L554] (line 554, col 3, score 1)
+- [docs/unique/ecs-offload-workers#L465|ecs-offload-workers — L465] (line 465, col 1, score 1)
+- [docs/unique/ecs-offload-workers#L465|ecs-offload-workers — L465] (line 465, col 3, score 1)
+- [docs/unique/event-bus-mvp#L548|Event Bus MVP — L548] (line 548, col 1, score 1)
+- [docs/unique/event-bus-mvp#L548|Event Bus MVP — L548] (line 548, col 3, score 1)
+- [mongo-outbox-implementation#L551|Mongo Outbox Implementation — L551] (line 551, col 1, score 1)
+- [mongo-outbox-implementation#L551|Mongo Outbox Implementation — L551] (line 551, col 3, score 1)
+- [Promethean Event Bus MVP v0.1 — L883]promethean-event-bus-mvp-v0-1.md#L883 (line 883, col 1, score 1)
+- [Promethean Event Bus MVP v0.1 — L883]promethean-event-bus-mvp-v0-1.md#L883 (line 883, col 3, score 1)
+- [mongo-outbox-implementation#L557|Mongo Outbox Implementation — L557] (line 557, col 1, score 1)
+- [mongo-outbox-implementation#L557|Mongo Outbox Implementation — L557] (line 557, col 3, score 1)
+- [schema-evolution-workflow#L486|schema-evolution-workflow — L486] (line 486, col 1, score 1)
+- [schema-evolution-workflow#L486|schema-evolution-workflow — L486] (line 486, col 3, score 1)
+- [stateful-partitions-and-rebalancing#L533|Stateful Partitions and Rebalancing — L533] (line 533, col 1, score 1)
+- [stateful-partitions-and-rebalancing#L533|Stateful Partitions and Rebalancing — L533] (line 533, col 3, score 1)
+- [unique-info-dump-index#L68|Unique Info Dump Index — L68] (line 68, col 1, score 1)
+- [unique-info-dump-index#L68|Unique Info Dump Index — L68] (line 68, col 3, score 1)
+- [docs/unique/aionian-circuit-math#L158|aionian-circuit-math — L158] (line 158, col 1, score 1)
+- [docs/unique/aionian-circuit-math#L158|aionian-circuit-math — L158] (line 158, col 3, score 1)
+- [docs/unique/archetype-ecs#L457|archetype-ecs — L457] (line 457, col 1, score 1)
+- [docs/unique/archetype-ecs#L457|archetype-ecs — L457] (line 457, col 3, score 1)
+- [Diagrams — L9]chunks/diagrams.md#L9 (line 9, col 1, score 1)
+- [Diagrams — L9]chunks/diagrams.md#L9 (line 9, col 3, score 1)
+- [DSL — L10]chunks/dsl.md#L10 (line 10, col 1, score 1)
+- [DSL — L10]chunks/dsl.md#L10 (line 10, col 3, score 1)
+- [Services — L13]chunks/services.md#L13 (line 13, col 1, score 1)
+- [Services — L13]chunks/services.md#L13 (line 13, col 3, score 1)
+- [docs/unique/ecs-offload-workers#L467|ecs-offload-workers — L467] (line 467, col 1, score 1)
+- [docs/unique/ecs-offload-workers#L467|ecs-offload-workers — L467] (line 467, col 3, score 1)
+- [docs/unique/event-bus-mvp#L549|Event Bus MVP — L549] (line 549, col 1, score 1)
+- [docs/unique/event-bus-mvp#L549|Event Bus MVP — L549] (line 549, col 3, score 1)
+- [observability-infrastructure-setup#L364|observability-infrastructure-setup — L364] (line 364, col 1, score 1)
+- [observability-infrastructure-setup#L364|observability-infrastructure-setup — L364] (line 364, col 3, score 1)
+- [Services — L14]chunks/services.md#L14 (line 14, col 1, score 1)
+- [Services — L14]chunks/services.md#L14 (line 14, col 3, score 1)
+- [docs/unique/event-bus-mvp#L553|Event Bus MVP — L553] (line 553, col 1, score 1)
+- [docs/unique/event-bus-mvp#L553|Event Bus MVP — L553] (line 553, col 3, score 1)
+- [mongo-outbox-implementation#L559|Mongo Outbox Implementation — L559] (line 559, col 1, score 1)
+- [mongo-outbox-implementation#L559|Mongo Outbox Implementation — L559] (line 559, col 3, score 1)
+- [prom-lib-rate-limiters-and-replay-api#L388|prom-lib-rate-limiters-and-replay-api — L388] (line 388, col 1, score 1)
+- [prom-lib-rate-limiters-and-replay-api#L388|prom-lib-rate-limiters-and-replay-api — L388] (line 388, col 3, score 1)
+- [mongo-outbox-implementation#L552|Mongo Outbox Implementation — L552] (line 552, col 1, score 1)
+- [mongo-outbox-implementation#L552|Mongo Outbox Implementation — L552] (line 552, col 3, score 1)
+- [prom-lib-rate-limiters-and-replay-api#L386|prom-lib-rate-limiters-and-replay-api — L386] (line 386, col 1, score 1)
+- [prom-lib-rate-limiters-and-replay-api#L386|prom-lib-rate-limiters-and-replay-api — L386] (line 386, col 3, score 1)
+- [Promethean Event Bus MVP v0.1 — L881]promethean-event-bus-mvp-v0-1.md#L881 (line 881, col 1, score 1)
+- [Promethean Event Bus MVP v0.1 — L881]promethean-event-bus-mvp-v0-1.md#L881 (line 881, col 3, score 1)
+- [schema-evolution-workflow#L485|schema-evolution-workflow — L485] (line 485, col 1, score 1)
+- [schema-evolution-workflow#L485|schema-evolution-workflow — L485] (line 485, col 3, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L137|Agent Tasks: Persistence Migration to DualStore — L137] (line 137, col 1, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L137|Agent Tasks: Persistence Migration to DualStore — L137] (line 137, col 3, score 1)
+- [chroma-toolkit-consolidation-plan#L175|Chroma Toolkit Consolidation Plan — L175] (line 175, col 1, score 1)
+- [chroma-toolkit-consolidation-plan#L175|Chroma Toolkit Consolidation Plan — L175] (line 175, col 3, score 1)
+- [docs/unique/event-bus-mvp#L547|Event Bus MVP — L547] (line 547, col 1, score 1)
+- [docs/unique/event-bus-mvp#L547|Event Bus MVP — L547] (line 547, col 3, score 1)
+- [event-bus-projections-architecture#L150|Event Bus Projections Architecture — L150] (line 150, col 1, score 1)
+- [event-bus-projections-architecture#L150|Event Bus Projections Architecture — L150] (line 150, col 3, score 1)
+- [unique-info-dump-index#L158|Unique Info Dump Index — L158] (line 158, col 1, score 0.97)
+- [unique-info-dump-index#L158|Unique Info Dump Index — L158] (line 158, col 3, score 0.97)
+- [unique-info-dump-index#L159|Unique Info Dump Index — L159] (line 159, col 1, score 0.96)
+- [unique-info-dump-index#L159|Unique Info Dump Index — L159] (line 159, col 3, score 0.96)
+- [unique-info-dump-index#L156|Unique Info Dump Index — L156] (line 156, col 1, score 0.95)
+- [unique-info-dump-index#L156|Unique Info Dump Index — L156] (line 156, col 3, score 0.95)
+- [unique-info-dump-index#L157|Unique Info Dump Index — L157] (line 157, col 1, score 0.94)
+- [unique-info-dump-index#L157|Unique Info Dump Index — L157] (line 157, col 3, score 0.94)
+- [unique-info-dump-index#L155|Unique Info Dump Index — L155] (line 155, col 1, score 0.95)
+- [unique-info-dump-index#L155|Unique Info Dump Index — L155] (line 155, col 3, score 0.95)
+- [unique-info-dump-index#L153|Unique Info Dump Index — L153] (line 153, col 1, score 0.95)
+- [unique-info-dump-index#L153|Unique Info Dump Index — L153] (line 153, col 3, score 0.95)
+- [ecs-scheduler-and-prefabs#L403|ecs-scheduler-and-prefabs — L403] (line 403, col 1, score 0.98)
+- [ecs-scheduler-and-prefabs#L403|ecs-scheduler-and-prefabs — L403] (line 403, col 3, score 0.98)
+- [docs/unique/zero-copy-snapshots-and-workers#L371|zero-copy-snapshots-and-workers — L371] (line 371, col 1, score 0.98)
+- [docs/unique/zero-copy-snapshots-and-workers#L371|zero-copy-snapshots-and-workers — L371] (line 371, col 3, score 0.98)
+- [docs/unique/obsidian-ignore-node-modules-regex#L57|obsidian-ignore-node-modules-regex — L57] (line 57, col 1, score 0.98)
+- [docs/unique/obsidian-ignore-node-modules-regex#L57|obsidian-ignore-node-modules-regex — L57] (line 57, col 3, score 0.98)
+- [ecs-scheduler-and-prefabs#L404|ecs-scheduler-and-prefabs — L404] (line 404, col 1, score 0.98)
+- [ecs-scheduler-and-prefabs#L404|ecs-scheduler-and-prefabs — L404] (line 404, col 3, score 0.98)
+- [docs/unique/zero-copy-snapshots-and-workers#L372|zero-copy-snapshots-and-workers — L372] (line 372, col 1, score 0.99)
+- [docs/unique/zero-copy-snapshots-and-workers#L372|zero-copy-snapshots-and-workers — L372] (line 372, col 3, score 0.99)
+- [docs/unique/obsidian-ignore-node-modules-regex#L58|obsidian-ignore-node-modules-regex — L58] (line 58, col 1, score 0.99)
+- [docs/unique/obsidian-ignore-node-modules-regex#L58|obsidian-ignore-node-modules-regex — L58] (line 58, col 3, score 0.99)
+- [sibilant-metacompiler-overview#L100|sibilant-metacompiler-overview — L100] (line 100, col 1, score 0.98)
+- [sibilant-metacompiler-overview#L100|sibilant-metacompiler-overview — L100] (line 100, col 3, score 0.98)
+- [docs/unique/event-bus-mvp#L559|Event Bus MVP — L559] (line 559, col 1, score 0.99)
+- [docs/unique/event-bus-mvp#L559|Event Bus MVP — L559] (line 559, col 3, score 0.99)
+- [schema-evolution-workflow#L494|schema-evolution-workflow — L494] (line 494, col 1, score 0.99)
+- [schema-evolution-workflow#L494|schema-evolution-workflow — L494] (line 494, col 3, score 0.99)
+- [Promethean Event Bus MVP v0.1 — L906]promethean-event-bus-mvp-v0-1.md#L906 (line 906, col 1, score 0.99)
+- [Promethean Event Bus MVP v0.1 — L906]promethean-event-bus-mvp-v0-1.md#L906 (line 906, col 3, score 0.99)
+- [docs/unique/event-bus-mvp#L558|Event Bus MVP — L558] (line 558, col 1, score 0.99)
+- [docs/unique/event-bus-mvp#L558|Event Bus MVP — L558] (line 558, col 3, score 0.99)
+- [docs/unique/event-bus-mvp#L564|Event Bus MVP — L564] (line 564, col 1, score 0.99)
+- [docs/unique/event-bus-mvp#L564|Event Bus MVP — L564] (line 564, col 3, score 0.99)
+- [stateful-partitions-and-rebalancing#L542|Stateful Partitions and Rebalancing — L542] (line 542, col 1, score 0.99)
+- [stateful-partitions-and-rebalancing#L542|Stateful Partitions and Rebalancing — L542] (line 542, col 3, score 0.99)
+- [stateful-partitions-and-rebalancing#L544|Stateful Partitions and Rebalancing — L544] (line 544, col 1, score 0.98)
+- [stateful-partitions-and-rebalancing#L544|Stateful Partitions and Rebalancing — L544] (line 544, col 3, score 0.98)
+- [stateful-partitions-and-rebalancing#L543|Stateful Partitions and Rebalancing — L543] (line 543, col 1, score 0.98)
+- [stateful-partitions-and-rebalancing#L543|Stateful Partitions and Rebalancing — L543] (line 543, col 3, score 0.98)
+- [docs/unique/event-bus-mvp#L561|Event Bus MVP — L561] (line 561, col 1, score 1)
+- [docs/unique/event-bus-mvp#L561|Event Bus MVP — L561] (line 561, col 3, score 1)
+- [docs/unique/event-bus-mvp#L562|Event Bus MVP — L562] (line 562, col 1, score 0.99)
+- [docs/unique/event-bus-mvp#L562|Event Bus MVP — L562] (line 562, col 3, score 0.99)
+- [mongo-outbox-implementation#L566|Mongo Outbox Implementation — L566] (line 566, col 1, score 0.99)
+- [mongo-outbox-implementation#L566|Mongo Outbox Implementation — L566] (line 566, col 3, score 0.99)
+- [Promethean Event Bus MVP v0.1 — L914]promethean-event-bus-mvp-v0-1.md#L914 (line 914, col 1, score 0.99)
+- [Promethean Event Bus MVP v0.1 — L914]promethean-event-bus-mvp-v0-1.md#L914 (line 914, col 3, score 0.99)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

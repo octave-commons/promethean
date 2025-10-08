@@ -1,10 +1,14 @@
 ---
+```
 uuid: a470c992-509f-48f8-9d6b-cfb6285dc67c
+```
 title: dockerize the system
 status: todo
 priority: P3
 labels: []
+```
 created_at: '2025-09-15T02:02:58.511Z'
+```
 ---
 ## 🛠️ Description
 

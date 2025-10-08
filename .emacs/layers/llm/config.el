@@ -1,4 +1,8 @@
 (with-eval-after-load 'gptel
+  (setq gptel-track-media t
+    gptel-include-reasoning-in-response t
+    gptel-include-tool-results t
+    )
   (gptel-make-ollama "Ollama"             ;Any name of your choosing
     :host "localhost:11434"               ;Where it's running
     :stream t                             ;Stream responses

@@ -1,9 +1,15 @@
 ---
+```
 uuid: 97e17c9a-c844-4250-9772-0871fbdfcf69
+```
+```
 created_at: '2025-09-19T22:37:16Z'
+```
 title: 2025.09.19.22.37.16
 filename: Concise Transition Specification
+```
 description: >-
+```
   A minimal, agent-agnostic state transition specification for managing task
   workflows using a finite state machine (FSM) approach. Defines allowed
   transitions between states with clear triggers and failure conditions based on
@@ -17,102 +23,125 @@ tags:
   - finite state machine
   - task management
   - minimal transitions
+```
 related_to_uuid: []
+```
+```
 related_to_title: []
+```
 references: []
 ---
 awesome—here’s the **concise transition spec** to pair with the mermaid FSM you just approved. it’s strictly procedural, agent-agnostic, and keeps rules minimal.
 
-# Allowed outbound transitions by column (C → …)
+# Allowed outbound transitions by column C → …
 
 > General rule: a transition to a target **fails** if that target’s WIP cap is reached. Each task has **one** status at a time.
 
 ## 🧊 Ice Box
-
+```
 **C →** Incoming
-**Trigger:** revisited/prioritized (now worth re-intake).
+```
+**Trigger:** revisited/prioritized now worth re-intake.
 
 ## 💭 Incoming
-
+```
 **C →** Accepted, Rejected, Ice Box
+```
+```
 **Trigger:**
-
+```
 * → Accepted: clear project relevance; worth exploring.
 * → Rejected: out of scope / duplicate / not actionable.
 * → Ice Box: deferrable; valuable later.
 
 ## ✅ Accepted
-
+```
 **C →** Breakdown, Ice Box
+```
+```
 **Trigger:**
-
+```
 * → Breakdown: ready to analyze/shape.
-* → Ice Box: deferrable after quick review (not urgent/connected).
+* → Ice Box: deferrable after quick review not urgent/connected.
 
 ## 🧩 Breakdown
 
 **C →** Ready, Rejected, Ice Box, Blocked
+```
 **Trigger:**
-
+```
 * → Ready: scoped, traceable acceptance notes, basic feasibility OK.
 * → Rejected: becomes non-viable / dup / obsolete.
 * → Ice Box: valid but lower priority; defer consciously.
 * → Blocked: dependency/constraint discovered that stops analysis.
 
 ## 🛠 Ready
-
+```
 **C →** To Do, Blocked
+```
+```
 **Trigger:**
-
+```
 * → To Do: prioritized into the execution queue.
 * → Blocked: prerequisite missing (env, dependency, policy).
 
 ## 🟢 To Do
-
+```
 **C →** In Progress, Blocked
+```
+```
 **Trigger:**
-
+```
 * → In Progress: pulled by a worker (WIP allows).
 * → Blocked: ready item becomes temporarily infeasible.
 
 ## 🟡 In Progress
-
+```
 **C →** In Review, Blocked
+```
+```
 **Trigger:**
-
+```
 * → In Review: a coherent slice is implemented and submitted.
 * → Blocked: discovered issue prevents meaningful forward motion.
 
 ## 🔍 In Review
-
+```
 **C →** Document, Done, Blocked
+```
+```
 **Trigger:**
-
+```
 * → Document: changes accepted; docs still needed.
 * → Done: small/self-documenting; doc not required or already present.
 * → Blocked: review reveals blocker (policy, security, failing checks).
 
 ## 📚 Document
-
+```
 **C →** Done, Blocked
+```
+```
 **Trigger:**
-
+```
 * → Done: docs/evidence added; acceptance satisfied.
 * → Blocked: missing info owner/reviewer/assets.
 
 ## ✅ Done
-
+```
 **C →** Ice Box
-**Trigger:** archival/defer for future revisit (e.g., follow-ups, exemplars).
+```
+**Trigger:** archival/defer for future revisit e.g., follow-ups, exemplars.
 
 ## ❌ Rejected
-
+```
 **C →** Ice Box
-**Trigger:** archive (kept for history/traceability).
+```
+**Trigger:** archive kept for history/traceability.
 
 ## 🚧 Blocked
-
+```
 **C →** Breakdown
+```
 **Trigger:** unblock or re-shape: record evidence, create/link unblockers, then return to Breakdown to re-plan.
 
 ---

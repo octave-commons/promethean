@@ -6,8 +6,8 @@ TODO: Add service description.
 
 ## Paths
 
-- [[tts|services/hy/tts]]
-- [[tts|services/py/tts]]
+- [tts|services/hy/tts]
+- [tts|services/py/tts]
 
 ## Tags
 
