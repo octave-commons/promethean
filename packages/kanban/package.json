@@ -33,8 +33,10 @@
     "yaml": "^2.5.0"
   },
   "devDependencies": {
+    "@microsoft/tsdoc": "^0.15.1",
     "@types/node": "^20.19.0",
     "@types/ws": "^8.5.0",
+    "typedoc": "^0.28.13",
     "typescript": "^5.4.0"
   }
 }
