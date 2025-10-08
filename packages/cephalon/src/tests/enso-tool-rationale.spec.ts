@@ -1,6 +1,8 @@
 import test from "ava";
 import { randomUUID } from "node:crypto";
 
+import type { ActRationalePayload } from "@promethean/enso-protocol";
+
 import { createEnsoChatAgent } from "../enso/chat-agent.js";
 
 test("enso tool calls require rationales in evaluation mode", async (t) => {
@@ -85,10 +87,22 @@ test("enso tool calls require rationales in evaluation mode", async (t) => {
         (env.payload as any)?.callId === compliantCallId,
     );
   t.truthy(rationaleEnvelope, "compliant call should log rationale envelope");
-  const rationaleText = (rationaleEnvelope?.payload as any)?.rationale ?? "";
+  const rationalePayload =
+    (rationaleEnvelope?.payload as ActRationalePayload | undefined) ?? undefined;
+  const rationaleText = rationalePayload?.rationale ?? "";
   t.true(
     rationaleText.includes("Morganna guardrail decision rubric"),
     "rationale text should reference Morganna decision rubric",
+  );
+  t.is(
+    rationalePayload?.policy,
+    "morganna@1",
+    "rationale should note which guardrail policy fired",
+  );
+  t.is(
+    rationalePayload?.evidenceKind,
+    "note",
+    "default guardrail rationale should mark evidence as note",
   );
 
   await agent.dispose();

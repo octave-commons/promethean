@@ -227,34 +227,41 @@ async function estimateTaskComplexity(
 
   try {
     const prompt = generateComplexityEstimationPrompt(task);
-    const rawResult = await ollamaJSON(model, prompt);
-    const llmResult = ComplexitySchema.parse(rawResult);
+    const llmResult = await ollamaJSON(model, prompt);
+
+    // Type guard to ensure LLM result matches expected schema
+    if (!ComplexitySchema.safeParse(llmResult).success) {
+      throw new Error('LLM result does not match expected schema');
+    }
+
+    // Type assertion after validation
+    const validatedResult = llmResult as z.infer<typeof ComplexitySchema>;
 
     // Merge LLM analysis with base analysis
     const factors: ComplexityFactors = {
-      locImpact: llmResult.locImpact ?? baseAnalysis.locImpact,
-      fileCount: llmResult.fileCount ?? baseAnalysis.fileCount,
-      technicalComplexity: llmResult.technicalComplexity ?? baseAnalysis.technicalComplexity,
-      researchComplexity: llmResult.researchComplexity ?? baseAnalysis.researchComplexity,
-      testingComplexity: llmResult.testingComplexity ?? baseAnalysis.testingComplexity,
-      integrationComplexity: llmResult.integrationComplexity ?? baseAnalysis.integrationComplexity,
-      estimatedHours: llmResult.estimatedHours ?? baseAnalysis.estimatedHours,
-      requiresHumanJudgment: llmResult.requiresHumanJudgment ?? baseAnalysis.requiresHumanJudgment ?? false,
-      hasClearAcceptanceCriteria: llmResult.hasClearAcceptanceCriteria ?? baseAnalysis.hasClearAcceptanceCriteria ?? true,
-      hasExternalDependencies: llmResult.hasExternalDependencies ?? baseAnalysis.hasExternalDependencies ?? false
+      locImpact: validatedResult.locImpact || baseAnalysis.locImpact || 20,
+      fileCount: validatedResult.fileCount || baseAnalysis.fileCount || 1,
+      technicalComplexity: validatedResult.technicalComplexity || baseAnalysis.technicalComplexity || 2,
+      researchComplexity: validatedResult.researchComplexity || baseAnalysis.researchComplexity || 2,
+      testingComplexity: validatedResult.testingComplexity || baseAnalysis.testingComplexity || 2,
+      integrationComplexity: validatedResult.integrationComplexity || baseAnalysis.integrationComplexity || 2,
+      estimatedHours: validatedResult.estimatedHours || baseAnalysis.estimatedHours || 1,
+      requiresHumanJudgment: validatedResult.requiresHumanJudgment ?? baseAnalysis.requiresHumanJudgment ?? false,
+      hasClearAcceptanceCriteria: validatedResult.hasClearAcceptanceCriteria ?? baseAnalysis.hasClearAcceptanceCriteria ?? true,
+      hasExternalDependencies: validatedResult.hasExternalDependencies ?? baseAnalysis.hasExternalDependencies ?? false
     };
 
     return {
       taskId: task.uuid,
       taskTitle: task.title,
       factors,
-      overallScore: llmResult.overallScore,
-      complexityLevel: llmResult.complexityLevel,
-      suitableForLocalModel: llmResult.suitableForLocalModel,
-      recommendedModel: llmResult.recommendedModel,
-      reasoning: llmResult.reasoning,
-      breakdownSteps: llmResult.breakdownSteps,
-      estimatedTokens: llmResult.estimatedTokens
+      overallScore: validatedResult.overallScore,
+      complexityLevel: validatedResult.complexityLevel,
+      suitableForLocalModel: validatedResult.suitableForLocalModel,
+      recommendedModel: validatedResult.recommendedModel,
+      reasoning: validatedResult.reasoning,
+      breakdownSteps: validatedResult.breakdownSteps,
+      estimatedTokens: validatedResult.estimatedTokens
     };
 
   } catch (error) {
@@ -265,8 +272,8 @@ async function estimateTaskComplexity(
 
     // Fallback to rule-based estimation
     const overallScore = Math.min(10, Math.max(1,
-      (baseAnalysis.technicalComplexity + baseAnalysis.integrationComplexity +
-       baseAnalysis.researchComplexity) * 1.5
+      (baseAnalysis.technicalComplexity || 2 + baseAnalysis.integrationComplexity || 2 +
+       baseAnalysis.researchComplexity || 2) * 1.5
     ));
 
     const complexityLevel = overallScore <= 3 ? 'simple' :
@@ -310,7 +317,7 @@ export async function estimateBatchComplexity(
   logger.info(`Starting batch complexity estimation for status: ${statusFilter}`);
 
   const tasks = await readTasksFolder(tasksDir);
-  const filteredTasks = tasks.filter(task => {
+  const filteredTasks = tasks.filter((task: Task) => {
     if (task.status !== statusFilter) return false;
     if (priorityFilter) {
       const taskPriority = String(task.priority ?? "").toLowerCase();

@@ -1,6 +1,6 @@
 # enso-server — Guardrail Rationale Events
 
-Status: 🔧 in PR #1450.
+Status: ✅ shipped with cephalon guardrail rationale payload update.
 
 Emits a rationale before tool invocation when evaluation mode is on.
 
@@ -9,9 +9,9 @@ Emits a rationale before tool invocation when evaluation mode is on.
 export type ActRationalePayload = {
   callId: string;
   rationale: string;
-  policy?: string;            // e.g., "morganna@1"
+  policy?: string;            // defaults to "morganna@1" in cephalon
   evidence?: readonly string[];
-  evidenceKind?: 'url' | 'messageId' | 'note';
+  evidenceKind?: 'url' | 'messageId' | 'note'; // defaults to 'note'
 };
 ```
 

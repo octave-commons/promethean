@@ -1,5 +1,6 @@
 import { randomUUID, UUID } from "crypto";
 import EventEmitter from "events";
+import { basename } from "node:path";
 import { readFile } from "fs/promises";
 
 import { VoiceConnection } from "@discordjs/voice";
@@ -60,9 +61,12 @@ export class VoiceSession extends EventEmitter {
       const channel = this.bot.captureChannel;
       if (channel) {
         const files: any[] = [];
-        files.push(filename);
         try {
           const buffer = await this.deps.readFile(filename);
+          files.push({
+            name: basename(filename),
+            attachment: buffer,
+          });
           const { waveform, spectrogram } =
             await this.deps.audioService.generate(buffer);
           files.push({

@@ -760,6 +760,7 @@ export const updateStatus = async (
   uuid: string,
   newStatus: string,
   boardPath: string,
+  tasksDir?: string,
 ): Promise<Task | undefined> => {
   let found: Task | undefined;
   for (const col of board.columns) {
@@ -796,6 +797,31 @@ export const updateStatus = async (
   target.count += 1;
 
   await writeBoard(boardPath, board);
+
+  // Update the task file if tasksDir is provided
+  if (tasksDir) {
+    try {
+      const taskFilePath = await resolveTaskFilePath(found, tasksDir);
+      if (taskFilePath) {
+        // Read existing file to preserve content
+        const existingFileContent = await fs.readFile(taskFilePath, "utf8");
+        const parsed = parseMarkdownFrontmatter(existingFileContent);
+        const existingContent = parsed.content ?? "";
+
+        // Write updated task file with new status
+        const updatedContent = toFrontmatter({
+          ...found,
+          status: normalizedStatus,
+          content: existingContent
+        });
+        await fs.writeFile(taskFilePath, updatedContent, "utf8");
+      }
+    } catch (error) {
+      // Log warning but don't fail the status update
+      console.warn(`Warning: Could not update task file for ${uuid}: ${error}`);
+    }
+  }
+
   return found;
 };
 

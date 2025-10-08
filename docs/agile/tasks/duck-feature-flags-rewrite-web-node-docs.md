@@ -2,10 +2,10 @@
 uuid: "9c1a2f5c-a7e2-4f4a-bb3d-2f8a7d54f6f1"
 title: "DUCK — feature flags rewrite web + node + docs"
 slug: "duck-feature-flags-rewrite-web-node-docs"
-status: "review"
+status: "done"
 priority: "P1"
 labels: ["duck", "web", "node", "flags", "docs"]
-created_at: "2025-10-07T20:25:05.643Z"
+created_at: "2025-10-07T23:13:19.171Z"
 estimates:
   complexity: ""
   scale: ""
@@ -13,7 +13,8 @@ estimates:
 ---
 
 
-#Todo
+
+# In Review
 
 ## 🛠️ Description
 Rewrite broken feature flag modules for duck-web and duck-utils; pure ESM TS, functional, side-effect free. Align env names; fix `FEATURE_FLAGS.md`.
@@ -49,5 +50,6 @@ Rewrite broken feature flag modules for duck-web and duck-utils; pure ESM TS, fu
 ## 🔍 Relevant Links
 
 - PR #1447
+
 
 

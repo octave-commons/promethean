@@ -1,7 +1,10 @@
 <!-- READMEFLOW:BEGIN -->
 # @promethean/cephalon
 
-A proof-of-concept basic bot using @discordjs/voice
+Cephalon is the production Discord agent runner for Promethean. It brokers
+voice capture, evaluation guardrails, and ENSO tool traffic for personas such as
+"duck". The package exposes a reusable ENSO chat agent so downstream services
+and smoke tests can exercise the same flows that ship to Discord.
 
 [TOC]
 
@@ -15,8 +18,71 @@ pnpm -w add -D @promethean/cephalon
 ## Quickstart
 
 ```ts
-// usage example
+import { createEnsoChatAgent } from "@promethean/cephalon";
+
+const agent = createEnsoChatAgent({ room: "duck:smoke" });
+await agent.connect();
+
+// Send a chat message into the room
+await agent.sendText("human", "Ping tools before we go live");
+
+// Trigger a native tool. Evaluation mode automatically emits a guardrail
+// rationale event before the tool call is forwarded to ENSO.
+const callId = await agent.callTool({
+  provider: "native",
+  name: "duck.ping",
+  args: { echo: "prod-check" },
+});
+
+console.log({ callId });
+
+await agent.dispose();
 ```
+
+## Evaluation guardrail rationale events
+
+When evaluation mode is toggled for the agent's ENSO session, Cephalon sends an
+`act.rationale` event ahead of every `tool.call`. The payload is typed via
+`ActRationalePayload` and now includes:
+
+```ts
+type ActRationalePayload = {
+  callId: string;
+  rationale: string;
+  policy?: string;             // defaults to "morganna@1"
+  evidence?: readonly string[];
+  evidenceKind?: "url" | "messageId" | "note"; // defaults to "note"
+};
+```
+
+Use the optional `policy`, `evidence`, and `evidenceKind` fields when calling
+`agent.callTool({ ... })` to align with governance reporting:
+
+```ts
+await agent.callTool({
+  provider: "native",
+  name: "duck.ping",
+  reason: "Morganna guardrail trial run",
+  policy: "morganna@2",
+  evidence: ["https://wiki/policy"],
+  evidenceKind: "url",
+});
+```
+
+If you omit these options, the agent emits a default "note"-style rationale that
+traces back to the Morganna policy bundle.
+## Feature flag: `CEPHALON_MODE`
+
+The Cephalon service is temporarily dual-pathed while the ECS orchestrator rollout completes. Set the
+`CEPHALON_MODE` environment variable before starting the service to choose which execution path boots:
+
+| Value      | Behavior                                                                       |
+| ---------- | ------------------------------------------------------------------------------ |
+| `ecs`      | **Default.** Boots the new ECS orchestrator pipeline and Agent ECS subsystems. |
+| `classic`  | Boots the legacy `AIAgent` pipeline for focused debugging or regression checks. |
+
+Unrecognized values fall back to `ecs`. The flag will be removed once the ECS work fully replaces the
+classic path.
 
 ## Commands
 

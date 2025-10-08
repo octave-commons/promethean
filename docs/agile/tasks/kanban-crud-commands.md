@@ -1,6 +1,6 @@
 ---
 title: "Add CRUD subcommands to kanban CLI"
-status: backlog
+status: icebox
 priority: P2
 tags: [kanban, cli, enhancement, crud]
 uuid: kanban-crud-001

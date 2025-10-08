@@ -1,7 +1,7 @@
 ---
 uuid: (uuidgen)
 title: Add confidence calibration and historical accuracy tracking
-status: backlog
+status: icebox
 priority: P2
 labels: [enhancement, boardrev, accuracy, metrics]
 created_at: 2025-10-06T12:00:00Z
