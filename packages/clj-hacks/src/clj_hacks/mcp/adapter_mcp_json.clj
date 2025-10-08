@@ -58,7 +58,8 @@
             server-json->edn)))
 
 (defn- server-spec->json [spec]
-  (let [spec (cond-> spec
+  (let [spec (or spec {})
+        spec (cond-> spec
                 (not (contains? spec :command)) (assoc :command nil))]
     (reduce (fn [acc [edn-key {:keys [key transform include-nil?]}]]
               (if (contains? spec edn-key)
