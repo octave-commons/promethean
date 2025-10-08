@@ -1,0 +1,40 @@
+---
+uuid: "7efb1438-b754-47be-9097-442a4882f30c"
+title: "0) Why these building blocks (quick receipts)"
+slug: "0-why-these-building-blocks-quick-receipts"
+status: "todo"
+priority: "P3"
+labels: ["docops", "labeled"]
+created_at: "2025-10-08T20:10:46.009Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
+## 🗂 Source
+
+- Path: docs/labeled/2025.10.07.00.41.24.md
+
+## 📝 Context Summary
+
+Absolutely. Here’s **Pantheon — Part 4: runnable skeleton + ops knobs**. It’s concrete enough to drop into your monorepo and start iterating tonight, while staying faithful to your rules: **night = local-only; zero cloud fallback**.
+
+I’m weaving in sources where it matters (vLLM continuous batching / PagedAttention, QLoRA, Toolformer, Qwen function-calling, OpenVINO agent path) so you can sanity-check the design choices.
+
+---
+
+# 0) Why these building blocks (quick receipts)
+
+* **Throughput at night** comes from **continuous batching** + **PagedAttention** (vLLM). This amortizes prefill and packs concurrent jobs efficiently—exactly what your many tiny, repeatable ops need. ([VLLM Docs][1])
+* **Specialization without VRAM pain** = **QLoRA** adapters on your traces (4-bit base + low-rank adapters). Proven path for local finetuning. ([arXiv][2])
+* **Tool-use reliability** = Qwen’s function-calling + strict JSON schemas and a deterministic loop; there’s a **Qwen-Agent** + **OpenVINO** example for fully local deployments. ([Qwen][3])
+* **Trace mining for tool-calls** mirrors **Toolformer’s** self-supervised pattern: small models learn when/how to call tools from examples. ([arXiv][4])
+
+-
+
+## 📋 Tasks
+
+- [ ] Draft actionable subtasks from the summary
+- [ ] Define acceptance criteria
+- [ ] Link back to related labeled docs
