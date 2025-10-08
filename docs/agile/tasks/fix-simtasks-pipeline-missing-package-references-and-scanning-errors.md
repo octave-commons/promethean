@@ -1,9 +1,7 @@
 ---
-```
 uuid: g7h8i9j0-k1l2-3456-ghij-789012345678
-```
 title: Fix simtasks pipeline missing package references and scanning errors
-status: todo
+status: in_review
 priority: P2
 labels:
   - piper
@@ -11,9 +9,8 @@ labels:
   - package-scanning
   - file-system
   - error-handling
-```
 created_at: '2025-10-05T00:00:00.000Z'
-```
+story_points: 3
 ---
 
 ## 🛠️ Task: Fix simtasks pipeline missing package references and scanning errors
@@ -40,17 +37,28 @@ The simtasks pipeline should successfully:
 - Generate actionable task plans
 - Write comprehensive task files to docs/agile/tasks/
 
+## 🔍 Clarifications & Plan
+
+- Confirmed the crash occurs when the scanner tries to read `package.json` files for workspaces that no longer exist (e.g. `packages/duck-utils`).
+- Planned to memoize package metadata lookups, treat missing directories as warnings, and continue scanning so downstream steps receive a full function catalog.
+
+## ✅ Implementation Notes
+
+- Added a package metadata cache with graceful warning handling in `src/01-scan.ts`, allowing the scan step to skip missing workspaces without aborting.
+- Logged recoverable I/O failures once per package to keep operator visibility while preventing redundant console noise.
+- Left follow-up checkboxes unchecked for validation/fallback enhancements that remain out of scope for this slice.
+
 ## 📋 Requirements
 
 ### Phase 1: Package Discovery Fix
-- [ ] Investigate why pipeline is looking for non-existent `packages/duck-utils`
-- [ ] Fix package discovery to only scan existing packages
-- [ ] Add graceful handling of missing packages/directories
-- [ ] Implement proper error recovery for scanning failures
+- [x] Investigate why pipeline is looking for non-existent `packages/duck-utils`
+- [x] Fix package discovery to only scan existing packages
+- [x] Add graceful handling of missing packages/directories
+- [x] Implement proper error recovery for scanning failures
 
 ### Phase 2: Error Handling Improvements
-- [ ] Add warnings instead of failures for missing packages
-- [ ] Implement robust file system error handling
+- [x] Add warnings instead of failures for missing packages
+- [x] Implement robust file system error handling
 - [ ] Add validation step to verify package existence before scanning
 - [ ] Create fallback mechanisms for partial scan failures
 
@@ -111,7 +119,7 @@ try {
   await scanPackage(packagePath);
 } catch (error) {
   if (error.code === 'ENOENT') {
-    warnings.push(`Package not found: {packagePath}`);
+    warnings.push(`Package not found: ${packagePath}`);
     continue; // Skip to next package
   }
   throw error; // Re-throw other errors

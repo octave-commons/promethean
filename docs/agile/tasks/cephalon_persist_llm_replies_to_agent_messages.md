@@ -1,15 +1,18 @@
 ---
-```
-uuid: cb45d915-0601-4df8-997d-71ca913ad9f6
-```
-title: cephalon persist llm replies to agent messages
-status: todo
-priority: P3
-labels: []
-```
-created_at: '2025-09-15T02:02:58.509Z'
-```
+uuid: "cb45d915-0601-4df8-997d-71ca913ad9f6"
+title: "cephalon persist llm replies to agent messages"
+slug: "cephalon_persist_llm_replies_to_agent_messages"
+status: "incoming"
+priority: "P3"
+labels: ["agent", "llm", "cephalon", "persist"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 Cephalon: Persist LLM replies to `agent_messages`
 
 Goal: When the ECS orchestrator receives an LLM reply current handler in `services/ts/cephalon/src/bot.ts` subscribing to `agent.llm.result`, persist the reply text and metadata to the `agent_messages` collection via `ContextManager`/`CollectionManager`.
@@ -27,3 +30,5 @@ Exit Criteria:
 ```
 #incoming #cephalon #persistence #agent_messages
 ```
+
+

@@ -1,15 +1,18 @@
 ---
-```
-uuid: 22b8db58-d3f6-4c44-be28-066d8d021376
-```
-title: add withdlq around risky consumers set maxattempts md
-status: todo
-priority: P3
-labels: []
-```
-created_at: '2025-09-15T02:02:58.506Z'
-```
+uuid: "22b8db58-d3f6-4c44-be28-066d8d021376"
+title: "add withdlq around risky consumers set maxattempts md"
+slug: "add_withdlq_around_risky_consumers_set_maxattempts"
+status: "rejected"
+priority: "P3"
+labels: ["add", "withdlq", "around", "risky"]
+created_at: "2025-10-07T20:25:05.644Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Task: Add **withDLQ** around risky consumers; set `maxAttempts`
 
 Generated from [[2025.08.08.20.08.52]]
@@ -33,4 +36,6 @@ Generated from [[2025.08.08.20.08.52]]
 
 
 #accepted
+
+
 

@@ -1,15 +1,18 @@
 ---
-```
-uuid: c9ef64a0-d3f6-49e0-911e-4ce722f9e057
-```
-title: Description
-status: todo
-priority: P3
-labels: []
-```
-created_at: '2025-09-15T02:02:58.510Z'
-```
+uuid: "c9ef64a0-d3f6-49e0-911e-4ce722f9e057"
+title: "Description"
+slug: "consolidate-all-configs-into---config--as--.edn--files"
+status: "breakdown"
+priority: "P3"
+labels: ["description", "step", "useful", "describe"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 # Description
 
 Describe your task
@@ -32,3 +35,5 @@ You might find [this] useful while working on this task
 ## Comments
 
 Useful for agents to engage in append only conversations about this task.
+
+

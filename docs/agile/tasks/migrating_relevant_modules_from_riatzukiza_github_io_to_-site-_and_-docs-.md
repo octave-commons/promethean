@@ -1,15 +1,18 @@
 ---
-```
-uuid: c20e39a1-acb8-400c-8d6f-5228f15811ad
-```
-title: migrating relevant modules from riatzukiza github io to site and docs md
-status: todo
-priority: P3
-labels: []
-```
-created_at: '2025-09-15T02:02:58.516Z'
-```
+uuid: "c20e39a1-acb8-400c-8d6f-5228f15811ad"
+title: "migrating relevant modules from riatzukiza github io to site and docs md"
+slug: "migrating_relevant_modules_from_riatzukiza_github_io_to_-site-_and_-docs-"
+status: "rejected"
+priority: "P3"
+labels: ["docs", "riatzukiza", "github", "site"]
+created_at: "2025-10-07T20:25:05.645Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Task: Migrating relevant modules from riatzukiza.github.io to -site- and -docs-
 
 Move documentation and site pieces from the legacy `riatzukiza.github.io` repository into this project.
@@ -60,4 +63,6 @@ Nothing
 
 - [[kanban]]
   #ready
+
+
 

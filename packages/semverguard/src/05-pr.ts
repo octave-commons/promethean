@@ -1,14 +1,19 @@
 import { promises as fs } from "fs";
 import * as path from "path";
 import { spawn } from "child_process";
+import { fileURLToPath } from "url";
 import { openLevelCache } from "@promethean/level-cache";
 
 import { parseArgs, writeJSON } from "./utils.js";
 
+const moduleDir = path.dirname(fileURLToPath(import.meta.url));
+const PACKAGE_ROOT = path.resolve(moduleDir, "..");
+const REPO_ROOT = path.resolve(PACKAGE_ROOT, "..", "..");
+
 const exec = (
   command: string,
   args: ReadonlyArray<string> = [],
-  cwd = process.cwd(),
+  cwd = REPO_ROOT,
 ) =>
   new Promise<{ code: number | null; out: string; err: string }>((resolve) => {
     const child = spawn(command, [...args], {
@@ -81,6 +86,46 @@ type PkgJson = {
   devDependencies?: Record<string, string>;
   peerDependencies?: Record<string, string>;
 };
+
+async function pathExists(p: string): Promise<boolean> {
+  try {
+    await fs.access(p);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+async function resolvePath(
+  input: string | undefined,
+  defaultPath: string,
+  options: { mustExist?: boolean; bases?: string[] } = {},
+): Promise<string> {
+  const { mustExist = false, bases = [REPO_ROOT, PACKAGE_ROOT] } = options;
+  const select = async (candidate: string): Promise<string> => {
+    if (mustExist && !(await pathExists(candidate))) {
+      throw new Error(`semverguard: path not found → ${candidate}`);
+    }
+    return candidate;
+  };
+  if (!input) {
+    return select(defaultPath);
+  }
+  if (path.isAbsolute(input)) {
+    return select(path.resolve(input));
+  }
+  for (const base of bases) {
+    const candidate = path.resolve(base, input);
+    if (!mustExist) {
+      return candidate;
+    }
+    if (await pathExists(candidate)) {
+      return candidate;
+    }
+  }
+  const fallback = path.resolve(bases[0] ?? REPO_ROOT, input);
+  return select(fallback);
+}
 
 function bump(v: string, kind: "major" | "minor" | "patch") {
   const m = v.match(/^(\d+)\.(\d+)\.(\d+)(?:[-+].*)?$/);
@@ -212,8 +257,13 @@ async function loadWorkspacePackages(root: string) {
 }
 
 async function main() {
+  const cachePath = await resolvePath(
+    args["--cache"],
+    path.resolve(REPO_ROOT, args["--cache"] ?? ".cache/semverguard"),
+    { bases: [REPO_ROOT, PACKAGE_ROOT] },
+  );
   const cache = await openLevelCache<any>({
-    path: path.resolve(args["--cache"] ?? ".cache/semverguard"),
+    path: cachePath,
   });
   const planCache = cache.withNamespace(args["--plan-ns"] ?? "plan");
   const planMap: Plans["packages"] = {};
@@ -222,8 +272,16 @@ async function main() {
   }
   await cache.close();
   const plans: Plans = { packages: planMap };
-  const ROOT = path.resolve(args["--root"] ?? "packages");
-  const OUT = path.resolve(args["--out"] ?? ".cache/semverguard/pr");
+  const ROOT = await resolvePath(
+    args["--root"],
+    path.resolve(REPO_ROOT, args["--root"] ?? "packages"),
+    { mustExist: true, bases: [REPO_ROOT, PACKAGE_ROOT] },
+  );
+  const OUT = await resolvePath(
+    args["--out"],
+    path.resolve(REPO_ROOT, args["--out"] ?? ".cache/semverguard/pr"),
+    { bases: [REPO_ROOT, PACKAGE_ROOT] },
+  );
   const MODE = args["--mode"] ?? "prepare";
   const UPDATE_DEPS = args["--update-dependents"] === "true";
   const DEP_RANGE_MODE = args["--dep-range"] ?? "preserve";
@@ -339,7 +397,7 @@ async function main() {
         exec("git", ["checkout", branch]),
       ); // create or reuse
       const filesToAdd = Array.from(changedFiles).map((f) =>
-        path.relative(process.cwd(), f),
+        path.relative(REPO_ROOT, f),
       );
       if (filesToAdd.length > 0) {
         await exec("git", ["add", ...filesToAdd]);
@@ -368,7 +426,7 @@ async function main() {
   });
   console.log(
     `semverguard:05-pr — prepared ${summary.length} PR(s) → ${path.relative(
-      process.cwd(),
+      REPO_ROOT,
       OUT,
     )}`,
   );

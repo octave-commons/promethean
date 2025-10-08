@@ -1,7 +1,5 @@
 ---
-```
 uuid: d4e5f6g7-h8i9-0123-defg-456789012345
-```
 title: Configure piper environment variables for AI-powered pipelines
 status: todo
 priority: P1
@@ -11,9 +9,7 @@ labels:
   - ai-configuration
   - ollama
   - setup
-```
 created_at: '2025-10-05T00:00:00.000Z'
-```
 ---
 
 ## 🛠️ Task: Configure piper environment variables for AI-powered pipelines
