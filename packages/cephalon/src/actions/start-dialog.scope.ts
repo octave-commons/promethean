@@ -98,6 +98,35 @@ export async function runStartDialog({ bot }: StartDialogInput): Promise<StartDi
 
   bot.desktop.start();
 
+  (async () => {
+    const voiceChan = await bot.client.channels.fetch(
+      bot.currentVoiceSession!.voiceChannelId,
+    );
+    if (voiceChan?.isVoiceBased()) {
+      for (const [, member] of voiceChan.members) {
+        if (member.user.bot) continue;
+        await bot.currentVoiceSession!.addSpeaker(member.user);
+        await bot.currentVoiceSession!.startSpeakerTranscribe(member.user);
+      }
+    }
+
+    if (bot.voiceStateHandler)
+      bot.client.off(discord.Events.VoiceStateUpdate, bot.voiceStateHandler);
+    bot.voiceStateHandler = (oldState, newState) => {
+      const id = bot.currentVoiceSession?.voiceChannelId;
+      const user = newState.member?.user || oldState.member?.user;
+      if (!id || !user || user.bot) return;
+      if (oldState.channelId !== id && newState.channelId === id) {
+        bot.currentVoiceSession?.addSpeaker(user);
+        bot.currentVoiceSession?.startSpeakerTranscribe(user);
+      } else if (oldState.channelId === id && newState.channelId !== id) {
+        bot.currentVoiceSession?.stopSpeakerTranscribe(user);
+        bot.currentVoiceSession?.removeSpeaker(user);
+      }
+    };
+    bot.client.on(discord.Events.VoiceStateUpdate, bot.voiceStateHandler);
+  })().catch(() => {});
+
   if (bot.mode === 'classic') {
     return runClassicStartDialog({ bot });
   }
@@ -171,34 +200,6 @@ export async function runStartDialog({ bot }: StartDialogInput): Promise<StartDi
     if (!text) return;
     processAgentMessage(bot, text);
   });
-
-  // Seed current members and track joins/leaves
-  (async () => {
-    const voiceChan = await bot.client.channels.fetch(bot.currentVoiceSession!.voiceChannelId);
-    if (voiceChan?.isVoiceBased()) {
-      for (const [, member] of voiceChan.members) {
-        if (member.user.bot) continue;
-        await bot.currentVoiceSession!.addSpeaker(member.user);
-        await bot.currentVoiceSession!.startSpeakerTranscribe(member.user);
-      }
-    }
-
-    if (bot.voiceStateHandler)
-      bot.client.off(discord.Events.VoiceStateUpdate, bot.voiceStateHandler);
-    bot.voiceStateHandler = (oldState, newState) => {
-      const id = bot.currentVoiceSession?.voiceChannelId;
-      const user = newState.member?.user || oldState.member?.user;
-      if (!id || !user || user.bot) return;
-      if (oldState.channelId !== id && newState.channelId === id) {
-        bot.currentVoiceSession?.addSpeaker(user);
-        bot.currentVoiceSession?.startSpeakerTranscribe(user);
-      } else if (oldState.channelId === id && newState.channelId !== id) {
-        bot.currentVoiceSession?.stopSpeakerTranscribe(user);
-        bot.currentVoiceSession?.removeSpeaker(user);
-      }
-    };
-    bot.client.on(discord.Events.VoiceStateUpdate, bot.voiceStateHandler);
-  })().catch(() => {});
 
   return { started: true };
 }
