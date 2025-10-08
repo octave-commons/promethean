@@ -1,10 +1,15 @@
 # 🗂️ {{file_name}} — {{short description}}
 
 **Path:** `{{relative/path/to/file}}`  
-**Service / Module:** [[{{service_or_module}}]]  
-**Layer / Circuit:** #{{layer_tag}}  
+```
+**Service / Module:** [[{{service_or_module}}]]
+```
+```
+**Layer / Circuit:** #{{layer_tag}}
+```
+```
 **Tags:** #doc #{{language}} #{{domain}} #{{custom_tags}}
-
+```
 ---
 
 ## 📄 Summary
@@ -40,9 +45,9 @@ E.g., why this abstraction? What does it *not* handle?
 
 > Which other files/modules does this file depend on?
 
-- [[file-a]]
-- [[file-b]]
-- [[shared/py/utils]]
+- [file-a]
+- [file-b]
+- [shared/py/utils]
 - External: `{{external library or API}}`
 
 ---
@@ -51,9 +56,9 @@ E.g., why this abstraction? What does it *not* handle?
 
 > Which files/modules depend on this one?
 
-- [[service-x]]
+- [service-x]
 - [[main entrypoint]]
-- [[doc-template generator]]
+- [doc-template generator]
 
 ---
 
@@ -74,7 +79,7 @@ flowchart TD
 
 ## 🧪 Tests (if applicable)
 
-* \[\[test/{{file\_name}}.test.ts]]
+* \\[test/{{file\_name}}.test.ts]
 * [ ] Describe expected behavior
 * [ ] Edge cases handled
 
@@ -82,10 +87,10 @@ flowchart TD
 
 ## 🧱 Related Documents
 
-* \[\[system-overview]]
-* \[\[{{service\_or\_module}}]]
-* \[\[{{layer\_doc}}]]
-* \[\[{{project\_principles}}]]
+* \\[system-overview]
+* \\[{{service\_or\_module}}]
+* \\[{{layer\_doc}}]
+* \\[{{project\_principles}}]
 
 ---
 
@@ -93,7 +98,7 @@ flowchart TD
 
 > Anything weird, unique, or "you had to be there"?
 > Capture tribal knowledge here.
-> Future you (or an AI co-pilot) will thank you.
+> Future you or an AI co-pilot will thank you.
 
 ---
 

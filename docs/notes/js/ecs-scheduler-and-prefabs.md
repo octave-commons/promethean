@@ -6,7 +6,7 @@ Highlights:
 - Greedy parallel batches per stage; skip-if-empty queries
 - Prefabs: define component sets and spawn N entities quickly
 
-Related: [[archetype-ecs]], [[ecs-offload-workers]] [[../../unique/index|unique/index]]
+Related: [archetype-ecs], [ecs-offload-workers] [../../unique/index|unique/index]
 
 #tags: #js #ecs #scheduling #prefabs
 

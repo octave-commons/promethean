@@ -45,7 +45,7 @@ This creates `docs/services/<service>/AGENTS.md` entries linking back to their i
 
 ---
 
-## 🔁 \[\[Wikilink]] Compatibility
+## 🔁 \\[Wikilink] Compatibility
 
 If you're contributing documentation to the codebase, Obsidian allows the
 `[[Wikilink.md]]` short hand for making notes by default. So `[[docname.md]]`

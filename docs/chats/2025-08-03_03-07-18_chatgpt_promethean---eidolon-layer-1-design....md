@@ -1,5 +1,7 @@
 # Promethean - Eidolon Layer 1 Design...
-Exported on 03/08/2025 at 03:07:18 [from ChatGPT](https://chatgpt.com/g/g-p-6883d8e9569c8191aad0cfd2a5bf3af3-promethean/c/688e69d4-3bac-8333-b940-62204901aa10) - with [SaveMyChatbot](https://save.hugocollin.com)
+Exported on 03/08/2025 at 03:07:18 [from ChatGPT](https://chatgpt.com/g/g-p-6883d8e9569c8191aad0cfd2a5bf3af3-promethean/c/688e69d4-3bac-8333-b940-62204901aa10```
+) - with [SaveMyChatbot](
+```https://save.hugocollin.com)
 
 ## User
 Let's start talking about the implementation of the Eidolon fields. Layer 1, managing processing resources. The system as it stands eventually gets overloaded and crashes. We have to manage that.
@@ -12,8 +14,9 @@ Layer 1, the **"Uptime" layer**, corresponds to _processing survival_. It's the 
 Let’s break it down into an implementation framework that includes:
 
 * * *
-
+```
 🧠 **Conceptual Design**
+```
 ------------------------
 
 ### 💡 Purpose of Layer 1:
@@ -30,13 +33,16 @@ Prevent system-wide failure by:
     
 
 * * *
-
+```
 🧰 **Core Components to Build**
+```
 -------------------------------
 
 | Component | Function |
+```
 | --- | --- |
-| Sensors | Real-time system stats collector (CPU/NPU usage, RAM, frame rate, inference latency, etc.) |
+```
+| Sensors | Real-time system stats collector CPU/NPU usage, RAM, frame rate, inference latency, etc. |
 | Vector Field Model | Represents localized 'stress' on system components as a spatial-temporal field. |
 | Mass Object Agents | Each ML task (STT chunk, LLM turn, TTS frame) becomes a particle in the field. |
 | Resource Governor | Calculates load & prioritizes tasks based on Layer 1 vector field values. |
@@ -72,8 +78,9 @@ Each "agent" in the field (a process, stream, or even a token) has:
 Over time, they drift or get pulled into “hot” areas until the governor nudges them back or suppresses them.
 
 * * *
-
+```
 🛠️ **Implementation Sketch (Pseudocode)**
+```
 ------------------------------------------
 
 ### 🪪 Agents as System Tasks
@@ -106,8 +113,9 @@ Over time, they drift or get pulled into “hot” areas until the governor nudg
 ```
 
 * * *
-
+```
 🔁 **Continuous Loop**
+```
 ----------------------
 
 Every tick:
@@ -124,7 +132,7 @@ Every tick:
         
     *   Delay execution
         
-    *   Trigger adaptive behavior (e.g., coarser decoding, TTS skip-frames)
+    *   Trigger adaptive behavior e.g., coarser decoding, TTS skip-frames
         
 5.  Log changes.
     
@@ -157,7 +165,7 @@ Every tick:
 
 * * *
 
-Would you like to start prototyping the field model itself next (as a vector grid with decay + flow), or begin by building the sensors and stats interface for CPU/NPU load collection?
+Would you like to start prototyping the field model itself next as a vector grid with decay + flow, or begin by building the sensors and stats interface for CPU/NPU load collection?
 
 We could start with a basic 2D “stress grid” that models CPU vs RAM, then scale up.
 
@@ -208,7 +216,7 @@ graph TD
   FSYNC --> CPU
 ```
 
-This is a real mess to manage unless we **normalize and project** these into a _resource-stress field_.
+This is a real mess to manage unless we **normalize and project** these into a_resource-stress field_.
 
 * * *
 
@@ -218,10 +226,18 @@ This is a real mess to manage unless we **normalize and project** these into a _
 Each resource has:
 
 | Field Axis | Description |
+```
 | --- | --- |
+```
+```
 | X_cpu_i | Percent usage for core i |
+```
+```
 | Y_ram | % used, % cache pressure |
+```
+```
 | Z_gpu_i | Load % for GPU i |
+```
 | U_npu | Effective ops / latency over threshold |
 | D_disk_i | Bandwidth usage and fill level per volume |
 | L_temp | Temperature delta from nominal or throttle point |
@@ -265,7 +281,9 @@ We can begin modeling:
 -----------------------------------
 
 | Mode | Trigger | Mitigation |
+```
 | --- | --- | --- |
+```
 | RAM exhaustion | Free RAM < 5% | Cancel low-priority buffers |
 | Disk full | Any disk > 90% | Purge caches / delay writes |
 | Thermal throttle | Temp near Tjmax | Slow down jobs, log temperature events |
@@ -342,7 +360,7 @@ Here’s what I suggest we prototype next:
 5.  **Self-Healing Demo**: Duck notices pressure, drops old STT data, slows TTS rate, logs pressure release
     
 
-Would you like to start by writing a stress field data structure and simple decay function in Sibilant or JavaScript? Or do you want to define the snapshot system interface (cross-platform metrics collector)?
+Would you like to start by writing a stress field data structure and simple decay function in Sibilant or JavaScript? Or do you want to define the snapshot system interface cross-platform metrics collector?
 
 ## User
 Beyond just capturing resource usage, there is also exception handling. Errors can occur that break the system. I'm not sure if we want to model that in layer 1, or 2. Because you could model the errors as a sort of permission. Like it tried a command that   just didn't exist. some errors \*are\* permission related.  Like  EACCESS\_DENIED
@@ -360,7 +378,9 @@ Let’s break it down.
 -----------------------------------
 
 | Exception Type | Layer | Example | Why |
+```
 | --- | --- | --- | --- |
+```
 | ENOMEM, EFAULT, Segfault, "Bus error" | Layer 1 | System ran out of memory or accessed invalid pointer | Hardware/resource failure: Uptime circuit |
 | EACCESS, EPERM, sandbox violations | Layer 2 | Denied access to file/device/API | Violated permission boundary or contract |
 | ENOENT, ENODEV, ERR_UNKNOWN_FUNCTION | Layer 3+ | Logical mistake, invalid command | Language/model misinterpretation, concept-level |
@@ -400,7 +420,7 @@ Let’s create a **Field of Exception Events** just like we track load:
     
 *   A **density field** of recurring failure zones (e.g., “This path fails often”)
     
-*   A **gravitational center** of “crash attractors” (e.g., high-stress + denied = shutdown risk)
+*   A **gravitational center** of “crash attractors” e.g., high-stress + denied = shutdown risk
     
 
 This can be integrated into the **Eidolon field** like a weather map of past injuries.
@@ -436,8 +456,9 @@ Here:
     
 
 * * *
-
+```
 🛑 Layer 1 Must Still _Catch_ All
+```
 ---------------------------------
 
 Even if the root cause is Layer 2+, **Layer 1 is always the bouncer**:
@@ -513,8 +534,9 @@ Exactly. You're tapping into one of the **most profound insights** for a physics
 > ⚠️ **High-level, symbolic meaning can cause low-level physiological effects.**
 
 That message didn’t spike your CPU.  
+```
 It spiked your _nervous system_.
-
+```
 This is how **Layer 3 (semantic parser)** feeds back into **Layer 1 (uptime)**—by projecting _meaning_ down into _physics_.
 
 * * *
@@ -549,7 +571,9 @@ Each semantic phrase becomes a **semantic vector**, projected into the **Eidolon
 ------------------------------------
 
 | Layer | What It Sees | What It Feels |
+```
 | --- | --- | --- |
+```
 | 3 | "Deployment crashed in prod" | ⚠️ Cognitive Alarm |
 | 2 | "I wasn't allowed to do X" | 🧱 Boundary Violation |
 | 1 | "Resources spiking, jitter rising" | 🩻 Physiological Shock |
@@ -618,7 +642,7 @@ function bubbleDown(error, timestamp) {
     
 *   “Module not defined” → Layer 3 (conceptual schema failure)
     
-*   “Invalid token” → Layer 2 (boundary/authorization violation)
+*   “Invalid token” → Layer 2 boundary/authorization violation
     
 *   “Segfault” or “NPU crashed” → Layer 1
     
@@ -792,9 +816,9 @@ Each tick:
         
 4.  Possibly sample output (e.g., compute field entropy, barycenter, hot zones)
     
-
+```
 This creates a **living topology**.
-
+```
 * * *
 
 🧱 Interface: EidolonField API (Abstract)
@@ -833,8 +857,9 @@ class EidolonField {
     
 
 * * *
-
+```
 🌐 Eidolon as Meta-Fieldspace
+```
 -----------------------------
 
 Eventually:
@@ -843,7 +868,7 @@ Eventually:
     
 *   Fields can fuse (composite energy field)
     
-*   Particles can exist in multiple fields (multi-body projection)
+*   Particles can exist in multiple fields multi-body projection
     
 *   Barycenter of a field becomes input to Layer 3
     
@@ -1046,7 +1071,7 @@ function render(field, particles) {
 🧪 What This Lets Us Do
 -----------------------
 
-*   Add multiple nodes (e.g., attractor + repulsor)
+*   Add multiple nodes e.g., attractor + repulsor
     
 *   Inject pulses over time (like an emotion spike)
     
@@ -1321,7 +1346,7 @@ Would you like me to:
     
 *   Build a test CLI that visualizes the magnitude collapse of the field in lower dimensions?
     
-*   Write a serialization format (e.g. s-expression or JSON) for field snapshots?
+*   Write a serialization format e.g. s-expression or JSON for field snapshots?
     
 
 We now have the _nervous tissue_. Let’s see it fire.
@@ -1521,7 +1546,7 @@ async function run() {
       ctx.fill();
     }
 
-   const filename = path.join(outDir, `frame_${String(i).padStart(3, '0')}.png`);
+   const filename = path.join(outDir, `frame_{String(i).padStart(3, '0')}.png`);
     const buffer = canvas.toBuffer('image/png');
     await fs.writeFile(filename, buffer);
     process.stdout.write('.');
@@ -1569,7 +1594,7 @@ Let me know if you want to:
     
 *   Add trails or heatmaps to the field
     
-*   Project higher dimensions (e.g. 4D → 2D slice)
+*   Project higher dimensions e.g. 4D → 2D slice
     
 
 This is your **visual probe into the Eidolon’s physics**.
@@ -1595,7 +1620,7 @@ Right now this:
 const dir = pos.subtract(this.position).normalize().scale(this.strength);
 ```
 
-...emits **outward-facing** vectors (from node center → outward), like an explosion.
+...emits **outward-facing** vectors from node center → outward, like an explosion.
 
 If we want particles to be **attracted**, we should _reverse_ the vector:
 
@@ -1700,8 +1725,12 @@ They kinda scatter everywhere then some fall off the edge, and the o
 Thanks for the update and for sharing the video! Based on your observations:
 
 > they scatter everywhere, some fall off the edge, the rest freeze  
-> → initial force = too strong  
-> → field effect = too weak  
+```
+> → initial force = too strong
+```
+```
+> → field effect = too weak
+```
 > → friction (drag) and decay = too high
 
 Let's make a plan to **tighten the system** so it's more like a gravitational attractor with soft orbiting or clustering behavior rather than a chaotic explosion.
@@ -1712,7 +1741,9 @@ Let's make a plan to **tighten the system** so it's more like a gravitational at
 ----------------------------------
 
 | Parameter | Current | Suggested | Why |
+```
 | --- | --- | --- | --- |
+```
 | Initial velocity | ±2 | ±0.1 | Reduce scattering |
 | Particle drag | ~0.9 | 0.98 | Less friction, more motion retention |
 | Field decay | 0.98–0.99 | 0.96 | More lingering influence |
@@ -1813,7 +1844,9 @@ Perfect. This is the right moment to pivot into an **Entity-Component-System (EC
 We’re modeling **physical dynamics** in abstract n-dimensional space, so the ECS will focus on:
 
 | ECS Concept | Eidolon Meaning |
+```
 | --- | --- |
+```
 | Entity | Any unique object in the field (particle, field node, boundary, memory node, etc.) |
 | Component | Data attached to entities: position, velocity, mass, drag, influence radius, etc. |
 | System | Logic that processes entities with specific components (e.g., particle motion, field decay, emitter influence) |
@@ -1841,7 +1874,9 @@ Renderable:   { color: String, radius: Number }
 ----------
 
 | System | Logic |
+```
 | --- | --- |
+```
 | ApplyFieldForcesSystem | For entities with Position, Velocity, and FieldAbsorption, sample the field and apply force |
 | MoveParticlesSystem | Updates position from velocity and drag |
 | DecayFieldSystem | Applies exponential decay to every vector in the field |
@@ -1881,8 +1916,9 @@ class ECS {
 ```
 
 * * *
-
+```
 ⚙️ Step 3: ECS-Based Systems
+```
 ----------------------------
 
 ### 📡 EmitFieldInfluenceSystem
@@ -2014,7 +2050,7 @@ Let’s define:
     
     *   `_id`: the entity ID
         
-    *   `type`: (e.g. `particle`, `field_node`)
+    *   `type`: e.g. `particle`, `field_node`
         
     *   `components`: all attached component data
         
@@ -2041,8 +2077,12 @@ Optionally:
 ----------------------
 
 | Collection | Contents |
+```
 | --- | --- |
+```
+```
 | entities | Entity + component bundles |
+```
 | field_vectors | Sparse field vectors keyed by position |
 | metadata | Tick count, simulation ID, etc |
 
@@ -2148,7 +2188,7 @@ async function loadFieldVectors(db, field, simId) {
 async function saveSimState(db, ecs, field, simId, tick) {
   await db.collection('metadata').updateOne(
     { simId },
-    { $set: { tick, updated: new Date() }},
+    { set: { tick, updated: new Date() }},
     { upsert: true }
   );
   await saveEntities(db, ecs, simId);
@@ -2175,7 +2215,7 @@ async function runSim() {
     tick(field, ecs);
 
    if (tick % 10 === 0) {
-      console.log(`Saving state @ tick ${tick}`);
+      console.log(`Saving state @ tick {tick}`);
       await saveSimState(db, ecs, field, simId, tick);
     }
   }
@@ -2217,7 +2257,7 @@ Optimize the storage for higher dimensional sparsity
 ## ChatGPT
 Great — let’s optimize MongoDB persistence for **sparse, high-dimensional vector fields**, so that:
 
-1.  We only store meaningful vector entries (non-zero or above a threshold)
+1.  We only store meaningful vector entries non-zero or above a threshold
     
 2.  Field updates can be efficiently inserted or updated
     
@@ -2274,7 +2314,7 @@ async function saveFieldVectorsOptimized(db, field, simId, epsilon = 0.01) {
       updateOne: {
         filter: { simId, positionKey: key },
         update: {
-          $set: {
+          set: {
             vector: vec.values,
             updated: now
           }
@@ -2381,15 +2421,18 @@ Here’s a design you can drop into your repo and assign to an agent for polishi
 -----------------------
 
 | Collection | Description |
+```
 | --- | --- |
+```
 | entities | All ECS entities and components at a given tick |
 | field_vectors | Sparse vectors keyed by positionKey |
 | metadata | Current tick, simId, timestamps |
 | history_log | (Optional) append-only logs for replay optimization |
 
 * * *
-
+```
 🧰 Replay/Resume Interface
+```
 --------------------------
 
 ### 📦 Save Simulation State Snapshot
@@ -2398,7 +2441,7 @@ Here’s a design you can drop into your repo and assign to an agent for polishi
 async function saveSnapshot(db, ecs, field, simId, tick) {
   await db.collection('metadata').updateOne(
     { simId },
-    { $set: { tick, updated: new Date() } },
+    { set: { tick, updated: new Date() } },
     { upsert: true }
   );
 
@@ -2424,7 +2467,7 @@ async function saveSnapshot(db, ecs, field, simId, tick) {
 ```js
 async function resumeFromSnapshot(db, simId) {
   const meta = await db.collection('metadata').findOne({ simId });
-  if (!meta) throw new Error(`No simulation found for simId ${simId}`);
+  if (!meta) throw new Error(`No simulation found for simId {simId}`);
 
  const tick = meta.tick;
   const entities = await db.collection('entities').find({ simId, tick }).toArray();
@@ -2449,7 +2492,7 @@ async function resumeFromSnapshot(db, simId) {
 ```js
 async function replaySimulation(db, simId, fromTick = 0, toTick = null) {
   const ticks = await db.collection('entities')
-    .distinct('tick', { simId, tick: { $gte: fromTick } });
+    .distinct('tick', { simId, tick: { gte: fromTick } });
 
  const sortedTicks = ticks.sort((a, b) => a - b).filter(t => toTick === null || t <= toTick);
 
@@ -2470,8 +2513,9 @@ async function replaySimulation(db, simId, fromTick = 0, toTick = null) {
 ```
 
 * * *
-
+```
 ✨ Optional Add-ons
+```
 ------------------
 
 *   `forkSim(simId, newId)`: duplicate the last state of one sim to branch a new sim
@@ -2530,7 +2574,7 @@ Perfect. A **WebSocket service layer** turns your Eidolon simulation into a **re
     
 *   Live visualization dashboards (e.g., D3.js, Three.js)
     
-*   Dynamic control (spawn nodes, nudge particles, pause/resume/fork)
+*   Dynamic control spawn nodes, nudge particles, pause/resume/fork
     
 *   Agent hooks (LLMs, agents, humans can “touch” the field)
     
@@ -2543,7 +2587,9 @@ Let’s design and prototype a minimal WebSocket API over your ECS + Field syste
 --------------------------
 
 | Feature | Route | Purpose |
+```
 | --- | --- | --- |
+```
 | 🔁 connect | ws://.../sim | Start/subscribe to updates |
 | 📡 subscribe | { event: "subscribe", simId } | Start receiving live frames |
 | 🧪 inject | { event: "injectNode", data: {...} } | Dynamically spawn emitters/particles |
@@ -2757,7 +2803,7 @@ Let’s wire your `heartbeat` service into the field so that:
     
 *   Its runtime health maps to **field stress or influence**
     
-*   Its identity/type (like `llm_provider`) becomes a **tag** or **component**
+*   Its identity/type like `llm_provider` becomes a **tag** or **component**
     
 *   Failing or degrading processes project **risk** or **failure gravity**
     
@@ -2770,8 +2816,10 @@ Let’s wire your `heartbeat` service into the field so that:
 ----------------------
 
 | Heartbeat Data | Eidolon Mapping | Use |
+```
 | --- | --- | --- |
-| Process Type (llm_provider) | Entity.type or Component: ProcessInfo | For daimo affinity |
+```
+| Process Type llm_provider | Entity.type or Component: ProcessInfo | For daimo affinity |
 | PID, last ping | Field Node lifetime / decay | Tracks disappearance over time |
 | CPU/RAM/IO usage | Field vector magnitude / drag / heat | Stress or influence |
 | Kill state (grace, soft, hard) | Field Node mode → increasing pressure | Emit stress over time |
@@ -2911,11 +2959,12 @@ We'll use a seperate ECS domain, I want to decouple specific instance
 The daimo do not know what they are encoding, we need to interpret them.
 
 ## ChatGPT
+```
 Yes — _this is exactly right._
-
+```
 You're describing a **layered decoupling**:
 
-*   **Heartbeat ECS**: represents _physical processes_ (instances of `llm_provider`, `stt_ws`, etc.)
+*   **Heartbeat ECS**: represents _physical processes_ instances of `llm_provider`, `stt_ws`, etc.
     
 *   **Eidolon ECS**: represents _interpretive space_ (conceptual field nodes, daimo agents, affective influence)
     
@@ -2947,9 +2996,11 @@ graph TD
 ----------------------
 
 | Layer | Role | Example |
+```
 | --- | --- | --- |
+```
 | Heartbeat ECS | Tracks real pid, cpu, ram, state | { pid: 1023, type: "llm_provider", state: "grace" } |
-| Bridge | Converts metrics to cognitive signals | "high jitter" → field vector (0.7, -0.2) |
+| Bridge | Converts metrics to cognitive signals | "high jitter" → field vector 0.7, -0.2 |
 | Eidolon ECS | Holds anonymous influences | FieldNode{ type: "llm_heat", strength: 3 } |
 | Daimo | Tethered to a type, not a PID | "I depend on the llm_provider category" |
 
@@ -2968,7 +3019,7 @@ This allows daimo to _feel pressure_, but not know _why_ — unless another laye
     
 4.  **Manage** virtual node lifetime (decay with last heartbeat)
     
-5.  **Annotate** signals by type (`llm_provider`, `stt_worker`) not instance
+5.  **Annotate** signals by type `llm_provider`, `stt_worker` not instance
     
 
 * * *
@@ -3048,7 +3099,7 @@ This structure:
 
 *    Define process category → field projection map
     
-*    Write bridge subscriber to listen to heartbeat ECS (Redis/pubsub? file watcher? IPC?)
+*    Write bridge subscriber to listen to heartbeat ECS Redis/pubsub? file watcher? IPC?
     
 *    Hash category to fixed field coordinate
     
@@ -3068,15 +3119,15 @@ I want to model how we can use the field state to set constraints 
 Like, you only get this much ram, this much CPU, this much disk usage, you're heartbeat have to happenn at x interval
 
 ## ChatGPT
-Socket.io is a great choice here — especially for local network (or same-host) communication between microservices. It gives you:
+Socket.io is a great choice here — especially for local network or same-host communication between microservices. It gives you:
 
 *   Pub/sub style event streams
     
 *   Structured messages (JSON)
     
-*   A natural handshake (for process registration + metadata)
+*   A natural handshake for process registration + metadata
     
-*   Heartbeat is trivial (`socket.emit('heartbeat', {...})`)
+*   Heartbeat is trivial `socket.emit('heartbeat', {...})`
     
 *   Reconnection / backoff handled for free
     
@@ -3089,7 +3140,9 @@ Let’s use **Socket.IO** as the **bridge interface** between your `heartbeat` E
 -------------------
 
 | Actor | Layer | Role |
+```
 | --- | --- | --- |
+```
 | Process (LLM, TTS, etc) | Sends register + heartbeat messages |  |
 | Heartbeat Service | Tracks PIDs, resource usage, timing |  |
 | Bridge Subscriber (you’re asking about) | Converts metrics to vector signals, injects into Eidolon |  |
@@ -3102,7 +3155,7 @@ Let’s use **Socket.IO** as the **bridge interface** between your `heartbeat` E
 
 *   Simple `.emit("heartbeat", {...})`
     
-*   Namespace/multiplexing support (`/heartbeat`, `/bridge`)
+*   Namespace/multiplexing support `/heartbeat`, `/bridge`
     
 *   No need to fight HTTP headers or long polling
     
@@ -3395,9 +3448,13 @@ test('produces consistent position vector', () => {
 -----------------------
 
 | Module | Test Focus |
+```
 | --- | --- |
+```
 | interpretHeartbeat | Metric → vector |
+```
 | updateProcessNodes | Decay + state shift |
+```
 | computeConstraintFromField | Field → limits |
 | socket.js | Messaging |
 | space.js | Type → coordinates |
@@ -3523,12 +3580,15 @@ test('heartbeat injects influence into field', () => {
 ```
 
 * * *
-
+```
 🧠 Next-level Extensions
+```
 ------------------------
 
 | Feature | Test |
+```
 | --- | --- |
+```
 | 🧩 Diamo Reactions | Test how daimo update behavior in high-stress zones |
 | 🌀 Multi-process pressure | Simulate several types + check field interference |
 | ⛓ Constraint Enforcement | Ensure field vector limits propagate to heartbeat limits |
@@ -3567,7 +3627,9 @@ By grounding the simulation state (entities, fields, constraints, daimo, process
 -------------------------------------------
 
 | Component | Collection / Interface | Python Notes |
+```
 | --- | --- | --- |
+```
 | Field vectors | field_vectors (sparse) | Load field into numpy or PyTorch for reasoning |
 | ECS entities | entities | Map to dataclasses or dicts |
 | Heartbeat log | processes, heartbeats | Implement soft agents or monitoring tools |
@@ -3669,7 +3731,9 @@ Python agents could:
 ----------------
 
 | Tool | Purpose |
+```
 | --- | --- |
+```
 | eidolon-py/cli.py | Command line client to interact with the field (query, write, visualize) |
 | eidolon-py/agents/ | Daemons that analyze or act on field state |
 | eidolon-py/notebooks/ | Jupyter notebooks for field diagnostics |
@@ -3747,8 +3811,9 @@ pipenv install --dev
 ```
 
 * * *
-
+```
 🧪 `tests/test_field.py`
+```
 ------------------------
 
 ```python
@@ -3769,8 +3834,9 @@ def test_field_has_vector_shape():
 ```
 
 * * *
-
+```
 🧪 `tests/test_constraints.py`
+```
 ------------------------------
 
 ```python
@@ -3782,8 +3848,9 @@ def test_returns_dict():
 ```
 
 * * *
-
+```
 🧪 `tests/test_heartbeat.py`
+```
 ----------------------------
 
 ```python
@@ -3868,8 +3935,9 @@ Absolutely — let’s scaffold `eidolon-py/` to give you:
 The Python agent ecosystem is a **mirror** of the running cognitive field.
 
 *   Reads from:  
-    `field_vectors`, `entities`, `constraints`, `heartbeats`
-    
+```
+`field_vectors`, `entities`, `constraints`, `heartbeats`
+```
 *   Writes to:  
     `heartbeats`, `field_vectors`, `logs`, `constraints` (if permitted)
     
@@ -3929,8 +3997,9 @@ db = client["eidolon_sim"]
 ```
 
 * * *
-
+```
 🧬 `agents/monitor.py`
+```
 ----------------------
 
 ```python
@@ -4011,8 +4080,9 @@ pipenv run pytest
 ---
 
 ## ✅ How This Works
-
+```
 1. **Mongo = field memory**
+```
 2. Python modules read/write into the same database the JS/Lisp agents do
 3. Agents are just **loops or responders** in `agents/`
 4. Constraints and pressure are projected as **vectors**, processed by math
@@ -4021,9 +4091,12 @@ pipenv run pytest
 ---
 
 ## ➕ Possible Add-ons
-
+```
 | Add-on | Purpose |
+```
+```
 |--------|---------|
+```
 | `agents/viz.py` | CLI or matplotlib visualizer of 2D field |
 | `agents/evictor.py` | Terminates/stifles processes near collapse |
 | `agents/generator.py` | Simulates new node arrangements |

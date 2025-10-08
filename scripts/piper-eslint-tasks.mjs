@@ -1,6 +1,7 @@
-import { promises as fs } from 'node:fs';
-import path from 'node:path';
-import { spawn } from 'node:child_process';
+import { promises as fs } from "node:fs";
+import path from "node:path";
+import { spawn } from "node:child_process";
+import { OLLAMA_URL } from "../packages/utils/dist/ollama.js";
 
 const OLLAMA_URL = process.env.OLLAMA_URL ?? 'http://localhost:11434';
 

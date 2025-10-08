@@ -1,10 +1,14 @@
 ---
+```
 uuid: d6204735-5a96-4670-a361-6f6ef7c5cdb6
+```
 title: implement fragment ingestion with activation vecto md
 status: todo
 priority: P3
 labels: []
+```
 created_at: '2025-09-15T02:02:58.515Z'
+```
 ---
 ## 🛠️ Task: Implement fragment ingestion with activation vectors
 
@@ -31,9 +35,9 @@ Placeholder task stub generated from kanban board.
 ---
 
 ## 🔗 Related Epics
-
+```
 #framework-core
-
+```
 ---
 
 ## ⛓️ Blocked By
@@ -49,5 +53,6 @@ Nothing
 ## 🔍 Relevant Links
 
 - [[kanban]]
+```
 #ice-box
-
+```

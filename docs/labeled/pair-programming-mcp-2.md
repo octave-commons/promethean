@@ -1,9 +1,15 @@
 ---
+```
 uuid: 1f0fb80e-9b10-4ab2-9fab-0efda0de5a54
+```
+```
 created_at: '2025-09-20T12:55:06Z'
+```
 title: 2025.09.20.12.55.06
 filename: Pair Programming MCP
+```
 description: >-
+```
   This document outlines the MCP's workflow for pair programming, including its
   four operational modes and the tools available for workspace and sandbox
   interactions. It emphasizes additive operations only, with destructive
@@ -16,8 +22,12 @@ tags:
   - sandbox tools
   - additive operations
   - reversible history
+```
 related_to_uuid: []
+```
+```
 related_to_title: []
+```
 references: []
 ---
 # Pair programming MCP

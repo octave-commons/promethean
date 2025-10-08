@@ -1,9 +1,9 @@
 # converter.ts
 
 **Path**: `services/cephalon/src/converter.ts`
-
+```
 **Description**: Documentation stub.
-
+```
 ## Dependencies
 - node:stream
 - prism-media

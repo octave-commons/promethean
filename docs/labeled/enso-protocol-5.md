@@ -1,9 +1,15 @@
 ---
+```
 uuid: 72fb4000-3bf9-4be2-a24a-399a844fcc5f
+```
+```
 created_at: '2025-09-18T16:46:24Z'
+```
 title: 2025.09.18.16.46.24
 filename: Enso Protocol
+```
 description: >-
+```
   A multi-agent chat protocol enabling context sharing across users and agents
   with multimodal support, causal ordering, and privacy-first design. It uses a
   parts-based model for messages and supports voice-first interactions through
@@ -15,8 +21,12 @@ tags:
   - causal ordering
   - voice-first
   - context sharing
+```
 related_to_uuid: []
+```
+```
 related_to_title: []
+```
 references: []
 ---
 # Summary
@@ -41,7 +51,7 @@ Name:  Enso (円相) — the Zen circle, symbol of connection, emptiness, and fl
 
 * `packages/enso-protocol` — add attachment/content parts & asset refs
 * `packages/enso-asset` — content-addressed blob store + derivations
-* `packages/enso-transcode` — pluggable converters (pdf→text/images, docx→text, pptx→images, html→readability, heic→jpeg, etc.), all idempotent + cached
+* `packages/enso-transcode` — pluggable converters pdf→text/images, docx→text, pptx→images, html→readability, heic→jpeg, etc., all idempotent + cached
 * `packages/enso-client` — high-level `attach()` & `compose()` APIs
 * `packages/enso-gateway` — upload endpoints, policy, derivation queue
 
@@ -53,7 +63,7 @@ Messages aren’t just strings; they’re **arrays of parts**. Tools/agents see 
 
 ```ts
 // enso-protocol/src/content.ts
-export type BlobURI = `enso://asset/${string}` | `ipfs://${string}` | `file://${string}` | `https://${string}`;
+export type BlobURI = `enso://asset/{string}` | `ipfs://{string}` | `file://{string}` | `https://{string}`;
 
 export type TextPart = {
   kind: "text";
@@ -96,8 +106,12 @@ flowchart LR
   end
   EnsoClientA -- voice/opus frames --> Mixer[(Stream Router)]
   EnsoClientB -- text+acts --> Router[(Event Bus)]
-  EnsoClientC -- tools/results --> Router
-  Router <--> Mixer
+```
+EnsoClientC -- tools/results --> Router
+```
+```
+Router <--> Mixer
+```
   Router -- state diffs --> All[All Participants]
 ```
 
@@ -128,22 +142,37 @@ flowchart LR
 Every message is an `Envelope` with causal info.
 
 ```ts
+```
 export type UUID = string;
-
+```
+```
 export interface Envelope<T = unknown> {
-  id: UUID;                // content id
-  ts: string;              // ISO timestamp
-  room: string;            // room id
-  from: string;            // sender id
+```
+```
+id: UUID;                // content id
+```
+```
+ts: string;              // ISO timestamp
+```
+```
+room: string;            // room id
+```
+```
+from: string;            // sender id
+```
   kind: "event" | "stream";
   type: string;            // e.g. "chat.msg", "voice.frame", "tool.call"
   seq?: number;            // per-stream sequence
-  rel?: {                  // causality
+```
+rel?: {                  // causality
+```
     replyTo?: UUID;
     parents?: UUID[];      // CRDT-friendly (DAG)
   };
   payload: T;
-  sig?: string;            // optional signature
+```
+sig?: string;            // optional signature
+```
 }
 ```
 
@@ -152,7 +181,9 @@ export interface Envelope<T = unknown> {
 Small JSON payloads (chat, acts, tool boundary events).
 
 ```ts
+```
 export type Event =
+```
   | { type: "chat.msg"; text: string; format?: "md" | "plain" }
   | { type: "presence.join"; info?: Record<string, unknown> }
   | { type: "presence.part"; reason?: string }
@@ -168,9 +199,15 @@ Binary or text framed with `streamId`, `seq`, `pts` (presentation timestamp).
 ```ts
 export interface StreamFrame {
   streamId: UUID;
-  codec: "opus/48000/2" | "pcm16le/16000/1" | "text/utf8" | "jsonl";
-  seq: number;                 // monotonic
-  pts: number;                 // milliseconds
+```
+codec: "opus/48000/2" | "pcm16le/16000/1" | "text/utf8" | "jsonl";
+```
+```
+seq: number;                 // monotonic
+```
+```
+pts: number;                 // milliseconds
+```
   eof?: boolean;
   data: Uint8Array | string;   // string if text/jsonl
 }
@@ -190,7 +227,9 @@ Voice is just `kind:"stream", type:"voice.frame"` with `payload: StreamFrame`.
 
 ```ts
 export interface HelloCaps {
-  proto: "ENSO-1";
+```
+proto: "ENSO-1";
+```
   agent?: { name: string; version: string };
   caps: string[]; // e.g. ["can.speak.audio","can.recv.text","tool.search","tool.fs.read"]
 }
@@ -211,14 +250,18 @@ export interface HelloCaps {
 Open, room-scoped tool contract; any participant can expose tools.
 
 ```ts
+```
 // announce
+```
 { kind:"event", type:"tool.advertise", payload:{ tools:[{name:"search.web",schema:{...}}] } }
-
+```
 // call
+```
 { kind:"event", type:"tool.call",
   payload:{ callId:"...", name:"search.web", args:{ q:"enso protocol" } } }
-
+```
 // result
+```
 { kind:"event", type:"tool.result",
   payload:{ callId:"...", ok:true, result:{ hits:[...] } } }
 ```
@@ -266,8 +309,8 @@ export class EnsoClient {
   send<T>(env: Envelope<T>): void;
 
   openStream(kind: "voice"|"text", codec: StreamFrame["codec"]): StreamWriter;
-  onEvent(type: string, fn: (env: Envelope) => void): () => void;
-  onStream(streamId: UUID, fn: (f: StreamFrame) => void): () => void;
+  onEventtype: string, fn: (env: Envelope) => void: () => void;
+  onStreamstreamId: UUID, fn: (f: StreamFrame) => void: () => void;
 }
 
 export interface StreamWriter {
@@ -291,11 +334,15 @@ sequenceDiagram
   participant Cephalon
 
   Human->>EnsoClient: mic frames (opus)
-  EnsoClient->>Gateway: stream voice.frame (streamId=V1)
-  Gateway->>Cephalon: proxy V1
+  EnsoClient->>Gateway: stream voice.frame streamId=V1
+```
+Gateway->>Cephalon: proxy V1
+```
   Cephalon->>Gateway: stream text/utf8 (partial transcripts T1..Tn)
-  Gateway->>EnsoClient: forward T*
-  Cephalon->>Gateway: tool.call (name="agent.reply", args=...)
+```
+Gateway->>EnsoClient: forward T*
+```
+  Cephalon->>Gateway: tool.call name="agent.reply", args=...
   Gateway->>EnsoClient: chat.msg (from Agent)
 ```
 
@@ -304,16 +351,28 @@ sequenceDiagram
 ## 11) File tree stubs
 
 ```
+```
 packages/
-  enso-protocol/
+```
+```
+enso-protocol/
+```
     src/{envelope.ts, events.ts, streams.ts, zod.ts}
-  enso-gateway/
+```
+enso-gateway/
+```
     src/{server.ts, rooms.ts, auth.ts, mixer.ts}
-  enso-client/
+```
+enso-client/
+```
     src/{client.ts, transport-ws.ts, vad.ts}
-  enso-cli/
+```
+enso-cli/
+```
     src/{enso.ts}  # voice-in/voice-out demo
-  cephalon-core/
+```
+cephalon-core/
+```
     src/{adapter-enso.ts, interpreter.ts}
 ```
 
@@ -376,12 +435,18 @@ Any participant with `mcp.client` can ask the **gateway** to mount a remote serv
 ```json
 { "kind":"event", "type":"mcp.mount",
   "payload":{
-    "serverId":"gitlab-prod",
+```
+"serverId":"gitlab-prod",
+```
     "transport":{
-      "kind":"http-stream", "url":"https://mcp.acme.dev/gitlab"
+```
+"kind":"http-stream", "url":"
+```https://mcp.acme.dev/gitlab"
     },
     "exposeTools": true,
-    "exposeResources": ["repo/*"],
+```
+"exposeResources": ["repo/*"],
+```
     "labels": {"env":"prod","scope":"scm"}
   }}
 ```
@@ -395,9 +460,13 @@ An agent with `mcp.server:<id>` announces:
 ```json
 { "kind":"event", "type":"mcp.announce",
   "payload":{
-    "serverId":"fs-local",
-    "tools":[ /* MCP tool descriptors verbatim */ ],
-    "resources":[ /* MCP resource descriptors */ ]
+```
+"serverId":"fs-local",
+```
+    "tools":/* MCP tool descriptors verbatim */,
+```
+"resources":[ /* MCP resource descriptors */ ]
+```
   }}
 ```
 
@@ -413,9 +482,11 @@ Once mounted/announced, the gateway emits:
 { "kind":"event", "type":"tool.advertise",
   "payload":{
     "provider":"mcp",
-    "serverId":"gitlab-prod",
-    "tools":[ { "name":"gitlab.find_issue", "schema":{/* from MCP */} }, ... ],
-    "resources":[ { "name":"repo/main", "uri":"mcp://gitlab-prod/repo/main" }, ... ]
+```
+"serverId":"gitlab-prod",
+```
+    "tools":{ "name":"gitlab.find_issue", "schema":{/* from MCP */} }, ...,
+    "resources":{ "name":"repo/main", "uri":"mcp://gitlab-prod/repo/main" }, ...
   }}
 ```
 
@@ -432,8 +503,12 @@ This mirrors MCP’s `tools` and `ResourceLink` structures so LLMs/agents see a 
   "payload":{
     "callId":"uuid",
     "provider":"mcp",
-    "serverId":"gitlab-prod",
-    "name":"gitlab.find_issue",
+```
+"serverId":"gitlab-prod",
+```
+```
+"name":"gitlab.find_issue",
+```
     "args":{ "q":"login bug", "project":"app/web" },
     "ttlMs": 8000
   }}
@@ -446,9 +521,10 @@ This mirrors MCP’s `tools` and `ResourceLink` structures so LLMs/agents see a 
   "payload":{
     "callId":"uuid",
     "ok":true,
-    "result": { /* MCP result payload */ },
-    "resources":[
-      {"type":"resource_link","uri":"mcp://gitlab-prod/repo/app/web#L120","title":"match"}]
+```
+"result": { /* MCP result payload */ },
+```
+    "resources":{"type":"resource_link","uri":"mcp://gitlab-prod/repo/app/web#L120","title":"match"}
   }}
 ```
 
@@ -486,16 +562,21 @@ export interface McpMount {
     | { kind: "http-sse"; url: string }
     | { kind: "stdio"; command: string; args?: string[] };
   exposeTools?: boolean;
-  exposeResources?: string[]; // globs
+```
+exposeResources?: string[]; // globs
+```
   labels?: Record<string,string>;
 }
-
+```
 export type EnsoEvent =
+```
   | { type: "mcp.mount"; payload: McpMount }
   | { type: "mcp.announce"; payload: {
         serverId: string;
         tools: unknown[];      // pass-through MCP descriptors
-        resources?: unknown[]; // pass-through
+```
+resources?: unknown[]; // pass-through
+```
       }}
   | { type: "tool.advertise"; payload: {
         provider: "mcp" | "native";
@@ -573,33 +654,45 @@ Messages aren’t just strings; they’re **arrays of parts**. Tools/agents see 
 
 ```ts
 // enso-protocol/src/content.ts
-export type BlobURI = `enso://asset/${string}` | `ipfs://${string}` | `file://${string}` | `https://${string}`;
-
+export type BlobURI = `enso://asset/{string}` | `ipfs://{string}` | `file://{string}` | `https://{string}`;
+```
 export type TextPart = {
+```
   kind: "text";
-  text: string;                 // UTF-8
+```
+text: string;                 // UTF-8
+```
   mime?: "text/plain" | "text/markdown";
-  lang?: string;                // BCP-47
+```
+lang?: string;                // BCP-47
+```
 };
-
+```
 export type ImagePart = {
+```
   kind: "image";
   uri: BlobURI;                 // points to a still image
   mime: "image/png" | "image/jpeg" | "image/webp";
   width?: number; height?: number; alt?: string;
 };
-
+```
 export type AttachmentPart = {
+```
   kind: "attachment";
-  uri: BlobURI;                 // any file
+```
+uri: BlobURI;                 // any file
+```
   mime: string;                 // original media type
   bytes: number;
-  name?: string;                // filename-ish
+```
+name?: string;                // filename-ish
+```
   // Optional derivations already known at send time:
   derived?: Array<DerivedRef>;
 };
-
+```
 export type DerivedRef = {
+```
   purpose: "text" | "image" | "thumbnail";
   uri: BlobURI;
   mime: string;
@@ -607,8 +700,9 @@ export type DerivedRef = {
 };
 
 export type ContentPart = TextPart | ImagePart | AttachmentPart;
-
+```
 export type ChatMessage = {
+```
   role: "human" | "agent" | "system";
   parts: ContentPart[];         // a message is many parts
 };
@@ -629,7 +723,9 @@ export interface AssetPut {
   mime: string;
   bytes?: number;
   cid?: string;                 // sha256-b32; if present, dedupe
-  room?: string;                // scope
+```
+room?: string;                // scope
+```
   policy?: { public?: boolean; ttlSeconds?: number };
 }
 ```
@@ -644,7 +740,7 @@ Gateway replies with:
 
 ```ts
 { kind:"event", type:"asset.ready",
-  payload:{ cid, uri:`enso://asset/${cid}`, mime, bytes } }
+  payload:{ cid, uri:`enso://asset/{cid}`, mime, bytes } }
 ```
 
 ### 2) **content.post** — send a message with parts
@@ -657,10 +753,8 @@ Client may include `AttachmentPart`s immediately after `asset.ready`.
     room:"r1",
     message:{
       role:"human",
-      parts:[
-        { kind:"text", text:"Please summarize this PDF." },
+      parts:{ kind:"text", text:"Please summarize this PDF." },
         { kind:"attachment", uri:"enso://asset/…", mime:"application/pdf", bytes: 834221 }
-      ]
     }
   }}
 ```
@@ -677,7 +771,9 @@ Tools or users can force derivations (e.g., OCR, page images).
     cid:"…",
     plans:[
       { purpose:"text", via:["pdf.extract_text","ocr.tesseract"] },
-      { purpose:"image", via:["pdf.page_renders@150dpi"] }
+```
+{ purpose:"image", via:["pdf.page_renders@150dpi"] }
+```
     ]
   }}
 ```
@@ -724,13 +820,15 @@ sequenceDiagram
 
   Client->>Gateway: asset.put {mime, bytes?}
   Client->>Gateway: stream asset.chunk[..]
-  Gateway->>Asset: write blobs (content-addressed)
-  Asset-->>Gateway: cid, uri
+  Gateway->>Asset: write blobs content-addressed
+```
+Asset-->>Gateway: cid, uri
+```
   Gateway-->>Client: asset.ready {cid, uri}
 
-  Client->>Gateway: content.post {parts: [text, attachment(uri=enso://...)]}
+  Client->>Gateway: content.post {parts: text, attachmenturi=enso://...$}
   Gateway->>Xcode: derive text/image per policy (async)
-  Xcode->>Asset: store derived renditions (text/image)
+  Xcode->>Asset: store derived renditions text/image
   Xcode-->>Gateway: asset.derived {purpose:"text"| "image", uri:…}
   Gateway-->>Room: content.message (message with augmented .derived)
 ```
@@ -752,28 +850,30 @@ Tools/agents in the room react either to **content.message** as it arrives (firs
 ## TypeScript SDK (high-level)
 
 ```ts
+```
 // enso-client
+```
 const enso = new EnsoClient(url, token);
-await enso.connect({ proto:"ENSO-1", caps:["can.asset.put","can.asset.read"] });
+await enso.connect{ proto:"ENSO-1", caps:["can.asset.put","can.asset.read"] };
 await enso.join("r:lab");
 
-const { uri, cid } = await enso.assets.putFile("/docs/specs/enso.pdf", "application/pdf");
+const { uri, cid } = await enso.assets.putFile"/docs/specs/enso.pdf", "application/pdf";
 
 // Post a message with an attachment; derivations will stream in later
-await enso.content.post({
+await enso.content.post{
   role: "human",
-  parts: [
-    { kind:"text", text:"Summarize key risks from this doc." },
+  parts: { kind:"text", text:"Summarize key risks from this doc." },
     { kind:"attachment", uri, mime:"application/pdf", bytes: 834221, name:"enso.pdf" }
-  ]
-});
+};
 
 // Listen for new messages (with derived parts as they appear)
 enso.on("content.message", (msg) => {
   for (const p of msg.parts) {
-    if (p.kind === "attachment" && p.derived) {
-      const txt = p.derived.find(d => d.purpose === "text");
-      if (txt) enso.assets.getText(txt.uri).then(console.log);
+```
+if (p.kind === "attachment" && p.derived) {
+```
+      const txt = p.derived.findd => d.purpose === "text";
+      if (txt) enso.assets.getText(txt.uri).thenconsole.log;
     }
   }
 });
@@ -818,10 +918,8 @@ enso.on("content.message", (msg) => {
     "room":"r1",
     "message":{
       "role":"human",
-      "parts":[
-        {"kind":"text","text":"Find all mentions of 'Morganna'."},
+      "parts":{"kind":"text","text":"Find all mentions of 'Morganna'."},
         {"kind":"attachment","uri":"enso://asset/cid:abc...","mime":"application/pdf","bytes":123456,"name":"design.pdf"}
-      ]
     }
   }
 }
@@ -834,7 +932,9 @@ enso.on("content.message", (msg) => {
   "payload":{
     "from":"cid:abc...",
     "derived":{"purpose":"text","uri":"enso://asset/cid:def...","mime":"text/markdown",
-      "meta":{"tool":"pdf.extract_text","version":"1.3.2"}}
+```
+"meta":{"tool":"pdf.extract_text","version":"1.3.2"}}
+```
   }
 }
 ```
@@ -847,13 +947,11 @@ enso.on("content.message", (msg) => {
     "room":"r1",
     "message":{
       "role":"human",
-      "parts":[
-        {"kind":"text","text":"Find all mentions of 'Morganna'."},
+      "parts":{"kind":"text","text":"Find all mentions of 'Morganna'."},
         {"kind":"attachment","uri":"enso://asset/cid:abc...","mime":"application/pdf",
          "bytes":123456,"derived":[
             {"purpose":"text","uri":"enso://asset/cid:def...","mime":"text/markdown"}
          ]}
-      ]
     }
   }
 }
@@ -894,7 +992,7 @@ Absolutely—let’s make caching a **first-class citizen** of ENSO-1 so every l
 Everything storable (blobs, derived outputs, JSON payloads) gets a **CID**:
 
 ```ts
-type CID = `cid:sha256-${string}`;
+type CID = `cid:sha256-{string}`;
 
 interface CacheKey {
   cid: CID;                     // primary key (content hash)
@@ -917,7 +1015,9 @@ Participants declare cache roles on connect:
 
 ```ts
 interface HelloCaps {
-  proto: "ENSO-1";
+```
+proto: "ENSO-1";
+```
   caps: string[]; // eg: ["cache.read","cache.write","cache.index","cache.room"]
   cache?: {
     store: "memory"|"disk"|"s3"|"ipfs";
@@ -952,7 +1052,7 @@ interface CachePut {
   mime: string;
   visibility: CacheVisibility;
   ttlSeconds?: number;          // advisory; 0 = pin until evicted by policy
-  tags?: string[];              // e.g. ["derived:text","pdf","ocr:jpn+eng"]
+  tags?: string[];              // e.g. "derived:text","pdf","ocr:jpn+eng"
   meta?: Record<string, unknown>; // provenance, tool/version, params
 }
 ```
@@ -968,9 +1068,13 @@ Ask cache for content; supports validators and partials.
 ```ts
 interface CacheGet {
   key: CacheKey;
-  accept?: string[];            // mime preferences
+```
+accept?: string[];            // mime preferences
+```
   validators?: {
-    cidEquals?: CID;            // If-Match
+```
+cidEquals?: CID;            // If-Match
+```
     notEquals?: CID;            // If-None-Match
   };
   range?: { start: number; end?: number }; // byte range for partial blobs
@@ -1015,9 +1119,13 @@ interface CachePolicy {
   scope: "room";
   maxBytesPerRoom: number;
   maxBytesPerEntry: number;
-  allowedMime: string[];        // glob list
+```
+allowedMime: string[];        // glob list
+```
   defaultTTLSeconds: number;
-  pinTags?: string[];           // never evict
+```
+pinTags?: string[];           // never evict
+```
   privateTags?: string[];       // remain session-scoped
 }
 ```
@@ -1040,12 +1148,18 @@ For long streams (voice, STT partials, large JSONL):
 Transcoders **must** compute derived CIDs using:
 
 ```
+```
 derivedCID = sha256( concat(
-  "enso-derive\0",
+```
+```
+"enso-derive\0",
+```
   sourceCID, "\0",
   toolId, "\0",
   toolVersion, "\0",
-  canonical-json(params)
+```
+canonical-json(params)
+```
 ))
 ```
 
@@ -1088,20 +1202,27 @@ Cachable “indexes” (e.g., BM25 index, vector DB shard) are just cache entrie
 ## 9) Client API sketch
 
 ```ts
+```
 // enso-client
+```
+```
 const cache = enso.cache();
-
+```
 await cache.put({
   key: { cid: derivedCid, purpose: "text" },
-  uri: `enso://asset/${derivedCid}`,
-  bytes: 42133, mime: "text/markdown",
+  uri: `enso://asset/{derivedCid}`,
+```
+bytes: 42133, mime: "text/markdown",
+```
   visibility: "room",
   meta: { by: "@agent/summarizer", tool: "pdf.extract_text", version: "1.3.2" }
 });
 
 const got = await cache.get({
   key: { cid: someCid, purpose: "image" },
-  validators: { notEquals: "cid:sha256-deadbeef..." }
+```
+validators: { notEquals: "cid:sha256-deadbeef..." }
+```
 });
 // got.type === "hit" | "miss" | "partial"
 ```
@@ -1137,7 +1258,7 @@ sequenceDiagram
 
   Gateway->>Xcode: derive text from A
   Xcode-->>Gateway: cache.put { key:{cid:T,purpose:"text"}, meta:{from:A, tool,...} }
-  Gateway-->>Room: content.message (attachment now includes derived:{text→T})
+  Gateway-->>Room: content.message attachment now includes derived:{text→T}
 ```
 
 Next time anyone posts **the same PDF** (same bytes) in any room, the gateway instantly **hits cache** (CID `A`) and, if text `T` exists, emits the derived refs without recomputing.
@@ -1167,9 +1288,15 @@ flowchart LR
     Ctx["Context<ctxId>"]
     Index[(Registry)]
   end
-  User-- manage -->Ctx
-  Agent-- request -->Ctx
-  Ctx-- filters/rules -->Index
+```
+User-- manage -->Ctx
+```
+```
+Agent-- request -->Ctx
+```
+```
+Ctx-- filters/rules -->Index
+```
   Index-- visible/active set --> Agent
 ```
 
@@ -1178,7 +1305,9 @@ flowchart LR
 Participants declare what they can do:
 
 ```ts
+```
 type Cap =
+```
   | "context.read" | "context.write" | "context.apply"
   | "datasource.add" | "datasource.manage"
   | "policy.approve" | "ownership.transfer";
@@ -1194,28 +1323,39 @@ type Cap =
 export type SourceKind = "fs" | "api" | "db" | "http" | "mcp" | "enso-asset" | "other";
 
 export interface DataSourceId {
-  kind: SourceKind;                        // source
-  location: string;                        // unique within kind (e.g., file:///…, s3://…, db://host/db/table)
+```
+kind: SourceKind;                        // source
+```
+  location: string;                        // unique within kind e.g., file:///…, s3://…, db://host/db/table
 }
 
 export type OwnerRef = { userId: string } | { groupId: string };
-
+```
 export type Discoverability =
-  | "invisible"    // protocol unaware
+```
+```
+| "invisible"    // protocol unaware
+```
   | "discoverable" // discoverable via links from active context
   | "visible"      // listed in registry for this room
-  | "hidden";      // registered but only by direct reference (id/location)
+  | "hidden";      // registered but only by direct reference id/location
 
 export interface DataSourceMeta {
   id: DataSourceId;
   owners: OwnerRef[];                      // who decides availability
   title?: string;
   tags?: string[];
-  createdAt: string;                       // ISO
+```
+createdAt: string;                       // ISO
+```
   updatedAt: string;
-  discoverability: Discoverability;        // default state
+```
+discoverability: Discoverability;        // default state
+```
   availability: Availability;              // default availability (see §4)
-  contentHints?: {                         // help transcoders/LLMs
+```
+contentHints?: {                         // help transcoders/LLMs
+```
     lang?: string; mime?: string; schema?: string;
   };
 }
@@ -1224,18 +1364,23 @@ export interface DataSourceMeta {
 ### 1.2 Availability (who can use it, and when)
 
 ```ts
+```
 export type Availability =
+```
   | { mode: "private" }
   | { mode: "public" }
   | { mode: "shared"; members: string[] }                  // user or group ids
   | { mode: "conditional"; conditions: Condition[] };
-
+```
 export type Condition =
+```
   | { kind: "hard"; rule: RuleExpr; requireApproval?: boolean }   // auto if satisfied, else ask if requireApproval
   | { kind: "soft"; prompt: string; requireApproval: true };      // LLM evaluates, user must approve
 
 // Minimal rule expression for "hard" conditions (impls can extend)
+```
 export type RuleExpr =
+```
   | { op: "roomHasMember"; id: string }
   | { op: "timeBetween"; start: string; end: string }
   | { op: "tagIncludes"; tag: string }
@@ -1252,18 +1397,28 @@ export interface ContextEntry {
   state: ContextState;
   // Ephemeral overrides, forgotten when context ends unless snapshotted
   overrides?: {
-    discoverability?: Discoverability;  // explicit, ephemeral
-    availability?: Availability;        // narrowed only
+```
+discoverability?: Discoverability;  // explicit, ephemeral
+```
+```
+availability?: Availability;        // narrowed only
+```
   };
-  permissions?: ContentPermissions;     // see §3
+```
+permissions?: ContentPermissions;     // see §3
+```
 }
 
 export interface ContentPermissions {
   readable?: boolean;
   changeable?: boolean;
   movable?: boolean;
-  exchangeable?: boolean; // transfer ownership
-  sendable?: boolean;     // share copy
+```
+exchangeable?: boolean; // transfer ownership
+```
+```
+sendable?: boolean;     // share copy
+```
   addable?: boolean;
   removable?: boolean;
   deletable?: boolean;    // rare, owner-only w/ policy
@@ -1284,12 +1439,16 @@ export interface Context {
   entries: ContextEntry[];          // current graph selection
   rules?: {
     include?: RuleExpr[];           // implicit discovery → standby
-    exclude?: RuleExpr[];           // implicit ignore
+```
+exclude?: RuleExpr[];           // implicit ignore
+```
     caps?: string[];                // tool caps allowed in this context
   };
   privacy?: {                       // integrates with privacy modes
     inheritRoom: boolean;
-    messageTTLOverrideSeconds?: number; // <= room max
+```
+messageTTLOverrideSeconds?: number; // <= room max
+```
   };
 }
 ```
@@ -1363,8 +1522,9 @@ export interface Context {
 { kind:"event", type:"content.add",       payload:{ meta: DataSourceMeta } }
 { kind:"event", type:"content.remove",    payload:{ id } }
 { kind:"event", type:"content.delete",    payload:{ id, confirm:"I UNDERSTAND" } } // rare
-
+```
 // All yield receipts:
+```
 { kind:"event", type:"content.receipt",
   payload:{ id, action:"read"|"change"|"move"|"exchange"|"send"|"add"|"remove"|"delete",
             ok:boolean, ts:string, note?:string, newId?:DataSourceId } }
@@ -1386,7 +1546,9 @@ export interface LlmView {
   ctxId: string;
   active: DataSourceMeta[];                 // state in {"active","pinned"}
   standby: DataSourceMeta[];                // auto-adds if linked during session
-  ignored: DataSourceMeta[];                // excluded
+```
+ignored: DataSourceMeta[];                // excluded
+```
   grants: Array<{ id: DataSourceId; permissions: ContentPermissions }>;
   // A normalized “parts” manifest to feed interpreters:
   parts: Array<{ id: DataSourceId; purpose:"text"|"image"|"other"; uri:string; mime:string }>;
@@ -1465,7 +1627,7 @@ context.apply({ctxId})
 ### C) Soft condition (ask user)
 
 ```
-Agent requests source C (Availability: conditional soft "project == Enso")
+Agent requests source C Availability: conditional soft "project == Enso"
 → approval.request(prompt:"Allow C? It matches Enso.")
 User grants → approval.grant
 → gateway updates LlmView, emits context.diff
@@ -1495,8 +1657,8 @@ User grants → approval.grant
 ```ts
 // create or open a context and pin paths
 const ctx = await enso.contexts.openOrCreate("Sprint Review");
-await ctx.pin({ kind:"fs", location:"file:///docs/notes.md" });
-await ctx.pin({ kind:"fs", location:"file:///slides/review.pdf" });
+await ctx.pin{ kind:"fs", location:"file:///docs/notes.md" };
+await ctx.pin{ kind:"fs", location:"file:///slides/review.pdf" };
 
 // hide a source ephemerally for this context
 await ctx.setDiscoverability(id, "hidden", { scope:"context" });
@@ -1506,7 +1668,7 @@ await ctx.apply();
 
 // list what LLMs will actually see
 const view = await ctx.view();
-console.log(view.parts.map(p => p.uri));
+console.logview.parts.map(p => p.uri);
 ```
 
 ---
@@ -1514,10 +1676,10 @@ console.log(view.parts.map(p => p.uri));
 This gives **Enso** explicit, wire-level context control:
 
 * rich **metadata**,
-* precise **discoverability** (invisible/hidden/visible/discoverable),
-* clear **context states** (active/inactive/standby/pinned/ignored),
+* precise **discoverability** invisible/hidden/visible/discoverable,
+* clear **context states** active/inactive/standby/pinned/ignored,
 * concrete **content management** verbs with receipts,
-* flexible **availability** (private/public/shared/conditional with hard/soft rules),
+* flexible **availability** private/public/shared/conditional with hard/soft rules,
 * tight **privacy** and **cache** integration,
 * and predictable **LLM views** so agents only see what they’re supposed to.
 

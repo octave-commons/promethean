@@ -17,9 +17,9 @@ What follows is a concise overview of each circuit, along with the etymology and
 This layer is the heartbeat of the system. It governs loop integrity, resource monitoring, and existential safety. Aionian does not ask why or how—it asks only: *Am I still alive?*
 
 All cognition originates here, with the simple, vital pulse of ongoing being.
-
+```
 I'm Ok/I'm not ok
-
+```
 ---
 
 ### 2. **Dorian** – The Permission and Trust Layer

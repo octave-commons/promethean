@@ -1,9 +1,15 @@
 ---
+```
 uuid: 59c2fe48-2c13-401d-8779-355f66d7cb2e
+```
+```
 created_at: '2025-09-19T23:36:38Z'
+```
 title: 2025.09.19.23.36.38
 filename: process
+```
 description: >-
+```
   Defines a state machine for task workflows with explicit cycles and transition
   rules to ensure agent-agnostic process handling and prevent accidental
   deletions.
@@ -14,14 +20,18 @@ tags:
   - agent-agnostic
   - write discipline
   - task management
+```
 related_to_uuid: []
+```
+```
 related_to_title: []
+```
 references: []
 ---
 totally with you. I’m not Codex; I won’t touch your repo. Let’s encode your intent cleanly:
 
-* **Process** stays agent-agnostic (no append-only rule there).
-* **Agent docs / system prompt** carry Codex Cloud’s write discipline (append-only to avoid accidental deletes).
+* **Process** stays agent-agnostic no append-only rule there.
+* **Agent docs / system prompt** carry Codex Cloud’s write discipline append-only to avoid accidental deletes.
 * The **FSM** gets honest cycles so an agent never “fakes” forward progress.
 
 Below are tight, ready-to-paste blocks. Nothing else.
@@ -105,7 +115,7 @@ flowchart TD
 * **In Review → To Do** (fallback)
   Changes requested; assignee busy **or** WIP full.
 
-* **In Progress → To Do** (session-end handoff, no PR required)
+* **In Progress → To Do** session-end handoff, no PR required
   Time/compute limit reached without a reviewable change. Append task update + artifacts/notes; move to `To Do` if WIP allows, else stay put and mark a minor blocker.
 
 * **In Progress → Breakdown**
@@ -118,17 +128,17 @@ flowchart TD
   True inter-task dependency with **bidirectional links** (Blocking ⇄ Blocked By). No viable path without the blocker.
 
 * **Blocked → Breakdown**
-  Fires when a linked blocker advances (e.g., to `In Review`/`Done`) or evidence shows dependency removed.
+  Fires when a linked blocker advances e.g., to `In Review`/`Done` or evidence shows dependency removed.
 
-> **WIP:** A transition fails if the target column’s WIP cap is reached; pick the alternative reverse path if defined (e.g., Review→To Do when In Progress is full).
+> **WIP:** A transition fails if the target column’s WIP cap is reached; pick the alternative reverse path if defined e.g., Review→To Do when In Progress is full.
 
 ---
 
-# 3) `process.md` — one tiny policy line (agent-agnostic)
+# 3) `process.md` — one tiny policy line agent-agnostic
 
 Add near your “Board is law” sentence:
 
-> **Write discipline:** The process is agent-agnostic. Agent-specific safety rules (e.g., Codex Cloud’s append-only edits to avoid accidental deletion) live in their **agent docs / system prompt**, not here.
+> **Write discipline:** The process is agent-agnostic. Agent-specific safety rules e.g., Codex Cloud’s append-only edits to avoid accidental deletion live in their **agent docs / system prompt**, not here.
 
 ---
 

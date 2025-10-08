@@ -1,8 +1,14 @@
 ---
+```
 uuid: 2c00ce45-08cf-4b81-9883-6157f30b7fae
+```
+```
 created_at: 2025.08.26.11.08.00.md
+```
 filename: Promethean Agent Config DSL
+```
 description: >-
+```
   Composable, declarative agent definitions using homoiconic S-expressions.
   Supports runtime compilation into PM2, Docker, or Node processes with explicit
   permissions and observability.
@@ -16,7 +22,9 @@ tags:
   - permissions
   - runtime
   - observability
+```
 related_to_title:
+```
   - Migrate to Provider-Tenant Architecture
   - Cross-Target Macro System in Sibilant
   - js-to-lisp-reverse-compiler
@@ -48,7 +56,9 @@ related_to_title:
   - sibilant-metacompiler-overview
   - Sibilant Meta-Prompt DSL
   - set-assignment-in-lisp-ast
+```
 related_to_uuid:
+```
   - 54382370-1931-4a19-a634-46735708a9ea
   - 5f210ca2-54e9-445b-afe4-fb340d4992c5
   - 58191024-d04a-4520-8aae-a18be7b94263
@@ -520,7 +530,7 @@ references:
 ---
 # Promethean Agent Config DSL (S‑Expr) — Draft v1
 
-> Composable, declarative agent definitions in homoiconic S‑expressions. Clean layering, zero YAML, built to compile into runtime artifacts (PM2, env, Make/Hy hooks, OpenAPI tool specs) and readable by `prom run agent`.
+> Composable, declarative agent definitions in homoiconic S‑expressions. Clean layering, zero YAML, built to compile into runtime artifacts PM2, env, Make/Hy hooks, OpenAPI tool specs and readable by `prom run agent`.
 
 ---
 
@@ -608,7 +618,7 @@ Blocks define reusable capability bundles. They compile into concrete service re
   (requires :services [:voice :llm])
   (exports :streams [:pcm :opus])
   (topology
-    (proc :name :voice :service services/ts/voice :args {:stt :$stt :tts :$tts}))
+    (proc :name :voice :service services/ts/voice :args {:stt :stt :tts :tts}))
 )
 
 (block cephalon.client/v1
@@ -616,11 +626,11 @@ Blocks define reusable capability bundles. They compile into concrete service re
   (parameters {:model :qwen3-code :context "default"})
   (requires :services [:cephalon])
   (env {:CEPHALON_URL "ws://localhost:7450"})
-  (topology (proc :name :cephalon :service services/ts/cephalon :args {:model :$model}))
+  (topology (proc :name :cephalon :service services/ts/cephalon :args {:model :model}))
 )
 ```
 
-> **Note:** `:$param` references are parameter substitutions bound by `(use ... :with {...})` at compose time.
+> **Note:** `:param` references are parameter substitutions bound by `(use ... :with {...})` at compose time.
 
 ---
 
@@ -664,8 +674,8 @@ Validation errors produce precise paths and messages (no silent failures).
 
 * `dist/agents/duck/ecosystem.config.mjs` (PM2)
 * `dist/agents/duck/.env` (merged env with secrets placeholders resolved)
-* `dist/agents/duck/permissions.json` (runtime guard for fs/net/gpu/proc)
-* `dist/agents/duck/topology.json` (wiring map for UI/debugger)
+* `dist/agents/duck/permissions.json` runtime guard for fs/net/gpu/proc
+* `dist/agents/duck/topology.json` wiring map for UI/debugger
 * optional: `docker-compose.yml`, `k8s/*.yaml` if requested
 
 ```lisp
@@ -700,7 +710,7 @@ Hooks resolve to task definitions that can be implemented in Hy/Sibilant/TS. Tas
 ```lisp
 (taskdef :heartbeat/report
   :exec (ts "services/ts/heartbeat/report.ts")
-  :args {:agent :$agent-id})
+  :args {:agent :agent-id})
 
 (hooks
   (init (task :hydrate-context :from "docs/agents/duck/seed"))
@@ -818,154 +828,154 @@ flowchart LR
 
 * Secret resolution backend: env, file, or Vault? Provide adapters.
 * Live reload of topology on block update? (hot‑swap vs restart)
-* Multi‑tenancy overlays: `(overlay :discord {...})` vs multiple `(use discord.bot/v1 ...)` forms.
-* How do we describe **tools** (OpenAPI → tool specs) as composable blocks? (likely `(use tools/openapi/v1 :with {:spec ".../openapi.json"})`).
+* Multi‑tenancy overlays: `(overlay :discord {...})` vs multiple `use discord.bot/v1 ...` forms.
+* How do we describe **tools** OpenAPI → tool specs as composable blocks? likely `(use tools/openapi/v1 :with {:spec ".../openapi.json"})`.
 
 ---
 
 *End Draft v1 — ready for iteration.*
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [[migrate-to-provider-tenant-architecture|Migrate to Provider-Tenant Architecture]]
-- [[cross-target-macro-system-in-sibilant|Cross-Target Macro System in Sibilant]]
-- [[js-to-lisp-reverse-compiler]]
-- [[dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]]
-- [Promethean Event Bus MVP v0.1](promethean-event-bus-mvp-v0-1.md)
-- [[ai-centric-os-with-mcp-layer|AI-Centric OS with MCP Layer]]
-- [[lisp-compiler-integration]]
-- [[sibilant-meta-string-templating-runtime]]
-- [[promethean-agent-dsl-ts-scaffold|Promethean Agent DSL TS Scaffold]]
-- [[prometheus-observability-stack|Prometheus Observability Stack]]
-- [[cross-language-runtime-polymorphism|Cross-Language Runtime Polymorphism]]
-- [[chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]]
-- [[api-gateway-versioning]]
-- [plan-update-confirmation](plan-update-confirmation.md)
-- [[docs/unique/field-interaction-equations|field-interaction-equations]]
-- [[board-walk-2025-08-11|Board Walk – 2025-08-11]]
-- [lisp-dsl-for-window-management](lisp-dsl-for-window-management.md)
-- [[polymorphic-meta-programming-engine]]
-- [[shared-package-structure|Shared Package Structure]]
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore|Agent Tasks: Persistence Migration to DualStore]]
-- [[docs/unique/interop-and-source-maps|Interop and Source Maps]]
-- [[docs/unique/event-bus-mvp|Event Bus MVP]]
-- [[language-agnostic-mirror-system|Language-Agnostic Mirror System]]
-- [[docs/unique/compiler-kit-foundations|compiler-kit-foundations]]
-- [[event-bus-projections-architecture|Event Bus Projections Architecture]]
-- [[per-domain-policy-system-for-js-crawler|Per-Domain Policy System for JS Crawler]]
-- [[promethean-native-config-design|Promethean-native config design]]
-- [[sibilant-macro-targets]]
-- [[sibilant-metacompiler-overview]]
-- [[sibilant-meta-prompt-dsl|Sibilant Meta-Prompt DSL]]
-- [[set-assignment-in-lisp-ast]]
+- [migrate-to-provider-tenant-architecture|Migrate to Provider-Tenant Architecture]
+- [cross-target-macro-system-in-sibilant|Cross-Target Macro System in Sibilant]
+- [js-to-lisp-reverse-compiler]
+- [dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]
+- [Promethean Event Bus MVP v0.1]promethean-event-bus-mvp-v0-1.md
+- [ai-centric-os-with-mcp-layer|AI-Centric OS with MCP Layer]
+- [lisp-compiler-integration]
+- [sibilant-meta-string-templating-runtime]
+- [promethean-agent-dsl-ts-scaffold|Promethean Agent DSL TS Scaffold]
+- [prometheus-observability-stack|Prometheus Observability Stack]
+- [cross-language-runtime-polymorphism|Cross-Language Runtime Polymorphism]
+- [chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]
+- [api-gateway-versioning]
+- plan-update-confirmation$plan-update-confirmation.md
+- [docs/unique/field-interaction-equations|field-interaction-equations]
+- [board-walk-2025-08-11|Board Walk – 2025-08-11]
+- lisp-dsl-for-window-management$lisp-dsl-for-window-management.md
+- [polymorphic-meta-programming-engine]
+- [shared-package-structure|Shared Package Structure]
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore|Agent Tasks: Persistence Migration to DualStore]
+- [docs/unique/interop-and-source-maps|Interop and Source Maps]
+- [docs/unique/event-bus-mvp|Event Bus MVP]
+- [language-agnostic-mirror-system|Language-Agnostic Mirror System]
+- [docs/unique/compiler-kit-foundations|compiler-kit-foundations]
+- [event-bus-projections-architecture|Event Bus Projections Architecture]
+- [per-domain-policy-system-for-js-crawler|Per-Domain Policy System for JS Crawler]
+- [promethean-native-config-design|Promethean-native config design]
+- [sibilant-macro-targets]
+- [sibilant-metacompiler-overview]
+- [sibilant-meta-prompt-dsl|Sibilant Meta-Prompt DSL]
+- [set-assignment-in-lisp-ast]
 
 ## Sources
-- [[migrate-to-provider-tenant-architecture#L136|Migrate to Provider-Tenant Architecture — L136]] (line 136, col 3, score 0.91)
-- [[migrate-to-provider-tenant-architecture#L136|Migrate to Provider-Tenant Architecture — L136]] (line 136, col 5, score 0.91)
-- [[cross-target-macro-system-in-sibilant#L119|Cross-Target Macro System in Sibilant — L119]] (line 119, col 1, score 0.9)
-- [[js-to-lisp-reverse-compiler#L384|js-to-lisp-reverse-compiler — L384]] (line 384, col 1, score 0.9)
-- [[js-to-lisp-reverse-compiler#L384|js-to-lisp-reverse-compiler — L384]] (line 384, col 3, score 0.9)
-- [[dynamic-context-model-for-web-components#L149|Dynamic Context Model for Web Components — L149]] (line 149, col 1, score 0.88)
-- [[dynamic-context-model-for-web-components#L149|Dynamic Context Model for Web Components — L149]] (line 149, col 3, score 0.88)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L131|Agent Tasks: Persistence Migration to DualStore — L131]] (line 131, col 1, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L131|Agent Tasks: Persistence Migration to DualStore — L131]] (line 131, col 3, score 1)
-- [[chroma-toolkit-consolidation-plan#L169|Chroma Toolkit Consolidation Plan — L169]] (line 169, col 1, score 1)
-- [[chroma-toolkit-consolidation-plan#L169|Chroma Toolkit Consolidation Plan — L169]] (line 169, col 3, score 1)
-- [[cross-target-macro-system-in-sibilant#L175|Cross-Target Macro System in Sibilant — L175]] (line 175, col 1, score 1)
-- [[cross-target-macro-system-in-sibilant#L175|Cross-Target Macro System in Sibilant — L175]] (line 175, col 3, score 1)
-- [[dynamic-context-model-for-web-components#L392|Dynamic Context Model for Web Components — L392]] (line 392, col 1, score 1)
-- [[dynamic-context-model-for-web-components#L392|Dynamic Context Model for Web Components — L392]] (line 392, col 3, score 1)
-- [[cross-language-runtime-polymorphism#L206|Cross-Language Runtime Polymorphism — L206]] (line 206, col 1, score 1)
-- [[cross-language-runtime-polymorphism#L206|Cross-Language Runtime Polymorphism — L206]] (line 206, col 3, score 1)
-- [[dynamic-context-model-for-web-components#L393|Dynamic Context Model for Web Components — L393]] (line 393, col 1, score 1)
-- [[dynamic-context-model-for-web-components#L393|Dynamic Context Model for Web Components — L393]] (line 393, col 3, score 1)
-- [[docs/unique/field-interaction-equations#L158|field-interaction-equations — L158]] (line 158, col 1, score 1)
-- [[docs/unique/field-interaction-equations#L158|field-interaction-equations — L158]] (line 158, col 3, score 1)
-- [[js-to-lisp-reverse-compiler#L417|js-to-lisp-reverse-compiler — L417]] (line 417, col 1, score 1)
-- [[js-to-lisp-reverse-compiler#L417|js-to-lisp-reverse-compiler — L417]] (line 417, col 3, score 1)
-- [[cross-target-macro-system-in-sibilant#L179|Cross-Target Macro System in Sibilant — L179]] (line 179, col 1, score 1)
-- [[cross-target-macro-system-in-sibilant#L179|Cross-Target Macro System in Sibilant — L179]] (line 179, col 3, score 1)
-- [[dynamic-context-model-for-web-components#L389|Dynamic Context Model for Web Components — L389]] (line 389, col 1, score 1)
-- [[dynamic-context-model-for-web-components#L389|Dynamic Context Model for Web Components — L389]] (line 389, col 3, score 1)
-- [[docs/unique/interop-and-source-maps#L522|Interop and Source Maps — L522]] (line 522, col 1, score 1)
-- [[docs/unique/interop-and-source-maps#L522|Interop and Source Maps — L522]] (line 522, col 3, score 1)
-- [[language-agnostic-mirror-system#L533|Language-Agnostic Mirror System — L533]] (line 533, col 1, score 1)
-- [[language-agnostic-mirror-system#L533|Language-Agnostic Mirror System — L533]] (line 533, col 3, score 1)
-- [[api-gateway-versioning#L285|api-gateway-versioning — L285]] (line 285, col 1, score 1)
-- [[api-gateway-versioning#L285|api-gateway-versioning — L285]] (line 285, col 3, score 1)
-- [[board-walk-2025-08-11#L135|Board Walk – 2025-08-11 — L135]] (line 135, col 1, score 1)
-- [[board-walk-2025-08-11#L135|Board Walk – 2025-08-11 — L135]] (line 135, col 3, score 1)
-- [[chroma-toolkit-consolidation-plan#L167|Chroma Toolkit Consolidation Plan — L167]] (line 167, col 1, score 1)
-- [[chroma-toolkit-consolidation-plan#L167|Chroma Toolkit Consolidation Plan — L167]] (line 167, col 3, score 1)
-- [[cross-target-macro-system-in-sibilant#L180|Cross-Target Macro System in Sibilant — L180]] (line 180, col 1, score 1)
-- [[cross-target-macro-system-in-sibilant#L180|Cross-Target Macro System in Sibilant — L180]] (line 180, col 3, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L137|Agent Tasks: Persistence Migration to DualStore — L137]] (line 137, col 1, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L137|Agent Tasks: Persistence Migration to DualStore — L137]] (line 137, col 3, score 1)
-- [[chroma-toolkit-consolidation-plan#L175|Chroma Toolkit Consolidation Plan — L175]] (line 175, col 1, score 1)
-- [[chroma-toolkit-consolidation-plan#L175|Chroma Toolkit Consolidation Plan — L175]] (line 175, col 3, score 1)
-- [[docs/unique/event-bus-mvp#L547|Event Bus MVP — L547]] (line 547, col 1, score 1)
-- [[docs/unique/event-bus-mvp#L547|Event Bus MVP — L547]] (line 547, col 3, score 1)
-- [[event-bus-projections-architecture#L150|Event Bus Projections Architecture — L150]] (line 150, col 1, score 1)
-- [[event-bus-projections-architecture#L150|Event Bus Projections Architecture — L150]] (line 150, col 3, score 1)
-- [plan-update-confirmation — L994](plan-update-confirmation.md#L994) (line 994, col 1, score 1)
-- [plan-update-confirmation — L994](plan-update-confirmation.md#L994) (line 994, col 3, score 1)
-- [[prometheus-observability-stack#L511|Prometheus Observability Stack — L511]] (line 511, col 1, score 1)
-- [[prometheus-observability-stack#L511|Prometheus Observability Stack — L511]] (line 511, col 3, score 1)
-- [[docs/unique/compiler-kit-foundations#L610|compiler-kit-foundations — L610]] (line 610, col 1, score 1)
-- [[docs/unique/compiler-kit-foundations#L610|compiler-kit-foundations — L610]] (line 610, col 3, score 1)
-- [[docs/unique/interop-and-source-maps#L515|Interop and Source Maps — L515]] (line 515, col 1, score 1)
-- [[docs/unique/interop-and-source-maps#L515|Interop and Source Maps — L515]] (line 515, col 3, score 1)
-- [[js-to-lisp-reverse-compiler#L423|js-to-lisp-reverse-compiler — L423]] (line 423, col 1, score 1)
-- [[js-to-lisp-reverse-compiler#L423|js-to-lisp-reverse-compiler — L423]] (line 423, col 3, score 1)
-- [[language-agnostic-mirror-system#L532|Language-Agnostic Mirror System — L532]] (line 532, col 1, score 1)
-- [[language-agnostic-mirror-system#L532|Language-Agnostic Mirror System — L532]] (line 532, col 3, score 1)
-- [[cross-language-runtime-polymorphism#L208|Cross-Language Runtime Polymorphism — L208]] (line 208, col 1, score 1)
-- [[cross-language-runtime-polymorphism#L208|Cross-Language Runtime Polymorphism — L208]] (line 208, col 3, score 1)
-- [[cross-target-macro-system-in-sibilant#L176|Cross-Target Macro System in Sibilant — L176]] (line 176, col 1, score 1)
-- [[cross-target-macro-system-in-sibilant#L176|Cross-Target Macro System in Sibilant — L176]] (line 176, col 3, score 1)
-- [lisp-dsl-for-window-management — L219](lisp-dsl-for-window-management.md#L219) (line 219, col 1, score 1)
-- [lisp-dsl-for-window-management — L219](lisp-dsl-for-window-management.md#L219) (line 219, col 3, score 1)
-- [[polymorphic-meta-programming-engine#L207|polymorphic-meta-programming-engine — L207]] (line 207, col 1, score 1)
-- [[polymorphic-meta-programming-engine#L207|polymorphic-meta-programming-engine — L207]] (line 207, col 3, score 1)
-- [[shared-package-structure#L167|Shared Package Structure — L167]] (line 167, col 1, score 1)
-- [[shared-package-structure#L167|Shared Package Structure — L167]] (line 167, col 3, score 1)
-- [[ai-centric-os-with-mcp-layer#L402|AI-Centric OS with MCP Layer — L402]] (line 402, col 1, score 0.87)
-- [[ai-centric-os-with-mcp-layer#L402|AI-Centric OS with MCP Layer — L402]] (line 402, col 3, score 0.87)
-- [[cross-target-macro-system-in-sibilant#L169|Cross-Target Macro System in Sibilant — L169]] (line 169, col 1, score 0.87)
-- [[cross-target-macro-system-in-sibilant#L169|Cross-Target Macro System in Sibilant — L169]] (line 169, col 3, score 0.87)
-- [[dynamic-context-model-for-web-components#L387|Dynamic Context Model for Web Components — L387]] (line 387, col 1, score 0.87)
-- [[dynamic-context-model-for-web-components#L387|Dynamic Context Model for Web Components — L387]] (line 387, col 3, score 0.87)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L159|Agent Tasks: Persistence Migration to DualStore — L159]] (line 159, col 1, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L159|Agent Tasks: Persistence Migration to DualStore — L159]] (line 159, col 3, score 1)
-- [[chroma-toolkit-consolidation-plan#L179|Chroma Toolkit Consolidation Plan — L179]] (line 179, col 1, score 1)
-- [[chroma-toolkit-consolidation-plan#L179|Chroma Toolkit Consolidation Plan — L179]] (line 179, col 3, score 1)
-- [[per-domain-policy-system-for-js-crawler#L481|Per-Domain Policy System for JS Crawler — L481]] (line 481, col 1, score 1)
-- [[per-domain-policy-system-for-js-crawler#L481|Per-Domain Policy System for JS Crawler — L481]] (line 481, col 3, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L145|Agent Tasks: Persistence Migration to DualStore — L145]] (line 145, col 1, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L145|Agent Tasks: Persistence Migration to DualStore — L145]] (line 145, col 3, score 1)
-- [[per-domain-policy-system-for-js-crawler#L482|Per-Domain Policy System for JS Crawler — L482]] (line 482, col 1, score 1)
-- [[per-domain-policy-system-for-js-crawler#L482|Per-Domain Policy System for JS Crawler — L482]] (line 482, col 3, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L146|Agent Tasks: Persistence Migration to DualStore — L146]] (line 146, col 1, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L146|Agent Tasks: Persistence Migration to DualStore — L146]] (line 146, col 3, score 1)
-- [[promethean-native-config-design#L404|Promethean-native config design — L404]] (line 404, col 1, score 1)
-- [[promethean-native-config-design#L404|Promethean-native config design — L404]] (line 404, col 3, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L158|Agent Tasks: Persistence Migration to DualStore — L158]] (line 158, col 1, score 1)
-- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L158|Agent Tasks: Persistence Migration to DualStore — L158]] (line 158, col 3, score 1)
-- [[sibilant-macro-targets#L185|sibilant-macro-targets — L185]] (line 185, col 1, score 0.99)
-- [[sibilant-macro-targets#L185|sibilant-macro-targets — L185]] (line 185, col 3, score 0.99)
-- [[sibilant-macro-targets#L182|sibilant-macro-targets — L182]] (line 182, col 1, score 0.99)
-- [[sibilant-macro-targets#L182|sibilant-macro-targets — L182]] (line 182, col 3, score 0.99)
-- [[sibilant-metacompiler-overview#L105|sibilant-metacompiler-overview — L105]] (line 105, col 1, score 0.99)
-- [[sibilant-metacompiler-overview#L105|sibilant-metacompiler-overview — L105]] (line 105, col 3, score 0.99)
-- [[sibilant-macro-targets#L178|sibilant-macro-targets — L178]] (line 178, col 1, score 0.99)
-- [[sibilant-macro-targets#L178|sibilant-macro-targets — L178]] (line 178, col 3, score 0.99)
-- [[set-assignment-in-lisp-ast#L161|set-assignment-in-lisp-ast — L161]] (line 161, col 1, score 0.96)
-- [[set-assignment-in-lisp-ast#L161|set-assignment-in-lisp-ast — L161]] (line 161, col 3, score 0.96)
-- [[chroma-toolkit-consolidation-plan#L186|Chroma Toolkit Consolidation Plan — L186]] (line 186, col 1, score 0.99)
-- [[chroma-toolkit-consolidation-plan#L186|Chroma Toolkit Consolidation Plan — L186]] (line 186, col 3, score 0.99)
-- [[sibilant-meta-prompt-dsl#L207|Sibilant Meta-Prompt DSL — L207]] (line 207, col 1, score 0.99)
-- [[sibilant-meta-prompt-dsl#L207|Sibilant Meta-Prompt DSL — L207]] (line 207, col 3, score 0.99)
-- [[chroma-toolkit-consolidation-plan#L187|Chroma Toolkit Consolidation Plan — L187]] (line 187, col 1, score 0.99)
-- [[chroma-toolkit-consolidation-plan#L187|Chroma Toolkit Consolidation Plan — L187]] (line 187, col 3, score 0.99)
-- [[sibilant-meta-prompt-dsl#L208|Sibilant Meta-Prompt DSL — L208]] (line 208, col 1, score 0.98)
-- [[sibilant-meta-prompt-dsl#L208|Sibilant Meta-Prompt DSL — L208]] (line 208, col 3, score 0.98)
+- [migrate-to-provider-tenant-architecture#L136|Migrate to Provider-Tenant Architecture — L136] (line 136, col 3, score 0.91)
+- [migrate-to-provider-tenant-architecture#L136|Migrate to Provider-Tenant Architecture — L136] (line 136, col 5, score 0.91)
+- [cross-target-macro-system-in-sibilant#L119|Cross-Target Macro System in Sibilant — L119] (line 119, col 1, score 0.9)
+- [js-to-lisp-reverse-compiler#L384|js-to-lisp-reverse-compiler — L384] (line 384, col 1, score 0.9)
+- [js-to-lisp-reverse-compiler#L384|js-to-lisp-reverse-compiler — L384] (line 384, col 3, score 0.9)
+- [dynamic-context-model-for-web-components#L149|Dynamic Context Model for Web Components — L149] (line 149, col 1, score 0.88)
+- [dynamic-context-model-for-web-components#L149|Dynamic Context Model for Web Components — L149] (line 149, col 3, score 0.88)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L131|Agent Tasks: Persistence Migration to DualStore — L131] (line 131, col 1, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L131|Agent Tasks: Persistence Migration to DualStore — L131] (line 131, col 3, score 1)
+- [chroma-toolkit-consolidation-plan#L169|Chroma Toolkit Consolidation Plan — L169] (line 169, col 1, score 1)
+- [chroma-toolkit-consolidation-plan#L169|Chroma Toolkit Consolidation Plan — L169] (line 169, col 3, score 1)
+- [cross-target-macro-system-in-sibilant#L175|Cross-Target Macro System in Sibilant — L175] (line 175, col 1, score 1)
+- [cross-target-macro-system-in-sibilant#L175|Cross-Target Macro System in Sibilant — L175] (line 175, col 3, score 1)
+- [dynamic-context-model-for-web-components#L392|Dynamic Context Model for Web Components — L392] (line 392, col 1, score 1)
+- [dynamic-context-model-for-web-components#L392|Dynamic Context Model for Web Components — L392] (line 392, col 3, score 1)
+- [cross-language-runtime-polymorphism#L206|Cross-Language Runtime Polymorphism — L206] (line 206, col 1, score 1)
+- [cross-language-runtime-polymorphism#L206|Cross-Language Runtime Polymorphism — L206] (line 206, col 3, score 1)
+- [dynamic-context-model-for-web-components#L393|Dynamic Context Model for Web Components — L393] (line 393, col 1, score 1)
+- [dynamic-context-model-for-web-components#L393|Dynamic Context Model for Web Components — L393] (line 393, col 3, score 1)
+- [docs/unique/field-interaction-equations#L158|field-interaction-equations — L158] (line 158, col 1, score 1)
+- [docs/unique/field-interaction-equations#L158|field-interaction-equations — L158] (line 158, col 3, score 1)
+- [js-to-lisp-reverse-compiler#L417|js-to-lisp-reverse-compiler — L417] (line 417, col 1, score 1)
+- [js-to-lisp-reverse-compiler#L417|js-to-lisp-reverse-compiler — L417] (line 417, col 3, score 1)
+- [cross-target-macro-system-in-sibilant#L179|Cross-Target Macro System in Sibilant — L179] (line 179, col 1, score 1)
+- [cross-target-macro-system-in-sibilant#L179|Cross-Target Macro System in Sibilant — L179] (line 179, col 3, score 1)
+- [dynamic-context-model-for-web-components#L389|Dynamic Context Model for Web Components — L389] (line 389, col 1, score 1)
+- [dynamic-context-model-for-web-components#L389|Dynamic Context Model for Web Components — L389] (line 389, col 3, score 1)
+- [docs/unique/interop-and-source-maps#L522|Interop and Source Maps — L522] (line 522, col 1, score 1)
+- [docs/unique/interop-and-source-maps#L522|Interop and Source Maps — L522] (line 522, col 3, score 1)
+- [language-agnostic-mirror-system#L533|Language-Agnostic Mirror System — L533] (line 533, col 1, score 1)
+- [language-agnostic-mirror-system#L533|Language-Agnostic Mirror System — L533] (line 533, col 3, score 1)
+- [api-gateway-versioning#L285|api-gateway-versioning — L285] (line 285, col 1, score 1)
+- [api-gateway-versioning#L285|api-gateway-versioning — L285] (line 285, col 3, score 1)
+- [board-walk-2025-08-11#L135|Board Walk – 2025-08-11 — L135] (line 135, col 1, score 1)
+- [board-walk-2025-08-11#L135|Board Walk – 2025-08-11 — L135] (line 135, col 3, score 1)
+- [chroma-toolkit-consolidation-plan#L167|Chroma Toolkit Consolidation Plan — L167] (line 167, col 1, score 1)
+- [chroma-toolkit-consolidation-plan#L167|Chroma Toolkit Consolidation Plan — L167] (line 167, col 3, score 1)
+- [cross-target-macro-system-in-sibilant#L180|Cross-Target Macro System in Sibilant — L180] (line 180, col 1, score 1)
+- [cross-target-macro-system-in-sibilant#L180|Cross-Target Macro System in Sibilant — L180] (line 180, col 3, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L137|Agent Tasks: Persistence Migration to DualStore — L137] (line 137, col 1, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L137|Agent Tasks: Persistence Migration to DualStore — L137] (line 137, col 3, score 1)
+- [chroma-toolkit-consolidation-plan#L175|Chroma Toolkit Consolidation Plan — L175] (line 175, col 1, score 1)
+- [chroma-toolkit-consolidation-plan#L175|Chroma Toolkit Consolidation Plan — L175] (line 175, col 3, score 1)
+- [docs/unique/event-bus-mvp#L547|Event Bus MVP — L547] (line 547, col 1, score 1)
+- [docs/unique/event-bus-mvp#L547|Event Bus MVP — L547] (line 547, col 3, score 1)
+- [event-bus-projections-architecture#L150|Event Bus Projections Architecture — L150] (line 150, col 1, score 1)
+- [event-bus-projections-architecture#L150|Event Bus Projections Architecture — L150] (line 150, col 3, score 1)
+- plan-update-confirmation — L994$plan-update-confirmation.md#L994 (line 994, col 1, score 1)
+- plan-update-confirmation — L994$plan-update-confirmation.md#L994 (line 994, col 3, score 1)
+- [prometheus-observability-stack#L511|Prometheus Observability Stack — L511] (line 511, col 1, score 1)
+- [prometheus-observability-stack#L511|Prometheus Observability Stack — L511] (line 511, col 3, score 1)
+- [docs/unique/compiler-kit-foundations#L610|compiler-kit-foundations — L610] (line 610, col 1, score 1)
+- [docs/unique/compiler-kit-foundations#L610|compiler-kit-foundations — L610] (line 610, col 3, score 1)
+- [docs/unique/interop-and-source-maps#L515|Interop and Source Maps — L515] (line 515, col 1, score 1)
+- [docs/unique/interop-and-source-maps#L515|Interop and Source Maps — L515] (line 515, col 3, score 1)
+- [js-to-lisp-reverse-compiler#L423|js-to-lisp-reverse-compiler — L423] (line 423, col 1, score 1)
+- [js-to-lisp-reverse-compiler#L423|js-to-lisp-reverse-compiler — L423] (line 423, col 3, score 1)
+- [language-agnostic-mirror-system#L532|Language-Agnostic Mirror System — L532] (line 532, col 1, score 1)
+- [language-agnostic-mirror-system#L532|Language-Agnostic Mirror System — L532] (line 532, col 3, score 1)
+- [cross-language-runtime-polymorphism#L208|Cross-Language Runtime Polymorphism — L208] (line 208, col 1, score 1)
+- [cross-language-runtime-polymorphism#L208|Cross-Language Runtime Polymorphism — L208] (line 208, col 3, score 1)
+- [cross-target-macro-system-in-sibilant#L176|Cross-Target Macro System in Sibilant — L176] (line 176, col 1, score 1)
+- [cross-target-macro-system-in-sibilant#L176|Cross-Target Macro System in Sibilant — L176] (line 176, col 3, score 1)
+- lisp-dsl-for-window-management — L219$lisp-dsl-for-window-management.md#L219 (line 219, col 1, score 1)
+- lisp-dsl-for-window-management — L219$lisp-dsl-for-window-management.md#L219 (line 219, col 3, score 1)
+- [polymorphic-meta-programming-engine#L207|polymorphic-meta-programming-engine — L207] (line 207, col 1, score 1)
+- [polymorphic-meta-programming-engine#L207|polymorphic-meta-programming-engine — L207] (line 207, col 3, score 1)
+- [shared-package-structure#L167|Shared Package Structure — L167] (line 167, col 1, score 1)
+- [shared-package-structure#L167|Shared Package Structure — L167] (line 167, col 3, score 1)
+- [ai-centric-os-with-mcp-layer#L402|AI-Centric OS with MCP Layer — L402] (line 402, col 1, score 0.87)
+- [ai-centric-os-with-mcp-layer#L402|AI-Centric OS with MCP Layer — L402] (line 402, col 3, score 0.87)
+- [cross-target-macro-system-in-sibilant#L169|Cross-Target Macro System in Sibilant — L169] (line 169, col 1, score 0.87)
+- [cross-target-macro-system-in-sibilant#L169|Cross-Target Macro System in Sibilant — L169] (line 169, col 3, score 0.87)
+- [dynamic-context-model-for-web-components#L387|Dynamic Context Model for Web Components — L387] (line 387, col 1, score 0.87)
+- [dynamic-context-model-for-web-components#L387|Dynamic Context Model for Web Components — L387] (line 387, col 3, score 0.87)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L159|Agent Tasks: Persistence Migration to DualStore — L159] (line 159, col 1, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L159|Agent Tasks: Persistence Migration to DualStore — L159] (line 159, col 3, score 1)
+- [chroma-toolkit-consolidation-plan#L179|Chroma Toolkit Consolidation Plan — L179] (line 179, col 1, score 1)
+- [chroma-toolkit-consolidation-plan#L179|Chroma Toolkit Consolidation Plan — L179] (line 179, col 3, score 1)
+- [per-domain-policy-system-for-js-crawler#L481|Per-Domain Policy System for JS Crawler — L481] (line 481, col 1, score 1)
+- [per-domain-policy-system-for-js-crawler#L481|Per-Domain Policy System for JS Crawler — L481] (line 481, col 3, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L145|Agent Tasks: Persistence Migration to DualStore — L145] (line 145, col 1, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L145|Agent Tasks: Persistence Migration to DualStore — L145] (line 145, col 3, score 1)
+- [per-domain-policy-system-for-js-crawler#L482|Per-Domain Policy System for JS Crawler — L482] (line 482, col 1, score 1)
+- [per-domain-policy-system-for-js-crawler#L482|Per-Domain Policy System for JS Crawler — L482] (line 482, col 3, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L146|Agent Tasks: Persistence Migration to DualStore — L146] (line 146, col 1, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L146|Agent Tasks: Persistence Migration to DualStore — L146] (line 146, col 3, score 1)
+- [promethean-native-config-design#L404|Promethean-native config design — L404] (line 404, col 1, score 1)
+- [promethean-native-config-design#L404|Promethean-native config design — L404] (line 404, col 3, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L158|Agent Tasks: Persistence Migration to DualStore — L158] (line 158, col 1, score 1)
+- [docs/unique/agent-tasks-persistence-migration-to-dualstore#L158|Agent Tasks: Persistence Migration to DualStore — L158] (line 158, col 3, score 1)
+- [sibilant-macro-targets#L185|sibilant-macro-targets — L185] (line 185, col 1, score 0.99)
+- [sibilant-macro-targets#L185|sibilant-macro-targets — L185] (line 185, col 3, score 0.99)
+- [sibilant-macro-targets#L182|sibilant-macro-targets — L182] (line 182, col 1, score 0.99)
+- [sibilant-macro-targets#L182|sibilant-macro-targets — L182] (line 182, col 3, score 0.99)
+- [sibilant-metacompiler-overview#L105|sibilant-metacompiler-overview — L105] (line 105, col 1, score 0.99)
+- [sibilant-metacompiler-overview#L105|sibilant-metacompiler-overview — L105] (line 105, col 3, score 0.99)
+- [sibilant-macro-targets#L178|sibilant-macro-targets — L178] (line 178, col 1, score 0.99)
+- [sibilant-macro-targets#L178|sibilant-macro-targets — L178] (line 178, col 3, score 0.99)
+- [set-assignment-in-lisp-ast#L161|set-assignment-in-lisp-ast — L161] (line 161, col 1, score 0.96)
+- [set-assignment-in-lisp-ast#L161|set-assignment-in-lisp-ast — L161] (line 161, col 3, score 0.96)
+- [chroma-toolkit-consolidation-plan#L186|Chroma Toolkit Consolidation Plan — L186] (line 186, col 1, score 0.99)
+- [chroma-toolkit-consolidation-plan#L186|Chroma Toolkit Consolidation Plan — L186] (line 186, col 3, score 0.99)
+- [sibilant-meta-prompt-dsl#L207|Sibilant Meta-Prompt DSL — L207] (line 207, col 1, score 0.99)
+- [sibilant-meta-prompt-dsl#L207|Sibilant Meta-Prompt DSL — L207] (line 207, col 3, score 0.99)
+- [chroma-toolkit-consolidation-plan#L187|Chroma Toolkit Consolidation Plan — L187] (line 187, col 1, score 0.99)
+- [chroma-toolkit-consolidation-plan#L187|Chroma Toolkit Consolidation Plan — L187] (line 187, col 3, score 0.99)
+- [sibilant-meta-prompt-dsl#L208|Sibilant Meta-Prompt DSL — L208] (line 208, col 1, score 0.98)
+- [sibilant-meta-prompt-dsl#L208|Sibilant Meta-Prompt DSL — L208] (line 208, col 3, score 0.98)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
