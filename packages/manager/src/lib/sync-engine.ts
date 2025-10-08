@@ -250,7 +250,7 @@ export class SyncEngine {
           const conflict: TaskConflict = {
             task: source,
             sourceType: source.source || 'unknown',
-            targetType: target.type,
+            targetType: target.source || 'unknown',
             conflictType: conflictType as any,
             sourceData: source,
             targetData: target

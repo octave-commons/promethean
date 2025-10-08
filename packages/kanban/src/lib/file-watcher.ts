@@ -1,9 +1,20 @@
 import { watch, FSWatcher } from 'chokidar';
 import path from 'node:path';
 
+/**
+ * File system event types for chokidar watcher
+ * @internal
+ */
 type EventName = 'add' | 'addDir' | 'change' | 'unlink' | 'unlinkDir' | 'all' | 'raw' | 'ready' | 'error';
 
-// Simple debounce implementation
+/**
+ * Simple debounce implementation to delay function execution
+ * @template T - Function type to debounce
+ * @param func - The function to debounce
+ * @param wait - Delay in milliseconds
+ * @returns Debounced function
+ * @internal
+ */
 function debounce<T extends (...args: any[]) => void>(
   func: T,
   wait: number
@@ -21,27 +32,52 @@ function debounce<T extends (...args: any[]) => void>(
   }) as T;
 }
 
-// File watching interfaces for kanban development mode
+/**
+ * Represents a file change event detected by the watcher
+ */
 export type FileChangeEvent = {
+  /** Type of file that changed */
   readonly type: 'board' | 'task' | 'config';
+  /** Absolute path to the changed file */
   readonly filePath: string;
+  /** Path relative to current working directory */
   readonly relativePath: string;
+  /** Type of file system event */
   readonly event: 'add' | 'change' | 'unlink';
 };
 
+/**
+ * Configuration options for the file watcher
+ */
 export type FileWatcherOptions = {
+  /** Absolute path to the kanban board file */
   readonly boardFile: string;
+  /** Absolute path to the tasks directory */
   readonly tasksDir: string;
+  /** Debounce delay in milliseconds for file change events */
   readonly debounceMs?: number;
+  /** Array of glob patterns to ignore */
   readonly ignored?: ReadonlyArray<string>;
 };
 
+/**
+ * Callback functions for file watcher events
+ */
 export type FileWatcherCallbacks = {
+  /** Called when a relevant file change is detected */
   readonly onFileChange: (event: FileChangeEvent) => void;
+  /** Called when an error occurs during file watching */
   readonly onError?: (error: Error) => void;
+  /** Called when the file watcher is ready and watching */
   readonly onReady?: () => void;
 };
 
+/**
+ * File watcher for kanban development mode
+ *
+ * Monitors board files, task files, and configuration files for changes
+ * and provides debounced event notifications to avoid excessive processing.
+ */
 export class KanbanFileWatcher {
   private readonly boardFile: string;
   private readonly tasksDir: string;
@@ -54,6 +90,11 @@ export class KanbanFileWatcher {
   private debouncedTaskChange: (events: FileChangeEvent[]) => void;
   private pendingTaskEvents: FileChangeEvent[] = [];
 
+  /**
+   * Creates a new KanbanFileWatcher instance
+   * @param options - Configuration options for the watcher
+   * @param callbacks - Event callback functions
+   */
   constructor(options: FileWatcherOptions, callbacks: FileWatcherCallbacks) {
     this.boardFile = path.resolve(options.boardFile);
     this.tasksDir = path.resolve(options.tasksDir);
@@ -82,6 +123,12 @@ export class KanbanFileWatcher {
     }, this.debounceMs);
   }
 
+  /**
+   * Starts the file watcher
+   *
+   * Begins monitoring the configured files and directories for changes.
+   * If a watcher is already running, it will be stopped first.
+   */
   start(): void {
     if (this.watcher) {
       this.stop();
@@ -133,6 +180,11 @@ export class KanbanFileWatcher {
     });
   }
 
+  /**
+   * Stops the file watcher
+   *
+   * Stops monitoring files and cleans up resources.
+   */
   stop(): void {
     if (this.watcher) {
       this.watcher.close();
@@ -141,6 +193,12 @@ export class KanbanFileWatcher {
     }
   }
 
+  /**
+   * Handles individual file events from the watcher
+   * @param event - Type of file system event
+   * @param filePath - Path to the affected file
+   * @private
+   */
   private handleFileEvent(event: 'add' | 'change' | 'unlink', filePath: string): void {
     const resolvedPath = path.resolve(filePath);
 
@@ -177,10 +235,18 @@ export class KanbanFileWatcher {
     }
   }
 
+  /**
+   * Checks if the file watcher is currently active
+   * @returns True if watching files, false otherwise
+   */
   isWatching(): boolean {
     return this.watcher !== null;
   }
 
+  /**
+   * Gets the list of paths currently being watched
+   * @returns Array of watched directory paths
+   */
   getWatchedPaths(): ReadonlyArray<string> {
     return this.watcher ? Object.keys(this.watcher.getWatched()) : [];
   }
