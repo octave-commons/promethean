@@ -40,7 +40,7 @@ type KanbanBoardPayload = {
   readonly summary: KanbanSummary;
 };
 
-type KanbanUiServerOptions = {
+export type KanbanUiServerOptions = {
   readonly boardFile: string;
   readonly tasksDir: string;
   readonly host?: string;
