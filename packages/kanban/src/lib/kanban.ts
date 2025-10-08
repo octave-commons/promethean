@@ -446,7 +446,7 @@ const listFiles = async (dir: string): Promise<string[]> => {
   }
 };
 
-const readTasksFolder = async (dir: string): Promise<Task[]> => {
+export const readTasksFolder = async (dir: string): Promise<Task[]> => {
   const files = await listFiles(dir);
   const tasks: Task[] = [];
   for (const file of files) {

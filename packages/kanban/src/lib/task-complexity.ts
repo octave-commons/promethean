@@ -1,10 +1,13 @@
-import { promises as fs } from "fs";
+import { promises as fs } from "node:fs";
 import { readTasksFolder } from "./kanban.js";
-import { type Task } from "./types.js";
+import type { Task } from "./types.js";
 import { ollamaJSON, createLogger } from "@promethean/utils";
 import { z } from "zod";
 
 const logger = createLogger({ service: "task-complexity-estimator" });
+
+const formatError = (error: unknown): string =>
+  error instanceof Error ? error.stack ?? error.message : String(error);
 
 /**
  * Task complexity factors to consider
@@ -71,7 +74,7 @@ const ComplexitySchema = z.object({
 /**
  * Analyze task content and title to estimate complexity factors
  */
-function analyzeTaskContent(task: Task): Partial<ComplexityFactors> {
+function analyzeTaskContent(task: Task): ComplexityFactors {
   const title = task.title.toLowerCase();
   const content = (task.content || '').toLowerCase();
   const labels = task.labels || [];
@@ -262,7 +265,10 @@ async function estimateTaskComplexity(
     };
 
   } catch (error) {
-    logger.warn(`LLM complexity estimation failed for ${task.title}, using fallback analysis`, { error });
+    logger.warn(
+      `LLM complexity estimation failed for ${task.title}, using fallback analysis:`,
+      { error: formatError(error) }
+    );
 
     // Fallback to rule-based estimation
     const overallScore = Math.min(10, Math.max(1,
@@ -277,7 +283,7 @@ async function estimateTaskComplexity(
     return {
       taskId: task.uuid,
       taskTitle: task.title,
-      factors: baseAnalysis as ComplexityFactors,
+      factors: baseAnalysis,
       overallScore,
       complexityLevel,
       suitableForLocalModel: overallScore <= 6,
@@ -313,7 +319,12 @@ export async function estimateBatchComplexity(
   const tasks = await readTasksFolder(tasksDir);
   const filteredTasks = tasks.filter((task: Task) => {
     if (task.status !== statusFilter) return false;
-    if (priorityFilter && task.priority?.toLowerCase() !== priorityFilter.toLowerCase()) return false;
+    if (priorityFilter) {
+      const taskPriority = String(task.priority ?? "").toLowerCase();
+      if (taskPriority !== priorityFilter.toLowerCase()) {
+        return false;
+      }
+    }
     return true;
   }).slice(0, maxTasks);
 
@@ -325,7 +336,10 @@ export async function estimateBatchComplexity(
       const estimate = await estimateTaskComplexity(task, model);
       estimates.push(estimate);
     } catch (error) {
-      logger.error(`Failed to estimate complexity for task ${task.uuid}:`, error);
+      logger.error(`Failed to estimate complexity for task ${task.uuid}:`, {
+        error: formatError(error),
+        taskId: task.uuid,
+      });
     }
   }
 
