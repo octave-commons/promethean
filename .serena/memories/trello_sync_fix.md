@@ -1,0 +1,1 @@
+Fixed the syntax error in sync-kanban-to-trello.ts by replacing the problematic section. The file had encoding issues with the newline character in the string literal.

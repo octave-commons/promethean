@@ -16,6 +16,7 @@ interface CliOptions {
   dryRun?: boolean;
   createBoard?: boolean;
   archiveExisting?: boolean;
+  fullSync?: boolean;
 }
 
 function parseCliArgs(): CliOptions {
@@ -63,7 +64,7 @@ USAGE:
   sync-kanban-to-trello [OPTIONS]
 
 OPTIONS:
-  -b, --board <name>     Board name (default: "generated")
+  -b, --board <name>     Board name (default: "promethean")
   -m, --max-tasks <num>  Maximum number of tasks to sync (default: 20)
   -d, --dry-run         Show what would be done without making changes
   --archive             Archive existing lists before creating new ones
@@ -71,8 +72,20 @@ OPTIONS:
   -h, --help            Show this help message
 
 ENVIRONMENT VARIABLES:
+  # Classic Trello API (recommended):
+  TRELLO_API_KEY        Your Trello API key from trello.com/app-key
+  TRELLO_SECRET         Your Trello API token/secret
+
+  # OR Classic Trello API (alternative):
   TRELLO_API_KEY        Your Trello API key
   TRELLO_API_TOKEN      Your Trello API token
+
+  # OR Atlassian Bearer Token:
+  ATLASIAN_API_KEY      Your Atlassian Bearer token
+
+  # OR Atlassian OAuth 2.0:
+  ATLASSIAN_CLIENT_ID   Your Atlassian OAuth client ID
+  ATLASSIAN_CLIENT_SECRET Your Atlassian OAuth client secret
 
 EXAMPLES:
   # Basic sync (creates board if needed)
@@ -88,11 +101,18 @@ EXAMPLES:
   sync-kanban-to-trello --max-tasks 10
 
 SETUP:
-  1. Get your Trello API key: https://trello.com/app-key
-  2. Generate a token: https://trello.com/1/authorize?expiration=never&scope=read,write&response_type=token&name=Promethean%20Sync&key=YOUR_API_KEY
-  3. Set environment variables:
-     export TRELLO_API_KEY="your_api_key"
-     export TRELLO_API_TOKEN="your_token"
+  # Classic Trello API (recommended):
+  1. Visit Atlassian Developer Console: https://developer.atlassian.com/console/
+  2. Create a new project and add Trello API scopes
+  3. Generate API key and token
+  4. Set environment variables:
+     export TRELLO_API_KEY="your_trello_api_key"
+     export TRELLO_API_TOKEN="your_trello_api_token"
+
+  # OR Atlassian API (experimental):
+  1. Use Atlassian Developer Console for OAuth 2.0
+  2. Set environment variable:
+     export ATLASIAN_API_KEY="your_atlassian_bearer_token"
 `);
 }
 
@@ -103,32 +123,53 @@ async function main(): Promise<void> {
 
     const options = parseCliArgs();
 
-    // Check environment variables
-    const apiKey = process.env.TRELLO_API_KEY;
-    const apiToken = process.env.TRELLO_API_TOKEN;
+    // Check environment variables (support multiple authentication methods)
+    const trelloApiKey = process.env.TRELLO_API_KEY;
+    const trelloSecret = process.env.TRELLO_SECRET;
+    const trelloApiToken = process.env.TRELLO_API_TOKEN;
+    const atlassianApiKey = process.env.ATLASIAN_API_KEY;
+    const atlassianClientId = process.env.ATLASSIAN_CLIENT_ID;
 
-    if (!apiKey || !apiToken) {
+    let config = {};
+
+    // Priority: Classic Trello API first, then others
+    if (trelloApiKey && (trelloSecret || trelloApiToken)) {
+      console.log('✅ Using classic Trello API authentication');
+      config = {
+        apiKey: trelloApiKey,
+        apiToken: trelloApiToken || trelloSecret
+      };
+    } else if (atlassianClientId) {
+      console.log('🔧 Using Atlassian OAuth 2.0 credentials');
+      config = {
+        clientId: atlassianClientId,
+        clientSecret: process.env.ATLASSIAN_CLIENT_SECRET
+      };
+    } else if (atlassianApiKey) {
+      console.log('ℹ️  Using Atlassian Bearer token authentication');
+      config = {
+        bearerToken: atlassianApiKey
+      };
+    } else {
       console.error('❌ Missing required environment variables:');
-      if (!apiKey) console.error('   • TRELLO_API_KEY');
-      if (!apiToken) console.error('   • TRELLO_API_TOKEN');
-
+      console.error('   • Classic Trello API: TRELLO_API_KEY and TRELLO_SECRET');
+      console.error('   • OR Classic Trello API: TRELLO_API_KEY and TRELLO_API_TOKEN');
+      console.error('   • OR Atlassian Bearer Token: ATLASIAN_API_KEY');
+      console.error('   • OR Atlassian OAuth 2.0: ATLASSIAN_CLIENT_ID and ATLASSIAN_CLIENT_SECRET');
       console.error('\n💡 Run with --help for setup instructions');
       process.exit(1);
     }
 
     // Show configuration
     console.log('📋 Configuration:');
-    console.log(`   Board: ${options.boardName || 'generated'}`);
+    console.log(`   Board: ${options.boardName || 'promethean'}`);
     console.log(`   Max tasks: ${options.maxTasks || 20}`);
     console.log(`   Dry run: ${options.dryRun ? 'YES' : 'NO'}`);
     console.log(`   Create board: ${options.createBoard !== false ? 'YES' : 'NO'}`);
     console.log(`   Archive existing: ${options.archiveExisting ? 'YES' : 'NO'}\n`);
 
     // Create sync instance
-    const sync = new KanbanToTrelloSync(
-      { apiKey, apiToken },
-      options
-    );
+    const sync = new KanbanToTrelloSync(config, options);
 
     // Run sync
     const result = await sync.sync();

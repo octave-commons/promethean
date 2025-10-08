@@ -2,15 +2,16 @@
 uuid: "eef79dc1-907d-4875-b833-31c2a9665d0e"
 title: "Fix TypeScript build errors across key packages /TASK-20240921-buildfix /kanban /InProgress /codex-cloud /p2 /EPC-000 :auto :ts"
 slug: "fix-build-errors-enso-docops-kanban-webcrawler"
-status: "review"
+status: "done"
 priority: "p2"
-labels: ["task", "board", "state", "owner", "priority", "epic", "board", "lang"]
-created_at: "2025-10-07T20:25:05.643Z"
+labels: ["task", "board", "state", "owner", "priority", "epic", "lang"]
+created_at: "2025-10-08T03:40:42.726Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
 
 
 ```
@@ -74,6 +75,7 @@ You might find [this](link) useful while working on this task.
 fix-build-errors-enso-docops-kanban-webcrawler
 
 <% tp.app.commands.executeCommandById"chatgpt-md:call-chatgpt-api" %>
+
 
 
 

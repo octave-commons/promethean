@@ -2,15 +2,16 @@
 uuid: "121c9492-1226-4dae-b654-f39cdfe2364f"
 title: "Refactor MCP package for multi-endpoint HTTP transport /TASK-20240705-mcp-http /kanban /InProgress /err /p3 /EPC-000 :auto :ts :@promethean/mcp"
 slug: "refactor-mcp-endpoints"
-status: "review"
+status: "done"
 priority: "p3"
-labels: ["task", "board", "state", "owner", "priority", "epic", "board", "lang", "package"]
-created_at: "2025-10-07T20:25:05.643Z"
+labels: ["task", "board", "state", "owner", "priority", "epic", "lang", "package"]
+created_at: "2025-10-08T04:14:53.101Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
 
 
 ## Context
@@ -32,6 +33,7 @@ estimates:
 2. Update configuration types and loader to accept `endpoints` map.
 3. Adjust HTTP server composition to register multiple routers.
 4. Add tests verifying configuration and runtime wiring.
+
 
 
 

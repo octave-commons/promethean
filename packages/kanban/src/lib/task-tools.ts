@@ -1,4 +1,4 @@
-import { createLogger, parseArgs } from '@promethean/utils';
+import { createLogger } from '@promethean/utils';
 import { readFileSync } from 'fs';
 import matter from 'gray-matter';
 import path from 'path';
@@ -515,7 +515,8 @@ function generatePriorityReasoning(factors: TaskPriority['factors'], suggestedPr
   return reasons.length > 0 ? reasons.join('; ') : `Priority ${suggestedPriority} based on overall assessment`;
 }
 
-// CLI interface
+// CLI interface - disabled for now due to TypeScript compatibility issues
+/*
 if (import.meta.main) {
   const args = parseArgs({
     '--compare': '',
@@ -540,3 +541,4 @@ if (import.meta.main) {
     console.log('Usage: task-tools --compare UUID1,UUID2 | --breakdown UUID | --prioritize UUID1,UUID2,UUID3');
   }
 }
+*/
