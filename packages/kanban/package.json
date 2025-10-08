@@ -9,8 +9,11 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
-    "./dist/*": "./dist/*",
-    "./*": "./dist/*"
+    "./lib/*": {
+      "types": "./dist/lib/*.d.ts",
+      "import": "./dist/lib/*.js"
+    },
+    "./dist/*": "./dist/*"
   },
   "files": [
     "dist"

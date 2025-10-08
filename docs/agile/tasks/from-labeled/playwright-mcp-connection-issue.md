@@ -1,0 +1,54 @@
+---
+uuid: "3d6e0040-03a3-413a-be88-844acac7aaef"
+title: "playwright-mcp-connection-issue"
+slug: "playwright-mcp-connection-issue"
+status: "todo"
+priority: "P3"
+labels: ["docops", "labeled"]
+created_at: "2025-10-08T20:10:46.053Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
+## 🗂 Source
+
+- Path: docs/labeled/playwright-mcp-connection-issue.md
+
+## 📝 Context Summary
+
+---
+
+title: 2025.10.03.16.33.02
+filename: Playwright MCP Connection Issue
+
+  The curl command successfully connects to Playwright's MCP endpoint with
+  version 2025-06-18, but the chatgpt interface reports a 404 error when trying
+  to access the same endpoint via a different URL. This discrepancy suggests a
+  misconfiguration in the chatgpt interface's request URL.
+tags:
+  - Playwright
+  - MCP
+  - 404 error
+  - URL misconfiguration
+  - API integration
+
+references: []
+---
+Ok, the command you gave me returns:
+
+But chatgpt's interface is still returning:
+
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- _None_
+## Sources
+- _None_
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
+
+## 📋 Tasks
+
+- [ ] Draft actionable subtasks from the summary
+- [ ] Define acceptance criteria
+- [ ] Link back to related labeled docs

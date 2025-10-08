@@ -51,10 +51,7 @@
           "id": "symdocs-graph",
           "deps": ["symdocs-scan"],
           "shell": "npx tsx packages/symdocs/src/04-graph.ts --root packages --out docs/packages",
-          "inputs": [
-            "packages/**/package.json",
-            "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"
-          ],
+          "inputs": ["packages/**/package.json", "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"],
           "outputs": ["docs/packages/README.md", "docs/packages/**/README.md"],
           "inputSchema": "packages/symdocs/schemas/io.schema.json",
           "outputSchema": "packages/symdocs/schemas/io.schema.json"
@@ -204,10 +201,7 @@
           "id": "mods-dry-run",
           "deps": ["mods-generate"],
           "shell": "pnpm --filter @promethean/codemods mods:03-dry-run --root packages --report docs/agile/tasks/codemods --specs .cache/codemods/specs.json --delete-duplicates true",
-          "inputs": [
-            "codemods/**/transform.ts",
-            "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"
-          ],
+          "inputs": ["codemods/**/transform.ts", "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"],
           "outputs": ["docs/agile/tasks/codemods/*.md"],
           "inputSchema": "packages/codemods/schemas/io.schema.json",
           "outputSchema": "packages/codemods/schemas/io.schema.json"
@@ -250,10 +244,7 @@
               "ns": "snapshot"
             }
           },
-          "inputs": [
-            "packages/**/package.json",
-            "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"
-          ],
+          "inputs": ["packages/**/package.json", "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"],
           "outputs": [],
           "inputSchema": "packages/semverguard/schemas/io.schema.json",
           "outputSchema": "packages/semverguard/schemas/io.schema.json"
@@ -390,11 +381,7 @@
           "env": {
             "OLLAMA_URL": "${OLLAMA_URL}"
           },
-          "inputs": [
-            "README.md",
-            "docs/**/*.md",
-            "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"
-          ],
+          "inputs": ["README.md", "docs/**/*.md", "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"],
           "outputs": [".cache/boardrev/repo-cache"],
           "inputSchema": "packages/boardrev/schemas/io.schema.json",
           "outputSchema": "packages/boardrev/schemas/io.schema.json"
@@ -436,10 +423,7 @@
           "env": {
             "OLLAMA_URL": "${OLLAMA_URL}"
           },
-          "inputs": [
-            ".cache/boardrev/prompts.json",
-            ".cache/boardrev/context.json"
-          ],
+          "inputs": [".cache/boardrev/prompts.json", ".cache/boardrev/context.json"],
           "outputs": [".cache/boardrev/evals.json"],
           "inputSchema": "packages/boardrev/schemas/io.schema.json",
           "outputSchema": "packages/boardrev/schemas/io.schema.json"
@@ -475,10 +459,7 @@
             "SONAR_TOKEN": "${SONAR_TOKEN}",
             "SONAR_PROJECT_KEY": "${SONAR_PROJECT_KEY}"
           },
-          "inputs": [
-            "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}",
-            "sonar-project.properties"
-          ],
+          "inputs": ["packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}", "sonar-project.properties"],
           "outputs": [".cache/sonar/scan.touch"],
           "inputSchema": "packages/sonarflow/schemas/io.schema.json",
           "outputSchema": "packages/sonarflow/schemas/io.schema.json"
@@ -591,10 +572,7 @@
         {
           "id": "bf-build",
           "shell": "pnpm --filter @promethean/buildfix build",
-          "inputs": [
-            "packages/buildfix/tsconfig.json",
-            "packages/buildfix/src/**/*"
-          ],
+          "inputs": ["packages/buildfix/tsconfig.json", "packages/buildfix/src/**/*"],
           "outputs": ["packages/buildfix/dist/**"],
           "inputSchema": "packages/buildfix/schemas/io.schema.json",
           "outputSchema": "packages/buildfix/schemas/io.schema.json"
@@ -603,10 +581,7 @@
           "id": "bf-errors",
           "deps": ["bf-build"],
           "shell": "pnpm --filter @promethean/buildfix bf:01-errors --tsconfig tsconfig.json --out .cache/buildfix/errors.json",
-          "inputs": [
-            "tsconfig.json",
-            "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"
-          ],
+          "inputs": ["tsconfig.json", "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"],
           "outputs": [".cache/buildfix/errors.json"],
           "inputSchema": "packages/buildfix/schemas/io.schema.json",
           "outputSchema": "packages/buildfix/schemas/io.schema.json"
@@ -684,7 +659,7 @@
         {
           "id": "tg-gate",
           "deps": ["tg-map"],
-          "shell": "pnpm --filter @promethean/testgap tg:08-gate --gaps \"/home/err/devel/promethean/.cache/testgap/gaps.json\" --out \"/home/err/devel/promethean/.cache/testgap/gate.json\" --threshold 0.70 --metric symbols",
+          "shell": "pnpm --filter @promethean/testgap tg:08-gate --gaps \".cache/testgap/gaps.json\" --out \".cache/testgap/gate.json\" --threshold 0.70 --metric symbols",
           "inputs": [".cache/testgap/gaps.json"],
           "outputs": [".cache/testgap/gate.json"],
           "inputSchema": "packages/testgap/schemas/io.schema.json",
@@ -693,7 +668,7 @@
         {
           "id": "tg-cookbook",
           "deps": ["tg-map"],
-          "shell": "pnpm --filter @promethean/testgap tg:04-cookbook-cross --recipes \"/home/err/devel/promethean/docs/cookbook/**/*.md\" --out \"/home/err/devel/promethean/.cache/testgap/cookbook.json\"",
+          "shell": "pnpm --filter @promethean/testgap tg:04-cookbook-cross --recipes \"docs/cookbook/**/*.md\" --out \".cache/testgap/cookbook.json\"",
           "inputs": ["docs/cookbook/**/*.md"],
           "outputs": [".cache/testgap/cookbook.json"],
           "inputSchema": "packages/testgap/schemas/io.schema.json",
@@ -702,14 +677,11 @@
         {
           "id": "tg-plan",
           "deps": ["tg-cookbook"],
-          "shell": "pnpm --filter @promethean/testgap tg:05-plan --gaps \"/home/err/devel/promethean/.cache/testgap/gaps.json\" --cookbook \"/home/err/devel/promethean/.cache/testgap/cookbook.json\" --out \"/home/err/devel/promethean/.cache/testgap/plans.json\" --model qwen3:4b --threshold 0.5 --max-per-pkg 15",
+          "shell": "pnpm --filter @promethean/testgap tg:05-plan --gaps \".cache/testgap/gaps.json\" --cookbook \".cache/testgap/cookbook.json\" --out \".cache/testgap/plans.json\" --model qwen3:4b --threshold 0.5 --max-per-pkg 15",
           "env": {
             "OLLAMA_URL": "${OLLAMA_URL}"
           },
-          "inputs": [
-            ".cache/testgap/gaps.json",
-            ".cache/testgap/cookbook.json"
-          ],
+          "inputs": [".cache/testgap/gaps.json", ".cache/testgap/cookbook.json"],
           "outputs": [".cache/testgap/plans.json"],
           "inputSchema": "packages/testgap/schemas/io.schema.json",
           "outputSchema": "packages/testgap/schemas/io.schema.json"
@@ -717,7 +689,7 @@
         {
           "id": "tg-write",
           "deps": ["tg-plan"],
-          "shell": "pnpm --filter @promethean/testgap tg:06-write --plans \"/home/err/devel/promethean/.cache/testgap/plans.json\" --out \"/home/err/devel/promethean/docs/agile/tasks/test-gaps\"",
+          "shell": "pnpm --filter @promethean/testgap tg:06-write --plans \".cache/testgap/plans.json\" --out \"docs/agile/tasks/test-gaps\"",
           "inputs": [".cache/testgap/plans.json"],
           "outputs": ["docs/agile/tasks/test-gaps/*.md"],
           "inputSchema": "packages/testgap/schemas/io.schema.json",
@@ -726,7 +698,7 @@
         {
           "id": "tg-report",
           "deps": ["tg-map"],
-          "shell": "pnpm --filter @promethean/testgap tg:07-report --gaps \"/home/err/devel/promethean/.cache/testgap/gaps.json\" --out \"/home/err/devel/promethean/docs/agile/reports/test-gaps\"",
+          "shell": "pnpm --filter @promethean/testgap tg:07-report --gaps \".cache/testgap/gaps.json\" --out \"docs/agile/reports/test-gaps\"",
           "inputs": [".cache/testgap/gaps.json"],
           "outputs": ["docs/agile/reports/test-gaps/*.md"],
           "inputSchema": "packages/testgap/schemas/io.schema.json",
