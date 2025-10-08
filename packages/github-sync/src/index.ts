@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { loadBoard } from '@promethean/kanban';
-import type { Board, Task } from '@promethean/kanban';
+import type { ColumnData, Task } from '@promethean/kanban';
 
 // GitHub API configuration
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
@@ -21,8 +21,8 @@ class GitHubSync {
     }
 
     this.headers = {
-      'Authorization': `token ${GITHUB_TOKEN}`,
-      'Accept': 'application/vnd.github.v3+json',
+      Authorization: `token ${GITHUB_TOKEN}`,
+      Accept: 'application/vnd.github.v3+json',
       'Content-Type': 'application/json',
     };
   }
@@ -31,7 +31,7 @@ class GitHubSync {
     const now = Date.now();
     const timeSinceLastCall = now - lastApiCall;
     if (timeSinceLastCall < MIN_API_INTERVAL) {
-      await new Promise(resolve => setTimeout(resolve, MIN_API_INTERVAL - timeSinceLastCall));
+      await new Promise((resolve) => setTimeout(resolve, MIN_API_INTERVAL - timeSinceLastCall));
     }
     lastApiCall = Date.now();
   }
@@ -43,7 +43,7 @@ class GitHubSync {
       method: 'POST',
       headers: {
         ...this.headers,
-        'Accept': 'application/vnd.github.v3+json',
+        Accept: 'application/vnd.github.v3+json',
       },
       body: JSON.stringify({ query, variables }),
     });
@@ -161,24 +161,34 @@ class GitHubSync {
     return project;
   }
 
-  private async syncColumns(projectId: string, boardColumns: any[], statusFieldId: string) {
+  private async syncColumns(projectId: string, boardColumns: ColumnData[], statusFieldId: string) {
     // This is a simplified version - in practice, you'd need to manage field options
-    console.log(`Syncing ${boardColumns.length} columns with project`);
+    console.log(`Syncing ${boardColumns.length} columns with project ${projectId}`);
+    console.log(`Using status field: ${statusFieldId}`);
     for (const column of boardColumns) {
       console.log(`  - Column: ${column.name} (${column.count} tasks)`);
     }
   }
 
-  private async syncTask(projectId: string, task: Task, statusFieldId: string, columnName: string) {
+  private async syncTask(
+    projectId: string,
+    task: Task,
+    statusFieldId: string | undefined,
+    columnName: string,
+  ) {
     // Use task.title from frontmatter if available, fallback to task metadata
-    const taskTitle = task.title || task.metadata?.title || `Task ${task.uuid}`;
+    const taskTitle = task.title ?? `Task ${task.uuid}`;
 
     // This is a simplified version - in practice, you'd create or update GitHub issues
     // and then add them to the project with appropriate status
     console.log(`Syncing task: "${taskTitle}" to column: ${columnName}`);
+    console.log(`  - Project ID: ${projectId}`);
     console.log(`  - UUID: ${task.uuid}`);
     console.log(`  - Status: ${task.status}`);
-    console.log(`  - Priority: ${task.metadata?.priority || 'Not set'}`);
+    console.log(`  - Priority: ${task.priority ?? 'Not set'}`);
+    if (statusFieldId) {
+      console.log(`  - Status Field ID: ${statusFieldId}`);
+    }
   }
 }
 
@@ -186,7 +196,8 @@ class GitHubSync {
 if (import.meta.url === `file://${process.argv[1]}`) {
   const sync = new GitHubSync();
 
-  sync.syncProjectBoard()
+  sync
+    .syncProjectBoard()
     .then(() => {
       console.log('Project board sync completed successfully');
       process.exit(0);
