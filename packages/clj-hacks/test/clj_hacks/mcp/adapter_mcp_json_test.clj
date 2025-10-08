@@ -143,3 +143,15 @@
     (let [{:keys [mcp]} (adapter/read-full path-out)]
       (is (= {:foo {:command "echo"}} (:mcp-servers mcp)))
       (is (= (:http (:mcp canonical)) (:http mcp))))))
+
+(deftest write-full-skips-nil-servers
+  (let [tmp-out  (fs/create-temp-file {:prefix "mcp-json-nil-" :suffix ".json"})
+        path-out (str tmp-out)
+        data     {:mcp {:mcp-servers {:remove nil
+                                      :keep {:command "echo"}}}}
+        _        (adapter/write-full path-out data)
+        out      (json/parse-string (slurp path-out))
+        servers  (get out "mcpServers")]
+    (is (map? servers))
+    (is (not (contains? servers "remove")))
+    (is (= "echo" (get-in servers ["keep" "command"])))))
