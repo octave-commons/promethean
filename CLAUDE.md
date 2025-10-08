@@ -128,6 +128,24 @@ pnpm kanban push                # Project board columns back to tasks
 - **Generated board**: `docs/agile/boards/generated.md`
 - **Configuration**: `promethean.kanban.json`
 
+### 🧭 Path Resolution & Overrides
+
+- You can invoke kanban commands from any directory. The CLI walks up the
+  filesystem until it finds `.git` or `pnpm-workspace.yaml` and treats that as
+  the repo root.
+- Relative paths in `promethean.kanban.json` resolve from the config file's
+  location. This keeps board/tasks paths stable even when running from nested
+  folders.
+- Override order of precedence:
+  1. CLI flags such as `--board-file` and `--tasks-dir` (relative to the
+     directory you run the command from).
+  2. Environment variables like `KANBAN_BOARD_FILE` or `KANBAN_TASKS_DIR`
+     (relative to the detected repo root).
+  3. Config file entries (relative to the config directory).
+- Use `--config <path>` or `KANBAN_CONFIG` to target a different config file;
+  once loaded, all relative entries inside that file are resolved from its
+  directory.
+
 ### 🔧 Common Column Names
 **Brainstorm Lane (unbounded):**
 - `icebox` - Deferred/archived tasks at varying refinement levels, not actively committed to
