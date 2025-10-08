@@ -1,0 +1,1059 @@
+---
+uuid: 71de3c22-67c9-4c96-9855-2d21cd87c6f0
+created_at: '2025-10-08T01:18:23Z'
+title: 2025.10.08.01.18.23
+filename: Promethean Unified LLM Gateway
+description: >-
+  A TypeScript monorepo scaffold for building a unified LLM gateway with OpenAI,
+  Anthropic, and Ollama providers. Includes router, scheduler with backpressure,
+  token-bucket rate limits, and idempotent tools for seamless integration.
+tags:
+  - typescript
+  - monorepo
+  - llm-gateway
+  - openai
+  - anthropic
+  - ollama
+  - rate-limiting
+  - backpressure
+  - idempotent
+---
+awesome — I dropped a full TypeScript monorepo scaffold into the canvas with:
+
+* OpenAI/Claude/Ollama-compatible endpoints
+* Router + scheduler with backpressure (no 429 to client; it waits until a slot opens, up to a max wait)
+* Provider adapters (OpenAI, Anthropic, Ollama)
+* Token-bucket rate limits (in-mem with optional Redis)
+* Idempotent tools: seed-registry & warmup-healthcheck
+* Docker compose for Redis + Ollama
+
+## run it
+
+1. clone the code from the canvas into a new repo (or copy/paste files):
+
+* copy the file blocks into your filesystem preserving paths
+
+2. install + build:
+
+```bash
+pnpm i
+cp .env.example .env   # add your keys
+pnpm -r build
+pnpm dev
+```
+
+3. smoke test:
+
+```bash
+curl localhost:8787/health
+curl -s localhost:8787/v1/chat/completions \
+  -H 'content-type: application/json' \
+  -d '{"model":"gpt-4o","messages":[{"role":"user","content":"hi"}]}'
+```
+
+## what’s next (I can add this if you want)
+
+* true provider branching in the OpenAI adapter (so a `model` alias mapped to Anthropic/Ollama uses the right backend)
+* SSE streaming in each adapter (OpenAI delta / Claude events / Ollama tokens)
+* tool/function-call schema normalization (OpenAI ⇄ Anthropic)
+* per-user/project budgets + fair-share weights
+* embeddings endpoint + cache
+* HF/TGI, OpenRouter, Z.ai, OpenVINO adapters
+
+tell me which of those you want first, and I’ll wire it up.
+# Monorepo: Promethean Unified LLM Gateway
+
+Below is a complete scaffold you can paste into a new repository. Files are delineated by comments like `// FILE: <path>`.
+
+---
+
+// FILE: package.json
+{
+  "name": "promethean-llm-gateway",
+  "private": true,
+  "version": "0.1.0",
+  "packageManager": "pnpm@9.6.0",
+  "scripts": {
+    "build": "pnpm -r --filter ./packages/* run build && pnpm -r --filter ./apps/* run build",
+    "dev": "pnpm --filter @promethean/server dev",
+    "typecheck": "tsc -b",
+    "lint": "eslint .",
+    "seed": "pnpm --filter @promethean/tools-seed-registry start",
+    "warmup": "pnpm --filter @promethean/tools-warmup start"
+  },
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.12.12",
+    "eslint": "^8.57.0",
+    "typescript": "^5.5.4"
+  }
+}
+
+---
+
+// FILE: tsconfig.json
+{
+  "files": [],
+  "references": [
+    { "path": "./packages/util" },
+    { "path": "./packages/model-registry" },
+    { "path": "./packages/rate-limit" },
+    { "path": "./packages/scheduler" },
+    { "path": "./packages/router" },
+    { "path": "./packages/providers/openai" },
+    { "path": "./packages/providers/anthropic" },
+    { "path": "./packages/providers/ollama" },
+    { "path": "./packages/gateway" },
+    { "path": "./apps/server" },
+    { "path": "./apps/tools/seed-registry" },
+    { "path": "./apps/tools/warmup-healthcheck" }
+  ]
+}
+
+---
+
+// FILE: .env.example
+OPENAI_API_KEY=
+ANTHROPIC_API_KEY=
+OPENROUTER_API_KEY=
+REDIS_URL=redis://localhost:6379
+OLLAMA_HOSTS=http://localhost:11434
+PORT=8787
+NODE_ENV=development
+
+---
+
+// FILE: docker-compose.yml
+version: "3.8"
+services:
+  redis:
+    image: redis:7-alpine
+    ports: ["6379:6379"]
+  ollama:
+    image: ollama/ollama:latest
+    ports: ["11434:11434"]
+    volumes:
+      - ollama:/root/.ollama
+volumes:
+  ollama: {}
+
+---
+
+// FILE: packages/util/package.json
+{
+  "name": "@promethean/util",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -b"
+  },
+  "dependencies": {
+    "nanoid": "^5.0.7",
+    "zod": "^3.23.8"
+  }
+}
+
+---
+
+// FILE: packages/util/tsconfig.json
+{
+  "compilerOptions": {
+    "composite": true,
+    "outDir": "dist",
+    "rootDir": "src",
+    "module": "ESNext",
+    "target": "ES2022",
+    "moduleResolution": "Bundler",
+    "declaration": true,
+    "skipLibCheck": true,
+    "strict": true
+  },
+  "include": ["src"]
+}
+
+---
+
+// FILE: packages/util/src/index.ts
+export type Json = string | number | boolean | null | Json[] | { [k: string]: Json };
+export class AbortableDelay {
+  static async wait(ms: number, signal?: AbortSignal) {
+    return new Promise<void>((resolve, reject) => {
+      const id = setTimeout(() => resolve(), ms);
+      if (signal) {
+        const onAbort = () => { clearTimeout(id); reject(new Error('aborted')); };
+        if (signal.aborted) return onAbort();
+        signal.addEventListener('abort', onAbort, { once: true });
+      }
+    });
+  }
+}
+export function expBackoff(attempt: number, baseMs=250, capMs=8000) {
+  const jitter = Math.random() * baseMs;
+  return Math.min(capMs, Math.round((2 ** attempt) * baseMs + jitter));
+}
+export function nowMs() { return Date.now(); }
+export function clamp(n:number,min:number,max:number){return Math.max(min,Math.min(max,n));}
+
+---
+
+// FILE: packages/model-registry/package.json
+{
+  "name": "@promethean/model-registry",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": { "build": "tsc -b" },
+  "dependencies": { "zod": "^3.23.8" }
+}
+
+---
+
+// FILE: packages/model-registry/tsconfig.json
+{
+  "compilerOptions": {
+    "composite": true,
+    "outDir": "dist",
+    "rootDir": "src",
+    "module": "ESNext",
+    "target": "ES2022",
+    "moduleResolution": "Bundler",
+    "declaration": true,
+    "skipLibCheck": true,
+    "strict": true
+  },
+  "include": ["src"]
+}
+
+---
+
+// FILE: packages/model-registry/src/types.ts
+export type Capability = 'chat'|'tools'|'json'|'images'|'audio'|'vision'|'function_call'|'long_context';
+export type ProviderName = 'openai'|'anthropic'|'ollama'|'openrouter'|'zagents'|'hf'|'openvino';
+
+export interface RateLimit { rpm?: number; rps?: number; tpm?: number; concurrency?: number; }
+export interface ModelEntry {
+  alias: string;
+  provider: ProviderName;
+  providerModel: string;
+  capabilities: Capability[];
+  contextWindow: number;
+  costPer1kInput?: number;
+  costPer1kOutput?: number;
+  default?: boolean;
+}
+export interface ProviderConfig {
+  name: ProviderName;
+  rateLimit: RateLimit;
+  supportsStreaming: boolean;
+  supportsToolCalls: boolean;
+  timeoutMs: number;
+}
+
+---
+
+// FILE: packages/model-registry/src/index.ts
+import { ModelEntry, ProviderConfig } from './types.js';
+
+export const providers: ProviderConfig[] = [
+  { name: 'openai', rateLimit: { rpm: 300, tpm: 1_000_000 }, supportsStreaming: true, supportsToolCalls: true, timeoutMs: 120_000 },
+  { name: 'anthropic', rateLimit: { rpm: 200, tpm: 800_000 }, supportsStreaming: true, supportsToolCalls: true, timeoutMs: 120_000 },
+  { name: 'ollama', rateLimit: { concurrency: 4 }, supportsStreaming: true, supportsToolCalls: true, timeoutMs: 300_000 },
+  { name: 'openrouter', rateLimit: { rpm: 120, tpm: 600_000 }, supportsStreaming: true, supportsToolCalls: true, timeoutMs: 120_000 },
+  { name: 'hf', rateLimit: { rpm: 60 }, supportsStreaming: true, supportsToolCalls: false, timeoutMs: 120_000 },
+  { name: 'openvino', rateLimit: { concurrency: 8 }, supportsStreaming: true, supportsToolCalls: false, timeoutMs: 300_000 },
+  { name: 'zagents', rateLimit: { rpm: 120 }, supportsStreaming: true, supportsToolCalls: true, timeoutMs: 120_000 },
+];
+
+export const models: ModelEntry[] = [
+  { alias: 'gpt-4o', provider: 'openai', providerModel: 'gpt-4o', capabilities: ['chat','tools','json','vision'], contextWindow: 128_000, default: true },
+  { alias: 'claude-3.5-sonnet', provider: 'anthropic', providerModel: 'claude-3-5-sonnet-latest', capabilities: ['chat','tools','json','vision','long_context'], contextWindow: 200_000, default: true },
+  { alias: 'llama3.1:70b', provider: 'ollama', providerModel: 'llama3.1:70b', capabilities: ['chat','tools','json'], contextWindow: 128_000 },
+  { alias: 'ovms-llama-8b', provider: 'openvino', providerModel: 'llama-8b', capabilities: ['chat','json'], contextWindow: 32_000 },
+  { alias: 'tgi-mixtral-8x7b', provider: 'hf', providerModel: 'mistralai/Mixtral-8x7B-Instruct-v0.1', capabilities: ['chat','json'], contextWindow: 32_000 }
+];
+
+export type { ModelEntry, ProviderConfig };
+
+---
+
+// FILE: packages/rate-limit/package.json
+{
+  "name": "@promethean/rate-limit",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": { "build": "tsc -b" },
+  "dependencies": {
+    "ioredis": "^5.4.1"
+  }
+}
+
+---
+
+// FILE: packages/rate-limit/tsconfig.json
+{
+  "compilerOptions": {
+    "composite": true,
+    "outDir": "dist",
+    "rootDir": "src",
+    "module": "ESNext",
+    "target": "ES2022",
+    "moduleResolution": "Bundler",
+    "declaration": true,
+    "skipLibCheck": true,
+    "strict": true
+  },
+  "include": ["src"]
+}
+
+---
+
+// FILE: packages/rate-limit/src/index.ts
+import Redis from 'ioredis';
+
+type BucketCfg = { capacity: number; refillPerSec: number };
+
+export class TokenBucket {
+  private last: number; private tokens: number; private redis?: Redis;
+  constructor(private key: string, cfg: BucketCfg, redisUrl?: string) {
+    this.tokens = cfg.capacity; this.last = Date.now();
+    if (redisUrl) this.redis = new Redis(redisUrl);
+  }
+  private refill(capacity:number, refillPerSec:number) {
+    const now = Date.now(); const dt = (now - this.last) / 1000;
+    this.last = now; this.tokens = Math.min(capacity, this.tokens + dt * refillPerSec);
+  }
+  async take(n: number, capacity:number, refillPerSec:number): Promise<boolean> {
+    if (!this.redis) { this.refill(capacity, refillPerSec); if (this.tokens >= n) { this.tokens -= n; return true; } return false; }
+    // Minimal Redis impl using INCRBYFLOAT + EX + TTL per key; acceptable for prototype
+    const now = Date.now();
+    const script = `
+      local key=KEYS[1]; local cap=tonumber(ARGV[1]); local rps=tonumber(ARGV[2]); local need=tonumber(ARGV[3]); local now=tonumber(ARGV[4]);
+      local state = redis.call('HMGET', key, 'tokens','ts');
+      local tokens = tonumber(state[1]); local ts = tonumber(state[2]);
+      if not tokens then tokens = cap; ts = now end;
+      local dt = (now - ts) / 1000.0; tokens = math.min(cap, tokens + dt*rps);
+      if tokens >= need then tokens = tokens - need; redis.call('HMSET', key, 'tokens', tokens, 'ts', now); redis.call('EXPIRE', key, 2); return 1 end
+      redis.call('HMSET', key, 'tokens', tokens, 'ts', now); redis.call('EXPIRE', key, 2); return 0`;
+    const ok = await this.redis.eval(script, 1, this.key, capacity, refillPerSec, n, now);
+    return ok === 1;
+  }
+}
+
+export type ProviderBuckets = {
+  rpm?: TokenBucket; rps?: TokenBucket; tpm?: TokenBucket; concurrency?: { max: number; current: number };
+};
+
+export function makeProviderBuckets(name: string, opts: { rpm?: number; rps?: number; tpm?: number; concurrency?: number; redisUrl?: string }) {
+  const buckets: ProviderBuckets = {};
+  if (opts.rpm) buckets.rpm = new TokenBucket(`rl:${name}:rpm`, { capacity: opts.rpm, refillPerSec: opts.rpm/60 }, opts.redisUrl);
+  if (opts.rps) buckets.rps = new TokenBucket(`rl:${name}:rps`, { capacity: opts.rps, refillPerSec: opts.rps }, opts.redisUrl);
+  if (opts.tpm) buckets.tpm = new TokenBucket(`rl:${name}:tpm`, { capacity: opts.tpm, refillPerSec: opts.tpm/60 }, opts.redisUrl);
+  if (opts.concurrency) buckets.concurrency = { max: opts.concurrency, current: 0 };
+  return buckets;
+}
+
+export async function tryConsume(b: ProviderBuckets, estimatedTokens=1): Promise<boolean> {
+  if (b.rps && !(await b.rps.take(1, (b as any).rpsCfg?.capacity ?? 1000, (b as any).rpsCfg?.refillPerSec ?? 1000))) return false;
+  if (b.rpm && !(await b.rpm.take(1, (b as any).rpmCfg?.capacity ?? 1000, (b as any).rpmCfg?.refillPerSec ?? 1000))) return false;
+  if (b.tpm && !(await b.tpm.take(estimatedTokens, (b as any).tpmCfg?.capacity ?? 1_000_000, (b as any).tpmCfg?.refillPerSec ?? 16_666))) return false;
+  if (b.concurrency && (b.concurrency.current >= b.concurrency.max)) return false;
+  if (b.concurrency) b.concurrency.current++;
+  return true;
+}
+export function release(b: ProviderBuckets) { if (b.concurrency) b.concurrency.current = Math.max(0, b.concurrency.current - 1); }
+
+---
+
+// FILE: packages/scheduler/package.json
+{
+  "name": "@promethean/scheduler",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": { "build": "tsc -b" },
+  "dependencies": {
+    "@promethean/rate-limit": "*",
+    "@promethean/util": "*"
+  }
+}
+
+---
+
+// FILE: packages/scheduler/tsconfig.json
+{
+  "compilerOptions": {
+    "composite": true,
+    "outDir": "dist",
+    "rootDir": "src",
+    "module": "ESNext",
+    "target": "ES2022",
+    "moduleResolution": "Bundler",
+    "declaration": true,
+    "skipLibCheck": true,
+    "strict": true
+  },
+  "include": ["src"]
+}
+
+---
+
+// FILE: packages/scheduler/src/index.ts
+import { expBackoff, nowMs } from '@promethean/util';
+import { ProviderBuckets, tryConsume, release } from '@promethean/rate-limit';
+
+export type Job<T=unknown> = {
+  id: string;
+  provider: string;
+  buckets: ProviderBuckets;
+  priority: number;
+  estimatedTokens: number;
+  maxWaitMs: number;
+  createdAt: number;
+  attempt: number;
+  exec: () => Promise<T>;
+  resolve: (v: T) => void;
+  reject: (e: any) => void;
+};
+
+export class WFQScheduler {
+  private queues = new Map<string, Job<any>[]>();
+  private timersStarted = false;
+
+  enqueue(job: Job) {
+    if (!this.queues.has(job.provider)) this.queues.set(job.provider, []);
+    this.queues.get(job.provider)!.push(job);
+    this.start();
+  }
+
+  private start() {
+    if (this.timersStarted) return; this.timersStarted = true;
+    setInterval(() => this.tick(), 20);
+  }
+
+  private async tick() {
+    const providers = Array.from(this.queues.keys());
+    for (const p of providers) {
+      const q = this.queues.get(p)!;
+      if (q.length === 0) continue;
+
+      // simple FIFO; can weight by priority later
+      const job = q[0];
+      if (nowMs() - job.createdAt > job.maxWaitMs) {
+        q.shift(); job.reject(Object.assign(new Error('max_wait_exceeded'), { code: 'RATE_WAIT_TIMEOUT' }));
+        continue;
+      }
+
+      const ok = await tryConsume(job.buckets, job.estimatedTokens);
+      if (!ok) continue; // hold HTTP open; try later
+
+      q.shift();
+      (async () => {
+        try { const res = await job.exec(); job.resolve(res); }
+        catch (e: any) {
+          // naive retry on 429/5xx
+          const code = e?.status || e?.code;
+          if ((code === 429 || (code >= 500 && code < 600)) && job.attempt < 6) {
+            release(job.buckets);
+            const delay = expBackoff(job.attempt++);
+            setTimeout(() => this.enqueue(job), delay);
+            return;
+          }
+          job.reject(e);
+        } finally { release(job.buckets); }
+      })();
+    }
+  }
+}
+
+---
+
+// FILE: packages/router/package.json
+{
+  "name": "@promethean/router",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": { "build": "tsc -b" },
+  "dependencies": {
+    "@promethean/model-registry": "*",
+    "@promethean/scheduler": "*",
+    "@promethean/rate-limit": "*",
+    "@promethean/util": "*"
+  }
+}
+
+---
+
+// FILE: packages/router/tsconfig.json
+{
+  "compilerOptions": {
+    "composite": true,
+    "outDir": "dist",
+    "rootDir": "src",
+    "module": "ESNext",
+    "target": "ES2022",
+    "moduleResolution": "Bundler",
+    "declaration": true,
+    "skipLibCheck": true,
+    "strict": true
+  },
+  "include": ["src"]
+}
+
+---
+
+// FILE: packages/router/src/index.ts
+import { models, providers } from '@promethean/model-registry';
+import { makeProviderBuckets } from '@promethean/rate-limit';
+import { WFQScheduler, Job } from '@promethean/scheduler';
+import { nowMs } from '@promethean/util';
+
+type Needs = { tools?: boolean; json?: boolean; vision?: boolean; long_context?: boolean };
+
+type SelectResult = { alias: string; provider: string; providerModel: string };
+
+const scheduler = new WFQScheduler();
+
+const bucketMap = new Map<string, ReturnType<typeof makeProviderBuckets>>();
+function getBuckets(provider: string) {
+  if (!bucketMap.has(provider)) {
+    const p = providers.find(x => x.name === provider as any)!;
+    bucketMap.set(provider, makeProviderBuckets(provider, { ...p.rateLimit, redisUrl: process.env.REDIS_URL }));
+  }
+  return bucketMap.get(provider)!;
+}
+
+function scoreModel(m: typeof models[number], needs: Needs) {
+  let score = 0;
+  if (needs.tools && m.capabilities.includes('tools')) score += 5;
+  if (needs.json && m.capabilities.includes('json')) score += 3;
+  if (needs.vision && m.capabilities.includes('vision')) score += 2;
+  if (needs.long_context && m.capabilities.includes('long_context')) score += 1;
+  // prefer local first if OLLAMA
+  if (m.provider === 'ollama') score += 1.5;
+  return score;
+}
+
+export function selectModel(requestedModel?: string, needs: Needs = {}): SelectResult {
+  if (requestedModel) {
+    const found = models.find(m => m.alias === requestedModel || m.providerModel === requestedModel);
+    if (found) return { alias: found.alias, provider: found.provider, providerModel: found.providerModel };
+  }
+  const candidates = models
+    .map(m => ({ m, s: scoreModel(m, needs) }))
+    .sort((a,b) => b.s - a.s);
+  const picked = candidates[0]?.m ?? models[0];
+  return { alias: picked.alias, provider: picked.provider, providerModel: picked.providerModel };
+}
+
+export async function routeAndEnqueue<T>(opts: {
+  api: 'openai'|'anthropic'|'ollama';
+  requestedModel?: string;
+  needs?: Needs;
+  estimateTokens: () => number;
+  exec: (selected: SelectResult) => Promise<T>;
+  maxWaitMs?: number;
+}): Promise<{ promise: Promise<T> } & { pipeOpenAI?: any; pipeClaude?: any; pipeOllama?: any }> {
+  const selected = selectModel(opts.requestedModel, opts.needs);
+  const buckets = getBuckets(selected.provider);
+  const job: Job<T> = {
+    id: Math.random().toString(36).slice(2),
+    provider: selected.provider,
+    buckets,
+    priority: 0,
+    estimatedTokens: opts.estimateTokens(),
+    maxWaitMs: opts.maxWaitMs ?? Number(process.env.DEFAULT_MAX_WAIT_MS ?? 120000),
+    createdAt: nowMs(),
+    attempt: 0,
+    exec: () => opts.exec(selected),
+    resolve: () => {},
+    reject: () => {},
+  } as any;
+
+  const promise = new Promise<T>((resolve, reject) => { job.resolve = resolve; job.reject = reject; });
+  scheduler.enqueue(job);
+
+  // For now, return the promise; HTTP adapters will await and stream non-incrementally in this scaffold
+  return { promise } as any;
+}
+
+---
+
+// FILE: packages/providers/openai/package.json
+{
+  "name": "@promethean/providers-openai",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": { "build": "tsc -b" },
+  "dependencies": {
+    "undici": "^6.19.8"
+  }
+}
+
+---
+
+// FILE: packages/providers/openai/tsconfig.json
+{
+  "compilerOptions": {
+    "composite": true,
+    "outDir": "dist",
+    "rootDir": "src",
+    "module": "ESNext",
+    "target": "ES2022",
+    "moduleResolution": "Bundler",
+    "declaration": true,
+    "skipLibCheck": true,
+    "strict": true
+  },
+  "include": ["src"]
+}
+
+---
+
+// FILE: packages/providers/openai/src/index.ts
+import { fetch } from 'undici';
+
+export async function callOpenAIChat(params: { model: string; body: any; stream?: boolean }) {
+  const apiKey = process.env.OPENAI_API_KEY;
+  if (!apiKey) throw Object.assign(new Error('Missing OPENAI_API_KEY'), { status: 500 });
+  const res = await fetch('https://api.openai.com/v1/chat/completions', {
+    method: 'POST',
+    headers: { 'authorization': `Bearer ${apiKey}`, 'content-type': 'application/json' },
+    body: JSON.stringify(params.body)
+  });
+  if (res.status === 429) throw Object.assign(new Error('OpenAI rate limited'), { status: 429 });
+  if (!res.ok) throw Object.assign(new Error(await res.text()), { status: res.status });
+  return await res.json();
+}
+
+---
+
+// FILE: packages/providers/anthropic/package.json
+{
+  "name": "@promethean/providers-anthropic",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": { "build": "tsc -b" },
+  "dependencies": { "undici": "^6.19.8" }
+}
+
+---
+
+// FILE: packages/providers/anthropic/tsconfig.json
+{
+  "compilerOptions": {
+    "composite": true,
+    "outDir": "dist",
+    "rootDir": "src",
+    "module": "ESNext",
+    "target": "ES2022",
+    "moduleResolution": "Bundler",
+    "declaration": true,
+    "skipLibCheck": true,
+    "strict": true
+  },
+  "include": ["src"]
+}
+
+---
+
+// FILE: packages/providers/anthropic/src/index.ts
+import { fetch } from 'undici';
+
+export async function callAnthropicMessages(params: { model: string; body: any; stream?: boolean }) {
+  const apiKey = process.env.ANTHROPIC_API_KEY;
+  if (!apiKey) throw Object.assign(new Error('Missing ANTHROPIC_API_KEY'), { status: 500 });
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'x-api-key': apiKey,
+      'anthropic-version': '2023-06-01',
+      'content-type': 'application/json'
+    },
+    body: JSON.stringify(params.body)
+  });
+  if (res.status === 429) throw Object.assign(new Error('Anthropic rate limited'), { status: 429 });
+  if (!res.ok) throw Object.assign(new Error(await res.text()), { status: res.status });
+  return await res.json();
+}
+
+---
+
+// FILE: packages/providers/ollama/package.json
+{
+  "name": "@promethean/providers-ollama",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": { "build": "tsc -b" },
+  "dependencies": { "undici": "^6.19.8" }
+}
+
+---
+
+// FILE: packages/providers/ollama/tsconfig.json
+{
+  "compilerOptions": {
+    "composite": true,
+    "outDir": "dist",
+    "rootDir": "src",
+    "module": "ESNext",
+    "target": "ES2022",
+    "moduleResolution": "Bundler",
+    "declaration": true,
+    "skipLibCheck": true,
+    "strict": true
+  },
+  "include": ["src"]
+}
+
+---
+
+// FILE: packages/providers/ollama/src/index.ts
+import { fetch } from 'undici';
+
+function getHosts() {
+  const env = process.env.OLLAMA_HOSTS || 'http://localhost:11434';
+  return env.split(',').map(s => s.trim()).filter(Boolean);
+}
+
+export async function callOllamaChat(params: { model: string; messages: any[]; options?: any }) {
+  const hosts = getHosts();
+  const url = `${hosts[0]}/api/chat`;
+  const res = await fetch(url, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ model: params.model, messages: params.messages, options: params.options, stream: false }) });
+  if (!res.ok) throw Object.assign(new Error(await res.text()), { status: res.status });
+  return await res.json();
+}
+
+---
+
+// FILE: packages/gateway/package.json
+{
+  "name": "@promethean/gateway",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": { "build": "tsc -b" },
+  "dependencies": {
+    "express": "^4.19.2",
+    "@promethean/router": "*",
+    "@promethean/providers-openai": "*",
+    "@promethean/providers-anthropic": "*",
+    "@promethean/providers-ollama": "*",
+    "body-parser": "^1.20.2"
+  }
+}
+
+---
+
+// FILE: packages/gateway/tsconfig.json
+{
+  "compilerOptions": {
+    "composite": true,
+    "outDir": "dist",
+    "rootDir": "src",
+    "module": "ESNext",
+    "target": "ES2022",
+    "moduleResolution": "Bundler",
+    "declaration": true,
+    "skipLibCheck": true,
+    "strict": true
+  },
+  "include": ["src"]
+}
+
+---
+
+// FILE: packages/gateway/src/openai.ts
+import express from 'express';
+import { routeAndEnqueue } from '@promethean/router';
+import { callOpenAIChat } from '@promethean/providers-openai';
+
+export const openaiRouter = express.Router();
+
+function estimateOAITokens(messages: any[]) { // naive placeholder
+  const text = JSON.stringify(messages||"");
+  return Math.ceil(text.length / 4);
+}
+
+openaiRouter.post('/v1/chat/completions', async (req, res) => {
+  const { model, messages, tools, response_format } = req.body;
+  try {
+    const { promise } = await routeAndEnqueue({
+      api: 'openai',
+      requestedModel: model,
+      needs: {
+        tools: !!tools,
+        json: response_format?.type === 'json_object'
+      },
+      estimateTokens: () => estimateOAITokens(messages),
+      exec: async (selected) => {
+        // For the scaffold, we call OpenAI even if the alias resolves to Anthropic/Ollama
+        // In a fuller build, you'd branch by provider here. We'll fix that in the server adapter.
+        return callOpenAIChat({ model: selected.providerModel, body: { model: selected.providerModel, messages, tools, stream: false, response_format } });
+      }
+    });
+    const out = await promise;
+    res.json(out);
+  } catch (e: any) {
+    const status = e?.status || 500; res.status(status).json({ error: { message: e.message || 'unknown error', type: 'server_error' } });
+  }
+});
+
+---
+
+// FILE: packages/gateway/src/anthropic.ts
+import express from 'express';
+import { routeAndEnqueue } from '@promethean/router';
+import { callAnthropicMessages } from '@promethean/providers-anthropic';
+
+export const anthropicRouter = express.Router();
+
+function estimateTokens(messages: any[]) { const text = JSON.stringify(messages||""); return Math.ceil(text.length/4); }
+
+anthropicRouter.post('/v1/messages', async (req, res) => {
+  const { model, messages, tools } = req.body;
+  try {
+    const { promise } = await routeAndEnqueue({
+      api: 'anthropic', requestedModel: model, needs: { tools: !!tools }, estimateTokens: () => estimateTokens(messages),
+      exec: async (selected) => callAnthropicMessages({ model: selected.providerModel, body: { model: selected.providerModel, messages, tools, stream: false } })
+    });
+    const out = await promise; res.json(out);
+  } catch (e: any) { const status = e?.status || 500; res.status(status).json({ error: { message: e.message } }); }
+});
+
+---
+
+// FILE: packages/gateway/src/ollama.ts
+import express from 'express';
+import { routeAndEnqueue } from '@promethean/router';
+import { callOllamaChat } from '@promethean/providers-ollama';
+
+export const ollamaRouter = express.Router();
+
+function estimateTokens(messages: any[]) { const text = JSON.stringify(messages||""); return Math.ceil(text.length/4); }
+
+ollamaRouter.post('/api/chat', async (req, res) => {
+  const { model, messages, options } = req.body;
+  try {
+    const { promise } = await routeAndEnqueue({
+      api: 'ollama', requestedModel: model, needs: {}, estimateTokens: () => estimateTokens(messages),
+      exec: async (selected) => callOllamaChat({ model: selected.providerModel, messages, options })
+    });
+    const out = await promise; res.json(out);
+  } catch (e: any) { const status = e?.status || 500; res.status(status).json({ error: { message: e.message } }); }
+});
+
+---
+
+// FILE: packages/gateway/src/index.ts
+import express from 'express';
+import bodyParser from 'body-parser';
+import { openaiRouter } from './openai.js';
+import { anthropicRouter } from './anthropic.js';
+import { ollamaRouter } from './ollama.js';
+
+export function createGatewayServer() {
+  const app = express();
+  app.use(bodyParser.json({ limit: '2mb' }));
+
+  // Health
+  app.get('/health', (_req, res) => res.json({ ok: true }));
+
+  // API Adapters
+  app.use(openaiRouter);
+  app.use(anthropicRouter);
+  app.use(ollamaRouter);
+
+  return app;
+}
+
+---
+
+// FILE: apps/server/package.json
+{
+  "name": "@promethean/server",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -b",
+    "dev": "node --env-file=.env ./dist/index.js || (pnpm run build && node --env-file=.env ./dist/index.js)",
+    "start": "node --env-file=.env ./dist/index.js"
+  },
+  "dependencies": {
+    "@promethean/gateway": "*"
+  }
+}
+
+---
+
+// FILE: apps/server/tsconfig.json
+{
+  "compilerOptions": {
+    "composite": true,
+    "outDir": "dist",
+    "rootDir": "src",
+    "module": "ESNext",
+    "target": "ES2022",
+    "moduleResolution": "Bundler",
+    "declaration": true,
+    "skipLibCheck": true,
+    "strict": true
+  },
+  "include": ["src"]
+}
+
+---
+
+// FILE: apps/server/src/index.ts
+import { createGatewayServer } from '@promethean/gateway';
+
+const port = Number(process.env.PORT || 8787);
+const app = createGatewayServer();
+app.listen(port, () => console.log(`[gateway] listening on http://localhost:${port}`));
+
+---
+
+// FILE: apps/tools/seed-registry/package.json
+{
+  "name": "@promethean/tools-seed-registry",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": { "build": "tsc -b", "start": "node dist/index.js" },
+  "dependencies": { "@promethean/model-registry": "*" }
+}
+
+---
+
+// FILE: apps/tools/seed-registry/tsconfig.json
+{
+  "compilerOptions": {
+    "composite": true,
+    "outDir": "dist",
+    "rootDir": "src",
+    "module": "ESNext",
+    "target": "ES2022",
+    "moduleResolution": "Bundler",
+    "declaration": true,
+    "skipLibCheck": true,
+    "strict": true
+  },
+  "include": ["src"]
+}
+
+---
+
+// FILE: apps/tools/seed-registry/src/index.ts
+import { models, providers } from '@promethean/model-registry';
+console.log('Seeding model registry (idempotent)');
+console.table(models.map(m => ({ alias: m.alias, provider: m.provider, providerModel: m.providerModel })));
+console.table(providers.map(p => ({ name: p.name, limits: p.rateLimit })));
+
+---
+
+// FILE: apps/tools/warmup-healthcheck/package.json
+{
+  "name": "@promethean/tools-warmup",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": { "build": "tsc -b", "start": "node dist/index.js" }
+}
+
+---
+
+// FILE: apps/tools/warmup-healthcheck/tsconfig.json
+{
+  "compilerOptions": {
+    "composite": true,
+    "outDir": "dist",
+    "rootDir": "src",
+    "module": "ESNext",
+    "target": "ES2022",
+    "moduleResolution": "Bundler",
+    "declaration": true,
+    "skipLibCheck": true,
+    "strict": true
+  },
+  "include": ["src"]
+}
+
+---
+
+// FILE: apps/tools/warmup-healthcheck/src/index.ts
+import http from 'node:http';
+
+function check(url: string) {
+  return new Promise<void>((resolve, reject) => {
+    const req = http.get(url, (res) => { res.resume(); res.statusCode === 200 ? resolve() : reject(new Error('bad status')); });
+    req.on('error', reject);
+  });
+}
+
+(async () => {
+  const url = process.env.HEALTH_URL || 'http://localhost:8787/health';
+  try { await check(url); console.log('gateway healthy'); }
+  catch (e) { console.error('gateway not healthy', e); process.exit(1); }
+})();
+
+---
+
+// FILE: README.md
+# Promethean Unified LLM Gateway
+
+### Quickstart
+
+```bash
+pnpm i
+cp .env.example .env  # fill keys
+pnpm -r build
+pnpm dev
+# health
+curl localhost:${PORT:-8787}/health
+
+# OpenAI-compatible
+curl -s localhost:${PORT:-8787}/v1/chat/completions \
+  -H 'content-type: application/json' \
+  -d '{"model":"gpt-4o","messages":[{"role":"user","content":"hi"}]}' | jq .
+
+# Claude-compatible
+curl -s localhost:${PORT:-8787}/v1/messages \
+  -H 'content-type: application/json' \
+  -d '{"model":"claude-3.5-sonnet","messages":[{"role":"user","content":"hi"}]}' | jq .
+
+# Ollama-compatible
+curl -s localhost:${PORT:-8787}/api/chat \
+  -H 'content-type: application/json' \
+  -d '{"model":"llama3.1:70b","messages":[{"role":"user","content":"hi"}]}' | jq .
+```
+
+### Notes
+- Scheduler provides backpressure: requests will **wait** in-HTTP until a slot opens, up to `DEFAULT_MAX_WAIT_MS`.
+- This scaffold returns full JSON (non-SSE) for simplicity; streaming plumbing is left for the next iteration.
+- Router maps aliases → providers; extend to branch provider-specific calls inside gateway adapters.
+- Add Redis via `REDIS_URL` for multi-process rate limit coherence.

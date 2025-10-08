@@ -1,11 +1,18 @@
 ---
-uuid: 3139c11a-ab08-4389-a857-65096382d244
-title: reach 100 percent complete test coverage 1 md md
-status: todo
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.518Z'
+uuid: "3139c11a-ab08-4389-a857-65096382d244"
+title: "reach 100 percent complete test coverage 1 md md"
+slug: "reach_100_percent_complete_test_coverage_1"
+status: "rejected"
+priority: "P3"
+labels: ["reach", "100", "percent", "complete"]
+created_at: "2025-10-07T20:25:05.645Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Description
 
 Placeholder task stub generated from kanban board.
@@ -31,9 +38,9 @@ Placeholder task stub generated from kanban board.
 ---
 
 ## 🔗 Related Epics
-
+```
 #framework-core
-
+```
 ---
 
 ## ⛓️ Blocked By
@@ -50,4 +57,6 @@ Nothing
 
 - [[kanban]]
 #IceBox
+
+
 

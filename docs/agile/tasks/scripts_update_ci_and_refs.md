@@ -1,11 +1,18 @@
 ---
-uuid: 6fb5b136-e4fe-4c01-8df4-3ddfd7a160e2
-title: scripts update ci and refs
-status: todo
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.519Z'
+uuid: "6fb5b136-e4fe-4c01-8df4-3ddfd7a160e2"
+title: "scripts update ci and refs"
+slug: "scripts_update_ci_and_refs"
+status: "incoming"
+priority: "P3"
+labels: ["scripts", "update", "refs", "references"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 Scripts: Update CI and references post-reorg
 
 Goal: Update CI workflows and docs to reflect new script locations and Make targets.
@@ -19,5 +26,7 @@ Exit Criteria:
 - CI green with new structure; no broken references.
 
 #incoming #scripts #ci #organization
+
+
 
 

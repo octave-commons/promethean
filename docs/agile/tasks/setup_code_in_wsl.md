@@ -1,11 +1,18 @@
 ---
-uuid: d35d985b-44c2-4b67-9228-bc2cb912df24
-title: setup code in wsl md
-status: todo
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.521Z'
+uuid: "d35d985b-44c2-4b67-9228-bc2cb912df24"
+title: "setup code in wsl md"
+slug: "setup_code_in_wsl"
+status: "rejected"
+priority: "P3"
+labels: ["setup", "code", "wsl", "out"]
+created_at: "2025-10-07T20:25:05.645Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Description
 
 This will give me a chance to test  out the  quick setup methods  in an  environment similar to the codex agent, and smooth  out some  issues we have   in development
@@ -32,9 +39,9 @@ This will give me a chance to test  out the  quick setup methods  in an  environ
 ---
 
 ## 🔗 Related Epics
-
+```
 #framework-core
-
+```
 ---
 
 ## ⛓️ Blocked By
@@ -51,4 +58,6 @@ Nothing
 
 - [[kanban]]
 #accepted
+
+
 

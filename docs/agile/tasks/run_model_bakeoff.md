@@ -1,11 +1,18 @@
 ---
-uuid: a069b185-7e7f-46f8-b393-a205f06f080a
-title: run model bakeoff md
-status: todo
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.519Z'
+uuid: "a069b185-7e7f-46f8-b393-a205f06f080a"
+title: "run model bakeoff md"
+slug: "run_model_bakeoff"
+status: "icebox"
+priority: "P3"
+labels: ["model", "bakeoff", "run", "models"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Task: Run model bakeoff
 
 Execute a comparative evaluation between current and candidate models using a fixed set of tasks.
@@ -39,8 +46,9 @@ Execute a comparative evaluation between current and candidate models using a fi
 ---
 
 ## 🔗 Related Epics
+```
 #ops #codex-task
-
+```
 ---
 
 ## ⛓️ Blocked By
@@ -55,4 +63,6 @@ Nothing
 - [[kanban]]
 #IceBox
 #ready
+
+
 

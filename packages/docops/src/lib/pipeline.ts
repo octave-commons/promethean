@@ -209,7 +209,7 @@ export async function runDocopsStep(
         dir: normalizedArgs.dir,
         ...(files ? { files } : {}),
       };
-      await runRename(opts);
+      await runRename(opts, db, (p) => onProgress?.(p));
       return;
     }
     default: {
@@ -265,8 +265,8 @@ export async function servePipeline(
     "embed",
     "query",
     "relations",
-    "footers",
     "rename",
+    "footers",
   ];
   send(`Starting pipeline in ${args.dir}`);
   try {

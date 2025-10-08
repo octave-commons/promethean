@@ -147,7 +147,9 @@ export type ApprovalGrantPayload = {
 export type ActRationalePayload = {
   readonly callId: string;
   readonly rationale: string;
+  readonly policy?: string;
   readonly evidence?: readonly string[];
+  readonly evidenceKind?: "url" | "messageId" | "note";
 };
 
 export type ActIntentPayload = {

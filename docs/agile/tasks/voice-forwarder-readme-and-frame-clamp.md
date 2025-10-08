@@ -1,14 +1,18 @@
 ---
-uuid: 1a4d3d7c-5b2e-4f2c-8f9a-3b1c2d4e5f6a
-title: enso-browser-gateway — voice forwarder README + frameDuration clamp
-status: todo
-priority: P3
-labels:
-  - enso
-  - voice
-  - docs
-created_at: '2025-10-02T00:00:00.000Z'
+uuid: "1a4d3d7c-5b2e-4f2c-8f9a-3b1c2d4e5f6a"
+title: "enso-browser-gateway — voice forwarder README + frameDuration clamp"
+slug: "voice-forwarder-readme-and-frame-clamp"
+status: "done"
+priority: "P3"
+labels: ["enso", "voice", "docs"]
+created_at: "2025-10-07T20:25:05.644Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 #Todo
 
 ## 🛠️ Description
@@ -23,3 +27,5 @@ Document reliance on `channel.protocol` for `frameDurationMs` with 20ms fallback
 
 ## 🔍 Related
 - PR #1448
+
+

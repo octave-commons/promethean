@@ -51,11 +51,12 @@ Modify `regenerateBoard` function to:
 
 1. **Modified `regenerateBoard` function** in `packages/kanban/src/lib/kanban.ts`:
    - Added `const { config } = await loadKanbanConfig();` to load configuration
-   - Changed column generation from `Array.from(statusGroups.values())` to `Array.from(config.statusValues)`
+   - Changed column generation from `Array.fromstatusGroups.values()` to `Array.from(config.statusValues)`
    - Each configured status now creates a column, populated with existing tasks or empty
    - WIP limits are now applied from `config.wipLimits[status]`
-
+```
 2. **Key technical changes**:
+```
    - Before: Only created columns for statuses that had tasks
    - After: Creates columns for ALL configured statuses, even when empty
    - Maintains backward compatibility with existing task distribution

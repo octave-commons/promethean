@@ -1,14 +1,15 @@
 ---
 uuid: 4ad8d468-babf-4ab8-9385-fec57642c074
 title: move discord scraper to ts
-status: todo
+status: testing
 priority: P3
 labels: []
 created_at: '2025-09-15T02:02:58.517Z'
 ---
 ## 🛠️ Description
+```
 **Status:** blocked
-
+```
 Port the existing Discord scraper to TypeScript to align with the rest of the JS toolchain.
 
 ---
@@ -39,9 +40,9 @@ Port the existing Discord scraper to TypeScript to align with the rest of the JS
 ---
 
 ## 🔗 Related Epics
-
+```
 #framework-core
-
+```
 ---
 
 ## ⛓️ Blocked By

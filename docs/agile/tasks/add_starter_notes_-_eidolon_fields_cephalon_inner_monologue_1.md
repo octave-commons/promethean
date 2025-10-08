@@ -1,11 +1,18 @@
 ---
-uuid: d51d697f-2c46-42f1-a402-694f9f376bca
-title: add starter notes eidolon fields cephalon inner monologue 1 md
-status: todo
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.505Z'
+uuid: "d51d697f-2c46-42f1-a402-694f9f376bca"
+title: "add starter notes eidolon fields cephalon inner monologue 1 md"
+slug: "add_starter_notes_-_eidolon_fields_cephalon_inner_monologue_1"
+status: "done"
+priority: "P3"
+labels: ["eidolon", "cephalon", "fields", "inner"]
+created_at: "2025-10-07T20:25:05.644Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Task: Add starter notes - eidolon_fields, cephalon_inner_monologue
 
 Create initial documentation for two key areas of the emotional model.
@@ -59,9 +66,9 @@ knowledge base.
 ---
 
 ## 🔗 Related Epics
-
+```
 #framework-core
-
+```
 ---
 
 ## ⛓️ Blocked By
@@ -78,4 +85,6 @@ Nothing
 
 - [[kanban]]
 #done
+
+
 

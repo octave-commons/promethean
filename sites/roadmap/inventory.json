@@ -1,0 +1,1659 @@
+{
+  "generatedAt": "2025-10-08T04:50:00.416Z",
+  "totals": {
+    "files": 10,
+    "blocks": 7,
+    "uniqueNodes": 89
+  },
+  "sources": [
+    {
+      "file": "docs/architecture/compiler-classes-graph.md",
+      "blockIndex": 0,
+      "nodes": [
+        {
+          "id": "Checklist",
+          "label": "docs/reports/compiler-classes-checklist.md"
+        },
+        {
+          "id": "Classes",
+          "label": "Class Implementation"
+        },
+        {
+          "id": "Defun",
+          "label": "Implement Defun"
+        },
+        {
+          "id": "DependencyGraph",
+          "label": "docs/reports/compiler-classes-dependency-graph.md"
+        },
+        {
+          "id": "Ecosystem",
+          "label": "Lisp Ecosystem Files"
+        },
+        {
+          "id": "KanbanBoard",
+          "label": "docs/agile/boards/kanban.md"
+        },
+        {
+          "id": "Packages",
+          "label": "Lisp Package Files"
+        },
+        {
+          "id": "TaskFile",
+          "label": "docs/agile/tasks/implement classes in compiler lisp incoming.md"
+        }
+      ]
+    },
+    {
+      "file": "docs/architecture/compiler-defun-graph.md",
+      "blockIndex": 0,
+      "nodes": [
+        {
+          "id": "Checklist",
+          "label": "docs/reports/compiler-defun-checklist.md"
+        },
+        {
+          "id": "Classes",
+          "label": "Implement Classes"
+        },
+        {
+          "id": "Defun",
+          "label": "Defun Implementation"
+        },
+        {
+          "id": "DependencyGraph",
+          "label": "docs/reports/compiler-defun-dependency-graph.md"
+        },
+        {
+          "id": "Ecosystem",
+          "label": "Lisp Ecosystem Files"
+        },
+        {
+          "id": "KanbanBoard",
+          "label": "docs/agile/boards/kanban.md"
+        },
+        {
+          "id": "Lambdas",
+          "label": "Redefine Lambdas"
+        },
+        {
+          "id": "Packages",
+          "label": "Lisp Package Files"
+        },
+        {
+          "id": "TaskFile",
+          "label": "docs/agile/tasks/implement defun in compiler lisp incoming.md"
+        }
+      ]
+    },
+    {
+      "file": "docs/architecture/compiler-evolution-graph.md",
+      "blockIndex": 0,
+      "nodes": [
+        {
+          "id": "ChecklistClasses",
+          "label": "docs/reports/compiler-classes-checklist.md"
+        },
+        {
+          "id": "ChecklistDefun",
+          "label": "docs/reports/compiler-defun-checklist.md"
+        },
+        {
+          "id": "ClassesTask",
+          "label": "docs/agile/tasks/implement classes in compiler lisp incoming.md"
+        },
+        {
+          "id": "DefunTask",
+          "label": "docs/agile/tasks/implement defun in compiler lisp incoming.md"
+        },
+        {
+          "id": "Ecosystem",
+          "label": "Lisp Ecosystem Files"
+        },
+        {
+          "id": "GraphClasses",
+          "label": "docs/reports/compiler-classes-dependency-graph.md"
+        },
+        {
+          "id": "GraphDefun",
+          "label": "docs/reports/compiler-defun-dependency-graph.md"
+        },
+        {
+          "id": "KanbanBoard",
+          "label": "docs/agile/boards/kanban.md"
+        },
+        {
+          "id": "LambdasTask",
+          "label": "docs/agile/tasks/redefine all existing lambdas with high order functions incoming.md"
+        },
+        {
+          "id": "Packages",
+          "label": "Lisp Package Files"
+        }
+      ]
+    },
+    {
+      "file": "docs/architecture/hy-migration-graph.md",
+      "blockIndex": 0,
+      "nodes": [
+        {
+          "id": "Checklist",
+          "label": "docs/reports/hy-migration-checklist.md"
+        },
+        {
+          "id": "CoreRules",
+          "label": "Core Rules"
+        },
+        {
+          "id": "DependencyGraph",
+          "label": "docs/reports/hy-migration-dependency-graph.md"
+        },
+        {
+          "id": "Docs",
+          "label": "Documentation"
+        },
+        {
+          "id": "KanbanBoard",
+          "label": "docs/agile/boards/kanban.md"
+        },
+        {
+          "id": "ServiceMigrations",
+          "label": "Service Migrations"
+        },
+        {
+          "id": "TaskFile",
+          "label": "docs/agile/tasks/Replace all python properly with hy incoming.md"
+        },
+        {
+          "id": "Tooling",
+          "label": "Build + Tooling"
+        }
+      ]
+    },
+    {
+      "file": "docs/architecture/persistence-migration-graph.md",
+      "blockIndex": 0,
+      "nodes": [
+        {
+          "id": "Bridge",
+          "label": "SmartGPT Bridge"
+        },
+        {
+          "id": "Cephalon",
+          "label": "Cephalon"
+        },
+        {
+          "id": "Checklist",
+          "label": "docs/reports/persistence-migration-checklist.md"
+        },
+        {
+          "id": "CodexContext",
+          "label": "Codex Context"
+        },
+        {
+          "id": "DependencyGraph",
+          "label": "docs/reports/persistence-dependency-graph.md"
+        },
+        {
+          "id": "DiscordEmbedder",
+          "label": "Discord-embedder"
+        },
+        {
+          "id": "KanbanBoard",
+          "label": "docs/agile/boards/kanban.md"
+        },
+        {
+          "id": "KanbanProcessor",
+          "label": "Kanban Processor"
+        },
+        {
+          "id": "MarkdownGraph",
+          "label": "Markdown Graph"
+        },
+        {
+          "id": "MigrationScripts",
+          "label": "Migration Scripts"
+        },
+        {
+          "id": "TaskFile",
+          "label": "docs/agile/tasks/Agent Tasks Persistence Migration to DualStore.md"
+        }
+      ]
+    },
+    {
+      "file": "docs/architecture/project-evolution-graph.md",
+      "blockIndex": 0,
+      "nodes": [
+        {
+          "id": "ClassesChecklist",
+          "label": "docs/reports/compiler-classes-checklist.md"
+        },
+        {
+          "id": "ClassesGraph",
+          "label": "docs/reports/compiler-classes-dependency-graph.md"
+        },
+        {
+          "id": "CompilerEvolution",
+          "label": "docs/architecture/compiler-evolution-graph.md"
+        },
+        {
+          "id": "DefunChecklist",
+          "label": "docs/reports/compiler-defun-checklist.md"
+        },
+        {
+          "id": "DefunGraph",
+          "label": "docs/reports/compiler-defun-dependency-graph.md"
+        },
+        {
+          "id": "DualStoreMigration",
+          "label": "docs/architecture/persistence-migration-graph.md"
+        },
+        {
+          "id": "HyChecklist",
+          "label": "docs/reports/hy-migration-checklist.md"
+        },
+        {
+          "id": "HyGraph",
+          "label": "docs/reports/hy-migration-dependency-graph.md"
+        },
+        {
+          "id": "HyMigration",
+          "label": "docs/architecture/hy-migration-graph.md"
+        },
+        {
+          "id": "KanbanBoard",
+          "label": "docs/agile/boards/kanban.md"
+        },
+        {
+          "id": "PersistenceChecklist",
+          "label": "docs/reports/persistence-migration-checklist.md"
+        },
+        {
+          "id": "PersistenceGraph",
+          "label": "docs/reports/persistence-dependency-graph.md"
+        }
+      ]
+    },
+    {
+      "file": "docs/architecture/project-evolution-timeline.md",
+      "blockIndex": 0,
+      "nodes": [
+        {
+          "id": "10d",
+          "label": null
+        },
+        {
+          "id": "15d",
+          "label": null
+        },
+        {
+          "id": "2025-08-10",
+          "label": null
+        },
+        {
+          "id": "2025-08-15",
+          "label": null
+        },
+        {
+          "id": "2025-08-20",
+          "label": null
+        },
+        {
+          "id": "2025-08-22",
+          "label": null
+        },
+        {
+          "id": "2025-08-25",
+          "label": null
+        },
+        {
+          "id": "2025-09-01",
+          "label": null
+        },
+        {
+          "id": "2025-09-05",
+          "label": null
+        },
+        {
+          "id": "20d",
+          "label": null
+        },
+        {
+          "id": "25d",
+          "label": null
+        },
+        {
+          "id": "active",
+          "label": null
+        },
+        {
+          "id": "Bridge",
+          "label": null
+        },
+        {
+          "id": "Cephalon",
+          "label": null
+        },
+        {
+          "id": "CI",
+          "label": null
+        },
+        {
+          "id": "Classes",
+          "label": null
+        },
+        {
+          "id": "Compiler",
+          "label": null
+        },
+        {
+          "id": "Core",
+          "label": null
+        },
+        {
+          "id": "crit",
+          "label": null
+        },
+        {
+          "id": "dateFormat",
+          "label": null
+        },
+        {
+          "id": "Defun",
+          "label": null
+        },
+        {
+          "id": "des1",
+          "label": null
+        },
+        {
+          "id": "des10",
+          "label": null
+        },
+        {
+          "id": "des11",
+          "label": null
+        },
+        {
+          "id": "des2",
+          "label": null
+        },
+        {
+          "id": "des3",
+          "label": null
+        },
+        {
+          "id": "des4",
+          "label": null
+        },
+        {
+          "id": "des5",
+          "label": null
+        },
+        {
+          "id": "des6",
+          "label": null
+        },
+        {
+          "id": "des7",
+          "label": null
+        },
+        {
+          "id": "des8",
+          "label": null
+        },
+        {
+          "id": "des9",
+          "label": null
+        },
+        {
+          "id": "Docs",
+          "label": null
+        },
+        {
+          "id": "done",
+          "label": null
+        },
+        {
+          "id": "DualStore",
+          "label": null
+        },
+        {
+          "id": "Ecosystem",
+          "label": null
+        },
+        {
+          "id": "Embedder",
+          "label": null
+        },
+        {
+          "id": "Enforcement",
+          "label": null
+        },
+        {
+          "id": "Evolution",
+          "label": null
+        },
+        {
+          "id": "gantt",
+          "label": null
+        },
+        {
+          "id": "Hy",
+          "label": null
+        },
+        {
+          "id": "Implement",
+          "label": null
+        },
+        {
+          "id": "Kanban",
+          "label": null
+        },
+        {
+          "id": "Lambdas",
+          "label": null
+        },
+        {
+          "id": "Lisp",
+          "label": null
+        },
+        {
+          "id": "MarkdownGraph",
+          "label": null
+        },
+        {
+          "id": "Migration",
+          "label": null
+        },
+        {
+          "id": "Packages",
+          "label": null
+        },
+        {
+          "id": "Ports",
+          "label": null
+        },
+        {
+          "id": "Processor",
+          "label": null
+        },
+        {
+          "id": "Promethean",
+          "label": null
+        },
+        {
+          "id": "Redefine",
+          "label": null
+        },
+        {
+          "id": "Rules",
+          "label": null
+        },
+        {
+          "id": "Scripts",
+          "label": null
+        },
+        {
+          "id": "section",
+          "label": null
+        },
+        {
+          "id": "Service",
+          "label": null
+        },
+        {
+          "id": "Strategic",
+          "label": null
+        },
+        {
+          "id": "Timeline",
+          "label": null
+        },
+        {
+          "id": "title",
+          "label": null
+        },
+        {
+          "id": "Tooling",
+          "label": null
+        },
+        {
+          "id": "YYYY-MM-DD",
+          "label": null
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "id": "10d",
+      "label": null,
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "15d",
+      "label": null,
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "2025-08-10",
+      "label": null,
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "2025-08-15",
+      "label": null,
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "2025-08-20",
+      "label": null,
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "2025-08-22",
+      "label": null,
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "2025-08-25",
+      "label": null,
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "2025-09-01",
+      "label": null,
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "2025-09-05",
+      "label": null,
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "20d",
+      "label": null,
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "25d",
+      "label": null,
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "active",
+      "label": null,
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "Bridge",
+      "label": "SmartGPT Bridge",
+      "occurrences": [
+        {
+          "file": "docs/architecture/persistence-migration-graph.md",
+          "blockIndex": 0,
+          "label": "SmartGPT Bridge"
+        },
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "Cephalon",
+      "label": "Cephalon",
+      "occurrences": [
+        {
+          "file": "docs/architecture/persistence-migration-graph.md",
+          "blockIndex": 0,
+          "label": "Cephalon"
+        },
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "Checklist",
+      "label": "docs/reports/compiler-classes-checklist.md",
+      "occurrences": [
+        {
+          "file": "docs/architecture/compiler-classes-graph.md",
+          "blockIndex": 0,
+          "label": "docs/reports/compiler-classes-checklist.md"
+        },
+        {
+          "file": "docs/architecture/compiler-defun-graph.md",
+          "blockIndex": 0,
+          "label": "docs/reports/compiler-defun-checklist.md"
+        },
+        {
+          "file": "docs/architecture/hy-migration-graph.md",
+          "blockIndex": 0,
+          "label": "docs/reports/hy-migration-checklist.md"
+        },
+        {
+          "file": "docs/architecture/persistence-migration-graph.md",
+          "blockIndex": 0,
+          "label": "docs/reports/persistence-migration-checklist.md"
+        }
+      ]
+    },
+    {
+      "id": "ChecklistClasses",
+      "label": "docs/reports/compiler-classes-checklist.md",
+      "occurrences": [
+        {
+          "file": "docs/architecture/compiler-evolution-graph.md",
+          "blockIndex": 0,
+          "label": "docs/reports/compiler-classes-checklist.md"
+        }
+      ]
+    },
+    {
+      "id": "ChecklistDefun",
+      "label": "docs/reports/compiler-defun-checklist.md",
+      "occurrences": [
+        {
+          "file": "docs/architecture/compiler-evolution-graph.md",
+          "blockIndex": 0,
+          "label": "docs/reports/compiler-defun-checklist.md"
+        }
+      ]
+    },
+    {
+      "id": "CI",
+      "label": null,
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "Classes",
+      "label": "Class Implementation",
+      "occurrences": [
+        {
+          "file": "docs/architecture/compiler-classes-graph.md",
+          "blockIndex": 0,
+          "label": "Class Implementation"
+        },
+        {
+          "file": "docs/architecture/compiler-defun-graph.md",
+          "blockIndex": 0,
+          "label": "Implement Classes"
+        },
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "ClassesChecklist",
+      "label": "docs/reports/compiler-classes-checklist.md",
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-graph.md",
+          "blockIndex": 0,
+          "label": "docs/reports/compiler-classes-checklist.md"
+        }
+      ]
+    },
+    {
+      "id": "ClassesGraph",
+      "label": "docs/reports/compiler-classes-dependency-graph.md",
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-graph.md",
+          "blockIndex": 0,
+          "label": "docs/reports/compiler-classes-dependency-graph.md"
+        }
+      ]
+    },
+    {
+      "id": "ClassesTask",
+      "label": "docs/agile/tasks/implement classes in compiler lisp incoming.md",
+      "occurrences": [
+        {
+          "file": "docs/architecture/compiler-evolution-graph.md",
+          "blockIndex": 0,
+          "label": "docs/agile/tasks/implement classes in compiler lisp incoming.md"
+        }
+      ]
+    },
+    {
+      "id": "CodexContext",
+      "label": "Codex Context",
+      "occurrences": [
+        {
+          "file": "docs/architecture/persistence-migration-graph.md",
+          "blockIndex": 0,
+          "label": "Codex Context"
+        }
+      ]
+    },
+    {
+      "id": "Compiler",
+      "label": null,
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "CompilerEvolution",
+      "label": "docs/architecture/compiler-evolution-graph.md",
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-graph.md",
+          "blockIndex": 0,
+          "label": "docs/architecture/compiler-evolution-graph.md"
+        }
+      ]
+    },
+    {
+      "id": "Core",
+      "label": null,
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "CoreRules",
+      "label": "Core Rules",
+      "occurrences": [
+        {
+          "file": "docs/architecture/hy-migration-graph.md",
+          "blockIndex": 0,
+          "label": "Core Rules"
+        }
+      ]
+    },
+    {
+      "id": "crit",
+      "label": null,
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "dateFormat",
+      "label": null,
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "Defun",
+      "label": "Implement Defun",
+      "occurrences": [
+        {
+          "file": "docs/architecture/compiler-classes-graph.md",
+          "blockIndex": 0,
+          "label": "Implement Defun"
+        },
+        {
+          "file": "docs/architecture/compiler-defun-graph.md",
+          "blockIndex": 0,
+          "label": "Defun Implementation"
+        },
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "DefunChecklist",
+      "label": "docs/reports/compiler-defun-checklist.md",
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-graph.md",
+          "blockIndex": 0,
+          "label": "docs/reports/compiler-defun-checklist.md"
+        }
+      ]
+    },
+    {
+      "id": "DefunGraph",
+      "label": "docs/reports/compiler-defun-dependency-graph.md",
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-graph.md",
+          "blockIndex": 0,
+          "label": "docs/reports/compiler-defun-dependency-graph.md"
+        }
+      ]
+    },
+    {
+      "id": "DefunTask",
+      "label": "docs/agile/tasks/implement defun in compiler lisp incoming.md",
+      "occurrences": [
+        {
+          "file": "docs/architecture/compiler-evolution-graph.md",
+          "blockIndex": 0,
+          "label": "docs/agile/tasks/implement defun in compiler lisp incoming.md"
+        }
+      ]
+    },
+    {
+      "id": "DependencyGraph",
+      "label": "docs/reports/compiler-classes-dependency-graph.md",
+      "occurrences": [
+        {
+          "file": "docs/architecture/compiler-classes-graph.md",
+          "blockIndex": 0,
+          "label": "docs/reports/compiler-classes-dependency-graph.md"
+        },
+        {
+          "file": "docs/architecture/compiler-defun-graph.md",
+          "blockIndex": 0,
+          "label": "docs/reports/compiler-defun-dependency-graph.md"
+        },
+        {
+          "file": "docs/architecture/hy-migration-graph.md",
+          "blockIndex": 0,
+          "label": "docs/reports/hy-migration-dependency-graph.md"
+        },
+        {
+          "file": "docs/architecture/persistence-migration-graph.md",
+          "blockIndex": 0,
+          "label": "docs/reports/persistence-dependency-graph.md"
+        }
+      ]
+    },
+    {
+      "id": "des1",
+      "label": null,
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "des10",
+      "label": null,
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "des11",
+      "label": null,
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "des2",
+      "label": null,
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "des3",
+      "label": null,
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "des4",
+      "label": null,
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "des5",
+      "label": null,
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "des6",
+      "label": null,
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "des7",
+      "label": null,
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "des8",
+      "label": null,
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "des9",
+      "label": null,
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "DiscordEmbedder",
+      "label": "Discord-embedder",
+      "occurrences": [
+        {
+          "file": "docs/architecture/persistence-migration-graph.md",
+          "blockIndex": 0,
+          "label": "Discord-embedder"
+        }
+      ]
+    },
+    {
+      "id": "Docs",
+      "label": "Documentation",
+      "occurrences": [
+        {
+          "file": "docs/architecture/hy-migration-graph.md",
+          "blockIndex": 0,
+          "label": "Documentation"
+        },
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "done",
+      "label": null,
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "DualStore",
+      "label": null,
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "DualStoreMigration",
+      "label": "docs/architecture/persistence-migration-graph.md",
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-graph.md",
+          "blockIndex": 0,
+          "label": "docs/architecture/persistence-migration-graph.md"
+        }
+      ]
+    },
+    {
+      "id": "Ecosystem",
+      "label": "Lisp Ecosystem Files",
+      "occurrences": [
+        {
+          "file": "docs/architecture/compiler-classes-graph.md",
+          "blockIndex": 0,
+          "label": "Lisp Ecosystem Files"
+        },
+        {
+          "file": "docs/architecture/compiler-defun-graph.md",
+          "blockIndex": 0,
+          "label": "Lisp Ecosystem Files"
+        },
+        {
+          "file": "docs/architecture/compiler-evolution-graph.md",
+          "blockIndex": 0,
+          "label": "Lisp Ecosystem Files"
+        },
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "Embedder",
+      "label": null,
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "Enforcement",
+      "label": null,
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "Evolution",
+      "label": null,
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "gantt",
+      "label": null,
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "GraphClasses",
+      "label": "docs/reports/compiler-classes-dependency-graph.md",
+      "occurrences": [
+        {
+          "file": "docs/architecture/compiler-evolution-graph.md",
+          "blockIndex": 0,
+          "label": "docs/reports/compiler-classes-dependency-graph.md"
+        }
+      ]
+    },
+    {
+      "id": "GraphDefun",
+      "label": "docs/reports/compiler-defun-dependency-graph.md",
+      "occurrences": [
+        {
+          "file": "docs/architecture/compiler-evolution-graph.md",
+          "blockIndex": 0,
+          "label": "docs/reports/compiler-defun-dependency-graph.md"
+        }
+      ]
+    },
+    {
+      "id": "Hy",
+      "label": null,
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "HyChecklist",
+      "label": "docs/reports/hy-migration-checklist.md",
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-graph.md",
+          "blockIndex": 0,
+          "label": "docs/reports/hy-migration-checklist.md"
+        }
+      ]
+    },
+    {
+      "id": "HyGraph",
+      "label": "docs/reports/hy-migration-dependency-graph.md",
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-graph.md",
+          "blockIndex": 0,
+          "label": "docs/reports/hy-migration-dependency-graph.md"
+        }
+      ]
+    },
+    {
+      "id": "HyMigration",
+      "label": "docs/architecture/hy-migration-graph.md",
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-graph.md",
+          "blockIndex": 0,
+          "label": "docs/architecture/hy-migration-graph.md"
+        }
+      ]
+    },
+    {
+      "id": "Implement",
+      "label": null,
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "Kanban",
+      "label": null,
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "KanbanBoard",
+      "label": "docs/agile/boards/kanban.md",
+      "occurrences": [
+        {
+          "file": "docs/architecture/compiler-classes-graph.md",
+          "blockIndex": 0,
+          "label": "docs/agile/boards/kanban.md"
+        },
+        {
+          "file": "docs/architecture/compiler-defun-graph.md",
+          "blockIndex": 0,
+          "label": "docs/agile/boards/kanban.md"
+        },
+        {
+          "file": "docs/architecture/compiler-evolution-graph.md",
+          "blockIndex": 0,
+          "label": "docs/agile/boards/kanban.md"
+        },
+        {
+          "file": "docs/architecture/hy-migration-graph.md",
+          "blockIndex": 0,
+          "label": "docs/agile/boards/kanban.md"
+        },
+        {
+          "file": "docs/architecture/persistence-migration-graph.md",
+          "blockIndex": 0,
+          "label": "docs/agile/boards/kanban.md"
+        },
+        {
+          "file": "docs/architecture/project-evolution-graph.md",
+          "blockIndex": 0,
+          "label": "docs/agile/boards/kanban.md"
+        }
+      ]
+    },
+    {
+      "id": "KanbanProcessor",
+      "label": "Kanban Processor",
+      "occurrences": [
+        {
+          "file": "docs/architecture/persistence-migration-graph.md",
+          "blockIndex": 0,
+          "label": "Kanban Processor"
+        }
+      ]
+    },
+    {
+      "id": "Lambdas",
+      "label": "Redefine Lambdas",
+      "occurrences": [
+        {
+          "file": "docs/architecture/compiler-defun-graph.md",
+          "blockIndex": 0,
+          "label": "Redefine Lambdas"
+        },
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "LambdasTask",
+      "label": "docs/agile/tasks/redefine all existing lambdas with high order functions incoming.md",
+      "occurrences": [
+        {
+          "file": "docs/architecture/compiler-evolution-graph.md",
+          "blockIndex": 0,
+          "label": "docs/agile/tasks/redefine all existing lambdas with high order functions incoming.md"
+        }
+      ]
+    },
+    {
+      "id": "Lisp",
+      "label": null,
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "MarkdownGraph",
+      "label": "Markdown Graph",
+      "occurrences": [
+        {
+          "file": "docs/architecture/persistence-migration-graph.md",
+          "blockIndex": 0,
+          "label": "Markdown Graph"
+        },
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "Migration",
+      "label": null,
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "MigrationScripts",
+      "label": "Migration Scripts",
+      "occurrences": [
+        {
+          "file": "docs/architecture/persistence-migration-graph.md",
+          "blockIndex": 0,
+          "label": "Migration Scripts"
+        }
+      ]
+    },
+    {
+      "id": "Packages",
+      "label": "Lisp Package Files",
+      "occurrences": [
+        {
+          "file": "docs/architecture/compiler-classes-graph.md",
+          "blockIndex": 0,
+          "label": "Lisp Package Files"
+        },
+        {
+          "file": "docs/architecture/compiler-defun-graph.md",
+          "blockIndex": 0,
+          "label": "Lisp Package Files"
+        },
+        {
+          "file": "docs/architecture/compiler-evolution-graph.md",
+          "blockIndex": 0,
+          "label": "Lisp Package Files"
+        },
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "PersistenceChecklist",
+      "label": "docs/reports/persistence-migration-checklist.md",
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-graph.md",
+          "blockIndex": 0,
+          "label": "docs/reports/persistence-migration-checklist.md"
+        }
+      ]
+    },
+    {
+      "id": "PersistenceGraph",
+      "label": "docs/reports/persistence-dependency-graph.md",
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-graph.md",
+          "blockIndex": 0,
+          "label": "docs/reports/persistence-dependency-graph.md"
+        }
+      ]
+    },
+    {
+      "id": "Ports",
+      "label": null,
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "Processor",
+      "label": null,
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "Promethean",
+      "label": null,
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "Redefine",
+      "label": null,
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "Rules",
+      "label": null,
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "Scripts",
+      "label": null,
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "section",
+      "label": null,
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "Service",
+      "label": null,
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "ServiceMigrations",
+      "label": "Service Migrations",
+      "occurrences": [
+        {
+          "file": "docs/architecture/hy-migration-graph.md",
+          "blockIndex": 0,
+          "label": "Service Migrations"
+        }
+      ]
+    },
+    {
+      "id": "Strategic",
+      "label": null,
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "TaskFile",
+      "label": "docs/agile/tasks/implement classes in compiler lisp incoming.md",
+      "occurrences": [
+        {
+          "file": "docs/architecture/compiler-classes-graph.md",
+          "blockIndex": 0,
+          "label": "docs/agile/tasks/implement classes in compiler lisp incoming.md"
+        },
+        {
+          "file": "docs/architecture/compiler-defun-graph.md",
+          "blockIndex": 0,
+          "label": "docs/agile/tasks/implement defun in compiler lisp incoming.md"
+        },
+        {
+          "file": "docs/architecture/hy-migration-graph.md",
+          "blockIndex": 0,
+          "label": "docs/agile/tasks/Replace all python properly with hy incoming.md"
+        },
+        {
+          "file": "docs/architecture/persistence-migration-graph.md",
+          "blockIndex": 0,
+          "label": "docs/agile/tasks/Agent Tasks Persistence Migration to DualStore.md"
+        }
+      ]
+    },
+    {
+      "id": "Timeline",
+      "label": null,
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "title",
+      "label": null,
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "Tooling",
+      "label": "Build + Tooling",
+      "occurrences": [
+        {
+          "file": "docs/architecture/hy-migration-graph.md",
+          "blockIndex": 0,
+          "label": "Build + Tooling"
+        },
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    },
+    {
+      "id": "YYYY-MM-DD",
+      "label": null,
+      "occurrences": [
+        {
+          "file": "docs/architecture/project-evolution-timeline.md",
+          "blockIndex": 0,
+          "label": null
+        }
+      ]
+    }
+  ]
+}

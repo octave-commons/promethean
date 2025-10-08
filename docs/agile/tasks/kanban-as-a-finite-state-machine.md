@@ -1,25 +1,18 @@
 ---
-uuid: 961704a0-53ca-4aae-8c87-5b1f681a25be
-created_at: '2025-09-19T23:48:50Z'
-title: 2025.09.19.23.48.50
-filename: Kanban as a Finite State Machine
-description: >-
-  Models a Kanban board as a finite state machine where tasks transition between
-  predefined states based on specific rules. The system enforces a single source
-  of truth for task status and includes WIP limits to prevent overloading.
-  Transition rules ensure tasks move through the workflow with clear conditions
-  for blocking or rework.
-tags:
-  - Kanban
-  - Finite State Machine
-  - Workflow Automation
-related_to_uuid: []
-related_to_title: []
-references: []
-status: todo
-priority: P3
-labels: []
+uuid: "961704a0-53ca-4aae-8c87-5b1f681a25be"
+title: "2025.09.19.23.48.50   State Machine  Automation"
+slug: "kanban-as-a-finite-state-machine"
+status: "done"
+priority: "P3"
+labels: ["Kanban", "Finite", "Workflow"]
+created_at: "2025-10-07T20:25:05.644Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## Kanban as a Finite State Machine (FSM)
 
 We treat the board as an FSM over tasks.
@@ -120,7 +113,7 @@ flowchart TD
 * **In Progress → In Review**
   Coherent, reviewable change exists.
 
-* **In Progress → Todo** *(session-end handoff; no PR required)*
+* **In Progress → Todo** *session-end handoff; no PR required*
   Time/compute limit reached without a reviewable change. Record artifacts/notes + next step; move to **Todo** if WIP allows; else remain **In Progress** and mark a minor blocker.
 
 * **In Progress → Breakdown**
@@ -139,16 +132,16 @@ flowchart TD
   Follow-ups are modeled as new tasks (optionally seeded from Done).
 
 * **Blocked → Breakdown** *(unblock event)*
-  Fires when any linked blocker advances (e.g., to In Review/Done) or evidence shows dependency removed; return to Breakdown to re-plan.
+  Fires when any linked blocker advances e.g., to In Review/Done or evidence shows dependency removed; return to Breakdown to re-plan.
 
 ### Blocking policy
 
 * **Minor blockers**: record briefly on the task; continue with other eligible work; resolve asynchronously.
 * **Major blockers**: halt work on that task; capture evidence + next steps; create/link an explicit unblocker task.
 
-### Write discipline (agent-agnostic)
+### Write discipline agent-agnostic
 
-The process is agent-agnostic. Agent-specific safety rules (e.g., Codex Cloud’s file **append-only** discipline to avoid accidental deletion) live in **agent docs / system prompts**, not here.
+The process is agent-agnostic. Agent-specific safety rules e.g., Codex Cloud’s file **append-only** discipline to avoid accidental deletion live in **agent docs / system prompts**, not here.
 
 
 ---
@@ -183,4 +176,6 @@ If you want, I can also generate a tiny per-column **Entry / Work / Exit** table
 ## Sources
 - _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
+
+
 

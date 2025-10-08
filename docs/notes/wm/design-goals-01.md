@@ -111,17 +111,17 @@ import { execSync } from 'child_process';
 
 export function hideWindow(id: number) {
   try {
-    execSync(`komorebic hide ${id}`);
+    execSync(`komorebic hide {id}`);
   } catch (e) {
-    console.error(`Failed to hide window ${id}`, e);
+    console.error(`Failed to hide window {id}`, e);
   }
 }
 
 export function showWindow(id: number) {
   try {
-    execSync(`komorebic show ${id}`);
+    execSync(`komorebic show {id}`);
   } catch (e) {
-    console.error(`Failed to show window ${id}`, e);
+    console.error(`Failed to show window {id}`, e);
   }
 }
 
@@ -160,7 +160,7 @@ if (command === 'group') {
   }
 
  addWindowToGroup(groupName, winId);
-  console.log(`Window ${winId} added to group ${groupName}`);
+  console.log(`Window {winId} added to group {groupName}`);
 }
 
 if (command === 'cycle') {
@@ -201,7 +201,7 @@ You can wire these into **hotkeys via AutoHotKey or PowerToys** later, or even b
     
 *   Integrate with global hotkeys
     
-*   Use [`window-query`](https://github.com/m4b/window_query) or similar for better metadata on windows
+*   Use `window-query`(https://github.com/m4b/window_query) or similar for better metadata on windows
     
 *   Optional GUI overlay or debug console
     

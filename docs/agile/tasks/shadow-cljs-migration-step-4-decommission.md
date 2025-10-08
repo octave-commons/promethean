@@ -1,14 +1,18 @@
 ---
-uuid: 5fe4fdf3-0fda-42fb-8f98-93859577d08f
-title: Shadow CLJS migration — step 4 decommission legacy toolchain
-status: icebox
-priority: P3
-labels:
-  - framework-core
-  - codex-task
-  - frontend
-created_at: '2025-10-03T21:10:00.000Z'
+uuid: "5fe4fdf3-0fda-42fb-8f98-93859577d08f"
+title: "Shadow CLJS migration — step 4 decommission legacy toolchain -core -task -core -task"
+slug: "shadow-cljs-migration-step-4-decommission"
+status: "icebox"
+priority: "P3"
+labels: ["framework-core", "codex-task", "frontend"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 #IceBox
 
 ## 🛠️ Description
@@ -19,7 +23,7 @@ Retire legacy TypeScript/Vite build paths and finalize documentation once all fr
 - **What changed?** Remove redundant configs, scripts, and docs once CLJS builds cover all browser bundles.
 - **Where is the impact?** Package scripts, CI pipelines, documentation, tooling dependencies.
 - **Why now?** Avoids duplicate build systems and keeps repo maintainable.
-- **Supporting context** Final step of Shadow-CLJS migration plan (2025-10-03).
+- **Supporting context** Final step of Shadow-CLJS migration plan 2025-10-03.
 
 ## Goals
 - Delete unused TS build configs and scripts.
@@ -35,8 +39,9 @@ Retire legacy TypeScript/Vite build paths and finalize documentation once all fr
 1. Audit repo for obsolete TS/Vite scripts.
 2. Remove redundant configs and dependencies.
 3. Update docs and onboarding guides.
+```
 4. Verify CI/test coverage.
-
+```
 Estimate: 5
 
 ---
@@ -59,4 +64,6 @@ Estimate: 5
 
 ## 🔍 Relevant Links
 
-- Shadow-CLJS migration plan (2025-10-03)
+- Shadow-CLJS migration plan 2025-10-03
+
+

@@ -1,14 +1,21 @@
 ---
-uuid: 3ea0cf32-04c9-42eb-a256-22dc03360f1a
-title: finalize migration plan md md md
-status: todo
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.513Z'
+uuid: "3ea0cf32-04c9-42eb-a256-22dc03360f1a"
+title: "finalize migration plan md md md"
+slug: "finalize_migration_plan"
+status: "ready"
+priority: "P3"
+labels: ["migration", "plan", "finalize", "unique"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
-## 🛠️ Task: [[Finalize `MIGRATION_PLAN.md`]]
 
-Generated from [../unique/2025.07.28.18.07.20.md](../unique/2025.07.28.18.07.20.md)
+
+## 🛠️ Task: [Finalize `MIGRATION_PLAN.md`]
+
+Generated from ../unique/2025.07.28.18.07.20.md$../unique/2025.07.28.18.07.20.md
 
 ---
 
@@ -40,4 +47,6 @@ Generated from [../unique/2025.07.28.18.07.20.md](../unique/2025.07.28.18.07.20.
 Epic: [[epics#🛠 Developer Tooling & Build Pipeline]]
 
 #Ready #doc-this #framework-core
+
+
 

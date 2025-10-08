@@ -1,11 +1,18 @@
 ---
-uuid: 79bbbd38-ace9-4833-89be-b6dd50bbc940
-title: migrate portfolio client code to promethean md
-status: todo
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.516Z'
+uuid: "79bbbd38-ace9-4833-89be-b6dd50bbc940"
+title: "migrate portfolio client code to promethean md"
+slug: "migrate_portfolio_client_code_to_promethean"
+status: "rejected"
+priority: "P3"
+labels: ["portfolio", "client", "promethean", "code"]
+created_at: "2025-10-07T20:25:05.645Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Task: Migrate portfolio client code to Promethean
 
 Move the legacy portfolio web client from `riatzukiza.github.io` into
@@ -39,20 +46,20 @@ new repository.
 - [ ] Identify which pages and assets to keep
 - [ ] Move selected files under `sites/portfolio/`
 - [ ] Add build or serve command to `package.json` or `Makefile`
-- [ ] Reference [../MIGRATION_PLAN.md](../MIGRATION_PLAN.md.md) for context
+- [ ] Reference ../MIGRATION_PLAN.md$../MIGRATION_PLAN.md.md for context
 - [ ] Decide whether to import history via submodule or direct copy
 
 ---
 
 ## 🔗 Related Epics
-
+```
 #framework-core
-
+```
 ---
 
 ## ⛓️ Blocked By
 
-- [Migrating relevant modules from riatzukiza.github.io to -site- and -docs-](Migrating%20relevant%20modules%20from%20riatzukiza.github.io%20to%20-site-%20and%20-docs-.md)
+- Migrating relevant modules from riatzukiza.github.io to -site- and -docs-$Migrating%20relevant%20modules%20from%20riatzukiza.github.io%20to%20-site-%20and%20-docs-.md
 
 ## ⛓️ Blocks
 
@@ -69,4 +76,6 @@ new repository.
 - Should the portfolio be maintained as a submodule or migrated directly?
 - Do we need a static build step or can GitHub Pages handle raw files?
   #accepted
+
+
 

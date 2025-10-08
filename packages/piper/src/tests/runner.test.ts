@@ -99,6 +99,68 @@ test.serial(
   },
 );
 
+test.serial(
+  "runPipeline reuses caches when switching hash modes",
+  async (t) => {
+    await withTmp(async (dir) => {
+      const cfg = {
+        pipelines: [
+          {
+            name: "flip",
+            steps: [
+              {
+                id: "build",
+                cwd: ".",
+                deps: [],
+                inputs: [],
+                outputs: ["flip.txt"],
+                inputSchema: SCHEMA,
+                outputSchema: SCHEMA,
+                cache: "content",
+                shell: "echo cached > flip.txt",
+              },
+            ],
+          },
+        ],
+      };
+      const pipelinesPath = path.join(dir, "pipelines.json");
+      await fs.writeFile(pipelinesPath, JSON.stringify(cfg, null, 2), "utf8");
+
+      const runWith = (contentHash: boolean) =>
+        runPipeline(pipelinesPath, "flip", {
+          concurrency: 1,
+          contentHash,
+        });
+
+      const firstRun = await runWith(false);
+      t.true(
+        firstRun.every((r) => !r.skipped),
+        "initial run should execute the step",
+      );
+
+      const switchToContent = await runWith(true);
+      t.true(
+        switchToContent.every((r) => r.skipped),
+        "switching to content hashing should hit the cache",
+      );
+
+      const backToMtime = await runWith(false);
+      t.true(
+        backToMtime.every((r) => r.skipped),
+        "switching back to mtime hashing should still use the cache",
+      );
+
+      await fs.appendFile(path.join(dir, "flip.txt"), "mutated\n", "utf8");
+
+      const afterMutation = await runWith(true);
+      t.true(
+        afterMutation.some((r) => !r.skipped),
+        "changing outputs should invalidate the cache",
+      );
+    });
+  },
+);
+
 // (removed stray closers)
 
 test.serial(

@@ -1,5 +1,6 @@
 import * as path from "path";
 import { promises as fs } from "fs";
+import { fileURLToPath } from "url";
 
 import { globby } from "globby";
 import { Project } from "ts-morph";
@@ -21,18 +22,74 @@ const args = parseArgs({
   "--ns": "snapshot",
 });
 
+const moduleDir = path.dirname(fileURLToPath(import.meta.url));
+const PACKAGE_ROOT = path.resolve(moduleDir, "..");
+const REPO_ROOT = path.resolve(PACKAGE_ROOT, "..", "..");
+
+async function pathExists(p: string): Promise<boolean> {
+  try {
+    await fs.access(p);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+async function resolvePath(
+  input: string | undefined,
+  defaultPath: string,
+  options: { mustExist?: boolean; bases?: string[] } = {},
+): Promise<string> {
+  const { mustExist = false, bases = [REPO_ROOT, PACKAGE_ROOT] } = options;
+  const select = async (candidate: string): Promise<string> => {
+    if (mustExist && !(await pathExists(candidate))) {
+      throw new Error(`semverguard: path not found → ${candidate}`);
+    }
+    return candidate;
+  };
+  if (!input) {
+    return select(defaultPath);
+  }
+  if (path.isAbsolute(input)) {
+    return select(path.resolve(input));
+  }
+  for (const base of bases) {
+    const candidate = path.resolve(base, input);
+    if (!mustExist) {
+      return candidate;
+    }
+    if (await pathExists(candidate)) {
+      return candidate;
+    }
+  }
+  const fallback = path.resolve(bases[0] ?? REPO_ROOT, input);
+  return select(fallback);
+}
+
 async function main() {
-  const ROOT = path.resolve(args["--root"] ?? "packages");
+  const ROOT = await resolvePath(
+    args["--root"],
+    path.resolve(REPO_ROOT, args["--root"] ?? "packages"),
+    { mustExist: true, bases: [REPO_ROOT, PACKAGE_ROOT] },
+  );
   const pkgs = await fs
     .readdir(ROOT, { withFileTypes: true })
     .then((ents) => ents.filter((e) => e.isDirectory()).map((e) => e.name));
 
   const project = new Project({
-    tsConfigFilePath: path.resolve(args["--tsconfig"] ?? "tsconfig.json"),
+    tsConfigFilePath: await resolvePath(
+      args["--tsconfig"],
+      path.join(PACKAGE_ROOT, args["--tsconfig"] ?? "tsconfig.json"),
+      { mustExist: true, bases: [PACKAGE_ROOT, REPO_ROOT] },
+    ),
     skipAddingFilesFromTsConfig: true,
   });
   const cache = await openLevelCache<PkgSnapshot>({
-    path: path.resolve(args["--cache"] ?? ".cache/semverguard"),
+    path: await resolvePath(
+      args["--cache"],
+      path.resolve(REPO_ROOT, args["--cache"] ?? ".cache/semverguard"),
+      { bases: [REPO_ROOT, PACKAGE_ROOT] },
+    ),
     namespace: args["--ns"] ?? "snapshot",
   });
 

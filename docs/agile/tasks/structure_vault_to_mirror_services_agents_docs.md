@@ -1,14 +1,22 @@
 ---
-uuid: c6139027-bd0a-4f44-a200-c04829e35220
-title: structure vault to mirror services agents docs md md
-status: todo
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.522Z'
+uuid: "c6139027-bd0a-4f44-a200-c04829e35220"
+title: "structure vault to mirror services agents docs md md"
+slug: "structure_vault_to_mirror_services_agents_docs"
+status: "icebox"
+priority: "P3"
+labels: ["structure", "mirror", "docs", "vault"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
-## 🛠️ Task: Document-Driven Development for Service Scripts
-**Status:** blocked
 
+
+## 🛠️ Task: Document-Driven Development for Service Scripts
+```
+**Status:** blocked
+```
 We are following a **document-driven development** process.  
 This means **each program file must have a corresponding documentation file** that fully describes its behavior, purpose, and relationships—*before or alongside implementation*.
 
@@ -34,7 +42,7 @@ These docs should be so complete and precise that any developer (or LLM) could r
 - [ ] Folder structure for docs matches `services/`, `shared/`, etc.
 - [ ] Every source file has a `README.md`, `DOC.md`, or `.note.md` style doc
 - [ ] Docs are written in Obsidian-compatible markdown
-- [ ] Links to dependencies and dependents use [wiki-style](wiki-style.md) links
+- [ ] Links to dependencies and dependents use wiki-style$wiki-style.md links
 - [ ] Documents include commentary on design intent, not just implementation
 - [ ] Each file should follow the [[file.doc.template]] structure.
 
@@ -42,7 +50,7 @@ These docs should be so complete and precise that any developer (or LLM) could r
 
 ## 📋 Subtasks
 
-- [ ] Create matching folder structure in `docs/` or `notes/` (or use vault-wide)
+- [ ] Create matching folder structure in `docs/` or `notes/` or use vault-wide
 - [ ] For each existing script:
   - [ ] Create corresponding markdown file
   - [ ] Describe its internal logic clearly
@@ -57,8 +65,9 @@ These docs should be so complete and precise that any developer (or LLM) could r
 ## 🔗 Related Epics
 
 #cicd #buildtools #devtools #devops  
+```
 #documentation #knowledge-graph #docdrivendev
-
+```
 ---
 
 ## ⛓️ Blocked By
@@ -75,14 +84,17 @@ Nothing
 
 ## 🔍 Relevant Links
 
-- [promethean-doc-structure](promethean-doc-structure.md)
-- [project-file-structure](project-file-structure.md)
-- [doc-template](doc-template.md)
-- [docdrivendev-principles](docdrivendev-principles.md)
+- promethean-doc-structure$promethean-doc-structure.md
+- project-file-structure$project-file-structure.md
+- doc-template$doc-template.md
+- docdrivendev-principles$docdrivendev-principles.md
+```
 #ice-box
-
+```
 ## Blockers
 - No active owner or unclear scope
 
 #breakdown
+
+
 

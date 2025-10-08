@@ -1,11 +1,18 @@
 ---
-uuid: 480c3123-6ad3-4825-8516-896cd8d683cc
-created_at: '2025-10-06T01:50:48.289Z'
-title: ECS Board Planning Note
-status: todo
-priority: P3
-labels: []
+uuid: "480c3123-6ad3-4825-8516-896cd8d683cc"
+title: "ECS Board Planning Note"
+slug: "ecs_board_planning_note"
+status: "done"
+priority: "P3"
+labels: ["board", "ecs", "planning", "note"]
+created_at: "2025-10-07T20:25:05.644Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 # ECS Board Planning Note
 
 ## 📌 Purpose
@@ -22,7 +29,7 @@ Define expectations for an ECS-powered kanban experience so delivery teams can d
 - Column transitions must validate WIP limits before persisting, surfacing inline warnings if a move would exceed caps defined in regenerated board metadata.
 
 ### Keyboard Flows
-- Shortcut-driven column changes (e.g., `[`/`]` to move left/right) that mirror `kanban move_up/move_down/update_status` semantics for accessibility parity.
+- Shortcut-driven column changes e.g., `[`/`]` to move left/right that mirror `kanban move_up/move_down/update_status` semantics for accessibility parity.
 - Inline edit/save commands that respect markdown frontmatter fields (status, priority, labels) so regenerated tasks remain valid.
 
 ### Filters & Views
@@ -34,11 +41,11 @@ Define expectations for an ECS-powered kanban experience so delivery teams can d
 - Persisted changes must round-trip through the markdown/CLI pipeline within the same commit/PR cycle—no background divergence.
 
 ## 🛠️ Coexistence with Markdown & CLI
-- Markdown tasks (`docs/agile/tasks/*.md`) stay authoritative; UI edits must emit operations that reuse `packages/kanban/src/index.ts` commands (push/pull/sync/regenerate).
+- Markdown tasks `docs/agile/tasks/*.md` stay authoritative; UI edits must emit operations that reuse `packages/kanban/src/index.ts` commands push/pull/sync/regenerate.
 - UI should call into the CLI layer (direct spawn or API wrapper) instead of duplicating regeneration logic to ensure parity with `sync` and `regenerate` flows.
 - Conflicts resolved via CLI rules: when UI detects divergence, prompt the operator to run `kanban sync`/`regenerate` before finalizing UI state.
 
-## ✅ Acceptance Criteria (aligned with `docs/agile/agents.md`)
+## ✅ Acceptance Criteria aligned with `docs/agile/agents.md`
 1. Markdown task files remain the single source of truth; UI cannot persist state that lacks a corresponding markdown update.
 2. WIP limits from regenerated board headers block UI transitions that would exceed caps, matching board-manager enforcement duties.
 3. Regeneration cycle (`kanban regenerate`) stays the blessed way to rebuild `kanban.md`; UI provides a one-click affordance that shells out to this command.
@@ -56,4 +63,6 @@ Define expectations for an ECS-powered kanban experience so delivery teams can d
 - Share draft with: Platform DX (CLI owners), Board Ops/Agents, Product stakeholders for ECS initiative.
 - Required approvals: `[ ]` Product, `[ ]` Engineering, `[ ]` Operations.
 - Record sign-off decisions back in the linked kanban task before implementation begins.
+
+
 

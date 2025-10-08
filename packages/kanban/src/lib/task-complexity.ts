@@ -1,15 +1,13 @@
-import * as path from "path";
-import { promises as fs } from "fs";
-import {
-  loadBoard,
-  readTasksFolder,
-  type Task,
-  type Board
-} from "@promethean/kanban";
+import { promises as fs } from "node:fs";
+import { readTasksFolder } from "./kanban.js";
+import type { Task } from "./types.js";
 import { ollamaJSON, createLogger } from "@promethean/utils";
 import { z } from "zod";
 
 const logger = createLogger({ service: "task-complexity-estimator" });
+
+const formatError = (error: unknown): string =>
+  error instanceof Error ? error.stack ?? error.message : String(error);
 
 /**
  * Task complexity factors to consider
@@ -76,7 +74,7 @@ const ComplexitySchema = z.object({
 /**
  * Analyze task content and title to estimate complexity factors
  */
-function analyzeTaskContent(task: Task): Partial<ComplexityFactors> {
+function analyzeTaskContent(task: Task): ComplexityFactors {
   const title = task.title.toLowerCase();
   const content = (task.content || '').toLowerCase();
   const labels = task.labels || [];
@@ -229,42 +227,53 @@ async function estimateTaskComplexity(
 
   try {
     const prompt = generateComplexityEstimationPrompt(task);
-    const llmResult = await ollamaJSON(model, prompt, ComplexitySchema);
+    const llmResult = await ollamaJSON(model, prompt);
+
+    // Type guard to ensure LLM result matches expected schema
+    if (!ComplexitySchema.safeParse(llmResult).success) {
+      throw new Error('LLM result does not match expected schema');
+    }
+
+    // Type assertion after validation
+    const validatedResult = llmResult as z.infer<typeof ComplexitySchema>;
 
     // Merge LLM analysis with base analysis
     const factors: ComplexityFactors = {
-      locImpact: llmResult.locImpact || baseAnalysis.locImpact || 20,
-      fileCount: llmResult.fileCount || baseAnalysis.fileCount || 1,
-      technicalComplexity: llmResult.technicalComplexity || baseAnalysis.technicalComplexity || 2,
-      researchComplexity: llmResult.researchComplexity || baseAnalysis.researchComplexity || 2,
-      testingComplexity: llmResult.testingComplexity || baseAnalysis.testingComplexity || 2,
-      integrationComplexity: llmResult.integrationComplexity || baseAnalysis.integrationComplexity || 2,
-      estimatedHours: llmResult.estimatedHours || baseAnalysis.estimatedHours || 1,
-      requiresHumanJudgment: llmResult.requiresHumanJudgment ?? baseAnalysis.requiresHumanJudgment ?? false,
-      hasClearAcceptanceCriteria: llmResult.hasClearAcceptanceCriteria ?? baseAnalysis.hasClearAcceptanceCriteria ?? true,
-      hasExternalDependencies: llmResult.hasExternalDependencies ?? baseAnalysis.hasExternalDependencies ?? false
+      locImpact: validatedResult.locImpact || baseAnalysis.locImpact || 20,
+      fileCount: validatedResult.fileCount || baseAnalysis.fileCount || 1,
+      technicalComplexity: validatedResult.technicalComplexity || baseAnalysis.technicalComplexity || 2,
+      researchComplexity: validatedResult.researchComplexity || baseAnalysis.researchComplexity || 2,
+      testingComplexity: validatedResult.testingComplexity || baseAnalysis.testingComplexity || 2,
+      integrationComplexity: validatedResult.integrationComplexity || baseAnalysis.integrationComplexity || 2,
+      estimatedHours: validatedResult.estimatedHours || baseAnalysis.estimatedHours || 1,
+      requiresHumanJudgment: validatedResult.requiresHumanJudgment ?? baseAnalysis.requiresHumanJudgment ?? false,
+      hasClearAcceptanceCriteria: validatedResult.hasClearAcceptanceCriteria ?? baseAnalysis.hasClearAcceptanceCriteria ?? true,
+      hasExternalDependencies: validatedResult.hasExternalDependencies ?? baseAnalysis.hasExternalDependencies ?? false
     };
 
     return {
       taskId: task.uuid,
       taskTitle: task.title,
       factors,
-      overallScore: llmResult.overallScore,
-      complexityLevel: llmResult.complexityLevel,
-      suitableForLocalModel: llmResult.suitableForLocalModel,
-      recommendedModel: llmResult.recommendedModel,
-      reasoning: llmResult.reasoning,
-      breakdownSteps: llmResult.breakdownSteps,
-      estimatedTokens: llmResult.estimatedTokens
+      overallScore: validatedResult.overallScore,
+      complexityLevel: validatedResult.complexityLevel,
+      suitableForLocalModel: validatedResult.suitableForLocalModel,
+      recommendedModel: validatedResult.recommendedModel,
+      reasoning: validatedResult.reasoning,
+      breakdownSteps: validatedResult.breakdownSteps,
+      estimatedTokens: validatedResult.estimatedTokens
     };
 
   } catch (error) {
-    logger.warn(`LLM complexity estimation failed for ${task.title}, using fallback analysis:`, error);
+    logger.warn(
+      `LLM complexity estimation failed for ${task.title}, using fallback analysis:`,
+      { error: formatError(error) }
+    );
 
     // Fallback to rule-based estimation
     const overallScore = Math.min(10, Math.max(1,
-      (baseAnalysis.technicalComplexity + baseAnalysis.integrationComplexity +
-       baseAnalysis.researchComplexity) * 1.5
+      (baseAnalysis.technicalComplexity || 2 + baseAnalysis.integrationComplexity || 2 +
+       baseAnalysis.researchComplexity || 2) * 1.5
     ));
 
     const complexityLevel = overallScore <= 3 ? 'simple' :
@@ -274,7 +283,7 @@ async function estimateTaskComplexity(
     return {
       taskId: task.uuid,
       taskTitle: task.title,
-      factors: baseAnalysis as ComplexityFactors,
+      factors: baseAnalysis,
       overallScore,
       complexityLevel,
       suitableForLocalModel: overallScore <= 6,
@@ -308,9 +317,14 @@ export async function estimateBatchComplexity(
   logger.info(`Starting batch complexity estimation for status: ${statusFilter}`);
 
   const tasks = await readTasksFolder(tasksDir);
-  const filteredTasks = tasks.filter(task => {
+  const filteredTasks = tasks.filter((task: Task) => {
     if (task.status !== statusFilter) return false;
-    if (priorityFilter && task.priority?.toLowerCase() !== priorityFilter.toLowerCase()) return false;
+    if (priorityFilter) {
+      const taskPriority = String(task.priority ?? "").toLowerCase();
+      if (taskPriority !== priorityFilter.toLowerCase()) {
+        return false;
+      }
+    }
     return true;
   }).slice(0, maxTasks);
 
@@ -322,7 +336,10 @@ export async function estimateBatchComplexity(
       const estimate = await estimateTaskComplexity(task, model);
       estimates.push(estimate);
     } catch (error) {
-      logger.error(`Failed to estimate complexity for task ${task.uuid}:`, error);
+      logger.error(`Failed to estimate complexity for task ${task.uuid}:`, {
+        error: formatError(error),
+        taskId: task.uuid,
+      });
     }
   }
 
@@ -374,6 +391,8 @@ export async function saveComplexityEstimates(
   logger.info(`Complexity estimates saved to: ${outputPath}`);
 }
 
+// CLI interface - disabled for now
+/*
 if (import.meta.main) {
   // CLI usage
   const tasksDir = process.argv[2] || 'docs/agile/tasks';
@@ -386,3 +405,4 @@ if (import.meta.main) {
       process.exit(1);
     });
 }
+*/

@@ -323,3 +323,15 @@ function attachClassicVoiceSessionListeners(bot: Bot, agent: AIAgent) {
     speakingEnd: onSpeakingEnd,
   };
 }
+
+async function runClassicStartDialog({ bot }: StartDialogInput): Promise<StartDialogOutput> {
+  if (!bot.currentVoiceSession) return { started: false };
+  if (!bot.legacyAgent) {
+    bot.legacyAgent = new AIAgent({ bot, context: bot.context });
+  }
+  const agent = bot.legacyAgent;
+  if (agent.state !== 'running') {
+    await agent.start();
+  }
+  return { started: true };
+}

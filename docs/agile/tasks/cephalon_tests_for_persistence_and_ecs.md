@@ -1,11 +1,18 @@
 ---
-uuid: a9ea7854-0c6f-46e8-9230-1055795a1a23
-title: cephalon tests for persistence and ecs
-status: todo
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.509Z'
+uuid: "a9ea7854-0c6f-46e8-9230-1055795a1a23"
+title: "cephalon tests for persistence and ecs"
+slug: "cephalon_tests_for_persistence_and_ecs"
+status: ready
+priority: "P3"
+labels: ["tests", "persistence", "ecs", "agent"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 Cephalon: Tests for persistence and ECS flow
 
 Goal: Add tests to ensure transcripts and agent messages are stored during ECS-driven conversations.
@@ -20,4 +27,7 @@ Exit Criteria:
 - Tests pass and fail if persistence calls are removed.
 
 #incoming #cephalon #tests #persistence #ecs
+
+Notes:
+- Persistence verification is the next backlog slice; start these tests once feature delivery pauses so regressions are caught early.
 

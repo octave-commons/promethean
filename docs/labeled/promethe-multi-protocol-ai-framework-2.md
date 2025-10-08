@@ -1,9 +1,15 @@
 ---
+```
 uuid: dbdc9519-c62e-4ced-940e-ca3cd1418a74
+```
+```
 created_at: '2025-09-18T15:33:30Z'
+```
 title: 2025.09.18.15.33.30
 filename: 'Promethe: Multi-Protocol AI Framework'
+```
 description: >-
+```
   Promethean is a modular AI framework with specialized tools for web crawling,
   search, multi-agent chat, and CLI operations. It uses culturally inspired
   names for its components to reflect their purpose and philosophy. The
@@ -18,8 +24,12 @@ tags:
   - semantic search
   - modular design
   - cultural naming
+```
 related_to_uuid: []
+```
+```
 related_to_title: []
+```
 references: []
 ---
 # Brainstorming packages
@@ -69,7 +79,9 @@ A high level interface to every tool in the promethean framework
 - tsukumo
 - serve
 - omni-mcp
+```
 -
+```
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
 - _None_

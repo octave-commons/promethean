@@ -1,11 +1,18 @@
 ---
-uuid: 95a6c317-d9f6-4574-b2bf-80fdf56cb8f1
-title: audio processing service
-status: todo
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.507Z'
+uuid: "95a6c317-d9f6-4574-b2bf-80fdf56cb8f1"
+title: "audio processing service"
+slug: "audio-processing-service"
+status: "rejected"
+priority: "P3"
+labels: ["audio", "service", "processing", "agents"]
+created_at: "2025-10-07T20:25:05.645Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Description
 
 Isolate audio manipulation (e.g., encoding, normalization, filtering) into a dedicated stateless service rather than embedding logic in agents or providers.
@@ -42,9 +49,9 @@ Isolate audio manipulation (e.g., encoding, normalization, filtering) into a ded
 ---
 
 ## 🔗 Related Epics
-
+```
 #framework-core
-
+```
 ---
 
 ## ⛓️ Blocked By
@@ -60,8 +67,11 @@ Nothing
 ## 🔍 Relevant Links
 
 - [[kanban]]
-
+```
 #framework-core #Ready
+```
 #ready
+
+
 
 

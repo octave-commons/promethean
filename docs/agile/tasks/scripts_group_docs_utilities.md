@@ -1,12 +1,18 @@
 ---
-uuid: a84c4e37-311f-4991-abe3-473fa1ee869a
-title: scripts group docs utilities
-status: todo
-priority: P3
-labels:
-  - stabilization
-created_at: 2025-09-15T02:02:58.519Z
+uuid: "a84c4e37-311f-4991-abe3-473fa1ee869a"
+title: "scripts group docs utilities"
+slug: "scripts_group_docs_utilities"
+status: "incoming"
+priority: "P3"
+labels: ["stabilization"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 Scripts: Group documentation utilities under scripts/docs
 
 Goal: Move all documentation-maintenance utilities into `scripts/docs/` with a README and stable usage.
@@ -27,5 +33,7 @@ Exit Criteria:
 - README exists with usage and env notes.
 
 #incoming #scripts #docs #organization
+
+
 
 

@@ -1,13 +1,18 @@
 ---
-uuid: 90d0e75e-0f56-4e0e-b470-20e0145ad43d
-title: Omni unified service specification and planning
-status: in_progress
-priority: P1
-labels:
-  - omni
-  - planning
-created_at: '2025-09-21T02:40:00Z'
+uuid: "90d0e75e-0f56-4e0e-b470-20e0145ad43d"
+title: "Omni unified service specification and planning"
+slug: "omni-unified-service-spec"
+status: "breakdown"
+priority: "P1"
+labels: ["omni", "planning"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🧭 Context
 - **What changed?**: Leadership requested a unified Omni server that fronts REST, GraphQL, WebSocket, and MCP interfaces from a single Fastify host on one domain/port.
 - **Where?**: Impacts `@promethean/smartgpt-bridge`, the new `@promethean/mcp` package, and forthcoming Omni packages/services.
@@ -26,16 +31,18 @@ created_at: '2025-09-21T02:40:00Z'
 ## 🛣 Plan
 1. Draft Omni protocol and service specification document (scope, interfaces, shared contracts, constraints).
 2. Author implementation roadmap with phase gates, dependencies, and test strategy.
-3. Derive concrete tasks (≤5 points) for near-term execution; ensure they reference the spec and align with agile FSM.
+3. Derive concrete tasks ≤5 points for near-term execution; ensure they reference the spec and align with agile FSM.
 4. Link artifacts and update kanban metadata for tracking.
 
 ## 🔗 Dependencies
 - None (planning slice).
 
 ## 📎 Related Notes
-- [[docs/architecture/omni/omni-protocol-spec.md]] *(to be created)*
-- [[docs/architecture/omni/omni-service-roadmap.md]] *(to be created)*
+- [docs/architecture/omni/omni-protocol-spec.md] *(to be created)*
+- [docs/architecture/omni/omni-service-roadmap.md] *(to be created)*
 
 ## 🧪 Validation Strategy
 - Peer review of spec documents.
 - Kanban board reflects new tasks in appropriate column once synced.
+
+

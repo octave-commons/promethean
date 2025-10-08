@@ -1,9 +1,13 @@
 ---
+```
 uuid: 05fd2fb6-6154-46ac-9a08-5793eb94a6dc
+```
 created_at: promethean-pipelines-local-typescript-first-workflow.md
 filename: 'Promethean Pipelines: Local TypeScript-First Workflows'
 title: 'Promethean Pipelines: Local TypeScript-First Workflows'
+```
 description: >-
+```
   A set of reusable, zero-SaaS pipelines for generating documentation graphs,
   OpenAPI specs, RAG indexes, and code health checks using local TypeScript
   workflows. Each pipeline is designed to be composable and runs in a
@@ -19,7 +23,9 @@ tags:
   - symdocs
   - qdrant
   - dependency-cruiser
+```
 related_to_uuid:
+```
   - 6b91d91d-6b5c-4516-a0c8-d66d9b9fcc9b
   - d28090ac-f746-4958-aab5-ed1315382c04
   - 49a9a860-944c-467a-b532-4f99186a8593
@@ -45,7 +51,9 @@ related_to_uuid:
   - 5f210ca2-54e9-445b-afe4-fb340d4992c5
   - bc5172ca-7a09-42ad-b418-8e42bb14d089
   - e811123d-5841-4e52-bf8c-978f26db4230
+```
 related_to_title:
+```
   - AGENTS.md
   - i3-config-validation-methods
   - Self-Agency in AI Interaction
@@ -340,11 +348,19 @@ pipelines:
         inputs: ["manifests/*.json"]
         outputs: [".cache/mcp/smoke.log"]
 ```
+```
 ^ref-fda3b0d4-3-0
+```
+```
 ^ref-6b63edca-3-0
- ^ref-6b63edca-217-0
+```
+```
+^ref-6b63edca-217-0
+```
 Here’s a quick mental model of how they relate:
- ^ref-6b63edca-219-0
+```
+^ref-6b63edca-219-0
+```
 ```mermaid
 flowchart LR
   subgraph Docs
@@ -379,54 +395,76 @@ flowchart LR
   end
 ^ref-6b63edca-219-0
 ^ref-fda3b0d4-220-0
-``` ^ref-6b63edca-253-0
+``````
+^ref-6b63edca-253-0
+```
+```
 ^ref-6b63edca-220-0
-
-If you want, I can scaffold any of these (scripts + pnpm targets) and slot them into your repo layout exactly where you prefer (`tools/*`, `images/*`, `docs/*`, `packages/*`).
+```
+If you want, I can scaffold any of these scripts + pnpm targets and slot them into your repo layout exactly where you prefer `tools/*`, `images/*`, `docs/*`, `packages/*`.
+```
 r","bake.hcl","../packages/**"]
-        outputs: [".cache/images/build.ok"]
+```
+        outputs: ".cache/images/build.ok"
       - id: sbom
         deps: ["buildx"]
         cwd: images
         shell: "syft packages:local -o json > ../docs/sbom.json"
         inputs: []
-        outputs: ["../docs/sbom.json"]
+```
+outputs: ["../docs/sbom.json"]
+```
       - id: scan
         deps: ["sbom"]
         cwd: images
         shell: "grype sbom:../docs/sbom.json -o json > ../docs/vulns.json || true"
-        inputs: ["../docs/sbom.json"]
-        outputs: ["../docs/vulns.json"]
-
-  # 11) Board sync (Obsidian/GitHub raw → normalized tasks)
+```
+inputs: ["../docs/sbom.json"]
+```
+```
+outputs: ["../docs/vulns.json"]
+```
+  # 11) Board sync Obsidian/GitHub raw → normalized tasks
   - name: board-sync
     steps:
       - id: fetch-kanban
         cwd: packages/kanban/src/board
         shell: "pnpm tsx fetch-kanban.ts --url  --out .cache/board/kanban.md"
         inputs: []
-        outputs: [".cache/board/kanban.md"]
+        outputs: ".cache/board/kanban.md"
       - id: normalize
-        deps: ["fetch-kanban"]
+```
+deps: ["fetch-kanban"]
+```
         cwd: packages/kanban/src/board
         shell: "pnpm tsx normalize-kanban.ts .cache/board/kanban.md --out .cache/board/normalized.json"
-        inputs: [".cache/board/kanban.md"]
-        outputs: [".cache/board/normalized.json"]
+        inputs: ".cache/board/kanban.md"
+        outputs: ".cache/board/normalized.json"
 
   # 12) MCP tool registry checks
   - name: mcp-tools
     steps:
       - id: manifest-validate
-        cwd: tools/mcp
+```
+cwd: tools/mcp
+```
         shell: "pnpm tsx validate-tooling.ts ./tools/mcp/manifests --out .cache/mcp/validation.json"
-        inputs: ["manifests/**/*.json"]
-        outputs: [".cache/mcp/validation.json"]
+```
+inputs: ["manifests/**/*.json"]
+```
+        outputs: ".cache/mcp/validation.json"
       - id: smoke-connect
-        deps: ["manifest-validate"]
-        cwd: tools/mcp
+```
+deps: ["manifest-validate"]
+```
+```
+cwd: tools/mcp
+```
         shell: "pnpm tsx smoke.ts --manifest manifests/*.json --out .cache/mcp/smoke.log"
-        inputs: ["manifests/*.json"]
-        outputs: [".cache/mcp/smoke.log"]
+```
+inputs: ["manifests/*.json"]
+```
+        outputs: ".cache/mcp/smoke.log"
 ```
 ^ref-6b63edca-3-0
  ^ref-6b63edca-217-0
@@ -435,79 +473,104 @@ Here’s a quick mental model of how they relate:
 ```mermaid
 flowchart LR
   subgraph Docs
-    A[symdocs-scan] --> B[symdocs-docs] --> C[symdocs-graph]
+    Asymdocs-scan --> Bsymdocs-docs --> Csymdocs-graph
   end
 
   subgraph API
-    D[openapi-gen] --> E[openapi-clients]
-    D --> F[openapi-site]
+```
+D[openapi-gen] --> E[openapi-clients]
+```
+```
+D --> F[openapi-site]
+```
   end
 
   subgraph Knowledge
-    G[frontmatter-fill] --> H[chunk] --> I[embed->qdrant]
-    J[crawl] --> K[html->md] --> I
+    Gfrontmatter-fill --> H[chunk] --> Iembed->qdrant
+```
+J[crawl] --> K[html->md] --> I
+```
   end
 
   subgraph Code
-    L[typecheck] --> M[eslint] --> N[dep-graph]
-    M --> O[dead-exports]
-    P[codemods-preview] --> Q[codemods-apply]
+```
+L[typecheck] --> M[eslint] --> N[dep-graph]
+```
+```
+M --> O[dead-exports]
+```
+```
+P[codemods-preview] --> Q[codemods-apply]
+```
   end
 
   subgraph Media
-    R[segment] --> S[whisper.cpp]
+```
+R[segment] --> S[whisper.cpp]
+```
   end
 
   subgraph Ops
-    T[changelog] --> U[release-notes]
-    V[buildx] --> W[sbom] --> X[scan]
-    Y[board-fetch] --> Z[normalize]
-    AA[mcp-validate] --> AB[mcp-smoke]
+```
+T[changelog] --> U[release-notes]
+```
+```
+V[buildx] --> W[sbom] --> X[scan]
+```
+```
+Y[board-fetch] --> Z[normalize]
+```
+    AAmcp-validate --> ABmcp-smoke
   end
+```
 ^ref-6b63edca-219-0
+```
+```
 ``` ^ref-6b63edca-253-0
+```
+```
 ^ref-6b63edca-220-0
-
-If you want, I can scaffold any of these (scripts + pnpm targets) and slot them into your repo layout exactly where you prefer (`tools/*`, `images/*`, `docs/*`, `packages/*`).
+```
+If you want, I can scaffold any of these scripts + pnpm targets and slot them into your repo layout exactly where you prefer `tools/*`, `images/*`, `docs/*`, `packages/*`.
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [AGENTS.md](agents-md-3.md)
-- [i3-config-validation-methods](i3-config-validation-methods.md)
-- [Self-Agency in AI Interaction](self-agency-in-ai-interaction.md)
-- [Prompt_Folder_Bootstrap](prompt-folder-bootstrap.md)
-- [homeostasis-decay-formulas](homeostasis-decay-formulas.md)
-- [Pure TypeScript Search Microservice](pure-typescript-search-microservice.md)
-- [Migrate to Provider-Tenant Architecture](migrate-to-provider-tenant-architecture.md)
-- [Duck's Self-Referential Perceptual Loop](ducks-self-referential-perceptual-loop.md)
-- [Eidolon Field Abstract Model](eidolon-field-abstract-model.md)
-- [ecs-offload-workers](ecs-offload-workers.md)
+- [AGENTS.md]agents-md-3.md
+- i3-config-validation-methods$i3-config-validation-methods.md
+- Self-Agency in AI Interaction$self-agency-in-ai-interaction.md
+- Prompt_Folder_Bootstrap$prompt-folder-bootstrap.md
+- homeostasis-decay-formulas$homeostasis-decay-formulas.md
+- [Pure TypeScript Search Microservice]pure-typescript-search-microservice.md
+- Migrate to Provider-Tenant Architecture$migrate-to-provider-tenant-architecture.md
+- Duck's Self-Referential Perceptual Loop$ducks-self-referential-perceptual-loop.md
+- [Eidolon Field Abstract Model]eidolon-field-abstract-model.md
+- ecs-offload-workers$ecs-offload-workers.md
 - [SentenceProcessing](sentenceprocessing.md)
-- [compiler-kit-foundations](compiler-kit-foundations.md)
-- [Voice Access Layer Design](voice-access-layer-design.md)
-- [heartbeat-simulation-snippets](heartbeat-simulation-snippets.md)
-- [Refactor Frontmatter Processing](refactor-frontmatter-processing.md)
-- [file-watcher-auth-fix](file-watcher-auth-fix.md)
-- [Eidolon-Field-Optimization](eidolon-field-optimization.md)
-- [promethean-system-diagrams](promethean-system-diagrams.md)
-- [Promethean Agent DSL TS Scaffold](promethean-agent-dsl-ts-scaffold.md)
+- compiler-kit-foundations$compiler-kit-foundations.md
+- [Voice Access Layer Design]voice-access-layer-design.md
+- heartbeat-simulation-snippets$heartbeat-simulation-snippets.md
+- [Refactor Frontmatter Processing]refactor-frontmatter-processing.md
+- file-watcher-auth-fix$file-watcher-auth-fix.md
+- Eidolon-Field-Optimization$eidolon-field-optimization.md
+- promethean-system-diagrams$promethean-system-diagrams.md
+- [Promethean Agent DSL TS Scaffold]promethean-agent-dsl-ts-scaffold.md
 - [EidolonField](eidolonfield.md)
-- [Promethean Full-Stack Docker Setup](promethean-full-stack-docker-setup.md)
-- [Polyglot S-expr Bridge: Python-JS-Lisp Interop](polyglot-s-expr-bridge-python-js-lisp-interop.md)
-- [Cross-Target Macro System in Sibilant](cross-target-macro-system-in-sibilant.md)
-- [prom ui bootstrap](promethean-web-ui-setup.md)
-- [WebSocket Gateway Implementation](websocket-gateway-implementation.md)
+- Promethean Full-Stack Docker Setup$promethean-full-stack-docker-setup.md
+- Polyglot S-expr Bridge: Python-JS-Lisp Interop$polyglot-s-expr-bridge-python-js-lisp-interop.md
+- Cross-Target Macro System in Sibilant$cross-target-macro-system-in-sibilant.md
+- [prom ui bootstrap]promethean-web-ui-setup.md
+- [WebSocket Gateway Implementation]websocket-gateway-implementation.md
 ## Sources
-- [i3-config-validation-methods — L28](i3-config-validation-methods.md#^ref-d28090ac-28-0) (line 28, col 0, score 0.89)
-- [homeostasis-decay-formulas — L2586](homeostasis-decay-formulas.md#^ref-37b5d236-2586-0) (line 2586, col 0, score 0.88)
-- [Prompt_Folder_Bootstrap — L1863](prompt-folder-bootstrap.md#^ref-bd4f0976-1863-0) (line 1863, col 0, score 0.88)
-- [Self-Agency in AI Interaction — L2228](self-agency-in-ai-interaction.md#^ref-49a9a860-2228-0) (line 2228, col 0, score 0.88)
-- [Migrate to Provider-Tenant Architecture — L6907](migrate-to-provider-tenant-architecture.md#^ref-54382370-6907-0) (line 6907, col 0, score 0.88)
-- [Pure TypeScript Search Microservice — L4849](pure-typescript-search-microservice.md#^ref-d17d3a96-4849-0) (line 4849, col 0, score 0.88)
-- [Duck's Self-Referential Perceptual Loop — L1600](ducks-self-referential-perceptual-loop.md#^ref-71726f04-1600-0) (line 1600, col 0, score 0.88)
-- [Eidolon Field Abstract Model — L3582](eidolon-field-abstract-model.md#^ref-5e8b2388-3582-0) (line 3582, col 0, score 0.88)
-- [SentenceProcessing — L30](sentenceprocessing.md#^ref-681a4ab2-30-0) (line 30, col 0, score 0.87)
-- [ecs-offload-workers — L427](ecs-offload-workers.md#^ref-6498b9d7-427-0) (line 427, col 0, score 0.87)
-- [Voice Access Layer Design — L280](voice-access-layer-design.md#^ref-543ed9b3-280-0) (line 280, col 0, score 0.86)
-- [compiler-kit-foundations — L590](compiler-kit-foundations.md#^ref-01b21543-590-0) (line 590, col 0, score 0.86)
-- [heartbeat-simulation-snippets — L84](heartbeat-simulation-snippets.md#^ref-23e221e9-84-0) (line 84, col 0, score 0.85)
+- i3-config-validation-methods — L28$i3-config-validation-methods.md#^ref-d28090ac-28-0 (line 28, col 0, score 0.89)
+- homeostasis-decay-formulas — L2586$homeostasis-decay-formulas.md#^ref-37b5d236-2586-0 (line 2586, col 0, score 0.88)
+- Prompt_Folder_Bootstrap — L1863$prompt-folder-bootstrap.md#^ref-bd4f0976-1863-0 (line 1863, col 0, score 0.88)
+- Self-Agency in AI Interaction — L2228$self-agency-in-ai-interaction.md#^ref-49a9a860-2228-0 (line 2228, col 0, score 0.88)
+- Migrate to Provider-Tenant Architecture — L6907$migrate-to-provider-tenant-architecture.md#^ref-54382370-6907-0 (line 6907, col 0, score 0.88)
+- [Pure TypeScript Search Microservice — L4849]pure-typescript-search-microservice.md#^ref-d17d3a96-4849-0 (line 4849, col 0, score 0.88)
+- Duck's Self-Referential Perceptual Loop — L1600$ducks-self-referential-perceptual-loop.md#^ref-71726f04-1600-0 (line 1600, col 0, score 0.88)
+- [Eidolon Field Abstract Model — L3582]eidolon-field-abstract-model.md#^ref-5e8b2388-3582-0 (line 3582, col 0, score 0.88)
+- [SentenceProcessing — L30]sentenceprocessing.md#^ref-681a4ab2-30-0 (line 30, col 0, score 0.87)
+- ecs-offload-workers — L427$ecs-offload-workers.md#^ref-6498b9d7-427-0 (line 427, col 0, score 0.87)
+- [Voice Access Layer Design — L280]voice-access-layer-design.md#^ref-543ed9b3-280-0 (line 280, col 0, score 0.86)
+- compiler-kit-foundations — L590$compiler-kit-foundations.md#^ref-01b21543-590-0 (line 590, col 0, score 0.86)
+- heartbeat-simulation-snippets — L84$heartbeat-simulation-snippets.md#^ref-23e221e9-84-0 (line 84, col 0, score 0.85)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

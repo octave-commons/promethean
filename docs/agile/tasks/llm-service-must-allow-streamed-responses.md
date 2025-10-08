@@ -1,11 +1,18 @@
 ---
-uuid: e1591a4b-1a4f-48c9-ab6a-01fe11c524f3
-title: llm service must allow streamed responses
-status: todo
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.516Z'
+uuid: "e1591a4b-1a4f-48c9-ab6a-01fe11c524f3"
+title: "llm service must allow streamed responses"
+slug: "llm-service-must-allow-streamed-responses"
+status: "done"
+priority: "P3"
+labels: ["llm", "service", "streamed", "responses"]
+created_at: "2025-10-07T20:25:05.644Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 ## 🛠️ Description
 
 Describe your task
@@ -39,4 +46,6 @@ Useful for agents to engage in append only conversations about this task.
 - Assumptions: Underlying LLM and transport layer support streaming responses.
 - Dependencies: Streaming protocol implementation and client compatibility.
 #ready
+
+
 

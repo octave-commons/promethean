@@ -1,11 +1,18 @@
 ---
-uuid: 46d394da-ae41-44a8-8bea-47030a15802c
-title: auth migrate services to jwt
-status: todo
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.508Z'
+uuid: "46d394da-ae41-44a8-8bea-47030a15802c"
+title: "auth migrate services to jwt"
+slug: "auth_migrate_services_to_jwt"
+status: "incoming"
+priority: "P3"
+labels: ["jwt", "auth", "migrate", "services"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 Auth: Migrate services to JWT-based auth
 
 Goal: Replace ad hoc/static tokens with OAuth2 client_credentials + JWT across internal HTTP endpoints.
@@ -22,5 +29,7 @@ Exit Criteria:
 - Docs updated to remove static token guidance.
 
 #incoming #auth #migration #services
+
+
 
 

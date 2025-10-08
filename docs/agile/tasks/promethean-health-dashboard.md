@@ -1,18 +1,25 @@
 ---
-uuid: 04735a0b-d4d9-4880-8702-d64e0eb2ac02
-title: "\U0001F6E0️ Description"
-status: todo
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.518Z'
+uuid: "04735a0b-d4d9-4880-8702-d64e0eb2ac02"
+title: "🛠️ Description"
+slug: "promethean-health-dashboard"
+status: "icebox"
+priority: "P3"
+labels: ["description", "dashboard", "field", "latency"]
+created_at: "2025-10-07T20:25:05.643Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 # 🛠️ Description
 
 Build a **real‑time system dashboard** that gives an at‑a‑glance view of Promethean’s state:
 
-* **Health metrics** per service (CPU, mem, NPU/GPU, net I/O, uptime, heartbeat status)
-* **Eidolon field visualizations** (live/paused, scalar & vector field views, probes)
-* **Broker message graph** (services/agents as nodes, topics/queues as edges; volume, latency)
+* **Health metrics** per service CPU, mem, NPU/GPU, net I/O, uptime, heartbeat status
+* **Eidolon field visualizations** live/paused, scalar & vector field views, probes
+* **Broker message graph** services/agents as nodes, topics/queues as edges; volume, latency
 
 The dashboard must be low‑latency, drill‑down friendly, and safe for on‑stream viewing with redaction modes.
 
@@ -23,7 +30,7 @@ The dashboard must be low‑latency, drill‑down friendly, and safe for on‑st
 * Single pane of glass for **status, performance, and cognition**.
 * Interactive **visual diagnostics** for Eidolon fields.
 * Real‑time **message‑passing graph** to spot bottlenecks and dead letters.
-* Clear **alerts** and **SLO** views (healthy / degraded / failing) with drill‑downs.
+* Clear **alerts** and **SLO** views healthy / degraded / failing with drill‑downs.
 
 ---
 
@@ -31,9 +38,9 @@ The dashboard must be low‑latency, drill‑down friendly, and safe for on‑st
 
 * [ ] **Data collection**
 
-  * Pull from Heartbeat service (liveness, CPU/mem/net/NPU/GPU).
-  * Subscribe to broker events (publish/consume, queue depth, latency, error counts).
-  * Eidolon field snapshots/streams (downsampled vector/scalar tiles).
+  * Pull from Heartbeat service liveness, CPU/mem/net/NPU/GPU.
+  * Subscribe to broker events publish/consume, queue depth, latency, error counts.
+  * Eidolon field snapshots/streams downsampled vector/scalar tiles.
 * [ ] **Transport**
 
   * WebSocket channels for push updates (metrics, broker events, field frames).
@@ -41,10 +48,10 @@ The dashboard must be low‑latency, drill‑down friendly, and safe for on‑st
 * [ ] **UI/UX**
 
   * Cards for per‑service health; sparkline trends; quick filter/search.
-  * Broker **graph view** (force‑directed / dagre) with edge thickness by throughput, color by error rate.
+  * Broker **graph view** force‑directed / dagre with edge thickness by throughput, color by error rate.
   * Eidolon **field viz**: toggle scalar heatmap vs vector quiver/flow; pause, step, record GIF/MP4.
   * Global status bar with SLO indicators; alert drawer with acknowledge/assign.
-  * Redaction mode (hide secrets/paths/IDs; show aggregates only).
+  * Redaction mode hide secrets/paths/IDs; show aggregates only.
 * [ ] **Controls**
 
   * Time window (live, 1m, 5m, 15m) and playback scrubber.
@@ -52,7 +59,7 @@ The dashboard must be low‑latency, drill‑down friendly, and safe for on‑st
   * Broker filters (by topic, service, severity, error type).
 * [ ] **Persistence & History**
 
-  * Optional metrics store (Prometheus/OpenTelemetry/Timeseries) for trends & SLOs.
+  * Optional metrics store Prometheus/OpenTelemetry/Timeseries for trends & SLOs.
   * Event archive for incident review.
 * [ ] **Security**
 
@@ -77,14 +84,14 @@ The dashboard must be low‑latency, drill‑down friendly, and safe for on‑st
 
 # 📋 Subtasks
 
-* [ ] **Back‑end gateway** (Node/TS): unify heartbeat, broker, and eidolon feeds → WS topics.
+* [ ] **Back‑end gateway** Node/TS: unify heartbeat, broker, and eidolon feeds → WS topics.
 * [ ] **Metrics adapters**: heartbeat → metrics DTO; broker → graph events; eidolon → frame tiles.
 * [ ] **Schema**: define WS message types and versioning.
 * [ ] **Front‑end shell** (React, Tailwind, shadcn): layout, theming (dark‑first), auth gate.
 * [ ] **Health cards** + service table with sorting, filters, sparklines.
-* [ ] **Broker graph** (force simulation; zoom/pan; edge bundling; tooltips; filters).
-* [ ] **Eidolon viz** (WebGL/Canvas): scalar heatmap + vector field; controls.
-* [ ] **Alerts system** (thresholds, rules, acknowledge/assign; toast + drawer).
+* [ ] **Broker graph** force simulation; zoom/pan; edge bundling; tooltips; filters.
+* [ ] **Eidolon viz** WebGL/Canvas: scalar heatmap + vector field; controls.
+* [ ] **Alerts system** thresholds, rules, acknowledge/assign; toast + drawer.
 * [ ] **Redaction layer** + role‑based routes.
 * [ ] **Timeseries storage** (optional, feature‑flagged) + SLO pages.
 * [ ] **E2E hook** to open logs/links in existing ops tools.
@@ -177,7 +184,7 @@ flowchart LR
 
 # 🔒 Security & Access
 
-* Roles: `viewer` (redacted), `operator` (full metrics), `admin` (config/alerts).
+* Roles: `viewer` (redacted), `operator` (full metrics), `admin` config/alerts.
 * Signed URLs for frame tiles; CORS allowlist.
 * No raw PII; redact paths/IDs; configurable data retention.
 
@@ -225,4 +232,6 @@ tags: #framework-core #observability #eidolon-visualization #dashboard #broker #
 - Story Points: 8
 
 #ready
+
+
 

@@ -1,9 +1,15 @@
 ---
+```
 uuid: cefb2e51-8f4c-4c94-8d43-e7ceb75bf58e
+```
+```
 created_at: '2025-09-19T21:08:02Z'
+```
 title: 2025.09.19.21.08.02
 filename: Cloud-Session-Process-Enhancements
+```
 description: >-
+```
   Introduces phased execution, session discipline, and auto-split rules to
   ensure cloud sessions produce actionable artifacts without empty updates.
   Focuses on maintaining Kanban purity while integrating cloud-agent realities.
@@ -14,11 +20,15 @@ tags:
   - cloud agents
   - artifact tracking
   - Kanban
+```
 related_to_uuid: []
+```
+```
 related_to_title: []
+```
 references: []
 ---
-perfect—process first, one step at a time. here’s **Step 1: a minimal, surgical update to `process.md`** that bakes in the cloud-agent realities (phases over timeboxes, artifact-every-session, auto-split), without touching the board yet.
+perfect—process first, one step at a time. here’s **Step 1: a minimal, surgical update to `process.md`** that bakes in the cloud-agent realities phases over timeboxes, artifact-every-session, auto-split, without touching the board yet.
 
 I’ve kept this tight and additive so we can discuss/apply safely.
 
@@ -30,7 +40,7 @@ I’ve kept this tight and additive so we can discuss/apply safely.
 
 * **Cloud (Codex Cloud)**
   Must read build reports at `docs/reports/codex_cloud/latest/{INDEX.md,summary.tsv,eslint.json}` before acting; if `latest/` is stale/missing it knows the optional maintenance script that refreshes reports and updates `latest/`. &#x20;
-  (This is only a pointer; operational details stay in `docs/agents/codex-cloud.md`.)
+  This is only a pointer; operational details stay in `docs/agents/codex-cloud.md`.
 
 * **CLI (Codex CLI)**
   Runs with MCP servers and local FS constraints; discovers tools dynamically and adheres to strict scope limits. &#x20;
@@ -41,7 +51,7 @@ I’ve kept this tight and additive so we can discuss/apply safely.
 
 ### ⏱️ Cloud Session Discipline (“no empty sessions”)
 
-Every cloud session MUST append an update to the active task (append-only) even if coding didn’t start. Minimum structure:
+Every cloud session MUST append an update to the active task append-only even if coding didn’t start. Minimum structure:
 
 ```
 ## Session Update — YYYY-MM-DD
@@ -60,14 +70,17 @@ This prevents “empty files / no content” anti-pattern and preserves board au
 ### ♻️ Phased Execution (Cloud) — replaces timeboxing with phases
 
 Map these phases to existing stages in the **Updated Kanban Flow Diagram**.&#x20;
-
+```
 1. **Intake & Associate**
+```
    Find or create the task; never work off-board; do not edit the board file directly—tasks drive the board. &#x20;
-
+```
 2. **Clarify & Scope**
+```
    Collaborate to clarify the request; use *Prompt Refinement* / *Agent Thinking* as needed, then return to Breakdown.&#x20;
-
+```
 3. **Breakdown & Estimate**
+```
    Break into small, testable slices; estimate **complexity, scale, time (in cloud sessions)** and assign a Fibonacci score. If **13+ ⇒ must split**; **≤5 ⇒ eligible to implement**.&#x20;
 
 4. **Ready Gate** *(hard stop before code)*
@@ -75,16 +88,18 @@ Map these phases to existing stages in the **Updated Kanban Flow Diagram**.&#x20
 
    * A matching task is **In Progress** (or you move it there), and WIP rules aren’t violated.&#x20;
    * The slice is scored **≤5** and fits the session after planning; otherwise continue refinement/splitting.&#x20;
-
+```
 5. **Implement Slice**
+```
    Do the smallest cohesive change that can clear gates defined in agent docs (e.g., no new ESLint errors; touched packages build; tests pass).&#x20;
-
+```
 6. **Review → Document**
+```
    Move through *In Review* and *Document* then *Done* per board flow, recording evidence and summaries.&#x20;
 
 ---
 
-### ✂️ Auto-Split Rule (Epics from mega-inputs)
+### ✂️ Auto-Split Rule Epics from mega-inputs
 
 If intake includes a document that implies **multiple new packages or cross-cutting modules**, classify as an **Epic** and immediately split into child tasks before coding. (Example: the ENSO draft enumerates several new packages at once, a clear split signal.) &#x20;
 Scoring guidance: **13+ → split**; **8–13 → prefer split**; **≤5 → implementable**.&#x20;
@@ -95,8 +110,8 @@ Scoring guidance: **13+ → split**; **8–13 → prefer split**; **≤5 → imp
 
 Prefer lightweight artifacts that survive short sessions:
 
-* Task log updates (append-only, structured as above).
-* Tiny design notes (paths under `docs/` with links from the task).
+* Task log updates append-only, structured as above.
+* Tiny design notes paths under `docs/` with links from the task.
 * Checkpoint diffs or stubs (even if WIP, but pointed at in the task).
 * For Cloud, link the latest build-report paths you consulted.&#x20;
 
@@ -144,7 +159,7 @@ This respects your stated flow and stages.&#x20;
 
 * [x] Draft minimal `process.md` additions for Cloud phases + artifact rule
 * [ ] You approve the draft
-* [ ] I integrate these into a clean `process.md` update (append-only) and reflect any knock-on clarifications
+* [ ] I integrate these into a clean `process.md` update append-only and reflect any knock-on clarifications
 * [ ] Then we craft the **immutable** Cloud system prompt that:
 
   * Opens the specialized Codex Cloud doc first and uses the build report folder,
