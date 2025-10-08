@@ -1,15 +1,13 @@
 ---
-uuid: "8b57e951-99d2-4242-a56d-578a3f11cda6"
-title: "Fix Piper pipeline caching regressions"
-slug: "fix-piper-pipeline-caching"
-status: "review"
-priority: "P2"
-labels: ["piper", "pipelines"]
-created_at: "2025-10-07T20:25:05.643Z"
-estimates:
-  complexity: ""
-  scale: ""
-  time_to_completion: ""
+uuid: 8b57e951-99d2-4242-a56d-578a3f11cda6
+title: Fix Piper pipeline caching regressions
+status: in_progress
+priority: P2
+labels:
+  - piper
+  - pipelines
+created_at: '2025-09-28T23:20:35.509916+00:00'
+updated_at: '2025-10-07T05:00:30+00:00'
 ---
 
 
@@ -22,7 +20,7 @@ estimates:
 
 ### Definition of Done
 - [x] Identify the regression preventing cache hits on the second pipeline run.
-- [ ] Add or update automated coverage to guard against the regression.
+- [x] Add or update automated coverage to guard against the regression.
 - [x] Ensure `pnpm test --filter @promethean/piper` passes locally.
 - [x] Document findings and remediation in this task note.
 
@@ -41,6 +39,7 @@ estimates:
 - Persist both content and mtime output hashes for each step so cache mode changes do not invalidate stored fingerprints.
 - `shouldSkip` now compares against hash values keyed by mode, preventing mismatches when switching between content and mtime hashing.
 - Reworked the file-tree dev-ui test to spin up the server lazily and record API calls via `sessionStorage`, eliminating orphaned watchers when filtering test runs.
+- Added an AVA regression test that toggles between mtime/content hash modes to assert caches stay valid across mode switches and invalidate when outputs change.
 - Re-ran the previously failing runner tests and the dev-ui file-tree scenario to confirm caching and watcher behaviour are both green.
 
 

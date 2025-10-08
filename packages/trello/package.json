@@ -1,0 +1,41 @@
+{
+  "name": "@promethean/trello",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Trello integration for Promethean kanban board synchronization",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -b tsconfig.json",
+    "test": "pnpm run build && ava",
+    "dev": "tsc -b tsconfig.json --watch",
+    "clean": "rm -rf dist",
+    "sync:trello": "node dist/cli/sync-kanban-to-trello.js",
+    "sync:trello:dev": "tsx src/cli/sync-kanban-to-trello.ts"
+  },
+  "dependencies": {
+    "@promethean/kanban": "workspace:*",
+    "@promethean/utils": "workspace:*",
+    "dotenv": "^17.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "24.3.1",
+    "ava": "6.4.1",
+    "tsx": "4.20.3",
+    "typescript": "5.4.5"
+  },
+  "keywords": [
+    "trello",
+    "kanban",
+    "project-management",
+    "automation",
+    "promethean"
+  ],
+  "author": "Promethean Systems",
+  "license": "GPL-3.0-only",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/promethean-systems/promethean",
+    "directory": "packages/trello"
+  }
+}

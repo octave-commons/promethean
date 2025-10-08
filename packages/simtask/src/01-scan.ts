@@ -40,6 +40,46 @@ export async function collectSourceFiles(
   );
 }
 
+type PackageMeta = {
+  pkgName: string;
+};
+
+const missingPackages = new Set<string>();
+
+async function loadPackageMeta(
+  pkgFolder: string,
+  cache: Map<string, PackageMeta | null>,
+): Promise<PackageMeta | null> {
+  if (cache.has(pkgFolder)) {
+    return cache.get(pkgFolder) ?? null;
+  }
+  const pkgRoot = path.join(process.cwd(), "packages", pkgFolder);
+  const pkgJsonPath = path.join(pkgRoot, "package.json");
+  try {
+    const pkgJson = JSON.parse(await fs.readFile(pkgJsonPath, "utf-8"));
+    const meta: PackageMeta = {
+      pkgName:
+        typeof pkgJson.name === "string" && pkgJson.name.length > 0
+          ? pkgJson.name
+          : pkgFolder,
+    };
+    cache.set(pkgFolder, meta);
+    return meta;
+  } catch (error) {
+    const err = error as NodeJS.ErrnoException;
+    if (err?.code !== "ENOENT") {
+      console.warn(
+        `simtasks: failed to load package metadata for ${pkgFolder}: ${err?.message ?? err}`,
+      );
+    } else if (!missingPackages.has(pkgFolder)) {
+      missingPackages.add(pkgFolder);
+      console.warn(`simtasks: skipping missing package ${pkgFolder}`);
+    }
+    cache.set(pkgFolder, null);
+    return null;
+  }
+}
+
 export async function gatherFunctionInfo(
   program: ts.Program,
 ): Promise<FunctionInfo[]> {
@@ -48,10 +88,11 @@ export async function gatherFunctionInfo(
     program.getRootFileNames().map((f) => path.resolve(f)),
   );
   const results: FunctionInfo[] = [];
+  const pkgMetaCache = new Map<string, PackageMeta | null>();
   for (const sf of program.getSourceFiles()) {
     const fileAbs = path.resolve(sf.fileName);
     if (!rootFiles.has(fileAbs)) continue;
-    const infos = await gatherFromSourceFile(sf, checker);
+    const infos = await gatherFromSourceFile(sf, checker, pkgMetaCache);
     results.push(...infos);
   }
   return results;
@@ -87,6 +128,7 @@ export async function scan(args: ScanArgs) {
 async function gatherFromSourceFile(
   sf: ts.SourceFile,
   checker: ts.TypeChecker,
+  pkgMetaCache: Map<string, PackageMeta | null>,
 ): Promise<FunctionInfo[]> {
   const fileAbs = path.resolve(sf.fileName);
   const src = sf.getFullText();
@@ -96,11 +138,9 @@ async function gatherFromSourceFile(
   if (bits[0] !== "packages" || bits.length < 2) return [];
 
   const pkgFolder = bits[1]!;
-  const pkgRoot = path.join(process.cwd(), "packages", pkgFolder);
-  const pkgJson = JSON.parse(
-    await fs.readFile(path.join(pkgRoot, "package.json"), "utf-8"),
-  );
-  const pkgName = pkgJson.name as string;
+  const pkgMeta = await loadPackageMeta(pkgFolder, pkgMetaCache);
+  if (!pkgMeta) return [];
+  const pkgName = pkgMeta.pkgName;
   const moduleRel = bits.slice(2).join("/");
 
   const functions: FunctionInfo[] = [];

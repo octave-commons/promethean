@@ -71,6 +71,18 @@ await agent.callTool({
 
 If you omit these options, the agent emits a default "note"-style rationale that
 traces back to the Morganna policy bundle.
+## Feature flag: `CEPHALON_MODE`
+
+The Cephalon service is temporarily dual-pathed while the ECS orchestrator rollout completes. Set the
+`CEPHALON_MODE` environment variable before starting the service to choose which execution path boots:
+
+| Value      | Behavior                                                                       |
+| ---------- | ------------------------------------------------------------------------------ |
+| `ecs`      | **Default.** Boots the new ECS orchestrator pipeline and Agent ECS subsystems. |
+| `classic`  | Boots the legacy `AIAgent` pipeline for focused debugging or regression checks. |
+
+Unrecognized values fall back to `ecs`. The flag will be removed once the ECS work fully replaces the
+classic path.
 
 ## Commands
 

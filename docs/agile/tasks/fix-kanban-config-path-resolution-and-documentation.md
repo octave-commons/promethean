@@ -128,3 +128,14 @@ The kanban CLI has a path resolution bug where when called from subdirectories, 
 - Documentation is as important as the code fix
 - Consider adding debug/logging for path resolution troubleshooting
 
+## ✅ Completion Summary
+
+- Updated repo detection to anchor on `.git`/`pnpm-workspace.yaml`, ensuring the
+  CLI always uses the repository root for default paths even from deep
+  subdirectories.
+- Added regression tests that load the kanban config and execute the CLI from
+  nested folders to confirm board/task/index paths resolve from the config
+  directory.
+- Expanded README, AGENTS, CLAUDE, and package docs with clear guidance on
+  running kanban commands, how overrides interact, and troubleshooting tips for
+  agents.

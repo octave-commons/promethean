@@ -2,15 +2,16 @@
 uuid: "17e07cf3-1aa0-4fb6-9db9-d343f5c394ba"
 title: "Stabilize monitoring token bucket tests /TASK-20250927-194530-0000 /kanban /InProgress /err /p3 /EPC-000 :auto :ts"
 slug: "TASK-2025-09-27-monitoring-test"
-status: "review"
+status: "done"
 priority: "p3"
-labels: ["task", "board", "state", "owner", "priority", "epic", "board", "lang"]
-created_at: "2025-10-07T20:25:05.643Z"
+labels: ["task", "board", "state", "owner", "priority", "epic", "lang"]
+created_at: "2025-10-07T23:03:05.202Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
 
 
 ```
@@ -70,6 +71,7 @@ Here's a suggested revision of your context section:
 TASK-2025-09-27-monitoring-test
 ```
 <% tp.app.commands.executeCommandById"chatgpt-md:call-chatgpt-api" %>
+
 
 
 

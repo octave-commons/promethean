@@ -33,9 +33,30 @@ Key commands:
   browser (defaults to `http://127.0.0.1:4173`).
 All commands emit newline-delimited JSON for downstream tooling.
 
+## Configuration & Path Resolution
+
+- The CLI discovers the repo root by walking up from the current working
+  directory until it finds `.git` or `pnpm-workspace.yaml`. You can therefore run
+  commands from any package or nested folder.
+- `promethean.kanban.json` is the default configuration file. Any relative paths
+  defined inside it are resolved against the directory that contains the config
+  file.
+- Override precedence:
+  1. CLI flags (e.g. `--tasks-dir`, `--board-file`) resolved relative to the
+     directory you invoke the command from.
+  2. Environment variables (`KANBAN_TASKS_DIR`, `KANBAN_BOARD_FILE`, etc.)
+     resolved relative to the detected repo root.
+  3. Config file values resolved relative to the config directory.
+- To target a different config file, pass `--config <path>` (relative to your
+  shell) or set `KANBAN_CONFIG`. Once loaded, the file's own directory becomes
+  the base for any relative entries.
+
 ## Paths
-- Board: `docs/agile/boards/kanban.md` (override via `--kanban` or `KANBAN_PATH`)
-- Tasks: `docs/agile/tasks/` (override via `--tasks` or `TASKS_PATH`)
+- Default board: `docs/agile/boards/generated.md`
+- Default tasks directory: `docs/agile/tasks/`
+- Default index: `docs/agile/boards/index.jsonl`
+- Defaults are derived from the detected repo root; override via CLI flags or
+  environment variables as noted above.
 
 ## Docs guard (all packages)
 Enforced in CI by `.github/workflows/docs-guard.yml`. If a PR touches `packages/<slug>/src/**`, one of these must also change:

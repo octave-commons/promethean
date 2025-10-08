@@ -2,7 +2,7 @@
 uuid: "a4764fc6-ff3e-4ad9-97f6-7cce0b813b44"
 title: "Fix nx task @promethean/markdown-graph:test"
 slug: "fix-nx-task-markdown-graph-test"
-status: "review"
+status: "done"
 priority: "P1"
 labels: ["test", "promethean", "markdown", "graph"]
 created_at: "2025-10-07T20:25:05.643Z"
