@@ -5,6 +5,18 @@ import path from 'path';
 const docsDir = path.resolve(__dirname, '../docs/architecture');
 const siteDir = path.resolve(__dirname, '../sites/roadmap');
 const outFile = path.join(siteDir, 'index.html');
+const inventoryFile = path.join(siteDir, 'inventory.json');
+
+type MermaidNode = {
+    id: string;
+    label: string | null;
+};
+
+type InventoryEntry = {
+    file: string;
+    blockIndex: number;
+    nodes: MermaidNode[];
+};
 
 // Ensure output dir exists
 if (!fs.existsSync(siteDir)) {
@@ -12,7 +24,10 @@ if (!fs.existsSync(siteDir)) {
 }
 
 // Collect markdown files
-const files = fs.readdirSync(docsDir).filter((f) => f.endsWith('.md'));
+const files = fs
+    .readdirSync(docsDir)
+    .filter((f) => f.endsWith('.md'))
+    .sort();
 
 // Extract Mermaid blocks + headings
 function extractMermaid(content: string): string[] {
@@ -25,21 +40,163 @@ function extractMermaid(content: string): string[] {
     return blocks;
 }
 
-// Build sections from docs
+function extractLabel(raw: string | undefined): string | null {
+    if (!raw) {
+        return null;
+    }
+
+    const trimmed = raw.trim();
+    const wrappers: Array<[string, string]> = [
+        ['[[', ']]'],
+        ['[', ']'],
+        ['((', '))'],
+        ['(', ')'],
+        ['{{', '}}'],
+        ['{', '}'],
+    ];
+
+    for (const [open, close] of wrappers) {
+        if (trimmed.startsWith(open) && trimmed.endsWith(close)) {
+            return trimmed.slice(open.length, trimmed.length - close.length).trim();
+        }
+    }
+
+    return trimmed || null;
+}
+
+function parseMermaidNodes(block: string): MermaidNode[] {
+    const nodeRegex = /([A-Za-z0-9_][A-Za-z0-9_-]*)\s*(\[\[[^\]]*\]\]|\[[^\]]*\]|\(\([^)]*\)\)|\([^)]*\)|\{[^}]*\}|\{\{[^}]*\}\})?/g;
+    const skipTokens = new Set([
+        'graph',
+        'subgraph',
+        'end',
+        'classDef',
+        'class',
+        'style',
+        'linkStyle',
+        'click',
+        'accTitle',
+        'accDescr',
+        'accDescrRef',
+        'accTitleRef',
+        'accRef',
+        'accDescrLong',
+        'TB',
+        'TD',
+        'LR',
+        'BT',
+        'RL',
+    ]);
+
+    const nodes = new Map<string, MermaidNode>();
+    const lines = block.split('\n');
+
+    for (const rawLine of lines) {
+        const line = rawLine.trim();
+        if (!line || line.startsWith('%%')) {
+            continue;
+        }
+
+        nodeRegex.lastIndex = 0;
+        let match: RegExpExecArray | null;
+        while ((match = nodeRegex.exec(line)) !== null) {
+            const id = match[1];
+            if (!id || skipTokens.has(id)) {
+                continue;
+            }
+
+            const label = extractLabel(match[2] ?? undefined);
+            const existing = nodes.get(id);
+            if (!existing) {
+                nodes.set(id, { id, label });
+            } else if (!existing.label && label) {
+                nodes.set(id, { ...existing, label });
+            }
+        }
+    }
+
+    return Array.from(nodes.values()).sort((a, b) => a.id.localeCompare(b.id));
+}
+
+// Build sections from docs and capture inventory metadata
+const inventoryEntries: InventoryEntry[] = [];
+const globalNodes = new Map<
+    string,
+    {
+        label: string | null;
+        occurrences: Array<{ file: string; blockIndex: number; label: string | null }>;
+    }
+>();
 let sections = '';
 for (const file of files) {
     const filePath = path.join(docsDir, file);
+    const relativePath = path.relative(path.resolve(__dirname, '..'), filePath);
     const content = fs.readFileSync(filePath, 'utf-8');
     const title = (content.match(/^#\s+(.*)/m) || [null, file])[1];
     const blocks = extractMermaid(content);
     if (blocks.length > 0) {
         sections += `<section><h2>${title}</h2>`;
-        blocks.forEach((b, i) => {
-            sections += `<div class="mermaid">${b}</div>`;
+        blocks.forEach((block, index) => {
+            sections += `<div class="mermaid">${block}</div>`;
+            const nodes = parseMermaidNodes(block);
+            inventoryEntries.push({
+                file: relativePath,
+                blockIndex: index,
+                nodes,
+            });
+            nodes.forEach((node) => {
+                const occurrence = { file: relativePath, blockIndex: index, label: node.label };
+                const existing = globalNodes.get(node.id);
+                if (existing) {
+                    if (!existing.label && node.label) {
+                        existing.label = node.label;
+                    }
+                    existing.occurrences.push(occurrence);
+                } else {
+                    globalNodes.set(node.id, {
+                        label: node.label,
+                        occurrences: [occurrence],
+                    });
+                }
+            });
         });
         sections += `</section>`;
     }
 }
+
+inventoryEntries.sort((a, b) => {
+    if (a.file === b.file) {
+        return a.blockIndex - b.blockIndex;
+    }
+    return a.file.localeCompare(b.file);
+});
+
+const uniqueNodes = Array.from(globalNodes.entries())
+    .map(([id, data]) => ({
+        id,
+        label: data.label,
+        occurrences: data.occurrences.sort((a, b) => {
+            if (a.file === b.file) {
+                return a.blockIndex - b.blockIndex;
+            }
+            return a.file.localeCompare(b.file);
+        }),
+    }))
+    .sort((a, b) => a.id.localeCompare(b.id));
+
+const inventoryReport = {
+    generatedAt: new Date().toISOString(),
+    totals: {
+        files: files.length,
+        blocks: inventoryEntries.length,
+        uniqueNodes: uniqueNodes.length,
+    },
+    sources: inventoryEntries,
+    nodes: uniqueNodes,
+};
+
+// Persist the inventory before emitting HTML so downstream tooling can consume it independently.
+fs.writeFileSync(inventoryFile, `${JSON.stringify(inventoryReport, null, 2)}\n`, 'utf-8');
 
 // HTML template
 const html = `<!DOCTYPE html>

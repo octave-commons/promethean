@@ -1,19 +1,18 @@
 ---
-```
-uuid: 8304b498-6811-40e3-8b44-60224b3ff846
-```
-```
-title: >-
-```
-  allow old unnessisary messages to decay from database while retaining index
-  entries ids md md
-status: todo
-priority: P3
-labels: []
-```
-created_at: '2025-09-15T02:02:58.507Z'
-```
+uuid: "8304b498-6811-40e3-8b44-60224b3ff846"
+title: "allow old unnessisary messages to decay from database while retaining index entries ids md md"
+slug: "allow_old_unnessisary_messages_to_decay_from_database_while_retaining_index_entries_ids"
+status: "icebox"
+priority: "P3"
+labels: ["allow", "old", "unnessisary", "messages"]
+created_at: "2025-10-07T20:25:05.642Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
 Here’s a refined version that keeps your analogy to hardware memory hierarchies but makes it concrete enough to implement as a framework component:
 
 ---
@@ -87,4 +86,6 @@ If you want, I can also give you a **mermaid diagram showing the memory tier flo
 That would make it much easier to see where scoring and eviction logic plug in.
 #IceBox
 #ready
+
+
 

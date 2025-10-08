@@ -1,0 +1,18 @@
+{
+  "name": "@promethean/github-sync",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "build": "tsc -b tsconfig.json",
+    "test": "pnpm run build && ava"
+  },
+  "dependencies": {
+    "@promethean/kanban": "workspace:*",
+    "@promethean/utils": "workspace:*",
+    "gray-matter": "^4.0.3"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "ava": "^6.1.3"
+  }
+}

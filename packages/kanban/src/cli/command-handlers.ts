@@ -167,7 +167,7 @@ const handleUpdateStatus: CommandHandler = (args, context) =>
     const mutableBoard = board as unknown as LoadedBoard;
     const id = requireArg(args[0], 'task id');
     const status = requireArg(args[1], 'new status');
-    const updated = await updateStatus(mutableBoard, id, status, context.boardFile);
+    const updated = await updateStatus(mutableBoard, id, status, context.boardFile, context.tasksDir);
     return updated;
   });
 
