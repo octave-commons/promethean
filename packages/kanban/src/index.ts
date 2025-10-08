@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+import { pathToFileURL } from 'node:url';
+
 import { loadKanbanConfig } from './board/config.js';
 import { printJSONL } from './lib/jsonl.js';
 import { processSync } from './process/sync.js';
@@ -119,11 +121,23 @@ async function main(): Promise<void> {
   }
 }
 
-main().catch((error: unknown) => {
+const isExecutedAsCli = (): boolean => {
+  const entry = process.argv[1];
+  if (!entry) {
+    return false;
+  }
+  return import.meta.url === pathToFileURL(entry).href;
+};
+
+const handleFatalError = (error: unknown): void => {
   const message = error instanceof Error ? error.stack ?? error.message : String(error);
   console.error(message);
   process.exit(1);
-});
+};
+
+if (isExecutedAsCli()) {
+  main().catch(handleFatalError);
+}
 
 export { loadBoard, readTasksFolder } from './lib/kanban.js';
-export type { Board, ColumnData, Task } from './lib/types.js';
+export type { Board, Task } from './lib/types.js';
