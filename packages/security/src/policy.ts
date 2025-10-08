@@ -85,7 +85,9 @@ const GLOB_SPECIALS = /[\\^$+?.()|[\]{}]/g;
 function globToRegExp(pat: string): RegExp {
   const normalized = pat.trim();
   if (normalized.length > 256) throw new NotAllowedError('Pattern too long');
-  const escaped = normalized.replace(GLOB_SPECIALS, (char) => `\${char}`).replace(/\*/g, '.*');
+  const escaped = normalized
+    .replace(GLOB_SPECIALS, (char) => `\\${char}`)
+    .replace(/\*/g, '.*');
   return new RegExp(`^${escaped}$`);
 }
 
