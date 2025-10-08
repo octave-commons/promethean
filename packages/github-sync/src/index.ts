@@ -161,7 +161,11 @@ class GitHubSync {
     return project;
   }
 
-  private async syncColumns(projectId: string, boardColumns: ColumnData[], statusFieldId: string) {
+  private async syncColumns(
+    _projectId: string,
+    boardColumns: Board['columns'],
+    _statusFieldId: string,
+  ) {
     // This is a simplified version - in practice, you'd need to manage field options
     console.log(`Syncing ${boardColumns.length} columns with project ${projectId}`);
     console.log(`Using status field: ${statusFieldId}`);
@@ -171,13 +175,13 @@ class GitHubSync {
   }
 
   private async syncTask(
-    projectId: string,
+    _projectId: string,
     task: Task,
-    statusFieldId: string | undefined,
+    _statusFieldId: string,
     columnName: string,
   ) {
     // Use task.title from frontmatter if available, fallback to task metadata
-    const taskTitle = task.title ?? `Task ${task.uuid}`;
+    const taskTitle = task.title || task.slug || `Task ${task.uuid}`;
 
     // This is a simplified version - in practice, you'd create or update GitHub issues
     // and then add them to the project with appropriate status
@@ -185,10 +189,8 @@ class GitHubSync {
     console.log(`  - Project ID: ${projectId}`);
     console.log(`  - UUID: ${task.uuid}`);
     console.log(`  - Status: ${task.status}`);
-    console.log(`  - Priority: ${task.priority ?? 'Not set'}`);
-    if (statusFieldId) {
-      console.log(`  - Status Field ID: ${statusFieldId}`);
-    }
+    const priority = typeof task.priority !== 'undefined' ? task.priority : 'Not set';
+    console.log(`  - Priority: ${priority}`);
   }
 }
 
