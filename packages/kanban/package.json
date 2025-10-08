@@ -20,6 +20,7 @@
   },
   "scripts": {
     "build": "tsc -b tsconfig.json",
+    "build:docs": "typedoc --options typedoc.json",
     "test": "pnpm run build && ava"
   },
   "dependencies": {
@@ -37,6 +38,7 @@
     "@types/node": "^20.19.0",
     "@types/ws": "^8.5.0",
     "typedoc": "^0.28.13",
+    "typedoc-plugin-markdown": "^4.9.0",
     "typescript": "^5.4.0"
   }
 }
