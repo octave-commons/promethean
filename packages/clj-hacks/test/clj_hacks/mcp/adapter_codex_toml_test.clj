@@ -9,7 +9,8 @@
    "[mcp_servers.\"github\"]\n"
    "command = \"gh\"\n"
    "args = [\"api\", \"me\"]\n"
-   "cwd = \"/tmp/github\"\n\n"
+   "cwd = \"/tmp/github\"\n"
+   "env = { PATH = [\"/opt/bin\", \"/usr/bin\"], JSON = { key = \"val\" }, ESCAPED = \"value,with,comma\" }\n\n"
    "[mcp_servers.\"plain\"]\n"
    "command = \"echo\"\n\n"
    "# footer\n"))
@@ -23,6 +24,10 @@
       (is (= "gh" (get-in servers [:github :command])))
       (is (= ["api" "me"] (get-in servers [:github :args])))
       (is (= "/tmp/github" (get-in servers [:github :cwd])))
+      (let [env (get-in servers [:github :env])]
+        (is (= ["/opt/bin" "/usr/bin"] (get env "PATH")))
+        (is (= {"key" "val"} (get env "JSON")))
+        (is (= "value,with,comma" (get env "ESCAPED"))))
       (is (= "echo" (get-in servers [:plain :command])))
       (is (string? rest))
       (is (string? raw)))))
