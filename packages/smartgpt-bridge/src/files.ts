@@ -248,10 +248,67 @@ export async function writeFileContent(
   filePath: string,
   content: string,
 ) {
+  // Check for symlink security issues before normalizing the path
+  await checkSymlinkSecurity(ROOT_PATH, filePath);
+
   const abs = normalizeToRoot(ROOT_PATH, filePath);
   await fs.writeFile(abs, content, "utf8");
   return { path: filePath };
 }
+
+/**
+ * Check if a file path is safe with respect to symlinks
+ */
+async function checkSymlinkSecurity(ROOT_PATH: string, filePath: string): Promise<void> {
+  const base = path.resolve(ROOT_PATH);
+
+  // Check if the file already exists as a symlink - use lstat to detect symlinks
+  const fullPath = path.resolve(base, filePath);
+
+  try {
+    const stat = await fs.lstat(fullPath);
+    if (stat.isSymbolicLink()) {
+      // Resolve the symlink and check if it points outside the root
+      const realPath = await fs.realpath(fullPath);
+      if (!isInsideRoot(ROOT_PATH, realPath)) {
+        throw new Error("Security: Symlink points outside allowed directory");
+      }
+    }
+    // If we get here, the file exists and is safe
+    return;
+  } catch (error: any) {
+    // Re-throw security violations immediately
+    if (error.message?.includes('Security:')) {
+      throw error;
+    }
+
+    // File doesn't exist, check all path components for symlinks
+    const pathComponents = filePath.split('/').filter(Boolean);
+    let currentPath = base;
+
+    for (const component of pathComponents) {
+      currentPath = path.join(currentPath, component);
+
+      try {
+        // Use lstat to check if the path component itself is a symlink
+        const stat = await fs.lstat(currentPath);
+        if (stat.isSymbolicLink()) {
+          const realPath = await fs.realpath(currentPath);
+          if (!isInsideRoot(ROOT_PATH, realPath)) {
+            throw new Error("Security: Path component symlink points outside allowed directory");
+          }
+        }
+      } catch (statError: any) {
+        // Re-throw security violations immediately
+        if (statError.message?.includes('Security:')) {
+          throw statError;
+        }
+        // Path component doesn't exist, continue checking
+      }
+    }
+  }
+}
+
 
 export async function writeFileLines(
   ROOT_PATH: string,
@@ -259,7 +316,11 @@ export async function writeFileLines(
   lines: string[],
   startLine: number,
 ) {
+  // Check for symlink security issues before normalizing the path
+  await checkSymlinkSecurity(ROOT_PATH, filePath);
+
   const abs = normalizeToRoot(ROOT_PATH, filePath);
+
   let fileLines: string[] = [];
   try {
     const raw = await fs.readFile(abs, "utf8");
