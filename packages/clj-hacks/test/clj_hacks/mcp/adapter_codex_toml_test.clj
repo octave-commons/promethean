@@ -41,3 +41,26 @@
       (is (re-find #"cwd = \"/tmp/x\"" s))
       (is (re-find #"\[mcp_servers.\"y\"\]" s))
       (is (re-find #"command = \"yo\"" s)))))
+
+(deftest write-full-generates-http-stdio-entries
+  (let [tmp  (fs/create-temp-file {:prefix "mcp-toml-http-" :suffix ".toml"})
+        path (str tmp)
+        data {:mcp {:mcp-servers {:base {:command "noop" :cwd "/repo"}}
+                    :http {:transport :http
+                           :tools ['kanban_get_board 'kanban_update_status]
+                           :include-help? true
+                           :stdio-meta {:title "Default"}
+                           :endpoints {:kanban {:tools ['kanban_get_board]
+                                                :include-help? false
+                                                :meta {:description "Kanban"}}}
+                           :proxy {:config "./config/mcp_servers.edn"}}}
+              :rest ""}]
+    (adapter/write-full path data)
+    (let [s (slurp path)]
+      (is (re-find #"\[mcp_servers.\"http-default\"\]" s))
+      (is (re-find #"command = \"pnpm\"" s))
+      (is (re-find #"args = \[\"--filter\", \"@promethean/mcp\", \"dev\"\]" s))
+      (is (re-find #"cwd = \"/repo\"" s))
+      (is (re-find #"env = \{ MCP_CONFIG_JSON = \"\\\\\"transport\\\\\":\\\\\"stdio\\\\\"" s))
+      (is (re-find #"\[mcp_servers.\"http-kanban\"\]" s))
+      (is (re-find #"kanban_get_board" s)))))
