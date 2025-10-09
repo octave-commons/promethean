@@ -43,6 +43,12 @@ estimates:
 
 Estimate: 3
 
+## Session Notes (2025-10-09)
+- Planned fix: normalize `structuredContent` emitted by `createMcpServer` so JSON serialization always includes it, even when the
+  tool returns `undefined` or other falsy primitives.
+- Add regression test that exercises a tool returning a falsy primitive with an output schema to mirror the connector failure.
+- Verify Fastify transport continues to surface `structuredContent` through the HTTP proxy.
+
 ---
 
 ## 🔗 Related Epics
