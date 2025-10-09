@@ -113,7 +113,46 @@ test('createMcpServer returns structured content even when tool result is undefi
 
   const payload = await registrations[0]!.handler({});
   t.deepEqual(payload, {
-    structuredContent: undefined,
+    structuredContent: null,
     content: [{ type: 'text', text: 'undefined' }],
+  });
+});
+
+test('createMcpServer preserves structured content for falsy primitives', async (t) => {
+  type Handler = (args: unknown) => Promise<unknown>;
+  const registrations: Array<{ handler: Handler }> = [];
+
+  class FakeMcpServer {
+    public constructor(_info: unknown) {}
+
+    registerTool(_name: string, _def: unknown, handler: Handler): void {
+      registrations.push({ handler });
+    }
+  }
+
+  const modulePath = new URL('../core/mcp-server.js', import.meta.url).pathname;
+  const { createMcpServer } = await esmock<typeof import('../core/mcp-server.js')>(modulePath, {
+    '@modelcontextprotocol/sdk/server/mcp.js': { McpServer: FakeMcpServer },
+  });
+
+  const OutputSchema = z.object({ ok: z.boolean() }).strict();
+
+  const tool: Tool = {
+    spec: {
+      name: 'structured_tool_false_result',
+      description: 'Returns false but declares output schema.',
+      outputSchema: OutputSchema.shape,
+    },
+    invoke: async () => false,
+  };
+
+  createMcpServer([tool]);
+
+  t.is(registrations.length, 1);
+
+  const payload = await registrations[0]!.handler({});
+  t.deepEqual(payload, {
+    structuredContent: false,
+    content: [{ type: 'text', text: 'false' }],
   });
 });

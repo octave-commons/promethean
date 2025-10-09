@@ -71,9 +71,10 @@ export const createMcpServer = (tools: readonly Tool[]) => {
         const content = text.length > 0 ? [{ type: 'text', text }] : [];
         // Always include structuredContent when outputSchema is declared
         // This prevents the -32602 error about missing structured content
+        const structuredContent = result ?? null;
         return {
           content,
-          structuredContent: result as unknown,
+          structuredContent,
         } as CallToolResult;
       }
 
