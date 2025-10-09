@@ -37,3 +37,4 @@ All tasks with status "backlog" should be moved to "incoming" to follow the FSM 
 - **PR #1556:** "Normalize kanban tasks to FSM statuses" - The pull request that implements the FSM status normalization for all kanban tasks
 
 **Traceability Status:** ✅ Connected - Issue #1637 ← PR #1556 ← Kanban Task UUID: kanban-fsm-update-001
+- [ ] Confirm the board tooling inside `@promethean/kanban` reads the relocated scripts and respects the FSM statuses (see task `8a791d5f-757a-4154-bba2-e14886da4c30`).
