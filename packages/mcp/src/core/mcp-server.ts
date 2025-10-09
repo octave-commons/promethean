@@ -54,10 +54,10 @@ export const createMcpServer = (tools: readonly Tool[]) => {
     // Wrap schemas in Zod objects before registration to prevent _parse errors
     const sdkDef = {
       ...def,
-      ...(def.inputSchema
+      ...(def.inputSchema && def.inputSchema != null
         ? { inputSchema: z.object(def.inputSchema).strict() }
         : {}),
-      ...(def.outputSchema
+      ...(def.outputSchema && def.outputSchema != null
         ? { outputSchema: z.object(def.outputSchema).strict() }
         : {}),
     };
