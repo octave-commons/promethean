@@ -51,6 +51,6 @@ test('non-provider caps pass by default', async (t) => {
             kind: 'storage.mongo',
             db: 'db',
             coll: 'messages',
-        } as any),
+        }),
     );
 });

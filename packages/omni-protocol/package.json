@@ -30,7 +30,7 @@
   "dependencies": {
     "@promethean/utils": "workspace:*",
     "zod": "^3.22.4",
-    "zod-to-json-schema": "^3.22.4"
+    "zod-to-json-schema": "^3.23.5"
   },
   "devDependencies": {
     "@types/node": "24.3.1",
