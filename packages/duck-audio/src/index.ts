@@ -9,8 +9,7 @@ export const PCM16_MONO_CHANNELS = 1;
 
 export const PCM48_TO_16_DECIMATION = PCM48_SAMPLE_RATE / PCM16_SAMPLE_RATE; // 3
 export const STEREO_FRAMES_PER_OUTPUT_SAMPLE = PCM48_TO_16_DECIMATION;
-export const SAMPLES_PER_DECIMATED_OUTPUT =
-  PCM48_STEREO_CHANNELS * PCM48_TO_16_DECIMATION; // 6 interleaved samples
+export const SAMPLES_PER_DECIMATED_OUTPUT = PCM48_STEREO_CHANNELS * PCM48_TO_16_DECIMATION; // 6 interleaved samples
 
 export const PCM16_FRAME_DURATION_MS = 20;
 export const PCM16_BYTES_PER_SAMPLE = 2;
@@ -45,3 +44,5 @@ export const clampUnitFloat = (value: number): number => {
 
 export const floatToPcm16 = (value: number): number =>
   clampPcm16(clampUnitFloat(value) * PCM16_SCALAR);
+
+export { float32ToInt16 } from './pcm.js';
