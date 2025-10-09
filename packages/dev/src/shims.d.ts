@@ -1,7 +1,3 @@
-declare module '@promethean/event/memory.js' {
-    export * from '@promethean/event/dist/memory.js';
-}
-
 declare module '@promethean/ws/server.js' {
     export * from '@promethean/ws/dist/server.js';
 }
