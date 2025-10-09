@@ -349,9 +349,9 @@ export async function validateLLMPrompt(
     promptRisk,
     contextRisk: contextRisks,
     overallRisk,
-    shouldBlock: overallRisk >= 0.7,
-    recommendations: overallRisk >= 0.7 
-      ? ['High-risk prompt detected', 'Consider blocking this request'] 
+    shouldBlock: overallRisk >= 0.3,
+    recommendations: overallRisk >= 0.3
+      ? ['High-risk prompt detected', 'Consider blocking this request']
       : ['Request appears safe'],
     context: {
       timestamp: Date.now(),
