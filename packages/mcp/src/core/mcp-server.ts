@@ -2,7 +2,7 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import type { CallToolResult } from '@modelcontextprotocol/sdk/types.js';
 import type { Tool } from './types.js';
-import { z, type ZodRawShape } from 'zod';
+import type { ZodRawShape } from 'zod';
 import { createRequire } from 'node:module';
 const reqr = createRequire(import.meta.url);
 console.log('[mcp:server] sdk.mcp path:', reqr.resolve('@modelcontextprotocol/sdk/server/mcp.js'));
@@ -51,15 +51,12 @@ export const createMcpServer = (tools: readonly Tool[]) => {
       ...(t.spec.outputSchema ? { outputSchema: t.spec.outputSchema } : {}),
     };
 
-    // Wrap schemas in Zod objects before registration to prevent _parse errors
+    // Pass schemas through as-is to prevent _parse errors
+    // The SDK handles ZodRawShape properly when passed directly
     const sdkDef = {
       ...def,
-      ...(def.inputSchema && def.inputSchema != null
-        ? { inputSchema: z.object(def.inputSchema).strict() }
-        : {}),
-      ...(def.outputSchema && def.outputSchema != null
-        ? { outputSchema: z.object(def.outputSchema).strict() }
-        : {}),
+      inputSchema: def.inputSchema ?? undefined,
+      outputSchema: def.outputSchema ?? undefined,
     };
 
     server.registerTool(t.spec.name, sdkDef as any, async (args: unknown): Promise<CallToolResult> => {

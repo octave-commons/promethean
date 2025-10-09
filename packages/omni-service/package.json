@@ -1,0 +1,84 @@
+{
+  "name": "@promethean/omni-service",
+  "version": "0.0.1",
+  "description": "Unified service host for REST, GraphQL, WebSocket, and MCP adapters with shared auth and context",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.cjs",
+  "types": "dist/index.d.ts",
+  "module": "dist/index.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./dist/*": "./dist/*",
+    "./*": "./dist/*"
+  },
+  "files": [
+    "dist",
+    "static"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "clean": "rimraf dist",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "pnpm run build && ava --config ../../config/ava.config.mjs",
+    "test:watch": "pnpm run build && ava --config ../../config/ava.config.mjs -w",
+    "start": "node dist/index.js",
+    "start:dev": "node --loader ts-node/esm src/index.ts",
+    "lint": "pnpm exec eslint .",
+    "format": "pnpm exec prettier --write .",
+    "coverage": "pnpm run build && c8 ava --config ../../config/ava.config.mjs"
+  },
+  "dependencies": {
+    "@promethean/omni-protocol": "workspace:*",
+    "@promethean/legacy": "workspace:*",
+    "@promethean/security": "workspace:*",
+    "fastify": "^5.3.2",
+    "@fastify/swagger": "^9.5.1",
+    "@fastify/swagger-ui": "^5.2.3",
+    "@fastify/rate-limit": "^10.3.0",
+    "@fastify/cors": "^10.1.1",
+    "@fastify/helmet": "^13.1.0",
+    "dotenv": "^17.2.1",
+    "jsonwebtoken": "^9.0.2",
+    "jose": "^5.10.0",
+    "uuid": "^11.1.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.7",
+    "@types/uuid": "^10.0.6",
+    "@types/node": "^22.10.5",
+    "@promethean/test-utils": "workspace:*",
+    "ava": "^6.4.1",
+    "c8": "^10.1.2",
+    "eslint": "^9.17.0",
+    "prettier": "^3.4.2",
+    "rimraf": "^6.0.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
+  },
+  "keywords": [
+    "omni",
+    "service",
+    "rest",
+    "graphql",
+    "websocket",
+    "mcp",
+    "fastify",
+    "promethean"
+  ],
+  "author": "Promethean Team",
+  "license": "GPL-3.0-only",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/promethean/promethean.git",
+    "directory": "packages/omni-service"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

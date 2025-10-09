@@ -42,3 +42,11 @@ Current boardrev is read-only analysis. Need interactive capabilities to automat
 
 ## Notes
 Should include safety mechanisms to prevent unwanted automatic changes. All updates should be previewable and require explicit approval or high confidence thresholds.
+
+```clojure
+(for [status (kanban :get-columns)]
+  (for [task (kanban :get-column status)]
+    (codex :exec (+
+        status.prompt ;; ## Review the task requirements for completion, marking them off as you go. if one is missing, stop and update the task, and bounce this card back via a valid transition
+        task.body))))
+```
