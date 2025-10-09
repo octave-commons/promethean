@@ -11,13 +11,8 @@ export interface TransitionEvent {
   readonly fromStatus: string;
   readonly toStatus: string;
   readonly reason?: string;
-  readonly actor: string; // "agent" | "human" | "system"
-  readonly metadata?: Readonly<Record<string, unknown>>;
-}
-
-export interface EventLog {
-  readonly events: ReadonlyArray<TransitionEvent>;
-  readonly lastProcessed: string;
+  readonly actor: 'agent' | 'human' | 'system';
+  readonly metadata?: Record<string, unknown>;
 }
 
 export class EventLogManager {
@@ -27,13 +22,25 @@ export class EventLogManager {
     this.logPath = path.join(config.cachePath || 'docs/agile/boards/.cache', 'event-log.jsonl');
   }
 
+  private async ensureLogDirectory(): Promise<void> {
+    const dir = path.dirname(this.logPath);
+    try {
+      await readFile(dir);
+    } catch {
+      // Directory doesn't exist, create it
+      await writeFile(dir, '').catch(() => {
+        // Ignore errors, directory creation will be handled by writeFile
+      });
+    }
+  }
+
   async logTransition(
     taskId: string,
     fromStatus: string,
     toStatus: string,
-    actor: TransitionEvent['actor'] = 'system',
+    actor: 'agent' | 'human' | 'system' = 'system',
     reason?: string,
-    metadata?: Readonly<Record<string, unknown>>,
+    metadata?: Record<string, unknown>,
   ): Promise<void> {
     const event: TransitionEvent = {
       id: randomUUID(),
@@ -41,17 +48,14 @@ export class EventLogManager {
       taskId,
       fromStatus,
       toStatus,
-      reason,
+      reason: reason || `Status updated from ${fromStatus} to ${toStatus}`,
       actor,
       metadata,
     };
 
-    await this.appendEvent(event);
-  }
-
-  async appendEvent(event: TransitionEvent): Promise<void> {
-    const logLine = JSON.stringify(event) + '\n';
-    await writeFile(this.logPath, logLine, { flag: 'a' });
+    await this.ensureLogDirectory();
+    const eventLine = JSON.stringify(event) + '\n';
+    await writeFile(this.logPath, eventLine, { flag: 'a' });
   }
 
   async readEventLog(): Promise<ReadonlyArray<TransitionEvent>> {
@@ -61,18 +65,8 @@ export class EventLogManager {
         .trim()
         .split('\n')
         .filter((line) => line.length > 0);
-      return lines
-        .map((line) => {
-          try {
-            return JSON.parse(line) as TransitionEvent;
-          } catch (error) {
-            console.error(`Failed to parse event log line: ${line}`, error);
-            return null;
-          }
-        })
-        .filter((event): event is TransitionEvent => event !== null);
-    } catch (error) {
-      // File doesn't exist or is empty
+      return lines.map((line) => JSON.parse(line) as TransitionEvent);
+    } catch {
       return [];
     }
   }
@@ -84,7 +78,7 @@ export class EventLogManager {
 
   async replayTaskTransitions(
     taskId: string,
-    initialStatus: string,
+    _currentStatus: string, // Current board status (not used for replay start)
   ): Promise<{
     readonly finalStatus: string;
     readonly isValid: boolean;
@@ -93,7 +87,17 @@ export class EventLogManager {
     readonly events: ReadonlyArray<TransitionEvent>;
   }> {
     const taskEvents = await this.getTaskHistory(taskId);
-    let currentStatus = initialStatus;
+
+    if (taskEvents.length === 0) {
+      return {
+        finalStatus: _currentStatus,
+        isValid: true,
+        events: [],
+      };
+    }
+
+    // Start from the first event's fromStatus
+    let currentStatus = taskEvents[0]!.fromStatus;
     let lastValidEvent: TransitionEvent | undefined;
     let invalidEvent: TransitionEvent | undefined;
 
@@ -121,32 +125,35 @@ export class EventLogManager {
       finalStatus: currentStatus,
       isValid: true,
       lastValidEvent,
+      invalidEvent,
       events: taskEvents,
     };
   }
 
   async getAllTaskHistories(): Promise<ReadonlyMap<string, ReadonlyArray<TransitionEvent>>> {
     const allEvents = await this.readEventLog();
-    const histories = new Map<string, TransitionEvent[]>();
+    const histories = new Map<string, ReadonlyArray<TransitionEvent>>();
 
     for (const event of allEvents) {
-      if (!histories.has(event.taskId)) {
-        histories.set(event.taskId, []);
-      }
-      histories.get(event.taskId)!.push(event);
+      const taskHistory = histories.get(event.taskId) || [];
+      histories.set(event.taskId, [...taskHistory, event]);
     }
 
     return histories;
   }
 
   async clearLog(): Promise<void> {
+    await this.ensureLogDirectory();
     await writeFile(this.logPath, '');
   }
 
   async getLogStats(): Promise<{
     readonly totalEvents: number;
     readonly uniqueTasks: number;
-    readonly dateRange: { readonly earliest: string; readonly latest: string } | null;
+    readonly dateRange: {
+      readonly earliest: string | null;
+      readonly latest: string | null;
+    };
   }> {
     const events = await this.readEventLog();
 
@@ -154,7 +161,7 @@ export class EventLogManager {
       return {
         totalEvents: 0,
         uniqueTasks: 0,
-        dateRange: null,
+        dateRange: { earliest: null, latest: null },
       };
     }
 

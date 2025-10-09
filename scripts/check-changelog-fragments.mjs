@@ -1,8 +1,8 @@
-const fs = require("node:fs");
+import fs from 'node:fs';
 
 const VALID_RE = /^\d+(?:\.\d+)*\.(added|changed|deprecated|removed|fixed|security)\.md$/;
 
-function findInvalidFragments(dir = "changelog.d") {
+function findInvalidFragments(dir = 'changelog.d') {
   if (!fs.existsSync(dir)) {
     return [];
   }
@@ -10,13 +10,13 @@ function findInvalidFragments(dir = "changelog.d") {
     .readdirSync(dir, { withFileTypes: true })
     .filter((d) => d.isFile())
     .map((d) => d.name)
-    .filter((name) => name.endsWith(".md") && !VALID_RE.test(name));
+    .filter((name) => name.endsWith('.md') && !VALID_RE.test(name));
 }
 
 function main() {
   const invalid = findInvalidFragments();
   if (invalid.length > 0) {
-    console.error("Invalid changelog fragment names detected:");
+    console.error('Invalid changelog fragment names detected:');
     for (const name of invalid) {
       console.error(` - ${name}`);
     }
@@ -25,8 +25,9 @@ function main() {
   return 0;
 }
 
-if (require.main === module) {
+// Check if this file is being run directly
+if (import.meta.url === `file://${process.argv[1]}`) {
   process.exit(main());
 }
 
-module.exports = { findInvalidFragments, main };
+export { findInvalidFragments, main };

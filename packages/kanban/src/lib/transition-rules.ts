@@ -70,11 +70,11 @@ export class TransitionRulesEngine {
     // Default configuration if none provided
     this.config = config || {
       enabled: true,
-      enforcement: "strict",
-      dslPath: "",
+      enforcement: 'strict',
+      dslPath: '',
       rules: [],
       customChecks: {},
-      globalRules: []
+      globalRules: [],
     };
   }
 
@@ -101,7 +101,7 @@ export class TransitionRulesEngine {
     from: string,
     to: string,
     task: Task,
-    board: Board
+    board: Board,
   ): Promise<TransitionResult> {
     // Skip validation if rules are disabled
     if (!this.config.enabled || this.config.enforcement === 'disabled') {
@@ -111,7 +111,7 @@ export class TransitionRulesEngine {
         ruleViolations: [],
         suggestions: [],
         suggestedAlternatives: [],
-        warnings: []
+        warnings: [],
       };
     }
 
@@ -125,11 +125,18 @@ export class TransitionRulesEngine {
     // Check 1: Is this a defined transition?
     const transitionRule = this.findTransitionRule(fromNormalized, toNormalized);
     if (!transitionRule) {
-      violations.push(`Invalid transition: ${fromNormalized} → ${toNormalized} is not a defined transition`);
+      // Check if this is a backward transition
+      if (this.isBackwardTransition(fromNormalized, toNormalized)) {
+        console.log(`✅ Backward transition allowed: ${fromNormalized} → ${toNormalized}`);
+      } else {
+        violations.push(
+          `Invalid transition: ${fromNormalized} → ${toNormalized} is not a defined transition`,
+        );
 
-      const validTargets = this.getValidTransitions(fromNormalized);
-      if (validTargets.length > 0) {
-        suggestions.push(`Valid transitions from ${fromNormalized}: ${validTargets.join(', ')}`);
+        const validTargets = this.getValidTransitions(fromNormalized);
+        if (validTargets.length > 0) {
+          suggestions.push(`Valid transitions from ${fromNormalized}: ${validTargets.join(', ')}`);
+        }
       }
     }
 
@@ -138,7 +145,13 @@ export class TransitionRulesEngine {
       if (!globalRule.enabled) continue;
 
       try {
-        const passes = await this.evaluateGlobalRule(globalRule, fromNormalized, toNormalized, task, board);
+        const passes = await this.evaluateGlobalRule(
+          globalRule,
+          fromNormalized,
+          toNormalized,
+          task,
+          board,
+        );
         if (!passes) {
           violations.push(`Global rule violation: ${globalRule.description}`);
         }
@@ -170,7 +183,7 @@ export class TransitionRulesEngine {
       ruleViolations: violations,
       suggestions,
       suggestedAlternatives: suggestions,
-      warnings: []
+      warnings: [],
     };
   }
 
@@ -180,11 +193,9 @@ export class TransitionRulesEngine {
   getValidTransitions(from: string): string[] {
     const fromNormalized = this.normalizeColumnName(from);
 
-    const validRules = this.config.rules.filter(rule =>
-      rule.from.includes(fromNormalized)
-    );
+    const validRules = this.config.rules.filter((rule) => rule.from.includes(fromNormalized));
 
-    return validRules.flatMap(rule => rule.to);
+    return validRules.flatMap((rule) => rule.to);
   }
 
   /**
@@ -194,7 +205,7 @@ export class TransitionRulesEngine {
     from: string,
     to: string,
     task: Task,
-    board: Board
+    board: Board,
   ): Promise<TransitionDebug> {
     const fromNormalized = this.normalizeColumnName(from);
     const toNormalized = this.normalizeColumnName(to);
@@ -211,7 +222,7 @@ export class TransitionRulesEngine {
       task,
       wipCheck,
       existenceCheck,
-      validTransitions: this.getValidTransitions(fromNormalized)
+      validTransitions: this.getValidTransitions(fromNormalized),
     };
   }
 
@@ -221,9 +232,9 @@ export class TransitionRulesEngine {
   showProcessFlow(): string {
     const lines = ['🔄 Kanban Process Flow', ''];
 
-    this.config.rules.forEach(rule => {
-      rule.from.forEach(from => {
-        rule.to.forEach(to => {
+    this.config.rules.forEach((rule) => {
+      rule.from.forEach((from) => {
+        rule.to.forEach((to) => {
           lines.push(`  ${from} → ${to} (${rule.description})`);
         });
       });
@@ -235,12 +246,12 @@ export class TransitionRulesEngine {
 
     // Group by source column
     const bySource = new Map<string, Set<string>>();
-    this.config.rules.forEach(rule => {
-      rule.from.forEach(from => {
+    this.config.rules.forEach((rule) => {
+      rule.from.forEach((from) => {
         if (!bySource.has(from)) {
           bySource.set(from, new Set());
         }
-        rule.to.forEach(to => {
+        rule.to.forEach((to) => {
           bySource.get(from)!.add(to);
         });
       });
@@ -258,15 +269,34 @@ export class TransitionRulesEngine {
   private normalizeColumnName(column: string): string {
     // Match the normalization used in kanban.ts columnKey function
     return column
-      .normalize("NFKD")
+      .normalize('NFKD')
       .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "");
+      .replace(/[^a-z0-9]+/g, '');
   }
 
   private findTransitionRule(from: string, to: string): TransitionRule | undefined {
-    return this.config.rules.find(rule =>
-      rule.from.includes(from) && rule.to.includes(to)
-    );
+    return this.config.rules.find((rule) => rule.from.includes(from) && rule.to.includes(to));
+  }
+
+  private isBackwardTransition(from: string, to: string): boolean {
+    const workflowOrder = [
+      'icebox',
+      'incoming',
+      'accepted',
+      'breakdown',
+      'ready',
+      'todo',
+      'inprogress',
+      'testing',
+      'review',
+      'document',
+      'done',
+    ];
+
+    const fromIndex = workflowOrder.indexOf(from);
+    const toIndex = workflowOrder.indexOf(to);
+
+    return fromIndex >= 0 && toIndex >= 0 && toIndex < fromIndex;
   }
 
   private async evaluateGlobalRule(
@@ -274,7 +304,7 @@ export class TransitionRulesEngine {
     from: string,
     to: string,
     task: Task,
-    board: Board
+    board: Board,
   ): Promise<boolean> {
     // Special handling for built-in global rules
     switch (rule.name) {
@@ -290,9 +320,7 @@ export class TransitionRulesEngine {
   }
 
   private async evaluateWipLimit(targetColumn: string, board: Board): Promise<boolean> {
-    const column = board.columns.find(col =>
-      this.normalizeColumnName(col.name) === targetColumn
-    );
+    const column = board.columns.find((col) => this.normalizeColumnName(col.name) === targetColumn);
 
     if (!column) return true;
     if (!column.limit) return true;
@@ -301,13 +329,11 @@ export class TransitionRulesEngine {
   }
 
   private evaluateTaskExistence(sourceColumn: string, task: Task, board: Board): boolean {
-    const column = board.columns.find(col =>
-      this.normalizeColumnName(col.name) === sourceColumn
-    );
+    const column = board.columns.find((col) => this.normalizeColumnName(col.name) === sourceColumn);
 
     if (!column) return false;
 
-    return column.tasks.some(t => t.uuid === task.uuid);
+    return column.tasks.some((t) => t.uuid === task.uuid);
   }
 
   private async evaluateCustomCheck(checkName: string, task: Task, board: Board): Promise<boolean> {
@@ -324,7 +350,7 @@ export class TransitionRulesEngine {
     ruleImpl: string,
     args: any[],
     task: Task,
-    board: Board
+    board: Board,
   ): Promise<boolean> {
     if (!this.dslAvailable) {
       console.warn('Clojure DSL not available, skipping custom rule evaluation');
@@ -375,26 +401,26 @@ export class TransitionRulesEngine {
     }>;
     globalRules: string[];
   } {
-    const validTransitions = this.config.rules.flatMap(rule =>
-      rule.from.flatMap(from =>
-        rule.to.map(to => ({
+    const validTransitions = this.config.rules.flatMap((rule) =>
+      rule.from.flatMap((from) =>
+        rule.to.map((to) => ({
           from,
           to,
-          description: rule.description
-        }))
-      )
+          description: rule.description,
+        })),
+      ),
     );
 
     const globalRules = this.config.globalRules
-      .filter(rule => rule.enabled)
-      .map(rule => `${rule.name}: ${rule.description}`);
+      .filter((rule) => rule.enabled)
+      .map((rule) => `${rule.name}: ${rule.description}`);
 
     return {
       enabled: this.config.enabled,
       enforcementMode: this.config.enforcement,
       dslAvailable: this.dslAvailable,
       validTransitions,
-      globalRules
+      globalRules,
     };
   }
 }
@@ -403,7 +429,7 @@ export class TransitionRulesEngine {
  * Load and create a transition rules engine from config
  */
 export async function createTransitionRulesEngine(
-  configPaths: string | string[]
+  configPaths: string | string[],
 ): Promise<TransitionRulesEngine> {
   const paths = Array.isArray(configPaths) ? configPaths : [configPaths];
 
@@ -417,7 +443,7 @@ export async function createTransitionRulesEngine(
         enforcement: 'disabled',
         rules: [],
         customChecks: {},
-        globalRules: []
+        globalRules: [],
       };
 
       const engine = new TransitionRulesEngine(transitionConfig);
@@ -429,14 +455,14 @@ export async function createTransitionRulesEngine(
       // Continue to next path
     }
   }
-  
+
   // Return a disabled engine as fallback
   const engine = new TransitionRulesEngine({
     enabled: false,
     enforcement: 'disabled',
     rules: [],
     customChecks: {},
-    globalRules: []
+    globalRules: [],
   });
   await engine.initialize();
 
