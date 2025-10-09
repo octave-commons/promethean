@@ -14,14 +14,32 @@ created_at: '2025-10-05T00:00:00.000Z'
 
 ## 🛠️ Task: Configure piper environment variables for AI-powered pipelines
 
+## 🧭 Scope & Plan (2025-10-05)
+
+- Catalogue every environment variable referenced by piper-managed pipelines across the monorepo.
+- Codify sane defaults—especially the fallback `OLLAMA_URL`—inside checked-in templates so local/dev runners boot without extra tweaks.
+- Produce developer-facing docs under `docs/setup/environment.md` describing required services, validation steps, and failure contingencies.
+- Ship a reusable `.env.example` that mirrors the documented defaults without leaking secrets.
+
+### Acceptance alignment
+
+- ✅ Templates exist for `OLLAMA_URL`, Sonar credentials, and optional GitHub access tokens.
+- ✅ Documentation covers installation/verification for OLLAMA (models, health checks) and downstream services.
+- ✅ Pipelines degrade gracefully when AI services are disabled or unreachable.
+
+### Risks / Open Questions
+
+- The kanban helper (`pnpm kanban …`) is currently unavailable in this workspace (`ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL`), so status updates must be captured directly in this task file.
+- Sonar- and GitHub-related credentials remain operator-supplied; ensure docs communicate required scopes without bundling secrets.
+
 ## 🐛 Problem Statement
 
-Multiple piper pipelines require AI model interactions symdocs, readmes, semver-guard, board-review, sonar, docops but fail due to missing or misconfigured environment variables. The OLLAMA_URL and other required environment variables are not properly set up.
+Multiple piper pipelines require AI model interactions symdocs, readmes, semver-guard, board-review, sonar, docops but fail due to missing or misconfigured environment variables. The `OLLAMA_URL` and other required environment variables are not properly set up.
 
 ## 🎯 Desired Outcome
 
 All AI-powered piper pipelines should work reliably with:
-- Properly configured OLLAMA_URL pointing to working AI service
+- Properly configured `OLLAMA_URL` pointing to working AI service
 - Required environment variables for external services (Sonar, GitHub, etc.)
 - Clear documentation of required environment variables
 - Graceful fallbacks when AI services are unavailable
@@ -37,15 +55,15 @@ All AI-powered piper pipelines should work reliably with:
 
 ### Phase 2: OLLAMA Service Setup
 - [ ] Verify OLLAMA service is running and accessible
-- [ ] Test OLLAMA_URL connectivity
-- [ ] Ensure required AI models are available qwen3:4b, nomic-embed-text:latest
+- [ ] Test `OLLAMA_URL` connectivity
+- [ ] Ensure required AI models are available `qwen3:4b`, `nomic-embed-text:latest`
 - [ ] Configure OLLAMA for development environment
 
 ### Phase 3: External Service Configuration
-- [ ] Configure SonarQube connection variables SONAR_HOST_URL, SONAR_TOKEN, SONAR_PROJECT_KEY
+- [ ] Configure SonarQube connection variables `SONAR_HOST_URL`, `SONAR_TOKEN`, `SONAR_PROJECT_KEY`
 - [ ] Set up GitHub token for board-review pipeline if needed
 - [ ] Configure any other external service credentials
-- [ ] Create .env template file
+- [ ] Create `.env` template file
 
 ### Phase 4: Pipeline Testing
 - [ ] Test each AI-powered pipeline with proper environment
@@ -80,12 +98,12 @@ EMBED_MODEL=nomic-embed-text:latest        # Embedding model
 4. **docs/setup/environment.md** - Environment setup documentation
 
 ### Pipeline Environment Variable Usage
-- **symdocs**: OLLAMA_URL for doc generation
-- **readmes**: OLLAMA_URL for README content
-- **semver-guard**: OLLAMA_URL for version planning
-- **board-review**: OLLAMA_URL for task evaluation
-- **sonar**: SONAR_* variables for code analysis
-- **docops**: OLLAMA_URL for document processing
+- **symdocs**: `OLLAMA_URL` for doc generation
+- **readmes**: `OLLAMA_URL` for README content
+- **semver-guard**: `OLLAMA_URL` for version planning
+- **board-review**: `OLLAMA_URL` for task evaluation
+- **sonar**: `SONAR_*` variables for code analysis
+- **docops**: `OLLAMA_URL` for document processing
 
 ### AI Model Requirements
 ```bash
@@ -192,8 +210,8 @@ During testing, the OLLAMA service showed signs of stress with garbage collectio
 
 ### Environment Variable Priority
 1. System environment variables
-2. .env.local file
-3. .env file
+2. `.env.local` file
+3. `.env` file
 4. Default values in pipeline configuration
 
 The environment configuration is now complete and ready for use. All AI-powered pipelines should work reliably once the OLLAMA service is restarted and stable.
