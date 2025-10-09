@@ -110,7 +110,7 @@ export const ollamaPull: ToolFactory = () => {
   const spec = {
     name: 'ollama_pull',
     description: 'Queue a model pull (no-op executor in MVP)',
-    inputSchema: shape,
+    inputSchema: Schema.shape,
   } as const;
   const invoke = async (raw: unknown) => {
     const { modelName } = Schema.parse(raw);
@@ -153,7 +153,7 @@ export const ollamaCreateTemplate: ToolFactory = () => {
   const spec = {
     name: 'ollama_create_template',
     description: 'Create or update a template (s-expr text stored verbatim)',
-    inputSchema: shape,
+    inputSchema: Schema.shape,
   } as const;
   const invoke = async (raw: unknown) => {
     const { templateName, src } = Schema.parse(raw);
@@ -182,7 +182,7 @@ export const ollamaEnqueueJobFromTemplate: ToolFactory = () => {
   const spec = {
     name: 'ollama_enqueue_job_from_template',
     description: 'Queue a job that will execute a named template',
-    inputSchema: shape,
+    inputSchema: Schema.shape,
   } as const;
   const invoke = async (raw: unknown) => {
     const { jobName, templateName, args } = Schema.parse(raw);
@@ -216,7 +216,7 @@ export const ollamaStartConversation: ToolFactory = () => {
   const spec = {
     name: 'ollama_start_conversation',
     description: 'Create a conversation; optionally seeds initial user message',
-    inputSchema: shape,
+    inputSchema: Schema.shape,
   } as const;
   const invoke = async (raw: unknown) => {
     const { conversationName, initialMessage, systemPrompt } = Schema.parse(raw);
@@ -261,7 +261,7 @@ export const ollamaEnqueueGenerateJob: ToolFactory = () => {
   const spec = {
     name: 'ollama_enqueue_generate_job',
     description: 'Queue a text generation job (no execution in MVP)',
-    inputSchema: shape,
+    inputSchema: Schema.shape,
   } as const;
   const invoke = async (raw: unknown) => {
     const { jobName, modelName, prompt, suffix, options } = Schema.parse(raw);
@@ -303,7 +303,7 @@ export const ollamaEnqueueChatCompletion: ToolFactory = () => {
   const spec = {
     name: 'ollama_enqueue_chat_completion',
     description: 'Queue a chat completion against a conversation or raw messages',
-    inputSchema: shape,
+    inputSchema: Schema.shape,
   } as const;
   const invoke = async (raw: unknown) => {
     const { jobName, modelName, ref, options } = Schema.parse(raw);
@@ -371,7 +371,7 @@ export const ollamaRemoveJob: ToolFactory = () => {
   const spec = {
     name: 'ollama_remove_job',
     description: 'Remove a job by id or name if not running',
-    inputSchema: shape,
+    inputSchema: Schema.shape,
   } as const;
   const invoke = async (raw: unknown) => {
     const { handle } = Schema.parse(raw);

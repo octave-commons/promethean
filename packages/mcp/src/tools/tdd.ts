@@ -81,7 +81,7 @@ export const tddScaffoldTest: ToolFactory = () => {
   const spec = {
     name: 'tdd_scaffold_test',
     description: 'Create or append a test file next to a module (unit or property-test template).',
-    inputSchema: shape,
+    inputSchema: Schema.shape,
     stability: 'experimental',
     since: '0.1.0',
   } satisfies ToolSpec;
@@ -130,7 +130,7 @@ export const tddChangedFiles: ToolFactory = () => {
   const spec = {
     name: 'tdd_changed_files',
     description: 'List files changed vs a git base ref, filtered by glob patterns.',
-    inputSchema: shape,
+    inputSchema: Schema.shape,
     stability: 'experimental',
     since: '0.1.0',
   } satisfies ToolSpec;
@@ -162,7 +162,7 @@ export const tddRunTests: ToolFactory = () => {
     name: 'tdd_run_tests',
     description:
       'Run AVA via npx with JSON (or TAP) output and return aggregated results. For long-running watchers, use tdd_start_watch/tdd_get_watch_changes instead.',
-    inputSchema: shape,
+    inputSchema: Schema.shape,
     outputSchema: { passed: 0, failed: 0, durationMs: 0, failures: [] } as any,
     examples: [
       { args: {}, comment: 'Run all tests with JSON output' },
@@ -212,7 +212,7 @@ export const tddStartWatch: ToolFactory = () => {
   const spec = {
     name: 'tdd_start_watch',
     description: 'Start an AVA --watch process and stream output via getWatchChanges.',
-    inputSchema: shape,
+    inputSchema: Schema.shape,
     stability: 'experimental',
     since: '0.1.0',
   } satisfies ToolSpec;
@@ -261,7 +261,7 @@ export const tddCoverage: ToolFactory = () => {
   const spec = {
     name: 'tdd_coverage',
     description: 'Run c8+AVA to produce coverage summary; enforce optional thresholds.',
-    inputSchema: shape,
+    inputSchema: Schema.shape,
     stability: 'experimental',
     since: '0.1.0',
   } satisfies ToolSpec;
@@ -295,7 +295,7 @@ export const tddPropertyCheck: ToolFactory = () => {
     name: 'tdd_property_check',
     description:
       'Dynamically import a module export that builds a fast-check property and assert it.',
-    inputSchema: shape,
+    inputSchema: Schema.shape,
     stability: 'experimental',
     since: '0.1.0',
   } satisfies ToolSpec;
@@ -321,7 +321,7 @@ export const tddMutationScore: ToolFactory = () => {
   const spec = {
     name: 'tdd_mutation_score',
     description: 'Run Stryker mutation testing and return the score (fail if below minScore).',
-    inputSchema: shape,
+    inputSchema: Schema.shape,
     stability: 'experimental',
     since: '0.1.0',
   } satisfies ToolSpec;

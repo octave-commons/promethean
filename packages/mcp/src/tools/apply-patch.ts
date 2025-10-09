@@ -141,7 +141,7 @@ export const applyPatchTool: ToolFactory = (ctx) => {
     name: "apply_patch",
     description:
       "Apply a universal diff patch to the MCP sandbox using git apply.",
-    inputSchema: shape,
+    inputSchema: Schema.shape,
     examples: [
       {
         comment: "Dry-run a single-file change before applying",

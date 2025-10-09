@@ -110,7 +110,7 @@ const createSendMessageTool = (ctx: ToolContext, proxyFactory: ProxyFactory): To
     name: 'discord_send_message',
     description:
       'Send a message to a Discord channel. Provide content or embeds and the Discord space URN.',
-    inputSchema: shape,
+    inputSchema: Schema.shape,
     stability: 'experimental',
     since: '0.1.0',
   } satisfies ToolSpec;

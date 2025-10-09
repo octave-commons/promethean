@@ -34,6 +34,23 @@ export type RepoDoc = {
   excerpt: string; // first N lines
 };
 
+export type FileMetadata = {
+  path: string;
+  mtime: number; // modification time
+  size: number;
+  hash: string; // content hash for change detection
+  indexed: boolean; // whether currently in index
+};
+
+export type IndexStats = {
+  totalFiles: number;
+  indexedFiles: number;
+  changedFiles: number;
+  deletedFiles: number;
+  newIndexTime: number;
+  lastFullIndex?: number;
+};
+
 export type Embeddings = Record<string, number[]>; // key -> vector
 
 export type ContextHit = {

@@ -181,7 +181,7 @@ export const githubRequestTool: ToolFactory = (ctx) => {
   const spec = {
     name: "github_request",
     description: "Call GitHub REST API with optional ETag cache & pagination.",
-    inputSchema: shape, // <— ZodRawShape
+    inputSchema: Schema.shape, // <— ZodRawShape
     outputSchema: { status: 200, headers: {}, data: {} } as any,
     examples: [
       {
