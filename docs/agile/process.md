@@ -38,10 +38,10 @@ When the scope is larger than the available session, carve off a reviewable subs
 inventory lingering files, capture blockers, link references).&#x20;
 
 ```
-6. **Test → Review → Document**
+6. **Review → Test → Document**
 ```
 
-Move through _Testing_, _In Review_ and _Document_ then _Done_ per board flow, recording evidence and summaries.&#x20;
+Move through _In Review_, _Testing_ and _Document_ then _Done_ per board flow, recording evidence and summaries.&#x20;
 
 # Kanban as a Finite State Machine (FSM)
 
@@ -95,16 +95,16 @@ flowchart TD
   Breakdown --> Ready
   Ready --> Todo
   Todo --> InProgress
-  InProgress --> Testing
-  Testing --> InReview
-  InReview --> Document
-  InReview --> Done
+  InProgress --> InReview
+  InReview --> Testing
+  Testing --> Document
   Document --> Done
 
   %% ====== Cycles back to Planning / queue ======
   Ready --> Breakdown
   Todo --> Breakdown
   InProgress --> Breakdown
+  InReview --> Breakdown
   Testing --> InProgress
 
   %% ====== Session-end, no-PR handoff ======
@@ -114,6 +114,7 @@ flowchart TD
   %% ====== Review crossroads (re-open work) ======
   InReview --> InProgress
   InReview --> Todo
+  Testing --> InReview
 
   %% ====== Defer / archive loops ======
   Accepted --> IceBox
@@ -150,6 +151,12 @@ flowchart TD
 - **In Progress → In Review**
   Coherent, reviewable change exists.
 
+- **In Review → Testing**
+  Review approved; proceed to testing phase.
+
+- **Testing → Document**
+  Testing complete; proceed to documentation.
+
 - **In Progress → Todo** _session-end handoff; no PR required_
   Time/compute limit reached without a reviewable change. Record artifacts/notes + next step; move to **Todo** if WIP allows; else remain **In Progress** and mark a minor blocker.
   Artifacts must include partial outputs (e.g., audit logs, findings lists, reproduction steps) so a follow-on slice can resume immediately.
@@ -162,6 +169,9 @@ flowchart TD
 
 - **In Review → Todo** _(fallback)_
   Changes requested; assignee busy **or** **In Progress** WIP full.
+
+- **Testing → In Review**
+  Testing failed or needs review adjustments; return to review phase.
 
 - **Document → Done | In Review**
   Docs/evidence complete → Done; otherwise → In Review for another pass.

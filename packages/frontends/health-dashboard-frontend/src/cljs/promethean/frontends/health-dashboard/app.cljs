@@ -1,4 +1,4 @@
-(ns promethean.frontends.health_dashboard.app
+(ns promethean.frontends.health-dashboard.app
   "Shadow-CLJS bootstrap placeholder for the health dashboard frontend."
   (:require [promethean.shadow-ui.runtime :as runtime]))
 
