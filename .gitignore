@@ -134,7 +134,7 @@ packages/clj-hacks/target/
 packages/clj-hacks/.cpcache/
 
 tmp-docops-test/
-$HOME/
+# Personal home directory artifacts should be ignored via a global gitignore.
 .cpcache
 
 scripts/.piper/
