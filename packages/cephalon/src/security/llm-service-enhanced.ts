@@ -1,5 +1,8 @@
 import { LLMService, LLMRequest } from '../llm-service.js';
-import { BasicPromptInjectionDetector, PromptInjectionResult } from '@promethean/security/testing/prompt-injection.js';
+import {
+  BasicPromptInjectionDetector,
+  PromptInjectionDetectorResult
+} from '@promethean/security/testing/prompt-injection.js';
 
 export interface LLMSecurityContext {
   agentId?: string;
@@ -11,8 +14,8 @@ export interface LLMSecurityContext {
 }
 
 export interface LLMSecurityReport {
-  promptRisk: PromptInjectionResult;
-  contextRisk: PromptInjectionResult[];
+  promptRisk: PromptInjectionDetectorResult;
+  contextRisk: PromptInjectionDetectorResult[];
   overallRisk: number;
   shouldBlock: boolean;
   recommendations: string[];
@@ -61,7 +64,7 @@ export class SecureLLMService extends LLMService {
     const promptRisk = await this.promptDetector.detect(request.prompt);
     
     // Analyze context messages
-    const contextRisks: PromptInjectionResult[] = [];
+    const contextRisks: PromptInjectionDetectorResult[] = [];
     for (const message of request.context || []) {
       const messageRisk = await this.promptDetector.detect(message.content);
       contextRisks.push(messageRisk);
@@ -69,11 +72,11 @@ export class SecureLLMService extends LLMService {
 
     // Calculate overall risk
     const allRisks = [promptRisk, ...contextRisks];
-    const overallRisk = Math.max(...allRisks.map(r => r.riskScore));
+    const overallRisk = Math.max(...allRisks.map(r => r.confidence));
     const shouldBlock = this.enableBlocking && overallRisk >= this.riskThreshold;
 
     // Generate recommendations
-    const recommendations = this.generateRecommendations(promptRisk, contextRisks, overallRisk);
+    const recommendations = this.generateRecommendations(promptRisk, contextRisks, overallRisk, request);
 
     const securityReport: LLMSecurityReport = {
       promptRisk,
@@ -120,7 +123,7 @@ export class SecureLLMService extends LLMService {
   async validateToolCall(
     toolName: string,
     toolArgs: any,
-    context: Partial<LLMSecurityContext> = {}
+    _context: Partial<LLMSecurityContext> = {}
   ): Promise<{
     allowed: boolean;
     riskScore: number;
@@ -132,7 +135,7 @@ export class SecureLLMService extends LLMService {
 
     // Additional tool-specific validation
     const toolRisk = this.validateToolSpecificRisk(toolName, toolArgs);
-    const combinedRisk = Math.max(detection.riskScore, toolRisk);
+    const combinedRisk = Math.max(detection.confidence, toolRisk);
 
     // Sanitize arguments if needed
     let sanitizedArgs = toolArgs;
@@ -143,7 +146,7 @@ export class SecureLLMService extends LLMService {
     return {
       allowed: !this.enableBlocking || combinedRisk < this.riskThreshold,
       riskScore: combinedRisk,
-      patterns: detection.detectedPatterns,
+      patterns: this.promptDetector.scanForSuspiciousPatterns(argsString),
       sanitizedArgs,
     };
   }
@@ -152,21 +155,22 @@ export class SecureLLMService extends LLMService {
    * Generate security recommendations
    */
   private generateRecommendations(
-    promptRisk: PromptInjectionResult,
-    contextRisks: PromptInjectionResult[],
-    overallRisk: number
+    promptRisk: PromptInjectionDetectorResult,
+    contextRisks: PromptInjectionDetectorResult[],
+    overallRisk: number,
+    request?: { prompt: string }
   ): string[] {
     const recommendations: string[] = [];
 
-    if (promptRisk.isInjection) {
+    if (promptRisk.detected) {
       recommendations.push('Prompt contains injection patterns');
     }
 
-    if (promptRisk.riskScore > 0.7) {
+    if (promptRisk.confidence > 0.7) {
       recommendations.push('High-risk prompt detected');
     }
 
-    if (contextRisks.some(r => r.isInjection)) {
+    if (contextRisks.some(r => r.detected)) {
       recommendations.push('Conversation context contains suspicious patterns');
     }
 
@@ -174,8 +178,11 @@ export class SecureLLMService extends LLMService {
       recommendations.push('Request blocked due to security policy');
     }
 
-    if (promptRisk.detectedPatterns.length > 3) {
-      recommendations.push('Multiple attack patterns detected');
+    if (request) {
+      const patterns = this.promptDetector.scanForSuspiciousPatterns(request.prompt);
+      if (patterns.length > 3) {
+        recommendations.push('Multiple attack patterns detected');
+      }
     }
 
     if (recommendations.length === 0) {
@@ -228,7 +235,7 @@ export class SecureLLMService extends LLMService {
   /**
    * Sanitize tool arguments
    */
-  private sanitizeToolArguments(toolName: string, toolArgs: any): any {
+  private sanitizeToolArguments(_toolName: string, toolArgs: any): any {
     if (typeof toolArgs !== 'object' || toolArgs === null) {
       return toolArgs;
     }
@@ -255,19 +262,7 @@ export class SecureLLMService extends LLMService {
   /**
    * Send request to broker with security metadata
    */
-  private async sendToBroker(request: LLMRequest, securityReport: LLMSecurityReport): Promise<any> {
-    // Add security metadata to request
-    const enhancedRequest = {
-      ...request,
-      metadata: {
-        security: {
-          riskScore: securityReport.overallRisk,
-          requestId: securityReport.context.requestId,
-          timestamp: securityReport.context.timestamp,
-        },
-      },
-    };
-
+  private async sendToBroker(_request: LLMRequest, securityReport: LLMSecurityReport): Promise<any> {
     // This would normally use the broker to send the request
     // For now, return a mock response
     return {
@@ -289,8 +284,8 @@ export class SecureLLMService extends LLMService {
         requestId: report.context.requestId,
         overallRisk: report.overallRisk,
         shouldBlock: report.shouldBlock,
-        promptPatterns: report.promptRisk.detectedPatterns.length,
-        contextPatterns: report.contextRisk.filter(r => r.isInjection).length,
+        promptPatterns: report.promptRisk.detected ? 1 : 0,
+        contextPatterns: report.contextRisk.filter(r => r.detected).length,
         recommendations: report.recommendations,
         userId: report.context.userId,
         toolName: report.context.toolName,
@@ -341,14 +336,14 @@ export async function validateLLMPrompt(
   const detector = new BasicPromptInjectionDetector();
   const promptRisk = await detector.detect(prompt);
   
-  const contextRisks: PromptInjectionResult[] = [];
+  const contextRisks: PromptInjectionDetectorResult[] = [];
   for (const message of context) {
     const messageRisk = await detector.detect(message.content);
     contextRisks.push(messageRisk);
   }
 
   const allRisks = [promptRisk, ...contextRisks];
-  const overallRisk = Math.max(...allRisks.map(r => r.riskScore));
+  const overallRisk = Math.max(...allRisks.map(r => r.confidence));
 
   return {
     promptRisk,

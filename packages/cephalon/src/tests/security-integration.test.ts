@@ -1,10 +1,8 @@
 /* eslint-disable functional/no-let, functional/immutable-data, @typescript-eslint/require-await, @typescript-eslint/no-unused-vars */
 import test from 'ava';
-import { 
-  SecureLLMService, 
-  createSecureLLMService, 
-  validateLLMPrompt,
-  LLMSecurityContext 
+import {
+  createSecureLLMService,
+  validateLLMPrompt
 } from '../security/llm-service-enhanced.js';
 
 // Mock broker for testing
@@ -125,7 +123,7 @@ test('SecureLLMService: detects context-based injection', async (t) => {
 
   // Should detect risk from context even if prompt seems innocent
   t.false(validation.allowed); // Should be blocked due to context
-  t.true(validation.securityReport.contextRisk.some(r => r.isInjection));
+  t.true(validation.securityReport.contextRisk.some(r => r.detected));
   t.true(validation.securityReport.overallRisk >= 0.6);
   
   console.log('Context-based injection detected:');
@@ -280,11 +278,11 @@ test('SecureLLMService: multi-turn conversation analysis', async (t) => {
   // Should detect escalation pattern
   t.false(validation.allowed);
   t.true(validation.securityReport.overallRisk >= 0.6);
-  t.true(validation.securityReport.contextRisk.some(r => r.riskScore > 0.4));
+  t.true(validation.securityReport.contextRisk.some(r => r.confidence > 0.4));
   
   console.log('Multi-turn escalation detected:');
   console.log(`- Context messages analyzed: ${validation.securityReport.contextRisk.length}`);
-  console.log(`- Max context risk: ${Math.max(...validation.securityReport.contextRisk.map(r => r.riskScore))}`);
+  console.log(`- Max context risk: ${Math.max(...validation.securityReport.contextRisk.map(r => r.confidence))}`);
 });
 
 test('SecureLLMService: provides security statistics', async (t) => {

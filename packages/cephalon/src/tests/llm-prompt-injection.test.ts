@@ -8,7 +8,7 @@ const mockBroker = {
   connect: async () => {},
   subscribe: () => {},
   unsubscribe: () => {},
-  publish: async (topic: string, payload: any) => {
+  publish: async (_topic: string, _payload: any) => {
     // Simulate broker response for testing
     return Promise.resolve();
   },
@@ -32,7 +32,7 @@ const createTestLLMService = () => {
 
 test('LLMService: blocks prompt injection in initial request', async (t) => {
   const detector = new BasicPromptInjectionDetector();
-  const llmService = createTestLLMService();
+  createTestLLMService(); // Create service to test structure
 
   // Test dangerous prompt patterns
   const dangerousPrompts = [
@@ -48,8 +48,8 @@ test('LLMService: blocks prompt injection in initial request', async (t) => {
     
     // Verify detection works for LLM service prompts
     t.truthy(detection);
-    t.is(typeof detection.isInjection, 'boolean');
-    t.is(typeof detection.riskScore, 'number');
+    t.is(typeof detection.detected, 'boolean');
+    t.is(typeof detection.confidence, 'number');
     
     // Create LLM request (would normally be sent to broker)
     const request = {
@@ -63,15 +63,15 @@ test('LLMService: blocks prompt injection in initial request', async (t) => {
     t.true(request.context.length > 0);
     
     // Log high-risk prompts for security review
-    if (detection.riskScore > 0.7) {
-      console.log(`High-risk prompt detected: Score ${detection.riskScore} for "${prompt.substring(0, 100)}..."`);
+    if (detection.confidence > 0.7) {
+      console.log(`High-risk prompt detected: Score ${detection.confidence} for "${prompt.substring(0, 100)}..."`);
     }
   }
 });
 
 test('LLMService: prompt injection in conversation context', async (t) => {
   const detector = new BasicPromptInjectionDetector();
-  const llmService = createTestLLMService();
+  createTestLLMService(); // Create service to test structure
 
   // Test context-based injection attempts
   const contextInjectionTests = [
@@ -126,15 +126,15 @@ test('LLMService: prompt injection in conversation context', async (t) => {
     t.deepEqual(request.context, test.context);
     
     // Check if any messages in context are flagged
-    const anyContextFlags = contextDetections.some(d => d.detection.isInjection);
-    const promptFlagged = promptDetection.isInjection;
+    const anyContextFlags = contextDetections.some(d => d.detection.detected);
+    const promptFlagged = promptDetection.detected;
     
     console.log(`${test.name}: Prompt flagged: ${promptFlagged}, Context flagged: ${anyContextFlags}`);
     
     if (promptFlagged || anyContextFlags) {
       const maxRisk = Math.max(
-        promptDetection.riskScore,
-        ...contextDetections.map(d => d.detection.riskScore)
+        promptDetection.confidence,
+        ...contextDetections.map(d => d.detection.confidence)
       );
       console.log(`  Max risk score: ${maxRisk}`);
     }
@@ -143,7 +143,7 @@ test('LLMService: prompt injection in conversation context', async (t) => {
 
 test('LLMService: encoding-based injection attempts', async (t) => {
   const detector = new BasicPromptInjectionDetector();
-  const llmService = createTestLLMService();
+  createTestLLMService(); // Create service to test structure
 
   // Test various encoding techniques
   const encodedInjections = [
@@ -184,8 +184,8 @@ test('LLMService: encoding-based injection attempts', async (t) => {
     
     t.truthy(request);
     
-    if (detection.isInjection) {
-      console.log(`Encoded attack detected (${test.name}): Score ${detection.riskScore}`);
+    if (detection.detected) {
+      console.log(`Encoded attack detected (${test.name}): Score ${detection.confidence}`);
     }
     
     // Test with format object
@@ -200,7 +200,7 @@ test('LLMService: encoding-based injection attempts', async (t) => {
 
 test('LLMService: tool function injection attempts', async (t) => {
   const detector = new BasicPromptInjectionDetector();
-  const llmService = createTestLLMService();
+  const llmService = createTestLLMService(); // Create service to test structure
 
   // Test injection attempts via tool parameters
   const toolInjectionTests = [
@@ -254,22 +254,22 @@ test('LLMService: tool function injection attempts', async (t) => {
         // Check if handler arguments contain injection
         const argsStr = JSON.stringify(args);
         const handlerDetection = await detector.detect(argsStr);
-        return { safe: !handlerDetection.isInjection };
+        return { safe: !handlerDetection.detected };
       },
     });
     
     t.truthy(argsDetection);
     t.true(llmService.tools.has(test.toolCall.function.name));
     
-    if (argsDetection.isInjection) {
-      console.log(`Tool injection detected (${test.name}): Score ${argsDetection.riskScore}`);
+    if (argsDetection.detected) {
+      console.log(`Tool injection detected (${test.name}): Score ${argsDetection.confidence}`);
     }
   }
 });
 
 test('LLMService: multi-turn conversation injection', async (t) => {
   const detector = new BasicPromptInjectionDetector();
-  const llmService = createTestLLMService();
+  createTestLLMService(); // Create service to test structure
 
   // Test multi-turn attack patterns
   const multiTurnAttacks = [
@@ -312,21 +312,23 @@ test('LLMService: multi-turn conversation injection', async (t) => {
     // Check each turn for injection patterns
     for (const turn of attack.turns) {
       const detection = await detector.detect(turn.content);
-      maxRiskScore = Math.max(maxRiskScore, detection.riskScore);
-      
-      if (detection.isInjection) {
+      maxRiskScore = Math.max(maxRiskScore, detection.confidence);
+
+      if (detection.detected) {
         flaggedTurns++;
-        console.log(`Flagged turn in ${attack.name}: ${turn.role} - Score ${detection.riskScore}`);
+        console.log(`Flagged turn in ${attack.name}: ${turn.role} - Score ${detection.confidence}`);
       }
     }
     
     // Create final request
     const finalTurn = attack.turns[attack.turns.length - 1];
+    if (!finalTurn) return; // Skip if no final turn
+
     const request = {
       prompt: finalTurn.content,
       context: attack.turns.slice(0, -1),
     };
-    
+
     t.truthy(request);
     t.is(request.prompt, finalTurn.content);
     t.true(request.context.length > 0);
@@ -337,7 +339,7 @@ test('LLMService: multi-turn conversation injection', async (t) => {
 
 test('LLMService: prompt boundary and context testing', async (t) => {
   const detector = new BasicPromptInjectionDetector();
-  const llmService = createTestLLMService();
+  createTestLLMService(); // Create service to test structure
 
   // Test context boundary violations
   const boundaryTests = [
@@ -365,7 +367,7 @@ test('LLMService: prompt boundary and context testing', async (t) => {
 
   for (const test of boundaryTests) {
     const promptDetection = await detector.detect(test.prompt);
-    const contextDetection = await detector.detect(test.context[0].content);
+    const contextDetection = await detector.detect(test.context[0]?.content || '');
     
     const request = {
       prompt: test.prompt,
@@ -374,7 +376,7 @@ test('LLMService: prompt boundary and context testing', async (t) => {
     
     t.truthy(request);
     
-    const maxRisk = Math.max(promptDetection.riskScore, contextDetection.riskScore);
+    const maxRisk = Math.max(promptDetection.confidence, contextDetection.confidence);
     
     if (maxRisk > 0.5) {
       console.log(`Boundary violation detected (${test.name}): Risk ${maxRisk}`);
@@ -384,7 +386,7 @@ test('LLMService: prompt boundary and context testing', async (t) => {
 
 test('LLMService: legitimate prompts false positive test', async (t) => {
   const detector = new BasicPromptInjectionDetector();
-  const llmService = createTestLLMService();
+  createTestLLMService(); // Create service to test structure
 
   // Test legitimate prompts that should NOT be flagged
   const legitimateRequests = [
@@ -426,8 +428,8 @@ test('LLMService: legitimate prompts false positive test', async (t) => {
     );
     
     const maxRisk = Math.max(
-      promptDetection.riskScore,
-      ...contextDetections.map(d => d.riskScore)
+      promptDetection.confidence,
+      ...contextDetections.map(d => d.confidence)
     );
     
     totalRiskScore += maxRisk;
@@ -503,9 +505,9 @@ test('LLMService: comprehensive injection pattern coverage', async (t) => {
 
   for (const pattern of comprehensivePatterns) {
     const detection = await detector.detect(pattern);
-    totalRisk += detection.riskScore;
-    
-    if (detection.isInjection) {
+    totalRisk += detection.confidence;
+
+    if (detection.detected) {
       detectedCount++;
     }
   }
