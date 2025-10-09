@@ -23,7 +23,7 @@ export const filesListDirectory: ToolFactory = () => {
   const spec = {
     name: 'files_list_directory',
     description: 'List files and directories within the sandbox root.',
-    inputSchema: shape,
+    inputSchema: Schema.shape,
     outputSchema: {
       ok: true,
       base: '.',
@@ -57,7 +57,7 @@ export const filesTreeDirectory: ToolFactory = () => {
   const spec = {
     name: 'files_tree_directory',
     description: 'Build a tree-like view of a directory, with optional hidden files and max depth.',
-    inputSchema: shape,
+    inputSchema: Schema.shape,
     outputSchema: { ok: true, base: '.', tree: [] } as any,
     examples: [
       {
@@ -92,7 +92,7 @@ export const filesViewFile: ToolFactory = () => {
   const spec = {
     name: 'files_view_file',
     description: 'View a file by path, with line-context selection.',
-    inputSchema: shape,
+    inputSchema: Schema.shape,
     outputSchema: {
       path: 'README.md',
       totalLines: 0,
@@ -127,7 +127,7 @@ export const filesWriteFileContent: ToolFactory = () => {
   const spec = {
     name: 'files_write_content',
     description: 'Write UTF-8 content to a file (creates if not exists).',
-    inputSchema: shape,
+    inputSchema: Schema.shape,
     outputSchema: { path: 'path/to/file' } as any,
     examples: [
       {
@@ -156,7 +156,7 @@ export const filesWriteFileLines: ToolFactory = () => {
   const spec = {
     name: 'files_write_lines',
     description: 'Append or insert lines into a file at startLine (1-based).',
-    inputSchema: shape,
+    inputSchema: Schema.shape,
     outputSchema: { path: 'path/to/file' } as any,
     examples: [
       {

@@ -4,12 +4,8 @@ import matter from 'gray-matter';
 import type { Task } from './types.js';
 import { ollamaJSON, createLogger, type LogFields } from '@promethean/utils';
 import { z } from 'zod';
-import { readTasksFolder } from "./kanban.js";
 
 const logger = createLogger({ service: 'task-complexity-estimator' });
-
-const formatError = (error: unknown): string =>
-  error instanceof Error ? error.stack ?? error.message : String(error);
 
 const toErrorFields = (error: unknown): LogFields => {
   if (error instanceof Error) {
@@ -489,13 +485,10 @@ async function estimateTaskComplexity(
     const raw = await ollamaJSON(model, prompt);
     const parsed: ComplexityResult = ComplexitySchema.parse(raw);
 
-    // Type guard to ensure LLM result matches expected schema
-    if (!ComplexitySchema.safeParse(llmResult).success) {
+    // Type guard to ensure result matches expected schema
+    if (!ComplexitySchema.safeParse(parsed).success) {
       throw new Error('LLM result does not match expected schema');
     }
-
-    // Type assertion after validation
-    const validatedResult = llmResult as z.infer<typeof ComplexitySchema>;
 
     // Merge LLM analysis with base analysis
     const factors: ComplexityFactors = {
@@ -677,3 +670,4 @@ if (import.meta.main) {
       process.exit(1);
     });
 }
+*/

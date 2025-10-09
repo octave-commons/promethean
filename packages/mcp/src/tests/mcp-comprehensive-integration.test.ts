@@ -1,0 +1,697 @@
+/* eslint-disable functional/no-let, functional/immutable-data, @typescript-eslint/require-await, @typescript-eslint/no-unused-vars */
+import { createServer } from 'node:net';
+import type { AddressInfo } from 'node:net';
+import test from 'ava';
+import { z } from 'zod';
+
+import { fastifyTransport } from '../core/transports/fastify.js';
+import { createMcpServer } from '../core/mcp-server.js';
+import type { Tool } from '../core/types.js';
+
+const allocatePort = async (): Promise<number> =>
+  new Promise((resolve, reject) => {
+    const server = createServer();
+    server.once('error', (error) => {
+      server.close();
+      reject(error);
+    });
+    server.listen(0, '127.0.0.1', () => {
+      const address = server.address() as AddressInfo | null;
+      server.close((closeError) => {
+        if (closeError) {
+          reject(closeError);
+          return;
+        }
+        if (!address) {
+          reject(new Error('Failed to allocate ephemeral port'));
+          return;
+        }
+        resolve(address.port);
+      });
+    });
+  });
+
+// Helper to create test tools with realistic schemas
+const createFileTools = (): readonly Tool[] => {
+  const ListSchema = z.object({
+    rel: z.string().default('.'),
+    includeHidden: z.boolean().optional(),
+  }).strict();
+
+  const ViewSchema = z.object({
+    relOrFuzzy: z.string(),
+    line: z.number().int().min(1).optional(),
+    context: z.number().int().min(0).optional(),
+  }).strict();
+
+  const WriteSchema = z.object({
+    filePath: z.string(),
+    content: z.string(),
+  }).strict();
+
+  const SearchSchema = z.object({
+    query: z.string(),
+    regex: z.boolean().default(false),
+    caseSensitive: z.boolean().default(false),
+    maxResults: z.number().int().min(1).default(10),
+  }).strict();
+
+  return [
+    {
+      spec: {
+        name: 'files_list_directory',
+        description: 'List files and directories',
+        inputSchema: ListSchema.shape,
+        stability: 'stable',
+        since: '0.1.0',
+      },
+      invoke: async (raw) => {
+        const args = ListSchema.parse(raw);
+        return {
+          ok: true,
+          base: args.rel,
+          entries: [{ name: 'README.md', path: 'README.md', type: 'file' }]
+        };
+      },
+    },
+    {
+      spec: {
+        name: 'files_view_file',
+        description: 'View file contents',
+        inputSchema: ViewSchema.shape,
+        stability: 'stable',
+        since: '0.1.0',
+      },
+      invoke: async (raw) => {
+        const args = ViewSchema.parse(raw);
+        return {
+          path: args.relOrFuzzy,
+          content: `File content of ${args.relOrFuzzy}`,
+          line: args.line || 1,
+        };
+      },
+    },
+    {
+      spec: {
+        name: 'files_write_content',
+        description: 'Write content to file',
+        inputSchema: WriteSchema.shape,
+        stability: 'stable',
+        since: '0.1.0',
+      },
+      invoke: async (raw) => {
+        const args = WriteSchema.parse(raw);
+        return {
+          success: true,
+          path: args.filePath,
+          bytesWritten: args.content.length
+        };
+      },
+    },
+    {
+      spec: {
+        name: 'files_search',
+        description: 'Search file contents',
+        inputSchema: SearchSchema.shape,
+        stability: 'stable',
+        since: '0.1.0',
+      },
+      invoke: async (raw) => {
+        const args = SearchSchema.parse(raw);
+        return {
+          ok: true,
+          count: 1,
+          results: [
+            { path: 'test.txt', line: 1, snippet: `Found: ${args.query}` }
+          ]
+        };
+      },
+    },
+  ];
+};
+
+const createGithubTools = (): readonly Tool[] => {
+  const RequestSchema = z.object({
+    method: z.enum(['GET', 'POST', 'PUT', 'DELETE']),
+    url: z.string().url(),
+    body: z.any().optional(),
+  }).strict();
+
+  const RateLimitSchema = z.object({}).strict();
+
+  return [
+    {
+      spec: {
+        name: 'github_request',
+        description: 'Make GitHub API request',
+        inputSchema: RequestSchema.shape,
+        stability: 'stable',
+        since: '0.1.0',
+      },
+      invoke: async (raw) => {
+        const args = RequestSchema.parse(raw);
+        return {
+          status: 200,
+          url: args.url,
+          method: args.method,
+          data: args.body || null
+        };
+      },
+    },
+    {
+      spec: {
+        name: 'github_rate_limit',
+        description: 'Check GitHub rate limits',
+        inputSchema: RateLimitSchema.shape,
+        stability: 'stable',
+        since: '0.1.0',
+      },
+      invoke: async () => {
+        return {
+          limit: 5000,
+          remaining: 4985,
+          reset: new Date(Date.now() + 3600000).toISOString(),
+        };
+      },
+    },
+  ];
+};
+
+const createKanbanTools = (): readonly Tool[] => {
+  const GetBoardSchema = z.object({}).strict();
+  const UpdateStatusSchema = z.object({
+    taskId: z.string().uuid(),
+    status: z.enum(['todo', 'in_progress', 'done']),
+  }).strict();
+
+  return [
+    {
+      spec: {
+        name: 'kanban_get_board',
+        description: 'Get kanban board',
+        inputSchema: GetBoardSchema.shape,
+        stability: 'stable',
+        since: '0.1.0',
+      },
+      invoke: async () => {
+        return {
+          board: 'test-board',
+          columns: ['todo', 'in_progress', 'done'],
+          tasks: []
+        };
+      },
+    },
+    {
+      spec: {
+        name: 'kanban_update_status',
+        description: 'Update task status',
+        inputSchema: UpdateStatusSchema.shape,
+        stability: 'stable',
+        since: '0.1.0',
+      },
+      invoke: async (raw) => {
+        const args = UpdateStatusSchema.parse(raw);
+        return {
+          taskId: args.taskId,
+          previousStatus: 'todo',
+          newStatus: args.status,
+          updated: true
+        };
+      },
+    },
+  ];
+};
+
+const createDiscordTools = (): readonly Tool[] => {
+  const SendMessageSchema = z.object({
+    channelId: z.string(),
+    content: z.string(),
+  }).strict();
+
+  return [
+    {
+      spec: {
+        name: 'discord_send_message',
+        description: 'Send Discord message',
+        inputSchema: SendMessageSchema.shape,
+        stability: 'stable',
+        since: '0.1.0',
+      },
+      invoke: async (raw) => {
+        const args = SendMessageSchema.parse(raw);
+        return {
+          messageId: 'msg-' + Math.random().toString(36).substr(2, 9),
+          channelId: args.channelId,
+          content: args.content
+        };
+      },
+    },
+  ];
+};
+
+const createExecTools = (): readonly Tool[] => {
+  const RunSchema = z.object({
+    command: z.string(),
+    args: z.array(z.string()).optional(),
+    timeout: z.number().optional(),
+  }).strict();
+
+  const ListSchema = z.object({}).strict();
+
+  return [
+    {
+      spec: {
+        name: 'exec_run',
+        description: 'Execute command',
+        inputSchema: RunSchema.shape,
+        stability: 'stable',
+        since: '0.1.0',
+      },
+      invoke: async (raw) => {
+        const args = RunSchema.parse(raw);
+        return {
+          command: args.command,
+          args: args.args || [],
+          exitCode: 0,
+          stdout: `Command executed: ${args.command}`,
+          stderr: ''
+        };
+      },
+    },
+    {
+      spec: {
+        name: 'exec_list',
+        description: 'List available commands',
+        inputSchema: ListSchema.shape,
+        stability: 'stable',
+        since: '0.1.0',
+      },
+      invoke: async () => {
+        return {
+          availableCommands: ['ls', 'cat', 'echo', 'grep']
+        };
+      },
+    },
+  ];
+};
+
+// Helper to test an MCP endpoint with tools
+const testEndpoint = async (
+  t: any,
+  port: number,
+  endpoint: string,
+  tools: readonly Tool[],
+  testScenarios: Array<{ tool: string; args: any; expected: any }>
+) => {
+  const server = createMcpServer(tools);
+  const transport = fastifyTransport({ host: '127.0.0.1', port });
+
+  await transport.start([{ path: endpoint, kind: 'registry', handler: server }]);
+
+  try {
+    // Initialize MCP session
+    const initResponse = await fetch(`http://127.0.0.1:${port}${endpoint}`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        accept: 'application/json, text/event-stream',
+      },
+      body: JSON.stringify({
+        jsonrpc: '2.0',
+        id: 1,
+        method: 'initialize',
+        params: {
+          protocolVersion: '2024-10-01',
+          clientInfo: { name: 'test-client', version: '1.0.0' },
+          capabilities: {},
+        },
+      }),
+    });
+
+    t.is(initResponse.status, 200);
+    const initText = await initResponse.text();
+    const sseLines = initText.split('\n');
+    const dataLine = sseLines.find(line => line.startsWith('data: '));
+    t.truthy(dataLine);
+
+    const initResult = JSON.parse(dataLine!.slice('data: '.length)) as any;
+    t.is(initResult.result.protocolVersion, '2025-06-18');
+    t.is(initResult.result.serverInfo.name, 'promethean-mcp');
+
+    const sessionId = initResponse.headers.get('mcp-session-id');
+    t.truthy(sessionId);
+
+    // List tools
+    const listResponse = await fetch(`http://127.0.0.1:${port}${endpoint}`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        ...(sessionId ? { 'mcp-session-id': sessionId } : {}),
+      },
+      body: JSON.stringify({
+        jsonrpc: '2.0',
+        id: 2,
+        method: 'tools/list',
+        params: {},
+      }),
+    });
+
+    t.is(listResponse.status, 200);
+    const listText = await listResponse.text();
+    const listSseLines = listText.split('\n');
+    const listDataLine = listSseLines.find(line => line.startsWith('data: '));
+    t.truthy(listDataLine);
+
+    const listResult = JSON.parse(listDataLine!.slice('data: '.length)) as any;
+    t.true(Array.isArray(listResult.result?.tools));
+    t.true(listResult.result.tools.length > 0);
+
+    // Test each scenario
+    for (const scenario of testScenarios) {
+      const toolResponse = await fetch(`http://127.0.0.0.1:${port}${endpoint}`, {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+          ...(sessionId ? { 'mcp-session-id': sessionId } : {}),
+        },
+        body: JSON.stringify({
+          jsonrpc: '2.0',
+          id: Math.random().toString(36).substr(2, 9),
+          method: 'tools/call',
+          params: {
+            name: scenario.tool,
+            arguments: scenario.args,
+          },
+        }),
+      });
+
+      t.is(toolResponse.status, 200);
+      const toolText = await toolResponse.text();
+      const toolSseLines = toolText.split('\n');
+      const toolDataLine = toolSseLines.find(line => line.startsWith('data: '));
+      t.truthy(toolDataLine);
+
+      const toolResult = JSON.parse(toolDataLine!.slice('data: '.length)) as any;
+      t.true(Array.isArray(toolResult.result.content));
+      t.is(toolResult.result.content[0].type, 'text');
+
+      const parsedResult = JSON.parse(toolResult.result.content[0].text);
+      t.deepEqual(parsedResult, scenario.expected);
+    }
+
+  } finally {
+    await transport.stop?.();
+  }
+};
+
+test('MCP /files endpoint comprehensive integration test', async (t) => {
+  const port = await allocatePort();
+  const tools = createFileTools();
+
+  const testScenarios = [
+    {
+      tool: 'files_list_directory',
+      args: { rel: '.', includeHidden: false },
+      expected: {
+        ok: true,
+        base: '.',
+        entries: [{ name: 'README.md', path: 'README.md', type: 'file' }]
+      }
+    },
+    {
+      tool: 'files_view_file',
+      args: { relOrFuzzy: 'README.md', line: 1 },
+      expected: {
+        path: 'README.md',
+        content: 'File content of README.md',
+        line: 1,
+      }
+    },
+    {
+      tool: 'files_write_content',
+      args: { filePath: 'test.txt', content: 'Hello World' },
+      expected: {
+        success: true,
+        path: 'test.txt',
+        bytesWritten: 11
+      }
+    },
+    {
+      tool: 'files_search',
+      args: { query: 'TODO', maxResults: 5 },
+      expected: {
+        ok: true,
+        count: 1,
+        results: [
+          { path: 'test.txt', line: 1, snippet: 'Found: TODO' }
+        ]
+      }
+    },
+  ];
+
+  await testEndpoint(t, port, '/files', tools, testScenarios);
+});
+
+test('MCP /github endpoint comprehensive integration test', async (t) => {
+  const port = await allocatePort();
+  const tools = createGithubTools();
+
+  const testScenarios = [
+    {
+      tool: 'github_request',
+      args: { method: 'GET', url: 'https://api.github.com/repos/test/test' },
+      expected: {
+        status: 200,
+        url: 'https://api.github.com/repos/test/test',
+        method: 'GET',
+        data: null
+      }
+    },
+    {
+      tool: 'github_rate_limit',
+      args: {},
+      expected: {
+        limit: 5000,
+        remaining: 4985,
+        reset: new Date(Date.now() + 3600000).toISOString()
+      }
+    },
+  ];
+
+  await testEndpoint(t, port, '/github', tools, testScenarios);
+});
+
+test('MCP /kanban endpoint comprehensive integration test', async (t) => {
+  const port = await allocatePort();
+  const tools = createKanbanTools();
+
+  const testScenarios = [
+    {
+      tool: 'kanban_get_board',
+      args: {},
+      expected: {
+        board: 'test-board',
+        columns: ['todo', 'in_progress', 'done'],
+        tasks: []
+      }
+    },
+    {
+      tool: 'kanban_update_status',
+      args: { taskId: '123e4567-e89b-12d3-a456-426614174000', status: 'in_progress' },
+      expected: {
+        taskId: '123e4567-e89b-12d3-a456-426614174000',
+        previousStatus: 'todo',
+        newStatus: 'in_progress',
+        updated: true
+      }
+    },
+  ];
+
+  await testEndpoint(t, port, '/kanban', tools, testScenarios);
+});
+
+test('MCP /discord endpoint comprehensive integration test', async (t) => {
+  const port = await allocatePort();
+  const tools = createDiscordTools();
+
+  const testScenarios = [
+    {
+      tool: 'discord_send_message',
+      args: { channelId: '123456789', content: 'Hello Discord!' },
+      expected: {
+        messageId: 'msg-' + 'random123',
+        channelId: '123456789',
+        content: 'Hello Discord!'
+      }
+    },
+  ];
+
+  await testEndpoint(t, port, '/discord', tools, testScenarios);
+});
+
+test('MCP /exec endpoint comprehensive integration test', async (t) => {
+  const port = await allocatePort();
+  const tools = createExecTools();
+
+  const testScenarios = [
+    {
+      tool: 'exec_run',
+      args: { command: 'echo', args: ['hello', 'world'] },
+      expected: {
+        command: 'echo',
+        args: ['hello', 'world'],
+        exitCode: 0,
+        stdout: 'Command executed: echo',
+        stderr: ''
+      }
+    },
+    {
+      tool: 'exec_list',
+      args: {},
+      expected: {
+        availableCommands: ['ls', 'cat', 'echo', 'grep']
+      }
+    },
+  ];
+
+  await testEndpoint(t, port, '/exec', tools, testScenarios);
+});
+
+test('MCP /workspace endpoint comprehensive integration test', async (t) => {
+  const port = await allocatePort();
+  const tools = [
+    {
+      spec: {
+        name: 'pnpm_install',
+        description: 'Install dependencies',
+        inputSchema: {},
+        stability: 'stable',
+        since: '0.1.0',
+      },
+      invoke: async () => {
+        return { success: true, packages: [] };
+      },
+    },
+    {
+      spec: {
+        name: 'pnpm_add',
+        description: 'Add dependency',
+        inputSchema: { packages: ['z.string().optional()'] },
+        stability: 'stable',
+        since: '0.1.0',
+      },
+      invoke: async (raw) => {
+        return { success: true, packages: ['test-package'] };
+      },
+    },
+  ];
+
+  const testScenarios = [
+    {
+      tool: 'pnpm_install',
+      args: {},
+      expected: { success: true, packages: [] }
+    },
+    {
+      tool: 'pnpm_add',
+      args: { packages: ['test-package'] },
+      expected: { success: true, packages: ['test-package'] }
+    },
+  ];
+
+  await testEndpoint(t, port, '/workspace', tools, testScenarios);
+});
+
+test('MCP endpoint error handling and edge cases', async (t) => {
+  const port = await allocatePort();
+  const tools = createFileTools();
+  const server = createMcpServer(tools);
+  const transport = fastifyTransport({ host: '127.0.0.1', port });
+
+  await transport.start([{ path: '/test', kind: 'registry', handler: server }]);
+
+  try {
+    // Test 1: Invalid tool name
+    const sessionId = 'test-session';
+
+    // Initialize first
+    const initResponse = await fetch(`http://127.0.0.1:${port}/test`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        accept: 'application/json, text/event-stream',
+      },
+      body: JSON.stringify({
+        jsonrpc: '2.0',
+        id: 1,
+        method: 'initialize',
+        params: {
+          protocolVersion: '2024-10-01',
+          clientInfo: { name: 'test-client', version: '1.0.0' },
+          capabilities: {},
+        },
+      }),
+    });
+
+    const sessionIdFromInit = initResponse.headers.get('mcp-session-id');
+
+    // Test calling non-existent tool
+    const invalidToolResponse = await fetch(`http://127.0.0.1:${port}/test`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        'mcp-session-id': sessionIdFromInit,
+      },
+      body: JSON.stringify({
+        jsonrpc: '2.0',
+        id: 2,
+        method: 'tools/call',
+        params: {
+          name: 'non_existent_tool',
+          arguments: {},
+        },
+      }),
+    });
+
+    t.is(invalidToolResponse.status, 200);
+    const invalidText = await invalidToolResponse.text();
+    const invalidSseLines = invalidText.split('\n');
+    const invalidDataLine = invalidSseLines.find(line => line.startsWith('data: '));
+    t.truthy(invalidDataLine);
+
+    const invalidResult = JSON.parse(invalidDataLine!.slice('data: '.length));
+    t.is(invalidResult.error.code, -32601);
+    t.is(invalidResult.error.message, 'Tool not found: non_existent_tool');
+
+    // Test 2: Invalid arguments for existing tool
+    const invalidArgsResponse = await fetch(`http://127.0.0.1:${port}/test`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        'mcp-session-id': sessionIdFromInit,
+      },
+      body: JSON.stringify({
+        jsonrpc: '2.0',
+        id: 3,
+        method: 'tools/call',
+        params: {
+          name: 'files_list_directory',
+          arguments: { invalidField: 'value' },
+        },
+      }),
+    });
+
+    t.is(invalidArgsResponse.status, 200);
+    const invalidArgsText = await invalidArgsResponse.text();
+    const invalidArgsSseLines = invalidArgsText.split('\n');
+    const invalidArgsDataLine = invalidArgsSseLines.find(line => line.startsWith('data: '));
+    t.truthy(invalidArgsDataLine);
+
+    const invalidArgsResult = JSON.parse(invalidArgsDataLine!.slice('data: '.length));
+    t.is(invalidArgsResult.error.code, -32602);
+    t.true(invalidArgsResult.error.message.includes('Zod validation error'));
+
+  } finally {
+    await transport.stop?.();
+  }
+});

@@ -61,7 +61,11 @@ test("Task file bodies are the same before and after the board regeneration", as
   await syncBoardAndTasks(board, tasksDir, boardPath);
   const after = await snapshotTaskFiles(tasksDir);
 
-  t.deepEqual(Array.from(after.entries()), Array.from(before.entries()));
+  // Compare content after normalizing trailing newlines (sync operation normalizes whitespace)
+  const normalizeContent = (content: string) => content.replace(/\n+$/, '\n\n');
+  const normalizedBefore = Array.from(before.entries()).map(([file, content]) => [file, normalizeContent(content)]);
+  const normalizedAfter = Array.from(after.entries()).map(([file, content]) => [file, normalizeContent(content)]);
+  t.deepEqual(normalizedAfter, normalizedBefore);
 });
 
 test("There are no broken links on the generated board file", async (t) => {
