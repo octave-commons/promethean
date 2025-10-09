@@ -1,15 +1,17 @@
 ---
-uuid: 1b2c3d4e-5f6a-7b8c-9c0d-1e2f3a4b5c6d7e
-title: Implement chaos engineering for distributed system resilience
-status: incoming
-priority: P3
-labels:
-  - testing
-  - chaos-engineering
-  - resilience
-  - distributed-systems
-created_at: '2025-01-08T15:41:00.000Z'
+uuid: "1b2c3d4e-5f6a-7b8c-9c0d-1e2f3a4b5c6d7e"
+title: "Implement chaos engineering for distributed system resilience"
+slug: "implement-chaos-engineering-for-distributed-systems"
+status: "incoming"
+priority: "P3"
+labels: ["testing", "chaos-engineering", "resilience", "distributed-systems"]
+created_at: "2025-01-08T15:41:00.000Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
 #incoming
 
 ## 🛠️ Description

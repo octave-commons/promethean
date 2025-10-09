@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 ## Kanban as a Finite State Machine (FSM)
 
 We treat the board as an FSM over tasks.
@@ -176,6 +175,3 @@ If you want, I can also generate a tiny per-column **Entry / Work / Exit** table
 ## Sources
 - _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
-
-
-

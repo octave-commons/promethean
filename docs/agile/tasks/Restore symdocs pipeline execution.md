@@ -1,13 +1,17 @@
 ---
-uuid: aeed625c-0cb1-490d-aa15-19b39d96fc3e
-title: Restore symdocs pipeline execution in Piper
-status: todo
-priority: P2
-labels:
-  - pipeline
-  - reliability
-created_at: '2025-10-07T02:30:45Z'
+uuid: "aeed625c-0cb1-490d-aa15-19b39d96fc3e"
+title: "Restore symdocs pipeline execution in Piper"
+slug: "Restore symdocs pipeline execution"
+status: "todo"
+priority: "P2"
+labels: ["pipeline", "reliability"]
+created_at: "2025-10-07T02:30:45Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
 ## 🛠️ Task: Restore symdocs pipeline execution in Piper
 
 ### Context

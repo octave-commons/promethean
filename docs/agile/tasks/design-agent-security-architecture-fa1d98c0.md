@@ -1,11 +1,15 @@
 ---
+uuid: "fa1d98c0-5fe2-4afa-840d-929e58c01391"
 title: "Design Agent Security Architecture"
+slug: "design-agent-security-architecture-fa1d98c0"
 status: "incoming"
 priority: "P1"
-tags: ["agent-os", "design", "security", "sandboxing", "authentication", "compliance"]
-estimate: 5
-uuid: "fa1d98c0-5fe2-4afa-840d-929e58c01391"
-parent: "a4634017-e2fc-4ed6-bc3c-8abf4d1c4a7f"
+labels: ["agent-os", "design", "security", "sandboxing", "authentication", "compliance"]
+created_at: "2025-10-09T21:36:17.712Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 # Design Agent Security Architecture

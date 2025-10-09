@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 ## 🗂 Task 1 — Setup Shared Persistence Module
 ```
 **Status:** blocked
@@ -139,6 +138,3 @@ estimates:
 - No active owner or unclear scope
 
 #breakdown
-
-
-

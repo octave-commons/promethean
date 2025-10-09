@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 ## 🛠️ Task: Run model bakeoff
 
 Execute a comparative evaluation between current and candidate models using a fixed set of tasks.
@@ -63,6 +62,3 @@ Nothing
 - [[kanban]]
 #IceBox
 #ready
-
-
-

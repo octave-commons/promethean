@@ -1,15 +1,15 @@
 ---
-uuid: '19470007-2c10-46f3-a5bf-afe2f5ad72d5'
-title: 'Document new repository layout and migration guide'
-slug: 'clearly-document-new-repository-layout'
-status: 'ready'
-priority: 'P3'
-labels: ['board', 'lang']
-created_at: '2025-10-07T20:25:05.643Z'
+uuid: "19470007-2c10-46f3-a5bf-afe2f5ad72d5"
+title: "Document new repository layout and migration guide"
+slug: "clearly-document-new-repository-layout"
+status: "ready"
+priority: "P3"
+labels: ["board", "lang"]
+created_at: "2025-10-07T20:25:05.643Z"
 estimates:
   complexity: 4
   scale: 2
-  time_to_completion: '4 hours'
+  time_to_completion: "4 hours"
 ---
 
 ## Context

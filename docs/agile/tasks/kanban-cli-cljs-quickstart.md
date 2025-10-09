@@ -1,28 +1,17 @@
 ---
-uuid: 3a707c7c-9b75-401f-9d6f-fe5711eaf13f
-created_at: '2025-10-06T14:11:46Z'
-title: 2025.10.06.14.11.46
-filename: kanban-cli- cljs-quickstart
-description: >-
-  Quick start guide for integrating ClojureScript with kanban CLI using SCI
-  (Small Clojure Interpreter) for ad-hoc filtering without compilation. Includes
-  shell commands, CLI flags, and minimal prelude for defining DSLs.
-tags:
-  - clojurescript
-  - sci
-  - kanban-cli
-  - ad-hoc-filtering
-  - cli-flags
-  - micro-frontend
-  - zero-compilation
-  - dynamic-queries
-related_to_uuid: []
-related_to_title: []
-references: []
-status: testing
-priority: P3
-labels: []
+uuid: "3a707c7c-9b75-401f-9d6f-fe5711eaf13f"
+title: "2025.10.06.14.11.46"
+slug: "kanban-cli-cljs-quickstart"
+status: "testing"
+priority: "P3"
+labels: ["clojurescript", "sci", "kanban-cli", "ad-hoc-filtering", "cli-flags", "micro-frontend", "zero-compilation", "dynamic-queries"]
+created_at: "2025-10-06T14:11:46Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
 # Human and agent experience (quick recipes)
 
 * **Quick start:**
@@ -503,4 +492,3 @@ If you want, I can also wire these flags into `pairwise`, `compare`, and `cluste
 ## Sources
 - _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
-

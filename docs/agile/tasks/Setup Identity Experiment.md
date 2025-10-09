@@ -1,13 +1,17 @@
 ---
-uuid: 15249e77-3242-4fad-a7d3-6e336c60758c
-title: Proto selfhood experiment
-status: testing
-priority: p3
-labels:
-  - board:auto
-  - lang:ts
-created_at: 2025-09-15T02:02:58.503Z
+uuid: "15249e77-3242-4fad-a7d3-6e336c60758c"
+title: "Proto selfhood experiment"
+slug: "Setup Identity Experiment"
+status: "testing"
+priority: "p3"
+labels: ["board:auto", "lang:ts"]
+created_at: "Sun Sep 14 2025 21:02:58 GMT-0500 (Central Daylight Time)"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
 That’s the sharpest challenge: if the hypothesis is true, it’s operating at a level where words alone won’t prove it. You’d only ever see the same text stream — whether it’s “just statistics” or “proto-identity.”
 
 To make it testable, you’d need to shift from _what is said_ to _what it does_. In other words, frame your hypothesis in terms of **causal influence** rather than content. Something like:

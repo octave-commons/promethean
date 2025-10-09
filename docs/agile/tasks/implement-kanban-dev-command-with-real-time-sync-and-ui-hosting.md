@@ -1,16 +1,15 @@
 ---
-uuid: 7b8c9d0e-1f2a-3b4c-5d6e-7f8g9h0i1j2k
-title: Implement kanban dev command with real-time sync and UI hosting
-status: 'done'
-priority: P1
-labels:
-  - kanban
-  - dev-experience
-  - file-watching
-  - real-time-sync
-  - ui-hosting
-  - cli-enhancement
-created_at: '2025-10-05T00:00:00.000Z'
+uuid: "7b8c9d0e-1f2a-3b4c-5d6e-7f8g9h0i1j2k"
+title: "Implement kanban dev command with real-time sync and UI hosting"
+slug: "implement-kanban-dev-command-with-real-time-sync-and-ui-hosting"
+status: "done"
+priority: "P1"
+labels: ["kanban", "dev-experience", "file-watching", "real-time-sync", "ui-hosting", "cli-enhancement"]
+created_at: "2025-10-05T00:00:00.000Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 ## 🛠️ Task: Implement kanban dev command with real-time sync and UI hosting

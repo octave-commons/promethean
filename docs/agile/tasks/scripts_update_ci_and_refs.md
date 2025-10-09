@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 Scripts: Update CI and references post-reorg
 
 Goal: Update CI workflows and docs to reflect new script locations and Make targets.
@@ -26,7 +25,3 @@ Exit Criteria:
 - CI green with new structure; no broken references.
 
 #incoming #scripts #ci #organization
-
-
-
-

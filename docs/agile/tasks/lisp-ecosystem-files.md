@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 # Description
 
 Describe your task
@@ -62,6 +61,3 @@ You might find [this] useful while working on this task
 Blocked: needs clarity on target file organization.
 
 #Breakdown
-
-
-

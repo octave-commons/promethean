@@ -1,11 +1,15 @@
 ---
+uuid: "b6ad7898-eb83-4d09-b6d1-0a20a3da0af0"
 title: "Design Agent Registry Service"
+slug: "design-agent-registry-service-b6ad7898"
 status: "incoming"
 priority: "P0"
-tags: ["agent-os", "design", "agent-registry", "architecture", "api-design"]
-estimate: 5
-uuid: "b6ad7898-eb83-4d09-b6d1-0a20a3da0af0"
-parent: "a4634017-e2fc-4ed6-bc3c-8abf4d1c4a7f"
+labels: ["agent-os", "design", "agent-registry", "architecture", "api-design"]
+created_at: "2025-10-09T21:36:17.712Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 # Design Agent Registry Service

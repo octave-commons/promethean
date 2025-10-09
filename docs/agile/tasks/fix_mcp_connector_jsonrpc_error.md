@@ -70,4 +70,3 @@ Estimate: 3
 ## 🔍 Relevant Links
 
 - Error snippet: `MCP error -32602: Tool github_request has an output schema but no structured content was provided`.
-

@@ -1,10 +1,15 @@
 ---
-uuid: 3192eeb8-39ff-42aa-ab6f-2e7ce9b951cf
-title: something something 1
-status: icebox
-priority: p3
-labels: []
-created_at: '2025-09-15T02:02:58.520Z'
+uuid: "3192eeb8-39ff-42aa-ab6f-2e7ce9b951cf"
+title: "something something 1"
+slug: "something-something.-1"
+status: "icebox"
+priority: "p3"
+labels: ["something", "changes", "span", "context"]
+created_at: "2025-09-15T02:02:58.520Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 ```

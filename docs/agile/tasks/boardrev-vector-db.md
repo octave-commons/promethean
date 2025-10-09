@@ -1,10 +1,15 @@
 ---
-uuid: (uuidgen)
-title: Replace LevelDB with vector database for boardrev
-status: icebox
-priority: P2
-labels: [enhancement, boardrev, performance]
-created_at: 2025-10-06T12:00:00Z
+uuid: "(uuidgen)"
+title: "Replace LevelDB with vector database for boardrev"
+slug: "boardrev-vector-db"
+status: "icebox"
+priority: "P2"
+labels: ["enhancement", "boardrev", "performance"]
+created_at: "Mon Oct 06 2025 07:00:00 GMT-0500 (Central Daylight Time)"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 # Replace LevelDB with vector database for boardrev

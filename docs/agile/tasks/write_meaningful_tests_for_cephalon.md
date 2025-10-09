@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 ## 🛠️ Task: Write meaningful tests for Cephalon
 
 Cover core functions of the Cephalon service with automated tests.
@@ -54,6 +53,3 @@ Nothing
 ## 🔍 Relevant Links
 - [[kanban]]
 #done
-
-
-

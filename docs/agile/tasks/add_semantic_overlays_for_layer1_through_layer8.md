@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 ## 🛠️ Task: Add semantic overlays for layer1 through layer8
 
 Implement documentation overlays that explain how each cognitive layer maps to the system. These overlays should provide conceptual context for the eight circuits described in the design docs.
@@ -64,6 +63,3 @@ Nothing
 - [docs/design/overview|design overview]
 - [[kanban]]
 #IceBox
-
-
-

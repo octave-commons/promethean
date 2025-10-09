@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 ## 🛠️ Task: Update GitHub Actions to use pnpm scripts
 
 The Makefile targets referenced by the original plan never stabilized. CI already leans on pnpm (`pnpm lint`, `pnpm test:all`),
@@ -66,5 +65,3 @@ so workflows should call the same scripts instead of Makefile wrappers.
 - scripts/dev.mjs$../../scripts/dev.mjs
 
 #cicd #devops #framework-core #todo
-
-

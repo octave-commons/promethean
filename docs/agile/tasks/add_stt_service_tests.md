@@ -12,8 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
 ## 🛠️ Task: Add STT service tests
 
 Create unit tests for the speech-to-text service in `services/stt/`.
@@ -55,7 +53,3 @@ Nothing
 ## 🔍 Relevant Links
 - [[kanban]]
 #done
-
-
-
-

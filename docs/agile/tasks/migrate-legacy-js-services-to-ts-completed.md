@@ -1,15 +1,15 @@
 ---
-uuid: '907f268b-ced3-4206-aa3e-82b56dc811a1'
-title: 'Migrate legacy JavaScript services to TypeScript - COMPLETED'
-slug: 'migrate-legacy-js-services-to-ts-completed'
-status: 'done'
-priority: 'P3'
-labels: ['board', 'lang']
-created_at: '2025-10-07T20:25:05.643Z'
+uuid: "907f268b-ced3-4206-aa3e-82b56dc811a1"
+title: "Migrate legacy JavaScript services to TypeScript - COMPLETED"
+slug: "migrate-legacy-js-services-to-ts-completed"
+status: "done"
+priority: "P3"
+labels: ["board", "lang"]
+created_at: "2025-10-07T20:25:05.643Z"
 estimates:
   complexity: 8
   scale: 4
-  time_to_completion: '2 days'
+  time_to_completion: "2 days"
 ---
 
 # Legacy JS services migration task completed

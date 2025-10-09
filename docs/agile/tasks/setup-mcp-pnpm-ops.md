@@ -12,8 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
 ```
 #In-Progress
 ```
@@ -66,6 +64,3 @@ Estimate: 5
 ## 🔍 Relevant Links
 
 - User request (current session)
-
-
-

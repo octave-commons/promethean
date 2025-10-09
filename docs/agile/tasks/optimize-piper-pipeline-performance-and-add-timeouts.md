@@ -1,15 +1,15 @@
 ---
-uuid: e5f6g7h8-i9j0-1234-efgh-567890123456
-title: Optimize piper pipeline performance and add comprehensive timeouts
-status: ready
-priority: P1
-labels:
-  - piper
-  - performance
-  - timeouts
-  - optimization
-  - monitoring
-created_at: '2025-10-05T00:00:00.000Z'
+uuid: "e5f6g7h8-i9j0-1234-efgh-567890123456"
+title: "Optimize piper pipeline performance and add comprehensive timeouts"
+slug: "optimize-piper-pipeline-performance-and-add-timeouts"
+status: "ready"
+priority: "P1"
+labels: ["piper", "performance", "timeouts", "optimization", "monitoring"]
+created_at: "2025-10-05T00:00:00.000Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 ## 🛠️ Task: Optimize piper pipeline performance and add comprehensive timeouts

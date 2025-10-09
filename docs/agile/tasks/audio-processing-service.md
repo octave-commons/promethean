@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 ## 🛠️ Description
 
 Isolate audio manipulation (e.g., encoding, normalization, filtering) into a dedicated stateless service rather than embedding logic in agents or providers.
@@ -71,7 +70,3 @@ Nothing
 #framework-core #Ready
 ```
 #ready
-
-
-
-

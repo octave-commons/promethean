@@ -1,10 +1,15 @@
 ---
-uuid: (uuidgen)
-title: Implement multi-model evaluation for boardrev
-status: icebox
-priority: P2
-labels: [enhancement, boardrev, ai, evaluation]
-created_at: 2025-10-06T12:00:00Z
+uuid: "(uuidgen)"
+title: "Implement multi-model evaluation for boardrev"
+slug: "boardrev-multi-model-evaluation"
+status: "icebox"
+priority: "P2"
+labels: ["enhancement", "boardrev", "ai", "evaluation"]
+created_at: "Mon Oct 06 2025 07:00:00 GMT-0500 (Central Daylight Time)"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 # Implement multi-model evaluation for boardrev

@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 ## 🛠️ Description
 
 Establish a repeatable build pipeline for the `sites/` frontend that shares TypeScript code with `shared/` and participates in CI.
@@ -64,7 +63,3 @@ Nothing
 - [[kanban]]
 
 #devops #Ready
-
-
-
-

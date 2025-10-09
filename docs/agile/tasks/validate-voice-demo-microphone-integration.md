@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 # Description
 
 Validate the `voice-demo` CLI command against real microphone devices and document any platform-specific setup guidance needed for contributors.
@@ -40,5 +39,3 @@ Validate the `voice-demo` CLI command against real microphone devices and docume
 ## Comments
 
 Add observations about latency, buffering, or compatibility as testing progresses.
-
-

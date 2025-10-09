@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 Auth: Key rotation and bootstrap
 
 Goal: Establish a secure bootstrap and rotation procedure for the auth service.
@@ -27,7 +26,3 @@ Exit Criteria:
 - Rotation works without downtime; old tokens valid until expiry; new tokens issued with new kid.
 
 #incoming #auth #security #rotation
-
-
-
-

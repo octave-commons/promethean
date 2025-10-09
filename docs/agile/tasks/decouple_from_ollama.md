@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 ## 🛠️ Task: Add Ollama formally to pipeline
 
 It's difficult to get the system running for codex and CI/CD for them to properly run integration tests, or  just to sanity  test that it starts.
@@ -65,6 +64,3 @@ Nothing
 
 - [[kanban]]
 #ready
-
-
-

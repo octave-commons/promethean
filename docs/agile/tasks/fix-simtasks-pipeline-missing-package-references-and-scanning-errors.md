@@ -1,16 +1,15 @@
 ---
-uuid: g7h8i9j0-k1l2-3456-ghij-789012345678
-title: Fix simtasks pipeline missing package references and scanning errors
-status: in_review
-priority: P2
-labels:
-  - piper
-  - simtasks
-  - package-scanning
-  - file-system
-  - error-handling
-created_at: '2025-10-05T00:00:00.000Z'
-story_points: 3
+uuid: "g7h8i9j0-k1l2-3456-ghij-789012345678"
+title: "Fix simtasks pipeline missing package references and scanning errors"
+slug: "fix-simtasks-pipeline-missing-package-references-and-scanning-errors"
+status: "in_review"
+priority: "P2"
+labels: ["piper", "simtasks", "package-scanning", "file-system", "error-handling"]
+created_at: "2025-10-05T00:00:00.000Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 ## 🛠️ Task: Fix simtasks pipeline missing package references and scanning errors

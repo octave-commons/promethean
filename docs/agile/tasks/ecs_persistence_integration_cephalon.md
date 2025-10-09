@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 ECS Persistence Integration: Cephalon
 
 Goal: Wire Mongo-backed ECS adapter into Cephalon’s world so transcripts, utterances, and agent messages are persisted consistently.
@@ -30,6 +29,3 @@ Exit Criteria:
 - On restart, context is reconstructed from persisted components.
 
 #incoming #ecs #cephalon #mongo
-
-
-

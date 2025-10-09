@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 #Todo
 
 ## 🛠️ Description
@@ -27,5 +26,3 @@ Document reliance on `channel.protocol` for `frameDurationMs` with 20ms fallback
 
 ## 🔍 Related
 - PR #1448
-
-

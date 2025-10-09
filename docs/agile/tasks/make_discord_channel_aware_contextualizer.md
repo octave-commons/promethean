@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 ## 🛠️ Description
 
 Set up a mechanism to define new context creations based specifically off a discord channel with custom rules and prompting logic
@@ -59,6 +58,3 @@ Nothing
 
 
 #archive
-
-
-

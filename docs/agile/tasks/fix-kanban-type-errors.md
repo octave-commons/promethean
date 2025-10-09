@@ -1,14 +1,15 @@
 ---
-title: Fix kanban package TypeScript compilation errors
-description: Resolve type mismatches in loadKanbanConfig() function calls
-uuid: b4c5d6e7-8f9a-1b2c-3d4e-5f6a7b8c9d0e
-labels:
-  - bugfix
-  - typescript
-  - kanban
-  - build-system
-priority: P2
-status: todo
+uuid: "b4c5d6e7-8f9a-1b2c-3d4e-5f6a7b8c9d0e"
+title: "Fix kanban package TypeScript compilation errors"
+slug: "fix-kanban-type-errors"
+status: "todo"
+priority: "P2"
+labels: ["bugfix", "typescript", "kanban", "build-system"]
+created_at: "2025-10-09T21:36:17.719Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 ## Issue

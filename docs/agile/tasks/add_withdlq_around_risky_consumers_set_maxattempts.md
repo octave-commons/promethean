@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 ## 🛠️ Task: Add **withDLQ** around risky consumers; set `maxAttempts`
 
 Generated from [[2025.08.08.20.08.52]]
@@ -36,6 +35,3 @@ Generated from [[2025.08.08.20.08.52]]
 
 
 #accepted
-
-
-

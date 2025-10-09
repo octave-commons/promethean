@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 #IceBox
 
 ## 🛠️ Description
@@ -65,5 +64,3 @@ Estimate: 5
 ## 🔍 Relevant Links
 
 - Shadow-CLJS migration plan 2025-10-03
-
-

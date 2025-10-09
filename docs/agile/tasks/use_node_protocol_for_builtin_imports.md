@@ -1,11 +1,17 @@
 ---
-uuid: 77011385-81b7-42aa-9137-cd522a63910e
-title: 'Use `node:` protocol for builtin imports'
-status: testing
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.523Z'
+uuid: "77011385-81b7-42aa-9137-cd522a63910e"
+title: "Use `node:` protocol for builtin imports"
+slug: "use_node_protocol_for_builtin_imports"
+status: "testing"
+priority: "P3"
+labels: ["node", "imports", "use", "protocol"]
+created_at: "2025-09-15T02:02:58.523Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
 # Use `node:` protocol for builtin imports
 
 ## Description

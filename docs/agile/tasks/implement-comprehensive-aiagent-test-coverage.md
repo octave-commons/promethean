@@ -1,15 +1,17 @@
 ---
-uuid: b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e
-title: Implement comprehensive AIAgent test coverage
-status: incoming
-priority: P1
-labels:
-  - testing
-  - ai-agent
-  - voice-processing
-  - critical-path
-created_at: '2025-01-08T15:32:00.000Z'
+uuid: "b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e"
+title: "Implement comprehensive AIAgent test coverage"
+slug: "implement-comprehensive-aiagent-test-coverage"
+status: "incoming"
+priority: "P1"
+labels: ["testing", "ai-agent", "voice-processing", "critical-path"]
+created_at: "2025-01-08T15:32:00.000Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
 #incoming
 
 ## 🛠️ Description

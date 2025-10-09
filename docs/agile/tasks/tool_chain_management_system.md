@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 ## 🛠️ Description
 
 Placeholder task stub generated from kanban board.
@@ -48,5 +47,3 @@ Let me know if you need further details or adjustments!
 ```
 #ice-box
 ```
-
-

@@ -1,19 +1,15 @@
 ---
-title: 'Cleanup done column incomplete tasks and implement completion verification'
-description: 'Address 70+ incomplete tasks improperly marked as done and add verification to prevent recurrence'
-uuid: done-cleanup-001
-labels:
-  - cleanup
-  - kanban
-  - done-column
-  - quality
-  - governance
-priority: P1
-status: in_progress
-created_at: '2025-01-08T22:45:00.000Z'
+uuid: "done-cleanup-001"
+title: "Cleanup done column incomplete tasks and implement completion verification"
+slug: "cleanup-done-column-incomplete-tasks"
+status: "in_progress"
+priority: "P1"
+labels: ["cleanup", "kanban", "done-column", "quality", "governance"]
+created_at: "2025-01-08T22:45:00.000Z"
 estimates:
   complexity: 8
-  time_to_completion: '2-3 days'
+  scale: ""
+  time_to_completion: "2-3 days"
 ---
 
 # Cleanup Done Column Incomplete Tasks and Implement Completion Verification

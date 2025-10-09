@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 ## 🛠️ Task: Obsidian Kanban Github Project Board Mirror system
 
 Synchronize our local kanban board with a GitHub Projects board so tasks stay consistent between Obsidian and GitHub.
@@ -59,6 +58,3 @@ Nothing
 - [[kanban]]
 
 #archive
-
-
-

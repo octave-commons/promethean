@@ -1,10 +1,15 @@
 ---
-uuid: f446af1c-3616-478b-8bef-4e682d3ef17c
-title: Integrate Wikipedia MediaWiki API for knowledge retrieval
-status: icebox
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.510Z'
+uuid: "f446af1c-3616-478b-8bef-4e682d3ef17c"
+title: "Integrate Wikipedia MediaWiki API for knowledge retrieval"
+slug: "connect-wikipedia"
+status: "icebox"
+priority: "P3"
+labels: ["api", "mediawiki", "knowledge", "integrate"]
+created_at: "2025-09-15T02:02:58.510Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 # Description

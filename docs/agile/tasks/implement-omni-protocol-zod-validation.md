@@ -1,15 +1,15 @@
 ---
-uuid: 'e310631c-b947-4920-a68b-dc062fbe04df'
-title: 'Implement Omni protocol runtime validation with Zod'
-slug: 'implement-omni-protocol-zod-validation'
-status: 'done'
-priority: 'P1'
-labels: ['omni', 'zod', 'validation', 'runtime']
-created_at: '2025-10-08T22:00:00.000Z'
+uuid: "e310631c-b947-4920-a68b-dc062fbe04df"
+title: "Implement Omni protocol runtime validation with Zod"
+slug: "implement-omni-protocol-zod-validation"
+status: "done"
+priority: "P1"
+labels: ["omni", "zod", "validation", "runtime"]
+created_at: "2025-10-08T22:00:00.000Z"
 estimates:
-  complexity: '5'
-  scale: 'M'
-  time_to_completion: '8h'
+  complexity: "5"
+  scale: "M"
+  time_to_completion: "8h"
 ---
 
 ## 🎯 Outcome

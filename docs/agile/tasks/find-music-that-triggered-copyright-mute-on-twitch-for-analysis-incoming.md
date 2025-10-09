@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 ## 🛠️ Description
 
 The videos have the title of the track in there. Just get rid of those ones.
@@ -57,6 +56,3 @@ Nothing
 
 - [[kanban]]
 #rejected
-
-
-

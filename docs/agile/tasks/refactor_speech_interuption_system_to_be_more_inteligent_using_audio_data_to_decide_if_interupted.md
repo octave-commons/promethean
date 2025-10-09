@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 ## 🛠️ Description
 
 Refactor the speech interruption system to analyze incoming audio data so the agent only stops speaking when the user intentionally interrupts.
@@ -91,7 +90,3 @@ Nothing
 
 - [[kanban]]
 #Breakdown
-
-
-
-

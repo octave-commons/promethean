@@ -12,8 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
 #InProgress
 
 ## 🛠️ Description
@@ -72,6 +70,3 @@ Estimate: 5
 ## Notes
 - 2025-10-03: Initial Shadow-CLJS scaffolding committed (build targets, scripts, shared package).
 - 2025-10-03: `shadow-cljs release` invocation blocked by Maven network access in sandbox; see session logs.
-
-
-

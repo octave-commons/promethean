@@ -1,15 +1,15 @@
 ---
-uuid: c3d4e5f6-g7h8-9012-cdef-345678901234
-title: Fix readmes pipeline timeout issues and optimize performance
-status: todo
-priority: P2
-labels:
-  - piper
-  - readmes
-  - performance
-  - timeout
-  - ai-optimization
-created_at: '2025-10-05T00:00:00.000Z'
+uuid: "c3d4e5f6-g7h8-9012-cdef-345678901234"
+title: "Fix readmes pipeline timeout issues and optimize performance"
+slug: "fix-readmes-pipeline-timeout-issues"
+status: "todo"
+priority: "P2"
+labels: ["piper", "readmes", "performance", "timeout", "ai-optimization"]
+created_at: "2025-10-05T00:00:00.000Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 ## 🛠️ Task: Fix readmes pipeline timeout issues and optimize performance

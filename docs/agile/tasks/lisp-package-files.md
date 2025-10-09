@@ -1,11 +1,17 @@
 ---
-uuid: a5748afa-3e7b-49fc-b945-d0452d2adf76
-title: lisp package files
-status: testing
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.516Z'
+uuid: "a5748afa-3e7b-49fc-b945-d0452d2adf76"
+title: "lisp package files"
+slug: "lisp-package-files"
+status: "testing"
+priority: "P3"
+labels: ["package", "lisp", "files", "modules"]
+created_at: "2025-09-15T02:02:58.516Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
 ## 🛠️ Description
 
 Design a package file format for the Lisp components so modules can declare dependencies and be imported consistently.
@@ -58,4 +64,3 @@ Nothing
 ```
 #framework-core #Ready
 ```
-

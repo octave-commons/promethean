@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 ## 🛠️ Description
 
 Create a utility that scaffolds new task files from a template to keep the board organized and consistent.
@@ -86,5 +85,3 @@ Nothing
 The implementation adds only an Obsidian Templater file that relies on `tp` macros and `chatgpt-md` UI commands, so nothing can run headless, no automation adds the required status hashtags, and no tests or npm hooks were introduced.
 
 Suggested taskBuild a tested CLI task generator that meets the spec
-
-

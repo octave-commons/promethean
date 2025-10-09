@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 Cephalon: Persist LLM replies to `agent_messages`
 
 Goal: When the ECS orchestrator receives an LLM reply current handler in `services/ts/cephalon/src/bot.ts` subscribing to `agent.llm.result`, persist the reply text and metadata to the `agent_messages` collection via `ContextManager`/`CollectionManager`.
@@ -30,5 +29,3 @@ Exit Criteria:
 ```
 #incoming #cephalon #persistence #agent_messages
 ```
-
-

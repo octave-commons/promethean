@@ -12,8 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
 ## 🛠️ Task: Fix symdocs pipeline missing @promethean/file-indexer dependency
 
 ## 🐛 Problem Statement
@@ -97,4 +95,3 @@ The @promethean/file-indexer package is used by the symdocs pipeline to:
 - Support AI-powered documentation generation
 
 This fix will enable automatic documentation generation for the entire codebase, improving developer experience and code maintainability.
-

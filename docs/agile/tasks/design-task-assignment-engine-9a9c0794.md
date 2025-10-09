@@ -1,11 +1,15 @@
 ---
+uuid: "9a9c0794-49c8-424a-bf22-9deea24f6d3c"
 title: "Design Task Assignment Engine"
+slug: "design-task-assignment-engine-9a9c0794"
 status: "incoming"
 priority: "P0"
-tags: ["agent-os", "design", "task-assignment", "algorithms", "kanban-integration"]
-estimate: 5
-uuid: "9a9c0794-49c8-424a-bf22-9deea24f6d3c"
-parent: "a4634017-e2fc-4ed6-bc3c-8abf4d1c4a7f"
+labels: ["agent-os", "design", "task-assignment", "algorithms", "kanban-integration"]
+created_at: "2025-10-09T21:36:17.713Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 # Design Task Assignment Engine

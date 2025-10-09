@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 Here’s a refined version that keeps your analogy to hardware memory hierarchies but makes it concrete enough to implement as a framework component:
 
 ---
@@ -86,6 +85,3 @@ If you want, I can also give you a **mermaid diagram showing the memory tier flo
 That would make it much easier to see where scoring and eviction logic plug in.
 #IceBox
 #ready
-
-
-

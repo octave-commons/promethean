@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 Got it. Here’s a practical expansion you can paste into the board and hand to Codex. It’s opinionated, deterministic, and aims to stop every “oops it upgraded” class of failure.
 
 # Pin versions in configs
@@ -257,5 +256,3 @@ chore(versions): pin runtimes, deps, images, models; add pins linter
 ```
 #in-progress
 ```
-
-

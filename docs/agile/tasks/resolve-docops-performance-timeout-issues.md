@@ -1,15 +1,17 @@
 ---
-uuid: f6a7b8c9-0d1e-2f3a-4b5c-5d6e7f8a9b0c
-title: Resolve DocOps performance timeout issues in test execution
-status: incoming
-priority: P2
-labels:
-  - testing
-  - performance
-  - docops
-  - timeout-issues
-created_at: '2025-01-08T15:36:00.000Z'
+uuid: "f6a7b8c9-0d1e-2f3a-4b5c-5d6e7f8a9b0c"
+title: "Resolve DocOps performance timeout issues in test execution"
+slug: "resolve-docops-performance-timeout-issues"
+status: "incoming"
+priority: "P2"
+labels: ["testing", "performance", "docops", "timeout-issues"]
+created_at: "2025-01-08T15:36:00.000Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
 #incoming
 
 ## 🛠️ Description

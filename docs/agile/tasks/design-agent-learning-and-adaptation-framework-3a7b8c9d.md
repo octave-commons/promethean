@@ -1,11 +1,15 @@
 ---
-type: design
-title: Design Agent Learning and Adaptation Framework
-estimate: 5
-uuid: 3a7b8c9d
-status: ready
-priority: high
-tags: [agent-os, machine-learning, adaptation, knowledge-management, evolution]
+uuid: "3a7b8c9d"
+title: "Design Agent Learning and Adaptation Framework"
+slug: "design-agent-learning-and-adaptation-framework-3a7b8c9d"
+status: "ready"
+priority: "high"
+labels: ["agent-os", "machine-learning", "adaptation", "knowledge-management", "evolution"]
+created_at: "2025-10-09T21:36:17.711Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 # Design Agent Learning and Adaptation Framework

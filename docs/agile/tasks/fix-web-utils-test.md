@@ -1,40 +1,17 @@
 ---
-task-id: TASK-20250207-web-utils
-title: Fix failing web-utils test
-state: InProgress
-prev: null
-txn: '2025-09-26T23:54:39+00:00-0001'
-owner: err
-priority: p2
-size: s
-epic: EPC-000
-depends_on: []
-labels:
-  - 'board:auto'
-  - 'lang:ts'
-due: null
-links: []
-artifacts: []
-rationale: >
-  Address failing @promethean/web-utils unit test reported by CI. Ensures
-  package passes test suite.
-proposed_transitions:
-  - New->Accepted
-  - Accepted->Breakdown
-  - Breakdown->Ready
-  - Ready->Todo
-  - Todo->InProgress
-tags:
-  - task/TASK-20250207-web-utils
-  - board/kanban
-  - state/InProgress
-  - owner/err
-  - priority/p2
-  - epic/EPC-000
-uuid: cd4596d8-bb67-437e-94c4-24b6986f7020
-created_at: '2025-10-06T01:50:48.293Z'
-status: testing
+uuid: "cd4596d8-bb67-437e-94c4-24b6986f7020"
+title: "Fix failing web-utils test"
+slug: "fix-web-utils-test"
+status: "testing"
+priority: "p2"
+labels: ["task/TASK-20250207-web-utils", "board/kanban", "state/InProgress", "owner/err", "priority/p2", "epic/EPC-000", "board:auto", "lang:ts"]
+created_at: "2025-10-06T01:50:48.293Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
 ## Context
 ### Changes and Updates
 - **What changed?**: `@promethean/web-utils` has a failing test preventing CI success.
@@ -58,4 +35,3 @@ status: testing
 
 ## Relevant Resources
 - None yet.
-

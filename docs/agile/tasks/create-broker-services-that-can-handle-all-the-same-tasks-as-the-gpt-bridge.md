@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 # WebSocket Broker API Parity with GPT Bridge
 ```
 **Owner:** Codex / Agent
@@ -204,6 +203,3 @@ Bring the **WebSocket broker API** up to full parity with the existing **GPT Bri
 Append-only thread for agents to log discovered gaps, schema changes, or overload handling notes.
 
 #ready
-
-
-

@@ -1,15 +1,15 @@
 ---
-uuid: '0bd7c181-50b1-4376-8461-dba469df8aec'
-title: 'Define Omni protocol TypeScript interfaces and types'
-slug: 'define-omni-protocol-typescript-interfaces'
-status: 'done'
-priority: 'P1'
-labels: ['omni', 'typescript', 'interfaces', 'protocol']
-created_at: '2025-10-08T22:00:00.000Z'
+uuid: "0bd7c181-50b1-4376-8461-dba469df8aec"
+title: "Define Omni protocol TypeScript interfaces and types"
+slug: "define-omni-protocol-typescript-interfaces"
+status: "done"
+priority: "P1"
+labels: ["omni", "typescript", "interfaces", "protocol"]
+created_at: "2025-10-08T22:00:00.000Z"
 estimates:
-  complexity: '4'
-  scale: 'M'
-  time_to_completion: '6h'
+  complexity: "4"
+  scale: "M"
+  time_to_completion: "6h"
 ---
 
 ## 🎯 Outcome

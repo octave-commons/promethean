@@ -1,15 +1,15 @@
 ---
-title: Enhance kanban process validation with acceptance criteria and Fibonacci scoring
-description: Strengthen kanban package enforcement of 6-step development process
-uuid: a1b2c3d4-e5f6-7890-abcd-1234567890ab
-labels:
-  - enhancement
-  - kanban
-  - process
-  - validation
-  - automation
-priority: P2
-status: incoming
+uuid: "a1b2c3d4-e5f6-7890-abcd-1234567890ab"
+title: "Enhance kanban process validation with acceptance criteria and Fibonacci scoring"
+slug: "enhance-kanban-process-validation"
+status: "incoming"
+priority: "P2"
+labels: ["enhancement", "kanban", "process", "validation", "automation"]
+created_at: "2025-10-09T21:36:17.716Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 ## Issue

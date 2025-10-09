@@ -1,15 +1,15 @@
 ---
-uuid: 'evaluate-optional-services-migration'
-title: 'Evaluate optional JS services for TypeScript migration'
-slug: 'evaluate-optional-js-services-for-migration'
-status: 'breakdown'
-priority: 'P3'
-labels: ['board', 'lang']
-created_at: '2025-10-08T00:00:00.000Z'
+uuid: "evaluate-optional-services-migration"
+title: "Evaluate optional JS services for TypeScript migration"
+slug: "evaluate-optional-js-services-for-migration"
+status: "breakdown"
+priority: "P3"
+labels: ["board", "lang"]
+created_at: "2025-10-08T00:00:00.000Z"
 estimates:
   complexity: 2
   scale: 2
-  time_to_completion: '2 hours'
+  time_to_completion: "2 hours"
 ---
 
 # Evaluate optional JS services for TypeScript migration

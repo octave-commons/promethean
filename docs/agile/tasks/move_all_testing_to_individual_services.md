@@ -12,9 +12,5 @@ estimates:
   time_to_completion: ""
 ---
 
-
 #Duplicate
 #rejected
-
-
-

@@ -12,8 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
 ## 🛠️ Task: Fix board-review pipeline incorrect Process.md file reference
 
 ## 🐛 Problem Statement
@@ -109,4 +107,3 @@ for (const filePath of possiblePaths) {
 - **AI Model Integration**: OLLAMA configuration for task evaluation
 
 This is a simple but critical fix that will enable AI-powered task review capabilities for the kanban system.
-

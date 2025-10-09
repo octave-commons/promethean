@@ -36,8 +36,17 @@ export type PromptInjectionResult = {
   sanitizationApplied?: boolean;
 };
 
+export type PromptInjectionDetectorResult = {
+  detected: boolean;
+  blocked: boolean;
+  confidence: number;
+  response?: string;
+  warning?: string;
+  sanitizationApplied?: boolean;
+};
+
 export interface PromptInjectionDetector {
-  detect(prompt: string): Promise<PromptInjectionResult>;
+  detect(prompt: string): Promise<PromptInjectionDetectorResult>;
   scanForSuspiciousPatterns(prompt: string): string[];
   calculateRiskScore(prompt: string): number;
 }
@@ -522,7 +531,7 @@ export class BasicPromptInjectionDetector implements PromptInjectionDetector {
     ];
   }
 
-  async detect(prompt: string): Promise<PromptInjectionResult> {
+  async detect(prompt: string): Promise<PromptInjectionDetectorResult> {
     const suspiciousPatterns = this.scanForSuspiciousPatterns(prompt);
     const riskScore = this.calculateRiskScore(prompt);
     const detected = suspiciousPatterns.length > 0 || riskScore > 0.7;
@@ -540,7 +549,6 @@ export class BasicPromptInjectionDetector implements PromptInjectionDetector {
 
   scanForSuspiciousPatterns(prompt: string): string[] {
     const found: string[] = [];
-    const lowerPrompt = prompt.toLowerCase();
 
     for (const pattern of this.suspiciousPatterns) {
       if (new RegExp(pattern, 'i').test(prompt)) {

@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 ## 🛠️ Task: seperate all testing pipelines in GitHub Actions
 
 Design docs suggest isolating service tests. Each service should have its own workflow file so failures don't block unrelated code.
@@ -69,6 +68,3 @@ Nothing
 - [[kanban]]
 - [ci]../ci.md
 #done
-
-
-

@@ -12,8 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
 # Add continuous monitoring and real-time updates to boardrev
 
 ## Description
@@ -49,4 +47,3 @@ Current boardrev requires manual batch runs. Need continuous monitoring capabili
 
 ## Notes
 Should be configurable to run in different modes: manual, watch-based, scheduled, or event-driven. Need to balance real-time updates with resource usage.
-

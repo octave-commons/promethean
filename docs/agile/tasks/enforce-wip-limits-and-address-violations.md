@@ -1,10 +1,15 @@
 ---
+uuid: "wip-enforcement-001"
 title: "Implement WIP limit enforcement and address current violations"
-status: incoming
-priority: P1
-tags: [kanban, wip, limits, enforcement, process, fsm]
-uuid: wip-enforcement-001
-created: 2025-10-06
+slug: "enforce-wip-limits-and-address-violations"
+status: "incoming"
+priority: "P1"
+labels: ["kanban", "wip", "limits", "enforcement", "process", "fsm"]
+created_at: "2025-10-09T21:36:17.716Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 # Implement WIP limit enforcement and address current violations

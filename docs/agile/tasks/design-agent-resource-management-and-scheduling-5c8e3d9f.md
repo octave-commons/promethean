@@ -1,11 +1,15 @@
 ---
-type: design
-title: Design Agent Resource Management and Scheduling System
-estimate: 5
-uuid: 5c8e3d9f
-status: ready
-priority: high
-tags: [agent-os, resource-management, scheduling, optimization, performance]
+uuid: "5c8e3d9f"
+title: "Design Agent Resource Management and Scheduling System"
+slug: "design-agent-resource-management-and-scheduling-5c8e3d9f"
+status: "ready"
+priority: "high"
+labels: ["agent-os", "resource-management", "scheduling", "optimization", "performance"]
+created_at: "2025-10-09T21:36:17.712Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 # Design Agent Resource Management and Scheduling System

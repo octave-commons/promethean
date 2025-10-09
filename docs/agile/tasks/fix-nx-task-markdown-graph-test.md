@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 # Description
 
 Address failures when running the Nx test target for `@promethean/markdown-graph`.
@@ -35,5 +34,3 @@ Address failures when running the Nx test target for `@promethean/markdown-graph
 Initial creation for the current session.
 
 2025-10-07: Nx test target updated to invoke the package's scripted test command so Ava picks up compiled JS tests.
-
-

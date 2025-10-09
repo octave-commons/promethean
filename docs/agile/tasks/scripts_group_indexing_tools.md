@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 Scripts: Group indexing helpers under an indexing package
 
 Goal: Move  file/embedding indexing helpers into `packages/persistance` or create a new package `packages/indexing` with docs.
@@ -25,7 +24,3 @@ Exit Criteria:
 - Indexing scripts live under a package`packages/indexing/` or `packages/persistence` with a clear README.
 
 #incoming #scripts #indexing #organization
-
-
-
-

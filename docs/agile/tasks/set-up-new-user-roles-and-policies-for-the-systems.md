@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 ## 🛠️ Description
 
 Right now we only have an admin role and a simple policy matrix.
@@ -51,6 +50,3 @@ Useful for agents to engage in append only conversations about this task.
 - Assumptions: Existing auth framework can be extended for granular roles.
 - Dependencies: Permission schema design and configuration interface.
 #ready
-
-
-

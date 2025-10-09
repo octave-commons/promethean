@@ -1,11 +1,17 @@
 ---
-uuid: 7ac178ae-b95a-465c-a3e7-603c5a4b64b4
-title: tree diffing tools
-status: testing
-priority: p3
-labels: []
-created_at: '2025-09-15T02:02:58.523Z'
+uuid: "7ac178ae-b95a-465c-a3e7-603c5a4b64b4"
+title: "tree diffing tools"
+slug: "tree-diffing-tools"
+status: "testing"
+priority: "p3"
+labels: ["changes", "tree", "diffing", "tools"]
+created_at: "2025-09-15T02:02:58.523Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
 ```
 <hr class="__chatgpt_plugin">
 ```
@@ -57,4 +63,3 @@ You might find [this](link) useful while working on this task.
 <hr class="__chatgpt_plugin">
 ```
 ### role::user
-

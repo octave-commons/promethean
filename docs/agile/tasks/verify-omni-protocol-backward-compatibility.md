@@ -1,15 +1,15 @@
 ---
-uuid: 'cf8a09dd-5109-472d-98fd-899e8300643e'
-title: 'Verify Omni protocol backward compatibility with SmartGPT bridge'
-slug: 'verify-omni-protocol-backward-compatibility'
-status: 'todo'
-priority: 'P1'
-labels: ['omni', 'compatibility', 'testing', 'smartgpt']
-created_at: '2025-10-08T22:00:00.000Z'
+uuid: "cf8a09dd-5109-472d-98fd-899e8300643e"
+title: "Verify Omni protocol backward compatibility with SmartGPT bridge"
+slug: "verify-omni-protocol-backward-compatibility"
+status: "todo"
+priority: "P1"
+labels: ["omni", "compatibility", "testing", "smartgpt"]
+created_at: "2025-10-08T22:00:00.000Z"
 estimates:
-  complexity: '4'
-  scale: 'M'
-  time_to_completion: '5h'
+  complexity: "4"
+  scale: "M"
+  time_to_completion: "5h"
 ---
 
 ## 🎯 Outcome

@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 ## 🛠️ Task: Clarify Promethean project vision
 
 Summarize the long-term goals of the Promethean framework so new contributors understand the purpose and scope. Capture the intent driving agents like Duck and outline expected outcomes.
@@ -43,6 +42,3 @@ Summarize the long-term goals of the Promethean framework so new contributors un
 
 ---
 #done
-
-
-

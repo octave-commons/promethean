@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 Here’s a refined version of your task that keeps it tied to your streaming workflow but makes it concrete enough to move forward:
 
 ---
@@ -79,5 +78,3 @@ That would make expansion easier later.
 ```
 #in-progress
 ```
-
-

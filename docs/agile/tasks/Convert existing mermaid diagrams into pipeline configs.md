@@ -1,13 +1,17 @@
 ---
-uuid: 3646ad00-bf96-4744-96ec-ac60066cbedb
-title: Convert existing Mermaid diagrams into pipeline configs
-status: todo
-priority: P4
-labels:
-  - tooling
-  - documentation
-created_at: '2025-10-07T02:31:07Z'
+uuid: "3646ad00-bf96-4744-96ec-ac60066cbedb"
+title: "Convert existing Mermaid diagrams into pipeline configs"
+slug: "Convert existing mermaid diagrams into pipeline configs"
+status: "todo"
+priority: "P4"
+labels: ["tooling", "documentation"]
+created_at: "2025-10-07T02:31:07Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
 ## 🛠️ Task: Convert existing Mermaid diagrams into pipeline configs
 
 ### Context

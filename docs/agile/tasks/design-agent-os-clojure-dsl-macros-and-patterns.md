@@ -1,10 +1,15 @@
 ---
-title: Design Agent OS Clojure DSL Macros and Patterns
-uuid: b2c3d4e5-f6a7-8b9c-0d1e-2f3a-4b5c-6d7e
-status: accepted
-priority: p1
-tags: [dsl, clojure, macros, patterns, agent-os]
-created: 2025-10-09
+uuid: "b2c3d4e5-f6a7-8b9c-0d1e-2f3a-4b5c-6d7e"
+title: "Design Agent OS Clojure DSL Macros and Patterns"
+slug: "design-agent-os-clojure-dsl-macros-and-patterns"
+status: "accepted"
+priority: "p1"
+labels: ["dsl", "clojure", "macros", "patterns", "agent-os"]
+created_at: "2025-10-09T21:36:17.711Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 # Design Agent OS Clojure DSL Macros and Patterns

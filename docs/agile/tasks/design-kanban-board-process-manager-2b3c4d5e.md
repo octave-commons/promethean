@@ -1,11 +1,15 @@
 ---
-type: design
-title: Design Kanban Board Process Manager Integration
-estimate: 5
-uuid: 2b3c4d5e
-status: ready
-priority: high
-tags: [agent-os, kanban, process-manager, orchestration, workflow-automation]
+uuid: "2b3c4d5e"
+title: "Design Kanban Board Process Manager Integration"
+slug: "design-kanban-board-process-manager-2b3c4d5e"
+status: "ready"
+priority: "high"
+labels: ["agent-os", "kanban", "process-manager", "orchestration", "workflow-automation"]
+created_at: "2025-10-09T21:36:17.713Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 # Design Kanban Board Process Manager Integration

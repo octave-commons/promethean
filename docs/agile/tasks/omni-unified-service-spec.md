@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 ## 🧭 Context
 
 - **What changed?**: Leadership requested a unified Omni server that fronts REST, GraphQL, WebSocket, and MCP interfaces from a single Fastify host on one domain/port.
@@ -51,4 +50,3 @@ estimates:
 
 - Peer review of spec documents.
 - Kanban board reflects new tasks in appropriate column once synced.
-

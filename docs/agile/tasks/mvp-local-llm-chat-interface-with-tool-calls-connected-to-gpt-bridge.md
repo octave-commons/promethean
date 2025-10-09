@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 # Pythagoras GPT Mirror WS chat + OpenAPI-driven tool calls via /v1
 ```
 **Owner:** Codex / Agent
@@ -258,6 +257,3 @@ feat(agent): Pythagoras-mirror via WS with OpenAPI-driven tools (/v1 smartgpt-br
 - Story Points: 8
 
 #ready
-
-
-

@@ -1,10 +1,15 @@
 ---
+uuid: "tsdoc-support-001"
 title: "Add TSDoc support to the project"
-status: icebox
-priority: P2
-tags: documentation, typescript, build-system
-uuid: tsdoc-support-001
-created: 2025-10-06
+slug: "add-tsdoc-support"
+status: "icebox"
+priority: "P2"
+labels: ["documentation", "typescript", "build-system"]
+created_at: "2025-10-09T21:36:17.694Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 # Add TSDoc support to the project

@@ -1,11 +1,17 @@
 ---
-uuid: ad65401b-d6bd-4a26-b9b5-6b0340a98da8
-title: handle websocket teardown race in enso chat agent
-status: incoming
-priority: P1
-labels: [cephalon, reliability]
-created_at: '2025-10-08T02:48:42.625Z'
+uuid: "ad65401b-d6bd-4a26-b9b5-6b0340a98da8"
+title: "handle websocket teardown race in enso chat agent"
+slug: "Handle websocket teardown race in Enso chat agent"
+status: "incoming"
+priority: "P1"
+labels: ["cephalon", "reliability"]
+created_at: "2025-10-08T02:48:42.625Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
 `EnsoChatAgent.dispose()` currently awaits `wsHandle.close()`, which rejects with “WebSocket was closed before the connection
 was established” when shutdown runs before the handshake finishes. AVA reports this as an uncaught exception during
 `pnpm nx test @promethean/cephalon`.

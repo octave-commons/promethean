@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 # Task: Context Layer Between Codex and Local LLMs
 
 ## Description
@@ -70,7 +69,3 @@ The service will:
 ## Comments 💬
 
 Agents can use this task to maintain append-only discussions on design decisions, tradeoffs, and testing.
-
-
-
-

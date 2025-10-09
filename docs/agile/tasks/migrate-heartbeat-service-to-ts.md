@@ -1,15 +1,15 @@
 ---
-uuid: 'heartbeat-service-migration'
-title: 'Migrate heartbeat service to TypeScript'
-slug: 'migrate-heartbeat-service-to-ts'
-status: 'breakdown'
-priority: 'P3'
-labels: ['board', 'lang']
-created_at: '2025-10-08T00:00:00.000Z'
+uuid: "heartbeat-service-migration"
+title: "Migrate heartbeat service to TypeScript"
+slug: "migrate-heartbeat-service-to-ts"
+status: "breakdown"
+priority: "P3"
+labels: ["board", "lang"]
+created_at: "2025-10-08T00:00:00.000Z"
 estimates:
   complexity: 2
   scale: 2
-  time_to_completion: '2 hours'
+  time_to_completion: "2 hours"
 ---
 
 # Migrate heartbeat service to TypeScript

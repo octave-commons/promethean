@@ -314,7 +314,7 @@ export class FuzzRunner {
     return 'sanitize';
   }
 
-  private isTestPassed(testCase: FuzzTestCase, actualBehavior: string, result: any): boolean {
+  private isTestPassed(testCase: FuzzTestCase, actualBehavior: string, _result: any): boolean {
     if (!testCase.expectedBehavior) {
       return true; // If no expectation, test passes by default
     }

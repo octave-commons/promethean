@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 ## 🛠️ Task: Add .obsidian to .gitignore
 
 Placeholder task stub generated from kanban board.
@@ -61,6 +60,3 @@ Nothing
 
 `.obsidian/` is already listed in `.gitignore` (line 11), so this task is effectively complete.
 #done
-
-
-

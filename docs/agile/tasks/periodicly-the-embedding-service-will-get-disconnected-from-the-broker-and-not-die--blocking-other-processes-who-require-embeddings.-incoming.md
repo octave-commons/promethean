@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 Here’s a surgical expansion you can drop into the board. Goal: make the **embedding service** fail fast, get killed when it’s unhealthy, and stop blocking dependents. No vibes—just guards, telemetry, and hard interlocks.
 
 # Embedding service sometimes disconnects from broker and hangs → detect, shed, kill, recover
@@ -276,5 +275,3 @@ fix(embeddings): kill-on-disconnect/stall + admission control + heartbeat kill p
 ```
 #in-progress
 ```
-
-

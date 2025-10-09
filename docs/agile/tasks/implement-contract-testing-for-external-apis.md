@@ -1,15 +1,17 @@
 ---
-uuid: 3d4e5f6a-7b8c-9c0d-1e2f3a4b5c6d7e8f9b
-title: Implement contract testing for external API integrations
-status: incoming
-priority: P2
-labels:
-  - testing
-  - contract-testing
-  - api-integration
-  - external-dependencies
-created_at: '2025-01-08T15:43:00.000Z'
+uuid: "3d4e5f6a-7b8c-9c0d-1e2f3a4b5c6d7e8f9b"
+title: "Implement contract testing for external API integrations"
+slug: "implement-contract-testing-for-external-apis"
+status: "incoming"
+priority: "P2"
+labels: ["testing", "contract-testing", "api-integration", "external-dependencies"]
+created_at: "2025-01-08T15:43:00.000Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
 #incoming
 
 ## 🛠️ Description

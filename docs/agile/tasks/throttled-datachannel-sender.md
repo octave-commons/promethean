@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 #Todo
 
 ## 🛠️ Description
@@ -28,5 +27,3 @@ Implement `makeThrottledSender(ch, threshold)` using `bufferedamountlow` event; 
 
 ## 🔍 Related
 - PR #1445
-
-

@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 ## 🎯 Outcome
 
 Relocate SmartGPT bridge domain logic files/search/sinks/indexer/agents/exec into a reusable `@promethean/omni-core` package that implements the Omni protocol interfaces.
@@ -43,4 +42,3 @@ Relocate SmartGPT bridge domain logic files/search/sinks/indexer/agents/exec int
 
 - [docs/agile/tasks/author-omni-protocol-package.md]
 - [docs/agile/tasks/omni-unified-service-spec.md]
-

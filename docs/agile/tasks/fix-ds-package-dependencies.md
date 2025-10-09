@@ -1,14 +1,15 @@
 ---
-title: Fix DS package missing dependencies causing build failures
-description: Resolve missing DS package modules that are causing compilation errors
-uuid: d2e3f4g5-h6i7-j8k9-l0m1-n2o3p4q5r6s7
-labels:
-  - dependencies
-  - build-system
-  - typescript
-  - ds-package
-priority: P2
-status: todo
+uuid: "d2e3f4g5-h6i7-j8k9-l0m1-n2o3p4q5r6s7"
+title: "Fix DS package missing dependencies causing build failures"
+slug: "fix-ds-package-dependencies"
+status: "todo"
+priority: "P2"
+labels: ["dependencies", "build-system", "typescript", "ds-package"]
+created_at: "2025-10-09T21:36:17.719Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 ## Issue

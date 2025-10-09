@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 ## 🛠️ Task: Add unit tests for date_tools.py
 
 Write pytest tests covering functions in `shared/py/date_tools.py`.
@@ -55,6 +54,3 @@ Nothing
 - [[kanban]]
 - [Untested modules]../../untested-code.md
 #done
-
-
-

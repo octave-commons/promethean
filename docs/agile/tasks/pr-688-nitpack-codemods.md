@@ -12,8 +12,4 @@ estimates:
   time_to_completion: ""
 ---
 
-
 # Placeholder — will be overwritten by nitpack
-
-
-

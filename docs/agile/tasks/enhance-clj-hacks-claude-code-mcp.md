@@ -1,16 +1,15 @@
 ---
-title: Enhance clj-hacks for Claude Code MCP server configs
-uuid: 5386dc78-da5b-4dfa-bef3-f82094c4c58a
-created: 2025-10-06T20:06:54-05:00
-status: in_progress
-priority: P2
-owner:
-labels:
-  - clj-hacks
-  - mcp
-  - claude-code
-  - tooling
-epic:
+uuid: "5386dc78-da5b-4dfa-bef3-f82094c4c58a"
+title: "Enhance clj-hacks for Claude Code MCP server configs"
+slug: "enhance-clj-hacks-claude-code-mcp"
+status: "in_progress"
+priority: "P2"
+labels: ["clj-hacks", "mcp", "claude-code", "tooling"]
+created_at: "2025-10-09T21:36:17.716Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 ## Context

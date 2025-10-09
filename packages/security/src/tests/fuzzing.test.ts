@@ -104,9 +104,8 @@ test('FuzzRunner executes tests against validator', async (t) => {
 });
 
 test('FuzzRunner generates comprehensive report', async (t) => {
-  const fuzzer = new Fuzzer();
   const fuzzRunner = new FuzzRunner();
-  
+
   const validator = (input: any) => {
     if (typeof input === 'string' && input.includes('dangerous')) {
       throw new Error('Rejected');

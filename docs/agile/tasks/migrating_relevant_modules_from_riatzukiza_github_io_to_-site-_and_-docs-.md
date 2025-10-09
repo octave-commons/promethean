@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 ## 🛠️ Task: Migrating relevant modules from riatzukiza.github.io to -site- and -docs-
 
 Move documentation and site pieces from the legacy `riatzukiza.github.io` repository into this project.
@@ -63,6 +62,3 @@ Nothing
 
 - [[kanban]]
   #ready
-
-
-

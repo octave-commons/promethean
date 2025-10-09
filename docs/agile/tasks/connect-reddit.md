@@ -1,10 +1,15 @@
 ---
-uuid: d4574bbb-98a3-40ae-a335-0ff2123b4c57
-title: Integrate Reddit API for agent content access
-status: icebox
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.510Z'
+uuid: "d4574bbb-98a3-40ae-a335-0ff2123b4c57"
+title: "Integrate Reddit API for agent content access"
+slug: "connect-reddit"
+status: "icebox"
+priority: "P3"
+labels: ["reddit", "api", "integrate", "agent"]
+created_at: "2025-09-15T02:02:58.510Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 # Description

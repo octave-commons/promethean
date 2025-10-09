@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 ## 🛠️ Task: Create vault-config .obsidian with Kanban and minimal vault setup
 
 Provide a shareable `.obsidian` folder that new contributors can copy to get the
@@ -66,6 +65,3 @@ Nothing
 
 - [[kanban]]
 #done
-
-
-

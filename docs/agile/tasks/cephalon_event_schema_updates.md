@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 Cephalon: Event schema updates for speech pipeline
 
 Goal: Define/align event topics and payloads for transcript and utterance lifecycle to make downstream processing consistent.
@@ -30,6 +29,3 @@ Exit Criteria:
 - Schemas documented and referenced by publishers/subscribers.
 
 #incoming #cephalon #events #schemas
-
-
-

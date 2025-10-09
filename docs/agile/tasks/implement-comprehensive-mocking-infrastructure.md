@@ -1,15 +1,17 @@
 ---
-uuid: e5f6a7b8-9c0d-1e2f-3a4b-5c6d7e8f9a0b
-title: Implement comprehensive mocking infrastructure for external dependencies
-status: incoming
-priority: P1
-labels:
-  - testing
-  - infrastructure
-  - mocking
-  - external-dependencies
-created_at: '2025-01-08T15:35:00.000Z'
+uuid: "e5f6a7b8-9c0d-1e2f-3a4b-5c6d7e8f9a0b"
+title: "Implement comprehensive mocking infrastructure for external dependencies"
+slug: "implement-comprehensive-mocking-infrastructure"
+status: "incoming"
+priority: "P1"
+labels: ["testing", "infrastructure", "mocking", "external-dependencies"]
+created_at: "2025-01-08T15:35:00.000Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
 #incoming
 
 ## 🛠️ Description

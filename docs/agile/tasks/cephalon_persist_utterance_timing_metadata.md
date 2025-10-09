@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 Cephalon: Persist utterance timing metadata
 
 Goal: Record `startTime` and `endTime` for agent utterances to support turn-taking analytics and better context windows.
@@ -30,5 +29,3 @@ Exit Criteria:
 ```
 #incoming #cephalon #timing #agent_messages
 ```
-
-

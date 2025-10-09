@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 ## 0) Safety first
 
 Make sure you don’t have local changes you care about:
@@ -515,6 +514,3 @@ your repo. If you tell me:
    present
 
 I’ll help figure the exact commit and path so you can restore.
-
-
-

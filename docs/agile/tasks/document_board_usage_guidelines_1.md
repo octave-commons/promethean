@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 ## 🛠️ Task: Document board usage guidelines
 
 Provide a concise how-to for contributors on interacting with the Obsidian Kanban board. Include common conventions, WIP limits, and tips for linking tasks.
@@ -57,6 +56,3 @@ Nothing
 ## 🔍 Relevant Links
 - [[kanban]]
 #done
-
-
-

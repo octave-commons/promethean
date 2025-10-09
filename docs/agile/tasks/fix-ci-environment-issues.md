@@ -1,15 +1,15 @@
 ---
-title: Fix CI environment Node.js and pnpm version inconsistencies
-description: Resolve CI environment setup issues causing build failures
-uuid: c1d2e3f4-a5b6-c7d8-e9f0-1a2b3c4d5e6f
-labels:
-  - ci/cd
-  - environment
-  - nodejs
-  - pnpm
-  - build-system
-priority: P2
-status: todo
+uuid: "c1d2e3f4-a5b6-c7d8-e9f0-1a2b3c4d5e6f"
+title: "Fix CI environment Node.js and pnpm version inconsistencies"
+slug: "fix-ci-environment-issues"
+status: "todo"
+priority: "P2"
+labels: ["ci/cd", "environment", "nodejs", "pnpm", "build-system"]
+created_at: "2025-10-09T21:36:17.718Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 ## Issue

@@ -12,8 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
 #InProgress
 
 ## 🛠️ Description
@@ -65,6 +63,3 @@ Estimate: 5
 ## 🔍 Relevant Links
 
 - Pending PR once work is complete.
-
-
-

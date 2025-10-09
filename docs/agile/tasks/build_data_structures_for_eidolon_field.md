@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 ## 🛠️ Task: Build data structures for Eidolon field
 
 Placeholder task stub generated from kanban board.
@@ -57,6 +56,3 @@ Nothing
 
 - [[kanban]]
 #done
-
-
-

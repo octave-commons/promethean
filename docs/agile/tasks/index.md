@@ -1,15 +1,15 @@
 ---
-uuid: '07da16ba-b71f-4fdf-a6db-94762df331ef'
-title: 'Kanban Tasks Index'
-slug: 'index'
-status: 'done'
-priority: 'P3'
-labels: ['kanban', 'tasks', 'index', 'folder']
-created_at: '2025-10-07T20:25:05.643Z'
+uuid: "07da16ba-b71f-4fdf-a6db-94762df331ef"
+title: "Kanban Tasks Index"
+slug: "index"
+status: "done"
+priority: "P3"
+labels: ["kanban", "tasks", "index", "folder"]
+created_at: "2025-10-07T20:25:05.643Z"
 estimates:
-  complexity: ''
-  scale: ''
-  time_to_completion: ''
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 # ✅ COMPLETED - Kanban Tasks Index

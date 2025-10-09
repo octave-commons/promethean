@@ -1,16 +1,15 @@
 ---
-uuid: h8i9j0k1-l2m3-4567-hijk-890123456789
-title: Fix semver-guard pipeline incorrect directory scanning and configuration issues
-status: in_review
-priority: P2
-labels:
-  - piper
-  - semver-guard
-  - directory-scanning
-  - configuration
-  - path-resolution
-created_at: '2025-10-05T00:00:00.000Z'
-story_points: 3
+uuid: "h8i9j0k1-l2m3-4567-hijk-890123456789"
+title: "Fix semver-guard pipeline incorrect directory scanning and configuration issues"
+slug: "fix-semverguard-pipeline-incorrect-directory-scanning-and-configuration-issues"
+status: "in_review"
+priority: "P2"
+labels: ["piper", "semver-guard", "directory-scanning", "configuration", "path-resolution"]
+created_at: "2025-10-05T00:00:00.000Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 ## 🛠️ Task: Fix semver-guard pipeline incorrect directory scanning and configuration issues

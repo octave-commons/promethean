@@ -1,11 +1,15 @@
 ---
+uuid: "20ce4c07-3a8f-413e-8785-32a0bcb1f04b"
 title: "Design Monitoring & Analytics Framework"
+slug: "design-monitoring-analytics-20ce4c07"
 status: "incoming"
 priority: "P1"
-tags: ["agent-os", "design", "monitoring", "analytics", "metrics", "dashboard"]
-estimate: 3
-uuid: "20ce4c07-3a8f-413e-8785-32a0bcb1f04b"
-parent: "a4634017-e2fc-4ed6-bc3c-8abf4d1c4a7f"
+labels: ["agent-os", "design", "monitoring", "analytics", "metrics", "dashboard"]
+created_at: "2025-10-09T21:36:17.713Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 # Design Monitoring & Analytics Framework

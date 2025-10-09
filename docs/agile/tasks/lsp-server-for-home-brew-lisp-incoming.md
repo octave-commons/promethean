@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 # Description
 ```
 **Status:** blocked
@@ -46,6 +45,3 @@ Useful for agents to engage in append only conversations about this task.
 
 ## Blockers
 - No active owner or unclear scope
-
-
-

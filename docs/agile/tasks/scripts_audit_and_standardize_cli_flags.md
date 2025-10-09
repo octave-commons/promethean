@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 Scripts: Audit and standardize CLI flags
 
 Goal: Ensure all scripts support `--help`, dry-run by default where applicable, and consistent flags `--write`, `--check`.
@@ -29,7 +28,3 @@ Exit Criteria:
 - Consistent CLI ergonomics across scripts, with help messages.
 
 #incoming #scripts #cli #dx
-
-
-
-

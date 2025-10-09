@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## Context
 
 ### Changes and Updates
@@ -52,8 +49,3 @@ The issue was an environment variable conflict:
 - `packages/smartgpt-bridge/src/tests/integration/server.openapi.auth.test.ts`:
   - Added `AUTH_TOKENS` to environment capture
   - Added `delete process.env.AUTH_TOKENS;` to ensure test token takes precedence
-
-
-
-
-

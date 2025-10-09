@@ -1,11 +1,15 @@
 ---
+uuid: "992254f6-f3b8-4081-a18b-4e9e7a41eb0e"
 title: "Design Deployment Infrastructure"
+slug: "design-deployment-infrastructure-992254f6"
 status: "incoming"
 priority: "P2"
-tags: ["agent-os", "design", "deployment", "infrastructure", "devops", "ci-cd"]
-estimate: 3
-uuid: "992254f6-f3b8-4081-a18b-4e9e7a41eb0e"
-parent: "a4634017-e2fc-4ed6-bc3c-8abf4d1c4a7f"
+labels: ["agent-os", "design", "deployment", "infrastructure", "devops", "ci-cd"]
+created_at: "2025-10-09T21:36:17.712Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 # Design Deployment Infrastructure

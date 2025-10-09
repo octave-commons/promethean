@@ -1,13 +1,17 @@
 ---
-uuid: 4e1e4c3c-79e8-4f9e-9ba8-122297198bd3
-title: Align DocOps README coverage with pipeline config
-status: todo
-priority: P3
-labels:
-  - documentation
-  - pipeline
-created_at: '2025-10-07T02:31:07Z'
+uuid: "4e1e4c3c-79e8-4f9e-9ba8-122297198bd3"
+title: "Align DocOps README coverage with pipeline config"
+slug: "Align docops README coverage with pipeline config"
+status: "todo"
+priority: "P3"
+labels: ["documentation", "pipeline"]
+created_at: "2025-10-07T02:31:07Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
 ## 🛠️ Task: Align DocOps README coverage with pipeline config
 
 ### Context

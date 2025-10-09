@@ -1,11 +1,15 @@
 ---
+uuid: "f792612c-6ee2-4f46-8d25-967aa95335f6"
 title: "Design Integration Architecture"
+slug: "design-integration-architecture-f792612c"
 status: "incoming"
 priority: "P1"
-tags: ["agent-os", "design", "integration", "mcp", "ecs", "smartgpt-bridge", "kanban"]
-estimate: 3
-uuid: "f792612c-6ee2-4f46-8d25-967aa95335f6"
-parent: "a4634017-e2fc-4ed6-bc3c-8abf4d1c4a7f"
+labels: ["agent-os", "design", "integration", "mcp", "ecs", "smartgpt-bridge", "kanban"]
+created_at: "2025-10-09T21:36:17.713Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 # Design Integration Architecture

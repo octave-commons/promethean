@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 Scripts: Group documentation utilities under scripts/docs
 
 Goal: Move all documentation-maintenance utilities into `scripts/docs/` with a README and stable usage.
@@ -33,7 +32,3 @@ Exit Criteria:
 - README exists with usage and env notes.
 
 #incoming #scripts #docs #organization
-
-
-
-

@@ -1,15 +1,17 @@
 ---
-uuid: 0a1b2c3d-4e5f-6a7b-8c9d-0e1f2a3b4c5d
-title: Implement property-based testing for complex algorithms and state machines
-status: incoming
-priority: P2
-labels:
-  - testing
-  - property-based-testing
-  - algorithms
-  - state-machines
-created_at: '2025-01-08T15:40:00.000Z'
+uuid: "0a1b2c3d-4e5f-6a7b-8c9d-0e1f2a3b4c5d"
+title: "Implement property-based testing for complex algorithms and state machines"
+slug: "implement-property-based-testing-for-complex-algorithms"
+status: "incoming"
+priority: "P2"
+labels: ["testing", "property-based-testing", "algorithms", "state-machines"]
+created_at: "2025-01-08T15:40:00.000Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
 #incoming
 
 ## 🛠️ Description

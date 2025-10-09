@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 ### ✅ Setup services to use broker correctly
 
 
@@ -102,5 +101,3 @@ We're gonna call it In Progress
 ```
 #in-progress
 ```
-
-

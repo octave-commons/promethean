@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 ## 🛠️ Task: Start Eidolon
 
 Bootstrap the **Eidolon** service that manages emotion-state tracking and
@@ -75,6 +74,3 @@ Nothing
 - [[kanban]]
 
 #done
-
-
-

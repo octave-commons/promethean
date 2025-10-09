@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 ## 🛠️ Description
 
 Retire the existing proxy layer and expose all external APIs through the broker-driven bridge service.
@@ -72,6 +71,3 @@ Nothing
 ```
 #framework-core #Todo
 ```
-
-
-
