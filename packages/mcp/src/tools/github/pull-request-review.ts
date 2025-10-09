@@ -180,7 +180,7 @@ export const githubPrReviewStart: ToolFactory = (ctx) => {
   const spec = {
     name: 'github_pr_review_start',
     description: 'Create a pending review on a pull request via GraphQL.',
-    inputSchema: shape,
+    inputSchema: Schema.shape,
   } as const;
 
   const invoke = async (raw: unknown) => {
@@ -215,7 +215,7 @@ export const githubPrReviewCommentInline: ToolFactory = (ctx) => {
   const spec = {
     name: 'github_pr_review_comment_inline',
     description: 'Create an inline review thread on a pull request with automatic diff resolution.',
-    inputSchema: shape,
+    inputSchema: Schema.shape,
   } as const;
 
   const invoke = async (raw: unknown) => {
@@ -264,7 +264,7 @@ export const githubPrReviewSubmit: ToolFactory = (ctx) => {
   const spec = {
     name: 'github_pr_review_submit',
     description: 'Submit a pending review with APPROVE, REQUEST_CHANGES, or COMMENT.',
-    inputSchema: shape,
+    inputSchema: Schema.shape,
   } as const;
 
   const invoke = async (raw: unknown) => {

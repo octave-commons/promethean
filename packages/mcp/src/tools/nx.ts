@@ -184,7 +184,7 @@ const createTool = (_ctx: ToolContext, executor: NxExecutor): ReturnType<ToolFac
   const spec = {
     name: 'nx_generate_package',
     description: 'Generate a new workspace package using the Nx tools:package generator.',
-    inputSchema: shape,
+    inputSchema: Schema.shape,
     stability: 'experimental',
     since: '0.1.0',
   } satisfies ToolSpec;

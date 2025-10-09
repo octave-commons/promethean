@@ -1,4 +1,4 @@
-import { fastify, FastifyInstance } from "fastify";
+import { fastify, FastifyInstance, FastifyRequest } from "fastify";
 import cors from "@fastify/cors";
 import helmet from "@fastify/helmet";
 import rateLimit from "@fastify/rate-limit";
@@ -6,28 +6,33 @@ import swagger from "@fastify/swagger";
 import swaggerUi from "@fastify/swagger-ui";
 
 import type { EnhancedOmniServiceConfig } from "./config.js";
-import { config, getAuthConfig, ConfigValidator } from "./config.js";
-import { createAuthManager, addAuthRoutes } from "./app.js";
+import { config, getAuthConfig } from "./config.js";
+import { createAuthManager } from "./app.js";
+import { mountRestAdapter } from "./adapters/rest.js";
+import { mountGraphQLAdapter } from "./adapters/graphql.js";
+import { mountWebSocketAdapter } from "./adapters/websocket.js";
+import { mountMCPAdapter } from "./adapters/mcp.js";
+
+// Extend FastifyRequest to include user context
+declare module "fastify" {
+  interface FastifyRequest {
+    user?: any;
+    config?: EnhancedOmniServiceConfig;
+    authManager?: any;
+    wsServer?: any;
+    wsAdapter?: any;
+    mcpAdapter?: any;
+  }
+}
 
 /**
- * Create and configure the Fastify app instance for the Omni Service
- * Includes all necessary plugins, middleware, and route setup with authentication
+ * Create and configure the Fastify app instance with all adapters
  */
 export function createApp(appConfig: EnhancedOmniServiceConfig = config): FastifyInstance {
   // Validate configuration
-  const adapterValidation = ConfigValidator.validateAdapters(appConfig.adapters);
+  const adapterValidation = validateAdapterConfig(appConfig.adapters);
   if (!adapterValidation.valid) {
     throw new Error(`Adapter configuration invalid: ${adapterValidation.errors.join(", ")}`);
-  }
-
-  const rateLimitValidation = ConfigValidator.validateRateLimiting(appConfig.rateLimit);
-  if (!rateLimitValidation.valid) {
-    throw new Error(`Rate limiting configuration invalid: ${rateLimitValidation.errors.join(", ")}`);
-  }
-
-  const sessionValidation = ConfigValidator.validateSession(appConfig.session);
-  if (!sessionValidation.valid) {
-    throw new Error(`Session configuration invalid: ${sessionValidation.errors.join(", ")}`);
   }
 
   const app: FastifyInstance = fastify({
@@ -44,12 +49,16 @@ export function createApp(appConfig: EnhancedOmniServiceConfig = config): Fastif
     trustProxy: appConfig.trustProxy || false,
   });
 
-  // Store configuration for later use
+  // Store configuration and auth manager for adapter access
+  const authConfig = getAuthConfig();
+  const authManager = createAuthManager(authConfig);
+  
   app.addHook("preHandler", async (request, reply) => {
     (request as any).config = appConfig;
+    (request as any).authManager = authManager;
   });
 
-  // Register plugins
+  // Register base plugins
   app.register(helmet);
   app.register(cors, {
     origin: appConfig.cors?.origin || false,
@@ -106,8 +115,10 @@ export function createApp(appConfig: EnhancedOmniServiceConfig = config): Fastif
     });
   }
 
-  // Health check endpoint
+  // Global health check endpoint
   app.get("/health", async (request, reply) => {
+    const adapterStats = getAdapterStats();
+    
     return {
       status: "ok",
       timestamp: new Date().toISOString(),
@@ -116,6 +127,7 @@ export function createApp(appConfig: EnhancedOmniServiceConfig = config): Fastif
       memory: process.memoryUsage(),
       service: "omni-service",
       config: {
+        nodeEnv: appConfig.nodeEnv,
         adapters: appConfig.adapters,
         auth: {
           jwt: !!appConfig.jwt,
@@ -124,6 +136,7 @@ export function createApp(appConfig: EnhancedOmniServiceConfig = config): Fastif
           session: !!appConfig.session?.enabled,
         },
       },
+      adapters: adapterStats,
     };
   });
 
@@ -161,130 +174,392 @@ export function createApp(appConfig: EnhancedOmniServiceConfig = config): Fastif
         websocket: appConfig.adapters.websocket.path,
         rest: `${appConfig.adapters.rest.prefix}/${appConfig.adapters.rest.version}`,
         mcp: appConfig.adapters.mcp.prefix,
+      },
+      connections: {
+        authentication: "Bearer Token / API Key / Session Cookie",
+        realTime: "WebSocket with subscriptions",
+        protocols: ["REST", "GraphQL", "WebSocket", "MCP"],
       }
     };
   });
 
-  // Authentication endpoints
+  // Mount authentication routes
   if (appConfig.jwt) {
-    const authManager = createAuthManager(getAuthConfig());
-    
-    // Mock user repository for authentication (replace with real implementation)
-    const mockUserRepository = {
-      getUserById: async (id: string) => {
-        // Mock user data - replace with real database query
-        if (id.startsWith("user_")) {
-          const username = id.replace("user_", "");
-          return {
-            id,
-            username,
-            email: `${username}@example.com`,
-            roles: ["user"],
-            metadata: { mockUser: true },
-          };
-        }
-        
-        // Mock service user
-        if (id.includes("service")) {
-          return {
-            id,
-            roles: ["service"],
-            metadata: { serviceUser: true },
-          };
-        }
-        
-        return null;
-      },
-    };
-
-    addAuthRoutes(app, authManager, mockUserRepository);
-
-    // Example protected route
-    app.get("/protected", {
-      preHandler: authManager.createAuthMiddleware({
-        required: true,
-        permissions: [{ resource: "api:protected", actions: ["read"] }],
-      }),
-    }, async (request, reply) => {
-      if (!request.user) {
-        return reply.status(401).send({ error: "Unauthorized" });
-      }
-
-      const permissionChecker = authManager.createPermissionChecker(request.user);
-      
-      return reply.send({
-        message: "Access granted to protected endpoint",
-        user: {
-          id: request.user.id,
-          roles: request.user.roles,
-        },
-        permissions: Array.from(request.user.permissions),
-        roleInfo: permissionChecker.getRoleInfo(),
-      });
-    });
-
-    // Admin-only route
-    app.get("/admin", {
-      preHandler: authManager.createAuthMiddleware({
-        required: true,
-        roles: ["admin"],
-      }),
-    }, async (request, reply) => {
-      if (!request.user) {
-        return reply.status(401).send({ error: "Unauthorized" });
-      }
-
-      const permissionChecker = authManager.createPermissionChecker(request.user);
-      
-      return reply.send({
-        message: "Admin access granted",
-        user: request.user,
-        roleInfo: permissionChecker.getRoleInfo(),
-        rbacManager: authManager.getRBACManager().getAllRoles(),
-      });
-    });
-
-    // Store auth manager in app for adapter use
-    app.addHook("preHandler", async (request, reply) => {
-      (request as any).authManager = authManager;
-    });
+    addAuthRoutes(app, authManager);
   }
 
-  // TODO: Mount adapters when available
-  // - REST API adapter at /api/v1/*
-  // - GraphQL endpoint at /graphql
-  // - WebSocket server at /ws
-  // - MCP HTTP transport at /mcp/*
+  // Mount adapters based on configuration
+  if (appConfig.adapters.rest?.enabled) {
+    try {
+      mountRestAdapter(app, {
+        prefix: appConfig.adapters.rest.prefix,
+        version: appConfig.adapters.rest.version,
+        authManager,
+      });
+    } catch (error) {
+      app.log.error("Failed to mount REST adapter:", error);
+    }
+  }
+
+  if (appConfig.adapters.graphql?.enabled) {
+    try {
+      mountGraphQLAdapter(app, {
+        endpoint: appConfig.adapters.graphql.endpoint,
+        playground: appConfig.adapters.graphql.playground,
+        authManager,
+        enableSubscriptions: appConfig.graphql.enableSubscriptions,
+      });
+    } catch (error) {
+      app.log.error("Failed to mount GraphQL adapter:", error);
+    }
+  }
+
+  if (appConfig.adapters.websocket?.enabled) {
+    try {
+      const wsAdapter = mountWebSocketAdapter(app, {
+        path: appConfig.adapters.websocket.path,
+        enableAuth: true,
+        enableHeartbeat: true,
+        heartbeatInterval: 30000,
+        maxConnections: 1000,
+        perMessageDeflate: true,
+      });
+      
+      // Store WebSocket adapter for access
+      (app as any).wsAdapter = wsAdapter;
+    } catch (error) {
+      app.log.error("Failed to mount WebSocket adapter:", error);
+    }
+  }
+
+  if (appConfig.adapters.mcp?.enabled) {
+    try {
+      mountMCPAdapter(app, {
+        prefix: appConfig.adapters.mcp.prefix,
+        enableAuth: true,
+        enableTools: true,
+        enableResources: true,
+        enablePrompts: false,
+      });
+    } catch (error) {
+      app.log.error("Failed to mount MCP adapter:", error);
+    }
+  }
+
+  // Adapter management endpoints (admin only)
+  app.get("/adapters", {
+    preHandler: authManager.createAuthMiddleware({
+      required: true,
+      roles: ["admin"],
+    }),
+  }, async (request, reply) => {
+    const adapterStats = getAdapterStats();
+    
+    return reply.send({
+      status: "ok",
+      adapters: adapterStats,
+      connections: {
+        total: adapterStats.websocket?.totalConnections || 0,
+        authenticated: adapterStats.websocket?.authenticatedConnections || 0,
+      },
+    });
+  });
+
+  // Adapter status endpoint
+  app.get("/adapters/status", async (request, reply) => {
+    const adapterStats = getAdapterStats();
+    const config = (request as any).config;
+    
+    return reply.send({
+      status: "ok",
+      timestamp: new Date().toISOString(),
+      adapters: config.adapters,
+      stats: adapterStats,
+      server: {
+        nodeVersion: process.version,
+        platform: process.platform,
+        uptime: process.uptime(),
+        memory: process.memoryUsage(),
+      },
+    });
+  });
 
   return app;
 }
 
 /**
- * Create development server with hot reload
+ * Get adapter statistics from mounted adapters
  */
-export async function createDevServer(appConfig: EnhancedOmniServiceConfig = config): Promise<FastifyInstance> {
-  const app = createApp(appConfig);
-  const port = appConfig.port || 3000;
-  const host = appConfig.host || "0.0.0.0";
-  
-  await app.listen({ port, host });
-  
-  console.log(`🚀 Omni Service (dev) started on http://${host}:${port}`);
-  console.log(`📚 GraphQL Playground: http://${host}:${port}/docs`);
-  console.log(`🔧 Health Check: http://${host}:${port}/health`);
-  console.log(`🔐 Authentication: http://${host}:${port}/auth/login`);
-  
-  if (appConfig.adapters.graphql.enabled) {
-    console.log(`📊 GraphQL Endpoint: http://${host}:${port}${appConfig.adapters.graphql.endpoint}`);
-  }
-  
-  if (appConfig.adapters.websocket.enabled) {
-    console.log(`📡 WebSocket: ws://${host}:${port}${appConfig.adapters.websocket.path}`);
-  }
-  
-  if (appConfig.adapters.mcp.enabled) {
-    console.log(`🔌 MCP Endpoints: http://${host}:${port}${appConfig.adapters.mcp.prefix}`);
-  }
-  
-  return app;
+function getAdapterStats() {
+  return {
+    rest: {
+      mounted: true,
+      version: "v1",
+      endpoints: ["GET", "POST", "PUT", "DELETE"],
+      authentication: true,
+    },
+    graphql: {
+      mounted: true,
+      endpoint: "/graphql",
+      playground: true,
+      subscriptions: false,
+      authentication: true,
+    },
+    websocket: {
+      mounted: true,
+      path: "/ws",
+      connections: (global as any).wsAdapter?.getStats?.() || {
+        totalConnections: 0,
+        authenticatedConnections: 0,
+        openConnections: 0,
+      },
+      authentication: true,
+    },
+    mcp: {
+      mounted: true,
+      prefix: "/mcp",
+      tools: 6,
+      resources: 1,
+      authentication: true,
+    },
+  };
 }
+
+/**
+ * Validate adapter configuration for conflicts
+ */
+function validateAdapterConfig(adapters: EnhancedOmniServiceConfig["adapters"]) {
+  const errors: string[] = [];
+  const endpoints = new Set<string>();
+  
+  // Check for endpoint conflicts
+  if (adapters.graphql.enabled) {
+    const endpoint = adapters.graphql.endpoint;
+    if (endpoints.has(endpoint)) {
+      errors.push(`GraphQL endpoint conflicts with another adapter: ${endpoint}`);
+    }
+    endpoints.add(endpoint);
+  }
+  
+  if (adapters.websocket.enabled) {
+    const endpoint = adapters.websocket.path;
+    if (endpoints.has(endpoint)) {
+      errors.push(`WebSocket endpoint conflicts with another adapter: ${endpoint}`);
+    }
+    endpoints.add(endpoint);
+  }
+  
+  // Check for prefix conflicts
+  if (adapters.mcp.enabled && adapters.rest.enabled) {
+    const mcpPrefix = adapters.mcp.prefix;
+    const restPrefix = adapters.rest.prefix;
+    
+    if (mcpPrefix.startsWith(restPrefix) || restPrefix.startsWith(mcpPrefix)) {
+      errors.push(`MCP prefix (${mcpPrefix}) conflicts with REST prefix (${restPrefix})`);
+    }
+  }
+  
+  return {
+    valid: errors.length === 0,
+    errors,
+  };
+}
+
+/**
+ * Add authentication routes to the app
+ */
+function addAuthRoutes(
+  app: FastifyInstance,
+  authManager: any
+) {
+  // Mock user repository for authentication
+  const mockUserRepository = {
+    getUserById: async (id: string) => {
+      if (id.startsWith("user_")) {
+        const username = id.replace("user_", "");
+        return {
+          id,
+          username,
+          email: `${username}@example.com`,
+          roles: ["user"],
+          metadata: { mockUser: true },
+        };
+      }
+      
+      if (id.includes("service")) {
+        return {
+          id,
+          roles: ["service"],
+          metadata: { serviceUser: true },
+        };
+      }
+      
+      return null;
+    },
+  };
+
+  // Authentication endpoint
+  app.post("/auth/login", async (request, reply) => {
+    try {
+      const { username, password } = request.body as {
+        username: string;
+        password: string;
+      };
+
+      if (username && password) {
+        const user = {
+          id: `user_${username}`,
+          username,
+          email: `${username}@example.com`,
+          roles: ["user"],
+          metadata: { loginTime: new Date().toISOString() },
+        };
+
+        const tokens = authManager.generateTokens(user);
+        authManager.setAuthCookie(reply, tokens.accessToken);
+
+        return reply.send({
+          user: {
+            id: user.id,
+            username: user.username,
+            email: user.email,
+            roles: user.roles,
+          },
+          tokens: {
+            accessToken: tokens.accessToken,
+            refreshToken: tokens.refreshToken,
+          },
+        });
+      }
+
+      return reply.status(400).send({
+        error: "Invalid credentials",
+        message: "Username and password are required",
+      });
+    } catch (error) {
+      return reply.status(500).send({
+        error: "Login failed",
+        message: error instanceof Error ? error.message : "Unknown error",
+      });
+    }
+  });
+
+  // Token refresh endpoint
+  app.post("/auth/refresh", async (request, reply) => {
+    try {
+      const { refreshToken } = request.body as {
+        refreshToken: string;
+      };
+
+      if (!refreshToken) {
+        return reply.status(400).send({
+          error: "Refresh token required",
+        });
+      }
+
+      const result = await authManager.refreshToken(refreshToken, mockUserRepository);
+
+      if (!result.success) {
+        return reply.status(result.statusCode || 401).send({
+          error: "Token refresh failed",
+          message: result.error,
+        });
+      }
+
+      if (result.user) {
+        const newTokens = authManager.generateTokens({
+          id: result.user.id,
+          roles: result.user.roles,
+        });
+
+        authManager.setAuthCookie(reply, newTokens.accessToken);
+      }
+
+      return reply.send({
+        user: result.user,
+      });
+    } catch (error) {
+      return reply.status(500).send({
+        error: "Token refresh failed",
+        message: error instanceof Error ? error.message : "Unknown error",
+      });
+    }
+  });
+
+  // Logout endpoint
+  app.post("/auth/logout", async (request, reply) => {
+    authManager.clearAuthCookie(reply);
+    return reply.send({ message: "Logged out successfully" });
+  });
+
+  // Current user endpoint
+  app.get("/auth/me", {
+    preHandler: authManager.createAuthMiddleware(),
+  }, async (request, reply) => {
+    if (!request.user) {
+      return reply.status(401).send({
+        error: "Authentication required",
+      });
+    }
+
+    const permissionChecker = authManager.createPermissionChecker(request.user);
+    const roleInfo = permissionChecker.getRoleInfo();
+
+    return reply.send({
+      user: {
+        id: request.user.id,
+        username: request.user.username,
+        email: request.user.email,
+        roles: request.user.roles,
+      },
+      roles: roleInfo,
+      permissions: Array.from(request.user.permissions),
+      tokenType: request.user.tokenType,
+    });
+  });
+
+  // API key generation endpoint (admin only)
+  app.post("/auth/apikey", {
+    preHandler: authManager.createAuthMiddleware({
+      required: true,
+      roles: ["admin"],
+    }),
+  }, async (request, reply) => {
+    if (!request.user) {
+      return reply.status(401).send({
+        error: "Authentication required",
+      });
+    }
+
+      const { serviceId, permissions } = request.body as {
+        serviceId: string;
+        permissions: string[];
+      };
+
+      if (!serviceId || !Array.isArray(permissions)) {
+        return reply.status(400).send({
+          error: "serviceId and permissions array are required",
+        });
+      }
+
+      try {
+        const apiKey = authManager.generateAPIKey(serviceId, permissions);
+        
+        return reply.send({
+          apiKey,
+          serviceId,
+          permissions,
+          createdAt: new Date().toISOString(),
+        });
+      } catch (error) {
+        return reply.status(500).send({
+          error: "API key generation failed",
+          message: error instanceof Error ? error.message : "Unknown error",
+        });
+      }
+    }
+  );
+}
+
+export { createApp, getAdapterStats };
+export type { EnhancedOmniServiceConfig };

@@ -166,7 +166,7 @@ export const githubReviewOpenPullRequest: ToolFactory = (ctx) => {
       name: 'github_review_open_pull_request',
       description:
         'Open a new pull request targeting a base branch with the provided title and body.',
-      inputSchema: shape,
+      inputSchema: Schema.shape,
       stability: 'experimental',
       since: '0.1.0',
     } satisfies ToolSpec,
@@ -243,7 +243,7 @@ export const githubReviewGetComments: ToolFactory = (ctx) => {
     spec: {
       name: 'github_review_get_comments',
       description: 'List issue comments on a pull request with pagination support.',
-      inputSchema: shape,
+      inputSchema: Schema.shape,
       stability: 'experimental',
       since: '0.1.0',
     } satisfies ToolSpec,
@@ -346,7 +346,7 @@ export const githubReviewGetReviewComments: ToolFactory = (ctx) => {
     spec: {
       name: 'github_review_get_review_comments',
       description: 'Fetch review thread comments (diff comments) for a pull request.',
-      inputSchema: shape,
+      inputSchema: Schema.shape,
       stability: 'experimental',
       since: '0.1.0',
     } satisfies ToolSpec,
@@ -438,7 +438,7 @@ export const githubReviewSubmitComment: ToolFactory = (ctx) => {
     spec: {
       name: 'github_review_submit_comment',
       description: 'Submit an issue-level comment on a pull request.',
-      inputSchema: shape,
+      inputSchema: Schema.shape,
       stability: 'experimental',
       since: '0.1.0',
     } satisfies ToolSpec,
@@ -522,7 +522,7 @@ export const githubReviewRequestChangesFromCodex: ToolFactory = (ctx) => {
       name: 'github_review_request_changes_from_codex',
       description:
         'Request changes from Codex by posting an issue-level pull request comment tagging @codex.',
-      inputSchema: shape,
+      inputSchema: Schema.shape,
       stability: 'experimental',
       since: '0.1.0',
     } satisfies ToolSpec,
@@ -601,7 +601,7 @@ export const githubReviewSubmitReview: ToolFactory = (ctx) => {
     spec: {
       name: 'github_review_submit_review',
       description: 'Create a pull request review with optional summary body and inline comments.',
-      inputSchema: shape,
+      inputSchema: Schema.shape,
       stability: 'experimental',
       since: '0.1.0',
     } satisfies ToolSpec,
@@ -711,7 +711,7 @@ export const githubReviewGetActionStatus: ToolFactory = (ctx) => {
       name: 'github_review_get_action_status',
       description:
         'Fetch the latest workflow and check status for the most recent pull request commit.',
-      inputSchema: shape,
+      inputSchema: Schema.shape,
       stability: 'experimental',
       since: '0.1.0',
     } satisfies ToolSpec,
@@ -815,7 +815,7 @@ export const githubReviewCommit: ToolFactory = () => {
       name: 'github_review_commit',
       description:
         'Create a git commit. Optionally stage specific paths or use --all/--allow-empty.',
-      inputSchema: shape,
+      inputSchema: Schema.shape,
       stability: 'experimental',
       since: '0.1.0',
     } satisfies ToolSpec,
@@ -849,7 +849,7 @@ export const githubReviewPush: ToolFactory = () => {
       name: 'github_review_push',
       description:
         'Push the current branch to the specified remote with optional upstream/force settings.',
-      inputSchema: shape,
+      inputSchema: Schema.shape,
       stability: 'experimental',
       since: '0.1.0',
     } satisfies ToolSpec,
@@ -876,7 +876,7 @@ export const githubReviewCheckoutBranch: ToolFactory = () => {
     spec: {
       name: 'github_review_checkout_branch',
       description: 'Check out an existing git branch.',
-      inputSchema: shape,
+      inputSchema: Schema.shape,
       stability: 'experimental',
       since: '0.1.0',
     } satisfies ToolSpec,
@@ -900,7 +900,7 @@ export const githubReviewCreateBranch: ToolFactory = () => {
     spec: {
       name: 'github_review_create_branch',
       description: 'Create and check out a new git branch optionally from a specific start point.',
-      inputSchema: shape,
+      inputSchema: Schema.shape,
       stability: 'experimental',
       since: '0.1.0',
     } satisfies ToolSpec,
@@ -926,7 +926,7 @@ export const githubReviewRevertCommits: ToolFactory = () => {
     spec: {
       name: 'github_review_revert_commits',
       description: 'Revert one or more commits using git revert.',
-      inputSchema: shape,
+      inputSchema: Schema.shape,
       stability: 'experimental',
       since: '0.1.0',
     } satisfies ToolSpec,

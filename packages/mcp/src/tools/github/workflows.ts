@@ -116,7 +116,7 @@ export const githubWorkflowGetRunLogs: ToolFactory = (ctx) => {
     spec: {
       name: 'github_workflow_get_run_logs',
       description: 'Download and extract the log files for a GitHub Actions workflow run.',
-      inputSchema: shape,
+      inputSchema: Schema.shape,
       stability: 'experimental',
       since: '0.1.0',
     } satisfies ToolSpec,
@@ -146,7 +146,7 @@ export const githubWorkflowGetJobLogs: ToolFactory = (ctx) => {
     spec: {
       name: 'github_workflow_get_job_logs',
       description: 'Download and extract the log files for a GitHub Actions workflow job.',
-      inputSchema: shape,
+      inputSchema: Schema.shape,
       stability: 'experimental',
       since: '0.1.0',
     } satisfies ToolSpec,

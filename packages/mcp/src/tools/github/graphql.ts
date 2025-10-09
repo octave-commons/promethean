@@ -16,7 +16,7 @@ export const githubGraphqlTool: ToolFactory = (ctx) => {
     spec: {
       name: "github_graphql",
       description: "Post a GraphQL query to GitHub.",
-      inputSchema: shape, // <— shape, not z.object(...)
+      inputSchema: Schema.shape, // <— shape, not z.object(...)
       stability: "experimental",
       since: "0.1.0",
     } satisfies ToolSpec,

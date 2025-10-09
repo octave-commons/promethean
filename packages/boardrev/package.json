@@ -9,13 +9,17 @@
     "boardrev-index-repo": "dist/03-index-repo.js",
     "boardrev-match-context": "dist/04-match-context.js",
     "boardrev-evaluate": "dist/05-evaluate.js",
-    "boardrev-report": "dist/06-report.js"
+    "boardrev-report": "dist/06-report.js",
+    "boardrev-monitor": "dist/07-monitor.js",
+    "boardrev-watch": "dist/08-watchers.js",
+    "boardrev-schedule": "dist/09-scheduler.js"
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "br:01-fm": "tsx src/01-ensure-fm.ts",
     "br:02-prompts": "tsx src/02-process-prompts.ts",
     "br:03-index": "tsx src/03-index-repo.ts",
+    "br:03-index-incremental": "tsx src/03-index-repo.ts --incremental",
     "br:04-match": "tsx src/04-match-context.ts",
     "br:04-enhanced": "tsx src/04-enhanced-context.ts",
     "br:05-eval": "tsx src/05-evaluate.ts",
@@ -23,6 +27,12 @@
     "br:07-wip": "tsx src/07-wip-resolution.ts",
     "br:all": "pnpm br:01-fm && pnpm br:02-prompts && pnpm br:03-index && pnpm br:04-match && pnpm br:05-eval && pnpm br:06-report",
     "br:all-enhanced": "pnpm br:01-fm && pnpm br:02-prompts && pnpm br:03-index && pnpm br:04-enhanced --run-build-tests && pnpm br:05-eval && pnpm br:06-report",
+    "monitor:start": "tsx src/07-monitor.ts start",
+    "monitor:stop": "tsx src/07-monitor.ts stop",
+    "monitor:status": "tsx src/07-monitor.ts status",
+    "monitor:trigger": "tsx src/07-monitor.ts trigger",
+    "watch:demo": "tsx src/08-watchers.ts",
+    "schedule:demo": "tsx src/09-scheduler.ts",
     "test": "pnpm run build && ava --config ../../config/ava.config.mjs"
   },
   "dependencies": {
@@ -33,7 +43,9 @@
     "globby": "^14.0.2",
     "gray-matter": "^4.0.3",
     "yaml": "^2.5.0",
-    "zod": "^3.23.8"
+    "zod": "^3.23.8",
+    "chokidar": "^3.6.0",
+    "node-cron": "^3.0.3"
   },
   "devDependencies": {
     "esmock": "^2.7.3",

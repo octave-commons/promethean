@@ -138,7 +138,7 @@ export const githubPrResolvePosition: ToolFactory = (ctx) => {
   const spec = {
     name: 'github_pr_resolve_position',
     description: specDescription,
-    inputSchema: shape,
+    inputSchema: Schema.shape,
   } as const;
 
   const invoke = async (raw: unknown) => {

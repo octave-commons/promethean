@@ -2,7 +2,7 @@
 uuid: "922b2976-52f4-417b-8e46-a252f88d89c1"
 title: "Add continuous monitoring and real-time updates to boardrev"
 slug: "boardrev-continuous-monitoring"
-status: "accepted"
+status: "in_progress"
 priority: "P1"
 labels: ["enhancement", "boardrev", "monitoring", "automation"]
 created_at: "2025-10-08T22:06:12.838Z"
