@@ -74,7 +74,7 @@ export const filesSearch: ToolFactory = () => {
   const spec = {
     name: 'files_search',
     description: 'Search file contents under a directory and return matching line snippets.',
-    inputSchema: shape,
+    inputSchema: Schema.shape,
     outputSchema: {
       ok: true,
       count: 0,

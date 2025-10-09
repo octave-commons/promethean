@@ -232,7 +232,7 @@ test("regenerate", async (t) => {
   t.is(outcome.totalTasks, 1);
   const boardFile = await readFile(boardPath, "utf8");
   t.true(boardFile.startsWith("---\nkanban-plugin: board"));
-  t.regex(boardFile, /## Review/);
+  t.regex(boardFile, /## review/);
 });
 
 test("search", async (t) => {
