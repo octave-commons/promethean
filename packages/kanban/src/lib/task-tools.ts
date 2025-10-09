@@ -5,6 +5,9 @@ import path from 'path';
 
 const logger = createLogger({ service: 'task-tools' });
 
+const escapeRegExp = (value: string): string =>
+  value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
 export interface TaskComparison {
   uuid: string;
   title: string;
@@ -58,10 +61,12 @@ export async function compareTasks(
   const comparisons: TaskComparison[] = [];
 
   try {
+    const boardContent = readFileSync(boardPath, 'utf-8');
+
     // Load tasks to get their content
     const tasks = taskUuids.map(uuid => {
-      const boardContent = readFileSync(boardPath, 'utf-8');
-      const taskMatch = boardContent.match(new RegExp(`\\(uuid:${uuid}\\)`, 'm'));
+      const safeUuid = escapeRegExp(uuid);
+      const taskMatch = boardContent.match(new RegExp(`\\(uuid:${safeUuid}\\)`, 'm'));
 
       if (!taskMatch) {
         logger.warn(`Task ${uuid} not found in board`);
@@ -227,7 +232,8 @@ export async function suggestTaskBreakdown(
 
 async function findTaskTitle(taskUuid: string): Promise<string | null> {
   const boardContent = readFileSync('docs/agile/boards/generated.md', 'utf-8');
-  const taskMatch = boardContent.match(new RegExp(`\\(uuid:${taskUuid}\\)`, 'm'));
+  const safeUuid = escapeRegExp(taskUuid);
+  const taskMatch = boardContent.match(new RegExp(`\\(uuid:${safeUuid}\\)`, 'm'));
   if (!taskMatch) return null;
 
   // Find the task title from the same line

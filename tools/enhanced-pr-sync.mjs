@@ -5,6 +5,8 @@ import { execSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import { MultiProviderLLM } from './llm-providers.mjs';
 
+const toJsonArg = (value) => JSON.stringify(String(value ?? ''));
+
 /**
  * Enhanced PR Sync Tool with ChromaDB integration and advanced context gathering
  */
@@ -139,8 +141,11 @@ Provide only the resolved content, starting from the first line of the file and 
 RESOLVED CONTENT:`;
 
     try {
+      const modelArg = toJsonArg(this.options.llmModel);
+      const promptArg = toJsonArg(prompt);
+
       const llmResult = await this.runCommand(
-        `ollama run ${this.options.llmModel} "${prompt.replace(/"/g, '\\"')}"`,
+        `ollama run ${modelArg} ${promptArg}`,
         { timeout: 45000 }
       );
 
