@@ -167,7 +167,10 @@ test('MCP server handles Zod schema registration without _parse errors', async (
     const callDataLine = callSseLines.find(line => line.startsWith('data: '));
     t.truthy(callDataLine);
     const callResult = JSON.parse(callDataLine!.slice('data: '.length)) as any;
-    t.deepEqual(callResult.result, { result: 'hello world (5 times)' });
+    // MCP SDK returns results in content array format
+    t.true(Array.isArray(callResult.result.content));
+    t.is(callResult.result.content[0].type, 'text');
+    t.deepEqual(JSON.parse(callResult.result.content[0].text), { result: 'hello world (5 times)' });
 
     // Test 5: Simulate curl-like requests to verify no _parse errors
     const curlLikeInitResponse = await fetch(`http://127.0.0.1:${port}/mcp`, {
@@ -385,7 +388,10 @@ test('MCP server handles multiple tools with complex Zod schemas', async (t) => 
     const complexCallDataLine = complexCallSseLines.find(line => line.startsWith('data: '));
     t.truthy(complexCallDataLine);
     const complexCallResult = JSON.parse(complexCallDataLine!.slice('data: '.length)) as any;
-    t.deepEqual(complexCallResult.result, { summary: 'Processed 2 items, 1 enabled' });
+    // MCP SDK returns results in content array format
+    t.true(Array.isArray(complexCallResult.result.content));
+    t.is(complexCallResult.result.content[0].type, 'text');
+    t.deepEqual(JSON.parse(complexCallResult.result.content[0].text), { summary: 'Processed 2 items, 1 enabled' });
 
     t.pass('Multiple tools with complex Zod schemas registered and work correctly');
 
