@@ -7,8 +7,7 @@ import type {
   TrelloBoard,
   TrelloList,
   TrelloCard,
-  TrelloLabel,
-  TrelloChecklist
+  TrelloLabel
 } from './types.js';
 
 export class TrelloClient {

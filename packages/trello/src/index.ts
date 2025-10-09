@@ -20,6 +20,9 @@ export type {
 } from './lib/types.js';
 
 // Re-export main classes for easy usage
+import { TrelloClient } from './lib/trello-client.js';
+import { KanbanToTrelloSync } from './lib/kanban-to-trello-sync.js';
+
 export default {
   TrelloClient,
   KanbanToTrelloSync
