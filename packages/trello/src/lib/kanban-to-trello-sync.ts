@@ -85,15 +85,15 @@ export class KanbanToTrelloSync {
 
       // Sort by priority (P1 first, then P2, etc.)
       allTasks.sort((a, b) => {
-        const priorityOrder = { 'P1': 1, 'P2': 2, 'P3': 3, 'p1': 1, 'p2': 2, 'p3': 3 };
-        const aPriority = priorityOrder[a.priority] || 999;
-        const bPriority = priorityOrder[b.priority] || 999;
+        const priorityOrder: Record<string, number> = { 'P1': 1, 'P2': 2, 'P3': 3, 'p1': 1, 'p2': 2, 'p3': 3 };
+        const aPriority = priorityOrder[a.priority || ''] || 999;
+        const bPriority = priorityOrder[b.priority || ''] || 999;
         return aPriority - bPriority;
       });
 
       return allTasks;
     } catch (error) {
-      console.error('❌ Failed to extract kanban tasks:', error.message);
+      console.error('❌ Failed to extract kanban tasks:', error instanceof Error ? error.message : String(error));
       return [];
     }
   }
@@ -338,6 +338,11 @@ ${task.content || 'No description available.'}
 
       for (let i = 0; i < tasksToSync.length; i++) {
         const task = tasksToSync[i];
+        if (!task) {
+          console.log(`[${i + 1}/${tasksToSync.length}] Skipping empty task`);
+          continue;
+        }
+
         console.log(`[${i + 1}/${tasksToSync.length}] ${task.title}`);
 
         try {
@@ -354,7 +359,7 @@ ${task.content || 'No description available.'}
             }
           }
         } catch (error) {
-          const errorMsg = `Failed to sync task "${task.title}": ${error.message}`;
+          const errorMsg = `Failed to sync task "${task.title}": ${error instanceof Error ? error.message : String(error)}`;
           console.error(`   ❌ ${errorMsg}`);
           result.errors.push(errorMsg);
           result.summary.failedCards++;

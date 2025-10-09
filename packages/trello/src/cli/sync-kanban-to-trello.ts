@@ -33,7 +33,10 @@ function parseCliArgs(): CliOptions {
         break;
       case '--max-tasks':
       case '-m':
-        options.maxTasks = parseInt(args[++i], 10);
+        const maxTasksValue = parseInt(args[++i], 10);
+        if (!isNaN(maxTasksValue)) {
+          options.maxTasks = maxTasksValue;
+        }
         break;
       case '--dry-run':
       case '-d':
@@ -49,7 +52,6 @@ function parseCliArgs(): CliOptions {
       case '-h':
         showHelp();
         process.exit(0);
-        break;
     }
   }
 
@@ -130,7 +132,7 @@ async function main(): Promise<void> {
     const atlassianApiKey = process.env.ATLASIAN_API_KEY;
     const atlassianClientId = process.env.ATLASSIAN_CLIENT_ID;
 
-    let config = {};
+    let config: any = {};
 
     // Priority: Classic Trello API first, then others
     if (trelloApiKey && (trelloSecret || trelloApiToken)) {
@@ -182,9 +184,9 @@ async function main(): Promise<void> {
     }
 
   } catch (error) {
-    console.error('\n❌ Sync failed:', error.message);
+    console.error('\n❌ Sync failed:', error instanceof Error ? error.message : String(error));
     if (process.env.DEBUG) {
-      console.error(error.stack);
+      console.error(error instanceof Error ? error.stack : String(error));
     }
     process.exit(1);
   }
