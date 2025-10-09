@@ -575,9 +575,11 @@ export async function estimateBatchComplexity(
   logger.info(`Starting batch complexity estimation for status: ${statusFilter}`);
 
   const tasks = await readTasksFromDirectory(tasksDir);
+  const normalizedStatusFilter = statusFilter.toLowerCase();
   const filteredTasks = tasks
     .filter((task: Task) => {
-      if (task.status !== statusFilter) return false;
+      const taskStatus = String(task.status ?? '').toLowerCase();
+      if (taskStatus !== normalizedStatusFilter) return false;
       if (
         priorityFilter &&
         (task.priority === undefined ||
