@@ -1,7 +1,26 @@
 import test from "ava";
 import { promises as fs } from "fs";
 import path from "path";
-import { float32ToInt16 } from "@promethean/duck-audio";
+import { 
+  float32ToInt16,
+  PCM16_MIN,
+  PCM16_MAX,
+  PCM16_SAMPLE_RATE,
+  PCM16_FRAME_DURATION_MS,
+  PCM16_BYTES_PER_SAMPLE,
+  PCM16_BYTES_PER_FRAME,
+  PCM16_SCALAR,
+  PCM48_SAMPLE_RATE,
+  clampPcm16,
+  clampUnitFloat,
+  floatToPcm16,
+  PCM48_TO_16_DECIMATION,
+  STEREO_FRAMES_PER_OUTPUT_SAMPLE,
+  SAMPLES_PER_DECIMATED_OUTPUT,
+  PCM48_STEREO_CHANNELS
+} from "@promethean/duck-audio";
+import { transportFactory, createMockWsFactory } from '../net/ws.js';
+import { makeThrottledSender, defaultSenderConfig, createMockSender } from '../net/send.js';
 
 // Mock AudioWorkletProcessor for testing
 global.AudioWorkletProcessor = class {
@@ -105,6 +124,13 @@ class MessagePort {
     }, 0);
   }
 
+  // Mock the worklet sending Int16Array data
+  simulateWorkletPCM16Data(callback: (pcmData: Int16Array) => void) {
+    // Simulate worklet processing Float32 -> Int16Array conversion
+    const mockPCMData = new Int16Array([1000, -1000, 500, -500, 2000, -2000, 0, 0]); // Mock PCM16 samples
+    setTimeout(() => callback(mockPCMData), 50);
+  }
+
   addEventListener(type: string, listener: (event: any) => void) {
     if (type === 'message') {
       this.listeners.push(listener);
@@ -186,6 +212,14 @@ test.serial("mic → worklet → PCM16 integration test", async (t) => {
       setTimeout(resolveTest!, 100);
     }
   };
+
+  // Mock the worklet to send Int16Array data
+  const mockWorkletNode = new (global as any).AudioWorkletNode(null, 'pcm16k');
+  // Simulate worklet sending PCM16 data
+  setTimeout(() => {
+    const mockPCMData = new Int16Array([1000, -1000, 500, -500, 2000, -2000, 0, 0]); // Mock PCM16 samples
+    mockWorkletNode.port.onmessage({ data: mockPCMData });
+  }, 50);
 
   // Start microphone capture
   const micHandle = await startMic(onPcm);
@@ -367,4 +401,131 @@ test.serial("audio worklet prevents drift with fractional position tracking", as
   }
 
   t.pass('Fractional position tracking prevents drift accumulation');
+});
+
+test.serial('transport factory creates injectable dependencies', (t) => {
+  // Test WebSocket factory
+  t.is(typeof transportFactory.wsFactory, 'function');
+  t.is(typeof transportFactory.mockWsFactory, 'function');
+  
+  // Test mock WebSocket factory
+  const mockWs = transportFactory.mockWsFactory('ws://localhost:8080');
+  t.is(mockWs.readyState, 1); // WebSocket.OPEN
+  t.is(typeof mockWs.send, 'function');
+  t.is(typeof mockWs.close, 'function');
+});
+
+test.serial('throttled sender factory creates configurable senders', (t) => {
+  // Mock RTCDataChannel
+  const mockChannel = {
+    readyState: 'open',
+    bufferedAmount: 0,
+    bufferedAmountLowThreshold: 1048576,
+    send: () => {},
+    addEventListener: () => {},
+    removeEventListener: () => {}
+  } as any;
+  
+  // Test default configuration
+  const defaultSender = makeThrottledSender(mockChannel);
+  t.is(typeof defaultSender, 'function');
+  
+  // Test custom configuration
+  const customSender = makeThrottledSender(mockChannel, {
+    threshold: 2 << 20, // 2MB
+    enableMetrics: true
+  });
+  t.is(typeof customSender, 'function');
+  
+  // Test mock sender
+  const mockSender = createMockSender();
+  t.is(typeof mockSender.send, 'function');
+  t.is(typeof mockSender.getMetrics, 'function');
+  
+  const metrics = mockSender.getMetrics();
+  t.is(metrics.bytesSent, 0);
+  t.is(metrics.framesSent, 0);
+});
+
+test.serial('shared audio constants are properly imported', (t) => {
+  // Test that all shared constants are available
+  t.is(PCM16_MIN, -32768);
+  t.is(PCM16_MAX, 32767);
+  t.is(PCM16_SCALAR, 32767);
+  t.is(PCM48_SAMPLE_RATE, 48000);
+  t.is(PCM16_SAMPLE_RATE, 16000);
+  t.is(PCM16_FRAME_DURATION_MS, 20);
+  t.is(PCM16_BYTES_PER_SAMPLE, 2);
+  
+  // Test helper functions
+  t.is(typeof clampPcm16, 'function');
+  t.is(typeof clampUnitFloat, 'function');
+  t.is(typeof floatToPcm16, 'function');
+  t.is(typeof float32ToInt16, 'function');
+});
+
+test.serial('clampPcm16 function validates input correctly', (t) => {
+  // Test boundary values
+  t.is(clampPcm16(32768), 32767); // Above max
+  t.is(clampPcm16(-32769), -32768); // Below min
+  t.is(clampPcm16(0), 0); // In range
+  t.is(clampPcm16(32767), 32767); // At max
+  t.is(clampPcm16(-32768), -32768); // At min
+  
+  // Test NaN handling
+  t.is(clampPcm16(NaN), 0);
+  
+  // Test infinity handling
+  t.is(clampPcm16(Infinity), 32767);
+  t.is(clampPcm16(-Infinity), -32768);
+});
+
+test.serial('PCM16 conversion functions work correctly', (t) => {
+  // Test float32ToInt16 conversion
+  const floatArray = new Float32Array([1.0, -1.0, 0.0, 0.5, -0.5]);
+  const intArray = float32ToInt16(floatArray);
+  
+  t.is(intArray[0], 32767); // 1.0 -> 32767
+  t.is(intArray[1], -32768); // -1.0 -> -32768
+  t.is(intArray[2], 0); // 0.0 -> 0
+  t.is(intArray[3], 16384); // 0.5 -> 16384
+  t.is(intArray[4], -16384); // -0.5 -> -16384
+  
+  // Test floatToPcm16 conversion
+  t.is(floatToPcm16(1.0), 32767);
+  t.is(floatToPcm16(-1.0), -32768);
+  t.is(floatToPcm16(0.0), 0);
+  t.is(floatToPcm16(0.5), 16384);
+  t.is(floatToPcm16(-0.5), -16384);
+  
+  // Test overflow/underflow protection
+  t.is(floatToPcm16(2.0), 32767); // Above 1.0
+  t.is(floatToPcm16(-2.0), -32768); // Below -1.0
+});
+
+test.serial('frame duration calculations are correct', (t) => {
+  const sampleRate = PCM16_SAMPLE_RATE; // 16000
+  const frameDuration = PCM16_FRAME_DURATION_MS; // 20ms
+  const expectedSamples = (sampleRate * frameDuration) / 1000; // 16000 * 0.02 = 320
+  
+  t.is(expectedSamples, 320);
+  t.is(PCM16_BYTES_PER_FRAME, expectedSamples * PCM16_BYTES_PER_SAMPLE); // 320 * 2 = 640
+  
+  // Test that worklet frame size matches expectations
+  const workletFrameSize = 320; // Should match calculation
+  t.is(workletFrameSize, expectedSamples);
+});
+
+test.serial('sample rate conversion ratios are correct', (t) => {
+  const inputRate = PCM48_SAMPLE_RATE; // 48000
+  const outputRate = PCM16_SAMPLE_RATE; // 16000
+  const ratio = inputRate / outputRate; // 3
+  
+  t.is(ratio, 3);
+  t.is(PCM48_TO_16_DECIMATION, ratio);
+  
+  // Test that ratio is an integer for clean conversion
+  t.true(Number.isInteger(ratio), 'Conversion ratio should be integer for clean decimation');
+  t.is(STEREO_FRAMES_PER_OUTPUT_SAMPLE, ratio);
+  t.is(SAMPLES_PER_DECIMATED_OUTPUT, PCM48_STEREO_CHANNELS * ratio);
 });

@@ -1,5 +1,20 @@
-const TARGET_SAMPLE_RATE = 16_000;
+// Use the same target sample rate as shared constants
+const TARGET_SAMPLE_RATE = 16000;
 const EPSILON = 1e-6;
+
+// Helper function to clamp PCM16 values to prevent overflow
+const clampPCM16 = (value) => {
+  if (value > 32767) return 32767;
+  if (value < -32768) return -32768;
+  return Math.round(value);
+};
+
+// Helper function to convert float to PCM16
+const floatToPCM16 = (value) => {
+  // Clamp to [-1, 1] first to prevent overflow
+  const clamped = Math.max(-1, Math.min(1, value));
+  return clampPCM16(clamped * 32767);
+};
 
 class PCM16kProcessor extends AudioWorkletProcessor {
   constructor() {
@@ -65,6 +80,13 @@ class PCM16kProcessor extends AudioWorkletProcessor {
       }
 
       frames.push(acc / ratio);
+    }
+
+    // Convert float32 array to PCM16 Int16 array using shared conversion logic
+    const pcm16Array = new Int16Array(frames.length);
+    for (let i = 0; i < frames.length; i++) {
+      pcm16Array[i] = floatToPCM16(frames[i]);
+    }
       pos += ratio;
     }
 
@@ -80,7 +102,8 @@ class PCM16kProcessor extends AudioWorkletProcessor {
     }
 
     if (frames.length > 0) {
-      this.port.postMessage(new Float32Array(frames));
+      // Send PCM16 Int16Array instead of Float32Array
+      this.port.postMessage(pcm16Array);
     }
 
     return true;

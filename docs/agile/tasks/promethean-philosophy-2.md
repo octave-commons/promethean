@@ -2,7 +2,7 @@
 uuid: "5fac045d-1138-461d-b1c6-113e34049d70"
 title: "promethean-philosophy-2"
 slug: "promethean-philosophy-2"
-status: "incoming"
+status: "rejected"
 priority: "P3"
 labels: ["docops", "labeled"]
 created_at: "2025-10-08T20:10:46.056Z"

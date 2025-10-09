@@ -1,84 +1,116 @@
 {
   "name": "@promethean/omni-service",
-  "version": "0.0.1",
-  "description": "Unified service host for REST, GraphQL, WebSocket, and MCP adapters with shared auth and context",
-  "private": true,
+  "version": "1.0.0",
+  "description": "Unified service host for REST, GraphQL, WebSocket, and MCP adapters with shared authentication and context management",
+  "main": "dist/index.js",
   "type": "module",
-  "main": "dist/index.cjs",
-  "types": "dist/index.d.ts",
-  "module": "dist/index.js",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "import": "./dist/index.js"
     },
-    "./dist/*": "./dist/*",
-    "./*": "./dist/*"
+    "./package.json": "./package.json"
   },
+  "types": "./dist/index.d.ts",
   "files": [
-    "dist",
-    "static"
+    "dist/**/*",
+    "static/**/*",
+    "examples/**/*",
+    "docker/**/*",
+    "k8s/**/*",
+    "monitoring.md",
+    "performance.md",
+    "deployment.md",
+    "AUTHENTICATION.md"
   ],
   "scripts": {
-    "build": "tsc",
-    "clean": "rimraf dist",
-    "typecheck": "tsc -p tsconfig.json --noEmit",
-    "test": "pnpm run build && ava --config ../../config/ava.config.mjs",
-    "test:watch": "pnpm run build && ava --config ../../config/ava.config.mjs -w",
+    "build": "pnpm build",
     "start": "node dist/index.js",
-    "start:dev": "node --loader ts-node/esm src/index.ts",
-    "lint": "pnpm exec eslint .",
-    "format": "pnpm exec prettier --write .",
-    "coverage": "pnpm run build && c8 ava --config ../../config/ava.config.mjs"
-  },
-  "dependencies": {
-    "@promethean/omni-protocol": "workspace:*",
-    "@promethean/legacy": "workspace:*",
-    "@promethean/security": "workspace:*",
-    "fastify": "^5.3.2",
-    "@fastify/swagger": "^9.5.1",
-    "@fastify/swagger-ui": "^5.2.3",
-    "@fastify/rate-limit": "^10.3.0",
-    "@fastify/cors": "^10.1.1",
-    "@fastify/helmet": "^13.1.0",
-    "dotenv": "^17.2.1",
-    "jsonwebtoken": "^9.0.2",
-    "jose": "^5.10.0",
-    "uuid": "^11.1.0",
-    "zod": "^3.23.8"
-  },
-  "devDependencies": {
-    "@types/jsonwebtoken": "^9.0.7",
-    "@types/uuid": "^10.0.6",
-    "@types/node": "^22.10.5",
-    "@promethean/test-utils": "workspace:*",
-    "ava": "^6.4.1",
-    "c8": "^10.1.2",
-    "eslint": "^9.17.0",
-    "prettier": "^3.4.2",
-    "rimraf": "^6.0.1",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.7.3"
+    "start:dev": "pnpm build && node dist/index.js",
+    "start:test": "JWT_SECRET=test-jwt-secret-for-testing-32-chars NODE_ENV=test node dist/index.js",
+    "test": "pnpm --filter @promethean/omni-service test",
+    "test:integration": "JWT_SECRET=test-jwt-secret-for-ci-integration-testing-must-be-at-least-32-characters-long NODE_ENV=test pnpm --filter @promethean/omni-service test integration.test.ts",
+    "test:deployment": "JWT_SECRET=test-jwt-secret-for-deployment-testing-32-chars NODE_ENV=test pnpm --filter @promethean/omni-service test deployment.test.ts",
+    "test:watch": "pnpm --filter @promethean/omni-service test --watch",
+    "test:coverage": "JWT_SECRET=test-jwt-secret-for-testing-32-chars NODE_ENV=test pnpm --filter @promethean/omni-service test --coverage",
+    "lint": "eslint src --fix",
+    "format": "prettier --write src/**/*.{ts,js,json}",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist",
+    "docker:build": "docker build -t omni-service:latest .",
+    "docker:build:prod": "docker build --target production -t omni-service:latest .",
+    "docker:run": "docker run -p 3000:3000 --env-file ./.env omni-service:latest",
+    "docker:run:dev": "docker run -p 3000:3000 --env-file ./.env.development omni-service:latest",
+    "docker:run:test": "docker run --rm -v --env-file ./.env.test omni-service:test pnpm test",
+    "docker:compose:up": "docker-compose up -d",
+    "docker:compose:down": "docker-compose down -v",
+    "docker:compose:prod": "docker-compose -f docker-compose.yml up -d",
+    "docker:compose:dev": "docker-compose -f docker-compose.yml --profile dev up -d",
+    "docker:compose:test": "docker-compose -f docker-compose.yml --profile test up",
+    "health": "curl -f http://localhost:3000/health",
+    "test:load": " artillery run artillery-load-test.yml",
+    "test:perf": "k6 run k6-load-test.js",
+    "monitoring:metrics": "curl -f http://localhost:3000/metrics",
+    "monitoring:health": "curl -f http://localhost:3000/health",
+    "deploy:k8s": "kubectl apply -f k8s/deployment.yaml",
+    "deploy:k8s:delete": "kubectl delete -f k8s/deployment.yaml",
+    "release": "pnpm build && pnpm publish --access public"
   },
   "keywords": [
-    "omni",
-    "service",
+    "microservices",
+    "api",
     "rest",
     "graphql",
     "websocket",
     "mcp",
+    "authentication",
+    "rbac",
     "fastify",
+    "typescript",
     "promethean"
   ],
-  "author": "Promethean Team",
-  "license": "GPL-3.0-only",
   "repository": {
     "type": "git",
-    "url": "https://github.com/promethean/promethean.git",
-    "directory": "packages/omni-service"
+    "url": "https://github.com/prometheanai/promethean"
   },
+  "author": "Promethean AI",
+  "license": "GPL-3.0",
   "engines": {
     "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@fastify/cors": "^8.4.0",
+    "@fastify/helmet": "^11.1.0",
+    "@fastify/rate-limit": "^9.0.0",
+    "@fastify/swagger": "^8.10.0",
+    "@fastify/swagger-ui": "^2.0.0",
+    "dotenv": "^16.0.0",
+    "fastify": "^4.21.0",
+    "jsonwebtoken": "^9.0.0",
+    "mercurius": "^13.0.0",
+    "ws": "^8.13.0",
+    "zod": "^3.22.0",
+    "@promethean/omni-protocol": "workspace:*",
+    "@promethean/persistence": "workspace:*",
+    "@promethean/security": "workspace:*",
+    "@promethean/legacy": "workspace:*",
+    "@promethean/utils": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.0",
+    "@types/node": "^18.0.0",
+    "@types/ws": "^8.5.0",
+    "ava": "^5.1.0",
+    "artillery": "^2.0.0",
+    "eslint": "^8.40.0",
+    "eslint-config-prettier": "^9.0.0",
+    "prettier": "^3.0.0",
+    "ts-node": "^10.9.0",
+    "typescript": "^5.0.0"
+  },
+  "ava": {
+    "files": [
+      "src/tests/**/*.test.ts"
+    ]
   }
 }

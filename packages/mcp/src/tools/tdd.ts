@@ -163,7 +163,7 @@ export const tddRunTests: ToolFactory = () => {
     description:
       'Run AVA via npx with JSON (or TAP) output and return aggregated results. For long-running watchers, use tdd_start_watch/tdd_get_watch_changes instead.',
     inputSchema: Schema.shape,
-    outputSchema: { passed: 0, failed: 0, durationMs: 0, failures: [] } as any,
+    outputSchema: undefined,
     examples: [
       { args: {}, comment: 'Run all tests with JSON output' },
       {

@@ -2,7 +2,7 @@
 uuid: "81a5905b-7119-4ef9-9cfc-3173588a5c2b"
 title: "Github Branching Workflow"
 slug: "github-branching-workflow"
-status: "incoming"
+status: "rejected"
 priority: "P3"
 labels: ["docops", "labeled"]
 created_at: "2025-10-08T20:10:45.999Z"

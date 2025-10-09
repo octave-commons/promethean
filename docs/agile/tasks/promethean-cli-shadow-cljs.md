@@ -2,7 +2,7 @@
 uuid: "372fff1d-2eec-4ace-80ba-e1c8f65fd762"
 title: "Promethean CLI shadow-cljs launcher"
 slug: "promethean-cli-shadow-cljs"
-status: "todo"
+status: "icebox"
 priority: "P3"
 labels: ["promethean", "cli", "shadow", "cljs"]
 created_at: "2025-10-07T20:25:05.643Z"

@@ -1,0 +1,246 @@
+name: artillery-load-test
+config:
+  target: 'http://localhost:3000'
+  phases:
+    - duration: 30
+      arrivalRate: 10
+      name: "Warm up"
+    - duration: 60
+      arrivalRate: 20
+      name: "Load test"
+    - duration: 30
+      arrivalRate: 50
+      name: "Stress test"
+  processor: "artillery-plugin-metrics-by-url"
+  metrics:
+    - name: 'response.time.p95'
+      percentile: 95
+      description: "95th percentile response time"
+    - name: 'requests.per.second'
+      friendlyName: "RPS"
+      description: "Requests per second"
+
+payloads:
+  - auth:
+      beforeRequest: "generateAuthTokens"
+      afterResponse: "cleanupAuthTokens"
+  rest:
+    request:
+      url: "/api/v1/users"
+      method: "GET"
+      headers:
+        Authorization: "Bearer {{ auth.accessToken }}"
+  graphql:
+    request:
+      url: "/graphql"
+      method: "POST"
+      headers:
+        Authorization: "Bearer {{ auth.accessToken }}"
+        Content-Type: "application/json"
+      json:
+        query: "query GetUsers($first: Int) { users(pagination: { first: $first }) { edges { node { id name email } } } }"
+        variables:
+          first: 10
+  websocket:
+    engine: ws
+    request:
+      url: "ws://localhost:3000/ws"
+      method: "connect"
+      headers:
+        Authorization: "Bearer {{ auth.accessToken }}"
+  mcp:
+    request:
+      url: "/mcp"
+      method: "POST"
+      headers:
+        Authorization: "Bearer {{ auth.accessToken }}"
+        Content-Type: "application/json"
+      json:
+        jsonrpc: "2.0"
+        id: "{{ $randomUUID() }}"
+        method: "tools/call"
+        params:
+          name: "echo"
+          arguments:
+            text: "Load test message {{ $randomUUID() }}"
+
+scenarios:
+  - name: "REST API Load Test"
+    weight: 30
+    flow:
+      - get:
+          - get:
+              request:
+                url: "/api/v1/users"
+                method: "GET"
+                headers:
+                  Authorization: "Bearer {{ auth.accessToken }}"
+                qs:
+                  page: 1
+                  limit: 10
+          think: 1
+      - get:
+          - get:
+              request:
+                url: "/api/v1/posts"
+                method: "GET"
+                headers:
+                  Authorization: "Bearer {{ auth.accessToken }}"
+                qs:
+                  page: 1
+                  limit: 10
+          think: 1
+
+  - name: "GraphQL Load Test"
+    weight: 30
+    flow:
+      - query:
+          - query:
+              request:
+                url: "/graphql"
+                method: "POST"
+                headers:
+                  Authorization: "Bearer {{ auth.accessToken }}"
+                  Content-Type: "application/json"
+                json:
+                  query: "query GetUsers($first: Int) { users(pagination: { first: $first }) { edges { node { id name email } } } }"
+                  variables:
+                    first: 5
+              think: 1
+      - mutation:
+          - mutation:
+              request:
+                url: "/graphql"
+                method: "POST"
+                headers:
+                  Authorization: "Bearer {{ auth.accessToken }}"
+                  Content-Type: "application/json"
+                json:
+                  mutation: "CreateUser($input: CreateUserInput!) { createUser(input: $input) { id name email role } }"
+                  variables:
+                    input:
+                      name: "Test User {{ $randomString }}"
+                      email: "test-{{ $randomUUID() }}@example.com"
+                      role: "USER"
+              think: 1
+
+  - name: "WebSocket Load Test"
+    weight: 20
+    flow:
+      - connect:
+          - connect:
+              engine: ws
+              request:
+                url: "ws://localhost:3000/ws"
+                headers:
+                  Authorization: "Bearer {{ auth.accessToken }}"
+              think: 2
+      - subscribe:
+          - send:
+              engine: ws
+              request:
+                url: "ws://localhost:3000/ws"
+                data: |
+                  {
+                    "type": "subscribe",
+                    "channel": "loadtest",
+                    "payload": { "test": true }
+                  }
+              think: 1
+      - publish:
+          - send:
+              engine: ws
+              request:
+                url: "ws://localhost:3000/ws"
+                data: |
+                  {
+                    "type": "broadcast",
+                    "channel": "loadtest",
+                    "payload": { "message": "Load test message {{ $randomUUID() }}" }
+                  }
+              think: 1
+
+  - name: "MCP Load Test"
+    weight: 20
+    flow:
+      - echo:
+          - mcp:
+              request:
+                url: "/mcp"
+                method: "POST"
+                headers:
+                  Authorization: "Bearer {{ auth.accessToken }}"
+                  Content-Type: "application/json"
+                json:
+                  jsonrpc: "2.0"
+                  id: "{{ $randomUUID() }}"
+                  method: "tools/call"
+                  params:
+                    name: "echo"
+                    arguments:
+                      text: "Load test {{ $randomUUID() }}"
+              think: 1
+      - time:
+          - mcp:
+              request:
+                url: "/mcp"
+                method: "POST"
+                headers:
+                  Authorization: "Bearer {{ auth.accessToken }}"
+                  Content-Type: "application/json"
+                json:
+                  jsonrpc: "2.0"
+                  id: "{{ $randomUUID() }}"
+                  method: "tools/call"
+                  params:
+                    name: "get_time"
+                    arguments: {}
+              think: 1
+      - user-info:
+          - mcp:
+              request:
+                url: "/mcp"
+                method: "POST"
+                headers:
+                  Authorization: "Bearer {{ auth.accessToken }}"
+                  Content-Type: "application/json"
+                json:
+                  jsonrpc: "2.0"
+                  id: "{{ $randomUUID() }}"
+                  method: "get_user_info"
+                  params: {}
+              think: 1
+
+processor:
+  - name: generateAuthTokens
+    function: "async () => {
+      const response = await global.httpRequest({
+        url: 'http://localhost:3000/auth/login',
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        json: {
+          username: 'loadtest',
+          password: 'loadtestpassword'
+        }
+      });
+      
+      if (response.statusCode !== 200) {
+        throw new Error('Authentication failed');
+      }
+      
+      const tokens = JSON.parse(response.body);
+      this.accessToken = tokens.tokens.accessToken;
+      this.refreshToken = tokens.tokens.refreshToken;
+      
+      console.log('Auth tokens generated for load test');
+    }"
+
+  - name: cleanupAuthTokens
+    function: "async () => {
+      this.accessToken = null;
+      this.refreshToken = null;
+      
+      console.log('Auth tokens cleaned up');
+    }"

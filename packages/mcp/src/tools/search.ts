@@ -75,11 +75,7 @@ export const filesSearch: ToolFactory = () => {
     name: 'files_search',
     description: 'Search file contents under a directory and return matching line snippets.',
     inputSchema: Schema.shape,
-    outputSchema: {
-      ok: true,
-      count: 0,
-      results: [{ path: 'relative/path', line: 1, snippet: '...' }],
-    } as any,
+    outputSchema: undefined,
     examples: [
       {
         args: { query: 'TODO|FIXME', regex: true, rel: 'packages' },

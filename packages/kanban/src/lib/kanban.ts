@@ -1128,7 +1128,9 @@ export const pushToTasks = async (
         }
       }
 
-      const content = toFrontmatter({ ...task, status: col.name, content: existingContent });
+      // Use task's own content, falling back to existing content for backwards compatibility
+      const finalContent = task.content || existingContent;
+      const content = toFrontmatter({ ...task, status: col.name, content: finalContent });
       await fs.writeFile(targetPath, content, 'utf8');
       if (!previous) {
         added += 1;
@@ -1570,6 +1572,87 @@ export const regenerateBoard = async (
   return { totalTasks: tasks.length };
 };
 
+export const mergeTasks = async (
+  board: Board,
+  sourceUuids: string[],
+  targetUuid: string,
+  tasksDir: string,
+  boardPath: string,
+  options?: {
+    mergeStrategy?: 'append' | 'combine' | 'replace';
+    preserveSources?: boolean;
+  },
+): Promise<Task | undefined> => {
+  const targetLocated = locateTask(board, targetUuid);
+  if (!targetLocated) return undefined;
+
+  const sourceTasks: Task[] = [];
+  const sourceLocated: Array<{ column: ColumnData; task: Task }> = [];
+
+  // Find all source tasks
+  for (const uuid of sourceUuids) {
+    const located = locateTask(board, uuid);
+    if (located) {
+      sourceLocated.push(located);
+      sourceTasks.push(located.task);
+    }
+  }
+
+  if (sourceTasks.length === 0) return targetLocated.task;
+
+  // Read current target task content
+  const targetTask = targetLocated.task;
+  let mergedContent = targetTask.content || '';
+  const mergeStrategy = options?.mergeStrategy ?? 'append';
+
+  // Merge content based on strategy
+  for (const sourceTask of sourceTasks) {
+    if (!sourceTask.content) continue;
+
+    switch (mergeStrategy) {
+      case 'append':
+        mergedContent += `\n\n## Merged from: ${sourceTask.title || sourceTask.uuid}\n\n${sourceTask.content}`;
+        break;
+      case 'combine':
+        mergedContent += `\n\n${sourceTask.content}`;
+        break;
+      case 'replace':
+        mergedContent = sourceTask.content;
+        break;
+    }
+  }
+
+  // Update target task with merged content
+  const finalContent = mergedContent + `\n\n---\n**Merged**: ${sourceUuids.length} tasks merged using ${mergeStrategy} strategy (${NOW_ISO()})\n---`;
+  const updatedTask: Task = {
+    ...targetTask,
+    content: finalContent
+  };
+
+  // Update the task in the board
+  const targetColumn = targetLocated.column;
+  targetColumn.tasks = targetColumn.tasks.map(task =>
+    task.uuid === targetUuid ? updatedTask : task
+  );
+
+  // Handle source tasks based on preserveSources setting
+  if (!options?.preserveSources) {
+    for (const located of sourceLocated) {
+      located.column.tasks = located.column.tasks.filter(task => task.uuid !== located.task.uuid);
+      located.column.count = located.column.tasks.length;
+
+      // Delete source task files
+      const filePath = await resolveTaskFilePath(located.task, tasksDir);
+      if (filePath) {
+        await fs.unlink(filePath).catch(() => {});
+      }
+    }
+  }
+
+  await persistBoardAndTasks(board, boardPath, tasksDir);
+  return updatedTask;
+};
+
 const tokenize = (s: string): string[] =>
   (s || '')
     .toLowerCase()
@@ -1697,4 +1780,133 @@ export const generateBoardByTags = async (
   await maybeRefreshIndex(tasksDir);
   await writeBoard(taggedBoardPath, { columns });
   return { totalTasks: filteredTasks.length, filteredTags: tags };
+};
+
+// AI-Assisted Task Management Functions
+
+import { createTaskAIManager } from './task-content/index.js';
+import type {
+  TaskAnalysisResult,
+  TaskRewriteResult,
+  TaskBreakdownResult
+} from './task-content/types.js';
+
+export const analyzeTask = async (
+  board: Board,
+  uuid: string,
+  analysisType: 'quality' | 'complexity' | 'completeness' | 'breakdown' | 'prioritization',
+  _tasksDir: string,
+  _boardPath: string,
+  context?: {
+    projectInfo?: string;
+    teamContext?: string;
+    deadlines?: string[];
+    dependencies?: string[];
+  },
+  options?: {
+    createBackup?: boolean;
+    dryRun?: boolean;
+  }
+): Promise<TaskAnalysisResult | undefined> => {
+  try {
+    const located = locateTask(board, uuid);
+    if (!located) return undefined;
+
+    const aiManager = createTaskAIManager({
+      model: 'qwen3:8b'
+    });
+
+    const result = await aiManager.analyzeTask({
+      uuid,
+      analysisType,
+      context,
+      options
+    });
+
+    return result;
+  } catch (error) {
+    console.error(`Failed to analyze task ${uuid}:`, error);
+    return undefined;
+  }
+};
+
+export const rewriteTask = async (
+  board: Board,
+  uuid: string,
+  rewriteType: 'improve' | 'simplify' | 'expand' | 'restructure' | 'summarize',
+  _tasksDir: string,
+  _boardPath: string,
+  options?: {
+    instructions?: string;
+    targetAudience?: 'developer' | 'manager' | 'stakeholder' | 'team';
+    tone?: 'formal' | 'casual' | 'technical' | 'executive';
+    createBackup?: boolean;
+    dryRun?: boolean;
+  }
+): Promise<TaskRewriteResult | undefined> => {
+  try {
+    const located = locateTask(board, uuid);
+    if (!located) return undefined;
+
+    const aiManager = createTaskAIManager({
+      model: 'qwen3:8b'
+    });
+
+    const result = await aiManager.rewriteTask({
+      uuid,
+      rewriteType,
+      instructions: options?.instructions,
+      targetAudience: options?.targetAudience,
+      tone: options?.tone,
+      options
+    });
+
+    // If the rewrite was successful and not a dry run, sync the board
+    if (result.success && !options?.dryRun) {
+      await syncBoardAndTasks(board, _tasksDir, _boardPath);
+    }
+
+    return result;
+  } catch (error) {
+    console.error(`Failed to rewrite task ${uuid}:`, error);
+    return undefined;
+  }
+};
+
+export const breakdownTask = async (
+  board: Board,
+  uuid: string,
+  breakdownType: 'subtasks' | 'steps' | 'phases' | 'components',
+  _tasksDir: string,
+  _boardPath: string,
+  options?: {
+    maxSubtasks?: number;
+    complexity?: 'simple' | 'medium' | 'complex';
+    includeEstimates?: boolean;
+    createBackup?: boolean;
+    dryRun?: boolean;
+  }
+): Promise<TaskBreakdownResult | undefined> => {
+  try {
+    const located = locateTask(board, uuid);
+    if (!located) return undefined;
+
+    const aiManager = createTaskAIManager({
+      model: 'qwen3:8b'
+    });
+
+    const result = await aiManager.breakdownTask({
+      uuid,
+      breakdownType,
+      maxSubtasks: options?.maxSubtasks || 8,
+      complexity: options?.complexity || 'medium',
+      includeEstimates: options?.includeEstimates !== false,
+      options
+    });
+
+    return result;
+  } catch (error) {
+    console.error(`Failed to breakdown task ${uuid}:`, error);
+    return undefined;
+  }
 };

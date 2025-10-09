@@ -62,7 +62,7 @@ const createFileTools = (): readonly Tool[] => {
         name: 'files_list_directory',
         description: 'List files and directories',
         inputSchema: ListSchema.shape,
-        stability: 'stable',
+        stability: 'stable' as const,
         since: '0.1.0',
       },
       invoke: async (raw) => {
@@ -79,7 +79,7 @@ const createFileTools = (): readonly Tool[] => {
         name: 'files_view_file',
         description: 'View file contents',
         inputSchema: ViewSchema.shape,
-        stability: 'stable',
+        stability: 'stable' as const,
         since: '0.1.0',
       },
       invoke: async (raw) => {
@@ -96,7 +96,7 @@ const createFileTools = (): readonly Tool[] => {
         name: 'files_write_content',
         description: 'Write content to file',
         inputSchema: WriteSchema.shape,
-        stability: 'stable',
+        stability: 'stable' as const,
         since: '0.1.0',
       },
       invoke: async (raw) => {
@@ -113,7 +113,7 @@ const createFileTools = (): readonly Tool[] => {
         name: 'files_search',
         description: 'Search file contents',
         inputSchema: SearchSchema.shape,
-        stability: 'stable',
+        stability: 'stable' as const,
         since: '0.1.0',
       },
       invoke: async (raw) => {
@@ -145,7 +145,7 @@ const createGithubTools = (): readonly Tool[] => {
         name: 'github_request',
         description: 'Make GitHub API request',
         inputSchema: RequestSchema.shape,
-        stability: 'stable',
+        stability: 'stable' as const,
         since: '0.1.0',
       },
       invoke: async (raw) => {
@@ -163,7 +163,7 @@ const createGithubTools = (): readonly Tool[] => {
         name: 'github_rate_limit',
         description: 'Check GitHub rate limits',
         inputSchema: RateLimitSchema.shape,
-        stability: 'stable',
+        stability: 'stable' as const,
         since: '0.1.0',
       },
       invoke: async () => {
@@ -190,7 +190,7 @@ const createKanbanTools = (): readonly Tool[] => {
         name: 'kanban_get_board',
         description: 'Get kanban board',
         inputSchema: GetBoardSchema.shape,
-        stability: 'stable',
+        stability: 'stable' as const,
         since: '0.1.0',
       },
       invoke: async () => {
@@ -206,7 +206,7 @@ const createKanbanTools = (): readonly Tool[] => {
         name: 'kanban_update_status',
         description: 'Update task status',
         inputSchema: UpdateStatusSchema.shape,
-        stability: 'stable',
+        stability: 'stable' as const,
         since: '0.1.0',
       },
       invoke: async (raw) => {
@@ -234,7 +234,7 @@ const createDiscordTools = (): readonly Tool[] => {
         name: 'discord_send_message',
         description: 'Send Discord message',
         inputSchema: SendMessageSchema.shape,
-        stability: 'stable',
+        stability: 'stable' as const,
         since: '0.1.0',
       },
       invoke: async (raw) => {
@@ -264,7 +264,7 @@ const createExecTools = (): readonly Tool[] => {
         name: 'exec_run',
         description: 'Execute command',
         inputSchema: RunSchema.shape,
-        stability: 'stable',
+        stability: 'stable' as const,
         since: '0.1.0',
       },
       invoke: async (raw) => {
@@ -283,7 +283,7 @@ const createExecTools = (): readonly Tool[] => {
         name: 'exec_list',
         description: 'List available commands',
         inputSchema: ListSchema.shape,
-        stability: 'stable',
+        stability: 'stable' as const,
         since: '0.1.0',
       },
       invoke: async () => {
@@ -564,8 +564,8 @@ test('MCP /workspace endpoint comprehensive integration test', async (t) => {
       spec: {
         name: 'pnpm_install',
         description: 'Install dependencies',
-        inputSchema: {},
-        stability: 'stable',
+        inputSchema: {} as any,
+        stability: 'stable' as const,
         since: '0.1.0',
       },
       invoke: async () => {
@@ -576,8 +576,8 @@ test('MCP /workspace endpoint comprehensive integration test', async (t) => {
       spec: {
         name: 'pnpm_add',
         description: 'Add dependency',
-        inputSchema: { packages: ['z.string().optional()'] },
-        stability: 'stable',
+        inputSchema: { packages: z.array(z.string()).optional() } as any,
+        stability: 'stable' as const,
         since: '0.1.0',
       },
       invoke: async (raw) => {
@@ -612,7 +612,7 @@ test('MCP endpoint error handling and edge cases', async (t) => {
 
   try {
     // Test 1: Invalid tool name
-    const sessionId = 'test-session';
+    // const sessionId = 'test-session'; // unused
 
     // Initialize first
     const initResponse = await fetch(`http://127.0.0.1:${port}/test`, {
@@ -640,7 +640,7 @@ test('MCP endpoint error handling and edge cases', async (t) => {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
-        'mcp-session-id': sessionIdFromInit,
+        'mcp-session-id': sessionIdFromInit || undefined,
       },
       body: JSON.stringify({
         jsonrpc: '2.0',
@@ -668,7 +668,7 @@ test('MCP endpoint error handling and edge cases', async (t) => {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
-        'mcp-session-id': sessionIdFromInit,
+        'mcp-session-id': sessionIdFromInit || undefined,
       },
       body: JSON.stringify({
         jsonrpc: '2.0',

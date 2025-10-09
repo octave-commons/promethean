@@ -261,23 +261,37 @@
         "kanban.update-status",
         "kanban.move-task",
         "kanban.sync-board",
-        "kanban.search"
+        "kanban.search",
+        "kanban.update-task-description",
+        "kanban.rename-task",
+        "kanban.archive-task",
+        "kanban.delete-task"
       ],
       "includeHelp": true,
       "meta": {
         "title": "Task Board",
-        "description": "Query and update the Promethean kanban board.",
+        "description": "Query and update the Promethean kanban board with advanced task content management.",
         "workflow": [
           "kanban_get_board -> kanban_get_column",
           "kanban_find_task -> kanban_update_status",
-          "kanban_sync_board"
+          "kanban_sync_board",
+          "kanban_update_task_description -> kanban_rename_task",
+          "kanban_archive_task -> kanban_delete_task"
         ],
         "expectations": {
           "usage": [
             "Sync before editing to avoid stale data",
-            "Always record final status with kanban_update_status"
+            "Always record final status with kanban_update_status",
+            "Use kanban_update_task_description to modify task content while preserving metadata",
+            "Use kanban_rename_task to change task titles without affecting content",
+            "Use kanban_archive_task for long-term storage before deletion",
+            "Use kanban_delete_task sparingly - it removes task files permanently"
           ],
-          "pitfalls": ["kanban_move_task updates order and column"]
+          "pitfalls": [
+            "kanban_move_task updates order and column",
+            "kanban_delete_task is irreversible and removes task files",
+            "Large content updates should use task description updates rather than status changes"
+          ]
         }
       }
     },

@@ -33,16 +33,23 @@ services:
     restart: always
     ports: ["127.0.0.1:11434:11434"]
     gpus: all
+    mem_limit: "24g"     # instead of: memory:
+    shm_size: "2g"       # instead of: shm-size
+    ulimits:
+      memlock: -1
     volumes:
       - /usr/share/ollama/.ollama/models:/root/.ollama/models
     environment:
-      OLLAMA_HOST: "0.0.0.0:11434"
+      # You can override Dockerfile defaults here if needed
+      OLLAMA_KV_CACHE_TYPE: "q8_0"
+      OLLAMA_FLASH_ATTENTION: "1"
+      OLLAMA_HOST: "0.0.0.0"   # If you want to bind externally
       OLLAMA_DEBUG: "INFO"
       OLLAMA_LLM_LIBRARY: "cublas"
       CUDA_VISIBLE_DEVICES: "0"
       NVIDIA_VISIBLE_DEVICES: "all"
       NVIDIA_DRIVER_CAPABILITIES: "all"
-      OLLAMA_CONTEXT_LENGTH: 32000
+      OLLAMA_CONTEXT_LENGTH: 16000
     healthcheck:
       test:
         [
