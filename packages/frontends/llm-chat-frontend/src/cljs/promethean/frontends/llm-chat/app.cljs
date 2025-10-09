@@ -1,4 +1,4 @@
-(ns promethean.frontends.llm_chat.app
+(ns promethean.frontends.llm-chat.app
   "Shadow-CLJS bootstrap placeholder for the LLM chat frontend."
   (:require [promethean.shadow-ui.runtime :as runtime]))
 

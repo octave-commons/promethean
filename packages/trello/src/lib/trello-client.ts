@@ -30,7 +30,7 @@ export class TrelloClient {
       baseUrl: config.baseUrl || 'https://api.trello.com/1'
     };
 
-    this.baseUrl = this.config.baseUrl;
+    this.baseUrl = this.config.baseUrl!;
   }
 
   private async makeRequest<T>(
@@ -109,7 +109,7 @@ To get Trello API credentials:
     try {
       return await this.makeRequest<TrelloBoard>(`/boards/${boardId}`);
     } catch (error) {
-      console.log(`   ℹ️  Board not found or inaccessible: ${error.message}`);
+      console.log(`   ℹ️  Board not found or inaccessible: ${error instanceof Error ? error.message : String(error)}`);
       return null;
     }
   }
@@ -244,7 +244,7 @@ To get Trello API credentials:
   async createLabel(
     boardId: string,
     name: string,
-    color: string = null
+    color: string | null = null
   ): Promise<TrelloLabel> {
     console.log(`🏷️  Creating label: "${name}" (${color})`);
 
@@ -273,7 +273,7 @@ To get Trello API credentials:
       console.log(`✅ Atlassian Trello API connection successful - Found ${boards.length} boards`);
       return true;
     } catch (error) {
-      console.error('❌ Atlassian Trello API connection failed:', error.message);
+      console.error('❌ Atlassian Trello API connection failed:', error instanceof Error ? error.message : String(error));
       return false;
     }
   }

@@ -2,7 +2,7 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import type { CallToolResult } from '@modelcontextprotocol/sdk/types.js';
 import type { Tool } from './types.js';
-import type { ZodRawShape } from 'zod';
+import { z, type ZodRawShape } from 'zod';
 import { createRequire } from 'node:module';
 const reqr = createRequire(import.meta.url);
 console.log('[mcp:server] sdk.mcp path:', reqr.resolve('@modelcontextprotocol/sdk/server/mcp.js'));
@@ -51,7 +51,18 @@ export const createMcpServer = (tools: readonly Tool[]) => {
       ...(t.spec.outputSchema ? { outputSchema: t.spec.outputSchema } : {}),
     };
 
-    server.registerTool(t.spec.name, def, async (args: unknown): Promise<CallToolResult> => {
+    // Wrap schemas in Zod objects before registration to prevent _parse errors
+    const sdkDef = {
+      ...def,
+      ...(def.inputSchema
+        ? { inputSchema: z.object(def.inputSchema).strict() }
+        : {}),
+      ...(def.outputSchema
+        ? { outputSchema: z.object(def.outputSchema).strict() }
+        : {}),
+    };
+
+    server.registerTool(t.spec.name, sdkDef as any, async (args: unknown): Promise<CallToolResult> => {
       const result = await t.invoke(args);
       const hasStructuredOutput = Boolean(t.spec.outputSchema);
 
