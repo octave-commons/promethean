@@ -86,8 +86,13 @@ test('MCP server handles Zod schema registration without _parse errors', async (
     t.is(initResponse.status, 200);
     t.truthy(initResponse.headers.get('mcp-session-id'));
 
-    const initResult = await initResponse.json() as any;
-    t.is(initResult.result.protocolVersion, '2024-10-01');
+    const initText = await initResponse.text();
+    // Handle Server-Sent Events format
+    const sseLines = initText.split('\n');
+    const dataLine = sseLines.find(line => line.startsWith('data: '));
+    t.truthy(dataLine);
+    const initResult = JSON.parse(dataLine!.slice('data: '.length)) as any;
+    t.is(initResult.result.protocolVersion, '2025-06-18');
     t.is(initResult.result.serverInfo.name, 'promethean-mcp');
 
     // Test 3: List tools to verify they registered without _parse errors
@@ -107,8 +112,20 @@ test('MCP server handles Zod schema registration without _parse errors', async (
     });
 
     t.is(listResponse.status, 200);
-    const listResult = await listResponse.json() as any;
-    t.true(Array.isArray(listResult.result.tools));
+    const listText = await listResponse.text();
+    // Handle Server-Sent Events format
+    const listSseLines = listText.split('\n');
+    const listDataLine = listSseLines.find(line => line.startsWith('data: '));
+    t.truthy(listDataLine);
+    const listResult = JSON.parse(listDataLine!.slice('data: '.length)) as any;
+
+    // Check if we got an error response
+    if (listResult.error) {
+      console.log('Error response:', listResult.error);
+      t.fail(`MCP server returned error: ${listResult.error.message}`);
+    }
+
+    t.true(Array.isArray(listResult.result?.tools));
     t.true(listResult.result.tools.length > 0);
 
     const testToolInfo = listResult.result.tools.find((tool: any) => tool.name === 'test_zod_tool');
@@ -144,7 +161,12 @@ test('MCP server handles Zod schema registration without _parse errors', async (
     });
 
     t.is(callResponse.status, 200);
-    const callResult = await callResponse.json() as any;
+    const callText = await callResponse.text();
+    // Handle Server-Sent Events format
+    const callSseLines = callText.split('\n');
+    const callDataLine = callSseLines.find(line => line.startsWith('data: '));
+    t.truthy(callDataLine);
+    const callResult = JSON.parse(callDataLine!.slice('data: '.length)) as any;
     t.deepEqual(callResult.result, { result: 'hello world (5 times)' });
 
     // Test 5: Simulate curl-like requests to verify no _parse errors
@@ -168,7 +190,12 @@ test('MCP server handles Zod schema registration without _parse errors', async (
     });
 
     t.is(curlLikeInitResponse.status, 200);
-    const curlLikeInitData = await curlLikeInitResponse.json() as any;
+    const curlLikeInitText = await curlLikeInitResponse.text();
+    // Handle Server-Sent Events format
+    const curlLikeSseLines = curlLikeInitText.split('\n');
+    const curlLikeDataLine = curlLikeSseLines.find(line => line.startsWith('data: '));
+    t.truthy(curlLikeDataLine);
+    const curlLikeInitData = JSON.parse(curlLikeDataLine!.slice('data: '.length)) as any;
     t.is(curlLikeInitData.result.serverInfo.name, 'promethean-mcp');
     t.truthy(curlLikeInitData.result.capabilities);
 
@@ -276,6 +303,15 @@ test('MCP server handles multiple tools with complex Zod schemas', async (t) => 
     });
 
     t.is(initResponse.status, 200);
+    const initText = await initResponse.text();
+    // Handle Server-Sent Events format
+    const sseLines = initText.split('\n');
+    const dataLine = sseLines.find(line => line.startsWith('data: '));
+    t.truthy(dataLine);
+    const initResult = JSON.parse(dataLine!.slice('data: '.length)) as any;
+    t.is(initResult.result.protocolVersion, '2025-06-18');
+    t.is(initResult.result.serverInfo.name, 'promethean-mcp');
+
     const sessionId = initResponse.headers.get('mcp-session-id')!;
 
     // List tools to verify both registered without _parse errors
@@ -294,7 +330,12 @@ test('MCP server handles multiple tools with complex Zod schemas', async (t) => 
     });
 
     t.is(listResponse.status, 200);
-    const listResult = await listResponse.json() as any;
+    const listText = await listResponse.text();
+    // Handle Server-Sent Events format
+    const listSseLines = listText.split('\n');
+    const listDataLine = listSseLines.find(line => line.startsWith('data: '));
+    t.truthy(listDataLine);
+    const listResult = JSON.parse(listDataLine!.slice('data: '.length)) as any;
     t.is(listResult.result.tools.length, 2);
 
     const complexToolInfo = listResult.result.tools.find((tool: any) => tool.name === 'complex_zod_tool');
@@ -338,7 +379,12 @@ test('MCP server handles multiple tools with complex Zod schemas', async (t) => 
     });
 
     t.is(complexCallResponse.status, 200);
-    const complexCallResult = await complexCallResponse.json() as any;
+    const complexCallText = await complexCallResponse.text();
+    // Handle Server-Sent Events format
+    const complexCallSseLines = complexCallText.split('\n');
+    const complexCallDataLine = complexCallSseLines.find(line => line.startsWith('data: '));
+    t.truthy(complexCallDataLine);
+    const complexCallResult = JSON.parse(complexCallDataLine!.slice('data: '.length)) as any;
     t.deepEqual(complexCallResult.result, { summary: 'Processed 2 items, 1 enabled' });
 
     t.pass('Multiple tools with complex Zod schemas registered and work correctly');
