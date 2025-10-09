@@ -2,6 +2,7 @@
 // Produces files in docs/agile/tasks/from-labeled
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import { randomBytes, randomUUID as nodeRandomUUID } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -39,6 +40,23 @@ function summarize(md, maxChars = 1200) {
   return clean.slice(0, maxChars);
 }
 
+const generateUuid = () => {
+  if (typeof nodeRandomUUID === 'function') {
+    return nodeRandomUUID();
+  }
+
+  if (typeof globalThis.crypto?.randomUUID === 'function') {
+    return globalThis.crypto.randomUUID();
+  }
+
+  const bytes = randomBytes(16);
+  bytes[6] = (bytes[6] & 0x0f) | 0x40;
+  bytes[8] = (bytes[8] & 0x3f) | 0x80;
+  const hex = Array.from(bytes, byte => byte.toString(16).padStart(2, '0')).join('');
+
+  return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`;
+};
+
 async function main() {
   await fs.mkdir(OUT_DIR, { recursive: true });
   const entries = await fs.readdir(LABELED_DIR, { withFileTypes: true });
@@ -57,14 +75,7 @@ async function main() {
       await fs.access(outPath);
       continue;
     } catch {}
-    const uuid = (globalThis.crypto?.randomUUID?.() ??
-      // simple fallback if crypto.randomUUID not available
-      'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
-        const r = (Math.random() * 16) | 0;
-        const v = c === 'x' ? r : (r & 0x3) | 0x8;
-        return v.toString(16);
-      })
-    );
+    const uuid = generateUuid();
     const now = new Date().toISOString();
     const body = [
       '---',
