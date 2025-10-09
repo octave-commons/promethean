@@ -6,7 +6,7 @@ priority: P2
 labels: ['agents', 'devx', 'duck']
 created_at: '2025-10-07T06:39:18.599Z'
 ---
-Background: Contributors still rely on outdated Makefile targets to launch agents. The backlog calls for PM2 (or an alternative) baselines, reusable ecosystem declarations (starting with Duck), and documentation that ties `pnpm --filter` scripts to real-world dev flows.
+Background: Contributors still rely on outdated Makefile targets to launch agents. The Incoming column calls for PM2 (or an alternative) baselines, reusable ecosystem declarations (starting with Duck), and documentation that ties `pnpm --filter` scripts to real-world dev flows.
 
 Goal: Ship a consistent launch workflow so every agent (Duck, Cephalon, Discord forwarders, etc.) advertises the same process metadata, tooling, and documentation.
 
