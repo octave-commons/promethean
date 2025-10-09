@@ -1,0 +1,68 @@
+---
+uuid: "df4d13be-a3a6-42fe-93cb-023a729896c0"
+title: "Brainstorming packages"
+slug: "brainstorming-packages"
+status: "incoming"
+priority: "P3"
+labels: ["docops", "labeled"]
+created_at: "2025-10-08T20:10:45.990Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
+## 🗂 Source
+
+- Path: docs/labeled/2025.09.18.15.33.30.md
+
+## 📝 Context Summary
+
+---
+uuid: 610cc64c-75c1-4ee6-913f-99c61a405273
+created_at: '2025-09-18T15:33:30Z'
+title: 2025.09.18.15.33.30
+filename: 'Promethe: Multi-Protocol AI Framework'
+description: >-
+  Promethean is a modular AI framework with specialized components for web
+  crawling, search, multi-agent chat, and CLI interactions. It uses culturally
+  inspired names for its tools: Tsukumo for web crawling, Kura for search
+  providers, and Enso for multi-agent chat protocols. The framework supports
+  structured data processing, caching, and cross-system search capabilities.
+tags:
+  - AI framework
+  - web crawling
+  - search engine
+  - multi-agent
+  - CLI
+  - cultural naming
+  - modular architecture
+  - cache
+  - ANN index
+  - structured data
+---
+# Brainstorming packages
+
+## Webcrawler
+
+Name: Tsukumo (付喪) — from tsukumogami, tools that gain spirits after 100 years; evokes a haunted machine crawling on its own.
+
+- convert html to markdown
+- respects robots.txt
+- saves to a folder
+
+## Search Provider
+
+Name: Kura (蔵) — “storehouse” or “treasury,” a keeper of hidden things.
+
+- Generic, can be used as a search engine for any of:
+  - files
+  - mongodb
+  - sql
+  - composite (search over many instances of Kura sea
+
+## 📋 Tasks
+
+- [ ] Draft actionable subtasks from the summary
+- [ ] Define acceptance criteria
+- [ ] Link back to related labeled docs

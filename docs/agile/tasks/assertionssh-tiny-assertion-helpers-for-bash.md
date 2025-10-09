@@ -1,0 +1,39 @@
+---
+uuid: "fda74a7c-02d5-4f88-9776-345968b1673b"
+title: "assertions.sh — tiny assertion helpers for Bash"
+slug: "assertionssh-tiny-assertion-helpers-for-bash"
+status: "incoming"
+priority: "P3"
+labels: ["docops", "labeled"]
+created_at: "2025-10-08T20:10:45.994Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
+## 🗂 Source
+
+- Path: docs/labeled/2025.09.19.16.48.35.md
+
+## 📝 Context Summary
+
+Got it. Here’s a small, no-nonsense Bash assertions library you can drop into any repo and `source ./lib/assertions.sh`. It defaults to **failing fast with clear messages and a stack trace**, and it won’t silently flip your shell options. You opt into “strict mode” if you want it.
+
+### `lib/assertions.sh` GPL-3.0-only
+
+### How to use it
+
+---
+
+### Why this design (and what it avoids)
+
+* **Doesn’t silently mutate your shell**: a sourced library shouldn’t flip `-euo pipefail` behind your back. You can call `assert::strict_on` explicitly if you want the library to enforce it. (This aligns with the common “unofficial strict mode” guidance while acknowledging its quirks.) ([Gist][1])
+* **Clear errors + stack traces**: printing the call stack uses `FUNCNAME`, `BASH_SOURCE`, and `BASH_LINENO` so you see *where* you blew up, not just *that* you did. If you prefer traps, Bash/Unix references show how to wire `trap ERR` to similar output. ([Opensource.com][2])
+* **Quotes and parameter expansion are handled carefully**: assertions treat values vs variable‐names explicitly to avoid the usual indirection/quoting foot-guns. Greg’s BashGuide and Bash Hackers docs are the north stars here. ([mywiki
+
+## 📋 Tasks
+
+- [ ] Draft actionable subtasks from the summary
+- [ ] Define acceptance criteria
+- [ ] Link back to related labeled docs

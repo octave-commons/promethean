@@ -1,0 +1,98 @@
+name: Pipeline - Symdocs
+
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: 'Git ref to run pipeline on'
+        required: false
+        default: 'main'
+        type: string
+  schedule:
+    - cron: '0 2 * * *' # Daily at 2 AM UTC (Hour 2)
+  push:
+    branches: [main, dev]
+    paths: ['packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}']
+  pull_request:
+    branches: [main, dev]
+    paths: ['packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}']
+
+permissions:
+  contents: write
+  pull-requests: write
+  actions: read
+
+env:
+  OLLAMA_URL: ${{ secrets.OLLAMA_CLOUD_URL }}
+  NODE_VERSION: '20'
+
+jobs:
+  symdocs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.ref || github.ref }}
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: latest
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Setup Piper
+        run: |
+          pnpm --filter @promethean/piper build
+
+      - name: Run symdocs pipeline
+        run: |
+          set -euo pipefail
+          pnpm --filter @promethean/piper piper run symdocs \
+            --config pipelines.json \
+            --set model=gpt-oss:20b \
+            --set OLLAMA_URL=${{ env.OLLAMA_URL }}
+        env:
+          OLLAMA_URL: ${{ env.OLLAMA_URL }}
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: symdocs-output
+          path: |
+            docs/packages/
+            .cache/symdocs.level
+          retention-days: 7
+
+      - name: Commit and push documentation changes
+        if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev')
+        run: |
+          set -euo pipefail
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+          # Create and checkout docs/pipeline-symdocs branch
+          BRANCH_NAME="docs/pipeline-symdocs"
+          git fetch origin $BRANCH_NAME 2>/dev/null || true
+          git checkout -b $BRANCH_NAME || git checkout $BRANCH_NAME
+
+          # Add and commit changes
+          git add docs/packages/ || true
+          git diff --staged --quiet || git commit -m "docs: update symdocs documentation [skip ci]"
+
+          # Push to docs branch
+          git push origin $BRANCH_NAME --force || true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

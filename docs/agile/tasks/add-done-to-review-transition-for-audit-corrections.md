@@ -9,7 +9,7 @@ labels:
   - audit
   - quality-control
 priority: P2
-status: incoming
+status: done
 created_at: '2025-01-08T22:50:00.000Z'
 estimates:
   complexity: 3
@@ -68,42 +68,42 @@ FSM transition rules in `kanban-transitions.clj` don't include `done → needs_r
 
 ## Acceptance Criteria
 
-1. **FSM allows done→review** transition with proper validation
-2. **Correction reason required** when moving from done to review
-3. **Correction logged** for audit trail purposes
-4. **Quality gate prevents abuse** of correction mechanism
-5. **Clear error messages** guide proper correction usage
+1. **FSM allows done→review** transition with proper validation ✅
+2. **Correction reason required** when moving from done to review ✅
+3. **Correction logged** for audit trail purposes ✅
+4. **Quality gate prevents abuse** of correction mechanism ✅
+5. **Clear error messages** guide proper correction usage ✅
 
 ## Implementation Plan
 
-### Step 1: Update Transition Rules (30 min)
+### Step 1: Update Transition Rules (30 min) ✅
 
 ```clojure
-;; Add to valid-transitions-from function
-("done" ["icebox" "needs_review"])
+;; Added to valid-transitions-from function
+("done" ["icebox" "review"])
 ```
 
-### Step 2: Add Validation Logic (45 min)
+### Step 2: Add Validation Logic (45 min) ✅
 
-- Require correction reason for done→review moves
-- Add correction logging to task metadata
-- Implement correction limits (e.g., max 3 corrections per task)
+- ✅ Require correction reason for done→review moves
+- ✅ Add correction logging to task metadata
+- ✅ Implement correction limits (e.g., max 3 corrections per task)
 
-### Step 3: Update CLI (30 min)
+### Step 3: Update CLI (30 min) ✅
 
-- Add reason parameter to update-status command
-- Add correction logging to output
-- Add validation messages
+- ✅ Add reason parameter to update-status command
+- ✅ Add correction logging to output
+- ✅ Add validation messages
 
-### Step 4: Testing (15 min)
+### Step 4: Testing (15 min) ✅
 
-- Test done→review transition with reason
-- Test rejection without reason
-- Verify correction logging works
+- ✅ Test done→review transition with reason
+- ✅ Test rejection without reason
+- ✅ Verify correction logging works
 
 ## Technical Implementation
 
-### FSM Rule Update
+### FSM Rule Update ✅
 
 ```clojure
 (defn correction-justified?
@@ -113,29 +113,45 @@ FSM transition rules in `kanban-transitions.clj` don't include `done → needs_r
        (< (get-in task [:corrections :count] 0) 3)))
 ```
 
-### CLI Enhancement
+### CLI Enhancement ✅
 
 ```bash
-pnpm kanban update-status <uuid> needs_review --reason "Audit: incomplete completion evidence"
+pnpm kanban update-status <uuid> review --reason "Audit: incomplete completion evidence"
 ```
 
-### Correction Logging
+### Correction Logging ✅
 
-```json
-{
-  "corrections": {
-    "count": 1,
-    "history": [
-      {
-        "timestamp": "2025-01-08T22:50:00Z",
-        "from": "done",
-        "to": "needs_review",
-        "reason": "Audit: incomplete completion evidence"
-      }
-    ]
-  }
-}
+```yaml
+corrections:
+  count: 1
+  history:
+    - timestamp: '2025-01-08T22:50:00Z'
+      from: 'done'
+      to: 'review'
+      reason: 'Audit: incomplete completion evidence'
 ```
+
+### Files Changed ✅
+
+1. **`docs/agile/rules/kanban-transitions.clj`**:
+
+   - Added `done → review` transition to `valid-transitions-from`
+   - Added `correction-justified?` validation function
+   - Updated `evaluate-transition` with special validation for audit corrections
+
+2. **`packages/kanban/src/lib/types.ts`**:
+
+   - Added `corrections` field to Task type with count and history
+
+3. **`packages/kanban/src/lib/kanban.ts`**:
+
+   - Added `correctionReason` parameter to `updateStatus` function
+   - Implemented correction logging with timestamp and reason
+   - Updated `toFrontmatter` to serialize corrections history
+
+4. **`packages/kanban/src/cli/command-handlers.ts`**:
+   - Added `--reason` parameter parsing to `handleUpdateStatus`
+   - Pass correction reason to `updateStatus` function
 
 ## Success Metrics
 

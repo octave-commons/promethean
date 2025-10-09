@@ -1,11 +1,12 @@
 ---
 uuid: d4574bbb-98a3-40ae-a335-0ff2123b4c57
-title: Description
-status: testing
+title: Integrate Reddit API for agent content access
+status: icebox
 priority: P3
 labels: []
 created_at: '2025-09-15T02:02:58.510Z'
 ---
+
 # Description
 
 Integrate Reddit so agents can read and post subreddit content using the Reddit REST API with OAuth2.
@@ -21,6 +22,7 @@ Integrate Reddit so agents can read and post subreddit content using the Reddit 
 - Respect Reddit rate limits ~60 requests/minute per app and backoff on `429` or `Retry-After` headers
 
 ## Requirements/Definition of done
+
 ## Requirements
 
 - Authenticated requests can fetch and post subreddit data
@@ -28,6 +30,7 @@ Integrate Reddit so agents can read and post subreddit content using the Reddit 
 - Rate limiting and backoff logic prevents API throttling
 
 ## Tasks
+
 ## Definition of Done
 
 - [ ] Register Reddit application and configure OAuth2 credentials
@@ -80,4 +83,3 @@ No blockers.
 
 #Ready
 #ready
-

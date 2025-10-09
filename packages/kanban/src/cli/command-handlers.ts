@@ -15,9 +15,14 @@ import {
   indexForSearch,
   searchTasks,
 } from '../lib/kanban.js';
+import type { Board } from '../lib/types.js';
+import { EventLogManager } from '../board/event-log.js';
+import { loadKanbanConfig } from '../board/config.js';
 import { serveKanbanUI } from '../lib/ui-server.js';
 import { compareTasks, suggestTaskBreakdown, prioritizeTasks } from '../lib/task-tools.js';
 import { KanbanDevServer } from '../lib/dev-server.js';
+
+const columnKey = (name: string): string => name.toLowerCase().replace(/[\s_-]/g, '');
 import { TransitionRulesEngine, createTransitionRulesEngine } from '../lib/transition-rules.js';
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
@@ -173,6 +178,13 @@ const handleUpdateStatus: CommandHandler = (args, context) =>
     const id = requireArg(args[0], 'task id');
     const status = requireArg(args[1], 'new status');
 
+    // Parse optional reason parameter for audit corrections
+    let reason: string | undefined;
+    const reasonIndex = args.findIndex((arg) => arg === '--reason' || arg === '-r');
+    if (reasonIndex >= 0 && args[reasonIndex + 1]) {
+      reason = args[reasonIndex + 1];
+    }
+
     // Initialize transition rules engine with proper config loading
     let transitionRulesEngine: TransitionRulesEngine | undefined;
 
@@ -196,8 +208,25 @@ const handleUpdateStatus: CommandHandler = (args, context) =>
       transitionRulesEngine = await createTransitionRulesEngine(possiblePaths);
     } catch (error) {
       // Gracefully handle missing config or initialization errors
-      console.warn('Warning: Transition rules engine not available:',
-        error instanceof Error ? error.message : String(error));
+      console.warn(
+        'Warning: Transition rules engine not available:',
+        error instanceof Error ? error.message : String(error),
+      );
+    }
+
+    // Initialize event log manager
+    let eventLogManager: EventLogManager | undefined;
+    try {
+      const configResult = await loadKanbanConfig({
+        argv: process.argv,
+        env: process.env,
+      });
+      eventLogManager = new EventLogManager(configResult.config);
+    } catch (error) {
+      console.warn(
+        'Warning: Event log manager not available:',
+        error instanceof Error ? error.message : String(error),
+      );
     }
 
     const updated = await updateStatus(
@@ -206,7 +235,10 @@ const handleUpdateStatus: CommandHandler = (args, context) =>
       status,
       context.boardFile,
       context.tasksDir,
-      transitionRulesEngine
+      transitionRulesEngine,
+      reason,
+      eventLogManager,
+      'human',
     );
     return updated;
   });
@@ -251,7 +283,7 @@ const handleGenerateByTags: CommandHandler = (args, context) => {
     throw new CommandUsageError('generate-by-tags requires at least one tag');
   }
 
-  const tags = args.map(arg => arg.trim()).filter(tag => tag.length > 0);
+  const tags = args.map((arg) => arg.trim()).filter((tag) => tag.length > 0);
   if (tags.length === 0) {
     throw new CommandUsageError('No valid tags provided');
   }
@@ -442,7 +474,7 @@ const handleDev: CommandHandler = async (args, context) => {
     port: options.port,
     autoGit: !options.noAutoGit,
     autoOpen: !options.noAutoOpen,
-    debounceMs: options.debounceMs
+    debounceMs: options.debounceMs,
   });
 
   // Handle graceful shutdown
@@ -490,8 +522,10 @@ const handleShowTransitions: CommandHandler = async (_args, context) => {
       transitionRulesEngine = await createTransitionRulesEngine(possiblePaths);
     } catch (error) {
       // Gracefully handle missing config or initialization errors
-      console.warn('Warning: Transition rules engine not available:',
-        error instanceof Error ? error.message : String(error));
+      console.warn(
+        'Warning: Transition rules engine not available:',
+        error instanceof Error ? error.message : String(error),
+      );
     }
 
     if (!transitionRulesEngine) {
@@ -531,7 +565,10 @@ const handleShowTransitions: CommandHandler = async (_args, context) => {
 
     return overview;
   } catch (error) {
-    console.error('Error loading transition rules:', error instanceof Error ? error.message : String(error));
+    console.error(
+      'Error loading transition rules:',
+      error instanceof Error ? error.message : String(error),
+    );
     return { error: error instanceof Error ? error.message : String(error) };
   }
 };
@@ -560,9 +597,13 @@ const handleShowProcess: CommandHandler = async (_args, _context) => {
     } else {
       console.log('# 📋 Promethean Development Process');
       console.log('');
-      console.log('This document outlines the 6-step workflow for task development in the Promethean framework.');
+      console.log(
+        'This document outlines the 6-step workflow for task development in the Promethean framework.',
+      );
       console.log('');
-      console.log('Key transitions: Incoming→Accepted→Breakdown→Ready→Todo→In Progress→Review→Document→Done');
+      console.log(
+        'Key transitions: Incoming→Accepted→Breakdown→Ready→Todo→In Progress→Review→Document→Done',
+      );
       console.log('');
       console.log('For detailed process information, see: docs/agile/process.md');
     }
@@ -572,6 +613,365 @@ const handleShowProcess: CommandHandler = async (_args, _context) => {
   }
 
   return null;
+};
+
+const handleList: CommandHandler = (args, context) =>
+  withBoard(context, async (board) => {
+    // Default columns to show
+    const defaultColumns = ['ready', 'todo', 'in_progress', 'in_review', 'document'];
+
+    // Parse optional columns filter
+    let columnsToShow = defaultColumns;
+    const showAll = args.includes('--all') || args.includes('-a');
+
+    if (showAll) {
+      columnsToShow = board.columns.map((col) => columnKey(col.name));
+    } else {
+      const customColumns = args.filter((arg) => !arg.startsWith('--'));
+      if (customColumns.length > 0) {
+        columnsToShow = customColumns.map((col) => columnKey(col));
+      }
+    }
+
+    console.log('📋 Kanban Board Status');
+    console.log('');
+
+    let totalViolations = 0;
+
+    for (const columnName of columnsToShow) {
+      const column = board.columns.find((col) => columnKey(col.name) === columnName);
+      if (!column) continue;
+
+      const displayName = column.name;
+      const taskCount = column.tasks.length;
+      const limit = column.limit;
+
+      // Check for WIP limit violations
+      const wipViolation = limit && taskCount > limit;
+      if (wipViolation) totalViolations++;
+
+      // Display column header with status indicators
+      let statusIcon = '✅';
+      if (wipViolation) {
+        statusIcon = '🚨';
+      } else if (taskCount === 0) {
+        statusIcon = '⭕';
+      } else if (limit && taskCount >= limit * 0.8) {
+        statusIcon = '⚠️';
+      }
+
+      console.log(`${statusIcon} ${displayName} (${taskCount}${limit ? `/${limit}` : ''})`);
+
+      if (wipViolation) {
+        console.log(`   ❌ WIP LIMIT VIOLATION: ${taskCount} > ${limit}`);
+      }
+
+      // Show tasks in this column
+      if (column.tasks.length > 0) {
+        column.tasks.forEach((task) => {
+          const priority = task.priority ? ` [${task.priority}]` : '';
+          const uuid = task.uuid.slice(0, 8);
+          console.log(`   • ${task.title}${priority} (${uuid}...)`);
+        });
+      } else {
+        console.log(`   (empty)`);
+      }
+      console.log('');
+    }
+
+    // Summary
+    if (totalViolations > 0) {
+      console.log(`🚨 ${totalViolations} process violation(s) found`);
+    } else {
+      console.log('✅ No process violations detected');
+    }
+
+    // Show WIP limits summary
+    const limitedColumns = board.columns.filter((col) => col.limit);
+    if (limitedColumns.length > 0) {
+      console.log('');
+      console.log('📊 WIP Limits Summary:');
+      limitedColumns.forEach((col) => {
+        const percentage = col.limit ? Math.round((col.tasks.length / col.limit) * 100) : 0;
+        const status = percentage > 100 ? '🚨' : percentage > 80 ? '⚠️' : '✅';
+        console.log(`   ${status} ${col.name}: ${col.tasks.length}/${col.limit} (${percentage}%)`);
+      });
+    }
+
+    return { violations: totalViolations };
+  });
+
+const handleAudit: CommandHandler = (args, context) =>
+  withBoard(context, async (board) => {
+    const configResult = await loadKanbanConfig({
+      argv: process.argv,
+      env: process.env,
+    });
+
+    const eventLogManager = new EventLogManager(configResult.config);
+    const dryRun = !args.includes('--fix');
+    const columnFilter = args.find((arg) => arg.startsWith('--column='))?.split('=')[1];
+
+    console.log(`🔍 Kanban Audit ${dryRun ? '(DRY RUN)' : '(FIX MODE)'}`);
+    if (columnFilter) {
+      console.log(`📋 Filtering by column: ${columnFilter}`);
+    }
+    console.log('');
+
+    // Get all task histories from event log
+    const allHistories = await eventLogManager.getAllTaskHistories();
+    const allEvents = await eventLogManager.readEventLog();
+
+    let inconsistenciesFound = 0;
+    let inconsistenciesFixed = 0;
+    let illegalTransitionsFound = 0;
+
+    console.log('🔍 Analyzing task state consistency...');
+    console.log('');
+
+    // Check each task in the board against its event log
+    for (const column of board.columns) {
+      if (columnFilter && columnKey(column.name) !== columnKey(columnFilter)) {
+        continue;
+      }
+
+      for (const task of column.tasks) {
+        const replayResult = await eventLogManager.replayTaskTransitions(task.uuid, task.status);
+
+        // Check if current status matches replayed status
+        if (replayResult.finalStatus !== task.status) {
+          inconsistenciesFound++;
+          console.log(`❌ INCONSISTENCY: Task "${task.title}"`);
+          console.log(`   Current status: ${task.status}`);
+          console.log(`   Expected status: ${replayResult.finalStatus}`);
+          console.log(`   Task ID: ${task.uuid}`);
+
+          if (replayResult.invalidEvent) {
+            console.log(
+              `   🚨 ILLEGAL TRANSITION: ${replayResult.invalidEvent.fromStatus} → ${replayResult.invalidEvent.toStatus}`,
+            );
+            console.log(`   Event ID: ${replayResult.invalidEvent.id}`);
+            console.log(`   Timestamp: ${replayResult.invalidEvent.timestamp}`);
+            illegalTransitionsFound++;
+          }
+
+          if (!dryRun && replayResult.lastValidEvent) {
+            try {
+              // Fix the task status
+              await updateStatus(
+                board as Board,
+                task.uuid,
+                replayResult.finalStatus,
+                context.boardFile,
+                context.tasksDir,
+                undefined,
+                `Audit correction: Reset to last valid state from event log`,
+                eventLogManager,
+                'system',
+              );
+              inconsistenciesFixed++;
+              console.log(`   ✅ FIXED: Status reset to ${replayResult.finalStatus}`);
+            } catch (error) {
+              console.log(`   ❌ FAILED TO FIX: ${error}`);
+            }
+          }
+          console.log('');
+        }
+      }
+    }
+
+    // Check for tasks that exist in event log but not in board
+    const boardTaskIds = new Set();
+    for (const column of board.columns) {
+      for (const task of column.tasks) {
+        boardTaskIds.add(task.uuid);
+      }
+    }
+
+    for (const [taskId, events] of allHistories) {
+      if (!boardTaskIds.has(taskId) && events.length > 0) {
+        console.log(
+          `⚠️  ORPHANED EVENTS: Task ${taskId} has ${events.length} events but not found in board`,
+        );
+        const lastEvent = events[events.length - 1];
+        if (lastEvent) {
+          console.log(`   Last event: ${lastEvent.toStatus} at ${lastEvent.timestamp}`);
+        }
+        console.log('');
+      }
+    }
+
+    // Summary
+    console.log('📊 AUDIT SUMMARY:');
+    console.log(
+      `   Total tasks analyzed: ${board.columns.reduce((sum, col) => sum + col.tasks.length, 0)}`,
+    );
+    console.log(`   Total events in log: ${allEvents.length}`);
+    console.log(`   Inconsistencies found: ${inconsistenciesFound}`);
+    console.log(`   Illegal transitions: ${illegalTransitionsFound}`);
+
+    if (!dryRun) {
+      console.log(`   Inconsistencies fixed: ${inconsistenciesFixed}`);
+    }
+
+    console.log('');
+
+    if (inconsistenciesFound > 0) {
+      if (dryRun) {
+        console.log('💡 Run with --fix to automatically correct these inconsistencies');
+      } else {
+        console.log('✅ Audit completed with automatic corrections');
+      }
+    } else {
+      console.log('✅ No inconsistencies found - board state is consistent with event log');
+    }
+
+    return {
+      inconsistenciesFound,
+      inconsistenciesFixed,
+      illegalTransitionsFound,
+      dryRun,
+    };
+  });
+
+const handleEnforceWipLimits: CommandHandler = (args, context) =>
+  withBoard(context, async (board) => {
+    const configResult = await loadKanbanConfig({
+      argv: process.argv,
+      env: process.env,
+    });
+
+    const eventLogManager = new EventLogManager(configResult.config);
+    const dryRun = !args.includes('--fix');
+    const columnFilter = args.find((arg) => arg.startsWith('--column='))?.split('=')[1];
+
+    console.log(`🚧 WIP Limits Enforcement ${dryRun ? '(DRY RUN)' : '(FIX MODE)'}`);
+    if (columnFilter) {
+      console.log(`📋 Filtering by column: ${columnFilter}`);
+    }
+    console.log('');
+
+    let totalViolations = 0;
+    let totalCorrections = 0;
+
+    for (const column of board.columns) {
+      if (columnFilter && columnKey(column.name) !== columnKey(columnFilter)) {
+        continue;
+      }
+
+      if (column.limit && column.tasks.length > column.limit) {
+        const violationCount = column.tasks.length - column.limit;
+        totalViolations += violationCount;
+
+        console.log(`🚨 WIP VIOLATION: ${column.name}`);
+        console.log(
+          `   Current: ${column.tasks.length}/${column.limit} (${violationCount} over limit)`,
+        );
+
+        // Sort tasks by priority (lower priority number = higher priority)
+        const sortedTasks = [...column.tasks].sort((a, b) => {
+          const priorityA = getPriorityNumeric(a.priority);
+          const priorityB = getPriorityNumeric(b.priority);
+          return priorityB - priorityA; // Reverse sort (higher priority first)
+        });
+
+        // Tasks to move back (lowest priority)
+        const tasksToMove = sortedTasks.slice(-violationCount);
+
+        console.log(`   Tasks to move back: ${tasksToMove.length}`);
+
+        for (const task of tasksToMove) {
+          console.log(`   - "${task.title}" (${task.priority})`);
+
+          if (!dryRun) {
+            try {
+              // Find the previous column in the workflow
+              const previousColumn = findPreviousColumn(column.name, board.columns);
+              if (previousColumn) {
+                await updateStatus(
+                  board as Board,
+                  task.uuid,
+                  previousColumn.name,
+                  context.boardFile,
+                  context.tasksDir,
+                  undefined,
+                  `WIP limit enforcement: moved from ${column.name} to ${previousColumn.name}`,
+                  eventLogManager,
+                  'system',
+                );
+                totalCorrections++;
+                console.log(`     ✅ Moved to ${previousColumn.name}`);
+              } else {
+                console.log(`     ⚠️  No previous column found for ${column.name}`);
+              }
+            } catch (error) {
+              console.log(`     ❌ Failed to move: ${error}`);
+            }
+          }
+        }
+        console.log('');
+      }
+    }
+
+    console.log('📊 WIP ENFORCEMENT SUMMARY:');
+    console.log(`   Total violations: ${totalViolations}`);
+    console.log(`   Total corrections: ${totalCorrections}`);
+
+    if (totalViolations > 0) {
+      if (dryRun) {
+        console.log('💡 Run with --fix to automatically move lowest priority tasks');
+      } else {
+        console.log('✅ WIP limits enforced');
+      }
+    } else {
+      console.log('✅ No WIP limit violations found');
+    }
+
+    return { violations: totalViolations, corrections: totalCorrections, dryRun };
+  });
+
+// Helper function to find previous column in workflow
+const findPreviousColumn = (
+  currentColumnName: string,
+  columns: ReadonlyArray<{ name: string }>,
+) => {
+  const workflowOrder = [
+    'icebox',
+    'incoming',
+    'accepted',
+    'breakdown',
+    'blocked',
+    'ready',
+    'todo',
+    'in_progress',
+    'review',
+    'document',
+    'done',
+    'rejected',
+  ];
+  const currentIndex = workflowOrder.findIndex(
+    (col) => columnKey(col) === columnKey(currentColumnName),
+  );
+
+  if (currentIndex <= 0) return null;
+
+  const previousColumnName = workflowOrder[currentIndex - 1];
+  if (!previousColumnName) return null;
+  return columns.find((col) => columnKey(col.name) === columnKey(previousColumnName)) || null;
+};
+
+// Helper function to get numeric priority
+const getPriorityNumeric = (priority: string | number | undefined): number => {
+  if (typeof priority === 'number') return priority;
+  if (typeof priority === 'string') {
+    const match = priority.match(/P(\d+)/i);
+    if (match?.[1]) return parseInt(match[1], 10);
+    if (priority.toLowerCase() === 'critical') return 0;
+    if (priority.toLowerCase() === 'high') return 1;
+    if (priority.toLowerCase() === 'medium') return 2;
+    if (priority.toLowerCase() === 'low') return 3;
+  }
+  return 3; // Default to low priority
 };
 
 export const COMMAND_HANDLERS: Readonly<Record<string, CommandHandler>> = Object.freeze({
@@ -599,6 +999,9 @@ export const COMMAND_HANDLERS: Readonly<Record<string, CommandHandler>> = Object
   'compare-tasks': handleCompareTasks,
   'breakdown-task': handleBreakdownTask,
   'prioritize-tasks': handlePrioritizeTasks,
+  list: handleList,
+  audit: handleAudit,
+  'enforce-wip-limits': handleEnforceWipLimits,
 });
 
 export const AVAILABLE_COMMANDS: ReadonlyArray<string> = Object.freeze(

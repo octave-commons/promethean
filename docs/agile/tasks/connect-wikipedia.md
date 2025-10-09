@@ -1,11 +1,12 @@
 ---
 uuid: f446af1c-3616-478b-8bef-4e682d3ef17c
-title: Description
-status: testing
+title: Integrate Wikipedia MediaWiki API for knowledge retrieval
+status: icebox
 priority: P3
 labels: []
 created_at: '2025-09-15T02:02:58.510Z'
 ---
+
 # Description
 
 Integrate Wikipedia article lookup using the MediaWiki API for knowledge retrieval.
@@ -21,6 +22,7 @@ Integrate Wikipedia article lookup using the MediaWiki API for knowledge retriev
 - Follow Wikimedia guidelines: throttle to ~1 request/second and honor `Retry-After`/`maxlag` responses
 
 ## Requirements/Definition of done
+
 ## Requirements
 
 - Agents can query and retrieve article summaries
@@ -28,6 +30,7 @@ Integrate Wikipedia article lookup using the MediaWiki API for knowledge retriev
 - Requests respect rate limits and include required headers
 
 ## Tasks
+
 ## Definition of Done
 
 - [ ] Implement client for search and page retrieval
@@ -80,4 +83,3 @@ No blockers.
 
 #Ready
 #ready
-

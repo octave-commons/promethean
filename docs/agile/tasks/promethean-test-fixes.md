@@ -1,0 +1,61 @@
+---
+uuid: "607d0743-3021-4fdb-8e47-275c03dfa0b4"
+title: "promethean-test-fixes"
+slug: "promethean-test-fixes"
+status: "incoming"
+priority: "P3"
+labels: ["docops", "labeled"]
+created_at: "2025-10-08T20:10:46.058Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
+## 🗂 Source
+
+- Path: docs/labeled/promethean-test-fixes.md
+
+## 📝 Context Summary
+
+---
+uuid: afd6133c-8abd-4a40-8c0b-f5c83c29e81c
+created_at: '2025-09-18T11:29:21Z'
+title: 2025.09.18.11.29.21
+filename: promethean-test-fixes
+description: >-
+  Addresses test errors in multiple Promethean packages by systematically
+  resolving issues through file system edits and TypeScript LSP validation.
+tags:
+  - test
+  - typescript
+  - lsp
+  - package
+  - error
+  - fix
+  - promethean
+---
+These packages all have test errors:
+/home/err/devel/promethean/packages/contracts
+/home/err/devel/promethean/packages/eidolon-field
+/home/err/devel/promethean/packages/legacy
+/home/err/devel/promethean/packages/parity
+/home/err/devel/promethean/packages/pm2-helpers
+/home/err/devel/promethean/packages/stream
+/home/err/devel/promethean/packages/vision
+/home/err/devel/promethean/packages/cli
+/home/err/devel/promethean/packages/codex-context
+/home/err/devel/promethean/packages/health
+/home/err/devel/promethean/packages/heartbeat
+/home/err/devel/promethean/packages/markdown
+/home/err/devel/promethean/packages/kanban-processor
+/home/err/devel/promethean/packages/test-utils
+/home/err/devel/promethean/packages/agent-ecs
+/home/err/devel/promethean/packages/file-watcher
+/home/err/devel/promethean/package
+
+## 📋 Tasks
+
+- [ ] Draft actionable subtasks from the summary
+- [ ] Define acceptance criteria
+- [ ] Link back to related labeled docs

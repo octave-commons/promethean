@@ -256,7 +256,11 @@ export class TransitionRulesEngine {
   // Private helper methods
 
   private normalizeColumnName(column: string): string {
-    return column.toLowerCase().replace(/[\s_-]/g, '');
+    // Match the normalization used in kanban.ts columnKey function
+    return column
+      .normalize("NFKD")
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "");
   }
 
   private findTransitionRule(from: string, to: string): TransitionRule | undefined {

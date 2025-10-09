@@ -2,7 +2,7 @@
 uuid: "eebffb87-73cd-4945-a53a-f60eaa852eed"
 title: "Description"
 slug: "curate-code-from-personal-repository"
-status: "breakdown"
+status: "icebox"
 priority: "P3"
 labels: ["description", "code", "system", "chatgpt"]
 created_at: "2025-10-07T20:25:05.643Z"

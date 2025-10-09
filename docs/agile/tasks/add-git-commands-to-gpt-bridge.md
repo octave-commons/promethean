@@ -2,7 +2,7 @@
 uuid: "2f19096b-bacb-4ace-9e82-61893b70720d"
 title: "Description"
 slug: "add-git-commands-to-gpt-bridge"
-status: "breakdown"
+status: "icebox"
 priority: "P3"
 labels: ["description", "step", "gpt", "bridge"]
 created_at: "2025-10-07T20:25:05.643Z"

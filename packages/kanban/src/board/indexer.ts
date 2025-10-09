@@ -1,17 +1,17 @@
-import { readFile, writeFile } from "node:fs/promises";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
+import { readFile, writeFile } from 'node:fs/promises';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-import { listFilesRec } from "@promethean/utils/list-files-rec.js";
-import { parseFrontmatter } from "@promethean/markdown/frontmatter";
+import { listFilesRec } from '@promethean/utils/list-files-rec.js';
+import { parseFrontmatter } from '@promethean/markdown/frontmatter';
 
-import type { IndexedTask, TaskFM } from "./types.js";
-import type { KanbanConfig, ReadonlySetLike } from "./config/shared.js";
-import { loadKanbanConfig } from "./config.js";
-import type { TaskCache, TaskCacheOptions } from "./task-cache.js";
+import type { IndexedTask, TaskFM } from './types.js';
+import type { KanbanConfig, ReadonlySetLike } from './config/shared.js';
+import { loadKanbanConfig } from './config.js';
+import type { TaskCache, TaskCacheOptions } from './task-cache.js';
 
-const toTrimmedString = (value: unknown, fallback = ""): string => {
-  if (typeof value !== "string") return fallback;
+const toTrimmedString = (value: unknown, fallback = ''): string => {
+  if (typeof value !== 'string') return fallback;
   const trimmed = value.trim();
   return trimmed.length > 0 ? trimmed : fallback;
 };
@@ -27,9 +27,9 @@ const toLabelArray = (value: unknown): ReadonlyArray<string> => {
       .map((entry) => toTrimmedString(entry))
       .filter((entry): entry is string => entry.length > 0);
   }
-  if (typeof value === "string") {
+  if (typeof value === 'string') {
     return value
-      .split(",")
+      .split(',')
       .map((entry) => toTrimmedString(entry))
       .filter((entry): entry is string => entry.length > 0);
   }
@@ -43,21 +43,18 @@ const normalizeTask = (
   content?: string,
 ): IndexedTask => {
   const rawId =
-    (data as { readonly id?: unknown }).id ??
-    (data as { readonly uuid?: unknown }).uuid;
+    (data as { readonly id?: unknown }).id ?? (data as { readonly uuid?: unknown }).uuid;
   const rawCreated =
     (data as { readonly created?: unknown }).created ??
     (data as { readonly created_at?: unknown }).created_at;
   const id = toTrimmedString(rawId);
-  const title = toTrimmedString(data.title, path.basename(filePath, ".md"));
-  const status = toTrimmedString(data.status) as TaskFM["status"];
-  const priority = toTrimmedString(data.priority) as TaskFM["priority"];
+  const title = toTrimmedString(data.title, path.basename(filePath, '.md'));
+  const status = toTrimmedString(data.status) as TaskFM['status'];
+  const priority = toTrimmedString(data.priority) as TaskFM['priority'];
   const owner = toTrimmedString(data.owner);
   const labels = toLabelArray(data.labels);
   const created = toTrimmedString(rawCreated);
-  const updated = toOptionalString(
-    (data as { readonly updated?: unknown }).updated,
-  );
+  const updated = toOptionalString((data as { readonly updated?: unknown }).updated);
   const rel = path.relative(repoRoot, filePath);
   const base: TaskFM = Object.freeze({
     id,
@@ -68,18 +65,13 @@ const normalizeTask = (
     labels,
     created,
     uuid: toOptionalString((data as { readonly uuid?: unknown }).uuid),
-    created_at: toOptionalString(
-      (data as { readonly created_at?: unknown }).created_at,
-    ),
+    created_at: toOptionalString((data as { readonly created_at?: unknown }).created_at),
   });
-  const fm: TaskFM =
-    typeof updated === "string" ? Object.freeze({ ...base, updated }) : base;
+  const fm: TaskFM = typeof updated === 'string' ? Object.freeze({ ...base, updated }) : base;
   return Object.freeze({ ...fm, path: rel, content }) satisfies IndexedTask;
 };
 
-const sortTasksById = (
-  tasks: readonly IndexedTask[],
-): ReadonlyArray<IndexedTask> =>
+const sortTasksById = (tasks: readonly IndexedTask[]): ReadonlyArray<IndexedTask> =>
   Object.freeze([...tasks].sort((a, b) => a.id.localeCompare(b.id)));
 
 export type IndexTasksOptions = Readonly<{
@@ -94,24 +86,61 @@ export const indexTasks = async ({
   repoRoot,
 }: IndexTasksOptions): Promise<ReadonlyArray<IndexedTask>> => {
   const files = await listFilesRec(tasksDir, new Set(exts));
-  const tasks = await Promise.all(
-    files.map((filePath) =>
-      readFile(filePath, "utf8")
-        .then((raw) => {
-          const parsed =
-            parseFrontmatter<Readonly<Record<string, unknown>>>(raw);
-          return { data: parsed.data ?? {}, content: parsed.content };
-        })
-        .then(({ data, content }) => normalizeTask(data, filePath, repoRoot, content)),
-    ),
-  );
-  return sortTasksById(tasks);
+
+  // Process files in batches to avoid memory exhaustion with 405+ tasks
+  const batchSize = 50;
+  const allTasks: IndexedTask[] = [];
+
+  for (let i = 0; i < files.length; i += batchSize) {
+    const batch = files.slice(i, i + batchSize);
+
+    const batchTasks = await Promise.all(
+      batch.map(async (filePath) => {
+        try {
+          const raw = await readFile(filePath, 'utf8');
+          const parsed = parseFrontmatter<Readonly<Record<string, unknown>>>(raw);
+          return normalizeTask(parsed.data ?? {}, filePath, repoRoot, parsed.content);
+        } catch (error) {
+          console.error(`Failed to process ${filePath}:`, error);
+          return null;
+        }
+      }),
+    );
+
+    // Filter out null results and add to results
+    const validTasks = batchTasks.filter((task): task is IndexedTask => task !== null);
+    allTasks.push(...validTasks);
+
+    // Allow garbage collection between batches
+    if (i + batchSize < files.length) {
+      await new Promise((resolve) => setTimeout(resolve, 0));
+    }
+  }
+
+  return sortTasksById(allTasks);
 };
 
-export const serializeTasks = (
-  tasks: ReadonlyArray<IndexedTask>,
-): ReadonlyArray<string> =>
-  Object.freeze(tasks.map((task) => JSON.stringify(task)));
+export const serializeTasks = (tasks: ReadonlyArray<IndexedTask>): ReadonlyArray<string> => {
+  // Process in batches to avoid memory spikes with large task arrays
+  const batchSize = 100;
+  const result: string[] = [];
+
+  for (let i = 0; i < tasks.length; i += batchSize) {
+    const batch = tasks.slice(i, i + batchSize);
+    const batchSerialized = batch.map((task) => JSON.stringify(task));
+    result.push(...batchSerialized);
+
+    // Allow garbage collection between batches
+    if (i + batchSize < tasks.length) {
+      // Force sync to allow GC
+      if (global.gc) {
+        global.gc();
+      }
+    }
+  }
+
+  return Object.freeze(result);
+};
 
 export const refreshTaskIndex = async (
   config: Readonly<KanbanConfig>,
@@ -122,21 +151,21 @@ export const refreshTaskIndex = async (
     repoRoot: config.repo,
   });
   const lines = serializeTasks(tasks);
-  await writeFile(config.indexFile, `${lines.join("\n")}\n`, "utf8");
+  await writeFile(config.indexFile, `${lines.join('\n')}\n`, 'utf8');
   return tasks;
 };
 export const writeIndexFile = async (
   indexFilePath: string,
   lines: ReadonlyArray<string>,
 ): Promise<void> => {
-  await writeFile(indexFilePath, `${lines.join("\n")}\n`, "utf8");
+  await writeFile(indexFilePath, `${lines.join('\n')}\n`, 'utf8');
 };
 
 /**
  * Get default cache path based on config
  */
 const getDefaultCachePath = (config: KanbanConfig): string => {
-  return path.join(path.dirname(config.indexFile), ".cache");
+  return path.join(path.dirname(config.indexFile), '.cache');
 };
 
 /**
@@ -147,7 +176,7 @@ export const createTaskCacheOptions = (
   overrides?: Partial<TaskCacheOptions>,
 ): TaskCacheOptions => ({
   path: overrides?.path ?? getDefaultCachePath(config),
-  namespace: overrides?.namespace ?? "kanban",
+  namespace: overrides?.namespace ?? 'kanban',
   defaultTtlMs: overrides?.defaultTtlMs ?? 24 * 60 * 60 * 1000, // 24 hours
   ...overrides,
 });
@@ -180,14 +209,14 @@ export const indexTasksToCache = async (
     const batchTasks = await Promise.all(
       batch.map(async (filePath) => {
         try {
-          const raw = await readFile(filePath, "utf8");
+          const raw = await readFile(filePath, 'utf8');
           const parsed = parseFrontmatter<Readonly<Record<string, unknown>>>(raw);
           return normalizeTask(parsed.data ?? {}, filePath, repoRoot, parsed.content);
         } catch (error) {
           console.error(`Failed to process ${filePath}:`, error);
           return null;
         }
-      })
+      }),
     );
 
     // Filter out null results and index valid tasks
@@ -219,14 +248,14 @@ export const migrateJsonlToCache = async (
 
   try {
     // Check if JSONL index exists
-    const raw = await readFile(config.indexFile, "utf8").catch(() => null);
+    const raw = await readFile(config.indexFile, 'utf8').catch(() => null);
     if (!raw) {
-      return { migrated: 0, errors: ["No existing JSONL index found"] };
+      return { migrated: 0, errors: ['No existing JSONL index found'] };
     }
 
     // Parse JSONL lines
     const lines = raw
-      .split("\n")
+      .split('\n')
       .filter((line) => line.trim().length > 0)
       .map((line) => {
         try {
@@ -249,7 +278,6 @@ export const migrateJsonlToCache = async (
     }
 
     console.log(`Migrated ${migrated} tasks from JSONL to cache`);
-
   } catch (error) {
     errors.push(`Migration failed: ${error}`);
   }
@@ -265,14 +293,14 @@ export const runIndexer = async (
 ): Promise<ReadonlyArray<IndexedTask>> => {
   const { config, restArgs } = await loadKanbanConfig(options);
   const args = new Set(restArgs);
-  const shouldWrite = args.has("--write");
-  const useCache = args.has("--cache");
+  const shouldWrite = args.has('--write');
+  const useCache = args.has('--cache');
 
   if (useCache) {
     // Use new cache-based indexing
-    console.log("Using cache-based indexing...");
+    console.log('Using cache-based indexing...');
 
-    const { createTaskCache } = await import("./task-cache.js");
+    const { createTaskCache } = await import('./task-cache.js');
     const cache = await createTaskCache(createTaskCacheOptions(config));
 
     const result = await indexTasksToCache({
@@ -295,12 +323,7 @@ export const runIndexer = async (
   const lines = serializeTasks(tasks);
   if (shouldWrite) {
     await writeIndexFile(config.indexFile, lines);
-    console.log(
-      `Wrote ${tasks.length} tasks to ${path.relative(
-        config.repo,
-        config.indexFile,
-      )}`,
-    );
+    console.log(`Wrote ${tasks.length} tasks to ${path.relative(config.repo, config.indexFile)}`);
     return tasks;
   }
   lines.forEach((line) => {
@@ -311,7 +334,7 @@ export const runIndexer = async (
 
 const isCliExecution = (): boolean => {
   const entry = process.argv[1];
-  if (typeof entry !== "string" || entry.length === 0) {
+  if (typeof entry !== 'string' || entry.length === 0) {
     return false;
   }
   const modulePath = fileURLToPath(import.meta.url);

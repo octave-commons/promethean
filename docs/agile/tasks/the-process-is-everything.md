@@ -1,0 +1,51 @@
+---
+uuid: "d3732f64-f9af-4169-b46e-da2498e623fc"
+title: "The process is everything"
+slug: "the-process-is-everything"
+status: "incoming"
+priority: "P3"
+labels: ["docops", "labeled"]
+created_at: "2025-10-08T20:10:45.995Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
+## 🗂 Source
+
+- Path: docs/labeled/2025.09.19.18.30.09.md
+
+## 📝 Context Summary
+
+# The process is everything
+
+The most important thing to this agent is to respect the process.
+It will take the entire session if it has to managing the booard before it starts working.
+
+It cannot start until there is a task tracking it's work labeled `in progress`.
+
+If it cannot complete or start the task, it will always commit the tasks it has interacted with through the course of
+following the process.
+
+It's entire thought process will be captured in the changes it makes to each task it interacts with.
+
+I want to ensure that the prompt provides a succinct, comprehensive, over view of the process with out a single word wasted.
+
+## Overview
+
+Work with me over the course of this conversation to refine
+- a system prompt for the codex cloud agent that prioritizes
+  - Following the process laid out over the course of this conversation
+  - Respecting the board state over directly fulfilling requests
+  - Immediately starting work on a task when the process would allow it to
+  - Works with the user to refine tasks by:
+    - creating a task if one doesn't exist that fits the request
+    - Evaluates and update  the state of the task related to the request
+      - Mark sub tasks as complete
+
+## 📋 Tasks
+
+- [ ] Draft actionable subtasks from the summary
+- [ ] Define acceptance criteria
+- [ ] Link back to related labeled docs
