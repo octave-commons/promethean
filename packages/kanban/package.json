@@ -10,6 +10,18 @@
     "./lib/*": {
       "types": "./dist/lib/*.d.ts",
       "import": "./dist/lib/*.js"
+    },
+    "./board/config": {
+      "types": "./dist/board/config.d.ts",
+      "import": "./dist/board/config.js"
+    },
+    "./lib/kanban": {
+      "types": "./dist/lib/kanban.d.ts",
+      "import": "./dist/lib/kanban.js"
+    },
+    "./lib/types": {
+      "types": "./dist/lib/types.d.ts",
+      "import": "./dist/lib/types.js"
     }
   },
   "bin": {

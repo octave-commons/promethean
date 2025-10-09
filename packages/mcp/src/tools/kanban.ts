@@ -1,9 +1,9 @@
 import path from 'node:path';
 
 import { z } from 'zod';
-import { loadKanbanConfig } from '@promethean/kanban/dist/board/config.js';
 import {
   loadBoard,
+  loadKanbanConfig,
   getColumn,
   findTaskById,
   findTaskByTitle,
@@ -19,8 +19,8 @@ import {
   analyzeTask,
   rewriteTask,
   breakdownTask,
-} from '@promethean/kanban/dist/lib/kanban.js';
-import type { Board } from '@promethean/kanban/dist/lib/types.js';
+} from '@promethean/kanban';
+import type { Board } from '@promethean/kanban';
 
 import type { ToolFactory, ToolSpec } from '../core/types.js';
 
@@ -275,7 +275,8 @@ export const kanbanUpdateTaskDescription: ToolFactory = (ctx) => {
   });
   const spec = {
     name: 'kanban_update_task_description',
-    description: 'Update the description/content body of a task while preserving all other metadata.',
+    description:
+      'Update the description/content body of a task while preserving all other metadata.',
     inputSchema: {
       ...basePathSchema,
       uuid: z.string().min(1),
@@ -288,7 +289,15 @@ export const kanbanUpdateTaskDescription: ToolFactory = (ctx) => {
   const invoke = async (raw: unknown) => {
     const args = Schema.parse(raw ?? {});
     const [board, paths] = await loadBoardWithPaths(ctx.env, args);
-    return (await updateTaskDescription(board, args.uuid, args.content, paths.tasksDir, paths.boardFile)) ?? null;
+    return (
+      (await updateTaskDescription(
+        board,
+        args.uuid,
+        args.content,
+        paths.tasksDir,
+        paths.boardFile,
+      )) ?? null
+    );
   };
 
   return { spec, invoke };
@@ -315,7 +324,9 @@ export const kanbanRenameTask: ToolFactory = (ctx) => {
   const invoke = async (raw: unknown) => {
     const args = Schema.parse(raw ?? {});
     const [board, paths] = await loadBoardWithPaths(ctx.env, args);
-    return (await renameTask(board, args.uuid, args.title, paths.tasksDir, paths.boardFile)) ?? null;
+    return (
+      (await renameTask(board, args.uuid, args.title, paths.tasksDir, paths.boardFile)) ?? null
+    );
   };
 
   return { spec, invoke };
@@ -342,7 +353,11 @@ export const kanbanArchiveTask: ToolFactory = (ctx) => {
   const invoke = async (raw: unknown) => {
     const args = Schema.parse(raw ?? {});
     const [board, paths] = await loadBoardWithPaths(ctx.env, args);
-    return (await archiveTask(board, args.uuid, paths.tasksDir, paths.boardFile, { columnName: args.columnName })) ?? null;
+    return (
+      (await archiveTask(board, args.uuid, paths.tasksDir, paths.boardFile, {
+        columnName: args.columnName,
+      })) ?? null
+    );
   };
 
   return { spec, invoke };
@@ -355,7 +370,8 @@ export const kanbanDeleteTask: ToolFactory = (ctx) => {
   });
   const spec = {
     name: 'kanban_delete_task',
-    description: 'Permanently delete a task from the board and remove its task file. This action cannot be undone.',
+    description:
+      'Permanently delete a task from the board and remove its task file. This action cannot be undone.',
     inputSchema: {
       ...basePathSchema,
       uuid: z.string().min(1),
@@ -398,10 +414,12 @@ export const kanbanMergeTasks: ToolFactory = (ctx) => {
   const invoke = async (raw: unknown) => {
     const args = Schema.parse(raw ?? {});
     const [board, paths] = await loadBoardWithPaths(ctx.env, args);
-    return (await mergeTasks(board, args.sourceUuids, args.targetUuid, paths.tasksDir, paths.boardFile, {
-      mergeStrategy: args.mergeStrategy,
-      preserveSources: args.preserveSources,
-    })) ?? null;
+    return (
+      (await mergeTasks(board, args.sourceUuids, args.targetUuid, paths.tasksDir, paths.boardFile, {
+        mergeStrategy: args.mergeStrategy,
+        preserveSources: args.preserveSources,
+      })) ?? null
+    );
   };
 
   return { spec, invoke };
@@ -448,44 +466,32 @@ export const kanbanBulkArchive: ToolFactory = (ctx) => {
  */
 
 export const kanbanAnalyzeTask: ToolFactory = (ctx) => {
+  const shape = {
+    boardFile: z.string(),
+    uuid: z.string(),
+    analysisType: z.enum(['quality', 'complexity', 'completeness', 'breakdown', 'prioritization']),
+    context: z
+      .object({
+        projectInfo: z.string().optional(),
+        teamContext: z.string().optional(),
+        deadlines: z.array(z.string()).optional(),
+        dependencies: z.array(z.string()).optional(),
+      })
+      .optional(),
+  } as const;
+  const Schema = z.object(shape);
   const spec = {
     name: 'kanban_analyze_task',
-    description: 'Analyze a task using AI to provide insights into quality, complexity, completeness, etc.',
-    inputSchema: {
-      type: 'object',
-      properties: {
-        boardFile: {
-          type: 'string',
-          description: 'Path to the kanban board file'
-        },
-        uuid: {
-          type: 'string',
-          description: 'UUID of the task to analyze'
-        },
-        analysisType: {
-          type: 'string',
-          enum: ['quality', 'complexity', 'completeness', 'breakdown', 'prioritization'],
-          description: 'Type of analysis to perform'
-        },
-        context: {
-          type: 'object',
-          description: 'Additional context for analysis',
-          properties: {
-            projectInfo: { type: 'string' },
-            teamContext: { type: 'string' },
-            deadlines: { type: 'array', items: { type: 'string' } },
-            dependencies: { type: 'array', items: { type: 'string' } }
-          }
-        }
-      },
-      required: ['boardFile', 'uuid', 'analysisType']
-    }
+    description:
+      'Analyze a task using AI to provide insights into quality, complexity, completeness, etc.',
+    inputSchema: Schema.shape,
   };
 
-  const invoke = async (args: any) => {
+  const invoke = async (raw: unknown) => {
+    const args = Schema.parse(raw);
     const [board, paths] = await loadBoardWithPaths(ctx.env, {
       boardFile: args.boardFile,
-      tasksDir: undefined
+      tasksDir: undefined,
     });
     const result = await analyzeTask(
       board,
@@ -493,7 +499,7 @@ export const kanbanAnalyzeTask: ToolFactory = (ctx) => {
       args.analysisType,
       paths.tasksDir,
       paths.boardFile,
-      args.context
+      args.context,
     );
     return result;
   };
@@ -502,60 +508,39 @@ export const kanbanAnalyzeTask: ToolFactory = (ctx) => {
 };
 
 export const kanbanRewriteTask: ToolFactory = (ctx) => {
+  const shape = {
+    boardFile: z.string(),
+    uuid: z.string(),
+    rewriteType: z.enum(['improve', 'simplify', 'expand', 'restructure', 'summarize']),
+    improvements: z.array(z.string()).optional(),
+    targetStyle: z.string().optional(),
+    context: z
+      .object({
+        projectInfo: z.string().optional(),
+        audience: z.string().optional(),
+        tone: z.string().optional(),
+      })
+      .optional(),
+    options: z
+      .object({
+        dryRun: z.boolean().optional(),
+        createBackup: z.boolean().optional(),
+      })
+      .optional(),
+  } as const;
+  const Schema = z.object(shape);
   const spec = {
     name: 'kanban_rewrite_task',
-    description: 'Rewrite a task using AI to improve clarity, completeness, or target specific style',
-    inputSchema: {
-      type: 'object',
-      properties: {
-        boardFile: {
-          type: 'string',
-          description: 'Path to the kanban board file'
-        },
-        uuid: {
-          type: 'string',
-          description: 'UUID of the task to rewrite'
-        },
-        rewriteType: {
-          type: 'string',
-          enum: ['improve', 'simplify', 'expand', 'restructure', 'SMART'],
-          description: 'Type of rewrite to perform'
-        },
-        improvements: {
-          type: 'array',
-          items: { type: 'string' },
-          description: 'Specific improvements to make'
-        },
-        targetStyle: {
-          type: 'string',
-          description: 'Target writing style'
-        },
-        context: {
-          type: 'object',
-          description: 'Context for the rewrite',
-          properties: {
-            projectInfo: { type: 'string' },
-            audience: { type: 'string' },
-            tone: { type: 'string' }
-          }
-        },
-        options: {
-          type: 'object',
-          description: 'Rewrite options',
-          properties: {
-            dryRun: { type: 'boolean' },
-            createBackup: { type: 'boolean' }
-          }
-        }
-      },
-      required: ['boardFile', 'uuid', 'rewriteType']
-    }
+    description:
+      'Rewrite a task using AI to improve clarity, completeness, or target specific style',
+    inputSchema: Schema.shape,
   };
 
-  const invoke = async (args: any) => {
+  const invoke = async (raw: unknown) => {
+    const args = Schema.parse(raw);
     const [board, paths] = await loadBoardWithPaths(ctx.env, {
       boardFile: args.boardFile,
-      tasksDir: undefined
+      tasksDir: undefined,
     });
     const result = await rewriteTask(
       board,
@@ -563,10 +548,29 @@ export const kanbanRewriteTask: ToolFactory = (ctx) => {
       args.rewriteType,
       paths.tasksDir,
       paths.boardFile,
-      args.improvements,
-      args.targetStyle,
-      args.context,
-      args.options
+      {
+        instructions: args.improvements?.join(', '),
+        targetAudience:
+          args.context?.audience === 'developer'
+            ? 'developer'
+            : args.context?.audience === 'manager'
+              ? 'manager'
+              : args.context?.audience === 'stakeholder'
+                ? 'stakeholder'
+                : 'team',
+        tone:
+          args.context?.tone === 'formal'
+            ? 'formal'
+            : args.context?.tone === 'casual'
+              ? 'casual'
+              : args.context?.tone === 'technical'
+                ? 'technical'
+                : args.context?.tone === 'executive'
+                  ? 'executive'
+                  : 'technical',
+        createBackup: args.options?.createBackup,
+        dryRun: args.options?.dryRun,
+      },
     );
     return result;
   };
@@ -575,60 +579,45 @@ export const kanbanRewriteTask: ToolFactory = (ctx) => {
 };
 
 export const kanbanBreakdownTask: ToolFactory = (ctx) => {
+  const shape = {
+    boardFile: z.string(),
+    uuid: z.string(),
+    maxSubtasks: z.number().optional(),
+    breakdownStyle: z.enum(['sequential', 'parallel', 'hierarchical']).optional(),
+    context: z
+      .object({
+        projectInfo: z.string().optional(),
+        teamSize: z.number().optional(),
+        sprintLength: z.string().optional(),
+      })
+      .optional(),
+  } as const;
+  const Schema = z.object(shape);
   const spec = {
     name: 'kanban_breakdown_task',
     description: 'Break down a task into smaller, manageable subtasks using AI analysis',
-    inputSchema: {
-      type: 'object',
-      properties: {
-        boardFile: {
-          type: 'string',
-          description: 'Path to the kanban board file'
-        },
-        uuid: {
-          type: 'string',
-          description: 'UUID of the task to break down'
-        },
-        maxSubtasks: {
-          type: 'number',
-          description: 'Maximum number of subtasks to generate'
-        },
-        breakdownStyle: {
-          type: 'string',
-          enum: ['sequential', 'parallel', 'hierarchical'],
-          description: 'Style of breakdown'
-        },
-        context: {
-          type: 'object',
-          description: 'Context for the breakdown',
-          properties: {
-            projectInfo: { type: 'string' },
-            teamSize: { type: 'number' },
-            sprintLength: { type: 'string' }
-          }
-        }
-      },
-      required: ['boardFile', 'uuid']
-    }
+    inputSchema: Schema.shape,
   };
 
-  const invoke = async (args: any) => {
+  const invoke = async (raw: unknown) => {
+    const args = Schema.parse(raw);
     const [board, paths] = await loadBoardWithPaths(ctx.env, {
       boardFile: args.boardFile,
-      tasksDir: undefined
+      tasksDir: undefined,
     });
     const result = await breakdownTask(
       board,
       args.uuid,
+      'subtasks',
       paths.tasksDir,
       paths.boardFile,
-      args.maxSubtasks,
-      args.breakdownStyle,
-      args.context
+      {
+        maxSubtasks: args.maxSubtasks,
+        complexity: 'medium',
+      },
     );
     return result;
   };
 
   return { spec, invoke };
 };
-
