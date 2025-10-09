@@ -1,39 +1,41 @@
 {
   "name": "@promethean/docops-frontend",
-  "root": "packages/frontends/docops-frontend",
+  "root": "packages/docops-frontend",
+  "sourceRoot": "packages/docops-frontend/src",
   "targets": {
     "build": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "pnpm run build",
-        "cwd": "packages/frontends/docops-frontend"
+        "command": "tsc -b",
+        "cwd": "packages/docops-frontend"
       },
       "outputs": ["{projectRoot}/dist"]
     },
-    "shadow-build": {
+    "typecheck": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "pnpm run build:shadow",
-        "cwd": "packages/frontends/docops-frontend"
-      },
-      "outputs": ["{projectRoot}/dist/frontend"]
+        "command": "tsc -p tsconfig.json --noEmit",
+        "cwd": "packages/docops-frontend"
+      }
     },
-    "shadow-watch": {
+    "test": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "pnpm run watch:shadow",
-        "cwd": "packages/frontends/docops-frontend"
+        "command": "ava",
+        "cwd": "{projectRoot}",
+        "env": {
+          "AVA_PROJECT_ROOT": "."
+        }
       }
     },
     "lint": {
       "executor": "nx:run-commands",
       "options": {
         "command": "pnpm exec eslint .",
-        "cwd": "packages/frontends/docops-frontend",
+        "cwd": "packages/docops-frontend",
         "forwardAllArgs": false
       }
     }
   },
-  "tags": ["scope:packages"],
-  "sourceRoot": "packages/frontends/docops-frontend/src"
+  "tags": ["scope:packages"]
 }
