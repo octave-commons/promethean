@@ -1,6 +1,7 @@
 {
   "name": "vision-service",
   "root": "packages/vision",
+  "sourceRoot": "packages/vision",
   "targets": {
     "test": {
       "executor": "nx:run-commands",
