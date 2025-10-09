@@ -2,7 +2,7 @@
 uuid: "e1591a4b-1a4f-48c9-ab6a-01fe11c524f3"
 title: "llm service must allow streamed responses"
 slug: "llm-service-must-allow-streamed-responses"
-status: "done"
+status: "icebox"
 priority: "P3"
 labels: ["llm", "service", "streamed", "responses"]
 created_at: "2025-10-07T20:25:05.644Z"

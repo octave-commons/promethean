@@ -2,7 +2,7 @@
 uuid: "4c9726aa-9547-408b-a6db-2eebbc81d774"
 title: "Description"
 slug: "ci-passses"
-status: "breakdown"
+status: "icebox"
 priority: "P3"
 labels: ["description", "step", "useful", "describe"]
 created_at: "2025-10-07T20:25:05.643Z"

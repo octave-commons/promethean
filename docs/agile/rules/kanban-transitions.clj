@@ -69,11 +69,29 @@
   [task board]
   (<= (get-priority-numeric (:priority task)) 2))
 
+(defn implementation-complete?
+  "Implementation is complete and ready for testing"
+  [task board]
+  (and (:title task)
+       (<= (get-priority-numeric (:priority task)) 2)))
+
+(defn tests-passing?
+  "All automated and manual tests are passing"
+  [task board]
+  (and (:title task)
+       (<= (get-priority-numeric (:priority task)) 2)))
+
 (defn reviewable-change-exists?
   "Coherent, reviewable change is ready for review"
   [task board]
   (and (:title task)
        (<= (get-priority-numeric (:priority task)) 2)))
+
+(defn correction-justified?
+  "Task has valid reason for audit correction from done to review"
+  [task board]
+  (and (:correction-reason task)
+       (< (get-in task [:corrections :count] 0) 3)))
 
 (defn review-approved?
   "Review passed, task can proceed to documentation or completion"
@@ -105,6 +123,15 @@
   (let [source-col (first from-to)]
     (in-column? board source-col (:uuid task))))
 
+;; Helper function to determine if transition is backward
+(defn backward-transition?
+  "Check if transition moves backward in workflow"
+  [from to]
+  (let [workflow-order ["icebox" "incoming" "accepted" "breakdown" "ready" "todo" "inprogress" "testing" "review" "document" "done"]
+        from-index (.indexOf workflow-order (column-key from))
+        to-index (.indexOf workflow-order (column-key to))]
+    (and (>= from-index 0) (>= to-index 0) (< to-index from-index))))
+
 ;; Main rule evaluation function
 (defn evaluate-transition
   "Evaluate if transition from 'from' to 'to' is allowed for given task"
@@ -113,7 +140,13 @@
     (and
      ;; Check global rules first
      (wip-limits from-to task board)
-     (task-existence from-to task board))))
+     (task-existence from-to task board)
+     ;; Backward transitions are always valid unless WIP violation
+     (or (backward-transition? from to)
+         ;; Special validation for done→review corrections
+         (not= (column-key from) "done")
+         (not= (column-key to) "review")
+         (correction-justified? task board)))))
 
 (defn valid-transitions-from
   "Get list of valid destination columns from given source"
@@ -125,10 +158,12 @@
     ("accepted" ["breakdown" "icebox"])
     ("breakdown" ["ready" "rejected" "icebox" "blocked"])
     ("ready" ["todo" "breakdown"])
-    ("todo" ["inprogress" "breakdown"])
-    ("inprogress" ["review" "todo" "breakdown"])
+    ("todo" ["in_progress" "breakdown"])
+    ("inprogress" ["testing" "todo" "breakdown"])
+    ("testing" ["review" "inprogress" "todo"])
     ("review" ["inprogress" "todo" "document" "done"])
     ("document" ["done" "review"])
+    ("done" ["icebox" "review"])
     ("blocked" ["breakdown"])
     []))
 

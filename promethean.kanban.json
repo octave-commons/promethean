@@ -10,11 +10,7 @@
   "cachePath": "docs/agile/boards/.cache",
   "exts": [".md"],
 
-  "requiredFields": [
-    "title",
-    "status",
-    "priority"
-  ],
+  "requiredFields": ["title", "status", "priority"],
 
   "statusValues": [
     "icebox",
@@ -25,23 +21,14 @@
     "ready",
     "todo",
     "in_progress",
+    "testing",
     "review",
     "document",
     "done",
     "rejected"
   ],
 
-  "priorityValues": [
-    "P0",
-    "P1",
-    "P2",
-    "P3",
-    "p3",
-    "low",
-    "medium",
-    "high",
-    "critical"
-  ],
+  "priorityValues": ["P0", "P1", "P2", "P3", "p3", "low", "medium", "high", "critical"],
 
   "_status_descriptions": {
     "icebox": "🧊 Ice Box - Deferred/archived tasks, not actively being worked on (brainstorm lane)",
@@ -52,6 +39,7 @@
     "ready": "🛠 Ready - Scoped, estimated (≤5), ready for execution queue (execution lane)",
     "todo": "🟢 To Do - Prioritized in execution queue, ready to pull (execution lane)",
     "in_progress": "🟡 In Progress - Actively being worked on (WIP limited) (execution lane)",
+    "testing": "🧪 Testing - Implementation complete, undergoing automated and manual testing (execution lane)",
     "review": "🔍 In Review - Coherent, reviewable change exists (execution lane)",
     "document": "📚 Document - Recording evidence and summaries (execution lane)",
     "done": "✅ Done - Complete with documentation/evidence (execution lane)",
@@ -67,6 +55,7 @@
     "ready": 10,
     "todo": 20,
     "in_progress": 10,
+    "testing": 8,
     "review": 6,
     "document": 4,
     "done": 500,
@@ -123,9 +112,15 @@
       },
       {
         "from": ["in_progress"],
-        "to": ["review", "todo", "breakdown"],
-        "description": "Submit for review, pause, or return for planning",
-        "check": "reviewable-change-exists?"
+        "to": ["testing", "todo", "breakdown"],
+        "description": "Move to testing, pause, or return for planning",
+        "check": "implementation-complete?"
+      },
+      {
+        "from": ["testing"],
+        "to": ["review", "in_progress", "todo"],
+        "description": "Submit for review, fix bugs, or return for rework",
+        "check": "tests-passing?"
       },
       {
         "from": ["review"],
@@ -146,7 +141,16 @@
         "check": "task-needs-archiving?"
       },
       {
-        "from": ["accepted", "breakdown", "blocked", "ready", "todo", "in_progress", "review", "document"],
+        "from": [
+          "accepted",
+          "breakdown",
+          "blocked",
+          "ready",
+          "todo",
+          "in_progress",
+          "review",
+          "document"
+        ],
         "to": ["rejected"],
         "description": "Reject non-viable task",
         "check": "task-non-viable?"
@@ -164,6 +168,14 @@
       "task-ready-for-breakdown?": {
         "description": "Task is properly scoped for breakdown analysis",
         "impl": "(contains? task :title)"
+      },
+      "implementation-complete?": {
+        "description": "Implementation is complete and ready for testing",
+        "impl": "(and (:title task) (<= (get-priority-numeric (:priority task)) 2))"
+      },
+      "tests-passing?": {
+        "description": "All automated and manual tests are passing",
+        "impl": "(and (:title task) (<= (get-priority-numeric (:priority task)) 2))"
       },
       "reviewable-change-exists?": {
         "description": "A coherent, reviewable change exists",
@@ -194,5 +206,5 @@
     ]
   },
 
-  "_transition_rules_note": "See docs/agile/process.md for complete FSM transition rules. Key rules: Incoming→Accepted→Breakdown→Ready→Todo→In Progress→Review→Document→Done. Tasks with score >5 must cycle back through Breakdown until slice is small enough (≤5)."
+  "_transition_rules_note": "See docs/agile/process.md for complete FSM transition rules. Key rules: Incoming→Accepted→Breakdown→Ready→Todo→In Progress→Testing→Review→Document→Done. Tasks with score >5 must cycle back through Breakdown until slice is small enough (≤5)."
 }

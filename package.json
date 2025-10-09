@@ -57,8 +57,7 @@
     "shadow:build": "pnpm --filter @promethean/shadow-ui run build && pnpm --filter '@promethean/*-frontend' run build:shadow",
     "shadow:watch": "pnpm --filter @promethean/shadow-ui run watch",
     "shadow:watch:frontends": "pnpm --parallel --filter '@promethean/*-frontend' run watch:shadow",
-    "duck:web": "pnpm --filter @promethean/duck-web dev",
-    "duck:gateway": "pnpm --filter @promethean/enso-browser-gateway dev"
+    "duck:web": "pnpm --filter @promethean/duck-web dev"
   },
   "bin": {
     "prom": "./packages/promethean-cli/dist/promethean_cli.cjs",

@@ -2,7 +2,7 @@
 uuid: "c9ef64a0-d3f6-49e0-911e-4ce722f9e057"
 title: "Description"
 slug: "consolidate-all-configs-into---config--as--.edn--files"
-status: "breakdown"
+status: "icebox"
 priority: "P3"
 labels: ["description", "step", "useful", "describe"]
 created_at: "2025-10-07T20:25:05.643Z"

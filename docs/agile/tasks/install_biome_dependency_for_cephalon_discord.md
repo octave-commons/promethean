@@ -1,36 +1,38 @@
 ---
-uuid: "0427985f-f4ad-4f85-975f-9c085bcc452a"
-title: "Install Biome dependency for cephalon-discord"
-slug: "install_biome_dependency_for_cephalon_discord"
-status: "breakdown"
-priority: "P3"
-labels: ["biome", "cephalon", "discord", "dependency"]
-created_at: "2025-10-07T20:25:05.643Z"
+uuid: '0427985f-f4ad-4f85-975f-9c085bcc452a'
+title: 'Install Biome dependency for cephalon-discord'
+slug: 'install_biome_dependency_for_cephalon_discord'
+status: 'ready'
+priority: 'P3'
+labels: ['biome', 'cephalon', 'discord', 'dependency']
+created_at: '2025-10-07T20:25:05.643Z'
 estimates:
-  complexity: ""
-  scale: ""
-  time_to_completion: ""
+  complexity: 2
+  scale: 1
+  time_to_completion: '30 minutes'
 ---
-
 
 # Install Biome dependency for cephalon-discord
 
 ## Description
+
 `pnpm -r lint` failed in `packages/cephalon-discord` because `@biomejs/biome` was not found.
 
 ## Goals
+
 - Ensure the package has Biome installed so linting can run.
 
 ## Requirements
+
 - Add `@biomejs/biome` to `packages/cephalon-discord` dev dependencies.
 - Verify `pnpm --filter @promethean/cephalon-discord lint` runs successfully.
 
 ## Subtasks
+
 - [ ] Update `package.json` for `cephalon-discord` with Biome dependency.
 - [ ] Commit lockfile changes if necessary.
 - [ ] Run the package lint script to confirm.
+
 ```
 #Todo #codex-task
 ```
-
-

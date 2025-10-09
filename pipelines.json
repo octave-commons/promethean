@@ -22,7 +22,7 @@
             "module": "scripts/piper-symdocs.mjs",
             "export": "docs",
             "args": {
-              "model": "qwen3:4b"
+              "model": "gpt-oss:20b"
             }
           },
           "env": { "OLLAMA_URL": "${OLLAMA_URL}" },
@@ -43,7 +43,7 @@
             }
           },
           "inputs": [".cache/symdocs.level"],
-          "outputs": ["docs/packages/**/**/*.md"],
+          "outputs": ["docs/packages/**/*.md"],
           "inputSchema": "packages/symdocs/schemas/io.schema.json",
           "outputSchema": "packages/symdocs/schemas/io.schema.json"
         },
@@ -63,6 +63,7 @@
       "steps": [
         {
           "id": "simtasks-scan",
+          "cwd": ".",
           "js": {
             "module": "packages/simtask/dist/01-scan.js",
             "export": "scan",
@@ -127,7 +128,7 @@
               "--scan": ".cache/simtasks/functions",
               "--clusters": ".cache/simtasks/clusters.json",
               "--out": ".cache/simtasks/plans.json",
-              "--model": "qwen3:4b",
+              "--model": "gpt-oss:20b",
               "--base-dir": "packages"
             },
             "isolate": "worker"
@@ -135,30 +136,10 @@
           "env": {
             "OLLAMA_URL": "${OLLAMA_URL}"
           },
-          "inputs": [".cache/simtasks/clusters.json"],
-          "outputs": [".cache/simtasks/plans.json"],
-          "inputSchema": "packages/simtask/schemas/io.schema.json",
-          "outputSchema": "packages/simtask/schemas/io.schema.json"
-        },
-        {
-          "id": "simtasks-write",
-          "deps": ["simtasks-plan"],
-          "js": {
-            "module": "packages/simtask/dist/05-write.js",
-            "export": "writeTasks",
-            "args": {
-              "--scan": ".cache/simtasks/functions",
-              "--clusters": ".cache/simtasks/clusters.json",
-              "--plans": ".cache/simtasks/plans.json",
-              "--out": "docs/agile/tasks"
-            },
-            "isolate": "worker"
-          },
-          "inputs": [".cache/simtasks/plans.json"],
-          "outputs": ["docs/agile/tasks/*.md"],
-          "inputSchema": "packages/simtask/schemas/io.schema.json",
-          "outputSchema": "packages/simtask/schemas/io.schema.json"
-        }
+          "inputs": ["docs/labeled/**/*.md"],
+          "outputs": [".cache/readmes/outline.json"],
+          "inputSchema": "packages/readmeflow/schemas/io.schema.json",
+          "outputSchema": "packages/readmeflow/schemas/io.schema.json"
       ]
     },
     {
@@ -277,7 +258,7 @@
               "cache": ".cache/semverguard",
               "diffNs": "diff",
               "planNs": "plan",
-              "model": "qwen3:4b"
+              "model": "gpt-oss:20b"
             }
           },
           "env": { "OLLAMA_URL": "${OLLAMA_URL}" },
@@ -415,7 +396,7 @@
             "args": {
               "prompts": ".cache/boardrev/prompts.json",
               "context": ".cache/boardrev/context.json",
-              "model": "qwen3:4b",
+              "model": "gpt-oss:20b",
               "out": ".cache/boardrev/evals.json"
             },
             "isolate": "worker"
@@ -482,10 +463,12 @@
           "id": "sonar-plan",
           "deps": ["sonar-fetch"],
           "env": {
-            "OLLAMA_URL": "${OLLAMA_URL}"
+            "OLLAMA_URL": "${OLLAMA_URL}",
+            "SONAR_HOST_URL": "${SONAR_HOST_URL}",
+            "SONAR_TOKEN": "${SONAR_TOKEN}",
+            "SONAR_PROJECT_KEY": "${SONAR_PROJECT_KEY}"
           },
-          "shell": "pnpm --filter @promethean/sonarflow sonar:plan --in .cache/sonar/issues --out .cache/sonar/plans --group-by rule+prefix --prefix-depth 2 --min-group 2 --model qwen3:4b",
-          "env": { "OLLAMA_URL": "${OLLAMA_URL}" },
+          "shell": "pnpm --filter @promethean/sonarflow sonar:plan --in .cache/sonar/issues --out .cache/sonar/plans --group-by rule+prefix --prefix-depth 2 --min-group 2 --model gpt-oss:20b",
           "inputs": [".cache/sonar/issues"],
           "outputs": [".cache/sonar/plans"],
           "inputSchema": "packages/sonarflow/schemas/io.schema.json",
@@ -509,6 +492,7 @@
           "id": "rm-scan",
           "js": {
             "module": "packages/readmeflow/dist/01-scan.js",
+            "export": "scan",
             "args": {
               "root": "packages",
               "cache": ".cache/readmes"
@@ -516,6 +500,9 @@
             "isolate": "worker"
           },
           "inputs": ["packages/**/package.json", "packages/**/tsconfig.json"],
+          "outputs": [".cache/readmes/scan.json"],
+          "inputSchema": "packages/readmeflow/schemas/io.schema.json",
+          "outputSchema": "packages/readmeflow/schemas/io.schema.json"
           "inputSchema": "packages/readmeflow/schemas/io.schema.json"
         },
         {
@@ -525,7 +512,7 @@
             "module": "packages/readmeflow/dist/02-outline.js",
             "args": {
               "cache": ".cache/readmes",
-              "model": "qwen3:4b"
+              "model": "gpt-oss:20b"
             },
             "isolate": "worker"
           },
@@ -545,6 +532,8 @@
             "isolate": "worker"
           },
           "outputs": ["packages/**/README.md"],
+          "inputSchema": "packages/readmeflow/schemas/io.schema.json",
+          "outputSchema": "packages/readmeflow/schemas/io.schema.json"
           "outputSchema": "packages/readmeflow/schemas/io.schema.json"
         },
         {
@@ -589,7 +578,7 @@
         {
           "id": "bf-iterate",
           "deps": ["bf-build", "bf-errors"],
-          "shell": "pnpm --filter @promethean/buildfix bf:02-iterate --errors .cache/buildfix/errors.json --out .cache/buildfix --model qwen3:4b --max-cycles 5 --git per-error --commit-on always --branch-prefix buildfix --remote origin --push false --use-gh false --rollback-on-regress true\n",
+          "shell": "pnpm --filter @promethean/buildfix bf:02-iterate --errors .cache/buildfix/errors.json --out .cache/buildfix --model gpt-oss:20b --max-cycles 5 --git per-error --commit-on always --branch-prefix buildfix --remote origin --push false --use-gh false --rollback-on-regress true\n",
           "env": {
             "OLLAMA_URL": "${OLLAMA_URL}"
           },
@@ -623,17 +612,18 @@
         {
           "id": "tg-exports",
           "shell": "pnpm --filter @promethean/testgap tg:01-scan-exports --root \"packages\" --out \".cache/testgap/exports.json\"",
-          "inputs": [
-            "packages/**/package.json",
-            "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"
-          ],
+          "inputs": ["packages/**/package.json", "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"],
           "outputs": [".cache/testgap/exports.json"],
           "inputSchema": "packages/testgap/schemas/io.schema.json",
           "outputSchema": "packages/testgap/schemas/io.schema.json"
         },
         {
           "id": "tg-tests",
-          "shell": "node tools/unified-test-coverage.mjs"
+          "shell": "node tools/unified-test-coverage.mjs",
+          "inputs": ["packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"],
+          "outputs": ["coverage/lcov.info"],
+          "inputSchema": "packages/testgap/schemas/io.schema.json",
+          "outputSchema": "packages/testgap/schemas/io.schema.json"
         },
         {
           "id": "tg-coverage",
@@ -648,10 +638,7 @@
           "id": "tg-map",
           "deps": ["tg-exports", "tg-coverage"],
           "shell": "pnpm --filter @promethean/testgap tg:03-map-gaps --exports \".cache/testgap/exports.json\" --coverage \".cache/testgap/coverage.json\" --min-lines 3 --out \".cache/testgap/gaps.json\"",
-          "inputs": [
-            ".cache/testgap/exports.json",
-            ".cache/testgap/coverage.json"
-          ],
+          "inputs": [".cache/testgap/exports.json", ".cache/testgap/coverage.json"],
           "outputs": [".cache/testgap/gaps.json"],
           "inputSchema": "packages/testgap/schemas/io.schema.json",
           "outputSchema": "packages/testgap/schemas/io.schema.json"
@@ -677,7 +664,7 @@
         {
           "id": "tg-plan",
           "deps": ["tg-cookbook"],
-          "shell": "pnpm --filter @promethean/testgap tg:05-plan --gaps \".cache/testgap/gaps.json\" --cookbook \".cache/testgap/cookbook.json\" --out \".cache/testgap/plans.json\" --model qwen3:4b --threshold 0.5 --max-per-pkg 15",
+          "shell": "pnpm --filter @promethean/testgap tg:05-plan --gaps \".cache/testgap/gaps.json\" --cookbook \".cache/testgap/cookbook.json\" --out \".cache/testgap/plans.json\" --model gpt-oss:20b --threshold 0.5 --max-per-pkg 15",
           "env": {
             "OLLAMA_URL": "${OLLAMA_URL}"
           },
@@ -723,7 +710,7 @@
             "export": "frontmatter",
             "args": {
               "dir": "docs/labeled",
-              "genModel": "qwen3:4b"
+              "genModel": "gpt-oss:20b"
             }
           },
           "env": {
@@ -845,7 +832,7 @@
             "args": {
               "report": ".cache/eslint/report.json",
               "outDir": "docs/agile/tasks",
-              "model": "qwen3:4b"
+              "model": "gpt-oss:20b"
             },
             "isolate": "worker"
           },

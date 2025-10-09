@@ -1,0 +1,64 @@
+---
+uuid: "e758483f-391d-4ab8-b35b-e266fda09aad"
+title: "kanban-process-fundamentals-2"
+slug: "kanban-process-fundamentals-2"
+status: "incoming"
+priority: "P3"
+labels: ["docops", "labeled"]
+created_at: "2025-10-08T20:10:46.038Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
+## 🗂 Source
+
+- Path: docs/labeled/kanban-process-fundamentals-2.md
+
+## 📝 Context Summary
+
+---
+
+title: 2025.09.19.21.39.45
+filename: Kanban Process Fundamentals
+
+  This document explains the core principles of a Kanban process as a finite
+  state machine with defined transitions and blocking conditions. It emphasizes
+  how minor and major blocking conditions trigger interventions without
+  requiring a fixed schedule or timer. The process ensures tasks move only when
+  necessary, with minimal human intervention.
+tags:
+  - kanban
+  - finite state machine
+  - blocking conditions
+  - process flow
+  - minor blocking
+  - major blocking
+  - intervention rules
+
+references: []
+---
+I'm saying there isn't a ready to code gate at all. Because the it's all just process.
+
+You're being far too literal about all of this.
+
+I shouldn't have to say anything about the giant inputs.
+
+If I have to dictate all of that, the process is too complex to follow.
+
+The process are the columns on the board.
+
+The phases aren't a part of core process document. That is specific to codex cloud.
+
+The process is a finite state machine.
+There is a set of possible states an given task t can be in C
+Each state Cn has a set of transitions T a task t can make to other members of C
+There is a starting state S
+Ther
+
+## 📋 Tasks
+
+- [ ] Draft actionable subtasks from the summary
+- [ ] Define acceptance criteria
+- [ ] Link back to related labeled docs

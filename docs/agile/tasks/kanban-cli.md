@@ -1,17 +1,22 @@
 ---
-uuid: "ba1ad13d-7988-4636-badf-f5fa9ac2344f"
-title: "2025.09.20.09.16.46    -management    -management"
+uuid: "517f8a6c-04e4-44ca-9410-fd14cd942e38"
+title: "kanban cli"
 slug: "kanban-cli"
-status: "breakdown"
+status: "incoming"
 priority: "P3"
-labels: ["kanban", "cli", "markdown", "task-management", "jsonl"]
-created_at: "2025-10-07T20:25:05.643Z"
+labels: ["docops", "labeled"]
+created_at: "2025-10-08T20:10:46.000Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
 
+## 🗂 Source
+
+- Path: docs/labeled/2025.09.20.09.16.46.md
+
+## 📝 Context Summary
 
 I want my kanban to work
 I want to get my pipelines working
@@ -19,30 +24,19 @@ I want to see the magic.
 
 I want a system of programs running again!
 
-
 # kanban cli
 https://github.com/riatzukiza/promethean
 
 create a new cli package for working with our `docs/agile/boards/kanban.md` and the tasks it contains.
-```
-use `@promethean/markdown`
-```
+
 Each sub command of the CLI returns jsonl.
 task objects look like:
-```
-{uuid, title, status, priority, labels, created_at, estimates:{complexity, scale, time_to_completion}, content }
-```
 
 columnData looks like:
-```
-{name, count, limit, tasks:[...]}
-```
 
 ## Flags
 `--kanban path/to/kanban.md`
-```
-`--tasks path/to/tasks/`
-```
+
 ## Subcommands
 - count columnName? -> number
 - getColumn columnName -> columnData
@@ -58,12 +52,9 @@ columnData looks like:
 - regenerate -> `{totalTasks}` # complete rebuild the board from the tasks folder
 - indexForSearch -> `{started:bool}` 
 - search term -> `{similar:[tasks], exact:[tasks]}`
-<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
-## Related content
-- _None_
-## Sources
-- _None_
-<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
 
+## 📋 Tasks
 
-
+- [ ] Draft actionable subtasks from the summary
+- [ ] Define acceptance criteria
+- [ ] Link back to related labeled docs

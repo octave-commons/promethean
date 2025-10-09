@@ -1,0 +1,57 @@
+---
+uuid: "18d63ce7-6454-4bf1-adc9-bca4d1554c45"
+title: "mcp-template-system"
+slug: "mcp-template-system"
+status: "incoming"
+priority: "P3"
+labels: ["docops", "labeled"]
+created_at: "2025-10-08T20:10:46.043Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
+## 🗂 Source
+
+- Path: docs/labeled/mcp-template-system.md
+
+## 📝 Context Summary
+
+---
+
+title: 2025.10.02.16.48.54
+filename: MCP Template System
+
+  A new MCP tool package that enables asynchronous task delegation to Ollama,
+  using S-expression templates for complex text generation workflows. It
+  supports template definition, job enqueueing, conversation management, and
+  real-time queue monitoring with Ollama integration.
+tags:
+  - async
+  - ollama
+  - templates
+  - s-expressions
+  - workflow
+  - job-queue
+  - conversational
+  - mcp
+
+references: []
+---
+Add a new MCP tool too packages/mcp that allow for the asyncronous delegation of tasks to ollama, which them selves are able to use the MCP tools provided by the mcp package, including to create new ollama jobs.
+templates are s-expressions which include which allow for complex generation of text using a combination of allowed functions, variable insertion, and calls to other templates along with simple flow logic.
+A template might look like:
+
+It should allow you to:
+- pull(modelName:string)
+- listModels()
+- listTemplates()
+- enqueueGenerateJob(jobName?:string,modelName:string, prompt:string, suffix:string,options:OllamaOptions) -> {jobName, id, queuePosition}
+- enqueueChatCompletion(jobName?:string,modelName:stri
+
+## 📋 Tasks
+
+- [ ] Draft actionable subtasks from the summary
+- [ ] Define acceptance criteria
+- [ ] Link back to related labeled docs

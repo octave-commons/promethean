@@ -13,6 +13,15 @@ export type Task = {
   content?: string;
   slug?: string;
   sourcePath?: string;
+  corrections?: {
+    count: number;
+    history: Array<{
+      timestamp: string;
+      from: string;
+      to: string;
+      reason: string;
+    }>;
+  };
 };
 
 export type ColumnData = {

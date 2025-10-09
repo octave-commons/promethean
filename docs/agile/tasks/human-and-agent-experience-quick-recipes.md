@@ -1,0 +1,47 @@
+---
+uuid: "1129d47d-a52f-439f-b359-d4fde3e9923c"
+title: "Human and agent experience (quick recipes)"
+slug: "human-and-agent-experience-quick-recipes"
+status: "incoming"
+priority: "P3"
+labels: ["docops", "labeled"]
+created_at: "2025-10-08T20:10:46.006Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
+## 🗂 Source
+
+- Path: docs/labeled/2025.10.06.14.11.46.md
+
+## 📝 Context Summary
+
+# Human and agent experience (quick recipes)
+
+* **Quick start:**
+  `pnpm kanban sample -f "status=Todo and priority>=2" -n 7 | pnpm kanban pairwise --session today --k 3`
+* **Then:** record 3 choices with `pnpm kanban choose ...`, and:
+  `pnpm kanban rank --session today --top 5`
+* **Focus set via clusters:**
+  `pnpm kanban cluster -f "status=Todo" --by labels --limit 6 | jq -r '.[0].tasks[]' | xargs -I{} pnpm kanban find {}`
+
+---
+
+# Mermaid (how these compose)
+
+---
+
+If you want, I can generate these **exact files** under `packages/kanban/src` ready to drop in (no diffs, full files).
+
+Short version: yes—letting folks write filters in tiny ClojureScript forms is a great fit. Use SCI (Small Clojure Interpreter) so you can safely eval CLJS in Node with an allowlist, no compile step, and first-class macros. You can do this two ways:
+
+* **Easiest now:** shell out to **nbb** (which is just SCI packaged for Node scripting) when `--lang=cljs` is used. Fast startup, no build step, small artifact. Trade-off: it’s an interpreter, so heavy loops are slower and a few features (e.g. `deftype`) aren’t supported. ([GitHub][1])
+* **Polish later:** embed **SCI** directly in your process or as a tiny
+
+## 📋 Tasks
+
+- [ ] Draft actionable subtasks from the summary
+- [ ] Define acceptance criteria
+- [ ] Link back to related labeled docs

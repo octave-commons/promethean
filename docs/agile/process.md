@@ -1,36 +1,48 @@
 # Overview
+
 ```
 1. **Intake & Associate**
 ```
-   Find or create the task; never work off-board; do not edit the board file directly—tasks drive the board. &#x20;
+
+Find or create the task; never work off-board; do not edit the board file directly—tasks drive the board. &#x20;
+
 ```
 2. **Clarify & Scope**
 ```
-   Anchor on the kanban card as the single source of truth and, before advancing, do the solo pass:
-   * Confirm the desired outcomes so the card reflects the slice you intend to deliver.
-   * Capture acceptance criteria or explicit exit signals on the task so "done" is unambiguous.
-   * Note any uncertainties, risks, or open questions directly on the task to surface follow-ups early.
-   * Record the scoped plan and supporting notes on the linked task before moving to step 3.
+
+Anchor on the kanban card as the single source of truth and, before advancing, do the solo pass:
+
+- Confirm the desired outcomes so the card reflects the slice you intend to deliver.
+- Capture acceptance criteria or explicit exit signals on the task so "done" is unambiguous.
+- Note any uncertainties, risks, or open questions directly on the task to surface follow-ups early.
+- Record the scoped plan and supporting notes on the linked task before moving to step 3.
+
 ```
 3. **Breakdown & Estimate**
 ```
-   Break into small, testable slices; estimate **complexity, scale, time (in cloud sessions)** and assign a Fibonacci score from **1, 2, 3, 5, 8, 13** on the task card. Scores of **13+ ⇒ must split**; **8 ⇒ continue refinement before implementation**; **≤5 ⇒ eligible to implement**. Any score **>5** must cycle back through clarification/breakdown until the slice is small enough to implement, capturing the updated score on the task card.&#x20;
 
-4. **Ready Gate** *(hard stop before code)*
+Break into small, testable slices; estimate **complexity, scale, time (in cloud sessions)** and assign a Fibonacci score from **1, 2, 3, 5, 8, 13** on the task card. Scores of **13+ ⇒ must split**; **8 ⇒ continue refinement before implementation**; **≤5 ⇒ eligible to implement**. Any score **>5** must cycle back through clarification/breakdown until the slice is small enough to implement, capturing the updated score on the task card.&#x20;
+
+4. **Ready Gate** _(hard stop before code)_
    Only proceed if:
 
-   * A matching task is **In Progress** (or you move it there), and WIP rules aren’t violated.&#x20;
-   * The slice is scored **≤5** and fits the session after planning; otherwise continue refinement/splitting.&#x20;
+   - A matching task is **In Progress** (or you move it there), and WIP rules aren’t violated.&#x20;
+   - The slice is scored **≤5** and fits the session after planning; otherwise continue refinement/splitting.&#x20;
+
 ```
 5. **Implement Slice**
 ```
-   Do the smallest cohesive change that can clear gates defined in agent docs (e.g., no new ESLint errors; touched packages build; tests pass).&#x20;
-   When the scope is larger than the available session, carve off a reviewable subset and explicitly document what remains (e.g.,
-   inventory lingering files, capture blockers, link references).&#x20;
+
+Do the smallest cohesive change that can clear gates defined in agent docs (e.g., no new ESLint errors; touched packages build; tests pass).&#x20;
+When the scope is larger than the available session, carve off a reviewable subset and explicitly document what remains (e.g.,
+inventory lingering files, capture blockers, link references).&#x20;
+
 ```
-6. **Review → Document**
+6. **Test → Review → Document**
 ```
-   Move through *In Review* and *Document* then *Done* per board flow, recording evidence and summaries.&#x20;
+
+Move through _Testing_, _In Review_ and _Document_ then _Done_ per board flow, recording evidence and summaries.&#x20;
+
 # Kanban as a Finite State Machine (FSM)
 
 We treat the board as an FSM over tasks.
@@ -64,6 +76,7 @@ flowchart TD
     Ready["🛠 Ready"]
     Todo["🟢 To Do"]
     InProgress["🟡 In Progress"]
+    Testing["🧪 Testing"]
     InReview["🔍 In Review"]
     Document["📚 Document"]
     Done["✅ Done"]
@@ -82,7 +95,8 @@ flowchart TD
   Breakdown --> Ready
   Ready --> Todo
   Todo --> InProgress
-  InProgress --> InReview
+  InProgress --> Testing
+  Testing --> InReview
   InReview --> Document
   InReview --> Done
   Document --> Done
@@ -91,6 +105,7 @@ flowchart TD
   Ready --> Breakdown
   Todo --> Breakdown
   InProgress --> Breakdown
+  Testing --> InProgress
 
   %% ====== Session-end, no-PR handoff ======
   InProgress --> Todo
@@ -108,74 +123,78 @@ flowchart TD
   %% ====== Blocked (narrow, explicit dependency) ======
   Breakdown --> Blocked
   Blocked --> Breakdown
-````
+```
 
 ### Minimal transition rules (only what matters)
 
-* START STATE = Incoming
-  * All new tasks start as incoming
+- START STATE = Incoming
 
-* **Incoming → Accepted | Rejected | Ice Box**
+  - All new tasks start as incoming
+
+- **Incoming → Accepted | Rejected | Ice Box**
   Relevance/priority triage; allow defer to Ice Box.
 
-* **Accepted → Breakdown | Ice Box**
+- **Accepted → Breakdown | Ice Box**
   Ready to analyze, or consciously deferred.
 
-* **Breakdown → Ready | Rejected | Ice Box | Blocked**
+- **Breakdown → Ready | Rejected | Ice Box | Blocked**
   Scoped & feasible → Ready; non-viable → Rejected; defer → Ice Box;
   **→ Blocked** only for a true inter-task dependency with **bidirectional links** (Blocking ⇄ Blocked By).
 
-* **Ready → Todo**
+- **Ready → Todo**
   Prioritized into the execution queue (respect WIP).
 
-* **Todo → In Progress**
+- **Todo → In Progress**
   Pulled by a worker (respect WIP).
 
-* **In Progress → In Review**
+- **In Progress → In Review**
   Coherent, reviewable change exists.
 
-* **In Progress → Todo** *session-end handoff; no PR required*
+- **In Progress → Todo** _session-end handoff; no PR required_
   Time/compute limit reached without a reviewable change. Record artifacts/notes + next step; move to **Todo** if WIP allows; else remain **In Progress** and mark a minor blocker.
   Artifacts must include partial outputs (e.g., audit logs, findings lists, reproduction steps) so a follow-on slice can resume immediately.
 
-* **In Progress → Breakdown**
+- **In Progress → Breakdown**
   Slice needs re-plan or is wrong shape.
 
-* **In Review → In Progress** *(preferred)*
+- **In Review → In Progress** _(preferred)_
   Changes requested; current assignee free; **In Progress** WIP allows.
 
-* **In Review → Todo** *(fallback)*
+- **In Review → Todo** _(fallback)_
   Changes requested; assignee busy **or** **In Progress** WIP full.
 
-* **Document → Done | In Review**
+- **Document → Done | In Review**
   Docs/evidence complete → Done; otherwise → In Review for another pass.
 
-* **Done → (no mandatory back edge)**
+- **Done → (no mandatory back edge)**
   Follow-ups are modeled as new tasks (optionally seeded from Done).
 
-* **Blocked → Breakdown** *(unblock event)*
+- **Blocked → Breakdown** _(unblock event)_
   Fires when any linked blocker advances e.g., to In Review/Done or evidence shows dependency removed; return to Breakdown to re-plan.
 
 ### Blocking policy
 
-* **Minor blockers**: record briefly on the task; continue with other eligible work; resolve asynchronously.
-  * Uncertainty over a single aspect of an assignment which does not prevent completion of other aspects of the assignment
-* **Major blockers**: halt work on that task; capture evidence + attempt remediation
-  * A triggered transition rule would result in a column begin over it's WIP limit
-  * An agent's current task has only blocked sub tasks
+- **Minor blockers**: record briefly on the task; continue with other eligible work; resolve asynchronously.
+  - Uncertainty over a single aspect of an assignment which does not prevent completion of other aspects of the assignment
+- **Major blockers**: halt work on that task; capture evidence + attempt remediation
+  - A triggered transition rule would result in a column begin over it's WIP limit
+  - An agent's current task has only blocked sub tasks
 
 ## 🌊 Fluid Kanban Rule Evolution
 
 Kanban is a fluid process that adapts to changing development environments while maintaining core principles.
 
 ### When Rules Must Change
+
 A rule should be changed when:
+
 1. **Progress is blocked** despite valid work being ready
 2. **Team composition changes** significantly (new contributors, new agent types)
 3. **Process discovery** reveals better ways of working
 4. **Scaling requirements** exceed current capacity constraints
 
 ### Rule Change Process
+
 1. **Identify the constraint**: Which specific rule is preventing forward progress?
 2. **Document the rationale**: Why must this rule change now? What's the impact?
 3. **Propose a new rule**: Clear, measurable, and time-bound
@@ -183,15 +202,18 @@ A rule should be changed when:
 5. **Evaluate and formalize**: Either revert, adjust, or make permanent
 
 ### WIP Limit Evolution Example
+
 **Original Rule**: 2 tasks in review per human developer
 **Reality**: 1 human + 6-18 AI agents contributing simultaneously
 **Constraint**: Review bottleneck blocking all flow
 **Solution**:
+
 - Review: 2 → 6 (human review bandwidth for AI work)
 - In Progress: 3 → 10 (multi-agent parallel work capacity)
 - Document: 2 → 4 (maintain flow proportion)
 
 ### Guiding Principles
+
 - **Rules enable flow, they don't dictate activity**
 - **Change is temporary unless proven valuable**
 - **Document every change with clear rationale**

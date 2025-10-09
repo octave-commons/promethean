@@ -1,74 +1,70 @@
-import { promises as fs } from "node:fs";
-import { randomUUID } from "node:crypto";
-import path from "node:path";
-import { parseFrontmatter as parseMarkdownFrontmatter } from "@promethean/markdown/frontmatter";
-import { loadKanbanConfig } from "../board/config.js";
-import {
-  refreshTaskIndex,
-  indexTasks,
-  writeIndexFile,
-  serializeTasks,
-} from "../board/indexer.js";
-import type { IndexTasksOptions } from "../board/indexer.js";
-import type { Board, ColumnData, Task } from "./types.js";
+import { promises as fs } from 'node:fs';
+import { randomUUID } from 'node:crypto';
+import path from 'node:path';
+import { parseFrontmatter as parseMarkdownFrontmatter } from '@promethean/markdown/frontmatter';
+import { loadKanbanConfig } from '../board/config.js';
+import { refreshTaskIndex, indexTasks, writeIndexFile, serializeTasks } from '../board/indexer.js';
+import { EventLogManager } from '../board/event-log.js';
+import type { IndexTasksOptions } from '../board/indexer.js';
+import type { Board, ColumnData, Task } from './types.js';
 
 const NOW_ISO = () => new Date().toISOString();
 
 const stripDiacritics = (value: string): string =>
-  value.normalize("NFKD").replace(/[\u0300-\u036f]/g, "");
+  value.normalize('NFKD').replace(/[\u0300-\u036f]/g, '');
 
 const sanitizeFileNameBase = (value: string): string => {
   const normalized = stripDiacritics(value)
-    .replace(/[\u0000-\u001f]/g, " ")
-    .replace(/[<>:"/\\|?*]/g, " ")
-    .replace(/\r?\n/g, " ")
+    .replace(/[\u0000-\u001f]/g, ' ')
+    .replace(/[<>:"/\\|?*]/g, ' ')
+    .replace(/\r?\n/g, ' ')
     .trim();
-  const singleSpaced = normalized.replace(/\s{2,}/g, " ");
-  return singleSpaced.replace(/\.$/, "");
+  const singleSpaced = normalized.replace(/\s{2,}/g, ' ');
+  return singleSpaced.replace(/\.$/, '');
 };
 
 const STOPWORDS = new Set<string>([
-  "the",
-  "and",
-  "for",
-  "with",
-  "from",
-  "that",
-  "this",
-  "into",
-  "using",
-  "your",
-  "their",
-  "about",
-  "after",
-  "before",
-  "into",
-  "onto",
-  "under",
-  "over",
-  "todo",
-  "task",
-  "auto",
+  'the',
+  'and',
+  'for',
+  'with',
+  'from',
+  'that',
+  'this',
+  'into',
+  'using',
+  'your',
+  'their',
+  'about',
+  'after',
+  'before',
+  'into',
+  'onto',
+  'under',
+  'over',
+  'todo',
+  'task',
+  'auto',
 ]);
 
 const stripTrailingCount = (value: string): string =>
-  value.replace(/\s*\(\s*\d+\s*\)\s*$/g, "").trim();
+  value.replace(/\s*\(\s*\d+\s*\)\s*$/g, '').trim();
 
 const normalizeColumnDisplayName = (value: string): string => {
   const trimmed = stripTrailingCount(value.trim());
-  return trimmed.length > 0 ? trimmed : "Todo";
+  return trimmed.length > 0 ? trimmed : 'Todo';
 };
 
 const columnKey = (name: string): string =>
   normalizeColumnDisplayName(name)
-    .normalize("NFKD")
+    .normalize('NFKD')
     .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "");
+    .replace(/[^a-z0-9]+/g, '');
 
 const tokenizeForLabels = (text: string): ReadonlyArray<string> =>
   text
     .toLowerCase()
-    .replace(/[^a-z0-9\s]/g, " ")
+    .replace(/[^a-z0-9\s]/g, ' ')
     .split(/\s+/)
     .filter((token) => token.length > 2 && !STOPWORDS.has(token));
 
@@ -89,7 +85,7 @@ const generateAutoLabels = (
   }
   const sorted = Array.from(tokens.entries())
     .sort((a, b) => b[1] - a[1])
-    .map(([token]) => token.replace(/\s+/g, "-"));
+    .map(([token]) => token.replace(/\s+/g, '-'));
   return sorted.slice(0, limit);
 };
 
@@ -97,7 +93,7 @@ const ensureLabelsPresent = (task: Task, body: string | undefined): Task => {
   if (task.labels && task.labels.length > 0) {
     return task;
   }
-  const generated = generateAutoLabels(task.title ?? "", body);
+  const generated = generateAutoLabels(task.title ?? '', body);
   if (generated.length === 0) {
     return task;
   }
@@ -108,10 +104,10 @@ const FALLBACK_SLUG_REGEX = /^task [0-9a-f]{8}(?: \d+)?$/i;
 
 const isFallbackSlug = (slug: string, uuid: string): boolean => {
   const normalizedSlug = slug.trim().toLowerCase();
-  const normalizedUuid = uuid.replace(/[^0-9a-f]/gi, "").toLowerCase();
+  const normalizedUuid = uuid.replace(/[^0-9a-f]/gi, '').toLowerCase();
   return (
     FALLBACK_SLUG_REGEX.test(normalizedSlug) ||
-    normalizedSlug.replace(/\s+/g, "") === normalizedUuid
+    normalizedSlug.replace(/\s+/g, '') === normalizedUuid
   );
 };
 
@@ -120,13 +116,10 @@ const fallbackFileBase = (uuid: string): string => `Task ${uuid.slice(0, 8)}`;
 const resolveTaskSlug = (task: Task, baseName: string): string => {
   const sanitizedBase = sanitizeFileNameBase(baseName);
   const explicitSlug =
-    typeof task.slug === "string" && task.slug.trim().length > 0
-      ? task.slug.trim()
-      : undefined;
-  const fallbackSource =
-    sanitizedBase.length > 0 ? sanitizedBase : task.title ?? sanitizedBase;
+    typeof task.slug === 'string' && task.slug.trim().length > 0 ? task.slug.trim() : undefined;
+  const fallbackSource = sanitizedBase.length > 0 ? sanitizedBase : (task.title ?? sanitizedBase);
   const slugSource = explicitSlug ?? fallbackSource;
-  const normalized = sanitizeFileNameBase(slugSource ?? "");
+  const normalized = sanitizeFileNameBase(slugSource ?? '');
   if (normalized.length > 0) {
     return normalized;
   }
@@ -134,12 +127,11 @@ const resolveTaskSlug = (task: Task, baseName: string): string => {
 };
 
 const deriveFileBaseFromTask = (task: Task): string => {
-  const fromSlug =
-    typeof task.slug === "string" ? sanitizeFileNameBase(task.slug) : "";
+  const fromSlug = typeof task.slug === 'string' ? sanitizeFileNameBase(task.slug) : '';
   if (fromSlug.length > 0 && !isFallbackSlug(fromSlug, task.uuid)) {
     return fromSlug;
   }
-  const fromTitle = sanitizeFileNameBase(task.title ?? "");
+  const fromTitle = sanitizeFileNameBase(task.title ?? '');
   if (fromTitle.length > 0) {
     return fromTitle;
   }
@@ -159,9 +151,7 @@ const slugMatchesSourcePath = (task: Task): boolean => {
     return false;
   }
   const normalizedSlug =
-    typeof task.slug === "string" && task.slug.length > 0
-      ? sanitizeFileNameBase(task.slug)
-      : "";
+    typeof task.slug === 'string' && task.slug.length > 0 ? sanitizeFileNameBase(task.slug) : '';
   if (normalizedSlug.length === 0) {
     return false;
   }
@@ -171,11 +161,7 @@ const slugMatchesSourcePath = (task: Task): boolean => {
   return normalizedSource.length > 0 && normalizedSlug === normalizedSource;
 };
 
-const ensureUniqueFileBase = (
-  base: string,
-  used: Map<string, string>,
-  uuid: string,
-): string => {
+const ensureUniqueFileBase = (base: string, used: Map<string, string>, uuid: string): string => {
   const initial = base.length > 0 ? base : fallbackFileBase(uuid);
   let candidate = initial;
   let attempt = 1;
@@ -234,7 +220,7 @@ const parseLimit = (header: string): number | null => {
     header.match(/\[\s*(?:wip|limit)\s*[:=]\s*(\d+)\s*\]/i) ??
     header.match(/(?:wip|limit)\s*[:=]\s*(\d+)/i);
   const numeric = match?.[1];
-  return typeof numeric === "string" ? parseInt(numeric, 10) : null;
+  return typeof numeric === 'string' ? parseInt(numeric, 10) : null;
 };
 
 const parseColumnsFromMarkdown = (markdown: string): ColumnData[] => {
@@ -245,13 +231,13 @@ const parseColumnsFromMarkdown = (markdown: string): ColumnData[] => {
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
-    if (typeof line !== "string") {
+    if (typeof line !== 'string') {
       continue;
     }
 
     const headingMatch = /^##\s+(.+)$/.exec(line);
     const headingValue = headingMatch?.[1];
-    if (typeof headingValue === "string") {
+    if (typeof headingValue === 'string') {
       const name = headingValue.trim();
       const limit = parseLimit(name);
       current = { name, count: 0, limit, tasks: [] };
@@ -265,19 +251,18 @@ const parseColumnsFromMarkdown = (markdown: string): ColumnData[] => {
     const taskMatch = /^-\s+\[(x|\s)\]\s+(.+)$/.exec(line);
     const doneFlag = taskMatch?.[1];
     const rawTitle = taskMatch?.[2];
-    if (typeof doneFlag === "string" && typeof rawTitle === "string") {
+    if (typeof doneFlag === 'string' && typeof rawTitle === 'string') {
       const titlePart = rawTitle.trim();
       const uuidMatch = /\(uuid:([0-9a-fA-F-]{8,})\)/.exec(titlePart);
       const uuidCandidate = uuidMatch?.[1];
-      const uuid =
-        typeof uuidCandidate === "string" ? uuidCandidate : cryptoRandomUUID();
+      const uuid = typeof uuidCandidate === 'string' ? uuidCandidate : cryptoRandomUUID();
       const wikiMatch = /\[\[([^\]]+)\]\]/.exec(titlePart);
       let linkTarget: string | undefined;
       let displayFromWiki: string | undefined;
       if (wikiMatch) {
-        const targetRaw = wikiMatch[1] ?? "";
-        const [targetSlug, alias] = targetRaw.split("|", 2);
-        const normalizedTarget = (targetSlug ?? "").trim();
+        const targetRaw = wikiMatch[1] ?? '';
+        const [targetSlug, alias] = targetRaw.split('|', 2);
+        const normalizedTarget = (targetSlug ?? '').trim();
         if (normalizedTarget.length > 0) {
           linkTarget = sanitizeFileNameBase(normalizedTarget);
         }
@@ -288,25 +273,22 @@ const parseColumnsFromMarkdown = (markdown: string): ColumnData[] => {
       }
       const labels = Array.from(titlePart.matchAll(/#([\w-]+)/g))
         .map((match) => match[1])
-        .filter(
-          (label): label is string =>
-            typeof label === "string" && label.length > 0,
-        );
+        .filter((label): label is string => typeof label === 'string' && label.length > 0);
       const prioMatch = titlePart.match(/\bprio[:=]([^\s)]+)\b/i);
       const priority = prioMatch?.[1];
       const titleClean = titlePart
-        .replace(/\(uuid:[^)]+\)/g, "")
-        .replace(/\[\[[^\]]+\]\]/g, displayFromWiki ?? "")
-        .replace(/#\w+/g, "")
-        .replace(/\bprio[:=][^\s)]+\b/gi, "")
+        .replace(/\(uuid:[^)]+\)/g, '')
+        .replace(/\[\[[^\]]+\]\]/g, displayFromWiki ?? '')
+        .replace(/#\w+/g, '')
+        .replace(/\bprio[:=][^\s)]+\b/gi, '')
         .trim();
       const title =
         titleClean.length > 0
           ? titleClean
-          : displayFromWiki ?? linkTarget ?? `Task ${uuid.slice(0, 8)}`;
+          : (displayFromWiki ?? linkTarget ?? `Task ${uuid.slice(0, 8)}`);
 
-      const done = doneFlag === "x";
-      const status = done ? "Done" : current.name;
+      const done = doneFlag === 'x';
+      const status = done ? 'Done' : current.name;
 
       const task: Task = {
         uuid,
@@ -316,7 +298,7 @@ const parseColumnsFromMarkdown = (markdown: string): ColumnData[] => {
         labels,
         created_at: NOW_ISO(),
         estimates: {},
-        content: "",
+        content: '',
         slug: linkTarget,
       };
       current.tasks.push(task);
@@ -336,8 +318,8 @@ type CreateTaskInput = {
   content?: string;
   body?: string;
   labels?: string[];
-  priority?: Task["priority"];
-  estimates?: Task["estimates"];
+  priority?: Task['priority'];
+  estimates?: Task['estimates'];
   created_at?: string;
   uuid?: string;
   slug?: string;
@@ -349,30 +331,27 @@ type CreateTaskInput = {
 
 const parseFrontmatter = (text: string): { fm: FM; body: string } => {
   const res = parseMarkdownFrontmatter<FM>(text);
-  return { fm: (res.data ?? {}) as FM, body: res.content || "" };
+  return { fm: (res.data ?? {}) as FM, body: res.content || '' };
 };
 
 const coerceString = (value: unknown): string | undefined => {
-  if (typeof value === "string") {
+  if (typeof value === 'string') {
     const trimmed = value.trim();
     return trimmed.length > 0 ? trimmed : undefined;
   }
-  if (typeof value === "number" || typeof value === "bigint") {
+  if (typeof value === 'number' || typeof value === 'bigint') {
     return String(value);
   }
-  if (typeof value === "boolean") {
-    return value ? "true" : "false";
+  if (typeof value === 'boolean') {
+    return value ? 'true' : 'false';
   }
   return undefined;
 };
 
-const pickString = (
-  source: FM,
-  keys: ReadonlyArray<string>,
-): string | undefined => {
+const pickString = (source: FM, keys: ReadonlyArray<string>): string | undefined => {
   for (const key of keys) {
     const candidate = coerceString((source as Record<string, unknown>)[key]);
-    if (typeof candidate === "string" && candidate.length > 0) {
+    if (typeof candidate === 'string' && candidate.length > 0) {
       return candidate;
     }
   }
@@ -383,7 +362,7 @@ const parseLabelList = (value: unknown): string[] => {
   if (Array.isArray(value)) {
     return value
       .map((entry) => coerceString(entry))
-      .filter((entry): entry is string => typeof entry === "string")
+      .filter((entry): entry is string => typeof entry === 'string')
       .map((entry) => entry.trim())
       .filter((entry) => entry.length > 0);
   }
@@ -408,30 +387,22 @@ const mergeLabels = (...values: unknown[]): string[] => {
 };
 
 const taskFromFM = (fm: FM, body: string): Task | null => {
-  const uuid = pickString(fm, ["uuid", "id", "task-id", "task_id", "taskId"]);
-  const title = pickString(fm, ["title", "name"]);
+  const uuid = pickString(fm, ['uuid', 'id', 'task-id', 'task_id', 'taskId']);
+  const title = pickString(fm, ['title', 'name']);
   if (!uuid) return null;
 
   // Use fallback title if title is empty or missing
   const finalTitle = title && title.trim().length > 0 ? title : fallbackFileBase(uuid);
-  const slugValue = pickString(fm, ["slug"]);
+  const slugValue = pickString(fm, ['slug']);
   const t: Task = {
     uuid,
     title: finalTitle,
-    status:
-      pickString(fm, ["status", "state", "column"]) ??
-      String(fm.status ?? "Todo"),
-    priority:
-      typeof fm.priority === "number"
-        ? fm.priority
-        : pickString(fm, ["priority", "prio"]),
+    status: pickString(fm, ['status', 'state', 'column']) ?? String(fm.status ?? 'Todo'),
+    priority: typeof fm.priority === 'number' ? fm.priority : pickString(fm, ['priority', 'prio']),
     labels: mergeLabels(fm.tags, fm.hashtags, fm.labels), // Prioritize tags over labels for Obsidian compatibility
-    created_at:
-      pickString(fm, ["created_at", "created", "txn"]) ??
-      fm.created_at ??
-      NOW_ISO(),
+    created_at: pickString(fm, ['created_at', 'created', 'txn']) ?? fm.created_at ?? NOW_ISO(),
     estimates: fm.estimates ?? {},
-    content: (body ?? "").trim() || undefined,
+    content: (body ?? '').trim() || undefined,
     slug: slugValue ? sanitizeFileNameBase(slugValue) : undefined,
   };
   return t;
@@ -450,9 +421,9 @@ export const readTasksFolder = async (dir: string): Promise<Task[]> => {
   const files = await listFiles(dir);
   const tasks: Task[] = [];
   for (const file of files) {
-    if (!(file.endsWith(".md") || file.endsWith(".json"))) continue;
-    const text = await fs.readFile(file, "utf8");
-    if (file.endsWith(".json")) {
+    if (!(file.endsWith('.md') || file.endsWith('.json'))) continue;
+    const text = await fs.readFile(file, 'utf8');
+    if (file.endsWith('.json')) {
       try {
         const data = JSON.parse(text);
         if (data && data.uuid && data.title) {
@@ -490,18 +461,15 @@ export const readTasksFolder = async (dir: string): Promise<Task[]> => {
   return tasks;
 };
 
-export const loadBoard = async (
-  boardPath: string,
-  tasksDir: string,
-): Promise<Board> => {
+export const loadBoard = async (boardPath: string, tasksDir: string): Promise<Board> => {
   // Load config to apply WIP limits consistently with regenerateBoard
   const { config } = await loadKanbanConfig();
 
-  const md = await fs.readFile(boardPath, "utf8").catch(() => "");
+  const md = await fs.readFile(boardPath, 'utf8').catch(() => '');
   const columns = parseColumnsFromMarkdown(md);
   if (columns.length > 0) {
     // Enhance existing columns with WIP limits from config
-    const enhancedColumns = columns.map(column => ({
+    const enhancedColumns = columns.map((column) => ({
       ...column,
       limit: column.limit || config.wipLimits[column.name] || null,
     }));
@@ -512,7 +480,7 @@ export const loadBoard = async (
   const tasks = await readTasksFolder(tasksDir);
   const statusGroups = new Map<string, { name: string; tasks: Task[] }>();
   for (const task of tasks) {
-    const statusRaw = String(task.status || "Todo").trim();
+    const statusRaw = String(task.status || 'Todo').trim();
     const displayName = normalizeColumnDisplayName(statusRaw);
     const key = columnKey(statusRaw);
     const existing = statusGroups.get(key);
@@ -525,14 +493,12 @@ export const loadBoard = async (
       });
     }
   }
-  const cols: ColumnData[] = Array.from(statusGroups.values()).map(
-    ({ name, tasks: ts }) => ({
-      name,
-      count: ts.length,
-      limit: config.wipLimits[name] || null,
-      tasks: ts,
-    }),
-  );
+  const cols: ColumnData[] = Array.from(statusGroups.values()).map(({ name, tasks: ts }) => ({
+    name,
+    count: ts.length,
+    limit: config.wipLimits[name] || null,
+    tasks: ts,
+  }));
   return { columns: cols };
 };
 
@@ -569,10 +535,7 @@ export const findTaskById = (board: Board, uuid: string): Task | undefined => {
   return undefined;
 };
 
-export const findTaskByTitle = (
-  board: Board,
-  title: string,
-): Task | undefined => {
+export const findTaskByTitle = (board: Board, title: string): Task | undefined => {
   const needle = title.trim().toLowerCase();
   for (const col of board.columns) {
     const t = col.tasks.find((t) => t.title.trim().toLowerCase() === needle);
@@ -659,34 +622,31 @@ const assignStableSlugs = (columns: ColumnData[]): Map<string, string> => {
 };
 
 const serializeBoard = (board: Board): string => {
-  const lines: string[] = ["---", "kanban-plugin: board", "---", ""];
+  const lines: string[] = ['---', 'kanban-plugin: board', '---', ''];
   const columns = mergeColumnsCaseInsensitive(board.columns);
   const finalSlugs = assignStableSlugs(columns);
   for (const col of columns) {
     lines.push(`## ${col.name}`);
-    lines.push("");
+    lines.push('');
     for (const task of col.tasks) {
-      const done = /done/i.test(col.name) ? "x" : " ";
+      const done = /done/i.test(col.name) ? 'x' : ' ';
       const linkTarget = finalSlugs.get(task.uuid) ?? ensureTaskFileBase(task);
       if (task.slug !== linkTarget) {
         task.slug = linkTarget;
       }
       const displayTitle =
-        (task.title && task.title.trim().length > 0) ? task.title.trim() : linkTarget;
+        task.title && task.title.trim().length > 0 ? task.title.trim() : linkTarget;
       const wikiLink =
-        displayTitle === linkTarget
-          ? `[[${linkTarget}]]`
-          : `[[${linkTarget}|${displayTitle}]]`;
+        displayTitle === linkTarget ? `[[${linkTarget}]]` : `[[${linkTarget}|${displayTitle}]]`;
       const labelSegment =
         (task.labels ?? []).length > 0
-          ? (task.labels ?? []).map((label) => `#${label}`).join(" ")
-          : "";
+          ? (task.labels ?? []).map((label) => `#${label}`).join(' ')
+          : '';
       const priorityValue =
-        typeof task.priority === "number" || typeof task.priority === "string"
+        typeof task.priority === 'number' || typeof task.priority === 'string'
           ? String(task.priority).trim()
-          : "";
-      const prioritySegment =
-        priorityValue.length > 0 ? `prio:${priorityValue}` : "";
+          : '';
+      const prioritySegment = priorityValue.length > 0 ? `prio:${priorityValue}` : '';
       const segments = [`- [${done}]`, wikiLink];
       if (labelSegment.length > 0) {
         segments.push(labelSegment);
@@ -695,25 +655,25 @@ const serializeBoard = (board: Board): string => {
         segments.push(prioritySegment);
       }
       segments.push(`(uuid:${task.uuid})`);
-      lines.push(segments.filter((segment) => segment.length > 0).join(" "));
+      lines.push(segments.filter((segment) => segment.length > 0).join(' '));
     }
-    lines.push("");
+    lines.push('');
   }
-  return lines.join("\n");
+  return lines.join('\n');
 };
 
 const KANBAN_SETTINGS_PATTERN = /^\s*%%\s*kanban:settings\b/m;
 const DEFAULT_KANBAN_FOOTER = [
-  "%% kanban:settings",
-  "```",
+  '%% kanban:settings',
+  '```',
   '{"kanban-plugin":"board","list-collapse":[false,false,true,false,false,false,false,false,false,false,false,true,false,false,false],"new-note-template":"docs/agile/templates/task.stub.template.md","new-note-folder":"docs/agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}',
-  "```",
-  "%%",
-].join("\n");
+  '```',
+  '%%',
+].join('\n');
 
 const resolveKanbanFooter = async (boardPath: string): Promise<string> => {
   try {
-    const existing = await fs.readFile(boardPath, "utf8");
+    const existing = await fs.readFile(boardPath, 'utf8');
     const idx = existing.search(KANBAN_SETTINGS_PATTERN);
     if (idx >= 0) {
       const footer = existing.slice(idx).trim();
@@ -748,11 +708,9 @@ const writeBoard = async (boardPath: string, board: Board): Promise<void> => {
     segments.push(md);
   }
   segments.push(footer.trimEnd());
-  const output = `${segments.join("\n\n")}\n`;
-  await fs
-    .mkdir(boardPath.split("/").slice(0, -1).join("/"), { recursive: true })
-    .catch(() => {});
-  await fs.writeFile(boardPath, output, "utf8");
+  const output = `${segments.join('\n\n')}\n`;
+  await fs.mkdir(boardPath.split('/').slice(0, -1).join('/'), { recursive: true }).catch(() => {});
+  await fs.writeFile(boardPath, output, 'utf8');
 };
 
 export const updateStatus = async (
@@ -761,7 +719,10 @@ export const updateStatus = async (
   newStatus: string,
   boardPath: string,
   tasksDir?: string,
-  transitionRulesEngine?: import("./transition-rules.js").TransitionRulesEngine,
+  transitionRulesEngine?: import('./transition-rules.js').TransitionRulesEngine,
+  correctionReason?: string,
+  eventLogManager?: EventLogManager,
+  actor: 'agent' | 'human' | 'system' = 'system',
 ): Promise<Task | undefined> => {
   let found: Task | undefined;
   for (const col of board.columns) {
@@ -784,13 +745,13 @@ export const updateStatus = async (
         currentStatus,
         normalizedStatus,
         found,
-        board
+        board,
       );
 
       if (!transitionResult.allowed) {
         // Restore task to its original column
         let originalColumn = board.columns.find(
-          (c) => columnKey(c.name) === columnKey(currentStatus)
+          (c) => columnKey(c.name) === columnKey(currentStatus),
         );
         if (originalColumn) {
           originalColumn.tasks = [...originalColumn.tasks, found];
@@ -798,9 +759,10 @@ export const updateStatus = async (
         }
 
         const errorMessage = `❌ Transition blocked: ${transitionResult.reason}`;
-        const suggestionMessage = transitionResult.suggestedAlternatives.length > 0
-          ? `\n💡 Suggested alternatives: ${transitionResult.suggestedAlternatives.join(', ')}`
-          : '';
+        const suggestionMessage =
+          transitionResult.suggestedAlternatives.length > 0
+            ? `\n💡 Suggested alternatives: ${transitionResult.suggestedAlternatives.join(', ')}`
+            : '';
 
         throw new Error(errorMessage + suggestionMessage);
       }
@@ -811,7 +773,7 @@ export const updateStatus = async (
     } catch (error) {
       // If transition validation fails, restore task and re-throw
       let originalColumn = board.columns.find(
-        (c) => columnKey(c.name) === columnKey(currentStatus)
+        (c) => columnKey(c.name) === columnKey(currentStatus),
       );
       if (originalColumn) {
         originalColumn.tasks = [...originalColumn.tasks, found];
@@ -822,9 +784,7 @@ export const updateStatus = async (
   }
 
   found.status = normalizedStatus;
-  let target = board.columns.find(
-    (c) => columnKey(c.name) === columnKey(normalizedStatus),
-  );
+  let target = board.columns.find((c) => columnKey(c.name) === columnKey(normalizedStatus));
   if (!target) {
     target = { name: normalizedStatus, count: 0, limit: null, tasks: [] };
     board.columns.push(target);
@@ -836,7 +796,7 @@ export const updateStatus = async (
   // Check if target column would exceed WIP limit
   if (target.limit && target.count >= target.limit) {
     throw new Error(
-      `WIP limit violation: Cannot move task to '${target.name}' - column has ${target.count} tasks (limit: ${target.limit})`
+      `WIP limit violation: Cannot move task to '${target.name}' - column has ${target.count} tasks (limit: ${target.limit})`,
     );
   }
 
@@ -845,23 +805,59 @@ export const updateStatus = async (
 
   await writeBoard(boardPath, board);
 
+  // Add correction logging for audit trail
+  if (correctionReason && currentStatus === 'done' && normalizedStatus === 'review') {
+    const corrections = found.corrections || { count: 0, history: [] };
+    corrections.count += 1;
+    corrections.history.push({
+      timestamp: NOW_ISO(),
+      from: currentStatus,
+      to: normalizedStatus,
+      reason: correctionReason,
+    });
+    found.corrections = corrections;
+
+    console.log(`🔍 Audit correction logged: ${correctionReason}`);
+  }
+
+  // Log the transition to event log
+  if (eventLogManager) {
+    try {
+      await eventLogManager.logTransition(
+        uuid,
+        currentStatus,
+        normalizedStatus,
+        actor,
+        correctionReason || `Status updated from ${currentStatus} to ${normalizedStatus}`,
+        {
+          boardPath,
+          taskTitle: found.title,
+          taskPriority: found.priority,
+        },
+      );
+    } catch (error) {
+      // Log warning but don't fail the status update
+      console.warn(`Warning: Could not log transition for ${uuid}: ${error}`);
+    }
+  }
+
   // Update the task file if tasksDir is provided
   if (tasksDir) {
     try {
       const taskFilePath = await resolveTaskFilePath(found, tasksDir);
       if (taskFilePath) {
         // Read existing file to preserve content
-        const existingFileContent = await fs.readFile(taskFilePath, "utf8");
+        const existingFileContent = await fs.readFile(taskFilePath, 'utf8');
         const parsed = parseMarkdownFrontmatter(existingFileContent);
-        const existingContent = parsed.content ?? "";
+        const existingContent = parsed.content ?? '';
 
         // Write updated task file with new status
         const updatedContent = toFrontmatter({
           ...found,
           status: normalizedStatus,
-          content: existingContent
+          content: existingContent,
         });
-        await fs.writeFile(taskFilePath, updatedContent, "utf8");
+        await fs.writeFile(taskFilePath, updatedContent, 'utf8');
       }
     } catch (error) {
       // Log warning but don't fail the status update
@@ -899,17 +895,17 @@ export const moveTask = async (
 };
 
 const quoteYamlString = (value: string | undefined | null): string => {
-  if (typeof value === "undefined" || value === null) {
+  if (typeof value === 'undefined' || value === null) {
     return '""';
   }
   return JSON.stringify(String(value));
 };
 
 const formatScalar = (value: unknown): string => {
-  if (typeof value === "number") {
+  if (typeof value === 'number') {
     return String(value);
   }
-  if (typeof value === "string") {
+  if (typeof value === 'string') {
     return JSON.stringify(value);
   }
   return '""';
@@ -917,28 +913,25 @@ const formatScalar = (value: unknown): string => {
 
 const formatLabels = (labels: ReadonlyArray<string> | undefined): string =>
   labels && labels.length > 0
-    ? `[${labels.map((label) => JSON.stringify(label)).join(", ")}]`
-    : "[]";
+    ? `[${labels.map((label) => JSON.stringify(label)).join(', ')}]`
+    : '[]';
 
 const fallbackTaskFromRaw = (filePath: string, raw: string): Task | null => {
-  if (!raw.startsWith("---")) {
+  if (!raw.startsWith('---')) {
     return null;
   }
   let cursor = 3;
-  if (raw[cursor] === "\\r") {
+  if (raw[cursor] === '\\r') {
     cursor += 1;
   }
-  if (raw[cursor] === "\\n") {
+  if (raw[cursor] === '\\n') {
     cursor += 1;
   }
-  const closingIndexLF = raw.indexOf("\\n---", cursor);
-  const closingIndexCRLF = raw.indexOf("\\r\\n---", cursor);
+  const closingIndexLF = raw.indexOf('\\n---', cursor);
+  const closingIndexCRLF = raw.indexOf('\\r\\n---', cursor);
   let boundaryIndex = closingIndexLF;
   let newlineLength = 1;
-  if (
-    closingIndexCRLF !== -1 &&
-    (closingIndexLF === -1 || closingIndexCRLF < closingIndexLF)
-  ) {
+  if (closingIndexCRLF !== -1 && (closingIndexLF === -1 || closingIndexCRLF < closingIndexLF)) {
     boundaryIndex = closingIndexCRLF;
     newlineLength = 2;
   }
@@ -948,29 +941,29 @@ const fallbackTaskFromRaw = (filePath: string, raw: string): Task | null => {
   const frontmatterContent = raw.slice(cursor, boundaryIndex);
   const bodyContent = raw.slice(boundaryIndex + newlineLength + 3);
   const getValue = (key: string): string | undefined => {
-    const escapedKey = key.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    const pattern = new RegExp(`^${escapedKey}\\s*:\\s*(.+)$`, "im");
+    const escapedKey = key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const pattern = new RegExp(`^${escapedKey}\\s*:\\s*(.+)$`, 'im');
     const valueMatch = frontmatterContent.match(pattern);
     if (!valueMatch || valueMatch[1] == null) {
       return undefined;
     }
-    return valueMatch[1].trim().replace(/^['\"]|['\"]$/g, "");
+    return valueMatch[1].trim().replace(/^['\"]|['\"]$/g, '');
   };
-  const uuid = getValue("uuid");
+  const uuid = getValue('uuid');
   if (!uuid) {
     return null;
   }
   const baseName = path.basename(filePath, path.extname(filePath));
-  const title = getValue("title") ?? sanitizeFileNameBase(baseName);
-  const status = getValue("status") ?? "Todo";
-  const priority = getValue("priority");
-  const labelsRaw = getValue("labels");
+  const title = getValue('title') ?? sanitizeFileNameBase(baseName);
+  const status = getValue('status') ?? 'Todo';
+  const priority = getValue('priority');
+  const labelsRaw = getValue('labels');
   const labels = labelsRaw
     ? labelsRaw
-        .replace(/^\[/, "")
-        .replace(/\]$/, "")
+        .replace(/^\[/, '')
+        .replace(/\]$/, '')
         .split(/[,\s]+/)
-        .map((entry) => entry.replace(/^['"]|['"]$/g, "").trim())
+        .map((entry) => entry.replace(/^['"]|['"]$/g, '').trim())
         .filter((entry) => entry.length > 0)
     : [];
   const partialTask: Task = {
@@ -979,7 +972,7 @@ const fallbackTaskFromRaw = (filePath: string, raw: string): Task | null => {
     status,
     priority,
     labels,
-    created_at: getValue("created_at") ?? NOW_ISO(),
+    created_at: getValue('created_at') ?? NOW_ISO(),
     estimates: {},
     content: bodyContent.trim(),
   };
@@ -997,7 +990,7 @@ const normalizeFrontmatterForParsing = (raw: string): string => raw;
 const toFrontmatter = (t: Task): string => {
   const est = t.estimates ?? {};
   const lines: string[] = [
-    "---",
+    '---',
     `uuid: ${quoteYamlString(t.uuid)}`,
     `title: ${quoteYamlString(t.title)}`,
   ];
@@ -1007,19 +1000,32 @@ const toFrontmatter = (t: Task): string => {
   lines.push(
     `status: ${quoteYamlString(t.status)}`,
     `priority: ${quoteYamlString(
-      typeof t.priority === "number" ? String(t.priority) : t.priority,
+      typeof t.priority === 'number' ? String(t.priority) : t.priority,
     )}`,
     `labels: ${formatLabels(t.labels)}`,
     `created_at: ${quoteYamlString(t.created_at ?? NOW_ISO())}`,
-    "estimates:",
+    'estimates:',
     `  complexity: ${formatScalar(est.complexity)}`,
     `  scale: ${formatScalar(est.scale)}`,
     `  time_to_completion: ${formatScalar(est.time_to_completion)}`,
-    "---",
-    "",
-    t.content ?? "",
   );
-  return lines.join("\n") + "\n";
+
+  // Add corrections history if present
+  if (t.corrections && t.corrections.count > 0) {
+    lines.push('corrections:');
+    lines.push(`  count: ${t.corrections.count}`);
+    lines.push('  history:');
+    for (const correction of t.corrections.history) {
+      lines.push('    -');
+      lines.push(`      timestamp: ${quoteYamlString(correction.timestamp)}`);
+      lines.push(`      from: ${quoteYamlString(correction.from)}`);
+      lines.push(`      to: ${quoteYamlString(correction.to)}`);
+      lines.push(`      reason: ${quoteYamlString(correction.reason)}`);
+    }
+  }
+
+  lines.push('---', '', t.content ?? '');
+  return lines.join('\n') + '\n';
 };
 
 export const pullFromTasks = async (
@@ -1032,14 +1038,10 @@ export const pullFromTasks = async (
   let added = 0,
     moved = 0;
   const byId = new Map<string, { col: ColumnData; idx: number }>();
-  board.columns.forEach((col) =>
-    col.tasks.forEach((t, idx) => byId.set(t.uuid, { col, idx })),
-  );
+  board.columns.forEach((col) => col.tasks.forEach((t, idx) => byId.set(t.uuid, { col, idx })));
 
   for (const t of tasks) {
-    const normalizedStatus = normalizeColumnDisplayName(
-      String(t.status || "Todo"),
-    );
+    const normalizedStatus = normalizeColumnDisplayName(String(t.status || 'Todo'));
     const statusKey = columnKey(normalizedStatus);
     const normalizedTask = { ...t, status: normalizedStatus };
     const loc = byId.get(t.uuid);
@@ -1091,9 +1093,7 @@ export const pushToTasks = async (
   let added = 0,
     moved = 0;
   const existingTasks = await readTasksFolder(tasksDir);
-  const existingByUuid = new Map(
-    existingTasks.map((task) => [task.uuid, task]),
-  );
+  const existingByUuid = new Map(existingTasks.map((task) => [task.uuid, task]));
   const usedNames = new Map<string, string>();
   for (const task of existingTasks) {
     const base = ensureTaskFileBase(task);
@@ -1116,12 +1116,12 @@ export const pushToTasks = async (
       const previousPath = previous?.sourcePath;
 
       // Preserve existing task content if available
-      let existingContent = "";
+      let existingContent = '';
       if (previous && previousPath) {
         try {
-          const existingFileContent = await fs.readFile(previousPath, "utf8");
+          const existingFileContent = await fs.readFile(previousPath, 'utf8');
           const parsed = parseMarkdownFrontmatter(existingFileContent);
-          existingContent = parsed.content ?? "";
+          existingContent = parsed.content ?? '';
         } catch (error) {
           // If we can't read the existing file, continue with empty content
           console.warn(`Warning: Could not read existing task file ${previousPath}: ${error}`);
@@ -1129,15 +1129,12 @@ export const pushToTasks = async (
       }
 
       const content = toFrontmatter({ ...task, status: col.name, content: existingContent });
-      await fs.writeFile(targetPath, content, "utf8");
+      await fs.writeFile(targetPath, content, 'utf8');
       if (!previous) {
         added += 1;
       } else {
         moved += 1;
-        if (
-          previousPath &&
-          path.resolve(previousPath) !== path.resolve(targetPath)
-        ) {
+        if (previousPath && path.resolve(previousPath) !== path.resolve(targetPath)) {
           await fs.unlink(previousPath).catch(() => {});
         }
       }
@@ -1160,19 +1157,14 @@ const persistBoardAndTasks = async (
   }
 };
 
-const BLOCKED_BY_HEADING = "## ⛓️ Blocked By";
-const BLOCKS_HEADING = "## ⛓️ Blocks";
+const BLOCKED_BY_HEADING = '## ⛓️ Blocked By';
+const BLOCKS_HEADING = '## ⛓️ Blocks';
 
-const escapeRegExp = (value: string): string =>
-  value.replace(/[\\/\-^$*+?.()|[\]{}]/g, "\\$&");
+const escapeRegExp = (value: string): string => value.replace(/[\\/\-^$*+?.()|[\]{}]/g, '\\$&');
 
-const formatSectionBlock = (
-  heading: string,
-  items: ReadonlyArray<string>,
-): string => {
-  const lines =
-    items.length > 0 ? items.map((item) => `- ${item}`) : ["Nothing"];
-  return `${heading}\n\n${lines.join("\n")}\n\n`;
+const formatSectionBlock = (heading: string, items: ReadonlyArray<string>): string => {
+  const lines = items.length > 0 ? items.map((item) => `- ${item}`) : ['Nothing'];
+  return `${heading}\n\n${lines.join('\n')}\n\n`;
 };
 
 const setSectionItems = (
@@ -1181,43 +1173,34 @@ const setSectionItems = (
   items: ReadonlyArray<string>,
 ): string => {
   const block = formatSectionBlock(heading, items);
-  const pattern = new RegExp(
-    `^${escapeRegExp(heading)}\\s*\\n([\\s\\S]*?)(?=^##\\s+|$)`,
-    "m",
-  );
+  const pattern = new RegExp(`^${escapeRegExp(heading)}\\s*\\n([\\s\\S]*?)(?=^##\\s+|$)`, 'm');
   if (pattern.test(content)) {
     return content.replace(pattern, () => block);
   }
   const trimmed = content.trimEnd();
-  const prefix = trimmed.length > 0 ? `${trimmed}\n\n` : "";
+  const prefix = trimmed.length > 0 ? `${trimmed}\n\n` : '';
   return `${prefix}${block}`;
 };
 
 const ensureSectionExists = (content: string, heading: string): string => {
-  const pattern = new RegExp(`^${escapeRegExp(heading)}\\s*$`, "m");
+  const pattern = new RegExp(`^${escapeRegExp(heading)}\\s*$`, 'm');
   if (pattern.test(content)) {
     return content;
   }
   return setSectionItems(content, heading, []);
 };
 
-const parseSectionItems = (
-  content: string,
-  heading: string,
-): ReadonlyArray<string> => {
-  const pattern = new RegExp(
-    `^${escapeRegExp(heading)}\\s*\\n([\\s\\S]*?)(?=^##\\s+|$)`,
-    "m",
-  );
+const parseSectionItems = (content: string, heading: string): ReadonlyArray<string> => {
+  const pattern = new RegExp(`^${escapeRegExp(heading)}\\s*\\n([\\s\\S]*?)(?=^##\\s+|$)`, 'm');
   const match = pattern.exec(content);
   if (!match) return [];
-  const sectionBody = match[1]?.trim() ?? "";
+  const sectionBody = match[1]?.trim() ?? '';
   if (sectionBody.length === 0 || /^nothing$/i.test(sectionBody)) {
     return [];
   }
   return sectionBody
     .split(/\r?\n/)
-    .map((line) => line.replace(/^[-*]\s*/, "").trim())
+    .map((line) => line.replace(/^[-*]\s*/, '').trim())
     .filter((line) => line.length > 0);
 };
 
@@ -1242,7 +1225,7 @@ const applyTemplateReplacements = (
 ): string =>
   template.replace(/{{\s*([\w-]+)\s*}}/g, (_match, key: string) => {
     const replacement = replacements[key];
-    return typeof replacement === "string" ? replacement : "";
+    return typeof replacement === 'string' ? replacement : '';
   });
 
 const uniqueStrings = (values: ReadonlyArray<string> | undefined): string[] =>
@@ -1256,16 +1239,13 @@ const uniqueStrings = (values: ReadonlyArray<string> | undefined): string[] =>
 
 const wikiLinkForTask = (task: Task): string => {
   const base = ensureTaskFileBase(task);
-  const display =
-    task.title && task.title.trim().length > 0 ? task.title.trim() : base;
+  const display = task.title && task.title.trim().length > 0 ? task.title.trim() : base;
   return `[[${base}|${display}]]`;
 };
 
 const ensureTaskContent = (task: Task, fallback?: Task): string => {
   const baseContent =
-    task.content && task.content.length > 0
-      ? task.content
-      : fallback?.content ?? "";
+    task.content && task.content.length > 0 ? task.content : (fallback?.content ?? '');
   const withBlocked = ensureSectionExists(baseContent, BLOCKED_BY_HEADING);
   return ensureSectionExists(withBlocked, BLOCKS_HEADING);
 };
@@ -1278,47 +1258,39 @@ export const createTask = async (
   boardPath: string,
 ): Promise<Task> => {
   const uuid = input.uuid ?? cryptoRandomUUID();
-  const baseTitle = input.title?.trim() ?? "";
+  const baseTitle = input.title?.trim() ?? '';
   const title = baseTitle.length > 0 ? baseTitle : `Task ${uuid.slice(0, 8)}`;
   const targetColumn = ensureColumn(board, column);
 
   const existingTasks = await readTasksFolder(tasksDir);
   const existingById = new Map(existingTasks.map((task) => [task.uuid, task]));
 
-  const boardIndex = new Map<
-    string,
-    { column: ColumnData; index: number; task: Task }
-  >();
+  const boardIndex = new Map<string, { column: ColumnData; index: number; task: Task }>();
   board.columns.forEach((col) =>
-    col.tasks.forEach((task, index) =>
-      boardIndex.set(task.uuid, { column: col, index, task }),
-    ),
+    col.tasks.forEach((task, index) => boardIndex.set(task.uuid, { column: col, index, task })),
   );
 
   const templatePath = input.templatePath ?? input.defaultTemplatePath;
   let templateContent: string | undefined;
   if (templatePath) {
-    templateContent = await fs.readFile(templatePath, "utf8");
+    templateContent = await fs.readFile(templatePath, 'utf8');
   }
 
-  const bodyText = input.body ?? input.content ?? "";
+  const bodyText = input.body ?? input.content ?? '';
   let contentFromTemplate =
-    typeof templateContent === "string"
+    typeof templateContent === 'string'
       ? applyTemplateReplacements(templateContent, {
           TITLE: title,
           BODY: bodyText,
           UUID: uuid,
         })
-      : input.content ?? bodyText;
+      : (input.content ?? bodyText);
 
   if (!contentFromTemplate) {
-    contentFromTemplate = "";
+    contentFromTemplate = '';
   }
 
-  let newTaskContent = ensureSectionExists(
-    contentFromTemplate,
-    BLOCKED_BY_HEADING,
-  );
+  let newTaskContent = ensureSectionExists(contentFromTemplate, BLOCKED_BY_HEADING);
   newTaskContent = ensureSectionExists(newTaskContent, BLOCKS_HEADING);
 
   const baseTask: Task = {
@@ -1326,8 +1298,7 @@ export const createTask = async (
     title,
     status: targetColumn.name,
     priority: input.priority,
-    labels:
-      input.labels && input.labels.length > 0 ? [...input.labels] : undefined,
+    labels: input.labels && input.labels.length > 0 ? [...input.labels] : undefined,
     created_at: input.created_at ?? NOW_ISO(),
     estimates: input.estimates ? { ...input.estimates } : {},
     content: newTaskContent,
@@ -1374,21 +1345,10 @@ export const createTask = async (
     blockedByLinks.push(wikiLinkForTask(target));
   }
 
-  newTaskContent = setSectionItems(
-    newTaskContent,
-    BLOCKED_BY_HEADING,
-    blockedByLinks,
-  );
-  newTaskContent = setSectionItems(
-    newTaskContent,
-    BLOCKS_HEADING,
-    blockingLinks,
-  );
+  newTaskContent = setSectionItems(newTaskContent, BLOCKED_BY_HEADING, blockedByLinks);
+  newTaskContent = setSectionItems(newTaskContent, BLOCKS_HEADING, blockingLinks);
 
-  const enriched = ensureLabelsPresent(
-    { ...baseTask, content: newTaskContent },
-    newTaskContent,
-  );
+  const enriched = ensureLabelsPresent({ ...baseTask, content: newTaskContent }, newTaskContent);
 
   const newTaskLink = wikiLinkForTask(enriched);
 
@@ -1396,11 +1356,9 @@ export const createTask = async (
     const entry = boardIndex.get(id);
     if (entry) {
       const fallback = existingById.get(id);
-      const updatedContent = mergeSectionItems(
-        ensureTaskContent(entry.task, fallback),
-        heading,
-        [newTaskLink],
-      );
+      const updatedContent = mergeSectionItems(ensureTaskContent(entry.task, fallback), heading, [
+        newTaskLink,
+      ]);
       const nextTask: Task = {
         ...entry.task,
         content: updatedContent,
@@ -1422,19 +1380,17 @@ export const createTask = async (
 
     const existing = existingById.get(id);
     if (!existing?.sourcePath) return;
-    const updatedContent = mergeSectionItems(
-      ensureTaskContent(existing, existing),
-      heading,
-      [newTaskLink],
-    );
+    const updatedContent = mergeSectionItems(ensureTaskContent(existing, existing), heading, [
+      newTaskLink,
+    ]);
     const nextTask: Task = {
       ...existing,
       content: updatedContent,
     };
     await fs.writeFile(
       existing.sourcePath,
-      toFrontmatter({ ...nextTask, status: nextTask.status ?? "Todo" }),
-      "utf8",
+      toFrontmatter({ ...nextTask, status: nextTask.status ?? 'Todo' }),
+      'utf8',
     );
     existingById.set(id, nextTask);
   };
@@ -1463,7 +1419,7 @@ export const archiveTask = async (
 ): Promise<Task | undefined> => {
   const located = locateTask(board, uuid);
   if (!located) return undefined;
-  const archiveName = options?.columnName ?? "Archive";
+  const archiveName = options?.columnName ?? 'Archive';
   const { column } = located;
   if (columnKey(column.name) === columnKey(archiveName)) {
     located.task.status = column.name;
@@ -1511,11 +1467,7 @@ export const updateTaskDescription = async (
   if (!located) return undefined;
   const { column, index, task } = located;
   const updated: Task = { ...task, content };
-  column.tasks = [
-    ...column.tasks.slice(0, index),
-    updated,
-    ...column.tasks.slice(index + 1),
-  ];
+  column.tasks = [...column.tasks.slice(0, index), updated, ...column.tasks.slice(index + 1)];
   await persistBoardAndTasks(board, boardPath, tasksDir);
   return updated;
 };
@@ -1539,11 +1491,7 @@ export const renameTask = async (
     title,
     slug: undefined,
   };
-  column.tasks = [
-    ...column.tasks.slice(0, index),
-    updated,
-    ...column.tasks.slice(index + 1),
-  ];
+  column.tasks = [...column.tasks.slice(0, index), updated, ...column.tasks.slice(index + 1)];
   await persistBoardAndTasks(board, boardPath, tasksDir);
   return updated;
 };
@@ -1560,8 +1508,7 @@ export const syncBoardAndTasks = async (
   const taskFiles = await readTasksFolder(tasksDir);
   const boardById = new Map<string, Task>();
   for (const col of board.columns)
-    for (const t of col.tasks)
-      boardById.set(t.uuid, { ...t, status: col.name });
+    for (const t of col.tasks) boardById.set(t.uuid, { ...t, status: col.name });
   const tasksById = new Map(taskFiles.map((t) => [t.uuid, t]));
 
   const conflicting: string[] = [];
@@ -1569,8 +1516,8 @@ export const syncBoardAndTasks = async (
     const b = boardById.get(id);
     if (!b) continue;
     if (
-      (b.title ?? "") !== (t.title ?? "") ||
-      columnKey(String(b.status ?? "")) !== columnKey(String(t.status ?? ""))
+      (b.title ?? '') !== (t.title ?? '') ||
+      columnKey(String(b.status ?? '')) !== columnKey(String(t.status ?? ''))
     )
       conflicting.push(id);
   }
@@ -1590,7 +1537,7 @@ export const regenerateBoard = async (
   // Group tasks by status
   const statusGroups = new Map<string, { name: string; tasks: Task[] }>();
   for (const task of tasks) {
-    const statusRaw = String(task.status || "Todo").trim();
+    const statusRaw = String(task.status || 'Todo').trim();
     const displayName = normalizeColumnDisplayName(statusRaw);
     const key = columnKey(statusRaw);
     const existing = statusGroups.get(key);
@@ -1605,7 +1552,7 @@ export const regenerateBoard = async (
   }
 
   // Create columns for ALL configured statuses, even if empty
-  const columns: ColumnData[] = Array.from(config.statusValues).map(statusValue => {
+  const columns: ColumnData[] = Array.from(config.statusValues).map((statusValue) => {
     const displayName = normalizeColumnDisplayName(statusValue);
     const key = columnKey(statusValue);
     const existingGroup = statusGroups.get(key);
@@ -1624,9 +1571,9 @@ export const regenerateBoard = async (
 };
 
 const tokenize = (s: string): string[] =>
-  (s || "")
+  (s || '')
     .toLowerCase()
-    .replace(/[^a-z0-9\s]/g, " ")
+    .replace(/[^a-z0-9\s]/g, ' ')
     .split(/\s+/)
     .filter(Boolean);
 
@@ -1653,7 +1600,7 @@ export const indexForSearch = async (
     repoRoot: config.repo,
   } satisfies IndexTasksOptions);
   const lines = serializeTasks(tasks);
-  const shouldWrite = new Set(restArgs).has("--write");
+  const shouldWrite = new Set(restArgs).has('--write');
   if (shouldWrite) {
     await writeIndexFile(config.indexFile, lines);
   }
@@ -1669,22 +1616,15 @@ export const searchTasks = async (
   term: string,
 ): Promise<{ exact: Task[]; similar: Task[] }> => {
   const needle = term.trim().toLowerCase();
-  const all: Task[] = board.columns.flatMap((c) =>
-    c.tasks.map((t) => ({ ...t, status: c.name })),
-  );
+  const all: Task[] = board.columns.flatMap((c) => c.tasks.map((t) => ({ ...t, status: c.name })));
   const exact = all.filter(
     (t) =>
-      t.title.toLowerCase().includes(needle) ||
-      (t.content ?? "").toLowerCase().includes(needle),
+      t.title.toLowerCase().includes(needle) || (t.content ?? '').toLowerCase().includes(needle),
   );
 
   const needToks = new Set(tokenize(term));
   const score = (t: Task) => {
-    const bag = new Set([
-      ...tokenize(t.title),
-      ...tokenize(t.content ?? ""),
-      ...(t.labels ?? []),
-    ]);
+    const bag = new Set([...tokenize(t.title), ...tokenize(t.content ?? ''), ...(t.labels ?? [])]);
     let s = 0;
     for (const tok of needToks) if (bag.has(tok)) s++;
     return s;
@@ -1713,15 +1653,15 @@ export const generateBoardByTags = async (
   const allTasks = await readTasksFolder(tasksDir);
 
   // Filter tasks that have ALL specified tags (AND logic)
-  const filteredTasks = allTasks.filter(task => {
+  const filteredTasks = allTasks.filter((task) => {
     const taskTags = task.labels || [];
-    return tags.every(tag => taskTags.includes(tag));
+    return tags.every((tag) => taskTags.includes(tag));
   });
 
   // Group filtered tasks by status
   const statusGroups = new Map<string, { name: string; tasks: Task[] }>();
   for (const task of filteredTasks) {
-    const statusRaw = String(task.status || "Todo").trim();
+    const statusRaw = String(task.status || 'Todo').trim();
     const displayName = normalizeColumnDisplayName(statusRaw);
     const key = columnKey(statusRaw);
     const existing = statusGroups.get(key);
@@ -1736,7 +1676,7 @@ export const generateBoardByTags = async (
   }
 
   // Create columns for ALL configured statuses, even if empty
-  const columns: ColumnData[] = Array.from(config.statusValues).map(statusValue => {
+  const columns: ColumnData[] = Array.from(config.statusValues).map((statusValue) => {
     const displayName = normalizeColumnDisplayName(statusValue);
     const key = columnKey(statusValue);
     const existingGroup = statusGroups.get(key);

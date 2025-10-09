@@ -1,0 +1,46 @@
+---
+uuid: "690af2b8-84ee-4b9f-bf1b-3e6fa0000f5d"
+title: "playwright-mcp-connection-issue-4"
+slug: "playwright-mcp-connection-issue-4"
+status: "incoming"
+priority: "P3"
+labels: ["docops", "labeled"]
+created_at: "2025-10-08T20:10:46.053Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
+## 🗂 Source
+
+- Path: docs/labeled/playwright-mcp-connection-issue-4.md
+
+## 📝 Context Summary
+
+---
+uuid: 112cc354-9884-4a27-badc-afab6164ad22
+created_at: '2025-10-03T16:33:02Z'
+title: 2025.10.03.16.33.02
+filename: Playwright MCP Connection Issue
+description: >-
+  The Playwright MCP connection fails with a 404 error when trying to access the
+  server endpoint. The curl command shows a successful initial handshake, but
+  the chat interface reports a 404 Not Found error for the same endpoint. This
+  discrepancy suggests a misconfiguration in the server's URL or routing.
+tags:
+  - Playwright
+  - MCP
+  - 404 error
+  - server configuration
+  - endpoint misconfiguration
+---
+Ok, the command you gave me returns:
+
+But chatgpt's interface is still returning:
+
+## 📋 Tasks
+
+- [ ] Draft actionable subtasks from the summary
+- [ ] Define acceptance criteria
+- [ ] Link back to related labeled docs
