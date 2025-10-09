@@ -1,9 +1,30 @@
-import { exec } from 'child_process';
+import { execFile } from 'child_process';
+import type { ExecFileOptions } from 'child_process';
+import { mkdir, rm, writeFile } from 'node:fs/promises';
+import path from 'node:path';
 import { promisify } from 'util';
 import { BaseAdapter } from './base-adapter';
 import { Task, TaskSource, TaskTarget } from '../../types';
 
-const execAsync = promisify(exec);
+const execFileAsync = promisify(execFile);
+
+const runPnpm = async (args: string[], options: ExecFileOptions = {}) => {
+  try {
+    const result = (await execFileAsync('pnpm', args, {
+      encoding: 'utf8',
+      ...options
+    })) as { stdout: string; stderr: string };
+
+    return result.stdout;
+  } catch (error) {
+    const execError = error as Error & { stderr?: string };
+    if (execError.stderr) {
+      execError.message = `${execError.message}: ${execError.stderr}`;
+    }
+
+    throw execError;
+  }
+};
 
 export class KanbanAdapter extends BaseAdapter {
   constructor(config: TaskSource | TaskTarget) {
@@ -14,13 +35,14 @@ export class KanbanAdapter extends BaseAdapter {
     const { status, maxTasks } = options || {};
 
     try {
-      let command = 'pnpm kanban search --format json';
+      const args = ['kanban', 'search', '--format', 'json'];
+      const normalizedStatus = status?.trim();
 
-      if (status) {
-        command += ` --status ${status}`;
+      if (normalizedStatus) {
+        args.push('--status', normalizedStatus);
       }
 
-      const { stdout } = await execAsync(command);
+      const stdout = await runPnpm(args);
       const result = JSON.parse(stdout);
 
       let tasks = result.similar || [];
@@ -38,8 +60,13 @@ export class KanbanAdapter extends BaseAdapter {
 
   async getTasksByColumn(column: string): Promise<Task[]> {
     try {
-      const command = `pnpm kanban getByColumn ${column} --format json`;
-      const { stdout } = await execAsync(command);
+      const stdout = await runPnpm([
+        'kanban',
+        'getByColumn',
+        column.trim(),
+        '--format',
+        'json'
+      ]);
       const tasks = JSON.parse(stdout);
 
       return tasks.map((task: any) => this.normalizeTask(task, 'kanban'));
@@ -53,14 +80,15 @@ export class KanbanAdapter extends BaseAdapter {
     // Kanban tasks are files - we need to create markdown files
     const taskContent = this.generateTaskFileContent(task);
     const fileName = this.generateTaskFileName(task);
-    const filePath = `${this.config.config.tasksDir}/${fileName}.md`;
+    const tasksDir = path.resolve(this.config.config.tasksDir);
+    const filePath = path.join(tasksDir, `${fileName}.md`);
 
     try {
-      await execAsync(`mkdir -p ${this.config.config.tasksDir}`);
-      await execAsync(`cat > "${filePath}" << 'EOF'\n${taskContent}\nEOF`);
+      await mkdir(tasksDir, { recursive: true });
+      await writeFile(filePath, taskContent, 'utf8');
 
       // Regenerate the board
-      await execAsync('pnpm kanban regenerate');
+      await runPnpm(['kanban', 'regenerate']);
 
       return task;
     } catch (error) {
@@ -82,11 +110,12 @@ export class KanbanAdapter extends BaseAdapter {
     }
 
     const taskContent = this.generateTaskFileContent(task);
-    const filePath = `${this.config.config.tasksDir}/${fileName}`;
+    const tasksDir = path.resolve(this.config.config.tasksDir);
+    const filePath = path.join(tasksDir, fileName);
 
     try {
-      await execAsync(`cat > "${filePath}" << 'EOF'\n${taskContent}\nEOF`);
-      await execAsync('pnpm kanban regenerate');
+      await writeFile(filePath, taskContent, 'utf8');
+      await runPnpm(['kanban', 'regenerate']);
 
       return task;
     } catch (error) {
@@ -101,11 +130,12 @@ export class KanbanAdapter extends BaseAdapter {
       return false;
     }
 
-    const filePath = `${this.config.config.tasksDir}/${fileName}`;
+    const tasksDir = path.resolve(this.config.config.tasksDir);
+    const filePath = path.join(tasksDir, fileName);
 
     try {
-      await execAsync(`rm "${filePath}"`);
-      await execAsync('pnpm kanban regenerate');
+      await rm(filePath, { force: true });
+      await runPnpm(['kanban', 'regenerate']);
       return true;
     } catch (error) {
       console.error(`Error deleting kanban task:`, error);
@@ -115,7 +145,14 @@ export class KanbanAdapter extends BaseAdapter {
 
   async getTaskById(taskId: string): Promise<Task | null> {
     try {
-      const { stdout } = await execAsync(`pnpm kanban search --uuid ${taskId} --format json`);
+      const stdout = await runPnpm([
+        'kanban',
+        'search',
+        '--uuid',
+        taskId.trim(),
+        '--format',
+        'json'
+      ]);
       const result = JSON.parse(stdout);
 
       if (result.exact && result.exact.length > 0) {
@@ -131,7 +168,7 @@ export class KanbanAdapter extends BaseAdapter {
 
   async testConnection(): Promise<boolean> {
     try {
-      await execAsync('pnpm kanban count');
+      await runPnpm(['kanban', 'count']);
       return true;
     } catch (error) {
       console.error(`Kanban connection test failed:`, error);
@@ -140,7 +177,7 @@ export class KanbanAdapter extends BaseAdapter {
   }
 
   private generateTaskFileContent(task: Task): string {
-    const labels = task.labels.map(label => `  - ${label}`).join('\n');
+    const labels = (task.labels ?? []).map(label => `  - ${label}`).join('\n');
     const estimates = task.estimates ?
       Object.entries(task.estimates).map(([key, value]) => `  ${key}: ${value}`).join('\n') : '';
 
