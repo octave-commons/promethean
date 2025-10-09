@@ -1,4 +1,4 @@
-import { float32ToInt16 } from "@promethean/duck-audio/src/pcm.js";
+import { float32ToInt16 } from '@promethean/duck-audio';
 
 export type OnPcm = (pcm: Int16Array, tstampMs: number) => void;
 
@@ -13,8 +13,8 @@ type MicHandle = { stop: () => Promise<void>; ctx: AudioContext };
  */
 export const startMic = async (onPcm: OnPcm): Promise<MicHandle> => {
   const ctx = new AudioContext({ sampleRate: 48000 });
-  await ctx.audioWorklet.addModule("/pcm16k-worklet.js");
-  const node = new AudioWorkletNode(ctx, "pcm16k");
+  await ctx.audioWorklet.addModule('/pcm16k-worklet.js');
+  const node = new AudioWorkletNode(ctx, 'pcm16k');
   const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
   const source = ctx.createMediaStreamSource(stream);
 
