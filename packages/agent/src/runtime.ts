@@ -1,4 +1,7 @@
 export type AgentRuntime = {
-    subscribe(topic: string, handler: (msg: any) => Promise<void>): Promise<void>;
-    publish(topic: string, msg: any): Promise<void>;
+    subscribe<Message>(
+        topic: string,
+        handler: (msg: Message) => Promise<void>,
+    ): Promise<void>;
+    publish<Message>(topic: string, msg: Message): Promise<void>;
 };

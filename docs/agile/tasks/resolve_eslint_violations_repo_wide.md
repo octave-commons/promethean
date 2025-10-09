@@ -2,14 +2,14 @@
 uuid: "137054cb-d7c9-4b0a-9aa9-5ce0425948db"
 title: "Resolve ESLint violations across repository"
 slug: "resolve_eslint_violations_repo_wide"
-status: "todo"
+status: "in_progress"
 priority: "P3"
 labels: ["eslint", "resolve", "violations", "across"]
 created_at: "2025-10-07T20:25:05.643Z"
 estimates:
-  complexity: ""
-  scale: ""
-  time_to_completion: ""
+  complexity: "3"
+  scale: "3"
+  time_to_completion: "1 session"
 ---
 
 
@@ -36,6 +36,22 @@ Multiple packages trigger ESLint errors such as `functional/prefer-immutable-typ
 - [ ] Draft config changes in [[eslint.config.ts]] to address systemic problems.
 - [ ] Refactor code or add utilities where patterns recur.
 - [ ] Create documentation summarizing unresolved or complex rules.
+
+# Session Notes (2025-10-09)
+
+## Clarification & Scope
+- Target a small subset of ESLint errors that block repository linting, focusing on actionable rule violations instead of configuration overhauls.
+- Avoid global rule relaxations; prefer localized refactors in the offending packages.
+
+## Plan
+1. Run linting on the affected package(s) to capture the exact violations.
+2. Refactor code to satisfy the functional lint rules (e.g., eliminate `let`, enforce immutability, prefer pure helpers).
+3. Re-run targeted lint commands to verify the fixes.
+4. Record any remaining blockers or systemic issues for follow-up.
+
+## Risks / Open Questions
+- The repository-level lint run currently fails before reporting violations due to dependency mismatches; may need to update/install dependencies first.
+- Some lint rules may require broader architectural changes; will document if encountered instead of over-scoping this slice.
 
 #Todo #codex-task #doc-this
 
