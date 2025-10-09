@@ -1,16 +1,17 @@
 ---
-uuid: 6a7b8c9d-1e2f-3a4b5c6d7e8f9a0b1c2d
-title: Implement visual regression testing for UI components and documentation
-status: incoming
-priority: P3
-labels:
-  - testing
-  - visual-testing
-  - ui-components
-  - documentation
-  - regression-testing
-created_at: '2025-01-08T15:46:00.000Z'
+uuid: "6a7b8c9d-1e2f-3a4b5c6d7e8f9a0b1c2d"
+title: "Implement visual regression testing for UI components and documentation"
+slug: "implement-visual-regression-testing-for-ui-components"
+status: "incoming"
+priority: "P3"
+labels: ["testing", "visual-testing", "ui-components", "documentation", "regression-testing"]
+created_at: "2025-01-08T15:46:00.000Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
 #incoming
 
 ## 🛠️ Description

@@ -1,10 +1,15 @@
 ---
-title: Design Agent OS Clojure DSL Runtime Implementation
-uuid: c3d4e5f6-a7b8-9c0d-1e2f-3a4b-5c6d-7e8f
-status: accepted
-priority: p1
-tags: [dsl, clojure, runtime, agent-os, implementation]
-created: 2025-10-09
+uuid: "c3d4e5f6-a7b8-9c0d-1e2f-3a4b-5c6d-7e8f"
+title: "Design Agent OS Clojure DSL Runtime Implementation"
+slug: "design-agent-os-clojure-dsl-runtime-implementation"
+status: "accepted"
+priority: "p1"
+labels: ["dsl", "clojure", "runtime", "agent-os", "implementation"]
+created_at: "2025-10-09T21:36:17.711Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 # Design Agent OS Clojure DSL Runtime Implementation

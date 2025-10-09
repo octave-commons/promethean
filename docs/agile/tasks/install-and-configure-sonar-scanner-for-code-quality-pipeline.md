@@ -12,8 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
 ## 🛠️ Task: Install and configure sonar-scanner for code quality pipeline
 
 ## 🐛 Problem Statement
@@ -164,4 +162,3 @@ Once configured, the sonar pipeline will provide:
 - Quality gate enforcement
 
 This setup will enable continuous code quality monitoring and automated task generation for quality improvements.
-

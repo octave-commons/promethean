@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 Cephalon: Build LLM context window from collections
 
 Goal: Ensure the LLM prompt context draws from `transcripts`, `agent_messages`, and any domain-specific collections using `ContextManager.compileContext` consistently in ECS orchestration.
@@ -28,6 +27,3 @@ Exit Criteria:
 - Unit test stubbing `ContextManager` to validate callback invocation.
 
 #incoming #cephalon #context #llm
-
-
-

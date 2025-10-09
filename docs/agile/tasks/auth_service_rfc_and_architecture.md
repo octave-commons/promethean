@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 Auth Service: RFC and Architecture
 
 Goal: Design a centralized internal auth provider for Promethean services.
@@ -36,7 +35,3 @@ Exit Criteria:
 - Approved RFC; tickets created for scaffold, clients, and service integration.
 
 #incoming #auth #oauth #architecture
-
-
-
-

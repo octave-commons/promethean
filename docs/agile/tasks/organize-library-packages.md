@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 #Todo
 
 ## 🛠️ Description
@@ -64,5 +63,3 @@ Estimate: 3
 ## 🔍 Relevant Links
 
 - Pending proposal.
-
-

@@ -1,10 +1,15 @@
 ---
+uuid: "kanban-regenerate-fix-001"
 title: "Fix regenerateBoard to show all configured columns even when empty"
-status: done
-priority: P1
-tags: [kanban, bug, fsm, columns, config]
-uuid: kanban-regenerate-fix-001
-created: 2025-10-06
+slug: "fix-regenerate-board-empty-columns"
+status: "done"
+priority: "P1"
+labels: ["kanban", "bug", "fsm", "columns", "config"]
+created_at: "2025-10-09T21:36:17.719Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 # Fix regenerateBoard to show all configured columns even when empty

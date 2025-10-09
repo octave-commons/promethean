@@ -1,11 +1,15 @@
 ---
+uuid: "277072af-f8fc-4b22-b0a5-2a70375a01fc"
 title: "Design Agent Communication Framework"
+slug: "design-agent-communication-framework-277072af"
 status: "incoming"
 priority: "P1"
-tags: ["agent-os", "design", "communication", "collaboration", "messaging", "protocols"]
-estimate: 4
-uuid: "277072af-f8fc-4b22-b0a5-2a70375a01fc"
-parent: "a4634017-e2fc-4ed6-bc3c-8abf4d1c4a7f"
+labels: ["agent-os", "design", "communication", "collaboration", "messaging", "protocols"]
+created_at: "2025-10-09T21:36:17.711Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 # Design Agent Communication Framework

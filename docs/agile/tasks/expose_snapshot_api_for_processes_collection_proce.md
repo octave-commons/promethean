@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 ## 🛠️ Task: Expose **Snapshot API** for `processes` (collection `processes`)
 
 Generated from ../unique/2025.08.08.20.08.83.md$../unique/2025.08.08.20.08.83.md
@@ -36,6 +35,3 @@ Generated from ../unique/2025.08.08.20.08.83.md$../unique/2025.08.08.20.08.83.md
 
 
 #rejected
-
-
-

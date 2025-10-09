@@ -1,10 +1,15 @@
 ---
-uuid: (uuidgen)
-title: Add confidence calibration and historical accuracy tracking
-status: icebox
-priority: P2
-labels: [enhancement, boardrev, accuracy, metrics]
-created_at: 2025-10-06T12:00:00Z
+uuid: "(uuidgen)"
+title: "Add confidence calibration and historical accuracy tracking"
+slug: "boardrev-confidence-calibration"
+status: "icebox"
+priority: "P2"
+labels: ["enhancement", "boardrev", "accuracy", "metrics"]
+created_at: "Mon Oct 06 2025 07:00:00 GMT-0500 (Central Daylight Time)"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 # Add confidence calibration and historical accuracy tracking

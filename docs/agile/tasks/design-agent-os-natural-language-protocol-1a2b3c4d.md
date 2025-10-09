@@ -1,11 +1,15 @@
 ---
-type: design
-title: Design Agent OS Natural Language Management Protocol
-estimate: 6
-uuid: 1a2b3c4d
-status: ready
-priority: high
-tags: [agent-os, natural-language, protocol, enso-inspired, async-communication]
+uuid: "1a2b3c4d"
+title: "Design Agent OS Natural Language Management Protocol"
+slug: "design-agent-os-natural-language-protocol-1a2b3c4d"
+status: "ready"
+priority: "high"
+labels: ["agent-os", "natural-language", "protocol", "enso-inspired", "async-communication"]
+created_at: "2025-10-09T21:36:17.712Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 # Design Agent OS Natural Language Management Protocol

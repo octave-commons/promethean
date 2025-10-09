@@ -1,11 +1,17 @@
 ---
-uuid: 401a4f92-e9db-4f1b-b617-7ccbdc0a44a3
-title: capture confirmation telemetry for daemon optimization triggers
-status: incoming
-priority: P3
-labels: [telemetry, system]
-created_at: '2025-10-07T04:53:19.376Z'
+uuid: "401a4f92-e9db-4f1b-b617-7ccbdc0a44a3"
+title: "capture confirmation telemetry for daemon optimization triggers"
+slug: "Capture confirmation telemetry for daemon optimization triggers"
+status: "incoming"
+priority: "P3"
+labels: ["telemetry", "system"]
+created_at: "2025-10-07T04:53:19.376Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
 ## 🛠️ Task: Capture confirmation telemetry for daemon optimization triggers
 
 `system/README.md` describes how repeated confirmations of daemon- and condition-driven units trigger optimization events and conversions into structured formats. We need durable telemetry so the framework can count confirmations, audit which context state led to conversions, and surface signals for future automation.

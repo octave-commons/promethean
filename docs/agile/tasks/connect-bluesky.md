@@ -12,8 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
 # Description
 
 Enable agents to interact with Bluesky using the AT Protocol APIs and app-password authentication.
@@ -68,7 +66,3 @@ Useful for agents to engage in append only conversations about this task.
 
 #Ready
 #ready
-
-
-
-

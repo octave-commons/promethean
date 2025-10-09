@@ -12,8 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
 ```
 <hr class="__chatgpt_plugin">
 ```
@@ -71,7 +69,3 @@ Here's a suggested revision of your context section:
 TASK-2025-09-27-monitoring-test
 ```
 <% tp.app.commands.executeCommandById"chatgpt-md:call-chatgpt-api" %>
-
-
-
-

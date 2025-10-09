@@ -1,15 +1,17 @@
 ---
-uuid: d4e5f6a7-8b9c-0d1e-2f3a-4b5c6d7e8f9a
-title: Fix Piper pipeline caching logic failures (2 failing tests)
-status: incoming
-priority: P2
-labels:
-  - testing
-  - build-system
-  - piper
-  - caching
-created_at: '2025-01-08T15:34:00.000Z'
+uuid: "d4e5f6a7-8b9c-0d1e-2f3a-4b5c6d7e8f9a"
+title: "Fix Piper pipeline caching logic failures (2 failing tests)"
+slug: "fix-piper-pipeline-caching-logic-failures"
+status: "incoming"
+priority: "P2"
+labels: ["testing", "build-system", "piper", "caching"]
+created_at: "2025-01-08T15:34:00.000Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
 #incoming
 
 ## 🛠️ Description

@@ -1,11 +1,15 @@
 ---
-type: design
-title: Design Human-AI Co-User Interaction Patterns
-estimate: 5
-uuid: 3c4d5e6f
-status: ready
-priority: high
-tags: [agent-os, human-ai-collaboration, co-user-patterns, interaction-design, equal-partnership]
+uuid: "3c4d5e6f"
+title: "Design Human-AI Co-User Interaction Patterns"
+slug: "design-human-ai-co-user-interaction-patterns-3c4d5e6f"
+status: "ready"
+priority: "high"
+labels: ["agent-os", "human-ai-collaboration", "co-user-patterns", "interaction-design", "equal-partnership"]
+created_at: "2025-10-09T21:36:17.713Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 # Design Human-AI Co-User Interaction Patterns

@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 ## 🛠️ Task: Summarize clarified priorities for next sprint
 
 After the alignment meeting, document the agreed-upon priorities and share them with the team.
@@ -60,6 +59,3 @@ Nothing
 
 ## Reason for rejection
 #rejected
-
-
-

@@ -1,12 +1,17 @@
 ---
-uuid: f4e15fe7-e616-4e34-94a6-a4ca655f4f4c
-title: Fix `@promethean/ui-components` lint failures
-status: testing
-priority: P2
-labels: [codex-task]
-created_at: '2025-02-14T00:00:00.000Z'
-updated_at: '2025-02-14T00:30:00.000Z'
+uuid: "f4e15fe7-e616-4e34-94a6-a4ca655f4f4c"
+title: "Fix `@promethean/ui-components` lint failures"
+slug: "fix_ui_components_lint"
+status: "testing"
+priority: "P2"
+labels: ["codex-task"]
+created_at: "2025-02-14T00:00:00.000Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
 # Fix `@promethean/ui-components` lint failures
 
 ## Context

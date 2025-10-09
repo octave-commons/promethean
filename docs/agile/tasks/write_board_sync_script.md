@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 ## 🛠️ Task: Write board sync script
 
 Create a small tool that pushes updates from our Obsidian kanban board to a GitHub Projects board and can optionally pull remote changes.
@@ -60,6 +59,3 @@ Create a small tool that pushes updates from our Obsidian kanban board to a GitH
 - board_sync.py$../../scripts/github_board_sync.py
 - [Board Sync Workflow]../../board_sync.md
 #done
-
-
-

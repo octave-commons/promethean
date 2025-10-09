@@ -1,16 +1,17 @@
 ---
-uuid: 7b8c9d0e1-2f3a4b5c6d7e8f9a0b1c2d3e
-title: Create testing best practices documentation and team training program
-status: incoming
-priority: P3
-labels:
-  - testing
-  - documentation
-  - training
-  - best-practices
-  - knowledge-sharing
-created_at: '2025-01-08T15:47:00.000Z'
+uuid: "7b8c9d0e1-2f3a4b5c6d7e8f9a0b1c2d3e"
+title: "Create testing best practices documentation and team training program"
+slug: "create-testing-best-practices-documentation-and-training"
+status: "incoming"
+priority: "P3"
+labels: ["testing", "documentation", "training", "best-practices", "knowledge-sharing"]
+created_at: "2025-01-08T15:47:00.000Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
 #incoming
 
 ## 🛠️ Description

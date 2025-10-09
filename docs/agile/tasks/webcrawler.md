@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 # Web Crawler Agent → Hyperlink Graph → LLM Summaries/#Tags → Chroma Search Dual-Sink
 ```
 **Owner:** Codex / Agent
@@ -317,5 +316,3 @@ Append-only thread: record domain-specific deny-lists, prompt tweaks, and any in
 ```
 #in-progress
 ```
-
-

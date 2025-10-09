@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 # Ban Python; Migrate to Hy; Compile to `./dist`
 ```
 **Owner:** Codex / Agent
@@ -256,6 +255,3 @@ Append-only thread for agents. Note blockers, weird Hy interop, or macro decisio
 \#tags #promethean #hy #lisp #python #build #ci #git #precommit #policy #docs
 
 #archive
-
-
-

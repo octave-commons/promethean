@@ -12,8 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
 ## Context
 - **What changed?**: Need to extend MCP transport loader to support multiple HTTP endpoints from config.
 - **Where?**: `packages/mcp`
@@ -33,8 +31,3 @@ estimates:
 2. Update configuration types and loader to accept `endpoints` map.
 3. Adjust HTTP server composition to register multiple routers.
 4. Add tests verifying configuration and runtime wiring.
-
-
-
-
-

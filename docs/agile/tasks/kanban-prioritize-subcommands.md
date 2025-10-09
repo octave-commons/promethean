@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 # New subcommands (added; keep your existing ones)
 
 * `sample` — randomly (optionally weighted) pick a bite-sized set that matches a filter.
@@ -83,6 +82,3 @@ packages/kanban/
 ## Sources
 - _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
-
-
-

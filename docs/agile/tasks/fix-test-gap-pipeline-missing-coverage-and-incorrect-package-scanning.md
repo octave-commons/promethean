@@ -12,8 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
 ## 🛠️ Task: Fix test-gap pipeline missing coverage and incorrect package scanning
 
 ## 🐛 Problem Statement
@@ -174,4 +172,3 @@ Once fixed, the test-gap pipeline will provide:
 - Improved test coverage across the project
 
 This fix will enable intelligent test gap analysis and help maintain high test coverage standards across the entire codebase.
-

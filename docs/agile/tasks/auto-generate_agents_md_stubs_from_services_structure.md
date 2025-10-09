@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 ## 🛠️ Task: Auto-generate AGENTS.md stubs from services structure
 
 Build a small script that scans `services/` and produces initial `AGENTS.md` files for each service. These stubs should include minimal metadata and links back to implementation files.
@@ -64,6 +63,3 @@ Nothing
 - [vault config readme]../../vault-config-readme.md
 - [[kanban]]
 #done
-
-
-

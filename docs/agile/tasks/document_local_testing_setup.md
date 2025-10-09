@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 ## 🛠️ Task: Document local testing setup
 
 Running `pytest` locally fails without extra dependencies.
@@ -55,6 +54,3 @@ Nothing
 - [[kanban]]
 - [[ci|ci docs]]
 #done
-
-
-

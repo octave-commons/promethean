@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 ## 🛠️ Task: Schedule alignment meeting with stakeholders
 
 Organize a meeting to discuss the open questions about Promethean and confirm project goals.
@@ -58,5 +57,3 @@ Organize a meeting to discuss the open questions about Promethean and confirm pr
 ```
 #ice-box
 ```
-
-

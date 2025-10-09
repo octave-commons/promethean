@@ -12,8 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
 ## 🎯 Desired Outcome
 A lightweight web UI served from `@promethean/kanban` that visualises the current board using the package's existing loaders, so agents can inspect column WIP without opening Obsidian.
 

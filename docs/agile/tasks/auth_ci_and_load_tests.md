@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 Auth: CI and load tests
 
 Goal: Add CI tests and basic load testing for the auth service.
@@ -26,7 +25,3 @@ Exit Criteria:
 - CI green; performance baseline recorded in docs.
 
 #incoming #auth #testing #performance
-
-
-
-

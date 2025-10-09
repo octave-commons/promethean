@@ -1,15 +1,17 @@
 ---
-uuid: b8c9d0e1-2f3a-4b5c-5d6e-7f8a9b0c1d2e
-title: Expand security testing beyond basic sandbox validation
-status: incoming
-priority: P2
-labels:
-  - testing
-  - security
-  - vulnerability-testing
-  - input-validation
-created_at: '2025-01-08T15:38:00.000Z'
+uuid: "b8c9d0e1-2f3a-4b5c-5d6e-7f8a9b0c1d2e"
+title: "Expand security testing beyond basic sandbox validation"
+slug: "expand-security-testing-beyond-basic-sandbox-validation"
+status: "incoming"
+priority: "P2"
+labels: ["testing", "security", "vulnerability-testing", "input-validation"]
+created_at: "2025-01-08T15:38:00.000Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
 #incoming
 
 ## 🛠️ Description

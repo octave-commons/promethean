@@ -1,10 +1,15 @@
 ---
+uuid: "kanban-crud-001"
 title: "Add CRUD subcommands to kanban CLI"
-status: icebox
-priority: P2
-tags: [kanban, cli, enhancement, crud]
-uuid: kanban-crud-001
-created: 2025-10-06
+slug: "kanban-crud-commands"
+status: "icebox"
+priority: "P2"
+labels: ["kanban", "cli", "enhancement", "crud"]
+created_at: "2025-10-09T21:36:17.725Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 # Add CRUD subcommands to kanban CLI

@@ -1,11 +1,15 @@
 ---
-uuid: a2b3c4d5-e6f7-8901-bcde-f23456789012
-title: Upgrade symdocs to generate meaningful API documentation
-status: icebox
-priority: P2
-labels: [symdocs, documentation, enhancement, ai, pipeline]
-created_at: 2025-10-06T23:45:00.000Z
-estimates: {}
+uuid: "a2b3c4d5-e6f7-8901-bcde-f23456789012"
+title: "Upgrade symdocs to generate meaningful API documentation"
+slug: "upgrade-symdocs-documentation"
+status: "icebox"
+priority: "P2"
+labels: ["symdocs", "documentation", "enhancement", "ai", "pipeline"]
+created_at: "Mon Oct 06 2025 18:45:00 GMT-0500 (Central Daylight Time)"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 # Upgrade symdocs to generate meaningful API documentation

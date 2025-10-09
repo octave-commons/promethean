@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 ## 🧠 Description
 
 Each service in `services/` should include a minimal `README.md` explaining its purpose, how to start it, and any dependencies. This task enforces that standard.
@@ -50,6 +49,3 @@ Most directories currently lack a README, so we need to create them using a comm
 
 
 #archive
-
-
-

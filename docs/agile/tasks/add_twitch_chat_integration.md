@@ -1,11 +1,17 @@
 ---
-uuid: df445b14-f6c7-457e-88c4-872477f8c6e6
-title: add twitch chat integration md md
-status: testing
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.506Z'
+uuid: "df445b14-f6c7-457e-88c4-872477f8c6e6"
+title: "add twitch chat integration md md"
+slug: "add_twitch_chat_integration"
+status: "testing"
+priority: "P3"
+labels: ["twitch", "chat", "add", "integration"]
+created_at: "2025-09-15T02:02:58.506Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
 ## 🛠️ Description
 ```
 **Status:** blocked
@@ -64,4 +70,3 @@ Nothing
 
 ## Blockers
 - No active owner or unclear scope
-

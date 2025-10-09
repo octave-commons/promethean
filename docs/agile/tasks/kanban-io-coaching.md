@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 # Minimal IO + coaching utilities
 
 ```ts
@@ -61,6 +60,3 @@ export async function appendChoice(c: Omit<Choice,"ts">){
 ## Sources
 - _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
-
-
-

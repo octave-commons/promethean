@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 ECS Migration Path Documentation
 
 Goal: Document how to migrate each service to ECS-backed persistence incrementally.
@@ -26,6 +25,3 @@ Exit Criteria:
 - Markdown doc published under `docs/ecs/migration.md` with cross-links from service READMEs.
 
 #incoming #ecs #migration #docs
-
-
-

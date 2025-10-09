@@ -1,11 +1,17 @@
 ---
-uuid: 94a2959e-21b1-4a41-9c1f-85787c1a0894
-title: Format auth-service README with Prettier
-status: testing
-priority: P3
-labels: []
-created_at: '2025-09-15T02:02:58.513Z'
+uuid: "94a2959e-21b1-4a41-9c1f-85787c1a0894"
+title: "Format auth-service README with Prettier"
+slug: "format_auth_service_readme_with_prettier"
+status: "testing"
+priority: "P3"
+labels: ["readme", "prettier", "auth", "service"]
+created_at: "2025-09-15T02:02:58.513Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
 # Format auth-service README with Prettier
 
 ## Description

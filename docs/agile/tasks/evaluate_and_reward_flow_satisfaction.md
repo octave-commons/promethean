@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 ## 🛠️ Task: Evaluate and reward flow satisfaction
 
 Develop a metric for how "smooth" an interaction feels and use it to
@@ -75,6 +74,3 @@ Generated from ../unique/2025.07.28.18.07.20.md$../unique/2025.07.28.18.07.20.md
 - Do we need real-time updates to the reward signal or batched summaries?
 #IceBox
 #rejected
-
-
-

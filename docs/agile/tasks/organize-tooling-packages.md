@@ -1,11 +1,17 @@
 ---
-uuid: 911d511f-7f6d-4f01-86c0-5129765a3f8f
-title: Group tooling and CLI packages
-status: testing
-priority: p3
+uuid: "911d511f-7f6d-4f01-86c0-5129765a3f8f"
+title: "Group tooling and CLI packages"
+slug: "organize-tooling-packages"
+status: "testing"
+priority: "p3"
 labels: ["framework-core", "refactor"]
-created_at: '2025-09-27T00:14:00.000Z'
+created_at: "2025-09-27T00:14:00.000Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
 #Todo
 
 ## 🛠️ Description

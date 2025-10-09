@@ -1,14 +1,17 @@
 ---
-uuid: a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d
-title: Fix kanban board regeneration tests (14 failing tests)
-status: incoming
-priority: P1
-labels:
-  - testing
-  - kanban
-  - bug-fix
-created_at: '2025-01-08T15:31:00.000Z'
+uuid: "a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"
+title: "Fix kanban board regeneration tests (14 failing tests)"
+slug: "fix-kanban-board-regeneration-tests"
+status: "incoming"
+priority: "P1"
+labels: ["testing", "kanban", "bug-fix"]
+created_at: "2025-01-08T15:31:00.000Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
 #incoming
 
 ## 🛠️ Description

@@ -1,13 +1,17 @@
 ---
-uuid: 931a7d00-c601-4697-998f-441dffe78f25
-title: Design mermaid to Piper DSL compiler
-status: todo
-priority: P4
-labels:
-  - tooling
-  - pipelines
-created_at: '2025-10-07T02:31:07Z'
+uuid: "931a7d00-c601-4697-998f-441dffe78f25"
+title: "Design mermaid to Piper DSL compiler"
+slug: "Design mermaid to Piper DSL compiler"
+status: "todo"
+priority: "P4"
+labels: ["tooling", "pipelines"]
+created_at: "2025-10-07T02:31:07Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
 ## 🛠️ Task: Design mermaid to Piper DSL compiler
 
 ### Context

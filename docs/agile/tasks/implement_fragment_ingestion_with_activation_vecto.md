@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 ## 🛠️ Task: Implement fragment ingestion with activation vectors
 
 Placeholder task stub generated from kanban board.
@@ -59,5 +58,3 @@ Nothing
 ```
 #ice-box
 ```
-
-

@@ -12,8 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
 ## 🧾 Summary
 Unify the historical kanban scripts into an ECS-powered experience that keeps Markdown + CLI flows authoritative while introducing modern interaction patterns.
 
@@ -37,5 +35,3 @@ Unify the historical kanban scripts into an ECS-powered experience that keeps Ma
 
 #todo
 #accepted
-
-

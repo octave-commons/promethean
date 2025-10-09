@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 Here’s the refined version, keeping it focused on **NPU-accelerated transcription** as a performance optimization:
 
 ---
@@ -80,6 +79,3 @@ That’ll make it easier to slot into the Promethean pipeline.
 - No active owner or unclear scope
 
 #breakdown
-
-
-

@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 ## 🛠️ Task: Ensure GitHub-compatible markdown settings are documented
 
 Some Obsidian features don't render well on GitHub. We need clear guidelines so contributors produce markdown that looks correct both locally and on GitHub.
@@ -56,6 +55,3 @@ Nothing
 ## 🔍 Relevant Links
 - [[kanban]]
 #rejected
-
-
-

@@ -1,15 +1,15 @@
 ---
-uuid: 'ab4b2c51-91e6-4880-9390-30609209389c'
-title: 'standardize agent ecosystem launch flows'
-slug: 'standardize-agent-ecosystem-launchflows'
-status: 'done'
-priority: 'P2'
-labels: ['agents', 'devx', 'duck']
-created_at: '2025-10-07T20:25:05.643Z'
+uuid: "ab4b2c51-91e6-4880-9390-30609209389c"
+title: "standardize agent ecosystem launch flows"
+slug: "standardize-agent-ecosystem-launchflows"
+status: "done"
+priority: "P2"
+labels: ["agents", "devx", "duck"]
+created_at: "2025-10-07T20:25:05.643Z"
 estimates:
-  complexity: ''
-  scale: ''
-  time_to_completion: ''
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 Background: Contributors still rely on outdated Makefile targets to launch agents. The backlog calls for PM2 (or an alternative) baselines, reusable ecosystem declarations (starting with Duck), and documentation that ties `pnpm --filter` scripts to real-world dev flows.

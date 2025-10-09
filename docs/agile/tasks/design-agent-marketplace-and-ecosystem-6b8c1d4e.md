@@ -1,11 +1,15 @@
 ---
-type: design
-title: Design Agent Marketplace and Ecosystem Platform
-estimate: 5
-uuid: 6b8c1d4e
-status: ready
-priority: high
-tags: [agent-os, marketplace, ecosystem, commerce, collaboration]
+uuid: "6b8c1d4e"
+title: "Design Agent Marketplace and Ecosystem Platform"
+slug: "design-agent-marketplace-and-ecosystem-6b8c1d4e"
+status: "ready"
+priority: "high"
+labels: ["agent-os", "marketplace", "ecosystem", "commerce", "collaboration"]
+created_at: "2025-10-09T21:36:17.711Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 # Design Agent Marketplace and Ecosystem Platform

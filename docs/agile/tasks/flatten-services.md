@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 ## 🛠️ Description
 
 Reorganize the repository so service directories are flattened, reducing unnecessary nesting and clarifying ownership.
@@ -65,6 +64,3 @@ Nothing
 ```
 #framework-core #Ready
 ```
-
-
-

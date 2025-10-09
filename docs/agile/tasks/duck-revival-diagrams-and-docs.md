@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 #Done
 
 ## 🛠️ Description
@@ -45,5 +44,3 @@ Add concise docs with Mermaid diagrams for all moving parts touched by the `duck
 
 ## Relevant Links
 - `docs/diagrams/duck-revival-overview.md`
-
-

@@ -12,8 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
 ## 🎯 Outcome
 
 Ship the initial `@promethean/omni-protocol` package containing TypeScript interfaces, JSON schema emitters, error envelopes, and streaming event definitions that mirror the SmartGPT bridge contracts.
@@ -50,5 +48,3 @@ Ship the initial `@promethean/omni-protocol` package containing TypeScript inter
 ## 🔗 Dependencies
 
 - [docs/agile/tasks/omni-unified-service-spec.md] (spec must exist).
-
-

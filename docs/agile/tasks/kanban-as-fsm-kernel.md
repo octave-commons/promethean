@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 love the clarity. let’s codify exactly what you described, agent-agnostic, as a **Kanban-as-FSM** kernel for `process.md`. no special phases, no timeboxing, minimal rules, procedural, board-driven.
 
 # Step 1 — minimal patch for `process.md` (append verbatim)
@@ -79,6 +78,3 @@ If that matches your intent, say **“apply Step 1”** and I’ll slot it into 
 ## Sources
 - _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
-
-
-

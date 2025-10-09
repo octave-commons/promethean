@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 Q## 🛠️ Task: Clearly seperate service dependency files
 
 Each service should maintain its own dependency declarations so deployments remain isolated. Refer to the design notes in `file-structure.md` and the migration plan for guidance.
@@ -73,6 +72,3 @@ Nothing
 - file-structure$../file-structure.md
 - MIGRATION_PLAN$../MIGRATION_PLAN.md
 #done
-
-
-

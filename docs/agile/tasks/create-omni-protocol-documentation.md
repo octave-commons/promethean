@@ -1,15 +1,15 @@
 ---
-uuid: '94a4c9a3-9bf9-4573-a5fb-23738d060b86'
-title: 'Create Omni protocol API documentation and guides'
-slug: 'create-omni-protocol-documentation'
-status: 'todo'
-priority: 'P1'
-labels: ['omni', 'documentation', 'api-docs', 'typedoc']
-created_at: '2025-10-08T22:00:00.000Z'
+uuid: "94a4c9a3-9bf9-4573-a5fb-23738d060b86"
+title: "Create Omni protocol API documentation and guides"
+slug: "create-omni-protocol-documentation"
+status: "todo"
+priority: "P1"
+labels: ["omni", "documentation", "api-docs", "typedoc"]
+created_at: "2025-10-08T22:00:00.000Z"
 estimates:
-  complexity: '3'
-  scale: 'M'
-  time_to_completion: '4h'
+  complexity: "3"
+  scale: "M"
+  time_to_completion: "4h"
 ---
 
 ## 🎯 Outcome

@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 ## 🛠️ Task: Add starter notes - eidolon_fields, cephalon_inner_monologue
 
 Create initial documentation for two key areas of the emotional model.
@@ -85,6 +84,3 @@ Nothing
 
 - [[kanban]]
 #done
-
-
-

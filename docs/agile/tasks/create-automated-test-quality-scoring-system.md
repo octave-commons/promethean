@@ -1,15 +1,17 @@
 ---
-uuid: 5f6a7b8c-9c9d-1e2f-3a4b5c6d7e8f9a0b1c
-title: Create automated test quality scoring and analysis system
-status: incoming
-priority: P3
-labels:
-  - testing
-  - quality-metrics
-  - automation
-  - static-analysis
-created_at: '2025-01-08T15:45:00.000Z'
+uuid: "5f6a7b8c-9c9d-1e2f-3a4b5c6d7e8f9a0b1c"
+title: "Create automated test quality scoring and analysis system"
+slug: "create-automated-test-quality-scoring-system"
+status: "incoming"
+priority: "P3"
+labels: ["testing", "quality-metrics", "automation", "static-analysis"]
+created_at: "2025-01-08T15:45:00.000Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
 #incoming
 
 ## 🛠️ Description

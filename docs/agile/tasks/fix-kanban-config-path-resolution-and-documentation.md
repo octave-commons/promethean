@@ -12,8 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
 ## 🛠️ Task: Fix kanban config path resolution and document usage for agents
 
 ## 🐛 Problem Statement

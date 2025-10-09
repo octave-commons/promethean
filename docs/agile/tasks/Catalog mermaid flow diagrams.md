@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 ## 🛠️ Task: Catalog and normalize mermaid flow diagrams
 
 ### Background
@@ -37,5 +36,3 @@ estimates:
 - `packages/schema/README.md`
 - `packages/cephalon/docs/graph/cephalon-knowledge.md`
 - `docs/agile/process.md`
-
-

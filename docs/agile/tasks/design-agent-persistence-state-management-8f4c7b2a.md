@@ -1,11 +1,15 @@
 ---
-type: design
-title: Design Agent Persistence and State Management System
-estimate: 5
-uuid: 8f4c7b2a
-status: ready
-priority: high
-tags: [agent-os, persistence, state-management, database, recovery]
+uuid: "8f4c7b2a"
+title: "Design Agent Persistence and State Management System"
+slug: "design-agent-persistence-state-management-8f4c7b2a"
+status: "ready"
+priority: "high"
+labels: ["agent-os", "persistence", "state-management", "database", "recovery"]
+created_at: "2025-10-09T21:36:17.712Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 # Design Agent Persistence and State Management System

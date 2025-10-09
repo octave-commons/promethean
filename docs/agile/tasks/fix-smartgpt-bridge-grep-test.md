@@ -1,15 +1,15 @@
 ---
-uuid: '99ee9a9f-a7b5-489d-9eba-5de75e6840ab'
-title: 'Fix SmartGPT Bridge grep parity with ripgrep /TASK-20241120-grepfix /kanban /InProgress /gpt /p2 /EPC-000 :auto :ts'
-slug: 'fix-smartgpt-bridge-grep-test'
-status: 'ready'
-priority: 'p2'
-labels: ['task', 'board', 'state', 'owner', 'priority', 'epic', 'board', 'lang']
-created_at: '2025-10-07T20:25:05.643Z'
+uuid: "99ee9a9f-a7b5-489d-9eba-5de75e6840ab"
+title: "Fix SmartGPT Bridge grep parity with ripgrep /TASK-20241120-grepfix /kanban /InProgress /gpt /p2 /EPC-000 :auto :ts"
+slug: "fix-smartgpt-bridge-grep-test"
+status: "ready"
+priority: "p2"
+labels: ["task", "board", "state", "owner", "priority", "epic", "lang"]
+created_at: "2025-10-07T20:25:05.643Z"
 estimates:
   complexity: 3
   scale: 2
-  time_to_completion: '2 hours'
+  time_to_completion: "2 hours"
 ---
 
 ## Context

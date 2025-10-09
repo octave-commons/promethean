@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 you’re not overthinking it — you’re seeing the missing cycles. let’s add **explicit reverse paths** so the system never fakes forward progress, and give the cloud agent a safe “session-end hand-off” path that doesn’t require a PR.
 
 here’s a tightened FSM with minimal, procedural cycles:
@@ -142,6 +141,3 @@ If this looks right, I’ll fold these deltas into the process doc’s FSM secti
 ## Sources
 - _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
-
-
-

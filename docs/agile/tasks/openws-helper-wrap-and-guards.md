@@ -12,8 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
 #Todo
 
 ## 🛠️ Description
@@ -28,6 +26,3 @@ Wrap `openWs` with injectable factory; skip `bearer.*` subprotocol when token ab
 
 ## 🔍 Related
 - PR #1446
-
-
-

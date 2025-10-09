@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 ## 🛠️ Description
 
 Replace ad‑hoc anonymous lambdas with well‑named higher‑order functions to clarify intent and improve reuse.
@@ -69,6 +68,3 @@ Nothing
 ```
 #framework-core #Ready
 ```
-
-
-

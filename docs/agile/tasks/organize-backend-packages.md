@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 #Todo
 
 ## 🛠️ Description
@@ -64,5 +63,3 @@ Estimate: 5
 ## 🔍 Relevant Links
 
 - Pending implementation notes.
-
-

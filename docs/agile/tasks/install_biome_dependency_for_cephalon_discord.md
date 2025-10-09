@@ -1,15 +1,15 @@
 ---
-uuid: '0427985f-f4ad-4f85-975f-9c085bcc452a'
-title: 'Install Biome dependency for cephalon-discord'
-slug: 'install_biome_dependency_for_cephalon_discord'
-status: 'ready'
-priority: 'P3'
-labels: ['biome', 'cephalon', 'discord', 'dependency']
-created_at: '2025-10-07T20:25:05.643Z'
+uuid: "0427985f-f4ad-4f85-975f-9c085bcc452a"
+title: "Install Biome dependency for cephalon-discord"
+slug: "install_biome_dependency_for_cephalon_discord"
+status: "ready"
+priority: "P3"
+labels: ["biome", "cephalon", "discord", "dependency"]
+created_at: "2025-10-07T20:25:05.643Z"
 estimates:
   complexity: 2
   scale: 1
-  time_to_completion: '30 minutes'
+  time_to_completion: "30 minutes"
 ---
 
 # Install Biome dependency for cephalon-discord

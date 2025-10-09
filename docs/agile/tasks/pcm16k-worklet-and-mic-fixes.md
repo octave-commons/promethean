@@ -12,8 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
 # Todo
 
 ## 🛠️ Description
@@ -30,6 +28,3 @@ Fix syntax errors in `pcm16k-worklet.js`, track fractional position to avoid dri
 
 ## 🔍 Related
 - PR #1443, PR #1442
-
-
-

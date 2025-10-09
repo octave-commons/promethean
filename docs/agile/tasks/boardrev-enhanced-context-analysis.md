@@ -1,10 +1,15 @@
 ---
-uuid: (uuidgen)
-title: Enhance boardrev context analysis with weighted factors
-status: icebox
-priority: P2
-labels: [enhancement, boardrev, analysis, accuracy]
-created_at: 2025-10-06T12:00:00Z
+uuid: "(uuidgen)"
+title: "Enhance boardrev context analysis with weighted factors"
+slug: "boardrev-enhanced-context-analysis"
+status: "icebox"
+priority: "P2"
+labels: ["enhancement", "boardrev", "analysis", "accuracy"]
+created_at: "Mon Oct 06 2025 07:00:00 GMT-0500 (Central Daylight Time)"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 # Enhance boardrev context analysis with weighted factors

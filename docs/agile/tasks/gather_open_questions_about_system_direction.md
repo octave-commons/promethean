@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 ## 🛠️ Task: Gather open questions about system direction
 
 This task collects ambiguous or unresolved points about Promethean's goals and architecture that require human clarification.
@@ -56,5 +55,3 @@ Nothing
 ```
 #ice-box
 ```
-
-

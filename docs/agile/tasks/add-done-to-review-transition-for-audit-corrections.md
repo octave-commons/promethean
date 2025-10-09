@@ -1,19 +1,15 @@
 ---
-title: 'Add done→review transition for audit corrections and quality control'
-description: 'Enable moving tasks from done back to needs_review for audit corrections and quality control'
-uuid: done-review-transition-001
-labels:
-  - kanban
-  - fsm
-  - transitions
-  - audit
-  - quality-control
-priority: P2
-status: done
-created_at: '2025-01-08T22:50:00.000Z'
+uuid: "done-review-transition-001"
+title: "Add done→review transition for audit corrections and quality control"
+slug: "add-done-to-review-transition-for-audit-corrections"
+status: "done"
+priority: "P2"
+labels: ["kanban", "fsm", "transitions", "audit", "quality-control"]
+created_at: "2025-01-08T22:50:00.000Z"
 estimates:
   complexity: 3
-  time_to_completion: '2 hours'
+  scale: ""
+  time_to_completion: "2 hours"
 ---
 
 # Add Done→Review Transition for Audit Corrections and Quality Control

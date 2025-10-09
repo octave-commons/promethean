@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 ## 🛠️ Task: Add unit tests for GUI helpers
 
 Cover `shared/py/utils/gui.py` with pytest.
@@ -56,6 +55,3 @@ Nothing
 - [Untested modules]../../untested-code.md
 
 #archive
-
-
-

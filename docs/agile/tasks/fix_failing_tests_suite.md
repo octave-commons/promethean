@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 ## 🧭 Context
 - **What changed?**: Incoming bug report indicates some unit tests in the Promethean monorepo are currently failing on main.
 - **Where?**: Tests appear in the shared `tests/` workspace.
@@ -42,5 +41,3 @@ estimates:
 ## 🔗 Related Resources
 - `docs/reports/codex_cloud/describe/latest/summary.tsv`
 - Repository AGENTS guidelines
-
-

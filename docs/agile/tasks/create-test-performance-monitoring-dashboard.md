@@ -1,15 +1,17 @@
 ---
-uuid: 2c3d4e5f-6a7b-8c9d-1e2f-3a4b5c6d7e8f9a
-title: Create test performance monitoring dashboard and alerting
-status: incoming
-priority: P2
-labels:
-  - testing
-  - monitoring
-  - performance
-  - dashboard
-created_at: '2025-01-08T15:42:00.000Z'
+uuid: "2c3d4e5f-6a7b-8c9d-1e2f-3a4b5c6d7e8f9a"
+title: "Create test performance monitoring dashboard and alerting"
+slug: "create-test-performance-monitoring-dashboard"
+status: "incoming"
+priority: "P2"
+labels: ["testing", "monitoring", "performance", "dashboard"]
+created_at: "2025-01-08T15:42:00.000Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
 #incoming
 
 ## 🛠️ Description

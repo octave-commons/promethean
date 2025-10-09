@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 ## 🛠️ Task: Determine PM2 configuration for agents
 
 Establish a shared PM2 ecosystem or alternative process manager setup that all
@@ -80,6 +79,3 @@ Nothing
 - Then please.
 - How will service logs be aggregated when using PM2?
 #done
-
-
-

@@ -12,8 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
 ```
 <hr class="__chatgpt_plugin">
 ```
@@ -113,8 +111,3 @@ Using this title write a reasonable task kanban task document: something-somethi
 <hr class="__chatgpt_plugin">
 ```
 ### role::user
-
-
-
-
-

@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 # 🛠️ Task: Implement Classes in Lisp Compiler
 
 ## 📖 Description
@@ -74,5 +73,3 @@ Append-only thread for collaboration by agents implementing class support.
 ```
 #in-progress
 ```
-
-

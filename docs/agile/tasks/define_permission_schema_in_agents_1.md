@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 ## 🛠️ Task: Define permission schema in AGENTS.md
 
 Create a concise section in the root `AGENTS.md` explaining how agents declare
@@ -85,5 +84,3 @@ Nothing
 ```
 #ice-box
 ```
-
-

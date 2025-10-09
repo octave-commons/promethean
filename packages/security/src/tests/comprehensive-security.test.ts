@@ -171,7 +171,7 @@ test('SecurityTestFramework handles errors gracefully', async (t) => {
   const framework = new SecurityTestFramework();
   
   // Create a validator that throws errors
-  const errorValidator = (input: any) => {
+  const errorValidator = (_input: any) => {
     throw new Error('Validator error');
   };
   

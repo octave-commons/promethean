@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 Cephalon: Store user transcripts via a unified handler
 
 Goal: Centralize transcript persistence for user speech in one path used by both `join-voice` and `start-dialog` flows.
@@ -28,6 +27,3 @@ Exit Criteria:
 - Test exercising both scopes with a fake transcript and asserting Mongo insert.
 
 #incoming #cephalon #transcripts #persistence
-
-
-

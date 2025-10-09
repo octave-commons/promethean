@@ -1,15 +1,17 @@
 ---
-uuid: a7b8c9d0-1e2f-3a4b-5c6d-7e8f9a0b1c2d
-title: Implement tiered timeout strategy for different test types
-status: incoming
-priority: P2
-labels:
-  - testing
-  - infrastructure
-  - timeouts
-  - configuration
-created_at: '2025-01-08T15:37:00.000Z'
+uuid: "a7b8c9d0-1e2f-3a4b-5c6d-7e8f9a0b1c2d"
+title: "Implement tiered timeout strategy for different test types"
+slug: "implement-tiered-timeout-strategy-for-test-types"
+status: "incoming"
+priority: "P2"
+labels: ["testing", "infrastructure", "timeouts", "configuration"]
+created_at: "2025-01-08T15:37:00.000Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
 #incoming
 
 ## 🛠️ Description

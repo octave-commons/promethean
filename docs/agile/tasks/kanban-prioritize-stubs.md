@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 # Command stubs (ready to wire)
 
 ```ts
@@ -103,6 +102,3 @@ export default async function cmd(argv:any){
 ## Sources
 - _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
-
-
-

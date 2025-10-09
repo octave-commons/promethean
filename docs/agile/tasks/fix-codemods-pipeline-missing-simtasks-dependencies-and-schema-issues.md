@@ -1,15 +1,15 @@
 ---
-uuid: a3b4c5d6-e7f8-9012-abc3-456789012345
-title: Fix codemods pipeline missing simtasks dependencies and schema issues
-status: testing
-priority: P2
-labels:
-  - piper
-  - codemods
-  - simtasks
-  - schema-validation
-  - dependency-chain
-created_at: '2025-10-05T00:00:00.000Z'
+uuid: "a3b4c5d6-e7f8-9012-abc3-456789012345"
+title: "Fix codemods pipeline missing simtasks dependencies and schema issues"
+slug: "fix-codemods-pipeline-missing-simtasks-dependencies-and-schema-issues"
+status: "testing"
+priority: "P2"
+labels: ["piper", "codemods", "simtasks", "schema-validation", "dependency-chain"]
+created_at: "2025-10-05T00:00:00.000Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 ## 🛠️ Task: Fix codemods pipeline missing simtasks dependencies and schema issues

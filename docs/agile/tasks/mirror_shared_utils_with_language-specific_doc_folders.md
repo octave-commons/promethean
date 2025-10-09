@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 ## 🛠️ Task: Mirror shared utils with language-specific doc folders
 
 Create documentation folders that mirror the utilities in `shared/`, grouped by their implementation language. This will make it easier to reference cross-language helpers in the design docs.
@@ -64,6 +63,3 @@ Nothing
 - [file structure]../file-structure.md
 - [[kanban]]
 #done
-
-
-

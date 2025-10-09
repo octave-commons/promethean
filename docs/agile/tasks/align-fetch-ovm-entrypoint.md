@@ -12,8 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
 ```
 <hr class="__chatgpt_plugin">
 ```
@@ -93,7 +91,3 @@ You might find [this](link) useful while working on this task.
 <% tp.file.title() %>
 
 <% tp.app.commands.executeCommandById"chatgpt-md:call-chatgpt-api" %>
-
-
-
-

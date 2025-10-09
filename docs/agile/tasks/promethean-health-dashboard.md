@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 # 🛠️ Description
 
 Build a **real‑time system dashboard** that gives an at‑a‑glance view of Promethean’s state:
@@ -232,6 +231,3 @@ tags: #framework-core #observability #eidolon-visualization #dashboard #broker #
 - Story Points: 8
 
 #ready
-
-
-

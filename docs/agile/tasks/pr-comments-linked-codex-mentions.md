@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 #Done
 
 ## 🛠️ Description
@@ -31,5 +30,3 @@ Add actionable comments on each PR, connect related PRs, tag @codex for specific
 
 ## Relevant
 - `docs/diagrams/duck-revival-overview.md`
-
-

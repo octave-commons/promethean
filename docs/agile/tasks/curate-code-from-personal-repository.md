@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 # Description
 
 I've written a lot of code over the years that I want to be a part of this system.
@@ -35,5 +34,3 @@ Just having it in the repo gives my system context
 ## Comments
 
 Useful for agents to engage in append only conversations about this task.
-
-

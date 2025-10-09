@@ -1,16 +1,15 @@
 ---
-title: Implement kanban process guidance system with next-step suggestions
-description: Create intelligent guidance system that suggests next valid states and highlights incomplete process requirements
-uuid: c3d4e5f6-a7b8-c901-def2-345678901234
-labels:
-  - enhancement
-  - kanban
-  - guidance
-  - automation
-  - user-experience
-  - process
-priority: P2
-status: incoming
+uuid: "c3d4e5f6-a7b8-c901-def2-345678901234"
+title: "Implement kanban process guidance system with next-step suggestions"
+slug: "implement-kanban-process-guidance-system"
+status: "incoming"
+priority: "P2"
+labels: ["enhancement", "kanban", "guidance", "automation", "user-experience", "process"]
+created_at: "2025-10-09T21:36:17.723Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 ## Issue

@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 # Broker ↔ GPT Bridge Parity Test Plan
 ```
 **Owner:** Codex / Agent
@@ -336,5 +335,3 @@ test(parity): add broker↔bridge parity suites + normalizers + CI gate
 ```
 #in-review
 ```
-
-

@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 ## 🛠️ Description
 
 This should just work with fastify... but I am actually not sure. I've just started to learn fastify.
@@ -58,6 +57,3 @@ Nothing
 
 - [[kanban]]
 #done
-
-
-

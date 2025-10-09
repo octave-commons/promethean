@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 Here’s a no-nonsense expansion that you can drop into your board. I’ve treated this like a mini-spec + work plan so Codex (or you) can just execute.
 
 # Mock the Broker for Tests
@@ -259,5 +258,3 @@ it('can inject latency and drop messages', async () => {
 ```
 #in-review
 ```
-
-

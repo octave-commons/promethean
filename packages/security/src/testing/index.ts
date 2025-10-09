@@ -346,7 +346,7 @@ export class SecurityTestFramework {
       vulnerabilities.forEach((vuln, index) => {
         report.push(`${index + 1}. **${vuln.type}** (${vuln.severity.toUpperCase()})`);
         report.push(`   - ${vuln.description}`);
-        report.push(`   - Recommendation: ${vuln.recommendation}`);
+        report.push(`   - Recommendation: ${vuln.description}`);
         report.push('');
       });
     }
@@ -385,11 +385,11 @@ export class SecurityTestFramework {
         };
       }
       
-      scanForSuspiciousPatterns(prompt: string): string[] {
+      scanForSuspiciousPatterns(_prompt: string): string[] {
         return [];
       }
-      
-      calculateRiskScore(prompt: string): number {
+
+      calculateRiskScore(_prompt: string): number {
         return 0.1;
       }
     })();
@@ -401,11 +401,10 @@ export async function quickFuzzTest(
   validator: (input: any) => any,
   options?: { maxStringLength?: number; includeUnicode?: boolean }
 ): Promise<FuzzTestResult[]> {
-  const framework = new SecurityTestFramework();
   const fuzzer = new Fuzzer(options);
   const fuzzRunner = new FuzzRunner();
   const testCases = fuzzer.generateFullTestSuite();
-  
+
   return await fuzzRunner.runTests(validator, testCases);
 }
 

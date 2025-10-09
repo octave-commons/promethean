@@ -1,10 +1,15 @@
 ---
-title: 'Update existing kanban tasks to use FSM statuses'
-status: ready
-priority: P2
-tags: [kanban, fsm, cleanup, process]
-uuid: kanban-fsm-update-001
-created: 2025-10-06
+uuid: "kanban-fsm-update-001"
+title: "Update existing kanban tasks to use FSM statuses"
+slug: "update-kanban-statuses-to-fsm"
+status: "ready"
+priority: "P2"
+labels: ["kanban", "fsm", "cleanup", "process"]
+created_at: "2025-10-09T21:36:17.739Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 # Update existing kanban tasks to use FSM statuses

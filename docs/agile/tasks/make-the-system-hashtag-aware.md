@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 ## 🛠️ Description
 
 We want agents to be aware of the available hashtags using the vault graph service
@@ -46,6 +45,3 @@ Useful for agents to engage in append only conversations about this task.
 - Assumptions: A consistent hashtag taxonomy is available.
 - Dependencies: Vault graph service and parsing hooks.
 #ready
-
-
-

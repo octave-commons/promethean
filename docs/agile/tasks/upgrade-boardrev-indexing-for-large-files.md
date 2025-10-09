@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 ## 🛠️ Description
 
 Improve the `@promethean/boardrev` pipeline so board-review runs can embed complete source files instead of truncating at the first 400 lines.
@@ -42,5 +41,3 @@ Improve the `@promethean/boardrev` pipeline so board-review runs can embed compl
 - Assumptions: AST tooling is available for packages indexed by board-review or can be added without major dependency risk.
 
 #incoming #board-review #codex-task
-
-

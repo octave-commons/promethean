@@ -1,11 +1,15 @@
 ---
-type: design
-title: Design Agent Multi-Modal Communication Framework
-estimate: 5
-uuid: 8c3d2e5f
-status: ready
-priority: high
-tags: [agent-os, multi-modal, communication, natural-language, computer-vision]
+uuid: "8c3d2e5f"
+title: "Design Agent Multi-Modal Communication Framework"
+slug: "design-agent-multi-modal-communication-8c3d2e5f"
+status: "ready"
+priority: "high"
+labels: ["agent-os", "multi-modal", "communication", "natural-language", "computer-vision"]
+created_at: "2025-10-09T21:36:17.711Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 # Design Agent Multi-Modal Communication Framework

@@ -2,8 +2,6 @@
   "name": "@promethean/kanban",
   "version": "0.2.0",
   "type": "module",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -12,18 +10,15 @@
     "./lib/*": {
       "types": "./dist/lib/*.d.ts",
       "import": "./dist/lib/*.js"
-    },
-    "./dist/*": "./dist/*"
+    }
   },
-  "files": [
-    "dist"
-  ],
   "bin": {
-    "kanban": "dist/index.js"
+    "kanban": "dist/cli.js"
   },
   "scripts": {
-    "build": "tsc -b tsconfig.json",
+    "build": "tsc -b tsconfig.json --force",
     "build:docs": "typedoc --options typedoc.json",
+    "prepack": "pnpm run build",
     "test": "pnpm run build && ava"
   },
   "dependencies": {

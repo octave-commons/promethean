@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 ## 🛠️ Task: Complete Docops pipeline (synthesis agent)
 
 Run the synthesis agent over the files in `docs/unique/` to generate more polished documentation. The agent should create drafts in the appropriate design subfolders.
@@ -65,6 +64,3 @@ Nothing
 - [[kanban]]
 #IceBox
 #ready
-
-
-

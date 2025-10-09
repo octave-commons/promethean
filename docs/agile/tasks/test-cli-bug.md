@@ -1,10 +1,15 @@
 ---
+uuid: "test-cli-bug-001"
 title: "Test CLI reporting bug"
-status: todo
-priority: P2
-tags: [test, cli, bug]
-uuid: test-cli-bug-001
-created: 2025-10-06
+slug: "test-cli-bug"
+status: "todo"
+priority: "P2"
+labels: ["test", "cli", "bug"]
+created_at: "2025-10-09T21:36:17.738Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 # Test CLI reporting bug

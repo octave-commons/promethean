@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 ## 🛠️ Description
 
 This will give me a chance to test  out the  quick setup methods  in an  environment similar to the codex agent, and smooth  out some  issues we have   in development
@@ -58,6 +57,3 @@ Nothing
 
 - [[kanban]]
 #accepted
-
-
-

@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 ## 🛠️ Description
 
 
@@ -58,6 +57,3 @@ Nothing
 
 - [[kanban]]
 #done
-
-
-

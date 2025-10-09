@@ -1,15 +1,15 @@
 ---
-uuid: '0e94018b-1ab0-4957-9884-8e55cc3e244c'
-title: 'Create comprehensive unit tests for Omni protocol'
-slug: 'create-omni-protocol-unit-tests'
-status: 'todo'
-priority: 'P1'
-labels: ['omni', 'testing', 'ava', 'unit-tests']
-created_at: '2025-10-08T22:00:00.000Z'
+uuid: "0e94018b-1ab0-4957-9884-8e55cc3e244c"
+title: "Create comprehensive unit tests for Omni protocol"
+slug: "create-omni-protocol-unit-tests"
+status: "todo"
+priority: "P1"
+labels: ["omni", "testing", "ava", "unit-tests"]
+created_at: "2025-10-08T22:00:00.000Z"
 estimates:
-  complexity: '4'
-  scale: 'M'
-  time_to_completion: '6h'
+  complexity: "4"
+  scale: "M"
+  time_to_completion: "6h"
 ---
 
 ## 🎯 Outcome

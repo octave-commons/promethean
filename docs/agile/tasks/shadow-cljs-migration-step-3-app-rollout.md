@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 #Todo
 
 ## 🛠️ Description
@@ -65,5 +64,3 @@ Estimate: 8 (split per app as needed)
 ## 🔍 Relevant Links
 
 - Shadow-CLJS migration plan 2025-10-03
-
-
