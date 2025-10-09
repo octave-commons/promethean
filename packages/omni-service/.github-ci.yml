@@ -1,0 +1,343 @@
+name: Omni Service CI/CD
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - 'release/*'
+  pull_request:
+    branches:
+      - main
+      - develop
+env:
+  NODE_VERSION: 18
+  PNPM_VERSION: 8
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    
+    services:
+      redis:
+        image: redis:7-alpine
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+      mongodb:
+        image: mongo:7
+        options: >-
+          --health-cmd "mongosh --eval 'db.runCommand({ping: 1})'"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 27017:27017
+        env:
+          MONGO_INITDB_ROOT_USERNAME: admin
+          MONGO_INITDB_ROOT_PASSWORD: admin
+          MONGO_INITDB_DATABASE: test
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install pnpm
+        run: |
+          npm install -g pnpm@${{ env.PNPM_VERSION }}
+
+      - name: Setup pnpm store
+        uses: pnpm/action-setup@v2
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)"
+          echo "STORE_PATH=$STORE_PATH" >> $GITHUB_ENV
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: pnpm-store-${{ runner.os }}-6
+          restore-keys: |
+            pnpm-store-${{ runner.os }}-5
+            pnpm-store-${{ runner.os }}-4
+            pnpm-store-${{ runner.os }}-3
+            pnpm-store-${{ runner.os }}-2
+            pnpm-store-${{ runner.os }}-1
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --prefer-frozen-lockfile
+
+      - name: Build packages
+        run: pnpm --filter @promethean/omni-service build
+
+      - name: Run unit tests
+        run: pnpm --filter @promethean/omni-service test
+
+      - name: Run integration tests
+        run: pnpm --filter @promethean/omni-service test:integration
+        env:
+          JWT_SECRET: test-jwt-secret-for-ci-integration-testing-must-be-at-least-32-characters-long
+          MONGODB_HOST: localhost
+          MONGODB_PORT: 27017
+          MONGODB_DATABASE: test
+          REDIS_HOST: localhost
+          REDIS_PORT: 6379
+          REDIS_PASSWORD: redispassword
+
+      - name: Run deployment tests
+        run: pnpm --filter @promethean/omni-service test:deployment
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: test-results-${{ github.sha }}
+          path: |
+            packages/omni-service/test-reports/
+            packages/omni-service/coverage/
+          retention-days: 30
+
+  build-and-push:
+    name: Build and Push Docker Image
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    needs: test
+    
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/release/'))
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: prometheanai/omni-service
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=raw,value=latest,enable={{is_default_branch}}
+          flavor: |
+            latest=true
+          labels: |
+            org.opencontainers.image.title=Omni Service
+            org.opencontainers.image.description=Unified service host for REST, GraphQL, WebSocket, and MCP adapters
+            org.opencontainers.image.version={{version}}
+            org.opencontainers.image.created={{date}}
+            org.opencontainers.image.revision={{sha}}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: packages/omni-service
+          file: packages/omni-service/Dockerfile
+          target: production
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          platforms: linux/amd64,linux/arm64
+          build-args: |
+            BUILDKIT_INLINE_CACHE=1
+
+      - name: Generate SBOM
+        uses: anchore/sbom-action@v0
+        with:
+          image: ${{ steps.meta.outputs.tags }}
+          format: spdx-json
+          output-file: omni-service-sbom.spdx.json
+          upload-artifact: true
+
+      - name: Generate security scan report
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: ${{ steps.meta.outputs.tags }}
+          format: spdx-json
+          upload-artifact: true
+          fail-on: high
+          ignore-unfixed: true
+
+  security-scan:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: config
+          scan-ref: .
+          format: spdx-json
+          upload-artifact: true
+          fail-on: high
+          ignore-unfixed: true
+
+      - name: Run CodeQL analysis
+        uses: github/codeql-action/init@v2
+        with:
+          languages: javascript
+          queries-security-and-quality: security
+
+      - name: Autobuild
+        uses: github/codeql-action/analyze@v2
+        with:
+          queries: security-and-quality
+
+  performance:
+    name: Performance Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    needs: test
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install pnpm
+        run: npm install -g pnpm@${{ env.PNPM_VERSION }}
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --prefer-frozen-lockfile
+
+      - name: Build for performance testing
+        run: pnpm --filter @promethean/omni-service build
+
+      - name: Run load tests
+        run: |
+          # Install artillery for load testing
+          npm install -g artillery@latest
+          
+          # Create artillery config
+          cat > artillery-config.yaml << EOF
+          config:
+            target: 'http://localhost:3000'
+            phases:
+              - duration: 30
+                arrivalRate: 10
+                name: "Load test"
+          payloads:
+            - request:
+                url: "/api/v1/users"
+                method: "GET"
+                headers:
+                  Authorization: "Bearer test-jwt-token-for-performance-testing"
+            - request:
+                url: "/graphql"
+                method: "POST"
+                headers:
+                  Authorization: "Bearer test-jwt-token-for-performance-testing"
+                  Content-Type: "application/json"
+                json:
+                  query: "query { users { edges { node { id } } }"
+          EOF
+          
+          # Run the service in background
+          pnpm --filter @promethean/omni-service start &
+          SERVICE_PID=$!
+          
+          # Wait for service to be ready
+          echo "Waiting for service to start..."
+          for i in {1..30}; do
+            if curl -f http://localhost:3000/health > /dev/null 2>&1; then
+              echo "Service is ready"
+              break
+            fi
+            sleep 1
+          done
+          
+          # Run load test
+          artillery run artillery-config.yaml
+          
+          # Stop the service
+          kill $SERVICE_PID || true
+          
+          if [ $? -ne 0 ]; then
+            echo "Load test failed"
+            exit 1
+          fi
+
+      - name: Upload performance results
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: performance-report-${{ github.sha }}
+          path: |
+            artillery-report.html
+            artillery-report.json
+          retention-days: 30
+
+  cleanup:
+    name: Cleanup
+    runs-on: ubuntu-latest
+    if: always() && (github.event_name == 'pull_request' && github.event.action == 'closed')
+    
+    steps:
+      - name: Cleanup deployment artifacts
+        run: |
+          echo "Cleaning up deployment artifacts"
+
+  update-docs:
+    name: Update Documentation
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Generate documentation
+        run: |
+          pnpm --filter @promethean/omni-service build
+          echo "Documentation updated"
+
+      - name: Commit and push documentation
+        uses: stefanzweig/git-auto-commit-action@v4
+        with:
+          commit_message: "docs: update omni service documentation"
+          branch: docs-update
+          create_pull_request: true
+          update_branch: true

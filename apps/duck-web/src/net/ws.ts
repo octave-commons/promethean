@@ -13,3 +13,31 @@ export const openWs =
     const protocols = protocolsForBearer(bearer);
     return mkWs(url, protocols);
   };
+
+/**
+ * Factory for creating mock WebSocket connections for testing
+ */
+export const createMockWsFactory = (): WsFactory => {
+  return (url: string, protocols?: string | string[]) => {
+    const mockWs = {
+      readyState: WebSocket.OPEN,
+      send: () => {},
+      close: () => {},
+      addEventListener: () => {},
+      removeEventListener: () => {},
+      onmessage: null,
+      onopen: null,
+      onclose: null,
+      onerror: null
+    } as any;
+    return mockWs;
+  };
+};
+
+/**
+ * Default transport factory for dependency injection
+ */
+export const transportFactory = {
+  wsFactory: openWs,
+  mockWsFactory: createMockWsFactory()
+};

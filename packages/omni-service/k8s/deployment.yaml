@@ -1,0 +1,266 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: omni-service
+  namespace: omni-service
+  labels:
+    app: omni-service
+    version: v1
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+      rollingUpdatePolicy:
+        maxUnavailable: 0
+        maxSurge: 1
+  selector:
+    matchLabels:
+      app: omni-service
+  template:
+    metadata:
+      labels:
+        app: omni-service
+        version: v1
+    spec:
+      containers:
+      - name: omni-service
+        image: prometheanai/omni-service:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: http
+          containerPort: 3000
+          protocol: TCP
+        env:
+        - name: NODE_ENV
+          value: "production"
+        - name: PORT
+          value: "3000"
+        - name: HOST
+          value: "0.0.0.0"
+        - name: LOG_LEVEL
+          value: "info"
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: omni-service-secrets
+              key: JWT_SECRET
+        - name: MONGODB_HOST
+          value: "mongodb"
+        - name: MONGODB_PORT
+          value: "27017"
+        - name: MONGODB_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              name: omni-service-config
+              key: MONGODB_DATABASE
+        - name: REDIS_HOST
+          value: "redis"
+        - name: REDIS_PORT
+          value: "6379"
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: omni-service-secrets
+              key: REDIS_PASSWORD
+        - name: CORS_ORIGIN
+          valueFrom:
+            configMapKeyRef:
+              name: omni-service-config
+              key: CORS_ORIGIN
+        - name: RATE_LIMIT_MAX
+          valueFrom:
+            configMapKeyRef:
+              name: omni-service-config
+              key: RATE_LIMIT_MAX
+        - name: APIKEY_ENABLED
+          valueFrom:
+            configMapKeyRef:
+              name: omni-service-config
+              key: APIKEY_ENABLED
+        - name: RBAC_DEFAULT_ROLES
+          valueFrom:
+            configMapKeyRef:
+              name: omni-service-config
+              key: RBAC_DEFAULT_ROLES
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: http
+            httpHeaders:
+              - name: User-Agent
+                value: kube-probe/1.26
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+          successThreshold: 1
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: http
+            httpHeaders:
+              - name: User-Agent
+                value: kube-probe/1.26
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+          successThreshold: 1
+        volumeMounts:
+        - name: static
+          mountPath: /app/static
+          readOnly: true
+      - name: redis
+        image: redis:7-alpine
+        command:
+        - "redis-server"
+        - "--requirepass"
+        - "$(REDIS_PASSWORD)"
+        - "--appendonly"
+        - "--port"
+        - "$(REDIS_PORT)"
+        env:
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: omni-service-secrets
+              key: REDIS_PASSWORD
+        - name: REDIS_PORT
+          value: "6379"
+        ports:
+        - name: redis
+          containerPort: 6379
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
+        volumeMounts:
+        - name: redis-data
+          mountPath: /data
+      volumes:
+      - name: static
+        emptyDir: {}
+      - name: redis-data
+        persistentVolumeClaim:
+          claimName: redis-data
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: omni-service
+  namespace: omni-service
+  labels:
+    app: omni-service
+    version: v1
+spec:
+  selector:
+    app: omni-service
+    version: v1
+  ports:
+  - name: http
+    port: 3000
+    targetPort: 3000
+    protocol: TCP
+  type: ClusterIP
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: omni-service-config
+  namespace: omni-service
+data:
+  MONGODB_DATABASE: "omni_service"
+  CORS_ORIGIN: "https://yourdomain.com"
+  RATE_LIMIT_MAX: "1000"
+  APIKEY_ENABLED: "true"
+  RBAC_DEFAULT_ROLES: "readonly"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: omni-service-secrets
+  namespace: omni-service
+type: Opaque
+data:
+  JWT_SECRET: eW91ci1zdXBlci1zdXBlci1zdXBlci1zdXBlci1zdXBlci1zdXBlci1zdXBlci1zdXBlci1zdXBlci1zdXBlci1
+  REDIS_PASSWORD: cmVkaXNwYXNzd2VyZA==
+  MONGO_ROOT_USERNAME: YWRtaW4=
+  MONGO_ROOT_PASSWORD: YWRtaW5wYWRtaW4=
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: redis-data
+  namespace: omni-service
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: omni-service-ingress
+  namespace: omni-service
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/rate-limit: "100"
+    nginx.ingress.kubernetes.io/rate-limit-window: "1m"
+spec:
+  tls:
+  - hosts:
+    - yourdomain.com
+    secretName: omni-service-tls
+  rules:
+  - host: yourdomain.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: omni-service
+            port:
+              number: 3000
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: omni-service-hpa
+  namespace: omni-service
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: omni-service
+  minReplicas: 1
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80

@@ -80,7 +80,7 @@ async function main(): Promise<void> {
   const tasksDir = config.tasksDir;
 
   if (helpRequested || !cmd) {
-    console.error(HELP_TEXT);
+    console.log(HELP_TEXT);
     process.exit(2);
   }
 

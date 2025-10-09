@@ -182,7 +182,7 @@ export const githubRequestTool: ToolFactory = (ctx) => {
     name: "github_request",
     description: "Call GitHub REST API with optional ETag cache & pagination.",
     inputSchema: Schema.shape, // <— ZodRawShape
-    outputSchema: { status: 200, headers: {}, data: {} } as any,
+    outputSchema: undefined,
     examples: [
       {
         args: { method: "GET", path: "/repos/riatzukiza/promethean" },

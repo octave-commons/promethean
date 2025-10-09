@@ -1,0 +1,261 @@
+version: '3.8'
+
+services:
+  omni-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - HOST=0.0.0.0
+      - LOG_LEVEL=info
+      - JWT_SECRET=${JWT_SECRET:-your-super-secret-jwt-key-min-32-characters-long-for-production}
+      - CORS_ORIGIN=${CORS_ORIGIN:-https://yourdomain.com}
+      - RATE_LIMIT_MAX=${RATE_LIMIT_MAX:-1000}
+      - APIKEY_ENABLED=${APIKEY_ENABLED:-true}
+      - RBAC_DEFAULT_ROLES=${RBAC_DEFAULT_ROLES:-readonly}
+    volumes:
+      - omni_service_logs:/app/logs
+      - omni_service_static:/app/static
+    restart: unless-stopped
+    depends_on:
+      - redis
+      - mongodb
+    networks:
+      - omni-network
+    healthcheck:
+      test: ["CMD", "pnpm", "health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  omni-service-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    ports:
+      - "3000:3000"
+      - "9229:9229"  # Debug port
+    environment:
+      - NODE_ENV=development
+      - LOG_LEVEL=debug
+      - JWT_SECRET=dev-jwt-secret-for-development-only
+    volumes:
+      - ./packages/omni-service/src:/app/packages/omni-service/src
+      - ./packages/omni-service/examples:/app/packages/omni-service/examples
+      - omni_service_logs:/app/logs
+      - omni_service_static:/app/static
+    depends_on:
+      - redis-dev
+      - mongodb-dev
+    networks:
+      - omni-network
+    command: ["pnpm", "start:dev"]
+    profiles:
+      - dev
+
+  omni-service-testing:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: testing
+    environment:
+      - NODE_ENV=test
+      - LOG_LEVEL=error
+      - JWT_SECRET=test-jwt-secret-for-testing-only
+    volumes:
+      - ./packages/omni-service/src:/app/packages/omni-service/src
+      - ./packages/omni-service/examples:/app/packages/omni-service/examples
+      - omni_service_test_reports:/app/test-reports
+    depends_on:
+      - redis-test
+      - mongodb-test
+    networks:
+      - omni-network
+    command: ["pnpm", "test"]
+    profiles:
+      - test
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD:-redispassword}
+    volumes:
+      - redis_data:/data
+      - ./docker/redis/redis.conf:/usr/local/etc/redis/redis.conf
+    networks:
+      - omni-network
+    restart: unless-stopped
+
+  redis-dev:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes --requirepass devredispassword
+    volumes:
+      - redis_dev_data:/data
+    networks:
+      - omni-network
+    profiles:
+      - dev
+
+  redis-test:
+    image: redis:7-alpine
+    command: redis-server --appendonly yes --requirepass testredispassword
+    volumes:
+      - redis_test_data:/data
+    networks:
+      - omni-network
+    profiles:
+      - test
+
+  mongodb:
+    image: mongo:7
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_ROOT_USERNAME:-admin}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_ROOT_PASSWORD:-adminpassword}
+      - MONGO_INITDB_DATABASE=${MONGO_DATABASE:-omni_service}
+    volumes:
+      - mongodb_data:/data/db
+      - ./docker/mongo/mongod.conf:/etc/mongod.conf
+      - ./docker/mongo/init:/docker-entrypoint-initdb.d
+    networks:
+      - omni-network
+    restart: unless-stopped
+
+  mongodb-dev:
+    image: mongo:7
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=devadmin
+      - MONGO_INITDB_ROOT_PASSWORD=devpassword
+      - MONGO_INITDB_DATABASE=omni_service_dev
+    volumes:
+      - mongodb_dev_data:/data/db
+      - ./docker/mongo/mongod.conf:/etc/mongod.conf
+      - ./docker/mongo/init-dev:/docker-entrypoint-initdb.d
+    networks:
+      - omni-network
+    profiles:
+      - dev
+
+  mongodb-test:
+    image: mongo:7
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=testadmin
+      - MONGO_INITDB_ROOT_PASSWORD=testpassword
+      - MONGO_INITDB_DATABASE=omni_service_test
+    volumes:
+      - mongodb_test_data:/data/db
+    networks:
+      - omni-network
+    profiles:
+      - test
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./docker/nginx/ssl:/etc/nginx/ssl:ro
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d:ro
+    depends_on:
+      - omni-service
+    networks:
+      - omni-network
+    restart: unless-stopped
+    command: ["nginx", "-g", "daemon off;"]
+
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+    volumes:
+      - ./docker/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    networks:
+      - omni-network
+    restart: unless-stopped
+    command: ["prometheus", "--config.file=/etc/prometheus/prometheus.yml"]
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3001:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD:-admin}
+      - GF_USERS_ALLOW_SIGN_UP=false
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./docker/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./docker/grafana/dashboards:/etc/grafana/dashboards:ro
+    depends_on:
+      - prometheus
+    networks:
+      - omni-network
+    restart: unless-stopped
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch:8.12.0
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
+    ports:
+      - "9200:9200"
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    networks:
+      - omni-network
+    restart: unless-stopped
+
+  kibana:
+    image: docker.elastic.co/kibana:8.12.0
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+      - XPACK_SECURITY_ENABLED=false
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
+    networks:
+      - omni-network
+    restart: unless-stopped
+
+networks:
+  omni-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+volumes:
+  omni_service_logs:
+  omni_service_static:
+  omni_service_test_reports:
+  redis_data:
+  redis_dev_data:
+  redis_test_data:
+  mongodb_data:
+  mongodb_dev_data:
+  mongodb_test_data:
+  prometheus_data:
+  grafana_data:
+  elasticsearch_data:

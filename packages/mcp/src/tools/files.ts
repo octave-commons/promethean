@@ -24,11 +24,7 @@ export const filesListDirectory: ToolFactory = () => {
     name: 'files_list_directory',
     description: 'List files and directories within the sandbox root.',
     inputSchema: Schema.shape,
-    outputSchema: {
-      ok: true,
-      base: '.',
-      entries: [{ name: 'src', path: 'src', type: 'dir' }],
-    } as any,
+    outputSchema: undefined,
     examples: [
       { args: { rel: 'packages' }, comment: 'List the packages/ folder' },
       { args: { rel: '.', includeHidden: true }, comment: 'Include dotfiles' },
@@ -58,7 +54,7 @@ export const filesTreeDirectory: ToolFactory = () => {
     name: 'files_tree_directory',
     description: 'Build a tree-like view of a directory, with optional hidden files and max depth.',
     inputSchema: Schema.shape,
-    outputSchema: { ok: true, base: '.', tree: [] } as any,
+    outputSchema: undefined,
     examples: [
       {
         args: { rel: 'packages/mcp', depth: 2 },
@@ -93,14 +89,7 @@ export const filesViewFile: ToolFactory = () => {
     name: 'files_view_file',
     description: 'View a file by path, with line-context selection.',
     inputSchema: Schema.shape,
-    outputSchema: {
-      path: 'README.md',
-      totalLines: 0,
-      startLine: 1,
-      endLine: 1,
-      focusLine: 1,
-      snippet: '',
-    } as any,
+    outputSchema: undefined,
     examples: [
       {
         args: { relOrFuzzy: 'packages/mcp/src/index.ts', line: 1, context: 40 },
@@ -128,7 +117,7 @@ export const filesWriteFileContent: ToolFactory = () => {
     name: 'files_write_content',
     description: 'Write UTF-8 content to a file (creates if not exists).',
     inputSchema: Schema.shape,
-    outputSchema: { path: 'path/to/file' } as any,
+    outputSchema: undefined,
     examples: [
       {
         args: { filePath: 'tmp/notes.txt', content: 'hello' },
@@ -157,7 +146,7 @@ export const filesWriteFileLines: ToolFactory = () => {
     name: 'files_write_lines',
     description: 'Append or insert lines into a file at startLine (1-based).',
     inputSchema: Schema.shape,
-    outputSchema: { path: 'path/to/file' } as any,
+    outputSchema: undefined,
     examples: [
       {
         args: {

@@ -2,7 +2,7 @@
 uuid: "f2fa76f0-75b9-4498-aa68-c39e591e8abc"
 title: "1) System math you can run back-of-the-envelope"
 slug: "1-system-math-you-can-run-back-of-the-envelope"
-status: "incoming"
+status: "icebox"
 priority: "P3"
 labels: ["docops", "labeled"]
 created_at: "2025-10-08T20:10:46.008Z"

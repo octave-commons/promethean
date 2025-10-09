@@ -194,13 +194,13 @@
       {
         "name": "wip-limits",
         "description": "Enforce WIP limits for all columns",
-        "enabled": false,
+        "enabled": true,
         "impl": "check-wip-limits"
       },
       {
         "name": "task-existence",
         "description": "Task must exist in source column",
-        "enabled": false,
+        "enabled": true,
         "impl": "check-task-existence"
       }
     ]

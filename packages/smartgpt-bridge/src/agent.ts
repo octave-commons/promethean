@@ -1,6 +1,7 @@
 import { spawn as nodeSpawn } from "child_process";
 
 import { nanoid } from "nanoid";
+import { SmartGPTPromptInjectionGuard } from "./security/prompt-injection-middleware.js";
 
 import {
   appendAgentLog,
@@ -158,6 +159,7 @@ export class AgentSupervisor {
   readonly subscribers: Map<string, Set<SseClient>>;
   private readonly spawnImpl: SpawnFunction;
   private readonly killImpl: KillFunction;
+  private readonly promptGuard: SmartGPTPromptInjectionGuard;
 
   constructor(
     opts: { spawnImpl?: SpawnFunction; killImpl?: KillFunction } = {},
@@ -253,7 +255,17 @@ export class AgentSupervisor {
     cwd?: string;
     env?: Record<string, string>;
     tty?: boolean;
-  }): { id: string; pid: number | undefined } {
+  }): { id: string; pid: number |async start({
+    prompt,
+    cwd = ROOT_PATH,
+    env = {},
+    tty = true,
+  }: {
+    prompt?: string;
+    cwd?: string;
+    env?: Record<string, string>;
+    tty?: boolean;
+  }): Promise<{ id: string; pid: number | undefined; security?: any }> {
     const id = nanoid();
     const root = process.env.ROOT_PATH || ROOT_PATH;
     const args = [

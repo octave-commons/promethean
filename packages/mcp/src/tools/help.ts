@@ -64,7 +64,7 @@ export const toolset: ToolFactory = (ctx) => {
     name: 'mcp_toolset',
     description: "Describe this endpoint's toolset: purpose, workflow, expectations, and tools.",
     inputSchema: {},
-    outputSchema: { meta: {}, path: '', includeHelp: true, tools: [] } as any,
+    outputSchema: undefined,
     stability: 'stable',
     since: '0.1.0',
   } satisfies ToolSpec;
@@ -89,7 +89,7 @@ export const endpoints: ToolFactory = (ctx) => {
     name: 'mcp_endpoints',
     description: 'List all configured endpoints with metadata and includeHelp flag.',
     inputSchema: {},
-    outputSchema: { endpoints: [] } as any,
+    outputSchema: undefined,
     stability: 'stable',
     since: '0.1.0',
   } satisfies ToolSpec;

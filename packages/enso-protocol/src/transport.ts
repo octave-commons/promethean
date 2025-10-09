@@ -36,6 +36,7 @@ interface WebSocketLike {
 export interface WebSocketClientOptions {
   protocols?: string | string[];
   pingIntervalMs?: number;
+  handshakeTimeoutMs?: number;
   logger?: {
     debug?: (message: string) => void;
     warn?: (message: string) => void;
@@ -271,6 +272,15 @@ export async function connectLocal(
   };
 }
 
+// Cache for handshake readiness to avoid hot-path awaits
+const handshakeCache = new Map<string, Promise<void>>();
+
+// Read handshake timeout from environment with sane default
+const getHandshakeTimeout = (): number => {
+  const envTimeout = process.env.ENSO_HANDSHAKE_TIMEOUT_MS;
+  return envTimeout ? Number.parseInt(envTimeout, 10) : 10000;
+};
+
 export function connectWebSocket(
   client: EnsoClient,
   url: string,
@@ -283,6 +293,23 @@ export function connectWebSocket(
       new WebSocket(target, protocols));
   const socket = factory(url, options.protocols) as WebSocketLike;
   const { promise, resolve, reject } = deferred();
+  
+  // Use timeout from options or environment
+  const handshakeTimeoutMs = options.handshakeTimeoutMs ?? getHandshakeTimeout();
+  
+  // Create a cache key based on URL and hello payload for caching
+  const cacheKey = `${url}:${JSON.stringify(hello)}`;
+  
+  // Check cache first for existing handshake promise
+  const cachedPromise = handshakeCache.get(cacheKey);
+  if (cachedPromise && !cachedPromise.toString().includes('settled')) {
+    return {
+      ready: cachedPromise,
+      close: async () => {
+        // Will be overridden by actual close function
+      },
+    };
+  }
   let settled = false;
   const resolveReady = (): void => {
     if (!settled) {
@@ -296,6 +323,38 @@ export function connectWebSocket(
       reject(error);
     }
   };
+  
+  // Create timeout promise
+  const timeoutPromise = new Promise<void>((_, timeoutReject) => {
+    const timeoutHandle = setTimeout(() => {
+      if (!settled) {
+        rejectReady(new Error(`ENSO handshake timeout after ${handshakeTimeoutMs}ms`));
+        timeoutReject(new Error(`ENSO handshake timeout after ${handshakeTimeoutMs}ms`));
+        cleanup();
+        if (typeof socket.terminate === "function") {
+          socket.terminate();
+        } else {
+          socket.close(4008, "handshake timeout");
+        }
+      }
+    }, handshakeTimeoutMs);
+    
+    // Clear timeout when handshake completes
+    Promise.race([promise]).finally(() => {
+      clearTimeout(timeoutHandle);
+    });
+  });
+  
+  // Create the actual handshake promise with timeout
+  const handshakePromise = Promise.race([promise, timeoutPromise]);
+  
+  // Cache the handshake promise
+  handshakeCache.set(cacheKey, handshakePromise);
+  
+  // Clean up cache when promise settles
+  handshakePromise.finally(() => {
+    handshakeCache.delete(cacheKey);
+  });
 
   let disposed = false;
   let awaitingPong = false;
@@ -470,7 +529,7 @@ export function connectWebSocket(
   };
 
   return {
-    ready: promise,
+    ready: handshakePromise,
     close,
   };
 }

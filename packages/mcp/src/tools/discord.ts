@@ -195,3 +195,6 @@ export const discordTools = (
   sendMessage: createSendMessageTool(ctx, proxyFactory),
   listMessages: createListMessagesTool(ctx, proxyFactory),
 });
+
+// Export schemas for testing
+export { MessagePayload, ListSchema };

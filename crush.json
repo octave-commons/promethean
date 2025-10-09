@@ -1,0 +1,38 @@
+{
+  "$schema": "https://charm.land/crush.json",
+  "providers": {
+    "zai": {
+      "name": "Z.ai Coding",
+      "id": "zai",
+      "type": "openai",
+      "api_key": "$(echo $Z_AI_API_KEY)",
+      "api_endpoint": "https://api.z.ai/api/coding/paas/v4",
+      "default_large_model_id": "glm-4.6",
+      "default_small_model_id": "glm-4.5",
+      "models": [
+        {
+          "id": "glm-4.6",
+          "name": "GLM-4.6",
+          "context_window": 200000,
+          "default_max_tokens": 131072,
+          "can_reason": true
+        },
+        {
+          "id": "glm-4.5",
+          "name": "GLM-4.5",
+          "context_window": 131072,
+          "default_max_tokens": 98304,
+          "can_reason": true
+        },
+        {
+          "id": "glm-4.5-air",
+          "name": "GLM-4.5-Air",
+          "context_window": 65536,
+          "default_max_tokens": 49152,
+          "can_reason": false
+        }
+      ]
+    }
+  },
+  "default_provider": "zai"
+}
