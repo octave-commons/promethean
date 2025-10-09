@@ -56,8 +56,7 @@
     "nx": "nx",
     "shadow:build": "pnpm --filter @promethean/shadow-ui run build && pnpm --filter '@promethean/*-frontend' run build:shadow",
     "shadow:watch": "pnpm --filter @promethean/shadow-ui run watch",
-    "shadow:watch:frontends": "pnpm --parallel --filter '@promethean/*-frontend' run watch:shadow",
-    "duck:web": "pnpm --filter @promethean/duck-web dev"
+    "shadow:watch:frontends": "pnpm --parallel --filter '@promethean/*-frontend' run watch:shadow"
   },
   "bin": {
     "prom": "./packages/promethean-cli/dist/promethean_cli.cjs",

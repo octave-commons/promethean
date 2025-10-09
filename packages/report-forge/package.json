@@ -30,7 +30,7 @@
     "undici": "^6.19.8"
   },
   "devDependencies": {
-    "@types/node": "^22.0.0",
+    "@types/node": "24.3.1",
     "ava": "^6.1.1",
     "shadow-cljs": "^2.28.10",
     "typescript": "^5.6.2"

@@ -189,6 +189,14 @@ try {
 - **Output Directory**: `docs/labeled/*.md` (processed files)
 - **Pipeline Core**: `packages/piper/src/runner.ts`
 
+## 🔄 Related Work & Traceability
+
+- **GitHub Issue**: #1671 - Fix DocOps pipeline rename step persistence to handle file reference management and sequencing
+- **Pull Request**: #1558 - Docops rename step persistence implementation
+- **Status**: PR implements the fixes described in this task and issue
+
+The work connects the GitHub issue, pull request, and kanban task to provide complete traceability for the DocOps pipeline file reference management fixes.
+
 ## 📝 Technical Notes
 
 ### Successfully Tested Components

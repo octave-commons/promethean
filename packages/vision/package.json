@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@promethean/legacy": "workspace:*",
-    "@types/node": "^24.3.0",
+    "@types/node": "24.3.1",
     "express": "^4.18.2",
     "screenshot-desktop": "^1.15.1",
     "ws": "^8.18.3"

@@ -33,5 +33,7 @@ All tasks with status "backlog" should be moved to "incoming" to follow the FSM 
 
 ## 🔄 Related PRs & Issues
 
-- **Issue #1637:** "Kanban FSM status updates not working" - This task addresses the core issue of normalizing task statuses to match FSM states
+- **Issue #1637:** "Update existing kanban tasks to use FSM statuses" - This task addresses the core issue of normalizing task statuses to match FSM states
 - **PR #1556:** "Normalize kanban tasks to FSM statuses" - The pull request that implements the FSM status normalization for all kanban tasks
+
+**Traceability Status:** ✅ Connected - Issue #1637 ← PR #1556 ← Kanban Task UUID: kanban-fsm-update-001

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { loadBoard } from '@promethean/kanban';
-import type { ColumnData, Task } from '@promethean/kanban';
+import type { ColumnData, Task, Board } from '@promethean/kanban';
 
 // GitHub API configuration
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
@@ -162,9 +162,9 @@ class GitHubSync {
   }
 
   private async syncColumns(
-    _projectId: string,
+    projectId: string,
     boardColumns: Board['columns'],
-    _statusFieldId: string,
+    statusFieldId: string,
   ) {
     // This is a simplified version - in practice, you'd need to manage field options
     console.log(`Syncing ${boardColumns.length} columns with project ${projectId}`);
@@ -175,9 +175,9 @@ class GitHubSync {
   }
 
   private async syncTask(
-    _projectId: string,
+    projectId: string,
     task: Task,
-    _statusFieldId: string,
+    statusFieldId: string,
     columnName: string,
   ) {
     // Use task.title from frontmatter if available, fallback to task metadata

@@ -42,7 +42,9 @@ configs/ # All base config files live here
 Webservers should mount both `dist/frontend` and `static`.
 
 ---
+
 # Stack
+
 - TypeScript monorepo
 - AVA for tests
 - Webcomponents for frontends
@@ -53,24 +55,28 @@ Webservers should mount both `dist/frontend` and `static`.
 - Prefer key-value caches via `@promethean/level-cache`; avoid JSON files for transient data
 
 # Programming Style
+
 - Functional preferred
 - Immutable data; no in-place object mutation
 - TDD non-negotiable
 - Document-driven development
-- No relative module resolution outside of the package root. Depend on `@promethean/<package>*` via "workspace:*".
+- No relative module resolution outside of the package root. Depend on `@promethean/<package>*` via "workspace:\*".
 - Always use the ts-lsp server to diangose build errors. It is faster than running typechecks or building the project, and requires no permission
 - Always use the eslint tool on each file you edit.
 
 # Banned
+
 Under no circumstances should you introduce the following to Promethean:
+
 - React/redux
 - require
 - Jest
 - Python
 - removing contents from .gitignore
-- committing *any* .env file
+- committing _any_ .env file
 
 # Working Style
+
 - Prefer small, auditable changes over grand rewrites.
 - If there aren't tests, write them.
 - Do not edit config files when fixing problems unless explicitly asked. Prefer code changes in the affected modules.
@@ -107,6 +113,7 @@ pnpm kanban getByColumn <column>   # Get formatted tasks for column
 ### 📍 Working with Kanban
 
 **✅ DO:**
+
 - Use kanban commands from **any directory** in the repository
 - Update task status via `pnpm kanban update-status <uuid> <column>`
 - Regenerate board after making task changes: `pnpm kanban regenerate`
@@ -114,6 +121,7 @@ pnpm kanban getByColumn <column>   # Get formatted tasks for column
 - Check task counts to understand workflow: `pnpm kanban count`
 
 **❌ DON'T:**
+
 - Navigate to specific directories to use kanban commands
 - Manually edit the generated board file
 - Create tasks without checking for duplicates first
@@ -150,9 +158,130 @@ pnpm kanban getByColumn <column>   # Get formatted tasks for column
   overrides are great for automation but can linger between shells.
 
 ### 📁 Task File Locations
+
 - Tasks live in: `docs/agile/tasks/*.md`
 - Generated board: `docs/agile/boards/generated.md`
 - Config file: `promethean.kanban.json`
 
 ### 🐛 Path Resolution Note
+
 The kanban system automatically resolves paths correctly from any subdirectory. If you encounter path issues, ensure you're running commands from within the git repository.
+
+---
+
+## 🚀 Agent Launch Workflows
+
+### Standardized Launch Commands
+
+All agents use consistent launch patterns via pnpm workspace filtering:
+
+```bash
+# Development mode (with hot reload)
+pnpm --filter @promethean/cephalon start:dev
+
+# Production mode
+pnpm --filter @promethean/cephalon start
+
+# Build and run
+pnpm --filter @promethean/cephalon build && pnpm --filter @promethean/cephalon start
+```
+
+### Quick Launch Script
+
+Use the standardized launcher for convenient agent management:
+
+```bash
+# Launch single agent
+node scripts/launch-agents.mjs cephalon
+
+# Launch all agents in development
+node scripts/launch-agents.mjs --all --dev
+
+# Launch all agents in production
+node scripts/launch-agents.mjs --all --production
+
+# List available agents
+node scripts/launch-agents.mjs --list
+
+# Check health of running agents
+node scripts/launch-agents.mjs --health
+
+# Show agent status
+node scripts/launch-agents.mjs --status
+```
+
+### Core Agents
+
+| Agent               | Package                            | Dev Command | Start Command | Port |
+| ------------------- | ---------------------------------- | ----------- | ------------- | ---- |
+| **Cephalon**        | `@promethean/cephalon`             | `start:dev` | `start`       | 8081 |
+| **Duck Web**        | `@promethean/duck-web`             | `dev`       | `preview`     | 3000 |
+| **ENSO Gateway**    | `@promethean/enso-browser-gateway` | `dev`       | N/A           | 8082 |
+| **SmartGPT Bridge** | `@promethean/smartgpt-bridge`      | `dev`       | `start`       | 3210 |
+
+### Process Management (PM2)
+
+For production deployments, use PM2 with the standardized ecosystem configuration:
+
+```bash
+# Start all agents
+pm2 start ecosystem.agents.config.js
+
+# Start specific agent
+pm2 start ecosystem.agents.config.js --only cephalon
+
+# Start in development mode
+pm2 start ecosystem.agents.config.js --env development
+
+# Monitor processes
+pm2 monit
+
+# View logs
+pm2 logs cephalon
+
+# Restart agent
+pm2 restart cephalon
+
+# Stop agent
+pm2 stop cephalon
+```
+
+### Environment Variables
+
+Standardized environment variables for all agents:
+
+```bash
+# Core Configuration
+NODE_ENV=development|production
+PORT=3000                    # HTTP port
+HOST=localhost              # Bind address
+
+# Process Management
+PM2_PROCESS_NAME=agent-name
+HEARTBEAT_PORT=5005         # Health check port
+CHECK_INTERVAL=300000       # 5 minutes
+HEARTBEAT_TIMEOUT=600000    # 10 minutes
+```
+
+### Health Checks
+
+All agents implement standardized health endpoints:
+
+```bash
+# Check agent health
+curl http://localhost:8081/health  # Cephalon
+curl http://localhost:3000/health  # Duck Web
+curl http://localhost:3210/health  # SmartGPT Bridge
+```
+
+### Migration from Makefile
+
+Old Makefile targets have been replaced with pnpm equivalents:
+
+| Old Make Target       | New pnpm Command                               |
+| --------------------- | ---------------------------------------------- |
+| `make dev-cephalon`   | `pnpm --filter @promethean/cephalon start:dev` |
+| `make start-cephalon` | `pnpm --filter @promethean/cephalon start`     |
+| `make build-cephalon` | `pnpm --filter @promethean/cephalon build`     |
+
+For detailed launch workflows and troubleshooting, see [Agent Launch Workflows Documentation](docs/agents/launch-workflows.md).

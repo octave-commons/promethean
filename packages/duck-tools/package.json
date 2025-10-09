@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "license": "GPL-3.0-only",
   "type": "module",
-  "bin": { "duck-smoke": "dist/smoke.js" },
+  "bin": {
+    "duck-smoke": "dist/smoke.js"
+  },
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "dev": "node dist/smoke.js",
@@ -12,6 +14,6 @@
   "dependencies": {},
   "devDependencies": {
     "typescript": "^5.6.3",
-    "@types/node": "^20.11.30" 
+    "@types/node": "24.3.1"
   }
 }
