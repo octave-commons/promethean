@@ -27,7 +27,7 @@ type PreferredMarker = Readonly<{
 
 const findMarkers = async (dir: string): Promise<ReadonlyArray<string>> => {
   const matches = await Promise.all(MARKERS.map((marker) => pathExists(path.join(dir, marker))));
-  return MARKERS.filter((_marker, index) => matches[index]);
+  return MARKERS.filter((marker, index) => Boolean(matches[index] && marker.length > 0));
 };
 
 const selectPreferred = (
@@ -62,7 +62,7 @@ const detectRepoRoot = (
     const nextFallback = selectFallback(current, found, fallback);
     const parent = path.dirname(current);
     return parent === current
-      ? (nextPreferred?.dir ?? nextFallback ?? current)
+      ? nextPreferred?.dir ?? nextFallback ?? current
       : detectRepoRoot(parent, nextPreferred, nextFallback);
   });
 };
