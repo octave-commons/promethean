@@ -2,7 +2,8 @@
   "Adapter for official MCP JSON configuration files."
   (:require [babashka.fs :as fs]
             [cheshire.core :as json]
-            [clj-hacks.mcp.core :as core]))
+            [clj-hacks.mcp.core :as core]
+            [clojure.string :as str]))
 
 (defn- ->vector [v]
   (cond
@@ -27,7 +28,9 @@
    "autoConnect" {:key :auto-connect? :transform identity}
    "autoApprove" {:key :auto-approve :transform ->vector}
    "autoAccept"  {:key :auto-accept :transform ->vector}
-   "disabled"    {:key :disabled? :transform identity}})
+   "disabled"    {:key :disabled? :transform identity}
+   "type"        {:key :type :transform identity}
+   "url"         {:key :url :transform identity}})
 
 (def ^:private server-edn->json
   {:command      {:key "command" :transform identity :include-nil? true}
@@ -42,7 +45,9 @@
    :auto-connect? {:key "autoConnect" :transform identity}
    :auto-approve {:key "autoApprove" :transform ->vector}
    :auto-accept  {:key "autoAccept" :transform ->vector}
-   :disabled?    {:key "disabled" :transform identity}})
+   :disabled?    {:key "disabled" :transform identity}
+   :type         {:key "type" :transform identity}
+   :url          {:key "url" :transform identity}})
 
 (defn- parse-server-spec [spec]
   (let [spec (or spec {})]
@@ -211,6 +216,67 @@
     {:mcp (cond-> mcp http (assoc :http http))
      :rest rest}))
 
+(defn- claude-code-format? [path]
+  "Detect if this is a Claude Code .mcp.json file format"
+  (let [filename (fs/file-name path)]
+    (and (str/ends-with? filename ".mcp.json")
+         (not (str/includes? filename "promethean")))))
+
+(def ^:private default-http-base
+  (or (System/getenv "MCP_HTTP_BASE")
+      "http://127.0.0.1:3210"))
+
+(defn- endpoint-key->path [k]
+  (let [s (cond
+            (keyword? k) (if-let [ns (namespace k)]
+                           (str ns "/" (name k))
+                           (name k))
+            (string? k) k
+            :else (str k))]
+    (if (str/starts-with? s "/") s (str "/" s))))
+
+(defn- path->entry-key [path]
+  (if (= path "/mcp")
+    :http-default
+    (keyword (str "http-"
+                  (str/replace (subs path 1) #"/" "-")))))
+
+(defn- http-endpoints->claude-servers [http]
+  "Convert HTTP endpoints to Claude Code format servers using mcp-remote"
+  (when (and (map? http) (= (:transport http) :http))
+    (let [base (or (:base-url http) default-http-base)
+          endpoints (or (:endpoints http) {})
+          entries (cond-> []
+                     (seq (:tools http))
+                     (conj [:http-default {:command "npx" :args ["mcp-remote" (str base "/mcp")]}]))]
+      (->> (sort-by (fn [[k _]] (endpoint-key->path k)) endpoints)
+           (reduce (fn [acc [k _]]
+                     (let [path (endpoint-key->path k)
+                           key  (path->entry-key path)]
+                       (if (= key :http-default)
+                         acc
+                         (conj acc [key {:command "npx" :args ["mcp-remote" (str base path)]}]))))
+                   entries)
+           (into (sorted-map))))))
+
+(defn- merge-claude-servers [servers http]
+  "Merge stdio servers with Claude Code format HTTP servers"
+  (let [;; Only include HTTP endpoints as mcp-remote servers
+        stdio-only (into (sorted-map)
+                       (for [[k spec] servers
+                             :when (not (str/starts-with? (name k) "http-"))]
+                         [k spec]))
+        base (or (:base-url http) default-http-base)
+        http-map (http-endpoints->claude-servers http)
+        stdio-servers (into (sorted-map)
+                           (for [[k spec] servers
+                                 :when (not (str/starts-with? (name k) "http-"))]
+                             [k {:command "npx" 
+                                  :args ["mcp-remote" (str base "/" (name k) "/mcp")]}]))
+        ;; Merge HTTP endpoints with stdio proxy servers
+        all-servers (merge http-map stdio-servers)]
+    all-servers))
+
 (defn write-full [path {:keys [mcp rest]}]
   (let [existing (if (fs/exists? path)
                    (json/parse-string (slurp path))
@@ -227,5 +293,18 @@
         cleaned (apply dissoc (assoc m* "mcpServers" servers)
                        ["transport" "tools" "includeHelp" "stdioMeta" "endpoints" "stdioProxyConfig"])
         out     (merge cleaned (or http {}))]
-    (core/ensure-parent! path)
-    (spit path (json/generate-string out {:pretty true}))))
+    (if (claude-code-format? path)
+      ;; Claude Code format: Convert HTTP endpoints to proper type:url entries
+      (let [claude-servers (merge-claude-servers (:mcp-servers mcp') (:http mcp'))
+            claude-json (into (sorted-map)
+                             (for [[k spec] claude-servers
+                                   :let [json (server-spec->json spec)]
+                                   :when json]
+                                 [(name k) json]))
+            claude-out (assoc (merge existing rest) "mcpServers" claude-json)]
+        (core/ensure-parent! path)
+        (spit path (json/generate-string claude-out {:pretty true})))
+      ;; Promethean format: HTTP configuration + stdio servers for proxying
+      (let [promethean-out (assoc out "mcpServers" servers)]
+        (core/ensure-parent! path)
+        (spit path (json/generate-string promethean-out {:pretty true}))))))

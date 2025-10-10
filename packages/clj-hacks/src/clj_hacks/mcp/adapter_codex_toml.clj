@@ -53,16 +53,16 @@
               parts' (cond-> parts (not (str/blank? piece)) (conj piece))]
           (recur rest in-quote? false bracket-depth brace-depth [] parts'))
 
-        (and (not in-quote?) (= ch \\[))
+        (and (not in-quote?) (= ch \[))
         (recur rest in-quote? false (inc bracket-depth) brace-depth (conj current ch) parts)
 
-        (and (not in-quote?) (= ch \\]))
+        (and (not in-quote?) (= ch \]))
         (recur rest in-quote? false (max 0 (dec bracket-depth)) brace-depth (conj current ch) parts)
 
-        (and (not in-quote?) (= ch \\{))
+        (and (not in-quote?) (= ch \{))
         (recur rest in-quote? false bracket-depth (inc brace-depth) (conj current ch) parts)
 
-        (and (not in-quote?) (= ch \\}))
+        (and (not in-quote?) (= ch \}))
         (recur rest in-quote? false bracket-depth (max 0 (dec brace-depth)) (conj current ch) parts)
 
         :else
@@ -240,7 +240,7 @@
     (cond-> {:command "pnpm"
              :args stdio-command
              :env {"MCP_CONFIG_JSON" json-config}}
-      cwd (assoc :cwd cwd)))
+      cwd (assoc :cwd cwd))))
 
 (defn- merge-http-stdio-servers [servers http]
   (if (and (map? http) (= (:transport http) :http))
