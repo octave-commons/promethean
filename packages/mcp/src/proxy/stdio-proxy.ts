@@ -128,7 +128,6 @@ export const resolveCommandPath = (
 export class StdioHttpProxy {
   private readonly stdio: StdioClientTransport;
   private readonly http: StreamableHTTPServerTransport;
-  private rawStdoutBuffer = Buffer.from("");
 
   constructor(
     readonly spec: StdioServerSpec,
@@ -213,56 +212,30 @@ export class StdioHttpProxy {
     };
 
     this.stdio.onerror = (error: unknown) => {
+      // Check if this is a JSON parsing error from debug output
+      if (error instanceof Error && error.message.includes("is not valid JSON")) {
+        // This is likely debug output - log it differently and don't treat as critical
+        this.logger(`[stdout debug json error] ${spec.name}: Debug output detected (non-JSON)`);
+        return; // Don't propagate - this is expected behavior
+      }
+
       this.logger(`stdio transport error for ${spec.name}:`, error);
     };
   }
 
   private hookStdioOutput(): void {
-    // Try to access the underlying process stdout if available
-    // This is a best-effort approach since the SDK may not expose this directly
-    try {
-      const stdioTransport = this.stdio as any;
-      if (stdioTransport._process && stdioTransport._process.stdout) {
-        const originalOnData = stdioTransport._process.stdout.listeners?.("data");
-        if (originalOnData && Array.isArray(originalOnData)) {
-          stdioTransport._process.stdout.removeAllListeners("data");
-          
-          stdioTransport._process.stdout.on("data", (chunk: Buffer) => {
-            this.rawStdoutBuffer = Buffer.concat([this.rawStdoutBuffer, chunk]);
-            
-            // Try to extract complete lines from the buffer
-            const data = this.rawStdoutBuffer.toString();
-            const lines = data.split("\n");
-            
-            // Keep the incomplete last line in the buffer
-            this.rawStdoutBuffer = Buffer.from(lines[lines.length - 1] || "", "utf-8");
-            
-            // Process complete lines
-            for (let i = 0; i < lines.length - 1; i++) {
-              const line = lines[i]?.trim() || "";
-              if (line.length > 0) {
-                // Check if this looks like a debug line (not JSON-RPC)
-                if (!line.startsWith("{") || !line.endsWith("}")) {
-                  this.logger(`[stdout debug] ${this.spec.name}: ${line}`);
-                }
-              }
-            }
-            
-            // Call original listeners
-            originalOnData.forEach((listener: (chunk: Buffer) => void) => {
-              try {
-                listener(chunk);
-              } catch (error) {
-                this.logger(`error in original stdout listener for ${this.spec.name}:`, error);
-              }
-            });
-          });
-        }
-      }
-    } catch (error) {
-      // If we can't hook into stdout, that's okay - the message validation will still work
-      this.logger(`could not hook stdout for ${this.spec.name}:`, error);
-    }
+    // Note: The MCP SDK's StdioClientTransport doesn't expose direct access to the underlying process
+    // stdout, so we cannot intercept and filter debug output before JSON parsing.
+    //
+    // Instead, we handle debug output gracefully by:
+    // 1. Catching JSON parsing errors in the error handler (above)
+    // 2. Validating messages in the onmessage handler (below)
+    // 3. Filtering out invalid JSON-RPC messages before they cause issues
+
+    // This is a limitation of the current SDK design where debug logs mixed with JSON-RPC
+    // on stdout will cause parsing errors, but these errors are handled gracefully.
+
+    this.logger(`[stdout filtering] ${this.spec.name}: SDK doesn't expose process access - using error-based filtering`);
   }
 
 async start(): Promise<void> {

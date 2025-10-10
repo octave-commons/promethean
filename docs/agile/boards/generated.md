@@ -54,7 +54,6 @@ kanban-plugin: board
 - [ ] [[identify_and_resolve_a_service_client_apparently_connecting_repeatedly_to_broker_with_new_session_ids|Description]] #description #client #session #progress prio:P3 (uuid:0a2763ff-0f30-4605-87b4-2548e8679a77)
 - [ ] [[implement_fragment_ingestion_with_activation_vecto|implement fragment ingestion with activation vecto md]] #implement #fragment #ingestion #activation prio:P3 (uuid:d6204735-5a96-4670-a361-6f6ef7c5cdb6)
 - [ ] [[implement_transcendence_cascade|implement transcendence cascade md]] #implement #transcendence #cascade #design prio:P3 (uuid:a5db4128-395b-4d38-8182-abef99521a5d)
-- [ ] [[kanban-crud-commands 2|Add CRUD subcommands to kanban CLI]] #kanban #cli #enhancement #crud prio:P2 (uuid:0d3fbeb1-dc16-4634-9988-98a87bdabb24)
 - [ ] [[kanban-crud-commands|Add CRUD subcommands to kanban CLI]] #kanban #cli #enhancement #crud prio:P2 (uuid:kanban-crud-001)
 - [ ] [[llm-service-must-allow-streamed-responses|llm service must allow streamed responses]] #llm #service #streamed #responses prio:P3 (uuid:e1591a4b-1a4f-48c9-ab6a-01fe11c524f3)
 - [ ] [[obsidian_replacement|obsidian replacement md]] #obsidian #replacement #can #than prio:P3 (uuid:ddad0e6a-9019-4cc8-900e-93549b5ee845)
@@ -81,6 +80,11 @@ kanban-plugin: board
 
 - [ ] [[1-processmd-fsm-diagram-with-cycles-you-asked-for|1) `process.md` — FSM diagram (with cycles you asked for)]] #docops #labeled prio:P3 (uuid:ca51cf05-2ff3-4aa2-b1fe-ada54ea201a9)
 - [ ] [[2-docsagentscodex-cloudmd-safety-snippet-append-in-its-editing-discipline-section|2) `docs/agents/codex-cloud.md` — safety snippet (append in its “Editing discipline” section)]] #docops #labeled prio:P3 (uuid:6ce60757-44eb-40e8-9d33-2f755b275ebd)
+- [ ] [[infrastructure-stability-cluster|Infrastructure Stability Cluster - Build System & Type Safety]] #infrastructure #build-system #typescript #automation #cluster prio:P0 (uuid:infra-stability-cluster-001)
+- [ ] [[process-governance-cluster|Process Governance Cluster - Quality Gates & Workflow Enforcement]] #process #governance #quality-gates #kanban #automation #cluster prio:P1 (uuid:process-governance-cluster-001)
+- [ ] [[advanced-features-cluster|Advanced Features Cluster - AI Integration & Task Intelligence]] #ai-integration #task-intelligence #mcp-server #automation #cluster prio:P2 (uuid:advanced-features-cluster-001)
+- [ ] [[task-migration-plan|Task Migration Plan - Consolidation & Supersession Strategy]] #migration #consolidation #supersession #planning prio:P1 (uuid:task-migration-plan-001)
+- [ ] [[comprehensive-board-analysis|Comprehensive Kanban Board Analysis - Strategic Insights & Recommendations]] #analysis #strategy #governance #health-check #recommendations prio:P1 (uuid:comprehensive-board-analysis-001)
 - [ ] [[Capture confirmation telemetry for daemon optimization triggers|capture confirmation telemetry for daemon optimization triggers]] #telemetry #system prio:P3 (uuid:401a4f92-e9db-4f1b-b617-7ccbdc0a44a3)
 - [ ] [[Catalog mermaid flow diagrams|catalog mermaid flow diagrams]] #mermaid #diagrams #catalog #flow prio:P3 (uuid:e9b26152-47ba-4401-afce-3c14ca0f76e9)
 - [ ] [[Consolidate all kanban helpers to kanban package|consolidate all kanban helpers to kanban package]] #kanban #all #scripts #consolidate prio:P3 (uuid:727fd6bd-7c63-4488-b29e-c09640d4cc8a)
@@ -140,7 +144,6 @@ kanban-plugin: board
 - [ ] [[current-unorganized-adhoc-workflow-with-weak-transitions]] #docops #labeled prio:P3 (uuid:6f45bc24-026d-4740-b32e-fbb725f7d951)
 - [ ] [[design-agent-communication-framework-277072af|Design Agent Communication Framework]] #agent-os #design #communication #collaboration #messaging #protocols prio:P1 (uuid:277072af-f8fc-4b22-b0a5-2a70375a01fc)
 - [ ] [[design-agent-os-implementation-plan-a4634017|Design Agent OS Implementation Plan]] #agent-os #architecture #planning #design #foundation prio:P0 (uuid:a4634017-e2fc-4ed6-bc3c-8abf4d1c4a7f)
-- [ ] [[design-agent-registry-service-b6ad7898|Design Agent Registry Service]] #agent-os #design #agent-registry #architecture #api-design prio:P0 (uuid:b6ad7898-eb83-4d09-b6d1-0a20a3da0af0)
 - [ ] [[design-agent-security-architecture-fa1d98c0|Design Agent Security Architecture]] #agent-os #design #security #sandboxing #authentication #compliance prio:P1 (uuid:fa1d98c0-5fe2-4afa-840d-929e58c01391)
 - [ ] [[design-deployment-infrastructure-992254f6|Design Deployment Infrastructure]] #agent-os #design #deployment #infrastructure #devops #ci-cd prio:P2 (uuid:992254f6-f3b8-4081-a18b-4e9e7a41eb0e)
 - [ ] [[design-integration-architecture-f792612c|Design Integration Architecture]] #agent-os #design #integration #mcp #ecs #smartgpt-bridge #kanban prio:P1 (uuid:f792612c-6ee2-4f46-8d25-967aa95335f6)
@@ -166,7 +169,6 @@ kanban-plugin: board
 - [ ] [[emergency-type-fix-shared-index|Fix TypeScript missing exports in packages/shared/src/index.ts: Missing exports for shared utilities]] #typescript #exports #automation #emergency prio:P1 (uuid:type-fix-emergency-1760030995642-xj1n2o4k5)
 - [ ] [[enforce-wip-limits-and-address-violations 2|Implement WIP limit enforcement and address current violations]] #kanban #wip #limits #enforcement #process #fsm prio:P1 (uuid:8220fdc4-52d0-4a6f-927c-568f202d6f6b)
 - [ ] [[enforce-wip-limits-and-address-violations|Implement WIP limit enforcement and address current violations]] #kanban #wip #limits #enforcement #process #fsm prio:P1 (uuid:wip-enforcement-001)
-- [ ] [[enhance-kanban-process-validation|Enhance kanban process validation with acceptance criteria and Fibonacci scoring]] #enhancement #kanban #process #validation #automation prio:P2 (uuid:a1b2c3d4-e5f6-7890-abcd-1234567890ab)
 - [ ] [[enso-protocol-context-management-2]] #docops #labeled prio:P3 (uuid:66c04140-0afd-4143-b92e-36516f50912e)
 - [ ] [[enso-protocol-context-management-3]] #docops #labeled prio:P3 (uuid:27a63e1c-3807-45fc-aa88-e17a25712518)
 - [ ] [[enso-protocol-context-management-4]] #docops #labeled prio:P3 (uuid:5e23268a-6d3c-497a-b66e-309f0d3fc2d9)
@@ -190,7 +192,6 @@ kanban-plugin: board
 - [ ] [[fix-test-failure-in-symdocs-pipeline-pipeline-test-timeout-after-2-minutes|Fix test failure in symdocs-pipeline: Pipeline test timeout after 2 minutes]] #testing #automation #test-fix #symdocs-pipeline prio:P1 (uuid:test-fix-1760025895991-8wp1yzr0y)
 - [ ] [[fix-test-gap-pipeline-timeout-configuration-for-tg-analysis-step-timeout-step 2|Fix test-gap pipeline timeout configuration for tg-analysis step timeout step    -gap]] #pipeline #timeout #automation #test-gap prio:P2 (uuid:b7b03c39-f002-4e79-bbdd-2a146f6566ce)
 - [ ] [[fix-test-gap-pipeline-timeout-configuration-for-tg-analysis-step-timeout-step|Fix test-gap pipeline timeout configuration for tg-analysis step timeout step]] #pipeline #timeout #automation #test-gap prio:P2 (uuid:pipeline-fix-1760025982616-uiunqsg61)
-- [ ] [[fix-typescript-type-mismatch-in-packagescephalonsrcactionsstart-dialogscopets 2|Fix TypeScript type mismatch in packages/cephalon/src/actions/start-dialog.scope.ts    -fix]] #typescript #build #automation #type-fix prio:P2 (uuid:c1006262-9901-451a-91e0-f73eb6a1193f)
 - [ ] [[fix-typescript-type-mismatch-in-packagescephalonsrcactionsstart-dialogscopets|Fix TypeScript type mismatch in packages/cephalon/src/actions/start-dialog.scope.ts]] #typescript #build #automation #type-fix prio:P2 (uuid:type-fix-1760026093273-pt9blsej6)
 - [ ] [[fix-typescript-type-mismatch-in-packageskanbansrcclicommand-handlersts 2|Fix TypeScript type mismatch in packages/kanban/src/cli/command-handlers.ts    -fix]] #typescript #build #automation #type-fix prio:P2 (uuid:91bea929-b1d0-41ee-8c15-40fd1d572733)
 - [ ] [[fix-typescript-type-mismatch-in-packageskanbansrcclicommand-handlersts|Fix TypeScript type mismatch in packages/kanban/src/cli/command-handlers.ts]] #typescript #build #automation #type-fix prio:P2 (uuid:type-fix-1759992856875-v3rcq8p0x)
@@ -227,11 +228,7 @@ kanban-plugin: board
 - [ ] [[kanban-board-task-prioritization-2]] #docops #labeled prio:P3 (uuid:4703cfa6-3ca7-43ed-b472-1abe9d5022f4)
 - [ ] [[kanban-board-task-prioritization]] #docops #labeled prio:P3 (uuid:c0cb9184-9436-4118-8a45-80cbe9b9bcf1)
 - [ ] [[kanban-cli|kanban cli]] #docops #labeled prio:P3 (uuid:517f8a6c-04e4-44ca-9410-fd14cd942e38)
-- [ ] [[kanban-fsm-2]] #docops #labeled prio:P3 (uuid:fb9b4eaf-7e84-4b58-bed3-dc0e678d2cae)
-- [ ] [[kanban-fsm-3]] #docops #labeled prio:P3 (uuid:d1e427eb-e565-4d6b-b4bd-a18f221df9f8)
-- [ ] [[kanban-fsm-4]] #docops #labeled prio:P3 (uuid:8e0911dc-ca9d-46bc-8df0-c1c9b26f5f0e)
 - [ ] [[kanban-fsm-with-safe-cycles-hand-off-paths|Kanban FSM with safe cycles + hand-off paths]] #docops #labeled prio:P3 (uuid:41338e32-2990-49c0-9329-723ff0f7577f)
-- [ ] [[kanban-fsm]] #docops #labeled prio:P3 (uuid:b157052a-5bc8-409b-b763-b4efb3e764df)
 - [ ] [[kanban-process-fundamentals-2]] #docops #labeled prio:P3 (uuid:e758483f-391d-4ab8-b35b-e266fda09aad)
 - [ ] [[kanban-process-fundamentals-3]] #docops #labeled prio:P3 (uuid:68c39f0b-a93a-403e-9e0a-1be4473bc893)
 - [ ] [[kanban-process-fundamentals-4]] #docops #labeled prio:P3 (uuid:949d7d92-833b-4ec2-8836-13e85a372dc0)
@@ -347,6 +344,7 @@ kanban-plugin: board
 ## breakdown
 
 - [ ] [[breakdown-cephalon-voice-commands-file-using-ecs|Task: Break down cephalon voice commands file]] #file #break #down #cephalon prio:P3 (uuid:4c60df2e-78cf-400c-a950-c56c534118ac)
+- [ ] [[design-agent-registry-service-b6ad7898|Design Agent Registry Service]] #agent-os #design #agent-registry #architecture #api-design prio:P0 (uuid:b6ad7898-eb83-4d09-b6d1-0a20a3da0af0)
 - [ ] [[evaluate-optional-js-services-for-migration 2|Evaluate optional JS services for TypeScript migration]] #board #lang prio:P3 (uuid:afb00f1f-7071-4df0-885f-9f7c19f1a81a)
 - [ ] [[evaluate-optional-js-services-for-migration|Evaluate optional JS services for TypeScript migration]] #board #lang prio:P3 (uuid:evaluate-optional-services-migration)
 - [ ] [[fully-convert-js-ts-projects-to-pnpm-incoming|fully convert js ts projects to pnpm incoming]] #fully #convert #projects #pnpm prio:P3 (uuid:bf41be60-e9bf-4a19-95da-a453a32b9f2e)
@@ -501,6 +499,7 @@ kanban-plugin: board
 
 ## done
 
+- [x] [[consolidation-summary|Kanban Task Consolidation Summary - Strategic Cluster Implementation]] #consolidation #summary #completion #strategy prio:P1 (uuid:consolidation-summary-001)
 - [x] [[Docops pipeline|docops pipeline]] #docops #pipeline #agent #drafts prio:P3 (uuid:c80af308-7b65-4dbf-92b9-d464308b4565)
 - [x] [[TASK-2025-09-27-monitoring-test|Stabilize monitoring token bucket tests /TASK-20250927-194530-0000 /kanban /InProgress /err /p3 /EPC-000 :auto :ts]] #task #board #state #owner #priority #epic #lang prio:p3 (uuid:17e07cf3-1aa0-4fb6-9db9-d343f5c394ba)
 - [x] [[add-done-to-review-transition-for-audit-corrections 2|Add done→review transition for audit corrections and quality control     -control]] #kanban #fsm #transitions #audit #quality-control prio:P2 (uuid:3c410b2a-5399-4036-bff2-28da3c67907e)

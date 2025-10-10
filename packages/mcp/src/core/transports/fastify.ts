@@ -908,6 +908,26 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
               state.sessionId = response.headers['mcp-session-id'] as string | undefined;
               try {
                 await response.json();
+
+                // Send the required 'initialized' notification after successful initialization
+                const initializedPayload = {
+                  jsonrpc: '2.0',
+                  method: 'initialized',
+                  params: {}
+                } as const;
+
+                await app.inject({
+                  method: 'POST',
+                  url: basePath,
+                  headers: {
+                    'content-type': 'application/json',
+                    'mcp-session-id': state.sessionId,
+                  },
+                  payload: JSON.stringify(initializedPayload),
+                });
+
+                // Wait a moment for servers to complete initialization after sending initialized notification
+                await new Promise(resolve => setTimeout(resolve, 500));
               } catch {
                 /* ignore */
               }
@@ -967,14 +987,35 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
             );
           }
 
-          const parseResponseJson = response.json.bind(response) as () => Promise<unknown>;
-          const payloadBody: unknown = await (async () => {
-            try {
-              return await parseResponseJson();
-            } catch {
-              throw new Error('Proxy returned invalid JSON response');
+          // Handle Server-Sent Events (SSE) format from stdio proxies
+          const parseResponseJson = async (): Promise<unknown> => {
+            // Check if this is an SSE response
+            if (response.headers['content-type'] === 'text/event-stream') {
+              const body = response.body || '';
+              // Parse SSE format: "data: {json}" lines
+              const lines = body.split('\n');
+              for (const line of lines) {
+                if (line.startsWith('data: ')) {
+                  try {
+                    return JSON.parse(line.slice(6));
+                  } catch {
+                    // Skip invalid JSON lines
+                    continue;
+                  }
+                }
+              }
+              throw new Error('No valid JSON data found in SSE response');
+            } else {
+              // Regular JSON response
+              try {
+                return await response.json();
+              } catch {
+                throw new Error('Proxy returned invalid JSON response');
+              }
             }
-          })();
+          };
+
+          const payloadBody: unknown = await parseResponseJson();
 
           if (!isObject(payloadBody)) {
             throw new Error('Proxy returned invalid JSON-RPC payload');
