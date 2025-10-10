@@ -2,7 +2,7 @@
 uuid: "ce8a026c-7d8c-41fe-9f48-e1b6a36e5dc0"
 title: "design vision pipeline mvp"
 slug: "design-vision-pipeline-mvp"
-status: "testing"
+status: "breakdown"
 priority: "P3"
 labels: ["design", "vision", "pipeline", "mvp"]
 created_at: "2025-09-15T02:02:58.511Z"

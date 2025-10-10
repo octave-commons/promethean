@@ -2,7 +2,7 @@
 uuid: "f6c39654-1e09-4741-9aeb-bdb200cc7216"
 title: "Expand functional loop refactors across repository"
 slug: "expand-functional-loop-refactors"
-status: "testing"
+status: "todo"
 priority: "P3"
 labels: ["refactor", "functional-style"]
 created_at: "2025-09-18T19:29:29Z"
