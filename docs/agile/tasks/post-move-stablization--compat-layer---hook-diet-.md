@@ -1,16 +1,22 @@
 ---
 uuid: "f40d381b-9c48-4dfc-9f89-51577c10c024"
-title: "<verb> <thing> <qualifier>"
+title: "<verb> <thing> <qualifier> :auto :ts"
 slug: "post-move-stablization--compat-layer---hook-diet-"
 status: "testing"
 priority: "p3"
-labels: ["board:auto", "lang:ts"]
-created_at: "2025-09-15T02:02:58.517Z"
+tags: ["board", "lang"]
+created_at: "2025-10-10T03:23:55.970Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 # Task: Post-move stabilization compat layer + hook diet
 
@@ -204,3 +210,9 @@ pre-commit run -a            # full sweep
 
 #precommit #refactor #typescript #python #imports #compat #monorepo #tooling #stabilization
 #accepted
+
+
+
+
+
+

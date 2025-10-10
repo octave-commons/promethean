@@ -4,13 +4,19 @@ title: "restore tool call routing in local enso server"
 slug: "Restore tool call routing in local Enso server"
 status: "incoming"
 priority: "P1"
-labels: ["cephalon", "tests"]
-created_at: "2025-10-08T02:48:42.625Z"
+tags: ["cephalon", "tests"]
+created_at: "2025-10-10T03:23:55.969Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 The local harness for `@promethean/cephalon` spins up an `EnsoServer`, but no router handler forwards `tool.call` envelopes to
 the agent client. Without a handler the router drops those messages, so tests waiting for `tool.result` never observe a
@@ -26,3 +32,9 @@ response and time out.
 - Add regression coverage that fails if tool calls are not forwarded.
 
 #incoming #enso #cephalon #tests
+
+
+
+
+
+

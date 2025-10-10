@@ -4,7 +4,7 @@ title: "create base readme md templates for each service md"
 slug: "create_base_readme_md_templates_for_each_service"
 status: "Archive"
 priority: "P3"
-labels: ["readme", "service", "create", "each"]
+tags: ["readme", "service", "create", "each"]
 created_at: "2025-10-07T20:25:05.645Z"
 estimates:
   complexity: ""

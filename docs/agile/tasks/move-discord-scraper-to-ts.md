@@ -4,13 +4,19 @@ title: "move discord scraper to ts"
 slug: "move-discord-scraper-to-ts"
 status: "testing"
 priority: "P3"
-labels: ["discord", "scraper", "move", "current"]
-created_at: "2025-09-15T02:02:58.517Z"
+tags: ["discord", "scraper", "move", "current"]
+created_at: "2025-10-10T03:23:55.970Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ## 🛠️ Description
 ```
@@ -71,3 +77,9 @@ Nothing
 - No active owner or unclear scope
 
 #breakdown
+
+
+
+
+
+

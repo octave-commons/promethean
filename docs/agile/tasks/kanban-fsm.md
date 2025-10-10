@@ -4,7 +4,7 @@ title: 'kanban-fsm'
 slug: 'kanban-fsm'
 status: 'superseded'
 priority: 'P3'
-labels: ['docops', 'labeled', 'superseded']
+tags: ['docops', 'labeled', 'superseded']
 created_at: '2025-10-08T20:10:46.037Z'
 superseded_by: 'process-governance-cluster-001'
 superseded_at: '2025-10-09T22:45:00.000Z'

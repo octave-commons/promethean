@@ -4,13 +4,19 @@ title: "wrap writers with withdualwrite md"
 slug: "wrap_writers_with_withdualwrite"
 status: "rejected"
 priority: "P3"
-labels: ["wrap", "writers", "withdualwrite", "unique"]
-created_at: "2025-10-07T20:25:05.645Z"
+tags: ["wrap", "writers", "withdualwrite", "unique"]
+created_at: "2025-10-10T03:23:55.972Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ## 🛠️ Task: Wrap writers with **withDualWrite**
 
@@ -35,3 +41,9 @@ Generated from ../unique/2025.08.08.20.08.52.md$../unique/2025.08.08.20.08.52.md
 
 
 #rejected
+
+
+
+
+
+

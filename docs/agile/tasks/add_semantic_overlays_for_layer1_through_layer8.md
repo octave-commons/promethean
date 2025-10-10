@@ -4,13 +4,19 @@ title: "add semantic overlays for layer1 through layer8 md md"
 slug: "add_semantic_overlays_for_layer1_through_layer8"
 status: "rejected"
 priority: "P3"
-labels: ["overlays", "add", "semantic", "layer1"]
-created_at: "2025-10-07T20:25:05.645Z"
+tags: ["overlays", "add", "semantic", "layer1"]
+created_at: "2025-10-10T03:23:55.971Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ## 🛠️ Task: Add semantic overlays for layer1 through layer8
 
@@ -63,3 +69,9 @@ Nothing
 - [docs/design/overview|design overview]
 - [[kanban]]
 #IceBox
+
+
+
+
+
+

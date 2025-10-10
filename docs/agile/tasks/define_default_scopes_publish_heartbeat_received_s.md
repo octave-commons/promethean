@@ -4,13 +4,19 @@ title: "define default scopes publish heartbeat received s md"
 slug: "define_default_scopes_publish_heartbeat_received_s"
 status: "rejected"
 priority: "P3"
-labels: ["define", "default", "scopes", "publish"]
-created_at: "2025-10-07T20:25:05.645Z"
+tags: ["define", "default", "scopes", "publish"]
+created_at: "2025-10-10T03:23:55.972Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ## 🛠️ Task: Define default scopes: `publish:heartbeat.received`, `subscribe:process.state`
 
@@ -35,3 +41,9 @@ Generated from ../unique/2025.08.08.19.08.49.md$../unique/2025.08.08.19.08.49.md
 
 
 #rejected
+
+
+
+
+
+

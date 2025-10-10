@@ -4,4 +4,6 @@ set -euo pipefail
 exec docker run -i --rm \
      --user "$(id -u)":"$(id -g)" \
      -v "$PWD:$PWD" \
-     mcp/filesystem "$PWD"
+     -w "$PWD" \
+     mcp/filesystem \
+     "$PWD"

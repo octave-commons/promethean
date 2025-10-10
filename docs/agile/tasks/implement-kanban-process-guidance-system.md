@@ -1,16 +1,22 @@
 ---
 uuid: "c3d4e5f6-a7b8-c901-def2-345678901234"
-title: "Implement kanban process guidance system with next-step suggestions"
+title: "Implement kanban process guidance system with next-step suggestions     -experience     -experience     -experience     -experience     -experience"
 slug: "implement-kanban-process-guidance-system"
 status: "incoming"
 priority: "P2"
-labels: ["enhancement", "kanban", "guidance", "automation", "user-experience", "process"]
-created_at: "2025-10-09T21:36:17.723Z"
+tags: ["enhancement", "kanban", "guidance", "automation", "user-experience", "process"]
+created_at: "2025-10-10T03:23:55.969Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ## Issue
 
@@ -177,3 +183,9 @@ pnpm kanban requirements <task-id> <target-state>
 4. Check contextual help provides relevant information
 5. Validate CLI commands provide helpful guidance
 6. Test visual indicators accurately reflect process completion
+
+
+
+
+
+

@@ -4,7 +4,7 @@ title: "Fix test-gap pipeline timeout configuration for tg-analysis step timeout
 slug: "fix-test-gap-pipeline-timeout-configuration-for-tg-analysis-step-timeout-step"
 status: "incoming"
 priority: "P2"
-labels: ["pipeline", "timeout", "automation", "test-gap"]
+tags: ["pipeline", "timeout", "automation", "test-gap"]
 created_at: "2025-10-09T16:06:22.616Z"
 estimates:
   complexity: "medium"

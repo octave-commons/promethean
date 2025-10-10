@@ -4,13 +4,19 @@ title: "2) `docs/agents/codex-cloud.md` — safety snippet (append in its “Edi
 slug: "2-docsagentscodex-cloudmd-safety-snippet-append-in-its-editing-discipline-section"
 status: "incoming"
 priority: "P3"
-labels: ["docops", "labeled"]
-created_at: "2025-10-08T20:10:45.999Z"
+tags: ["docops", "labeled"]
+created_at: "2025-10-10T03:23:55.969Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ## 🗂 Source
 
@@ -59,3 +65,9 @@ We treat the board as an FSM over tasks.
 - [ ] Draft actionable subtasks from the summary
 - [ ] Define acceptance criteria
 - [ ] Link back to related labeled docs
+
+
+
+
+
+

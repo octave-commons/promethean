@@ -4,12 +4,24 @@ title: "rewrite build tools with bb"
 slug: "rewrite-build-tools-with-bb"
 status: "accepted"
 priority: "P3"
-labels: ["rewrite", "build", "tools", "incoming"]
-created_at: "2025-10-07T20:25:05.643Z"
+tags: ["rewrite", "build", "tools", "incoming"]
+created_at: "2025-10-10T03:23:55.970Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
 
+
+
+
+
+
+
 #incoming
+
+
+
+
+
+

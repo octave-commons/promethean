@@ -4,7 +4,7 @@ title: "Fix TypeScript missing exports in packages/shared/src/index.ts: Missing 
 slug: "emergency-type-fix-shared-index"
 status: "incoming"
 priority: "P1"
-labels: ["typescript", "exports", "automation", "emergency"]
+tags: ["typescript", "exports", "automation", "emergency"]
 created_at: "2025-10-08T16:55:00.000Z"
 estimates:
   complexity: "medium"

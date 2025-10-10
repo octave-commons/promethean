@@ -4,7 +4,7 @@ title: "Fix readmes pipeline timeout issues and optimize performance"
 slug: "fix-readmes-pipeline-timeout-issues"
 status: "todo"
 priority: "P2"
-labels: ["piper", "readmes", "performance", "timeout", "ai-optimization"]
+tags: ["piper", "readmes", "performance", "timeout", "ai-optimization"]
 created_at: "2025-10-05T00:00:00.000Z"
 estimates:
   complexity: ""

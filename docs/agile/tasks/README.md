@@ -48,7 +48,7 @@ title: 'Task Title'
 slug: 'task-slug'
 status: 'current-status'
 priority: 'P1|P2|P3|P4'
-labels: ['tag1', 'tag2']
+tags: ['tag1', 'tag2']
 created_at: 'YYYY-MM-DDTHH:MM:SSZ'
 estimates:
   complexity: 'low|medium|high'

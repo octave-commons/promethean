@@ -4,13 +4,19 @@ title: "1) Workspace skeleton"
 slug: "1-workspace-skeleton"
 status: "icebox"
 priority: "P3"
-labels: ["docops", "labeled"]
-created_at: "2025-10-08T20:10:46.013Z"
+tags: ["docops", "labeled"]
+created_at: "2025-10-10T03:23:55.968Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ## 🗂 Source
 
@@ -73,3 +79,9 @@ All the moving parts map to current, documented interfaces (Ollama OpenAI-compat
 - [ ] Draft actionable subtasks from the summary
 - [ ] Define acceptance criteria
 - [ ] Link back to related labeled docs
+
+
+
+
+
+

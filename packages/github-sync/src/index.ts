@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { loadBoard } from '@promethean/kanban';
-import type { ColumnData, Task, Board } from '@promethean/kanban';
+import type { Task, Board } from '@promethean/kanban';
 
 // GitHub API configuration
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
@@ -177,7 +177,7 @@ class GitHubSync {
   private async syncTask(
     projectId: string,
     task: Task,
-    statusFieldId: string,
+    _statusFieldId: string,
     columnName: string,
   ) {
     // Use task.title from frontmatter if available, fallback to task metadata

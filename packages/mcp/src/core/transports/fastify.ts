@@ -913,7 +913,7 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
                 const initializedPayload = {
                   jsonrpc: '2.0',
                   method: 'initialized',
-                  params: {}
+                  params: {},
                 } as const;
 
                 await app.inject({
@@ -926,8 +926,8 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
                   payload: JSON.stringify(initializedPayload),
                 });
 
-                // Wait a moment for servers to complete initialization after sending initialized notification
-                await new Promise(resolve => setTimeout(resolve, 500));
+                // Wait longer for servers to complete initialization after sending initialized notification
+                await new Promise((resolve) => setTimeout(resolve, 2000));
               } catch {
                 /* ignore */
               }
@@ -1073,13 +1073,46 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
             return { tools, nextCursor };
           };
 
-          const result = await sendRpc(
-            'tools/list',
-            cursor ? { cursor } : undefined,
-            parseToolListResult,
-          );
+          // Intelligent retry with exponential backoff for slow-initializing servers
+          let retryCount = 0;
+          const maxRetries = 10; // More retries for slow servers
+          let retryDelay = 500; // Start with 500ms
+          const maxDelay = 10000; // Max 10 seconds between retries
 
-          const mapped = result.tools.map<ActionDefinition>((tool) => {
+          let result;
+          while (retryCount <= maxRetries) {
+            try {
+              result = await sendRpc(
+                'tools/list',
+                cursor ? { cursor } : undefined,
+                parseToolListResult,
+              );
+              break; // Success, exit retry loop
+            } catch (error) {
+              retryCount++;
+              if (retryCount > maxRetries || !(error instanceof Error)) {
+                throw error; // Re-throw if max retries exceeded or non-Error
+              }
+
+              // Retry on initialization errors with exponential backoff
+              if (
+                error.message.includes('Invalid request parameters') ||
+                error.message.includes('before initialization was complete') ||
+                error.message.includes('Not connected')
+              ) {
+                if (retryCount <= maxRetries) {
+                  await new Promise((resolve) => setTimeout(resolve, retryDelay));
+                  // Exponential backoff with jitter
+                  retryDelay = Math.min(maxDelay, retryDelay * 1.5 + Math.random() * 1000);
+                  continue;
+                }
+              }
+
+              throw error; // Re-throw if it's a different error type
+            }
+          }
+
+          const mapped = (result?.tools || []).map<ActionDefinition>((tool) => {
             const schemaSource = (tool as { inputSchema?: unknown }).inputSchema;
             const schema =
               schemaSource && typeof schemaSource === 'object'
@@ -1124,7 +1157,7 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
             } satisfies ActionDefinition;
           });
 
-          const nextCursor = result.nextCursor;
+          const nextCursor = result?.nextCursor;
           const next = [...acc, ...mapped];
           return nextCursor ? fetchDefinitions(nextCursor, next) : next;
         };
@@ -1365,6 +1398,17 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
       const startedProxies: ProxyLifecycle[] = [];
 
       try {
+        // First, start all proxy handlers before any route registration
+        for (const descriptor of normalized) {
+          if (descriptor.kind === 'proxy') {
+            await descriptor.handler.start();
+            /* eslint-disable functional/immutable-data */
+            startedProxies.push(descriptor.handler);
+            /* eslint-enable functional/immutable-data */
+          }
+        }
+
+        // Now register all routes after all proxies are started
         for (const descriptor of normalized) {
           if (descriptor.kind === 'registry') {
             const sessions = new Map<string, StreamableHTTPServerTransport>();
@@ -1375,18 +1419,13 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
             registerRegistryActionEndpoints(descriptor);
 
             console.log(`[mcp:http] bound endpoint ${descriptor.path}`);
-            continue;
+          } else {
+            registerRoute(descriptor.path, createProxyHandler(descriptor.handler));
+            registerProxyActionEndpoints(descriptor);
+            console.log(
+              `[mcp:http] proxied stdio server ${descriptor.handler.spec.name} at ${descriptor.path}`,
+            );
           }
-
-          await descriptor.handler.start();
-          /* eslint-disable functional/immutable-data */
-          startedProxies.push(descriptor.handler);
-          /* eslint-enable functional/immutable-data */
-          registerRoute(descriptor.path, createProxyHandler(descriptor.handler));
-          registerProxyActionEndpoints(descriptor);
-          console.log(
-            `[mcp:http] proxied stdio server ${descriptor.handler.spec.name} at ${descriptor.path}`,
-          );
         }
 
         const listenOptions: FastifyListenOptions = { port, host };

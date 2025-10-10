@@ -14,7 +14,7 @@ import type {
   KanbanTask,
   SyncOptions,
   SyncResult,
-  ColumnMapping
+  ColumnMapping,
 } from './types.js';
 
 const execAsync = promisify(exec);
@@ -31,7 +31,7 @@ export class KanbanToTrelloSync {
       maxTasks: 20,
       archiveExisting: false,
       dryRun: false,
-      ...options
+      ...options,
     };
   }
 
@@ -40,7 +40,20 @@ export class KanbanToTrelloSync {
 
     try {
       // Get all tasks from the generated kanban board by column
-      const columns = ['icebox', 'incoming', 'accepted', 'breakdown', 'blocked', 'ready', 'todo', 'in_progress', 'review', 'document', 'done', 'rejected'];
+      const columns = [
+        'icebox',
+        'incoming',
+        'accepted',
+        'breakdown',
+        'blocked',
+        'ready',
+        'todo',
+        'in_progress',
+        'review',
+        'document',
+        'done',
+        'rejected',
+      ];
       const allTasks: KanbanTask[] = [];
 
       console.log('🔄 Reading all kanban columns...');
@@ -51,8 +64,11 @@ export class KanbanToTrelloSync {
           const { stdout } = await execAsync(`pnpm kanban getByColumn "${columnName}"`);
 
           // getByColumn outputs NDJSON (one JSON object per line)
-          const lines = stdout.trim().split('\n').filter(line => line.trim());
-          const tasks = lines.map(line => JSON.parse(line));
+          const lines = stdout
+            .trim()
+            .split('\n')
+            .filter((line) => line.trim());
+          const tasks = lines.map((line) => JSON.parse(line));
 
           for (const task of tasks) {
             allTasks.push({
@@ -66,7 +82,7 @@ export class KanbanToTrelloSync {
               estimates: task.estimates || {},
               content: task.content || '',
               slug: task.slug || task.title?.toLowerCase().replace(/\s+/g, '-'),
-              metadata: task.metadata || {}
+              metadata: task.metadata || {},
             });
           }
 
@@ -85,7 +101,7 @@ export class KanbanToTrelloSync {
 
       // Sort by priority (P1 first, then P2, etc.)
       allTasks.sort((a, b) => {
-        const priorityOrder: Record<string, number> = { 'P1': 1, 'P2': 2, 'P3': 3, 'p1': 1, 'p2': 2, 'p3': 3 };
+        const priorityOrder: Record<string, number> = { P1: 1, P2: 2, P3: 3, p1: 1, p2: 2, p3: 3 };
         const aPriority = priorityOrder[a.priority || ''] || 999;
         const bPriority = priorityOrder[b.priority || ''] || 999;
         return aPriority - bPriority;
@@ -93,7 +109,10 @@ export class KanbanToTrelloSync {
 
       return allTasks;
     } catch (error) {
-      console.error('❌ Failed to extract kanban tasks:', error instanceof Error ? error.message : String(error));
+      console.error(
+        '❌ Failed to extract kanban tasks:',
+        error instanceof Error ? error.message : String(error),
+      );
       return [];
     }
   }
@@ -113,12 +132,12 @@ export class KanbanToTrelloSync {
       { kanbanColumn: 'review', trelloListName: 'Review', position: 9 },
       { kanbanColumn: 'document', trelloListName: 'Document', position: 10 },
       { kanbanColumn: 'done', trelloListName: 'Done', position: 11 },
-      { kanbanColumn: 'rejected', trelloListName: 'Rejected', position: 12 }
+      { kanbanColumn: 'rejected', trelloListName: 'Rejected', position: 12 },
     ];
 
-    return defaultMapping.map(col => ({
+    return defaultMapping.map((col) => ({
       ...col,
-      trelloListName: mapping[col.kanbanColumn] || col.trelloListName
+      trelloListName: mapping[col.kanbanColumn] || col.trelloListName,
     }));
   }
 
@@ -129,10 +148,14 @@ export class KanbanToTrelloSync {
     const board = await this.trello.getBoardById('V54OVEMZ');
 
     if (!board) {
-      throw new Error(`Cannot access board 'V54OVEMZ'. Please check your ATLASIAN_API_KEY permissions.`);
+      throw new Error(
+        `Cannot access board 'V54OVEMZ'. Please check your ATLASIAN_API_KEY permissions.`,
+      );
     }
 
-    console.log(`✅ Successfully accessed board: ${board.url || `https://trello.com/b/V54OVEMZ/promethean`}`);
+    console.log(
+      `✅ Successfully accessed board: ${board.url || `https://trello.com/b/V54OVEMZ/promethean`}`,
+    );
     return board;
   }
 
@@ -144,12 +167,12 @@ export class KanbanToTrelloSync {
 
     // Get existing lists
     const existingLists = await this.trello.getLists(board.id);
-    const existingListNames = new Set(existingLists.map(list => list.name));
+    const existingListNames = new Set(existingLists.map((list) => list.name));
 
     // Archive existing lists if requested
     if (this.options.archiveExisting && existingLists.length > 0) {
       console.log(`🗑️  Archiving ${existingLists.length} existing lists...`);
-      for (const list of existingLists) {
+      for (const _list of existingLists) {
         if (!existingListNames.has('Archive')) {
           await this.trello.createList(board.id, 'Archive', 999);
           break;
@@ -167,7 +190,7 @@ export class KanbanToTrelloSync {
         listMap.set(column.kanbanColumn, list);
         console.log(`   ✅ Created list: ${column.trelloListName}`);
       } else {
-        const list = existingLists.find(l => l.name === column.trelloListName);
+        const list = existingLists.find((l) => l.name === column.trelloListName);
         if (list) {
           listMap.set(column.kanbanColumn, list);
         }
@@ -181,14 +204,14 @@ export class KanbanToTrelloSync {
     console.log('\n🏷️  Setting up priority labels...');
 
     const priorityColors = {
-      'P1': 'red',
-      'P2': 'orange',
-      'P3': 'green'
+      P1: 'red',
+      P2: 'orange',
+      P3: 'green',
     };
 
     const labelMap = new Map<string, TrelloLabel>();
     const existingLabels = await this.trello.getLabels(board.id);
-    const existingLabelNames = new Set(existingLabels.map(label => label.name));
+    const existingLabelNames = new Set(existingLabels.map((label) => label.name));
 
     for (const [priority, color] of Object.entries(priorityColors)) {
       if (!existingLabelNames.has(priority)) {
@@ -196,7 +219,7 @@ export class KanbanToTrelloSync {
         labelMap.set(priority, label);
         console.log(`   ✅ Created label: ${priority} (${color})`);
       } else {
-        const label = existingLabels.find(l => l.name === priority);
+        const label = existingLabels.find((l) => l.name === priority);
         if (label) {
           labelMap.set(priority, label);
         }
@@ -235,7 +258,7 @@ ${task.content || 'No description available.'}
   private async syncTaskToCard(
     task: KanbanTask,
     listMap: Map<string, TrelloList>,
-    labelMap: Map<string, TrelloLabel>
+    labelMap: Map<string, TrelloLabel>,
   ): Promise<TrelloCard | null> {
     console.log(`\n🔄 Syncing task: "${task.title}"`);
     console.log(`   UUID: ${task.uuid}`);
@@ -258,8 +281,8 @@ ${task.content || 'No description available.'}
       task.title,
       this.createCardDescription(task),
       {
-        labels: priorityLabel ? [priorityLabel.id] : []
-      }
+        labels: priorityLabel ? [priorityLabel.id] : [],
+      },
     );
 
     return card;
@@ -280,8 +303,8 @@ ${task.content || 'No description available.'}
         syncedCards: 0,
         failedCards: 0,
         createdLists: 0,
-        createdLabels: 0
-      }
+        createdLabels: 0,
+      },
     };
 
     try {
@@ -310,28 +333,24 @@ ${task.content || 'No description available.'}
       result.board = board;
 
       // Get existing cards to avoid duplicates
-      const existingCards = this.options.dryRun
-        ? []
-        : await this.trello.getCards(board.id);
-      const existingCardNames = new Set(existingCards.map(card => card.name));
+      const existingCards = this.options.dryRun ? [] : await this.trello.getCards(board.id);
+      const existingCardNames = new Set(existingCards.map((card) => card.name));
 
       // Filter out tasks that already have cards
       const tasksToSync = tasks
         .slice(0, this.options.maxTasks || tasks.length)
-        .filter(task => !existingCardNames.has(task.title));
+        .filter((task) => !existingCardNames.has(task.title));
 
-      console.log(`\n📝 Found ${tasks.length} tasks, ${existingCards.length} existing cards, syncing ${tasksToSync.length} new tasks`);
+      console.log(
+        `\n📝 Found ${tasks.length} tasks, ${existingCards.length} existing cards, syncing ${tasksToSync.length} new tasks`,
+      );
 
       // Ensure lists exist
-      const listMap = this.options.dryRun
-        ? new Map()
-        : await this.ensureListsExist(board);
+      const listMap = this.options.dryRun ? new Map() : await this.ensureListsExist(board);
       result.lists = Array.from(listMap.values());
 
       // Ensure labels exist
-      const labelMap = this.options.dryRun
-        ? new Map()
-        : await this.ensureLabelsExist(board);
+      const labelMap = this.options.dryRun ? new Map() : await this.ensureLabelsExist(board);
 
       // Sync tasks to cards
       console.log(`\n🔄 Syncing ${tasksToSync.length} tasks to Trello cards...\n`);
@@ -367,9 +386,8 @@ ${task.content || 'No description available.'}
       }
 
       result.success = result.errors.length === 0 || result.summary.syncedCards > 0;
-
     } catch (error) {
-      const errorMsg = `Sync failed: ${error.message}`;
+      const errorMsg = `Sync failed: ${error instanceof Error ? error.message : String(error)}`;
       console.error(`❌ ${errorMsg}`);
       result.errors.push(errorMsg);
     }
@@ -396,7 +414,7 @@ ${task.content || 'No description available.'}
 
     if (result.errors.length > 0) {
       console.log(`\n❌ Errors:`);
-      result.errors.forEach(error => console.log(`   • ${error}`));
+      result.errors.forEach((error) => console.log(`   • ${error}`));
     }
 
     if (result.success && result.board) {

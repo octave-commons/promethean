@@ -4,13 +4,19 @@ title: "ensure cephalon chat agent records session id"
 slug: "Ensure Cephalon chat agent records session id"
 status: "incoming"
 priority: "P1"
-labels: ["cephalon", "tests"]
-created_at: "2025-10-08T02:48:42.625Z"
+tags: ["cephalon", "tests"]
+created_at: "2025-10-10T03:23:55.969Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 The AVA suite for `@promethean/cephalon` fails its evaluation-mode toggle spec because `EnsoChatAgent.getSessionId()` keeps
 returning `undefined` even after the client joins presence. `EnsoClient.receive` already captures the `presence.join`
@@ -26,3 +32,9 @@ payload, but the chat agent never persists that session identifier into its own 
 - Add or update tests to cover the presence flow.
 
 #incoming #enso #cephalon #tests
+
+
+
+
+
+

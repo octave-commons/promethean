@@ -4,12 +4,24 @@ title: "Test CLI reporting bug"
 slug: "test-cli-bug 2"
 status: "todo"
 priority: "P2"
-labels: ["test", "cli", "bug"]
-created_at: "2025-10-09T21:36:17.585Z"
+tags: ["test", "cli", "bug"]
+created_at: "2025-10-10T03:23:55.970Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
 
 

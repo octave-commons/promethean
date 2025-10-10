@@ -4,13 +4,19 @@ title: "Extract shared services into @promethean/omni-core"
 slug: "extract-omni-core-services"
 status: "ready"
 priority: "P1"
-labels: ["omni", "refactor"]
-created_at: "2025-10-08T21:28:24.328Z"
+tags: ["omni", "refactor"]
+created_at: "2025-10-10T03:23:55.970Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ## 🎯 Outcome
 
@@ -42,3 +48,9 @@ Relocate SmartGPT bridge domain logic files/search/sinks/indexer/agents/exec int
 
 - [docs/agile/tasks/author-omni-protocol-package.md]
 - [docs/agile/tasks/omni-unified-service-spec.md]
+
+
+
+
+
+

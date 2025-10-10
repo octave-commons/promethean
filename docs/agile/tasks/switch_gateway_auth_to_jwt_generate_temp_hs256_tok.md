@@ -4,13 +4,19 @@ title: "switch gateway auth to jwt generate temp hs256 tok md"
 slug: "switch_gateway_auth_to_jwt_generate_temp_hs256_tok"
 status: "rejected"
 priority: "P3"
-labels: ["switch", "gateway", "auth", "jwt"]
-created_at: "2025-10-07T20:25:05.645Z"
+tags: ["switch", "gateway", "auth", "jwt"]
+created_at: "2025-10-10T03:23:55.972Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ## 🛠️ Task: Switch gateway auth to JWT; generate temp HS256 token for dev
 
@@ -35,3 +41,9 @@ Generated from ../unique/2025.08.08.19.08.49.md$../unique/2025.08.08.19.08.49.md
 
 
 #rejected
+
+
+
+
+
+

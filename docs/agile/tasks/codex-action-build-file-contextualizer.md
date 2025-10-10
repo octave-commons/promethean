@@ -4,7 +4,7 @@ title: "Description"
 slug: "codex-action-build-file-contextualizer"
 status: "Archive"
 priority: "P3"
-labels: ["description", "step", "useful", "describe"]
+tags: ["description", "step", "useful", "describe"]
 created_at: "2025-10-07T20:25:05.645Z"
 estimates:
   complexity: ""

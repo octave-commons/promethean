@@ -4,13 +4,19 @@ title: "1) System math you can run back-of-the-envelope"
 slug: "1-system-math-you-can-run-back-of-the-envelope"
 status: "icebox"
 priority: "P3"
-labels: ["docops", "labeled"]
-created_at: "2025-10-08T20:10:46.008Z"
+tags: ["docops", "labeled"]
+created_at: "2025-10-10T03:23:55.968Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ## 🗂 Source
 
@@ -42,3 +48,9 @@ As (b) grows, prefill amortizes;
 - [ ] Draft actionable subtasks from the summary
 - [ ] Define acceptance criteria
 - [ ] Link back to related labeled docs
+
+
+
+
+
+

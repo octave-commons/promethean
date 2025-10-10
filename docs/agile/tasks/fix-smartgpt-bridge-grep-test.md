@@ -4,13 +4,19 @@ title: "Fix SmartGPT Bridge grep parity with ripgrep /TASK-20241120-grepfix /kan
 slug: "fix-smartgpt-bridge-grep-test"
 status: "ready"
 priority: "p2"
-labels: ["task", "board", "state", "owner", "priority", "epic", "lang"]
-created_at: "2025-10-07T20:25:05.643Z"
+tags: ["task", "board", "state", "owner", "priority", "epic", "lang"]
+created_at: "2025-10-10T03:23:55.970Z"
 estimates:
-  complexity: 3
-  scale: 2
-  time_to_completion: "2 hours"
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ## Context
 
@@ -43,3 +49,9 @@ estimates:
 
 - ripgrep manual: <https://github.com/BurntSushi/ripgrep>
 - Ava docs: <https://github.com/avajs/ava>
+
+
+
+
+
+

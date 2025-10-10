@@ -4,7 +4,7 @@ title: "Fix semver-guard pipeline incorrect directory scanning and configuration
 slug: "fix-semverguard-pipeline-incorrect-directory-scanning-and-configuration-issues"
 status: "in_review"
 priority: "P2"
-labels: ["piper", "semver-guard", "directory-scanning", "configuration", "path-resolution"]
+tags: ["piper", "semver-guard", "directory-scanning", "configuration", "path-resolution"]
 created_at: "2025-10-05T00:00:00.000Z"
 estimates:
   complexity: ""

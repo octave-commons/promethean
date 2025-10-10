@@ -1,16 +1,22 @@
 ---
 uuid: "2c6e5a8d-7c9b-4a1b-b2d3-4e5f6a7b8c9d"
-title: "duck-web — openWs helper DI wrapper + bearer guard -web -web -web -web -web"
+title: "duck-web — openWs helper DI wrapper + bearer guard -web -web -web -web -web -web -web -web -web -web"
 slug: "openws-helper-wrap-and-guards"
 status: "done"
 priority: "P2"
-labels: ["duck-web", "websocket", "auth"]
-created_at: "2025-10-08T04:06:06.331Z"
+tags: ["duck-web", "websocket", "auth"]
+created_at: "2025-10-10T03:23:55.971Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 #Todo
 
@@ -26,3 +32,9 @@ Wrap `openWs` with injectable factory; skip `bearer.*` subprotocol when token ab
 
 ## 🔍 Related
 - PR #1446
+
+
+
+
+
+

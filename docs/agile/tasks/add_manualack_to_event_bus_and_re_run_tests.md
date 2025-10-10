@@ -4,13 +4,19 @@ title: "add manualack to event bus and re run tests md"
 slug: "add_manualack_to_event_bus_and_re_run_tests"
 status: "rejected"
 priority: "P3"
-labels: ["add", "manualack", "event", "bus"]
-created_at: "2025-10-07T20:25:05.645Z"
+tags: ["add", "manualack", "event", "bus"]
+created_at: "2025-10-10T03:23:55.971Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ## 🛠️ Task: Add `manualAck` to event bus and re-run tests
 
@@ -35,3 +41,9 @@ Generated from ../unique/2025.08.08.15.08.47.md$../unique/2025.08.08.15.08.47.md
 
 
 #rejected
+
+
+
+
+
+

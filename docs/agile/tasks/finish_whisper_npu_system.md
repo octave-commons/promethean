@@ -4,13 +4,19 @@ title: "finish whisper npu system md md"
 slug: "finish_whisper_npu_system"
 status: "rejected"
 priority: "P3"
-labels: ["npu", "whisper", "system", "finish"]
-created_at: "2025-10-07T20:25:05.645Z"
+tags: ["npu", "whisper", "system", "finish"]
+created_at: "2025-10-10T03:23:55.972Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 Here’s the refined version, keeping it focused on **NPU-accelerated transcription** as a performance optimization:
 
@@ -79,3 +85,9 @@ That’ll make it easier to slot into the Promethean pipeline.
 - No active owner or unclear scope
 
 #breakdown
+
+
+
+
+
+

@@ -4,13 +4,19 @@ title: "ECS Board Planning Note"
 slug: "ecs_board_planning_note"
 status: "done"
 priority: "P3"
-labels: ["board", "ecs", "planning", "note"]
-created_at: "2025-10-07T20:25:05.644Z"
+tags: ["board", "ecs", "planning", "note"]
+created_at: "2025-10-10T03:23:55.971Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 # ECS Board Planning Note
 
@@ -62,3 +68,9 @@ Define expectations for an ECS-powered kanban experience so delivery teams can d
 - Share draft with: Platform DX (CLI owners), Board Ops/Agents, Product stakeholders for ECS initiative.
 - Required approvals: `[ ]` Product, `[ ]` Engineering, `[ ]` Operations.
 - Record sign-off decisions back in the linked kanban task before implementation begins.
+
+
+
+
+
+

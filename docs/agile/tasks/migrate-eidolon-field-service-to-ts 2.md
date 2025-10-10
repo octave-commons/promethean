@@ -4,12 +4,24 @@ title: "Migrate eidolon-field service to TypeScript"
 slug: "migrate-eidolon-field-service-to-ts 2"
 status: "breakdown"
 priority: "P3"
-labels: ["board", "lang"]
-created_at: "2025-10-09T21:36:17.585Z"
+tags: ["board", "lang"]
+created_at: "2025-10-10T03:23:55.970Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
 
 

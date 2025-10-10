@@ -4,13 +4,19 @@ title: "replace agent automation makefile targets with pnpm scripts"
 slug: "update_makefile_to_have_commands_specific_for_agents"
 status: "done"
 priority: "P3"
-labels: ["pnpm", "scripts", "agent", "makefile"]
-created_at: "2025-10-07T20:25:05.644Z"
+tags: ["pnpm", "scripts", "agent", "makefile"]
+created_at: "2025-10-10T03:23:55.971Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ## 🛠️ Task: Replace Makefile agent commands with pnpm scripts
 
@@ -69,3 +75,9 @@ Nothing
 - [promethean-dev-workflow-update|promethean dev workflow update]
 
 #devops #todo
+
+
+
+
+
+

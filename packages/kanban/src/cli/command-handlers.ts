@@ -14,6 +14,10 @@ import {
   generateBoardByTags,
   indexForSearch,
   searchTasks,
+  createTask,
+  deleteTask,
+  updateTaskDescription,
+  renameTask,
 } from '../lib/kanban.js';
 import type { Board } from '../lib/types.js';
 import { EventLogManager } from '../board/event-log.js';
@@ -974,6 +978,230 @@ const getPriorityNumeric = (priority: string | number | undefined): number => {
   return 3; // Default to low priority
 };
 
+// CRUD Commands Implementation
+
+const parseCreateTaskArgs = (args: ReadonlyArray<string>) => {
+  if (args.length === 0) {
+    throw new CommandUsageError('create requires a title');
+  }
+
+  // Parse optional flags and separate title from flags
+  const result: {
+    title: string;
+    content?: string;
+    priority?: string;
+    labels?: string[];
+    status?: string;
+  } = { title: '' };
+
+  const titleParts: string[] = [];
+
+  for (let i = 0; i < args.length; i++) {
+    const arg = args[i];
+    if (!arg) continue;
+
+    // Handle flags
+    if (arg.startsWith('--content=')) {
+      result.content = arg.slice('--content='.length);
+    } else if (arg === '--content' && i + 1 < args.length && args[i + 1]) {
+      result.content = args[i + 1];
+      i++; // Skip next arg
+    } else if (arg.startsWith('--priority=')) {
+      result.priority = arg.slice('--priority='.length);
+    } else if (arg === '--priority' && i + 1 < args.length && args[i + 1]) {
+      result.priority = args[i + 1];
+      i++; // Skip next arg
+    } else if (arg.startsWith('--status=')) {
+      result.status = arg.slice('--status='.length);
+    } else if (arg === '--status' && i + 1 < args.length && args[i + 1]) {
+      result.status = args[i + 1];
+      i++; // Skip next arg
+    } else if (arg.startsWith('--labels=')) {
+      const labelsStr = arg.slice('--labels='.length);
+      result.labels = labelsStr.split(',').map(l => l.trim()).filter(l => l.length > 0);
+    } else if (arg === '--labels' && i + 1 < args.length && args[i + 1]) {
+      const labelsStr = args[i + 1];
+      if (labelsStr) {
+        result.labels = labelsStr.split(',').map(l => l.trim()).filter(l => l.length > 0);
+      }
+      i++; // Skip next arg
+    } else {
+      // Add to title parts (non-flag arguments)
+      titleParts.push(arg);
+    }
+  }
+
+  const title = titleParts.join(' ').trim();
+  if (title.length === 0) {
+    throw new CommandUsageError('create requires a title');
+  }
+  result.title = title;
+
+  return result;
+};
+
+const handleCreate: CommandHandler = (args, context) =>
+  withBoard(context, async (board) => {
+    const mutableBoard = board as unknown as Board;
+    const taskArgs = parseCreateTaskArgs(args);
+
+    const newTask = await createTask(
+      mutableBoard,
+      taskArgs.status || 'incoming',
+      {
+        title: taskArgs.title,
+        content: taskArgs.content,
+        priority: taskArgs.priority,
+        labels: taskArgs.labels,
+      },
+      context.tasksDir,
+      context.boardFile,
+    );
+
+    console.log(`✅ Created task "${newTask.title}" (${newTask.uuid.slice(0, 8)}...)`);
+    console.log(`   Status: ${newTask.status}`);
+    if (newTask.priority) {
+      console.log(`   Priority: ${newTask.priority}`);
+    }
+    if (newTask.labels && newTask.labels.length > 0) {
+      console.log(`   Labels: ${newTask.labels.join(', ')}`);
+    }
+
+    return newTask;
+  });
+
+const parseUpdateTaskArgs = (args: ReadonlyArray<string>) => {
+  if (args.length === 0) {
+    throw new CommandUsageError('update requires a task UUID');
+  }
+
+  const uuid = requireArg(args[0], 'task UUID');
+
+  // Parse optional flags
+  const result: {
+    uuid: string;
+    title?: string;
+    content?: string;
+    priority?: string;
+    status?: string;
+  } = { uuid };
+
+  for (let i = 1; i < args.length; i++) {
+    const arg = args[i];
+    if (!arg) continue;
+
+    if (arg.startsWith('--title=')) {
+      result.title = arg.slice('--title='.length);
+    } else if (arg === '--title' && i + 1 < args.length && args[i + 1]) {
+      result.title = args[i + 1];
+      i++; // Skip next arg
+    } else if (arg.startsWith('--content=')) {
+      result.content = arg.slice('--content='.length);
+    } else if (arg === '--content' && i + 1 < args.length && args[i + 1]) {
+      result.content = args[i + 1];
+      i++; // Skip next arg
+    } else if (arg.startsWith('--priority=')) {
+      result.priority = arg.slice('--priority='.length);
+    } else if (arg === '--priority' && i + 1 < args.length && args[i + 1]) {
+      result.priority = args[i + 1];
+      i++; // Skip next arg
+    }
+  }
+
+  return result;
+};
+
+const handleUpdate: CommandHandler = (args, context) =>
+  withBoard(context, async (board) => {
+    const mutableBoard = board as unknown as Board;
+    const updateArgs = parseUpdateTaskArgs(args);
+
+    let updatedTask;
+
+    // Update title if provided
+    if (updateArgs.title) {
+      updatedTask = await renameTask(
+        mutableBoard,
+        updateArgs.uuid,
+        updateArgs.title,
+        context.tasksDir,
+        context.boardFile,
+      );
+      if (updatedTask) {
+        console.log(`✅ Updated title to "${updateArgs.title}"`);
+      }
+    }
+
+    // Update content/description if provided
+    if (updateArgs.content) {
+      updatedTask = await updateTaskDescription(
+        mutableBoard,
+        updateArgs.uuid,
+        updateArgs.content,
+        context.tasksDir,
+        context.boardFile,
+      );
+      if (updatedTask) {
+        console.log(`✅ Updated task description`);
+      }
+    }
+
+    if (!updatedTask) {
+      throw new CommandUsageError(`Task with UUID ${updateArgs.uuid} not found`);
+    }
+
+    return updatedTask;
+  });
+
+const parseDeleteTaskArgs = (args: ReadonlyArray<string>) => {
+  if (args.length === 0) {
+    throw new CommandUsageError('delete requires a task UUID');
+  }
+
+  const uuid = requireArg(args[0], 'task UUID');
+  const confirm = args.includes('--confirm') || args.includes('-y');
+
+  return { uuid, confirm };
+};
+
+const handleDelete: CommandHandler = (args, context) =>
+  withBoard(context, async (board) => {
+    const mutableBoard = board as unknown as Board;
+    const deleteArgs = parseDeleteTaskArgs(args);
+
+    // First, find the task to show what will be deleted
+    const task = findTaskById(mutableBoard, deleteArgs.uuid);
+    if (!task) {
+      throw new CommandUsageError(`Task with UUID ${deleteArgs.uuid} not found`);
+    }
+
+    // Ask for confirmation unless --confirm flag is provided
+    if (!deleteArgs.confirm) {
+      console.log(`⚠️  About to delete task:`);
+      console.log(`   Title: ${task.title}`);
+      console.log(`   UUID: ${task.uuid}`);
+      console.log(`   Status: ${task.status}`);
+      console.log('');
+      console.log('This action cannot be undone. Use --confirm to proceed with deletion.');
+      return { deleted: false, task };
+    }
+
+    const deleted = await deleteTask(
+      mutableBoard,
+      deleteArgs.uuid,
+      context.tasksDir,
+      context.boardFile,
+    );
+
+    if (deleted) {
+      console.log(`✅ Deleted task "${task.title}" (${task.uuid.slice(0, 8)}...)`);
+      return { deleted: true, task };
+    } else {
+      console.log(`❌ Failed to delete task with UUID ${deleteArgs.uuid}`);
+      return { deleted: false, task };
+    }
+  });
+
 export const COMMAND_HANDLERS: Readonly<Record<string, CommandHandler>> = Object.freeze({
   count: handleCount,
   getColumn: handleGetColumn,
@@ -1002,6 +1230,10 @@ export const COMMAND_HANDLERS: Readonly<Record<string, CommandHandler>> = Object
   list: handleList,
   audit: handleAudit,
   'enforce-wip-limits': handleEnforceWipLimits,
+  // CRUD commands
+  create: handleCreate,
+  update: handleUpdate,
+  delete: handleDelete,
 });
 
 export const AVAILABLE_COMMANDS: ReadonlyArray<string> = Object.freeze(

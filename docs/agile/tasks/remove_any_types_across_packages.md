@@ -4,13 +4,19 @@ title: "Remove `any` types across packages"
 slug: "remove_any_types_across_packages"
 status: "testing"
 priority: "P3"
-labels: ["any", "types", "packages", "remove"]
-created_at: "2025-09-15T02:02:58.518Z"
+tags: ["any", "types", "packages", "remove"]
+created_at: "2025-10-10T03:23:55.970Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 # Remove `any` types across packages
 
@@ -31,3 +37,9 @@ estimates:
 ```
 #Todo #codex-task
 ```
+
+
+
+
+
+

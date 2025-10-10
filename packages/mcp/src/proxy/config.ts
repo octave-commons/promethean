@@ -1,9 +1,11 @@
-import fs from "node:fs";
-import { readFile } from "node:fs/promises";
-import os from "node:os";
-import path from "node:path";
+import fs from 'node:fs';
+import { readFile } from 'node:fs/promises';
+import os from 'node:os';
+import path from 'node:path';
 
-import edn from "jsedn";
+import edn from 'jsedn';
+
+export type ProxyImplementation = 'manual' | 'sdk';
 
 export type StdioServerSpec = Readonly<{
   name: string;
@@ -12,16 +14,15 @@ export type StdioServerSpec = Readonly<{
   env: Readonly<Record<string, string>>;
   cwd?: string;
   httpPath: string;
+  proxy?: ProxyImplementation;
 }>;
 
 type UnknownRecord = Record<string, unknown>;
 
-const hasMcpServers = (
-  value: unknown,
-): value is UnknownRecord & { "mcp-servers": unknown } =>
+const hasMcpServers = (value: unknown): value is UnknownRecord & { 'mcp-servers': unknown } =>
   value !== null &&
-  typeof value === "object" &&
-  Object.prototype.hasOwnProperty.call(value, "mcp-servers");
+  typeof value === 'object' &&
+  Object.prototype.hasOwnProperty.call(value, 'mcp-servers');
 
 const normalize = (value: unknown): unknown => {
   if (Array.isArray(value)) {
@@ -32,30 +33,29 @@ const normalize = (value: unknown): unknown => {
     return null;
   }
 
-  if (typeof value !== "object") {
+  if (typeof value !== 'object') {
     return value;
   }
 
   return Object.fromEntries(
     Object.entries(value as UnknownRecord).map(([rawKey, rawValue]) => {
-      const key =
-        typeof rawKey === "string" ? rawKey.replace(/^:/, "") : String(rawKey);
+      const key = typeof rawKey === 'string' ? rawKey.replace(/^:/, '') : String(rawKey);
       return [key, normalize(rawValue)];
     }),
   );
 };
 
 const loadEdn = async (filePath: string): Promise<unknown> => {
-  const content = await readFile(filePath, "utf8");
+  const content = await readFile(filePath, 'utf8');
   return normalize(edn.toJS(edn.parse(content)));
 };
 
 const ensureLeadingSlash = (segment: string): string =>
-  segment.startsWith("/") ? segment : `/${segment}`;
+  segment.startsWith('/') ? segment : `/${segment}`;
 
 const expandHome = (input: string, home: string): string => {
   if (!input) return input;
-  if (input.startsWith("~")) {
+  if (input.startsWith('~')) {
     return path.join(home, input.slice(1));
   }
   return input;
@@ -65,17 +65,17 @@ const expandEnvVars = (input: string, env: NodeJS.ProcessEnv): string =>
   input.replace(/\$(\w+)|\$\{([^}]+)\}/g, (match, simple, braced) => {
     const key = (simple ?? braced) as string;
     const value = env[key];
-    return typeof value === "string" ? value : match;
+    return typeof value === 'string' ? value : match;
   });
 
 const looksLikeScopedPackage = (value: string): boolean =>
-  value.startsWith("@") && value.includes("/");
+  value.startsWith('@') && value.includes('/');
 
 const resolvePath = (raw: string, baseDir: string): string => {
   const home = os.homedir();
   const expandedHome = expandHome(raw, home);
   const expanded = expandEnvVars(expandedHome, process.env);
-  if (expanded.startsWith("./") || expanded.startsWith("../")) {
+  if (expanded.startsWith('./') || expanded.startsWith('../')) {
     return path.resolve(baseDir, expanded);
   }
   if (path.isAbsolute(expanded)) {
@@ -91,12 +91,10 @@ const resolvePath = (raw: string, baseDir: string): string => {
 const normalizeArgs = (raw: unknown, baseDir: string): readonly string[] => {
   if (raw === null || raw === undefined) return [];
   if (!Array.isArray(raw)) {
-    throw new Error(
-      `Expected :args to be a vector of strings, got ${typeof raw}`,
-    );
+    throw new Error(`Expected :args to be a vector of strings, got ${typeof raw}`);
   }
   return raw.map((value) => {
-    if (typeof value !== "string") {
+    if (typeof value !== 'string') {
       throw new Error(`Expected :args to contain strings, got ${typeof value}`);
     }
     return resolvePath(value, baseDir);
@@ -105,16 +103,12 @@ const normalizeArgs = (raw: unknown, baseDir: string): readonly string[] => {
 
 const normalizeEnv = (raw: unknown): Readonly<Record<string, string>> => {
   if (raw === null || raw === undefined) return {};
-  if (typeof raw !== "object" || Array.isArray(raw)) {
-    throw new Error(
-      `Expected :env to be a map of string -> string, got ${typeof raw}`,
-    );
+  if (typeof raw !== 'object' || Array.isArray(raw)) {
+    throw new Error(`Expected :env to be a map of string -> string, got ${typeof raw}`);
   }
   const entries = Object.entries(raw as UnknownRecord).map(([key, value]) => {
-    if (typeof value !== "string") {
-      throw new Error(
-        `Expected :env entries to be strings, got ${typeof value}`,
-      );
+    if (typeof value !== 'string') {
+      throw new Error(`Expected :env entries to be strings, got ${typeof value}`);
     }
     return [key, value] as const;
   });
@@ -124,18 +118,14 @@ const normalizeEnv = (raw: unknown): Readonly<Record<string, string>> => {
 const coerceBoolean = (value: unknown): boolean => Boolean(value);
 
 const deriveHttpPath = (name: string, rawPath: unknown): string => {
-  if (typeof rawPath === "string" && rawPath.trim().length > 0) {
+  if (typeof rawPath === 'string' && rawPath.trim().length > 0) {
     return ensureLeadingSlash(rawPath.trim());
   }
   return ensureLeadingSlash(`${name}/mcp`);
 };
 
-const parseServer = (
-  name: string,
-  raw: unknown,
-  baseDir: string,
-): StdioServerSpec | null => {
-  if (raw === null || typeof raw !== "object" || Array.isArray(raw)) {
+const parseServer = (name: string, raw: unknown, baseDir: string): StdioServerSpec | null => {
+  if (raw === null || typeof raw !== 'object' || Array.isArray(raw)) {
     throw new Error(`Expected server definition for ${name} to be a map`);
   }
   const data = raw as UnknownRecord;
@@ -145,20 +135,33 @@ const parseServer = (
   }
 
   const commandRaw = data.command;
-  if (typeof commandRaw !== "string" || commandRaw.trim().length === 0) {
+  if (typeof commandRaw !== 'string' || commandRaw.trim().length === 0) {
     throw new Error(`Missing :command for MCP server ${name}`);
   }
 
   const cwdRaw = data.cwd;
   const cwd =
-    typeof cwdRaw === "string" && cwdRaw.trim().length > 0
+    typeof cwdRaw === 'string' && cwdRaw.trim().length > 0
       ? resolvePath(cwdRaw.trim(), baseDir)
       : undefined;
 
   const command = resolvePath(commandRaw.trim(), baseDir);
   const args = normalizeArgs(data.args, baseDir);
   const env = normalizeEnv(data.env);
-  const httpPath = deriveHttpPath(name, data["http-path"] ?? data["httpPath"]);
+  const httpPath = deriveHttpPath(name, data['http-path'] ?? data['httpPath']);
+
+  // Allow explicit proxy implementation selection
+  const proxyRaw = data.proxy;
+  let proxy: ProxyImplementation | undefined;
+  if (typeof proxyRaw === 'string') {
+    if (proxyRaw === 'manual' || proxyRaw === 'sdk') {
+      proxy = proxyRaw;
+    } else {
+      throw new Error(
+        `Invalid proxy implementation "${proxyRaw}" for server ${name}. Must be "manual" or "sdk".`,
+      );
+    }
+  }
 
   return {
     name,
@@ -167,6 +170,7 @@ const parseServer = (
     env,
     cwd,
     httpPath,
+    proxy,
   };
 };
 
@@ -181,12 +185,8 @@ export const loadStdioServerSpecs = async (
     throw new Error(`Expected top-level :mcp-servers map in ${filePath}`);
   }
 
-  const servers = parsed["mcp-servers"];
-  if (
-    servers === null ||
-    typeof servers !== "object" ||
-    Array.isArray(servers)
-  ) {
+  const servers = parsed['mcp-servers'];
+  if (servers === null || typeof servers !== 'object' || Array.isArray(servers)) {
     throw new Error(`Expected :mcp-servers to be a map in ${filePath}`);
   }
 

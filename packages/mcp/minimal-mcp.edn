@@ -1,0 +1,12 @@
+{:mcp-servers
+ {:github
+  {:command "/home/err/devel/promethean/scripts/mcp/bin/github.sh"
+   :http-path "/github"}
+
+  :file-system
+  {:command "/home/err/devel/promethean/scripts/mcp/bin/filesystem.sh"
+   :http-path "/filesystem"}
+
+  :duckduckgo
+  {:command "/home/err/devel/promethean/scripts/mcp/bin/duck.sh"
+   :http-path "/duckduckgo"}}}

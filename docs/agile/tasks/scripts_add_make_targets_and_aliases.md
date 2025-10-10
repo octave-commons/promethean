@@ -4,13 +4,19 @@ title: "scripts add make targets and aliases"
 slug: "scripts_add_make_targets_and_aliases"
 status: "incoming"
 priority: "P3"
-labels: ["scripts", "kanban", "targets", "add"]
-created_at: "2025-10-07T20:25:05.643Z"
+tags: ["scripts", "kanban", "targets", "add"]
+created_at: "2025-10-10T03:23:55.970Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 Scripts: Add Make targets and aliases
 
@@ -29,3 +35,9 @@ Exit Criteria:
 - Targets exist and work from repo root; CI can call them.
 
 #incoming #scripts #make #dx
+
+
+
+
+
+

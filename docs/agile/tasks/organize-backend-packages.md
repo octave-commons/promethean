@@ -1,16 +1,22 @@
 ---
 uuid: "90c25667-5a2b-4c8c-9d40-5b03e54675f2"
-title: "Organize backend packages under services -core -core"
+title: "Organize backend packages under services -core -core -core -core -core -core -core"
 slug: "organize-backend-packages"
 status: "rejected"
 priority: "p3"
-labels: ["framework-core", "refactor"]
-created_at: "2025-10-07T20:25:05.645Z"
+tags: ["framework-core", "refactor"]
+created_at: "2025-10-10T03:23:55.972Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 #Todo
 
@@ -63,3 +69,9 @@ Estimate: 5
 ## 🔍 Relevant Links
 
 - Pending implementation notes.
+
+
+
+
+
+

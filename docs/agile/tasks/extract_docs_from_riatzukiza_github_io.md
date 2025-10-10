@@ -4,13 +4,19 @@ title: "extract docs from riatzukiza github io md md"
 slug: "extract_docs_from_riatzukiza_github_io"
 status: "rejected"
 priority: "P3"
-labels: ["docs", "riatzukiza", "github", "extract"]
-created_at: "2025-10-07T20:25:05.645Z"
+tags: ["docs", "riatzukiza", "github", "extract"]
+created_at: "2025-10-10T03:23:55.972Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ## 🛠️ Task: Extract docs from riatzukiza.github.io
 
@@ -56,3 +62,9 @@ Nothing
 ## 🔍 Relevant Links
 - [[kanban]]
 #accepted
+
+
+
+
+
+

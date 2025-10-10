@@ -4,13 +4,19 @@ title: "scripts audit and standardize cli flags"
 slug: "scripts_audit_and_standardize_cli_flags"
 status: "incoming"
 priority: "P3"
-labels: ["scripts", "cli", "flags", "audit"]
-created_at: "2025-10-07T20:25:05.643Z"
+tags: ["scripts", "cli", "flags", "audit"]
+created_at: "2025-10-10T03:23:55.970Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 Scripts: Audit and standardize CLI flags
 
@@ -28,3 +34,9 @@ Exit Criteria:
 - Consistent CLI ergonomics across scripts, with help messages.
 
 #incoming #scripts #cli #dx
+
+
+
+
+
+

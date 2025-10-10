@@ -1,16 +1,22 @@
 ---
 uuid: "1d2183ae-6cdd-43ec-9e4c-15ae41a24da7"
-title: "2025.09.19.22.12.01    -agnostic  -driven   -discipline    -agnostic  -driven   -discipline"
+title: "2025.09.19.22.12.01    -agnostic  -driven   -discipline    -agnostic  -driven   -discipline    -agnostic  -driven   -discipline    -agnostic  -driven   -discipline    -agnostic  -driven   -discipline    -agnostic  -driven   -discipline    -agnostic  -driven   -discipline"
 slug: "kanban-as-fsm-kernel"
 status: "breakdown"
 priority: "P3"
-labels: ["Kanban", "FSM", "process", "agent-agnostic", "procedural", "board-driven", "WIP", "blocking", "session-discipline"]
-created_at: "2025-10-07T20:25:05.643Z"
+tags: ["Kanban", "FSM", "process", "agent-agnostic", "procedural", "board-driven", "WIP", "blocking", "session-discipline"]
+created_at: "2025-10-10T03:23:55.970Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 love the clarity. let’s codify exactly what you described, agent-agnostic, as a **Kanban-as-FSM** kernel for `process.md`. no special phases, no timeboxing, minimal rules, procedural, board-driven.
 
@@ -78,3 +84,9 @@ If that matches your intent, say **“apply Step 1”** and I’ll slot it into 
 ## Sources
 - _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
+
+
+
+
+
+

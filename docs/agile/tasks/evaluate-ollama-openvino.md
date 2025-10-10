@@ -4,13 +4,19 @@ title: "evaluate ollama openvino"
 slug: "evaluate-ollama-openvino"
 status: "testing"
 priority: "p3"
-labels: ["evaluate", "ollama", "openvino", "chatgpt"]
-created_at: "2025-09-15T02:02:58.513Z"
+tags: ["evaluate", "ollama", "openvino", "chatgpt"]
+created_at: "2025-10-10T03:23:55.970Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ### **Smart ChatGPT Configuration**
 ```smart-chatgpt
@@ -107,3 +113,9 @@ estimates:
   "exclude_outlinks": false
 }
 ```
+
+
+
+
+
+

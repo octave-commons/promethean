@@ -4,13 +4,19 @@ title: "implement fragment ingestion with activation vecto md"
 slug: "implement_fragment_ingestion_with_activation_vecto"
 status: "icebox"
 priority: "P3"
-labels: ["implement", "fragment", "ingestion", "activation"]
-created_at: "2025-10-07T20:25:05.643Z"
+tags: ["implement", "fragment", "ingestion", "activation"]
+created_at: "2025-10-10T03:23:55.968Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ## 🛠️ Task: Implement fragment ingestion with activation vectors
 
@@ -58,3 +64,9 @@ Nothing
 ```
 #ice-box
 ```
+
+
+
+
+
+

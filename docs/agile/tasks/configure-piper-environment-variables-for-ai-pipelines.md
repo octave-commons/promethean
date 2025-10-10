@@ -4,7 +4,7 @@ title: "Configure piper environment variables for AI-powered pipelines"
 slug: "configure-piper-environment-variables-for-ai-pipelines"
 status: "done"
 priority: "P1"
-labels: ["piper", "environment", "ai-configuration", "ollama", "setup"]
+tags: ["piper", "environment", "ai-configuration", "ollama", "setup"]
 created_at: "2025-10-05T00:00:00.000Z"
 estimates:
   complexity: ""

@@ -4,13 +4,19 @@ title: "add stt service tests md"
 slug: "add_stt_service_tests"
 status: "icebox"
 priority: "P3"
-labels: ["tests", "stt", "service", "add"]
-created_at: "2025-10-08T22:27:19.204Z"
+tags: ["tests", "stt", "service", "add"]
+created_at: "2025-10-10T03:23:55.968Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ## 🛠️ Task: Add STT service tests
 
@@ -53,3 +59,9 @@ Nothing
 ## 🔍 Relevant Links
 - [[kanban]]
 #done
+
+
+
+
+
+

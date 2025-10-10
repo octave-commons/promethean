@@ -4,13 +4,19 @@ title: "spin up ws gateway ws port 8090 ws token devtoken md"
 slug: "spin_up_ws_gateway_ws_port_8090_ws_token_devtoken"
 status: "rejected"
 priority: "P3"
-labels: ["spin", "gateway", "port", "8090"]
-created_at: "2025-10-07T20:25:05.645Z"
+tags: ["spin", "gateway", "port", "8090"]
+created_at: "2025-10-10T03:23:55.972Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ## 🛠️ Task: Spin up WS gateway `WS_PORT=8090 WS_TOKEN=devtoken node index.js`
 
@@ -35,3 +41,9 @@ Generated from ../unique/2025.08.08.15.08.47.md$../unique/2025.08.08.15.08.47.md
 
 
 #rejected
+
+
+
+
+
+

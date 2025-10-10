@@ -4,13 +4,19 @@ title: "Allowed outbound transitions by column C → …"
 slug: "allowed-outbound-transitions-by-column-c"
 status: "incoming"
 priority: "P3"
-labels: ["docops", "labeled"]
-created_at: "2025-10-08T20:10:45.998Z"
+tags: ["docops", "labeled"]
+created_at: "2025-10-10T03:23:55.969Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ## 🗂 Source
 
@@ -63,3 +69,9 @@ awesome—here’s the **concise transition spec** to pair with the mermaid FSM 
 - [ ] Draft actionable subtasks from the summary
 - [ ] Define acceptance criteria
 - [ ] Link back to related labeled docs
+
+
+
+
+
+

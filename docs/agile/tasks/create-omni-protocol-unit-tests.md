@@ -1,16 +1,22 @@
 ---
 uuid: "0e94018b-1ab0-4957-9884-8e55cc3e244c"
-title: "Create comprehensive unit tests for Omni protocol"
+title: "Create comprehensive unit tests for Omni protocol    -tests    -tests    -tests    -tests    -tests"
 slug: "create-omni-protocol-unit-tests"
 status: "todo"
 priority: "P1"
-labels: ["omni", "testing", "ava", "unit-tests"]
-created_at: "2025-10-08T22:00:00.000Z"
+tags: ["omni", "testing", "ava", "unit-tests"]
+created_at: "2025-10-10T03:23:55.970Z"
 estimates:
-  complexity: "4"
-  scale: "M"
-  time_to_completion: "6h"
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ## 🎯 Outcome
 
@@ -88,3 +94,9 @@ Achieve comprehensive test coverage for the Omni protocol package including type
 - AVA documentation
 - Existing test patterns in workspace packages
 - Test coverage requirements and tools
+
+
+
+
+
+

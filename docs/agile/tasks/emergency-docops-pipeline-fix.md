@@ -4,7 +4,7 @@ title: "Fix docops pipeline file reference issue: Missing input documentation fi
 slug: "emergency-docops-pipeline-fix"
 status: "rejected"
 priority: "P1"
-labels: ["pipeline", "bug", "automation", "emergency"]
+tags: ["pipeline", "bug", "automation", "emergency"]
 created_at: "2025-10-08T16:55:00.000Z"
 estimates:
   complexity: "medium"

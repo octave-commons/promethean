@@ -4,13 +4,19 @@ title: "discord link indexer md"
 slug: "discord_link_indexer"
 status: "rejected"
 priority: "P3"
-labels: ["discord", "link", "indexer", "done"]
-created_at: "2025-10-07T20:25:05.645Z"
+tags: ["discord", "link", "indexer", "done"]
+created_at: "2025-10-10T03:23:55.972Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ## 🛠️ Description
 
@@ -59,3 +65,9 @@ Nothing
 #prompt-refinement
 ```
 #accepted
+
+
+
+
+
+

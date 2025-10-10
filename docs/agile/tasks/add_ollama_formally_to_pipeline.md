@@ -4,13 +4,19 @@ title: "add ollama formally to pipeline md md"
 slug: "add_ollama_formally_to_pipeline"
 status: "rejected"
 priority: "P3"
-labels: ["add", "ollama", "formally", "pipeline"]
-created_at: "2025-10-07T20:25:05.645Z"
+tags: ["add", "ollama", "formally", "pipeline"]
+created_at: "2025-10-10T03:23:55.971Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ## 🛠️ Task: Add Ollama formally to pipeline
 
@@ -35,3 +41,9 @@ Generated from ../unique/2025.07.28.18.07.20.md$../unique/2025.07.28.18.07.20.md
 
 
 #rejected
+
+
+
+
+
+

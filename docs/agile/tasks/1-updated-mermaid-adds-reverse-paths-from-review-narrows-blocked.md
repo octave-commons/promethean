@@ -4,13 +4,19 @@ title: "1) Updated Mermaid (adds reverse paths from Review; narrows Blocked)"
 slug: "1-updated-mermaid-adds-reverse-paths-from-review-narrows-blocked"
 status: "icebox"
 priority: "P3"
-labels: ["docops", "labeled"]
-created_at: "2025-10-08T20:10:45.998Z"
+tags: ["docops", "labeled"]
+created_at: "2025-10-10T03:23:55.968Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ## 🗂 Source
 
@@ -52,3 +58,9 @@ perfect—let’s tighten the FSM to reflect your review + blocked semantics and
 - [ ] Draft actionable subtasks from the summary
 - [ ] Define acceptance criteria
 - [ ] Link back to related labeled docs
+
+
+
+
+
+

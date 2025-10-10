@@ -4,13 +4,19 @@ title: "discord chat link traversal md md"
 slug: "discord_chat_link_traversal"
 status: "rejected"
 priority: "P3"
-labels: ["discord", "chat", "link", "traversal"]
-created_at: "2025-10-07T20:25:05.645Z"
+tags: ["discord", "chat", "link", "traversal"]
+created_at: "2025-10-10T03:23:55.972Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ## 🛠️ Description
 
@@ -56,3 +62,9 @@ Nothing
 
 - [[kanban]]
 #IceBox
+
+
+
+
+
+

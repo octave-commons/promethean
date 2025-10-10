@@ -4,13 +4,19 @@ title: "migrating relevant modules from riatzukiza github io to site and docs md
 slug: "migrating_relevant_modules_from_riatzukiza_github_io_to_-site-_and_-docs-"
 status: "rejected"
 priority: "P3"
-labels: ["docs", "riatzukiza", "github", "site"]
-created_at: "2025-10-07T20:25:05.645Z"
+tags: ["docs", "riatzukiza", "github", "site"]
+created_at: "2025-10-10T03:23:55.972Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ## 🛠️ Task: Migrating relevant modules from riatzukiza.github.io to -site- and -docs-
 
@@ -62,3 +68,9 @@ Nothing
 
 - [[kanban]]
   #ready
+
+
+
+
+
+

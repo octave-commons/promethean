@@ -106,7 +106,7 @@ test("mergeHeaders creates headers if none exist", (t) => {
   t.deepEqual(merged.headers, headers);
 });
 
-test("mergeHeaders creates headers if none exist", (t) => {
+test("mergeHeaders creates headers if none exist - second test", (t) => {
   const message: OmniRequest = {
     id: "req-123",
     type: "request",

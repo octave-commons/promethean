@@ -4,13 +4,19 @@ title: "scripts update ci and refs"
 slug: "scripts_update_ci_and_refs"
 status: "incoming"
 priority: "P3"
-labels: ["scripts", "update", "refs", "references"]
-created_at: "2025-10-07T20:25:05.643Z"
+tags: ["scripts", "update", "refs", "references"]
+created_at: "2025-10-10T03:23:55.970Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 Scripts: Update CI and references post-reorg
 
@@ -25,3 +31,9 @@ Exit Criteria:
 - CI green with new structure; no broken references.
 
 #incoming #scripts #ci #organization
+
+
+
+
+
+

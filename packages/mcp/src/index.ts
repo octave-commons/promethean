@@ -103,7 +103,7 @@ import {
 } from './core/resolve-config.js';
 import { discordSendMessage, discordListMessages } from './tools/discord.js';
 import { loadStdioServerSpecs, type StdioServerSpec } from './proxy/config.js';
-import { StdioHttpProxy } from './proxy/stdio-proxy.js';
+import { createProxy, type ProxyInstance } from './proxy/proxy-factory.js';
 import { sandboxCreateTool, sandboxDeleteTool, sandboxListTool } from './tools/sandboxes.js';
 import {
   ollamaPull,
@@ -207,7 +207,7 @@ const toolCatalog = new Map<string, ToolFactory>([
   ['kanban_analyze_task', kanbanAnalyzeTask],
   ['kanban_rewrite_task', kanbanRewriteTask],
   ['kanban_breakdown_task', kanbanBreakdownTask],
-    ['discord_send_message', discordSendMessage],
+  ['discord_send_message', discordSendMessage],
   ['discord_list_messages', discordListMessages],
   ['sandbox_create', sandboxCreateTool],
   ['sandbox_list', sandboxListTool],
@@ -312,15 +312,18 @@ const resolveProxyConfig = (
   return null;
 };
 
-const instantiateProxy = (spec: StdioServerSpec): StdioHttpProxy =>
-  new StdioHttpProxy(spec, (msg: string, ...rest: unknown[]) => {
+const instantiateProxy = (spec: StdioServerSpec): ProxyInstance => {
+  const logger = (msg: string, ...rest: unknown[]) => {
     console.log(`[proxy:${spec.name}] ${msg}`, ...rest);
-  });
+  };
+
+  return createProxy(spec, { logger });
+};
 
 const loadConfiguredProxies = async (
   envVars: NodeJS.ProcessEnv,
   cwd: string,
-): Promise<readonly StdioHttpProxy[]> => {
+): Promise<readonly ProxyInstance[]> => {
   const resolved = resolveProxyConfig(envVars, cwd);
   if (!resolved) return [];
 
@@ -499,6 +502,9 @@ const shouldRunMain = (): boolean => {
     return false;
   }
 };
+
+// Export the toolCatalog for testing
+export { toolCatalog };
 
 if (shouldRunMain()) {
   main().catch((err) => {

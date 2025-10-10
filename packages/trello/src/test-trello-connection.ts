@@ -27,7 +27,10 @@ async function testConnection(): Promise<void> {
   if (!apiToken) {
     console.log('❌ TRELLO_API_TOKEN not found');
     console.log('💡 Add to your .env file: TRELLO_API_TOKEN=your_token');
-    console.log('📋 Generate token at: https://trello.com/1/authorize?expiration=never&scope=read,write&response_type=token&name=Promethean%20Sync&key=' + apiKey);
+    console.log(
+      '📋 Generate token at: https://trello.com/1/authorize?expiration=never&scope=read,write&response_type=token&name=Promethean%20Sync&key=' +
+        apiKey,
+    );
     return;
   }
 
@@ -50,9 +53,11 @@ async function testConnection(): Promise<void> {
       console.log('   2. Or: node packages/trello/src/cli/sync-kanban-to-trello.ts');
       console.log('   3. Or: pnpm run sync:trello:dev (for development)');
     }
-
   } catch (error) {
-    console.error('\n❌ Connection failed:', error.message);
+    console.error(
+      '\n❌ Connection failed:',
+      error instanceof Error ? error.message : String(error),
+    );
     console.log('\n💡 Troubleshooting:');
     console.log('   • Check that your API key is correct');
     console.log('   • Verify your token has read and write permissions');

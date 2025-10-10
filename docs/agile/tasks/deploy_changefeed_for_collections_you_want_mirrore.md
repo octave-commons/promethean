@@ -4,13 +4,19 @@ title: "deploy changefeed for collections you want mirrore md"
 slug: "deploy_changefeed_for_collections_you_want_mirrore"
 status: "rejected"
 priority: "P3"
-labels: ["deploy", "changefeed", "collections", "you"]
-created_at: "2025-10-07T20:25:05.645Z"
+tags: ["deploy", "changefeed", "collections", "you"]
+created_at: "2025-10-10T03:23:55.972Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ## 🛠️ Task: Deploy **changefeed** for collections you want mirrored to topics
 
@@ -35,3 +41,9 @@ Generated from ../unique/2025.08.08.20.08.52.md$../unique/2025.08.08.20.08.52.md
 
 
 #rejected
+
+
+
+
+
+

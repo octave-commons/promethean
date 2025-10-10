@@ -4,13 +4,19 @@ title: "Fix kanban config path resolution and document usage for agents"
 slug: "fix-kanban-config-path-resolution-and-documentation"
 status: "done"
 priority: "P2"
-labels: ["kanban", "documentation", "agents", "cli", "config"]
-created_at: "2025-10-07T20:25:05.644Z"
+tags: ["kanban", "documentation", "agents", "cli", "config"]
+created_at: "2025-10-10T03:23:55.971Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ## 🛠️ Task: Fix kanban config path resolution and document usage for agents
 
@@ -137,3 +143,9 @@ The kanban CLI has a path resolution bug where when called from subdirectories, 
 - Expanded README, AGENTS, CLAUDE, and package docs with clear guidance on
   running kanban commands, how overrides interact, and troubleshooting tips for
   agents.
+
+
+
+
+
+

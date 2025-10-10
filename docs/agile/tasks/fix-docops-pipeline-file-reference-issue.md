@@ -4,7 +4,7 @@ title: "Fix docops pipeline file reference issue"
 slug: "fix-docops-pipeline-file-reference-issue"
 status: "rejected"
 priority: "P2"
-labels: ["pipeline", "bug", "automation", "docops"]
+tags: ["pipeline", "bug", "automation", "docops"]
 created_at: "2025-10-09T16:20:35.183Z"
 estimates:
   complexity: "medium"

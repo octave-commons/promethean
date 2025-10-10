@@ -4,13 +4,19 @@ title: "add vault instructions to main readme md md md"
 slug: "add_vault_instructions_to_main_readme"
 status: "rejected"
 priority: "P3"
-labels: ["add", "vault", "instructions", "main"]
-created_at: "2025-10-07T20:25:05.645Z"
+tags: ["add", "vault", "instructions", "main"]
+created_at: "2025-10-10T03:23:55.971Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ## 🛠️ Task: Add vault instructions to main README.md
 
@@ -63,3 +69,9 @@ Vault usage instructions were added to `readme.md` alongside a reference to
 `vault-config/README.md`.
 ```
 #rejected
+
+
+
+
+
+

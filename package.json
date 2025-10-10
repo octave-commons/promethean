@@ -3,6 +3,7 @@
   "packageManager": "pnpm@9.0.0",
   "name": "promethean",
   "scripts": {
+    "build": "pnpm -r --no-bail build",
     "build:all": "node ./scripts/run-nx-task.mjs build all",
     "build:affected": "node ./scripts/run-nx-task.mjs build affected",
     "build:selection": "node ./scripts/run-nx-task.mjs build selection",

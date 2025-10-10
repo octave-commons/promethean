@@ -4,7 +4,7 @@ title: "Fix docops pipeline file reference management and sequencing issues"
 slug: "fix-docops-pipeline-file-reference-management-and-sequencing"
 status: "todo"
 priority: "P2"
-labels: ["piper", "docops", "file-management", "sequencing", "bug-fix"]
+tags: ["piper", "docops", "file-management", "sequencing", "bug-fix"]
 created_at: "2025-10-05T00:00:00.000Z"
 estimates:
   complexity: ""

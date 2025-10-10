@@ -45,9 +45,9 @@
    :cwd "$HOME/devel/promethean"}
 
   :serena
-  {:command "uvx"
-   :args ["--from" "git+https://github.com/oraios/serena" "serena" "start-mcp-server"]
-   :cwd "$HOME/devel/promethean"}
+   {:command "uvx"
+    :args ["--from" "git+https://github.com/oraios/serena" "serena" "start-mcp-server"]
+    :cwd "$HOME/devel/promethean"}
   :haiku-rag
   {:command "uvx"
    :args ["haiku-rag"

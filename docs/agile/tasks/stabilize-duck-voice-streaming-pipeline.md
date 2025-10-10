@@ -4,13 +4,19 @@ title: "stabilize duck voice streaming pipeline"
 slug: "stabilize-duck-voice-streaming-pipeline"
 status: "testing"
 priority: "P2"
-labels: ["duck", "audio", "enso"]
-created_at: "2025-10-07T06:39:18.599Z"
+tags: ["duck", "audio", "enso"]
+created_at: "2025-10-10T03:23:55.970Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 Background: Duck's revival plan calls for reliable, low-latency voice delivery through the ENSO gateway. The current web client still ships a brittle AudioWorklet, the PCM16 → 16 kHz conversion path lacks shared constants, and we have no automated validation of the throttled RTC sender before traffic hits the websocket bridge.
 
@@ -31,3 +37,9 @@ Exit Criteria:
 - The ENSO gateway rejects or clamps invalid frame durations with tests demonstrating the boundary behavior.
 - Documentation under `docs/duck` (or equivalent) explains how to start the voice pipeline, enumerate flags, and validate audio end-to-end.
 - Manual QA notes capture at least one verified microphone streaming session on macOS and one on Linux.
+
+
+
+
+
+

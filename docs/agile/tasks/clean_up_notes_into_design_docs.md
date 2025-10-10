@@ -4,13 +4,19 @@ title: "clean up notes into design docs md"
 slug: "clean_up_notes_into_design_docs"
 status: "rejected"
 priority: "P3"
-labels: ["design", "docs", "notes", "docops"]
-created_at: "2025-10-07T20:25:05.645Z"
+tags: ["design", "docs", "notes", "docops"]
+created_at: "2025-10-10T03:23:55.972Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ## 🛠️ Description
 
@@ -77,3 +83,9 @@ Nothing
 #agent-thinking
 ```
 #accepted
+
+
+
+
+
+

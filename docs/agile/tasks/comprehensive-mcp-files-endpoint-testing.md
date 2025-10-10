@@ -4,7 +4,7 @@ title: "Comprehensive MCP Files Endpoint Testing"
 slug: "comprehensive-mcp-files-endpoint-testing"
 status: "done"
 priority: "P2"
-labels: ["mcp", "testing", "security"]
+tags: ["mcp", "testing", "security"]
 created_at: "$(date -Iseconds)"
 estimates:
   complexity: "3"

@@ -1,0 +1,4 @@
+FROM qwen2.5-coder:7b-instruct
+# Fit + crisp outputs (100k fits your GPU)
+PARAMETER num_ctx 32000
+PARAMETER num_predict -1

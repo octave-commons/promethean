@@ -4,7 +4,7 @@ title: "Cleanup done column incomplete tasks and implement completion verificati
 slug: "cleanup-done-column-incomplete-tasks"
 status: "in_progress"
 priority: "P1"
-labels: ["cleanup", "kanban", "done-column", "quality", "governance"]
+tags: ["cleanup", "kanban", "done-column", "quality", "governance"]
 created_at: "2025-01-08T22:45:00.000Z"
 estimates:
   complexity: 8

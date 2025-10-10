@@ -64,17 +64,6 @@ Webservers should mount both `dist/frontend` and `static`.
 - Always use the ts-lsp server to diangose build errors. It is faster than running typechecks or building the project, and requires no permission
 - Always use the eslint tool on each file you edit.
 
-# Banned
-
-Under no circumstances should you introduce the following to Promethean:
-
-- React/redux
-- require
-- Jest
-- Python
-- removing contents from .gitignore
-- committing _any_ .env file
-
 # Working Style
 
 - Prefer small, auditable changes over grand rewrites.

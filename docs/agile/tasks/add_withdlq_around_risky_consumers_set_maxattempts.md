@@ -4,13 +4,19 @@ title: "add withdlq around risky consumers set maxattempts md"
 slug: "add_withdlq_around_risky_consumers_set_maxattempts"
 status: "rejected"
 priority: "P3"
-labels: ["add", "withdlq", "around", "risky"]
-created_at: "2025-10-07T20:25:05.644Z"
+tags: ["add", "withdlq", "around", "risky"]
+created_at: "2025-10-10T03:23:55.971Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ## 🛠️ Task: Add **withDLQ** around risky consumers; set `maxAttempts`
 
@@ -35,3 +41,9 @@ Generated from [[2025.08.08.20.08.52]]
 
 
 #accepted
+
+
+
+
+
+

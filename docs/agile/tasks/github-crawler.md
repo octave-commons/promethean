@@ -4,13 +4,19 @@ title: "Implement GitHub repository crawler for content indexing"
 slug: "github-crawler"
 status: "ready"
 priority: "P3"
-labels: ["board", "lang"]
-created_at: "2025-10-07T20:25:05.643Z"
+tags: ["board", "lang"]
+created_at: "2025-10-10T03:23:55.970Z"
 estimates:
-  complexity: 5
-  scale: 3
-  time_to_completion: "1 day"
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ## Context
 
@@ -40,3 +46,9 @@ You might find [this] useful while working on this task
 ## Notes
 
 - …
+
+
+
+
+
+

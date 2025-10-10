@@ -4,7 +4,7 @@ title: "Add done→review transition for audit corrections and quality control"
 slug: "add-done-to-review-transition-for-audit-corrections"
 status: "done"
 priority: "P2"
-labels: ["kanban", "fsm", "transitions", "audit", "quality-control"]
+tags: ["kanban", "fsm", "transitions", "audit", "quality-control"]
 created_at: "2025-01-08T22:50:00.000Z"
 estimates:
   complexity: 3

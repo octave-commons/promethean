@@ -4,13 +4,19 @@ title: "convert current services to packages then redefine the services using co
 slug: "convert-current-services-to-packages--then-redefine-the-services-using-config-files"
 status: "rejected"
 priority: "P3"
-labels: ["services", "packages", "config", "files"]
-created_at: "2025-10-07T20:25:05.645Z"
+tags: ["services", "packages", "config", "files"]
+created_at: "2025-10-10T03:23:55.972Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ## 🛠️ Description
 
@@ -70,3 +76,9 @@ Nothing
 #framework-core #Ready
 ```
 #ready
+
+
+
+
+
+

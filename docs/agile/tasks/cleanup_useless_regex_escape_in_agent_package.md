@@ -4,13 +4,19 @@ title: "Clean up useless regex escape in agent package"
 slug: "cleanup_useless_regex_escape_in_agent_package"
 status: "icebox"
 priority: "P3"
-labels: ["regex", "escape", "clean", "useless"]
-created_at: "2025-09-15T02:02:58.509Z"
+tags: ["regex", "escape", "clean", "useless"]
+created_at: "2025-10-10T03:23:55.968Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 # Clean up useless regex escape in agent package
 
@@ -35,3 +41,9 @@ The `noUselessEscapeInRegex` rule flagged an unnecessary escape in the policy gl
 Blocked tests due to missing `ava` and `node` type definitions in the current workspace environment; see session logs for the failure captured while running `pnpm --filter @promethean/security test`.
 
 #Todo #codex-task
+
+
+
+
+
+

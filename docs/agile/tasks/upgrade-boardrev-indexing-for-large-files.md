@@ -4,13 +4,19 @@ title: "upgrade board-review indexing for large files"
 slug: "upgrade-boardrev-indexing-for-large-files"
 status: "incoming"
 priority: "P2"
-labels: ["files", "board", "review", "indexing"]
-created_at: "2025-10-07T20:25:05.643Z"
+tags: ["files", "board", "review", "indexing"]
+created_at: "2025-10-10T03:23:55.970Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ## 🛠️ Description
 
@@ -41,3 +47,9 @@ Improve the `@promethean/boardrev` pipeline so board-review runs can embed compl
 - Assumptions: AST tooling is available for packages indexed by board-review or can be added without major dependency risk.
 
 #incoming #board-review #codex-task
+
+
+
+
+
+

@@ -4,13 +4,19 @@ title: "agent tasks persistence migration to dualstore"
 slug: "agent-tasks-persistence-migration-to-dualstore"
 status: "done"
 priority: "P3"
-labels: ["persistence", "dualstore", "agent", "tasks"]
-created_at: "2025-10-07T20:25:05.644Z"
+tags: ["persistence", "dualstore", "agent", "tasks"]
+created_at: "2025-10-10T03:23:55.971Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ## 🗂 Task 1 — Setup Shared Persistence Module
 ```
@@ -138,3 +144,9 @@ estimates:
 - No active owner or unclear scope
 
 #breakdown
+
+
+
+
+
+

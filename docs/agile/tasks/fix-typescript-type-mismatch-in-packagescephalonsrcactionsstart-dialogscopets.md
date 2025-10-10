@@ -4,7 +4,7 @@ title: "Fix TypeScript type mismatch in packages/cephalon/src/actions/start-dial
 slug: "fix-typescript-type-mismatch-in-packagescephalonsrcactionsstart-dialogscopets"
 status: "incoming"
 priority: "P2"
-labels: ["typescript", "build", "automation", "type-fix"]
+tags: ["typescript", "build", "automation", "type-fix"]
 created_at: "2025-10-09T16:08:13.274Z"
 estimates:
   complexity: "medium"
