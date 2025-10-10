@@ -82,21 +82,61 @@ All agents must use the kanban system for task tracking and work management. The
 ### 🎯 Core Kanban Commands
 
 ```bash
-# Basic kanban operations (work from any directory in the repo)
-pnpm kanban regenerate     # Generate board from task files
-pnpm kanban sync          # Bidirectional sync with conflict reporting
-pnpm kanban pull          # Sync board from task frontmatter
-pnpm kanban push          # Project board columns back to tasks
+# === BOARD OPERATIONS ===
+pnpm kanban regenerate              # Generate board from task files
+pnpm kanban sync                   # Bidirectional sync with conflict reporting
+pnpm kanban pull                   # Sync board from task frontmatter
+pnpm kanban push                   # Project board columns back to tasks
+pnpm kanban count                  # Show task counts by column
 
-# Task management
-pnpm kanban list          # List all tasks
-pnpm kanban search <query> # Search tasks by title or content
-pnpm kanban update-status <uuid> <column> # Move task to different column
-pnpm kanban count         # Show task counts by column
+# === TASK MANAGEMENT ===
+pnpm kanban list                   # List all tasks with details
+pnpm kanban search <query>         # Search tasks by title or content
+pnpm kanban find <uuid>            # Find task by UUID
+pnpm kanban find-by-title <title>  # Find task by exact title
+pnpm kanban update-status <uuid> <column>  # Move task to different column
 
-# Board operations
-pnpm kanban getColumn <column>     # Get tasks in specific column
-pnpm kanban getByColumn <column>   # Get formatted tasks for column
+# === COLUMN OPERATIONS ===
+pnpm kanban getColumn <column>     # Get tasks in specific column (JSON)
+pnpm kanban getByColumn <column>   # Get formatted tasks for column (markdown)
+pnpm kanban move_up <uuid>         # Move task up within column
+pnpm kanban move_down <uuid>       # Move task down within column
+
+# === CRUD OPERATIONS ===
+pnpm kanban create <title> [options]  # Create new task
+  --content <text>           # Task description/content
+  --priority <P0|P1|P2|P3>   # Task priority
+  --status <column>          # Initial status (default: incoming)
+  --labels <tag1,tag2>       # Comma-separated tags
+
+pnpm kanban update <uuid> [options]   # Update existing task
+  --title <text>            # New title
+  --content <text>          # New content
+  --priority <P0|P1|P2|P3>  # New priority
+  --status <column>         # New status
+
+pnpm kanban delete <uuid> [--confirm]  # Delete task (requires confirmation)
+
+# === ADVANCED OPERATIONS ===
+pnpm kanban breakdown-task <uuid>     # AI-powered task breakdown
+pnpm kanban prioritize-tasks          # Task prioritization analysis
+pnpm kanban compare-tasks <uuid1> <uuid2>  # Compare two tasks
+pnpm kanban generate-by-tags <tags>   # Generate filtered board
+pnpm kanban indexForSearch            # Build search index
+
+# === PROCESS & WORKFLOW ===
+pnpm kanban process                  # Show workflow process
+pnpm kanban show-process             # Display detailed process info
+pnpm kanban show-transitions         # Show valid transitions
+pnpm kanban enforce-wip-limits       # Check and report WIP violations
+
+# === DEVELOPMENT & UI ===
+pnpm kanban ui [--port <port>] [--host <host>]  # Start web UI server
+pnpm kanban dev [--port <port>] [--host <host>]  # Start dev server with live reload
+
+# === AUDIT & MAINTENANCE ===
+pnpm kanban audit                    # Audit board for issues
+pnpm kanban doccheck                 # Check documentation consistency
 ```
 
 ### 📍 Working with Kanban
@@ -151,10 +191,17 @@ pnpm kanban getByColumn <column>   # Get formatted tasks for column
 - Tasks live in: `docs/agile/tasks/*.md`
 - Generated board: `docs/agile/boards/generated.md`
 - Config file: `promethean.kanban.json`
+- CLI reference: `docs/agile/kanban-cli-reference.md`
 
 ### 🐛 Path Resolution Note
 
 The kanban system automatically resolves paths correctly from any subdirectory. If you encounter path issues, ensure you're running commands from within the git repository.
+
+### 📚 Further Documentation
+
+- **Complete CLI Reference**: `docs/agile/kanban-cli-reference.md`
+- **Process Documentation**: `docs/agile/process.md`
+- **FSM Rules**: `docs/agile/rules/kanban-transitions.clj`
 
 ---
 

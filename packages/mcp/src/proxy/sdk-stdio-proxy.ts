@@ -10,7 +10,6 @@ import type { StdioServerSpec } from './config.js';
 /**
  * SDK-based MCP proxy using the official MCP Client for proper initialization
  */
-type JSONRPCMessage = any;
 
 export class SdkStdioProxy implements ProxyInstance {
   private readonly client: Client;
@@ -82,6 +81,7 @@ export class SdkStdioProxy implements ProxyInstance {
         this.logger(`[sdk-proxy] ${this.spec.name}: Failed to forward response:`, error);
       }
     };
+  }
 
   private setupErrorHandlers(): void {
     // Handle stdio transport errors
