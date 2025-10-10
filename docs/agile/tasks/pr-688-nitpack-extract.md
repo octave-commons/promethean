@@ -2,7 +2,7 @@
 uuid: "63e44f3d-fc18-4caf-85b7-08936527317e"
 title: "pr 688 nitpack extract"
 slug: "pr-688-nitpack-extract"
-status: "testing"
+status: "todo"
 priority: "P3"
 tags: ["688", "extract", "nitpack", "tasks"]
 created_at: "2025-10-10T03:23:55.970Z"

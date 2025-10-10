@@ -2,7 +2,7 @@
 uuid: "936b26de-61b4-4d8d-94d7-171315a56ac9"
 title: "Setup MCP server endpoint for kanban tooling"
 slug: "setup-kanban-mcp-server"
-status: "in_progress"
+status: "ready"
 priority: "P2"
 tags: ["mcp", "kanban", "automation"]
 created_at: "2025-10-10T03:23:55.970Z"
@@ -19,6 +19,7 @@ estimates:
 
 
 #InProgress
+#Ready
 
 ## 🛠️ Description
 

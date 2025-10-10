@@ -2,7 +2,7 @@
 uuid: "security-escape-$(date +%s)"
 title: "🔒 CRITICAL: Fix writeFileContent sandbox escape via symlinks"
 slug: "fix-writefilecontent-sandbox-escape-via-symlinks"
-status: "in_progress"
+status: "ready"
 priority: "P1"
 tags: ["security", "bug", "critical", "immediate", "github-1144"]
 created_at: "$(date -u +%Y-%m-%dT%H:%M:%S.%3NZ)"
@@ -16,7 +16,7 @@ estimates:
 
 **GitHub Issue**: #1144
 **Severity**: CRITICAL
-**Status**: IN PROGRESS
+**Status**: READY (awaiting pickup)
 
 ## Description
 Security vulnerability where `writeFileContent` allows sandbox escape via symlinks. This could allow unauthorized file access outside the intended sandboxed directory.

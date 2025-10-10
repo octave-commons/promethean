@@ -2,7 +2,7 @@
 uuid: "cd4596d8-bb67-437e-94c4-24b6986f7020"
 title: "Fix failing web-utils test /TASK-20250207-web-utils /kanban /InProgress /err /p2 /EPC-000 :auto :ts"
 slug: "fix-web-utils-test"
-status: "testing"
+status: "todo"
 priority: "p2"
 tags: ["task", "board", "state", "owner", "priority", "epic", "board", "lang"]
 created_at: "2025-10-10T03:23:55.970Z"

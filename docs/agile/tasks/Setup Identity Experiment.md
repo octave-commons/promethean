@@ -2,7 +2,7 @@
 uuid: "15249e77-3242-4fad-a7d3-6e336c60758c"
 title: "Proto selfhood experiment :auto :ts"
 slug: "Setup Identity Experiment"
-status: "testing"
+status: "accepted"
 priority: "p3"
 tags: ["board", "lang"]
 created_at: "2025-10-10T03:23:55.970Z"

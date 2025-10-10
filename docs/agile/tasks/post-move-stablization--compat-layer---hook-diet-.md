@@ -2,7 +2,7 @@
 uuid: "f40d381b-9c48-4dfc-9f89-51577c10c024"
 title: "<verb> <thing> <qualifier> :auto :ts"
 slug: "post-move-stablization--compat-layer---hook-diet-"
-status: "testing"
+status: "todo"
 priority: "p3"
 tags: ["board", "lang"]
 created_at: "2025-10-10T03:23:55.970Z"
