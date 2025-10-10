@@ -2,7 +2,7 @@
 uuid: "a5748afa-3e7b-49fc-b945-d0452d2adf76"
 title: "lisp package files"
 slug: "lisp-package-files"
-status: "testing"
+status: "ready"
 priority: "P3"
 tags: ["package", "lisp", "files", "modules"]
 created_at: "2025-10-10T03:23:55.970Z"

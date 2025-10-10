@@ -2,7 +2,7 @@
 uuid: "9124fbc4-92c2-4b37-a234-95dc28dd17ff"
 title: "Resolve Biome lint errors in compiler package"
 slug: "resolve_biome_lint_errors_in_compiler"
-status: "testing"
+status: "todo"
 priority: "P3"
 tags: ["biome", "lint", "errors", "compiler"]
 created_at: "2025-10-10T03:23:55.970Z"

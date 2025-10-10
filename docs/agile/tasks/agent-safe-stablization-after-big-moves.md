@@ -2,7 +2,7 @@
 uuid: "16c70e8b-51cf-4580-ab53-a35d7ac0f6a9"
 title: "<verb> <thing> <qualifier> :auto :ts"
 slug: "agent-safe-stablization-after-big-moves"
-status: "testing"
+status: "todo"
 priority: "p3"
 tags: ["board", "lang"]
 created_at: "2025-10-10T03:23:55.970Z"

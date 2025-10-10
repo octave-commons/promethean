@@ -2,7 +2,7 @@
 uuid: "a08e1032-c149-4060-831d-97e43d707132"
 title: "evaluate ollama openvino"
 slug: "evaluate-ollama-openvino"
-status: "testing"
+status: "todo"
 priority: "p3"
 tags: ["evaluate", "ollama", "openvino", "chatgpt"]
 created_at: "2025-10-10T03:23:55.970Z"

@@ -2,7 +2,7 @@
 uuid: "d70ed8c5-4885-450f-b1bc-9f8d6b0e94f2"
 title: "docker compose edn template system"
 slug: "docker-compose-edn-template-system"
-status: "testing"
+status: "breakdown"
 priority: "p3"
 tags: ["changes", "docker", "compose", "edn"]
 created_at: "2025-10-10T03:23:55.970Z"

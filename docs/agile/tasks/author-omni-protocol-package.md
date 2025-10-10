@@ -2,7 +2,7 @@
 uuid: "457fd7a3-bc99-4de6-b9f3-06ef6cf00d5e"
 title: "Author @promethean/omni-protocol package"
 slug: "author-omni-protocol-package"
-status: "in_progress"
+status: "ready"
 priority: "P1"
 tags: ["omni", "package", "typescript"]
 created_at: "2025-10-10T03:23:55.970Z"

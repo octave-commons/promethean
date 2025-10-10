@@ -2,7 +2,7 @@
 uuid: "0f65afc2-493e-40b2-85b0-17c4bf4b8d85"
 title: "kubernetes configurations for secure distributed deployment on local net"
 slug: "kubernetes-configurations-for-secure-distributed-deployment-on-local-net"
-status: "testing"
+status: "todo"
 priority: "p3"
 tags: ["changes", "kubernetes", "configurations", "secure"]
 created_at: "2025-10-10T03:23:55.970Z"

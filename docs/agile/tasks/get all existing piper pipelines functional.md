@@ -2,7 +2,7 @@
 uuid: "8b3c665c-d6ff-4a0a-9fb9-b2dbefa35fb4"
 title: "Get all existing pipelines functional"
 slug: "get all existing piper pipelines functional"
-status: "testing"
+status: "breakdown"
 priority: "P3"
 tags: ["name", "existing", "pipelines", "get"]
 created_at: "2025-10-10T03:23:55.970Z"

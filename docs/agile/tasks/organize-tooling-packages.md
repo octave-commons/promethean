@@ -2,7 +2,7 @@
 uuid: "911d511f-7f6d-4f01-86c0-5129765a3f8f"
 title: "Group tooling and CLI packages -core -core -core -core -core"
 slug: "organize-tooling-packages"
-status: "testing"
+status: "todo"
 priority: "p3"
 tags: ["framework-core", "refactor"]
 created_at: "2025-10-10T03:23:55.970Z"

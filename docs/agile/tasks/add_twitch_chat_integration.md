@@ -2,7 +2,7 @@
 uuid: "df445b14-f6c7-457e-88c4-872477f8c6e6"
 title: "add twitch chat integration md md"
 slug: "add_twitch_chat_integration"
-status: "testing"
+status: "breakdown"
 priority: "P3"
 tags: ["twitch", "chat", "add", "integration"]
 created_at: "2025-10-10T03:23:55.970Z"
