@@ -1,5 +1,5 @@
 import type { FastifyInstance } from 'fastify';
-import mercurius from 'mercurius';
+import { mercurius } from 'mercurius';
 import type { UserContext } from '../auth/types.js';
 
 // GraphQL resolver types
@@ -170,6 +170,15 @@ const typeDefs = `
 class GraphQLDataStore {
   private users: Map<string, any> = new Map();
   private posts: Map<string, any> = new Map();
+
+  // Public getters for health checks
+  public getUsersCount(): number {
+    return this.users.size;
+  }
+
+  public getPostsCount(): number {
+    return this.posts.size;
+  }
 
   constructor() {
     this.users.set('1', {
@@ -545,7 +554,7 @@ export function mountGraphQLAdapter(
 ) {
   const dataStore = new GraphQLDataStore();
 
-  app.register(mercurius, {
+  app.register(mercurius as any, {
     schema: typeDefs,
     resolvers,
     graphiql: options.graphiql,
@@ -560,18 +569,18 @@ export function mountGraphQLAdapter(
           }
         : false,
     },
-    context: (request, _reply) => {
+    context: (request: any, _reply: any) => {
       return {
         user: (request as any).user,
         authManager: options.authManager,
         dataStore,
         pubsub: options.enableSubscriptions
           ? {
-              subscribe: (channel: string) => {
-                const listeners = new Set();
+              subscribe: (_channel: string) => {
+                const listeners = new Set<(payload: any) => void>();
                 return {
                   publish: (payload: any) => {
-                    listeners.forEach((listener) => listener(payload));
+                    listeners.forEach((listener: (payload: any) => void) => listener(payload));
                   },
                   addListener: (listener: (payload: any) => void) => {
                     listeners.add(listener);
@@ -581,7 +590,7 @@ export function mountGraphQLAdapter(
                   },
                 };
               },
-              get: (channel: string) => ({
+              get: (_channel: string) => ({
                 publish: () => {},
                 addListener: () => {},
                 removeListener: () => {},
@@ -592,11 +601,11 @@ export function mountGraphQLAdapter(
     },
   });
 
-  app.get(`${options.endpoint}/schema`, async (request, reply) => {
+  app.get(`${options.endpoint}/schema`, async (_request, reply) => {
     return reply.type('application/graphql').send(typeDefs);
   });
 
-  app.get(`${options.endpoint}/health`, async (request, reply) => {
+  app.get(`${options.endpoint}/health`, async (_request, reply) => {
     const healthStatus = {
       status: 'ok',
       adapter: 'graphql',
@@ -604,15 +613,15 @@ export function mountGraphQLAdapter(
       subscriptions: options.enableSubscriptions,
       playground: options.playground,
       data: {
-        users: dataStore.users.size,
-        posts: dataStore.posts.size,
+        users: dataStore.getUsersCount(),
+        posts: dataStore.getPostsCount(),
       },
     };
 
     return reply.send(healthStatus);
   });
 
-  app.get(`${options.endpoint}/docs`, async (request, reply) => {
+  app.get(`${options.endpoint}/docs`, async (_request, reply) => {
     const docs = {
       title: 'GraphQL API Documentation',
       endpoint: options.endpoint,
@@ -713,7 +722,7 @@ export function mountGraphQLAdapter(
   }
 }
 
-export function createSubscriptionPublisher(app: FastifyInstance, options: { endpoint: string }) {
+export function createSubscriptionPublisher(app: FastifyInstance, _options: { endpoint: string }) {
   return {
     publishUserUpdate: async (userData: any) => {
       app.log.info(`User update published: ${JSON.stringify(userData)}`);

@@ -1,6 +1,6 @@
 # .github/workflows/on-pr-to-dev.yml
 name: build
-on: { pull_request: { branches: ["dev/**", "main"] } }
+on: { pull_request: { branches: ['dev/**', 'main'] } }
 permissions:
   contents: read
 jobs:
@@ -31,6 +31,20 @@ jobs:
           if ! git cat-file -e "${NX_BASE}^{commit}" 2>/dev/null; then
             git fetch --no-tags origin "${{ github.event.pull_request.base.ref }}"
             git fetch --no-tags origin "${NX_BASE}" || true
+          fi
+      - name: Run type checking
+        run: |
+          if [ -n "${NX_BASE:-}" ] && [ -n "${NX_HEAD:-}" ]; then
+            pnpm exec nx affected -t typecheck --parallel --base="$NX_BASE" --head="$NX_HEAD"
+          else
+            pnpm -r exec tsc --noEmit --strict
+          fi
+      - name: Run linting
+        run: |
+          if [ -n "${NX_BASE:-}" ] && [ -n "${NX_HEAD:-}" ]; then
+            pnpm exec nx affected -t lint --parallel --base="$NX_BASE" --head="$NX_HEAD"
+          else
+            pnpm -r lint
           fi
       - name: Run affected builds
         run: |
