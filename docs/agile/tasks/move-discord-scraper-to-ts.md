@@ -2,7 +2,7 @@
 uuid: "4ad8d468-babf-4ab8-9385-fec57642c074"
 title: "move discord scraper to ts"
 slug: "move-discord-scraper-to-ts"
-status: "testing"
+status: "todo"
 priority: "P3"
 labels: ["discord", "scraper", "move", "current"]
 created_at: "2025-09-15T02:02:58.517Z"

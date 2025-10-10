@@ -2,7 +2,7 @@
 uuid: "3a707c7c-9b75-401f-9d6f-fe5711eaf13f"
 title: "2025.10.06.14.11.46"
 slug: "kanban-cli-cljs-quickstart"
-status: "testing"
+status: "accepted"
 priority: "P3"
 labels: ["clojurescript", "sci", "kanban-cli", "ad-hoc-filtering", "cli-flags", "micro-frontend", "zero-compilation", "dynamic-queries"]
 created_at: "2025-10-06T14:11:46Z"

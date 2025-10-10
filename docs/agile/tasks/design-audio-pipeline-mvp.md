@@ -2,7 +2,7 @@
 uuid: "07e85844-1390-4c3c-80d4-251254f71b4e"
 title: "design audio pipeline mvp"
 slug: "design-audio-pipeline-mvp"
-status: "testing"
+status: "breakdown"
 priority: "P3"
 labels: ["design", "audio", "pipeline", "mvp"]
 created_at: "2025-09-15T02:02:58.511Z"

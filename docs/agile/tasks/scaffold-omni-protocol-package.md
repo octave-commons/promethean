@@ -2,7 +2,7 @@
 uuid: "0130c02b-8829-4095-9bc4-722fa0fb0373"
 title: "Scaffold @promethean/omni-protocol package structure"
 slug: "scaffold-omni-protocol-package"
-status: "in_progress"
+status: "accepted"
 priority: "P1"
 labels: ["omni", "package", "typescript", "scaffolding"]
 created_at: "2025-10-08T21:28:36.910Z"

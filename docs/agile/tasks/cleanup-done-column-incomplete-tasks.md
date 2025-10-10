@@ -2,7 +2,7 @@
 uuid: "done-cleanup-001"
 title: "Cleanup done column incomplete tasks and implement completion verification"
 slug: "cleanup-done-column-incomplete-tasks"
-status: "in_progress"
+status: "breakdown"
 priority: "P1"
 labels: ["cleanup", "kanban", "done-column", "quality", "governance"]
 created_at: "2025-01-08T22:45:00.000Z"

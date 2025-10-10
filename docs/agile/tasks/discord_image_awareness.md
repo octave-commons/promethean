@@ -2,7 +2,7 @@
 uuid: "701696e2-8054-4ccd-951f-7a40248b6628"
 title: "discord image awareness md md"
 slug: "discord_image_awareness"
-status: "testing"
+status: "breakdown"
 priority: "P3"
 labels: ["discord", "image", "awareness", "images"]
 created_at: "2025-09-15T02:02:58.511Z"

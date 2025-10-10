@@ -2,7 +2,7 @@
 uuid: "8584c1fd-c8b6-4bf0-8cca-db9f91fe52c2"
 title: "just so much batman"
 slug: "just-so-much-batman"
-status: "testing"
+status: "breakdown"
 priority: "P3"
 labels: ["just", "much", "batman", "span"]
 created_at: "2025-09-15T02:02:58.515Z"
