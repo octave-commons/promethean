@@ -17,9 +17,58 @@ pnpm install
 pnpm dev:all
 ```
 
+## 📋 Kanban Task Management
+
+All work must be tracked using the kanban system. The board lives at `docs/agile/boards/generated.md` and is managed via the `@promethean/kanban` package.
+
+### 🎯 Essential Kanban Commands
+
+```bash
+# === BOARD OPERATIONS ===
+pnpm kanban regenerate              # Generate board from task files
+pnpm kanban sync                   # Bidirectional sync with conflict reporting
+pnpm kanban count                  # Show task counts by column
+
+# === TASK MANAGEMENT ===
+pnpm kanban search <query>         # Search tasks by title or content
+pnpm kanban update-status <uuid> <column>  # Move task to different column
+
+# === CRUD OPERATIONS ===
+pnpm kanban create <title> [options]  # Create new task
+  --content <text>           # Task description
+  --priority <P0|P1|P2|P3>   # Task priority
+  --status <column>          # Initial status
+  --labels <tag1,tag2>       # Comma-separated tags
+
+pnpm kanban update <uuid> [options]   # Update existing task
+pnpm kanban delete <uuid> [--confirm]  # Delete task
+
+# === DEVELOPMENT ===
+pnpm kanban ui [--port <port>]  # Start web UI server
+pnpm kanban dev [--port <port>]  # Start dev server with live reload
+```
+
+### 🔄 Claude Workflow
+
+1. **Start work**: `pnpm kanban search <work-type>` → find relevant tasks
+2. **Update task**: `pnpm kanban update-status <uuid> in_progress`
+3. **Complete work**: `pnpm kanban update-status <uuid> done`
+4. **Generate board**: `pnpm kanban regenerate`
+
+### 📍 Working Directory Independence
+
+All kanban commands work from **any directory** in the repository. The CLI automatically detects the repo root and resolves paths correctly.
+
+### 📚 Further Documentation
+
+- **Complete CLI Reference**: `docs/agile/kanban-cli-reference.md`
+- **Process Documentation**: `docs/agile/process.md`
+- **Agent Guidelines**: `AGENTS.md`
+
 ## Build System & Commands
 
 ### Core Commands
+
 - `pnpm dev:all` - Run all package development servers without Docker
 - `pnpm build` - Build all packages in dependency order
 - `pnpm test:all` - Run full test suite with coverage
@@ -28,6 +77,7 @@ pnpm dev:all
 - `pnpm test:e2e` - Run end-to-end tests
 
 ### Linting & Formatting
+
 - `pnpm lint` - Full repository ESLint scan (slow)
 - `pnpm lint:diff` - ESLint only on files changed from origin/main (fast for development)
 - `pnpm format` - Format code with Prettier
@@ -35,6 +85,7 @@ pnpm dev:all
 - `pnpm lint:unused` - Find unused exports
 
 ### Service Management
+
 The codebase uses PM2 for process management:
 
 ```bash
@@ -51,12 +102,14 @@ pm2 start agents/duck/ecosystem.config.js
 ## Architecture Overview
 
 ### Monorepo Structure
+
 - **`packages/`** - Shared libraries and components (Nx libs)
 - **`services/`** - Runtime services and applications (Nx apps)
 - **`agents/`** - AI agent configurations and ecosystem files
 - **`system/daemons/`** - Shared infrastructure services
 
 ### Key Technologies
+
 - **Node.js/TypeScript** - Primary language
 - **ClojureScript** - CLI tools (`shadow-cljs.edn` configuration)
 - **Nx** - Monorepo orchestration with caching
@@ -66,10 +119,13 @@ pm2 start agents/duck/ecosystem.config.js
 - **MongoDB** - Data persistence for some services
 
 ### Message Broker Architecture
+
 Services communicate through a WebSocket-based message broker (`packages/broker`). The `BrokerClient` sends periodic heartbeats (configurable via `BROKER_HEARTBEAT_MS`, default 30000ms) to maintain connections.
 
 ### Pipeline System
+
 The repository uses **Piper** pipeline runner (`packages/piper`) with declarative pipelines defined in `pipelines.json`. Key pipelines include:
+
 - `symdocs` - Generate package documentation and dependency graphs
 - `simtasks` - Produce task backlogs from code analysis
 - `codemods` - Generate and apply automated code transforms
@@ -103,16 +159,19 @@ pnpm kanban push                # Project board columns back to tasks
 ### 📋 Claude-Specific Kanban Workflow
 
 1. **Before starting work**: Always search first
+
    ```bash
    pnpm kanban search <keyword>  # Check for existing tasks
    ```
 
 2. **When working on tasks**: Update status to track progress
+
    ```bash
    pnpm kanban update-status <uuid> in_progress
    ```
 
 3. **After completing work**: Mark as done and regenerate
+
    ```bash
    pnpm kanban update-status <uuid> done
    pnpm kanban regenerate
@@ -124,6 +183,7 @@ pnpm kanban push                # Project board columns back to tasks
    ```
 
 ### 📍 Key File Locations
+
 - **Task files**: `docs/agile/tasks/*.md`
 - **Generated board**: `docs/agile/boards/generated.md`
 - **Configuration**: `promethean.kanban.json`
@@ -147,16 +207,20 @@ pnpm kanban push                # Project board columns back to tasks
   directory.
 
 ### 🔧 Common Column Names
+
 **Brainstorm Lane (unbounded):**
+
 - `icebox` - Deferred/archived tasks at varying refinement levels, not actively committed to
 - `incoming` - All new tasks enter here (initial state), awaiting triage
 
 **Planning Lane (WIP limited):**
+
 - `accepted` - Triage complete, ready for breakdown analysis
 - `breakdown` - Task being broken into small, testable slices with Fibonacci estimates
 - `blocked` - Explicit dependency on another task (bidirectional links required)
 
 **Execution Lane (WIP limited):**
+
 - `ready` - Scoped, estimated (≤5), ready for execution queue (not priority-ordered)
 - `todo` - Prioritized in execution queue, ready to pull (WIP limited)
 - `in_progress` - Actively being worked on (WIP limited)
@@ -165,9 +229,11 @@ pnpm kanban push                # Project board columns back to tasks
 - `done` - Complete with documentation/evidence
 
 **Abandoned Lane:**
+
 - `rejected` - Non-viable, may be moved to Ice Box
 
 ### ⚠️ Important Notes
+
 - **Never manually edit** `docs/agile/boards/generated.md`
 - **Always regenerate** the board after task changes
 - **Path resolution works from any directory** within the git repo
@@ -179,14 +245,17 @@ The kanban board uses Obsidian-style wikilinks and follows the workflow process 
 ## Package Development Workflow
 
 ### Creating New Packages
+
 Follow the documented Nx package workflow in `docs/new-package.md` for presets, directory structure, and follow-up tasks.
 
 ### Package Dependencies
+
 - Build dependencies are automatically handled by Nx caching
 - Use `pnpm --filter <package-name>` to run commands in specific packages
 - Packages should export clear APIs with TypeScript definitions
 
 ### Testing Conventions
+
 - **Unit tests**: All tests excluding files/dirs containing `integration`, `e2e`, or `system`
 - **Integration tests**: Files with `.integration.` or under `integration/` directories
 - **E2E tests**: Files with `.e2e.` or under `e2e/` or `system/` directories
@@ -200,6 +269,7 @@ Set `AGENT_NAME` in your environment before launching agent services to isolate 
 This repository doubles as an Obsidian vault. Documentation uses `[[wikilinks]]` syntax which is converted to standard Markdown during git commits via pre-commit hooks.
 
 To enable Obsidian viewing:
+
 ```bash
 cp -r docs/vault-config/.obsidian docs/.obsidian
 ```
@@ -207,14 +277,17 @@ cp -r docs/vault-config/.obsidian docs/.obsidian
 ## Build Requirements
 
 ### Node Version
+
 - Required: Node.js 20.19.4
 - Managed via Volta configuration in `package.json`
 
 ### Package Manager
+
 - **Required**: pnpm 9.0.0 (enforced by preinstall script)
 - npm will fail with permission errors
 
 ### Build Tools
+
 - TypeScript 5.4.5
 - Nx 20.0.0 for monorepo orchestration
 - Shadow-CLJS for ClojureScript compilation
@@ -223,10 +296,13 @@ cp -r docs/vault-config/.obsidian docs/.obsidian
 ## Common Patterns
 
 ### Immutable Data
+
 Prefer immutable data structures and avoid in-place object mutation. Use key-value caches like `@promethean/level-cache` instead of JSON files for intermediate data.
 
 ### Service Communication
+
 Services communicate through the message broker using WebSocket connections. Each service should register heartbeat monitoring for reliability.
 
 ### Error Handling
+
 Use structured error handling with proper logging. Services should expose health check endpoints for monitoring.
