@@ -1,18 +1,18 @@
-import { promises as fs } from "fs";
-import * as path from "path";
-import { pathToFileURL } from "node:url";
+import { promises as fs } from 'fs';
+import * as path from 'path';
+import { pathToFileURL } from 'node:url';
 
-import matter from "gray-matter";
-import { scanFiles } from "@promethean/file-indexer";
-import type { IndexedFile } from "@promethean/file-indexer";
+import matter from 'gray-matter';
+import { scanFiles } from '@promethean/file-indexer';
+import type { IndexedFile } from '@promethean/file-indexer';
 
-import { parseArgs, slugify, extnamePrefer } from "./utils.js";
-import type { Front } from "./types.js";
-import type { DBs } from "./db.js";
+import { parseArgs, slugify, extnamePrefer } from './utils.js';
+import type { Front } from './types.js';
+import type { DBs } from './db.js';
 // CLI
 
 export type RenameOptions = { dir: string; dryRun?: boolean; files?: string[] };
-let ROOT = path.resolve("docs/unique");
+let ROOT = path.resolve('docs/unique');
 let DRY = false;
 
 async function exists(p: string) {
@@ -26,11 +26,16 @@ async function exists(p: string) {
 
 function isNotFoundError(error: unknown): boolean {
   const err = error as { notFound?: boolean; code?: string } | null | undefined;
-  return Boolean(err?.notFound || err?.code === "LEVEL_NOT_FOUND");
+  return Boolean(err?.notFound || err?.code === 'LEVEL_NOT_FOUND');
 }
 
+/**
+ * Update persisted DocOps state after a rename so LevelDB metadata reflects the
+ * new document path. Keeps the docs index and chunk references in sync with the
+ * file system so subsequent pipeline stages work with the renamed file.
+ */
 async function updateDocState(
-  db: Pick<DBs, "docs" | "chunks"> | undefined,
+  db: Pick<DBs, 'docs' | 'chunks'> | undefined,
   uuid: string | undefined,
   target: string,
   front: Front,
@@ -46,11 +51,7 @@ async function updateDocState(
       if (!isNotFoundError(error)) throw error;
     }
 
-    const derivedTitle =
-      existingTitle ??
-      front.title ??
-      front.filename ??
-      path.parse(target).name;
+    const derivedTitle = existingTitle ?? front.title ?? front.filename ?? path.parse(target).name;
 
     await db.docs.put(uuid, {
       path: target,
@@ -63,9 +64,7 @@ async function updateDocState(
       const current = await db.chunks.get(uuid);
       if (Array.isArray(current)) {
         const updated = current.map((chunk) =>
-          typeof chunk === "object" && chunk !== null
-            ? { ...chunk, docPath: target }
-            : chunk,
+          typeof chunk === 'object' && chunk !== null ? { ...chunk, docPath: target } : chunk,
         ) as typeof current;
         await db.chunks.put(uuid, updated);
       }
@@ -77,16 +76,14 @@ async function updateDocState(
 
 export async function runRename(
   opts: RenameOptions,
-  db?: Pick<DBs, "docs" | "chunks">,
-  onProgress?: (info: { step: "rename"; done: number; total: number }) => void,
+  db?: Pick<DBs, 'docs' | 'chunks'>,
+  onProgress?: (info: { step: 'rename'; done: number; total: number }) => void,
 ) {
   ROOT = path.resolve(opts.dir);
   DRY = Boolean(opts.dryRun);
-  const exts = new Set([".md", ".mdx", ".txt"]);
+  const exts = new Set(['.md', '.mdx', '.txt']);
   const wanted =
-    opts.files && opts.files.length
-      ? new Set(opts.files.map((p) => path.resolve(p)))
-      : null;
+    opts.files && opts.files.length ? new Set(opts.files.map((p) => path.resolve(p))) : null;
   let processed = 0;
   await scanFiles({
     root: ROOT,
@@ -97,7 +94,7 @@ export async function runRename(
         processed += 1;
         if (progress) {
           onProgress?.({
-            step: "rename",
+            step: 'rename',
             done: processed,
             total: progress.total,
           });
@@ -107,13 +104,13 @@ export async function runRename(
         ? path.resolve(file.path)
         : path.resolve(ROOT, file.path);
       if (wanted && !wanted.has(abs)) return;
-      const raw = file.content ?? (await fs.readFile(abs, "utf-8"));
+      const raw = file.content ?? (await fs.readFile(abs, 'utf-8'));
       const fm = (matter(raw).data || {}) as Front;
       if (!fm.filename) {
         report();
         return;
       }
-      const uuid = typeof fm.uuid === "string" ? fm.uuid : undefined;
+      const uuid = typeof fm.uuid === 'string' ? fm.uuid : undefined;
 
       const want = slugify(fm.filename) + extnamePrefer(abs);
       const dir = path.dirname(abs);
@@ -126,7 +123,7 @@ export async function runRename(
       let target = path.join(dir, want);
       let i = 1;
       while (await exists(target)) {
-        const base = slugify(fm.filename) + (i > 1 ? `-${i}` : "");
+        const base = slugify(fm.filename) + (i > 1 ? `-${i}` : '');
         target = path.join(dir, base + extnamePrefer(abs));
         i++;
       }
@@ -138,15 +135,14 @@ export async function runRename(
       report();
     },
   });
-  console.log("06-rename: done.");
+  console.log('06-rename: done.');
 }
-const isDirect =
-  !!process.argv[1] && pathToFileURL(process.argv[1]).href === import.meta.url;
+const isDirect = !!process.argv[1] && pathToFileURL(process.argv[1]).href === import.meta.url;
 if (isDirect) {
-  const args = parseArgs({ "--dir": "docs/unique", "--dry-run": "false" });
-  const dir = args["--dir"] ?? "docs/unique";
-  const dryRun = (args["--dry-run"] ?? "false") === "true";
-  const { openDB } = await import("./db.js");
+  const args = parseArgs({ '--dir': 'docs/unique', '--dry-run': 'false' });
+  const dir = args['--dir'] ?? 'docs/unique';
+  const dryRun = (args['--dry-run'] ?? 'false') === 'true';
+  const { openDB } = await import('./db.js');
   const db = await openDB();
   try {
     await runRename({ dir, dryRun }, db);
