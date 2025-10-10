@@ -2,8 +2,8 @@ import test from "ava";
 
 // Import the validation function - we need to test it independently
 // Since it's a private function, we'll test it through the class behavior
-import { StdioHttpProxy } from "../proxy/stdio-proxy.js";
-import type { StdioServerSpec } from "../proxy/config.js";
+import { StdioHttpProxy } from "../src/proxy/stdio-proxy.js";
+import type { StdioServerSpec } from "../src/proxy/config.js";
 
 test("StdioHttpProxy validates proper JSON-RPC messages", async (t) => {
   const tempDir = "/tmp"; // Use temp dir for test
@@ -60,7 +60,11 @@ process.stdin.on("data", (chunk) => {
       // Since we can't directly test the validation function,
       // we'll verify that proper JSON-RPC messages aren't filtered
       const mockReq = { headers: {}, method: "POST" } as any;
-      const mockRes = { writeHead: () => {}, end: () => {} } as any;
+      const mockRes = {
+        writeHead: () => {},
+        end: () => {},
+        headersSent: false,
+      } as any;
 
       // This would normally process the message through the validation
       await proxy.handle(mockReq, mockRes, message);

@@ -5,8 +5,8 @@ import { tmpdir } from "node:os";
 
 import test from "ava";
 
-import { StdioHttpProxy } from "../proxy/stdio-proxy.js";
-import type { StdioServerSpec } from "../proxy/config.js";
+import { StdioHttpProxy } from "../src/proxy/stdio-proxy.js";
+import type { StdioServerSpec } from "../src/proxy/config.js";
 
 // Mock MCP server that outputs debug logs to stdout mixed with JSON-RPC
 const createMockMcpServerWithDebugLogs = (scriptPath: string): void => {

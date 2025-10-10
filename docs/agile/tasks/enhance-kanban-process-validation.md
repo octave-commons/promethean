@@ -1,18 +1,41 @@
 ---
-uuid: "a1b2c3d4-e5f6-7890-abcd-1234567890ab"
-title: "Enhance kanban process validation with acceptance criteria and Fibonacci scoring"
-slug: "enhance-kanban-process-validation"
-status: "incoming"
-priority: "P2"
-labels: ["enhancement", "kanban", "process", "validation", "automation"]
-created_at: "2025-10-09T21:36:17.716Z"
+uuid: 'a1b2c3d4-e5f6-7890-abcd-1234567890ab'
+title: 'Enhance kanban process validation with acceptance criteria and Fibonacci scoring'
+slug: 'enhance-kanban-process-validation'
+status: 'superseded'
+superseded_by: 'process-governance-cluster-001'
+superseded_at: '2025-10-09T22:45:00.000Z'
+priority: 'P2'
+labels: ['enhancement', 'kanban', 'process', 'validation', 'automation', 'superseded']
+created_at: '2025-10-09T21:36:17.716Z'
 estimates:
-  complexity: ""
-  scale: ""
-  time_to_completion: ""
+  complexity: ''
+  scale: ''
+  time_to_completion: ''
 ---
 
-## Issue
+## ⚠️ Task Superseded
+
+This task has been **superseded** and consolidated into:
+
+- **New Task**: [Process Governance Cluster - Quality Gates & Workflow Enforcement](2025.10.09.22.15.00-process-governance-cluster.md)
+- **UUID**: process-governance-cluster-001
+- **Reason**: Consolidated into strategic cluster for better focus and coordination
+
+### Migration Details
+
+- All work and context transferred to new cluster
+- Current status and progress preserved
+- Assignees notified of change
+- Dependencies updated accordingly
+
+### Next Steps
+
+- Please refer to the new cluster task for continued work
+- Update any bookmarks or references
+- Contact cluster lead for questions
+
+## Original Issue
 
 The kanban package has excellent technical foundations for transition rules but lacks enforcement of critical process steps:
 
