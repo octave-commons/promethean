@@ -22,6 +22,26 @@ const isResponse = (message: JSONRPCMessage): boolean =>
 const isRequest = (message: JSONRPCMessage): boolean =>
   typeof (message as { method?: unknown }).method === "string";
 
+const isValidJsonRpcMessage = (message: unknown): boolean => {
+  // Must be an object
+  if (typeof message !== "object" || message === null) {
+    return false;
+  }
+
+  const msg = message as Record<string, unknown>;
+
+  // Must have jsonrpc: "2.0"
+  if (msg.jsonrpc !== "2.0") {
+    return false;
+  }
+
+  // Must be either a request (has method) or a response (has result or error)
+  const hasMethod = typeof msg.method === "string";
+  const hasResult = "result" in msg;
+  const hasError = "error" in msg;
+
+  return hasMethod || hasResult || hasError;
+};
 export const createStdioEnv = (
   overrides: Readonly<Record<string, string>> = {},
   baseEnv: NodeJS.ProcessEnv = process.env,
@@ -108,6 +128,7 @@ export const resolveCommandPath = (
 export class StdioHttpProxy {
   private readonly stdio: StdioClientTransport;
   private readonly http: StreamableHTTPServerTransport;
+  private rawStdoutBuffer = Buffer.from("");
 
   constructor(
     readonly spec: StdioServerSpec,
@@ -128,6 +149,9 @@ export class StdioHttpProxy {
     this.http = new StreamableHTTPServerTransport({
       sessionIdGenerator: () => randomUUID(),
     });
+
+    // Hook into the stdio transport to capture raw stdout for debugging
+    this.hookStdioOutput();
 
     this.http.onmessage = async (message: JSONRPCMessage) => {
       try {
@@ -154,8 +178,15 @@ export class StdioHttpProxy {
       }
     };
 
-    this.stdio.onmessage = async (message: JSONRPCMessage) => {
+    this.stdio.onmessage = async (rawMessage: unknown) => {
       try {
+        // Validate that the message is a proper JSON-RPC message before processing
+        if (!isValidJsonRpcMessage(rawMessage)) {
+          this.logger(`[filtered debug output] ${spec.name}:`, rawMessage);
+          return;
+        }
+
+        const message = rawMessage as JSONRPCMessage;
         const related =
           isResponse(message) && hasRequestId(message) ? message.id : undefined;
         await this.http.send(
@@ -186,7 +217,55 @@ export class StdioHttpProxy {
     };
   }
 
-  async start(): Promise<void> {
+  private hookStdioOutput(): void {
+    // Try to access the underlying process stdout if available
+    // This is a best-effort approach since the SDK may not expose this directly
+    try {
+      const stdioTransport = this.stdio as any;
+      if (stdioTransport._process && stdioTransport._process.stdout) {
+        const originalOnData = stdioTransport._process.stdout.listeners?.("data");
+        if (originalOnData && Array.isArray(originalOnData)) {
+          stdioTransport._process.stdout.removeAllListeners("data");
+          
+          stdioTransport._process.stdout.on("data", (chunk: Buffer) => {
+            this.rawStdoutBuffer = Buffer.concat([this.rawStdoutBuffer, chunk]);
+            
+            // Try to extract complete lines from the buffer
+            const data = this.rawStdoutBuffer.toString();
+            const lines = data.split("\n");
+            
+            // Keep the incomplete last line in the buffer
+            this.rawStdoutBuffer = Buffer.from(lines[lines.length - 1] || "", "utf-8");
+            
+            // Process complete lines
+            for (let i = 0; i < lines.length - 1; i++) {
+              const line = lines[i]?.trim() || "";
+              if (line.length > 0) {
+                // Check if this looks like a debug line (not JSON-RPC)
+                if (!line.startsWith("{") || !line.endsWith("}")) {
+                  this.logger(`[stdout debug] ${this.spec.name}: ${line}`);
+                }
+              }
+            }
+            
+            // Call original listeners
+            originalOnData.forEach((listener: (chunk: Buffer) => void) => {
+              try {
+                listener(chunk);
+              } catch (error) {
+                this.logger(`error in original stdout listener for ${this.spec.name}:`, error);
+              }
+            });
+          });
+        }
+      }
+    } catch (error) {
+      // If we can't hook into stdout, that's okay - the message validation will still work
+      this.logger(`could not hook stdout for ${this.spec.name}:`, error);
+    }
+  }
+
+async start(): Promise<void> {
     await this.stdio.start();
     await this.http.start();
   }
@@ -213,4 +292,5 @@ export class StdioHttpProxy {
     await this.stdio.close();
     await this.http.close();
   }
+
 }

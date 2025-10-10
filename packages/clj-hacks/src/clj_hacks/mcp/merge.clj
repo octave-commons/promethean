@@ -9,9 +9,13 @@
 
 (def adapters
   {;; Official MCP JSON
-   :mcp.json   {:read mcp-json/read-full   :write mcp-json/write-full   :rest-default {}}
+   :mcp.json         {:read mcp-json/read-full   :write mcp-json/write-full   :rest-default {}}
+   ;; Promethean internal format (uses mcp-json adapter with format detection)
+   :promethean.json {:read mcp-json/read-full   :write mcp-json/write-full   :rest-default {}}
+   ;; Claude Code format (uses mcp-json adapter with format detection)
+   :claude-code.json {:read mcp-json/read-full   :write mcp-json/write-full   :rest-default {}}
    ;; Back-compat alias so old calls keep working for now
-   :codex.json {:read mcp-json/read-full   :write mcp-json/write-full   :rest-default {}}
+   :codex.json       {:read mcp-json/read-full   :write mcp-json/write-full   :rest-default {}}
 
    ;; Vendor-specific
    :vscode.json {:read vscode-json/read-full :write vscode-json/write-full :rest-default {}}
