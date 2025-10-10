@@ -357,30 +357,30 @@ const hasInitializeRequest = (payload: unknown): boolean => {
   return isInitializeRequest(payload as JSONRPCMessage);
 };
 
-const parseProxyBody = (value: unknown): unknown => {
-  if (value === null || value === undefined) return undefined;
-  if (Buffer.isBuffer(value) || typeof value === 'string') {
-    return tryParseJson(value);
-  }
-  return value;
-};
 
 const ROUTE_METHODS = ['POST', 'GET', 'DELETE'] as const;
+const PROXY_METHODS = ['POST', 'GET'] as const;
 
-const ensureAcceptHeader = (headers: IncomingMessage['headers']): string => {
+const ensureAcceptHeader = (headers: IncomingMessage['headers'], includeSse = true): string => {
   const current = headers['accept'];
   if (typeof current === 'string') {
-    if (current.includes('application/json') && current.includes('text/event-stream')) {
+    if (includeSse && current.includes('application/json') && current.includes('text/event-stream')) {
+      return current;
+    }
+    if (!includeSse && current.includes('application/json')) {
       return current;
     }
   }
   if (Array.isArray(current)) {
     const joined = current.join(',');
-    if (joined.includes('application/json') && joined.includes('text/event-stream')) {
+    if (includeSse && joined.includes('application/json') && joined.includes('text/event-stream')) {
+      return joined;
+    }
+    if (!includeSse && joined.includes('application/json')) {
       return joined;
     }
   }
-  return 'application/json, text/event-stream';
+  return includeSse ? 'application/json, text/event-stream' : 'application/json';
 };
 
 const withHeaders = (
@@ -399,21 +399,50 @@ const withHeaders = (
 
 const createProxyHandler = (proxy: ProxyLifecycle) => {
   return async function handler(request: FastifyRequest, reply: FastifyReply): Promise<void> {
-    reply.hijack();
     const rawReq = request.raw;
     const rawRes = reply.raw;
 
-    const acceptHeader = ensureAcceptHeader(rawReq.headers);
-    const normalizedHeaders = {
-      ...rawReq.headers,
-      accept: acceptHeader,
-      'content-type': rawReq.headers['content-type'] ?? 'application/json',
-    };
+    // Handle GET requests for health checks and discovery
+    if (request.method === 'GET') {
+      rawRes.writeHead(200, {
+        'content-type': 'application/json',
+        'access-control-allow-origin': '*',
+      }).end(JSON.stringify({
+        name: proxy.spec.name,
+        status: 'ready',
+        type: 'stdio-proxy',
+        httpPath: proxy.spec.httpPath,
+        message: 'Proxy server is running. Use POST for JSON-RPC requests.',
+      }));
+      return;
+    }
+
+    reply.hijack();
+
+    // For proxy endpoints: Accept JSON only (no SSE)
+    const acceptHeader = ensureAcceptHeader(rawReq.headers, false);
+
+    // Patch specific header keys only, don't replace the object
+    // eslint-disable-next-line functional/immutable-data
+    rawReq.headers['accept'] = acceptHeader;
+    // eslint-disable-next-line functional/immutable-data
+    rawReq.headers['content-type'] = rawReq.headers['content-type'] ?? 'application/json';
+
+    // Strict JSON parsing - fail fast on invalid JSON
+    let normalizedBody: unknown;
+    try {
+      normalizedBody = ensureInitializeDefaults(mustParseJson(request.body));
+    } catch {
+      rawRes.writeHead(400).end(JSON.stringify({
+        jsonrpc: '2.0',
+        error: { code: -32700, message: 'Parse error' },
+        id: null,
+      }));
+      return;
+    }
 
     try {
-      const body = parseProxyBody(request.body);
-      const normalizedBody = ensureInitializeDefaults(body);
-      await proxy.handle(withHeaders(rawReq, normalizedHeaders), rawRes, normalizedBody);
+      await proxy.handle(rawReq, rawRes, normalizedBody);
     } catch (error: unknown) {
       if (!rawRes.headersSent) {
         rawRes.writeHead(500).end(
@@ -655,11 +684,12 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
       const registerRoute = (
         url: string,
         handler: (request: FastifyRequest, reply: FastifyReply) => Promise<void> | void,
+        methods: readonly string[] = ROUTE_METHODS,
       ): void => {
-        for (const method of ROUTE_METHODS) {
-          app.route({ method, url, handler });
+        for (const method of methods) {
+          app.route({ method: method as 'POST' | 'GET' | 'DELETE', url, handler });
         }
-        registerOptionsRoute(url, ROUTE_METHODS);
+        registerOptionsRoute(url, methods);
       };
 
       const headerValue = (value: unknown): string | undefined => {
@@ -1420,7 +1450,7 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
 
             console.log(`[mcp:http] bound endpoint ${descriptor.path}`);
           } else {
-            registerRoute(descriptor.path, createProxyHandler(descriptor.handler));
+            registerRoute(descriptor.path, createProxyHandler(descriptor.handler), PROXY_METHODS);
             registerProxyActionEndpoints(descriptor);
             console.log(
               `[mcp:http] proxied stdio server ${descriptor.handler.spec.name} at ${descriptor.path}`,
