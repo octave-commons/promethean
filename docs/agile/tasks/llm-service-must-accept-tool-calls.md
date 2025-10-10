@@ -4,13 +4,19 @@ title: "llm service must accept tool calls"
 slug: "llm-service-must-accept-tool-calls"
 status: "rejected"
 priority: "P3"
-labels: ["tool", "service", "llm", "calls"]
-created_at: "2025-10-07T20:25:05.645Z"
+tags: ["tool", "service", "llm", "calls"]
+created_at: "2025-10-10T03:23:55.972Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ## 🛠️ Description
 
@@ -65,3 +71,9 @@ Nothing
 ```
 #framework-core #Ready #ready
 ```
+
+
+
+
+
+

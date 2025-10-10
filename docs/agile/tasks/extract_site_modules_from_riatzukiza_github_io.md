@@ -4,13 +4,19 @@ title: "extract site modules from riatzukiza github io md md"
 slug: "extract_site_modules_from_riatzukiza_github_io"
 status: "rejected"
 priority: "P3"
-labels: ["site", "riatzukiza", "github", "extract"]
-created_at: "2025-10-07T20:25:05.645Z"
+tags: ["site", "riatzukiza", "github", "extract"]
+created_at: "2025-10-10T03:23:55.972Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ## 🛠️ Task: Extract site modules from riatzukiza.github.io
 
@@ -62,3 +68,9 @@ Nothing
 
 - [[kanban]]
   #accepted
+
+
+
+
+
+

@@ -4,13 +4,19 @@ title: "Align fetch_ovm_models entrypoint detection /TASK-20250223A /kanban /InP
 slug: "align-fetch-ovm-entrypoint"
 status: "done"
 priority: "p3"
-labels: ["task", "board", "state", "owner", "priority", "epic", "lang"]
-created_at: "2025-10-08T04:43:32.160Z"
+tags: ["task", "board", "state", "owner", "priority", "epic", "lang"]
+created_at: "2025-10-10T03:23:55.971Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ```
 <hr class="__chatgpt_plugin">
@@ -91,3 +97,9 @@ You might find [this](link) useful while working on this task.
 <% tp.file.title() %>
 
 <% tp.app.commands.executeCommandById"chatgpt-md:call-chatgpt-api" %>
+
+
+
+
+
+

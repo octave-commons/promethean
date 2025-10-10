@@ -1,27 +1,49 @@
 ---
-uuid: "tsdoc-support-001"
-title: "Add TSDoc support to the project"
-slug: "add-tsdoc-support"
-status: "icebox"
-priority: "P2"
-labels: ["documentation", "typescript", "build-system"]
-created_at: "2025-10-09T21:36:17.694Z"
-estimates:
-  complexity: ""
-  scale: ""
-  time_to_completion: ""
+title: Add TSDoc Support to the Project
+status: ready
+priority: P2
+tags: [documentation, typescript, build-system]
+created: 2025-10-10
+uuid: tsdoc-support-consolidated
 ---
 
-# Add TSDoc support to the project
+# Add TSDoc Support to the Project
 
-Add TSDoc documentation generation support to the build system for better API documentation across all packages.
+## Overview
 
-## Details
+Add comprehensive TSDoc support across the entire TypeScript monorepo to improve API documentation and developer experience.
 
-- Implement TSDoc documentation generation
-- Integrate with existing build system
-- Generate API docs for key packages (kanban, piper, MCP)
-- Ensure documentation is accessible and up-to-date
+## Consolidated From
+
+- `uuid:2363bdd2-a474-4d16-8adb-9094ca045310`
+- `uuid:0733cfec-42bb-4aee-8bc8-3c5fe6458311`
+- `uuid:tsdoc-support-001`
+
+## Tasks Checklist
+
+### 1. Tooling Setup
+
+- [ ] Install and configure TSDoc parser
+- [ ] Update TypeScript configuration for TSDoc
+- [ ] Configure API documentation generator
+
+### 2. Template Creation
+
+- [ ] Create TSDoc templates for common patterns
+- [ ] Establish documentation standards
+- [ ] Create examples and best practices
+
+### 3. CI Integration
+
+- [ ] Add TSDoc validation to build pipeline
+- [ ] Configure automated documentation generation
+- [ ] Set up documentation deployment
+
+### 4. Package Updates
+
+- [ ] Add TSDoc comments to core packages
+- [ ] Update package.json with documentation metadata
+- [ ] Ensure all public APIs are documented
 
 ## Acceptance Criteria
 
@@ -31,3 +53,20 @@ Add TSDoc documentation generation support to the build system for better API do
 - [ ] API documentation is generated for MCP package
 - [ ] Documentation is accessible via standard web format
 - [ ] Integration works with existing Nx build system
+- [ ] TSDoc parsing working across all packages
+- [ ] CI pipeline validates TSDoc compliance
+- [ ] Developer guidelines established
+
+## Dependencies
+
+- TypeScript toolchain
+- Documentation hosting
+- CI/CD pipeline access
+
+## Timeline
+
+Estimated 2-3 weeks for complete implementation
+
+## Owner
+
+TBD - needs assignment

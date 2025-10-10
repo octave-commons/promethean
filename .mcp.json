@@ -1,140 +1,79 @@
 {
-  "mcpServers" : {
-    "duckduckgo" : {
-      "args" : [ "mcp-remote", "http://127.0.0.1:3210/duckduckgo/mcp" ],
-      "command" : "npx"
+  "mcpServers": {
+    "duckduckgo": {
+      "args": ["mcp-remote", "http://127.0.0.1:3210/duckduckgo"],
+      "command": "npx"
     },
-    "eslint" : {
-      "args" : [ "mcp-remote", "http://127.0.0.1:3210/eslint/mcp" ],
-      "command" : "npx"
+    "file-system": {
+      "args": ["mcp-remote", "http://127.0.0.1:3210/filesystem"],
+      "command": "npx"
     },
-    "file-system" : {
-      "args" : [ "mcp-remote", "http://127.0.0.1:3210/file-system/mcp" ],
-      "command" : "npx"
-    },
-    "github" : {
-      "args" : [ "mcp-remote", "http://127.0.0.1:3210/github/mcp" ],
-      "command" : "npx"
-    },
-    "github-chat" : {
-      "args" : [ "mcp-remote", "http://127.0.0.1:3210/github-chat/mcp" ],
-      "command" : "npx"
-    },
-    "haiku-rag" : {
-      "args" : [ "mcp-remote", "http://127.0.0.1:3210/haiku-rag/mcp" ],
-      "command" : "npx"
-    },
-    "http-default" : {
-      "args" : [ "mcp-remote", "http://127.0.0.1:3210/mcp" ],
-      "command" : "npx"
-    },
-    "http-discord" : {
-      "args" : [ "mcp-remote", "http://127.0.0.1:3210/discord" ],
-      "command" : "npx"
-    },
-    "http-exec" : {
-      "args" : [ "mcp-remote", "http://127.0.0.1:3210/exec" ],
-      "command" : "npx"
-    },
-    "http-files" : {
-      "args" : [ "mcp-remote", "http://127.0.0.1:3210/files" ],
-      "command" : "npx"
-    },
-    "http-github" : {
-      "args" : [ "mcp-remote", "http://127.0.0.1:3210/github" ],
-      "command" : "npx"
-    },
-    "http-github-review" : {
-      "args" : [ "mcp-remote", "http://127.0.0.1:3210/github/review" ],
-      "command" : "npx"
-    },
-    "http-kanban" : {
-      "args" : [ "mcp-remote", "http://127.0.0.1:3210/kanban" ],
-      "command" : "npx"
-    },
-    "http-process" : {
-      "args" : [ "mcp-remote", "http://127.0.0.1:3210/process" ],
-      "command" : "npx"
-    },
-    "http-workspace" : {
-      "args" : [ "mcp-remote", "http://127.0.0.1:3210/workspace" ],
-      "command" : "npx"
-    },
-    "npm-helper" : {
-      "args" : [ "mcp-remote", "http://127.0.0.1:3210/npm-helper/mcp" ],
-      "command" : "npx"
-    },
-    "obsidian" : {
-      "args" : [ "mcp-remote", "http://127.0.0.1:3210/obsidian/mcp" ],
-      "command" : "npx"
-    },
-    "playwright" : {
-      "args" : [ "mcp-remote", "http://127.0.0.1:3210/playwright/mcp" ],
-      "command" : "npx"
-    },
-    "serena" : {
-      "args" : [ "mcp-remote", "http://127.0.0.1:3210/serena/mcp" ],
-      "command" : "npx"
-    },
-    "sonarqube" : {
-      "args" : [ "mcp-remote", "http://127.0.0.1:3210/sonarqube/mcp" ],
-      "command" : "npx"
-    },
-    "ts-ls-lsp" : {
-      "args" : [ "mcp-remote", "http://127.0.0.1:3210/ts-ls-lsp/mcp" ],
-      "command" : "npx"
+    "github": {
+      "args": ["mcp-remote", "http://127.0.0.1:3210/github"],
+      "command": "npx"
     }
   },
-  "transport" : "http",
-  "tools" : [ "mcp.help", "mcp.toolset", "mcp.endpoints", "mcp.validate-config", "github.request", "github.graphql", "github.rate-limit", "github.contents.write", "github.pr.get", "github.pr.files", "github.pr.resolvePosition", "github.pr.review.start", "github.pr.review.commentInline", "github.pr.review.submit", "files.list-directory", "files.tree-directory", "files.view-file", "files.write-content", "files.write-lines", "files.search", "apply_patch", "tdd.scaffoldTest", "tdd.changedFiles", "tdd.runTests", "tdd.startWatch", "tdd.getWatchChanges", "tdd.stopWatch", "tdd.coverage", "tdd.propertyCheck", "tdd.mutationScore", "exec.list", "exec.run", "discord.send-message", "discord.list-messages", "pnpm.install", "pnpm.add", "pnpm.remove", "pnpm.runScript" ],
-  "endpoints" : {
-    "discord" : {
-      "tools" : [ "discord.send-message", "discord.list-messages" ],
-      "includeHelp" : true
+  "transport": "http",
+  "tools": [
+    "mcp.help",
+    "mcp.toolset",
+    "mcp.endpoints",
+    "mcp.validate-config",
+    "github.request",
+    "github.graphql",
+    "github.rate-limit",
+    "github.contents.write",
+    "files.list-directory",
+    "files.tree-directory",
+    "files.view-file",
+    "files.write-content",
+    "files.write-lines",
+    "files.search",
+    "apply_patch"
+  ],
+  "endpoints": {
+    "github": {
+      "tools": ["github.request", "github.graphql", "github.rate-limit", "github.contents.write"],
+      "includeHelp": true
     },
-    "exec" : {
-      "tools" : [ "exec.list", "exec.run" ],
-      "includeHelp" : true
-    },
-    "files" : {
-      "tools" : [ "files.list-directory", "files.tree-directory", "files.view-file", "files.write-content", "files.write-lines", "files.search", "apply_patch" ],
-      "includeHelp" : true
-    },
-    "github" : {
-      "tools" : [ "github.request", "github.graphql", "github.rate-limit", "github.contents.write" ],
-      "includeHelp" : true
-    },
-    "github/review" : {
-      "tools" : [ "github.pr.get", "github.pr.files", "github.pr.resolvePosition", "github.pr.review.start", "github.pr.review.commentInline", "github.pr.review.submit", "github.review.openPullRequest", "github.review.getComments", "github.review.getReviewComments", "github.review.submitComment", "github.review.submitReview", "github.review.getActionStatus", "github.review.commit", "github.review.push", "github.review.checkoutBranch", "github.review.createBranch", "github.review.revertCommits", "github.review.requestChangesFromCodex" ],
-      "includeHelp" : true
-    },
-    "kanban" : {
-      "tools" : [ "kanban.get-board", "kanban.get-column", "kanban.find-task", "kanban.find-task-by-title", "kanban.update-status", "kanban.move-task", "kanban.sync-board", "kanban.search" ],
-      "includeHelp" : true
-    },
-    "process" : {
-      "tools" : [ "process.getTaskRunnerConfig", "process.updateTaskRunnerConfig", "process.enqueueTask", "process.stop", "process.getQueue", "process.getStdout", "process.getStderr" ],
-      "includeHelp" : true
-    },
-    "workspace" : {
-      "tools" : [ "pnpm.install", "pnpm.add", "pnpm.remove", "pnpm.runScript" ],
-      "includeHelp" : true
+    "filesystem": {
+      "tools": [
+        "files.list-directory",
+        "files.tree-directory",
+        "files.view-file",
+        "files.write-content",
+        "files.write-lines",
+        "files.search",
+        "apply_patch"
+      ],
+      "includeHelp": true
     }
   },
-  "stdioMeta" : {
-    "title" : "Default MCP Endpoint",
-    "description" : "Aggregated toolset available over stdio for local agents.",
-    "workflow" : [ "mcp.toolset -> mcp.help", "mcp.validate-config", "files.search -> files.view-file -> apply_patch" ],
-    "expectations" : {
-      "usage" : [ "Use mcp.toolset first to confirm endpoint scope", "Call mcp.validate-config after editing promethan.mcp.json", "Prefer files.write-lines for small edits" ],
-      "pitfalls" : [ "mcp.validate-config reports warnings for missing metadata", "apply_patch expects unified diffs" ],
-      "prerequisites" : [ "Ensure git workspace is clean before applying patches" ]
+  "stdioMeta": {
+    "title": "Default MCP Endpoint",
+    "description": "Aggregated toolset available over stdio for local agents.",
+    "workflow": [
+      "mcp.toolset -> mcp.help",
+      "mcp.validate-config",
+      "files.search -> files.view-file -> apply_patch"
+    ],
+    "expectations": {
+      "usage": [
+        "Use mcp.toolset first to confirm endpoint scope",
+        "Call mcp.validate-config after editing promethan.mcp.json",
+        "Prefer files.write-lines for small edits"
+      ],
+      "pitfalls": [
+        "mcp.validate-config reports warnings for missing metadata",
+        "apply_patch expects unified diffs"
+      ],
+      "prerequisites": ["Ensure git workspace is clean before applying patches"]
     }
   },
-  "metadata" : {
-    "generatedBy" : "clj-hacks"
+  "metadata": {
+    "generatedBy": "opencode-fix"
   },
-  "version" : "2025-06-18",
-  "stdioProxyConfig" : "./config/mcp_servers.edn",
-  "includeHelp" : true
+  "version": "2025-01-09",
+  "stdioProxyConfig": "./packages/mcp/minimal-mcp.edn",
+  "includeHelp": true
 }

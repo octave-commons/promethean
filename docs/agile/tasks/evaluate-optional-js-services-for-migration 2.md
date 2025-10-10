@@ -4,12 +4,24 @@ title: "Evaluate optional JS services for TypeScript migration"
 slug: "evaluate-optional-js-services-for-migration 2"
 status: "breakdown"
 priority: "P3"
-labels: ["board", "lang"]
-created_at: "2025-10-09T21:36:17.584Z"
+tags: ["board", "lang"]
+created_at: "2025-10-10T03:23:55.970Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
 
 

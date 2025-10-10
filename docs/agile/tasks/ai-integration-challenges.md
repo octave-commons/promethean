@@ -4,13 +4,19 @@ title: "ai-integration-challenges"
 slug: "ai-integration-challenges"
 status: "incoming"
 priority: "P3"
-labels: ["docops", "labeled"]
-created_at: "2025-10-08T20:10:46.015Z"
+tags: ["docops", "labeled"]
+created_at: "2025-10-10T03:23:55.969Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ## 🗂 Source
 
@@ -50,3 +56,9 @@ Every one offering up basically the same thing, just plugged into a different mo
 - [ ] Draft actionable subtasks from the summary
 - [ ] Define acceptance criteria
 - [ ] Link back to related labeled docs
+
+
+
+
+
+

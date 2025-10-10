@@ -1,16 +1,22 @@
 ---
 uuid: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
-title: "Fix symdocs pipeline missing @promethean/file-indexer dependency    -fix    -fix"
+title: "Fix symdocs pipeline missing @promethean/file-indexer dependency    -fix    -fix    -fix    -fix    -fix    -fix    -fix"
 slug: "fix-symdocs-pipeline-missing-dependencies"
 status: "done"
 priority: "P2"
-labels: ["piper", "symdocs", "dependencies", "build-fix"]
-created_at: "2025-10-07T20:25:05.644Z"
+tags: ["piper", "symdocs", "dependencies", "build-fix"]
+created_at: "2025-10-10T03:23:55.971Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ## 🛠️ Task: Fix symdocs pipeline missing @promethean/file-indexer dependency
 
@@ -95,3 +101,9 @@ The @promethean/file-indexer package is used by the symdocs pipeline to:
 - Support AI-powered documentation generation
 
 This fix will enable automatic documentation generation for the entire codebase, improving developer experience and code maintainability.
+
+
+
+
+
+

@@ -4,13 +4,19 @@ title: "enable scripts lint topics ts in ci md"
 slug: "enable_scripts_lint_topics_ts_in_ci"
 status: "rejected"
 priority: "P3"
-labels: ["enable", "scripts", "lint", "topics"]
-created_at: "2025-10-07T20:25:05.645Z"
+tags: ["enable", "scripts", "lint", "topics"]
+created_at: "2025-10-10T03:23:55.972Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ## 🛠️ Task: Enable **scripts/lint-topics.ts** in CI
 
@@ -35,3 +41,9 @@ Generated from ../unique/2025.08.08.20.08.52.md$../unique/2025.08.08.20.08.52.md
 
 
 #rejected
+
+
+
+
+
+

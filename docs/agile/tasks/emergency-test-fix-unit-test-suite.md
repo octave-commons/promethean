@@ -4,7 +4,7 @@ title: "Fix test failure in unit-test-suite: Unit test failures blocking CI"
 slug: "emergency-test-fix-unit-test-suite"
 status: "incoming"
 priority: "P1"
-labels: ["testing", "automation", "test-fix", "emergency"]
+tags: ["testing", "automation", "test-fix", "emergency"]
 created_at: "2025-10-08T16:55:00.000Z"
 estimates:
   complexity: "medium"

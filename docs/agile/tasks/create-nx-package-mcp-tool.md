@@ -4,13 +4,19 @@ title: "Create MCP tool for Nx package scaffolding"
 slug: "create-nx-package-mcp-tool"
 status: "done"
 priority: "P3"
-labels: ["mcp", "package", "tool", "create"]
-created_at: "2025-10-07T20:25:05.644Z"
+tags: ["mcp", "package", "tool", "create"]
+created_at: "2025-10-10T03:23:55.971Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ## 🛠️ Description
 
@@ -72,3 +78,9 @@ Nothing
 - Story Points: 3
 
 #done
+
+
+
+
+
+

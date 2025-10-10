@@ -4,13 +4,19 @@ title: "scripts add folder readmes and usage"
 slug: "scripts_add_folder_readmes_and_usage"
 status: "incoming"
 priority: "P3"
-labels: ["scripts", "folder", "readmes", "add"]
-created_at: "2025-10-07T20:25:05.643Z"
+tags: ["scripts", "folder", "readmes", "add"]
+created_at: "2025-10-10T03:23:55.970Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 Scripts: Add READMEs and usage docs per folder
 
@@ -28,3 +34,9 @@ Exit Criteria:
 - Each folder has a concise README with clear commands and prerequisites.
 
 #incoming #scripts #docs
+
+
+
+
+
+

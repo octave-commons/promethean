@@ -4,13 +4,19 @@ title: "Setup MCP exec server from approved commands"
 slug: "setup-mcp-exec-server"
 status: "done"
 priority: "P2"
-labels: ["MCP", "Tooling"]
-created_at: "2025-10-07T20:25:05.644Z"
+tags: ["MCP", "Tooling"]
+created_at: "2025-10-10T03:23:55.971Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 #InProgress
 
@@ -63,3 +69,9 @@ Estimate: 3
 ## 🔍 Relevant Links
 
 - `packages/mcp` module docs
+
+
+
+
+
+

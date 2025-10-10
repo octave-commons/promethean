@@ -4,7 +4,7 @@ title: "Agent OS Comprehensive Review and Enhancement"
 slug: "design-agent-os-comprehensive-review-and-enhancement-5e6f7g8h"
 status: "ready"
 priority: "high"
-labels: ["agent-os", "comprehensive-review", "enhancement", "gaps-analysis", "final-design"]
+tags: ["agent-os", "comprehensive-review", "enhancement", "gaps-analysis", "final-design"]
 created_at: "2025-10-09T21:36:17.711Z"
 estimates:
   complexity: ""

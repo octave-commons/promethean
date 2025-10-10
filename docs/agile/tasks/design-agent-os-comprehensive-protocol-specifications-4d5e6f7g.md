@@ -4,7 +4,7 @@ title: "Design Agent OS Comprehensive Protocol Specifications"
 slug: "design-agent-os-comprehensive-protocol-specifications-4d5e6f7g"
 status: "ready"
 priority: "high"
-labels: ["agent-os", "protocol-specifications", "system-integration", "architecture", "standards"]
+tags: ["agent-os", "protocol-specifications", "system-integration", "architecture", "standards"]
 created_at: "2025-10-09T21:36:17.711Z"
 estimates:
   complexity: ""

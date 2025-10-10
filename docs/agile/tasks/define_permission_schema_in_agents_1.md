@@ -4,13 +4,19 @@ title: "define permission schema in agents 1 md"
 slug: "define_permission_schema_in_agents_1"
 status: "icebox"
 priority: "P3"
-labels: ["schema", "permission", "agents", "define"]
-created_at: "2025-10-07T20:25:05.642Z"
+tags: ["schema", "permission", "agents", "define"]
+created_at: "2025-10-10T03:23:55.968Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ## 🛠️ Task: Define permission schema in AGENTS.md
 
@@ -84,3 +90,9 @@ Nothing
 ```
 #ice-box
 ```
+
+
+
+
+
+

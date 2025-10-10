@@ -4,13 +4,19 @@ title: "2025.10.06.15.01.14"
 slug: "kanban-io-coaching"
 status: "breakdown"
 priority: "P3"
-labels: ["kanban", "io", "coaching", "jsonl", "session", "persistence", "task"]
-created_at: "2025-10-07T20:25:05.643Z"
+tags: ["kanban", "io", "coaching", "jsonl", "session", "persistence", "task"]
+created_at: "2025-10-10T03:23:55.970Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 # Minimal IO + coaching utilities
 
@@ -60,3 +66,9 @@ export async function appendChoice(c: Omit<Choice,"ts">){
 ## Sources
 - _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
+
+
+
+
+
+

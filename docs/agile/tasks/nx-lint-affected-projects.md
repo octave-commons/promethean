@@ -4,13 +4,19 @@ title: "nx-lint-affected-projects"
 slug: "nx-lint-affected-projects"
 status: "incoming"
 priority: "P3"
-labels: ["docops", "labeled"]
-created_at: "2025-10-08T20:10:46.046Z"
+tags: ["docops", "labeled"]
+created_at: "2025-10-10T03:23:55.969Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ## 🗂 Source
 
@@ -61,3 +67,9 @@ For more information, see https://nx.dev/features/powerpack/custom-caching
 - [ ] Draft actionable subtasks from the summary
 - [ ] Define acceptance criteria
 - [ ] Link back to related labeled docs
+
+
+
+
+
+

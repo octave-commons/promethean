@@ -4,13 +4,19 @@ title: "scripts group audio tools"
 slug: "scripts_group_audio_tools"
 status: "incoming"
 priority: "P3"
-labels: ["audio", "scripts", "group", "tools"]
-created_at: "2025-10-07T20:25:05.643Z"
+tags: ["audio", "scripts", "group", "tools"]
+created_at: "2025-10-10T03:23:55.970Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 Scripts: Group audio tools under scripts/audio
 
@@ -28,3 +34,9 @@ Exit Criteria:
 - README exists with prerequisites and sample commands.
 
 #incoming #scripts #audio #organization
+
+
+
+
+
+

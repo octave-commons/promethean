@@ -4,7 +4,7 @@ title: "Implement multi-model evaluation for boardrev"
 slug: "boardrev-multi-model-evaluation"
 status: "icebox"
 priority: "P2"
-labels: ["enhancement", "boardrev", "ai", "evaluation"]
+tags: ["enhancement", "boardrev", "ai", "evaluation"]
 created_at: "Mon Oct 06 2025 07:00:00 GMT-0500 (Central Daylight Time)"
 estimates:
   complexity: ""

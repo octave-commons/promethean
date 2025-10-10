@@ -4,13 +4,19 @@ title: "mirror shared utils with language specific doc folders md md"
 slug: "mirror_shared_utils_with_language-specific_doc_folders"
 status: "done"
 priority: "P3"
-labels: ["shared", "language", "mirror", "folders"]
-created_at: "2025-10-07T20:25:05.644Z"
+tags: ["shared", "language", "mirror", "folders"]
+created_at: "2025-10-10T03:23:55.971Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ## 🛠️ Task: Mirror shared utils with language-specific doc folders
 
@@ -63,3 +69,9 @@ Nothing
 - [file structure]../file-structure.md
 - [[kanban]]
 #done
+
+
+
+
+
+

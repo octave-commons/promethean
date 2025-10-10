@@ -4,7 +4,7 @@ title: "Fix DS package missing dependencies causing build failures"
 slug: "fix-ds-package-dependencies"
 status: "todo"
 priority: "P2"
-labels: ["dependencies", "build-system", "typescript", "ds-package"]
+tags: ["dependencies", "build-system", "typescript", "ds-package"]
 created_at: "2025-10-09T21:36:17.719Z"
 estimates:
   complexity: ""

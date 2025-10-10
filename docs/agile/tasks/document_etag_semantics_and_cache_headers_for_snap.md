@@ -4,13 +4,19 @@ title: "document etag semantics and cache headers for snap md"
 slug: "document_etag_semantics_and_cache_headers_for_snap"
 status: "rejected"
 priority: "P3"
-labels: ["document", "etag", "semantics", "cache"]
-created_at: "2025-10-07T20:25:05.645Z"
+tags: ["document", "etag", "semantics", "cache"]
+created_at: "2025-10-10T03:23:55.972Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ## 🛠️ Task: Document ETag semantics and cache headers for `/snap/:key`
 
@@ -35,3 +41,9 @@ Generated from ../unique/2025.08.08.20.08.83.md$../unique/2025.08.08.20.08.83.md
 
 
 #rejected
+
+
+
+
+
+

@@ -1,0 +1,10 @@
+FROM qwen3-codex
+
+# 256k context (model supports it natively)
+PARAMETER num_ctx 100000
+# start conservative on generation length; raise as needed
+PARAMETER num_predict 8192
+PARAMETER temperature 0.7
+PARAMETER top_p 0.9
+PARAMETER repeat_penalty 1.1
+# Avoid adding stop tokens initially; Qwen templates generally don’t need extras.

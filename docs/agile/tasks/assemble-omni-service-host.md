@@ -4,13 +4,19 @@ title: "Assemble unified @promethean/omni-service host"
 slug: "assemble-omni-service-host"
 status: "ready"
 priority: "P2"
-labels: ["omni", "service"]
-created_at: "2025-10-07T20:25:05.643Z"
+tags: ["omni", "service"]
+created_at: "2025-10-10T03:23:55.970Z"
 estimates:
-  complexity: 5
-  scale: 3
-  time_to_completion: "1 day"
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ## 🎯 Outcome
 
@@ -41,3 +47,9 @@ Stand up `@promethean/omni-service`, a Fastify application that mounts REST, Gra
 ## 🔗 Dependencies
 
 - Omni protocol + core packages must be published.
+
+
+
+
+
+

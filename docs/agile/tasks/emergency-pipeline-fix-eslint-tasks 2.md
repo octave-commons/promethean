@@ -4,12 +4,24 @@ title: "Fix eslint-tasks pipeline missing dependency: Missing @typescript-eslint
 slug: "emergency-pipeline-fix-eslint-tasks 2"
 status: "incoming"
 priority: "P1"
-labels: ["pipeline", "dependency", "automation", "emergency"]
-created_at: "2025-10-09T21:36:17.584Z"
+tags: ["pipeline", "dependency", "automation", "emergency"]
+created_at: "2025-10-10T03:23:55.969Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
 
 

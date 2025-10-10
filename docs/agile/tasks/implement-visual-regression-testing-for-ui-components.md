@@ -1,16 +1,22 @@
 ---
 uuid: "6a7b8c9d-1e2f-3a4b5c6d7e8f9a0b1c2d"
-title: "Implement visual regression testing for UI components and documentation"
+title: "Implement visual regression testing for UI components and documentation  -testing -components  -testing  -testing -components  -testing  -testing -components  -testing  -testing -components  -testing  -testing -components  -testing"
 slug: "implement-visual-regression-testing-for-ui-components"
 status: "incoming"
 priority: "P3"
-labels: ["testing", "visual-testing", "ui-components", "documentation", "regression-testing"]
-created_at: "2025-01-08T15:46:00.000Z"
+tags: ["testing", "visual-testing", "ui-components", "documentation", "regression-testing"]
+created_at: "2025-10-10T03:23:55.969Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 #incoming
 
@@ -85,3 +91,9 @@ Estimate: 8
 - Playwright config: `packages/docops/playwright.config.ts`
 - Documentation rendering: Various markdown processing components
 - Visual testing tools: Playwright, Percy, Chromatic documentation
+
+
+
+
+
+

@@ -4,13 +4,19 @@ title: "enso-browser-gateway — handshake guard env timeout + cache ready"
 slug: "enso-handshake-guard-env-timeout-and-cache"
 status: "testing"
 priority: "P2"
-labels: ["enso", "gateway", "handshake", "ops"]
-created_at: "2025-10-02T00:00:00.000Z"
+tags: ["enso", "gateway", "handshake", "ops"]
+created_at: "2025-10-10T03:23:55.970Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 #Todo
 
@@ -27,3 +33,9 @@ Add `ENSO_HANDSHAKE_TIMEOUT_MS` env override. Short-circuit `ensureHandshake()` 
 
 ## 🔍 Related
 - PR #1451
+
+
+
+
+
+

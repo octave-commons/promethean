@@ -4,7 +4,7 @@ title: "Fix TypeScript type mismatch in packages/kanban/src/cli/command-handlers
 slug: "fix-typescript-type-mismatch-in-packageskanbansrcclicommand-handlersts"
 status: "incoming"
 priority: "P2"
-labels: ["typescript", "build", "automation", "type-fix"]
+tags: ["typescript", "build", "automation", "type-fix"]
 created_at: "2025-10-09T06:54:16.875Z"
 estimates:
   complexity: "medium"

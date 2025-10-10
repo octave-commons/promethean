@@ -4,7 +4,7 @@ title: "Fix simtasks pipeline missing package references and scanning errors"
 slug: "fix-simtasks-pipeline-missing-package-references-and-scanning-errors"
 status: "in_review"
 priority: "P2"
-labels: ["piper", "simtasks", "package-scanning", "file-system", "error-handling"]
+tags: ["piper", "simtasks", "package-scanning", "file-system", "error-handling"]
 created_at: "2025-10-05T00:00:00.000Z"
 estimates:
   complexity: ""

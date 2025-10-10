@@ -4,13 +4,19 @@ title: "ensure github compatible markdown settings are doc md"
 slug: "ensure_github_compatible_markdown_settings_are_doc"
 status: "rejected"
 priority: "P3"
-labels: ["github", "markdown", "settings", "ensure"]
-created_at: "2025-10-07T20:25:05.645Z"
+tags: ["github", "markdown", "settings", "ensure"]
+created_at: "2025-10-10T03:23:55.972Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ## 🛠️ Task: Ensure GitHub-compatible markdown settings are documented
 
@@ -55,3 +61,9 @@ Nothing
 ## 🔍 Relevant Links
 - [[kanban]]
 #rejected
+
+
+
+
+
+

@@ -4,13 +4,19 @@ title: "cephalon tests for persistence and ecs"
 slug: "cephalon_tests_for_persistence_and_ecs"
 status: "icebox"
 priority: "P3"
-labels: ["tests", "persistence", "ecs", "agent"]
-created_at: "2025-10-08T21:27:18.930Z"
+tags: ["tests", "persistence", "ecs", "agent"]
+created_at: "2025-10-10T03:23:55.968Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 Cephalon: Tests for persistence and ECS flow
 
@@ -29,3 +35,9 @@ Exit Criteria:
 
 Notes:
 - Persistence verification is the next backlog slice; start these tests once feature delivery pauses so regressions are caught early.
+
+
+
+
+
+

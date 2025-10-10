@@ -1,20 +1,25 @@
-## ⚠️ Task Superseded
+---
+uuid: "1473818b-1cba-49cd-8ca2-17552bcb9839"
+title: "Add CRUD subcommands to kanban CLI"
+slug: "kanban-crud-commands 2"
+status: "icebox"
+priority: "P2"
+tags: ["kanban", "cli", "enhancement", "crud"]
+created_at: "2025-10-10T03:23:55.968Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
 
-This task has been **superseded** and consolidated into:
 
-- **New Task**: [Advanced Features Cluster - AI Integration & Task Intelligence](2025.10.09.22.30.00-advanced-features-cluster.md)
-- **UUID**: advanced-features-cluster-001
-- **Reason**: Consolidated into strategic cluster for better focus and coordination
 
-### Migration Details
 
-- All work and context transferred to new cluster
-- Current status and progress preserved
-- Assignees notified of change
-- Dependencies updated accordingly
 
-### Next Steps
 
-- Please refer to the new cluster task for continued work
-- Update any bookmarks or references
-- Contact cluster lead for questions
+
+
+
+
+
+

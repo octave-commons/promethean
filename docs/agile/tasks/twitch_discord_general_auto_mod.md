@@ -4,13 +4,19 @@ title: "twitch discord general auto mod md md"
 slug: "twitch_discord_general_auto_mod"
 status: "icebox"
 priority: "P3"
-labels: ["twitch", "discord", "general", "mod"]
-created_at: "2025-10-07T20:25:05.643Z"
+tags: ["twitch", "discord", "general", "mod"]
+created_at: "2025-10-10T03:23:55.968Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 Got you. Here’s a tightened, build-ready version with the “learned rules + formal policy” vibe, plus a quick diagram.
 
@@ -146,3 +152,9 @@ flowchart LR
 
 If you want, I can spin this into a canvas-ready policy DSL starter schema + a few exemplar rules so you can start committing rules immediately.
 #IceBox
+
+
+
+
+
+

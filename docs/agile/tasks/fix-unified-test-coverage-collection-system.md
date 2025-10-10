@@ -4,13 +4,19 @@ title: "Fix unified test coverage collection system"
 slug: "fix-unified-test-coverage-collection-system"
 status: "incoming"
 priority: "P1"
-labels: ["testing", "infrastructure", "coverage"]
-created_at: "2025-01-08T15:30:00.000Z"
+tags: ["testing", "infrastructure", "coverage"]
+created_at: "2025-10-10T03:23:55.969Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 #incoming
 
@@ -73,3 +79,9 @@ Estimate: 3
 - Current unified coverage script: `tools/unified-test-coverage.mjs`
 - Coverage configuration: `config/ava.config.mjs`
 - LCOV output: `coverage/lcov.info`
+
+
+
+
+
+

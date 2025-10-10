@@ -4,12 +4,24 @@ title: "Integrate boardrev with piper pipeline system     )"
 slug: "boardrev-vector-db 6"
 status: "icebox"
 priority: "P2"
-labels: ["enhancement", "boardrev", "infrastructure"]
-created_at: "2025-10-09T21:36:17.583Z"
+tags: ["enhancement", "boardrev", "infrastructure"]
+created_at: "2025-10-10T03:23:55.968Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
 
 

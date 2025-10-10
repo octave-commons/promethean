@@ -4,7 +4,7 @@ title: "Add confidence calibration and historical accuracy tracking"
 slug: "boardrev-confidence-calibration"
 status: "icebox"
 priority: "P2"
-labels: ["enhancement", "boardrev", "accuracy", "metrics"]
+tags: ["enhancement", "boardrev", "accuracy", "metrics"]
 created_at: "Mon Oct 06 2025 07:00:00 GMT-0500 (Central Daylight Time)"
 estimates:
   complexity: ""

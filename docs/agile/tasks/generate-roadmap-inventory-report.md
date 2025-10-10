@@ -4,13 +4,19 @@ title: "Extend roadmap generator to emit inventory report"
 slug: "generate-roadmap-inventory-report"
 status: "done"
 priority: "P3"
-labels: ["scripts", "documentation"]
-created_at: "2025-10-08T04:59:21.551Z"
+tags: ["scripts", "documentation"]
+created_at: "2025-10-10T03:23:55.971Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ## 🛠️ Task: Extend roadmap generator to emit inventory report
 
@@ -91,3 +97,9 @@ Nothing
 
 - [[process]]
 - [[kanban]]
+
+
+
+
+
+

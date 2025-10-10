@@ -4,13 +4,19 @@ title: "add startchangelogprojector for any compaction lik md"
 slug: "add_startchangelogprojector_for_any_compaction_lik"
 status: "rejected"
 priority: "P3"
-labels: ["add", "startchangelogprojector", "any", "compaction"]
-created_at: "2025-10-07T20:25:05.645Z"
+tags: ["add", "startchangelogprojector", "any", "compaction"]
+created_at: "2025-10-10T03:23:55.971Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ## 🛠️ Task: Add **startChangelogProjector** for any compaction-like topic you want live-queryable
 
@@ -35,3 +41,9 @@ Generated from [[2025.08.08.20.08.56]]
 
 
 #rejected
+
+
+
+
+
+

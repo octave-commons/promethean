@@ -4,7 +4,7 @@ title: "Update existing kanban tasks to use FSM statuses"
 slug: "update-kanban-statuses-to-fsm"
 status: "ready"
 priority: "P2"
-labels: ["kanban", "fsm", "cleanup", "process"]
+tags: ["kanban", "fsm", "cleanup", "process"]
 created_at: "2025-10-09T21:36:17.739Z"
 estimates:
   complexity: ""

@@ -4,13 +4,19 @@ title: "implement pause resume ops on gateway md"
 slug: "implement_pause_resume_ops_on_gateway"
 status: "rejected"
 priority: "P3"
-labels: ["implement", "pause", "resume", "ops"]
-created_at: "2025-10-07T20:25:05.645Z"
+tags: ["implement", "pause", "resume", "ops"]
+created_at: "2025-10-10T03:23:55.972Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ## 🛠️ Task: Implement `PAUSE/RESUME` ops on gateway
 
@@ -35,3 +41,9 @@ Generated from ../unique/2025.08.08.19.08.25.md$../unique/2025.08.08.19.08.25.md
 
 
 #rejected
+
+
+
+
+
+

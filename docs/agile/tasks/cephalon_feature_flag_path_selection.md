@@ -4,7 +4,7 @@ title: "cephalon feature flag path selection"
 slug: "cephalon_feature_flag_path_selection"
 status: "in_review"
 priority: "P3"
-labels: ["cephalon", "flag", "feature", "path"]
+tags: ["cephalon", "flag", "feature", "path"]
 created_at: "2025-09-15T02:02:58.509Z"
 estimates:
   complexity: ""

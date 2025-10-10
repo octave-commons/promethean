@@ -1,0 +1,27 @@
+{:mcp-servers
+ {:github
+  {:command "/home/err/devel/promethean/scripts/mcp/bin/github.sh"}
+
+  :file-system
+  {:command "/home/err/devel/promethean/scripts/mcp/bin/filesystem.sh"}
+
+  :duckduckgo
+  {:command "/home/err/devel/promethean/scripts/mcp/bin/duck.sh"}
+
+  :npm-helper
+  {:command "npx"
+   :args ["-y" "@pinkpixel/npm-helper-mcp"]}
+
+  :eslint
+  {:command "npx" :args ["-y" "@uplinq/mcp-eslint"]}
+
+  :playwright
+  {:command "npx"
+   :args ["@playwright/mcp@latest"]}
+
+  :ts-ls-lsp
+  {:command "npx"
+   :args ["tritlo/lsp-mcp"
+          "typescript"
+          "/home/err/.volta/bin/typescript-language-server"
+          "--stdio"]}}}

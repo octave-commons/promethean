@@ -4,12 +4,24 @@ title: "Replace LevelDB with vector database for boardrev     )"
 slug: "boardrev-vector-db 7"
 status: "icebox"
 priority: "P2"
-labels: ["enhancement", "boardrev", "performance"]
-created_at: "2025-10-09T21:36:17.583Z"
+tags: ["enhancement", "boardrev", "performance"]
+created_at: "2025-10-10T03:23:55.968Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
 
 

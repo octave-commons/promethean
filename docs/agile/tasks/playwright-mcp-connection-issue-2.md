@@ -4,13 +4,19 @@ title: "playwright-mcp-connection-issue-2"
 slug: "playwright-mcp-connection-issue-2"
 status: "incoming"
 priority: "P3"
-labels: ["docops", "labeled"]
-created_at: "2025-10-08T20:10:46.052Z"
+tags: ["docops", "labeled"]
+created_at: "2025-10-10T03:23:55.969Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ## 🗂 Source
 
@@ -54,3 +60,9 @@ But chatgpt's interface is still returning:
 - [ ] Draft actionable subtasks from the summary
 - [ ] Define acceptance criteria
 - [ ] Link back to related labeled docs
+
+
+
+
+
+

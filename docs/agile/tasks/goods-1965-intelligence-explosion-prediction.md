@@ -4,13 +4,19 @@ title: "goods-1965-intelligence-explosion-prediction"
 slug: "goods-1965-intelligence-explosion-prediction"
 status: "incoming"
 priority: "P3"
-labels: ["docops", "labeled"]
-created_at: "2025-10-08T20:10:46.030Z"
+tags: ["docops", "labeled"]
+created_at: "2025-10-10T03:23:55.969Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ## 🗂 Source
 
@@ -46,3 +52,9 @@ One of the earliest notable predictions was by I.J. Good in 1965, who wrote abou
 - [ ] Draft actionable subtasks from the summary
 - [ ] Define acceptance criteria
 - [ ] Link back to related labeled docs
+
+
+
+
+
+

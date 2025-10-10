@@ -5,8 +5,6 @@ import {
   floatToPcm16,
 } from '@promethean/duck-audio';
 
-const identity = <T>(x: T) => x;
-
 const $ = (sel: string, root: ParentNode = document) =>
   root.querySelector(sel) as HTMLElement | null;
 const nowIso = () => new Date().toISOString();
@@ -34,7 +32,7 @@ const downsampleTo16kMono = async (source: MediaStream): Promise<ReadableStream<
           let monoAccumulator = 0;
           for (let frame = 0; frame < PCM48_TO_16_DECIMATION; frame += 1) {
             const base = i + frame * frameStride;
-            const left = l[base];
+            const left = l[base] ?? 0;
             const right = r[base] ?? left;
             monoAccumulator += averageStereoFrame(left, right);
           }
@@ -43,7 +41,7 @@ const downsampleTo16kMono = async (source: MediaStream): Promise<ReadableStream<
         // pack to PCM16
         const out = new Int16Array(samples.length);
         for (let i = 0; i < samples.length; i++) {
-          out[i] = floatToPcm16(samples[i]);
+          out[i] = floatToPcm16(samples[i] ?? 0);
         }
         controller.enqueue(new Uint8Array(out.buffer));
       };
@@ -68,7 +66,14 @@ const createPcmPlayer = () => {
     const pcm = new Int16Array(bytes);
     const buf = ctx.createBuffer(1, pcm.length, 16000);
     const ch = buf.getChannelData(0);
-    for (let i = 0; i < pcm.length; i++) ch[i] = Math.max(-1, Math.min(1, pcm[i] / 32768));
+    if (ch) {
+      for (let i = 0; i < pcm.length; i++) {
+        const sample = pcm[i];
+        if (sample !== undefined) {
+          ch[i] = Math.max(-1, Math.min(1, sample / 32768));
+        }
+      }
+    }
     const src = ctx.createBufferSource();
     src.buffer = buf;
     src.connect(ctx.destination);
@@ -161,7 +166,6 @@ export class DuckChat extends HTMLElement {
   async #connect(sigUrl: string, token?: string) {
     this.#sig = connectSignaling(sigUrl, token);
     this.#pc = new RTCPeerConnection({
-      encodedInsertableStreams: false,
       iceServers: getIceServers(),
     });
     this.#voice = this.#pc.createDataChannel('voice');
@@ -298,7 +302,7 @@ export class DuckChat extends HTMLElement {
         channel?.addEventListener('close', handleFail, { once: true });
         channel?.addEventListener('error', handleFail, { once: true });
       });
-      if (channel.readyState === 'open') return channel;
+      return channel; // Return after waiting for connection
     }
     throw new Error('voice channel unavailable');
   }

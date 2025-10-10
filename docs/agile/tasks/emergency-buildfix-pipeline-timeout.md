@@ -4,7 +4,7 @@ title: "Fix buildfix pipeline timeout configuration for Build analysis step time
 slug: "emergency-buildfix-pipeline-timeout"
 status: "incoming"
 priority: "P1"
-labels: ["pipeline", "timeout", "automation", "emergency"]
+tags: ["pipeline", "timeout", "automation", "emergency"]
 created_at: "2025-10-08T16:55:00.000Z"
 estimates:
   complexity: "medium"

@@ -4,13 +4,19 @@ title: "Document new repository layout and migration guide"
 slug: "clearly-document-new-repository-layout"
 status: "ready"
 priority: "P3"
-labels: ["board", "lang"]
-created_at: "2025-10-07T20:25:05.643Z"
+tags: ["board", "lang"]
+created_at: "2025-10-10T03:23:55.970Z"
 estimates:
-  complexity: 4
-  scale: 2
-  time_to_completion: "4 hours"
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ## Context
 
@@ -48,3 +54,9 @@ You might find [this] useful while working on this task
 
 - …
   #accepted
+
+
+
+
+
+

@@ -4,13 +4,19 @@ title: "phase out proxy in favor of bridge service"
 slug: "phase-out-proxy-in-favor-of-bridge-service"
 status: "rejected"
 priority: "P3"
-labels: ["bridge", "proxy", "service", "phase"]
-created_at: "2025-10-07T20:25:05.645Z"
+tags: ["bridge", "proxy", "service", "phase"]
+created_at: "2025-10-10T03:23:55.972Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ## 🛠️ Description
 
@@ -71,3 +77,9 @@ Nothing
 ```
 #framework-core #Todo
 ```
+
+
+
+
+
+

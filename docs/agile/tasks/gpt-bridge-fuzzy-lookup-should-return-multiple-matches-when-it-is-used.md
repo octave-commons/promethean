@@ -4,13 +4,19 @@ title: "gpt bridge fuzzy lookup should return multiple matches when it is used"
 slug: "gpt-bridge-fuzzy-lookup-should-return-multiple-matches-when-it-is-used"
 status: "rejected"
 priority: "P3"
-labels: ["fuzzy", "matches", "gpt", "bridge"]
-created_at: "2025-10-07T20:25:05.645Z"
+tags: ["fuzzy", "matches", "gpt", "bridge"]
+created_at: "2025-10-10T03:23:55.972Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ## 🛠️ Description
 ```
@@ -72,3 +78,9 @@ Nothing
 - No active owner or unclear scope
 
 #breakdown
+
+
+
+
+
+

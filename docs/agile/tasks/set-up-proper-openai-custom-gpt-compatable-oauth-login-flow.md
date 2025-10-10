@@ -4,13 +4,19 @@ title: "set up proper openai custom gpt compatable oauth login flow"
 slug: "set-up-proper-openai-custom-gpt-compatable-oauth-login-flow"
 status: "rejected"
 priority: "P3"
-labels: ["oauth", "openai", "custom", "gpt"]
-created_at: "2025-10-07T20:25:05.645Z"
+tags: ["oauth", "openai", "custom", "gpt"]
+created_at: "2025-10-10T03:23:55.972Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ## 🛠️ Description
 ```
@@ -72,3 +78,9 @@ Nothing
 - No active owner or unclear scope
 
 #breakdown
+
+
+
+
+
+

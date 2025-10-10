@@ -1,6 +1,26 @@
-import type { FastifyInstance, FastifyRequest, FastifyReply } from "fastify";
-import { mercurius } from "mercurius";
-import type { UserContext } from "../auth/types.js";
+import type { FastifyInstance } from 'fastify';
+import mercurius from 'mercurius';
+import type { UserContext } from '../auth/types.js';
+
+// GraphQL resolver types
+interface GraphQLContext {
+  user?: UserContext;
+}
+
+interface PaginationInput {
+  limit?: number;
+  offset?: number;
+}
+
+interface UserFilter {
+  role?: string;
+  search?: string;
+}
+
+interface PostFilter {
+  authorId?: string;
+  search?: string;
+}
 
 /**
  * GraphQL type definitions
@@ -150,91 +170,91 @@ const typeDefs = `
 class GraphQLDataStore {
   private users: Map<string, any> = new Map();
   private posts: Map<string, any> = new Map();
-  
+
   constructor() {
-    this.users.set("1", {
-      id: "1",
-      name: "Alice",
-      email: "alice@example.com",
-      role: "USER",
-      createdAt: "2025-06-20T00:00:00Z",
-      updatedAt: "2025-06-20T00:00:00Z",
+    this.users.set('1', {
+      id: '1',
+      name: 'Alice',
+      email: 'alice@example.com',
+      role: 'USER',
+      createdAt: '2025-06-20T00:00:00Z',
+      updatedAt: '2025-06-20T00:00:00Z',
     });
-    
-    this.users.set("2", {
-      id: "2",
-      name: "Bob",
-      email: "bob@example.com",
-      role: "ADMIN",
-      createdAt: "2025-06-20T01:00:00Z",
-      updatedAt: "2025-06-20T01:00:00Z",
+
+    this.users.set('2', {
+      id: '2',
+      name: 'Bob',
+      email: 'bob@example.com',
+      role: 'ADMIN',
+      createdAt: '2025-06-20T01:00:00Z',
+      updatedAt: '2025-06-20T01:00:00Z',
     });
-    
-    this.posts.set("1", {
-      id: "1",
-      title: "First GraphQL Post",
-      content: "This is the first post in our GraphQL API",
-      author: "1",
-      status: "PUBLISHED",
-      createdAt: "2025-06-20T12:00:00Z",
-      updatedAt: "2025-06-20T12:00:00Z",
+
+    this.posts.set('1', {
+      id: '1',
+      title: 'First GraphQL Post',
+      content: 'This is the first post in our GraphQL API',
+      author: '1',
+      status: 'PUBLISHED',
+      createdAt: '2025-06-20T12:00:00Z',
+      updatedAt: '2025-06-20T12:00:00Z',
     });
-    
-    this.posts.set("2", {
-      id: "2",
-      title: "Second GraphQL Post",
-      content: "This is the second post demonstrating GraphQL subscriptions",
-      author: "2",
-      status: "DRAFT",
-      createdAt: "2025-06-20T13:00:00Z",
-      updatedAt: "2025-06-20T13:00:00Z",
+
+    this.posts.set('2', {
+      id: '2',
+      title: 'Second GraphQL Post',
+      content: 'This is the second post demonstrating GraphQL subscriptions',
+      author: '2',
+      status: 'DRAFT',
+      createdAt: '2025-06-20T13:00:00Z',
+      updatedAt: '2025-06-20T13:00:00Z',
     });
   }
-  
+
   getUsers(filter?: any, pagination?: any): any {
     let users = Array.from(this.users.values());
-    
+
     if (filter) {
       if (filter.role) {
-        users = users.filter(user => user.role === filter.role);
+        users = users.filter((user) => user.role === filter.role);
       }
       if (filter.search) {
         const search = filter.search.toLowerCase();
-        users = users.filter(user => 
-          user.name.toLowerCase().includes(search) ||
-          user.email.toLowerCase().includes(search)
+        users = users.filter(
+          (user) =>
+            user.name.toLowerCase().includes(search) || user.email.toLowerCase().includes(search),
         );
       }
     }
-    
+
     const totalCount = users.length;
     let edges = [];
     let pageInfo = {
       hasNextPage: false,
       hasPreviousPage: false,
-      startCursor: "",
-      endCursor: "",
+      startCursor: '',
+      endCursor: '',
     };
-    
+
     if (pagination) {
       const first = pagination.first || 10;
       const after = pagination.after ? parseInt(pagination.after, 10) : 0;
-      
+
       const start = after;
       const end = Math.min(start + first, users.length);
-      
+
       const paginatedUsers = users.slice(start, end);
-      
+
       edges = paginatedUsers.map((user, index) => ({
         node: user,
         cursor: String(start + index),
       }));
-      
+
       pageInfo = {
         hasNextPage: end < users.length,
         hasPreviousPage: start > 0,
-        startCursor: edges[0]?.cursor || "",
-        endCursor: edges[edges.length - 1]?.cursor || "",
+        startCursor: edges[0]?.cursor || '',
+        endCursor: edges[edges.length - 1]?.cursor || '',
       };
     } else {
       edges = users.map((user, index) => ({
@@ -242,14 +262,14 @@ class GraphQLDataStore {
         cursor: String(index),
       }));
     }
-    
+
     return { edges, pageInfo, totalCount };
   }
-  
+
   getUser(id: string): any {
     return this.users.get(id);
   }
-  
+
   createUser(input: any): any {
     const id = String(Math.max(...Array.from(this.users.keys()).map(Number), 0) + 1);
     const user = {
@@ -258,76 +278,77 @@ class GraphQLDataStore {
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
-    
+
     this.users.set(id, user);
     return user;
   }
-  
+
   updateUser(id: string, input: any): any {
     const existing = this.users.get(id);
     if (!existing) return null;
-    
+
     const updated = {
       ...existing,
       ...input,
       updatedAt: new Date().toISOString(),
     };
-    
+
     this.users.set(id, updated);
     return updated;
   }
-  
+
   deleteUser(id: string): boolean {
     return this.users.delete(id);
   }
-  
+
   getPosts(filter?: any, pagination?: any): any {
     let posts = Array.from(this.posts.values());
-    
+
     if (filter) {
       if (filter.status) {
-        posts = posts.filter(post => post.status === filter.status);
+        posts = posts.filter((post) => post.status === filter.status);
       }
       if (filter.authorId) {
-        posts = posts.filter(post => post.author === filter.authorId);
+        posts = posts.filter((post) => post.author === filter.authorId);
       }
       if (filter.search) {
         const search = filter.search.toLowerCase();
-        posts = posts.filter(post => 
-          post.title.toLowerCase().includes(search) ||
-          post.content.toLowerCase().includes(search)
+        posts = posts.filter(
+          (post) =>
+            post.title.toLowerCase().includes(search) ||
+            post.content.toLowerCase().includes(search),
         );
       }
     }
-    
+
     const totalCount = posts.length;
     let edges = [];
     let pageInfo = {
       hasNextPage: false,
       hasPreviousPage: false,
-      startCursor: "",
-      endCursor: "",
+      startCursor: '',
+      endCursor: '',
     };
-    
+
     if (pagination) {
       const first = pagination.first || 10;
       const after = pagination.after ? parseInt(pagination.after, 10) : 0;
-      
+
       const start = after;
       const end = Math.min(start + first, posts.length);
-      
+
       const paginatedPosts = posts.slice(start, end);
-      
+
       edges = paginatedPosts.map((post, index) => ({
         node: post,
         cursor: String(start + index),
       }));
-      
+
       pageInfo = {
         hasNextPage: end < posts.length,
         hasPreviousPage: start > 0,
-        startCursor: edges[0]?.cursor || "",
-        endCursor: edges[edges.length - 1]?.cursor || "",
+        startCursor: edges[0]?.cursor || '',
+        endCursor: edges[edges.length - 1]?.cursor || '',
       };
     } else {
       edges = posts.map((post, index) => ({
@@ -335,10 +356,10 @@ class GraphQLDataStore {
         cursor: String(index),
       }));
     }
-    
+
     return { edges, pageInfo, totalCount };
   }
-  
+
   getPost(id: string): any {
     const post = this.posts.get(id);
     if (post) {
@@ -349,7 +370,7 @@ class GraphQLDataStore {
     }
     return null;
   }
-  
+
   createPost(input: any): any {
     const id = String(Math.max(...Array.from(this.posts.keys()).map(Number), 0) + 1);
     const post = {
@@ -358,31 +379,31 @@ class GraphQLDataStore {
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
-    
+
     this.posts.set(id, post);
     return {
       ...post,
       author: this.users.get(post.author),
     };
   }
-  
+
   updatePost(id: string, input: any): any {
     const existing = this.posts.get(id);
     if (!existing) return null;
-    
+
     const updated = {
       ...existing,
       ...input,
       updatedAt: new Date().toISOString(),
     };
-    
+
     this.posts.set(id, updated);
     return {
       ...updated,
       author: this.users.get(updated.author),
     };
   }
-  
+
   deletePost(id: string): boolean {
     return this.posts.delete(id);
   }
@@ -391,113 +412,113 @@ class GraphQLDataStore {
 const resolvers = {
   Query: {
     health: () => ({
-      status: "ok",
-      adapter: "graphql",
+      status: 'ok',
+      adapter: 'graphql',
       timestamp: new Date().toISOString(),
     }),
-    
-    me: (parent, args, context: { user?: UserContext }) => {
+
+    me: (_parent: unknown, _args: unknown, context: GraphQLContext) => {
       if (!context.user) {
-        throw new Error("Authentication required");
+        throw new Error('Authentication required');
       }
       return {
         id: context.user.id,
-        name: context.user.username || "Unknown",
-        email: context.user.email || "",
-        role: context.user.roles[0] || "READONLY",
+        name: context.user.username || 'Unknown',
+        email: context.user.email || '',
+        role: context.user.roles[0] || 'READONLY',
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
       };
     },
-    
-    users: (parent, args) => {
+
+    users: (_parent: unknown, args: { filter?: UserFilter; pagination?: PaginationInput }) => {
       const dataStore = new GraphQLDataStore();
       return dataStore.getUsers(args.filter, args.pagination);
     },
-    
-    posts: (parent, args) => {
+
+    posts: (_parent: unknown, args: { filter?: PostFilter; pagination?: PaginationInput }) => {
       const dataStore = new GraphQLDataStore();
       return dataStore.getPosts(args.filter, args.pagination);
     },
-    
-    user: (parent, args) => {
+
+    user: (_parent: unknown, args: { id: string }) => {
       const dataStore = new GraphQLDataStore();
       return dataStore.getUser(args.id);
     },
-    
-    post: (parent, args) => {
+
+    post: (_parent: unknown, args: { id: string }) => {
       const dataStore = new GraphQLDataStore();
       return dataStore.getPost(args.id);
     },
   },
-  
+
   Mutation: {
-    createUser: (parent, args, context: { user?: UserContext }) => {
+    createUser: (_parent: unknown, args: { input: any }, context: GraphQLContext) => {
       if (!context.user) {
-        throw new Error("Authentication required");
+        throw new Error('Authentication required');
       }
-      
+
       const dataStore = new GraphQLDataStore();
       return dataStore.createUser(args.input);
     },
-    
-    updateUser: (parent, args, context: { user?: UserContext }) => {
+
+    updateUser: (_parent: unknown, args: { id: string; input: any }, context: GraphQLContext) => {
       if (!context.user) {
-        throw new Error("Authentication required");
+        throw new Error('Authentication required');
       }
-      
+
       const dataStore = new GraphQLDataStore();
       return dataStore.updateUser(args.id, args.input);
     },
-    
-    deleteUser: (parent, args, context: { user?: UserContext }) => {
+
+    deleteUser: (_parent: unknown, args: { id: string }, context: GraphQLContext) => {
       if (!context.user) {
-        throw new Error("Authentication required");
+        throw new Error('Authentication required');
       }
-      
+
       const dataStore = new GraphQLDataStore();
       return dataStore.deleteUser(args.id);
     },
-    
-    createPost: (parent, args, context: { user?: UserContext }) => {
+
+    createPost: (_parent: unknown, args: { input: any }, context: GraphQLContext) => {
       if (!context.user) {
-        throw new Error("Authentication required");
+        throw new Error('Authentication required');
       }
-      
+
       const dataStore = new GraphQLDataStore();
       return dataStore.createPost(args.input);
     },
-    
-    updatePost: (parent, args, context: { user?: UserContext }) => {
+
+    updatePost: (_parent: unknown, args: { id: string; input: any }, context: GraphQLContext) => {
       if (!context.user) {
-        throw new Error("Authentication required");
+        throw new Error('Authentication required');
       }
-      
+
       const dataStore = new GraphQLDataStore();
       return dataStore.updatePost(args.id, args.input);
     },
-    
-    deletePost: (parent, args, context: { user?: UserContext }) => {
+
+    deletePost: (_parent: unknown, args: { id: string }, context: GraphQLContext) => {
       if (!context.user) {
-        throw new Error("Authentication required");
+        throw new Error('Authentication required');
       }
-      
+
       const dataStore = new GraphQLDataStore();
       return dataStore.deletePost(args.id);
     },
   },
-  
+
   Subscription: {
     userUpdates: {
-      subscribe: (parent, args, { pubsub }) => {
-        return pubsub.subscribe("user-updates");
+      subscribe: (_parent: unknown, _args: unknown, { pubsub }: { pubsub: any }) => {
+        return pubsub.subscribe('user-updates');
       },
       resolve: (payload: any) => payload,
     },
-    
+
     postUpdates: {
-      subscribe: (parent, args, { pubsub }) => {
-        return pubsub.subscribe("post-updates");
+      subscribe: (_parent: unknown, _args: unknown, { pubsub }: { pubsub: any }) => {
+        return pubsub.subscribe('post-updates');
       },
       resolve: (payload: any) => payload,
     },
@@ -516,65 +537,69 @@ export function mountGraphQLAdapter(
     authManager?: any;
     enableSubscriptions?: boolean;
   } = {
-    endpoint: "/graphql",
+    endpoint: '/graphql',
     playground: true,
     graphiql: false,
     enableSubscriptions: false,
-  }
+  },
 ) {
   const dataStore = new GraphQLDataStore();
-  
+
   app.register(mercurius, {
     schema: typeDefs,
     resolvers,
     graphiql: options.graphiql,
     playground: options.playground,
     subscription: {
-      emitter: options.enableSubscriptions ? {
-        onConnect: () => ({}),
-        onDisconnect: () => {
-          // Handle disconnection
-        },
-      } : false,
+      emitter: options.enableSubscriptions
+        ? {
+            onConnect: () => ({}),
+            onDisconnect: () => {
+              // Handle disconnection
+            },
+          }
+        : false,
     },
-    context: (request, reply) => {
+    context: (request, _reply) => {
       return {
         user: (request as any).user,
         authManager: options.authManager,
         dataStore,
-        pubsub: options.enableSubscriptions ? {
-          subscribe: (channel: string) => {
-            const listeners = new Set();
-            return {
-              publish: (payload: any) => {
-                listeners.forEach(listener => listener(payload));
+        pubsub: options.enableSubscriptions
+          ? {
+              subscribe: (channel: string) => {
+                const listeners = new Set();
+                return {
+                  publish: (payload: any) => {
+                    listeners.forEach((listener) => listener(payload));
+                  },
+                  addListener: (listener: (payload: any) => void) => {
+                    listeners.add(listener);
+                  },
+                  removeListener: (listener: (payload: any) => void) => {
+                    listeners.delete(listener);
+                  },
+                };
               },
-              addListener: (listener: (payload: any) => void) => {
-                listeners.add(listener);
-              },
-              removeListener: (listener: (payload: any) => void) => {
-                listeners.delete(listener);
-              },
-            };
-          },
-          get: (channel: string) => ({
-            publish: () => {},
-            addListener: () => {},
-            removeListener: () => {},
-          }),
-        } : undefined,
+              get: (channel: string) => ({
+                publish: () => {},
+                addListener: () => {},
+                removeListener: () => {},
+              }),
+            }
+          : undefined,
       };
     },
   });
-  
+
   app.get(`${options.endpoint}/schema`, async (request, reply) => {
-    return reply.type("application/graphql").send(typeDefs);
+    return reply.type('application/graphql').send(typeDefs);
   });
-  
+
   app.get(`${options.endpoint}/health`, async (request, reply) => {
     const healthStatus = {
-      status: "ok",
-      adapter: "graphql",
+      status: 'ok',
+      adapter: 'graphql',
       timestamp: new Date().toISOString(),
       subscriptions: options.enableSubscriptions,
       playground: options.playground,
@@ -583,33 +608,33 @@ export function mountGraphQLAdapter(
         posts: dataStore.posts.size,
       },
     };
-    
+
     return reply.send(healthStatus);
   });
-  
+
   app.get(`${options.endpoint}/docs`, async (request, reply) => {
     const docs = {
-      title: "GraphQL API Documentation",
+      title: 'GraphQL API Documentation',
       endpoint: options.endpoint,
       playground: `${options.endpoint}/playground`,
       schema: `${options.endpoint}/schema`,
-      description: "GraphQL API for the Omni Service with real-time subscriptions",
+      description: 'GraphQL API for the Omni Service with real-time subscriptions',
       types: {
-        Query: ["health", "me", "users", "posts", "user(id: ID!)", "post(id: ID!)"],
+        Query: ['health', 'me', 'users', 'posts', 'user(id: ID!)', 'post(id: ID!)'],
         Mutation: [
-          "createUser(input: CreateUserInput!)",
-          "updateUser(id: ID!, input: UpdateUserInput!)",
-          "deleteUser(id: ID!)",
-          "createPost(input: CreatePostInput!)",
-          "updatePost(id: ID!, input: UpdatePostInput!)",
-          "deletePost(id: ID!)"
+          'createUser(input: CreateUserInput!)',
+          'updateUser(id: ID!, input: UpdateUserInput!)',
+          'deleteUser(id: ID!)',
+          'createPost(input: CreatePostInput!)',
+          'updatePost(id: ID!, input: UpdatePostInput!)',
+          'deletePost(id: ID!)',
         ],
-        Subscription: ["userUpdates", "postUpdates"]
+        Subscription: ['userUpdates', 'postUpdates'],
       },
       authentication: {
-        type: "JWT Bearer Token",
-        header: "Authorization: Bearer <token>",
-        apikey: "x-api-key: <key>",
+        type: 'JWT Bearer Token',
+        header: 'Authorization: Bearer <token>',
+        apikey: 'x-api-key: <key>',
       },
       examples: {
         users: {
@@ -635,7 +660,7 @@ export function mountGraphQLAdapter(
               }
             }
           `,
-          variables: { first: 10, after: "cursor" }
+          variables: { first: 10, after: 'cursor' },
         },
         createUser: {
           mutation: `
@@ -651,16 +676,17 @@ export function mountGraphQLAdapter(
           `,
           variables: {
             input: {
-              name: "John Doe",
-              email: "john@example.com",
-              role: "USER"
-            }
-          }
-        }
+              name: 'John Doe',
+              email: 'john@example.com',
+              role: 'USER',
+            },
+          },
+        },
       },
-      subscriptions: options.enableSubscriptions ? {
-        userUpdates: {
-          subscription: `
+      subscriptions: options.enableSubscriptions
+        ? {
+            userUpdates: {
+              subscription: `
             subscription UserUpdates {
               userUpdates {
                 id
@@ -671,16 +697,17 @@ export function mountGraphQLAdapter(
               }
             }
           `,
-          description: "Real-time updates when user information changes"
-        }
-      } : undefined,
+              description: 'Real-time updates when user information changes',
+            },
+          }
+        : undefined,
     };
-    
+
     return reply.send(docs);
   });
-  
+
   app.log.info(`GraphQL adapter mounted at ${options.endpoint}`);
-  
+
   if (options.playground) {
     app.log.info(`GraphQL playground available at ${options.endpoint}/playground`);
   }
@@ -691,7 +718,7 @@ export function createSubscriptionPublisher(app: FastifyInstance, options: { end
     publishUserUpdate: async (userData: any) => {
       app.log.info(`User update published: ${JSON.stringify(userData)}`);
     },
-    
+
     publishPostUpdate: async (postData: any) => {
       app.log.info(`Post update published: ${JSON.stringify(postData)}`);
     },

@@ -4,13 +4,19 @@ title: "Fix frontend-service test failure :auto :ts"
 slug: "fix-frontend-service-test"
 status: "done"
 priority: "P3"
-labels: ["board", "lang"]
-created_at: "2025-10-08T03:47:42.897Z"
+tags: ["board", "lang"]
+created_at: "2025-10-10T03:23:55.971Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ```
 <hr class="__chatgpt_plugin">
@@ -41,3 +47,9 @@ estimates:
 ```
 <hr class="__chatgpt_plugin">
 ```
+
+
+
+
+
+

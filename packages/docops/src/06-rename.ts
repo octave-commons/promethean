@@ -6,21 +6,21 @@ import matter from 'gray-matter';
 import { scanFiles } from '@promethean/file-indexer';
 import type { IndexedFile } from '@promethean/file-indexer';
 
-import { parseArgs, slugify, extnamePrefer } from "./utils.js";
-import type { Front } from "./types.js";
-import type { DBs } from "./db.js";
+import { parseArgs, slugify, extnamePrefer } from './utils.js';
+import type { Front } from './types.js';
+import type { DBs } from './db.js';
 // CLI
 
 export type RenameOptions = { dir: string; dryRun?: boolean; files?: string[] };
 export type RenameProgress = {
-  step: "rename";
+  step: 'rename';
   done: number;
   total?: number;
 };
 export type RenameResult = {
   renamed: Array<{ from: string; to: string; uuid?: string }>;
 };
-let ROOT = path.resolve("docs/unique");
+let ROOT = path.resolve('docs/unique');
 let DRY = false;
 
 async function exists(p: string) {
@@ -32,11 +32,7 @@ async function exists(p: string) {
   }
 }
 
-const updateDocPath = async (
-  db: DBs | undefined,
-  fm: Front,
-  target: string,
-) => {
+const updateDocPath = async (db: Pick<DBs, 'docs'> | undefined, fm: Front, target: string) => {
   if (!db?.docs || !fm.uuid) return;
   const uuid = fm.uuid;
   try {
@@ -65,7 +61,7 @@ function isNotFoundError(error: unknown): boolean {
  * new document path. Keeps the docs index and chunk references in sync with the
  * file system so subsequent pipeline stages work with the renamed file.
  */
-async function updateDocState(
+export async function updateDocState(
   db: Pick<DBs, 'docs' | 'chunks'> | undefined,
   uuid: string | undefined,
   target: string,
@@ -114,10 +110,8 @@ export async function runRename(
   DRY = Boolean(opts.dryRun);
   const exts = new Set(['.md', '.mdx', '.txt']);
   const wanted =
-    opts.files && opts.files.length
-      ? new Set(opts.files.map((p) => path.resolve(p)))
-      : null;
-  const renamed: RenameResult["renamed"] = [];
+    opts.files && opts.files.length ? new Set(opts.files.map((p) => path.resolve(p))) : null;
+  const renamed: RenameResult['renamed'] = [];
   let processed = 0;
   await scanFiles({
     root: ROOT,
@@ -144,7 +138,6 @@ export async function runRename(
         report();
         return;
       }
-      const uuid = typeof fm.uuid === 'string' ? fm.uuid : undefined;
 
       const want = slugify(fm.filename) + extnamePrefer(abs);
       const dir = path.dirname(abs);
@@ -152,7 +145,7 @@ export async function runRename(
       processed++;
       if (currentBase === want) {
         await updateDocPath(db, fm, abs);
-        onProgress?.({ step: "rename", done: processed });
+        report();
         return;
       }
 
@@ -169,10 +162,10 @@ export async function runRename(
         await updateDocPath(db, fm, target);
       }
       renamed.push({ from: abs, to: target, uuid: fm.uuid });
-      onProgress?.({ step: "rename", done: processed });
+      report();
     },
   });
-  console.log("06-rename: done.");
+  console.log('06-rename: done.');
   return { renamed };
 }
 const isDirect = !!process.argv[1] && pathToFileURL(process.argv[1]).href === import.meta.url;

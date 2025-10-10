@@ -6,7 +6,7 @@ status: 'superseded'
 superseded_by: 'process-governance-cluster-001'
 superseded_at: '2025-10-09T22:45:00.000Z'
 priority: 'P2'
-labels: ['enhancement', 'kanban', 'process', 'validation', 'automation', 'superseded']
+tags: ['enhancement', 'kanban', 'process', 'validation', 'automation', 'superseded']
 created_at: '2025-10-09T21:36:17.716Z'
 estimates:
   complexity: ''

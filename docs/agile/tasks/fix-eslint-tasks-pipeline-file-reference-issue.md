@@ -4,7 +4,7 @@ title: "Fix eslint-tasks pipeline file reference issue"
 slug: "fix-eslint-tasks-pipeline-file-reference-issue"
 status: "incoming"
 priority: "P2"
-labels: ["pipeline", "bug", "automation", "eslint-tasks"]
+tags: ["pipeline", "bug", "automation", "eslint-tasks"]
 created_at: "2025-10-09T16:20:35.155Z"
 estimates:
   complexity: "medium"

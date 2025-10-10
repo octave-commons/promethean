@@ -1,0 +1,143 @@
+FROM qwen3:4b-thinking
+
+# 256k context (model supports it natively)
+PARAMETER num_ctx 262144
+# start conservative on generation length; raise as needed
+PARAMETER num_predict 8192
+PARAMETER temperature 0.7
+PARAMETER top_p 0.9
+PARAMETER repeat_penalty 1.1
+# Avoid adding stop tokens initially; Qwen templates generally don’t need extras.
+
+SYSTEM """
+You are a helpful, careful assistant. Think step by step, then present a clean final answer.
+"""
+
+TEMPLATE """
+<|start|>system<|message|>You are ChatGPT, a large language model trained by OpenAI.
+Knowledge cutoff: 2024-06
+Current date: {{ currentDate }}
+{{- if and .IsThinkSet .Think (ne .ThinkLevel "") }}
+
+Reasoning: {{ .ThinkLevel }}
+{{- else if or (not .IsThinkSet) (and .IsThinkSet .Think) }}
+
+Reasoning: medium
+{{- end }}
+
+{{- $hasNonBuiltinTools := false }}
+{{- if .Tools -}}
+{{- $hasBrowserSearch := false }}
+{{- $hasBrowserOpen := false }}
+{{- $hasBrowserFind := false }}
+{{- $hasPython := false }}
+  {{- range .Tools }}
+    {{- if eq .Function.Name "browser.search" -}}{{- $hasBrowserSearch = true -}}
+    {{- else if eq .Function.Name "browser.open" -}}{{- $hasBrowserOpen = true -}}
+    {{- else if eq .Function.Name "browser.find" -}}{{- $hasBrowserFind = true -}}
+    {{- else if eq .Function.Name "python" -}}{{- $hasPython = true -}}
+    {{- else }}{{ $hasNonBuiltinTools = true -}}
+    {{- end }}
+  {{- end }}
+{{- if or $hasBrowserSearch $hasBrowserOpen $hasBrowserFind $hasPython }}
+
+# Tools
+{{- if or $hasBrowserSearch $hasBrowserOpen $hasBrowserFind }}
+
+## browser
+namespace browser {
+  {{- if $hasBrowserSearch }}
+  type search = (_: { query: string, topn?: number, source?: string }) => any;
+  {{- end }}
+  {{- if $hasBrowserOpen }}
+  type open = (_: { id?: number | string, cursor?: number, loc?: number, num_lines?: number, view_source?: boolean, source?: string }) => any;
+  {{- end }}
+  {{- if $hasBrowserFind }}
+  type find = (_: { pattern: string, cursor?: number }) => any;
+  {{- end }}
+}
+{{- end }}
+{{- if $hasPython }}
+
+## python
+Use this tool to execute Python code in your chain of thought. The code will not be shown to the user.
+type python = (_: { code: string }) => any;
+{{- end }}
+{{- end }}{{/* end if has any built-in tools */}}
+{{- end }}{{/* end if .Tools */}}
+<|end|>
+
+{{- if or $hasNonBuiltinTools .System -}}
+<|start|>developer<|message|>{{- if $hasNonBuiltinTools }}# Tools
+
+## functions
+namespace functions {
+{{- range .Tools }}
+{{- if not (or (eq .Function.Name "browser.search") (eq .Function.Name "browser.open") (eq .Function.Name "browser.find") (eq .Function.Name "python")) }}
+{{if .Function.Description }}
+// {{ .Function.Description }}
+{{- end }}
+{{- if and .Function.Parameters.Properties (gt (len .Function.Parameters.Properties) 0) }}
+type {{ .Function.Name }} = (_: {
+{{- range $name, $prop := .Function.Parameters.Properties }}
+  {{ $name }}: {{ $prop | toTypeScriptType }},
+{{- end }}
+}) => any;
+{{- else }}
+type {{ .Function.Name }} = () => any;
+{{- end }}
+{{- end }}{{/* end if not browser tool */}}
+{{- end }}{{/* end of range .Tools */}}
+} // namespace functions
+{{- end }}{{/* end if hasNonBuiltinTools */}}
+
+# Instructions
+{{ .System }}
+<|end|>
+{{- end -}}
+
+{{- /* index of last user message & prefill checks */ -}}
+{{- $lastUserIdx := -1 }}
+{{- $prefillingContent := false }}
+{{- $prefillingThinkingOnly := false }}
+{{- range $i, $msg := .Messages }}
+  {{- $last := eq (len (slice $.Messages $i)) 1 -}}
+  {{- if eq $msg.Role "user" }}{{- $lastUserIdx = $i }}{{- end }}
+  {{- if and $last (eq $msg.Role "assistant") (gt (len $msg.Content) 0) }}{{- $prefillingContent = true }}
+  {{- else if and $last (eq $msg.Role "assistant") (gt (len $msg.Thinking) 0) }}{{- $prefillingThinkingOnly = true }}{{- end }}
+{{- end }}
+
+{{- /* render messages using Qwen-thinking semantics */ -}}
+{{- range $i, $msg := .Messages }}
+  {{- $last := eq (len (slice $.Messages $i)) 1 -}}
+  {{- if (ne $msg.Role "system") -}}
+    {{- if eq $msg.Role "tool" -}}
+      {{- if or (eq $msg.ToolName "python") (eq $msg.ToolName "browser.search") (eq $msg.ToolName "browser.open") (eq $msg.ToolName "browser.find") -}}
+        <|start|>{{ $msg.ToolName }} to=assistant<|message|>{{ $msg.Content }}<|end|>
+      {{- else -}}
+        <|start|>functions.{{ $msg.ToolName }} to=assistant<|message|>{{ $msg.Content }}<|end|>
+      {{- end -}}
+    {{- else if eq $msg.Role "assistant" -}}
+      {{- /* Only show thinking after the last user message; thinking tag may be auto-handled */ -}}
+      {{- if and $.IsThinkSet $msg.Thinking (or $last (gt $i $lastUserIdx)) -}}
+        <|start|>assistant<|channel|>analysis<|message|>{{ $msg.Thinking }}{{- if not $prefillingThinkingOnly -}}<|end|>{{- end -}}
+      {{- end -}}
+      {{- if gt (len $msg.Content) 0 -}}
+        <|start|>assistant<|channel|>final<|message|>{{ $msg.Content }}{{- if not $prefillingContent -}}<|end|>{{- end -}}
+      {{- end -}}
+      {{- if gt (len $msg.ToolCalls) 0 -}}
+        {{- range $j, $toolCall := $msg.ToolCalls -}}
+          {{- $isBuiltin := or (eq $toolCall.Function.Name "python") (eq $toolCall.Function.Name "browser.search") (eq $toolCall.Function.Name "browser.open") (eq $toolCall.Function.Name "browser.find") -}}
+          <|start|>assistant<|channel|>{{ if $isBuiltin }}analysis{{ else }}commentary{{ end }} to={{ if not $isBuiltin}}functions.{{end}}{{ $toolCall.Function.Name }} <|constrain|>json<|message|>{{ $toolCall.Function.Arguments }}<|call|>
+        {{- end -}}
+      {{- end -}}
+    {{- else if eq $msg.Role "user" -}}
+      <|start|>{{ $msg.Role }}<|message|>{{ $msg.Content }}<|end|>
+    {{- end }}
+  {{- end }}
+{{- end -}}
+
+{{- if not (or $prefillingContent $prefillingThinkingOnly) -}}
+<|start|>assistant
+{{- end -}}
+"""

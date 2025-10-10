@@ -4,12 +4,24 @@ title: "Implement WIP limit enforcement and address current violations"
 slug: "enforce-wip-limits-and-address-violations 2"
 status: "incoming"
 priority: "P1"
-labels: ["kanban", "wip", "limits", "enforcement", "process", "fsm"]
-created_at: "2025-10-09T21:36:17.584Z"
+tags: ["kanban", "wip", "limits", "enforcement", "process", "fsm"]
+created_at: "2025-10-10T03:23:55.969Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
 
 

@@ -4,13 +4,19 @@ title: "auth shared clients and middleware"
 slug: "auth_shared_clients_and_middleware"
 status: "incoming"
 priority: "P3"
-labels: ["auth", "shared", "middleware", "clients"]
-created_at: "2025-10-07T20:25:05.643Z"
+tags: ["auth", "shared", "middleware", "clients"]
+created_at: "2025-10-10T03:23:55.969Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 Auth: Shared clients and middleware TS + Python
 
@@ -27,3 +33,9 @@ Exit Criteria:
 - Example snippets integrated in service READMEs.
 
 #incoming #auth #libraries #ts #python
+
+
+
+
+
+

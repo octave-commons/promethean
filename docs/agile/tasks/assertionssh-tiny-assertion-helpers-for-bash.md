@@ -4,13 +4,19 @@ title: "assertions.sh — tiny assertion helpers for Bash"
 slug: "assertionssh-tiny-assertion-helpers-for-bash"
 status: "incoming"
 priority: "P3"
-labels: ["docops", "labeled"]
-created_at: "2025-10-08T20:10:45.994Z"
+tags: ["docops", "labeled"]
+created_at: "2025-10-10T03:23:55.969Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ## 🗂 Source
 
@@ -37,3 +43,9 @@ Got it. Here’s a small, no-nonsense Bash assertions library you can drop into 
 - [ ] Draft actionable subtasks from the summary
 - [ ] Define acceptance criteria
 - [ ] Link back to related labeled docs
+
+
+
+
+
+

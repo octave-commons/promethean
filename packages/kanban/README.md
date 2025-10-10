@@ -8,9 +8,13 @@ Automation for the local markdown kanban and process-as-code. Functional TS, nat
 pnpm kanban --help
 ```
 
-Available subcommands: `count`, `getColumn`, `getByColumn`, `find`, `find-by-title`, `update_status`, `move_up`, `move_down`, `pull`, `push`, `sync`, `regenerate`, `indexForSearch`, `search`, `ui`, `process`, `process_sync`, `doccheck`
+Available subcommands: `count`, `getColumn`, `getByColumn`, `find`, `find-by-title`, `update_status`, `move_up`, `move_down`, `pull`, `push`, `sync`, `regenerate`, `indexForSearch`, `search`, `ui`, `process`, `process_sync`, `doccheck`, `create`, `update`, `delete`
 
 Key commands:
+- **CRUD Operations**:
+  - `create` — create a new task with optional metadata.
+  - `update` — update task title, content, or other properties.
+  - `delete` — remove tasks (requires confirmation for safety).
 - `regenerate` — rebuild board(s) from `docs/agile/tasks/*.md`.
 - `sync` — two-way sync (board ⇄ tasks), then apply labels & PR checklists using a process config.
 - `search` — search tasks by title/content.
@@ -32,6 +36,62 @@ Key commands:
 - `pnpm kanban ui --port 4173` – launch an interactive kanban dashboard in the
   browser (defaults to `http://127.0.0.1:4173`).
 All commands emit newline-delimited JSON for downstream tooling.
+
+## CRUD Command Usage
+
+### Create Tasks
+```bash
+# Basic task creation
+pnpm kanban create "Implement new feature"
+
+# With optional metadata
+pnpm kanban create "Bug fix for login issue" \
+  --priority=P1 \
+  --labels="bug,login,urgent" \
+  --content="Users cannot login with SSO credentials. Need to investigate OAuth flow." \
+  --status=ready
+```
+
+**Create flags:**
+- `--priority <P0|P1|P2|P3>` - Set task priority (default: auto-generated from content)
+- `--labels <label1,label2>` - Comma-separated labels
+- `--content <text>` - Task description/content
+- `--status <column>` - Target column (default: incoming)
+
+### Update Tasks
+```bash
+# Update task title
+pnpm kanban update <task-uuid> --title "New updated title"
+
+# Update task content
+pnpm kanban update <task-uuid> --content "Updated description with new details"
+
+# Update both title and content
+pnpm kanban update <task-uuid> \
+  --title "Comprehensive new title" \
+  --content "Comprehensive new description with all details."
+```
+
+**Update flags:**
+- `--title <text>` - New task title
+- `--content <text>` - New task description/content
+- `--priority <P0|P1|P2|P3>` - New priority level
+
+### Delete Tasks
+```bash
+# Safe deletion (shows what will be deleted)
+pnpm kanban delete <task-uuid>
+
+# Confirmed deletion
+pnpm kanban delete <task-uuid> --confirm
+# or
+pnpm kanban delete <task-uuid> -y
+```
+
+**Delete flags:**
+- `--confirm` or `-y` - Skip confirmation prompt and delete immediately
+
+**Note:** Tasks can be found using UUID from `find` or `search` commands: `pnpm kanban search "search term"`
 
 ## Configuration & Path Resolution
 

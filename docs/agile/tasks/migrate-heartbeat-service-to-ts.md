@@ -4,7 +4,7 @@ title: "Migrate heartbeat service to TypeScript"
 slug: "migrate-heartbeat-service-to-ts"
 status: "breakdown"
 priority: "P3"
-labels: ["board", "lang"]
+tags: ["board", "lang"]
 created_at: "2025-10-08T00:00:00.000Z"
 estimates:
   complexity: 2

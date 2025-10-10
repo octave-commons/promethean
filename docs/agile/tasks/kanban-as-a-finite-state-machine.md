@@ -4,13 +4,19 @@ title: "2025.09.19.23.48.50   State Machine  Automation"
 slug: "kanban-as-a-finite-state-machine"
 status: "done"
 priority: "P3"
-labels: ["Kanban", "Finite", "Workflow"]
-created_at: "2025-10-07T20:25:05.644Z"
+tags: ["Kanban", "Finite", "Workflow"]
+created_at: "2025-10-10T03:23:55.971Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ## Kanban as a Finite State Machine (FSM)
 
@@ -175,3 +181,9 @@ If you want, I can also generate a tiny per-column **Entry / Work / Exit** table
 ## Sources
 - _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
+
+
+
+
+
+

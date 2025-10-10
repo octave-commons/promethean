@@ -4,13 +4,19 @@ title: "Github Branching Workflow"
 slug: "github-branching-workflow"
 status: "rejected"
 priority: "P3"
-labels: ["docops", "labeled"]
-created_at: "2025-10-08T20:10:45.999Z"
+tags: ["docops", "labeled"]
+created_at: "2025-10-10T03:23:55.972Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ## 🗂 Source
 
@@ -59,3 +65,9 @@ And describe a step by step process that
 - [ ] Draft actionable subtasks from the summary
 - [ ] Define acceptance criteria
 - [ ] Link back to related labeled docs
+
+
+
+
+
+

@@ -4,13 +4,19 @@ title: "add mongodedupe and replace critical consumers wit md"
 slug: "add_mongodedupe_and_replace_critical_consumers_wit"
 status: "rejected"
 priority: "P3"
-labels: ["add", "mongodedupe", "replace", "critical"]
-created_at: "2025-10-07T20:25:05.645Z"
+tags: ["add", "mongodedupe", "replace", "critical"]
+created_at: "2025-10-10T03:23:55.971Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ## 🛠️ Task: Add `MongoDedupe` and replace critical consumers with `subscribeExactlyOnce`
 
@@ -35,3 +41,9 @@ Generated from ../unique/2025.08.08.19.08.25.md$../unique/2025.08.08.19.08.25.md
 
 
 #rejected
+
+
+
+
+
+

@@ -4,13 +4,19 @@ title: "Description"
 slug: "script-for-getting-github-action-workflow-states-for-a-branch"
 status: "rejected"
 priority: "P3"
-labels: ["description", "status", "script", "github"]
-created_at: "2025-10-07T20:25:05.645Z"
+tags: ["description", "status", "script", "github"]
+created_at: "2025-10-10T03:23:55.972Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 # Description
 ```
@@ -44,3 +50,9 @@ Useful for agents to engage in append only conversations about this task.
 
 ## Blockers
 - No active owner or unclear scope
+
+
+
+
+
+

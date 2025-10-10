@@ -4,13 +4,19 @@ title: "0) Why these building blocks (quick receipts)"
 slug: "0-why-these-building-blocks-quick-receipts"
 status: "rejected"
 priority: "P3"
-labels: ["docops", "labeled"]
-created_at: "2025-10-08T20:10:46.009Z"
+tags: ["docops", "labeled"]
+created_at: "2025-10-10T03:23:55.971Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 ## 🗂 Source
 
@@ -38,3 +44,9 @@ I’m weaving in sources where it matters (vLLM continuous batching / PagedAtten
 - [ ] Draft actionable subtasks from the summary
 - [ ] Define acceptance criteria
 - [ ] Link back to related labeled docs
+
+
+
+
+
+

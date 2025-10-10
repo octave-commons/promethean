@@ -4,7 +4,7 @@ uuid: e502a45a-eb4b-4cd9-92c0-6d1e86b532d4
 title: ensure eslint pipeline creates cache dir
 status: todo
 priority: P2
-labels: ["pipeline", "eslint", "devex"]
+tags: ["pipeline", "eslint", "devex"]
 ```
 created_at: '2025-10-07T01:00:44Z'
 ```

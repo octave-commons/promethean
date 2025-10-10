@@ -33,7 +33,7 @@ function parseCliArgs(): CliOptions {
         break;
       case '--max-tasks':
       case '-m':
-        const maxTasksValue = parseInt(args[++i], 10);
+        const maxTasksValue = parseInt(args[++i] || '0', 10);
         if (!isNaN(maxTasksValue)) {
           options.maxTasks = maxTasksValue;
         }
@@ -139,18 +139,18 @@ async function main(): Promise<void> {
       console.log('✅ Using classic Trello API authentication');
       config = {
         apiKey: trelloApiKey,
-        apiToken: trelloApiToken || trelloSecret
+        apiToken: trelloApiToken || trelloSecret,
       };
     } else if (atlassianClientId) {
       console.log('🔧 Using Atlassian OAuth 2.0 credentials');
       config = {
         clientId: atlassianClientId,
-        clientSecret: process.env.ATLASSIAN_CLIENT_SECRET
+        clientSecret: process.env.ATLASSIAN_CLIENT_SECRET,
       };
     } else if (atlassianApiKey) {
       console.log('ℹ️  Using Atlassian Bearer token authentication');
       config = {
-        bearerToken: atlassianApiKey
+        bearerToken: atlassianApiKey,
       };
     } else {
       console.error('❌ Missing required environment variables:');
@@ -182,7 +182,6 @@ async function main(): Promise<void> {
     if (!result.success) {
       process.exit(1);
     }
-
   } catch (error) {
     console.error('\n❌ Sync failed:', error instanceof Error ? error.message : String(error));
     if (process.env.DEBUG) {

@@ -4,13 +4,19 @@ title: "Fix nx task @promethean/markdown-graph:test"
 slug: "fix-nx-task-markdown-graph-test"
 status: "done"
 priority: "P1"
-labels: ["test", "promethean", "markdown", "graph"]
-created_at: "2025-10-07T20:25:05.643Z"
+tags: ["test", "promethean", "markdown", "graph"]
+created_at: "2025-10-10T03:23:55.971Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 # Description
 
@@ -34,3 +40,9 @@ Address failures when running the Nx test target for `@promethean/markdown-graph
 Initial creation for the current session.
 
 2025-10-07: Nx test target updated to invoke the package's scripted test command so Ava picks up compiled JS tests.
+
+
+
+
+
+

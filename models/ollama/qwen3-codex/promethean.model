@@ -1,0 +1,5 @@
+FROM qwen3:4b-thinking
+
+# Fit + crisp outputs (100k fits your GPU)
+PARAMETER num_ctx 100000
+PARAMETER num_predict -1

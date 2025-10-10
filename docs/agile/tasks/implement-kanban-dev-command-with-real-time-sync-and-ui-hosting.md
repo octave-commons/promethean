@@ -4,7 +4,7 @@ title: "Implement kanban dev command with real-time sync and UI hosting"
 slug: "implement-kanban-dev-command-with-real-time-sync-and-ui-hosting"
 status: "done"
 priority: "P1"
-labels: ["kanban", "dev-experience", "file-watching", "real-time-sync", "ui-hosting", "cli-enhancement"]
+tags: ["kanban", "dev-experience", "file-watching", "real-time-sync", "ui-hosting", "cli-enhancement"]
 created_at: "2025-10-05T00:00:00.000Z"
 estimates:
   complexity: ""

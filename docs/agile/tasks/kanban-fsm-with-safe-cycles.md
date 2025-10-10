@@ -1,16 +1,22 @@
 ---
 uuid: "d1250964-1686-487c-9850-3cc1472e9326"
-title: "2025.09.19.23.23.12    cycles -end hand-off  PR  agent  cycles -shaping  work    -end    -shaping"
+title: "2025.09.19.23.23.12    cycles -end hand-off  PR  agent  cycles -shaping  work    -end    -shaping    -end    -shaping    -end    -shaping    -end    -shaping    -end    -shaping    -end    -shaping"
 slug: "kanban-fsm-with-safe-cycles"
 status: "done"
 priority: "P3"
-labels: ["Kanban", "FSM", "safe", "session-end", "no", "cloud", "procedural", "re-shaping", "partial"]
-created_at: "2025-10-07T20:25:05.644Z"
+tags: ["Kanban", "FSM", "safe", "session-end", "no", "cloud", "procedural", "re-shaping", "partial"]
+created_at: "2025-10-10T03:23:55.971Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 you’re not overthinking it — you’re seeing the missing cycles. let’s add **explicit reverse paths** so the system never fakes forward progress, and give the cloud agent a safe “session-end hand-off” path that doesn’t require a PR.
 
@@ -141,3 +147,9 @@ If this looks right, I’ll fold these deltas into the process doc’s FSM secti
 ## Sources
 - _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
+
+
+
+
+
+

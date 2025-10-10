@@ -4,7 +4,7 @@ title: "Fix symdocs pipeline file reference issue"
 slug: "fix-symdocs-pipeline-file-reference-issue"
 status: "incoming"
 priority: "P2"
-labels: ["pipeline", "bug", "automation", "symdocs"]
+tags: ["pipeline", "bug", "automation", "symdocs"]
 created_at: "2025-10-09T16:03:11.370Z"
 estimates:
   complexity: "medium"
