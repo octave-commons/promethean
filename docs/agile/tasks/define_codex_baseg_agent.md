@@ -4,38 +4,13 @@ title: "define codex baseg agent md md"
 slug: "define_codex_baseg_agent"
 status: "icebox"
 priority: "P3"
-labels: ["define", "codex", "baseg", "agent"]
-created_at: "2025-10-11T01:03:32.219Z"
+labels: ["agent", "baseg", "codex", "define"]
+created_at: "2025-10-11T03:39:14.371Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Description
 
@@ -81,28 +56,3 @@ Nothing
 
 - [[kanban]]
 #IceBox
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

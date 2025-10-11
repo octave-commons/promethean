@@ -4,39 +4,13 @@ title: "wire runoutboxdrainer in event hub md"
 slug: "wire_runoutboxdrainer_in_event_hub"
 status: "done"
 priority: "P3"
-labels: ["wire", "runoutboxdrainer", "event", "hub"]
-created_at: "2025-10-11T01:03:41.284Z"
+labels: ["event", "hub", "runoutboxdrainer", "wire"]
+created_at: "2025-10-11T03:39:14.524Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Task: Wire `runOutboxDrainer` in event-hub
 
@@ -61,29 +35,3 @@ Generated from ../unique/2025.08.08.19.08.49.md$../unique/2025.08.08.19.08.49.md
 
 
 #rejected
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -4,39 +4,13 @@ title: "frontend build tool chain"
 slug: "frontend-build-tool-chain"
 status: "done"
 priority: "P3"
-labels: ["frontend", "build", "tool", "chain"]
-created_at: "2025-10-11T01:03:32.223Z"
+labels: ["build", "chain", "frontend", "tool"]
+created_at: "2025-10-11T03:39:14.375Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Description
 
@@ -89,29 +63,3 @@ Nothing
 - [[kanban]]
 
 #devops #Ready
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

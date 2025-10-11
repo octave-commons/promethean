@@ -4,24 +4,13 @@ title: "Replace MCP shell scripts with package functionality"
 slug: "Replace MCP shell scripts with package functionality"
 status: "incoming"
 priority: "P2"
-labels: ["mcp", "deprecation", "docker", "modernization"]
-created_at: "2025-10-11T01:03:32.220Z"
+labels: ["deprecation", "docker", "mcp", "modernization"]
+created_at: "2025-10-11T03:39:14.371Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
 
 Remove scripts/mcp/bin/*.sh shell scripts and replace with @promethean/mcp package functionality. The MCP package already provides HTTP server and proxy capabilities that make these Docker-based shell scripts obsolete. Update documentation to use MCP server endpoints.
 
@@ -34,18 +23,3 @@ Nothing
 ## ⛓️ Blocks
 
 Nothing
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

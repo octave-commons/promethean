@@ -4,39 +4,13 @@ title: "setup new service generator"
 slug: "setup-new-service-generator"
 status: "done"
 priority: "P3"
-labels: ["new", "service", "generator", "setup"]
-created_at: "2025-10-11T01:03:40.887Z"
+labels: ["generator", "new", "service", "setup"]
+created_at: "2025-10-11T03:39:14.523Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Description
 
@@ -96,29 +70,3 @@ Nothing
 ```
 #in-progress
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

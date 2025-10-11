@@ -4,38 +4,13 @@ title: "discord image attachment indexer md"
 slug: "discord_image_attachment_indexer"
 status: "done"
 priority: "P3"
-labels: ["discord", "image", "attachment", "indexer"]
-created_at: "2025-10-11T01:03:32.222Z"
+labels: ["attachment", "discord", "image", "indexer"]
+created_at: "2025-10-11T03:39:14.375Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Description
 
@@ -82,28 +57,3 @@ Nothing
 
 - [[kanban]]
 #done
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,16 +1,20 @@
 ---
-uuid: "8220fdc4-52d0-4a6f-927c-568f202d6f6b"
+uuid: "01210c86-deb5-4966-a6a6-9358c07086e5"
 title: "Implement WIP limit enforcement and address current violations"
 slug: "enforce-wip-limits-and-address-violations 2"
 status: "incoming"
 priority: "P1"
-labels: ["kanban", "wip", "limits", "enforcement", "process", "fsm"]
-created_at: "2025-10-11T01:03:32.220Z"
+labels: ["enforcement", "fsm", "kanban", "limits", "process", "wip"]
+created_at: "2025-10-11T03:39:14.372Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
 
 
 

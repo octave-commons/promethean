@@ -4,12 +4,12 @@ title: "Fix eslint-tasks pipeline file reference issue"
 slug: "fix-eslint-tasks-pipeline-file-reference-issue"
 status: "incoming"
 priority: "P2"
-tags: ["pipeline", "bug", "automation", "eslint-tasks"]
+labels: ["automation", "bug", "eslint-tasks", "pipeline"]
 created_at: "2025-10-09T16:20:35.155Z"
 estimates:
-  complexity: "medium"
-  scale: "medium"
-  time_to_completion: "2-4 hours"
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 # Fix eslint-tasks pipeline file reference issue

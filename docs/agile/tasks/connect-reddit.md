@@ -4,38 +4,13 @@ title: "Integrate Reddit API for agent content access"
 slug: "connect-reddit"
 status: "icebox"
 priority: "P3"
-labels: ["reddit", "api", "integrate", "agent"]
-created_at: "2025-10-11T01:03:32.219Z"
+labels: ["agent", "api", "integrate", "reddit"]
+created_at: "2025-10-11T03:39:14.371Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # Description
 
@@ -113,28 +88,3 @@ No blockers.
 
 #Ready
 #ready
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -4,39 +4,13 @@ title: "Use `node:` protocol for builtin imports"
 slug: "use_node_protocol_for_builtin_imports"
 status: "ready"
 priority: "P3"
-labels: ["node", "imports", "use", "protocol"]
-created_at: "2025-10-11T01:03:32.222Z"
+labels: ["imports", "node", "protocol", "use"]
+created_at: "2025-10-11T03:39:14.374Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # Use `node:` protocol for builtin imports
 
@@ -56,29 +30,3 @@ Biome flagged `useNodejsImportProtocol` violations where Node.js builtins like `
 ```
 #Todo #codex-task
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

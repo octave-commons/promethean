@@ -1,26 +1,16 @@
 ---
-uuid: "ffba6ab7-ade1-4c78-90c3-2d56e0959099"
+uuid: "ab755e19-153d-4205-9e16-8dd3f714f4d9"
 title: "Replace LevelDB with vector database for boardrev     )"
 slug: "boardrev-vector-db 7"
 status: "icebox"
 priority: "P2"
-labels: ["enhancement", "boardrev", "performance"]
-created_at: "2025-10-11T01:03:32.219Z"
+labels: ["boardrev", "enhancement", "performance"]
+created_at: "2025-10-11T03:39:14.370Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
 
 
 

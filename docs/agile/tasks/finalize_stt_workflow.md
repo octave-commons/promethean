@@ -4,39 +4,13 @@ title: "finalize stt workflow md md"
 slug: "finalize_stt_workflow"
 status: "done"
 priority: "P3"
-labels: ["stt", "workflow", "finalize", "requirements"]
-created_at: "2025-10-11T01:03:32.222Z"
+labels: ["finalize", "requirements", "stt", "workflow"]
+created_at: "2025-10-11T03:39:14.375Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Task: Finalize STT workflow
 
@@ -86,29 +60,3 @@ Nothing
 ## Reason for rejection
 Other tasks expanded to include the intention of this ticket before this one was b
 #rejected
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

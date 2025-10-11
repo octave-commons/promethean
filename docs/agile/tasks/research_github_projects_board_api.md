@@ -4,38 +4,13 @@ title: "research github projects board api md"
 slug: "research_github_projects_board_api"
 status: "done"
 priority: "P3"
-labels: ["github", "api", "projects", "board"]
-created_at: "2025-10-11T01:03:40.887Z"
+labels: ["api", "board", "github", "projects"]
+created_at: "2025-10-11T03:39:14.523Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Task: Research GitHub Projects board API
 
@@ -80,28 +55,3 @@ Nothing
 ## 🔍 Relevant Links
 - [[kanban]]
 #done
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

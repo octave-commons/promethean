@@ -4,38 +4,13 @@ title: "Description"
 slug: "decouple-audio-processing-logic-from-discord"
 status: "icebox"
 priority: "P3"
-labels: ["description", "step", "describe", "related"]
-created_at: "2025-10-11T01:03:32.219Z"
+labels: ["describe", "description", "related", "step"]
+created_at: "2025-10-11T03:39:14.371Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # Description
 
@@ -55,28 +30,3 @@ Describe your task
 - [ ] Step 2
 - [ ] Step 3
 - [ ] Step 4
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

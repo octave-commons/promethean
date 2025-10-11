@@ -1,0 +1,41 @@
+---
+uuid: "a21242e0-1e4e-403c-99b3-769bf2f470f0"
+title: "Fix MCP server configuration EDN syntax error"
+slug: "Fix MCP server configuration EDN syntax error"
+status: "incoming"
+priority: "P1"
+labels: ["mcp", "edn", "error", "server"]
+created_at: "2025-10-11T03:39:14.373Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
+The MCP server configuration file at [[packages/mcp/config/mcp_servers.edn]] had a syntax error preventing startup:
+
+## Issue:
+- EDN parsing error: 'Map accepts an array with an even number of items. You provided 15 items'
+- The :mcp-servers map structure was malformed
+
+## Root Cause:
+The original EDN file had structural issues in the map definitions that caused the jsedn parser to fail.
+
+## Solution Applied:
+- Fixed EDN syntax by properly structuring the :mcp-servers map
+- Restored complete configuration with all tools (48+ tools across 8 endpoints)
+- Server now starts successfully on http://0.0.0.0:3210
+- All HTTP endpoints are functional
+
+## Relevant Files:
+- [[packages/mcp/config/mcp_servers.edn]] - Main MCP configuration
+- [[packages/mcp/src/index.ts]] - MCP server startup logic
+- [[packages/mcp/src/proxy/config.ts]] - Configuration loading logic
+
+Priority: P1 - MCP server is critical for development workflow
+
+## ⛓️ Blocked By
+Nothing
+
+## ⛓️ Blocks
+Nothing

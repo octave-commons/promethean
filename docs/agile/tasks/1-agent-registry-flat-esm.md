@@ -5,37 +5,12 @@ slug: "1-agent-registry-flat-esm"
 status: "rejected"
 priority: "P3"
 labels: ["docops", "labeled"]
-created_at: "2025-10-11T01:03:41.284Z"
+created_at: "2025-10-11T03:39:14.524Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🗂 Source
 
@@ -62,28 +37,3 @@ Two swappable drivers behind one interface. vLLM runs an OpenAI-compatible serve
 - [ ] Draft actionable subtasks from the summary
 - [ ] Define acceptance criteria
 - [ ] Link back to related labeled docs
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

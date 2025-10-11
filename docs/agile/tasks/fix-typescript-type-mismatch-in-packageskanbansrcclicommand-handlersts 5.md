@@ -1,22 +1,16 @@
 ---
-uuid: "9f3a7052-1d0c-4489-8259-1440df81271b"
-title: "Fix TypeScript type mismatch in packages/kanban/src/cli/command-handlers.ts    -fix    -fix    -fix    -fix    -fix    -fix    -fix    -fix    -fix    -fix    -fix    -fix    -fix    -fix    -fix    -fix    -fix"
+uuid: "9a724fd5-f913-4f87-ae2d-1a9502da1e92"
+title: "Fix TypeScript type mismatch in packages/kanban/src/cli/command-handlers.ts   -fix   -fix   -fix   -fix   -fix   -fix   -fix   -fix   -fix   -fix   -fix"
 slug: "fix-typescript-type-mismatch-in-packageskanbansrcclicommand-handlersts 5"
 status: "incoming"
 priority: "P2"
-labels: ["typescript", "build", "automation", "type-fix"]
-created_at: "2025-10-11T01:03:32.220Z"
+labels: ["automation", "build", "type-fix", "typescript"]
+created_at: "2025-10-11T03:39:14.372Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
 
 
 

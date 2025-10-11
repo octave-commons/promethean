@@ -4,32 +4,13 @@ title: "MCP stdio proxy: code review + minimal hardening"
 slug: "mcp_stdio_proxy_review"
 status: "in_progress"
 priority: "P2"
-labels: ["mcp", "proxy", "stdio", "bugfix"]
-created_at: "2025-10-11T01:03:32.222Z"
+labels: ["bugfix", "mcp", "proxy", "stdio"]
+created_at: "2025-10-11T03:39:14.374Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Scope
 Review MCP stdio proxy (`packages/mcp/src/proxy/*`, `src/bin/proxy.ts`) and land low-risk fixes.
@@ -49,6 +30,11 @@ Review MCP stdio proxy (`packages/mcp/src/proxy/*`, `src/bin/proxy.ts`) and land
 - Replace hardcoded sleeps with request/response handshake + timeout.
 - Add auto-restart/backoff if a stdio server exits unexpectedly.
 
+## Blocked by
+- `Fix MCP filesSearch integration tests` (`fe6be1d5-bcd6-4804-bf5e-f55b5838e9e0`)
+- `Harden MCP stdio proxy JSON-RPC validation` (`b069c1e4-523e-4dd6-a3bb-03c30bd9a2c5`)
+- `Fix MCP stdio proxy session ID extraction` (`9118a82b-fd8d-4cef-833b-658e16939012`)
+
 ## Acceptance Criteria
 - [x] Route prefix handling fixed.
 - [ ] Windows PATH resolution fixed.
@@ -63,22 +49,3 @@ Review MCP stdio proxy (`packages/mcp/src/proxy/*`, `src/bin/proxy.ts`) and land
 - `packages/mcp/src/proxy/config.ts`
 
 #in-progress
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

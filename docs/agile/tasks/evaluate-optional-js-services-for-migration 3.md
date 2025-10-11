@@ -1,24 +1,16 @@
 ---
-uuid: "8bca0e5c-7474-446f-8e4c-948fe26c908a"
+uuid: "3af16f2b-3e7c-42fb-9324-4209549a5142"
 title: "Evaluate optional JS services for TypeScript migration"
 slug: "evaluate-optional-js-services-for-migration 3"
-status: "breakdown"
+status: "rejected"
 priority: "P3"
 labels: ["board", "lang"]
-created_at: "2025-10-11T01:03:32.221Z"
+created_at: "2025-10-11T03:39:14.524Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
 
 
 

@@ -5,37 +5,12 @@ slug: "Expand symdocs and simtasks package documentation"
 status: "todo"
 priority: "P3"
 labels: ["documentation", "packages"]
-created_at: "2025-10-11T01:03:32.222Z"
+created_at: "2025-10-11T03:39:14.374Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Task: Expand symdocs and simtasks package documentation
 
@@ -60,28 +35,3 @@ estimates:
 - `packages/@promethean/symdocs/README.md`
 - `packages/@promethean/simtasks/README.md`
 - `pipelines.json`
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

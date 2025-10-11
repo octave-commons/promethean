@@ -4,38 +4,13 @@ title: "DUCK — feature flags rewrite web + node + docs"
 slug: "duck-feature-flags-rewrite-web-node-docs"
 status: "done"
 priority: "P1"
-labels: ["duck", "web", "node", "flags", "docs"]
-created_at: "2025-10-11T01:03:32.222Z"
+labels: ["docs", "duck", "flags", "node", "web"]
+created_at: "2025-10-11T03:39:14.375Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # In Review
 
@@ -73,28 +48,3 @@ Rewrite broken feature flag modules for duck-web and duck-utils; pure ESM TS, fu
 ## 🔍 Relevant Links
 
 - PR #1447
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

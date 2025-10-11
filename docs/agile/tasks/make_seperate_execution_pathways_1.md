@@ -4,38 +4,13 @@ title: "make seperate execution pathways 1 md md"
 slug: "make_seperate_execution_pathways_1"
 status: "done"
 priority: "P3"
-labels: ["make", "seperate", "execution", "pathways"]
-created_at: "2025-10-11T01:03:32.223Z"
+labels: ["execution", "make", "pathways", "seperate"]
+created_at: "2025-10-11T03:39:14.375Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Description
 
@@ -92,28 +67,3 @@ Nothing
 
 - [[kanban]]
 #done
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

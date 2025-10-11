@@ -1,20 +1,16 @@
 ---
-uuid: "250a2326-9d07-482d-8a49-5f72f5c35e48"
-title: "Replace LevelDB with vector database for boardrev     )"
+uuid: "1c3b37f5-6416-4fd2-a712-a7502cf738dd"
+title: "Add interactive task management and auto-updates to boardrev      )"
 slug: "boardrev-vector-db 10"
 status: "icebox"
 priority: "P2"
-labels: ["enhancement", "boardrev", "performance"]
-created_at: "2025-10-11T01:03:32.219Z"
+labels: ["automation", "boardrev", "enhancement", "management"]
+created_at: "2025-10-11T03:39:14.370Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
 
 
 

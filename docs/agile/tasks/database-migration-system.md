@@ -4,39 +4,13 @@ title: "Description"
 slug: "database-migration-system"
 status: "done"
 priority: "P3"
-labels: ["description", "migration", "data", "stores"]
-created_at: "2025-10-11T01:03:32.222Z"
+labels: ["data", "description", "migration", "stores"]
+created_at: "2025-10-11T03:39:14.375Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # Description
 ```
@@ -70,29 +44,3 @@ Useful for agents to engage in append only conversations about this task.
 
 ## Blockers
 - No active owner or unclear scope
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

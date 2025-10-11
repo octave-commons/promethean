@@ -1,10 +1,15 @@
 ---
-title: DocOps Workflow & Process Automation Epic
-status: ready
-priority: P1
-tags: [docops, workflow, automation, epic]
-created: 2025-10-10
-uuid: docops-epic-001
+uuid: "docops-epic-001"
+title: "DocOps Workflow & Process Automation Epic"
+slug: "docops-workflow-epic"
+status: "ready"
+priority: "P1"
+labels: ["automation", "docops", "epic", "workflow"]
+created_at: "2025-10-11T02:55:04.193Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 # DocOps Workflow & Process Automation Epic

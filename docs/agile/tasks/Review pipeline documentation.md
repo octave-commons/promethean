@@ -4,38 +4,13 @@ title: "review pipeline documentation in README"
 slug: "Review pipeline documentation"
 status: "document"
 priority: "P3"
-labels: ["pipeline", "readme", "review", "documentation"]
-created_at: "2025-10-11T01:03:32.222Z"
+labels: ["documentation", "pipeline", "readme", "review"]
+created_at: "2025-10-11T03:39:14.374Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Task: Review pipeline documentation in README
 
@@ -99,28 +74,3 @@ No immediate updates required. Documentation is current and accurate.
 
 - `README.md` (Automation pipelines section)
 - `pipelines.json`
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

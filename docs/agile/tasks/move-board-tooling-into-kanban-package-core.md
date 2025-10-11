@@ -1,0 +1,27 @@
+---
+uuid: "8a791d5f-757a-4154-bba2-e14886da4c30"
+title: "move board tooling into kanban package -core  -core  -core  -core  -core  -core  -core  -core  -core  -core  -core  -core  -core  -core  -core  -core  -core  -core  -core  -core  -core  -core  -core"
+slug: "move-board-tooling-into-kanban-package-core"
+status: "done"
+priority: "P3"
+labels: ["devtools", "framework-core"]
+created_at: "2025-10-11T03:39:14.375Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
+Move the TypeScript utilities under `tools/board/` into the maintained `@promethean/kanban` package so they ship with the rest of the board automation CLI.
+
+## Plan
+- [x] Inspect the legacy `tools/board/*` entrypoints and data contracts.
+- [x] Relocate the scripts into a `packages/kanban/src/board` directory, exporting them as part of the package build.
+- [x] Update documentation and any hard-coded paths or references to the old location.
+- [x] Ensure `@promethean/kanban` builds cleanly and lint passes on touched files. *(Resolved TypeScript errors in `src/lib/task-complexity.ts` and exported shared helpers for reuse.)*
+- [ ] Coordinate with hygiene task `kanban-fsm-update-001` so the relocated tooling honours the FSM status map used by the board automation.
+
+## Definition of Done
+- Board utilities live inside `packages/kanban/src/` with updated imports.
+- Docs reference the new invocation path (`pnpm tsx packages/kanban/...`).
+- Tests and builds for the `@promethean/kanban` package succeed.

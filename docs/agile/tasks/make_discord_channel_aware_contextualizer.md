@@ -4,39 +4,13 @@ title: "make discord channel aware contextualizer md md"
 slug: "make_discord_channel_aware_contextualizer"
 status: "done"
 priority: "P3"
-labels: ["discord", "channel", "make", "aware"]
-created_at: "2025-10-11T01:03:32.223Z"
+labels: ["aware", "channel", "discord", "make"]
+created_at: "2025-10-11T03:39:14.375Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Description
 
@@ -84,29 +58,3 @@ Nothing
 
 
 #archive
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

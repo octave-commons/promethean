@@ -5,37 +5,12 @@ slug: "agent-safe-stablization-after-big-moves"
 status: "todo"
 priority: "p3"
 labels: ["board", "lang"]
-created_at: "2025-10-11T01:03:32.222Z"
+created_at: "2025-10-11T03:39:14.374Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # Task: Agent-safe stabilization after big moves local hooks, zero-risk edits
 
@@ -298,28 +273,3 @@ If you want, I can convert this into a one-shot `stabilize-local.sh` that implem
 
 \#precommit #stabilization #monorepo #typescript #python #hy #agents #safety #playbook
 #accepted
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

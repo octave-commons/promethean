@@ -4,39 +4,13 @@ title: "flatten services"
 slug: "flatten-services"
 status: "done"
 priority: "P3"
-labels: ["service", "flatten", "services", "structure"]
-created_at: "2025-10-11T01:03:32.223Z"
+labels: ["flatten", "service", "services", "structure"]
+created_at: "2025-10-11T03:39:14.375Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Description
 
@@ -90,29 +64,3 @@ Nothing
 ```
 #framework-core #Ready
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

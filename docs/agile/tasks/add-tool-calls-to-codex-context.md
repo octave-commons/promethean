@@ -4,38 +4,13 @@ title: "Add tool calls to codex context"
 slug: "add-tool-calls-to-codex-context"
 status: "icebox"
 priority: "P3"
-labels: ["step", "add", "tool", "calls"]
-created_at: "2025-10-11T01:03:32.219Z"
+labels: ["add", "calls", "step", "tool"]
+created_at: "2025-10-11T03:39:14.370Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # Description
 
@@ -59,28 +34,3 @@ You might find [this] useful while working on this task
 ## Comments
 
 Useful for agents to engage in append only conversations about this task.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

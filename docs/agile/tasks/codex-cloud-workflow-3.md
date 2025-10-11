@@ -5,37 +5,12 @@ slug: "codex-cloud-workflow-3"
 status: "incoming"
 priority: "P3"
 labels: ["docops", "labeled"]
-created_at: "2025-10-11T01:03:32.220Z"
+created_at: "2025-10-11T03:39:14.371Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🗂 Source
 
@@ -82,28 +57,3 @@ references: []
 - [ ] Draft actionable subtasks from the summary
 - [ ] Define acceptance criteria
 - [ ] Link back to related labeled docs
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

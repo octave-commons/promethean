@@ -4,12 +4,12 @@ title: "Fix TypeScript missing exports in packages/shared/src/index.ts: Missing 
 slug: "emergency-type-fix-shared-index"
 status: "incoming"
 priority: "P1"
-tags: ["typescript", "exports", "automation", "emergency"]
+labels: ["automation", "emergency", "exports", "typescript"]
 created_at: "2025-10-08T16:55:00.000Z"
 estimates:
-  complexity: "medium"
-  scale: "medium"
-  time_to_completion: "1-3 hours"
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 # Fix TypeScript missing exports in packages/shared/src/index.ts: Missing exports for shared utilities

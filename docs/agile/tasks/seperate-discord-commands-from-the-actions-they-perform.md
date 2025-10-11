@@ -4,38 +4,13 @@ title: "Cephalon Commands → Actions Refactor — Task Refinement"
 slug: "seperate-discord-commands-from-the-actions-they-perform"
 status: "done"
 priority: "P3"
-labels: ["actions", "commands", "cephalon", "refactor"]
-created_at: "2025-10-11T01:03:40.887Z"
+labels: ["actions", "cephalon", "commands", "refactor"]
+created_at: "2025-10-11T03:39:14.523Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # Cephalon Commands → Actions Refactor — Task Refinement
 
@@ -513,28 +488,3 @@ export function attachBrokerBridge(store: { dispatch: (e: Event) => Promise<void
 ```
 #in-progress
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -5,38 +5,12 @@ slug: "Restore symdocs pipeline execution"
 status: "ready"
 priority: "P2"
 labels: ["pipeline", "reliability"]
-created_at: "2025-10-11T01:03:32.221Z"
+created_at: "2025-10-11T03:39:14.373Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Task: Restore symdocs pipeline execution in Piper
 
@@ -62,29 +36,3 @@ estimates:
 - `packages/@promethean/symdocs` sources and README
 - `scripts/` Piper bridge scripts for symdocs
 - `docs/agile/pipelines/` for existing report format
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

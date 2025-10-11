@@ -4,39 +4,13 @@ title: "decouple from ollama md"
 slug: "decouple_from_ollama"
 status: "done"
 priority: "P3"
-labels: ["ollama", "system", "decouple", "llm"]
-created_at: "2025-10-11T01:03:32.222Z"
+labels: ["decouple", "llm", "ollama", "system"]
+created_at: "2025-10-11T03:39:14.375Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Task: Add Ollama formally to pipeline
 
@@ -90,29 +64,3 @@ Nothing
 
 - [[kanban]]
 #ready
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -4,38 +4,13 @@ title: "snapshot prompts specs to repo"
 slug: "snapshot_prompts_specs_to_repo"
 status: "icebox"
 priority: "P3"
-labels: ["prompts", "snapshot", "specs", "repo"]
-created_at: "2025-10-11T01:03:32.219Z"
+labels: ["prompts", "repo", "snapshot", "specs"]
+created_at: "2025-10-11T03:39:14.371Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Task: Snapshot prompts specs to repo
 
@@ -71,28 +46,3 @@ Capture existing prompt and specification documents into the repository so they 
 
 #IceBox
 #ready
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

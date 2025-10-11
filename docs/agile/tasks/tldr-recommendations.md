@@ -5,37 +5,12 @@ slug: "tldr-recommendations"
 status: "incoming"
 priority: "P3"
 labels: ["docops", "labeled"]
-created_at: "2025-10-11T01:03:32.221Z"
+created_at: "2025-10-11T03:39:14.373Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🗂 Source
 
@@ -63,28 +38,3 @@ below is a compact, practical pipeline that’s unsloth-native, runs **Aider Pol
 - [ ] Draft actionable subtasks from the summary
 - [ ] Define acceptance criteria
 - [ ] Link back to related labeled docs
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

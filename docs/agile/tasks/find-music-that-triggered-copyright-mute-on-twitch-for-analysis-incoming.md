@@ -4,39 +4,13 @@ title: "find music that triggered copyright mute on twitch for analysis incoming
 slug: "find-music-that-triggered-copyright-mute-on-twitch-for-analysis-incoming"
 status: "done"
 priority: "P3"
-labels: ["find", "music", "triggered", "copyright"]
-created_at: "2025-10-11T01:03:32.222Z"
+labels: ["copyright", "find", "music", "triggered"]
+created_at: "2025-10-11T03:39:14.375Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Description
 
@@ -82,29 +56,3 @@ Nothing
 
 - [[kanban]]
 #rejected
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

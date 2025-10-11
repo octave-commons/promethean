@@ -4,7 +4,7 @@ title: "Add interactive task management and auto-updates to boardrev"
 slug: "boardrev-interactive-task-management"
 status: "icebox"
 priority: "P2"
-tags: ["enhancement", "boardrev", "automation", "management"]
+labels: ["automation", "boardrev", "enhancement", "management"]
 created_at: "Mon Oct 06 2025 07:00:00 GMT-0500 (Central Daylight Time)"
 estimates:
   complexity: ""

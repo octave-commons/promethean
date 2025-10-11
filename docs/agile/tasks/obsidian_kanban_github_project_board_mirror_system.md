@@ -4,39 +4,13 @@ title: "obsidian kanban github project board mirror system md md"
 slug: "obsidian_kanban_github_project_board_mirror_system"
 status: "done"
 priority: "P3"
-labels: ["github", "kanban", "board", "obsidian"]
-created_at: "2025-10-11T01:03:32.223Z"
+labels: ["board", "github", "kanban", "obsidian"]
+created_at: "2025-10-11T03:39:14.375Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Task: Obsidian Kanban Github Project Board Mirror system
 
@@ -84,29 +58,3 @@ Nothing
 - [[kanban]]
 
 #archive
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

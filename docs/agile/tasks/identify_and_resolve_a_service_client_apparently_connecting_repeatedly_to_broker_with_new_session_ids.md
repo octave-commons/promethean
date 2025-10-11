@@ -4,38 +4,13 @@ title: "Description"
 slug: "identify_and_resolve_a_service_client_apparently_connecting_repeatedly_to_broker_with_new_session_ids"
 status: "icebox"
 priority: "P3"
-labels: ["description", "client", "session", "progress"]
-created_at: "2025-10-11T01:03:32.219Z"
+labels: ["client", "description", "progress", "session"]
+created_at: "2025-10-11T03:39:14.371Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ```
 #in-progress
@@ -48,28 +23,3 @@ Service client repeatedly reconnects to the broker creating new session IDs.
 
 - No tests cover reconnection and session handling.
 - Missing documentation describing expected client behavior.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,22 +1,16 @@
 ---
-uuid: "acb7178c-6eac-48b6-bb6d-34ccd90333aa"
-title: "Implement kanban dev command with real-time sync and UI hosting  -experience -watching -time-sync -hosting -enhancement  -experience -watching -time-sync -hosting -enhancement  -experience -watching -time-sync -hosting -enhancement  -experience -watching -time-sync -hosting -enhancement  -experience -watching -time-sync -hosting -enhancement  -experience -watching -time-sync -hosting -enhancement  -experience -watching -time-sync -hosting -enhancement  -experience -watching -time-sync -hosting -enhancement  -experience -watching -time-sync -hosting -enhancement  -experience -watching -time-sync -hosting -enhancement  -experience -watching -time-sync -hosting -enhancement  -experience -watching -time-sync -hosting -enhancement  -experience -watching -time-sync -hosting -enhancement  -experience -watching -time-sync -hosting -enhancement  -experience -watching -time-sync -hosting -enhancement  -experience -watching -time-sync -hosting -enhancement  -experience -watching -time-sync -hosting -enhancement"
+uuid: "caaf3b86-6222-4893-880c-011a94ee7e6b"
+title: "Implement kanban dev command with real-time sync and UI hosting -enhancement -experience -watching  -time-sync -hosting -enhancement -experience -watching  -time-sync -hosting -enhancement -experience -watching  -time-sync -hosting -enhancement -experience -watching  -time-sync -hosting -enhancement -experience -watching  -time-sync -hosting -enhancement -experience -watching  -time-sync -hosting -enhancement -experience -watching  -time-sync -hosting -enhancement -experience -watching  -time-sync -hosting -enhancement -experience -watching  -time-sync -hosting -enhancement -experience -watching  -time-sync -hosting -enhancement -experience -watching  -time-sync -hosting"
 slug: "implement-kanban-dev-command-with-real-time-sync-and-ui-hosting 5"
 status: "done"
 priority: "P1"
-labels: ["kanban", "dev-experience", "file-watching", "real-time-sync", "ui-hosting", "cli-enhancement"]
-created_at: "2025-10-11T01:03:32.223Z"
+labels: ["cli-enhancement", "dev-experience", "file-watching", "kanban", "real-time-sync", "ui-hosting"]
+created_at: "2025-10-11T03:39:14.375Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
 
 
 

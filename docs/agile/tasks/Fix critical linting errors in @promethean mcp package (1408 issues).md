@@ -1,0 +1,48 @@
+---
+uuid: "e51993a5-77ac-4e95-a547-206395bcac7d"
+title: "Fix critical linting errors in @promethean/mcp package (1408 issues)"
+slug: "Fix critical linting errors in @promethean mcp package (1408 issues)"
+status: "incoming"
+priority: "P1"
+labels: ["errors", "critical", "issues", "typescript"]
+created_at: "2025-10-11T03:39:14.371Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
+MCP package has the most linting issues (1408 problems, 454 errors). Need to focus on critical errors only:
+
+## Critical Errors to Fix:
+- **@typescript-eslint/no-misused-promises** - Promise handling issues
+- **@typescript-eslint/switch-exhaustiveness-check** - Missing switch cases  
+- **@typescript-eslint/no-base-to-string** - Object stringification errors
+- **@typescript-eslint/explicit-module-boundary-types** - Missing return types
+
+## Convert to Warnings (ignore for now):
+- **@typescript-eslint/no-explicit-any** - External API interactions
+- **@typescript-eslint/no-unsafe-* rules** - TypeScript safety warnings
+- **max-lines*/** rules - Code length (not blocking)
+- **complexity** rules - Can be addressed later
+- **import/order** - Stylistic only
+
+## Relevant Files:
+- [[packages/mcp/src/bin/proxy.ts]] - Main MCP proxy implementation (133 lines function)
+- [[packages/mcp/src/core/mcp-server.ts]] - MCP server core logic
+- [[packages/mcp/src/core/openapi.ts]] - OpenAPI integration (78 lines function)
+- [[packages/mcp/src/core/registry.ts]] - Tool registry system
+
+## Strategy:
+1. Fix actual logical errors that could cause runtime issues
+2. Add proper return types to public APIs
+3. Handle Promise misuse correctly
+4. Leave code style and complexity warnings for later
+
+Priority: P1 - Most critical package with 1408+ issues
+
+## ⛓️ Blocked By
+Nothing
+
+## ⛓️ Blocks
+Nothing

@@ -4,38 +4,13 @@ title: "Integrate Wikipedia MediaWiki API for knowledge retrieval"
 slug: "connect-wikipedia"
 status: "icebox"
 priority: "P3"
-labels: ["api", "mediawiki", "knowledge", "integrate"]
-created_at: "2025-10-11T01:03:32.219Z"
+labels: ["api", "integrate", "knowledge", "mediawiki"]
+created_at: "2025-10-11T03:39:14.371Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # Description
 
@@ -113,28 +88,3 @@ No blockers.
 
 #Ready
 #ready
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

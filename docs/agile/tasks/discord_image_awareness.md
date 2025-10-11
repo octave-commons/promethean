@@ -4,38 +4,13 @@ title: "discord image awareness md md"
 slug: "discord_image_awareness"
 status: "breakdown"
 priority: "P3"
-labels: ["discord", "image", "awareness", "images"]
-created_at: "2025-10-11T01:03:32.221Z"
+labels: ["awareness", "discord", "image", "images"]
+created_at: "2025-10-11T03:39:14.373Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Description
 ```
@@ -103,28 +78,3 @@ This allows the “Duck” to have **visual memory** tied to conversational cont
 - Story Points: 5
 
 #ready
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

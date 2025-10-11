@@ -4,38 +4,13 @@ title: "Task: Break down cephalon voice commands file"
 slug: "breakdown-cephalon-voice-commands-file-using-ecs"
 status: "breakdown"
 priority: "P3"
-labels: ["file", "break", "down", "cephalon"]
-created_at: "2025-10-11T01:03:32.221Z"
+labels: ["break", "cephalon", "down", "file"]
+created_at: "2025-10-11T03:39:14.373Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # Task: Break down cephalon voice commands file
 
@@ -47,28 +22,3 @@ This file is *really* complex, and we just added an ECS to deal with it. So we'r
 ```
 #in-progress
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

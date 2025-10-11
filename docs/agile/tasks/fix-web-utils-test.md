@@ -4,39 +4,13 @@ title: "Fix failing web-utils test /TASK-20250207-web-utils /kanban /InProgress 
 slug: "fix-web-utils-test"
 status: "ready"
 priority: "p2"
-labels: ["task", "board", "state", "owner", "priority", "epic", "lang"]
-created_at: "2025-10-11T01:03:32.222Z"
+labels: ["board", "epic", "lang", "owner", "priority", "state", "task"]
+created_at: "2025-10-11T03:39:14.374Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## Context
 ### Changes and Updates
@@ -61,29 +35,3 @@ estimates:
 
 ## Relevant Resources
 - None yet.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

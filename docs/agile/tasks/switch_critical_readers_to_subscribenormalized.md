@@ -4,39 +4,13 @@ title: "switch critical readers to subscribenormalized md"
 slug: "switch_critical_readers_to_subscribenormalized"
 status: "done"
 priority: "P3"
-labels: ["switch", "critical", "readers", "subscribenormalized"]
-created_at: "2025-10-11T01:03:40.887Z"
+labels: ["critical", "readers", "subscribenormalized", "switch"]
+created_at: "2025-10-11T03:39:14.524Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Task: Switch critical readers to **subscribeNormalized**
 
@@ -61,29 +35,3 @@ Generated from ../unique/2025.08.08.20.08.52.md$../unique/2025.08.08.20.08.52.md
 
 
 #rejected
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

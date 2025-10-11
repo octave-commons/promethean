@@ -4,39 +4,13 @@ title: "Resolve ESLint violations across repository"
 slug: "resolve_eslint_violations_repo_wide"
 status: "ready"
 priority: "P3"
-labels: ["eslint", "resolve", "violations", "across"]
-created_at: "2025-10-11T01:03:32.222Z"
+labels: ["across", "eslint", "resolve", "violations"]
+created_at: "2025-10-11T03:39:14.374Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # Resolve ESLint violations across repository
 
@@ -79,29 +53,3 @@ Multiple packages trigger ESLint errors such as `functional/prefer-immutable-typ
 - Some lint rules may require broader architectural changes; will document if encountered instead of over-scoping this slice.
 
 #Todo #codex-task #doc-this
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

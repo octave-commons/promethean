@@ -155,13 +155,11 @@ export async function indexRepoIncremental({
           }
           
           const raw = await fs.readFile(file, "utf8");
-          const excerpt = raw.split(/?
-/).slice(0, maxLines).join("
-");
+          const excerpt = raw.split(/\r?\n/).slice(0, maxLines).join("\n");
           const kind = /\.(md|mdx)$/i.test(file) ? "doc" : "code";
           
           const doc: RepoDoc = {
-            path: file.replace(/\/g, "/"),
+            path: file.replace(/\\/g, "/"),
             size: st.size,
             kind,
             excerpt,
@@ -256,12 +254,12 @@ if (import.meta.url === pathToFileURL(process.argv[1]!).href) {
   } else {
     // Use original full indexing
     indexRepo({
-    globs: args["--globs"],
-    maxBytes: Number(args["--max-bytes"]),
-    maxLines: Number(args["--max-lines"]),
-    embedModel: args["--embed-model"],
-    cache: args["--cache"],
-  }).catch((e) => {
+      globs: args["--globs"],
+      maxBytes: Number(args["--max-bytes"]),
+      maxLines: Number(args["--max-lines"]),
+      embedModel: args["--embed-model"],
+      cache: args["--cache"],
+    }).catch((e) => {
     logger.error((e as Error).message);
     process.exit(1);
   });

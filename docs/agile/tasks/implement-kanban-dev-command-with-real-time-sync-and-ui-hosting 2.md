@@ -1,16 +1,20 @@
 ---
-uuid: "c0554a69-c628-4cf8-b567-2b0705712268"
-title: "Implement kanban dev command with real-time sync and UI hosting  -experience -watching -time-sync -hosting -enhancement  -experience -watching -time-sync -hosting -enhancement  -experience -watching -time-sync -hosting -enhancement  -experience -watching -time-sync -hosting -enhancement  -experience -watching -time-sync -hosting -enhancement  -experience -watching -time-sync -hosting -enhancement  -experience -watching -time-sync -hosting -enhancement  -experience -watching -time-sync -hosting -enhancement  -experience -watching -time-sync -hosting -enhancement  -experience -watching -time-sync -hosting -enhancement  -experience -watching -time-sync -hosting -enhancement  -experience -watching -time-sync -hosting -enhancement  -experience -watching -time-sync -hosting -enhancement  -experience -watching -time-sync -hosting -enhancement  -experience -watching -time-sync -hosting -enhancement  -experience -watching -time-sync -hosting -enhancement  -experience -watching -time-sync -hosting -enhancement  -experience -watching -time-sync -hosting -enhancement  -experience -watching -time-sync -hosting -enhancement  -experience -watching -time-sync -hosting -enhancement  -experience -watching -time-sync -hosting -enhancement  -experience -watching -time-sync -hosting -enhancement  -experience -watching -time-sync -hosting -enhancement  -experience -watching -time-sync -hosting -enhancement  -experience -watching -time-sync -hosting -enhancement  -experience -watching -time-sync -hosting -enhancement  -experience -watching -time-sync -hosting -enhancement"
+uuid: "4b5ba37f-f264-45f6-9a6b-143dccd68491"
+title: "Implement kanban dev command with real-time sync and UI hosting -enhancement -experience -watching  -time-sync -hosting -enhancement -experience -watching  -time-sync -hosting -enhancement -experience -watching  -time-sync -hosting -enhancement -experience -watching  -time-sync -hosting -enhancement -experience -watching  -time-sync -hosting -enhancement -experience -watching  -time-sync -hosting -enhancement -experience -watching  -time-sync -hosting -enhancement -experience -watching  -time-sync -hosting -enhancement -experience -watching  -time-sync -hosting -enhancement -experience -watching  -time-sync -hosting -enhancement -experience -watching  -time-sync -hosting -enhancement -experience -watching  -time-sync -hosting -enhancement -experience -watching  -time-sync -hosting -enhancement -experience -watching  -time-sync -hosting -enhancement -experience -watching  -time-sync -hosting -enhancement -experience -watching  -time-sync -hosting -enhancement -experience -watching  -time-sync -hosting -enhancement -experience -watching  -time-sync -hosting -enhancement -experience -watching  -time-sync -hosting -enhancement -experience -watching  -time-sync -hosting -enhancement -experience -watching  -time-sync -hosting -enhancement -experience -watching  -time-sync -hosting"
 slug: "implement-kanban-dev-command-with-real-time-sync-and-ui-hosting 2"
 status: "done"
 priority: "P1"
-labels: ["kanban", "dev-experience", "file-watching", "real-time-sync", "ui-hosting", "cli-enhancement"]
-created_at: "2025-10-11T01:03:32.223Z"
+labels: ["cli-enhancement", "dev-experience", "file-watching", "kanban", "real-time-sync", "ui-hosting"]
+created_at: "2025-10-11T03:39:14.375Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
 
 
 

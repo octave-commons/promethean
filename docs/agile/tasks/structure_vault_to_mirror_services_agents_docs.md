@@ -4,38 +4,13 @@ title: "structure vault to mirror services agents docs md md"
 slug: "structure_vault_to_mirror_services_agents_docs"
 status: "icebox"
 priority: "P3"
-labels: ["structure", "mirror", "docs", "vault"]
-created_at: "2025-10-11T01:03:32.219Z"
+labels: ["docs", "mirror", "structure", "vault"]
+created_at: "2025-10-11T03:39:14.371Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Task: Document-Driven Development for Service Scripts
 ```
@@ -119,28 +94,3 @@ Nothing
 - No active owner or unclear scope
 
 #breakdown
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

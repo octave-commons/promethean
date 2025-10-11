@@ -5,37 +5,12 @@ slug: "github-crawler"
 status: "ready"
 priority: "P3"
 labels: ["board", "lang"]
-created_at: "2025-10-11T01:03:32.222Z"
+created_at: "2025-10-11T03:39:14.374Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## Context
 
@@ -65,28 +40,3 @@ You might find [this] useful while working on this task
 ## Notes
 
 - …
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -4,39 +4,13 @@ title: "evaluate and reward flow satisfaction"
 slug: "evaluate_and_reward_flow_satisfaction"
 status: "done"
 priority: "P3"
-labels: ["reward", "evaluate", "flow", "satisfaction"]
-created_at: "2025-10-11T01:03:32.222Z"
+labels: ["evaluate", "flow", "reward", "satisfaction"]
+created_at: "2025-10-11T03:39:14.375Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Task: Evaluate and reward flow satisfaction
 
@@ -100,29 +74,3 @@ Generated from ../unique/2025.07.28.18.07.20.md$../unique/2025.07.28.18.07.20.md
 - Do we need real-time updates to the reward signal or batched summaries?
 #IceBox
 #rejected
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

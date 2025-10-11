@@ -4,38 +4,13 @@ title: "scripts group indexing tools"
 slug: "scripts_group_indexing_tools"
 status: "incoming"
 priority: "P3"
-labels: ["indexing", "scripts", "packages", "group"]
-created_at: "2025-10-11T01:03:32.221Z"
+labels: ["group", "indexing", "packages", "scripts"]
+created_at: "2025-10-11T03:39:14.373Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 Scripts: Group indexing helpers under an indexing package
 
@@ -49,28 +24,3 @@ Exit Criteria:
 - Indexing scripts live under a package`packages/indexing/` or `packages/persistence` with a clear README.
 
 #incoming #scripts #indexing #organization
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

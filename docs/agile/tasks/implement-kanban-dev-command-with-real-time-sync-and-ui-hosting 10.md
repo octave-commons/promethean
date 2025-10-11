@@ -1,0 +1,33 @@
+---
+uuid: "302fe307-ba99-4d28-9b1b-b0f55d067d37"
+title: "Implement kanban dev command with real-time sync and UI hosting -enhancement -experience -watching  -time-sync -hosting -enhancement -experience -watching  -time-sync -hosting -enhancement -experience -watching  -time-sync -hosting -enhancement -experience -watching  -time-sync -hosting -enhancement -experience -watching  -time-sync -hosting -enhancement -experience -watching  -time-sync -hosting -enhancement -experience -watching  -time-sync -hosting -enhancement -experience -watching  -time-sync -hosting -enhancement -experience -watching  -time-sync -hosting -enhancement -experience -watching  -time-sync -hosting"
+slug: "implement-kanban-dev-command-with-real-time-sync-and-ui-hosting 10"
+status: "done"
+priority: "P1"
+labels: ["cli-enhancement", "dev-experience", "file-watching", "kanban", "real-time-sync", "ui-hosting"]
+created_at: "2025-10-11T03:39:14.375Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

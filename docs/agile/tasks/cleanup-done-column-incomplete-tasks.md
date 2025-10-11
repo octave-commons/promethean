@@ -4,12 +4,12 @@ title: "Cleanup done column incomplete tasks and implement completion verificati
 slug: "cleanup-done-column-incomplete-tasks"
 status: "breakdown"
 priority: "P1"
-tags: ["cleanup", "kanban", "done-column", "quality", "governance"]
+labels: ["cleanup", "done-column", "governance", "kanban", "quality"]
 created_at: "2025-01-08T22:45:00.000Z"
 estimates:
-  complexity: 8
+  complexity: ""
   scale: ""
-  time_to_completion: "2-3 days"
+  time_to_completion: ""
 ---
 
 # Cleanup Done Column Incomplete Tasks and Implement Completion Verification

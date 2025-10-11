@@ -4,12 +4,12 @@ title: "Fix test failure in unit-test-suite: Unit test failures blocking CI"
 slug: "emergency-test-fix-unit-test-suite"
 status: "incoming"
 priority: "P1"
-tags: ["testing", "automation", "test-fix", "emergency"]
+labels: ["automation", "emergency", "test-fix", "testing"]
 created_at: "2025-10-08T16:55:00.000Z"
 estimates:
-  complexity: "medium"
-  scale: "medium"
-  time_to_completion: "2-4 hours"
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 # Fix test failure in unit-test-suite: Unit test failures blocking CI

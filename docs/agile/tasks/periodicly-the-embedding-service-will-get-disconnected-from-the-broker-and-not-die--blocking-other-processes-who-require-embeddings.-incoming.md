@@ -4,38 +4,13 @@ title: "Embedding service sometimes disconnects from broker and hangs → detect
 slug: "periodicly-the-embedding-service-will-get-disconnected-from-the-broker-and-not-die--blocking-other-processes-who-require-embeddings.-incoming"
 status: "done"
 priority: "P3"
-labels: ["embedding", "service", "broker", "sometimes"]
-created_at: "2025-10-11T01:03:32.223Z"
+labels: ["broker", "embedding", "service", "sometimes"]
+created_at: "2025-10-11T03:39:14.375Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 Here’s a surgical expansion you can drop into the board. Goal: make the **embedding service** fail fast, get killed when it’s unhealthy, and stop blocking dependents. No vibes—just guards, telemetry, and hard interlocks.
 
@@ -300,28 +275,3 @@ fix(embeddings): kill-on-disconnect/stall + admission control + heartbeat kill p
 ```
 #in-progress
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

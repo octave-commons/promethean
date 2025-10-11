@@ -4,26 +4,13 @@ title: "Integrate kanban utilities into @promethean/kanban package"
 slug: "Integrate kanban utilities into @promethean kanban package"
 status: "incoming"
 priority: "P1"
-labels: ["refactoring", "kanban", "integration", "markdown"]
-created_at: "2025-10-11T01:03:32.220Z"
+labels: ["integration", "kanban", "markdown", "refactoring"]
+created_at: "2025-10-11T03:39:14.371Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 Move scripts/check-changelog.mjs, scripts/generate-tasks-from-labeled.mjs, and scripts/kanban-metrics.mjs into @promethean/kanban package as integrated utilities. These scripts duplicate functionality that should be core to the kanban package. Create proper module exports and CLI commands.
 
@@ -36,20 +23,3 @@ Nothing
 ## ⛓️ Blocks
 
 Nothing
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

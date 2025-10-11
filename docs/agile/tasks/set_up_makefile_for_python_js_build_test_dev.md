@@ -4,38 +4,13 @@ title: "replace polyglot makefile with pnpm-first workflow docs"
 slug: "set_up_makefile_for_python_js_build_test_dev"
 status: "done"
 priority: "P3"
-labels: ["pnpm", "makefile", "workflow", "replace"]
-created_at: "2025-10-11T01:03:40.887Z"
+labels: ["makefile", "pnpm", "replace", "workflow"]
+created_at: "2025-10-11T03:39:14.523Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Task: Replace polyglot Makefile with pnpm-first workflow docs
 
@@ -87,28 +62,3 @@ Nothing
 - [Makefile retirement note]../notes/promethean-dev-workflow-update.md
 
 #cicd #buildtools #devtools #devops #archive
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

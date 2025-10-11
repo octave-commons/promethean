@@ -4,38 +4,13 @@ title: "write simple ecosystem declaration library for new md md"
 slug: "write_simple_ecosystem_declaration_library_for_new"
 status: "done"
 priority: "P3"
-labels: ["ecosystem", "declaration", "new", "write"]
-created_at: "2025-10-11T01:03:41.284Z"
+labels: ["declaration", "ecosystem", "new", "write"]
+created_at: "2025-10-11T03:39:14.524Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Task: write simple ecosystem declaration library for new agents
 
@@ -97,28 +72,3 @@ spawn the correct services for an agent.
 - Should PM2 remain the default process manager or is a custom tool planned?
 - How will per-agent environment variables be stored?
 #done
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

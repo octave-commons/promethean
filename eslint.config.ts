@@ -145,6 +145,13 @@ export default [
     },
   },
   {
+    files: ["**/src/scripts/**/*.ts"],
+    rules: {
+      // Loosen function length for script utilities
+      "max-lines-per-function": ["warn", { max: 100, IIFEs: true }],
+    },
+  },
+  {
     files: [
       "**/*.test.{ts,tsx,js}",
       "**/*.spec.{ts,tsx,js}",

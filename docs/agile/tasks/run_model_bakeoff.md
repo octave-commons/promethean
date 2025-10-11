@@ -4,38 +4,13 @@ title: "run model bakeoff md"
 slug: "run_model_bakeoff"
 status: "icebox"
 priority: "P3"
-labels: ["model", "bakeoff", "run", "models"]
-created_at: "2025-10-11T01:03:32.219Z"
+labels: ["bakeoff", "model", "models", "run"]
+created_at: "2025-10-11T03:39:14.371Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Task: Run model bakeoff
 
@@ -87,28 +62,3 @@ Nothing
 - [[kanban]]
 #IceBox
 #ready
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,40 +1,16 @@
 ---
-uuid: "fd7212b2-9d19-4055-b38f-37cb6b4994b2"
-title: "Cleanup done column incomplete tasks and implement completion verification   -column   -column   -column   -column   -column   -column   -column   -column   -column   -column   -column   -column   -column   -column   -column   -column   -column   -column   -column   -column   -column   -column   -column   -column   -column   -column"
+uuid: "c427ed96-47a6-4042-bf57-2c15d1641b13"
+title: "Cleanup done column incomplete tasks and implement completion verification  -column  -column  -column  -column  -column  -column  -column  -column  -column  -column"
 slug: "cleanup-done-column-incomplete-tasks 3"
-status: "in_progress"
+status: "breakdown"
 priority: "P1"
-labels: ["cleanup", "kanban", "done-column", "quality", "governance"]
-created_at: "2025-10-11T01:03:32.222Z"
+labels: ["cleanup", "done-column", "governance", "kanban", "quality"]
+created_at: "2025-10-11T03:39:14.373Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

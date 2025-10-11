@@ -4,12 +4,12 @@ title: "Fix symdocs pipeline file reference issue"
 slug: "fix-symdocs-pipeline-file-reference-issue"
 status: "incoming"
 priority: "P2"
-tags: ["pipeline", "bug", "automation", "symdocs"]
+labels: ["automation", "bug", "pipeline", "symdocs"]
 created_at: "2025-10-09T16:03:11.370Z"
 estimates:
-  complexity: "medium"
-  scale: "medium"
-  time_to_completion: "2-4 hours"
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 # Fix symdocs pipeline file reference issue

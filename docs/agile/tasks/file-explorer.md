@@ -4,38 +4,13 @@ title: "file explorer"
 slug: "file-explorer"
 status: "done"
 priority: "P3"
-labels: ["file", "explorer", "search", "permission"]
-created_at: "2025-10-11T01:03:32.222Z"
+labels: ["explorer", "file", "permission", "search"]
+created_at: "2025-10-11T03:39:14.375Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Description
 
@@ -95,28 +70,3 @@ Nothing
 - Story Points: 5
 
 #ready
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

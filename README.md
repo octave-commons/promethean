@@ -60,6 +60,47 @@ The Promethean framework uses a comprehensive kanban system for task management 
 
 **All kanban commands work from any directory in the repository** - the system automatically resolves paths correctly.
 
+## 🔧 Repository Migrations (canonical content changes)
+
+We use a structured migration system to evolve task/frontmatter schemas and other repo-wide content,
+so ad-hoc scripts don’t accumulate:
+
+- **Runner**: `pnpm tsx packages/migrations/src/index.ts up`
+- **State**: `.promethean/migrations.json` (tracks applied IDs)
+- **Migrations**: `packages/migrations/src/migrations/*.ts` (ordered by numeric `id`)
+- **Parser-based only**: Use `@promethean/markdown/frontmatter` (gray-matter + YAML) — no regex-only frontmatter rewrites.
+
+### Current policy
+,- Frontmatter **labels** are **deprecated**. Use **`tags:`** (lowercase) for Obsidian & CLI.
+,- Tools-as-roles routing uses tags (e.g., `tool:codex`, `provider:zai`, `env:no-egress`, `role:engineer`, `cap:codegen`).
+,- The CLI reads **frontmatter `tags`**; body "Tags:" headers are not used and will be removed by migrations.
+
+### Commands
+
+```bash
+# See pending/applied
+pnpm tsx packages/migrations/src/index.ts list
+
+# Apply pending migrations (idempotent)
+pnpm tsx packages/migrations/src/index.ts up
+
+# Typical follow-up
+pnpm kanban regenerate && pnpm kanban audit --fix
+```
+
+### Adding a new migration
+Create `packages/migrations/src/migrations/NNN-your-migration.ts`:
+
+```ts
+export const id = 2;
+export const name = 'example-migration';
+export async function up(ctx: Ctx) {
+  // parse, edit, and stringify via ctx.parseFrontmatter / ctx.stringifyFrontmatter
+}
+```
+
+Document intent + safety in the file header. Migrations must be small, reversible, and idempotent.
+
 ```bash
 # Essential commands
 pnpm kanban regenerate     # Generate board from task files

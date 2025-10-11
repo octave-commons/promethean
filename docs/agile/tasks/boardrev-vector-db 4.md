@@ -1,16 +1,52 @@
 ---
-uuid: "1bf86a3d-6b33-4ff1-8415-86656eb90ac5"
+uuid: "e1d2aa90-daff-43fd-a5ef-d2ba8c4ce38f"
 title: "Implement multi-model evaluation for boardrev      )"
 slug: "boardrev-vector-db 4"
 status: "icebox"
 priority: "P2"
-labels: ["enhancement", "boardrev", "ai", "evaluation"]
-created_at: "2025-10-11T01:03:32.219Z"
+labels: ["ai", "boardrev", "enhancement", "evaluation"]
+created_at: "2025-10-11T03:39:14.370Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

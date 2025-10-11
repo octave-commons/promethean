@@ -4,38 +4,13 @@ title: "lisp package files"
 slug: "lisp-package-files"
 status: "ready"
 priority: "P3"
-labels: ["package", "lisp", "files", "modules"]
-created_at: "2025-10-11T01:03:32.222Z"
+labels: ["files", "lisp", "modules", "package"]
+created_at: "2025-10-11T03:39:14.374Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Description
 
@@ -89,28 +64,3 @@ Nothing
 ```
 #framework-core #Ready
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

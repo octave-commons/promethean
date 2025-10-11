@@ -1,41 +1,16 @@
 ---
 uuid: "04735a0b-d4d9-4880-8702-d64e0eb2ac02"
-title: "🛠️ Description"
+title: "🛠️ Description    -visualization  -core    -visualization  -core    -visualization  -core    -visualization  -core    -visualization  -core    -visualization  -core    -visualization  -core    -visualization  -core    -visualization  -core    -visualization  -core    -visualization  -core    -visualization  -core    -visualization  -core    -visualization  -core    -visualization  -core    -visualization  -core    -visualization  -core    -visualization  -core    -visualization  -core    -visualization  -core    -visualization  -core    -visualization  -core"
 slug: "promethean-health-dashboard"
 status: "icebox"
 priority: "P3"
-labels: ["description", "dashboard", "field", "latency"]
-created_at: "2025-10-11T01:03:32.219Z"
+labels: ["broker", "dashboard", "description", "eidolon-visualization", "field", "framework-core", "latency", "observability", "realtime"]
+created_at: "2025-10-11T03:39:14.371Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # 🛠️ Description
 
@@ -248,7 +223,6 @@ flowchart LR
 
 ---
 
-tags: #framework-core #observability #eidolon-visualization #dashboard #broker #realtime
 #IceBox
 
 ## Notes
@@ -256,28 +230,3 @@ tags: #framework-core #observability #eidolon-visualization #dashboard #broker #
 - Story Points: 8
 
 #ready
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

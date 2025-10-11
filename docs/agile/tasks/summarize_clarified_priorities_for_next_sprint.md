@@ -4,39 +4,13 @@ title: "summarize clarified priorities for next sprint md md"
 slug: "summarize_clarified_priorities_for_next_sprint"
 status: "done"
 priority: "P3"
-labels: ["priorities", "next", "sprint", "summarize"]
-created_at: "2025-10-11T01:03:40.887Z"
+labels: ["next", "priorities", "sprint", "summarize"]
+created_at: "2025-10-11T03:39:14.524Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Task: Summarize clarified priorities for next sprint
 
@@ -85,29 +59,3 @@ Nothing
 
 ## Reason for rejection
 #rejected
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

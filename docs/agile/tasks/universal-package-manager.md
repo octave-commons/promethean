@@ -5,38 +5,12 @@ slug: "universal-package-manager"
 status: "done"
 priority: "P3"
 labels: ["description", "step", "upm", "useful"]
-created_at: "2025-10-11T01:03:41.283Z"
+created_at: "2025-10-11T03:39:14.524Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # Description
 
@@ -139,29 +113,3 @@ UPM is clever glue. You don’t need glue; you need **determinism, workspaces, a
 [3]: https://semgrep.dev/blog/2022/the-best-free-open-source-supply-chain-tool-the-lockfile?utm_source=chatgpt.com "The best free, open-source supply-chain security tool? ..."
 [4]: https://reproducible-builds.org/?utm_source=chatgpt.com "Reproducible Builds — a set of software development ..."
 [5]: https://github.com/astral-sh/uv/issues/5190?utm_source=chatgpt.com "Locking of build dependencies · Issue #5190 · astral-sh/uv"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

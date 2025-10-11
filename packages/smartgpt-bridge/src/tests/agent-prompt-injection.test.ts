@@ -221,7 +221,7 @@ test('AgentSupervisor: context boundary testing', async (t) => {
 
   for (const test of boundaryTests) {
     const detection = await detector.detect(test.prompt);
-    const { id } = supervisor.start({ test.prompt });
+    const { id } = supervisor.start({ prompt: test.prompt });
     const status = supervisor.status(id);
     
     t.truthy(status);

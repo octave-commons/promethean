@@ -1,0 +1,26 @@
+---
+uuid: "c5034b3c-7fb9-4e6d-898e-c3b32d75a39b"
+title: "Clean orphaned MCP event log entries"
+slug: "clean-event-log-orphans"
+status: "incoming"
+priority: "P2"
+labels: ["maintenance", "mcp", "kanban"]
+created_at: "2025-10-10T22:43:14-0500"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
+## Objective
+Remove or archive the orphaned event log entries (e.g., `security-test-1`, `stress-task-*`, `../../../etc/passwd`) reported by `pnpm kanban audit`, keeping the audit output noise-free and ensuring the log reflects real tasks.
+
+## Acceptance Criteria
+- [ ] Identify the source of the orphaned events and document the removal strategy.
+- [ ] Clean up the event log or migrate historical entries so future audits run clean.
+- [ ] Confirm `pnpm kanban audit` reports no orphaned events once cleanup is complete.
+- [ ] Document the process so future orphans can be handled consistently.
+
+## Related
+- Blocked by: none.
+- Blocks: `mcp_stdio_proxy_review` (`3c3a6f8b-2a8d-4b3e-8d63-2b7d1e8f7a91`).

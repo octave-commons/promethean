@@ -4,14 +4,12 @@ title: "Clean up useless regex escape in agent package"
 slug: "cleanup_useless_regex_escape_in_agent_package"
 status: "icebox"
 priority: "P3"
-labels: ["regex", "escape", "clean", "useless"]
-created_at: "2025-10-11T01:03:32.219Z"
+labels: ["clean", "escape", "regex", "useless"]
+created_at: "2025-10-11T03:39:14.370Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
 
-
 \nTags: tool:codex role:engineer cap:codegen trace:2327d588-45d7-4fc3-85db-58bc4b5127af
-

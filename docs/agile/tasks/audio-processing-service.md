@@ -4,39 +4,13 @@ title: "audio processing service"
 slug: "audio-processing-service"
 status: "done"
 priority: "P3"
-labels: ["audio", "service", "processing", "agents"]
-created_at: "2025-10-11T01:03:32.222Z"
+labels: ["agents", "audio", "processing", "service"]
+created_at: "2025-10-11T03:39:14.374Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Description
 
@@ -96,29 +70,3 @@ Nothing
 #framework-core #Ready
 ```
 #ready
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

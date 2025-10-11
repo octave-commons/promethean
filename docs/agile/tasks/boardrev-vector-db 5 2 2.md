@@ -4,13 +4,69 @@ title: "Implement multi-model evaluation for boardrev      )"
 slug: "boardrev-vector-db 5 2 2"
 status: "icebox"
 priority: "P2"
-labels: ["enhancement", "boardrev", "ai", "evaluation"]
-created_at: "2025-10-11T01:03:32.219Z"
+labels: ["ai", "boardrev", "enhancement", "evaluation"]
+created_at: "2025-10-11T03:39:14.370Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

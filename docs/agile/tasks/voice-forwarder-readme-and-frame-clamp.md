@@ -4,38 +4,13 @@ title: "enso-browser-gateway — voice forwarder README + frameDuration clamp"
 slug: "voice-forwarder-readme-and-frame-clamp"
 status: "done"
 priority: "P3"
-labels: ["enso", "voice", "docs"]
-created_at: "2025-10-11T01:03:41.283Z"
+labels: ["docs", "enso", "voice"]
+created_at: "2025-10-11T03:39:14.524Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 #Todo
 
@@ -51,28 +26,3 @@ Document reliance on `channel.protocol` for `frameDurationMs` with 20ms fallback
 
 ## 🔍 Related
 - PR #1448
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

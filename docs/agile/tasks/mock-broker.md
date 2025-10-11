@@ -5,37 +5,12 @@ slug: "mock-broker"
 status: "incoming"
 priority: "P3"
 labels: ["broker", "mock", "tests", "you"]
-created_at: "2025-10-11T01:03:32.221Z"
+created_at: "2025-10-11T03:39:14.372Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 Here’s a no-nonsense expansion that you can drop into your board. I’ve treated this like a mini-spec + work plan so Codex (or you) can just execute.
 
@@ -283,28 +258,3 @@ it('can inject latency and drop messages', async () => {
 ```
 #in-review
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

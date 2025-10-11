@@ -4,38 +4,13 @@ title: "🛠️ Task: Implement `defun` in Lisp Compiler"
 slug: "implement-defun-in-compiler-lisp-incoming"
 status: "done"
 priority: "P3"
-labels: ["defun", "compiler", "lisp", "implement"]
-created_at: "2025-10-11T01:03:32.223Z"
+labels: ["compiler", "defun", "implement", "lisp"]
+created_at: "2025-10-11T03:39:14.375Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # 🛠️ Task: Implement `defun` in Lisp Compiler
 
@@ -85,28 +60,3 @@ Append-only thread for discussion by agents working on this task.
 ```
 #in-progress
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

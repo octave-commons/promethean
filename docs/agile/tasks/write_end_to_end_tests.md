@@ -4,39 +4,13 @@ title: "write end to end tests md md"
 slug: "write_end_to_end_tests"
 status: "done"
 priority: "P3"
-labels: ["end", "write", "tests", "kanban"]
-created_at: "2025-10-11T01:03:41.284Z"
+labels: ["end", "kanban", "tests", "write"]
+created_at: "2025-10-11T03:39:14.524Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Description
 
@@ -82,29 +56,3 @@ Nothing
 
 - [[kanban]]
 #accepted
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

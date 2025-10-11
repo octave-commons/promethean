@@ -4,38 +4,13 @@ title: "Add rate limiting to SmartGPT Bridge file routes"
 slug: "missing-rate-limiting-smartgpt-files"
 status: "done"
 priority: "P1"
-labels: ["security", "bug"]
-created_at: "2025-10-11T01:03:32.223Z"
+labels: ["bug", "security"]
+created_at: "2025-10-11T03:39:14.375Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # Description
 
@@ -64,28 +39,3 @@ CodeQL flagged the SmartGPT Bridge file routes for missing rate limiting. We nee
 
 - 2025-01-06: Initial triage confirms v1 file routes lack explicit per-route rate limits even though the plugin is registered for v1.
 - 2025-01-06: Added scoped rate limit configuration, ran package build, and documented the change in the changelog.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,24 +1,16 @@
 ---
-uuid: "0e76e79d-db36-4708-8caf-6d1a4cb546bd"
-title: "Replace LevelDB with vector database for boardrev     )"
+uuid: "95cb334c-d5a6-42da-8e3e-276004aad510"
+title: "Enhance boardrev context analysis with weighted factors      )"
 slug: "boardrev-vector-db 9"
 status: "icebox"
 priority: "P2"
-labels: ["enhancement", "boardrev", "performance"]
-created_at: "2025-10-11T01:03:32.219Z"
+labels: ["accuracy", "analysis", "boardrev", "enhancement"]
+created_at: "2025-10-11T03:39:14.370Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
 
 
 

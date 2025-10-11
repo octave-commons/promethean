@@ -4,39 +4,13 @@ title: "setup code in wsl md"
 slug: "setup_code_in_wsl"
 status: "done"
 priority: "P3"
-labels: ["setup", "code", "wsl", "out"]
-created_at: "2025-10-11T01:03:40.887Z"
+labels: ["code", "out", "setup", "wsl"]
+created_at: "2025-10-11T03:39:14.523Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Description
 
@@ -83,29 +57,3 @@ Nothing
 
 - [[kanban]]
 #accepted
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,10 +1,15 @@
 ---
-title: BoardRev Vector Database & Accuracy Enhancement Epic
-status: ready
-priority: P1
-tags: [boardrev, vector-db, performance, accuracy, epic]
-created: 2025-10-10
-uuid: boardrev-epic-001
+uuid: "boardrev-epic-001"
+title: "BoardRev Vector Database & Accuracy Enhancement Epic"
+slug: "boardrev-vector-db-epic"
+status: "ready"
+priority: "P1"
+labels: ["accuracy", "boardrev", "epic", "performance", "vector-db"]
+created_at: "2025-10-11T02:55:04.182Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 # BoardRev Vector Database & Accuracy Enhancement Epic

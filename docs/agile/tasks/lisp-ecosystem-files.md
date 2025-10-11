@@ -4,39 +4,13 @@ title: "Description"
 slug: "lisp-ecosystem-files"
 status: "done"
 priority: "P3"
-labels: ["description", "step", "lisp", "existing"]
-created_at: "2025-10-11T01:03:32.223Z"
+labels: ["description", "existing", "lisp", "step"]
+created_at: "2025-10-11T03:39:14.375Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # Description
 
@@ -87,29 +61,3 @@ You might find [this] useful while working on this task
 Blocked: needs clarity on target file organization.
 
 #Breakdown
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

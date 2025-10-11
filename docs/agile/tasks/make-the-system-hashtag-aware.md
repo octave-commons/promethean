@@ -4,38 +4,13 @@ title: "make the system hashtag aware"
 slug: "make-the-system-hashtag-aware"
 status: "done"
 priority: "P3"
-labels: ["hashtags", "hashtag", "aware", "make"]
-created_at: "2025-10-11T01:03:32.223Z"
+labels: ["aware", "hashtag", "hashtags", "make"]
+created_at: "2025-10-11T03:39:14.375Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Description
 
@@ -70,28 +45,3 @@ Useful for agents to engage in append only conversations about this task.
 - Assumptions: A consistent hashtag taxonomy is available.
 - Dependencies: Vault graph service and parsing hooks.
 #ready
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

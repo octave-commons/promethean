@@ -4,8 +4,8 @@ title: "pin versions in configs promethean codex md"
 slug: "pin_versions_in_configs_promethean_codex"
 status: "Archive"
 priority: "P3"
-tags: ["pin", "versions", "configs", "promethean"]
-created_at: "2025-10-07T20:25:05.645Z"
+labels: ["configs", "pin", "promethean", "versions"]
+created_at: "2025-10-11T03:39:14.524Z"
 estimates:
   complexity: ""
   scale: ""

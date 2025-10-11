@@ -4,38 +4,13 @@ title: "Description"
 slug: "curate-code-from-personal-repository"
 status: "icebox"
 priority: "P3"
-labels: ["description", "code", "system", "chatgpt"]
-created_at: "2025-10-11T01:03:32.219Z"
+labels: ["chatgpt", "code", "description", "system"]
+created_at: "2025-10-11T03:39:14.371Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # Description
 
@@ -59,28 +34,3 @@ Just having it in the repo gives my system context
 ## Comments
 
 Useful for agents to engage in append only conversations about this task.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

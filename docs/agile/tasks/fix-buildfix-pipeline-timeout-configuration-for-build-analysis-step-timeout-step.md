@@ -4,12 +4,12 @@ title: "Fix buildfix pipeline timeout configuration for Build analysis step time
 slug: "fix-buildfix-pipeline-timeout-configuration-for-build-analysis-step-timeout-step"
 status: "incoming"
 priority: "P2"
-tags: ["pipeline", "timeout", "automation", "buildfix"]
+labels: ["automation", "buildfix", "pipeline", "timeout"]
 created_at: "2025-10-09T16:20:35.210Z"
 estimates:
-  complexity: "medium"
-  scale: "medium"
-  time_to_completion: "2-4 hours"
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 # Fix buildfix pipeline timeout configuration for Build analysis step timeout step

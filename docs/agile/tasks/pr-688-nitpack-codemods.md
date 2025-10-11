@@ -4,8 +4,8 @@ title: "Placeholder — will be overwritten by nitpack"
 slug: "pr-688-nitpack-codemods"
 status: "Archive"
 priority: "P3"
-tags: ["placeholder", "will", "overwritten", "nitpack"]
-created_at: "2025-10-07T20:25:05.645Z"
+labels: ["nitpack", "overwritten", "placeholder", "will"]
+created_at: "2025-10-11T03:39:14.524Z"
 estimates:
   complexity: ""
   scale: ""

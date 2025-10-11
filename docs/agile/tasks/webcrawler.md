@@ -4,38 +4,13 @@ title: "Web Crawler Agent → Hyperlink Graph → LLM Summaries/ → Chroma Sear
 slug: "webcrawler"
 status: "done"
 priority: "P3"
-labels: ["Tags", "agent", "llm", "web", "crawler"]
-created_at: "2025-10-11T01:03:41.284Z"
+labels: ["ethics", "promethean", "ai", "agent", "crawler", "llm", "tags", "web"]
+created_at: "2025-10-11T03:39:14.524Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # Web Crawler Agent → Hyperlink Graph → LLM Summaries/#Tags → Chroma Search Dual-Sink
 ```
@@ -119,7 +94,6 @@ No magic. Deterministic where it matters. Respect robots.txt. Idempotent by URL+
   title: "Page title",
   text_excerpt: "First N chars...",
   summary: { text: "...", model: "qwen3-xxx", version: "yyy", ts: ISODate },
-  tags: ["#ai", "#ethics", "#promethean"],
   embedding: { dim: 1536, model: "qwen2.5-embed:2025-08-01", sha256: "<vec-hash>" }, // optional cache
   flags: { blocked_by_robots: false, error: false, dynamic: false },
   meta: { ... },
@@ -341,28 +315,3 @@ Append-only thread: record domain-specific deny-lists, prompt tweaks, and any in
 ```
 #in-progress
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

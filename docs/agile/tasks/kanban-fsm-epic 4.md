@@ -1,16 +1,40 @@
 ---
-uuid: "85bb6f54-7b68-4f79-b69c-ac66feb6b393"
+uuid: "4fee1a8c-95e0-46a2-b3a4-a3909b278a89"
 title: "Kanban FSM & Process Modernization Epic"
 slug: "kanban-fsm-epic 4"
 status: "ready"
 priority: "P1"
-labels: ["kanban", "fsm", "process", "automation", "epic"]
-created_at: "2025-10-11T01:03:32.222Z"
+labels: ["automation", "epic", "fsm", "kanban", "process"]
+created_at: "2025-10-11T03:39:14.374Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

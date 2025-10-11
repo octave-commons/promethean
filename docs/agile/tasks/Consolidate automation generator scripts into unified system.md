@@ -4,17 +4,13 @@ title: "Consolidate automation generator scripts into unified system"
 slug: "Consolidate automation generator scripts into unified system"
 status: "incoming"
 priority: "P1"
-labels: ["scripts", "automation", "generator", "unified"]
-created_at: "2025-10-11T01:03:32.220Z"
+labels: ["automation", "generator", "scripts", "unified"]
+created_at: "2025-10-11T03:39:14.371Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
 
 Multiple automation and task generator scripts scattered across scripts/ and tools/ need consolidation into a unified system using existing @promethean packages.
 
@@ -27,11 +23,3 @@ Nothing
 ## ⛓️ Blocks
 
 Nothing
-
-
-
-
-
-
-
-

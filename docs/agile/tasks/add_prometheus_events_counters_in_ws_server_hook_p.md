@@ -4,39 +4,13 @@ title: "add prometheus events counters in ws server hook p md"
 slug: "add_prometheus_events_counters_in_ws_server_hook_p"
 status: "done"
 priority: "P3"
-labels: ["add", "prometheus", "events", "counters"]
-created_at: "2025-10-11T01:03:32.222Z"
+labels: ["add", "counters", "events", "prometheus"]
+created_at: "2025-10-11T03:39:14.374Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Task: Add Prometheus `events_*` counters in WS server hook points
 
@@ -61,29 +35,3 @@ Generated from ../unique/2025.08.08.15.08.47.md$../unique/2025.08.08.15.08.47.md
 
 
 #rejected
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

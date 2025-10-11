@@ -4,38 +4,13 @@ title: "write meaningful tests for cephalon md md"
 slug: "write_meaningful_tests_for_cephalon"
 status: "done"
 priority: "P3"
-labels: ["tests", "cephalon", "write", "meaningful"]
-created_at: "2025-10-11T01:03:41.284Z"
+labels: ["cephalon", "meaningful", "tests", "write"]
+created_at: "2025-10-11T03:39:14.524Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Task: Write meaningful tests for Cephalon
 
@@ -78,28 +53,3 @@ Nothing
 ## 🔍 Relevant Links
 - [[kanban]]
 #done
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -5,37 +5,12 @@ slug: "Align docops README coverage with pipeline config"
 status: "todo"
 priority: "P3"
 labels: ["documentation", "pipeline"]
-created_at: "2025-10-11T01:03:32.222Z"
+created_at: "2025-10-11T03:39:14.374Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Task: Align DocOps README coverage with pipeline config
 
@@ -60,28 +35,3 @@ estimates:
 - `pipelines.json`
 - `docs/agile/pipelines/docops.md`
 - `scripts/piper-docops.mjs`
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

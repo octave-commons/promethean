@@ -4,38 +4,13 @@ title: "Fix nx task @promethean/image-link-generator:test"
 slug: "fix-nx-image-link-generator-test"
 status: "done"
 priority: "P2"
-labels: ["image", "link", "generator", "test"]
-created_at: "2025-10-11T01:03:32.223Z"
+labels: ["generator", "image", "link", "test"]
+created_at: "2025-10-11T03:39:14.375Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # In Review
 
@@ -88,28 +63,3 @@ Estimate: 3
 ## 🔍 Relevant Links
 
 - Link to supporting docs or references.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

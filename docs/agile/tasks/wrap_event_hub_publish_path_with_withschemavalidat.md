@@ -4,39 +4,13 @@ title: "wrap event hub publish path with withschemavalidat md"
 slug: "wrap_event_hub_publish_path_with_withschemavalidat"
 status: "done"
 priority: "P3"
-labels: ["wrap", "event", "hub", "publish"]
-created_at: "2025-10-11T01:03:41.284Z"
+labels: ["event", "hub", "publish", "wrap"]
+created_at: "2025-10-11T03:39:14.524Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Task: Wrap `event-hub` publish path with **withSchemaValidation**; fail fast on bad payloads
 
@@ -61,29 +35,3 @@ Generated from ../unique/2025.08.08.20.08.56.md$../unique/2025.08.08.20.08.56.md
 
 
 #rejected
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

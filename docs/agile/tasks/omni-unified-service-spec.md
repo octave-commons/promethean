@@ -5,37 +5,12 @@ slug: "omni-unified-service-spec"
 status: "ready"
 priority: "P1"
 labels: ["omni", "planning"]
-created_at: "2025-10-11T01:03:32.222Z"
+created_at: "2025-10-11T03:39:14.374Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🧭 Context
 
@@ -75,28 +50,3 @@ estimates:
 
 - Peer review of spec documents.
 - Kanban board reflects new tasks in appropriate column once synced.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

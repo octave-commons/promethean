@@ -1,10 +1,15 @@
 ---
-title: Kanban FSM & Process Modernization Epic
-status: ready
-priority: P1
-tags: [kanban, fsm, process, automation, epic]
-created: 2025-10-10
-uuid: kanban-fsm-epic-001
+uuid: "kanban-fsm-epic-001"
+title: "Kanban FSM & Process Modernization Epic"
+slug: "kanban-fsm-epic"
+status: "ready"
+priority: "P1"
+labels: ["automation", "epic", "fsm", "kanban", "process"]
+created_at: "2025-10-11T02:55:04.208Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 # Kanban FSM & Process Modernization Epic

@@ -4,39 +4,13 @@ title: "create and push a feature branch"
 slug: "describe_github_branching_workflow"
 status: "done"
 priority: "P3"
-labels: ["branch", "feature", "summary", "create"]
-created_at: "2025-10-11T01:03:32.222Z"
+labels: ["branch", "create", "feature", "summary"]
+created_at: "2025-10-11T03:39:14.375Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Description
 
@@ -147,29 +121,3 @@ Nothing
 #agent-thinking
 ```
 #Breakdown
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

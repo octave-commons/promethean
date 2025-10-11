@@ -4,7 +4,7 @@ title: "Enhance boardrev context analysis with weighted factors"
 slug: "boardrev-enhanced-context-analysis"
 status: "icebox"
 priority: "P2"
-tags: ["enhancement", "boardrev", "analysis", "accuracy"]
+labels: ["accuracy", "analysis", "boardrev", "enhancement"]
 created_at: "Mon Oct 06 2025 07:00:00 GMT-0500 (Central Daylight Time)"
 estimates:
   complexity: ""

@@ -4,39 +4,13 @@ title: "prevent dangling processes when a process fails due to error or automati
 slug: "prevent_dangling_processes_when_a_process_fails_due_to_error_or_automaticly_clean_them_up_1"
 status: "done"
 priority: "P3"
-labels: ["process", "prevent", "processes", "clean"]
-created_at: "2025-10-11T01:03:32.223Z"
+labels: ["clean", "prevent", "process", "processes"]
+created_at: "2025-10-11T03:39:14.375Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Description
 
@@ -92,29 +66,3 @@ Nothing
 
 
 #archive
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

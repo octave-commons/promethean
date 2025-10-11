@@ -1,24 +1,16 @@
 ---
-uuid: "227d3bbd-2aaf-411b-97b9-3c7de5c7d63d"
-title: "Fix eslint-tasks pipeline TypeScript parser configuration issues     -fix     -fix     -fix     -fix     -fix     -fix     -fix     -fix     -fix     -fix     -fix     -fix     -fix     -fix     -fix     -fix     -fix     -fix     -fix     -fix     -fix"
+uuid: "2ffe48ba-6613-4a37-adc4-77da7a354112"
+title: "Fix eslint-tasks pipeline TypeScript parser configuration issues -fix -fix -fix -fix -fix -fix -fix -fix -fix -fix -fix"
 slug: "fix-eslint-tasks-pipeline-typescript-configuration 4"
 status: "todo"
 priority: "P2"
-labels: ["piper", "eslint", "typescript", "configuration", "build-fix"]
-created_at: "2025-10-11T01:03:32.222Z"
+labels: ["build-fix", "configuration", "eslint", "piper", "typescript"]
+created_at: "2025-10-11T03:39:14.374Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
 
 
 

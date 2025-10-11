@@ -4,39 +4,13 @@ title: "Ban Python; Migrate to Hy; Compile to `./dist`"
 slug: "replace-all-python-properly-with-hy-incoming"
 status: "done"
 priority: "P3"
-labels: ["python", "ban", "dist", "migrate"]
-created_at: "2025-10-11T01:03:40.887Z"
+labels: ["ban", "dist", "migrate", "python"]
+created_at: "2025-10-11T03:39:14.523Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # Ban Python; Migrate to Hy; Compile to `./dist`
 ```
@@ -281,29 +255,3 @@ Append-only thread for agents. Note blockers, weird Hy interop, or macro decisio
 \#tags #promethean #hy #lisp #python #build #ci #git #precommit #policy #docs
 
 #archive
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

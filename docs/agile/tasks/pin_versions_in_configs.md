@@ -4,38 +4,13 @@ title: "Pin versions in configs"
 slug: "pin_versions_in_configs"
 status: "done"
 priority: "P3"
-labels: ["pin", "versions", "configs", "codex"]
-created_at: "2025-10-11T01:03:32.223Z"
+labels: ["codex", "configs", "pin", "versions"]
+created_at: "2025-10-11T03:39:14.375Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 Got it. Here’s a practical expansion you can paste into the board and hand to Codex. It’s opinionated, deterministic, and aims to stop every “oops it upgraded” class of failure.
 
@@ -281,28 +256,3 @@ chore(versions): pin runtimes, deps, images, models; add pins linter
 ```
 #in-progress
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

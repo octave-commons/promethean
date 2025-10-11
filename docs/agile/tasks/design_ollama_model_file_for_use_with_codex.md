@@ -4,38 +4,13 @@ title: "design ollama model file for use with codex"
 slug: "design_ollama_model_file_for_use_with_codex"
 status: "icebox"
 priority: "P3"
-labels: ["model", "file", "codex", "design"]
-created_at: "2025-10-11T01:03:32.219Z"
+labels: ["codex", "design", "file", "model"]
+created_at: "2025-10-11T03:39:14.371Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Task: Design Ollama model file for use with Codex
 
@@ -77,28 +52,3 @@ Having a preconfigured, pre-prompted model could help agents perform better as C
 ```
 #ice-box
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

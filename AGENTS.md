@@ -79,6 +79,22 @@ Webservers should mount both `dist/frontend` and `static`.
 
 All agents must use the kanban system for task tracking and work management. The kanban board lives at `docs/agile/boards/generated.md` and is managed via the `@promethean/kanban` package.
 
+
+### 🔁 Migrations (agent-facing policy)
+
+- Agents MUST NOT add new one-off scripts for repo-wide content changes.
+- Use the migration runner instead:`,`pnpm tsx packages/migrations/src/index.ts up`.
+- All schema/content evolutions (frontmatter keys, tag normalization, etc.) must ship as migrations under `packages/migrations/src/migrations/`.
+- Migrations are parser-based; call `@promethean/markdown/frontmatter` utilities — never regex frontmatter.
+
+#### Tags vs labels
+- `labels` is **deprecated**. Use **`tags`** (lowercase) in frontmatter for Obsidian + CLI.
+- Body "Tags:" headers are deprecated; migrations move tokens into frontmatter `tags` and drop that line.
+- Tools-as-roles routing is tag-based: `tool:codex`, `provider:zai`, `env:no-egress`, `role:engineer`, `cap:codegen`, etc.
+
+#### After running migrations
+- `pnpm kanban regenerate` to refresh the board.
+- `pnpm kanban generate-by-tags "tool:codex" --kanban docs/agile/boards/views/codex.md` to refresh agent views.
 ### 🎯 Core Kanban Commands
 
 ```bash

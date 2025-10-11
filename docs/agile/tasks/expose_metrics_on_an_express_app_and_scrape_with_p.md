@@ -4,39 +4,13 @@ title: "expose metrics on an express app and scrape with p md"
 slug: "expose_metrics_on_an_express_app_and_scrape_with_p"
 status: "done"
 priority: "P3"
-labels: ["expose", "metrics", "express", "app"]
-created_at: "2025-10-11T01:03:32.222Z"
+labels: ["app", "expose", "express", "metrics"]
+created_at: "2025-10-11T03:39:14.375Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Task: Expose `/metrics` on an express app and scrape with Prom
 
@@ -61,29 +35,3 @@ Generated from ../unique/2025.08.08.15.08.47.md$../unique/2025.08.08.15.08.47.md
 
 
 #rejected
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

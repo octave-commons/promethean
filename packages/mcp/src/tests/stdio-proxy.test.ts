@@ -55,6 +55,19 @@ test("resolveCommandPath returns absolute binary when present in PATH", (t) => {
   t.is(resolveCommandPath("mycmd", env), scriptPath);
 });
 
+test("resolveCommandPath treats existing files as executable on Windows", (t) => {
+  const tempDir = mkdtempSync(path.join(tmpdir(), "mcp-cmd-win-"));
+  const cmdPath = path.join(tempDir, "tool.CMD");
+  writeFileSync(cmdPath, "@echo off\nexit /b 0\n", { mode: 0o666 });
+
+  const env = {
+    PATH: tempDir,
+    PATHEXT: ".CMD;.EXE",
+  } as Readonly<Record<string, string>>;
+
+  t.is(resolveCommandPath("tool", env, "win32"), cmdPath);
+});
+
 test("resolveCommandPath leaves command unchanged when not found", (t) => {
   const env = { PATH: "/nonexistent" } as Readonly<Record<string, string>>;
   t.is(resolveCommandPath("nonexistent-command", env), "nonexistent-command");

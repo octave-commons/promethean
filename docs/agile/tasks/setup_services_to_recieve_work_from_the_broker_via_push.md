@@ -5,37 +5,12 @@ slug: "setup_services_to_recieve_work_from_the_broker_via_push"
 status: "done"
 priority: "P3"
 labels: ["broker", "services", "setup", "via"]
-created_at: "2025-10-11T01:03:40.887Z"
+created_at: "2025-10-11T03:39:14.523Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ### ✅ Setup services to use broker correctly
 
@@ -126,28 +101,3 @@ We're gonna call it In Progress
 ```
 #in-progress
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

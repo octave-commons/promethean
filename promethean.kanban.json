@@ -57,7 +57,7 @@
     "review": 8,
     "document": 8,
     "done": 500,
-    "rejected": 20,
+    "rejected": 9999,
     "icebox": 9999,
     "incoming": 9999
   },
@@ -154,6 +154,23 @@
         "to": ["rejected"],
         "description": "Reject non-viable task",
         "check": "task-non-viable?"
+      },
+      {
+        "from": [
+          "accepted",
+          "breakdown",
+          "blocked",
+          "ready",
+          "todo",
+          "in_progress",
+          "testing",
+          "review",
+          "document",
+          "rejected"
+        ],
+        "to": ["icebox"],
+        "description": "Send task to icebox regardless of current state",
+        "check": "always-allow?"
       }
     ],
     "customChecks": {
@@ -188,6 +205,18 @@
       "dependencies-resolved?": {
         "description": "All blocking dependencies have been resolved",
         "impl": "(empty? (get-blocking-dependencies task board))"
+      },
+      "task-ready-for-execution?": {
+        "description": "Task is ready to enter the execution queue",
+        "impl": "(task-ready-for-execution? task board)"
+      },
+      "task-non-viable?": {
+        "description": "Task is marked as non-viable (duplicate, placeholder, etc.)",
+        "impl": "(task-non-viable? task board)"
+      },
+      "always-allow?": {
+        "description": "Always allow transition",
+        "impl": "true"
       }
     },
     "globalRules": [
@@ -196,12 +225,6 @@
         "description": "Enforce WIP limits for all columns",
         "enabled": true,
         "impl": "check-wip-limits"
-      },
-      {
-        "name": "task-existence",
-        "description": "Task must exist in source column",
-        "enabled": true,
-        "impl": "check-task-existence"
       }
     ]
   },

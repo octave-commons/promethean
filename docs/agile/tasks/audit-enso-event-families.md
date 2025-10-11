@@ -5,37 +5,12 @@ slug: "audit-enso-event-families"
 status: "document"
 priority: "P2"
 labels: ["documentation", "protocol"]
-created_at: "2025-10-11T01:03:32.222Z"
+created_at: "2025-10-11T03:39:14.374Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # Description
 
@@ -107,28 +82,3 @@ Focus on human review—no automated tooling expected beyond basic diffing.
 - All critical transport semantics and type definitions are properly aligned
 
 #Todo
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

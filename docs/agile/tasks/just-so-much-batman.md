@@ -4,33 +4,13 @@ title: "just so much batman"
 slug: "just-so-much-batman"
 status: "done"
 priority: "P3"
-labels: ["just", "much", "batman", "span"]
-created_at: "2025-10-11T01:03:32.223Z"
+labels: ["batman", "just", "much", "span"]
+created_at: "2025-10-11T03:39:14.375Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ```
 <hr class="__chatgpt_plugin">
@@ -162,23 +142,3 @@ Using this title write a reasonable task kanban task document:
 ### role::user
 
 w
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

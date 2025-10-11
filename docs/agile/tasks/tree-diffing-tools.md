@@ -4,38 +4,13 @@ title: "tree diffing tools"
 slug: "tree-diffing-tools"
 status: "breakdown"
 priority: "p3"
-labels: ["changes", "tree", "diffing", "tools"]
-created_at: "2025-10-11T01:03:32.221Z"
+labels: ["changes", "diffing", "tools", "tree"]
+created_at: "2025-10-11T03:39:14.373Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ```
 <hr class="__chatgpt_plugin">
@@ -88,28 +63,3 @@ You might find [this](link) useful while working on this task.
 <hr class="__chatgpt_plugin">
 ```
 ### role::user
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

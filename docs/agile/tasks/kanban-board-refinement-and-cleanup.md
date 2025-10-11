@@ -4,12 +4,12 @@ title: "Kanban Board Refinement and Cleanup"
 slug: "kanban-board-refinement-and-cleanup"
 status: "done"
 priority: "P1"
-tags: ["kanban", "process", "optimization"]
+labels: ["kanban", "optimization", "process"]
 created_at: "$(date -Iseconds)"
 estimates:
-  complexity: "2"
-  scale: "M"
-  time_to_completion: "1d"
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 ## 📋 Context

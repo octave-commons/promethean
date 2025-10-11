@@ -4,39 +4,13 @@ title: "Verify Omni protocol backward compatibility with SmartGPT bridge"
 slug: "verify-omni-protocol-backward-compatibility"
 status: "ready"
 priority: "P1"
-labels: ["omni", "compatibility", "testing", "smartgpt"]
-created_at: "2025-10-11T01:03:32.222Z"
+labels: ["compatibility", "omni", "smartgpt", "testing"]
+created_at: "2025-10-11T03:39:14.374Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🎯 Outcome
 
@@ -113,29 +87,3 @@ Ensure complete backward compatibility between the new Omni protocol and existin
 - SmartGPT bridge source code
 - Existing `/v1` API documentation
 - Response format specifications
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

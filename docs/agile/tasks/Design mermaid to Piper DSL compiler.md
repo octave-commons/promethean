@@ -4,38 +4,13 @@ title: "Design mermaid to Piper DSL compiler"
 slug: "Design mermaid to Piper DSL compiler"
 status: "todo"
 priority: "P4"
-labels: ["tooling", "pipelines"]
-created_at: "2025-10-11T01:03:32.222Z"
+labels: ["pipelines", "tooling"]
+created_at: "2025-10-11T03:39:14.374Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Task: Design mermaid to Piper DSL compiler
 
@@ -61,28 +36,3 @@ estimates:
 - `pipelines.json`
 - `scripts/` Piper tooling
 - nbb / ClojureScript DSL conventions
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

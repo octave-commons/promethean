@@ -4,7 +4,7 @@ title: "Add CRUD subcommands to kanban CLI"
 slug: "kanban-crud-commands"
 status: "icebox"
 priority: "P2"
-tags: ["kanban", "cli", "enhancement", "crud"]
+labels: ["cli", "crud", "enhancement", "kanban"]
 created_at: "2025-10-09T21:36:17.725Z"
 estimates:
   complexity: ""

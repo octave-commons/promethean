@@ -5,37 +5,12 @@ slug: "clearly-document-new-repository-layout"
 status: "ready"
 priority: "P3"
 labels: ["board", "lang"]
-created_at: "2025-10-11T01:03:32.221Z"
+created_at: "2025-10-11T03:39:14.373Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## Context
 
@@ -73,28 +48,3 @@ You might find [this] useful while working on this task
 
 - …
   #accepted
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,17 +1,15 @@
 ---
-uuid: 'a1b2c3d4-e5f6-7890-abcd-1234567890ab'
-title: 'Enhance kanban process validation with acceptance criteria and Fibonacci scoring'
-slug: 'enhance-kanban-process-validation'
-status: 'superseded'
-superseded_by: 'process-governance-cluster-001'
-superseded_at: '2025-10-09T22:45:00.000Z'
-priority: 'P2'
-tags: ['enhancement', 'kanban', 'process', 'validation', 'automation', 'superseded']
-created_at: '2025-10-09T21:36:17.716Z'
+uuid: "a1b2c3d4-e5f6-7890-abcd-1234567890ab"
+title: "Enhance kanban process validation with acceptance criteria and Fibonacci scoring"
+slug: "enhance-kanban-process-validation"
+status: "superseded"
+priority: "P2"
+labels: ["automation", "enhancement", "kanban", "process", "superseded", "validation"]
+created_at: "2025-10-11T03:39:14.524Z"
 estimates:
-  complexity: ''
-  scale: ''
-  time_to_completion: ''
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 ## ⚠️ Task Superseded

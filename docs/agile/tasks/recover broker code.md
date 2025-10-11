@@ -4,38 +4,13 @@ title: "Replace <SHA> with the commit from step 1"
 slug: "recover broker code"
 status: "document"
 priority: "P3"
-labels: ["commit", "you", "replace", "sha"]
-created_at: "2025-10-11T01:03:32.222Z"
+labels: ["commit", "replace", "sha", "you"]
+created_at: "2025-10-11T03:39:14.374Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 0) Safety first
 
@@ -539,28 +514,3 @@ your repo. If you tell me:
    present
 
 I’ll help figure the exact commit and path so you can restore.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

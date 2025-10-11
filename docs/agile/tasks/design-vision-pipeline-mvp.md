@@ -4,38 +4,13 @@ title: "design vision pipeline mvp"
 slug: "design-vision-pipeline-mvp"
 status: "breakdown"
 priority: "P3"
-labels: ["design", "vision", "pipeline", "mvp"]
-created_at: "2025-10-11T01:03:32.221Z"
+labels: ["design", "mvp", "pipeline", "vision"]
+created_at: "2025-10-11T03:39:14.373Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ```
 <hr class="__chatgpt_plugin">
@@ -148,28 +123,3 @@ true
 <hr class="__chatgpt_plugin">
 ```
 ### role::user
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

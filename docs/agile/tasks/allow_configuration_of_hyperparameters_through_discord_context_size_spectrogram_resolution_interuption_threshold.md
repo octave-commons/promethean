@@ -4,38 +4,13 @@ title: "allow configuration of hyperparameters through discord context size spec
 slug: "allow_configuration_of_hyperparameters_through_discord_context_size_spectrogram_resolution_interuption_threshold"
 status: "done"
 priority: "P3"
-labels: ["discord", "allow", "configuration", "hyperparameters"]
-created_at: "2025-10-11T01:03:32.222Z"
+labels: ["allow", "configuration", "discord", "hyperparameters"]
+created_at: "2025-10-11T03:39:14.374Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Description
 
@@ -143,28 +118,3 @@ Nothing
 
 - [[kanban]]
 #IceBox
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -4,39 +4,13 @@ title: "full agent mode text chat selectively join channels etc md"
 slug: "full_agent_mode_text_chat_selectively_join_channels_etc"
 status: "done"
 priority: "P3"
-labels: ["join", "full", "agent", "mode"]
-created_at: "2025-10-11T01:03:32.223Z"
+labels: ["agent", "full", "join", "mode"]
+created_at: "2025-10-11T03:39:14.375Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Description
 ```
@@ -96,29 +70,3 @@ Nothing
 
 ## Blockers
 - No active owner or unclear scope
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

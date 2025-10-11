@@ -4,38 +4,13 @@ title: "add codex layer to emacs"
 slug: "add-codex-layer-to-emacs"
 status: "icebox"
 priority: "P3"
-labels: ["codex", "emacs", "layer", "add"]
-created_at: "2025-10-11T01:03:32.219Z"
+labels: ["add", "codex", "emacs", "layer"]
+created_at: "2025-10-11T03:39:14.370Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Description
 
@@ -72,28 +47,3 @@ Useful for agents to engage in append only conversations about this task.
 - Estimate: 3
 - Assumptions: Emacs environment can load the Codex integration layer.
 - Dependencies: Existing Codex and Emacs plugin support.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

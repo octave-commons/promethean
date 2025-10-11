@@ -4,39 +4,13 @@ title: "add lag checks to ci smoke ensure small lag after md"
 slug: "add_lag_checks_to_ci_smoke_ensure_small_lag_after"
 status: "done"
 priority: "P3"
-labels: ["lag", "add", "checks", "smoke"]
-created_at: "2025-10-11T01:03:32.222Z"
+labels: ["add", "checks", "lag", "smoke"]
+created_at: "2025-10-11T03:39:14.374Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Task: Add `/lag` checks to CI smoke (ensure small lag after publishing bursts)
 
@@ -61,29 +35,3 @@ Generated from ../unique/2025.08.08.19.08.49.md$../unique/2025.08.08.19.08.49.md
 
 
 #rejected
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

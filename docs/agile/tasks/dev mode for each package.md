@@ -4,38 +4,13 @@ title: "Dev mode"
 slug: "dev mode for each package"
 status: "icebox"
 priority: "P3"
-labels: ["dev", "mode", "should", "package"]
-created_at: "2025-10-11T01:03:32.219Z"
+labels: ["dev", "mode", "package", "should"]
+created_at: "2025-10-11T03:39:14.371Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # Dev mode
 
@@ -45,28 +20,3 @@ If there is a webserver, frontend, etc, the frontend should restart, the app sho
 If it builds successfully. Do not restart the package instance if it does not build successfuly
 
 Not all packages are applications, many are libraries, modules, utilities, some are just CLI commands.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

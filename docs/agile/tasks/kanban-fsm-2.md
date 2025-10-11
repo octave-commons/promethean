@@ -1,17 +1,15 @@
 ---
-uuid: 'fb9b4eaf-7e84-4b58-bed3-dc0e678d2cae'
-title: 'kanban-fsm-2'
-slug: 'kanban-fsm-2'
-status: 'superseded'
-superseded_by: 'process-governance-cluster-001'
-superseded_at: '2025-10-09T22:45:00.000Z'
-priority: 'P3'
-tags: ['docops', 'labeled', 'superseded']
-created_at: '2025-10-08T20:10:46.035Z'
+uuid: "fb9b4eaf-7e84-4b58-bed3-dc0e678d2cae"
+title: "kanban-fsm-2"
+slug: "kanban-fsm-2"
+status: "superseded"
+priority: "P3"
+labels: ["docops", "labeled", "superseded"]
+created_at: "2025-10-11T03:39:14.524Z"
 estimates:
-  complexity: ''
-  scale: ''
-  time_to_completion: ''
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 ## 🗂 Source

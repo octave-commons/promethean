@@ -5,37 +5,12 @@ slug: "ensure-openapi-specs-are-automaticly-updated-when-an-endpoint-is-changed"
 status: "done"
 priority: "P3"
 labels: ["are", "ensure", "openapi", "specs"]
-created_at: "2025-10-11T01:03:32.222Z"
+created_at: "2025-10-11T03:39:14.375Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Description
 
@@ -82,28 +57,3 @@ Nothing
 
 - [[kanban]]
 #done
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

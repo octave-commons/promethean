@@ -4,8 +4,8 @@ title: "look into why the state object never seems to get updated md md"
 slug: "look_into_why_the_state_object_never_seems_to_get_updated"
 status: "Archive"
 priority: "P3"
-tags: ["look", "why", "state", "object"]
-created_at: "2025-10-07T20:25:05.645Z"
+labels: ["look", "object", "state", "why"]
+created_at: "2025-10-11T03:39:14.524Z"
 estimates:
   complexity: ""
   scale: ""

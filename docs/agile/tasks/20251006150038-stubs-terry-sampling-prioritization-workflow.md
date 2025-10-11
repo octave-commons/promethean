@@ -1,0 +1,104 @@
+---
+uuid: "5af6233e-8399-42a8-822e-29591076c41e"
+title: "2025.10.06.15.00.38 -stubs -terry -sampling -prioritization -workflow -terry -stubs -workflow   -prioritization -sampling -terry -stubs -workflow   -prioritization -sampling -terry -stubs -workflow   -prioritization -sampling -terry -stubs -workflow   -prioritization -sampling -terry -stubs -workflow   -prioritization -sampling -terry -stubs -workflow   -prioritization -sampling -terry -stubs -workflow   -prioritization -sampling -terry -stubs -workflow   -prioritization -sampling -terry -stubs -workflow   -prioritization -sampling -terry -stubs -workflow   -prioritization -sampling -terry -stubs -workflow   -prioritization -sampling -terry -stubs -workflow   -prioritization -sampling -terry -stubs -workflow   -prioritization -sampling -terry -stubs -workflow   -prioritization -sampling -terry -stubs -workflow   -prioritization -sampling -terry -stubs -workflow   -prioritization -sampling -terry -stubs -workflow   -prioritization -sampling -terry -stubs -workflow   -prioritization -sampling -terry -stubs -workflow   -prioritization -sampling -terry -stubs -workflow   -prioritization -sampling -terry -stubs -workflow   -prioritization -sampling -terry -stubs -workflow   -prioritization -sampling"
+slug: "20251006150038-stubs-terry-sampling-prioritization-workflow"
+status: "accepted"
+priority: "P3"
+labels: ["bradley-terry", "command-stubs", "interactive-workflow", "kanban", "prioritize", "task-prioritization", "weighted-sampling"]
+created_at: "2025-10-11T03:39:14.373Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
+# Command stubs (ready to wire)
+
+```ts
+// packages/kanban/src/cmds/prioritize/sample.ts
+import { parseFilter } from "../../lib/prioritize/filters";
+import { readTasksJSONL, writeJSONL, coach } from "../../lib/prioritize/io";
+import { weightedReservoir } from "../../lib/prioritize/sample";
+import { RNG } from "../../lib/prioritize/rng";
+export default async function cmd(argv: any) {
+  const { filter: f, n=7, seed=42, format="jsonl" } = argv;
+  const tasks = await readTasksJSONL(argv);               // reuse your task loaders
+  const pred = parseFilter(f);
+  const pool = tasks.filter(pred);
+  const rng = new RNG(seed);
+  const weight = (t:any)=> 1 + (t.priority ?? 0);         // extendable via --weight later
+  const picked = weightedReservoir(pool, n, weight, rng);
+  await writeJSONL(picked, { format });
+  coach("AGENT: You have a bite-sized set. Next run `kanban pairwise --session <name>` to compare two at a time.", argv);
+}
+```
+
+```ts
+// packages/kanban/src/cmds/prioritize/pairwise.ts
+import { readTasksJSONL, readChoices, writeJSONL, coach, ensureSession } from "../../lib/prioritize/io";
+import { fitBradleyTerry, mostUncertainPair } from "../../lib/prioritize/pair_model";
+export default async function cmd(argv:any){
+  const { session="default", k=1 } = argv;
+  const tasks = await readTasksJSONL(argv); // from stdin or files
+  const choices = await readChoices(session);
+  const model = fitBradleyTerry(tasks, choices);
+  const ids = tasks.map(t=>t.uuid);
+  const pairs:any[] = [];
+  for (let i=0;i<k;i++){
+    const p = mostUncertainPair(ids, model); if (!p) break;
+    pairs.push({ left: tasks.find(t=>t.uuid===p[0]), right: tasks.find(t=>t.uuid===p[1]), session});
+  }
+  await writeJSONL(pairs);
+  coach("AGENT: Choose A, B, or tie via `kanban choose --session ... --left <uuidA> --right <uuidB> --winner A|B|tie`.", argv);
+  await ensureSession(session);
+}
+```
+
+```ts
+// packages/kanban/src/cmds/prioritize/choose.ts
+import { appendChoice, coach } from "../../lib/prioritize/io";
+export default async function cmd(argv:any){
+  const { session, left, right, winner } = argv;
+  const row = await appendChoice({ session, left, right, winner });
+  process.stdout.write(JSON.stringify(row)+"\n");
+  coach("AGENT: Keep sending choices. Then run `kanban rank --session ...` to compute a prioritized list.", argv);
+}
+```
+
+```ts
+// packages/kanban/src/cmds/prioritize/rank.ts
+import { readTasksByUUIDs, readChoices, writeJSONL, coach } from "../../lib/prioritize/io";
+import { fitBradleyTerry } from "../../lib/prioritize/pair_model";
+export default async function cmd(argv:any){
+  const { session="default", top=20 } = argv;
+  const tasks = await readTasksByUUIDs(argv); // or full set
+  const choices = await readChoices(session);
+  const model = fitBradleyTerry(tasks, choices);
+  const rows = tasks
+    .map(t => ({ ...t, score: model.score.get(t.uuid) ?? 0 }))
+    .sort((a,b)=>b.score-a.score)
+    .map((t,i)=>({ ...t, rank: i+1 }))
+    .slice(0, top);
+  await writeJSONL(rows);
+  coach("AGENT: Take the top N as a shortlist. If still uncertain, run another `kanban pairwise` focused on top 2N.", argv);
+}
+```
+
+```ts
+// packages/kanban/src/cmds/prioritize/shortlist.ts
+import sample from "./sample"; import rank from "./rank";
+export default async function cmd(argv:any){
+  // call sample -> (optional warmup) -> rank (compose in-process)
+  // keep it simple now: just call sample then rank sessionless
+  await sample({ ...argv });
+  await rank({ ...argv });
+}
+```
+
+*Similar small, clear stubs for `explain.ts`, `cluster.ts`, `score.ts`, `compare.ts`—kept brief to avoid wall-of-code.*
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- _None_
+## Sources
+- _None_
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

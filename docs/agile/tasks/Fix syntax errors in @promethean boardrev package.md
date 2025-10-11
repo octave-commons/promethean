@@ -1,0 +1,36 @@
+---
+uuid: "f9b57388-2de7-485f-9726-8e0c70b12733"
+title: "Fix syntax errors in @promethean/boardrev package"
+slug: "Fix syntax errors in @promethean boardrev package"
+status: "incoming"
+priority: "P1"
+labels: ["errors", "fix", "syntax", "promethean"]
+created_at: "2025-10-11T03:39:14.371Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
+TypeScript compilation errors need to be resolved in [[packages/boardrev/src/03-index-repo.ts]]:
+
+## Syntax Errors Fixed:
+- Line 158: Fixed unterminated regex pattern for line breaks
+- Line 162: Fixed malformed regex for path separators
+- Line 256: Fixed function call with proper object structure
+
+## Remaining Issues:
+- Line 518: Syntax error in scheduler.ts needs investigation
+- Potential missing closing braces or malformed expressions
+
+## Relevant Files:
+- [[packages/boardrev/src/03-index-repo.ts]] - Repository indexing functionality
+- [[packages/boardrev/src/09-scheduler.ts]] - Task scheduling logic
+
+Priority: P1 - Blocking builds
+
+## ⛓️ Blocked By
+Nothing
+
+## ⛓️ Blocks
+Nothing

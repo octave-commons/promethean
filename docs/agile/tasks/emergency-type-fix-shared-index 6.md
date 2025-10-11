@@ -1,16 +1,38 @@
 ---
-uuid: "ba49b0d3-3a85-4f4c-a9d6-b92e051d53d3"
+uuid: "3953d451-0655-4dce-8d0c-de7d2746311e"
 title: "Fix TypeScript missing exports in packages/shared/src/index.ts: Missing exports for shared utilities"
 slug: "emergency-type-fix-shared-index 6"
 status: "incoming"
 priority: "P1"
-labels: ["typescript", "exports", "automation", "emergency"]
-created_at: "2025-10-11T01:03:32.220Z"
+labels: ["automation", "emergency", "exports", "typescript"]
+created_at: "2025-10-11T03:39:14.372Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -4,18 +4,13 @@ title: "Modernize MCP shell scripts with TypeScript implementations"
 slug: "Modernize MCP shell scripts with TypeScript implementations"
 status: "incoming"
 priority: "P2"
-labels: ["mcp", "shell", "scripts", "typescript"]
-created_at: "2025-10-11T01:03:32.220Z"
+labels: ["mcp", "scripts", "shell", "typescript"]
+created_at: "2025-10-11T03:39:14.371Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
 
 Multiple MCP-related shell scripts need modernization using existing TypeScript packages for better error handling, type safety, and integration with the @promethean/mcp ecosystem.
 
@@ -28,12 +23,3 @@ Nothing
 ## ⛓️ Blocks
 
 Nothing
-
-
-
-
-
-
-
-
-

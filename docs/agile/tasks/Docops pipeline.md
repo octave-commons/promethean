@@ -4,38 +4,13 @@ title: "docops pipeline"
 slug: "Docops pipeline"
 status: "done"
 priority: "P3"
-labels: ["docops", "pipeline", "agent", "drafts"]
-created_at: "2025-10-11T01:03:32.222Z"
+labels: ["agent", "docops", "drafts", "pipeline"]
+created_at: "2025-10-11T03:39:14.374Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Task: Complete Docops pipeline (synthesis agent)
 
@@ -89,28 +64,3 @@ Nothing
 - [[kanban]]
 #IceBox
 #ready
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

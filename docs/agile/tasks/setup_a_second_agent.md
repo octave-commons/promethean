@@ -4,38 +4,13 @@ title: "setup a second agent md"
 slug: "setup_a_second_agent"
 status: "icebox"
 priority: "P3"
-labels: ["second", "agent", "setup", "agents"]
-created_at: "2025-10-11T01:03:32.219Z"
+labels: ["agent", "agents", "second", "setup"]
+created_at: "2025-10-11T03:39:14.371Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Description
 
@@ -83,28 +58,3 @@ Nothing
 
 - [[kanban]]
 #IceBox
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

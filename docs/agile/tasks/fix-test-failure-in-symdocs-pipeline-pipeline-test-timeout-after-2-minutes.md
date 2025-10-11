@@ -4,12 +4,12 @@ title: "Fix test failure in symdocs-pipeline: Pipeline test timeout after 2 minu
 slug: "fix-test-failure-in-symdocs-pipeline-pipeline-test-timeout-after-2-minutes"
 status: "incoming"
 priority: "P1"
-tags: ["testing", "automation", "test-fix", "symdocs-pipeline"]
+labels: ["automation", "symdocs-pipeline", "test-fix", "testing"]
 created_at: "2025-10-09T16:04:55.991Z"
 estimates:
-  complexity: "medium"
-  scale: "medium"
-  time_to_completion: "2-4 hours"
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 # Fix test failure in symdocs-pipeline: Pipeline test timeout after 2 minutes

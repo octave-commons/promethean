@@ -2,40 +2,15 @@
 uuid: "6d4f5bd0-36e6-446c-bf62-db300e276f97"
 title: "Description"
 slug: "context-service"
-status: "ready"
+status: "icebox"
 priority: "P3"
-labels: ["description", "step", "useful", "describe"]
-created_at: "2025-10-11T01:03:32.221Z"
+labels: ["describe", "description", "step", "useful"]
+created_at: "2025-10-11T03:39:14.371Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # Description
 
@@ -60,28 +35,3 @@ You might find [this] useful while working on this task
 
 Useful for agents to engage in append only conversations about this task.
 #ready
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -4,12 +4,12 @@ title: "🔒 CRITICAL: Fix writeFileContent sandbox escape via symlinks"
 slug: "fix-writefilecontent-sandbox-escape-via-symlinks"
 status: "ready"
 priority: "P1"
-tags: ["security", "bug", "critical", "immediate", "github-1144"]
+labels: ["bug", "critical", "github-1144", "immediate", "security"]
 created_at: "$(date -u +%Y-%m-%dT%H:%M:%S.%3NZ)"
 estimates:
-  complexity: "high"
-  scale: "medium"
-  time_to_completion: "2-4h"
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 # Critical Security Fix: writeFileContent Sandbox Escape

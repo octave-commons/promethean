@@ -1,15 +1,15 @@
 ---
-uuid: d4e5f6g7-h8i9-0123-defg-456789012345
-title: Configure piper environment variables for AI-powered pipelines
-status: done
-priority: P1
-labels:
-  - piper
-  - environment
-  - ai-configuration
-  - ollama
-  - setup
-created_at: '2025-10-05T00:00:00.000Z'
+uuid: "d4e5f6g7-h8i9-0123-defg-456789012345"
+title: "Configure piper environment variables for AI-powered pipelines"
+slug: "configure-piper-environment-variables-for-ai-pipelines"
+status: "done"
+priority: "P1"
+labels: ["environment", "piper", "pipelines", "configure"]
+created_at: "'2025-10-05T00:00:00.000Z'"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 ## 🛠️ Task: Configure piper environment variables for AI-powered pipelines

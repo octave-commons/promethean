@@ -1,3 +1,16 @@
+# Kanban CLI — reference
+
+> NOTE: Frontmatter **labels** are deprecated. Use **`tags:`** (lowercase) in YAML frontmatter.
+> Generators (e.g., `generate-by-tags`) filter by **frontmatter `tags`** and do not read body "Tags:" headers.
+
+## Common commands
+
+- `pnpm kanban regenerate` — rebuilds `docs/agile/boards/generated.md` from task files.
+- `pnpm kanban getColumn <name>` — prints column JSON for auditing.
+- `pnpm kanban update <uuid> --content <markdown>` — append content to a task file.
+- `pnpm kanban update-status <uuid> <column>` — FSM transition respecting WIP.
+- `pnpm kanban enforce-wip-limits [--report|--fix]` — detect/fix WIP violations.
+- `pnpm kanban generate-by-tags "<tag> [<tag> ...]" --kanban <out.md>` — write a filtered board view by tags.
 # Kanban CLI Reference
 
 Complete reference for all `@promethean/kanban` CLI commands.

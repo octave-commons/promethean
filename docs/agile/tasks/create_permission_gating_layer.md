@@ -4,38 +4,13 @@ title: "create permission gating layer"
 slug: "create_permission_gating_layer"
 status: "done"
 priority: "P3"
-labels: ["permission", "layer", "create", "gating"]
-created_at: "2025-10-11T01:03:32.222Z"
+labels: ["create", "gating", "layer", "permission"]
+created_at: "2025-10-11T03:39:14.375Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Task: Create permission gating layer
 
@@ -95,28 +70,3 @@ is based on the "Dorian Permission Gate" equations in our math notes.
 - What format should permission rules use—YAML or JSON?
 - Do we need real-time updates or is a static config sufficient?
 #done
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

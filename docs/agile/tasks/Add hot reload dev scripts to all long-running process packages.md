@@ -1,0 +1,56 @@
+---
+uuid: "5748b8d2-07d4-4c90-b10f-6a4627486338"
+title: "Add hot reload dev scripts to all long-running process packages"
+slug: "Add hot reload dev scripts to all long-running process packages"
+status: "incoming"
+priority: "P2"
+labels: ["dev", "scripts", "packages", "add"]
+created_at: "2025-10-11T03:39:14.371Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
+Add development scripts with automatic rebuild and restart to packages that start long-running processes:
+
+## Packages that need dev scripts:
+
+### HTTP/Fastify Servers:
+- **@promethean/auth-service** - Fastify auth server, has start:dev but needs auto-rebuild
+- **@promethean/frontend-service** - Fastify static file server, missing dev script
+- **health-service** - Express health monitoring server, missing dev script  
+- **@promethean/mcp** - MCP proxy server, has basic dev but needs hot reload
+
+### WebSocket Servers:
+- **@promethean/broker** - WebSocket message broker, missing dev script
+- **heartbeat-service** - Heartbeat monitoring WebSocket server, missing dev script
+
+### Discord Bots:
+- **@promethean/discord** - Discord bot framework, missing dev script
+- **@promethean/cephalon** - Discord radio bot, has start:dev but needs auto-rebuild
+
+### Web Frontend:
+- **@promethean/duck-web** - Vite frontend (already has hot reload)
+
+### CLI Tools:
+- **@promethean/manager** - CLI tool (already has watch mode)
+
+## Implementation requirements:
+1. Use `tsx --watch` for TypeScript packages with automatic rebuild
+2. Use `nodemon` or similar for JS packages
+3. Add ignore patterns to prevent restart loops from self-generated files
+4. Ensure restart only on source code changes, not on output/log files
+5. Test each dev script to verify hot reload works correctly
+
+Priority: P2 - Developer experience improvement
+
+## ⛓️ Blocked By
+
+Nothing
+
+
+
+## ⛓️ Blocks
+
+Nothing

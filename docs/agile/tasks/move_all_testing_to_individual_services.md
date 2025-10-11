@@ -4,65 +4,13 @@ title: "move all testing to individual services md"
 slug: "move_all_testing_to_individual_services"
 status: "done"
 priority: "P3"
-labels: ["move", "all", "testing", "individual"]
-created_at: "2025-10-11T01:03:32.223Z"
+labels: ["all", "individual", "move", "testing"]
+created_at: "2025-10-11T03:39:14.375Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #Duplicate
 #rejected
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

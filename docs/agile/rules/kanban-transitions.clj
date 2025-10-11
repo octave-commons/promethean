@@ -108,20 +108,45 @@
   [task board]
   (empty? (:blocked-by task)))
 
+;; Additional predicates expected by CLI rules
+(defn ^:export task-non-viable?
+  "Allow unconditional rejection. Upstream heuristics can still be applied if desired."
+  [_task _board]
+  true)
+
+(defn ^:export task-ready-for-execution?
+  "Wrapper used by some flows; align with task-ready?"
+  [task board]
+  (task-ready? task board))
+
+(defn ^:export always-allow?
+  "Utility predicate that always returns true for permissive transitions."
+  [_task _board]
+  true)
+
 ;; Global rule functions
 (defn wip-limits
   "Enforce WIP limits on target column"
   [from-to task board]
   (let [target-col (second from-to)
-        current-count (count (get-in board [:columns target-col :tasks]))
-        limit (get-in board [:columns target-col :limit])]
-    (or (nil? limit) (< current-count limit))))
+        target-key (column-key target-col)]
+    (if (#{"rejected" "icebox"} target-key)
+      true
+      (let [column (first (filter #(= (column-key (:name %)) target-key) (:columns board)))
+            limit (:limit column)
+            current-count (count (:tasks column))]
+        (if (nil? column)
+          true
+          (or (nil? limit) (< current-count limit)))))))
 
 (defn task-existence
   "Task must exist in source column"
   [from-to task board]
-  (let [source-col (first from-to)]
-    (in-column? board source-col (:uuid task))))
+  (let [source-col (first from-to)
+        target-key (column-key (second from-to))]
+    (if (#{"rejected" "icebox"} target-key)
+      true
+      (in-column? board source-col (:uuid task)))))
 
 ;; Safety: require tool:* and env:* tags before entering in_progress
 (defn has-tool-env-tags?

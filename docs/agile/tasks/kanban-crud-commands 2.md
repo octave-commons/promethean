@@ -1,16 +1,22 @@
 ---
-uuid: "1473818b-1cba-49cd-8ca2-17552bcb9839"
+uuid: "04a9487a-2e8e-4ea9-9df3-39637055428d"
 title: "Add CRUD subcommands to kanban CLI"
 slug: "kanban-crud-commands 2"
 status: "icebox"
 priority: "P2"
-labels: ["kanban", "cli", "enhancement", "crud"]
-created_at: "2025-10-11T01:03:32.219Z"
+labels: ["cli", "crud", "enhancement", "kanban"]
+created_at: "2025-10-11T03:39:14.371Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 
 

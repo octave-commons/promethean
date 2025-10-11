@@ -4,38 +4,13 @@ title: "start eidolon"
 slug: "start_eidolon"
 status: "done"
 priority: "P3"
-labels: ["eidolon", "start", "services", "service"]
-created_at: "2025-10-11T01:03:40.887Z"
+labels: ["eidolon", "service", "services", "start"]
+created_at: "2025-10-11T03:39:14.524Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Task: Start Eidolon
 
@@ -99,28 +74,3 @@ Nothing
 - [[kanban]]
 
 #done
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

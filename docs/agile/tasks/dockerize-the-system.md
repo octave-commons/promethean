@@ -4,39 +4,13 @@ title: "dockerize the system"
 slug: "dockerize-the-system"
 status: "done"
 priority: "P3"
-labels: ["system", "dockerize", "services", "docker"]
-created_at: "2025-10-11T01:03:32.222Z"
+labels: ["docker", "dockerize", "services", "system"]
+created_at: "2025-10-11T03:39:14.375Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Description
 
@@ -89,29 +63,3 @@ Nothing
 - [[kanban]]
 
 #devops #Ready
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

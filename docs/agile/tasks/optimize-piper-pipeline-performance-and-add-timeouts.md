@@ -4,7 +4,7 @@ title: "Optimize piper pipeline performance and add comprehensive timeouts"
 slug: "optimize-piper-pipeline-performance-and-add-timeouts"
 status: "ready"
 priority: "P1"
-tags: ["piper", "performance", "timeouts", "optimization", "monitoring"]
+labels: ["monitoring", "optimization", "performance", "piper", "timeouts"]
 created_at: "2025-10-05T00:00:00.000Z"
 estimates:
   complexity: ""

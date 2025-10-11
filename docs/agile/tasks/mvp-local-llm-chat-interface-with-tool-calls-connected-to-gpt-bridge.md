@@ -4,38 +4,13 @@ title: "Pythagoras GPT Mirror WS chat + OpenAPI-driven tool calls via /v1"
 slug: "mvp-local-llm-chat-interface-with-tool-calls-connected-to-gpt-bridge"
 status: "done"
 priority: "P3"
-labels: ["openapi", "tool", "pythagoras", "mirror"]
-created_at: "2025-10-11T01:03:32.223Z"
+labels: ["mirror", "openapi", "pythagoras", "tool"]
+created_at: "2025-10-11T03:39:14.375Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # Pythagoras GPT Mirror WS chat + OpenAPI-driven tool calls via /v1
 ```
@@ -282,28 +257,3 @@ feat(agent): Pythagoras-mirror via WS with OpenAPI-driven tools (/v1 smartgpt-br
 - Story Points: 8
 
 #ready
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -4,39 +4,13 @@ title: "add startchangelogprojector for any compaction lik md"
 slug: "add_startchangelogprojector_for_any_compaction_lik"
 status: "done"
 priority: "P3"
-labels: ["add", "startchangelogprojector", "any", "compaction"]
-created_at: "2025-10-11T01:03:32.222Z"
+labels: ["add", "any", "compaction", "startchangelogprojector"]
+created_at: "2025-10-11T03:39:14.374Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Task: Add **startChangelogProjector** for any compaction-like topic you want live-queryable
 
@@ -61,29 +35,3 @@ Generated from [[2025.08.08.20.08.56]]
 
 
 #rejected
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

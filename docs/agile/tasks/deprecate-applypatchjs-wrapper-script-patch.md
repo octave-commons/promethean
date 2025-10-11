@@ -1,0 +1,25 @@
+---
+uuid: "e60e107f-c1ee-4eeb-9d10-96124e33dc6c"
+title: "Deprecate apply_patch.js wrapper script -patch -patch -patch -patch -patch -patch -patch -patch -patch -patch -patch -patch -patch -patch -patch -patch -patch -patch -patch -patch -patch -patch -patch"
+slug: "deprecate-applypatchjs-wrapper-script-patch"
+status: "incoming"
+priority: "P2"
+labels: ["apply-patch", "cleanup", "deprecation"]
+created_at: "2025-10-11T03:39:14.371Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
+Remove scripts/apply_patch.js as it's a simple wrapper around @promethean/apply-patch package. Users should use 'pnpm exec apply-patch' or the package CLI directly. Update documentation to reference the package instead of the script.
+
+## ⛓️ Blocked By
+
+Nothing
+
+
+
+## ⛓️ Blocks
+
+Nothing

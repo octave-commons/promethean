@@ -4,38 +4,13 @@ title: "document board usage guidelines 1 md"
 slug: "document_board_usage_guidelines_1"
 status: "done"
 priority: "P3"
-labels: ["board", "document", "usage", "guidelines"]
-created_at: "2025-10-11T01:03:32.222Z"
+labels: ["board", "document", "guidelines", "usage"]
+created_at: "2025-10-11T03:39:14.375Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Task: Document board usage guidelines
 
@@ -81,28 +56,3 @@ Nothing
 ## 🔍 Relevant Links
 - [[kanban]]
 #done
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

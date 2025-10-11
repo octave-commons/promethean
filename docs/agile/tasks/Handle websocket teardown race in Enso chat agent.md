@@ -5,37 +5,12 @@ slug: "Handle websocket teardown race in Enso chat agent"
 status: "incoming"
 priority: "P1"
 labels: ["cephalon", "reliability"]
-created_at: "2025-10-11T01:03:32.220Z"
+created_at: "2025-10-11T03:39:14.371Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 `EnsoChatAgent.dispose()` currently awaits `wsHandle.close()`, which rejects with “WebSocket was closed before the connection
 was established” when shutdown runs before the handshake finishes. AVA reports this as an uncaught exception during
@@ -51,28 +26,3 @@ was established” when shutdown runs before the handshake finishes. AVA reports
 - Add coverage for disposing the agent before the websocket fully opens.
 
 #incoming #enso #cephalon #stability
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

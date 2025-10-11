@@ -5,37 +5,12 @@ slug: "kanban-processor"
 status: "done"
 priority: "P3"
 labels: ["ecs", "kanban", "planning"]
-created_at: "2025-10-11T01:03:32.223Z"
+created_at: "2025-10-11T03:39:14.375Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🧾 Summary
 Unify the historical kanban scripts into an ECS-powered experience that keeps Markdown + CLI flows authoritative while introducing modern interaction patterns.
@@ -60,28 +35,3 @@ Unify the historical kanban scripts into an ECS-powered experience that keeps Ma
 
 #todo
 #accepted
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

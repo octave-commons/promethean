@@ -4,38 +4,13 @@ title: "catalog mermaid flow diagrams"
 slug: "Catalog mermaid flow diagrams"
 status: "incoming"
 priority: "P3"
-labels: ["mermaid", "diagrams", "catalog", "flow"]
-created_at: "2025-10-11T01:03:32.220Z"
+labels: ["catalog", "diagrams", "flow", "mermaid"]
+created_at: "2025-10-11T03:39:14.371Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Task: Catalog and normalize mermaid flow diagrams
 
@@ -61,28 +36,3 @@ estimates:
 - `packages/schema/README.md`
 - `packages/cephalon/docs/graph/cephalon-knowledge.md`
 - `docs/agile/process.md`
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

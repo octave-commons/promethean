@@ -4,38 +4,13 @@ title: "cephalon/enso — type rationale payload + consider event rename"
 slug: "enso-rationale-payload-and-event-name"
 status: "document"
 priority: "P2"
-labels: ["cephalon", "enso", "policy", "evaluation"]
-created_at: "2025-10-11T01:03:32.222Z"
+labels: ["cephalon", "enso", "evaluation", "policy"]
+created_at: "2025-10-11T03:39:14.374Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # ✅ COMPLETED
 
@@ -92,28 +67,3 @@ export type ActRationalePayload = {
 - Event name `act.rationale` retained for backward compatibility
 - Future rename to `guardrail.rationale` deferred pending downstream alignment
 - All payload fields now optional except `callId` and `rationale`
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

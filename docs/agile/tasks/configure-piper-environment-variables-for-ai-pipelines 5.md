@@ -1,22 +1,16 @@
 ---
-uuid: "f60937bb-b8a7-4ddc-8b79-1abc47e59b17"
-title: "Configure piper environment variables for AI-powered pipelines   -configuration   -configuration   -configuration   -configuration   -configuration   -configuration   -configuration   -configuration   -configuration   -configuration   -configuration   -configuration   -configuration   -configuration   -configuration   -configuration   -configuration"
+uuid: "55917f21-e00b-49fc-887a-2d7bd1722e6b"
+title: "Configure piper environment variables for AI-powered pipelines"
 slug: "configure-piper-environment-variables-for-ai-pipelines 5"
 status: "done"
 priority: "P1"
-labels: ["piper", "environment", "ai-configuration", "ollama", "setup"]
-created_at: "2025-10-11T01:03:32.222Z"
+labels: ["environment", "piper", "pipelines", "configure"]
+created_at: "2025-10-11T03:39:14.375Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
 
 
 

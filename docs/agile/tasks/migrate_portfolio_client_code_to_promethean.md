@@ -4,39 +4,13 @@ title: "migrate portfolio client code to promethean md"
 slug: "migrate_portfolio_client_code_to_promethean"
 status: "done"
 priority: "P3"
-labels: ["portfolio", "client", "promethean", "code"]
-created_at: "2025-10-11T01:03:32.223Z"
+labels: ["client", "code", "portfolio", "promethean"]
+created_at: "2025-10-11T03:39:14.375Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Task: Migrate portfolio client code to Promethean
 
@@ -101,29 +75,3 @@ new repository.
 - Should the portfolio be maintained as a submodule or migrated directly?
 - Do we need a static build step or can GitHub Pages handle raw files?
   #accepted
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

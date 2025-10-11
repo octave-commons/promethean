@@ -4,38 +4,13 @@ title: "Fix MCP github_request connector JSON-RPC schema error"
 slug: "fix_mcp_connector_jsonrpc_error"
 status: "done"
 priority: "P2"
-labels: ["mcp", "connectors", "bug"]
-created_at: "2025-10-11T01:03:32.223Z"
+labels: ["bug", "connectors", "mcp"]
+created_at: "2025-10-11T03:39:14.375Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 #InProgress
 
@@ -95,28 +70,3 @@ Estimate: 3
 ## 🔍 Relevant Links
 
 - Error snippet: `MCP error -32602: Tool github_request has an output schema but no structured content was provided`.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

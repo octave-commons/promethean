@@ -4,8 +4,8 @@ title: "migrating relevant modules from riatzukiza github md"
 slug: "migrating_relevant_modules_from_riatzukiza_github"
 status: "Archive"
 priority: "P3"
-tags: ["migrating", "relevant", "modules", "riatzukiza"]
-created_at: "2025-10-07T20:25:05.645Z"
+labels: ["migrating", "modules", "relevant", "riatzukiza"]
+created_at: "2025-10-11T03:39:14.524Z"
 estimates:
   complexity: ""
   scale: ""

@@ -1,16 +1,18 @@
 ---
-uuid: "3d273694-71f8-403a-becb-b8bc39af8a47"
-title: "🔒 CRITICAL: Fix writeFileContent sandbox escape via symlinks     -1144  )     -1144     -1144     -1144     -1144     -1144     -1144     -1144     -1144     -1144     -1144     -1144     -1144     -1144     -1144     -1144     -1144     -1144     -1144     -1144     -1144     -1144     -1144     -1144     -1144     -1144     -1144     -1144"
+uuid: "95667026-6995-462a-931e-26b9eaf138b1"
+title: "🔒 CRITICAL: Fix writeFileContent sandbox escape via symlinks   -1144    )   -1144   -1144   -1144   -1144   -1144   -1144   -1144   -1144   -1144   -1144   -1144   -1144   -1144   -1144   -1144   -1144   -1144   -1144   -1144   -1144   -1144"
 slug: "fix-writefilecontent-sandbox-escape-via-symlinks 2"
-status: "incoming"
+status: "ready"
 priority: "P1"
-labels: ["security", "bug", "critical", "immediate", "github-1144"]
-created_at: "2025-10-11T01:03:32.220Z"
+labels: ["bug", "critical", "github-1144", "immediate", "security"]
+created_at: "2025-10-11T03:39:14.374Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
 
 
 

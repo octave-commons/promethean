@@ -4,39 +4,13 @@ title: "add unit tests for gui helpers md md"
 slug: "add_unit_tests_for_gui_helpers"
 status: "done"
 priority: "P3"
-labels: ["gui", "helpers", "add", "unit"]
-created_at: "2025-10-11T01:03:32.222Z"
+labels: ["add", "gui", "helpers", "unit"]
+created_at: "2025-10-11T03:39:14.374Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Task: Add unit tests for GUI helpers
 
@@ -81,29 +55,3 @@ Nothing
 - [Untested modules]../../untested-code.md
 
 #archive
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

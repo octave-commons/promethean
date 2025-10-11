@@ -1,0 +1,27 @@
+---
+uuid: "9118a82b-fd8d-4cef-833b-658e16939012"
+title: "Fix MCP stdio proxy session ID extraction"
+slug: "fix-mcp-session-id-extraction"
+status: "accepted"
+priority: "P2"
+labels: ["mcp", "tests", "session"]
+created_at: "2025-10-11T03:44:30.260Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
+
+## Objective
+Resolve the failing session ID extraction checks in the MCP stdio proxy negative test suites (`chatgpt-simulation-negative` and `stdio-proxy-timing-negative`). Current runs return `null`, indicating the proxy handshake or response parsing is broken.
+
+## Acceptance Criteria
+- [ ] Session ID extraction succeeds for all affected tests, returning a non-null identifier.
+- [ ] Proxy handshake logic is documented and validated with new or updated tests.
+- [ ] Task notes capture the defect cause and the fix applied.
+
+## Related
+- Blocked by: `mcp_stdio_proxy_review` (`3c3a6f8b-2a8d-4b3e-8d63-2b7d1e8f7a91`).
+- Original blocker task: "MCP stdio proxy: code review + minimal hardening".
+

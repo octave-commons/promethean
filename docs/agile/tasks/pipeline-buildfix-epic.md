@@ -1,10 +1,15 @@
 ---
-title: Pipeline BuildFix & Automation Epic
-status: ready
-priority: P0
-tags: [pipeline, buildfix, automation, timeout, epic]
-created: 2025-10-10
-uuid: pipeline-epic-001
+uuid: "pipeline-epic-001"
+title: "Pipeline BuildFix & Automation Epic"
+slug: "pipeline-buildfix-epic"
+status: "ready"
+priority: "P0"
+labels: ["automation", "buildfix", "epic", "pipeline", "timeout"]
+created_at: "2025-10-11T02:55:04.214Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 # Pipeline BuildFix & Automation Epic

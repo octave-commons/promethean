@@ -4,38 +4,13 @@ title: "obsidian replacement md"
 slug: "obsidian_replacement"
 status: "icebox"
 priority: "P3"
-labels: ["obsidian", "replacement", "can", "than"]
-created_at: "2025-10-11T01:03:32.219Z"
+labels: ["can", "obsidian", "replacement", "than"]
+created_at: "2025-10-11T03:39:14.371Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Description
 
@@ -90,28 +65,3 @@ Nothing
 ```
 #ice-box
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

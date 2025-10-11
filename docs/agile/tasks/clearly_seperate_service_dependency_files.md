@@ -4,38 +4,13 @@ title: "clearly seperate service dependency files md"
 slug: "clearly_seperate_service_dependency_files"
 status: "done"
 priority: "P3"
-labels: ["service", "dependency", "clearly", "seperate"]
-created_at: "2025-10-11T01:03:32.222Z"
+labels: ["clearly", "dependency", "seperate", "service"]
+created_at: "2025-10-11T03:39:14.375Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 Q## 🛠️ Task: Clearly seperate service dependency files
 
@@ -97,28 +72,3 @@ Nothing
 - file-structure$../file-structure.md
 - MIGRATION_PLAN$../MIGRATION_PLAN.md
 #done
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -4,38 +4,13 @@ title: "cache decay mechanisim md md"
 slug: "cache_decay_mechanisim"
 status: "icebox"
 priority: "P3"
-labels: ["decay", "cache", "mechanisim", "are"]
-created_at: "2025-10-11T01:03:32.219Z"
+labels: ["are", "cache", "decay", "mechanisim"]
+created_at: "2025-10-11T03:39:14.370Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Description
 
@@ -90,28 +65,3 @@ Nothing
 ```
 #ice-box
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

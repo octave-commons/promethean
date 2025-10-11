@@ -4,38 +4,13 @@ title: "Convert existing Mermaid diagrams into pipeline configs"
 slug: "Convert existing mermaid diagrams into pipeline configs"
 status: "todo"
 priority: "P4"
-labels: ["tooling", "documentation"]
-created_at: "2025-10-11T01:03:32.222Z"
+labels: ["documentation", "tooling"]
+created_at: "2025-10-11T03:39:14.374Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Task: Convert existing Mermaid diagrams into pipeline configs
 
@@ -60,28 +35,3 @@ estimates:
 - README Gantt and flow diagrams
 - Proposed Mermaid DSL compiler design
 - `pipelines.json`
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

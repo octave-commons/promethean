@@ -255,7 +255,9 @@ export class AgentSupervisor {
     cwd?: string;
     env?: Record<string, string>;
     tty?: boolean;
-  }): { id: string; pid: number |async start({
+  }): { id: string; pid: number | undefined };
+
+  async start({
     prompt,
     cwd = ROOT_PATH,
     env = {},

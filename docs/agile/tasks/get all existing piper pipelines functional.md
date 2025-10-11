@@ -4,38 +4,13 @@ title: "Get all existing pipelines functional"
 slug: "get all existing piper pipelines functional"
 status: "breakdown"
 priority: "P3"
-labels: ["name", "existing", "pipelines", "get"]
-created_at: "2025-10-11T01:03:32.221Z"
+labels: ["existing", "get", "name", "pipelines"]
+created_at: "2025-10-11T03:39:14.373Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # Get all existing pipelines functional
 We've started working on several pipelines but only one of them works to any meaningful extant.
@@ -87,28 +62,3 @@ but they do not work with piper
 ```
 "name": "test-gap",
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -89,10 +89,19 @@ const pathExtensions = (
   return raw ? raw.split(';') : ['.EXE', '.CMD', '.BAT', '.COM'];
 };
 
-const isExecutableFile = (candidate: string): boolean => {
+const isExecutableFile = (
+  candidate: string,
+  platform: NodeJS.Platform = process.platform,
+): boolean => {
   try {
     const stat = fs.statSync(candidate);
-    return stat.isFile() && (stat.mode & 0o111) !== 0;
+    if (!stat.isFile()) {
+      return false;
+    }
+    if (platform === 'win32') {
+      return true;
+    }
+    return (stat.mode & 0o111) !== 0;
   } catch {
     return false;
   }
@@ -114,7 +123,7 @@ export const resolveCommandPath = (
   for (const dir of directories) {
     for (const ext of extensions) {
       const candidate = path.join(dir, ext ? `${command}${ext}` : command);
-      if (isExecutableFile(candidate)) {
+      if (isExecutableFile(candidate, platform)) {
         return candidate;
       }
     }

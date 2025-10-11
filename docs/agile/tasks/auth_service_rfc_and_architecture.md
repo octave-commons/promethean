@@ -4,38 +4,13 @@ title: "auth service rfc and architecture"
 slug: "auth_service_rfc_and_architecture"
 status: "incoming"
 priority: "P3"
-labels: ["service", "auth", "rfc", "architecture"]
-created_at: "2025-10-11T01:03:32.220Z"
+labels: ["architecture", "auth", "rfc", "service"]
+created_at: "2025-10-11T03:39:14.371Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 Auth Service: RFC and Architecture
 
@@ -60,28 +35,3 @@ Exit Criteria:
 - Approved RFC; tickets created for scaffold, clients, and service integration.
 
 #incoming #auth #oauth #architecture
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

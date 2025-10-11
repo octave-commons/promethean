@@ -4,39 +4,13 @@ title: "expose snapshot api for processes collection proce md"
 slug: "expose_snapshot_api_for_processes_collection_proce"
 status: "done"
 priority: "P3"
-labels: ["processes", "expose", "snapshot", "api"]
-created_at: "2025-10-11T01:03:32.222Z"
+labels: ["api", "expose", "processes", "snapshot"]
+created_at: "2025-10-11T03:39:14.375Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Task: Expose **Snapshot API** for `processes` (collection `processes`)
 
@@ -61,29 +35,3 @@ Generated from ../unique/2025.08.08.20.08.83.md$../unique/2025.08.08.20.08.83.md
 
 
 #rejected
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,16 +1,24 @@
 ---
-uuid: "7617c508-4e52-4cc6-a126-ac0363227623"
+uuid: "53c94afc-073f-40b7-bd95-fb1a68e5296d"
 title: "DocOps Workflow & Process Automation Epic"
 slug: "docops-workflow-epic 3"
 status: "ready"
 priority: "P1"
-labels: ["docops", "workflow", "automation", "epic"]
-created_at: "2025-10-11T01:03:32.222Z"
+labels: ["automation", "docops", "epic", "workflow"]
+created_at: "2025-10-11T03:39:14.373Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
 
 
 

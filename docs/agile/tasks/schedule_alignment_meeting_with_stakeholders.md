@@ -4,38 +4,13 @@ title: "schedule alignment meeting with stakeholders md md"
 slug: "schedule_alignment_meeting_with_stakeholders"
 status: "icebox"
 priority: "P3"
-labels: ["meeting", "stakeholders", "schedule", "alignment"]
-created_at: "2025-10-11T01:03:32.219Z"
+labels: ["alignment", "meeting", "schedule", "stakeholders"]
+created_at: "2025-10-11T03:39:14.371Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🛠️ Task: Schedule alignment meeting with stakeholders
 
@@ -82,28 +57,3 @@ Organize a meeting to discuss the open questions about Promethean and confirm pr
 ```
 #ice-box
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

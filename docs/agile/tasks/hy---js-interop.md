@@ -4,39 +4,13 @@ title: "Description"
 slug: "hy---js-interop"
 status: "done"
 priority: "P3"
-labels: ["description", "step", "javascript", "modules"]
-created_at: "2025-10-11T01:03:32.223Z"
+labels: ["description", "javascript", "modules", "step"]
+created_at: "2025-10-11T03:39:14.375Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # Description
 
@@ -87,29 +61,3 @@ You might find [this] useful while working on this task
 Blocked: requires decisions on runtime bridging tools.
 
 #Breakdown
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

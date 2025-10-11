@@ -1,0 +1,45 @@
+---
+uuid: "d39b879e-e77c-4e34-827b-d29ce5cd338e"
+title: "Fix agents-workflow package linting errors (44 issues)"
+slug: "Fix agents-workflow package linting errors (44 issues)"
+status: "incoming"
+priority: "P2"
+labels: ["errors", "issues", "fix", "agents"]
+created_at: "2025-10-11T03:39:14.371Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
+agents-workflow package has 44 linting problems (34 errors, 10 warnings):
+
+## Critical Errors to Fix:
+- **@typescript-eslint/no-unnecessary-type-assertion** - 5 instances of unnecessary assertions
+- **@typescript-eslint/no-explicit-any** - 2 instances of any types
+- **@typescript-eslint/no-unsafe-return** - Unsafe return values
+
+## Style Issues (convert to warnings):
+- **@typescript-eslint/consistent-type-definitions** - 12 interface vs type issues  
+- **max-lines/max-lines-per-function** - 3 files over line limits
+- **complexity/sonarjs/cognitive-complexity** - 4 functions too complex
+- **import/order** - Import ordering issues
+- **@typescript-eslint/require-await** - Async functions without await
+
+## Approach:
+1. Fix the 5 unnecessary type assertions (easy wins)
+2. Replace 2 explicit any types with proper types
+3. Add missing return types to public functions
+4. Leave complexity and line limits for future refactoring
+
+Priority: P2 - Moderate issues, manageable cleanup
+
+## ⛓️ Blocked By
+
+Nothing
+
+
+
+## ⛓️ Blocks
+
+Nothing

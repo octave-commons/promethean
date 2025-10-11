@@ -1,17 +1,30 @@
 {:mcp-servers
- ;; {:github
- ;;  {:command "/home/err/devel/promethean/scripts/mcp/bin/github.sh"}
+ {:github
+  {:command "/home/err/devel/promethean/scripts/mcp/bin/github.sh"}
 
-  ;; :github-chat
-  ;; {:command "/home/err/devel/promethean/scripts/mcp/bin/github_chat.sh"}
+  :github-chat
+  {:command "/home/err/devel/promethean/scripts/mcp/bin/github_chat.sh"}
 
-  ;; :sonarqube
-  ;; {:command "/home/err/devel/promethean/scripts/mcp/bin/sonarqube.sh"}
+  :sonarqube
+  {:command "/home/err/devel/promethean/scripts/mcp/bin/sonarqube.sh"}
+
+  :file-system
+  {:command "/home/err/devel/promethean/scripts/mcp/bin/filesystem.sh"}
+
+  :obsidian
+  {:command "/home/err/devel/promethean/scripts/mcp/bin/obsidian.sh"}
 
   :duckduckgo
   {:command "/home/err/devel/promethean/scripts/mcp/bin/duck.sh"}
 
+  :npm-helper
+  {:command "npx"
+   :args ["-y" "@pinkpixel/npm-helper-mcp"]
+   :cwd "$HOME/devel/promethean"}
 
+  ;; :eslint-official
+  ;; {:command "npx"
+  ;;  :args ["-y" "@eslint/mcp@latest"]}
 
   :eslint
   {:command "npx"
@@ -35,13 +48,13 @@
    {:command "uvx"
     :args ["--from" "git+https://github.com/oraios/serena" "serena" "start-mcp-server"]
     :cwd "$HOME/devel/promethean"}
-  ;; :haiku-rag
-  ;; {:command "uvx"
-  ;;  :args ["haiku-rag"
-  ;;         "serve"
-  ;;         "--stdio"
-  ;;         "--db" "/home/err/.local/share/haiku-rag"]
-  ;;  :cwd "$HOME/devel/promethean"}}
+  :haiku-rag
+  {:command "uvx"
+   :args ["haiku-rag"
+          "serve"
+          "--stdio"
+          "--db" "/home/err/.local/share/haiku-rag"]
+   :cwd "$HOME/devel/promethean"}}
 
  :http
  {:transport :http
@@ -73,10 +86,11 @@
     :include-help? true}
    :github/review
    {:tools ["github.pr.get" "github.pr.files" "github.pr.resolvePosition" "github.pr.review.start"
-            "github.pr.review.commentInline" "github.pr.review.submit" "github.review.openPullRequest"
-            "github.review.getComments" "github.review.getReviewComments" "github.review.submitComment"
-            "github.review.submitReview" "github.review.getActionStatus" "github.review.commit"
-            "github.review.push" "github.review.checkoutBranch" "github.review.createBranch"
+            "github.pr.review.commentInline" "github.pr.review.submit"
+            "github.review.openPullRequest"
+            "github.review.getComments" "github.review.getReviewComments"
+            "github.review.submitComment" "github.review.submitReview" "github.review.getActionStatus"
+            "github.review.commit" "github.review.push" "github.review.checkoutBranch" "github.review.createBranch"
             "github.review.revertCommits" "github.review.requestChangesFromCodex"]
     :include-help? true}
    :kanban

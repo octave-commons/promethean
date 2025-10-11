@@ -4,38 +4,13 @@ title: "Setup MCP server for pnpm workspace management"
 slug: "setup-mcp-pnpm-ops"
 status: "ready"
 priority: "P2"
-labels: ["pnpm", "workspace", "mcp", "server"]
-created_at: "2025-10-11T01:03:32.222Z"
+labels: ["mcp", "pnpm", "server", "workspace"]
+created_at: "2025-10-11T03:39:14.374Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ```
 #Ready
@@ -89,28 +64,3 @@ Estimate: 5
 ## 🔍 Relevant Links
 
 - User request (current session)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -7,7 +7,6 @@ import {
 } from "../index.js";
 
 test("applyDesignTokens sets CSS variables", (t) => {
-  // eslint-disable-next-line functional/no-let
   let styleEntries: ReadonlyArray<readonly [string, string]> = [];
   const root = {
     style: {
@@ -28,7 +27,6 @@ test("registerUiComponents registers custom elements", (t) => {
     readonly define: (n: string, c: CustomElementConstructor) => void;
     readonly get: (n: string) => CustomElementConstructor | undefined;
   };
-  // eslint-disable-next-line functional/no-let
   let registry: ReadonlyArray<readonly [string, CustomElementConstructor]> = [];
   const customEls: SimpleRegistry = {
     define: (n, c) => {
@@ -36,7 +34,6 @@ test("registerUiComponents registers custom elements", (t) => {
     },
     get: (n) => registry.find(([name]) => name === n)?.[1],
   };
-  // eslint-disable-next-line functional/immutable-data
   (globalThis as unknown as { customElements: SimpleRegistry }).customElements =
     customEls;
   registerUiComponents();

@@ -4,38 +4,13 @@ title: "auth service scaffold and endpoints"
 slug: "auth_service_scaffold_and_endpoints"
 status: "incoming"
 priority: "P3"
-labels: ["auth", "service", "scaffold", "endpoints"]
-created_at: "2025-10-11T01:03:32.220Z"
+labels: ["auth", "endpoints", "scaffold", "service"]
+created_at: "2025-10-11T03:39:14.371Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ```
 Auth Service: Scaffold + Endpoints
@@ -58,28 +33,3 @@ Exit Criteria:
 - Basic tests for token issuance, expiration, invalid secret, and JWKS fetch.
 
 #incoming #auth #oauth #service
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

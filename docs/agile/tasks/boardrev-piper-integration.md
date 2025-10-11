@@ -4,7 +4,7 @@ title: "Integrate boardrev with piper pipeline system"
 slug: "boardrev-piper-integration"
 status: "icebox"
 priority: "P2"
-tags: ["enhancement", "boardrev", "infrastructure"]
+labels: ["boardrev", "enhancement", "infrastructure"]
 created_at: "Mon Oct 06 2025 07:00:00 GMT-0500 (Central Daylight Time)"
 estimates:
   complexity: ""

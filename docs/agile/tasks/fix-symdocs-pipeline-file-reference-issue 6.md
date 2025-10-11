@@ -1,16 +1,38 @@
 ---
-uuid: "633f65a3-3596-495e-a26a-b3745597e3ad"
+uuid: "5ff60699-d1fa-4431-bb60-633ed70bc20d"
 title: "Fix symdocs pipeline file reference issue"
 slug: "fix-symdocs-pipeline-file-reference-issue 6"
 status: "incoming"
 priority: "P2"
-labels: ["pipeline", "bug", "automation", "symdocs"]
-created_at: "2025-10-11T01:03:32.220Z"
+labels: ["automation", "bug", "pipeline", "symdocs"]
+created_at: "2025-10-11T03:39:14.372Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
