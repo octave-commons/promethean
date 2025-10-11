@@ -3,9 +3,9 @@
  * Supports cron patterns, intervals, and complex scheduling logic
  */
 
-import { EventEmitter } from "node:events";
-import { createLogger, type Logger } from "@promethean/utils";
-import { setInterval, clearInterval, setTimeout } from "node:timers";
+import { EventEmitter } from 'node:events';
+import { createLogger, type Logger } from '@promethean/utils';
+import { setInterval, clearInterval, setTimeout } from 'node:timers';
 
 export interface ScheduleConfig {
   timezone?: string;
@@ -34,7 +34,7 @@ export interface JobExecution {
   executionId: string;
   startTime: Date;
   endTime?: Date;
-  status: "running" | "completed" | "failed" | "timeout" | "cancelled";
+  status: 'running' | 'completed' | 'failed' | 'timeout' | 'cancelled';
   duration?: number;
   error?: Error;
   attempt: number;
@@ -63,15 +63,15 @@ export class Scheduler extends EventEmitter {
 
   constructor(config: ScheduleConfig = {}) {
     this.config = {
-      timezone: "UTC",
+      timezone: 'UTC',
       maxConcurrentJobs: 3,
       jobTimeoutMs: 10 * 60 * 1000, // 10 minutes
       retryAttempts: 3,
       retryDelayMs: 5000, // 5 seconds
-      ...config
+      ...config,
     };
 
-    this.logger = createLogger({ service: "boardrev-scheduler" });
+    this.logger = createLogger({ service: 'boardrev-scheduler' });
   }
 
   addJob(job: JobDefinition): void {
@@ -84,7 +84,7 @@ export class Scheduler extends EventEmitter {
     }
 
     this.logger.info(`Added job: ${job.name} (${job.id})`);
-    this.emit("job-added", { job });
+    this.emit('job-added', { job });
   }
 
   removeJob(jobId: string): void {
@@ -98,7 +98,7 @@ export class Scheduler extends EventEmitter {
 
     // Cancel any active executions
     for (const [executionId, execution] of this.executions) {
-      if (execution.jobId === jobId && execution.status === "running") {
+      if (execution.jobId === jobId && execution.status === 'running') {
         this.cancelExecution(executionId);
       }
     }
@@ -107,7 +107,7 @@ export class Scheduler extends EventEmitter {
     this.jobStats.delete(jobId);
 
     this.logger.info(`Removed job: ${job.name} (${jobId})`);
-    this.emit("job-removed", { jobId, job });
+    this.emit('job-removed', { jobId, job });
   }
 
   enableJob(jobId: string): void {
@@ -120,7 +120,7 @@ export class Scheduler extends EventEmitter {
     this.scheduleJob(job);
 
     this.logger.info(`Enabled job: ${job.name} (${jobId})`);
-    this.emit("job-enabled", { jobId, job });
+    this.emit('job-enabled', { jobId, job });
   }
 
   disableJob(jobId: string): void {
@@ -133,7 +133,7 @@ export class Scheduler extends EventEmitter {
     this.unscheduleJob(jobId);
 
     this.logger.info(`Disabled job: ${job.name} (${jobId})`);
-    this.emit("job-disabled", { jobId, job });
+    this.emit('job-disabled', { jobId, job });
   }
 
   updateJob(jobId: string, updates: Partial<JobDefinition>): void {
@@ -158,7 +158,7 @@ export class Scheduler extends EventEmitter {
     }
 
     this.logger.info(`Updated job: ${job.name} (${jobId})`);
-    this.emit("job-updated", { jobId, job, updates });
+    this.emit('job-updated', { jobId, job, updates });
   }
 
   getJob(jobId: string): JobDefinition | undefined {
@@ -182,12 +182,13 @@ export class Scheduler extends EventEmitter {
   }
 
   getActiveExecutions(): JobExecution[] {
-    return Array.from(this.executions.values())
-      .filter(execution => execution.status === "running");
+    return Array.from(this.executions.values()).filter(
+      (execution) => execution.status === 'running',
+    );
   }
 
   async start(): Promise<void> {
-    this.logger.info("Starting scheduler");
+    this.logger.info('Starting scheduler');
 
     // Start all enabled jobs
     for (const job of this.jobs.values()) {
@@ -196,12 +197,12 @@ export class Scheduler extends EventEmitter {
       }
     }
 
-    this.logger.info("Scheduler started");
-    this.emit("started");
+    this.logger.info('Scheduler started');
+    this.emit('started');
   }
 
   async stop(): Promise<void> {
-    this.logger.info("Stopping scheduler");
+    this.logger.info('Stopping scheduler');
 
     // Unschedule all jobs
     for (const jobId of this.jobs.keys()) {
@@ -212,32 +213,34 @@ export class Scheduler extends EventEmitter {
     if (this.activeJobs.size > 0) {
       this.logger.info(`Waiting for ${this.activeJobs.size} active jobs to complete`);
       await Promise.race([
-        Promise.all(Array.from(this.activeJobs).map(executionId =>
-          this.waitForExecutionCompletion(executionId)
-        )),
-        new Promise(resolve => setTimeout(resolve, 30000)) // 30 second timeout
+        Promise.all(
+          Array.from(this.activeJobs).map((executionId) =>
+            this.waitForExecutionCompletion(executionId),
+          ),
+        ),
+        new Promise((resolve) => setTimeout(resolve, 30000)), // 30 second timeout
       ]);
     }
 
-    this.logger.info("Scheduler stopped");
-    this.emit("stopped");
+    this.logger.info('Scheduler stopped');
+    this.emit('stopped');
   }
 
   private validateJob(job: JobDefinition): void {
     if (!job.id || !job.name) {
-      throw new Error("Job must have id and name");
+      throw new Error('Job must have id and name');
     }
 
-    if (typeof job.schedule !== "string" && typeof job.schedule !== "number") {
-      throw new Error("Job schedule must be a string (cron) or number (interval)");
+    if (typeof job.schedule !== 'string' && typeof job.schedule !== 'number') {
+      throw new Error('Job schedule must be a string (cron) or number (interval)');
     }
 
-    if (typeof job.schedule === "number" && job.schedule <= 0) {
-      throw new Error("Job interval must be positive");
+    if (typeof job.schedule === 'number' && job.schedule <= 0) {
+      throw new Error('Job interval must be positive');
     }
 
-    if (typeof job.handler !== "function") {
-      throw new Error("Job must have a handler function");
+    if (typeof job.handler !== 'function') {
+      throw new Error('Job must have a handler function');
     }
   }
 
@@ -248,7 +251,7 @@ export class Scheduler extends EventEmitter {
         successfulRuns: 0,
         failedRuns: 0,
         averageDuration: 0,
-        currentStreak: 0
+        currentStreak: 0,
       });
     }
   }
@@ -260,7 +263,7 @@ export class Scheduler extends EventEmitter {
     try {
       let scheduler;
 
-      if (typeof job.schedule === "string") {
+      if (typeof job.schedule === 'string') {
         // Cron-based scheduling
         scheduler = this.createCronScheduler(job);
       } else {
@@ -270,7 +273,6 @@ export class Scheduler extends EventEmitter {
 
       this.schedules.set(job.id, scheduler);
       this.logger.debug(`Scheduled job: ${job.name} (${job.id})`);
-
     } catch (error) {
       this.logger.error(`Failed to schedule job ${job.id}:`, error);
       throw error;
@@ -280,9 +282,9 @@ export class Scheduler extends EventEmitter {
   private unscheduleJob(jobId: string): void {
     const scheduler = this.schedules.get(jobId);
     if (scheduler) {
-      if (typeof scheduler.destroy === "function") {
+      if (typeof scheduler.destroy === 'function') {
         scheduler.destroy();
-      } else if (typeof scheduler.clear === "function") {
+      } else if (typeof scheduler.clear === 'function') {
         scheduler.clear();
       } else {
         clearInterval(scheduler);
@@ -294,14 +296,18 @@ export class Scheduler extends EventEmitter {
   }
 
   private async createCronScheduler(job: JobDefinition): Promise<any> {
-    const { default: cron } = await import("node-cron");
+    const { default: cron } = await import('node-cron');
 
-    const scheduledJob = cron.schedule(job.schedule, () => {
-      this.executeJob(job);
-    }, {
-      scheduled: true,
-      timezone: job.timezone || this.config.timezone
-    });
+    const scheduledJob = cron.schedule(
+      job.schedule,
+      () => {
+        this.executeJob(job);
+      },
+      {
+        scheduled: true,
+        timezone: job.timezone || this.config.timezone,
+      },
+    );
 
     return scheduledJob;
   }
@@ -319,14 +325,16 @@ export class Scheduler extends EventEmitter {
       this.logger.info(`Job ${job.id} reached max runs limit (${job.maxRuns}), disabling`);
       job.enabled = false;
       this.unscheduleJob(job.id);
-      this.emit("job-max-runs", { jobId: job.id, job });
+      this.emit('job-max-runs', { jobId: job.id, job });
       return;
     }
 
     // Check concurrent job limit
     if (this.activeJobs.size >= this.config.maxConcurrentJobs) {
-      this.logger.warn(`Max concurrent jobs reached (${this.config.maxConcurrentJobs}), queuing job ${job.id}`);
-      this.emit("job-queued", { jobId: job.id, job });
+      this.logger.warn(
+        `Max concurrent jobs reached (${this.config.maxConcurrentJobs}), queuing job ${job.id}`,
+      );
+      this.emit('job-queued', { jobId: job.id, job });
       return;
     }
 
@@ -335,16 +343,16 @@ export class Scheduler extends EventEmitter {
       jobId: job.id,
       executionId,
       startTime: new Date(),
-      status: "running",
+      status: 'running',
       attempt: 1,
-      metadata: { ...job.metadata }
+      metadata: { ...job.metadata },
     };
 
     this.executions.set(executionId, execution);
     this.activeJobs.add(executionId);
 
     this.logger.info(`Starting job execution: ${job.name} (${executionId})`);
-    this.emit("job-start", { executionId, job, execution });
+    this.emit('job-start', { executionId, job, execution });
 
     try {
       const timeoutMs = job.timeoutMs || this.config.jobTimeoutMs;
@@ -353,17 +361,19 @@ export class Scheduler extends EventEmitter {
       // Execution completed successfully
       execution.endTime = new Date();
       execution.duration = execution.endTime.getTime() - execution.startTime.getTime();
-      execution.status = "completed";
+      execution.status = 'completed';
 
       this.updateJobStats(job.id, execution, true);
-      this.logger.info(`Job execution completed: ${job.name} (${executionId}) in ${execution.duration}ms`);
-      this.emit("job-complete", { executionId, job, execution, result });
-
+      this.logger.info(
+        `Job execution completed: ${job.name} (${executionId}) in ${execution.duration}ms`,
+      );
+      this.emit('job-complete', { executionId, job, execution, result });
     } catch (error) {
       // Execution failed
       execution.endTime = new Date();
       execution.duration = execution.endTime.getTime() - execution.startTime.getTime();
-      execution.status = error instanceof Error && error.message === "Timeout" ? "timeout" : "failed";
+      execution.status =
+        error instanceof Error && error.message === 'Timeout' ? 'timeout' : 'failed';
       execution.error = error as Error;
 
       this.updateJobStats(job.id, execution, false);
@@ -372,17 +382,18 @@ export class Scheduler extends EventEmitter {
       // Retry logic
       const retryAttempts = job.retryAttempts ?? this.config.retryAttempts;
       if (execution.attempt < retryAttempts) {
-        this.logger.info(`Retrying job ${job.id} (attempt ${execution.attempt + 1}/${retryAttempts})`);
+        this.logger.info(
+          `Retrying job ${job.id} (attempt ${execution.attempt + 1}/${retryAttempts})`,
+        );
         execution.attempt++;
 
         const retryDelay = job.retryDelayMs ?? this.config.retryDelayMs;
         setTimeout(() => {
           this.executeJob(job);
         }, retryDelay);
-
       } else {
         this.logger.error(`Job ${job.id} failed after ${retryAttempts} attempts`);
-        this.emit("job-failed", { executionId, job, execution, error });
+        this.emit('job-failed', { executionId, job, execution, error });
       }
     } finally {
       this.executions.delete(executionId);
@@ -390,15 +401,10 @@ export class Scheduler extends EventEmitter {
     }
   }
 
-  private async executeWithTimeout<T>(
-    fn: () => Promise<T>,
-    timeoutMs: number
-  ): Promise<T> {
+  private async executeWithTimeout<T>(fn: () => Promise<T>, timeoutMs: number): Promise<T> {
     return Promise.race([
       fn(),
-      new Promise<never>((_, reject) =>
-        setTimeout(() => reject(new Error("Timeout")), timeoutMs)
-      )
+      new Promise<never>((_, reject) => setTimeout(() => reject(new Error('Timeout')), timeoutMs)),
     ]);
   }
 
@@ -426,8 +432,8 @@ export class Scheduler extends EventEmitter {
 
   private cancelExecution(executionId: string): void {
     const execution = this.executions.get(executionId);
-    if (execution && execution.status === "running") {
-      execution.status = "cancelled";
+    if (execution && execution.status === 'running') {
+      execution.status = 'cancelled';
       execution.endTime = new Date();
       execution.duration = execution.endTime.getTime() - execution.startTime.getTime();
 
@@ -435,7 +441,7 @@ export class Scheduler extends EventEmitter {
       this.activeJobs.delete(executionId);
 
       this.logger.info(`Cancelled job execution: ${executionId}`);
-      this.emit("job-cancelled", { executionId, execution });
+      this.emit('job-cancelled', { executionId, execution });
     }
   }
 
@@ -443,7 +449,7 @@ export class Scheduler extends EventEmitter {
     return new Promise((resolve) => {
       const checkInterval = setInterval(() => {
         const execution = this.executions.get(executionId);
-        if (!execution || execution.status !== "running") {
+        if (!execution || execution.status !== 'running') {
           clearInterval(checkInterval);
           resolve();
         }
@@ -461,7 +467,7 @@ export class Scheduler extends EventEmitter {
     name: string,
     schedule: string,
     handler: () => Promise<void>,
-    options: Partial<JobDefinition> = {}
+    options: Partial<JobDefinition> = {},
   ): JobDefinition {
     return {
       id,
@@ -469,7 +475,7 @@ export class Scheduler extends EventEmitter {
       schedule,
       enabled: true,
       handler,
-      ...options
+      ...options,
     };
   }
 
@@ -478,7 +484,7 @@ export class Scheduler extends EventEmitter {
     name: string,
     intervalMs: number,
     handler: () => Promise<void>,
-    options: Partial<JobDefinition> = {}
+    options: Partial<JobDefinition> = {},
   ): JobDefinition {
     return {
       id,
@@ -486,36 +492,36 @@ export class Scheduler extends EventEmitter {
       schedule: intervalMs,
       enabled: true,
       handler,
-      ...options
+      ...options,
     };
   }
 
   static createBoardrevFullRunJob(handler: () => Promise<void>): JobDefinition {
     return Scheduler.createCronJob(
-      "boardrev-full-run",
-      "Full Boardrev Pipeline",
-      "0 */6 * * *", // Every 6 hours
-      handler
+      'boardrev-full-run',
+      'Full Boardrev Pipeline',
+      '0 */6 * * *', // Every 6 hours
+      handler,
     );
   }
 
   static createBoardrevQuickCheckJob(handler: () => Promise<void>): JobDefinition {
     return Scheduler.createCronJob(
-      "boardrev-quick-check",
-      "Boardrev Quick Check",
-      "*/15 * * * *", // Every 15 minutes
-      handler
+      'boardrev-quick-check',
+      'Boardrev Quick Check',
+      '*/15 * * * *', // Every 15 minutes
+      handler,
     );
   }
 
   static createGitCommitJob(handler: () => Promise<void>): JobDefinition {
     return Scheduler.createCronJob(
-      "boardrev-post-commit",
-      "Post-Commit Boardrev Check",
-      "@hourly", // Every hour
+      'boardrev-post-commit',
+      'Post-Commit Boardrev Check',
+      '@hourly',
       handler,
-      { maxRuns: 1 } // Run once per hour max
-    });
+      { maxRuns: 1 },
+    );
   }
 }
 

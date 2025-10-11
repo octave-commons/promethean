@@ -140,3 +140,6 @@ tmp-docops-test/
 scripts/.piper/
 tree.txt
 .aider*
+
+# Benchmark fixtures
+benchmark-fixtures/

@@ -579,7 +579,7 @@
         {
           "id": "bf-iterate",
           "deps": ["bf-build", "bf-errors"],
-          "shell": "pnpm --filter @promethean/buildfix bf:02-iterate --errors .cache/buildfix/errors.json --out .cache/buildfix --model gpt-oss:20b --max-cycles 3 --git batch --commit-on success --branch-prefix buildfix --remote origin --push false --use-gh false --rollback-on-regress true --max-errors-per-branch 10",
+          "shell": "pnpm --filter @promethean/buildfix bf:02-iterate --errors .cache/buildfix/errors.json --out .cache/buildfix --model gpt-oss:120b-cloud --max-cycles 3 --git batch --commit-on success --branch-prefix buildfix --remote origin --push false --use-gh false --rollback-on-regress true --max-errors-per-branch 10",
           "env": {
             "OLLAMA_URL": "${OLLAMA_URL}"
           },

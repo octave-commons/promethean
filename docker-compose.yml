@@ -1,17 +1,16 @@
 services:
-
   openwebui:
     image: ghcr.io/open-webui/open-webui:main
     gpus: all
     # profiles: ["ai","rag","ollama","mcp"]
     ports:
-      - "3000:8080"
+      - '3000:8080'
     volumes:
       - open-webui:/app/backend/data
   sonarqube:
     image: sonarqube:25.8.0.112029-community
     container_name: sonarqube
-    ports: ["9000:9000"]
+    ports: ['9000:9000']
     environment:
       - SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true
     volumes:
@@ -31,69 +30,113 @@ services:
   ollama:
     image: ollama/ollama:0.12.3
     restart: always
-    ports: ["127.0.0.1:11434:11434"]
+    ports: ['127.0.0.1:11434:11434']
     gpus: all
-    mem_limit: "24g"     # instead of: memory:
-    shm_size: "2g"       # instead of: shm-size
+    mem_limit: '24g' # instead of: memory:
+    shm_size: '2g' # instead of: shm-size
     ulimits:
       memlock: -1
     volumes:
-      - /usr/share/ollama/.ollama/models:/root/.ollama/models
+      - /usr/share/ollama/.ollama/:/root/.ollama/
     environment:
       # You can override Dockerfile defaults here if needed
-      OLLAMA_KV_CACHE_TYPE: "q4_0"
-      OLLAMA_FLASH_ATTENTION: "1"
-      OLLAMA_HOST: "0.0.0.0"   # If you want to bind externally
-      OLLAMA_DEBUG: "INFO"
-      OLLAMA_LLM_LIBRARY: "cublas"
-      CUDA_VISIBLE_DEVICES: "0"
-      NVIDIA_VISIBLE_DEVICES: "all"
-      NVIDIA_DRIVER_CAPABILITIES: "all"
+      OLLAMA_KV_CACHE_TYPE: 'q4_0'
+      OLLAMA_FLASH_ATTENTION: '1'
+      OLLAMA_HOST: '0.0.0.0' # If you want to bind externally
+      OLLAMA_DEBUG: 'INFO'
+      OLLAMA_LLM_LIBRARY: 'cublas'
+      CUDA_VISIBLE_DEVICES: '0'
+      NVIDIA_VISIBLE_DEVICES: 'all'
+      NVIDIA_DRIVER_CAPABILITIES: 'all'
       OLLAMA_CONTEXT_LENGTH: 32000
     healthcheck:
       test:
         [
-          "CMD-SHELL",
-          "curl -fsS http://127.0.0.1:11434/api/tags >/dev/null && nvidia-smi >/dev/null 2>&1",
+          'CMD-SHELL',
+          'curl -fsS http://127.0.0.1:11434/api/tags >/dev/null && nvidia-smi >/dev/null 2>&1',
         ]
       interval: 10s
       timeout: 5s
       retries: 6
+
+  vllm:
+    image: vllm/vllm-openai:v0.6.3
+    restart: unless-stopped
+    ports: ['127.0.0.1:8001:8001']
+    gpus: all
+    mem_limit: '24g'
+    shm_size: '2g'
+    ulimits:
+      memlock: -1
+    volumes:
+      - ~/.cache/huggingface:/root/.cache/huggingface
+    environment:
+      # vLLM configuration
+      VLLM_HOST: '0.0.0.0'
+      VLLM_PORT: '8001'
+      VLLM_API_KEY: 'vllm-secret-key'
+      CUDA_VISIBLE_DEVICES: '0'
+      NVIDIA_VISIBLE_DEVICES: 'all'
+      NVIDIA_DRIVER_CAPABILITIES: 'all'
+      # Model and performance settings
+      VLLM_MODEL: '${VLLM_MODEL:-facebook/opt-125m}'
+      VLLM_MAX_NUM_BATCHED_TOKENS: '32768'
+      VLLM_MAX_NUM_SEQS: '256'
+      VLLM_GPU_MEMORY_UTILIZATION: '0.9'
+      # Enable optimizations
+      VLLM_ENABLE_PREFIX_CACHING: '1'
+      VLLM_USE_FLASH_ATTN: '1'
+      VLLM_KV_CACHE_DTYPE: 'fp8_e5m2'
+    command: >
+      --model ${VLLM_MODEL:-facebook/opt-125m}
+      --host 0.0.0.0
+      --port 8001
+      --api-key vllm-secret-key
+      --max-num-batched-tokens 32768
+      --max-num-seqs 256
+      --gpu-memory-utilization 0.9
+      --enable-prefix-caching
+      --use-flash-attn
+      --kv-cache-dtype fp8_e5m2
+    healthcheck:
+      test:
+        [
+          'CMD-SHELL',
+          'curl -fsS http://127.0.0.1:8001/health >/dev/null && nvidia-smi >/dev/null 2>&1',
+        ]
+      interval: 15s
+      timeout: 10s
+      retries: 6
+      start_period: 60s # Give vLLM more time to download models and start
 
   redis:
     image: redis:6.2-alpine
     container_name: redis
     restart: unless-stopped
     ports:
-      - "127.0.0.1:6379:6379"
+      - '127.0.0.1:6379:6379'
     command: redis-server --save 60 1 --loglevel warning
     volumes:
       - redis_data:/data
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
+      test: ['CMD', 'redis-cli', 'ping']
       interval: 10s
       timeout: 5s
       retries: 5
 
   tei-embeddings:
-    profiles: ["ai"]
+    profiles: ['ai']
     image: ghcr.io/huggingface/text-embeddings-inference:1.6
     environment:
       - MODEL_ID=${TEI_MODEL:-nomic-ai/nomic-embed-text-v1.5}
       - NUM_SHARD=1
-    ports: ["127.0.0.1:8081:80"]
+    ports: ['127.0.0.1:8081:80']
     networks: [prom-net]
     volumes:
       - ${HOME}/.cache/huggingface:/root/.cache/huggingface
     restart: unless-stopped
     healthcheck:
-      test:
-        [
-          "CMD",
-          "bash",
-          "-lc",
-          "curl -fsS http://127.0.0.1/health >/dev/null || exit 1",
-        ]
+      test: ['CMD', 'bash', '-lc', 'curl -fsS http://127.0.0.1/health >/dev/null || exit 1']
       interval: 10s
       timeout: 5s
       retries: 6
@@ -103,38 +146,37 @@ services:
     container_name: mongodb
     restart: always
     ports:
-      - "127.0.0.1:27017:27017"
+      - '127.0.0.1:27017:27017'
     volumes:
       - mongo-data:/data/db
 
   nats:
-    profiles: ["messaging"]
+    profiles: ['messaging']
     image: nats:2.10
-    command: ["-js", "-sd", "/data"]
+    command: ['-js', '-sd', '/data']
     volumes:
       - nats_data:/data
-    ports: ["4222:4222", "8222:8222"]
+    ports: ['4222:4222', '8222:8222']
     restart: unless-stopped
 
   haystack:
-    profiles: ["ai", "rag"]
+    profiles: ['ai', 'rag']
     image: ${HAYSTACK_IMAGE:-deepset/haystack:base-v2.17.1}
     environment:
       - PIPELINE_YAML=/app/pipelines/default.yaml
     volumes:
       - ./data/haystack:/app/pipelines
-    ports: ["8000:8000"]
+    ports: ['8002:8002']
     restart: unless-stopped
     depends_on: [opensearch, meilisearch, postgres]
 
-
   tei-clip:
-    profiles: ["ai", "vision"]
+    profiles: ['ai', 'vision']
     image: ghcr.io/huggingface/text-embeddings-inference:1.6
     environment:
       - MODEL_ID=${CLIP_MODEL:-openai/clip-vit-large-patch14}
       - TASK=feature-extraction
-    ports: ["127.0.0.1:8082:80"]
+    ports: ['127.0.0.1:8082:80']
     restart: unless-stopped
 
   qdrant:
@@ -176,8 +218,8 @@ services:
     healthcheck:
       test:
         [
-          "CMD-SHELL",
-          "curl -fsS http://127.0.0.1:8000/health || curl -fsS http://localhost:8000/health",
+          'CMD-SHELL',
+          'curl -fsS http://127.0.0.1:8003/health || curl -fsS http://localhost:8003/health',
         ]
       interval: 10s
       timeout: 5s
@@ -212,12 +254,11 @@ services:
       - ./:/app:ro
     environment:
       PORT: 7766
-    ports: ["7766:7766"]
+    ports: ['7766:7766']
     networks: [prom-net]
     restart: unless-stopped
     healthcheck:
-      test:
-        ["CMD-SHELL", "curl -fsS http://127.0.0.1:7766 >/dev/null || exit 1"]
+      test: ['CMD-SHELL', 'curl -fsS http://127.0.0.1:7766 >/dev/null || exit 1']
       interval: 10s
       timeout: 5s
       retries: 6
@@ -235,12 +276,11 @@ services:
       # when running `docker run` commands to resolve host.docker.internal.
       DUCK_TOKEN: ${DUCK_TOKEN:-}
       ICE_SERVERS: ${ICE_SERVERS:-[]}
-    ports: ["8787:8787"]
+    ports: ['8787:8787']
     networks: [prom-net]
     restart: unless-stopped
     healthcheck:
-      test:
-        ["CMD-SHELL", "curl -fsS http://127.0.0.1:8787 >/dev/null || exit 1"]
+      test: ['CMD-SHELL', 'curl -fsS http://127.0.0.1:8787 >/dev/null || exit 1']
       interval: 10s
       timeout: 5s
       retries: 6

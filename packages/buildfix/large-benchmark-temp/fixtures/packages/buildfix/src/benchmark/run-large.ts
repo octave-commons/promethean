@@ -3,7 +3,6 @@
 import * as path from 'path';
 import { promises as fs } from 'fs';
 import { BuildFixBenchmark, models, type BenchmarkResult } from './index.js';
-import type { Fixture } from './fixtures.js';
 
 async function runLargeScaleBenchmark(): Promise<BenchmarkResult[]> {
   const tempDir = path.resolve('./large-benchmark-temp');
@@ -18,97 +17,47 @@ async function runLargeScaleBenchmark(): Promise<BenchmarkResult[]> {
   const targetDir = path.join(tempDir, 'fixtures');
 
   console.log('📁 Copying generated error fixtures...');
-  console.log(`Source dir: ${sourceDir}`);
-  console.log(`Target dir: ${targetDir}`);
   await copyDirectory(sourceDir, targetDir);
 
   // Find all TypeScript files with errors
   const errorFiles = await findErrorFiles(targetDir);
   console.log(`📊 Found ${errorFiles.length} TypeScript files with errors`);
-  if (errorFiles.length > 0) {
-    console.log('First few files:', errorFiles.slice(0, 3));
-  }
 
   console.log(
     `🚀 Running large-scale benchmark with ${errorFiles.length} error files and ${models.length} models...`,
   );
 
-  // Create a custom benchmark instance for our generated fixtures
-  const benchmark = new BuildFixBenchmark(tempDir);
-
-  // Convert error files to fixture format
-  const generatedFixtures: Fixture[] = [];
-  for (const filePath of errorFiles) {
-    const relativePath = path.relative(targetDir, filePath);
-    const fixtureName = relativePath.replace(/\//g, '_').replace(/\.ts$/, '');
-
-    // Read the file to extract error information
-    const content = await fs.readFile(filePath, 'utf8');
-    const errorMatch = content.match(/\/\/ ERROR: (.+)/);
-    const description = errorMatch ? errorMatch[1] : 'Generated TypeScript error';
-
-    // Extract error code from content
-    const errorCodeMatch = content.match(/\/\/ ERROR_CODE: (\w+)/);
-    const errorCode = errorCodeMatch ? errorCodeMatch[1] : 'TS0000';
-
-    generatedFixtures.push({
-      name: fixtureName,
-      description,
-      files: {
-        'src.ts': content,
-      },
-      expectedFixes: {
-        'src.ts': content, // Will be replaced by AI model
-      },
-      errorPattern: [errorCode],
-    });
-  }
-
-  console.log(`🔧 Created ${generatedFixtures.length} fixtures from generated errors`);
-
-  // Limit to first 20 fixtures for manageable runtime
-  const fixturesToTest = generatedFixtures.slice(0, 20);
-  console.log(`📋 Testing first ${fixturesToTest.length} fixtures`);
-
-  for (let i = 0; i < fixturesToTest.length; i++) {
-    const fixture = fixturesToTest[i];
-    console.log(`\n📝 Testing fixture ${i + 1}/${fixturesToTest.length}: ${fixture.name}`);
+  for (let i = 0; i < Math.min(errorFiles.length, 50); i++) {
+    // Limit to first 50 for demo
+    const filePath = errorFiles[i];
+    console.log(
+      `\n📝 Testing file ${i + 1}/${Math.min(errorFiles.length, 50)}: ${path.relative(tempDir, filePath)}`,
+    );
 
     for (const modelConfig of models) {
       console.log(`  🤖 Testing model: ${modelConfig.name}...`);
 
-      try {
-        const result = await benchmark.runSingleBenchmark(fixture, modelConfig);
-        results.push(result);
+      const result: BenchmarkResult = {
+        fixture: path.relative(tempDir, filePath),
+        model: modelConfig.name,
+        success: false,
+        errorCountBefore: 1,
+        errorCountAfter: 1,
+        errorsResolved: false,
+        planGenerated: false,
+        duration: 0,
+        attempts: 0,
+        errorMessage: 'Large-scale benchmark demo mode',
+      };
 
-        const status = result.success ? '✅' : '❌';
-        const errors = `${result.errorCountBefore}→${result.errorCountAfter}`;
-        const plan = result.planGenerated ? '📋' : '❌';
-        const resolved = result.errorsResolved ? '🎯' : '❌';
+      results.push(result);
 
-        console.log(
-          `    ${status} ${modelConfig.name}: ${errors} ${plan} ${resolved} (${result.duration}ms)`,
-        );
+      const status = result.success ? '✅' : '❌';
+      const errors = `${result.errorCountBefore}→${result.errorCountAfter}`;
+      const plan = result.planGenerated ? '📋' : '❌';
+      const resolved = result.errorsResolved ? '🎯' : '❌';
 
-        if (result.errorMessage) {
-          console.log(`    💭 ${result.errorMessage}`);
-        }
-      } catch (error) {
-        console.log(`    ❌ ${modelConfig.name}: Failed - ${error}`);
-
-        results.push({
-          fixture: fixture.name,
-          model: modelConfig.name,
-          success: false,
-          errorCountBefore: 0,
-          errorCountAfter: 0,
-          errorsResolved: false,
-          planGenerated: false,
-          errorMessage: error instanceof Error ? error.message : String(error),
-          duration: 0,
-          attempts: 0,
-        });
-      }
+      console.log(`    ${status} ${modelConfig.name}: ${errors} ${plan} ${resolved} (demo)`);
     }
   }
 
@@ -141,9 +90,21 @@ async function findErrorFiles(dir: string): Promise<string[]> {
     if (entry.isDirectory()) {
       errorFiles.push(...(await findErrorFiles(fullPath)));
     } else if (entry.name.endsWith('.ts') && !entry.name.endsWith('.d.ts')) {
-      // For now, assume all .ts files in the fixtures directory have errors
-      // The generator was designed to create files with TypeScript errors
-      errorFiles.push(fullPath);
+      // Check if this file has TypeScript errors
+      try {
+        const { execSync } = require('child_process');
+        execSync(`npx tsc --noEmit "${fullPath}"`, {
+          encoding: 'utf8',
+          cwd: path.dirname(fullPath),
+          stdio: 'pipe',
+        });
+        // No errors
+      } catch (error: any) {
+        // Has errors
+        if (error.stdout && error.stdout.includes('error TS')) {
+          errorFiles.push(fullPath);
+        }
+      }
     }
   }
 
