@@ -5,12 +5,15 @@ slug: "run_bench_subscribe_ts_with_mongo_bus_and_record_p"
 status: "icebox"
 priority: "P3"
 labels: ["bench", "mongo", "run", "subscribe"]
-created_at: "2025-10-11T03:39:14.371Z"
+created_at: "2025-10-11T19:22:57.816Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
 
 ## 🛠️ Task: Run `bench/subscribe.ts` with Mongo bus and record p50/p99
 
@@ -36,3 +39,6 @@ Generated from ../unique/2025.08.08.19.08.25.md$../unique/2025.08.08.19.08.25.md
 ```
 #ice-box
 ```
+
+
+

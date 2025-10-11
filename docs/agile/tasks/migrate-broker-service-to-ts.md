@@ -5,12 +5,15 @@ slug: "migrate-broker-service-to-ts"
 status: "accepted"
 priority: "P3"
 labels: ["board", "lang"]
-created_at: "2025-10-11T03:39:14.373Z"
+created_at: "2025-10-11T19:22:57.819Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
 
 # Migrate broker service to TypeScript
 
@@ -30,3 +33,6 @@ Migrate the legacy broker JavaScript service to TypeScript under the new package
 - [ ] TypeScript compilation passes
 - [ ] Existing functionality preserved
 - [ ] Tests updated and passing
+
+
+

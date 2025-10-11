@@ -5,12 +5,15 @@ slug: "cephalon_event_schema_updates"
 status: "incoming"
 priority: "P3"
 labels: ["agent", "cephalon", "event", "schema"]
-created_at: "2025-10-11T03:39:14.371Z"
+created_at: "2025-10-11T19:22:57.817Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
 
 Cephalon: Event schema updates for speech pipeline
 
@@ -29,3 +32,6 @@ Exit Criteria:
 - Schemas documented and referenced by publishers/subscribers.
 
 #incoming #cephalon #events #schemas
+
+
+

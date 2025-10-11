@@ -1,16 +1,19 @@
 ---
 uuid: "b069c1e4-523e-4dd6-a3bb-03c30bd9a2c5"
-title: "Harden MCP stdio proxy JSON-RPC validation   -proxy   -proxy"
+title: "Harden MCP stdio proxy JSON-RPC validation   -proxy   -proxy   -proxy   -proxy   -proxy   -proxy"
 slug: "harden-mcp-stdio-jsonrpc-validation"
 status: "accepted"
 priority: "P2"
 labels: ["mcp", "tests", "stdio-proxy"]
-created_at: "2025-10-11T03:44:20.038Z"
+created_at: "2025-10-11T19:22:57.819Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
 
 
 ## Objective
@@ -32,3 +35,6 @@ Diagnose and fix the failing JSON-RPC validation suites (`stdio-proxy-validation
 - `isValidJsonRpcMessage` currently treats `{jsonrpc:"2.0", method:""}` as valid; validator only checks property presence, not non-empty method strings.
 - Malformed debug-like messages pass validation because method string is only checked for type.
 - Need stricter JSON-RPC validation (non-empty method, response shape, etc.) and adjust tests accordingly.
+
+
+

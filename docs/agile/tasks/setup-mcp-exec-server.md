@@ -5,12 +5,15 @@ slug: "setup-mcp-exec-server"
 status: "done"
 priority: "P2"
 labels: ["mcp", "tooling"]
-created_at: "2025-10-11T03:39:14.523Z"
+created_at: "2025-10-11T19:23:08.661Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
 
 #InProgress
 
@@ -63,3 +66,6 @@ Estimate: 3
 ## 🔍 Relevant Links
 
 - `packages/mcp` module docs
+
+
+

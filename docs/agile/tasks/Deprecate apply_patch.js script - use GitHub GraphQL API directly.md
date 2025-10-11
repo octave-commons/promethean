@@ -5,12 +5,15 @@ slug: "Deprecate apply_patch.js script - use GitHub GraphQL API directly"
 status: "incoming"
 priority: "P2"
 labels: ["api", "github", "script", "use"]
-created_at: "2025-10-11T03:39:14.371Z"
+created_at: "2025-10-11T19:22:57.817Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
 
 The  script duplicates functionality that should be handled directly through GitHub's GraphQL API or existing MCP tools.
 
@@ -120,3 +123,6 @@ Nothing
 ## ⛓️ Blocks
 
 Nothing
+
+
+

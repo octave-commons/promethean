@@ -1,16 +1,19 @@
 ---
 uuid: "b8c9d0e1-2f3a-4b5c-5d6e-7f8a9b0c1d2e"
-title: "Expand security testing beyond basic sandbox validation -testing -validation -validation   -testing -validation   -testing -validation   -testing -validation   -testing -validation   -testing -validation   -testing -validation   -testing -validation   -testing -validation   -testing -validation   -testing -validation   -testing -validation   -testing -validation   -testing -validation   -testing -validation   -testing -validation   -testing -validation   -testing -validation   -testing -validation   -testing -validation   -testing -validation   -testing -validation   -testing"
+title: "Expand security testing beyond basic sandbox validation -testing -validation -validation   -testing -validation   -testing -validation   -testing -validation   -testing -validation   -testing -validation   -testing -validation   -testing -validation   -testing -validation   -testing -validation   -testing -validation   -testing -validation   -testing -validation   -testing -validation   -testing -validation   -testing -validation   -testing -validation   -testing -validation   -testing -validation   -testing -validation   -testing -validation   -testing -validation   -testing -validation   -testing -validation   -testing -validation   -testing -validation   -testing -validation   -testing -validation   -testing"
 slug: "expand-security-testing-beyond-basic-sandbox-validation-testing-validation"
 status: "incoming"
 priority: "P2"
 labels: ["input-validation", "security", "testing", "vulnerability-testing"]
-created_at: "2025-10-11T03:39:14.372Z"
+created_at: "2025-10-11T19:22:57.818Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
 
 #incoming
 
@@ -86,3 +89,6 @@ Estimate: 13
 - SmartGPT security: `packages/smartgpt-bridge/src/tests/integration/server.exec.cwd.security.test.ts`
 - Authentication tests: `packages/auth-service/src/tests/oauth-flow.test.ts`
 - Input validation: Various Discord and API packages
+
+
+

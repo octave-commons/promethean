@@ -5,11 +5,17 @@ slug: "kanban-crud-commands 13"
 status: "icebox"
 priority: "P2"
 labels: ["cli", "crud", "enhancement", "kanban"]
-created_at: "2025-10-11T03:39:21.445Z"
+created_at: "2025-10-11T19:22:57.816Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 

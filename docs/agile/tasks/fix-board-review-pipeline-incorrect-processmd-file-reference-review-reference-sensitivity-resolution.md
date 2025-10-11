@@ -1,16 +1,19 @@
 ---
 uuid: "c9d8e7f6-d5c4-b3a2-c1d0-987654321098"
-title: "Fix board-review pipeline incorrect Process.md file reference -review -reference -sensitivity -resolution -review -sensitivity -reference -resolution -review -sensitivity -reference -resolution -review -sensitivity -reference -resolution -review -sensitivity -reference -resolution -review -sensitivity -reference -resolution -review -sensitivity -reference -resolution -review -sensitivity -reference -resolution -review -sensitivity -reference -resolution -review -sensitivity -reference -resolution -review -sensitivity -reference -resolution -review -sensitivity -reference -resolution -review -sensitivity -reference -resolution -review -sensitivity -reference -resolution -review -sensitivity -reference -resolution -review -sensitivity -reference -resolution -review -sensitivity -reference -resolution -review -sensitivity -reference -resolution -review -sensitivity -reference -resolution -review -sensitivity -reference -resolution -review -sensitivity -reference -resolution -review -sensitivity -reference -resolution -review -sensitivity -reference -resolution"
+title: "Fix board-review pipeline incorrect Process.md file reference -review -reference -sensitivity -resolution -review -sensitivity -reference -resolution -review -sensitivity -reference -resolution -review -sensitivity -reference -resolution -review -sensitivity -reference -resolution -review -sensitivity -reference -resolution -review -sensitivity -reference -resolution -review -sensitivity -reference -resolution -review -sensitivity -reference -resolution -review -sensitivity -reference -resolution -review -sensitivity -reference -resolution -review -sensitivity -reference -resolution -review -sensitivity -reference -resolution -review -sensitivity -reference -resolution -review -sensitivity -reference -resolution -review -sensitivity -reference -resolution -review -sensitivity -reference -resolution -review -sensitivity -reference -resolution -review -sensitivity -reference -resolution -review -sensitivity -reference -resolution -review -sensitivity -reference -resolution -review -sensitivity -reference -resolution -review -sensitivity -reference -resolution -review -sensitivity -reference -resolution -review -sensitivity -reference -resolution -review -sensitivity -reference -resolution -review -sensitivity -reference -resolution -review -sensitivity -reference -resolution -review -sensitivity -reference -resolution"
 slug: "fix-board-review-pipeline-incorrect-processmd-file-reference-review-reference-sensitivity-resolution"
 status: "done"
 priority: "P2"
 labels: ["board-review", "case-sensitivity", "file-reference", "path-resolution", "piper"]
-created_at: "2025-10-11T03:39:14.375Z"
+created_at: "2025-10-11T19:22:57.822Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
 
 ## 🛠️ Task: Fix board-review pipeline incorrect Process.md file reference
 
@@ -107,3 +110,6 @@ for (const filePath of possiblePaths) {
 - **AI Model Integration**: OLLAMA configuration for task evaluation
 
 This is a simple but critical fix that will enable AI-powered task review capabilities for the kanban system.
+
+
+

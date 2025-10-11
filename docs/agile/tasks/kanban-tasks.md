@@ -5,12 +5,15 @@ slug: "kanban-tasks"
 status: "accepted"
 priority: "P3"
 labels: ["cli", "docs", "kanban", "tasks"]
-created_at: "2025-10-11T03:39:14.373Z"
+created_at: "2025-10-11T19:22:57.819Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
 
 # Kanban CLI Tasks Docs/Agile
 
@@ -173,3 +176,6 @@ All new commands emit a single “agent coaching line” to stderr unless `--qui
 ## Minimal integration note
 
 Minimal integration: add a single loader that auto-registers any `src/cmds/prioritize/*.ts` command. If your bin/kanban.ts already dispatches subcommands, you can import a registerPrioritizers(cli) from a new `src/cmds/prioritize/index.ts` to avoid editing multiple places.
+
+
+

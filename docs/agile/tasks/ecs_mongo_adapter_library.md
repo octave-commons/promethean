@@ -5,12 +5,15 @@ slug: "ecs_mongo_adapter_library"
 status: "incoming"
 priority: "P3"
 labels: ["adapter", "ecs", "library", "mongo"]
-created_at: "2025-10-11T03:39:14.371Z"
+created_at: "2025-10-11T19:22:57.817Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
 
 ECS–Mongo Adapter Library
 
@@ -30,3 +33,6 @@ Exit Criteria:
 - Works with existing components (Turn, Utterance, TranscriptFinal, VAD).
 
 #incoming #ecs #mongo #orm
+
+
+

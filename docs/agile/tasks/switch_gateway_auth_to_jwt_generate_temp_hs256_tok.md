@@ -5,12 +5,15 @@ slug: "switch_gateway_auth_to_jwt_generate_temp_hs256_tok"
 status: "done"
 priority: "P3"
 labels: ["auth", "gateway", "jwt", "switch"]
-created_at: "2025-10-11T03:39:14.524Z"
+created_at: "2025-10-11T19:23:08.661Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
 
 ## 🛠️ Task: Switch gateway auth to JWT; generate temp HS256 token for dev
 
@@ -35,3 +38,6 @@ Generated from ../unique/2025.08.08.19.08.49.md$../unique/2025.08.08.19.08.49.md
 
 
 #rejected
+
+
+

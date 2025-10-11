@@ -5,12 +5,15 @@ slug: "fix-smartgpt-bridge-grep-test"
 status: "blocked"
 priority: "p2"
 labels: ["board", "epic", "lang", "owner", "priority", "state", "task"]
-created_at: "2025-10-11T03:39:14.373Z"
+created_at: "2025-10-11T19:22:57.819Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
 
 ## Context
 
@@ -43,3 +46,6 @@ estimates:
 
 - ripgrep manual: <https://github.com/BurntSushi/ripgrep>
 - Ava docs: <https://github.com/avajs/ava>
+
+
+

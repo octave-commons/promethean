@@ -5,12 +5,18 @@ slug: "enforce-wip-limits-and-address-violations 4"
 status: "incoming"
 priority: "P1"
 labels: ["enforcement", "fsm", "kanban", "limits", "process", "wip"]
-created_at: "2025-10-11T03:39:14.372Z"
+created_at: "2025-10-11T19:22:57.818Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 
 

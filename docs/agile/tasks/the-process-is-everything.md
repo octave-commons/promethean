@@ -5,12 +5,15 @@ slug: "the-process-is-everything"
 status: "incoming"
 priority: "P3"
 labels: ["docops", "labeled"]
-created_at: "2025-10-11T03:39:14.373Z"
+created_at: "2025-10-11T19:22:57.819Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
 
 ## 🗂 Source
 
@@ -49,3 +52,6 @@ Work with me over the course of this conversation to refine
 - [ ] Draft actionable subtasks from the summary
 - [ ] Define acceptance criteria
 - [ ] Link back to related labeled docs
+
+
+

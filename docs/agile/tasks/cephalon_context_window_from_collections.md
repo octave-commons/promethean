@@ -5,12 +5,15 @@ slug: "cephalon_context_window_from_collections"
 status: "incoming"
 priority: "P3"
 labels: ["cephalon", "collections", "context", "window"]
-created_at: "2025-10-11T03:39:14.371Z"
+created_at: "2025-10-11T19:22:57.817Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
 
 Cephalon: Build LLM context window from collections
 
@@ -27,3 +30,6 @@ Exit Criteria:
 - Unit test stubbing `ContextManager` to validate callback invocation.
 
 #incoming #cephalon #context #llm
+
+
+

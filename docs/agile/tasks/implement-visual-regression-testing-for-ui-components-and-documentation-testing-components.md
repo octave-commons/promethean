@@ -1,16 +1,19 @@
 ---
 uuid: "6a7b8c9d-1e2f-3a4b5c6d7e8f9a0b1c2d"
-title: "Implement visual regression testing for UI components and documentation -testing -components  -testing  -components -testing  -testing  -components -testing  -testing  -components -testing  -testing  -components -testing  -testing  -components -testing  -testing  -components -testing  -testing  -components -testing  -testing  -components -testing  -testing  -components -testing  -testing  -components -testing  -testing  -components -testing  -testing  -components -testing  -testing  -components -testing  -testing  -components -testing  -testing  -components -testing  -testing  -components -testing  -testing  -components -testing  -testing  -components -testing  -testing  -components -testing  -testing  -components -testing  -testing  -components -testing  -testing  -components -testing"
+title: "Implement visual regression testing for UI components and documentation -testing -components  -testing  -components -testing  -testing  -components -testing  -testing  -components -testing  -testing  -components -testing  -testing  -components -testing  -testing  -components -testing  -testing  -components -testing  -testing  -components -testing  -testing  -components -testing  -testing  -components -testing  -testing  -components -testing  -testing  -components -testing  -testing  -components -testing  -testing  -components -testing  -testing  -components -testing  -testing  -components -testing  -testing  -components -testing  -testing  -components -testing  -testing  -components -testing  -testing  -components -testing  -testing  -components -testing  -testing  -components -testing  -testing  -components -testing  -testing  -components -testing  -testing  -components -testing  -testing  -components -testing  -testing  -components -testing  -testing  -components -testing"
 slug: "implement-visual-regression-testing-for-ui-components-and-documentation-testing-components"
 status: "incoming"
 priority: "P3"
 labels: ["documentation", "regression-testing", "testing", "ui-components", "visual-testing"]
-created_at: "2025-10-11T03:39:14.372Z"
+created_at: "2025-10-11T19:22:57.818Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
 
 #incoming
 
@@ -85,3 +88,6 @@ Estimate: 8
 - Playwright config: `packages/docops/playwright.config.ts`
 - Documentation rendering: Various markdown processing components
 - Visual testing tools: Playwright, Percy, Chromatic documentation
+
+
+

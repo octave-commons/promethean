@@ -5,12 +5,15 @@ slug: "Fix simtasks pipeline orchestration"
 status: "ready"
 priority: "P2"
 labels: ["pipeline", "reliability"]
-created_at: "2025-10-11T03:39:14.373Z"
+created_at: "2025-10-11T19:22:57.819Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
 
 ## 🛠️ Task: Fix simtasks pipeline orchestration
 
@@ -36,3 +39,6 @@ estimates:
 - `packages/@promethean/simtasks`
 - Piper cache at `.cache/piper.level`
 - `docs/agile/pipelines/` for report examples
+
+
+

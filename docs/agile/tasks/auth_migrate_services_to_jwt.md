@@ -5,12 +5,15 @@ slug: "auth_migrate_services_to_jwt"
 status: "incoming"
 priority: "P3"
 labels: ["auth", "jwt", "migrate", "services"]
-created_at: "2025-10-11T03:39:14.371Z"
+created_at: "2025-10-11T19:22:57.817Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
 
 Auth: Migrate services to JWT-based auth
 
@@ -28,3 +31,6 @@ Exit Criteria:
 - Docs updated to remove static token guidance.
 
 #incoming #auth #migration #services
+
+
+

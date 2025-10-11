@@ -5,12 +5,15 @@ slug: "gptel-native-tools-2"
 status: "incoming"
 priority: "P3"
 labels: ["docops", "labeled"]
-created_at: "2025-10-11T03:39:14.372Z"
+created_at: "2025-10-11T19:22:57.818Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
 
 ## 🗂 Source
 
@@ -48,3 +51,6 @@ Below is a drop-in `init.el` snippet that defines **all 10 tools** you asked for
 - [ ] Draft actionable subtasks from the summary
 - [ ] Define acceptance criteria
 - [ ] Link back to related labeled docs
+
+
+

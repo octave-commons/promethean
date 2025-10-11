@@ -5,12 +5,15 @@ slug: "deploy_changefeed_for_collections_you_want_mirrore"
 status: "done"
 priority: "P3"
 labels: ["changefeed", "collections", "deploy", "you"]
-created_at: "2025-10-11T03:39:14.375Z"
+created_at: "2025-10-11T19:22:57.822Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
 
 ## 🛠️ Task: Deploy **changefeed** for collections you want mirrored to topics
 
@@ -35,3 +38,6 @@ Generated from ../unique/2025.08.08.20.08.52.md$../unique/2025.08.08.20.08.52.md
 
 
 #rejected
+
+
+

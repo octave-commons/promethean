@@ -5,12 +5,15 @@ slug: "what-id-build-practical-plan"
 status: "incoming"
 priority: "P3"
 labels: ["docops", "labeled"]
-created_at: "2025-10-11T03:39:14.373Z"
+created_at: "2025-10-11T19:22:57.819Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
 
 ## 🗂 Source
 
@@ -54,3 +57,6 @@ Got it, Err. “Hierarchical vector embedding search” usually means one of two
 - [ ] Draft actionable subtasks from the summary
 - [ ] Define acceptance criteria
 - [ ] Link back to related labeled docs
+
+
+

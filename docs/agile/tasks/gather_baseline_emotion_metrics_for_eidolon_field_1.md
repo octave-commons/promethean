@@ -5,12 +5,15 @@ slug: "gather_baseline_emotion_metrics_for_eidolon_field_1"
 status: "done"
 priority: "P3"
 labels: ["baseline", "eidolon", "emotion", "gather"]
-created_at: "2025-10-11T03:39:14.375Z"
+created_at: "2025-10-11T19:22:57.822Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
 
 ## 🛠️ Task: Gather baseline emotion metrics for Eidolon field
 
@@ -77,3 +80,6 @@ Nothing
 - How much historical data is needed for a meaningful baseline?
 #IceBox
 #rejected
+
+
+

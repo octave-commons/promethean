@@ -5,12 +5,15 @@ slug: "Refactor indexer and utility scripts to use existing packages"
 status: "incoming"
 priority: "P2"
 labels: ["indexer", "packages", "refactoring", "utilities"]
-created_at: "2025-10-11T03:39:14.371Z"
+created_at: "2025-10-11T19:22:57.817Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
 
 Refactor scripts/catalog.mjs to use @promethean/indexer-core and @promethean/file-indexer packages. Refactor scripts/dedupe-versions.mjs to use @promethean/kanban and @promethean/markdown utilities. Move scripts/sync-package-deps.js to @promethean/utils or new @promethean/package-tools package.
 
@@ -23,3 +26,6 @@ Nothing
 ## ⛓️ Blocks
 
 Nothing
+
+
+

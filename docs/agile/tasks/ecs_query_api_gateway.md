@@ -5,12 +5,15 @@ slug: "ecs_query_api_gateway"
 status: "incoming"
 priority: "P3"
 labels: ["api", "ecs", "gateway", "query"]
-created_at: "2025-10-11T03:39:14.371Z"
+created_at: "2025-10-11T19:22:57.817Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
 
 ECS Query API Gateway
 
@@ -25,3 +28,6 @@ Exit Criteria:
 - Service scaffolding + 2–3 endpoints with tests.
 
 #incoming #ecs #api #mongo
+
+
+

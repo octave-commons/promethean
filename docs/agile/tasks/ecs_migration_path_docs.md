@@ -5,12 +5,15 @@ slug: "ecs_migration_path_docs"
 status: "incoming"
 priority: "P3"
 labels: ["docs", "ecs", "migration", "path"]
-created_at: "2025-10-11T03:39:14.371Z"
+created_at: "2025-10-11T19:22:57.817Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
 
 ECS Migration Path Documentation
 
@@ -25,3 +28,6 @@ Exit Criteria:
 - Markdown doc published under `docs/ecs/migration.md` with cross-links from service READMEs.
 
 #incoming #ecs #migration #docs
+
+
+

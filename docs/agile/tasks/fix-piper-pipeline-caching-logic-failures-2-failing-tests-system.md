@@ -1,16 +1,19 @@
 ---
 uuid: "d4e5f6a7-8b9c-0d1e-2f3a-4b5c6d7e8f9a"
-title: "Fix Piper pipeline caching logic failures (2 failing tests) -system -system -system -system -system -system -system -system -system -system -system -system -system -system -system -system -system -system -system -system -system -system -system"
+title: "Fix Piper pipeline caching logic failures (2 failing tests) -system -system -system -system -system -system -system -system -system -system -system -system -system -system -system -system -system -system -system -system -system -system -system -system -system -system -system -system -system"
 slug: "fix-piper-pipeline-caching-logic-failures-2-failing-tests-system"
 status: "incoming"
 priority: "P2"
 labels: ["build-system", "caching", "piper", "testing"]
-created_at: "2025-10-11T03:39:14.372Z"
+created_at: "2025-10-11T19:22:57.818Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
 
 #incoming
 
@@ -78,3 +81,6 @@ Estimate: 5
 - Caching tests: `packages/piper/src/tests/runner.test.ts`
 - Retry logic: `packages/piper/src/tests/retry.test.ts`
 - Pipeline configuration: `pipelines.json`
+
+
+

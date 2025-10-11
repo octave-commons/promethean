@@ -5,12 +5,15 @@ slug: "read_agents_and_follow_protocol"
 status: "done"
 priority: "P3"
 labels: ["agents", "governance", "onboarding", "protocol"]
-created_at: "2025-10-11T03:39:14.375Z"
+created_at: "2025-10-11T19:22:57.823Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
 
 ## 🛠️ Task: Read AGENTS.md and follow protocol
 
@@ -52,3 +55,6 @@ Read the root governance doc (**AGENTS.md**) and immediately align this session 
 - `docs/agile/process.md`
 
 #done
+
+
+

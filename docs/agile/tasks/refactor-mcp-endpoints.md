@@ -5,12 +5,15 @@ slug: "refactor-mcp-endpoints"
 status: "done"
 priority: "p3"
 labels: ["board", "epic", "lang", "owner", "package", "priority", "state", "task"]
-created_at: "2025-10-11T03:39:14.375Z"
+created_at: "2025-10-11T19:22:57.823Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
 
 ## Context
 - **What changed?**: Need to extend MCP transport loader to support multiple HTTP endpoints from config.
@@ -31,3 +34,6 @@ estimates:
 2. Update configuration types and loader to accept `endpoints` map.
 3. Adjust HTTP server composition to register multiple routers.
 4. Add tests verifying configuration and runtime wiring.
+
+
+

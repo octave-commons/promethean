@@ -1,16 +1,19 @@
 ---
 uuid: "d1250964-1686-487c-9850-3cc1472e9326"
-title: "2025.09.19.23.23.12    cycles -end hand-off  PR  agent  cycles -shaping  work -end -shaping       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end"
+title: "2025.09.19.23.23.12    cycles -end hand-off  PR  agent  cycles -shaping  work -end -shaping       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end"
 slug: "20250919232312-cycles-end-hand-off-pr-agent-cycles-shaping-work-end-shaping"
 status: "done"
 priority: "P3"
 labels: ["cloud", "fsm", "kanban", "no", "partial", "procedural", "re-shaping", "safe", "session-end"]
-created_at: "2025-10-11T03:39:14.374Z"
+created_at: "2025-10-11T19:22:57.821Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
 
 you’re not overthinking it — you’re seeing the missing cycles. let’s add **explicit reverse paths** so the system never fakes forward progress, and give the cloud agent a safe “session-end hand-off” path that doesn’t require a PR.
 
@@ -141,3 +144,6 @@ If this looks right, I’ll fold these deltas into the process doc’s FSM secti
 ## Sources
 - _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
+
+
+

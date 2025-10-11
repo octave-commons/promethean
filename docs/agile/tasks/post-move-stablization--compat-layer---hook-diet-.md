@@ -5,12 +5,15 @@ slug: "post-move-stablization--compat-layer---hook-diet-"
 status: "todo"
 priority: "p3"
 labels: ["board", "lang"]
-created_at: "2025-10-11T03:39:14.374Z"
+created_at: "2025-10-11T19:22:57.821Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
 
 # Task: Post-move stabilization compat layer + hook diet
 
@@ -204,3 +207,6 @@ pre-commit run -a            # full sweep
 
 #precommit #refactor #typescript #python #imports #compat #monorepo #tooling #stabilization
 #accepted
+
+
+

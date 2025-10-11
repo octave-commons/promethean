@@ -5,12 +5,15 @@ slug: "enso-handshake-guard-env-timeout-and-cache"
 status: "ready"
 priority: "P2"
 labels: ["enso", "gateway", "handshake", "ops"]
-created_at: "2025-10-11T03:39:14.373Z"
+created_at: "2025-10-11T19:22:57.820Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
 
 #Todo
 
@@ -27,3 +30,6 @@ Add `ENSO_HANDSHAKE_TIMEOUT_MS` env override. Short-circuit `ensureHandshake()` 
 
 ## 🔍 Related
 - PR #1451
+
+
+

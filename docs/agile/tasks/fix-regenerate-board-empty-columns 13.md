@@ -5,11 +5,17 @@ slug: "fix-regenerate-board-empty-columns 13"
 status: "done"
 priority: "P1"
 labels: ["bug", "columns", "config", "fsm", "kanban"]
-created_at: "2025-10-11T03:39:21.449Z"
+created_at: "2025-10-11T19:22:57.822Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 

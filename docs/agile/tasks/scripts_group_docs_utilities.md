@@ -5,12 +5,15 @@ slug: "scripts_group_docs_utilities"
 status: "incoming"
 priority: "P3"
 labels: ["stabilization"]
-created_at: "2025-10-11T03:39:14.373Z"
+created_at: "2025-10-11T19:22:57.819Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
 
 Scripts: Group documentation utilities under scripts/docs
 
@@ -32,3 +35,6 @@ Exit Criteria:
 - README exists with usage and env notes.
 
 #incoming #scripts #docs #organization
+
+
+

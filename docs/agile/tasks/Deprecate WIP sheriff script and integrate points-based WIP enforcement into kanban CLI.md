@@ -5,12 +5,15 @@ slug: "Deprecate WIP sheriff script and integrate points-based WIP enforcement i
 status: "accepted"
 priority: "P2"
 labels: ["cli", "kanban", "points", "wip"]
-created_at: "2025-10-11T03:39:14.373Z"
+created_at: "2025-10-11T19:22:57.819Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
 
 The WIP sheriff script provides duplicate functionality that should be integrated into the main kanban CLI tool. Currently, the kanban CLI only supports task count limits, while WIP sheriff supports both task count and story points modes.
 
@@ -46,3 +49,6 @@ The WIP sheriff script provides duplicate functionality that should be integrate
 - [ ] WIP sheriff shows deprecation warning
 - [ ] All existing tests pass
 - [ ] Documentation updated
+
+
+

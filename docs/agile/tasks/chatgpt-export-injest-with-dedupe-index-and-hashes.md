@@ -5,12 +5,15 @@ slug: "chatgpt-export-injest-with-dedupe-index-and-hashes"
 status: "done"
 priority: "P3"
 labels: ["chatgpt", "export", "index", "ingest"]
-created_at: "2025-10-11T03:39:14.374Z"
+created_at: "2025-10-11T19:22:57.822Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
 
 # Task: ChatGPT Export Ingest with De‑dup Index & Hashes
 ```
@@ -246,3 +249,6 @@ pnpm tsx src/cli.ts --export ~/Downloads/chatgpt-export \
 - No active owner or unclear scope
 
 #breakdown
+
+
+

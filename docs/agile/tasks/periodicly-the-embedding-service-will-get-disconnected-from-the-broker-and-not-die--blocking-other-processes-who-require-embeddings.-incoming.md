@@ -5,12 +5,15 @@ slug: "periodicly-the-embedding-service-will-get-disconnected-from-the-broker-an
 status: "done"
 priority: "P3"
 labels: ["broker", "embedding", "service", "sometimes"]
-created_at: "2025-10-11T03:39:14.375Z"
+created_at: "2025-10-11T19:22:57.823Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
 
 Here’s a surgical expansion you can drop into the board. Goal: make the **embedding service** fail fast, get killed when it’s unhealthy, and stop blocking dependents. No vibes—just guards, telemetry, and hard interlocks.
 
@@ -275,3 +278,6 @@ fix(embeddings): kill-on-disconnect/stall + admission control + heartbeat kill p
 ```
 #in-progress
 ```
+
+
+

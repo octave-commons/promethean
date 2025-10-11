@@ -5,12 +5,15 @@ slug: "write_a_smoke_test_client_subscribes_publish_10_ms"
 status: "done"
 priority: "P3"
 labels: ["client", "smoke", "test", "write"]
-created_at: "2025-10-11T03:39:14.524Z"
+created_at: "2025-10-11T19:23:08.663Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
 
 ## 🛠️ Task: Write a smoke test: client subscribes, publish 10 msgs, assert all ACKed
 
@@ -35,3 +38,6 @@ Generated from ../unique/2025.08.08.15.08.47.md$../unique/2025.08.08.15.08.47.md
 
 
 #rejected
+
+
+

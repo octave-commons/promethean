@@ -5,12 +5,15 @@ slug: "Consolidate kanban helper scripts into @promethean kanban package"
 status: "incoming"
 priority: "P1"
 labels: ["consolidate", "kanban", "package", "scripts"]
-created_at: "2025-10-11T03:39:14.371Z"
+created_at: "2025-10-11T19:22:57.817Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
 
 Multiple kanban-related scripts exist outside the main kanban package, creating duplication and maintenance overhead.
 
@@ -79,3 +82,6 @@ Nothing
 ## ⛓️ Blocks
 
 Nothing
+
+
+

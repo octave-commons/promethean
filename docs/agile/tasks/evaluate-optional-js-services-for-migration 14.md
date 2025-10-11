@@ -1,0 +1,19 @@
+---
+uuid: "1c733607-1907-4b55-9f18-2e7ac76a62a0"
+title: "Evaluate optional JS services for TypeScript migration"
+slug: "evaluate-optional-js-services-for-migration 14"
+status: "breakdown"
+priority: "P3"
+labels: ["board", "lang"]
+created_at: "2025-10-11T19:22:57.819Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
+
+
+
+
+

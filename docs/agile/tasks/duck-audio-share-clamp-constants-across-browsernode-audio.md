@@ -1,16 +1,19 @@
 ---
 uuid: "5f9a1b2c-4d5e-6f7a-8b9c-0d1e2f3a4b5c"
-title: "duck-audio — share clamp + constants across browser/node -audio -audio -audio -audio -audio -audio -audio -audio -audio -audio -audio -audio -audio -audio -audio -audio -audio -audio -audio -audio -audio -audio -audio"
+title: "duck-audio — share clamp + constants across browser/node -audio -audio -audio -audio -audio -audio -audio -audio -audio -audio -audio -audio -audio -audio -audio -audio -audio -audio -audio -audio -audio -audio -audio -audio -audio -audio -audio -audio -audio"
 slug: "duck-audio-share-clamp-constants-across-browsernode-audio"
 status: "todo"
 priority: "P3"
 labels: ["duck-audio", "shared", "tests"]
-created_at: "2025-10-11T03:39:14.374Z"
+created_at: "2025-10-11T19:22:57.821Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
 
 #Todo
 
@@ -29,3 +32,6 @@ Extract clamp and decimation ratio constants for reuse; fix test import typos.
 
 ## 🔍 Related
 - PR #1444, PR #1442
+
+
+

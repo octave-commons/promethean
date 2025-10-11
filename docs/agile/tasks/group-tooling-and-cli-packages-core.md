@@ -1,16 +1,19 @@
 ---
 uuid: "911d511f-7f6d-4f01-86c0-5129765a3f8f"
-title: "Group tooling and CLI packages -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core"
+title: "Group tooling and CLI packages -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core"
 slug: "group-tooling-and-cli-packages-core"
 status: "todo"
 priority: "p3"
 labels: ["framework-core", "refactor"]
-created_at: "2025-10-11T03:39:14.374Z"
+created_at: "2025-10-11T19:22:57.821Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
 
 #Todo
 
@@ -63,3 +66,6 @@ Estimate: 3
 ## 🔍 Relevant Links
 
 - Pending analysis.
+
+
+

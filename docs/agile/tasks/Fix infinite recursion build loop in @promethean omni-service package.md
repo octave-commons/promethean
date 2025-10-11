@@ -5,12 +5,15 @@ slug: "Fix infinite recursion build loop in @promethean omni-service package"
 status: "incoming"
 priority: "P1"
 labels: ["build", "package", "infinite", "recursion"]
-created_at: "2025-10-11T03:39:14.371Z"
+created_at: "2025-10-11T19:22:57.817Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
 
 The omni-service package has an infinite recursion issue in its build script:
 
@@ -29,3 +32,6 @@ Nothing
 
 ## ⛓️ Blocks
 Nothing
+
+
+

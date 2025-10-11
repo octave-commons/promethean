@@ -5,12 +5,15 @@ slug: "kanban-prioritize-subcommands"
 status: "accepted"
 priority: "P3"
 labels: ["cli", "clustering", "explain", "filtering", "kanban", "prioritize", "ranking", "score", "subcommands", "task"]
-created_at: "2025-10-11T03:39:14.373Z"
+created_at: "2025-10-11T19:22:57.819Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
 
 # New subcommands (added; keep your existing ones)
 
@@ -82,3 +85,6 @@ packages/kanban/
 ## Sources
 - _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
+
+
+

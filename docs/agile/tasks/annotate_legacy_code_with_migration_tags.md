@@ -5,12 +5,15 @@ slug: "annotate_legacy_code_with_migration_tags"
 status: "icebox"
 priority: "P3"
 labels: ["annotate", "legacy", "migration", "tags"]
-created_at: "2025-10-11T03:39:14.370Z"
+created_at: "2025-10-11T19:22:57.816Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
 
 ## 🛠️ Task: Annotate legacy code with migration tags
 
@@ -65,3 +68,6 @@ Nothing
 ```
 #ice-box
 ```
+
+
+

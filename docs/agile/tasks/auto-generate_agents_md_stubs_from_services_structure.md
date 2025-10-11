@@ -5,12 +5,15 @@ slug: "auto-generate_agents_md_stubs_from_services_structure"
 status: "done"
 priority: "P3"
 labels: ["agents", "generate", "services", "stubs"]
-created_at: "2025-10-11T03:39:14.374Z"
+created_at: "2025-10-11T19:22:57.822Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
 
 ## 🛠️ Task: Auto-generate AGENTS.md stubs from services structure
 
@@ -63,3 +66,6 @@ Nothing
 - [vault config readme]../../vault-config-readme.md
 - [[kanban]]
 #done
+
+
+

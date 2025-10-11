@@ -1,15 +1,21 @@
 ---
 uuid: "c45bfd2c-9abf-4766-b56f-15e1bea4db3b"
-title: "Fix eslint-tasks pipeline file reference issue   -tasks"
+title: "Fix eslint-tasks pipeline file reference issue   -tasks   -tasks   -tasks   -tasks   -tasks   -tasks   -tasks"
 slug: "fix-eslint-tasks-pipeline-file-reference-issue 13"
 status: "incoming"
 priority: "P2"
 labels: ["automation", "bug", "eslint-tasks", "pipeline"]
-created_at: "2025-10-11T03:39:21.446Z"
+created_at: "2025-10-11T19:22:57.818Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 

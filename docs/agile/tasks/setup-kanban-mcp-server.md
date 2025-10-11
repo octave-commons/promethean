@@ -5,12 +5,15 @@ slug: "setup-kanban-mcp-server"
 status: "ready"
 priority: "P2"
 labels: ["automation", "kanban", "mcp"]
-created_at: "2025-10-11T03:39:14.374Z"
+created_at: "2025-10-11T19:22:57.820Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
 
 #InProgress
 #Ready
@@ -76,3 +79,6 @@ Estimate: 3 (Fibonacci).
 
 - **Issue #1640:** Setup MCP server endpoint for kanban tooling (GitHub issue tracking this task)
 - **PR #1655:** "fix: guard MCP JSON adapter against nil server specs" - Related MCP infrastructure work that supports kanban MCP endpoint stability
+
+
+

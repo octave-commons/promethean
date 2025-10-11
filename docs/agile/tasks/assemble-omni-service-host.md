@@ -5,12 +5,15 @@ slug: "assemble-omni-service-host"
 status: "blocked"
 priority: "P2"
 labels: ["omni", "service"]
-created_at: "2025-10-11T03:39:14.373Z"
+created_at: "2025-10-11T19:22:57.819Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
 
 ## 🎯 Outcome
 
@@ -41,3 +44,6 @@ Stand up `@promethean/omni-service`, a Fastify application that mounts REST, Gra
 ## 🔗 Dependencies
 
 - Omni protocol + core packages must be published.
+
+
+

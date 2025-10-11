@@ -5,12 +5,15 @@ slug: "wire_mongoeventstore_mongocursorstore_in_place_of"
 status: "icebox"
 priority: "P3"
 labels: ["mongocursorstore", "mongoeventstore", "place", "wire"]
-created_at: "2025-10-11T03:39:14.371Z"
+created_at: "2025-10-11T19:22:57.816Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
 
 ## 🛠️ Task: Wire MongoEventStore + MongoCursorStore in place of InMemory
 
@@ -36,3 +39,6 @@ Generated from ../unique/2025.08.08.15.08.47.md$../unique/2025.08.08.15.08.47.md
 ```
 #ice-box
 ```
+
+
+

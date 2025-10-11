@@ -5,12 +5,15 @@ slug: "create-broker-services-that-can-handle-all-the-same-tasks-as-the-gpt-brid
 status: "done"
 priority: "P3"
 labels: ["api", "broker", "gpt", "parity"]
-created_at: "2025-10-11T03:39:14.375Z"
+created_at: "2025-10-11T19:22:57.822Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
 
 # WebSocket Broker API Parity with GPT Bridge
 ```
@@ -203,3 +206,6 @@ Bring the **WebSocket broker API** up to full parity with the existing **GPT Bri
 Append-only thread for agents to log discovered gaps, schema changes, or overload handling notes.
 
 #ready
+
+
+

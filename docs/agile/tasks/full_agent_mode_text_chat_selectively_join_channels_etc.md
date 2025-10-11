@@ -5,12 +5,15 @@ slug: "full_agent_mode_text_chat_selectively_join_channels_etc"
 status: "done"
 priority: "P3"
 labels: ["agent", "full", "join", "mode"]
-created_at: "2025-10-11T03:39:14.375Z"
+created_at: "2025-10-11T19:22:57.822Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
 
 ## 🛠️ Description
 ```
@@ -70,3 +73,6 @@ Nothing
 
 ## Blockers
 - No active owner or unclear scope
+
+
+

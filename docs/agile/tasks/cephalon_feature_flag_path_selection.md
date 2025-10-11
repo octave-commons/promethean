@@ -5,12 +5,15 @@ slug: "cephalon_feature_flag_path_selection"
 status: "in_review"
 priority: "P3"
 labels: ["cephalon", "feature", "flag", "path"]
-created_at: "2025-10-11T03:39:14.524Z"
+created_at: "2025-10-11T19:23:08.664Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
 
 Cephalon: Feature-flag classic vs ECS path
 
@@ -42,3 +45,6 @@ Exit Criteria:
 ### Verification
 - [ ] `pnpm --filter @promethean/cephalon test` *(fails: missing `@types/node`/`@types/ava` declarations in the workspace build container)*
 - [ ] `pnpm exec eslint packages/cephalon/src/index.ts packages/cephalon/src/bot.ts packages/cephalon/src/actions/start-dialog.scope.ts packages/cephalon/src/mode.ts packages/cephalon/src/tests/mode.test.ts` *(fails: missing \"`typescript-eslint\"` dependency in lint config; captured for follow-up)*
+
+
+

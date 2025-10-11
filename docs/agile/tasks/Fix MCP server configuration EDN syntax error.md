@@ -5,12 +5,15 @@ slug: "Fix MCP server configuration EDN syntax error"
 status: "incoming"
 priority: "P1"
 labels: ["mcp", "edn", "error", "server"]
-created_at: "2025-10-11T03:39:14.373Z"
+created_at: "2025-10-11T19:22:57.817Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
 
 The MCP server configuration file at [[packages/mcp/config/mcp_servers.edn]] had a syntax error preventing startup:
 
@@ -39,3 +42,6 @@ Nothing
 
 ## ⛓️ Blocks
 Nothing
+
+
+

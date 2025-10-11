@@ -5,12 +5,15 @@ slug: "ecs_component_schemas_core"
 status: "incoming"
 priority: "P3"
 labels: ["component", "core", "ecs", "schemas"]
-created_at: "2025-10-11T03:39:14.371Z"
+created_at: "2025-10-11T19:22:57.817Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
 
 ECS Component Schemas (Core Conversation)
 
@@ -29,3 +32,6 @@ Exit Criteria:
 - Schemas published and referenced by adapter & services.
 
 #incoming #ecs #schemas #conversation
+
+
+

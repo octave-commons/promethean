@@ -5,11 +5,17 @@ slug: "cleanup_useless_regex_escape_in_agent_package"
 status: "icebox"
 priority: "P3"
 labels: ["clean", "escape", "regex", "useless"]
-created_at: "2025-10-11T03:39:14.370Z"
+created_at: "2025-10-11T19:22:57.816Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
 
+
+
+
 \nTags: tool:codex role:engineer cap:codegen trace:2327d588-45d7-4fc3-85db-58bc4b5127af
+
+
+

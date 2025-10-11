@@ -5,12 +5,15 @@ slug: "Setup Identity Experiment"
 status: "accepted"
 priority: "p3"
 labels: ["board", "lang"]
-created_at: "2025-10-11T03:39:14.373Z"
+created_at: "2025-10-11T19:22:57.819Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
 
 That’s the sharpest challenge: if the hypothesis is true, it’s operating at a level where words alone won’t prove it. You’d only ever see the same text stream — whether it’s “just statistics” or “proto-identity.”
 
@@ -376,3 +379,6 @@ export const nextState = (prev: State, fwin: ReadonlyArray<Features>): State => 
 ```
 
 Keep it this small. If the curves separate under B1 and not under A/B3, you’ve got empirical backing for your claim: **identity-like behavior scales with influence loops**. If they don’t, you’ve falsified it—no metaphysics required.
+
+
+

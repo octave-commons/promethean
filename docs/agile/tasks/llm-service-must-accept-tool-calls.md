@@ -5,12 +5,15 @@ slug: "llm-service-must-accept-tool-calls"
 status: "done"
 priority: "P3"
 labels: ["calls", "llm", "service", "tool"]
-created_at: "2025-10-11T03:39:14.375Z"
+created_at: "2025-10-11T19:22:57.823Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
 
 ## 🛠️ Description
 
@@ -65,3 +68,6 @@ Nothing
 ```
 #framework-core #Ready #ready
 ```
+
+
+

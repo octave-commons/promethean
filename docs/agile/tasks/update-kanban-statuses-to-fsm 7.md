@@ -5,12 +5,18 @@ slug: "update-kanban-statuses-to-fsm 7"
 status: "ready"
 priority: "P2"
 labels: ["cleanup", "fsm", "kanban", "process"]
-created_at: "2025-10-11T03:39:14.374Z"
+created_at: "2025-10-11T19:22:57.820Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
 
 
 
