@@ -26,3 +26,9 @@ Diagnose and fix the failing JSON-RPC validation suites (`stdio-proxy-validation
 - Blocked by: `mcp_stdio_proxy_review` (`3c3a6f8b-2a8d-4b3e-8d63-2b7d1e8f7a91`).
 - Original blocker task: "MCP stdio proxy: code review + minimal hardening".
 
+
+## Triage Notes (2025-10-10)
+- Reproduced failures via `pnpm exec ava src/tests/debug-filtering-unit.test.ts src/tests/stdio-proxy-validation.test.ts`.
+- `isValidJsonRpcMessage` currently treats `{jsonrpc:"2.0", method:""}` as valid; validator only checks property presence, not non-empty method strings.
+- Malformed debug-like messages pass validation because method string is only checked for type.
+- Need stricter JSON-RPC validation (non-empty method, response shape, etc.) and adjust tests accordingly.

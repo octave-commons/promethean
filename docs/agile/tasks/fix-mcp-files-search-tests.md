@@ -25,3 +25,9 @@ Restore all failing `filesSearch` and related `filesWriteFileLines` MCA tool tes
 - Blocked by: `mcp_stdio_proxy_review` (`3c3a6f8b-2a8d-4b3e-8d63-2b7d1e8f7a91`).
 - Original blocker task: "MCP stdio proxy: code review + minimal hardening".
 
+
+## Triage Notes (2025-10-10)
+- Reproduced with `pnpm exec ava src/tests/files-tools.test.ts`.
+- All failing invocations hit `normalizeToRoot` returning `path outside root` when tests pass absolute paths; MCP tools now enforce root sandbox and tests need to stage temporary root/ENV.
+- Validation test expects `ZodError` but receives filesystem `ENOENT`; tool now performs IO before schema validation.
+- Next steps: align tests with new root restrictions (set `MCP_ROOT_PATH`/use relative inputs) or adjust tool behavior.

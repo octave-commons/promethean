@@ -25,3 +25,9 @@ Resolve the failing session ID extraction checks in the MCP stdio proxy negative
 - Blocked by: `mcp_stdio_proxy_review` (`3c3a6f8b-2a8d-4b3e-8d63-2b7d1e8f7a91`).
 - Original blocker task: "MCP stdio proxy: code review + minimal hardening".
 
+
+## Triage Notes (2025-10-10)
+- Ran `pnpm exec ava src/tests/chatgpt-simulation-negative.test.ts src/tests/stdio-proxy-timing-negative.test.ts`.
+- Stdio proxy logs no `mcp-session-id:` line; regex returns `null`, so proxy likely stopped emitting handshake banner after recent changes.
+- Need to inspect initialization path (`StdioHttpProxy.initializeMcpServer` / logging) to ensure session IDs are still surfaced for clients.
+- Subsequent tool list requests rely on session id; failing handshake blocks coverage for the rest of the suites.
