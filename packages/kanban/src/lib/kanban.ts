@@ -106,10 +106,7 @@ const isFallbackSlug = (slug: string, uuid: string): boolean => {
   const normalizedSlug = slug.trim().toLowerCase();
   const normalizedUuid = uuid.replace(/[^0-9a-f]/gi, '').toLowerCase();
   const slugWithoutDelimiters = normalizedSlug.replace(/[^0-9a-f]/gi, '');
-  return (
-    FALLBACK_SLUG_REGEX.test(normalizedSlug) ||
-    slugWithoutDelimiters === normalizedUuid
-  );
+  return FALLBACK_SLUG_REGEX.test(normalizedSlug) || slugWithoutDelimiters === normalizedUuid;
 };
 
 const fallbackFileBase = (uuid: string): string => `Task ${uuid.slice(0, 8)}`;
@@ -272,7 +269,7 @@ const parseColumnsFromMarkdown = (markdown: string): ColumnData[] => {
           displayFromWiki = displayCandidate;
         }
       }
-      const labels = Array.from(titlePart.matchAll(/#([\w-]+)/g))
+      const labels = Array.from(titlePart.matchAll(/#(\S+)/g))
         .map((match) => match[1])
         .filter((label): label is string => typeof label === 'string' && label.length > 0);
       const prioMatch = titlePart.match(/\bprio[:=]([^\s)]+)\b/i);
@@ -280,7 +277,7 @@ const parseColumnsFromMarkdown = (markdown: string): ColumnData[] => {
       const titleClean = titlePart
         .replace(/\(uuid:[^)]+\)/g, '')
         .replace(/\[\[[^\]]+\]\]/g, displayFromWiki ?? '')
-        .replace(/#\w+/g, '')
+        .replace(/#\S+/g, '')
         .replace(/\bprio[:=][^\s)]+\b/gi, '')
         .trim();
       const title =
@@ -1660,22 +1657,24 @@ export const mergeTasks = async (
   }
 
   // Update target task with merged content
-  const finalContent = mergedContent + `\n\n---\n**Merged**: ${sourceUuids.length} tasks merged using ${mergeStrategy} strategy (${NOW_ISO()})\n---`;
+  const finalContent =
+    mergedContent +
+    `\n\n---\n**Merged**: ${sourceUuids.length} tasks merged using ${mergeStrategy} strategy (${NOW_ISO()})\n---`;
   const updatedTask: Task = {
     ...targetTask,
-    content: finalContent
+    content: finalContent,
   };
 
   // Update the task in the board
   const targetColumn = targetLocated.column;
-  targetColumn.tasks = targetColumn.tasks.map(task =>
-    task.uuid === targetUuid ? updatedTask : task
+  targetColumn.tasks = targetColumn.tasks.map((task) =>
+    task.uuid === targetUuid ? updatedTask : task,
   );
 
   // Handle source tasks based on preserveSources setting
   if (!options?.preserveSources) {
     for (const located of sourceLocated) {
-      located.column.tasks = located.column.tasks.filter(task => task.uuid !== located.task.uuid);
+      located.column.tasks = located.column.tasks.filter((task) => task.uuid !== located.task.uuid);
       located.column.count = located.column.tasks.length;
 
       // Delete source task files
@@ -1825,7 +1824,7 @@ import { createTaskAIManager } from './task-content/index.js';
 import type {
   TaskAnalysisResult,
   TaskRewriteResult,
-  TaskBreakdownResult
+  TaskBreakdownResult,
 } from './task-content/types.js';
 
 export const analyzeTask = async (
@@ -1843,21 +1842,21 @@ export const analyzeTask = async (
   options?: {
     createBackup?: boolean;
     dryRun?: boolean;
-  }
+  },
 ): Promise<TaskAnalysisResult | undefined> => {
   try {
     const located = locateTask(board, uuid);
     if (!located) return undefined;
 
     const aiManager = createTaskAIManager({
-      model: 'qwen3:8b'
+      model: 'qwen3:8b',
     });
 
     const result = await aiManager.analyzeTask({
       uuid,
       analysisType,
       context,
-      options
+      options,
     });
 
     return result;
@@ -1879,14 +1878,14 @@ export const rewriteTask = async (
     tone?: 'formal' | 'casual' | 'technical' | 'executive';
     createBackup?: boolean;
     dryRun?: boolean;
-  }
+  },
 ): Promise<TaskRewriteResult | undefined> => {
   try {
     const located = locateTask(board, uuid);
     if (!located) return undefined;
 
     const aiManager = createTaskAIManager({
-      model: 'qwen3:8b'
+      model: 'qwen3:8b',
     });
 
     const result = await aiManager.rewriteTask({
@@ -1895,7 +1894,7 @@ export const rewriteTask = async (
       instructions: options?.instructions,
       targetAudience: options?.targetAudience,
       tone: options?.tone,
-      options
+      options,
     });
 
     // If the rewrite was successful and not a dry run, sync the board
@@ -1922,14 +1921,14 @@ export const breakdownTask = async (
     includeEstimates?: boolean;
     createBackup?: boolean;
     dryRun?: boolean;
-  }
+  },
 ): Promise<TaskBreakdownResult | undefined> => {
   try {
     const located = locateTask(board, uuid);
     if (!located) return undefined;
 
     const aiManager = createTaskAIManager({
-      model: 'qwen3:8b'
+      model: 'qwen3:8b',
     });
 
     const result = await aiManager.breakdownTask({
@@ -1938,7 +1937,7 @@ export const breakdownTask = async (
       maxSubtasks: options?.maxSubtasks || 8,
       complexity: options?.complexity || 'medium',
       includeEstimates: options?.includeEstimates !== false,
-      options
+      options,
     });
 
     return result;
