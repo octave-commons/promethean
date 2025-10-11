@@ -143,3 +143,6 @@ tree.txt
 
 # Benchmark fixtures
 benchmark-fixtures/
+
+# Generated kanban board files (should be regenerated, not committed)
+docs/agile/boards/generated.md
