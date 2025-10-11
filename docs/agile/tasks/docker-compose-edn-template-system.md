@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ```
 <hr class="__chatgpt_plugin">
 ```
@@ -76,6 +73,3 @@ true
 <hr class="__chatgpt_plugin">
 ```
 ### role::user
-
-
-

@@ -1,6 +1,6 @@
 ---
 uuid: "a3b4c5d6-e7f8-9012-abc3-456789012345"
-title: "Fix codemods pipeline missing simtasks dependencies and schema issues -validation -chain  -chain  -validation  -chain  -validation  -chain  -validation  -chain  -validation  -chain  -validation  -chain  -validation  -chain  -validation  -chain  -validation  -chain  -validation  -chain  -validation  -chain  -validation  -chain  -validation  -chain  -validation  -chain  -validation  -chain  -validation  -chain  -validation  -chain  -validation  -chain  -validation  -chain  -validation  -chain  -validation  -chain  -validation  -chain  -validation  -chain  -validation  -chain  -validation  -chain  -validation  -chain  -validation  -chain  -validation  -chain  -validation"
+title: "Fix codemods pipeline missing simtasks dependencies and schema issues -validation -chain"
 slug: "fix-codemods-pipeline-missing-simtasks-dependencies-and-schema-issues-validation-chain"
 status: "ready"
 priority: "P2"
@@ -11,9 +11,6 @@ estimates:
   scale: ""
   time_to_completion: ""
 ---
-
-
-
 
 ## 🛠️ Task: Fix codemods pipeline missing simtasks dependencies and schema issues
 
@@ -97,6 +94,3 @@ graph TD
 - **Schema Definitions**: Validation schemas for cluster and spec files
 
 Fixing the codemods pipeline will enable powerful automated code refactoring capabilities based on AI analysis of code patterns.
-
-
-

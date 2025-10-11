@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🛠️ Task: Capture confirmation telemetry for daemon optimization triggers
 
 `system/README.md` describes how repeated confirmations of daemon- and condition-driven units trigger optimization events and conversions into structured formats. We need durable telemetry so the framework can count confirmations, audit which context state led to conversions, and surface signals for future automation.
@@ -72,6 +69,3 @@ Nothing
 
 #Incoming
 #observability
-
-
-

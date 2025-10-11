@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🗂 Source
 
 - Path: docs/labeled/kanban-process-fundamentals-4.md
@@ -63,6 +60,3 @@ Each state Cn has a s
 - [ ] Draft actionable subtasks from the summary
 - [ ] Define acceptance criteria
 - [ ] Link back to related labeled docs
-
-
-

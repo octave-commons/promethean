@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🛠️ Task: Suggest metaprogramming updates
 
 Placeholder task stub generated from kanban board.
@@ -61,6 +58,3 @@ Nothing
 ```
 #ice-box
 ```
-
-
-

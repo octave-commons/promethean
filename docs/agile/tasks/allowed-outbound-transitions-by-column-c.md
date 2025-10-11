@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🗂 Source
 
 - Path: docs/labeled/2025.09.19.22.37.16.md
@@ -66,6 +63,3 @@ awesome—here’s the **concise transition spec** to pair with the mermaid FSM 
 - [ ] Draft actionable subtasks from the summary
 - [ ] Define acceptance criteria
 - [ ] Link back to related labeled docs
-
-
-

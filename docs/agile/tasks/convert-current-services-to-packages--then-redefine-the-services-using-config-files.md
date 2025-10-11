@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🛠️ Description
 
 Transition existing services into reusable packages and instantiate concrete services via configuration files.
@@ -73,6 +70,3 @@ Nothing
 #framework-core #Ready
 ```
 #ready
-
-
-

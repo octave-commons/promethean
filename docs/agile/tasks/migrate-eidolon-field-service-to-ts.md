@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 # Migrate eidolon-field service to TypeScript
 
 Migrate the legacy eidolon-field JavaScript service to TypeScript under the new package structure.
@@ -33,6 +30,3 @@ Migrate the legacy eidolon-field JavaScript service to TypeScript under the new 
 - [ ] TypeScript compilation passes
 - [ ] Eidolon-field functionality preserved
 - [ ] Tests updated and passing
-
-
-

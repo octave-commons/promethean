@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 # Design Agent Communication Framework
 
 ## Overview
@@ -597,6 +594,3 @@ interface MCPCommunicationIntegration {
 ---
 
 **This communication framework is essential for enabling effective agent collaboration and must be designed for reliability, security, and performance.**
-
-
-

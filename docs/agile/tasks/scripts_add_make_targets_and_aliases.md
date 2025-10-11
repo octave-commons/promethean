@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 Scripts: Add Make targets and aliases
 
 Goal: Provide Make targets for common script flows (kanban sync, WIP sheriff, docs fixes) for consistent local/CI usage.
@@ -32,6 +29,3 @@ Exit Criteria:
 - Targets exist and work from repo root; CI can call them.
 
 #incoming #scripts #make #dx
-
-
-

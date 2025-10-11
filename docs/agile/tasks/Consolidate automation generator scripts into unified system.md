@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 Multiple automation and task generator scripts scattered across scripts/ and tools/ need consolidation into a unified system using existing @promethean packages.
 
 ## ⛓️ Blocked By
@@ -26,6 +23,3 @@ Nothing
 ## ⛓️ Blocks
 
 Nothing
-
-
-

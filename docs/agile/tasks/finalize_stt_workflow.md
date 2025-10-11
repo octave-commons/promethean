@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🛠️ Task: Finalize STT workflow
 
 The STT service has a GitHub workflow but no requirements file.
@@ -63,6 +60,3 @@ Nothing
 ## Reason for rejection
 Other tasks expanded to include the intention of this ticket before this one was b
 #rejected
-
-
-

@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🗂 Source
 
 - Path: docs/labeled/2025.10.08.01.04.18.md
@@ -56,6 +53,3 @@ Ollama Cloud’s API host is `https:/
 - [ ] Draft actionable subtasks from the summary
 - [ ] Define acceptance criteria
 - [ ] Link back to related labeled docs
-
-
-

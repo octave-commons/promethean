@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 # Task: Post-move stabilization compat layer + hook diet
 
 ## Objective
@@ -207,6 +204,3 @@ pre-commit run -a            # full sweep
 
 #precommit #refactor #typescript #python #imports #compat #monorepo #tooling #stabilization
 #accepted
-
-
-

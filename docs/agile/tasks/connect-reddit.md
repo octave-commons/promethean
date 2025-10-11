@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 # Description
 
 Integrate Reddit so agents can read and post subreddit content using the Reddit REST API with OAuth2.
@@ -91,6 +88,3 @@ No blockers.
 
 #Ready
 #ready
-
-
-

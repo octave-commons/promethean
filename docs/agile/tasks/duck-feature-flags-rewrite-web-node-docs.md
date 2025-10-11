@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 # In Review
 
 ## 🛠️ Description
@@ -51,6 +48,3 @@ Rewrite broken feature flag modules for duck-web and duck-utils; pure ESM TS, fu
 ## 🔍 Relevant Links
 
 - PR #1447
-
-
-

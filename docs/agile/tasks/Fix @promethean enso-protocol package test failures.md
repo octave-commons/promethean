@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 Enso-protocol package has failing tests:
 
 - Protocol communication tests failing
@@ -32,6 +29,3 @@ Nothing
 ## ⛓️ Blocks
 
 Nothing
-
-
-

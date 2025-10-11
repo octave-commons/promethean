@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🛠️ Task: Extract docs from riatzukiza.github.io
 
 Move any useful markdown documentation from the old `riatzukiza.github.io` repository into our `/docs/` directory.
@@ -59,6 +56,3 @@ Nothing
 ## 🔍 Relevant Links
 - [[kanban]]
 #accepted
-
-
-

@@ -1,6 +1,6 @@
 ---
 uuid: "1b2b8d52-3f3a-4c4a-9f3c-0b9b8f6d9f67"
-title: "Duck Revival — diagrams + docs linked -revival  -revival  -revival  -revival  -revival  -revival  -revival  -revival  -revival  -revival  -revival  -revival  -revival  -revival  -revival  -revival  -revival  -revival  -revival  -revival  -revival  -revival  -revival  -revival  -revival  -revival  -revival  -revival  -revival"
+title: "Duck Revival — diagrams + docs linked -revival"
 slug: "duck-revival-diagrams-docs-linked-revival"
 status: "done"
 priority: "P2"
@@ -11,9 +11,6 @@ estimates:
   scale: ""
   time_to_completion: ""
 ---
-
-
-
 
 #Done
 
@@ -47,6 +44,3 @@ Add concise docs with Mermaid diagrams for all moving parts touched by the `duck
 
 ## Relevant Links
 - `docs/diagrams/duck-revival-overview.md`
-
-
-

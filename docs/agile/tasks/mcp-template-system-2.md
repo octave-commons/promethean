@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🗂 Source
 
 - Path: docs/labeled/mcp-template-system-2.md
@@ -57,6 +54,3 @@ It should allow you to:
 - [ ] Draft actionable subtasks from the summary
 - [ ] Define acceptance criteria
 - [ ] Link back to related labeled docs
-
-
-

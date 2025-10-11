@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🛠️ Description
 
 Convert the DocOps/Ollama working notes into canonical design documentation. Source material lives in:
@@ -80,6 +77,3 @@ Nothing
 #agent-thinking
 ```
 #accepted
-
-
-

@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 Refactor scripts/catalog.mjs to use @promethean/indexer-core and @promethean/file-indexer packages. Refactor scripts/dedupe-versions.mjs to use @promethean/kanban and @promethean/markdown utilities. Move scripts/sync-package-deps.js to @promethean/utils or new @promethean/package-tools package.
 
 ## ⛓️ Blocked By
@@ -26,6 +23,3 @@ Nothing
 ## ⛓️ Blocks
 
 Nothing
-
-
-

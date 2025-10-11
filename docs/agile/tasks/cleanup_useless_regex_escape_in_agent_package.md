@@ -12,10 +12,4 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 \nTags: tool:codex role:engineer cap:codegen trace:2327d588-45d7-4fc3-85db-58bc4b5127af
-
-
-

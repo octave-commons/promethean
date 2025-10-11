@@ -1,6 +1,6 @@
 ---
 uuid: "0ed899b3-b815-4384-89ad-a1ff76d6a6e5"
-title: "Shadow CLJS migration — step 3 application roll-out -core -task -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core"
+title: "Shadow CLJS migration — step 3 application roll-out -core -task"
 slug: "shadow-cljs-migration-step-3-application-roll-out-core-task"
 status: "done"
 priority: "P2"
@@ -11,9 +11,6 @@ estimates:
   scale: ""
   time_to_completion: ""
 ---
-
-
-
 
 #Todo
 
@@ -67,6 +64,3 @@ Estimate: 8 (split per app as needed)
 ## 🔍 Relevant Links
 
 - Shadow-CLJS migration plan 2025-10-03
-
-
-

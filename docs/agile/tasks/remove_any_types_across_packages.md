@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 # Remove `any` types across packages
 
 ## Description
@@ -34,6 +31,3 @@ estimates:
 ```
 #Todo #codex-task
 ```
-
-
-

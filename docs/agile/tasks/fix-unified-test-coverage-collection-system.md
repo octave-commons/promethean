@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 #incoming
 
 ## 🛠️ Description
@@ -76,6 +73,3 @@ Estimate: 3
 - Current unified coverage script: `tools/unified-test-coverage.mjs`
 - Coverage configuration: `config/ava.config.mjs`
 - LCOV output: `coverage/lcov.info`
-
-
-

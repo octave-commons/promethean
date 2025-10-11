@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🗂 Source
 
 - Path: docs/labeled/2025.10.06.15.01.27.md
@@ -53,6 +50,3 @@ Shared flags (consistent across new cmds):
 - [ ] Draft actionable subtasks from the summary
 - [ ] Define acceptance criteria
 - [ ] Link back to related labeled docs
-
-
-

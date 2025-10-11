@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 Scripts: Add READMEs and usage docs per folder
 
 Goal: Ensure each scripts subfolder has a README with purpose, dependencies, environment, and examples.
@@ -31,6 +28,3 @@ Exit Criteria:
 - Each folder has a concise README with clear commands and prerequisites.
 
 #incoming #scripts #docs
-
-
-

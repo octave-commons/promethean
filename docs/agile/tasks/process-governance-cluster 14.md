@@ -1,6 +1,6 @@
 ---
 uuid: "41eb6d48-d2b5-4f43-834c-3e5e0df6a471"
-title: "Process Governance Cluster - Quality Gates & Workflow Enforcement      -gates      -gates      -gates      -gates      -gates      -gates"
+title: "Process Governance Cluster - Quality Gates & Workflow Enforcement -gates"
 slug: "process-governance-cluster 14"
 status: "ready"
 priority: "P1"
@@ -11,6 +11,8 @@ estimates:
   scale: ""
   time_to_completion: ""
 ---
+
+
 
 
 

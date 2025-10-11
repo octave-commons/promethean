@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🛠️ Task: Snapshot prompts specs to repo
 
 Capture existing prompt and specification documents into the repository so they are version-controlled and easily referenced.
@@ -49,6 +46,3 @@ Capture existing prompt and specification documents into the repository so they 
 
 #IceBox
 #ready
-
-
-

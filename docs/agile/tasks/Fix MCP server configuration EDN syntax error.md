@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 The MCP server configuration file at [[packages/mcp/config/mcp_servers.edn]] had a syntax error preventing startup:
 
 ## Issue:
@@ -42,6 +39,3 @@ Nothing
 
 ## ⛓️ Blocks
 Nothing
-
-
-

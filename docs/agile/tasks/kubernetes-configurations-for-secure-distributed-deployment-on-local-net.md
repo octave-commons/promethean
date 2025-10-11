@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ```
 <hr class="__chatgpt_plugin">
 ```
@@ -105,6 +102,3 @@ kubernetes-configurations-for-secure-distributed-deployment-on-local-net
 
 ### Relevant Resources
 You might find [this](link) useful while working on this task, including updated Kubernetes documentation and security audit guidelines.
-
-
-

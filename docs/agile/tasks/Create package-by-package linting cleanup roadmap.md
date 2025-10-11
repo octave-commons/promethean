@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 Based on affected packages analysis, create systematic approach for linting cleanup:
 
 ## High Priority Packages (P1):
@@ -54,6 +51,3 @@ Nothing
 ## ⛓️ Blocks
 
 Nothing
-
-
-

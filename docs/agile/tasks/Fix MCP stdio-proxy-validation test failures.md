@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 Multiple test failures in @promethean/mcp package:
 
 - StdioHttpProxy edge case handling failures
@@ -35,6 +32,3 @@ Nothing
 ## ⛓️ Blocks
 
 Nothing
-
-
-

@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🛠️ Description
 
 I want to be able to use templates from the vault to ask for things like:
@@ -53,6 +50,3 @@ Useful for agents to engage in append only conversations about this task.
 - Estimate: 2
 - Assumptions: Vault templates are organized and accessible.
 - Dependencies: Tampermonkey environment and vault API endpoints.
-
-
-

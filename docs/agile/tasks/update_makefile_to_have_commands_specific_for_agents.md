@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🛠️ Task: Replace Makefile agent commands with pnpm scripts
 
 The earlier plan called for agent-specific Makefile targets such as `make start:duck`. The audit showed those never shipped,
@@ -72,6 +69,3 @@ Nothing
 - [promethean-dev-workflow-update|promethean dev workflow update]
 
 #devops #todo
-
-
-

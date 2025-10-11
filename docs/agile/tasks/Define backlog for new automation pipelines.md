@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🛠️ Task: Define backlog for new automation pipelines
 
 ### Context
@@ -38,6 +35,3 @@ estimates:
 - `docs/promethean-pipelines.md` (or equivalent menu note)
 - `pipelines.json`
 - Piper documentation
-
-
-

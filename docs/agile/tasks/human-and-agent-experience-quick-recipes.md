@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🗂 Source
 
 - Path: docs/labeled/2025.10.06.14.11.46.md
@@ -48,6 +45,3 @@ Short version: yes—letting folks write filters in tiny ClojureScript forms is 
 - [ ] Draft actionable subtasks from the summary
 - [ ] Define acceptance criteria
 - [ ] Link back to related labeled docs
-
-
-

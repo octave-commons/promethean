@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🛠️ Description
 
 I can do better than this lag monster
@@ -68,6 +65,3 @@ Nothing
 ```
 #ice-box
 ```
-
-
-

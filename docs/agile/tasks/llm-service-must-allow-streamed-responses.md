@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🛠️ Description
 
 Describe your task
@@ -48,6 +45,3 @@ Useful for agents to engage in append only conversations about this task.
 - Assumptions: Underlying LLM and transport layer support streaming responses.
 - Dependencies: Streaming protocol implementation and client compatibility.
 #ready
-
-
-

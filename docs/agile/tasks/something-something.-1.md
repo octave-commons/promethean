@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ```
 <hr class="__chatgpt_plugin">
 ```
@@ -150,6 +147,3 @@ Implement natural language processing (NLP) capabilities to enhance knowledge ba
 ```
 
 ### role::user
-
-
-

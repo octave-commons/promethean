@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 Here’s a repo-ready task you can paste into the board. It carves a bright line between **testing** and **working** dev/staging/prod databases and enforces a **migration contract** that every migration must satisfy before touching working data.
 
 # Maintain Testing vs Working Databases w/ Migration Contract
@@ -229,6 +226,3 @@ feat(migrations): isolate test DBs and enforce migration contracts
 ```
 #in-progress
 ```
-
-
-

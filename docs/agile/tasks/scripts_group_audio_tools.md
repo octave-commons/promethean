@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 Scripts: Group audio tools under scripts/audio
 
 Goal: Move STT/TTS helpers into `scripts/audio/` with a README and verified usage.
@@ -31,6 +28,3 @@ Exit Criteria:
 - README exists with prerequisites and sample commands.
 
 #incoming #scripts #audio #organization
-
-
-

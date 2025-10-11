@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 `EnsoChatAgent.dispose()` currently awaits `wsHandle.close()`, which rejects with “WebSocket was closed before the connection
 was established” when shutdown runs before the handshake finishes. AVA reports this as an uncaught exception during
 `pnpm nx test @promethean/cephalon`.
@@ -29,6 +26,3 @@ was established” when shutdown runs before the handshake finishes. AVA reports
 - Add coverage for disposing the agent before the websocket fully opens.
 
 #incoming #enso #cephalon #stability
-
-
-

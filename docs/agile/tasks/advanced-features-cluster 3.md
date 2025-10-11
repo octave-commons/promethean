@@ -1,6 +1,6 @@
 ---
 uuid: "d3e45cbd-e14d-4dd9-a843-7068cf49f86b"
-title: "Advanced Features Cluster - AI Integration & Task Intelligence -integration   -server -intelligence -integration   -server -intelligence -integration   -server -intelligence -integration   -server -intelligence -integration   -server -intelligence -integration   -server -intelligence -integration   -server -intelligence -integration   -server -intelligence -integration   -server -intelligence -integration   -server -intelligence -integration   -server -intelligence -integration   -server -intelligence -integration   -server -intelligence -integration   -server -intelligence -integration   -server -intelligence -integration   -server -intelligence -integration   -server -intelligence -integration   -server -intelligence -integration   -server -intelligence -integration   -server -intelligence -integration   -server -intelligence"
+title: "Advanced Features Cluster - AI Integration & Task Intelligence -integration -server"
 slug: "advanced-features-cluster 3"
 status: "incoming"
 priority: "P2"
@@ -11,51 +11,5 @@ estimates:
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

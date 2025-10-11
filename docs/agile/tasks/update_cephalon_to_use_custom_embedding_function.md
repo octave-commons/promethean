@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🛠️ Task: Update cephalon to use custom embedding function
 
 Design notes point toward replacing the default Chroma embeddings with a lightweight Python service. Cephalon should call this service when generating context vectors.
@@ -84,6 +81,3 @@ Nothing
 - Embedding service implementation not linked.
 - Unit and integration tests for wrapper and service missing.
 - Documentation for the new embedding workflow is absent.
-
-
-

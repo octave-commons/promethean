@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ECS Projections and Compaction Jobs
 
 Goal: Add background jobs to project ECS component state into query-friendly collections and compact time-series.
@@ -32,6 +29,3 @@ Exit Criteria:
 - Verified indexes and query latencies.
 
 #incoming #ecs #projections #compaction
-
-
-

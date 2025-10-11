@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🎯 Outcome
 
 Stand up `@promethean/omni-service`, a Fastify application that mounts REST, GraphQL, WebSocket, and MCP adapters on a single server/port with shared auth, RBAC, and lifecycle hooks.
@@ -44,6 +41,3 @@ Stand up `@promethean/omni-service`, a Fastify application that mounts REST, Gra
 ## 🔗 Dependencies
 
 - Omni protocol + core packages must be published.
-
-
-

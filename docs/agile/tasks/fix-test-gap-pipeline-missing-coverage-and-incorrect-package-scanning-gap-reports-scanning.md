@@ -1,6 +1,6 @@
 ---
 uuid: "d0e1f2a3-b4c5-6789-def0-234567890123"
-title: "Fix test-gap pipeline missing coverage and incorrect package scanning -gap -reports -scanning -reports -scanning  -gap -reports -scanning  -gap -reports -scanning  -gap -reports -scanning  -gap -reports -scanning  -gap -reports -scanning  -gap -reports -scanning  -gap -reports -scanning  -gap -reports -scanning  -gap -reports -scanning  -gap -reports -scanning  -gap -reports -scanning  -gap -reports -scanning  -gap -reports -scanning  -gap -reports -scanning  -gap -reports -scanning  -gap -reports -scanning  -gap -reports -scanning  -gap -reports -scanning  -gap -reports -scanning  -gap -reports -scanning  -gap -reports -scanning  -gap -reports -scanning  -gap -reports -scanning  -gap -reports -scanning  -gap -reports -scanning  -gap -reports -scanning  -gap -reports -scanning  -gap"
+title: "Fix test-gap pipeline missing coverage and incorrect package scanning -gap -reports"
 slug: "fix-test-gap-pipeline-missing-coverage-and-incorrect-package-scanning-gap-reports-scanning"
 status: "done"
 priority: "P2"
@@ -11,9 +11,6 @@ estimates:
   scale: ""
   time_to_completion: ""
 ---
-
-
-
 
 ## 🛠️ Task: Fix test-gap pipeline missing coverage and incorrect package scanning
 
@@ -175,6 +172,3 @@ Once fixed, the test-gap pipeline will provide:
 - Improved test coverage across the project
 
 This fix will enable intelligent test gap analysis and help maintain high test coverage standards across the entire codebase.
-
-
-

@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ```
 #in-progress
 ```
@@ -26,6 +23,3 @@ Service client repeatedly reconnects to the broker creating new session IDs.
 
 - No tests cover reconnection and session handling.
 - Missing documentation describing expected client behavior.
-
-
-

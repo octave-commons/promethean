@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 MCP package timing-related test failures:
 
 - stdio-proxy-timing-negative tests failing on session ID extraction
@@ -33,6 +30,3 @@ Nothing
 ## ⛓️ Blocks
 
 Nothing
-
-
-

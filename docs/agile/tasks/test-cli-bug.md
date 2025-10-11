@@ -12,12 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 # Test CLI reporting bug
 
 This is a test task to verify that CLI reporting works correctly.
-
-
-

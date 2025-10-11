@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 #incoming
 
 ## 🛠️ Description
@@ -78,6 +75,3 @@ Estimate: 5
 - Failing test: `packages/kanban/src/tests/board.test.ts:235`
 - Kanban implementation: `packages/kanban/src/lib/kanban.ts`
 - Board configuration: `promethean.kanban.json`
-
-
-

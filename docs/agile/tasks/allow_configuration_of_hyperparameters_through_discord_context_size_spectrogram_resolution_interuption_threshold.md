@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🛠️ Description
 
 Expose Discord commands that let users tune audio processing hyperparameters—context
@@ -121,6 +118,3 @@ Nothing
 
 - [[kanban]]
 #IceBox
-
-
-

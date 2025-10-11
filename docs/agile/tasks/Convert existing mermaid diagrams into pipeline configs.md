@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🛠️ Task: Convert existing Mermaid diagrams into pipeline configs
 
 ### Context
@@ -38,6 +35,3 @@ estimates:
 - README Gantt and flow diagrams
 - Proposed Mermaid DSL compiler design
 - `pipelines.json`
-
-
-

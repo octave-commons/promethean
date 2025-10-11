@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 #Todo
 
 ## 🛠️ Description
@@ -30,6 +27,3 @@ Add `ENSO_HANDSHAKE_TIMEOUT_MS` env override. Short-circuit `ensureHandshake()` 
 
 ## 🔍 Related
 - PR #1451
-
-
-

@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 # ECS Board Planning Note
 
 ## 📌 Purpose
@@ -65,6 +62,3 @@ Define expectations for an ECS-powered kanban experience so delivery teams can d
 - Share draft with: Platform DX (CLI owners), Board Ops/Agents, Product stakeholders for ECS initiative.
 - Required approvals: `[ ]` Product, `[ ]` Engineering, `[ ]` Operations.
 - Record sign-off decisions back in the linked kanban task before implementation begins.
-
-
-

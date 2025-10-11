@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 # Resolve Biome lint errors in compiler package
 
 ## Description
@@ -37,6 +34,3 @@ estimates:
 ```
 #Todo #codex-task
 ```
-
-
-

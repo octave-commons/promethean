@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 Multiple TypeScript errors need to be resolved in [[packages/smartgpt-bridge/src/agent.ts]]:
 
 ## Critical Issues:
@@ -39,6 +36,3 @@ Nothing
 
 ## ⛓️ Blocks
 Nothing
-
-
-

@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🛠️ Description
 
 I have a GPU on my desktop, the target production environment, but testing environments don't
@@ -70,6 +67,3 @@ Nothing
 
 - [[kanban]]
 #done
-
-
-

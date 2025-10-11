@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 The local harness for `@promethean/cephalon` spins up an `EnsoServer`, but no router handler forwards `tool.call` envelopes to
 the agent client. Without a handler the router drops those messages, so tests waiting for `tool.result` never observe a
 response and time out.
@@ -29,6 +26,3 @@ response and time out.
 - Add regression coverage that fails if tool calls are not forwarded.
 
 #incoming #enso #cephalon #tests
-
-
-

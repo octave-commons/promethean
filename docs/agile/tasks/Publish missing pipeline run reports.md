@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🛠️ Task: Publish missing pipeline run reports
 
 ### Context
@@ -37,6 +34,3 @@ estimates:
 - `docs/agile/pipelines/`
 - `pipelines.json`
 - Piper report generation scripts
-
-
-

@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 #incoming
 
 ## 🛠️ Description
@@ -84,6 +81,3 @@ Estimate: 5
 - Package AVA configs: `packages/*/ava.config.mjs`
 - Test patterns: Various test files across packages
 - CI/CD configuration: `.github/workflows/`
-
-
-

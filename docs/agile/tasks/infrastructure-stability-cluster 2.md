@@ -1,6 +1,6 @@
 ---
 uuid: "829776f3-7329-45bd-bb4d-9c7cae0f5660"
-title: "Infrastructure Stability Cluster - Build System & Type Safety  -system  -system  -system  -system  -system  -system  -system  -system  -system  -system  -system  -system  -system  -system  -system  -system  -system  -system  -system  -system  -system  -system  -system  -system  -system  -system  -system  -system"
+title: "Infrastructure Stability Cluster - Build System & Type Safety -system"
 slug: "infrastructure-stability-cluster 2"
 status: "ready"
 priority: "P0"
@@ -11,65 +11,5 @@ estimates:
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

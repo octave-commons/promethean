@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🛠️ Create a Generic Markdown Helper Module
 
 Develop a shared module for reading, writing, and manipulating markdown files used across documentation scripts.
@@ -65,6 +62,3 @@ https://github.com/riatzukiza/promethean/pull/1125
 ```
 #framework-core #Ready
 ```
-
-
-

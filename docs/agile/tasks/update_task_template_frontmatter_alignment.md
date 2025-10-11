@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 #InProgress
 
 ## 🛠️ Description
@@ -74,6 +71,3 @@ Update the shared task stub template so that new notes start with the canonical 
 - `docs/agile/templates/task.stub.template.md`
 - `docs/agile/tasks/task-generator-system.md`
 - `node packages/kanban/dist/index.js regenerate`
-
-
-

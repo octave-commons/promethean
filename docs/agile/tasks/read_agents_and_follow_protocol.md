@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🛠️ Task: Read AGENTS.md and follow protocol
 
 Read the root governance doc (**AGENTS.md**) and immediately align this session to its requirements. Create a traceable task (this file), capture scope/acceptance, and record artifacts per **docs/agile/process.md**.
@@ -55,6 +52,3 @@ Read the root governance doc (**AGENTS.md**) and immediately align this session 
 - `docs/agile/process.md`
 
 #done
-
-
-

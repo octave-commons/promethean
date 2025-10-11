@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 # In Review
 
 ## 🛠️ Description
@@ -66,6 +63,3 @@ Estimate: 3
 ## 🔍 Relevant Links
 
 - Link to supporting docs or references.
-
-
-

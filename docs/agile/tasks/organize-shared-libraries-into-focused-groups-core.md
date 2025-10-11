@@ -1,6 +1,6 @@
 ---
 uuid: "42feae0b-46f6-4580-b9bf-071720c0dc79"
-title: "Organize shared libraries into focused groups -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core"
+title: "Organize shared libraries into focused groups -core"
 slug: "organize-shared-libraries-into-focused-groups-core"
 status: "done"
 priority: "p3"
@@ -11,9 +11,6 @@ estimates:
   scale: ""
   time_to_completion: ""
 ---
-
-
-
 
 #Todo
 
@@ -66,6 +63,3 @@ Estimate: 3
 ## 🔍 Relevant Links
 
 - Pending proposal.
-
-
-

@@ -1,6 +1,6 @@
 ---
 uuid: "4e8f0a2b-3c4d-5e6f-8a9b-1c2d3e4f5a6b"
-title: "duck-web — PCM16k worklet + mic wiring fixes -web  -web  -web  -web  -web  -web  -web  -web  -web  -web  -web  -web  -web  -web  -web  -web  -web  -web  -web  -web  -web  -web  -web  -web  -web  -web  -web  -web  -web"
+title: "duck-web — PCM16k worklet + mic wiring fixes -web"
 slug: "duck-web-pcm16k-worklet-mic-wiring-fixes-web"
 status: "ready"
 priority: "P1"
@@ -11,9 +11,6 @@ estimates:
   scale: ""
   time_to_completion: ""
 ---
-
-
-
 
 # Todo
 
@@ -31,6 +28,3 @@ Fix syntax errors in `pcm16k-worklet.js`, track fractional position to avoid dri
 
 ## 🔍 Related
 - PR #1443, PR #1442
-
-
-

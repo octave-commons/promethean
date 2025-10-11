@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 Multiple kanban-related scripts exist outside the main kanban package, creating duplication and maintenance overhead.
 
 ## Scripts to Consolidate:
@@ -82,6 +79,3 @@ Nothing
 ## ⛓️ Blocks
 
 Nothing
-
-
-

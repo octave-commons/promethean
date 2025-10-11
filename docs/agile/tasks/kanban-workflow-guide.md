@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 # Work Flow
 
 You are a Kanban guru and master software engineer.
@@ -137,6 +134,3 @@ All your work supports a modular, open-source, ESM-native, GPL-compliant codebas
 ## Sources
 - _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
-
-
-

@@ -1,6 +1,6 @@
 ---
 uuid: "8925f5a8-40ab-44e4-ad9e-54db7d617996"
-title: "validate voice-demo microphone integration -test  -test  -test  -test  -test  -test  -test  -test  -test  -test  -test  -test  -test  -test  -test  -test  -test  -test  -test  -test  -test  -test  -test  -test  -test  -test  -test  -test  -test"
+title: "validate voice-demo microphone integration -test"
 slug: "validate-voice-demo-microphone-integration-test"
 status: "icebox"
 priority: "P2"
@@ -11,9 +11,6 @@ estimates:
   scale: ""
   time_to_completion: ""
 ---
-
-
-
 
 # Description
 
@@ -42,6 +39,3 @@ Validate the `voice-demo` CLI command against real microphone devices and docume
 ## Comments
 
 Add observations about latency, buffering, or compatibility as testing progresses.
-
-
-

@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🗂 Source
 
 - Path: docs/labeled/jsonrpc-error-handling.md
@@ -59,6 +56,3 @@ Client error '404 Not Found' for url 'https://err-stealth-16-ai-studio-a1vgg.tai
 - [ ] Draft actionable subtasks from the summary
 - [ ] Define acceptance criteria
 - [ ] Link back to related labeled docs
-
-
-

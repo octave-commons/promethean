@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 # Promethean CLI shadow-cljs launcher
 
 ## Summary
@@ -47,6 +44,3 @@ estimates:
 ## Notes
 - Investigate existing tooling for package graph traversal (pnpm workspace? manual?).
 - Ensure generated CLI handles missing scripts gracefully.
-
-
-

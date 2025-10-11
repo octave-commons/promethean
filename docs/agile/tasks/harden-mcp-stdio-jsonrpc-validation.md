@@ -12,10 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
-
 ## Objective
 Diagnose and fix the failing JSON-RPC validation suites (`stdio-proxy-validation` and `debug-filtering-unit`) so that invalid messages are rejected and edge cases resolve without timeouts.
 
@@ -35,6 +31,3 @@ Diagnose and fix the failing JSON-RPC validation suites (`stdio-proxy-validation
 - `isValidJsonRpcMessage` currently treats `{jsonrpc:"2.0", method:""}` as valid; validator only checks property presence, not non-empty method strings.
 - Malformed debug-like messages pass validation because method string is only checked for type.
 - Need stricter JSON-RPC validation (non-empty method, response shape, etc.) and adjust tests accordingly.
-
-
-

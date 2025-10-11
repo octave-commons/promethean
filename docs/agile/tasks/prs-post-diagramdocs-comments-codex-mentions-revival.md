@@ -1,6 +1,6 @@
 ---
 uuid: "0e0ed76d-7f60-4a31-9a33-92d024fb20d0"
-title: "PRs — post diagram/docs comments + @codex mentions -revival -revival -revival -revival -revival -revival -revival -revival -revival -revival -revival -revival -revival -revival -revival -revival -revival -revival -revival -revival -revival -revival -revival -revival -revival -revival -revival -revival -revival"
+title: "PRs — post diagram/docs comments + @codex mentions -revival"
 slug: "prs-post-diagramdocs-comments-codex-mentions-revival"
 status: "done"
 priority: "P3"
@@ -11,9 +11,6 @@ estimates:
   scale: ""
   time_to_completion: ""
 ---
-
-
-
 
 #Done
 
@@ -33,6 +30,3 @@ Add actionable comments on each PR, connect related PRs, tag @codex for specific
 
 ## Relevant
 - `docs/diagrams/duck-revival-overview.md`
-
-
-

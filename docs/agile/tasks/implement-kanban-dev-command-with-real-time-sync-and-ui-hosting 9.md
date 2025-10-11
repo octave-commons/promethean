@@ -1,6 +1,6 @@
 ---
 uuid: "b893f1c1-85de-44b8-a47b-bbe29bfac2e0"
-title: "Implement kanban dev command with real-time sync and UI hosting -enhancement -experience -watching  -time-sync -hosting -enhancement -experience -watching  -time-sync -hosting -enhancement -experience -watching  -time-sync -hosting -enhancement -experience -watching  -time-sync -hosting -enhancement -experience -watching  -time-sync -hosting -enhancement -experience -watching  -time-sync -hosting -enhancement -experience -watching  -time-sync -hosting -enhancement -experience -watching  -time-sync -hosting -enhancement -experience -watching  -time-sync -hosting -enhancement -experience -watching  -time-sync -hosting -enhancement -experience -watching  -time-sync -hosting -enhancement -experience -watching  -time-sync -hosting -enhancement -experience -watching  -time-sync -hosting -enhancement -experience -watching  -time-sync -hosting -enhancement -experience -watching  -time-sync -hosting -enhancement -experience -watching  -time-sync -hosting"
+title: "Implement kanban dev command with real-time sync and UI hosting -enhancement"
 slug: "implement-kanban-dev-command-with-real-time-sync-and-ui-hosting 9"
 status: "done"
 priority: "P1"
@@ -11,31 +11,5 @@ estimates:
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

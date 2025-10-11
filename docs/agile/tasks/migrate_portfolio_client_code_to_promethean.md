@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🛠️ Task: Migrate portfolio client code to Promethean
 
 Move the legacy portfolio web client from `riatzukiza.github.io` into
@@ -78,6 +75,3 @@ new repository.
 - Should the portfolio be maintained as a submodule or migrated directly?
 - Do we need a static build step or can GitHub Pages handle raw files?
   #accepted
-
-
-

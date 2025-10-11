@@ -1,6 +1,6 @@
 ---
 uuid: "b8c7d6e5-c4b3-a2b1-a099-876543210987"
-title: "Install and configure sonar-scanner for code quality pipeline -quality -dependency -quality -dependency -quality -dependency -quality -dependency -quality -dependency -quality -dependency -quality -dependency -quality -dependency -quality -dependency -quality -dependency -quality -dependency -quality -dependency -quality -dependency -quality -dependency -quality -dependency -quality -dependency -quality -dependency -quality -dependency -quality -dependency -quality -dependency -quality -dependency -quality -dependency -quality -dependency -quality -dependency -quality -dependency -quality -dependency -quality -dependency -quality -dependency -quality -dependency"
+title: "Install and configure sonar-scanner for code quality pipeline -quality -dependency"
 slug: "install-and-configure-sonar-scanner-for-code-quality-pipeline-quality-dependency"
 status: "done"
 priority: "P2"
@@ -11,9 +11,6 @@ estimates:
   scale: ""
   time_to_completion: ""
 ---
-
-
-
 
 ## 🛠️ Task: Install and configure sonar-scanner for code quality pipeline
 
@@ -165,6 +162,3 @@ Once configured, the sonar pipeline will provide:
 - Quality gate enforcement
 
 This setup will enable continuous code quality monitoring and automated task generation for quality improvements.
-
-
-

@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 # Migrate vision service to TypeScript
 
 Migrate the legacy vision JavaScript service to TypeScript under the new package structure.
@@ -34,6 +31,3 @@ Migrate the legacy vision JavaScript service to TypeScript under the new package
 - [ ] Vision functionality preserved
 - [ ] Proper types for image processing interfaces
 - [ ] Tests updated and passing
-
-
-

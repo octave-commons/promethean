@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## Context
 
 - **What changed?**: CI surfaced a failure for `grep: matches ripgrep output with context and flags`.
@@ -46,6 +43,3 @@ estimates:
 
 - ripgrep manual: <https://github.com/BurntSushi/ripgrep>
 - Ava docs: <https://github.com/avajs/ava>
-
-
-

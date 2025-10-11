@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 MCP package has the most linting issues (1408 problems, 454 errors). Need to focus on critical errors only:
 
 ## Critical Errors to Fix:
@@ -49,6 +46,3 @@ Nothing
 
 ## ⛓️ Blocks
 Nothing
-
-
-

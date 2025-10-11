@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🗂 Source
 
 - Path: docs/labeled/2025.09.19.17.22.07.md
@@ -31,6 +28,3 @@ https://github.com/riatzukiza/promethean/pulls?q=is%3Aopen+is%3Apr+-label%3Aconf
 - [ ] Draft actionable subtasks from the summary
 - [ ] Define acceptance criteria
 - [ ] Link back to related labeled docs
-
-
-

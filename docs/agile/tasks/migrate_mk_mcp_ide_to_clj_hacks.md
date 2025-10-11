@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ```
 <hr class="__chatgpt_plugin">
 ```
@@ -43,6 +40,3 @@ estimates:
 ```
 <hr class="__chatgpt_plugin">
 ```
-
-
-

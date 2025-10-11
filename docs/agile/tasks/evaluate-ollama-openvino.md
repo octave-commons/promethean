@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ### **Smart ChatGPT Configuration**
 ```smart-chatgpt
 ```
@@ -110,6 +107,3 @@ estimates:
   "exclude_outlinks": false
 }
 ```
-
-
-

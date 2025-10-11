@@ -1,6 +1,6 @@
 ---
 uuid: "f6a7b8c9-0d1e-2f3a-4b5c-5d6e7f8a9b0c"
-title: "Resolve DocOps performance timeout issues in test execution -issues    -issues    -issues    -issues    -issues    -issues    -issues    -issues    -issues    -issues    -issues    -issues    -issues    -issues    -issues    -issues    -issues    -issues    -issues    -issues    -issues    -issues    -issues    -issues    -issues    -issues    -issues    -issues    -issues"
+title: "Resolve DocOps performance timeout issues in test execution -issues"
 slug: "resolve-docops-performance-timeout-issues-in-test-execution-issues"
 status: "incoming"
 priority: "P2"
@@ -11,9 +11,6 @@ estimates:
   scale: ""
   time_to_completion: ""
 ---
-
-
-
 
 #incoming
 
@@ -82,6 +79,3 @@ Estimate: 8
 - E2E tests: `packages/docops/src/tests/e2e/`
 - Performance issues: `packages/docops/src/tests/preview-front.test.ts`
 - Playwright config: `packages/docops/playwright.config.ts`
-
-
-

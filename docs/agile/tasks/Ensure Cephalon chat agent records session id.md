@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 The AVA suite for `@promethean/cephalon` fails its evaluation-mode toggle spec because `EnsoChatAgent.getSessionId()` keeps
 returning `undefined` even after the client joins presence. `EnsoClient.receive` already captures the `presence.join`
 payload, but the chat agent never persists that session identifier into its own state.
@@ -29,6 +26,3 @@ payload, but the chat agent never persists that session identifier into its own 
 - Add or update tests to cover the presence flow.
 
 #incoming #enso #cephalon #tests
-
-
-

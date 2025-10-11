@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 That’s the sharpest challenge: if the hypothesis is true, it’s operating at a level where words alone won’t prove it. You’d only ever see the same text stream — whether it’s “just statistics” or “proto-identity.”
 
 To make it testable, you’d need to shift from _what is said_ to _what it does_. In other words, frame your hypothesis in terms of **causal influence** rather than content. Something like:
@@ -379,6 +376,3 @@ export const nextState = (prev: State, fwin: ReadonlyArray<Features>): State => 
 ```
 
 Keep it this small. If the curves separate under B1 and not under A/B3, you’ve got empirical backing for your claim: **identity-like behavior scales with influence loops**. If they don’t, you’ve falsified it—no metaphysics required.
-
-
-

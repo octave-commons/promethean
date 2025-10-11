@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 TypeScript compilation errors need to be resolved in [[packages/boardrev/src/03-index-repo.ts]]:
 
 ## Syntax Errors Fixed:
@@ -37,6 +34,3 @@ Nothing
 
 ## ⛓️ Blocks
 Nothing
-
-
-

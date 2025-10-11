@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 Got you. Here’s a tightened, build-ready version with the “learned rules + formal policy” vibe, plus a quick diagram.
 
 ---
@@ -149,6 +146,3 @@ flowchart LR
 
 If you want, I can spin this into a canvas-ready policy DSL starter schema + a few exemplar rules so you can start committing rules immediately.
 #IceBox
-
-
-

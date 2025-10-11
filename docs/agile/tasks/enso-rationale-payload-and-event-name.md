@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 # ✅ COMPLETED
 
 ## 🛠️ Description
@@ -70,6 +67,3 @@ export type ActRationalePayload = {
 - Event name `act.rationale` retained for backward compatibility
 - Future rename to `guardrail.rationale` deferred pending downstream alignment
 - All payload fields now optional except `callId` and `rationale`
-
-
-

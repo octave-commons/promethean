@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🛠️ Description
 
 This may be done already, though we're not sure. It looked done.
@@ -62,6 +59,3 @@ Nothing
 #prompt-refinement
 ```
 #accepted
-
-
-

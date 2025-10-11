@@ -1,6 +1,6 @@
 ---
 uuid: "d1250964-1686-487c-9850-3cc1472e9326"
-title: "2025.09.19.23.23.12    cycles -end hand-off  PR  agent  cycles -shaping  work -end -shaping       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end       -shaping  -end"
+title: "2025.09.19.23.23.12 cycles -end hand-off PR agent -shaping work"
 slug: "20250919232312-cycles-end-hand-off-pr-agent-cycles-shaping-work-end-shaping"
 status: "done"
 priority: "P3"
@@ -11,9 +11,6 @@ estimates:
   scale: ""
   time_to_completion: ""
 ---
-
-
-
 
 you’re not overthinking it — you’re seeing the missing cycles. let’s add **explicit reverse paths** so the system never fakes forward progress, and give the cloud agent a safe “session-end hand-off” path that doesn’t require a PR.
 
@@ -144,6 +141,3 @@ If this looks right, I’ll fold these deltas into the process doc’s FSM secti
 ## Sources
 - _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
-
-
-

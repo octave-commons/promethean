@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 # Migrate heartbeat service to TypeScript
 
 Migrate the legacy heartbeat JavaScript service to TypeScript under the new package structure.
@@ -33,6 +30,3 @@ Migrate the legacy heartbeat JavaScript service to TypeScript under the new pack
 - [ ] TypeScript compilation passes
 - [ ] Heartbeat functionality preserved
 - [ ] Tests updated and passing
-
-
-

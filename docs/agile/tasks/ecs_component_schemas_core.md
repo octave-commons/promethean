@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ECS Component Schemas (Core Conversation)
 
 Goal: Define canonical ECS components (with JSON Schemas) for conversation and IO.
@@ -32,6 +29,3 @@ Exit Criteria:
 - Schemas published and referenced by adapter & services.
 
 #incoming #ecs #schemas #conversation
-
-
-

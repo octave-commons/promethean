@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 The WIP sheriff script provides duplicate functionality that should be integrated into the main kanban CLI tool. Currently, the kanban CLI only supports task count limits, while WIP sheriff supports both task count and story points modes.
 
 ## Required Changes:
@@ -49,6 +46,3 @@ The WIP sheriff script provides duplicate functionality that should be integrate
 - [ ] WIP sheriff shows deprecation warning
 - [ ] All existing tests pass
 - [ ] Documentation updated
-
-
-

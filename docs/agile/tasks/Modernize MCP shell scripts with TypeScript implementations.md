@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 Multiple MCP-related shell scripts need modernization using existing TypeScript packages for better error handling, type safety, and integration with the @promethean/mcp ecosystem.
 
 ## ⛓️ Blocked By
@@ -26,6 +23,3 @@ Nothing
 ## ⛓️ Blocks
 
 Nothing
-
-
-

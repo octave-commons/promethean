@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 # Legacy JS services migration task completed
 
 This large task has been broken down into smaller, manageable pieces.
@@ -32,6 +29,3 @@ This large task has been broken down into smaller, manageable pieces.
 ## Next Steps
 
 Each individual service migration task is now in the breakdown column with appropriate complexity estimates and can be worked on independently.
-
-
-

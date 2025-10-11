@@ -1,6 +1,6 @@
 ---
 uuid: "3b09ccf4-e54b-47f4-87bd-42916e61df95"
-title: "Fix eslint-tasks pipeline TypeScript parser configuration issues -fix -fix -fix -fix -fix -fix -fix -fix -fix -fix -fix -fix -fix -fix -fix -fix -fix -fix -fix -fix -fix -fix -fix -fix -fix -fix -fix -fix -fix"
+title: "Fix eslint-tasks pipeline TypeScript parser configuration issues -fix"
 slug: "fix-eslint-tasks-pipeline-typescript-parser-configuration-issues-fix"
 status: "todo"
 priority: "P2"
@@ -11,71 +11,5 @@ estimates:
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ### `docs/agile/tasks/pr-688-nitpack-extract.md`
 
 **Title:** PR #688 — extract & dedupe review nits into actionable tasks
@@ -152,6 +149,3 @@ If the agent needs to auto-fill counts/globs:
 * Use `gh` + `ripgrep` only; no browser access.
 * Build a tiny in-memory classifier: map regex → key, else fuzzy-hash to nearest key.
 * Output markdown with sections: `## Codemods`, `## Policy`, each checklist item = one nit family.
-
-
-

@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🛠️ Task: Refresh pipeline notes for LevelDB caches and Piper redesign
 
 ### Context
@@ -38,6 +35,3 @@ estimates:
 - `docs/agile/pipelines/docops.md`
 - `.cache/piper.level` structure
 - Piper README / package docs
-
-
-

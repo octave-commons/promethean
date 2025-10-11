@@ -1,6 +1,6 @@
 ---
 uuid: "3562c08f-0b9b-4b5d-be44-8afa6ed8f187"
-title: "Fix test failure in symdocs-pipeline: Pipeline test timeout after 2 minutes  -pipeline -fix  -pipeline -fix  -pipeline -fix  -pipeline -fix  -pipeline -fix  -pipeline -fix  -pipeline -fix  -pipeline -fix  -pipeline -fix  -pipeline -fix  -pipeline -fix  -pipeline -fix  -pipeline -fix  -pipeline -fix  -pipeline -fix  -pipeline -fix"
+title: "Fix test failure in symdocs-pipeline: Pipeline timeout after 2 minutes -pipeline"
 slug: "fix-test-failure-in-symdocs-pipeline-pipeline-test-timeout-after-2-minutes 8"
 status: "incoming"
 priority: "P1"
@@ -11,33 +11,5 @@ estimates:
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

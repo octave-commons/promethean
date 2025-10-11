@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 Auth: Shared clients and middleware TS + Python
 
 Goal: Provide small libraries to fetch/verify tokens and inject auth into HTTP/WebSocket requests.
@@ -30,6 +27,3 @@ Exit Criteria:
 - Example snippets integrated in service READMEs.
 
 #incoming #auth #libraries #ts #python
-
-
-

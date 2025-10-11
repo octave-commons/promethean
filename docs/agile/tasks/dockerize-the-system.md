@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🛠️ Description
 
 Provide Docker images and compose configuration so contributors can run the system and its services in containers for testing and deployment.
@@ -66,6 +63,3 @@ Nothing
 - [[kanban]]
 
 #devops #Ready
-
-
-

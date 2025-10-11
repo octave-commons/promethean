@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## Context
 
 - What changed?
@@ -43,6 +40,3 @@ You might find [this] useful while working on this task
 ## Notes
 
 - …
-
-
-

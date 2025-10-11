@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 # Get all existing pipelines functional
 We've started working on several pipelines but only one of them works to any meaningful extant.
 Most of them were set up before I thought about a "piper".
@@ -65,6 +62,3 @@ but they do not work with piper
 ```
 "name": "test-gap",
 ```
-
-
-

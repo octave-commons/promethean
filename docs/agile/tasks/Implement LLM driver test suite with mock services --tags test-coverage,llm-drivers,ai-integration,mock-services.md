@@ -12,7 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
 Create comprehensive test coverage for packages/llm/src/drivers/:\n- Ollama driver functionality and configuration\n- HuggingFace model loading and inference\n- Template processing and rendering\n- Error handling and timeout scenarios\n- Integration tests with mock LLM services\n\nCurrent coverage: 43.69% with multiple driver files having 0 function coverage. Critical for AI model integration reliability.
 
 ## ⛓️ Blocked By
@@ -24,8 +23,3 @@ Nothing
 ## ⛓️ Blocks
 
 Nothing
-
-
-
-
-

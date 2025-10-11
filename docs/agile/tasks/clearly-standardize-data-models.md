@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🛠️ Description
 
 Define shared data models (e.g., User, Policy, File, Directory) that can be imported across services and languages.
@@ -68,6 +65,3 @@ Nothing
 #framework-core #Ready
 ```
 #ready
-
-
-

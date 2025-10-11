@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🛠️ Description
 
 This is kinda started through the heartbeat server, but t hat is not nearly robust enough.
@@ -69,6 +66,3 @@ Nothing
 
 
 #archive
-
-
-

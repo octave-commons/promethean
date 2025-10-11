@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🗂 Source
 
 - Path: docs/labeled/pantheon-packages-integration-guide-2.md
@@ -50,6 +47,3 @@ Create entries in nx.json or your workspace configuration for each of the Panthe
 - [ ] Draft actionable subtasks from the summary
 - [ ] Define acceptance criteria
 - [ ] Link back to related labeled docs
-
-
-

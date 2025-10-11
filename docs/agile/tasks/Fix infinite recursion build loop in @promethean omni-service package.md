@@ -12,10 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
-
 The omni-service package has an infinite recursion issue in its build script:
 
 ## Root Cause:
@@ -33,7 +29,3 @@ Nothing
 
 ## ⛓️ Blocks
 Nothing
-
-
-
-
