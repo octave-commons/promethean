@@ -4,13 +4,32 @@ title: "Broker ↔ GPT Bridge Parity Test Plan"
 slug: "broker-gpt-bridge-parity-plan"
 status: "done"
 priority: "P3"
-tags: ["broker", "gpt", "bridge", "parity"]
-created_at: "2025-10-10T03:23:55.971Z"
+labels: ["broker", "gpt", "bridge", "parity"]
+created_at: "2025-10-11T01:03:32.222Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -341,6 +360,25 @@ test(parity): add broker↔bridge parity suites + normalizers + CI gate
 ```
 #in-review
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

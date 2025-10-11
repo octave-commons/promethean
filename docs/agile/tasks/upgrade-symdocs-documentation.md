@@ -4,13 +4,32 @@ title: "Upgrade symdocs to generate meaningful API documentation"
 slug: "upgrade-symdocs-documentation"
 status: "icebox"
 priority: "P2"
-tags: ["symdocs", "documentation", "enhancement", "ai", "pipeline"]
-created_at: "2025-10-10T03:23:55.968Z"
+labels: ["symdocs", "documentation", "enhancement", "ai", "pipeline"]
+created_at: "2025-10-11T01:03:32.219Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -63,6 +82,25 @@ The system successfully extracts symbols and uses LLM to generate documentation,
 - LLM integration via Ollama (qwen3:4b model)
 - Outputs to `docs/packages/` directory structure
 - Preserves existing manual content while updating auto-generated sections
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

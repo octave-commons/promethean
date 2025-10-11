@@ -1,16 +1,36 @@
 ---
-uuid: "f6g7h8i9-j0k1-2345-fghi-678901234567"
-title: "Fix docops pipeline file reference management and sequencing issues"
+uuid: "859f491e-bbe9-4184-9d74-2c3adc543f2d"
+title: "Fix docops pipeline file reference management and sequencing issues   -management  -fix   -management  -fix   -management  -fix   -management  -fix   -management  -fix   -management  -fix   -management  -fix   -management  -fix   -management  -fix   -management  -fix   -management  -fix   -management  -fix   -management  -fix   -management  -fix   -management  -fix   -management  -fix   -management  -fix   -management  -fix   -management  -fix   -management  -fix   -management  -fix   -management  -fix"
 slug: "fix-docops-pipeline-file-reference-management-and-sequencing"
-status: "todo"
+status: "ready"
 priority: "P2"
-tags: ["piper", "docops", "file-management", "sequencing", "bug-fix"]
-created_at: "2025-10-05T00:00:00.000Z"
+labels: ["piper", "docops", "file-management", "sequencing", "bug-fix"]
+created_at: "2025-10-11T01:03:32.222Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## 🛠️ Task: Fix docops pipeline file reference management and sequencing issues
 
@@ -213,3 +233,23 @@ The work connects the GitHub issue, pull request, and kanban task to provide com
 - **Single issue**: File reference management between steps
 
 This fix will make the docops pipeline fully functional, enabling automated documentation processing for the entire knowledge base.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,16 +1,35 @@
 ---
 uuid: "5fe4fdf3-0fda-42fb-8f98-93859577d08f"
-title: "Shadow CLJS migration — step 4 decommission legacy toolchain -core -task -core -task -core -task -core -task -core -task -core -task -core -task"
+title: "Shadow CLJS migration — step 4 decommission legacy toolchain -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task"
 slug: "shadow-cljs-migration-step-4-decommission"
 status: "icebox"
 priority: "P3"
-tags: ["framework-core", "codex-task", "frontend"]
-created_at: "2025-10-10T03:23:55.968Z"
+labels: ["framework-core", "codex-task", "frontend"]
+created_at: "2025-10-11T01:03:32.219Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -70,6 +89,25 @@ Estimate: 5
 ## 🔍 Relevant Links
 
 - Shadow-CLJS migration plan 2025-10-03
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

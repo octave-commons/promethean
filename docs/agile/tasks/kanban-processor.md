@@ -4,13 +4,32 @@ title: "kanban processor"
 slug: "kanban-processor"
 status: "done"
 priority: "P3"
-tags: ["ecs", "kanban", "planning"]
-created_at: "2025-10-10T03:23:55.971Z"
+labels: ["ecs", "kanban", "planning"]
+created_at: "2025-10-11T01:03:32.223Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -41,6 +60,25 @@ Unify the historical kanban scripts into an ECS-powered experience that keeps Ma
 
 #todo
 #accepted
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

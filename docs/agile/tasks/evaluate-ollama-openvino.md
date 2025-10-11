@@ -4,13 +4,32 @@ title: "evaluate ollama openvino"
 slug: "evaluate-ollama-openvino"
 status: "todo"
 priority: "p3"
-tags: ["evaluate", "ollama", "openvino", "chatgpt"]
-created_at: "2025-10-10T03:23:55.970Z"
+labels: ["evaluate", "ollama", "openvino", "chatgpt"]
+created_at: "2025-10-11T01:03:32.222Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -113,6 +132,25 @@ estimates:
   "exclude_outlinks": false
 }
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

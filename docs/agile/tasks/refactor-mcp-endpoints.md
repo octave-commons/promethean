@@ -4,13 +4,32 @@ title: "Refactor MCP package for multi-endpoint HTTP transport /TASK-20240705-mc
 slug: "refactor-mcp-endpoints"
 status: "done"
 priority: "p3"
-tags: ["task", "board", "state", "owner", "priority", "epic", "lang", "package"]
-created_at: "2025-10-10T03:23:55.971Z"
+labels: ["task", "board", "state", "owner", "priority", "epic", "lang", "package"]
+created_at: "2025-10-11T01:03:32.223Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -37,6 +56,25 @@ estimates:
 2. Update configuration types and loader to accept `endpoints` map.
 3. Adjust HTTP server composition to register multiple routers.
 4. Add tests verifying configuration and runtime wiring.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

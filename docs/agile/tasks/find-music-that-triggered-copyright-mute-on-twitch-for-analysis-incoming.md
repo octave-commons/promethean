@@ -2,15 +2,35 @@
 uuid: "84b2e724-dd49-4519-ab5e-402973a70551"
 title: "find music that triggered copyright mute on twitch for analysis incoming"
 slug: "find-music-that-triggered-copyright-mute-on-twitch-for-analysis-incoming"
-status: "rejected"
+status: "done"
 priority: "P3"
-tags: ["find", "music", "triggered", "copyright"]
-created_at: "2025-10-10T03:23:55.972Z"
+labels: ["find", "music", "triggered", "copyright"]
+created_at: "2025-10-11T01:03:32.222Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -62,6 +82,26 @@ Nothing
 
 - [[kanban]]
 #rejected
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

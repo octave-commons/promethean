@@ -4,13 +4,32 @@ title: "audit makefile.hy remnants and confirm deprecation"
 slug: "breakdown-makefile.hy"
 status: "done"
 priority: "P3"
-tags: ["makefile", "audit", "remnants", "confirm"]
-created_at: "2025-10-10T03:23:55.971Z"
+labels: ["makefile", "audit", "remnants", "confirm"]
+created_at: "2025-10-11T01:03:32.222Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -73,6 +92,25 @@ Nothing
 ```
 #framework-core #todo
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

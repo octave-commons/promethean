@@ -4,13 +4,32 @@ title: "determine pm2 configuration for agents 1 md"
 slug: "determine_pm2_configuration_for_agents_1"
 status: "done"
 priority: "P3"
-tags: ["pm2", "agents", "determine", "configuration"]
-created_at: "2025-10-10T03:23:55.971Z"
+labels: ["pm2", "agents", "determine", "configuration"]
+created_at: "2025-10-11T01:03:32.222Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -85,6 +104,25 @@ Nothing
 - Then please.
 - How will service logs be aggregated when using PM2?
 #done
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

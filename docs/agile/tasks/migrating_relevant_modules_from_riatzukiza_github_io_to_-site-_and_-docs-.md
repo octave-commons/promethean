@@ -2,15 +2,35 @@
 uuid: "c20e39a1-acb8-400c-8d6f-5228f15811ad"
 title: "migrating relevant modules from riatzukiza github io to site and docs md"
 slug: "migrating_relevant_modules_from_riatzukiza_github_io_to_-site-_and_-docs-"
-status: "rejected"
+status: "done"
 priority: "P3"
-tags: ["docs", "riatzukiza", "github", "site"]
-created_at: "2025-10-10T03:23:55.972Z"
+labels: ["docs", "riatzukiza", "github", "site"]
+created_at: "2025-10-11T01:03:32.223Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -68,6 +88,26 @@ Nothing
 
 - [[kanban]]
   #ready
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -2,15 +2,35 @@
 uuid: "b2929e05-8da5-477c-b537-16757882e39c"
 title: "switch critical readers to subscribenormalized md"
 slug: "switch_critical_readers_to_subscribenormalized"
-status: "rejected"
+status: "done"
 priority: "P3"
-tags: ["switch", "critical", "readers", "subscribenormalized"]
-created_at: "2025-10-10T03:23:55.972Z"
+labels: ["switch", "critical", "readers", "subscribenormalized"]
+created_at: "2025-10-11T01:03:40.887Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -41,6 +61,26 @@ Generated from ../unique/2025.08.08.20.08.52.md$../unique/2025.08.08.20.08.52.md
 
 
 #rejected
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

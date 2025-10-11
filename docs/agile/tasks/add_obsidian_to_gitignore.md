@@ -4,13 +4,32 @@ title: "add obsidian to gitignore md md"
 slug: "add_obsidian_to_gitignore"
 status: "done"
 priority: "P3"
-tags: ["obsidian", "gitignore", "add", "kanban"]
-created_at: "2025-10-10T03:23:55.971Z"
+labels: ["obsidian", "gitignore", "add", "kanban"]
+created_at: "2025-10-11T01:03:32.222Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -66,6 +85,25 @@ Nothing
 
 `.obsidian/` is already listed in `.gitignore` (line 11), so this task is effectively complete.
 #done
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

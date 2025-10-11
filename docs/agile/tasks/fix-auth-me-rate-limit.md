@@ -4,13 +4,32 @@ title: "Enforce /auth/me rate limiting in SmartGPT Bridge /TASK-20250307-0001 /k
 slug: "fix-auth-me-rate-limit"
 status: "done"
 priority: "p2"
-tags: ["task", "board", "state", "owner", "priority", "epic", "lang", "package"]
-created_at: "2025-10-10T03:23:55.971Z"
+labels: ["task", "board", "state", "owner", "priority", "epic", "lang", "package"]
+created_at: "2025-10-11T01:03:32.222Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -55,6 +74,25 @@ The issue was an environment variable conflict:
 - `packages/smartgpt-bridge/src/tests/integration/server.openapi.auth.test.ts`:
   - Added `AUTH_TOKENS` to environment capture
   - Added `delete process.env.AUTH_TOKENS;` to ensure test token takes precedence
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

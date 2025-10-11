@@ -2,15 +2,35 @@
 uuid: "62feb0e6-5ba9-4808-9465-7da1f2e74cac"
 title: "add snapshot consumer to warm cache on boot md"
 slug: "add_snapshot_consumer_to_warm_cache_on_boot"
-status: "rejected"
+status: "done"
 priority: "P3"
-tags: ["add", "snapshot", "consumer", "warm"]
-created_at: "2025-10-10T03:23:55.971Z"
+labels: ["add", "snapshot", "consumer", "warm"]
+created_at: "2025-10-11T01:03:32.222Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -41,6 +61,26 @@ Generated from ../unique/2025.08.08.15.08.47.md$../unique/2025.08.08.15.08.47.md
 
 
 #rejected
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

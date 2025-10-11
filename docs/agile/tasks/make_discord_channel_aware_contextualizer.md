@@ -2,15 +2,35 @@
 uuid: "9c9a9289-e420-403e-9772-71fc3d7e128f"
 title: "make discord channel aware contextualizer md md"
 slug: "make_discord_channel_aware_contextualizer"
-status: "rejected"
+status: "done"
 priority: "P3"
-tags: ["discord", "channel", "make", "aware"]
-created_at: "2025-10-10T03:23:55.972Z"
+labels: ["discord", "channel", "make", "aware"]
+created_at: "2025-10-11T01:03:32.223Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -64,6 +84,26 @@ Nothing
 
 
 #archive
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

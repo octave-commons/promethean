@@ -4,13 +4,32 @@ title: "Embedding service sometimes disconnects from broker and hangs → detect
 slug: "periodicly-the-embedding-service-will-get-disconnected-from-the-broker-and-not-die--blocking-other-processes-who-require-embeddings.-incoming"
 status: "done"
 priority: "P3"
-tags: ["embedding", "service", "broker", "sometimes"]
-created_at: "2025-10-10T03:23:55.971Z"
+labels: ["embedding", "service", "broker", "sometimes"]
+created_at: "2025-10-11T01:03:32.223Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -281,6 +300,25 @@ fix(embeddings): kill-on-disconnect/stall + admission control + heartbeat kill p
 ```
 #in-progress
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

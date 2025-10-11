@@ -4,13 +4,32 @@ title: "build data structures for eidolon field md md"
 slug: "build_data_structures_for_eidolon_field"
 status: "done"
 priority: "P3"
-tags: ["build", "data", "structures", "eidolon"]
-created_at: "2025-10-10T03:23:55.971Z"
+labels: ["build", "data", "structures", "eidolon"]
+created_at: "2025-10-11T01:03:32.222Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -62,6 +81,25 @@ Nothing
 
 - [[kanban]]
 #done
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

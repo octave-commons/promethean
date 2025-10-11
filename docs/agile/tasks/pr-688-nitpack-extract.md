@@ -4,13 +4,32 @@ title: "pr 688 nitpack extract"
 slug: "pr-688-nitpack-extract"
 status: "todo"
 priority: "P3"
-tags: ["688", "extract", "nitpack", "tasks"]
-created_at: "2025-10-10T03:23:55.970Z"
+labels: ["688", "extract", "nitpack", "tasks"]
+created_at: "2025-10-11T01:03:32.222Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -155,6 +174,25 @@ If the agent needs to auto-fill counts/globs:
 * Use `gh` + `ripgrep` only; no browser access.
 * Build a tiny in-memory classifier: map regex → key, else fuzzy-hash to nearest key.
 * Output markdown with sections: `## Codemods`, `## Policy`, each checklist item = one nit family.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

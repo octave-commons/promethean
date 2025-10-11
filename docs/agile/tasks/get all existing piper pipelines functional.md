@@ -4,13 +4,32 @@ title: "Get all existing pipelines functional"
 slug: "get all existing piper pipelines functional"
 status: "breakdown"
 priority: "P3"
-tags: ["name", "existing", "pipelines", "get"]
-created_at: "2025-10-10T03:23:55.970Z"
+labels: ["name", "existing", "pipelines", "get"]
+created_at: "2025-10-11T01:03:32.221Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -68,6 +87,25 @@ but they do not work with piper
 ```
 "name": "test-gap",
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

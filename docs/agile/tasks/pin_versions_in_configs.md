@@ -4,13 +4,32 @@ title: "Pin versions in configs"
 slug: "pin_versions_in_configs"
 status: "done"
 priority: "P3"
-tags: ["pin", "versions", "configs", "codex"]
-created_at: "2025-10-10T03:23:55.971Z"
+labels: ["pin", "versions", "configs", "codex"]
+created_at: "2025-10-11T01:03:32.223Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -262,6 +281,25 @@ chore(versions): pin runtimes, deps, images, models; add pins linter
 ```
 #in-progress
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

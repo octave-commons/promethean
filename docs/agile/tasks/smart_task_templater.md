@@ -4,13 +4,32 @@ title: "smart task templater md"
 slug: "smart_task_templater"
 status: "breakdown"
 priority: "P3"
-tags: ["templater", "smart", "command", "line"]
-created_at: "2025-10-10T03:23:55.970Z"
+labels: ["templater", "smart", "command", "line"]
+created_at: "2025-10-11T01:03:32.221Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -76,6 +95,25 @@ Nothing
 
 ## Blockers
 - No active owner or unclear scope
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -2,15 +2,35 @@
 uuid: "4abed2f3-350f-4ec5-ac22-7e9d3882a7c9"
 title: "summarize clarified priorities for next sprint md md"
 slug: "summarize_clarified_priorities_for_next_sprint"
-status: "rejected"
+status: "done"
 priority: "P3"
-tags: ["priorities", "next", "sprint", "summarize"]
-created_at: "2025-10-10T03:23:55.972Z"
+labels: ["priorities", "next", "sprint", "summarize"]
+created_at: "2025-10-11T01:03:40.887Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -65,6 +85,26 @@ Nothing
 
 ## Reason for rejection
 #rejected
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

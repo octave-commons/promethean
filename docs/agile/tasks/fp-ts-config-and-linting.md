@@ -4,13 +4,32 @@ title: "fp ts config and linting"
 slug: "fp-ts-config-and-linting"
 status: "breakdown"
 priority: "p3"
-tags: ["changes", "config", "linting", "span"]
-created_at: "2025-10-10T03:23:55.970Z"
+labels: ["changes", "config", "linting", "span"]
+created_at: "2025-10-11T01:03:32.221Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -84,6 +103,25 @@ Help me write this task
 <hr class="__chatgpt_plugin">
 ```
 ### role::user
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

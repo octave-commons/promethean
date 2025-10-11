@@ -4,13 +4,32 @@ title: "finalize migration plan md md md"
 slug: "finalize_migration_plan"
 status: "ready"
 priority: "P3"
-tags: ["migration", "plan", "finalize", "unique"]
-created_at: "2025-10-10T03:23:55.970Z"
+labels: ["migration", "plan", "finalize", "unique"]
+created_at: "2025-10-11T01:03:32.222Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -52,6 +71,25 @@ Generated from ../unique/2025.07.28.18.07.20.md$../unique/2025.07.28.18.07.20.md
 Epic: [[epics#🛠 Developer Tooling & Build Pipeline]]
 
 #Ready #doc-this #framework-core
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

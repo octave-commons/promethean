@@ -1,16 +1,35 @@
 ---
 uuid: "3a707c7c-9b75-401f-9d6f-fe5711eaf13f"
-title: "2025.10.06.14.11.46   -cli -hoc-filtering -flags -frontend -compilation -queries   -cli -hoc-filtering -flags -frontend -compilation -queries   -cli -hoc-filtering -flags -frontend -compilation -queries   -cli -hoc-filtering -flags -frontend -compilation -queries   -cli -hoc-filtering -flags -frontend -compilation -queries"
+title: "2025.10.06.14.11.46   -cli -hoc-filtering -flags -frontend -compilation -queries   -cli -hoc-filtering -flags -frontend -compilation -queries   -cli -hoc-filtering -flags -frontend -compilation -queries   -cli -hoc-filtering -flags -frontend -compilation -queries   -cli -hoc-filtering -flags -frontend -compilation -queries   -cli -hoc-filtering -flags -frontend -compilation -queries   -cli -hoc-filtering -flags -frontend -compilation -queries   -cli -hoc-filtering -flags -frontend -compilation -queries   -cli -hoc-filtering -flags -frontend -compilation -queries   -cli -hoc-filtering -flags -frontend -compilation -queries   -cli -hoc-filtering -flags -frontend -compilation -queries   -cli -hoc-filtering -flags -frontend -compilation -queries   -cli -hoc-filtering -flags -frontend -compilation -queries   -cli -hoc-filtering -flags -frontend -compilation -queries   -cli -hoc-filtering -flags -frontend -compilation -queries   -cli -hoc-filtering -flags -frontend -compilation -queries   -cli -hoc-filtering -flags -frontend -compilation -queries   -cli -hoc-filtering -flags -frontend -compilation -queries   -cli -hoc-filtering -flags -frontend -compilation -queries   -cli -hoc-filtering -flags -frontend -compilation -queries   -cli -hoc-filtering -flags -frontend -compilation -queries   -cli -hoc-filtering -flags -frontend -compilation -queries   -cli -hoc-filtering -flags -frontend -compilation -queries   -cli -hoc-filtering -flags -frontend -compilation -queries   -cli -hoc-filtering -flags -frontend -compilation -queries   -cli -hoc-filtering -flags -frontend -compilation -queries"
 slug: "kanban-cli-cljs-quickstart"
 status: "accepted"
 priority: "P3"
-tags: ["clojurescript", "sci", "kanban-cli", "ad-hoc-filtering", "cli-flags", "micro-frontend", "zero-compilation", "dynamic-queries"]
-created_at: "2025-10-10T03:23:55.970Z"
+labels: ["clojurescript", "sci", "kanban-cli", "ad-hoc-filtering", "cli-flags", "micro-frontend", "zero-compilation", "dynamic-queries"]
+created_at: "2025-10-11T01:03:32.221Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -498,6 +517,25 @@ If you want, I can also wire these flags into `pairwise`, `compare`, and `cluste
 ## Sources
 - _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

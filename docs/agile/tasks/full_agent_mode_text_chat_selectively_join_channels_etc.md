@@ -2,15 +2,35 @@
 uuid: "20ce66a3-ab14-4107-9069-eb28438215ac"
 title: "full agent mode text chat selectively join channels etc md"
 slug: "full_agent_mode_text_chat_selectively_join_channels_etc"
-status: "rejected"
+status: "done"
 priority: "P3"
-tags: ["join", "full", "agent", "mode"]
-created_at: "2025-10-10T03:23:55.972Z"
+labels: ["join", "full", "agent", "mode"]
+created_at: "2025-10-11T01:03:32.223Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -76,6 +96,26 @@ Nothing
 
 ## Blockers
 - No active owner or unclear scope
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

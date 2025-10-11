@@ -4,13 +4,32 @@ title: "Task: Context Layer Between Codex and Local LLMs"
 slug: "openai-compatable-api"
 status: "done"
 priority: "P3"
-tags: ["codex", "context", "between", "local"]
-created_at: "2025-10-10T03:23:55.971Z"
+labels: ["codex", "context", "between", "local"]
+created_at: "2025-10-11T01:03:32.223Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -75,6 +94,25 @@ The service will:
 ## Comments 💬
 
 Agents can use this task to maintain append-only discussions on design decisions, tradeoffs, and testing.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

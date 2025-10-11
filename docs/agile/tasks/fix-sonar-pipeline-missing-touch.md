@@ -4,13 +4,32 @@ title: "fix sonar pipeline missing touch marker"
 slug: "fix-sonar-pipeline-missing-touch"
 status: "done"
 priority: "P2"
-tags: ["pipeline", "sonar", "buildfix"]
-created_at: "2025-10-10T03:23:55.971Z"
+labels: ["pipeline", "sonar", "buildfix"]
+created_at: "2025-10-11T01:03:32.223Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -60,6 +79,25 @@ Useful for agents to coordinate on implementation details and testing.
 - Estimate: 2
 - Assumptions: Sonar CLI available locally or in CI.
 - Dependencies: Access to Sonar credentials or mocks for verification.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

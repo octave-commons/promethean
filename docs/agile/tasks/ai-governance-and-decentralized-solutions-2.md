@@ -4,13 +4,32 @@ title: "ai-governance-and-decentralized-solutions-2"
 slug: "ai-governance-and-decentralized-solutions-2"
 status: "incoming"
 priority: "P3"
-tags: ["docops", "labeled"]
-created_at: "2025-10-10T03:23:55.969Z"
+labels: ["docops", "labeled"]
+created_at: "2025-10-11T01:03:32.220Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -57,6 +76,25 @@ in programming tasks, you see this popping up as they seem like their writing co
 - [ ] Draft actionable subtasks from the summary
 - [ ] Define acceptance criteria
 - [ ] Link back to related labeled docs
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

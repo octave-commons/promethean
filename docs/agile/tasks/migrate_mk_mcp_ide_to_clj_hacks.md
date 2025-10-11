@@ -4,13 +4,32 @@ title: "Consolidate mk MCP/IDE libs under clj-hacks /TASK-20240607-0001 /kanban 
 slug: "migrate_mk_mcp_ide_to_clj_hacks"
 status: "done"
 priority: "p3"
-tags: ["task", "board", "state", "owner", "priority", "epic", "lang"]
-created_at: "2025-10-10T03:23:55.971Z"
+labels: ["task", "board", "state", "owner", "priority", "epic", "lang"]
+created_at: "2025-10-11T01:03:32.223Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -46,6 +65,25 @@ estimates:
 ```
 <hr class="__chatgpt_plugin">
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

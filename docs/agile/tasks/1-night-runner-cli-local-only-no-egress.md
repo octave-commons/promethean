@@ -4,13 +4,32 @@ title: "1) Night runner + CLI (local-only, no egress)"
 slug: "1-night-runner-cli-local-only-no-egress"
 status: "icebox"
 priority: "P3"
-tags: ["docops", "labeled"]
-created_at: "2025-10-10T03:23:55.968Z"
+labels: ["docops", "labeled"]
+created_at: "2025-10-11T01:03:32.219Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -54,6 +73,25 @@ This is the boring backbone that
 - [ ] Draft actionable subtasks from the summary
 - [ ] Define acceptance criteria
 - [ ] Link back to related labeled docs
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

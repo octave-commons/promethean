@@ -2,15 +2,35 @@
 uuid: "183b8fa7-f80b-4342-b993-2d2bfa80303a"
 title: "setup new service generator"
 slug: "setup-new-service-generator"
-status: "rejected"
+status: "done"
 priority: "P3"
-tags: ["new", "service", "generator", "setup"]
-created_at: "2025-10-10T03:23:55.972Z"
+labels: ["new", "service", "generator", "setup"]
+created_at: "2025-10-11T01:03:40.887Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -76,6 +96,26 @@ Nothing
 ```
 #in-progress
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

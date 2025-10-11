@@ -2,15 +2,35 @@
 uuid: "5c686b01-e6d0-4008-81bb-6f429d26a64a"
 title: "convert current services to packages then redefine the services using config files"
 slug: "convert-current-services-to-packages--then-redefine-the-services-using-config-files"
-status: "rejected"
+status: "done"
 priority: "P3"
-tags: ["services", "packages", "config", "files"]
-created_at: "2025-10-10T03:23:55.972Z"
+labels: ["services", "packages", "config", "files"]
+created_at: "2025-10-11T01:03:32.222Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -76,6 +96,26 @@ Nothing
 #framework-core #Ready
 ```
 #ready
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

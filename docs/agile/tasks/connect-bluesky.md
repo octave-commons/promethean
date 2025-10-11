@@ -4,13 +4,32 @@ title: "Description"
 slug: "connect-bluesky"
 status: "icebox"
 priority: "P3"
-tags: ["description", "bluesky", "app", "authentication"]
-created_at: "2025-10-10T03:23:55.968Z"
+labels: ["description", "bluesky", "app", "authentication"]
+created_at: "2025-10-11T01:03:32.219Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -72,6 +91,25 @@ Useful for agents to engage in append only conversations about this task.
 
 #Ready
 #ready
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

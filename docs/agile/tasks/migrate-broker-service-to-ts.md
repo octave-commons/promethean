@@ -1,16 +1,36 @@
 ---
-uuid: "broker-service-migration"
+uuid: "ba8c10bc-0653-4868-bb57-4ac6212a8b49"
 title: "Migrate broker service to TypeScript"
 slug: "migrate-broker-service-to-ts"
-status: "breakdown"
+status: "accepted"
 priority: "P3"
-tags: ["board", "lang"]
-created_at: "2025-10-08T00:00:00.000Z"
+labels: ["board", "lang"]
+created_at: "2025-10-11T01:03:32.221Z"
 estimates:
-  complexity: 3
-  scale: 2
-  time_to_completion: "4 hours"
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Migrate broker service to TypeScript
 
@@ -30,3 +50,23 @@ Migrate the legacy broker JavaScript service to TypeScript under the new package
 - [ ] TypeScript compilation passes
 - [ ] Existing functionality preserved
 - [ ] Tests updated and passing
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

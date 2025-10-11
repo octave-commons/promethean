@@ -1,16 +1,35 @@
 ---
 uuid: "a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"
-title: "Fix kanban board regeneration tests (14 failing tests)   -fix   -fix   -fix   -fix   -fix"
+title: "Fix kanban board regeneration tests (14 failing tests)   -fix   -fix   -fix   -fix   -fix   -fix   -fix   -fix   -fix   -fix   -fix   -fix   -fix   -fix   -fix   -fix   -fix   -fix   -fix   -fix   -fix   -fix   -fix   -fix   -fix   -fix"
 slug: "fix-kanban-board-regeneration-tests"
 status: "incoming"
 priority: "P1"
-tags: ["testing", "kanban", "bug-fix"]
-created_at: "2025-10-10T03:23:55.969Z"
+labels: ["testing", "kanban", "bug-fix"]
+created_at: "2025-10-11T01:03:32.220Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -81,6 +100,25 @@ Estimate: 5
 - Failing test: `packages/kanban/src/tests/board.test.ts:235`
 - Kanban implementation: `packages/kanban/src/lib/kanban.ts`
 - Board configuration: `promethean.kanban.json`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

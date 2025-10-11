@@ -4,13 +4,32 @@ title: "Fix TypeScript build errors across key packages /TASK-20240921-buildfix 
 slug: "fix-build-errors-enso-docops-kanban-webcrawler"
 status: "done"
 priority: "p2"
-tags: ["task", "board", "state", "owner", "priority", "epic", "lang"]
-created_at: "2025-10-10T03:23:55.971Z"
+labels: ["task", "board", "state", "owner", "priority", "epic", "lang"]
+created_at: "2025-10-11T01:03:32.223Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -79,6 +98,25 @@ You might find [this](link) useful while working on this task.
 fix-build-errors-enso-docops-kanban-webcrawler
 
 <% tp.app.commands.executeCommandById"chatgpt-md:call-chatgpt-api" %>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

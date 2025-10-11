@@ -2,15 +2,35 @@
 uuid: "aeed625c-0cb1-490d-aa15-19b39d96fc3e"
 title: "Restore symdocs pipeline execution in Piper"
 slug: "Restore symdocs pipeline execution"
-status: "todo"
+status: "ready"
 priority: "P2"
-tags: ["pipeline", "reliability"]
-created_at: "2025-10-10T03:23:55.970Z"
+labels: ["pipeline", "reliability"]
+created_at: "2025-10-11T01:03:32.221Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -42,6 +62,26 @@ estimates:
 - `packages/@promethean/symdocs` sources and README
 - `scripts/` Piper bridge scripts for symdocs
 - `docs/agile/pipelines/` for existing report format
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

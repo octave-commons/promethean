@@ -4,13 +4,32 @@ title: "Publish missing pipeline run reports"
 slug: "Publish missing pipeline run reports"
 status: "todo"
 priority: "P3"
-tags: ["documentation", "pipeline"]
-created_at: "2025-10-10T03:23:55.970Z"
+labels: ["documentation", "pipeline"]
+created_at: "2025-10-11T01:03:32.222Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -40,6 +59,25 @@ estimates:
 - `docs/agile/pipelines/`
 - `pipelines.json`
 - Piper report generation scripts
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

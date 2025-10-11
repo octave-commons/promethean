@@ -4,13 +4,32 @@ title: "annotate legacy code with migration tags md"
 slug: "annotate_legacy_code_with_migration_tags"
 status: "icebox"
 priority: "P3"
-tags: ["tags", "legacy", "migration", "annotate"]
-created_at: "2025-10-10T03:23:55.968Z"
+labels: ["tags", "legacy", "migration", "annotate"]
+created_at: "2025-10-11T01:03:32.219Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -71,6 +90,25 @@ Nothing
 ```
 #ice-box
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

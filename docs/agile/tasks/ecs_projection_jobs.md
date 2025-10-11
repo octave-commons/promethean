@@ -4,13 +4,32 @@ title: "ecs projection jobs"
 slug: "ecs_projection_jobs"
 status: "incoming"
 priority: "P3"
-tags: ["ecs", "jobs", "projection", "projections"]
-created_at: "2025-10-10T03:23:55.969Z"
+labels: ["ecs", "jobs", "projection", "projections"]
+created_at: "2025-10-11T01:03:32.220Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -35,6 +54,25 @@ Exit Criteria:
 - Verified indexes and query latencies.
 
 #incoming #ecs #projections #compaction
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

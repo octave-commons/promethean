@@ -4,13 +4,32 @@ title: "separate all testing pipelines in github actions md"
 slug: "separate_all_testing_pipelines_in_github_actions"
 status: "done"
 priority: "P3"
-tags: ["all", "testing", "pipelines", "github"]
-created_at: "2025-10-10T03:23:55.971Z"
+labels: ["all", "testing", "pipelines", "github"]
+created_at: "2025-10-11T01:03:40.887Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -74,6 +93,25 @@ Nothing
 - [[kanban]]
 - [ci]../ci.md
 #done
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

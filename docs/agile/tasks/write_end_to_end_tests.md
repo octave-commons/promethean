@@ -2,15 +2,35 @@
 uuid: "ad8abaf0-5abc-407f-bb20-0f0557066452"
 title: "write end to end tests md md"
 slug: "write_end_to_end_tests"
-status: "rejected"
+status: "done"
 priority: "P3"
-tags: ["end", "write", "tests", "kanban"]
-created_at: "2025-10-10T03:23:55.972Z"
+labels: ["end", "write", "tests", "kanban"]
+created_at: "2025-10-11T01:03:41.284Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -62,6 +82,26 @@ Nothing
 
 - [[kanban]]
 #accepted
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

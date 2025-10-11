@@ -1,16 +1,36 @@
 ---
 uuid: "7a86d12d-27f8-42ce-ae96-661ebfd7012d"
-title: "capture confirmation telemetry for daemon optimization -core -core -core -core -core"
+title: "capture confirmation telemetry for daemon optimization -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core"
 slug: "capture-confirmation-telemetry-for-daemon-optimization"
-status: "todo"
+status: "ready"
 priority: "P2"
-tags: ["framework-core", "telemetry"]
-created_at: "2025-10-10T03:23:55.970Z"
+labels: ["framework-core", "telemetry"]
+created_at: "2025-10-11T01:03:32.221Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -69,6 +89,26 @@ Estimate: 3
 ## 🔍 Relevant Links
 
 - `system/README.md`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

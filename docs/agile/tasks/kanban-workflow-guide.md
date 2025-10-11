@@ -4,13 +4,32 @@ title: "2025.09.19.18.03.15   engineering  management"
 slug: "kanban-workflow-guide"
 status: "done"
 priority: "P3"
-tags: ["Kanban", "software", "task"]
-created_at: "2025-10-10T03:23:55.971Z"
+labels: ["Kanban", "software", "task"]
+created_at: "2025-10-11T01:03:32.223Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -140,6 +159,25 @@ All your work supports a modular, open-source, ESM-native, GPL-compliant codebas
 ## Sources
 - _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

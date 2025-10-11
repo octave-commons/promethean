@@ -2,15 +2,35 @@
 uuid: "0481711b-20f9-447e-9447-513785a3ac68"
 title: "add manualack to event bus and re run tests md"
 slug: "add_manualack_to_event_bus_and_re_run_tests"
-status: "rejected"
+status: "done"
 priority: "P3"
-tags: ["add", "manualack", "event", "bus"]
-created_at: "2025-10-10T03:23:55.971Z"
+labels: ["add", "manualack", "event", "bus"]
+created_at: "2025-10-11T01:03:32.222Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -41,6 +61,26 @@ Generated from ../unique/2025.08.08.15.08.47.md$../unique/2025.08.08.15.08.47.md
 
 
 #rejected
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

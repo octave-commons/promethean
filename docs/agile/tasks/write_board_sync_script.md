@@ -4,13 +4,32 @@ title: "write board sync script md md"
 slug: "write_board_sync_script"
 status: "done"
 priority: "P3"
-tags: ["board", "sync", "script", "write"]
-created_at: "2025-10-10T03:23:55.971Z"
+labels: ["board", "sync", "script", "write"]
+created_at: "2025-10-11T01:03:41.284Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -65,6 +84,25 @@ Create a small tool that pushes updates from our Obsidian kanban board to a GitH
 - board_sync.py$../../scripts/github_board_sync.py
 - [Board Sync Workflow]../../board_sync.md
 #done
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

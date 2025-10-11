@@ -2,15 +2,35 @@
 uuid: "1921c586-faec-430a-b598-e6ff0d131b00"
 title: "send waveforms spectrograms and dekstop screenshots to discord for remote storage md md"
 slug: "send_waveforms_spectrograms_and_dekstop_screenshots_to_discord_for_remote_storage"
-status: "rejected"
+status: "done"
 priority: "P3"
-tags: ["send", "waveforms", "spectrograms", "dekstop"]
-created_at: "2025-10-10T03:23:55.972Z"
+labels: ["send", "waveforms", "spectrograms", "dekstop"]
+created_at: "2025-10-11T01:03:40.887Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -64,6 +84,26 @@ Nothing
 
 
 #archive
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

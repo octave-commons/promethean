@@ -4,13 +4,32 @@ title: "fully convert js ts projects to pnpm incoming"
 slug: "fully-convert-js-ts-projects-to-pnpm-incoming"
 status: "breakdown"
 priority: "P3"
-tags: ["fully", "convert", "projects", "pnpm"]
-created_at: "2025-10-10T03:23:55.970Z"
+labels: ["fully", "convert", "projects", "pnpm"]
+created_at: "2025-10-11T01:03:32.221Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -63,6 +82,25 @@ Nothing
 
 - [[kanban]]
 #archive
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

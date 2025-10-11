@@ -4,13 +4,32 @@ title: "gather open questions about system direction md md"
 slug: "gather_open_questions_about_system_direction"
 status: "icebox"
 priority: "P3"
-tags: ["questions", "open", "gather", "system"]
-created_at: "2025-10-10T03:23:55.968Z"
+labels: ["questions", "open", "gather", "system"]
+created_at: "2025-10-11T01:03:32.219Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -61,6 +80,25 @@ Nothing
 ```
 #ice-box
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

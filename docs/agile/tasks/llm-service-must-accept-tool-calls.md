@@ -2,15 +2,35 @@
 uuid: "c858464b-c43b-4521-80b9-12fa3d5cd464"
 title: "llm service must accept tool calls"
 slug: "llm-service-must-accept-tool-calls"
-status: "rejected"
+status: "done"
 priority: "P3"
-tags: ["tool", "service", "llm", "calls"]
-created_at: "2025-10-10T03:23:55.972Z"
+labels: ["tool", "service", "llm", "calls"]
+created_at: "2025-10-11T01:03:32.223Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -71,6 +91,26 @@ Nothing
 ```
 #framework-core #Ready #ready
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

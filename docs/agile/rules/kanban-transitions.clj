@@ -123,6 +123,19 @@
   (let [source-col (first from-to)]
     (in-column? board source-col (:uuid task))))
 
+;; Safety: require tool:* and env:* tags before entering in_progress
+(defn has-tool-env-tags?
+  "Task must include tool:* and env:* tags either in labels or content"
+  [task]
+  (let [labs (map str/lower-case (or (:labels task) []))
+        content (str/lower-case (or (:content task) ""))
+        tool-in-labels (some #(str/starts-with? % "tool:") labs)
+        env-in-labels (some #(str/starts-with? % "env:") labs)
+        tool-in-content (clojure.string/includes? content "tool:")
+        env-in-content (clojure.string/includes? content "env:")]
+    (or (and tool-in-labels env-in-labels)
+        (and tool-in-content env-in-content))))
+
 ;; Helper function to determine if transition is backward
 (defn backward-transition?
   "Check if transition moves backward in workflow"
@@ -141,6 +154,10 @@
      ;; Check global rules first
      (wip-limits from-to task board)
      (task-existence from-to task board)
+     ;; Process safety: enforce tool/env tags for entering in_progress
+     (if (= (column-key to) "inprogress")
+       (has-tool-env-tags? task)
+       true)
      ;; Backward transitions are always valid unless WIP violation
      (or (backward-transition? from to)
          ;; Special validation for done→review corrections

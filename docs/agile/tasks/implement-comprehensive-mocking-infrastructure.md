@@ -1,16 +1,35 @@
 ---
 uuid: "e5f6a7b8-9c0d-1e2f-3a4b-5c6d7e8f9a0b"
-title: "Implement comprehensive mocking infrastructure for external dependencies    -dependencies    -dependencies    -dependencies    -dependencies    -dependencies"
+title: "Implement comprehensive mocking infrastructure for external dependencies    -dependencies    -dependencies    -dependencies    -dependencies    -dependencies    -dependencies    -dependencies    -dependencies    -dependencies    -dependencies    -dependencies    -dependencies    -dependencies    -dependencies    -dependencies    -dependencies    -dependencies    -dependencies    -dependencies    -dependencies    -dependencies    -dependencies    -dependencies    -dependencies    -dependencies    -dependencies"
 slug: "implement-comprehensive-mocking-infrastructure"
 status: "incoming"
 priority: "P1"
-tags: ["testing", "infrastructure", "mocking", "external-dependencies"]
-created_at: "2025-10-10T03:23:55.969Z"
+labels: ["testing", "infrastructure", "mocking", "external-dependencies"]
+created_at: "2025-10-11T01:03:32.221Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -88,6 +107,25 @@ Estimate: 13
 - Discord integration: `packages/cephalon/src/bot.ts`
 - LLM integration: `packages/cephalon/src/llm-service.ts`
 - Test utilities: `packages/test-utils/`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

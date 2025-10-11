@@ -2,15 +2,35 @@
 uuid: "9a2e9225-9cbf-4ee0-ae5f-cdc6e525bbd3"
 title: "stabilize duck voice streaming pipeline"
 slug: "stabilize-duck-voice-streaming-pipeline"
-status: "todo"
+status: "ready"
 priority: "P2"
-tags: ["duck", "audio", "enso"]
-created_at: "2025-10-10T03:23:55.970Z"
+labels: ["duck", "audio", "enso"]
+created_at: "2025-10-11T01:03:32.222Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -37,6 +57,26 @@ Exit Criteria:
 - The ENSO gateway rejects or clamps invalid frame durations with tests demonstrating the boundary behavior.
 - Documentation under `docs/duck` (or equivalent) explains how to start the voice pipeline, enumerate flags, and validate audio end-to-end.
 - Manual QA notes capture at least one verified microphone streaming session on macOS and one on Linux.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

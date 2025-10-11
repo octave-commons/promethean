@@ -2,15 +2,35 @@
 uuid: "1bb8418a-5606-4190-a252-21301fd4a5d8"
 title: "discord link indexer md"
 slug: "discord_link_indexer"
-status: "rejected"
+status: "done"
 priority: "P3"
-tags: ["discord", "link", "indexer", "done"]
-created_at: "2025-10-10T03:23:55.972Z"
+labels: ["discord", "link", "indexer", "done"]
+created_at: "2025-10-11T01:03:32.222Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -65,6 +85,26 @@ Nothing
 #prompt-refinement
 ```
 #accepted
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

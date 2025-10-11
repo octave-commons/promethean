@@ -4,13 +4,32 @@ title: "ecs persistence integration cephalon"
 slug: "ecs_persistence_integration_cephalon"
 status: "incoming"
 priority: "P3"
-tags: ["ecs", "cephalon", "persistence", "integration"]
-created_at: "2025-10-10T03:23:55.969Z"
+labels: ["ecs", "cephalon", "persistence", "integration"]
+created_at: "2025-10-11T01:03:32.220Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -35,6 +54,25 @@ Exit Criteria:
 - On restart, context is reconstructed from persisted components.
 
 #incoming #ecs #cephalon #mongo
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

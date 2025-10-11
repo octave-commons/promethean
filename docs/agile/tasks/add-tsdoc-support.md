@@ -1,11 +1,36 @@
 ---
-title: Add TSDoc Support to the Project
-status: ready
-priority: P2
-tags: [documentation, typescript, build-system]
-created: 2025-10-10
-uuid: tsdoc-support-consolidated
+uuid: "1f7ead97-5903-423b-b492-17af282faf4b"
+title: "Add TSDoc Support to the Project   -system   -system   -system   -system   -system   -system   -system   -system   -system   -system   -system   -system   -system   -system   -system   -system   -system   -system   -system   -system   -system   -system"
+slug: "add-tsdoc-support"
+status: "blocked"
+priority: "P2"
+labels: ["documentation", "typescript", "build-system"]
+created_at: "2025-10-11T01:03:32.221Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Add TSDoc Support to the Project
 
@@ -70,3 +95,23 @@ Estimated 2-3 weeks for complete implementation
 ## Owner
 
 TBD - needs assignment
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -2,15 +2,35 @@
 uuid: "d91c26e9-a20a-4e96-a7e9-913bda7c54d1"
 title: "clean up notes into design docs md"
 slug: "clean_up_notes_into_design_docs"
-status: "rejected"
+status: "done"
 priority: "P3"
-tags: ["design", "docs", "notes", "docops"]
-created_at: "2025-10-10T03:23:55.972Z"
+labels: ["design", "docs", "notes", "docops"]
+created_at: "2025-10-11T01:03:32.222Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -83,6 +103,26 @@ Nothing
 #agent-thinking
 ```
 #accepted
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

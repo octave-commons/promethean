@@ -2,15 +2,35 @@
 uuid: "137453bf-b38f-4321-8503-a5643e41a9c8"
 title: "add ttls per topic via migration script md"
 slug: "add_ttls_per_topic_via_migration_script"
-status: "rejected"
+status: "done"
 priority: "P3"
-tags: ["add", "ttls", "per", "topic"]
-created_at: "2025-10-10T03:23:55.971Z"
+labels: ["add", "ttls", "per", "topic"]
+created_at: "2025-10-11T01:03:32.222Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -41,6 +61,26 @@ Generated from ../unique/2025.08.08.19.08.25.md$../unique/2025.08.08.19.08.25.md
 
 
 #rejected
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

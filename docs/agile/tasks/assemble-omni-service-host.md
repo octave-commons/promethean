@@ -2,15 +2,35 @@
 uuid: "5fb47630-6822-4ecf-a035-625ed0e733bf"
 title: "Assemble unified @promethean/omni-service host"
 slug: "assemble-omni-service-host"
-status: "ready"
+status: "blocked"
 priority: "P2"
-tags: ["omni", "service"]
-created_at: "2025-10-10T03:23:55.970Z"
+labels: ["omni", "service"]
+created_at: "2025-10-11T01:03:32.221Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -47,6 +67,26 @@ Stand up `@promethean/omni-service`, a Fastify application that mounts REST, Gra
 ## 🔗 Dependencies
 
 - Omni protocol + core packages must be published.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

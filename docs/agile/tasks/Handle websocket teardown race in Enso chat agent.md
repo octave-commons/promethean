@@ -4,13 +4,32 @@ title: "handle websocket teardown race in enso chat agent"
 slug: "Handle websocket teardown race in Enso chat agent"
 status: "incoming"
 priority: "P1"
-tags: ["cephalon", "reliability"]
-created_at: "2025-10-10T03:23:55.969Z"
+labels: ["cephalon", "reliability"]
+created_at: "2025-10-11T01:03:32.220Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -32,6 +51,25 @@ was established” when shutdown runs before the handshake finishes. AVA reports
 - Add coverage for disposing the agent before the websocket fully opens.
 
 #incoming #enso #cephalon #stability
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

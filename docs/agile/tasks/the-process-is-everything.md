@@ -4,13 +4,32 @@ title: "The process is everything"
 slug: "the-process-is-everything"
 status: "incoming"
 priority: "P3"
-tags: ["docops", "labeled"]
-created_at: "2025-10-10T03:23:55.970Z"
+labels: ["docops", "labeled"]
+created_at: "2025-10-11T01:03:32.221Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -55,6 +74,25 @@ Work with me over the course of this conversation to refine
 - [ ] Draft actionable subtasks from the summary
 - [ ] Define acceptance criteria
 - [ ] Link back to related labeled docs
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

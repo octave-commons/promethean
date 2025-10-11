@@ -2,15 +2,35 @@
 uuid: "23806c3e-fb3c-4759-892d-f168b9eebb57"
 title: "Description"
 slug: "lsp-server-for-home-brew-lisp-incoming"
-status: "rejected"
+status: "done"
 priority: "P3"
-tags: ["description", "language", "server", "features"]
-created_at: "2025-10-10T03:23:55.972Z"
+labels: ["description", "language", "server", "features"]
+created_at: "2025-10-11T01:03:32.223Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -51,6 +71,26 @@ Useful for agents to engage in append only conversations about this task.
 
 ## Blockers
 - No active owner or unclear scope
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

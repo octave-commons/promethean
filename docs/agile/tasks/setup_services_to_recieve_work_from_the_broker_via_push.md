@@ -4,13 +4,32 @@ title: "setup services to recieve work from the broker via push md"
 slug: "setup_services_to_recieve_work_from_the_broker_via_push"
 status: "done"
 priority: "P3"
-tags: ["broker", "services", "setup", "via"]
-created_at: "2025-10-10T03:23:55.971Z"
+labels: ["broker", "services", "setup", "via"]
+created_at: "2025-10-11T01:03:40.887Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -107,6 +126,25 @@ We're gonna call it In Progress
 ```
 #in-progress
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

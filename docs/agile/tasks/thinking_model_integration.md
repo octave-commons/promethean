@@ -4,13 +4,32 @@ title: "thinking model integration md md"
 slug: "thinking_model_integration"
 status: "done"
 priority: "P3"
-tags: ["model", "thinking", "integration", "are"]
-created_at: "2025-10-10T03:23:55.971Z"
+labels: ["model", "thinking", "integration", "are"]
+created_at: "2025-10-11T01:03:40.887Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -95,6 +114,25 @@ Nothing
 
 - [[kanban]]
 #Breakdown
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

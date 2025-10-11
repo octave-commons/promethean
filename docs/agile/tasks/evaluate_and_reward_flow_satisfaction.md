@@ -2,15 +2,35 @@
 uuid: "45a4101d-01ab-497b-8920-97cc563e9351"
 title: "evaluate and reward flow satisfaction"
 slug: "evaluate_and_reward_flow_satisfaction"
-status: "rejected"
+status: "done"
 priority: "P3"
-tags: ["reward", "evaluate", "flow", "satisfaction"]
-created_at: "2025-10-10T03:23:55.972Z"
+labels: ["reward", "evaluate", "flow", "satisfaction"]
+created_at: "2025-10-11T01:03:32.222Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -80,6 +100,26 @@ Generated from ../unique/2025.07.28.18.07.20.md$../unique/2025.07.28.18.07.20.md
 - Do we need real-time updates to the reward signal or batched summaries?
 #IceBox
 #rejected
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

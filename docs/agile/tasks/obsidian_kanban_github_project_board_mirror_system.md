@@ -2,15 +2,35 @@
 uuid: "083d6047-9529-4d0b-9ada-406acf3d97f8"
 title: "obsidian kanban github project board mirror system md md"
 slug: "obsidian_kanban_github_project_board_mirror_system"
-status: "rejected"
+status: "done"
 priority: "P3"
-tags: ["github", "kanban", "board", "obsidian"]
-created_at: "2025-10-10T03:23:55.972Z"
+labels: ["github", "kanban", "board", "obsidian"]
+created_at: "2025-10-11T01:03:32.223Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -64,6 +84,26 @@ Nothing
 - [[kanban]]
 
 #archive
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

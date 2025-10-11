@@ -4,13 +4,32 @@ title: "Maintain Testing vs Working Databases w/ Migration Contract"
 slug: "set-up-data-migration-pipeline-and-clearly-describe-conventions"
 status: "breakdown"
 priority: "P3"
-tags: ["testing", "working", "migration", "databases"]
-created_at: "2025-10-10T03:23:55.970Z"
+labels: ["testing", "working", "migration", "databases"]
+created_at: "2025-10-11T01:03:32.221Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -232,6 +251,25 @@ feat(migrations): isolate test DBs and enforce migration contracts
 ```
 #in-progress
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

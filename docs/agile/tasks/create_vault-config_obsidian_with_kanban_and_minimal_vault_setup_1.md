@@ -4,13 +4,32 @@ title: "create vault config obsidian with kanban and minimal vault setup 1 md md
 slug: "create_vault-config_obsidian_with_kanban_and_minimal_vault_setup_1"
 status: "done"
 priority: "P3"
-tags: ["vault", "config", "kanban", "obsidian"]
-created_at: "2025-10-10T03:23:55.971Z"
+labels: ["vault", "config", "kanban", "obsidian"]
+created_at: "2025-10-11T01:03:32.222Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -71,6 +90,25 @@ Nothing
 
 - [[kanban]]
 #done
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

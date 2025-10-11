@@ -1,0 +1,82 @@
+---
+uuid: "b3f82880-a757-416a-a14b-db59fa27a7c0"
+title: "Deprecate WIP sheriff script and integrate points-based WIP enforcement into kanban CLI"
+slug: "Deprecate WIP sheriff script and integrate points-based WIP enforcement into kanban CLI"
+status: "accepted"
+priority: "P2"
+labels: ["wip", "points", "kanban", "cli"]
+created_at: "2025-10-11T01:03:32.221Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+The WIP sheriff script provides duplicate functionality that should be integrated into the main kanban CLI tool. Currently, the kanban CLI only supports task count limits, while WIP sheriff supports both task count and story points modes.
+
+## Required Changes:
+
+1. **Extend kanban CLI WIP enforcement**:
+
+   - Add --basis flag (count|points) to enforce-wip-limits command
+   - Implement points calculation from task frontmatter/annotations
+   - Maintain backward compatibility with current task count behavior
+
+2. **Points calculation logic**:
+
+   - Extract points from task frontmatter points field
+   - Support title annotations like [3pts] or (5 points)
+   - Default to 1 point if no points specified
+
+3. **Migration path**:
+
+   - Add deprecation warning to WIP sheriff script
+   - Update documentation to reference kanban CLI
+   - Remove WIP sheriff in future major version
+
+4. **Testing**:
+   - Test both count and points modes
+   - Verify existing functionality remains intact
+   - Add integration tests for points-based enforcement
+
+## Acceptance Criteria:
+
+- [ ] pnpm kanban enforce-wip-limits --basis=points works correctly
+- [ ] Points calculated from frontmatter and title annotations
+- [ ] WIP sheriff shows deprecation warning
+- [ ] All existing tests pass
+- [ ] Documentation updated
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

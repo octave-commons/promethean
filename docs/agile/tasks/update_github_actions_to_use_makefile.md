@@ -4,13 +4,32 @@ title: "update github actions automation to pnpm scripts"
 slug: "update_github_actions_to_use_makefile"
 status: "done"
 priority: "P3"
-tags: ["pnpm", "scripts", "update", "github"]
-created_at: "2025-10-10T03:23:55.971Z"
+labels: ["pnpm", "scripts", "update", "github"]
+created_at: "2025-10-11T01:03:41.283Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -71,6 +90,25 @@ so workflows should call the same scripts instead of Makefile wrappers.
 - scripts/dev.mjs$../../scripts/dev.mjs
 
 #cicd #devops #framework-core #todo
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

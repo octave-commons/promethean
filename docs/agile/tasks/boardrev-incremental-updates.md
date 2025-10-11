@@ -2,15 +2,35 @@
 uuid: "a9b95383-ad82-4dd4-8086-b48caf1a0328"
 title: "Add incremental updates to boardrev indexing"
 slug: "boardrev-incremental-updates"
-status: "todo"
+status: "ready"
 priority: "P1"
-tags: ["enhancement", "boardrev", "performance"]
-created_at: "2025-10-10T03:23:55.970Z"
+labels: ["enhancement", "boardrev", "performance"]
+created_at: "2025-10-11T01:03:32.221Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -53,6 +73,26 @@ Current implementation requires full re-index on every run, which is inefficient
 
 ## Notes
 Should handle edge cases like file moves, permission changes, and corrupted cache entries gracefully.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

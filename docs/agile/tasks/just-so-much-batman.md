@@ -1,16 +1,36 @@
 ---
-uuid: '8584c1fd-c8b6-4bf0-8cca-db9f91fe52c2'
-title: 'just so much batman'
-slug: 'just-so-much-batman'
-status: 'rejected'
-priority: 'P3'
-tags: ['just', 'much', 'batman', 'span']
-created_at: '2025-10-10T03:23:55.970Z'
+uuid: "8584c1fd-c8b6-4bf0-8cca-db9f91fe52c2"
+title: "just so much batman"
+slug: "just-so-much-batman"
+status: "done"
+priority: "P3"
+labels: ["just", "much", "batman", "span"]
+created_at: "2025-10-11T01:03:32.223Z"
 estimates:
-  complexity: ''
-  scale: ''
-  time_to_completion: ''
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ```
 <hr class="__chatgpt_plugin">
@@ -142,3 +162,23 @@ Using this title write a reasonable task kanban task document:
 ### role::user
 
 w
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -2,15 +2,35 @@
 uuid: "0c583c42-3b0d-47fc-9b54-5bd952c84c74"
 title: "finalize stt workflow md md"
 slug: "finalize_stt_workflow"
-status: "rejected"
+status: "done"
 priority: "P3"
-tags: ["stt", "workflow", "finalize", "requirements"]
-created_at: "2025-10-10T03:23:55.972Z"
+labels: ["stt", "workflow", "finalize", "requirements"]
+created_at: "2025-10-11T01:03:32.222Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -66,6 +86,26 @@ Nothing
 ## Reason for rejection
 Other tasks expanded to include the intention of this ticket before this one was b
 #rejected
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

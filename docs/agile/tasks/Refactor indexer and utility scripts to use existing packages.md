@@ -1,0 +1,49 @@
+---
+uuid: "cddae5ba-2196-4029-bce6-ce63e35c11de"
+title: "Refactor indexer and utility scripts to use existing packages"
+slug: "Refactor indexer and utility scripts to use existing packages"
+status: "incoming"
+priority: "P2"
+labels: ["refactoring", "indexer", "utilities", "packages"]
+created_at: "2025-10-11T01:03:32.220Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
+
+
+
+
+
+
+
+
+
+
+Refactor scripts/catalog.mjs to use @promethean/indexer-core and @promethean/file-indexer packages. Refactor scripts/dedupe-versions.mjs to use @promethean/kanban and @promethean/markdown utilities. Move scripts/sync-package-deps.js to @promethean/utils or new @promethean/package-tools package.
+
+## ⛓️ Blocked By
+
+Nothing
+
+
+
+## ⛓️ Blocks
+
+Nothing
+
+
+
+
+
+
+
+
+
+
+
+
+
+

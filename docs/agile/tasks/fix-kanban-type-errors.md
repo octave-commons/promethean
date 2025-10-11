@@ -1,16 +1,36 @@
 ---
 uuid: "b4c5d6e7-8f9a-1b2c-3d4e-5f6a7b8c9d0e"
-title: "Fix kanban package TypeScript compilation errors    -system    -system    -system    -system    -system"
+title: "Fix kanban package TypeScript compilation errors    -system    -system    -system    -system    -system    -system    -system    -system    -system    -system    -system    -system    -system    -system    -system    -system    -system    -system    -system    -system    -system    -system    -system    -system    -system    -system"
 slug: "fix-kanban-type-errors"
-status: "todo"
+status: "ready"
 priority: "P2"
-tags: ["bugfix", "typescript", "kanban", "build-system"]
-created_at: "2025-10-10T03:23:55.970Z"
+labels: ["bugfix", "typescript", "kanban", "build-system"]
+created_at: "2025-10-11T01:03:32.222Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -59,6 +79,26 @@ The issue stems from a mismatch between the actual function signature and expect
 2. Run full repository build: `pnpm build`
 3. Check for remaining TypeScript errors
 4. Verify CI pipeline passes on the fix
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

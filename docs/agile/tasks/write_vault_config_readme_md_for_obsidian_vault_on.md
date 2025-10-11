@@ -4,13 +4,32 @@ title: "write vault config readme md for obsidian vault on md"
 slug: "write_vault_config_readme_md_for_obsidian_vault_on"
 status: "done"
 priority: "P3"
-tags: ["vault", "write", "config", "readme"]
-created_at: "2025-10-10T03:23:55.971Z"
+labels: ["vault", "write", "config", "readme"]
+created_at: "2025-10-11T01:03:41.284Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -67,6 +86,25 @@ Nothing
 `vault-config/README.md` now documents the minimal configuration and explains
 how to open the repository as an Obsidian vault.
 #done
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

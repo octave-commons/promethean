@@ -4,13 +4,32 @@ title: "Quick prerequisites"
 slug: "quick-prerequisites"
 status: "incoming"
 priority: "P3"
-tags: ["docops", "labeled"]
-created_at: "2025-10-10T03:23:55.970Z"
+labels: ["docops", "labeled"]
+created_at: "2025-10-11T01:03:32.221Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -37,6 +56,25 @@ A couple of facts before the code (so you know I’m not hand-waving):
 - [ ] Draft actionable subtasks from the summary
 - [ ] Define acceptance criteria
 - [ ] Link back to related labeled docs
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

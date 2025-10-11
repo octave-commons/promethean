@@ -4,8 +4,8 @@ title: "Clean up useless regex escape in agent package"
 slug: "cleanup_useless_regex_escape_in_agent_package"
 status: "icebox"
 priority: "P3"
-tags: ["regex", "escape", "clean", "useless"]
-created_at: "2025-10-10T03:23:55.968Z"
+labels: ["regex", "escape", "clean", "useless"]
+created_at: "2025-10-11T01:03:32.219Z"
 estimates:
   complexity: ""
   scale: ""
@@ -13,37 +13,5 @@ estimates:
 ---
 
 
-
-
-
-
-
-# Clean up useless regex escape in agent package
-
-## Description
-
-The `noUselessEscapeInRegex` rule flagged an unnecessary escape in the policy glob matcher (now housed in `packages/security/src/policy.ts`).
-
-## Goals
-
-- Remove redundant escape sequences to simplify the regex.
-
-## Requirements
-
-- Adjust the pattern in `globToRegExp` to avoid escaping characters that don't require it.
-- Verify lint passes after the change.
-
-## Subtasks
-
-- [x] Update regex in `packages/security/src/policy.ts`.
-- [ ] Ensure associated tests still pass.
-
-Blocked tests due to missing `ava` and `node` type definitions in the current workspace environment; see session logs for the failure captured while running `pnpm --filter @promethean/security test`.
-
-#Todo #codex-task
-
-
-
-
-
+\nTags: tool:codex role:engineer cap:codegen trace:2327d588-45d7-4fc3-85db-58bc4b5127af
 

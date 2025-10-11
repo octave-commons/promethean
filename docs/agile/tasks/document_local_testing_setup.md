@@ -4,13 +4,32 @@ title: "document local testing setup md md"
 slug: "document_local_testing_setup"
 status: "done"
 priority: "P3"
-tags: ["setup", "testing", "document", "local"]
-created_at: "2025-10-10T03:23:55.971Z"
+labels: ["setup", "testing", "document", "local"]
+created_at: "2025-10-11T01:03:32.222Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -60,6 +79,25 @@ Nothing
 - [[kanban]]
 - [[ci|ci docs]]
 #done
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

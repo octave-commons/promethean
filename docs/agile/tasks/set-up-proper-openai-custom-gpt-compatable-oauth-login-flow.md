@@ -2,15 +2,35 @@
 uuid: "d54f5640-9a46-4643-a76c-020603439c39"
 title: "set up proper openai custom gpt compatable oauth login flow"
 slug: "set-up-proper-openai-custom-gpt-compatable-oauth-login-flow"
-status: "rejected"
+status: "done"
 priority: "P3"
-tags: ["oauth", "openai", "custom", "gpt"]
-created_at: "2025-10-10T03:23:55.972Z"
+labels: ["oauth", "openai", "custom", "gpt"]
+created_at: "2025-10-11T01:03:40.887Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -78,6 +98,26 @@ Nothing
 - No active owner or unclear scope
 
 #breakdown
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

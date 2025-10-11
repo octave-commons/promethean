@@ -2,15 +2,35 @@
 uuid: "695632f6-8bb2-4051-bbbc-42dd6729fe8f"
 title: "phase out proxy in favor of bridge service"
 slug: "phase-out-proxy-in-favor-of-bridge-service"
-status: "rejected"
+status: "done"
 priority: "P3"
-tags: ["bridge", "proxy", "service", "phase"]
-created_at: "2025-10-10T03:23:55.972Z"
+labels: ["bridge", "proxy", "service", "phase"]
+created_at: "2025-10-11T01:03:32.223Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -77,6 +97,26 @@ Nothing
 ```
 #framework-core #Todo
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

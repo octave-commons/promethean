@@ -2,15 +2,35 @@
 uuid: "7ecab1fa-247e-4968-9352-5fd6c97f8eb2"
 title: "wrap writers with withdualwrite md"
 slug: "wrap_writers_with_withdualwrite"
-status: "rejected"
+status: "done"
 priority: "P3"
-tags: ["wrap", "writers", "withdualwrite", "unique"]
-created_at: "2025-10-10T03:23:55.972Z"
+labels: ["wrap", "writers", "withdualwrite", "unique"]
+created_at: "2025-10-11T01:03:41.284Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -41,6 +61,26 @@ Generated from ../unique/2025.08.08.20.08.52.md$../unique/2025.08.08.20.08.52.md
 
 
 #rejected
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -4,13 +4,32 @@ title: "Define backlog for new automation pipelines"
 slug: "Define backlog for new automation pipelines"
 status: "todo"
 priority: "P4"
-tags: ["pipelines", "planning"]
-created_at: "2025-10-10T03:23:55.970Z"
+labels: ["pipelines", "planning"]
+created_at: "2025-10-11T01:03:32.222Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -41,6 +60,25 @@ estimates:
 - `docs/promethean-pipelines.md` (or equivalent menu note)
 - `pipelines.json`
 - Piper documentation
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

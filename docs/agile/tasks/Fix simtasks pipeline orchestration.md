@@ -2,15 +2,35 @@
 uuid: "b9a688c4-5860-42e5-bee4-874dfeeaa739"
 title: "Fix simtasks pipeline orchestration"
 slug: "Fix simtasks pipeline orchestration"
-status: "todo"
+status: "ready"
 priority: "P2"
-tags: ["pipeline", "reliability"]
-created_at: "2025-10-10T03:23:55.970Z"
+labels: ["pipeline", "reliability"]
+created_at: "2025-10-11T01:03:32.221Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -42,6 +62,26 @@ estimates:
 - `packages/@promethean/simtasks`
 - Piper cache at `.cache/piper.level`
 - `docs/agile/pipelines/` for report examples
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

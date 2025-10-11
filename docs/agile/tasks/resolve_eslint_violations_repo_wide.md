@@ -2,15 +2,35 @@
 uuid: "137054cb-d7c9-4b0a-9aa9-5ce0425948db"
 title: "Resolve ESLint violations across repository"
 slug: "resolve_eslint_violations_repo_wide"
-status: "todo"
+status: "ready"
 priority: "P3"
-tags: ["eslint", "resolve", "violations", "across"]
-created_at: "2025-10-10T03:23:55.970Z"
+labels: ["eslint", "resolve", "violations", "across"]
+created_at: "2025-10-11T01:03:32.222Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -59,6 +79,26 @@ Multiple packages trigger ESLint errors such as `functional/prefer-immutable-typ
 - Some lint rules may require broader architectural changes; will document if encountered instead of over-scoping this slice.
 
 #Todo #codex-task #doc-this
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -2,15 +2,35 @@
 uuid: "57a44b9c-b4b8-4fef-8ba6-cfcd8649ada0"
 title: "use subscribepartitioned for cpu heavy consumers t md"
 slug: "use_subscribepartitioned_for_cpu_heavy_consumers_t"
-status: "rejected"
+status: "done"
 priority: "P3"
-tags: ["use", "subscribepartitioned", "cpu", "heavy"]
-created_at: "2025-10-10T03:23:55.972Z"
+labels: ["use", "subscribepartitioned", "cpu", "heavy"]
+created_at: "2025-10-11T01:03:41.283Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -41,6 +61,26 @@ Generated from ../unique/2025.08.08.20.08.56.md$../unique/2025.08.08.20.08.56.md
 
 
 #rejected
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

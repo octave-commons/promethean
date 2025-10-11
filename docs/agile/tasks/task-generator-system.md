@@ -2,15 +2,35 @@
 uuid: "fb14db8b-0d66-4f4a-a30d-d7ef8631ddef"
 title: "task generator system"
 slug: "task-generator-system"
-status: "rejected"
+status: "done"
 priority: "P3"
-tags: ["generator", "system", "template", "board"]
-created_at: "2025-10-10T03:23:55.972Z"
+labels: ["generator", "system", "template", "board"]
+created_at: "2025-10-11T01:03:40.887Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -91,6 +111,26 @@ Nothing
 The implementation adds only an Obsidian Templater file that relies on `tp` macros and `chatgpt-md` UI commands, so nothing can run headless, no automation adds the required status hashtags, and no tests or npm hooks were introduced.
 
 Suggested taskBuild a tested CLI task generator that meets the spec
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

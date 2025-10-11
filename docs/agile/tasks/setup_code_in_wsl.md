@@ -2,15 +2,35 @@
 uuid: "d35d985b-44c2-4b67-9228-bc2cb912df24"
 title: "setup code in wsl md"
 slug: "setup_code_in_wsl"
-status: "rejected"
+status: "done"
 priority: "P3"
-tags: ["setup", "code", "wsl", "out"]
-created_at: "2025-10-10T03:23:55.972Z"
+labels: ["setup", "code", "wsl", "out"]
+created_at: "2025-10-11T01:03:40.887Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -63,6 +83,26 @@ Nothing
 
 - [[kanban]]
 #accepted
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -1,16 +1,35 @@
 ---
 uuid: "2b28533b-0e70-4b18-80dc-1c8f96e24735"
-title: "Organize frontend packages under a subdirectory -core -core -core -core -core -core -core -core -core -core -core"
+title: "Organize frontend packages under a subdirectory -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core"
 slug: "organize-frontend-packages"
 status: "done"
 priority: "p3"
-tags: ["framework-core", "refactor"]
-created_at: "2025-10-10T03:23:55.971Z"
+labels: ["framework-core", "refactor"]
+created_at: "2025-10-11T01:03:32.223Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -69,6 +88,25 @@ Estimate: 5
 ## 🔍 Relevant Links
 
 - Pending PR once work is complete.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

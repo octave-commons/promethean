@@ -2,15 +2,35 @@
 uuid: "e4ec91c1-9c83-42a8-8f95-f3f15d8e8499"
 title: "expose metrics on an express app and scrape with p md"
 slug: "expose_metrics_on_an_express_app_and_scrape_with_p"
-status: "rejected"
+status: "done"
 priority: "P3"
-tags: ["expose", "metrics", "express", "app"]
-created_at: "2025-10-10T03:23:55.972Z"
+labels: ["expose", "metrics", "express", "app"]
+created_at: "2025-10-11T01:03:32.222Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -41,6 +61,26 @@ Generated from ../unique/2025.08.08.15.08.47.md$../unique/2025.08.08.15.08.47.md
 
 
 #rejected
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

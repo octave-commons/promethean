@@ -570,7 +570,90 @@ const respondWithCors = (reply: FastifyReply, status: number, payload: unknown):
 export const fastifyTransport = (opts?: { port?: number; host?: string }): Transport => {
   const port = opts?.port ?? Number(process.env.PORT ?? 3210);
   const host = opts?.host ?? process.env.HOST ?? '0.0.0.0';
+  const isVerboseLogging = process.env.MCP_VERBOSE_LOGGING === 'true' || process.env.MCP_DEBUG === 'true';
+
   const app = Fastify({ logger: false });
+
+  // Add comprehensive request logging middleware
+  if (isVerboseLogging) {
+    app.addHook('onRequest', async (request, _reply) => {
+      const timestamp = new Date().toISOString();
+      const requestId = Math.random().toString(36).substr(2, 9);
+
+      // Store request metadata for response logging
+      (request as any).requestId = requestId;
+      (request as any).requestStartTime = Date.now();
+
+      console.log(`\n🔍 [${timestamp}] [${requestId}] INCOMING REQUEST`);
+      console.log(`   Method: ${request.method}`);
+      console.log(`   URL: ${request.url}`);
+      console.log(`   Headers:`, JSON.stringify(request.headers, null, 2));
+      console.log(`   Query:`, JSON.stringify(request.query, null, 2));
+
+      // Log body for POST/PUT requests (be careful with sensitive data)
+      if (['POST', 'PUT', 'PATCH'].includes(request.method)) {
+        try {
+          const body = request.body;
+          if (body) {
+            if (Buffer.isBuffer(body)) {
+              const bodyStr = body.toString('utf8');
+              // Truncate large bodies
+              const displayBody = bodyStr.length > 500 ? bodyStr.substring(0, 500) + '...' : bodyStr;
+              console.log(`   Body (${body.length} bytes):`, displayBody);
+            } else if (typeof body === 'string') {
+              const displayBody = body.length > 500 ? body.substring(0, 500) + '...' : body;
+              console.log(`   Body (${body.length} chars):`, displayBody);
+            } else {
+              console.log(`   Body:`, JSON.stringify(body, null, 2));
+            }
+          } else {
+            console.log(`   Body: <empty>`);
+          }
+        } catch (error) {
+          console.log(`   Body: <could not parse body: ${(error as Error).message}>`);
+        }
+      }
+
+      console.log(`   Remote IP: ${request.ip}`);
+      console.log(`   User-Agent: ${request.headers['user-agent'] || '<unknown>'}`);
+    });
+
+    app.addHook('onResponse', async (request, reply) => {
+      const requestId = (request as any).requestId;
+      const startTime = (request as any).requestStartTime;
+      const duration = startTime ? Date.now() - startTime : 'unknown';
+      const timestamp = new Date().toISOString();
+
+      console.log(`\n📤 [${timestamp}] [${requestId}] RESPONSE`);
+      console.log(`   Status: ${reply.statusCode}`);
+      console.log(`   Duration: ${duration}ms`);
+      console.log(`   Response Headers:`, JSON.stringify(reply.getHeaders(), null, 2));
+
+      // Log response body for successful requests (sample only)
+      const contentType = reply.getHeader('content-type');
+      if (reply.statusCode < 300 && typeof contentType === 'string' && contentType.includes('application/json')) {
+        try {
+          // We can't easily access the response body here without buffering
+          // but we can note that a JSON response was sent
+          console.log(`   Response: JSON response sent`);
+        } catch (error) {
+          console.log(`   Response: <could not parse response: ${(error as Error).message}>`);
+        }
+      }
+
+      console.log(`═══════════════════════════════════════════════════════════════`);
+    });
+
+    app.addHook('onError', async (request, _reply, error) => {
+      const requestId = (request as any).requestId;
+      const timestamp = new Date().toISOString();
+
+      console.log(`\n❌ [${timestamp}] [${requestId}] ERROR`);
+      console.log(`   Error: ${(error as Error).message}`);
+      console.log(`   Stack: ${(error as Error).stack}`);
+      console.log(`═══════════════════════════════════════════════════════════════`);
+    });
+  }
 
   app.removeAllContentTypeParsers();
   app.addContentTypeParser(
@@ -1458,12 +1541,58 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
           }
         }
 
+      // Add catch-all route for 404 logging when verbose logging is enabled
+      if (isVerboseLogging) {
+        app.setNotFoundHandler(async (request, reply) => {
+          const requestId = (request as any).requestId || Math.random().toString(36).substr(2, 9);
+          const timestamp = new Date().toISOString();
+
+          console.log(`\n❌ [${timestamp}] [${requestId}] 404 NOT FOUND`);
+          console.log(`   Method: ${request.method}`);
+          console.log(`   URL: ${request.url}`);
+          console.log(`   Headers:`, JSON.stringify(request.headers, null, 2));
+          console.log(`   Query:`, JSON.stringify(request.query, null, 2));
+          console.log(`   Available endpoints:`);
+
+          // List all registered routes
+          const registeredRoutes: string[] = [];
+          for (const descriptor of normalized) {
+            registeredRoutes.push(`${descriptor.path} (${descriptor.kind})`);
+          }
+          registeredRoutes.push('/healthz');
+          registeredRoutes.push('/ui*');
+
+          registeredRoutes.forEach(route => {
+            console.log(`     - ${route}`);
+          });
+
+          // Send JSON response instead of default Fastify 404
+          reply.status(404).header('content-type', 'application/json').send({
+            error: 'Not Found',
+            message: `No route found for ${request.method} ${request.url}`,
+            availableEndpoints: registeredRoutes,
+            timestamp,
+          });
+
+          console.log(`═══════════════════════════════════════════════════════════════`);
+        });
+      }
+
         const listenOptions: FastifyListenOptions = { port, host };
         await app.listen(listenOptions);
         /* eslint-disable functional/immutable-data */
         activeProxies.push(...startedProxies);
         /* eslint-enable functional/immutable-data */
-        console.log(`[mcp:http] listening on http://${host}:${port}`);
+
+        if (isVerboseLogging) {
+          console.log(`\n🔍 MCP Verbose Logging Enabled`);
+          console.log(`🌐 Server listening on http://${host}:${port}`);
+          console.log(`📝 All requests will be logged with full details`);
+          console.log(`🚀 Use MCP_VERBOSE_LOGGING=true to enable, MCP_VERBOSE_LOGGING=false to disable\n`);
+        } else {
+          console.log(`[mcp:http] listening on http://${host}:${port}`);
+          console.log(`💡 Tip: Set MCP_VERBOSE_LOGGING=true to enable request logging`);
+        }
       } catch (error) {
         await Promise.allSettled(
           startedProxies.map(async (proxy) => {

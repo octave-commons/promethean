@@ -2,15 +2,35 @@
 uuid: "ad2b6f21-1a73-4682-96bb-f7ea7dd09cfa"
 title: "wrap event hub publish path with withschemavalidat md"
 slug: "wrap_event_hub_publish_path_with_withschemavalidat"
-status: "rejected"
+status: "done"
 priority: "P3"
-tags: ["wrap", "event", "hub", "publish"]
-created_at: "2025-10-10T03:23:55.972Z"
+labels: ["wrap", "event", "hub", "publish"]
+created_at: "2025-10-11T01:03:41.284Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -41,6 +61,26 @@ Generated from ../unique/2025.08.08.20.08.56.md$../unique/2025.08.08.20.08.56.md
 
 
 #rejected
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

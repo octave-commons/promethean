@@ -2,15 +2,35 @@
 uuid: "d21a00c1-6f9d-43d6-803c-71ab6134b85f"
 title: "add ollama formally to pipeline md md"
 slug: "add_ollama_formally_to_pipeline"
-status: "rejected"
+status: "done"
 priority: "P3"
-tags: ["add", "ollama", "formally", "pipeline"]
-created_at: "2025-10-10T03:23:55.971Z"
+labels: ["add", "ollama", "formally", "pipeline"]
+created_at: "2025-10-11T01:03:32.222Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -41,6 +61,26 @@ Generated from ../unique/2025.07.28.18.07.20.md$../unique/2025.07.28.18.07.20.md
 
 
 #rejected
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

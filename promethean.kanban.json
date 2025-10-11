@@ -47,21 +47,21 @@
   },
 
   "wipLimits": {
-    "icebox": 9999,
-    "incoming": 9999,
-    "accepted": 5,
-    "breakdown": 5,
+    "accepted": 21,
+    "breakdown": 13,
     "blocked": 3,
-    "ready": 10,
-    "todo": 20,
-    "in_progress": 10,
+    "ready": 55,
+    "todo": 25,
+    "in_progress": 13,
     "testing": 8,
-    "review": 6,
-    "document": 4,
+    "review": 8,
+    "document": 8,
     "done": 500,
-    "rejected": 20
+    "rejected": 20,
+    "icebox": 9999,
+    "incoming": 9999
   },
-  "_wip_rationale": "Updated for multi-agent development environment: 1 human + 6-18 AI agents. Review limit reflects human bandwidth for reviewing AI work. In-progress limit accommodates parallel AI agent work while maintaining flow constraints. See docs/agile/process.md 'Fluid Kanban Rule Evolution' section.",
+  "_wip_rationale": "Aligned to current targets for balanced flow: accepted(21), breakdown(13), blocked(3), ready(55), todo(25), in_progress(13), testing(8), review(8), document(8), done(500), rejected(20); icebox/incoming unbounded. Preserves strict FSM with practical WIP for multi-agent work.",
 
   "transitionRules": {
     "enabled": true,

@@ -2,15 +2,35 @@
 uuid: "83ec632a-3d28-440f-adb7-76496a95edd2"
 title: "2025.10.06.15.01.27"
 slug: "kanban-prioritize-subcommands"
-status: "breakdown"
+status: "accepted"
 priority: "P3"
-tags: ["kanban", "prioritize", "subcommands", "CLI", "task", "filtering", "ranking", "clustering", "score", "explain"]
-created_at: "2025-10-10T03:23:55.970Z"
+labels: ["kanban", "prioritize", "subcommands", "CLI", "task", "filtering", "ranking", "clustering", "score", "explain"]
+created_at: "2025-10-11T01:03:32.221Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -88,6 +108,26 @@ packages/kanban/
 ## Sources
 - _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

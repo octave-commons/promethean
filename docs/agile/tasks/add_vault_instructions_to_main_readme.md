@@ -2,15 +2,35 @@
 uuid: "7ce1467e-ca43-407e-bcc2-e7026ee9daf7"
 title: "add vault instructions to main readme md md md"
 slug: "add_vault_instructions_to_main_readme"
-status: "rejected"
+status: "done"
 priority: "P3"
-tags: ["add", "vault", "instructions", "main"]
-created_at: "2025-10-10T03:23:55.971Z"
+labels: ["add", "vault", "instructions", "main"]
+created_at: "2025-10-11T01:03:32.222Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -69,6 +89,26 @@ Vault usage instructions were added to `readme.md` alongside a reference to
 `vault-config/README.md`.
 ```
 #rejected
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -4,13 +4,32 @@ title: "jsonrpc-error-handling-2"
 slug: "jsonrpc-error-handling-2"
 status: "incoming"
 priority: "P3"
-tags: ["docops", "labeled"]
-created_at: "2025-10-10T03:23:55.969Z"
+labels: ["docops", "labeled"]
+created_at: "2025-10-11T01:03:32.221Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -59,6 +78,25 @@ Client error '404 Not Found' for url 'https://err-stealth-16-ai-studio-a1vgg.tai
 - [ ] Draft actionable subtasks from the summary
 - [ ] Define acceptance criteria
 - [ ] Link back to related labeled docs
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

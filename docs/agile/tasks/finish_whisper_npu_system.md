@@ -2,15 +2,35 @@
 uuid: "0f185d39-74a7-4856-b0db-068b29a998e5"
 title: "finish whisper npu system md md"
 slug: "finish_whisper_npu_system"
-status: "rejected"
+status: "done"
 priority: "P3"
-tags: ["npu", "whisper", "system", "finish"]
-created_at: "2025-10-10T03:23:55.972Z"
+labels: ["npu", "whisper", "system", "finish"]
+created_at: "2025-10-11T01:03:32.222Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -85,6 +105,26 @@ That’ll make it easier to slot into the Promethean pipeline.
 - No active owner or unclear scope
 
 #breakdown
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

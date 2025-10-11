@@ -4,13 +4,32 @@ title: "agent tasks persistence migration to dualstore"
 slug: "agent-tasks-persistence-migration-to-dualstore"
 status: "done"
 priority: "P3"
-tags: ["persistence", "dualstore", "agent", "tasks"]
-created_at: "2025-10-10T03:23:55.971Z"
+labels: ["persistence", "dualstore", "agent", "tasks"]
+created_at: "2025-10-11T01:03:32.222Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -144,6 +163,25 @@ estimates:
 - No active owner or unclear scope
 
 #breakdown
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

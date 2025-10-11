@@ -72,7 +72,9 @@ try {
 ### 4. Method Restrictions
 
 - **Registry endpoints**: Support POST, GET, DELETE (existing behavior)
-- **Proxy endpoints**: Support POST only (+ OPTIONS for CORS)
+- **Proxy endpoints**: Support POST, GET (+ OPTIONS for CORS)
+  - GET requests return health/discovery information
+  - POST requests handle JSON-RPC protocol
 
 ### 5. API Surface Changes
 
@@ -98,7 +100,7 @@ const ensureAcceptHeader = (headers: IncomingMessage['headers'], includeSse = tr
 
 1. **Breaking change** - Clients expecting SSE from proxy endpoints will no longer receive it
 2. **Stricter validation** - Previously tolerated invalid JSON now returns 400 errors
-3. **API reduction** - GET/DELETE requests to proxy endpoints now return 404 instead of being routed
+3. **GET request behavior change** - GET requests to proxy endpoints now return health info instead of 404
 
 ### Neutral
 

@@ -4,13 +4,32 @@ title: "cephalon store user transcripts unified"
 slug: "cephalon_store_user_transcripts_unified"
 status: "incoming"
 priority: "P3"
-tags: ["user", "cephalon", "store", "transcripts"]
-created_at: "2025-10-10T03:23:55.969Z"
+labels: ["user", "cephalon", "store", "transcripts"]
+created_at: "2025-10-11T01:03:32.220Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -33,6 +52,25 @@ Exit Criteria:
 - Test exercising both scopes with a fake transcript and asserting Mongo insert.
 
 #incoming #cephalon #transcripts #persistence
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -4,13 +4,32 @@ title: "scripts group docs utilities"
 slug: "scripts_group_docs_utilities"
 status: "incoming"
 priority: "P3"
-tags: ["stabilization"]
-created_at: "2025-10-10T03:23:55.970Z"
+labels: ["stabilization"]
+created_at: "2025-10-11T01:03:32.221Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -38,6 +57,25 @@ Exit Criteria:
 - README exists with usage and env notes.
 
 #incoming #scripts #docs #organization
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

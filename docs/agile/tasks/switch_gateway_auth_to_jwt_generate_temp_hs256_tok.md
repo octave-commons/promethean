@@ -2,15 +2,35 @@
 uuid: "469ea721-b00c-4752-b3ad-9e85bd1f9ff9"
 title: "switch gateway auth to jwt generate temp hs256 tok md"
 slug: "switch_gateway_auth_to_jwt_generate_temp_hs256_tok"
-status: "rejected"
+status: "done"
 priority: "P3"
-tags: ["switch", "gateway", "auth", "jwt"]
-created_at: "2025-10-10T03:23:55.972Z"
+labels: ["switch", "gateway", "auth", "jwt"]
+created_at: "2025-10-11T01:03:40.887Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -41,6 +61,26 @@ Generated from ../unique/2025.08.08.19.08.49.md$../unique/2025.08.08.19.08.49.md
 
 
 #rejected
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

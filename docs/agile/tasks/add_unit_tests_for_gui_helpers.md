@@ -2,15 +2,35 @@
 uuid: "71a16cd2-8c1a-4285-90a1-d7a85b0d1af0"
 title: "add unit tests for gui helpers md md"
 slug: "add_unit_tests_for_gui_helpers"
-status: "rejected"
+status: "done"
 priority: "P3"
-tags: ["gui", "helpers", "add", "unit"]
-created_at: "2025-10-10T03:23:55.971Z"
+labels: ["gui", "helpers", "add", "unit"]
+created_at: "2025-10-11T01:03:32.222Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -61,6 +81,26 @@ Nothing
 - [Untested modules]../../untested-code.md
 
 #archive
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

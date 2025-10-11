@@ -1,0 +1,57 @@
+---
+uuid: "80bf4f56-c63b-490f-99ea-5187435fc4c4"
+title: "Deprecate dev.mjs and ensure-lockfile.mjs"
+slug: "Deprecate dev.mjs and ensure-lockfile.mjs"
+status: "incoming"
+priority: "P2"
+labels: ["deprecation", "cleanup", "pnpm", "workspace"]
+created_at: "2025-10-11T01:03:32.220Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Remove scripts/dev.mjs (use 'pnpm --filter <package> dev') and scripts/ensure-lockfile.mjs (use 'pnpm install --lockfile-only'). These scripts duplicate native pnpm workspace functionality. Update AGENTS.md and documentation to use pnpm commands directly.
+
+## ⛓️ Blocked By
+
+Nothing
+
+
+
+## ⛓️ Blocks
+
+Nothing
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

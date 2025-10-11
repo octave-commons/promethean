@@ -1,16 +1,36 @@
 ---
-uuid: "vision-service-migration"
+uuid: "b4f92b27-9cba-441c-9797-4b2f1652c98b"
 title: "Migrate vision service to TypeScript"
 slug: "migrate-vision-service-to-ts"
-status: "breakdown"
+status: "accepted"
 priority: "P3"
-tags: ["board", "lang"]
-created_at: "2025-10-08T00:00:00.000Z"
+labels: ["board", "lang"]
+created_at: "2025-10-11T01:03:32.221Z"
 estimates:
-  complexity: 4
-  scale: 3
-  time_to_completion: "6 hours"
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Migrate vision service to TypeScript
 
@@ -31,3 +51,23 @@ Migrate the legacy vision JavaScript service to TypeScript under the new package
 - [ ] Vision functionality preserved
 - [ ] Proper types for image processing interfaces
 - [ ] Tests updated and passing
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

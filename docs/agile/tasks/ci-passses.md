@@ -4,13 +4,32 @@ title: "Description"
 slug: "ci-passses"
 status: "icebox"
 priority: "P3"
-tags: ["description", "step", "useful", "describe"]
-created_at: "2025-10-10T03:23:55.968Z"
+labels: ["description", "step", "useful", "describe"]
+created_at: "2025-10-11T01:03:32.219Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -40,6 +59,25 @@ You might find [this] useful while working on this task
 ## Comments
 
 Useful for agents to engage in append only conversations about this task.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

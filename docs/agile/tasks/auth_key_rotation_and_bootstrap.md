@@ -4,13 +4,32 @@ title: "auth key rotation and bootstrap"
 slug: "auth_key_rotation_and_bootstrap"
 status: "incoming"
 priority: "P3"
-tags: ["rotation", "bootstrap", "auth", "key"]
-created_at: "2025-10-10T03:23:55.969Z"
+labels: ["rotation", "bootstrap", "auth", "key"]
+created_at: "2025-10-11T01:03:32.220Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -32,6 +51,25 @@ Exit Criteria:
 - Rotation works without downtime; old tokens valid until expiry; new tokens issued with new kid.
 
 #incoming #auth #security #rotation
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

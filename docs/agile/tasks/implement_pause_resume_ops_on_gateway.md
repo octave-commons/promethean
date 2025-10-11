@@ -2,15 +2,35 @@
 uuid: "4508b108-1326-43bf-b58b-06883f70c9fc"
 title: "implement pause resume ops on gateway md"
 slug: "implement_pause_resume_ops_on_gateway"
-status: "rejected"
+status: "done"
 priority: "P3"
-tags: ["implement", "pause", "resume", "ops"]
-created_at: "2025-10-10T03:23:55.972Z"
+labels: ["implement", "pause", "resume", "ops"]
+created_at: "2025-10-11T01:03:32.223Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -41,6 +61,26 @@ Generated from ../unique/2025.08.08.19.08.25.md$../unique/2025.08.08.19.08.25.md
 
 
 #rejected
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

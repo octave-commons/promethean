@@ -4,13 +4,32 @@ title: "auth ci and load tests"
 slug: "auth_ci_and_load_tests"
 status: "incoming"
 priority: "P3"
-tags: ["auth", "tests", "load", "testing"]
-created_at: "2025-10-10T03:23:55.969Z"
+labels: ["auth", "tests", "load", "testing"]
+created_at: "2025-10-11T01:03:32.220Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -31,6 +50,25 @@ Exit Criteria:
 - CI green; performance baseline recorded in docs.
 
 #incoming #auth #testing #performance
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

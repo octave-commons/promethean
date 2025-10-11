@@ -1,16 +1,35 @@
 ---
 uuid: "7a1a45fb-51d3-4d7b-b143-3834cf8aad3c"
-title: "Shadow CLJS migration — step 1 foundation -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task"
+title: "Shadow CLJS migration — step 1 foundation -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task"
 slug: "shadow-cljs-migration-step-1-foundation"
 status: "in_progress"
 priority: "P2"
-tags: ["framework-core", "codex-task", "frontend"]
-created_at: "2025-10-10T03:23:55.970Z"
+labels: ["framework-core", "codex-task", "frontend"]
+created_at: "2025-10-11T01:03:32.222Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -76,6 +95,25 @@ Estimate: 5
 ## Notes
 - 2025-10-03: Initial Shadow-CLJS scaffolding committed (build targets, scripts, shared package).
 - 2025-10-03: `shadow-cljs release` invocation blocked by Maven network access in sandbox; see session logs.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

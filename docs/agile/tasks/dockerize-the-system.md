@@ -2,15 +2,35 @@
 uuid: "a470c992-509f-48f8-9d6b-cfb6285dc67c"
 title: "dockerize the system"
 slug: "dockerize-the-system"
-status: "rejected"
+status: "done"
 priority: "P3"
-tags: ["system", "dockerize", "services", "docker"]
-created_at: "2025-10-10T03:23:55.972Z"
+labels: ["system", "dockerize", "services", "docker"]
+created_at: "2025-10-11T01:03:32.222Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -69,6 +89,26 @@ Nothing
 - [[kanban]]
 
 #devops #Ready
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

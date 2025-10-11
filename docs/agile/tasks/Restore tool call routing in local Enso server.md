@@ -4,13 +4,32 @@ title: "restore tool call routing in local enso server"
 slug: "Restore tool call routing in local Enso server"
 status: "incoming"
 priority: "P1"
-tags: ["cephalon", "tests"]
-created_at: "2025-10-10T03:23:55.969Z"
+labels: ["cephalon", "tests"]
+created_at: "2025-10-11T01:03:32.220Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -32,6 +51,25 @@ response and time out.
 - Add regression coverage that fails if tool calls are not forwarded.
 
 #incoming #enso #cephalon #tests
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

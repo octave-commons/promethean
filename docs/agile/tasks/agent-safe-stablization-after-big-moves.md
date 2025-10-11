@@ -4,13 +4,32 @@ title: "<verb> <thing> <qualifier> :auto :ts"
 slug: "agent-safe-stablization-after-big-moves"
 status: "todo"
 priority: "p3"
-tags: ["board", "lang"]
-created_at: "2025-10-10T03:23:55.970Z"
+labels: ["board", "lang"]
+created_at: "2025-10-11T01:03:32.222Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -279,6 +298,25 @@ If you want, I can convert this into a one-shot `stabilize-local.sh` that implem
 
 \#precommit #stabilization #monorepo #typescript #python #hy #agents #safety #playbook
 #accepted
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

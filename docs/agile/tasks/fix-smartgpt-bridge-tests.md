@@ -4,13 +4,32 @@ title: "Fix hanging SmartGPT bridge tests /TASK-20250928-041600 /kanban /InProgr
 slug: "fix-smartgpt-bridge-tests"
 status: "done"
 priority: "p2"
-tags: ["task", "board", "state", "owner", "priority", "epic", "lang"]
-created_at: "2025-10-10T03:23:55.971Z"
+labels: ["task", "board", "state", "owner", "priority", "epic", "lang"]
+created_at: "2025-10-11T01:03:32.223Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -68,6 +87,25 @@ if (mms) await mms.stop();
 ```
 
 **Test Results**: All SmartGPT bridge tests now complete successfully without hanging. Verified with multiple test runs.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

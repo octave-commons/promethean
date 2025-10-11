@@ -2,15 +2,35 @@
 uuid: "02eeb8bd-1053-40b4-a213-8db02d7aa526"
 title: "extract docs from riatzukiza github io md md"
 slug: "extract_docs_from_riatzukiza_github_io"
-status: "rejected"
+status: "done"
 priority: "P3"
-tags: ["docs", "riatzukiza", "github", "extract"]
-created_at: "2025-10-10T03:23:55.972Z"
+labels: ["docs", "riatzukiza", "github", "extract"]
+created_at: "2025-10-11T01:03:32.222Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -62,6 +82,26 @@ Nothing
 ## 🔍 Relevant Links
 - [[kanban]]
 #accepted
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

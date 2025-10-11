@@ -2,15 +2,35 @@
 uuid: "2d9a38db-a0cc-4939-9e30-c38497da6745"
 title: "Description"
 slug: "script-for-getting-github-action-workflow-states-for-a-branch"
-status: "rejected"
+status: "done"
 priority: "P3"
-tags: ["description", "status", "script", "github"]
-created_at: "2025-10-10T03:23:55.972Z"
+labels: ["description", "status", "script", "github"]
+created_at: "2025-10-11T01:03:40.887Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -50,6 +70,26 @@ Useful for agents to engage in append only conversations about this task.
 
 ## Blockers
 - No active owner or unclear scope
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

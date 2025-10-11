@@ -205,6 +205,94 @@ The kanban system automatically resolves paths correctly from any subdirectory. 
 
 ---
 
+## 🤖 MCP (Model Context Protocol)
+
+All agents have access to the unified MCP server providing 70+ development tools via HTTP and stdio transports.
+
+### 🎯 Core MCP Commands
+
+```bash
+# === MCP SERVER MANAGEMENT ===
+pnpm --filter @promethean/mcp dev                    # Start HTTP server
+pnpm --filter @promethean/mcp dev -- --config ./config.json  # Custom config
+pnpm --filter @promethean/mcp build                  # Build MCP package
+
+# === DEV UI ===
+pnpm --filter @promethean/mcp-dev-ui build           # Build UI once
+pnpm --filter @promethean/mcp-dev-ui watch           # Watch mode during development
+
+# === PROXY MANAGEMENT ===
+promethean-mcp-proxy                                 # Stdio proxy CLI
+```
+
+### 🔧 Essential MCP Tools
+
+**File System:**
+
+- `files_view_file` - Read file contents
+- `files_write_content` - Write files
+- `files_search` - Search file contents
+
+**Kanban Integration:**
+
+- `kanban_get_board` - Load kanban board
+- `kanban_update_status` - Move tasks between columns
+- `kanban_search` - Search tasks
+
+**GitHub Automation:**
+
+- `github_pr_get` - Get pull request details
+- `github_pr_review_start` - Start code review
+- `github_apply_patch` - Apply patches via GraphQL
+
+**Development Tools:**
+
+- `pnpm_install` - Package management
+- `tdd_run_tests` - Test execution
+- `exec_run` - Allowlisted command execution
+
+### 🌐 MCP Endpoints
+
+```bash
+# Default MCP endpoint
+http://localhost:3000/mcp
+
+# Specialized endpoints
+http://localhost:3000/github       # GitHub tools
+http://localhost:3000/files        # File system tools
+http://localhost:3000/ui           # Interactive Dev UI
+```
+
+### 📝 MCP Configuration
+
+Create `promethean.mcp.json` in repo root:
+
+```json
+{
+  "transport": "http",
+  "tools": ["files_view_file", "kanban_get_board", "github_request"],
+  "endpoints": {
+    "github": { "tools": ["github_request", "github_graphql"] },
+    "kanban": { "tools": ["kanban_get_board", "kanban_update_status"] }
+  }
+}
+```
+
+### 🔄 Agent Workflow with MCP
+
+1. **Start MCP**: `pnpm --filter @promethean/mcp dev`
+2. **Explore Tools**: Visit `http://localhost:3000/ui`
+3. **Use in Code**: MCP tools available via AI assistant integration
+4. **Automate Workflows**: Combine tools for complex operations
+
+### 📚 MCP Documentation
+
+- **Complete Reference**: `docs/agile/mcp-reference.md`
+- **Configuration Guide**: See MCP section below
+- **Tool Catalog**: 70+ tools documented in reference
+
+---
+
 ## 🚀 Agent Launch Workflows
 
 ### Standardized Launch Commands

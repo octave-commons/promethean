@@ -65,6 +65,129 @@ All kanban commands work from **any directory** in the repository. The CLI autom
 - **Process Documentation**: `docs/agile/process.md`
 - **Agent Guidelines**: `AGENTS.md`
 
+---
+
+## 🤖 MCP (Model Context Protocol)
+
+Claude has access to 70+ development tools via the unified MCP server for enhanced workflow automation.
+
+### 🚀 Quick Start
+
+```bash
+# Start MCP server (HTTP transport)
+pnpm --filter @promethean/mcp dev
+
+# Access interactive UI
+http://localhost:3000/ui
+
+# Start with custom config
+pnpm --filter @promethean/mcp dev -- --config ./my-mcp.json
+```
+
+### 🔧 Essential Tools for Claude
+
+**File Operations:**
+
+```javascript
+// Read file
+await mcp.call('files_view_file', { path: 'README.md' });
+
+// Write file
+await mcp.call('files_write_content', { path: 'file.txt', content: 'Hello' });
+
+// Search code
+await mcp.call('files_search', { pattern: 'function', path: 'src' });
+```
+
+**Kanban Integration:**
+
+```javascript
+// Get board state
+await mcp.call('kanban_get_board', {});
+
+// Update task status
+await mcp.call('kanban_update_status', { uuid: 'abc-123', status: 'done' });
+
+// Search tasks
+await mcp.call('kanban_search', { query: 'bug fix' });
+```
+
+**GitHub Automation:**
+
+```javascript
+// Get PR details
+await mcp.call('github_pr_get', { owner: 'user', repo: 'repo', number: 123 });
+
+// Start review
+await mcp.call('github_pr_review_start', { pullRequestId: 'PR_NODE_ID' });
+
+// Apply patch
+await mcp.call('github_apply_patch', {
+  owner: 'user',
+  repo: 'repo',
+  branch: 'main',
+  patch: 'diff',
+});
+```
+
+**Package Management:**
+
+```javascript
+// Install dependencies
+await mcp.call('pnpm_install', { filter: '@promethean/core' });
+
+// Add package
+await mcp.call('pnpm_add', { packages: ['lodash'], filter: '@promethean/core' });
+
+// Run script
+await mcp.call('pnpm_run_script', { script: 'build', filter: '@promethean/core' });
+```
+
+### 🌐 Available Endpoints
+
+- **`/mcp`** - Default endpoint with core tools
+- **`/github`** - GitHub-specific tools (REST + GraphQL)
+- **`/files`** - File system operations
+- **`/ui`** - Interactive tool exploration UI
+
+### 📝 Minimal Configuration
+
+Create `promethean.mcp.json`:
+
+```json
+{
+  "transport": "http",
+  "tools": [
+    "files_view_file",
+    "files_write_content",
+    "kanban_get_board",
+    "kanban_update_status",
+    "github_request"
+  ]
+}
+```
+
+### 🔍 Claude Workflow Integration
+
+1. **File Analysis**: Read and understand code structure
+2. **Kanban Management**: Track and update task progress
+3. **GitHub Operations**: PR reviews, issue management
+4. **Build Automation**: Package management and testing
+5. **Documentation**: Generate and update docs
+
+### 🛠️ Advanced Features
+
+**Stdio Proxies:** External MCP servers via HTTP bridge
+**Dev UI:** Interactive tool testing at `http://localhost:3000/ui`
+**Multi-endpoint:** Specialized toolsets per endpoint
+**Security:** Command allowlist and path validation
+
+### 📚 MCP Documentation
+
+- **Complete Reference**: `docs/agile/mcp-reference.md`
+- **Tool Catalog**: 70+ tools with examples
+- **Configuration Guide**: JSON and EDN setup options
+
 ## Build System & Commands
 
 ### Core Commands

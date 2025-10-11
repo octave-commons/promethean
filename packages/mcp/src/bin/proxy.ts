@@ -171,7 +171,24 @@ const main = async () => {
 
     const url = new URL(req.url, `http://${req.headers.host ?? "localhost"}`);
     const pathname = normalizeRoute(url.pathname);
-    const proxy = routeMap.get(pathname);
+
+    // Try exact match first
+    let proxy = routeMap.get(pathname);
+
+    // If no exact match, fall back to longest prefix match so subpaths work
+    if (!proxy) {
+      let bestRoute: string | null = null;
+      for (const route of routeMap.keys()) {
+        if (pathname === route || pathname.startsWith(route + '/')) {
+          if (bestRoute === null || route.length > bestRoute.length) {
+            bestRoute = route;
+          }
+        }
+      }
+      if (bestRoute) {
+        proxy = routeMap.get(bestRoute)!;
+      }
+    }
 
     if (!proxy) {
       res

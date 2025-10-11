@@ -2,15 +2,35 @@
 uuid: "aa135028-70f3-4569-a969-915bf857ecaf"
 title: "Task: ChatGPT Export Ingest with De‑dup Index & Hashes"
 slug: "chatgpt-export-injest-with-dedupe-index-and-hashes"
-status: "rejected"
+status: "done"
 priority: "P3"
-tags: ["chatgpt", "export", "ingest", "index"]
-created_at: "2025-10-10T03:23:55.972Z"
+labels: ["chatgpt", "export", "ingest", "index"]
+created_at: "2025-10-11T01:03:32.222Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -252,6 +272,26 @@ pnpm tsx src/cli.ts --export ~/Downloads/chatgpt-export \
 - No active owner or unclear scope
 
 #breakdown
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

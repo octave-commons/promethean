@@ -4,13 +4,32 @@ title: "fix makefile test target md"
 slug: "fix_makefile_test_target"
 status: "done"
 priority: "P3"
-tags: ["test", "target", "makefile", "tests"]
-created_at: "2025-10-10T03:23:55.971Z"
+labels: ["test", "target", "makefile", "tests"]
+created_at: "2025-10-11T01:03:32.223Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -60,6 +79,25 @@ Nothing
 ## 🔍 Relevant Links
 - [[kanban]]
 #done
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

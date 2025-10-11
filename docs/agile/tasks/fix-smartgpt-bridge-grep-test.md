@@ -2,15 +2,35 @@
 uuid: "99ee9a9f-a7b5-489d-9eba-5de75e6840ab"
 title: "Fix SmartGPT Bridge grep parity with ripgrep /TASK-20241120-grepfix /kanban /InProgress /gpt /p2 /EPC-000 :auto :ts"
 slug: "fix-smartgpt-bridge-grep-test"
-status: "ready"
+status: "blocked"
 priority: "p2"
-tags: ["task", "board", "state", "owner", "priority", "epic", "lang"]
-created_at: "2025-10-10T03:23:55.970Z"
+labels: ["task", "board", "state", "owner", "priority", "epic", "lang"]
+created_at: "2025-10-11T01:03:32.221Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -49,6 +69,26 @@ estimates:
 
 - ripgrep manual: <https://github.com/BurntSushi/ripgrep>
 - Ava docs: <https://github.com/avajs/ava>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

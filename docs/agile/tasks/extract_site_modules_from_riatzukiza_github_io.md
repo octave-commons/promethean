@@ -2,15 +2,35 @@
 uuid: "44157ed4-2b52-4573-90aa-2b1a4cd1ecf6"
 title: "extract site modules from riatzukiza github io md md"
 slug: "extract_site_modules_from_riatzukiza_github_io"
-status: "rejected"
+status: "done"
 priority: "P3"
-tags: ["site", "riatzukiza", "github", "extract"]
-created_at: "2025-10-10T03:23:55.972Z"
+labels: ["site", "riatzukiza", "github", "extract"]
+created_at: "2025-10-11T01:03:32.222Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -68,6 +88,26 @@ Nothing
 
 - [[kanban]]
   #accepted
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

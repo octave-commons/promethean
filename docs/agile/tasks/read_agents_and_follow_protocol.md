@@ -1,0 +1,92 @@
+---
+uuid: "2f6d7a64-9b37-4c96-b4a0-2a8d3e9fd2ab"
+title: "read agents and follow protocol"
+slug: "read_agents_and_follow_protocol"
+status: "done"
+priority: "P3"
+labels: ["governance", "protocol", "agents", "onboarding"]
+created_at: "2025-10-11T01:03:32.223Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## 🛠️ Task: Read AGENTS.md and follow protocol
+
+Read the root governance doc (**AGENTS.md**) and immediately align this session to its requirements. Create a traceable task (this file), capture scope/acceptance, and record artifacts per **docs/agile/process.md**.
+
+---
+
+## 🎯 Goals
+- Confirm coding + working style mandates from **AGENTS.md**.
+- Adopt the **Kanban FSM** flow; avoid off-board work.
+- Produce evidence of compliance (this task + changelog entry).
+
+---
+
+## 📦 Requirements
+- [x] Locate and read `AGENTS.md`.
+- [x] Locate and read `docs/agile/process.md`.
+- [x] Create a task documenting the compliance action.
+- [x] Add a `changelog.d` entry summarizing the action.
+
+---
+
+## ✅ Acceptance Criteria
+- This task exists under `docs/agile/tasks/` with status **done**.
+- Changelog contains a dated note referencing this task.
+- Next work will be associated to an existing Kanban task or a new one created via template/CLI, not by editing the generated board.
+
+---
+
+## 📋 Notes
+- Key mandates captured: functional TS, immutability, TDD, document-driven dev; avoid config edits unless asked; small auditable changes; use eslint + ts-lsp.
+- Kanban commands are documented in **AGENTS.md**; we did not run CLI here, only created the source task per process.
+
+---
+
+## 🔗 Related
+- [[kanban]]
+- `AGENTS.md`
+- `docs/agile/process.md`
+
+#done
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

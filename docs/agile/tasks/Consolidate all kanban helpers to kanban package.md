@@ -4,13 +4,32 @@ title: "consolidate all kanban helpers to kanban package"
 slug: "Consolidate all kanban helpers to kanban package"
 status: "incoming"
 priority: "P3"
-tags: ["kanban", "all", "scripts", "consolidate"]
-created_at: "2025-10-10T03:23:55.969Z"
+labels: ["kanban", "all", "scripts", "consolidate"]
+created_at: "2025-10-11T01:03:32.220Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -32,6 +51,25 @@ Exit Criteria:
 - All Kanban scripts consolidated; README accurate; sample commands tested.
 
 #incoming #scripts #kanban #organization
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

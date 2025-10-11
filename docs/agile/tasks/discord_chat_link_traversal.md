@@ -2,15 +2,35 @@
 uuid: "2eac8af8-2083-408e-ac4a-ceb334e2e32a"
 title: "discord chat link traversal md md"
 slug: "discord_chat_link_traversal"
-status: "rejected"
+status: "done"
 priority: "P3"
-tags: ["discord", "chat", "link", "traversal"]
-created_at: "2025-10-10T03:23:55.972Z"
+labels: ["discord", "chat", "link", "traversal"]
+created_at: "2025-10-11T01:03:32.222Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -62,6 +82,26 @@ Nothing
 
 - [[kanban]]
 #IceBox
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

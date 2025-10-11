@@ -4,13 +4,32 @@ title: "add docker compose files to services"
 slug: "add-docker-compose-files-to-services"
 status: "icebox"
 priority: "p3"
-tags: ["add", "docker", "compose", "files"]
-created_at: "2025-10-10T03:23:55.968Z"
+labels: ["add", "docker", "compose", "files"]
+created_at: "2025-10-11T01:03:32.219Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -27,6 +46,25 @@ though I keep thinking about this...
 most of the time a service is a thing that is running by its self, and there is only 1 of them (or a cluster of splinters) 
 
 Why did I split everything up in the first place...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

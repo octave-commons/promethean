@@ -1,16 +1,35 @@
 ---
 uuid: "f4e15fe7-e616-4e34-94a6-a4ca655f4f4c"
-title: "Fix `@promethean/ui-components` lint failures -task -task -task -task -task"
+title: "Fix `@promethean/ui-components` lint failures -task -task -task -task -task -task -task -task -task -task -task -task -task -task -task -task -task -task -task -task -task -task -task -task -task -task"
 slug: "fix_ui_components_lint"
-status: "in-progress"
+status: "in_progress"
 priority: "P2"
-tags: ["codex-task"]
-created_at: "2025-10-10T03:23:55.970Z"
+labels: ["codex-task"]
+created_at: "2025-10-11T01:03:32.222Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -50,6 +69,25 @@ estimates:
 - Added `.nxignore` to exclude the duplicate `packages/kanban-cli` stub so the Nx project graph resolves and allows lint runs.
 - `pnpm nx run @promethean/ui-components:lint` still fails with ESLint error on `ava.config.mjs` file.
 - Issue: ESLint config only covers `**/*.{ts,tsx}` files but lint script runs `eslint .` which includes all files.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

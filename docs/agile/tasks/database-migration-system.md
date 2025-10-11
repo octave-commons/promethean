@@ -2,15 +2,35 @@
 uuid: "58399a92-d702-4529-9fc8-7eb32bd2a567"
 title: "Description"
 slug: "database-migration-system"
-status: "rejected"
+status: "done"
 priority: "P3"
-tags: ["description", "migration", "data", "stores"]
-created_at: "2025-10-10T03:23:55.972Z"
+labels: ["description", "migration", "data", "stores"]
+created_at: "2025-10-11T01:03:32.222Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -50,6 +70,26 @@ Useful for agents to engage in append only conversations about this task.
 
 ## Blockers
 - No active owner or unclear scope
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -2,15 +2,35 @@
 uuid: "9061fb44-92a0-4799-a40d-420dd395577c"
 title: "ensure github compatible markdown settings are doc md"
 slug: "ensure_github_compatible_markdown_settings_are_doc"
-status: "rejected"
+status: "done"
 priority: "P3"
-tags: ["github", "markdown", "settings", "ensure"]
-created_at: "2025-10-10T03:23:55.972Z"
+labels: ["github", "markdown", "settings", "ensure"]
+created_at: "2025-10-11T01:03:32.222Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -61,6 +81,26 @@ Nothing
 ## 🔍 Relevant Links
 - [[kanban]]
 #rejected
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

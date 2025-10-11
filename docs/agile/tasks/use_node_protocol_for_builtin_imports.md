@@ -2,15 +2,35 @@
 uuid: "77011385-81b7-42aa-9137-cd522a63910e"
 title: "Use `node:` protocol for builtin imports"
 slug: "use_node_protocol_for_builtin_imports"
-status: "todo"
+status: "ready"
 priority: "P3"
-tags: ["node", "imports", "use", "protocol"]
-created_at: "2025-10-10T03:23:55.971Z"
+labels: ["node", "imports", "use", "protocol"]
+created_at: "2025-10-11T01:03:32.222Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -36,6 +56,26 @@ Biome flagged `useNodejsImportProtocol` violations where Node.js builtins like `
 ```
 #Todo #codex-task
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

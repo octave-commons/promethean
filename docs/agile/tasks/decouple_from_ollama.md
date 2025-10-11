@@ -2,15 +2,35 @@
 uuid: "b543e648-991c-4365-8d76-280c60c2c31e"
 title: "decouple from ollama md"
 slug: "decouple_from_ollama"
-status: "rejected"
+status: "done"
 priority: "P3"
-tags: ["ollama", "system", "decouple", "llm"]
-created_at: "2025-10-10T03:23:55.972Z"
+labels: ["ollama", "system", "decouple", "llm"]
+created_at: "2025-10-11T01:03:32.222Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -70,6 +90,26 @@ Nothing
 
 - [[kanban]]
 #ready
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

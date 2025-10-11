@@ -4,13 +4,32 @@ title: "Resolve Biome lint errors in compiler package"
 slug: "resolve_biome_lint_errors_in_compiler"
 status: "todo"
 priority: "P3"
-tags: ["biome", "lint", "errors", "compiler"]
-created_at: "2025-10-10T03:23:55.970Z"
+labels: ["biome", "lint", "errors", "compiler"]
+created_at: "2025-10-11T01:03:32.222Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -40,6 +59,25 @@ estimates:
 ```
 #Todo #codex-task
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -2,15 +2,35 @@
 uuid: "51e0f7e8-87ab-4b8d-b20c-b0dfc34d891d"
 title: "add lag checks to ci smoke ensure small lag after md"
 slug: "add_lag_checks_to_ci_smoke_ensure_small_lag_after"
-status: "rejected"
+status: "done"
 priority: "P3"
-tags: ["lag", "add", "checks", "smoke"]
-created_at: "2025-10-10T03:23:55.971Z"
+labels: ["lag", "add", "checks", "smoke"]
+created_at: "2025-10-11T01:03:32.222Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -41,6 +61,26 @@ Generated from ../unique/2025.08.08.19.08.49.md$../unique/2025.08.08.19.08.49.md
 
 
 #rejected
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

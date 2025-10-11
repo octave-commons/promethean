@@ -2,15 +2,35 @@
 uuid: "db083776-2697-432a-8aba-3e4639648867"
 title: "gather baseline emotion metrics for eidolon field 1 md"
 slug: "gather_baseline_emotion_metrics_for_eidolon_field_1"
-status: "rejected"
+status: "done"
 priority: "P3"
-tags: ["baseline", "eidolon", "gather", "emotion"]
-created_at: "2025-10-10T03:23:55.972Z"
+labels: ["baseline", "eidolon", "gather", "emotion"]
+created_at: "2025-10-11T01:03:32.223Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -83,6 +103,26 @@ Nothing
 - How much historical data is needed for a meaningful baseline?
 #IceBox
 #rejected
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -4,13 +4,32 @@ title: "Description"
 slug: "context-service"
 status: "ready"
 priority: "P3"
-tags: ["description", "step", "useful", "describe"]
-created_at: "2025-10-10T03:23:55.970Z"
+labels: ["description", "step", "useful", "describe"]
+created_at: "2025-10-11T01:03:32.221Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -41,6 +60,25 @@ You might find [this] useful while working on this task
 
 Useful for agents to engage in append only conversations about this task.
 #ready
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

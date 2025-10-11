@@ -1,16 +1,35 @@
 ---
 uuid: "d0e1f2a3-b4c5-6789-def0-234567890123"
-title: "Fix test-gap pipeline missing coverage and incorrect package scanning  -gap -reports -scanning  -gap -reports -scanning  -gap -reports -scanning  -gap -reports -scanning  -gap -reports -scanning  -gap -reports -scanning  -gap -reports -scanning"
+title: "Fix test-gap pipeline missing coverage and incorrect package scanning  -gap -reports -scanning  -gap -reports -scanning  -gap -reports -scanning  -gap -reports -scanning  -gap -reports -scanning  -gap -reports -scanning  -gap -reports -scanning  -gap -reports -scanning  -gap -reports -scanning  -gap -reports -scanning  -gap -reports -scanning  -gap -reports -scanning  -gap -reports -scanning  -gap -reports -scanning  -gap -reports -scanning  -gap -reports -scanning  -gap -reports -scanning  -gap -reports -scanning  -gap -reports -scanning  -gap -reports -scanning  -gap -reports -scanning  -gap -reports -scanning  -gap -reports -scanning  -gap -reports -scanning  -gap -reports -scanning  -gap -reports -scanning  -gap -reports -scanning  -gap -reports -scanning"
 slug: "fix-test-gap-pipeline-missing-coverage-and-incorrect-package-scanning"
 status: "done"
 priority: "P2"
-tags: ["piper", "test-gap", "coverage-reports", "package-scanning", "testing"]
-created_at: "2025-10-10T03:23:55.971Z"
+labels: ["piper", "test-gap", "coverage-reports", "package-scanning", "testing"]
+created_at: "2025-10-11T01:03:32.223Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -178,6 +197,25 @@ Once fixed, the test-gap pipeline will provide:
 - Improved test coverage across the project
 
 This fix will enable intelligent test gap analysis and help maintain high test coverage standards across the entire codebase.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -4,13 +4,32 @@ title: "Task: Structural code editing AI tool tree-diffs, not text-diffs — wit
 slug: "structural-code-editing-ai-tool-that-uses-tree-diffs-instead-of-string-based-universal-diffs--ensuring-generated-results-are-always-immediately-validatable"
 status: "breakdown"
 priority: "P3"
-tags: ["diffs", "structural", "code", "editing"]
-created_at: "2025-10-10T03:23:55.970Z"
+labels: ["diffs", "structural", "code", "editing"]
+created_at: "2025-10-11T01:03:32.221Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -295,6 +314,25 @@ Usage:
   "exclude_outlinks": false
 }
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

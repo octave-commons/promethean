@@ -2,15 +2,35 @@
 uuid: "03b91de5-2d67-4201-b177-8ecb2029793b"
 title: "deploy changefeed for collections you want mirrore md"
 slug: "deploy_changefeed_for_collections_you_want_mirrore"
-status: "rejected"
+status: "done"
 priority: "P3"
-tags: ["deploy", "changefeed", "collections", "you"]
-created_at: "2025-10-10T03:23:55.972Z"
+labels: ["deploy", "changefeed", "collections", "you"]
+created_at: "2025-10-11T01:03:32.222Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -41,6 +61,26 @@ Generated from ../unique/2025.08.08.20.08.52.md$../unique/2025.08.08.20.08.52.md
 
 
 #rejected
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -4,13 +4,32 @@ title: "Promethean CLI shadow-cljs launcher"
 slug: "promethean-cli-shadow-cljs"
 status: "icebox"
 priority: "P3"
-tags: ["promethean", "cli", "shadow", "cljs"]
-created_at: "2025-10-10T03:23:55.968Z"
+labels: ["promethean", "cli", "shadow", "cljs"]
+created_at: "2025-10-11T01:03:32.219Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -50,6 +69,25 @@ estimates:
 ## Notes
 - Investigate existing tooling for package graph traversal (pnpm workspace? manual?).
 - Ensure generated CLI handles missing scripts gracefully.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

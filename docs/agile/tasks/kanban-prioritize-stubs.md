@@ -1,16 +1,36 @@
 ---
 uuid: "5af6233e-8399-42a8-822e-29591076c41e"
-title: "2025.10.06.15.00.38   -stubs -terry -sampling -prioritization -workflow   -stubs -terry -sampling -prioritization -workflow   -stubs -terry -sampling -prioritization -workflow   -stubs -terry -sampling -prioritization -workflow   -stubs -terry -sampling -prioritization -workflow   -stubs -terry -sampling -prioritization -workflow   -stubs -terry -sampling -prioritization -workflow"
+title: "2025.10.06.15.00.38   -stubs -terry -sampling -prioritization -workflow   -stubs -terry -sampling -prioritization -workflow   -stubs -terry -sampling -prioritization -workflow   -stubs -terry -sampling -prioritization -workflow   -stubs -terry -sampling -prioritization -workflow   -stubs -terry -sampling -prioritization -workflow   -stubs -terry -sampling -prioritization -workflow   -stubs -terry -sampling -prioritization -workflow   -stubs -terry -sampling -prioritization -workflow   -stubs -terry -sampling -prioritization -workflow   -stubs -terry -sampling -prioritization -workflow   -stubs -terry -sampling -prioritization -workflow   -stubs -terry -sampling -prioritization -workflow   -stubs -terry -sampling -prioritization -workflow   -stubs -terry -sampling -prioritization -workflow   -stubs -terry -sampling -prioritization -workflow   -stubs -terry -sampling -prioritization -workflow   -stubs -terry -sampling -prioritization -workflow   -stubs -terry -sampling -prioritization -workflow   -stubs -terry -sampling -prioritization -workflow   -stubs -terry -sampling -prioritization -workflow   -stubs -terry -sampling -prioritization -workflow   -stubs -terry -sampling -prioritization -workflow   -stubs -terry -sampling -prioritization -workflow   -stubs -terry -sampling -prioritization -workflow   -stubs -terry -sampling -prioritization -workflow   -stubs -terry -sampling -prioritization -workflow   -stubs -terry -sampling -prioritization -workflow   -stubs -terry -sampling -prioritization -workflow"
 slug: "kanban-prioritize-stubs"
-status: "breakdown"
+status: "accepted"
 priority: "P3"
-tags: ["kanban", "prioritize", "command-stubs", "bradley-terry", "weighted-sampling", "task-prioritization", "interactive-workflow"]
-created_at: "2025-10-10T03:23:55.970Z"
+labels: ["kanban", "prioritize", "command-stubs", "bradley-terry", "weighted-sampling", "task-prioritization", "interactive-workflow"]
+created_at: "2025-10-11T01:03:32.221Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -108,6 +128,26 @@ export default async function cmd(argv:any){
 ## Sources
 - _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

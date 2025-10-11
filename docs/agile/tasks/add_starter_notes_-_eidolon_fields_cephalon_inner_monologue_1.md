@@ -4,13 +4,32 @@ title: "add starter notes eidolon fields cephalon inner monologue 1 md"
 slug: "add_starter_notes_-_eidolon_fields_cephalon_inner_monologue_1"
 status: "done"
 priority: "P3"
-tags: ["eidolon", "cephalon", "fields", "inner"]
-created_at: "2025-10-10T03:23:55.971Z"
+labels: ["eidolon", "cephalon", "fields", "inner"]
+created_at: "2025-10-11T01:03:32.222Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -90,6 +109,25 @@ Nothing
 
 - [[kanban]]
 #done
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

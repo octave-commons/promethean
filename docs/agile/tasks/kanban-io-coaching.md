@@ -2,15 +2,35 @@
 uuid: "95513ada-e67b-43f4-8ffa-26ec0e1cb367"
 title: "2025.10.06.15.01.14"
 slug: "kanban-io-coaching"
-status: "breakdown"
+status: "accepted"
 priority: "P3"
-tags: ["kanban", "io", "coaching", "jsonl", "session", "persistence", "task"]
-created_at: "2025-10-10T03:23:55.970Z"
+labels: ["kanban", "io", "coaching", "jsonl", "session", "persistence", "task"]
+created_at: "2025-10-11T01:03:32.221Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -66,6 +86,26 @@ export async function appendChoice(c: Omit<Choice,"ts">){
 ## Sources
 - _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

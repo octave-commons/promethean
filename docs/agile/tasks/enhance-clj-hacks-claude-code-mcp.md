@@ -1,78 +1,15 @@
 ---
 uuid: "5386dc78-da5b-4dfa-bef3-f82094c4c58a"
-title: "Enhance clj-hacks for Claude Code MCP server configs -hacks  -code -hacks  -code -hacks  -code -hacks  -code -hacks  -code"
+title: "Enhance clj-hacks for Claude Code MCP server configs -hacks  -code -hacks  -code -hacks  -code -hacks  -code -hacks  -code -hacks  -code -hacks  -code -hacks  -code -hacks  -code -hacks  -code -hacks  -code -hacks  -code -hacks  -code -hacks  -code -hacks  -code -hacks  -code -hacks  -code -hacks  -code -hacks  -code -hacks  -code -hacks  -code -hacks  -code -hacks  -code -hacks  -code -hacks  -code -hacks  -code"
 slug: "enhance-clj-hacks-claude-code-mcp"
 status: "in_progress"
 priority: "P2"
-tags: ["clj-hacks", "mcp", "claude-code", "tooling"]
-created_at: "2025-10-10T03:23:55.970Z"
+labels: ["clj-hacks", "mcp", "claude-code", "tooling"]
+created_at: "2025-10-11T01:03:32.222Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
 
-
-
-
-
-
-
-## Context
-- **What changed?**: Need to extend clj-hacks MCP configuration management to fully support Claude Code MCP server specifications beyond the basic JSON schema.
-- **Where?**: `packages/clj-hacks`, MCP adapters, validation logic
-- **Why now?**: Claude Code MCP adoption requires proper configuration management with validation and templates.
-
-## Description
-The existing clj-hacks MCP infrastructure handles basic JSON configuration but lacks Claude Code-specific enhancements needed for full MCP server management.
-
-## Goals
-- Extend MCP schema with Claude Code specific metadata fields
-- Add Claude Code configuration location awareness
-- Implement Claude Code specific validation rules
-- Provide template generators for common Claude Code MCP servers
-
-## Requirements
-- [ ] Enhanced schema supports Claude Code specific fields (cwd, env, timeout, capabilities, version, description)
-- [ ] Claude Code adapter handles Claude Code's specific configuration format and requirements
-- [ ] Configuration location awareness for Claude Code config paths
-- [ ] Claude Code specific validation rules and error reporting
-- [ ] Template generators for common Claude Code MCP server types
-- [ ] Tests cover new Claude Code specific functionality
-- [ ] Documentation updated with Claude Code MCP configuration examples
-
-## Plan
-1. Analyze Claude Code MCP configuration requirements and schema differences
-2. Extend clj-hacks MCP schema with Claude Code specific fields
-3. Create or enhance JSON adapter for Claude Code specific handling
-4. Add Claude Code configuration path resolution
-5. Implement Claude Code specific validation logic
-6. Create template generators for common Claude Code MCP servers
-7. Add comprehensive tests and documentation
-
-## Session Notes (2025-10-08)
-- ✅ Scope: focus on extending the shared MCP JSON adapter so Claude-style server metadata (env, timeout, auto-approval, etc.) round-trips cleanly.
-- ✅ Deliverables for this slice:
-  - Update `adapter_mcp_json` read/write logic to preserve Claude metadata fields.
-  - Expand AVA/Clojure tests to cover the richer schema.
-  - Allow TypeScript config loader to tolerate `version`/`metadata` so generated configs stay Claude-compatible.
-- 🚧 Follow-up: evaluate generating Claude-specific rest metadata (e.g. schema URLs) once upstream policy for `:rest` overrides is defined.
-
-## Definition of Done
-- [ ] Claude Code MCP servers can be configured with full metadata support
-- [ ] Configuration validation catches Claude Code specific issues
-- [ ] Templates available for common Claude Code MCP server types
-- [ ] Tests validate Claude Code configuration management
-- [ ] Documentation includes Claude Code MCP setup examples
-
-## Relevant Resources
-- `packages/clj-hacks/src/clj_hacks/mcp/`
-- `config/mcp_servers.edn`
-- `promethean.mcp.json`
-- Claude Code MCP documentation
-
-
-
-
-
-
+\nTags: tool:claude provider:zai role:engineer cap:codegen trace:aab0999c-3700-417a-8faf-dd9bcd36b522
