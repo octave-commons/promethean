@@ -46,7 +46,6 @@
   },
   "devDependencies": {
     "@microsoft/tsdoc": "^0.15.1",
-    "@types/node": "24.3.1",
     "@types/ws": "^8.5.0",
     "typedoc": "^0.28.13",
     "typedoc-plugin-markdown": "^4.9.0",

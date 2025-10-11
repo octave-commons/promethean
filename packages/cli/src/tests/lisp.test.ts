@@ -40,10 +40,10 @@ test('cmdCompile writes to file when output provided', async (t) => {
             t.is(file, 'program.lisp');
             return '(+ 1 2)';
         },
-        compileLispToJS: (src: string, opts: { pretty: boolean; importNames: string[] }) => {
+        compileLispToJS: (src: string, { pretty, importNames }: { pretty?: boolean; importNames?: string[] } = {}) => {
             t.is(src, '(+ 1 2)');
-            t.deepEqual(opts, { pretty: true, importNames: ['math'] });
-            return { js: '// compiled' } as { js: string };
+            t.deepEqual({ pretty, importNames }, { pretty: true, importNames: ['math'] });
+            return { js: '// compiled', forms: [], expanded: [], ast: {} as any };
         },
         writeFile: async (path, data, encoding) => {
             writes.push({ path, data, encoding });
@@ -59,7 +59,12 @@ test('cmdCompile falls back to stdout when no output file', async (t) => {
 
     await cmdCompile(args, {
         readInput: async () => '(print "hi")',
-        compileLispToJS: (_src: string) => ({ js: 'console.log("hi")' }) as { js: string },
+        compileLispToJS: (_src: string, _opts?: any) => ({
+            js: 'console.log("hi")',
+            forms: [],
+            expanded: [],
+            ast: {} as any,
+        }),
         stdoutWrite: (chunk) => chunks.push(chunk),
     });
 
@@ -82,7 +87,7 @@ test('cmdRun resolves imports and prints JSON when requested', async (t) => {
             if (!name) throw new Error('missing import name');
             return [name, spec] as [string, string];
         },
-        runLisp: (src: string, imports: Record<string, unknown>) => {
+        runLisp: (src: string, imports?: Record<string, any>) => {
             t.is(src, "(print 'hi')");
             t.deepEqual(imports, {
                 print: 'print=./runtime.js:print',
@@ -106,9 +111,9 @@ test('cmdJs2Lisp and cmdTs2Lisp use converters and stdout', async (t) => {
             t.is(file, 'file.js');
             return 'console.log(1)';
         },
-        jsToLisp: async (src: string) => {
+        jsToLisp: async (src: string, _opts?: any) => {
             t.is(src, 'console.log(1)');
-            return { text: '(print 1)' } as { text: string };
+            return { text: '(print 1)', forms: [] };
         },
         stdoutWrite: (chunk) => jsChunks.push(chunk),
     });
@@ -118,10 +123,10 @@ test('cmdJs2Lisp and cmdTs2Lisp use converters and stdout', async (t) => {
             t.is(file, 'file.ts');
             return 'export const x = 1';
         },
-        tsToLisp: async (src: string, opts: { includeIntermediate: boolean }) => {
+        tsToLisp: async (src: string, opts?: any) => {
             t.is(src, 'export const x = 1');
             t.deepEqual(opts, { includeIntermediate: true });
-            return { lisp: '(def x 1)' } as { lisp: string };
+            return { lisp: '(def x 1)', js: '', tsMap: '', notes: [], forms: [] };
         },
         stdoutWrite: (chunk) => tsChunks.push(chunk),
     });

@@ -86,10 +86,10 @@ test('finds cards by query', async (t) => {
     const board = await MarkdownBoard.load(sampleMarkdown);
     const found = board.findCards({ tag: 'urgent' });
     t.is(found.length, 1);
-    t.is(found[0].card.id, '1234-aaaa');
+    t.is(found[0]?.card.id, '1234-aaaa');
     const doneCards = board.findCards({ done: true });
     t.is(doneCards.length, 1);
-    t.is(doneCards[0].card.id, '5678-bbbb');
+    t.is(doneCards[0]?.card.id, '5678-bbbb');
 });
 
 test('serializes back to markdown', async (t) => {

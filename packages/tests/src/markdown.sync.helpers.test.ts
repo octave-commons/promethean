@@ -69,9 +69,11 @@ test('ensureCardStatus updates a card in the board', async (t) => {
     const md = `\n## Todo\n- [ ] X <!-- id: a-1 -->\n`;
     const board = await MarkdownBoard.load(md);
     const card = board.listCards('Todo')[0];
+    if (!card) throw new Error('Card not found');
     const changed = await ensureCardStatus(board, 'Todo', card, '#todo');
     t.true(changed);
     const after = board.listCards('Todo')[0];
+    if (!after) throw new Error('Card not found after update');
     t.true(after.tags.includes('todo'));
 });
 
@@ -80,11 +82,14 @@ test('ensureCardLink adds a link and creates a file', async (t) => {
     const md = `\n## Todo\n- [ ] New <!-- id: a-2 -->\n`;
     const board = await MarkdownBoard.load(md);
     const card = board.listCards('Todo')[0];
+    if (!card) throw new Error('Card not found');
     const changed = await ensureCardLink(board, card, tmp, true);
     t.true(changed);
     const after = board.listCards('Todo')[0];
+    if (!after) throw new Error('Card not found after update');
     t.true(!!after.links && after.links.length > 0);
-    const file = after.links[0].split('|')[0];
+    const file = after.links[0]?.split('|')[0];
+    if (!file) throw new Error('Link file not found');
     const exists = await fs.readFile(join(tmp, file), 'utf8');
     t.true(exists.length > 0);
 });
@@ -95,6 +100,7 @@ test('ensureTaskStatusForCard writes status to linked task file', async (t) => {
     const md = `\n## Todo\n- [ ] [[y.md|Y]] <!-- id: id-3 -->\n`;
     const board = await MarkdownBoard.load(md);
     const card = board.listCards('Todo')[0];
+    if (!card) throw new Error('Card not found');
     const changed = await ensureTaskStatusForCard(board, 'Todo', card, '#todo', tmp, false);
     t.true(changed);
     const content = await fs.readFile(join(tmp, 'y.md'), 'utf8');
@@ -115,6 +121,7 @@ test('applyUpdates retags and writes task files', async (t) => {
     const changed = await applyUpdates(board, { tasksDir: tmp, createMissingTasks: false });
     t.true(changed);
     const card = board.listCards('Todo')[0];
+    if (!card) throw new Error('Card not found');
     t.true(card.tags.includes('todo'));
     const content = await fs.readFile(join(tmp, 'z.md'), 'utf8');
     t.true(content.trimEnd().endsWith('#todo'));
@@ -125,11 +132,14 @@ test('normalizeBoardInstance refreshes the in-memory AST', async (t) => {
     const board = await MarkdownBoard.load(md);
     // Manually mutate via updateCard and then normalize with an equivalent markdown
     const card = board.listCards('Todo')[0];
+    if (!card) throw new Error('Card not found');
     await ensureCardStatus(board, 'Todo', card, '#todo');
     const before = board.listCards('Todo')[0];
+    if (!before) throw new Error('Card not found before update');
     t.true(before.tags.includes('todo'));
     const roundTrip = await board.toMarkdown();
     await normalizeBoardInstance(board, roundTrip);
     const after = board.listCards('Todo')[0];
+    if (!after) throw new Error('Card not found after update');
     t.true(after.tags.includes('todo'));
 });

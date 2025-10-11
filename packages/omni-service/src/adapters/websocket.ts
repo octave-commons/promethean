@@ -1,13 +1,14 @@
-import { WebSocketServer, WebSocket } from "ws";
-import type { FastifyInstance, FastifyRequest } from "fastify";
-import { randomBytes } from "crypto";
-import type { UserContext } from "../auth/types.js";
+import { WebSocketServer, WebSocket } from 'ws';
+import type { FastifyInstance, FastifyRequest } from 'fastify';
+import { randomBytes } from 'crypto';
+import type { UserContext } from '../auth/types.js';
 
 /**
  * WebSocket connection types
  */
 export interface WSConnection {
   id: string;
+  connectionId: string;
   ws: WebSocket;
   user?: UserContext;
   authenticated: boolean;
@@ -20,7 +21,7 @@ export interface WSConnection {
  * WebSocket message types
  */
 export interface WSMessage {
-  type: "ping" | "pong" | "subscribe" | "unsubscribe" | "broadcast" | "direct";
+  type: 'ping' | 'pong' | 'subscribe' | 'unsubscribe' | 'broadcast' | 'direct';
   payload?: any;
   channel?: string;
   target?: string;
@@ -44,7 +45,14 @@ export interface WebSocketAdapterOptions {
  * WebSocket event types
  */
 export interface WSEvent {
-  type: "connection" | "disconnection" | "message" | "subscribe" | "unsubscribe" | "broadcast" | "error";
+  type:
+    | 'connection'
+    | 'disconnection'
+    | 'message'
+    | 'subscribe'
+    | 'unsubscribe'
+    | 'broadcast'
+    | 'error';
   connectionId: string;
   user?: UserContext;
   data?: any;
@@ -55,7 +63,7 @@ export interface WSEvent {
  * WebSocket adapter class
  */
 export class WebSocketAdapter {
-  private wss: WebSocketServer;
+  private wss!: WebSocketServer;
   private connections: Map<string, WSConnection> = new Map();
   private eventListeners: Map<string, ((event: WSEvent) => void)[]> = new Map();
   private options: WebSocketAdapterOptions;
@@ -84,7 +92,7 @@ export class WebSocketAdapter {
     });
 
     // Handle connections
-    this.wss.on('connection', (ws, request, client) => {
+    this.wss.on('connection', (ws: WebSocket, request: any, client: any) => {
       this.handleConnection(ws, request, client);
     });
 
@@ -109,14 +117,11 @@ export class WebSocketAdapter {
   /**
    * Handle new WebSocket connections
    */
-  private handleConnection(
-    ws: WebSocket,
-    request: FastifyRequest,
-    client: any
-  ): void {
+  private handleConnection(ws: WebSocket, request: FastifyRequest, client: any): void {
     const connectionId = this.generateConnectionId();
     const connection: WSConnection = {
       id: connectionId,
+      connectionId,
       ws,
       authenticated: false,
       lastPing: Date.now(),
@@ -125,10 +130,12 @@ export class WebSocketAdapter {
         ip: request.ip,
         userAgent: request.headers['user-agent'],
         url: request.url,
-        client: client ? {
-          url: client.url,
-          protocol: client.protocol
-        } : undefined,
+        client: client
+          ? {
+              url: client.url,
+              protocol: client.protocol,
+            }
+          : undefined,
       },
     };
 
@@ -137,7 +144,7 @@ export class WebSocketAdapter {
 
     // Emit connection event
     this.emitEvent({
-      type: "connection",
+      type: 'connection',
       connectionId,
       timestamp: new Date().toISOString(),
       data: {
@@ -151,9 +158,9 @@ export class WebSocketAdapter {
 
     // Send welcome message
     this.sendMessage(connection, {
-      type: "direct",
+      type: 'direct',
       payload: {
-        message: "Connected to Omni Service WebSocket",
+        message: 'Connected to Omni Service WebSocket',
         connectionId,
         serverTime: new Date().toISOString(),
       },
@@ -164,17 +171,17 @@ export class WebSocketAdapter {
     // Check if connection limit reached
     if (this.connections.size > (this.options.maxConnections || 1000)) {
       this.sendMessage(connection, {
-        type: "direct",
+        type: 'direct',
         payload: {
-          error: "Server at capacity",
-          message: "Connection limit reached",
+          error: 'Server at capacity',
+          message: 'Connection limit reached',
         },
         timestamp: new Date().toISOString(),
         id: this.generateMessageId(),
       });
-      
+
       setTimeout(() => {
-        ws.close(1013, "Server at capacity");
+        ws.close(1013, 'Server at capacity');
       }, 1000);
     }
   }
@@ -192,10 +199,10 @@ export class WebSocketAdapter {
         this.handleMessage(connection, message);
       } catch (error) {
         this.sendMessage(connection, {
-          type: "direct",
+          type: 'direct',
           payload: {
-            error: "Invalid message format",
-            message: "Message must be valid JSON",
+            error: 'Invalid message format',
+            message: 'Message must be valid JSON',
           },
           timestamp: new Date().toISOString(),
           id: this.generateMessageId(),
@@ -210,13 +217,13 @@ export class WebSocketAdapter {
 
     // Handle connection close
     ws.on('close', (code, reason) => {
-      this.handleDisconnection(connection, code, reason);
+      this.handleDisconnection(connection, code, reason.toString());
     });
 
     // Handle connection errors
     ws.on('error', (error) => {
       this.emitEvent({
-        type: "error",
+        type: 'error',
         connectionId,
         timestamp: new Date().toISOString(),
         data: {
@@ -230,14 +237,14 @@ export class WebSocketAdapter {
     const pingInterval = setInterval(() => {
       if (ws.readyState === WebSocket.OPEN) {
         this.sendMessage(connection, {
-          type: "ping",
+          type: 'ping',
           timestamp: new Date().toISOString(),
           id: this.generateMessageId(),
         });
 
         // Check if connection is stale (no pong for too long)
         if (Date.now() - connection.lastPing > 60000) {
-          ws.terminate(1001, "Connection stale");
+          ws.terminate();
         }
       } else {
         clearInterval(pingInterval);
@@ -257,45 +264,45 @@ export class WebSocketAdapter {
     const { type, payload } = message;
 
     switch (type) {
-      case "ping":
+      case 'ping':
         // Respond with pong
         this.sendMessage(connection, {
-          type: "pong",
+          type: 'pong',
           timestamp: new Date().toISOString(),
           id: this.generateMessageId(),
         });
         break;
 
-      case "pong":
+      case 'pong':
         // Update last ping time
         connection.lastPing = Date.now();
         break;
 
-      case "subscribe":
+      case 'subscribe':
         if (payload?.channel) {
           this.handleSubscription(connection, payload.channel, true);
         }
         break;
 
-      case "unsubscribe":
+      case 'unsubscribe':
         if (payload?.channel) {
           this.handleSubscription(connection, payload.channel, false);
         }
         break;
 
-      case "broadcast":
+      case 'broadcast':
         if (user && payload?.channel) {
           this.broadcast(payload.channel, payload.data, {
-            userId: user.id,
-            username: user.username,
+            excludeConnectionId: connection.id,
+            requireAuth: true,
           });
         }
         break;
 
-      case "direct":
+      case 'direct':
         // Direct messages are handled by individual services
         this.emitEvent({
-          type: "message",
+          type: 'message',
           connectionId,
           user,
           timestamp: new Date().toISOString(),
@@ -305,9 +312,9 @@ export class WebSocketAdapter {
 
       default:
         this.sendMessage(connection, {
-          type: "direct",
+          type: 'direct',
           payload: {
-            error: "Unknown message type",
+            error: 'Unknown message type',
             message: `Unsupported message type: ${type}`,
           },
           timestamp: new Date().toISOString(),
@@ -319,11 +326,7 @@ export class WebSocketAdapter {
   /**
    * Handle WebSocket disconnection
    */
-  private handleDisconnection(
-    connection: WSConnection,
-    code: number,
-    reason: string
-  ): void {
+  private handleDisconnection(connection: WSConnection, code: number, reason: string): void {
     const { connectionId, user } = connection;
 
     // Remove from tracking
@@ -331,7 +334,7 @@ export class WebSocketAdapter {
 
     // Emit disconnection event
     this.emitEvent({
-      type: "disconnection",
+      type: 'disconnection',
       connectionId,
       user,
       timestamp: new Date().toISOString(),
@@ -345,17 +348,13 @@ export class WebSocketAdapter {
   /**
    * Handle subscription management
    */
-  private handleSubscription(
-    connection: WSConnection,
-    channel: string,
-    subscribe: boolean
-  ): void {
+  private handleSubscription(connection: WSConnection, channel: string, subscribe: boolean): void {
     const { connectionId } = connection;
 
     if (subscribe) {
       connection.subscriptions.add(channel);
       this.emitEvent({
-        type: "subscribe",
+        type: 'subscribe',
         connectionId,
         timestamp: new Date().toISOString(),
         data: {
@@ -365,7 +364,7 @@ export class WebSocketAdapter {
     } else {
       connection.subscriptions.delete(channel);
       this.emitEvent({
-        type: "unsubscribe",
+        type: 'unsubscribe',
         connectionId,
         timestamp: new Date().toISOString(),
         data: {
@@ -375,7 +374,7 @@ export class WebSocketAdapter {
     }
 
     this.sendMessage(connection, {
-      type: "direct",
+      type: 'direct',
       payload: {
         message: subscribe ? `Subscribed to ${channel}` : `Unsubscribed from ${channel}`,
         channel,
@@ -396,10 +395,10 @@ export class WebSocketAdapter {
     options?: {
       excludeConnectionId?: string;
       requireAuth?: boolean;
-    }
+    },
   ): void {
     const message: WSMessage = {
-      type: "broadcast",
+      type: 'broadcast',
       payload: {
         channel,
         data,
@@ -428,8 +427,8 @@ export class WebSocketAdapter {
     });
 
     this.emitEvent({
-      type: "broadcast",
-      connectionId: "system",
+      type: 'broadcast',
+      connectionId: 'system',
       timestamp: new Date().toISOString(),
       data: {
         channel,
@@ -446,10 +445,10 @@ export class WebSocketAdapter {
     data: any,
     options?: {
       requireAuth?: boolean;
-    }
+    },
   ): boolean {
     const connection = this.connections.get(connectionId);
-    
+
     if (!connection) {
       return false;
     }
@@ -460,7 +459,7 @@ export class WebSocketAdapter {
     }
 
     const message: WSMessage = {
-      type: "direct",
+      type: 'direct',
       payload: data,
       timestamp: new Date().toISOString(),
       id: this.generateMessageId(),
@@ -490,22 +489,22 @@ export class WebSocketAdapter {
       this.connections.forEach((connection, connectionId) => {
         if (now - connection.lastPing > 60000) {
           staleConnections.push(connectionId);
-          connection.ws.terminate(1001, "Connection stale");
+          connection.ws.terminate();
         }
       });
 
       // Remove stale connections
-      staleConnections.forEach(connectionId => {
+      staleConnections.forEach((connectionId) => {
         this.connections.delete(connectionId);
       });
 
       if (staleConnections.length > 0) {
         this.emitEvent({
-          type: "disconnection",
-          connectionId: "system",
+          type: 'disconnection',
+          connectionId: 'system',
           timestamp: new Date().toISOString(),
           data: {
-            reason: "Stale connections cleaned up",
+            reason: 'Stale connections cleaned up',
             count: staleConnections.length,
             connectionIds: staleConnections,
           },
@@ -527,9 +526,9 @@ export class WebSocketAdapter {
     connection.user = user;
 
     this.sendMessage(connection, {
-      type: "direct",
+      type: 'direct',
       payload: {
-        message: "WebSocket connection authenticated",
+        message: 'WebSocket connection authenticated',
         user: {
           id: user.id,
           username: user.username,
@@ -561,14 +560,14 @@ export class WebSocketAdapter {
    * Get authenticated connections
    */
   getAuthenticatedConnections(): WSConnection[] {
-    return Array.from(this.connections.values()).filter(conn => conn.authenticated);
+    return Array.from(this.connections.values()).filter((conn) => conn.authenticated);
   }
 
   /**
    * Get connections subscribed to a channel
    */
   getConnectionsBySubscription(channel: string): WSConnection[] {
-    return Array.from(this.connections.values()).filter(conn => conn.subscriptions.has(channel));
+    return Array.from(this.connections.values()).filter((conn) => conn.subscriptions.has(channel));
   }
 
   /**
@@ -587,7 +586,7 @@ export class WebSocketAdapter {
    */
   private emitEvent(event: WSEvent): void {
     const listeners = this.eventListeners.get(event.type) || [];
-    listeners.forEach(listener => {
+    listeners.forEach((listener) => {
       try {
         listener(event);
       } catch (error) {
@@ -623,7 +622,7 @@ export class WebSocketAdapter {
    * Generate unique connection ID
    */
   private generateConnectionId(): string {
-    return `ws_${Date.now()}_${randomBytes(4).toString("hex")}`;
+    return `ws_${Date.now()}_${randomBytes(4).toString('hex')}`;
   }
 
   /**
@@ -639,13 +638,13 @@ export class WebSocketAdapter {
   getStats() {
     const connections = this.getAllConnections();
     const authenticated = this.getAuthenticatedConnections();
-    
+
     return {
       totalConnections: connections.length,
       authenticatedConnections: authenticated.length,
-      openConnections: connections.filter(conn => conn.ws.readyState === WebSocket.OPEN).length,
+      openConnections: connections.filter((conn) => conn.ws.readyState === WebSocket.OPEN).length,
       subscriptions: connections.reduce((acc, conn) => acc + conn.subscriptions.size, 0),
-      channels: new Set(connections.flatMap(conn => Array.from(conn.subscriptions))),
+      channels: new Set(connections.flatMap((conn) => Array.from(conn.subscriptions))),
     };
   }
 }
@@ -656,7 +655,7 @@ export class WebSocketAdapter {
 export function mountWebSocketAdapter(
   app: FastifyInstance,
   options: WebSocketAdapterOptions,
-  authManager?: any
+  authManager?: any,
 ): WebSocketAdapter {
   const wsAdapter = new WebSocketAdapter(options);
 
@@ -679,11 +678,11 @@ export function mountWebSocketAdapter(
         const result = authManager.getTokenManager().validateToken(event.data.payload.token);
         if (result.success && result.user) {
           wsAdapter.authenticate(event.connectionId, result.user);
-          
+
           // Send success response
           wsAdapter.sendDirectMessage(event.connectionId, {
-            type: "auth_success",
-            message: "WebSocket connection authenticated successfully",
+            type: 'auth_success',
+            message: 'WebSocket connection authenticated successfully',
             user: {
               id: result.user.id,
               username: result.user.username,
@@ -693,54 +692,62 @@ export function mountWebSocketAdapter(
         }
       } catch (error) {
         wsAdapter.sendDirectMessage(event.connectionId, {
-          type: "auth_error",
-          message: "Authentication failed",
-          error: error instanceof Error ? error.message : "Unknown error",
+          type: 'auth_error',
+          message: 'Authentication failed',
+          error: error instanceof Error ? error.message : 'Unknown error',
         });
       }
     }
   });
 
   // Add WebSocket routes to Fastify app for health checks
-  app.get(`${options.path}/health`, (request, reply) => {
+  app.get(`${options.path}/health`, (_request, reply) => {
     const stats = wsAdapter.getStats();
-    
+
     return reply.send({
-      status: "ok",
-      adapter: "websocket",
+      status: 'ok',
+      adapter: 'websocket',
       timestamp: new Date().toISOString(),
       path: options.path,
       stats,
     });
   });
 
-  app.get(`${options.path}/stats`, {
-    preHandler: authManager ? authManager.createAuthMiddleware({
-      required: true,
-      roles: ["admin"],
-    }) : undefined,
-  }, (request, reply) => {
-    const stats = wsAdapter.getStats();
-    
-    return reply.send({
-      status: "ok",
-      adapter: "websocket",
-      timestamp: new Date().toISOString(),
-      stats,
-      connections: wsAdapter.getAllConnections().map(conn => ({
-        id: conn.id,
-        authenticated: conn.authenticated,
-        subscriptions: Array.from(conn.subscriptions),
-        user: conn.user ? {
-          id: conn.user.id,
-          username: conn.user.username,
-          roles: conn.user.roles,
-        } : null,
-        metadata: conn.metadata,
-        lastPing: new Date(conn.lastPing).toISOString(),
-      })),
-    });
-  });
+  app.get(
+    `${options.path}/stats`,
+    {
+      preHandler: authManager
+        ? authManager.createAuthMiddleware({
+            required: true,
+            roles: ['admin'],
+          })
+        : undefined,
+    },
+    (_request, reply) => {
+      const stats = wsAdapter.getStats();
+
+      return reply.send({
+        status: 'ok',
+        adapter: 'websocket',
+        timestamp: new Date().toISOString(),
+        stats,
+        connections: wsAdapter.getAllConnections().map((conn) => ({
+          id: conn.id,
+          authenticated: conn.authenticated,
+          subscriptions: Array.from(conn.subscriptions),
+          user: conn.user
+            ? {
+                id: conn.user.id,
+                username: conn.user.username,
+                roles: conn.user.roles,
+              }
+            : null,
+          metadata: conn.metadata,
+          lastPing: new Date(conn.lastPing).toISOString(),
+        })),
+      });
+    },
+  );
 
   return wsAdapter;
 }

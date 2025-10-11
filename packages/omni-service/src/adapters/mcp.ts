@@ -1,13 +1,13 @@
-import type { FastifyInstance, FastifyRequest, FastifyReply } from "fastify";
-import type { UserContext } from "../auth/types.js";
+import type { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
+import type { UserContext } from '../auth/types.js';
 
 /**
  * MCP (Model Context Protocol) message types
  */
 interface MCPMessage {
-  jsonrpc: "2.0";
+  jsonrpc: '2.0';
   id?: string | number;
-  method: string;
+  method?: string;
   params?: any;
   result?: any;
   error?: {
@@ -34,7 +34,11 @@ interface MCPTool {
  * MCP capability information
  */
 interface MCPCapabilities {
-  tools: MCPTool[];
+  tools: {
+    list: boolean;
+    subscribe: boolean;
+    listChanges?: boolean;
+  };
   resources: {
     subscribe: boolean;
     list: boolean;
@@ -61,71 +65,71 @@ interface MCPAdapterOptions {
  */
 const defaultTools: MCPTool[] = [
   {
-    name: "echo",
-    description: "Echo back the provided text",
+    name: 'echo',
+    description: 'Echo back the provided text',
     inputSchema: {
-      type: "object",
+      type: 'object',
       properties: {
         text: {
-          type: "string",
-          description: "Text to echo back",
+          type: 'string',
+          description: 'Text to echo back',
         },
       },
-      required: ["text"],
+      required: ['text'],
     },
   },
   {
-    name: "get_time",
-    description: "Get the current server time",
+    name: 'get_time',
+    description: 'Get the current server time',
     inputSchema: {
-      type: "object",
+      type: 'object',
       properties: {},
     },
   },
   {
-    name: "get_user_info",
-    description: "Get information about the current user (requires authentication)",
+    name: 'get_user_info',
+    description: 'Get information about the current user (requires authentication)',
     inputSchema: {
-      type: "object",
+      type: 'object',
       properties: {},
     },
   },
   {
-    name: "list_files",
-    description: "List files in a directory",
+    name: 'list_files',
+    description: 'List files in a directory',
     inputSchema: {
-      type: "object",
+      type: 'object',
       properties: {
         path: {
-          type: "string",
-          description: "Directory path to list",
+          type: 'string',
+          description: 'Directory path to list',
         },
         recursive: {
-          type: "boolean",
-          description: "List files recursively",
+          type: 'boolean',
+          description: 'List files recursively',
           default: false,
         },
       },
-      required: ["path"],
+      required: ['path'],
     },
   },
   {
-    name: "read_file",
-    description: "Read the contents of a file",
+    name: 'read_file',
+    description: 'Read the contents of a file',
     inputSchema: {
-      type: "object",
+      type: 'object',
       properties: {
         path: {
-          type: "string",
-          description: "File path to read",
+          type: 'string',
+          description: 'File path to read',
         },
         encoding: {
-          type: "string",
-          description: "File encoding",
-          default: "utf8",
+          type: 'string',
+          description: 'File encoding',
+          default: 'utf8',
         },
       },
-      required: ["path"],
+      required: ['path'],
     },
   },
 ];
@@ -142,9 +146,9 @@ class MCPAdapter {
   constructor(app: FastifyInstance, options: MCPAdapterOptions) {
     this.app = app;
     this.options = options;
-    
+
     // Register default tools
-    defaultTools.forEach(tool => {
+    defaultTools.forEach((tool) => {
       this.tools.set(tool.name, tool);
     });
   }
@@ -156,67 +160,83 @@ class MCPAdapter {
     const fullPrefix = this.options.prefix;
 
     // Initialize default resources
-    this.resources.set("server://status", {
-      name: "Server Status",
-      description: "Current server status and information",
-      mimeType: "application/json",
+    this.resources.set('server://status', {
+      name: 'Server Status',
+      description: 'Current server status and information',
+      mimeType: 'application/json',
     });
 
     // Register MCP endpoints
     this.registerMCEndpoints(fullPrefix);
-    
+
     // Add health check
     this.app.get(`${fullPrefix}/health`, (request, reply) => {
       const healthStatus = {
-        status: "ok",
-        adapter: "mcp",
+        status: 'ok',
+        adapter: 'mcp',
         timestamp: new Date().toISOString(),
         prefix: fullPrefix,
         capabilities: this.getCapabilities(),
         stats: this.getStats(),
       };
-      
+
       reply.send(healthStatus);
     });
 
     // Add tool listing endpoint
-    this.app.get(`${fullPrefix}/tools`, {
-      preHandler: this.createAuthMiddleware(),
-    }, (request, reply) => {
-      reply.send({
-        tools: Array.from(this.tools.values()).map(tool => ({
-          name: tool.name,
-          description: tool.description,
-          inputSchema: tool.inputSchema,
-        })),
-      });
-    });
+    this.app.get(
+      `${fullPrefix}/tools`,
+      {
+        preHandler: this.createAuthMiddleware(),
+      },
+      (request, reply) => {
+        reply.send({
+          tools: Array.from(this.tools.values()).map((tool) => ({
+            name: tool.name,
+            description: tool.description,
+            inputSchema: tool.inputSchema,
+          })),
+        });
+      },
+    );
 
     // Add resource listing endpoint
-    this.app.get(`${fullPrefix}/resources`, {
-      preHandler: this.createAuthMiddleware(),
-    }, (request, reply) => {
-      reply.send({
-        resources: Array.from(this.resources.entries()).map(([uri, resource]) => ({
-          uri,
-          ...resource,
-        })),
-      });
-    });
+    this.app.get(
+      `${fullPrefix}/resources`,
+      {
+        preHandler: this.createAuthMiddleware(),
+      },
+      (request, reply) => {
+        reply.send({
+          resources: Array.from(this.resources.entries()).map(([uri, resource]) => ({
+            uri,
+            ...resource,
+          })),
+        });
+      },
+    );
 
     // Add capabilities endpoint
-    this.app.get(`${fullPrefix}/capabilities`, {
-      preHandler: this.createAuthMiddleware(),
-    }, (request, reply) => {
-      reply.send(this.getCapabilities());
-    });
+    this.app.get(
+      `${fullPrefix}/capabilities`,
+      {
+        preHandler: this.createAuthMiddleware(),
+      },
+      (request, reply) => {
+        reply.send(this.getCapabilities());
+      },
+    );
 
     // Add documentation endpoint
-    this.app.get(`${fullPrefix}/docs`, {
-      preHandler: this.createAuthMiddleware(),
-    }, (request, reply) => {
-      reply.send(this.getDocumentation());
-    });
+    this.app.get(
+      `${fullPrefix}/docs`,
+      {
+        preHandler: this.createAuthMiddleware(),
+      },
+      (request, reply) => {
+        reply.send(this.getDocumentation());
+      },
+    );
 
     this.app.log.info(`MCP adapter mounted at ${fullPrefix}`);
   }
@@ -226,41 +246,45 @@ class MCPAdapter {
    */
   private registerMCEndpoints(prefix: string): void {
     // Main MCP endpoint for JSON-RPC
-    this.app.post(`${prefix}`, {
-      preHandler: this.createAuthMiddleware(),
-    }, async (request, reply) => {
-      try {
-        const mcpMessage: MCPMessage = request.body as MCPMessage;
-        
-        // Validate JSON-RPC format
-        if (!mcpMessage.jsonrpc || mcpMessage.jsonrpc !== "2.0") {
-          throw new Error("Invalid JSON-RPC version. Must be '2.0'");
-        }
+    this.app.post(
+      `${prefix}`,
+      {
+        preHandler: this.createAuthMiddleware(),
+      },
+      async (request, reply) => {
+        try {
+          const mcpMessage: MCPMessage = request.body as MCPMessage;
 
-        // Handle the request
-        const result = await this.handleMCPRequest(mcpMessage, request);
-        
-        reply.send(result);
-      } catch (error) {
-        const mcpError: MCPMessage = {
-          jsonrpc: "2.0",
-          id: (request.body as MCPMessage).id,
-          error: {
-            code: -32603,
-            message: error instanceof Error ? error.message : "Internal server error",
-          },
-        };
-        
-        reply.status(500).send(mcpError);
-      }
-    });
+          // Validate JSON-RPC format
+          if (!mcpMessage.jsonrpc || mcpMessage.jsonrpc !== '2.0') {
+            throw new Error("Invalid JSON-RPC version. Must be '2.0'");
+          }
+
+          // Handle the request
+          const result = await this.handleMCPRequest(mcpMessage, request);
+
+          reply.send(result);
+        } catch (error) {
+          const mcpError: MCPMessage = {
+            jsonrpc: '2.0',
+            id: (request.body as MCPMessage).id,
+            error: {
+              code: -32603,
+              message: error instanceof Error ? error.message : 'Internal server error',
+            },
+          };
+
+          reply.status(500).send(mcpError);
+        }
+      },
+    );
 
     // Optional GET endpoint for discovery
     this.app.get(`${prefix}`, (request, reply) => {
       reply.send({
-        name: "Promethean Omni Service MCP",
-        version: "1.0.0",
-        jsonrpc: "2.0",
+        name: 'Promethean Omni Service MCP',
+        version: '1.0.0',
+        jsonrpc: '2.0',
         prefix,
         capabilities: this.getCapabilities(),
         endpoints: {
@@ -280,31 +304,31 @@ class MCPAdapter {
    */
   private async handleMCPRequest(
     message: MCPMessage,
-    request: FastifyRequest
+    request: FastifyRequest,
   ): Promise<MCPMessage> {
     const { method, params, id } = message;
 
     switch (method) {
-      case "initialize":
+      case 'initialize':
         return {
-          jsonrpc: "2.0",
+          jsonrpc: '2.0',
           id,
           result: {
-            protocolVersion: "2024-11-05",
+            protocolVersion: '2024-11-05',
             capabilities: this.getCapabilities(),
             serverInfo: {
-              name: "Promethean Omni Service",
-              version: "1.0.0",
+              name: 'Promethean Omni Service',
+              version: '1.0.0',
             },
           },
         };
 
-      case "tools/list":
+      case 'tools/list':
         return {
-          jsonrpc: "2.0",
+          jsonrpc: '2.0',
           id,
           result: {
-            tools: Array.from(this.tools.values()).map(tool => ({
+            tools: Array.from(this.tools.values()).map((tool) => ({
               name: tool.name,
               description: tool.description,
               inputSchema: tool.inputSchema,
@@ -312,20 +336,20 @@ class MCPAdapter {
           },
         };
 
-      case "tools/call":
+      case 'tools/call':
         if (!params?.name) {
-          throw new Error("Tool name is required");
+          throw new Error('Tool name is required');
         }
-        
+
         return {
-          jsonrpc: "2.0",
+          jsonrpc: '2.0',
           id,
           result: await this.callTool(params.name, params.arguments || {}, request),
         };
 
-      case "resources/list":
+      case 'resources/list':
         return {
-          jsonrpc: "2.0",
+          jsonrpc: '2.0',
           id,
           result: {
             resources: Array.from(this.resources.entries()).map(([uri, resource]) => ({
@@ -335,35 +359,35 @@ class MCPAdapter {
           },
         };
 
-      case "resources/read":
+      case 'resources/read':
         if (!params?.uri) {
-          throw new Error("Resource URI is required");
+          throw new Error('Resource URI is required');
         }
-        
+
         return {
-          jsonrpc: "2.0",
+          jsonrpc: '2.0',
           id,
           result: await this.readResource(params.uri, request),
         };
 
-      case "ping":
+      case 'ping':
         return {
-          jsonrpc: "2.0",
+          jsonrpc: '2.0',
           id,
           result: {
-            message: "pong",
+            message: 'pong',
             timestamp: new Date().toISOString(),
           },
         };
 
-      case "get_user_info":
+      case 'get_user_info':
         const user = (request as any).user;
         if (!user) {
-          throw new Error("Authentication required for user info");
+          throw new Error('Authentication required for user info');
         }
-        
+
         return {
-          jsonrpc: "2.0",
+          jsonrpc: '2.0',
           id,
           result: {
             id: user.id,
@@ -383,11 +407,7 @@ class MCPAdapter {
   /**
    * Call an MCP tool
    */
-  private async callTool(
-    toolName: string,
-    args: any,
-    request: FastifyRequest
-  ): Promise<any> {
+  private async callTool(toolName: string, args: any, request: FastifyRequest): Promise<any> {
     const tool = this.tools.get(toolName);
     if (!tool) {
       throw new Error(`Unknown tool: ${toolName}`);
@@ -397,13 +417,13 @@ class MCPAdapter {
     this.validateToolArgs(tool.inputSchema, args);
 
     switch (toolName) {
-      case "echo":
+      case 'echo':
         return {
           result: args.text,
           timestamp: new Date().toISOString(),
         };
 
-      case "get_time":
+      case 'get_time':
         return {
           timestamp: new Date().toISOString(),
           iso: new Date().toISOString(),
@@ -412,12 +432,12 @@ class MCPAdapter {
           timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
         };
 
-      case "get_user_info":
+      case 'get_user_info':
         const user = (request as any).user;
         if (!user) {
-          throw new Error("Authentication required for user info");
+          throw new Error('Authentication required for user info');
         }
-        
+
         return {
           id: user.id,
           username: user.username,
@@ -427,11 +447,11 @@ class MCPAdapter {
           tokenType: user.tokenType,
         };
 
-      case "list_files":
+      case 'list_files':
         return await this.listFiles(args.path, args.recursive || false);
 
-      case "read_file":
-        return await this.readFile(args.path, args.encoding || "utf8");
+      case 'read_file':
+        return await this.readFile(args.path, args.encoding || 'utf8');
 
       default:
         throw new Error(`Tool ${toolName} not implemented`);
@@ -448,7 +468,7 @@ class MCPAdapter {
     }
 
     // For file resources, read the actual file
-    if (uri.startsWith("file://")) {
+    if (uri.startsWith('file://')) {
       const filePath = uri.substring(7); // Remove "file://" prefix
       return await this.readFile(filePath);
     }
@@ -463,16 +483,16 @@ class MCPAdapter {
     // Mock file listing
     const mockFiles = [
       {
-        name: "README.md",
-        path: "README.md",
-        type: "file",
+        name: 'README.md',
+        path: 'README.md',
+        type: 'file',
         size: 1024,
         modified: new Date().toISOString(),
       },
       {
-        name: "package.json",
-        path: "package.json",
-        type: "file",
+        name: 'package.json',
+        path: 'package.json',
+        type: 'file',
         size: 2048,
         modified: new Date().toISOString(),
       },
@@ -480,9 +500,9 @@ class MCPAdapter {
 
     if (recursive) {
       mockFiles.push({
-        name: "src",
-        path: "src",
-        type: "directory",
+        name: 'src',
+        path: 'src',
+        type: 'directory',
         size: 4096,
         modified: new Date().toISOString(),
       });
@@ -498,15 +518,19 @@ class MCPAdapter {
   /**
    * Read file (mock implementation)
    */
-  private async readFile(path: string, encoding: string = "utf8"): Promise<any> {
+  private async readFile(path: string, encoding: string = 'utf8'): Promise<any> {
     // Mock file reading
     const mockFiles: Record<string, string> = {
-      "README.md": "# README\nThis is a mock README file for the MCP adapter.",
-      "package.json": JSON.stringify({
-        name: "@promethean/omni-service",
-        version: "1.0.0",
-        description: "Omni Service with MCP support",
-      }, null, 2),
+      'README.md': '# README\nThis is a mock README file for the MCP adapter.',
+      'package.json': JSON.stringify(
+        {
+          name: '@promethean/omni-service',
+          version: '1.0.0',
+          description: 'Omni Service with MCP support',
+        },
+        null,
+        2,
+      ),
     };
 
     const content = mockFiles[path];
@@ -526,7 +550,7 @@ class MCPAdapter {
    * Validate tool arguments against schema
    */
   private validateToolArgs(schema: any, args: any): void {
-    if (schema.type !== "object") {
+    if (schema.type !== 'object') {
       return;
     }
 
@@ -544,16 +568,16 @@ class MCPAdapter {
       for (const [propName, propSchema] of Object.entries(schema.properties)) {
         if (propName in args) {
           const value = args[propName];
-          const propType = propSchema.type;
-          
+          const propType = (propSchema as any).type;
+
           // Simple type checking
-          if (propType === "string" && typeof value !== "string") {
+          if (propType === 'string' && typeof value !== 'string') {
             throw new Error(`Argument ${propName} must be a string`);
           }
-          if (propType === "number" && typeof value !== "number") {
+          if (propType === 'number' && typeof value !== 'number') {
             throw new Error(`Argument ${propName} must be a number`);
           }
-          if (propType === "boolean" && typeof value !== "boolean") {
+          if (propType === 'boolean' && typeof value !== 'boolean') {
             throw new Error(`Argument ${propName} must be a boolean`);
           }
         }
@@ -590,13 +614,13 @@ class MCPAdapter {
       toolsCount: this.tools.size,
       resourcesCount: this.resources.size,
       supportedMethods: [
-        "initialize",
-        "tools/list",
-        "tools/call",
-        "resources/list",
-        "resources/read",
-        "ping",
-        "get_user_info",
+        'initialize',
+        'tools/list',
+        'tools/call',
+        'resources/list',
+        'resources/read',
+        'ping',
+        'get_user_info',
       ],
     };
   }
@@ -606,12 +630,12 @@ class MCPAdapter {
    */
   private getDocumentation(): any {
     return {
-      title: "MCP (Model Context Protocol) Documentation",
-      version: "1.0.0",
-      description: "MCP server implementation for the Omni Service",
-      protocol: "JSON-RPC 2.0",
+      title: 'MCP (Model Context Protocol) Documentation',
+      version: '1.0.0',
+      description: 'MCP server implementation for the Omni Service',
+      protocol: 'JSON-RPC 2.0',
       capabilities: this.getCapabilities(),
-      tools: Array.from(this.tools.values()).map(tool => ({
+      tools: Array.from(this.tools.values()).map((tool) => ({
         name: tool.name,
         description: tool.description,
         inputSchema: tool.inputSchema,
@@ -619,76 +643,76 @@ class MCPAdapter {
       })),
       methods: {
         initialize: {
-          description: "Initialize the MCP session",
+          description: 'Initialize the MCP session',
           params: {},
           result: {
-            protocolVersion: "2024-11-05",
-            capabilities: "Capabilities object",
-            serverInfo: "Server information",
+            protocolVersion: '2024-11-05',
+            capabilities: 'Capabilities object',
+            serverInfo: 'Server information',
           },
         },
-        "tools/list": {
-          description: "List available tools",
+        'tools/list': {
+          description: 'List available tools',
           params: {},
           result: {
-            tools: "Array of tool definitions",
+            tools: 'Array of tool definitions',
           },
         },
-        "tools/call": {
-          description: "Execute a tool",
+        'tools/call': {
+          description: 'Execute a tool',
           params: {
-            name: "Tool name (string)",
-            arguments: "Tool arguments (object)",
+            name: 'Tool name (string)',
+            arguments: 'Tool arguments (object)',
           },
-          result: "Tool execution result",
+          result: 'Tool execution result',
         },
-        "resources/list": {
-          description: "List available resources",
+        'resources/list': {
+          description: 'List available resources',
           params: {},
           result: {
-            resources: "Array of resource definitions",
+            resources: 'Array of resource definitions',
           },
         },
-        "resources/read": {
-          description: "Read a resource",
+        'resources/read': {
+          description: 'Read a resource',
           params: {
-            uri: "Resource URI (string)",
+            uri: 'Resource URI (string)',
           },
-          result: "Resource content",
+          result: 'Resource content',
         },
-        "ping": {
-          description: "Test connection",
+        ping: {
+          description: 'Test connection',
           params: {},
           result: {
-            message: "pong",
-            timestamp: "ISO timestamp",
+            message: 'pong',
+            timestamp: 'ISO timestamp',
           },
         },
-        "get_user_info": {
-          description: "Get current user information",
+        get_user_info: {
+          description: 'Get current user information',
           params: {},
           result: {
-            id: "User ID",
-            username: "Username",
-            email: "Email",
-            roles: "User roles",
-            permissions: "User permissions",
+            id: 'User ID',
+            username: 'Username',
+            email: 'Email',
+            roles: 'User roles',
+            permissions: 'User permissions',
           },
         },
       },
       examples: {
         initialize: {
           request: {
-            jsonrpc: "2.0",
+            jsonrpc: '2.0',
             id: 1,
-            method: "initialize",
+            method: 'initialize',
             params: {},
           },
           response: {
-            jsonrpc: "2.0",
+            jsonrpc: '2.0',
             id: 1,
             result: {
-              protocolVersion: "2024-11-05",
+              protocolVersion: '2024-11-05',
               capabilities: {},
               serverInfo: {},
             },
@@ -696,30 +720,30 @@ class MCPAdapter {
         },
         echo: {
           request: {
-            jsonrpc: "2.0",
+            jsonrpc: '2.0',
             id: 2,
-            method: "tools/call",
+            method: 'tools/call',
             params: {
-              name: "echo",
+              name: 'echo',
               arguments: {
-                text: "Hello, MCP!",
+                text: 'Hello, MCP!',
               },
             },
           },
           response: {
-            jsonrpc: "2.0",
+            jsonrpc: '2.0',
             id: 2,
             result: {
-              result: "Hello, MCP!",
-              timestamp: "2025-06-20T18:45:00.000Z",
+              result: 'Hello, MCP!',
+              timestamp: '2025-06-20T18:45:00.000Z',
             },
           },
         },
       },
       authentication: {
-        type: "JWT Bearer Token",
-        header: "Authorization: Bearer <jwt_token>",
-        apikey: "x-api-key: <api_key>",
+        type: 'JWT Bearer Token',
+        header: 'Authorization: Bearer <jwt_token>',
+        apikey: 'x-api-key: <api_key>',
       },
     };
   }
@@ -729,49 +753,49 @@ class MCPAdapter {
    */
   private getToolExample(toolName: string): any {
     switch (toolName) {
-      case "echo":
+      case 'echo':
         return {
           request: {
-            jsonrpc: "2.0",
+            jsonrpc: '2.0',
             id: 3,
-            method: "tools/call",
+            method: 'tools/call',
             params: {
-              name: "echo",
+              name: 'echo',
               arguments: {
-                text: "Hello from MCP!",
+                text: 'Hello from MCP!',
               },
             },
           },
           response: {
-            jsonrpc: "2.0",
+            jsonrpc: '2.0',
             id: 3,
             result: {
-              result: "Hello from MCP!",
-              timestamp: "2025-06-20T18:45:00.000Z",
+              result: 'Hello from MCP!',
+              timestamp: '2025-06-20T18:45:00.000Z',
             },
           },
         };
 
-      case "get_time":
+      case 'get_time':
         return {
           request: {
-            jsonrpc: "2.0",
+            jsonrpc: '2.0',
             id: 4,
-            method: "tools/call",
+            method: 'tools/call',
             params: {
-              name: "get_time",
+              name: 'get_time',
               arguments: {},
             },
           },
           response: {
-            jsonrpc: "2.0",
+            jsonrpc: '2.0',
             id: 4,
             result: {
-              timestamp: "2025-06-20T18:45:00.000Z",
-              iso: "2025-06-20T18:45:00.000Z",
+              timestamp: '2025-06-20T18:45:00.000Z',
+              iso: '2025-06-20T18:45:00.000Z',
               epoch: 1650482700,
-              iso8601: "2025-06-20T18:45:00.000Z",
-              timezone: "UTC",
+              iso8601: '2025-06-20T18:45:00.000Z',
+              timezone: 'UTC',
             },
           },
         };
@@ -779,18 +803,18 @@ class MCPAdapter {
       default:
         return {
           request: {
-            jsonrpc: "2.0",
+            jsonrpc: '2.0',
             id: 5,
-            method: "tools/call",
+            method: 'tools/call',
             params: {
               name: toolName,
               arguments: {},
             },
           },
           response: {
-            jsonrpc: "2.0",
+            jsonrpc: '2.0',
             id: 5,
-            result: "Tool execution result",
+            result: 'Tool execution result',
           },
         };
     }
@@ -804,7 +828,7 @@ class MCPAdapter {
     if (!authManager) {
       return undefined;
     }
-    
+
     return authManager.createAuthMiddleware({
       required: this.options.enableAuth,
     });
@@ -817,13 +841,13 @@ class MCPAdapter {
 export function mountMCPAdapter(
   app: FastifyInstance,
   options: MCPAdapterOptions,
-  authManager?: any
+  authManager?: any,
 ): void {
   const mcpAdapter = new MCPAdapter(app, options);
-  
+
   // Store adapter instance in app for access
   (app as any).mcpAdapter = mcpAdapter;
-  
+
   // Mount the adapter
   mcpAdapter.mount();
 }

@@ -24,7 +24,7 @@
     "AUTHENTICATION.md"
   ],
   "scripts": {
-    "build": "pnpm build",
+    "build": "tsc",
     "start": "node dist/index.js",
     "start:dev": "pnpm build && node dist/index.js",
     "start:test": "JWT_SECRET=test-jwt-secret-for-testing-32-chars NODE_ENV=test node dist/index.js",
@@ -98,7 +98,6 @@
   },
   "devDependencies": {
     "@types/jsonwebtoken": "^9.0.0",
-    "@types/node": "^18.0.0",
     "@types/ws": "^8.5.0",
     "ava": "^5.1.0",
     "artillery": "^2.0.0",
