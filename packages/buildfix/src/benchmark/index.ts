@@ -31,10 +31,10 @@ export interface ModelConfig {
 export const models: ModelConfig[] = [
   { name: 'qwen3:8b', model: 'qwen3:8b' },
   { name: 'qwen3:14b', model: 'qwen3:14b' },
-  { name: 'gpt-oss:20b-cloud', model: 'gpt-oss:20b-cloud' },
-  { name: 'gpt-oss:120b-cloud', model: 'gpt-oss:120b-cloud' },
-  { name: 'qwen3-code:480b-cloud', model: 'qwen3-code:480b-cloud' },
-  { name: 'kimi-k2:1t-cloud', model: 'kimi-k2:1t-cloud' },
+  { name: 'qwen3-coder:7b', model: 'qwen2.5-coder:7b' },
+  { name: 'promethean-planner', model: 'promethean-planner:latest' },
+  { name: 'qwen3:4b', model: 'qwen3:4b' },
+  { name: 'llama3:8b', model: 'llama3:8b' },
 ];
 
 export class BuildFixBenchmark {

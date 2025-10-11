@@ -1,0 +1,10 @@
+{
+  "name": "ts7041-spread",
+  "description": "Generated TypeScript error",
+  "errorPattern": [
+    "TS0000"
+  ],
+  "files": [
+    "src.ts"
+  ]
+}

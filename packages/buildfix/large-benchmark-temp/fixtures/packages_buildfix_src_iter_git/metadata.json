@@ -1,0 +1,10 @@
+{
+  "name": "packages_buildfix_src_iter_git",
+  "description": "Generated TypeScript error",
+  "errorPattern": [
+    "TS0000"
+  ],
+  "files": [
+    "src.ts"
+  ]
+}

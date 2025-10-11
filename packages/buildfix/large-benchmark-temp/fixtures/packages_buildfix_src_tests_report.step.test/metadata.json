@@ -1,0 +1,10 @@
+{
+  "name": "packages_buildfix_src_tests_report.step.test",
+  "description": "Generated TypeScript error",
+  "errorPattern": [
+    "TS0000"
+  ],
+  "files": [
+    "src.ts"
+  ]
+}

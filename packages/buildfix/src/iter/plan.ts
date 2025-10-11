@@ -10,7 +10,9 @@ import type { BuildError, History } from '../types.js';
 export async function requestPlan(model: string, err: BuildError, history: History): Promise<Plan> {
   const raw = await ollamaJSON(model, buildPrompt(err, history));
   const parsed = PlanSchema.safeParse(raw);
-  if (!parsed.success) throw new Error('invalid plan JSON');
+  if (!parsed.success) {
+    throw new Error(`invalid plan JSON: ${parsed.error.message}`);
+  }
   return parsed.data;
 }
 

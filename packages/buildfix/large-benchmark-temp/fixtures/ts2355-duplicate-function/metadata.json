@@ -1,0 +1,10 @@
+{
+  "name": "ts2355-duplicate-function",
+  "description": "Generated TypeScript error",
+  "errorPattern": [
+    "TS0000"
+  ],
+  "files": [
+    "src.ts"
+  ]
+}

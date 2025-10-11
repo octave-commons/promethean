@@ -1,0 +1,10 @@
+{
+  "name": "ts1005-unclosed-brace",
+  "description": "Generated TypeScript error",
+  "errorPattern": [
+    "TS0000"
+  ],
+  "files": [
+    "src.ts"
+  ]
+}

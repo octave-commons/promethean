@@ -1,0 +1,10 @@
+{
+  "name": "ts2571-namespace-use",
+  "description": "Generated TypeScript error",
+  "errorPattern": [
+    "TS0000"
+  ],
+  "files": [
+    "src.ts"
+  ]
+}

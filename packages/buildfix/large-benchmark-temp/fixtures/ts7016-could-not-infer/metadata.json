@@ -1,0 +1,10 @@
+{
+  "name": "ts7016-could-not-infer",
+  "description": "Generated TypeScript error",
+  "errorPattern": [
+    "TS0000"
+  ],
+  "files": [
+    "src.ts"
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "name": "ts2564-uninitialized-var",
+  "description": "Generated TypeScript error",
+  "errorPattern": [
+    "TS0000"
+  ],
+  "files": [
+    "src.ts"
+  ]
+}

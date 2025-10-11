@@ -1,0 +1,10 @@
+{
+  "name": "ts7053-element-implicitly",
+  "description": "Generated TypeScript error",
+  "errorPattern": [
+    "TS0000"
+  ],
+  "files": [
+    "src.ts"
+  ]
+}

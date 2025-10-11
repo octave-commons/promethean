@@ -13,17 +13,9 @@ async function runLargeScaleBenchmark(): Promise<BenchmarkResult[]> {
   await fs.rm(tempDir, { recursive: true, force: true });
   await fs.mkdir(tempDir, { recursive: true });
 
-  // Copy the benchmark-fixtures directory to our temp directory
+  // Find all TypeScript files with errors in the benchmark-fixtures directory
   const sourceDir = path.resolve('./benchmark-fixtures');
-  const targetDir = path.join(tempDir, 'fixtures');
-
-  console.log('📁 Copying generated error fixtures...');
-  console.log(`Source dir: ${sourceDir}`);
-  console.log(`Target dir: ${targetDir}`);
-  await copyDirectory(sourceDir, targetDir);
-
-  // Find all TypeScript files with errors
-  const errorFiles = await findErrorFiles(targetDir);
+  const errorFiles = await findErrorFiles(sourceDir);
   console.log(`📊 Found ${errorFiles.length} TypeScript files with errors`);
   if (errorFiles.length > 0) {
     console.log('First few files:', errorFiles.slice(0, 3));
@@ -36,10 +28,10 @@ async function runLargeScaleBenchmark(): Promise<BenchmarkResult[]> {
   // Create a custom benchmark instance for our generated fixtures
   const benchmark = new BuildFixBenchmark(tempDir);
 
-  // Convert error files to fixture format
+  // Convert error files to fixture format and create proper directory structure
   const generatedFixtures: Fixture[] = [];
   for (const filePath of errorFiles) {
-    const relativePath = path.relative(targetDir, filePath);
+    const relativePath = path.relative(sourceDir, filePath);
     const fixtureName = relativePath.replace(/\//g, '_').replace(/\.ts$/, '');
 
     // Read the file to extract error information
@@ -51,17 +43,66 @@ async function runLargeScaleBenchmark(): Promise<BenchmarkResult[]> {
     const errorCodeMatch = content.match(/\/\/ ERROR_CODE: (\w+)/);
     const errorCode = errorCodeMatch ? errorCodeMatch[1] : 'TS0000';
 
-    generatedFixtures.push({
+    const fixture: Fixture = {
       name: fixtureName,
-      description,
+      description: description || 'Generated TypeScript error',
       files: {
         'src.ts': content,
       },
       expectedFixes: {
         'src.ts': content, // Will be replaced by AI model
       },
-      errorPattern: [errorCode],
-    });
+      errorPattern: [errorCode || 'TS0000'],
+    };
+
+    generatedFixtures.push(fixture);
+
+    // Create proper fixture directory structure
+    const fixtureDir = path.join(tempDir, 'fixtures', fixtureName);
+    await fs.mkdir(fixtureDir, { recursive: true });
+
+    // Create all files for the fixture
+    for (const [filename, fileContent] of Object.entries(fixture.files)) {
+      await fs.writeFile(path.join(fixtureDir, filename), fileContent.trim(), 'utf8');
+    }
+
+    // Create tsconfig
+    await fs.writeFile(
+      path.join(fixtureDir, 'tsconfig.json'),
+      JSON.stringify(
+        {
+          compilerOptions: {
+            strict: true,
+            noEmit: true,
+            target: 'ES2020',
+            module: 'ESNext',
+            moduleResolution: 'node',
+            esModuleInterop: true,
+            allowSyntheticDefaultImports: true,
+          },
+          include: ['*.ts'],
+        },
+        null,
+        2,
+      ),
+      'utf8',
+    );
+
+    // Create metadata
+    await fs.writeFile(
+      path.join(fixtureDir, 'metadata.json'),
+      JSON.stringify(
+        {
+          name: fixture.name,
+          description: fixture.description,
+          errorPattern: fixture.errorPattern,
+          files: Object.keys(fixture.files),
+        },
+        null,
+        2,
+      ),
+      'utf8',
+    );
   }
 
   console.log(`🔧 Created ${generatedFixtures.length} fixtures from generated errors`);
@@ -72,6 +113,7 @@ async function runLargeScaleBenchmark(): Promise<BenchmarkResult[]> {
 
   for (let i = 0; i < fixturesToTest.length; i++) {
     const fixture = fixturesToTest[i];
+    if (!fixture) continue;
     console.log(`\n📝 Testing fixture ${i + 1}/${fixturesToTest.length}: ${fixture.name}`);
 
     for (const modelConfig of models) {
@@ -92,9 +134,37 @@ async function runLargeScaleBenchmark(): Promise<BenchmarkResult[]> {
 
         if (result.errorMessage) {
           console.log(`    💭 ${result.errorMessage}`);
+
+          // Bail early on any error unless --no-bail flag is passed
+          if (!process.argv.includes('--no-bail')) {
+            console.log(`\n🛑 Bailing early due to error in fixture ${fixture.name}`);
+            console.log(`Use --no-bail to continue on errors`);
+            return results;
+          }
         }
       } catch (error) {
         console.log(`    ❌ ${modelConfig.name}: Failed - ${error}`);
+
+        const errorMsg = error instanceof Error ? error.message : String(error);
+
+        // Bail early on any error unless --no-bail flag is passed
+        if (!process.argv.includes('--no-bail')) {
+          console.log(`\n🛑 Bailing early due to error: ${errorMsg}`);
+          console.log(`Use --no-bail to continue on errors`);
+          results.push({
+            fixture: fixture.name,
+            model: modelConfig.name,
+            success: false,
+            errorCountBefore: 0,
+            errorCountAfter: 0,
+            errorsResolved: false,
+            planGenerated: false,
+            errorMessage: errorMsg,
+            duration: 0,
+            attempts: 0,
+          });
+          return results;
+        }
 
         results.push({
           fixture: fixture.name,
@@ -104,7 +174,7 @@ async function runLargeScaleBenchmark(): Promise<BenchmarkResult[]> {
           errorCountAfter: 0,
           errorsResolved: false,
           planGenerated: false,
-          errorMessage: error instanceof Error ? error.message : String(error),
+          errorMessage: errorMsg,
           duration: 0,
           attempts: 0,
         });
@@ -113,22 +183,6 @@ async function runLargeScaleBenchmark(): Promise<BenchmarkResult[]> {
   }
 
   return results;
-}
-
-async function copyDirectory(src: string, dest: string): Promise<void> {
-  await fs.mkdir(dest, { recursive: true });
-  const entries = await fs.readdir(src, { withFileTypes: true });
-
-  for (const entry of entries) {
-    const srcPath = path.join(src, entry.name);
-    const destPath = path.join(dest, entry.name);
-
-    if (entry.isDirectory()) {
-      await copyDirectory(srcPath, destPath);
-    } else {
-      await fs.copyFile(srcPath, destPath);
-    }
-  }
 }
 
 async function findErrorFiles(dir: string): Promise<string[]> {

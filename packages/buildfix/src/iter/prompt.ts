@@ -31,22 +31,23 @@ Result: tsc ${a.resolved ? 'OK' : 'failed'}; after=${
  Return ONLY JSON with keys:
  - title (string)
  - rationale (string)
- - "dsl" (array of operations). Example op: {"op":"ensureExported","file":"src/foo.ts","symbol":"bar","kind":"function"}
+ - "dsl" (array of operations)
 
- Available operations:
- - ensureExported: Make a function/class/variable exported
- - renameSymbol: Rename a function, class, or variable
- - makeParamOptional: Make a function parameter optional
- - addImport: Add an import statement
- - addTypeAnnotation: Add type annotation to function or variable
- - insertStubFunction: Insert a new function stub
+ Available operations with EXACT field names:
+ - ensureExported: {"op":"ensureExported","file":"path/to/file.ts","symbol":"functionName","kind":"function"}
+ - renameSymbol: {"op":"renameSymbol","file":"path/to/file.ts","from":"oldName","to":"newName"}
+ - makeParamOptional: {"op":"makeParamOptional","file":"path/to/file.ts","fn":"functionName","param":"paramName"}
+ - addImport: {"op":"addImport","file":"path/to/file.ts","from":"module","names":["import1","import2"]}
+ - addTypeAnnotation: {"op":"addTypeAnnotation","file":"path/to/file.ts","selector":"expression","typeText":"string"}
+ - insertStubFunction: {"op":"insertStubFunction","file":"path/to/file.ts","name":"functionName","signature":"() => void","returns":"void"}
 
  Rules:
  - Do NOT include backticks or markdown fences anywhere.
  - Use DSL operations for all fixes.
  - Prefer minimal, targeted edits.
+ - Use EXACT field names as shown above.
 
-Target error:
+ Target error:
 FILE: ${err.file}
 LINE: ${err.line}, COL: ${err.col}
 CODE: ${err.code}

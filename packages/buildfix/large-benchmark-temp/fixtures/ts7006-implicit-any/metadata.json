@@ -1,0 +1,10 @@
+{
+  "name": "ts7006-implicit-any",
+  "description": "Generated TypeScript error",
+  "errorPattern": [
+    "TS0000"
+  ],
+  "files": [
+    "src.ts"
+  ]
+}
