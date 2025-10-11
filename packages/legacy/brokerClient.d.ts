@@ -1,17 +1,29 @@
-import type { WebSocket } from 'ws';
+export interface BrokerOptions {
+  host?: string;
+  port?: number;
+  timeout?: number;
+  url?: string;
+  id?: string;
+}
+
+export interface Task {
+  id: string;
+  queue: string;
+  data: any;
+}
 
 export class BrokerClient {
-    socket: WebSocket | null;
-    heartbeatInterval: number;
-    constructor(options?: { url?: string; id?: string; heartbeatInterval?: number });
-    connect(): Promise<void>;
-    subscribe(topic: string, handler: (event: any) => void): void;
-    unsubscribe(topic: string): void;
-    publish(type: string, payload: any, opts?: any): void;
-    enqueue(queue: string, task: any): void;
-    ready(queue: string): void;
-    ack(taskId: string): void;
-    heartbeat(): void;
-    onTaskReceived(callback: (task: any) => void): void;
-    disconnect(): void;
+  constructor(options?: BrokerOptions);
+  connect(): Promise<void>;
+  disconnect(): Promise<void>;
+  publish(type: string, payload: any, opts?: any): void;
+  subscribe(topic: string, handler: (message: any) => void): Promise<void>;
+  unsubscribe(topic: string): void;
+  enqueue(queue: string, task: any): Promise<void>;
+  onTaskReceived(handler: (task: Task) => void): void;
+  ack(taskId: string): void;
+  ready(queue: string): void;
+  socket: any;
 }
+
+export function createBrokerClient(options?: BrokerOptions): BrokerClient;

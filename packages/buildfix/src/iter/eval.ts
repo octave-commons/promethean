@@ -1,9 +1,10 @@
-import * as path from "path";
+import * as path from 'path';
 
-import { tsc } from "../utils.js";
+import { tsc } from '../utils.js';
+import type { RawTscDiagnostic } from '../types.js';
 
-export function errorStillPresent(diags: any[], key: string) {
-  const [code, file, lineStr] = key.split("|") as [string, string, string];
+export function errorStillPresent(diags: RawTscDiagnostic[], key: string) {
+  const [code, file, lineStr] = key.split('|') as [string, string, string];
   const line = Number(lineStr);
   return diags.some(
     (d) =>

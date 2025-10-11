@@ -226,3 +226,50 @@ test("Task statuses are case insensitive, always mapping to a single column rega
     );
   }
 });
+
+test("syncBoardAndTasks removes duplicate fallback entries", async (t) => {
+  const tempDir = await withTempDir(t);
+  const boardPath = path.join(tempDir, "board.md");
+  const tasksDir = path.join(tempDir, "tasks");
+
+  await mkdir(tasksDir, { recursive: true });
+  await writeFile(boardPath, "", "utf8");
+
+  const canonical = makeTask({
+    uuid: "sync-dedupe-canonical",
+    title: "Sync Dedupe",
+    status: "Document",
+    slug: "sync-dedupe",
+  });
+  const stale = makeTask({
+    uuid: "sync-dedupe-stale",
+    title: "Sync Dedupe",
+    status: "Document",
+    slug: "Task deadbeef",
+  });
+
+  const board = makeBoard([
+    {
+      name: "Document",
+      count: 2,
+      limit: null,
+      tasks: [stale, canonical],
+    },
+  ]);
+
+  await writeTaskFile(tasksDir, canonical, { content: "Canonical sync content" });
+
+  await syncBoardAndTasks(board, tasksDir, boardPath);
+
+  const documentColumn = board.columns[0];
+  t.truthy(documentColumn);
+  t.is(documentColumn?.tasks.length, 1);
+  t.is(documentColumn?.tasks[0]?.uuid, canonical.uuid);
+
+  const snapshot = await snapshotTaskFiles(tasksDir);
+  t.deepEqual(Array.from(snapshot.keys()), ["sync-dedupe.md"]);
+
+  const boardContent = await readFile(boardPath, "utf8");
+  t.false(boardContent.includes("sync-dedupe-stale"));
+  t.true(boardContent.includes(canonical.uuid));
+});

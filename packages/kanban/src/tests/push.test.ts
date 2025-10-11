@@ -62,3 +62,28 @@ test("Task file bodies are the same before and after the push", async (t) => {
 
   t.deepEqual(Array.from(after.entries()), Array.from(before.entries()));
 });
+
+test("pushToTasks normalizes fallback slugs to canonical basenames", async (t) => {
+  const tempDir = await withTempDir(t);
+  const tasksDir = path.join(tempDir, "tasks");
+  await mkdir(tasksDir, { recursive: true });
+
+  const task = makeTask({
+    uuid: "push-fallback-uuid",
+    title: "Normalize Push",
+    status: "Todo",
+    slug: "Task deadbeef",
+    content: "Fallback slug body",
+  });
+
+  const board = makeBoard([
+    { name: "Todo", count: 1, limit: null, tasks: [task] },
+  ]);
+
+  await pushToTasks(board, tasksDir);
+
+  const snapshot = await snapshotTaskFiles(tasksDir);
+  t.deepEqual(Array.from(snapshot.keys()), ["Normalize Push.md"]);
+  const persisted = snapshot.get("Normalize Push.md");
+  t.truthy(persisted && persisted.includes("Normalize Push"));
+});

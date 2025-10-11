@@ -1,3 +1,11 @@
+export type RawTscDiagnostic = {
+  file: string;
+  line: number;
+  col: number;
+  code: string; // TS2345
+  message: string;
+};
+
 export type BuildError = {
   file: string;
   line: number;

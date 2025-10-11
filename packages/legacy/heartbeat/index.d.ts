@@ -1,29 +1,15 @@
-export interface HeartbeatOptions {
+export interface HeartbeatClientOptions {
   url?: string;
   pid?: number;
   name?: string;
   interval?: number;
-  onHeartbeat?: (data: HeartbeatData) => void;
-}
-
-export interface HeartbeatData {
-  pid: number;
-  name: string;
-  cpu: number;
-  memory: number;
-  netRx: number;
-  netTx: number;
-  status?: string;
-  [key: string]: any;
+  onHeartbeat?: (data: { pid: number; name: string }) => void;
+  maxMisses?: number;
+  fatalOnMiss?: boolean;
 }
 
 export class HeartbeatClient {
-  constructor(options?: HeartbeatOptions);
-  url: string;
-  pid: number;
-  name: string;
-  interval: number;
-  onHeartbeat?: (data: HeartbeatData) => void;
+  constructor(options?: HeartbeatClientOptions);
   sendOnce(): Promise<void>;
   start(): void;
   stop(): void;

@@ -1,0 +1,1264 @@
+{
+  "metadata": {
+    "generated": "2025-10-11T19:58:01.813Z"
+  },
+  "results": [
+    {
+      "provider": {
+        "name": "ollama-local",
+        "type": "ollama",
+        "endpoint": "http://127.0.0.1:11434",
+        "model": "error/llama3.1-codex:latest"
+      },
+      "request": {
+        "prompt": "Write a Python function to calculate fibonacci numbers",
+        "maxTokens": 500,
+        "temperature": 0.7
+      },
+      "response": {
+        "content": "**Fibonacci Function in Python**\n====================================\n\nHere is a simple Python function that calculates Fibonacci numbers using recursion and memoization for efficiency.\n\n```python\ndef fibonacci(n, memo={}):\n    \"\"\"\n    Calculate the nth Fibonacci number.\n\n    Args:\n        n (int): The position of the Fibonacci number to calculate.\n        memo (dict, optional): A dictionary to store previously calculated values. Defaults to {}.\n\n    Returns:\n        int: The nth Fibonacci number.\n    \"\"\"\n\n    # Base cases\n    if n <= 0:\n        return 0\n    elif n == 1:\n        return 1\n\n    # Check if the value is already in memo\n    if n not in memo:\n        # Calculate the value and store it in memo\n        result = fibonacci(n-1, memo) + fibonacci(n-2, memo)\n        memo[n] = result\n\n    return memo[n]\n```\n\n**Example Usage:**\n\n```python\nprint(fibonacci(10))  # Output: 55\nprint(fibonacci(20))  # Output: 6765\n```\n\nThis function uses a dictionary `memo` to store previously calculated Fibonacci numbers, which significantly improves performance by avoiding redundant calculations. The base cases for recursion are handled separately, and the recursive calls are made with updated values stored in `memo`.\n\nYou can also use an iterative approach if you prefer:\n\n```python\ndef fibonacci(n):\n    \"\"\"\n    Calculate the nth Fibonacci number.\n\n    Args:\n        n (int): The position of the Fibonacci number to calculate.\n\n    Returns:\n        int: The nth Fibonacci number.\n    \"\"\"\n\n    a, b = 0, 1\n\n    for _ in range(2, n+1):\n        a, b = b, a + b\n\n    return b\n```\n\nThis iterative version has the same performance as the recursive memoized version but with less memory usage.",
+        "tokens": 390,
+        "time": 75005,
+        "metadata": {
+          "model": "error/llama3.1-codex:latest",
+          "created_at": "2025-10-11T19:47:15.029914049Z",
+          "done": true,
+          "total_duration": 73993053005,
+          "load_duration": 14957150309,
+          "prompt_eval_count": 18,
+          "prompt_eval_duration": 965830894,
+          "eval_count": 390,
+          "eval_duration": 58048306319
+        }
+      },
+      "metrics": {
+        "tps": 5.199584033277338,
+        "latency": 75006,
+        "timeToFirstToken": 75006,
+        "timeToCompletion": 75006
+      },
+      "resources": {
+        "memoryUsage": 65.0859375,
+        "cpuUsage": 8.94488694107679,
+        "gpuMemoryUsage": null
+      },
+      "timestamp": "2025-10-11T19:47:16.232Z",
+      "success": true
+    },
+    {
+      "provider": {
+        "name": "ollama-local",
+        "type": "ollama",
+        "endpoint": "http://127.0.0.1:11434",
+        "model": "llama3.1:latest"
+      },
+      "request": {
+        "prompt": "Write a Python function to calculate fibonacci numbers",
+        "maxTokens": 500,
+        "temperature": 0.7
+      },
+      "response": {
+        "content": "**Fibonacci Function in Python**\n====================================\n\nBelow is an implementation of a recursive and iterative Fibonacci function in Python.\n\n### Recursive Fibonacci Function\n```python\ndef fibonacci_recursive(n):\n    \"\"\"\n    Calculate the nth Fibonacci number recursively.\n    \n    Args:\n        n (int): The position of the Fibonacci number to calculate.\n        \n    Returns:\n        int: The nth Fibonacci number.\n    \"\"\"\n    if n <= 0:\n        return \"Input should be a positive integer.\"\n    elif n == 1:\n        return 0\n    elif n == 2:\n        return 1\n    else:\n        return fibonacci_recursive(n - 1) + fibonacci_recursive(n - 2)\n```\n\n### Iterative Fibonacci Function\n```python\ndef fibonacci_iterative(n):\n    \"\"\"\n    Calculate the nth Fibonacci number iteratively.\n    \n    Args:\n        n (int): The position of the Fibonacci number to calculate.\n        \n    Returns:\n        int: The nth Fibonacci number.\n    \"\"\"\n    if n <= 0:\n        return \"Input should be a positive integer.\"\n    \n    fib_prev = 0\n    fib_curr = 1\n    \n    for _ in range(2, n + 1):\n        fib_next = fib_prev + fib_curr\n        fib_prev = fib_curr\n        fib_curr = fib_next\n        \n    return fib_curr if n > 0 else \"Input should be a positive integer.\"\n```\n\n### Example Usage\n```python\nprint(fibonacci_recursive(10))  # Output: 55\nprint(fibonacci_iterative(10))   # Output: 55\n```\n\n**Advice**\n\n*   The iterative approach is generally faster and more efficient for large values of `n`.\n*   However, the recursive function can be useful when memory usage is a concern or for educational purposes.\n*   Be aware that both functions will throw an error if `n` is not a positive integer. You may want to add input validation depending on your use case.",
+        "tokens": 407,
+        "time": 75652,
+        "metadata": {
+          "model": "llama3.1:latest",
+          "created_at": "2025-10-11T19:48:31.8803755Z",
+          "done": true,
+          "total_duration": 75641221754,
+          "load_duration": 57538685207,
+          "prompt_eval_count": 18,
+          "prompt_eval_duration": 2999835104,
+          "eval_count": 407,
+          "eval_duration": 15102108301
+        }
+      },
+      "metrics": {
+        "tps": 5.379897425051552,
+        "latency": 75652,
+        "timeToFirstToken": 75652,
+        "timeToCompletion": 75652
+      },
+      "resources": {
+        "memoryUsage": 65.47265625,
+        "cpuUsage": 26.272129303599375,
+        "gpuMemoryUsage": null
+      },
+      "timestamp": "2025-10-11T19:48:32.121Z",
+      "success": true
+    },
+    {
+      "provider": {
+        "name": "ollama-local",
+        "type": "ollama",
+        "endpoint": "http://127.0.0.1:11434",
+        "model": "error/qwen2.5-codex:latest"
+      },
+      "request": {
+        "prompt": "Write a Python function to calculate fibonacci numbers",
+        "maxTokens": 500,
+        "temperature": 0.7
+      },
+      "response": {
+        "content": "Certainly! Below is a Python function\n\n",
+        "tokens": 10,
+        "time": 8502,
+        "metadata": {
+          "model": "error/qwen2.5-codex:latest",
+          "created_at": "2025-10-11T19:48:40.626018394Z",
+          "done": true,
+          "total_duration": 8499013976,
+          "load_duration": 8193393226,
+          "prompt_eval_count": 37,
+          "prompt_eval_duration": 100864432,
+          "eval_count": 10,
+          "eval_duration": 204275313
+        }
+      },
+      "metrics": {
+        "tps": 1.1761938367442955,
+        "latency": 8502,
+        "timeToFirstToken": 8502,
+        "timeToCompletion": 8502
+      },
+      "resources": {
+        "memoryUsage": 65.38671875,
+        "cpuUsage": 4.776040286244368,
+        "gpuMemoryUsage": null
+      },
+      "timestamp": "2025-10-11T19:48:40.835Z",
+      "success": true
+    },
+    {
+      "provider": {
+        "name": "ollama-local",
+        "type": "ollama",
+        "endpoint": "http://127.0.0.1:11434",
+        "model": "qwen2.5-coder:7b-instruct"
+      },
+      "request": {
+        "prompt": "Write a Python function to calculate fibonacci numbers",
+        "maxTokens": 500,
+        "temperature": 0.7
+      },
+      "response": {
+        "content": "Certainly! Below is a Python function\n\n",
+        "tokens": 10,
+        "time": 254,
+        "metadata": {
+          "model": "qwen2.5-coder:7b-instruct",
+          "created_at": "2025-10-11T19:48:41.093121163Z",
+          "done": true,
+          "total_duration": 250523159,
+          "load_duration": 43753042,
+          "prompt_eval_count": 37,
+          "prompt_eval_duration": 1798694,
+          "eval_count": 10,
+          "eval_duration": 204084675
+        }
+      },
+      "metrics": {
+        "tps": 39.37007874015748,
+        "latency": 254,
+        "timeToFirstToken": 254,
+        "timeToCompletion": 254
+      },
+      "resources": {
+        "memoryUsage": 65.4375,
+        "cpuUsage": 5.649157581764123,
+        "gpuMemoryUsage": null
+      },
+      "timestamp": "2025-10-11T19:48:41.195Z",
+      "success": true
+    },
+    {
+      "provider": {
+        "name": "ollama-local",
+        "type": "ollama",
+        "endpoint": "http://127.0.0.1:11434",
+        "model": "error/qwen3-codex:latest"
+      },
+      "request": {
+        "prompt": "Write a Python function to calculate fibonacci numbers",
+        "maxTokens": 500,
+        "temperature": 0.7
+      },
+      "response": {
+        "content": "<think>\nWe are going to write a function that calculates the nth Fibonacci number.\n There are multiple ways to do this: recursion, dynamic programming (iterative), using memoization, etc.\n Since the problem doesn't specify the method, I'll choose an iterative method for efficiency and to avoid recursion limits and stack overflow.\n\n Steps:\n 1. If n is 0, return 0.\n 2. If n is 1, return 1.\n 3. Otherwise, we can start from 0 and 1 and iterate up to n.\n\n However, note: the problem says \"fibonacci numbers\", so we might be expected to return a list? \n But the problem says: \"calculate fibonacci numbers\" - it could be ambiguous.\n\n Let me read: \"Write a Python function to calculate fibonacci numbers\"\n\n I think they mean the nth Fibonacci number.\n\n But to be safe, I'll write a function that returns the nth Fibonacci number (as a single number).\n\n Alternatively, if they want a list of the first n Fibonacci numbers, that's another interpretation.\n\n Since the problem is a bit ambiguous, I'll provide two versions:\n\n Option 1: A function that returns the nth Fibonacci number (for n>=0)\n Option 2: A function that returns a list of the first n Fibonacci numbers (for n>=1)\n\n However, the problem says \"a function\", so I'll choose the most common one: the nth Fibonacci number.\n\n Let me check: in many contexts, when they say \"fibonacci numbers\" they might mean the sequence.\n\n But the problem says \"calculate fibonacci numbers\" (plural) so maybe they want the sequence.\n\n I think I'll write a function that returns the nth Fibonacci number (as a single number) because that's the most common in such problems.\n\n But to be safe, I'll write a function that can be called with an integer n and returns the nth Fibonacci number.\n\n Steps for the iterative method:\n\n   if n == 0:\n        return .0\n   elif n == 1:\n        return 1\n   else:\n        a, b = 0, 1\n        for _ in range(2, n+1):\n            a, b = b, a+b\n        return b\n\n However, note: the 0th Fibonacci number is 0, 1st is 1, 2nd is 1, 3rd is 2, etc.\n\n Let me test for",
+        "tokens": 500,
+        "time": 13944,
+        "metadata": {
+          "model": "error/qwen3-codex:latest",
+          "created_at": "2025-10-11T19:48:55.116734515Z",
+          "done": true,
+          "total_duration": 13917834730,
+          "load_duration": 7113297377,
+          "prompt_eval_count": 16,
+          "prompt_eval_duration": 104659129,
+          "eval_count": 500,
+          "eval_duration": 6699222945
+        }
+      },
+      "metrics": {
+        "tps": 35.85771658060815,
+        "latency": 13944,
+        "timeToFirstToken": 13944,
+        "timeToCompletion": 13944
+      },
+      "resources": {
+        "memoryUsage": 66.3203125,
+        "cpuUsage": 8.060200668896321,
+        "gpuMemoryUsage": null
+      },
+      "timestamp": "2025-10-11T19:48:55.370Z",
+      "success": true
+    },
+    {
+      "provider": {
+        "name": "ollama-local",
+        "type": "ollama",
+        "endpoint": "http://127.0.0.1:11434",
+        "model": "error/qwen3-codex:promethean"
+      },
+      "request": {
+        "prompt": "Write a Python function to calculate fibonacci numbers",
+        "maxTokens": 500,
+        "temperature": 0.7
+      },
+      "response": {
+        "content": "\n<think>\nWe are in a new session. We must activate the project and check onboarding.\n Step 1: Activate project\n Step 2: Check onboarding. If not done, do onboarding.\n\n However, the user asks for writing a Python function for Fibonacci.\n\n We don't have a project set up yet. So we do:\n\n 1) serena.activate_project(project=\"/home/err/devel/promethean\")\n 2) serena.check_onboarding_performed(); if false -> serena.onboarding()\n\n But note: the problem says \"on new session\", so we do these two steps.\n\n However, the user hasn: \"Write a Python function to calculate fibonacci numbers\"\n\n We are to write a function. We don't have a file for Fibonacci yet.\n\n Let's plan:\n\n We'll create a new file: `fibonacci.py` in the project directory.\n\n Steps:\n 1. Activate project\n 2. Check onboarding -> if not done, do onboarding (but we don't know if it's done, so we do it if needed)\n 3. Then, we want to create a file with the function.\n\n But note: the problem says \"do not invent paths/IDs; discover first\". So we should check if the file exists? Or we can create it.\n\n However, the problem says: \"After any write/edit, immediately re-read and summarize the delta\"\n\n We are to write a Python function. We'll create a new file.\n\n Let's do:\n\n  a) Check if the file exists? (using list_directory or search_files? But we want to create it if not exists)\n\n But the problem says: \"Do not invent paths/IDs; discover first\". So we should check the project directory.\n\n We can use: list_allowed_directories? But the project is set to /home/err/devel/promethean.\n\n Alternatively, we can use: search_files for a file named \"fibonacci.py\" or create it.\n\n However, the problem says: \"use ONLY these families\". We have:\n\n   file-system: list_directory, ... \n\n Let me think: we are in the project directory? We activated the project.\n\n We can do:\n\n   serena.list_directory(project_path) -> but the project path is given as \"/home/err/devel/promethean\"\n\n Actually, the tool `list_directory` takes a path.\n\n We want to check the current project directory: /home/err/devel",
+        "tokens": 500,
+        "time": 6929,
+        "metadata": {
+          "model": "error/qwen3-codex:promethean",
+          "created_at": "2025-10-11T19:49:02.301245914Z",
+          "done": true,
+          "total_duration": 6926208850,
+          "load_duration": 40490462,
+          "prompt_eval_count": 286,
+          "prompt_eval_duration": 71360688,
+          "eval_count": 500,
+          "eval_duration": 6814056981
+        }
+      },
+      "metrics": {
+        "tps": 72.16048491845865,
+        "latency": 6929,
+        "timeToFirstToken": 6929,
+        "timeToCompletion": 6929
+      },
+      "resources": {
+        "memoryUsage": 65.81640625,
+        "cpuUsage": 6.497868492442836,
+        "gpuMemoryUsage": null
+      },
+      "timestamp": "2025-10-11T19:49:02.512Z",
+      "success": true
+    },
+    {
+      "provider": {
+        "name": "ollama-local",
+        "type": "ollama",
+        "endpoint": "http://127.0.0.1:11434",
+        "model": "qwen3-codex:promethean"
+      },
+      "request": {
+        "prompt": "Write a Python function to calculate fibonacci numbers",
+        "maxTokens": 500,
+        "temperature": 0.7
+      },
+      "response": {
+        "content": "\n<think>\nOkay, the user wants a Python function to calculate Fibonacci numbers. Let me think about how to approach this.\n\nFirst, I need to check if there's a project set up. The instructions say to bootstrap by activating the project and checking onboarding. So I should start with serena.activate_project for the given path.\n\nWait, the user didn't mention a project path, but the example says to use \"/home/err/devel/promethean\". So I'll do that first step.\n\nWait, the user is asking to write the function, so maybe the project is already set up. But according to the instructions, the first step is to activate the project and check onboarding.\n\nSo I'll call serena.activate_project with the path given. Then check if onboarding is done. If not, do onboarding.\n\nBut the user's request is to write the function. Maybe I should proceed to create the function in the project.\n\nHmm, but the tools available include writing files. So I need to create a Python file with the Fibonacci function.\n\nWait, the tools include write_file, edit_file, etc. So I should write a new Python file in the project directory.\n\nFirst, activate the project. Then, maybe create a new file like fibonacci.py.\n\nBut I need to check if the project has the necessary files. Let me use the file-system tools to list the directory to see if there's a fibonacci.py already.\n\nWait, the instructions say to use the MCP endpoints. Let me think: the project path is \"/home/.err/devel/promethean\" (the example path). Let me call serena.activate_project with that.\n\nWait, the user's message is to write the function, so the assistant should start by activating the project.\n\nSo step 1: serena.activate_project(project=\"/home/err/devel/promethean\")\n\nThen check onboarding. If not done, do onboarding.\n\nBut the user is asking for a function, so maybe the next step is to create the file.\n\nWait, the tools include write_file. So I need to write a Python file with the Fibonacci function.\n\nLet me structure it:\n\nFirst, activate project.\n\nThen, check if onboarding is done. If not, do onboarding.\n\nBut the user's main request is to write the function. So perhaps after activating, create a new file.\n\nAlternatively, maybe the project already has a Python environment, so the next step is to write",
+        "tokens": 500,
+        "time": 7040,
+        "metadata": {
+          "model": "qwen3-codex:promethean",
+          "created_at": "2025-10-11T19:49:09.546043789Z",
+          "done": true,
+          "total_duration": 7029171738,
+          "load_duration": 46788985,
+          "prompt_eval_count": 393,
+          "prompt_eval_duration": 94221899,
+          "eval_count": 500,
+          "eval_duration": 6887627703
+        }
+      },
+      "metrics": {
+        "tps": 71.02272727272728,
+        "latency": 7040,
+        "timeToFirstToken": 7040,
+        "timeToCompletion": 7040
+      },
+      "resources": {
+        "memoryUsage": 66.4453125,
+        "cpuUsage": 7.301323444792532,
+        "gpuMemoryUsage": null
+      },
+      "timestamp": "2025-10-11T19:49:09.761Z",
+      "success": true
+    },
+    {
+      "provider": {
+        "name": "ollama-local",
+        "type": "ollama",
+        "endpoint": "http://127.0.0.1:11434",
+        "model": "qwen3-codex:4b-128k"
+      },
+      "request": {
+        "prompt": "Write a Python function to calculate fibonacci numbers",
+        "maxTokens": 500,
+        "temperature": 0.7
+      },
+      "response": {
+        "content": "<think>\nOkay, so I need to write a Python function that calculates Fibonacci numbers. Let me think about how to approach this.\n\nFirst, I remember that the Fibonacci sequence starts with 0 and 1, and each subsequent number is the sum of the previous two. So the sequence goes 0, 1, 1, ... etc.\n\nThe user wants a function that calculates Fibonacci numbers. Wait, does that mean a function that returns the nth Fibonacci number, or a function that generates the sequence up to a certain point? The problem says \"calculate fibonacci numbers\" but the question is a bit ambiguous. But in common terms, when people ask for a Fibonacci function, they usually want the nth Fibonacci number.\n\nLet me check: for example, the 0th Fibonacci number is 0, 1st is 1, 2nd is 1, 3rd is 2, etc. But sometimes people start counting from 1. Hmm. Maybe the function should take an integer n and return the nth Fibonacci number, with n starting at 0.\n\nWait, the problem says \"calculate fibonacci numbers\" – maybe the user wants a function that can generate the Fibonacci numbers up to a certain limit or return the nth one. Let me think about the most common way this is implemented.\n\nIn Python, a typical way is to have a function that takes a position n and returns the nth Fibonacci number. Let's assume that.\n\nSo, for example, fib(0) = 0, fib(1) = 1, fib(2) = 1, fib(3) = 2, etc.\n\nBut maybe the user wants a function that can handle large numbers, or use memoization to avoid recalculating. But the question says \"write a Python function to calculate fibonacci numbers\". Let me think of the simplest way first.\n\nThe simplest way is to use recursion. But recursion for Fibonacci can be inefficient for large n, but maybe the user just wants a basic implementation.\n\nWait, the problem says \"calculate fibonacci numbers\" – maybe they want a generator or a list. Hmm. Let me check the problem statement again: \"Write a Python function to calculate fibonacci numbers\". So the function should return the Fibonacci numbers, perhaps as a list or a generator.\n\nBut maybe the user expects a function that, given a number n, returns the nth Fibonacci number. Let's proceed with that.\n\nLet me outline possible approaches:\n\n1. Recursive method",
+        "tokens": 500,
+        "time": 13980,
+        "metadata": {
+          "model": "qwen3-codex:4b-128k",
+          "created_at": "2025-10-11T19:49:23.729621857Z",
+          "done": true,
+          "total_duration": 13963898537,
+          "load_duration": 1815162944,
+          "prompt_eval_count": 57,
+          "prompt_eval_duration": 194061189,
+          "eval_count": 500,
+          "eval_duration": 11954107076
+        }
+      },
+      "metrics": {
+        "tps": 35.765379113018604,
+        "latency": 13980,
+        "timeToFirstToken": 13980,
+        "timeToCompletion": 13980
+      },
+      "resources": {
+        "memoryUsage": 67.42578125,
+        "cpuUsage": 19.919733750978857,
+        "gpuMemoryUsage": null
+      },
+      "timestamp": "2025-10-11T19:49:23.982Z",
+      "success": true
+    },
+    {
+      "provider": {
+        "name": "ollama-local",
+        "type": "ollama",
+        "endpoint": "http://127.0.0.1:11434",
+        "model": "qwen3-codex:4b-4r-k-m"
+      },
+      "request": {
+        "prompt": "Write a Python function to calculate fibonacci numbers",
+        "maxTokens": 500,
+        "temperature": 0.7
+      },
+      "response": {
+        "content": "<|message|>\nWe are to write a function that calculates Fibonacci numbers. The Fibonacci sequence is defined as:\n- F(0) = 0\n- F(1) = 1\n- F(n) = F(n-1) + F(n-2) for n > 1\n\nWe can implement this in Python with a recursive function, but recursion is inefficient for large n. Alternatively, we can use an iterative approach for better performance.\n\nLet's write a function that returns the nth Fibonacci number.\n\nWe'll create a function `fibonacci(n)` that:\n1. Checks for base cases (n = 0 or n = 1)\n2. Uses iterative approach to calculate for n > 1\n\nHowever, the user didn't specify if they want it recursive or iterative. Since the problem says \"calculate fibonacci numbers\", I'll provide both approaches, but the iterative one is more efficient.\n\nI'll provide an iterative solution because it's more efficient and avoids stack overflow for large n.\n\nLet me write the function:\n\n```python\ndef fibonacci(n):\n    if n < 0:\n        return None  # or raise ValueError, but let's handle negative input\n    if n == 0:\n        return 0\n    elif n == 1:\n        return 1\n    # Iterative approach\n    a, b = 0, 1\n    for _ in range(2, n+1):\n        a, b = b, a + b\n    return a\n```\n\nWait, let me check the logic. For n=2, the loop runs from 2 to 2 (so one iteration): a, b becomes 1, 0+1 = 1 -> so returns 1? But F(2) should be 1.\n\nActually, F(0) = 0, F(1) = 1, F(2) = 1, F(3) = 2, F(4) = 3, etc.\n\nLet's test:\n\nn=0: returns 0 -> correct\nn=1: returns 1 -> correct\nn=2: loop runs from 2 to 2 (range(2, 3) -> one iteration)\na, b = 0, 1\nafter first iteration: a = 1, b = 0+1 = 1\nso returns a = 1 -> F(2",
+        "tokens": 500,
+        "time": 87751,
+        "metadata": {
+          "model": "qwen3-codex:4b-4r-k-m",
+          "created_at": "2025-10-11T19:50:51.709205187Z",
+          "done": true,
+          "total_duration": 87722443463,
+          "load_duration": 58893771353,
+          "prompt_eval_count": 130,
+          "prompt_eval_duration": 1616942418,
+          "eval_count": 500,
+          "eval_duration": 27210409008
+        }
+      },
+      "metrics": {
+        "tps": 5.697940764207815,
+        "latency": 87751,
+        "timeToFirstToken": 87751,
+        "timeToCompletion": 87751
+      },
+      "resources": {
+        "memoryUsage": 66.75390625,
+        "cpuUsage": 37.3751557254165,
+        "gpuMemoryUsage": null
+      },
+      "timestamp": "2025-10-11T19:50:52.001Z",
+      "success": true
+    },
+    {
+      "provider": {
+        "name": "ollama-local",
+        "type": "ollama",
+        "endpoint": "http://127.0.0.1:11434",
+        "model": "qwen3-codex:latest"
+      },
+      "request": {
+        "prompt": "Write a Python function to calculate fibonacci numbers",
+        "maxTokens": 500,
+        "temperature": 0.7
+      },
+      "response": {
+        "content": "<think>\nOkay, so I need to write a Python function that calculates Fibonacci numbers. Let me think about how to approach this.\n\nFirst, what's the Fibonacci sequence? From what I remember, it starts with 0 and 1, and each subsequent number is the sum of the previous two. So the sequence goes 0, 1, 1, .2, 3, 5, 8, etc. Wait, but sometimes people start it at 1, 1, 2, 3... Hmm, the problem says \"calculate fibonacci numbers,\" so maybe I should check the standard definition.\n\nIn many programming contexts, the Fibonacci sequence starts with F0 = 0, F1 = 1. Then F2 = 1, F3 = 2, etc. So the first few terms are 0, 1, 1, 2, 3, 5, 8...\n\nThe user didn't specify if they want the nth Fibonacci number starting from 0 or 1, but the standard is usually starting with 0 as the 0th term. So the function should probably take an integer n and return the nth Fibonacci number.\n\nWait, the problem says \"calculate fibonacci numbers\"—maybe it's a function that can generate the sequence up to a certain point, but the user says \"function to calculate fibonacci numbers\"—maybe it's a function that returns the nth Fibonacci number.\n\nLet me think. The user wants a function. So probably the function will take a parameter like n, and return the nth Fibonacci number.\n\nSo, how to implement it.\n\nPossible approaches:\n\n1. Recursion (but that's inefficient for large n)\n2. Iterative approach (using loop)\n3. Using memoization to cache results\n4. Matrix exponentiation (but maybe that's more complex)\n\nSince the user didn't specify performance constraints, but for a basic function, maybe the iterative approach is simplest and efficient.\n\nLet me outline the steps.\n\nIf the function is called fib(n), then:\n\n- If n is 0, return 0\n- If n is 1, return 1\n- Else, compute iteratively.\n\nWait, but sometimes people start the count at 0 as the first number. Let me confirm the standard.\n\nFor example, in Python's documentation, the Fibonacci sequence is often defined as F0=0, F1=1.\n\nSo for n=0: 0\n\n",
+        "tokens": 500,
+        "time": 43742,
+        "metadata": {
+          "model": "qwen3-codex:latest",
+          "created_at": "2025-10-11T19:51:35.71531702Z",
+          "done": true,
+          "total_duration": 43706097374,
+          "load_duration": 14795862013,
+          "prompt_eval_count": 57,
+          "prompt_eval_duration": 892450622,
+          "eval_count": 500,
+          "eval_duration": 28017213077
+        }
+      },
+      "metrics": {
+        "tps": 11.430661606693796,
+        "latency": 43742,
+        "timeToFirstToken": 43742,
+        "timeToCompletion": 43742
+      },
+      "resources": {
+        "memoryUsage": 66.73046875,
+        "cpuUsage": 35.7817783442711,
+        "gpuMemoryUsage": null
+      },
+      "timestamp": "2025-10-11T19:51:36.008Z",
+      "success": true
+    },
+    {
+      "provider": {
+        "name": "ollama-local",
+        "type": "ollama",
+        "endpoint": "http://127.0.0.1:11434",
+        "model": "qwen3:4b-thinking"
+      },
+      "request": {
+        "prompt": "Write a Python function to calculate fibonacci numbers",
+        "maxTokens": 500,
+        "temperature": 0.7
+      },
+      "response": {
+        "content": "<think>\nWe are going to write a function that calculates the nth Fibonacci number.\n The Fibonacci sequence is defined as:\n   F(0) = 0\n   F(1) = 1\n   F(n) = F(n-1) + F(n-2) for n > 1\n\n We can use recursion, iterative method, or memoization for efficiency.\n\n However, the problem doesn't specify the method, so we'll choose an iterative method for efficiency and to avoid recursion limits.\n\n Steps for iterative method:\n   if n == 0: return 0\n   if n == 1: return 1\n   a, b = 0, 1\n   for i in range(2, n+1):\n        c = a + b\n        a = b\n        b = c\n   return b\n\n But note: the problem says \"fibonacci numbers\", so we might want to handle n=0 and n=1.\n\n Alternatively, we can use memoization (caching) to avoid repeated calculations, but iterative is efficient for this.\n\n However, the problem doesn't specify the constraints on n. For very large n, iterative is efficient (O(n)).\n\n Let's write a function that takes an integer n and returns the nth Fibonacci number.\n\n We'll assume n >= 0.\n\n Steps:\n   if n < 0: return 0  # or raise an error? but the problem says non-negative? let's assume non-negative.\n\n But the problem says \"fibonacci numbers\", so typically n is non-negative.\n\n We'll do:\n\n   if n == 0:\n        return 0\n   elif n == 1:\n        return 1\n   else:\n        a, b = 0, 1\n        for _ in range(2, n+1):\n            a, b = b, a+b\n        return b\n\n Alternatively, we can do a recursive function with memoization, but iterative is simpler and efficient.\n\n However, the problem says \"write a Python function\", so we'll write an iterative one.\n\n Let's code accordingly.\n\n But note: sometimes the Fibonacci sequence starts at F(0)=0, F(1)=1, F(2)=1, F(3)=2, etc.\n\n We'll test for n=0,1,2,3.\n\n Example:\n   n=0 -> 0\n   n=1 -> 1\n   n",
+        "tokens": 500,
+        "time": 17507,
+        "metadata": {
+          "model": "qwen3:4b-thinking",
+          "created_at": "2025-10-11T19:51:53.498375098Z",
+          "done": true,
+          "total_duration": 17483201890,
+          "load_duration": 10535255541,
+          "prompt_eval_count": 16,
+          "prompt_eval_duration": 109050199,
+          "eval_count": 500,
+          "eval_duration": 6837820523
+        }
+      },
+      "metrics": {
+        "tps": 28.560004569600732,
+        "latency": 17507,
+        "timeToFirstToken": 17507,
+        "timeToCompletion": 17507
+      },
+      "resources": {
+        "memoryUsage": 67.53125,
+        "cpuUsage": 19.233593872947594,
+        "gpuMemoryUsage": null
+      },
+      "timestamp": "2025-10-11T19:51:53.746Z",
+      "success": true
+    },
+    {
+      "provider": {
+        "name": "ollama-local",
+        "type": "ollama",
+        "endpoint": "http://127.0.0.1:11434",
+        "model": "llama3:8b"
+      },
+      "request": {
+        "prompt": "Write a Python function to calculate fibonacci numbers",
+        "maxTokens": 500,
+        "temperature": 0.7
+      },
+      "response": {
+        "content": "Here is a simple recursive function in Python to calculate Fibonacci numbers:\n\n```Python\ndef fibonacci(n):\n    if n <= 0:\n        return \"Input should be a positive integer.\"\n    elif n == 1:\n        return 0\n    elif n == 2:\n        return 1\n    else:\n        return fibonacci(n-1) + fibonacci(n-2)\n\nprint(fibonacci(10))\n```\n\nIn this function, `n` is the Fibonacci number you want to calculate. The base cases are when `n` is less than or equal to 0 (in which case it should return an error message), when `n` is 1 (which is 0 in the Fibonacci sequence), and when `n` is 2 (which is 1 in the Fibonacci sequence). For larger values of `n`, the function recursively adds the two preceding numbers in the Fibonacci sequence.\n\nHowever, please note that this recursive approach has a high time complexity (O(2^n)) and may not be efficient for large values of `n`. A more efficient approach would be to use an iterative approach with a loop:\n\n```Python\ndef fibonacci(n):\n    if n <= 0:\n        return \"Input should be a positive integer.\"\n    elif n == 1:\n        return 0\n    elif n == 2:\n        return 1\n    else:\n        a, b = 0, 1\n        for _ in range(2, n):\n            a, b = b, a + b\n        return b\n\nprint(fibonacci(10))\n```\n\nThis iterative approach has a time complexity of O(n) and is more efficient than the recursive approach.",
+        "tokens": 347,
+        "time": 28535,
+        "metadata": {
+          "model": "llama3:8b",
+          "created_at": "2025-10-11T19:52:22.29349045Z",
+          "done": true,
+          "total_duration": 28532730836,
+          "load_duration": 14701147474,
+          "prompt_eval_count": 18,
+          "prompt_eval_duration": 6691264193,
+          "eval_count": 347,
+          "eval_duration": 7139623119
+        }
+      },
+      "metrics": {
+        "tps": 12.160504643420362,
+        "latency": 28535,
+        "timeToFirstToken": 28535,
+        "timeToCompletion": 28535
+      },
+      "resources": {
+        "memoryUsage": 67.5625,
+        "cpuUsage": 27.34852516651346,
+        "gpuMemoryUsage": null
+      },
+      "timestamp": "2025-10-11T19:52:22.542Z",
+      "success": true
+    },
+    {
+      "provider": {
+        "name": "ollama-local",
+        "type": "ollama",
+        "endpoint": "http://127.0.0.1:11434",
+        "model": "deepseek-r1:latest"
+      },
+      "request": {
+        "prompt": "Write a Python function to calculate fibonacci numbers",
+        "maxTokens": 500,
+        "temperature": 0.7
+      },
+      "response": {
+        "content": "<think>\nWe are going to write a function to generate the Fibonacci sequence up to n numbers (the nth term, but we have to ask for the user input or function parameter n\n Let's make it take n as input and then return the list of list of Fibonacci numbers\n Example: fib(0,1,1,1,1,2,3,5) for n=5\n</think>\n</think>\nTo calculate the nth Fibonacci sequence up to the nth term (e\n We can use recursion but better with loop or iterative\n We are going to use iterative\n\n Let's write iterative\n\n Let's do:\n\nWe want to return the list of first n terms\n\n Let's say n=5: [0,1,1,1,1,2,3,5,8\n\n Let n=13\n\n But for n=5: [0,1,1,1,1,2,3,4,5]\n\n We have to be careful\n\n We start from 0\n\n We'll have to handle n=0: if n<=0 return empty list or n=0\n\nn=1 return [0\n\nn= [0]\n\n Let's write code accordingly\n</think>\n</think>\nTo calculate Fibonacci numbers, we can be calculated using iterative\n\n Let's use iterative approach\n\n Let's define a function:\n\n def fib(n):\n if n==0 return [0 or n if n==1: [0 or n if n==1 [0\n   if n== [0 then [0\n else 0 1\n\n Then for else\n   previous two variables a=0, b1\n Then for i from 2 to n-2 to n-1: next a+b a+b\n and update a=b and b\n\n Let's\n\n We do that\n\n Let's code accordingly\n</think>\nTo calculate Fibonacci numbers:\n\n```python\nWe'll write function to calculate Fibonacci sequence:\n\ndef fib(n):\n    if n 0 or n:\n        return [0\n elif n  [0 [0] else:\n    for _ in range(2n-1 for range(n-1:\n        return [0,1 else [0,1 return [0\n    else:\n    a, b =1\n    [0,   for i in range(2 n: b  _ range2:\n        = a+b a b\n a b =, return [ return\n    else\n```\n\n",
+        "tokens": 500,
+        "time": 32688,
+        "metadata": {
+          "model": "deepseek-r1:latest",
+          "created_at": "2025-10-11T19:52:55.216497815Z",
+          "done": true,
+          "total_duration": 32668687005,
+          "load_duration": 10493401072,
+          "prompt_eval_count": 10,
+          "prompt_eval_duration": 4998974729,
+          "eval_count": 500,
+          "eval_duration": 17170889381
+        }
+      },
+      "metrics": {
+        "tps": 15.29613313754283,
+        "latency": 32688,
+        "timeToFirstToken": 32688,
+        "timeToCompletion": 32688
+      },
+      "resources": {
+        "memoryUsage": 67.0078125,
+        "cpuUsage": 18.821284593202588,
+        "gpuMemoryUsage": null
+      },
+      "timestamp": "2025-10-11T19:52:55.487Z",
+      "success": true
+    },
+    {
+      "provider": {
+        "name": "ollama-local",
+        "type": "ollama",
+        "endpoint": "http://127.0.0.1:11434",
+        "model": "qwen3:8b"
+      },
+      "request": {
+        "prompt": "Write a Python function to calculate fibonacci numbers",
+        "maxTokens": 500,
+        "temperature": 0.7
+      },
+      "response": {
+        "content": "<think>\nOkay, I need to write a Python function to calculate Fibonacci numbers. Let me think about how to approach this. The Fibonacci sequence starts with 0 and 1, and each subsequent number is the sum of the two preceding ones. So, the sequence goes 0, 1, 1, 2, 3, 5, 8, etc.\n\nFirst, I should decide whether the function will return the nth Fibonacci number or generate the sequence up to n numbers. The question says \"calculate Fibonacci numbers,\" so maybe it's better to have a function that returns the nth number. But maybe the user wants the sequence. Hmm, the question is a bit ambiguous. Let me check the original question again: \"Write a Python function to calculate fibonacci numbers.\" Maybe they want a function that can generate the sequence, but perhaps the function should return the nth number. Let me think of possible implementations.\n\nLet me consider the two common approaches: iterative and recursive. The recursive approach is straightforward but inefficient for large n due to repeated calculations. The iterative approach is more efficient. Also, there's a formula using Binet's formula, but that might involve floating points and could have precision issues for large n. Let me stick with the iterative approach for now, as it's more reliable for larger numbers.\n\nSo, the function could take an integer n, and return the nth Fibonacci number. Let's define the base cases: if n is 0, return 0; if n is 1, return 1. Then for n >= 2, compute iteratively.\n\nWait, but sometimes the Fibonacci sequence is indexed starting at 1 as the first element. For example, F(1) = 0, F(2) = 1, F(3) = 1, F(4) = 2, etc. Or sometimes people start at F(0) = 0, F(1) = 1. So I need to clarify that. Let me check the standard definition. The Fibonacci numbers are usually defined with F(0) = 0, F(1) = 1, F(2) = 1, F(3) = 2, etc. But sometimes people start with F(1) = 1, F(2) = 1. So perhaps the function should have a parameter to specify the starting index? Or maybe the user expects the standard definition.\n\nAlternatively, the",
+        "tokens": 500,
+        "time": 21678,
+        "metadata": {
+          "model": "qwen3:8b",
+          "created_at": "2025-10-11T19:53:17.133052639Z",
+          "done": true,
+          "total_duration": 21640121921,
+          "load_duration": 9488611742,
+          "prompt_eval_count": 16,
+          "prompt_eval_duration": 166199251,
+          "eval_count": 500,
+          "eval_duration": 11984398742
+        }
+      },
+      "metrics": {
+        "tps": 23.064858381769536,
+        "latency": 21678,
+        "timeToFirstToken": 21678,
+        "timeToCompletion": 21678
+      },
+      "resources": {
+        "memoryUsage": 67.26953125,
+        "cpuUsage": 41.765934989121774,
+        "gpuMemoryUsage": null
+      },
+      "timestamp": "2025-10-11T19:53:17.320Z",
+      "success": true
+    },
+    {
+      "provider": {
+        "name": "ollama-local",
+        "type": "ollama",
+        "endpoint": "http://127.0.0.1:11434",
+        "model": "qwen3:latest"
+      },
+      "request": {
+        "prompt": "Write a Python function to calculate fibonacci numbers",
+        "maxTokens": 500,
+        "temperature": 0.7
+      },
+      "response": {
+        "content": "<think>\nOkay, I need to write a Python function to calculate Fibonacci numbers. Let me think about how to approach this. The Fibonacci sequence starts with 0 and 1, and each subsequent number is the sum of the previous two. So, the first few numbers are 0, 1, 1, 2, 3, 5, and so on.\n\nFirst, I should decide whether the function will return the nth Fibonacci number or generate a list up to the nth number. The user just said \"calculate Fibonacci numbers,\" so maybe they want a function that can generate them, perhaps returning a list or a single number. Let me check the question again. Oh, the user says \"calculate Fibonacci numbers,\" which could mean either. But since they didn't specify, maybe I should make a function that returns the nth number. Alternatively, maybe a generator function. But perhaps the simplest approach is to write a function that returns the nth Fibonacci number.\n\nLet me think about the parameters. The function should take an integer n, which is the position in the Fibonacci sequence. For example, if n is 0, return 0; n=1, return 1; n=2, return 1, etc.\n\nWait, sometimes the sequence starts at index 0 or 1. Let me clarify. Let's assume that the function will return the nth number where n starts at 0. So F(0) = 0, F(1) = 1, F(2) = 1, F(3) = 2, etc. That's a common convention.\n\nNow, how to compute it. There are multiple methods: recursive, iterative, or using a formula like Binet's formula. But recursion is not efficient for large n because of exponential time. So for a function that's supposed to be used in practice, an iterative approach is better.\n\nLet me outline the iterative approach. Initialize variables a = 0, b = 1. For each step from 2 to n, compute next value as a + b, then update a and b. Wait, for example, if n is 0, return a. For n=1, return b. For n >=2, iterate from 2 to n, and compute the value.\n\nSo here's the plan:\n\ndef fibonacci(n):\n    if n == 0:\n        return 0\n    elif n == 1:\n        return 1",
+        "tokens": 500,
+        "time": 12066,
+        "metadata": {
+          "model": "qwen3:latest",
+          "created_at": "2025-10-11T19:53:29.392035047Z",
+          "done": true,
+          "total_duration": 12063075831,
+          "load_duration": 65598272,
+          "prompt_eval_count": 16,
+          "prompt_eval_duration": 27049844,
+          "eval_count": 500,
+          "eval_duration": 11969586712
+        }
+      },
+      "metrics": {
+        "tps": 41.43875352229405,
+        "latency": 12066,
+        "timeToFirstToken": 12066,
+        "timeToCompletion": 12066
+      },
+      "resources": {
+        "memoryUsage": 68.234375,
+        "cpuUsage": 44.42500095104044,
+        "gpuMemoryUsage": null
+      },
+      "timestamp": "2025-10-11T19:53:29.629Z",
+      "success": true
+    },
+    {
+      "provider": {
+        "name": "ollama-local",
+        "type": "ollama",
+        "endpoint": "http://127.0.0.1:11434",
+        "model": "qwen3-coder:480b-cloud"
+      },
+      "request": {
+        "prompt": "Write a Python function to calculate fibonacci numbers",
+        "maxTokens": 500,
+        "temperature": 0.7
+      },
+      "response": {
+        "content": "",
+        "tokens": 0,
+        "time": 232
+      },
+      "metrics": {
+        "tps": 0,
+        "latency": 232,
+        "timeToFirstToken": 232,
+        "timeToCompletion": 232
+      },
+      "resources": {
+        "memoryUsage": 67.5703125,
+        "cpuUsage": 43.873517786561266,
+        "gpuMemoryUsage": null
+      },
+      "timestamp": "2025-10-11T19:53:29.991Z",
+      "success": false,
+      "error": "Ollama execution failed: ResponseError: unauthorized"
+    },
+    {
+      "provider": {
+        "name": "ollama-local",
+        "type": "ollama",
+        "endpoint": "http://127.0.0.1:11434",
+        "model": "gpt-oss:20b-cloud"
+      },
+      "request": {
+        "prompt": "Write a Python function to calculate fibonacci numbers",
+        "maxTokens": 500,
+        "temperature": 0.7
+      },
+      "response": {
+        "content": "",
+        "tokens": 0,
+        "time": 71
+      },
+      "metrics": {
+        "tps": 0,
+        "latency": 71,
+        "timeToFirstToken": 71,
+        "timeToCompletion": 71
+      },
+      "resources": {
+        "memoryUsage": 68.1640625,
+        "cpuUsage": 38.106235565819865,
+        "gpuMemoryUsage": null
+      },
+      "timestamp": "2025-10-11T19:53:30.181Z",
+      "success": false,
+      "error": "Ollama execution failed: ResponseError: unauthorized"
+    },
+    {
+      "provider": {
+        "name": "ollama-local",
+        "type": "ollama",
+        "endpoint": "http://127.0.0.1:11434",
+        "model": "kimi-k2:1t-cloud"
+      },
+      "request": {
+        "prompt": "Write a Python function to calculate fibonacci numbers",
+        "maxTokens": 500,
+        "temperature": 0.7
+      },
+      "response": {
+        "content": "",
+        "tokens": 0,
+        "time": 69
+      },
+      "metrics": {
+        "tps": 0,
+        "latency": 69,
+        "timeToFirstToken": 69,
+        "timeToCompletion": 69
+      },
+      "resources": {
+        "memoryUsage": 68.78125,
+        "cpuUsage": 38.106235565819865,
+        "gpuMemoryUsage": null
+      },
+      "timestamp": "2025-10-11T19:53:30.370Z",
+      "success": false,
+      "error": "Ollama execution failed: ResponseError: unauthorized"
+    },
+    {
+      "provider": {
+        "name": "ollama-local",
+        "type": "ollama",
+        "endpoint": "http://127.0.0.1:11434",
+        "model": "gpt-oss:120b-cloud"
+      },
+      "request": {
+        "prompt": "Write a Python function to calculate fibonacci numbers",
+        "maxTokens": 500,
+        "temperature": 0.7
+      },
+      "response": {
+        "content": "",
+        "tokens": 0,
+        "time": 62
+      },
+      "metrics": {
+        "tps": 0,
+        "latency": 62,
+        "timeToFirstToken": 62,
+        "timeToCompletion": 62
+      },
+      "resources": {
+        "memoryUsage": 68.08203125,
+        "cpuUsage": 38.66498740554156,
+        "gpuMemoryUsage": null
+      },
+      "timestamp": "2025-10-11T19:53:30.561Z",
+      "success": false,
+      "error": "Ollama execution failed: ResponseError: unauthorized"
+    },
+    {
+      "provider": {
+        "name": "ollama-local",
+        "type": "ollama",
+        "endpoint": "http://127.0.0.1:11434",
+        "model": "qwen3:14b"
+      },
+      "request": {
+        "prompt": "Write a Python function to calculate fibonacci numbers",
+        "maxTokens": 500,
+        "temperature": 0.7
+      },
+      "response": {
+        "content": "<think>\nOkay, I need to write a Python function to calculate Fibonacci numbers. Let me think about how Fibonacci sequence works. The sequence starts with 0 and 1, and each subsequent number is the sum of the two preceding ones. So like 0, 1, 1, 2, 3, 5, 8, etc.\n\nFirst, I should decide what the function will do. The user probably wants to input a number n and get the nth Fibonacci number. But wait, sometimes people count starting from 0 or 1. For example, Fib(0) is 0, Fib(1) is 1, Fib(2) is 1, Fib(3) is 2, and so on. I should clarify that. But since the question doesn't specify, I'll assume that the function will return the nth number where n starts at 0.\n\nNow, how to implement this. There are a few ways: iterative, recursive, or using memoization. Recursive is straightforward but inefficient for large n because it recalculates the same values multiple times. For example, Fib(n) = Fib(n-1) + Fib(n-2). But for large n, this is not feasible. However, maybe the user just wants a basic implementation first.\n\nAlternatively, an iterative approach would be better for performance. Let me think about the iterative method. Initialize two variables, a and b, as 0 and 1. Then, for each step up to n, compute the next number by adding a and b, then update a and b. Wait, maybe I need to loop n times. Let me think:\n\nIf n is 0, return 0. If n is 1, return 1. For n >=2, iterate from 2 to n, and compute each step.\n\nLet me outline that:\n\ndef fibonacci(n):\n    if n == 0:\n        return 0\n    elif n == 1:\n        return 1\n    else:\n        a, b = 0, 1\n        for _ in range(2, n+1):\n            a, b = b, a + b\n        return b\n\nWait, let's test this. For n=2, the loop runs once (range 2 to 2+1 is 2 to 3, which is one iteration). Then a becomes 1, b becomes 0+1=",
+        "tokens": 500,
+        "time": 122152,
+        "metadata": {
+          "model": "qwen3:14b",
+          "created_at": "2025-10-11T19:55:32.697861441Z",
+          "done": true,
+          "total_duration": 122129628390,
+          "load_duration": 62890601073,
+          "prompt_eval_count": 16,
+          "prompt_eval_duration": 533246489,
+          "eval_count": 500,
+          "eval_duration": 58705142348
+        }
+      },
+      "metrics": {
+        "tps": 4.093260855327788,
+        "latency": 122152,
+        "timeToFirstToken": 122152,
+        "timeToCompletion": 122152
+      },
+      "resources": {
+        "memoryUsage": 68.76171875,
+        "cpuUsage": 44.6787644758063,
+        "gpuMemoryUsage": null
+      },
+      "timestamp": "2025-10-11T19:55:32.932Z",
+      "success": true
+    },
+    {
+      "provider": {
+        "name": "ollama-local",
+        "type": "ollama",
+        "endpoint": "http://127.0.0.1:11434",
+        "model": "llama3.1:8b"
+      },
+      "request": {
+        "prompt": "Write a Python function to calculate fibonacci numbers",
+        "maxTokens": 500,
+        "temperature": 0.7
+      },
+      "response": {
+        "content": "**Fibonacci Function**\n=======================\n\nHere is a simple and efficient way to calculate Fibonacci numbers in Python:\n\n```python\ndef fibonacci(n):\n    \"\"\"\n    Calculate the nth Fibonacci number.\n\n    Args:\n        n (int): The index of the Fibonacci number to calculate.\n\n    Returns:\n        int: The nth Fibonacci number.\n    \"\"\"\n    if n <= 0:\n        return \"Input should be a positive integer.\"\n    elif n == 1:\n        return 0\n    elif n == 2:\n        return 1\n\n    fib_prev, fib_curr = 0, 1\n    for _ in range(2, n):\n        fib_prev, fib_curr = fib_curr, fib_prev + fib_curr\n\n    return fib_curr\n```\n\n**Explanation**\n---------------\n\nThe Fibonacci sequence is a series of numbers where each number is the sum of the two preceding ones, usually starting with 0 and 1. This function uses an iterative approach to calculate any nth Fibonacci number.\n\n*   It first checks if `n` is less than or equal to 0, in which case it returns an error message.\n*   If `n` is 1, it returns 0; if `n` is 2, it returns 1 (the base cases of the Fibonacci sequence).\n*   For all other values of `n`, it initializes two variables (`fib_prev` and `fib_curr`) with the first two numbers of the Fibonacci sequence.\n*   It then enters a loop that continues until it has calculated `n-1` more Fibonacci numbers, effectively generating the nth number in the process.\n\n**Example Use Cases**\n--------------------\n\n```python\nprint(fibonacci(5))  # Output: 3\nprint(fibonacci(8))  # Output: 21\n```\n\nYou can use this function to calculate any Fibonacci number by passing its index as an integer argument.",
+        "tokens": 390,
+        "time": 21215,
+        "metadata": {
+          "model": "llama3.1:8b",
+          "created_at": "2025-10-11T19:55:54.158045809Z",
+          "done": true,
+          "total_duration": 21212994650,
+          "load_duration": 5108887658,
+          "prompt_eval_count": 18,
+          "prompt_eval_duration": 202450884,
+          "eval_count": 390,
+          "eval_duration": 15900965893
+        }
+      },
+      "metrics": {
+        "tps": 18.38321942022154,
+        "latency": 21215,
+        "timeToFirstToken": 21215,
+        "timeToCompletion": 21215
+      },
+      "resources": {
+        "memoryUsage": 69.0078125,
+        "cpuUsage": 27.965679370788465,
+        "gpuMemoryUsage": null
+      },
+      "timestamp": "2025-10-11T19:55:54.393Z",
+      "success": true
+    },
+    {
+      "provider": {
+        "name": "ollama-local",
+        "type": "ollama",
+        "endpoint": "http://127.0.0.1:11434",
+        "model": "nomic-embed-text:latest"
+      },
+      "request": {
+        "prompt": "Write a Python function to calculate fibonacci numbers",
+        "maxTokens": 500,
+        "temperature": 0.7
+      },
+      "response": {
+        "content": "",
+        "tokens": 0,
+        "time": 15
+      },
+      "metrics": {
+        "tps": 0,
+        "latency": 15,
+        "timeToFirstToken": 15,
+        "timeToCompletion": 15
+      },
+      "resources": {
+        "memoryUsage": 69.90234375,
+        "cpuUsage": 9.191176470588236,
+        "gpuMemoryUsage": null
+      },
+      "timestamp": "2025-10-11T19:55:54.517Z",
+      "success": false,
+      "error": "Ollama execution failed: ResponseError: \"nomic-embed-text:latest\" does not support generate"
+    },
+    {
+      "provider": {
+        "name": "ollama-local",
+        "type": "ollama",
+        "endpoint": "http://127.0.0.1:11434",
+        "model": "qwen2.5:0.5b"
+      },
+      "request": {
+        "prompt": "Write a Python function to calculate fibonacci numbers",
+        "maxTokens": 500,
+        "temperature": 0.7
+      },
+      "response": {
+        "content": "Sure\n\ndef fibonacci(n):\n    if n == 0:\n        return 0\n    else: \n        return (fibonacci(n-1) + fibonacci(n-1)\n    \n    return \"Error\"\n\nThis is the python code that calculates and returns fibonacci series. What does this code do?",
+        "tokens": 62,
+        "time": 20211,
+        "metadata": {
+          "model": "qwen2.5:0.5b",
+          "created_at": "2025-10-11T19:56:14.72923028Z",
+          "done": true,
+          "total_duration": 20207522092,
+          "load_duration": 7470582061,
+          "prompt_eval_count": 37,
+          "prompt_eval_duration": 12213223604,
+          "eval_count": 62,
+          "eval_duration": 523292355
+        }
+      },
+      "metrics": {
+        "tps": 3.0676364356043737,
+        "latency": 20211,
+        "timeToFirstToken": 20211,
+        "timeToCompletion": 20211
+      },
+      "resources": {
+        "memoryUsage": 68.64453125,
+        "cpuUsage": 14.849315068493151,
+        "gpuMemoryUsage": null
+      },
+      "timestamp": "2025-10-11T19:56:14.966Z",
+      "success": true
+    },
+    {
+      "provider": {
+        "name": "ollama-local",
+        "type": "ollama",
+        "endpoint": "http://127.0.0.1:11434",
+        "model": "qwen2.5:7b"
+      },
+      "request": {
+        "prompt": "Write a Python function to calculate fibonacci numbers",
+        "maxTokens": 500,
+        "temperature": 0.7
+      },
+      "response": {
+        "content": " def fibonacci(n(self to calculate the nth Fibonacci number at using. function Fibonacci sequence integer function for a given a n function to calculate the nth nth Fibonacci number of function function ( function function function function function function function function function function function function function Fibonacci number function function function function Fibonacci function to function Fibonacci function function function Fibonacci function function Fibonacci function function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function function Fibonacci function function function Fibonacci function function Fibonacci function function Fibonacci function function function Fibonacci function function Fibonacci function function Fibonacci function function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function Fibonacci function function",
+        "tokens": 500,
+        "time": 20503,
+        "metadata": {
+          "model": "qwen2.5:7b",
+          "created_at": "2025-10-11T19:56:35.468404477Z",
+          "done": true,
+          "total_duration": 20496711425,
+          "load_duration": 9871167960,
+          "prompt_eval_count": 37,
+          "prompt_eval_duration": 123470304,
+          "eval_count": 500,
+          "eval_duration": 10500620533
+        }
+      },
+      "metrics": {
+        "tps": 24.38667512071404,
+        "latency": 20503,
+        "timeToFirstToken": 20503,
+        "timeToCompletion": 20503
+      },
+      "resources": {
+        "memoryUsage": 68.81640625,
+        "cpuUsage": 25.78650174778166,
+        "gpuMemoryUsage": null
+      },
+      "timestamp": "2025-10-11T19:56:35.722Z",
+      "success": true
+    },
+    {
+      "provider": {
+        "name": "ollama-local",
+        "type": "ollama",
+        "endpoint": "http://127.0.0.1:11434",
+        "model": "gemma3:latest"
+      },
+      "request": {
+        "prompt": "Write a Python function to calculate fibonacci numbers",
+        "maxTokens": 500,
+        "temperature": 0.7
+      },
+      "response": {
+        "content": "```python\ndef fibonacci(n):\n  \"\"\"\n  Calculates the nth Fibonacci number.\n\n  Args:\n    n: The index of the desired Fibonacci number (non-negative integer).\n\n  Returns:\n    The nth Fibonacci number.  Returns 0 if n is negative.\n  \"\"\"\n\n  if n < 0:\n    return 0  # Handle negative input - Fibonacci numbers are not defined for negative indices\n  elif n <= 1:\n    return n\n  else:\n    a, b = 0, 1\n    for _ in range(2, n + 1):\n      a, b = b, a + b\n    return b\n\n# Example Usage\nprint(fibonacci(0))  # Output: 0\nprint(fibonacci(1))  # Output: 1\nprint(fibonacci(5))  # Output: 5\nprint(fibonacci(10)) # Output: 55\nprint(fibonacci(-1)) # Output: 0\n```\n\nKey improvements and explanations:\n\n* **Handles Negative Input:**  The code now explicitly handles negative input (`n < 0`) and returns 0.  This makes the function more robust and avoids potential errors.  The Fibonacci sequence is not defined for negative indices.\n* **Base Cases:** Correctly handles the base cases for `n = 0` and `n = 1`.  These are the starting points of the sequence.\n* **Iterative Approach:** Uses an iterative approach (a `for` loop) instead of recursion.  This is *much* more efficient for calculating Fibonacci numbers, especially for larger values of `n`.  Recursive implementations can quickly lead to stack overflow errors due to repeated function calls.\n* **Efficiency:** The iterative approach has a time complexity of O(n), which is optimal for calculating the nth Fibonacci number.\n* **Clear Variable Names:** Uses `a` and `b` for the two previous Fibonacci numbers, which is standard and easy to understand.\n* **Docstring:** Includes a comprehensive docstring explaining the function's purpose, arguments, and return value.\n* **Example Usage:**  Provides example calls to the function and the expected outputs, making it easy to test and understand.\n* **No Unnecessary Imports:**  The code doesn't import any unnecessary modules",
+        "tokens": 500,
+        "time": 22499,
+        "metadata": {
+          "model": "gemma3:latest",
+          "created_at": "2025-10-11T19:56:58.20105588Z",
+          "done": true,
+          "total_duration": 22471795223,
+          "load_duration": 8556788003,
+          "prompt_eval_count": 18,
+          "prompt_eval_duration": 139871861,
+          "eval_count": 500,
+          "eval_duration": 13774669355
+        }
+      },
+      "metrics": {
+        "tps": 22.223209920440908,
+        "latency": 22499,
+        "timeToFirstToken": 22499,
+        "timeToCompletion": 22499
+      },
+      "resources": {
+        "memoryUsage": 69.41015625,
+        "cpuUsage": 26.833254038847404,
+        "gpuMemoryUsage": null
+      },
+      "timestamp": "2025-10-11T19:56:58.461Z",
+      "success": true
+    },
+    {
+      "provider": {
+        "name": "ollama-local",
+        "type": "ollama",
+        "endpoint": "http://127.0.0.1:11434",
+        "model": "promethean-planner:latest"
+      },
+      "request": {
+        "prompt": "Write a Python function to calculate fibonacci numbers",
+        "maxTokens": 500,
+        "temperature": 0.7
+      },
+      "response": {
+        "content": "<think>\nOkay, the user wants me to write a Python function to calculate Fibonacci numbers. Let me think about how to approach this.\n\nFirst, I need to recall the Fibonacci sequence. It starts with 0 and 1, and each subsequent number is the sum of the previous two. So, the function should return the nth Fibonacci number.\n\nI should consider different methods to compute it. The simplest way is using iteration, which is efficient for most cases. Alternatively, recursion is straightforward but has exponential time complexity, which isn't great for large n. Maybe the user wants the iterative approach for efficiency.\n\nWait, the user didn't specify any constraints, so I'll go with the iterative method. Let me outline the steps: initialize variables a=0, b=1. For each step from 2 to n, compute the next value as a + b, then update a and b. If n is 0, return 0; if 1, return 1.\n\nI should also handle edge cases, like negative numbers. Maybe the function should raise a ValueError if n is negative. That's good for robustness.\n\nPutting it all together, the function will check for negative input, handle the base cases, and loop for larger values. Let me test some examples. For n=5, the sequence is 0,1,1,2,3,5. So the function should return 5 when n=5. Let me code that.\n\nWait, in Python, the function can be written with a loop. Let me make sure the variables are correctly updated. Starting with a=0, b=1. For i in range(2, n+1), compute next_val = a + b. Then set a = b, b = next_val. After the loop, return b. That should work.\n\nI think that's all. Let me write the code now.\n</think>\n\n",
+        "tokens": 387,
+        "time": 12276,
+        "metadata": {
+          "model": "promethean-planner:latest",
+          "created_at": "2025-10-11T19:57:10.720413864Z",
+          "done": true,
+          "total_duration": 12255309456,
+          "load_duration": 3027297742,
+          "prompt_eval_count": 103,
+          "prompt_eval_duration": 193456399,
+          "eval_count": 387,
+          "eval_duration": 9033676270
+        }
+      },
+      "metrics": {
+        "tps": 31.524926686217007,
+        "latency": 12276,
+        "timeToFirstToken": 12276,
+        "timeToCompletion": 12276
+      },
+      "resources": {
+        "memoryUsage": 70.0625,
+        "cpuUsage": 17.721372276309687,
+        "gpuMemoryUsage": null
+      },
+      "timestamp": "2025-10-11T19:57:10.948Z",
+      "success": true
+    },
+    {
+      "provider": {
+        "name": "ollama-local",
+        "type": "ollama",
+        "endpoint": "http://127.0.0.1:11434",
+        "model": "qwen2.5-coder:7b"
+      },
+      "request": {
+        "prompt": "Write a Python function to calculate fibonacci numbers",
+        "maxTokens": 500,
+        "temperature": 0.7
+      },
+      "response": {
+        "content": "Certainly! Below is a Python function\n\n",
+        "tokens": 10,
+        "time": 3577,
+        "metadata": {
+          "model": "qwen2.5-coder:7b",
+          "created_at": "2025-10-11T19:57:14.526600401Z",
+          "done": true,
+          "total_duration": 3573399291,
+          "load_duration": 3247462672,
+          "prompt_eval_count": 37,
+          "prompt_eval_duration": 124696188,
+          "eval_count": 10,
+          "eval_duration": 200660118
+        }
+      },
+      "metrics": {
+        "tps": 2.795638803466592,
+        "latency": 3577,
+        "timeToFirstToken": 3577,
+        "timeToCompletion": 3577
+      },
+      "resources": {
+        "memoryUsage": 69.26953125,
+        "cpuUsage": 12.299202942979766,
+        "gpuMemoryUsage": null
+      },
+      "timestamp": "2025-10-11T19:57:14.745Z",
+      "success": true
+    },
+    {
+      "provider": {
+        "name": "ollama-local",
+        "type": "ollama",
+        "endpoint": "http://127.0.0.1:11434",
+        "model": "qwen3:4b"
+      },
+      "request": {
+        "prompt": "Write a Python function to calculate fibonacci numbers",
+        "maxTokens": 500,
+        "temperature": 0.7
+      },
+      "response": {
+        "content": "<think>\nWe are going to write a function that calculates the n-th Fibonacci number.\n The Fibonacci sequence is defined as:\n   F(0) = 0\n   F(1) = 1\n   F(n) = F(n-1) + F(n-2) for n > 1\n\n We can implement this recursively, iteratively, or using memoization for efficiency.\n\n However, the problem does not specify the method, so we'll choose an iterative method to avoid recursion depth and for efficiency.\n\n Steps for iterative method:\n   If n == 0: return 0\n   If n == 1: return 1\n   Otherwise, initialize two variables to hold the last two numbers (a and b)\n   Then iterate from 2 to n (inclusive) and update a and b.\n\n Alternatively, we can use a loop that runs n times (for n>=2) to compute the Fibonacci number.\n\n Let's write a function that takes an integer n and returns the n-th Fibonacci number.\n\n Note: The problem says \"fibonacci numbers\", so we assume n is non-negative.\n\n We'll handle n=0 and n=1 as base cases.\n\n Example:\n   n=0 -> 0\n   n=1 -> 1\n   n=2 -> 1\n   n=3 -> 2\n\n We'll write the function to be efficient (iterative) to avoid exponential time of recursion.\n\n Let's code:\n</think>\n\nTo solve this problem, we need to calculate the n-th Fibonacci number efficiently. The Fibonacci sequence is defined such that each number is the sum of the two preceding ones, starting from 0 and 1. The challenge is to implement a function that can compute this number quickly without running into performance issues, especially for larger values of `n`.\n\n### Approach\n1. **Problem Analysis**: The Fibonacci sequence starts with 0 and 1. The sequence progresses as 0, 1, 1, 2, 3, 5, 8, etc. For any integer `n` (where `n` is non-negative), the `n`-th Fibonacci number is defined as:\n   - `F(0) = 0`\n   - `F(1) = 1`\n   - `F(n) = F(n-1) + F(n-2)` for `n > 1`\n\n2. **Intuition**: A naive recursive solution would",
+        "tokens": 500,
+        "time": 14310,
+        "metadata": {
+          "model": "qwen3:4b",
+          "created_at": "2025-10-11T19:57:29.0373991Z",
+          "done": true,
+          "total_duration": 14288079800,
+          "load_duration": 7412762085,
+          "prompt_eval_count": 16,
+          "prompt_eval_duration": 107150837,
+          "eval_count": 500,
+          "eval_duration": 6767384442
+        }
+      },
+      "metrics": {
+        "tps": 34.94060097833683,
+        "latency": 14310,
+        "timeToFirstToken": 14310,
+        "timeToCompletion": 14310
+      },
+      "resources": {
+        "memoryUsage": 69.7890625,
+        "cpuUsage": 13.226569844717476,
+        "gpuMemoryUsage": null
+      },
+      "timestamp": "2025-10-11T19:57:29.293Z",
+      "success": true
+    },
+    {
+      "provider": {
+        "name": "ollama-local",
+        "type": "ollama",
+        "endpoint": "http://127.0.0.1:11434",
+        "model": "gemma2:2b"
+      },
+      "request": {
+        "prompt": "Write a Python function to calculate fibonacci numbers",
+        "maxTokens": 500,
+        "temperature": 0.7
+      },
+      "response": {
+        "content": "```python\ndef fibonacci(n):\n  \"\"\"Calculates the nth Fibonacci number.\n\n  Args:\n    n: An integer representing the desired position in the Fibonacci sequence.\n\n  Returns:\n    An integer representing the nth Fibonacci number.\n  \"\"\"\n  if n <= 1:\n    return n\n  else:\n    return fibonacci(n-1) + fibonacci(n-2)\n\n# Example usage:\nfor i in range(10):\n  print(f\"Fibonacci({i}) = {fibonacci(i)}\") \n```\n\n\n**Explanation:**\n\n1. **Function Definition:**\n   - `def fibonacci(n):` defines a function named `fibonacci` that takes one argument, `n`, representing the index of the desired Fibonacci number.\n\n2. **Base Case:**\n   - `if n <= 1:` checks if `n` is less than or equal to 1. If so:\n      - `return n`:  the function returns the value of `n` itself, as the first two Fibonacci numbers are 0 and 1 respectively.\n\n3. **Recursive Step:**\n   - `else:` If `n` is greater than 1:\n      - `return fibonacci(n-1) + fibonacci(n-2)`: this calculates the nth Fibonacci number by recursively calling itself with arguments `n-1` and `n-2`, then adding their results. This implements the core definition of the Fibonacci sequence.\n\n4. **Example Usage:** \n   -  `for i in range(10):`:  This loop iterates from 0 to 9 (inclusive).\n   -  `print(f\"Fibonacci({i}) = {fibonacci(i)}\")`: For each `i`, it calls the `fibonacci()` function with `i` as an argument and prints the result.\n\n\n**How Recursion Works:**\n\nThe code uses recursion to calculate Fibonacci numbers.  Recursion means a function calls itself, breaking down complex tasks into simpler ones. \n* When you call `fibonacci(n)`, it checks if `n` is small (0 or 1). If so, it returns `n`.\n* Otherwise, it recursively calls itself with `n-1` and `n-2`, adding their results to get the current Fibonacci number. This continues until it hits a base case (`n",
+        "tokens": 500,
+        "time": 9364,
+        "metadata": {
+          "model": "gemma2:2b",
+          "created_at": "2025-10-11T19:57:38.649685332Z",
+          "done": true,
+          "total_duration": 9350942126,
+          "load_duration": 3518577586,
+          "prompt_eval_count": 17,
+          "prompt_eval_duration": 425002850,
+          "eval_count": 500,
+          "eval_duration": 5406650427
+        }
+      },
+      "metrics": {
+        "tps": 53.39598462195643,
+        "latency": 9364,
+        "timeToFirstToken": 9364,
+        "timeToCompletion": 9364
+      },
+      "resources": {
+        "memoryUsage": 68.421875,
+        "cpuUsage": 23.565981834960414,
+        "gpuMemoryUsage": null
+      },
+      "timestamp": "2025-10-11T19:57:38.885Z",
+      "success": true
+    },
+    {
+      "provider": {
+        "name": "ollama-local",
+        "type": "ollama",
+        "endpoint": "http://127.0.0.1:11434",
+        "model": "qwen2.5:3b-instruct"
+      },
+      "request": {
+        "prompt": "Write a Python function to calculate fibonacci numbers",
+        "maxTokens": 500,
+        "temperature": 0.7
+      },
+      "response": {
+        "content": "Certainly! The Fibonacci sequence is a series of numbers where each number is the sum of the two preceding ones, starting from 0 and 1. Here's how you can write a Python function to calculate the nth Fibonacci number:\n\n```python\ndef fibonacci(n):\n    \"\"\"\n    Calculate the n-th Fibonacci number.\n    \n    :param n: An integer representing the position in the Fibonacci sequence (n >= 0).\n    :return: The n-th Fibonacci number as an integer.\n    \"\"\"\n    if negative:\n        raise ValueError(\"Input input must be greater than or equal to zero.\")\n)\n    \n    # Base cases\n    if n == 0:\n        return 0\n    elif n == 1:\n        return 1\n    \n    # Initialize the first two Fibonacci numbers, using a list comprehension.\n    fib = [0, 1]\n    \n    # Calculate the next Fibonacci numbers in sequence iteratively.\n    for _ in range(2, n):\n        fib.append(fib[-1] + fib[-2])\n    \n    return fib[n]\n\n# Example usage:\nprint(fibonacci(10))  # Output should print \"6\" (for example)\n```\n\nPlease note note that that this function is not optimized for large values numbers values inputs, as it it Fibonacci numbers can grow very quickly. For more efficient performance or larger inpututations, you might want to consider using a generator instead of list comprehension, and also take employ memoization or dynamic programming techniques to in order to store previously calculated Fibonacci number, thus saving computation time for.\n\nAnd remember that this function only works with the nth Fibonacci number, if you want to calculate all Fibonacci numbers up to n, you should use different approach algorithm, such as dynamic programming. technique or recursive with with function.",
+        "tokens": 361,
+        "time": 10317,
+        "metadata": {
+          "model": "qwen2.5:3b-instruct",
+          "created_at": "2025-10-11T19:57:49.200562654Z",
+          "done": true,
+          "total_duration": 10308114237,
+          "load_duration": 2761858222,
+          "prompt_eval_count": 37,
+          "prompt_eval_duration": 3507465802,
+          "eval_count": 361,
+          "eval_duration": 4038080286
+        }
+      },
+      "metrics": {
+        "tps": 34.98740065904245,
+        "latency": 10318,
+        "timeToFirstToken": 10318,
+        "timeToCompletion": 10318
+      },
+      "resources": {
+        "memoryUsage": 64.13671875,
+        "cpuUsage": 19.35555162659123,
+        "gpuMemoryUsage": null
+      },
+      "timestamp": "2025-10-11T19:57:49.460Z",
+      "success": true
+    },
+    {
+      "provider": {
+        "name": "ollama-local",
+        "type": "ollama",
+        "endpoint": "http://127.0.0.1:11434",
+        "model": "llama3.2:latest"
+      },
+      "request": {
+        "prompt": "Write a Python function to calculate fibonacci numbers",
+        "maxTokens": 500,
+        "temperature": 0.7
+      },
+      "response": {
+        "content": "def fibonacci(n):\n    \"\"\"\n    Calculate the nth Fibonacci number.\n\n    Args:\n        n (int): The position of the Fibonacci number to calculate.\n\n    Returns:\n        int: The nth Fibonacci number.\n    \"\"\"\n\n    # Base cases\n    if n <= 0:\n        return \"Input should be a positive integer\"\n    elif n == 1:\n        return 0\n    elif n == 2:\n        return 1\n\n    # Initialize variables for the previous two numbers in the sequence\n    prev_prev = 0\n    prev = 1\n\n    # Calculate Fibonacci number up to nth\n    for _ in range(3, n + 1):\n        # The next number is the sum of the previous two\n        temp = prev_prev + prev\n        # Move to the last two numbers\n        prev_prev = prev\n        prev = temp\n    return prev",
+        "tokens": 182,
+        "time": 12111,
+        "metadata": {
+          "model": "llama3.2:latest",
+          "created_at": "2025-10-11T19:58:01.557167781Z",
+          "done": true,
+          "total_duration": 12089209455,
+          "load_duration": 9892667766,
+          "prompt_eval_count": 33,
+          "prompt_eval_duration": 96854074,
+          "eval_count": 182,
+          "eval_duration": 2099183218
+        }
+      },
+      "metrics": {
+        "tps": 15.027660804227562,
+        "latency": 12111,
+        "timeToFirstToken": 12111,
+        "timeToCompletion": 12111
+      },
+      "resources": {
+        "memoryUsage": 62.890625,
+        "cpuUsage": 24.089593746476755,
+        "gpuMemoryUsage": null
+      },
+      "timestamp": "2025-10-11T19:58:01.789Z",
+      "success": true
+    }
+  ],
+  "summary": {
+    "averageTPS": 24.93873587888954,
+    "averageLatency": 27454.23076923077,
+    "averageMemory": 67.21890024038461
+  }
+}

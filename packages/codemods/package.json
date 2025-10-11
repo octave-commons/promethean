@@ -17,14 +17,15 @@
     "mods:all": "pnpm mods:01-spec && pnpm mods:02-generate && pnpm mods:03-dry-run"
   },
   "dependencies": {
+    "@promethean/level-cache": "workspace:*",
+    "@promethean/utils": "workspace:*",
     "diff": "^5.2.0",
     "globby": "^14.0.2",
     "ts-morph": "^22.0.0",
-    "yaml": "^2.5.0",
-    "@promethean/utils": "workspace:*",
-    "@promethean/level-cache": "workspace:*"
+    "yaml": "^2.5.0"
   },
   "devDependencies": {
+    "@types/diff": "^8.0.0",
     "tsx": "^4.19.2"
   }
 }

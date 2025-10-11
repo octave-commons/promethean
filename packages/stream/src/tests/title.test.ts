@@ -19,8 +19,8 @@ const withChatStub = (
     handler: (request: ChatRequest & { readonly stream?: false }) => Promise<ChatResponse>,
 ): GenerateTwitchStreamTitleOptions => ({
     client: {
-        chat: ((request: ChatRequest) => {
-            if (request.stream === true) {
+        chat: ((request: ChatRequest & { readonly stream?: boolean }) => {
+            if (request.stream) {
                 throw new Error('streaming responses are not supported in this test stub');
             }
             return handler(request as ChatRequest & { readonly stream?: false });

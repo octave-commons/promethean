@@ -123,3 +123,31 @@ test("regenerateBoard links to the hyphenated basename when titles have spaces",
     "Board should not link directly to the spaced title",
   );
 });
+
+test("regenerateBoard drops stale fallback entries from existing board", async (t) => {
+  const tempDir = await withTempDir(t);
+  const boardPath = path.join(tempDir, "board.md");
+  const tasksDir = path.join(tempDir, "tasks");
+  await mkdir(tasksDir, { recursive: true });
+
+  const canonical = makeTask({
+    uuid: "regen-dedupe-uuid",
+    title: "Regenerate Dup",
+    status: "Document",
+    slug: "regenerate-dup",
+    content: "Canonical record",
+  });
+  await writeTaskFile(tasksDir, canonical, { content: canonical.content });
+
+  const duplicateBoardContent = `---\nkanban-plugin: board\n---\n\n## Document\n\n- [ ] [[Task stale|Regenerate Dup]] prio:P2 (uuid:stale-dedupe-uuid)\n- [ ] [[regenerate-dup|Regenerate Dup]] prio:P2 (uuid:${canonical.uuid})\n`;
+  await writeFile(boardPath, duplicateBoardContent, "utf8");
+
+  const result = await regenerateBoard(tasksDir, boardPath);
+  t.is(result.totalTasks, 1);
+
+  const regeneratedBoard = await readFile(boardPath, "utf8");
+  const uuids = Array.from(regeneratedBoard.matchAll(/\(uuid:([^)]+)\)/g)).map(
+    (match) => match[1],
+  );
+  t.deepEqual(uuids, [canonical.uuid]);
+});

@@ -1,0 +1,33 @@
+{
+  "name": "benchmark",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/benchmark/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/benchmark",
+        "main": "packages/benchmark/src/index.ts",
+        "tsConfig": "packages/benchmark/tsconfig.json",
+        "assets": []
+      }
+    },
+    "test": {
+      "executor": "@nx/js:ava",
+      "outputs": ["{workspaceRoot}/coverage/packages/benchmark"],
+      "options": {
+        "avaConfig": "../../config/ava.config.mjs"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/benchmark/**/*.ts"]
+      }
+    }
+  },
+  "tags": []
+}

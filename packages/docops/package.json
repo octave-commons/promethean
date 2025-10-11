@@ -14,8 +14,14 @@
   },
   "dependencies": {
     "@chroma-core/ollama": "^0.1.7",
+    "@fastify/rate-limit": "^10.3.0",
     "@fastify/static": "^8.2.0",
     "@fastify/websocket": "^11.2.0",
+    "@promethean/docops-frontend": "workspace:*",
+    "@promethean/file-indexer": "workspace:*",
+    "@promethean/fs": "workspace:*",
+    "@promethean/markdown": "workspace:*",
+    "@promethean/utils": "workspace:*",
     "@types/level": "^8.0.0",
     "@types/mdast": "^3.0.15",
     "@types/unist": "^3.0.2",
@@ -32,12 +38,9 @@
     "unist-util-visit": "^5.0.0",
     "uuid": "^12.0.0",
     "yaml": "^2.8.1",
-    "zod": "^4.1.5",
-    "@promethean/fs": "workspace:*",
-    "@promethean/utils": "workspace:*",
-    "@promethean/docops-frontend": "workspace:*",
-    "@promethean/file-indexer": "workspace:*",
-    "@promethean/markdown": "workspace:*",
-    "@fastify/rate-limit": "^10.3.0"
+    "zod": "^4.1.5"
+  },
+  "devDependencies": {
+    "esmock": "^2.7.3"
   }
 }

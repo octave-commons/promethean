@@ -105,9 +105,10 @@ const FALLBACK_SLUG_REGEX = /^task [0-9a-f]{8}(?: \d+)?$/i;
 const isFallbackSlug = (slug: string, uuid: string): boolean => {
   const normalizedSlug = slug.trim().toLowerCase();
   const normalizedUuid = uuid.replace(/[^0-9a-f]/gi, '').toLowerCase();
+  const slugWithoutDelimiters = normalizedSlug.replace(/[^0-9a-f]/gi, '');
   return (
     FALLBACK_SLUG_REGEX.test(normalizedSlug) ||
-    normalizedSlug.replace(/\s+/g, '') === normalizedUuid
+    slugWithoutDelimiters === normalizedUuid
   );
 };
 
@@ -1040,10 +1041,18 @@ export const pullFromTasks = async (
   const byId = new Map<string, { col: ColumnData; idx: number }>();
   board.columns.forEach((col) => col.tasks.forEach((t, idx) => byId.set(t.uuid, { col, idx })));
 
+  const canonicalTitles = new Set<string>();
+  const seenTaskIds = new Set<string>();
+
   for (const t of tasks) {
     const normalizedStatus = normalizeColumnDisplayName(String(t.status || 'Todo'));
     const statusKey = columnKey(normalizedStatus);
     const normalizedTask = { ...t, status: normalizedStatus };
+    const titleKey = (normalizedTask.title ?? '').trim().toLowerCase();
+    if (titleKey.length > 0) {
+      canonicalTitles.add(titleKey);
+    }
+    seenTaskIds.add(normalizedTask.uuid);
     const loc = byId.get(t.uuid);
     if (!loc) {
       let col = board.columns.find((c) => columnKey(c.name) === statusKey);
@@ -1081,6 +1090,34 @@ export const pullFromTasks = async (
         moved++;
       }
     }
+  }
+
+  for (const column of board.columns) {
+    const filteredTasks: Task[] = [];
+    for (const task of column.tasks) {
+      if (seenTaskIds.has(task.uuid)) {
+        filteredTasks.push(task);
+        continue;
+      }
+
+      const titleKey = (task.title ?? '').trim().toLowerCase();
+      if (!canonicalTitles.has(titleKey)) {
+        filteredTasks.push(task);
+        continue;
+      }
+
+      const slugCandidate =
+        typeof task.slug === 'string' && task.slug.length > 0
+          ? sanitizeFileNameBase(task.slug)
+          : deriveFileBaseFromTask(task);
+      if (!isFallbackSlug(slugCandidate, task.uuid)) {
+        filteredTasks.push(task);
+        continue;
+      }
+      // Skip stale duplicate entry that no longer exists on disk
+    }
+    column.tasks = filteredTasks;
+    column.count = filteredTasks.length;
   }
   await writeBoard(boardPath, board);
   return { added, moved };

@@ -1,0 +1,88 @@
+{
+  "metadata": {
+    "generated": "2025-10-11T19:51:40.119Z",
+    "totalTests": 1,
+    "successRate": 100
+  },
+  "results": [
+    {
+      "provider": {
+        "name": "ollama-local",
+        "type": "ollama",
+        "endpoint": "http://127.0.0.1:11434",
+        "model": "qwen2.5-coder:7b-instruct"
+      },
+      "request": {
+        "prompt": "Write a Python function to calculate fibonacci numbers",
+        "maxTokens": 500,
+        "temperature": 0.7
+      },
+      "response": {
+        "content": "Sure! Below is a Python function\n\n",
+        "tokens": 10,
+        "time": 40616,
+        "metadata": {
+          "model": "qwen2.5-coder:7b-instruct",
+          "created_at": "2025-10-11T19:51:39.861832148Z",
+          "done": true,
+          "total_duration": 40602779787,
+          "load_duration": 40255184279,
+          "prompt_eval_count": 37,
+          "prompt_eval_duration": 146334192,
+          "eval_count": 10,
+          "eval_duration": 200594537
+        }
+      },
+      "metrics": {
+        "tps": 0.24620839078195783,
+        "latency": 40616,
+        "timeToFirstToken": 40616,
+        "timeToCompletion": 40616
+      },
+      "resources": {
+        "memoryUsage": 64.26953125,
+        "cpuUsage": 36.06466187605717,
+        "gpuMemoryUsage": null
+      },
+      "timestamp": "2025-10-11T19:51:40.106Z",
+      "success": true
+    }
+  ],
+  "summary": {
+    "totalTests": 1,
+    "successRate": 100,
+    "averageMetrics": {
+      "ollama-local": {
+        "tps": 0.24620839078195783,
+        "latency": 40616,
+        "timeToFirstToken": 40616,
+        "timeToCompletion": 40616,
+        "effectiveness": 0,
+        "errorRate": 0
+      }
+    },
+    "resourceUsage": {
+      "ollama-local": {
+        "memoryUsage": 64.26953125,
+        "cpuUsage": 36.06466187605717,
+        "gpuUsage": 0,
+        "gpuMemoryUsage": 0,
+        "powerConsumption": 0
+      }
+    },
+    "rankings": [
+      {
+        "provider": "ollama-local",
+        "score": 0.10073862517234589,
+        "metrics": {
+          "tps": 0.24620839078195783,
+          "latency": 40616,
+          "timeToFirstToken": 40616,
+          "timeToCompletion": 40616,
+          "effectiveness": 0,
+          "errorRate": 0
+        }
+      }
+    ]
+  }
+}

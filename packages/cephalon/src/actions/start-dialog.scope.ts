@@ -108,9 +108,7 @@ export async function runStartDialog({ bot }: StartDialogInput): Promise<StartDi
   bot.desktop.start();
 
   (async () => {
-    const voiceChan = await bot.client.channels.fetch(
-      bot.currentVoiceSession!.voiceChannelId,
-    );
+    const voiceChan = await bot.client.channels.fetch(bot.currentVoiceSession!.voiceChannelId);
     if (voiceChan?.isVoiceBased()) {
       for (const [, member] of voiceChan.members) {
         if (member.user.bot) continue;
@@ -145,19 +143,19 @@ export async function runStartDialog({ bot }: StartDialogInput): Promise<StartDi
   const { w, agent, C, addSystem } = bot.agentWorld;
 
   addSystem(
-    OrchestratorSystem(
-      w,
-      bot.bus,
-      C,
-      async (text: string) => {
+    OrchestratorSystem({
+      world: w,
+      bus: bot.bus!,
+      components: C,
+      getContext: async (text: string) => {
         const msgs = await bot.context.compileContext([text]);
         return msgs.map((m: any) => ({
           role: m.role as 'user' | 'assistant' | 'system',
           content: m.content,
         }));
       },
-      () => defaultPrompt,
-    ),
+      systemPrompt: () => defaultPrompt,
+    }),
   );
 
   bot.agentWorld.start(50);
@@ -323,5 +321,3 @@ function attachClassicVoiceSessionListeners(bot: Bot, agent: AIAgent) {
     speakingEnd: onSpeakingEnd,
   };
 }
-
-

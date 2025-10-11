@@ -1,4 +1,9 @@
 import type { Board, ColumnData, Task } from '../lib/types.js';
+import {
+  getVirtualScrollScript,
+  planVirtualScroll,
+  type ColumnVirtualizationPlan,
+} from './virtual-scroll.js';
 
 type Primitive = string | number | boolean | symbol | null | undefined | bigint;
 
@@ -28,6 +33,12 @@ type ColumnRenderOptions = Readonly<{
   interactive: boolean;
   selectedTaskId: string | null;
   columnNames: ReadonlyArray<string>;
+  virtualization?: ColumnVirtualizationPlan | null;
+}>;
+
+type VirtualTaskPosition = Readonly<{
+  index: number;
+  itemHeight: number;
 }>;
 
 export const escapeHtml = (value: string | undefined): string => {
@@ -179,7 +190,11 @@ const renderTaskControls = (task: ReadonlyTask, options: ColumnRenderOptions): s
   `;
 };
 
-const renderTask = (task: ReadonlyTask, options: ColumnRenderOptions): string => {
+const renderTask = (
+  task: ReadonlyTask,
+  options: ColumnRenderOptions,
+  virtualPosition?: VirtualTaskPosition | null,
+): string => {
   const title =
     typeof task.title === 'string' && task.title.trim().length > 0 ? task.title.trim() : task.uuid;
   const priorityValue = formatPriority(task.priority);
@@ -193,11 +208,19 @@ const renderTask = (task: ReadonlyTask, options: ColumnRenderOptions): string =>
   const metaBlock = renderTaskMeta(task);
   const isSelected = options.selectedTaskId === task.uuid;
   const controls = renderTaskControls(task, options);
-  return `<li class="task-card${
-    isSelected ? ' is-selected' : ''
-  }" data-role="task-card" data-task-id="${escapeHtml(
-    task.uuid,
-  )}"><header class="task-header"><h3>${escapeHtml(
+  const baseClasses = `task-card${isSelected ? ' is-selected' : ''}`;
+  const attributes = [
+    `class="${baseClasses}"`,
+    'data-role="task-card"',
+    `data-task-id="${escapeHtml(task.uuid)}"`,
+  ];
+  if (virtualPosition) {
+    attributes.push(`data-virtual-index="${String(virtualPosition.index)}"`);
+  }
+  const styleAttribute = virtualPosition
+    ? ` style="position: absolute; top: ${virtualPosition.index * virtualPosition.itemHeight}px; height: ${virtualPosition.itemHeight}px; width: 100%;"`
+    : '';
+  return `<li ${attributes.join(' ')}${styleAttribute}><header class="task-header"><h3>${escapeHtml(
     title,
   )}</h3>${priorityBadge}</header>${labelsBlock}${metaBlock}${contentBlock}${controls}</li>`;
 };
@@ -219,13 +242,83 @@ const renderColumnHeader = (column: ReadonlyColumn): string => {
   )}</h2><span class="column-count">${escapeHtml(String(count))}${limitLabel}</span></div>`;
 };
 
-const renderColumn = (column: ReadonlyColumn, options: ColumnRenderOptions): string =>
-  `<section class="kanban-column" data-column="${escapeHtml(column.name)}">${renderColumnHeader(
-    column,
-  )}<ol class="task-list" aria-label="${escapeHtml(column.name)} tasks">${renderTasks(
-    column,
-    options,
-  )}</ol></section>`;
+const renderVirtualizedColumnContent = (
+  column: ReadonlyColumn,
+  options: ColumnRenderOptions,
+  virtualization: ColumnVirtualizationPlan,
+): string => {
+  if (!virtualization.enabled || virtualization.totalItems === 0) {
+    return `<ol class="task-list" aria-label="${escapeHtml(column.name)} tasks">${renderTasks(
+      column,
+      options,
+    )}</ol>`;
+  }
+  const totalItems = Math.max(virtualization.totalItems, column.tasks.length);
+  const windowSize = Math.max(1, Math.min(virtualization.endIndex - virtualization.startIndex, totalItems));
+  let startIndex = Math.min(virtualization.startIndex, Math.max(totalItems - 1, 0));
+  let endIndex = Math.min(Math.max(virtualization.endIndex, startIndex + windowSize), totalItems);
+  const selectedTaskId = options.selectedTaskId;
+  if (typeof selectedTaskId === 'string' && selectedTaskId.length > 0) {
+    const selectedIndex = column.tasks.findIndex((task) => task.uuid === selectedTaskId);
+    if (selectedIndex >= 0 && selectedIndex < totalItems) {
+      if (selectedIndex < startIndex || selectedIndex >= endIndex) {
+        const offset = Math.floor(windowSize / 2);
+        startIndex = Math.max(0, selectedIndex - offset);
+        endIndex = Math.min(totalItems, startIndex + windowSize);
+        if (endIndex - startIndex < windowSize) {
+          startIndex = Math.max(0, endIndex - windowSize);
+        }
+      }
+    }
+  }
+  const visibleTasks = column.tasks.slice(startIndex, Math.min(endIndex, column.tasks.length));
+  const tasksMarkup =
+    visibleTasks.length === 0
+      ? '<li class="task-empty">No tasks yet.</li>'
+      : visibleTasks
+          .map((task, offset) =>
+            renderTask(task, options, {
+              index: startIndex + offset,
+              itemHeight: virtualization.itemHeight,
+            }),
+          )
+          .join('');
+  const spacerHeight = totalItems * virtualization.itemHeight;
+  const containerAttributes = [
+    'class="task-list task-list-virtual virtual-scroll-items"',
+    'data-role="virtual-scroll-items"',
+    `data-column="${escapeHtml(column.name)}"`,
+    `data-total-items="${String(totalItems)}"`,
+    `data-item-height="${String(virtualization.itemHeight)}"`,
+    `data-buffer-size="${String(virtualization.bufferSize)}"`,
+    `data-start-index="${String(startIndex)}"`,
+    `data-end-index="${String(endIndex)}"`,
+    'style="position: absolute; top: 0; left: 0; right: 0;"',
+  ];
+  return `
+    <div class="virtual-scroll-wrapper" data-role="virtual-scroll-wrapper">
+      <div class="virtual-scroll-container" data-role="virtual-scroll-container">
+        <div class="virtual-scroll-viewport" data-role="virtual-scroll-viewport" style="position: relative; height: ${virtualization.viewportHeight}px; overflow-y: auto;">
+          <div class="virtual-scroll-spacer" data-role="virtual-scroll-spacer" style="height: ${spacerHeight}px;"></div>
+          <ol ${containerAttributes.join(' ')}>${tasksMarkup}</ol>
+        </div>
+      </div>
+    </div>
+  `;
+};
+
+const renderColumn = (column: ReadonlyColumn, options: ColumnRenderOptions): string => {
+  const virtualization = options.virtualization;
+  const columnClasses =
+    virtualization && virtualization.enabled ? 'kanban-column kanban-column-virtual' : 'kanban-column';
+  const bodyMarkup =
+    virtualization && virtualization.enabled
+      ? renderVirtualizedColumnContent(column, options, virtualization)
+      : `<ol class="task-list" aria-label="${escapeHtml(column.name)} tasks">${renderTasks(column, options)}</ol>`;
+  return `<section class="${columnClasses}" data-column="${escapeHtml(
+    column.name,
+  )}">${renderColumnHeader(column)}${bodyMarkup}</section>`;
+};
 
 const summarizeBoard = (
   board: ReadonlyBoard,
@@ -256,19 +349,42 @@ export const renderBoardHtml = (board: ReadonlyBoard, options: RenderOptions = {
       tasks: column.tasks.map((task) => ({ ...task }) as ReadonlyTask),
     })),
   };
+  const selectedColumns =
+    options.columns && options.columns.length > 0
+      ? new Set(options.columns)
+      : null;
+  const viewColumns = selectedColumns
+    ? readonlyBoard.columns.filter((column) => selectedColumns.has(column.name))
+    : readonlyBoard.columns;
+  const viewBoard: ReadonlyBoard = { columns: viewColumns };
+  const virtualScrollPlan = planVirtualScroll(viewBoard.columns);
   const columnNames =
     options.columns && options.columns.length > 0
       ? options.columns
-      : readonlyBoard.columns.map((column) => column.name);
-  const columnOptions: ColumnRenderOptions = {
+      : viewBoard.columns.map((column) => column.name);
+  const baseColumnOptions = {
     interactive: options.interactive ?? false,
     selectedTaskId: options.selectedTaskId ?? null,
     columnNames,
   };
-  const columnsMarkup = readonlyBoard.columns
-    .map((column) => renderColumn(column, columnOptions))
+  const columnsMarkup = viewBoard.columns
+    .map((column) =>
+      renderColumn(column, {
+        ...baseColumnOptions,
+        virtualization: virtualScrollPlan.columns.get(column.name) ?? null,
+      }),
+    )
     .join('');
+  const boardClass = virtualScrollPlan.boardVirtualized ? ' kanban-board-virtual' : '';
+  const hasVirtualizedColumn = Array.from(virtualScrollPlan.columns.values()).some(
+    (plan) => plan.enabled,
+  );
+  const scriptMarkup = hasVirtualizedColumn ? getVirtualScrollScript() : '';
+  const boardAttributes = [`class="kanban-columns${boardClass}"`];
+  if (hasVirtualizedColumn) {
+    boardAttributes.push('data-use-virtual-scroll="true"');
+  }
   return `${renderSummary(
-    readonlyBoard,
-  )}<section class="kanban-columns">${columnsMarkup}</section>`;
+    viewBoard,
+  )}<section ${boardAttributes.join(' ')}>${columnsMarkup}</section>${scriptMarkup}`;
 };
