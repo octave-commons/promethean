@@ -2,15 +2,16 @@
 uuid: "c63e188b-1e11-4ce7-a082-c8a26694e49d"
 title: "Fix infinite recursion build loop in @promethean/omni-service package"
 slug: "Fix infinite recursion build loop in @promethean omni-service package"
-status: "incoming"
+status: "accepted"
 priority: "P1"
 labels: ["build", "package", "infinite", "recursion"]
-created_at: "2025-10-11T19:22:57.817Z"
+created_at: "2025-10-11T23:27:45.148Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
 
 
 
@@ -32,6 +33,7 @@ Nothing
 
 ## ⛓️ Blocks
 Nothing
+
 
 
 
