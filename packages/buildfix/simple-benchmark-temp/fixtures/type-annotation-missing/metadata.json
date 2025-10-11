@@ -1,0 +1,10 @@
+{
+  "name": "type-annotation-missing",
+  "description": "Variable needs type annotation",
+  "errorType": "TS7005",
+  "errorCode": "TS7005",
+  "errorMessage": "Variable implicitly has type",
+  "files": [
+    "src.ts"
+  ]
+}

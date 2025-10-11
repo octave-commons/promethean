@@ -31,7 +31,7 @@ export interface ModelConfig {
 export const models: ModelConfig[] = [
   { name: 'qwen3:8b', model: 'qwen3:8b' },
   { name: 'qwen3:14b', model: 'qwen3:14b' },
-  { name: 'qwen3-coder:7b', model: 'qwen2.5-coder:7b' },
+  { name: 'qwen2.5-coder:7b', model: 'qwen2.5-coder:7b' },
   { name: 'promethean-planner', model: 'promethean-planner:latest' },
   { name: 'qwen3:4b', model: 'qwen3:4b' },
   { name: 'llama3:8b', model: 'llama3:8b' },
@@ -64,6 +64,18 @@ export class BuildFixBenchmark {
     const startTime = Date.now();
     const fixtureDir = path.join(this.fixturesDir, fixture.name);
     const tsconfigPath = path.join(fixtureDir, 'tsconfig.json');
+
+    // Backup original source files before making changes
+    const originalFiles = new Map<string, string>();
+    for (const filename of Object.keys(fixture.files)) {
+      const filePath = path.join(fixtureDir, filename);
+      try {
+        const content = await fs.readFile(filePath, 'utf8');
+        originalFiles.set(filename, content);
+      } catch (error) {
+        // File might not exist yet, that's ok
+      }
+    }
 
     const result: BenchmarkResult = {
       fixture: fixture.name,
@@ -148,6 +160,13 @@ export class BuildFixBenchmark {
     }
 
     result.duration = Date.now() - startTime;
+
+    // Restore original files before returning
+    for (const [filename, content] of originalFiles) {
+      const filePath = path.join(fixtureDir, filename);
+      await fs.writeFile(filePath, content, 'utf8');
+    }
+
     return result;
   }
 

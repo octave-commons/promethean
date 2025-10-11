@@ -127,20 +127,19 @@
       ],
       "enabled": true
     },
+
     "serena": {
       "type": "local",
       "command": [
-        "npx",
-        "-y",
-        "serena",
-        "start-mcp-server",
-        "--context",
-        "ide-assistant",
-        "--project",
-        "{env:OPENCODE_PROJECT_ROOT}"
+        "uvx",
+"--from",
+"git+https://github.com/oraios/serena",
+"serena",
+"start-mcp-server"
       ],
       "enabled": true
     }
+
   },
   "tools": {
     "webfetch": true,

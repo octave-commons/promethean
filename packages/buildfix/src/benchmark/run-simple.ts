@@ -3,7 +3,10 @@
 import * as path from 'path';
 import { promises as fs } from 'fs';
 import { BuildFixBenchmark, models, type BenchmarkResult } from './index.js';
-import type { Fixture } from './fixtures.js';
+import { createAllFixtures } from './fixture-template.js';
+
+// Test first 3 models for efficiency comparison
+models.splice(3);
 
 async function runSimpleBenchmark(): Promise<BenchmarkResult[]> {
   const tempDir = path.resolve('./simple-benchmark-temp');
@@ -13,174 +16,36 @@ async function runSimpleBenchmark(): Promise<BenchmarkResult[]> {
   await fs.rm(tempDir, { recursive: true, force: true });
   await fs.mkdir(tempDir, { recursive: true });
 
-  // Create simple fixtures
-  const simpleFixtures: Fixture[] = [
-    {
-      name: '01-undefined-var',
-      description: 'Cannot find name undefinedVariable',
-      files: {
-        'src.ts': `
-// ERROR: Cannot find name 'undefinedVariable'
-// ERROR_CODE: TS2304
-export function testFunction() {
-  return undefinedVariable;
-}
-        `,
-      },
-      expectedFixes: {
-        'src.ts': `
-export function testFunction() {
-  const undefinedVariable = "defined";
-  return undefinedVariable;
-}
-        `,
-      },
-      errorPattern: ['TS2304'],
-    },
-    {
-      name: '02-missing-export',
-      description: 'Function exists but not exported',
-      files: {
-        'src.ts': `
-// ERROR: Function 'helper' is used but not exported
-// ERROR_CODE: TS2305
-function helper() {
-  return "hello";
-}
+  // Create fixtures using the template system
+  const fixturesDir = path.join(tempDir, 'fixtures');
+  const allFixtures = await createAllFixtures(fixturesDir);
 
-// Usage in another module expects this to be exported
-export function main() {
-  return helper();
-}
-        `,
-      },
-      expectedFixes: {
-        'src.ts': `
-export function helper() {
-  return "hello";
-}
-
-// Usage in another module expects this to be exported
-export function main() {
-  return helper();
-}
-        `,
-      },
-      errorPattern: ['TS2305'],
-    },
-    {
-      name: '03-optional-param',
-      description: 'Function parameter should be optional',
-      files: {
-        'src.ts': `
-// ERROR: Function parameter should be optional
-// ERROR_CODE: TS2554
-export function greet(name: string) {
-  return \`Hello, \${name}!\`;
-}
-
-// Called without argument
-export function main() {
-  return greet();
-}
-        `,
-      },
-      expectedFixes: {
-        'src.ts': `
-export function greet(name?: string) {
-  return \`Hello, \${name || "world"}!\`;
-}
-
-// Called without argument
-export function main() {
-  return greet();
-}
-        `,
-      },
-      errorPattern: ['TS2554'],
-    },
-  ];
-
-  // Create fixture directories
-  for (const fixture of simpleFixtures) {
-    const fixtureDir = path.join(tempDir, 'fixtures', fixture.name);
-    await fs.mkdir(fixtureDir, { recursive: true });
-
-    // Create all files for the fixture
-    for (const [filename, content] of Object.entries(fixture.files)) {
-      await fs.writeFile(path.join(fixtureDir, filename), content.trim(), 'utf8');
-    }
-
-    // Create package.json with ts-morph dependency
-    await fs.writeFile(
-      path.join(fixtureDir, 'package.json'),
-      JSON.stringify(
-        {
-          type: 'module',
-          dependencies: {
-            'ts-morph': '^23.0.0',
-          },
-        },
-        null,
-        2,
-      ),
-      'utf8',
-    );
-
-    // Create tsconfig
-    await fs.writeFile(
-      path.join(fixtureDir, 'tsconfig.json'),
-      JSON.stringify(
-        {
-          compilerOptions: {
-            strict: true,
-            noEmit: true,
-            target: 'ES2020',
-            module: 'ESNext',
-            moduleResolution: 'node',
-            esModuleInterop: true,
-            allowSyntheticDefaultImports: true,
-          },
-          include: ['*.ts'],
-        },
-        null,
-        2,
-      ),
-      'utf8',
-    );
-
-    // Install dependencies
-    console.log(`  📦 Installing dependencies for ${fixture.name}...`);
-    const { exec } = await import('child_process');
-    await new Promise<void>((resolve, reject) => {
-      const proc = exec('npm install', { cwd: fixtureDir }, (error) => {
-        if (error) {
-          reject(error);
-        } else {
-          resolve();
-        }
-      });
-      proc.stdout?.pipe(process.stdout);
-      proc.stderr?.pipe(process.stderr);
-    });
-  }
+  // Test only first 2 fixtures for debugging
+  const simpleFixtures = allFixtures.slice(0, 2);
 
   console.log(
-    `🚀 Running simple benchmark with ${simpleFixtures.length} fixtures and ${models.length} models...`,
+    `🚀 Running simple benchmark with ${models.length} models and ${simpleFixtures.length} fixtures each...`,
   );
 
   const benchmark = new BuildFixBenchmark(tempDir);
 
-  for (let i = 0; i < simpleFixtures.length; i++) {
-    const fixture = simpleFixtures[i];
-    if (!fixture) {
-      console.log(`  ⚠️  Fixture ${i + 1} is undefined, skipping...`);
+  // Run model-by-model for efficiency
+  for (let i = 0; i < models.length; i++) {
+    const modelConfig = models[i];
+    if (!modelConfig) {
+      console.log(`  ⚠️  Model ${i + 1} is undefined, skipping...`);
       continue;
     }
-    console.log(`\n📝 Testing fixture ${i + 1}/${simpleFixtures.length}: ${fixture.name}`);
+    console.log(`\n🤖 Testing model ${i + 1}/${models.length}: ${modelConfig.name}`);
+    console.log('==========================================');
 
-    for (const modelConfig of models) {
-      console.log(`  🤖 Testing model: ${modelConfig.name}...`);
+    for (let j = 0; j < simpleFixtures.length; j++) {
+      const fixture = simpleFixtures[j];
+      if (!fixture) {
+        console.log(`  ⚠️  Fixture ${j + 1} is undefined, skipping...`);
+        continue;
+      }
+      console.log(`  📝 Testing fixture ${j + 1}/${simpleFixtures.length}: ${fixture.name}`);
 
       try {
         const result = await benchmark.runSingleBenchmark(fixture, modelConfig);
@@ -192,7 +57,7 @@ export function main() {
         const resolved = result.errorsResolved ? '🎯' : '❌';
 
         console.log(
-          `    ${status} ${modelConfig.name}: ${errors} ${plan} ${resolved} (${result.duration}ms)`,
+          `    ${status} ${fixture.name}: ${errors} ${plan} ${resolved} (${result.duration}ms)`,
         );
 
         if (result.errorMessage) {
@@ -207,7 +72,7 @@ export function main() {
           }
         }
       } catch (error) {
-        console.log(`    ❌ ${modelConfig.name}: Failed - ${error}`);
+        console.log(`    ❌ ${fixture.name}: Failed - ${error}`);
 
         if (!process.argv.includes('--no-bail')) {
           console.log(`\n🛑 Bailing early due to error`);

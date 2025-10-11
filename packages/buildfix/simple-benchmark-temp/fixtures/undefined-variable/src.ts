@@ -3,7 +3,3 @@
 export function testFunction() {
   return undefinedVariable;
 }
-
-export function undefinedVariable() {
-    return void;
-}

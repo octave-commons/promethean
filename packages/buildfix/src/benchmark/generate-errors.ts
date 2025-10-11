@@ -283,7 +283,7 @@ class CodeMutator {
       const sourceFile = sourceFiles[fileIndex];
 
       // Apply a random mutation
-      const mutationResult = this.applyRandomMutation(sourceFile);
+      const mutationResult = this.applyRandomMutation(sourceFile!);
       if (mutationResult) {
         errorsGenerated.push(mutationResult);
       }
@@ -421,7 +421,7 @@ class CodeMutator {
     if (functions.length === 0) return null;
 
     const func = functions[Math.floor(this.random() * functions.length)];
-    if (func.isExported()) {
+    if (func && func.isExported()) {
       func.setIsExported(false);
       this.trackError('TS2459');
       return `Removed export from function ${func.getName()} in ${sourceFile.getFilePath()}`;
@@ -434,6 +434,8 @@ class CodeMutator {
     if (variables.length === 0) return null;
 
     const variable = variables[Math.floor(this.random() * variables.length)];
+    if (!variable) return null;
+
     const typeNode = variable.getTypeNode();
 
     if (typeNode) {
@@ -451,6 +453,8 @@ class CodeMutator {
     if (identifiers.length === 0) return null;
 
     const identifier = identifiers[Math.floor(this.random() * identifiers.length)];
+    if (!identifier) return null;
+
     const newName = `undefinedVar_${Math.floor(this.random() * 1000)}`;
     identifier.rename(newName);
     this.trackError('TS2304');

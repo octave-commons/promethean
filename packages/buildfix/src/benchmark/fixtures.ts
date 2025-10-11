@@ -173,6 +173,10 @@ export function processUser(user: User) {
 export async function createFixtures(baseDir: string): Promise<void> {
   await fs.mkdir(baseDir, { recursive: true });
 
+  // Find the base tsconfig to extend from
+  const baseTsconfigPath = path.resolve('../../../tsconfig.json');
+  const relativeBaseTsconfig = path.relative(baseDir, baseTsconfigPath);
+
   for (const fixture of fixtures) {
     const fixtureDir = path.join(baseDir, fixture.name);
     await fs.mkdir(fixtureDir, { recursive: true });
@@ -182,11 +186,30 @@ export async function createFixtures(baseDir: string): Promise<void> {
       await fs.writeFile(path.join(fixtureDir, filename), content.trim(), 'utf8');
     }
 
-    // Create tsconfig
+    // Create package.json
+    await fs.writeFile(
+      path.join(fixtureDir, 'package.json'),
+      JSON.stringify(
+        {
+          name: `buildfix-fixture-${fixture.name}`,
+          version: '1.0.0',
+          type: 'module',
+          dependencies: {
+            'ts-morph': '^23.0.0',
+          },
+        },
+        null,
+        2,
+      ),
+      'utf8',
+    );
+
+    // Create tsconfig that extends the base one
     await fs.writeFile(
       path.join(fixtureDir, 'tsconfig.json'),
       JSON.stringify(
         {
+          extends: relativeBaseTsconfig,
           compilerOptions: {
             strict: true,
             noEmit: true,
