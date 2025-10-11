@@ -1,0 +1,9 @@
+{
+  "name": "rename-symbol",
+  "description": "Function name conflicts with reserved keyword",
+  "errorPattern": [
+    "TS1102",
+    "delete",
+    "reserved"
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "name": "missing-export",
+  "description": "Function exists but not exported",
+  "errorPattern": [
+    "TS2305",
+    "helper",
+    "export"
+  ],
+  "files": [
+    "src.ts",
+    "usage.ts"
+  ]
+}
