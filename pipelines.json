@@ -573,15 +573,17 @@
           "inputs": ["tsconfig.json", "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"],
           "outputs": [".cache/buildfix/errors.json"],
           "inputSchema": "packages/buildfix/schemas/io.schema.json",
-          "outputSchema": "packages/buildfix/schemas/io.schema.json"
+          "outputSchema": "packages/buildfix/schemas/io.schema.json",
+          "timeout": 300000
         },
         {
           "id": "bf-iterate",
           "deps": ["bf-build", "bf-errors"],
-          "shell": "pnpm --filter @promethean/buildfix bf:02-iterate --errors .cache/buildfix/errors.json --out .cache/buildfix --model gpt-oss:20b --max-cycles 5 --git per-error --commit-on always --branch-prefix buildfix --remote origin --push false --use-gh false --rollback-on-regress true\n",
+          "shell": "pnpm --filter @promethean/buildfix bf:02-iterate --errors .cache/buildfix/errors.json --out .cache/buildfix --model gpt-oss:20b --max-cycles 3 --git batch --commit-on success --branch-prefix buildfix --remote origin --push false --use-gh false --rollback-on-regress true --max-errors-per-branch 10",
           "env": {
             "OLLAMA_URL": "${OLLAMA_URL}"
           },
+          "timeout": 600000,
           "inputs": [
             ".cache/buildfix/errors.json",
             "tsconfig.json",
