@@ -20,7 +20,7 @@ test('harness end-to-end', async (t) => {
     await sleep(200);
 
     // ensure projector emitted process.state
-    const events = await h.bus.store.scan('process.state', { ts: 0 });
+    const events = await (h.bus as any).store.scan('process.state', { ts: 0 });
     t.is(events.length, 1);
     const cur = await h.bus.getCursor('heartbeat.received', 'process-projector');
     t.truthy(cur);

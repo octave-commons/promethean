@@ -44,7 +44,6 @@
     "ora": "^8.0.1"
   },
   "devDependencies": {
-    "@types/node": "^20.14.9",
     "@types/node-fetch": "^2.6.9",
     "@types/pidusage": "^2.0.5"
   }

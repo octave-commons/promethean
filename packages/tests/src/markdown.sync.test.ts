@@ -31,8 +31,8 @@ test('syncBoardStatuses tags cards with column status and updates/creates tasks'
     // Missing task for "Fix login flow" should be created and linked
     const createdCard = todo.find((c: any) => c.id === '1111-aaaa')!;
     t.truthy(createdCard.links && createdCard.links.length > 0);
-    const createdFile = createdCard.links[0].split('|')[0];
-    const createdPath = join(tasksDir, createdFile);
+    const createdFile = createdCard.links[0]?.split('|')[0];
+    const createdPath = join(tasksDir, createdFile!);
     const createdContent = await fs.readFile(createdPath, 'utf8');
     t.true(createdContent.includes('id: 1111-aaaa'));
     t.true(createdContent.trimEnd().endsWith('#todo'));
@@ -52,8 +52,8 @@ test('retags conflicting status on cards under their column', async (t) => {
     await syncBoardStatuses(board, { tasksDir, createMissingTasks: true });
     const todo = board.listCards('Todo');
     t.is(todo.length, 1);
-    t.true(todo[0].tags.includes('todo'));
-    t.false(todo[0].tags.includes('ready'));
+    t.true(todo[0]?.tags.includes('todo'));
+    t.false(todo[0]?.tags.includes('ready'));
 });
 
 test('creates missing link for unlinked card and sets status', async (t) => {
@@ -66,8 +66,8 @@ test('creates missing link for unlinked card and sets status', async (t) => {
     await syncBoardStatuses(board, { tasksDir, createMissingTasks: true });
     const todo = board.listCards('Todo');
     t.is(todo.length, 1);
-    t.true(todo[0].tags.includes('todo'));
-    t.truthy(todo[0].links && todo[0].links.length > 0);
+    t.true(todo[0]?.tags.includes('todo'));
+    t.truthy(todo[0]?.links && todo[0].links.length > 0);
 });
 
 test('updates existing task file status to match column', async (t) => {

@@ -1,24 +1,24 @@
-import test from "ava";
-import { setTimeout } from "node:timers/promises";
-import { fastifyTransport } from "../core/transports/fastify.js";
-import { createMcpServer } from "../core/mcp-server.js";
+import test from 'ava';
+import { setTimeout } from 'node:timers/promises';
+import { fastifyTransport } from '../core/transports/fastify.js';
+import { createMcpServer } from '../core/mcp-server.js';
 
 /**
  * Simple end-to-end negative test that verifies the MCP server starts properly.
  * This test will FAIL if the server doesn't start or can't handle basic requests.
  */
 
-test("NEGATIVE: Basic MCP server initialization and health check", async (t) => {
+test('NEGATIVE: Basic MCP server initialization and health check', async (t) => {
   const transport = fastifyTransport({ port: 0, host: '127.0.0.1' });
 
   // Create a simple mock tool for testing
   const mockTool = {
     spec: {
-      name: "test_tool",
-      description: "A simple test tool",
+      name: 'test_tool',
+      description: 'A simple test tool',
       inputSchema: {},
     },
-    invoke: async () => ({ result: "ok" })
+    invoke: async () => ({ result: 'ok' }),
   };
 
   const mcpServer = createMcpServer([mockTool]);
@@ -32,65 +32,64 @@ test("NEGATIVE: Basic MCP server initialization and health check", async (t) => 
 
     // Test basic MCP initialization
     const initResponse = await fetch(`${baseUrl}/mcp`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        jsonrpc: "2.0",
-        id: "init-1",
-        method: "initialize",
+        jsonrpc: '2.0',
+        id: 'init-1',
+        method: 'initialize',
         params: {
-          protocolVersion: "2024-10-01",
-          clientInfo: { name: "test-client", version: "1.0.0" }
-        }
+          protocolVersion: '2024-10-01',
+          clientInfo: { name: 'test-client', version: '1.0.0' },
+        },
       }),
     });
 
-    t.true(initResponse.ok, "MCP initialization should succeed");
+    t.true(initResponse.ok, 'MCP initialization should succeed');
 
     const initText = await initResponse.text();
-    t.true(initText.includes("event: message"), "Should return SSE format");
+    t.true(initText.includes('event: message'), 'Should return SSE format');
 
     // Extract session ID
     const sessionIdMatch = initText.match(/mcp-session-id:\s*([a-f0-9-]+)/);
-    t.truthy(sessionIdMatch, "Should extract session ID");
+    t.truthy(sessionIdMatch, 'Should extract session ID');
     const sessionId = sessionIdMatch![1];
 
     // Test tools list to verify stdio proxies are working
     const toolsResponse = await fetch(`${baseUrl}/mcp`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
-        "mcp-session-id": sessionId
+        'Content-Type': 'application/json',
+        ...(sessionId && { 'mcp-session-id': sessionId }),
       },
       body: JSON.stringify({
-        jsonrpc: "2.0",
-        id: "tools-1",
-        method: "tools/list"
+        jsonrpc: '2.0',
+        id: 'tools-1',
+        method: 'tools/list',
       }),
     });
 
-    t.true(toolsResponse.ok, "Tools list should succeed");
+    t.true(toolsResponse.ok, 'Tools list should succeed');
 
     const toolsText = await toolsResponse.text();
 
     // Should NOT contain these error messages that indicate timing issues
     t.false(
-      toolsText.includes("Invalid request parameters"),
-      "Should not have initialization timing errors"
+      toolsText.includes('Invalid request parameters'),
+      'Should not have initialization timing errors',
     );
     t.false(
-      toolsText.includes("before initialization was complete"),
-      "Should not have 'before initialization was complete' errors"
+      toolsText.includes('before initialization was complete'),
+      "Should not have 'before initialization was complete' errors",
     );
     t.false(
-      toolsText.includes("Proxy returned invalid JSON response"),
-      "Should not have JSON parsing errors"
+      toolsText.includes('Proxy returned invalid JSON response'),
+      'Should not have JSON parsing errors',
     );
 
     // Should contain actual tools
-    t.true(toolsText.includes('"tools"'), "Should contain tools array");
-    t.true(toolsText.includes("event: message"), "Should return SSE format");
-
+    t.true(toolsText.includes('"tools"'), 'Should contain tools array');
+    t.true(toolsText.includes('event: message'), 'Should return SSE format');
   } finally {
     if (transport?.stop) {
       await transport.stop();
@@ -98,27 +97,22 @@ test("NEGATIVE: Basic MCP server initialization and health check", async (t) => 
   }
 });
 
-test("NEGATIVE: Verify critical stdio servers are accessible", async (t) => {
+test('NEGATIVE: Verify critical stdio servers are accessible', async (t) => {
   const transport = fastifyTransport({ port: 0, host: '127.0.0.1' });
 
   // Create a simple mock tool for testing
   const mockTool = {
     spec: {
-      name: "test_tool",
-      description: "A simple test tool",
+      name: 'test_tool',
+      description: 'A simple test tool',
       inputSchema: {},
     },
-    invoke: async () => ({ result: "ok" })
+    invoke: async () => ({ result: 'ok' }),
   };
 
   const mcpServer = createMcpServer([mockTool]);
 
-  const CRITICAL_SERVERS = [
-    "ts-ls-lsp",
-    "eslint",
-    "github",
-    "file-system"
-  ];
+  const CRITICAL_SERVERS = ['ts-ls-lsp', 'eslint', 'github', 'file-system'];
 
   try {
     await transport.start(mcpServer);
@@ -128,41 +122,41 @@ test("NEGATIVE: Verify critical stdio servers are accessible", async (t) => {
 
     // Initialize session
     const initResponse = await fetch(`${baseUrl}/mcp`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        jsonrpc: "2.0",
-        id: "init-1",
-        method: "initialize",
+        jsonrpc: '2.0',
+        id: 'init-1',
+        method: 'initialize',
         params: {
-          protocolVersion: "2024-10-01",
-          clientInfo: { name: "test-client", version: "1.0.0" }
-        }
+          protocolVersion: '2024-10-01',
+          clientInfo: { name: 'test-client', version: '1.0.0' },
+        },
       }),
     });
 
-    t.true(initResponse.ok, "Initialization should succeed");
+    t.true(initResponse.ok, 'Initialization should succeed');
 
     const initText = await initResponse.text();
     const sessionIdMatch = initText.match(/mcp-session-id:\s*([a-f0-9-]+)/);
-    t.truthy(sessionIdMatch, "Should extract session ID");
+    t.truthy(sessionIdMatch, 'Should extract session ID');
     const sessionId = sessionIdMatch![1];
 
     // Test tools list
     const toolsResponse = await fetch(`${baseUrl}/mcp`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
-        "mcp-session-id": sessionId
+        'Content-Type': 'application/json',
+        ...(sessionId && { 'mcp-session-id': sessionId }),
       },
       body: JSON.stringify({
-        jsonrpc: "2.0",
-        id: "tools-1",
-        method: "tools/list"
+        jsonrpc: '2.0',
+        id: 'tools-1',
+        method: 'tools/list',
       }),
     });
 
-    t.true(toolsResponse.ok, "Tools list should succeed");
+    t.true(toolsResponse.ok, 'Tools list should succeed');
 
     const toolsText = await toolsResponse.text();
 
@@ -179,15 +173,14 @@ test("NEGATIVE: Verify critical stdio servers are accessible", async (t) => {
     // At least 2 critical servers should be accessible
     t.true(
       foundServers.length >= 2,
-      `At least 2 critical stdio servers should be accessible. Found: ${foundServers.join(', ')}`
+      `At least 2 critical stdio servers should be accessible. Found: ${foundServers.join(', ')}`,
     );
 
     // Most importantly, should not have timing errors
     t.false(
-      toolsText.includes("Invalid request parameters"),
-      "Critical servers should not have timing errors"
+      toolsText.includes('Invalid request parameters'),
+      'Critical servers should not have timing errors',
     );
-
   } finally {
     if (transport?.stop) {
       await transport.stop();

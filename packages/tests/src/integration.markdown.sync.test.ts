@@ -32,8 +32,8 @@ test('integration: end-to-end board sync creates/updates task files and persists
     // Missing task for first Todo should be created and linked
     const createdCard = todo.find((c: any) => c.id === '1111-aaaa')!;
     t.truthy(createdCard.links && createdCard.links.length > 0);
-    const createdFile = createdCard.links[0].split('|')[0];
-    const createdPath = join(tasksDir, createdFile);
+    const createdFile = createdCard.links[0]?.split('|')[0];
+    const createdPath = join(tasksDir, createdFile!);
     const createdContent = await fs.readFile(createdPath, 'utf8');
     t.true(createdContent.includes('id: 1111-aaaa'));
     t.true(createdContent.trimEnd().endsWith('#todo'));
