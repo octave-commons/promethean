@@ -404,15 +404,21 @@ const createProxyHandler = (proxy: ProxyLifecycle) => {
 
     // Handle GET requests for health checks and discovery
     if (request.method === 'GET') {
+      // Check if proxy has any initialization issues
+      const isHealthy = true; // TODO: Add actual health check
+      const status = isHealthy ? 'ready' : 'initializing';
+
       rawRes.writeHead(200, {
         'content-type': 'application/json',
         'access-control-allow-origin': '*',
       }).end(JSON.stringify({
         name: proxy.spec.name,
-        status: 'ready',
+        status,
         type: 'stdio-proxy',
         httpPath: proxy.spec.httpPath,
-        message: 'Proxy server is running. Use POST for JSON-RPC requests.',
+        message: isHealthy
+          ? 'Proxy server is running. Use POST for JSON-RPC requests.'
+          : 'Proxy server is initializing. Please wait before making POST requests.',
       }));
       return;
     }
@@ -590,7 +596,22 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
       console.log(`   Headers:`, JSON.stringify(request.headers, null, 2));
       console.log(`   Query:`, JSON.stringify(request.query, null, 2));
 
-      // Log body for POST/PUT requests (be careful with sensitive data)
+      // For POST requests, try to get the raw body before it's fully parsed
+      if (['POST', 'PUT', 'PATCH'].includes(request.method)) {
+        // Store raw body reference for later logging
+        (request as any).rawBodyForLogging = request.body;
+      }
+
+      console.log(`   Remote IP: ${request.ip}`);
+      console.log(`   User-Agent: ${request.headers['user-agent'] || '<unknown>'}`);
+    });
+
+    // Add a hook after body parsing to log the actual body content
+    app.addHook('preHandler', async (request, _reply) => {
+      const requestId = (request as any).requestId;
+      if (!requestId) return;
+
+      // Log body for POST/PUT requests after parsing (be careful with sensitive data)
       if (['POST', 'PUT', 'PATCH'].includes(request.method)) {
         try {
           const body = request.body;
@@ -613,9 +634,6 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
           console.log(`   Body: <could not parse body: ${(error as Error).message}>`);
         }
       }
-
-      console.log(`   Remote IP: ${request.ip}`);
-      console.log(`   User-Agent: ${request.headers['user-agent'] || '<unknown>'}`);
     });
 
     app.addHook('onResponse', async (request, reply) => {

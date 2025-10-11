@@ -273,13 +273,15 @@ export const migrateJsonlToCache = async (
         await cache.setTask(task);
         migrated++;
       } catch (error) {
-        errors.push(`Failed to migrate task ${task.uuid}: ${error}`);
+        errors.push(
+          `Failed to migrate task ${task.uuid}: ${error instanceof Error ? error.message : String(error)}`,
+        );
       }
     }
 
     console.log(`Migrated ${migrated} tasks from JSONL to cache`);
   } catch (error) {
-    errors.push(`Migration failed: ${error}`);
+    errors.push(`Migration failed: ${error instanceof Error ? error.message : String(error)}`);
   }
 
   return { migrated, errors };

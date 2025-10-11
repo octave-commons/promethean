@@ -1,6 +1,6 @@
-import type { IndexedTask } from "./types.js";
-import type { TaskCache } from "./task-cache.js";
-import type { Task } from "../lib/types.js";
+import type { IndexedTask } from './types.js';
+import type { TaskCache } from './task-cache.js';
+import type { Task } from '../lib/types.js';
 
 /**
  * Convert IndexedTask to Task (format used by board operations)
@@ -26,10 +26,7 @@ export class TaskOperations {
   /**
    * Get tasks by status with streaming support
    */
-  async getTasksByStatus(
-    status: string,
-    options?: Readonly<{ limit?: number }>
-  ): Promise<Task[]> {
+  async getTasksByStatus(status: string, options?: Readonly<{ limit?: number }>): Promise<Task[]> {
     const tasks: Task[] = [];
     let count = 0;
     const limit = options?.limit;
@@ -54,10 +51,7 @@ export class TaskOperations {
   /**
    * Search tasks with streaming results
    */
-  async searchTasks(
-    query: string,
-    options?: Readonly<{ limit?: number }>
-  ): Promise<Task[]> {
+  async searchTasks(query: string, options?: Readonly<{ limit?: number }>): Promise<Task[]> {
     const tasks: Task[] = [];
     let count = 0;
     const limit = options?.limit;
@@ -76,7 +70,7 @@ export class TaskOperations {
    */
   async getTasksByPriority(
     priority: string,
-    options?: Readonly<{ limit?: number }>
+    options?: Readonly<{ limit?: number }>,
   ): Promise<Task[]> {
     const tasks: Task[] = [];
     let count = 0;
@@ -94,10 +88,7 @@ export class TaskOperations {
   /**
    * Get tasks by label with streaming support
    */
-  async getTasksByLabel(
-    label: string,
-    options?: Readonly<{ limit?: number }>
-  ): Promise<Task[]> {
+  async getTasksByLabel(label: string, options?: Readonly<{ limit?: number }>): Promise<Task[]> {
     const tasks: Task[] = [];
     let count = 0;
     const limit = options?.limit;
@@ -165,7 +156,7 @@ export class TaskOperations {
     updates: Array<{
       uuid: string;
       updates: Partial<Pick<Task, 'status' | 'priority' | 'labels'>>;
-    }>
+    }>,
   ): Promise<{ updated: number; errors: string[] }> {
     const errors: string[] = [];
     let updated = 0;
@@ -189,7 +180,9 @@ export class TaskOperations {
         await this.cache.setTask(updatedTask);
         updated++;
       } catch (error) {
-        errors.push(`Failed to update task ${uuid}: ${error}`);
+        errors.push(
+          `Failed to update task ${uuid}: ${error instanceof Error ? error.message : String(error)}`,
+        );
       }
     }
 
