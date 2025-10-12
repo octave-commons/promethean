@@ -2,15 +2,117 @@
 uuid: "cf8a09dd-5109-472d-98fd-899e8300643e"
 title: "Verify Omni protocol backward compatibility with SmartGPT bridge"
 slug: "verify-omni-protocol-backward-compatibility"
-status: "blocked"
+status: "breakdown"
 priority: "P1"
 labels: ["compatibility", "omni", "smartgpt", "testing"]
-created_at: "2025-10-12T19:03:19.226Z"
+created_at: "2025-10-12T21:42:24.695Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -251,6 +353,108 @@ Ensure complete backward compatibility between the new Omni protocol and existin
 - SmartGPT bridge source code
 - Existing `/v1` API documentation
 - Response format specifications
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
