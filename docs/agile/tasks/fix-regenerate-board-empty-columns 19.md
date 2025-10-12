@@ -1,19 +1,11 @@
 ---
-<<<<<<< HEAD
 uuid: "7018019d-d3c4-4af0-bf0f-a2fd1c774cbd"
-=======
-uuid: "7e3b4ee6-a088-4f7f-80f6-605cb3f5aa15"
->>>>>>> bug/kanban-duplication-issues
 title: "Fix regenerateBoard to show all configured columns even when empty"
 slug: "fix-regenerate-board-empty-columns 19"
 status: "done"
 priority: "P1"
 labels: ["bug", "columns", "config", "fsm", "kanban"]
-<<<<<<< HEAD
-created_at: "2025-10-12T22:46:41.459Z"
-=======
-created_at: "2025-10-12T21:40:23.580Z"
->>>>>>> bug/kanban-duplication-issues
+created_at: "2025-10-12T23:41:48.145Z"
 estimates:
   complexity: ""
   scale: ""
@@ -221,7 +213,6 @@ estimates:
 
 
 
-<<<<<<< HEAD
 
 
 
@@ -452,5 +443,11 @@ estimates:
 
 
 
-=======
->>>>>>> bug/kanban-duplication-issues
+
+
+
+
+
+
+
+

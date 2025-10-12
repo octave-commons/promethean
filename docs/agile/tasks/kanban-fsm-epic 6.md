@@ -5,12 +5,26 @@ slug: "kanban-fsm-epic 6"
 status: "rejected"
 priority: "P1"
 labels: ["automation", "epic", "fsm", "kanban", "process"]
-created_at: "2025-10-12T22:46:41.460Z"
+created_at: "2025-10-12T23:41:48.147Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

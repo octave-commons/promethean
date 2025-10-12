@@ -5,12 +5,16 @@ slug: "cleanup-done-column-incomplete-tasks"
 status: "accepted"
 priority: "P1"
 labels: ["cleanup", "done-column", "governance", "kanban", "quality"]
-created_at: "2025-10-12T21:40:23.578Z"
+created_at: "2025-10-12T23:41:48.141Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
 
 
 
@@ -148,6 +152,10 @@ Audit of done column revealed **93 tasks** with only ~25% actually complete:
 ---
 
 **Note**: This is critical governance work to maintain board integrity and prevent recurrence of the systematic completion issues discovered in the audit.
+
+
+
+
 
 
 

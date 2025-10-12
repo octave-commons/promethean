@@ -26,7 +26,7 @@ import { serveKanbanUI } from '../lib/ui-server.js';
 import { compareTasks, suggestTaskBreakdown, prioritizeTasks } from '../lib/task-tools.js';
 import { KanbanDevServer } from '../lib/dev-server.js';
 
-const columnKey = (name: string): string => name.toLowerCase().replace(/[\s_-]/g, '');
+const columnKey = (name: string): string => name.toLowerCase().replace(/\s+/g, '');
 import { TransitionRulesEngine, createTransitionRulesEngine } from '../lib/transition-rules.js';
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
@@ -1018,11 +1018,17 @@ const parseCreateTaskArgs = (args: ReadonlyArray<string>) => {
       i++; // Skip next arg
     } else if (arg.startsWith('--labels=')) {
       const labelsStr = arg.slice('--labels='.length);
-      result.labels = labelsStr.split(',').map(l => l.trim()).filter(l => l.length > 0);
+      result.labels = labelsStr
+        .split(',')
+        .map((l) => l.trim())
+        .filter((l) => l.length > 0);
     } else if (arg === '--labels' && i + 1 < args.length && args[i + 1]) {
       const labelsStr = args[i + 1];
       if (labelsStr) {
-        result.labels = labelsStr.split(',').map(l => l.trim()).filter(l => l.length > 0);
+        result.labels = labelsStr
+          .split(',')
+          .map((l) => l.trim())
+          .filter((l) => l.length > 0);
       }
       i++; // Skip next arg
     } else {

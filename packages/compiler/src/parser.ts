@@ -46,7 +46,7 @@ export class Parser {
             kind: 'Block',
             exprs,
             span: { ...first, end: this.peek().span.end },
-        } as any;
+        };
     }
 
     // Pratt machinery
@@ -58,7 +58,6 @@ export class Parser {
             lbp,
             nud: prev.nud,
             led: (left) => {
-                const t = this.tokens[this.i - 1];
                 const right = this.parseExpr(lbp);
                 return {
                     kind: 'Bin',
@@ -66,7 +65,7 @@ export class Parser {
                     left,
                     right,
                     span: { ...left.span, end: right.span.end },
-                } as any;
+                };
             },
         });
     }
@@ -83,7 +82,7 @@ export class Parser {
                     op,
                     expr,
                     span: { ...t.span, end: expr.span.end },
-                } as any;
+                };
             },
         });
     }
@@ -120,7 +119,7 @@ export class Parser {
                     callee: left,
                     args,
                     span: { ...left.span, end: this.peek().span.end },
-                } as any;
+                };
                 continue;
             }
             const op = p.kind === 'op' ? this.ops.get(p.text) : undefined;
@@ -132,11 +131,11 @@ export class Parser {
     }
 
     private nud(t: Tok): Expr {
-        if (t.kind === 'num') return { kind: 'Num', value: Number(t.text), span: t.span } as any;
-        if (t.kind === 'str') return { kind: 'Str', value: t.text, span: t.span } as any;
+        if (t.kind === 'num') return { kind: 'Num', value: Number(t.text), span: t.span };
+        if (t.kind === 'str') return { kind: 'Str', value: t.text, span: t.span };
         if (t.kind === 'kw' && (t.text === 'true' || t.text === 'false'))
-            return { kind: 'Bool', value: t.text === 'true', span: t.span } as any;
-        if (t.kind === 'kw' && t.text === 'null') return { kind: 'Null', span: t.span } as any;
+            return { kind: 'Bool', value: t.text === 'true', span: t.span };
+        if (t.kind === 'kw' && t.text === 'null') return { kind: 'Null', span: t.span };
 
         // (expr)
         if (t.kind === 'punct' && t.text === '(') {
@@ -159,7 +158,7 @@ export class Parser {
                 value,
                 body,
                 span: { ...t.span, end: body.span.end },
-            } as any;
+            };
         }
 
         // if cond then a else b
@@ -175,7 +174,7 @@ export class Parser {
                 then: th,
                 else: el,
                 span: { ...t.span, end: el.span.end },
-            } as any;
+            };
         }
 
         // fun (a,b) => body
@@ -196,11 +195,11 @@ export class Parser {
                 params,
                 body,
                 span: { ...t.span, end: body.span.end },
-            } as any;
+            };
         }
 
         // identifier
-        if (t.kind === 'id') return { kind: 'Var', name: mkName(t.text, t.span) } as any;
+        if (t.kind === 'id') return { kind: 'Var', name: mkName(t.text, t.span), span: t.span };
 
         // prefix operator?
         if (t.kind === 'op') {

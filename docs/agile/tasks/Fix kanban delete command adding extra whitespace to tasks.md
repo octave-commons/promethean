@@ -5,12 +5,16 @@ slug: "Fix kanban delete command adding extra whitespace to tasks"
 status: "ready"
 priority: "P2"
 labels: ["kanban", "delete", "command", "extra"]
-created_at: "2025-10-12T22:46:41.613Z"
+created_at: "2025-10-12T23:41:48.142Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
 
 ## Issue Description
 
@@ -76,6 +80,10 @@ Nothing
 ## ⛓️ Blocks
 
 Nothing
+
+
+
+
 
 
 

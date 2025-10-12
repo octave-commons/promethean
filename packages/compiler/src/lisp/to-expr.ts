@@ -2,7 +2,7 @@ import type { Expr } from '../ast.js';
 import { name as mkName } from '../ast.js';
 import type { Span } from '../common.js';
 
-import { S, List, Sym, Num, Str, Bool, Nil, isList, isSym, list, sym } from './syntax.js';
+import { S, List, Sym, isList, isSym, list, sym } from './syntax.js';
 
 const ZERO_SPAN: Span = { start: 0, end: 0, line: 0, col: 0 };
 const ensureSpan = (s?: Span): Span => s ?? ZERO_SPAN;
@@ -141,7 +141,7 @@ function listToExpr(x: List): Expr {
 
     // infix ops map to Bin/Un, else -> Call
     const binOp = new Set(['+', '-', '*', '/', '%', '<', '>', '<=', '>=', '==', '!=']);
-    const unOp = new Set(['not', 'neg']);
+    const _unOp = new Set(['not', 'neg']); // prefixed with _ to indicate unused
     if (hd.t === 'sym' && binOp.has(hd.name) && x.xs.length === 3) {
         return {
             kind: 'Bin',
@@ -149,13 +149,13 @@ function listToExpr(x: List): Expr {
             left: toExpr(x.xs[1]),
             right: toExpr(x.xs[2]),
             span: x.span ?? ZERO_SPAN,
-        } as any;
+        };
     }
     if (hd.t === 'sym' && hd.name === '-' && x.xs.length === 2) {
-        return { kind: 'Un', op: '-', expr: toExpr(x.xs[1]), span: x.span ?? ZERO_SPAN } as any;
+        return { kind: 'Un', op: '-', expr: toExpr(x.xs[1]), span: x.span ?? ZERO_SPAN };
     }
     if (hd.t === 'sym' && hd.name === 'not' && x.xs.length === 2) {
-        return { kind: 'Un', op: '!', expr: toExpr(x.xs[1]), span: x.span ?? ZERO_SPAN } as any;
+        return { kind: 'Un', op: '!', expr: toExpr(x.xs[1]), span: x.span ?? ZERO_SPAN };
     }
 
     // function call: (f a b c)

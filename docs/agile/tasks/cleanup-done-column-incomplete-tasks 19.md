@@ -5,11 +5,19 @@ slug: "cleanup-done-column-incomplete-tasks 19"
 status: "breakdown"
 priority: "P1"
 labels: ["cleanup", "done-column", "governance", "kanban", "quality"]
-created_at: "2025-10-12T22:46:41.457Z"
+created_at: "2025-10-12T23:41:48.141Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
 
 

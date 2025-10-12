@@ -271,7 +271,7 @@ export class TransitionRulesEngine {
     return column
       .normalize('NFKD')
       .toLowerCase()
-      .replace(/[^a-z0-9]+/g, '');
+      .replace(/[^a-z0-9_]+/g, '');
   }
 
   private findTransitionRule(from: string, to: string): TransitionRule | undefined {

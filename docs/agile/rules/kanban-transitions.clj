@@ -8,7 +8,7 @@
   [col-name]
   (-> col-name
       (str/lower-case)
-      (str/replace #"[\s_-]" "")))
+      (str/replace #"\s+" "")))
 
 (defn get-priority-numeric
   "Convert priority string to numeric value for comparison"

@@ -1,19 +1,11 @@
 ---
-<<<<<<< HEAD
 uuid: "d68bf54d-5567-4081-afc4-767b3c36c1cd"
-=======
-uuid: "5d894a45-8fee-4d99-96ac-750ee5904f5e"
->>>>>>> bug/kanban-duplication-issues
 title: "Configure piper environment variables for AI-powered pipelines"
 slug: "configure-piper-environment-variables-for-ai-pipelines 19"
 status: "done"
 priority: "P1"
 labels: ["environment", "piper", "pipelines", "configure"]
-<<<<<<< HEAD
-created_at: "2025-10-12T22:46:41.458Z"
-=======
-created_at: "2025-10-12T21:40:23.579Z"
->>>>>>> bug/kanban-duplication-issues
+created_at: "2025-10-12T23:41:48.143Z"
 estimates:
   complexity: ""
   scale: ""
@@ -221,7 +213,6 @@ estimates:
 
 
 
-<<<<<<< HEAD
 
 
 
@@ -452,5 +443,11 @@ estimates:
 
 
 
-=======
->>>>>>> bug/kanban-duplication-issues
+
+
+
+
+
+
+
+

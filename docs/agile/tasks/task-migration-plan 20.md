@@ -1,5 +1,4 @@
 ---
-<<<<<<< HEAD:docs/agile/tasks/task-migration-plan 20.md
 uuid: "0aeec1c7-86d0-45ac-a3f5-42277e9d9ccd"
 title: "Task Migration Plan - Consolidation & Supersession Strategy"
 slug: "task-migration-plan 20"
@@ -15,7 +14,6 @@ status: "incoming"
 priority: "P1"
 labels: ["automation", "emergency", "pipeline", "timeout"]
 created_at: "2025-10-12T21:40:23.576Z"
->>>>>>> bug/kanban-duplication-issues:docs/agile/tasks/emergency-buildfix-pipeline-timeout 3.md
 estimates:
   complexity: ""
   scale: ""
@@ -53,7 +51,6 @@ estimates:
 
 
 
-<<<<<<< HEAD:docs/agile/tasks/task-migration-plan 20.md
 
 
 
@@ -455,4 +452,3 @@ estimates:
 
 
 =======
->>>>>>> bug/kanban-duplication-issues:docs/agile/tasks/emergency-buildfix-pipeline-timeout 3.md

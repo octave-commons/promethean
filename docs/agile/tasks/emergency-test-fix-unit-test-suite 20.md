@@ -1,19 +1,11 @@
 ---
-<<<<<<< HEAD
 uuid: "8cbac0dc-481d-4816-974f-63af65f8b34a"
-=======
-uuid: "c7727235-4491-4ddb-ad8b-7ef9b1726f24"
->>>>>>> bug/kanban-duplication-issues
 title: "Fix test failure in unit-test-suite: Unit test failures blocking CI"
 slug: "emergency-test-fix-unit-test-suite 20"
 status: "incoming"
 priority: "P1"
 labels: ["automation", "emergency", "test-fix", "testing"]
-<<<<<<< HEAD
-created_at: "2025-10-12T22:46:41.455Z"
-=======
-created_at: "2025-10-12T21:40:23.576Z"
->>>>>>> bug/kanban-duplication-issues
+created_at: "2025-10-12T23:41:48.139Z"
 estimates:
   complexity: ""
   scale: ""
@@ -21,8 +13,6 @@ estimates:
 ---
 
 
-<<<<<<< HEAD
-=======
 
 
 
@@ -31,126 +21,3 @@ estimates:
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
->>>>>>> bug/kanban-duplication-issues

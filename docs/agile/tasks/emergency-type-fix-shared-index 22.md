@@ -5,12 +5,20 @@ slug: "emergency-type-fix-shared-index 22"
 status: "incoming"
 priority: "P1"
 labels: ["automation", "emergency", "exports", "typescript"]
-created_at: "2025-10-12T21:40:23.576Z"
+created_at: "2025-10-12T23:41:48.139Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
 
 
 

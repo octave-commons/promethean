@@ -59,7 +59,7 @@ const columnKey = (name: string): string =>
   normalizeColumnDisplayName(name)
     .normalize('NFKD')
     .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '');
+    .replace(/[^a-z0-9_]+/g, '');
 
 const tokenizeForLabels = (text: string): ReadonlyArray<string> =>
   text
@@ -1304,11 +1304,12 @@ export const createTask = async (
   // Check for existing tasks with the same title in the same column
   const normalizedTitle = title.trim().toLowerCase();
   const targetColumnName = targetColumn.name.trim().toLowerCase();
-  
+
   // First check: Look for existing task in files (prioritize file-based tasks with full content)
   const existingTaskInColumn = existingTasks.find(
-    (task) => task.title.trim().toLowerCase() === normalizedTitle && 
-             task.status.trim().toLowerCase() === targetColumnName
+    (task) =>
+      task.title.trim().toLowerCase() === normalizedTitle &&
+      task.status.trim().toLowerCase() === targetColumnName,
   );
 
   if (existingTaskInColumn) {
@@ -1318,12 +1319,12 @@ export const createTask = async (
 
   // Second check: Look for existing task in the target column on the board
   const boardTaskInColumn = targetColumn.tasks.find(
-    (task) => task.title.trim().toLowerCase() === normalizedTitle
+    (task) => task.title.trim().toLowerCase() === normalizedTitle,
   );
 
   if (boardTaskInColumn) {
     // Try to get full content from existing tasks or use board task
-    const fullTask = existingTasks.find(t => t.uuid === boardTaskInColumn.uuid);
+    const fullTask = existingTasks.find((t) => t.uuid === boardTaskInColumn.uuid);
     if (fullTask) {
       return fullTask;
     }

@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { emitJS } from '../jsgen.js';
 
 import { read } from './reader.js';
@@ -21,8 +20,8 @@ export function compileLispToJS(src: string, { pretty = false, importNames = [] 
     return { forms, expanded, ast, js };
 }
 
-export function runLisp(src: string, imports: Record<string, any> = {}) {
+export function runLisp(src: string, imports: Record<string, unknown> = {}) {
     const { js } = compileLispToJS(src);
-    const fn = (0, eval)(js);
+    const fn = (0, eval)(js) as (imports: Record<string, unknown>) => unknown;
     return fn(imports);
 }

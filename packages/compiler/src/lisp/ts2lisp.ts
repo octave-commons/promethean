@@ -89,16 +89,16 @@ async function transpileTS(tsSource: string, opts: TsToLispOptions) {
     throw new Error("No TS transpiler available. Install 'typescript' (or 'sucrase' in the browser).");
 }
 
-async function dynamicImportTS() {
+async function dynamicImportTS(): Promise<unknown> {
     return dynamicImportAny('typescript');
 }
 
-async function dynamicImportAny(name: string) {
+async function dynamicImportAny(name: string): Promise<unknown> {
     try {
         return await import(/* @vite-ignore */ name);
     } catch {
         try {
-            const req = (0, eval)('require');
+            const req = (0, eval)('require') as (name: string) => unknown;
             return req ? req(name) : null;
         } catch {
             return null;

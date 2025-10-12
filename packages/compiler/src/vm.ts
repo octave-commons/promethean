@@ -27,7 +27,7 @@ export function compileToBytecode(mod: Module): Bytecode {
         else if (s.k === 'ret') code.push(['MOV', slot(s.s)], ['RET']);
         else if (s.k === 'if') {
             // cond in slot, JZ else, … then …, JMP end, else …
-            const c = slot(s.cond);
+            slot(s.cond);
             code.push(['JZ', 0]);
             const jzIdx = code.length - 1;
             s.then.forEach(emitStmt);
@@ -93,26 +93,26 @@ export function runBytecode(bc: Bytecode): any {
     return acc;
 }
 
-function prim(op: string, a: any, b?: any) {
+function prim(op: string, a: unknown, b?: unknown): unknown {
     switch (op) {
         case 'add':
-            return a + b;
+            return (a as number) + (b as number);
         case 'sub':
-            return b == null ? -a : a - b;
+            return b == null ? -(a as number) : (a as number) - (b as number);
         case 'mul':
-            return a * b;
+            return (a as number) * (b as number);
         case 'div':
-            return a / b;
+            return (a as number) / (b as number);
         case 'mod':
-            return a % b;
+            return (a as number) % (b as number);
         case 'lt':
-            return a < b;
+            return (a as number) < (b as number);
         case 'gt':
-            return a > b;
+            return (a as number) > (b as number);
         case 'le':
-            return a <= b;
+            return (a as number) <= (b as number);
         case 'ge':
-            return a >= b;
+            return (a as number) >= (b as number);
         case 'eq':
             return a === b;
         case 'ne':

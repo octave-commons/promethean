@@ -1,19 +1,11 @@
 ---
-<<<<<<< HEAD
 uuid: "1b318839-9eee-46da-ba34-fa3d5857438f"
-=======
-uuid: "f4da68e9-2101-4501-aa63-93373934838d"
->>>>>>> bug/kanban-duplication-issues
 title: "Implement kanban dev command with real-time sync and UI hosting"
 slug: "implement-kanban-dev-command-with-real-time-sync-and-ui-hosting 19"
 status: "done"
 priority: "P1"
 labels: ["cli-enhancement", "dev-experience", "file-watching", "kanban", "real-time-sync", "ui-hosting"]
-<<<<<<< HEAD
-created_at: "2025-10-12T22:46:41.459Z"
-=======
-created_at: "2025-10-12T21:40:23.580Z"
->>>>>>> bug/kanban-duplication-issues
+created_at: "2025-10-12T23:41:48.145Z"
 estimates:
   complexity: ""
   scale: ""
@@ -221,7 +213,6 @@ estimates:
 
 
 
-<<<<<<< HEAD
 
 
 
@@ -452,5 +443,11 @@ estimates:
 
 
 
-=======
->>>>>>> bug/kanban-duplication-issues
+
+
+
+
+
+
+
+
