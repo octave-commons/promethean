@@ -5,12 +5,71 @@ slug: "docops-workflow-epic"
 status: "blocked"
 priority: "P1"
 labels: ["automation", "docops", "epic", "workflow"]
-created_at: "2025-10-12T02:22:05.426Z"
+created_at: "2025-10-12T19:03:19.226Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -189,6 +248,65 @@ Estimated 3-4 weeks for complete implementation
 ## Owner
 
 TBD - needs assignment
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

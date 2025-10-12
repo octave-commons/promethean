@@ -5,12 +5,71 @@ slug: "use_node_protocol_for_builtin_imports"
 status: "ready"
 priority: "P3"
 labels: ["imports", "node", "protocol", "use"]
-created_at: "2025-10-12T02:22:05.426Z"
+created_at: "2025-10-12T19:03:19.227Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -134,6 +193,65 @@ Biome flagged `useNodejsImportProtocol` violations where Node.js builtins like `
 ```
 #Todo #codex-task
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

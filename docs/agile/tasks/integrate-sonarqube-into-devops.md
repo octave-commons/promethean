@@ -5,12 +5,71 @@ slug: "integrate-sonarqube-into-devops"
 status: "incoming"
 priority: "P3"
 labels: ["devops", "integrate", "pipeline", "sonarqube"]
-created_at: "2025-10-12T02:22:05.425Z"
+created_at: "2025-10-12T19:03:19.225Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -139,6 +198,65 @@ Add SonarQube to your DevOps pipeline to enforce code quality checks, detect bug
 - Append additional notes or adjustments to this task as needed for your specific DevOps tools or team workflows.  
 - Ensure alignment with existing processes outlined in [integrate-sonarqube-into-devops].  
 #incoming
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

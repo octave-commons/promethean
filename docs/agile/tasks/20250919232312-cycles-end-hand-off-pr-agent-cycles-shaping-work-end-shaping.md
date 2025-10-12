@@ -5,12 +5,71 @@ slug: "20250919232312-cycles-end-hand-off-pr-agent-cycles-shaping-work-end-shapi
 status: "done"
 priority: "P3"
 labels: ["cloud", "fsm", "kanban", "no", "partial", "procedural", "re-shaping", "safe", "session-end"]
-created_at: "2025-10-12T02:22:05.427Z"
+created_at: "2025-10-12T19:03:19.227Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -245,6 +304,65 @@ If this looks right, I’ll fold these deltas into the process doc’s FSM secti
 ## Sources
 - _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

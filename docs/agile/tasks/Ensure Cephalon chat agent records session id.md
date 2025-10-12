@@ -5,12 +5,71 @@ slug: "Ensure Cephalon chat agent records session id"
 status: "incoming"
 priority: "P1"
 labels: ["cephalon", "tests"]
-created_at: "2025-10-12T02:22:05.423Z"
+created_at: "2025-10-12T19:03:19.224Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -130,6 +189,65 @@ payload, but the chat agent never persists that session identifier into its own 
 - Add or update tests to cover the presence flow.
 
 #incoming #enso #cephalon #tests
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

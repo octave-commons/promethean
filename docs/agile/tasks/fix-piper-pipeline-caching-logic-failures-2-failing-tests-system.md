@@ -5,12 +5,71 @@ slug: "fix-piper-pipeline-caching-logic-failures-2-failing-tests-system"
 status: "incoming"
 priority: "P2"
 labels: ["build-system", "caching", "piper", "testing"]
-created_at: "2025-10-12T02:22:05.425Z"
+created_at: "2025-10-12T19:03:19.225Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -182,6 +241,65 @@ Estimate: 5
 - Caching tests: `packages/piper/src/tests/runner.test.ts`
 - Retry logic: `packages/piper/src/tests/retry.test.ts`
 - Pipeline configuration: `pipelines.json`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

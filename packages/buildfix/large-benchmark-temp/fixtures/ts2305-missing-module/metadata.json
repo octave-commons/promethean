@@ -1,0 +1,10 @@
+{
+  "name": "ts2305-missing-module",
+  "description": "Generated TypeScript error",
+  "errorPattern": [
+    "TS0000"
+  ],
+  "files": [
+    "src.ts"
+  ]
+}

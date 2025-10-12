@@ -5,12 +5,71 @@ slug: "fix-piper-pipeline-caching"
 status: "done"
 priority: "P2"
 labels: ["pipelines", "piper"]
-created_at: "2025-10-12T02:22:05.428Z"
+created_at: "2025-10-12T19:03:19.228Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -146,6 +205,65 @@ estimates:
 - Reworked the file-tree dev-ui test to spin up the server lazily and record API calls via `sessionStorage`, eliminating orphaned watchers when filtering test runs.
 - Added an AVA regression test that toggles between mtime/content hash modes to assert caches stay valid across mode switches and invalidate when outputs change.
 - Re-ran the previously failing runner tests and the dev-ui file-tree scenario to confirm caching and watcher behaviour are both green.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

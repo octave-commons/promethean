@@ -5,12 +5,71 @@ slug: "update_github_actions_to_use_makefile"
 status: "done"
 priority: "P3"
 labels: ["github", "pnpm", "scripts", "update"]
-created_at: "2025-10-12T02:22:05.430Z"
+created_at: "2025-10-12T19:03:19.229Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -169,6 +228,65 @@ so workflows should call the same scripts instead of Makefile wrappers.
 - scripts/dev.mjs$../../scripts/dev.mjs
 
 #cicd #devops #framework-core #todo
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

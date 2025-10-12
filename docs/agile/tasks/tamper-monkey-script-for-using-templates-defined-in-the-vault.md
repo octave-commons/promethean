@@ -5,12 +5,71 @@ slug: "tamper-monkey-script-for-using-templates-defined-in-the-vault"
 status: "done"
 priority: "P3"
 labels: ["script", "tamper", "templates", "vault"]
-created_at: "2025-10-12T02:22:05.430Z"
+created_at: "2025-10-12T19:03:19.229Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -154,6 +213,65 @@ Useful for agents to engage in append only conversations about this task.
 - Estimate: 2
 - Assumptions: Vault templates are organized and accessible.
 - Dependencies: Tampermonkey environment and vault API endpoints.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

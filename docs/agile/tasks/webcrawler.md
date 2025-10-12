@@ -5,12 +5,71 @@ slug: "webcrawler"
 status: "done"
 priority: "P3"
 labels: ["ethics", "promethean", "ai", "agent", "crawler", "llm", "tags", "web"]
-created_at: "2025-10-12T02:22:05.430Z"
+created_at: "2025-10-12T19:03:19.229Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -419,6 +478,65 @@ Append-only thread: record domain-specific deny-lists, prompt tweaks, and any in
 ```
 #in-progress
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

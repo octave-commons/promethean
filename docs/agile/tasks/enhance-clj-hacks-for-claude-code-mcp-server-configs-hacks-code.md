@@ -5,12 +5,71 @@ slug: "enhance-clj-hacks-for-claude-code-mcp-server-configs-hacks-code"
 status: "testing"
 priority: "P2"
 labels: ["claude-code", "clj-hacks", "mcp", "tooling"]
-created_at: "2025-10-12T02:22:05.427Z"
+created_at: "2025-10-12T19:03:19.227Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -125,6 +184,65 @@ estimates:
 5. Update documentation
 
 \nTags: tool:claude provider:zai role:engineer cap:codegen trace:aab0999c-3700-417a-8faf-dd9bcd36b522
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

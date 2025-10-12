@@ -5,12 +5,71 @@ slug: "20251006141146-cli-hoc-filtering-flags-frontend-compilation-queries"
 status: "accepted"
 priority: "P3"
 labels: ["ad-hoc-filtering", "cli-flags", "clojurescript", "dynamic-queries", "kanban-cli", "micro-frontend", "sci", "zero-compilation"]
-created_at: "2025-10-12T02:22:05.426Z"
+created_at: "2025-10-12T19:03:19.226Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -596,6 +655,65 @@ If you want, I can also wire these flags into `pairwise`, `compare`, and `cluste
 ## Sources
 - _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

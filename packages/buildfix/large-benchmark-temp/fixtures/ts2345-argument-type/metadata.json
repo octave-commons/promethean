@@ -1,0 +1,10 @@
+{
+  "name": "ts2345-argument-type",
+  "description": "Generated TypeScript error",
+  "errorPattern": [
+    "TS0000"
+  ],
+  "files": [
+    "src.ts"
+  ]
+}

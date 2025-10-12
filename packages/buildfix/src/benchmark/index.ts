@@ -5,10 +5,11 @@ import { requestPlan } from '../iter/plan.js';
 import { materializeSnippet } from '../iter/dsl.js';
 import { buildAndJudge } from '../iter/eval.js';
 import { applySnippetToProject } from '../utils.js';
+
 import { createFixtures, fixtures } from './fixtures.js';
 import type { Fixture } from './fixtures.js';
 
-export interface BenchmarkResult {
+export type BenchmarkResult = {
   fixture: string;
   model: string;
   success: boolean;
@@ -20,21 +21,21 @@ export interface BenchmarkResult {
   errorMessage?: string;
   duration: number;
   attempts: number;
-}
+};
 
-export interface ModelConfig {
+export type ModelConfig = {
   name: string;
   model: string;
-  options?: Record<string, any>;
-}
+  options?: Record<string, unknown>;
+};
 
 export const models: ModelConfig[] = [
   { name: 'qwen3:8b', model: 'qwen3:8b' },
   { name: 'qwen3:14b', model: 'qwen3:14b' },
-  { name: 'gpt-oss:20b-cloud', model: 'gpt-oss:20b-cloud' },
-  { name: 'gpt-oss:120b-cloud', model: 'gpt-oss:120b-cloud' },
-  { name: 'qwen3-code:480b-cloud', model: 'qwen3-code:480b-cloud' },
-  { name: 'kimi-k2:1t-cloud', model: 'kimi-k2:1t-cloud' },
+  { name: 'qwen2.5-coder:7b', model: 'qwen2.5-coder:7b' },
+  { name: 'promethean-planner', model: 'promethean-planner:latest' },
+  { name: 'qwen3:4b', model: 'qwen3:4b' },
+  { name: 'llama3:8b', model: 'llama3:8b' },
 ];
 
 export class BuildFixBenchmark {
@@ -56,6 +57,7 @@ export class BuildFixBenchmark {
     await fs.rm(this.tempDir, { recursive: true, force: true });
   }
 
+  // eslint-disable-next-line max-lines-per-function, sonarjs/cognitive-complexity
   async runSingleBenchmark(
     fixture: Fixture,
     modelConfig: ModelConfig,
@@ -64,6 +66,18 @@ export class BuildFixBenchmark {
     const startTime = Date.now();
     const fixtureDir = path.join(this.fixturesDir, fixture.name);
     const tsconfigPath = path.join(fixtureDir, 'tsconfig.json');
+
+    // Backup original source files before making changes
+    const originalFiles = new Map<string, string>();
+    for (const filename of Object.keys(fixture.files)) {
+      const filePath = path.join(fixtureDir, filename);
+      try {
+        const content = await fs.readFile(filePath, 'utf8');
+        originalFiles.set(filename, content);
+      } catch {
+        // File might not exist yet, that's ok
+      }
+    }
 
     const result: BenchmarkResult = {
       fixture: fixture.name,
@@ -148,48 +162,73 @@ export class BuildFixBenchmark {
     }
 
     result.duration = Date.now() - startTime;
+
+    // Restore original files before returning
+    for (const [filename, content] of originalFiles) {
+      const filePath = path.join(fixtureDir, filename);
+      await fs.writeFile(filePath, content, 'utf8');
+    }
+
     return result;
   }
 
-  async runFullBenchmark(): Promise<BenchmarkResult[]> {
+  // eslint-disable-next-line max-lines-per-function
+  async runFullBenchmark(options: { order?: 'model-first' | 'fixture-first' } = {}): Promise<BenchmarkResult[]> {
     const results: BenchmarkResult[] = [];
 
     console.log(
       `Running benchmark with ${fixtures.length} fixtures and ${models.length} models...`,
     );
 
-    for (const fixture of fixtures) {
-      console.log(`\nTesting fixture: ${fixture.name} - ${fixture.description}`);
+    const order = options.order ?? 'model-first';
+    const runPair = async (fixture: Fixture, modelConfig: ModelConfig, indent = '  ') => {
+      try {
+        const result = await this.runSingleBenchmark(fixture, modelConfig);
+        results.push(result);
 
+        const status = result.success ? '✅' : '❌';
+        const errors = `${result.errorCountBefore}→${result.errorCountAfter}`;
+        console.log(`${indent}${status} ${fixture.name} @ ${modelConfig.name}: ${errors} (${result.duration}ms)`);
+
+        if (result.planTitle) {
+          console.log(`${indent}  Plan: ${result.planTitle}`);
+        }
+        if (result.errorMessage) {
+          console.log(`${indent}  Error: ${result.errorMessage}`);
+        }
+      } catch (error) {
+        const message = error instanceof Error ? error.message : String(error);
+        console.log(`${indent}❌ ${fixture.name} @ ${modelConfig.name}: Failed - ${message}`);
+
+        results.push({
+          fixture: fixture.name,
+          model: modelConfig.name,
+          success: false,
+          errorCountBefore: 0,
+          errorCountAfter: 0,
+          errorsResolved: false,
+          planGenerated: false,
+          errorMessage: message,
+          duration: 0,
+          attempts: 0,
+        });
+      }
+    };
+
+    if (order === 'model-first') {
       for (const modelConfig of models) {
-        console.log(`  Testing model: ${modelConfig.name}...`);
-
-        try {
-          const result = await this.runSingleBenchmark(fixture, modelConfig);
-          results.push(result);
-
-          const status = result.success ? '✅' : '❌';
-          const errors = `${result.errorCountBefore}→${result.errorCountAfter}`;
-          console.log(`    ${status} ${modelConfig.name}: ${errors} (${result.duration}ms)`);
-
-          if (result.errorMessage) {
-            console.log(`    Error: ${result.errorMessage}`);
-          }
-        } catch (error) {
-          console.log(`    ❌ ${modelConfig.name}: Failed - ${error}`);
-
-          results.push({
-            fixture: fixture.name,
-            model: modelConfig.name,
-            success: false,
-            errorCountBefore: 0,
-            errorCountAfter: 0,
-            errorsResolved: false,
-            planGenerated: false,
-            errorMessage: error instanceof Error ? error.message : String(error),
-            duration: 0,
-            attempts: 0,
-          });
+        console.log(`\nTesting model: ${modelConfig.name}`);
+        for (const fixture of fixtures) {
+          console.log(`  Fixture: ${fixture.name} - ${fixture.description}`);
+          await runPair(fixture, modelConfig, '    ');
+        }
+      }
+    } else {
+      for (const fixture of fixtures) {
+        console.log(`\nTesting fixture: ${fixture.name} - ${fixture.description}`);
+        for (const modelConfig of models) {
+          console.log(`  Testing model: ${modelConfig.name}...`);
+          await runPair(fixture, modelConfig, '    ');
         }
       }
     }
@@ -197,7 +236,8 @@ export class BuildFixBenchmark {
     return results;
   }
 
-  async generateReport(results: BenchmarkResult[]): Promise<string> {
+  // eslint-disable-next-line max-lines-per-function, sonarjs/cognitive-complexity
+  generateReport(results: BenchmarkResult[]): string {
     const report = [
       '# BuildFix Model Benchmark Report',
       '',
@@ -306,7 +346,7 @@ export class BuildFixBenchmark {
     results: BenchmarkResult[],
     outputPath = './benchmark-report.md',
   ): Promise<void> {
-    const report = await this.generateReport(results);
+    const report = this.generateReport(results);
     await fs.writeFile(outputPath, report, 'utf8');
     console.log(`\nBenchmark report saved to: ${outputPath}`);
   }

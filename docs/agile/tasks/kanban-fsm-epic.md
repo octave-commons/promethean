@@ -5,12 +5,71 @@ slug: "kanban-fsm-epic"
 status: "blocked"
 priority: "P1"
 labels: ["automation", "epic", "fsm", "kanban", "process"]
-created_at: "2025-10-12T02:22:05.426Z"
+created_at: "2025-10-12T19:03:19.226Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -201,6 +260,65 @@ TBD - needs assignment
 ## Notes
 
 This epic is critical for improving process governance and workflow automation. Priority should be given to WIP enforcement and done column cleanup.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

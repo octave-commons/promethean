@@ -5,12 +5,71 @@ slug: "add-git-commands-to-gpt-bridge"
 status: "icebox"
 priority: "P3"
 labels: ["bridge", "description", "gpt", "step"]
-created_at: "2025-10-12T02:22:05.422Z"
+created_at: "2025-10-12T19:03:19.223Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -138,6 +197,65 @@ The GPT bridge should be able to run:
 ## Relevent resources
 
 You might find [this] useful while working on this task
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

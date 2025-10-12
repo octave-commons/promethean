@@ -1,0 +1,11 @@
+{
+  "name": "missing-export",
+  "description": "Function exists but not exported",
+  "errorType": "TS2305",
+  "errorCode": "TS2305",
+  "errorMessage": "Module has no exported member 'helper'",
+  "files": [
+    "src.ts",
+    "usage.ts"
+  ]
+}

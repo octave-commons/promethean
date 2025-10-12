@@ -5,12 +5,71 @@ slug: "migrate-vision-service-to-ts"
 status: "accepted"
 priority: "P3"
 labels: ["board", "lang"]
-created_at: "2025-10-12T02:22:05.426Z"
+created_at: "2025-10-12T19:03:19.226Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -135,6 +194,65 @@ Migrate the legacy vision JavaScript service to TypeScript under the new package
 - [ ] Vision functionality preserved
 - [ ] Proper types for image processing interfaces
 - [ ] Tests updated and passing
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

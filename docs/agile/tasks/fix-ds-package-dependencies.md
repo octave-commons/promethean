@@ -5,12 +5,71 @@ slug: "fix-ds-package-dependencies"
 status: "ready"
 priority: "P2"
 labels: ["build-system", "dependencies", "ds-package", "typescript"]
-created_at: "2025-10-12T02:22:05.426Z"
+created_at: "2025-10-12T19:03:19.226Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -169,6 +228,65 @@ The DS package appears to be incomplete or has missing exports, causing downstre
 ## Additional Notes
 
 This is a blocking issue for the monorepo build system and needs to be resolved before other build fixes can be properly validated.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

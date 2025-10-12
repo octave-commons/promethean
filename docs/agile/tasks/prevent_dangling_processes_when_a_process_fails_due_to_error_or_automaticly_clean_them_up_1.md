@@ -5,12 +5,71 @@ slug: "prevent_dangling_processes_when_a_process_fails_due_to_error_or_automatic
 status: "done"
 priority: "P3"
 labels: ["clean", "prevent", "process", "processes"]
-created_at: "2025-10-12T02:22:05.428Z"
+created_at: "2025-10-12T19:03:19.228Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -170,6 +229,65 @@ Nothing
 
 
 #archive
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

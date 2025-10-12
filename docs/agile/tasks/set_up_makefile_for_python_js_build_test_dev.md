@@ -5,12 +5,71 @@ slug: "set_up_makefile_for_python_js_build_test_dev"
 status: "done"
 priority: "P3"
 labels: ["makefile", "pnpm", "replace", "workflow"]
-created_at: "2025-10-12T02:22:05.428Z"
+created_at: "2025-10-12T19:03:19.228Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -166,6 +225,65 @@ Nothing
 - [Makefile retirement note]../notes/promethean-dev-workflow-update.md
 
 #cicd #buildtools #devtools #devops #archive
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

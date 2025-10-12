@@ -5,12 +5,71 @@ slug: "fix-ci-environment-nodejs-and-pnpm-version-inconsistencies-cd-system"
 status: "ready"
 priority: "P2"
 labels: ["build-system", "ci", "environment", "nodejs", "pnpm"]
-created_at: "2025-10-12T02:22:05.426Z"
+created_at: "2025-10-12T19:03:19.226Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -162,6 +221,65 @@ The CI environment is not properly locked to the exact versions specified in the
 3. Verify all dependencies install correctly
 4. Confirm successful TypeScript compilation
 5. Validate that CI matches local build environment
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

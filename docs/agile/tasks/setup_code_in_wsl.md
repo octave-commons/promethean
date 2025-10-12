@@ -5,12 +5,71 @@ slug: "setup_code_in_wsl"
 status: "done"
 priority: "P3"
 labels: ["code", "out", "setup", "wsl"]
-created_at: "2025-10-12T02:22:05.430Z"
+created_at: "2025-10-12T19:03:19.229Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -161,6 +220,65 @@ Nothing
 
 - [[kanban]]
 #accepted
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

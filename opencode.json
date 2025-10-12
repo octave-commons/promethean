@@ -1,0 +1,150 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "provider": {
+    "ollama": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Ollama Local",
+      "options": {
+        "baseURL": "http://localhost:11434/v1"
+      },
+      "models": {
+        "qwen3:8b": {
+          "name": "Qwen3 8B",
+          "reasoning_effort": "high",
+          "reasoning_summary": "detailed",
+          "supports_reasoning_summaries": true,
+          "context_window": 32000,
+          "approval_policy": "never"
+        },
+        "error/qwen3-codex": {
+          "name": "Qwen3 Codex",
+          "reasoning_effort": "low",
+          "context_window": 100000,
+          "approval_policy": "never"
+        },
+        "qwen3:14b": {
+          "name": "Qwen3 14B",
+          "reasoning_effort": "high",
+          "reasoning_summary": "detailed"
+        },
+        "qwen2.5:7b": {
+          "name": "Qwen2.5 7B"
+        },
+        "qwen2.5-coder:7b": {
+          "name": "Qwen2.5 Coder 7B"
+        },
+        "error/qwen2.5-codex": {
+          "name": "Qwen2.5 Codex",
+          "context_window": 100000,
+          "approval_policy": "never"
+        },
+        "error/llama3.1-codex": {
+          "name": "Llama3.1 Codex",
+          "context_window": 128000,
+          "approval_policy": "never"
+        },
+        "gpt-oss:120b-cloud": {
+          "name": "GPT-OSS 120B (cloud)",
+          "reasoning_effort": "high",
+          "reasoning_summary": "detailed"
+        },
+        "qwen3-coder:408b-cloud": {
+          "name": "Qwen3 Coder 408B (cloud)",
+          "reasoning_effort": "high",
+          "reasoning_summary": "detailed"
+        },
+        "kimi-k2:1t-cloud": {
+          "name": "Kimi K2 1T (cloud)",
+          "reasoning_effort": "high",
+          "reasoning_summary": "detailed"
+        },
+        "deepseek-v3.1:671b-cloud": {
+          "name": "Deepseek v3.1 671B (cloud)",
+          "reasoning_effort": "high",
+          "reasoning_summary": "detailed"
+        }
+      }
+    },
+    "ollama_cloud": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Ollama Cloud",
+      "options": {
+        "baseURL": "https://ollama.com",
+        "env_key": "OLLAMA_API_KEY"
+      },
+      "models": {
+        "gpt-oss:120b": {
+          "name": "GPT-OSS 120B (cloud)",
+          "reasoning_effort": "high",
+          "reasoning_summary": "detailed"
+        },
+        "qwen3-coder:408b": {
+          "name": "Qwen3 Coder 408B (cloud)",
+          "reasoning_effort": "high",
+          "reasoning_summary": "detailed"
+        },
+        "kimi-k2:1t": {
+          "name": "Kimi K2 1T (cloud)",
+          "reasoning_effort": "high",
+          "reasoning_summary": "detailed"
+        },
+        "deepseek-v3.1:671b": {
+          "name": "Deepseek v3.1 671B (cloud)",
+          "reasoning_effort": "high",
+          "reasoning_summary": "detailed"
+        }
+      }
+    }
+  },
+  "mcp": {
+    "web-search-prime": {
+      "type": "remote",
+      "url": "https://api.z.ai/api/mcp/web_search_prime/mcp",
+      "headers": {
+        "Authorization": "Bearer {env:Z_AI_API_KEY}"
+      },
+      "enabled": true
+    },
+    "zai-mcp-server": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "@z_ai/mcp-server"
+      ],
+      "environment": {
+        "Z_AI_API_KEY": "Bearer {env:Z_AI_API_KEY}",
+        "Z_AI_MODE": "ZAI"
+      },
+      "enabled": true
+    },
+    "playwright": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "@playwright/mcp@latest"
+      ],
+      "enabled": true
+    },
+
+    "serena": {
+      "type": "local",
+      "command": [
+        "uvx",
+"--from",
+"git+https://github.com/oraios/serena",
+"serena",
+"start-mcp-server"
+      ],
+      "enabled": true
+    }
+
+  },
+  "tools": {
+    "webfetch": true,
+    "web-search-prime": true,
+    "playwright": true,
+    "serena": true
+  }
+}

@@ -5,12 +5,71 @@ slug: "pipeline-buildfix-epic"
 status: "ready"
 priority: "P0"
 labels: ["automation", "buildfix", "epic", "pipeline", "timeout"]
-created_at: "2025-10-12T02:23:06.563Z"
+created_at: "2025-10-12T19:03:19.226Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -202,6 +261,65 @@ TBD - needs assignment (critical for immediate action)
 ## Notes
 
 This is a P0 epic - multiple emergency fixes are blocking development. Immediate attention required.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

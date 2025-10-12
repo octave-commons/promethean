@@ -6,7 +6,8 @@
   "bin": {
     "bf:01-errors": "dist/01-errors.js",
     "bf:02-iterate": "dist/02-iterate.js",
-    "bf:03-report": "dist/03-report.js"
+    "bf:03-report": "dist/03-report.js",
+    "buildfix": "dist/cli.js"
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
@@ -27,11 +28,13 @@
   },
   "dependencies": {
     "@promethean/utils": "workspace:*",
+    "diff": "5.2.0",
     "globby": "14.0.2",
     "ts-morph": "22.0.0",
     "zod": "3.23.8"
   },
   "devDependencies": {
+    "@types/diff": "^5.2.3",
     "tsx": "^4.20.3"
   }
 }

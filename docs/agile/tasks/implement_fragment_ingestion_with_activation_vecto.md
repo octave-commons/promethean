@@ -5,12 +5,71 @@ slug: "implement_fragment_ingestion_with_activation_vecto"
 status: "icebox"
 priority: "P3"
 labels: ["activation", "fragment", "implement", "ingestion"]
-created_at: "2025-10-12T02:22:05.423Z"
+created_at: "2025-10-12T19:03:19.223Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -162,6 +221,65 @@ Nothing
 ```
 #ice-box
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

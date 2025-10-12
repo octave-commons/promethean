@@ -22,6 +22,9 @@ importers:
       '@nrwl/nx-cloud':
         specifier: ^19.1.0
         version: 19.1.0
+      '@promethean/buildfix':
+        specifier: workspace:*
+        version: link:packages/buildfix
       '@promethean/health-dashboard-frontend':
         specifier: workspace:*
         version: link:packages/frontends/health-dashboard-frontend
@@ -557,6 +560,9 @@ importers:
       '@promethean/utils':
         specifier: workspace:*
         version: link:../utils
+      diff:
+        specifier: 5.2.0
+        version: 5.2.0
       globby:
         specifier: 14.0.2
         version: 14.0.2
@@ -567,9 +573,14 @@ importers:
         specifier: 3.23.8
         version: 3.23.8
     devDependencies:
+      '@types/diff':
+        specifier: ^5.2.3
+        version: 5.2.3
       tsx:
         specifier: ^4.20.3
         version: 4.20.3
+
+  packages/buildfix/benchmark-fixtures: {}
 
   packages/cephalon:
     dependencies:
@@ -8109,6 +8120,9 @@ packages:
 
   '@types/debug@4.1.12':
     resolution: {integrity: sha512-vIChWdVG3LG1SMxEvI/AK+FWJthlrqlTu7fbrlywTkkaONwk/UAGaULXRlf8vkzFBLVm0zkMdCquhL5aOjhXPQ==}
+
+  '@types/diff@5.2.3':
+    resolution: {integrity: sha512-K0Oqlrq3kQMaO2RhfrNQX5trmt+XLyom88zS0u84nnIcLvFnRUMRRHmrGny5GSM+kNO9IZLARsdQHDzkhAgmrQ==}
 
   '@types/diff@8.0.0':
     resolution: {integrity: sha512-o7jqJM04gfaYrdCecCVMbZhNdG6T1MHg/oQoRFdERLV+4d+V7FijhiEAbFu0Usww84Yijk9yH58U4Jk4HbtzZw==}
@@ -20387,6 +20401,8 @@ snapshots:
     dependencies:
       '@types/ms': 2.1.0
 
+  '@types/diff@5.2.3': {}
+
   '@types/diff@8.0.0':
     dependencies:
       diff: 5.2.0
@@ -21753,7 +21769,7 @@ snapshots:
 
   axios@1.11.0:
     dependencies:
-      follow-redirects: 1.15.11(debug@4.3.7)
+      follow-redirects: 1.15.11(debug@4.4.3)
       form-data: 4.0.4
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -21761,7 +21777,7 @@ snapshots:
 
   axios@1.12.2:
     dependencies:
-      follow-redirects: 1.15.11(debug@4.3.7)
+      follow-redirects: 1.15.11(debug@4.4.3)
       form-data: 4.0.4
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -24797,7 +24813,7 @@ snapshots:
   http-proxy@1.18.1:
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.15.11(debug@4.3.7)
+      follow-redirects: 1.15.11(debug@4.4.3)
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug

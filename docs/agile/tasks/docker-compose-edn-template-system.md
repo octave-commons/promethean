@@ -5,12 +5,71 @@ slug: "docker-compose-edn-template-system"
 status: "icebox"
 priority: "p3"
 labels: ["changes", "compose", "docker", "edn"]
-created_at: "2025-10-12T04:07:05.511Z"
+created_at: "2025-10-12T19:03:19.223Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -178,6 +237,65 @@ true
 <hr class="__chatgpt_plugin">
 ```
 ### role::user
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -1,0 +1,10 @@
+{
+  "name": "undefined-variable",
+  "description": "Cannot find name undefinedVariable",
+  "errorType": "TS2304",
+  "errorCode": "TS2304",
+  "errorMessage": "Cannot find name 'undefinedVariable'",
+  "files": [
+    "src.ts"
+  ]
+}

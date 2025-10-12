@@ -4,6 +4,7 @@
   "name": "promethean",
   "scripts": {
     "build": "pnpm -r --no-bail build",
+    "buildfix": "pnpm exec buildfix",
     "build:all": "node ./scripts/run-nx-task.mjs build all",
     "build:affected": "node ./scripts/run-nx-task.mjs build affected",
     "build:selection": "node ./scripts/run-nx-task.mjs build selection",
@@ -67,7 +68,8 @@
     "nx": "nx",
     "shadow:build": "pnpm --filter @promethean/shadow-ui run build && pnpm --filter '@promethean/*-frontend' run build:shadow",
     "shadow:watch": "pnpm --filter @promethean/shadow-ui run watch",
-    "shadow:watch:frontends": "pnpm --parallel --filter '@promethean/*-frontend' run watch:shadow"
+    "shadow:watch:frontends": "pnpm --parallel --filter '@promethean/*-frontend' run watch:shadow",
+    "create-mutaant": "pnpm exec buildfix create-mutaant"
   },
   "bin": {
     "prom": "./packages/promethean-cli/dist/promethean_cli.cjs",
@@ -75,6 +77,7 @@
   },
   "dependencies": {
     "@nrwl/nx-cloud": "^19.1.0",
+    "@promethean/buildfix": "workspace:*",
     "@promethean/health-dashboard-frontend": "workspace:*",
     "@promethean/image-link-generator": "workspace:*",
     "@promethean/kanban": "workspace:*",

@@ -5,12 +5,71 @@ slug: "update_cephalon_to_use_custom_embedding_function"
 status: "done"
 priority: "P3"
 labels: ["cephalon", "function", "update", "use"]
-created_at: "2025-10-12T02:22:05.430Z"
+created_at: "2025-10-12T19:03:19.229Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -185,6 +244,65 @@ Nothing
 - Embedding service implementation not linked.
 - Unit and integration tests for wrapper and service missing.
 - Documentation for the new embedding workflow is absent.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

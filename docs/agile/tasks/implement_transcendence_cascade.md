@@ -5,12 +5,71 @@ slug: "implement_transcendence_cascade"
 status: "icebox"
 priority: "P3"
 labels: ["cascade", "design", "implement", "transcendence"]
-created_at: "2025-10-12T02:22:05.423Z"
+created_at: "2025-10-12T19:03:19.223Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -177,6 +236,65 @@ welp, guess we'll see
 - How should conflicting outputs from Cephalon and Eidolon be resolved?
 - What user-facing cue toggles the cascade mode?
 #IceBox
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

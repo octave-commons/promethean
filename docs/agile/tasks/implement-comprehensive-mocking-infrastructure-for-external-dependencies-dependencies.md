@@ -5,12 +5,71 @@ slug: "implement-comprehensive-mocking-infrastructure-for-external-dependencies-
 status: "incoming"
 priority: "P1"
 labels: ["external-dependencies", "infrastructure", "mocking", "testing"]
-created_at: "2025-10-12T02:22:05.425Z"
+created_at: "2025-10-12T19:03:19.225Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -186,6 +245,65 @@ Estimate: 13
 - Discord integration: `packages/cephalon/src/bot.ts`
 - LLM integration: `packages/cephalon/src/llm-service.ts`
 - Test utilities: `packages/test-utils/`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

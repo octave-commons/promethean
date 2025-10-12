@@ -5,12 +5,71 @@ slug: "migrate-heartbeat-service-to-ts"
 status: "accepted"
 priority: "P3"
 labels: ["board", "lang"]
-created_at: "2025-10-12T02:22:05.426Z"
+created_at: "2025-10-12T19:03:19.226Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -134,6 +193,65 @@ Migrate the legacy heartbeat JavaScript service to TypeScript under the new pack
 - [ ] TypeScript compilation passes
 - [ ] Heartbeat functionality preserved
 - [ ] Tests updated and passing
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

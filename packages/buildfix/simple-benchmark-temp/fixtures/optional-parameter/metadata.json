@@ -1,0 +1,10 @@
+{
+  "name": "optional-parameter",
+  "description": "Function parameter should be optional",
+  "errorType": "TS2554",
+  "errorCode": "TS2554",
+  "errorMessage": "Expected 1 arguments, but got 0",
+  "files": [
+    "src.ts"
+  ]
+}

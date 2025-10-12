@@ -5,12 +5,71 @@ slug: "fix-prometheanui-components-lint-failures-task"
 status: "in_progress"
 priority: "P2"
 labels: ["codex-task"]
-created_at: "2025-10-12T02:22:05.427Z"
+created_at: "2025-10-12T19:03:19.227Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -148,6 +207,65 @@ estimates:
 - Added `.nxignore` to exclude the duplicate `packages/kanban-cli` stub so the Nx project graph resolves and allows lint runs.
 - Removed redundant eslint-disable directives from `src/tests/ui-components.test.ts`, resolving the last lint warnings.
 - `pnpm nx run @promethean/ui-components:lint` now exits cleanly.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

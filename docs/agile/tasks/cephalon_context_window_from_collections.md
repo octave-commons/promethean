@@ -5,12 +5,71 @@ slug: "cephalon_context_window_from_collections"
 status: "incoming"
 priority: "P3"
 labels: ["cephalon", "collections", "context", "window"]
-created_at: "2025-10-12T02:22:05.424Z"
+created_at: "2025-10-12T19:03:19.224Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -131,6 +190,65 @@ Exit Criteria:
 - Unit test stubbing `ContextManager` to validate callback invocation.
 
 #incoming #cephalon #context #llm
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

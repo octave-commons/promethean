@@ -5,12 +5,71 @@ slug: "extract-omni-core-services"
 status: "blocked"
 priority: "P1"
 labels: ["omni", "refactor"]
-created_at: "2025-10-12T02:22:05.426Z"
+created_at: "2025-10-12T19:03:19.226Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -147,6 +206,65 @@ Relocate SmartGPT bridge domain logic files/search/sinks/indexer/agents/exec int
 
 - [docs/agile/tasks/author-omni-protocol-package.md]
 - [docs/agile/tasks/omni-unified-service-spec.md]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

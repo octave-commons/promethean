@@ -5,12 +5,71 @@ slug: "allow_old_unnessisary_messages_to_decay_from_database_while_retaining_ind
 status: "icebox"
 priority: "P3"
 labels: ["allow", "messages", "old", "unnessisary"]
-created_at: "2025-10-12T02:22:05.423Z"
+created_at: "2025-10-12T19:03:19.223Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -189,6 +248,65 @@ If you want, I can also give you a **mermaid diagram showing the memory tier flo
 That would make it much easier to see where scoring and eviction logic plug in.
 #IceBox
 #ready
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -5,12 +5,71 @@ slug: "fix-docops-pipeline-file-reference-issue"
 status: "done"
 priority: "P2"
 labels: ["automation", "bug", "docops", "pipeline"]
-created_at: "2025-10-12T02:22:05.427Z"
+created_at: "2025-10-12T19:03:19.228Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -176,6 +235,65 @@ The docops pipeline has a file reference issue: Missing input documentation file
 
 **Generated**: 2025-10-09T16:20:35.183Z by pipeline-fix-generator.mjs
 **Template**: pipeline-fix-generator
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

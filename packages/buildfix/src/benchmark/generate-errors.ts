@@ -283,7 +283,7 @@ class CodeMutator {
       const sourceFile = sourceFiles[fileIndex];
 
       // Apply a random mutation
-      const mutationResult = this.applyRandomMutation(sourceFile);
+      const mutationResult = this.applyRandomMutation(sourceFile!);
       if (mutationResult) {
         errorsGenerated.push(mutationResult);
       }
@@ -421,7 +421,7 @@ class CodeMutator {
     if (functions.length === 0) return null;
 
     const func = functions[Math.floor(this.random() * functions.length)];
-    if (func.isExported()) {
+    if (func && func.isExported()) {
       func.setIsExported(false);
       this.trackError('TS2459');
       return `Removed export from function ${func.getName()} in ${sourceFile.getFilePath()}`;
@@ -434,6 +434,8 @@ class CodeMutator {
     if (variables.length === 0) return null;
 
     const variable = variables[Math.floor(this.random() * variables.length)];
+    if (!variable) return null;
+
     const typeNode = variable.getTypeNode();
 
     if (typeNode) {
@@ -451,6 +453,8 @@ class CodeMutator {
     if (identifiers.length === 0) return null;
 
     const identifier = identifiers[Math.floor(this.random() * identifiers.length)];
+    if (!identifier) return null;
+
     const newName = `undefinedVar_${Math.floor(this.random() * 1000)}`;
     identifier.rename(newName);
     this.trackError('TS2304');
@@ -470,6 +474,7 @@ class CodeMutator {
         const calls = sourceFile.getDescendantsOfKind(SyntaxKind.CallExpression);
         if (calls.length > 0) {
           const call = calls[0];
+          if (!call) return null;
           const text = call.getFullText();
           if (text.includes(')')) {
             call.replaceWithText(text.replace(')', ''));
@@ -496,16 +501,18 @@ class CodeMutator {
 
     // Find calls to this function
     const funcCalls = calls.filter(
-      (call: any) => call.getExpression().getText() === func.getName(),
+      (call: any) => call.getExpression().getText() === func?.getName(),
     );
 
     if (funcCalls.length > 0) {
       const call = funcCalls[Math.floor(this.random() * funcCalls.length)];
+      if (!call) return null;
       const args = call.getArguments();
 
       // Remove an argument to create wrong count
       if (args.length > 0) {
         const lastArg = args[args.length - 1];
+        if (!lastArg) return null;
         if ('remove' in lastArg && typeof lastArg.remove === 'function') {
           lastArg.remove();
           this.trackError('TS2554');
@@ -521,6 +528,7 @@ class CodeMutator {
     if (imports.length === 0) return null;
 
     const importDecl = imports[Math.floor(this.random() * imports.length)];
+    if (!importDecl) return null;
     importDecl.remove();
     this.trackError('TS2307');
     return `Removed import statement in ${sourceFile.getFilePath()}`;
@@ -531,6 +539,7 @@ class CodeMutator {
     if (variables.length === 0) return null;
 
     const variable = variables[Math.floor(this.random() * variables.length)];
+    if (!variable) return null;
     variable.setType('InvalidType');
     this.trackError('TS2304');
     return `Set invalid type annotation in ${sourceFile.getFilePath()}`;
@@ -541,10 +550,12 @@ class CodeMutator {
     if (classes.length === 0) return null;
 
     const cls = classes[Math.floor(this.random() * classes.length)];
+    if (!cls) return null;
     const properties = cls.getProperties();
 
     if (properties.length > 0) {
       const prop = properties[Math.floor(this.random() * properties.length)];
+      if (!prop) return null;
       if (prop.getScope() === Scope.Private) {
         prop.setScope(Scope.Public);
         // This might create interface implementation errors
@@ -560,10 +571,12 @@ class CodeMutator {
     if (functions.length === 0) return null;
 
     const func = functions[Math.floor(this.random() * functions.length)];
+    if (!func) return null;
     const params = func.getParameters();
 
     if (params.length > 0) {
       const param = params[Math.floor(this.random() * params.length)];
+      if (!param) return null;
       if (param.hasQuestionToken()) {
         param.setHasQuestionToken(false);
         // This might cause errors when called without argument
@@ -579,14 +592,17 @@ class CodeMutator {
     if (functions.length === 0) return null;
 
     const func = functions[Math.floor(this.random() * functions.length)];
+    if (!func) return null;
     const returnType = func.getReturnType();
 
     if (returnType) {
       // Change return type to create mismatch
       const newType = this.random() > 0.5 ? 'string' : 'number';
-      func.setReturnType(newType);
-      this.trackError('TS2322');
-      return `Changed return type to ${newType} in ${sourceFile.getFilePath()}`;
+      if (func.setReturnType) {
+        func.setReturnType(newType);
+        this.trackError('TS2322');
+        return `Changed return type to ${newType} in ${sourceFile.getFilePath()}`;
+      }
     }
     return null;
   }

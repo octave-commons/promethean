@@ -5,12 +5,71 @@ slug: "mvp-local-llm-chat-interface-with-tool-calls-connected-to-gpt-bridge"
 status: "done"
 priority: "P3"
 labels: ["mirror", "openapi", "pythagoras", "tool"]
-created_at: "2025-10-12T02:22:05.428Z"
+created_at: "2025-10-12T19:03:19.228Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -361,6 +420,65 @@ feat(agent): Pythagoras-mirror via WS with OpenAPI-driven tools (/v1 smartgpt-br
 - Story Points: 8
 
 #ready
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

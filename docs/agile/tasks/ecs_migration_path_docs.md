@@ -5,12 +5,71 @@ slug: "ecs_migration_path_docs"
 status: "incoming"
 priority: "P3"
 labels: ["docs", "ecs", "migration", "path"]
-created_at: "2025-10-12T02:22:05.424Z"
+created_at: "2025-10-12T19:03:19.224Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -129,6 +188,65 @@ Exit Criteria:
 - Markdown doc published under `docs/ecs/migration.md` with cross-links from service READMEs.
 
 #incoming #ecs #migration #docs
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -5,12 +5,71 @@ slug: "Deprecate WIP sheriff script and integrate points-based WIP enforcement i
 status: "accepted"
 priority: "P2"
 labels: ["cli", "kanban", "points", "wip"]
-created_at: "2025-10-12T02:22:05.426Z"
+created_at: "2025-10-12T19:03:19.226Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -150,6 +209,65 @@ The WIP sheriff script provides duplicate functionality that should be integrate
 - [ ] WIP sheriff shows deprecation warning
 - [ ] All existing tests pass
 - [ ] Documentation updated
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

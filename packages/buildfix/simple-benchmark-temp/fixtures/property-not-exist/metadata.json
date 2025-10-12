@@ -1,0 +1,10 @@
+{
+  "name": "property-not-exist",
+  "description": "Property does not exist on object",
+  "errorType": "TS2339",
+  "errorCode": "TS2339",
+  "errorMessage": "Property 'missingProp' does not exist on type",
+  "files": [
+    "src.ts"
+  ]
+}

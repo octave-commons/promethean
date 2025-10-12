@@ -1,25 +1,128 @@
 # Buildfix
 
-Buildfix automates fixing TypeScript build errors.
+Buildfix automates fixing TypeScript build errors using AI models. The system can detect TypeScript errors, generate fix plans using AI, and automatically apply code modifications.
 
-## Usage
+## 🚀 Quick Start
 
-Build the package first, then run commands individually:
+### Prerequisites
 
-```sh
+1. **Ollama AI Server**: Make sure Ollama is running and has the required models:
+
+   ```bash
+   # Install the recommended model
+   ollama pull gpt-oss:20b-cloud
+
+   # Optional: other supported models
+   ollama pull qwen3:8b
+   ollama pull qwen3:14b
+   ```
+
+2. **Dependencies**: Install package dependencies:
+   ```bash
+   pnpm install
+   ```
+
+### Running AI-Powered Fixes
+
+#### Option 1: Quick Test (Recommended for first run)
+
+```bash
+# Test the AI system with a simple example
+cd packages/buildfix
+pnpm tsx quick-test.js
+```
+
+#### Option 2: Simple Benchmark
+
+```bash
+# Run a focused benchmark on 3 test fixtures
+cd packages/buildfix
+pnpm tsx src/benchmark/run-simple.ts --no-bail
+```
+
+#### Option 3: Full Pipeline
+
+```bash
+# Build the package first
 pnpm --filter @promethean/buildfix build
+
+# Run the complete error fixing pipeline
 pnpm --filter @promethean/buildfix bf:01-errors
 pnpm --filter @promethean/buildfix bf:02-iterate
 pnpm --filter @promethean/buildfix bf:03-report
 ```
 
-Or run the full pipeline with [piper](https://github.com/promethean-framework/piper):
+#### Option 4: Pipeline with Piper
 
-```sh
-pnpm --filter @promethean/piper run buildfix --config packages/buildfix/pipelines.json
+```bash
+# Run the full pipeline with piper
+pnpm piper run buildfix --config packages/buildfix/pipelines.json
 ```
 
-### Workspace vs single project
+## 🧠 AI Model Configuration
+
+### Supported Models
+
+The system works with multiple AI models. The recommended model is:
+
+- **`gpt-oss:20b-cloud`** - Best performance, most reliable ✅
+
+Other supported models:
+
+- `qwen3:8b` - Good performance
+- `qwen3:14b` - Slower but more capable
+- `qwen3-coder:7b` - Code-specialized
+- `promethean-planner:latest` - Custom trained model
+- `qwen3:4b` - Fastest, less capable
+
+### Model Selection
+
+Models are configured in `src/benchmark/index.ts`. To test a specific model:
+
+```javascript
+// Override to test only one model
+import { models } from './src/benchmark/index.js';
+models.splice(1); // Keep only first model (gpt-oss:20b-cloud)
+```
+
+## 🔧 How It Works
+
+### 1. Error Detection
+
+- Scans TypeScript files for compilation errors
+- Extracts error context (line numbers, code snippets, error codes)
+- Builds structured error objects for AI processing
+
+### 2. AI Plan Generation
+
+- Sends error details to AI model with specialized prompts
+- AI generates structured fix plans using DSL (Domain Specific Language)
+- Plans include operations like: `addImport`, `ensureExported`, `makeParamOptional`
+
+### 3. Code Materialization
+
+- Converts AI DSL plans into executable TypeScript morph code
+- Generates safe JavaScript snippets that modify source files
+- Applies changes using ts-morph library for reliable AST manipulation
+
+### 4. Fix Validation
+
+- Re-runs TypeScript compiler to verify fixes
+- Tracks success/failure rates for each model
+- Maintains history of attempted fixes
+
+## 📊 Error Types Supported
+
+The AI system can fix these common TypeScript errors:
+
+- **TS2304** - Cannot find name (undefined variables)
+- **TS2305** - Module has no exported member
+- **TS2554** - Wrong number of arguments
+- **TS2322** - Type mismatches
+- **TS2339** - Property does not exist
+- And more...
+
+## 🛠️ Workspace vs Single Project
 
 `bf:01-errors` runs in workspace mode by default, scanning the current
 directory for every `tsconfig.json`. To process a single project, disable
@@ -30,35 +133,187 @@ workspace mode by passing `--root=false` (also accepts `--root=no` or
 pnpm --filter @promethean/buildfix bf:01-errors --root=false --tsconfig path/to/tsconfig.json
 ```
 
-## Pipeline steps
+## 📋 Pipeline Steps
 
 1. **bf-errors** – gather TypeScript diagnostics into `.cache/buildfix/errors.json`.
-2. **bf-iterate** – plan and apply fixes, writing history and summaries to `.cache/buildfix/`.
+2. **bf-iterate** – plan and apply fixes using AI, writing history and summaries to `.cache/buildfix/`.
 3. **bf-report** – render a Markdown report under `docs/agile/reports/buildfix`.
 
 See `pipelines.json` for the full configuration.
 
-## Tests
+## 🧪 Testing
 
-Run unit and integration tests:
+### Unit and Integration Tests
 
 ```sh
 pnpm --filter @promethean/buildfix test
 ```
 
-Run only the integration tests:
+### Integration Tests Only
 
 ```sh
 pnpm --filter @promethean/buildfix test:integration
 ```
 
+### Benchmark Testing
+
+The system includes multiple benchmark types for different testing scenarios:
+
+#### **Simple Benchmark** (Recommended for testing)
+
+```bash
+# Run 2 test fixtures with all models (model-by-model for efficiency)
+cd packages/buildfix
+pnpm tsx src/benchmark/run-simple.ts --no-bail
+
+# Run with specific model only
+echo 'import { models } from "./src/benchmark/index.js"; models.splice(1);' > test-single-model.js
+echo 'await import("./src/benchmark/run-simple.ts");' >> test-single-model.js
+pnpm tsx test-single-model.js --no-bail
+```
+
+**Note**: The benchmark runs model-by-model (not fixture-by-fixture) for efficiency with local models. This reduces model loading overhead and significantly speeds up testing.
+
+#### **Full Benchmark Suite**
+
+```bash
+# Complete benchmark with all fixtures and models
+pnpm tsx src/benchmark/run.ts
+
+# Large-scale benchmark with generated error files
+pnpm tsx src/benchmark/run-large.ts
+```
+
+#### **Model-Specific Testing**
+
+```bash
+# Test specific models in detail
+pnpm tsx src/benchmark/test-models.ts
+
+# Test large cloud models
+pnpm tsx src/benchmark/test-large-models.ts
+
+# Focused benchmark with select models/fixtures
+pnpm tsx src/benchmark/focused.ts
+```
+
+#### **DSL Testing**
+
+```bash
+# Test DSL generation specifically
+pnpm tsx src/benchmark/test-dsl.ts
+
+# Test DSL with detailed output
+pnpm tsx src/benchmark/test-models-detailed.ts
+```
+
+#### **Isolated Testing**
+
+```bash
+# Test individual components
+pnpm tsx src/benchmark/test-isolated.ts
+
+# Clean benchmark (fresh state)
+pnpm tsx src/benchmark/run-clean-benchmark.ts
+```
+
+#### **Quick Model Validation**
+
+```bash
+# Quick test of AI model responses
+pnpm tsx src/benchmark/quick-test.ts
+```
+
+## 📁 File Structure
+
+```
+packages/buildfix/
+├── src/
+│   ├── benchmark/          # Comprehensive benchmark suite
+│   │   ├── fixtures.ts    # Test fixture definitions
+│   │   ├── run-simple.ts  # Simple 3-fixture benchmark ⭐
+│   │   ├── run.ts         # Full benchmark suite
+│   │   ├── run-large.ts   # Large-scale benchmark
+│   │   ├── test-models.ts # Model testing
+│   │   ├── test-dsl.ts    # DSL generation testing
+│   │   ├── focused.ts     # Focused benchmark
+│   │   └── index.ts       # Benchmark framework
+│   ├── iter/              # AI iteration logic
+│   │   ├── dsl.ts         # Domain-specific language for code changes
+│   │   ├── plan.ts        # AI plan generation
+│   │   └── prompt.ts      # AI prompting logic
+│   ├── 01-errors.ts       # Error detection
+│   ├── 02-iterate.ts      # Fix iteration
+│   └── types.ts           # Type definitions
+├── quick-test.js          # Quick AI system test ⭐
+├── simple-fixtures/       # Test cases for benchmarking
+└── README.md
+```
+
+## 🏃‍♂️ Benchmark Run Guide
+
+### **For Quick Validation** (2-5 minutes)
+
+```bash
+pnpm --filter @promethean/buildfix tsx quick-test.js                    # Test AI integration
+pnpm --filter @promethean/buildfix tsx src/benchmark/run-simple.ts      # 3 fixtures, all models
+```
+
+### **For Comprehensive Testing** (10-30 minutes)
+
+```bash
+pnpm --filter @promethean/buildfix tsx src/benchmark/run.ts             # Full benchmark suite
+pnpm --filter @promethean/buildfix exec tsx src/benchmark/test-large-models.ts # Test all models thoroughly
+```
+
+### **For Development** (5-15 minutes)
+
+```bash
+pnpm --filter @promethean/buildfix exec tsx src/benchmark/focused.ts         # Test specific models/fixtures
+pnpm --filter @promethean/buildfix exec tsx src/benchmark/test-dsl.ts        # Test DSL generation
+```
+
+## 🔍 Troubleshooting
+
+### Common Issues
+
+1. **Model not responding**: Check that Ollama is running and the model is downloaded
+2. **Build failures**: Ensure dependencies are installed with `pnpm install`
+3. **Permission errors**: Make sure the AI can write to temporary directories
+
+### Debug Mode
+
+Enable verbose logging:
+
+```bash
+DEBUG=buildfix:* pnpm tsx quick-test.js
+```
+
+### Model Performance
+
+If a model is performing poorly:
+
+1. Try the recommended `gpt-oss:20b-cloud` model
+2. Check Ollama's system resources
+3. Reduce concurrent requests in benchmark
+
+## 📈 Performance
+
+- **Error Detection**: <1 second per project
+- **AI Plan Generation**: 5-30 seconds depending on model
+- **Code Materialization**: <1 second
+- **Fix Validation**: <2 seconds
+
+Recommended model performance:
+
+- `gpt-oss:20b-cloud`: ~10 seconds, 95% success rate
+- `qwen3:8b`: ~15 seconds, 80% success rate
+
 <!-- READMEFLOW:BEGIN -->
+
 # @promethean/buildfix
 
-
-
 [TOC]
-
 
 ## Install
 
@@ -71,7 +326,6 @@ pnpm add @promethean/buildfix
 ## License
 
 GPLv3
-
 
 ### Package graph
 

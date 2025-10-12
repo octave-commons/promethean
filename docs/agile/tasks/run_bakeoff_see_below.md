@@ -5,12 +5,71 @@ slug: "run_bakeoff_see_below"
 status: "done"
 priority: "P3"
 labels: ["bakeoff", "reason", "rejection", "run"]
-created_at: "2025-10-12T02:22:05.428Z"
+created_at: "2025-10-12T19:03:19.228Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -141,6 +200,65 @@ Generated from ../unique/2025.08.08.16.08.27.md$../unique/2025.08.08.16.08.27.md
 Duplicate of [run_model_bakeoff_md|Run model bakeoff].
 
 #rejected
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

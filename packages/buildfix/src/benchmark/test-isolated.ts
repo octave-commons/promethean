@@ -9,6 +9,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Simple test to verify our fixtures work in isolation
+// eslint-disable-next-line max-lines-per-function, sonarjs/cognitive-complexity
 async function testFixturesIsolated() {
   const fixturesDir = path.join(__dirname, '../../benchmark-fixtures');
 
@@ -37,7 +38,7 @@ async function testFixturesIsolated() {
 
     try {
       // Use a minimal TypeScript configuration to avoid node_modules contamination
-      const result = execSync(
+      execSync(
         `npx --yes tsc@5.3.3 --noEmit --strict --target ES2022 --module ESNext --skipLibCheck "${filePath}"`,
         {
           cwd: fixturesDir,
@@ -49,11 +50,30 @@ async function testFixturesIsolated() {
 
       // If we get here, there were no errors - this might be unexpected
       console.log(`⚠️  ${file}: No errors detected (might be unexpected)`);
-    } catch (error: any) {
-      const stderr = error.stderr || error.stdout || '';
-      if (stderr.includes('error')) {
+    } catch (error: unknown) {
+      const streamOutput = (() => {
+        if (typeof error === 'object' && error !== null) {
+          const maybeErr = error as { stderr?: unknown; stdout?: unknown };
+          const stderrRaw = typeof maybeErr.stderr === 'string' ? maybeErr.stderr : '';
+          if (stderrRaw) return stderrRaw;
+          const stdoutRaw = typeof maybeErr.stdout === 'string' ? maybeErr.stdout : '';
+          if (stdoutRaw) return stdoutRaw;
+        }
+        return '';
+      })();
+      const fallbackMessage =
+        error instanceof Error
+          ? error.message
+          : typeof error === 'string'
+            ? error
+            : typeof error === 'number' || typeof error === 'boolean'
+              ? String(error)
+              : '';
+      const diagnosticOutput = streamOutput || fallbackMessage;
+
+      if (diagnosticOutput.includes('error')) {
         // Extract error codes from output
-        const errorMatches = stderr.match(/TS\d+/g) || [];
+        const errorMatches = diagnosticOutput.match(/TS\d+/g) || [];
         const uniqueErrors = [...new Set(errorMatches)];
 
         if (uniqueErrors.length > 0) {
@@ -66,7 +86,7 @@ async function testFixturesIsolated() {
           errorCount++;
         }
       } else {
-        console.log(`❌ ${file}: Unexpected error: ${stderr.slice(0, 100)}...`);
+        console.log(`❌ ${file}: Unexpected error: ${diagnosticOutput.slice(0, 100)}...`);
         errorCount++;
       }
     }

@@ -5,12 +5,71 @@ slug: "update_task_template_frontmatter_alignment"
 status: "done"
 priority: "P2"
 labels: ["automation", "docs"]
-created_at: "2025-10-12T02:22:05.430Z"
+created_at: "2025-10-12T19:03:19.229Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -175,6 +234,65 @@ Update the shared task stub template so that new notes start with the canonical 
 - `docs/agile/templates/task.stub.template.md`
 - `docs/agile/tasks/task-generator-system.md`
 - `node packages/kanban/dist/index.js regenerate`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
