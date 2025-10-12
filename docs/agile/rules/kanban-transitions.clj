@@ -165,7 +165,7 @@
 (defn backward-transition?
   "Check if transition moves backward in workflow"
   [from to]
-  (let [workflow-order ["icebox" "incoming" "accepted" "breakdown" "ready" "todo" "inprogress" "testing" "review" "document" "done"]
+  (let [workflow-order ["icebox" "incoming" "accepted" "breakdown" "ready" "todo" "in_progress" "testing" "review" "document" "done"]
         from-index (.indexOf workflow-order (column-key from))
         to-index (.indexOf workflow-order (column-key to))]
     (and (>= from-index 0) (>= to-index 0) (< to-index from-index))))
@@ -180,7 +180,7 @@
      (wip-limits from-to task board)
      (task-existence from-to task board)
      ;; Process safety: enforce tool/env tags for entering in_progress
-     (if (= (column-key to) "inprogress")
+     (if (= (column-key to) "in_progress")
        (has-tool-env-tags? task)
        true)
      ;; Backward transitions are always valid unless WIP violation
@@ -201,9 +201,9 @@
     ("breakdown" ["ready" "rejected" "icebox" "blocked"])
     ("ready" ["todo" "breakdown"])
     ("todo" ["in_progress" "breakdown"])
-    ("inprogress" ["testing" "todo" "breakdown"])
-    ("testing" ["review" "inprogress" "todo"])
-    ("review" ["inprogress" "todo" "document" "done"])
+    ("in_progress" ["testing" "todo" "breakdown"])
+    ("testing" ["review" "in_progress" "todo"])
+    ("review" ["in_progress" "todo" "document" "done"])
     ("document" ["done" "review"])
     ("done" ["icebox" "review"])
     ("blocked" ["breakdown"])
@@ -249,5 +249,5 @@
   (def sample-board {:columns [{:name "todo" :tasks [] :limit 20}]})
 
   (valid-transitions-from "todo" sample-board)
-  (evaluate-transition "todo" "inprogress" sample-task sample-board)
+  (evaluate-transition "todo" "in_progress" sample-task sample-board)
   )
