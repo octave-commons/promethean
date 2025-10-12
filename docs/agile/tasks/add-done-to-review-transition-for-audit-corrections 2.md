@@ -1,16 +1,116 @@
 ---
-uuid: "20881ab6-ed00-4137-ac71-144add200c1c"
-title: "Add done→review transition for audit corrections and quality control -control"
+uuid: "7e25ee0f-5fd2-4919-91c1-f0b4de76a390"
+title: "Add done→review transition for audit corrections and quality control"
 slug: "add-done-to-review-transition-for-audit-corrections 2"
 status: "done"
 priority: "P2"
 labels: ["audit", "fsm", "kanban", "quality-control", "transitions"]
-created_at: "2025-10-12T19:03:19.227Z"
+created_at: "2025-10-12T22:46:41.458Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
