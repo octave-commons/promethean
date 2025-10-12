@@ -5,7 +5,11 @@ slug: "implement-advanced-kanban-features-for-task-management-management-integra
 status: "incoming"
 priority: "P1"
 labels: ["ai-integration", "enhancement", "kanban", "task-management"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.456Z"
+=======
+created_at: "2025-10-12T21:40:23.577Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Implement advanced kanban features for task management
 
 ## Description
@@ -867,6 +874,7 @@ Consider starting with Phase 1 to establish core content editing capabilities, t
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -982,3 +990,5 @@ Consider starting with Phase 1 to establish core content editing capabilities, t
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

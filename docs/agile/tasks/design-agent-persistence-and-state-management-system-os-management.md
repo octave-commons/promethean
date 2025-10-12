@@ -2,10 +2,14 @@
 uuid: "8f4c7b2a"
 title: "Design Agent Persistence and State Management System -os -management"
 slug: "design-agent-persistence-and-state-management-system-os-management"
-status: "blocked"
+status: "breakdown"
 priority: "high"
 labels: ["agent-os", "database", "persistence", "recovery", "state-management"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -278,6 +282,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -392,6 +397,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Design Agent Persistence and State Management System
 
 ## 🎯 Objective
@@ -1351,6 +1358,7 @@ interface StateMetrics {
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -1465,3 +1473,5 @@ interface StateMetrics {
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

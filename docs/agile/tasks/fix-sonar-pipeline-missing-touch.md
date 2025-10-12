@@ -5,7 +5,11 @@ slug: "fix-sonar-pipeline-missing-touch"
 status: "done"
 priority: "P2"
 labels: ["buildfix", "pipeline", "sonar"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.580Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Description
 Ensure the top-level `sonar` pipeline writes the `.cache/sonar/scan.touch` marker so downstream steps succeed on clean runs.
 
@@ -697,6 +704,7 @@ Useful for agents to coordinate on implementation details and testing.
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -812,3 +820,5 @@ Useful for agents to coordinate on implementation details and testing.
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

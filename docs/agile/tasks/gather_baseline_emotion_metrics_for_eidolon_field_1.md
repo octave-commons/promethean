@@ -5,7 +5,11 @@ slug: "gather_baseline_emotion_metrics_for_eidolon_field_1"
 status: "done"
 priority: "P3"
 labels: ["baseline", "eidolon", "emotion", "gather"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.580Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Gather baseline emotion metrics for Eidolon field
 
 Collect initial emotional state data to seed analysis and reward calculations.
@@ -720,6 +727,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -835,3 +843,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

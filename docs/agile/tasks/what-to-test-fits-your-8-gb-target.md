@@ -5,7 +5,11 @@ slug: "what-to-test-fits-your-8-gb-target"
 status: "incoming"
 priority: "P3"
 labels: ["docops", "labeled"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🗂 Source
 
 - Path: docs/labeled/2025.10.07.22.43.20.md
@@ -682,6 +689,7 @@ You’re on the right scent. With 8 GB VRAM you can realistically test a **tool-
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -797,3 +805,5 @@ You’re on the right scent. With 8 GB VRAM you can realistically test a **tool-
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

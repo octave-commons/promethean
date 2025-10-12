@@ -5,7 +5,11 @@ slug: "brainstorming-packages"
 status: "incoming"
 priority: "P3"
 labels: ["docops", "labeled"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🗂 Source
 
 - Path: docs/labeled/2025.09.18.15.33.30.md
@@ -709,6 +716,7 @@ Name: Kura (蔵) — “storehouse” or “treasury,” a keeper of hidden thin
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -824,3 +832,5 @@ Name: Kura (蔵) — “storehouse” or “treasury,” a keeper of hidden thin
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

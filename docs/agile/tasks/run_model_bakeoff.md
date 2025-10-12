@@ -5,7 +5,11 @@ slug: "run_model_bakeoff"
 status: "icebox"
 priority: "P3"
 labels: ["bakeoff", "model", "models", "run"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.454Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Run model bakeoff
 
 Execute a comparative evaluation between current and candidate models using a fixed set of tasks.
@@ -705,6 +712,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -820,3 +828,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

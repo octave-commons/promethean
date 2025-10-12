@@ -1,11 +1,25 @@
 ---
+<<<<<<< HEAD
 uuid: "013dbf59-ae52-4020-80ef-fa3cf4eecfff"
+=======
+uuid: "4424c515-1742-4ca1-a87e-177e64c38b5d"
+>>>>>>> bug/kanban-duplication-issues
 title: "Fix eslint-tasks pipeline file reference issue"
 slug: "fix-eslint-tasks-pipeline-file-reference-issue 19"
 status: "incoming"
 priority: "P2"
+<<<<<<< HEAD
+<<<<<<<< HEAD:docs/agile/tasks/fix-eslint-tasks-pipeline-file-reference-issue 19.md
 labels: ["automation", "bug", "eslint-tasks", "pipeline"]
 created_at: "2025-10-12T22:46:41.456Z"
+========
+labels: ["automation", "buildfix", "pipeline", "timeout"]
+created_at: "2025-10-12T21:40:23.576Z"
+>>>>>>>> bug/kanban-duplication-issues:docs/agile/tasks/fix-buildfix-pipeline-timeout-configuration-for-build-analysis-step-timeout-step 3.md
+=======
+labels: ["automation", "bug", "eslint-tasks", "pipeline"]
+created_at: "2025-10-12T21:40:23.577Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -213,6 +227,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -443,3 +458,154 @@ estimates:
 
 
 
+<<<<<<<< HEAD:docs/agile/tasks/fix-eslint-tasks-pipeline-file-reference-issue 19.md
+========
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+>>>>>>>> bug/kanban-duplication-issues:docs/agile/tasks/fix-buildfix-pipeline-timeout-configuration-for-build-analysis-step-timeout-step 3.md
+=======
+>>>>>>> bug/kanban-duplication-issues

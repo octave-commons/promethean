@@ -5,7 +5,11 @@ slug: "kanban-processor"
 status: "done"
 priority: "P3"
 labels: ["ecs", "kanban", "planning"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.582Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🧾 Summary
 Unify the historical kanban scripts into an ECS-powered experience that keeps Markdown + CLI flows authoritative while introducing modern interaction patterns.
 
@@ -678,6 +685,7 @@ Unify the historical kanban scripts into an ECS-powered experience that keeps Ma
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -793,3 +801,5 @@ Unify the historical kanban scripts into an ECS-powered experience that keeps Ma
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

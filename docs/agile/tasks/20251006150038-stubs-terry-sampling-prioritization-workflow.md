@@ -5,7 +5,11 @@ slug: "20251006150038-stubs-terry-sampling-prioritization-workflow"
 status: "accepted"
 priority: "P3"
 labels: ["bradley-terry", "command-stubs", "interactive-workflow", "kanban", "prioritize", "task-prioritization", "weighted-sampling"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Command stubs (ready to wire)
 
 ```ts
@@ -745,6 +752,7 @@ export default async function cmd(argv:any){
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -860,3 +868,5 @@ export default async function cmd(argv:any){
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

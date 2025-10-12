@@ -5,7 +5,11 @@ slug: "lisp-ecosystem-files"
 status: "done"
 priority: "P3"
 labels: ["description", "existing", "lisp", "step"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.582Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Description
 
 Describe your task
@@ -704,6 +711,7 @@ Blocked: needs clarity on target file organization.
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -819,3 +827,5 @@ Blocked: needs clarity on target file organization.
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

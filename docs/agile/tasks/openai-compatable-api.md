@@ -5,7 +5,11 @@ slug: "openai-compatable-api"
 status: "done"
 priority: "P3"
 labels: ["between", "codex", "context", "local"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.582Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Task: Context Layer Between Codex and Local LLMs
 
 ## Description
@@ -712,6 +719,7 @@ Agents can use this task to maintain append-only discussions on design decisions
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -827,3 +835,5 @@ Agents can use this task to maintain append-only discussions on design decisions
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

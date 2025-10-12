@@ -5,7 +5,11 @@ slug: "Docops pipeline"
 status: "done"
 priority: "P3"
 labels: ["agent", "docops", "drafts", "pipeline"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.579Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Complete Docops pipeline (synthesis agent)
 
 Run the synthesis agent over the files in `docs/unique/` to generate more polished documentation. The agent should create drafts in the appropriate design subfolders.
@@ -707,6 +714,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -822,3 +830,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

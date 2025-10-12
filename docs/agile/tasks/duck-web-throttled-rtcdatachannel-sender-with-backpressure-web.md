@@ -5,7 +5,11 @@ slug: "duck-web-throttled-rtcdatachannel-sender-with-backpressure-web"
 status: "review"
 priority: "P1"
 labels: ["duck-web", "perf", "webrtc"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.579Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 #Todo
 
 ## 🛠️ Description
@@ -670,6 +677,7 @@ Implement `makeThrottledSender(ch, threshold)` using `bufferedamountlow` event; 
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -785,3 +793,5 @@ Implement `makeThrottledSender(ch, threshold)` using `bufferedamountlow` event; 
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

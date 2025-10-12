@@ -5,7 +5,11 @@ slug: "allowed-outbound-transitions-by-column-c"
 status: "incoming"
 priority: "P3"
 labels: ["docops", "labeled"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🗂 Source
 
 - Path: docs/labeled/2025.09.19.22.37.16.md
@@ -706,6 +713,7 @@ awesome—here’s the **concise transition spec** to pair with the mermaid FSM 
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -821,3 +829,5 @@ awesome—here’s the **concise transition spec** to pair with the mermaid FSM 
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

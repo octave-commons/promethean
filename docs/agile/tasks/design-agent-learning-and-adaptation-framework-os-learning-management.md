@@ -2,10 +2,14 @@
 uuid: "3a7b8c9d"
 title: "Design Agent Learning and Adaptation Framework -os -learning -management"
 slug: "design-agent-learning-and-adaptation-framework-os-learning-management"
-status: "blocked"
+status: "breakdown"
 priority: "high"
 labels: ["adaptation", "agent-os", "evolution", "knowledge-management", "machine-learning"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -278,6 +282,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -392,6 +397,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Design Agent Learning and Adaptation Framework
 
 ## 🎯 Objective
@@ -1636,6 +1643,7 @@ interface LearningGroup {
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -1750,3 +1758,5 @@ interface LearningGroup {
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

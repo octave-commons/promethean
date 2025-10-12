@@ -5,7 +5,11 @@ slug: "setup-kanban-ui-for-kanban-package-core"
 status: "todo"
 priority: "P3"
 labels: ["framework-core", "kanban", "ui"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.579Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🎯 Desired Outcome
 A lightweight web UI served from `@promethean/kanban` that visualises the current board using the package's existing loaders, so agents can inspect column WIP without opening Obsidian.
 
@@ -679,6 +686,7 @@ A lightweight web UI served from `@promethean/kanban` that visualises the curren
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -794,3 +802,5 @@ A lightweight web UI served from `@promethean/kanban` that visualises the curren
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

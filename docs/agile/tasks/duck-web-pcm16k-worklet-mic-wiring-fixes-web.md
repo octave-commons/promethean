@@ -5,7 +5,11 @@ slug: "duck-web-pcm16k-worklet-mic-wiring-fixes-web"
 status: "blocked"
 priority: "P1"
 labels: ["audio", "duck-web", "worklet"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -277,6 +281,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -392,6 +397,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Todo
 
 ## 🛠️ Description
@@ -673,6 +680,7 @@ Fix syntax errors in `pcm16k-worklet.js`, track fractional position to avoid dri
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -788,3 +796,5 @@ Fix syntax errors in `pcm16k-worklet.js`, track fractional position to avoid dri
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

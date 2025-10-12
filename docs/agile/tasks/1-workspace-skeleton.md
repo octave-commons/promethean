@@ -5,7 +5,11 @@ slug: "1-workspace-skeleton"
 status: "icebox"
 priority: "P3"
 labels: ["docops", "labeled"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.454Z"
+=======
+created_at: "2025-10-12T21:40:23.574Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🗂 Source
 
 - Path: docs/labeled/2025.10.08.01.09.53.md
@@ -716,6 +723,7 @@ All the moving parts map to current, documented interfaces (Ollama OpenAI-compat
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -831,3 +839,5 @@ All the moving parts map to current, documented interfaces (Ollama OpenAI-compat
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

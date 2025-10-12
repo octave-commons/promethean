@@ -5,7 +5,11 @@ slug: "ecs_projection_jobs"
 status: "incoming"
 priority: "P3"
 labels: ["ecs", "jobs", "projection", "projections"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.576Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ECS Projections and Compaction Jobs
 
 Goal: Add background jobs to project ECS component state into query-friendly collections and compact time-series.
@@ -672,6 +679,7 @@ Exit Criteria:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -787,3 +795,5 @@ Exit Criteria:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

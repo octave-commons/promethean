@@ -5,7 +5,11 @@ slug: "mcp-template-system-2"
 status: "incoming"
 priority: "P3"
 labels: ["docops", "labeled"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.456Z"
+=======
+created_at: "2025-10-12T21:40:23.577Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🗂 Source
 
 - Path: docs/labeled/mcp-template-system-2.md
@@ -697,6 +704,7 @@ It should allow you to:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -812,3 +820,5 @@ It should allow you to:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

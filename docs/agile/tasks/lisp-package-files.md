@@ -5,7 +5,11 @@ slug: "lisp-package-files"
 status: "ready"
 priority: "P3"
 labels: ["files", "lisp", "modules", "package"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Description
 
 Design a package file format for the Lisp components so modules can declare dependencies and be imported consistently.
@@ -707,6 +714,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -822,3 +830,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

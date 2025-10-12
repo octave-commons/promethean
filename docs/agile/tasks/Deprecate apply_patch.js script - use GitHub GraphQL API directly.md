@@ -5,7 +5,11 @@ slug: "Deprecate apply_patch.js script - use GitHub GraphQL API directly"
 status: "incoming"
 priority: "P2"
 labels: ["api", "github", "script", "use"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 The  script duplicates functionality that should be handled directly through GitHub's GraphQL API or existing MCP tools.
 
 ## Current Issues:
@@ -763,6 +770,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -878,3 +886,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

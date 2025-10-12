@@ -5,7 +5,11 @@ slug: "fix_makefile_test_target"
 status: "done"
 priority: "P3"
 labels: ["makefile", "target", "test", "tests"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.580Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Fix Makefile test target
 
 The `test-python` target originally pointed to `tests/python/` but tests live in `tests/`.
@@ -697,6 +704,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -812,3 +820,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

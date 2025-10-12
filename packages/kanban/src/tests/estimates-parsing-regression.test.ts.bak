@@ -1,0 +1,187 @@
+import test from 'ava';
+import { promises as fs } from 'node:fs';
+import path from 'node:path';
+import { loadBoard } from '../lib/kanban.js';
+// import { taskFromFM } from '../lib/kanban.js'; // Temporarily commented out
+import { parseFrontmatter } from '@promethean/markdown/frontmatter';
+import { withTempDir } from '../test-utils/helpers.js';
+
+test('regression: estimates parsed from frontmatter should be preserved in task object', async (t) => {
+  // Test case reproducing the critical bug where estimates parsing works
+  // but transition system doesn't see the estimates
+  const markdownWithEstimates = `---
+uuid: "test-task-123"
+title: "Test Task with Estimates"
+status: "breakdown"
+priority: "P1"
+labels: ["test", "estimates"]
+created_at: "2025-10-12T20:10:00.000Z"
+estimates:
+  complexity: 3
+  scale: ""
+  time_to_completion: ""
+---
+
+Test content for regression test`;
+
+  const parsed = parseFrontmatter(markdownWithEstimates);
+  const task = taskFromFM(parsed.data, parsed.content);
+
+  // Verify estimates are parsed correctly
+  t.truthy(task, 'Task should be created');
+  t.is(task?.uuid, 'test-task-123');
+  t.deepEqual(
+    task?.estimates,
+    {
+      complexity: 3,
+      scale: '',
+      time_to_completion: '',
+    },
+    'Estimates should be preserved exactly as parsed',
+  );
+
+  // Verify the specific field that transition rules check
+  t.is(task?.estimates?.complexity, 3, 'Complexity should be accessible for transition rules');
+});
+
+test('regression: transition rule simulation should pass with valid estimates', async (t) => {
+  // Simulate what the transition system does - this should reveal the bug
+  const markdownWithEstimates = `---
+uuid: "test-transition-999"
+title: "Test Task for Transition Simulation"
+status: "breakdown"
+priority: "P1"
+estimates:
+  complexity: 3
+  scale: ""
+  time_to_completion: ""
+---
+
+Test content`;
+
+  const parsed = parseFrontmatter(markdownWithEstimates);
+  const task = taskFromFM(parsed.data, parsed.content);
+
+  // Simulate the transition rule: (and (:estimates task) (<= (get-in task [:estimates :complexity]) 5))
+  const hasEstimates = task && typeof task.estimates === 'object' && task.estimates !== null;
+  const complexityValue = task?.estimates?.complexity;
+  const complexityValid =
+    hasEstimates &&
+    typeof complexityValue !== 'undefined' &&
+    String(complexityValue) !== '' &&
+    Number(String(complexityValue)) <= 5;
+
+  t.true(hasEstimates, 'Transition rule should see estimates object');
+  t.is(complexityValue, 3, 'Transition rule should access complexity value');
+  t.true(complexityValid, 'Transition rule should validate complexity <= 5');
+
+  // This test should pass if the bug is fixed
+  const transitionRulePasses = hasEstimates && complexityValid;
+  t.true(transitionRulePasses, 'Complete transition rule should pass for complexity: 3');
+});
+
+test('regression: transition rule should fail with high complexity', async (t) => {
+  // Test the inverse case - high complexity should fail transition
+  const markdownWithHighComplexity = `---
+uuid: "test-high-complexity"
+title: "Test Task with High Complexity"
+status: "breakdown"
+priority: "P1"
+estimates:
+  complexity: 8
+  scale: ""
+  time_to_completion: ""
+---
+
+Test content`;
+
+  const parsed = parseFrontmatter(markdownWithHighComplexity);
+  const task = taskFromFM(parsed.data, parsed.content);
+
+  const hasEstimates = task && typeof task.estimates === 'object' && task.estimates !== null;
+  const complexityValue = task?.estimates?.complexity;
+  const complexityValid =
+    hasEstimates &&
+    typeof complexityValue !== 'undefined' &&
+    String(complexityValue) !== '' &&
+    Number(String(complexityValue)) <= 5;
+
+  t.true(hasEstimates, 'Should have estimates');
+  t.is(complexityValue, 8, 'Should have high complexity');
+  t.false(complexityValid, 'High complexity should fail transition rule');
+});
+
+test('regression: board loading from markdown loses estimates data', async (t) => {
+  // This test demonstrates the fix where loadBoard now preserves estimates
+  // when it falls back to reading from task files (no existing board)
+  const tempDir = await withTempDir(t);
+  const tasksDir = path.join(tempDir, 'tasks');
+  const boardPath = path.join(tempDir, 'board.md');
+
+  await fs.mkdir(tasksDir, { recursive: true });
+
+  // Create task files with estimates
+  const taskWithEstimates = `---
+uuid: test-estimates-123
+title: Test task with estimates
+status: Todo
+priority: P1
+labels: [test, estimates]
+estimates:
+  complexity: 3
+  scale: M
+  time_to_completion: 4h
+---
+
+Test content with estimates`;
+
+  const anotherTask = `---
+uuid: test-another-456
+title: Another task
+status: Todo
+priority: P2
+labels: [test]
+estimates:
+  complexity: 2
+  scale: S
+  time_to_completion: 2h
+---
+
+Another task content`;
+
+  await fs.writeFile(path.join(tasksDir, 'test-estimates-123.md'), taskWithEstimates);
+  await fs.writeFile(path.join(tasksDir, 'test-another-456.md'), anotherTask);
+
+  // Don't create a board file - let loadBoard fall back to reading from tasks
+  // This tests the fallback path where loadBoard reads tasks and preserves estimates
+
+  // Load board using the fixed loadBoard function
+  const board = await loadBoard(boardPath, tasksDir);
+  const todoColumn = board.columns.find((col: any) => col.name === 'Todo');
+
+  t.truthy(todoColumn, 'Should find Todo column');
+  t.is(todoColumn?.tasks.length, 2, 'Should have 2 tasks');
+
+  // Find the task that should have estimates
+  const taskWithEstimatesFound = todoColumn?.tasks.find(
+    (t: any) => t.uuid === 'test-estimates-123',
+  );
+
+  t.truthy(taskWithEstimatesFound, 'Should find task with estimates');
+
+  // After the fix: estimates should now be preserved from original task files
+  t.notDeepEqual(
+    taskWithEstimatesFound?.estimates,
+    {},
+    'FIXED: Estimates should now be preserved when loading board from task files',
+  );
+
+  // This demonstrates the fix: estimates are preserved when board loads from task files
+  t.is(
+    taskWithEstimatesFound?.estimates?.complexity,
+    3,
+    'FIXED: Complexity should now be 3 after the parsing fix',
+  );
+
+  // Cleanup is handled automatically by withTempDir
+});

@@ -5,7 +5,11 @@ slug: "fix-smartgpt-bridge-tests"
 status: "done"
 priority: "p2"
 labels: ["board", "epic", "lang", "owner", "priority", "state", "task"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.580Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## Context
 
 ### Changes and Updates
@@ -705,6 +712,7 @@ if (mms) await mms.stop();
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -820,3 +828,5 @@ if (mms) await mms.stop();
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

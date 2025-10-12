@@ -5,7 +5,11 @@ slug: "local-model-grouping-guide"
 status: "incoming"
 priority: "P3"
 labels: ["docops", "labeled"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.456Z"
+=======
+created_at: "2025-10-12T21:40:23.577Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🗂 Source
 
 - Path: docs/labeled/local-model-grouping-guide.md
@@ -702,6 +709,7 @@ https://g
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -817,3 +825,5 @@ https://g
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

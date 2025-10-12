@@ -5,7 +5,11 @@ slug: "determine_pm2_configuration_for_agents_1"
 status: "done"
 priority: "P3"
 labels: ["agents", "configuration", "determine", "pm2"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.579Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Determine PM2 configuration for agents
 
 Establish a shared PM2 ecosystem or alternative process manager setup that all
@@ -722,6 +729,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -837,3 +845,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

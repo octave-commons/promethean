@@ -2,10 +2,14 @@
 uuid: "da25dda6-61e9-4d7f-b4dc-490759d88eda"
 title: "Design Agent OS Comprehensive Protocol Specifications"
 slug: "design-agent-os-comprehensive-protocol-specifications-4d5e6f7g"
-status: "blocked"
+status: "breakdown"
 priority: "high"
 labels: ["agent-os", "architecture", "protocol-specifications", "standards", "system-integration"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -278,6 +282,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -392,6 +397,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Design Agent OS Comprehensive Protocol Specifications
 
 ## 🎯 Objective
@@ -1555,6 +1562,7 @@ interface QualityAssuranceStandards {
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -1669,3 +1677,5 @@ interface QualityAssuranceStandards {
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

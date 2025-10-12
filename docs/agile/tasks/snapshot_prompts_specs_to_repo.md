@@ -5,7 +5,11 @@ slug: "snapshot_prompts_specs_to_repo"
 status: "icebox"
 priority: "P3"
 labels: ["prompts", "repo", "snapshot", "specs"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.454Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Snapshot prompts specs to repo
 
 Capture existing prompt and specification documents into the repository so they are version-controlled and easily referenced.
@@ -689,6 +696,7 @@ Capture existing prompt and specification documents into the repository so they 
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -804,3 +812,5 @@ Capture existing prompt and specification documents into the repository so they 
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

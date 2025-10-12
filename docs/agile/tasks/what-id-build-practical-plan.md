@@ -5,7 +5,11 @@ slug: "what-id-build-practical-plan"
 status: "incoming"
 priority: "P3"
 labels: ["docops", "labeled"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🗂 Source
 
 - Path: docs/labeled/2025.09.18.15.55.47.md
@@ -697,6 +704,7 @@ Got it, Err. “Hierarchical vector embedding search” usually means one of two
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -812,3 +820,5 @@ Got it, Err. “Hierarchical vector embedding search” usually means one of two
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

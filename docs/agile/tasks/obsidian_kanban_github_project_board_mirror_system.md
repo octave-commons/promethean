@@ -5,7 +5,11 @@ slug: "obsidian_kanban_github_project_board_mirror_system"
 status: "done"
 priority: "P3"
 labels: ["board", "github", "kanban", "obsidian"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.582Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Obsidian Kanban Github Project Board Mirror system
 
 Synchronize our local kanban board with a GitHub Projects board so tasks stay consistent between Obsidian and GitHub.
@@ -701,6 +708,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -816,3 +824,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

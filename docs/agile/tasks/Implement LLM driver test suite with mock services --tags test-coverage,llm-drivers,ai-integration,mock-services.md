@@ -5,7 +5,11 @@ slug: "Implement LLM driver test suite with mock services --tags test-coverage,l
 status: "incoming"
 priority: "P0"
 labels: ["llm", "test", "mock", "services"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 Create comprehensive test coverage for packages/llm/src/drivers/:\n- Ollama driver functionality and configuration\n- HuggingFace model loading and inference\n- Template processing and rendering\n- Error handling and timeout scenarios\n- Integration tests with mock LLM services\n\nCurrent coverage: 43.69% with multiple driver files having 0 function coverage. Critical for AI model integration reliability.
 
 ## ⛓️ Blocked By
@@ -666,6 +673,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -781,3 +789,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

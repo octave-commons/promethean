@@ -5,7 +5,11 @@ slug: "ecs_mongo_adapter_library"
 status: "incoming"
 priority: "P3"
 labels: ["adapter", "ecs", "library", "mongo"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.576Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ECS–Mongo Adapter Library
 
 Goal: Implement a reusable MongoDB persistence adapter for the ECS so ECS acts as our ORM.
@@ -673,6 +680,7 @@ Exit Criteria:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -788,3 +796,5 @@ Exit Criteria:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

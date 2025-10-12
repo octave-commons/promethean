@@ -5,7 +5,11 @@ slug: "research_github_projects_board_api"
 status: "done"
 priority: "P3"
 labels: ["api", "board", "github", "projects"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.582Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Research GitHub Projects board API
 
 We need to understand how to interact programmatically with GitHub Projects so our kanban board can sync with it.
@@ -698,6 +705,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -813,3 +821,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

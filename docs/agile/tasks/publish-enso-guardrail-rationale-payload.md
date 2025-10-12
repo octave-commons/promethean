@@ -5,7 +5,11 @@ slug: "publish-enso-guardrail-rationale-payload"
 status: "done"
 priority: "P1"
 labels: ["enso", "guardrails", "protocol"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.582Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 Background: The ENSO protocol docs and SDK still describe `act.rationale` as a loosely typed payload, even though Cephalon emits rich guardrail metadata during Duck evaluations. Without a canonical `ActRationalePayload` type and migration guidance, downstream producers/consumers are blocked from adopting the telemetry and the transport chapter risks drifting from the actual TypeScript union.
 
 Goal: Align the ENSO transport spec, SDK (`packages/enso-protocol`), and service implementations around a typed guardrail rationale payload with clear migration steps.
@@ -674,6 +681,7 @@ Exit Criteria:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -789,3 +797,5 @@ Exit Criteria:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

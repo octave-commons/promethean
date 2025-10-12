@@ -5,7 +5,11 @@ slug: "pantheon-architecture-that-respects-never-fallback-to-cloud"
 status: "incoming"
 priority: "P3"
 labels: ["docops", "labeled"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.456Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🗂 Source
 
 - Path: docs/labeled/2025.10.07.00.14.12.md
@@ -679,6 +686,7 @@ Below is a blunt, practical blueprint for **Pantheon**: a TypeScript-first, FP-l
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -794,3 +802,5 @@ Below is a blunt, practical blueprint for **Pantheon**: a TypeScript-first, FP-l
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

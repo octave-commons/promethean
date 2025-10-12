@@ -5,7 +5,11 @@ slug: "Fix infinite recursion build loop in @promethean omni-service package"
 status: "accepted"
 priority: "P1"
 labels: ["build", "package", "infinite", "recursion"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 The omni-service package has an infinite recursion issue in its build script:
 
 ## Root Cause:
@@ -672,6 +679,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -787,3 +795,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

@@ -5,7 +5,11 @@ slug: "process-governance-cluster 2"
 status: "rejected"
 priority: "P1"
 labels: ["automation", "cluster", "governance", "kanban", "process", "quality-gates"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.460Z"
+=======
+created_at: "2025-10-12T21:40:23.583Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -545,6 +549,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -775,3 +780,5 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

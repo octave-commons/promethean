@@ -5,7 +5,11 @@ slug: "implement-missing-core-mcp-features-features"
 status: "incoming"
 priority: "P1"
 labels: ["core-features", "enhancement", "infrastructure", "mcp"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.456Z"
+=======
+created_at: "2025-10-12T21:40:23.577Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Implement missing core MCP features
 
 ## Description
@@ -1028,6 +1035,7 @@ These missing core features represent fundamental capabilities that would transf
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -1143,3 +1151,5 @@ These missing core features represent fundamental capabilities that would transf
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

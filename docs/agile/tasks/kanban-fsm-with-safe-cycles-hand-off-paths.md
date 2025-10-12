@@ -5,7 +5,11 @@ slug: "kanban-fsm-with-safe-cycles-hand-off-paths"
 status: "incoming"
 priority: "P3"
 labels: ["docops", "labeled"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.456Z"
+=======
+created_at: "2025-10-12T21:40:23.577Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🗂 Source
 
 - Path: docs/labeled/2025.09.19.23.23.12.md
@@ -692,6 +699,7 @@ here’s a tightened FSM with minimal, procedural cycles:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -807,3 +815,5 @@ here’s a tightened FSM with minimal, procedural cycles:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

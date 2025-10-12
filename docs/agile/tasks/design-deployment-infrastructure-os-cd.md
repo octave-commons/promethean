@@ -5,7 +5,11 @@ slug: "design-deployment-infrastructure-os-cd"
 status: "incoming"
 priority: "P2"
 labels: ["agent-os", "ci-cd", "deployment", "design", "devops", "infrastructure"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.576Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Design Deployment Infrastructure
 
 ## Overview
@@ -1518,6 +1525,7 @@ resource "kubernetes_deployment" "agent_registry" {
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -1633,3 +1641,5 @@ resource "kubernetes_deployment" "agent_registry" {
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

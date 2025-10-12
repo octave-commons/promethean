@@ -5,7 +5,11 @@ slug: "upgrade-symdocs-documentation"
 status: "icebox"
 priority: "P2"
 labels: ["ai", "documentation", "enhancement", "pipeline", "symdocs"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.454Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Upgrade symdocs to generate meaningful API documentation
 
 ## Problem Statement
@@ -700,6 +707,7 @@ The system successfully extracts symbols and uses LLM to generate documentation,
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -815,3 +823,5 @@ The system successfully extracts symbols and uses LLM to generate documentation,
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

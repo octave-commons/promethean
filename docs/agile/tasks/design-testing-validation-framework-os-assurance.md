@@ -5,7 +5,11 @@ slug: "design-testing-validation-framework-os-assurance"
 status: "incoming"
 priority: "P1"
 labels: ["agent-os", "automation", "design", "quality-assurance", "testing", "validation"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.576Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Design Testing & Validation Framework
 
 ## Overview
@@ -1330,6 +1337,7 @@ interface ContinuousTestingPipeline {
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -1445,3 +1453,5 @@ interface ContinuousTestingPipeline {
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

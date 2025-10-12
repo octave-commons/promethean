@@ -5,7 +5,11 @@ slug: "fix-test-gap-pipeline-missing-coverage-and-incorrect-package-scanning-gap
 status: "done"
 priority: "P2"
 labels: ["coverage-reports", "package-scanning", "piper", "test-gap", "testing"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.580Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Fix test-gap pipeline missing coverage and incorrect package scanning
 
 ## 🐛 Problem Statement
@@ -815,6 +822,7 @@ This fix will enable intelligent test gap analysis and help maintain high test c
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -930,3 +938,5 @@ This fix will enable intelligent test gap analysis and help maintain high test c
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

@@ -5,7 +5,11 @@ slug: "migrating_relevant_modules_from_riatzukiza_github_io_to_-site-_and_-docs-
 status: "done"
 priority: "P3"
 labels: ["docs", "github", "riatzukiza", "site"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.582Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Migrating relevant modules from riatzukiza.github.io to -site- and -docs-
 
 Move documentation and site pieces from the legacy `riatzukiza.github.io` repository into this project.
@@ -705,6 +712,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -820,3 +828,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

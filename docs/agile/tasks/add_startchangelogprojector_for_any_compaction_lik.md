@@ -5,7 +5,11 @@ slug: "add_startchangelogprojector_for_any_compaction_lik"
 status: "done"
 priority: "P3"
 labels: ["add", "any", "compaction", "startchangelogprojector"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.579Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Add **startChangelogProjector** for any compaction-like topic you want live-queryable
 
 Generated from [[2025.08.08.20.08.56]]
@@ -678,6 +685,7 @@ Generated from [[2025.08.08.20.08.56]]
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -793,3 +801,5 @@ Generated from [[2025.08.08.20.08.56]]
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

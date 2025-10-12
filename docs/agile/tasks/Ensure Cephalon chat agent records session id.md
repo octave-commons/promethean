@@ -5,7 +5,11 @@ slug: "Ensure Cephalon chat agent records session id"
 status: "incoming"
 priority: "P1"
 labels: ["cephalon", "tests"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 The AVA suite for `@promethean/cephalon` fails its evaluation-mode toggle spec because `EnsoChatAgent.getSessionId()` keeps
 returning `undefined` even after the client joins presence. `EnsoClient.receive` already captures the `presence.join`
 payload, but the chat agent never persists that session identifier into its own state.
@@ -669,6 +676,7 @@ payload, but the chat agent never persists that session identifier into its own 
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -784,3 +792,5 @@ payload, but the chat agent never persists that session identifier into its own 
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

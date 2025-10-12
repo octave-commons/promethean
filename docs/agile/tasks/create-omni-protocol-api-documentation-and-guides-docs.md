@@ -2,10 +2,14 @@
 uuid: "94a4c9a3-9bf9-4573-a5fb-23738d060b86"
 title: "Create Omni protocol API documentation and guides -docs"
 slug: "create-omni-protocol-api-documentation-and-guides-docs"
-status: "blocked"
+status: "breakdown"
 priority: "P1"
 labels: ["api-docs", "documentation", "omni", "typedoc"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -278,6 +282,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -392,6 +397,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🎯 Outcome
 
 Generate comprehensive API documentation and usage guides for the Omni protocol package, including TypeDoc API reference, implementation guides, and integration examples.
@@ -734,6 +741,7 @@ Generate comprehensive API documentation and usage guides for the Omni protocol 
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -848,3 +856,5 @@ Generate comprehensive API documentation and usage guides for the Omni protocol 
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

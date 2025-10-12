@@ -5,7 +5,11 @@ slug: "local-llm-benchmarking-with-ollama-2"
 status: "incoming"
 priority: "P3"
 labels: ["docops", "labeled"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.456Z"
+=======
+created_at: "2025-10-12T21:40:23.577Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🗂 Source
 
 - Path: docs/labeled/local-llm-benchmarking-with-ollama-2.md
@@ -698,6 +705,7 @@ https://huggingface.co/BasedBase/Qwen
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -813,3 +821,5 @@ https://huggingface.co/BasedBase/Qwen
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

@@ -5,7 +5,11 @@ slug: "shadow-cljs-migration-step-4-decommission-legacy-toolchain-core-task"
 status: "icebox"
 priority: "P3"
 labels: ["codex-task", "framework-core", "frontend"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.454Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 #IceBox
 
 ## 🛠️ Description
@@ -707,6 +714,7 @@ Estimate: 5
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -822,3 +830,5 @@ Estimate: 5
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

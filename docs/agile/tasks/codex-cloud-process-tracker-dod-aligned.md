@@ -5,7 +5,11 @@ slug: "codex-cloud-process-tracker-dod-aligned"
 status: "incoming"
 priority: "P3"
 labels: ["docops", "labeled"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🗂 Source
 
 - Path: docs/labeled/2025.09.19.19.50.23.md
@@ -694,6 +701,7 @@ This single doc tracks every checkbox from your request and our Definition of Do
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -809,3 +817,5 @@ This single doc tracks every checkbox from your request and our Definition of Do
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

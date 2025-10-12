@@ -5,7 +5,11 @@ slug: "usage-pass-the-value-not-variable-name"
 status: "incoming"
 priority: "P3"
 labels: ["docops", "labeled"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🗂 Source
 
 - Path: docs/labeled/2025.09.19.16.36.28.md
@@ -683,6 +690,7 @@ Here’s what’s off:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -798,3 +806,5 @@ Here’s what’s off:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

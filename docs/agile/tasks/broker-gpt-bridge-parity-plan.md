@@ -5,7 +5,11 @@ slug: "broker-gpt-bridge-parity-plan"
 status: "done"
 priority: "P3"
 labels: ["bridge", "broker", "gpt", "parity"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.579Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Broker ↔ GPT Bridge Parity Test Plan
 ```
 **Owner:** Codex / Agent
@@ -978,6 +985,7 @@ test(parity): add broker↔bridge parity suites + normalizers + CI gate
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -1093,3 +1101,5 @@ test(parity): add broker↔bridge parity suites + normalizers + CI gate
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

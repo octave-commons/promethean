@@ -5,7 +5,11 @@ slug: "write_vault_config_readme_md_for_obsidian_vault_on"
 status: "done"
 priority: "P3"
 labels: ["config", "readme", "vault", "write"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.460Z"
+=======
+created_at: "2025-10-12T21:40:23.582Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Write vault-config README.md for Obsidian vault onboarding
 
 Placeholder task stub generated from kanban board.
@@ -704,6 +711,7 @@ how to open the repository as an Obsidian vault.
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -819,3 +827,5 @@ how to open the repository as an Obsidian vault.
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

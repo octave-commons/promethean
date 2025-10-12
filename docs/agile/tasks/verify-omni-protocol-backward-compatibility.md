@@ -2,10 +2,14 @@
 uuid: "cf8a09dd-5109-472d-98fd-899e8300643e"
 title: "Verify Omni protocol backward compatibility with SmartGPT bridge"
 slug: "verify-omni-protocol-backward-compatibility"
-status: "blocked"
+status: "breakdown"
 priority: "P1"
 labels: ["compatibility", "omni", "smartgpt", "testing"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:42:24.695Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -278,6 +282,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -392,6 +397,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🎯 Outcome
 
 Ensure complete backward compatibility between the new Omni protocol and existing SmartGPT bridge `/v1` responses, with compatibility tests and migration verification.
@@ -733,6 +740,7 @@ Ensure complete backward compatibility between the new Omni protocol and existin
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -847,3 +855,5 @@ Ensure complete backward compatibility between the new Omni protocol and existin
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

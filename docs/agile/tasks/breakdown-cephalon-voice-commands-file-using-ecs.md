@@ -5,7 +5,11 @@ slug: "breakdown-cephalon-voice-commands-file-using-ecs"
 status: "icebox"
 priority: "P3"
 labels: ["break", "cephalon", "down", "file"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:52:45.405Z"
+=======
+created_at: "2025-10-12T04:45:05.887Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -117,6 +121,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -392,6 +397,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Task: Break down cephalon voice commands file
 
 This file is *really* complex, and we just added an ECS to deal with it. So we're dealing with it.
@@ -507,6 +514,7 @@ This file is *really* complex, and we just added an ECS to deal with it. So we'r
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -782,3 +790,5 @@ This file is *really* complex, and we just added an ECS to deal with it. So we'r
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

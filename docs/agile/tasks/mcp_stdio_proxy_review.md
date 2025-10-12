@@ -5,7 +5,11 @@ slug: "mcp_stdio_proxy_review"
 status: "in_progress"
 priority: "P2"
 labels: ["bugfix", "mcp", "proxy", "stdio"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.579Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Scope
 Review MCP stdio proxy (`packages/mcp/src/proxy/*`, `src/bin/proxy.ts`) and land low-risk fixes.
 
@@ -692,6 +699,7 @@ Review MCP stdio proxy (`packages/mcp/src/proxy/*`, `src/bin/proxy.ts`) and land
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -807,3 +815,5 @@ Review MCP stdio proxy (`packages/mcp/src/proxy/*`, `src/bin/proxy.ts`) and land
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

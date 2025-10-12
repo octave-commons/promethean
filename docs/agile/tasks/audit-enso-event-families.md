@@ -5,7 +5,11 @@ slug: "audit-enso-event-families"
 status: "document"
 priority: "P2"
 labels: ["documentation", "protocol"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.579Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Description
 
 Ensure the newly expanded transport chapter stays aligned with the detailed
@@ -725,6 +732,7 @@ Focus on human review—no automated tooling expected beyond basic diffing.
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -840,3 +848,5 @@ Focus on human review—no automated tooling expected beyond basic diffing.
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

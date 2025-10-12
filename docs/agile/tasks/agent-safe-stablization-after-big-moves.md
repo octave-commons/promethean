@@ -5,7 +5,11 @@ slug: "agent-safe-stablization-after-big-moves"
 status: "todo"
 priority: "p3"
 labels: ["board", "lang"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Task: Agent-safe stabilization after big moves local hooks, zero-risk edits
 
 ## Contract (read this first)
@@ -916,6 +923,7 @@ If you want, I can convert this into a one-shot `stabilize-local.sh` that implem
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -1031,3 +1039,5 @@ If you want, I can convert this into a one-shot `stabilize-local.sh` that implem
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

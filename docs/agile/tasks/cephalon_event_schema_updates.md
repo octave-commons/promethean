@@ -5,7 +5,11 @@ slug: "cephalon_event_schema_updates"
 status: "incoming"
 priority: "P3"
 labels: ["agent", "cephalon", "event", "schema"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 Cephalon: Event schema updates for speech pipeline
 
 Goal: Define/align event topics and payloads for transcript and utterance lifecycle to make downstream processing consistent.
@@ -672,6 +679,7 @@ Exit Criteria:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -787,3 +795,5 @@ Exit Criteria:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

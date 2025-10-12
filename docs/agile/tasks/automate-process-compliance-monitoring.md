@@ -5,7 +5,11 @@ slug: "automate-process-compliance-monitoring"
 status: "incoming"
 priority: "P2"
 labels: ["analytics", "automation", "dashboard", "kanban", "monitoring", "process"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## Issue
 
 Current kanban system lacks automated monitoring of process compliance and workflow efficiency. No visibility into:
@@ -767,6 +774,7 @@ Current kanban system lacks automated monitoring of process compliance and workf
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -882,3 +890,5 @@ Current kanban system lacks automated monitoring of process compliance and workf
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

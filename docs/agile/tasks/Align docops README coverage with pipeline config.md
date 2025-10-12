@@ -2,10 +2,14 @@
 uuid: "4e1e4c3c-79e8-4f9e-9ba8-122297198bd3"
 title: "Align DocOps README coverage with pipeline config"
 slug: "Align docops README coverage with pipeline config"
-status: "todo"
+status: "ready"
 priority: "P3"
 labels: ["documentation", "pipeline"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -277,6 +281,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Align DocOps README coverage with pipeline config
 
 ### Context
@@ -679,6 +686,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -793,3 +801,5 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

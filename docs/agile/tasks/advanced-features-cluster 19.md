@@ -1,11 +1,25 @@
 ---
+<<<<<<< HEAD
 uuid: "9a836b53-7a9f-4586-be46-7f46dec5f6df"
+=======
+uuid: "1f5515ba-1378-4e06-b1b4-6a3772746aa5"
+>>>>>>> bug/kanban-duplication-issues
 title: "Advanced Features Cluster - AI Integration & Task Intelligence"
 slug: "advanced-features-cluster 19"
 status: "incoming"
 priority: "P2"
+<<<<<<< HEAD
+<<<<<<<< HEAD:docs/agile/tasks/advanced-features-cluster 19.md
 labels: ["ai-integration", "automation", "cluster", "mcp-server", "task-intelligence"]
 created_at: "2025-10-12T22:46:41.455Z"
+========
+labels: ["automation", "buildfix", "pipeline", "timeout"]
+created_at: "2025-10-12T21:40:23.576Z"
+>>>>>>>> bug/kanban-duplication-issues:docs/agile/tasks/fix-buildfix-pipeline-timeout-configuration-for-build-analysis-step-timeout-step 4.md
+=======
+labels: ["ai-integration", "automation", "cluster", "mcp-server", "task-intelligence"]
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -213,6 +227,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -443,3 +458,142 @@ estimates:
 
 
 
+<<<<<<<< HEAD:docs/agile/tasks/advanced-features-cluster 19.md
+========
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+>>>>>>>> bug/kanban-duplication-issues:docs/agile/tasks/fix-buildfix-pipeline-timeout-configuration-for-build-analysis-step-timeout-step 4.md
+=======
+>>>>>>> bug/kanban-duplication-issues

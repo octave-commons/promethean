@@ -5,7 +5,11 @@ slug: "fix-unified-test-coverage-collection-system"
 status: "incoming"
 priority: "P1"
 labels: ["coverage", "infrastructure", "testing"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.456Z"
+=======
+created_at: "2025-10-12T21:40:23.577Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 #incoming
 
 ## 🛠️ Description
@@ -716,6 +723,7 @@ Estimate: 3
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -831,3 +839,5 @@ Estimate: 3
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

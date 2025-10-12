@@ -5,7 +5,11 @@ slug: "draft-patch-processmd-additions-only"
 status: "incoming"
 priority: "P3"
 labels: ["docops", "labeled"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.576Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🗂 Source
 
 - Path: docs/labeled/2025.09.19.21.08.02.md
@@ -685,6 +692,7 @@ I’ve kept this tight and additive so we can discuss/apply safely.
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -800,3 +808,5 @@ I’ve kept this tight and additive so we can discuss/apply safely.
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

@@ -5,7 +5,11 @@ slug: "assemble-omni-service-host"
 status: "blocked"
 priority: "P2"
 labels: ["omni", "service"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🎯 Outcome
 
 Stand up `@promethean/omni-service`, a Fastify application that mounts REST, GraphQL, WebSocket, and MCP adapters on a single server/port with shared auth, RBAC, and lifecycle hooks.
@@ -684,6 +691,7 @@ Stand up `@promethean/omni-service`, a Fastify application that mounts REST, Gra
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -799,3 +807,5 @@ Stand up `@promethean/omni-service`, a Fastify application that mounts REST, Gra
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

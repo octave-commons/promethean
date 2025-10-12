@@ -5,7 +5,11 @@ slug: "set_up_makefile_for_python_js_build_test_dev"
 status: "done"
 priority: "P3"
 labels: ["makefile", "pnpm", "replace", "workflow"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.582Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Replace polyglot Makefile with pnpm-first workflow docs
 
 The repo already uses pnpm workspaces, TypeScript scripts, and `scripts/dev.mjs`. Instead of maintaining a cross-language
@@ -705,6 +712,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -820,3 +828,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

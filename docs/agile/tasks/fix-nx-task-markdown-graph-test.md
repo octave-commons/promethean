@@ -5,7 +5,11 @@ slug: "fix-nx-task-markdown-graph-test"
 status: "done"
 priority: "P1"
 labels: ["graph", "markdown", "promethean", "test"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.580Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Description
 
 Address failures when running the Nx test target for `@promethean/markdown-graph`.
@@ -677,6 +684,7 @@ Initial creation for the current session.
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -792,3 +800,5 @@ Initial creation for the current session.
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

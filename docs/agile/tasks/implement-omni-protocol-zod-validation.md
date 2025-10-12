@@ -5,7 +5,11 @@ slug: "implement-omni-protocol-zod-validation"
 status: "done"
 priority: "P1"
 labels: ["omni", "runtime", "validation", "zod"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.580Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🎯 Outcome
 
 Create comprehensive runtime validation schemas using Zod as the source of truth, with JSON Schema generation for adapter compatibility and validation helpers for all protocol types.
@@ -746,6 +753,7 @@ Create comprehensive runtime validation schemas using Zod as the source of truth
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -861,3 +869,5 @@ Create comprehensive runtime validation schemas using Zod as the source of truth
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

@@ -5,7 +5,11 @@ slug: "pr-688-nitpack-extract"
 status: "todo"
 priority: "P3"
 labels: ["688", "extract", "nitpack", "tasks"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.579Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ### `docs/agile/tasks/pr-688-nitpack-extract.md`
 
 **Title:** PR #688 — extract & dedupe review nits into actionable tasks
@@ -792,6 +799,7 @@ If the agent needs to auto-fill counts/globs:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -907,3 +915,5 @@ If the agent needs to auto-fill counts/globs:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

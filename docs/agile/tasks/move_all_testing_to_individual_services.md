@@ -5,7 +5,11 @@ slug: "move_all_testing_to_individual_services"
 status: "done"
 priority: "P3"
 labels: ["all", "individual", "move", "testing"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.582Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 #Duplicate
 #rejected
 
@@ -657,6 +664,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -772,3 +780,5 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

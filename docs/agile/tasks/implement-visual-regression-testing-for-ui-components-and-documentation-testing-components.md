@@ -5,7 +5,11 @@ slug: "implement-visual-regression-testing-for-ui-components-and-documentation-t
 status: "incoming"
 priority: "P3"
 labels: ["documentation", "regression-testing", "testing", "ui-components", "visual-testing"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.456Z"
+=======
+created_at: "2025-10-12T21:40:23.577Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 #incoming
 
 ## 🛠️ Description
@@ -728,6 +735,7 @@ Estimate: 8
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -843,3 +851,5 @@ Estimate: 8
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

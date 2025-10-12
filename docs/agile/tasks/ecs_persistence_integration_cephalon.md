@@ -5,7 +5,11 @@ slug: "ecs_persistence_integration_cephalon"
 status: "incoming"
 priority: "P3"
 labels: ["cephalon", "ecs", "integration", "persistence"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.576Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ECS Persistence Integration: Cephalon
 
 Goal: Wire Mongo-backed ECS adapter into Cephalon’s world so transcripts, utterances, and agent messages are persisted consistently.
@@ -672,6 +679,7 @@ Exit Criteria:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -787,3 +795,5 @@ Exit Criteria:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

@@ -2,10 +2,14 @@
 uuid: "3c4d5e6f"
 title: "Design Human-AI Co-User Interaction Patterns -os -ai-collaboration -user-patterns -design -partnership"
 slug: "design-human-ai-co-user-interaction-patterns-os-ai-collaboration-user-patterns-design-partnership"
-status: "blocked"
+status: "breakdown"
 priority: "high"
 labels: ["//]]", "agent-os", "co-user-patterns", "decision", "equal-partnership", "human-ai-collaboration", "interaction-design", "session", "tags"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:27.555Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -278,6 +282,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -392,6 +397,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Design Human-AI Co-User Interaction Patterns
 
 ## 🎯 Objective
@@ -1676,6 +1683,7 @@ interface SharedDecision {
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -1790,3 +1798,5 @@ interface SharedDecision {
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

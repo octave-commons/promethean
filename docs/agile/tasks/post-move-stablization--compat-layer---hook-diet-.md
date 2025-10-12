@@ -5,7 +5,11 @@ slug: "post-move-stablization--compat-layer---hook-diet-"
 status: "todo"
 priority: "p3"
 labels: ["board", "lang"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.579Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Task: Post-move stabilization compat layer + hook diet
 
 ## Objective
@@ -847,6 +854,7 @@ pre-commit run -a            # full sweep
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -962,3 +970,5 @@ pre-commit run -a            # full sweep
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

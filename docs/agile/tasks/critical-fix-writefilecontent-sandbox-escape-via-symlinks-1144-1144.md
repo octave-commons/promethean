@@ -5,7 +5,11 @@ slug: "critical-fix-writefilecontent-sandbox-escape-via-symlinks-1144-1144"
 status: "breakdown"
 priority: "P1"
 labels: ["bug", "critical", "github-1144", "immediate", "security"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:52:45.405Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -545,6 +549,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -775,3 +780,5 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

@@ -5,7 +5,11 @@ slug: "evaluate-optional-js-services-for-migration 3"
 status: "rejected"
 priority: "P3"
 labels: ["board", "lang"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.460Z"
+=======
+created_at: "2025-10-12T21:40:23.582Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -589,6 +593,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -819,3 +824,5 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

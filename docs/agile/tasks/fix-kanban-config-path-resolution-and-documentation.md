@@ -5,7 +5,11 @@ slug: "fix-kanban-config-path-resolution-and-documentation"
 status: "done"
 priority: "P2"
 labels: ["agents", "cli", "config", "documentation", "kanban"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.580Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Fix kanban config path resolution and document usage for agents
 
 ## 🐛 Problem Statement
@@ -780,6 +787,7 @@ The kanban CLI has a path resolution bug where when called from subdirectories, 
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -895,3 +903,5 @@ The kanban CLI has a path resolution bug where when called from subdirectories, 
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

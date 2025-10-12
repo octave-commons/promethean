@@ -5,7 +5,11 @@ slug: "auth_service_scaffold_and_endpoints"
 status: "incoming"
 priority: "P3"
 labels: ["auth", "endpoints", "scaffold", "service"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ```
 Auth Service: Scaffold + Endpoints
 ```
@@ -676,6 +683,7 @@ Exit Criteria:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -791,3 +799,5 @@ Exit Criteria:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

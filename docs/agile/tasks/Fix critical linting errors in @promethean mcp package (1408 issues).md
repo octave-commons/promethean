@@ -5,7 +5,11 @@ slug: "Fix critical linting errors in @promethean mcp package (1408 issues)"
 status: "incoming"
 priority: "P1"
 labels: ["errors", "critical", "issues", "typescript"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 MCP package has the most linting issues (1408 problems, 454 errors). Need to focus on critical errors only:
 
 ## Critical Errors to Fix:
@@ -689,6 +696,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -804,3 +812,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

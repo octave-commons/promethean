@@ -5,7 +5,11 @@ slug: "document_board_usage_guidelines_1"
 status: "done"
 priority: "P3"
 labels: ["board", "document", "guidelines", "usage"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.580Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Document board usage guidelines
 
 Provide a concise how-to for contributors on interacting with the Obsidian Kanban board. Include common conventions, WIP limits, and tips for linking tasks.
@@ -699,6 +706,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -814,3 +822,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

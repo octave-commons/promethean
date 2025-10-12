@@ -5,7 +5,11 @@ slug: "twitch_discord_general_auto_mod"
 status: "icebox"
 priority: "P3"
 labels: ["discord", "general", "mod", "twitch"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.454Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 Got you. Here’s a tightened, build-ready version with the “learned rules + formal policy” vibe, plus a quick diagram.
 
 ---
@@ -789,6 +796,7 @@ If you want, I can spin this into a canvas-ready policy DSL starter schema + a f
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -904,3 +912,5 @@ If you want, I can spin this into a canvas-ready policy DSL starter schema + a f
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

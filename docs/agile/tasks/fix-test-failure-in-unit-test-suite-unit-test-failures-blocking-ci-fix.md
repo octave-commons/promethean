@@ -5,7 +5,11 @@ slug: "fix-test-failure-in-unit-test-suite-unit-test-failures-blocking-ci-fix"
 status: "incoming"
 priority: "P1"
 labels: ["automation", "emergency", "test-fix", "testing"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.456Z"
+=======
+created_at: "2025-10-12T21:40:23.577Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -541,6 +545,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -771,3 +776,5 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

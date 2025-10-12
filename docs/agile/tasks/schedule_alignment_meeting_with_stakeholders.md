@@ -5,7 +5,11 @@ slug: "schedule_alignment_meeting_with_stakeholders"
 status: "icebox"
 priority: "P3"
 labels: ["alignment", "meeting", "schedule", "stakeholders"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.454Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Schedule alignment meeting with stakeholders
 
 Organize a meeting to discuss the open questions about Promethean and confirm project goals.
@@ -700,6 +707,7 @@ Organize a meeting to discuss the open questions about Promethean and confirm pr
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -815,3 +823,5 @@ Organize a meeting to discuss the open questions about Promethean and confirm pr
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

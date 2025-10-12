@@ -5,7 +5,11 @@ slug: "periodicly-the-embedding-service-will-get-disconnected-from-the-broker-an
 status: "done"
 priority: "P3"
 labels: ["broker", "embedding", "service", "sometimes"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.582Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 Here’s a surgical expansion you can drop into the board. Goal: make the **embedding service** fail fast, get killed when it’s unhealthy, and stop blocking dependents. No vibes—just guards, telemetry, and hard interlocks.
 
 # Embedding service sometimes disconnects from broker and hangs → detect, shed, kill, recover
@@ -918,6 +925,7 @@ fix(embeddings): kill-on-disconnect/stall + admission control + heartbeat kill p
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -1033,3 +1041,5 @@ fix(embeddings): kill-on-disconnect/stall + admission control + heartbeat kill p
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

@@ -5,7 +5,11 @@ slug: "connect-reddit"
 status: "icebox"
 priority: "P3"
 labels: ["agent", "api", "integrate", "reddit"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.454Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Description
 
 Integrate Reddit so agents can read and post subreddit content using the Reddit REST API with OAuth2.
@@ -731,6 +738,7 @@ No blockers.
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -846,3 +854,5 @@ No blockers.
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

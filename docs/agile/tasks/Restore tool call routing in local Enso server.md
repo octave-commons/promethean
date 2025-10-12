@@ -5,7 +5,11 @@ slug: "Restore tool call routing in local Enso server"
 status: "incoming"
 priority: "P1"
 labels: ["cephalon", "tests"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 The local harness for `@promethean/cephalon` spins up an `EnsoServer`, but no router handler forwards `tool.call` envelopes to
 the agent client. Without a handler the router drops those messages, so tests waiting for `tool.result` never observe a
 response and time out.
@@ -669,6 +676,7 @@ response and time out.
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -784,3 +792,5 @@ response and time out.
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

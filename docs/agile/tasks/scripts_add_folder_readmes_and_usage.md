@@ -5,7 +5,11 @@ slug: "scripts_add_folder_readmes_and_usage"
 status: "incoming"
 priority: "P3"
 labels: ["add", "folder", "readmes", "scripts"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 Scripts: Add READMEs and usage docs per folder
 
 Goal: Ensure each scripts subfolder has a README with purpose, dependencies, environment, and examples.
@@ -671,6 +678,7 @@ Exit Criteria:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -786,3 +794,5 @@ Exit Criteria:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

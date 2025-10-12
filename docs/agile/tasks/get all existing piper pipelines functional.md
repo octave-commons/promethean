@@ -2,10 +2,14 @@
 uuid: "8b3c665c-d6ff-4a0a-9fb9-b2dbefa35fb4"
 title: "Get all existing pipelines functional"
 slug: "get all existing piper pipelines functional"
-status: "breakdown"
+status: "icebox"
 priority: "P3"
 labels: ["existing", "get", "name", "pipelines"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -277,6 +281,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Get all existing pipelines functional
 We've started working on several pipelines but only one of them works to any meaningful extant.
 Most of them were set up before I thought about a "piper".
@@ -706,6 +713,7 @@ but they do not work with piper
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -820,3 +828,5 @@ but they do not work with piper
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

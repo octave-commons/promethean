@@ -5,7 +5,11 @@ slug: "human-and-agent-experience-quick-recipes"
 status: "incoming"
 priority: "P3"
 labels: ["docops", "labeled"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.456Z"
+=======
+created_at: "2025-10-12T21:40:23.577Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🗂 Source
 
 - Path: docs/labeled/2025.10.06.14.11.46.md
@@ -688,6 +695,7 @@ Short version: yes—letting folks write filters in tiny ClojureScript forms is 
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -803,3 +811,5 @@ Short version: yes—letting folks write filters in tiny ClojureScript forms is 
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

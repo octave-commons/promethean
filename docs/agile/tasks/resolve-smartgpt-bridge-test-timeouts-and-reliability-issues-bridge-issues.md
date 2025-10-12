@@ -5,7 +5,11 @@ slug: "resolve-smartgpt-bridge-test-timeouts-and-reliability-issues-bridge-issue
 status: "incoming"
 priority: "P1"
 labels: ["performance", "smartgpt-bridge", "testing", "timeout-issues"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.456Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 #incoming
 
 ## 🛠️ Description
@@ -724,6 +731,7 @@ Estimate: 8
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -839,3 +847,5 @@ Estimate: 8
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

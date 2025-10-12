@@ -5,7 +5,11 @@ slug: "fully-convert-js-ts-projects-to-pnpm-incoming"
 status: "icebox"
 priority: "P3"
 labels: ["convert", "fully", "pnpm", "projects"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:52:45.405Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -277,6 +281,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -392,6 +397,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Description
 
 
@@ -702,6 +709,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -817,3 +825,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

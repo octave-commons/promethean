@@ -5,7 +5,11 @@ slug: "something-something.-1"
 status: "icebox"
 priority: "p3"
 labels: ["changes", "context", "something", "span"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.454Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ```
 <hr class="__chatgpt_plugin">
 ```
@@ -790,6 +797,7 @@ Implement natural language processing (NLP) capabilities to enhance knowledge ba
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -905,3 +913,5 @@ Implement natural language processing (NLP) capabilities to enhance knowledge ba
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

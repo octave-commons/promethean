@@ -5,7 +5,11 @@ slug: "make-the-system-hashtag-aware"
 status: "done"
 priority: "P3"
 labels: ["aware", "hashtag", "hashtags", "make"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.582Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Description
 
 We want agents to be aware of the available hashtags using the vault graph service
@@ -688,6 +695,7 @@ Useful for agents to engage in append only conversations about this task.
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -803,3 +811,5 @@ Useful for agents to engage in append only conversations about this task.
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

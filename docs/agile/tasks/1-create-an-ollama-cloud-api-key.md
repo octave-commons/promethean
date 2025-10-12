@@ -5,7 +5,11 @@ slug: "1-create-an-ollama-cloud-api-key"
 status: "icebox"
 priority: "P3"
 labels: ["docops", "labeled"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.453Z"
+=======
+created_at: "2025-10-12T21:40:23.574Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🗂 Source
 
 - Path: docs/labeled/2025.10.08.01.04.18.md
@@ -696,6 +703,7 @@ Ollama Cloud’s API host is `https:/
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -811,3 +819,5 @@ Ollama Cloud’s API host is `https:/
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

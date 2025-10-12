@@ -5,7 +5,11 @@ slug: "fix-ci-environment-nodejs-and-pnpm-version-inconsistencies-cd-system"
 status: "ready"
 priority: "P2"
 labels: ["build-system", "ci", "environment", "nodejs", "pnpm"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## Issue
 
 CI pipeline experiencing environment inconsistencies:
@@ -701,6 +708,7 @@ The CI environment is not properly locked to the exact versions specified in the
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -816,3 +824,5 @@ The CI environment is not properly locked to the exact versions specified in the
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

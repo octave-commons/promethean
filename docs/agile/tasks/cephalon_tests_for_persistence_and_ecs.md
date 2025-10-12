@@ -5,7 +5,11 @@ slug: "cephalon_tests_for_persistence_and_ecs"
 status: "icebox"
 priority: "P3"
 labels: ["agent", "ecs", "persistence", "tests"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.454Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 Cephalon: Tests for persistence and ECS flow
 
 Goal: Add tests to ensure transcripts and agent messages are stored during ECS-driven conversations.
@@ -672,6 +679,7 @@ Notes:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -787,3 +795,5 @@ Notes:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

@@ -5,7 +5,11 @@ slug: "setup_a_second_agent"
 status: "icebox"
 priority: "P3"
 labels: ["agent", "agents", "second", "setup"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.454Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Description
 
 Get a second agent running so we can have the two  talk to each other, and  get an opertunity to abstract the creation of agents like mentioned  in [Update makefile to have commands specific for agents](Update%20makefile%20to%20have%20commands%20specific%20for%20agents.md)
@@ -701,6 +708,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -816,3 +824,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

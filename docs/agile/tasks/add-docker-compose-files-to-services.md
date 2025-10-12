@@ -5,7 +5,11 @@ slug: "add-docker-compose-files-to-services"
 status: "icebox"
 priority: "p3"
 labels: ["add", "compose", "docker", "files"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.454Z"
+=======
+created_at: "2025-10-12T21:40:23.574Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ```
 <hr class="__chatgpt_plugin">
 ```
@@ -664,6 +671,7 @@ Why did I split everything up in the first place...
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -779,3 +787,5 @@ Why did I split everything up in the first place...
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

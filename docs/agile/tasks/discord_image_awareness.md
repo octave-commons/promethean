@@ -5,7 +5,11 @@ slug: "discord_image_awareness"
 status: "icebox"
 priority: "P3"
 labels: ["awareness", "discord", "image", "images"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.454Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -277,6 +281,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -392,6 +397,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Description
 ```
 **Status:** blocked
@@ -723,6 +730,7 @@ This allows the “Duck” to have **visual memory** tied to conversational cont
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -838,3 +846,5 @@ This allows the “Duck” to have **visual memory** tied to conversational cont
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

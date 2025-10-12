@@ -5,7 +5,11 @@ slug: "integrate-sonarqube-into-devops"
 status: "incoming"
 priority: "P3"
 labels: ["devops", "integrate", "pipeline", "sonarqube"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.456Z"
+=======
+created_at: "2025-10-12T21:40:23.577Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ### **Task: Integrate SonarQube into DevOps Pipeline**  
 ```
 **Description**:
@@ -678,6 +685,7 @@ Add SonarQube to your DevOps pipeline to enforce code quality checks, detect bug
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -793,3 +801,5 @@ Add SonarQube to your DevOps pipeline to enforce code quality checks, detect bug
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

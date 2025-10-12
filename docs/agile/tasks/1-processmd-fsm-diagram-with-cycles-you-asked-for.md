@@ -5,7 +5,11 @@ slug: "1-processmd-fsm-diagram-with-cycles-you-asked-for"
 status: "incoming"
 priority: "P3"
 labels: ["docops", "labeled"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🗂 Source
 
 - Path: docs/labeled/2025.09.19.23.36.38.md
@@ -699,6 +706,7 @@ Below are tight, ready-to-paste blocks. Nothing else.
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -814,3 +822,5 @@ Below are tight, ready-to-paste blocks. Nothing else.
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

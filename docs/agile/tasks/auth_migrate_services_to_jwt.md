@@ -5,7 +5,11 @@ slug: "auth_migrate_services_to_jwt"
 status: "incoming"
 priority: "P3"
 labels: ["auth", "jwt", "migrate", "services"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 Auth: Migrate services to JWT-based auth
 
 Goal: Replace ad hoc/static tokens with OAuth2 client_credentials + JWT across internal HTTP endpoints.
@@ -671,6 +678,7 @@ Exit Criteria:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -786,3 +794,5 @@ Exit Criteria:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

@@ -5,7 +5,11 @@ slug: "fix_failing_tests_suite"
 status: "done"
 priority: "P2"
 labels: ["stabilization", "testing"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.580Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🧭 Context
 - **What changed?**: Incoming bug report indicates some unit tests in the Promethean monorepo are currently failing on main.
 - **Where?**: Tests appear in the shared `tests/` workspace.
@@ -684,6 +691,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -799,3 +807,5 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

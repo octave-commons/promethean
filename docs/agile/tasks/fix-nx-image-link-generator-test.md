@@ -5,7 +5,11 @@ slug: "fix-nx-image-link-generator-test"
 status: "done"
 priority: "P2"
 labels: ["generator", "image", "link", "test"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.580Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # In Review
 
 ## 🛠️ Description
@@ -706,6 +713,7 @@ Estimate: 3
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -821,3 +829,5 @@ Estimate: 3
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

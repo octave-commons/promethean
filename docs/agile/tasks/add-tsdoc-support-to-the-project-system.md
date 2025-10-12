@@ -5,7 +5,11 @@ slug: "add-tsdoc-support-to-the-project-system"
 status: "blocked"
 priority: "P2"
 labels: ["build-system", "documentation", "typescript"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Add TSDoc Support to the Project
 
 ## Overview
@@ -718,6 +725,7 @@ TBD - needs assignment
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -833,3 +841,5 @@ TBD - needs assignment
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

@@ -5,7 +5,11 @@ slug: "Design mermaid to Piper DSL compiler"
 status: "todo"
 priority: "P4"
 labels: ["pipelines", "tooling"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Design mermaid to Piper DSL compiler
 
 ### Context
@@ -679,6 +686,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -794,3 +802,5 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

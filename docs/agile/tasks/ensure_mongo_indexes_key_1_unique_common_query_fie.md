@@ -5,7 +5,11 @@ slug: "ensure_mongo_indexes_key_1_unique_common_query_fie"
 status: "done"
 priority: "P3"
 labels: ["ensure", "indexes", "mongo", "unique"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.580Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Ensure Mongo indexes: `{ _key: 1 } unique` + common query fields
 
 Generated from ../unique/2025.08.08.20.08.56.md$../unique/2025.08.08.20.08.56.md
@@ -678,6 +685,7 @@ Generated from ../unique/2025.08.08.20.08.56.md$../unique/2025.08.08.20.08.56.md
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -793,3 +801,5 @@ Generated from ../unique/2025.08.08.20.08.56.md$../unique/2025.08.08.20.08.56.md
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

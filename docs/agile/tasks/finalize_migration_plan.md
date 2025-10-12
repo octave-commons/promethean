@@ -5,7 +5,11 @@ slug: "finalize_migration_plan"
 status: "ready"
 priority: "P3"
 labels: ["finalize", "migration", "plan", "unique"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: [Finalize `MIGRATION_PLAN.md`]
 
 Generated from ../unique/2025.07.28.18.07.20.md$../unique/2025.07.28.18.07.20.md
@@ -689,6 +696,7 @@ Epic: [[epics#🛠 Developer Tooling & Build Pipeline]]
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -804,3 +812,5 @@ Epic: [[epics#🛠 Developer Tooling & Build Pipeline]]
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

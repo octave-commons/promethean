@@ -5,7 +5,11 @@ slug: "fix-smartgpt-bridge-grep-test"
 status: "blocked"
 priority: "p2"
 labels: ["board", "epic", "lang", "owner", "priority", "state", "task"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## Context
 
 - **What changed?**: CI surfaced a failure for `grep: matches ripgrep output with context and flags`.
@@ -686,6 +693,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -801,3 +809,5 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

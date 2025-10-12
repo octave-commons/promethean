@@ -5,7 +5,11 @@ slug: "make_discord_channel_aware_contextualizer"
 status: "done"
 priority: "P3"
 labels: ["aware", "channel", "discord", "make"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.582Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Description
 
 Set up a mechanism to define new context creations based specifically off a discord channel with custom rules and prompting logic
@@ -701,6 +708,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -816,3 +824,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

@@ -5,7 +5,11 @@ slug: "decouple_from_ollama"
 status: "done"
 priority: "P3"
 labels: ["decouple", "llm", "ollama", "system"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.579Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Add Ollama formally to pipeline
 
 It's difficult to get the system running for codex and CI/CD for them to properly run integration tests, or  just to sanity  test that it starts.
@@ -707,6 +714,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -822,3 +830,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

@@ -5,7 +5,11 @@ slug: "doc-driven-workflow-diagram"
 status: "incoming"
 priority: "P3"
 labels: ["docops", "labeled"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.576Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🗂 Source
 
 - Path: docs/labeled/2025.09.21.12.49.02.md
@@ -670,6 +677,7 @@ At some point I want a flow that'll use the rejected and final states to learn w
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -785,3 +793,5 @@ At some point I want a flow that'll use the rejected and final states to learn w
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

@@ -5,7 +5,11 @@ slug: "allow_configuration_of_hyperparameters_through_discord_context_size_spect
 status: "done"
 priority: "P3"
 labels: ["allow", "configuration", "discord", "hyperparameters"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.579Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Description
 
 Expose Discord commands that let users tune audio processing hyperparameters—context
@@ -761,6 +768,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -876,3 +884,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

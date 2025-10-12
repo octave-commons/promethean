@@ -5,7 +5,11 @@ slug: "add_ops_endpoint_to_list_partition_assignments_opt"
 status: "done"
 priority: "P3"
 labels: ["add", "endpoint", "list", "ops"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.579Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Add `/ops` endpoint to list **partition assignments** (optional: dump coordinator state)
 
 Generated from ../unique/2025.08.08.20.08.56.md$../unique/2025.08.08.20.08.56.md
@@ -678,6 +685,7 @@ Generated from ../unique/2025.08.08.20.08.56.md$../unique/2025.08.08.20.08.56.md
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -793,3 +801,5 @@ Generated from ../unique/2025.08.08.20.08.56.md$../unique/2025.08.08.20.08.56.md
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

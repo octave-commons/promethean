@@ -5,7 +5,11 @@ slug: "audio-processing-service"
 status: "done"
 priority: "P3"
 labels: ["agents", "audio", "processing", "service"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.579Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Description
 
 Isolate audio manipulation (e.g., encoding, normalization, filtering) into a dedicated stateless service rather than embedding logic in agents or providers.
@@ -713,6 +720,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -828,3 +836,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

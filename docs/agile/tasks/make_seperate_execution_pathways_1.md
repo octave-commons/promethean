@@ -5,7 +5,11 @@ slug: "make_seperate_execution_pathways_1"
 status: "done"
 priority: "P3"
 labels: ["execution", "make", "pathways", "seperate"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.582Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Description
 
 I have a GPU on my desktop, the target production environment, but testing environments don't
@@ -710,6 +717,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -825,3 +833,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

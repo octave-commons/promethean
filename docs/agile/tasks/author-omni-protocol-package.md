@@ -5,7 +5,11 @@ slug: "author-omni-protocol-package"
 status: "ready"
 priority: "P1"
 labels: ["omni", "package", "typescript"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🎯 Outcome
 
 Ship the initial `@promethean/omni-protocol` package containing TypeScript interfaces, JSON schema emitters, error envelopes, and streaming event definitions that mirror the SmartGPT bridge contracts.
@@ -691,6 +698,7 @@ Ship the initial `@promethean/omni-protocol` package containing TypeScript inter
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -806,3 +814,5 @@ Ship the initial `@promethean/omni-protocol` package containing TypeScript inter
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

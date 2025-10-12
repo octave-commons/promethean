@@ -5,7 +5,11 @@ slug: "ecs_migration_path_docs"
 status: "incoming"
 priority: "P3"
 labels: ["docs", "ecs", "migration", "path"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.576Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ECS Migration Path Documentation
 
 Goal: Document how to migrate each service to ECS-backed persistence incrementally.
@@ -668,6 +675,7 @@ Exit Criteria:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -783,3 +791,5 @@ Exit Criteria:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

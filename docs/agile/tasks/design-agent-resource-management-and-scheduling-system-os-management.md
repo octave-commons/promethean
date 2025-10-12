@@ -2,10 +2,14 @@
 uuid: "5c8e3d9f"
 title: "Design Agent Resource Management and Scheduling System -os -management"
 slug: "design-agent-resource-management-and-scheduling-system-os-management"
-status: "blocked"
+status: "breakdown"
 priority: "high"
 labels: ["agent-os", "optimization", "performance", "resource-management", "scheduling"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:27.555Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -278,6 +282,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -392,6 +397,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Design Agent Resource Management and Scheduling System
 
 ## 🎯 Objective
@@ -1639,6 +1646,7 @@ interface ScalingTrigger {
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -1753,3 +1761,5 @@ interface ScalingTrigger {
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

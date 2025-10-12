@@ -5,7 +5,11 @@ slug: "enso-handshake-guard-env-timeout-and-cache"
 status: "ready"
 priority: "P2"
 labels: ["enso", "gateway", "handshake", "ops"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 #Todo
 
 ## 🛠️ Description
@@ -670,6 +677,7 @@ Add `ENSO_HANDSHAKE_TIMEOUT_MS` env override. Short-circuit `ensureHandshake()` 
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -785,3 +793,5 @@ Add `ENSO_HANDSHAKE_TIMEOUT_MS` env override. Short-circuit `ensureHandshake()` 
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

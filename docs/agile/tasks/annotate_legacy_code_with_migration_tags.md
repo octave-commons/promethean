@@ -5,7 +5,11 @@ slug: "annotate_legacy_code_with_migration_tags"
 status: "icebox"
 priority: "P3"
 labels: ["annotate", "legacy", "migration", "tags"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.454Z"
+=======
+created_at: "2025-10-12T21:40:23.574Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Annotate legacy code with migration tags
 
 Placeholder task stub generated from kanban board.
@@ -708,6 +715,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -823,3 +831,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

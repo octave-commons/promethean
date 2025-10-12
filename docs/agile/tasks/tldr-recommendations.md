@@ -5,7 +5,11 @@ slug: "tldr-recommendations"
 status: "incoming"
 priority: "P3"
 labels: ["docops", "labeled"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🗂 Source
 
 - Path: docs/labeled/2025.10.07.22.13.53.md
@@ -681,6 +688,7 @@ below is a compact, practical pipeline that’s unsloth-native, runs **Aider Pol
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -796,3 +804,5 @@ below is a compact, practical pipeline that’s unsloth-native, runs **Aider Pol
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

@@ -5,7 +5,11 @@ slug: "scripts_add_make_targets_and_aliases"
 status: "incoming"
 priority: "P3"
 labels: ["add", "kanban", "scripts", "targets"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 Scripts: Add Make targets and aliases
 
 Goal: Provide Make targets for common script flows (kanban sync, WIP sheriff, docs fixes) for consistent local/CI usage.
@@ -672,6 +679,7 @@ Exit Criteria:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -787,3 +795,5 @@ Exit Criteria:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

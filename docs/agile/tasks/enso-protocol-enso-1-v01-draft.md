@@ -5,7 +5,11 @@ slug: "enso-protocol-enso-1-v01-draft"
 status: "incoming"
 priority: "P3"
 labels: ["docops", "labeled"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.456Z"
+=======
+created_at: "2025-10-12T21:40:23.576Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🗂 Source
 
 - Path: docs/labeled/2025.09.18.16.34.14.md
@@ -706,6 +713,7 @@ Small JSON payloads (chat, acts, tool boundary events).
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -821,3 +829,5 @@ Small JSON payloads (chat, acts, tool boundary events).
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

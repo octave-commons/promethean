@@ -1,11 +1,29 @@
 ---
+<<<<<<< HEAD
+<<<<<<<< HEAD:docs/agile/tasks/kanban-board-refinement-and-cleanup 29.md
 uuid: "8cc2f982-6f78-4c93-ac22-b235b98fb553"
+=======
+uuid: "68242c19-8083-4b14-b670-f4d28b28510b"
+>>>>>>> bug/kanban-duplication-issues
 title: "Comprehensive MCP Files Endpoint Testing     )"
 slug: "kanban-board-refinement-and-cleanup 29"
 status: "done"
 priority: "P2"
 labels: ["mcp", "security", "testing"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+========
+uuid: "d5f2ecec-b692-4a2e-8377-b7e6a5097640"
+title: "Pipeline BuildFix & Automation Epic"
+slug: "pipeline-buildfix-epic 2"
+status: "rejected"
+priority: "P0"
+labels: ["automation", "buildfix", "epic", "pipeline", "timeout"]
+created_at: "2025-10-12T21:40:23.583Z"
+>>>>>>>> bug/kanban-duplication-issues:docs/agile/tasks/pipeline-buildfix-epic 2.md
+=======
+created_at: "2025-10-12T21:40:23.580Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -213,6 +231,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -443,3 +462,172 @@ estimates:
 
 
 
+<<<<<<<< HEAD:docs/agile/tasks/kanban-board-refinement-and-cleanup 29.md
+========
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+>>>>>>>> bug/kanban-duplication-issues:docs/agile/tasks/pipeline-buildfix-epic 2.md
+=======
+>>>>>>> bug/kanban-duplication-issues

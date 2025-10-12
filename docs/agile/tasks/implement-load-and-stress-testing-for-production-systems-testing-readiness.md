@@ -5,7 +5,11 @@ slug: "implement-load-and-stress-testing-for-production-systems-testing-readines
 status: "incoming"
 priority: "P3"
 labels: ["load-testing", "performance", "production-readiness", "stress-testing", "testing"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.456Z"
+=======
+created_at: "2025-10-12T21:40:23.577Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 #incoming
 
 ## 🛠️ Description
@@ -728,6 +735,7 @@ Estimate: 13
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -843,3 +851,5 @@ Estimate: 13
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

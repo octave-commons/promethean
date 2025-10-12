@@ -1,11 +1,29 @@
 ---
+<<<<<<< HEAD
+<<<<<<<< HEAD:docs/agile/tasks/comprehensive-board-analysis 19.md
 uuid: "f05027ea-9568-4335-bb16-6872cdb00930"
+=======
+uuid: "8df8eccc-992c-4cd2-94a1-cc10bd658253"
+>>>>>>> bug/kanban-duplication-issues
 title: "Comprehensive Kanban Board Analysis - Strategic Insights & Recommendations"
 slug: "comprehensive-board-analysis 19"
 status: "incoming"
 priority: "P1"
 labels: ["analysis", "governance", "health-check", "recommendations", "strategy"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+========
+uuid: "6e54f7c8-974e-497d-8266-d53d698d3ba5"
+title: "Fix buildfix pipeline timeout configuration for Build analysis step timeout"
+slug: "emergency-buildfix-pipeline-timeout 5"
+status: "incoming"
+priority: "P1"
+labels: ["automation", "emergency", "pipeline", "timeout"]
+created_at: "2025-10-12T21:40:23.576Z"
+>>>>>>>> bug/kanban-duplication-issues:docs/agile/tasks/emergency-buildfix-pipeline-timeout 5.md
+=======
+created_at: "2025-10-12T21:40:23.576Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -27,6 +45,10 @@ estimates:
 
 
 
+<<<<<<< HEAD
+<<<<<<<< HEAD:docs/agile/tasks/comprehensive-board-analysis 19.md
+=======
+>>>>>>> bug/kanban-duplication-issues
 
 
 
@@ -213,6 +235,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -443,3 +466,7 @@ estimates:
 
 
 
+========
+>>>>>>>> bug/kanban-duplication-issues:docs/agile/tasks/emergency-buildfix-pipeline-timeout 5.md
+=======
+>>>>>>> bug/kanban-duplication-issues

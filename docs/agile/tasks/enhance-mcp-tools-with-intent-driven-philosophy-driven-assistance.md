@@ -5,7 +5,11 @@ slug: "enhance-mcp-tools-with-intent-driven-philosophy-driven-assistance"
 status: "incoming"
 priority: "P1"
 labels: ["ai-assistance", "enhancement", "intent-driven", "mcp"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.456Z"
+=======
+created_at: "2025-10-12T21:40:23.576Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Enhance MCP tools with intent-driven philosophy
 
 ## Description
@@ -981,6 +988,7 @@ The intent-driven philosophy creates tools that not only perform actions but tea
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -1096,3 +1104,5 @@ The intent-driven philosophy creates tools that not only perform actions but tea
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

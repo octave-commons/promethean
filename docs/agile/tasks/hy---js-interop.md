@@ -5,7 +5,11 @@ slug: "hy---js-interop"
 status: "done"
 priority: "P3"
 labels: ["description", "javascript", "modules", "step"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.580Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Description
 
 Make it easier to use js from hy and hy from js
@@ -704,6 +711,7 @@ Blocked: requires decisions on runtime bridging tools.
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -819,3 +827,5 @@ Blocked: requires decisions on runtime bridging tools.
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

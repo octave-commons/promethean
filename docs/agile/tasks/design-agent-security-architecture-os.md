@@ -5,7 +5,11 @@ slug: "design-agent-security-architecture-os"
 status: "incoming"
 priority: "P1"
 labels: ["agent-os", "authentication", "compliance", "design", "sandboxing", "security"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.576Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Design Agent Security Architecture
 
 ## Overview
@@ -1371,6 +1378,7 @@ graph TB
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -1486,3 +1494,5 @@ graph TB
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

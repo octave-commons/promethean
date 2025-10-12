@@ -1,11 +1,19 @@
 ---
+<<<<<<< HEAD
 uuid: "79c65822-1798-44e3-aff4-4f114bfbe456"
+=======
+uuid: "326976e5-b983-447b-a2dc-08d9782fcb62"
+>>>>>>> bug/kanban-duplication-issues
 title: "Add interactive task management and auto-updates to boardrev      )"
 slug: "boardrev-piper-integration 3"
 status: "icebox"
 priority: "P2"
 labels: ["automation", "boardrev", "enhancement", "management"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.454Z"
+=======
+created_at: "2025-10-12T21:40:23.574Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -17,6 +25,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -443,3 +452,5 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

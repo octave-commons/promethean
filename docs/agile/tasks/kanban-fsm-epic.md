@@ -5,7 +5,11 @@ slug: "kanban-fsm-epic"
 status: "blocked"
 priority: "P1"
 labels: ["automation", "epic", "fsm", "kanban", "process"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -277,6 +281,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -392,6 +397,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Kanban FSM & Process Modernization Epic
 
 ## Overview
@@ -741,6 +748,7 @@ This epic is critical for improving process governance and workflow automation. 
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -856,3 +864,5 @@ This epic is critical for improving process governance and workflow automation. 
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

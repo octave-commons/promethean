@@ -5,7 +5,11 @@ slug: "clean-event-log-orphans"
 status: "incoming"
 priority: "P2"
 labels: ["maintenance", "mcp", "kanban"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## Objective
 Remove or archive the orphaned event log entries (e.g., `security-test-1`, `stress-task-*`, `../../../etc/passwd`) reported by `pnpm kanban audit`, keeping the audit output noise-free and ensuring the log reflects real tasks.
 
@@ -667,6 +674,7 @@ Remove or archive the orphaned event log entries (e.g., `security-test-1`, `stre
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -782,3 +790,5 @@ Remove or archive the orphaned event log entries (e.g., `security-test-1`, `stre
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

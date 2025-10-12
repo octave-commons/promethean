@@ -2,10 +2,14 @@
 uuid: "7ac178ae-b95a-465c-a3e7-603c5a4b64b4"
 title: "tree diffing tools"
 slug: "tree-diffing-tools"
-status: "breakdown"
+status: "icebox"
 priority: "p3"
 labels: ["changes", "diffing", "tools", "tree"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -277,6 +281,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ```
 <hr class="__chatgpt_plugin">
 ```
@@ -707,6 +714,7 @@ You might find [this](link) useful while working on this task.
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -821,3 +829,5 @@ You might find [this](link) useful while working on this task.
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

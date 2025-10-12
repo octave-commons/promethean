@@ -5,7 +5,11 @@ slug: "universal-package-manager"
 status: "done"
 priority: "P3"
 labels: ["description", "step", "upm", "useful"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.460Z"
+=======
+created_at: "2025-10-12T21:40:23.582Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Description
 
 Describe your task
@@ -756,6 +763,7 @@ UPM is clever glue. You don’t need glue; you need **determinism, workspaces, a
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -871,3 +879,5 @@ UPM is clever glue. You don’t need glue; you need **determinism, workspaces, a
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

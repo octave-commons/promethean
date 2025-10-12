@@ -5,7 +5,11 @@ slug: "add_twitch_chat_integration"
 status: "icebox"
 priority: "P3"
 labels: ["add", "chat", "integration", "twitch"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.454Z"
+=======
+created_at: "2025-10-12T21:40:23.574Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -277,6 +281,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -392,6 +397,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Description
 ```
 **Status:** blocked
@@ -715,6 +722,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -830,3 +838,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

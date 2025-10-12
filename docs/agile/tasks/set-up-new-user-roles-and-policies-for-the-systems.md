@@ -5,7 +5,11 @@ slug: "set-up-new-user-roles-and-policies-for-the-systems"
 status: "ready"
 priority: "P3"
 labels: ["policies", "set", "user", "want"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Description
 
 Right now we only have an admin role and a simple policy matrix.
@@ -693,6 +700,7 @@ Useful for agents to engage in append only conversations about this task.
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -808,3 +816,5 @@ Useful for agents to engage in append only conversations about this task.
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

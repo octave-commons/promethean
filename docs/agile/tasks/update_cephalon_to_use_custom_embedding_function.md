@@ -5,7 +5,11 @@ slug: "update_cephalon_to_use_custom_embedding_function"
 status: "done"
 priority: "P3"
 labels: ["cephalon", "function", "update", "use"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.460Z"
+=======
+created_at: "2025-10-12T21:40:23.582Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Update cephalon to use custom embedding function
 
 Design notes point toward replacing the default Chroma embeddings with a lightweight Python service. Cephalon should call this service when generating context vectors.
@@ -724,6 +731,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -839,3 +847,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

@@ -5,7 +5,11 @@ slug: "duck-audio-share-clamp-constants-across-browsernode-audio"
 status: "todo"
 priority: "P3"
 labels: ["duck-audio", "shared", "tests"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 #Todo
 
 ## 🛠️ Description
@@ -672,6 +679,7 @@ Extract clamp and decimation ratio constants for reuse; fix test import typos.
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -787,3 +795,5 @@ Extract clamp and decimation ratio constants for reuse; fix test import typos.
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

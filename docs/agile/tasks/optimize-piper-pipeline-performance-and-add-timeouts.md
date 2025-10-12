@@ -2,10 +2,14 @@
 uuid: "3a1469ae-b7e5-4e99-b280-5b0529b758b2"
 title: "Optimize piper pipeline performance and add comprehensive timeouts"
 slug: "optimize-piper-pipeline-performance-and-add-timeouts"
-status: "blocked"
+status: "breakdown"
 priority: "P1"
 labels: ["monitoring", "optimization", "performance", "piper", "timeouts"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:42:24.695Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -278,6 +282,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -392,6 +397,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Optimize piper pipeline performance and add comprehensive timeouts
 
 ## 🐛 Problem Statement
@@ -805,6 +812,7 @@ This optimization will significantly improve the user experience when running pi
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -919,3 +927,5 @@ This optimization will significantly improve the user experience when running pi
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

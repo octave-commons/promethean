@@ -5,7 +5,11 @@ slug: "1-updated-mermaid-adds-reverse-paths-from-review-narrows-blocked"
 status: "icebox"
 priority: "P3"
 labels: ["docops", "labeled"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.454Z"
+=======
+created_at: "2025-10-12T21:40:23.574Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🗂 Source
 
 - Path: docs/labeled/2025.09.19.22.52.43.md
@@ -695,6 +702,7 @@ perfect—let’s tighten the FSM to reflect your review + blocked semantics and
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -810,3 +818,5 @@ perfect—let’s tighten the FSM to reflect your review + blocked semantics and
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

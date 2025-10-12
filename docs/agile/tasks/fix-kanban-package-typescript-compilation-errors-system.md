@@ -5,7 +5,11 @@ slug: "fix-kanban-package-typescript-compilation-errors-system"
 status: "ready"
 priority: "P2"
 labels: ["bugfix", "build-system", "kanban", "typescript"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## Issue
 
 TypeScript compilation errors in the kanban package due to type mismatches in `loadKanbanConfig()` function calls.
@@ -696,6 +703,7 @@ The issue stems from a mismatch between the actual function signature and expect
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -811,3 +819,5 @@ The issue stems from a mismatch between the actual function signature and expect
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

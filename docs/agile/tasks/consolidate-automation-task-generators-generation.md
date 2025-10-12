@@ -5,7 +5,11 @@ slug: "consolidate-automation-task-generators-generation"
 status: "incoming"
 priority: "P1"
 labels: ["automation", "consolidation", "refactoring", "task-generation"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.576Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 Create unified task generation system by consolidating automation-batch-generator.mjs, test-fix-generator.mjs, pipeline-fix-generator.mjs, type-fix-automation.mjs, and all piper-*.mjs scripts into new @promethean/task-generators package or integrate into @promethean/kanban. Standardize templates and provide unified CLI interface.
 
 ## ⛓️ Blocked By
@@ -666,6 +673,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -781,3 +789,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

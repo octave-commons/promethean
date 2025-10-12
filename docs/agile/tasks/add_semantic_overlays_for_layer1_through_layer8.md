@@ -5,7 +5,11 @@ slug: "add_semantic_overlays_for_layer1_through_layer8"
 status: "done"
 priority: "P3"
 labels: ["add", "layer1", "overlays", "semantic"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.579Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Add semantic overlays for layer1 through layer8
 
 Implement documentation overlays that explain how each cognitive layer maps to the system. These overlays should provide conceptual context for the eight circuits described in the design docs.
@@ -706,6 +713,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -821,3 +829,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

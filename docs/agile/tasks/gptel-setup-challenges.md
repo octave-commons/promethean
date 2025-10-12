@@ -5,7 +5,11 @@ slug: "gptel-setup-challenges"
 status: "incoming"
 priority: "P3"
 labels: ["docops", "labeled"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.456Z"
+=======
+created_at: "2025-10-12T21:40:23.577Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🗂 Source
 
 - Path: docs/labeled/gptel-setup-challenges.md
@@ -692,6 +699,7 @@ It's just also kinda difficult to get AI to help me set up Emacs code.
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -807,3 +815,5 @@ It's just also kinda difficult to get AI to help me set up Emacs code.
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

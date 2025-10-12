@@ -5,7 +5,11 @@ slug: "dockerize-the-system"
 status: "done"
 priority: "P3"
 labels: ["docker", "dockerize", "services", "system"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.580Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Description
 
 Provide Docker images and compose configuration so contributors can run the system and its services in containers for testing and deployment.
@@ -706,6 +713,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -821,3 +829,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

@@ -5,7 +5,11 @@ slug: "boardrev-incremental-updates"
 status: "ready"
 priority: "P1"
 labels: ["boardrev", "enhancement", "performance"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Add incremental updates to boardrev indexing
 
 ## Description
@@ -690,6 +697,7 @@ Should handle edge cases like file moves, permission changes, and corrupted cach
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -805,3 +813,5 @@ Should handle edge cases like file moves, permission changes, and corrupted cach
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

@@ -5,7 +5,11 @@ slug: "evaluate-docker-npu-compatability"
 status: "ready"
 priority: "P3"
 labels: ["docker", "evaluate", "integrate", "npu"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Evaluate and integrate docker NPU image into workflows
 
 I recently added an Intel OpenVINO GenAI Model Server instance to our docker compose configuration. They should just work, but we have to make sure that the models are available to them. We will have to write a script to grab them.
@@ -660,6 +667,7 @@ I'd like to be able to experiment with different models, but that is outside of 
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -775,3 +783,5 @@ I'd like to be able to experiment with different models, but that is outside of 
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

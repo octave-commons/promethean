@@ -5,7 +5,11 @@ slug: "kanban-prioritize-subcommands"
 status: "accepted"
 priority: "P3"
 labels: ["cli", "clustering", "explain", "filtering", "kanban", "prioritize", "ranking", "score", "subcommands", "task"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # New subcommands (added; keep your existing ones)
 
 * `sample` — randomly (optionally weighted) pick a bite-sized set that matches a filter.
@@ -725,6 +732,7 @@ packages/kanban/
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -840,3 +848,5 @@ packages/kanban/
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

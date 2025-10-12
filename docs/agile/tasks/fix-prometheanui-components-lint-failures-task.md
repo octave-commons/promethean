@@ -5,7 +5,11 @@ slug: "fix-prometheanui-components-lint-failures-task"
 status: "in_progress"
 priority: "P2"
 labels: ["codex-task"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.579Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Fix `@promethean/ui-components` lint failures
 
 ## Context
@@ -687,6 +694,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -802,3 +810,5 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

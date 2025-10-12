@@ -5,7 +5,11 @@ slug: "read_agents_and_follow_protocol"
 status: "done"
 priority: "P3"
 labels: ["agents", "governance", "onboarding", "protocol"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.582Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Read AGENTS.md and follow protocol
 
 Read the root governance doc (**AGENTS.md**) and immediately align this session to its requirements. Create a traceable task (this file), capture scope/acceptance, and record artifacts per **docs/agile/process.md**.
@@ -695,6 +702,7 @@ Read the root governance doc (**AGENTS.md**) and immediately align this session 
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -810,3 +818,5 @@ Read the root governance doc (**AGENTS.md**) and immediately align this session 
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

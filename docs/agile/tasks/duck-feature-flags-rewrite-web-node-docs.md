@@ -5,7 +5,11 @@ slug: "duck-feature-flags-rewrite-web-node-docs"
 status: "done"
 priority: "P1"
 labels: ["docs", "duck", "flags", "node", "web"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.580Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # In Review
 
 ## 🛠️ Description
@@ -691,6 +698,7 @@ Rewrite broken feature flag modules for duck-web and duck-utils; pure ESM TS, fu
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -806,3 +814,5 @@ Rewrite broken feature flag modules for duck-web and duck-utils; pure ESM TS, fu
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

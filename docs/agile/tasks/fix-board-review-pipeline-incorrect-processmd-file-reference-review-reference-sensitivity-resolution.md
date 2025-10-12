@@ -5,7 +5,11 @@ slug: "fix-board-review-pipeline-incorrect-processmd-file-reference-review-refer
 status: "done"
 priority: "P2"
 labels: ["board-review", "case-sensitivity", "file-reference", "path-resolution", "piper"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.580Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Fix board-review pipeline incorrect Process.md file reference
 
 ## 🐛 Problem Statement
@@ -750,6 +757,7 @@ This is a simple but critical fix that will enable AI-powered task review capabi
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -865,3 +873,5 @@ This is a simple but critical fix that will enable AI-powered task review capabi
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

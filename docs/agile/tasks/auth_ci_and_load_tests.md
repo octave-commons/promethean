@@ -5,7 +5,11 @@ slug: "auth_ci_and_load_tests"
 status: "incoming"
 priority: "P3"
 labels: ["auth", "load", "testing", "tests"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 Auth: CI and load tests
 
 Goal: Add CI tests and basic load testing for the auth service.
@@ -668,6 +675,7 @@ Exit Criteria:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -783,3 +791,5 @@ Exit Criteria:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

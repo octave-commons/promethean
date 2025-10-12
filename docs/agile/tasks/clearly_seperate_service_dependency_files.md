@@ -5,7 +5,11 @@ slug: "clearly_seperate_service_dependency_files"
 status: "done"
 priority: "P3"
 labels: ["clearly", "dependency", "seperate", "service"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.579Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 Q## 🛠️ Task: Clearly seperate service dependency files
 
 Each service should maintain its own dependency declarations so deployments remain isolated. Refer to the design notes in `file-structure.md` and the migration plan for guidance.
@@ -715,6 +722,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -830,3 +838,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

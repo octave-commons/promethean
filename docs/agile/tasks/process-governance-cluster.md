@@ -2,10 +2,14 @@
 uuid: "b7d54c5e-80f9-4ec6-95f5-2c78d3576469"
 title: "Process Governance Cluster - Quality Gates & Workflow Enforcement"
 slug: "process-governance-cluster"
-status: "blocked"
+status: "breakdown"
 priority: "P1"
 labels: ["automation", "cluster", "governance", "kanban", "process", "quality-gates"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:42:24.695Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -278,6 +282,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -392,6 +397,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Process Governance Cluster - Quality Gates & Workflow Enforcement
 
 ## 🎯 Strategic Objective
@@ -976,6 +983,7 @@ This cluster is complete when:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -1090,3 +1098,5 @@ This cluster is complete when:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

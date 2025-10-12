@@ -5,7 +5,11 @@ slug: "kanban-board-refinement-and-cleanup 7"
 status: "done"
 priority: "P1"
 labels: ["kanban", "optimization", "process"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.580Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -575,6 +579,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -805,3 +810,5 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

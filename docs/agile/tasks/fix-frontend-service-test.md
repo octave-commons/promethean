@@ -5,7 +5,11 @@ slug: "fix-frontend-service-test"
 status: "done"
 priority: "P3"
 labels: ["board", "lang"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.580Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ```
 <hr class="__chatgpt_plugin">
 ```
@@ -684,6 +691,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -799,3 +807,5 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

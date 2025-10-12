@@ -5,7 +5,11 @@ slug: "Consolidate all kanban helpers to kanban package"
 status: "incoming"
 priority: "P3"
 labels: ["all", "consolidate", "kanban", "scripts"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 Scripts: Group remaining Kanban utilities and verify
 
 Goal: Ensure all Kanban-related scripts are under `packages/kanban/` and update their docs.
@@ -669,6 +676,7 @@ Exit Criteria:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -784,3 +792,5 @@ Exit Criteria:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

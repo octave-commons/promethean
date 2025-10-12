@@ -5,7 +5,11 @@ slug: "clarify_promethean_project_vision_1"
 status: "done"
 priority: "P3"
 labels: ["clarify", "project", "promethean", "vision"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.579Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Clarify Promethean project vision
 
 Summarize the long-term goals of the Promethean framework so new contributors understand the purpose and scope. Capture the intent driving agents like Duck and outline expected outcomes.
@@ -685,6 +692,7 @@ Summarize the long-term goals of the Promethean framework so new contributors un
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -800,3 +808,5 @@ Summarize the long-term goals of the Promethean framework so new contributors un
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

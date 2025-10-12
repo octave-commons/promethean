@@ -5,7 +5,11 @@ slug: "omni-unified-service-spec"
 status: "blocked"
 priority: "P1"
 labels: ["omni", "planning"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -277,6 +281,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -392,6 +397,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🧭 Context
 
 - **What changed?**: Leadership requested a unified Omni server that fronts REST, GraphQL, WebSocket, and MCP interfaces from a single Fastify host on one domain/port.
@@ -695,6 +702,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -810,3 +818,5 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

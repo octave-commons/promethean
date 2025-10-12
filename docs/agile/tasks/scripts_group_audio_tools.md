@@ -5,7 +5,11 @@ slug: "scripts_group_audio_tools"
 status: "incoming"
 priority: "P3"
 labels: ["audio", "group", "scripts", "tools"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 Scripts: Group audio tools under scripts/audio
 
 Goal: Move STT/TTS helpers into `scripts/audio/` with a README and verified usage.
@@ -671,6 +678,7 @@ Exit Criteria:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -786,3 +794,5 @@ Exit Criteria:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

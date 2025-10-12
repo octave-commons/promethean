@@ -5,7 +5,11 @@ slug: "Consolidate automation generator scripts into unified system"
 status: "incoming"
 priority: "P1"
 labels: ["automation", "generator", "scripts", "unified"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 Multiple automation and task generator scripts scattered across scripts/ and tools/ need consolidation into a unified system using existing @promethean packages.
 
 ## ⛓️ Blocked By
@@ -666,6 +673,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -781,3 +789,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

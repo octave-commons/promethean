@@ -5,7 +5,11 @@ slug: "jsonrpc-error-handling-3"
 status: "incoming"
 priority: "P3"
 labels: ["docops", "labeled"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.456Z"
+=======
+created_at: "2025-10-12T21:40:23.577Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🗂 Source
 
 - Path: docs/labeled/jsonrpc-error-handling-3.md
@@ -688,6 +695,7 @@ Client error '404 Not Found' for url 'https://err-stealth-16-ai-studio-a1vgg.tai
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -803,3 +811,5 @@ Client error '404 Not Found' for url 'https://err-stealth-16-ai-studio-a1vgg.tai
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

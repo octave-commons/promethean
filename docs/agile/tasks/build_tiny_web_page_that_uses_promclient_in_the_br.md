@@ -5,7 +5,11 @@ slug: "build_tiny_web_page_that_uses_promclient_in_the_br"
 status: "done"
 priority: "P3"
 labels: ["build", "page", "tiny", "web"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.579Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Build tiny web page that uses `PromClient` in the browser to show live `process.state` (optional)
 
 Generated from ../unique/2025.08.08.19.08.49.md$../unique/2025.08.08.19.08.49.md
@@ -681,6 +688,7 @@ Generated from ../unique/2025.08.08.19.08.49.md$../unique/2025.08.08.19.08.49.md
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -796,3 +804,5 @@ Generated from ../unique/2025.08.08.19.08.49.md$../unique/2025.08.08.19.08.49.md
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

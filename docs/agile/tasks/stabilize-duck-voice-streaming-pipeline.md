@@ -5,7 +5,11 @@ slug: "stabilize-duck-voice-streaming-pipeline"
 status: "ready"
 priority: "P2"
 labels: ["audio", "duck", "enso"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 Background: Duck's revival plan calls for reliable, low-latency voice delivery through the ENSO gateway. The current web client still ships a brittle AudioWorklet, the PCM16 → 16 kHz conversion path lacks shared constants, and we have no automated validation of the throttled RTC sender before traffic hits the websocket bridge.
 
 Goal: Finish the reliability pass so Duck's browser client can stream audio predictably into ENSO and the gateway has guardrails for malformed frames.
@@ -674,6 +681,7 @@ Exit Criteria:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -789,3 +797,5 @@ Exit Criteria:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

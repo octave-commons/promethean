@@ -5,7 +5,11 @@ slug: "just-so-much-batman"
 status: "done"
 priority: "P3"
 labels: ["batman", "just", "much", "span"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.580Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ```
 <hr class="__chatgpt_plugin">
 ```
@@ -785,6 +792,7 @@ w
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -900,3 +908,5 @@ w
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

@@ -5,7 +5,11 @@ slug: "fix-symdocs-pipeline-missing-prometheanfile-indexer-dependency-fix"
 status: "done"
 priority: "P2"
 labels: ["build-fix", "dependencies", "piper", "symdocs"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.580Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Fix symdocs pipeline missing @promethean/file-indexer dependency
 
 ## 🐛 Problem Statement
@@ -738,6 +745,7 @@ This fix will enable automatic documentation generation for the entire codebase,
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -853,3 +861,5 @@ This fix will enable automatic documentation generation for the entire codebase,
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

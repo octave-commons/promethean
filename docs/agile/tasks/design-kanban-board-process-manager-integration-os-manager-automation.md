@@ -2,10 +2,14 @@
 uuid: "2b3c4d5e"
 title: "Design Kanban Board Process Manager Integration -os -manager -automation"
 slug: "design-kanban-board-process-manager-integration-os-manager-automation"
-status: "blocked"
+status: "breakdown"
 priority: "high"
 labels: ["//]]", "agent-os", "kanban", "orchestration", "process-manager", "tags", "workflow-automation"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:27.555Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -278,6 +282,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -392,6 +397,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Design Kanban Board Process Manager Integration
 
 ## 🎯 Objective
@@ -1576,6 +1583,7 @@ interface ProcessPattern {
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -1690,3 +1698,5 @@ interface ProcessPattern {
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

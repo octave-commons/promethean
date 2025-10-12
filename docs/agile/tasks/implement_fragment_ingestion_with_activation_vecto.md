@@ -5,7 +5,11 @@ slug: "implement_fragment_ingestion_with_activation_vecto"
 status: "icebox"
 priority: "P3"
 labels: ["activation", "fragment", "implement", "ingestion"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.454Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Implement fragment ingestion with activation vectors
 
 Placeholder task stub generated from kanban board.
@@ -701,6 +708,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -816,3 +824,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

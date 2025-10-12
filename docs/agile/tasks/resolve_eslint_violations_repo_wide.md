@@ -5,7 +5,11 @@ slug: "resolve_eslint_violations_repo_wide"
 status: "ready"
 priority: "P3"
 labels: ["across", "eslint", "resolve", "violations"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Resolve ESLint violations across repository
 
 ## Description
@@ -696,6 +703,7 @@ Multiple packages trigger ESLint errors such as `functional/prefer-immutable-typ
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -811,3 +819,5 @@ Multiple packages trigger ESLint errors such as `functional/prefer-immutable-typ
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

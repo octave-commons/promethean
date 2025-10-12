@@ -1,11 +1,19 @@
 ---
+<<<<<<< HEAD
 uuid: "4be33e99-5860-43dd-a6b5-f84b038f4edf"
+=======
+uuid: "f9c00756-a502-4913-87fb-922a7add5712"
+>>>>>>> bug/kanban-duplication-issues
 title: "Implement multi-model evaluation for boardrev      )"
 slug: "boardrev-piper-integration 4"
 status: "icebox"
 priority: "P2"
 labels: ["ai", "boardrev", "enhancement", "evaluation"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.454Z"
+=======
+created_at: "2025-10-12T21:40:23.574Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -17,6 +25,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -443,3 +452,5 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

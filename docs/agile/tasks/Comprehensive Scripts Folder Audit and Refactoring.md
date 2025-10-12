@@ -5,7 +5,11 @@ slug: "Comprehensive Scripts Folder Audit and Refactoring"
 status: "incoming"
 priority: "P1"
 labels: ["audit", "maintenance", "refactoring", "scripts"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 Audit all scripts in scripts/ directory to identify deprecated functionality, duplication with existing packages, and refactoring opportunities. Focus on scripts that duplicate @promethean/* package functionality, could be simplified using existing utilities, or should be integrated into packages.
 
 ## ⛓️ Blocked By
@@ -666,6 +673,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -781,3 +789,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

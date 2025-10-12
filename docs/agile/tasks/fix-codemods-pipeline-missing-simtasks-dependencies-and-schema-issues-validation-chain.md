@@ -5,7 +5,11 @@ slug: "fix-codemods-pipeline-missing-simtasks-dependencies-and-schema-issues-val
 status: "ready"
 priority: "P2"
 labels: ["codemods", "dependency-chain", "piper", "schema-validation", "simtasks"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Fix codemods pipeline missing simtasks dependencies and schema issues
 
 ## 🐛 Problem Statement
@@ -737,6 +744,7 @@ Fixing the codemods pipeline will enable powerful automated code refactoring cap
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -852,3 +860,5 @@ Fixing the codemods pipeline will enable powerful automated code refactoring cap
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

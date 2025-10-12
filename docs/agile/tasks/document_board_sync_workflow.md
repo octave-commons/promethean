@@ -5,7 +5,11 @@ slug: "document_board_sync_workflow"
 status: "done"
 priority: "P3"
 labels: ["board", "document", "sync", "workflow"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.580Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Document board sync workflow
 
 After the sync script exists, we need clear instructions on how to use it and how the GitHub Projects board maps to our local kanban.
@@ -725,6 +732,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -840,3 +848,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

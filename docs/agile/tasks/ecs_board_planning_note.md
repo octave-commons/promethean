@@ -5,7 +5,11 @@ slug: "ecs_board_planning_note"
 status: "done"
 priority: "P3"
 labels: ["board", "ecs", "note", "planning"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.580Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # ECS Board Planning Note
 
 ## 📌 Purpose
@@ -705,6 +712,7 @@ Define expectations for an ECS-powered kanban experience so delivery teams can d
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -820,3 +828,5 @@ Define expectations for an ECS-powered kanban experience so delivery teams can d
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

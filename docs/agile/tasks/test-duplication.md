@@ -5,7 +5,11 @@ slug: "test-duplication"
 status: "incoming"
 priority: "P2"
 labels: ["test"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -541,6 +545,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -771,3 +776,5 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

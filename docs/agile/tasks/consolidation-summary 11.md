@@ -5,7 +5,11 @@ slug: "consolidation-summary 11"
 status: "done"
 priority: "P1"
 labels: ["completion", "consolidation", "strategy", "summary"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.579Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -567,6 +571,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -797,3 +802,5 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

@@ -5,7 +5,11 @@ slug: "add-codex-layer-to-emacs"
 status: "icebox"
 priority: "P3"
 labels: ["add", "codex", "emacs", "layer"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.454Z"
+=======
+created_at: "2025-10-12T21:40:23.574Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Description
 
 Describe your task
@@ -690,6 +697,7 @@ Useful for agents to engage in append only conversations about this task.
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -805,3 +813,5 @@ Useful for agents to engage in append only conversations about this task.
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

@@ -5,7 +5,11 @@ slug: "convert-current-services-to-packages--then-redefine-the-services-using-co
 status: "done"
 priority: "P3"
 labels: ["config", "files", "packages", "services"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.579Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Description
 
 Transition existing services into reusable packages and instantiate concrete services via configuration files.
@@ -713,6 +720,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -828,3 +836,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

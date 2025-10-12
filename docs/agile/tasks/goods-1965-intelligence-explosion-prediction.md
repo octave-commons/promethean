@@ -5,7 +5,11 @@ slug: "goods-1965-intelligence-explosion-prediction"
 status: "incoming"
 priority: "P3"
 labels: ["docops", "labeled"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.456Z"
+=======
+created_at: "2025-10-12T21:40:23.577Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🗂 Source
 
 - Path: docs/labeled/goods-1965-intelligence-explosion-prediction.md
@@ -689,6 +696,7 @@ One of the earliest notable predictions was by I.J. Good in 1965, who wrote abou
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -804,3 +812,5 @@ One of the earliest notable predictions was by I.J. Good in 1965, who wrote abou
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

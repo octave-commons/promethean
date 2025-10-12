@@ -5,7 +5,11 @@ slug: "resolve_biome_lint_errors_in_compiler"
 status: "todo"
 priority: "P3"
 labels: ["biome", "compiler", "errors", "lint"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.579Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Resolve Biome lint errors in compiler package
 
 ## Description
@@ -677,6 +684,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -792,3 +800,5 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

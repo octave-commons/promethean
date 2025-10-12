@@ -5,7 +5,11 @@ slug: "discord_image_attachment_indexer"
 status: "done"
 priority: "P3"
 labels: ["attachment", "discord", "image", "indexer"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.579Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Description
 
 
@@ -700,6 +707,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -815,3 +823,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

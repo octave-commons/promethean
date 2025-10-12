@@ -5,7 +5,11 @@ slug: "add_mongooutbox_to_any_service_that_writes_db_chan"
 status: "done"
 priority: "P3"
 labels: ["add", "any", "mongooutbox", "writes"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.579Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Add `MongoOutbox` to any service that writes DB changes; swap local app emits → outbox writes
 
 Generated from ../unique/2025.08.08.19.08.49.md$../unique/2025.08.08.19.08.49.md
@@ -678,6 +685,7 @@ Generated from ../unique/2025.08.08.19.08.49.md$../unique/2025.08.08.19.08.49.md
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -793,3 +801,5 @@ Generated from ../unique/2025.08.08.19.08.49.md$../unique/2025.08.08.19.08.49.md
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

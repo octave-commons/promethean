@@ -5,7 +5,11 @@ slug: "promethean-health-dashboard"
 status: "icebox"
 priority: "P3"
 labels: ["broker", "dashboard", "description", "eidolon-visualization", "field", "framework-core", "latency", "observability", "realtime"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.454Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # 🛠️ Description
 
 Build a **real‑time system dashboard** that gives an at‑a‑glance view of Promethean’s state:
@@ -873,6 +880,7 @@ flowchart LR
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -988,3 +996,5 @@ flowchart LR
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

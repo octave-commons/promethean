@@ -5,7 +5,11 @@ slug: "Fix syntax errors in @promethean boardrev package"
 status: "incoming"
 priority: "P1"
 labels: ["errors", "fix", "syntax", "promethean"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 TypeScript compilation errors need to be resolved in [[packages/boardrev/src/03-index-repo.ts]]:
 
 ## Syntax Errors Fixed:
@@ -677,6 +684,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -792,3 +800,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

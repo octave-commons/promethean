@@ -5,7 +5,11 @@ slug: "duck-web-openws-helper-di-wrapper-bearer-guard-web"
 status: "done"
 priority: "P2"
 labels: ["auth", "duck-web", "websocket"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.580Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 #Todo
 
 ## 🛠️ Description
@@ -669,6 +676,7 @@ Wrap `openWs` with injectable factory; skip `bearer.*` subprotocol when token ab
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -784,3 +792,5 @@ Wrap `openWs` with injectable factory; skip `bearer.*` subprotocol when token ab
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

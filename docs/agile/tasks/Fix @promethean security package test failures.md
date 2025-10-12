@@ -5,7 +5,11 @@ slug: "Fix @promethean security package test failures"
 status: "incoming"
 priority: "P1"
 labels: ["security", "test", "failures", "package"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 Security package has failing tests that need investigation:
 
 - Need to identify specific test failures and root causes
@@ -672,6 +679,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -787,3 +795,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

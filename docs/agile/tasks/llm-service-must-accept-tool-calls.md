@@ -5,7 +5,11 @@ slug: "llm-service-must-accept-tool-calls"
 status: "done"
 priority: "P3"
 labels: ["calls", "llm", "service", "tool"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.582Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Description
 
 Extend the LLM service to support tool/function calls so agents can request structured actions.
@@ -708,6 +715,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -823,3 +831,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

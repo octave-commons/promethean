@@ -5,7 +5,11 @@ slug: "fix_mcp_connector_jsonrpc_error"
 status: "done"
 priority: "P2"
 labels: ["bug", "connectors", "mcp"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.580Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 #InProgress
 
 ## 🛠️ Description
@@ -713,6 +720,7 @@ Estimate: 3
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -828,3 +836,5 @@ Estimate: 3
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

@@ -5,7 +5,11 @@ slug: "Create package-by-package linting cleanup roadmap"
 status: "incoming"
 priority: "P1"
 labels: ["package", "promethean", "create", "linting"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 Based on affected packages analysis, create systematic approach for linting cleanup:
 
 ## High Priority Packages (P1):
@@ -694,6 +701,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -809,3 +817,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

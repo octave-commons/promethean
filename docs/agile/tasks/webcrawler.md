@@ -5,7 +5,11 @@ slug: "webcrawler"
 status: "done"
 priority: "P3"
 labels: ["ethics", "promethean", "ai", "agent", "crawler", "llm", "tags", "web"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.460Z"
+=======
+created_at: "2025-10-12T21:40:23.582Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Web Crawler Agent → Hyperlink Graph → LLM Summaries/#Tags → Chroma Search Dual-Sink
 ```
 **Owner:** Codex / Agent
@@ -958,6 +965,7 @@ Append-only thread: record domain-specific deny-lists, prompt tweaks, and any in
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -1073,3 +1081,5 @@ Append-only thread: record domain-specific deny-lists, prompt tweaks, and any in
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

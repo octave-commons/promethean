@@ -5,7 +5,11 @@ slug: "implement-property-based-testing-for-complex-algorithms-and-state-machine
 status: "incoming"
 priority: "P2"
 labels: ["algorithms", "property-based-testing", "state-machines", "testing"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.456Z"
+=======
+created_at: "2025-10-12T21:40:23.577Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 #incoming
 
 ## 🛠️ Description
@@ -726,6 +733,7 @@ Estimate: 8
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -841,3 +849,5 @@ Estimate: 8
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

@@ -5,7 +5,11 @@ slug: "Fix MCP server configuration EDN syntax error"
 status: "incoming"
 priority: "P1"
 labels: ["mcp", "edn", "error", "server"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 The MCP server configuration file at [[packages/mcp/config/mcp_servers.edn]] had a syntax error preventing startup:
 
 ## Issue:
@@ -682,6 +689,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -797,3 +805,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

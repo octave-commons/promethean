@@ -5,7 +5,11 @@ slug: "Relax ESLint configuration to convert errors to warnings for developer pr
 status: "incoming"
 priority: "P1"
 labels: ["eslint", "errors", "warnings", "relax"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 The current ESLint configuration is too strict and blocking development. Need to relax rules to improve developer velocity:
 
 ## Current Major Issues Identified:
@@ -685,6 +692,7 @@ Priority: P1 - Unblock development workflow
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -800,3 +808,5 @@ Priority: P1 - Unblock development workflow
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

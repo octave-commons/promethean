@@ -5,7 +5,11 @@ slug: "kanban-as-a-finite-state-machine"
 status: "done"
 priority: "P3"
 labels: ["finite", "kanban", "workflow"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.580Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## Kanban as a Finite State Machine (FSM)
 
 We treat the board as an FSM over tasks.
@@ -818,6 +825,7 @@ If you want, I can also generate a tiny per-column **Entry / Work / Exit** table
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -933,3 +941,5 @@ If you want, I can also generate a tiny per-column **Entry / Work / Exit** table
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

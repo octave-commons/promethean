@@ -5,7 +5,11 @@ slug: "quick-prerequisites"
 status: "incoming"
 priority: "P3"
 labels: ["docops", "labeled"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.456Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🗂 Source
 
 - Path: docs/labeled/2025.10.07.21.50.05.md
@@ -674,6 +681,7 @@ A couple of facts before the code (so you know I’m not hand-waving):
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -789,3 +797,5 @@ A couple of facts before the code (so you know I’m not hand-waving):
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

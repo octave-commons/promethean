@@ -5,7 +5,11 @@ slug: "implement_pause_resume_ops_on_gateway"
 status: "done"
 priority: "P3"
 labels: ["implement", "ops", "pause", "resume"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.580Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Implement `PAUSE/RESUME` ops on gateway
 
 Generated from ../unique/2025.08.08.19.08.25.md$../unique/2025.08.08.19.08.25.md
@@ -678,6 +685,7 @@ Generated from ../unique/2025.08.08.19.08.25.md$../unique/2025.08.08.19.08.25.md
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -793,3 +801,5 @@ Generated from ../unique/2025.08.08.19.08.25.md$../unique/2025.08.08.19.08.25.md
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

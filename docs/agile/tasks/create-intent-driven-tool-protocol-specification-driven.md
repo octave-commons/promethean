@@ -5,7 +5,11 @@ slug: "create-intent-driven-tool-protocol-specification-driven"
 status: "accepted"
 priority: "P1"
 labels: ["intent-driven", "protocol", "specification", "standards"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:52:45.405Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -277,6 +281,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -392,6 +397,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Create Intent-Driven Tool Protocol specification
 
 ## Description
@@ -1156,6 +1163,7 @@ The protocol should be designed for evolution, with clear versioning and extensi
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -1271,3 +1279,5 @@ The protocol should be designed for evolution, with clear versioning and extensi
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

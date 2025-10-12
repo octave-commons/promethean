@@ -5,7 +5,11 @@ slug: "the-process-is-everything"
 status: "incoming"
 priority: "P3"
 labels: ["docops", "labeled"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🗂 Source
 
 - Path: docs/labeled/2025.09.19.18.30.09.md
@@ -692,6 +699,7 @@ Work with me over the course of this conversation to refine
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -807,3 +815,5 @@ Work with me over the course of this conversation to refine
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

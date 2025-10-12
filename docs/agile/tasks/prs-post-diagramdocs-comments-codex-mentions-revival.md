@@ -5,7 +5,11 @@ slug: "prs-post-diagramdocs-comments-codex-mentions-revival"
 status: "done"
 priority: "P3"
 labels: ["duck-revival", "reviews"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.582Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 #Done
 
 ## 🛠️ Description
@@ -673,6 +680,7 @@ Add actionable comments on each PR, connect related PRs, tag @codex for specific
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -788,3 +796,5 @@ Add actionable comments on each PR, connect related PRs, tag @codex for specific
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

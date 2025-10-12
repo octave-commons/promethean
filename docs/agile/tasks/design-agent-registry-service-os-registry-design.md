@@ -5,7 +5,11 @@ slug: "design-agent-registry-service-os-registry-design"
 status: "incoming"
 priority: "P0"
 labels: ["//]]", "agent-os", "agent-registry", "api-design", "architecture", "design", "search"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.576Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Design Agent Registry Service
 
 ## Overview
@@ -1001,6 +1008,7 @@ This analysis confirms the Agent Registry Service is well-positioned for success
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -1116,3 +1124,5 @@ This analysis confirms the Agent Registry Service is well-positioned for success
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

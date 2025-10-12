@@ -5,7 +5,11 @@ slug: "cleanup_useless_regex_escape_in_agent_package"
 status: "icebox"
 priority: "P3"
 labels: ["clean", "escape", "regex", "useless"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.454Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 \nTags: tool:codex role:engineer cap:codegen trace:2327d588-45d7-4fc3-85db-58bc4b5127af
 
 
@@ -656,6 +663,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -771,3 +779,5 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

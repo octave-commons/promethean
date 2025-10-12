@@ -5,7 +5,11 @@ slug: "Consolidate kanban helper scripts into @promethean kanban package"
 status: "incoming"
 priority: "P1"
 labels: ["consolidate", "kanban", "package", "scripts"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 Multiple kanban-related scripts exist outside the main kanban package, creating duplication and maintenance overhead.
 
 ## Scripts to Consolidate:
@@ -722,6 +729,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -837,3 +845,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

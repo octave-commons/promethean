@@ -5,7 +5,11 @@ slug: "replace-all-python-properly-with-hy-incoming"
 status: "done"
 priority: "P3"
 labels: ["ban", "dist", "migrate", "python"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.582Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Ban Python; Migrate to Hy; Compile to `./dist`
 ```
 **Owner:** Codex / Agent
@@ -898,6 +905,7 @@ Append-only thread for agents. Note blockers, weird Hy interop, or macro decisio
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -1013,3 +1021,5 @@ Append-only thread for agents. Note blockers, weird Hy interop, or macro decisio
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

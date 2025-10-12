@@ -1,11 +1,15 @@
 ---
-uuid: "1a35f3e4-6062-4e46-803b-4d317812a979"
+uuid: "d0e84eaf-6055-468f-b4f1-e327269e2b4d"
 title: "Update existing kanban tasks to use FSM statuses"
 slug: "update-kanban-statuses-to-fsm 8"
-status: "rejected"
+status: "ready"
 priority: "P2"
 labels: ["cleanup", "fsm", "kanban", "process"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.460Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -17,6 +21,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -803,3 +808,5 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

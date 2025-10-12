@@ -5,7 +5,11 @@ slug: "Evaluate and document maintenance scripts"
 status: "incoming"
 priority: "P3"
 labels: ["cleanup", "documentation", "evaluation", "maintenance"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 Evaluate scripts like add-license-to-packages.js, fix-bins.js, append-js-extensions.js, and other one-time maintenance tools. Document which ones should be kept as maintenance utilities vs deprecated. Create clear documentation for their proper use cases and mark as deprecated for regular development.
 
 ## ⛓️ Blocked By
@@ -666,6 +673,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -781,3 +789,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

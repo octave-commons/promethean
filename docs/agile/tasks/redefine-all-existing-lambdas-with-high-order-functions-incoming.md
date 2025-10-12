@@ -5,7 +5,11 @@ slug: "redefine-all-existing-lambdas-with-high-order-functions-incoming"
 status: "done"
 priority: "P3"
 labels: ["functions", "lambdas", "order", "redefine"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.582Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Description
 
 Replace ad‑hoc anonymous lambdas with well‑named higher‑order functions to clarify intent and improve reuse.
@@ -711,6 +718,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -826,3 +834,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

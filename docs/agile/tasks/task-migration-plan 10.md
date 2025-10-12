@@ -5,7 +5,11 @@ slug: "task-migration-plan 10"
 status: "incoming"
 priority: "P1"
 labels: ["consolidation", "migration", "planning", "supersession"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -569,6 +573,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -799,3 +804,5 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

@@ -1,11 +1,29 @@
 ---
+<<<<<<< HEAD
+<<<<<<<< HEAD:docs/agile/tasks/emergency-test-fix-unit-test-suite 19.md
 uuid: "136c3a9a-85d2-451b-b01f-e0526ff11295"
+=======
+uuid: "50bdb4aa-c39a-4952-bf2b-9a470821bb54"
+>>>>>>> bug/kanban-duplication-issues
 title: "Fix test failure in unit-test-suite: Unit test failures blocking CI"
 slug: "emergency-test-fix-unit-test-suite 19"
 status: "incoming"
 priority: "P1"
 labels: ["automation", "emergency", "test-fix", "testing"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+========
+uuid: "a31bb416-072c-41cd-92af-98916da1e9e8"
+title: "Fix buildfix pipeline timeout configuration for Build analysis step timeout"
+slug: "emergency-buildfix-pipeline-timeout 4"
+status: "incoming"
+priority: "P1"
+labels: ["automation", "emergency", "pipeline", "timeout"]
+created_at: "2025-10-12T21:40:23.576Z"
+>>>>>>>> bug/kanban-duplication-issues:docs/agile/tasks/emergency-buildfix-pipeline-timeout 4.md
+=======
+created_at: "2025-10-12T21:40:23.576Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -41,6 +59,10 @@ estimates:
 
 
 
+<<<<<<< HEAD
+<<<<<<<< HEAD:docs/agile/tasks/emergency-test-fix-unit-test-suite 19.md
+=======
+>>>>>>> bug/kanban-duplication-issues
 
 
 
@@ -213,6 +235,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -443,3 +466,7 @@ estimates:
 
 
 
+========
+>>>>>>>> bug/kanban-duplication-issues:docs/agile/tasks/emergency-buildfix-pipeline-timeout 4.md
+=======
+>>>>>>> bug/kanban-duplication-issues

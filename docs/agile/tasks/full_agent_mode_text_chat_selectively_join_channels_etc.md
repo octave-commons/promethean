@@ -5,7 +5,11 @@ slug: "full_agent_mode_text_chat_selectively_join_channels_etc"
 status: "done"
 priority: "P3"
 labels: ["agent", "full", "join", "mode"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.580Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Description
 ```
 **Status:** blocked
@@ -713,6 +720,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -828,3 +836,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

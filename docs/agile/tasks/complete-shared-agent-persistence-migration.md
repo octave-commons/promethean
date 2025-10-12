@@ -5,7 +5,11 @@ slug: "complete-shared-agent-persistence-migration"
 status: "review"
 priority: "P1"
 labels: ["agents", "persistence"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.579Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 Background: The Incoming column still calls for a `shared/ts/persistence` module, but services continue to maintain bespoke Mongo/Chroma clients. Without a shared DualStore/ContextStore implementation, agent state handling diverges, legacy code lingers, and new services cannot rely on a tested persistence baseline.
 
 Goal: Deliver the shared persistence module, migrate agent services onto it, and retire the old ad-hoc stores with confidence.
@@ -765,6 +772,7 @@ The shared persistence migration is **complete for core functionality**. The pri
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -880,3 +888,5 @@ The shared persistence migration is **complete for core functionality**. The pri
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

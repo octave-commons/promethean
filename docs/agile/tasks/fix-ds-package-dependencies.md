@@ -5,7 +5,11 @@ slug: "fix-ds-package-dependencies"
 status: "ready"
 priority: "P2"
 labels: ["build-system", "dependencies", "ds-package", "typescript"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -277,6 +281,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -392,6 +397,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## Issue
 
 Build failures due to missing DS (Data Science) package dependencies/modules that other packages are trying to import.
@@ -709,6 +716,7 @@ This is a blocking issue for the monorepo build system and needs to be resolved 
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -824,3 +832,5 @@ This is a blocking issue for the monorepo build system and needs to be resolved 
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

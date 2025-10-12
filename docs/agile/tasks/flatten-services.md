@@ -5,7 +5,11 @@ slug: "flatten-services"
 status: "done"
 priority: "P3"
 labels: ["flatten", "service", "services", "structure"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.580Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Description
 
 Reorganize the repository so service directories are flattened, reducing unnecessary nesting and clarifying ownership.
@@ -707,6 +714,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -822,3 +830,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

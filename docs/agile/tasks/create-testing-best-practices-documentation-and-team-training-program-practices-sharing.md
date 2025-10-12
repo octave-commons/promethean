@@ -5,7 +5,11 @@ slug: "create-testing-best-practices-documentation-and-team-training-program-pra
 status: "incoming"
 priority: "P3"
 labels: ["best-practices", "documentation", "knowledge-sharing", "testing", "training"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.576Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 #incoming
 
 ## 🛠️ Description
@@ -728,6 +735,7 @@ Estimate: 5
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -843,3 +851,5 @@ Estimate: 5
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

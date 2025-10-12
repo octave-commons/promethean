@@ -5,7 +5,11 @@ slug: "migrate-heartbeat-service-to-ts"
 status: "accepted"
 priority: "P3"
 labels: ["board", "lang"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Migrate heartbeat service to TypeScript
 
 Migrate the legacy heartbeat JavaScript service to TypeScript under the new package structure.
@@ -673,6 +680,7 @@ Migrate the legacy heartbeat JavaScript service to TypeScript under the new pack
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -788,3 +796,5 @@ Migrate the legacy heartbeat JavaScript service to TypeScript under the new pack
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

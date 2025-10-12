@@ -5,7 +5,11 @@ slug: "migrate-vision-service-to-ts"
 status: "accepted"
 priority: "P3"
 labels: ["board", "lang"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Migrate vision service to TypeScript
 
 Migrate the legacy vision JavaScript service to TypeScript under the new package structure.
@@ -674,6 +681,7 @@ Migrate the legacy vision JavaScript service to TypeScript under the new package
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -789,3 +797,5 @@ Migrate the legacy vision JavaScript service to TypeScript under the new package
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

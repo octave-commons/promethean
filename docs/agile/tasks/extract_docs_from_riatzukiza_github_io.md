@@ -5,7 +5,11 @@ slug: "extract_docs_from_riatzukiza_github_io"
 status: "done"
 priority: "P3"
 labels: ["docs", "extract", "github", "riatzukiza"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.580Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Extract docs from riatzukiza.github.io
 
 Move any useful markdown documentation from the old `riatzukiza.github.io` repository into our `/docs/` directory.
@@ -699,6 +706,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -814,3 +822,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

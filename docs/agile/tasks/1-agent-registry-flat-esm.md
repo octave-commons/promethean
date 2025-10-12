@@ -5,7 +5,11 @@ slug: "1-agent-registry-flat-esm"
 status: "rejected"
 priority: "P3"
 labels: ["docops", "labeled"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.460Z"
+=======
+created_at: "2025-10-12T21:40:23.582Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🗂 Source
 
 - Path: docs/labeled/2025.10.07.00.54.37.md
@@ -680,6 +687,7 @@ Two swappable drivers behind one interface. vLLM runs an OpenAI-compatible serve
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -795,3 +803,5 @@ Two swappable drivers behind one interface. vLLM runs an OpenAI-compatible serve
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

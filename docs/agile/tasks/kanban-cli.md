@@ -5,7 +5,11 @@ slug: "kanban-cli"
 status: "incoming"
 priority: "P3"
 labels: ["docops", "labeled"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.456Z"
+=======
+created_at: "2025-10-12T21:40:23.577Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🗂 Source
 
 - Path: docs/labeled/2025.09.20.09.16.46.md
@@ -701,6 +708,7 @@ columnData looks like:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -816,3 +824,5 @@ columnData looks like:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

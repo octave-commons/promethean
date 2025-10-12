@@ -5,7 +5,11 @@ slug: "write_simple_ecosystem_declaration_library_for_new"
 status: "done"
 priority: "P3"
 labels: ["declaration", "ecosystem", "new", "write"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.460Z"
+=======
+created_at: "2025-10-12T21:40:23.582Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: write simple ecosystem declaration library for new agents
 
 Create a lightweight module that lets each agent declare which
@@ -715,6 +722,7 @@ spawn the correct services for an agent.
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -830,3 +838,5 @@ spawn the correct services for an agent.
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

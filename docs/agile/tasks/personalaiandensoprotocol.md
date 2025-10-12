@@ -5,7 +5,11 @@ slug: "personalaiandensoprotocol"
 status: "incoming"
 priority: "P3"
 labels: ["docops", "labeled"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.456Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🗂 Source
 
 - Path: docs/labeled/personalaiandensoprotocol.md
@@ -700,6 +707,7 @@ You can give it an openAI API key and you pay per word,
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -815,3 +823,5 @@ You can give it an openAI API key and you pay per word,
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

@@ -5,7 +5,11 @@ slug: "add-git-commands-to-gpt-bridge"
 status: "icebox"
 priority: "P3"
 labels: ["bridge", "description", "gpt", "step"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.454Z"
+=======
+created_at: "2025-10-12T21:40:23.574Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Description
 
 The GPT bridge should be able to run:
@@ -677,6 +684,7 @@ You might find [this] useful while working on this task
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -792,3 +800,5 @@ You might find [this] useful while working on this task
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

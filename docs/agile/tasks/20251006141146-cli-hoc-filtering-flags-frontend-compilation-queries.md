@@ -5,7 +5,11 @@ slug: "20251006141146-cli-hoc-filtering-flags-frontend-compilation-queries"
 status: "accepted"
 priority: "P3"
 labels: ["ad-hoc-filtering", "cli-flags", "clojurescript", "dynamic-queries", "kanban-cli", "micro-frontend", "sci", "zero-compilation"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Human and agent experience (quick recipes)
 
 * **Quick start:**
@@ -1135,6 +1142,7 @@ If you want, I can also wire these flags into `pairwise`, `compare`, and `cluste
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -1250,3 +1258,5 @@ If you want, I can also wire these flags into `pairwise`, `compare`, and `cluste
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

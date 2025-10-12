@@ -5,7 +5,11 @@ slug: "frontend-build-tool-chain"
 status: "done"
 priority: "P3"
 labels: ["build", "chain", "frontend", "tool"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.580Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Description
 
 Establish a repeatable build pipeline for the `sites/` frontend that shares TypeScript code with `shared/` and participates in CI.
@@ -706,6 +713,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -821,3 +829,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

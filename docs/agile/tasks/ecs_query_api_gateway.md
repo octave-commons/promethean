@@ -5,7 +5,11 @@ slug: "ecs_query_api_gateway"
 status: "incoming"
 priority: "P3"
 labels: ["api", "ecs", "gateway", "query"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.576Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ECS Query API Gateway
 
 Goal: Expose a small HTTP API for reading ECS-backed data (Mongo) for dashboards, agents, and tools.
@@ -668,6 +675,7 @@ Exit Criteria:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -783,3 +791,5 @@ Exit Criteria:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

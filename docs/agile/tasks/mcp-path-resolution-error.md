@@ -5,7 +5,11 @@ slug: "mcp-path-resolution-error"
 status: "incoming"
 priority: "P3"
 labels: ["docops", "labeled"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.456Z"
+=======
+created_at: "2025-10-12T21:40:23.577Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🗂 Source
 
 - Path: docs/labeled/mcp-path-resolution-error.md
@@ -697,6 +704,7 @@ $proxy:ts-ls-lsp stdio transport closed for ts-ls-lsp
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -812,3 +820,5 @@ $proxy:ts-ls-lsp stdio transport closed for ts-ls-lsp
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

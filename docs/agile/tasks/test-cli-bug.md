@@ -5,7 +5,11 @@ slug: "test-cli-bug"
 status: "ready"
 priority: "P2"
 labels: ["bug", "cli", "test"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Test CLI reporting bug
 
 This is a test task to verify that CLI reporting works correctly.
@@ -658,6 +665,7 @@ This is a test task to verify that CLI reporting works correctly.
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -773,3 +781,5 @@ This is a test task to verify that CLI reporting works correctly.
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

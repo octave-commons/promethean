@@ -2,10 +2,14 @@
 uuid: "8c3d2e5f"
 title: "Design Agent Multi-Modal Communication Framework -os -modal -language -vision"
 slug: "design-agent-multi-modal-communication-framework-os-modal-language-vision"
-status: "blocked"
+status: "breakdown"
 priority: "high"
 labels: ["//]]", "agent-os", "communication", "computer-vision", "content", "model", "multi-modal", "natural-language"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -278,6 +282,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -392,6 +397,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Design Agent Multi-Modal Communication Framework
 
 ## 🎯 Objective
@@ -1677,6 +1684,7 @@ interface ComplementaryInfo {
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -1791,3 +1799,5 @@ interface ComplementaryInfo {
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

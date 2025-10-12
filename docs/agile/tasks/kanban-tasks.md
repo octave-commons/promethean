@@ -5,7 +5,11 @@ slug: "kanban-tasks"
 status: "accepted"
 priority: "P3"
 labels: ["cli", "docs", "kanban", "tasks"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Kanban CLI Tasks Docs/Agile
 
 New subcommands (added; keep your existing ones)
@@ -816,6 +823,7 @@ Minimal integration: add a single loader that auto-registers any `src/cmds/prior
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -931,3 +939,5 @@ Minimal integration: add a single loader that auto-registers any `src/cmds/prior
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

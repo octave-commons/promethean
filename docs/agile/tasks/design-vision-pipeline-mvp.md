@@ -5,7 +5,11 @@ slug: "design-vision-pipeline-mvp"
 status: "icebox"
 priority: "P3"
 labels: ["design", "mvp", "pipeline", "vision"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.454Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -277,6 +281,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -392,6 +397,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ```
 <hr class="__chatgpt_plugin">
 ```
@@ -768,6 +775,7 @@ true
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -883,3 +891,5 @@ true
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

@@ -5,7 +5,11 @@ slug: "implement-kanban-process-guidance-system-with-next-step-suggestions-exper
 status: "incoming"
 priority: "P2"
 labels: ["automation", "enhancement", "guidance", "kanban", "process", "user-experience"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.456Z"
+=======
+created_at: "2025-10-12T21:40:23.577Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## Issue
 
 Current kanban system enforces rules but doesn't provide proactive guidance. Users must:
@@ -820,6 +827,7 @@ pnpm kanban requirements <task-id> <target-state>
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -935,3 +943,5 @@ pnpm kanban requirements <task-id> <target-state>
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

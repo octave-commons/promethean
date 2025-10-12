@@ -5,7 +5,11 @@ slug: "allow_old_unnessisary_messages_to_decay_from_database_while_retaining_ind
 status: "icebox"
 priority: "P3"
 labels: ["allow", "messages", "old", "unnessisary"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.454Z"
+=======
+created_at: "2025-10-12T21:40:23.574Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 Here’s a refined version that keeps your analogy to hardware memory hierarchies but makes it concrete enough to implement as a framework component:
 
 ---
@@ -728,6 +735,7 @@ That would make it much easier to see where scoring and eviction logic plug in.
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -843,3 +851,5 @@ That would make it much easier to see where scoring and eviction logic plug in.
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

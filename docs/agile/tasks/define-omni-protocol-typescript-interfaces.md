@@ -5,7 +5,11 @@ slug: "define-omni-protocol-typescript-interfaces"
 status: "done"
 priority: "P1"
 labels: ["interfaces", "omni", "protocol", "typescript"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.579Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🎯 Outcome
 
 Translate the Omni protocol specification into comprehensive TypeScript interfaces covering all method families, request/response types, error envelopes, and streaming events.
@@ -755,6 +762,7 @@ Translate the Omni protocol specification into comprehensive TypeScript interfac
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -870,3 +878,5 @@ Translate the Omni protocol specification into comprehensive TypeScript interfac
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

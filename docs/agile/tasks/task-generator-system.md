@@ -5,7 +5,11 @@ slug: "task-generator-system"
 status: "done"
 priority: "P3"
 labels: ["board", "generator", "system", "template"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.460Z"
+=======
+created_at: "2025-10-12T21:40:23.582Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Description
 
 Create a utility that scaffolds new task files from a template to keep the board organized and consistent.
@@ -728,6 +735,7 @@ Suggested taskBuild a tested CLI task generator that meets the spec
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -843,3 +851,5 @@ Suggested taskBuild a tested CLI task generator that meets the spec
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

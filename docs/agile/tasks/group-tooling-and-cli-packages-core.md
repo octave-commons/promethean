@@ -5,7 +5,11 @@ slug: "group-tooling-and-cli-packages-core"
 status: "todo"
 priority: "p3"
 labels: ["framework-core", "refactor"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.579Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 #Todo
 
 ## 🛠️ Description
@@ -706,6 +713,7 @@ Estimate: 3
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -821,3 +829,5 @@ Estimate: 3
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

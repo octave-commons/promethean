@@ -5,7 +5,11 @@ slug: "lsp-server-for-home-brew-lisp-incoming"
 status: "done"
 priority: "P3"
 labels: ["description", "features", "language", "server"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.582Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Description
 ```
 **Status:** blocked
@@ -688,6 +695,7 @@ Useful for agents to engage in append only conversations about this task.
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -803,3 +811,5 @@ Useful for agents to engage in append only conversations about this task.
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

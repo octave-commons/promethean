@@ -5,7 +5,11 @@ slug: "recover broker code"
 status: "document"
 priority: "P3"
 labels: ["commit", "replace", "sha", "you"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.579Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 0) Safety first
 
 Make sure you don’t have local changes you care about:
@@ -1157,6 +1164,7 @@ I’ll help figure the exact commit and path so you can restore.
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -1272,3 +1280,5 @@ I’ll help figure the exact commit and path so you can restore.
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

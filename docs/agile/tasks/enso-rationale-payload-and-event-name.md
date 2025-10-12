@@ -5,7 +5,11 @@ slug: "enso-rationale-payload-and-event-name"
 status: "document"
 priority: "P2"
 labels: ["cephalon", "enso", "evaluation", "policy"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.579Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # ✅ COMPLETED
 
 ## 🛠️ Description
@@ -710,6 +717,7 @@ export type ActRationalePayload = {
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -825,3 +833,5 @@ export type ActRationalePayload = {
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

@@ -5,7 +5,11 @@ slug: "Add comprehensive unit tests for kanban-processor core functions --tags t
 status: "incoming"
 priority: "P0"
 labels: ["kanban", "processor", "functions", "logic"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 Implement unit tests for critical functions in packages/kanban-processor/src/index.ts:\n- buildBoardFromTasks() - Core task management logic\n- boardToCards() - Board transformation logic  \n- projectState() - State management functionality\n- handleBoardChange() - Event handling logic\n\nCurrent coverage: Only 2 out of 17 functions tested (36.9% total coverage). These functions are critical for Promethean workflow reliability.
 
 ## ⛓️ Blocked By
@@ -666,6 +673,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -781,3 +789,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

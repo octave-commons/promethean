@@ -5,7 +5,11 @@ slug: "separate_all_testing_pipelines_in_github_actions"
 status: "done"
 priority: "P3"
 labels: ["all", "github", "pipelines", "testing"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.582Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: seperate all testing pipelines in GitHub Actions
 
 Design docs suggest isolating service tests. Each service should have its own workflow file so failures don't block unrelated code.
@@ -711,6 +718,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -826,3 +834,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

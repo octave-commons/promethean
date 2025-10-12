@@ -11,6 +11,7 @@ emotionally mediated decision structures.
 All work must be follow the process
 [[process|`docs/agile/process.md`]]
 
+
 ---
 
 ## 📂 Repository Structure
@@ -46,6 +47,7 @@ Webservers should mount both `dist/frontend` and `static`.
 # Stack
 
 - TypeScript monorepo
+- nx
 - AVA for tests
 - Webcomponents for frontends
 - Fastify for REST
@@ -58,7 +60,7 @@ Webservers should mount both `dist/frontend` and `static`.
 
 - Functional preferred
 - Immutable data; no in-place object mutation
-- TDD non-negotiable
+- TDD manditory
 - Document-driven development
 - No relative module resolution outside of the package root. Depend on `@promethean/<package>*` via "workspace:\*".
 - Always use the ts-lsp server to diangose build errors. It is faster than running typechecks or building the project, and requires no permission

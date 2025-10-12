@@ -5,7 +5,11 @@ slug: "Capture confirmation telemetry for daemon optimization triggers"
 status: "incoming"
 priority: "P3"
 labels: ["system", "telemetry"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Capture confirmation telemetry for daemon optimization triggers
 
 `system/README.md` describes how repeated confirmations of daemon- and condition-driven units trigger optimization events and conversions into structured formats. We need durable telemetry so the framework can count confirmations, audit which context state led to conversions, and surface signals for future automation.
@@ -712,6 +719,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -827,3 +835,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

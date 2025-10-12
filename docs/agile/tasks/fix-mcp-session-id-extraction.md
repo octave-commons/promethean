@@ -5,7 +5,11 @@ slug: "fix-mcp-session-id-extraction"
 status: "accepted"
 priority: "P2"
 labels: ["mcp", "tests", "session"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## Objective
 Resolve the failing session ID extraction checks in the MCP stdio proxy negative test suites (`chatgpt-simulation-negative` and `stdio-proxy-timing-negative`). Current runs return `null`, indicating the proxy handshake or response parsing is broken.
 
@@ -673,6 +680,7 @@ Resolve the failing session ID extraction checks in the MCP stdio proxy negative
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -788,3 +796,5 @@ Resolve the failing session ID extraction checks in the MCP stdio proxy negative
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

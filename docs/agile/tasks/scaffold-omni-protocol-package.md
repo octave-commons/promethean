@@ -5,7 +5,11 @@ slug: "scaffold-omni-protocol-package"
 status: "incoming"
 priority: "P1"
 labels: ["omni", "package", "scaffolding", "typescript"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.456Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🎯 Outcome
 
 Create the complete package skeleton for `@promethean/omni-protocol` with build configuration, tooling setup, and basic project structure ready for development.
@@ -724,6 +731,7 @@ Create the complete package skeleton for `@promethean/omni-protocol` with build 
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -839,3 +847,5 @@ Create the complete package skeleton for `@promethean/omni-protocol` with build 
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

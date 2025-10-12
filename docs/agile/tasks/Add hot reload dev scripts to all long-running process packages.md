@@ -5,7 +5,11 @@ slug: "Add hot reload dev scripts to all long-running process packages"
 status: "incoming"
 priority: "P2"
 labels: ["dev", "scripts", "packages", "add"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 Add development scripts with automatic rebuild and restart to packages that start long-running processes:
 
 ## Packages that need dev scripts:
@@ -697,6 +704,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -812,3 +820,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

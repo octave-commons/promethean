@@ -5,7 +5,11 @@ slug: "add_dev_harness_int_test_ts_to_ci_integration_stag"
 status: "done"
 priority: "P3"
 labels: ["add", "dev", "harness", "int"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.579Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Add `dev.harness.int.test.ts` to CI integration stage
 
 Generated from ../unique/2025.08.08.20.08.83.md$../unique/2025.08.08.20.08.83.md
@@ -678,6 +685,7 @@ Generated from ../unique/2025.08.08.20.08.83.md$../unique/2025.08.08.20.08.83.md
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -793,3 +801,5 @@ Generated from ../unique/2025.08.08.20.08.83.md$../unique/2025.08.08.20.08.83.md
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

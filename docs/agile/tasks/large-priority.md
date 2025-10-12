@@ -5,7 +5,11 @@ slug: "large-priority"
 status: "done"
 priority: "P3"
 labels: ["large", "priority", "test", "testing"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.582Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 Testing extremely large priority values.
 
 
@@ -656,6 +663,7 @@ Testing extremely large priority values.
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -771,3 +779,5 @@ Testing extremely large priority values.
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

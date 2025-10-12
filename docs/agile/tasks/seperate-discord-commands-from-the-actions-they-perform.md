@@ -5,7 +5,11 @@ slug: "seperate-discord-commands-from-the-actions-they-perform"
 status: "done"
 priority: "P3"
 labels: ["actions", "cephalon", "commands", "refactor"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.582Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Cephalon Commands → Actions Refactor — Task Refinement
 
 > Split Discord-facing **commands** from reusable **actions** (DI via `scope`).
@@ -1131,6 +1138,7 @@ export function attachBrokerBridge(store: { dispatch: (e: Event) => Promise<void
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -1246,3 +1254,5 @@ export function attachBrokerBridge(store: { dispatch: (e: Event) => Promise<void
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

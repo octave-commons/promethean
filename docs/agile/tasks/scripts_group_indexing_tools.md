@@ -5,7 +5,11 @@ slug: "scripts_group_indexing_tools"
 status: "incoming"
 priority: "P3"
 labels: ["group", "indexing", "packages", "scripts"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 Scripts: Group indexing helpers under an indexing package
 
 Goal: Move  file/embedding indexing helpers into `packages/persistance` or create a new package `packages/indexing` with docs.
@@ -667,6 +674,7 @@ Exit Criteria:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -782,3 +790,5 @@ Exit Criteria:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

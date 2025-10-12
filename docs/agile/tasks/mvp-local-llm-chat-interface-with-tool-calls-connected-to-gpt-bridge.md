@@ -5,7 +5,11 @@ slug: "mvp-local-llm-chat-interface-with-tool-calls-connected-to-gpt-bridge"
 status: "done"
 priority: "P3"
 labels: ["mirror", "openapi", "pythagoras", "tool"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.582Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Pythagoras GPT Mirror WS chat + OpenAPI-driven tool calls via /v1
 ```
 **Owner:** Codex / Agent
@@ -900,6 +907,7 @@ feat(agent): Pythagoras-mirror via WS with OpenAPI-driven tools (/v1 smartgpt-br
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -1015,3 +1023,5 @@ feat(agent): Pythagoras-mirror via WS with OpenAPI-driven tools (/v1 smartgpt-br
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

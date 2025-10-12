@@ -5,7 +5,15 @@ slug: "boardrev-piper-integration 2 3 2"
 status: "icebox"
 priority: "P2"
 labels: ["accuracy", "boardrev", "enhancement", "metrics"]
+<<<<<<< HEAD
+<<<<<<<< HEAD:docs/agile/tasks/boardrev-piper-integration 2 3 2.md
 created_at: "2025-10-12T22:46:41.454Z"
+========
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>>> bug/kanban-duplication-issues:docs/agile/tasks/boardrev-vector-db 44.md
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -249,6 +257,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -357,3 +366,218 @@ estimates:
 
 
 
+<<<<<<<< HEAD:docs/agile/tasks/boardrev-piper-integration 2 3 2.md
+========
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+>>>>>>>> bug/kanban-duplication-issues:docs/agile/tasks/boardrev-vector-db 44.md
+=======
+>>>>>>> bug/kanban-duplication-issues

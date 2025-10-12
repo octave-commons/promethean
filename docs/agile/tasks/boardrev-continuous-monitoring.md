@@ -5,7 +5,11 @@ slug: "boardrev-continuous-monitoring"
 status: "ready"
 priority: "P1"
 labels: ["automation", "boardrev", "enhancement", "monitoring"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Add continuous monitoring and real-time updates to boardrev
 
 ## Description
@@ -690,6 +697,7 @@ Should be configurable to run in different modes: manual, watch-based, scheduled
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -805,3 +813,5 @@ Should be configurable to run in different modes: manual, watch-based, scheduled
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

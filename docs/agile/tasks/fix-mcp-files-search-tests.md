@@ -5,7 +5,11 @@ slug: "fix-mcp-files-search-tests"
 status: "accepted"
 priority: "P2"
 labels: ["mcp", "tests", "files-tools"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## Objective
 Restore all failing `filesSearch` and related `filesWriteFileLines` MCA tool tests in the MCP package. Tests currently reject promises due to proxy/tool behavior uncovered while running `pnpm --filter @promethean/mcp test`.
 
@@ -673,6 +680,7 @@ Restore all failing `filesSearch` and related `filesWriteFileLines` MCA tool tes
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -788,3 +796,5 @@ Restore all failing `filesSearch` and related `filesWriteFileLines` MCA tool tes
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

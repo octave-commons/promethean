@@ -5,7 +5,11 @@ slug: "cephalon_persist_llm_replies_to_agent_messages"
 status: "incoming"
 priority: "P3"
 labels: ["agent", "cephalon", "llm", "persist"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 Cephalon: Persist LLM replies to `agent_messages`
 
 Goal: When the ECS orchestrator receives an LLM reply current handler in `services/ts/cephalon/src/bot.ts` subscribing to `agent.llm.result`, persist the reply text and metadata to the `agent_messages` collection via `ContextManager`/`CollectionManager`.
@@ -672,6 +679,7 @@ Exit Criteria:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -787,3 +795,5 @@ Exit Criteria:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

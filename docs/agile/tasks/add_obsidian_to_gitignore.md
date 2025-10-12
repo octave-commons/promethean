@@ -5,7 +5,11 @@ slug: "add_obsidian_to_gitignore"
 status: "done"
 priority: "P3"
 labels: ["add", "gitignore", "kanban", "obsidian"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.579Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Add .obsidian to .gitignore
 
 Placeholder task stub generated from kanban board.
@@ -703,6 +710,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -818,3 +826,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

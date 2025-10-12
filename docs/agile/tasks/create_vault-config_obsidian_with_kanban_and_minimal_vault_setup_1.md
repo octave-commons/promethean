@@ -5,7 +5,11 @@ slug: "create_vault-config_obsidian_with_kanban_and_minimal_vault_setup_1"
 status: "done"
 priority: "P3"
 labels: ["config", "kanban", "obsidian", "vault"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.579Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Create vault-config .obsidian with Kanban and minimal vault setup
 
 Provide a shareable `.obsidian` folder that new contributors can copy to get the
@@ -708,6 +715,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -823,3 +831,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

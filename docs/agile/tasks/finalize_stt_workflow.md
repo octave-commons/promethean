@@ -5,7 +5,11 @@ slug: "finalize_stt_workflow"
 status: "done"
 priority: "P3"
 labels: ["finalize", "requirements", "stt", "workflow"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.580Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Finalize STT workflow
 
 The STT service has a GitHub workflow but no requirements file.
@@ -703,6 +710,7 @@ Other tasks expanded to include the intention of this ticket before this one was
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -818,3 +826,5 @@ Other tasks expanded to include the intention of this ticket before this one was
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

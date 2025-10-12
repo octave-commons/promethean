@@ -5,7 +5,11 @@ slug: "dev mode for each package"
 status: "icebox"
 priority: "P3"
 labels: ["dev", "mode", "package", "should"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.454Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Dev mode
 
 Every package should have a dev mode that watches the files and builds the package when something changes. The tests should be reran after the the project builds. Lint should be ran, etc. Just the whole everything. Everything gets done as soon as it restarts.
@@ -663,6 +670,7 @@ Not all packages are applications, many are libraries, modules, utilities, some 
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -778,3 +786,5 @@ Not all packages are applications, many are libraries, modules, utilities, some 
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

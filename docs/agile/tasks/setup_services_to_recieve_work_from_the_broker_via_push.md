@@ -5,7 +5,11 @@ slug: "setup_services_to_recieve_work_from_the_broker_via_push"
 status: "done"
 priority: "P3"
 labels: ["broker", "services", "setup", "via"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.582Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ### ✅ Setup services to use broker correctly
 
 
@@ -744,6 +751,7 @@ We're gonna call it In Progress
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -859,3 +867,5 @@ We're gonna call it In Progress
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

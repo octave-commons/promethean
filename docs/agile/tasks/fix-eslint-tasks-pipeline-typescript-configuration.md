@@ -5,7 +5,11 @@ slug: "fix-eslint-tasks-pipeline-typescript-configuration"
 status: "ready"
 priority: "P2"
 labels: ["build-fix", "configuration", "eslint", "piper", "typescript"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -277,6 +281,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -392,6 +397,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Fix eslint-tasks pipeline TypeScript parser configuration issues
 
 ## 🐛 Problem Statement
@@ -788,6 +795,7 @@ Fixing this pipeline will enable automated code quality monitoring and task gene
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -903,3 +911,5 @@ Fixing this pipeline will enable automated code quality monitoring and task gene
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

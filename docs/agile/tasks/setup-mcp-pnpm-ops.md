@@ -5,7 +5,11 @@ slug: "setup-mcp-pnpm-ops"
 status: "ready"
 priority: "P2"
 labels: ["mcp", "pnpm", "server", "workspace"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ```
 #Ready
 ```
@@ -707,6 +714,7 @@ Estimate: 5
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -822,3 +830,5 @@ Estimate: 5
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

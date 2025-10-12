@@ -5,7 +5,11 @@ slug: "1-require-usage-anywhere-in-source-files"
 status: "icebox"
 priority: "P3"
 labels: ["docops", "labeled"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.454Z"
+=======
+created_at: "2025-10-12T21:40:23.574Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🗂 Source
 
 - Path: docs/labeled/2025.09.19.17.06.49.md
@@ -686,6 +693,7 @@ Does this make sense, and do you want me to tailor the ignore globs to your exac
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -801,3 +809,5 @@ Does this make sense, and do you want me to tailor the ignore globs to your exac
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

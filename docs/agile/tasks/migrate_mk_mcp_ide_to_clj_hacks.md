@@ -5,7 +5,11 @@ slug: "migrate_mk_mcp_ide_to_clj_hacks"
 status: "done"
 priority: "p3"
 labels: ["board", "epic", "lang", "owner", "priority", "state", "task"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.582Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ```
 <hr class="__chatgpt_plugin">
 ```
@@ -683,6 +690,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -798,3 +806,5 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

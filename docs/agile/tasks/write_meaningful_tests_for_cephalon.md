@@ -5,7 +5,11 @@ slug: "write_meaningful_tests_for_cephalon"
 status: "done"
 priority: "P3"
 labels: ["cephalon", "meaningful", "tests", "write"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.460Z"
+=======
+created_at: "2025-10-12T21:40:23.582Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Write meaningful tests for Cephalon
 
 Cover core functions of the Cephalon service with automated tests.
@@ -696,6 +703,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -811,3 +819,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

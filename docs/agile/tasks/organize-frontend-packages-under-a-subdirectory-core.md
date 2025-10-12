@@ -5,7 +5,11 @@ slug: "organize-frontend-packages-under-a-subdirectory-core"
 status: "done"
 priority: "p3"
 labels: ["framework-core", "refactor"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.582Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 #InProgress
 
 ## 🛠️ Description
@@ -706,6 +713,7 @@ Estimate: 5
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -821,3 +829,5 @@ Estimate: 5
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

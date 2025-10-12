@@ -5,7 +5,11 @@ slug: "standardize-agent-ecosystem-launchflows"
 status: "done"
 priority: "P2"
 labels: ["agents", "devx", "duck"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.460Z"
+=======
+created_at: "2025-10-12T21:40:23.582Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 Background: Contributors still rely on outdated Makefile targets to launch agents. The backlog calls for PM2 (or an alternative) baselines, reusable ecosystem declarations (starting with Duck), and documentation that ties `pnpm --filter` scripts to real-world dev flows.
 
 Goal: Ship a consistent launch workflow so every agent (Duck, Cephalon, Discord forwarders, etc.) advertises the same process metadata, tooling, and documentation.
@@ -721,6 +728,7 @@ The ecosystem now provides a consistent, well-documented launch experience that 
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -836,3 +844,5 @@ The ecosystem now provides a consistent, well-documented launch experience that 
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

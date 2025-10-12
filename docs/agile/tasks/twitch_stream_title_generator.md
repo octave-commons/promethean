@@ -5,7 +5,11 @@ slug: "twitch_stream_title_generator"
 status: "icebox"
 priority: "P3"
 labels: ["generator", "stream", "title", "twitch"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.454Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -277,6 +281,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -392,6 +397,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 Here’s a refined version of your task that keeps it tied to your streaming workflow but makes it concrete enough to move forward:
 
 ---
@@ -723,6 +730,7 @@ That would make expansion easier later.
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -838,3 +846,5 @@ That would make expansion easier later.
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

@@ -5,7 +5,11 @@ slug: "create-a-generic-markdown-helper-module"
 status: "rejected"
 priority: "P5"
 labels: ["create", "helper", "markdown", "module"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.460Z"
+=======
+created_at: "2025-10-12T21:40:23.582Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Create a Generic Markdown Helper Module
 
 Develop a shared module for reading, writing, and manipulating markdown files used across documentation scripts.
@@ -705,6 +712,7 @@ https://github.com/riatzukiza/promethean/pull/1125
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -820,3 +828,5 @@ https://github.com/riatzukiza/promethean/pull/1125
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

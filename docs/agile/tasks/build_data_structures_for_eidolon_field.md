@@ -5,7 +5,11 @@ slug: "build_data_structures_for_eidolon_field"
 status: "done"
 priority: "P3"
 labels: ["build", "data", "eidolon", "structures"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.579Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Build data structures for Eidolon field
 
 Placeholder task stub generated from kanban board.
@@ -699,6 +706,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -814,3 +822,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

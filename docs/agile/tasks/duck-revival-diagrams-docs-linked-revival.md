@@ -5,7 +5,11 @@ slug: "duck-revival-diagrams-docs-linked-revival"
 status: "done"
 priority: "P2"
 labels: ["docs", "duck-revival"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.580Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 #Done
 
 ## 🛠️ Description
@@ -687,6 +694,7 @@ Add concise docs with Mermaid diagrams for all moving parts touched by the `duck
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -802,3 +810,5 @@ Add concise docs with Mermaid diagrams for all moving parts touched by the `duck
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

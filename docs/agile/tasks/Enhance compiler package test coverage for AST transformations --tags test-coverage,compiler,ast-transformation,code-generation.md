@@ -5,7 +5,11 @@ slug: "Enhance compiler package test coverage for AST transformations --tags tes
 status: "incoming"
 priority: "P1"
 labels: ["coverage", "compiler", "test", "ast"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 Expand test coverage for packages/compiler/src/:\n- AST transformation edge cases and error recovery\n- Lisp-to-JS transformation logic completeness\n- Parser error handling and recovery mechanisms\n- Code generation edge cases and performance benchmarks\n- Integration tests for compilation pipeline\n\nCurrent coverage: 72.35% with gaps in transformation logic. Important for code generation reliability in the Promethean system.
 
 ## ⛓️ Blocked By
@@ -666,6 +673,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -781,3 +789,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

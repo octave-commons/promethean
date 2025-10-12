@@ -5,7 +5,11 @@ slug: "enable_compactor_for_process_state_process_state_s"
 status: "icebox"
 priority: "P3"
 labels: ["compactor", "enable", "process", "state"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.454Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Enable compactor for `process.state` → `process.state.snapshot`
 
 Generated from ../unique/2025.08.08.15.08.47.md$../unique/2025.08.08.15.08.47.md
@@ -679,6 +686,7 @@ Generated from ../unique/2025.08.08.15.08.47.md$../unique/2025.08.08.15.08.47.md
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -794,3 +802,5 @@ Generated from ../unique/2025.08.08.15.08.47.md$../unique/2025.08.08.15.08.47.md
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

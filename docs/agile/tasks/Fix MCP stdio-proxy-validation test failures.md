@@ -5,7 +5,11 @@ slug: "Fix MCP stdio-proxy-validation test failures"
 status: "incoming"
 priority: "P1"
 labels: ["failures", "test", "validation", "mcp"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 Multiple test failures in @promethean/mcp package:
 
 - StdioHttpProxy edge case handling failures
@@ -675,6 +682,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -790,3 +798,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

@@ -5,7 +5,11 @@ slug: "generate-roadmap-inventory-report"
 status: "done"
 priority: "P3"
 labels: ["documentation", "scripts"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.580Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Extend roadmap generator to emit inventory report
 
 Add an initial consolidation step to the roadmap site generator that builds an inventory report from the existing mermaid blocks. Capture the report alongside current outputs so downstream tooling can use it.
@@ -734,6 +741,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -849,3 +857,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

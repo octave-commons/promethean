@@ -5,7 +5,11 @@ slug: "add_stt_service_tests"
 status: "icebox"
 priority: "P3"
 labels: ["add", "service", "stt", "tests"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.454Z"
+=======
+created_at: "2025-10-12T21:40:23.574Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Add STT service tests
 
 Create unit tests for the speech-to-text service in `services/stt/`.
@@ -696,6 +703,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -811,3 +819,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

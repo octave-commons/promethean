@@ -5,7 +5,11 @@ slug: "install-and-configure-sonar-scanner-for-code-quality-pipeline-quality-dep
 status: "done"
 priority: "P2"
 labels: ["code-quality", "external-dependency", "piper", "sonar", "sonarqube"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.580Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Install and configure sonar-scanner for code quality pipeline
 
 ## 🐛 Problem Statement
@@ -805,6 +812,7 @@ This setup will enable continuous code quality monitoring and automated task gen
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -920,3 +928,5 @@ This setup will enable continuous code quality monitoring and automated task gen
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

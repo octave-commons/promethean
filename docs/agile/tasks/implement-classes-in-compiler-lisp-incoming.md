@@ -5,7 +5,11 @@ slug: "implement-classes-in-compiler-lisp-incoming"
 status: "done"
 priority: "P3"
 labels: ["classes", "compiler", "implement", "lisp"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.580Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # 🛠️ Task: Implement Classes in Lisp Compiler
 
 ## 📖 Description
@@ -716,6 +723,7 @@ Append-only thread for collaboration by agents implementing class support.
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -831,3 +839,5 @@ Append-only thread for collaboration by agents implementing class support.
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

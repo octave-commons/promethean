@@ -5,7 +5,11 @@ slug: "mock-broker"
 status: "incoming"
 priority: "P3"
 labels: ["broker", "mock", "tests", "you"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.456Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 Here’s a no-nonsense expansion that you can drop into your board. I’ve treated this like a mini-spec + work plan so Codex (or you) can just execute.
 
 # Mock the Broker for Tests
@@ -901,6 +908,7 @@ it('can inject latency and drop messages', async () => {
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -1016,3 +1024,5 @@ it('can inject latency and drop messages', async () => {
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

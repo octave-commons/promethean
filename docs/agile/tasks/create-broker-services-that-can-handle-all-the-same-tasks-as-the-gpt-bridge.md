@@ -5,7 +5,11 @@ slug: "create-broker-services-that-can-handle-all-the-same-tasks-as-the-gpt-brid
 status: "done"
 priority: "P3"
 labels: ["api", "broker", "gpt", "parity"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.579Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # WebSocket Broker API Parity with GPT Bridge
 ```
 **Owner:** Codex / Agent
@@ -846,6 +853,7 @@ Append-only thread for agents to log discovered gaps, schema changes, or overloa
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -961,3 +969,5 @@ Append-only thread for agents to log discovered gaps, schema changes, or overloa
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

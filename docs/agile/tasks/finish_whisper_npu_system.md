@@ -5,7 +5,11 @@ slug: "finish_whisper_npu_system"
 status: "done"
 priority: "P3"
 labels: ["finish", "npu", "system", "whisper"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.580Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 Here’s the refined version, keeping it focused on **NPU-accelerated transcription** as a performance optimization:
 
 ---
@@ -722,6 +729,7 @@ That’ll make it easier to slot into the Promethean pipeline.
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -837,3 +845,5 @@ That’ll make it easier to slot into the Promethean pipeline.
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

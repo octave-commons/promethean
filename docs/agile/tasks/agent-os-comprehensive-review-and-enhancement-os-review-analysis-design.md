@@ -5,7 +5,11 @@ slug: "agent-os-comprehensive-review-and-enhancement-os-review-analysis-design"
 status: "ready"
 priority: "high"
 labels: ["agent-os", "comprehensive-review", "enhancement", "final-design", "gaps-analysis"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -541,6 +545,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -771,3 +776,5 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

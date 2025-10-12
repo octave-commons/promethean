@@ -5,7 +5,11 @@ slug: "architecture-at-10000-ft"
 status: "incoming"
 priority: "P3"
 labels: ["docops", "labeled"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🗂 Source
 
 - Path: docs/labeled/2025.10.07.00.22.46.md
@@ -697,6 +704,7 @@ Use a simple M/M/c approximation for wait times; keep \rho ~ 0.7–0.8 so test/r
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -812,3 +820,5 @@ Use a simple M/M/c approximation for wait times; keep \rho ~ 0.7–0.8 so test/r
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

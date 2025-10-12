@@ -5,7 +5,11 @@ slug: "discord_link_indexer"
 status: "done"
 priority: "P3"
 labels: ["discord", "done", "indexer", "link"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.579Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Description
 
 This may be done already, though we're not sure. It looked done.
@@ -702,6 +709,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -817,3 +825,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

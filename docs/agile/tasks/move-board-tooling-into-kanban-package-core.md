@@ -5,7 +5,11 @@ slug: "move-board-tooling-into-kanban-package-core"
 status: "done"
 priority: "P3"
 labels: ["devtools", "framework-core"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.582Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 Move the TypeScript utilities under `tools/board/` into the maintained `@promethean/kanban` package so they ship with the rest of the board automation CLI.
 
 ## Plan
@@ -668,6 +675,7 @@ Move the TypeScript utilities under `tools/board/` into the maintained `@prometh
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -783,3 +791,5 @@ Move the TypeScript utilities under `tools/board/` into the maintained `@prometh
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

@@ -5,7 +5,11 @@ slug: "fix-regenerate-board-empty-columns 7"
 status: "done"
 priority: "P1"
 labels: ["bug", "columns", "config", "fsm", "kanban"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.580Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -573,6 +577,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -803,3 +808,5 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

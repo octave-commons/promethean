@@ -5,7 +5,11 @@ slug: "scripts_update_ci_and_refs"
 status: "incoming"
 priority: "P3"
 labels: ["references", "refs", "scripts", "update"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 Scripts: Update CI and references post-reorg
 
 Goal: Update CI workflows and docs to reflect new script locations and Make targets.
@@ -668,6 +675,7 @@ Exit Criteria:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -783,3 +791,5 @@ Exit Criteria:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

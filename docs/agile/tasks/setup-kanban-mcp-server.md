@@ -5,7 +5,11 @@ slug: "setup-kanban-mcp-server"
 status: "ready"
 priority: "P2"
 labels: ["automation", "kanban", "mcp"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 #InProgress
 #Ready
 
@@ -719,6 +726,7 @@ Estimate: 3 (Fibonacci).
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -834,3 +842,5 @@ Estimate: 3 (Fibonacci).
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

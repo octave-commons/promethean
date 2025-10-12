@@ -5,7 +5,11 @@ slug: "boardrev-vector-database-accuracy-enhancement-epic-db"
 status: "icebox"
 priority: "P1"
 labels: ["accuracy", "boardrev", "epic", "performance", "vector-db"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.454Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -172,6 +176,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -287,6 +292,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Replace LevelDB with vector database for boardrev
 
 ## Description
@@ -488,6 +495,7 @@ Consider keeping LevelDB as fallback for smaller repos where vector DB overhead 
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -603,3 +611,5 @@ Consider keeping LevelDB as fallback for smaller repos where vector DB overhead 
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

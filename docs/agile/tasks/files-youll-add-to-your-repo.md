@@ -5,7 +5,11 @@ slug: "files-youll-add-to-your-repo"
 status: "incoming"
 priority: "P3"
 labels: ["docops", "labeled"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.456Z"
+=======
+created_at: "2025-10-12T21:40:23.576Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🗂 Source
 
 - Path: docs/labeled/2025.10.07.22.05.53.md
@@ -685,6 +692,7 @@ A flat, editable list of model variants to test. Path
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -800,3 +808,5 @@ A flat, editable list of model variants to test. Path
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

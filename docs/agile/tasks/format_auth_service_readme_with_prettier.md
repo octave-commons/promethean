@@ -5,7 +5,11 @@ slug: "format_auth_service_readme_with_prettier"
 status: "todo"
 priority: "P3"
 labels: ["auth", "prettier", "readme", "service"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Format auth-service README with Prettier
 
 ## Description
@@ -673,6 +680,7 @@ The `auth-service` package lint step reported Prettier formatting issues in `REA
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -788,3 +796,5 @@ The `auth-service` package lint step reported Prettier formatting issues in `REA
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

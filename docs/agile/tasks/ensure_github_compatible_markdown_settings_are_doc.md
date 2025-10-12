@@ -5,7 +5,11 @@ slug: "ensure_github_compatible_markdown_settings_are_doc"
 status: "done"
 priority: "P3"
 labels: ["ensure", "github", "markdown", "settings"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.580Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Ensure GitHub-compatible markdown settings are documented
 
 Some Obsidian features don't render well on GitHub. We need clear guidelines so contributors produce markdown that looks correct both locally and on GitHub.
@@ -698,6 +705,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -813,3 +821,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

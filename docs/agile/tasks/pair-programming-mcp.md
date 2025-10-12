@@ -5,7 +5,11 @@ slug: "pair-programming-mcp"
 status: "incoming"
 priority: "P3"
 labels: ["docops", "labeled"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.456Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🗂 Source
 
 - Path: docs/labeled/2025.09.20.12.55.06.md
@@ -703,6 +710,7 @@ When he is in solo dev or driver pair programming mode
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -818,3 +826,5 @@ When he is in solo dev or driver pair programming mode
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

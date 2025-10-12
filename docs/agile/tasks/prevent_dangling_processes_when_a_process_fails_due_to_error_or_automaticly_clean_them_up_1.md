@@ -5,7 +5,11 @@ slug: "prevent_dangling_processes_when_a_process_fails_due_to_error_or_automatic
 status: "done"
 priority: "P3"
 labels: ["clean", "prevent", "process", "processes"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.582Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Description
 
 This is kinda started through the heartbeat server, but t hat is not nearly robust enough.
@@ -709,6 +716,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -824,3 +832,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

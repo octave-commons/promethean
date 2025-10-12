@@ -5,7 +5,11 @@ slug: "gpt-bridge-fuzzy-lookup-should-return-multiple-matches-when-it-is-used"
 status: "done"
 priority: "P3"
 labels: ["bridge", "fuzzy", "gpt", "matches"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.580Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Description
 ```
 **Status:** blocked
@@ -715,6 +722,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -830,3 +838,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

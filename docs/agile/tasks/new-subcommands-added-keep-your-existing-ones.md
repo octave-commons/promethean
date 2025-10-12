@@ -5,7 +5,11 @@ slug: "new-subcommands-added-keep-your-existing-ones"
 status: "incoming"
 priority: "P3"
 labels: ["docops", "labeled"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.456Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🗂 Source
 
 - Path: docs/labeled/2025.10.06.15.01.27.md
@@ -693,6 +700,7 @@ Shared flags (consistent across new cmds):
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -808,3 +816,5 @@ Shared flags (consistent across new cmds):
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

@@ -5,7 +5,11 @@ slug: "20250919232312-cycles-end-hand-off-pr-agent-cycles-shaping-work-end-shapi
 status: "done"
 priority: "P3"
 labels: ["cloud", "fsm", "kanban", "no", "partial", "procedural", "re-shaping", "safe", "session-end"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.579Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 you’re not overthinking it — you’re seeing the missing cycles. let’s add **explicit reverse paths** so the system never fakes forward progress, and give the cloud agent a safe “session-end hand-off” path that doesn’t require a PR.
 
 here’s a tightened FSM with minimal, procedural cycles:
@@ -784,6 +791,7 @@ If this looks right, I’ll fold these deltas into the process doc’s FSM secti
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -899,3 +907,5 @@ If this looks right, I’ll fold these deltas into the process doc’s FSM secti
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

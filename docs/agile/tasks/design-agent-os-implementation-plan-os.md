@@ -5,7 +5,11 @@ slug: "design-agent-os-implementation-plan-os"
 status: "incoming"
 priority: "P0"
 labels: ["agent-os", "architecture", "design", "foundation", "planning"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.576Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Design Agent OS Implementation Plan
 
 ## Overview
@@ -863,6 +870,7 @@ This design will produce the following artifacts:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -978,3 +986,5 @@ This design will produce the following artifacts:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

@@ -5,7 +5,11 @@ slug: "phase-out-proxy-in-favor-of-bridge-service"
 status: "done"
 priority: "P3"
 labels: ["bridge", "phase", "proxy", "service"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.582Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Description
 
 Retire the existing proxy layer and expose all external APIs through the broker-driven bridge service.
@@ -714,6 +721,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -829,3 +837,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

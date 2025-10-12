@@ -5,7 +5,11 @@ slug: "deprecate-applypatchjs-wrapper-script-patch"
 status: "incoming"
 priority: "P2"
 labels: ["apply-patch", "cleanup", "deprecation"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.576Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 Remove scripts/apply_patch.js as it's a simple wrapper around @promethean/apply-patch package. Users should use 'pnpm exec apply-patch' or the package CLI directly. Update documentation to reference the package instead of the script.
 
 ## ⛓️ Blocked By
@@ -666,6 +673,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -781,3 +789,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

@@ -5,7 +5,11 @@ slug: "deploy_changefeed_for_collections_you_want_mirrore"
 status: "done"
 priority: "P3"
 labels: ["changefeed", "collections", "deploy", "you"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.579Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Deploy **changefeed** for collections you want mirrored to topics
 
 Generated from ../unique/2025.08.08.20.08.52.md$../unique/2025.08.08.20.08.52.md
@@ -678,6 +685,7 @@ Generated from ../unique/2025.08.08.20.08.52.md$../unique/2025.08.08.20.08.52.md
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -793,3 +801,5 @@ Generated from ../unique/2025.08.08.20.08.52.md$../unique/2025.08.08.20.08.52.md
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

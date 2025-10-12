@@ -5,7 +5,11 @@ slug: "scripts_group_docs_utilities"
 status: "incoming"
 priority: "P3"
 labels: ["stabilization"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 Scripts: Group documentation utilities under scripts/docs
 
 Goal: Move all documentation-maintenance utilities into `scripts/docs/` with a README and stable usage.
@@ -675,6 +682,7 @@ Exit Criteria:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -790,3 +798,5 @@ Exit Criteria:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

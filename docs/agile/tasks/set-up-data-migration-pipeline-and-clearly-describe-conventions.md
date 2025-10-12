@@ -5,7 +5,11 @@ slug: "set-up-data-migration-pipeline-and-clearly-describe-conventions"
 status: "icebox"
 priority: "P3"
 labels: ["databases", "migration", "testing", "working"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:52:45.405Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -277,6 +281,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -392,6 +397,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 Here’s a repo-ready task you can paste into the board. It carves a bright line between **testing** and **working** dev/staging/prod databases and enforces a **migration contract** that every migration must satisfy before touching working data.
 
 # Maintain Testing vs Working Databases w/ Migration Contract
@@ -871,6 +878,7 @@ feat(migrations): isolate test DBs and enforce migration contracts
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -986,3 +994,5 @@ feat(migrations): isolate test DBs and enforce migration contracts
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

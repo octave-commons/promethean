@@ -5,7 +5,11 @@ slug: "chatgpt-export-injest-with-dedupe-index-and-hashes"
 status: "done"
 priority: "P3"
 labels: ["chatgpt", "export", "index", "ingest"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.579Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Task: ChatGPT Export Ingest with De‑dup Index & Hashes
 ```
 **Status:** blocked
@@ -889,6 +896,7 @@ pnpm tsx src/cli.ts --export ~/Downloads/chatgpt-export \
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -1004,3 +1012,5 @@ pnpm tsx src/cli.ts --export ~/Downloads/chatgpt-export \
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

@@ -5,7 +5,11 @@ slug: "design_circular_buffers_for_inputs_with_layered_states_of_persistance_in_
 status: "done"
 priority: "P3"
 labels: ["circular", "cold", "disk", "memory"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.579Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Description
 
 Placeholder task stub generated from kanban board.
@@ -732,6 +739,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -847,3 +855,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

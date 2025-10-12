@@ -5,7 +5,11 @@ slug: "gather_open_questions_about_system_direction"
 status: "icebox"
 priority: "P3"
 labels: ["gather", "open", "questions", "system"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.454Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Gather open questions about system direction
 
 This task collects ambiguous or unresolved points about Promethean's goals and architecture that require human clarification.
@@ -698,6 +705,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -813,3 +821,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

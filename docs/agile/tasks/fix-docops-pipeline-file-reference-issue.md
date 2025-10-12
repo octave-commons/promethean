@@ -5,7 +5,11 @@ slug: "fix-docops-pipeline-file-reference-issue"
 status: "done"
 priority: "P2"
 labels: ["automation", "bug", "docops", "pipeline"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.580Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Fix docops pipeline file reference issue
 
 ## 📋 Issue Description
@@ -715,6 +722,7 @@ The docops pipeline has a file reference issue: Missing input documentation file
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -830,3 +838,5 @@ The docops pipeline has a file reference issue: Missing input documentation file
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

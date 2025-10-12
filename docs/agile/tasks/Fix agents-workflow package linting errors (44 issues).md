@@ -5,7 +5,11 @@ slug: "Fix agents-workflow package linting errors (44 issues)"
 status: "incoming"
 priority: "P2"
 labels: ["errors", "issues", "fix", "agents"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 agents-workflow package has 44 linting problems (34 errors, 10 warnings):
 
 ## Critical Errors to Fix:
@@ -686,6 +693,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -801,3 +809,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

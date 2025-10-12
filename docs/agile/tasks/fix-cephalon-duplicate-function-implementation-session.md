@@ -5,7 +5,11 @@ slug: "fix-cephalon-duplicate-function-implementation-session"
 status: "ready"
 priority: "P2"
 labels: ["bugfix", "cephalon", "typescript", "voice-session"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## Issue
 
 The file `packages/cephalon/src/actions/start-dialog.scope.ts` contains a duplicate implementation of the `runClassicStartDialog` function:
@@ -688,6 +695,7 @@ This could lead to improper voice session initialization and affect Discord voic
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -803,3 +811,5 @@ This could lead to improper voice session initialization and affect Discord voic
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

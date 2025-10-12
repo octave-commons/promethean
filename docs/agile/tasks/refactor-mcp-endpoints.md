@@ -5,7 +5,11 @@ slug: "refactor-mcp-endpoints"
 status: "done"
 priority: "p3"
 labels: ["board", "epic", "lang", "owner", "package", "priority", "state", "task"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.582Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## Context
 - **What changed?**: Need to extend MCP transport loader to support multiple HTTP endpoints from config.
 - **Where?**: `packages/mcp`
@@ -674,6 +681,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -789,3 +797,5 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

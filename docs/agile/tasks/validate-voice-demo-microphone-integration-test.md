@@ -5,7 +5,11 @@ slug: "validate-voice-demo-microphone-integration-test"
 status: "icebox"
 priority: "P2"
 labels: ["audio", "manual-test"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.454Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Description
 
 Validate the `voice-demo` CLI command against real microphone devices and document any platform-specific setup guidance needed for contributors.
@@ -682,6 +689,7 @@ Add observations about latency, buffering, or compatibility as testing progresse
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -797,3 +805,5 @@ Add observations about latency, buffering, or compatibility as testing progresse
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

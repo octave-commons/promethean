@@ -5,7 +5,11 @@ slug: "big-picture"
 status: "incoming"
 priority: "P3"
 labels: ["docops", "labeled"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🗂 Source
 
 - Path: docs/labeled/2025.10.07.23.52.19.md
@@ -693,6 +700,7 @@ I’ll show:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -808,3 +816,5 @@ I’ll show:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

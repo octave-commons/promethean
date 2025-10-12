@@ -5,7 +5,11 @@ slug: "github-branching-workflow"
 status: "done"
 priority: "P3"
 labels: ["docops", "labeled"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.580Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🗂 Source
 
 - Path: docs/labeled/2025.09.20.05.43.29.md
@@ -702,6 +709,7 @@ And describe a step by step process that
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -817,3 +825,5 @@ And describe a step by step process that
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

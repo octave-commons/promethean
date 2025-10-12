@@ -5,7 +5,11 @@ slug: "pin_versions_in_configs"
 status: "done"
 priority: "P3"
 labels: ["codex", "configs", "pin", "versions"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.582Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 Got it. Here’s a practical expansion you can paste into the board and hand to Codex. It’s opinionated, deterministic, and aims to stop every “oops it upgraded” class of failure.
 
 # Pin versions in configs
@@ -899,6 +906,7 @@ chore(versions): pin runtimes, deps, images, models; add pins linter
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -1014,3 +1022,5 @@ chore(versions): pin runtimes, deps, images, models; add pins linter
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

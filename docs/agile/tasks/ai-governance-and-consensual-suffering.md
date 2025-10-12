@@ -5,7 +5,11 @@ slug: "ai-governance-and-consensual-suffering"
 status: "incoming"
 priority: "P3"
 labels: ["docops", "labeled"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🗂 Source
 
 - Path: docs/labeled/ai-governance-and-consensual-suffering.md
@@ -696,6 +703,7 @@ but they really make these bad tests that only look like they pass, and if you r
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -811,3 +819,5 @@ but they really make these bad tests that only look like they pass, and if you r
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

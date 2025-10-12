@@ -5,7 +5,11 @@ slug: "voice-forwarder-readme-and-frame-clamp"
 status: "done"
 priority: "P3"
 labels: ["docs", "enso", "voice"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.460Z"
+=======
+created_at: "2025-10-12T21:40:23.582Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 #Todo
 
 ## 🛠️ Description
@@ -669,6 +676,7 @@ Document reliance on `channel.protocol` for `frameDurationMs` with 20ms fallback
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -784,3 +792,5 @@ Document reliance on `channel.protocol` for `frameDurationMs` with 20ms fallback
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

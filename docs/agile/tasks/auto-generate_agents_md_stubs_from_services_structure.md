@@ -5,7 +5,11 @@ slug: "auto-generate_agents_md_stubs_from_services_structure"
 status: "done"
 priority: "P3"
 labels: ["agents", "generate", "services", "stubs"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.579Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Auto-generate AGENTS.md stubs from services structure
 
 Build a small script that scans `services/` and produces initial `AGENTS.md` files for each service. These stubs should include minimal metadata and links back to implementation files.
@@ -706,6 +713,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -821,3 +829,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

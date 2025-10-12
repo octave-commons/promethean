@@ -1,11 +1,19 @@
 ---
+<<<<<<< HEAD
 uuid: "3c7d2b5e-2272-4e55-b0ae-c2dd2a1042b1"
+=======
+uuid: "f4c1774f-6ae6-4d25-8134-205ceccc6efa"
+>>>>>>> bug/kanban-duplication-issues
 title: "Fix TypeScript missing exports in packages/shared/src/index.ts: Missing exports for shared utilities"
 slug: "emergency-type-fix-shared-index 19"
 status: "incoming"
 priority: "P1"
 labels: ["automation", "emergency", "exports", "typescript"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.576Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -213,6 +221,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -443,3 +452,5 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

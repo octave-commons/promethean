@@ -5,7 +5,11 @@ slug: "fix-kanban-board-regeneration-tests-14-failing-tests-fix"
 status: "incoming"
 priority: "P1"
 labels: ["bug-fix", "kanban", "testing"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.456Z"
+=======
+created_at: "2025-10-12T21:40:23.577Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 #incoming
 
 ## 🛠️ Description
@@ -718,6 +725,7 @@ Estimate: 5
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -833,3 +841,5 @@ Estimate: 5
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

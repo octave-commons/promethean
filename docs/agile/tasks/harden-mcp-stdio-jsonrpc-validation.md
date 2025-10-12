@@ -5,7 +5,11 @@ slug: "harden-mcp-stdio-jsonrpc-validation"
 status: "accepted"
 priority: "P2"
 labels: ["mcp", "tests", "stdio-proxy"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## Objective
 Diagnose and fix the failing JSON-RPC validation suites (`stdio-proxy-validation` and `debug-filtering-unit`) so that invalid messages are rejected and edge cases resolve without timeouts.
 
@@ -674,6 +681,7 @@ Diagnose and fix the failing JSON-RPC validation suites (`stdio-proxy-validation
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -789,3 +797,5 @@ Diagnose and fix the failing JSON-RPC validation suites (`stdio-proxy-validation
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

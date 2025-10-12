@@ -5,7 +5,11 @@ slug: "Convert existing mermaid diagrams into pipeline configs"
 status: "todo"
 priority: "P4"
 labels: ["documentation", "tooling"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Convert existing Mermaid diagrams into pipeline configs
 
 ### Context
@@ -678,6 +685,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -793,3 +801,5 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

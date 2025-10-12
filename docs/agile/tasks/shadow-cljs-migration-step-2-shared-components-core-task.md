@@ -5,7 +5,11 @@ slug: "shadow-cljs-migration-step-2-shared-components-core-task"
 status: "done"
 priority: "P2"
 labels: ["codex-task", "framework-core", "frontend"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.582Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 #Todo
 
 ## 🛠️ Description
@@ -709,6 +716,7 @@ Estimate: 5
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -824,3 +832,5 @@ Estimate: 5
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

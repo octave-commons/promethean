@@ -5,7 +5,11 @@ slug: "shadow-cljs-migration-step-1-foundation-core-task"
 status: "in_progress"
 priority: "P2"
 labels: ["codex-task", "framework-core", "frontend"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.579Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 #InProgress
 
 ## 🛠️ Description
@@ -713,6 +720,7 @@ Estimate: 5
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -828,3 +836,5 @@ Estimate: 5
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

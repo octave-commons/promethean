@@ -5,7 +5,11 @@ slug: "refactor_speech_interuption_system_to_be_more_inteligent_using_audio_data
 status: "done"
 priority: "P3"
 labels: ["audio", "refactor", "speech", "system"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.582Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Description
 
 Refactor the speech interruption system to analyze incoming audio data so the agent only stops speaking when the user intentionally interrupts.
@@ -733,6 +740,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -848,3 +856,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

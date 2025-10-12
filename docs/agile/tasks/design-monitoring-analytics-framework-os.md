@@ -5,7 +5,11 @@ slug: "design-monitoring-analytics-framework-os"
 status: "incoming"
 priority: "P1"
 labels: ["agent-os", "analytics", "dashboard", "design", "metrics", "monitoring"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.576Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Design Monitoring & Analytics Framework
 
 ## Overview
@@ -1110,6 +1117,7 @@ interface DataManagement {
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -1225,3 +1233,5 @@ interface DataManagement {
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

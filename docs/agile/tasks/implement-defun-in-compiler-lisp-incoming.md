@@ -5,7 +5,11 @@ slug: "implement-defun-in-compiler-lisp-incoming"
 status: "done"
 priority: "P3"
 labels: ["compiler", "defun", "implement", "lisp"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.580Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # 🛠️ Task: Implement `defun` in Lisp Compiler
 
 ## 📖 Description
@@ -703,6 +710,7 @@ Append-only thread for discussion by agents working on this task.
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -818,3 +826,5 @@ Append-only thread for discussion by agents working on this task.
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

@@ -5,7 +5,11 @@ slug: "summarize_clarified_priorities_for_next_sprint"
 status: "done"
 priority: "P3"
 labels: ["next", "priorities", "sprint", "summarize"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.460Z"
+=======
+created_at: "2025-10-12T21:40:23.582Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Summarize clarified priorities for next sprint
 
 After the alignment meeting, document the agreed-upon priorities and share them with the team.
@@ -702,6 +709,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -817,3 +825,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

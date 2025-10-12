@@ -5,7 +5,11 @@ slug: "ai-integration-challenges-3"
 status: "incoming"
 priority: "P3"
 labels: ["docops", "labeled"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🗂 Source
 
 - Path: docs/labeled/ai-integration-challenges-3.md
@@ -686,6 +693,7 @@ Every one offering up basically the same thing, just plugged into a different mo
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -801,3 +809,5 @@ Every one offering up basically the same thing, just plugged into a different mo
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

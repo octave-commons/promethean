@@ -5,7 +5,11 @@ slug: "add_vault_instructions_to_main_readme"
 status: "done"
 priority: "P3"
 labels: ["add", "instructions", "main", "vault"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.579Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Add vault instructions to main README.md
 
 Placeholder task stub generated from kanban board.
@@ -706,6 +713,7 @@ Vault usage instructions were added to `readme.md` alongside a reference to
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -821,3 +829,5 @@ Vault usage instructions were added to `readme.md` alongside a reference to
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

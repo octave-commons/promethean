@@ -5,7 +5,11 @@ slug: "missing-rate-limiting-smartgpt-files"
 status: "done"
 priority: "P1"
 labels: ["bug", "security"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.582Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Description
 
 CodeQL flagged the SmartGPT Bridge file routes for missing rate limiting. We need to scope the affected endpoints under sensible rate limits to prevent abuse while keeping the UX responsive.
@@ -682,6 +689,7 @@ CodeQL flagged the SmartGPT Bridge file routes for missing rate limiting. We nee
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -797,3 +805,5 @@ CodeQL flagged the SmartGPT Bridge file routes for missing rate limiting. We nee
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

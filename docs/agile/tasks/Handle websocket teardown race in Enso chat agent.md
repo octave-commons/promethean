@@ -5,7 +5,11 @@ slug: "Handle websocket teardown race in Enso chat agent"
 status: "incoming"
 priority: "P1"
 labels: ["cephalon", "reliability"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 `EnsoChatAgent.dispose()` currently awaits `wsHandle.close()`, which rejects with “WebSocket was closed before the connection
 was established” when shutdown runs before the handshake finishes. AVA reports this as an uncaught exception during
 `pnpm nx test @promethean/cephalon`.
@@ -669,6 +676,7 @@ was established” when shutdown runs before the handshake finishes. AVA reports
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -784,3 +792,5 @@ was established” when shutdown runs before the handshake finishes. AVA reports
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

@@ -1,11 +1,15 @@
 ---
-uuid: "6de8bd84-420d-4955-8548-dbfac6df9806"
+uuid: "d5c08252-46dc-466f-9b8a-cc6ba080834e"
 title: "Task Migration Plan - Consolidation & Supersession Strategy"
 slug: "task-migration-plan 2"
 status: "incoming"
 priority: "P1"
 labels: ["consolidation", "migration", "planning", "supersession"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -177,6 +181,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -883,3 +888,5 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

@@ -133,6 +133,28 @@ const readTasksFromDirectory = async (dir: string): Promise<Task[]> => {
       const priority = ensurePriority(frontmatter.priority);
       const status = ensureString(frontmatter.status) ?? 'todo';
       const createdAt = ensureString(frontmatter.created_at);
+
+      // Parse estimates if present
+      const estimatesObj = frontmatter.estimates as any;
+      const estimates =
+        estimatesObj && typeof estimatesObj === 'object'
+          ? {
+              complexity:
+                typeof estimatesObj.complexity === 'number'
+                  ? estimatesObj.complexity
+                  : typeof estimatesObj.complexity === 'string'
+                    ? parseInt(estimatesObj.complexity, 10)
+                    : undefined,
+              scale:
+                typeof estimatesObj.scale === 'number'
+                  ? estimatesObj.scale
+                  : typeof estimatesObj.scale === 'string'
+                    ? parseInt(estimatesObj.scale, 10)
+                    : undefined,
+              time_to_completion: ensureString(estimatesObj.time_to_completion),
+            }
+          : undefined;
+
       tasks.push({
         uuid,
         title,
@@ -140,6 +162,7 @@ const readTasksFromDirectory = async (dir: string): Promise<Task[]> => {
         priority,
         labels,
         created_at: createdAt,
+        estimates,
         content: parsed.content,
         slug: slugFromFileName(entry),
         sourcePath: filePath,
@@ -149,66 +172,10 @@ const readTasksFromDirectory = async (dir: string): Promise<Task[]> => {
         filePath,
         ...toErrorFields(error),
       });
-      const fallback = recoverTaskFromMalformedMarkdown(
-        raw,
-        filePath,
-        slugFromFileName(entry),
-      );
-      if (fallback) {
-        tasks.push(fallback);
-      }
     }
   }
 
   return tasks;
-};
-
-const recoverTaskFromMalformedMarkdown = (
-  raw: string,
-  filePath: string,
-  slug: string,
-): Task | null => {
-  const frontmatterMatch = raw.match(/^---\s*[\r\n]+([\s\S]*?)[\r\n]+---\s*/);
-  if (!frontmatterMatch) {
-    return null;
-  }
-  const frontmatter = frontmatterMatch[1];
-  if (!frontmatter) {
-    return null;
-  }
-  const body = raw.slice(frontmatterMatch[0].length).trim();
-
-  const getValue = (key: string): string | undefined => {
-    const pattern = new RegExp(`^\s*${key}\s*:\\s*(.+)$`, 'im');
-    const match = frontmatter.match(pattern);
-    if (!match || match[1] == null) {
-      return undefined;
-    }
-    return match[1].trim().replace(/^['"]|['"]$/g, '');
-  };
-
-  const uuid = ensureString(getValue('uuid'));
-  if (!uuid) {
-    return null;
-  }
-
-  const title = ensureString(getValue('title')) ?? slug;
-  const status = ensureString(getValue('status')) ?? 'todo';
-  const priority = ensurePriority(getValue('priority'));
-  const labels = ensureLabels(getValue('labels'));
-  const createdAt = ensureString(getValue('created_at'));
-
-  return {
-    uuid,
-    title,
-    status,
-    priority,
-    labels,
-    created_at: createdAt,
-    content: body.length > 0 ? body : undefined,
-    slug,
-    sourcePath: filePath,
-  };
 };
 
 /**

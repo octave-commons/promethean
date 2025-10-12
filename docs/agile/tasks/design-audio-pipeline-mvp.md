@@ -5,7 +5,11 @@ slug: "design-audio-pipeline-mvp"
 status: "icebox"
 priority: "P3"
 labels: ["audio", "design", "mvp", "pipeline"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.454Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -277,6 +281,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -392,6 +397,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ```
 <hr class="__chatgpt_plugin">
 ```
@@ -780,6 +787,7 @@ It seems like you've started writing in your Markdown document, but I didn't rec
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -895,3 +903,5 @@ It seems like you've started writing in your Markdown document, but I didn't rec
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

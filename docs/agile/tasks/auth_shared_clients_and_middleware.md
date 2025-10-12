@@ -5,7 +5,11 @@ slug: "auth_shared_clients_and_middleware"
 status: "incoming"
 priority: "P3"
 labels: ["auth", "clients", "middleware", "shared"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 Auth: Shared clients and middleware TS + Python
 
 Goal: Provide small libraries to fetch/verify tokens and inject auth into HTTP/WebSocket requests.
@@ -670,6 +677,7 @@ Exit Criteria:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -785,3 +793,5 @@ Exit Criteria:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

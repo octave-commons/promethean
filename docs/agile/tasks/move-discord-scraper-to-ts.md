@@ -5,7 +5,11 @@ slug: "move-discord-scraper-to-ts"
 status: "todo"
 priority: "P3"
 labels: ["current", "discord", "move", "scraper"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.579Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Description
 ```
 **Status:** blocked
@@ -714,6 +721,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -829,3 +837,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

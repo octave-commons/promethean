@@ -5,7 +5,11 @@ slug: "update_task_template_frontmatter_alignment"
 status: "done"
 priority: "P2"
 labels: ["automation", "docs"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.460Z"
+=======
+created_at: "2025-10-12T21:40:23.582Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 #InProgress
 
 ## 🛠️ Description
@@ -714,6 +721,7 @@ Update the shared task stub template so that new notes start with the canonical 
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -829,3 +837,5 @@ Update the shared task stub template so that new notes start with the canonical 
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

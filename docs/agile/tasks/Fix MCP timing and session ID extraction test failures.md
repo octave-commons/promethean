@@ -5,7 +5,11 @@ slug: "Fix MCP timing and session ID extraction test failures"
 status: "incoming"
 priority: "P1"
 labels: ["mcp", "timing", "session", "test"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 MCP package timing-related test failures:
 
 - stdio-proxy-timing-negative tests failing on session ID extraction
@@ -673,6 +680,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -788,3 +796,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

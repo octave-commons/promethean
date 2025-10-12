@@ -1,11 +1,19 @@
 ---
+<<<<<<< HEAD
 uuid: "5267a08d-e088-44c5-a36c-08e89327c9e5"
+=======
+uuid: "7b04e13a-e148-40c5-82f4-c1df8a7394e7"
+>>>>>>> bug/kanban-duplication-issues
 title: "Add confidence calibration and historical accuracy tracking      )"
 slug: "boardrev-piper-integration 2"
 status: "icebox"
 priority: "P2"
 labels: ["accuracy", "boardrev", "enhancement", "metrics"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.454Z"
+=======
+created_at: "2025-10-12T21:40:23.574Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -17,6 +25,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -443,3 +452,5 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

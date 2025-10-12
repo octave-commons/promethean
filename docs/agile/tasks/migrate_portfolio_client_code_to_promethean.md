@@ -5,7 +5,11 @@ slug: "migrate_portfolio_client_code_to_promethean"
 status: "done"
 priority: "P3"
 labels: ["client", "code", "portfolio", "promethean"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.582Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Migrate portfolio client code to Promethean
 
 Move the legacy portfolio web client from `riatzukiza.github.io` into
@@ -718,6 +725,7 @@ new repository.
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -833,3 +841,5 @@ new repository.
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

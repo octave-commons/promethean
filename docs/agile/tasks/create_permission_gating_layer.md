@@ -5,7 +5,11 @@ slug: "create_permission_gating_layer"
 status: "done"
 priority: "P3"
 labels: ["create", "gating", "layer", "permission"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.579Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Create permission gating layer
 
 Introduce a middleware layer that checks whether an action or
@@ -713,6 +720,7 @@ is based on the "Dorian Permission Gate" equations in our math notes.
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -828,3 +836,5 @@ is based on the "Dorian Permission Gate" equations in our math notes.
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

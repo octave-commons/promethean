@@ -5,7 +5,11 @@ slug: "identify_ancestral_resonance_patterns"
 status: "done"
 priority: "P3"
 labels: ["ancestral", "identify", "patterns", "resonance"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.580Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Identify ancestral resonance patterns
 
 Research how ideas echo through the system over time and across
@@ -712,6 +719,7 @@ fragments or emotional states that reappear in different contexts.
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -827,3 +835,5 @@ fragments or emotional states that reappear in different contexts.
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

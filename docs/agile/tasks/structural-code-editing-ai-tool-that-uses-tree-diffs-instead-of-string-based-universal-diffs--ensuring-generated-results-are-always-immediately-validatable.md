@@ -5,7 +5,11 @@ slug: "structural-code-editing-ai-tool-that-uses-tree-diffs-instead-of-string-ba
 status: "icebox"
 priority: "P3"
 labels: ["code", "diffs", "editing", "structural"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:52:45.405Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -277,6 +281,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -392,6 +397,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Task: Structural code editing AI tool tree-diffs, not text-diffs — with immediate validation
 
 **Slug:** `structural-code-editing-ai-tool-that-uses-tree-diffs-instead-of-string-based-universal-diffs--ensuring-generated-results-are-always-immediately-validatable`
@@ -934,6 +941,7 @@ Usage:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -1049,3 +1057,5 @@ Usage:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

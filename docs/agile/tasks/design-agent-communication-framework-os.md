@@ -5,7 +5,11 @@ slug: "design-agent-communication-framework-os"
 status: "incoming"
 priority: "P1"
 labels: ["agent-os", "collaboration", "communication", "design", "messaging", "protocols"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.576Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Design Agent Communication Framework
 
 ## Overview
@@ -1237,6 +1244,7 @@ interface MCPCommunicationIntegration {
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -1352,3 +1360,5 @@ interface MCPCommunicationIntegration {
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

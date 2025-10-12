@@ -5,7 +5,11 @@ slug: "pantheon-local-agent-ecosystem-for-hyper-specialized-workflows-2"
 status: "incoming"
 priority: "P3"
 labels: ["docops", "labeled"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.456Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🗂 Source
 
 - Path: docs/labeled/pantheon-local-agent-ecosystem-for-hyper-specialized-workflows-2.md
@@ -692,6 +699,7 @@ That is very hard, but not impossib
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -807,3 +815,5 @@ That is very hard, but not impossib
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

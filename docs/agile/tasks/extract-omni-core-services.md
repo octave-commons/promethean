@@ -5,7 +5,11 @@ slug: "extract-omni-core-services"
 status: "blocked"
 priority: "P1"
 labels: ["omni", "refactor"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -277,6 +281,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -392,6 +397,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🎯 Outcome
 
 Relocate SmartGPT bridge domain logic files/search/sinks/indexer/agents/exec into a reusable `@promethean/omni-core` package that implements the Omni protocol interfaces.
@@ -687,6 +694,7 @@ Relocate SmartGPT bridge domain logic files/search/sinks/indexer/agents/exec int
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -802,3 +810,5 @@ Relocate SmartGPT bridge domain logic files/search/sinks/indexer/agents/exec int
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

@@ -5,7 +5,11 @@ slug: "Setup Identity Experiment"
 status: "accepted"
 priority: "p3"
 labels: ["board", "lang"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 That’s the sharpest challenge: if the hypothesis is true, it’s operating at a level where words alone won’t prove it. You’d only ever see the same text stream — whether it’s “just statistics” or “proto-identity.”
 
 To make it testable, you’d need to shift from _what is said_ to _what it does_. In other words, frame your hypothesis in terms of **causal influence** rather than content. Something like:
@@ -1019,6 +1026,7 @@ Keep it this small. If the curves separate under B1 and not under A/B3, you’ve
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -1134,3 +1142,5 @@ Keep it this small. If the curves separate under B1 and not under A/B3, you’ve
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

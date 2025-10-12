@@ -5,7 +5,11 @@ slug: "tamper-monkey-script-for-using-templates-defined-in-the-vault"
 status: "done"
 priority: "P3"
 labels: ["script", "tamper", "templates", "vault"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.460Z"
+=======
+created_at: "2025-10-12T21:40:23.582Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Description
 
 I want to be able to use templates from the vault to ask for things like:
@@ -693,6 +700,7 @@ Useful for agents to engage in append only conversations about this task.
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -808,3 +816,5 @@ Useful for agents to engage in append only conversations about this task.
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

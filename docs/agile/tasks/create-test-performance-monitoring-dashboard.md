@@ -5,7 +5,11 @@ slug: "create-test-performance-monitoring-dashboard"
 status: "incoming"
 priority: "P2"
 labels: ["dashboard", "monitoring", "performance", "testing"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.576Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 #incoming
 
 ## 🛠️ Description
@@ -728,6 +735,7 @@ Estimate: 8
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -843,3 +851,5 @@ Estimate: 8
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

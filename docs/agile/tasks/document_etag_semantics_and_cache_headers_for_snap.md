@@ -5,7 +5,11 @@ slug: "document_etag_semantics_and_cache_headers_for_snap"
 status: "done"
 priority: "P3"
 labels: ["cache", "document", "etag", "semantics"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.580Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Document ETag semantics and cache headers for `/snap/:key`
 
 Generated from ../unique/2025.08.08.20.08.83.md$../unique/2025.08.08.20.08.83.md
@@ -678,6 +685,7 @@ Generated from ../unique/2025.08.08.20.08.83.md$../unique/2025.08.08.20.08.83.md
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -793,3 +801,5 @@ Generated from ../unique/2025.08.08.20.08.83.md$../unique/2025.08.08.20.08.83.md
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

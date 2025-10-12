@@ -5,7 +5,11 @@ slug: "fix-symdocs-pipeline-file-reference-issue 3"
 status: "incoming"
 priority: "P2"
 labels: ["automation", "bug", "pipeline", "symdocs"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.456Z"
+=======
+created_at: "2025-10-12T21:40:23.577Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -589,6 +593,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -819,3 +824,5 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

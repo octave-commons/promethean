@@ -5,7 +5,11 @@ slug: "cephalon_context_window_from_collections"
 status: "incoming"
 priority: "P3"
 labels: ["cephalon", "collections", "context", "window"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 Cephalon: Build LLM context window from collections
 
 Goal: Ensure the LLM prompt context draws from `transcripts`, `agent_messages`, and any domain-specific collections using `ContextManager.compileContext` consistently in ECS orchestration.
@@ -670,6 +677,7 @@ Exit Criteria:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -785,3 +793,5 @@ Exit Criteria:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

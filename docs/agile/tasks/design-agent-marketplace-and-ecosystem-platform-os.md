@@ -5,7 +5,11 @@ slug: "design-agent-marketplace-and-ecosystem-platform-os"
 status: "breakdown"
 priority: "high"
 labels: ["//]]", "agent-os", "collaboration", "commerce", "ecosystem", "marketplace", "search"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:52:45.405Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -278,6 +282,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -393,6 +398,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # Design Agent Marketplace and Ecosystem Platform
 
 ## 🎯 Objective
@@ -1763,6 +1770,7 @@ interface SDK {
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -1878,3 +1886,5 @@ interface SDK {
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

@@ -5,7 +5,11 @@ slug: "kanban-board-refinement-and-cleanup 10"
 status: "done"
 priority: "P2"
 labels: ["mcp", "security", "testing"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.580Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -573,6 +577,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -803,3 +808,5 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

@@ -5,7 +5,11 @@ slug: "define_permission_schema_in_agents_1"
 status: "icebox"
 priority: "P3"
 labels: ["agents", "define", "permission", "schema"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.454Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Define permission schema in AGENTS.md
 
 Create a concise section in the root `AGENTS.md` explaining how agents declare
@@ -727,6 +734,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -842,3 +850,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

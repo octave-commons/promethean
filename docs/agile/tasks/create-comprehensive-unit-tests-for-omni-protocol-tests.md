@@ -5,7 +5,11 @@ slug: "create-comprehensive-unit-tests-for-omni-protocol-tests"
 status: "icebox"
 priority: "P1"
 labels: ["ava", "omni", "testing", "unit-tests"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:52:45.405Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -278,6 +282,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -393,6 +398,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🎯 Outcome
 
 Achieve comprehensive test coverage for the Omni protocol package including type validation, error handling, schema generation, and edge cases across all method families.
@@ -735,6 +742,7 @@ Achieve comprehensive test coverage for the Omni protocol package including type
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -850,3 +858,5 @@ Achieve comprehensive test coverage for the Omni protocol package including type
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

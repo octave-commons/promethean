@@ -5,7 +5,11 @@ slug: "enhance-clj-hacks-for-claude-code-mcp-server-configs-hacks-code"
 status: "testing"
 priority: "P2"
 labels: ["claude-code", "clj-hacks", "mcp", "tooling"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.579Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## Implementation Plan
 
 1. Review existing Claude Code MCP configuration support in clj-hacks
@@ -664,6 +671,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -779,3 +787,5 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

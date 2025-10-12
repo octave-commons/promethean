@@ -5,7 +5,11 @@ slug: "setup_code_in_wsl"
 status: "done"
 priority: "P3"
 labels: ["code", "out", "setup", "wsl"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.582Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Description
 
 This will give me a chance to test  out the  quick setup methods  in an  environment similar to the codex agent, and smooth  out some  issues we have   in development
@@ -700,6 +707,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -815,3 +823,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

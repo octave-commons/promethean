@@ -5,7 +5,11 @@ slug: "implement_transcendence_cascade_framework_core"
 status: "done"
 priority: "P3"
 labels: ["cascade", "framework", "implement", "transcendence"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.580Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Implement transcendence cascade #framework-core
 
 Generated from ../unique/2025.07.28.18.07.20.md$../unique/2025.07.28.18.07.20.md
@@ -678,6 +685,7 @@ Generated from ../unique/2025.07.28.18.07.20.md$../unique/2025.07.28.18.07.20.md
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -793,3 +801,5 @@ Generated from ../unique/2025.07.28.18.07.20.md$../unique/2025.07.28.18.07.20.md
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

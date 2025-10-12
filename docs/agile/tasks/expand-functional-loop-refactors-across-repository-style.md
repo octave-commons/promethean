@@ -5,7 +5,11 @@ slug: "expand-functional-loop-refactors-across-repository-style"
 status: "todo"
 priority: "P3"
 labels: ["functional-style", "refactor"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 #Todo
 
 # Description
@@ -677,6 +684,7 @@ Use this section for async coordination notes and links to relevant code reviews
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -792,3 +800,5 @@ Use this section for async coordination notes and links to relevant code reviews
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

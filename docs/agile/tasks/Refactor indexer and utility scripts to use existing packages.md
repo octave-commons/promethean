@@ -5,7 +5,11 @@ slug: "Refactor indexer and utility scripts to use existing packages"
 status: "incoming"
 priority: "P2"
 labels: ["indexer", "packages", "refactoring", "utilities"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 Refactor scripts/catalog.mjs to use @promethean/indexer-core and @promethean/file-indexer packages. Refactor scripts/dedupe-versions.mjs to use @promethean/kanban and @promethean/markdown utilities. Move scripts/sync-package-deps.js to @promethean/utils or new @promethean/package-tools package.
 
 ## ⛓️ Blocked By
@@ -666,6 +673,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -781,3 +789,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

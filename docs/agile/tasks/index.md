@@ -5,7 +5,11 @@ slug: "index"
 status: "done"
 priority: "P3"
 labels: ["folder", "index", "kanban", "tasks"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.459Z"
+=======
+created_at: "2025-10-12T21:40:23.580Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 # ✅ COMPLETED - Kanban Tasks Index
 
 ## 🎯 Goal Achieved
@@ -704,6 +711,7 @@ The index provides a complete navigation system for the kanban task ecosystem, m
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -819,3 +827,5 @@ The index provides a complete navigation system for the kanban task ecosystem, m
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

@@ -5,7 +5,11 @@ slug: "Catalog mermaid flow diagrams"
 status: "incoming"
 priority: "P3"
 labels: ["catalog", "diagrams", "flow", "mermaid"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Catalog and normalize mermaid flow diagrams
 
 ### Background
@@ -679,6 +686,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -794,3 +802,5 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

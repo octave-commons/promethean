@@ -5,7 +5,11 @@ slug: "enso-protocol-context-management-2"
 status: "incoming"
 priority: "P3"
 labels: ["docops", "labeled"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.456Z"
+=======
+created_at: "2025-10-12T21:40:23.576Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🗂 Source
 
 - Path: docs/labeled/enso-protocol-context-management-2.md
@@ -701,6 +708,7 @@ The specifics as to how the following are implemented can vary by implementation
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -816,3 +824,5 @@ The specifics as to how the following are implemented can vary by implementation
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

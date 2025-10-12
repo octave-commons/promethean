@@ -5,7 +5,11 @@ slug: "update_github_actions_to_use_makefile"
 status: "done"
 priority: "P3"
 labels: ["github", "pnpm", "scripts", "update"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.460Z"
+=======
+created_at: "2025-10-12T21:40:23.582Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Update GitHub Actions to use pnpm scripts
 
 The Makefile targets referenced by the original plan never stabilized. CI already leans on pnpm (`pnpm lint`, `pnpm test:all`),
@@ -708,6 +715,7 @@ so workflows should call the same scripts instead of Makefile wrappers.
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -823,3 +831,5 @@ so workflows should call the same scripts instead of Makefile wrappers.
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

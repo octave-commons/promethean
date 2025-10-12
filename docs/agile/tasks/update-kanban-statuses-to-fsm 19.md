@@ -1,4 +1,5 @@
 ---
+<<<<<<< HEAD:docs/agile/tasks/update-kanban-statuses-to-fsm 19.md
 uuid: "2c4744a8-6527-4c87-85db-3715b54ea0c7"
 title: "Update existing kanban tasks to use FSM statuses"
 slug: "update-kanban-statuses-to-fsm 19"
@@ -6,6 +7,15 @@ status: "ready"
 priority: "P2"
 labels: ["cleanup", "fsm", "kanban", "process"]
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+uuid: "bcf4951e-0625-42d6-b9f9-03f37c536c96"
+title: "Add CRUD subcommands to kanban CLI"
+slug: "kanban-crud-commands 3"
+status: "icebox"
+priority: "P2"
+labels: ["cli", "crud", "enhancement", "kanban"]
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues:docs/agile/tasks/kanban-crud-commands 3.md
 estimates:
   complexity: ""
   scale: ""
@@ -43,6 +53,7 @@ estimates:
 
 
 
+<<<<<<< HEAD:docs/agile/tasks/update-kanban-statuses-to-fsm 19.md
 
 
 
@@ -443,3 +454,5 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues:docs/agile/tasks/kanban-crud-commands 3.md

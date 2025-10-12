@@ -5,7 +5,11 @@ slug: "upgrade-boardrev-indexing-for-large-files"
 status: "incoming"
 priority: "P2"
 labels: ["board", "files", "indexing", "review"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Description
 
 Improve the `@promethean/boardrev` pipeline so board-review runs can embed complete source files instead of truncating at the first 400 lines.
@@ -684,6 +691,7 @@ Improve the `@promethean/boardrev` pipeline so board-review runs can embed compl
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -799,3 +807,5 @@ Improve the `@promethean/boardrev` pipeline so board-review runs can embed compl
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

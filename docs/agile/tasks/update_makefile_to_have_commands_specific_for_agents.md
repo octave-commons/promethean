@@ -5,7 +5,11 @@ slug: "update_makefile_to_have_commands_specific_for_agents"
 status: "done"
 priority: "P3"
 labels: ["agent", "makefile", "pnpm", "scripts"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.460Z"
+=======
+created_at: "2025-10-12T21:40:23.582Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Replace Makefile agent commands with pnpm scripts
 
 The earlier plan called for agent-specific Makefile targets such as `make start:duck`. The audit showed those never shipped,
@@ -712,6 +719,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -827,3 +835,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

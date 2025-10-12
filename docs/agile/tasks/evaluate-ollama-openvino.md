@@ -5,7 +5,11 @@ slug: "evaluate-ollama-openvino"
 status: "todo"
 priority: "p3"
 labels: ["chatgpt", "evaluate", "ollama", "openvino"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ### **Smart ChatGPT Configuration**
 ```smart-chatgpt
 ```
@@ -750,6 +757,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -865,3 +873,5 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

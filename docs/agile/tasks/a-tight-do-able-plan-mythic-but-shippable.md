@@ -5,7 +5,11 @@ slug: "a-tight-do-able-plan-mythic-but-shippable"
 status: "incoming"
 priority: "P3"
 labels: ["docops", "labeled"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.455Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🗂 Source
 
 - Path: docs/labeled/2025.09.18.14.33.04.md
@@ -700,6 +707,7 @@ Treat this as a narrative refactor, not a yak-shave.
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -815,3 +823,5 @@ Treat this as a narrative refactor, not a yak-shave.
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

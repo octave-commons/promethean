@@ -5,7 +5,11 @@ slug: "evaluate_and_reward_flow_satisfaction"
 status: "done"
 priority: "P3"
 labels: ["evaluate", "flow", "reward", "satisfaction"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.580Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Evaluate and reward flow satisfaction
 
 Develop a metric for how "smooth" an interaction feels and use it to
@@ -717,6 +724,7 @@ Generated from ../unique/2025.07.28.18.07.20.md$../unique/2025.07.28.18.07.20.md
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -832,3 +840,5 @@ Generated from ../unique/2025.07.28.18.07.20.md$../unique/2025.07.28.18.07.20.md
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

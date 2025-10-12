@@ -5,7 +5,11 @@ slug: "fix-docops-pipeline-file-reference-management-and-sequencing-issues-manag
 status: "ready"
 priority: "P2"
 labels: ["bug-fix", "docops", "file-management", "piper", "sequencing"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.457Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Fix docops pipeline file reference management and sequencing issues
 
 ## 🐛 Problem Statement
@@ -856,6 +863,7 @@ This fix will make the docops pipeline fully functional, enabling automated docu
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -971,3 +979,5 @@ This fix will make the docops pipeline fully functional, enabling automated docu
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

@@ -5,7 +5,11 @@ slug: "clearly-standardize-data-models"
 status: "done"
 priority: "P3"
 labels: ["clearly", "data", "models", "standardize"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.458Z"
+=======
+created_at: "2025-10-12T21:40:23.579Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Description
 
 Define shared data models (e.g., User, Policy, File, Directory) that can be imported across services and languages.
@@ -708,6 +715,7 @@ Nothing
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -823,3 +831,5 @@ Nothing
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

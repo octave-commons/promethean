@@ -5,7 +5,11 @@ slug: "pipeline-validation-strategy"
 status: "incoming"
 priority: "P3"
 labels: ["docops", "labeled"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.456Z"
+=======
+created_at: "2025-10-12T21:40:23.578Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🗂 Source
 
 - Path: docs/labeled/pipeline-validation-strategy.md
@@ -697,6 +704,7 @@ So what were we thinking about? What were the threads?
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -812,3 +820,5 @@ So what were we thinking about? What were the threads?
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

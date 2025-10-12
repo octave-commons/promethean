@@ -5,7 +5,11 @@ slug: "design_ollama_model_file_for_use_with_codex"
 status: "icebox"
 priority: "P3"
 labels: ["codex", "design", "file", "model"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.454Z"
+=======
+created_at: "2025-10-12T21:40:23.575Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Design Ollama model file for use with Codex
 
 Having a preconfigured, pre-prompted model could help agents perform better as Codex models.
@@ -695,6 +702,7 @@ Having a preconfigured, pre-prompted model could help agents perform better as C
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -810,3 +818,5 @@ Having a preconfigured, pre-prompted model could help agents perform better as C
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues

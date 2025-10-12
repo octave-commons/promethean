@@ -5,7 +5,11 @@ slug: "write_board_sync_script"
 status: "done"
 priority: "P3"
 labels: ["board", "script", "sync", "write"]
+<<<<<<< HEAD
 created_at: "2025-10-12T22:46:41.460Z"
+=======
+created_at: "2025-10-12T21:40:23.582Z"
+>>>>>>> bug/kanban-duplication-issues
 estimates:
   complexity: ""
   scale: ""
@@ -276,6 +280,7 @@ estimates:
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -391,6 +396,8 @@ estimates:
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
 ## 🛠️ Task: Write board sync script
 
 Create a small tool that pushes updates from our Obsidian kanban board to a GitHub Projects board and can optionally pull remote changes.
@@ -702,6 +709,7 @@ Create a small tool that pushes updates from our Obsidian kanban board to a GitH
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -817,3 +825,5 @@ Create a small tool that pushes updates from our Obsidian kanban board to a GitH
 
 
 
+=======
+>>>>>>> bug/kanban-duplication-issues
