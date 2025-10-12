@@ -15,19 +15,21 @@ export function buildPrompt(
   extraPrompt?: string,
 ): string {
   const prev = history.attempts
-    .map(
-      (a) =>
-        `ATTEMPT #${a.n}
+    .map((a) => {
+      const newErrorsText = a.newErrors.length > 0 ? `New errors: ${a.newErrors.join(', ')}\n` : '';
+      return `ATTEMPT #${a.n}
 Plan: ${a.planSummary}
 Commit: ${a.commitSha ?? '(no-commit)'} ${a.pushed ? '(pushed)' : ''}
 Result: tsc ${a.resolved ? 'OK' : 'failed'}; after=${
-          a.tscAfterCount
-        }; stillPresent=${a.errorStillPresent}
-`,
-    )
+        a.tscAfterCount
+      }; stillPresent=${a.errorStillPresent}
+${newErrorsText}`;
+    })
     .join('\n');
 
-  const supplemental = extraPrompt?.trim() ? `\n\nAdditional context:\n${extraPrompt.trim()}\n` : '';
+  const supplemental = extraPrompt?.trim()
+    ? `\n\nAdditional context:\n${extraPrompt.trim()}\n`
+    : '';
 
   return [
     `You are a TypeScript refactoring agent.

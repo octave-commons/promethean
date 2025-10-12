@@ -5,12 +5,71 @@ slug: "publish-enso-guardrail-rationale-payload"
 status: "done"
 priority: "P1"
 labels: ["enso", "guardrails", "protocol"]
-created_at: "2025-10-12T02:22:05.428Z"
+created_at: "2025-10-12T19:03:19.228Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -135,6 +194,65 @@ Exit Criteria:
 - Consumers (Cephalon, gateway) compile with the updated payload and emit/handle rationale metadata without type casts.
 - Documentation changes land alongside a migration checklist summarizing adoption steps and compatibility considerations.
 - A changelog entry captures the payload addition and any deprecations.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -5,12 +5,71 @@ slug: "clean-event-log-orphans"
 status: "incoming"
 priority: "P2"
 labels: ["maintenance", "mcp", "kanban"]
-created_at: "2025-10-12T02:22:05.424Z"
+created_at: "2025-10-12T19:03:19.224Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -128,6 +187,65 @@ Remove or archive the orphaned event log entries (e.g., `security-test-1`, `stre
 ## Related
 - Blocked by: none.
 - Blocks: `mcp_stdio_proxy_review` (`3c3a6f8b-2a8d-4b3e-8d63-2b7d1e8f7a91`).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

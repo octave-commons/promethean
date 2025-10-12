@@ -4,8 +4,8 @@
 ;;;###autoload
 (defun llm-tools-setup ()
   (message "setting up llm tools")
-  (setq gptel-log-level 'trace
-    debug-on-error t)
+  ;; (setq gptel-log-level 'trace
+  ;;   debug-on-error t)
   ;; ---- filesystem ----
 
   (gptel-make-tool

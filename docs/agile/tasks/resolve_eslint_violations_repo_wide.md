@@ -5,12 +5,71 @@ slug: "resolve_eslint_violations_repo_wide"
 status: "ready"
 priority: "P3"
 labels: ["across", "eslint", "resolve", "violations"]
-created_at: "2025-10-12T02:22:05.426Z"
+created_at: "2025-10-12T19:03:19.226Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -157,6 +216,65 @@ Multiple packages trigger ESLint errors such as `functional/prefer-immutable-typ
 - Some lint rules may require broader architectural changes; will document if encountered instead of over-scoping this slice.
 
 #Todo #codex-task #doc-this
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

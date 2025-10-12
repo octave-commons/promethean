@@ -5,12 +5,71 @@ slug: "shadow-cljs-migration-step-1-foundation-core-task"
 status: "in_progress"
 priority: "P2"
 labels: ["codex-task", "framework-core", "frontend"]
-created_at: "2025-10-12T02:22:05.427Z"
+created_at: "2025-10-12T19:03:19.227Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -174,6 +233,65 @@ Estimate: 5
 ## Notes
 - 2025-10-03: Initial Shadow-CLJS scaffolding committed (build targets, scripts, shared package).
 - 2025-10-03: `shadow-cljs release` invocation blocked by Maven network access in sandbox; see session logs.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

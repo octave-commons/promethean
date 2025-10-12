@@ -1,106 +1,16 @@
 ---
-uuid: "393980fd-ee08-4325-83e4-1ec8ff39a951"
+uuid: "37114d0b-2b7d-491a-9a87-7c4fe9db15cb"
 title: "Integrate boardrev with piper pipeline system     )"
 slug: "boardrev-vector-db 5"
 status: "icebox"
 priority: "P2"
 labels: ["boardrev", "enhancement", "infrastructure"]
-created_at: "2025-10-12T02:22:05.423Z"
+created_at: "2025-10-12T19:03:19.223Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

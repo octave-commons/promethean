@@ -5,12 +5,71 @@ slug: "create-omni-protocol-api-documentation-and-guides-docs"
 status: "blocked"
 priority: "P1"
 labels: ["api-docs", "documentation", "omni", "typedoc"]
-created_at: "2025-10-12T02:22:05.426Z"
+created_at: "2025-10-12T19:03:19.226Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -193,6 +252,65 @@ Generate comprehensive API documentation and usage guides for the Omni protocol 
 - TypeDoc documentation
 - Existing package documentation patterns
 - `docs/packages/` directory structure
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

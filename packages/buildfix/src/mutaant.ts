@@ -81,21 +81,17 @@ export type MutaantResult = {
 
 // eslint-disable-next-line max-lines-per-function
 export async function createMutaant(options: MutaantOptions): Promise<MutaantResult> {
-  const {
-    sourcePath,
-    targetPath,
-    minMutants,
-    minInstances,
-    seed,
-    errorCodes,
-    tsconfigOverride,
-  } = options;
+  const { sourcePath, targetPath, minMutants, minInstances, seed, errorCodes, tsconfigOverride } =
+    options;
 
   try {
     await fsp.access(targetPath);
     throw new Error(`Target directory already exists: ${targetPath}`);
-  } catch {
-    // ok when target doesn't exist
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code !== 'ENOENT') {
+      throw error;
+    }
+    // ok when target doesn't exist (ENOENT)
   }
 
   await fsp.mkdir(nodePath.dirname(targetPath), { recursive: true });
@@ -128,7 +124,8 @@ export async function createMutaant(options: MutaantOptions): Promise<MutaantRes
   const outstanding = (): string[] => {
     const unmetCodes = codes.filter((code) => (counts.get(code) ?? 0) < minInstances);
     if (unmetCodes.length > 0) return unmetCodes;
-    if (Array.from(counts.values()).reduce((acc, value) => acc + value, 0) < minMutants) return codes;
+    if (Array.from(counts.values()).reduce((acc, value) => acc + value, 0) < minMutants)
+      return codes;
     return [];
   };
 

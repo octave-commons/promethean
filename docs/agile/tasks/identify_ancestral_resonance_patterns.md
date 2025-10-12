@@ -5,12 +5,71 @@ slug: "identify_ancestral_resonance_patterns"
 status: "done"
 priority: "P3"
 labels: ["ancestral", "identify", "patterns", "resonance"]
-created_at: "2025-10-12T02:22:05.428Z"
+created_at: "2025-10-12T19:03:19.228Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -173,6 +232,65 @@ fragments or emotional states that reappear in different contexts.
 - Should resonance search include emotional embeddings or just lexical ones?
 - What time span of logs is considered "ancestral" for this project?
 #IceBox
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

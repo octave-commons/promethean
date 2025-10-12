@@ -5,12 +5,71 @@ slug: "Setup Identity Experiment"
 status: "accepted"
 priority: "p3"
 labels: ["board", "lang"]
-created_at: "2025-10-12T02:22:05.426Z"
+created_at: "2025-10-12T19:03:19.226Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -480,6 +539,65 @@ export const nextState = (prev: State, fwin: ReadonlyArray<Features>): State => 
 ```
 
 Keep it this small. If the curves separate under B1 and not under A/B3, you’ve got empirical backing for your claim: **identity-like behavior scales with influence loops**. If they don’t, you’ve falsified it—no metaphysics required.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

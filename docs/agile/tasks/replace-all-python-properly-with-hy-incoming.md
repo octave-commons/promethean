@@ -5,12 +5,71 @@ slug: "replace-all-python-properly-with-hy-incoming"
 status: "done"
 priority: "P3"
 labels: ["ban", "dist", "migrate", "python"]
-created_at: "2025-10-12T02:22:05.428Z"
+created_at: "2025-10-12T19:03:19.228Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -359,6 +418,65 @@ Append-only thread for agents. Note blockers, weird Hy interop, or macro decisio
 \#tags #promethean #hy #lisp #python #build #ci #git #precommit #policy #docs
 
 #archive
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

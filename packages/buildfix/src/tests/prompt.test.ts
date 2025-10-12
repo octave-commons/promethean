@@ -68,11 +68,9 @@ test('buildPrompt includes history attempts', (t) => {
   const prompt = buildPrompt(buildError, history);
 
   t.true(prompt.includes('Previous attempts:'));
-  t.true(prompt.includes('Attempt #1: Add type annotation'));
-  t.true(prompt.includes('Result: tsc OK; after=0'));
-  t.true(prompt.includes('Resolved: yes'));
-  t.true(prompt.includes('Regressed: no'));
-  t.true(prompt.includes('Rolled back: no'));
+  t.true(prompt.includes('ATTEMPT #1'));
+  t.true(prompt.includes('Plan: Add type annotation'));
+  t.true(prompt.includes('Result: tsc OK; after=0; stillPresent=false'));
 });
 
 test('buildPrompt includes multiple attempts in chronological order', (t) => {
@@ -124,8 +122,8 @@ test('buildPrompt includes multiple attempts in chronological order', (t) => {
   const lines = prompt.split('\n');
 
   // Find the attempt lines
-  const attempt1Line = lines.findIndex((line) => line.includes('Attempt #1: First attempt'));
-  const attempt2Line = lines.findIndex((line) => line.includes('Attempt #2: Second attempt'));
+  const attempt1Line = lines.findIndex((line) => line.includes('ATTEMPT #1'));
+  const attempt2Line = lines.findIndex((line) => line.includes('ATTEMPT #2'));
 
   t.true(attempt1Line > -1);
   t.true(attempt2Line > -1);
@@ -262,7 +260,7 @@ test('buildPrompt includes DSL operation documentation', (t) => {
 
   const prompt = buildPrompt(buildError, history);
 
-  t.true(prompt.includes('Available operations:'));
+  t.true(prompt.includes('Available operations with EXACT field names:'));
   t.true(prompt.includes('ensureExported'));
   t.true(prompt.includes('renameSymbol'));
   t.true(prompt.includes('addImport'));

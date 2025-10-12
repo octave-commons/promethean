@@ -5,12 +5,71 @@ slug: "fix-kanban-board-regeneration-tests-14-failing-tests-fix"
 status: "incoming"
 priority: "P1"
 labels: ["bug-fix", "kanban", "testing"]
-created_at: "2025-10-12T02:22:05.425Z"
+created_at: "2025-10-12T19:03:19.225Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -179,6 +238,65 @@ Estimate: 5
 - Failing test: `packages/kanban/src/tests/board.test.ts:235`
 - Kanban implementation: `packages/kanban/src/lib/kanban.ts`
 - Board configuration: `promethean.kanban.json`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

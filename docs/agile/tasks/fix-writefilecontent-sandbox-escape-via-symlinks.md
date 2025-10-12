@@ -5,12 +5,71 @@ slug: "fix-writefilecontent-sandbox-escape-via-symlinks"
 status: "rejected"
 priority: "P1"
 labels: ["bug", "critical", "github-1144", "immediate", "security"]
-created_at: "2025-10-12T02:22:05.430Z"
+created_at: "2025-10-12T19:03:19.231Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -148,6 +207,65 @@ Security vulnerability where `writeFileContent` allows sandbox escape via symlin
 
 ## Related Issues
 - GitHub #1144: Security: writeFileContent allows sandbox escape via symlinks
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

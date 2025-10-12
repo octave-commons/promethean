@@ -5,12 +5,71 @@ slug: "Relax ESLint configuration to convert errors to warnings for developer pr
 status: "incoming"
 priority: "P1"
 labels: ["eslint", "errors", "warnings", "relax"]
-created_at: "2025-10-12T02:22:05.423Z"
+created_at: "2025-10-12T19:03:19.224Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -146,6 +205,65 @@ The current ESLint configuration is too strict and blocking development. Need to
 5. Increase line limits (500 instead of 300 for files, 100 for functions)
 
 Priority: P1 - Unblock development workflow
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

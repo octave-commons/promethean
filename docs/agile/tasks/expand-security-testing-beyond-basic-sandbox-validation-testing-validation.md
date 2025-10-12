@@ -5,12 +5,71 @@ slug: "expand-security-testing-beyond-basic-sandbox-validation-testing-validatio
 status: "incoming"
 priority: "P2"
 labels: ["input-validation", "security", "testing", "vulnerability-testing"]
-created_at: "2025-10-12T02:22:05.424Z"
+created_at: "2025-10-12T19:03:19.225Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -190,6 +249,65 @@ Estimate: 13
 - SmartGPT security: `packages/smartgpt-bridge/src/tests/integration/server.exec.cwd.security.test.ts`
 - Authentication tests: `packages/auth-service/src/tests/oauth-flow.test.ts`
 - Input validation: Various Discord and API packages
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

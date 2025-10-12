@@ -5,12 +5,71 @@ slug: "evaluate-optional-js-services-for-migration"
 status: "icebox"
 priority: "P3"
 labels: ["board", "lang"]
-created_at: "2025-10-12T03:57:58.433Z"
+created_at: "2025-10-12T19:03:19.223Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -142,6 +201,65 @@ Assess which optional services should be migrated to TypeScript and which can be
 - [ ] Decision documented for each service
 - [ ] Migration plan created for services to migrate
 - [ ] Deprecation plan created for services to drop
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

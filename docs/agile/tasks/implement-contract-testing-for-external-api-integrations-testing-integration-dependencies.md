@@ -5,12 +5,71 @@ slug: "implement-contract-testing-for-external-api-integrations-testing-integrat
 status: "incoming"
 priority: "P2"
 labels: ["api-integration", "contract-testing", "external-dependencies", "testing"]
-created_at: "2025-10-12T02:22:05.425Z"
+created_at: "2025-10-12T19:03:19.225Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -188,6 +247,65 @@ Estimate: 8
 - LLM services: `packages/cephalon/src/llm-service.ts`
 - GitHub API: `packages/mcp/src/tools/github/`
 - Contract testing: Pact documentation
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

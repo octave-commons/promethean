@@ -5,12 +5,71 @@ slug: "fix-build-errors-enso-docops-kanban-webcrawler"
 status: "done"
 priority: "p2"
 labels: ["board", "epic", "lang", "owner", "priority", "state", "task"]
-created_at: "2025-10-12T02:22:05.427Z"
+created_at: "2025-10-12T19:03:19.228Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -177,6 +236,65 @@ You might find [this](link) useful while working on this task.
 fix-build-errors-enso-docops-kanban-webcrawler
 
 <% tp.app.commands.executeCommandById"chatgpt-md:call-chatgpt-api" %>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

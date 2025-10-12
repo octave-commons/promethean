@@ -175,7 +175,7 @@ test('createMutaant uses custom tsconfig override', async (t) => {
   await fs.mkdir(sourceDir, { recursive: true });
   await fs.writeFile(path.join(sourceDir, 'test.ts'), 'const x = 1;');
 
-  // Create custom tsconfig
+  // Create custom tsconfig that points to the target directory
   await fs.writeFile(
     customTsconfig,
     JSON.stringify(
@@ -184,7 +184,7 @@ test('createMutaant uses custom tsconfig override', async (t) => {
           target: 'ES2020',
           strict: true,
         },
-        include: ['*.ts'],
+        include: [path.join(targetDir, '*.ts')],
       },
       null,
       2,

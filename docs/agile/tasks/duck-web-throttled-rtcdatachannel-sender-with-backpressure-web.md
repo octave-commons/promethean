@@ -5,12 +5,71 @@ slug: "duck-web-throttled-rtcdatachannel-sender-with-backpressure-web"
 status: "review"
 priority: "P1"
 labels: ["duck-web", "perf", "webrtc"]
-created_at: "2025-10-12T02:22:05.427Z"
+created_at: "2025-10-12T19:03:19.227Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -131,6 +190,65 @@ Implement `makeThrottledSender(ch, threshold)` using `bufferedamountlow` event; 
 
 ## 🔍 Related
 - PR #1445
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

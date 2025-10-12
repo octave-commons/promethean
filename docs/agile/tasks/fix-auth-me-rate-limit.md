@@ -5,12 +5,71 @@ slug: "fix-auth-me-rate-limit"
 status: "done"
 priority: "p2"
 labels: ["board", "epic", "lang", "owner", "package", "priority", "state", "task"]
-created_at: "2025-10-12T02:22:05.427Z"
+created_at: "2025-10-12T19:03:19.228Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -153,6 +212,65 @@ The issue was an environment variable conflict:
 - `packages/smartgpt-bridge/src/tests/integration/server.openapi.auth.test.ts`:
   - Added `AUTH_TOKENS` to environment capture
   - Added `delete process.env.AUTH_TOKENS;` to ensure test token takes precedence
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
