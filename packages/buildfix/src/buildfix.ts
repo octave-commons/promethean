@@ -17,6 +17,16 @@ export type FixOptions = {
   readonly model?: string;
   readonly maxAttempts?: number;
   readonly planDir?: string;
+  readonly prompt?: string;
+  readonly system?: string;
+};
+
+export type AttemptDetail = Attempt & {
+  readonly model: string;
+  readonly beforeContent?: string;
+  readonly afterContent?: string;
+  readonly durationMs: number;
+  readonly planRationale?: string;
 };
 
 export type FixResult = {
@@ -29,6 +39,9 @@ export type FixResult = {
   duration: number;
   plan?: Plan;
   error?: string;
+  model: string;
+  finalContent?: string;
+  attemptDetails: AttemptDetail[];
 };
 
 async function pathExists(candidate: string): Promise<boolean> {
@@ -119,6 +132,9 @@ export class BuildFix {
     const snapshot: Snapshot = new Map();
     await takeSnapshot(workdir, snapshot);
 
+    const attemptDetails: AttemptDetail[] = [];
+    let finalContent: string | undefined;
+
     const result: FixResult = {
       success: false,
       errorCountBefore: 0,
@@ -127,6 +143,8 @@ export class BuildFix {
       planGenerated: false,
       attempts: 0,
       duration: 0,
+      model: options.model ?? 'qwen3:4b',
+      attemptDetails,
     };
 
     try {
@@ -177,12 +195,19 @@ export class BuildFix {
 
       const planRoot =
         options.planDir ??
-        nodePath.join(workdir, '.cache', 'buildfix', nodePath.basename(absoluteFile, nodePath.extname(absoluteFile)));
-      const model = options.model ?? 'qwen3:4b';
+        nodePath.join(
+          workdir,
+          '.cache',
+          'buildfix',
+          nodePath.basename(absoluteFile, nodePath.extname(absoluteFile)),
+        );
+      const model = result.model;
       const maxAttempts = options.maxAttempts ?? 3;
 
       for (let attempt = 1; attempt <= maxAttempts; attempt++) {
         result.attempts = attempt;
+        const attemptStartedAt = Date.now();
+        const attemptFile = buildError.file;
 
         const { r: before, present: presentBefore } = await buildAndJudge(
           resolvedTsconfig,
@@ -198,7 +223,10 @@ export class BuildFix {
 
         let plan: Plan;
         try {
-          plan = await requestPlan(model, buildError, history);
+          plan = await requestPlan(model, buildError, history, {
+            prompt: options.prompt,
+            system: options.system,
+          });
         } catch (error) {
           result.error = toErrorMessage(error);
           break;
@@ -213,7 +241,10 @@ export class BuildFix {
           `attempt-${String(attempt).padStart(2, '0')}.mjs`,
         );
         await materializeSnippet(plan, snippetPath);
+
+        const beforeContent = await fs.readFile(attemptFile, 'utf-8').catch(() => undefined);
         await applySnippetToProject(resolvedTsconfig, snippetPath);
+        const afterContent = await fs.readFile(attemptFile, 'utf-8').catch(() => undefined);
 
         const { r: after, present } = await buildAndJudge(resolvedTsconfig, buildError.key);
         const afterCount = after.diags.length;
@@ -239,6 +270,14 @@ export class BuildFix {
         };
 
         history = { ...history, attempts: [...history.attempts, attemptSummary] };
+        attemptDetails.push({
+          ...attemptSummary,
+          model,
+          beforeContent,
+          afterContent,
+          durationMs: Date.now() - attemptStartedAt,
+          planRationale: plan.rationale,
+        });
 
         if (result.success) break;
 
@@ -263,9 +302,17 @@ export class BuildFix {
           }
         }
       }
+      try {
+        finalContent = await fs.readFile(buildError.file, 'utf-8');
+      } catch {
+        finalContent = undefined;
+      }
     } catch (error) {
       result.error = toErrorMessage(error);
     } finally {
+      if (finalContent !== undefined) {
+        result.finalContent = finalContent;
+      }
       await restoreSnapshot(workdir, snapshot);
       result.duration = Date.now() - start;
     }

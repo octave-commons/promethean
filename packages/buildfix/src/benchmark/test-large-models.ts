@@ -15,11 +15,11 @@ async function testLargeModels() {
 
     const results: BenchmarkResult[] = [];
 
-    for (const fixture of fixtures) {
-      console.log(`\n📝 Testing fixture: ${fixture.name} - ${fixture.description}`);
+    for (const modelConfig of models) {
+      console.log(`\n🤖 Testing model: ${modelConfig.name}...`);
 
-      for (const modelConfig of models) {
-        console.log(`  🤖 Testing model: ${modelConfig.name}...`);
+      for (const fixture of fixtures) {
+        console.log(`  📝 Fixture: ${fixture.name} - ${fixture.description}`);
 
         try {
           const result = await benchmark.runSingleBenchmark(fixture, modelConfig, 2);
@@ -31,7 +31,7 @@ async function testLargeModels() {
           const resolved = result.errorsResolved ? '🎯' : '❌';
 
           console.log(
-            `    ${status} ${modelConfig.name}: ${errors} ${plan} ${resolved} (${result.duration}ms)`,
+            `    ${status} ${fixture.name}: ${errors} ${plan} ${resolved} (${result.duration}ms)`,
           );
 
           if (result.planTitle) {
@@ -43,7 +43,7 @@ async function testLargeModels() {
           }
         } catch (error) {
           const failureMessage = error instanceof Error ? error.message : String(error);
-          console.log(`    ❌ ${modelConfig.name}: Failed - ${failureMessage}`);
+          console.log(`    ❌ ${fixture.name}: Failed - ${failureMessage}`);
 
           results.push({
             fixture: fixture.name,
@@ -53,7 +53,7 @@ async function testLargeModels() {
             errorCountAfter: 0,
             errorsResolved: false,
             planGenerated: false,
-            errorMessage: error instanceof Error ? error.message : String(error),
+            errorMessage: failureMessage,
             duration: 0,
             attempts: 0,
           });

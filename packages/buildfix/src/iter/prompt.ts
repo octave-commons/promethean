@@ -1,5 +1,6 @@
 import type { History } from '../types.js';
 
+// eslint-disable-next-line max-lines-per-function
 export function buildPrompt(
   err: {
     file: string;
@@ -11,7 +12,8 @@ export function buildPrompt(
     key: string;
   },
   history: History,
-) {
+  extraPrompt?: string,
+): string {
   const prev = history.attempts
     .map(
       (a) =>
@@ -24,6 +26,8 @@ Result: tsc ${a.resolved ? 'OK' : 'failed'}; after=${
 `,
     )
     .join('\n');
+
+  const supplemental = extraPrompt?.trim() ? `\n\nAdditional context:\n${extraPrompt.trim()}\n` : '';
 
   return [
     `You are a TypeScript refactoring agent.
@@ -47,7 +51,7 @@ Result: tsc ${a.resolved ? 'OK' : 'failed'}; after=${
  - Prefer minimal, targeted edits.
  - Use EXACT field names as shown above.
 
- Target error:
+Target error:
 FILE: ${err.file}
 LINE: ${err.line}, COL: ${err.col}
 CODE: ${err.code}
@@ -57,7 +61,7 @@ Code frame:
 ${err.frame}
 
 Previous attempts:
-${prev || '(none)'}
+${prev || '(none)'}${supplemental}
 `,
   ].join('\n');
 }

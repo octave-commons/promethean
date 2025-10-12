@@ -3,11 +3,23 @@ import { promises as fs } from 'fs';
 
 import { ollamaJSON } from '@promethean/utils';
 
-import { PlanSchema, type Plan } from './dsl.js';
-import { buildPrompt } from './prompt.js';
 import type { BuildError, History } from '../types.js';
 
-export async function requestPlan(model: string, err: BuildError, history: History): Promise<Plan> {
+import { PlanSchema, type Plan } from './dsl.js';
+import { buildPrompt } from './prompt.js';
+
+export type PlanRequestOptions = {
+  readonly prompt?: string;
+  readonly system?: string;
+};
+
+// eslint-disable-next-line max-lines-per-function
+export async function requestPlan(
+  model: string,
+  err: BuildError,
+  history: History,
+  options: PlanRequestOptions = {},
+): Promise<Plan> {
   // Define the JSON schema for Ollama
   const planSchema = {
     type: 'object',
@@ -88,7 +100,11 @@ export async function requestPlan(model: string, err: BuildError, history: Histo
     required: ['title', 'rationale'],
   };
 
-  const raw = await ollamaJSON(model, buildPrompt(err, history), { schema: planSchema });
+  const ollamaOptions: Record<string, unknown> = { schema: planSchema };
+  if (options.system) {
+    ollamaOptions.system = options.system;
+  }
+  const raw = await ollamaJSON(model, buildPrompt(err, history, options.prompt), ollamaOptions);
   const parsed = PlanSchema.safeParse(raw);
   if (!parsed.success) {
     throw new Error(`invalid plan JSON: ${parsed.error.message}`);
@@ -96,7 +112,7 @@ export async function requestPlan(model: string, err: BuildError, history: Histo
   return parsed.data;
 }
 
-export async function writePlanFile(dir: string, n: number, plan: Plan) {
+export async function writePlanFile(dir: string, n: number, plan: Plan): Promise<string> {
   await fs.mkdir(dir, { recursive: true });
   const p = path.join(dir, `attempt-${String(n).padStart(2, '0')}.plan.json`);
   await fs.writeFile(p, JSON.stringify(plan, null, 2), 'utf-8');
