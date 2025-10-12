@@ -571,6 +571,8 @@ importers:
         specifier: ^4.20.3
         version: 4.20.3
 
+  packages/buildfix/benchmark-fixtures: {}
+
   packages/cephalon:
     dependencies:
       '@chroma-core/ollama':

@@ -1,5 +1,6 @@
-import { BuildFixBenchmark, models } from './index.js';
+import { BuildFixBenchmark, models, type BenchmarkResult } from './index.js';
 
+// eslint-disable-next-line max-lines-per-function, sonarjs/cognitive-complexity, complexity
 async function testLargeModels() {
   const benchmark = new BuildFixBenchmark('./benchmark-temp');
 
@@ -12,7 +13,7 @@ async function testLargeModels() {
     // Test all fixtures with the large models
     const { fixtures } = await import('./fixtures.js');
 
-    const results = [];
+    const results: BenchmarkResult[] = [];
 
     for (const fixture of fixtures) {
       console.log(`\n📝 Testing fixture: ${fixture.name} - ${fixture.description}`);
@@ -41,7 +42,8 @@ async function testLargeModels() {
             console.log(`      Error: ${result.errorMessage}`);
           }
         } catch (error) {
-          console.log(`    ❌ ${modelConfig.name}: Failed - ${error}`);
+          const failureMessage = error instanceof Error ? error.message : String(error);
+          console.log(`    ❌ ${modelConfig.name}: Failed - ${failureMessage}`);
 
           results.push({
             fixture: fixture.name,
@@ -100,11 +102,11 @@ async function testLargeModels() {
 
     // Calculate averages and sort by success rate
     const sortedModels = Array.from(modelStats.entries())
-      .map(([model, stats]) => {
-        const modelResults = results.filter((r) => r.model === model);
+      .map(([modelName, stats]) => {
+        const modelResults = results.filter((r) => r.model === modelName);
         const avgDuration = modelResults.reduce((sum, r) => sum + r.duration, 0) / stats.total;
         return {
-          model,
+          model: modelName,
           ...stats,
           successRate: (stats.successful / stats.total) * 100,
           planRate: (stats.plansGenerated / stats.total) * 100,
@@ -117,28 +119,29 @@ async function testLargeModels() {
     console.log('==================================');
 
     for (let i = 0; i < sortedModels.length; i++) {
-      const model = sortedModels[i];
-      console.log(`${i + 1}. ${model.model}`);
+      const modelEntry = sortedModels[i];
+      if (!modelEntry) continue;
+      console.log(`${i + 1}. ${modelEntry.model}`);
       console.log(
-        `   Success Rate: ${model.successRate.toFixed(1)}% (${model.successful}/${model.total})`,
+        `   Success Rate: ${modelEntry.successRate.toFixed(1)}% (${modelEntry.successful}/${modelEntry.total})`,
       );
-      console.log(`   Plan Generation: ${model.planRate.toFixed(1)}%`);
-      console.log(`   Errors Fixed: ${model.errorsFixed}`);
-      console.log(`   Avg Duration: ${model.avgDuration.toFixed(0)}ms`);
+      console.log(`   Plan Generation: ${modelEntry.planRate.toFixed(1)}%`);
+      console.log(`   Errors Fixed: ${modelEntry.errorsFixed}`);
+      console.log(`   Avg Duration: ${modelEntry.avgDuration.toFixed(0)}ms`);
       console.log('');
     }
 
     // Find best performing model
-    const bestModel = sortedModels[0];
-    if (bestModel && bestModel.successRate > 0) {
+    const bestModel = sortedModels[0] ?? null;
+    if (!bestModel || bestModel.successRate <= 0) {
+      console.log(
+        '⚠️  No model achieved successful fixes. Consider prompt engineering or fallback strategies.',
+      );
+    } else {
       console.log(`🏆 RECOMMENDED MODEL: ${bestModel.model}`);
       console.log(`   Success Rate: ${bestModel.successRate.toFixed(1)}%`);
       console.log(`   Plan Generation: ${bestModel.planRate.toFixed(1)}%`);
       console.log(`   Avg Duration: ${bestModel.avgDuration.toFixed(0)}ms`);
-    } else {
-      console.log(
-        '⚠️  No model achieved successful fixes. Consider prompt engineering or fallback strategies.',
-      );
     }
 
     // Save detailed report

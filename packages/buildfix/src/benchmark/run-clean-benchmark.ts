@@ -3,12 +3,13 @@
 import { promises as fs } from 'fs';
 import * as path from 'path';
 import { fileURLToPath } from 'url';
+
 import { BuildFix } from '../buildfix.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-interface BenchmarkResult {
+type BenchmarkResult = {
   fixture: string;
   success: boolean;
   errorCountBefore: number;
@@ -18,8 +19,59 @@ interface BenchmarkResult {
   errorMessage?: string;
   duration: number;
   attempts: number;
+};
+
+type FixSummary = {
+  success: boolean;
+  errorCountBefore: number;
+  errorCountAfter: number;
+  errorsResolved: boolean;
+  planGenerated: boolean;
+  attempts: number;
+  plan?: unknown;
+  error?: string;
+};
+
+// eslint-disable-next-line sonarjs/cognitive-complexity
+function normalizeFixResult(raw: unknown): FixSummary {
+  const base: FixSummary = {
+    success: false,
+    errorCountBefore: 0,
+    errorCountAfter: 0,
+    errorsResolved: false,
+    planGenerated: false,
+    attempts: 0,
+  };
+  if (typeof raw === 'object' && raw !== null) {
+    const value = raw as Record<string, unknown>;
+    return {
+      success: typeof value.success === 'boolean' ? value.success : base.success,
+      errorCountBefore:
+        typeof value.errorCountBefore === 'number' ? value.errorCountBefore : base.errorCountBefore,
+      errorCountAfter:
+        typeof value.errorCountAfter === 'number' ? value.errorCountAfter : base.errorCountAfter,
+      errorsResolved:
+        typeof value.errorsResolved === 'boolean' ? value.errorsResolved : base.errorsResolved,
+      planGenerated:
+        typeof value.planGenerated === 'boolean' ? value.planGenerated : base.planGenerated,
+      attempts: typeof value.attempts === 'number' ? value.attempts : base.attempts,
+      plan: value.plan,
+      error: typeof value.error === 'string' ? value.error : undefined,
+    };
+  }
+  return base;
 }
 
+async function fileExists(p: string): Promise<boolean> {
+  try {
+    await fs.access(p);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+// eslint-disable-next-line max-lines-per-function, sonarjs/cognitive-complexity, complexity
 async function runCleanBenchmark() {
   const fixturesDir = path.join(__dirname, '../../benchmark-fixtures');
 
@@ -54,11 +106,20 @@ async function runCleanBenchmark() {
       const content = await fs.readFile(filePath, 'utf-8');
 
       // Run buildfix on the fixture
-      const result = await buildFix.fixErrors(content, {
-        filePath: file,
-        maxAttempts: 3,
-        timeout: 30000,
-      });
+      const tsconfigCandidate = path.join(path.dirname(filePath), 'tsconfig.json');
+      const planDir = path.join(
+        __dirname,
+        '../../.cache/clean-benchmark',
+        path.basename(file, path.extname(file)),
+      );
+      const result = normalizeFixResult(
+        await buildFix.fixErrors(content, {
+          filePath,
+          tsconfig: (await fileExists(tsconfigCandidate)) ? tsconfigCandidate : undefined,
+          maxAttempts: 3,
+          planDir,
+        }),
+      );
 
       const duration = Date.now() - startTime;
 
@@ -68,24 +129,38 @@ async function runCleanBenchmark() {
         errorCountBefore: result.errorCountBefore || 0,
         errorCountAfter: result.errorCountAfter || 0,
         errorsResolved: (result.errorCountAfter || 0) < (result.errorCountBefore || 0),
-        planGenerated: !!result.plan,
+        planGenerated: result.planGenerated || !!result.plan,
         duration,
         attempts: result.attempts || 1,
       };
 
+      const outputResult: BenchmarkResult = result.success
+        ? benchmarkResult
+        : {
+            ...benchmarkResult,
+            errorMessage: typeof result.error === 'string' ? result.error : 'Unknown error',
+          };
       if (result.success) {
         console.log(
           `  ✅ Success: ${benchmarkResult.errorCountBefore} → ${benchmarkResult.errorCountAfter} errors (${duration}ms)`,
         );
       } else {
-        console.log(`  ❌ Failed: ${result.error || 'Unknown error'} (${duration}ms)`);
-        benchmarkResult.errorMessage = result.error;
+        const errorMessage = outputResult.errorMessage ?? 'Unknown error';
+        console.log(`  ❌ Failed: ${errorMessage} (${duration}ms)`);
       }
 
-      results.push(benchmarkResult);
-    } catch (error: any) {
+      results.push(outputResult);
+    } catch (error: unknown) {
       const duration = Date.now() - startTime;
-      console.log(`  ❌ Exception: ${error.message} (${duration}ms)`);
+      const message =
+        error instanceof Error
+          ? error.message
+          : typeof error === 'string'
+            ? error
+            : typeof error === 'number' || typeof error === 'boolean'
+              ? String(error)
+              : 'Unknown error';
+      console.log(`  ❌ Exception: ${message} (${duration}ms)`);
 
       results.push({
         fixture: file,
@@ -94,7 +169,7 @@ async function runCleanBenchmark() {
         errorCountAfter: 0,
         errorsResolved: false,
         planGenerated: false,
-        errorMessage: error.message,
+        errorMessage: message,
         duration,
         attempts: 1,
       });
@@ -131,7 +206,11 @@ async function runCleanBenchmark() {
   if (failed.length > 0) {
     console.log('\n❌ Failed fixtures:');
     failed.forEach((r) => {
-      console.log(`  ${r.fixture}: ${r.errorMessage || 'Unknown error'}`);
+      const failureMessage =
+        typeof r.errorMessage === 'string' && r.errorMessage.length > 0
+          ? r.errorMessage
+          : 'Unknown error';
+      console.log(`  ${r.fixture}: ${failureMessage}`);
     });
   }
 
@@ -160,5 +239,7 @@ async function runCleanBenchmark() {
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {
-  runCleanBenchmark().catch(console.error);
+  runCleanBenchmark().catch((error: unknown) => {
+    console.error(error);
+  });
 }

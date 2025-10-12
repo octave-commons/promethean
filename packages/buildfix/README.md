@@ -56,7 +56,7 @@ pnpm --filter @promethean/buildfix bf:03-report
 
 ```bash
 # Run the full pipeline with piper
-pnpm --filter @promethean/piper run buildfix --config packages/buildfix/pipelines.json
+pnpm piper run buildfix --config packages/buildfix/pipelines.json
 ```
 
 ## 🧠 AI Model Configuration
@@ -255,22 +255,22 @@ packages/buildfix/
 ### **For Quick Validation** (2-5 minutes)
 
 ```bash
-pnpm tsx quick-test.js                    # Test AI integration
-pnpm tsx src/benchmark/run-simple.ts      # 3 fixtures, all models
+pnpm --filter @promethean/buildfix tsx quick-test.js                    # Test AI integration
+pnpm --filter @promethean/buildfix tsx src/benchmark/run-simple.ts      # 3 fixtures, all models
 ```
 
 ### **For Comprehensive Testing** (10-30 minutes)
 
 ```bash
-pnpm tsx src/benchmark/run.ts             # Full benchmark suite
-pnpm tsx src/benchmark/test-large-models.ts # Test all models thoroughly
+pnpm --filter @promethean/buildfix tsx src/benchmark/run.ts             # Full benchmark suite
+pnpm --filter @promethean/buildfix exec tsx src/benchmark/test-large-models.ts # Test all models thoroughly
 ```
 
 ### **For Development** (5-15 minutes)
 
 ```bash
-pnpm tsx src/benchmark/focused.ts         # Test specific models/fixtures
-pnpm tsx src/benchmark/test-dsl.ts        # Test DSL generation
+pnpm --filter @promethean/buildfix exec tsx src/benchmark/focused.ts         # Test specific models/fixtures
+pnpm --filter @promethean/buildfix exec tsx src/benchmark/test-dsl.ts        # Test DSL generation
 ```
 
 ## 🔍 Troubleshooting
