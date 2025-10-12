@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 Move scripts/check-changelog.mjs, scripts/generate-tasks-from-labeled.mjs, and scripts/kanban-metrics.mjs into @promethean/kanban package as integrated utilities. These scripts duplicate functionality that should be core to the kanban package. Create proper module exports and CLI commands.
 
 ## ⛓️ Blocked By
@@ -26,6 +23,3 @@ Nothing
 ## ⛓️ Blocks
 
 Nothing
-
-
-

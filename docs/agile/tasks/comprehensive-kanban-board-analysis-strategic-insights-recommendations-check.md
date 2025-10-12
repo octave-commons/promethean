@@ -1,6 +1,6 @@
 ---
 uuid: "3a91674c-318e-4d76-b70e-05bab00bef69"
-title: "Comprehensive Kanban Board Analysis - Strategic Insights & Recommendations -check   -check   -check   -check   -check   -check   -check   -check   -check   -check   -check   -check   -check   -check   -check   -check   -check   -check   -check   -check   -check   -check   -check   -check   -check   -check   -check   -check   -check"
+title: "Comprehensive Kanban Board Analysis - Strategic Insights & Recommendations -check"
 slug: "comprehensive-kanban-board-analysis-strategic-insights-recommendations-check"
 status: "incoming"
 priority: "P1"
@@ -11,71 +11,5 @@ estimates:
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

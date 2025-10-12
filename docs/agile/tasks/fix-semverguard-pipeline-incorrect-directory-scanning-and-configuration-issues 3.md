@@ -1,6 +1,6 @@
 ---
 uuid: "eeb2c3a8-9735-4b49-b72e-dcc6fe9e4de4"
-title: "Fix semver-guard pipeline incorrect directory scanning and configuration issues  -scanning -resolution  -guard  -scanning -resolution  -guard  -scanning -resolution  -guard  -scanning -resolution  -guard  -scanning -resolution  -guard  -scanning -resolution  -guard  -scanning -resolution  -guard  -scanning -resolution  -guard  -scanning -resolution  -guard  -scanning -resolution  -guard  -scanning -resolution  -guard  -scanning -resolution  -guard  -scanning -resolution  -guard  -scanning -resolution  -guard  -scanning -resolution  -guard  -scanning -resolution  -guard"
+title: "Fix semver-guard pipeline incorrect directory scanning and configuration issues -scanning -resolution"
 slug: "fix-semverguard-pipeline-incorrect-directory-scanning-and-configuration-issues 3"
 status: "in_review"
 priority: "P2"
@@ -11,37 +11,5 @@ estimates:
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

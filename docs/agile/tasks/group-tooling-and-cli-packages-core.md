@@ -1,6 +1,6 @@
 ---
 uuid: "911d511f-7f6d-4f01-86c0-5129765a3f8f"
-title: "Group tooling and CLI packages -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core"
+title: "Group tooling and CLI packages -core"
 slug: "group-tooling-and-cli-packages-core"
 status: "todo"
 priority: "p3"
@@ -11,9 +11,6 @@ estimates:
   scale: ""
   time_to_completion: ""
 ---
-
-
-
 
 #Todo
 
@@ -66,6 +63,3 @@ Estimate: 3
 ## 🔍 Relevant Links
 
 - Pending analysis.
-
-
-

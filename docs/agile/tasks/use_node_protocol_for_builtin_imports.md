@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 # Use `node:` protocol for builtin imports
 
 ## Description
@@ -33,6 +30,3 @@ Biome flagged `useNodejsImportProtocol` violations where Node.js builtins like `
 ```
 #Todo #codex-task
 ```
-
-
-

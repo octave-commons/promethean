@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🛠️ Description
 ```
 **Status:** blocked
@@ -74,6 +71,3 @@ Nothing
 - No active owner or unclear scope
 
 #breakdown
-
-
-

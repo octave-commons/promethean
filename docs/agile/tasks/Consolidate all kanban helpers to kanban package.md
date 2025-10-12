@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 Scripts: Group remaining Kanban utilities and verify
 
 Goal: Ensure all Kanban-related scripts are under `packages/kanban/` and update their docs.
@@ -29,6 +26,3 @@ Exit Criteria:
 - All Kanban scripts consolidated; README accurate; sample commands tested.
 
 #incoming #scripts #kanban #organization
-
-
-

@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🛠️ Task: Design mermaid to Piper DSL compiler
 
 ### Context
@@ -39,6 +36,3 @@ estimates:
 - `pipelines.json`
 - `scripts/` Piper tooling
 - nbb / ClojureScript DSL conventions
-
-
-

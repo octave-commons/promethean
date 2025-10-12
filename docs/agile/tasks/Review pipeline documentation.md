@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🛠️ Task: Review pipeline documentation in README
 
 ### Context
@@ -77,6 +74,3 @@ No immediate updates required. Documentation is current and accurate.
 
 - `README.md` (Automation pipelines section)
 - `pipelines.json`
-
-
-

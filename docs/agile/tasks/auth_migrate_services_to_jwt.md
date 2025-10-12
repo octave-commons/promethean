@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 Auth: Migrate services to JWT-based auth
 
 Goal: Replace ad hoc/static tokens with OAuth2 client_credentials + JWT across internal HTTP endpoints.
@@ -31,6 +28,3 @@ Exit Criteria:
 - Docs updated to remove static token guidance.
 
 #incoming #auth #migration #services
-
-
-

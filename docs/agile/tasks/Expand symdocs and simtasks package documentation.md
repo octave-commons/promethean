@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🛠️ Task: Expand symdocs and simtasks package documentation
 
 ### Context
@@ -38,6 +35,3 @@ estimates:
 - `packages/@promethean/symdocs/README.md`
 - `packages/@promethean/simtasks/README.md`
 - `pipelines.json`
-
-
-

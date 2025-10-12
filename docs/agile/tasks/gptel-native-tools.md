@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🗂 Source
 
 - Path: docs/labeled/gptel-native-tools.md
@@ -51,6 +48,3 @@ Below is a drop-in `init.el` snippet that defines **all 10 tools** you asked for
 - [ ] Draft actionable subtasks from the summary
 - [ ] Define acceptance criteria
 - [ ] Link back to related labeled docs
-
-
-

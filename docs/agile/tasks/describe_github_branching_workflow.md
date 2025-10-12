@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🛠️ Description
 
 Merging straight into `main` caused instability. This task documents a
@@ -124,6 +121,3 @@ Nothing
 #agent-thinking
 ```
 #Breakdown
-
-
-

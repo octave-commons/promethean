@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ECS–Mongo Adapter Library
 
 Goal: Implement a reusable MongoDB persistence adapter for the ECS so ECS acts as our ORM.
@@ -33,6 +30,3 @@ Exit Criteria:
 - Works with existing components (Turn, Utterance, TranscriptFinal, VAD).
 
 #incoming #ecs #mongo #orm
-
-
-

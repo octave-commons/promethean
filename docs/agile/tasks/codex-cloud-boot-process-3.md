@@ -12,10 +12,4 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 \nTags: tool:codex env:cloud trace:6a363aeb-b815-47ee-b577-4d312c918b09
-
-
-

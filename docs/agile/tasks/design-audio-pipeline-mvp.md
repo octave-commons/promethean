@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ```
 <hr class="__chatgpt_plugin">
 ```
@@ -138,6 +135,3 @@ It seems like you've started writing in your Markdown document, but I didn't rec
 <hr class="__chatgpt_plugin">
 ```
 ### role::user
-
-
-

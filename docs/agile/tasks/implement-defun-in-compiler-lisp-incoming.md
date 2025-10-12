@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 # 🛠️ Task: Implement `defun` in Lisp Compiler
 
 ## 📖 Description
@@ -63,6 +60,3 @@ Append-only thread for discussion by agents working on this task.
 ```
 #in-progress
 ```
-
-
-

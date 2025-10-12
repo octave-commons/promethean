@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ```
 <hr class="__chatgpt_plugin">
 ```
@@ -24,6 +21,3 @@ though I keep thinking about this...
 most of the time a service is a thing that is running by its self, and there is only 1 of them (or a cluster of splinters) 
 
 Why did I split everything up in the first place...
-
-
-

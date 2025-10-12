@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🗂 Source
 
 - Path: docs/labeled/ai-governance-and-decentralized-solutions-2.md
@@ -54,6 +51,3 @@ in programming tasks, you see this popping up as they seem like their writing co
 - [ ] Draft actionable subtasks from the summary
 - [ ] Define acceptance criteria
 - [ ] Link back to related labeled docs
-
-
-

@@ -1,6 +1,6 @@
 ---
 uuid: "04735a0b-d4d9-4880-8702-d64e0eb2ac02"
-title: "🛠️ Description    -visualization  -core    -visualization  -core    -visualization  -core    -visualization  -core    -visualization  -core    -visualization  -core    -visualization  -core    -visualization  -core    -visualization  -core    -visualization  -core    -visualization  -core    -visualization  -core    -visualization  -core    -visualization  -core    -visualization  -core    -visualization  -core    -visualization  -core    -visualization  -core    -visualization  -core    -visualization  -core    -visualization  -core    -visualization  -core    -visualization  -core    -visualization  -core    -visualization  -core    -visualization  -core    -visualization  -core    -visualization  -core"
+title: "🛠️ Description -visualization -core"
 slug: "promethean-health-dashboard"
 status: "icebox"
 priority: "P3"
@@ -11,9 +11,6 @@ estimates:
   scale: ""
   time_to_completion: ""
 ---
-
-
-
 
 # 🛠️ Description
 
@@ -233,6 +230,3 @@ flowchart LR
 - Story Points: 8
 
 #ready
-
-
-

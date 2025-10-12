@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🛠️ Description
 Ensure the top-level `sonar` pipeline writes the `.cache/sonar/scan.touch` marker so downstream steps succeed on clean runs.
 
@@ -57,6 +54,3 @@ Useful for agents to coordinate on implementation details and testing.
 - Estimate: 2
 - Assumptions: Sonar CLI available locally or in CI.
 - Dependencies: Access to Sonar credentials or mocks for verification.
-
-
-

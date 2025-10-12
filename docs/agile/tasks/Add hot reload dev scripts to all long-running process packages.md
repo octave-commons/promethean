@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 Add development scripts with automatic rebuild and restart to packages that start long-running processes:
 
 ## Packages that need dev scripts:
@@ -57,6 +54,3 @@ Nothing
 ## ⛓️ Blocks
 
 Nothing
-
-
-

@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🛠️ Task: Fix Makefile test target
 
 The `test-python` target originally pointed to `tests/python/` but tests live in `tests/`.
@@ -57,6 +54,3 @@ Nothing
 ## 🔍 Relevant Links
 - [[kanban]]
 #done
-
-
-

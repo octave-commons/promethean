@@ -78,7 +78,7 @@ export function createApp(appConfig: EnhancedOmniServiceConfig = config): Fastif
   };
   const authManager = createAuthManager(authConfig);
 
-  app.addHook('preHandler', async (request, reply) => {
+  app.addHook('preHandler', async (request, _reply) => {
     (request as any).config = appConfig;
     (request as any).authManager = authManager;
   });
@@ -142,7 +142,7 @@ export function createApp(appConfig: EnhancedOmniServiceConfig = config): Fastif
   }
 
   // Global health check endpoint
-  app.get('/health', async (request, reply) => {
+  app.get('/health', async (_request, _reply) => {
     const adapterStats = getAdapterStats();
 
     return {
@@ -167,7 +167,7 @@ export function createApp(appConfig: EnhancedOmniServiceConfig = config): Fastif
   });
 
   // Root endpoint
-  app.get('/', async (request, reply) => {
+  app.get('/', async (_request, _reply) => {
     const adapters = Object.entries(appConfig.adapters)
       .filter(([_, config]) => config.enabled)
       .map(([name, config]) => {
@@ -269,7 +269,7 @@ export function createApp(appConfig: EnhancedOmniServiceConfig = config): Fastif
         roles: ['admin'],
       }),
     },
-    async (request, reply) => {
+    async (_request, reply) => {
       const adapterStats = getAdapterStats();
 
       return reply.send({
@@ -502,7 +502,7 @@ function addAuthRoutes(app: FastifyInstance, authManager: any) {
   });
 
   // Logout endpoint
-  app.post('/auth/logout', async (request, reply) => {
+  app.post('/auth/logout', async (_request, reply) => {
     authManager.clearAuthCookie(reply);
     return reply.send({ message: 'Logged out successfully' });
   });

@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🛠️ Task: Add vault instructions to main README.md
 
 Placeholder task stub generated from kanban board.
@@ -66,6 +63,3 @@ Vault usage instructions were added to `readme.md` alongside a reference to
 `vault-config/README.md`.
 ```
 #rejected
-
-
-

@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🛠️ Task: Replace polyglot Makefile with pnpm-first workflow docs
 
 The repo already uses pnpm workspaces, TypeScript scripts, and `scripts/dev.mjs`. Instead of maintaining a cross-language
@@ -65,6 +62,3 @@ Nothing
 - [Makefile retirement note]../notes/promethean-dev-workflow-update.md
 
 #cicd #buildtools #devtools #devops #archive
-
-
-

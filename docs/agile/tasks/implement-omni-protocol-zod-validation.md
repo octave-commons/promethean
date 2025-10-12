@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🎯 Outcome
 
 Create comprehensive runtime validation schemas using Zod as the source of truth, with JSON Schema generation for adapter compatibility and validation helpers for all protocol types.
@@ -106,6 +103,3 @@ Create comprehensive runtime validation schemas using Zod as the source of truth
 - ✅ Exported JSON schemas for adapter consumption
 
 **Location**: `packages/omni-protocol/src/validation/schemas.ts`, `validators.ts`
-
-
-

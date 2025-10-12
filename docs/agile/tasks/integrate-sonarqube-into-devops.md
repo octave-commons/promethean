@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ### **Task: Integrate SonarQube into DevOps Pipeline**  
 ```
 **Description**:
@@ -38,6 +35,3 @@ Add SonarQube to your DevOps pipeline to enforce code quality checks, detect bug
 - Append additional notes or adjustments to this task as needed for your specific DevOps tools or team workflows.  
 - Ensure alignment with existing processes outlined in [integrate-sonarqube-into-devops].  
 #incoming
-
-
-

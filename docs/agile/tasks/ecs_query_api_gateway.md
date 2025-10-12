@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ECS Query API Gateway
 
 Goal: Expose a small HTTP API for reading ECS-backed data (Mongo) for dashboards, agents, and tools.
@@ -28,6 +25,3 @@ Exit Criteria:
 - Service scaffolding + 2–3 endpoints with tests.
 
 #incoming #ecs #api #mongo
-
-
-

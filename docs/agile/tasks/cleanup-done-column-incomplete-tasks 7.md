@@ -1,6 +1,6 @@
 ---
 uuid: "6d2e3bda-584f-41c0-be48-e87e503503f0"
-title: "Cleanup done column incomplete tasks and implement completion verification  -column  -column  -column  -column  -column  -column  -column  -column  -column  -column  -column  -column  -column  -column  -column  -column"
+title: "Cleanup done column incomplete tasks and implement completion verification -column"
 slug: "cleanup-done-column-incomplete-tasks 7"
 status: "breakdown"
 priority: "P1"
@@ -11,33 +11,5 @@ estimates:
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

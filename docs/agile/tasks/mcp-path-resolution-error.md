@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🗂 Source
 
 - Path: docs/labeled/mcp-path-resolution-error.md
@@ -57,6 +54,3 @@ $proxy:ts-ls-lsp stdio transport closed for ts-ls-lsp
 - [ ] Draft actionable subtasks from the summary
 - [ ] Define acceptance criteria
 - [ ] Link back to related labeled docs
-
-
-

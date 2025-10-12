@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🗂 Source
 
 - Path: docs/labeled/nx-lint-affected-projects-2.md
@@ -62,6 +59,3 @@ For more information, see https://nx.dev/features/powerpack/custom-cachi
 - [ ] Draft actionable subtasks from the summary
 - [ ] Define acceptance criteria
 - [ ] Link back to related labeled docs
-
-
-

@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## Context
 
 - Shared package monolith creep was affecting us in difficult to understand ways
@@ -51,6 +48,3 @@ You might find [this] useful while working on this task
 
 - …
   #accepted
-
-
-

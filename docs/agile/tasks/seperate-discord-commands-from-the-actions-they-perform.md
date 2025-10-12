@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 # Cephalon Commands → Actions Refactor — Task Refinement
 
 > Split Discord-facing **commands** from reusable **actions** (DI via `scope`).
@@ -491,6 +488,3 @@ export function attachBrokerBridge(store: { dispatch: (e: Event) => Promise<void
 ```
 #in-progress
 ```
-
-
-

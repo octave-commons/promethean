@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 # Migrate broker service to TypeScript
 
 Migrate the legacy broker JavaScript service to TypeScript under the new package structure.
@@ -33,6 +30,3 @@ Migrate the legacy broker JavaScript service to TypeScript under the new package
 - [ ] TypeScript compilation passes
 - [ ] Existing functionality preserved
 - [ ] Tests updated and passing
-
-
-

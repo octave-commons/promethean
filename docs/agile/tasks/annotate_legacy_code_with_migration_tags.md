@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🛠️ Task: Annotate legacy code with migration tags
 
 Placeholder task stub generated from kanban board.
@@ -68,6 +65,3 @@ Nothing
 ```
 #ice-box
 ```
-
-
-

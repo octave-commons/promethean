@@ -1,5 +1,6 @@
 import type { FastifyInstance } from 'fastify';
 // Workaround for mercurius type definition issue
+// @ts-ignore - Required for GraphQL functionality
 const mercurius = require('mercurius');
 import type { UserContext } from '../auth/types.js';
 
@@ -419,7 +420,7 @@ class GraphQLDataStore {
   }
 }
 
-const resolvers = {
+export const resolvers = {
   Query: {
     health: () => ({
       status: 'ok',

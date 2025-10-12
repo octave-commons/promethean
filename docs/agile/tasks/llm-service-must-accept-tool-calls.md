@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🛠️ Description
 
 Extend the LLM service to support tool/function calls so agents can request structured actions.
@@ -68,6 +65,3 @@ Nothing
 ```
 #framework-core #Ready #ready
 ```
-
-
-

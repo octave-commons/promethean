@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ```
 <hr class="__chatgpt_plugin">
 ```
@@ -66,6 +63,3 @@ You might find [this](link) useful while working on this task.
 <hr class="__chatgpt_plugin">
 ```
 ### role::user
-
-
-

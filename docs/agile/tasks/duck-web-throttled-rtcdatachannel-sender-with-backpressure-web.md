@@ -1,6 +1,6 @@
 ---
 uuid: "3d7e9f1a-2b3c-4d5e-8f9a-0b1c2d3e4f5a"
-title: "duck-web — throttled RTCDataChannel sender with backpressure -web -web -web -web -web -web -web -web -web -web -web -web -web -web -web -web -web -web -web -web -web -web -web -web -web -web -web -web -web"
+title: "duck-web — throttled RTCDataChannel sender with backpressure -web"
 slug: "duck-web-throttled-rtcdatachannel-sender-with-backpressure-web"
 status: "review"
 priority: "P1"
@@ -11,9 +11,6 @@ estimates:
   scale: ""
   time_to_completion: ""
 ---
-
-
-
 
 #Todo
 
@@ -30,6 +27,3 @@ Implement `makeThrottledSender(ch, threshold)` using `bufferedamountlow` event; 
 
 ## 🔍 Related
 - PR #1445
-
-
-

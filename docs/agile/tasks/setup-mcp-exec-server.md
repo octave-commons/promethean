@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 #InProgress
 
 ## 🛠️ Description
@@ -66,6 +63,3 @@ Estimate: 3
 ## 🔍 Relevant Links
 
 - `packages/mcp` module docs
-
-
-

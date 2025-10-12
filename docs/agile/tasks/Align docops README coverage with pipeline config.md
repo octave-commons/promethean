@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🛠️ Task: Align DocOps README coverage with pipeline config
 
 ### Context
@@ -38,6 +35,3 @@ estimates:
 - `pipelines.json`
 - `docs/agile/pipelines/docops.md`
 - `scripts/piper-docops.mjs`
-
-
-

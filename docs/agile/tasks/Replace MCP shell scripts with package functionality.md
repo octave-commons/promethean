@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 Remove scripts/mcp/bin/*.sh shell scripts and replace with @promethean/mcp package functionality. The MCP package already provides HTTP server and proxy capabilities that make these Docker-based shell scripts obsolete. Update documentation to use MCP server endpoints.
 
 ## ⛓️ Blocked By
@@ -26,6 +23,3 @@ Nothing
 ## ⛓️ Blocks
 
 Nothing
-
-
-

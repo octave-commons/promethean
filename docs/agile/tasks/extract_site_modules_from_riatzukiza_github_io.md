@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🛠️ Task: Extract site modules from riatzukiza.github.io
 
 Port any useful HTML, CSS, or JS from the legacy `riatzukiza.github.io` site into our `/sites/` directory.
@@ -65,6 +62,3 @@ Nothing
 
 - [[kanban]]
   #accepted
-
-
-

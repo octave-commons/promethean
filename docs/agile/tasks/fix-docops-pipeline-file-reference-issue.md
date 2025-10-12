@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 # Fix docops pipeline file reference issue
 
 ## 📋 Issue Description
@@ -75,6 +72,3 @@ The docops pipeline has a file reference issue: Missing input documentation file
 
 **Generated**: 2025-10-09T16:20:35.183Z by pipeline-fix-generator.mjs
 **Template**: pipeline-fix-generator
-
-
-

@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 # Description
 
 The GPT bridge should be able to run:
@@ -37,6 +34,3 @@ The GPT bridge should be able to run:
 ## Relevent resources
 
 You might find [this] useful while working on this task
-
-
-

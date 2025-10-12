@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ```
 Auth Service: Scaffold + Endpoints
 ```
@@ -36,6 +33,3 @@ Exit Criteria:
 - Basic tests for token issuance, expiration, invalid secret, and JWKS fetch.
 
 #incoming #auth #oauth #service
-
-
-

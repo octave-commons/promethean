@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 # Description
 
 Integrate Wikipedia article lookup using the MediaWiki API for knowledge retrieval.
@@ -91,6 +88,3 @@ No blockers.
 
 #Ready
 #ready
-
-
-

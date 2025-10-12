@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🗂 Source
 
 - Path: docs/labeled/llm-routing-system-design-2.md
@@ -48,6 +45,3 @@ What you’re describing is a **multi-LLM routing** system (sometimes also calle
 - [ ] Draft actionable subtasks from the summary
 - [ ] Define acceptance criteria
 - [ ] Link back to related labeled docs
-
-
-

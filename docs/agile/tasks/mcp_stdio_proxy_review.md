@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🛠️ Scope
 Review MCP stdio proxy (`packages/mcp/src/proxy/*`, `src/bin/proxy.ts`) and land low-risk fixes.
 
@@ -52,6 +49,3 @@ Review MCP stdio proxy (`packages/mcp/src/proxy/*`, `src/bin/proxy.ts`) and land
 - `packages/mcp/src/proxy/config.ts`
 
 #in-progress
-
-
-

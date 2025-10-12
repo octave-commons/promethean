@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🛠️ Task: Document-Driven Development for Service Scripts
 ```
 **Status:** blocked
@@ -97,6 +94,3 @@ Nothing
 - No active owner or unclear scope
 
 #breakdown
-
-
-

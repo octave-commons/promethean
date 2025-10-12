@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🛠️ Description
 
 Add an MCP tool that runs the workspace Nx package generator so agents can scaffold new packages consistently with repository presets.
@@ -75,6 +72,3 @@ Nothing
 - Story Points: 3
 
 #done
-
-
-

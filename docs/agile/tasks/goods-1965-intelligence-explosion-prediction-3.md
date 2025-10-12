@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🗂 Source
 
 - Path: docs/labeled/goods-1965-intelligence-explosion-prediction-3.md
@@ -42,6 +39,3 @@ One of the earliest notable predictions was by I.J. Good in 1965, who wrote abou
 - [ ] Draft actionable subtasks from the summary
 - [ ] Define acceptance criteria
 - [ ] Link back to related labeled docs
-
-
-

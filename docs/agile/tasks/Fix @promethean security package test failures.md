@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 Security package has failing tests that need investigation:
 
 - Need to identify specific test failures and root causes
@@ -32,6 +29,3 @@ Nothing
 ## ⛓️ Blocks
 
 Nothing
-
-
-

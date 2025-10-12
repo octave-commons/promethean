@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 # Install Biome dependency for cephalon-discord
 
 ## Description
@@ -39,6 +36,3 @@ estimates:
 ```
 #Todo #codex-task
 ```
-
-
-

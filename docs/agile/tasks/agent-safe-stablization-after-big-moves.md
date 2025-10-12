@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 # Task: Agent-safe stabilization after big moves local hooks, zero-risk edits
 
 ## Contract (read this first)
@@ -276,6 +273,3 @@ If you want, I can convert this into a one-shot `stabilize-local.sh` that implem
 
 \#precommit #stabilization #monorepo #typescript #python #hy #agents #safety #playbook
 #accepted
-
-
-

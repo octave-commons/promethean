@@ -1,6 +1,6 @@
 ---
 uuid: "2d7bc869-0bc6-4d6b-891c-d7657cb8e4f4"
-title: "Shadow CLJS migration — step 2 shared components -core -task -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core -task -core"
+title: "Shadow CLJS migration — step 2 shared components -core -task"
 slug: "shadow-cljs-migration-step-2-shared-components-core-task"
 status: "done"
 priority: "P2"
@@ -11,9 +11,6 @@ estimates:
   scale: ""
   time_to_completion: ""
 ---
-
-
-
 
 #Todo
 
@@ -69,6 +66,3 @@ Estimate: 5
 ## 🔍 Relevant Links
 
 - Shadow-CLJS migration plan 2025-10-03
-
-
-

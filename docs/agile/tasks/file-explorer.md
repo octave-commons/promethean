@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🛠️ Description
 
 Provide a lightweight file explorer for navigating repository contents through the agent interface.
@@ -73,6 +70,3 @@ Nothing
 - Story Points: 5
 
 #ready
-
-
-

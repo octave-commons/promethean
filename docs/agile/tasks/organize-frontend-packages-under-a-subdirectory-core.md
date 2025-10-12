@@ -1,6 +1,6 @@
 ---
 uuid: "2b28533b-0e70-4b18-80dc-1c8f96e24735"
-title: "Organize frontend packages under a subdirectory -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core"
+title: "Organize frontend packages under a subdirectory -core"
 slug: "organize-frontend-packages-under-a-subdirectory-core"
 status: "done"
 priority: "p3"
@@ -11,9 +11,6 @@ estimates:
   scale: ""
   time_to_completion: ""
 ---
-
-
-
 
 #InProgress
 
@@ -66,6 +63,3 @@ Estimate: 5
 ## 🔍 Relevant Links
 
 - Pending PR once work is complete.
-
-
-

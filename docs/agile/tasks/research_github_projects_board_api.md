@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🛠️ Task: Research GitHub Projects board API
 
 We need to understand how to interact programmatically with GitHub Projects so our kanban board can sync with it.
@@ -58,6 +55,3 @@ Nothing
 ## 🔍 Relevant Links
 - [[kanban]]
 #done
-
-
-

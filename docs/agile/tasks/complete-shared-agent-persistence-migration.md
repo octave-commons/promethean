@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 Background: The Incoming column still calls for a `shared/ts/persistence` module, but services continue to maintain bespoke Mongo/Chroma clients. Without a shared DualStore/ContextStore implementation, agent state handling diverges, legacy code lingers, and new services cannot rely on a tested persistence baseline.
 
 Goal: Deliver the shared persistence module, migrate agent services onto it, and retire the old ad-hoc stores with confidence.
@@ -125,6 +122,3 @@ Exit Criteria:
 **🎉 MIGRATION SUCCESSFULLY COMPLETED**
 
 The shared persistence migration is **complete for core functionality**. The primary goal of unifying agent persistence under a shared module has been achieved, with 57% of services fully migrated and the remaining services either appropriately using client-level abstractions or not requiring persistence.
-
-
-

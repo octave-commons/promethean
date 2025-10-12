@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 # Description
 
 Make it easier to use js from hy and hy from js
@@ -64,6 +61,3 @@ You might find [this] useful while working on this task
 Blocked: requires decisions on runtime bridging tools.
 
 #Breakdown
-
-
-

@@ -1,6 +1,6 @@
 ---
 uuid: "189b1dbf-2d9e-40cd-95ce-a352c6114d14"
-title: "🔒 CRITICAL: Fix writeFileContent sandbox escape via symlinks   -1144    )   -1144   -1144   -1144   -1144   -1144   -1144   -1144   -1144   -1144   -1144   -1144   -1144   -1144   -1144   -1144   -1144"
+title: "🔒 CRITICAL: Fix writeFileContent sandbox escape via symlinks -1144 )"
 slug: "fix-writefilecontent-sandbox-escape-via-symlinks 4"
 status: "ready"
 priority: "P1"
@@ -11,39 +11,5 @@ estimates:
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

@@ -1,6 +1,6 @@
 ---
 uuid: "3284e35b-7501-4321-9f58-9879bdf1d643"
-title: "BoardRev Vector Database & Accuracy Enhancement Epic -db     -db     -db     -db     -db     -db     -db     -db     -db     -db     -db     -db     -db     -db     -db     -db     -db     -db     -db     -db     -db     -db     -db     -db     -db     -db     -db     -db     -db"
+title: "BoardRev Vector Database & Accuracy Enhancement Epic -db"
 slug: "boardrev-vector-database-accuracy-enhancement-epic-db"
 status: "ready"
 priority: "P1"
@@ -11,71 +11,5 @@ estimates:
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

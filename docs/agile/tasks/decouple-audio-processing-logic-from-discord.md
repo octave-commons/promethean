@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 # Description
 
 Describe your task
@@ -33,6 +30,3 @@ Describe your task
 - [ ] Step 2
 - [ ] Step 3
 - [ ] Step 4
-
-
-

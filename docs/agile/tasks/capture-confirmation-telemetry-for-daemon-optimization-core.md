@@ -1,6 +1,6 @@
 ---
 uuid: "7a86d12d-27f8-42ce-ae96-661ebfd7012d"
-title: "capture confirmation telemetry for daemon optimization -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core"
+title: "capture confirmation telemetry for daemon optimization -core"
 slug: "capture-confirmation-telemetry-for-daemon-optimization-core"
 status: "ready"
 priority: "P2"
@@ -11,9 +11,6 @@ estimates:
   scale: ""
   time_to_completion: ""
 ---
-
-
-
 
 #Todo
 
@@ -66,6 +63,3 @@ Estimate: 3
 ## 🔍 Relevant Links
 
 - `system/README.md`
-
-
-

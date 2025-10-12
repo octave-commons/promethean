@@ -1,6 +1,6 @@
 ---
 uuid: "f7ae8ef8-dc20-4f27-bb86-bbc8a8a9f15d"
-title: "Fix eslint-tasks pipeline file reference issue   -tasks   -tasks   -tasks   -tasks   -tasks   -tasks   -tasks   -tasks   -tasks   -tasks   -tasks   -tasks   -tasks   -tasks   -tasks   -tasks   -tasks   -tasks   -tasks   -tasks   -tasks"
+title: "Fix eslint-tasks pipeline file reference issue -tasks"
 slug: "fix-eslint-tasks-pipeline-file-reference-issue 3"
 status: "incoming"
 priority: "P2"
@@ -11,51 +11,5 @@ estimates:
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

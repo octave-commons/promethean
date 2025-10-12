@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🗂 Source
 
 - Path: docs/labeled/2025.10.07.00.22.46.md
@@ -57,6 +54,3 @@ Use a simple M/M/c approximation for wait times; keep \rho ~ 0.7–0.8 so test/r
 - [ ] Draft actionable subtasks from the summary
 - [ ] Define acceptance criteria
 - [ ] Link back to related labeled docs
-
-
-

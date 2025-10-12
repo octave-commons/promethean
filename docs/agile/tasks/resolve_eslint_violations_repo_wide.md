@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 # Resolve ESLint violations across repository
 
 ## Description
@@ -56,6 +53,3 @@ Multiple packages trigger ESLint errors such as `functional/prefer-immutable-typ
 - Some lint rules may require broader architectural changes; will document if encountered instead of over-scoping this slice.
 
 #Todo #codex-task #doc-this
-
-
-

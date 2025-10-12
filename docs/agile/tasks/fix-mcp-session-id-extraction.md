@@ -12,10 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
-
 ## Objective
 Resolve the failing session ID extraction checks in the MCP stdio proxy negative test suites (`chatgpt-simulation-negative` and `stdio-proxy-timing-negative`). Current runs return `null`, indicating the proxy handshake or response parsing is broken.
 
@@ -34,6 +30,3 @@ Resolve the failing session ID extraction checks in the MCP stdio proxy negative
 - Stdio proxy logs no `mcp-session-id:` line; regex returns `null`, so proxy likely stopped emitting handshake banner after recent changes.
 - Need to inspect initialization path (`StdioHttpProxy.initializeMcpServer` / logging) to ensure session IDs are still surfaced for clients.
 - Subsequent tool list requests rely on session id; failing handshake blocks coverage for the rest of the suites.
-
-
-

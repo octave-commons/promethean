@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ```
 #Ready
 ```
@@ -67,6 +64,3 @@ Estimate: 5
 ## 🔍 Relevant Links
 
 - User request (current session)
-
-
-

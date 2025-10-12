@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🛠️ Task: Document board sync workflow
 
 After the sync script exists, we need clear instructions on how to use it and how the GitHub Projects board maps to our local kanban.
@@ -85,6 +82,3 @@ Nothing
 - [Board Sync Workflow]../../board_sync.md
 
 #archive
-
-
-

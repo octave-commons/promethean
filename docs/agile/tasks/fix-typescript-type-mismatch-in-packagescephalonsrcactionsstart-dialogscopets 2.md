@@ -1,6 +1,6 @@
 ---
 uuid: "0db88331-00de-4cab-ba20-008fbe50a7c3"
-title: "Fix TypeScript type mismatch in packages/cephalon/src/actions/start-dialog.scope.ts   -fix   -fix   -fix   -fix   -fix   -fix   -fix   -fix   -fix   -fix   -fix   -fix   -fix   -fix   -fix   -fix   -fix   -fix   -fix   -fix   -fix   -fix   -fix   -fix   -fix   -fix   -fix   -fix"
+title: "Fix TypeScript type mismatch in packages/cephalon/src/actions/start-dialog.scope.ts -fix"
 slug: "fix-typescript-type-mismatch-in-packagescephalonsrcactionsstart-dialogscopets 2"
 status: "incoming"
 priority: "P2"
@@ -11,65 +11,5 @@ estimates:
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

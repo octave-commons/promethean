@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🛠️ Task: Design Ollama model file for use with Codex
 
 Having a preconfigured, pre-prompted model could help agents perform better as Codex models.
@@ -55,6 +52,3 @@ Having a preconfigured, pre-prompted model could help agents perform better as C
 ```
 #ice-box
 ```
-
-
-

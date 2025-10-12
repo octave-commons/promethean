@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 Cephalon: Backfill conversation history (optional)
 
 Goal: Migrate recent logs/outputs into `transcripts` and `agent_messages` to seed context for active users.
@@ -32,6 +29,3 @@ Exit Criteria:
 
 Notes:
 - History gap remains the top follow-up; schedule this slice immediately once active feature work pauses so persistence catches up.
-
-
-

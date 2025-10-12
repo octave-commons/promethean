@@ -1,5 +1,4 @@
-import type { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
-import type { UserContext } from '../auth/types.js';
+import type { FastifyInstance, FastifyRequest } from 'fastify';
 
 /**
  * MCP (Model Context Protocol) message types
@@ -170,7 +169,7 @@ class MCPAdapter {
     this.registerMCEndpoints(fullPrefix);
 
     // Add health check
-    this.app.get(`${fullPrefix}/health`, (request, reply) => {
+    this.app.get(`${fullPrefix}/health`, (_request, reply) => {
       const healthStatus = {
         status: 'ok',
         adapter: 'mcp',
@@ -189,7 +188,7 @@ class MCPAdapter {
       {
         preHandler: this.createAuthMiddleware(),
       },
-      (request, reply) => {
+      (_request, reply) => {
         reply.send({
           tools: Array.from(this.tools.values()).map((tool) => ({
             name: tool.name,
@@ -206,7 +205,7 @@ class MCPAdapter {
       {
         preHandler: this.createAuthMiddleware(),
       },
-      (request, reply) => {
+      (_request, reply) => {
         reply.send({
           resources: Array.from(this.resources.entries()).map(([uri, resource]) => ({
             uri,
@@ -222,7 +221,7 @@ class MCPAdapter {
       {
         preHandler: this.createAuthMiddleware(),
       },
-      (request, reply) => {
+      (_request, reply) => {
         reply.send(this.getCapabilities());
       },
     );
@@ -233,7 +232,7 @@ class MCPAdapter {
       {
         preHandler: this.createAuthMiddleware(),
       },
-      (request, reply) => {
+      (_request, reply) => {
         reply.send(this.getDocumentation());
       },
     );
@@ -280,7 +279,7 @@ class MCPAdapter {
     );
 
     // Optional GET endpoint for discovery
-    this.app.get(`${prefix}`, (request, reply) => {
+    this.app.get(`${prefix}`, (_request, reply) => {
       reply.send({
         name: 'Promethean Omni Service MCP',
         version: '1.0.0',
@@ -461,7 +460,7 @@ class MCPAdapter {
   /**
    * Read MCP resource
    */
-  private async readResource(uri: string, request: FastifyRequest): Promise<any> {
+  private async readResource(uri: string, _request: FastifyRequest): Promise<any> {
     const resource = this.resources.get(uri);
     if (!resource) {
       throw new Error(`Resource not found: ${uri}`);
@@ -841,7 +840,7 @@ class MCPAdapter {
 export function mountMCPAdapter(
   app: FastifyInstance,
   options: MCPAdapterOptions,
-  authManager?: any,
+  _authManager?: any,
 ): void {
   const mcpAdapter = new MCPAdapter(app, options);
 

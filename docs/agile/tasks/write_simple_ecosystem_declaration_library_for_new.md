@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🛠️ Task: write simple ecosystem declaration library for new agents
 
 Create a lightweight module that lets each agent declare which
@@ -75,6 +72,3 @@ spawn the correct services for an agent.
 - Should PM2 remain the default process manager or is a custom tool planned?
 - How will per-agent environment variables be stored?
 #done
-
-
-

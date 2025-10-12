@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🛠️ Task: Migrate server side sibilant libs to promethean architecture
 
 Placeholder task stub generated from kanban board.
@@ -59,6 +56,3 @@ Nothing
 
 - [[kanban]]
 #ready
-
-
-

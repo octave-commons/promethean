@@ -12,10 +12,4 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 #incoming
-
-
-

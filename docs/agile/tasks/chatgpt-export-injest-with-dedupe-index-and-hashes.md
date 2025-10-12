@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 # Task: ChatGPT Export Ingest with De‑dup Index & Hashes
 ```
 **Status:** blocked
@@ -249,6 +246,3 @@ pnpm tsx src/cli.ts --export ~/Downloads/chatgpt-export \
 - No active owner or unclear scope
 
 #breakdown
-
-
-

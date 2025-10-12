@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 The scripts/dev.mjs script appears to be a development wrapper that duplicates standard pnpm workspace functionality and should be replaced with direct pnpm commands.
 
 ## ⛓️ Blocked By
@@ -26,6 +23,3 @@ Nothing
 ## ⛓️ Blocks
 
 Nothing
-
-
-

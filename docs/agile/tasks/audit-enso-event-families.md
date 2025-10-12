@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 # Description
 
 Ensure the newly expanded transport chapter stays aligned with the detailed
@@ -85,6 +82,3 @@ Focus on human review—no automated tooling expected beyond basic diffing.
 - All critical transport semantics and type definitions are properly aligned
 
 #Todo
-
-
-

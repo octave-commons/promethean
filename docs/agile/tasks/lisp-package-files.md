@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🛠️ Description
 
 Design a package file format for the Lisp components so modules can declare dependencies and be imported consistently.
@@ -67,6 +64,3 @@ Nothing
 ```
 #framework-core #Ready
 ```
-
-
-

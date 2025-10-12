@@ -1,0 +1,15 @@
+---
+uuid: "547494bd-bdd3-4931-83dd-54dc2472bcad"
+title: "Advanced Features Cluster - AI Integration & Task Intelligence -integration   -server -intelligence"
+slug: "advanced-features-cluster 15"
+status: "incoming"
+priority: "P2"
+labels: ["ai-integration", "automation", "cluster", "mcp-server", "task-intelligence"]
+created_at: "2025-10-11T23:41:26.069Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
+

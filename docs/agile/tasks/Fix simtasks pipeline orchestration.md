@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🛠️ Task: Fix simtasks pipeline orchestration
 
 ### Context
@@ -39,6 +36,3 @@ estimates:
 - `packages/@promethean/simtasks`
 - Piper cache at `.cache/piper.level`
 - `docs/agile/pipelines/` for report examples
-
-
-

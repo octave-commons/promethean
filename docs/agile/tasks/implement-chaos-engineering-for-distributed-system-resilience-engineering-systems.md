@@ -1,6 +1,6 @@
 ---
 uuid: "1b2c3d4e-5f6a-7b8c-9c0d-1e2f3a4b5c6d7e"
-title: "Implement chaos engineering for distributed system resilience -engineering -systems -engineering -systems -engineering -systems -engineering -systems -engineering -systems -engineering -systems -engineering -systems -engineering -systems -engineering -systems -engineering -systems -engineering -systems -engineering -systems -engineering -systems -engineering -systems -engineering -systems -engineering -systems -engineering -systems -engineering -systems -engineering -systems -engineering -systems -engineering -systems -engineering -systems -engineering -systems -engineering -systems -engineering -systems -engineering -systems -engineering -systems -engineering -systems -engineering -systems"
+title: "Implement chaos engineering for distributed system resilience -engineering -systems"
 slug: "implement-chaos-engineering-for-distributed-system-resilience-engineering-systems"
 status: "incoming"
 priority: "P3"
@@ -11,9 +11,6 @@ estimates:
   scale: ""
   time_to_completion: ""
 ---
-
-
-
 
 #incoming
 
@@ -87,6 +84,3 @@ Estimate: 13
 - Voice session management: `packages/cephalon/src/voice-session.ts`
 - External API integrations: Multiple packages
 - Chaos engineering frameworks: Chaos Monkey, Gremlin
-
-
-

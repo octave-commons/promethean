@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🛠️ Task: Document ETag semantics and cache headers for `/snap/:key`
 
 Generated from ../unique/2025.08.08.20.08.83.md$../unique/2025.08.08.20.08.83.md
@@ -38,6 +35,3 @@ Generated from ../unique/2025.08.08.20.08.83.md$../unique/2025.08.08.20.08.83.md
 
 
 #rejected
-
-
-

@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🗂 Source
 
 - Path: docs/labeled/2025.09.18.15.33.30.md
@@ -69,6 +66,3 @@ Name: Kura (蔵) — “storehouse” or “treasury,” a keeper of hidden thin
 - [ ] Draft actionable subtasks from the summary
 - [ ] Define acceptance criteria
 - [ ] Link back to related labeled docs
-
-
-

@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 Audit all scripts in scripts/ directory to identify deprecated functionality, duplication with existing packages, and refactoring opportunities. Focus on scripts that duplicate @promethean/* package functionality, could be simplified using existing utilities, or should be integrated into packages.
 
 ## ⛓️ Blocked By
@@ -26,6 +23,3 @@ Nothing
 ## ⛓️ Blocks
 
 Nothing
-
-
-

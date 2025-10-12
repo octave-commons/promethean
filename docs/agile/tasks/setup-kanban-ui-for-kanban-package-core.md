@@ -1,6 +1,6 @@
 ---
 uuid: "c3366097-0d29-4c8d-b7e1-32de4cf8072e"
-title: "setup kanban ui for kanban package -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core -core"
+title: "setup kanban ui for package -core"
 slug: "setup-kanban-ui-for-kanban-package-core"
 status: "todo"
 priority: "P3"
@@ -11,9 +11,6 @@ estimates:
   scale: ""
   time_to_completion: ""
 ---
-
-
-
 
 ## 🎯 Desired Outcome
 A lightweight web UI served from `@promethean/kanban` that visualises the current board using the package's existing loaders, so agents can inspect column WIP without opening Obsidian.
@@ -39,6 +36,3 @@ A lightweight web UI served from `@promethean/kanban` that visualises the curren
 - Reviewed the existing UI scaffolding under `packages/kanban/src/frontend/` (`kanban-ui.ts`, `render.ts`, `styles.ts`) to avoid re-implementing the dashboard shell.
 - Future polish work should extend these modules (e.g., new components, style tweaks) rather than introducing a parallel build or duplicate entry point.
 - Server endpoints already expose the board payload; enhancements can focus on client rendering and refresh UX without touching CLI wiring unless explicitly needed.
-
-
-

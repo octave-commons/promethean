@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## Context
 ### Changes and Updates
 - **What changed?**: `@promethean/web-utils` has a failing test preventing CI success.
@@ -38,6 +35,3 @@ estimates:
 
 ## Relevant Resources
 - None yet.
-
-
-

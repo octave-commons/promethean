@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 # Format auth-service README with Prettier
 
 ## Description
@@ -33,6 +30,3 @@ The `auth-service` package lint step reported Prettier formatting issues in `REA
 ```
 #Todo #codex-task
 ```
-
-
-

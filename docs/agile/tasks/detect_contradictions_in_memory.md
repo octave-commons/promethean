@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🛠️ Task: Detect contradictions in memory
 
 Placeholder task stub generated from kanban board.
@@ -59,6 +56,3 @@ Nothing
 
 - [[kanban]]
 #IceBox
-
-
-

@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🛠️ Description
 
 Create a generator that scaffolds new services with standard configuration, directory layout, and test stubs.
@@ -73,6 +70,3 @@ Nothing
 ```
 #in-progress
 ```
-
-
-

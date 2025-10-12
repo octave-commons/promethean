@@ -1,6 +1,6 @@
 ---
 uuid: "738d0196-86d1-476e-9d9a-dee1fe7a0a5d"
-title: "Add done→review transition for audit corrections and quality control    -control    -control    -control    -control    -control    -control    -control    -control    -control    -control    -control    -control    -control    -control    -control    -control"
+title: "Add done→review transition for audit corrections and quality control -control"
 slug: "add-done-to-review-transition-for-audit-corrections 8"
 status: "done"
 priority: "P2"
@@ -11,33 +11,5 @@ estimates:
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

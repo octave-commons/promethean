@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🛠️ Description
 ```
 **Status:** blocked
@@ -81,6 +78,3 @@ This allows the “Duck” to have **visual memory** tied to conversational cont
 - Story Points: 5
 
 #ready
-
-
-

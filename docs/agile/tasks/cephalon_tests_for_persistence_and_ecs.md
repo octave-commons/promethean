@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 Cephalon: Tests for persistence and ECS flow
 
 Goal: Add tests to ensure transcripts and agent messages are stored during ECS-driven conversations.
@@ -32,6 +29,3 @@ Exit Criteria:
 
 Notes:
 - Persistence verification is the next backlog slice; start these tests once feature delivery pauses so regressions are caught early.
-
-
-

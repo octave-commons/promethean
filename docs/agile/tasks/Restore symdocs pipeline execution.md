@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## 🛠️ Task: Restore symdocs pipeline execution in Piper
 
 ### Context
@@ -39,6 +36,3 @@ estimates:
 - `packages/@promethean/symdocs` sources and README
 - `scripts/` Piper bridge scripts for symdocs
 - `docs/agile/pipelines/` for existing report format
-
-
-

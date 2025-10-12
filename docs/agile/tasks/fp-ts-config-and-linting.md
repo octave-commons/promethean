@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ```
 <hr class="__chatgpt_plugin">
 ```
@@ -81,6 +78,3 @@ Help me write this task
 <hr class="__chatgpt_plugin">
 ```
 ### role::user
-
-
-
