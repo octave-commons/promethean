@@ -1300,6 +1300,37 @@ export const createTask = async (
 
   const existingTasks = await readTasksFolder(tasksDir);
   const existingById = new Map(existingTasks.map((task) => [task.uuid, task]));
+  // *** CRITICAL FIX: Duplicate Task Detection ***
+  // Check for existing tasks with the same title in the same column
+  const normalizedTitle = title.trim().toLowerCase();
+  const targetColumnName = targetColumn.name.trim().toLowerCase();
+  
+  // First check: Look for existing task in files (prioritize file-based tasks with full content)
+  const existingTaskInColumn = existingTasks.find(
+    (task) => task.title.trim().toLowerCase() === normalizedTitle && 
+             task.status.trim().toLowerCase() === targetColumnName
+  );
+
+  if (existingTaskInColumn) {
+    // Return the exact same task object to ensure content consistency
+    return existingTaskInColumn;
+  }
+
+  // Second check: Look for existing task in the target column on the board
+  const boardTaskInColumn = targetColumn.tasks.find(
+    (task) => task.title.trim().toLowerCase() === normalizedTitle
+  );
+
+  if (boardTaskInColumn) {
+    // Try to get full content from existing tasks or use board task
+    const fullTask = existingTasks.find(t => t.uuid === boardTaskInColumn.uuid);
+    if (fullTask) {
+      return fullTask;
+    }
+    // Fallback to board task if no file version found
+    return boardTaskInColumn;
+  }
+  // *** END CRITICAL FIX ***
 
   const boardIndex = new Map<string, { column: ColumnData; index: number; task: Task }>();
   board.columns.forEach((col) =>

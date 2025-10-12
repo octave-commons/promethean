@@ -48,8 +48,8 @@
 
   "wipLimits": {
     "accepted": 21,
-    "breakdown": 13,
-    "blocked": 3,
+    "breakdown": 20,
+    "blocked": 8,
     "ready": 55,
     "todo": 25,
     "in_progress": 13,
@@ -61,7 +61,7 @@
     "icebox": 9999,
     "incoming": 9999
   },
-  "_wip_rationale": "Aligned to current targets for balanced flow: accepted(21), breakdown(13), blocked(3), ready(55), todo(25), in_progress(13), testing(8), review(8), document(8), done(500), rejected(20); icebox/incoming unbounded. Preserves strict FSM with practical WIP for multi-agent work.",
+  "_wip_rationale": "Aligned to multi-agent workflow scale: accepted(21), breakdown(20), blocked(8), ready(55), todo(25), in_progress(13), testing(8), review(8), document(8), done(500), rejected(20); icebox/incoming unbounded. Scaled WIP limits for 6-18 AI agents working in parallel while preserving FSM integrity.",
 
   "transitionRules": {
     "enabled": true,

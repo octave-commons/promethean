@@ -2,15 +2,117 @@
 uuid: "3a1469ae-b7e5-4e99-b280-5b0529b758b2"
 title: "Optimize piper pipeline performance and add comprehensive timeouts"
 slug: "optimize-piper-pipeline-performance-and-add-timeouts"
-status: "blocked"
+status: "breakdown"
 priority: "P1"
 labels: ["monitoring", "optimization", "performance", "piper", "timeouts"]
-created_at: "2025-10-12T19:03:19.226Z"
+created_at: "2025-10-12T21:42:24.695Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -323,6 +425,108 @@ PIPER_VERBOSE=false          # Verbose logging
 5. **test-gap** - Multiple analysis and reporting steps
 
 This optimization will significantly improve the user experience when running piper pipelines, providing predictable execution times and clear feedback on progress.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
