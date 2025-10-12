@@ -2,15 +2,16 @@
 uuid: "8542a56c-b037-4a71-90e8-8bd0a0c8b49f"
 title: "Maintain Testing vs Working Databases w/ Migration Contract"
 slug: "set-up-data-migration-pipeline-and-clearly-describe-conventions"
-status: "breakdown"
+status: "icebox"
 priority: "P3"
 labels: ["databases", "migration", "testing", "working"]
-created_at: "2025-10-12T22:46:41.457Z"
+created_at: "2025-10-12T22:52:45.405Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
 
 
 
@@ -605,6 +606,7 @@ feat(migrations): isolate test DBs and enforce migration contracts
 ```
 #in-progress
 ```
+
 
 
 

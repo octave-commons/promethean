@@ -26,7 +26,7 @@ The kanban delete command is currently adding extra whitespace to many tasks whe
 ## Tasks to Complete
 
 ### 1. Investigation Phase
-- [ ] Examine the kanban delete command source code in  package
+- [ ] Examine the kanban delete command source code in `@promethean/kanban` package
 - [ ] Create test cases to reproduce the whitespace issue
 - [ ] Identify the exact conditions that trigger extra whitespace addition
 - [ ] Document the scope of the problem (which files/sections are affected)
@@ -58,7 +58,7 @@ The kanban delete command is currently adding extra whitespace to many tasks whe
 
 ## Technical Notes
 
-- Focus on the  package implementation
+- Focus on the `@promethean/kanban` package implementation
 - Pay special attention to file writing operations and string manipulation
 - Consider using proper YAML/Markdown parsing libraries to avoid manual string operations
 - Ensure the fix doesn't impact performance significantly

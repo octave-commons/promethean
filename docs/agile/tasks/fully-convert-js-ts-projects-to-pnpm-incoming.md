@@ -2,15 +2,16 @@
 uuid: "bf41be60-e9bf-4a19-95da-a453a32b9f2e"
 title: "fully convert js ts projects to pnpm incoming"
 slug: "fully-convert-js-ts-projects-to-pnpm-incoming"
-status: "breakdown"
+status: "icebox"
 priority: "P3"
 labels: ["convert", "fully", "pnpm", "projects"]
-created_at: "2025-10-12T22:46:41.457Z"
+created_at: "2025-10-12T22:52:45.405Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
 
 
 
@@ -436,6 +437,7 @@ Nothing
 
 - [[kanban]]
 #archive
+
 
 
 
