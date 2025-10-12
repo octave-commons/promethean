@@ -1,16 +1,122 @@
 ---
-uuid: "evaluate-optional-services-migration"
+uuid: "08cf697a-61c1-4ecf-b874-82b53e8b3a3e"
 title: "Evaluate optional JS services for TypeScript migration"
 slug: "evaluate-optional-js-services-for-migration"
-status: "breakdown"
+status: "icebox"
 priority: "P3"
 labels: ["board", "lang"]
-created_at: "2025-10-08T00:00:00.000Z"
+created_at: "2025-10-12T03:57:58.433Z"
 estimates:
-  complexity: 2
-  scale: 2
-  time_to_completion: "2 hours"
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Evaluate optional JS services for TypeScript migration
 
@@ -36,3 +142,109 @@ Assess which optional services should be migrated to TypeScript and which can be
 - [ ] Decision documented for each service
 - [ ] Migration plan created for services to migrate
 - [ ] Deprecation plan created for services to drop
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
