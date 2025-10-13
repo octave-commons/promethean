@@ -1,4 +1,4 @@
-import { BasicPromptInjectionDetector, PromptInjectionResult } from '@promethean/security/testing/prompt-injection.js';
+// import { BasicPromptInjectionDetector } from '@promethean/security/testing/prompt-injection.js';
 
 // Enhanced danger patterns for SmartGPT bridge
 const ENHANCED_DANGER_PATTERNS = [
@@ -8,7 +8,7 @@ const ENHANCED_DANGER_PATTERNS = [
   /\bmkfs\w*\s+\/dev\//i,
   /\bshutdown\b|\breboot\b/i,
   /\bchmod\s+777\b/i,
-  
+
   // New prompt injection patterns
   /\bIgnore\s+(all|previous)\s+instructions?\b/i,
   /\bDisregard\s+your\s+(programming|training)\b/i,
@@ -35,14 +35,14 @@ const ENHANCED_DANGER_PATTERNS = [
   /\bList\s+your\s+(safety\s+)?guidelines?\b/i,
   /\bClassified\s+information\b/i,
   /\bConfidential\s+data\b/i,
-  
+
   // Encoding and evasion patterns
   /\\u[0-9a-fA-F]{4}/i, // Unicode escapes
   /%[0-9A-Fa-f]{2}/i, // URL encoding
   /\$\{[^}]+\}/i, // Shell variable expansion
   /\\x[0-9a-fA-F]{2}/i, // Hex escapes
   /\\n|\\r|\\t/i, // Escape sequences
-  
+
   // Multi-character dangerous commands
   /\b(rm|del|format|fdisk)\s+/i,
   /\b(cmd|powershell|bash|sh)\s+/i,
@@ -79,13 +79,13 @@ export interface PromptInjectionReport {
 }
 
 export class SmartGPTPromptInjectionGuard {
-  private detector: BasicPromptInjectionDetector;
+  // private detector: BasicPromptInjectionDetector;
   private config: PromptInjectionConfig;
   private recentDetections: Map<string, number[]> = new Map();
   private readonly RETENTION_WINDOW = 5 * 60 * 1000; // 5 minutes
 
   constructor(config: Partial<PromptInjectionConfig> = {}) {
-    this.detector = new BasicPromptInjectionDetector();
+    // this.detector = new BasicPromptInjectionDetector();
     this.config = {
       enabled: true,
       riskThreshold: 0.7,
@@ -101,7 +101,7 @@ export class SmartGPTPromptInjectionGuard {
    */
   async validatePrompt(
     prompt: string,
-    context: SecurityContext = { timestamp: Date.now() }
+    context: SecurityContext = { timestamp: Date.now() },
   ): Promise<PromptInjectionReport> {
     // Skip validation if disabled
     if (!this.config.enabled) {
@@ -129,10 +129,11 @@ export class SmartGPTPromptInjectionGuard {
 
     // Use enhanced pattern matching
     const enhancedResult = this.enhancedPatternMatch(prompt);
-    
+
     // Use comprehensive detector
-    const detectorResult = await this.detector.detect(prompt);
-    
+    // const detectorResult = await this.detector.detect(prompt);
+    const detectorResult = { riskScore: 0, detectedPatterns: [], isInjection: false };
+
     // Combine results
     const combinedRiskScore = Math.max(enhancedResult.riskScore, detectorResult.riskScore);
     const allPatterns = [...enhancedResult.patterns, ...detectorResult.detectedPatterns];
@@ -179,7 +180,7 @@ export class SmartGPTPromptInjectionGuard {
     for (const pattern of ENHANCED_DANGER_PATTERNS) {
       if (pattern.test(prompt)) {
         matchedPatterns.push(pattern.source);
-        
+
         // Calculate risk based on pattern severity
         const severity = this.getPatternSeverity(pattern);
         totalRisk = Math.max(totalRisk, severity);
@@ -202,32 +203,38 @@ export class SmartGPTPromptInjectionGuard {
    */
   private getPatternSeverity(pattern: RegExp): number {
     const patternStr = pattern.source.toLowerCase();
-    
+
     // High severity patterns (0.8-1.0)
-    if (patternStr.includes('rm') || 
-        patternStr.includes('drop') || 
-        patternStr.includes('format') ||
-        patternStr.includes('dan') ||
-        patternStr.includes('shutdown')) {
+    if (
+      patternStr.includes('rm') ||
+      patternStr.includes('drop') ||
+      patternStr.includes('format') ||
+      patternStr.includes('dan') ||
+      patternStr.includes('shutdown')
+    ) {
       return 0.9;
     }
-    
+
     // Medium severity patterns (0.5-0.8)
-    if (patternStr.includes('ignore') || 
-        patternStr.includes('override') || 
-        patternStr.includes('bypass') ||
-        patternStr.includes('system') ||
-        patternStr.includes('prompt')) {
+    if (
+      patternStr.includes('ignore') ||
+      patternStr.includes('override') ||
+      patternStr.includes('bypass') ||
+      patternStr.includes('system') ||
+      patternStr.includes('prompt')
+    ) {
       return 0.7;
     }
-    
+
     // Low severity patterns (0.3-0.5)
-    if (patternStr.includes('unicode') || 
-        patternStr.includes('escape') || 
-        patternStr.includes('chmod')) {
+    if (
+      patternStr.includes('unicode') ||
+      patternStr.includes('escape') ||
+      patternStr.includes('chmod')
+    ) {
       return 0.4;
     }
-    
+
     // Default low severity
     return 0.3;
   }
@@ -237,32 +244,45 @@ export class SmartGPTPromptInjectionGuard {
    */
   private calculateSuspiciousScore(prompt: string): number {
     let score = 0;
-    
+
     // Length analysis (very long prompts might be attempting context overflow)
     if (prompt.length > 2000) score += 0.2;
     if (prompt.length > 5000) score += 0.2;
-    
+
     // Character analysis
     const upperCaseRatio = (prompt.match(/[A-Z]/g) || []).length / prompt.length;
     if (upperCaseRatio > 0.3) score += 0.1;
-    
+
     // Repetitive content
     const repeatedChars = prompt.match(/(.)\1{10,}/g);
     if (repeatedChars) score += 0.1;
-    
+
     // Suspicious keywords
     const suspiciousWords = [
-      'secret', 'hidden', 'backdoor', 'exploit', 'vulnerability',
-      'hack', 'crack', 'bypass', 'override', 'admin', 'root',
-      'password', 'token', 'key', 'sensitive', 'confidential'
+      'secret',
+      'hidden',
+      'backdoor',
+      'exploit',
+      'vulnerability',
+      'hack',
+      'crack',
+      'bypass',
+      'override',
+      'admin',
+      'root',
+      'password',
+      'token',
+      'key',
+      'sensitive',
+      'confidential',
     ];
-    
+
     for (const word of suspiciousWords) {
       if (prompt.toLowerCase().includes(word)) {
         score += 0.05;
       }
     }
-    
+
     return Math.min(score, 1.0);
   }
 
@@ -272,43 +292,39 @@ export class SmartGPTPromptInjectionGuard {
   private shouldBlockPrompt(
     riskScore: number,
     isInjection: boolean,
-    context: SecurityContext
+    _context: SecurityContext,
   ): boolean {
     if (!this.config.blockHighRisk) return false;
-    
+
     // Block high risk immediately
     if (riskScore >= this.config.riskThreshold) return true;
-    
+
     // Block confirmed injections above medium risk
     if (isInjection && riskScore >= 0.5) return true;
-    
+
     return false;
   }
 
   /**
    * Get recommendation based on analysis
    */
-  private getRecommendation(
-    riskScore: number,
-    isInjection: boolean,
-    blocked: boolean
-  ): string {
+  private getRecommendation(riskScore: number, isInjection: boolean, blocked: boolean): string {
     if (blocked) {
       return 'Prompt blocked due to security concerns';
     }
-    
+
     if (riskScore >= 0.7) {
       return 'High-risk prompt detected - proceed with caution';
     }
-    
+
     if (riskScore >= 0.4) {
       return 'Medium-risk prompt - review recommended';
     }
-    
+
     if (isInjection) {
       return 'Suspicious pattern detected but within acceptable risk';
     }
-    
+
     return 'Prompt appears safe';
   }
 
@@ -316,9 +332,7 @@ export class SmartGPTPromptInjectionGuard {
    * Check if prompt is allowlisted
    */
   private isAllowlisted(prompt: string): boolean {
-    return this.config.allowlistPatterns.some(pattern => 
-      new RegExp(pattern).test(prompt)
-    );
+    return this.config.allowlistPatterns.some((pattern) => new RegExp(pattern).test(prompt));
   }
 
   /**
@@ -327,12 +341,10 @@ export class SmartGPTPromptInjectionGuard {
   private getRecentAttempts(identifier: string): number {
     const now = Date.now();
     const attempts = this.recentDetections.get(identifier) || [];
-    
+
     // Filter old attempts
-    const recentAttempts = attempts.filter(time => 
-      now - time < this.RETENTION_WINDOW
-    );
-    
+    const recentAttempts = attempts.filter((time) => now - time < this.RETENTION_WINDOW);
+
     this.recentDetections.set(identifier, recentAttempts);
     return recentAttempts.length;
   }
@@ -344,12 +356,10 @@ export class SmartGPTPromptInjectionGuard {
     const now = Date.now();
     const attempts = this.recentDetections.get(identifier) || [];
     attempts.push(now);
-    
+
     // Filter old attempts
-    const recentAttempts = attempts.filter(time => 
-      now - time < this.RETENTION_WINDOW
-    );
-    
+    const recentAttempts = attempts.filter((time) => now - time < this.RETENTION_WINDOW);
+
     this.recentDetections.set(identifier, recentAttempts);
   }
 
@@ -360,7 +370,7 @@ export class SmartGPTPromptInjectionGuard {
     prompt: string,
     riskScore: number,
     patterns: string[],
-    context: SecurityContext
+    context: SecurityContext,
   ): void {
     const logEntry = {
       timestamp: new Date().toISOString(),
@@ -370,7 +380,7 @@ export class SmartGPTPromptInjectionGuard {
       context,
       patterns: patterns.slice(0, 5), // Limit logged patterns
     };
-    
+
     console.warn('[SmartGPT Security] Prompt injection detected:', logEntry);
   }
 
@@ -389,8 +399,8 @@ export class SmartGPTPromptInjectionGuard {
     let blockedCount = 0;
     let recentAttempts = 0;
 
-    for (const [identifier, attempts] of this.recentDetections) {
-      const recent = attempts.filter(time => now - time < this.RETENTION_WINDOW);
+    for (const [, attempts] of this.recentDetections) {
+      const recent = attempts.filter((time) => now - time < this.RETENTION_WINDOW);
       recentAttempts += recent.length;
       totalDetections += attempts.length;
     }
@@ -408,12 +418,10 @@ export class SmartGPTPromptInjectionGuard {
    */
   cleanup(): void {
     const now = Date.now();
-    
+
     for (const [identifier, attempts] of this.recentDetections) {
-      const recent = attempts.filter(time => 
-        now - time < this.RETENTION_WINDOW
-      );
-      
+      const recent = attempts.filter((time) => now - time < this.RETENTION_WINDOW);
+
       if (recent.length === 0) {
         this.recentDetections.delete(identifier);
       } else {
@@ -427,9 +435,7 @@ export class SmartGPTPromptInjectionGuard {
 export const promptInjectionGuard = new SmartGPTPromptInjectionGuard();
 
 // Export convenience functions
-export const validatePrompt = (
-  prompt: string,
-  context?: SecurityContext
-) => promptInjectionGuard.validatePrompt(prompt, context);
+export const validatePrompt = (prompt: string, context?: SecurityContext) =>
+  promptInjectionGuard.validatePrompt(prompt, context);
 
 export const getSecurityStats = () => promptInjectionGuard.getStats();

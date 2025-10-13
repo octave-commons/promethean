@@ -3,8 +3,8 @@ import { mkdir, writeFile, readdir } from 'node:fs/promises';
 
 import test from 'ava';
 
-import { regenerateBoard, createTask, loadBoard } from '../../dist/lib/kanban.js';
-import { withTempDir, makeBoard } from '../../dist/test-utils/helpers.js';
+import { regenerateBoard, createTask, loadBoard } from '../../src/lib/kanban.js';
+import { withTempDir, makeBoard } from '../../src/test-utils/helpers.js';
 
 test('integration: board operations do not create duplicate files', async (t) => {
   const tempDir = await withTempDir(t);
@@ -193,9 +193,9 @@ test('integration: mixed operations maintain data integrity', async (t) => {
   t.is(todoTasks.length, 2, 'Should have 2 todo tasks');
   t.is(readyTasks.length, 1, 'Should have 1 ready task');
 
-  const finalTaskA = todoTasks.find((task) => task.title === 'Task A');
-  const finalTaskC = todoTasks.find((task) => task.title === 'Task C');
-  const finalTaskB = readyTasks.find((task) => task.title === 'Task B');
+  const finalTaskA = todoTasks.find((task: any) => task.title === 'Task A');
+  const finalTaskC = todoTasks.find((task: any) => task.title === 'Task C');
+  const finalTaskB = readyTasks.find((task: any) => task.title === 'Task B');
 
   t.truthy(finalTaskA, 'Task A should exist');
   t.truthy(finalTaskB, 'Task B should exist');

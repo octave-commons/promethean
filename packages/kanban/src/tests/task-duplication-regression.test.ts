@@ -3,8 +3,8 @@ import { mkdir, writeFile, readdir } from 'node:fs/promises';
 
 import test from 'ava';
 
-import { createTask, loadBoard } from '../../dist/lib/kanban.js';
-import { withTempDir, makeBoard } from '../../dist/test-utils/helpers.js';
+import { createTask, loadBoard } from '../../src/lib/kanban.js';
+import { withTempDir, makeBoard } from '../../src/test-utils/helpers.js';
 
 test('createTask is idempotent - same title returns existing task', async (t) => {
   const tempDir = await withTempDir(t);
@@ -205,8 +205,8 @@ test('board regeneration does not create duplicate tasks', async (t) => {
   t.is(fileCountBefore, fileCountAfter, 'Regeneration should not create new files');
 
   // Should still find the original task
-  const todoColumn = regeneratedBoard.columns.find((col) => col.name === 'todo');
-  const regeneratedTask = todoColumn?.tasks.find((task) => task.title === taskTitle);
+  const todoColumn = regeneratedBoard.columns.find((col: any) => col.name === 'todo');
+  const regeneratedTask = todoColumn?.tasks.find((task: any) => task.title === taskTitle);
 
   t.truthy(regeneratedTask, 'Original task should still exist after regeneration');
   if (regeneratedTask) {

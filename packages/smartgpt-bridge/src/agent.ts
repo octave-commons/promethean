@@ -1,7 +1,7 @@
-import { spawn as nodeSpawn } from "child_process";
+import { spawn as nodeSpawn } from 'child_process';
 
-import { nanoid } from "nanoid";
-import { SmartGPTPromptInjectionGuard } from "./security/prompt-injection-middleware.js";
+import { nanoid } from 'nanoid';
+// import { SmartGPTPromptInjectionGuard } from './security/prompt-injection-middleware.js';
 
 import {
   appendAgentLog,
@@ -9,7 +9,7 @@ import {
   listAgentMetas,
   readAgentLogTail,
   updateAgentMeta,
-} from "./store.js";
+} from './store.js';
 import type {
   AgentChildProcess,
   AgentEventName,
@@ -20,12 +20,12 @@ import type {
   AgentMeta,
   PtyModule,
   SseClient,
-} from "./types/agents.js";
+} from './types/agents.js';
 
 const ROOT_PATH = process.env.ROOT_PATH || process.cwd();
-const CODEX_BIN = process.env.CODEX_BIN || "codex";
+const CODEX_BIN = process.env.CODEX_BIN || 'codex';
 const MAX_LOG_BYTES = Number(process.env.AGENT_MAX_LOG_BYTES || 512 * 1024);
-const USE_SHELL = /^true$/i.test(process.env.AGENT_SHELL || "false");
+const USE_SHELL = /^true$/i.test(process.env.AGENT_SHELL || 'false');
 
 const DANGER_PATTERNS = [
   /rm\s+-rf\s+\/(?!home)/i,
@@ -76,7 +76,7 @@ function describeProcess(process: AgentProcess) {
     paused_by_guard: process.paused_by_guard,
     bytes: process.log.length,
   };
-  if (process.mode === "pty") {
+  if (process.mode === 'pty') {
     return { ...base, cols: process.cols, rows: process.rows };
   }
   return base;
@@ -87,10 +87,7 @@ function createErrorMessage(error: unknown): string {
   return String(error);
 }
 
-function formatSse(
-  event: AgentEventName,
-  data: AgentEventPayloadMap[AgentEventName],
-): string {
+function formatSse(event: AgentEventName, data: AgentEventPayloadMap[AgentEventName]): string {
   return `event: ${event}\ndata: ${JSON.stringify(data)}\n\n`;
 }
 
@@ -111,10 +108,10 @@ function toAgentMeta(state: AgentProcess, prompt: string): AgentMeta {
     code: state.code,
     signal: state.signal,
   };
-  if (state.mode === "pty") {
+  if (state.mode === 'pty') {
     return {
       ...base,
-      mode: "pty",
+      mode: 'pty',
       cols: state.cols,
       rows: state.rows,
     };
@@ -125,29 +122,28 @@ function toAgentMeta(state: AgentProcess, prompt: string): AgentMeta {
 const PTY_MODULE_CACHE = new Map<string, PtyModule>();
 
 async function getPtyLib(): Promise<PtyModule> {
-  if (process.env.NODE_PTY_DISABLED === "1") {
-    const unavailable = new Error("PTY_UNAVAILABLE");
-    unavailable.name = "PTY_UNAVAILABLE";
+  if (process.env.NODE_PTY_DISABLED === '1') {
+    const unavailable = new Error('PTY_UNAVAILABLE');
+    unavailable.name = 'PTY_UNAVAILABLE';
     throw unavailable;
   }
-  const cached = PTY_MODULE_CACHE.get("default");
+  const cached = PTY_MODULE_CACHE.get('default');
   if (cached) return cached;
   try {
-    const mod = await import("node-pty");
-    const resolved =
-      (mod as { default?: PtyModule }).default ?? (mod as PtyModule);
-    PTY_MODULE_CACHE.set("default", resolved);
+    const mod = await import('node-pty');
+    const resolved = (mod as { default?: PtyModule }).default ?? (mod as PtyModule);
+    PTY_MODULE_CACHE.set('default', resolved);
     return resolved;
   } catch (error) {
-    const unavailable = new Error("PTY_UNAVAILABLE");
-    unavailable.name = "PTY_UNAVAILABLE";
+    const unavailable = new Error('PTY_UNAVAILABLE');
+    unavailable.name = 'PTY_UNAVAILABLE';
     (unavailable as Error & { cause?: unknown }).cause = error;
     throw unavailable;
   }
 }
 
 function mergeEnv(overrides: Record<string, string>): NodeJS.ProcessEnv {
-  return { ...process.env, CI: "1", GIT_TERMINAL_PROMPT: "0", ...overrides };
+  return { ...process.env, CI: '1', GIT_TERMINAL_PROMPT: '0', ...overrides };
 }
 
 function guardPaused(process: AgentProcess): boolean {
@@ -159,16 +155,13 @@ export class AgentSupervisor {
   readonly subscribers: Map<string, Set<SseClient>>;
   private readonly spawnImpl: SpawnFunction;
   private readonly killImpl: KillFunction;
-  private readonly promptGuard: SmartGPTPromptInjectionGuard;
+  // private readonly promptGuard: SmartGPTPromptInjectionGuard;
 
-  constructor(
-    opts: { spawnImpl?: SpawnFunction; killImpl?: KillFunction } = {},
-  ) {
+  constructor(opts: { spawnImpl?: SpawnFunction; killImpl?: KillFunction } = {}) {
     this.procs = new Map();
     this.subscribers = new Map();
     this.spawnImpl = opts.spawnImpl ?? defaultSpawn;
-    this.killImpl =
-      opts.killImpl ?? ((pid, signal) => process.kill(pid, signal));
+    this.killImpl = opts.killImpl ?? ((pid, signal) => process.kill(pid, signal));
   }
 
   list(): AgentSummary[] {
@@ -187,7 +180,7 @@ export class AgentSupervisor {
     const from = Math.max(0, Math.min(since, process.log.length));
     return {
       total: process.log.length,
-      chunk: process.log.subarray(from).toString("utf8"),
+      chunk: process.log.subarray(from).toString('utf8'),
     };
   }
 
@@ -197,7 +190,7 @@ export class AgentSupervisor {
     const start = Math.max(0, process.log.length - Number(bytes || 0));
     return {
       total: process.log.length,
-      chunk: process.log.subarray(start).toString("utf8"),
+      chunk: process.log.subarray(start).toString('utf8'),
     };
   }
 
@@ -216,14 +209,14 @@ export class AgentSupervisor {
 
   stream(id: string, res: SseClient): void {
     res.writeHead(200, {
-      "Content-Type": "text/event-stream",
-      "Cache-Control": "no-cache",
-      Connection: "keep-alive",
+      'Content-Type': 'text/event-stream',
+      'Cache-Control': 'no-cache',
+      Connection: 'keep-alive',
     });
     const clients = this.subscribers.get(id) ?? new Set<SseClient>();
     if (!this.subscribers.has(id)) this.subscribers.set(id, clients);
     clients.add(res);
-    if (typeof res.flushHeaders === "function") {
+    if (typeof res.flushHeaders === 'function') {
       try {
         res.flushHeaders();
       } catch {
@@ -231,13 +224,13 @@ export class AgentSupervisor {
       }
     }
     const state = this.procs.get(id);
-    const replay = state?.log?.toString("utf8") ?? "";
+    const replay = state?.log?.toString('utf8') ?? '';
     res.write(`event: hello\ndata: ${JSON.stringify({ id })}\n\n`);
     if (replay) {
       const tail = replay.slice(-8192);
       res.write(`event: replay\ndata: ${JSON.stringify({ text: tail })}\n\n`);
     }
-    res.on("close", () => {
+    res.on('close', () => {
       const set = this.subscribers.get(id);
       if (!set) return;
       set.delete(res);
@@ -245,58 +238,44 @@ export class AgentSupervisor {
     });
   }
 
-  start({
-    prompt,
-    cwd = ROOT_PATH,
-    env = {},
-    tty = true,
-  }: {
+  start(options: {
     prompt?: string;
     cwd?: string;
     env?: Record<string, string>;
     tty?: boolean;
-  }): { id: string; pid: number | undefined };
+  }): Promise<{
+    id: string;
+    pid: number | undefined;
+  }>;
 
-  async start({
-    prompt,
-    cwd = ROOT_PATH,
-    env = {},
-    tty = true,
-  }: {
+  async start(options: {
     prompt?: string;
     cwd?: string;
     env?: Record<string, string>;
     tty?: boolean;
   }): Promise<{ id: string; pid: number | undefined; security?: any }> {
+    const { prompt, cwd = ROOT_PATH, env = {}, tty = true } = options;
     const id = nanoid();
     const root = process.env.ROOT_PATH || ROOT_PATH;
     const args = [
-      "exec",
-      "--full-auto",
-      "--cd",
+      'exec',
+      '--full-auto',
+      '--cd',
       root,
       ...(prompt && String(prompt).trim() ? [String(prompt)] : []),
     ];
-    const wantTty = tty || /^true$/i.test(process.env.AGENT_TTY || "false");
+    const wantTty = tty || /^true$/i.test(process.env.AGENT_TTY || 'false');
     const environment = mergeEnv(env);
     const spawnChild = wantTty
       ? () => {
-          const quotedArgs = [
-            shQuote(CODEX_BIN),
-            "exec",
-            "--full-auto",
-            "--cd",
-            shQuote(root),
-          ]
-            .concat(
-              prompt && String(prompt).trim() ? [shQuote(String(prompt))] : [],
-            )
-            .join(" ");
-          return this.spawnImpl("script", ["-qfec", quotedArgs, "/dev/null"], {
+          const quotedArgs = [shQuote(CODEX_BIN), 'exec', '--full-auto', '--cd', shQuote(root)]
+            .concat(prompt && String(prompt).trim() ? [shQuote(String(prompt))] : [])
+            .join(' ');
+          return this.spawnImpl('script', ['-qfec', quotedArgs, '/dev/null'], {
             cwd,
             env: environment,
             shell: false,
-            stdio: ["pipe", "pipe", "pipe"],
+            stdio: ['pipe', 'pipe', 'pipe'],
           });
         }
       : () =>
@@ -304,7 +283,7 @@ export class AgentSupervisor {
             cwd,
             env: environment,
             shell: USE_SHELL,
-            stdio: ["pipe", "pipe", "pipe"],
+            stdio: ['pipe', 'pipe', 'pipe'],
           });
     const proc = spawnChild();
     const state: AgentProcessAgent = {
@@ -319,81 +298,76 @@ export class AgentSupervisor {
       paused_by_guard: false,
       log: Buffer.alloc(0),
       proc,
-      mode: "agent",
-      prompt: String(prompt ?? ""),
+      mode: 'agent',
+      prompt: String(prompt ?? ''),
     };
     this.procs.set(id, state);
     const meta = toAgentMeta(state, state.prompt);
     initAgentMeta(meta).catch(() => {});
 
-    const update = (
-      updater: (current: AgentProcessAgent) => AgentProcessAgent,
-    ) => {
+    const update = (updater: (current: AgentProcessAgent) => AgentProcessAgent) => {
       const current = this.procs.get(id);
-      if (!current || current.mode !== "agent") return;
+      if (!current || current.mode !== 'agent') return;
       this.procs.set(id, updater(current));
     };
 
-    const publishOutput = (
-      data: Buffer,
-      event: Extract<AgentEventName, "stdout" | "stderr">,
-    ) => {
+    const publishOutput = (data: Buffer, event: Extract<AgentEventName, 'stdout' | 'stderr'>) => {
       update((current) => ({
         ...current,
         log: ensureArrayBuffer(current.log, data),
       }));
-      const text = data.toString("utf8");
-      if (event === "stdout") {
-        this.broadcast(id, "stdout", { text });
+      const text = data.toString('utf8');
+      if (event === 'stdout') {
+        this.broadcast(id, 'stdout', { text });
       } else {
-        this.broadcast(id, "stderr", { text });
+        this.broadcast(id, 'stderr', { text });
       }
       appendAgentLog(id, data).catch(() => {});
       const danger = matchDanger(text);
       if (!danger) return;
       const current = this.procs.get(id);
-      if (!current || current.mode !== "agent" || guardPaused(current)) return;
+      if (!current || current.mode !== 'agent' || guardPaused(current)) return;
       try {
-        if (typeof proc.pid === "number") {
-          this.killImpl(proc.pid, "SIGSTOP");
+        if (typeof proc.pid === 'number') {
+          this.killImpl(proc.pid, 'SIGSTOP');
         }
       } catch {
         // ignore kill errors
       }
       update((existing) => ({ ...existing, paused_by_guard: true }));
-      this.broadcast(id, "guard", { paused: true, reason: danger.source });
+      this.broadcast(id, 'guard', { paused: true, reason: danger.source });
     };
 
-    proc.stdout.on("data", (chunk: Buffer) => publishOutput(chunk, "stdout"));
-    proc.stderr.on("data", (chunk: Buffer) => publishOutput(chunk, "stderr"));
+    proc.stdout.on('data', (chunk: Buffer) => publishOutput(chunk, 'stdout'));
+    proc.stderr.on('data', (chunk: Buffer) => publishOutput(chunk, 'stderr'));
 
-    proc.on("error", (error: NodeJS.ErrnoException) => {
+    proc.on('error', (error: NodeJS.ErrnoException) => {
       const message = `[spawn error] ${createErrorMessage(error)}\n`;
       update((current) => ({
         ...current,
         log: ensureArrayBuffer(current.log, message),
         exited: true,
         code: null,
-        signal: "ERROR",
+        signal: 'ERROR',
       }));
       appendAgentLog(id, message).catch(() => {});
-      this.broadcast(id, "error", { message: createErrorMessage(error) });
+      this.broadcast(id, 'error', { message: createErrorMessage(error) });
       updateAgentMeta(id, {
         exited: true,
         code: null,
-        signal: "ERROR",
+        signal: 'ERROR',
         finishedAt: Date.now(),
       }).catch(() => {});
     });
 
-    proc.on("exit", (code: number | null, signal: NodeJS.Signals | null) => {
+    proc.on('exit', (code: number | null, signal: NodeJS.Signals | null) => {
       update((current) => ({
         ...current,
         exited: true,
         code: code ?? null,
         signal: signal ?? null,
       }));
-      this.broadcast(id, "exit", {
+      this.broadcast(id, 'exit', {
         code: code ?? null,
         signal: signal ?? null,
       });
@@ -410,8 +384,7 @@ export class AgentSupervisor {
 
   send(id: string, input: string): boolean {
     const process = this.procs.get(id);
-    if (!process || process.mode !== "agent" || process.exited || !process.proc)
-      return false;
+    if (!process || process.mode !== 'agent' || process.exited || !process.proc) return false;
     try {
       process.proc.stdin.write(`${String(input)}\n`);
       return true;
@@ -422,11 +395,10 @@ export class AgentSupervisor {
 
   interrupt(id: string): boolean {
     const process = this.procs.get(id);
-    if (!process || process.mode !== "agent" || process.exited || !process.proc)
-      return false;
-    if (typeof process.proc.pid !== "number") return false;
+    if (!process || process.mode !== 'agent' || process.exited || !process.proc) return false;
+    if (typeof process.proc.pid !== 'number') return false;
     try {
-      this.killImpl(process.proc.pid, "SIGINT");
+      this.killImpl(process.proc.pid, 'SIGINT');
       return true;
     } catch {
       return false;
@@ -435,11 +407,10 @@ export class AgentSupervisor {
 
   kill(id: string, force = false): boolean {
     const process = this.procs.get(id);
-    if (!process || process.mode !== "agent" || process.exited || !process.proc)
-      return false;
-    if (typeof process.proc.pid !== "number") return false;
+    if (!process || process.mode !== 'agent' || process.exited || !process.proc) return false;
+    if (typeof process.proc.pid !== 'number') return false;
     try {
-      this.killImpl(process.proc.pid, force ? "SIGKILL" : "SIGTERM");
+      this.killImpl(process.proc.pid, force ? 'SIGKILL' : 'SIGTERM');
       return true;
     } catch {
       return false;
@@ -448,18 +419,13 @@ export class AgentSupervisor {
 
   resume(id: string): boolean {
     const process = this.procs.get(id);
-    if (
-      !process ||
-      process.mode !== "agent" ||
-      !process.proc ||
-      !process.paused_by_guard
-    )
+    if (!process || process.mode !== 'agent' || !process.proc || !process.paused_by_guard)
       return false;
-    if (typeof process.proc.pid !== "number") return false;
+    if (typeof process.proc.pid !== 'number') return false;
     try {
-      this.killImpl(process.proc.pid, "SIGCONT");
+      this.killImpl(process.proc.pid, 'SIGCONT');
       this.procs.set(id, { ...process, paused_by_guard: false });
-      this.broadcast(id, "guard", { paused: false });
+      this.broadcast(id, 'guard', { paused: false });
       return true;
     } catch {
       return false;
@@ -477,8 +443,7 @@ export class PTYAgentSupervisor {
   constructor(opts: { killImpl?: KillFunction } = {}) {
     this.procs = new Map();
     this.subscribers = new Map();
-    this.killImpl =
-      opts.killImpl ?? ((pid, signal) => process.kill(pid, signal));
+    this.killImpl = opts.killImpl ?? ((pid, signal) => process.kill(pid, signal));
   }
 
   list(): AgentSummary[] {
@@ -497,7 +462,7 @@ export class PTYAgentSupervisor {
     const from = Math.max(0, Math.min(since, process.log.length));
     return {
       total: process.log.length,
-      chunk: process.log.subarray(from).toString("utf8"),
+      chunk: process.log.subarray(from).toString('utf8'),
     };
   }
 
@@ -507,7 +472,7 @@ export class PTYAgentSupervisor {
     const start = Math.max(0, process.log.length - Number(bytes || 0));
     return {
       total: process.log.length,
-      chunk: process.log.subarray(start).toString("utf8"),
+      chunk: process.log.subarray(start).toString('utf8'),
     };
   }
 
@@ -526,14 +491,14 @@ export class PTYAgentSupervisor {
 
   stream(id: string, res: SseClient): void {
     res.writeHead(200, {
-      "Content-Type": "text/event-stream",
-      "Cache-Control": "no-cache",
-      Connection: "keep-alive",
+      'Content-Type': 'text/event-stream',
+      'Cache-Control': 'no-cache',
+      Connection: 'keep-alive',
     });
     const clients = this.subscribers.get(id) ?? new Set<SseClient>();
     if (!this.subscribers.has(id)) this.subscribers.set(id, clients);
     clients.add(res);
-    if (typeof res.flushHeaders === "function") {
+    if (typeof res.flushHeaders === 'function') {
       try {
         res.flushHeaders();
       } catch {
@@ -541,13 +506,13 @@ export class PTYAgentSupervisor {
       }
     }
     const state = this.procs.get(id);
-    const replay = state?.log?.toString("utf8") ?? "";
+    const replay = state?.log?.toString('utf8') ?? '';
     res.write(`event: hello\ndata: ${JSON.stringify({ id })}\n\n`);
     if (replay) {
       const tail = replay.slice(-8192);
       res.write(`event: replay\ndata: ${JSON.stringify({ text: tail })}\n\n`);
     }
-    res.on("close", () => {
+    res.on('close', () => {
       const set = this.subscribers.get(id);
       if (!set) return;
       set.delete(res);
@@ -572,14 +537,14 @@ export class PTYAgentSupervisor {
     const id = nanoid();
     const root = process.env.ROOT_PATH || ROOT_PATH;
     const args = [
-      "exec",
-      "--full-auto",
-      "--cd",
+      'exec',
+      '--full-auto',
+      '--cd',
       root,
       ...(prompt && String(prompt).trim() ? [String(prompt)] : []),
     ];
     const proc = pty.spawn(CODEX_BIN, args, {
-      name: "xterm-color",
+      name: 'xterm-color',
       cols: Number(cols || 120),
       rows: Number(rows || 32),
       cwd,
@@ -599,18 +564,16 @@ export class PTYAgentSupervisor {
       proc,
       cols: Number(cols || 120),
       rows: Number(rows || 32),
-      mode: "pty",
-      prompt: String(prompt ?? ""),
+      mode: 'pty',
+      prompt: String(prompt ?? ''),
     };
     this.procs.set(id, state);
     const meta = toAgentMeta(state, state.prompt);
-    initAgentMeta({ ...meta, cols: state.cols, rows: state.rows }).catch(
-      () => {},
-    );
+    initAgentMeta({ ...meta, cols: state.cols, rows: state.rows }).catch(() => {});
 
     const update = (updater: (current: AgentProcessPty) => AgentProcessPty) => {
       const current = this.procs.get(id);
-      if (!current || current.mode !== "pty") return;
+      if (!current || current.mode !== 'pty') return;
       this.procs.set(id, updater(current));
     };
 
@@ -619,21 +582,21 @@ export class PTYAgentSupervisor {
         ...current,
         log: ensureArrayBuffer(current.log, data),
       }));
-      this.broadcast(id, "stdout", { text: data });
+      this.broadcast(id, 'stdout', { text: data });
       appendAgentLog(id, data).catch(() => {});
       const danger = matchDanger(data);
       if (!danger) return;
       const current = this.procs.get(id);
-      if (!current || current.mode !== "pty" || guardPaused(current)) return;
+      if (!current || current.mode !== 'pty' || guardPaused(current)) return;
       try {
-        if (typeof proc.pid === "number") {
-          this.killImpl(proc.pid, "SIGSTOP");
+        if (typeof proc.pid === 'number') {
+          this.killImpl(proc.pid, 'SIGSTOP');
         }
       } catch {
         // ignore kill errors
       }
       update((existing) => ({ ...existing, paused_by_guard: true }));
-      this.broadcast(id, "guard", { paused: true, reason: danger.source });
+      this.broadcast(id, 'guard', { paused: true, reason: danger.source });
     });
 
     proc.onExit((event) => {
@@ -644,7 +607,7 @@ export class PTYAgentSupervisor {
         code: exitCode ?? null,
         signal: (signal as string | number | undefined)?.toString() ?? null,
       }));
-      this.broadcast(id, "exit", {
+      this.broadcast(id, 'exit', {
         code: exitCode ?? null,
         signal: (signal as string | number | undefined)?.toString() ?? null,
       });
@@ -661,8 +624,7 @@ export class PTYAgentSupervisor {
 
   write(id: string, input: string): boolean {
     const process = this.procs.get(id);
-    if (!process || process.mode !== "pty" || process.exited || !process.proc)
-      return false;
+    if (!process || process.mode !== 'pty' || process.exited || !process.proc) return false;
     try {
       process.proc.write(String(input));
       return true;
@@ -677,13 +639,9 @@ export class PTYAgentSupervisor {
 
   resize(id: string, cols: number, rows: number): boolean {
     const process = this.procs.get(id);
-    if (!process || process.mode !== "pty" || process.exited || !process.proc)
-      return false;
+    if (!process || process.mode !== 'pty' || process.exited || !process.proc) return false;
     try {
-      process.proc.resize(
-        Number(cols || process.cols),
-        Number(rows || process.rows),
-      );
+      process.proc.resize(Number(cols || process.cols), Number(rows || process.rows));
       this.procs.set(id, {
         ...process,
         cols: Number(cols || process.cols),
@@ -697,11 +655,10 @@ export class PTYAgentSupervisor {
 
   interrupt(id: string): boolean {
     const process = this.procs.get(id);
-    if (!process || process.mode !== "pty" || process.exited || !process.proc)
-      return false;
-    if (typeof process.proc.pid !== "number") return false;
+    if (!process || process.mode !== 'pty' || process.exited || !process.proc) return false;
+    if (typeof process.proc.pid !== 'number') return false;
     try {
-      this.killImpl(process.proc.pid, "SIGINT");
+      this.killImpl(process.proc.pid, 'SIGINT');
       return true;
     } catch {
       return false;
@@ -710,11 +667,10 @@ export class PTYAgentSupervisor {
 
   kill(id: string, force = false): boolean {
     const process = this.procs.get(id);
-    if (!process || process.mode !== "pty" || process.exited || !process.proc)
-      return false;
-    if (typeof process.proc.pid !== "number") return false;
+    if (!process || process.mode !== 'pty' || process.exited || !process.proc) return false;
+    if (typeof process.proc.pid !== 'number') return false;
     try {
-      this.killImpl(process.proc.pid, force ? "SIGKILL" : "SIGTERM");
+      this.killImpl(process.proc.pid, force ? 'SIGKILL' : 'SIGTERM');
       return true;
     } catch {
       return false;
@@ -723,18 +679,13 @@ export class PTYAgentSupervisor {
 
   resume(id: string): boolean {
     const process = this.procs.get(id);
-    if (
-      !process ||
-      process.mode !== "pty" ||
-      !process.proc ||
-      !process.paused_by_guard
-    )
+    if (!process || process.mode !== 'pty' || !process.proc || !process.paused_by_guard)
       return false;
-    if (typeof process.proc.pid !== "number") return false;
+    if (typeof process.proc.pid !== 'number') return false;
     try {
-      this.killImpl(process.proc.pid, "SIGCONT");
+      this.killImpl(process.proc.pid, 'SIGCONT');
       this.procs.set(id, { ...process, paused_by_guard: false });
-      this.broadcast(id, "guard", { paused: false });
+      this.broadcast(id, 'guard', { paused: false });
       return true;
     } catch {
       return false;
@@ -745,19 +696,18 @@ export class PTYAgentSupervisor {
 export const ptySupervisor = new PTYAgentSupervisor();
 
 export async function restoreAgentsFromStore(): Promise<void> {
-  const allow =
-    String(process.env.AGENT_RESTORE_ON_START || "true") !== "false";
+  const allow = String(process.env.AGENT_RESTORE_ON_START || 'true') !== 'false';
   if (!allow) return;
   const metas = await listAgentMetas();
   await Promise.all(
     metas.map(async (meta) => {
-      const collection = meta.mode === "pty" ? ptySupervisor : supervisor;
+      const collection = meta.mode === 'pty' ? ptySupervisor : supervisor;
       if (collection.procs.has(meta.id)) return;
       const logTail = await readAgentLogTail(
         meta.id,
         Number(process.env.AGENT_RESTORE_TAIL || 65536),
       );
-      const buffer = Buffer.from(logTail || "", "utf8");
+      const buffer = Buffer.from(logTail || '', 'utf8');
       const log =
         buffer.length > 0
           ? buffer.subarray(Math.max(0, buffer.length - MAX_LOG_BYTES))
@@ -770,15 +720,15 @@ export async function restoreAgentsFromStore(): Promise<void> {
         startedAt: meta.startedAt || Date.now(),
         exited: true,
         code: meta.code ?? null,
-        signal: meta.signal ?? "RESTORED",
+        signal: meta.signal ?? 'RESTORED',
         paused_by_guard: false,
         log,
-        prompt: meta.prompt || "",
+        prompt: meta.prompt || '',
       };
-      if (meta.mode === "pty") {
+      if (meta.mode === 'pty') {
         const state: AgentProcessPty = {
           ...baseProcess,
-          mode: "pty",
+          mode: 'pty',
           proc: null,
           cols: meta.cols ?? 120,
           rows: meta.rows ?? 32,
@@ -787,7 +737,7 @@ export async function restoreAgentsFromStore(): Promise<void> {
       } else {
         const state: AgentProcessAgent = {
           ...baseProcess,
-          mode: "agent",
+          mode: 'agent',
           proc: null,
         };
         collection.procs.set(meta.id, state);

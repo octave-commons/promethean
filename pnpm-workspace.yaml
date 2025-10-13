@@ -2,8 +2,16 @@ packages:
   - packages/*
   - packages/*/*
   - .opencode/*
+# Exclude benchmark fixtures with intentional errors
+ignore:
+  - packages/buildfix/benchmark-fixtures
+  - packages/buildfix/simple-benchmark-temp
+  - packages/buildfix/large-benchmark-temp
+  - packages/buildfix/test-fixtures
+  - packages/buildfix/simple-fixtures
+  - packages/buildfix/test-tmp
 
 pnpm:
   overrides:
     tinyglobby:
-      "@types/node": "20.19.11"
+      '@types/node': '20.19.11'

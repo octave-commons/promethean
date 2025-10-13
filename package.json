@@ -69,7 +69,8 @@
     "shadow:build": "pnpm --filter @promethean/shadow-ui run build && pnpm --filter '@promethean/*-frontend' run build:shadow",
     "shadow:watch": "pnpm --filter @promethean/shadow-ui run watch",
     "shadow:watch:frontends": "pnpm --parallel --filter '@promethean/*-frontend' run watch:shadow",
-    "create-mutaant": "pnpm exec buildfix create-mutaant"
+    "create-mutaant": "pnpm exec buildfix create-mutaant",
+    "kanban": "node packages/kanban/dist/cli.js"
   },
   "bin": {
     "prom": "./packages/promethean-cli/dist/promethean_cli.cjs",
