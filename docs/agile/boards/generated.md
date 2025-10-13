@@ -18,10 +18,12 @@ kanban-plugin: board
 - [ ] [[add-docker-compose-files-to-services|add docker compose files to services]] #add #compose #docker #files prio:p3 (uuid:0a4d6f50-753a-48ef-a9a0-10f279eb621b)
 - [ ] [[add-git-commands-to-gpt-bridge|Description]] #bridge #description #gpt #step prio:P3 (uuid:2f19096b-bacb-4ace-9e82-61893b70720d)
 - [ ] [[add-tool-calls-to-codex-context|Add tool calls to codex context]] #add #calls #step #tool prio:P3 (uuid:1acd59aa-f208-42fe-b8fb-cfe91e7d34ab)
+- [ ] [[add-tsdoc-support-to-the-project-system|Add TSDoc Support to the Project -system]] #build-system #documentation #typescript prio:P2 (uuid:1f7ead97-5903-423b-b492-17af282faf4b)
 - [ ] [[add_stt_service_tests|add stt service tests md]] #add #service #stt #tests prio:P3 (uuid:f082b303-f317-4459-9692-21e26eb70d0d)
 - [ ] [[add_twitch_chat_integration|add twitch chat integration md md]] #add #chat #integration #twitch prio:P3 (uuid:df445b14-f6c7-457e-88c4-872477f8c6e6)
 - [ ] [[allow_old_unnessisary_messages_to_decay_from_database_while_retaining_index_entries_ids|allow old unnessisary messages to decay from database while retaining index entries ids md md]] #allow #messages #old #unnessisary prio:P3 (uuid:8304b498-6811-40e3-8b44-60224b3ff846)
 - [ ] [[annotate_legacy_code_with_migration_tags|annotate legacy code with migration tags md]] #annotate #legacy #migration #tags prio:P3 (uuid:19a3b157-2bc0-4bfa-be63-bba8bfc1594d)
+- [ ] [[assemble-omni-service-host|Assemble unified @promethean/omni-service host]] #omni #service prio:P2 (uuid:5fb47630-6822-4ecf-a035-625ed0e733bf)
 - [ ] [[boardrev-piper-integration|Add confidence calibration and historical accuracy tracking]] #accuracy #boardrev #enhancement #metrics prio:P2 (uuid:(uuidgen))
 - [ ] [[boardrev-piper-integration|Enhance boardrev context analysis with weighted factors]] #accuracy #analysis #boardrev #enhancement prio:P2 (uuid:(uuidgen))
 - [ ] [[boardrev-piper-integration|Add interactive task management and auto-updates to boardrev]] #automation #boardrev #enhancement #management prio:P2 (uuid:(uuidgen))
@@ -40,6 +42,8 @@ kanban-plugin: board
 - [ ] [[connect-wikipedia|Integrate Wikipedia MediaWiki API for knowledge retrieval]] #api #integrate #knowledge #mediawiki prio:P3 (uuid:f446af1c-3616-478b-8bef-4e682d3ef17c)
 - [ ] [[consolidate-all-configs-into---config--as--.edn--files|Description]] #describe #description #step #useful prio:P3 (uuid:c9ef64a0-d3f6-49e0-911e-4ce722f9e057)
 - [ ] [[context-service|Description]] #describe #description #step #useful prio:P3 (uuid:6d4f5bd0-36e6-446c-bf62-db300e276f97)
+- [ ] [[create-comprehensive-unit-tests-for-omni-protocol-tests|Create comprehensive unit tests for Omni protocol -tests]] #ava #omni #testing #unit-tests prio:P1 (uuid:0e94018b-1ab0-4957-9884-8e55cc3e244c)
+- [ ] [[create-omni-protocol-api-documentation-and-guides-docs|Create Omni protocol API documentation and guides -docs]] #api-docs #documentation #omni #typedoc prio:P1 (uuid:94a4c9a3-9bf9-4573-a5fb-23738d060b86)
 - [ ] [[curate-code-from-personal-repository|Description]] #chatgpt #code #description #system prio:P3 (uuid:eebffb87-73cd-4945-a53a-f60eaa852eed)
 - [ ] [[decouple-audio-processing-logic-from-discord|Description]] #describe #description #related #step prio:P3 (uuid:ae52ea20-929e-41f6-982c-b1b2720d0e3b)
 - [ ] [[define_codex_baseg_agent|define codex baseg agent md md]] #agent #baseg #codex #define prio:P3 (uuid:d158980f-ef8c-4236-85be-c494c4aa9159)
@@ -86,7 +90,6 @@ kanban-plugin: board
 - [ ] [[1-processmd-fsm-diagram-with-cycles-you-asked-for|1) `process.md` — FSM diagram (with cycles you asked for)]] #docops #labeled prio:P3 (uuid:ca51cf05-2ff3-4aa2-b1fe-ada54ea201a9)
 - [ ] [[2-docsagentscodex-cloudmd-safety-snippet-append-in-its-editing-discipline-section|2) `docs/agents/codex-cloud.md` — safety snippet (append in its “Editing discipline” section)]] #docops #labeled prio:P3 (uuid:6ce60757-44eb-40e8-9d33-2f755b275ebd)
 - [ ] [[2025.10.12.16.00.00.migrate-kanban-to-lmdb-cache|Migrate Kanban Package from @promethean/level-cache to @promethean/lmdb-cache]] #migration #kanban #cache #lmdb #performance #concurrency #drop-in-replacement prio:P1 (uuid:kanban-lmdb-migration-2025-10-12)
-- [ ] [[2025.10.12.16.30.00-fix-kanban-created_at-timestamp-preservation|Fix kanban created_at timestamp preservation during task operations]] #kanban #bug #critical #timestamp #data-integrity prio:P0 (uuid:a7b8c9d0-e1f2-3456-7890-123456789abc)
 - [ ] [[20250918112921|2025.09.18.11.29.21]] #docops #labeled prio:P3 (uuid:840a1857-a997-44ce-9d3f-cda0d29f142f)
 - [ ] [[Add comprehensive unit tests for kanban-processor core functions --tags test-coverage,kanban-processor,critical-business-logic]] #kanban #processor #functions #logic prio:P0 (uuid:bdb88d03-2aaf-48f6-ae13-b715434aaa37)
 - [ ] [[Add hot reload dev scripts to all long-running process packages]] #dev #scripts #packages #add prio:P2 (uuid:5748b8d2-07d4-4c90-b10f-6a4627486338)
@@ -397,6 +400,7 @@ kanban-plugin: board
 
 ## breakdown
 
+- [ ] [[2025.10.12.16.30.00-fix-kanban-created_at-timestamp-preservation|Fix kanban created_at timestamp preservation during task operations]] #kanban #bug #critical #timestamp #data-integrity prio:P0 (uuid:a7b8c9d0-e1f2-3456-7890-123456789abc)
 - [ ] [[20251011223651|Implement Kanban Heal Command with Damage Pattern DSL]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #cli #vector-embeddings #llm #dsl #git-workflow prio:P1 (uuid:a7b8c9d0-e1f2-4a5b-8c9d-0e1f2a3b4c5d)
 - [ ] [[Fix Kanban Column Underscore Normalization Bug]] #kanban #column #bug #fix prio:P0 (uuid:6b5e14b9-ede4-4d06-a2d5-0284601aad5a)
 - [ ] [[create-intent-driven-tool-protocol-specification-driven|Create Intent-Driven Tool Protocol specification -driven]] #intent-driven #protocol #specification #standards prio:P1 (uuid:7a64f903-6b18-4d05-9177-9e7312f76463)
@@ -414,10 +418,6 @@ kanban-plugin: board
 
 ## blocked
 
-- [ ] [[add-tsdoc-support-to-the-project-system|Add TSDoc Support to the Project -system]] #build-system #documentation #typescript prio:P2 (uuid:1f7ead97-5903-423b-b492-17af282faf4b)
-- [ ] [[assemble-omni-service-host|Assemble unified @promethean/omni-service host]] #omni #service prio:P2 (uuid:5fb47630-6822-4ecf-a035-625ed0e733bf)
-- [ ] [[create-comprehensive-unit-tests-for-omni-protocol-tests|Create comprehensive unit tests for Omni protocol -tests]] #ava #omni #testing #unit-tests prio:P1 (uuid:0e94018b-1ab0-4957-9884-8e55cc3e244c)
-- [ ] [[create-omni-protocol-api-documentation-and-guides-docs|Create Omni protocol API documentation and guides -docs]] #api-docs #documentation #omni #typedoc prio:P1 (uuid:94a4c9a3-9bf9-4573-a5fb-23738d060b86)
 - [ ] [[critical-fix-writefilecontent-sandbox-escape-via-symlinks-1144-1144|🔒 CRITICAL: Fix writeFileContent sandbox escape via symlinks -1144 )]] #bug #critical #github-1144 #immediate #security prio:P1 (uuid:2c0eccf1-70e2-4c8e-b1d4-d1f0f083da69)
 - [ ] [[design-agent-learning-and-adaptation-framework-os-learning-management|Design Agent Learning and Adaptation Framework -os -learning -management]] #adaptation #agent-os #evolution #knowledge-management #machine-learning prio:high (uuid:3a7b8c9d)
 - [ ] [[design-agent-marketplace-and-ecosystem-platform-os|Design Agent Marketplace and Ecosystem Platform -os]] #//]] #agent-os #collaboration #commerce #ecosystem #marketplace #search prio:high (uuid:6b8c1d4e)

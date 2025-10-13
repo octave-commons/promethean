@@ -23,6 +23,7 @@
     "@fastify/swagger": "^9.5.1",
     "@fastify/swagger-ui": "^5.2.3",
     "@promethean/embedding": "workspace:*",
+    "@promethean/file-indexer": "workspace:*",
     "@promethean/fs": "workspace:*",
     "@promethean/indexer-core": "workspace:*",
     "@promethean/indexer-service": "workspace:*",
@@ -42,12 +43,12 @@
     "nanoid": "^5.0.7",
     "node-fetch": "^3.3.2",
     "node-pty": "^1.0.0",
-    "uuid": "^9.0.1",
-    "@promethean/file-indexer": "workspace:*"
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@promethean/test-utils": "workspace:*",
     "@types/sinon": "^17.0.4",
+    "@types/uuid": "^9.0.7",
     "esmock": "^2.7.2",
     "mongodb-memory-server": "^10.2.0",
     "sinon": "^17.0.1",
