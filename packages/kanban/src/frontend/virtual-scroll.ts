@@ -96,7 +96,7 @@ export const planVirtualScroll = (columns: ReadonlyArray<ReadonlyColumn>): Board
   return { boardVirtualized, columns: plans };
 };
 
-const VIRTUAL_SCROLL_SCRIPT = String.raw`<script type="module">
+const VIRTUAL_SCROLL_SCRIPT = String.raw`<script>
 class VirtualScrollManager {
   constructor() {
     this.containers = Array.from(document.querySelectorAll('[data-role="virtual-scroll-container"]'));

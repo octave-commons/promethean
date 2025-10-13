@@ -1028,7 +1028,14 @@ const toFrontmatter = (t: Task): string => {
     }
   }
 
-  lines.push('---', '', t.content ?? '');
+  lines.push('---');
+
+  // Only add content section if there's actual content
+  const content = t.content?.trim();
+  if (content) {
+    lines.push('', content);
+  }
+
   return lines.join('\n') + '\n';
 };
 
