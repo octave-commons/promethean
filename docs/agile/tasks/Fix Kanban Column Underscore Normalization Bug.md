@@ -31,6 +31,7 @@ estimates:
 
 
 
+
 # Fix Kanban Column Underscore Normalization Bug
 
 ## Description
@@ -52,6 +53,7 @@ Critical bug in kanban column normalization where underscores in column names ar
 
 - High priority - affects core kanban functionality
 - Blocks other kanban-related work
+
 
 
 

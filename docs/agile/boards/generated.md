@@ -88,6 +88,7 @@ kanban-plugin: board
 - [ ] [[fix-test-failure-in-symdocs-pipeline-pipeline-test-timeout-after-2-minutes-fix-pipeline|Fix test failure in symdocs-pipeline: Pipeline timeout after 2 minutes -fix]] #automation #symdocs-pipeline #test-fix #testing prio:P1 (uuid:9c4f98e7-ffbf-4fcc-80c6-ebb952230d4a)
 - [ ] [[fix-test-gap-pipeline-timeout-configuration-for-tg-analysis-step-timeout-step-gap|Fix test-gap pipeline timeout configuration for tg-analysis step -gap]] #automation #pipeline #test-gap #timeout prio:P2 (uuid:89be3c4d-47d2-4815-aebf-adf7b7091403)
 - [ ] [[fix-typescript-type-mismatch-in-packagescephalonsrcactionsstart-dialogscopets 25|Fix TypeScript type mismatch in packages/cephalon/src/actions/start-dialog.scope.ts]] #automation #build #type-fix #typescript prio:P2 (uuid:20dc7416-d447-41a3-9bc9-d853b424da0d)
+- [ ] [[Create Mermaid-to-FSM config generator for kanban workflows]] #mermaid #fsm #kanban #create prio:P1 (uuid:ecee2a47-d4dc-42da-95db-eb1359d00425)
 
 ## accepted
 
