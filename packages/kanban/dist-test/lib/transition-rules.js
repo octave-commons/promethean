@@ -14,9 +14,8 @@ import { readFile, access } from 'fs/promises';
  * and custom logic defined in Clojure DSL.
  */
 export class TransitionRulesEngine {
-    config;
-    dslAvailable = false;
     constructor(config) {
+        this.dslAvailable = false;
         // Default configuration if none provided
         this.config = config || {
             enabled: true,

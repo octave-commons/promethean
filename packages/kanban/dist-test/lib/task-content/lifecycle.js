@@ -9,9 +9,6 @@ import path from 'node:path';
  * Handles advanced task operations including archiving, deletion, and merging
  */
 export class TaskLifecycleManager {
-    contentManager;
-    tasksDir;
-    archiveDir;
     constructor(contentManager, tasksDir, archiveDir) {
         this.contentManager = contentManager;
         this.tasksDir = tasksDir;
