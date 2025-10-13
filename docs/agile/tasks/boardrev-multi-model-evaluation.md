@@ -12,26 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # Implement multi-model evaluation for boardrev
 
 ## Description
@@ -67,23 +47,3 @@ Current implementation uses single Ollama model (qwen3:4b) for all evaluations. 
 
 ## Notes
 Should maintain current single-model behavior as default while adding multi-model capabilities as optional enhancement.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

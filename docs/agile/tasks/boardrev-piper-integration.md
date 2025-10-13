@@ -12,26 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # Integrate boardrev with piper pipeline system
 
 ## Description
@@ -68,23 +48,3 @@ Current manual sequential script execution should be replaced with proper pipeli
 
 ## Notes
 Should maintain existing CLI interfaces for backward compatibility while adding pipeline capabilities.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

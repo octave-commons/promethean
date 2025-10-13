@@ -12,26 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ## Issue Description
 
 The kanban delete command is currently adding extra whitespace to many tasks when they are processed. This is causing formatting issues and making the task files harder to read and maintain.
@@ -96,23 +76,3 @@ Nothing
 ## ⛓️ Blocks
 
 Nothing
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
