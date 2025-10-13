@@ -12,26 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 Add validation to the kanban create command to prevent tasks from being created with invalid starting statuses. Tasks should only be created with 'incoming' status, and any attempt to create with other statuses should be rejected with an error message explaining the proper workflow.
 
 ## ⛓️ Blocked By
@@ -43,23 +23,3 @@ Nothing
 ## ⛓️ Blocks
 
 Nothing
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
