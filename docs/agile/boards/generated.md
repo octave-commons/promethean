@@ -128,6 +128,7 @@ kanban-plugin: board
 - [ ] [[2025.10.08.16.30.00-add-kanban-crud-commands|Task efbb8046]] #cli #crud #kanban #task-management prio:P2 (uuid:efbb8046-d29c-4275-a4d6-de2ed898578b)
 - [ ] [[2025.10.08.17.00.00-boardrev-vector-db-epic|Task dc8d973f]] #ai #automation #boardrev #evaluation #vector-database prio:P2 (uuid:dc8d973f-a659-4804-98f9-47db432b0b22)
 - [ ] [[2025.10.12.15.30.00-fix-kanban-ui-virtual-scroll-mime-error 26|Fix Kanban UI Virtual Scroll MIME Type Error]] #bug #frontend #kanban #ui #virtual-scroll #mime-type prio:P1 (uuid:ba443be8-4eba-4b18-b9c3-58573f2d845a)
+- [ ] [[2025.10.12.15.30.00.implement-lmdb-cache-package 25|Implement @promethean/lmdb-cache Package with Enhanced Concurrency]] #package #cache #lmdb #concurrency #performance #drop-in-replacement prio:P1 (uuid:c8dcf8c0-97f0-40f6-87b6-dd228a4d7f8e)
 - [ ] [[20251011235145|Implement Scar Context Core Types and Interfaces]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #scar-context #typescript #phase-1 prio:P1 (uuid:2e73e798-7023-45cc-9733-e9d0037f0525)
 - [ ] [[20251011235168|Implement Scar Context Builder]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #scar-context #context-builder #phase-1 prio:P1 (uuid:ca84477b-20d4-4d49-8457-96d3e9749b6a)
 - [ ] [[20251011235189|Implement LLM Integration for Context Enhancement]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #scar-context #llm-integration #phase-1 prio:P1 (uuid:3ca4b85d-0c71-4e45-bf4a-01a16b990a70)
@@ -136,6 +137,7 @@ kanban-plugin: board
 - [ ] [[20251011235256|Implement Git Tag Management and Scar History]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #git-workflow #tag-management #scar-history #phase-1 prio:P1 (uuid:86e86422-5956-4df9-97f7-90a7256b744d)
 - [ ] [[20251011235486|Phase 1 Integration and Testing - Core Infrastructure]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #integration #testing #phase-1 #milestone prio:P1 (uuid:020318e4-9934-4e5d-85d7-3bb4a55f6ee2)
 - [ ] [[Design unified FSM architecture using existing foundations]] #fsm #packages #design #architecture #tool:analysis #env:no-egress prio:P0 (uuid:8b1add71-be76-4a34-8f24-b3f0eaac69d5)
+- [ ] [[Fix kanban created_at timestamp preservation during task operations]] #bugfix #critical #kanban #timestamp #data-integrity #typescript prio:P0 (uuid:07358cf3-317b-492d-a37e-51eb45ea8ec9)
 - [ ] [[Fix kanban delete command adding extra whitespace to tasks]] #kanban #delete #command #extra prio:P2 (uuid:0cad93b8-211f-419b-bf48-e5186ab13df1)
 - [ ] [[fix-readmes-pipeline-timeout-issues-and-optimize-performance-optimization|Fix readmes pipeline timeout issues and optimize performance -optimization]] #ai-optimization #performance #piper #readmes #timeout prio:P2 (uuid:c8f82173-cf3b-4f0c-9fcf-fec5a1e8f237)
 - [ ] [[pipeline-buildfix-epic|Pipeline BuildFix & Automation Epic]] #automation #buildfix #epic #pipeline #timeout prio:P0 (uuid:dc8c2b6d-a4a0-44ac-b31d-613201f1a2bd)
@@ -148,8 +150,6 @@ kanban-plugin: board
 
 ## testing
 
-- [ ] [[2025.10.12.15.30.00.implement-lmdb-cache-package 25|Implement @promethean/lmdb-cache Package with Enhanced Concurrency]] #package #cache #lmdb #concurrency #performance #drop-in-replacement prio:P1 (uuid:c8dcf8c0-97f0-40f6-87b6-dd228a4d7f8e)
-- [ ] [[Fix kanban created_at timestamp preservation during task operations]] #bugfix #critical #kanban #timestamp #data-integrity #typescript prio:P0 (uuid:07358cf3-317b-492d-a37e-51eb45ea8ec9)
 
 ## review
 
