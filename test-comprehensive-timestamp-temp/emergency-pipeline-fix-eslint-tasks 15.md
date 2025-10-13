@@ -1,0 +1,17 @@
+---
+uuid: "83714ed3-843d-4ddb-90c8-18e2fecb791c"
+title: "Fix eslint-tasks pipeline missing dependency: Missing @typescript-eslint/parser"
+slug: "emergency-pipeline-fix-eslint-tasks 15"
+status: "incoming"
+priority: "P1"
+labels: ["automation", "dependency", "emergency", "pipeline"]
+created_at: "2025-10-12T23:48:27.273Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
+
+
+

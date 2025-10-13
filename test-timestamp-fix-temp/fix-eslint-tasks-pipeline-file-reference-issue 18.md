@@ -1,0 +1,15 @@
+---
+uuid: "bec3677f-ead9-43c8-8c7e-a78bf8ae70be"
+title: "Fix eslint-tasks pipeline file reference issue"
+slug: "fix-eslint-tasks-pipeline-file-reference-issue 18"
+status: "incoming"
+priority: "P2"
+labels: ["automation", "bug", "eslint-tasks", "pipeline"]
+created_at: "2025-10-12T23:47:32.290Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
+

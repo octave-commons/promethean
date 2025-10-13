@@ -2,7 +2,7 @@ import type { Expr } from '../ast.js';
 import { name as mkName } from '../ast.js';
 import type { Span } from '../common.js';
 
-import { S, List, Sym, isList, isSym, list, sym } from './syntax.js';
+import { S, List, Sym, isSym, list, sym } from './syntax.js';
 
 const ZERO_SPAN: Span = { start: 0, end: 0, line: 0, col: 0 };
 const ensureSpan = (s?: Span): Span => s ?? ZERO_SPAN;
@@ -141,7 +141,6 @@ function listToExpr(x: List): Expr {
 
     // infix ops map to Bin/Un, else -> Call
     const binOp = new Set(['+', '-', '*', '/', '%', '<', '>', '<=', '>=', '==', '!=']);
-    const _unOp = new Set(['not', 'neg']); // prefixed with _ to indicate unused
     if (hd.t === 'sym' && binOp.has(hd.name) && x.xs.length === 3) {
         return {
             kind: 'Bin',

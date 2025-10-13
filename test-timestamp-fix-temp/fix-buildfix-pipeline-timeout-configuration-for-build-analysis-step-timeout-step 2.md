@@ -1,0 +1,15 @@
+---
+uuid: "9a6065f1-68f1-48d3-95f8-e67c530060ac"
+title: "Fix buildfix pipeline timeout configuration for Build analysis step timeout step"
+slug: "fix-buildfix-pipeline-timeout-configuration-for-build-analysis-step-timeout-step 2"
+status: "incoming"
+priority: "P2"
+labels: ["automation", "buildfix", "pipeline", "timeout"]
+created_at: "2025-10-12T23:47:32.289Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
+

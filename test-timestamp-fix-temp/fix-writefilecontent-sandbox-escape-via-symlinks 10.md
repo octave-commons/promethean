@@ -1,0 +1,15 @@
+---
+uuid: "d554b30b-10df-445e-a6fa-546c4da7b5a5"
+title: "🔒 CRITICAL: Fix writeFileContent sandbox escape via symlinks -1144 )"
+slug: "fix-writefilecontent-sandbox-escape-via-symlinks 10"
+status: "rejected"
+priority: "P1"
+labels: ["bug", "critical", "github-1144", "immediate", "security"]
+created_at: "2025-10-12T23:47:32.296Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
+

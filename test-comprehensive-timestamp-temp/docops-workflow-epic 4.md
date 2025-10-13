@@ -1,0 +1,17 @@
+---
+uuid: "b00f2027-94b9-43f0-b58d-7a1589eede74"
+title: "DocOps Workflow & Process Automation Epic"
+slug: "docops-workflow-epic 4"
+status: "rejected"
+priority: "P1"
+labels: ["automation", "docops", "epic", "workflow"]
+created_at: "2025-10-12T23:48:27.280Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
+
+
+

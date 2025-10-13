@@ -1,0 +1,15 @@
+---
+uuid: "693ec28f-75e2-47c4-adcc-b0c213edf6f9"
+title: "Cleanup done column incomplete tasks and implement completion verification -column"
+slug: "cleanup-done-column-incomplete-tasks 6"
+status: "rejected"
+priority: "P1"
+labels: ["cleanup", "done-column", "governance", "kanban", "quality"]
+created_at: "2025-10-12T23:47:32.296Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
+

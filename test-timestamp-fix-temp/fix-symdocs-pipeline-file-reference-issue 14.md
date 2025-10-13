@@ -1,0 +1,15 @@
+---
+uuid: "a65701e7-5579-4a9c-bc3b-adf77c5b8644"
+title: "Fix symdocs pipeline file reference issue"
+slug: "fix-symdocs-pipeline-file-reference-issue 14"
+status: "incoming"
+priority: "P2"
+labels: ["automation", "bug", "pipeline", "symdocs"]
+created_at: "2025-10-12T23:47:32.290Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
+

@@ -55,6 +55,10 @@ const normalizeTask = (
   const labels = toLabelArray(data.labels);
   const created = toTrimmedString(rawCreated);
   const updated = toOptionalString((data as { readonly updated?: unknown }).updated);
+  
+  // Extract estimates if present
+  const estimates = (data as { readonly estimates?: unknown }).estimates;
+  const normalizedEstimates = estimates && typeof estimates === 'object' ? estimates : undefined;
   const rel = path.relative(repoRoot, filePath);
   const base: TaskFM = Object.freeze({
     id,
@@ -66,6 +70,7 @@ const normalizeTask = (
     created,
     uuid: toOptionalString((data as { readonly uuid?: unknown }).uuid),
     created_at: toOptionalString((data as { readonly created_at?: unknown }).created_at),
+    estimates: normalizedEstimates,
   });
   const fm: TaskFM = typeof updated === 'string' ? Object.freeze({ ...base, updated }) : base;
   return Object.freeze({ ...fm, path: rel, content }) satisfies IndexedTask;

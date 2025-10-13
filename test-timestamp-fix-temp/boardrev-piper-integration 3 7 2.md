@@ -1,0 +1,15 @@
+---
+uuid: "79c65822-1798-44e3-aff4-4f114bfbe456"
+title: "Add interactive task management and auto-updates to boardrev      )"
+slug: "boardrev-piper-integration 3 7 2"
+status: "icebox"
+priority: "P2"
+labels: ["automation", "boardrev", "enhancement", "management"]
+created_at: "2025-10-12T23:47:32.287Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
+
