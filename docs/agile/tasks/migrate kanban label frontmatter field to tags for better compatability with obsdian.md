@@ -1,15 +1,19 @@
 ---
 uuid: "363f1d14-a864-11f0-a5c2-7fa31ed98b3f"
 title: "Migrate kanban Labels to tags for compatability with obsidian's knowledge graph"
+slug: "migrate kanban label frontmatter field to tags for better compatability with obsdian"
 status: "incoming"
 priority: "P1"
-tags: ["ai", "automation","kanban", "obsidian", "knowledge-graph", "knowledge-management-system"]
+labels: ["ai", "automation", "kanban", "obsidian", "knowledge-graph", "knowledge-management-system"]
 created_at: "2025-10-13T06:32:03.264Z"
 estimates:
-  complexity: "1"
-  scale: "2"
-  time_to_completion: "2"
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
+
 
 ## Context
 
@@ -36,3 +40,6 @@ knowledge graph visualizer.
 ## Acceptance Criteria
 
 ...
+
+
+

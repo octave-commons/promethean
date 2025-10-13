@@ -2,7 +2,7 @@
 uuid: "da0a7f20-15d9-45fd-b2d8-ba3101c1e0d7"
 title: "Design abstract KanbanAdapter interface and base class"
 slug: "Design abstract KanbanAdapter interface and base class"
-status: "accepted"
+status: "breakdown"
 priority: "P0"
 labels: ["abstract", "kanbanadapter", "interface", "design"]
 created_at: "2025-10-13T08:05:18.039Z"
@@ -11,6 +11,10 @@ estimates:
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
 
 
 
@@ -36,6 +40,10 @@ Nothing
 ## ⛓️ Blocks
 
 Nothing
+
+
+
+
 
 
 

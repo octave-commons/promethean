@@ -1,12 +1,19 @@
 ---
-uuid: 550e8400-e29b-41d4-a716-446655440000
-title: 'Implement Separate Test Coverage Pipelines for Integration, E2E, and Unit Testing'
-status: incoming
-priority: P1
-tags: [devops, testing, coverage, pipelines, ci-cd, type:infrastructure]
-created: 2025-10-13
-assignee: devops-orchestrator
+uuid: "550e8400-e29b-41d4-a716-446655440000"
+title: "Implement Separate Test Coverage Pipelines for Integration, E2E, and Unit Testing"
+slug: "implement-separate-test-coverage-pipelines"
+status: "incoming"
+priority: "P1"
+labels: ["devops", "testing", "coverage", "pipelines", "ci-cd", "type:infrastructure"]
+created_at: "2025-10-13T19:49:48.522Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
+
+
+
 
 ## Objective
 
@@ -272,3 +279,6 @@ This implementation follows the repository's conventions:
 - Includes comprehensive documentation
 - Uses small, auditable changes approach
 - Adds changelog entries for all modifications
+
+
+

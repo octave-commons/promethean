@@ -2,7 +2,7 @@
 uuid: "ff7ac92c-ff43-4078-9631-329cd9f2601b"
 title: "Create adapter factory and registry system"
 slug: "Create adapter factory and registry system"
-status: "accepted"
+status: "breakdown"
 priority: "P0"
 labels: ["create", "adapter", "factory", "registry"]
 created_at: "2025-10-13T08:06:09.151Z"
@@ -11,6 +11,10 @@ estimates:
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
 
 
 
@@ -36,6 +40,10 @@ Nothing
 ## ⛓️ Blocks
 
 Nothing
+
+
+
+
 
 
 

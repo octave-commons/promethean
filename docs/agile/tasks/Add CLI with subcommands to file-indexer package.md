@@ -2,7 +2,7 @@
 uuid: "ff96d6cc-f436-40e2-a9ae-af69fd33e6d8"
 title: "Add CLI with subcommands to file-indexer package"
 slug: "Add CLI with subcommands to file-indexer package"
-status: "incoming"
+status: "accepted"
 priority: "P1"
 labels: ["cli", "subcommands", "file", "indexer"]
 created_at: "2025-10-13T05:54:03.728Z"
@@ -11,6 +11,10 @@ estimates:
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
 
 
 
@@ -35,6 +39,10 @@ Nothing
 ## ⛓️ Blocks
 
 Nothing
+
+
+
+
 
 
 

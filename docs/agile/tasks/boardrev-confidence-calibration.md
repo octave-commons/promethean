@@ -24,6 +24,9 @@ estimates:
 
 
 
+
+
+
 # Add confidence calibration and historical accuracy tracking
 
 ## Description
@@ -59,6 +62,9 @@ Current LLM confidence scores are not calibrated against actual outcomes. Need h
 
 ## Notes
 Requires collection of actual task outcomes over time to build calibration data. Start with simple heuristics and improve as data accumulates.
+
+
+
 
 
 
