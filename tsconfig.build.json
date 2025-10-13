@@ -18,10 +18,37 @@
       "path": "./packages/agent-ecs"
     },
     {
+      "path": "./packages/agents-workflow"
+    },
+    {
+      "path": "./packages/alias-rewrite"
+    },
+    {
+      "path": "./packages/auth-service"
+    },
+    {
+      "path": "./packages/benchmark"
+    },
+    {
+      "path": "./packages/boardrev"
+    },
+    {
+      "path": "./packages/buildfix"
+    },
+    {
+      "path": "./packages/cephalon"
+    },
+    {
       "path": "./packages/changefeed"
     },
     {
       "path": "./packages/cli"
+    },
+    {
+      "path": "./packages/codemods"
+    },
+    {
+      "path": "./packages/codepack"
     },
     {
       "path": "./packages/compaction"
@@ -33,13 +60,28 @@
       "path": "./packages/contracts"
     },
     {
-      "path": "./packages/dev"
+      "path": "./packages/cookbookflow"
+    },
+    {
+      "path": "./packages/discord"
     },
     {
       "path": "./packages/dlq"
     },
     {
+      "path": "./packages/docops"
+    },
+    {
       "path": "./packages/ds"
+    },
+    {
+      "path": "./packages/duck-audio"
+    },
+    {
+      "path": "./packages/duck-tools"
+    },
+    {
+      "path": "./packages/duck-web"
     },
     {
       "path": "./packages/effects"
@@ -48,34 +90,94 @@
       "path": "./packages/embedding"
     },
     {
+      "path": "./packages/enso-protocol"
+    },
+    {
       "path": "./packages/event"
     },
     {
       "path": "./packages/examples"
     },
     {
+      "path": "./packages/file-indexer"
+    },
+    {
+      "path": "./packages/file-watcher"
+    },
+    {
+      "path": "./packages/frontend-service"
+    },
+    {
       "path": "./packages/fs"
+    },
+    {
+      "path": "./packages/fsm"
+    },
+    {
+      "path": "./packages/github-sync"
     },
     {
       "path": "./packages/http"
     },
     {
+      "path": "./packages/image-link-generator"
+    },
+    {
+      "path": "./packages/indexer-core"
+    },
+    {
+      "path": "./packages/indexer-service"
+    },
+    {
       "path": "./packages/intention"
+    },
+    {
+      "path": "./packages/kanban"
+    },
+    {
+      "path": "./packages/kanban-processor"
+    },
+    {
+      "path": "./packages/lint-taskgen"
     },
     {
       "path": "./packages/llm"
     },
     {
+      "path": "./packages/lmdb-cache"
+    },
+    {
+      "path": "./packages/manager"
+    },
+    {
       "path": "./packages/markdown"
     },
     {
-      "path": "./packages/metrics"
+      "path": "./packages/markdown-graph"
+    },
+    {
+      "path": "./packages/mcp"
     },
     {
       "path": "./packages/migrations"
     },
     {
+      "path": "./packages/monitoring"
+    },
+    {
       "path": "./packages/naming"
+    },
+    {
+      "path": "./packages/omni-protocol"
+    },
+    {
+      "path": "./packages/omni-service"
+    },
+    {
+      "path": "./packages/openai-server"
+    },
+    {
+      "path": "./packages/opencode-session-manager"
     },
     {
       "path": "./packages/parity"
@@ -87,40 +189,82 @@
       "path": "./packages/platform"
     },
     {
+      "path": "./packages/pm2-helpers"
+    },
+    {
       "path": "./packages/projectors"
     },
     {
       "path": "./packages/providers"
     },
     {
-      "path": "./packages/rate"
+      "path": "./packages/readmeflow"
+    },
+    {
+      "path": "./packages/report-forge"
     },
     {
       "path": "./packages/schema"
     },
     {
+      "path": "./packages/security"
+    },
+    {
+      "path": "./packages/semverguard"
+    },
+    {
+      "path": "./packages/shadow-conf"
+    },
+    {
+      "path": "./packages/simtask"
+    },
+    {
       "path": "./packages/snapshots"
+    },
+    {
+      "path": "./packages/sonarflow"
     },
     {
       "path": "./packages/stream"
     },
     {
+      "path": "./packages/symdocs"
+    },
+    {
+      "path": "./packages/test-classifier"
+    },
+    {
+      "path": "./packages/testgap"
+    },
+    {
       "path": "./packages/test-utils"
     },
     {
-      "path": "./packages/tests"
+      "path": "./packages/timetravel"
     },
     {
-      "path": "./packages/timetravel"
+      "path": "./packages/trello"
+    },
+    {
+      "path": "./packages/ui-components"
+    },
+    {
+      "path": "./packages/utils"
+    },
+    {
+      "path": "./packages/voice"
+    },
+    {
+      "path": "./packages/webcrawler-service"
+    },
+    {
+      "path": "./packages/web-utils"
     },
     {
       "path": "./packages/worker"
     },
     {
       "path": "./packages/ws"
-    },
-    {
-      "path": "./packages/lmdb-cache"
     }
   ]
 }

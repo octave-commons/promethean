@@ -84,7 +84,9 @@
     "shadow:watch": "pnpm --filter @promethean/shadow-ui run watch",
     "shadow:watch:frontends": "pnpm --parallel --filter '@promethean/*-frontend' run watch:shadow",
     "create-mutaant": "pnpm exec buildfix create-mutaant",
-    "kanban": "node packages/kanban/dist/cli.js"
+    "kanban": "node packages/kanban/dist/cli.js",
+    "pipeline:optimize": "node scripts/pipeline-optimizer.mjs",
+    "pipeline:analyze": "node scripts/pipeline-optimizer.mjs --analyze-only"
   },
   "bin": {
     "prom": "./packages/promethean-cli/dist/promethean_cli.cjs",
