@@ -21,13 +21,12 @@ kanban-plugin: board
 - [ ] [[boardrev-piper-integration 55|Implement multi-model evaluation for boardrev      )]] #ai #boardrev #enhancement #evaluation prio:P2 (uuid:0e834302-dc8f-42bd-8856-09d7d3c9f144)
 - [ ] [[boardrev-piper-integration 6|Integrate boardrev with piper pipeline system     )]] #boardrev #enhancement #infrastructure prio:P2 (uuid:02984e77-a462-49f4-93cf-360c5fbf7e4f)
 - [ ] [[boardrev-piper-integration|Integrate boardrev with piper pipeline system]] #boardrev #enhancement #infrastructure prio:P2 (uuid:23722f9b-803a-4bb2-b23e-4ccacd03c464)
+- [ ] [[MCP-Kanban Integration Healing & Enhancement]] #mcp #kanban #security #critical #healing #authorization #automation #integration prio:P0 (uuid:44d293b0-6d6b-4e85-8453-ea03be231c83)
+- [ ] [[design-agent-os-natural-language-management-protocol-os-language-inspired-communication|Design Agent OS Natural Language Management Protocol -os -language -inspired -communication]] #agent-os #async-communication #enso-inspired #natural-language #pipeline #protocol #tags prio:high (uuid:48c6e592-0628-4e1d-a757-bd6b367dee74)
 
 ## incoming
 
 - [ ] [[2025.10.12.16.00.00.migrate-kanban-to-lmdb-cache 25|Migrate Kanban Package from @promethean/level-cache to @promethean/lmdb-cache]] #migration #kanban #cache #lmdb #performance #concurrency #drop-in-replacement prio:P1 (uuid:b0ed3163-e0f6-4fbd-be67-9de457202e9c)
-- [ ] [[2025.10.12.16.15.00-fix-template-injection-vulnerability-applyTemplateReplacements 25|Fix Template Injection Vulnerability in applyTemplateReplacements Function]] #security #critical #template-injection #code-execution #vulnerability prio:P0 (uuid:aa409067-2609-4262-aae8-bf27697eb37c)
-- [ ] [[2025.10.12.16.20.00-add-missing-authorization-mcp-tools 25|Add Missing Authorization/Access Control for Destructive Operations in MCP Tools]] #security #critical #authorization #access-control #mcp #destructive-operations prio:P0 (uuid:a394e11e-a8ca-407c-bb9f-56958c789f67)
-- [ ] [[2025.10.12.16.25.00-improve-input-validation-file-paths 25|Implement Comprehensive Input Validation for File Paths]] #security #critical #input-validation #path-traversal #file-system #sanitization prio:P0 (uuid:f44bbb50-c896-407c-b4fb-718fa658a3e2)
 - [ ] [[2025.10.12.16.30.00-implement-caching-layer-task-operations 25|Implement Caching Layer for Task Operations]] #performance #caching #optimization #kanban #database #scalability prio:P1 (uuid:582a6685-c69b-4d60-8df1-56cee01b1f5e)
 - [ ] [[2025.10.12.16.35.00-refactor-complex-functions-createTask 25|Refactor Complex Functions - Break Down createTask Function (200+ lines)]] #refactoring #code-quality #maintainability #complexity #testing #clean-code prio:P1 (uuid:9e95c608-c80e-4a1e-b8ac-59cf26103870)
 - [ ] [[2025.10.12.16.40.00-add-performance-monitoring-optimization 25|Add Performance Monitoring and Optimization Framework]] #performance #monitoring #optimization #profiling #metrics #observability prio:P1 (uuid:c4fa4709-59c8-41fd-8a43-ac0489f57b4c)
@@ -44,18 +43,12 @@ kanban-plugin: board
 - [ ] [[2025.10.12.17.10.00-implement-assignment-feedback-loop 25|Implement Assignment Feedback Loop]] #kanban #feedback #machine-learning #optimization #frontend prio:P3 (uuid:b9ba2b00-366d-4b3e-9898-1e76a45da2f8)
 - [ ] [[2025.10.12.18.00.00-decouple-docops-from-piper-pipeline-system 25|Decouple DocOps from Piper Pipeline System and Create Standalone CLI]] #docops #cli #pipeline #decoupling #refactoring #tooling prio:P1 (uuid:4c200f8f-67fb-4002-a8d3-b3f506349050)
 - [ ] [[Add CLI with subcommands to file-indexer package]] #cli #subcommands #file #indexer prio:P1 (uuid:ff96d6cc-f436-40e2-a9ae-af69fd33e6d8)
-- [ ] [[Add Epic Functionality to Kanban Board]] #[epic #kanban #feature #implementation] prio:P0 (uuid:07bc6e1c-4f3f-49fe-8a21-088017cb17fa)
 - [ ] [[Add comprehensive input validation to indexer-core]] #security #validation #indexer-core #input-sanitization prio:P1 (uuid:275a6b80-0c0c-4c78-a6d0-bc3d9b098b40)
 - [ ] [[Agent Workflow Enhancement & Healing Integration]] #agents #workflow #healing #automation #monitoring #coordination #kanban #integration prio:P1 (uuid:39e0890b-e7bd-45eb-88ff-292157d0cf54)
 - [ ] [[Consolidate Pipeline Timeout Issues - Epic]] #epic #pipeline #timeout #consolidation prio:P1 (uuid:5708a85c-84d7-4883-936d-94521b542dd1)
-- [ ] [[Create DirectoryAdapter for task file operations]] #directoryadapter #create #file #operations prio:P0 (uuid:d01ed682-a571-441b-a550-d1de3957c523)
 - [ ] [[Create Mermaid-to-FSM config generator for kanban workflows]] #mermaid #fsm #kanban #create prio:P1 (uuid:ecee2a47-d4dc-42da-95db-eb1359d00425)
-- [ ] [[Create adapter factory and registry system]] #create #adapter #factory #registry prio:P0 (uuid:ff7ac92c-ff43-4078-9631-329cd9f2601b)
 - [ ] [[Create comprehensive test suite for adapter system]] #adapter #comprehensive #test #suite prio:P1 (uuid:7133028b-03ea-41b8-8de3-c7c35a80190d)
-- [ ] [[Design abstract KanbanAdapter interface and base class]] #abstract #kanbanadapter #interface #design prio:P0 (uuid:da0a7f20-15d9-45fd-b2d8-ba3101c1e0d7)
 - [ ] [[Documentation & Process Compliance Healing]] #documentation #process #compliance #healing #automation #knowledge #training #quality prio:P2 (uuid:e52bb415-7488-45eb-b223-26b42fdeb6c6)
-- [ ] [[Ensure backward compatibility and migration path]] #backward #compatibility #migration #path prio:P0 (uuid:f9ad27bf-ad51-43fe-ac17-253e67f1eecb)
-- [ ] [[Fix critical path traversal vulnerability in indexer-service]] #security #critical #indexer-service #path-traversal prio:P0 (uuid:3c6a52c7-ee4d-4aa5-9d51-69e3eb1fdf4a)
 - [ ] [[Implement GitHub adapter for GitHub Issues integration]] #github #issues #implement #adapter prio:P1 (uuid:a2e4a088-5b7c-4205-af67-316443311f80)
 - [ ] [[Implement LLM-powered kanban explain command]] #llm #explain #command #kanban prio:P1 (uuid:6866f097-f4c8-485a-8c1d-78de260459d2)
 - [ ] [[Implement Trello adapter for Trello board integration]] #trello #implement #board #adapter prio:P1 (uuid:d76c1d77-7b8f-4c54-9262-56a30d0d2bd7)
@@ -66,13 +59,10 @@ kanban-plugin: board
 - [ ] [[Kanban System Health Monitoring & Alerting Framework]] #kanban #health-monitoring #automation #alerting #framework #mcp-integration #healing prio:P1 (uuid:3308ce11-0321-4bc2-a4be-bdf5e5e8701a)
 - [ ] [[Migration & Cleanup Automation Framework]] #kanban #migration #automation #cleanup #schema #content #healing #maintenance prio:P1 (uuid:45d21355-7834-402a-b22f-e1af23e59f60)
 - [ ] [[Optimize database operations with batching in indexer-core]] #performance #database #optimization #indexer-core #batching prio:P1 (uuid:0d535e5c-e620-4cc9-85f2-0df04d57e149)
-- [ ] [[Prevent invalid starting status creation in kanban CLI]] #prevent #invalid #starting #status prio:P0 (uuid:45ad22b1-d5b9-4c21-887c-c22f8ca6395e)
-- [ ] [[Refactor existing board logic into BoardAdapter implementation]] #board #logic #boardadapter #existing prio:P0 (uuid:1c88185e-9bfb-42d0-9388-3ac4bf688960)
 - [ ] [[Refactor global state to dependency injection in indexer-core]] #architecture #dependency-injection #testing #indexer-core #refactoring prio:P2 (uuid:052d991b-3f5d-482d-8a44-8176f4091e5a)
 - [ ] [[Replace mock LLM integration with real @promethean llm package|Replace mock LLM integration with real @promethean/llm package]] #llm #integration #package #mock prio:P1 (uuid:31880e88-3d87-4d17-b739-8764165a93a4)
 - [ ] [[Standardize error handling across indexer components]] #error-handling #logging #reliability #indexer-components #maintainability prio:P2 (uuid:8609c4e1-1bfd-4b69-be90-f07bde1926f6)
 - [ ] [[Task Quality & Content Validation Automation]] #kanban #quality #automation #validation #content #estimates #duplicates #healing prio:P1 (uuid:b5a13eca-3531-4316-96e8-50846dec9dd1)
-- [ ] [[Update CLI commands to use adapter pattern]] #update #use #cli #commands prio:P0 (uuid:71d30e75-0fae-433d-ab7c-0dab868bba2b)
 - [ ] [[Update configuration system for adapter support]] #adapter #support #configuration #update prio:P1 (uuid:abdbe6a2-f471-4d6d-9378-42bbeb608145)
 - [ ] [[Update documentation for adapter architecture]] #adapter #documentation #update #architecture prio:P2 (uuid:3fd89bbb-2baf-4306-a30c-c014e3cc6b7f)
 - [ ] [[Workflow Optimization & Bottleneck Resolution]] #kanban #workflow #optimization #bottlenecks #automation #triage #flow #healing prio:P1 (uuid:8bc378ff-25f0-40ca-9af4-31d146fc8880)
@@ -89,32 +79,43 @@ kanban-plugin: board
 - [ ] [[fix-test-failure-in-symdocs-pipeline-pipeline-test-timeout-after-2-minutes-fix-pipeline|Fix test failure in symdocs-pipeline: Pipeline timeout after 2 minutes -fix]] #automation #symdocs-pipeline #test-fix #testing prio:P1 (uuid:9c4f98e7-ffbf-4fcc-80c6-ebb952230d4a)
 - [ ] [[fix-test-gap-pipeline-timeout-configuration-for-tg-analysis-step-timeout-step-gap|Fix test-gap pipeline timeout configuration for tg-analysis step -gap]] #automation #pipeline #test-gap #timeout prio:P2 (uuid:89be3c4d-47d2-4815-aebf-adf7b7091403)
 - [ ] [[fix-typescript-type-mismatch-in-packagescephalonsrcactionsstart-dialogscopets 25|Fix TypeScript type mismatch in packages/cephalon/src/actions/start-dialog.scope.ts]] #automation #build #type-fix #typescript prio:P2 (uuid:20dc7416-d447-41a3-9bc9-d853b424da0d)
+- [ ] [[Fix Kanban Column Underscore Normalization Bug]] #kanban #column #bug #fix prio:P0 (uuid:02c78938-cf9c-45a0-b5ff-6e7a212fb043)
+- [ ] [[Create MCP-Kanban Integration Tests & Documentation]] #mcp #kanban #testing #documentation #integration #critical prio:P1 (uuid:bedd20cd-34c0-46a1-962f-71eeb36a278f)
+- [ ] [[Implement Agent OS Pipeline Integration]] #agent-os #pipeline #integration #automation #workflow #critical prio:P1 (uuid:7528d106-159d-404c-8544-908c863d8a86)
+- [ ] [[Create Agent OS Tag-based Routing System]] #agent-os #tags #routing #filtering #classification #critical prio:P1 (uuid:2532c891-3624-4ced-b7d6-83497e151cac)
+- [ ] [[Develop Agent OS Protocol Testing & Validation Suite]] #agent-os #testing #validation #compliance #integration #critical prio:P1 (uuid:9475b327-4ce0-4d67-8fe5-259ad5a1c9ad)
+- [ ] [[migrate kanban label frontmatter field to tags for better compatability with obsdian|Migrate kanban Labels to tags for compatability with obsidian's knowledge graph]] #ai #automation #kanban #obsidian #knowledge-graph #knowledge-management-system prio:P1 (uuid:363f1d14-a864-11f0-a5c2-7fa31ed98b3f)
 
 ## accepted
 
 - [ ] [[cleanup-done-column-incomplete-tasks|Cleanup done column incomplete tasks and implement completion verification]] #cleanup #done-column #governance #kanban #quality prio:P1 (uuid:bdbdfe2b-7f32-4833-8f11-58dc704c0d30)
+- [ ] [[2025.10.12.16.15.00-fix-template-injection-vulnerability-applyTemplateReplacements 25|Fix Template Injection Vulnerability in applyTemplateReplacements Function]] #security #critical #template-injection #code-execution #vulnerability prio:P0 (uuid:aa409067-2609-4262-aae8-bf27697eb37c)
+- [ ] [[2025.10.12.16.20.00-add-missing-authorization-mcp-tools 25|Add Missing Authorization/Access Control for Destructive Operations in MCP Tools]] #security #critical #authorization #access-control #mcp #destructive-operations prio:P0 (uuid:a394e11e-a8ca-407c-bb9f-56958c789f67)
+- [ ] [[2025.10.12.16.25.00-improve-input-validation-file-paths 25|Implement Comprehensive Input Validation for File Paths]] #security #critical #input-validation #path-traversal #file-system #sanitization prio:P0 (uuid:f44bbb50-c896-407c-b4fb-718fa658a3e2)
+- [ ] [[Fix critical path traversal vulnerability in indexer-service]] #security #critical #indexer-service #path-traversal prio:P0 (uuid:3c6a52c7-ee4d-4aa5-9d51-69e3eb1fdf4a)
+- [ ] [[Add Epic Functionality to Kanban Board]] #[epic #kanban #feature #implementation] prio:P0 (uuid:07bc6e1c-4f3f-49fe-8a21-088017cb17fa)
+- [ ] [[Create DirectoryAdapter for task file operations]] #directoryadapter #create #file #operations prio:P0 (uuid:d01ed682-a571-441b-a550-d1de3957c523)
+- [ ] [[Create adapter factory and registry system]] #create #adapter #factory #registry prio:P0 (uuid:ff7ac92c-ff43-4078-9631-329cd9f2601b)
+- [ ] [[Design abstract KanbanAdapter interface and base class]] #abstract #kanbanadapter #interface #design prio:P0 (uuid:da0a7f20-15d9-45fd-b2d8-ba3101c1e0d7)
+- [ ] [[Ensure backward compatibility and migration path]] #backward #compatibility #migration #path prio:P0 (uuid:f9ad27bf-ad51-43fe-ac17-253e67f1eecb)
+- [ ] [[Prevent invalid starting status creation in kanban CLI]] #prevent #invalid #starting #status prio:P0 (uuid:45ad22b1-d5b9-4c21-887c-c22f8ca6395e)
+- [ ] [[Refactor existing board logic into BoardAdapter implementation]] #board #logic #boardadapter #existing prio:P0 (uuid:1c88185e-9bfb-42d0-9388-3ac4bf688960)
+- [ ] [[Update CLI commands to use adapter pattern]] #update #use #cli #commands prio:P0 (uuid:71d30e75-0fae-433d-ab7c-0dab868bba2b)
+- [ ] [[Implement MCP Authentication & Authorization Layer]] #mcp #kanban #security #authentication #authorization #critical prio:P0 (uuid:86765f2a-9539-4443-baa2-a0bd37195385)
+- [ ] [[Create MCP-Kanban Bridge API]] #mcp #kanban #api #bridge #synchronization #critical prio:P0 (uuid:07b10989-e06c-4c6b-87b9-80ce169b7660)
+- [ ] [[Implement MCP Security Hardening & Validation]] #mcp #kanban #security #validation #hardening #critical prio:P0 (uuid:d794213f-853d-41e4-863c-27e83dd5221c)
+- [ ] [[Design Agent OS Core Message Protocol]] #agent-os #protocol #messaging #core #design #critical prio:P0 (uuid:0c3189e4-4c58-4be4-b9b0-8e69474e0047)
+- [ ] [[Implement Natural Language Command Parser]] #agent-os #nlp #parser #commands #natural-language #critical prio:P0 (uuid:52c48585-42e1-47ce-bc2c-c46686c1ca53)
+- [ ] [[Create Agent OS Context Management System]] #agent-os #context #management #state #persistence #critical prio:P0 (uuid:1544d523-1c93-499c-92a1-eecc4f88f69a)
 
 ## breakdown
 
-- [ ] [[Fix Kanban Column Underscore Normalization Bug]] #kanban #column #bug #fix prio:P0 (uuid:02c78938-cf9c-45a0-b5ff-6e7a212fb043)
-- [ ] [[MCP-Kanban Integration Healing & Enhancement]] #mcp #kanban #security #critical #healing #authorization #automation #integration prio:P0 (uuid:44d293b0-6d6b-4e85-8453-ea03be231c83)
-- [ ] [[design-agent-os-natural-language-management-protocol-os-language-inspired-communication|Design Agent OS Natural Language Management Protocol -os -language -inspired -communication]] #agent-os #async-communication #enso-inspired #natural-language #pipeline #protocol #tags prio:high (uuid:48c6e592-0628-4e1d-a757-bd6b367dee74)
 
 ## blocked
 
 
 ## ready
 
-- [ ] [[2025.10.12.15.30.00-fix-kanban-ui-virtual-scroll-mime-error 26|Fix Kanban UI Virtual Scroll MIME Type Error]] #bug #frontend #kanban #ui #virtual-scroll #mime-type prio:P1 (uuid:ba443be8-4eba-4b18-b9c3-58573f2d845a)
-- [ ] [[20251011235189|Implement LLM Integration for Context Enhancement]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #scar-context #llm-integration #phase-1 prio:P1 (uuid:3ca4b85d-0c71-4e45-bf4a-01a16b990a70)
-- [ ] [[20251011235213|Implement Git Workflow Core Implementation]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #git-workflow #version-control #phase-1 prio:P1 (uuid:5791f7ad-8954-4204-932d-1f1383e90732)
-- [ ] [[20251011235236|Extend Git Sync for Heal Operations]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #git-workflow #git-sync #phase-1 prio:P1 (uuid:4e88db40-884c-4aed-8412-3de9fd78bd02)
-- [ ] [[20251011235256|Implement Git Tag Management and Scar History]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #git-workflow #tag-management #scar-history #phase-1 prio:P1 (uuid:86e86422-5956-4df9-97f7-90a7256b744d)
-- [ ] [[20251011235486|Phase 1 Integration and Testing - Core Infrastructure]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #integration #testing #phase-1 #milestone prio:P1 (uuid:020318e4-9934-4e5d-85d7-3bb4a55f6ee2)
-- [ ] [[Design unified FSM architecture using existing foundations]] #fsm #packages #design #architecture #tool:analysis #env:no-egress prio:P0 (uuid:8b1add71-be76-4a34-8f24-b3f0eaac69d5)
-- [ ] [[Fix kanban delete command adding extra whitespace to tasks]] #kanban #delete #command #extra prio:P2 (uuid:0cad93b8-211f-419b-bf48-e5186ab13df1)
-- [ ] [[fix-readmes-pipeline-timeout-issues-and-optimize-performance-optimization|Fix readmes pipeline timeout issues and optimize performance -optimization]] #ai-optimization #performance #piper #readmes #timeout prio:P2 (uuid:c8f82173-cf3b-4f0c-9fcf-fec5a1e8f237)
-- [ ] [[update-kanban-statuses-to-fsm 25|Update existing kanban tasks to use FSM statuses]] #cleanup #fsm #kanban #process prio:P2 (uuid:fc8fd632-47b8-4f46-adea-24e68e3aeeba)
 
 ## todo
 
@@ -122,10 +123,20 @@ kanban-plugin: board
 - [ ] [[2025.10.08.16.25.00-fix-grep-error-handling|Task 0b41959d]] #error-handling #grep #ripgrep #smartgpt-bridge prio:P2 (uuid:0b41959d-cd50-4a9c-bd00-10eebac7257b)
 - [ ] [[2025.10.08.16.30.00-add-kanban-crud-commands|Task efbb8046]] #cli #crud #kanban #task-management prio:P2 (uuid:efbb8046-d29c-4275-a4d6-de2ed898578b)
 - [ ] [[2025.10.08.17.00.00-boardrev-vector-db-epic|Task dc8d973f]] #ai #automation #boardrev #evaluation #vector-database prio:P2 (uuid:dc8d973f-a659-4804-98f9-47db432b0b22)
+- [ ] [[2025.10.12.15.30.00-fix-kanban-ui-virtual-scroll-mime-error 26|Fix Kanban UI Virtual Scroll MIME Type Error]] #bug #frontend #kanban #ui #virtual-scroll #mime-type prio:P1 (uuid:ba443be8-4eba-4b18-b9c3-58573f2d845a)
 - [ ] [[20251011235145|Implement Scar Context Core Types and Interfaces]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #scar-context #typescript #phase-1 prio:P1 (uuid:2e73e798-7023-45cc-9733-e9d0037f0525)
 - [ ] [[20251011235168|Implement Scar Context Builder]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #scar-context #context-builder #phase-1 prio:P1 (uuid:ca84477b-20d4-4d49-8457-96d3e9749b6a)
+- [ ] [[20251011235189|Implement LLM Integration for Context Enhancement]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #scar-context #llm-integration #phase-1 prio:P1 (uuid:3ca4b85d-0c71-4e45-bf4a-01a16b990a70)
+- [ ] [[20251011235213|Implement Git Workflow Core Implementation]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #git-workflow #version-control #phase-1 prio:P1 (uuid:5791f7ad-8954-4204-932d-1f1383e90732)
+- [ ] [[20251011235236|Extend Git Sync for Heal Operations]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #git-workflow #git-sync #phase-1 prio:P1 (uuid:4e88db40-884c-4aed-8412-3de9fd78bd02)
+- [ ] [[20251011235256|Implement Git Tag Management and Scar History]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #git-workflow #tag-management #scar-history #phase-1 prio:P1 (uuid:86e86422-5956-4df9-97f7-90a7256b744d)
+- [ ] [[20251011235486|Phase 1 Integration and Testing - Core Infrastructure]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #integration #testing #phase-1 #milestone prio:P1 (uuid:020318e4-9934-4e5d-85d7-3bb4a55f6ee2)
+- [ ] [[Design unified FSM architecture using existing foundations]] #fsm #packages #design #architecture #tool:analysis #env:no-egress prio:P0 (uuid:8b1add71-be76-4a34-8f24-b3f0eaac69d5)
 - [ ] [[Fix kanban created_at timestamp preservation during task operations]] #bugfix #critical #kanban #timestamp #data-integrity #typescript prio:P0 (uuid:07358cf3-317b-492d-a37e-51eb45ea8ec9)
+- [ ] [[Fix kanban delete command adding extra whitespace to tasks]] #kanban #delete #command #extra prio:P2 (uuid:0cad93b8-211f-419b-bf48-e5186ab13df1)
+- [ ] [[fix-readmes-pipeline-timeout-issues-and-optimize-performance-optimization|Fix readmes pipeline timeout issues and optimize performance -optimization]] #ai-optimization #performance #piper #readmes #timeout prio:P2 (uuid:c8f82173-cf3b-4f0c-9fcf-fec5a1e8f237)
 - [ ] [[pipeline-buildfix-epic|Pipeline BuildFix & Automation Epic]] #automation #buildfix #epic #pipeline #timeout prio:P0 (uuid:dc8c2b6d-a4a0-44ac-b31d-613201f1a2bd)
+- [ ] [[update-kanban-statuses-to-fsm 25|Update existing kanban tasks to use FSM statuses]] #cleanup #fsm #kanban #process prio:P2 (uuid:fc8fd632-47b8-4f46-adea-24e68e3aeeba)
 
 ## in_progress
 
@@ -188,6 +199,6 @@ kanban-plugin: board
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","list-collapse":[false,false,true,false,false,false,false,false,false,false,false,true,false,false,false],"new-note-template":"docs/agile/templates/task.stub.template.md","new-note-folder":"docs/agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
+{"kanban-plugin":"board","list-collapse":[false,false,true,false,true,true,false,false,true,true,false,true,false,false,false],"new-note-template":"docs/agile/templates/task.stub.template.md","new-note-folder":"docs/agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
 ```
 %%

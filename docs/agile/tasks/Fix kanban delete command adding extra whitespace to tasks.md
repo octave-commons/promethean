@@ -2,7 +2,7 @@
 uuid: "0cad93b8-211f-419b-bf48-e5186ab13df1"
 title: "Fix kanban delete command adding extra whitespace to tasks"
 slug: "Fix kanban delete command adding extra whitespace to tasks"
-status: "ready"
+status: "todo"
 priority: "P2"
 labels: ["kanban", "delete", "command", "extra"]
 created_at: "2025-10-12T23:41:48.142Z"
@@ -11,6 +11,19 @@ estimates:
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## Issue Description
 
@@ -76,3 +89,16 @@ Nothing
 ## ⛓️ Blocks
 
 Nothing
+
+
+
+
+
+
+
+
+
+
+
+
+

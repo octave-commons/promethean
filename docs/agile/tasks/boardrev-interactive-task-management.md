@@ -12,6 +12,18 @@ estimates:
   time_to_completion: ""
 ---
 
+
+
+
+
+
+
+
+
+
+
+
+
 # Add interactive task management and auto-updates to boardrev
 
 ## Description
@@ -55,3 +67,15 @@ Should include safety mechanisms to prevent unwanted automatic changes. All upda
         status.prompt ;; ## Review the task requirements for completion, marking them off as you go. if one is missing, stop and update the task, and bounce this card back via a valid transition
         task.body))))
 ```
+
+
+
+
+
+
+
+
+
+
+
+
