@@ -299,7 +299,7 @@ export class Scheduler extends EventEmitter {
     const { default: cron } = await import('node-cron');
 
     const scheduledJob = cron.schedule(
-      job.schedule,
+      job.schedule as string,
       () => {
         this.executeJob(job);
       },

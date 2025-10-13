@@ -1,0 +1,17 @@
+---
+uuid: "84ca5637-df41-46c0-9581-67723b89b2eb"
+title: "Pipeline BuildFix & Automation Epic"
+slug: "pipeline-buildfix-epic 11"
+status: "rejected"
+priority: "P0"
+labels: ["automation", "buildfix", "epic", "pipeline", "timeout"]
+created_at: "2025-10-12T23:48:27.281Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
+
+
+

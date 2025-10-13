@@ -1,0 +1,15 @@
+---
+uuid: "6158ee54-0912-4223-9a17-0dffda972e30"
+title: "Add confidence calibration and historical accuracy tracking      )"
+slug: "boardrev-vector-db 72"
+status: "icebox"
+priority: "P2"
+labels: ["accuracy", "boardrev", "enhancement", "metrics"]
+created_at: "2025-10-12T23:47:32.287Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
+

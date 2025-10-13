@@ -1,6 +1,12 @@
 export type Status = "open" | "doing" | "blocked" | "done" | "dropped";
 export type Priority = "low" | "medium" | "high" | "critical";
 
+export type Estimates = Readonly<{
+  complexity?: number;
+  scale?: string;
+  time_to_completion?: string;
+}>;
+
 export type TaskFM = Readonly<{
   id: string;
   title: string;
@@ -18,6 +24,7 @@ export type TaskFM = Readonly<{
     readonly links?: ReadonlyArray<string>;
   };
   milestone?: string;
+  estimates?: Estimates;
 }>;
 
 export type IndexedTask = TaskFM & Readonly<{ path: string; content?: string }>;

@@ -1,0 +1,17 @@
+---
+uuid: "c741eb91-2030-4db7-8226-5d6e94184189"
+title: "Fix test failure in unit-test-suite: Unit test failures blocking CI   -fix"
+slug: "emergency-test-fix-unit-test-suite 15"
+status: "incoming"
+priority: "P1"
+labels: ["automation", "emergency", "test-fix", "testing"]
+created_at: "2025-10-12T23:48:27.273Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
+
+
+

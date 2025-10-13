@@ -1,0 +1,17 @@
+---
+uuid: "1fe665eb-9501-418d-b395-a2366f6dbbf7"
+title: "Fix buildfix pipeline timeout configuration for Build analysis step timeout"
+slug: "emergency-buildfix-pipeline-timeout 10"
+status: "incoming"
+priority: "P1"
+labels: ["automation", "emergency", "pipeline", "timeout"]
+created_at: "2025-10-12T23:48:27.273Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
+
+
+

@@ -1,0 +1,15 @@
+---
+uuid: "214e42c1-1667-40e6-b8d1-2d1a6f4a47e9"
+title: "Evaluate optional JS services for TypeScript migration"
+slug: "evaluate-optional-js-services-for-migration 6"
+status: "icebox"
+priority: "P3"
+labels: ["board", "lang"]
+created_at: "2025-10-12T23:47:32.287Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
+

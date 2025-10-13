@@ -84,6 +84,14 @@ export async function ollamaEmbed(model: string, text: string): Promise<number[]
   );
 }
 
+export type GenerateRequest = {
+  model: string;
+  prompt: string;
+  stream: false;
+  options: { temperature: number };
+  format?: object | 'json';
+};
+
 export type GenerateResponse = {
   readonly response: unknown;
 };
@@ -101,7 +109,7 @@ export async function ollamaJSON(
     throw new Error('ollama disabled');
   }
 
-  const requestBody: any = {
+  const requestBody: GenerateRequest = {
     model,
     prompt,
     stream: false,

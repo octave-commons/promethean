@@ -30,11 +30,19 @@ async function transpileTS(tsSource: string, opts: TsToLispOptions) {
         const tsMod = await dynamicImportTS();
         if (tsMod) {
             // Support both ESM dynamic import and CJS require shapes
+<<<<<<< HEAD
             let tsModule: any = tsMod;
             if (!tsModule.transpileModule && tsModule.default && tsModule.default.transpileModule) {
                 tsModule = tsModule.default;
             }
             const ts = tsModule;
+=======
+            const ts = (tsMod as any).transpileModule
+                ? tsMod
+                : (tsMod as any).default?.transpileModule
+                  ? (tsMod as any).default
+                  : tsMod;
+>>>>>>> benchmark/build-fix-v0.0.0
             const compilerOptions = {
                 target: ts.ScriptTarget.ES2020,
                 module: ts.ModuleKind.ESNext,

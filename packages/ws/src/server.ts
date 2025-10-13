@@ -2,21 +2,53 @@ import { WebSocketServer, WebSocket } from 'ws';
 
 // loosen typing to avoid cross-package type coupling
 import { makeConnLimiter, makeTopicLimiter } from './server.rate.js';
+import { TokenBucket } from '@promethean/monitoring';
 // token bucket provided at runtime
 
 export type AuthResult = { ok: true; subScopes?: string[] } | { ok: false; code: string; msg: string };
 export type AuthFn = (token: string | undefined) => Promise<AuthResult>;
 
-type Inflight = { event: any; deadline: number; attempt: number };
+export type BusRecord = { id: string };
+export type BusEvent = unknown;
+export type BusContext = { attempt?: number };
+export type BusPublishOptions = unknown;
+
+export interface MessageBus {
+    publish(topic: string, payload: unknown, opts?: BusPublishOptions): Promise<BusRecord>;
+    subscribe(
+        topic: string,
+        group: string,
+        handler: (event: BusEvent, ctx: BusContext) => Promise<void> | void,
+        opts?: { manualAck?: boolean },
+    ): Promise<() => Promise<void>>;
+    ack(topic: string, group: string, id: string): Promise<void>;
+    nack(topic: string, group: string, id: string, reason?: string): Promise<void>;
+}
+
+export type WSMessage = {
+    op: string;
+    corr?: string;
+    token?: string;
+    topic?: string;
+    group?: string;
+    payload?: unknown;
+    opts?: BusPublishOptions;
+    id?: string;
+    reason?: string;
+    extend_ms?: number;
+    ackTimeoutMs?: number;
+};
+
+type Inflight = { event: unknown; deadline: number; attempt: number };
 
 export type WSGatewayOptions = {
     auth?: AuthFn;
     ackTimeoutMs?: number; // default 30s
     maxInflightPerSub?: number; // default 100
-    log?: (...args: any[]) => void;
+    log?: (...args: unknown[]) => void;
 };
 
-export function startWSGateway(bus: any, port: number, opts: WSGatewayOptions = {}) {
+export function startWSGateway(bus: MessageBus, port: number, opts: WSGatewayOptions = {}) {
     const wss = new WebSocketServer({ port });
     const log = opts.log ?? (() => {});
     void log;
@@ -35,9 +67,9 @@ export function startWSGateway(bus: any, port: number, opts: WSGatewayOptions = 
         const subs = new Map<SubKey, SubState>();
         const inboundLimiter = makeConnLimiter();
         const outboundLimiter = makeConnLimiter();
-        const topicLimiters = new Map<string, any>();
+        const topicLimiters = new Map<string, TokenBucket>();
 
-        const safeSend = (obj: any) => {
+        const safeSend = (obj: unknown) => {
             if (ws.readyState === ws.OPEN) ws.send(JSON.stringify(obj));
         };
 
@@ -57,19 +89,26 @@ export function startWSGateway(bus: any, port: number, opts: WSGatewayOptions = 
         );
 
         ws.on('message', async (raw) => {
-            let msg: any;
+            let msg: unknown;
             try {
                 msg = JSON.parse(raw.toString());
             } catch {
                 return safeSend({ op: 'ERR', code: 'bad_json', msg: 'Invalid JSON' });
             }
 
-            const corr = msg.corr;
+            // Validate message structure
+            if (!msg || typeof msg !== 'object' || !('op' in msg) || typeof msg.op !== 'string') {
+                return safeSend({ op: 'ERR', code: 'invalid_message', msg: 'Invalid message format' });
+            }
+
+            const wsMsg = msg as WSMessage;
+
+            const corr = wsMsg.corr;
             const err = (code: string, m: string) => safeSend({ op: 'ERR', code, msg: m, corr });
 
             // AUTH
-            if (msg.op === 'AUTH') {
-                const a: AuthResult = await (opts.auth?.(msg.token) ?? Promise.resolve({ ok: true } as AuthResult));
+            if (wsMsg.op === 'AUTH') {
+                const a: AuthResult = await (opts.auth?.(wsMsg.token) ?? Promise.resolve({ ok: true } as AuthResult));
                 if (!a.ok) {
                     const { code, msg } = a as { ok: false; code: string; msg: string };
                     return err(code, msg);
@@ -81,14 +120,15 @@ export function startWSGateway(bus: any, port: number, opts: WSGatewayOptions = 
             if (!authed) return err('unauthorized', 'Call AUTH first.');
 
             // PUBLISH
-            if (msg.op === 'PUBLISH') {
+            if (wsMsg.op === 'PUBLISH') {
                 if (!inboundLimiter.tryConsume(1)) return err('rate_limited', 'conn publish rate exceeded');
+                if (!wsMsg.topic) return err('invalid_topic', 'Topic is required');
                 const tl =
-                    topicLimiters.get(msg.topic) ??
-                    (topicLimiters.set(msg.topic, makeTopicLimiter(msg.topic)), topicLimiters.get(msg.topic)!);
+                    topicLimiters.get(wsMsg.topic) ??
+                    (topicLimiters.set(wsMsg.topic, makeTopicLimiter(wsMsg.topic)), topicLimiters.get(wsMsg.topic)!);
                 if (!tl.tryConsume(1)) return err('rate_limited', 'topic publish rate exceeded');
                 try {
-                    const rec = await bus.publish(msg.topic, msg.payload, msg.opts);
+                    const rec = await bus.publish(wsMsg.topic, wsMsg.payload, wsMsg.opts);
                     return safeSend({ op: 'OK', corr, id: rec.id });
                 } catch (e: any) {
                     return err('publish_failed', e.message ?? String(e));
@@ -96,9 +136,11 @@ export function startWSGateway(bus: any, port: number, opts: WSGatewayOptions = 
             }
 
             // SUBSCRIBE
-            if (msg.op === 'SUBSCRIBE') {
+            if (wsMsg.op === 'SUBSCRIBE') {
                 if (!inboundLimiter.tryConsume(1)) return err('rate_limited', 'conn subscribe rate exceeded');
-                const { topic, group, opts: subOpts = {} } = msg;
+                if (!wsMsg.topic || !wsMsg.group) return err('invalid_params', 'Topic and group are required');
+                const { topic, group } = wsMsg;
+                const subOpts = wsMsg.opts as Record<string, unknown> | undefined;
                 const key: SubKey = `${topic}::${group}`;
                 // prevent duplicate sub
                 if (subs.has(key)) {
@@ -110,15 +152,15 @@ export function startWSGateway(bus: any, port: number, opts: WSGatewayOptions = 
                 const stop = await bus.subscribe(
                     topic,
                     group,
-                    async (e: any, ctx: any) => {
+                    async (e: BusEvent, ctx: BusContext) => {
                         // backpressure
                         if (state.inflight.size >= maxInflight) return; // drop; will redeliver later
                         if (!outboundLimiter.tryConsume(1)) return; // slow push if client is hot
                         // dedupe if same id still inflight
-                        if (state.inflight.has(e.id)) return;
+                        if (state.inflight.has((e as any).id)) return;
 
-                        const deadline = Date.now() + (subOpts.ackTimeoutMs ?? ackTimeout);
-                        state.inflight.set(e.id, {
+                        const deadline = Date.now() + ((subOpts?.ackTimeoutMs as number) ?? ackTimeout);
+                        state.inflight.set((e as any).id, {
                             event: e,
                             deadline,
                             attempt: ctx.attempt ?? 1,
@@ -135,16 +177,17 @@ export function startWSGateway(bus: any, port: number, opts: WSGatewayOptions = 
                             },
                         });
                     },
-                    { ...subOpts, manualAck: true },
+                    { ...(subOpts || {}), manualAck: true },
                 );
                 state.stop = stop;
                 return safeSend({ op: 'OK', corr });
             }
 
             // UNSUBSCRIBE
-            if (msg.op === 'UNSUBSCRIBE') {
+            if (wsMsg.op === 'UNSUBSCRIBE') {
                 if (!inboundLimiter.tryConsume(1)) return err('rate_limited', 'conn unsubscribe rate exceeded');
-                const key: SubKey = `${msg.topic}::${msg.group}`;
+                if (!wsMsg.topic || !wsMsg.group) return err('invalid_params', 'Topic and group are required');
+                const key: SubKey = `${wsMsg.topic}::${wsMsg.group}`;
                 const s = subs.get(key);
                 if (!s) return err('not_subscribed', key);
                 await s.stop?.();
@@ -153,29 +196,31 @@ export function startWSGateway(bus: any, port: number, opts: WSGatewayOptions = 
             }
 
             // ACK / NACK / MODACK
-            if (msg.op === 'ACK' || msg.op === 'NACK' || msg.op === 'MODACK') {
+            if (wsMsg.op === 'ACK' || wsMsg.op === 'NACK' || wsMsg.op === 'MODACK') {
                 if (!inboundLimiter.tryConsume(1)) return err('rate_limited', 'conn ack rate exceeded');
-                const key: SubKey = `${msg.topic}::${msg.group}`;
+                if (!wsMsg.topic || !wsMsg.group) return err('invalid_params', 'Topic and group are required');
+                const key: SubKey = `${wsMsg.topic}::${wsMsg.group}`;
                 const s = subs.get(key);
                 if (!s) return err('not_subscribed', key);
 
-                const infl = s.inflight.get(msg.id);
+                if (!wsMsg.id) return err('invalid_params', 'Message ID is required');
+                const infl = s.inflight.get(wsMsg.id);
                 if (!infl) {
-                    if (msg.op === 'MODACK') return err('unknown_id', 'no inflight to extend');
+                    if (wsMsg.op === 'MODACK') return err('unknown_id', 'no inflight to extend');
                     // benign for ACK/NACK of already-cleared IDs
                     return safeSend({ op: 'OK', corr });
                 }
 
-                if (msg.op === 'MODACK') {
-                    infl.deadline = Date.now() + Math.max(1000, Number(msg.extend_ms) || ackTimeout);
+                if (wsMsg.op === 'MODACK') {
+                    infl.deadline = Date.now() + Math.max(1000, Number(wsMsg.extend_ms) || ackTimeout);
                     return safeSend({ op: 'OK', corr });
                 }
 
                 // clear inflight first
-                s.inflight.delete(msg.id);
+                s.inflight.delete(wsMsg.id);
                 try {
-                    if (msg.op === 'ACK') await bus.ack(msg.topic, msg.group, msg.id);
-                    else await bus.nack(msg.topic, msg.group, msg.id, msg.reason);
+                    if (wsMsg.op === 'ACK') await bus.ack(wsMsg.topic, wsMsg.group, wsMsg.id);
+                    else await bus.nack(wsMsg.topic, wsMsg.group, wsMsg.id, wsMsg.reason);
                     safeSend({ op: 'OK', corr });
                 } catch (e: any) {
                     return err('ack_failed', e.message ?? String(e));

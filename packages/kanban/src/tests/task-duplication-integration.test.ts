@@ -3,8 +3,13 @@ import { mkdir, writeFile, readdir } from 'node:fs/promises';
 
 import test from 'ava';
 
+<<<<<<< HEAD
 import { regenerateBoard, createTask, loadBoard } from '../../src/lib/kanban.js';
 import { withTempDir, makeBoard } from '../../src/test-utils/helpers.js';
+=======
+import { regenerateBoard, createTask, loadBoard } from '../lib/kanban.js';
+import { withTempDir, makeBoard } from '../test-utils/helpers.js';
+>>>>>>> benchmark/build-fix-v0.0.0
 
 test('integration: board operations do not create duplicate files', async (t) => {
   const tempDir = await withTempDir(t);

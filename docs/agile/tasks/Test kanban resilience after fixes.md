@@ -22,6 +22,9 @@ estimates:
 
 
 
+
+
+
 Testing kanban system resilience with proper estimates parsing
 
 ## ⛓️ Blocked By
@@ -31,6 +34,9 @@ Nothing
 ## ⛓️ Blocks
 
 Nothing
+
+
+
 
 
 

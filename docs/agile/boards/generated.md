@@ -23,11 +23,22 @@ kanban-plugin: board
 - [ ] [[add_twitch_chat_integration|add twitch chat integration md md]] #add #chat #integration #twitch prio:P3 (uuid:df445b14-f6c7-457e-88c4-872477f8c6e6)
 - [ ] [[allow_old_unnessisary_messages_to_decay_from_database_while_retaining_index_entries_ids|allow old unnessisary messages to decay from database while retaining index entries ids md md]] #allow #messages #old #unnessisary prio:P3 (uuid:8304b498-6811-40e3-8b44-60224b3ff846)
 - [ ] [[annotate_legacy_code_with_migration_tags|annotate legacy code with migration tags md]] #annotate #legacy #migration #tags prio:P3 (uuid:19a3b157-2bc0-4bfa-be63-bba8bfc1594d)
+<<<<<<< HEAD
 - [ ] [[assemble-omni-service-host|Assemble unified @promethean/omni-service host]] #omni #service prio:P2 (uuid:5fb47630-6822-4ecf-a035-625ed0e733bf)
+=======
+>>>>>>> benchmark/build-fix-v0.0.0
 - [ ] [[boardrev-piper-integration|Add confidence calibration and historical accuracy tracking]] #accuracy #boardrev #enhancement #metrics prio:P2 (uuid:(uuidgen))
 - [ ] [[boardrev-piper-integration|Enhance boardrev context analysis with weighted factors]] #accuracy #analysis #boardrev #enhancement prio:P2 (uuid:(uuidgen))
 - [ ] [[boardrev-piper-integration|Add interactive task management and auto-updates to boardrev]] #automation #boardrev #enhancement #management prio:P2 (uuid:(uuidgen))
 - [ ] [[boardrev-piper-integration|Implement multi-model evaluation for boardrev]] #ai #boardrev #enhancement #evaluation prio:P2 (uuid:(uuidgen))
+<<<<<<< HEAD
+=======
+- [ ] [[boardrev-piper-integration 2|Add confidence calibration and historical accuracy tracking      )]] #accuracy #boardrev #enhancement #metrics prio:P2 (uuid:6896b6f5-a826-4e7a-9dfa-c3a4e89d94cb)
+- [ ] [[boardrev-piper-integration 3|Enhance boardrev context analysis with weighted factors      )]] #accuracy #analysis #boardrev #enhancement prio:P2 (uuid:13ad0860-2c55-4db8-9007-5422f59ca873)
+- [ ] [[boardrev-piper-integration 4|Add interactive task management and auto-updates to boardrev      )]] #automation #boardrev #enhancement #management prio:P2 (uuid:23eab969-b473-48b8-b0bf-cdb0ba773360)
+- [ ] [[boardrev-piper-integration 5|Implement multi-model evaluation for boardrev      )]] #ai #boardrev #enhancement #evaluation prio:P2 (uuid:61bc82b1-488a-4009-a6ba-1e0a74d69807)
+- [ ] [[boardrev-piper-integration 6|Integrate boardrev with piper pipeline system     )]] #boardrev #enhancement #infrastructure prio:P2 (uuid:5573a233-1879-4c25-b2ac-6474adaa4749)
+>>>>>>> benchmark/build-fix-v0.0.0
 - [ ] [[boardrev-piper-integration|Integrate boardrev with piper pipeline system]] #boardrev #enhancement #infrastructure prio:P2 (uuid:(uuidgen))
 - [ ] [[boardrev-vector-database-accuracy-enhancement-epic-db|BoardRev Vector Database & Accuracy Enhancement Epic -db]] #accuracy #boardrev #epic #performance #vector-db prio:P1 (uuid:3284e35b-7501-4321-9f58-9879bdf1d643)
 - [ ] [[boardrev-vector-db|Add confidence calibration and historical accuracy tracking      )]] #accuracy #boardrev #enhancement #metrics prio:P2 (uuid:efdaf860-6a24-4737-81ad-7a130d297804)
@@ -89,7 +100,13 @@ kanban-plugin: board
 
 - [ ] [[1-processmd-fsm-diagram-with-cycles-you-asked-for|1) `process.md` — FSM diagram (with cycles you asked for)]] #docops #labeled prio:P3 (uuid:ca51cf05-2ff3-4aa2-b1fe-ada54ea201a9)
 - [ ] [[2-docsagentscodex-cloudmd-safety-snippet-append-in-its-editing-discipline-section|2) `docs/agents/codex-cloud.md` — safety snippet (append in its “Editing discipline” section)]] #docops #labeled prio:P3 (uuid:6ce60757-44eb-40e8-9d33-2f755b275ebd)
+<<<<<<< HEAD
 - [ ] [[2025.10.12.16.00.00.migrate-kanban-to-lmdb-cache|Migrate Kanban Package from @promethean/level-cache to @promethean/lmdb-cache]] #migration #kanban #cache #lmdb #performance #concurrency #drop-in-replacement prio:P1 (uuid:kanban-lmdb-migration-2025-10-12)
+=======
+- [ ] [[2025.10.12.16.00.00.migrate-kanban-to-lmdb-cache 2|Migrate Kanban Package from @promethean/level-cache to @promethean/lmdb-cache]] #migration #kanban #cache #lmdb #performance #concurrency #drop-in-replacement prio:P1 (uuid:c94d2cdd-d8cc-4b5a-a6ad-4d2e2ba02bdb)
+- [ ] [[2025.10.12.16.00.00.migrate-kanban-to-lmdb-cache|Migrate Kanban Package from @promethean/level-cache to @promethean/lmdb-cache]] #migration #kanban #cache #lmdb #performance #concurrency #drop-in-replacement prio:P1 (uuid:kanban-lmdb-migration-2025-10-12)
+- [ ] [[2025.10.12.16.30.00-fix-kanban-created_at-timestamp-preservation|Fix kanban created_at timestamp preservation during task operations]] #kanban #bug #critical #timestamp #data-integrity prio:P0 (uuid:a7b8c9d0-e1f2-3456-7890-123456789abc)
+>>>>>>> benchmark/build-fix-v0.0.0
 - [ ] [[20250918112921|2025.09.18.11.29.21]] #docops #labeled prio:P3 (uuid:840a1857-a997-44ce-9d3f-cda0d29f142f)
 - [ ] [[Add comprehensive unit tests for kanban-processor core functions --tags test-coverage,kanban-processor,critical-business-logic]] #kanban #processor #functions #logic prio:P0 (uuid:bdb88d03-2aaf-48f6-ae13-b715434aaa37)
 - [ ] [[Add hot reload dev scripts to all long-running process packages]] #dev #scripts #packages #add prio:P2 (uuid:5748b8d2-07d4-4c90-b10f-6a4627486338)
@@ -114,8 +131,6 @@ kanban-plugin: board
 - [ ] [[Fix MCP stdio-proxy-validation test failures]] #failures #test #validation #mcp prio:P1 (uuid:77cbc21d-c12a-48c5-84bb-95c71f355d09)
 - [ ] [[Fix MCP timing and session ID extraction test failures]] #mcp #timing #session #test prio:P1 (uuid:665d9213-cabe-44a0-ac04-5695dc91c329)
 - [ ] [[Fix TypeScript compilation errors in @promethean smartgpt-bridge package|Fix TypeScript compilation errors in @promethean/smartgpt-bridge package]] #errors #typescript #fix #compilation prio:P1 (uuid:fbd38d10-d97c-42fe-986d-c047ecaf4a0a)
-- [ ] [[Fix agents-workflow package linting errors (44 issues)]] #errors #issues #fix #agents prio:P2 (uuid:d39b879e-e77c-4e34-827b-d29ce5cd338e)
-- [ ] [[Fix critical linting errors in @promethean mcp package (1408 issues)|Fix critical linting errors in @promethean/mcp package (1408 issues)]] #errors #critical #issues #typescript prio:P1 (uuid:e51993a5-77ac-4e95-a547-206395bcac7d)
 - [ ] [[Fix kanban system resilience for malformed task files and UUID placeholders]] #files #system #placeholders #kanban prio:P1 (uuid:7cfffd5e-b20a-44fe-a1de-749dedde94d9)
 - [ ] [[Fix syntax errors in @promethean boardrev package|Fix syntax errors in @promethean/boardrev package]] #errors #fix #syntax #promethean prio:P1 (uuid:f9b57388-2de7-485f-9726-8e0c70b12733)
 - [ ] [[Handle websocket teardown race in Enso chat agent|handle websocket teardown race in enso chat agent]] #cephalon #reliability prio:P1 (uuid:ad65401b-d6bd-4a26-b9b5-6b0340a98da8)
@@ -128,6 +143,10 @@ kanban-plugin: board
 - [ ] [[Restore tool call routing in local Enso server|restore tool call routing in local enso server]] #cephalon #tests prio:P1 (uuid:06fd4307-3fcc-496d-b8f1-3df71b2a8922)
 - [ ] [[Test Duplicate Prevention]] #test #duplicate #prevention #nothing (uuid:387f4ead-acf0-41bd-bed5-2b955f99589d)
 - [ ] [[a-tight-do-able-plan-mythic-but-shippable|A tight, do-able plan (mythic but shippable)]] #docops #labeled prio:P3 (uuid:1aa7f997-c77a-4aa9-a9c2-df3dbe547648)
+<<<<<<< HEAD
+=======
+- [ ] [[advanced-features-cluster 2|Advanced Features Cluster - AI Integration & Task Intelligence]] #ai-integration #automation #cluster #mcp-server #task-intelligence prio:P2 (uuid:c60d3119-f6d5-46dd-9cf1-0a9b77c3026f)
+>>>>>>> benchmark/build-fix-v0.0.0
 - [ ] [[advanced-features-cluster-ai-integration-task-intelligence-integration-intelligence-server|Advanced Features Cluster - AI Integration & Task Intelligence -integration -intelligence]] #ai-integration #automation #cluster #mcp-server #task-intelligence prio:P2 (uuid:f2f71e80-3aa2-4f85-af8a-f2e4064ddcda)
 - [ ] [[advanced-features-cluster|Advanced Features Cluster - AI Integration & Task Intelligence]] #ai-integration #automation #cluster #mcp-server #task-intelligence prio:P2 (uuid:advanced-features-cluster-001)
 - [ ] [[ai-governance-and-consensual-suffering]] #docops #labeled prio:P3 (uuid:c443586a-fbd0-49d9-be82-d085fa15e743)
@@ -170,6 +189,10 @@ kanban-plugin: board
 - [ ] [[codex-cloud-workflow-8]] #docops #labeled prio:P3 (uuid:b858f72e-b007-4ac1-989f-2fc9fb139bd7)
 - [ ] [[codex-cloud-workflow]] #docops #labeled prio:P3 (uuid:c58ef6aa-0ee9-4e4b-9dde-b4398ed355dc)
 - [ ] [[command-stubs-ready-to-wire|Command stubs (ready to wire)]] #docops #labeled prio:P3 (uuid:3a83e00a-33b4-4748-a4cd-2752c2bed9ae)
+<<<<<<< HEAD
+=======
+- [ ] [[comprehensive-board-analysis 2|Comprehensive Kanban Board Analysis - Strategic Insights & Recommendations]] #analysis #governance #health-check #recommendations #strategy prio:P1 (uuid:ec60d61b-566d-4750-abd7-c53fbd638973)
+>>>>>>> benchmark/build-fix-v0.0.0
 - [ ] [[comprehensive-board-analysis|Comprehensive Kanban Board Analysis - Strategic Insights & Recommendations]] #analysis #governance #health-check #recommendations #strategy prio:P1 (uuid:comprehensive-board-analysis-001)
 - [ ] [[comprehensive-kanban-board-analysis-strategic-insights-recommendations-check|Comprehensive Kanban Board Analysis - Strategic Insights & Recommendations -check]] #analysis #governance #health-check #recommendations #strategy prio:P1 (uuid:3a91674c-318e-4d76-b70e-05bab00bef69)
 - [ ] [[consolidate-automation-task-generators-generation|Consolidate automation task generators -generation]] #automation #consolidation #refactoring #task-generation prio:P1 (uuid:5ac2a24c-1975-4f32-887c-9f9e63393e17)
@@ -207,8 +230,16 @@ kanban-plugin: board
 - [ ] [[ecs_projection_jobs|ecs projection jobs]] #ecs #jobs #projection #projections prio:P3 (uuid:36eddbb2-91d6-4930-8ad8-4fdc004e6672)
 - [ ] [[ecs_query_api_gateway|ecs query api gateway]] #api #ecs #gateway #query prio:P3 (uuid:e2059e9f-f2a2-4bc4-bcc7-eece59c16f88)
 - [ ] [[emergency-buildfix-pipeline-timeout|Fix buildfix pipeline timeout configuration for Build analysis step timeout]] #automation #emergency #pipeline #timeout prio:P1 (uuid:46fc6964-b777-4086-8890-7ef58c19a4ad)
+<<<<<<< HEAD
 - [ ] [[emergency-pipeline-fix-eslint-tasks|Fix eslint-tasks pipeline missing dependency: Missing @typescript-eslint/parser]] #automation #dependency #emergency #pipeline prio:P1 (uuid:pipeline-fix-emergency-1760030582112-k8xqmz4p9)
 - [ ] [[emergency-test-fix-unit-test-suite|Fix test failure in unit-test-suite: Unit test failures blocking CI]] #automation #emergency #test-fix #testing prio:P1 (uuid:test-fix-emergency-1760030907654-6m5kl8n4r)
+=======
+- [ ] [[emergency-pipeline-fix-eslint-tasks 2|Fix eslint-tasks pipeline missing dependency: Missing @typescript-eslint/parser]] #automation #dependency #emergency #pipeline prio:P1 (uuid:8a2ea050-443b-4ad5-ba2a-f0f64e8ce114)
+- [ ] [[emergency-pipeline-fix-eslint-tasks|Fix eslint-tasks pipeline missing dependency: Missing @typescript-eslint/parser]] #automation #dependency #emergency #pipeline prio:P1 (uuid:pipeline-fix-emergency-1760030582112-k8xqmz4p9)
+- [ ] [[emergency-test-fix-unit-test-suite 2|Fix test failure in unit-test-suite: Unit test failures blocking CI]] #automation #emergency #test-fix #testing prio:P1 (uuid:e93ef933-8077-4a72-b485-d158d7e2cc70)
+- [ ] [[emergency-test-fix-unit-test-suite|Fix test failure in unit-test-suite: Unit test failures blocking CI]] #automation #emergency #test-fix #testing prio:P1 (uuid:test-fix-emergency-1760030907654-6m5kl8n4r)
+- [ ] [[emergency-type-fix-shared-index 2|Fix TypeScript missing exports in packages/shared/src/index.ts: Missing exports for shared utilities]] #automation #emergency #exports #typescript prio:P1 (uuid:215bfd60-b95e-49a6-9138-ca4ba28be875)
+>>>>>>> benchmark/build-fix-v0.0.0
 - [ ] [[emergency-type-fix-shared-index|Fix TypeScript missing exports in packages/shared/src/index.ts: Missing exports for shared utilities]] #automation #emergency #exports #typescript prio:P1 (uuid:type-fix-emergency-1760030995642-xj1n2o4k5)
 - [ ] [[enhance-mcp-tools-with-intent-driven-philosophy-driven-assistance|Enhance MCP tools with intent-driven philosophy -driven -assistance]] #ai-assistance #enhancement #intent-driven #mcp prio:P1 (uuid:8853f4a2-7b9c-4d5e-9f8a-2c4d6e8f1b2c)
 - [ ] [[enso-protocol-context-management-2]] #docops #labeled prio:P3 (uuid:66c04140-0afd-4143-b92e-36516f50912e)
@@ -223,16 +254,28 @@ kanban-plugin: board
 - [ ] [[fix-build-errors-in-promethean-projects-3]] #docops #labeled prio:P3 (uuid:cc0a6725-576f-4a10-86ab-9d8559b53cd7)
 - [ ] [[fix-build-errors-in-promethean-projects]] #docops #labeled prio:P3 (uuid:72027fb4-71c0-4c0c-bc91-bb569da6edf3)
 - [ ] [[fix-buildfix-pipeline-timeout-configuration-for-build-analysis-step-timeout-step|Fix buildfix pipeline timeout configuration for Build analysis step timeout step]] #automation #buildfix #pipeline #timeout prio:P2 (uuid:ac463d67-0892-4f11-a2e4-fc5bc286af8b)
+<<<<<<< HEAD
+=======
+- [ ] [[fix-eslint-tasks-pipeline-file-reference-issue 2|Fix eslint-tasks pipeline file reference issue]] #automation #bug #eslint-tasks #pipeline prio:P2 (uuid:012df6ae-9d9e-44e7-bbf8-f8260cb68c57)
+>>>>>>> benchmark/build-fix-v0.0.0
 - [ ] [[fix-eslint-tasks-pipeline-file-reference-issue-tasks|Fix eslint-tasks pipeline file reference issue -tasks]] #automation #bug #eslint-tasks #pipeline prio:P2 (uuid:5e1aaf1a-45eb-42ab-aa93-89fc728bba6d)
 - [ ] [[fix-eslint-tasks-pipeline-file-reference-issue|Fix eslint-tasks pipeline file reference issue]] #automation #bug #eslint-tasks #pipeline prio:P2 (uuid:pipeline-fix-1760026835155-3uvq1u1z7)
 - [ ] [[fix-kanban-board-regeneration-tests-14-failing-tests-fix|Fix kanban board regeneration tests (14 failing tests) -fix -fix -fix -fix -fix -fix -fix -fix -fix -fix -fix -fix -fix -fix -fix -fix -fix -fix -fix -fix -fix -fix -fix -fix -fix -fix -fix -fix -fix]] #bug-fix #kanban #testing prio:P1 (uuid:a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d)
 - [ ] [[fix-piper-pipeline-caching-logic-failures-2-failing-tests-system|Fix Piper pipeline caching logic failures (2 failing tests) -system]] #build-system #caching #piper #testing prio:P2 (uuid:d4e5f6a7-8b9c-0d1e-2f3a-4b5c6d7e8f9a)
+<<<<<<< HEAD
+=======
+- [ ] [[fix-symdocs-pipeline-file-reference-issue 2|Fix symdocs pipeline file reference issue]] #automation #bug #pipeline #symdocs prio:P2 (uuid:2674214a-8f99-433b-a0f2-c18d4a9eed30)
+>>>>>>> benchmark/build-fix-v0.0.0
 - [ ] [[fix-symdocs-pipeline-file-reference-issue|Fix symdocs pipeline file reference issue]] #automation #bug #pipeline #symdocs prio:P2 (uuid:pipeline-fix-1760025791370-5hdkydtwt)
 - [ ] [[fix-test-failure-in-symdocs-pipeline-pipeline-test-timeout-after-2-minutes-fix-pipeline|Fix test failure in symdocs-pipeline: Pipeline timeout after 2 minutes -fix]] #automation #symdocs-pipeline #test-fix #testing prio:P1 (uuid:f5248184-b36e-48c0-88a8-5f1f5a2c3d8d)
 - [ ] [[fix-test-failure-in-symdocs-pipeline-pipeline-test-timeout-after-2-minutes|Fix test failure in symdocs-pipeline: Pipeline test timeout after 2 minutes]] #automation #symdocs-pipeline #test-fix #testing prio:P1 (uuid:1b435fbf-f01b-4ba1-80e5-4305f5be5180)
 - [ ] [[fix-test-failure-in-unit-test-suite-unit-test-failures-blocking-ci-fix|Fix test failure in unit-test-suite: Unit failures blocking CI -fix]] #automation #emergency #test-fix #testing prio:P1 (uuid:8107e1a9-a10a-448d-90da-432c77ee0b30)
 - [ ] [[fix-test-gap-pipeline-timeout-configuration-for-tg-analysis-step-timeout-step-gap|Fix test-gap pipeline timeout configuration for tg-analysis step -gap]] #automation #pipeline #test-gap #timeout prio:P2 (uuid:759ef097-9e74-45f5-a6a8-c722501c12f9)
 - [ ] [[fix-test-gap-pipeline-timeout-configuration-for-tg-analysis-step-timeout-step|Fix test-gap pipeline timeout configuration for tg-analysis step timeout step]] #automation #pipeline #test-gap #timeout prio:P2 (uuid:2d11639f-6658-4e41-a73e-8bc78454aabe)
+<<<<<<< HEAD
+=======
+- [ ] [[fix-typescript-type-mismatch-in-packagescephalonsrcactionsstart-dialogscopets 2|Fix TypeScript type mismatch in packages/cephalon/src/actions/start-dialog.scope.ts]] #automation #build #type-fix #typescript prio:P2 (uuid:72992799-1f01-4c52-ad2e-4ec9e313dcee)
+>>>>>>> benchmark/build-fix-v0.0.0
 - [ ] [[fix-typescript-type-mismatch-in-packagescephalonsrcactionsstart-dialogscopets|Fix TypeScript type mismatch in packages/cephalon/src/actions/start-dialog.scope.ts]] #automation #build #type-fix #typescript prio:P2 (uuid:type-fix-1760026093273-pt9blsej6)
 - [ ] [[fix-typescript-type-mismatch-in-packageskanbansrcclicommand-handlersts|Fix TypeScript type mismatch in packages/kanban/src/cli/command-handlers.ts]] #automation #build #type-fix #typescript prio:P2 (uuid:4316d677-963f-44c5-b132-b8026631aed6)
 - [ ] [[fix-unified-test-coverage-collection-system|Fix unified test coverage collection system]] #coverage #infrastructure #testing prio:P1 (uuid:5f8a9b2c-3d4e-5f6a-7b8c-9d0e1f2a3b4c)
@@ -403,6 +446,10 @@ kanban-plugin: board
 - [ ] [[2025.10.12.16.30.00-fix-kanban-created_at-timestamp-preservation|Fix kanban created_at timestamp preservation during task operations]] #kanban #bug #critical #timestamp #data-integrity prio:P0 (uuid:a7b8c9d0-e1f2-3456-7890-123456789abc)
 - [ ] [[20251011223651|Implement Kanban Heal Command with Damage Pattern DSL]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #cli #vector-embeddings #llm #dsl #git-workflow prio:P1 (uuid:a7b8c9d0-e1f2-4a5b-8c9d-0e1f2a3b4c5d)
 - [ ] [[Fix Kanban Column Underscore Normalization Bug]] #kanban #column #bug #fix prio:P0 (uuid:6b5e14b9-ede4-4d06-a2d5-0284601aad5a)
+<<<<<<< HEAD
+=======
+- [ ] [[Fix Kanban Column Underscore Normalization Bug]] #kanban #column #bug #fix prio:P0 (uuid:6b5e14b9-ede4-4d06-a2d5-0284601aad5a)
+>>>>>>> benchmark/build-fix-v0.0.0
 - [ ] [[create-intent-driven-tool-protocol-specification-driven|Create Intent-Driven Tool Protocol specification -driven]] #intent-driven #protocol #specification #standards prio:P1 (uuid:7a64f903-6b18-4d05-9177-9e7312f76463)
 - [ ] [[design-agent-multi-modal-communication-framework-os-modal-language-vision|Design Agent Multi-Modal Communication Framework -os -modal -language -vision]] #//]] #agent-os #communication #computer-vision #content #model #multi-modal #natural-language prio:high (uuid:8c3d2e5f)
 - [ ] [[design-agent-os-comprehensive-protocol-specifications-4d5e6f7g|Design Agent OS Comprehensive Protocol Specifications]] #agent-os #architecture #protocol-specifications #standards #system-integration prio:high (uuid:da25dda6-61e9-4d7f-b4dc-490759d88eda)
@@ -435,6 +482,10 @@ kanban-plugin: board
 
 ## ready
 
+<<<<<<< HEAD
+=======
+- [ ] [[2025.10.12.15.30.00-fix-kanban-ui-virtual-scroll-mime-error 2|Fix Kanban UI Virtual Scroll MIME Type Error]] #bug #frontend #kanban #ui #virtual-scroll #mime-type prio:P1 (uuid:f6a528ad-193c-4ad0-8c00-f099fef311aa)
+>>>>>>> benchmark/build-fix-v0.0.0
 - [ ] [[2025.10.12.15.30.00-fix-kanban-ui-virtual-scroll-mime-error|Fix Kanban UI Virtual Scroll MIME Type Error]] #bug #frontend #kanban #ui #virtual-scroll #mime-type prio:P1 (uuid:kanban-ui-virtual-scroll-mime-fix)
 - [ ] [[20251011235145|Implement Scar Context Core Types and Interfaces]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #scar-context #typescript #phase-1 prio:P1 (uuid:a7b8c9d1-e1f2-4a5b-8c9d-0e1f2a3b4c5e)
 - [ ] [[20251011235168|Implement Scar Context Builder]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #scar-context #context-builder #phase-1 prio:P1 (uuid:a7b8c9d1-e1f2-4a5b-8c9d-0e1f2a3b4c5f)
@@ -452,8 +503,6 @@ kanban-plugin: board
 - [ ] [[boardrev-continuous-monitoring|Add continuous monitoring and real-time updates to boardrev]] #automation #boardrev #enhancement #monitoring prio:P1 (uuid:922b2976-52f4-417b-8e46-a252f88d89c1)
 - [ ] [[boardrev-incremental-updates|Add incremental updates to boardrev indexing]] #boardrev #enhancement #performance prio:P1 (uuid:a9b95383-ad82-4dd4-8086-b48caf1a0328)
 - [ ] [[capture-confirmation-telemetry-for-daemon-optimization-core|capture confirmation telemetry for daemon optimization -core]] #framework-core #telemetry prio:P2 (uuid:7a86d12d-27f8-42ce-ae96-661ebfd7012d)
-- [ ] [[clearly-document-new-repository-layout|Document new repository layout and migration guide]] #board #lang prio:P3 (uuid:19470007-2c10-46f3-a5bf-afe2f5ad72d5)
-- [ ] [[convert-smartgpt-bridge-to-ts|Description]] #describe #description #step #useful prio:P3 (uuid:5c27542a-5611-457c-9062-24d8e137c5d8)
 - [ ] [[enso-handshake-guard-env-timeout-and-cache|enso-browser-gateway — handshake guard env timeout + cache ready]] #enso #gateway #handshake #ops prio:P2 (uuid:7f5d0e5d-2a38-4bb7-bb3a-2f8a4b1b2e31)
 - [ ] [[evaluate-docker-npu-compatability|Evaluate and integrate docker NPU image into workflows]] #docker #evaluate #integrate #npu prio:P3 (uuid:f2a4af09-e073-4773-9322-3acff1778142)
 - [ ] [[finalize_migration_plan|finalize migration plan md md md]] #finalize #migration #plan #unique prio:P3 (uuid:3ea0cf32-04c9-42eb-a256-22dc03360f1a)
@@ -476,25 +525,33 @@ kanban-plugin: board
 - [ ] [[setup-mcp-pnpm-ops|Setup MCP server for pnpm workspace management]] #mcp #pnpm #server #workspace prio:P2 (uuid:9b3f1c89-9a76-4f18-92a4-38275b1bc1f0)
 - [ ] [[stabilize-duck-voice-streaming-pipeline|stabilize duck voice streaming pipeline]] #audio #duck #enso prio:P2 (uuid:9a2e9225-9cbf-4ee0-ae5f-cdc6e525bbd3)
 - [ ] [[test-cli-bug|Test CLI reporting bug]] #bug #cli #test prio:P2 (uuid:49ef5f36-bbfc-4fd8-bdd6-f4847e8bf906)
+<<<<<<< HEAD
 - [ ] [[update-kanban-statuses-to-fsm|Update existing kanban tasks to use FSM statuses]] #cleanup #fsm #kanban #process prio:P2 (uuid:kanban-fsm-update-001)
 - [ ] [[use_node_protocol_for_builtin_imports|Use `node:` protocol for builtin imports]] #imports #node #protocol #use prio:P3 (uuid:77011385-81b7-42aa-9137-cd522a63910e)
+=======
+- [ ] [[update-kanban-statuses-to-fsm 2|Update existing kanban tasks to use FSM statuses]] #cleanup #fsm #kanban #process prio:P2 (uuid:fa159b7b-d2be-4f87-823b-efada4081494)
+- [ ] [[update-kanban-statuses-to-fsm|Update existing kanban tasks to use FSM statuses]] #cleanup #fsm #kanban #process prio:P2 (uuid:kanban-fsm-update-001)
+>>>>>>> benchmark/build-fix-v0.0.0
 
 ## todo
 
 - [ ] [[Define backlog for new automation pipelines]] #pipelines #planning prio:P4 (uuid:82c2eb4c-54a4-4f50-90fa-46bbb719c40f)
 - [ ] [[Design mermaid to Piper DSL compiler]] #pipelines #tooling prio:P4 (uuid:931a7d00-c601-4697-998f-441dffe78f25)
 - [ ] [[Expand symdocs and simtasks package documentation]] #documentation #packages prio:P3 (uuid:5f487b0d-4897-4931-b59a-dafe330b9608)
+- [ ] [[New Test Task]] #new #test #nothing #content prio:P3 (uuid:472c89e9-183f-4d45-97a5-eddc900688f3)
 - [ ] [[Publish missing pipeline run reports]] #documentation #pipeline prio:P3 (uuid:2690e363-4489-4828-bc07-88063262db13)
 - [ ] [[Refresh pipeline notes for LevelDB caches and Piper redesign]] #documentation #pipeline prio:P3 (uuid:4f810709-9a6d-4677-812f-c8dc3bfa4d28)
 - [ ] [[agent-safe-stablization-after-big-moves|<verb> <thing> <qualifier> :auto :ts]] #board #lang prio:p3 (uuid:16c70e8b-51cf-4580-ab53-a35d7ac0f6a9)
+- [ ] [[clearly-document-new-repository-layout|Document new repository layout and migration guide]] #board #lang prio:P3 (uuid:19470007-2c10-46f3-a5bf-afe2f5ad72d5)
+- [ ] [[convert-smartgpt-bridge-to-ts|Description]] #describe #description #step #useful prio:P3 (uuid:5c27542a-5611-457c-9062-24d8e137c5d8)
 - [ ] [[duck-audio-share-clamp-constants-across-browsernode-audio|duck-audio — share clamp + constants across browser/node -audio]] #duck-audio #shared #tests prio:P3 (uuid:5f9a1b2c-4d5e-6f7a-8b9c-0d1e2f3a4b5c)
 - [ ] [[evaluate-ollama-openvino|evaluate ollama openvino]] #chatgpt #evaluate #ollama #openvino prio:p3 (uuid:a08e1032-c149-4060-831d-97e43d707132)
 - [ ] [[expand-functional-loop-refactors-across-repository-style|Expand functional loop refactors across repository -style]] #functional-style #refactor prio:P3 (uuid:f6c39654-1e09-4741-9aeb-bdb200cc7216)
 - [ ] [[group-tooling-and-cli-packages-core|Group tooling and CLI packages -core]] #framework-core #refactor prio:p3 (uuid:911d511f-7f6d-4f01-86c0-5129765a3f8f)
 - [ ] [[kubernetes-configurations-for-secure-distributed-deployment-on-local-net|kubernetes configurations for secure distributed deployment on local net]] #changes #configurations #kubernetes #secure prio:p3 (uuid:0f65afc2-493e-40b2-85b0-17c4bf4b8d85)
 - [ ] [[move-discord-scraper-to-ts|move discord scraper to ts]] #current #discord #move #scraper prio:P3 (uuid:4ad8d468-babf-4ab8-9385-fec57642c074)
-- [ ] [[post-move-stablization--compat-layer---hook-diet-|<verb> <thing> <qualifier> :auto :ts]] #board #lang prio:p3 (uuid:f40d381b-9c48-4dfc-9f89-51577c10c024)
 - [ ] [[pr-688-nitpack-extract|pr 688 nitpack extract]] #688 #extract #nitpack #tasks prio:P3 (uuid:63e44f3d-fc18-4caf-85b7-08936527317e)
+<<<<<<< HEAD
 - [ ] [[remove_any_types_across_packages|Remove `any` types across packages]] #any #packages #remove #types prio:P3 (uuid:cc373a25-f288-4def-8ced-b824cc72c06a)
 - [ ] [[resolve_biome_lint_errors_in_compiler|Resolve Biome lint errors in compiler package]] #biome #compiler #errors #lint prio:P3 (uuid:9124fbc4-92c2-4b37-a234-95dc28dd17ff)
 - [ ] [[setup-kanban-mcp-server|Setup MCP server endpoint for kanban tooling]] #automation #kanban #mcp prio:P2 (uuid:936b26de-61b4-4d8d-94d7-171315a56ac9)
@@ -502,6 +559,14 @@ kanban-plugin: board
 
 ## in_progress
 
+=======
+- [ ] [[setup-kanban-ui-for-kanban-package-core|setup kanban ui for package -core]] #framework-core #kanban #ui prio:P3 (uuid:c3366097-0d29-4c8d-b7e1-32de4cf8072e)
+- [ ] [[use_node_protocol_for_builtin_imports|Use `node:` protocol for builtin imports]] #imports #node #protocol #use prio:P3 (uuid:77011385-81b7-42aa-9137-cd522a63910e)
+
+## in_progress
+
+- [ ] [[2025.10.12.15.30.00.implement-lmdb-cache-package 2|Implement @promethean/lmdb-cache Package with Enhanced Concurrency]] #package #cache #lmdb #concurrency #performance #drop-in-replacement prio:P1 (uuid:141cfa42-7c50-4dd0-a218-af08d3f69f28)
+>>>>>>> benchmark/build-fix-v0.0.0
 - [ ] [[2025.10.12.15.30.00.implement-lmdb-cache-package|Implement @promethean/lmdb-cache Package with Enhanced Concurrency]] #package #cache #lmdb #concurrency #performance #drop-in-replacement prio:P1 (uuid:lmdb-cache-implementation-2025-10-12)
 - [ ] [[fix-prometheanui-components-lint-failures-task|Fix `@promethean/ui-components` lint failures -task]] #codex-task prio:P2 (uuid:f4e15fe7-e616-4e34-94a6-a4ca655f4f4c)
 - [ ] [[infrastructure-stability-cluster|Infrastructure Stability Cluster - Build System & Type Safety]] #automation #build-system #cluster #infrastructure #typescript #delegated #devops-orchestrator prio:P0 (uuid:3933708e-ccaa-42d2-a3fc-b3e4c1a0c4db)
@@ -516,6 +581,7 @@ kanban-plugin: board
 
 - [ ] [[complete-shared-agent-persistence-migration|complete shared agent persistence migration]] #agents #persistence prio:P1 (uuid:1325fde4-1aab-485d-aca6-53f180883740)
 - [ ] [[duck-web-throttled-rtcdatachannel-sender-with-backpressure-web|duck-web — throttled RTCDataChannel sender with backpressure -web]] #duck-web #perf #webrtc prio:P1 (uuid:3d7e9f1a-2b3c-4d5e-8f9a-0b1c2d3e4f5a)
+- [ ] [[resolve_biome_lint_errors_in_compiler|Resolve Biome lint errors in compiler package]] #biome #compiler #errors #lint prio:P3 (uuid:9124fbc4-92c2-4b37-a234-95dc28dd17ff)
 
 ## document
 
@@ -595,8 +661,15 @@ kanban-plugin: board
 - [x] [[clearly_seperate_service_dependency_files|clearly seperate service dependency files md]] #clearly #dependency #seperate #service prio:P3 (uuid:35c0a7d2-a172-4cfd-8521-b3faee0417ca)
 - [x] [[codex-cloud-boot-process-3]] #docops #labeled prio:P3 (uuid:4ba88faf-73ab-480f-9a17-1477c01a48ee)
 - [x] [[kanban-board-refinement-and-cleanup|Comprehensive MCP Files Endpoint Testing]] #mcp #security #testing prio:P2 (uuid:$(uuidgen))
+<<<<<<< HEAD
 - [x] [[configure-piper-environment-variables-for-ai-pipelines|Configure piper environment variables for AI-powered pipelines]] #environment #piper #pipelines #configure prio:P1 (uuid:d4e5f6g7-h8i9-0123-defg-456789012345)
 - [x] [[configure-piper-environment-variables-for-ai-powered-pipelines-configuration|Configure piper environment variables for AI-powered pipelines -configuration]] #ai-configuration #environment #ollama #piper #setup prio:P1 (uuid:84b8f5db-df6c-46a3-b187-d4690bd9c2cd)
+=======
+- [x] [[configure-piper-environment-variables-for-ai-pipelines 2|Configure piper environment variables for AI-powered pipelines]] #environment #piper #pipelines #configure prio:P1 (uuid:fecaa998-ee6d-499a-9c48-1750ba9d50d1)
+- [x] [[configure-piper-environment-variables-for-ai-pipelines|Configure piper environment variables for AI-powered pipelines]] #environment #piper #pipelines #configure prio:P1 (uuid:d4e5f6g7-h8i9-0123-defg-456789012345)
+- [x] [[configure-piper-environment-variables-for-ai-powered-pipelines-configuration|Configure piper environment variables for AI-powered pipelines -configuration]] #ai-configuration #environment #ollama #piper #setup prio:P1 (uuid:84b8f5db-df6c-46a3-b187-d4690bd9c2cd)
+- [x] [[consolidation-summary 2|Kanban Task Consolidation Summary - Strategic Cluster Implementation]] #completion #consolidation #strategy #summary prio:P1 (uuid:e151dcba-781a-41cb-9bd2-7221e54a8c7e)
+>>>>>>> benchmark/build-fix-v0.0.0
 - [x] [[consolidation-summary|Kanban Task Consolidation Summary - Strategic Cluster Implementation]] #completion #consolidation #strategy #summary prio:P1 (uuid:consolidation-summary-001)
 - [x] [[convert-current-services-to-packages--then-redefine-the-services-using-config-files|convert current services to packages then redefine the services using config files]] #config #files #packages #services prio:P3 (uuid:5c686b01-e6d0-4008-81bb-6f429d26a64a)
 - [x] [[create-broker-services-that-can-handle-all-the-same-tasks-as-the-gpt-bridge|WebSocket Broker API Parity with GPT Bridge]] #api #broker #gpt #parity prio:P3 (uuid:b2d63853-2a8e-4e5c-a196-3fc69299d876)
@@ -650,6 +723,10 @@ kanban-plugin: board
 - [x] [[fix-nx-image-link-generator-test|Fix nx task @promethean/image-link-generator:test]] #generator #image #link #test prio:P2 (uuid:ac42755d-b90e-4d8d-bb16-46bc251fc210)
 - [x] [[fix-nx-task-markdown-graph-test|Fix nx task @promethean/markdown-graph:test]] #graph #markdown #promethean #test prio:P1 (uuid:a4764fc6-ff3e-4ad9-97f6-7cce0b813b44)
 - [x] [[fix-piper-pipeline-caching|Fix Piper pipeline caching regressions]] #pipelines #piper prio:P2 (uuid:8b57e951-99d2-4242-a56d-578a3f11cda6)
+<<<<<<< HEAD
+=======
+- [x] [[fix-regenerate-board-empty-columns 2|Fix regenerateBoard to show all configured columns even when empty]] #bug #columns #config #fsm #kanban prio:P1 (uuid:3098d935-5098-4f86-89fc-1ba10249d8bc)
+>>>>>>> benchmark/build-fix-v0.0.0
 - [x] [[fix-regenerate-board-empty-columns|Fix regenerateBoard to show all configured columns even when empty]] #bug #columns #config #fsm #kanban prio:P1 (uuid:kanban-regenerate-fix-001)
 - [x] [[fix-smartgpt-bridge-tests|Fix hanging SmartGPT bridge tests /TASK-20250928-041600 /kanban /InProgress /err /p2 /EPC-000 :auto :ts]] #board #epic #lang #owner #priority #state #task prio:p2 (uuid:f12dba73-161a-498a-9139-6a735eb75c3a)
 - [x] [[fix-sonar-pipeline-missing-touch|fix sonar pipeline missing touch marker]] #buildfix #pipeline #sonar prio:P2 (uuid:cd28d98a-1e9a-427d-8fa3-3768d944840e)
@@ -672,6 +749,10 @@ kanban-plugin: board
 - [x] [[identify_ancestral_resonance_patterns_framework_co|identify ancestral resonance patterns framework co md]] #ancestral #identify #patterns #resonance prio:P3 (uuid:013e2a6c-0eba-4840-adc3-3ed3d278768a)
 - [x] [[implement-classes-in-compiler-lisp-incoming|🛠️ Task: Implement Classes in Lisp Compiler]] #classes #compiler #implement #lisp prio:P3 (uuid:035cede1-531f-4070-aa80-841a9cf83631)
 - [x] [[implement-defun-in-compiler-lisp-incoming|🛠️ Task: Implement `defun` in Lisp Compiler]] #compiler #defun #implement #lisp prio:P3 (uuid:f0fe8d30-5833-4791-9e31-9c2292db03bc)
+<<<<<<< HEAD
+=======
+- [x] [[implement-kanban-dev-command-with-real-time-sync-and-ui-hosting 2|Implement kanban dev command with real-time sync and UI hosting]] #cli-enhancement #dev-experience #file-watching #kanban #real-time-sync #ui-hosting prio:P1 (uuid:6251570a-16f3-4575-9161-f3f6f27b1907)
+>>>>>>> benchmark/build-fix-v0.0.0
 - [x] [[implement-kanban-dev-command-with-real-time-sync-and-ui-hosting-experience-watching-time-sync-hosting-enhancement|Implement kanban dev command with real-time sync and UI hosting -experience]] #cli-enhancement #dev-experience #file-watching #kanban #real-time-sync #ui-hosting prio:P1 (uuid:ea49d523-60f7-4b0b-95d0-00bd6c9d5236)
 - [x] [[implement-kanban-dev-command-with-real-time-sync-and-ui-hosting|Implement kanban dev command with real-time sync and UI hosting]] #cli-enhancement #dev-experience #file-watching #kanban #real-time-sync #ui-hosting prio:P1 (uuid:7b8c9d0e-1f2a-3b4c-5d6e-7f8g9h0i1j2k)
 - [x] [[implement-omni-protocol-zod-validation|Implement Omni protocol runtime validation with Zod]] #omni #runtime #validation #zod prio:P1 (uuid:e310631c-b947-4920-a68b-dc062fbe04df)
@@ -682,6 +763,11 @@ kanban-plugin: board
 - [x] [[install-and-configure-sonar-scanner-for-code-quality-pipeline-quality-dependency|Install and configure sonar-scanner for code quality pipeline -quality -dependency]] #code-quality #external-dependency #piper #sonar #sonarqube prio:P2 (uuid:b8c7d6e5-c4b3-a2b1-a099-876543210987)
 - [x] [[just-so-much-batman|just so much batman]] #batman #just #much #span prio:P3 (uuid:8584c1fd-c8b6-4bf0-8cca-db9f91fe52c2)
 - [x] [[kanban-as-a-finite-state-machine|2025.09.19.23.48.50   State Machine  Automation]] #finite #kanban #workflow prio:P3 (uuid:961704a0-53ca-4aae-8c87-5b1f681a25be)
+<<<<<<< HEAD
+=======
+- [x] [[kanban-board-refinement-and-cleanup 2|Comprehensive MCP Files Endpoint Testing     )]] #mcp #security #testing prio:P2 (uuid:bdd890eb-d1e1-46e6-afaf-f9a6b0722cc8)
+- [x] [[kanban-board-refinement-and-cleanup 3|Kanban Board Refinement and Cleanup     )]] #kanban #optimization #process prio:P1 (uuid:45768d27-76e1-4c17-b17e-4a75b542bf61)
+>>>>>>> benchmark/build-fix-v0.0.0
 - [x] [[kanban-board-refinement-and-cleanup|Kanban Board Refinement and Cleanup]] #kanban #optimization #process prio:P1 (uuid:$(uuidgen))
 - [x] [[kanban-processor|kanban processor]] #ecs #kanban #planning prio:P3 (uuid:f88c9d06-c8f3-4a60-96b7-9fddf412ba5e)
 - [x] [[kanban-workflow-guide|2025.09.19.18.03.15   engineering  management]] #kanban #software #task prio:P3 (uuid:6caeba23-261e-45b3-92f3-f3f65c321b27)
@@ -722,6 +808,7 @@ kanban-plugin: board
 - [x] [[refactor-mcp-endpoints|Refactor MCP package for multi-endpoint HTTP transport /TASK-20240705-mcp-http /kanban /InProgress /err /p3 /EPC-000 :auto :ts :@promethean/mcp]] #board #epic #lang #owner #package #priority #state #task prio:p3 (uuid:121c9492-1226-4dae-b654-f39cdfe2364f)
 - [x] [[refactor_speech_interuption_system_to_be_more_inteligent_using_audio_data_to_decide_if_interupted|refactor speech interuption system to be more inteligent using audio data to decide if interupted md md]] #audio #refactor #speech #system prio:P3 (uuid:099c293b-2aaf-4ead-9cea-e88d8e352606)
 - [x] [[register_v_1_schema_for_any_evolving_topic_and_wri|register v 1 schema for any evolving topic and wri md]] #any #evolving #register #schema prio:P3 (uuid:76f70720-6082-4a02-8c10-a90468d1a85b)
+- [x] [[remove_any_types_across_packages|Remove `any` types across packages]] #any #packages #remove #types prio:P3 (uuid:cc373a25-f288-4def-8ced-b824cc72c06a)
 - [x] [[remove_commonjs_artifacts_repo_wide|Remove CommonJS artifacts from repository   -task -this   -task -this     -task -this         -task -this                 -task -this                                 -task -this]] #-task #-this #codex-task #doc-this prio:P2 (uuid:e6a16b59-a67d-4df9-babc-9faaaad3f9c9)
 - [x] [[replace-all-python-properly-with-hy-incoming|Ban Python; Migrate to Hy; Compile to `./dist`]] #ban #dist #migrate #python prio:P3 (uuid:991b27c3-0b63-49a5-acd3-d730b28e31fc)
 - [x] [[research_github_projects_board_api|research github projects board api md]] #api #board #github #projects prio:P3 (uuid:76ff159a-166e-43e1-8d11-14df53f50e6f)
@@ -732,6 +819,7 @@ kanban-plugin: board
 - [x] [[seperate-discord-commands-from-the-actions-they-perform|Cephalon Commands → Actions Refactor — Task Refinement]] #actions #cephalon #commands #refactor prio:P3 (uuid:56da5f84-d732-4455-b0a6-97b36fbae026)
 - [x] [[set-up-proper-openai-custom-gpt-compatable-oauth-login-flow|set up proper openai custom gpt compatable oauth login flow]] #custom #gpt #oauth #openai prio:P3 (uuid:d54f5640-9a46-4643-a76c-020603439c39)
 - [x] [[set_up_makefile_for_python_js_build_test_dev|replace polyglot makefile with pnpm-first workflow docs]] #makefile #pnpm #replace #workflow prio:P3 (uuid:b67ff78e-f1b8-4cdf-ba1c-d2ed622a4882)
+- [x] [[setup-kanban-mcp-server|Setup MCP server endpoint for kanban tooling]] #automation #kanban #mcp prio:P2 (uuid:936b26de-61b4-4d8d-94d7-171315a56ac9)
 - [x] [[setup-mcp-exec-server|Setup MCP exec server from approved commands]] #mcp #tooling prio:P2 (uuid:4bf47f12-8489-46ea-bee4-ee5d826541e1)
 - [x] [[setup-new-service-generator|setup new service generator]] #generator #new #service #setup prio:P3 (uuid:183b8fa7-f80b-4342-b993-2d2bfa80303a)
 - [x] [[setup_code_in_wsl|setup code in wsl md]] #code #out #setup #wsl prio:P3 (uuid:d35d985b-44c2-4b67-9228-bc2cb912df24)

@@ -1,0 +1,17 @@
+---
+uuid: "9fa3ce6b-67f0-4d81-a154-2f6c612b0eeb"
+title: "Update existing kanban tasks to use FSM statuses"
+slug: "update-kanban-statuses-to-fsm 17"
+status: "ready"
+priority: "P2"
+labels: ["cleanup", "fsm", "kanban", "process"]
+created_at: "2025-10-12T23:48:27.276Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
+
+
+

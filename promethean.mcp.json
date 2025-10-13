@@ -155,14 +155,50 @@
       "tools": [
         "kanban.get-board",
         "kanban.get-column",
-        "kanban.find-task",
+        "kanban.find-task-by-id",
         "kanban.find-task-by-title",
         "kanban.update-status",
         "kanban.move-task",
         "kanban.sync-board",
-        "kanban.search"
+        "kanban.search-tasks",
+        "kanban.update-task-description",
+        "kanban.rename-task",
+        "kanban.archive-task",
+        "kanban.delete-task",
+        "kanban.merge-tasks",
+        "kanban.bulk-archive",
+        "kanban.analyze-task",
+        "kanban.rewrite-task",
+        "kanban.breakdown-task"
       ],
-      "includeHelp": true
+      "includeHelp": true,
+      "meta": {
+        "title": "Kanban Task Management",
+        "description": "Complete kanban board management with task creation, updates, analysis, and AI-assisted workflow tools.",
+        "workflow": [
+          "kanban.get-board -> kanban.search",
+          "kanban.find-task -> kanban.update-status",
+          "kanban.analyze-task -> kanban.breakdown-task",
+          "kanban.breakdown-task -> kanban.update-task-description"
+        ],
+        "expectations": {
+          "usage": [
+            "Use kanban.get-board first to understand current state",
+            "Use kanban.search to find relevant tasks",
+            "Use kanban.analyze-task for AI-powered insights",
+            "Use kanban.breakdown-task to decompose complex tasks"
+          ],
+          "pitfalls": [
+            "kanban.update-status requires valid FSM transitions",
+            "kanban.delete-task is permanent and cannot be undone",
+            "AI-assisted tools require proper context for best results"
+          ],
+          "prerequisites": [
+            "Understand kanban FSM transition rules",
+            "Have appropriate permissions for task modifications"
+          ]
+        }
+      }
     },
     "process": {
       "tools": [

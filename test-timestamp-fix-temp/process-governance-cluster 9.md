@@ -1,0 +1,15 @@
+---
+uuid: "4606553c-a735-452a-b4dd-ca8e754b8cad"
+title: "Process Governance Cluster - Quality Gates & Workflow Enforcement -gates"
+slug: "process-governance-cluster 9"
+status: "rejected"
+priority: "P1"
+labels: ["automation", "cluster", "governance", "kanban", "process", "quality-gates"]
+created_at: "2025-10-12T23:47:32.296Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
+
