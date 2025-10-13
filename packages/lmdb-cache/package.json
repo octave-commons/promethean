@@ -1,0 +1,29 @@
+{
+  "name": "@promethean/lmdb-cache",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "clean": "rimraf dist",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "pnpm build && ava"
+  },
+  "dependencies": {
+    "@promethean/utils": "workspace:*",
+    "lmdb": "^3.4.3"
+  },
+  "devDependencies": {
+    "@promethean/test-utils": "workspace:*"
+  }
+}

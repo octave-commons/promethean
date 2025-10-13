@@ -1,0 +1,15 @@
+ {:source-paths ["src"]
+  :dependencies []
+ :builds
+ {:app {:target :browser
+        :output-dir "public/js"
+        :asset-path "/js"
+        :modules {:main {:init-fn app.core/init
+                         :preloads [devtools.preload
+                                   day8.re-frame-10x.preload]}}
+        :devtools {:http-root "public"
+                   :http-port 8084
+                   :preloads [devtools.preload
+                             day8.re-frame-10x.preload]}
+         :dev {:compiler-options {:closure-defines {re-frame.trace/trace-enabled? true
+                                                   day8.re-frame.tracing/trace-enabled? true}}}}}}

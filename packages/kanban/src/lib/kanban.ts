@@ -707,7 +707,7 @@ const writeBoard = async (boardPath: string, board: Board): Promise<void> => {
   }
   segments.push(footer.trimEnd());
   const output = `${segments.join('\n\n')}\n`;
-  await fs.mkdir(boardPath.split('/').slice(0, -1).join('/'), { recursive: true }).catch(() => {});
+  await fs.mkdir(path.dirname(boardPath), { recursive: true }).catch(() => {});
   await fs.writeFile(boardPath, output, 'utf8');
 };
 
@@ -1272,11 +1272,56 @@ const mergeSectionItems = (
 const applyTemplateReplacements = (
   template: string,
   replacements: Record<string, string>,
-): string =>
-  template.replace(/{{\s*([\w-]+)\s*}}/g, (_match, key: string) => {
-    const replacement = replacements[key];
+): string => {
+  // Security: Validate template input to prevent injection attacks
+  if (typeof template !== 'string') {
+    throw new Error('Template must be a string');
+  }
+
+  // Security: Only allow alphanumeric characters, spaces, and basic punctuation in template
+  // This prevents malicious code injection through template patterns
+  const safeTemplatePattern = /^[^{}]*\{\{\s*[a-zA-Z_][a-zA-Z0-9_-]*\s*\}\}[^{}]*$/;
+  const templateParts = template.split(/\{\{\s*([a-zA-Z_][a-zA-Z0-9_-]*)\s*\}\}/);
+
+  for (const part of templateParts) {
+    if (part && !safeTemplatePattern.test(`{{placeholder}}${part}{{placeholder}}`)) {
+      throw new Error('Invalid template: contains potentially dangerous content');
+    }
+  }
+
+  // Security: Validate replacement values to prevent code injection
+  const sanitizedReplacements: Record<string, string> = {};
+  for (const [key, value] of Object.entries(replacements)) {
+    // Only allow alphanumeric keys
+    if (!/^[a-zA-Z_][a-zA-Z0-9_-]*$/.test(key)) {
+      throw new Error(`Invalid replacement key: ${key}`);
+    }
+
+    // Sanitize replacement values to prevent injection
+    if (typeof value !== 'string') {
+      sanitizedReplacements[key] = String(value);
+    } else {
+      // Escape HTML special characters and remove dangerous patterns
+      sanitizedReplacements[key] = value
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#x27;')
+        .replace(/`/g, '&#x60;')
+        // Remove potential JavaScript execution patterns
+        .replace(/javascript:/gi, '')
+        .replace(/vbscript:/gi, '')
+        .replace(/on\w+\s*=/gi, '');
+    }
+  }
+
+  // Safe template replacement with validation
+  return template.replace(/\{\{\s*([a-zA-Z_][a-zA-Z0-9_-]*)\s*\}\}/g, (_match, key: string) => {
+    const replacement = sanitizedReplacements[key];
     return typeof replacement === 'string' ? replacement : '';
   });
+};
 
 const uniqueStrings = (values: ReadonlyArray<string> | undefined): string[] =>
   Array.from(
@@ -1337,12 +1382,13 @@ export const createTask = async (
   );
 
   if (boardTaskInColumn) {
-    // Try to get full content from existing tasks or use board task
+    // Always try to get full content from existing tasks (file-based)
     const fullTask = existingTasks.find((t) => t.uuid === boardTaskInColumn.uuid);
     if (fullTask) {
       return fullTask;
     }
-    // Fallback to board task if no file version found
+    // If no file version found, this shouldn't happen, but fallback to board task
+    // Ensure board task has consistent content formatting
     return boardTaskInColumn;
   }
   // *** END CRITICAL FIX ***
@@ -1633,8 +1679,9 @@ export const regenerateBoard = async (
     }
   }
 
-  // Create columns for ALL configured statuses, even if empty
-  const columns: ColumnData[] = Array.from(config.statusValues).map((statusValue) => {
+  // Create columns for configured statuses
+  const configuredStatusKeys = new Set(Array.from(config.statusValues).map(columnKey));
+  const configuredColumns: ColumnData[] = Array.from(config.statusValues).map((statusValue) => {
     const displayName = normalizeColumnDisplayName(statusValue);
     const key = columnKey(statusValue);
     const existingGroup = statusGroups.get(key);
@@ -1646,6 +1693,19 @@ export const regenerateBoard = async (
       tasks: existingGroup?.tasks || [],
     };
   });
+
+  // Create columns for any additional task statuses that aren't configured
+  const additionalColumns: ColumnData[] = Array.from(statusGroups.entries())
+    .filter(([key]) => !configuredStatusKeys.has(key))
+    .map(([, group]) => ({
+      name: group.name,
+      count: group.tasks.length,
+      limit: null, // No WIP limit for unconfigured columns
+      tasks: group.tasks,
+    }));
+
+  // Combine configured columns with additional columns
+  const columns = [...configuredColumns, ...additionalColumns];
 
   await maybeRefreshIndex(tasksDir);
   await writeBoard(boardPath, { columns });

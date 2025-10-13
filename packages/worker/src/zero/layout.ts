@@ -49,9 +49,24 @@ export function allocColumns(rows: number, layout: CompLayout, shared: boolean):
 }
 
 export function markChanged(bitset: Uint8Array, i: number) {
-    bitset[i >> 3] |= 1 << (i & 7);
+    const byteIndex = i >> 3;
+    if (byteIndex >= bitset.length) {
+        return;
+    }
+    const currentValue = bitset[byteIndex];
+    if (currentValue !== undefined) {
+        bitset[byteIndex] = currentValue | (1 << (i & 7));
+    }
 }
 
 export function isChanged(bitset: Uint8Array, i: number) {
-    return (bitset[i >> 3]! & (1 << (i & 7))) !== 0;
+    const byteIndex = i >> 3;
+    if (byteIndex >= bitset.length) {
+        return false;
+    }
+    const currentValue = bitset[byteIndex];
+    if (currentValue === undefined) {
+        return false;
+    }
+    return (currentValue & (1 << (i & 7))) !== 0;
 }

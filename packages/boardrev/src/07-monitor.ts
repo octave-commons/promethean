@@ -5,14 +5,13 @@
  * Monitors file changes, git events, and scheduled runs to trigger boardrev updates
  */
 
-import { createLogger, type Logger } from "@promethean/utils";
-import { EventEmitter } from "node:events";
-import { setInterval, clearInterval } from "node:timers";
-import { existsSync, mkdirSync, writeFileSync, readFileSync } from "node:fs";
-import { join } from "node:path";
-import { config } from "node:process";
+import { createLogger } from '@promethean/utils';
+import { EventEmitter } from 'node:events';
+import { setInterval, clearInterval } from 'node:timers';
+import { existsSync, mkdirSync, writeFileSync, readFileSync } from 'node:fs';
+import { join } from 'node:path';
 
-const logger = createLogger({ service: "boardrev-monitor" });
+const logger = createLogger({ service: 'boardrev-monitor' });
 
 export interface MonitorConfig {
   // File watching
@@ -22,7 +21,7 @@ export interface MonitorConfig {
 
   // Git integration
   enableGitHooks: boolean;
-  gitHookTriggers: ("pre-commit" | "post-commit" | "pre-push")[];
+  gitHookTriggers: ('pre-commit' | 'post-commit' | 'pre-push')[];
 
   // Scheduling
   enableScheduler: boolean;
@@ -43,7 +42,7 @@ export interface MonitorConfig {
 }
 
 export interface MonitorEvent {
-  type: "file-change" | "git-event" | "scheduled-run" | "manual-trigger";
+  type: 'file-change' | 'git-event' | 'scheduled-run' | 'manual-trigger';
   timestamp: Date;
   source: string;
   data: any;
@@ -52,7 +51,7 @@ export interface MonitorEvent {
 export interface MonitorStatus {
   isRunning: boolean;
   lastRun?: Date;
-  lastRunStatus: "success" | "error" | "timeout";
+  lastRunStatus: 'success' | 'error' | 'timeout';
   lastRunDuration?: number;
   totalRuns: number;
   errorCount: number;
@@ -74,9 +73,10 @@ export class BoardrevMonitor extends EventEmitter {
     this.config = this.mergeConfig(config);
     this.status = {
       isRunning: false,
+      lastRunStatus: 'success',
       totalRuns: 0,
       errorCount: 0,
-      activeWatches: 0
+      activeWatches: 0,
     };
 
     this.ensureCacheDirectory();
@@ -84,15 +84,15 @@ export class BoardrevMonitor extends EventEmitter {
 
   private mergeConfig(userConfig: Partial<MonitorConfig>): MonitorConfig {
     const defaultConfig: MonitorConfig = {
-      watchPaths: ["docs/agile/tasks", "docs/agile/boards"],
+      watchPaths: ['docs/agile/tasks', 'docs/agile/boards'],
       watchDebounceMs: 2000,
-      watchIgnoredPatterns: ["*.tmp", "*.swp", ".git/*"],
+      watchIgnoredPatterns: ['*.tmp', '*.swp', '.git/*'],
 
       enableGitHooks: true,
-      gitHookTriggers: ["pre-commit", "post-commit"],
+      gitHookTriggers: ['pre-commit', 'post-commit'],
 
       enableScheduler: true,
-      scheduleInterval: "*/5 * * * *", // Every 5 minutes
+      scheduleInterval: '*/5 * * * *', // Every 5 minutes
       scheduleIntervalMs: 5 * 60 * 1000, // 5 minutes fallback
 
       maxConcurrentRuns: 3,
@@ -100,8 +100,8 @@ export class BoardrevMonitor extends EventEmitter {
 
       enableNotifications: false,
 
-      cacheDir: ".cache/boardrev",
-      incrementalUpdates: true
+      cacheDir: '.cache/boardrev',
+      incrementalUpdates: true,
     };
 
     return { ...defaultConfig, ...userConfig };
@@ -115,13 +115,13 @@ export class BoardrevMonitor extends EventEmitter {
 
   async start(): Promise<void> {
     if (this.status.isRunning) {
-      logger.warn("Monitor is already running");
+      logger.warn('Monitor is already running');
       return;
     }
 
-    logger.info("Starting boardrev monitor");
+    logger.info('Starting boardrev monitor');
     this.status.isRunning = true;
-    this.emit("started");
+    this.emit('started');
 
     try {
       // Start file watchers
@@ -139,10 +139,10 @@ export class BoardrevMonitor extends EventEmitter {
         await this.startScheduler();
       }
 
-      logger.info("Boardrev monitor started successfully");
-      this.emit("ready");
+      logger.info('Boardrev monitor started successfully');
+      this.emit('ready');
     } catch (error) {
-      logger.error("Failed to start monitor:", error);
+      logger.error('Failed to start monitor:', error as Record<string, unknown>);
       await this.stop();
       throw error;
     }
@@ -153,9 +153,9 @@ export class BoardrevMonitor extends EventEmitter {
       return;
     }
 
-    logger.info("Stopping boardrev monitor");
+    logger.info('Stopping boardrev monitor');
     this.status.isRunning = false;
-    this.emit("stopping");
+    this.emit('stopping');
 
     // Stop file watchers
     for (const [path, watcher] of this.watchers) {
@@ -163,7 +163,7 @@ export class BoardrevMonitor extends EventEmitter {
         watcher.close();
         logger.info(`Stopped watching ${path}`);
       } catch (error) {
-        logger.error(`Error stopping watcher for ${path}:`, error);
+        logger.error(`Error stopping watcher for ${path}:`, error as Record<string, unknown>);
       }
     }
     this.watchers.clear();
@@ -176,7 +176,7 @@ export class BoardrevMonitor extends EventEmitter {
     this.scheduledJobs.clear();
 
     // Clear debounce timers
-    for (const [key, timer] of this.debounceTimers) {
+    for (const [, timer] of this.debounceTimers) {
       clearTimeout(timer);
     }
     this.debounceTimers.clear();
@@ -185,13 +185,13 @@ export class BoardrevMonitor extends EventEmitter {
     if (this.activeRuns.size > 0) {
       logger.info(`Waiting for ${this.activeRuns.size} active runs to complete`);
       await Promise.race([
-        Promise.all(Array.from(this.activeRuns).map(runId => this.waitForRunCompletion(runId))),
-        new Promise(resolve => setTimeout(resolve, 30000)) // 30 second timeout
+        Promise.all(Array.from(this.activeRuns).map((runId) => this.waitForRunCompletion(runId))),
+        new Promise((resolve) => setTimeout(resolve, 30000)), // 30 second timeout
       ]);
     }
 
-    logger.info("Boardrev monitor stopped");
-    this.emit("stopped");
+    logger.info('Boardrev monitor stopped');
+    this.emit('stopped');
   }
 
   getStatus(): MonitorStatus {
@@ -199,7 +199,7 @@ export class BoardrevMonitor extends EventEmitter {
   }
 
   private async startFileWatchers(): Promise<void> {
-    const { watchPaths, watchDebounceMs, watchIgnoredPatterns } = this.config;
+    const { watchPaths, watchIgnoredPatterns } = this.config;
 
     for (const watchPath of watchPaths) {
       if (!existsSync(watchPath)) {
@@ -209,22 +209,25 @@ export class BoardrevMonitor extends EventEmitter {
 
       try {
         // Dynamic import for chokidar
-        const { default: chokidar } = await import("chokidar");
+        const { default: chokidar } = await import('chokidar');
 
         const watcher = chokidar.watch(watchPath, {
           ignored: watchIgnoredPatterns,
           persistent: true,
-          ignoreInitial: true
+          ignoreInitial: true,
         });
 
-        watcher.on("all", (eventType: string, filename: string) => {
+        watcher.on('all', (eventType: string, filename: string) => {
           if (filename) {
             this.handleFileChange(eventType, filename, watchPath);
           }
         });
 
-        watcher.on("error", (error: Error) => {
-          logger.error(`File watcher error for ${watchPath}:`, error);
+        watcher.on('error', (error: Error) => {
+          logger.error(`File watcher error for ${watchPath}:`, {
+            message: error.message,
+            stack: error.stack,
+          });
         });
 
         this.watchers.set(watchPath, watcher);
@@ -232,7 +235,10 @@ export class BoardrevMonitor extends EventEmitter {
 
         logger.info(`Started watching ${watchPath}`);
       } catch (error) {
-        logger.error(`Failed to start file watcher for ${watchPath}:`, error);
+        logger.error(
+          `Failed to start file watcher for ${watchPath}:`,
+          error as Record<string, unknown>,
+        );
       }
     }
   }
@@ -250,19 +256,19 @@ export class BoardrevMonitor extends EventEmitter {
       this.debounceTimers.delete(key);
 
       const monitorEvent: MonitorEvent = {
-        type: "file-change",
+        type: 'file-change',
         timestamp: new Date(),
-        source: "file-watcher",
+        source: 'file-watcher',
         data: {
           eventType,
           filename,
           fullPath,
-          watchPath
-        }
+          watchPath,
+        },
       };
 
       logger.debug(`File change detected: ${eventType} ${filename}`);
-      this.emit("change", monitorEvent);
+      this.emit('change', monitorEvent);
 
       // Trigger boardrev run
       this.triggerBoardrevRun(monitorEvent);
@@ -272,11 +278,11 @@ export class BoardrevMonitor extends EventEmitter {
   }
 
   private async setupGitHooks(): Promise<void> {
-    const gitDir = ".git";
-    const hooksDir = join(gitDir, "hooks");
+    const gitDir = '.git';
+    const hooksDir = join(gitDir, 'hooks');
 
     if (!existsSync(gitDir)) {
-      logger.warn("Not a git repository, skipping git hooks");
+      logger.warn('Not a git repository, skipping git hooks');
       return;
     }
 
@@ -289,15 +295,15 @@ export class BoardrevMonitor extends EventEmitter {
       try {
         await this.createGitHook(hook);
       } catch (error) {
-        logger.error(`Failed to setup git hook ${hook}:`, error);
+        logger.error(`Failed to setup git hook ${hook}:`, error as Record<string, unknown>);
       }
     }
   }
 
   private async createGitHook(hookName: string): Promise<void> {
-    const hooksDir = join(".git", "hooks");
+    const hooksDir = join('.git', 'hooks');
     const hookPath = join(hooksDir, hookName);
-    const monitorScript = join(process.cwd(), "node_modules", ".bin", "boardrev-monitor");
+    const monitorScript = join(process.cwd(), 'node_modules', '.bin', 'boardrev-monitor');
 
     const hookScript = `#!/bin/bash
 # Boardrev git hook: ${hookName}
@@ -306,8 +312,8 @@ exec "${monitorScript}" git-hook ${hookName} "$@"
 
     // Check if hook already exists and is not managed by boardrev
     if (existsSync(hookPath)) {
-      const existingContent = readFileSync(hookPath, "utf8");
-      if (!existingContent.includes("Boardrev git hook")) {
+      const existingContent = readFileSync(hookPath, 'utf8');
+      if (!existingContent.includes('Boardrev git hook')) {
         logger.warn(`Git hook ${hookName} already exists and is not managed by boardrev`);
         return;
       }
@@ -320,41 +326,48 @@ exec "${monitorScript}" git-hook ${hookName} "$@"
   private async startScheduler(): Promise<void> {
     // Try to use node-cron, fallback to setInterval
     try {
-      const { default: cron } = await import("node-cron");
+      const { default: cron } = await import('node-cron');
 
-      const job = cron.schedule(this.config.scheduleInterval, () => {
-        this.handleScheduledRun();
-      }, {
-        scheduled: true
-      });
+      const job = cron.schedule(
+        this.config.scheduleInterval,
+        () => {
+          this.handleScheduledRun();
+        },
+        {
+          scheduled: true,
+        },
+      );
 
-      this.scheduledJobs.set("cron", job);
+      this.scheduledJobs.set('cron', job);
       logger.info(`Started cron scheduler: ${this.config.scheduleInterval}`);
     } catch (error) {
-      logger.warn("Failed to load node-cron, falling back to setInterval:", error);
+      logger.warn(
+        'Failed to load node-cron, falling back to setInterval:',
+        error as Record<string, unknown>,
+      );
 
       const fallbackInterval = this.config.scheduleIntervalMs || 5 * 60 * 1000;
       const timer = setInterval(() => {
         this.handleScheduledRun();
       }, fallbackInterval);
 
-      this.scheduledJobs.set("interval", timer);
+      this.scheduledJobs.set('interval', timer);
       logger.info(`Started interval scheduler: ${fallbackInterval}ms`);
     }
   }
 
   private handleScheduledRun(): void {
     const monitorEvent: MonitorEvent = {
-      type: "scheduled-run",
+      type: 'scheduled-run',
       timestamp: new Date(),
-      source: "scheduler",
+      source: 'scheduler',
       data: {
-        interval: this.config.scheduleInterval
-      }
+        interval: this.config.scheduleInterval,
+      },
     };
 
-    logger.debug("Scheduled run triggered");
-    this.emit("scheduled", monitorEvent);
+    logger.debug('Scheduled run triggered');
+    this.emit('scheduled', monitorEvent);
 
     this.triggerBoardrevRun(monitorEvent);
   }
@@ -362,7 +375,7 @@ exec "${monitorScript}" git-hook ${hookName} "$@"
   private async triggerBoardrevRun(triggerEvent: MonitorEvent): Promise<void> {
     // Check if we can run now
     if (this.activeRuns.size >= this.config.maxConcurrentRuns) {
-      logger.debug("Max concurrent runs reached, queuing request");
+      logger.debug('Max concurrent runs reached, queuing request');
       this.runQueue.push(() => this.executeBoardrevRun(triggerEvent));
       return;
     }
@@ -379,23 +392,25 @@ exec "${monitorScript}" git-hook ${hookName} "$@"
 
     try {
       // Emit run start event
-      this.emit("run-start", { runId, triggerEvent });
+      this.emit('run-start', { runId, triggerEvent });
 
       // Execute the boardrev pipeline
       await this.runBoardrevPipeline(runId, triggerEvent);
 
       const duration = Date.now() - startTime;
-      this.updateRunStatus("success", duration);
+      this.updateRunStatus('success', duration);
 
       logger.info(`Boardrev run ${runId} completed successfully in ${duration}ms`);
-      this.emit("run-complete", { runId, triggerEvent, duration, status: "success" });
-
+      this.emit('run-complete', { runId, triggerEvent, duration, status: 'success' });
     } catch (error) {
       const duration = Date.now() - startTime;
-      this.updateRunStatus("error", duration);
+      this.updateRunStatus('error', duration);
 
-      logger.error(`Boardrev run ${runId} failed after ${duration}ms:`, error);
-      this.emit("run-complete", { runId, triggerEvent, duration, status: "error", error });
+      logger.error(
+        `Boardrev run ${runId} failed after ${duration}ms:`,
+        error as Record<string, unknown>,
+      );
+      this.emit('run-complete', { runId, triggerEvent, duration, status: 'error', error });
     } finally {
       this.activeRuns.delete(runId);
 
@@ -411,9 +426,10 @@ exec "${monitorScript}" git-hook ${hookName} "$@"
 
   private async runBoardrevPipeline(runId: string, triggerEvent: MonitorEvent): Promise<void> {
     // Determine if we can do incremental updates
-    const isIncremental = this.config.incrementalUpdates &&
-                          triggerEvent.type === "file-change" &&
-                          this.canDoIncrementalUpdate(triggerEvent);
+    const isIncremental =
+      this.config.incrementalUpdates &&
+      triggerEvent.type === 'file-change' &&
+      this.canDoIncrementalUpdate(triggerEvent);
 
     if (isIncremental) {
       await this.runIncrementalUpdate(runId, triggerEvent);
@@ -422,27 +438,27 @@ exec "${monitorScript}" git-hook ${hookName} "$@"
     }
   }
 
-  private async runFullPipeline(runId: string, triggerEvent: MonitorEvent): Promise<void> {
+  private async runFullPipeline(runId: string, _triggerEvent: MonitorEvent): Promise<void> {
     logger.debug(`Running full pipeline for ${runId}`);
 
     // The full pipeline includes all existing boardrev steps
-    const { execSync } = await import("node:child_process");
+    const { execSync } = await import('node:child_process');
 
     const commands = [
-      "pnpm br:01-fm",
-      "pnpm br:02-prompts",
-      "pnpm br:03-index",
-      "pnpm br:04-match",
-      "pnpm br:05-eval",
-      "pnpm br:06-report"
+      'pnpm br:01-fm',
+      'pnpm br:02-prompts',
+      'pnpm br:03-index',
+      'pnpm br:04-match',
+      'pnpm br:05-eval',
+      'pnpm br:06-report',
     ];
 
     for (const command of commands) {
       logger.debug(`Executing: ${command}`);
       execSync(command, {
-        stdio: "inherit",
+        stdio: 'inherit',
         cwd: process.cwd(),
-        timeout: this.config.runTimeoutMs / commands.length // Divide timeout among commands
+        timeout: this.config.runTimeoutMs / commands.length, // Divide timeout among commands
       });
     }
   }
@@ -451,21 +467,21 @@ exec "${monitorScript}" git-hook ${hookName} "$@"
     logger.debug(`Running incremental update for ${runId}`);
 
     // For file changes, we can optimize by only re-running affected steps
-    const { execSync } = await import("node:child_process");
+    const { execSync } = await import('node:child_process');
 
     // Basic incremental strategy - re-run from the affected step
-    if (triggerEvent.source === "file-watcher") {
+    if (triggerEvent.source === 'file-watcher') {
       const filename = triggerEvent.data.filename;
 
-      if (filename.includes("tasks") || filename.includes("boards")) {
+      if (filename.includes('tasks') || filename.includes('boards')) {
         // Re-run the full pipeline for task/board changes
         await this.runFullPipeline(runId, triggerEvent);
       } else {
         // For other changes, just re-index and evaluate
-        execSync("pnpm br:03-index", { stdio: "inherit", cwd: process.cwd() });
-        execSync("pnpm br:04-match", { stdio: "inherit", cwd: process.cwd() });
-        execSync("pnpm br:05-eval", { stdio: "inherit", cwd: process.cwd() });
-        execSync("pnpm br:06-report", { stdio: "inherit", cwd: process.cwd() });
+        execSync('pnpm br:03-index', { stdio: 'inherit', cwd: process.cwd() });
+        execSync('pnpm br:04-match', { stdio: 'inherit', cwd: process.cwd() });
+        execSync('pnpm br:05-eval', { stdio: 'inherit', cwd: process.cwd() });
+        execSync('pnpm br:06-report', { stdio: 'inherit', cwd: process.cwd() });
       }
     } else {
       // For non-file changes, run full pipeline
@@ -477,30 +493,27 @@ exec "${monitorScript}" git-hook ${hookName} "$@"
     // Logic to determine if we can do incremental updates
     // This could be enhanced with more sophisticated change detection
 
-    if (triggerEvent.type !== "file-change") {
+    if (triggerEvent.type !== 'file-change') {
       return false;
     }
 
     const filename = triggerEvent.data.filename;
 
     // Certain file types require full re-run
-    const requiresFullRun = [
-      "package.json",
-      "tsconfig.json",
-      "*.config.js",
-      "*.config.ts"
-    ].some(pattern => filename.includes(pattern.replace("*", "")));
+    const requiresFullRun = ['package.json', 'tsconfig.json', '*.config.js', '*.config.ts'].some(
+      (pattern) => filename.includes(pattern.replace('*', '')),
+    );
 
     return !requiresFullRun;
   }
 
-  private updateRunStatus(status: "success" | "error" | "timeout", duration: number): void {
+  private updateRunStatus(status: 'success' | 'error' | 'timeout', duration: number): void {
     this.status.lastRun = new Date();
     this.status.lastRunStatus = status;
     this.status.lastRunDuration = duration;
     this.status.totalRuns++;
 
-    if (status === "error") {
+    if (status === 'error') {
       this.status.errorCount++;
     }
 
@@ -510,10 +523,10 @@ exec "${monitorScript}" git-hook ${hookName} "$@"
 
   private updateStatusFile(): void {
     try {
-      const statusPath = join(this.config.cacheDir, "monitor-status.json");
+      const statusPath = join(this.config.cacheDir, 'monitor-status.json');
       writeFileSync(statusPath, JSON.stringify(this.status, null, 2));
     } catch (error) {
-      logger.error("Failed to update status file:", error);
+      logger.error('Failed to update status file:', error as Record<string, unknown>);
     }
   }
 
@@ -533,12 +546,12 @@ exec "${monitorScript}" git-hook ${hookName} "$@"
   }
 
   // Public API for manual triggering
-  async triggerRun(reason = "manual"): Promise<void> {
+  async triggerRun(reason = 'manual'): Promise<void> {
     const monitorEvent: MonitorEvent = {
-      type: "manual-trigger",
+      type: 'manual-trigger',
       timestamp: new Date(),
-      source: "api",
-      data: { reason }
+      source: 'api',
+      data: { reason },
     };
 
     await this.triggerBoardrevRun(monitorEvent);
@@ -547,17 +560,17 @@ exec "${monitorScript}" git-hook ${hookName} "$@"
   // Git hook handler
   async handleGitHook(hookName: string, args: string[] = []): Promise<void> {
     const monitorEvent: MonitorEvent = {
-      type: "git-event",
+      type: 'git-event',
       timestamp: new Date(),
-      source: "git-hook",
+      source: 'git-hook',
       data: {
         hook: hookName,
-        args
-      }
+        args,
+      },
     };
 
     logger.info(`Git hook triggered: ${hookName}`);
-    this.emit("git-hook", monitorEvent);
+    this.emit('git-hook', monitorEvent);
 
     await this.triggerBoardrevRun(monitorEvent);
   }
@@ -569,25 +582,25 @@ if (require.main === module) {
   const monitor = new BoardrevMonitor();
 
   switch (command) {
-    case "start":
+    case 'start':
       monitor.start().catch(console.error);
       break;
-    case "stop":
+    case 'stop':
       monitor.stop().catch(console.error);
       break;
-    case "status":
+    case 'status':
       console.log(JSON.stringify(monitor.getStatus(), null, 2));
       break;
-    case "git-hook":
+    case 'git-hook':
       const hookName = process.argv[3];
       if (hookName) {
         monitor.handleGitHook(hookName, process.argv.slice(4)).catch(console.error);
       } else {
-        console.error("Git hook name required");
+        console.error('Git hook name required');
         process.exit(1);
       }
       break;
-    case "trigger":
+    case 'trigger':
       const reason = process.argv[3];
       monitor.triggerRun(reason).catch(console.error);
       break;

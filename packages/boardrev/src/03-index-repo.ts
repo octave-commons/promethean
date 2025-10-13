@@ -96,13 +96,8 @@ export async function indexRepoIncremental({
   try {
     // Load previous metadata
     const metadataMap = new Map<string, FileMetadata>();
-    const metadataKeys = await metadataCache.keys();
-
-    for (const key of metadataKeys) {
-      const meta = await metadataCache.get(key);
-      if (meta) {
-        metadataMap.set(key, meta);
-      }
+    for await (const [key, meta] of metadataCache.entries()) {
+      metadataMap.set(key, meta);
     }
 
     // Get previous stats
@@ -135,10 +130,15 @@ export async function indexRepoIncremental({
       // Incremental update
       logger.info(`boardrev: Performing incremental update (${files.length} files)`);
 
-      const { newFiles, modifiedFiles, unchangedFiles, deletedFiles } = await detectChangedFiles(
+      const { newFiles, modifiedFiles, deletedFiles, unchangedFiles } = await detectChangedFiles(
         files,
         metadataMap,
       );
+
+      // Log unchanged files count for debugging
+      if (unchangedFiles.length > 0) {
+        logger.debug(`Skipping ${unchangedFiles.length} unchanged files`);
+      }
 
       stats.changedFiles = newFiles.length + modifiedFiles.length;
       stats.deletedFiles = deletedFiles.length;
@@ -195,15 +195,15 @@ ${doc.excerpt}`;
           await metadataCache.set(file, fileMeta);
           stats.indexedFiles++;
         } catch (error) {
-          logger.error(`Failed to process file ${file}:`, error);
+          logger.error(`Failed to process file ${file}:`, error as Record<string, unknown>);
         }
       }
 
       // Clean up deleted files
       for (const deletedFile of deletedFiles) {
-        await docCache.delete(deletedFile);
-        await embCache.delete(deletedFile);
-        await metadataCache.delete(deletedFile);
+        await docCache.del(deletedFile);
+        await embCache.del(deletedFile);
+        await metadataCache.del(deletedFile);
         logger.debug(`Removed deleted file: ${deletedFile}`);
       }
 
@@ -223,7 +223,7 @@ ${doc.excerpt}`;
 
     return stats;
   } catch (error) {
-    logger.error('Incremental index failed:', error);
+    logger.error('Incremental index failed:', error as Record<string, unknown>);
     throw error;
   } finally {
     await db.close();

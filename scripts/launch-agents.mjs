@@ -63,6 +63,13 @@ const AGENTS = {
     startScript: 'start',
     healthEndpoint: '/health',
   },
+  'opencode-session-manager': {
+    package: '@promethean/opencode-session-manager',
+    description: 'OpenCode session management web UI',
+    devScript: 'dev',
+    startScript: 'build',
+    healthEndpoint: '/',
+  },
 };
 
 function printUsage() {
@@ -182,6 +189,7 @@ function getAgentPort(agentName) {
     broker: 7000,
     'llm-service': 8888,
     'voice-service': 8083,
+    'opencode-session-manager': 8084,
   };
 
   return portMap[agentName] || 3000;

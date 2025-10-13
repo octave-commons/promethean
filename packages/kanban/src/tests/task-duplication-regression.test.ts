@@ -71,7 +71,20 @@ test('createTask prevents duplicate titles with different content', async (t) =>
 
   // Should return the first task, not create a duplicate
   t.is(firstTask.uuid, secondTask.uuid, 'Should return existing task UUID');
-  t.is(firstTask.content, secondTask.content, 'Should preserve original content');
+  t.true(
+    firstTask.content?.includes('First content') && secondTask.content?.includes('First content'),
+    'Both tasks should contain original content',
+  );
+
+  // Both should have the formatted content with sections
+  t.true(
+    firstTask.content?.includes('## ⛓️ Blocked By') ?? false,
+    'First task should have Blocked By section',
+  );
+  t.true(
+    firstTask.content?.includes('## ⛓️ Blocks') ?? false,
+    'First task should have Blocks section',
+  );
 });
 
 test('createTask allows same title in different columns', async (t) => {

@@ -46,9 +46,31 @@ test('bulk import operations do not create duplicates', async (t) => {
   const task2 = createdTasks.find((t) => t.title.toLowerCase().trim() === 'import task 2');
   const task3 = createdTasks.find((t) => t.title.toLowerCase().trim() === 'import task 3');
 
-  t.is(task1?.content, 'Content 1', 'First task content should be preserved');
-  t.is(task2?.content, 'Content 2', 'Second task content should be preserved');
-  t.is(task3?.content, 'Content 3', 'Third task content should be preserved');
+  // All tasks should have formatted content with sections
+  t.true(
+    task1?.content?.includes('Content 1') ?? false,
+    'First task should contain original content',
+  );
+  t.true(
+    task1?.content?.includes('## ⛓️ Blocked By') ?? false,
+    'First task should have Blocked By section',
+  );
+  t.true(
+    task2?.content?.includes('Content 2') ?? false,
+    'Second task should contain original content',
+  );
+  t.true(
+    task2?.content?.includes('## ⛓️ Blocked By') ?? false,
+    'Second task should have Blocked By section',
+  );
+  t.true(
+    task3?.content?.includes('Content 3') ?? false,
+    'Third task should contain original content',
+  );
+  t.true(
+    task3?.content?.includes('## ⛓️ Blocked By') ?? false,
+    'Third task should have Blocked By section',
+  );
 });
 
 test('bulk import with different columns allows same titles', async (t) => {
@@ -96,7 +118,29 @@ test('bulk import with different columns allows same titles', async (t) => {
   const readyTask = createdTasks.find((t) => t.status === 'ready');
   const inProgressTask = createdTasks.find((t) => t.status === 'in-progress');
 
-  t.is(todoTask?.content, 'Todo content');
-  t.is(readyTask?.content, 'Ready content');
-  t.is(inProgressTask?.content, 'In-progress content');
+  // All tasks should have formatted content with sections
+  t.true(
+    todoTask?.content?.includes('Todo content') ?? false,
+    'Todo task should contain original content',
+  );
+  t.true(
+    todoTask?.content?.includes('## ⛓️ Blocked By') ?? false,
+    'Todo task should have Blocked By section',
+  );
+  t.true(
+    readyTask?.content?.includes('Ready content') ?? false,
+    'Ready task should contain original content',
+  );
+  t.true(
+    readyTask?.content?.includes('## ⛓️ Blocked By') ?? false,
+    'Ready task should have Blocked By section',
+  );
+  t.true(
+    inProgressTask?.content?.includes('In-progress content') ?? false,
+    'In-progress task should contain original content',
+  );
+  t.true(
+    inProgressTask?.content?.includes('## ⛓️ Blocked By') ?? false,
+    'In-progress task should have Blocked By section',
+  );
 });

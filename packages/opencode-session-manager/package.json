@@ -1,0 +1,46 @@
+{
+  "name": "@promethean/opencode-session-manager",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "main": "public/js/main.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./public/js/main.js",
+      "require": "./public/js/main.js"
+    },
+    "./public/*": "./public/*",
+    "./*": "./public/*"
+  },
+  "files": [
+    "public",
+    "dist"
+  ],
+  "scripts": {
+    "build": "shadow-cljs release app",
+    "clean": "rimraf public/js dist",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "pnpm run build && ava --config ../../config/ava.config.mjs",
+    "lint": "pnpm exec eslint .",
+    "coverage": "pnpm run build && c8 ava --config ../../config/ava.config.mjs",
+    "dev": "shadow-cljs watch app",
+    "server": "shadow-cljs server",
+    "repl": "shadow-cljs cljs-repl app",
+    "start": "node public/health.js",
+    "start:dev": "concurrently \"npm run dev\" \"npm run start\"",
+    "format": "pnpm exec prettier --write ."
+  },
+  "module": "public/js/main.js",
+  "dependencies": {
+    "@promethean/ds": "workspace:*",
+    "@promethean/utils": "workspace:*"
+  },
+  "devDependencies": {
+    "@promethean/test-utils": "workspace:*",
+    "shadow-cljs": "^2.28.17",
+    "rimraf": "^5.0.5",
+    "concurrently": "^8.2.2"
+  }
+}

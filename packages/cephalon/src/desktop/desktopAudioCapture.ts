@@ -66,7 +66,7 @@ export async function captureAudio({
 
   const { stdout } = await ffmpeg;
   const waveBuffer = Buffer.from(stdout);
-  const audioData = await decode(waveBuffer);
+  const audioData = await decode(waveBuffer.buffer.slice(waveBuffer.byteOffset, waveBuffer.byteOffset + waveBuffer.byteLength));
 
   const channelData = audioData.channelData[0];
   if (!channelData) throw new Error("No audio channel");

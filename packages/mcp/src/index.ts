@@ -389,10 +389,9 @@ export const main = async (): Promise<void> => {
     (ctx as any).__allEndpoints = httpConfig.endpoints;
     (ctx as any).__allToolIds = Array.from(toolCatalog.keys());
     const registryDescriptors: HttpEndpointDescriptor[] = httpConfig.endpoints.map((endpoint) => {
-      const factories = selectFactories(
-        ensureMetaTools(endpoint.tools, endpoint.includeHelp !== false),
-      );
-      const registry = buildRegistry(factories, ctx);
+      const toolIds = ensureMetaTools(endpoint.tools, endpoint.includeHelp !== false);
+      const factories = selectFactories(toolIds);
+      const registry = buildRegistry(factories, ctx, toolIds);
       const tools = registry.list();
       ctx.__registryList = () => registry.list();
       ctx.__endpointDef = endpoint;
@@ -476,7 +475,7 @@ export const main = async (): Promise<void> => {
 
   const toolIds = ensureMetaTools(resolveStdioTools(cfg), (cfg as any).includeHelp !== false);
   const factories = selectFactories(toolIds);
-  const registry = buildRegistry(factories, ctx);
+  const registry = buildRegistry(factories, ctx, toolIds);
   ctx.__registryList = () => registry.list();
   ctx.__endpointDef = {
     path: '/mcp',

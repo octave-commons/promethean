@@ -58,8 +58,11 @@ const ensureStore = (name: string): FakeStore => {
   return store;
 };
 
-const norm = (vec: EmbeddingLike) =>
-  Math.sqrt(vec.reduce((sum, v) => sum + v * v, 0));
+const norm = (vec: EmbeddingLike): number => {
+  if (vec.length === 0) return 0;
+  const sum = vec.reduce((sum, v) => sum + v * v, 0);
+  return Math.sqrt(sum);
+};
 
 const cosineDistance = (a: EmbeddingLike, b: EmbeddingLike) => {
   const na = norm(a);
@@ -77,10 +80,11 @@ const fakeEmbedding = (text: string): number[] => {
   for (let i = 0; i < text.length; i++) {
     const code = text.charCodeAt(i);
     const idx = i % dims;
-    out[idx] += (code % 97) / 97;
+    const currentValue = out[idx] ?? 0;
+    out[idx] = currentValue + (code % 97) / 97;
   }
-  const n = norm(out);
-  if (n === 0) return out;
+  const n: number = norm(out);
+  if (n === 0 || isNaN(n)) return out;
   return out.map((v) => v / n);
 };
 

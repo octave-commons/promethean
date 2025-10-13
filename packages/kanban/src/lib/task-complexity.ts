@@ -54,6 +54,40 @@ const ensureLabels = (value: unknown): string[] | undefined => {
 
 const slugFromFileName = (fileName: string): string => fileName.replace(/\.(md|json)$/i, '');
 
+const extractFallbackTaskInfo = (filePath: string, raw: string): Task | null => {
+  const fileName = path.basename(filePath);
+  const slug = slugFromFileName(fileName);
+
+  // Try to extract UUID from malformed frontmatter using regex
+  const uuidMatch = raw.match(/uuid:\s*([^\s\n]+)/i);
+  const uuid = uuidMatch ? ensureString(uuidMatch[1]) : slug;
+
+  if (!uuid) {
+    return null;
+  }
+
+  // Try to extract title from malformed frontmatter
+  const titleMatch = raw.match(/title:\s*["']?([^"'\n]+)/i);
+  const title = titleMatch ? ensureString(titleMatch[1]) : slug;
+
+  // Try to extract status
+  const statusMatch = raw.match(/status:\s*([^\s\n]+)/i);
+  const status = statusMatch ? ensureString(statusMatch[1]) : 'todo';
+
+  // Extract content after frontmatter
+  const contentMatch = raw.match(/^---[\s\S]*?---\s*([\s\S]*)$/);
+  const content = contentMatch?.[1]?.trim() ?? raw.replace(/^---[\s\S]*?---\s*/, '').trim();
+
+  return {
+    uuid,
+    title: title ?? slug,
+    status: status ?? 'todo',
+    content,
+    slug,
+    sourcePath: filePath,
+  };
+};
+
 const readTasksFromDirectory = async (dir: string): Promise<Task[]> => {
   let entries: string[] = [];
   try {
@@ -172,6 +206,19 @@ const readTasksFromDirectory = async (dir: string): Promise<Task[]> => {
         filePath,
         ...toErrorFields(error),
       });
+
+      // Try to extract basic information from malformed frontmatter
+      try {
+        const fallback = extractFallbackTaskInfo(filePath, raw);
+        if (fallback) {
+          tasks.push(fallback);
+        }
+      } catch (fallbackError) {
+        logger.error(`Failed to extract fallback info for ${filePath}`, {
+          filePath,
+          ...toErrorFields(fallbackError),
+        });
+      }
     }
   }
 

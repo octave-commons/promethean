@@ -3,6 +3,36 @@
 import { loadBoard } from '@promethean/kanban';
 import type { Task, Board } from '@promethean/kanban';
 
+type GraphQLResponse<T = unknown> = {
+  data?: T;
+  errors?: Array<{ message: string }>;
+};
+
+type GitHubProject = {
+  id: string;
+  title: string;
+  url: string;
+  number: number;
+  columns?: {
+    id: string;
+    options: Array<{ id: string; name: string }>;
+  };
+};
+
+type RepositoryData = {
+  repository: {
+    projectsV2: {
+      nodes: GitHubProject[];
+    };
+  };
+};
+
+type CreateProjectData = {
+  createProjectV2: {
+    projectV2: GitHubProject;
+  };
+};
+
 // GitHub API configuration
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 const GITHUB_OWNER = process.env.GITHUB_OWNER || 'promethean-systems';
@@ -36,7 +66,10 @@ class GitHubSync {
     lastApiCall = Date.now();
   }
 
-  private async graphqlRequest(query: string, variables: any = {}) {
+  private async graphqlRequest<T = unknown>(
+    query: string,
+    variables: Record<string, unknown> = {},
+  ): Promise<T> {
     await this.rateLimitDelay();
 
     const response = await fetch('https://api.github.com/graphql', {
@@ -52,15 +85,15 @@ class GitHubSync {
       throw new Error(`GraphQL request failed: ${response.statusText}`);
     }
 
-    const data = await response.json();
-    if (data.errors) {
-      throw new Error(`GraphQL error: ${data.errors[0].message}`);
+    const result: GraphQLResponse<T> = await response.json();
+    if (result.errors) {
+      throw new Error(`GraphQL error: ${result.errors[0]?.message}`);
     }
 
-    return data.data;
+    return result.data as T;
   }
 
-  async findProjectByName(name: string) {
+  async findProjectByName(name: string): Promise<GitHubProject | undefined> {
     const query = `
       query {
         repository(owner: "${GITHUB_OWNER}", name: "${GITHUB_REPO}") {
@@ -85,12 +118,12 @@ class GitHubSync {
       }
     `;
 
-    const data = await this.graphqlRequest(query);
+    const data = await this.graphqlRequest<RepositoryData>(query);
     const projects = data.repository.projectsV2.nodes;
-    return projects.find((p: any) => p.title === name);
+    return projects.find((p) => p.title === name);
   }
 
-  async createProject(name: string) {
+  async createProject(name: string): Promise<GitHubProject> {
     const mutation = `
       mutation($name: String!, $repositoryId: ID!) {
         createProjectV2(input: {
@@ -108,11 +141,11 @@ class GitHubSync {
       }
     `;
 
-    const data = await this.graphqlRequest(mutation, { name });
+    const data = await this.graphqlRequest<CreateProjectData>(mutation, { name });
     return data.createProjectV2.projectV2;
   }
 
-  async ensureProject(name: string) {
+  async ensureProject(name: string): Promise<GitHubProject> {
     let project = await this.findProjectByName(name);
 
     if (!project) {
@@ -125,7 +158,7 @@ class GitHubSync {
     return project;
   }
 
-  async syncProjectBoard(boardName: string = 'generated') {
+  async syncProjectBoard(boardName: string = 'generated'): Promise<GitHubProject> {
     console.log(`Syncing project board: ${boardName}`);
 
     // Ensure project exists
@@ -139,7 +172,7 @@ class GitHubSync {
     // Sync columns with project
     const statusFieldId = project.columns?.id;
     if (statusFieldId) {
-      await this.syncColumns(project.id, board.columns, statusFieldId);
+      this.syncColumns(project.id, board.columns, statusFieldId);
     }
 
     // Extract and sync tasks
@@ -149,7 +182,7 @@ class GitHubSync {
       totalTasks += column.count;
 
       for (const task of column.tasks) {
-        await this.syncTask(project.id, task, statusFieldId, column.name);
+        this.syncTask(project.id, task, statusFieldId || '', column.name);
       }
     }
 
@@ -161,11 +194,11 @@ class GitHubSync {
     return project;
   }
 
-  private async syncColumns(
+  private syncColumns(
     projectId: string,
     boardColumns: Board['columns'],
     statusFieldId: string,
-  ) {
+  ): void {
     // This is a simplified version - in practice, you'd need to manage field options
     console.log(`Syncing ${boardColumns.length} columns with project ${projectId}`);
     console.log(`Using status field: ${statusFieldId}`);
@@ -174,12 +207,12 @@ class GitHubSync {
     }
   }
 
-  private async syncTask(
+  private syncTask(
     projectId: string,
     task: Task,
     _statusFieldId: string,
     columnName: string,
-  ) {
+  ): void {
     // Use task.title from frontmatter if available, fallback to task metadata
     const taskTitle = task.title || task.slug || `Task ${task.uuid}`;
 
@@ -210,4 +243,4 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     });
 }
 
-export default GitHubSync;
+export { GitHubSync };

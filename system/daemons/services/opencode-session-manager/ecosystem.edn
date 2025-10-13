@@ -1,0 +1,39 @@
+{
+  :apps [
+    {
+      :name "opencode-session-manager"
+      :script "public/js/main.js"
+      :script_type "node"
+      :args []
+      :exec_mode "fork"
+      :out_file "./logs/opencode-session-manager-out.log"
+      :error_file "./logs/opencode-session-manager-err.log"
+      :merge_logs true
+      :instances 1
+      :autorestart true
+      :restart_delay 10000
+      :kill_timeout 10000
+      :env {
+        :PM2_PROCESS_NAME "opencode-session-manager"
+        :HEARTBEAT_PORT "5007"
+        :PORT "8084"
+        :HOST "0.0.0.0"
+        :NODE_ENV "development"
+        :CHECK_INTERVAL "300000"
+        :HEARTBEAT_TIMEOUT "600000"
+      }
+      :cwd "./packages/opencode-session-manager"
+      :watch [
+        "src"
+        "public"
+      ]
+      :ignore_watch [
+        "node_modules"
+        "logs"
+        "tmp"
+        ".git"
+        "dist"
+      ]
+    }
+  ]
+}
