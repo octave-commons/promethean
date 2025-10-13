@@ -1,8 +1,8 @@
 import path from 'node:path';
 import { mkdir, writeFile, readdir } from 'node:fs/promises';
 import test from 'ava';
-import { createTask, loadBoard } from '../lib/kanban.js';
-import { withTempDir, makeBoard } from '../test-utils/helpers.js';
+import { createTask, loadBoard } from '../../src/lib/kanban.js';
+import { withTempDir, makeBoard } from '../../src/test-utils/helpers.js';
 test('createTask is idempotent - same title returns existing task', async (t) => {
     const tempDir = await withTempDir(t);
     const boardPath = path.join(tempDir, 'board.md');

@@ -721,11 +721,15 @@ export const updateStatus = async (board, uuid, newStatus, boardPath, tasksDir, 
                 const existingFileContent = await fs.readFile(taskFilePath, 'utf8');
                 const parsed = parseMarkdownFrontmatter(existingFileContent);
                 const existingContent = parsed.content ?? '';
-                // Write updated task file with new status
+                const existingCreatedAt = parsed.data?.created_at;
+                // Preserve original created_at timestamp if it exists
+                const preservedCreatedAt = existingCreatedAt || found.created_at;
+                // Write updated task file with new status and preserved timestamp
                 const updatedContent = toFrontmatter({
                     ...found,
                     status: normalizedStatus,
                     content: existingContent,
+                    created_at: preservedCreatedAt,
                 });
                 await fs.writeFile(taskFilePath, updatedContent, 'utf8');
             }
@@ -980,11 +984,13 @@ export const pushToTasks = async (board, tasksDir) => {
             const previousPath = previous?.sourcePath;
             // Preserve existing task content if available
             let existingContent = '';
+            let existingCreatedAt = '';
             if (previous && previousPath) {
                 try {
                     const existingFileContent = await fs.readFile(previousPath, 'utf8');
                     const parsed = parseMarkdownFrontmatter(existingFileContent);
                     existingContent = parsed.content ?? '';
+                    existingCreatedAt = parsed.data?.created_at ?? '';
                 }
                 catch (error) {
                     // If we can't read the existing file, continue with empty content
@@ -993,7 +999,14 @@ export const pushToTasks = async (board, tasksDir) => {
             }
             // Use task's own content, falling back to existing content for backwards compatibility
             const finalContent = task.content || existingContent;
-            const content = toFrontmatter({ ...task, status: col.name, content: finalContent });
+            // Preserve original created_at timestamp if it exists, otherwise use task's timestamp
+            const preservedCreatedAt = existingCreatedAt || task.created_at;
+            const content = toFrontmatter({
+                ...task,
+                status: col.name,
+                content: finalContent,
+                created_at: preservedCreatedAt,
+            });
             await fs.writeFile(targetPath, content, 'utf8');
             if (!previous) {
                 added += 1;

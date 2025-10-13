@@ -85,6 +85,8 @@ This is the rewritten content with improved clarity, structure, and completeness
     };
 };
 export class TaskAIManager {
+    config;
+    contentManager;
     constructor(config = {}) {
         this.config = {
             model: config.model || 'qwen3:8b',

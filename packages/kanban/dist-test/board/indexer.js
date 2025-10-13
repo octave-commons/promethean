@@ -40,6 +40,9 @@ const normalizeTask = (data, filePath, repoRoot, content) => {
     const labels = toLabelArray(data.labels);
     const created = toTrimmedString(rawCreated);
     const updated = toOptionalString(data.updated);
+    // Extract estimates if present
+    const estimates = data.estimates;
+    const normalizedEstimates = estimates && typeof estimates === 'object' ? estimates : undefined;
     const rel = path.relative(repoRoot, filePath);
     const base = Object.freeze({
         id,
@@ -51,6 +54,7 @@ const normalizeTask = (data, filePath, repoRoot, content) => {
         created,
         uuid: toOptionalString(data.uuid),
         created_at: toOptionalString(data.created_at),
+        estimates: normalizedEstimates,
     });
     const fm = typeof updated === 'string' ? Object.freeze({ ...base, updated }) : base;
     return Object.freeze({ ...fm, path: rel, content });

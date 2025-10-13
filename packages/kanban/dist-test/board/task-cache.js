@@ -14,6 +14,9 @@ const CacheKeys = {
  * Level-cache based TaskCache implementation
  */
 export class LevelTaskCache {
+    tasksCache;
+    indexesCache;
+    metaCache;
     constructor(tasksCache, indexesCache, metaCache) {
         this.tasksCache = tasksCache;
         this.indexesCache = indexesCache;

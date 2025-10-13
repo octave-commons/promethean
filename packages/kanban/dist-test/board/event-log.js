@@ -2,6 +2,7 @@ import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { randomUUID } from 'node:crypto';
 export class EventLogManager {
+    logPath;
     constructor(config) {
         this.logPath = path.join(config.cachePath || 'docs/agile/boards/.cache', 'event-log.jsonl');
     }

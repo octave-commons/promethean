@@ -5,6 +5,7 @@ import { parseTaskContent, validateTaskContent, analyzeTaskContent } from './par
 import { updateTaskSection, getTaskSections } from './editor.js';
 import { TaskLifecycleManager } from './lifecycle.js';
 export class FileBasedTaskCache {
+    tasksDir;
     constructor(tasksDir) {
         this.tasksDir = tasksDir;
     }
@@ -97,6 +98,7 @@ export class FileBasedTaskCache {
  * High-level task content management operations
  */
 export class TaskContentManager {
+    cache;
     constructor(cache) {
         this.cache = cache;
     }
