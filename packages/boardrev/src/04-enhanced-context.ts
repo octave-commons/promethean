@@ -1,4 +1,5 @@
 import * as path from "path";
+import { fileURLToPath } from "url";
 import { exec } from "child_process";
 import { promisify } from "util";
 import { promises as fs } from "fs";
@@ -374,7 +375,24 @@ export async function matchEnhancedContext({
       scored.unshift(buildTestHit);
     }
 
-    outData.push({ taskFile: f.replace(/\\/g, "/"), hits: scored, links });
+    // Read task file to get task metadata
+    const taskContent = await readMaybe(f);
+    let task: TaskFM & { content?: string; tags?: string[] } | undefined;
+    if (taskContent) {
+      const parsed = matter(taskContent);
+      task = {
+        ...parsed.data as TaskFM,
+        content: parsed.content,
+        tags: parsed.data.labels as string[] || parsed.data.tags as string[] || [],
+      };
+    }
+    
+    outData.push({ 
+      taskFile: f.replace(/\/g, "/"), 
+      hits: scored, 
+      links,
+      task: task || { uuid: '', title: '', status: '', priority: Priority.P3 }
+    });
   }
 
   // Write enhanced context data
@@ -392,7 +410,7 @@ export async function matchEnhancedContext({
   logger.info(`boardrev: enhanced context matched for ${outData.length} task(s)${runBuildTests ? ` with build/test results for ${buildTestResults.length} task(s)` : ''}`);
 }
 
-if (import.meta.main) {
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const args = parseArgs({
     "--tasks": "docs/agile/tasks",
     "--cache": ".cache/boardrev/repo-cache",

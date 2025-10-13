@@ -1,4 +1,5 @@
 import * as path from 'path';
+import { fileURLToPath } from 'url';
 
 import { slug, parseArgs, writeText, readMaybe, createLogger } from '@promethean/utils';
 import type { PromptChunk } from './types.js';
@@ -101,7 +102,7 @@ function defaultPrompts(): PromptChunk[] {
   ];
 }
 
-if (import.meta.main) {
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const args = parseArgs({
     '--process': 'docs/agile/process.md',
     '--out': '.cache/boardrev/prompts.json',

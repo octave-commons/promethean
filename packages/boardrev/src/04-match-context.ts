@@ -1,4 +1,5 @@
 import * as path from "path";
+import { fileURLToPath } from "url";
 import { promises as fs } from "fs";
 
 import matter from "gray-matter";
@@ -83,7 +84,7 @@ export async function matchContext({
   logger.info(`boardrev: matched context for ${outData.length} task(s)`);
 }
 
-if (import.meta.main) {
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const args = parseArgs({
     "--tasks": "docs/agile/tasks",
     "--cache": ".cache/boardrev/repo-cache",

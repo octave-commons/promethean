@@ -1,4 +1,5 @@
 import * as path from "path";
+import { fileURLToPath } from "url";
 
 import {
   readMaybe,
@@ -72,22 +73,4 @@ function inferTitle(body: string) {
   return m?.[1]?.trim();
 }
 
-if (import.meta.main) {
-  const args = parseArgs({
-    "--dir": "docs/agile/tasks",
-    "--default-priority": "P3",
-    "--default-status": "todo",
-  });
-  const dir = path.resolve(args["--dir"]);
-  const defaultPriority = args["--default-priority"] as Priority;
-  const defaultStatus = args["--default-status"];
-
-  ensureFM({ dir, defaultPriority, defaultStatus })
-    .then((updated) => {
-      logger.info(`boardrev: ensured front matter on ${updated} file(s)`);
-    })
-    .catch((err) => {
-      logger.error((err as Error).message);
-      throw err;
-    });
-}
+if (process.argv[1] === fileURLToPath(import.meta.url)

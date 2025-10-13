@@ -1,4 +1,5 @@
 import * as path from "path";
+import { fileURLToPath } from "url";
 import { promises as fs } from "fs";
 
 import matter from "gray-matter";
@@ -155,7 +156,7 @@ export async function report({
   await renderReport(groups, outDir);
 }
 
-if (import.meta.main) {
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const args = parseArgs({
     "--tasks": "docs/agile/tasks",
     "--evals": ".cache/boardrev/evals.json",

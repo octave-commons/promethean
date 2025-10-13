@@ -1,4 +1,5 @@
 import { exec } from 'child_process';
+import { fileURLToPath } from 'url';
 import { promisify } from 'util';
 import { createLogger, parseArgs, writeText } from '@promethean/utils';
 import { loadEvals } from './06-report.js';
@@ -283,7 +284,7 @@ export async function resolveWIPViolations({
   }
 }
 
-if (import.meta.main) {
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const args = parseArgs({
     '--evals-path': '.cache/boardrev/evals.json',
     '--report-path': 'docs/agile/reports/wip-resolution.md',

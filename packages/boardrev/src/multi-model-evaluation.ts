@@ -1,4 +1,5 @@
 import { ollamaJSON, createLogger, parseArgs } from '@promethean/utils';
+import { fileURLToPath } from 'url';
 import { z } from 'zod';
 
 import type { EvalItem, TaskContext } from './types.js';
@@ -461,7 +462,7 @@ export function consensusToEvalItem(consensus: ConsensusEvaluation): EvalItem {
   };
 }
 
-if (import.meta.main) {
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const args = parseArgs({
     '--task': '',
     '--models': DEFAULT_MODELS.join(','),
