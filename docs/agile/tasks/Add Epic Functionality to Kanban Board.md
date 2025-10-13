@@ -2,7 +2,7 @@
 uuid: "07bc6e1c-4f3f-49fe-8a21-088017cb17fa"
 title: "Add Epic Functionality to Kanban Board"
 slug: "Add Epic Functionality to Kanban Board"
-status: "accepted"
+status: "breakdown"
 priority: "P0"
 labels: ["[epic", "kanban", "feature", "implementation]"]
 created_at: "2025-10-13T06:02:36.868Z"
@@ -11,6 +11,7 @@ estimates:
   scale: ""
   time_to_completion: ""
 ---
+
 
 
 
@@ -36,6 +37,7 @@ Nothing
 ## ⛓️ Blocks
 
 Nothing
+
 
 
 

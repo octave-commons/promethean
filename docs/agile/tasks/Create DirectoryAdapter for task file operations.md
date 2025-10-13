@@ -2,7 +2,7 @@
 uuid: "d01ed682-a571-441b-a550-d1de3957c523"
 title: "Create DirectoryAdapter for task file operations"
 slug: "Create DirectoryAdapter for task file operations"
-status: "accepted"
+status: "breakdown"
 priority: "P0"
 labels: ["directoryadapter", "create", "file", "operations"]
 created_at: "2025-10-13T08:05:50.827Z"
@@ -11,6 +11,7 @@ estimates:
   scale: ""
   time_to_completion: ""
 ---
+
 
 
 
@@ -36,6 +37,7 @@ Nothing
 ## ⛓️ Blocks
 
 Nothing
+
 
 
 

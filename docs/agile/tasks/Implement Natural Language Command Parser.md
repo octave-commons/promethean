@@ -2,7 +2,7 @@
 uuid: "52c48585-42e1-47ce-bc2c-c46686c1ca53"
 title: "Implement Natural Language Command Parser"
 slug: "Implement Natural Language Command Parser"
-status: "accepted"
+status: "breakdown"
 priority: "P0"
 labels: ["agent-os", "nlp", "parser", "commands", "natural-language", "critical"]
 created_at: "2025-10-13T18:49:10.684Z"
@@ -11,6 +11,7 @@ estimates:
   scale: ""
   time_to_completion: ""
 ---
+
 
 
 
@@ -30,6 +31,7 @@ Nothing
 ## ⛓️ Blocks
 
 Nothing
+
 
 
 

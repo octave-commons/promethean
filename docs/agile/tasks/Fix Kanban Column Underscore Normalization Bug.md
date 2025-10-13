@@ -1,29 +1,16 @@
 ---
-uuid: "02c78938-cf9c-45a0-b5ff-6e7a212fb043"
-title: "Fix Kanban Column Underscore Normalization Bug"
-slug: "Fix Kanban Column Underscore Normalization Bug"
-status: "incoming"
-priority: "P0"
-labels: ["kanban", "column", "bug", "fix"]
-created_at: "Sun Oct 12 2025 18:59:36 GMT-0500 (Central Daylight Time)"
+uuid: '02c78938-cf9c-45a0-b5ff-6e7a212fb043'
+title: 'Fix Kanban Column Underscore Normalization Bug'
+slug: 'Fix Kanban Column Underscore Normalization Bug'
+status: 'breakdown'
+priority: 'P0'
+labels: ['kanban', 'column', 'bug', 'fix']
+created_at: 'Sun Oct 12 2025 18:59:36 GMT-0500 (Central Daylight Time)'
 estimates:
-  complexity: ""
-  scale: ""
-  time_to_completion: ""
+  complexity: 3
+  scale: ''
+  time_to_completion: ''
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # Fix Kanban Column Underscore Normalization Bug
 
@@ -46,16 +33,3 @@ Critical bug in kanban column normalization where underscores in column names ar
 
 - High priority - affects core kanban functionality
 - Blocks other kanban-related work
-
-
-
-
-
-
-
-
-
-
-
-
-
