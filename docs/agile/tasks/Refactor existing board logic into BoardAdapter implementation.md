@@ -2,7 +2,7 @@
 uuid: "1c88185e-9bfb-42d0-9388-3ac4bf688960"
 title: "Refactor existing board logic into BoardAdapter implementation"
 slug: "Refactor existing board logic into BoardAdapter implementation"
-status: "breakdown"
+status: "ready"
 priority: "P0"
 labels: ["board", "logic", "boardadapter", "existing"]
 created_at: "2025-10-13T08:05:36.050Z"
@@ -12,48 +12,94 @@ estimates:
   time_to_completion: ""
 ---
 
+## 🔄 Critical: Refactor Board Logic into BoardAdapter
 
+### Problem Summary
 
+Current kanban board logic is tightly coupled in kanban.ts and needs to be extracted into a dedicated BoardAdapter class following the new adapter architecture.
 
+### Technical Details
 
+- **Component**: Kanban Adapter System
+- **Feature Type**: Refactoring
+- **Impact**: Critical for adapter architecture completion
+- **Priority**: P0 (Required for clean architecture)
 
+### Requirements
 
+1. Create BoardAdapter class extending BaseAdapter
+2. Move existing board read/write logic from kanban.ts to board-adapter.ts
+3. Implement all required KanbanAdapter interface methods:
 
+   - readTasks(): Parse markdown board file and extract tasks
+   - writeTasks(): Generate markdown board from task array
+   - detectChanges(): Compare board state with other adapter tasks
+   - applyChanges(): Apply sync changes to board file
+   - validateLocation(): Check if board file exists and is readable
+   - initialize(): Create board file if it doesn't exist
 
+4. Handle board-specific formatting and frontmatter
+5. Maintain backward compatibility with existing board format
+6. Add proper error handling for file operations
 
+### Breakdown Tasks
 
+#### Phase 1: Analysis (1 hour)
 
+- [ ] Analyze existing board logic in kanban.ts
+- [ ] Identify all board-related functions
+- [ ] Plan extraction strategy
+- [ ] Identify dependencies and coupling points
 
+#### Phase 2: Refactoring (3 hours)
 
+- [ ] Create BoardAdapter class structure
+- [ ] Move board reading logic
+- [ ] Move board writing logic
+- [ ] Implement remaining adapter methods
+- [ ] Add error handling and validation
+- [ ] Maintain backward compatibility
 
+#### Phase 3: Testing (2 hours)
 
+- [ ] Create unit tests for BoardAdapter
+- [ ] Test board parsing and generation
+- [ ] Test with existing board files
+- [ ] Validate backward compatibility
 
+#### Phase 4: Integration (1 hour)
 
-## Task: Refactor existing board logic into BoardAdapter implementation\n\n### Description\nExtract the current markdown board file handling logic into a dedicated BoardAdapter class that implements the KanbanAdapter interface.\n\n### Requirements\n1. Create BoardAdapter class extending BaseAdapter\n2. Move existing board read/write logic from kanban.ts to board-adapter.ts\n3. Implement all required KanbanAdapter interface methods:\n   - readTasks(): Parse markdown board file and extract tasks\n   - writeTasks(): Generate markdown board from task array\n   - detectChanges(): Compare board state with other adapter tasks\n   - applyChanges(): Apply sync changes to board file\n   - validateLocation(): Check if board file exists and is readable\n   - initialize(): Create board file if it doesn't exist\n\n4. Handle board-specific formatting and frontmatter\n5. Maintain backward compatibility with existing board format\n6. Add proper error handling for file operations\n\n### Acceptance Criteria\n- BoardAdapter implemented in packages/kanban/src/adapters/board-adapter.ts\n- All existing board logic successfully moved from kanban.ts\n- BoardAdapter implements KanbanAdapter interface completely\n- Existing board files continue to work without changes\n- Unit tests for board parsing and generation\n- Integration tests with existing board files\n\n### Dependencies\n- Task 1: Abstract KanbanAdapter interface and base class\n\n### Priority\nP0 - Required for CLI integration
+- [ ] Update kanban.ts to use BoardAdapter
+- [ ] Test integration with CLI
+- [ ] Update documentation
+- [ ] Performance validation
+
+### Acceptance Criteria
+
+- [ ] BoardAdapter implemented in packages/kanban/src/adapters/board-adapter.ts
+- [ ] All existing board logic successfully moved from kanban.ts
+- [ ] BoardAdapter implements KanbanAdapter interface completely
+- [ ] Existing board files continue to work without changes
+- [ ] Unit tests for board parsing and generation
+- [ ] Integration tests with existing board files
+
+### Dependencies
+
+- Task 1: Abstract KanbanAdapter interface and base class
+
+### Definition of Done
+
+- Board logic completely extracted to BoardAdapter
+- All adapter methods implemented correctly
+- Backward compatibility maintained
+- Comprehensive test coverage
+- Integration with kanban system complete
+- Documentation updated\n\n### Description\nExtract the current markdown board file handling logic into a dedicated BoardAdapter class that implements the KanbanAdapter interface.\n\n### Requirements\n1. Create BoardAdapter class extending BaseAdapter\n2. Move existing board read/write logic from kanban.ts to board-adapter.ts\n3. Implement all required KanbanAdapter interface methods:\n - readTasks(): Parse markdown board file and extract tasks\n - writeTasks(): Generate markdown board from task array\n - detectChanges(): Compare board state with other adapter tasks\n - applyChanges(): Apply sync changes to board file\n - validateLocation(): Check if board file exists and is readable\n - initialize(): Create board file if it doesn't exist\n\n4. Handle board-specific formatting and frontmatter\n5. Maintain backward compatibility with existing board format\n6. Add proper error handling for file operations\n\n### Acceptance Criteria\n- BoardAdapter implemented in packages/kanban/src/adapters/board-adapter.ts\n- All existing board logic successfully moved from kanban.ts\n- BoardAdapter implements KanbanAdapter interface completely\n- Existing board files continue to work without changes\n- Unit tests for board parsing and generation\n- Integration tests with existing board files\n\n### Dependencies\n- Task 1: Abstract KanbanAdapter interface and base class\n\n### Priority\nP0 - Required for CLI integration
 
 ## ⛓️ Blocked By
 
 Nothing
 
-
-
 ## ⛓️ Blocks
 
 Nothing
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

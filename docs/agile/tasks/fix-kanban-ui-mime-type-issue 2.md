@@ -11,7 +11,3 @@ estimates:
   scale: ""
   time_to_completion: ""
 ---
-
-
-
-

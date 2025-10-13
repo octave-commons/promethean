@@ -12,9 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
 ## Context
 
 The kanban currently uses a `label` field to categorize tasks. This works in the context of our use
@@ -40,6 +37,3 @@ knowledge graph visualizer.
 ## Acceptance Criteria
 
 ...
-
-
-

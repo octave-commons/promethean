@@ -12,22 +12,6 @@ estimates:
   time_to_completion: ""
 ---
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 Design and implement a comprehensive CLI interface for the file-indexer package with multiple subcommands for different operations like indexing, searching, cache management, and configuration.
 
 ## ⛓️ Blocked By
@@ -39,19 +23,3 @@ Nothing
 ## ⛓️ Blocks
 
 Nothing
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
