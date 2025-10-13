@@ -89,6 +89,10 @@ const FRONTEND_ASSETS: ReadonlyMap<string, FrontendAsset> = new Map([
     '/assets/styles.js',
     createAssetDescriptor('../frontend/styles.js', 'application/javascript; charset=utf-8'),
   ],
+  [
+    '/assets/virtual-scroll.js',
+    createAssetDescriptor('../frontend/virtual-scroll.js', 'application/javascript; charset=utf-8'),
+  ],
 ]);
 
 const MAX_BODY_SIZE = 128 * 1024;

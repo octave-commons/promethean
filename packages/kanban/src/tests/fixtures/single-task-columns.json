@@ -1,0 +1,43 @@
+{
+  "name": "Single Task Columns Board",
+  "columns": [
+    {
+      "name": "Backlog",
+      "count": 1,
+      "limit": null,
+      "tasks": [
+        {
+          "uuid": "backlog-1",
+          "title": "Research new technologies",
+          "status": "Backlog",
+          "priority": "P3",
+          "labels": ["research"],
+          "created_at": "2025-01-01T10:00:00.000Z",
+          "content": "Investigate emerging technologies for next quarter."
+        }
+      ]
+    },
+    {
+      "name": "Empty Column",
+      "count": 0,
+      "limit": 5,
+      "tasks": []
+    },
+    {
+      "name": "Blocked",
+      "count": 1,
+      "limit": 2,
+      "tasks": [
+        {
+          "uuid": "blocked-1",
+          "title": "Waiting for external API",
+          "status": "Blocked",
+          "priority": "P1",
+          "labels": ["blocked", "external"],
+          "created_at": "2025-01-01T11:00:00.000Z",
+          "content": "Dependent on third-party API release."
+        }
+      ]
+    }
+  ]
+}

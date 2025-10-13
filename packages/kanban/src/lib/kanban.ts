@@ -398,7 +398,7 @@ const taskFromFM = (fm: FM, body: string): Task | null => {
     status: pickString(fm, ['status', 'state', 'column']) ?? String(fm.status ?? 'Todo'),
     priority: typeof fm.priority === 'number' ? fm.priority : pickString(fm, ['priority', 'prio']),
     labels: mergeLabels(fm.tags, fm.hashtags, fm.labels), // Prioritize tags over labels for Obsidian compatibility
-    created_at: pickString(fm, ['created_at', 'created', 'txn']) ?? fm.created_at ?? NOW_ISO(),
+    created_at: fm.created_at ?? pickString(fm, ['created_at', 'created', 'txn']) ?? NOW_ISO(),
     estimates: fm.estimates ?? {},
     content: (body ?? '').trim() || undefined,
     slug: slugValue ? sanitizeFileNameBase(slugValue) : undefined,
@@ -851,7 +851,8 @@ export const updateStatus = async (
         const existingCreatedAt = parsed.data?.created_at;
 
         // Preserve original created_at timestamp if it exists
-        const preservedCreatedAt = existingCreatedAt || found.created_at;
+        // Prefer file timestamp over board timestamp to maintain data integrity
+        const preservedCreatedAt = existingCreatedAt || found.created_at || NOW_ISO();
 
         // Write updated task file with new status and preserved timestamp
         const updatedContent = toFrontmatter({
@@ -975,7 +976,7 @@ const fallbackTaskFromRaw = (filePath: string, raw: string): Task | null => {
     status,
     priority,
     labels,
-    created_at: getValue('created_at') ?? NOW_ISO(),
+    created_at: getValue('created_at'),
     estimates: {},
     content: bodyContent.trim(),
   };
@@ -1006,7 +1007,7 @@ const toFrontmatter = (t: Task): string => {
       typeof t.priority === 'number' ? String(t.priority) : t.priority,
     )}`,
     `labels: ${formatLabels(t.labels)}`,
-    `created_at: ${quoteYamlString(t.created_at ?? NOW_ISO())}`,
+    `created_at: ${quoteYamlString(t.created_at)}`,
     'estimates:',
     `  complexity: ${formatScalar(est.complexity)}`,
     `  scale: ${formatScalar(est.scale)}`,
@@ -1267,7 +1268,8 @@ export const pushToTasks = async (
       }
 
       // Preserve original created_at timestamp if it exists, otherwise use task's timestamp
-      const preservedCreatedAt = existingCreatedAt || task.created_at;
+      // Ensure we always have a timestamp to prevent data loss
+      const preservedCreatedAt = existingCreatedAt || task.created_at || NOW_ISO();
 
       const content = toFrontmatter({
         ...task,
@@ -2163,6 +2165,8 @@ export const rewriteTask = async (
     return undefined;
   }
 };
+
+export { toFrontmatter, serializeBoard };
 
 export const breakdownTask = async (
   board: Board,
