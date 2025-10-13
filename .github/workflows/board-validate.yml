@@ -4,24 +4,25 @@ permissions:
 on:
   pull_request:
     paths:
-      - "docs/agile/boards/**"
-      - "packages/kanban/**"
-      - ".github/workflows/board-validate.yml"
+      - 'docs/agile/boards/**'
+      - 'packages/kanban/**'
+      - '.github/workflows/board-validate.yml'
   push:
     paths:
-      - "docs/agile/boards/**"
-      - "packages/kanban/**"
-      - ".github/workflows/board-validate.yml"
+      - 'docs/agile/boards/**'
+      - 'packages/kanban/**'
+      - '.github/workflows/board-validate.yml'
 jobs:
   validate:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: "pnpm"
+          cache: 'pnpm'
       - run: pnpm install --frozen-lockfile=false
       - run: pnpm --filter ./packages/kanban build
       - run: node packages/kanban/dist/board/lints.js

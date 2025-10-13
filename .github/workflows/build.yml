@@ -6,14 +6,44 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
         with: { fetch-depth: 0 }
       - name: Trust workspace ownership for Git
         run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}-${{ hashFiles('**/package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}-
+            ${{ runner.os }}-pnpm-store-
+
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with: { node-version: 20, cache: pnpm }
+
+      - name: Cache Clojure dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.m2/repository
+            ~/.gitlibs
+            ~/.clojure
+            ~/.cpcache
+          key: cljdeps-${{ runner.os }}-${{ hashFiles('**/deps.edn', '**/bb.edn') }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            cljdeps-${{ runner.os }}-${{ hashFiles('**/deps.edn', '**/bb.edn') }}-
+            cljdeps-${{ runner.os }}-
+
       - name: Install Clojure toolchain
         run: bash run/install-clojure.sh
       - name: Install deps
