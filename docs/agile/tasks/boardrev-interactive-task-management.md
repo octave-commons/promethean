@@ -1,5 +1,5 @@
 ---
-uuid: "(uuidgen)"
+uuid: "f80c21d2-c77c-45e3-952d-e9f439785924"
 title: "Add interactive task management and auto-updates to boardrev"
 slug: "boardrev-interactive-task-management"
 status: "icebox"
@@ -11,6 +11,25 @@ estimates:
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Add interactive task management and auto-updates to boardrev
 
@@ -55,3 +74,22 @@ Should include safety mechanisms to prevent unwanted automatic changes. All upda
         status.prompt ;; ## Review the task requirements for completion, marking them off as you go. if one is missing, stop and update the task, and bounce this card back via a valid transition
         task.body))))
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

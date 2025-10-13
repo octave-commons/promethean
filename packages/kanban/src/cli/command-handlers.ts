@@ -261,6 +261,16 @@ const handlePull: CommandHandler = (_args, context) =>
   withBoard(context, async (board) => {
     const mutableBoard = board as unknown as LoadedBoard;
     const result = await pullFromTasks(mutableBoard, context.tasksDir, context.boardFile);
+
+    // Enhanced logging for pull operation
+    if (result.moved > 0) {
+      console.log(
+        `📝 Pull completed: ${result.added} added, ${result.moved} status changes from files`,
+      );
+    } else {
+      console.log(`📋 Pull completed: ${result.added} added, ${result.moved} moved`);
+    }
+
     return result;
   });
 
@@ -268,6 +278,16 @@ const handlePush: CommandHandler = (_args, context) =>
   withBoard(context, async (board) => {
     const mutableBoard = board as unknown as LoadedBoard;
     const result = await pushToTasks(mutableBoard, context.tasksDir);
+
+    // Enhanced logging for manual edit detection
+    if (result.statusUpdated > 0) {
+      console.log(
+        `📝 Push completed: ${result.added} added, ${result.moved} moved, ${result.statusUpdated} manual edits preserved`,
+      );
+    } else {
+      console.log(`📋 Push completed: ${result.added} added, ${result.moved} moved`);
+    }
+
     return result;
   });
 
@@ -275,6 +295,28 @@ const handleSync: CommandHandler = (_args, context) =>
   withBoard(context, async (board) => {
     const mutableBoard = board as unknown as LoadedBoard;
     const result = await syncBoardAndTasks(mutableBoard, context.tasksDir, context.boardFile);
+
+    // Enhanced logging for sync operation
+    const totalChanges =
+      result.board.added +
+      result.board.moved +
+      result.tasks.added +
+      result.tasks.moved +
+      result.tasks.statusUpdated;
+    const conflictCount = result.conflicting.length;
+
+    if (conflictCount > 0) {
+      console.log(`⚠️  Sync completed with ${conflictCount} conflict(s) resolved`);
+    } else {
+      console.log(`✅ Sync completed successfully`);
+    }
+
+    console.log(`📊 Board: ${result.board.added} added, ${result.board.moved} moved`);
+    console.log(
+      `📁 Files: ${result.tasks.added} added, ${result.tasks.moved} moved, ${result.tasks.statusUpdated} status updates`,
+    );
+    console.log(`🔄 Total changes: ${totalChanges}`);
+
     return result;
   });
 

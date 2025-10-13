@@ -1,5 +1,5 @@
 ---
-uuid: "d1e427eb-e565-4d6b-b4bd-a18f221df9f8"
+uuid: "35edb5ca-2996-4ea2-bd45-949fe6238035"
 title: "kanban-fsm-3"
 slug: "kanban-fsm-3"
 status: "superseded"
@@ -11,6 +11,25 @@ estimates:
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## 🗂 Source
 
@@ -78,3 +97,22 @@ This task has been **superseded** and consolidated into:
 - [ ] Draft actionable subtasks from the summary
 - [ ] Define acceptance criteria
 - [ ] Link back to related labeled docs
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

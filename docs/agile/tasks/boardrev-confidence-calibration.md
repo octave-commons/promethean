@@ -1,5 +1,5 @@
 ---
-uuid: "(uuidgen)"
+uuid: "178a5194-ebe0-4438-8f52-d592494f87df"
 title: "Add confidence calibration and historical accuracy tracking"
 slug: "boardrev-confidence-calibration"
 status: "icebox"
@@ -11,6 +11,25 @@ estimates:
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Add confidence calibration and historical accuracy tracking
 
@@ -47,3 +66,22 @@ Current LLM confidence scores are not calibrated against actual outcomes. Need h
 
 ## Notes
 Requires collection of actual task outcomes over time to build calibration data. Start with simple heuristics and improve as data accumulates.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

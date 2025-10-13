@@ -1,5 +1,5 @@
 ---
-uuid: "6b5e14b9-ede4-4d06-a2d5-0284601aad5a"
+uuid: "02c78938-cf9c-45a0-b5ff-6e7a212fb043"
 title: "Fix Kanban Column Underscore Normalization Bug"
 slug: "Fix Kanban Column Underscore Normalization Bug"
 status: "breakdown"
@@ -11,6 +11,25 @@ estimates:
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Fix Kanban Column Underscore Normalization Bug
 
@@ -33,3 +52,22 @@ Critical bug in kanban column normalization where underscores in column names ar
 
 - High priority - affects core kanban functionality
 - Blocks other kanban-related work
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

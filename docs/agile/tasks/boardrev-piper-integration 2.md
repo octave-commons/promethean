@@ -1,16 +1,82 @@
 ---
-uuid: "ed730c45-6c10-44a0-ab4f-a481e0ac9024"
-title: "Add confidence calibration and historical accuracy tracking      )"
+uuid: "12039c4e-8017-4306-9d9d-300c065efa4a"
+title: "Integrate boardrev with piper pipeline system     )"
 slug: "boardrev-piper-integration 2"
 status: "icebox"
 priority: "P2"
-labels: ["accuracy", "boardrev", "enhancement", "metrics"]
-created_at: "2025-10-13T05:26:16.318Z"
+labels: ["boardrev", "enhancement", "infrastructure"]
+created_at: "2025-10-13T06:25:12.055Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

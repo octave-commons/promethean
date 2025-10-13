@@ -1,5 +1,5 @@
 ---
-uuid: "(uuidgen)"
+uuid: "23722f9b-803a-4bb2-b23e-4ccacd03c464"
 title: "Integrate boardrev with piper pipeline system"
 slug: "boardrev-piper-integration"
 status: "icebox"
@@ -11,6 +11,25 @@ estimates:
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Integrate boardrev with piper pipeline system
 
@@ -48,3 +67,22 @@ Current manual sequential script execution should be replaced with proper pipeli
 
 ## Notes
 Should maintain existing CLI interfaces for backward compatibility while adding pipeline capabilities.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

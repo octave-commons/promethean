@@ -1,16 +1,82 @@
 ---
-uuid: "d5254aa1-56b8-4b99-aaf6-ef9b29b27a35"
-title: "Implement multi-model evaluation for boardrev      )"
+uuid: "9e0474c5-8ddd-451d-a8fe-bab235b19f58"
+title: "Add interactive task management and auto-updates to boardrev      )"
 slug: "boardrev-piper-integration 4"
 status: "icebox"
 priority: "P2"
-labels: ["ai", "boardrev", "enhancement", "evaluation"]
-created_at: "2025-10-13T05:26:16.318Z"
+labels: ["automation", "boardrev", "enhancement", "management"]
+created_at: "2025-10-13T06:25:12.054Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

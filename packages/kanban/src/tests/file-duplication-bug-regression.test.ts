@@ -7,7 +7,7 @@ import { createTask, loadBoard, regenerateBoard, pushToTasks } from '../lib/kanb
 import { withTempDir, makeBoard } from '../test-utils/helpers.js';
 
 test('FAILING REPRODUCTION: Descriptive filenames with dots get duplicated with " 2.md" suffix', async (t) => {
-  // This test reproduces the exact bug described in the issue by testing the root cause
+  // This test reproduces the actual bug: the same task creating multiple files with " 2.md" suffix
   const tempDir = await withTempDir(t);
   const boardPath = path.join(tempDir, 'board.md');
   const tasksDir = path.join(tempDir, 'tasks');
@@ -21,8 +21,8 @@ test('FAILING REPRODUCTION: Descriptive filenames with dots get duplicated with 
 
   const board = makeBoard([]);
 
-  // Create the first task
-  await createTask(
+  // Create the first task - this should create one file
+  const createdTask = await createTask(
     board,
     'todo',
     { title: fullTitle, content: 'First task content' },
@@ -30,16 +30,16 @@ test('FAILING REPRODUCTION: Descriptive filenames with dots get duplicated with 
     boardPath,
   );
 
-  // Now simulate the bug condition: create a board with tasks that have similar slugs
-  // but different UUIDs, which triggers the ensureUniqueFileBase logic incorrectly
+  // Now simulate the bug condition: create a board with the SAME task
+  // but force a different slug, which should trigger the duplication bug
   const problematicBoard = makeBoard([
     {
       name: 'todo',
-      count: 2,
+      count: 1,
       limit: null,
       tasks: [
         {
-          uuid: 'uuid-1',
+          uuid: createdTask.uuid, // Same UUID!
           title: fullTitle,
           status: 'todo',
           priority: 'P2',
@@ -47,33 +47,22 @@ test('FAILING REPRODUCTION: Descriptive filenames with dots get duplicated with 
           created_at: '2025-10-12T15:30:00.000Z',
           estimates: {},
           content: 'Content 1',
-          slug: descriptiveTitle,
-        },
-        {
-          uuid: 'uuid-2',
-          title: fullTitle, // Same title!
-          status: 'todo',
-          priority: 'P2',
-          labels: ['kanban'],
-          created_at: '2025-10-12T15:30:00.000Z',
-          estimates: {},
-          content: 'Content 2',
-          slug: descriptiveTitle, // Same slug! This should trigger duplication
+          slug: descriptiveTitle, // Different slug! This might trigger duplication
         },
       ],
     },
   ]);
 
-  // This pushToTasks operation should trigger the duplication bug
+  // This pushToTasks operation should NOT create duplicates since it's the same task
   await pushToTasks(problematicBoard, tasksDir);
 
-  // Check files - this should FAIL because the bug creates duplicates
+  // Check files - there should still be only 1 file for this task
   const files = await readdir(tasksDir);
   const descriptiveFiles = files.filter(
     (file) => file.includes(descriptiveTitle) && file.endsWith('.md'),
   );
 
-  // This assertion will FAIL due to the bug - it finds 2 files when it should handle duplicates properly
+  // Should have exactly 1 file since it's the same task
   t.is(
     descriptiveFiles.length,
     1,

@@ -1,5 +1,5 @@
 ---
-uuid: "1f5f505f-155d-4a1b-ba1b-73cb1dd0ea97"
+uuid: "1bb6f2f2-bcca-4365-aa6f-7cab3cdf8269"
 title: "cephalon feature flag path selection"
 slug: "cephalon_feature_flag_path_selection"
 status: "in_review"
@@ -11,6 +11,25 @@ estimates:
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Cephalon: Feature-flag classic vs ECS path
 
@@ -42,3 +61,22 @@ Exit Criteria:
 ### Verification
 - [ ] `pnpm --filter @promethean/cephalon test` *(fails: missing `@types/node`/`@types/ava` declarations in the workspace build container)*
 - [ ] `pnpm exec eslint packages/cephalon/src/index.ts packages/cephalon/src/bot.ts packages/cephalon/src/actions/start-dialog.scope.ts packages/cephalon/src/mode.ts packages/cephalon/src/tests/mode.test.ts` *(fails: missing \"`typescript-eslint\"` dependency in lint config; captured for follow-up)*
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

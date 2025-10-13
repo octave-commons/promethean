@@ -1,16 +1,82 @@
 ---
-uuid: "0722f416-c01a-4fac-b8d9-d02dd0da0a23"
-title: "Add interactive task management and auto-updates to boardrev      )"
+uuid: "09398e1d-2437-4cb4-a006-9ba9dd7347fc"
+title: "Enhance boardrev context analysis with weighted factors      )"
 slug: "boardrev-piper-integration 3"
 status: "icebox"
 priority: "P2"
-labels: ["automation", "boardrev", "enhancement", "management"]
-created_at: "2025-10-13T05:26:16.318Z"
+labels: ["accuracy", "analysis", "boardrev", "enhancement"]
+created_at: "2025-10-13T06:25:12.054Z"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
