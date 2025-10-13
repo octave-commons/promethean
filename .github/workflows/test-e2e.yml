@@ -1,0 +1,144 @@
+name: E2E Tests
+
+on:
+  push:
+    branches: [main, work]
+  pull_request:
+    branches: [main, work]
+  workflow_dispatch:
+  schedule:
+    # Run E2E tests daily at 2 AM UTC
+    - cron: '0 2 * * *'
+
+jobs:
+  e2e-tests:
+    name: E2E Tests
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.x]
+
+    services:
+      mongodb:
+        image: mongo:7.0
+        ports:
+          - 27017:27017
+        options: >-
+          --health-cmd "mongosh --eval 'db.runCommand({ping: 1})'"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+      redis:
+        image: redis:7.2
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 9.0.0
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build all packages
+        run: pnpm build:all
+
+      - name: Wait for services
+        run: |
+          echo "Waiting for MongoDB..."
+          timeout 60 bash -c 'until mongosh --eval "db.runCommand({ping: 1})"; do sleep 2; done'
+          echo "Waiting for Redis..."
+          timeout 60 bash -c 'until redis-cli ping; do sleep 2; done'
+          echo "All services ready!"
+
+      - name: Start application services
+        run: |
+          # Start any required background services for E2E tests
+          # This would depend on your specific application setup
+          echo "Starting application services..."
+          # Example: pnpm start:services &
+          # sleep 10
+
+      - name: Run E2E tests
+        run: pnpm test:e2e:affected
+        env:
+          MONGODB_URI: mongodb://localhost:27017/test_e2e
+          REDIS_URL: redis://localhost:6379
+          NODE_ENV: test
+          E2E_TEST_TIMEOUT: 300000
+
+      - name: Generate E2E test coverage
+        run: pnpm coverage:e2e:affected
+        env:
+          MONGODB_URI: mongodb://localhost:27017/test_e2e
+          REDIS_URL: redis://localhost:6379
+          NODE_ENV: test
+
+      - name: Upload coverage to Codecov
+        if: github.event_name == 'push' || github.event_name == 'pull_request'
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./coverage/e2e/lcov.info
+          flags: e2e
+          name: e2e-coverage
+          fail_ci_if_error: false
+
+      - name: Archive E2E test coverage
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: e2e-coverage-${{ matrix.node-version }}
+          path: coverage/e2e/
+          retention-days: 30
+
+      - name: Upload E2E test results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: e2e-test-results-${{ matrix.node-version }}
+          path: |
+            coverage/e2e/
+            **/test-results.xml
+            **/e2e-screenshots/
+            **/e2e-videos/
+          retention-days: 30
+
+      - name: Cleanup services
+        if: always()
+        run: |
+          # Cleanup any running services
+          echo "Cleaning up services..."
+          # Example: pnpm stop:services || true

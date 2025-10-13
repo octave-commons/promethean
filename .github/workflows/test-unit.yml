@@ -1,0 +1,86 @@
+name: Unit Tests
+
+on:
+  push:
+    branches: [main, work]
+  pull_request:
+    branches: [main, work]
+  workflow_dispatch:
+
+jobs:
+  unit-tests:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.x]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 9.0.0
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build affected packages
+        run: pnpm build:affected
+
+      - name: Run unit tests
+        run: pnpm test:unit:affected
+
+      - name: Generate unit test coverage
+        run: pnpm coverage:unit:affected
+
+      - name: Upload coverage to Codecov
+        if: github.event_name == 'push' || github.event_name == 'pull_request'
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./coverage/unit/lcov.info
+          flags: unit
+          name: unit-coverage
+          fail_ci_if_error: false
+
+      - name: Archive unit test coverage
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: unit-coverage-${{ matrix.node-version }}
+          path: coverage/unit/
+          retention-days: 30
+
+      - name: Upload unit test results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: unit-test-results-${{ matrix.node-version }}
+          path: |
+            coverage/unit/
+            **/test-results.xml
+          retention-days: 30

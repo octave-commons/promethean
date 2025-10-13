@@ -1,0 +1,170 @@
+name: Test Coverage Report
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  coverage-report:
+    name: Unified Coverage Report
+    runs-on: ubuntu-latest
+
+    services:
+      mongodb:
+        image: mongo:7.0
+        ports:
+          - 27017:27017
+        options: >-
+          --health-cmd "mongosh --eval 'db.runCommand({ping: 1})'"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+      redis:
+        image: redis:7.2
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 9.0.0
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build all packages
+        run: pnpm build:all
+
+      - name: Wait for services
+        run: |
+          echo "Waiting for MongoDB..."
+          timeout 60 bash -c 'until mongosh --eval "db.runCommand({ping: 1})"; do sleep 2; done'
+          echo "Waiting for Redis..."
+          timeout 60 bash -c 'until redis-cli ping; do sleep 2; done'
+          echo "All services ready!"
+
+      - name: Run unit tests with coverage
+        run: pnpm coverage:unit
+        env:
+          NODE_ENV: test
+
+      - name: Run integration tests with coverage
+        run: pnpm coverage:integration
+        env:
+          MONGODB_URI: mongodb://localhost:27017/test_coverage
+          NODE_ENV: test
+
+      - name: Run E2E tests with coverage
+        run: pnpm coverage:e2e
+        env:
+          MONGODB_URI: mongodb://localhost:27017/test_coverage
+          REDIS_URL: redis://localhost:6379
+          NODE_ENV: test
+          E2E_TEST_TIMEOUT: 300000
+
+      - name: Merge coverage reports
+        run: node scripts/merge-coverage.js
+
+      - name: Generate coverage summary
+        run: |
+          echo "## Coverage Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          if [ -f "coverage/coverage-summary.json" ]; then
+            echo "### Coverage Types Included" >> $GITHUB_STEP_SUMMARY
+            node -e "
+              const summary = require('./coverage/coverage-summary.json');
+              console.log('- ' + summary.types.join(', '));
+              console.log('- Total Files: ' + summary.totalFiles);
+              console.log('- Generated at: ' + new Date(summary.timestamp).toLocaleString());
+            " >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          if [ -f "coverage/coverage-summary.json" ]; then
+            echo "### Coverage Metrics" >> $GITHUB_STEP_SUMMARY
+            c8 report --reporter=text-summary --reports-dir=coverage >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: Upload unified coverage to Codecov
+        if: github.event_name == 'push' || github.event_name == 'pull_request'
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./coverage/lcov.info
+          flags: unified
+          name: unified-coverage
+          fail_ci_if_error: false
+
+      - name: Upload coverage artifacts
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report
+          path: |
+            coverage/
+            !coverage/tmp/
+          retention-days: 30
+
+      - name: Comment PR with coverage
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require('fs');
+
+            let comment = '## 📊 Coverage Report\\n\\n';
+
+            if (fs.existsSync('coverage/coverage-summary.json')) {
+              const summary = JSON.parse(fs.readFileSync('coverage/coverage-summary.json', 'utf8'));
+              comment += `**Test Types:** ${summary.types.join(', ')}\\n`;
+              comment += `**Total Files:** ${summary.totalFiles}\\n`;
+              comment += `**Generated:** ${new Date(summary.timestamp).toLocaleString()}\\n\\n`;
+            }
+
+            if (fs.existsSync('coverage/text-summary.txt')) {
+              const textSummary = fs.readFileSync('coverage/text-summary.txt', 'utf8');
+              comment += '### Coverage Metrics\\n\\n```\\n' + textSummary + '\\n```\\n';
+            }
+
+            comment += '\\n📈 [View detailed coverage report](https://codecov.io/gh/${{ github.repository }}/pull/${{ github.event.number }})';
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });

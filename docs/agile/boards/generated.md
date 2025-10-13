@@ -68,7 +68,7 @@ kanban-plugin: board
 - [ ] [[fix-eslint-tasks-pipeline-file-reference-issue 25|Fix eslint-tasks pipeline file reference issue]] #automation #bug #eslint-tasks #pipeline prio:P2 (uuid:c02da4e2-b4b7-4a89-b567-06ce93ef106d)
 - [ ] [[fix-kanban-ui-mime-type-issue 1|Fix Kanban UI MIME Type Issue for JavaScript Modules       )]] #bug #kanban #ui #mime-type #frontend prio:P1 (uuid:6d046b5d-c2ba-4344-bc99-c0581ac3c991)
 - [ ] [[fix-kanban-ui-mime-type-issue 2|Fix Kanban UI MIME Type Issue for JavaScript Modules       )]] #bug #kanban #ui #mime-type #frontend prio:P1 (uuid:21fcb9e3-7b32-4a75-ba47-5d5519d53172)
-- [ ] [[fix-kanban-ui-mime-type-issue|Fix Kanban UI MIME Type Issue for JavaScript Modules]] #bug #kanban #ui #mime-type #frontend prio:P1 (uuid:$(uuidgen))
+- [ ] [[fix-kanban-ui-mime-type-issue|Fix Kanban UI MIME Type Issue for JavaScript Modules       )]] #bug #kanban #ui #mime-type #frontend prio:P1 (uuid:f429f8ff-f958-4626-8fc0-e5d53860c665)
 - [ ] [[fix-symdocs-pipeline-file-reference-issue 25|Fix symdocs pipeline file reference issue]] #automation #bug #pipeline #symdocs prio:P2 (uuid:9672cc5a-a8be-4f2c-bfda-e79dba04bd81)
 - [ ] [[fix-test-failure-in-symdocs-pipeline-pipeline-test-timeout-after-2-minutes-fix-pipeline|Fix test failure in symdocs-pipeline: Pipeline timeout after 2 minutes -fix]] #automation #symdocs-pipeline #test-fix #testing prio:P1 (uuid:9c4f98e7-ffbf-4fcc-80c6-ebb952230d4a)
 - [ ] [[fix-test-gap-pipeline-timeout-configuration-for-tg-analysis-step-timeout-step-gap|Fix test-gap pipeline timeout configuration for tg-analysis step -gap]] #automation #pipeline #test-gap #timeout prio:P2 (uuid:89be3c4d-47d2-4815-aebf-adf7b7091403)
@@ -142,11 +142,11 @@ kanban-plugin: board
 - [ ] [[fix-readmes-pipeline-timeout-issues-and-optimize-performance-optimization|Fix readmes pipeline timeout issues and optimize performance -optimization]] #ai-optimization #performance #piper #readmes #timeout prio:P2 (uuid:c8f82173-cf3b-4f0c-9fcf-fec5a1e8f237)
 - [ ] [[pipeline-buildfix-epic|Pipeline BuildFix & Automation Epic]] #automation #buildfix #epic #pipeline #timeout prio:P0 (uuid:dc8c2b6d-a4a0-44ac-b31d-613201f1a2bd)
 - [ ] [[update-kanban-statuses-to-fsm 25|Update existing kanban tasks to use FSM statuses]] #cleanup #fsm #kanban #process prio:P2 (uuid:fc8fd632-47b8-4f46-adea-24e68e3aeeba)
+- [ ] [[infrastructure-stability-cluster|Infrastructure Stability Cluster - Build System & Type Safety]] #automation #build-system #cluster #infrastructure #typescript #delegated #devops-orchestrator prio:P0 (uuid:3716d59f-0ddf-47d4-a603-5b7620ca941f)
+- [ ] [[Extend @packages ds graph.ts for FSM-specific operations|Extend @packages/ds/graph.ts for FSM-specific operations]] #fsm #packages #ds #graph #implementation #tool:codegen #env:no-egress prio:P1 (uuid:1bc3c26b-5a73-4292-95d9-9d9195dad92a)
 
 ## in_progress
 
-- [ ] [[Extend @packages ds graph.ts for FSM-specific operations|Extend @packages/ds/graph.ts for FSM-specific operations]] #fsm #packages #ds #graph #implementation #tool:codegen #env:no-egress prio:P1 (uuid:1bc3c26b-5a73-4292-95d9-9d9195dad92a)
-- [ ] [[infrastructure-stability-cluster|Infrastructure Stability Cluster - Build System & Type Safety]] #automation #build-system #cluster #infrastructure #typescript #delegated #devops-orchestrator prio:P0 (uuid:3716d59f-0ddf-47d4-a603-5b7620ca941f)
 
 ## testing
 

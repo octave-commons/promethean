@@ -1,0 +1,107 @@
+name: Integration Tests
+
+on:
+  push:
+    branches: [main, work]
+  pull_request:
+    branches: [main, work]
+  workflow_dispatch:
+
+jobs:
+  integration-tests:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.x]
+
+    services:
+      mongodb:
+        image: mongo:7.0
+        ports:
+          - 27017:27017
+        options: >-
+          --health-cmd "mongosh --eval 'db.runCommand({ping: 1})'"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 9.0.0
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build all packages
+        run: pnpm build:all
+
+      - name: Wait for MongoDB
+        run: |
+          timeout 60 bash -c 'until mongosh --eval "db.runCommand({ping: 1})"; do sleep 2; done'
+
+      - name: Run integration tests
+        run: pnpm test:integration:affected
+        env:
+          MONGODB_URI: mongodb://localhost:27017/test_integration
+          NODE_ENV: test
+
+      - name: Generate integration test coverage
+        run: pnpm coverage:integration:affected
+        env:
+          MONGODB_URI: mongodb://localhost:27017/test_integration
+          NODE_ENV: test
+
+      - name: Upload coverage to Codecov
+        if: github.event_name == 'push' || github.event_name == 'pull_request'
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./coverage/integration/lcov.info
+          flags: integration
+          name: integration-coverage
+          fail_ci_if_error: false
+
+      - name: Archive integration test coverage
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: integration-coverage-${{ matrix.node-version }}
+          path: coverage/integration/
+          retention-days: 30
+
+      - name: Upload integration test results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: integration-test-results-${{ matrix.node-version }}
+          path: |
+            coverage/integration/
+            **/test-results.xml
+          retention-days: 30

@@ -12,7 +12,16 @@
     "default": {
       "runner": "nx/tasks-runners/default",
       "options": {
-        "cacheableOperations": ["build", "test", "lint", "typecheck"]
+        "cacheableOperations": [
+          "build",
+          "test",
+          "test:unit",
+          "test:integration",
+          "test:e2e",
+          "lint",
+          "typecheck",
+          "coverage"
+        ]
       }
     }
   },
@@ -23,6 +32,22 @@
     },
     "test": {
       "dependsOn": ["build"]
+    },
+    "test:unit": {
+      "dependsOn": ["build"],
+      "outputs": ["{projectRoot}/coverage/unit"]
+    },
+    "test:integration": {
+      "dependsOn": ["build", "^build"],
+      "outputs": ["{projectRoot}/coverage/integration"]
+    },
+    "test:e2e": {
+      "dependsOn": ["build", "^build"],
+      "outputs": ["{projectRoot}/coverage/e2e"]
+    },
+    "coverage": {
+      "dependsOn": ["test:unit", "test:integration", "test:e2e"],
+      "outputs": ["{projectRoot}/coverage"]
     },
     "lint": {
       "options": {

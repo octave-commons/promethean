@@ -30,5 +30,8 @@ export type { SystemSpec as SchedulerSystemSpec } from './ecs.scheduler.js';
 // Graph data structures
 export * from './graph.js';
 
+// FSM (Finite State Machine) extensions
+export * from './fsm.js';
+
 // System utilities
 export * from './system.js';

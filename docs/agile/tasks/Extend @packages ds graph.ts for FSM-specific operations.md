@@ -2,7 +2,7 @@
 uuid: "1bc3c26b-5a73-4292-95d9-9d9195dad92a"
 title: "Extend @packages/ds/graph.ts for FSM-specific operations"
 slug: "Extend @packages ds graph.ts for FSM-specific operations"
-status: "in_progress"
+status: "todo"
 priority: "P1"
 labels: ["fsm", "packages", "ds", "graph", "implementation", "tool:codegen", "env:no-egress"]
 created_at: "2025-10-13T16:33:09.041Z"
@@ -11,6 +11,7 @@ estimates:
   scale: ""
   time_to_completion: ""
 ---
+
 
 
 
@@ -41,6 +42,7 @@ Nothing
 ## ⛓️ Blocks
 
 Nothing
+
 
 
 
